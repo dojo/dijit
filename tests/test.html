@@ -1,0 +1,27 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title>widget infrastructure test</title>
+
+<script type="text/javascript">
+	var djConfig = {isDebug: true, debugAtAllCosts: true};
+</script>
+<script type="text/javascript" src="../../dojo/dojo.js"></script>
+<script language="JavaScript" type="text/javascript">
+	dojo.registerModulePath("dijit", "../dijit");
+	dojo.require("dijit.Button");
+	dojo.hostenv.writeIncludes();
+</script>
+</head>
+<body style="padding: 50px;">
+	<button id="b1" style="background: yellow;">button #1</button>
+	<button id="b2" style="background: orange;">button #2</button>
+	<button id="b3" style="background: violet;">button #3</button>
+	<script>
+		for(var i=1; i<=3; i++){
+			var node = dojo.byId("b"+i);
+			var myButton = new dijit.Button(null, node);
+		}
+	</script>	
+</body>
+</html>
