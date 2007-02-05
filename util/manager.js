@@ -76,3 +76,5 @@ dijit.util.manager = new function(){
 dojo.addOnUnload(function(){
 	dijit.util.manager.destroyAll();
 });
+
+dijit.byId = dijit.util.manager.byId;

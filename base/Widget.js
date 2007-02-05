@@ -87,15 +87,6 @@ function(params, srcNodeRef){
 	//	Defaults to brower's specified preferred language (typically the language of the OS)
 	lang: "",
 
-	// parent: Widget
-	//		If this widget is contained by a container widget, pointer to that widget
-	//	TODO: replace with getParent() function?
-	parent: null,
-
-	// widgetType: String
-	//		name of the widget, such as "Button" or "Combobox"
-	widgetType: "Widget",
-
 	// srcNodeRef: DomNode
 	//		pointer to original dom node
 	srcNodeRef: null,
@@ -132,7 +123,7 @@ function(params, srcNodeRef){
 
 	//////////// DESTROY FUNCTIONS ////////////////////////////////
 
-	destroy: function(finalize){
+	destroy: function(/*Boolean*/ finalize){
 		// summary:
 		// 		Destroy this widget and it's descendants. This is the generic
 		// 		"destructor" function that all widget users should call to
@@ -142,7 +133,16 @@ function(params, srcNodeRef){
 		//		is this function being called part of global environment
 		//		tear-down?
 
-		this.destroyChildren();
+		this.destroyDescendants();
+		this._destroy();
+	},
+	
+	_destroy: function(/*Boolean*/ finalize){
+		// summary:
+		// 		Destroy this widget
+		// finalize: Boolean
+		//		is this function being called part of global environment
+		//		tear-down?
 		this.uninitialize();
 		this.destroyRendering(finalize);
 		dijit.util.manager.removeById(this.id);
@@ -157,7 +157,6 @@ function(params, srcNodeRef){
 			if(!finalize && this.domNode){
 				dojo.event.browser.clean(this.domNode);
 			}
-			dojo.widget.HtmlWidget.superclass.destroyRendering.call(this);
 		}catch(e){ /* squelch! */ }
 		try{
 			dojo.dom.destroyNode(this.domNode);
@@ -169,25 +168,16 @@ function(params, srcNodeRef){
 			}catch(e){ /* squelch! */ }
 		}
 	},
-	
-	destroyChildren: function(){
+
+	destroyDescendants: function(){
 		// summary:
 		//		Recursively destroy the children of this widget and their
 		//		descendents.
-		//	TODO: we don't know who are children are anymore
-		var widget;
-		var i=0;
-		while(this.children.length > i){
-			widget = this.children[i];
-			if (widget instanceof dojo.widget.Widget) { // find first widget
-				this.removeChild(widget);
-				widget.destroy();
-				continue;
-			}
-			
-			i++; // skip data object
-		}
-				
+
+		dojo.lang.forEach(this.getDescendants(), function(id){
+			var widget = dijit.byId(id);
+			widget._destroy();
+		});
 	},
 
 	uninitialize: function(){
@@ -208,79 +198,18 @@ function(params, srcNodeRef){
 		return '[Widget ' + this.declaredClass + ', ' + (this.id || 'NO ID') + ']'; // String
 	},
 
-	////////////////// PARENT/CHILD METHODS ///////////////////
-	// TODO: all of these are broken, and maybe should be removed anyway
-	getChildrenOfType: function(/*String*/type, recurse){
-		// summary: 
-		//		return an array of descendant widgets who match the passed type
-		// recurse: Boolean
-		//		should we try to get all descendants that match? Defaults to
-		//		false.
-		var ret = [];
-		var isFunc = dojo.lang.isFunction(type);
-		if(!isFunc){
-			type = type.toLowerCase();
-		}
-		for(var x=0; x<this.children.length; x++){
-			if(isFunc){
-				if(this.children[x] instanceof type){
-					ret.push(this.children[x]);
-				}
-			}else{
-				if(this.children[x].widgetType.toLowerCase() == type){
-					ret.push(this.children[x]);
-				}
-			}
-			if(recurse){
-				ret = ret.concat(this.children[x].getChildrenOfType(type, recurse));
-			}
-		}
-		return ret; // Array
-	},
-
 	getDescendants: function(){
-		// returns: a flattened array of all direct descendants including self
-		var result = [];
-		var stack = [this];
-		var elem;
-		while ((elem = stack.pop())){
-			result.push(elem);
-			// a child may be data object without children field set (not widget)
-			if (elem.children) {
-				dojo.lang.forEach(elem.children, function(elem) { stack.push(elem); });
+		// summary:
+		//	return all the descendent widgets
+		var allNodes = this.domNode.all || this.domNode.getElementsByTagName("*");
+		var i=0, node;
+		var nodes = [];
+		while (node = allNodes[i++]) {
+			var id = node.getAttribute('widgetId');
+			if(id){
+				nodes.push(dijit.byId(id));
 			}
 		}
-		return result; // Array
-	},
-
-	getPreviousSibling: function(){
-		// summary:
-		//		returns null if this is the first child of the parent,
-		//		otherwise returns the next sibling to the "left".
-		var idx = this.getParentIndex();
- 
-		 // first node is idx=0 not found is idx<0
-		if (idx<=0) return null;
- 
-		return this.parent.children[idx-1]; // Widget
-	},
- 
-	getSiblings: function(){
-		// summary: gets an array of all children of our parent, including "this"
-		return this.parent.children; // Array
-	},
- 
-
-	getNextSibling: function(){
-		// summary:
-		//		returns null if this is the last child of the parent,
-		//		otherwise returns the next sibling to the "right".
- 
-		var idx = this.getParentIndex();
- 
-		if (idx == this.parent.children.length-1){return null;} // last node
-		if (idx < 0){return null;} // not found
- 
-		return this.parent.children[idx+1]; // Widget
+		return nodes;
 	}
 });
