@@ -17,6 +17,17 @@ Widget namespaces and widget auto-loading are desupported.
 onClick="foo" now overrides (ie, replaces) the default onClick() function rather than attaching to it,
 so widget designers should make empty onClick() functions (when appropriate).
 
+Programmatic creation
+---------------------
+Create widgets via
+
+	new dijit.Button(params, srcNodeRef)
+
+createWidget() call removed since multiple renderers are no longer supported (see next section).
+
+At least for the dijit widgets, all widgets are guaranteed to work programatically, which in
+effect means that all widgets must have templates, unless the default <div> works.
+
 Renderers
 ---------
 Removed support for multiple renderers (svg & vml & a11y) for a single widget.
@@ -30,6 +41,12 @@ Templates
 The attributes dojoOn* are desupported (including dojoOnBuild);
 also can't use id attribute to affect a dojoAttachPoint.
 
+Parent/Child relationships
+--------------------------
+By default widgets exist as islands, not knowing about their parent widget or children widgets.
+The exception is the destroy() function which will also delete all descendant widgets.
+Some widgets like Tree and SplitContainer will know about their children, but those widgets
+will use the special mixins in Container.js / Layout.js. 
 
 Widget.js base class
 --------------------

@@ -37,9 +37,9 @@ dojo.declare("dijit.base.Container",
 			if(typeof insertIndex == "undefined"){
 				insertIndex = this.children.length;
 			}
-			var cn = this.containerNode || this.domNode;
+			var containerNode = this.containerNode || this.domNode;
 
-			dojo.dom.insertAtIndex(widget.domNode, cn, insertIndex);
+			dojo.dom.insertAtIndex(widget.domNode, containerNode, insertIndex);
 		},
 
 		removeChild: function(/*Widget*/ widget){
