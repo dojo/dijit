@@ -28,7 +28,7 @@ dojo.declare("dijit.base.FormElement", dijit.base.Widget,
 	value: "", 
 
 	// name: String
-	//		Corresponds to the native HTML <input> element's attribute.
+	//		Name used when submitting form; same as "name" attribute or plain HTML elements
 	name: "",
 
 	// id: String
@@ -45,8 +45,8 @@ dojo.declare("dijit.base.FormElement", dijit.base.Widget,
 	type: "input",
 
 	// tabIndex: Integer
-	//		Corresponds to the native HTML <input> element's attribute.
-	tabIndex: -1,
+	//		Order fields are traversed when user hits the tab key
+	tabIndex: "",
 
 	// disabled: Boolean
 	//		Should this widget respond to user input?
@@ -74,7 +74,7 @@ dojo.declare("dijit.base.FormElement", dijit.base.Widget,
 		//		not sure which parts of disabling a widget should be here;
 		//		not sure which code is common to many widgets and which is specific to a particular widget.
 		if (disabled){
-			if (!dojo.html.hasClass(this.domNode, this["class"]+"Disabled"){
+			if (!dojo.html.hasClass(this.domNode, this["class"]+"Disabled")){
 				dojo.html.prependClass(this.domNode, this["class"]+"Disabled");
 			}
 			// TODO: if the widget is disabled do we need to do this?

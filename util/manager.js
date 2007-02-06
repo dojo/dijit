@@ -24,7 +24,7 @@ dijit.util.manager = new function(){
 	this.add = function(widget){
 		//dojo.profile.start("dojo.widget.manager.add");
 		if(!widget.id){
-			widget.id = this.getUniqueId(widget.declaredClass);
+			widget.id = this.getUniqueId(widget.declaredClass.replace("\.","_"));
 		}
 		this.widgets[widget.id] = widget;
 		//dojo.profile.end("dojo.widget.manager.add");

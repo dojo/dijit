@@ -48,7 +48,7 @@ dojo.declare("dijit.base.Sizable",
 
 			// if my parent isn't a layout container, and my style is width=height=100% (or something similar),
 			// then I need to watch when the window resizes, and size myself accordingly
-			dojo.event.browser.addListener(window, 'onresize', this, '_onWindowResize');	// window resize
+			dojo.event.browser.addListener(window, 'onresize', dojo.lang.hitch(this, '_onWindowResize'));	// window resize
 
 			this._onWindowResize();
 		},

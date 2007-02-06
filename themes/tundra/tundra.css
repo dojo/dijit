@@ -1,4 +1,5 @@
 .dojoCheckbox {
 	/* this is dummy code to test getComputedStyle(node, "background-image") */
-	background-image: url(checkbox.gif);
+	background-image: url(check.gif);
+	background-position: 10px 10px;
 }

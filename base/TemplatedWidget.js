@@ -73,12 +73,11 @@ dojo.declare("dijit.base.TemplatedWidget",
 				var _this = this;
 				tstr = tstr.replace(/\$\{([^\}]+)\}/g, function(match, key){
 					var value = (key.substring(0, 5) == "this.") ? dojo.getObject(key.substring(5), false, _this) : hash[key];
-					if(dojo.lang.isString(value)){
+					if(value){
 						// Safer substitution, see heading "Attribute values" in  
 						// http://www.w3.org/TR/REC-html40/appendix/notes.html#h-B.3.2
-						while (value.indexOf("\"") > -1) {
-							value=value.replace("\"","&quot;");
-						}
+						value = value.toString();
+						value = value.replace(/"/g,"&quot;");
 						return value;
 					}
 				});
@@ -115,6 +114,7 @@ dijit.base.defaultStrings = {
 	// summary: a mapping of strings that are used in template variable replacement
 	dojoRoot: dojo.hostenv.getBaseScriptUri(),
 	dojoModuleUri: dojo.uri.moduleUri("dojo"),
+	dijitModuleUri: dojo.uri.moduleUri("dijit"),	
 	baseScriptUri: dojo.hostenv.getBaseScriptUri()
 };
 
@@ -143,7 +143,7 @@ dijit.base.getCachedTemplate = function(templatePath, templateString){
 
 	// If necessary, load template string from template path
 	if(!templateString){
-		templateString = dijit.base._sanitizeTemplateString(dojo.hostenv.getText(tpath));
+		templateString = dijit.base._sanitizeTemplateString(dojo.hostenv.getText(templatePath));
 	}
 
 	if(templateString.match(/\$\{([^\}]+)\}/g)) {
