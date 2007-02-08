@@ -44,6 +44,16 @@ dojo.declare(
 
 		postCreate: function(){
 
+			// find the image to use, as notated in the CSS file, but use it as a foreground
+			// image
+			var bi = dojo.html.getComputedStyle(this.imageContainer, "background-image");
+			var href = bi.charAt(4)=='"' ? bi.slice(5,-2) : bi.slice(4,-1);	// url(foo) --> foo, url("foo") --> foo
+			this.imageContainer.style.backgroundImage = "none";
+			var img = this.imageNode = document.createElement("img");
+			var self=this;
+			img.onload = function(){ self.onImageLoad(); }
+			img.src = href;
+
 			this._setValue(this.checked);
 
 			// find any associated label and create a labelled-by relationship
@@ -73,15 +83,15 @@ dojo.declare(
 		onImageLoad: function(){
 			this.imageLoaded = true;
 			
-			// set div size to just show one sprite
+			// set image container size to just show one sprite
 			this.width = 16;	//	this.imageNode.width/6;
 			this.height = 16;	// this.imageNode.height/2;
 			this.imageContainer.style.width = this.width + "px";
 			this.imageContainer.style.height = this.height + "px";
 
 			// Hide the HTML native checkbox and display the image instead
-			this.imageNode.style.display="";
 			this.inputNode.style.display="none";
+			this.imageContainer.appendChild(this.imageNode);
 
 			// position image to display right sprite
 			this._setValue(this.checked);

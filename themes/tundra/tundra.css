@@ -6,7 +6,6 @@
 }
 
 .dojoCheckbox {
-	/* this is dummy code to test getComputedStyle(node, "background-image") */
+	/* location of checkbox sprint image */
 	background-image: url(check.gif);
-	background-position: 10px 10px;
 }
