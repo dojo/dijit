@@ -1,8 +1,9 @@
-<span tabIndex="${this.tabIndex}" waiRole="${this._type}" id="${this.id}"
-	><img dojoAttachPoint="imageNode" src="${dijitModuleUri}themes/tundra/check.gif"
-		alt="" dojoAttachEvent="onload: onImageLoad" style="position: absolute; clip: rect(0px 16px 16px 0px);"/
-	><img dojoAttachPoint="spacerNode" src="${dijitModuleUri}templates/blank.gif"
-		style="display: none;"/
+<fieldset class="dojoInlineBox"
+	tabIndex="${this.tabIndex}" waiRole="${this._type}" id="${this.id}"
+	><div dojoAttachPoint="imageContainer" style="width:16px;height:16px;overflow:hidden;"
+		><img dojoAttachPoint="imageNode" src="${dijitModuleUri}themes/tundra/check.gif"
+			alt="" dojoAttachEvent="onload: onImageLoad" style="display: none;"/
+	></div
 	><input type="${this._type}" name="${this.name}" value="${this.value}"
 		dojoAttachPoint="inputNode"
-></span>
+></fieldset>

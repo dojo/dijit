@@ -1,3 +1,10 @@
+/* To inline block elements, surround them with <fieldset class="dojoInlineBox"> */
+.dojoInlineBox {
+	display:inline;
+	border:0px;
+	padding:0px;
+}
+
 .dojoCheckbox {
 	/* this is dummy code to test getComputedStyle(node, "background-image") */
 	background-image: url(check.gif);

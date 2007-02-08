@@ -73,12 +73,11 @@ dojo.declare(
 		onImageLoad: function(){
 			this.imageLoaded = true;
 			
-			// set span size to just show one sprite
-			this.width = this.imageNode.width/6;
-			this.height = this.imageNode.height/2;
-			this.spacerNode.width = this.width;
-			this.spacerNode.height = this.height;
-			this.spacerNode.style.display = "";
+			// set div size to just show one sprite
+			this.width = 16;	//	this.imageNode.width/6;
+			this.height = 16;	// this.imageNode.height/2;
+			this.imageContainer.style.width = this.width + "px";
+			this.imageContainer.style.height = this.height + "px";
 
 			// Hide the HTML native checkbox and display the image instead
 			this.imageNode.style.display="";
@@ -173,10 +172,6 @@ dojo.declare(
 				var s = this.imageNode.style;
 				s.marginLeft = -1*left + "px";
 				s.marginTop = -1*this._topOffset + "px";
-				// clip is specified as rect(top right bottom left)
-				var clip = "rect(" + this._topOffset + "px, " + (left+this.width) + "px, " + 
-					(this._topOffset+this.height) + "px, " + left + "px)";
-				s.clip =  clip;
 			}
 		}
 	}
@@ -213,7 +208,7 @@ dojo.declare(
 
 		onImageLoad: function(){
 			// position to second row of sprites (the radio buttons)
-			this._topOffset = this.imageNode.height/2;
+			this._topOffset = 16;	// this.imageNode.height/2;
 			dijit.Checkbox.prototype.onImageLoad.call(this);
 		}
 	}

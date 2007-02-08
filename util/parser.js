@@ -34,7 +34,7 @@ dijit.util.parser = new function(){
 			case "number":
 				return new Number(value);
 			case "boolean":
-				return (value.toLowerCase()=="false") ? false : true;
+				return dojo.lang.isBoolean(value) ? value : ( (value.toLowerCase()=="false") ? false : true );
 			case "function":
 				if(value.search(/[^\w\.]+/i) == -1){
 					return dojo.evalObjPath(value, false);
