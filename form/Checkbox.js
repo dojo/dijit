@@ -1,4 +1,4 @@
-dojo.provide("dijit.Checkbox");
+dojo.provide("dijit.form.Checkbox");
 
 dojo.require("dojo.event.browser");
 dojo.require("dojo.html.style");
@@ -10,13 +10,13 @@ dojo.require("dijit.base.TemplatedWidget");
 dojo.require("dijit.util.wai");
 
 dojo.declare(
-	"dijit.Checkbox",
+	"dijit.form.Checkbox",
 	[dijit.base.FormElement, dijit.base.TemplatedWidget],
 	{
 		// summary
 		//	Same as a native HTML checkbox, but with fancy styling
 
-		templatePath: dojo.uri.moduleUri("dijit", "templates/Checkbox.html"),
+		templatePath: dojo.uri.moduleUri("dijit", "form/templates/Checkbox.html"),
 
 		//	Value of "type" attribute for <input>, and waiRole attribute also.
 		//	User probably shouldn't adjust this.
@@ -36,7 +36,7 @@ dojo.declare(
 		_groups: { },
 
 		postMixInProperties: function(){
-			dijit.Checkbox.superclass.postMixInProperties.apply(this, arguments);
+			dijit.form.Checkbox.superclass.postMixInProperties.apply(this, arguments);
 			
 			// set tabIndex="0" because if tabIndex=="" user won't be able to tab to the field
 			if(!this.disabled && this.tabIndex==""){ this.tabIndex="0"; }		
@@ -187,8 +187,8 @@ dojo.declare(
 	}
 );
 dojo.declare(
-	"dijit.RadioButton",
-	dijit.Checkbox,
+	"dijit.form.RadioButton",
+	dijit.form.Checkbox,
 	{
 		// summary
 		//	Same as an HTML radio button, but with fancy styling
@@ -219,7 +219,7 @@ dojo.declare(
 		onImageLoad: function(){
 			// position to second row of sprites (the radio buttons)
 			this._topOffset = 16;	// this.imageNode.height/2;
-			dijit.Checkbox.prototype.onImageLoad.call(this);
+			dijit.form.Checkbox.prototype.onImageLoad.call(this);
 		}
 	}
 );

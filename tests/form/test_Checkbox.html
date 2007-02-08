@@ -4,14 +4,14 @@
 
 <title>Checkbox Widget Demo</title>
 
-<link rel=stylesheet href="../themes/tundra/tundra.css" type="text/css">
+<link rel=stylesheet href="../../themes/tundra/tundra.css" type="text/css">
 <script type="text/javascript">
 	var djConfig = {isDebug: true, debugAtAllCosts: true};
 </script>
-<script type="text/javascript" src="../../dojo/dojo.js"></script>
+<script type="text/javascript" src="../../../dojo/dojo.js"></script>
 <script language="JavaScript" type="text/javascript">
 	dojo.registerModulePath("dijit", "../dijit");
-	dojo.require("dijit.Checkbox");
+	dojo.require("dijit.form.Checkbox");
 	dojo.require("dijit.util.parser");	// scan page for widgets and instantiate them
 	dojo.hostenv.writeIncludes();
 </script>
@@ -31,7 +31,7 @@ function outputValues(form){
 
 dojo.addOnLoad(function(){
 	var params = {id: "cb6", name: "cb6"};
-	var widget = new dijit.Checkbox(params, document.getElementById("checkboxContainer"));
+	var widget = new dijit.form.Checkbox(params, document.getElementById("checkboxContainer"));
 });
 </script>
 </head>
@@ -45,16 +45,16 @@ Here are some checkboxes.  Try clicking, and hovering:
 	<input type="checkbox" name="cb0" id="cb0" />
 		<label for="cb0">cb0: Vanilla (non-dojo) checkbox (for comparison purposes)</label>
 	<br>
-	<input type="checkbox" name="cb1" id="cb1" value="foo" dojoType="dijit.Checkbox">
+	<input type="checkbox" name="cb1" id="cb1" value="foo" dojoType="dijit.form.Checkbox">
 		<label for="cb1">cb1: normal checkbox, with value=foo</label>
 	<br>
-	<input type="checkbox" name="cb2" id="cb2" dojoType="dijit.Checkbox" checked="checked"/>
+	<input type="checkbox" name="cb2" id="cb2" dojoType="dijit.form.Checkbox" checked="checked"/>
 		<label for="cb2">cb2: normal checkbox, initially turned on</label>
 	<br>
-	<input type="checkbox" name="cb3" id="cb3" dojoType="dijit.Checkbox" disabled="disabled">
+	<input type="checkbox" name="cb3" id="cb3" dojoType="dijit.form.Checkbox" disabled="disabled">
 		<label for="cb3">cb3: disabled checkbox</label>
 	<br>
-	<input type="checkbox" name="cb4" id="cb4" dojoType="dijit.Checkbox" disabled="disabled" checked="checked"/>
+	<input type="checkbox" name="cb4" id="cb4" dojoType="dijit.form.Checkbox" disabled="disabled" checked="checked"/>
 		<label for="cb4">cb4: disabled checkbox, turned on</label>
 	<br>
 	<input type="checkbox" name="cb5" id="cb5" />
@@ -65,20 +65,20 @@ Here are some checkboxes.  Try clicking, and hovering:
 	<br>
 	<p>
 		<span>Radio group #1:</span>
-		<input type="radio" name="g1" id="g1rb1" value="news" dojoType="dijit.RadioButton">
+		<input type="radio" name="g1" id="g1rb1" value="news" dojoType="dijit.form.RadioButton">
 		<label for="g1rb1">news</label>
-		<input type="radio" name="g1" id="g1rb2" value="talk" dojoType="dijit.RadioButton" checked="checked"/>
+		<input type="radio" name="g1" id="g1rb2" value="talk" dojoType="dijit.form.RadioButton" checked="checked"/>
 		<label for="g1rb2">talk</label>
-		<input type="radio" name="g1" id="g1rb3" value="weather" dojoType="dijit.RadioButton" disabled="disabled"/>
+		<input type="radio" name="g1" id="g1rb3" value="weather" dojoType="dijit.form.RadioButton" disabled="disabled"/>
 		<label for="g1rb3">weather</label>
 	</p>
 	<p>
 		<span>Radio group #2:</span>
-		<input type="radio" name="g2" id="g2rb1" value="top40" dojoType="dijit.RadioButton"/>
+		<input type="radio" name="g2" id="g2rb1" value="top40" dojoType="dijit.form.RadioButton"/>
 		<label for="g2rb1">top 40</label>
-		<input type="radio" name="g2" id="g2rb2" value="oldies" dojoType="dijit.RadioButton"/>
+		<input type="radio" name="g2" id="g2rb2" value="oldies" dojoType="dijit.form.RadioButton"/>
 		<label for="g2rb2">oldies</label>
-		<input type="radio" name="g2" id="g2rb3" value="country" dojoType="dijit.RadioButton" disabled="disabled" checked="checked"/>
+		<input type="radio" name="g2" id="g2rb3" value="country" dojoType="dijit.form.RadioButton" disabled="disabled" checked="checked"/>
 		<label for="g2rb3">country</label>
 	</p>
 	<p>
