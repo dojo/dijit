@@ -2,95 +2,96 @@
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-<head>
-	<title>Test Textbox Validation Widgets</title>
-
-	<script type="text/javascript">
-		var djConfig = {
-			isDebug: true, extraLocale: ['de-de', 'en-us'], debugAtAllCosts: true
-		};
-	</script>
-	<script type="text/javascript" src="../../../dojo/dojo.js"></script>
-	<script type="text/javascript">
-		dojo.require("dijit.form.Textbox");
-		dojo.require("dijit.util.parser");	// scan page for widgets and instantiate them
-		dojo.hostenv.writeIncludes();
-	</script>
-
-	<style>
-	body {
-		padding: 1em;
-	}
-	.formQuestion {
-		background-color:#d0e3f5;
-		padding:0.3em;
-		font-weight:900;
-		font-family:Verdana, Arial, sans-serif;
-		font-size:0.8em;
-		color:#5a5a5a;
-	}
-	.formAnswer {
-		background-color:#f5eede;
-		padding:0.3em;
-		margin-bottom:1em;
-	}
-	.pageSubContentTitle {
-			color:#8e8e8e;
-			font-size:1em;
+	<head>
+		<title>Test Textbox Validation Widgets</title>
+	
+		<link rel=stylesheet href="../../themes/tundra/tundra.css" type="text/css">
+		<script type="text/javascript">
+			var djConfig = {
+				isDebug: true, extraLocale: ['de-de', 'en-us'], debugAtAllCosts: true
+			};
+		</script>
+		<script type="text/javascript" src="../../../dojo/dojo.js"></script>
+		<script type="text/javascript">
+			dojo.require("dijit.form.Textbox");
+			dojo.require("dijit.util.parser");	// scan page for widgets and instantiate them
+			dojo.hostenv.writeIncludes();
+		</script>
+	
+		<style>
+		body {
+			padding: 1em;
+		}
+		.formQuestion {
+			background-color:#d0e3f5;
+			padding:0.3em;
+			font-weight:900;
 			font-family:Verdana, Arial, sans-serif;
-			margin-bottom:0.75em;
-	}
-	.small {
-		width: 2.5em;
-	}
-	.medium {
-		width: 10em;
-	}
-	.long {
-		width: 20em;
-	}
+			font-size:0.8em;
+			color:#5a5a5a;
+		}
+		.formAnswer {
+			background-color:#f5eede;
+			padding:0.3em;
+			margin-bottom:1em;
+		}
+		.pageSubContentTitle {
+				color:#8e8e8e;
+				font-size:1em;
+				font-family:Verdana, Arial, sans-serif;
+				margin-bottom:0.75em;
+		}
+		.small {
+			width: 2.5em;
+		}
+		.medium {
+			width: 10em;
+		}
+		.long {
+			width: 20em;
+		}
+	
+		span.invalid, span.missing {
+			display: inline;
+			margin-left: 1em;
+			font-weight: bold;
+			font-style: italic;
+			font-family: Arial, Verdana, sans-serif;
+			color: #f66;
+			font-size: 0.9em;
+		}
+	
+		.errorMessage {
+			font-weight:bold;
+			font-family:Arial, Verdana, sans-serif;
+			color:#ff0000;
+			font-size:0.9em;
+		}
+		.warningMessage {
+			font-weight:bold;
+			font-family:Arial, Verdana, sans-serif;
+			color:#ff9900;
+			font-size:0.9em;
+		}
+		.noticeMessage {
+			font-weight: normal;
+			font-family:Arial, Verdana, sans-serif;
+			color:#663;
+			font-size:0.9em;
+		}
+		.myValidateColorValid {
+			background-color: #FF0000;
+		}
+		.myValidateColorInvalid {
+			background-color: #00FF00;
+		}
+		.myValidateColorEmpty {
+			background-color: #0000FF;
+		}
+		</style>
+	</head>
 
-	span.invalid, span.missing {
-		display: inline;
-		margin-left: 1em;
-		font-weight: bold;
-		font-style: italic;
-		font-family: Arial, Verdana, sans-serif;
-		color: #f66;
-		font-size: 0.9em;
-	}
-
-	.errorMessage {
-		font-weight:bold;
-		font-family:Arial, Verdana, sans-serif;
-		color:#ff0000;
-		font-size:0.9em;
-	}
-	.warningMessage {
-		font-weight:bold;
-		font-family:Arial, Verdana, sans-serif;
-		color:#ff9900;
-		font-size:0.9em;
-	}
-	.noticeMessage {
-		font-weight: normal;
-		font-family:Arial, Verdana, sans-serif;
-		color:#663;
-		font-size:0.9em;
-	}
-	.myValidateColorValid {
-		background-color: #FF0000;
-	}
-	.myValidateColorInvalid {
-		background-color: #00FF00;
-	}
-	.myValidateColorEmpty {
-		background-color: #0000FF;
-	}
-	</style>
-</head>
-
-	<body >
+	<body class=tundra>
 		<h2 class="pageSubContentTitle">Test Textbox Validation Widgets</h2>
 		<form  method="get" id="form1" action="">
 
