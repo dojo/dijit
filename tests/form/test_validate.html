@@ -14,6 +14,7 @@
 		<script type="text/javascript" src="../../../dojo/dojo.js"></script>
 		<script type="text/javascript">
 			dojo.require("dijit.form.Textbox");
+			dojo.require("dijit.form.ValidationTextbox");
 			dojo.require("dijit.util.parser");	// scan page for widgets and instantiate them
 			dojo.hostenv.writeIncludes();
 		</script>
@@ -128,9 +129,6 @@
 					digit="true" />
 			</div>
 
-<!--
-TODO: uncomment when other validation widgets have been ported over.
-
 			<div class="formQuestion">
 				<span class="emphasise">Occupation:  </span>
 				<span class="noticeMessage">ValidationTextbox class, 
@@ -144,6 +142,8 @@ TODO: uncomment when other validation widgets have been ported over.
 					missingMessage="* The occupation is required." />
 			</div>
 
+<!--
+TODO: uncomment when other validation widgets have been ported over.
 			<div class="formQuestion">
 				<span class="emphasise">Elevation:  </span>
 				<span class="noticeMessage">IntegerTextbox class, 

@@ -16,7 +16,7 @@ dojo.declare(
 		// summary
 		//	Same as a native HTML checkbox, but with fancy styling
 
-		templatePath: dojo.uri.moduleUri("dijit", "form/templates/Checkbox.html"),
+		templatePath: dojo.uri.moduleUri("dijit.form", "templates/Checkbox.html"),
 
 		//	Value of "type" attribute for <input>, and waiRole attribute also.
 		//	User probably shouldn't adjust this.

@@ -1,0 +1,3 @@
+({
+		selectTime: "Seleziona un'ora"
+})

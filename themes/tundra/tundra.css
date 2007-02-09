@@ -89,3 +89,16 @@
 	/* location of checkbox sprint image */
 	background-image: url(check.gif);
 }
+
+.dojoValidateEmpty{
+        background-color: #00FFFF;
+}
+.dojoValidateValid{
+        background-color: #cfc;
+}
+.dojoValidateInvalid{
+        background-color: #fcc;
+}
+.dojoValidateRange{
+        background-color: #ccf;
+}
