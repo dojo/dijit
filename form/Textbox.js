@@ -31,6 +31,14 @@ dojo.declare(
 		//		Converts the first character of each word to uppercase if true.
 		ucFirst: false,
 
+		// size: String
+		//              Basic input tag size declaration.
+		size: "",
+
+		// maxlength: String
+		//              Basic input tag maxlength declaration.
+		maxlength: "",
+
 		//	digit: Boolean
 		//		Removes all characters that are not digits if true.  Default is false.
 		digit: false,
@@ -38,6 +46,7 @@ dojo.declare(
 		templatePath: dojo.uri.moduleUri("dijit.form", "templates/Textbox.html"),
 	
 		postCreate: function() {
+			dijit.form.Textbox.superclass.postCreate.apply(this);
 			// assign value programatically in case it has a quote in it
 			this.textbox.value = this.value;
 			this.filter();

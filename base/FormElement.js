@@ -77,20 +77,28 @@ dojo.declare("dijit.base.FormElement", dijit.base.Widget,
 			if (!dojo.html.hasClass(this.domNode, this["class"]+"Disabled")){
 				dojo.html.prependClass(this.domNode, this["class"]+"Disabled");
 			}
-			// TODO: if the widget is disabled do we need to do this?
-			this.containerNode.removeAttribute("tabIndex");
+			// needed for FF when a tabIndex=0 div is inside a Button that is disabled
+			if (this.containerNode){
+				this.containerNode.removeAttribute("tabIndex");
+			}
 		}else{
 			dojo.html.removeClass(this.domNode, this["class"]+"Disabled");
-			this.containerNode.setAttribute("tabIndex", this.tabIndex);
+			if (this.containerNode){
+				this.containerNode.setAttribute("tabIndex", this.tabIndex);
+			}
 		}
 		this.domNode.disabled = this.disabled = disabled;
-		dojo.widget.wai.setAttr(this.domNode, "waiState", "disabled", disabled);
+		dijit.util.wai.setAttr(this.domNode, "waiState", "disabled", disabled);
 	},
 
 	onValueChanged: function(newValue){
 		// summary: callback when value is changed
 	},
 	
+	postCreate: function(){
+		this._setDisabled(this.disabled == true);
+	},
+
 	setValue: function(newValue){
 		// summary: set the value of the widget.
 	}

@@ -2,41 +2,22 @@ dojo.provide("dijit.form.ValidationTextbox");
 
 dojo.require("dijit.form.Textbox");
 dojo.require("dojo.i18n.common");
+dojo.require("dojo.validate.common");
 
 dojo.requireLocalization("dijit.form", "validate");
 
 dojo.declare(
 	"dijit.form.ValidationTextbox",
 	dijit.form.Textbox,
-	function() {
+	{
 		// summary:
 		//		A subclass of Textbox.
 		//		Over-ride isValid in subclasses to perform specific kinds of validation.
-		
-		// this property isn't a primitive and needs to be created on a per-item basis.
-		this.flags = {};
-	},
-	{
+
 		// default values for new subclass properties
 		// required: Boolean
 		//		Can be true or false, default is false.
 		required: false,
-		// rangeClass: String
-		//              Override default class used for out-of-range input data
-		rangeClass: "range",
-		// invalidClass: String
-		//		Class used to format displayed text in page if necessary to override default class
-		invalidClass: "invalid",
-		// missingClass: String
-		//              Override default class used for missing input data
-		missingClass: "missing",
-		classPrefix: "dojoValidate",
-		// size: String
-		//		Basic input tag size declaration.
-		size: "",
-		// maxlength: String
-		//		Basic input tag maxlength declaration.	
-		maxlength: "",
 		// promptMessage: String
 		//		Will not issue invalid message if field is populated with default user-prompt text
 		promptMessage: "",
@@ -44,21 +25,29 @@ dojo.declare(
 		// 		The message to display if value is invalid.
 		invalidMessage: "",
 		// missingMessage: String
-		//		The message to display if value is missing.
+		//		The message to display if value is missing or missing.
 		missingMessage: "",
+		// rangeMessage: String
+		//		The message to display if value is out-of-range
 		rangeMessage: "",
 		// listenOnKeyPress: Boolean
 		//		Updates messages on each key press.  Default is true.
 		listenOnKeyPress: true,
+		// flags: Object
+		//		user-defined object needed to pass parameters to the validator functions
+		flags: (function(){return {};})(),
+		// regExp: String
+		//		regular expression string used to validate the input
+		//		Do not specify both regExp and regExpGen
+		regExp: ".*",
+		// regExpGen: Function
+		//		user replaceable function used to generate regExp when dependent on flags
+		//		Do not specify both regExp and regExpGen
+		regExpGen: function(flags){ return this.regExp; },
 		lastCheckedValue: null,
 	
 		templatePath: dojo.uri.moduleUri("dijit.form", "templates/ValidationTextbox.html"),
 		
-		// new DOM nodes
-		invalidSpan: null,
-		missingSpan: null,
-		rangeSpan: null,
-
 		getValue: function() {
 			return this.textbox.value;
 		},
@@ -68,14 +57,26 @@ dojo.declare(
 			this.update();
 		},
 	
+		validator: function(value,flags){
+			// summary: user replaceable function used to validate the text input against the regular expression.
+			return (new RegExp("^(" + this.regExpGen(flags) + ")$")).test(value);
+		},
+
 		isValid: function() {
 			// summary: Need to over-ride with your own validation code in subclasses
-			return true;
+			return this.validator(this.textbox.value, this.flags);
 		},
 	
+		rangeCheck: function(value,flags){
+			// summary: user replaceable function used to validate the range of the numeric input value
+			if ((typeof flags.min == "number") || (typeof flags.min == "number")){
+				return dojo.validate.isInRange(value, flags);
+			}else{ return true; }
+		},
+
 		isInRange: function() {
 			// summary: Need to over-ride with your own validation code in subclasses
-			return true;
+			return this.rangeCheck(this.textbox.value, this.flags);
 		},
 	
 		isEmpty: function() {
@@ -94,9 +95,6 @@ dojo.declare(
 			// description:
 			//		Show missing or invalid messages if appropriate, and highlight textbox field.
 			this.lastCheckedValue = this.textbox.value;
-			this.missingSpan.style.display = "none";
-			this.invalidSpan.style.display = "none";
-			this.rangeSpan.style.display = "none";
 	
 			var empty = this.isEmpty();
 			var valid = true;
@@ -107,22 +105,23 @@ dojo.declare(
 	
 			// Display at most one error message
 			if(missing){
-				this.missingSpan.style.display = "";
+				this.messageSpan.innerHTML = this.missingMessage;
 			}else if( !empty && !valid ){
-				this.invalidSpan.style.display = "";
+				this.messageSpan.innerHTML = this.invalidMessage;
 			}else if( !empty && !this.isInRange() ){
-				this.rangeSpan.style.display = "";
+				this.messageSpan.innerHTML = this.rangeMessage;
+			}else{
+				this.messageSpan.innerHTML = "";
 			}
+
 			this.highlight();
 		},
 		
 		updateClass: function(className){
 			// summary: used to ensure that only 1 validation class is set at a time
-			var pre = this.classPrefix;
-			dojo.html.removeClass(this.textbox,pre+"Empty");
-			dojo.html.removeClass(this.textbox,pre+"Valid");
-			dojo.html.removeClass(this.textbox,pre+"Invalid");
-			dojo.html.addClass(this.textbox,pre+className);
+			dojo.html.removeClass(this.textbox,"dojoInputFieldValidationWarning");
+			dojo.html.removeClass(this.textbox,"dojoInputFieldValidationError");
+			dojo.html.addClass(this.textbox,className);
 		},
 		
 		highlight: function() {
@@ -130,19 +129,19 @@ dojo.declare(
 			
 			// highlight textbox background 
 			if (this.isEmpty()) {
-				this.updateClass("Empty");
+				this.updateClass("dojoInputFieldValidationError");
 			}else if (this.isValid() && this.isInRange() ){
-				this.updateClass("Valid");
+				this.updateClass("dojoInputField");
 			}else if(this.textbox.value != this.promptMessage){ 
-				this.updateClass("Invalid");
+				this.updateClass("dojoInputFieldValidationError");
 			}else{
-				this.updateClass("Empty");
+				this.updateClass("dojoInputFieldValidationWarning");
 			}
 		},
 	
 		onfocus: function(evt) {
 			if ( !this.listenOnKeyPress) {
-				this.updateClass("Empty");
+				this.updateClass("dojoInputFieldValidationWarning");
 			}
 		},
 	
@@ -156,7 +155,7 @@ dojo.declare(
 				//this.filter();  trim is problem if you have to type two words
 				this.update(); 
 			}else if (this.textbox.value != this.lastCheckedValue){
-				this.updateClass("Empty");
+				this.updateClass("dojoInputFieldValidationWarning");
 			}
 		},
 
@@ -164,8 +163,10 @@ dojo.declare(
 			dijit.form.ValidationTextbox.superclass.postMixInProperties.apply(this, arguments);
 			this.messages = dojo.i18n.getLocalization("dijit.form", "validate", this.lang);
 			dojo.lang.forEach(["invalidMessage", "missingMessage", "rangeMessage"], function(prop) {
-				if(this[prop]){ this.messages[prop] = this[prop]; }
+				if(!this[prop]){ this[prop] = this.messages[prop]; }
 			}, this);
+			var p = this.regExpGen(this.flags);
+			this.regExp = p;
 		},
 	
 		postCreate: function() {
@@ -178,9 +179,6 @@ dojo.declare(
 			this.textbox.isMissing = function() { this.isMissing.call(this); };
 			this.textbox.isInRange = function() { this.isInRange.call(this); };
 			this.update(); 
-			
-			// apply any filters to initial value
-			this.filter();
 		}
 	}
 );

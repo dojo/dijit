@@ -52,7 +52,7 @@
 			width: 20em;
 		}
 	
-		span.invalid, span.missing {
+		.dojoValidationTextboxMessage {
 			display: inline;
 			margin-left: 1em;
 			font-weight: bold;
@@ -62,32 +62,11 @@
 			font-size: 0.9em;
 		}
 	
-		.errorMessage {
-			font-weight:bold;
-			font-family:Arial, Verdana, sans-serif;
-			color:#ff0000;
-			font-size:0.9em;
-		}
-		.warningMessage {
-			font-weight:bold;
-			font-family:Arial, Verdana, sans-serif;
-			color:#ff9900;
-			font-size:0.9em;
-		}
 		.noticeMessage {
 			font-weight: normal;
 			font-family:Arial, Verdana, sans-serif;
 			color:#663;
 			font-size:0.9em;
-		}
-		.myValidateColorValid {
-			background-color: #FF0000;
-		}
-		.myValidateColorInvalid {
-			background-color: #00FF00;
-		}
-		.myValidateColorEmpty {
-			background-color: #0000FF;
 		}
 		</style>
 	</head>
@@ -120,7 +99,7 @@
 
 			<div class="formQuestion">
 				<span class="emphasise">Age:  </span>
-				<span class="noticeMessage"> Textbox class, Attributes: {trim: true, digit: true, class: 'small'}, all but digits extracted. </span>
+				<span class="noticeMessage"> Textbox class, Attributes: {trim: true, digit: true, class: 'small'}, all but digits extracted.</span>
 			</div>
 			<div class="formAnswer">
 				<input type="text" name="age" value="38" class="small"
@@ -142,20 +121,18 @@
 					missingMessage="* The occupation is required." />
 			</div>
 
-<!--
-TODO: uncomment when other validation widgets have been ported over.
 			<div class="formQuestion">
 				<span class="emphasise">Elevation:  </span>
 				<span class="noticeMessage">IntegerTextbox class, 
-					Attributes: {trim: true, required: true, signed: true classPrefix: "myValidateColor"}, Enter feet above sea level with a sign. (note: these colors are drastically different due to demonstrating the effects of classPrefix.)</span>
+					Attributes: {trim: true, required: true, signed: true }, Enter feet above sea level with a sign.</span>
 			</div>
 			<div class="formAnswer">
 				<input type="text" name="elevation" class="medium" value="300"
-					dojoType="dijit.form.IntegerTextbox"
+					dojoType="dijit.form.ValidationTextbox"
+					regExpGen="dojo.regexp.integer"
+					flags="{signed:true}"
 					trim="true"
-					classPrefix="myValidateColor"
 					required="true" 
-					signed="true" 
 					invalidMessage="Invalid elevation.  Be sure to use a plus or minus sign." />
 			</div>
 
@@ -176,15 +153,17 @@ TODO: uncomment when other validation widgets have been ported over.
 			value: "1,500,000",
 			trim: "true",
 			required: "true",
-			signed: "false",
-			separator: ",",
+			regExpGen: dojo.regexp.integer,
+			flags: {signed:false, separator: ","},
 			invalidMessage: "Invalid population.  Be sure to use commas."
 		};
 		var refNode = document.getElementById("attach-here");
 
-		var w = new dijit.form.IntegerTextbox(name, props, refNode);
+		var w = new dijit.form.ValidationTextbox(props, refNode);
 	});
 </script>
+<!--
+TODO: uncomment when other validation widgets have been ported over.
 
 			<div class="formQuestion">
 				<span class="emphasise">Real Number:  </span>

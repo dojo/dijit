@@ -29,7 +29,6 @@ dijit.util.parser = new function(){
 		//	Convert given string value to given type
 		switch(type){
 			case "string":
-			default:
 				return value;
 			case "number":
 				return new Number(value);
@@ -37,7 +36,7 @@ dijit.util.parser = new function(){
 				return dojo.lang.isBoolean(value) ? value : ( (value.toLowerCase()=="false") ? false : true );
 			case "function":
 				if(value.search(/[^\w\.]+/i) == -1){
-					return dojo.evalObjPath(value, false);
+					return dojo.getObject(value, false);
 				}else{
 					try{
 						// TODO: "this" here won't work
@@ -50,6 +49,9 @@ dijit.util.parser = new function(){
 				return new Date(Number(value));// assume timestamp
 			case "uri":
 				return dojo.uri.dojoUri(value);
+			default:
+				try { eval("var tmp = "+value); return tmp; }
+				catch(e) { return value; }
 		}
 	};
 
@@ -102,7 +104,7 @@ dijit.util.parser = new function(){
 				var params = {};
 				for(var attrName in clsInfo.params){
 					var attrValue = node.getAttribute(attrName);
-					if(attrValue){
+					if(attrValue != null){
 						var attrType = clsInfo.params[attrName];
 						params[attrName] = str2obj(attrValue, attrType);
 					}

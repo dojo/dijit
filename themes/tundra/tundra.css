@@ -44,6 +44,8 @@
 }
 
 /* Default Disabled Styles*/
+.dojoButton[disabled],
+.dojoInputField[disabled],
 .dojoButtonDisabled,
 .dojoInputFieldDisabled {
 	background-position:0 -8px;
@@ -52,12 +54,8 @@
 	border-color:#e0e0e0;
 }
 
-.dojoButtonDisabled:hover,
-.dojoInputFieldDisabled:hover {
-	color:#787878;
-
-}
-
+.dojoButton[disabled]:active,
+.dojoInputField[disabled]:active,
 .dojoButtonDisabled:active,
 .dojoInputFieldDisabled:active {
 	background-image: url("dojoTundraGradientBg.png");
@@ -72,8 +70,11 @@
 	border-color:#92adc2;
 }
 
-.dojoInputFieldDisabled:hover {
-	border-color:#e0e0e0;
+.dojoInputFieldValidationWarning,
+.dojoInputFieldValidationWarning:hover,
+.dojoInputFieldValidationWarning:focus {
+/* TBD */
+	background-color:cyan;
 }
 
 .dojoInputFieldValidationError {
@@ -88,17 +89,4 @@
 .dojoCheckbox {
 	/* location of checkbox sprint image */
 	background-image: url(check.gif);
-}
-
-.dojoValidateEmpty{
-        background-color: #00FFFF;
-}
-.dojoValidateValid{
-        background-color: #cfc;
-}
-.dojoValidateInvalid{
-        background-color: #fcc;
-}
-.dojoValidateRange{
-        background-color: #ccf;
 }
