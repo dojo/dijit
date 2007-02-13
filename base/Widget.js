@@ -75,13 +75,6 @@ function(params, srcNodeRef){
 	//		used instead.
 	id: "",
 
-	// class: String
-	//		This CSS class name will be used as the base name for various nodes inside
-	//		the widget.  For example, if the class name is "dojoTitlePane" then there
-	//		might be two dom nodes, labeled as "dojoTitlePaneCaption" and "dojoTitlePaneContent"
-	// TODO: probably will be replaced by theme and/or dropped altogether
-	"class": "",
-
 	// lang: String
 	//	Language to display this widget in (like en-us).
 	//	Defaults to brower's specified preferred language (typically the language of the OS)
