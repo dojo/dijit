@@ -80,45 +80,45 @@
 		<form  method="get" id="form1" action="">
 
 			<div class="formQuestion">
-				<span class="emphasise">First Name:  </span>
+				<span class="emphasize"><label for="q01">First Name:  </label></span>
 				<span class="noticeMessage"> Textbox class, Attributes: {trim: true, ucFirst: true, class: 'medium'}, First letter of each word is upper case.</span>
 			</div>
 			<div class="formAnswer">
-				<input id="q1" type="text" name="firstname" value="testing testing" class="medium"
+				<input id="q01" type="text" name="firstname" value="testing testing" class="medium"
 					dojoType="dijit.form.Textbox"
 					trim="true" 
 					ucfirst="true" />
 			</div>
 
 			<div class="formQuestion">
-				<span class="emphasise">Last Name:  </span>
+				<span class="emphasize"><label for="q02">Last Name:  </label></span>
 				<span class="noticeMessage"> Textbox class, Attributes: {trim: true, uppercase: true, class: 'medium'}, all letters converted to upper case. </span>
 			</div>
 			<div class="formAnswer">
-				<input type="text" name="lastname" value="testing testing" class="medium"
+				<input id="q02" type="text" name="lastname" value="testing testing" class="medium"
 					dojoType="dijit.form.Textbox"
 					trim="true" 
 					uppercase="true" />
 			</div>
 
 			<div class="formQuestion">
-				<span class="emphasise">Age:  </span>
+				<span class="emphasize"><label for="q03">Age:  </label></span>
 				<span class="noticeMessage"> Textbox class, Attributes: {trim: true, digit: true, class: 'small'}, all but digits extracted.</span>
 			</div>
 			<div class="formAnswer">
-				<input type="text" name="age" value="38" class="small"
+				<input id="q03" type="text" name="age" value="38" class="small"
 					dojoType="dijit.form.Textbox"
 					trim="true" 
 					digit="true" />
 			</div>
 
 			<div class="formQuestion">
-				<span class="emphasise">Occupation:  </span>
+				<span class="emphasize"><label for="q04">Occupation:  </label></span>
 				<span class="noticeMessage">ValidationTextbox class, 
 					Attributes: {lowercase: true, required: true}. Displays message if field is missing. </span>
 			</div>
 			<div class="formAnswer">
-				<input type="text" name="occupation" class="medium"
+				<input id="q04" type="text" name="occupation" class="medium"
 					dojoType="dijit.form.ValidationTextbox"
 					lowercase="true" 
 					required="true" 
@@ -126,12 +126,12 @@
 			</div>
 
 			<div class="formQuestion">
-				<span class="emphasise">Elevation:  </span>
+				<span class="emphasize"><label for="q05">Elevation:  </label></span>
 				<span class="noticeMessage">IntegerTextbox class, 
 					Attributes: {trim: true, required: true, signed: true }, Enter feet above sea level with a sign.</span>
 			</div>
 			<div class="formAnswer">
-				<input type="text" name="elevation" class="medium" value="300"
+				<input id="q05" type="text" name="elevation" class="medium" value="300"
 					dojoType="dijit.form.ValidationTextbox"
 					regExpGen="dojo.regexp.integer"
 					constraints="{signed:true,min:-20000,max:20000}"
@@ -141,7 +141,7 @@
 			</div>
 
 			<div class="formQuestion">
-				<span class="emphasise">Population:  </span>
+				<span class="emphasize"><label for="q06">Population:  </label></span>
 				<span class="noticeMessage">IntegerTextbox class, 
 					Attributes: {trim: true, required: true, signed: false, separator: ","}. <br><b> This widget was added in script, not markup. </b> </span>
 			</div>
@@ -168,12 +168,12 @@
 </script>
 
 			<div class="formQuestion">
-				<span class="emphasise">Real Number:  </span>
+				<span class="emphasize"><label for="q06">Real Number:  </label></span>
 				<span class="noticeMessage">RealNumberTextbox class, 
 					Attributes: {trim: true, required: true}. Enter any sort of real number.</span>
 			</div>
 			<div class="formAnswer">
-				<input type="text" name="real1" class="medium" value="+0.1234"
+				<input id="q06" type="text" name="real1" class="medium" value="+0.1234"
 					dojoType="dijit.form.ValidationTextbox"
 					regExpGen="dojo.regexp.realNumber"
 					trim="true" 
@@ -182,12 +182,12 @@
 			</div>
 
 			<div class="formQuestion">
-				<span class="emphasise">Exponential Notation:  </span>
+				<span class="emphasize"><label for="q07">Exponential Notation:  </label></span>
 				<span class="noticeMessage">RealNumberTextbox class, 
 					Attributes: {exponent: true}. Enter a real number in exponential notation.</span>
 			</div>
 			<div class="formAnswer">
-				<input type="text" name="real2" class="medium" value="+0.12"
+				<input id="q07" type="text" name="real2" class="medium" value="+0.12"
 					dojoType="dijit.form.ValidationTextbox"
 					regExpGen="dojo.regexp.realNumber"
 					trim="true" 
@@ -197,12 +197,12 @@
 			</div>
 
 			<div class="formQuestion">
-				<span class="emphasise">Annual Income:  </span>
+				<span class="emphasize"><label for="q08">Annual Income:  </label></span>
 				<span class="noticeMessage">CurrencyTextbox class, 
 					Attributes: {fractional: true}. Enter dollars and cents.</span>
 			</div>
 			<div class="formAnswer">
-				<input type="text" name="income" class="medium" value="$54,775.53"
+				<input id="q08" type="text" name="income" class="medium" value="$54,775.53"
 					dojoType="dijit.form.ValidationTextbox"
 					regExpGen="dojo.regexp.currency"
 					trim="true" 
@@ -212,12 +212,12 @@
 			</div>
 
 			<div class="formQuestion">
-				<span class="emphasise">IPv4 Address:  </span>
+				<span class="emphasize"><label for="q09">IPv4 Address:  </label></span>
 				<span class="noticeMessage">IpAddressTextbox class, 
 					Attributes: {allowIPv6: false, allowHybrid: false}. Also Dotted Hex works, 0x18.0x11.0x9b.0x28</span>
 			</div>
 			<div class="formAnswer">
-				<input type="text" name="ipv4" class="medium" value="24.17.155.40"
+				<input id="q09" type="text" name="ipv4" class="medium" value="24.17.155.40"
 					dojoType="dijit.form.ValidationTextbox"
 					regExpGen="dojo.regexp.ipAddress"
 					trim="true" 
@@ -227,13 +227,13 @@
 			</div>
 
 			<div class="formQuestion">
-				<span class="emphasise"> IPv6 Address:  </span>
+				<span class="emphasize"><label for="q10"> IPv6 Address:  </label></span>
 				<span class="noticeMessage">IpAddressTextbox class, 
 					Attributes: {allowDottedDecimal: false, allowDottedHex: false}. 
 					Also hybrid works, x:x:x:x:x:x:d.d.d.d</span>
 			</div>
 			<div class="formAnswer">
-				<input type="text" name="ipv6" class="long" value="0000:0000:0000:0000:0000:0000:0000:0000"
+				<input id="q10" type="text" name="ipv6" class="long" value="0000:0000:0000:0000:0000:0000:0000:0000"
 					dojoType="dijit.form.ValidationTextbox"
 					regExpGen="dojo.regexp.ipAddress"
 					trim="true" 
@@ -244,12 +244,12 @@
 			</div>
 
 			<div class="formQuestion">
-				<span class="emphasise"> URL:  </span>
+				<span class="emphasize"><label for="q11"> URL:  </label></span>
 				<span class="noticeMessage">UrlTextbox class, 
 					Attributes: {required: true, trim: true, scheme: true}. </span>
 			</div>
 			<div class="formAnswer">
-				<input type="text" name="url" class="long" value="http://www.xyz.com/a/b/c?x=2#p3"
+				<input id="q11" type="text" name="url" class="long" value="http://www.xyz.com/a/b/c?x=2#p3"
 					dojoType="dijit.form.ValidationTextbox"
 					regExpGen="dojo.regexp.url"
 					trim="true" 
@@ -259,12 +259,12 @@
 			</div>
 
 			<div class="formQuestion">
-				<span class="emphasise"> Email Address  </span>
+				<span class="emphasize"><label for="q12"> Email Address  </label></span>
 				<span class="noticeMessage">EmailTextbox class, 
 					Attributes: {required: true, trim: true}. </span>
 			</div>
 			<div class="formAnswer">
-				<input type="text" name="email" class="long" value="fred&barney@stonehenge.com"
+				<input id="q12" type="text" name="email" class="long" value="fred&barney@stonehenge.com"
 					dojoType="dijit.form.ValidationTextbox"
 					regExpGen="dojo.regexp.emailAddress"
 					trim="true" 
@@ -273,12 +273,12 @@
 			</div>
 
 			<div class="formQuestion">
-				<span class="emphasise"> Email Address List </span>
+				<span class="emphasize"><label for="q13"> Email Address List </label></span>
 				<span class="noticeMessage">EmailListTextbox class, 
 					Attributes: {required: true, trim: true}. </span>
 			</div>
 			<div class="formAnswer">
-				<input type="text" name="email" class="long" value="a@xyz.com; b@xyz.com; c@xyz.com; "
+				<input id="q13" type="text" name="email" class="long" value="a@xyz.com; b@xyz.com; c@xyz.com; "
 					dojoType="dijit.form.ValidationTextbox"
 					regExpGen="dojo.regexp.emailAddressList"
 					trim="true" 
@@ -287,12 +287,12 @@
 			</div>
 
 			<div class="formQuestion">
-				<span class="emphasise"> Date (American format) </span>
+				<span class="emphasize"><label for="q14"> Date (American format) </label></span>
 				<span class="noticeMessage">DateTextbox class, 
 					Attributes: {lang: "en-us", required: true, trim: true}. Works for leap years</span>
 			</div>
 			<div class="formAnswer">
-				<input type="text" name="date1" class="medium" value="12/30/05"
+				<input id="q14" type="text" name="date1" class="medium" value="12/30/05"
 					dojoType="dijit.form.ValidationTextbox"
 					validator="dojo.date.parse"
 					constraints={formatLength:'short',selector:'dateOnly',locale:'en-us'}
@@ -302,12 +302,12 @@
 			</div>
 
 			<div class="formQuestion">
-				<span class="emphasise"> Date (German format) </span>
+				<span class="emphasize"><label for="q15"> Date (German format) </label></span>
 				<span class="noticeMessage">DateTextbox class, 
 					Attributes: {formatLength:"medium", lang: "de-de", required: true, trim: true}. Works for leap years</span>
 			</div>
 			<div class="formAnswer">
-				<input type="text" name="date2" class="medium" value="30.12.2005"
+				<input id="q15" type="text" name="date2" class="medium" value="30.12.2005"
 					dojoType="dijit.form.ValidationTextbox"
 					validator="dojo.date.parse"
 					constraints={formatLength:'medium',selector:'dateOnly',locale:'de-de'}
@@ -317,12 +317,12 @@
 			</div>
 
 			<div class="formQuestion">
-				<span class="emphasise"> 12 Hour Time </span>
+				<span class="emphasize"><label for="q16"> 12 Hour Time </label></span>
 				<span class="noticeMessage">TimeTextbox class, 
 					Attributes: {formatLength: "medium", required: true, trim: true}</span>
 			</div>
 			<div class="formAnswer">
-				<input type="text" name="time1" class="medium" value="5:45:00 pm"
+				<input id="q16" type="text" name="time1" class="medium" value="5:45:00 pm"
 					dojoType="dijit.form.ValidationTextbox"
 					validator="dojo.date.parse"
 					constraints={formatLength:'medium',selector:'timeOnly'}
@@ -333,12 +333,12 @@
 			</div>
 
 			<div class="formQuestion">
-				<span class="emphasise"> 24 Hour Time</span>
+				<span class="emphasize"><label for="q17"> 24 Hour Time</label></span>
 				<span class="noticeMessage">TimeTextbox class, 
 					Attributes: {displayFormat:"HH:mm:ss", required: true, trim: true}</span>
 			</div>
 			<div class="formAnswer">
-				<input type="text" name="time2" class="medium" value="17:45:00"
+				<input id="q17" type="text" name="time2" class="medium" value="17:45:00"
 					dojoType="dijit.form.ValidationTextbox"
 					validator="dojo.date.parse"
 					constraints={formatLength:'short',selector:'timeOnly',timePattern:'HH:mm:ss'}
@@ -348,12 +348,12 @@
 			</div>
 
 			<div class="formQuestion">
-				<span class="emphasise"> US State 2 letter abbr. </span>
+				<span class="emphasize"><label for="q18"> US State 2 letter abbr. </label></span>
 				<span class="noticeMessage">UsStateTextbox class, 
 					Attributes: {required: true, trim: true, uppercase: true}</span>
 			</div>
 			<div class="formAnswer">
-				<input type="text" name="state" class="small" value="CA"
+				<input id="q18" type="text" name="state" class="small" value="CA"
 					dojoType="dijit.form.ValidationTextbox"
 					regExpGen="dojo.regexp.us.state"
 					constraints={allowTerritories:false}
@@ -364,12 +364,12 @@
 			</div>
 
 			<div class="formQuestion">
-				<span class="emphasise"> US Zip Code </span>
+				<span class="emphasize"><label for="q19"> US Zip Code </label></span>
 				<span class="noticeMessage">UsZipTextbox class, 
 					Attributes: {required: true, trim: true} Five digit Zip code or 5 + 4.</span>
 			</div>
 			<div class="formAnswer">
-				<input type="text" name="zip" class="medium" value="98225-1649"
+				<input id="q19" type="text" name="zip" class="medium" value="98225-1649"
 					dojoType="dijit.form.ValidationTextbox"
 					validator="dojo.validate.us.isZipCode"
 					trim="true" 
@@ -378,12 +378,12 @@
 			</div>
 
 			<div class="formQuestion">
-				<span class="emphasise"> US Social Security Number </span>
+				<span class="emphasize"><label for="q20"> US Social Security Number </label></span>
 				<span class="noticeMessage">UsSocialSecurityNumberTextbox class, 
 					Attributes: {required: true, trim: true} </span>
 			</div>
 			<div class="formAnswer">
-				<input type="text" name="ssn" class="medium" value="123-45-6789"
+				<input id="q20" type="text" name="ssn" class="medium" value="123-45-6789"
 					dojoType="dijit.form.ValidationTextbox"
 					validator="dojo.validate.us.isSocialSecurityNumber"
 					trim="true" 
@@ -392,12 +392,12 @@
 			</div>
 
 			<div class="formQuestion">
-				<span class="emphasise"> 10-digit US Phone Number </span>
+				<span class="emphasize"><label for="q21"> 10-digit US Phone Number </label></span>
 				<span class="noticeMessage">UsPhoneNumberTextbox class, 
 					Attributes: {required: true, trim: true} </span>
 			</div>
 			<div class="formAnswer">
-				<input type="text" name="phone" class="medium" value="(123) 456-7890"
+				<input id="q21" type="text" name="phone" class="medium" value="(123) 456-7890"
 					dojoType="dijit.form.ValidationTextbox"
 					validator="dojo.validate.us.isPhoneNumber"
 					trim="true" 
@@ -406,12 +406,12 @@
 			</div>
 
 			<div class="formQuestion">
-				<span class="emphasise"> Regular Expression </span>
+				<span class="emphasize"><label for="q22"> Regular Expression </label></span>
 				<span class="noticeMessage">RegexpTextbox class, 
 					Attributes: {required: true} </span>
 			</div>
 			<div class="formAnswer">
-				<input type="text" name="phone" class="medium" value="someTestString"
+				<input id="q22" type="text" name="phone" class="medium" value="someTestString"
 					dojoType="dijit.form.ValidationTextbox"
 					regExp="^[\w]+$"
 					required="true" 
@@ -419,11 +419,11 @@
 			</div>
 
 			<div class="formQuestion">
-				<span class="emphasise"> Password </span>
+				<span class="emphasize"><label for="q23"> Password </label></span>
 				<span class="noticeMessage">(just a test that type attribute is obeyed) </span>
 			</div>
 			<div class="formAnswer">
-				<input type="password" name="password" class="medium"
+				<input id="q23" type="password" name="password" class="medium"
 					dojoType="dijit.form.Textbox" />
 			</div>
 <script>

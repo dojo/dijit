@@ -68,7 +68,7 @@ dojo.declare(
 	
 		rangeCheck: function(value,constraints){
 			// summary: user replaceable function used to validate the range of the numeric input value
-			if ((typeof constraints.min == "number") || (typeof constraints.min == "number")){
+			if ((typeof constraints.min != "undefined") || (typeof constraints.max != "undefined")){
 				return dojo.validate.isInRange(value, constraints);
 			}else{ return true; }
 		},
