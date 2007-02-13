@@ -2,7 +2,6 @@ dojo.provide("dijit.form.ValidationTextbox");
 
 dojo.require("dijit.form.Textbox");
 dojo.require("dojo.i18n.common");
-dojo.require("dojo.validate.common");
 
 dojo.requireLocalization("dijit.form", "validate");
 
@@ -33,17 +32,17 @@ dojo.declare(
 		// listenOnKeyPress: Boolean
 		//		Updates messages on each key press.  Default is true.
 		listenOnKeyPress: true,
-		// flags: Object
+		// constraints: Object
 		//		user-defined object needed to pass parameters to the validator functions
-		flags: (function(){return {};})(),
+		constraints: {},
 		// regExp: String
 		//		regular expression string used to validate the input
 		//		Do not specify both regExp and regExpGen
 		regExp: ".*",
 		// regExpGen: Function
-		//		user replaceable function used to generate regExp when dependent on flags
+		//		user replaceable function used to generate regExp when dependent on constraints
 		//		Do not specify both regExp and regExpGen
-		regExpGen: function(flags){ return this.regExp; },
+		regExpGen: function(constraints){ return this.regExp; },
 		lastCheckedValue: null,
 	
 		templatePath: dojo.uri.moduleUri("dijit.form", "templates/ValidationTextbox.html"),
@@ -57,26 +56,26 @@ dojo.declare(
 			this.update();
 		},
 	
-		validator: function(value,flags){
+		validator: function(value,constraints){
 			// summary: user replaceable function used to validate the text input against the regular expression.
-			return (new RegExp("^(" + this.regExpGen(flags) + ")$")).test(value);
+			return (new RegExp("^(" + this.regExpGen(constraints) + ")$")).test(value);
 		},
 
 		isValid: function() {
 			// summary: Need to over-ride with your own validation code in subclasses
-			return this.validator(this.textbox.value, this.flags);
+			return this.validator(this.textbox.value, this.constraints);
 		},
 	
-		rangeCheck: function(value,flags){
+		rangeCheck: function(value,constraints){
 			// summary: user replaceable function used to validate the range of the numeric input value
-			if ((typeof flags.min == "number") || (typeof flags.min == "number")){
-				return dojo.validate.isInRange(value, flags);
+			if ((typeof constraints.min == "number") || (typeof constraints.min == "number")){
+				return dojo.validate.isInRange(value, constraints);
 			}else{ return true; }
 		},
 
 		isInRange: function() {
 			// summary: Need to over-ride with your own validation code in subclasses
-			return this.rangeCheck(this.textbox.value, this.flags);
+			return this.rangeCheck(this.textbox.value, this.constraints);
 		},
 	
 		isEmpty: function() {
@@ -165,7 +164,7 @@ dojo.declare(
 			dojo.lang.forEach(["invalidMessage", "missingMessage", "rangeMessage"], function(prop) {
 				if(!this[prop]){ this[prop] = this.messages[prop]; }
 			}, this);
-			var p = this.regExpGen(this.flags);
+			var p = this.regExpGen(this.constraints);
 			this.regExp = p;
 		},
 	

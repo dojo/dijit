@@ -15,6 +15,10 @@
 		<script type="text/javascript">
 			dojo.require("dijit.form.Textbox");
 			dojo.require("dijit.form.ValidationTextbox");
+			dojo.require("dojo.validate.common");
+			dojo.require("dojo.validate.us");
+			dojo.require("dojo.date.format");
+			dojo.require("dojo.validate.datetime");
 			dojo.require("dijit.util.parser");	// scan page for widgets and instantiate them
 			dojo.hostenv.writeIncludes();
 		</script>
@@ -130,7 +134,7 @@
 				<input type="text" name="elevation" class="medium" value="300"
 					dojoType="dijit.form.ValidationTextbox"
 					regExpGen="dojo.regexp.integer"
-					flags="{signed:true}"
+					constraints="{signed:true,min:-20000,max:20000}"
 					trim="true"
 					required="true" 
 					invalidMessage="Invalid elevation.  Be sure to use a plus or minus sign." />
@@ -154,7 +158,7 @@
 			trim: "true",
 			required: "true",
 			regExpGen: dojo.regexp.integer,
-			flags: {signed:false, separator: ","},
+			constraints: {signed:false, separator: ","},
 			invalidMessage: "Invalid population.  Be sure to use commas."
 		};
 		var refNode = document.getElementById("attach-here");
@@ -162,8 +166,6 @@
 		var w = new dijit.form.ValidationTextbox(props, refNode);
 	});
 </script>
-<!--
-TODO: uncomment when other validation widgets have been ported over.
 
 			<div class="formQuestion">
 				<span class="emphasise">Real Number:  </span>
@@ -172,7 +174,8 @@ TODO: uncomment when other validation widgets have been ported over.
 			</div>
 			<div class="formAnswer">
 				<input type="text" name="real1" class="medium" value="+0.1234"
-					dojoType="dijit.form.RealNumberTextbox"
+					dojoType="dijit.form.ValidationTextbox"
+					regExpGen="dojo.regexp.realNumber"
 					trim="true" 
 					required="true" 
 					invalidMessage="This is not a valid real number." />
@@ -185,10 +188,11 @@ TODO: uncomment when other validation widgets have been ported over.
 			</div>
 			<div class="formAnswer">
 				<input type="text" name="real2" class="medium" value="+0.12"
-					dojoType="dijit.form.RealNumberTextbox"
+					dojoType="dijit.form.ValidationTextbox"
+					regExpGen="dojo.regexp.realNumber"
 					trim="true" 
 					required="true" 
-					exponent = "true"
+					constraints={exponent:true}
 					invalidMessage="Number must be in exponential notation. Example +5E-28" />
 			</div>
 
@@ -199,10 +203,11 @@ TODO: uncomment when other validation widgets have been ported over.
 			</div>
 			<div class="formAnswer">
 				<input type="text" name="income" class="medium" value="$54,775.53"
-					dojoType="dijit.form.CurrencyTextbox"
+					dojoType="dijit.form.ValidationTextbox"
+					regExpGen="dojo.regexp.currency"
 					trim="true" 
 					required="true" 
-					fractional = "true"
+					constraints={fractional:true}
 					invalidMessage="Invalid amount.  Include dollar sign, commas, and cents. Example: $12,000.00" />
 			</div>
 
@@ -213,11 +218,11 @@ TODO: uncomment when other validation widgets have been ported over.
 			</div>
 			<div class="formAnswer">
 				<input type="text" name="ipv4" class="medium" value="24.17.155.40"
-					dojoType="dijit.form.IpAddressTextbox"
+					dojoType="dijit.form.ValidationTextbox"
+					regExpGen="dojo.regexp.ipAddress"
 					trim="true" 
 					required="true" 
-					allowIPv6 = "false"
-					allowHybrid = "false"
+					constraints={allowIPv6:false,allowHybrid:false}
 					invalidMessage="Invalid IPv4 address." />
 			</div>
 
@@ -229,13 +234,12 @@ TODO: uncomment when other validation widgets have been ported over.
 			</div>
 			<div class="formAnswer">
 				<input type="text" name="ipv6" class="long" value="0000:0000:0000:0000:0000:0000:0000:0000"
-					dojoType="dijit.form.IpAddressTextbox"
+					dojoType="dijit.form.ValidationTextbox"
+					regExpGen="dojo.regexp.ipAddress"
 					trim="true" 
 					uppercase = "true" 
 					required="true" 
-					allowDottedDecimal = "false"
-					allowDottedHex = "false"
-					allowDottedOctal = "false"
+					constraints={allowDottedDecimal:false, allowDottedHex:false, allowDottedOctal:false}
 					invalidMessage="Invalid IPv6 address, please enter eight groups of four hexadecimal digits. x:x:x:x:x:x:x:x" />
 			</div>
 
@@ -246,10 +250,11 @@ TODO: uncomment when other validation widgets have been ported over.
 			</div>
 			<div class="formAnswer">
 				<input type="text" name="url" class="long" value="http://www.xyz.com/a/b/c?x=2#p3"
-					dojoType="dijit.form.UrlTextbox"
+					dojoType="dijit.form.ValidationTextbox"
+					regExpGen="dojo.regexp.url"
 					trim="true" 
 					required="true" 
-					scheme = "true"
+					constraints={scheme:true}
 					invalidMessage="Invalid URL.  Be sure to include the scheme, http://..." />
 			</div>
 
@@ -260,7 +265,8 @@ TODO: uncomment when other validation widgets have been ported over.
 			</div>
 			<div class="formAnswer">
 				<input type="text" name="email" class="long" value="fred&barney@stonehenge.com"
-					dojoType="dijit.form.EmailTextbox"
+					dojoType="dijit.form.ValidationTextbox"
+					regExpGen="dojo.regexp.emailAddress"
 					trim="true" 
 					required="true" 
 					invalidMessage="Invalid Email Address." />
@@ -273,7 +279,8 @@ TODO: uncomment when other validation widgets have been ported over.
 			</div>
 			<div class="formAnswer">
 				<input type="text" name="email" class="long" value="a@xyz.com; b@xyz.com; c@xyz.com; "
-					dojoType="dijit.form.EmailListTextbox"
+					dojoType="dijit.form.ValidationTextbox"
+					regExpGen="dojo.regexp.emailAddressList"
 					trim="true" 
 					required="true" 
 					invalidMessage="Invalid Email Address List." />
@@ -285,8 +292,10 @@ TODO: uncomment when other validation widgets have been ported over.
 					Attributes: {lang: "en-us", required: true, trim: true}. Works for leap years</span>
 			</div>
 			<div class="formAnswer">
-				<input type="text" name="date1" class="medium" value="12/30/05" lang="en-us"
-					dojoType="dijit.form.DateTextbox"
+				<input type="text" name="date1" class="medium" value="12/30/05"
+					dojoType="dijit.form.ValidationTextbox"
+					validator="dojo.date.parse"
+					constraints={formatLength:'short',selector:'dateOnly',locale:'en-us'}
 					trim="true" 
 					required="true" 
 					invalidMessage="Invalid date. Use M/d/yy format." />
@@ -298,13 +307,14 @@ TODO: uncomment when other validation widgets have been ported over.
 					Attributes: {formatLength:"medium", lang: "de-de", required: true, trim: true}. Works for leap years</span>
 			</div>
 			<div class="formAnswer">
-				<input type="text" name="date2" class="medium" value="30.12.2005" lang="de-de" formatLength="medium"
-					dojoType="dijit.form.DateTextbox"
+				<input type="text" name="date2" class="medium" value="30.12.2005"
+					dojoType="dijit.form.ValidationTextbox"
+					validator="dojo.date.parse"
+					constraints={formatLength:'medium',selector:'dateOnly',locale:'de-de'}
 					trim="true" 
 					required="true" 
 					invalidMessage="Invalid date. Use dd.MM.yyyy format." />
 			</div>
-
 
 			<div class="formQuestion">
 				<span class="emphasise"> 12 Hour Time </span>
@@ -312,7 +322,10 @@ TODO: uncomment when other validation widgets have been ported over.
 					Attributes: {formatLength: "medium", required: true, trim: true}</span>
 			</div>
 			<div class="formAnswer">
-				<input type="text" name="time1" class="medium" value="5:45:00 pm" formatLength="medium"
+				<input type="text" name="time1" class="medium" value="5:45:00 pm"
+					dojoType="dijit.form.ValidationTextbox"
+					validator="dojo.date.parse"
+					constraints={formatLength:'medium',selector:'timeOnly'}
 					dojoType="dijit.form.TimeTextbox"
 					trim="true" 
 					required="true" 
@@ -326,10 +339,11 @@ TODO: uncomment when other validation widgets have been ported over.
 			</div>
 			<div class="formAnswer">
 				<input type="text" name="time2" class="medium" value="17:45:00"
-					dojoType="dijit.form.TimeTextbox"
+					dojoType="dijit.form.ValidationTextbox"
+					validator="dojo.date.parse"
+					constraints={formatLength:'short',selector:'timeOnly',timePattern:'HH:mm:ss'}
 					trim="true" 
 					required="true" 
-					displayformat = "HH:mm:ss"
 					invalidMessage="Invalid time. Use HH:mm:ss where HH is 00 - 23 hours." />
 			</div>
 
@@ -340,8 +354,9 @@ TODO: uncomment when other validation widgets have been ported over.
 			</div>
 			<div class="formAnswer">
 				<input type="text" name="state" class="small" value="CA"
-					dojoType="dijit.form.UsStateTextbox"
-					allowTerritories = "false"
+					dojoType="dijit.form.ValidationTextbox"
+					regExpGen="dojo.regexp.us.state"
+					constraints={allowTerritories:false}
 					trim="true" 
 					uppercase="true" 
 					required="true" 
@@ -355,7 +370,8 @@ TODO: uncomment when other validation widgets have been ported over.
 			</div>
 			<div class="formAnswer">
 				<input type="text" name="zip" class="medium" value="98225-1649"
-					dojoType="dijit.form.UsZipTextbox"
+					dojoType="dijit.form.ValidationTextbox"
+					validator="dojo.validate.us.isZipCode"
 					trim="true" 
 					required="true" 
 					invalidMessage="Invalid US Zip Code." />
@@ -368,7 +384,8 @@ TODO: uncomment when other validation widgets have been ported over.
 			</div>
 			<div class="formAnswer">
 				<input type="text" name="ssn" class="medium" value="123-45-6789"
-					dojoType="dijit.form.UsSocialSecurityNumberTextbox"
+					dojoType="dijit.form.ValidationTextbox"
+					validator="dojo.validate.us.isSocialSecurityNumber"
 					trim="true" 
 					required="true" 
 					invalidMessage="Invalid US Social Security Number." />
@@ -381,7 +398,8 @@ TODO: uncomment when other validation widgets have been ported over.
 			</div>
 			<div class="formAnswer">
 				<input type="text" name="phone" class="medium" value="(123) 456-7890"
-					dojoType="dijit.form.UsPhoneNumberTextbox"
+					dojoType="dijit.form.ValidationTextbox"
+					validator="dojo.validate.us.isPhoneNumber"
 					trim="true" 
 					required="true" 
 					invalidMessage="Invalid US Phone Number." />
@@ -390,12 +408,12 @@ TODO: uncomment when other validation widgets have been ported over.
 			<div class="formQuestion">
 				<span class="emphasise"> Regular Expression </span>
 				<span class="noticeMessage">RegexpTextbox class, 
-					Attributes: {required: true, trim: true} </span>
+					Attributes: {required: true} </span>
 			</div>
 			<div class="formAnswer">
 				<input type="text" name="phone" class="medium" value="someTestString"
-					dojoType="dijit.form.RegexpTextbox"
-                    regexp="^[\w]+$"
+					dojoType="dijit.form.ValidationTextbox"
+					regExp="^[\w]+$"
 					required="true" 
                     invalidMessage="Invalid Non-Space Text." />
 			</div>
@@ -421,8 +439,6 @@ TODO: uncomment when other validation widgets have been ported over.
 	}
 </script>
 
-END OF COMMENTED OUT STUFF
--->
 			<div><button name="button" onclick="displayData(); return false;">view data</button></div>
 
 		</form>
