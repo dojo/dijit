@@ -98,7 +98,7 @@ dijit.util.parser = new function(){
 		var allNodes = rootNode.all || rootNode.getElementsByTagName("*");
 		var i=0, node;
 		while (node = allNodes[i++]) {
-			var type = node.getAttribute('dojoType');
+			var type = node.getAttribute ? node.getAttribute('dojoType') : null;
 			if(type){
 				var clsInfo = getWidgetClassInfo(type);
 				var params = {};
