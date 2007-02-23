@@ -1,8 +1,8 @@
 dojo.provide("dijit.base.FormElement");
 
 dojo.require("dojo.html.style");
-
 dojo.require("dijit.base.Widget");
+dojo.require("dijit.util.wai");
 
 dojo.declare("dijit.base.FormElement", dijit.base.Widget,
 {
@@ -99,7 +99,18 @@ dojo.declare("dijit.base.FormElement", dijit.base.Widget,
 		this._setDisabled(this.disabled == true);
 	},
 
+	_lastValueReported: null,
 	setValue: function(newValue){
 		// summary: set the value of the widget.
+		if (newValue != this._lastValueReported){
+			dijit.util.wai.setAttr(this.domNode, "waiState", "valuenow", newValue);
+			this.onValueChanged(newValue);
+			this._lastValueReported = newValue;
+		}
+	},
+
+	getValue: function(){
+		// summary: get the value of the widget.
+		return this._lastValueReported;
 	}
 });

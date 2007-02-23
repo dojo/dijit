@@ -35,14 +35,13 @@ dijit.util.parser = new function(){
 			case "boolean":
 				return dojo.lang.isBoolean(value) ? value : ( (value.toLowerCase()=="false") ? false : true );
 			case "function":
-				if(value.search(/[^\w\.]+/i) == -1){
-					return dojo.getObject(value, false);
-				}else{
-					try{
+				try{
+					if(value.search(/[^\w\.]+/i) != -1){
 						// TODO: "this" here won't work
-						return dojo.lang.nameAnonFunc(new Function(value), this);
-					}catch(e){ return null; }
-				}
+						value = dojo.lang.nameAnonFunc(new Function(value), this);
+					}
+					return dojo.getObject(value, false);
+				}catch(e){ return new Function(); }
 			case "array":
 				return value.split(";");
 			case "date":

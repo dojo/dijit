@@ -15,6 +15,7 @@
 		<script type="text/javascript">
 			dojo.require("dijit.form.Textbox");
 			dojo.require("dijit.form.ValidationTextbox");
+			dojo.require("dijit.form.NumberTextbox");
 			dojo.require("dojo.validate.common");
 			dojo.require("dojo.validate.us");
 			dojo.require("dojo.date.format");
@@ -77,7 +78,9 @@
 
 	<body class=tundra>
 		<h2 class="pageSubContentTitle">Test Textbox Validation Widgets</h2>
-		<form  method="get" id="form1" action="">
+		<!--	to test form submission, you'll need to create an action handler similar to
+			http://www.utexas.edu/teamweb/cgi-bin/generic.cgi -->
+		<form id="form1" action="" name="example" method="post">
 
 			<div class="formQuestion">
 				<span class="emphasize"><label for="q01">First Name:  </label></span>
@@ -107,41 +110,41 @@
 			</div>
 			<div class="formAnswer">
 				<input id="q03" type="text" name="age" value="38" class="small"
-					dojoType="dijit.form.Textbox"
+					dojoType="dijit.form.NumberTextbox"
+					constraints={places:0,min:0,max:120}
+					onValueChanged="dojo.debug('onValueChanged fired for widget id = ' + this.id + ' with value = ' + arguments[0]);"
 					trim="true" 
-					digit="true" />
+					/>
 			</div>
 
 			<div class="formQuestion">
 				<span class="emphasize"><label for="q04">Occupation:  </label></span>
 				<span class="noticeMessage">ValidationTextbox class, 
-					Attributes: {lowercase: true, required: true}. Displays message if field is missing. </span>
+					Attributes: {lowercase: true, required: false}. Displays a prompt message if field is missing. </span>
 			</div>
 			<div class="formAnswer">
 				<input id="q04" type="text" name="occupation" class="medium"
 					dojoType="dijit.form.ValidationTextbox"
 					lowercase="true" 
-					required="true" 
-					missingMessage="* The occupation is required." />
+					promptMessage="Enter an occupation" />
 			</div>
 
 			<div class="formQuestion">
 				<span class="emphasize"><label for="q05">Elevation:  </label></span>
 				<span class="noticeMessage">IntegerTextbox class, 
-					Attributes: {trim: true, required: true, signed: true }, Enter feet above sea level with a sign.</span>
+					Attributes: {required: true, min:-20000, max:+20000 }, Enter feet above sea level with a sign.</span>
 			</div>
 			<div class="formAnswer">
 				<input id="q05" type="text" name="elevation" class="medium" value="300"
-					dojoType="dijit.form.ValidationTextbox"
-					regExpGen="dojo.regexp.integer"
-					constraints="{signed:true,min:-20000,max:20000}"
-					trim="true"
+					dojoType="dijit.form.NumberTextbox"
+					constraints={min:-20000,max:20000,places:0}
+					promptMessage="Enter a value between -20000 and +20000"
 					required="true" 
-					invalidMessage="Invalid elevation.  Be sure to use a plus or minus sign." />
+					invalidMessage="Invalid elevation." />
 			</div>
 
 			<div class="formQuestion">
-				<span class="emphasize"><label for="q06">Population:  </label></span>
+				<span class="emphasize"><label for="attach-here">Population:  </label></span>
 				<span class="noticeMessage">IntegerTextbox class, 
 					Attributes: {trim: true, required: true, signed: false, separator: ","}. <br><b> This widget was added in script, not markup. </b> </span>
 			</div>
@@ -413,7 +416,7 @@
 			<div class="formAnswer">
 				<input id="q22" type="text" name="phone" class="medium" value="someTestString"
 					dojoType="dijit.form.ValidationTextbox"
-					regExp="^[\w]+$"
+					regExp="[\w]+"
 					required="true" 
                     invalidMessage="Invalid Non-Space Text." />
 			</div>
@@ -439,7 +442,11 @@
 	}
 </script>
 
-			<div><button name="button" onclick="displayData(); return false;">view data</button></div>
+			<div>
+			<button name="button" onclick="displayData(); return false;">view data</button>
+			<input type="submit" name="submit" />
+			<input type="reset" name="reset" />
+			</div>
 
 		</form>
 	</body>
