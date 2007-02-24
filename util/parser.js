@@ -3,9 +3,10 @@ dojo.provide("dijit.util.parser");
 dojo.require("dojo.lang.type");
 dojo.require("dijit.util.manager");
 dojo.require("dojo.dom");
+dojo.require("dojo.query");
 
 // TODO:
-// - call something after all the other widgets have been created
+// - call startup() after all the other widgets have been created
 
 dijit.util.parser = new function(){
 
@@ -64,7 +65,7 @@ dijit.util.parser = new function(){
 		//	fully qualified name (like "dijit.Button")
 		// returns:
 		//	structure like
-		//	{ constructor: dijit.Button, params: {caption: "string", disabled: "boolean"} }
+		//	{ cls: dijit.Button, params: {caption: "string", disabled: "boolean"} }
 
 		if(!widgetClasses[className]){
 			// get pointer to widget class
@@ -78,48 +79,27 @@ dijit.util.parser = new function(){
 				var defVal = proto[name];
 				params[name]=val2type(defVal);
 			}
-			
+
 			widgetClasses[className] = { cls: cls, params: params };
 		}
 		return widgetClasses[className];
 	};
-
-	this.find = function(/*DomNode*/ rootNode){
-		// Summary
-		//		Search specified node (or root node) recursively for widgets, returning list like
-		//		{ node: pointer to dom node, cls: dijit.Button, parameters: {caption: "hello"} }
-		//		Searches for dojoType="qualified.class.name"
-
-		rootNode = rootNode || dojo.body();
-	
-		// Find nodes that are dojo widgets.
-		var nodes = [];
-		var allNodes = rootNode.all || rootNode.getElementsByTagName("*");
-		var i=0, node;
-		while (node = allNodes[i++]) {
-			var type = node.getAttribute ? node.getAttribute('dojoType') : null;
-			if(type){
-				var clsInfo = getWidgetClassInfo(type);
-				var params = {};
-				for(var attrName in clsInfo.params){
-					var attrValue = node.getAttribute(attrName);
-					if(attrValue != null){
-						var attrType = clsInfo.params[attrName];
-						params[attrName] = str2obj(attrValue, attrType);
-					}
-				}
-				nodes.push({node: node, cls: clsInfo.cls, params: params});
-			}
-		}
-		return nodes;
-	};
 	
 	this.instantiate = function(nodes){
 		// summary:
-		//	Takes array of {node: node_id/ptr to node, params: associative array of widget params}.
-		//	Creates said widgets
-		dojo.lang.forEach(nodes, function(ptr){
-			new ptr.cls(ptr.params, dojo.byId(ptr.node));
+		//	Takes array of nodes, and turns them into widgets
+		dojo.lang.forEach(nodes, function(node){
+			var type = node.getAttribute('dojoType');
+			var clsInfo = getWidgetClassInfo(type);
+			var params = {};
+			for(var attrName in clsInfo.params){
+				var attrValue = node.getAttribute(attrName);
+				if(attrValue != null){
+					var attrType = clsInfo.params[attrName];
+					params[attrName] = str2obj(attrValue, attrType);
+				}
+			}
+			new clsInfo.cls(params, node);
 		});
 	};
 
@@ -127,7 +107,7 @@ dijit.util.parser = new function(){
 		// Summary
 		//		Search specified node (or root node) recursively for widgets, and instantiate them
 		//		Searches for dojoType="qualified.class.name"
-		var list = this.find(rootNode);
+		var list = dojo.query('[dojoType]', rootNode);
 		this.instantiate(list);
 	};
 }();
