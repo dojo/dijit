@@ -19,11 +19,29 @@
 		<script type="text/javascript" src="../../dojo/dojo.js"></script>
 		<script language="JavaScript" type="text/javascript">
 			dojo.registerModulePath("dijit", "../dijit");
-			dojo.require("dijit.Button");
 			dojo.require("dijit.util.parser");	// scan page for widgets and instantiate them
+			dojo.require("dijit.base.Widget");
+			dojo.require("dijit.base.TemplatedWidget");
+
+			/* dummy widget for benchmarking purposes */
+			dojo.declare(
+				"dijit.Button",
+				[dijit.base.Widget, dijit.base.TemplatedWidget],
+				function(){  },
+				{
+					caption: "",
+			
+					templateString: "<button dojoAttachEvent='onClick'>${this.caption}</button>",
+			
+					onClick: function(){
+						this.domNode.style.backgroundColor="green";
+					},
+					postCreate: function(){
+					}
+				}
+			);
 			dojo.hostenv.writeIncludes();
 		</script>
-
 	</head>
 	<body>
 		<h1 style="font-size: 40px; line-height: 50px;">This page contains a huge number of nodes, most of which are "chaff".</h1>
