@@ -89,6 +89,7 @@ dijit.util.parser = new function(){
 		// summary:
 		//	Takes array of nodes, and turns them into widgets
 		dojo.lang.forEach(nodes, function(node){
+			if(!node){ return; }
 			var type = node.getAttribute('dojoType');
 			var clsInfo = getWidgetClassInfo(type);
 			var params = {};
