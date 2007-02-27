@@ -113,7 +113,7 @@ dojo.declare(
 			if(this.disabled == false){
 				this.setValue(!this.checked);
 			}
-			e.stopPropagation();
+			dojo.event.browser.stopEvent(e);
 			this.onClick();
 		},
 
