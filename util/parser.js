@@ -32,7 +32,11 @@ dijit.util.parser = new function(){
 			case "string":
 				return value;
 			case "number":
-				return new Number(value);
+				if (value && value.length > 0) {
+					return new Number(value);
+				}else{
+					return null;
+				}
 			case "boolean":
 				return dojo.lang.isBoolean(value) ? value : ( (value.toLowerCase()=="false") ? false : true );
 			case "function":
@@ -46,7 +50,18 @@ dijit.util.parser = new function(){
 			case "array":
 				return value.split(";");
 			case "date":
-				return new Date(Number(value));// assume timestamp
+				var date = null;
+				if (value && value.length > 0) {
+					try {
+						date = dojo.date.fromRfc3339(value);
+					} catch(e) {}
+					if (!(date instanceof Date)){
+						try {
+							date = new Date(Number(value));// assume timestamp
+						} catch(e) {}
+					}
+				}
+				return date;
 			case "uri":
 				return dojo.uri.dojoUri(value);
 			default:

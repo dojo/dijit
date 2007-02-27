@@ -12,7 +12,12 @@ dojo.declare(
 		// constraints object: min, max, places
 
 		regExpGen: dojo.number.regexp,
-	
-		parse: dojo.number.parse
+		format: dojo.number.format,
+		parse: dojo.number.parse,
+		value: new Number(),
+		compare: function(val1, val2){
+			// summary: compare 2 numbers
+			try{ return (val1 - val2); } catch(e){ return 0; }
+		}
 	}
 );

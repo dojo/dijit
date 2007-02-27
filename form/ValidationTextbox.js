@@ -85,11 +85,11 @@ dojo.declare(
 		getErrorMessage: function(/* Boolean*/ isFocused){
 			if (this.isMissing(isFocused)){ 
 				return (this.promptMessage == "" || !isFocused) ? this.missingMessage : this.promptMessage;
-			}else if(!this.isValid(isFocused)){ return this.invalidMessage; }
+			}else if(( this.required || !this.isEmpty() ) && !this.isValid(isFocused)){ return this.invalidMessage; }
 		},
 
 		getWarningMessage: function(/* Boolean*/ isFocused){
-			if(this.isMissing(false) || !this.isValid(false)){ return this.promptMessage; }
+			if(this.isMissing(false) || (( this.required || !this.isEmpty() ) && !this.isValid(false))){ return this.promptMessage; }
 		},
 
 		getValidMessage: function(/* Boolean*/ isFocused){
@@ -105,16 +105,16 @@ dojo.declare(
 			// allow base class to handle onValueChanged events
 			dijit.form.ValidationTextbox.superclass.setValue.call(this, this.getValue());
 			var message = this.getErrorMessage(isFocused);
-			if (message){
+			if (typeof message == "string"){
 				var _class = "dojoInputFieldValidationError";
 			}else{
 				message = this.getWarningMessage(isFocused);
-				if (message){
+				if (typeof message == "string"){
 					var _class = "dojoInputFieldValidationWarning";
 				}else{ 
 					var _class = "dojoInputField";
 					message = this.getValidMessage(isFocused);
-					if (!message){ message = ""; }
+					if (typeof message != "string"){ message = ""; }
 				}
 			}
 			this.messageSpan.innerHTML = message;
@@ -141,7 +141,7 @@ dojo.declare(
 			this.update(false); 
 		},
 	
-		postMixInProperties: function(localProperties, frag){
+		postMixInProperties: function(){
 			dijit.form.ValidationTextbox.superclass.postMixInProperties.apply(this, arguments);
 			this.messages = dojo.i18n.getLocalization("dijit.form", "validate", this.lang);
 			dojo.lang.forEach(["invalidMessage", "missingMessage"], function(prop){
@@ -149,6 +149,8 @@ dojo.declare(
 			}, this);
 			var p = this.regExpGen(this.constraints);
 			this.regExp = p;
+			// make value a string for all types so that form reset works well
+			this.value = (this.value == null || this.value == "") ? "" : this.format(this.value, this.constraints);
 		},
 	
 		postCreate: function(){
@@ -159,6 +161,8 @@ dojo.declare(
 			// TODO: this is unorthodox; it seems better to do it another way -- Bill
 			this.textbox.isValid = function(){ this.isValid.call(this); };
 			this.textbox.isMissing = function(){ this.isMissing.call(this); };
+			// setting the value here is needed since value="" in the template causes "undefined" on form reset
+			this.textbox.setAttribute("value", this.value);
 			this.update(false); 
 		}
 	}
@@ -172,9 +176,13 @@ dojo.declare(
 		//		A subclass of ValidationTextbox.
 		//		Provides a hidden input field and a serialize method to override
 
+		toString: function(val){
+			return val.toString();
+		},
+
 		serialize: function(val){
 			// summary: user replaceable function used to convert the getValue() result to a String
-			return val.toString();
+			return val ? this.toString(val) : "";
 		},
 
 		update: function(){
@@ -218,7 +226,7 @@ dojo.declare(
 
 		compare: function(val1, val2){
 			// summary: user replaceable function used to compare 2 parsed/primitive values
-			try{ return (val1 - val2); } catch(e){ return 0; }
+			return 0;
 		},
 
 		rangeCheck: function(/* Number */ primitive, /* Object */ constraints){
@@ -238,12 +246,12 @@ dojo.declare(
 	
 		getErrorMessage: function(/* Boolean*/ isFocused){
 			var msg = dijit.form.RangeBoundTextbox.superclass.getErrorMessage.apply(this, arguments);
-			if (typeof msg == "undefined"){
-				if (!this.isInRange(isFocused)){ return this.rangeMessage; }
+			if (typeof msg != "string"){
+				if (this.isValid(false) && !this.isInRange(isFocused)){ return this.rangeMessage; }
 			}else{ return msg; }
 		},
 
-		postMixInProperties: function(localProperties, frag){
+		postMixInProperties: function(){
 			dijit.form.RangeBoundTextbox.superclass.postMixInProperties.apply(this, arguments);
 			if (!this.rangeMessage){ 
 				this.messages = dojo.i18n.getLocalization("dijit.form", "validate", this.lang);
