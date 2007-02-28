@@ -8,7 +8,7 @@ dijit.util.manager = new function(){
 	// summary
 	//	manager class for the widgets.
 
-	this.widgets = {};
+	var widgets = {};
 	
 	var widgetTypeCtr = {};
 
@@ -26,7 +26,7 @@ dijit.util.manager = new function(){
 		if(!widget.id){
 			widget.id = this.getUniqueId(widget.declaredClass.replace("\.","_"));
 		}
-		this.widgets[widget.id] = widget;
+		widgets[widget.id] = widget;
 		//dojo.profile.end("dojo.widget.manager.add");
 	}
 
@@ -36,40 +36,27 @@ dijit.util.manager = new function(){
 
 	this.remove = function(id) {
 		try{
-			var widget = this.widgets[id];
+			var widget = widgets[id];
 			widget.destroy(true);
-			this.widgets[id] = null;
+			widgets[id] = null;
 			delete widget;
 		}catch(e){ }
 	}
 
 	this.byId = function(id){
-		return this.widgets[id];
-	}
-
-	this.byType = function(type){
-		var lt = type.toLowerCase();
-		var getType = (type.indexOf(":") < 0 ? 
-			function(x) { return x.widgetType.toLowerCase(); } :
-			function(x) { return x.getNamespacedType(); }
-		);
-		return dojo.lang.filter(this.getAllWidgets(), function(x){ return getType(x) == lt; });
-	}
-
-	this.byFilter = function(unaryFunc){
-		return dojo.lang.filter(this.getAllWidgets(), unaryFunc);
+		return widgets[id];
 	}
 
 	this.getAllWidgets = function() {
 		var ary = [];
-		for(var widget in this.widgets){
-			ary.push(this.widgets[widget]);
+		for(var widget in widgets){
+			ary.push(widgets[widget]);
 		}
 		return ary;
 	}
 
 	this.byNode = function(/* DOMNode */ node){
-		return this.widgets[node.id];
+		return widgets[node.widgetId];
 	}
 };
 
@@ -77,5 +64,4 @@ dojo.addOnUnload(function(){
 	dijit.util.manager.destroyAll();
 });
 
-dijit.byId = function(){ dijit.util.manager.byId.apply(dijit.util.manager, arguments); };
-
+dijit.byId = dijit.util.manager.byId;
