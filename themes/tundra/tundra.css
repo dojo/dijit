@@ -132,3 +132,33 @@
 	padding-top:0.25em;
 	background:#c46600;
 } 
+
+.dojoProgressBarBackBar{
+	position:relative;overflow:hidden;
+	border:1px solid #84a3d1;
+}
+
+.dojoProgressBarFrontBar{
+	background:url("bar.gif") repeat bottom left;
+	background-attachment: fixed;
+}
+
+.dojoProgressBarHFrontBar{
+	background:url("h-bar.gif") repeat bottom left;
+	background-attachment: fixed;
+}
+
+.dojoProgressBarSimpleFrontBar{
+	background: red;
+}
+
+.dojoProgressBarFrontPercent,.dojoProgressBarBackPercent{
+	font:bold 13px helvetica;
+}
+
+.dojoProgressBarBackPercent{
+	color:#293a4b;
+}
+.dojoProgressBarFrontPercent{
+	color:#fff;
+}
