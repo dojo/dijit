@@ -77,4 +77,5 @@ dojo.addOnUnload(function(){
 	dijit.util.manager.destroyAll();
 });
 
-dijit.byId = dijit.util.manager.byId;
+dijit.byId = function(){ dijit.util.manager.byId.apply(dijit.util.manager, arguments); };
+
