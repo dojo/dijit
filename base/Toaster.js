@@ -25,23 +25,23 @@ dojo.declare(
 		// messageTopic: String
 		//		Name of topic; anything published to this topic will be displayed as a message.
 		//		Message format is either String or an object like
-		//		{message: "hello word", type: "ERROR", duration: 500}
+		//		{message: "hello word", type: "error", duration: 500}
 		messageTopic: "",
 		
 		// messageTypes: Enumeration
 		//		Possible message types.
 		messageTypes: {
-			MESSAGE: "MESSAGE",
-			WARNING: "WARNING",
-			ERROR: "ERROR",
-			FATAL: "FATAL"
+			MESSAGE: "message",
+			WARNING: "warning",
+			ERROR: "error",
+			FATAL: "fatal"
 		},
 		
 		// defaultType: String
 		//		If message type isn't specified (see "messageTopic" parameter),
 		//		then display message as this type.
-		//		Possible values in messageTypes enumeration ("MESSAGE", "WARNING", "ERROR", "FATAL")
-		defaultType: "MESSAGE",
+		//		Possible values in messageTypes enumeration ("message", "warning", "error", "fatal")
+		defaultType: "message",
 
 		// css classes
 		clipCssClass: "dojoToasterClip",
@@ -65,20 +65,12 @@ dojo.declare(
 		//		Number of milliseconds to show message
 		duration: "2000",
 
-		// showDelay: Integer
-		//		Deprecated and replaced by Duration -- Number of milliseconds to show message
-		showDelay: "",
-
 		//separator: String
 		//		String used to separate messages if consecutive calls are made to setContent before previous messages go away
-		separator: "<hr>",
+		separator: "<hr></hr>",
 
 		postCreate: function(){
 			dijit.base.Toaster.superclass.postCreate.apply(this);
-			if(this.showDelay!=''){
-				dojo.deprecated("dijit.base.Toaster", "use 'duration' instead of 'showDelay'", "0.6");
-				this.duration = this.showDelay;
-			}
 			this.hide();
 			dojo.html.setClass(this.clipNode, this.clipCssClass);
 			dojo.html.addClass(this.containerNode, this.containerCssClass);
@@ -87,7 +79,7 @@ dojo.declare(
 				dojo.event.topic.subscribe(this.messageTopic, this, "_handleMessage");
 			}
 			if(!this.positionDirection || !dojo.lang.inArray(this.positionDirectionTypes, this.positionDirection)){
-				this.positionDirection = this.positionDirectionTypes.BRU;//FIXME
+				this.positionDirection = this.positionDirectionTypes[0];
 			}
 		},
 
@@ -95,7 +87,7 @@ dojo.declare(
 			if(dojo.lang.isString(msg)){
 				this.setContent(msg);
 			}else{
-				this.setContent(msg["message"], msg["type"], msg["duration"]);
+				this.setContent(msg.message, msg.type, msg.duration);
 			}
 		},
 
@@ -105,19 +97,16 @@ dojo.declare(
 			// msg: String
 			//		the message
 			// messageType: Enumeration
-			//		type of message; possible values in messageTypes array ("MESSAGE", "WARNING", "ERROR", "FATAL")
+			//		type of message; possible values in messageTypes array ("message", "warning", "error", "fatal")
 			// duration: Integer
 			//		duration in milliseconds to display message before removing it
 			duration = duration||this.duration;
 			// sync animations so there are no ghosted fades and such
-			if(this.slideAnim && this.slideAnim.status() == "playing"){
-				dojo.lang.setTimeout(50, dojo.lang.hitch(this, function(){
-					this.setContent(msg, messageType);
-				}));
-				return;
-			}else if(this.slideAnim){
-				this.slideAnim.stop();
-				if(this.fadeAnim && this.fadeAnim.status() == "playing"){
+			if(this.slideAnim){
+				if(this.slideAnim.status() != "playing"){
+					this.slideAnim.stop();
+				}
+				if(this.slideAnim.status() == "playing" || (this.fadeAnim && this.fadeAnim.status() == "playing")){
 					dojo.lang.setTimeout(50, dojo.lang.hitch(this, function(){
 						this.setContent(msg, messageType);
 					}));
@@ -134,42 +123,26 @@ dojo.declare(
 			}
 
 			// determine type of content and apply appropriately
-			dojo.html.removeClass(this.containerNode, this.messageCssClass);
-			dojo.html.removeClass(this.containerNode, this.warningCssClass);
-			dojo.html.removeClass(this.containerNode, this.errorCssClass);
-			dojo.html.removeClass(this.containerNode, this.fatalCssClass);
-
+			for(var type in this.messageTypes){
+				dojo.html.removeClass(this.containerNode, this[this.messageTypes[type]+"CssClass"]);
+			}
 			dojo.html.clearOpacity(this.containerNode);
 
-			var tmpMsg;
+			var newMsg;
 			if(msg instanceof String || typeof msg == "string"){
-				tmpMsg = msg;
+				newMsg = msg;
 			}else if(dojo.html.isNode(msg)){
-				tmpMsg = dojo.html.getContentAsString(msg);
+				newMsg = dojo.html.getContentAsString(msg);
 			}else{
 				dojo.raise("Toaster.setContent(): msg is of unknown type:" + msg);
 			}
-			var curMsg = this.contentNode.innerHTML;
-			if(tmpMsg&&this.isVisible){
-				this.contentNode.innerHTML = curMsg + "<br>" + this.separator + "<br>" + tmpMsg;
-			}else{
-				this.contentNode.innerHTML = tmpMsg;
+
+			if(newMsg && this.isVisible){
+				newMsg = this.contentNode.innerHTML + "<br>" + this.separator + "<br>" + newMsg;
 			}
-			switch(messageType){
-				case this.messageTypes.WARNING:
-					dojo.html.addClass(this.containerNode, this.warningCssClass);
-					break;
-				case this.messageTypes.ERROR:
-					dojo.html.addClass(this.containerNode, this.errorCssClass);
-					break;
-				case this.messageTypes.FATAL:
-					dojo.html.addClass(this.containerNode, this.fatalCssClass);
-					break;
-				case this.messageTypes.MESSAGE:
-				default:
-					dojo.html.addClass(this.containerNode, this.messageCssClass);
-					break;
-			}
+			this.contentNode.innerHTML = newMsg;
+
+			dojo.html.addClass(this.containerNode, this[messageType+"CssClass"] || this[this.defaultType+"CssClass"]);
 
 			// now do funky animation of widget appearing from
 			// bottom right of page and up
@@ -179,21 +152,23 @@ dojo.declare(
 			if(this.isVisible){
 				this._placeClip();
 			}else{
+				var style = this.containerNode.style;
+				var pd = this.positionDirection;
 				// sets up initial position of container node and slide-out direction
-				if(this.positionDirection.indexOf("-up") >= 0){
-					this.containerNode.style.left=0+"px";
-					this.containerNode.style.top=nodeSize.height + 10 + "px";
-				}else if(this.positionDirection.indexOf("-left") >= 0){
-					this.containerNode.style.left=nodeSize.width + 10 +"px";
-					this.containerNode.style.top=0+"px";
-				}else if(this.positionDirection.indexOf("-right") >= 0){
-					this.containerNode.style.left = 0 - nodeSize.width - 10 + "px";
-					this.containerNode.style.top = 0+"px";
-				}else if(this.positionDirection.indexOf("-down") >= 0){
-					this.containerNode.style.left = 0+"px";
-					this.containerNode.style.top = 0 - nodeSize.height - 10 + "px";
+				if(pd.indexOf("-up") >= 0){
+					style.left=0+"px";
+					style.top=nodeSize.height + 10 + "px";
+				}else if(pd.indexOf("-left") >= 0){
+					style.left=nodeSize.width + 10 +"px";
+					style.top=0+"px";
+				}else if(pd.indexOf("-right") >= 0){
+					style.left = 0 - nodeSize.width - 10 + "px";
+					style.top = 0+"px";
+				}else if(pd.indexOf("-down") >= 0){
+					style.left = 0+"px";
+					style.top = 0 - nodeSize.height - 10 + "px";
 				}else{
-					dojo.raise(this.widgetId + ".positionDirection is an invalid value: " + this.positionDirection);
+					dojo.raise(this.widgetId + ".positionDirection is an invalid value: " + pd);
 				}
 
 				this.slideAnim = dojo.lfx.html.slideTo(
@@ -243,23 +218,25 @@ dojo.declare(
 
 			var nodeSize = dojo.html.getMarginBox(this.containerNode);
 
+			var style = this.clipNode.style;
 			// sets up the size of the clipping node
-			this.clipNode.style.height = nodeSize.height+"px";
-			this.clipNode.style.width = nodeSize.width+"px";
+			style.height = nodeSize.height+"px";
+			style.width = nodeSize.width+"px";
 
 			// sets up the position of the clipping node
-			if(this.positionDirection.match(/^t/)){
-				this.clipNode.style.top = scroll.top+"px";
-			}else if(this.positionDirection.match(/^b/)){
-				this.clipNode.style.top = (view.height - nodeSize.height - 2 + scroll.top)+"px";
+			var pd = this.positionDirection;
+			if(pd.match(/^t/)){
+				style.top = scroll.top+"px";
+			}else if(pd.match(/^b/)){
+				style.top = (view.height - nodeSize.height - 2 + scroll.top)+"px";
 			}
-			if(this.positionDirection.match(/^[tb]r-/)){
-				this.clipNode.style.left = (view.width - nodeSize.width - 1 - scroll.left)+"px";
-			}else if(this.positionDirection.match(/^[tb]l-/)){
-				this.clipNode.style.left = 0 + "px";
+			if(pd.match(/^[tb]r-/)){
+				style.left = (view.width - nodeSize.width - 1 - scroll.left)+"px";
+			}else if(pd.match(/^[tb]l-/)){
+				style.left = 0 + "px";
 			}
 
-			this.clipNode.style.clip = "rect(0px, " + nodeSize.width + "px, " + nodeSize.height + "px, 0px)";
+			style.clip = "rect(0px, " + nodeSize.width + "px, " + nodeSize.height + "px, 0px)";
 			if(dojo.render.html.ie){
 				if(!this.bgIframe){
 					this.bgIframe = new dojo.html.BackgroundIframe(this.clipNode);
