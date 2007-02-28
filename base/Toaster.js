@@ -83,23 +83,23 @@ dojo.declare(
 			}
 		},
 
-		_handleMessage: function(msg){
-			if(dojo.lang.isString(msg)){
-				this.setContent(msg);
+		_handleMessage: function(/*String|Object*/message){
+			if(dojo.lang.isString(message)){
+				this.setContent(message);
 			}else{
-				this.setContent(msg.message, msg.type, msg.duration);
+				this.setContent(message.message, message.type, message.duration);
 			}
 		},
 
-		setContent: function(msg, messageType, duration){
+		setContent: function(/*String|Node*/message, /*String*/messageType, /*int?*/duration){
 			// summary
 			//		sets and displays the given message and show duration
-			// msg: String
+			// message:
 			//		the message
-			// messageType: Enumeration
-			//		type of message; possible values in messageTypes array ("message", "warning", "error", "fatal")
-			// duration: Integer
-			//		duration in milliseconds to display message before removing it
+			// messageType:
+			//		type of message; possible values in messageTypes enumeration ("message", "warning", "error", "fatal")
+			// duration:
+			//		duration in milliseconds to display message before removing it. Widget has default value.
 			duration = duration||this.duration;
 			// sync animations so there are no ghosted fades and such
 			if(this.slideAnim){
@@ -108,16 +108,12 @@ dojo.declare(
 				}
 				if(this.slideAnim.status() == "playing" || (this.fadeAnim && this.fadeAnim.status() == "playing")){
 					dojo.lang.setTimeout(50, dojo.lang.hitch(this, function(){
-						this.setContent(msg, messageType);
+						this.setContent(message, messageType);
 					}));
 					return;
 				}
 			}
 
-			if(!msg){
-				dojo.debug(this.widgetId + ".setContent() incoming content was null, ignoring.");
-				return;
-			}
 			if(!this.positionDirection || !dojo.lang.inArray(this.positionDirectionTypes, this.positionDirection)){
 				dojo.raise(this.widgetId + ".positionDirection is an invalid value: " + this.positionDirection);
 			}
@@ -128,19 +124,19 @@ dojo.declare(
 			}
 			dojo.html.clearOpacity(this.containerNode);
 
-			var newMsg;
-			if(msg instanceof String || typeof msg == "string"){
-				newMsg = msg;
-			}else if(dojo.html.isNode(msg)){
-				newMsg = dojo.html.getContentAsString(msg);
+			var newMessage;
+			if(message instanceof String || typeof message == "string"){
+				newMessage = message;
+			}else if(dojo.html.isNode(message)){
+				newMessage = dojo.html.getContentAsString(message);
 			}else{
-				dojo.raise("Toaster.setContent(): msg is of unknown type:" + msg);
+				dojo.raise("Toaster.setContent(): message is of unknown type:" + message);
 			}
 
-			if(newMsg && this.isVisible){
-				newMsg = this.contentNode.innerHTML + "<br>" + this.separator + "<br>" + newMsg;
+			if(newMessage && this.isVisible){
+				newMessage = this.contentNode.innerHTML + "<br>" + this.separator + "<br>" + newMessage;
 			}
-			this.contentNode.innerHTML = newMsg;
+			this.contentNode.innerHTML = newMessage;
 
 			dojo.html.addClass(this.containerNode, this[messageType+"CssClass"] || this[this.defaultType+"CssClass"]);
 
@@ -247,11 +243,12 @@ dojo.declare(
 			}
 		},
 
-		onSelect: function(e){
+		onSelect: function(/*Event*/e){
 			// summary: callback for when user clicks the message
 		},
 
 		show: function(){
+			// summary: show the Toaster
 			dojo.html.show(this.containerNode);
 
 			this._placeClip();
@@ -263,6 +260,8 @@ dojo.declare(
 		},
 
 		hide: function(){
+			// summary: hide the Toaster
+
 			//Q: ALP: I didn't port all the toggler stuff from d.w.HtmlWidget.  Is it needed? Ditto for show.
 			dojo.html.hide(this.containerNode);
 
