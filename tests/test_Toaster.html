@@ -3,11 +3,11 @@
 <html>
 <head>
 <title>Toaster Widget Dojo Tests</title>
-<link rel=stylesheet href="../../themes/tundra/tundra.css" type="text/css">
+<link rel=stylesheet href="../themes/tundra/tundra.css" type="text/css">
 <script type="text/javascript"> djConfig = { isDebug: true }; </script>
-<script type="text/javascript" src="../../../dojo/dojo.js"></script>
+<script type="text/javascript" src="../../dojo/dojo.js"></script>
 <script language="JavaScript" type="text/javascript">
-	dojo.require("dijit.base.Toaster");
+	dojo.require("dijit.Toaster");
 	dojo.require("dijit.util.manager");
 	dojo.require("dijit.util.parser");	// scan page for widgets and instantiate them
 	dojo.hostenv.writeIncludes();
@@ -25,13 +25,13 @@
 	}
 
 	dojo.addOnLoad(function(){
-		toast = dijit.util.manager.byId("toast");
+		toast = dijit.byId("toast");
 	});
 </script>
 </head>
 <body>
-<div dojoType="dijit.base.Toaster" id="toast" positionDirection="br-left" duration="0" messageTopic="testMessageTopic"></div>
-<div dojoType="dijit.base.Toaster" id="toast2" separator="&lt;hr&gt;" positionDirection="bl-up" messageTopic="testMessageTopic"></div>
+<div dojoType="dijit.Toaster" id="toast" positionDirection="br-left" duration="0" messageTopic="testMessageTopic"></div>
+<div dojoType="dijit.Toaster" id="toast2" separator="&lt;hr&gt;" positionDirection="bl-up" messageTopic="testMessageTopic"></div>
 <button type="submit" onclick="showTestMessage();">Click to show message</button><button type="submit" onclick="showAnotherMessage();">Click to show another message</button><button type="submit" onclick="showYetAnotherMessage();">Click to show yet another message</button>
 <div style="color: #FF0000;">
 When you click any of the buttons above, the bottom right hand message will stay on the screen until you acknowledge it by clicking inside the message box. If you click one of the message buttons while a message is still displayed in the bottom right corner it should append the new message below the old one with a separator between them.

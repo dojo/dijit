@@ -1,9 +1,10 @@
-dojo.provide("dijit.base.Toaster");
+dojo.provide("dijit.Toaster");
 
 dojo.require("dojo.event.common");
 dojo.require("dojo.event.topic");
 dojo.require("dojo.lfx.html");
 dojo.require("dojo.html.iframe");
+dojo.require("dojo.string.extras");
 
 dojo.require("dijit.base.Widget");
 dojo.require("dijit.base.TemplatedWidget");
@@ -13,7 +14,7 @@ dojo.require("dijit.base.TemplatedWidget");
 // Modified by Karl Tiedt to support 0 duration messages that require user interaction and message stacking
 
 dojo.declare(
-	"dijit.base.Toaster",
+	"dijit.Toaster",
 	[dijit.base.Widget, dijit.base.TemplatedWidget],
 	null,
 	{
@@ -36,28 +37,19 @@ dojo.declare(
 			ERROR: "error",
 			FATAL: "fatal"
 		},
-		
+
 		// defaultType: String
 		//		If message type isn't specified (see "messageTopic" parameter),
 		//		then display message as this type.
 		//		Possible values in messageTypes enumeration ("message", "warning", "error", "fatal")
 		defaultType: "message",
 
-		// css classes
-		clipCssClass: "dojoToasterClip",
-		containerCssClass: "dojoToasterContainer",
-		contentCssClass: "dojoToasterContent",
-		messageCssClass: "dojoToasterMessage",
-		warningCssClass: "dojoToasterWarning",
-		errorCssClass: "dojoToasterError",
-		fatalCssClass: "dojoToasterFatal",
-
 		// positionDirection: String
 		//		Position from which message slides into screen, one of
 		//		["br-up", "br-left", "bl-up", "bl-right", "tr-down", "tr-left", "tl-down", "tl-right"]
 		positionDirection: "br-up",
 		
-		// positionDirectionTypes: Enumeration
+		// positionDirectionTypes: Array
 		//		Possible values for positionDirection parameter
 		positionDirectionTypes: ["br-up", "br-left", "bl-up", "bl-right", "tr-down", "tr-left", "tl-down", "tl-right"],
 
@@ -70,16 +62,14 @@ dojo.declare(
 		separator: "<hr></hr>",
 
 		postCreate: function(){
-			dijit.base.Toaster.superclass.postCreate.apply(this);
+			dijit.Toaster.superclass.postCreate.apply(this);
 			this.hide();
-			dojo.html.setClass(this.clipNode, this.clipCssClass);
-			dojo.html.addClass(this.containerNode, this.containerCssClass);
-			dojo.html.setClass(this.contentNode, this.contentCssClass);
+
+			dojo.html.setClass(this.clipNode, "dojoToasterClip");
+			dojo.html.addClass(this.containerNode, "dojoToasterContainer");
+			dojo.html.setClass(this.contentNode, "dojoToasterContent");
 			if(this.messageTopic){
 				dojo.event.topic.subscribe(this.messageTopic, this, "_handleMessage");
-			}
-			if(!this.positionDirection || !dojo.lang.inArray(this.positionDirectionTypes, this.positionDirection)){
-				this.positionDirection = this.positionDirectionTypes[0];
 			}
 		},
 
@@ -114,31 +104,22 @@ dojo.declare(
 				}
 			}
 
-			if(!this.positionDirection || !dojo.lang.inArray(this.positionDirectionTypes, this.positionDirection)){
-				dojo.raise(this.widgetId + ".positionDirection is an invalid value: " + this.positionDirection);
-			}
-
 			// determine type of content and apply appropriately
 			for(var type in this.messageTypes){
-				dojo.html.removeClass(this.containerNode, this[this.messageTypes[type]+"CssClass"]);
+				dojo.html.removeClass(this.containerNode, "dojoToaster" + dojo.string.capitalize(this.messageTypes[type]));
 			}
 			dojo.html.clearOpacity(this.containerNode);
 
-			var newMessage;
-			if(message instanceof String || typeof message == "string"){
-				newMessage = message;
-			}else if(dojo.html.isNode(message)){
-				newMessage = dojo.html.getContentAsString(message);
-			}else{
-				dojo.raise("Toaster.setContent(): message is of unknown type:" + message);
+			if(dojo.html.isNode(message)){
+				message = dojo.html.getContentAsString(message);
 			}
 
-			if(newMessage && this.isVisible){
-				newMessage = this.contentNode.innerHTML + "<br>" + this.separator + "<br>" + newMessage;
+			if(message && this.isVisible){
+				message = this.contentNode.innerHTML + this.separator + message;
 			}
-			this.contentNode.innerHTML = newMessage;
+			this.contentNode.innerHTML = message;
 
-			dojo.html.addClass(this.containerNode, this[messageType+"CssClass"] || this[this.defaultType+"CssClass"]);
+			dojo.html.addClass(this.containerNode, "dojoToaster" + dojo.string.capitalize(messageType || this.defaultType));
 
 			// now do funky animation of widget appearing from
 			// bottom right of page and up
