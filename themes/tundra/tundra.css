@@ -148,17 +148,13 @@
 	background-attachment: fixed;
 }
 
-.dojoProgressBarSimpleFrontBar{
-	background: red;
-}
-
-.dojoProgressBarFrontPercent,.dojoProgressBarBackPercent{
+.dojoProgressBarFrontLabel,.dojoProgressBarBackLabel{
 	font:bold 13px helvetica;
 }
 
-.dojoProgressBarBackPercent{
+.dojoProgressBarBackLabel{
 	color:#293a4b;
 }
-.dojoProgressBarFrontPercent{
+.dojoProgressBarFrontLabel{
 	color:#fff;
 }
