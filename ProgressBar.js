@@ -36,7 +36,7 @@ dojo.declare(
 		//   duration="..."
 		//   places="0" width="..." height="..." dataSource="..."
 		//   pollInterval="..." 
-		//   numeric="true|false" orientation="vertical" 
+		//   annotate="true|false" orientation="vertical" 
 		//   progress="..." maximum="..."></div>
 	
 		// progress: String (Percentage or Number)
@@ -61,18 +61,18 @@ dojo.declare(
 		// Plain background color; default uses textured pattern
 		color: "",
 
-		// numeric: Boolean
-		// if true, the percent label is visible
-		numeric: false,
-
 		// orientation: String
 		// whether bar grows along the x-axis (default) or y- axis (vertical)
 		orientation: "",
 
+		// annotate: Boolean
+		// if true, the percent label is visible
+		annotate: false,
+
 		// places: Number
-		// number of places to show in percent values; 0 by default
+		// number of places to show in values; 0 by default
 		places: 0,
-		
+
 		// dataSource: String
 		// dataSource uri for server polling
 		dataSource: "",
@@ -87,9 +87,6 @@ dojo.declare(
 
 		templatePath: dojo.uri.moduleUri("dijit", "templates/ProgressBar.html"),		
 
-		_percent: 0.0,
-		_animationStopped: true,
-
 		// public functions
 		postCreate: function(){
 			dijit.ProgressBar.superclass.postCreate.apply(this, arguments);
@@ -98,7 +95,6 @@ dojo.declare(
 			}else{
 				dojo.html.setClass(this.internalProgress, "dojoProgressBarFull");
 			}
-			dojo.html.setClass(this.containerNode, "dojoProgressBarEmpty");
 			if(this.orientation == "vertical"){
 				dojo.html.addClass(this.containerNode, "dojoProgressBarVertical");
 				this.internalProgress.style.bottom="0px";
@@ -111,82 +107,80 @@ dojo.declare(
 			}
 			this.domNode.style.height = this.height + "px"; 
 			this.domNode.style.width = this.width + "px";
-			this.setMaximum(this.maximum, true);
-			this.setProgress(this.progress, true);
-			this.showLabel(this.numeric);
-			this.render();
+			this.update();
 		},
-		showLabel: function(/*Boolean*/visible){
-			// summary: shows or hides the labels
-			var display = visible ? "block" : "none";
-			this.backLabel.style.display=display;
-			this.frontLabel.style.display=display;
-			this.numeric = visible;
+
+		update: function(/*Object*/attributes){
+			// summary: update progress information
+			//
+			// attributes: may provide progress and/or maximum properties on this parameter,
+			//	see attribute specs for details.
+			dojo.lang.mixin(this, attributes);
+			var percent;
+			if(String(this.progress).indexOf("%") != -1){
+				percent = Math.min(parseFloat(this.progress)/100, 1);
+				this.progress = percent * this.maximum;
+			}else{
+				this.progress = Math.min(this.progress, this.maximum);
+				percent = this.progress / this.maximum;
+			}
+
+			if(!this._animationStopped){return;}
+
+			var pixels = percent * this[this._dimension];
+			this.internalProgress.style[this._dimension] = pixels + 'px';
+
+			var display = this.annotate ? "block" : "none";
+			dojo.lang.forEach(["front", "back"], function(name){
+				var labelNode = this[name+"Label"];
+				dojo.dom.textContent(labelNode, this.report(percent));
+
+				labelNode.style.display = display;
+
+				var dim = dojo.html.getContentBox(labelNode);
+				var labelLeft = (this.width - dim.width)/2;
+				var labelBottom = (this.height - dim.height)/2;
+				labelNode.style.left = labelLeft + "px";
+				labelNode.style.bottom = labelBottom + "px";
+			}, this);
+
+			this.onChange();
 		},
+
+		report: function(/*float*/percent){
+			// Generates percentage to overlay; may be overridden by user
+			return dojo.number.format(percent, {type: "percent", places: this.places});
+		},
+
+		_animationStopped: true,
+
 		_setupAnimation: function(){
 			var self = this;
 			this._animation = dojo.lfx.html.slideTo(this.internalProgress, 
 				{top: 0, left: parseInt(this.width)-parseInt(this.internalProgress.style.width)}, parseInt(this.duration), null, 
-					function(){
-						var _backAnim = dojo.lfx.html.slideTo(self.internalProgress, 
-						{ top: 0, left: 0 }, parseInt(self.duration));
-						dojo.event.connect(_backAnim, "onEnd", function(){
-							if(!self._animationStopped){
-								self._animation.play();
-							}
-							});
+				function(){
+					var backAnim = dojo.lfx.html.slideTo(self.internalProgress, 
+					{ top: 0, left: 0 }, parseInt(self.duration));
+					dojo.event.connect(backAnim, "onEnd", function(){
 						if(!self._animationStopped){
-							_backAnim.play();
+							self._animation.play();
 						}
-						_backAnim = null; // <-- to avoid memory leaks in IE
+					});
+					if(!self._animationStopped){
+						backAnim.play();
 					}
-				);
+					backAnim = null; // <-- to avoid memory leaks in IE
+				});
 		},
-		setMaximum: function(/*Number*/maximum, /*Boolean?*/noRender){
-			// summary: sets the maximum
-			// if noRender is true, only sets the internal max progress value
-			if(!this._animationStopped){
-				return;
-			}
-			this.maximum = maximum;
-			this.setProgress(this.progress, true);
-			if(!noRender){
-				this.render();
-			}
-		},
-		setProgress: function(/*String|Number*/value, /*Boolean?*/noRender){
-			// summary: sets the progress
-			// if value ends width "%", does a normalization
-			// if noRender is true, only sets the internal value: useful if
-			// there is a setMaximum call
-			if(!this._animationStopped){
-				return;
-			}
-			if(String(value).indexOf("%") != -1){
-				this._percent = Math.min(parseFloat(value)/100, 1);
-				this.progress = this._percent * this.maximum;
-			}else{
-				this.progress = Math.min(value, this.maximum);
-				this._percent = value / this.maximum;
-			}
-			if(!noRender){
-				this.render();
-			}
-		},
-		start: function(){
-			// summary: starts the server polling
-			var _showFunction = dojo.lang.hitch(this, this._showRemoteProgress);
-			this._timer = setInterval(_showFunction, this.pollInterval);
-		},
+
 		startAnimation: function(){
 			// summary: starts the left-right animation, useful when
 			// the user doesn't know how much time the operation will last
 			if(this._animationStopped){
-				this._backup = {progress: this.progress, numeric: this.numeric};
-				this.setProgress("10%");
+				this._backup = {progress: this.progress, annotate: this.annotate};
+				this.update({progress: "10%", annotate: false});
 				this._animationStopped = false;
 				this._setupAnimation();
-				this.showLabel(false);
 				this.internalProgress.style.height="105%";
 				this._animation.play();
 			}
@@ -199,17 +193,22 @@ dojo.declare(
 				this.internalProgress.style.height="100%";
 				this.internalProgress.style.left = "0px";
 				dojo.lang.mixin(this, this._backup);
-				this.setProgress(this.progress);
-				this.showLabel(this.numeric);
-				this._positionLabels();
+				this.update();
 			}
 		},
+
+		start: function(){
+			// summary: starts the server polling
+			var _showFunction = dojo.lang.hitch(this, this._showRemoteProgress);
+			this._timer = setInterval(_showFunction, this.pollInterval);
+		},
+
 		_showRemoteProgress: function(){
 			var self = this;
 			if((this.maximum == this.progress) && this._timer){
 				clearInterval(this._timer);
 				this._timer = null;
-				this.setProgress("100%");
+				this.update({progress: "100%"});
 				return;	
 			}
 			var bArgs = {
@@ -220,40 +219,12 @@ dojo.declare(
 					dojo.debug("ProgressBar: showRemoteProgress error");
 				},
 				load: function(type, data, evt){
-					self.setProgress(self._timer ? data.progress : "100%");
+					self.update({progress: self._timer ? data.progress : "100%"});
 				}
 			};
 			dojo.io.bind(bArgs);
 		},
 
-		render: function(){
-			// summary: renders the ProgressBar, based on current values
-
-			this._updateLabels(this._percent);
-
-			var pixels = this._percent * this[this._dimension];
-			this.internalProgress.style[this._dimension] = pixels + 'px';
-			this.onChange();
-
-			this._positionLabels();
-		},
-
-		_positionLabels: function(){
-			dojo.lang.forEach(["front", "back"], function(name){
-				var labelNode = this[name+"Label"];
-				var dim = dojo.html.getContentBox(labelNode);
-				var labelLeft = (this.width - dim.width)/2;
-				var labelBottom = (this.height - dim.height)/2;
-				labelNode.style.left = labelLeft + "px";
-				labelNode.style.bottom = labelBottom + "px";
-			}, this);
-		},
-		_updateLabels: function(/*float*/percent){
-			dojo.lang.forEach(["front", "back"], function(name){
-				var labelNode = this[name+"Label"];
-				dojo.dom.textContent(labelNode, dojo.number.format(percent, {type: "percent", places: this.places}));
-			}, this);
-		},
 		onChange: function(){
 		}
 	}

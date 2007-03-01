@@ -13,13 +13,19 @@
 			dojo.require("dijit.util.parser");	// scan page for widgets and instantiate them
 			dojo.require("dojo.io.*");
 			dojo.require("dojo.io.IframeIO");
+			dojo.require("dojo.string.extras");
 			dojo.hostenv.writeIncludes();
 		</script>
 		
 		<script type="text/javascript">
 			dojo.addOnLoad(go);
 			function go(){
-				var theBar = dijit.byId("testBar");
+				//TODO: it's a little strange that id must be specified again?	
+				var theBar = new dijit.ProgressBar({id: "testBar", width: 400, annotate: true, maximum: 256, duration: 2000,
+					report:function(percent){
+						return dojo.string.substitute("${0} out of ${1} max chars", [this.progress, this.maximum]);
+					}
+				}, dojo.byId("testBar"));
 				dojo.event.connect(dojo.byId("start"), "onclick", dojo.lang.hitch(theBar,theBar.startAnimation));
 				dojo.event.connect(dojo.byId("stop"), "onclick", dojo.lang.hitch(theBar,theBar.stopAnimation));
 
@@ -47,15 +53,13 @@
 				dojo.io.bind(bArgs);
 			}
 			function setParameters(){
-				dijit.byId("setTestBar").setMaximum(dojo.byId("maximum").value, true);
-				dijit.byId("setTestBar").setProgress(dojo.byId("progressValue").value, true);
-				dijit.byId("setTestBar").render();
+				dijit.byId("setTestBar").update({maximum: dojo.byId("maximum").value, progress: dojo.byId("progressValue").value});
 			}
 			function keyUpHandler(){
-				dijit.byId("testBar").setProgress(dojo.byId("test").value.length);
-				dijit.byId("testBarInt").setProgress(dojo.byId("test").value.length);
-				dijit.byId("testBar2").setProgress(dojo.byId("test").value.length);
-				dijit.byId("smallTestBar").setProgress(dojo.byId("test").value.length);
+				dijit.byId("testBar").update({progress:dojo.byId("test").value.length});
+				dijit.byId("testBarInt").update({progress:dojo.byId("test").value.length});
+				dijit.byId("testBar2").update({progress:dojo.byId("test").value.length});
+				dijit.byId("smallTestBar").update({progress:dojo.byId("test").value.length});
 			}
 		</script>
 	</head> 
@@ -68,16 +72,15 @@
 		<br />
 		<input type="button" name="set" id="set" value="set!" />
 		<br />
-		<div width="400" numeric="true"
-			maximum="200" id="setTestBar" progress="20" dojoType="dijit.ProgressBar"></div>		
+		<div width="400" annotate="true"
+			maximum="200" id="setTestBar" progress="20" dojoType="dijit.ProgressBar"></div>
 		<br />
 		<br />
 		<h3>Test 2</h3>
 		Write here: <input type="text" value="" name="test" maxlength="256" id="test" style="width:300"/>
 		<br />
 		<br />
-		<div width="400" numeric="true"  
-			maximum="256" id="testBar" duration="2000" dojoType="dijit.ProgressBar"></div>		
+		<div id="testBar"></div>		
 		<input type="button" name="start" id="start" value="start" />
 		<input type="button" name="stop" id="stop" value="stop" />
 		<br />
@@ -87,19 +90,20 @@
 			maximum="256" id="smallTestBar" dojoType="dijit.ProgressBar"></div>		
 		<br />
 		Show decimal place:
-		<div places="1" width="400" numeric="true" orientation="horizontal" 
-			maximum="256" id="testBarInt" dojoType="dijit.ProgressBar"></div>		
+		<div places="1" width="400" annotate="true" orientation="horizontal"
+			maximum="256" id="testBarInt" dojoType="dijit.ProgressBar"></div>
 		<br />
 		<div style="position:absolute;top:70px;left:530px">
 		Vertical:
-		<div progress="0" height="420" width="50" numeric="true" orientation="vertical" 
+		<div progress="0" height="420" width="50" annotate="true" orientation="vertical" 
 				maximum="256" id="testBar2" dojoType="dijit.ProgressBar"></div>
 		</div>
 		<h3>Test 3</h3>
 		No explicit maximum (both 25%)
-		<div width="400" numeric="true"
+		<div width="400" annotate="true"
 			id="implied1" progress="25" dojoType="dijit.ProgressBar"></div>		
-		<div width="400" numeric="true"
+		<br />
+		<div width="400" annotate="true"
 			id="implied2" progress="25%" dojoType="dijit.ProgressBar"></div>
 	</body>
 </html>
