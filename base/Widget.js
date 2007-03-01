@@ -198,7 +198,7 @@ function(params, srcNodeRef){
 		var i=0, node;
 		var nodes = [];
 		while (node = allNodes[i++]) {
-			var id = node.getAttribute('widgetId');
+			var id = node.widgetId;
 			if(id){
 				nodes.push(dijit.byId(id));
 			}
