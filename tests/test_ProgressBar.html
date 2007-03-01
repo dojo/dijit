@@ -25,8 +25,8 @@
 
 				dojo.byId("test").value="";
 				dojo.byId("progressValue").focus();
-				dojo.byId("progressValue").value = dijit.byId("setTestBar").progressValue;
-				dojo.byId("maxProgressValue").value = dijit.byId("setTestBar").maxProgressValue;
+				dojo.byId("progressValue").value = dijit.byId("setTestBar").progress;
+				dojo.byId("maximum").value = dijit.byId("setTestBar").maximum;
 				dojo.event.connect(dojo.byId("test"), "onkeyup", keyUpHandler);
 				dojo.event.connect(dojo.byId("set"), "onclick", setParameters);
 //				loadFile();
@@ -47,15 +47,15 @@
 				dojo.io.bind(bArgs);
 			}
 			function setParameters(){
-				dijit.byId("setTestBar").setMaxProgressValue(dojo.byId("maxProgressValue").value, true);
-				dijit.byId("setTestBar").setProgressValue(dojo.byId("progressValue").value, true);
+				dijit.byId("setTestBar").setMaximum(dojo.byId("maximum").value, true);
+				dijit.byId("setTestBar").setProgress(dojo.byId("progressValue").value, true);
 				dijit.byId("setTestBar").render();
 			}
 			function keyUpHandler(){
-				dijit.byId("testBar").setProgressValue(dojo.byId("test").value.length);
-				dijit.byId("testBarInt").setProgressValue(dojo.byId("test").value.length);
-				dijit.byId("testBar2").setProgressValue(dojo.byId("test").value.length);
-				dijit.byId("smallTestBar").setProgressValue(dojo.byId("test").value.length);
+				dijit.byId("testBar").setProgress(dojo.byId("test").value.length);
+				dijit.byId("testBarInt").setProgress(dojo.byId("test").value.length);
+				dijit.byId("testBar2").setProgress(dojo.byId("test").value.length);
+				dijit.byId("smallTestBar").setProgress(dojo.byId("test").value.length);
 			}
 		</script>
 	</head> 
@@ -64,12 +64,12 @@
 		<h3>Test 1</h3>
 		Progress Value <input type="text" name="progressValue" id="progressValue" />
 		<br />
-		Max Progress Value <input type="text" name="maxProgressValue" id="maxProgressValue" />
+		Max Progress Value <input type="text" name="maximum" id="maximum" />
 		<br />
 		<input type="button" name="set" id="set" value="set!" />
 		<br />
 		<div width="400" hasText="true"
-			maxProgressValue="200" id="setTestBar" progressValue="20" dojoType="dijit.ProgressBar"></div>		
+			maximum="200" id="setTestBar" progress="20" dojoType="dijit.ProgressBar"></div>		
 		<br />
 		<br />
 		<h3>Test 2</h3>
@@ -77,23 +77,23 @@
 		<br />
 		<br />
 		<div width="400" hasText="true"  
-			maxProgressValue="256" id="testBar" duration="2000" dojoType="dijit.ProgressBar"></div>		
+			maximum="256" id="testBar" duration="2000" dojoType="dijit.ProgressBar"></div>		
 		<input type="button" name="start" id="start" value="start" />
 		<input type="button" name="stop" id="stop" value="stop" />
 		<br />
 		Small, without text and background image:
 		<br />
-		<div width="440" height="10" frontBarClass="dojoProgressBarSimpleFrontBar" hasText="false" isVertical="false" 
-			maxProgressValue="256" id="smallTestBar" dojoType="dijit.ProgressBar"></div>		
+		<div width="440" height="10" color="red" hasText="false" isVertical="false" 
+			maximum="256" id="smallTestBar" dojoType="dijit.ProgressBar"></div>		
 		<br />
-		Only Integer values:
-		<div showOnlyIntegers="true" width="400" hasText="true" isVertical="false" 
-			maxProgressValue="256" id="testBarInt" dojoType="dijit.ProgressBar"></div>		
+		Show decimal place:
+		<div places="1" width="400" hasText="true" isVertical="false" 
+			maximum="256" id="testBarInt" dojoType="dijit.ProgressBar"></div>		
 		<br />
 		<div style="position:absolute;top:70px;left:530px">
 		Vertical:
-		<div progressValue="0" height="420" frontBarClass="dojoProgressBarHFrontBar" width="50" hasText="true" isVertical="true" 
-				maxProgressValue="256" id="testBar2" dojoType="dijit.ProgressBar"></div>
+		<div progress="0" height="420" width="50" hasText="true" isVertical="true" 
+				maximum="256" id="testBar2" dojoType="dijit.ProgressBar"></div>
 		</div>
 	</body>
 </html>
