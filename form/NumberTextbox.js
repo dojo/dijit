@@ -14,10 +14,6 @@ dojo.declare(
 		regExpGen: dojo.number.regexp,
 		format: dojo.number.format,
 		parse: dojo.number.parse,
-		value: new Number(),
-		compare: function(val1, val2){
-			// summary: compare 2 numbers
-			try{ return (val1 - val2); } catch(e){ return 0; }
-		}
+		value: 0
 	}
 );

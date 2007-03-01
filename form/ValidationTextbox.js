@@ -225,8 +225,8 @@ dojo.declare(
 		rangeMessage: "",
 
 		compare: function(val1, val2){
-			// summary: user replaceable function used to compare 2 parsed/primitive values
-			return 0;
+			// summary: compare 2 values
+			return val1 - val2;
 		},
 
 		rangeCheck: function(/* Number */ primitive, /* Object */ constraints){
@@ -260,3 +260,4 @@ dojo.declare(
 		}
 	}
 );
+
