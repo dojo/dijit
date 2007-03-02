@@ -291,7 +291,7 @@ dojo.declare(
 	// Make 3columns
 	//   icon, label, and arrow (BiDi-dependent) indicating sub-menu
 	templateString:
-		 '<tr class="dojoMenuItem" dojoAttachEvent="onMouseOver: onHover; onMouseOut: onUnhover; onClick: _onClick; onKey:onKey;">'
+		 '<tr class="dojoMenuItem" dojoAttachEvent="onMouseOver: onHover; onMouseOut: onUnhover; onClick: _onClick;">'
 		+'<td><div class="dojoMenuItemIcon" style="${this.iconStyle}"></div></td>'
 		+'<td tabIndex="-1" class="dojoMenuItemLabel" dojoAttachPoint="containerNode"></td>'
 		+'<td><div class="dojoMenuArrowWrapper"><div class="dojoMenuItemSubmenu" style="display:none;" dojoAttachPoint="arrow"></div></div></td>'

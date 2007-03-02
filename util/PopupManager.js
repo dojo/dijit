@@ -3,6 +3,7 @@ dojo.provide("dijit.util.PopupManager");
 dojo.require("dojo.lang.array");
 dojo.require("dojo.html.selection");
 dojo.require("dojo.html.util");
+dojo.require("dojo.html.iframe");
 dojo.require("dojo.event.*");
 
 dojo.require("dijit.util.FocusManager");
@@ -50,16 +51,6 @@ dijit.util.PopupManager = new function(){
 		// summary:
 		//		Utility function to help opening
 
-		if(dojo.render.html.ie6){
-			if(!widget.bgIframe){
-				widget.bgIframe = new dojo.html.BackgroundIframe();
-				widget.bgIframe.setZIndex(widget.domNode);
-			}
-
-			widget.bgIframe.size(widget.domNode);
-			widget.bgIframe.show();
-		}
-
 		// display temporarily, and move into position, then hide again
 		with(widget.domNode.style){
 			zIndex = beginZIndex + stack.length;
@@ -74,6 +65,16 @@ dijit.util.PopupManager = new function(){
 
 		// TODO: use effects
 		widget.domNode.style.display="";
+
+		if(dojo.render.html.ie60){
+			if(!widget.bgIframe){
+				widget.bgIframe = new dojo.html.BackgroundIframe();
+				widget.bgIframe.setZIndex(widget.domNode);
+			}
+			widget.bgIframe.size(widget.domNode);
+			widget.bgIframe.show();
+		}
+
 	};
 
 	this.close = function(){
@@ -83,7 +84,7 @@ dijit.util.PopupManager = new function(){
 		var widget = stack.pop();
 
 		widget.domNode.style.display="none";
-		if(dojo.render.html.ie6){
+		if(dojo.render.html.ie60){
 			widget.bgIframe.hide();
 		}
 		
