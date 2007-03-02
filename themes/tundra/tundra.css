@@ -5,16 +5,23 @@
 	padding:0px;
 }
 
+.dojoPopup {
+	position: absolute;
+}
+
 /*IE6 Hack */
 * html .dojoButton, 
-* html .dojoInputField {
+* html .dojoInputField,
+* html .dojoMenu {
 	background-image: none;
 	filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src="dojoTundraGradientBg.png", sizingMethod="scale");
 }
 
 /* Base of Tundra default theme */
 .dojoButton, 
-.dojoInputField {
+.dojoInputField,
+.dojoMenuItem
+{
 	background-image: url("dojoTundraGradientBg.png");
 	background-repeat:repeat-x;
 	background-position:0 0;
@@ -30,14 +37,16 @@
 
 /* Default Hover Styles */
 .dojoButton:hover, 
-.dojoInputField:hover {
+.dojoInputField:hover,
+.dojoMenuItemHover {
 	color:#0e4978;
 	border-color:#92adc2;
 }
 
 /* Default Active/Focus style*/
 .dojoButton:active, 
-.dojoInputField:focus {
+.dojoInputField:focus,
+.dojoMenuItemHover {
 	background-image: url("dojoTundraGradientBgActive.png");
 	background-position:bottom left;
 	border:1px solid #92adc2;
@@ -47,7 +56,8 @@
 .dojoButton[disabled],
 .dojoInputField[disabled],
 .dojoButtonDisabled,
-.dojoInputFieldDisabled {
+.dojoInputFieldDisabled,
+.dojoMenuItemDisabled {
 	background-position:0 -8px;
 	background-color:#dbdbdb;
 	color:#787878;
@@ -61,6 +71,15 @@
 	background-image: url("dojoTundraGradientBg.png");
 }
 
+.dojoDownArrow {
+	border-width:2.1em 1.32em;
+	margin:-1.4em 0px 0px -.88em;
+	border-style:solid dotted;
+	border-color:gray transparent;
+	line-height:0px;
+	height:0px;
+	width:0px;
+}
 
 /* Widget Specific Rules */
 
@@ -91,6 +110,98 @@
 	background-image: url(check.gif);
 }
 
+/* Menu */
+
+.dojoMenu{
+	/* temporary! */
+	border: solid black 1px;
+	background: #e9e9e9;
+}
+.dojoMenuItem{
+	white-space: nowrap;
+	font: menu;
+	margin: 0;
+}
+
+.dojoMenuItemHover {
+	cursor:pointer;
+	cursor:hand;
+}
+
+.dojoMenuItemIcon {
+	position: relative;
+	background-position: center center;
+	background-repeat: no-repeat;
+	width: 16px;
+	height: 16px;
+	padding-right: 3px;
+}
+
+.dojoMenuItemLabel {
+	position: relative;
+	vertical-align: middle;
+}
+
+/* Down arrow (should be right arrow)*/
+.dojoMenuItemSubmenu {
+	border-width:1.05em 0.66em 1.05em 0.66em;
+	margin:-0.7em 0px 0px -.44em;
+	border-style:solid dotted;
+	border-color:gray transparent;
+	line-height:0px;
+	height:0px;
+	width:0px;
+}
+.dojoMenuArrowWrapper {
+	border:0px none;
+	height:0.7em;
+	margin:auto;
+	overflow:hidden;
+	padding:0px;
+	width:0.9em;
+}
+
+.dojoRTL .dojoMenuItemSubmenu {
+	/* should be left arrow */
+}
+
+.dojoMenuItemHover .dojoMenuItemSubmenu {
+	background-image: url(images/submenu_on.gif);
+}
+
+.dojoRTL .dojoMenuItemHover .dojoMenuItemSubmenu {
+	background-image: url(images/submenu_on_rtl.gif);
+}
+
+.dojoMenuItemDisabled .dojoMenuItemSubmenu {
+	background-image: url(images/submenu_disabled.gif);
+}
+
+.dojoRTL .dojoMenuItemDisabled .dojoMenuItemSubmenu {
+	background-image: url(images/submenu_disabled_rtl.gif);
+}
+
+.dojoMenuSeparator {
+	font-size: 1px;
+	margin: 0;
+}
+
+.dojoMenuSeparatorTop {
+	height: 50%;
+	border-bottom: 1px solid #7a98c4;
+	margin: 0px 2px;
+	font-size: 1px;
+}
+
+.dojoMenuSeparatorBottom {
+	height: 50%;
+	border-top: 1px solid #c9deff;
+	margin: 0px 2px;
+	font-size: 1px;
+}
+
+
+/* Toaster */
 .dojoToasterClip {
 	position: absolute;
 	overflow: hidden;
