@@ -24,7 +24,7 @@ dojo.declare(
 		// back and front percent label have the same content: when the vertical line (*)
 		// partially hides the backLabel, the frontLabel becomes visible
 		// 
-		//  ________________________(1)_containerNode_________________________________
+		//  ___________________________(1)_domNode____________________________________
 		// |__(3)_internalProgress____________                                        |
 		// |                                  | <--- (*)                              |
 		// |     (4) frontLabel        | (2) backLabel                  |
@@ -51,14 +51,17 @@ dojo.declare(
 
 		// width: Integer
 		// ProgressBar width (pixel)
+		//TODO: use CSS instead?
 		width: 300,
 
 		// height: Integer
 		// ProgressBar height, (pixel)
+		//TODO: use CSS instead?
 		height: 30,
 		
 		// color: String
 		// Plain background color; default uses textured pattern
+		//TODO: use CSS instead?
 		color: "",
 
 		// orientation: String
@@ -96,26 +99,26 @@ dojo.declare(
 				dojo.html.setClass(this.internalProgress, "dojoProgressBarFull");
 			}
 			if(this.orientation == "vertical"){
-				dojo.html.addClass(this.containerNode, "dojoProgressBarVertical");
-				this.internalProgress.style.bottom="0px";
-				this.internalProgress.style.left="0px";
+				dojo.html.addClass(this.domNode, "dojoProgressBarVertical");
+				this.internalProgress.style.bottom="0px";//TODO?
+				this.internalProgress.style.left="0px";//TODO?
 				this._dimension = "height";
 			}else{
-				this.internalProgress.style.top="0px";
-				this.internalProgress.style.left="0px";
+				this.internalProgress.style.top="0px";//TODO?
+				this.internalProgress.style.left="0px";//TODO?
 				this._dimension = "width";
 			}
-			this.domNode.style.height = this.height + "px"; 
-			this.domNode.style.width = this.width + "px";
+			this.domNode.style.height = this.height + "px";//TODO?
+			this.domNode.style.width = this.width + "px";//TODO?
 			this.update();
 		},
 
-		update: function(/*Object*/attributes){
+		update: function(/*Object?*/attributes){
 			// summary: update progress information
 			//
 			// attributes: may provide progress and/or maximum properties on this parameter,
 			//	see attribute specs for details.
-			dojo.lang.mixin(this, attributes);
+			dojo.lang.mixin(this, attributes||{});
 			var percent;
 			if(String(this.progress).indexOf("%") != -1){
 				percent = Math.min(parseFloat(this.progress)/100, 1);
