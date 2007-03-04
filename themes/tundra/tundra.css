@@ -246,17 +246,21 @@
 
 .dojoProgressBarEmpty{
 	position:relative;overflow:hidden;
+	width:300px;height:30px;
 	border:1px solid #84a3d1;
 }
 
-.dojoProgressBarFull{
+.dojoProgressBarTile{
 	background:url("bar.gif") repeat bottom left;
 	background-attachment: fixed;
 }
 
+.dojoProgressBarVertical .dojoProgressBarTile{
+	background-image:url("h-bar.gif");
+}
+
 .dojoProgressBarVertical .dojoProgressBarFull{
-	background:url("h-bar.gif") repeat bottom left;
-	background-attachment: fixed;
+	bottom:0px
 }
 
 .dojoProgressBarFrontLabel,.dojoProgressBarBackLabel{

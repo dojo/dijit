@@ -34,7 +34,7 @@ dojo.declare(
 		// usage:
 		// <div dojoType="ProgressBar"
 		//   duration="..."
-		//   places="0" width="..." height="..." dataSource="..."
+		//   places="0" dataSource="..."
 		//   pollInterval="..." 
 		//   annotate="true|false" orientation="vertical" 
 		//   progress="..." maximum="..."></div>
@@ -49,16 +49,6 @@ dojo.declare(
 		// max sample number
 		maximum: 100,
 
-		// width: Integer
-		// ProgressBar width (pixel)
-		//TODO: use CSS instead?
-		width: 300,
-
-		// height: Integer
-		// ProgressBar height, (pixel)
-		//TODO: use CSS instead?
-		height: 30,
-		
 		// color: String
 		// Plain background color; default uses textured pattern
 		//TODO: use CSS instead?
@@ -96,20 +86,14 @@ dojo.declare(
 			if(this.color){
 				dojo.html.setStyle(this.internalProgress, "background-color", this.color);
 			}else{
-				dojo.html.setClass(this.internalProgress, "dojoProgressBarFull");
+				dojo.html.addClass(this.internalProgress, "dojoProgressBarTile");
 			}
 			if(this.orientation == "vertical"){
 				dojo.html.addClass(this.domNode, "dojoProgressBarVertical");
-				this.internalProgress.style.bottom="0px";//TODO?
-				this.internalProgress.style.left="0px";//TODO?
 				this._dimension = "height";
 			}else{
-				this.internalProgress.style.top="0px";//TODO?
-				this.internalProgress.style.left="0px";//TODO?
 				this._dimension = "width";
 			}
-			this.domNode.style.height = this.height + "px";//TODO?
-			this.domNode.style.width = this.width + "px";//TODO?
 			this.update();
 		},
 
@@ -130,8 +114,8 @@ dojo.declare(
 
 			if(!this._animationStopped){return;}
 
-			var pixels = percent * this[this._dimension];
-			this.internalProgress.style[this._dimension] = pixels + 'px';
+			var pixels = percent * dojo.html.getPixelValue(this.domNode, this._dimension);
+			dojo.html.setPositivePixelValue(this.internalProgress, this._dimension, pixels);
 
 			var display = this.annotate ? "block" : "none";
 			dojo.lang.forEach(["front", "back"], function(name){
@@ -141,10 +125,10 @@ dojo.declare(
 				labelNode.style.display = display;
 
 				var dim = dojo.html.getContentBox(labelNode);
-				var labelLeft = (this.width - dim.width)/2;
-				var labelBottom = (this.height - dim.height)/2;
-				labelNode.style.left = labelLeft + "px";
-				labelNode.style.bottom = labelBottom + "px";
+				var labelLeft = (dojo.html.getPixelValue(this.domNode,"width") - dim.width)/2;
+				var labelBottom = (dojo.html.getPixelValue(this.domNode,"height") - dim.height)/2;
+				dojo.html.setPositivePixelValue(labelNode, "left", labelLeft);
+				dojo.html.setPositivePixelValue(labelNode, "bottom", labelBottom);
 			}, this);
 
 			this.onChange();
@@ -159,11 +143,11 @@ dojo.declare(
 
 		_setupAnimation: function(){
 			var self = this;
-			this._animation = dojo.lfx.html.slideTo(this.internalProgress, 
-				{top: 0, left: parseInt(this.width)-parseInt(this.internalProgress.style.width)}, parseInt(this.duration), null, 
+			this._animation = dojo.lfx.html.slideTo(this.internalProgress,
+				{top: 0, left: dojo.html.getPixelValue(this.domNode,"width")-dojo.html.getPixelValue(this.internalProgress,"width")},
+				this.duration, null, 
 				function(){
-					var backAnim = dojo.lfx.html.slideTo(self.internalProgress, 
-					{ top: 0, left: 0 }, parseInt(self.duration));
+					var backAnim = dojo.lfx.html.slideTo(self.internalProgress, {top: 0, left: 0}, self.duration);
 					dojo.event.connect(backAnim, "onEnd", function(){
 						if(!self._animationStopped){
 							self._animation.play();
