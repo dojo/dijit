@@ -1,0 +1,18 @@
+<fieldset class="dojoSpinner dojoInputField" dojoAttachPoint='nodeWithBorder' id='${this.id}'
+	><input dojoAttachPoint='textbox' type='${this.type}' dojoAttachEvent='onblur;onfocus;onkeyup;'
+		value='${this.value}' name='${this.name}' size='${this.size}' maxlength='${this.maxlength}'
+		waiRole="spinbutton" autocomplete="off"
+	><fieldset class="dojoSpinnerArrowGroup"
+                ><fieldset dojoAttachPoint="upArrowNode" class="dojoSpinnerButton"
+                        ><div class="dojoSpinnerArrow"
+                                ><div class="dojoSpinnerUpArrow"></div
+                        ></div
+                ></fieldset
+                ><fieldset dojoAttachPoint="downArrowNode" class="dojoSpinnerButton"
+                        ><div class="dojoSpinnerArrow"
+                                ><div class="dojoSpinnerDownArrow"></div
+                        ></div
+                ></fieldset
+	></fieldset
+	><span dojoAttachPoint='messageSpan' class='dojoValidationTextboxMessage' waiRole='alert'></span
+></fieldset>

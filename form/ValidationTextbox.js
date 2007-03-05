@@ -2,6 +2,7 @@ dojo.provide("dijit.form.ValidationTextbox");
 
 dojo.require("dijit.form.Textbox");
 dojo.require("dojo.i18n.common");
+dojo.require("dijit.util.wai");
 
 dojo.requireLocalization("dijit.form", "validate");
 
@@ -83,13 +84,16 @@ dojo.declare(
 		},
 	
 		getErrorMessage: function(/* Boolean*/ isFocused){
+			// summary: return an error message to show if appropriate
 			if (this.isMissing(isFocused)){ 
 				return (this.promptMessage == "" || !isFocused) ? this.missingMessage : this.promptMessage;
-			}else if(( this.required || !this.isEmpty() ) && !this.isValid(isFocused)){ return this.invalidMessage; }
+			// prototype call below is in case this object was extended
+			}else if(( this.required || !this.isEmpty() ) && !dijit.form.ValidationTextbox.prototype.isValid.call(this,isFocused)){ return this.invalidMessage; }
 		},
 
 		getWarningMessage: function(/* Boolean*/ isFocused){
-			if(this.isMissing(false) || (( this.required || !this.isEmpty() ) && !this.isValid(false))){ return this.promptMessage; }
+			// summary: return a warning message to show if appropriate
+			if(this.isMissing(false) || (( this.required || !this.isEmpty() ) && !dijit.form.ValidationTextbox.prototype.isValid.call(this,false))){ return this.promptMessage; }
 		},
 
 		getValidMessage: function(/* Boolean*/ isFocused){
@@ -112,7 +116,7 @@ dojo.declare(
 				if (typeof message == "string"){
 					var _class = "dojoInputFieldValidationWarning";
 				}else{ 
-					var _class = "dojoInputField";
+					var _class = "dojoInputFieldValidationNormal";
 					message = this.getValidMessage(isFocused);
 					if (typeof message != "string"){ message = ""; }
 				}
@@ -121,14 +125,18 @@ dojo.declare(
 			this.updateClass(_class);
 		},
 		
+		_lastClassAdded: "dojoInputFieldValidationError",
 		updateClass: function(className){
 			// summary: used to ensure that only 1 validation class is set at a time
-			dojo.html.removeClass(this.textbox,"dojoInputFieldValidationWarning");
-			dojo.html.removeClass(this.textbox,"dojoInputFieldValidationError");
-			dojo.html.addClass(this.textbox,className);
+			dojo.html.removeClass(this.nodeWithBorder,this._lastClassAdded);
+			if (className != null){
+				dojo.html.addClass(this.nodeWithBorder,className);
+				this._lastClassAdded = className;
+			}
 		},
 		
 		onfocus: function(evt){
+			dojo.html.addClass(this.nodeWithBorder,"dojoInputFieldFocused");
 			if (this.listenOnKeyPress){
 				this.update(true);
 			}else{
@@ -136,7 +144,12 @@ dojo.declare(
 			}
 		},
 	
+		onkeyup: function(evt){
+			this.onfocus(evt);
+		},
+
 		onblur: function(evt){ 
+			dojo.html.removeClass(this.nodeWithBorder,"dojoInputFieldFocused");
 			this.filter();
 			this.update(false); 
 		},
@@ -156,10 +169,14 @@ dojo.declare(
 		postCreate: function(){
 			dijit.form.ValidationTextbox.superclass.postCreate.apply(this);
 
+			// get the node for which the background color will be updated
+			if (typeof this.nodeWithBorder != "object"){
+				this.nodeWithBorder = this.textbox;
+			}
 			// Attach isMissing and isValid methods to the textbox.
 			// We may use them later in connection with a submit button widget.
 			// TODO: this is unorthodox; it seems better to do it another way -- Bill
-			this.textbox.isValid = function(){ this.isValid.call(this); };
+			this.textbox.isValid = function(){ dijit.form.ValidationTextbox.prototype.isValid.call(this); };
 			this.textbox.isMissing = function(){ this.isMissing.call(this); };
 			// setting the value here is needed since value="" in the template causes "undefined" on form reset
 			this.textbox.setAttribute("value", this.value);
@@ -176,24 +193,28 @@ dojo.declare(
 		//		A subclass of ValidationTextbox.
 		//		Provides a hidden input field and a serialize method to override
 
-		toString: function(val){
-			return val.toString();
-		},
-
 		serialize: function(val){
 			// summary: user replaceable function used to convert the getValue() result to a String
-			return val ? this.toString(val) : "";
+			try {
+				return val.toString();
+			}catch(e){ return ""; }
+		},
+
+		toString: function(){
+			// summary: display the widget as a printable string using the widget's value
+			var val = this.getValue();
+			return val ? ((typeof val == "string") ? val : this.serialize(val)) : "";
 		},
 
 		update: function(){
-			this.valueNode.value = this.serialize(this.getValue());
+			this.valueNode.value = this.toString();
 			dijit.form.SerializableTextbox.superclass.update.apply(this, arguments);
 		},
 
 		postCreate: function(){
 			this.valueNode = document.createElement('input');
 			this.valueNode.setAttribute("type", this.textbox["type"]);
-			this.valueNode.setAttribute("value", this.serialize(this.getValue()));
+			this.valueNode.setAttribute("value", this.toString());
 			this.valueNode.style.display = "none";
 			var n = this.textbox.name;
 			this.textbox.name = "";
@@ -226,7 +247,7 @@ dojo.declare(
 
 		compare: function(val1, val2){
 			// summary: compare 2 values
-			return val1 - val2;
+			return (val1 - val2);
 		},
 
 		rangeCheck: function(/* Number */ primitive, /* Object */ constraints){
@@ -257,7 +278,16 @@ dojo.declare(
 				this.messages = dojo.i18n.getLocalization("dijit.form", "validate", this.lang);
 				this.rangeMessage = this.messages["rangeMessage"];
 			}
+		},
+
+		postCreate: function(){
+			dijit.form.RangeBoundTextbox.superclass.postCreate.apply(this, arguments);
+			if (typeof this.constraints.min != "undefined"){
+				dijit.util.wai.setAttr(this.domNode, "waiState", "valuemin", this.constraints.min);
+			}
+			if (typeof this.constraints.max != "undefined"){
+				dijit.util.wai.setAttr(this.domNode, "waiState", "valuemax", this.constraints.max);
+			}
 		}
 	}
 );
-

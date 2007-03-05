@@ -18,13 +18,11 @@ dojo.declare(
 		format: dojo.date.format,
 		parse: dojo.date.parse,
 		value: new Date(),
-
 		postMixInProperties: function(){
 			this.constraints.selector = "dateOnly";
 			dijit.form.DateTextbox.superclass.postMixInProperties.apply(this, arguments);
 		},
-
-		toString: function(val){
+		serialize: function(val){
 			return dojo.date.toRfc3339(val, 'dateOnly');
 		}
 	}
