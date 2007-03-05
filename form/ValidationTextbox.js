@@ -87,13 +87,12 @@ dojo.declare(
 			// summary: return an error message to show if appropriate
 			if (this.isMissing(isFocused)){ 
 				return (this.promptMessage == "" || !isFocused) ? this.missingMessage : this.promptMessage;
-			// prototype call below is in case this object was extended
-			}else if(( this.required || !this.isEmpty() ) && !dijit.form.ValidationTextbox.prototype.isValid.call(this,isFocused)){ return this.invalidMessage; }
+			}else if(( this.required || !this.isEmpty() ) && !this.isValid(isFocused)){ return this.invalidMessage; }
 		},
 
 		getWarningMessage: function(/* Boolean*/ isFocused){
 			// summary: return a warning message to show if appropriate
-			if(this.isMissing(false) || (( this.required || !this.isEmpty() ) && !dijit.form.ValidationTextbox.prototype.isValid.call(this,false))){ return this.promptMessage; }
+			if(this.isMissing(false) || (( this.required || !this.isEmpty() ) && !this.isValid(false))){ return this.promptMessage; }
 		},
 
 		getValidMessage: function(/* Boolean*/ isFocused){
@@ -176,7 +175,7 @@ dojo.declare(
 			// Attach isMissing and isValid methods to the textbox.
 			// We may use them later in connection with a submit button widget.
 			// TODO: this is unorthodox; it seems better to do it another way -- Bill
-			this.textbox.isValid = function(){ dijit.form.ValidationTextbox.prototype.isValid.call(this); };
+			this.textbox.isValid = function(){ this.isValid.call(this); };
 			this.textbox.isMissing = function(){ this.isMissing.call(this); };
 			// setting the value here is needed since value="" in the template causes "undefined" on form reset
 			this.textbox.setAttribute("value", this.value);
@@ -195,9 +194,7 @@ dojo.declare(
 
 		serialize: function(val){
 			// summary: user replaceable function used to convert the getValue() result to a String
-			try {
-				return val.toString();
-			}catch(e){ return ""; }
+			return val.toString();
 		},
 
 		toString: function(){
