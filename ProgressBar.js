@@ -94,6 +94,8 @@ dojo.declare(
 			}else{
 				this._dimension = "width";
 			}
+			//TODO: can this be accomplished in the template layout?
+			dojo.html.setPositivePixelValue(this.frontLabel, "width", dojo.html.getPixelValue(this.domNode,"width"));
 			this.update();
 		},
 
@@ -121,13 +123,11 @@ dojo.declare(
 			dojo.lang.forEach(["front", "back"], function(name){
 				var labelNode = this[name+"Label"];
 				dojo.dom.textContent(labelNode, this.report(percent));
-
 				labelNode.style.display = display;
 
+// move this out of update, or perhaps replace with css or template layout?
 				var dim = dojo.html.getContentBox(labelNode);
-				var labelLeft = (dojo.html.getPixelValue(this.domNode,"width") - dim.width)/2;
 				var labelBottom = (dojo.html.getPixelValue(this.domNode,"height") - dim.height)/2;
-				dojo.html.setPositivePixelValue(labelNode, "left", labelLeft);
 				dojo.html.setPositivePixelValue(labelNode, "bottom", labelBottom);
 			}, this);
 
@@ -135,8 +135,8 @@ dojo.declare(
 		},
 
 		report: function(/*float*/percent){
-			// Generates percentage to overlay; may be overridden by user
-			return dojo.number.format(percent, {type: "percent", places: this.places});
+			// Generates message to overlay, shown if annotate is true; may be overridden by user
+			return dojo.number.format(percent, {type: "percent", places: this.places, locale: this.lang});
 		},
 
 		_animationStopped: true,
