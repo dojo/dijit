@@ -122,12 +122,13 @@
 			<div class="formQuestion">
 				<span class="emphasize"><label for="q04">Occupation:  </label></span>
 				<span class="noticeMessage">ValidationTextbox class, 
-					Attributes: {lowercase: true, required: false}. Displays a prompt message if field is missing. </span>
+					Attributes: {lowercase: true, required: true}. Displays a prompt message if field is missing. </span>
 			</div>
 			<div class="formAnswer">
 				<input id="q04" type="text" name="occupation" class="medium"
 					dojoType="dijit.form.ValidationTextbox"
 					lowercase="true" 
+					required="true"
 					promptMessage="Enter an occupation" />
 			</div>
 
@@ -439,7 +440,7 @@
 					dojoType="dijit.form.ValidationTextbox"
 					regExp="[\w]+"
 					required="true" 
-                    invalidMessage="Invalid Non-Space Text." />
+					invalidMessage="Invalid Non-Space Text." />
 			</div>
 
 			<div class="formQuestion">
@@ -458,6 +459,7 @@
                         <div class="formAnswer">
                                 <input id="ticket1651" class="medium" value="not null"/>
                         </div>
+
 <script>
         // See if we can make a widget in script and attach it to the DOM ourselves.
         dojo.addOnLoad(function(){
