@@ -40,6 +40,9 @@ dijit.util.parser = new function(){
 			case "boolean":
 				return dojo.lang.isBoolean(value) ? value : ( (value.toLowerCase()=="false") ? false : true );
 			case "function":
+				if(dojo.lang.isFunction(value)){
+					return value;
+				}
 				try{
 					if(value.search(/[^\w\.]+/i) != -1){
 						// TODO: "this" here won't work
