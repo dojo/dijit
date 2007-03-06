@@ -101,9 +101,41 @@
 
 /*** Full sized arrows (matching the size of a line of text) ***/
 
+/* Down arrow */
+
+.dojoDownArrowOuter,
+.dojoOpen .dojoOpenCloseArrowOuter {
+	padding:0px;
+	margin:auto;
+	border:0px;
+	overflow:hidden;
+	height:.7em;
+	width:.9em;
+	display: inline-block;
+	display: -moz-inline-stack;
+}
+
+.dojoDownArrowInner,
+.dojoOpen .dojoOpenCloseArrowInner {
+	border-width:2.1em 1.32em;
+	margin:-1.4em 0px 0px -.88em;
+	border-style:solid dotted;
+	border-color:gray transparent;
+	line-height:0px;
+	height:0px;
+	width:0px;
+	display: block;
+}
+
+.dj_ie6 .dojoDownArrowInner {
+	margin: 0px;
+	border-width:.7em .44em 0px .44em;
+}
+
 /* Right arrow */
 
-.dojoRightArrowOuter {
+.dojoRightArrowOuter,
+.dojoClosed .dojoOpenCloseArrowOuter {
 	border:0px none;
 	height:0.9em;
 	margin:auto;
@@ -112,7 +144,8 @@
 	width:0.7em;
 }
 
-.dojoRightArrowInner {
+.dojoRightArrowInner,
+.dojoClosed .dojoOpenCloseArrowInner {
 	border-width:1.32em 2.1em 1.32em 2.1em;
         margin:-.88em -1.4em -.88em -1.4em;
 	border-style:dotted solid;
@@ -120,6 +153,7 @@
 	line-height:0px;
 	height:0px;
 	width:0px;
+	display: block;
 }
 
 /* it becomes a left arrow for LTR locales */

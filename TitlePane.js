@@ -1,11 +1,10 @@
 dojo.provide("dijit.TitlePane");
 
-dojo.require("dijit.base.Widget");
-dojo.require("dijit.base.TemplatedWidget");
-
-
 dojo.require("dojo.html.style");
 dojo.require("dojo.lfx.*");
+
+dojo.require("dijit.base.Widget");
+dojo.require("dijit.base.TemplatedWidget");
 
 dojo.declare(
 	"dijit.TitlePane",
@@ -22,25 +21,14 @@ dojo.declare(
 	//		Whether pane is opened or closed.
 	open: true,
 	
-	// width: String
-	//		width of the pane
-	width: "",
-
 	templatePath: dojo.uri.moduleUri("dijit", "templates/TitlePane.html"),
 
 	postCreate: function() {
-		if (this.label) {
-			this.labelNode.appendChild(document.createTextNode(this.label));
-		}
-		// NEEDS WORK - assuming width in pixels
-		if (this.width) {
-			this.labelNode.style.width = this.width+"px";
-			this.containerNode.style.width = this.width+"px";
-		}
-
+		this.setLabel(this.label);
 		if (!this.open) {
 			dojo.html.hide(this.containerNode);
 		}
+		this._setCss();
 		dijit.TitlePane.superclass.postCreate.apply(this, arguments);
 		dijit.util.wai.setAttr(this.containerNode, "waiState", "labelledby", this.labelNode.id);
 		dijit.util.wai.setAttr(this.labelNode, "waiState", "haspopup", "true");
@@ -55,6 +43,12 @@ dojo.declare(
 			dojo.lfx.wipeIn(this.containerNode, 250).play();
 			this.open=true;
 		}
+		this._setCss();
+	},
+
+	_setCss: function(){
+		dojo.html.removeClass(this.domNode, this.open ? "dojoClosed" : "dojoOpen");
+		dojo.html.addClass(this.domNode, this.open ? "dojoOpen" : "dojoClosed");
 	},
 
 	onLabelKey: function(/*Event*/ e){
