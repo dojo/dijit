@@ -1,6 +1,7 @@
 /* To inline block elements, surround them with <fieldset class="dojoInlineBox"> */
 .dojoInlineBox {
-	display:inline;
+	display: -moz-inline-stack;
+	display:inline-block;
 	border:0px;
 	padding:0px;
 }
@@ -95,7 +96,7 @@
 
 .dojoCheckbox {
 	/* location of checkbox sprint image */
-	background-image: url(check.gif);
+	background-image: url(checkmark.gif);
 }
 
 /* Menu */
@@ -133,7 +134,7 @@
 /* Down arrow (should be right arrow)*/
 .dojoMenuItemSubmenu {
 	border-width:1.05em 0.66em 1.05em 0.66em;
-	margin:-0.7em 0px 0px -.44em;
+	margin: -0.7em 0px 0px -.44em;
 	border-style:solid dotted;
 	border-color:gray transparent;
 	line-height:0px;

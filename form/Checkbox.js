@@ -82,7 +82,6 @@ dojo.declare(
 
 		onImageLoad: function(){
 			this.imageLoaded = true;
-			
 			// set image container size to just show one sprite
 			this.width = 16;	//	this.imageNode.width/6;
 			this.height = 16;	// this.imageNode.height/2;
@@ -160,8 +159,8 @@ dojo.declare(
 			this._setValue(this.checked);
 		},
 
-		// offset from top of image
-		_topOffset: 0,
+		// offset from left of image
+		_leftOffset: 0,
 
 		_setValue: function(/*Boolean*/ bool){
 			// summary:
@@ -178,10 +177,8 @@ dojo.declare(
 
 			// show the right sprite, depending on state of checkbox
 			if(this.imageLoaded){
-				var left = (this.checked ? 0 : this.width ) + (this.disabled ? this.width*2 : (this.hover ? this.width*4 : 0 ));
-				var s = this.imageNode.style;
-				s.marginLeft = -1*left + "px";
-				s.marginTop = -1*this._topOffset + "px";
+				var left = this._leftOffset + (this.checked ? 0 : this.width ) + (this.disabled ? this.width*2 : (this.hover ? this.width*4 : 0 ));
+				this.imageNode.style.marginLeft = -1*left + "px";
 			}
 		}
 	}
@@ -218,7 +215,7 @@ dojo.declare(
 
 		onImageLoad: function(){
 			// position to second row of sprites (the radio buttons)
-			this._topOffset = 16;	// this.imageNode.height/2;
+			this._leftOffset = 96;	// this.imageNode.width/2;
 			dijit.form.Checkbox.prototype.onImageLoad.call(this);
 		}
 	}
