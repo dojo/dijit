@@ -255,8 +255,8 @@ dojo.declare(
 	
 	_openSubmenu: function(submenu, from_item){
 		// summary: open the submenu to the side of the current menu item
-		var orient = dojo.html.isLeftToRight(from_item.arrow) ? {'TR': 'TL', 'TL': 'TR'} : {'TL': 'TR', 'TR': 'TL'};
-		submenu._openAsSubmenu(this, from_item.arrow, orient);
+		var orient = dojo.html.isLeftToRight(from_item.arrowCell) ? {'TR': 'TL', 'TL': 'TR'} : {'TL': 'TR', 'TR': 'TL'};
+		submenu._openAsSubmenu(this, from_item.arrowCell, orient);
 
 		this.currentSubmenu = submenu;
 		this.currentSubmenuTrigger = from_item;
@@ -294,7 +294,7 @@ dojo.declare(
 		 '<tr class="dojoMenuItem" dojoAttachEvent="onMouseOver: onHover; onMouseOut: onUnhover; onClick: _onClick;">'
 		+'<td><div class="dojoMenuItemIcon" style="${this.iconStyle}"></div></td>'
 		+'<td tabIndex="-1" class="dojoMenuItemLabel" dojoAttachPoint="containerNode"></td>'
-		+'<td><div class="dojoMenuArrowWrapper"><div class="dojoMenuItemSubmenu" style="display:none;" dojoAttachPoint="arrow"></div></div></td>'
+		+'<td dojoAttachPoint="arrowCell"><div class="dojoRightArrowOuter"><div class="dojoRightArrowInner" style="display:none;" dojoAttachPoint="arrow"></div></div></td>'
 		+'</tr>',
 
 	//

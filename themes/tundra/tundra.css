@@ -99,6 +99,34 @@
 	background-image: url(checkmark.gif);
 }
 
+/*** Full sized arrows (matching the size of a line of text) ***/
+
+/* Right arrow */
+
+.dojoRightArrowOuter {
+	border:0px none;
+	height:0.9em;
+	margin:auto;
+	overflow:hidden;
+	padding:0px;
+	width:0.7em;
+}
+
+.dojoRightArrowInner {
+	border-width:1.32em 2.1em 1.32em 2.1em;
+        margin:-.88em -1.4em -.88em -1.4em;
+	border-style:dotted solid;
+	border-color:transparent gray;
+	line-height:0px;
+	height:0px;
+	width:0px;
+}
+
+/* it becomes a left arrow for LTR locales */
+.dojoRTL .dojoRightArrowInner {
+	margin-left:-2.1em;
+}
+
 /* Menu */
 
 .dojoMenu{
@@ -129,31 +157,6 @@
 .dojoMenuItemLabel {
 	position: relative;
 	vertical-align: middle;
-}
-
-/* Right arrow */
-.dojoMenuItemSubmenu {
-	border-width:1.32em 2.1em 1.32em 2.1em;
-        margin:-.88em -1.4em -.88em -1.4em;
-	border-style:dotted solid;
-	border-color:transparent gray;
-	line-height:0px;
-	height:0px;
-	width:0px;
-}
-
-.dojoMenuArrowWrapper {
-	border:0px none;
-	height:0.9em;
-	margin:auto;
-	overflow:hidden;
-	padding:0px;
-	width:0.7em;
-}
-
-/* Left arrow */
-.dojoRTL .dojoMenuItemSubmenu {
-	margin-left:-2.1em;
 }
 
 .dojoMenuItemHover .dojoMenuItemSubmenu {
@@ -354,6 +357,21 @@
 	border-color:white transparent;
 }
 
+/* Tooltip */
+
+.dojoTooltip {
+	border: solid black 1px;
+	background: beige;
+	color: black;
+	position: absolute;
+	font-size: small;
+	padding: 2px 2px 2px 2px;
+	z-index: 10;
+	display: block;
+}
+
+/* TitlePane */
+
 .dojoTitlePaneLabel {
 	background: #cccccc;
 	height: 20px;
@@ -364,3 +382,4 @@
 	background: #ffffff;
 	border-top: 1px solid #666666;	/* w/out this, an <h1> on the top line causes a gap between the .content and .label */
 }
+
