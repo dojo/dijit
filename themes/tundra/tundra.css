@@ -131,27 +131,29 @@
 	vertical-align: middle;
 }
 
-/* Down arrow (should be right arrow)*/
+/* Right arrow */
 .dojoMenuItemSubmenu {
-	border-width:1.05em 0.66em 1.05em 0.66em;
-	margin: -0.7em 0px 0px -.44em;
-	border-style:solid dotted;
-	border-color:gray transparent;
+	border-width:1.32em 2.1em 1.32em 2.1em;
+        margin:-.88em -1.4em -.88em -1.4em;
+	border-style:dotted solid;
+	border-color:transparent gray;
 	line-height:0px;
 	height:0px;
 	width:0px;
 }
+
 .dojoMenuArrowWrapper {
 	border:0px none;
-	height:0.7em;
+	height:0.9em;
 	margin:auto;
 	overflow:hidden;
 	padding:0px;
-	width:0.9em;
+	width:0.7em;
 }
 
+/* Left arrow */
 .dojoRTL .dojoMenuItemSubmenu {
-	/* should be left arrow */
+	margin-left:-2.1em;
 }
 
 .dojoMenuItemHover .dojoMenuItemSubmenu {
