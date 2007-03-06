@@ -450,6 +450,27 @@
 				<input id="q23" type="password" name="password" class="medium"
 					dojoType="dijit.form.Textbox" />
 			</div>
+
+                        <div class="formQuestion">
+                                <span class="emphasize"><label for="ticket1651">Trac ticket 1651:  </label></span>
+                                <span class="noticeMessage">value: null should show up as empty</span>
+                        </div>
+                        <div class="formAnswer">
+                                <input id="ticket1651" class="medium" value="not null"/>
+                        </div>
+<script>
+        // See if we can make a widget in script and attach it to the DOM ourselves.
+        dojo.addOnLoad(function(){
+                var props = {
+                        name: "ticket1651",
+                        id: "mname",
+                        value: null
+                };
+                var refNode = document.getElementById("ticket1651");
+
+                var w = new dijit.form.Textbox(props, refNode);
+        });
+</script>
 <script>
 	function displayData() {
 		var f = document.getElementById("form1");
