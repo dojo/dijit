@@ -16,6 +16,7 @@
 			dojo.require("dijit.form.Textbox");
 			dojo.require("dijit.form.ValidationTextbox");
 			dojo.require("dijit.form.NumberTextbox");
+			dojo.require("dijit.form.CurrencyTextbox");
 			dojo.require("dijit.form.DateTextbox");
 			dojo.require("dojo.validate.common");
 			dojo.require("dojo.validate.us");
@@ -219,7 +220,21 @@
 					Attributes: {fractional: true}. Enter dollars and cents.</span>
 			</div>
 			<div class="formAnswer">
-				<input id="q08" type="text" name="income" class="medium" value="$54,775.53"
+				<input id="q08" type="text" name="income" class="medium" value="54775.53"
+					dojoType="dijit.form.CurrencyTextbox"
+					trim="true" 
+					required="true" 
+					currency="USD"
+					invalidMessage="Invalid amount.  Include dollar sign, commas, and cents. Example: $12,000.00" />
+			</div>
+
+			<div class="formQuestion">
+				<span class="emphasize"><label for="q08a">Annual Income:  </label></span>
+				<span class="noticeMessage">CurrencyTextbox class, 
+					Attributes: {fractional: true}. Enter dollars and cents.</span>
+			</div>
+			<div class="formAnswer">
+				<input id="q08a" type="text" name="income" class="medium" value="$54,775.53"
 					dojoType="dijit.form.ValidationTextbox"
 					regExpGen="dojo.regexp.currency"
 					trim="true" 
@@ -309,7 +324,7 @@
 					Attributes: {locale: "en-us", required: true}. Works for leap years</span>
 			</div>
 			<div class="formAnswer">
-				<input id="q14" type="text" name="date1" class="medium" value="" d="2005-12-30"
+				<input id="q14" type="text" name="date1" class="medium" value="2005-12-30"
 					dojoType="dijit.form.DateTextbox"
 					constraints={locale:'en-us'}
 					required="true"
