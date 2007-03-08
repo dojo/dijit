@@ -217,15 +217,22 @@
 			<div class="formQuestion">
 				<span class="emphasize"><label for="q08">Annual Income:  </label></span>
 				<span class="noticeMessage">CurrencyTextbox class, 
-					Attributes: {fractional: true}. Enter dollars and cents.</span>
+					Attributes: {fractional: true}. Enter whole and cents.</span>
 			</div>
 			<div class="formAnswer">
 				<input id="q08" type="text" name="income" class="medium" value="54775.53"
 					dojoType="dijit.form.CurrencyTextbox"
-					trim="true" 
 					required="true" 
 					currency="USD"
-					invalidMessage="Invalid amount.  Include dollar sign, commas, and cents. Example: $12,000.00" />
+					invalidMessage="Invalid amount.  Include dollar sign, commas, and cents. Currency symbol is optional. Example: $12,000.00" />USD
+			</div>
+
+			<div class="formAnswer">
+				<input id="q08eur" type="text" name="income" class="medium" value="54775.53"
+					dojoType="dijit.form.CurrencyTextbox"
+					required="true" 
+					currency="EUR"
+					invalidMessage="Invalid amount.  Include euro sign, commas, and cents. Example: &#x20ac;12,000.00" />EUR
 			</div>
 
 			<div class="formQuestion">
