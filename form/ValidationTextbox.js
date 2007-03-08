@@ -155,6 +155,10 @@ dojo.declare(
 	
 		postMixInProperties: function(){
 			dijit.form.ValidationTextbox.superclass.postMixInProperties.apply(this, arguments);
+			if(this.constraints === dijit.form.ValidationTextbox.prototype.constraints){
+				// declare a constraints property on 'this' so we don't overwrite the shared default object in 'prototype'
+				this.constraints = {};
+			}
 			this.messages = dojo.i18n.getLocalization("dijit.form", "validate", this.lang);
 			dojo.lang.forEach(["invalidMessage", "missingMessage"], function(prop){
 				if(!this[prop]){ this[prop] = this.messages[prop]; }
