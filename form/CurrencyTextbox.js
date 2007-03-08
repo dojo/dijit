@@ -9,11 +9,6 @@ dojo.declare(
 	"dijit.form.CurrencyTextbox",
 	dijit.form.NumberTextbox,
 	{
-		// summary:
-		//		A validating, serializable, range-bound text box for localized currencies.
-		// constraints object: ...
-		constraints: {},
-
 		// code: String
 		//		the ISO4217 currency code, a three letter sequence like "USD"
 		//		See http://en.wikipedia.org/wiki/ISO_4217
@@ -24,6 +19,10 @@ dojo.declare(
 		parse: dojo.currency.parse,
 
 		postMixInProperties: function(){
+			if(this.constraints === dijit.form.ValidationTextbox.prototype.constraints){
+				// declare a constraints property on 'this' so we don't overwrite the shared default object in 'prototype'
+				this.constraints = {};
+			}
 			this.constraints.currency = this.currency;
 			dijit.form.CurrencyTextbox.superclass.postMixInProperties.apply(this, arguments);
 		}
