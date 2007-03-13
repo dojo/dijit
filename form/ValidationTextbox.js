@@ -44,13 +44,9 @@ dojo.declare(
 	
 		templatePath: dojo.uri.moduleUri("dijit.form", "templates/ValidationTextbox.html"),
 		
-		getValue: function(){
-			return this.parse(this.textbox.value, this.constraints);
-		},
-	
 		setValue: function(value){
-			this.textbox.value = this.format(value, this.constraints);
-			this.update(false);
+			dijit.form.ValidationTextbox.superclass.setValue.call(this, value);
+			this.validate(false);
 		},
 	
 		validator: function(value,constraints){
@@ -63,16 +59,6 @@ dojo.declare(
 			return this.validator(this.textbox.value, this.constraints);
 		},
 	
-		format: function(/* String */ value, /* Object */ constraints){
-			// summary: Convert a primitive value to a properly formatted string
-			return value;
-		},
-
-		parse: function(/* String */ value, /* Object */ constraints){
-			// summary: Convert a properly formatted string to a more primitive value
-			return value;
-		},
-
 		isEmpty: function() {
 			// summary: Checks for whitespace
 			return ( /^\s*$/.test(this.textbox.value) ); // Boolean
@@ -99,14 +85,12 @@ dojo.declare(
 			if (this.isEmpty()){ return this.promptMessage; }
 		},
 
-		update: function(/* Boolean*/ isFocused){
+		validate: function(/* Boolean*/ isFocused){
 			// summary:
 			//		Called by oninit, onblur, and onkeypress.
 			// description:
 			//		Show missing or invalid messages if appropriate, and highlight textbox field.
 			
-			// allow base class to handle onValueChanged events
-			dijit.form.ValidationTextbox.superclass.setValue.call(this, this.getValue());
 			var message = this.getErrorMessage(isFocused);
 			if (typeof message == "string"){
 				var _class = "dojoInputFieldValidationError";
@@ -135,9 +119,9 @@ dojo.declare(
 		},
 		
 		onfocus: function(evt){
-			dojo.html.addClass(this.nodeWithBorder,"dojoInputFieldFocused");
+			dijit.form.ValidationTextbox.superclass.onfocus.apply(this, arguments);
 			if (this.listenOnKeyPress){
-				this.update(true);
+				this.validate(true);
 			}else{
 				this.updateClass("dojoInputFieldValidationWarning");
 			}
@@ -147,18 +131,11 @@ dojo.declare(
 			this.onfocus(evt);
 		},
 
-		onblur: function(evt){ 
-			dojo.html.removeClass(this.nodeWithBorder,"dojoInputFieldFocused");
-			this.filter();
-			this.update(false); 
-		},
-	
 		postMixInProperties: function(){
-			dijit.form.ValidationTextbox.superclass.postMixInProperties.apply(this, arguments);
-			if(this.constraints === dijit.form.ValidationTextbox.prototype.constraints){
-				// declare a constraints property on 'this' so we don't overwrite the shared default object in 'prototype'
+			if(this.constraints == dijit.form.ValidationTextbox.prototype.constraints){
 				this.constraints = {};
 			}
+			dijit.form.ValidationTextbox.superclass.postMixInProperties.apply(this, arguments);
 			this.messages = dojo.i18n.getLocalization("dijit.form", "validate", this.lang);
 			dojo.lang.forEach(["invalidMessage", "missingMessage"], function(prop){
 				if(!this[prop]){ this[prop] = this.messages[prop]; }
@@ -172,10 +149,6 @@ dojo.declare(
 		postCreate: function(){
 			dijit.form.ValidationTextbox.superclass.postCreate.apply(this);
 
-			// get the node for which the background color will be updated
-			if (typeof this.nodeWithBorder != "object"){
-				this.nodeWithBorder = this.textbox;
-			}
 			// Attach isMissing and isValid methods to the textbox.
 			// We may use them later in connection with a submit button widget.
 			// TODO: this is unorthodox; it seems better to do it another way -- Bill
@@ -183,7 +156,7 @@ dojo.declare(
 			this.textbox.isMissing = function(){ this.isMissing.call(this); };
 			// setting the value here is needed since value="" in the template causes "undefined" on form reset
 			this.textbox.setAttribute("value", this.value);
-			this.update(false); 
+			this.validate(false); 
 		}
 	}
 );
@@ -207,9 +180,9 @@ dojo.declare(
 			return val ? ((typeof val == "string") ? val : this.serialize(val)) : "";
 		},
 
-		update: function(){
+		validate: function(){
 			this.valueNode.value = this.toString();
-			dijit.form.SerializableTextbox.superclass.update.apply(this, arguments);
+			dijit.form.SerializableTextbox.superclass.validate.apply(this, arguments);
 		},
 
 		postCreate: function(){

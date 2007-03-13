@@ -2,6 +2,7 @@
 .dojoInlineBox {
 	display: -moz-inline-stack;
 	display:inline-block;
+	_display:inline;
 	border:0px;
 	padding:0px;
 }
@@ -417,3 +418,12 @@
 	border-top: 1px solid #666666;	/* w/out this, an <h1> on the top line causes a gap between the .content and .label */
 }
 
+.dojoDisabledClickableRegion {
+	cursor: default;        /* makes opera happy */
+	cursor: url("no.gif"), default;
+}
+
+.dojoClickableRegion {
+        background-color : #ffc !important;
+        cursor : pointer;
+}

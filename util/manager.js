@@ -56,7 +56,7 @@ dijit.util.manager = new function(){
 	}
 
 	this.byNode = function(/* DOMNode */ node){
-		return widgets[node.widgetId];
+		return widgets[node.id];
 	}
 };
 

@@ -1,0 +1,69 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+
+<title>Inline Edit Box Widget Demo</title>
+
+<link rel=stylesheet href="../../themes/tundra/tundra.css" type="text/css">
+<script type="text/javascript">
+        var djConfig = {isDebug: true, debugAtAllCosts: true};
+</script>
+<script type="text/javascript" src="../../../dojo/dojo.js"></script>
+<script language="JavaScript" type="text/javascript">
+        dojo.registerModulePath("dijit", "../dijit");
+        dojo.require("dijit.form.InlineEditBox");
+        dojo.require("dijit.form.Textbox");
+	dojo.require("dijit.form.DateTextbox");
+        dojo.require("dijit.util.parser");      // scan page for widgets and instantiate them
+        dojo.hostenv.writeIncludes();
+</script>
+
+<script type="text/javascript">
+	function myHandler(id,newValue) {
+		dojo.debug("onValueChanged for id = " + id + ", value: " + newValue);
+	};
+</script>
+
+<style type="text/css">
+	body { font-family : sans-serif; background:#fff; }
+	
+	.inlineEdit { background-color: #CCC76A; }
+</style>
+</head>
+
+<body class="tundra" style="padding: 50px;">
+
+before
+<span id="editable" style="font-size:larger;" dojoType="dijit.form.InlineEditBox" onValueChanged="myHandler(this.id,arguments[0])">
+	<input dojoType="dijit.form.Textbox" value="Edit me - I trigger the onValueChanged callback">
+</span>
+after
+
+<!-- waiting for RichText widget to be ported to dijit
+<p id="areaEditable" dojoType="inlineEditBox" mode="textarea">
+I'm one big paragraph.  Go ahead and edit me.
+I dare you. 
+The quick brown fox jumped over the lazy dog.
+  Blah blah blah blah blah blah blah ...
+</p>
+-->
+<p>
+These links will
+<a href="#" onClick="dijit.byId('editable').disable()">disable</a>
+/
+<a href="#" onClick="dijit.byId('editable').enable()">enable</a>
+the text area above.
+
+</p>
+
+<b>Date text box:</b>
+<p id="backgroundArea" class="inlineEdit" dojoType="dijit.form.InlineEditBox" >
+	<input name="date" value="2005-12-30"
+        	dojoType="dijit.form.DateTextbox"
+        	constraints={locale:'en-us'}
+        	required="true"
+        	promptMessage="mm/dd/yyyy"
+        	invalidMessage="Invalid date. Use mm/dd/yyyy format.">
+</p>
+</body>
+</html>

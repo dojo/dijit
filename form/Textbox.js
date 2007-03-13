@@ -45,34 +45,75 @@ dojo.declare(
 		
 		templatePath: dojo.uri.moduleUri("dijit.form", "templates/Textbox.html"),
 	
-		postCreate: function() {
-			dijit.form.Textbox.superclass.postCreate.apply(this);
-			// assign value programatically in case it has a quote in it
-			this.textbox.value = this.value;
-			this.filter();
+		getTextValue: function(){
+		        return this.filter(this.textbox.value);
 		},
 
-		filter: function() {
+		getValue: function(){
+			return this.parse(this.getTextValue(), this.constraints);
+		},
+
+		setTextValue: function(value){
+			this.textbox.value = this.filter(value);
+		},
+
+		setValue: function(value){
+			this.setTextValue(this.format(value, this.constraints));
+			dijit.form.Textbox.superclass.setValue.call(this,value);
+		},
+
+		format: function(/* String */ value, /* Object */ constraints){
+			// summary: Replacable function to convert a value to a properly formatted string
+			return value;
+		},
+
+		parse: function(/* String */ value, /* Object */ constraints){
+			// summary: Replacable function to convert a formatted string to a value
+			return value;
+		},
+
+		postCreate: function() {
+			dijit.form.Textbox.superclass.postCreate.apply(this);
+			// get the node for which the background color will be updated
+			if (typeof this.nodeWithBorder != "object"){
+				this.nodeWithBorder = this.textbox;
+			}
+			// assign value programatically in case it has a quote in it
+			this.setTextValue(this.value);
+		},
+
+		filter: function(val) {
 			// summary: Apply various filters to textbox value
 			if (this.trim) {
-				this.textbox.value = this.textbox.value.replace(/(^\s*|\s*$)/g, "");
+				val = val.replace(/(^\s*|\s*$)/g, "");
 			} 
 			if (this.uppercase) {
-				this.textbox.value = this.textbox.value.toUpperCase();
+				val = val.toUpperCase();
 			} 
 			if (this.lowercase) {
-				this.textbox.value = this.textbox.value.toLowerCase();
+				val = val.toLowerCase();
 			} 
 			if (this.ucFirst) {
-				this.textbox.value = dojo.string.capitalize(this.textbox.value);
+				val = dojo.string.capitalize(val);
 			} 
 			if (this.digit) {
-				this.textbox.value = this.textbox.value.replace(/\D/g, "");
+				val = val.replace(/\D/g, "");
 			} 
+			return val;
 		},
 	
+		focus: function(){
+			// summary: if the widget wants focus, then focus the textbox
+			this.textbox.focus();
+		},
+
 		// event handlers, you can over-ride these in your own subclasses
-		onfocus: function() {},
-		onblur: function() { this.filter(); }
+		onfocus: function(){ 
+			dojo.html.addClass(this.nodeWithBorder,"dojoInputFieldFocused"); 
+		},
+		onblur: function(){ 
+			dojo.html.removeClass(this.nodeWithBorder,"dojoInputFieldFocused"); 
+			this.setValue(this.getValue()); 
+		}
 	}
 );
