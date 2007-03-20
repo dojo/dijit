@@ -1,4 +1,4 @@
- dojo.provide("dijit.util.PopupManager");
+dojo.provide("dijit.util.PopupManager");
 
 dojo.require("dojo.lang.array");
 dojo.require("dojo.html.selection");
