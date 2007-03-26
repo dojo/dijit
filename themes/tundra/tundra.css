@@ -398,14 +398,45 @@
 /* Tooltip */
 
 .dojoTooltip {
-	border: solid black 1px;
-	background: beige;
-	color: black;
 	position: absolute;
-	font-size: small;
-	padding: 2px 2px 2px 2px;
 	z-index: 10;
 	display: block;
+	margin-top: 10px;
+	border: red;
+	/* todo: make visible but off screen */
+}
+
+.dojoTooltipContainer {
+	border: solid black 2px;
+	background: #b8b5b5;
+	color: black;
+	font-size: small;
+	padding: 2px 2px 2px 2px;
+}
+
+.dojoTooltipConnector {
+	/* the border on the triangle */
+	font-size: 0px; line-height: 0%; width: 0px;
+	position: absolute;
+	border-top: none;
+	border-bottom: 14px solid black;
+	border-left: 7px solid transparent;
+	border-right: 7px solid transparent;
+	top: -14px;
+	left: 3px;
+	z-index: 2;
+}
+
+.dojoTooltipConnector div {
+	/* the background of the triangle */
+	font-size: 0px; line-height: 0%; width: 0px;
+	position: absolute;
+	border-bottom: 10px solid #b8b5b5;
+	border-left: 5px solid transparent;
+	border-right: 5px solid transparent;
+	top: 6px;
+	left: -5px;
+	z-index: 3;
 }
 
 /* TitlePane */

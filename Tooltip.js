@@ -7,11 +7,12 @@ dojo.require("dojo.html.style");
 dojo.require("dojo.html.util");
 
 dojo.require("dijit.base.Widget");
+dojo.require("dijit.base.TemplatedWidget");
 dojo.require("dijit.util.PopupManager");
 
 dojo.declare(
 	"dijit.Tooltip",
-	[dijit.base.Widget],
+	[dijit.base.Widget, dijit.base.TemplatedWidget],
 	{
 		// summary
 		//		Pops up a tooltip (a help message) when you hover over a node
@@ -36,19 +37,18 @@ dojo.declare(
 		//		(When user hovers over specified dom node, the tooltip will appear.)
 		connectId: "",
 
+		templatePath: dojo.uri.moduleUri("dijit", "templates/Tooltip.html"),
+	
 		postCreate: function(){
 			this._connectNode = dojo.byId(this.connectId);
 			dojo.event.connect(this._connectNode, "onmouseover", this, "_onMouseOver");
 
 			if(this.caption != ""){
-				this.domNode.appendChild(document.createTextNode(this.caption));
+				this.containerNode.appendChild(document.createTextNode(this.caption));
 			}
-			dojo.html.addClass(this.domNode, "dojoTooltip");
 		},
 
 		_onMouseOver: function(/*Event*/ e){
-			this._mouse = {pageX: e.pageX, pageY: e.pageY, target: e.target};
-
 			// Start tracking mouse movements, so we know when to cancel timers or erase the tooltip
 			if(!this._tracking){
 				dojo.event.connect(document.documentElement, "onmousemove", this, "_onMouseMove");
@@ -59,8 +59,6 @@ dojo.declare(
 		},
 
 		_onMouseMove: function(/*Event*/ e) {
-			this._mouse = {pageX: e.pageX, pageY: e.pageY, target: e.target};
-
 			if(dojo.html.overElement(this._connectNode, e) || dojo.html.overElement(this.domNode, e)){
 				this._onHover(e);
 			} else {
@@ -112,7 +110,7 @@ dojo.declare(
 			// summary: display the tooltip; usually not called directly.
 
 			if (this.isShowingNow) { return; }
-			dijit.util.PopupManager.open(this._mouse, this, [10,15]);
+			dijit.util.PopupManager.openAround(this._connectNode, this, {'BL': 'TL', 'TL': 'BL'}, [0, 0] );
 			this.isShowingNow = true;
 		},
 
