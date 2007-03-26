@@ -3,8 +3,10 @@
 		<title>Dojo Tundra Look and Feel</title>
 		<link href="tundra.css" rel="stylesheet" type="text/css" />
 		<style type="text/css">
-			button {
-				margin:0 12px 0 0;
+			
+			body {
+				background:#cddde9;
+				background:#fff;
 			}
 			
 			input {
@@ -15,17 +17,16 @@
 	<body>
 		
 		<h4>Button Widget Example</h4>
-		<button class="dojoButton">Button</button>
-		<button class="dojoButton">Button</button>
+		<span class="dojoButton dojoInlineBox"><button>Button</button></span>
 		
-		<button class="dojoButton dojoButtonDisabled" disabled="disabled">Disabled</button>
+		<span class="dojoButton dojoButtonDisabled dojoInlineBox"><button disabled="disabled">Disabled</button></span>
 		
 		<h4>Form Fields</h4>
 		<input type="text" class="dojoinputField" id="loginId" /><br />
 		<input type="text" class="dojoInputField dojoInputFieldDisabled" disabled="disabled" value="Test" /><br />
 		<input type="text" class="dojoInputField dojoInputFieldValidationError" value="Test" /><br />
 		<input type="password" class="dojoinputField" id="passwordField" /><br />
-		<button class="dojoButton">Login</button>
+		<span class="dojoButton dojoInlineBox"><button>Login</button></span>
 		
 	</body>
 </html>

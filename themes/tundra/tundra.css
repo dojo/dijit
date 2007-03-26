@@ -1,7 +1,9 @@
+
 /* To inline block elements, surround them with <fieldset class="dojoInlineBox"> */
 .dojoInlineBox {
-	display: -moz-inline-stack;
+	
 	display:inline-block;
+	display: -moz-inline-stack;
 	_display:inline;
 	border:0px;
 	padding:0px;
@@ -12,15 +14,74 @@
 }
 
 /*IE6 Hack */
-* html .dojoButton, 
+* html .dojoButton button, 
 * html .dojoInputField,
 * html .dojoMenu {
 	background-image: none;
 	filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src="dojoTundraGradientBg.png", sizingMethod="scale");
 }
 
+
+
+/*Dojo Button Rules*/
+
+.dojoButton {
+	background:#fff;
+	border-top:1px solid #dadada;
+	border-right:1px solid #a9a9a9;
+	border-bottom:1px solid #a9a9a9;
+	border-left:1px solid #dadada;
+	padding:0 0 1px 1px;
+}
+
+.dojoButton button {
+	background:#e2e2e2 url("dojoTundraGradientBg.png") repeat-x 0 0;
+	border:0;
+	border-left:0;
+	font-family: Myriad, Arial, Helvetica;
+	font-size:13px;
+	font-weight:normal;
+	padding:2px 4px;
+}
+
+.dojoButtonDisabled {
+	background:#dadada;
+	border-top:1px solid #dadada;
+	border-right:1px solid #a9a9a9;
+	border-bottom:1px solid #a9a9a9;
+	border-left:1px solid #dadada;
+}
+
+.dojoButtonDisabled button {
+	color:#787878;
+	background-image: url("dojoTundraGradientBgActive.png");
+}
+
+span.dojoButton:hover {
+	border-top:1px solid #80a5c2;
+	border-right:1px solid #42739a;
+	border-bottom:1px solid #42739a;
+	border-left:1px solid #80a5c2;
+}
+
+span.dojoButton:hover button {
+	color:#0e4978;
+}
+
+span.dojoButton:active {
+		border-top:1px solid #42739a;
+	border-right:1px solid #80a5c2;
+	border-bottom:1px solid #80a5c2;
+	border-left:1px solid #42739a;
+}
+
+span.dojoButton:active button {
+	background-image: url("dojoTundraGradientBgActive.png");
+	background-position:bottom left;
+}
+
+
 /* Base of Tundra default theme */
-.dojoButton, 
 .dojoInputField
 {
 	background:#e9e9e9 url("dojoTundraGradientBg.png") repeat-x 0 0;
@@ -33,8 +94,7 @@
 }
 
 
-/* Default Hover Styles */
-.dojoButton:hover, 
+/* Default Hover Styles */ 
 .dojoInputField:hover,
 .dojoMenuItemHover
 {
@@ -43,7 +103,6 @@
 }
 
 /* Default Active/Focus style*/
-.dojoButton:active, 
 .dojoInputField:focus,
 .dojoInputFieldFocused
 {
@@ -53,9 +112,7 @@
 }
 
 /* Default Disabled Styles*/
-.dojoButton[disabled],
 .dojoInputField[disabled],
-.dojoButtonDisabled,
 .dojoInputFieldDisabled,
 .dojoMenuItemDisabled {
 	background-position:0 -8px;
@@ -64,9 +121,7 @@
 	border-color:#e0e0e0;
 }
 
-.dojoButton[disabled]:active,
 .dojoInputField[disabled]:active,
-.dojoButtonDisabled:active,
 .dojoInputFieldDisabled:active {
 	background-image: url("dojoTundraGradientBg.png");
 }
