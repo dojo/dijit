@@ -21,8 +21,8 @@ dojo.declare(
 	//		Currently all textboxes that inherit from dijit.form.Textbox
 	//		are supported edit widgets.
 	//		An edit widget must support the following API to be used:
-	//		String getTextValue()
-	//		void setTextValue(String)
+	//		String getTextValue() OR String getValue()
+	//		void setTextValue(String) OR void setValue(String)
 	//		void focus()
 	//		It must also be able to initialize with style="display:none;" set.
 {
@@ -44,12 +44,21 @@ dojo.declare(
 		var _this = this;
 		dojo.addOnLoad(function(){
 			// look for the input widget as a child of the containerNode
-			var node = _this.containerNode.firstChild;
-			while (node != null) {
-				_this.editWidget = dijit.util.manager.byNode(node);
-				if (_this.editWidget){ break; }
-				node = node.nextSibling;
+			if (_this.editWidget){
+				_this.containerNode.appendChild(_this.editWidget.domNode);
+			}else{
+				var node = _this.containerNode.firstChild;
+				while (node != null) {
+					_this.editWidget = dijit.util.manager.byNode(node);
+					if (_this.editWidget){
+						break;
+					}
+					node = node.nextSibling;
+				}
 			}
+			_this._setEditValue = dojo.lang.hitch(_this.editWidget,_this.editWidget.setTextValue||_this.editWidget.setValue);
+			_this._getEditValue = dojo.lang.hitch(_this.editWidget,_this.editWidget.getTextValue||_this.editWidget.getValue);
+			_this._setEditFocus = dojo.lang.hitch(_this.editWidget,_this.editWidget.focus);
 			_this._showText();
 		});
 	},
@@ -95,23 +104,22 @@ dojo.declare(
 		this.editing = true;
 
 		// show the edit form and hide the read only version of the text
-		this.editWidget.setTextValue(this._isEmpty ? '' : this.editable.innerHTML);
+		this._setEditValue(this._isEmpty ? '' : this.editable.innerHTML);
+		this._initialText = this._getEditValue();
 		this._visualize();
 
-		this.editWidget.focus();
+		this._setEditFocus();
 		this.saveButton.disabled = true;
+		this.editWidget.onValueChanged = dojo.lang.hitch(this,"checkForValueChange");
 	},
 
 	_visualize: function(e){
-		this.saveButton.style.display
-		= this.cancelButton.style.display
-		= this.containerNode.style.display 
-		= this.editing ? "" : "none";
+		this.editNode.style.display = this.editing ? "" : "none";
 		this.editable.style.display = this.editing ? "none" : "";
 	},
 
 	_showText: function(){
-		var value = this.editWidget.getTextValue();
+		var value = this._getEditValue();
 		dijit.form.InlineEditBox.superclass.setValue.call(this, value);
 		// whitespace is really hard to click so show a ?
 		if (/^\s*$/.test(value)) { value = "?"; this._isEmpty = true; }
@@ -135,7 +143,7 @@ dojo.declare(
 
 	setValue: function(/*String*/ value){
 		// sets the text without informing the server
-		this.editWidget.setTextValue(value);
+		this._setEditValue(value);
 		this.editing = false;
 		this._showText();
 	},
@@ -144,7 +152,7 @@ dojo.declare(
 		// summary
 		//		Callback when user changes input value.
 		//		Enable save button if the text value is different than the original value.
-		this.saveButton.disabled = (this.editWidget.getTextValue() == this.editable.innerHTML);
+		this.saveButton.disabled = (this._getEditValue() == this._initialText);
 	},
 	
 	disable: function(){

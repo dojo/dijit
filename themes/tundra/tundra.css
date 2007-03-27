@@ -516,3 +516,8 @@ span.dojoButton:active button {
         background-color : #ffc !important;
         cursor : pointer;
 }
+
+.dojoTextArea {
+	width:50%;
+	overflow:auto;
+}
