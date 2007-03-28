@@ -145,7 +145,7 @@ dojo.declare(
 					style.left = 0+"px";
 					style.top = 0 - nodeSize.height - 10 + "px";
 				}else{
-					dojo.raise(this.widgetId + ".positionDirection is an invalid value: " + pd);
+					dojo.raise(this.id + ".positionDirection is an invalid value: " + pd);
 				}
 
 				this.slideAnim = dojo.lfx.html.slideTo(

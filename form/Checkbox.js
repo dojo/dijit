@@ -60,7 +60,6 @@ dojo.declare(
 			// assumes <label for="inputId">label text </label> rather than
 			// <label><input type="xyzzy">label text</label>
 			var notcon = true;
-			this.id = this.id !="" ? this.id : this.widgetId;
 			if(this.id != ""){
 				var labels = document.getElementsByTagName("label");
 				if (labels != null && labels.length > 0){
