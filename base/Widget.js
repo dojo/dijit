@@ -138,7 +138,7 @@ function(params, srcNodeRef){
 		//		tear-down?
 		this.uninitialize();
 		this.destroyRendering(finalize);
-		dijit.util.manager.removeById(this.id);
+		dijit.util.manager.remove(this.id);
 	},
 
 	destroyRendering: function(/*Boolean*/ finalize){
@@ -167,8 +167,7 @@ function(params, srcNodeRef){
 		//		Recursively destroy the children of this widget and their
 		//		descendents.
 
-		dojo.lang.forEach(this.getDescendants(), function(id){
-			var widget = dijit.byId(id);
+		dojo.lang.forEach(this.getDescendants(), function(widget){
 			widget._destroy();
 		});
 	},
