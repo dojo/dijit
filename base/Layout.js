@@ -25,7 +25,7 @@ dojo.declare("dijit.base.Sizable",
 				param = dojo.html.getMarginBox(this.domNode);
 			}
 			this.onResized(param);
-		}
+		},
 	
 		onResized: function(param){
 			//	summary
