@@ -58,14 +58,14 @@
 }
 
 span.dojoButton:hover {
-	border-top:1px solid #80a5c2;
-	border-right:1px solid #42739a;
-	border-bottom:1px solid #42739a;
-	border-left:1px solid #80a5c2;
+	border-top:1px solid #9dcff5;
+	border-right:1px solid #4aa0e1;
+	border-bottom:1px solid #4aa0e1;
+	border-left:1px solid #9dcff5;
 }
 
 span.dojoButton:hover button {
-	color:#0e4978;
+	color:#236190;
 }
 
 span.dojoButton:active {
@@ -76,10 +76,10 @@ span.dojoButton:active {
 }
 
 span.dojoButton:active button {
-	background-image: url("dojoTundraGradientBgActive.png");
-	background-position:bottom left;
+	/*background-image: url("dojoTundraGradientBgActive.png");
+	background-position:bottom left;*/
+	background-color:#d3e7f5;
 }
-
 
 /* Base of Tundra default theme */
 .dojoInputField
@@ -520,4 +520,43 @@ span.dojoButton:active button {
 .dojoTextArea {
 	width:50%;
 	overflow:auto;
+}
+
+
+/* Tabs */
+
+.dojoTabPane {
+	clear:left;
+	border:1px solid #ccc;
+}
+
+.dojoTab {
+	font-family: Myriad, Arial, Helvetica;
+	font-size:13px;
+	font-weight:normal;
+	cursor:pointer;
+	float:left;
+	margin:0 5px 0 0;
+	position:relative;
+	white-space:nowrap;
+	z-index:3;
+	border-color:#ccc;
+	border-width:1px 1px 0 1px;
+	border-style:solid;
+}
+
+.dojoTab span {
+	padding:6px;
+	border-left:1px solid #fff;
+	border-right:1px solid #fff;
+	background:#e2e2e2 url("dojoTundraGradientBg.png") repeat-x 0 0;
+}
+
+.dojoTabActive {
+	border-bottom:0;
+	bottom:-1px;
+}
+
+.dojoTabActive span {
+	background:#f7f7f7 url("dojoTundraGradientBgActive.png") bottom left repeat-x;
 }
