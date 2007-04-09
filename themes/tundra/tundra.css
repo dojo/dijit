@@ -558,5 +558,5 @@ span.dojoButton:active button {
 }
 
 .dojoTabActive span {
-	background:#f7f7f7 url("dojoTundraGradientBgActive.png") bottom left repeat-x;
+	background:#fff url("dojoTundraTabActiveBg.png") top left repeat-x;
 }
