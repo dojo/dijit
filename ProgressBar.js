@@ -49,11 +49,6 @@ dojo.declare(
 		// max sample number
 		maximum: 100,
 
-		// color: String
-		// Plain background color; default uses textured pattern
-		//TODO: use CSS instead?
-		color: "",
-
 		// orientation: String
 		// whether bar grows along the x-axis (default) or y- axis (vertical)
 		orientation: "",
@@ -83,11 +78,7 @@ dojo.declare(
 		// public functions
 		postCreate: function(){
 			dijit.ProgressBar.superclass.postCreate.apply(this, arguments);
-			if(this.color){
-				dojo.html.setStyle(this.internalProgress, "background-color", this.color);
-			}else{
-				dojo.html.addClass(this.internalProgress, "dojoProgressBarTile");
-			}
+			dojo.html.applyBrowserClass(this.domNode);
 			if(this.orientation == "vertical"){
 				dojo.html.addClass(this.domNode, "dojoProgressBarVertical");
 				this._dimension = "height";
@@ -115,6 +106,8 @@ dojo.declare(
 			}
 
 			if(!this._animationStopped){return;}
+
+			this._setWaiValueNow(this.report(percent));
 
 			var pixels = percent * dojo.html.getPixelValue(this.domNode, this._dimension);
 			dojo.html.setPositivePixelValue(this.internalProgress, this._dimension, pixels);
@@ -166,6 +159,7 @@ dojo.declare(
 			if(this._animationStopped){
 				this._backup = {progress: this.progress, annotate: this.annotate};
 				this.update({progress: "10%", annotate: false});
+				this._setWaiValueNow("unknown");
 				this._animationStopped = false;
 				this._setupAnimation();
 				this.internalProgress.style.height="105%";
@@ -182,6 +176,10 @@ dojo.declare(
 				dojo.lang.mixin(this, this._backup);
 				this.update();
 			}
+		},
+
+		_setWaiValueNow: function(value){
+			dijit.util.wai.setAttr(this.internalProgress, "waiState", "valuenow", value);
 		},
 
 		start: function(){

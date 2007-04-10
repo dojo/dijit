@@ -5,6 +5,9 @@
 		<meta http-equiv="content-type"
 			content="text/html; charset=ISO-8859-1">
 		<link rel=stylesheet href="../themes/tundra/tundra.css" type="text/css">
+		<style type="text/css">
+			.red .dojoProgressBarColorLayer{ background-color:red;border-color:red }
+		</style>
 		<script type="text/javascript"> djConfig = { isDebug: true }; </script>
 		<script type="text/javascript" src="../../dojo/dojo.js"></script>
 		<script type="text/javascript">
@@ -34,6 +37,8 @@
 				dojo.byId("maximum").value = dijit.byId("setTestBar").maximum;
 				dojo.event.connect(dojo.byId("test"), "onkeyup", keyUpHandler);
 				dojo.event.connect(dojo.byId("set"), "onclick", setParameters);
+				dojo.event.connect(dojo.byId("startTimer"), "onclick",
+					function(){ moveBar(dijit.byId("timerBar"), 0) } );
 //				loadFile();
 			}
 			function loadFile(){
@@ -60,6 +65,14 @@
 				dijit.byId("testBar2").update({progress:dojo.byId("test").value.length});
 				dijit.byId("smallTestBar").update({progress:dojo.byId("test").value.length});
 			}
+			function moveBar(bar, progress){
+				bar.update({progress: progress});
+				if (progress >= 100) {
+					return;
+				} else {
+					setTimeout(function(){ moveBar(bar, progress + 10) }, 1000);
+				}
+			}
 		</script>
 	</head> 
 
@@ -85,7 +98,7 @@
 		<br />
 		Small, without text and background image:
 		<br />
-		<div style="width:440px; height:10px" color="red" orientation="horizontal" 
+		<div style="width:440px; height:10px" class="dojoProgressBarColor red" orientation="horizontal" 
 			maximum="256" id="smallTestBar" dojoType="dijit.ProgressBar"></div>		
 		<br />
 		Show decimal place:
@@ -104,5 +117,9 @@
 		<br />
 		<div style="width:400px" annotate="true"
 			id="implied2" progress="25%" dojoType="dijit.ProgressBar"></div>
+		<h3>Test 4</h3>
+		<input type="button" name="startTimer" id="startTimer" value="Start Timer" />
+		<div style="width:400px" id="timerBar" annotate="true"
+			maximum="100" progress="0" dojoType="dijit.ProgressBar"></div>
 	</body>
 </html>

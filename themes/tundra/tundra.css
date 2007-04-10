@@ -337,17 +337,34 @@ span.dojoButton:active button {
 	border:1px solid #84a3d1;
 }
 
-.dojoProgressBarTile{
+.dojoProgressBarColorLayer{
+	background-color:#84a3d1;
+	border-color:#84a3d1;
+	/* the border provides visibility in high-contrast mode */
+	border-width:4px;border-style:solid;
+	width:auto;height:auto;
+}
+
+.dj_ie .dojoProgressBarColorLayer{
+	width:100%;height:100%;
+}
+
+.dojoProgressBarTileLayer{
 	background:url("bar.gif") repeat bottom left;
 	background-attachment: fixed;
 }
 
-.dojoProgressBarVertical .dojoProgressBarTile{
+.dojoProgressBarVertical .dojoProgressBarTileLayer{
 	background-image:url("h-bar.gif");
 }
 
 .dojoProgressBarVertical .dojoProgressBarFull{
 	bottom:0px
+}
+
+.dojoProgressBarColor div.dojoProgressBarTileLayer{
+	/* turn off the tile image when we want a colored bar */
+	background-image:none
 }
 
 .dojoProgressBarFrontLabel,.dojoProgressBarBackLabel{
