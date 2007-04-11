@@ -1,5 +1,9 @@
 dojo.provide("dijit.base.Widget");
 
+dojo.require("dojo.lang.common");
+dojo.require("dojo.lang.declare");
+dojo.require("dojo.event.browser");
+
 dojo.require("dijit.util.manager");
 
 dojo.declare("dijit.base.Widget", null,
@@ -32,7 +36,7 @@ function(params, srcNodeRef){
 
 		//mixin our passed parameters
 		if(params){
-			dojo.mixin(this,params);
+			dojo.lang.mixin(this,params);
 		}
 
 		//dojo.profile.start(this.widgetType + " create");
@@ -144,7 +148,7 @@ function(params, srcNodeRef){
 				delete this.bgIframe;
 			}
 			if(!finalize && this.domNode){
-//PORT FIXME				dojo.event.browser.clean(this.domNode);
+				dojo.event.browser.clean(this.domNode);
 			}
 		}catch(e){ /* squelch! */ }
 		try{
@@ -163,7 +167,7 @@ function(params, srcNodeRef){
 		//		Recursively destroy the children of this widget and their
 		//		descendents.
 
-		dojo.forEach(this.getDescendants(), function(widget){
+		dojo.lang.forEach(this.getDescendants(), function(widget){
 			widget._destroy();
 		});
 	},
