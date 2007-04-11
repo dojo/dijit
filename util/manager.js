@@ -1,9 +1,5 @@
 dojo.provide("dijit.util.manager");
 
-dojo.require("dojo.lang.common");
-dojo.require("dojo.lang.array");
-dojo.require("dojo.lang.func");
-
 dijit.util.manager = new function(){
 	// summary
 	//	manager class for the widgets.
@@ -12,26 +8,27 @@ dijit.util.manager = new function(){
 	
 	var widgetTypeCtr = {};
 
-	this.getUniqueId = function (widgetType) {
+	this.getUniqueId = function(widgetType){
 		var widgetId;
 		do{
-			widgetId = widgetType + "_" + (widgetTypeCtr[widgetType] != undefined ?
-			++widgetTypeCtr[widgetType] : widgetTypeCtr[widgetType] = 0);
+			widgetId = widgetType + "_" +
+				(widgetTypeCtr[widgetType] != undefined ?
+					++widgetTypeCtr[widgetType] : widgetTypeCtr[widgetType] = 0);
 		}while(this.byId(widgetId));
 		return widgetId;
 	}
 
 	this.add = function(widget){
-		//dojo.profile.start("dojo.widget.manager.add");
+		//console.profile("dojo.widget.manager.add");
 		if(!widget.id){
 			widget.id = this.getUniqueId(widget.declaredClass.replace("\.","_"));
 		}
 		widgets[widget.id] = widget;
-		//dojo.profile.end("dojo.widget.manager.add");
+		//console.profileEnd();
 	}
 
 	this.destroyAll = function(){
-		dojo.lang.forEach(this.getAllWidgets(), this.remove, this);
+		dojo.forEach(this.getAllWidgets(), this.remove, this);
 	}
 
 	this.remove = function(id) {
