@@ -34,10 +34,10 @@ dojo.declare(
 		},
 
 		show: function(/*String*/ innerHTML, /*DomNode*/ aroundNode) {
-			// summary: display the tooltip
+			// summary: display tooltip w/specified contents underneath specified node
 
 			if (this.isShowingNow) {
-				this.hide();
+				this.domNode.style.display="none";
 			}
 			this.containerNode.innerHTML=innerHTML;
 			dojo.html.placeOnScreenAroundElement(this.domNode, aroundNode, [0,0],
@@ -123,19 +123,28 @@ dojo.declare(
 			if(this._showTimer){
 				clearTimeout(this._showTimer);
 				delete this._showTimer;
+			}else{
+				this.close();
 			}
-			this.close();
 		},
 
 		open: function() {
 			// summary: display the tooltip; usually not called directly.
 			if (this.isShowingNow) { return; }
+			if(this._showTimer){
+				clearTimeout(this._showTimer);
+				delete this._showTimer;
+			}
+			delete this._showTimer;
 			dijit.MasterTooltip.show(this.caption || this.domNode.innerHTML, this._connectNode);
+			this.isShowingNow = true;
 		},
 
 		close: function() {
 			// summary: hide the tooltip; usually not called directly.
+			if (!this.isShowingNow) { return; }
 			dijit.MasterTooltip.hide();
+			this.isShowingNow = false;
 		},
 
 		uninitialize: function(){
