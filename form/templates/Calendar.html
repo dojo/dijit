@@ -1,0 +1,83 @@
+<div class="dojocalendarContainer" dojoAttachPoint="calendarContainerNode">
+	<table cellspacing="0" cellpadding="0" class="dojocalendarContainer">
+		<thead>
+			<tr>
+				<td class="dojomonthWrapper" valign="top">
+					<table class="dojomonthContainer" cellspacing="0" cellpadding="0" border="0">
+						<tr>
+							<td class="dojomonthCurve dojomonthCurveTL" valign="top"></td>
+							<td class="dojomonthLabelContainer" valign="top">
+								<span 
+									dojoAttachPoint="increaseMonthNode" 
+									dojoAttachEvent="onClick: onIncrementMonth;" class="dojoincrementControl dojoincrease">
+									<img src="${dijitModuleUri}templates/increaseMonth.png" 
+										alt="&darr;" dojoAttachPoint="incrementMonthImageNode">
+								</span>
+								<span dojoAttachPoint="monthLabelNode" class="dojomonth"></span>
+								<span 
+									dojoAttachPoint="decreaseMonthNode" 
+									dojoAttachEvent="onClick: onIncrementMonth;" class="dojoincrementControl dojodecrease">
+									<img src="${dijitModuleUri}templates/decrementMonth.png" 
+										alt="&uarr;" dojoAttachPoint="decrementMonthImageNode">
+								</span>
+							</td>
+							<td class="dojomonthCurve dojomonthCurveTR" valign="top"></td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td colspan="3">
+					<table class="dojocalendarBodyContainer" cellspacing="0" cellpadding="0" border="0">
+						<thead>
+							<tr dojoAttachPoint="dayLabelsRow">
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+							</tr>
+						</thead>
+						<tbody dojoAttachPoint="calendarDatesContainerNode" 
+							dojoAttachEvent="onClick: _handleUiClick;">
+							<tr dojoAttachPoint="calendarWeekTemplate">
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+							</tr>
+						</tbody>
+					</table>
+				</td>
+			</tr>
+		</tbody>
+		<tfoot>
+			<tr>
+				<td colspan="3" class="dojoyearWrapper">
+					<table cellspacing="0" cellpadding="0" border="0" class="dojoyearContainer">
+						<tr>
+							<td class="dojocurveBL" valign="top"></td>
+							<td valign="top">
+								<h3 class="dojoyearLabel">
+									<span dojoAttachPoint="previousYearLabelNode"
+										dojoAttachEvent="onClick: onIncrementYear;" class="dojopreviousYear"></span>
+									<span class="dojoselectedYear" dojoAttachPoint="currentYearLabelNode"></span>
+									<span dojoAttachPoint="nextYearLabelNode" 
+										dojoAttachEvent="onClick: onIncrementYear;" class="dojonextYear"></span>
+								</h3>
+							</td>
+							<td class="dojocurveBR" valign="top"></td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+		</tfoot>
+	</table>	
+</div>
