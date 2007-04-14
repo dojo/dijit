@@ -91,7 +91,9 @@ dojo.declare("dijit.base.TemplatedWidget",
 			dijit.base.attachTemplateNodes(node, this);
 			// dojo.profile.end("attachTemplateNodes");
 
-			dojo.html.copyStyle(node, this.srcNodeRef);
+			if(this.srcNodeRef){
+				dojo.html.copyStyle(node, this.srcNodeRef);
+			}
 
 			this.domNode = node;
 
@@ -102,7 +104,7 @@ dojo.declare("dijit.base.TemplatedWidget",
 				dojo.dom.moveChildren(this.srcNodeRef, dest);
 			}
 
-			if(this.srcNodeRef.parentNode){
+			if(this.srcNodeRef && this.srcNodeRef.parentNode){
 				this.srcNodeRef.parentNode.replaceChild(this.domNode, this.srcNodeRef);
 			}
 			
