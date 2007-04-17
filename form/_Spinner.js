@@ -1,11 +1,11 @@
-dojo.provide("dijit.form.SpinnerBase");
+dojo.provide("dijit.form._Spinner");
 
 dojo.require("dijit.form.ValidationTextbox");
 dojo.require("dijit.util.Typematic");
 dojo.require("dojo.html.style");
 
 dojo.declare(
-	"dijit.form.SpinnerBase",
+	"dijit.form._Spinner",
 	dijit.form.RangeBoundTextbox,
 	{
 		// summary: Mixin for validation widgets with a spinner
@@ -77,7 +77,7 @@ dojo.declare(
 		},
 
 		postCreate: function(){
-			dijit.form.SpinnerBase.superclass.postCreate.apply(this, arguments);
+			dijit.form._Spinner.superclass.postCreate.apply(this, arguments);
 			// there's some browser specific CSS
 			dojo.html.applyBrowserClass(this.domNode);
 
