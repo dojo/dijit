@@ -150,9 +150,46 @@ span.dojoButton:active button {
 	border-color:#ede11b;
 }
 
+
 .dojoCheckbox {
-	/* location of checkbox sprint image */
-	background-image: url(checkmark.gif);
+	background-image: url(checkmark.gif); /* checkbox sprint image */
+	width: 16px;
+	height: 16px;
+}
+
+/* to go in dijit.css */
+.dojoCheckboxImageContainer,
+.dojoCheckboxInputInvisible {
+	border: 0;
+	margin: 0;
+	padding: 0;
+}
+
+/* to go in dijit.css */
+.dojoCheckbox {
+	/* to go in dijit.css */
+	position: relative;
+}
+
+/* to go in dijit.css */
+.dojoCheckboxImageContainer,
+.dojoCheckboxInputInvisible {
+	position: absolute;
+	left: 0;
+	top: 0;
+}
+
+/* to go in dijit.css */
+.dojoCheckboxInputInvisible {
+	z-index: 100;
+	opacity: 0.01;
+	filter: alpha(opacity=0);
+}
+
+/* to go in dijit.css */
+.dj_ie .dojoCheckboxImageContainer, 
+.dj_ie .dojoCheckboxInputInvisible {
+	top: 3px;
 }
 
 /*** Full sized arrows (matching the size of a line of text) ***/

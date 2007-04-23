@@ -34,11 +34,12 @@ dojo.addOnLoad(function(){
 	var widget = new dijit.form.Checkbox(params, document.getElementById("checkboxContainer"));
 });
 </script>
+<style> label { margin-right: 0.80em; } </style>
 </head>
 <body class="tundra" style="padding: 50px;">
 
 <p>
-Here are some checkboxes.  Try clicking, and hovering:
+Here are some checkboxes.  Try clicking, and hovering, tabbing, and using the space bar to select:
 </p>
 
 <form onSubmit="return outputValues(this);">
@@ -61,8 +62,11 @@ Here are some checkboxes.  Try clicking, and hovering:
 		<label for="cb5">cb5: Vanilla (non-dojo) checkbox (for comparison purposes)</label>
 	<br>
 	<div id="checkboxContainer"></div>
-		<label for="checkboxContainer">cb6: instantiated from script</label>
+		<label for="cb6">cb6: instantiated from script</label>
 	<br>
+<p>
+Here are some radio buttons.  Try clicking, and hovering, tabbing, and arrowing
+</p>
 	<p>
 		<span>Radio group #1:</span>
 		<input type="radio" name="g1" id="g1rb1" value="news" dojoType="dijit.form.RadioButton">
@@ -73,21 +77,22 @@ Here are some checkboxes.  Try clicking, and hovering:
 		<label for="g1rb3">weather</label>
 	</p>
 	<p>
-		<span>Radio group #2:</span>
+		<span>Radio group #2: (no default value, and has breaks)</span><br>
 		<input type="radio" name="g2" id="g2rb1" value="top40" dojoType="dijit.form.RadioButton"/>
-		<label for="g2rb1">top 40</label>
+		<label for="g2rb1">top 40</label><br>
 		<input type="radio" name="g2" id="g2rb2" value="oldies" dojoType="dijit.form.RadioButton"/>
-		<label for="g2rb2">oldies</label>
-		<input type="radio" name="g2" id="g2rb3" value="country" dojoType="dijit.form.RadioButton" disabled="disabled" checked="checked"/>
-		<label for="g2rb3">country</label>
+		<label for="g2rb2">oldies</label><br>
+		<input type="radio" name="g2" id="g2rb3" value="country" dojoType="dijit.form.RadioButton"/>
+		<label for="g2rb3">country</label><br>
+		(Note if using keyboard: tab to navigate, and use arrow or space to select)
 	</p>
 	<p>
 		<span>Radio group #3 (native radio buttons):</span>
 		<input type="radio" name="g3" id="g3rb1" value="rock"/>
 		<label for="g3rb1">rock</label>
-		<input type="radio" name="g3" id="g3rb2" value="jazz"/>
+		<input type="radio" name="g3" id="g3rb2" value="jazz" disabled="disabled"/>
 		<label for="g3rb2">jazz</label>
-		<input type="radio" name="g3" id="g3rb3" value="classical" disabled="disabled"  checked="checked"/>
+		<input type="radio" name="g3" id="g3rb3" value="classical" checked="checked"/>
 		<label for="g3rb3">classical</label>
 	</p>
 	<input type="submit" />

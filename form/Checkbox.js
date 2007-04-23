@@ -13,13 +13,35 @@ dojo.declare(
 	"dijit.form.Checkbox",
 	[dijit.base.FormElement, dijit.base.TemplatedWidget],
 	{
-		// summary
-		//	Same as a native HTML checkbox, but with fancy styling
+		// summary:
+		// 		Same as an HTML checkbox, but with fancy styling.
+
+		// Implementation details
+		//
+		// pattern: MVC
+		//   Control: User interacts with real html inputs
+		//     Event listeners are added for input node events
+		//     These handlers make sure to update the view based on input state
+		//   View: The view is basically the the dijit (tundra) sprint image.
+		//   Model: The dijit checked state is synched with the input node.
+		//
+		// There are two modes:
+		//   1. Image not used or failed to load
+		//   2. Image loaded and used.
+		// In case 1, the regular html inputs are shown and used by the user.
+		// In case 2, the regular html inputs are invisible but still used by
+		// the user. They are turned invisible and overlay the dijit image.
+		//
+		// Layout
+		//   Styling is controlled in 3 places: tundra, template, and 
+		// programmatically in Checkbox.js. The latter is required 
+		// because of two modes of dijit checkbox: image loaded, vs 
+		// image not loaded. Also for accessibility it is important 
+		// that dijit work with images off (a browser preference).
 
 		templatePath: dojo.uri.moduleUri("dijit.form", "templates/Checkbox.html"),
 
-		//	Value of "type" attribute for <input>, and waiRole attribute also.
-		//	User probably shouldn't adjust this.
+		//	Value of "type" attribute for <input>
 		_type: "checkbox",
 
 		// checked: Boolean
@@ -32,88 +54,158 @@ dojo.declare(
 		//	the value when form is submitted)
 		value: "on",
 
-		// This shared object keeps track of all widgets, grouped by name
-		_groups: { },
-
-		postMixInProperties: function(){
-			dijit.form.Checkbox.superclass.postMixInProperties.apply(this, arguments);
-			
-			// set tabIndex="0" because if tabIndex=="" user won't be able to tab to the field
-			if(!this.disabled && this.tabIndex==""){ this.tabIndex="0"; }		
-		},
-
 		postCreate: function(){
 
 			// find the image to use, as notated in the CSS file, but use it as a foreground
-			// image
 			var bi = dojo.html.getComputedStyle(this.imageContainer, "background-image");
 			var href = bi.charAt(4)=='"' ? bi.slice(5,-2) : bi.slice(4,-1);	// url(foo) --> foo, url("foo") --> foo
 			this.imageContainer.style.backgroundImage = "none";
 			var img = this.imageNode = document.createElement("img");
 			var self=this;
+			
+			// inputNode.checked must be assigned before img.onload handler
+			this.inputNode.checked=this.checked;
+			// note: onImageLoad may get called as a side-effect of this assignment
 			img.onload = function(){ self.onImageLoad(); }
 			img.src = href;
-
-			this._setValue(this.checked);
-
-			// find any associated label and create a labelled-by relationship
-			// assumes <label for="inputId">label text </label> rather than
-			// <label><input type="xyzzy">label text</label>
-			var notcon = true;
-			if(this.id != ""){
-				var labels = document.getElementsByTagName("label");
-				if (labels != null && labels.length > 0){
-					for(var i=0; i<labels.length; i++){
-						if (labels[i].htmlFor == this.id){
-							labels[i].id = (labels[i].htmlFor + "label");
-							this._connectEvents(labels[i]);
-							dijit.util.wai.setAttr(this.domNode, "waiState", "labelledby", labels[i].id);
-							break;
-						}
-					}
-				}
-			}
-			this._connectEvents(this.domNode);
-			// this is needed here for IE
-			this.inputNode.checked=this.checked;
-			this._register();
+			this._setDisabled(this.disabled);
 		},
 
 		onImageLoad: function(){
 			this.imageLoaded = true;
+
 			// set image container size to just show one sprite
-			this.width = 16;	//	this.imageNode.width/6;
-			this.height = 16;	// this.imageNode.height/2;
-			this.imageContainer.style.width = this.width + "px";
-			this.imageContainer.style.height = this.height + "px";
+			if (!this.width) {
+				this.width = 16;
+			} // dojo.html.getPixelValue is not succeeding for all browsers
+			if (!this.height) {
+				this.height = 16;
+			}
 
-			// Hide the HTML native checkbox and display the image instead
-			this.inputNode.style.display="none";
+			// Turn the input element invisible and make sure it overlays
+			// the dojo image container.
+			dojo.html.addClass(this.inputNode,"dojoCheckboxInputInvisible");
+			dojo.html.addClass(this.imageContainer,"dojoCheckboxImageContainer");
+			
+			dojo.html.applyBrowserClass(this.domNode);
+
+			var imageContainerStyle = this.imageContainer.style
+			var inputStyle = this.inputNode.style;
+			var domNodeStyle = this.domNode.style;
+			 
+			// Force size based on width and height.
+			inputStyle.width = imageContainerStyle.width = this.width + "px";
+			inputStyle.height = imageContainerStyle.height = this.height + "px";
+			domNodeStyle.position = "relative";
+			domNodeStyle.fontFamily = "monospace"; // webkit spacing hack
+			
+			// User will always interact with input element
+			this._connectEvents(this.inputNode);
+			
 			this.imageContainer.appendChild(this.imageNode);
-
-			// position image to display right sprite
-			this._setValue(this.checked);
+			
+			this._updateView();
 		},
 		
-		uninitialize: function(){
-			this._deregister();
-		},
-
 		_connectEvents: function(/*DomNode*/ node){
+			dojo.event.browser.addListener(node, "onfocus", dojo.lang.hitch(this, "mouseOver"));
+			dojo.event.browser.addListener(node, "onblur", dojo.lang.hitch(this, "mouseOut"));
 			dojo.event.browser.addListener(node, "onmouseover", dojo.lang.hitch(this, "mouseOver"));
 			dojo.event.browser.addListener(node, "onmouseout", dojo.lang.hitch(this, "mouseOut"));
-			dojo.event.browser.addListener(node, "onkey", dojo.lang.hitch(this, "onKey"));
-			dojo.event.browser.addListener(node, "onclick", dojo.lang.hitch(this, "_onClick"));
+			dojo.event.browser.addListener(node, "onclick", dojo.lang.hitch(this, "onClick"));
 			dojo.html.disableSelection(node);
 		},
 
-		_onClick: function(/*Event*/ e){
-			if(this.disabled == false){
-				this.setValue(!this.checked);
-			}
-			dojo.event.browser.stopEvent(e);
-			this.onClick();
+		_setDisabled: function(/*Boolean*/ disabled){
+			this.domNode.disabled = this.inputNode.disabled = this.disabled = disabled;
 		},
+		
+		onValueChanged: function(newValue){
+			// summary: implement this to capture value change events.
+		},
+		
+		_lastValueReported: null,
+		setValue: function(newValue){
+			// summary: set the value of the widget.
+			if (newValue != this._lastValueReported){
+				this.onValueChanged(newValue);
+				this._lastValueReported = newValue;
+			}
+		},
+
+		getValue: function(){
+			// summary: get the value of the widget.
+			return this._lastValueReported;
+		},
+		
+		onClick: function(/*Event*/ e){
+			// dojo.event.browser.stopEvent(e); // bad for Opera
+			this._updateView();
+		},
+
+		mouseOver: function(/*Event*/ e){
+			// summary: callback when user moves mouse over checkbox
+			this.hover=true;
+			this._updateView();
+		},
+
+		mouseOut: function(/*Event*/ e){
+			// summary: callback when user moves mouse off of checkbox
+			this.hover=false;
+			this._updateView();
+		},
+
+		// offset from left of image
+		_leftOffset: 0,
+		
+		_updateView: function(/*Optional Widget*/ awidget) {
+			var w = awidget || this;
+			w.checked=w.inputNode.checked;
+			this.setValue(w.checked? this.inputNode.value:"");
+
+			this._setDisabled(w.disabled);
+
+			// show the right sprite, depending on state of checkbox
+			if(w.imageLoaded){
+				var left = w._leftOffset + (w.checked ? 0 : w.width ) + (w.disabled ? this.width*2 : (w.hover ? w.width*4 : 0 ));
+				w.imageNode.style.marginLeft = -1*left + "px";
+			}
+			if (!awidget) {
+				this.updateContext();
+			}
+		},
+		
+		updateContext: function(){
+			// stub;
+		}
+	}
+);
+dojo.declare(
+	"dijit.form.RadioButton",
+	dijit.form.Checkbox,
+	{
+		// summary:
+		// 		Same as an HTML radio, but with fancy styling.
+
+		// Implementation details
+		//
+		// Specialization:
+		// We keep track of dijit radio groups so that we can update the state
+		// of all the siblings (the "context") in a group based on input 
+		// events. We don't rely on browser radio grouping.
+		//
+		// At the time of implementation not all browsers fire the same events
+		// when a different radio button in a group is checked (and the previous
+		// unchecked). When the events do fire, e.g. a focus event on the newly
+		// checked radio, the checked state of that "newly checked" radio is 
+		// set to true in some browsers and false in others.
+		// It is vital that the view of the resulting input states be correct
+		// so that at the time of form submission the intended data is sent.
+		
+		_type: "radio",
+		
+		// This shared object keeps track of all widgets, grouped by name
+		_groups: { },
 
 		_register: function(){
 			// summary: add this widget to _groups
@@ -128,93 +220,22 @@ dojo.declare(
 			var idx = dojo.lang.find(this._groups[this.name], this, true);
 			this._groups[this.name].splice(idx, 1);
 		},
-
-		setValue: function(/*boolean*/ bool){
-			// summary: set the checkbox state
-			this._setValue(bool);
+		
+		uninitialize: function(){
+			this._deregister();
 		},
 
-		onClick: function(){
-			// summary: user overridable callback function for checkbox being clicked
-		},
-
-		onKey: function(/*Event*/ e){
-			// summary: callback when user hits a key
-			var k = dojo.event.browser.keys;
-			if(e.key == " "){
-	 			this._onClick(e);
-	 		}
-		},
-
-		mouseOver: function(/*Event*/ e){
-			// summary: callback when user moves mouse over checkbox
-			this.hover=true;
-			this._setValue(this.checked);
-		},
-
-		mouseOut: function(/*Event*/ e){
-			// summary: callback when user moves mouse off of checkbox
-			this.hover=false;
-			this._setValue(this.checked);
-		},
-
-		// offset from left of image
-		_leftOffset: 0,
-
-		_setValue: function(/*Boolean*/ bool){
-			// summary:
-			//	sets checkbox to given value
-			//	set state of hidden checkbox node to correspond to given value.
-			this.checked = bool;
-			this.inputNode.checked = this.checked;
-			if(this.disabled){
-				this.inputNode.setAttribute("disabled",true);
-			}else{
-				this.inputNode.removeAttribute("disabled");
-			}
-			dijit.util.wai.setAttr(this.domNode, "waiState", "checked", this.checked);
-
-			// show the right sprite, depending on state of checkbox
-			if(this.imageLoaded){
-				var left = this._leftOffset + (this.checked ? 0 : this.width ) + (this.disabled ? this.width*2 : (this.hover ? this.width*4 : 0 ));
-				this.imageNode.style.marginLeft = -1*left + "px";
-			}
-		}
-	}
-);
-dojo.declare(
-	"dijit.form.RadioButton",
-	dijit.form.Checkbox,
-	{
-		// summary
-		//	Same as an HTML radio button, but with fancy styling
-
-		_type: "radio",
-
-		_onClick: function(/*Event*/ e){
-			if(!this.disabled && !this.checked){
-				this.setValue(true);
-			}
-			e.stopPropagation();
-			this.onClick();
-		},
-
-		setValue: function(/*boolean*/ bool){
-			this._setValue(bool);
-
-			// if turning this widget on, then turn others in same group off
-			if(bool){
-				dojo.lang.forEach(this._groups[this.name], function(widget){
-					if(widget != this){
-						widget._setValue(false);
-					}
-				}, this);
-			}
+		updateContext: function() {
+			dojo.lang.forEach(this._groups[this.name], function(widget){
+				if(widget != this){
+					widget._updateView(widget);
+				}
+			}, this);
 		},
 
 		onImageLoad: function(){
-			// position to second row of sprites (the radio buttons)
 			this._leftOffset = 96;	// this.imageNode.width/2;
+			this._register();
 			dijit.form.Checkbox.prototype.onImageLoad.call(this);
 		}
 	}
