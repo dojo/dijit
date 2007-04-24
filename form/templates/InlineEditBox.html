@@ -1,8 +1,11 @@
-<span
-	><span tabIndex="0" dojoAttachPoint="editable" style="" dojoAttachEvent="onKey;onClick;onMouseOut;onMouseOver;onFocus:onMouseOver;onBlur:onMouseOut;"></span
-	><fieldset style="display:none;" dojoAttachPoint="editNode" class="dojoInlineBox"
-		><div dojoAttachPoint="containerNode" dojoAttachEvent="onKeyUp:checkForValueChange;"></div
-		><input type="button" value="${this.buttonSave}" dojoAttachPoint="saveButton" dojoAttachEvent="onClick:save;"/>
-		<input type="button" value="${this.buttonCancel}" dojoAttachPoint="cancelButton" dojoAttachEvent="onClick:cancel;"
-	></fieldset
-></span>
+<span>
+	<span tabIndex="0" dojoAttachPoint="editable" style="" 
+		dojoAttachEvent="onKey;onClick;onMouseOut;onMouseOver;onFocus:onMouseOver;onBlur:onMouseOut;"></span>
+	<fieldset style="display:none;" dojoAttachPoint="editNode" class="dojoInlineBox">
+		<div dojoAttachPoint="containerNode" dojoAttachEvent="onKeyUp:checkForValueChange;"></div>
+		<input type="button" value="${this.buttonSave}" 
+			dojoAttachPoint="saveButton" dojoAttachEvent="onClick:save;">
+		<input type="button" value="${this.buttonCancel}" 
+			dojoAttachPoint="cancelButton" dojoAttachEvent="onClick:cancel;">
+	</fieldset>
+</span>
