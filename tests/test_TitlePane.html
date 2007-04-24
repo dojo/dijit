@@ -1,18 +1,18 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" 
+	"http://www.w3.org/TR/html4/strict.dtd">
 <html>
 <head>
 
 <title>TitlePane Test</title>
-<link rel=stylesheet href="../themes/tundra/tundra.css" type="text/css">
-<script type="text/javascript">
-	var djConfig = {isDebug: true, debugAtAllCosts: false};
-</script>
-<script type="text/javascript" src="../../dojo/dojo.js"></script>
+<script type="text/javascript" src="../../dojo/dojo.js"
+	djConfig="isDebug: true, debugAtAllCosts: true"></script>
 <script language="JavaScript" type="text/javascript">
 	dojo.require("dijit.TitlePane");
 	dojo.require("dijit.util.parser");	// scan page for widgets and instantiate them
 </script>
-<style>
+<style type="text/css">
+@import "../../dojo/resources/dojo.css";
+@import "../themes/tundra/tundra.css";
 
 div.container {
 	background-color: white;

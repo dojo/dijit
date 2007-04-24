@@ -3,18 +3,21 @@
 <html>
 <head>
 	<title>Dojo Tooltip Widget Test</title>
-	<link rel=stylesheet href="../themes/tundra/tundra.css" type="text/css">
-	<script type="text/javascript">
-		var djConfig = {isDebug: true, debugAtAllCosts: true };
-	</script>
-	
-	<script type="text/javascript" src="../../dojo/dojo.js"></script>
+	<script type="text/javascript" src="../../dojo/dojo.js"
+		djConfig="isDebug: true, debugAtAllCosts: true"></script>
 	<script type="text/javascript">
 		dojo.require("dijit.Tooltip");
 		dojo.require("dijit.util.parser");	// find widgets
 	</script>
 	
-	<style>
+	<style type="text/css">
+		@import "../../dojo/resources/dojo.css";
+		@import "../themes/tundra/tundra.css";
+
+		body {
+			margin: 1em;
+		}
+
 		.tt { border-bottom: 1px dotted black; cursor: pointer; }
 		
 		/* override tooltip style for this page */

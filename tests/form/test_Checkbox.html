@@ -1,40 +1,41 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" 
+	"http://www.w3.org/TR/html4/strict.dtd">
 <html>
 <head>
+	<title>Checkbox Widget Demo</title>
+	<script type="text/javascript" src="../../../dojo/dojo.js"
+		djConfig="isDebug: true"></script>
+	<script type="text/javascript">
+		dojo.require("dijit.form.Checkbox");
+		dojo.require("dijit.util.parser");	// find widgets
 
-<title>Checkbox Widget Demo</title>
-
-<link rel=stylesheet href="../../themes/tundra/tundra.css" type="text/css">
-<script type="text/javascript">
-//	var djConfig = {isDebug: true, debugAtAllCosts: true};
-</script>
-<script type="text/javascript" src="../../../dojo/dojo.js"></script>
-<script type="text/javascript">
-//	dojo.registerModulePath("dijit", "../dijit");
-
-	dojo.require("dijit.form.Checkbox");
-	dojo.require("dijit.util.parser");	// scan page for widgets and instantiate them
-</script>
-<script>
-function outputValues(form){
-	var str = "";
-	for(var i=0;i<form.elements.length;i++){
-		var e = form.elements[i];
-		if(e.type=="submit") break;
-		if(e.checked){
-			str += "submit: name="+e.name+" id="+e.id+" value="+e.value+ "<br>";
+		function outputValues(form){
+			var str = "";
+			for(var i=0;i<form.elements.length;i++){
+				var e = form.elements[i];
+				if(e.type=="submit") break;
+				if(e.checked){
+					str += "submit: name="+e.name+" id="+e.id+" value="+e.value+ "<br>";
+				}
+			}
+			dojo.byId("result").innerHTML = str;
+			return false;
 		}
-	}
-	dojo.byId("result").innerHTML = str;
-	return false;
-}
 
-dojo.addOnLoad(function(){
-	var params = {id: "cb6", name: "cb6"};
-	var widget = new dijit.form.Checkbox(params, document.getElementById("checkboxContainer"));
-});
-</script>
-<style> label { margin-right: 0.80em; } </style>
+		dojo.addOnLoad(function(){
+			var params = {id: "cb6", name: "cb6"};
+			var widget = new dijit.form.Checkbox(params, dojo.byId("checkboxContainer"));
+		});
+	</script>
+	<style type="text/css">
+		@import "../../../dojo/resources/dojo.css";
+		@import "../../themes/tundra/tundra.css";
+
+		body {
+			margin: 1em;
+		}
+		label { margin-right: 0.80em; }
+	</style>
 </head>
 <body class="tundra" style="padding: 50px;">
 

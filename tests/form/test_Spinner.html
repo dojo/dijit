@@ -3,19 +3,16 @@
 <html>
 	<head>
 		<title>Dojo Spinner Widget Demo</title>
-		<link rel=stylesheet href="../../themes/tundra/tundra.css" type="text/css">
+		<script type="text/javascript" src="../../../dojo/dojo.js"
+			djConfig="isDebug: true, extraLocale: ['de-de', 'en-us']"></script>
 		<script type="text/javascript">
-		        var djConfig = {
-       		         isDebug: true, extraLocale: ['de-de', 'en-us'], debugAtAllCosts: true
-       		 };
+			dojo.require("dijit.form.NumberSpinner");
+			dojo.require("dijit.util.parser"); // scan page for widgets
 		</script>
-		<script type="text/javascript" src="../../../dojo/dojo.js"></script>
-		<script type="text/javascript">
-		        dojo.require("dijit.form.NumberSpinner");
-		        dojo.require("dijit.util.parser");      // scan page for widgets and instantia
-		</script>
-
-		<style>
+		<style type="text/css">
+			@import "../../../dojo/resources/dojo.css";
+			@import "../../themes/tundra/tundra.css";
+	
 			#integerspinner2 .dojoSpinnerUpArrow {
 				border-bottom-color: blue;
 			}

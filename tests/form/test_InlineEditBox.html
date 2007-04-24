@@ -1,38 +1,29 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" 
+	"http://www.w3.org/TR/html4/strict.dtd">
 <html>
 <head>
 
 <title>Inline Edit Box Widget Demo</title>
-
-<link rel=stylesheet href="../../themes/tundra/tundra.css" type="text/css">
-<script type="text/javascript">
-        var djConfig = {isDebug: true, debugAtAllCosts: true};
-</script>
-<script type="text/javascript" src="../../../dojo/dojo.js"></script>
-<script language="JavaScript" type="text/javascript">
-        dojo.registerModulePath("dijit", "../dijit");
+	<script type="text/javascript" src="../../../dojo/dojo.js"
+		djConfig="isDebug: true"></script>
+	<script type="text/javascript">
         dojo.require("dijit.form.InlineEditBox");
         dojo.require("dijit.form.ResizableTextarea");
         dojo.require("dijit.form.Textbox");
 		dojo.require("dijit.form.DateTextbox");
         dojo.require("dijit.util.parser");      // scan page for widgets and instantiate them
-</script>
-
-<script type="text/javascript">
-	function myHandler(id,newValue) {
-		console.debug("onValueChanged for id = " + id + ", value: " + newValue);
-	};
-</script>
-
-<style type="text/css">
-	body { font-family : sans-serif; background:#fff; }
+		function myHandler(id,newValue) {
+			console.debug("onValueChanged for id = " + id + ", value: " + newValue);
+		};
+	</script>
+	<style type="text/css">
+		@import "../../../dojo/resources/dojo.css";
+		@import "../../themes/tundra/tundra.css";
 	
-	.inlineEdit { background-color: #CCC76A; }
-</style>
+		.inlineEdit { background-color: #CCC76A; }
+	</style>
 </head>
-
 <body class="tundra" style="padding: 50px;">
-
 before
 <span id="editable" style="font-size:larger;" dojoType="dijit.form.InlineEditBox" onValueChanged="myHandler(this.id,arguments[0])">
 	<input dojoType="dijit.form.Textbox" value="Edit me - I trigger the onValueChanged callback">

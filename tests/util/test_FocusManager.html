@@ -2,20 +2,18 @@
         "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 <head>
-<title>FocusManager Test</title>
-<script type="text/javascript">
-	var djConfig = {isDebug: true, debugAtAllCosts: true};
-</script>
-<script type="text/javascript" src="../../../dojo/dojo.js"></script>
-<script language="JavaScript" type="text/javascript">
-	dojo.require("dijit.util.FocusManager");
-</script>
+	<title>FocusManager Test</title>
+	<script type="text/javascript" src="../../../dojo/dojo.js"
+		djConfig="isDebug: true, debugAtAllCosts: true"></script>
+	<script type="text/javascript">
+		dojo.require("dijit.util.FocusManager");
+	</script>
 <script>
 	dojo.addOnLoad(function(){
-		fakeWidget = {domNode: dojo.byId("save")};
+		fakeWidget = { domNode: dojo.byId("save") };
 	});
 	function save(){
-		dojo.debug("save function");
+		console.debug("save function");
 		dijit.util.FocusManager.save(fakeWidget);
 	}
 	function restore(){

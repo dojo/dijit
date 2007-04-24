@@ -1,15 +1,22 @@
 <html>
 	<head>
 		<title>Dojo Toolkit - ProgressBar test</title>
-
-		<meta http-equiv="content-type"
-			content="text/html; charset=ISO-8859-1">
-		<link rel=stylesheet href="../themes/tundra/tundra.css" type="text/css">
+		<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
 		<style type="text/css">
-			.red .dojoProgressBarColorLayer{ background-color:red;border-color:red }
+			@import "../../dojo/resources/dojo.css";
+			@import "../themes/tundra/tundra.css";
+
+			body {
+				margin: 1em;
+			}
+
+			.red .dojoProgressBarColorLayer { 
+				background-color:red;
+				border-color:red
+			}
 		</style>
-		<script type="text/javascript"> djConfig = { isDebug: true }; </script>
-		<script type="text/javascript" src="../../dojo/dojo.js"></script>
+		<script type="text/javascript" src="../../dojo/dojo.js"
+			djConfig="isDebug: true"></script>
 		<script type="text/javascript">
 			dojo.require("dijit.ProgressBar");
 			dojo.require("dijit.util.parser");	// scan page for widgets and instantiate them

@@ -2,15 +2,13 @@
         "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 <head>
-<title>Typematic Test</title>
-<script type="text/javascript">
-	var djConfig = {isDebug: true, debugAtAllCosts: true};
-</script>
-<script type="text/javascript" src="../../../dojo/dojo.js"></script>
-<script language="JavaScript" type="text/javascript">
-	dojo.require("dijit.util.Typematic");
-	dojo.require("dojo.event.browser");
-</script>
+	<title>Typematic Test</title>
+	<script type="text/javascript" src="../../../dojo/dojo.js"
+		djConfig="isDebug: true, debugAtAllCosts: true"></script>
+	<script type="text/javascript">
+		dojo.require("dijit.util.Typematic");
+		// dojo.require("dojo.event.browser");
+	</script>
 <script>
 	var lastCount = 0;
 	function typematicCallBack(key, count){

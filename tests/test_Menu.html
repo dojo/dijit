@@ -3,24 +3,22 @@
 <html>
 <head>
 <title>Menu System Test</title>
-<link rel=stylesheet href="../themes/tundra/tundra.css" type="text/css">
-<script type="text/javascript">
-	var djConfig = {isDebug: true, debugAtAllCosts: true};
-</script>
-<script type="text/javascript" src="../../dojo/dojo.js"></script>
-<script language="JavaScript" type="text/javascript">
-	dojo.registerModulePath("dijit", "../dijit");
-	dojo.require("dijit.Menu");
-	dojo.require("dijit.util.parser");	// scan page for widgets and instantiate them
-</script>
 <style type="text/css">
+	@import "../../dojo/resources/dojo.css";
+	@import "../themes/tundra/tundra.css";
+
 	.dojoMenuBar {
 		border-top:1px solid #d4d4d4;
 	}
 </style>
-
+<script type="text/javascript" src="../../dojo/dojo.js"
+	djConfig="isDebug: true, debugAtAllCosts: true"></script>
+<script language="JavaScript" type="text/javascript">
+	dojo.require("dijit.Menu");
+	dojo.require("dijit.util.parser");	// scan page for widgets and instantiate them
+</script>
 </head>
-<body style="background-color: #fff; color: black; padding: 0; margin: 0">
+<body>
 
 <div dojoType="dijit.PopupMenu" id="submenu1" contextMenuForWindow="true" style="display: none;">
 	<div dojoType="dijit.MenuItem" caption="Enabled Item" onClick="alert('Hello world');"></div>

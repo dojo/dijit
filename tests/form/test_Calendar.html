@@ -2,27 +2,25 @@
 <html>
 <head>
 
-<title>Calendar Widget Demo</title>
+	<title>Calendar Widget Demo</title>
 
-<link rel=stylesheet href="../../themes/tundra/tundra.css" type="text/css">
-<link rel=stylesheet href="../../form/templates/Calendar.css" type="text/css">
-<script type="text/javascript">
-//        var djConfig = {isDebug: true, debugAtAllCosts: true};
-</script>
-<script type="text/javascript" src="../../../dojo/dojo.js"></script>
-<script language="JavaScript" type="text/javascript">
-//        dojo.registerModulePath("dijit", "../dijit");
-        dojo.require("dijit.form.Calendar");
-        dojo.require("dijit.util.parser");      // scan page for widgets and instantiate them
-</script>
+	<style type="text/css">
+		@import "../../../dojo/resources/dojo.css";
+		@import "../../themes/tundra/tundra.css";
+		/*FIXME: should we have to manually include Calendar.css?*/
+		@import "../../form/templates/Calendar.css";
+	</style>
+	<script type="text/javascript" src="../../../dojo/dojo.js"
+		djConfig="isDebug: true"></script>
+	<script type="text/javascript">
+		dojo.require("dijit.form.Calendar");
+		dojo.require("dijit.util.parser"); // scan page for widgets
 
-<script type="text/javascript">
-	function myHandler(id,newValue) {
-		console.debug("onValueChanged for id = " + id + ", value: " + newValue);
-	};
-</script>
+		function myHandler(id,newValue){
+			console.debug("onValueChanged for id = " + id + ", value: " + newValue);
+		};
+	</script>
 </head>
-
 <body class="tundra">
 
 before

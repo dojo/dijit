@@ -1,18 +1,20 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" 
+	"http://www.w3.org/TR/html4/strict.dtd">
 <html>
 <head>
-<title>widget infrastructure test</title>
-
-<script type="text/javascript">
-	var djConfig = {isDebug: true, debugAtAllCosts: true};
-</script>
-<script type="text/javascript" src="../../dojo/dojo.js"></script>
-<script language="JavaScript" type="text/javascript">
-	dojo.registerModulePath("dijit", "../dijit");
-	dojo.require("dijit.Button");
-</script>
+	<title>widget infrastructure test</title>
+	<script type="text/javascript" src="../../dojo/dojo.js"
+		djConfig="isDebug: true, debugAtAllCosts: true"></script>
+	<script type="text/javascript">
+		dojo.require("dijit.Button");
+	</script>
+	<style type="text/css">
+		@import "../../dojo/resources/dojo.css";
+		@import "../themes/tundra/tundra.css";
+		body { padding: 5em; }
+	</style>
 </head>
-<body style="padding: 50px;">
+<body>
 	<button id="b1" style="background: yellow;">button #1</button>
 	<button id="b2" style="background: orange;">button #2</button>
 	<button id="b3" style="background: violet;">button #3</button>
