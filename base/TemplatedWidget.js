@@ -252,8 +252,7 @@ dijit.base.attachTemplateNodes = function(rootNode, /*Widget*/ targetObj){
 				if(!thisFunc){
 					thisFunc = tevt;
 				}
-
-				dojo.connect(baseNode, tevt, targetObj, thisFunc); 
+				dojo.connect(baseNode, tevt.toLowerCase(), targetObj, thisFunc); 
 			}
 		}
 
