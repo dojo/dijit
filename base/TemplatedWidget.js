@@ -277,12 +277,13 @@ dijit.base.attachTemplateNodes = function(rootNode, /*Widget*/ targetObj){
 
 if(dojo.isIE){
 	dojo.addOnUnload(function(){
-		for(var key in dijit.base._templateCache){
-			var value = dijit.base._templateCache[key];
-			if(value instanceof Element){ //PORT: good enough replacement for isNode?
-// PORT				dojo.dom.destroyNode(value);
+		var cache = dijit.base._templateCache;
+		for(var key in cache){
+			var value = cache[key];
+			if(!isNaN(value.nodeType)){ // isNode equivalent
+// PORT.  Fix leak			dojo.dom.destroyNode(value);
 			}
-			dijit.base._templateCache[key] = null;
+			cache[key] = null;
 		}
 	});
 }
