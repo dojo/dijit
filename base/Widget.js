@@ -215,7 +215,7 @@ dijit._disableSelection = function(/*DomNode*/element){
 		element.style.MozUserSelect = "none";
 	}else if(dojo.isKhtml){
 		element.style.KhtmlUserSelect = "none"; 
-	}else if(h.ie){
+	}else if(dojo.isIE){
 		element.unselectable = "on";
 	}
 	return false;
