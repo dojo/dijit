@@ -90,7 +90,7 @@ dijit.util.FocusManager = new function(){
 			}
 		}else{
 			var selection;
-			try{selection = dojo.global().getSelection();}
+			try{selection = dojo.global.getSelection();}
 			catch(e){}
 			if(selection){
 				var range = selection.getRangeAt(0);
@@ -166,8 +166,8 @@ dijit.util.FocusManager = new function(){
 
 		//Store the current selection and restore it before the action for a menu item
 		//is executed. This is required as clicking on an menu item deselects current selection
-		if(!dojo.withGlobal(openedForWindow||dojo.global(), isCollapsed)){
-			bookmark = dojo.withGlobal(openedForWindow||dojo.global(), getBookmark);
+		if(!dojo.withGlobal(openedForWindow||dojo.global, isCollapsed)){
+			bookmark = dojo.withGlobal(openedForWindow||dojo.global, getBookmark);
 		}else{
 			bookmark = null;
 		}
