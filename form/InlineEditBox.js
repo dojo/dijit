@@ -3,7 +3,7 @@ dojo.provide("dijit.form.InlineEditBox");
 dojo.require("dijit.base.FormElement");
 dojo.require("dijit.base.Container");
 dojo.require("dijit.base.TemplatedWidget");
-dojo.require("dojo.i18n.common");
+dojo.require("dojo.i18n");
 
 dojo.requireLocalization("dijit", "common");
 
@@ -26,7 +26,7 @@ dojo.declare(
 	//		void focus()
 	//		It must also be able to initialize with style="display:none;" set.
 {
-	templatePath: dojo.uri.moduleUri("dijit.form", "templates/InlineEditBox.html"),
+	templatePath: dojo.moduleUrl("dijit.form", "templates/InlineEditBox.html"),
 
 	// editing: Boolean
 	//		Is the node currently in edit mode?
@@ -44,21 +44,21 @@ dojo.declare(
 		var _this = this;
 		dojo.addOnLoad(function(){
 			// look for the input widget as a child of the containerNode
-			if (_this.editWidget){
+			if(_this.editWidget){
 				_this.containerNode.appendChild(_this.editWidget.domNode);
 			}else{
 				var node = _this.containerNode.firstChild;
-				while (node != null) {
+				while(node != null){
 					_this.editWidget = dijit.util.manager.byNode(node);
-					if (_this.editWidget){
+					if(_this.editWidget){
 						break;
 					}
 					node = node.nextSibling;
 				}
 			}
-			_this._setEditValue = dojo.lang.hitch(_this.editWidget,_this.editWidget.setTextValue||_this.editWidget.setValue);
-			_this._getEditValue = dojo.lang.hitch(_this.editWidget,_this.editWidget.getTextValue||_this.editWidget.getValue);
-			_this._setEditFocus = dojo.lang.hitch(_this.editWidget,_this.editWidget.focus);
+			_this._setEditValue = dojo.hitch(_this.editWidget,_this.editWidget.setTextValue||_this.editWidget.setValue);
+			_this._getEditValue = dojo.hitch(_this.editWidget,_this.editWidget.getTextValue||_this.editWidget.getValue);
+			_this._setEditFocus = dojo.hitch(_this.editWidget,_this.editWidget.focus);
 			_this._showText();
 		});
 	},
@@ -66,7 +66,7 @@ dojo.declare(
 	postMixInProperties: function(){
 		dijit.form.InlineEditBox.superclass.postMixInProperties.apply(this, arguments);
 		this.messages = dojo.i18n.getLocalization("dijit", "common", this.lang);
-		dojo.lang.forEach(["buttonSave", "buttonCancel"], function(prop){
+		dojo.forEach(["buttonSave", "buttonCancel"], function(prop){
 			if(!this[prop]){ this[prop] = this.messages[prop]; }
 		}, this);
 	},
@@ -76,7 +76,7 @@ dojo.declare(
 		switch(e.key) {
 			case " ":
 			case e.KEY_ENTER:
-				dojo.event.browser.stopEvent(e);
+				dojo.stopEvent(e);
 				this.onClick(e);
 				break;
 		}
@@ -84,13 +84,17 @@ dojo.declare(
 
 	onMouseOver: function(){
 		if(!this.editing){
-			dojo.html.addClass(this.editable, this.disabled ? "dojoDisabledClickableRegion" : "dojoClickableRegion");
+			var classname = this.disabled ? "dojoDisabledClickableRegion" : "dojoClickableRegion";
+			if(!(new RegExp('(^|\\s+)'+classname+'(\\s+|$)')).test(this.editable.className)){
+				this.editable.className += " "+classname;
+			}
 		}
 	},
-	
+
 	onMouseOut: function(){
 		if(!this.editing){
-			dojo.html.removeClass(this.editable, this.disabled ? "dojoDisabledClickableRegion" : "dojoClickableRegion");
+			var classStr = this.disabled ? "dojoDisabledClickableRegion" : "dojoClickableRegion";
+			this._removeClass(this.editable, classStr);
 		}
 	},
 
@@ -110,33 +114,33 @@ dojo.declare(
 
 		this._setEditFocus();
 		this.saveButton.disabled = true;
-		this.editWidget.onValueChanged = dojo.lang.hitch(this,"checkForValueChange");
+		this.editWidget.onValueChanged = dojo.hitch(this,"checkForValueChange");
 	},
 
 	_visualize: function(e){
-		this.editNode.style.display = this.editing ? "" : "none";
-		this.editable.style.display = this.editing ? "none" : "";
+		dojo.style(this.editNode, "display", this.editing ? "" : "none");
+		dojo.style(this.editable, "display", this.editing ? "none" : "");
 	},
 
 	_showText: function(){
 		var value = this._getEditValue();
 		dijit.form.InlineEditBox.superclass.setValue.call(this, value);
 		// whitespace is really hard to click so show a ?
-		if (/^\s*$/.test(value)) { value = "?"; this._isEmpty = true; }
+		if(/^\s*$/.test(value)){ value = "?"; this._isEmpty = true; }
 		this.editable.innerHTML = value;
 		this._visualize();
 	},
 
 	save: function(e){
 		// summary: Callback when user presses "Save" button
-		dojo.event.browser.stopEvent(e);
+		dojo.stopEvent(e);
 		this.editing = false;
 		this._showText();
 	},
 
 	cancel: function(e){
 		// summary: Callback when user presses "Cancel" button
-		dojo.event.browser.stopEvent(e);
+		dojo.stopEvent(e);
 		this.editing = false;
 		this._visualize();
 	},

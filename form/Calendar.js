@@ -1,11 +1,8 @@
 dojo.provide("dijit.form.Calendar");
 
-dojo.require("dojo.date.common");
-dojo.require("dojo.date.format");
-dojo.require("dojo.date.serialize");
-dojo.require("dojo.event.*");
-dojo.require("dojo.dom");
-dojo.require("dojo.html.style");
+dojo.require("dojo.date.calc");
+dojo.require("dojo.date.local");
+dojo.require("dojo.date.serial");
 
 dojo.require("dijit.base.FormElement");
 dojo.require("dijit.base.TemplatedWidget");
@@ -34,7 +31,7 @@ dojo.declare(
 		 	 
 			<div dojoType="DatePicker"></div> 
 		*/
-		templatePath: dojo.uri.moduleUri("dijit.form", "templates/Calendar.html"),
+		templatePath: dojo.moduleUrl("dijit.form", "templates/Calendar.html"),
 
 		getTextValue: function(){
 		        return this.filter(this.inputNode.value);
@@ -51,12 +48,11 @@ dojo.declare(
 		setValue: function(dateObj){
 			//summary: set the current date and update the UI
 			var d = dateObj;
+			var t = "";
 			if(typeof(d)=="string" && d!=""){
-				var t = dojo.date.fromRfc3339(d);			
+				t = dojo.date.serial.fromRfc3339(d);			
 			}else if(typeof(d)=="object"){
-				var t = new Date(d);
-			}else{
-				t = ""
+				t = new Date(d);
 			}
 			if(typeof(t)=="object"){
 				this.value = new Date(t);
@@ -65,19 +61,19 @@ dojo.declare(
 				this.value = "";
 			}
 		
-			if(this.selectedNode!=null){
-				dojo.html.removeClass(this.selectedNode,this.classNames.selectedDate);
+			if(this.selectedNode){
+				this._removeClass(this.selectedNode,this.classNames.selectedDate);
 			}
-			if(this.clickedNode!=null){
-				dojo.html.addClass(this.clickedNode,this.classNames.selectedDate);
+			if(this.clickedNode){
+				this._addClass(this.clickedNode,this.classNames.selectedDate);
 				this.selectedNode = this.clickedNode;
 			}else{
 				//only call this if setDate was called by means other than clicking a date
 				this._preInitUI((this.value=="")?this.curMonth:this.value,false,true);
 			}
 			this.clickedNode=null;
-			this.setTextValue(this.format(value, this.constraints));
-			dijit.form.Calendar.superclass.setValue.call(this,value);
+			this.setTextValue(this.format(value, this.constraints)); //FIXME: value is undefined
+			dijit.form.Calendar.superclass.setValue.call(this,value); //FIXME: value is undefined
 		},
 
 		format: function(/* String */ value, /* Object */ constraints){
@@ -89,27 +85,20 @@ dojo.declare(
 			// summary: Replacable function to convert a formatted string to a value
 			return value;
 		},
-		postCreate: function() {
+		postCreate: function(){
 			dijit.form.Calendar.superclass.postCreate.apply(this);
 			// get the node for which the background color will be updated
 			if (typeof this.nodeWithBorder != "object"){
 				this.nodeWithBorder = this.inputNode;
 			}
-			this.weekTemplate = dojo.dom.removeNode(this.calendarWeekTemplate);
+			this.weekTemplate = this.calendarWeekTemplate.parentNode.removeChild(this.calendarWeekTemplate); //PORT leak?
 			this._preInitUI(this.value ? this.value : this.today, false, true); //init UI with date selected ONLY if user supplies one
 
 			// Insert localized day names in the template
-			//if we dont use unnest, we risk modifying the dayLabels array inside of dojo.date and screwing up other calendars on the page
-			var dayLabels = dojo.lang.unnest(dojo.date.getNames('days', this.dayWidth, 'standAlone', this.lang));
-			if(this.weekStartsOn>0){
-				//adjust dayLabels for different first day of week. ie: Monday or Thursday instead of Sunday
-				for(var i=0;i<this.weekStartsOn;i++){
-					dayLabels.push(dayLabels.shift());
-				}
-			}
+			var dayLabels = dojo.date.local.getNames('days', this.dayWidth, 'standAlone', this.lang);
 			var dayLabelNodes = this.dayLabelsRow.getElementsByTagName("td");
- 			for(i=0; i<7; i++) {
-				dayLabelNodes.item(i).innerHTML = dayLabels[i];
+ 			for(i=0; i<7; i++){
+				dayLabelNodes.item(i).innerHTML = dayLabels[(i + this.weekStartsOn) % 7];
 			}
 
 			if(this.value){
@@ -117,9 +106,9 @@ dojo.declare(
 			}
 		},
 
-		filter: function(val) {
+		filter: function(val){
 			// summary: Return string format of date
-			dojo.date.toRfc3339(new Date(val),'dateOnly')
+			dojo.date.toRfc3339(new Date(val),'dateOnly');
 			return val;
 		},
 	
@@ -130,10 +119,10 @@ dojo.declare(
 
 		// event handlers, you can over-ride these in your own subclasses
 		onfocus: function(){ 
-			dojo.html.addClass(this.nodeWithBorder,"dojoInputFieldFocused"); 
+			this._addClass(this.nodeWithBorder,"dojoInputFieldFocused"); 
 		},
 		onblur: function(){ 
-			dojo.html.removeClass(this.nodeWithBorder,"dojoInputFieldFocused"); 
+			this._removeClass(this.nodeWithBorder,"dojoInputFieldFocused"); 
 			this.setValue(this.getValue()); 
 		},
 		
@@ -153,7 +142,7 @@ dojo.declare(
 		//	how to render the names of the days in the header. see dojo.date.getDayNames
 		dayWidth: 'narrow',
 
-		classNames: {
+		classNames:{
 		// summary:
 		//	stores a list of class names that may be overriden
 		//	TODO: this is not good; can't be adjusted via markup, etc. since it's an array
@@ -166,34 +155,33 @@ dojo.declare(
 
 		postMixInProperties: function(){
 			// summary: see dojo.widget.DomWidget
-
 			dijit.form.Calendar.superclass.postMixInProperties.apply(this, arguments);
 			this.today = new Date();
 			this.today.setHours(0,0,0,0);
 			if(typeof(this.value)=='string'&&this.value.toLowerCase()=='today'){
 				this.value = new Date();
-			}else if(this.value && (typeof this.value=="string") && (this.value.split("-").length > 2)) {
+			}else if(this.value && (typeof this.value=="string") && (this.value.split("-").length > 2)){
 				this.value = dojo.date.fromRfc3339(this.value);
 				this.value.setHours(0,0,0,0);
 			}
 		},
 		
-		getValue: function() {
+		getValue: function(){
 			// summary: return current date in RFC 3339 format
 			return dojo.date.toRfc3339(new Date(this.value),'dateOnly'); /*String*/
 		},
 
-		getDate: function() {
+		getDate: function(){
 			// summary: return current date as a Date object
 			return this.value; /*Date*/
 		},
 
-		setDate: function(/*Date|String*/rfcDate) {
+		setDate: function(/*Date|String*/rfcDate){
 			//summary: set the current date from RFC 3339 formatted string or a date object, synonymous with setDate
 			this.setValue(rfcDate);
 		},			
 
-		_preInitUI: function(dateObj,initFirst,initUI) {
+		_preInitUI: function(dateObj,initFirst,initUI){
 			/*
 	 	              To get a sense of what month to highlight, we initialize on 
 	 	              the first Saturday of each month, since that will be either the first  
@@ -230,17 +218,21 @@ dojo.declare(
 				this._initUI(days);
 			}
 		},
-		_initUI: function(days) {
-			dojo.dom.removeChildren(this.calendarDatesContainerNode);
+		_initUI: function(days){
+			// remove children
+			var datesContainer = this.calendarDatesContainerNode;
+			while(datesContainer.hasChildNodes()){
+				datesContainer.removeChild(datesContainer.firstChild);
+			}
 			for(var i=0;i<6;i++){
-				this.calendarDatesContainerNode.appendChild(this.weekTemplate.cloneNode(true));
+				datesContainer.appendChild(this.weekTemplate.cloneNode(true));
 			}
 
 			var nextDate = new Date(this.firstDay);
 			this._setMonthLabel(this.curMonth.getMonth());
 			this._setYearLabels(this.curMonth.getFullYear());
-			var calendarNodes = this.calendarDatesContainerNode.getElementsByTagName("td");
-			var calendarRows = this.calendarDatesContainerNode.getElementsByTagName("tr");
+			var calendarNodes = datesContainer.getElementsByTagName("td");
+			var calendarRows = datesContainer.getElementsByTagName("tr");
 			var currentCalendarNode;
 			for(i=0;i<days;i++){
 				//this is our new UI loop... one loop to rule them all, and in the datepicker bind them
@@ -249,104 +241,104 @@ dojo.declare(
 				currentCalendarNode.setAttribute("_dojoDateValue",nextDate.valueOf());
 				var curClass = (nextDate.getMonth() != this.curMonth.getMonth() && Number(nextDate) < Number(this.curMonth))?'previous':(nextDate.getMonth()==this.curMonth.getMonth())?'current':'next';
 				var mappedClass = curClass;
-				dojo.html.setClass(currentCalendarNode, this._getDateClassName(nextDate, mappedClass));
-				if(dojo.html.hasClass(currentCalendarNode,this.classNames.selectedDate)){
+				currentCalendarNode.className = this._getDateClassName(nextDate, mappedClass);
+				if(" "+currentCalendarNode+" ".indexOf(this.classNames.selectedDate) != -1){
 					this.selectedNode = currentCalendarNode;
 				}
-				nextDate = dojo.date.add(nextDate, dojo.date.dateParts.DAY, 1);
+				nextDate = dojo.date.calc.add(nextDate, dojo.date.calc.parts.DAY, 1);
 			}
-			this.lastDay = dojo.date.add(nextDate,dojo.date.dateParts.DAY, -1);
+			this.lastDay = dojo.date.calc.add(nextDate, dojo.date.calc.parts.DAY, -1);
 			this._initControls();
 		},
 		_initControls: function(){
 			//left incase we want to disable/enable Controls
 		},
 		
-		_incrementMonth: function(evt) {
+		_incrementMonth: function(evt){
 			var d = new Date(this.curMonth);
-			switch(evt.currentTarget) {
+			switch(evt.currentTarget){
 				case this.increaseMonthNode.getElementsByTagName("img").item(0):
 				case this.increaseMonthNode:
-					d = dojo.date.add(d, dojo.date.dateParts.MONTH, 1);
+					d = dojo.date.calc.add(d, dojo.date.calc.parts.MONTH, 1);
 					break;
 				case this.decreaseMonthNode.getElementsByTagName("img").item(0):
 				case this.decreaseMonthNode:
-					d = dojo.date.add(d, dojo.date.dateParts.MONTH, -1);
+					d = dojo.date.calc.add(d, dojo.date.calc.parts.MONTH, -1);
 					break;
 			}
 			this._preInitUI(d,false,true);
 		},
 	
-		_incrementYear: function(evt) {
+		_incrementYear: function(evt){
 			var d = new Date(this.curMonth);
-			switch(evt.target) {
+			switch(evt.target){
 				case this.nextYearLabelNode:
-					d = dojo.date.add(d, dojo.date.dateParts.YEAR, 1);
+					d = dojo.date.calc.add(d, dojo.date.calc.parts.YEAR, 1);
 					break;
 				case this.previousYearLabelNode:
-					d = dojo.date.add(d, dojo.date.dateParts.YEAR, -1);
+					d = dojo.date.calc.add(d, dojo.date.calc.parts.YEAR, -1);
 					break;
 			}
 			this._preInitUI(d,false,true);
 		},
 	
-		onIncrementMonth: function(/*Event*/evt) {
+		onIncrementMonth: function(/*Event*/evt){
 			// summary: handler for increment month event
 			evt.stopPropagation();
 			this._incrementMonth(evt);
 		},
 		
-		onIncrementYear: function(/*Event*/evt) {
+		onIncrementYear: function(/*Event*/evt){
 			// summary: handler for increment year event
 			evt.stopPropagation();
 			this._incrementYear(evt);
 		},
 	
-		_setMonthLabel: function(monthIndex) {
-			this.monthLabelNode.innerHTML = dojo.date.getNames('months', 'wide', 'standAlone', this.lang)[monthIndex];
+		_setMonthLabel: function(monthIndex){
+			this.monthLabelNode.innerHTML = dojo.date.local.getNames('months', 'wide', 'standAlone', this.lang)[monthIndex];
 		},
 		
-		_setYearLabels: function(year) {
+		_setYearLabels: function(year){
 			var y = year - 1;
 			var that = this;
 			function f(n){
 				that[n+"YearLabelNode"].innerHTML =
-					dojo.date.format(new Date(y++, 0), {selector:'yearOnly', locale:that.lang});
+					dojo.date.local.format(new Date(y++, 0), {selector:'yearOnly', locale:that.lang});
 			}
 			f("previous");
 			f("current");
 			f("next");
 		},
 		
-		_getDateClassName: function(date, monthState) {
+		_getDateClassName: function(date, monthState){
 			var currentClassName = this.classNames[monthState];
 			//we use Number comparisons because 2 dateObjects never seem to equal each other otherwise
-			if ((!this.selectedIsUsed && this.value) && (Number(date) == Number(this.value))) {
+			if ((!this.selectedIsUsed && this.value) && (Number(date) == Number(this.value))){
 				currentClassName = this.classNames.selectedDate + " " + currentClassName;
 				this.selectedIsUsed = true;
 			}
-			if((!this.currentIsUsed) && (Number(date) == Number(this.today))) {
+			if((!this.currentIsUsed) && (Number(date) == Number(this.today))){
 				currentClassName = currentClassName + " "  + this.classNames.currentDate;
 				this.currentIsUsed = true;
 			}
 			return currentClassName;
 		},
 	
-		onClick: function(/*Event*/evt) {
+		onClick: function(/*Event*/evt){
 			//summary: the click event handler
-			dojo.event.browser.stopEvent(evt);
+			dojo.stopEvent(evt);
 		},
 
-		_handleUiClick: function(/*Event*/evt) {
+		_handleUiClick: function(/*Event*/evt){
 			var eventTarget = evt.target;
-			if(eventTarget.nodeType != dojo.dom.ELEMENT_NODE){eventTarget = eventTarget.parentNode;}
-			dojo.event.browser.stopEvent(evt);
+			if(eventTarget.nodeType != 1){eventTarget = eventTarget.parentNode;}
+			dojo.stopEvent(evt);
 			this.selectedIsUsed = this.todayIsUsed = false;
 			this.clickedNode = eventTarget;
-			this.setDate(new Date(Number(dojo.html.getAttribute(eventTarget,'_dojoDateValue'))));
+			this.setDate(new Date(eventTarget.getAttribute('_dojoDateValue'))); //PORT: dojo.html.getAttribute apparently needed for Opera?
 		},
 		
-		onValueChanged: function(/*Date*/date) {
+		onValueChanged: function(/*Date*/date){
 			//summary: the set date event handler
 		},
 		
@@ -360,6 +352,7 @@ dojo.declare(
 		},
 
 		_getAdjustedDay: function(/*Date*/dateObj){
+		//FIXME: use mod instead?
 			//summary: used to adjust date.getDay() values to the new values based on the current first day of the week value
 			var days = [0,1,2,3,4,5,6];
 			if(this.weekStartsOn>0){
@@ -372,7 +365,7 @@ dojo.declare(
 
 		destroy: function(){
 			dijit.Form.Calendar.superclass.destroy.apply(this, arguments);
-			dojo.html.destroyNode(this.weekTemplate);
+			this.weekTemplate.parentNode.removeChild(this.weekTemplate); // PORT leak? used to destroyNode
 		}
 	}
 );

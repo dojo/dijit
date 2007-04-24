@@ -14,14 +14,13 @@
         dojo.require("dijit.form.InlineEditBox");
         dojo.require("dijit.form.ResizableTextarea");
         dojo.require("dijit.form.Textbox");
-	dojo.require("dijit.form.DateTextbox");
+		dojo.require("dijit.form.DateTextbox");
         dojo.require("dijit.util.parser");      // scan page for widgets and instantiate them
-        dojo.hostenv.writeIncludes();
 </script>
 
 <script type="text/javascript">
 	function myHandler(id,newValue) {
-		dojo.debug("onValueChanged for id = " + id + ", value: " + newValue);
+		console.debug("onValueChanged for id = " + id + ", value: " + newValue);
 	};
 </script>
 

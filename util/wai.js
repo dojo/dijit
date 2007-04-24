@@ -41,7 +41,7 @@ dijit.util.wai = {
 		//   alias to the attribute name and appropriate prefix to the value. 
 		//   Otherwise, use the setAttribueNS api to set the namespaced attribute. Also
 		//   add the appropriate prefix to the attribute value.
-		if(dojo.render.html.ie){
+		if(dojo.isIE){
 			node.setAttribute(this[ns].alias+":"+ attr, this[ns].prefix+value);
 		}else{
 			node.setAttributeNS(this[ns]["namespace"], attr, this[ns].prefix+value);
@@ -53,7 +53,7 @@ dijit.util.wai = {
 		// Description: In IE use the generic getAttribute() api.  An alias value 
 		// 	was added to the attribute name to simulate a namespace when the attribute
 		//  was set.  Otherwise use the getAttributeNS() api to retrieve the state value
-		if(dojo.render.html.ie){
+		if(dojo.isIE){
 			return node.getAttribute(this[ns].alias+":"+attr);
 		}else{
 			return node.getAttributeNS(this[ns]["namespace"], attr);
@@ -65,7 +65,7 @@ dijit.util.wai = {
 		// 	was added to the attribute name to simulate a namespace when the attribute
 		//  was set.  Otherwise use the removeAttributeNS() api to remove the state value
 		var success = true; //only IE returns a value
-		if(dojo.render.html.ie){
+		if(dojo.isIE){
 			 success = node.removeAttribute(this[ns].alias+":"+attr);
 		}else{
 			node.removeAttributeNS(this[ns]["namespace"], attr);
@@ -73,4 +73,3 @@ dijit.util.wai = {
 		return success;
 	}
 };
-

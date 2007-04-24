@@ -1,7 +1,6 @@
 dojo.provide("dijit.TitlePane");
 
-dojo.require("dojo.html.style");
-dojo.require("dojo.lfx.*");
+dojo.require("dojo.fx");
 
 dojo.require("dijit.base.Widget");
 dojo.require("dijit.base.TemplatedWidget");
@@ -21,12 +20,12 @@ dojo.declare(
 	//		Whether pane is opened or closed.
 	open: true,
 	
-	templatePath: dojo.uri.moduleUri("dijit", "templates/TitlePane.html"),
+	templatePath: dojo.moduleUrl("dijit", "templates/TitlePane.html"),
 
-	postCreate: function() {
+	postCreate: function(){
 		this.setLabel(this.label);
-		if (!this.open) {
-			dojo.html.hide(this.containerNode);
+		if(!this.open){
+			dojo.style(this.containerNode, "display", "none");
 		}
 		this._setCss();
 		dijit.TitlePane.superclass.postCreate.apply(this, arguments);
@@ -34,35 +33,31 @@ dojo.declare(
 		dijit.util.wai.setAttr(this.labelNode, "waiState", "haspopup", "true");
 	},
 
-	onLabelClick: function() {
+	onLabelClick: function(){
 		// summary: callback when label is clicked
-		if (this.open) {
-			dojo.lfx.wipeOut(this.containerNode, 250).play();
-			this.open=false;
-		} else {
-			dojo.lfx.wipeIn(this.containerNode, 250).play();
-			this.open=true;
-		}
+		dojo.fx[this.open ? "slideOut" : "slideIn"]({node: this.containerNode, duration: 250}).play();
+		this.open=!this.open;
 		this._setCss();
 	},
 
 	_setCss: function(){
-		dojo.html.removeClass(this.domNode, this.open ? "dojoClosed" : "dojoOpen");
-		dojo.html.addClass(this.domNode, this.open ? "dojoOpen" : "dojoClosed");
+		var classes = ["dojoClosed", "dojoOpen"];
+		var boolIndex = this.open;
+		this._removeClass(this.domNode, classes[!boolIndex+0]);
+		this.domNode.className += " " + classes[boolIndex+0];
 	},
 
 	onLabelKey: function(/*Event*/ e){
 		// summary: callback when user hits a key
-		var k = dojo.event.browser.keys;
-		if(e.key == k.KEY_ENTER){
+		if(e.key == dojo.keys.ENTER){
 			this.onLabelClick();
-			if (this.open == true) {
+			if(this.open){
 				this.containerNode.focus();
 			}
 	 	}
 	},
 
-	setLabel: function(/*String*/ label) {
+	setLabel: function(/*String*/ label){
 		// summary: sets the text of the label
 		this.labelNode.innerHTML=label;
 	}

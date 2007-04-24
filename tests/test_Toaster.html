@@ -9,18 +9,17 @@
 <script language="JavaScript" type="text/javascript">
 	dojo.require("dijit.Toaster");
 	dojo.require("dijit.util.parser");	// scan page for widgets and instantiate them
-	dojo.hostenv.writeIncludes();
 </script>
 <script type="text/javascript">
 	var toast = null;
 	function showTestMessage(){
-		dojo.event.topic.publish("testMessageTopic", "This is a message! It's kind of long to show message wrapping.");
+		dojo.publish("testMessageTopic", ["This is a message! It's kind of long to show message wrapping."]);
 	}
 	function showAnotherMessage(){
-		dojo.event.topic.publish("testMessageTopic", {message: "This is another message!", type: "warning", duration: 500});
+		dojo.publish("testMessageTopic", [{message: "This is another message!", type: "warning", duration: 500}]);
 	}
 	function showYetAnotherMessage(){
-		dojo.event.topic.publish("testMessageTopic", {message: "This is yet another message!"});
+		dojo.publish("testMessageTopic", [{message: "This is yet another message!"}]);
 	}
 
 	dojo.addOnLoad(function(){

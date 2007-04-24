@@ -1,9 +1,5 @@
 dojo.provide("dijit.form.Textbox");
 
-dojo.require("dojo.lang.common");
-dojo.require("dojo.string.extras");
-dojo.require("dojo.i18n.common");
-
 dojo.require("dijit.base.FormElement");
 dojo.require("dijit.base.TemplatedWidget");
 
@@ -43,10 +39,10 @@ dojo.declare(
 		//		Removes all characters that are not digits if true.  Default is false.
 		digit: false,
 		
-		templatePath: dojo.uri.moduleUri("dijit.form", "templates/Textbox.html"),
+		templatePath: dojo.moduleUrl("dijit.form", "templates/Textbox.html"),
 	
 		getTextValue: function(){
-		        return this.filter(this.textbox.value);
+			return this.filter(this.textbox.value);
 		},
 
 		getValue: function(){
@@ -82,21 +78,24 @@ dojo.declare(
 			this.setTextValue(this.value);
 		},
 
-		filter: function(val) {
+		filter: function(val){
 			// summary: Apply various filters to textbox value
-			if (this.trim) {
+			if(this.trim){
 				val = val.replace(/(^\s*|\s*$)/g, "");
 			} 
-			if (this.uppercase) {
+			if(this.uppercase){
 				val = val.toUpperCase();
 			} 
-			if (this.lowercase) {
+			if(this.lowercase){
 				val = val.toLowerCase();
 			} 
-			if (this.ucFirst) {
-				val = dojo.string.capitalize(val);
+			if(this.ucFirst){
+//PORT is this intended to work on all words or first only?  Perhaps we should use a name more consistent with Dojo's style like capitalize or capitalizeAll?
+				val = val.replace(/[^\s]+/g, function(word){
+					return word.substring(0,1).toUpperCase() + word.substring(1);
+				});
 			} 
-			if (this.digit) {
+			if(this.digit){
 				val = val.replace(/\D/g, "");
 			} 
 			return val;
@@ -108,11 +107,14 @@ dojo.declare(
 		},
 
 		// event handlers, you can over-ride these in your own subclasses
-		onfocus: function(){ 
-			dojo.html.addClass(this.nodeWithBorder,"dojoInputFieldFocused"); 
+		onfocus: function(){
+			// addClass dojoInputFieldFocused
+			this._addClass(this.nodeWithBorder.className, "dojoInputFieldFocused");
 		},
-		onblur: function(){ 
-			dojo.html.removeClass(this.nodeWithBorder,"dojoInputFieldFocused"); 
+		onblur: function(){
+			// removeClass dojoInputFieldFocused
+			this._removeClass(this.nodeWithBorder, "dojoInputFieldFocused");
+
 			this.setValue(this.getValue()); 
 		},
 		onkeyup: function(){ 

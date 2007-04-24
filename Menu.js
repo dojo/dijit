@@ -1,14 +1,33 @@
 dojo.provide("dijit.Menu");
 
-dojo.require("dojo.lang.*");
-dojo.require("dojo.html.*");
-dojo.require("dojo.html.selection");
-dojo.require("dojo.event.browser");
-
 dojo.require("dijit.base.Widget");
 dojo.require("dijit.base.Container");
 dojo.require("dijit.base.TemplatedWidget");
+dojo.require("dijit.util.bidi");
 dojo.require("dijit.util.PopupManager");
+dojo.require("dijit.util.window");
+
+//PORT: move these to dijit.util.iframe?
+// thanks burstlib!
+dijit._iframeContentWindow = function(/* HTMLIFrameElement */iframe_el) {
+	//	summary
+	//	returns the window reference of the passed iframe
+	var win = dijit.util.window.getDocumentWindow(dijit._iframeContentDocument(iframe_el)) ||
+		// Moz. TODO: is this available when defaultView isn't?
+		dijit._iframeContentDocument(iframe_el)['__parent__'] ||
+		(iframe_el.name && document.frames[iframe_el.name]) || null;
+	return win;	//	Window
+};
+
+dijit._iframeContentDocument = function(/* HTMLIFrameElement */iframe_el){
+	//	summary
+	//	returns a reference to the document object inside iframe_el
+	var doc = iframe_el.contentDocument // W3
+		|| ((iframe_el.contentWindow)&&(iframe_el.contentWindow.document))	// IE
+		|| ((iframe_el.name)&&(document.frames[iframe_el.name])&&(document.frames[iframe_el.name].document)) 
+		|| null;
+	return doc;	//	HTMLDocument
+};
 
 dojo.declare(
 	"dijit.PopupMenu",
@@ -49,11 +68,11 @@ dojo.declare(
 			var doc = dojo.body();
 			this.bindDomNode(doc);
 		}else if(this.targetNodeIds.length > 0){
-			dojo.lang.forEach(this.targetNodeIds, this.bindDomNode, this);
+			dojo.forEach(this.targetNodeIds, this.bindDomNode, this);
 		}
 
-		if(!dojo.html.isLeftToRight(this.domNode)){
-			dojo.html.addClass(this.containerNode, "dojoRTL");
+		if(!dijit.util.bidi.isLeftToRight(this.domNode)){
+			this.containerNode.className += " dojoRTL";
 		}
 	},
 
@@ -140,13 +159,137 @@ dojo.declare(
 				curItem = dir>0 ? children[0] : children[children.length-1];
 			}
 			//find next/previous visible menu item, not including separators
-			if(curItem.onHover && curItem.domNode.style.display != "none"){
+			if(curItem.onHover && dojo.style(curItem.domNode, "display") != "none"){
 				return curItem;
 			}
 			curItem = dir>0 ? curItem.getNextSibling() : curItem.getPreviousSibling();
 		}
 	},
+
+//PORT factor out?
+	_scrollIntoView: function(/* HTMLElement */node){
+		//	summary
+		//	Scroll the passed node into view, if it is not.
+
+		if(!node){ return; }
+
+		// don't rely on that node.scrollIntoView works just because the function is there
+		// it doesnt work in Konqueror or Opera even though the function is there and probably
+		// not safari either
+		// dont like browser sniffs implementations but sometimes you have to use it
+		if(dojo.isIE){
+			//only call scrollIntoView if there is a scrollbar for this menu,
+			//otherwise, scrollIntoView will scroll the window scrollbar
+			if(dojo.marginBox(node.parentNode).h <= node.parentNode.scrollHeight){ //PORT was getBorderBox
+				node.scrollIntoView(false);
+			}
+		}else if(dojo.isMozilla){
+			// IE, mozilla
+			//PORT IE, mozilla?
+			node.scrollIntoView(false);
+		}else{
+			var parent = node.parentNode;
+			var parentBottom = parent.scrollTop + dojo.marginBox(parent).h; //PORT was getBorderBox
+			var nodeBottom = node.offsetTop + dojo.marginBox(node).h;
+			if(parentBottom < nodeBottom){
+				parent.scrollTop += (nodeBottom - parentBottom);
+			}else if(parent.scrollTop > node.offsetTop){
+				parent.scrollTop -= (parent.scrollTop - node.offsetTop);
+			}
+		}
+	},
+
+//PORT factor out?
+	_getElementsByClass: function(
+	/*String*/ classStr, 
+	/*HTMLElement?*/ parent//, 
+//	/*String?*/ nodeType, 
+//	/*integer?*/ classMatchType, 
+//	/*boolean?*/ useNonXpath
+){
+	//	summary:
+	//		Returns an array of nodes for the given classStr, children of a
+	//		parent, and optionally of a certain nodeType
+
+	// FIXME: temporarily set to false because of several dojo tickets related
+	// to the xpath version not working consistently in firefox.
+//	useNonXpath = false;
+	var _document = dojo.doc;
+	parent = dojo.byId(parent) || _document;
+	var classes = classStr.split(/\s+/g);
+	var nodes = [];
+//	if(classMatchType != 1 && classMatchType != 2){ classMatchType = 0; }// make it enum
+	var reClass = new RegExp("(\\s|^)((" + classes.join(")|(") + "))(\\s|$)");
+	var srtLength = classes.join(" ").length;
+	var candidateNodes = [];
 	
+	if(/*!useNonXpath && */ _document.evaluate){ // supports dom 3 xpath
+		var xpath = ".//" + (/*nodeType || */ "*") + "[contains(";
+//		if(classMatchType != dojo.html.classMatchType.ContainsAny){
+			xpath += "concat(' ',@class,' '), ' " +
+			classes.join(" ') and contains(concat(' ',@class,' '), ' ") +
+			" ')";
+			if(classMatchType == 2){
+				xpath += " and string-length(@class)="+srtLength+"]";
+			}else{
+				xpath += "]";
+			}
+//		}else{
+//			xpath += "concat(' ',@class,' '), ' " +
+//			classes.join(" ') or contains(concat(' ',@class,' '), ' ") +
+//			" ')]";
+//		}
+		var xpathResult = _document.evaluate(xpath, parent, null, XPathResult.ANY_TYPE, null);
+		var result = xpathResult.iterateNext();
+		while(result){
+			try{
+				candidateNodes.push(result);
+				result = xpathResult.iterateNext();
+			}catch(e){ break; }
+		}
+		return candidateNodes;	//	NodeList
+	}else{
+//		if(!nodeType){
+//			nodeType = "*";
+//		}
+		candidateNodes = parent.getElementsByTagName("*");
+
+		var node, i = 0;
+		outer:
+		while(node = candidateNodes[i++]){
+			var nodeClasses = node.className.split(/\s+/g);
+			if(!nodeClasses.length){ continue outer; }
+			var matches = 0;
+	
+			for(var j = 0; j < nodeClasses.length; j++){
+				if(reClass.test(nodeClasses[j])){
+//					if(classMatchType == dojo.html.classMatchType.ContainsAny){
+						nodes.push(node);
+						continue outer;
+//					}else{
+//						matches++;
+//					}
+//				}else{
+//					if(classMatchType == dojo.html.classMatchType.IsOnly){
+//						continue outer;
+//					}
+				}
+			}
+
+			if(matches == classes.length){
+//FIXME: replace with one big if?
+//				if(	(classMatchType == dojo.html.classMatchType.IsOnly)&&
+//					(matches == nodeClasses.length)){
+//					nodes.push(node);
+//				}else if(classMatchType == dojo.html.classMatchType.ContainsAll){
+					nodes.push(node);
+//				}
+			}
+		}
+		return nodes;	//	NodeList
+	}
+},
+
 	_highlightOption: function(dir){
 		var item;
 		// || !this._highlighted_option.parentNode
@@ -156,20 +299,20 @@ dojo.declare(
 			item = this._findValidItem(dir, this._highlighted_option);
 		}
 		if(item){
-			if(this._highlighted_option) {
+			if(this._highlighted_option){
 				this._highlighted_option.onUnhover();
 			}
 			item.onHover();
-			dojo.html.scrollIntoView(item.domNode);
+			this._scrollIntoView(item.domNode);
 			// navigate into the item table and select the first caption tag
-			try {
-				var node = dojo.html.getElementsByClass("dojoMenuItemLabel", item.domNode)[0];
+			try{
+				var node = this._getElementsByClass("dojoMenuItemLabel", item.domNode)[0];
 				node.focus();
-			} catch(e) { }
+			}catch(e){ }
 		}
 	},
 
-	onItemClick: function(/*Widget*/ item) {
+	onItemClick: function(/*Widget*/ item){
 		// summary: user defined function to handle clicks on an item
 	},
 
@@ -189,22 +332,19 @@ dojo.declare(
 		// summary: attach menu to given node
 		node = dojo.byId(node);
 
-		var win = dojo.html.getElementWindow(node);
-		if(dojo.html.isTag(node,'iframe') == 'iframe'){
-			win = dojo.html.iframeContentWindow(node);
+		var win = dijit.util.window.getDocumentWindow(node.ownerDocument);
+		if(node.tagName.toLowerCase()=="iframe"){
+			win = dijit._iframeContentWindow(node);
 			node = dojo.withGlobal(win, dojo.body);
 		}
 
-		if(!this.hitchedOpen){
-			this.hitchedOpen = dojo.lang.hitch(this, "open");
-		}
-		dojo.event.browser.addListener(node, "contextmenu", this.hitchedOpen);
+		dojo.addListener(node, "contextmenu", this, this.open);
 	},
 
 	unBindDomNode: function(/*String|DomNode*/ nodeName){
 		// summary: detach menu from given node
 		var node = dojo.byId(nodeName);
-		dojo.event.browser.removeListener(node, "contextmenu", this.hitchedOpen);
+		dojo.removeListener(node, "contextmenu", this.open); //PORT fix 3rd arg (handle)
 	},
 
 	_openAsSubmenu: function(/*Widget|DomNode*/parent, /*Object*/explodeSrc, /*String?*/orient){
@@ -227,7 +367,7 @@ dojo.declare(
 		//		Open menu relative to the mouse
 		dijit.util.PopupManager.open(e, this);
 
-		dojo.event.browser.stopEvent(e);
+		dojo.stopEvent(e);
 	},
 
 	close: function(/*Boolean*/ force){
@@ -246,7 +386,7 @@ dojo.declare(
 
 	closeAll: function(/*Boolean?*/force){
 		// summary: close all popups in the chain
-		var parentMenu = this.parentMenu
+		var parentMenu = this.parentMenu;
 		this.close(force);
 		if (parentMenu){
 			parentMenu.closeAll(force);
@@ -255,7 +395,7 @@ dojo.declare(
 	
 	_openSubmenu: function(submenu, from_item){
 		// summary: open the submenu to the side of the current menu item
-		var orient = dojo.html.isLeftToRight(from_item.arrowCell) ? {'TR': 'TL', 'TL': 'TR'} : {'TL': 'TR', 'TR': 'TL'};
+		var orient = dijit.util.bidi.isLeftToRight(from_item.arrowCell) ? {'TR': 'TL', 'TL': 'TR'} : {'TL': 'TR', 'TR': 'TL'};
 		submenu._openAsSubmenu(this, from_item.arrowCell, orient);
 
 		this.currentSubmenu = submenu;
@@ -325,19 +465,17 @@ dojo.declare(
 	postMixInProperties: function(){
 		this.iconStyle="";
 		if(this.iconSrc){
-			if((this.iconSrc.toLowerCase().substring(this.iconSrc.length-4) == ".png") && (dojo.render.html.ie55 || dojo.render.html.ie60)){
-				this.iconStyle="filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='"+this.iconSrc+"', sizingMethod='image')";
-			}else{
-				this.iconStyle="background-image: url("+this.iconSrc+")";
-			}
+			this.iconStyle = ((this.iconSrc.toLowerCase().substring(this.iconSrc.length-4) == ".png") && (dojo.isIE < 7)) ?
+				"filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='"+this.iconSrc+"', sizingMethod='image')" :
+				"background-image: url("+this.iconSrc+")";
 		}
 		dijit.MenuItem.superclass.postMixInProperties.apply(this, arguments);
 	},
 
 	postCreate: function(){
-		dojo.html.disableSelection(this.domNode);
+		dijit._disableSelection(this.domNode);
 		if(this.submenuId){
-			this.arrow.style.display="";
+			dojo.style(this.arrow, "display", "");
 		}
 		if(this.disabled){
 			this.setDisabled(true);
@@ -414,11 +552,11 @@ dojo.declare(
 	},
 
 	_highlightItem: function(){
-		dojo.html.addClass(this.domNode, 'dojoMenuItemHover');
+		this._addClass(this.domNode, 'dojoMenuItemHover');
 	},
 
 	_unhighlightItem: function(){
-		dojo.html.removeClass(this.domNode, 'dojoMenuItemHover');
+		this._removeClass(this.domNode, 'dojoMenuItemHover');
 	},
 
 	_startSubmenuTimer: function(){
@@ -429,12 +567,12 @@ dojo.declare(
 		var self = this;
 		var closure = function(){ return function(){ self._openSubmenu(); }; }();
 
-		this.hover_timer = dojo.lang.setTimeout(closure, this.getParent().submenuDelay);
+		this.hover_timer = setTimeout(closure, this.getParent().submenuDelay);
 	},
 
 	_stopSubmenuTimer: function(){
 		if(this.hover_timer){
-			dojo.lang.clearTimeout(this.hover_timer);
+			clearTimeout(this.hover_timer);
 			this.hover_timer = null;
 		}
 	},
@@ -460,9 +598,9 @@ dojo.declare(
 		this.disabled = value;
 
 		if(this.disabled){
-			dojo.html.addClass(this.domNode, 'dojoMenuItemDisabled');
+			this._addClass(this.domNode, 'dojoMenuItemDisabled');
 		}else{
-			dojo.html.removeClass(this.domNode, 'dojoMenuItemDisabled');
+			this._removeClass(this.domNode, 'dojoMenuItemDisabled');
 		}
 	},
 
@@ -495,6 +633,6 @@ dojo.declare(
 			+'</td></tr>',
 
 	postCreate: function(){
-		dojo.html.disableSelection(this.domNode);
+		dijit._disableSelection(this.domNode);
 	}
 });

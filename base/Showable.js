@@ -1,9 +1,5 @@
 dojo.provide("dijit.base.Showable");
 
-dojo.require("dojo.lang.declare");
-dojo.require("dojo.lfx.toggler");
-dojo.require("dojo.html.common");
-
 dojo.declare("dijit.base.Showable", null,
 {
 	// Summary
@@ -27,7 +23,7 @@ dojo.declare("dijit.base.Showable", null,
 		//	if it's inside a container that's hidden
 		//	(either a container widget, or just a domnode with display:none),
 		//	then it won't be displayed
-		return dojo.html.isShowing(this.domNode);	// Boolean
+		return dojo.style(this.domNode, "display") != 'none';	// Boolean
 	},
 
 	toggleShowing: function(){
@@ -43,8 +39,9 @@ dojo.declare("dijit.base.Showable", null,
 		// summary: show the widget
 		if(this.isShowing()){ return; }
 		this.animationInProgress=true;
+//Q: where is toggleObj defined?
 		this.toggleObj.show(this.domNode, this.toggleDuration, null,
-			dojo.lang.hitch(this, this.onShow), this.explodeSrc);
+			dojo.hitch(this, this.onShow), this.explodeSrc);
 	},
 
 	_onShow: function(){
@@ -61,7 +58,7 @@ dojo.declare("dijit.base.Showable", null,
 		if(!this.isShowing()){ return; }
 		this.animationInProgress = true;
 		this.toggleObj.hide(this.domNode, this.toggleDuration, null,
-			dojo.lang.hitch(this, this.onHide), this.explodeSrc);
+			dojo.hitch(this, this.onHide), this.explodeSrc);
 	},
 
 	_onHide: function(){

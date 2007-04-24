@@ -12,17 +12,16 @@
 			};
 		</script>
 		<script type="text/javascript" src="../../../dojo/dojo.js"></script>
-		<script type="text/javascript">
+		<script type="text/javascript">console.debug=window.alert;
 			dojo.require("dijit.form.Textbox");
 			dojo.require("dijit.form.ValidationTextbox");
 			dojo.require("dijit.form.NumberTextbox");
 			dojo.require("dijit.form.CurrencyTextbox");
-			dojo.require("dijit.form.DateTextbox");
-			dojo.require("dojo.validate.common");
-			dojo.require("dojo.validate.us");
-			dojo.require("dojo.date.format");
+//			dojo.require("dijit.form.DateTextbox");
+//			dojo.require("dojo.validate.common");
+//			dojo.require("dojo.validate.us");
+//			dojo.require("dojo.date.format");
 			dojo.require("dijit.util.parser");	// scan page for widgets and instantiate them
-			dojo.hostenv.writeIncludes();
 		</script>
 	
 		<style>
@@ -114,7 +113,7 @@
 					dojoType="dijit.form.NumberTextbox"
 					promptMessage="(optional) Enter an age between 0 and 120"
 					constraints={places:0,min:0,max:120}
-					onValueChanged="dojo.debug('onValueChanged fired for widget id = ' + this.id + ' with value = ' + arguments[0]);"
+					onValueChanged="console.debug('onValueChanged fired for widget id = ' + this.id + ' with value = ' + arguments[0]);"
 					digit="true"
 					trim="true" 
 					/>
@@ -157,7 +156,7 @@
 		var w = new dijit.form.NumberTextbox(props, refNode);
 	});
 </script>
-
+<!-- 
 			<div class="formQuestion">
 				<span class="emphasize"><label for="attach-here">Population:  </label></span>
 				<span class="noticeMessage">IntegerTextbox class, 
@@ -213,7 +212,7 @@
 					constraints={exponent:true}
 					invalidMessage="Number must be in exponential notation. Example +5E-28" />
 			</div>
-
+-->
 			<div class="formQuestion">
 				<span class="emphasize"><label for="q08">Annual Income:  </label></span>
 				<span class="noticeMessage">CurrencyTextbox class, 
@@ -234,7 +233,7 @@
 					currency="EUR"
 					invalidMessage="Invalid amount.  Include euro sign, commas, and cents. Example: &#x20ac;12,000.00" />EUR
 			</div>
-
+<!-- 
 			<div class="formQuestion">
 				<span class="emphasize"><label for="q08a">Annual Income:  </label></span>
 				<span class="noticeMessage">Old regexp currency textbox, 
@@ -324,7 +323,9 @@
 					required="true" 
 					invalidMessage="Invalid Email Address List." />
 			</div>
+-->
 
+<!-- 
 			<div class="formQuestion">
 				<span class="emphasize"><label for="q14"> Date (American format) </label></span>
 				<span class="noticeMessage">DateTextbox class, 
@@ -409,7 +410,9 @@
 					required="true" 
 					invalidMessage="Invalid US state abbr." />
 			</div>
+-->
 
+<!-- 
 			<div class="formQuestion">
 				<span class="emphasize"><label for="q19"> US Zip Code </label></span>
 				<span class="noticeMessage">UsZipTextbox class, 
@@ -451,7 +454,7 @@
 					required="true" 
 					invalidMessage="Invalid US Phone Number." />
 			</div>
-
+ -->
 			<div class="formQuestion">
 				<span class="emphasize"><label for="q22"> Regular Expression </label></span>
 				<span class="noticeMessage">RegexpTextbox class, 

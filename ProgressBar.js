@@ -1,13 +1,11 @@
 dojo.provide("dijit.ProgressBar");
 
-dojo.require("dojo.event.common");
-dojo.require("dojo.dom");
-dojo.require("dojo.html.style");
-dojo.require("dojo.lfx.html");
+dojo.require("dojo.fx");
 dojo.require("dojo.number");
 
 dojo.require("dijit.base.Widget");
 dojo.require("dijit.base.TemplatedWidget");
+dojo.require("dijit.util.sniff");
 
 dojo.declare(
 	"dijit.ProgressBar",
@@ -73,20 +71,20 @@ dojo.declare(
 		// duration of the animation
 		duration: 1000,
 
-		templatePath: dojo.uri.moduleUri("dijit", "templates/ProgressBar.html"),		
+		templatePath: dojo.moduleUrl("dijit", "templates/ProgressBar.html"),		
 
 		// public functions
 		postCreate: function(){
 			dijit.ProgressBar.superclass.postCreate.apply(this, arguments);
-			dojo.html.applyBrowserClass(this.domNode);
 			if(this.orientation == "vertical"){
-				dojo.html.addClass(this.domNode, "dojoProgressBarVertical");
+//PORT: if !this.domNode.className?
+				this.domNode.className += " "+"dojoProgressBarVertical";
 				this._dimension = "height";
 			}else{
 				this._dimension = "width";
 			}
 			//TODO: can this be accomplished in the template layout?
-			dojo.html.setPositivePixelValue(this.frontLabel, "width", dojo.html.getPixelValue(this.domNode,"width"));
+			this.frontLabel.style.width = dojo.getComputedStyle(this.domNode).width; 
 			this.update();
 		},
 
@@ -95,7 +93,7 @@ dojo.declare(
 			//
 			// attributes: may provide progress and/or maximum properties on this parameter,
 			//	see attribute specs for details.
-			dojo.lang.mixin(this, attributes||{});
+			dojo.mixin(this, attributes||{});
 			var percent;
 			if(String(this.progress).indexOf("%") != -1){
 				percent = Math.min(parseFloat(this.progress)/100, 1);
@@ -109,19 +107,24 @@ dojo.declare(
 
 			this._setWaiValueNow(this.report(percent));
 
-			var pixels = percent * dojo.html.getPixelValue(this.domNode, this._dimension);
-			dojo.html.setPositivePixelValue(this.internalProgress, this._dimension, pixels);
+			var pixels = percent * parseInt(dojo.getComputedStyle(this.domNode)[this._dimension]);
+			this.internalProgress.style[this._dimension] = pixels + 'px';
 
 			var display = this.annotate ? "block" : "none";
-			dojo.lang.forEach(["front", "back"], function(name){
+			dojo.forEach(["front", "back"], function(name){
 				var labelNode = this[name+"Label"];
-				dojo.dom.textContent(labelNode, this.report(percent));
-				labelNode.style.display = display;
+				var text = this.report(percent);
+				if(labelNode.firstChild){
+					labelNode.firstChild.nodeValue = text;
+				}else{
+					labelNode.appendChild(dojo.doc.createTextNode(text));
+				}
+				dojo.style(labelNode, "display", display);
 
 // move this out of update, or perhaps replace with css or template layout?
-				var dim = dojo.html.getContentBox(labelNode);
-				var labelBottom = (dojo.html.getPixelValue(this.domNode,"height") - dim.height)/2;
-				dojo.html.setPositivePixelValue(labelNode, "bottom", labelBottom);
+				var dim = dojo.contentBox(labelNode);
+				var labelBottom = (parseInt(dojo.getComputedStyle(this.domNode).height) - dim.h)/2;
+				labelNode.style.bottom = labelBottom + 'px';
 			}, this);
 
 			this.onChange();
@@ -136,21 +139,22 @@ dojo.declare(
 
 		_setupAnimation: function(){
 			var self = this;
-			this._animation = dojo.lfx.html.slideTo(this.internalProgress,
-				{top: 0, left: dojo.html.getPixelValue(this.domNode,"width")-dojo.html.getPixelValue(this.internalProgress,"width")},
-				this.duration, null, 
-				function(){
-					var backAnim = dojo.lfx.html.slideTo(self.internalProgress, {top: 0, left: 0}, self.duration);
-					dojo.event.connect(backAnim, "onEnd", function(){
-						if(!self._animationStopped){
-							self._animation.play();
-						}
-					});
+			this._animation = dojo.fx.slideTo({node: this.internalProgress,
+				top: 0,
+				left: parseInt(dojo.getComputedStyle(this.domNode).width)-parseInt(dojo.getComputedStyle(this.internalProgress).width),
+				duration: this.duration});
+			dojo.connect(this._animation, "onEnd", null, function(){
+				var backAnim = dojo.fx.slideTo({node: self.internalProgress, top: 0, left: 0, duration: self.duration});
+				dojo.connect(backAnim, "onEnd", null, function(){
 					if(!self._animationStopped){
-						backAnim.play();
+						self._animation.play();
 					}
-					backAnim = null; // <-- to avoid memory leaks in IE
 				});
+				if(!self._animationStopped){
+					backAnim.play();
+				}
+				backAnim = null; // to avoid memory leaks in IE
+			});
 		},
 
 		startAnimation: function(){
@@ -173,7 +177,7 @@ dojo.declare(
 				this._animation.stop();
 				this.internalProgress.style.height="100%";
 				this.internalProgress.style.left = "0px";
-				dojo.lang.mixin(this, this._backup);
+				dojo.mixin(this, this._backup);
 				this.update();
 			}
 		},
@@ -184,10 +188,11 @@ dojo.declare(
 
 		start: function(){
 			// summary: starts the server polling
-			var _showFunction = dojo.lang.hitch(this, this._showRemoteProgress);
+			var _showFunction = dojo.hitch(this, this._showRemoteProgress);
 			this._timer = setInterval(_showFunction, this.pollInterval);
 		},
 
+//FIXME: remove remote API from this widget and provide examples of how to do externally
 		_showRemoteProgress: function(){
 			var self = this;
 			if((this.maximum == this.progress) && this._timer){
@@ -201,7 +206,7 @@ dojo.declare(
 				method: "POST",
 				mimetype: "text/json",
 				error: function(type, errorObj){
-					dojo.debug("ProgressBar: showRemoteProgress error");
+					console.debug("ProgressBar: showRemoteProgress error");
 				},
 				load: function(type, data, evt){
 					self.update({progress: self._timer ? data.progress : "100%"});

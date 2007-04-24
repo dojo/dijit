@@ -1,10 +1,9 @@
 dojo.provide("dijit.form.CurrencyTextbox");
 
-dojo.require("dojo.i18n.common");
-dojo.require("dojo.experimental");
-dojo.experimental("dijit.form.CurrencyTextbox");
-dojo.require("dojo.currency");
+//FIXME: dojo.experimental throws an unreadable exception?
+//dojo.experimental("dijit.form.CurrencyTextbox");
 
+dojo.require("dojo.currency");
 dojo.declare(
 	"dijit.form.CurrencyTextbox",
 	dijit.form.NumberTextbox,

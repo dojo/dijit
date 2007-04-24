@@ -1,14 +1,8 @@
 dojo.provide("dijit.Tooltip");
 
-dojo.require("dojo.lang.declare");
-dojo.require("dojo.uri.Uri");
-dojo.require("dojo.event.*");
-dojo.require("dojo.html.style");
-dojo.require("dojo.html.util");
-dojo.require("dojo.lfx.html");
-
 dojo.require("dijit.base.Widget");
 dojo.require("dijit.base.TemplatedWidget");
+dojo.require("dijit.util.place");
 
 dojo.declare(
 	"dijit._MasterTooltip",
@@ -24,32 +18,38 @@ dojo.declare(
 		//		Milliseconds to fade in/fade out
 		duration: 100,
 
-		templatePath: dojo.uri.moduleUri("dijit", "templates/Tooltip.html"),
+		templatePath: dojo.moduleUrl("dijit", "templates/Tooltip.html"),
 
-		postCreate: function() {
+		postCreate: function(){
 			this.domNode.style.display="none";
 			dojo.body().appendChild(this.domNode);
-			this.fadeShow=dojo.lfx.fadeShow(this.domNode, this.duration);
-			this.fadeHide=dojo.lfx.fadeHide(this.domNode, this.duration);
 		},
 
-		show: function(/*String*/ innerHTML, /*DomNode*/ aroundNode) {
+		show: function(/*String*/ innerHTML, /*DomNode*/ aroundNode){
 			// summary: display tooltip w/specified contents underneath specified node
 
-			if (this.isShowingNow) {
+			if (this.isShowingNow){
 				this.domNode.style.display="none";
 			}
 			this.containerNode.innerHTML=innerHTML;
-			dojo.html.placeOnScreenAroundElement(this.domNode, aroundNode, [0,0],
-				dojo.html.boxSizing.BORDER_BOX, {'BL': 'TL', 'TL': 'BL'});
-			this.fadeShow.play();
+			dijit.util.placeOnScreenAroundElement(this.domNode, aroundNode, [0,0],
+				{'BL': 'TL', 'TL': 'BL'});
+			var anim = dojo.fadeIn({node: this.domNode, duration: this.duration});
+			dojo.connect(anim, "onEnd", this, function(){
+				dojo.style(this.domNode, "display", "");
+			});
+			anim.play();
 			this.isShowingNow = true;
 		},
 
-		hide: function() {
+		hide: function(){
 			// summary: hide the tooltip
 			this.isShowingNow = false;
-			this.fadeHide.play();
+			var anim = dojo.fadeOut({node: this.domNode, duration: this.duration});
+			dojo.connect(anim, "onEnd", this, function(){
+				dojo.style(this.domNode, "display", "none");
+			});
+			anim.play();
 		}
 	}
 );
@@ -81,17 +81,34 @@ dojo.declare(
 		//		(When user hovers over specified dom node, the tooltip will appear.)
 		connectId: "",
 
+		// A hash to hold connect handles for cleanup
+		_connections: [],
+
 		postCreate: function(){
 			this._connectNode = dojo.byId(this.connectId);
 
-			dojo.event.connect(this._connectNode, "onmouseover", this, "_onMouseOver");
-			dojo.event.connect(this._connectNode, "onfocus", this, "_onHover");
-			dojo.event.connect(this._connectNode, "onmouseout", this, "_onMouseOut");
-			dojo.event.connect(this._connectNode, "onblur", this, "_onUnHover");
+			dojo.forEach(["onMouseOver", "onHover", "onMouseOut", "onUnHover"], function(event){
+				this._connections.event = dojo.connect(this._connectNode, event.toLowerCase(), this, "_"+event);
+			}, this);
+		},
+
+		//PORT from dojo.dom.isDescendantOf
+		_isDescendantOf: function(/*Node*/node, /*Node*/ancestor){
+			//	summary
+			//	Returns boolean if node is a descendant of ancestor
+			// guaranteeDescendant allows us to be a "true" isDescendantOf function
+
+			while(node){
+				if(node === ancestor){ 
+					return true; // boolean
+				}
+				node = node.parentNode;
+			}
+			return false; // boolean
 		},
 
 		_onMouseOver: function(/*Event*/ e){
-			if(dojo.dom.isDescendantOf(e.relatedTarget, this._connectNode)){
+			if(this._isDescendantOf(e.relatedTarget, this._connectNode)){
 				// false event; just moved from target child to target; ignore.
 				return;
 			}
@@ -99,20 +116,20 @@ dojo.declare(
 		},
 
 		_onMouseOut: function(/*Event*/ e){
-			if(dojo.dom.isDescendantOf(e.relatedTarget, this._connectNode)){
+			if(this._isDescendantOf(e.relatedTarget, this._connectNode)){
 				// false event; just moved from target to target child; ignore.
 				return;
 			}
 			this._onUnHover(e);
 		},
 
-		_onHover: function(/*Event*/ e) {
+		_onHover: function(/*Event*/ e){
 			if(this._hover){ return; }
 			this._hover=true;
 
 			// If tooltip not showing yet then set a timer to show it shortly
 			if(!this.isShowingNow && !this._showTimer){
-				this._showTimer = setTimeout(dojo.lang.hitch(this, "open"), this.showDelay);
+				this._showTimer = setTimeout(dojo.hitch(this, "open"), this.showDelay);
 			}
 		},
 
@@ -128,9 +145,9 @@ dojo.declare(
 			}
 		},
 
-		open: function() {
+		open: function(){
 			// summary: display the tooltip; usually not called directly.
-			if (this.isShowingNow) { return; }
+			if(this.isShowingNow){ return; }
 			if(this._showTimer){
 				clearTimeout(this._showTimer);
 				delete this._showTimer;
@@ -140,20 +157,19 @@ dojo.declare(
 			this.isShowingNow = true;
 		},
 
-		close: function() {
+		close: function(){
 			// summary: hide the tooltip; usually not called directly.
-			if (!this.isShowingNow) { return; }
+			if(!this.isShowingNow){ return; }
 			dijit.MasterTooltip.hide();
 			this.isShowingNow = false;
 		},
 
 		uninitialize: function(){
 			this.close();
-			dojo.event.disconnect(this._connectNode, "onmouseover", this, "_onMouseOver");
-			dojo.event.disconnect(this._connectNode, "onfocus", this, "_onHover");
-			dojo.event.disconnect(this._connectNode, "onmouseout", this, "_onMouseOut");
-			dojo.event.disconnect(this._connectNode, "onblur", this, "_onUnHover");
+			for(var event in this._connections){
+				dojo.disconnect(this._connectNode, event, this._connections.event);
+			}
+			this._connections = {};
 		}
 	}
 );
-

@@ -1,9 +1,5 @@
 dojo.provide("dijit.util.FocusManager");
 
-dojo.require("dojo.html.selection");
-dojo.require("dojo.html.util");
-dojo.require("dojo.event.*");
-
 dijit.util.FocusManager = new function(){
 	// summary:
 	//		This class is used to save the current focus / selection on the screen,
@@ -31,12 +27,12 @@ dijit.util.FocusManager = new function(){
 		if(node !== curFocus){
 			prevFocus = curFocus;
 			curFocus = node;
-			dojo.debug("focused on ", node ? (node.id ? node.id : node.tagName) : "nothing");
+			console.debug("focused on ", node ? (node.id ? node.id : node.tagName) : "nothing");
 		}
 	}
 	
 	dojo.addOnLoad(function(){
-		if(dojo.render.html.ie){
+		if(dojo.isIE){
 			// TODO: to make this more deterministic should delay updating curFocus/prevFocus for 10ms?
 			window.setInterval(function(){ onFocus(document.activeElement); }, 100);
 		}else{
@@ -56,6 +52,85 @@ dijit.util.FocusManager = new function(){
 	var restoreFocus;		// focused node before menu opened
 	var bookmark;			// selected text before menu opened
 
+//PORT from dojo.html.selection
+	var isCollapsed = function(){
+		// summary: return whether the current selection is empty
+		var _window = dojo.global;
+		var _document = dojo.doc;
+		if(_document.selection){ // IE
+			return _document.selection.createRange().text == "";
+		}else if(_window.getSelection){
+			var selection = _window.getSelection();
+			if(dojo.isString(selection)){ // Safari
+				return selection == "";
+			}else{ // Mozilla/W3
+				return selection.isCollapsed || selection.toString() == "";
+			}
+		}
+	};
+
+	var getBookmark = function(){
+		// summary: Retrieves a bookmark that can be used with moveToBookmark to return to the same range
+		var bookmark;
+		var _document = dojo.doc;
+		if(_document.selection){ // IE
+			var range = _document.selection.createRange();
+			if(_document.selection.type.toUpperCase()=='CONTROL'){
+				if(range.length){
+					bookmark=[];
+					var i=0;
+					while(i<range.length){
+						bookmark.push(range.item(i++));
+					}
+				}else{
+					bookmark = null;
+				}
+			}else{
+				bookmark = range.getBookmark();
+			}
+		}else{
+			var selection;
+			try{selection = dojo.global().getSelection();}
+			catch(e){}
+			if(selection){
+				var range = selection.getRangeAt(0);
+				bookmark = range.cloneRange();
+			}else{
+				console.debug("No idea how to store the current selection for this browser!");
+			}
+		}
+		return bookmark;
+	};
+	var moveToBookmark = function(/*Object*/bookmark){
+		// summary: Moves current selection to a bookmark
+		// bookmark: this should be a returned object from dojo.html.selection.getBookmark()
+		var _document = dojo.doc;
+		if(_document.selection){ // IE
+			if(dojo.isArray(bookmark)){
+				var range= _document.body.createControlRange();
+				var i=0;
+				while(i<bookmark.length){
+					range.addElement(bookmark[i++]);
+				}
+				range.select();
+			}else{
+				var range = _document.selection.createRange();
+				range.moveToBookmark(bookmark);
+				range.select();
+			}
+		}else{ //Moz/W3C
+			var selection;
+			try{selection = dojo.global.getSelection();}
+			catch(e){}
+			if(selection && selection.removeAllRanges){
+				selection.removeAllRanges();
+				selection.addRange(bookmark);
+			}else{
+				console.debug("No idea how to restore selection for this browser!");
+			}
+		}
+	};
+
 	this.save = function(/*Widget*/menu, /*Window*/ _openedForWindow){
 		// summary:
 		//	called when a popup appears (either a top level menu or a dialog),
@@ -69,15 +144,30 @@ dijit.util.FocusManager = new function(){
 		currentMenu = menu;
 		openedForWindow = _openedForWindow;
 
+		//PORT from dojo.dom.isDescendantOf
+		var isDescendantOf = function(/*Node*/node, /*Node*/ancestor){
+			//	summary
+			//	Returns boolean if node is a descendant of ancestor
+			// guaranteeDescendant allows us to be a "true" isDescendantOf function
+
+			while(node){
+				if(node === ancestor){ 
+					return true; // boolean
+				}
+				node = node.parentNode;
+			}
+			return false; // boolean
+		};
+
 		// Find node to restore focus to, when this menu/dialog closes
-		restoreFocus = dojo.html.isDescendantOf(curFocus, menu.domNode) ? prevFocus : curFocus;
-		dojo.debug("will restore focus to " + ( restoreFocus ? (restoreFocus.id || restoreFocus.tagName) : "nothing") );
-		dojo.debug("prev focus is " + prevFocus);
+		restoreFocus = isDescendantOf(curFocus, menu.domNode) ? prevFocus : curFocus;
+		console.debug("will restore focus to " + ( restoreFocus ? (restoreFocus.id || restoreFocus.tagName) : "nothing") );
+		console.debug("prev focus is " + prevFocus);
 
 		//Store the current selection and restore it before the action for a menu item
 		//is executed. This is required as clicking on an menu item deselects current selection
-		if(!dojo.withGlobal(openedForWindow||dojo.global(), dojo.html.selection.isCollapsed)){
-			bookmark = dojo.withGlobal(openedForWindow||dojo.global(), dojo.html.selection.getBookmark);
+		if(!dojo.withGlobal(openedForWindow||dojo.global(), isCollapsed)){
+			bookmark = dojo.withGlobal(openedForWindow||dojo.global(), getBookmark);
 		}else{
 			bookmark = null;
 		}
@@ -87,7 +177,7 @@ dijit.util.FocusManager = new function(){
 		// summary:
 		//	notify the manager that menu is closed; it will return focus to
 		//	where it was before the menu got focus
-		if (currentMenu == menu){
+		if(currentMenu == menu){
 			// focus on element that was focused before menu stole the focus
 			if(restoreFocus){
 				restoreFocus.focus();
@@ -95,12 +185,12 @@ dijit.util.FocusManager = new function(){
 
 			//do not need to restore if current selection is not empty
 			//(use keyboard to select a menu item)
-			if(bookmark && dojo.withGlobal(openedForWindow||dojo.global(), dojo.html.selection.isCollapsed)){
+			if(bookmark && dojo.withGlobal(openedForWindow||dojo.global, isCollapsed)){
 				if(openedForWindow){
-					openedForWindow.focus()
+					openedForWindow.focus();
 				}
 				try{
-					dojo.withGlobal(openedForWindow||dojo.global(), "moveToBookmark", dojo.html.selection, [bookmark]);
+					dojo.withGlobal(openedForWindow||dojo.global, moveToBookmark, null, [bookmark]);
 				}catch(e){
 					/*squelch IE internal error, see http://trac.dojotoolkit.org/ticket/1984 */
 				}

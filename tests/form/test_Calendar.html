@@ -5,20 +5,20 @@
 <title>Calendar Widget Demo</title>
 
 <link rel=stylesheet href="../../themes/tundra/tundra.css" type="text/css">
+<link rel=stylesheet href="../../form/templates/Calendar.css" type="text/css">
 <script type="text/javascript">
-        var djConfig = {isDebug: true, debugAtAllCosts: true};
+//        var djConfig = {isDebug: true, debugAtAllCosts: true};
 </script>
 <script type="text/javascript" src="../../../dojo/dojo.js"></script>
 <script language="JavaScript" type="text/javascript">
-        dojo.registerModulePath("dijit", "../dijit");
+//        dojo.registerModulePath("dijit", "../dijit");
         dojo.require("dijit.form.Calendar");
         dojo.require("dijit.util.parser");      // scan page for widgets and instantiate them
-        dojo.hostenv.writeIncludes();
 </script>
 
 <script type="text/javascript">
 	function myHandler(id,newValue) {
-		dojo.debug("onValueChanged for id = " + id + ", value: " + newValue);
+		console.debug("onValueChanged for id = " + id + ", value: " + newValue);
 	};
 </script>
 </head>

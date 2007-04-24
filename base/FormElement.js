@@ -1,6 +1,5 @@
 dojo.provide("dijit.base.FormElement");
 
-dojo.require("dojo.html.style");
 dojo.require("dijit.base.Widget");
 dojo.require("dijit.util.wai");
 
@@ -73,17 +72,18 @@ dojo.declare("dijit.base.FormElement", dijit.base.Widget,
 		// TODO:
 		//		not sure which parts of disabling a widget should be here;
 		//		not sure which code is common to many widgets and which is specific to a particular widget.
-		if (disabled){
-			if (!dojo.html.hasClass(this.domNode, this["class"]+"Disabled")){
-				dojo.html.prependClass(this.domNode, this["class"]+"Disabled");
-			}
+		var disabledClass = this["class"]+"Disabled";
+		if(disabled){
+//			if(!(new RegExp('(^|\\s+)'+disabledClass+'(\\s+|$)')).test(this.domNode.className))){
+//				this.domNode.className = disabledClass + " " + this.domNode.className;
+//			}
 			// needed for FF when a tabIndex=0 div is inside a Button that is disabled
-			if (this.containerNode){
+			if(this.containerNode){
 				this.containerNode.removeAttribute("tabIndex");
 			}
 		}else{
-			dojo.html.removeClass(this.domNode, this["class"]+"Disabled");
-			if (this.containerNode){
+			this._removeClass(this.domNode,disabledClass);
+			if(this.containerNode){
 				this.containerNode.setAttribute("tabIndex", this.tabIndex);
 			}
 		}

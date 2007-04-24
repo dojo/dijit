@@ -13,7 +13,6 @@
 		<script type="text/javascript">
 		        dojo.require("dijit.form.NumberSpinner");
 		        dojo.require("dijit.util.parser");      // scan page for widgets and instantia
-		        dojo.hostenv.writeIncludes();
 		</script>
 
 		<style>
@@ -50,7 +49,7 @@
 		<br>
 		initial value=900, no delta specified, no min specified, max=1550, onValueChanged debug message<br>
 		<input dojoType="dijit.form.NumberSpinner" 
-			onValueChanged="dojo.debug('onValueChanged fired for widget id = ' + this.id + ' with value = ' + arguments[0]);"
+			onValueChanged="console.debug('onValueChanged fired for widget id = ' + this.id + ' with value = ' + arguments[0]);"
 			value="900" 
 			constraints={max:1550,places:0}
 			maxlength="20" 

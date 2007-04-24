@@ -1,9 +1,7 @@
 dojo.provide("dijit.util.parser");
 
-dojo.require("dojo.lang.type");
 dojo.require("dijit.util.manager");
-dojo.require("dojo.dom");
-dojo.require("dojo.query");
+dojo.require("dojo.date.serial");
 
 // TODO:
 // - call startup() after all the other widgets have been created
@@ -13,17 +11,17 @@ dijit.util.parser = new function(){
 	function val2type(/*Object*/ value){
 		// summary:
 		//	Returns name of type of given value.
-		//	Like dojo.lang.getType() but more types.
+		//	Like dojo.lang but more types.
 
-		if(dojo.lang.isString(value)){ return "string"; }
-		if(dojo.lang.isNumber(value)){ return "number"; }
-		if(dojo.lang.isBoolean(value)){ return "boolean"; }
-		if(dojo.lang.isFunction(value)){ return "function"; }
-		if(dojo.lang.isArray(value)){ return "array"; } // typeof [] == "object"
-		if (value instanceof Date) { return "date"; } // assume timestamp
-		if (value instanceof dojo.uri.Uri){ return "uri"; }
+		if(dojo.isString(value)){ return "string"; }
+		if(typeof value == "number"){ return "number"; }
+		if(typeof value == "boolean"){ return "boolean"; }
+		if(dojo.isFunction(value)){ return "function"; }
+		if(dojo.isArray(value)){ return "array"; } // typeof [] == "object"
+		if(value instanceof Date) { return "date"; } // assume timestamp
+		if(value instanceof dojo._Url){ return "url"; }
 		return "object";
-	};
+	}
 
 	function str2obj(/*String*/ value, /*String*/ type){
 		// summary
@@ -32,21 +30,20 @@ dijit.util.parser = new function(){
 			case "string":
 				return value;
 			case "number":
-				if (value && value.length > 0) {
-					return new Number(value);
-				}else{
-					return null;
+				if(value && value.length > 0){
+					return Number(value);
 				}
+				return null;
 			case "boolean":
-				return dojo.lang.isBoolean(value) ? value : ( (value.toLowerCase()=="false") ? false : true );
+				return typeof value == "boolean" ? value : !(value.toLowerCase()=="false");
 			case "function":
-				if(dojo.lang.isFunction(value)){
+				if(dojo.isFunction(value)){
 					return value;
 				}
 				try{
 					if(value.search(/[^\w\.]+/i) != -1){
 						// TODO: "this" here won't work
-						value = dojo.lang.nameAnonFunc(new Function(value), this);
+						value = dijit.util.parser._nameAnonFunc(new Function(value), this);
 					}
 					return dojo.getObject(value, false);
 				}catch(e){ return new Function(); }
@@ -54,24 +51,25 @@ dijit.util.parser = new function(){
 				return value.split(";");
 			case "date":
 				var date = null;
-				if (value && value.length > 0) {
-					try {
-						date = dojo.date.fromRfc3339(value);
-					} catch(e) {}
-					if (!(date instanceof Date)){
-						try {
+				if(value && value.length > 0){
+					try{
+						date = dojo.date.serial.fromRfc3339(value);
+					}catch(e){/*squelch*/}
+					if(!(date instanceof Date)){
+						try{
 							date = new Date(Number(value));// assume timestamp
-						} catch(e) {}
+						}catch(e){/*squelch*/}
 					}
 				}
 				return date;
-			case "uri":
-				return dojo.uri.dojoUri(value);
+			case "url":
+//PORT FIXME: is value absolute or relative?  Need to join with "/"?
+				return dojo.baseUrl + value;
 			default:
-				try { eval("var tmp = "+value); return tmp; }
-				catch(e) { return value; }
+				try{ eval("var tmp = "+value); return tmp; }
+				catch(e){ return value; }
 		}
-	};
+	}
 
 	var widgetClasses = {
 		// map from fully qualified name (like "dijit.Button") to structure like
@@ -93,7 +91,7 @@ dijit.util.parser = new function(){
 			// get table of parameter names & types
 			var params={};
 			for(var name in proto){
-				if(name.charAt(0)=="_") { continue; } 	// skip internal properties
+				if(name.charAt(0)=="_"){ continue; } 	// skip internal properties
 				var defVal = proto[name];
 				params[name]=val2type(defVal);
 			}
@@ -101,12 +99,12 @@ dijit.util.parser = new function(){
 			widgetClasses[className] = { cls: cls, params: params };
 		}
 		return widgetClasses[className];
-	};
+	}
 	
 	this.instantiate = function(nodes){
 		// summary:
 		//	Takes array of nodes, and turns them into widgets
-		dojo.lang.forEach(nodes, function(node){
+		dojo.forEach(nodes, function(node){
 			if(!node){ return; }
 			var type = node.getAttribute('dojoType');
 			var clsInfo = getWidgetClassInfo(type);
@@ -133,4 +131,52 @@ dijit.util.parser = new function(){
 
 dojo.addOnLoad(function(){ dijit.util.parser.parse(); });
 
-
+//PORT belongs in dojo core?
+dijit.util.parser._anonCtr = 0;
+dijit.util.parser._anon = {}; // why is this property required?
+dijit.util.parser._nameAnonFunc = function(/*Function*/anonFuncPtr, /*Object*/thisObj, /*Boolean*/searchForNames){
+	// summary:
+	//		Creates a reference to anonFuncPtr in thisObj with a completely
+	//		unique name. The new name is returned as a String.  If
+	//		searchForNames is true, an effort will be made to locate an
+	//		existing reference to anonFuncPtr in thisObj, and if one is found,
+	//		the existing name will be returned instead. The default is for
+	//		searchForNames to be false.
+	var isIE = dojo.isIE;
+	var jpn = "$joinpoint";
+	var nso = (thisObj|| dijit.util.parser._anon);
+	if(isIE){
+		var cn = anonFuncPtr["__dojoNameCache"];
+		if(cn && nso[cn] === anonFuncPtr){
+			return anonFuncPtr["__dojoNameCache"];
+		}else if(cn){
+			// hack to see if we've been event-system mangled
+			var tindex = cn.indexOf(jpn);
+			if(tindex != -1){
+				return cn.substring(0, tindex);
+			}
+		}
+	}
+	if( (searchForNames) ||
+		((dojo.global["djConfig"])&&(djConfig["slowAnonFuncLookups"] == true)) ){
+		for(var x in nso){
+			if(nso[x] === anonFuncPtr){
+				if(isIE){
+					anonFuncPtr["__dojoNameCache"] = x;
+					// hack to see if we've been event-system mangled
+					var tindex = x.indexOf(jpn);
+					if(tindex != -1){
+						x = x.substring(0, tindex);
+					}
+				}
+				return x;
+			}
+		}
+	}
+	var ret = "__"+dijit.util.parser._anonCtr++;
+	while(typeof nso[ret] != "undefined"){
+		ret = "__"+dijit.util.parser._anonCtr++;
+	}
+	nso[ret] = anonFuncPtr;
+	return ret; // String
+}

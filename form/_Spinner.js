@@ -2,7 +2,7 @@ dojo.provide("dijit.form._Spinner");
 
 dojo.require("dijit.form.ValidationTextbox");
 dojo.require("dijit.util.Typematic");
-dojo.require("dojo.html.style");
+dojo.require("dijit.util.sniff");
 
 dojo.declare(
 	"dijit.form._Spinner",
@@ -29,7 +29,7 @@ dojo.declare(
 		//      adjust the value by this much when spinning using the PgUp/Dn keys
 		largeDelta: 10,
 
-		templatePath: dojo.uri.moduleUri("dijit.form", "templates/Spinner.html"),
+		templatePath: dojo.moduleUrl("dijit.form", "templates/Spinner.html"),
 
 		adjust: function(/* Object */ val, /*Number*/ delta){
 			// summary: user replaceable function used to adjust a primitive value(Number/Date/...) by the delta amount specified
@@ -37,25 +37,43 @@ dojo.declare(
 			return val;
 		},
 
+		// PORT copied from TemplatedWidgets.  Move to a util class?
+		_addClass: function(/*HTMLElement*/ node, /*String*/ classStr){
+			// summary
+			//	adds classStr to node iff it isn't already there
+			if(!(new RegExp('(^|\\s+)'+classStr+'(\\s+|$)')).test(node.className)){
+				node.className += " "+classStr;
+			}
+		},
+
+		// PORT copied from TemplatedWidgets.  Move to a util class?
+		_removeClass: function(/*HTMLElement*/ node, /*String*/ classStr){
+			// summary
+			//	removes classStr from node if it is present
+
+		//PERF: compare with plain string replace
+			node.className = node.className.replace(new RegExp('(^|\\s+)'+classStr+'(\\s+|$)'), "$1$2");
+		},
+
 		_arrowPressed: function(/*Node*/ nodePressed, /*Number*/ direction){
-			dojo.html.addClass(nodePressed, "dojoSpinnerButtonPushed");
+			this._addClass(nodePressed, "dojoSpinnerButtonPushed");
 			this.setValue(this.adjust(this.getValue(), direction*this.smallDelta));
 		},
 
 		_arrowReleased: function(/*Node*/ node){
 			this._wheelTimer = null;
 			this.textbox.focus();
-			dojo.html.removeClass(node, "dojoSpinnerButtonPushed");
+			this._removeClass(node, "dojoSpinnerButtonPushed");
 		},
 
 		_typematicCallback: function(/*Node*/ node, /*Number*/ count){
-			if (count == -1){ this._arrowReleased(node); }
-			else { this._arrowPressed(node, (node == this.upArrowNode) ? +1 : -1); }
+			if(count == -1){ this._arrowReleased(node); }
+			else{ this._arrowPressed(node, (node == this.upArrowNode) ? 1 : -1); }
 		},
 
 		_wheelTimer: null,
 		_mouseWheeled: function(/*Event*/ evt){
-			dojo.event.browser.stopEvent(evt);
+			dojo.stopEvent(evt);
 			var scrollAmount = 0;
 			if(typeof evt.wheelDelta == 'number'){ // IE
 				scrollAmount = evt.wheelDelta;
@@ -71,27 +89,31 @@ dojo.declare(
 			}else{ return; }
 			this._arrowPressed(node, dir);
 			if (this._wheelTimer != null){
-				dojo.lang.clearTimeout(this._wheelTimer);
+				clearTimeout(this._wheelTimer);
 			}
-			this._wheelTimer = dojo.lang.setTimeout(this, "_arrowReleased", 50, node);
+			this._wheelTimer = setTimeout(this, "_arrowReleased", 50, node);
 		},
 
 		postCreate: function(){
 			dijit.form._Spinner.superclass.postCreate.apply(this, arguments);
 			// there's some browser specific CSS
-			dojo.html.applyBrowserClass(this.domNode);
+
+			var node = this.textbox;
 
 			// textbox and domNode get the same style but the css separates the 2 using !important
-			dojo.html.copyStyle(this.textbox, this.srcNodeRef);
+			if(this.srcNodeRef){
+				dojo.style(node, "cssText", this.srcNodeRef.style.cssText); // will fail on Opera?
+				node.className += " " + this.srcNodeRef.className;
+			}
 
 			// extra listeners
-			if(this.textbox.addEventListener){
-				// dojo.event.connect() doesn't seem to work with DOMMouseScroll
-				this.textbox.addEventListener('DOMMouseScroll', dojo.lang.hitch(this, "_mouseWheeled"), false); // Mozilla + Firefox + Netscape
+			if(node.addEventListener){
+				// dojo.connect() doesn't seem to work with DOMMouseScroll
+				node.addEventListener('DOMMouseScroll', dojo.hitch(this, "_mouseWheeled"), false); // Mozilla + Firefox + Netscape
 			}else{
-				dojo.event.connect(this.textbox, "onmousewheel", this, "_mouseWheeled"); // IE + Safari
+				dojo.connect(node, "onmousewheel", this, "_mouseWheeled"); // IE + Safari
 			}
-			dijit.typematic.addListener(this.upArrowNode, this.textbox, {key:dojo.event.browser.keys.KEY_UP_ARROW,ctrlKey:false,altKey:false,shiftKey:false}, this, "_typematicCallback", this.timeoutChangeRate, this.defaultTimeout);
-			dijit.typematic.addListener(this.downArrowNode, this.textbox, {key:dojo.event.browser.keys.KEY_DOWN_ARROW,ctrlKey:false,altKey:false,shiftKey:false}, this, "_typematicCallback", this.timeoutChangeRate, this.defaultTimeout);
+			dijit.util.typematic.addListener(this.upArrowNode, node, {key:dojo.keys.UP_ARROW,ctrlKey:false,altKey:false,shiftKey:false}, this, "_typematicCallback", this.timeoutChangeRate, this.defaultTimeout);
+			dijit.util.typematic.addListener(this.downArrowNode, node, {key:dojo.keys.DOWN_ARROW,ctrlKey:false,altKey:false,shiftKey:false}, this, "_typematicCallback", this.timeoutChangeRate, this.defaultTimeout);
 		}
 });

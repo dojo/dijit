@@ -1,6 +1,6 @@
 dojo.provide("dijit.form.ValidationTextbox");
 
-dojo.require("dojo.i18n.common");
+dojo.require("dojo.i18n");
 dojo.require("dijit.util.wai");
 
 dojo.require("dijit.form.Textbox");
@@ -61,28 +61,30 @@ dojo.declare(
 	
 		isEmpty: function() {
 			// summary: Checks for whitespace
-			return ( /^\s*$/.test(this.textbox.value) ); // Boolean
+			return /^\s*$/.test(this.textbox.value); // Boolean
 		},
 
 		isMissing: function(/* Boolean*/ isFocused){
 			// summary: Checks to see if value is required and is whitespace
-			return ( this.required && this.isEmpty() ); // Boolean
+			return this.required && this.isEmpty(); // Boolean
 		},
 	
 		getErrorMessage: function(/* Boolean*/ isFocused){
 			// summary: return an error message to show if appropriate
-			if (this.isMissing(isFocused)){ 
+			if(this.isMissing(isFocused)){ 
 				return (this.promptMessage == "" || !isFocused) ? this.missingMessage : this.promptMessage;
 			}else if(( this.required || !this.isEmpty() ) && !this.isValid(isFocused)){ return this.invalidMessage; }
 		},
 
 		getWarningMessage: function(/* Boolean*/ isFocused){
 			// summary: return a warning message to show if appropriate
-			if(this.isMissing(false) || (( this.required || !this.isEmpty() ) && !this.isValid(false))){ return this.promptMessage; }
+			if(this.isMissing(false) || (( this.required || !this.isEmpty() ) && !this.isValid(false))){
+				return this.promptMessage;
+			}
 		},
 
 		getValidMessage: function(/* Boolean*/ isFocused){
-			if (this.isEmpty()){ return this.promptMessage; }
+			if(this.isEmpty()){ return this.promptMessage; }
 		},
 
 		validate: function(/* Boolean*/ isFocused){
@@ -91,15 +93,16 @@ dojo.declare(
 			// description:
 			//		Show missing or invalid messages if appropriate, and highlight textbox field.
 			
+			var _class = "dojoInputFieldValidation";
 			var message = this.getErrorMessage(isFocused);
 			if (typeof message == "string"){
-				var _class = "dojoInputFieldValidationError";
+				_class += "Error";
 			}else{
 				message = this.getWarningMessage(isFocused);
 				if (typeof message == "string"){
-					var _class = "dojoInputFieldValidationWarning";
+					_class += "Warning";
 				}else{ 
-					var _class = "dojoInputFieldValidationNormal";
+					_class += "Normal";
 					message = this.getValidMessage(isFocused);
 					if (typeof message != "string"){ message = ""; }
 				}
@@ -108,30 +111,29 @@ dojo.declare(
 			this.updateClass(_class);
 		},
 		
-		_lastClassAdded: "dojoInputFieldValidationError",
-		updateClass: function(className){
-			// summary: used to ensure that only 1 validation class is set at a time
-			dojo.html.removeClass(this.nodeWithBorder,this._lastClassAdded);
-			if (className != null){
-				dojo.html.addClass(this.nodeWithBorder,className);
-				this._lastClassAdded = className;
-			}
-		},
-
-
 		// currently displayed message
 		_message: "",		
 
 		_displayMessage: function(/*String*/ message){
 			if(this._message == message){ return; }
 			this._message = message;
-			if (message){
+			if(message){
 				dijit.MasterTooltip.show(message, this.domNode);
 			}else{
 				dijit.MasterTooltip.hide();
 			}
 		},
 
+		_lastClassAdded: "dojoInputFieldValidationError",
+		updateClass: function(className){
+			// summary: used to ensure that only 1 validation class is set at a time
+			var update = this.nodeWithBorder.className.replace(new RegExp('(^|\\s+)'+this._lastClassAdded+'(\\s+|$)'), "$1"+className+"$2");
+			if (update != this.nodeWithBorder.className){
+				this.nodeWithBorder.className = update;
+				this._lastClassAdded = className;
+			}
+		},
+		
 		onfocus: function(evt){
 			dijit.form.ValidationTextbox.superclass.onfocus.apply(this, arguments);
 			if (this.listenOnKeyPress){
@@ -151,7 +153,7 @@ dojo.declare(
 			}
 			dijit.form.ValidationTextbox.superclass.postMixInProperties.apply(this, arguments);
 			this.messages = dojo.i18n.getLocalization("dijit.form", "validate", this.lang);
-			dojo.lang.forEach(["invalidMessage", "missingMessage"], function(prop){
+			dojo.forEach(["invalidMessage", "missingMessage"], function(prop){
 				if(!this[prop]){ this[prop] = this.messages[prop]; }
 			}, this);
 			var p = this.regExpGen(this.constraints);
@@ -200,14 +202,16 @@ dojo.declare(
 		},
 
 		postCreate: function(){
-			this.valueNode = document.createElement('input');
-			this.valueNode.setAttribute("type", this.textbox["type"]);
-			this.valueNode.setAttribute("value", this.toString());
-			this.valueNode.style.display = "none";
-			var n = this.textbox.name;
-			this.textbox.name = "";
-			this.valueNode.name = n;
-			dojo.html.insertAfter(this.valueNode, this.textbox);
+			var textbox = this.textbox;
+			var valueNode = (this.valueNode = document.createElement("input"));
+			valueNode.setAttribute("type", textbox.type);
+			valueNode.setAttribute("value", this.toString());
+			dojo.style(valueNode, "display", "none");
+			valueNode.name = this.textbox.name;
+			textbox.name = "";
+
+			dojo.place(valueNode, textbox, "after"); 
+
 			dijit.form.SerializableTextbox.superclass.postCreate.apply(this, arguments);
 		}
 	}
@@ -235,7 +239,7 @@ dojo.declare(
 
 		compare: function(val1, val2){
 			// summary: compare 2 values
-			return (val1 - val2);
+			return val1 - val2;
 		},
 
 		rangeCheck: function(/* Number */ primitive, /* Object */ constraints){
@@ -243,7 +247,7 @@ dojo.declare(
 			var isMin = (typeof constraints.min != "undefined");
 			var isMax = (typeof constraints.max != "undefined");
 			if (isMin || isMax){
-				return	(!isMin || this.compare(primitive,constraints.min) >= 0) &&
+				return (!isMin || this.compare(primitive,constraints.min) >= 0) &&
 					(!isMax || this.compare(primitive,constraints.max) <= 0);
 			}else{ return true; }
 		},
@@ -255,25 +259,25 @@ dojo.declare(
 	
 		getErrorMessage: function(/* Boolean*/ isFocused){
 			var msg = dijit.form.RangeBoundTextbox.superclass.getErrorMessage.apply(this, arguments);
-			if (typeof msg != "string"){
-				if (this.isValid(false) && !this.isInRange(isFocused)){ return this.rangeMessage; }
+			if(typeof msg != "string"){
+				if(this.isValid(false) && !this.isInRange(isFocused)){ return this.rangeMessage; }
 			}else{ return msg; }
 		},
 
 		postMixInProperties: function(){
 			dijit.form.RangeBoundTextbox.superclass.postMixInProperties.apply(this, arguments);
-			if (!this.rangeMessage){ 
+			if(!this.rangeMessage){ 
 				this.messages = dojo.i18n.getLocalization("dijit.form", "validate", this.lang);
-				this.rangeMessage = this.messages["rangeMessage"];
+				this.rangeMessage = this.messages.rangeMessage;
 			}
 		},
 
 		postCreate: function(){
 			dijit.form.RangeBoundTextbox.superclass.postCreate.apply(this, arguments);
-			if (typeof this.constraints.min != "undefined"){
+			if(typeof this.constraints.min != "undefined"){
 				dijit.util.wai.setAttr(this.domNode, "waiState", "valuemin", this.constraints.min);
 			}
-			if (typeof this.constraints.max != "undefined"){
+			if(typeof this.constraints.max != "undefined"){
 				dijit.util.wai.setAttr(this.domNode, "waiState", "valuemax", this.constraints.max);
 			}
 		}
