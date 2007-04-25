@@ -29,7 +29,7 @@ dojo.provide("dijit.util.sniff");
 	for(var p in classes){
 		if(classes[p]){
 			var html = dojo.doc.documentElement; //TODO browser-specific DOM magic needed?
-			if(html.classname){
+			if(html.className){
 				html.className += " " + p;
 			}else{
 				html.className = p;
