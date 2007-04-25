@@ -1,6 +1,7 @@
 
 /* To inline block elements, surround them with <fieldset class="dojoInlineBox"> */
 .dojoInlineBox {
+	
 	display:inline-block;
 	display: -moz-inline-stack;
 	_display:inline;
@@ -37,7 +38,10 @@
 	filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src="dojoTundraGradientBg.png", sizingMethod="scale");
 }
 
+
+
 /*Dojo Button Rules*/
+
 .dojoButton {
 	padding:0 0 1px 1px;
 	border-width:1px;
@@ -233,7 +237,7 @@ table.dojoButton .dojoButtonNode {
 }
 
 /* to go in dijit.css */
-.dj_ie .dojoCheckboxImageContainer,
+.dj_ie .dojoCheckboxImageContainer, 
 .dj_ie .dojoCheckboxInputInvisible {
 	top: 3px;
 }
@@ -660,4 +664,77 @@ table.dojoButton .dojoButtonNode {
 
 .dojoTabActive span {
 	background:#fff url("dojoTundraTabActiveBg.png") top left repeat-x;
+}
+
+/* Tree */
+/* indent for all tree children excepts root */
+.TreeNode {
+    background-image : url('i.gif');
+    background-position : top left;
+    background-repeat : repeat-y;
+    margin-left: 19px;
+    zoom: 1;
+}
+.TreeIsRoot {
+    margin-left: 0;
+}
+ 
+/* left vertical line (grid) for all nodes */
+.TreeIsLast {
+    background-image: url('i_half.gif');
+    background-repeat : no-repeat;
+}
+
+.TreeExpando {
+    width: 18px;
+    height: 18px;
+    float: left;
+    display: inline;
+}
+
+.TreeExpandoOpened {
+    background-image: url('expand_minus.gif');
+}
+ 
+.TreeExpandoClosed {
+    background-image: url('expand_plus.gif');
+}
+ 
+.TreeExpandoLeaf {
+    background-image: url('expand_leaf.gif');
+}
+
+.TreeExpandoLoading {
+    background-image: url('expand_loading.gif');
+}
+
+.TreeContent {
+    min-height: 18px;
+    min-width: 18px;
+    margin-left:18px;
+    cursor: default;
+    /* can't make inline - multiline bugs */
+}
+
+.TreeIEContent {
+	height: 18px;
+}
+ 
+.TreeExpand {
+    width: 18px;
+    height: 18px;
+    float: left;
+    display: inline;
+    background-repeat : no-repeat;
+}
+ 
+/* same style as IE selection */
+.TreeNodeEmphasized {
+    background-color: Highlight;
+    color: HighlightText;
+}
+
+/* don't use :focus due to opera and IE's lack of support on div's */
+.TreeLabelFocused {
+      outline: 1px invert dotted;
 }

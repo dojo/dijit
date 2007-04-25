@@ -1,8 +1,8 @@
 dojo.provide("dijit.base.Container");
 
 dojo.require("dijit.util.manager");
-		
-dojo.declare("dijit.base.Contained",
+
+dojo.declare("dijit.base.Contained", 
 	null,
 	{
 		// summary
@@ -23,10 +23,10 @@ dojo.declare("dijit.base.Contained",
 		getSiblings: function(){
 			// summary: gets an array of all children of our parent, including "this"
 			var parent = this.getParent();
-			if(!parent){ return[this]; }
+			if(!parent){ return [this]; }
 			return parent.getChildren(); // Array
 		},
-
+	 
 		getPreviousSibling: function(){
 			// summary:
 			//		returns null if this is the first child of the parent,
@@ -45,7 +45,7 @@ dojo.declare("dijit.base.Contained",
 			// summary:
 			//		returns null if this is the last child of the parent,
 			//		otherwise returns the next sibling to the "right".
-
+	 
 			var node = this.domNode;
 			do {
 				node = node.nextSibling;
@@ -92,7 +92,7 @@ dojo.declare("dijit.base.Container",
 			var node = widget.domNode;
 			node.parentNode.removeChild(node);
 		},
-
+		
 		getChildren: function(){
 			// summary:
 			//		returns array of children widgets
@@ -110,6 +110,13 @@ dojo.declare("dijit.base.Container",
 				res.push(dijit.byId(childNode.widgetId));
 			}
 			return res;
+		},
+
+		hasChildren: function(){
+			// summary:
+			//		returns true if widget has children
+			var cn = this.containerNode || this.domNode;
+			return Boolean(dojo.dom.firstElement(cn));
 		}
 	}
 );
