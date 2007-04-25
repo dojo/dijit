@@ -91,7 +91,8 @@ dojo.declare(
 			if (this._wheelTimer != null){
 				clearTimeout(this._wheelTimer);
 			}
-			this._wheelTimer = setTimeout(this, "_arrowReleased", 50, node);
+			var _this = this;
+			this._wheelTimer = setTimeout(function(){_this._arrowReleased(node);}, 50);
 		},
 
 		postCreate: function(){

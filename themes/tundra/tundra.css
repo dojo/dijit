@@ -1,84 +1,131 @@
 
 /* To inline block elements, surround them with <fieldset class="dojoInlineBox"> */
 .dojoInlineBox {
-	
 	display:inline-block;
 	display: -moz-inline-stack;
 	_display:inline;
 	border:0px;
 	padding:0px;
+	vertical-align:middle;
 }
 
 .dojoPopup {
 	position: absolute;
 }
 
+.dojoPositionOnly {
+        padding: 0px !important;
+        border: 0px !important;
+        background-color: none !important;
+        background-url: none !important;
+        height: auto !important;
+        width: auto !important;
+}
+
+.dojoNonPositionOnly {
+        float: none !important;
+        position: static !important;
+        margin: 0px 0px 0px 0px !important;
+        vertical-align: middle !important;
+}
+
 /*IE6 Hack */
-* html .dojoButton button, 
+* html .dojoButtonNode, 
 * html .dojoInputField,
 * html .dojoMenu {
 	background-image: none;
 	filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src="dojoTundraGradientBg.png", sizingMethod="scale");
 }
 
-
-
 /*Dojo Button Rules*/
-
 .dojoButton {
-	background:#fff;
-	border-top:1px solid #dadada;
-	border-right:1px solid #a9a9a9;
-	border-bottom:1px solid #a9a9a9;
-	border-left:1px solid #dadada;
 	padding:0 0 1px 1px;
+	border-width:1px;
+	border-style:solid;
+	line-height:0px; /* needed by webkit */
 }
 
-.dojoButton button {
-	background:#e2e2e2 url("dojoTundraGradientBg.png") repeat-x 0 0;
-	border:0;
-	border-left:0;
+.dojoButton .dojoButtonNode {
+	border:0px;
+	margin:0px;
 	font-family: Myriad, Arial, Helvetica;
 	font-size:13px;
 	font-weight:normal;
 	padding:2px 4px;
+	overflow:visible;
+	line-height:normal;
+}
+
+table.dojoButton .dojoButtonNode {
+	#overflow:hidden; /* visible messes up if the button is inside a table on IE */
+}
+
+.dojoButtonEnabled {
+	background-color:#fff;
+	border-color:#dadada #a9a9a9 #a9a9a9 #dadada;
+}
+
+.dojoButtonEnabled .dojoButtonNode {
+	background:#e2e2e2 url("dojoTundraGradientBg.png") repeat-x 0 0;
+}
+
+.dojoButton .dojoButtonArrow {
+	border-left:1px solid #a9a9a9;
 }
 
 .dojoButtonDisabled {
-	background:#dadada;
-	border-top:1px solid #dadada;
-	border-right:1px solid #a9a9a9;
-	border-bottom:1px solid #a9a9a9;
-	border-left:1px solid #dadada;
+	border-color:#dadada #a9a9a9 #a9a9a9 #dadada;
 }
 
-.dojoButtonDisabled button {
+.dojoButtonDisabled {
+	background-color:#dadada;
+}
+
+.dojoButtonDisabled,
+.dojoButtonDisabled * {
+	cursor: url("no.gif"), default;
+}
+
+.dojoButtonDisabled .dojoButtonNode {
 	color:#787878;
 	background-image: url("dojoTundraGradientBgActive.png");
 }
 
-span.dojoButton:hover {
-	border-top:1px solid #9dcff5;
-	border-right:1px solid #4aa0e1;
-	border-bottom:1px solid #4aa0e1;
-	border-left:1px solid #9dcff5;
+.dojoButtonEnabled:hover {
+	border-color:#9dcff5 #4aa0e1 #4aa0e1 #9dcff5;
 }
 
-span.dojoButton:hover button {
+.dojoButtonEnabled:hover .dojoButtonNode {
 	color:#236190;
 }
 
-span.dojoButton:active {
-		border-top:1px solid #42739a;
-	border-right:1px solid #80a5c2;
-	border-bottom:1px solid #80a5c2;
-	border-left:1px solid #42739a;
+.dojoButtonEnabled:active {
+	border-color:#42739a #80a5c2 #80a5c2 #42739a;
 }
 
-span.dojoButton:active button {
+.dojoButtonEnabled *[popupActive],
+.dojoButtonEnabled *:active {
 	/*background-image: url("dojoTundraGradientBgActive.png");
 	background-position:bottom left;*/
 	background-color:#d3e7f5;
+}
+
+.dojoButtonContents {
+        padding: 0px;
+        text-align: center;     /* if icon and label are split across two lines, center icon */
+        vertical-align: middle; /* if icon and label are on same line, center them */
+        white-space: nowrap;
+        color: inherit;
+}
+
+.dojoButtonContents * {
+        text-align: center;
+        vertical-align: middle; /* if icon and label are on same line, center them */
+}
+
+/* border between label and arrow for drop down buttons */
+.dojoButtonContentsDropDown {
+        padding-right: 3px;
 }
 
 /* Base of Tundra default theme */
@@ -150,7 +197,6 @@ span.dojoButton:active button {
 	border-color:#ede11b;
 }
 
-
 .dojoCheckbox {
 	background-image: url(checkmark.gif); /* checkbox sprint image */
 	width: 16px;
@@ -187,7 +233,7 @@ span.dojoButton:active button {
 }
 
 /* to go in dijit.css */
-.dj_ie .dojoCheckboxImageContainer, 
+.dj_ie .dojoCheckboxImageContainer,
 .dj_ie .dojoCheckboxInputInvisible {
 	top: 3px;
 }
@@ -206,6 +252,7 @@ span.dojoButton:active button {
 	width:.9em;
 	display: inline-block;
 	display: -moz-inline-stack;
+	vertical-align:middle;
 }
 
 .dojoDownArrowInner,

@@ -21,6 +21,9 @@ dojo.declare("dijit.base.FormElement", dijit.base.Widget,
 		should this be a mixin or a base class?
 		automatically add CSS tags for hover and focus like *class*Hover and *class*Focus (or maybe in FormElement)
 	*/
+	// baseClass: String
+	//		Used to add CSS classes like FormElementDisabled
+	baseClass: "",
 
 	// value: String
 	//		Corresponds to the native HTML <input> element's attribute.
@@ -45,7 +48,7 @@ dojo.declare("dijit.base.FormElement", dijit.base.Widget,
 
 	// tabIndex: Integer
 	//		Order fields are traversed when user hits the tab key
-	tabIndex: "",
+	tabIndex: "0",
 
 	// disabled: Boolean
 	//		Should this widget respond to user input?
@@ -72,20 +75,16 @@ dojo.declare("dijit.base.FormElement", dijit.base.Widget,
 		// TODO:
 		//		not sure which parts of disabling a widget should be here;
 		//		not sure which code is common to many widgets and which is specific to a particular widget.
-		var disabledClass = this["class"]+"Disabled";
+		var css = this.baseClass;
+		if(css == ""){
+			css = "dojo"+this.declaredClass.replace(/.*\./g,"");
+		}
 		if(disabled){
-//			if(!(new RegExp('(^|\\s+)'+disabledClass+'(\\s+|$)')).test(this.domNode.className))){
-//				this.domNode.className = disabledClass + " " + this.domNode.className;
-//			}
-			// needed for FF when a tabIndex=0 div is inside a Button that is disabled
-			if(this.containerNode){
-				this.containerNode.removeAttribute("tabIndex");
-			}
+			this._addClass(this.domNode, css+"Disabled");
+			this._removeClass(this.domNode, css+"Enabled");
 		}else{
-			this._removeClass(this.domNode,disabledClass);
-			if(this.containerNode){
-				this.containerNode.setAttribute("tabIndex", this.tabIndex);
-			}
+			this._addClass(this.domNode, css+"Enabled");
+			this._removeClass(this.domNode, css+"Disabled");
 		}
 		this.domNode.disabled = this.disabled = disabled;
 		dijit.util.wai.setAttr(this.domNode, "waiState", "disabled", disabled);
@@ -102,7 +101,7 @@ dojo.declare("dijit.base.FormElement", dijit.base.Widget,
 	_lastValueReported: null,
 	setValue: function(newValue){
 		// summary: set the value of the widget.
-		if (newValue != this._lastValueReported){
+		if(newValue != this._lastValueReported){
 			dijit.util.wai.setAttr(this.domNode, "waiState", "valuenow", newValue);
 			this.onValueChanged(newValue);
 			this._lastValueReported = newValue;

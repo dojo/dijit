@@ -133,7 +133,7 @@ dojo.declare(
 
 	_changing: function(){
 		// summary: event handler for when a change is imminent
-		setTimeout(this,"_changed",1);
+		setTimeout(dojo.hitch(this,"_changed"),1);
 	},
 
 	_changed: function(){

@@ -22,7 +22,7 @@ dijit.util.typematic = {
 		this._timer = null;
 		this._callback(this._obj,++this._count);
 		this._currentTimeout = (this._currentTimeout < 0) ? this._initialDelay : ((this._subsequentDelay > 1) ? this._subsequentDelay : Math.round(this._currentTimeout * this._subsequentDelay));
-		this._timer = setTimeout(this, "_fireEventAndReload", this._currentTimeout);
+		this._timer = setTimeout(dojo.hitch(this, "_fireEventAndReload"), this._currentTimeout);
 	},
 
 	trigger: function(/* Object */ _this, /* Function */ callback, /* Object */ obj, /* Number */ subsequentDelay, /* Number */ initialDelay){
@@ -74,8 +74,8 @@ dijit.util.typematic = {
 		//		altKey: same as ctrlKey but for the alt key
 		//		shiftKey: same as ctrlKey but for the shift key
 		//	See the trigger method for other parameters.
-		dojo.addListener(node, "key", null, function(evt){
-			if(evt.key == keyObject.key
+		dojo.addListener(node, "keypress", null, function(evt){
+			if(evt.keyCode == keyObject.key
 			&& ((typeof keyObject.ctrlKey == "undefined") || keyObject.ctrlKey == evt.ctrlKey)
 			&& ((typeof keyObject.altKey == "undefined") || keyObject.altKey == evt.ctrlKey)
 			&& ((typeof keyObject.shiftKey == "undefined") || keyObject.shiftKey == evt.ctrlKey)){
