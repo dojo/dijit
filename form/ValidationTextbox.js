@@ -93,16 +93,16 @@ dojo.declare(
 			// description:
 			//		Show missing or invalid messages if appropriate, and highlight textbox field.
 			
-			var _class = "dojoInputFieldValidation";
+			var _class;
 			var message = this.getErrorMessage(isFocused);
 			if (typeof message == "string"){
-				_class += "Error";
+				_class = "Error";
 			}else{
 				message = this.getWarningMessage(isFocused);
 				if (typeof message == "string"){
-					_class += "Warning";
+					_class = "Warning";
 				}else{ 
-					_class += "Normal";
+					_class = "Normal";
 					message = this.getValidMessage(isFocused);
 					if (typeof message != "string"){ message = ""; }
 				}
@@ -124,14 +124,12 @@ dojo.declare(
 			}
 		},
 
-		_lastClassAdded: "dojoInputFieldValidationError",
 		updateClass: function(className){
 			// summary: used to ensure that only 1 validation class is set at a time
-			var update = this.nodeWithBorder.className.replace(new RegExp('(^|\\s+)'+this._lastClassAdded+'(\\s+|$)'), "$1"+className+"$2");
-			if (update != this.nodeWithBorder.className){
-				this.nodeWithBorder.className = update;
-				this._lastClassAdded = className;
-			}
+			var _this = this;
+			dojo.forEach(["Normal", "Warning", "Error"], function(label){
+				_this._removeClass(_this.nodeWithBorder, "dojoInputFieldValidation"+label); });
+			this._addClass(this.nodeWithBorder, "dojoInputFieldValidation"+className);
 		},
 		
 		onfocus: function(evt){
@@ -139,7 +137,7 @@ dojo.declare(
 			if (this.listenOnKeyPress){
 				this.validate(true);
 			}else{
-				this.updateClass("dojoInputFieldValidationWarning");
+				this.updateClass("Warning");
 			}
 		},
 	

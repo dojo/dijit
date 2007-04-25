@@ -109,7 +109,7 @@ dojo.declare(
 		// event handlers, you can over-ride these in your own subclasses
 		onfocus: function(){
 			// addClass dojoInputFieldFocused
-			this._addClass(this.nodeWithBorder.className, "dojoInputFieldFocused");
+			this._addClass(this.nodeWithBorder, "dojoInputFieldFocused");
 		},
 		onblur: function(){
 			// removeClass dojoInputFieldFocused

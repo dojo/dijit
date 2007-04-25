@@ -9,9 +9,13 @@ dojo.declare(
 {
 	// summary: Number Spinner
 	// description: This widget is the same as NumberTextbox but with up/down arrows added
+
+	required: true,
+
 	adjust: function(/* Object */ val, /*Number*/ delta){
 		// summary: change Number val by the given amount
 		var newval = val+delta;
+		if (isNaN(val) || isNaN(newval)) { return val; }
 		if ((typeof this.constraints.max == "number") && (newval > this.constraints.max)){ 
 			newval = this.constraints.max;
 		}

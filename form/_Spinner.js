@@ -37,24 +37,6 @@ dojo.declare(
 			return val;
 		},
 
-		// PORT copied from TemplatedWidgets.  Move to a util class?
-		_addClass: function(/*HTMLElement*/ node, /*String*/ classStr){
-			// summary
-			//	adds classStr to node iff it isn't already there
-			if(!(new RegExp('(^|\\s+)'+classStr+'(\\s+|$)')).test(node.className)){
-				node.className += " "+classStr;
-			}
-		},
-
-		// PORT copied from TemplatedWidgets.  Move to a util class?
-		_removeClass: function(/*HTMLElement*/ node, /*String*/ classStr){
-			// summary
-			//	removes classStr from node if it is present
-
-		//PERF: compare with plain string replace
-			node.className = node.className.replace(new RegExp('(^|\\s+)'+classStr+'(\\s+|$)'), "$1$2");
-		},
-
 		_arrowPressed: function(/*Node*/ nodePressed, /*Number*/ direction){
 			this._addClass(nodePressed, "dojoSpinnerButtonPushed");
 			this.setValue(this.adjust(this.getValue(), direction*this.smallDelta));

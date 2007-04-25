@@ -3,13 +3,13 @@
 		><td
 			><button type="${this.type}"
 			    class="dojoNonPositionOnly dojoButtonContents dojoButtonNode"
-			    dojoAttachEvent="onmouseup:buttonClick; onkeypress:arrowKey;"
+			    dojoAttachEvent="onclick:buttonClick; onkeypress:arrowKey;"
 			    tabIndex="${this.tabIndex}" dojoAttachPoint="containerNode"
 			></button
 		></td
 		><td class="dojoButtonArrow dojoButtonNode"
 		    dojoAttachPoint="popupStateNode"
-		    dojoAttachEvent="onmouseup:arrowClick; onkeypress:arrowKey;"
+		    dojoAttachEvent="onclick:arrowClick; onkeypress:arrowKey;"
 		    style="height:100%;"
 			><div tabIndex="${this.tabIndex}" class="dojoDownArrowOuter"
 				><div class="dojoDownArrowInner"></div
