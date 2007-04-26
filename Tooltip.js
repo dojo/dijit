@@ -3,6 +3,7 @@ dojo.provide("dijit.Tooltip");
 dojo.require("dijit.base.Widget");
 dojo.require("dijit.base.TemplatedWidget");
 dojo.require("dijit.util.place");
+dojo.require("dijit.util.BackgroundIframe");
 
 dojo.declare(
 	"dijit._MasterTooltip",
@@ -18,11 +19,29 @@ dojo.declare(
 		//		Milliseconds to fade in/fade out
 		duration: 100,
 
+		// opacity: Number
+		//		Final opacity tooltips are shown at, after fade in
+		opacity: 0.9,
+
 		templatePath: dojo.moduleUrl("dijit", "templates/Tooltip.html"),
 
 		postCreate: function(){
-			this.domNode.style.display="none";
 			dojo.body().appendChild(this.domNode);
+
+			this.bgIframe = new dijit.util.BackgroundIframe();
+			this.bgIframe.setZIndex(dojo.style(this.domNode, "zIndex")-1);
+
+			this.fadeIn = dojo._fade({node: this.domNode, duration: this.duration, end: this.opacity});
+			dojo.connect(this.fadeIn, "onEnd", this, function(){
+				this.bgIframe.size(this.domNode);
+				this.bgIframe.show();
+			});
+			this.fadeOut = dojo._fade({node: this.domNode, duration: this.duration, end: 0});
+			dojo.connect(this.fadeOut, "onEnd", this, function(){
+				this.domNode.style.cssText="";	// to position offscreen again
+				this.bgIframe.hide();
+			});
+
 		},
 
 		show: function(/*String*/ innerHTML, /*DomNode*/ aroundNode){
@@ -34,22 +53,14 @@ dojo.declare(
 			this.containerNode.innerHTML=innerHTML;
 			dijit.util.placeOnScreenAroundElement(this.domNode, aroundNode, [0,0],
 				{'BL': 'TL', 'TL': 'BL'});
-			var anim = dojo.fadeIn({node: this.domNode, duration: this.duration});
-			dojo.connect(anim, "onEnd", this, function(){
-				dojo.style(this.domNode, "display", "");
-			});
-			anim.play();
+			this.fadeIn.play();
 			this.isShowingNow = true;
 		},
 
 		hide: function(){
 			// summary: hide the tooltip
 			this.isShowingNow = false;
-			var anim = dojo.fadeOut({node: this.domNode, duration: this.duration});
-			dojo.connect(anim, "onEnd", this, function(){
-				dojo.style(this.domNode, "display", "none");
-			});
-			anim.play();
+			this.fadeOut.play();
 		}
 	}
 );

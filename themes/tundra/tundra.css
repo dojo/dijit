@@ -563,7 +563,10 @@ table.dojoButton .dojoButtonNode {
 	display: block;
 	margin-top: 10px;
 	border: red;
-	/* todo: make visible but off screen */
+
+	/* make visible but off screen */
+	left: -10000px;
+	top: -10000px;
 }
 
 .dojoTooltipContainer {
