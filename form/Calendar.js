@@ -108,7 +108,7 @@ dojo.declare(
 
 		filter: function(val){
 			// summary: Return string format of date
-			dojo.date.toRfc3339(new Date(val),'dateOnly');
+			dojo.date.toRfc3339(new Date(val),'date');
 			return val;
 		},
 	
@@ -168,7 +168,7 @@ dojo.declare(
 		
 		getValue: function(){
 			// summary: return current date in RFC 3339 format
-			return dojo.date.toRfc3339(new Date(this.value),'dateOnly'); /*String*/
+			return dojo.date.toRfc3339(new Date(this.value),'date'); /*String*/
 		},
 
 		getDate: function(){
@@ -303,7 +303,7 @@ dojo.declare(
 			var that = this;
 			function f(n){
 				that[n+"YearLabelNode"].innerHTML =
-					dojo.date.local.format(new Date(y++, 0), {selector:'yearOnly', locale:that.lang});
+					dojo.date.local.format(new Date(y++, 0), {selector:'year', locale:that.lang});
 			}
 			f("previous");
 			f("current");
