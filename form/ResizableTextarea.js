@@ -15,8 +15,7 @@ dojo.declare(
 	// usage:
 	//	<textarea dojoType="dijit.form.ResizableTextArea">...</textarea>
 
-//PORT: isKhtml is more inclusive than Safari. Which is right?
-	templateString: (dojo.isIE || dojo.isSafari || dojo.isMozilla) ? '<fieldset id="${this.id}" tabIndex="${this.tabIndex}" class="dojoInputField dojoTextArea">'
+	templateString: (dojo.isIE || dojo.isSafari || dojo.isMozilla) ? '<fieldset id="${this.id}" tabIndex="${this.tabIndex}" class="dojoInlineBox dojoInputField dojoTextArea">'
 				+ ((dojo.isIE || dojo.isSafari) ? '<div dojoAttachPoint="editNode" style="text-decoration:none;_padding-bottom:16px;display:block;overflow:auto;" contentEditable="true"></div>' 
 					: '<iframe dojoAttachPoint="iframe" src="javascript:void(0)" style="border:0px;margin:0px;padding:0px;display:block;width:100%;height:100%;overflow-x:auto;overflow-y:hidden;"></iframe>')
 				+ '<textarea name="${this.name}" value="${this.value}" dojoAttachPoint="formValueNode" style="display:none;"></textarea>'
