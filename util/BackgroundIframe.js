@@ -1,14 +1,16 @@
 dojo.provide("dijit.util.BackgroundIframe");
 
 dijit.util.BackgroundIframe = function(/* HTMLElement */node){
-	//	summary
-	//	For IE z-index schenanigans
-	//	Two possible uses:
-	//	1. new dijit.util.BackgroundIframe(node)
-	//		Makes a background iframe as a child of node, that fills area (and position) of node
-	//	2. new dijit.util.BackgroundIframe()
-	//		Attaches frame to dojo.body().  User must call size() to set size.
-	if(dojo.isIE < 7){
+	//	summary:
+	//		For IE z-index schenanigans
+	//		Two possible uses:
+	//			1. new dijit.util.BackgroundIframe(node)
+	//				Makes a background iframe as a child of node, that fills
+	//				area (and position) of node
+	//			2. new dijit.util.BackgroundIframe()
+	//				Attaches frame to dojo.body().  User must call size() to
+	//				set size.
+	if(dojo.isIE && dojo.isIE < 7){
 		var html="<iframe src='javascript:false'"
 			+ " style='position: absolute; left: 0px; top: 0px; width: 100%; height: 100%;"
 			+ "z-index: -1; filter:Alpha(Opacity=\"0\");'>";
@@ -27,10 +29,13 @@ dijit.util.BackgroundIframe = function(/* HTMLElement */node){
 dojo.extend(dijit.util.BackgroundIframe, {
 	iframe: null,
 	onResized: function(){
-		//	summary
-		//	Resize event handler.
-		// TODO: this function shouldn't be necessary but setting width=height=100% doesn't work!
-		if(this.iframe && this.domNode && this.domNode.parentNode){ // No parentElement if onResized() timeout event occurs on a removed domnode
+		//	summary:
+		//		Resize event handler.
+
+		// TODO: this function shouldn't be necessary but setting
+		// 			width=height=100% doesn't work!
+		if(this.iframe && this.domNode && this.domNode.parentNode){ 
+			// No parentElement if onResized() timeout event occurs on a removed domnode
 			var outer = dojo.marginBox(this.domNode);
 			if (!outer.w || !outer.h){
 				setTimeout(this, this.onResized, 100);
@@ -57,8 +62,9 @@ dojo.extend(dijit.util.BackgroundIframe, {
 	},
 
 	setZIndex: function(/* HTMLElement|int */node){
-		//	summary
-		//	Sets the z-index of the background iframe.
+		//	summary:
+		//		Sets the z-index of the background iframe.
+
 		//TODOC: if it's an element, decrements zIndex by one?
 		if(!this.iframe){ return; }
 
