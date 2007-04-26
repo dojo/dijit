@@ -2,13 +2,12 @@ dojo.provide("dijit.base.Container");
 
 dojo.require("dijit.util.manager");
 
-dojo.declare("dijit.base.Contained", 
+dojo.declare("dijit.base.Contained",
 	null,
 	{
 		// summary
 		//		Mixin for widgets that are children of a container widget
 
-//FIXME: docs should be explicit that methods deal in widgets, not nodes
 		getParent: function(){
 			// summary:
 			//		returns parent widget
@@ -19,40 +18,38 @@ dojo.declare("dijit.base.Contained",
 				}
 			}
 		},
-		
+
 		getSiblings: function(){
 			// summary: gets an array of all children of our parent, including "this"
-			var parent = this.getParent();
-			if(!parent){ return [this]; }
-			return parent.getChildren(); // Array
+			var container = this.getParent();
+			if(!container){ return [this]; }
+			return container.getChildren(); // Array
+		},
+
+		_getSibling: function(which){
+			var node = this.domNode;
+			do{
+				node = node[which+"Sibling"];
+			}while(node && node.nodeType != 1);
+			if(!node){ return null; } // null
+			var id = node.widgetId;
+			return dijit.byId(id);
 		},
 	 
 		getPreviousSibling: function(){
 			// summary:
 			//		returns null if this is the first child of the parent,
-			//		otherwise returns the next sibling to the "left".
+			//		otherwise returns the next element sibling to the "left".
 
-			var node = this.domNode;
-			do {
-				node = node.previousSibling;
-			} while(node && node.nodeType != 1);
-			if(!node){ return null; } // null
-			var id = node.widgetId;
-			return dijit.byId(id);
+			return _getSibling("previous");
 		},
 	 
 		getNextSibling: function(){
 			// summary:
 			//		returns null if this is the last child of the parent,
-			//		otherwise returns the next sibling to the "right".
+			//		otherwise returns the next element sibling to the "right".
 	 
-			var node = this.domNode;
-			do {
-				node = node.nextSibling;
-			} while(node && node.nodeType != 1);
-			if(!node){ return null; } // null
-			var id = node.widgetId;
-			return dijit.byId(id);
+			return _getSibling("next");
 		}
 	}
 );
@@ -93,21 +90,31 @@ dojo.declare("dijit.base.Container",
 			node.parentNode.removeChild(node);
 		},
 		
+		_nextElement: function(node){
+			do{
+				node = node.nextSibling;
+			}while(node && node.nodeType != 1);
+			return node;
+		},
+
+		_firstElement: function(node){
+			node = node.firstChild;
+			if(node && node.nodeType != 1){
+				node = nextElement(node);
+			}
+			return node;
+		},
+
 		getChildren: function(){
 			// summary:
 			//		returns array of children widgets
 
-			var nextElement = function(node){
-				do {
-					node = node.nextSibling;
-				} while(node && node.nodeType != 1);
-				return node;
-			};
-
 			var res = [];
 			var cn = this.containerNode || this.domNode;
-			for(var childNode=cn.firstChild; childNode; childNode=dijit.base._nextElement(childNode)){
+			var childNode = this._firstElement(cn);
+			while(childNode){
 				res.push(dijit.byId(childNode.widgetId));
+				childNode = this._nextElement(childNode);
 			}
 			return res;
 		},
@@ -116,7 +123,7 @@ dojo.declare("dijit.base.Container",
 			// summary:
 			//		returns true if widget has children
 			var cn = this.containerNode || this.domNode;
-			return Boolean(dojo.dom.firstElement(cn));
+			return !!this._firstElement(cn);
 		}
 	}
 );
