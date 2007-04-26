@@ -5,20 +5,12 @@
 	<head>
 		<title>test of various synchronous page searching methods</title>
 		<style type="text/css">
-			body {
-				font-family: Lucida Grande, Verdana, Helvetica, Arial, sans-serif;
-				font-size:	12px; 
-				letter-spacing:	0.045em;
-				line-height:	1.55em;
-			}
+			@import "../../dojo/resources/dojo.css";
+			@import "../themes/tundra/tundra.css";
 		</style>
-
+		<script type="text/javascript" src="../../dojo/dojo.js"
+			djConfig="isDebug: true, debugAtAllCosts: true"></script>
 		<script type="text/javascript">
-			var djConfig = {isDebug: true};
-		</script>
-		<script type="text/javascript" src="../../dojo/dojo.js"></script>
-		<script language="JavaScript" type="text/javascript">
-			dojo.registerModulePath("dijit", "../dijit");
 			dojo.require("dijit.util.parser");	// scan page for widgets and instantiate them
 			dojo.require("dijit.base.Widget");
 			dojo.require("dijit.base.TemplatedWidget");
@@ -26,7 +18,7 @@
 			/* dummy widget for benchmarking purposes */
 			dojo.declare(
 				"dijit.Button",
-				[dijit.base.Widget, dijit.base.TemplatedWidget],
+				[ dijit.base.Widget, dijit.base.TemplatedWidget ],
 				function(){  },
 				{
 					caption: "",
@@ -40,7 +32,6 @@
 					}
 				}
 			);
-			dojo.hostenv.writeIncludes();
 		</script>
 	</head>
 	<body>
