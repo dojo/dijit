@@ -71,40 +71,35 @@ dojo.declare(
 		}, this);
 	},
 
-	onKey: function(e) {
-		if (!e.key || e.altKey || e.shiftKey || e.ctrlKey) { return; }
-		switch(e.key) {
-			case " ":
-			case e.KEY_ENTER:
-				dojo.stopEvent(e);
-				this.onClick(e);
-				break;
+	_onKeyPress: function(e) {
+		if (this.disabled || e.altKey || e.ctrlKey) { return; }
+		if (e.charCode == dojo.keys.SPACE || e.keyCode == dojo.keys.ENTER){
+			dojo.stopEvent(e);
+			this._onClick(e);
 		}
 	},
 
-	onMouseOver: function(){
+	_onMouseOver: function(){
 		if(!this.editing){
 			var classname = this.disabled ? "dojoDisabledClickableRegion" : "dojoClickableRegion";
-			if(!(new RegExp('(^|\\s+)'+classname+'(\\s+|$)')).test(this.editable.className)){
-				this.editable.className += " "+classname;
-			}
+			this._addClass(this.editable, classname);
 		}
 	},
 
-	onMouseOut: function(){
+	_onMouseOut: function(){
 		if(!this.editing){
 			var classStr = this.disabled ? "dojoDisabledClickableRegion" : "dojoClickableRegion";
 			this._removeClass(this.editable, classStr);
 		}
 	},
 
-	onClick: function(e){
+	_onClick: function(e){
 		// summary
 		// 		When user clicks the text, then start editing.
 		// 		Hide the text and display the form instead.
 
 		if(this.editing || this.disabled){ return; }
-		this.onMouseOut();
+		this._onMouseOut();
 		this.editing = true;
 
 		// show the edit form and hide the read only version of the text
@@ -115,6 +110,7 @@ dojo.declare(
 		this._setEditFocus();
 		this.saveButton.disabled = true;
 		this.editWidget.onValueChanged = dojo.hitch(this,"checkForValueChange");
+		this.onClick();
 	},
 
 	_visualize: function(e){

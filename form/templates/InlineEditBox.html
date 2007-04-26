@@ -1,6 +1,6 @@
 <span>
 	<span tabIndex="0" dojoAttachPoint="editable" style="" 
-		dojoAttachEvent="onKey;onClick;onMouseOut;onMouseOver;onFocus:onMouseOver;onBlur:onMouseOut;"></span>
+		dojoAttachEvent="onkeypress:_onKeyPress;onClick:_onClick;onMouseOut:_onMouseOut;onMouseOver:_onMouseOver;onFocus:_onMouseOver;onBlur:_onMouseOut;"></span>
 	<fieldset style="display:none;" dojoAttachPoint="editNode" class="dojoInlineBox">
 		<div dojoAttachPoint="containerNode" dojoAttachEvent="onKeyUp:checkForValueChange;"></div>
 		<input type="button" value="${this.buttonSave}" 
