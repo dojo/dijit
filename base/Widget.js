@@ -144,7 +144,7 @@ function(params, srcNodeRef){
 				delete this.bgIframe;
 			}
 			if(!finalize && this.domNode){
-//PORT FIXME				dojo.event.browser.clean(this.domNode);
+				dojo.cleanNodeEvents(this.domNode);
 			}
 		}catch(e){ /* squelch! */ }
 		try{
