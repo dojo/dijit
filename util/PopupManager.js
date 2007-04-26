@@ -62,7 +62,7 @@ dijit.util.PopupManager = new function(){
 		// TODO: use effects
 		dojo.style(widget.domNode, "display", "");
 
-		if(dojo.isIE < 7){
+		if(dojo.isIE && dojo.isIE < 7){
 			if(!widget.bgIframe){
 				widget.bgIframe = new dijit.util.BackgroundIframe();
 				widget.bgIframe.setZIndex(widget.domNode);
@@ -80,7 +80,7 @@ dijit.util.PopupManager = new function(){
 		var widget = stack.pop();
 
 		dojo.style(widget.domNode, "display", "none");
-		if(dojo.isIE < 7){
+		if(dojo.isIE && dojo.isIE < 7){
 			widget.bgIframe.hide();
 		}
 		

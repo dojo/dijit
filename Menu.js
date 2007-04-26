@@ -256,7 +256,7 @@ dojo.declare(
 
 		var node, i = 0;
 		outer:
-		while(node = candidateNodes[i++]){
+		while((node = candidateNodes[i++])){
 			var nodeClasses = node.className.split(/\s+/g);
 			if(!nodeClasses.length){ continue outer; }
 			var matches = 0;
@@ -465,7 +465,8 @@ dojo.declare(
 	postMixInProperties: function(){
 		this.iconStyle="";
 		if(this.iconSrc){
-			this.iconStyle = ((this.iconSrc.toLowerCase().substring(this.iconSrc.length-4) == ".png") && (dojo.isIE < 7)) ?
+			this.iconStyle = ((this.iconSrc.toLowerCase().substring(this.iconSrc.length-4) == ".png") &&
+				(dojo.isIE && dojo.isIE < 7)) ?
 				"filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='"+this.iconSrc+"', sizingMethod='image')" :
 				"background-image: url("+this.iconSrc+")";
 		}
@@ -491,14 +492,14 @@ dojo.declare(
 		//this is to prevent some annoying behavior when both mouse and keyboard are used
 		this.onUnhover();
 
-		if(this.is_hovering){ return; }
-		if(this.is_open){ return; }
+		if(this.is_hovering || this.is_open){ return; }
 
-		if(this.getParent()._highlighted_option){
-			this.getParent()._highlighted_option.onUnhover();
+		var parent = this.getParent();
+		if(parent._highlighted_option){
+			parent._highlighted_option.onUnhover();
 		}
-		this.getParent().closeSubmenu();
-		this.getParent()._highlighted_option = this;
+		parent.closeSubmenu();
+		parent._highlighted_option = this;
 
 		this._highlightItem();
 
@@ -510,11 +511,8 @@ dojo.declare(
 	onUnhover: function(){
 		// summary: callback when mouse is moved off of menu item
 		if(!this.is_open){ this._unhighlightItem(); }
-
 		this.is_hovering = false;
-
 		this.getParent()._highlighted_option = null;
-
 		this._stopSubmenuTimer();
 	},
 
@@ -597,24 +595,10 @@ dojo.declare(
 		// summary: enable or disable this menu item
 		this.disabled = value;
 
-		if(this.disabled){
-			this._addClass(this.domNode, 'dojoMenuItemDisabled');
-		}else{
-			this._removeClass(this.domNode, 'dojoMenuItemDisabled');
-		}
+		(value ? this._addClass : this._removeClass)(this.domNode, 'dojoMenuItemDisabled');
 	},
 
-	enable: function(){
-		// summary: enable this menu item so user can click it
-		this.setDisabled(false);
-	},
-
-	disable: function(){
-		// summary: disable this menu item so user can't click it
-		this.setDisabled(true);
-	},
-
-	menuOpen: function(message) {
+	menuOpen: function(message){
 		// summary: callback when menu is opened
 		// TODO: I don't see anyone calling this menu item
 	}
