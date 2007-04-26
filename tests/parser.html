@@ -3,9 +3,9 @@
 <head>
 	<title>widget infrastructure test</title>
 	<script type="text/javascript" src="../../dojo/dojo.js"
-		djConfig="isDebug: true, debugAtAllCosts: true"></script>
+		djConfig="isDebug: true"></script>
 	<script type="text/javascript">
-		dojo.require("dijit.Button");
+		dojo.require("dijit.form.Button");
 		dojo.require("dijit.util.parser");	// find widgets
 	</script>
 	<style type="text/css">
@@ -14,8 +14,8 @@
 	</style>
 </head>
 <body style="padding: 50px;">
-	<button dojoType="dijit.Button" id="b1" style="background: yellow;">button #1</button>
-	<button dojoType="dijit.Button" id="b2" caption="button #2" style="background: orange;"></button>
-	<button dojoType="dijit.Button" id="b3" style="background: violet;">button #3</button>
+	<button dojoType="dijit.form.Button" id="b1" style="background: yellow;">button #1</button>
+	<button dojoType="dijit.form.Button" id="b2" caption="button #2" style="background: orange;"></button>
+	<button dojoType="dijit.form.Button" id="b3" style="background: violet;">button #3</button>
 </body>
 </html>

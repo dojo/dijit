@@ -6,7 +6,7 @@
 	<script type="text/javascript" src="../../dojo/dojo.js"
 		djConfig="isDebug: true, debugAtAllCosts: true"></script>
 	<script type="text/javascript">
-		dojo.require("dijit.Button");
+		dojo.require("dijit.form.Button");
 	</script>
 	<style type="text/css">
 		@import "../../dojo/resources/dojo.css";
@@ -21,7 +21,7 @@
 	<script>
 		for(var i=1; i<=3; i++){
 			var node = dojo.byId("b"+i);
-			var myButton = new dijit.Button(null, node);
+			var myButton = new dijit.form.Button(null, node);
 		}
 	</script>	
 </body>
