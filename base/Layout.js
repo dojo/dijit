@@ -1,4 +1,4 @@
-dojo.provide("dijit.base.LayoutContainer");
+dojo.provide("dijit.base.Layout");
 
 dojo.require("dijit.util.Container");
 

@@ -1,8 +1,3 @@
-/**
- * Tree view does all the drawing, visual node management etc.
- * Throws events about clicks on it, so someone may catch them and process
- */
-
 dojo.provide("dijit.Tree");
 
 dojo.require("dijit.base.Widget");
@@ -116,6 +111,10 @@ dojo.declare(
 	"dijit.Tree",
 	dijit._TreeBase,
 {
+	// summary
+	//	Tree view does all the drawing, visual node management etc.
+	//	Throws events about clicks on it, so someone may catch them and process
+
 	// store: String||dojo.data.Store
 	//	The store to get data to display in the tree
 	store: null,

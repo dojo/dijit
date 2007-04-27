@@ -1,5 +1,3 @@
-// derived from DomWidget.js
-
 dojo.provide("dijit.base.TemplatedWidget");
 
 dojo.require("dijit.util.wai");

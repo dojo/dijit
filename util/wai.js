@@ -1,5 +1,3 @@
-// Array:  possible accessibility values to set on widget elements - role or state
-
 dojo.provide("dijit.util.wai");
 
 dijit.util.waiNames  = ["waiRole", "waiState"];
