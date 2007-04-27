@@ -98,7 +98,7 @@ dojo.declare("dijit.base.TemplatedWidget",
 			// dojo.profile.end("attachTemplateNodes");
 
 			if(this.srcNodeRef){
-				dojo.style(node, "cssText", this.srcNodeRef.style.cssText); // will fail on Opera?
+				dojo.style(node, "cssText", this.srcNodeRef.style.cssText);
 				node.className += " " + this.srcNodeRef.className;
 			}
 
@@ -294,8 +294,7 @@ dijit.base._createNodesFromText = function(/*String*/text){
 	text = text.replace(/^\s+|\s+$/g, "");
 
 	var tn = dojo.doc.createElement("div");
-	// dojo.style(tn, "display", "none");
-	dojo.style(tn, "visibility", "hidden");
+	tn.style.visibility="hidden";
 	dojo.body().appendChild(tn);
 	var tableType = "none";
 	var tagMap = {
@@ -323,23 +322,10 @@ dijit.base._createNodesFromText = function(/*String*/text){
 		parent = tn.getElementsByTagName(tag)[0];
 	}
 
-	/* this doesn't make much sense, I'm assuming it just meant trim() so wrap was replaced with trim
-	if(wrap){
-		var ret = [];
-		// start hack
-		var fc = tn.firstChild;
-		ret[0] = ((fc.nodeValue == " ")||(fc.nodeValue == "\t")) ? fc.nextSibling : fc;
-		// end hack
-		// dojo.style(tn, "display", "none");
-		dojo.body().removeChild(tn);
-		return ret;
-	}
-	*/
 	var nodes = [];
 	for(var x=0; x<parent.childNodes.length; x++){
 		nodes.push(parent.childNodes[x].cloneNode(true));
 	}
-	dojo.style(tn, "display", "none"); // FIXME: why do we do this?
 //PORT	dojo.html.destroyNode(tn); FIXME: need code to prevent leaks and such
 	dojo.body().removeChild(tn);
 	return nodes;	//	Array

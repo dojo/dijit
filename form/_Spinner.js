@@ -85,7 +85,7 @@ dojo.declare(
 
 			// textbox and domNode get the same style but the css separates the 2 using !important
 			if(this.srcNodeRef){
-				dojo.style(node, "cssText", this.srcNodeRef.style.cssText); // will fail on Opera?
+				dojo.style(node, "cssText", this.srcNodeRef.style.cssText);
 				node.className += " " + this.srcNodeRef.className;
 			}
 
