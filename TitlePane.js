@@ -49,7 +49,7 @@ dojo.declare(
 
 	onLabelKey: function(/*Event*/ e){
 		// summary: callback when user hits a key
-		if(e.key == dojo.keys.ENTER){
+		if(e.keyCode == dojo.keys.ENTER){
 			this.onLabelClick();
 			if(this.open){
 				this.containerNode.focus();

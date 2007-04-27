@@ -121,10 +121,10 @@ dijit.util.PopupManager = new function(){
 		dijit.util.FocusManager.restore(menu);
 	};
 
-	function onKey(/*Event*/e){
+	function onKeyPress(/*Event*/e){
 		// summary
 		//	Handles keystrokes, passing them up the chain of menus
-		if(!e.key){ return; }
+		if(!e.keyCode){ return; }
 		if(stack.length==0){ return; }
 
 		// loop from child menu up ancestor chain, ending at button that spawned the menu
@@ -191,7 +191,7 @@ dijit.util.PopupManager = new function(){
 		if(command == 'connect'){
 			targetWindow._onmousedownhandler = dojo.connect(targetWindow.document, 'onmousedown', null, onMouse);
 			targetWindow._onscrollhandler = dojo.connect(targetWindow, "onscroll", null, onMouse);
-			targetWindow._onkeyhandler = dojo.connect(targetWindow.document, "onkey", null, onKey);
+			targetWindow._onkeyhandler = dojo.connect(targetWindow.document, "onkeypress", null, onKeyPress);
 		}else{
 			dojo.disconnect(targetWindow.document, 'onmousedown', targetWindow._onmousedownhandler);
 			targetWindow._onmousedownhandler = null;

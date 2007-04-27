@@ -224,7 +224,7 @@ dojo.declare(
 	
 	onKey: function(/*Event*/ e) { 
 		// summary: translates key events into commands for the controller to process
-		if (!e.key || e.altKey) { return; }
+		if (!e.keyCode || e.altKey) { return; }
 		var nodeWidget = this.domElement2TreeNode(e.target);
 		if (!nodeWidget) { return; }
 
