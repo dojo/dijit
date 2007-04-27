@@ -11,7 +11,8 @@ dojo.declare(
 	{
 		// summary:
 		// 		Same as an HTML checkbox, but with fancy styling.
-
+		//
+		// description:
 		// Implementation details
 		//
 		// pattern: MVC
@@ -105,7 +106,7 @@ dojo.declare(
 			dojo.addListener(node, "onblur", this, this.mouseOut);
 			dojo.addListener(node, "onmouseover", this, this.mouseOver);
 			dojo.addListener(node, "onmouseout", this, this.mouseOut);
-			dojo.addListener(node, "onclick", this, this.onClick);
+			dojo.addListener(node, "onclick", this, this._onClick);
 			dijit._disableSelection(node);
 		},
 
@@ -113,27 +114,14 @@ dojo.declare(
 			this.domNode.disabled = this.inputNode.disabled = this.disabled = disabled;
 		},
 		
-		onValueChanged: function(newValue){
-			// summary: implement this to capture value change events.
-		},
-		
-		_lastValueReported: null,
-		setValue: function(newValue){
-			// summary: set the value of the widget.
-			if (newValue != this._lastValueReported){
-				this.onValueChanged(newValue);
-				this._lastValueReported = newValue;
-			}
-		},
-
-		getValue: function(){
-			// summary: get the value of the widget.
-			return this._lastValueReported;
-		},
-		
 		onClick: function(/*Event*/ e){
-			// dojo.stopEvent(e); // bad for Opera
+			// summary: user overridable callback for click event handling 
+		},
+		
+		_onClick: function(/*Event*/ e){
+			/// summary: callback for a click event
 			this._updateView();
+			this.onClick(e);
 		},
 
 		mouseOver: function(/*Event*/ e){
@@ -170,7 +158,7 @@ dojo.declare(
 		},
 		
 		updateContext: function(){
-			// stub;
+			// summary: specialize this function to update related GUI
 		}
 	}
 );
@@ -181,7 +169,8 @@ dojo.declare(
 	{
 		// summary:
 		// 		Same as an HTML radio, but with fancy styling.
-
+		//
+		// description:
 		// Implementation details
 		//
 		// Specialization:
@@ -222,6 +211,7 @@ dojo.declare(
 		},
 
 		updateContext: function(){
+			// summary: make sure the sibling radio views are correct
 			dojo.forEach(this._groups[this.name], function(widget){
 				if(widget != this){
 					widget._updateView(widget);
