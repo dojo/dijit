@@ -197,7 +197,7 @@ dijit.util.PopupManager = new function(){
 			targetWindow._onmousedownhandler = null;
 			dojo.disconnect(targetWindow, "onscroll", targetWindow._onscrollhandler);
 			targetWindow._onscrollhandler = null;
-			dojo.disconnect(targetWindow.document, "onkey", targetWindow._onkeyhandler);
+			dojo.disconnect(targetWindow.document, "onkeypress", targetWindow._onkeyhandler);
 			targetWindow._onkeyhandler = null;
 		}
 
