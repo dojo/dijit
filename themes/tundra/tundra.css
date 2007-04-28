@@ -608,8 +608,18 @@ table.dojoButton .dojoButtonNode {
 	background: #cccccc;
 	background:#fafafa url("titleBarBg.gif") repeat-x bottom left;
 	border:1px solid #bfbfbf;
-	padding:4px 4px 0 4px;
+	padding:4px 4px 2px 4px;
 }
+
+.tundra .dojoTitlePaneLabel .dojoOpenCloseArrowOuter {
+	margin-right:5px;
+}
+
+.tundra .dojoOpen .dojoTitlePaneLabel .dojoOpenCloseArrowOuter {
+	position:relative;
+	top:2px;
+}
+
 .tundra .dojoTitlePaneContent {
 	background: #ffffff;
 	border:1px solid #bfbfbf;
@@ -626,14 +636,7 @@ table.dojoButton .dojoButtonNode {
         cursor : pointer;
 }
 
-.tundra .dojoTitlePaneLabel .dojoOpenCloseArrowOuter {
-	margin-right:5px;
-}
 
-.tundra .dojoOpen .dojoTitlePaneLabel .dojoOpenCloseArrowOuter {
-	position:relative;
-	top:2px;
-}
 
 .dojoTextArea {
 	width:50%;
