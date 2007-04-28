@@ -215,7 +215,7 @@ dijit.util.placeOnScreenAroundElement = function(
 	var aroundNodeW = mb.w;
 	var aroundNodeH = mb.h;
 //	var aroundNodePos = dojo.html.getAbsolutePosition(aroundNode, true, aroundType);
-	var aroundNodePos = dojo.coords(aroundNode); //PORT is this right?
+	var aroundNodePos = dojo.coords(aroundNode, true); //PORT is this right?
 	aroundNode.style.display=oldDisplay;
 
 	for(var nodeCorner in aroundCorners){

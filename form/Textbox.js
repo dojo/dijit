@@ -54,7 +54,8 @@ dojo.declare(
 		},
 
 		setValue: function(value){
-			this.setTextValue(this.format(value, this.constraints));
+			if (value == null){ value = ""; }
+			this.setTextValue((value == "")? "" : this.format(value, this.constraints));
 			dijit.form.Textbox.superclass.setValue.call(this,value);
 		},
 

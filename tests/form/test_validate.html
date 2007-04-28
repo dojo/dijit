@@ -14,7 +14,7 @@
 			dojo.require("dijit.form.DateTextbox");
 //			dojo.require("dojo.validate.common");
 //			dojo.require("dojo.validate.us");
-//			dojo.require("dojo.date.format");
+			dojo.require("dojo.date.local");
 			dojo.require("dijit.util.parser");	// scan page for widgets and instantiate them
 		</script>
 		<style type="text/css">
@@ -360,7 +360,6 @@
 	});
 </script>
 
-<!-- 
 			<div class="formQuestion">
 				<span class="emphasize"><label for="q16"> 12 Hour Time </label></span>
 				<span class="noticeMessage">TimeTextbox class, 
@@ -369,8 +368,8 @@
 			<div class="formAnswer">
 				<input id="q16" type="text" name="time1" class="medium" value="5:45:00 pm"
 					dojoType="dijit.form.ValidationTextbox"
-					validator="dojo.date.parse"
-					constraints={formatLength:'medium',selector:'timeOnly'}
+					validator="dojo.date.local.parse"
+					constraints={formatLength:'medium',selector:'time'}
 					trim="true" 
 					required="true" 
 					invalidMessage="Invalid time." />
@@ -384,13 +383,14 @@
 			<div class="formAnswer">
 				<input id="q17" type="text" name="time2" class="medium" value="17:45:00"
 					dojoType="dijit.form.ValidationTextbox"
-					validator="dojo.date.parse"
-					constraints={formatLength:'short',selector:'timeOnly',timePattern:'HH:mm:ss'}
+					validator="dojo.date.local.parse"
+					constraints={formatLength:'short',selector:'time',timePattern:'HH:mm:ss'}
 					trim="true" 
 					required="true" 
 					invalidMessage="Invalid time. Use HH:mm:ss where HH is 00 - 23 hours." />
 			</div>
 
+<!-- 
 			<div class="formQuestion">
 				<span class="emphasize"><label for="q18"> US State 2 letter abbr. </label></span>
 				<span class="noticeMessage">UsStateTextbox class, 
@@ -406,9 +406,7 @@
 					required="true" 
 					invalidMessage="Invalid US state abbr." />
 			</div>
--->
 
-<!-- 
 			<div class="formQuestion">
 				<span class="emphasize"><label for="q19"> US Zip Code </label></span>
 				<span class="noticeMessage">UsZipTextbox class, 
