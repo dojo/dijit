@@ -6,10 +6,8 @@
 <style type="text/css">
 	@import "../../dojo/resources/dojo.css";
 	@import "../themes/tundra/tundra.css";
+	@import "css/dijitTests.css";
 
-	.dojoMenuBar {
-		border-top:1px solid #d4d4d4;
-	}
 </style>
 <script type="text/javascript" src="../../dojo/dojo.js"
 	djConfig="isDebug: true, debugAtAllCosts: true"></script>
@@ -18,7 +16,7 @@
 	dojo.require("dijit.util.parser");	// scan page for widgets and instantiate them
 </script>
 </head>
-<body>
+<body class="tundra">
 
 <div dojoType="dijit.PopupMenu" id="submenu1" contextMenuForWindow="true" style="display: none;">
 	<div dojoType="dijit.MenuItem" caption="Enabled Item" onClick="alert('Hello world');"></div>
@@ -49,8 +47,9 @@
 </div>
 -->
 <div style="padding: 1em">
-
-	<h1>This page has a menu bar and context menu</h1>
+	<h1 class="testTitle">Dijit Menu System Test</h1>
+	
+	<h2>This page has a menu bar and context menu</h2>
 
 	<h3>Form</h3>
 	<p>This is for testing whether focus and selection are restored after a popup menu closes</p>

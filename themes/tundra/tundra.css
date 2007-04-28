@@ -32,8 +32,7 @@
 
 /*IE6 Hack */
 * html .dojoButtonNode, 
-* html .dojoInputField,
-* html .dojoMenu {
+* html .dojoInputField {
 	background-image: none;
 	filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src="dojoTundraGradientBg.png", sizingMethod="scale");
 }
@@ -146,9 +145,7 @@ table.dojoButton .dojoButtonNode {
 
 
 /* Default Hover Styles */ 
-.dojoInputField:hover,
-.dojoMenuItemHover
-{
+.dojoInputField:hover {
 	color:#0e4978;
 	border-color:#92adc2;
 }
@@ -164,8 +161,7 @@ table.dojoButton .dojoButtonNode {
 
 /* Default Disabled Styles*/
 .dojoInputField[disabled],
-.dojoInputFieldDisabled,
-.dojoMenuItemDisabled {
+.dojoInputFieldDisabled {
 	background-position:0 -8px;
 	background-color:#dbdbdb;
 	color:#787878;
@@ -307,26 +303,28 @@ table.dojoButton .dojoButtonNode {
 
 /* Menu */
 
-.dojoMenu{
-	/* temporary! */
-	border: solid 1px #92adc2;
-	background: #fff;
+
+.tundra .dojoMenu{
+	border: solid 1px #bfbfbf;
+	border-right:2px solid #ababab;
+	border-bottom:2px solid #ababab;
 	border-collapse:collapse;
+	background:#fff url("popupMenuBg.gif") repeat-x bottom left;
 }
-.dojoMenuItem{
+
+.tundra .dojoMenuItem{
 	white-space: nowrap;
 	font: menu;
 	margin: 0;
 }
 
-.dojoMenuItemHover {
+.tundra .dojoMenuItemHover {
 	cursor:pointer;
 	cursor:hand;
-	background-color:#e7f0f7;
-	
+	background-color:#cbe3f5;
 }
 
-.dojoMenuItemIcon {
+.tundra .dojoMenuItemIcon {
 	position: relative;
 	background-position: center center;
 	background-repeat: no-repeat;
@@ -335,40 +333,45 @@ table.dojoButton .dojoButtonNode {
 	padding-right: 3px;
 }
 
-.dojoMenuItemLabel {
+.tundra .dojoMenuItemLabel {
 	position: relative;
 	vertical-align: middle;
 }
 
-.dojoMenuItemHover .dojoMenuItemSubmenu {
+.tundra .dojoMenuItemHover .dojoMenuItemSubmenu {
 	background-image: url(images/submenu_on.gif);
 }
 
-.dojoRTL .dojoMenuItemHover .dojoMenuItemSubmenu {
+.tundra .dojoRTL .dojoMenuItemHover .dojoMenuItemSubmenu {
 	background-image: url(images/submenu_on_rtl.gif);
 }
 
-.dojoMenuItemDisabled .dojoMenuItemSubmenu {
+.tundra .dojoMenuItemDisabled .dojoMenuItemSubmenu {
 	background-image: url(images/submenu_disabled.gif);
 }
 
-.dojoRTL .dojoMenuItemDisabled .dojoMenuItemSubmenu {
+.tundra .dojoRTL .dojoMenuItemDisabled .dojoMenuItemSubmenu {
 	background-image: url(images/submenu_disabled_rtl.gif);
 }
 
-.dojoMenuSeparator {
+.tundra .dojoMenuSeparator {
 	font-size: 1px;
 	margin: 0;
 }
 
-.dojoMenuSeparatorTop {
+.tundra .dojoMenuSeparator2 {
+	border-top:1px solid #e4e4e4;
+}
+
+/* are these two still used?*/
+.tundra .dojoMenuSeparatorTop {
 	height: 50%;
-	border-bottom: 1px solid #7a98c4;
+	border-bottom: 1px solid #e4e4e4;
 	margin: 0px 2px;
 	font-size: 1px;
 }
 
-.dojoMenuSeparatorBottom {
+.tundra .dojoMenuSeparatorBottom {
 	height: 50%;
 	border-top: 1px solid #c9deff;
 	margin: 0px 2px;
