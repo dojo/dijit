@@ -13,6 +13,7 @@
 <style type="text/css">
 @import "../../dojo/resources/dojo.css";
 @import "../themes/tundra/tundra.css";
+@import "css/dijitTests.css";
 
 div.container {
 	background-color: white;
@@ -38,10 +39,16 @@ div.container {
 	width: 250px;
 }
 
+.dojoTitlePaneContent {
+	padding:1em;
+}
+
+
 
 </style>
 </head>
-<body>
+<body class="tundra">
+	<h1 class="testTitle">Dijit TitlePane Test</h1>
 	<div dojoType="dijit.TitlePane" label="Title Pane #1" style="width: 300px;">
 		Lorem Ipsum
 

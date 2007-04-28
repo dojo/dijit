@@ -604,23 +604,24 @@ table.dojoButton .dojoButtonNode {
 
 /* TitlePane */
 
-.dojoTitlePaneLabel {
+.tundra .dojoTitlePaneLabel {
 	background: #cccccc;
-	height: 20px;
-	border-top: 1px solid black;
-	border-bottom: 1px solid black;
+	background:#fafafa url("titleBarBg.gif") repeat-x bottom left;
+	border:1px solid #bfbfbf;
+	padding:2px 3px 0 3px;
 }
-.dojoTitlePaneContent {
+.tundra .dojoTitlePaneContent {
 	background: #ffffff;
-	border-top: 1px solid #666666;	/* w/out this, an <h1> on the top line causes a gap between the .content and .label */
+	border:1px solid #bfbfbf;
+	border-top: 1px solid #cddde9;	/* w/out this, an <h1> on the top line causes a gap between the .content and .label */
 }
 
-.dojoDisabledClickableRegion {
+.tundra .dojoDisabledClickableRegion {
 	cursor: default;        /* makes opera happy */
 	cursor: url("no.gif"), default;
 }
 
-.dojoClickableRegion {
+.tundra .dojoClickableRegion {
         background-color : #ffc !important;
         cursor : pointer;
 }
