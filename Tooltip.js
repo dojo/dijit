@@ -80,7 +80,7 @@ dojo.declare(
 				this.show.apply(this, this._onDeck);
 				this._onDeck=null;
 			}
-		},
+		}
 
 	}
 );
