@@ -17,7 +17,7 @@ dojo.declare(
 
 		// duration: Integer
 		//		Milliseconds to fade in/fade out
-		duration: 100,
+		duration: 200,
 
 		// opacity: Number
 		//		Final opacity tooltips are shown at, after fade in
@@ -32,36 +32,56 @@ dojo.declare(
 			this.bgIframe.setZIndex(dojo.style(this.domNode, "zIndex")-1);
 
 			this.fadeIn = dojo._fade({node: this.domNode, duration: this.duration, end: this.opacity});
-			dojo.connect(this.fadeIn, "onEnd", this, function(){
-				this.bgIframe.size(this.domNode);
-				this.bgIframe.show();
-			});
+			dojo.connect(this.fadeIn, "onEnd", this, "_onShow");
 			this.fadeOut = dojo._fade({node: this.domNode, duration: this.duration, end: 0});
-			dojo.connect(this.fadeOut, "onEnd", this, function(){
-				this.domNode.style.cssText="";	// to position offscreen again
-				this.bgIframe.hide();
-			});
+			dojo.connect(this.fadeOut, "onEnd", this, "_onHide");
 
 		},
 
 		show: function(/*String*/ innerHTML, /*DomNode*/ aroundNode){
 			// summary: display tooltip w/specified contents underneath specified node
 
-			if (this.isShowingNow){
-				this.domNode.style.display="none";
+			if(this.fadeOut.status() == "playing"){
+				// previous tooltip is being hidden; wait until the hide completes then show new one
+				this._onDeck=arguments;
+				return;
 			}
 			this.containerNode.innerHTML=innerHTML;
 			dijit.util.placeOnScreenAroundElement(this.domNode, aroundNode, [0,0],
 				{'BL': 'TL', 'TL': 'BL'});
+			dojo.style(this.domNode, "opacity", 0);
 			this.fadeIn.play();
 			this.isShowingNow = true;
 		},
 
+		_onShow: function(){
+			this.bgIframe.size(this.domNode);
+			this.bgIframe.show();
+		},
+
 		hide: function(){
 			// summary: hide the tooltip
+			if(this._onDeck){
+				// this hide request is for a show() that hasn't even started yet;
+				// just cancel the pending show()
+				this._onDeck=null;
+				return;
+			}
+			this.fadeIn.stop();
 			this.isShowingNow = false;
 			this.fadeOut.play();
-		}
+		},
+
+		_onHide: function(){
+			this.domNode.style.cssText="";	// to position offscreen again
+			this.bgIframe.hide();
+			if(this._onDeck){
+				// a show request has been queue up; do it now
+				this.show.apply(this, this._onDeck);
+				this._onDeck=null;
+			}
+		},
+
 	}
 );
 
