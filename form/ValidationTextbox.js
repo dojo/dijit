@@ -26,9 +26,6 @@ dojo.declare(
 		// invalidMessage: String
 		// 		The message to display if value is invalid.
 		invalidMessage: "",
-		// missingMessage: String
-		//		The message to display if value is missing or missing.
-		missingMessage: "",
 		// listenOnKeyPress: Boolean
 		//		Updates messages on each key press.  Default is true.
 		listenOnKeyPress: true,
@@ -71,20 +68,12 @@ dojo.declare(
 	
 		getErrorMessage: function(/* Boolean*/ isFocused){
 			// summary: return an error message to show if appropriate
-			if(this.isMissing(isFocused)){ 
-				return (this.promptMessage == "" || !isFocused) ? this.missingMessage : this.promptMessage;
-			}else if(( this.required || !this.isEmpty() ) && !this.isValid(isFocused)){ return this.invalidMessage; }
+			return this.invalidMessage;
 		},
 
-		getWarningMessage: function(/* Boolean*/ isFocused){
-			// summary: return a warning message to show if appropriate
-			if(this.isMissing(false) || (( this.required || !this.isEmpty() ) && !this.isValid(false))){
-				return this.promptMessage;
-			}
-		},
-
-		getValidMessage: function(/* Boolean*/ isFocused){
-			if(this.isEmpty()){ return this.promptMessage; }
+		getPromptMessage: function(/* Boolean*/ isFocused){
+			// summary: return a hint to show if appropriate
+			return this.promptMessage;
 		},
 
 		validate: function(/* Boolean*/ isFocused){
@@ -93,22 +82,15 @@ dojo.declare(
 			// description:
 			//		Show missing or invalid messages if appropriate, and highlight textbox field.
 			
-			var _class;
-			var message = this.getErrorMessage(isFocused);
-			if (typeof message == "string"){
-				_class = "Error";
+			var message;
+			if (!this.isValid()){
+				this.updateClass("Error");
+				message = this.getErrorMessage(isFocused);
 			}else{
-				message = this.getWarningMessage(isFocused);
-				if (typeof message == "string"){
-					_class = "Warning";
-				}else{ 
-					_class = "Normal";
-					message = this.getValidMessage(isFocused);
-					if (typeof message != "string"){ message = ""; }
-				}
+				this.updateClass(this.isMissing() ? "Warning" : "Normal");
+				message = this.getPromptMessage(isFocused);
 			}
-			this._displayMessage(message);
-			this.updateClass(_class);
+			this._displayMessage(isFocused ? message : "");
 		},
 		
 		// currently displayed message
