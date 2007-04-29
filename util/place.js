@@ -20,14 +20,6 @@ dijit.util.getViewport = function(){
 		//so we have to check whether it is opera
 		w = _window.innerWidth;
 		h = _window.innerHeight;
-	}else if(!dojo.isOpera && dojo.getObject("documentElement.clientWidth", _document)){
-		// IE6 Strict
-		var w2 = _document.documentElement.clientWidth;
-		// this lets us account for scrollbars
-		if(!w || w2 && w2 < w){
-			w = w2;
-		}
-		h = _document.documentElement.clientHeight;
 	}else if(dojo.body().clientWidth){
 		// IE, Opera
 		w = dojo.body().clientWidth;
