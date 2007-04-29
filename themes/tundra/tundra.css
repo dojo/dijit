@@ -4,7 +4,7 @@
 	
 	display:inline-block;
 	display: -moz-inline-stack;
-	_display:inline;
+	#display:inline;
 	border:0px;
 	padding:0px;
 	vertical-align:middle;
@@ -756,4 +756,52 @@ table.dojoButton .dojoButtonNode {
 /* don't use :focus due to opera and IE's lack of support on div's */
 .TreeLabelFocused {
       outline: 1px invert dotted;
+}
+
+
+.dojoArrowButton {
+        display:inline !important;
+        padding:0px;
+        border:0px;
+        margin:0px 0px 0px 0px;
+        vertical-align:middle;
+        line-spacing:0px !important;
+        width:1.62em;
+        height:1.42em;
+	overflow:hidden;
+}
+
+.tundra .dojoAutoCompleter {
+	width:auto !important;
+}
+/* Allow user to specify width without messing up defaults; other attributes are put on parent node */
+.dojoAutoCompleterInput {
+	BACKGROUND-COLOR: transparent !important;
+	border:0px !important;
+	padding:0px !important;
+	margin:0px !important;
+	position:static !important;
+        display:inline !important;
+	float:none !important;
+	vertical-align:middle !important;
+	
+}
+.dojoArrowButton fieldset {
+	display:block;
+	padding:.2em;
+	margin:0px;
+	line-spacing:0px !important;
+	border:.16em outset;
+	border-color:rgb(200,200,200) black black rgb(200,200,200);
+	vertical-align:middle;
+	text-align:center;
+}
+
+.dojoArrowButton fieldset.dojoArrowButtonPushed {
+	border-style:inset;
+	border-color:black rgb(200,200,200) rgb(200,200,200) black;
+	background-color:gray;
+}
+.dojoArrowButtonPushed .dojoDownArrowInner {
+        border-color:white transparent;
 }

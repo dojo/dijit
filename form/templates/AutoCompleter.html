@@ -1,0 +1,17 @@
+<fieldset class="dojoAutoCompleter dojoInlineBox dojoInputField" id='${this.id}'
+	><input style="display:none"  tabindex="-1" name="${this.name}" id="" value="${this.value}" 
+		dojoAttachPoint="comboBoxValue"
+	><input style="display:inline" type="text" autocomplete="off" class="dojoAutoCompleterInput"
+		dojoAttachEvent="onkeypress:_handleKeyEvents; onKeyUp: _onKeyUp; compositionEnd; onfocus:_onFocusInput; onblur:_onBlurInput;"
+		dojoAttachPoint="textInputNode"
+		tabIndex='${this.tabIndex}' size='${this.size}' maxlength='${this.maxlength}'
+	><fieldset class="dojoArrowButton"
+		><fieldset 
+			dojoAttachPoint="downArrowNode"
+			dojoAttachEvent="onclick:arrowClicked; onmousedown:_arrowPressed; onmouseout:_arrowIdle;"
+			><div class="dojoDownArrowOuter" style="display:block;"
+				><div class="dojoDownArrowInner"></div
+			></div
+		></fieldset
+	></fieldset
+></fieldset>

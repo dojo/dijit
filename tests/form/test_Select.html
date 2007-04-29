@@ -1,0 +1,485 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+        "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title>Dojo Select Widget Test</title>
+<script type="text/javascript"> 
+	var djConfig = {
+		isDebug: true};
+</script>
+<script type="text/javascript" src="../../../dojo/dojo.js"></script>
+<script type="text/javascript">
+	dojo.require("dijit.form.Select");
+	
+	dojo.require("dijit.util.parser");	// scan page for widgets and instantiate them
+	//dojo.hostenv.writeIncludes();
+</script>
+<style>
+        @import "../../../dojo/resources/dojo.css";
+        @import "../../themes/tundra/tundra.css";
+</style>
+<script>
+	function setVal1(val){
+		document.getElementById('value1').value=val;
+	}
+	function setVal2(val){
+		document.getElementById('value2').value=val;
+	}
+	function setVal3(val){
+		document.getElementById('value3').value=val;
+	}
+	function myLabelFunc(value){
+		return value;
+	}
+</script>
+</head>
+
+<body class="tundra">
+<h1>Dojo Select Widget Test</h1>
+<p>
+The Select widget is an enhanced version of HTML's &lt;select&gt; tag.
+</p>
+<p>
+Similar features:
+<ul>
+<li>There is a drop down list of possible values.</li>
+<li>You can only enter a value from the drop down list.  (You can't enter an arbitrary value.)</li>
+<li>The value submitted with the form is the hidden value (ex: CA),</li>
+<li>not the displayed value a.k.a. label (ex: California)</li>
+</ul>
+</p>
+
+<p>
+Enhancements over plain HTML version:
+<ul>
+<li>If you type in some text then it will filter down the list of possible values in the drop down list.</li>
+<li>List can be specified either as a static list or via a javascript function (that can get the list from a server)</li>
+</ul>
+</p>
+<hr>
+
+<form action="#" method="GET">
+ 
+    <p>Select #1: inlined data, autocomplete=false:</p>
+	<select searchField="name" keyField="abbreviation" labelFunc="myLabelFunc" id="setvaluetest2" searchLimit="Infinity" name="state3" dojoType="dijit.form.Select" style="width: 300px;" autocomplete="false" dataProviderClass="dojo.data.JsonItemStore"
+		onValueChanged="setVal1" value="CA">
+		<option value="AL">Alabama</option>
+		<option value="AK">Alaska</option>
+		<option value="AS">American Samoa</option>
+		<option value="AZ">Arizona</option>
+		<option value="AR">Arkansas</option>
+		<option value="AE">Armed Forces Europe</option>
+		<option value="AP">Armed Forces Pacific</option>
+		<option value="AA">Armed Forces the Americas</option>
+		<option value="CA" selected>California</option>
+		<option value="CO">Colorado</option>
+		<option value="CT">Connecticut</option>
+		<option value="DE">Delaware</option>
+		<option value="DC">District of Columbia</option>
+		<option value="FM">Federated States of Micronesia</option>
+		<option value="FL">Florida</option>
+		<option value="GA">Georgia</option>
+		<option value="GU">Guam</option>
+		<option value="HI">Hawaii</option>
+		<option value="ID">Idaho</option>
+		<option value="IL">Illinois</option>
+		<option value="IN">Indiana</option>
+		<option value="IA">Iowa</option>
+		<option value="KS">Kansas</option>
+		<option value="KY">Kentucky</option>
+		<option value="LA">Louisiana</option>
+		<option value="ME">Maine</option>
+		<option value="MH">Marshall Islands</option>
+		<option value="MD">Maryland</option>
+		<option value="MA">Massachusetts</option>
+		<option value="MI">Michigan</option>
+		<option value="MN">Minnesota</option>
+		<option value="MS">Mississippi</option>
+		<option value="MO">Missouri</option>
+		<option value="MT">Montana</option>
+		<option value="NE">Nebraska</option>
+		<option value="NV">Nevada</option>
+		<option value="NH">New Hampshire</option>
+		<option value="NJ">New Jersey</option>
+		<option value="NM">New Mexico</option>
+		<option value="NY">New York</option>
+		<option value="NC">North Carolina</option>
+		<option value="ND">North Dakota</option>
+		<option value="MP">Northern Mariana Islands</option>
+		<option value="OH">Ohio</option>
+		<option value="OK">Oklahoma</option>
+		<option value="OR">Oregon</option>
+		<option value="PA">Pennsylvania</option>
+		<option value="PR">Puerto Rico</option>
+		<option value="RI">Rhode Island</option>
+		<option value="SC">South Carolina</option>
+		<option value="SD">South Dakota</option>
+		<option value="TN">Tennessee</option>
+		<option value="TX">Texas</option>
+		<option value="UT">Utah</option>
+		<option value="VT">Vermont</option>
+		<option value="VI">Virgin Islands, U.S.</option>
+		<option value="VA">Virginia</option>
+		<option value="WA">Washington</option>
+		<option value="WV">West Virginia</option>
+		<option value="WI">Wisconsin</option>
+		<option value="WY">Wyoming</option>
+	</select>    <!--
+<button onclick='dojo.widget.byId("setvaluetest2").setValue("VI"); return false;'>Set value to VI</button>  -->
+	<br>
+	<div>Value: <input id="value1" disabled></div>
+	<hr>
+
+	<p>Select #2: url, autocomplete=true:</p>
+	<input searchField="name" keyField="abbreviation" id="setvaluetest" dojoType="dijit.form.Select" value="IA"
+		url="autoCompleterData.json" name="state1" autocomplete="true" labelField="label" labelType="html"
+		onValueChanged="setVal2" dataProviderClass="dojo.data.JsonItemStore"
+	>	<!--<button onclick='dojo.widget.byId("setvaluetest").setValue("VI"); return false;'>Set value to VI</button>  
+		<button onclick='alert(dojo.widget.byId("setvaluetest").getValue()); return false;'>Get value</button>  -->
+	<br>
+	<div>Value: <input id="value2" disabled></div>
+	<hr>
+		
+    <p>Select #3: url, autocomplete=false:</p>
+ 	<input searchField="name" keyField="abbreviation" dojoType="dijit.form.Select" value="VI"
+		url="autoCompleterData.json" name="state2" autocomplete="false" labelField="label" labelType="html"
+		onValueChanged="setVal3" dataProviderClass="dojo.data.JsonItemStore"
+	>
+	<br>
+	<div>Value: <input id="value3" disabled></div>
+	<hr>
+	<!--<p>Stress test</p>
+	<input searchField="name" keyField="abbreviation" dojoType="dijit.form.Select" value="VI"
+		url="autoCompleterData.js" style="width: 300px;" name="state4" autocomplete="false"
+		onValueChanged="setVal3" dataProviderClass="dojo.data.JsonItemStore"
+	><input searchField="name" keyField="abbreviation" dojoType="dijit.form.Select" value="VI"
+		url="autoCompleterData.js" style="width: 300px;" name="state4" autocomplete="false"
+		onValueChanged="setVal3" dataProviderClass="dojo.data.JsonItemStore"
+	><input searchField="name" keyField="abbreviation" dojoType="dijit.form.Select" value="VI"
+		url="autoCompleterData.js" style="width: 300px;" name="state4" autocomplete="false"
+		onValueChanged="setVal3" dataProviderClass="dojo.data.JsonItemStore"
+	><input searchField="name" keyField="abbreviation" dojoType="dijit.form.Select" value="VI"
+		url="autoCompleterData.js" style="width: 300px;" name="state4" autocomplete="false"
+		onValueChanged="setVal3" dataProviderClass="dojo.data.JsonItemStore"
+	><input searchField="name" keyField="abbreviation" dojoType="dijit.form.Select" value="VI"
+		url="autoCompleterData.js" style="width: 300px;" name="state4" autocomplete="false"
+		onValueChanged="setVal3" dataProviderClass="dojo.data.JsonItemStore"
+	><input searchField="name" keyField="abbreviation" dojoType="dijit.form.Select" value="VI"
+		url="autoCompleterData.js" style="width: 300px;" name="state4" autocomplete="false"
+		onValueChanged="setVal3" dataProviderClass="dojo.data.JsonItemStore"
+	><input searchField="name" keyField="abbreviation" dojoType="dijit.form.Select" value="VI"
+		url="autoCompleterData.js" style="width: 300px;" name="state4" autocomplete="false"
+		onValueChanged="setVal3" dataProviderClass="dojo.data.JsonItemStore"
+	><input searchField="name" keyField="abbreviation" dojoType="dijit.form.Select" value="VI"
+		url="autoCompleterData.js" style="width: 300px;" name="state4" autocomplete="false"
+		onValueChanged="setVal3" dataProviderClass="dojo.data.JsonItemStore"
+	><input searchField="name" keyField="abbreviation" dojoType="dijit.form.Select" value="VI"
+		url="autoCompleterData.js" style="width: 300px;" name="state4" autocomplete="false"
+		onValueChanged="setVal3" dataProviderClass="dojo.data.JsonItemStore"
+	><input searchField="name" keyField="abbreviation" dojoType="dijit.form.Select" value="VI"
+		url="autoCompleterData.js" style="width: 300px;" name="state4" autocomplete="false"
+		onValueChanged="setVal3" dataProviderClass="dojo.data.JsonItemStore"
+	><input searchField="name" keyField="abbreviation" dojoType="dijit.form.Select" value="VI"
+		url="autoCompleterData.js" style="width: 300px;" name="state4" autocomplete="false"
+		onValueChanged="setVal3" dataProviderClass="dojo.data.JsonItemStore"
+	><input searchField="name" keyField="abbreviation" dojoType="dijit.form.Select" value="VI"
+		url="autoCompleterData.js" style="width: 300px;" name="state4" autocomplete="false"
+		onValueChanged="setVal3" dataProviderClass="dojo.data.JsonItemStore"
+	><input searchField="name" keyField="abbreviation" dojoType="dijit.form.Select" value="VI"
+		url="autoCompleterData.js" style="width: 300px;" name="state4" autocomplete="false"
+		onValueChanged="setVal3" dataProviderClass="dojo.data.JsonItemStore"
+	><input searchField="name" keyField="abbreviation" dojoType="dijit.form.Select" value="VI"
+		url="autoCompleterData.js" style="width: 300px;" name="state4" autocomplete="false"
+		onValueChanged="setVal3" dataProviderClass="dojo.data.JsonItemStore"
+	><input searchField="name" keyField="abbreviation" dojoType="dijit.form.Select" value="VI"
+		url="autoCompleterData.js" style="width: 300px;" name="state4" autocomplete="false"
+		onValueChanged="setVal3" dataProviderClass="dojo.data.JsonItemStore"
+	><input searchField="name" keyField="abbreviation" dojoType="dijit.form.Select" value="VI"
+		url="autoCompleterData.js" style="width: 300px;" name="state4" autocomplete="false"
+		onValueChanged="setVal3" dataProviderClass="dojo.data.JsonItemStore"
+	><input searchField="name" keyField="abbreviation" dojoType="dijit.form.Select" value="VI"
+		url="autoCompleterData.js" style="width: 300px;" name="state4" autocomplete="false"
+		onValueChanged="setVal3" dataProviderClass="dojo.data.JsonItemStore"
+	><input searchField="name" keyField="abbreviation" dojoType="dijit.form.Select" value="VI"
+		url="autoCompleterData.js" style="width: 300px;" name="state4" autocomplete="false"
+		onValueChanged="setVal3" dataProviderClass="dojo.data.JsonItemStore"
+	><input searchField="name" keyField="abbreviation" dojoType="dijit.form.Select" value="VI"
+		url="autoCompleterData.js" style="width: 300px;" name="state4" autocomplete="false"
+		onValueChanged="setVal3" dataProviderClass="dojo.data.JsonItemStore"
+	><input searchField="name" keyField="abbreviation" dojoType="dijit.form.Select" value="VI"
+		url="autoCompleterData.js" style="width: 300px;" name="state4" autocomplete="false"
+		onValueChanged="setVal3" dataProviderClass="dojo.data.JsonItemStore"
+	><input searchField="name" keyField="abbreviation" dojoType="dijit.form.Select" value="VI"
+		url="autoCompleterData.js" style="width: 300px;" name="state4" autocomplete="false"
+		onValueChanged="setVal3" dataProviderClass="dojo.data.JsonItemStore"
+	><input searchField="name" keyField="abbreviation" dojoType="dijit.form.Select" value="VI"
+		url="autoCompleterData.js" style="width: 300px;" name="state4" autocomplete="false"
+		onValueChanged="setVal3" dataProviderClass="dojo.data.JsonItemStore"
+	><input searchField="name" keyField="abbreviation" dojoType="dijit.form.Select" value="VI"
+		url="autoCompleterData.js" style="width: 300px;" name="state4" autocomplete="false"
+		onValueChanged="setVal3" dataProviderClass="dojo.data.JsonItemStore"
+	><input searchField="name" keyField="abbreviation" dojoType="dijit.form.Select" value="VI"
+		url="autoCompleterData.js" style="width: 300px;" name="state4" autocomplete="false"
+		onValueChanged="setVal3" dataProviderClass="dojo.data.JsonItemStore"
+	><input searchField="name" keyField="abbreviation" dojoType="dijit.form.Select" value="VI"
+		url="autoCompleterData.js" style="width: 300px;" name="state4" autocomplete="false"
+		onValueChanged="setVal3" dataProviderClass="dojo.data.JsonItemStore"
+	><input searchField="name" keyField="abbreviation" dojoType="dijit.form.Select" value="VI"
+		url="autoCompleterData.js" style="width: 300px;" name="state4" autocomplete="false"
+		onValueChanged="setVal3" dataProviderClass="dojo.data.JsonItemStore"
+	><input searchField="name" keyField="abbreviation" dojoType="dijit.form.Select" value="VI"
+		url="autoCompleterData.js" style="width: 300px;" name="state4" autocomplete="false"
+		onValueChanged="setVal3" dataProviderClass="dojo.data.JsonItemStore"
+	><input searchField="name" keyField="abbreviation" dojoType="dijit.form.Select" value="VI"
+		url="autoCompleterData.js" style="width: 300px;" name="state4" autocomplete="false"
+		onValueChanged="setVal3" dataProviderClass="dojo.data.JsonItemStore"
+	><input searchField="name" keyField="abbreviation" dojoType="dijit.form.Select" value="VI"
+		url="autoCompleterData.js" style="width: 300px;" name="state4" autocomplete="false"
+		onValueChanged="setVal3" dataProviderClass="dojo.data.JsonItemStore"
+	><input searchField="name" keyField="abbreviation" dojoType="dijit.form.Select" value="VI"
+		url="autoCompleterData.js" style="width: 300px;" name="state4" autocomplete="false"
+		onValueChanged="setVal3" dataProviderClass="dojo.data.JsonItemStore"
+	><input searchField="name" keyField="abbreviation" dojoType="dijit.form.Select" value="VI"
+		url="autoCompleterData.js" style="width: 300px;" name="state4" autocomplete="false"
+		onValueChanged="setVal3" dataProviderClass="dojo.data.JsonItemStore"
+	><input searchField="name" keyField="abbreviation" dojoType="dijit.form.Select" value="VI"
+		url="autoCompleterData.js" style="width: 300px;" name="state4" autocomplete="false"
+		onValueChanged="setVal3" dataProviderClass="dojo.data.JsonItemStore"
+	><input searchField="name" keyField="abbreviation" dojoType="dijit.form.Select" value="VI"
+		url="autoCompleterData.js" style="width: 300px;" name="state4" autocomplete="false"
+		onValueChanged="setVal3" dataProviderClass="dojo.data.JsonItemStore"
+	><input searchField="name" keyField="abbreviation" dojoType="dijit.form.Select" value="VI"
+		url="autoCompleterData.js" style="width: 300px;" name="state4" autocomplete="false"
+		onValueChanged="setVal3" dataProviderClass="dojo.data.JsonItemStore"
+	><input searchField="name" keyField="abbreviation" dojoType="dijit.form.Select" value="VI"
+		url="autoCompleterData.js" style="width: 300px;" name="state4" autocomplete="false"
+		onValueChanged="setVal3" dataProviderClass="dojo.data.JsonItemStore"
+	><input searchField="name" keyField="abbreviation" dojoType="dijit.form.Select" value="VI"
+		url="autoCompleterData.js" style="width: 300px;" name="state4" autocomplete="false"
+		onValueChanged="setVal3" dataProviderClass="dojo.data.JsonItemStore"
+	><input searchField="name" keyField="abbreviation" dojoType="dijit.form.Select" value="VI"
+		url="autoCompleterData.js" style="width: 300px;" name="state4" autocomplete="false"
+		onValueChanged="setVal3" dataProviderClass="dojo.data.JsonItemStore"
+	><input searchField="name" keyField="abbreviation" dojoType="dijit.form.Select" value="VI"
+		url="autoCompleterData.js" style="width: 300px;" name="state4" autocomplete="false"
+		onValueChanged="setVal3" dataProviderClass="dojo.data.JsonItemStore"
+	><input searchField="name" keyField="abbreviation" dojoType="dijit.form.Select" value="VI"
+		url="autoCompleterData.js" style="width: 300px;" name="state4" autocomplete="false"
+		onValueChanged="setVal3" dataProviderClass="dojo.data.JsonItemStore"
+	><input searchField="name" keyField="abbreviation" dojoType="dijit.form.Select" value="VI"
+		url="autoCompleterData.js" style="width: 300px;" name="state4" autocomplete="false"
+		onValueChanged="setVal3" dataProviderClass="dojo.data.JsonItemStore"
+	><input searchField="name" keyField="abbreviation" dojoType="dijit.form.Select" value="VI"
+		url="autoCompleterData.js" style="width: 300px;" name="state4" autocomplete="false"
+		onValueChanged="setVal3" dataProviderClass="dojo.data.JsonItemStore"
+	><input searchField="name" keyField="abbreviation" dojoType="dijit.form.Select" value="VI"
+		url="autoCompleterData.js" style="width: 300px;" name="state4" autocomplete="false"
+		onValueChanged="setVal3" dataProviderClass="dojo.data.JsonItemStore"
+	><input searchField="name" keyField="abbreviation" dojoType="dijit.form.Select" value="VI"
+		url="autoCompleterData.js" style="width: 300px;" name="state4" autocomplete="false"
+		onValueChanged="setVal3" dataProviderClass="dojo.data.JsonItemStore"
+	><input searchField="name" keyField="abbreviation" dojoType="dijit.form.Select" value="VI"
+		url="autoCompleterData.js" style="width: 300px;" name="state4" autocomplete="false"
+		onValueChanged="setVal3" dataProviderClass="dojo.data.JsonItemStore"
+	><input searchField="name" keyField="abbreviation" dojoType="dijit.form.Select" value="VI"
+		url="autoCompleterData.js" style="width: 300px;" name="state4" autocomplete="false"
+		onValueChanged="setVal3" dataProviderClass="dojo.data.JsonItemStore"
+	><input searchField="name" keyField="abbreviation" dojoType="dijit.form.Select" value="VI"
+		url="autoCompleterData.js" style="width: 300px;" name="state4" autocomplete="false"
+		onValueChanged="setVal3" dataProviderClass="dojo.data.JsonItemStore"
+	><input searchField="name" keyField="abbreviation" dojoType="dijit.form.Select" value="VI"
+		url="autoCompleterData.js" style="width: 300px;" name="state4" autocomplete="false"
+		onValueChanged="setVal3" dataProviderClass="dojo.data.JsonItemStore"
+	><input searchField="name" keyField="abbreviation" dojoType="dijit.form.Select" value="VI"
+		url="autoCompleterData.js" style="width: 300px;" name="state4" autocomplete="false"
+		onValueChanged="setVal3" dataProviderClass="dojo.data.JsonItemStore"
+	><input searchField="name" keyField="abbreviation" dojoType="dijit.form.Select" value="VI"
+		url="autoCompleterData.js" style="width: 300px;" name="state4" autocomplete="false"
+		onValueChanged="setVal3" dataProviderClass="dojo.data.JsonItemStore"
+	><input searchField="name" keyField="abbreviation" dojoType="dijit.form.Select" value="VI"
+		url="autoCompleterData.js" style="width: 300px;" name="state4" autocomplete="false"
+		onValueChanged="setVal3" dataProviderClass="dojo.data.JsonItemStore"
+	><input searchField="name" keyField="abbreviation" dojoType="dijit.form.Select" value="VI"
+		url="autoCompleterData.js" style="width: 300px;" name="state4" autocomplete="false"
+		onValueChanged="setVal3" dataProviderClass="dojo.data.JsonItemStore"
+	><input searchField="name" keyField="abbreviation" dojoType="dijit.form.Select" value="VI"
+		url="autoCompleterData.js" style="width: 300px;" name="state4" autocomplete="false"
+		onValueChanged="setVal3" dataProviderClass="dojo.data.JsonItemStore"
+	><input searchField="name" keyField="abbreviation" dojoType="dijit.form.Select" value="VI"
+		url="autoCompleterData.js" style="width: 300px;" name="state4" autocomplete="false"
+		onValueChanged="setVal3" dataProviderClass="dojo.data.JsonItemStore"
+	><input searchField="name" keyField="abbreviation" dojoType="dijit.form.Select" value="VI"
+		url="autoCompleterData.js" style="width: 300px;" name="state4" autocomplete="false"
+		onValueChanged="setVal3" dataProviderClass="dojo.data.JsonItemStore"
+	><input searchField="name" keyField="abbreviation" dojoType="dijit.form.Select" value="VI"
+		url="autoCompleterData.js" style="width: 300px;" name="state4" autocomplete="false"
+		onValueChanged="setVal3" dataProviderClass="dojo.data.JsonItemStore"
+	><input searchField="name" keyField="abbreviation" dojoType="dijit.form.Select" value="VI"
+		url="autoCompleterData.js" style="width: 300px;" name="state4" autocomplete="false"
+		onValueChanged="setVal3" dataProviderClass="dojo.data.JsonItemStore"
+	><input searchField="name" keyField="abbreviation" dojoType="dijit.form.Select" value="VI"
+		url="autoCompleterData.js" style="width: 300px;" name="state4" autocomplete="false"
+		onValueChanged="setVal3" dataProviderClass="dojo.data.JsonItemStore"
+	><input searchField="name" keyField="abbreviation" dojoType="dijit.form.Select" value="VI"
+		url="autoCompleterData.js" style="width: 300px;" name="state4" autocomplete="false"
+		onValueChanged="setVal3" dataProviderClass="dojo.data.JsonItemStore"
+	><input searchField="name" keyField="abbreviation" dojoType="dijit.form.Select" value="VI"
+		url="autoCompleterData.js" style="width: 300px;" name="state4" autocomplete="false"
+		onValueChanged="setVal3" dataProviderClass="dojo.data.JsonItemStore"
+	><input searchField="name" keyField="abbreviation" dojoType="dijit.form.Select" value="VI"
+		url="autoCompleterData.js" style="width: 300px;" name="state4" autocomplete="false"
+		onValueChanged="setVal3" dataProviderClass="dojo.data.JsonItemStore"
+	><input searchField="name" keyField="abbreviation" dojoType="dijit.form.Select" value="VI"
+		url="autoCompleterData.js" style="width: 300px;" name="state4" autocomplete="false"
+		onValueChanged="setVal3" dataProviderClass="dojo.data.JsonItemStore"
+	><input searchField="name" keyField="abbreviation" dojoType="dijit.form.Select" value="VI"
+		url="autoCompleterData.js" style="width: 300px;" name="state4" autocomplete="false"
+		onValueChanged="setVal3" dataProviderClass="dojo.data.JsonItemStore"
+	><input searchField="name" keyField="abbreviation" dojoType="dijit.form.Select" value="VI"
+		url="autoCompleterData.js" style="width: 300px;" name="state4" autocomplete="false"
+		onValueChanged="setVal3" dataProviderClass="dojo.data.JsonItemStore"
+	><input searchField="name" keyField="abbreviation" dojoType="dijit.form.Select" value="VI"
+		url="autoCompleterData.js" style="width: 300px;" name="state4" autocomplete="false"
+		onValueChanged="setVal3" dataProviderClass="dojo.data.JsonItemStore"
+	><input searchField="name" keyField="abbreviation" dojoType="dijit.form.Select" value="VI"
+		url="autoCompleterData.js" style="width: 300px;" name="state4" autocomplete="false"
+		onValueChanged="setVal3" dataProviderClass="dojo.data.JsonItemStore"
+	><input searchField="name" keyField="abbreviation" dojoType="dijit.form.Select" value="VI"
+		url="autoCompleterData.js" style="width: 300px;" name="state4" autocomplete="false"
+		onValueChanged="setVal3" dataProviderClass="dojo.data.JsonItemStore"
+	><input searchField="name" keyField="abbreviation" dojoType="dijit.form.Select" value="VI"
+		url="autoCompleterData.js" style="width: 300px;" name="state4" autocomplete="false"
+		onValueChanged="setVal3" dataProviderClass="dojo.data.JsonItemStore"
+	><input searchField="name" keyField="abbreviation" dojoType="dijit.form.Select" value="VI"
+		url="autoCompleterData.js" style="width: 300px;" name="state4" autocomplete="false"
+		onValueChanged="setVal3" dataProviderClass="dojo.data.JsonItemStore"
+	><input searchField="name" keyField="abbreviation" dojoType="dijit.form.Select" value="VI"
+		url="autoCompleterData.js" style="width: 300px;" name="state4" autocomplete="false"
+		onValueChanged="setVal3" dataProviderClass="dojo.data.JsonItemStore"
+	><input searchField="name" keyField="abbreviation" dojoType="dijit.form.Select" value="VI"
+		url="autoCompleterData.js" style="width: 300px;" name="state4" autocomplete="false"
+		onValueChanged="setVal3" dataProviderClass="dojo.data.JsonItemStore"
+	><input searchField="name" keyField="abbreviation" dojoType="dijit.form.Select" value="VI"
+		url="autoCompleterData.js" style="width: 300px;" name="state4" autocomplete="false"
+		onValueChanged="setVal3" dataProviderClass="dojo.data.JsonItemStore"
+	><input searchField="name" keyField="abbreviation" dojoType="dijit.form.Select" value="VI"
+		url="autoCompleterData.js" style="width: 300px;" name="state4" autocomplete="false"
+		onValueChanged="setVal3" dataProviderClass="dojo.data.JsonItemStore"
+	><input searchField="name" keyField="abbreviation" dojoType="dijit.form.Select" value="VI"
+		url="autoCompleterData.js" style="width: 300px;" name="state4" autocomplete="false"
+		onValueChanged="setVal3" dataProviderClass="dojo.data.JsonItemStore"
+	><input searchField="name" keyField="abbreviation" dojoType="dijit.form.Select" value="VI"
+		url="autoCompleterData.js" style="width: 300px;" name="state4" autocomplete="false"
+		onValueChanged="setVal3" dataProviderClass="dojo.data.JsonItemStore"
+	><input searchField="name" keyField="abbreviation" dojoType="dijit.form.Select" value="VI"
+		url="autoCompleterData.js" style="width: 300px;" name="state4" autocomplete="false"
+		onValueChanged="setVal3" dataProviderClass="dojo.data.JsonItemStore"
+	><input searchField="name" keyField="abbreviation" dojoType="dijit.form.Select" value="VI"
+		url="autoCompleterData.js" style="width: 300px;" name="state4" autocomplete="false"
+		onValueChanged="setVal3" dataProviderClass="dojo.data.JsonItemStore"
+	><input searchField="name" keyField="abbreviation" dojoType="dijit.form.Select" value="VI"
+		url="autoCompleterData.js" style="width: 300px;" name="state4" autocomplete="false"
+		onValueChanged="setVal3" dataProviderClass="dojo.data.JsonItemStore"
+	><input searchField="name" keyField="abbreviation" dojoType="dijit.form.Select" value="VI"
+		url="autoCompleterData.js" style="width: 300px;" name="state4" autocomplete="false"
+		onValueChanged="setVal3" dataProviderClass="dojo.data.JsonItemStore"
+	><input searchField="name" keyField="abbreviation" dojoType="dijit.form.Select" value="VI"
+		url="autoCompleterData.js" style="width: 300px;" name="state4" autocomplete="false"
+		onValueChanged="setVal3" dataProviderClass="dojo.data.JsonItemStore"
+	><input searchField="name" keyField="abbreviation" dojoType="dijit.form.Select" value="VI"
+		url="autoCompleterData.js" style="width: 300px;" name="state4" autocomplete="false"
+		onValueChanged="setVal3" dataProviderClass="dojo.data.JsonItemStore"
+	><input searchField="name" keyField="abbreviation" dojoType="dijit.form.Select" value="VI"
+		url="autoCompleterData.js" style="width: 300px;" name="state4" autocomplete="false"
+		onValueChanged="setVal3" dataProviderClass="dojo.data.JsonItemStore"
+	><input searchField="name" keyField="abbreviation" dojoType="dijit.form.Select" value="VI"
+		url="autoCompleterData.js" style="width: 300px;" name="state4" autocomplete="false"
+		onValueChanged="setVal3" dataProviderClass="dojo.data.JsonItemStore"
+	><input searchField="name" keyField="abbreviation" dojoType="dijit.form.Select" value="VI"
+		url="autoCompleterData.js" style="width: 300px;" name="state4" autocomplete="false"
+		onValueChanged="setVal3" dataProviderClass="dojo.data.JsonItemStore"
+	><input searchField="name" keyField="abbreviation" dojoType="dijit.form.Select" value="VI"
+		url="autoCompleterData.js" style="width: 300px;" name="state4" autocomplete="false"
+		onValueChanged="setVal3" dataProviderClass="dojo.data.JsonItemStore"
+	><input searchField="name" keyField="abbreviation" dojoType="dijit.form.Select" value="VI"
+		url="autoCompleterData.js" style="width: 300px;" name="state4" autocomplete="false"
+		onValueChanged="setVal3" dataProviderClass="dojo.data.JsonItemStore"
+	><input searchField="name" keyField="abbreviation" dojoType="dijit.form.Select" value="VI"
+		url="autoCompleterData.js" style="width: 300px;" name="state4" autocomplete="false"
+		onValueChanged="setVal3" dataProviderClass="dojo.data.JsonItemStore"
+	><input searchField="name" keyField="abbreviation" dojoType="dijit.form.Select" value="VI"
+		url="autoCompleterData.js" style="width: 300px;" name="state4" autocomplete="false"
+		onValueChanged="setVal3" dataProviderClass="dojo.data.JsonItemStore"
+	><input searchField="name" keyField="abbreviation" dojoType="dijit.form.Select" value="VI"
+		url="autoCompleterData.js" style="width: 300px;" name="state4" autocomplete="false"
+		onValueChanged="setVal3" dataProviderClass="dojo.data.JsonItemStore"
+	><input searchField="name" keyField="abbreviation" dojoType="dijit.form.Select" value="VI"
+		url="autoCompleterData.js" style="width: 300px;" name="state4" autocomplete="false"
+		onValueChanged="setVal3" dataProviderClass="dojo.data.JsonItemStore"
+	><input searchField="name" keyField="abbreviation" dojoType="dijit.form.Select" value="VI"
+		url="autoCompleterData.js" style="width: 300px;" name="state4" autocomplete="false"
+		onValueChanged="setVal3" dataProviderClass="dojo.data.JsonItemStore"
+	><input searchField="name" keyField="abbreviation" dojoType="dijit.form.Select" value="VI"
+		url="autoCompleterData.js" style="width: 300px;" name="state4" autocomplete="false"
+		onValueChanged="setVal3" dataProviderClass="dojo.data.JsonItemStore"
+	><input searchField="name" keyField="abbreviation" dojoType="dijit.form.Select" value="VI"
+		url="autoCompleterData.js" style="width: 300px;" name="state4" autocomplete="false"
+		onValueChanged="setVal3" dataProviderClass="dojo.data.JsonItemStore"
+	><input searchField="name" keyField="abbreviation" dojoType="dijit.form.Select" value="VI"
+		url="autoCompleterData.js" style="width: 300px;" name="state4" autocomplete="false"
+		onValueChanged="setVal3" dataProviderClass="dojo.data.JsonItemStore"
+	><input searchField="name" keyField="abbreviation" dojoType="dijit.form.Select" value="VI"
+		url="autoCompleterData.js" style="width: 300px;" name="state4" autocomplete="false"
+		onValueChanged="setVal3" dataProviderClass="dojo.data.JsonItemStore"
+	><input searchField="name" keyField="abbreviation" dojoType="dijit.form.Select" value="VI"
+		url="autoCompleterData.js" style="width: 300px;" name="state4" autocomplete="false"
+		onValueChanged="setVal3" dataProviderClass="dojo.data.JsonItemStore"
+	><input searchField="name" keyField="abbreviation" dojoType="dijit.form.Select" value="VI"
+		url="autoCompleterData.js" style="width: 300px;" name="state4" autocomplete="false"
+		onValueChanged="setVal3" dataProviderClass="dojo.data.JsonItemStore"
+	><input searchField="name" keyField="abbreviation" dojoType="dijit.form.Select" value="VI"
+		url="autoCompleterData.js" style="width: 300px;" name="state4" autocomplete="false"
+		onValueChanged="setVal3" dataProviderClass="dojo.data.JsonItemStore"
+	><input searchField="name" keyField="abbreviation" dojoType="dijit.form.Select" value="VI"
+		url="autoCompleterData.js" style="width: 300px;" name="state4" autocomplete="false"
+		onValueChanged="setVal3" dataProviderClass="dojo.data.JsonItemStore"
+	><input searchField="name" keyField="abbreviation" dojoType="dijit.form.Select" value="VI"
+		url="autoCompleterData.js" style="width: 300px;" name="state4" autocomplete="false"
+		onValueChanged="setVal3" dataProviderClass="dojo.data.JsonItemStore"
+	><input searchField="name" keyField="abbreviation" dojoType="dijit.form.Select" value="VI"
+		url="autoCompleterData.js" style="width: 300px;" name="state4" autocomplete="false"
+		onValueChanged="setVal3" dataProviderClass="dojo.data.JsonItemStore"
+	><input searchField="name" keyField="abbreviation" dojoType="dijit.form.Select" value="VI"
+		url="autoCompleterData.js" style="width: 300px;" name="state4" autocomplete="false"
+		onValueChanged="setVal3" dataProviderClass="dojo.data.JsonItemStore"
+	><input searchField="name" keyField="abbreviation" dojoType="dijit.form.Select" value="VI"
+		url="autoCompleterData.js" style="width: 300px;" name="state4" autocomplete="false"
+		onValueChanged="setVal3" dataProviderClass="dojo.data.JsonItemStore"
+	><input searchField="name" keyField="abbreviation" dojoType="dijit.form.Select" value="VI"
+		url="autoCompleterData.js" style="width: 300px;" name="state4" autocomplete="false"
+		onValueChanged="setVal3" dataProviderClass="dojo.data.JsonItemStore"
+	><input searchField="name" keyField="abbreviation" dojoType="dijit.form.Select" value="VI"
+		url="autoCompleterData.js" style="width: 300px;" name="state4" autocomplete="false"
+		onValueChanged="setVal3" dataProviderClass="dojo.data.JsonItemStore"
+	><input searchField="name" keyField="abbreviation" dojoType="dijit.form.Select" value="VI"
+		url="autoCompleterData.js" style="width: 300px;" name="state4" autocomplete="false"
+		onValueChanged="setVal3" dataProviderClass="dojo.data.JsonItemStore"
+	>-->
+	<input type="submit">
+
+</form>
+<p>
+this is some text below the combo boxes. It shouldn't get pushed out of the way when search results get returned.
+also: adding a simple combo box to test IE bleed through problem:
+</p>
+
+<select>
+  <option>test for</option>
+  <option">IE bleed through</option>
+  <option>problem</option>
+</select>
+
+<!-- maintain state of select if user presses back/forward button -->
+<form name="_dojo_form" style="display:none" disabled="true"><textarea name="stabile" cols="80" rows="10"></textarea></form>
+</body>
+</html>

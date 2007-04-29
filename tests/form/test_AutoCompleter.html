@@ -1,0 +1,238 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+        "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title>Dojo AutoCompleter Widget Test</title>
+<script type="text/javascript"> 
+	var djConfig = {
+		isDebug: true};
+</script>
+<script type="text/javascript" src="../../../dojo/dojo.js"></script>
+<script type="text/javascript">
+	dojo.require("dijit.form.AutoCompleter");
+	dojo.require("dijit.util.manager");
+	dojo.require("dijit.util.parser");	// scan page for widgets and instantiate them
+</script>
+<style>
+        @import "../../../dojo/resources/dojo.css";
+        @import "../../themes/tundra/tundra.css";
+
+        .myComboBox .dojoSpinnerDownArrow {
+                border-top-color: red;
+        }
+        .myComboBox .dojoSpinnerButton {
+                background-color: yellow;
+        }
+        .myComboBox .dojoSpinnerButtonPushed .dojoSpinnerDownArrow {
+                border-top-color: blue;
+        }
+</style>
+
+<script>
+	function setVal1(val){
+		document.getElementById('value1').value=val;
+	}
+	function setVal2(val){
+		document.getElementById('value2').value=val;
+	}
+	function setVal3(val){
+		document.getElementById('value3').value=val;
+	}
+	var combo;
+	function init(){
+		//var store=new dojo.data.JsonItemStore({});
+		combo = new dijit.form.AutoCompleter({data:{items:[{name:"California", label:"California"}]}, name:"prog",autocomplete:false,searchField:"name", labelField:"label", labelType:"text"}, document.getElementById("progCombo"));
+	}
+	dojo.addOnLoad(init);
+	
+	function toggleDisabled(button, widget){
+		widget = dijit.byId(widget);
+		button = document.getElementById(button);
+		widget.disabled ? widget.enable() : widget.disable();
+		button.innerHTML= widget.disabled ? "Enable" : "Disable";
+	}
+</script>
+</head>
+
+<body class="tundra">
+<h1>Dojo AutoCompleter Widget Test</h1>
+<p>
+A AutoCompleter is like a text &lt;input&gt; field (ie, you can input any value you want),
+but it also has a list of suggested values that you can choose from.
+The drop down list is filtered by the data you have already typed in.
+</p>
+<form action="#" method="GET">
+ 
+    <p>AutoCompleter #1: inlined data, autocomplete=false, default value of CA (California)</p>
+	<select id="setvaluetest" name="state" dojoType="dijit.form.AutoCompleter" class="myComboBox" searchField="name" labelField="name" labelType="text" style="width: 300px;font-size:20pt;background-color:cyan;" name="foo.bar1" autocomplete="false" value="Iowa"
+		onValueChanged="setVal1"
+	>
+		<option value="Alabama">Alabama</option>
+		<option value="Alaska">Alaska</option>
+		<option value="American Samoa">American Samoa</option>
+		<option value="Arizona">Arizona</option>
+		<option value="Arkansas">Arkansas</option>
+		<option value="Armed Forces Europe">Armed Forces Europe</option>
+		<option value="Armed Forces Pacific">Armed Forces Pacific</option>
+		<option value="Armed Forces the Americas">Armed Forces the Americas</option>
+		<option value="California">California</option>
+		<option value="Colorado">Colorado</option>
+		<option value="Connecticut">Connecticut</option>
+		<option value="Delaware">Delaware</option>
+		<option value="District of Columbia">District of Columbia</option>
+		<option value="Federated States of Micronesia">Federated States of Micronesia</option>
+		<option value="Florida">Florida</option>
+		<option value="Georgia">Georgia</option>
+		<option value="Guam">Guam</option>
+		<option value="Hawaii">Hawaii</option>
+		<option value="Idaho">Idaho</option>
+		<option value="Illinois">Illinois</option>
+		<option value="Indiana">Indiana</option>
+		<option value="Iowa" selected>Iowa</option>
+		<option value="Kansas">Kansas</option>
+		<option value="Kentucky">Kentucky</option>
+		<option value="Louisiana">Louisiana</option>
+		<option value="Maine">Maine</option>
+		<option value="Marshall Islands">Marshall Islands</option>
+		<option value="Maryland">Maryland</option>
+		<option value="Massachusetts">Massachusetts</option>
+		<option value="Michigan">Michigan</option>
+		<option value="Minnesota">Minnesota</option>
+		<option value="Mississippi">Mississippi</option>
+		<option value="Missouri">Missouri</option>
+		<option value="Montana">Montana</option>
+		<option value="Nebraska">Nebraska</option>
+		<option value="Nevada">Nevada</option>
+		<option value="New Hampshire">New Hampshire</option>
+		<option value="New Jersey">New Jersey</option>
+		<option value="New Mexico">New Mexico</option>
+		<option value="New York">New York</option>
+		<option value="North Carolina">North Carolina</option>
+		<option value="North Dakota">North Dakota</option>
+		<option value="Northern Mariana Islands">Northern Mariana Islands</option>
+		<option value="Ohio">Ohio</option>
+		<option value="Oklahoma">Oklahoma</option>
+		<option value="Oregon">Oregon</option>
+		<option value="Pennsylvania">Pennsylvania</option>
+		<option value="Puerto Rico">Puerto Rico</option>
+		<option value="Rhode Island">Rhode Island</option>
+		<option value="South Carolina">South Carolina</option>
+		<option value="South Dakota">South Dakota</option>
+		<option value="Tennessee">Tennessee</option>
+		<option value="Texas">Texas</option>
+		<option value="Utah">Utah</option>
+		<option value="Vermont">Vermont</option>
+		<option value="Virgin Islands, U.S.">Virgin Islands, U.S.</option>
+		<option value="Virginia">Virginia</option>
+		<option value="Washington">Washington</option>
+		<option value="West Virginia">West Virginia</option>
+		<option value="Wisconsin">Wisconsin</option>
+		<option value="Wyoming">Wyoming</option>
+	</select>  
+	
+	<br>
+	<div>Value: <input id="value1" disabled></div>
+	<hr>
+
+	<p>AutoCompleter #2: url, autocomplete=true:</p>
+	<input dojoType="dijit.form.AutoCompleter" value="California"
+		url="autoCompleterData.json" searchField="name" labelField="label" labelType="html" style="width: 300px;" name="foo.bar"
+		onValueChanged="setVal2"
+	>
+	<br>
+	<div>Value: <input id="value2" disabled></div>
+	<hr>
+		
+    <p>AutoCompleter #3: initially disabled, url, autocomplete=false:</p>
+ 	<input id="combo3" dojoType="dijit.form.AutoCompleter" value="California"
+		url="autoCompleterData.json" searchField="name" labelField="label" labelType="html" style="width: 300px;" name="foo.bar" autocomplete="false"
+		onValueChanged="setVal3" disabled
+	>
+	<br>
+	<div>Value: <input id="value3" disabled></div>
+	<div>
+		<button id="but" onclick='toggleDisabled("but", "combo3"); return false;'>Enable</button>
+	</div>
+	<hr>
+<!--
+	<p>Remote mode combobox</p>
+	<p>
+	Clicking any letter in the box below will display a select-list generated from user specified java code.
+	Note that the same select-list is always displayed.
+	This isn't a dojo bug; it's just because remoteComboBoxData.js (our dummy test code)
+	isn't filtering based on the search string like it should.
+	</p>
+	
+	<input dojoType="dijit.form.ComboBox" value="this should be replaced!"
+				url="remoteComboBoxData.js?search=%{searchString}" mode="remote">
+	<hr>
+	
+	<p>Key value JSON object</p>
+	<input dojoType="dijit.form.ComboBox" value="this should never be seen - it is replaced!"
+		url="comboBoxDataKeyValue.js" searchField="name" style="width: 300px;" name="foo.bar">
+	<hr>
+-->
+    <p>Multiple autocompleters on a single line:</p>
+ 	<input dojoType="dijit.form.AutoCompleter" value="California"
+		url="autoCompleterData.json" searchField="name" labelField="label" labelType="html" style="width: 200px;" name="foo.bar" autocomplete="false"
+	>
+ 	<input dojoType="dijit.form.AutoCompleter" value="California"
+		url="autoCompleterData.json" searchField="name" labelField="label" labelType="html" style="width: 200px;" name="foo.bar" autocomplete="false"
+	>
+	<hr>
+
+	<p>A combo created by createWidget</p>
+	<input id="progCombo">
+	<hr>
+	<input type="button" value="Create one in a window" onclick="var win=window.open(window.location);"></input>
+	<input type="submit">
+	<input type="reset">
+	
+</form>
+<p>
+this is some text below the autocompleters. It shouldn't get pushed out of the way when search results get returned.
+also: adding a simple combo box to test IE bleed through problem:
+</p>
+
+<select>
+  <option>test for</option>
+  <option>IE bleed through</option>
+  <option>problem</option>
+</select>
+<h3>Some tests:</h3>
+<ol>
+<li>Type in D - dropdown shows Delaware and District of columbia. [Would be nice if it bolded the D's in the dropdown list!]</li>
+<li>Type in DX - input box shows DX and no dropdown.</li>
+<li>Open dropdown, click an item, it selects and closes dropdown.</li>
+<li>Click triangle icon - dropdown shows. Click it again - dropdown goes.</li>
+<li>Check that you can type in more than required (e.g. alaba for alabama) and it still correctly shows alabama</li>
+<li>Tab into the combo works, list should not apear.</li>
+<li>Tab out of the combo works - closes dropdown and goes to next control (focus should not go to the dropdown because tabindex="-1").</li>
+<li>Do the dropdown and click outside of it - the dropdown disappears.</li>
+<li>Javascript disabled -> fallback to old style combo?</li>
+<li>Can you paste in the start of a match? [no]</li>
+<li>Backspace to start - dropdown shows all all items</li>
+<li>Backspace deselects last character [Borked: currently you have to backspace twice]</li>
+<li>Press down key to open dropdown</li>
+<li>Down and up keys select previous/next in dropdown.</li>
+<li>Non-alpha keys (F12, ctrl-c, whatever) should not affect dropdown.</li>
+<li>Press down arrow to highlight an item, pressing enter selects it and closes dropdown.</li>
+<li>Press down arrow to highlight an item, pressing space selects it and closes dropdown.</li>
+<li>Check that pressing escape undoes the previous action and closes the dropdown</li>
+<li>Check that pressing escape again clears the input box.</li>
+<li>In IE, mouse scroll wheel scrolls through the list. Scrolls by 1 item per click even if user has set mouse to scroll more than 1 in mouse settings. Only scrolls if text input has focus (page scrolling works as normal otherwise)</li>
+<li>In IE, dropdown list does not go behind the second combo (special code to manage this).</li>
+<li>Check dropdown is aligned correctly with bottom of the text input</li>
+<li>Probably should try the combo in a relative div or absolute div and see where the dropdown ends up. (Strongly suspect problems in this area in IE - boo)</li>
+<li>Try repeatably droppingdown and closing the dropdown. Shouldnt get hung [sometimes flicks closed just after opening due to timers, but not a biggie]</li>
+<li>Check that default selection of the text makes sense. e.g. text is selected after picking an item, on tabbing in to text input etc)</li>
+<li>Check that dropdown is smooth [looks uggy on second keypress in FF - hides then shows]</li>
+<li>Clear the field. Type in A and then tab *very quickly* and see if the results make sense (the dropdown is on a timer - searchTimer)</li>
+<li>Clear the field and enter an invalid entry and tab out e.g. Qualude. Does that make sense given the combobox setup options?</li>
+<li>(Add any other tests here)</li>
+</ol>
+<div id="debugbox"></div>
+<!-- maintain state of combo box if user presses back/forward button -->
+<form name="_dojo_form" style="display:none" disabled="true"><textarea name="stabile" cols="80" rows="10"></textarea></form>
+</body>
+</html>
