@@ -161,16 +161,14 @@ dojo.declare(
 			var tgt = dojo.html.firstElement(this.optionsListNode); //PORT
 			if(!tgt){
 				// result list not visible; read from store
-				
-			}
-			else{
-			while(!isValidOption && tgt){
-				if(this._isInputEqualToResult(tgt.getAttribute("resultName"))){
-					isValidOption = true;
-				}else{
-					tgt = dojo.html.nextElement(tgt);
+			}else{
+				while(!isValidOption && tgt){
+					if(this._isInputEqualToResult(tgt.getAttribute("resultName"))){
+						isValidOption = true;
+					}else{
+						tgt = dojo.html.nextElement(tgt); //PORT
+					}
 				}
-			}
 			}
 			return isValidOption;
 		},
