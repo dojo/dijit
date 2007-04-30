@@ -1,34 +1,4 @@
-
-/* To inline block elements, surround them with <fieldset class="dojoInlineBox"> */
-.dojoInlineBox {
-	
-	display:inline-block;
-	display: -moz-inline-stack;
-	#display:inline;
-	border:0px;
-	padding:0px;
-	vertical-align:middle;
-}
-
-.dojoPopup {
-	position: absolute;
-}
-
-.dojoPositionOnly {
-        padding: 0px !important;
-        border: 0px !important;
-        background-color: none !important;
-        background-url: none !important;
-        height: auto !important;
-        width: auto !important;
-}
-
-.dojoNonPositionOnly {
-        float: none !important;
-        position: static !important;
-        margin: 0px 0px 0px 0px !important;
-        vertical-align: middle !important;
-}
+@import url("../dijit.css");
 
 /*IE6 Hack */
 * html .dojoButtonNode, 
@@ -36,7 +6,6 @@
 	background-image: none;
 	filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src="dojoTundraGradientBg.png", sizingMethod="scale");
 }
-
 
 
 /*Dojo Button Rules*/
@@ -203,107 +172,8 @@ table.dojoButton .dojoButtonNode {
 	height: 16px;
 }
 
-/* to go in dijit.css */
-.dojoCheckboxImageContainer,
-.dojoCheckboxInputInvisible {
-	border: 0;
-	margin: 0;
-	padding: 0;
-}
-
-/* to go in dijit.css */
-.dojoCheckbox {
-	/* to go in dijit.css */
-	position: relative;
-}
-
-/* to go in dijit.css */
-.dojoCheckboxImageContainer,
-.dojoCheckboxInputInvisible {
-	position: absolute;
-	left: 0;
-	top: 0;
-}
-
-/* to go in dijit.css */
-.dojoCheckboxInputInvisible {
-	z-index: 100;
-	opacity: 0.01;
-	filter: alpha(opacity=0);
-}
-
-/* to go in dijit.css */
-.dj_ie .dojoCheckboxImageContainer, 
-.dj_ie .dojoCheckboxInputInvisible {
-	top: 3px;
-}
-
-/*** Full sized arrows (matching the size of a line of text) ***/
-
-/* Down arrow */
-
-.dojoDownArrowOuter,
-.dojoOpen .dojoOpenCloseArrowOuter {
-	padding:0px;
-	margin:auto;
-	border:0px;
-	overflow:hidden;
-	height:.7em;
-	width:.9em;
-	display: inline-block;
-	display: -moz-inline-stack;
-	vertical-align:middle;
-}
-
-.dojoDownArrowInner,
-.dojoOpen .dojoOpenCloseArrowInner {
-	border-width:2.1em 1.32em;
-	margin:-1.4em 0px 0px -.88em;
-	border-style:solid dotted;
-	border-color:gray transparent;
-	line-height:0px;
-	height:0px;
-	width:0px;
-	display: block;
-}
-
-.dj_ie6 .dojoDownArrowInner {
-	margin: 0px;
-	border-width:.7em .44em 0px .44em;
-}
-
-/* Right arrow */
-
-.dojoRightArrowOuter,
-.dojoClosed .dojoOpenCloseArrowOuter {
-	border:0px none;
-	height:0.9em;
-	margin:auto;
-	overflow:hidden;
-	padding:0px;
-	width:0.7em;
-}
-
-.dojoRightArrowInner,
-.dojoClosed .dojoOpenCloseArrowInner {
-	border-width:1.32em 2.1em 1.32em 2.1em;
-	margin:-.88em -1.4em -.88em -1.4em;
-	border-style:dotted solid;
-	border-color:transparent gray;
-	line-height:0px;
-	height:0px;
-	width:0px;
-	display: block;
-}
-
-/* it becomes a left arrow for LTR locales */
-.dojoRTL .dojoRightArrowInner {
-	margin-left:-2.1em;
-}
 
 /* Menu */
-
-
 .tundra .dojoMenu{
 	border: solid 1px #bfbfbf;
 	border-right:2px solid #ababab;
@@ -380,19 +250,6 @@ table.dojoButton .dojoButtonNode {
 
 
 /* Toaster */
-.dojoToasterClip {
-	position: absolute;
-	overflow: hidden;
-}
-
-.dojoToasterContainer {
-	display: block;
-	position: absolute;
-	width: 17.5em;
-	z-index: 5000;
-	margin: 0px;
-	font:0.75em Tahoma, Helvetica, Verdana, Arial;
-}
 
 .dojoToasterContent{
 	padding:1em;
@@ -422,188 +279,6 @@ table.dojoButton .dojoButtonNode {
 	background:#c46600;
 } 
 
-.dojoProgressBarEmpty{
-	position:relative;overflow:hidden;
-	width:300px;height:30px;
-	border:1px solid #84a3d1;
-}
-
-.dojoProgressBarColorLayer{
-	background-color:#84a3d1;
-	border-color:#84a3d1;
-	/* the border provides visibility in high-contrast mode */
-	border-width:4px;border-style:solid;
-	width:auto;height:auto;
-}
-
-.dj_ie .dojoProgressBarColorLayer{
-	width:100%;height:100%;
-}
-
-.dojoProgressBarTileLayer{
-	background:url("bar.gif") repeat bottom left;
-	background-attachment: fixed;
-}
-
-.dojoProgressBarVertical .dojoProgressBarTileLayer{
-	background-image:url("h-bar.gif");
-}
-
-.dojoProgressBarVertical .dojoProgressBarFull{
-	bottom:0px
-}
-
-.dojoProgressBarColor div.dojoProgressBarTileLayer{
-	/* turn off the tile image when we want a colored bar */
-	background-image:none
-}
-
-.dojoProgressBarFrontLabel,.dojoProgressBarBackLabel{
-	font:bold 13px helvetica;
-}
-
-.dojoProgressBarBackLabel{
-	color:#293a4b;
-}
-.dojoProgressBarFrontLabel{
-	color:#fff;
-}
-
-.dojoSpinner {
-	display:inline;
-	vertical-align:middle;
-	padding:0px;
-	white-space:nowrap !important;
-	width:auto !important;
-	height:auto !important;
-}
-
-.dojoSpinnerArrowGroup {
-	display:inline;
-	padding:0px;
-	border:0px;
-	margin: 0px;
-	vertical-align:middle;
-	line-spacing:0px !important;
-	width:1.12em;
-}
-
-.dojoSpinnerArrowGroup fieldset {
-	display:block;
-	padding:.1em;
-	margin: .08em;
-	vertical-align:middle;
-	line-spacing:0px !important;
-	border:.08em outset;
-	border-color:rgb(200,200,200) black black rgb(200,200,200);
-	text-align:center;
-}
-
-.dojoSpinnerArrowGroup fieldset.dojoSpinnerButtonPushed {
-	border-style:inset;
-	border-color:black rgb(200,200,200) rgb(200,200,200) black;
-	background-color:gray;
-}
-
-.dojoSpinner input {
-	padding:0px !important;
-	vertical-align:middle !important;
-	margin:auto !important;
-	border:0px !important;
-	position:static !important;
-	display:inline;
-	float:none !important;
-	visibility:visible !important;
-	font-size:100% !important;
-	background-color:transparent !important;
-}
-
-.dojoSpinnerArrow {
-	padding:0px;
-	margin:auto;
-	border:0px;
-	overflow:hidden;
-	height:0.4em;
-	width:0.6em;
-}
-
-.dojoSpinnerArrow div {
-	border-width:1.2em .9em;
-	border-style:solid dotted;
-	border-color:gray transparent;
-	line-height:0px;
-	height:0px;
-	width:0px;
-}
-
-.dojoSpinnerUpArrow {
-	margin:-1.2em 0px 0px -.6em;
-}
-
-.dojoSpinnerDownArrow {
-	margin:-.8em 0px 0px -.6em;
-}
-
-.dj_ie6 .dojoSpinnerUpArrow {
-	border-width:0px .3em .4em .3em;
-	margin:0px;
-}
-
-.dj_ie6 .dojoSpinnerDownArrow {
-	border-width:.4em .3em 0px .3em;
-	margin:0px;
-}
-
-.dojoSpinnerButtonPushed .dojoSpinnerArrow div {
-	border-color:white transparent;
-}
-
-/* Tooltip */
-
-.dojoTooltip {
-	position: absolute;
-	z-index: 10;
-	display: block;
-	margin-top: 10px;
-	border: red;
-
-	/* make visible but off screen */
-	left: -10000px;
-	top: -10000px;
-}
-
-.dojoTooltipContainer {
-	border: solid black 2px;
-	background: #b8b5b5;
-	color: black;
-	font-size: small;
-	padding: 2px 2px 2px 2px;
-}
-
-.dojoTooltipConnector {
-	/* the border on the triangle */
-	font-size: 0px; line-height: 0%; width: 0px;
-	position: absolute;
-	border-top: none;
-	border-bottom: 14px solid black;
-	border-left: 7px solid transparent;
-	border-right: 7px solid transparent;
-	top: -14px;
-	left: 3px;
-	z-index: 2;
-}
-
-.dojoTooltipConnector div {
-	/* the background of the triangle */
-	font-size: 0px; line-height: 0%; width: 0px;
-	position: absolute;
-	border-bottom: 10px solid #b8b5b5;
-	border-left: 5px solid transparent;
-	border-right: 5px solid transparent;
-	top: 6px;
-	left: -5px;
-	z-index: 3;
-}
 
 /* TitlePane */
 
@@ -635,13 +310,12 @@ table.dojoButton .dojoButtonNode {
 }
 
 .tundra .dojoClickableRegion {
-        background-color : #ffc !important;
-        cursor : pointer;
+	background-color : #ffc !important;
+	cursor : pointer;
 }
 
 
-
-.dojoTextArea {
+.tundra .dojoTextArea {
 	width:50%;
 	overflow:auto;
 }
@@ -685,123 +359,6 @@ table.dojoButton .dojoButtonNode {
 	background:#fff url("dojoTundraTabActiveBg.png") top left repeat-x;
 }
 
-/* Tree */
-/* indent for all tree children excepts root */
-.TreeNode {
-    background-image : url('i.gif');
-    background-position : top left;
-    background-repeat : repeat-y;
-    margin-left: 19px;
-    zoom: 1;
-}
-.TreeIsRoot {
-    margin-left: 0;
-}
- 
-/* left vertical line (grid) for all nodes */
-.TreeIsLast {
-    background-image: url('i_half.gif');
-    background-repeat : no-repeat;
-}
-
-.TreeExpando {
-    width: 18px;
-    height: 18px;
-    float: left;
-    display: inline;
-}
-
-.TreeExpandoOpened {
-    background-image: url('expand_minus.gif');
-}
- 
-.TreeExpandoClosed {
-    background-image: url('expand_plus.gif');
-}
- 
-.TreeExpandoLeaf {
-    background-image: url('expand_leaf.gif');
-}
-
-.TreeExpandoLoading {
-    background-image: url('expand_loading.gif');
-}
-
-.TreeContent {
-    min-height: 18px;
-    min-width: 18px;
-    margin-left:18px;
-    cursor: default;
-    /* can't make inline - multiline bugs */
-}
-
-.TreeIEContent {
-	height: 18px;
-}
- 
-.TreeExpand {
-    width: 18px;
-    height: 18px;
-    float: left;
-    display: inline;
-    background-repeat : no-repeat;
-}
- 
-/* same style as IE selection */
-.TreeNodeEmphasized {
-    background-color: Highlight;
-    color: HighlightText;
-}
-
-/* don't use :focus due to opera and IE's lack of support on div's */
-.TreeLabelFocused {
-      outline: 1px invert dotted;
-}
-
-
-.dojoArrowButton {
-        display:inline !important;
-        padding:0px;
-        border:0px;
-        margin:0px 0px 0px 0px;
-        vertical-align:middle;
-        line-spacing:0px !important;
-        width:1.62em;
-        height:1.42em;
-	overflow:hidden;
-}
-
 .tundra .dojoAutoCompleter {
 	width:auto !important;
-}
-/* Allow user to specify width without messing up defaults; other attributes are put on parent node */
-.dojoAutoCompleterInput {
-	BACKGROUND-COLOR: transparent !important;
-	border:0px !important;
-	padding:0px !important;
-	margin:0px !important;
-	position:static !important;
-        display:inline !important;
-	float:none !important;
-	vertical-align:middle !important;
-	
-}
-.dojoArrowButton fieldset {
-	display:block;
-	padding:.2em;
-	margin:0px;
-	line-spacing:0px !important;
-	border:.16em outset;
-	border-color:rgb(200,200,200) black black rgb(200,200,200);
-	vertical-align:middle;
-	text-align:center;
-}
-
-.dojoArrowButton fieldset.dojoArrowButtonPushed {
-	border-style:inset;
-	border-color:black rgb(200,200,200) rgb(200,200,200) black;
-	background-color:gray;
-}
-.dojoArrowButtonPushed .dojoDownArrowInner {
-        border-color:white transparent;
 }
