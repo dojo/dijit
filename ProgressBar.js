@@ -32,8 +32,7 @@ dojo.declare(
 		// usage:
 		// <div dojoType="ProgressBar"
 		//   duration="..."
-		//   places="0" dataSource="..."
-		//   pollInterval="..." 
+		//   places="0"
 		//   annotate="true|false" orientation="vertical" 
 		//   progress="..." maximum="..."></div>
 	
@@ -59,14 +58,6 @@ dojo.declare(
 		// number of places to show in values; 0 by default
 		places: 0,
 
-		// dataSource: String
-		// dataSource uri for server polling
-		dataSource: "",
-		
-		// pollInterval: Integer
-		// server poll interval
-		pollInterval: 3000,
-		
 		// duration: Integer
 		// duration of the animation
 		duration: 1000,
@@ -186,36 +177,6 @@ dojo.declare(
 			dijit.util.wai.setAttr(this.internalProgress, "waiState", "valuenow", value);
 		},
 
-		start: function(){
-			// summary: starts the server polling
-			var _showFunction = dojo.hitch(this, this._showRemoteProgress);
-			this._timer = setInterval(_showFunction, this.pollInterval);
-		},
-
-//FIXME: remove remote API from this widget and provide examples of how to do externally
-		_showRemoteProgress: function(){
-			var self = this;
-			if((this.maximum == this.progress) && this._timer){
-				clearInterval(this._timer);
-				this._timer = null;
-				this.update({progress: "100%"});
-				return;	
-			}
-			var bArgs = {
-				url: self.dataSource,
-				method: "POST",
-				mimetype: "text/json",
-				error: function(type, errorObj){
-					console.debug("ProgressBar: showRemoteProgress error");
-				},
-				load: function(type, data, evt){
-					self.update({progress: self._timer ? data.progress : "100%"});
-				}
-			};
-			dojo.io.bind(bArgs);
-		},
-
-		onChange: function(){
-		}
+		onChange: function(){}
 	}
 );

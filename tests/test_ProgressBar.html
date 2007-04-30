@@ -20,8 +20,6 @@
 		<script type="text/javascript">
 			dojo.require("dijit.ProgressBar");
 			dojo.require("dijit.util.parser");	// scan page for widgets and instantiate them
-//			dojo.require("dojo.io.*");
-//			dojo.require("dojo.io.IframeIO");
 			dojo.require("dojo.string");
 		</script>
 		
@@ -44,26 +42,42 @@
 				dojo.connect(dojo.byId("test"), "onkeyup", null, keyUpHandler);
 				dojo.connect(dojo.byId("set"), "onclick", null, setParameters);
 				dojo.connect(dojo.byId("startTimer"), "onclick", null,
-					function(){ moveBar(dijit.byId("timerBar"), 0) } );
-//				loadFile();
+					function(){ remoteProgress(dijit.byId("timerBar")); } );
 			}
-/*
-			function loadFile(){
-				var bArgs = {
-					url: "http://armadillo:8080/Dojotoolkit/trunk/tests/widget/grossofile.txt",
-					mimetype: "text/plain",
-					method: "POST",
-					handle: function(type, data, evt){
-						var str="";
-//						for (var i in data){
-//							str+=i + " ---> " + data[i]+"\n";
-//						}
-						window.alert(type);
-					}
-				}
-				dojo.io.bind(bArgs);
+
+// An example of polling on a separate (heartbeat) server thread.  This is useful when the progress is entirely server bound
+// and there is no existing interaction with the server to determine status.
+
+// We don't have a server to run against, but a simple heartbeat implementation might look something like this:
+//function getProgressReport(){
+//		var dataSource = "http://dojotoolkit.org";
+//		return dojo.xhrGet({url: dataSource, handleAs: "json", content: {key: "progress"}});
+//}
+
+// Instead, we'll just tick off intervals of 10
+var fakeProgress = 0;
+function getProgressReport(){
+	var deferred = new dojo.Deferred();
+	fakeProgress = Math.min(fakeProgress + 10, 100);
+	deferred.callback(fakeProgress+"%");
+	return deferred;
+}
+
+function remoteProgress(bar){
+
+	var _timer = setInterval(function(){
+		var report = getProgressReport();
+		report.addCallback(function(response){
+			bar.update({progress: response});
+			if(response == "100%"){
+				clearInterval(_timer);
+				_timer = null;
+				return;
 			}
-*/
+		});
+	}, 3000); // on 3 second intervals
+}
+
 			function setParameters(){
 				dijit.byId("setTestBar").update({maximum: dojo.byId("maximum").value, progress: dojo.byId("progressValue").value});
 			}
@@ -73,6 +87,7 @@
 				dijit.byId("testBar2").update({progress:dojo.byId("test").value.length});
 				dijit.byId("smallTestBar").update({progress:dojo.byId("test").value.length});
 			}
+/*
 			function moveBar(bar, progress){
 				bar.update({progress: progress});
 				if (progress >= 100) {
@@ -81,6 +96,7 @@
 					setTimeout(function(){ moveBar(bar, progress + 10) }, 1000);
 				}
 			}
+*/
 		</script>
 	</head> 
 
