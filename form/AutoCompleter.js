@@ -1,5 +1,6 @@
 dojo.provide("dijit.form.AutoCompleter");
 
+dojo.require("dijit.util.scroll");
 dojo.require("dijit.util.wai");
 dojo.require("dojo.data.JsonItemStore");
 dojo.require("dijit.form._DropDownTextBox");
@@ -115,7 +116,7 @@ dojo.declare(
 	setValue:function(/*String*/ value){
 			// summary: Sets the value of the AutoCompleter
 		this.comboBoxValue.value = value;
-		if (this.textInputNode.value != value){ // prevent mucking up of selection
+		if(this.textInputNode.value != value){ // prevent mucking up of selection
 			this.textInputNode.value = value;
 			this._checkValueChanged();
 		}
@@ -171,8 +172,7 @@ dojo.declare(
 		if(typeof(element.selectionStart)=="number"){
 				// FIXME: this is totally borked on Moz < 1.3. Any recourse?
 			return element.selectionStart;
-		}
-		else if(dojo.isIE){
+		}else if(dojo.isIE){
 				// in the case of a mouse click in a popup being handled,
 				// then the document.selection is not the textarea, but the popup
 				// var r = document.selection.createRange();
@@ -187,10 +187,9 @@ dojo.declare(
 					// There appears to be no workaround for this - googled for quite a while.
 				ntr.setEndPoint("EndToEnd", tr);
 				return String(ntr.text).replace(/\r/g,"").length;
-			}catch (e){
+			}catch(e){
 				return 0; // If focus has shifted, 0 is fine for caret pos.
 			}
-
 		}
 
 	},
@@ -383,7 +382,7 @@ dojo.declare(
 		}else if(this._highlighted_option.nextSibling){
 			this._focusOptionNode(this._highlighted_option.nextSibling);
 		}
-		//dojo.html.scrollIntoView(this._highlighted_option);
+		dijit.util.scroll.scrollIntoView(this._highlighted_option);
 	},
 
 	_highlightPrevOption: function(){
@@ -394,22 +393,22 @@ dojo.declare(
 			this._hideResultList();
 			return;
 		}
-		//dojo.html.scrollIntoView(this._highlighted_option);
+		dijit.util.scroll.scrollIntoView(this._highlighted_option);
 	},
 
 	_itemMouseOver: function(/*Event*/ evt){
-		if (evt.target === this.optionsListNode){ return; }
+		if(evt.target === this.optionsListNode){ return; }
 		this._focusOptionNode(evt.target);
 	},
 
 	_itemMouseOut: function(/*Event*/ evt){
-		if (evt.target === this.optionsListNode){ return; }
+		if(evt.target === this.optionsListNode){ return; }
 		this._blurOptionNode();
 	},
 
 	_openResultList: function(/*Object*/ results){
 		console.log("Opening result list; "+results.length+" items");
-		if (this.disabled){
+		if(this.disabled){
 			return;
 		}
 		this._clearResultList();
@@ -452,8 +451,7 @@ dojo.declare(
 		var td = document.createElement("div");
 		if(this.labelType=="text"){
 			td.appendChild(document.createTextNode(tr[this.labelField]));
-		}
-		else if (this.labelType=="html"){
+		}else if(this.labelType=="html"){
 			td.innerHTML=tr[this.labelField];
 		}
 		td.setAttribute("resultName", tr[this.searchField]);
@@ -517,11 +515,11 @@ dojo.declare(
 		
 	_checkBlurred: function(){
 			
-		try{if(!this._hasFocus && !this._mouseover_list){
-			this._hideResultList();
-			this._checkValueChanged();
-				
-		}
+		try{
+			if(!this._hasFocus && !this._mouseover_list){
+				this._hideResultList();
+				this._checkValueChanged();
+			}
 		}
 		catch(e){
 			console.log("_checkBlurred"+e);
@@ -709,8 +707,6 @@ dojo.declare(
 			this.store=new dpClass(this);
 		}
 
-			
-			
 		this.optionsListNode = document.createElement("div");
 		this._addClass(this.optionsListNode, 'dojoMenu');
 		this.optionsListNode.style.overflow="scroll";
@@ -718,7 +714,7 @@ dojo.declare(
 		dojo.connect(this.optionsListNode, 'onmouseover', this, '_onMouseOver');
 		dojo.connect(this.optionsListNode, 'onmouseout', this, '_onMouseOut');
 			
-			// TODO: why does onmouseover and onmouseout connect to two separate handlers???
+		// TODO: why does onmouseover and onmouseout connect to two separate handlers???
 		dojo.connect(this.optionsListNode, "onmouseover", this, "_itemMouseOver");
 		dojo.connect(this.optionsListNode, "onmouseout", this, "_itemMouseOut");
 		if(this.disabled){
