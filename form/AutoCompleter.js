@@ -5,7 +5,6 @@ dojo.require("dojo.data.JsonItemStore");
 dojo.require("dijit.form._DropDownTextBox");
 
 
-
 dojo.declare(
 			"dijit.form.AutoCompleter",
 	[dijit.form._DropDownTextBox],
@@ -106,14 +105,14 @@ dojo.declare(
 	_checkValueChanged: function(){ 
 		this._arrowIdle();
 		var value = this.comboBoxValue.value; 
-		if (this._prevValue != value){ 
+		if(this._prevValue != value){ 
 			this._prevValue = value; 
 				// only change state and value if a new value is set 
 			//dojo.widget.html.stabile.setState(this.id, this.getState(), true); 
 			this.onValueChanged(value); 
-		} 
+		}
 	}, 
-	setValue:function(/*String*/ value) {
+	setValue:function(/*String*/ value){
 			// summary: Sets the value of the AutoCompleter
 		this.comboBoxValue.value = value;
 		if (this.textInputNode.value != value){ // prevent mucking up of selection
@@ -131,7 +130,7 @@ dojo.declare(
 		this._checkValueChanged();
 		return this.comboBoxValue.value;
 	},
-	labelFunc: function(/*String*/ label) {
+	labelFunc: function(/*String*/ label){
 			// summary: Event handler called when the label changes
 			// returns the label that the AutoCompleter should display
 		return label;
@@ -141,7 +140,7 @@ dojo.declare(
 			// summary:
 			//	Used for saving state of AutoCompleter when navigates to a new
 			//	page, in case they then hit the browser's "Back" button.
-		var state=new Object();
+		var state={};
 			//state[this.keyField]=this.getValue();
 		state[this.searchField]=this.getValue();
 			//query[this.searchField]=this.getSelectedValue();
@@ -182,13 +181,13 @@ dojo.declare(
 			var ntr = element.createTextRange();
 			tr.move("character",0);
 			ntr.move("character",0);
-			try {
+			try{
 					// If control doesnt have focus, you get an exception.
 					// Seems to happen on reverse-tab, but can also happen on tab (seems to be a race condition - only happens sometimes).
 					// There appears to be no workaround for this - googled for quite a while.
 				ntr.setEndPoint("EndToEnd", tr);
 				return String(ntr.text).replace(/\r/g,"").length;
-			} catch (e){
+			}catch (e){
 				return 0; // If focus has shifted, 0 is fine for caret pos.
 			}
 
@@ -243,7 +242,7 @@ dojo.declare(
 
 		var k = dojo.keys;
 		var doSearch = true;
-		try {
+		try{
 			switch(evt.keyCode){
 				case dojo.keys.DOWN_ARROW:
 					if(!this.popupWidget.isShowingNow){
@@ -257,13 +256,13 @@ dojo.declare(
 					dojo.stopEvent(evt);
 					return;
 				case dojo.keys.PAGE_DOWN:
-					for(var i=0; i<this.maxListLength; i++) {
+					for(var i=0; i<this.maxListLength; i++){
 						this._highlightNextOption();
 					}
 					dojo.stopEvent(evt);
 					return;
 				case dojo.keys.PAGE_UP:
-					for(var i=0; i<this.maxListLength; i++) {
+					for(var i=0; i<this.maxListLength; i++){
 						this._highlightPrevOption();
 					}
 					dojo.stopEvent(evt);
@@ -310,7 +309,7 @@ dojo.declare(
 					this._prev_key_esc = true;
 					return;
 				case dojo.keys.BACKSPACE:
-					//try {
+					//try{
 						this._prev_key_backspace = true;
 						if(!this.textInputNode.value.length){
 							this.setValue("");
@@ -318,7 +317,7 @@ dojo.declare(
 							doSearch = false;
 						}
 					//}
-					//catch(e) {
+					//catch(e){
 					//	console.log("Error with KEY_BACKSPACE: "+e.message);
 					//}
 					break;
@@ -332,7 +331,7 @@ dojo.declare(
 					}
 			}
 		}
-		catch(e) {
+		catch(e){
 			console.log("Error in AutoCompleter._handleKeyEvents, while pressing "+evt.keyCode+":"+e.message);
 		}
 		if(this.searchTimer){
@@ -422,7 +421,7 @@ dojo.declare(
 		if(zerothvalue&&(this.autoComplete)&&
 			(!this._prev_key_backspace)&&
 			(this.textInputNode.value.length > 0)&&
-			(new RegExp("^"+this.textInputNode.value, "").test(zerothvalue))) {
+			(new RegExp("^"+this.textInputNode.value, "").test(zerothvalue))){
 				var cpos = this._getCaretPos(this.textInputNode);
 				// only try to extend if we added the last character at the end of the input
 				if((cpos+1) > this.textInputNode.value.length){
@@ -448,13 +447,13 @@ dojo.declare(
 			// show our list (only if we have content, else nothing)
 		this._showResultList();
 	},
-	_createOption:function(/*Object*/ tr) {
+	_createOption:function(/*Object*/ tr){
 			// summary: creates an option to appear on the popup menu
 		var td = document.createElement("div");
-		if(this.labelType=="text") {
+		if(this.labelType=="text"){
 			td.appendChild(document.createTextNode(tr[this.labelField]));
 		}
-		else if (this.labelType=="html") {
+		else if (this.labelType=="html"){
 			td.innerHTML=tr[this.labelField];
 		}
 		td.setAttribute("resultName", tr[this.searchField]);
@@ -467,11 +466,11 @@ dojo.declare(
 	},
 
 	_onBlurInput: function(){
-		try {
+		try{
 			this._hasFocus = false;
 			this._handleBlurTimer(true, 500);
 		}
-		catch(e) {
+		catch(e){
 			console.log("_onBlurInput:"+e);
 		}
 	},
@@ -479,7 +478,7 @@ dojo.declare(
 	_handleBlurTimer: function(/*Boolean*/clear, /*Number*/ millisec){
 			// summary: collect all blur timers issues here
 			
-		try {
+		try{
 			if(this.blurTimer && (clear || millisec)){
 				clearTimeout(this.blurTimer);
 			}
@@ -488,7 +487,7 @@ dojo.declare(
 				this.blurTimer = setTimeout(dojo.hitch(this, "_checkBlurred"), millisec);
 			}
 		}
-		catch(e) {
+		catch(e){
 			console.log("_handleBlurTimer:"+e);
 		}
 	},
@@ -504,7 +503,7 @@ dojo.declare(
 	_onMouseOut:function(/*Event*/ evt){
 			// summary: needed in IE and Safari as inputTextNode loses focus when scrolling optionslist
 		var relTarget = evt.relatedTarget;
-		try { // fixes #1807
+		try{ // fixes #1807
 			if(!relTarget || relTarget.parentNode != this.optionsListNode){
 				this._mouseover_list = false;
 				this._handleBlurTimer(true, 100);
@@ -518,13 +517,13 @@ dojo.declare(
 		
 	_checkBlurred: function(){
 			
-		try {if(!this._hasFocus && !this._mouseover_list){
+		try{if(!this._hasFocus && !this._mouseover_list){
 			this._hideResultList();
 			this._checkValueChanged();
 				
 		}
 		}
-		catch(e) {
+		catch(e){
 			console.log("_checkBlurred"+e);
 		}
 	},
@@ -538,7 +537,7 @@ dojo.declare(
 		// TODO: bring back this code
 		// dojo.html does not exist	
 		if(evt.target.parentNode!=this.optionsListNode){
-			try {
+			try{
 				// handle autocompletion where the the user has hit ENTER or TAB
 				// if the input is empty do nothing
 				if(!this.textInputNode.value.length){
@@ -552,7 +551,7 @@ dojo.declare(
 					return;
 				}
 			}
-			catch(e) {
+			catch(e){
 				console.log("Error in ComboBox._selectOption: "+e.message);
 			}
 				// otherwise the user has accepted the autocompleted value
@@ -583,7 +582,7 @@ dojo.declare(
 		}
 		return (input == result);
 	},
-	_doSelect: function(tgt) {
+	_doSelect: function(tgt){
 		this.setValue(tgt.getAttribute("resultName"));
 	},
 	_clearResultList: function(){
@@ -593,11 +592,11 @@ dojo.declare(
 	},
 
 	_hideResultList: function(){
-		try {
+		try{
 			this._arrowIdle();
 			this.popupWidget.close(this);
 		}
-		catch(e) {
+		catch(e){
 			console.log("Error in _hideResultList: "+e.message);
 		}
 	},
@@ -621,7 +620,7 @@ dojo.declare(
 						//FIXME: shall we cache the height of the item?
 					var calcheight = visibleCount * (childs[0]).offsetHeight;
 					var windowheight=dijit.util.getViewport().h;
-					if(calcheight>windowheight) {
+					if(calcheight>windowheight){
 						var coords=dojo.coords(this.popupWidget.domNode);
 						calcheight=windowheight-coords.y;
 					}
@@ -656,9 +655,9 @@ dojo.declare(
 	},
 
 	focus: function(){
-		try {
+		try{
 			this.textInputNode.focus();
-		} catch (e){
+		}catch (e){
 				// element isn't focusable if disabled, or not visible etc - not easy to test for.
 		};
 	},
@@ -669,12 +668,12 @@ dojo.declare(
 
 	_startSearch: function(/*String*/ key){
 		console.log("_startSearch");
-		var query=new Object();
+		var query={};
 		query[this.searchField]=key+"*";
 		this.store.fetch({ query: query, onComplete:dojo.hitch(this, "_openResultList"), count:this.searchLimit});
 			
 	},
-	_assignHiddenValue:function(/*Object*/ keyValArr, /*DomNode*/ option) {
+	_assignHiddenValue:function(/*Object*/ keyValArr, /*DomNode*/ option){
 			// not necessary in AutoCompleter
 		return;
 	},
@@ -690,14 +689,14 @@ dojo.declare(
 			
 		// new dojo.data code
 		// is the store not specified?  If so, use inline read
-		if(this.store==null) {
-			if(this.url==""&&this.data==null) {
+		if(this.store==null){
+			if(this.url==""&&this.data==null){
 				var opts = this.domNode.getElementsByTagName("option");
 				var ol = opts.length;
 				var data=[];
 				for(var x=ol-1; x>=0; x--){
 					var text = opts[x].innerHTML;
-					var keyValArr = new Object();
+					var keyValArr = {};
 					keyValArr[this.searchField]=String(text);
 					this._assignHiddenValue(keyValArr, opts[x]);
 					data.unshift(keyValArr);
@@ -722,13 +721,13 @@ dojo.declare(
 			// TODO: why does onmouseover and onmouseout connect to two separate handlers???
 		dojo.connect(this.optionsListNode, "onmouseover", this, "_itemMouseOver");
 		dojo.connect(this.optionsListNode, "onmouseout", this, "_itemMouseOut");
-		if (this.disabled){
+		if(this.disabled){
 			this.disable();
 		}
 		// FIXME: add state code back
 		/*var s = dojo.widget.html.stabile.getState(this.id);
 			
-		if (s){
+		if(s){
 			this.setState(s);
 		}
 		else this.setValue(this.value);*/
