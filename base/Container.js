@@ -19,13 +19,14 @@ dojo.declare("dijit.base.Contained",
 			}
 		},
 
+/*FIXME: is this used anywhere?
 		getSiblings: function(){
 			// summary: gets an array of all children of our parent, including "this"
 			var container = this.getParent();
 			if(!container){ return [this]; }
 			return container.getChildren(); // Array
 		},
-
+*/
 		_getSibling: function(which){
 			var node = this.domNode;
 			do{
@@ -35,13 +36,13 @@ dojo.declare("dijit.base.Contained",
 			var id = node.widgetId;
 			return dijit.byId(id);
 		},
-	 
+
 		getPreviousSibling: function(){
 			// summary:
 			//		returns null if this is the first child of the parent,
 			//		otherwise returns the next element sibling to the "left".
 
-			return _getSibling("previous");
+			return this._getSibling("previous");
 		},
 	 
 		getNextSibling: function(){
@@ -49,7 +50,7 @@ dojo.declare("dijit.base.Contained",
 			//		returns null if this is the last child of the parent,
 			//		otherwise returns the next element sibling to the "right".
 	 
-			return _getSibling("next");
+			return this._getSibling("next");
 		}
 	}
 );
@@ -100,7 +101,7 @@ dojo.declare("dijit.base.Container",
 		_firstElement: function(node){
 			node = node.firstChild;
 			if(node && node.nodeType != 1){
-				node = nextElement(node);
+				node = this._nextElement(node);
 			}
 			return node;
 		},
