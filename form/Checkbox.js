@@ -115,17 +115,15 @@ dojo.declare(
 			this.domNode.disabled = this.inputNode.disabled = this.disabled = disabled;
 		},
 		
-
 		onChecked: function(/*Boolean*/ newCheckedState){
 			// summary: callback when value is changed
 		},
 		
 		setChecked: function(/*Boolean*/ check){
 			// summary: set the checked state of the widget.
-			if(check != this.checked){
-				this.checked = check;
-				dijit.util.wai.setAttr(this.domNode, "waiState", "checked", check);
-				this.onChecked(check);
+			if(check != this.inputNode.checked){
+				this.inputNode.checked;
+				this._updateView();
 			}
 		},
 	
@@ -161,8 +159,12 @@ dojo.declare(
 
 		_updateView: function(/*Widget?*/ awidget){
 			var w = awidget || this;
-			w.setChecked(w.inputNode.checked);
-			
+
+			if (w.checked != w.inputNode.checked) {
+				w.checked = w.inputNode.checked;
+				w.onChecked(w.checked);
+			}
+
 			this.setValue(w.checked? this.inputNode.value:"");
 
 			this._setDisabled(w.disabled);
