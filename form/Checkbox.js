@@ -41,16 +41,17 @@ dojo.declare(
 		//	Value of "type" attribute for <input>
 		_type: "checkbox",
 
-		// checked: Boolean
-		//	if true, checkbox is initially marked turned on;
-		//	in markup, specified as "checked='checked'" or just "checked"
-		checked: false,
-		
+		// checked: Boolean 
+		// Corresponds to the native HTML <input> element's attribute. 
+		// If true, checkbox is initially marked turned on; 
+		// in markup, specified as "checked='checked'" or just "checked"
+		checked: false, 
+
 		// value: Value
 		//	equivalent to value field on normal checkbox (if checked, the value is passed as
 		//	the value when form is submitted)
 		value: "on",
-
+		
 		postCreate: function(){
 			// find the image to use, as notated in the CSS file, but use it as a foreground
 			var bi = dojo.getComputedStyle(this.imageContainer).backgroundImage;
@@ -114,6 +115,25 @@ dojo.declare(
 			this.domNode.disabled = this.inputNode.disabled = this.disabled = disabled;
 		},
 		
+
+		onChecked: function(/*Boolean*/ newCheckedState){
+			// summary: callback when value is changed
+		},
+		
+		setChecked: function(/*Boolean*/ check){
+			// summary: set the checked state of the widget.
+			if(check != this.checked){
+				this.checked = check;
+				dijit.util.wai.setAttr(this.domNode, "waiState", "checked", check);
+				this.onChecked(check);
+			}
+		},
+	
+		getChecked: function(){
+			// summary: get the checked state of the widget.
+			return this.checked;
+		},
+
 		onClick: function(/*Event*/ e){
 			// summary: user overridable callback for click event handling 
 		},
@@ -139,9 +159,10 @@ dojo.declare(
 		// offset from left of image
 		_leftOffset: 0,
 
-		_updateView: function(/*Optional Widget*/ awidget){
+		_updateView: function(/*Widget?*/ awidget){
 			var w = awidget || this;
-			w.checked=w.inputNode.checked;
+			w.setChecked(w.inputNode.checked);
+			
 			this.setValue(w.checked? this.inputNode.value:"");
 
 			this._setDisabled(w.disabled);
