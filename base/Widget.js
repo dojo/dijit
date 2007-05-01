@@ -110,6 +110,15 @@ function(params, srcNodeRef){
 		//		Called after a widget's dom has been setup
 	},
 
+	layout: function(){
+		// summary:
+		//		Called after a widget's children have created
+		//		Provides an opportunity to manipulate any children before they are displayed
+		//		This is useful for composite widgets that need to control or layout sub-widgets
+		//		Many layout widgets can use this as a wiring phase
+		
+	},
+
 	//////////// DESTROY FUNCTIONS ////////////////////////////////
 
 	destroy: function(/*Boolean*/ finalize){
@@ -203,7 +212,25 @@ function(params, srcNodeRef){
 			}
 		}
 		return nodes;
-	}
+	},
+
+		// helper classes needed by most widgets.  Move to a util class?
+		_addClass: function(/*HTMLElement*/ node, /*String*/ classStr){
+			// summary
+			//	adds classStr to node iff it isn't already there
+			if(!(new RegExp('(^|\\s+)'+classStr+'(\\s+|$)')).test(node.className)){
+				node.className += " "+classStr;
+			}
+		},
+
+		_removeClass: function(/*HTMLElement*/ node, /*String*/ classStr){
+			// summary
+			//	removes classStr from node if it is present
+
+		//PERF: compare with plain string replace
+			node.className = node.className.replace(new RegExp('(^|\\s+)'+classStr+'(\\s+|$)'), "$1$2");
+		}
+	
 });
 
 //PORT - where does this go?  dijit.util?  dojo.html?

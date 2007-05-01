@@ -17,6 +17,7 @@ dojo.declare("dijit.base.Contained",
 					return dijit.byId(widgetId);
 				}
 			}
+			return null;
 		},
 
 /*FIXME: is this used anywhere?
@@ -114,7 +115,10 @@ dojo.declare("dijit.base.Container",
 			var cn = this.containerNode || this.domNode;
 			var childNode = this._firstElement(cn);
 			while(childNode){
-				res.push(dijit.byId(childNode.widgetId));
+				var tmp = dijit.byId(childNode.widgetId);
+				if(tmp){
+					res.push(tmp);
+				}
 				childNode = this._nextElement(childNode);
 			}
 			return res;

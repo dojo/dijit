@@ -3,9 +3,6 @@ dojo.provide("dijit.util.parser");
 dojo.require("dijit.util.manager");
 dojo.require("dojo.date.serial");
 
-// TODO:
-// - call startup() after all the other widgets have been created
-
 dijit.util.parser = new function(){
 
 	function val2type(/*Object*/ value){
@@ -104,6 +101,8 @@ dijit.util.parser = new function(){
 	this.instantiate = function(nodes){
 		// summary:
 		//	Takes array of nodes, and turns them into widgets
+		//	Calls their layout method to allow them to connect with any children		
+		var thelist = [];
 		dojo.forEach(nodes, function(node){
 			if(!node){ return; }
 			var type = node.getAttribute('dojoType');
@@ -116,8 +115,26 @@ dijit.util.parser = new function(){
 					params[attrName] = str2obj(attrValue, attrType);
 				}
 			}
-			new clsInfo.cls(params, node);
+			try{
+				thelist.push(new clsInfo.cls(params, node));
+			}catch(e){
+				// add some information to help debugging, typically the class.  This is a really common place to get stuck.
+				console.log("dijit.util.parser: Failed to instantiate widget of type: " + type + " reason: " + e);
+				throw e;
+			}
 		});
+
+		// first sort the widgets so that we can do a top-down wiring phase
+		thelist.sort(function(a,b){
+			// prefer containers to leaf node nodes; keep in document order otherwise
+			return b.getParent && !a.getParent;
+		});
+
+		// now call layout method on each widget so thay can wire up their children
+		dojo.forEach(thelist, function(node){
+			if(node && node.layout){ node.layout(); }
+		});
+
 	};
 
 	this.parse = function(/*DomNode?*/ rootNode){

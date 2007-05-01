@@ -14,6 +14,12 @@ dojo.declare("dijit.base.Showable", null,
 	//	Number of milliseconds for toggle animation effect to complete
 	toggleDuration: 150,
 
+	postMixInProperties: function(args, frag){
+		// now that we know the setting for toggler, get toggler object
+		// (default to plain toggler if user specified toggler not present)
+//		this.toggleObj = new (dojo.lfx.toggler[this.toggle.toLowerCase()] || dojo.lfx.toggler.plain); //PORT me
+	},
+
 	isShowing: function(){
 		// summary
 		//	Tests whether widget is set to show-mode or hide-mode (see show() and 
@@ -39,9 +45,10 @@ dojo.declare("dijit.base.Showable", null,
 		// summary: show the widget
 		if(this.isShowing()){ return; }
 		this.animationInProgress=true;
-//Q: where is toggleObj defined?
-		this.toggleObj.show(this.domNode, this.toggleDuration, null,
-			dojo.hitch(this, this.onShow), this.explodeSrc);
+		this.domNode.style.display = "";
+		this.onShow();
+//		this.toggleObj.show(this.domNode, this.toggleDuration, null,
+//			dojo.hitch(this, this.onShow), this.explodeSrc);
 	},
 
 	_onShow: function(){
@@ -57,8 +64,10 @@ dojo.declare("dijit.base.Showable", null,
 		// summary: hide the widget (ending up with display:none)
 		if(!this.isShowing()){ return; }
 		this.animationInProgress = true;
-		this.toggleObj.hide(this.domNode, this.toggleDuration, null,
-			dojo.hitch(this, this.onHide), this.explodeSrc);
+		this.domNode.style.display = "none";
+		this.onHide();
+//		this.toggleObj.hide(this.domNode, this.toggleDuration, null,
+//			dojo.hitch(this, this.onHide), this.explodeSrc);
 	},
 
 	_onHide: function(){

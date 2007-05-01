@@ -465,3 +465,23 @@
         border-color:white transparent;
 }
 
+/* Layout widgets. This is essential CSS to make layout work (it isn't "styling" CSS)
+   make sure that the position:absolute in dojoAlign* overrides other classes */
+
+.dojoLayoutContainer{ 
+	position: relative;
+	display: block;
+	overflow: hidden; 
+}
+
+body .dojoAlignTop,
+body .dojoAlignBottom,
+body .dojoAlignLeft,
+body .dojoAlignRight {
+	position: absolute;
+	overflow: hidden; 
+}
+
+body .dojoAlignClient { position: absolute; }
+
+.dojoAlignClient { overflow: auto; }
