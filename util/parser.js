@@ -27,10 +27,7 @@ dijit.util.parser = new function(){
 			case "string":
 				return value;
 			case "number":
-				if(value && value.length > 0){
-					return Number(value);
-				}
-				return null;
+				return value.length ? Number(value) : null;
 			case "boolean":
 				return typeof value == "boolean" ? value : !(value.toLowerCase()=="false");
 			case "function":
@@ -47,18 +44,7 @@ dijit.util.parser = new function(){
 			case "array":
 				return value.split(";");
 			case "date":
-				var date = null;
-				if(value && value.length > 0){
-					try{
-						date = dojo.date.serial.fromRfc3339(value);
-					}catch(e){/*squelch*/}
-					if(!(date instanceof Date)){
-						try{
-							date = new Date(Number(value));// assume timestamp
-						}catch(e){/*squelch*/}
-					}
-				}
-				return date;
+				return dojo.date.serial.fromRfc3339(value);
 			case "url":
 //PORT FIXME: is value absolute or relative?  Need to join with "/"?
 				return dojo.baseUrl + value;
@@ -115,13 +101,7 @@ dijit.util.parser = new function(){
 					params[attrName] = str2obj(attrValue, attrType);
 				}
 			}
-			try{
-				thelist.push(new clsInfo.cls(params, node));
-			}catch(e){
-				// add some information to help debugging, typically the class.  This is a really common place to get stuck.
-				console.log("dijit.util.parser: Failed to instantiate widget of type: " + type + " reason: " + e);
-				throw e;
-			}
+			thelist.push(new clsInfo.cls(params, node));
 		});
 
 		// first sort the widgets so that we can do a top-down wiring phase
