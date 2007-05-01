@@ -7,14 +7,13 @@
 		djConfig="isDebug: true, debugAtAllCosts: true"></script>
 	<script type="text/javascript">
 		dojo.require("dijit.util.Typematic");
-		// dojo.require("dojo.event.browser");
 	</script>
 <script>
 	var lastCount = 0;
 	function typematicCallBack(key, count){
 		var inputNode = document.getElementById('typematicInput');
 		if (count == -1){
-			dojo.debug((lastCount+1) + ' ' + key + ' events');
+			console.debug((lastCount+1) + ' ' + key + ' events');
 		}else{
 			lastCount = count;
 			inputNode.value += key;
@@ -24,10 +23,10 @@
 	dojo.addOnLoad(function(){
 		var keyNode = document.getElementById('typematicInput');
 		var mouseNode = document.getElementById('typematicButton');
-		dijit.typematic.addKeyListener(keyNode, 
-			{key:dojo.event.browser.keys.KEY_F10,ctrlKey:true},
+		dijit.util.typematic.addKeyListener(keyNode, 
+			{key:dojo.keys.F10,ctrlKey:true},
 			this, typematicCallBack, "a", 200, 200);
-		dijit.typematic.addMouseListener(mouseNode, 
+		dijit.util.typematic.addMouseListener(mouseNode, 
 			this, typematicCallBack, "b", 0.9, 200);
 		keyNode.focus(); // make it easier to type 
 	});
