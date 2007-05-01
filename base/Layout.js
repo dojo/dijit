@@ -38,7 +38,7 @@ dojo.declare("dijit.base.Sizable",
 			//		dom nodes have been inserted somewhere under document.body
 
 			// if my parent is a layout container then it will resize me; just wait for it's call
-			if(this.getParent) {
+			if(this.getParent){
 				var parent = this.getParent();
 				if(parent && parent.isLayoutContainer){
 					return;
@@ -75,7 +75,7 @@ dojo.declare("dijit.base.Layout",
 	}
 );
 
-dijit.base.Layout.layoutChildren = function(/*DomNode*/ container, /*Object[]*/ children, /*String*/ layoutPriority) {
+dijit.base.Layout.layoutChildren = function(/*DomNode*/ container, /*Object[]*/ children, /*String*/ layoutPriority){
 	/**
 	 * summary
 	 *		Layout a bunch of child dom nodes within a parent dom node
@@ -138,12 +138,11 @@ dijit.base.Layout.layoutChildren = function(/*DomNode*/ container, /*Object[]*/ 
 		var elm=child.domNode;
 		var pos=child.layoutAlign;
 		// set elem to upper left corner of unused space; may move it later
-		with(elm.style){
-			left = f.left+"px";
-			top = f.top+"px";
-			bottom = "auto";
-			right = "auto";
-		}
+		var elmStyle = elm.style;
+		elmStyle.left = f.left+"px";
+		elmStyle.top = f.top+"px";
+		elmStyle.bottom = elmStyle.right = "auto";
+
 		var capitalize = function(word){
 			return word.substring(0,1).toUpperCase() + word.substring(1);
 		};
@@ -153,16 +152,17 @@ dijit.base.Layout.layoutChildren = function(/*DomNode*/ container, /*Object[]*/ 
 		// set size && adjust record of remaining space.
 		// note that setting the width of a <div> may affect it's height.
 		// TODO: same is true for widgets but need to implement API to support that
-		if ( (pos=="top")||(pos=="bottom") ) {
+		if (pos=="top" || pos=="bottom"){
 			// filter for zero widths (almost always invalid #1635)
-			if(f.w != 0)
+			if(f.w != 0){
 				dojo.marginBox(elm, { w: f.w });
+			}
 			var h = dojo.marginBox(elm).h;
 			f.h -= h;
 			if(pos=="top"){
 				f.top += h;
 			}else{
-				elm.style.top = f.top + f.height + "px";
+				elmStyle.top = f.top + f.height + "px";
 			}
 			// TODO: for widgets I want to call resizeTo(), but I can't because
 			// I only want to set the width, and have the height determined
@@ -177,20 +177,21 @@ dijit.base.Layout.layoutChildren = function(/*DomNode*/ container, /*Object[]*/ 
 			// and also the resizeTo() function demands both height and width arguments
 			// place the child, make sure to filter for zero widths and height
 			var hasZero = dijit.base.Layout._sizeChild(child, elm, w, f.h);
-			if(hasZero)
+			if(hasZero){
 				ret = false;
-			
+			}
 			f.w -= w;
 			if(pos=="left"){
 				f.left += w;
 			}else{
-				elm.style.left = f.left + f.w + "px";
+				elmStyle.left = f.left + f.w + "px";
 			}
 		} else if(pos=="flood" || pos=="client"){
 			// #1635 - filter for zero dimensions (see below)
 			var hasZero = dijit.base.Layout._sizeChild(child, elm, f.w, f.h);
-			if(hasZero)
+			if(hasZero){
 				ret = false;
+			}
 		}
 	});
 	return ret;
