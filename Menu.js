@@ -93,8 +93,8 @@ dojo.declare(
 			if(evt._menu2UpKeyProcessed){
 				return true; //do not pass to parent menu
 			}else{
-				this._highlighted_option.onUnhover();
-				this.closeSubmenu();
+				this._highlighted_option._onUnhover();
+				this.parentMenu.closeSubmenu();
 				evt._menu2UpKeyProcessed = true;
 			}
 		}
@@ -123,27 +123,31 @@ dojo.declare(
 		//	return true to stop the event being processed by the
 		//	parent popupmenu
 
-		if(evt.ctrlKey || evt.altKey || !evt.key){ return false; }
+		if(evt.ctrlKey || evt.altKey || !evt.keyCode){ return false; }
 
-		switch(evt.key){
- 			case evt.KEY_DOWN_ARROW:
+		switch(evt.keyCode){
+ 			case dojo.keys.DOWN_ARROW:
 				this._highlightOption(1);
 				return true; //do not pass to parent menu
-			case evt.KEY_UP_ARROW:
+			case dojo.keys.UP_ARROW:
 				this._highlightOption(-1);
 				return true; //do not pass to parent menu
-			case evt.KEY_RIGHT_ARROW:
+			case dojo.keys.RIGHT_ARROW:
 				return this._moveToChildMenu(evt);
-			case evt.KEY_LEFT_ARROW:
+			case dojo.keys.LEFT_ARROW:
 				return this._moveToParentMenu(evt);
-			case " ": //fall through
-			case evt.KEY_ENTER: 
+			case dojo.keys.SPACE: //fall through
+			case dojo.keys.ENTER:
 				if((rval = this._selectCurrentItem(evt))){
 					break;
 				}
 				//fall through
-			case evt.KEY_ESCAPE:
-			case evt.KEY_TAB:
+			case dojo.keys.ESCAPE:
+				if(this.parentMenu) {
+					return this._moveToParentMenu(evt);
+				}
+				//fall through
+			case dojo.keys.TAB:
 				this.close(true);
 				return true;
 		}
@@ -268,15 +272,10 @@ dojo.declare(
 		}
 		if(item){
 			if(this._highlighted_option){
-				this._highlighted_option.onUnhover();
+				this._highlighted_option._onUnhover();
 			}
 			item.onHover();
 			dijit.util.scroll.scrollIntoView(item.domNode);
-			// navigate into the item table and select the first caption tag
-			try{
-				var node = this._getElementsByClass("dojoMenuItemLabel", item.domNode)[0];
-				node.focus();
-			}catch(e){ /* squelch */ }
 		}
 	},
 
@@ -293,6 +292,11 @@ dojo.declare(
 
 		this.currentSubmenuTrigger.is_open = false;
 		this.currentSubmenuTrigger._closedSubmenu(force);
+
+// some overlap here with _highlightOption
+		this.currentSubmenuTrigger.onHover();
+		dijit.util.scroll.scrollIntoView(this.currentSubmenuTrigger.domNode);
+
 		this.currentSubmenuTrigger = null;
 	},
 
@@ -334,15 +338,15 @@ dojo.declare(
 		// summary
 		//		Open menu relative to the mouse
 		dijit.util.PopupManager.open(e, this);
-
 		dojo.stopEvent(e);
+		this._highlightOption(1);
 	},
 
 	close: function(/*Boolean*/ force){
 		// summary: close this menu
 
 		if(this._highlighted_option){
-			this._highlighted_option.onUnhover();
+			this._highlighted_option._onUnhover();
 		}
 
 		dijit.util.PopupManager.close(this);
@@ -457,31 +461,39 @@ dojo.declare(
 	onHover: function(){
 		// summary: callback when mouse is moved onto menu item
 
-		//this is to prevent some annoying behavior when both mouse and keyboard are used
-		this.onUnhover();
-
 		if(this.is_hovering || this.is_open){ return; }
 
 		var parent = this.getParent();
-		if(parent._highlighted_option){
-			parent._highlighted_option.onUnhover();
-		}
 		parent.closeSubmenu();
+		if(parent._highlighted_option){
+			parent._highlighted_option._onUnhover();
+		}
 		parent._highlighted_option = this;
 
 		this._highlightItem();
+
+		this.containerNode.focus();
 
 		if(this.is_hovering){ this._stopSubmenuTimer(); }
 		this.is_hovering = true;
 		this._startSubmenuTimer();
 	},
 
-	onUnhover: function(){
-		// summary: callback when mouse is moved off of menu item
+	_onUnhover: function(){
+		// summary: internal function for unhover
 		if(!this.is_open){ this._unhighlightItem(); }
 		this.is_hovering = false;
 		this.getParent()._highlighted_option = null;
 		this._stopSubmenuTimer();
+	},
+
+	onUnhover: function(){
+		// summary: callback when mouse is moved off of menu item
+		// if we are unhovering the currently highlighted option
+		// then unhighlight it
+		if (this.getParent()._highlighted_option === this) {
+			this._onUnhover();
+		}
 	},
 
 	_onClick: function(focus){

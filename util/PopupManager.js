@@ -54,7 +54,7 @@ dijit.util.PopupManager = new function(){
 		}
 
 		if(stack.length == 0){
-			beforeTopOpen(widget);
+			beforeTopOpen(null, widget);
 		}
 
 		stack.push(widget);
