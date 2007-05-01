@@ -105,9 +105,11 @@
 				<span class="noticeMessage"> Textbox class, <b>tabIndex=1</b>, Attributes: {trim: true, digit: true, class: 'small'}, all but digits extracted.</span>
 			</div>
 			<div class="formAnswer">
-				<input id="q03" type="text" name="age" value="38" class="small" tabIndex=1
+				<input id="q03" type="text" name="age" value="38" tabIndex=1
 					dojoType="dijit.form.NumberTextbox"
 					promptMessage="(optional) Enter an age between 0 and 120"
+					size=4
+					maxlength=3
 					constraints={places:0,min:0,max:120}
 					onValueChanged="console.debug('onValueChanged fired for widget id = ' + this.id + ' with value = ' + arguments[0]);"
 					digit="true"

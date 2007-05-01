@@ -29,11 +29,11 @@ dojo.declare(
 
 		// size: String
 		//              Basic input tag size declaration.
-		size: "",
+		size: "20",
 
 		// maxlength: String
 		//              Basic input tag maxlength declaration.
-		maxlength: "",
+		maxlength: "999999",
 
 		//	digit: Boolean
 		//		Removes all characters that are not digits if true.  Default is false.
