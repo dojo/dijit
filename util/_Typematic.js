@@ -1,4 +1,4 @@
-dojo.provide("dijit.util.Typematic");
+dojo.provide("dijit.util.typematic");
 
 dijit.util.typematic = {
 	// summary:
@@ -6,17 +6,6 @@ dijit.util.typematic = {
 	//		method when a specific key or mouse click over a specific DOM node is 
 	//		held down for a specific amount of time.
 	//		Only 1 such event is allowed to occur on the browser page at 1 time.
-	//              
-	//              but can also be used for a menubar or toolbar.   (For example, in the editor
-	//              the user might type Ctrl-T to focus the toolbar, and then when he/she selects
-	//              a menu choice, focus is returned to the editor window.)
-	//
-	//              Note that it doesn't deal with submenus off of an original menu;
-	//              From this class's perspective it's all part of one big menu.
-	//
-	//              The widget must implement a close() callback, which will close dialogs or
-	//              a context menu, and for a menubar, it will close the submenus and remove
-	//              highlighting classes on the root node.
 
 	_fireEventAndReload: function(){
 		this._timer = null;

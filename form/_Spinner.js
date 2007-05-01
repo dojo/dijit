@@ -1,7 +1,7 @@
 dojo.provide("dijit.form._Spinner");
 
 dojo.require("dijit.form.ValidationTextbox");
-dojo.require("dijit.util.Typematic");
+dojo.require("dijit.util.typematic");
 dojo.require("dijit.util.sniff");
 
 dojo.declare(
