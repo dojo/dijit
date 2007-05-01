@@ -106,15 +106,15 @@ dijit.util.parser = new function(){
 
 		// first sort the widgets so that we can do a top-down wiring phase
 		thelist.sort(function(a,b){
-			// prefer containers to leaf node nodes; keep in document order otherwise
-			return b.getParent && !a.getParent;
+			// prefer containers to leaf nodes; keep in document order otherwise
+			return (b.getParent && !a.getParent)?1:0;
 		});
 
-		// now call layout method on each widget so thay can wire up their children
+		// now call layout method on each widget so they can wire up their children
 		dojo.forEach(thelist, function(node){
 			if(node && node.layout){ node.layout(); }
 		});
-
+		return thelist;
 	};
 
 	this.parse = function(/*DomNode?*/ rootNode){
@@ -122,7 +122,7 @@ dijit.util.parser = new function(){
 		//		Search specified node (or root node) recursively for widgets, and instantiate them
 		//		Searches for dojoType="qualified.class.name"
 		var list = dojo.query('[dojoType]', rootNode);
-		this.instantiate(list);
+		return this.instantiate(list);
 	};
 }();
 
