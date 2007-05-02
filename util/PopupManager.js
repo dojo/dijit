@@ -189,15 +189,15 @@ dijit.util.PopupManager = new function(){
 		}
 
 		if(command == 'connect'){
-			targetWindow._onmousedownhandler = dojo.connect(targetWindow.document, 'onmousedown', null, onMouse);
+			targetWindow._onmousedownhandler = dojo.connect(targetWindow.document, "onmousedown", null, onMouse);
 			targetWindow._onscrollhandler = dojo.connect(targetWindow, "onscroll", null, onMouse);
 			targetWindow._onkeyhandler = dojo.connect(targetWindow.document, "onkeypress", null, onKeyPress);
 		}else{
-			dojo.disconnect(targetWindow.document, 'onmousedown', targetWindow._onmousedownhandler);
+			dojo.disconnect(targetWindow._onmousedownhandler);
 			targetWindow._onmousedownhandler = null;
-			dojo.disconnect(targetWindow, "onscroll", targetWindow._onscrollhandler);
+			dojo.disconnect(targetWindow._onscrollhandler);
 			targetWindow._onscrollhandler = null;
-			dojo.disconnect(targetWindow.document, "onkeypress", targetWindow._onkeyhandler);
+			dojo.disconnect(targetWindow._onkeyhandler);
 			targetWindow._onkeyhandler = null;
 		}
 

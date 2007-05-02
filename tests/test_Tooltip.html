@@ -3,8 +3,7 @@
 <html>
 <head>
 	<title>Dojo Tooltip Widget Test</title>
-	<script type="text/javascript" src="../../dojo/dojo.js"
-		djConfig="isDebug: true, debugAtAllCosts: true"></script>
+	<script type="text/javascript" src="../../dojo/dojo.js" djConfig="isDebug: true, debugAtAllCosts: true"></script>
 	<script type="text/javascript">
 		dojo.require("dijit.Tooltip");
 		dojo.require("dijit.util.parser");	// find widgets
@@ -31,7 +30,7 @@
 
 <body class="tundra">
 	<h1 class="testTitle">Tooltip test</h1>
-	<p>Mouse-over the items below to test tooltips:</p>
+	<p>Mouse-over the items below to test tooltips. <button onclick="dijit.byId('btnTt').destroy()">Remove</button> tooltip from button.</p>
 	<p>
 		<span id="one" class="tt">text</span>
 		<span dojoType="dijit.Tooltip" connectId="one" style="display:none;">
@@ -46,7 +45,7 @@
 	</p>
 	
 	<button id="four">button</button>
-	<span dojoType="dijit.Tooltip" connectId="four" caption="tooltip on button" style="display:none;"></span>
+	<span id="btnTt" dojoType="dijit.Tooltip" connectId="four" caption="tooltip on button" style="display:none;"></span>
 
     <select id="seven">
       <option value="alpha">Alpha</option>
@@ -63,9 +62,8 @@
 		<input type="input" id="id1" value="0"/><br>
 		<input type="input" id="id2" value="1"/><br>
 		<input type="input" id="id3" value="2"/><br>
-
 		<input type="input" id="id4" value="3"/><br>
-    	<input type="input" id="id5" value="4"/><br>
+    <input type="input" id="id5" value="4"/><br>
 		<input type="input" id="id6" value="5"/><br>
 	</form>
 	<br>

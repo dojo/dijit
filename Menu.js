@@ -381,7 +381,11 @@ dojo.declare(
 
 		this._highlightItem();
 
-		this.containerNode.focus();
+		try{
+			this.containerNode.focus();
+		}catch(e){
+			// this throws on IE (at least) in some scenarios
+		}
 
 		if(this.is_hovering){ this._stopSubmenuTimer(); }
 		this.is_hovering = true;

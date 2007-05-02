@@ -383,8 +383,10 @@ dojo.declare(
 		// attach mouse events
 		//
 
-		dojo.connect(document.documentElement, "onmousemove", this, "changeSizing");
-		dojo.connect(document.documentElement, "onmouseup", this, "endSizing");
+		this.sizingEvents = [
+			dojo.connect(document.documentElement, "onmousemove", this, "changeSizing"),
+			dojo.connect(document.documentElement, "onmouseup", this, "endSizing")
+		];
 		dojo.stopEvent(e);
 	},
 
@@ -412,8 +414,7 @@ dojo.declare(
 
 		this.isSizing = false;
 
-		dojo.disconnect(document.documentElement, "onmousemove", this, "changeSizing");
-		dojo.disconnect(document.documentElement, "onmouseup", this, "endSizing");
+		dojo.forEach(this.sizingEvents, dojo.disconnect);
 		
 		if(this.persist){
 			this._saveState(this);

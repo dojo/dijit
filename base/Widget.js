@@ -152,9 +152,6 @@ function(params, srcNodeRef){
 				this.bgIframe.remove();
 				delete this.bgIframe;
 			}
-			if(!finalize && this.domNode){
-				dojo.cleanNodeEvents(this.domNode);
-			}
 		}catch(e){ /* squelch! */ }
 		try{
 //			dojo.dom.destroyNode(this.domNode);

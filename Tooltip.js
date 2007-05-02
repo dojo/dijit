@@ -112,14 +112,14 @@ dojo.declare(
 		//		(When user hovers over specified dom node, the tooltip will appear.)
 		connectId: "",
 
-		// A hash to hold connect handles for cleanup
-		_connections: [],
-
 		postCreate: function(){
+			// An array to hold connect handles for cleanup (per instance)
+			this._connections = [];
+			
 			this._connectNode = dojo.byId(this.connectId);
 
 			dojo.forEach(["onMouseOver", "onHover", "onMouseOut", "onUnHover"], function(event){
-				this._connections.event = dojo.connect(this._connectNode, event.toLowerCase(), this, "_"+event);
+				this._connections.push(dojo.connect(this._connectNode, event.toLowerCase(), this, "_"+event));
 			}, this);
 		},
 
@@ -133,7 +133,11 @@ dojo.declare(
 				if(node === ancestor){ 
 					return true; // boolean
 				}
-				node = node.parentNode;
+				try{
+					node = node.parentNode;
+				}catch(e){
+					return true;
+				}
 			}
 			return false; // boolean
 		},
@@ -197,9 +201,7 @@ dojo.declare(
 
 		uninitialize: function(){
 			this.close();
-			for(var event in this._connections){
-				dojo.disconnect(this._connectNode, event, this._connections.event);
-			}
+			dojo.forEach(this._connections, dojo.disconnect);
 			this._connections = {};
 		}
 	}
