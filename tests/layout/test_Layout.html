@@ -1,0 +1,93 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title>Layout Demo</title>
+<script type="text/javascript">
+	var djConfig = {isDebug: true};
+</script>
+<script type="text/javascript" src="../../../dojo/dojo.js"></script>
+<script language="JavaScript" type="text/javascript">
+	dojo.require("dijit.layout.LayoutContainer");
+	dojo.require("dijit.layout.ContentPane");
+	dojo.require("dijit.layout.LinkPane");
+	dojo.require("dijit.layout.SplitContainer");
+	dojo.require("dijit.layout.TabContainer");
+//	dojo.require("dijit.Tree");
+	dojo.require("dijit.util.parser");	// scan page for widgets and instantiate them
+
+</script>
+  <style>
+@import "../../../dojo/resources/dojo.css";
+@import "../../themes/tundra/tundra.css";
+@import "css/dijitTests.css";
+
+    html, body{	
+		width: 100%;	/* make the body expand to fill the visible window */
+		height: 100%;
+		overflow: hidden;	/* erase window level scrollbars */
+		padding: 0 0 0 0;
+		margin: 0 0 0 0;
+    }
+	.dojoSplitPane{
+		margin: 5px;
+	}
+	#rightPane {
+		margin: 0;
+	}
+   </style>
+</head>
+<body>
+<div dojoType="dijit.layout.LayoutContainer"
+	layoutChildPriority='top-bottom'
+	style="width: 100%; height: 100%;">
+	<div dojoType="dijit.layout.ContentPane" layoutAlign="top" style="background-color: #274383; color: white;">
+		top bar
+	</div>
+	<div dojoType="dijit.layout.ContentPane" layoutAlign="bottom" style="background-color: #274383; color: white;">
+		bottom bar
+	</div>
+	<div dojoType="dijit.layout.SplitContainer"
+		orientation="horizontal"
+		sizerWidth="5"
+		activeSizing="0"
+		layoutAlign="client"
+	>
+		<div zdojoType="Tree" publishSelectionTopic="treeSelected" toggle="fade"
+			 sizeMin="20" sizeShare="20">
+		    <div zdojoType="TreeNode" title="Item 1">
+		        <div zdojoType="TreeNode" title="Item 1.1"><br/></div>
+		        <div zdojoType="TreeNode" title="Item 1.2">
+		            <div zdojoType="TreeNode" title="Item 1.2.1"></div>
+		            <div zdojoType="TreeNode" title="Item 1.2.2"></div>
+		        </div>
+		        <div zdojoType="TreeNode" title="Item 1.3">
+		            <div zdojoType="TreeNode" title="Item 1.3.1"></div>
+		            <div zdojoType="TreeNode" title="Item 1.3.2"></div>
+		        </div>
+		        <div zdojoType="TreeNode" title="Item 1.4">
+		            <div zdojoType="TreeNode" title="Item 1.4.1"></div>
+		        </div>
+		    </div>
+		</div>
+
+		<div dojoType="dijit.layout.SplitContainer"
+			id="rightPane"
+			orientation="vertical"
+			sizerWidth="5"
+			activeSizing="0"
+			sizeMin="50" sizeShare="80"
+		>
+			<div id="mainTabContainer" dojoType="dijit.layout.TabContainer" sizeMin="20" sizeShare="70">
+			
+				<a id="tab1" dojoType="dijit.layout.LinkPane" href="tab1.html">Tab 1</a>
+				
+				<a id="tab2" dojoType="dijit.layout.LinkPane" href="tab2.html">Tab 2</a>
+			</div>
+			<div dojoType="dijit.layout.ContentPane" sizeMin="20" sizeShare="30">
+				This is just a test of the various containers nested inside each other.
+			</div>
+		</div>
+	</div>
+</div>
+</body>
+</html>
