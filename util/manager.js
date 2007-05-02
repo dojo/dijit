@@ -31,20 +31,23 @@ dijit.util.manager = new function(){
 		dojo.forEach(this.getAllWidgets(), this.remove, this);
 	}
 
-	this.remove = function(id) {
+	this.remove = function(id){
+		//is the try/catch necessary?
 		try{
 			var widget = widgets[id];
-			widget.destroy(true);
-			widgets[id] = null;
-			delete widget;
-		}catch(e){ }
+			if(widget){
+				widget.destroy(true);
+				widgets[id] = null;
+				delete widget; // does deleting a local var accomplish anything?
+			}
+		}catch(e){ /*squelch*/ }
 	}
 
 	this.byId = function(id){
 		return widgets[id];
 	}
 
-	this.getAllWidgets = function() {
+	this.getAllWidgets = function(){
 		var ary = [];
 		for(var widget in widgets){
 			ary.push(widgets[widget]);

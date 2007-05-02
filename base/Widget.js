@@ -52,7 +52,7 @@ function(params, srcNodeRef){
 		//console.profileEnd(this.widgetType + " buildRendering");
 
 		this.domNode.widgetId = this.id;
-
+		this.widgetId = this.id;
 		// console.debug(this.widgetType, "-> postCreate");
 		//console.profile(this.widgetType + " postCreate");
 		this.postCreate();
@@ -175,7 +175,6 @@ function(params, srcNodeRef){
 		// summary:
 		//		Recursively destroy the children of this widget and their
 		//		descendents.
-
 		dojo.forEach(this.getDescendants(), function(widget){
 			widget._destroy();
 		});

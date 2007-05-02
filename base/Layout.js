@@ -91,7 +91,15 @@ dijit.base.Layout.layoutChildren = function(/*DomNode*/ container, /*Object[]*/ 
 	 *		an array like [ {domNode: foo, layoutAlign: "bottom" }, {domNode: bar, layoutAlign: "client"} ]
 	 */
 
-	this._addClass(container, "dojoLayoutContainer");
+	// PORT FIXME: temporary until we figure out where addClass should go 
+	var	_addClass = function(/*HTMLElement*/ node, /*String*/ classStr){
+			// summary
+			//	adds classStr to node iff it isn't already there
+			if(!(new RegExp('(^|\\s+)'+classStr+'(\\s+|$)')).test(node.className)){
+				node.className += " "+classStr;
+			}
+	};
+	_addClass(container, "dojoLayoutContainer");
 
 	// Copy children array and remove elements w/out layout.
 	// Also record each child's position in the input array, for sorting purposes.
@@ -123,14 +131,18 @@ dijit.base.Layout.layoutChildren = function(/*DomNode*/ container, /*Object[]*/ 
 	}
 
 	// REVISIT: we need getPixelValue to be public
-	var px = dojo._getPixelizer();
+	var _toPixelValue = function(element, value){
+		// parseInt or parseFloat? (style values can be floats)
+		return parseFloat(value) || 0; 
+	}
+	var px = _toPixelValue;
 	
 	// remaining space (blank area where nothing has been written)
 	var f={
 		top: px(container, dojo.getComputedStyle(container, "padding-top")),
 		left: px(container, dojo.getComputedStyle(container, "padding-left"))
 	};
-	dojo.mixin(f, dojo.getContentBox(container));
+	dojo.mixin(f, dojo.contentBox(container));
 
 	var ret = true;
 	// set positions/sizes
@@ -147,7 +159,7 @@ dijit.base.Layout.layoutChildren = function(/*DomNode*/ container, /*Object[]*/ 
 			return word.substring(0,1).toUpperCase() + word.substring(1);
 		};
 		
-		this._addClass(elm, "dojoAlign" + capitalize(pos));
+		_addClass(elm, "dojoAlign" + capitalize(pos));
 
 		// set size && adjust record of remaining space.
 		// note that setting the width of a <div> may affect it's height.
@@ -162,7 +174,7 @@ dijit.base.Layout.layoutChildren = function(/*DomNode*/ container, /*Object[]*/ 
 			if(pos=="top"){
 				f.top += h;
 			}else{
-				elmStyle.top = f.top + f.height + "px";
+				elmStyle.top = f.top + f.h + "px";
 			}
 			// TODO: for widgets I want to call resizeTo(), but I can't because
 			// I only want to set the width, and have the height determined
@@ -218,4 +230,5 @@ dijit.base.Layout._sizeChild = function (child, elm, w, h){
 	}
 	return hasZero;
 }
+
 
