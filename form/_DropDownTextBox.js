@@ -23,14 +23,34 @@ dojo.declare(
 	},
 	arrowClicked: function(){
 			// summary: callback when arrow is clicked
-			//alert("click");
+			if(this.popupWidget.isShowingNow){
+				this._hideResultList();
+			}else{
+					// forces full population of results, if they click
+					// on the arrow it means they want to see more options
+				this._openResultList();
+			}
 	},
 	postCreate:function(){
 		this.popupWidget=dijit.form._DropDownTextBox.MasterPopup;
+		this.optionsListNode=document.createElement('div');
 		/*dojo.connect(this.downArrowNode, "onmousedown", this, "_arrowPressed");
 		dojo.connect(this.downArrowNode, "onmouseout", this, "_arrowIdle");
 		dojo.connect(this.downArrowNode, "onmouseup", this, "arrowClicked");*/
-	}
+	},
+	_clearResultList: function(){
+		if(this.optionsListNode.innerHTML){
+			this.optionsListNode.innerHTML = "";  // browser natively knows how to collect this memory
+		}
+	},
+
+	_hideResultList: function(){
+		
+			this._arrowIdle();
+			this.popupWidget.close(this);
+		
+		
+	},
 });
 dojo.declare(
 			"dijit.form._DropDownTextBox.Popup",
@@ -52,12 +72,10 @@ dojo.declare(
 	},
 	close:function(/*Widget*/ autocompleter){
 		if(!this.isShowingNow||this.autocompleter!=autocompleter){ return; }
-		try{
+		
 			this.isShowingNow=false;
 			dijit.util.PopupManager.close();
-		}catch(e){
-			console.log("Problem closing popup");
-		}
+		
 	},
 	processKey:function(/*Event*/ e){
 			// required by PopupManager

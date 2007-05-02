@@ -28,8 +28,8 @@
 	function setVal3(val){
 		document.getElementById('value3').value=val;
 	}
-	function myLabelFunc(value){
-		return value;
+	function myLabelFunc(item){
+		return item['name'];
 	}
 </script>
 </head>
@@ -466,7 +466,7 @@ Enhancements over plain HTML version:
 		onValueChanged="setVal3" dataProviderClass="dojo.data.JsonItemStore"
 	>-->
 	<input type="submit">
-
+	<input type="reset">
 </form>
 <p>
 this is some text below the combo boxes. It shouldn't get pushed out of the way when search results get returned.

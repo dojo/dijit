@@ -1,0 +1,63 @@
+<html>
+<head>
+<title>Dojo ComboBox Widget Destruction Issue</title>
+<link rel=stylesheet href="../../themes/tundra/tundra.css" type="text/css">
+<script type="text/javascript"> 
+	var djConfig = {
+        debugAtAllCosts: true,
+        isDebug: true
+    };
+</script>
+<script type="text/javascript" src="../../../dojo/dojo.js"></script> 
+<script type="text/javascript">
+	
+	dojo.require("dijit.form.AutoCompleter");
+	dojo.require("dijit.util.manager");
+	dojo.require("dijit.util.parser");	// scan page for widgets and instantiate them
+    if ("debugAtAllCosts" in djConfig && djConfig.debugAtAllCosts) {
+     //   dojo.hostenv.writeIncludes();
+    }
+</script>
+<script type="text/javascript">
+	dojo.addOnLoad(init);
+	function init(){
+	//new dijit.form.AutoCompleter({name:"prog", id:"combo_02",autocomplete:false,url:"autoCompleterData.js",searchField:"name"}, document.getElementById("progCombo"));
+        dojo.connect(dojo.byId("killit"), "onclick", function() {
+            dijit.byId("combo_01").destroy(true);
+        });
+	}
+</script>
+</head>
+<body>
+<h1>Dojo ComboBox Widget Destruction Issue</h1>
+<p>
+<tt>ComboBox</tt> does not destroy itself properly, leading to a 
+JavaScript error.  Could it have something to do with not disconnecting
+events?
+</p>
+<p>
+Steps:
+<ol>
+    <li>Pick a state from the combo box below.</li>
+    <li>Click the "killit" button, which calls <tt>destroy</tt> on the widget.</li>
+    <li>Observe the JavaScript error.</li>
+</ol>
+</p>
+<form action="#" method="GET">
+   <input type="button" id="killit" name="killit" value="killit" />
+	<select name="state" searchField="name" keyField="abbreviation" id="combo_01" dojoType="dijit.form.AutoCompleter" style="width: 300px;" name="foo.bar1" autocomplete="false"
+	>
+		<option value="AL">Alabama</option>
+
+		<option value="AK">Alaska</option>
+		<option value="AS">American Samoa</option>
+		<option value="AZ">Arizona</option>
+		<option value="AR">Arkansas</option>
+		<option value="AE">Armed Forces Europe</option>
+		<option value="AP">Armed Forces Pacific</option>
+	</select>    
+<!--<p>A combo created by createWidget</p>
+	<input id="progCombo">-->
+</form>
+</body>
+</html>
