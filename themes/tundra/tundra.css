@@ -380,7 +380,10 @@ table.dojoButton .dojoButtonNode {
 }
 
 .tundra .dojoSplitContainerSizerV {
-
+	background:url("splitContainerVBg.gif") repeat-x bottom left #fff;
+	border:0;
+	border-top:1px solid #bfbfbf;
+	border-bottom:1px solid #bfbfbf;
 }
 
 .dojoSplitContainerVirtualSizerH,
