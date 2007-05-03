@@ -1,0 +1,45 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+        "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title>ColorPalette Widget Demo</title>
+
+<link rel=stylesheet href="../themes/tundra/tundra.css" type="text/css">
+
+<script type="text/javascript"> var djConfig = {isDebug: true, debugAtAllCosts: true}; </script>
+<script type="text/javascript" src="../../dojo/dojo.js"></script>
+<script language="JavaScript" type="text/javascript">
+	dojo.registerModulePath("dijit", "../dijit");
+	dojo.require("dijit.ColorPalette");
+	dojo.require("dijit.util.parser");
+	
+	var palette;
+	function init(){
+		palette = new dijit.ColorPalette({palette: "7x10", id: "progPalette"}, dojo.byId("programPalette"));
+	}
+	dojo.addOnLoad(init); 
+
+	function setColor(color)
+	{
+	
+		var theSpan = dojo.byId("outputSpan");
+		theSpan.style.color = "#"+color;
+		theSpan.innerHTML = color;
+	
+	}
+	
+</script>
+</head>
+<body>
+<p>Default color palette (7x10):</p>
+<div dojoType="dijit.ColorPalette" onColorSelect="setColor(this.selectedColor);"></div>  
+Test color is: <span id="outputSpan"></span>.
+
+<p>Small color palette (3x4):</p>
+<div dojoType="dijit.ColorPalette" palette="3x4"></div>
+
+<p>Default color palette (7x10) created via createWidget:</p>
+<div id="programPalette"></div>
+</body>
+
+</html><html><body></body></html>
