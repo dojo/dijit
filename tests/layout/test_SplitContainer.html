@@ -14,14 +14,14 @@
 	<style type="text/css">
 		@import "../../../dojo/resources/dojo.css";
 		@import "../../themes/tundra/tundra.css";
-		@import "css/dijitTests.css";
-		body{ padding: 1em; }
+		@import "../css/dijitTests.css";
+		.dojoContentPane {
+			padding:1em;
+		}
 	</style>
 </head>
-<body>
-
-	<p>HTML before</p>
-	<p>HTML before</p>
+<body class="tundra">
+	<h1 class="testTitle">Dijit Split Container Test</h1>
 	<p>HTML before</p>
 
 	<div dojoType="dijit.layout.SplitContainer"
@@ -44,7 +44,7 @@
 
 	<div dojoType="dijit.layout.SplitContainer"
 		orientation="horizontal"
-		sizerWidth="5"
+		sizerWidth="7"
 		activeSizing="true"
 		style="border: 2px solid black; float: left; width: 400px; height: 300px;">
 		<div dojoType="dijit.layout.ContentPane" sizeMin="20" sizeShare="20">
@@ -56,8 +56,6 @@
 	</div>
 
 	<p style="clear: both;">HTML after</p>
-	<p>HTML after</p>
-	<p>HTML after</p>
 
 </body>
 </html>
