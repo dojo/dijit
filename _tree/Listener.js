@@ -44,10 +44,6 @@ dojo.declare(
 		
 	},			
 	
-	// interface functions  (TODO: obsolete???)
-	listenNode: function() {},	
-	unlistenNode: function() {},
-			
 	unlistenTree: function(/* String */ treeId) {
 		
 		// summary:

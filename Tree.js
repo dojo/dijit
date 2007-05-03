@@ -58,12 +58,12 @@ dojo.declare(
 		return false;
 	},
 
-	setChildren: function(/* Widgets[] */ childrenArray) {
+	setChildren: function(/* Object[] */ childrenArray) {
 		// summary:
 		//		Sets the children of this node.
 		//		Sets this.isFolder based on whether or not there are children
-		// TODO: since _TreeNode is an internal widget, this should take an array of something else
-		//	like {label: ..., type: ... }
+		// 		Takes array of objects like: {label: ..., type: ... }
+		//		See parameters of _TreeNode for details.
 
 		this.destroyDescendants();
 
@@ -84,26 +84,24 @@ dojo.declare(
 			this.domNode.appendChild(this.containerNode);
 		}
 
-		this.children = childrenArray;
+		// Create _TreeNode widget for each specified tree node
+		dojo.lang.forEach(childrenArray, function(childParams){
+			var child = new dijit._TreeNode(childParams);
+			this.addChild(child);
+		});
 
-		for(var i=0; i<this.children.length; i++) {
-			var child = this.children[i];
-			this.containerNode.appendChild(child.domNode);
-		}
-
-		for(var i=0; i<this.children.length; i++) {
-			var child = this.children[i];
+		// note that updateLayout() needs to be called on each child after
+		// all the children exist
+		dojo.forEach(this.getChildren(), function(child, idx){
 			child._updateLayout();
 
 			var message = {
 				child: child,
-				index: i,
+				index: idx,
 				parent: this,
-				childWidgetCreated: childWidgetCreated
-			}
-
+			};
 			dojo.event.topic.publish(this.tree.eventNames.afterAddChild, message);
-		}
+		});
 	}
 });
 
@@ -124,6 +122,8 @@ dojo.declare(
 	isExpanded: true, // consider this "root node" to be always expanded
 
 	isTree: true,
+
+	// TODO: create Controller automatically
 	
 	postMixInProperties: function(){
 		this.tree = this;

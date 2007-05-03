@@ -1,0 +1,49 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+        "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title>Menu System Test</title>
+<style type="text/css">
+	@import "../../dojo/resources/dojo.css";
+	@import "../themes/tundra/tundra.css";
+	@import "css/dijitTests.css";
+</style>
+<script type="text/javascript" src="../../dojo/dojo.js"
+	djConfig="isDebug: true, debugAtAllCosts: true"></script>
+<script language="JavaScript" type="text/javascript">
+	dojo.require("dojo.data.JsonItemStore");
+	dojo.require("dijit.util.parser");	// scan page for widgets and instantiate them
+</script>
+<script>
+
+function print(/*Item*/ item){
+	if (store.isItem(item)) {
+		if (store.isItemLoaded(item)) {
+			var name = store.getValue(item, "name");
+			var type = store.getValue(item, "type");
+			if (!store.isItem(name)) {
+			   // name is a simple literal, so just display it
+			   console.log(name + "(" + type + ")");
+			}
+			var children = store.getValues(item, "children");
+			dojo.forEach(children, print);
+		} else {
+	       store.loadItem({item:child, scope:gui, onItem:print});
+		}
+	}
+}
+function onComplete(/*Items[]*/ items) {
+	dojo.forEach(items, print);
+}
+dojo.addOnLoad(function(){
+	store = new dojo.data.JsonItemStore({url: "countries.json"});
+	var query = {type:'continent'};
+	store.fetch({ query: query, onComplete:onComplete});
+});
+</script>
+</head>
+<body class="tundra">
+Look in console log.
+
+</body>
+</html>
