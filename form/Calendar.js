@@ -4,7 +4,7 @@ dojo.require("dojo.date.calc");
 dojo.require("dojo.date.local");
 dojo.require("dojo.date.serial");
 
-dojo.require("dijit.base.FormElement");
+dojo.require("dijit.base.Widget");
 dojo.require("dijit.base.TemplatedWidget");
 
 dojo.declare(
@@ -33,6 +33,8 @@ dojo.declare(
 		// value: Date
 		value: new Date(),
 
+		_dayWidth: "narrow",
+
 		setValue: function(/*Date*/ dateObj){
 			//summary: set the current date and update the UI
 			this.value = dateObj;
@@ -51,12 +53,15 @@ dojo.declare(
 		},
 
 		postCreate: function(){
+			// TODO: get this from dojo.date routines
+			this.weekStartsOn = 0;
+
 			dijit.form.Calendar.superclass.postCreate.apply(this);
 			this.weekTemplate = this.calendarWeekTemplate.parentNode.removeChild(this.calendarWeekTemplate);
 			this._preInitUI(this.value ? this.value : this.today, false, true); //init UI with date selected ONLY if user supplies one
 
 			// Insert localized day names in the template
-			var dayLabels = dojo.date.local.getNames('days', this.dayWidth, 'standAlone', this.lang);
+			var dayLabels = dojo.date.local.getNames('days', this._dayWidth, 'standAlone', this.lang);
 			var dayLabelNodes = this.dayLabelsRow.getElementsByTagName("td");
  			for(i=0; i<7; i++){
 				dayLabelNodes.item(i).innerHTML = dayLabels[(i + this.weekStartsOn) % 7];
@@ -133,7 +138,7 @@ dojo.declare(
 				//this is our new UI loop... one loop to rule them all, and in the datepicker bind them
 				currentCalendarNode = calendarNodes.item(i);
 				currentCalendarNode.innerHTML = nextDate.getDate();
-				currentCalendarNode.setAttribute("_dojoDateValue",nextDate.valueOf());
+				currentCalendarNode.dojoDateValue=nextDate;
 				var curClass = (nextDate.getMonth() != this.curMonth.getMonth() && Number(nextDate) < Number(this.curMonth))?'previous':(nextDate.getMonth()==this.curMonth.getMonth())?'current':'next';
 				var mappedClass = curClass;
 				currentCalendarNode.className = this._getDateClassName(nextDate, mappedClass);
@@ -230,7 +235,7 @@ dojo.declare(
 			dojo.stopEvent(evt);
 			this.selectedIsUsed = this.todayIsUsed = false;
 			this.clickedNode = eventTarget;
-			this.setDate(new Date(eventTarget.getAttribute('_dojoDateValue'))); //PORT: dojo.html.getAttribute apparently needed for Opera?
+			this.setValue(eventTarget.dojoDateValue);
 		},
 		
 		onValueChanged: function(/*Date*/date){
