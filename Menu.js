@@ -443,11 +443,11 @@ dojo.declare(
 	},
 
 	_highlightItem: function(){
-		this._addClass(this.domNode, 'dojoMenuItemHover');
+		dojo.addClass(this.domNode, 'dojoMenuItemHover');
 	},
 
 	_unhighlightItem: function(){
-		this._removeClass(this.domNode, 'dojoMenuItemHover');
+		dojo.removeClass(this.domNode, 'dojoMenuItemHover');
 	},
 
 	_startSubmenuTimer: function(){
@@ -488,7 +488,7 @@ dojo.declare(
 		// summary: enable or disable this menu item
 		this.disabled = value;
 
-		(value ? this._addClass : this._removeClass)(this.domNode, 'dojoMenuItemDisabled');
+		(value ? dojo.addClass : dojo.removeClass)(this.domNode, 'dojoMenuItemDisabled');
 	},
 
 	menuOpen: function(message){

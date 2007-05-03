@@ -114,12 +114,12 @@ dojo.declare(
 
 	// event handlers, you can over-ride these in your own subclasses
 	_focused: function(){
-		this._addClass(this.domNode, "dojoInputFieldFocused");
+		dojo.addClass(this.domNode, "dojoInputFieldFocused");
 		this._changed();
 	},
 
 	_blurred: function(){
-		this._removeClass(this.domNode, "dojoInputFieldFocused");
+		dojo.removeClass(this.domNode, "dojoInputFieldFocused");
 		this._changed();
 	},
 

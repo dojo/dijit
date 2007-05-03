@@ -13,12 +13,12 @@ dojo.declare(
 		//		Text box with drop down
 	templatePath: dojo.moduleUrl("dijit.form", "templates/AutoCompleter.html"),
 	_arrowPressed: function(){
-		this._addClass(this.downArrowNode, "dojoArrowButtonPushed");
+		dojo.addClass(this.downArrowNode, "dojoArrowButtonPushed");
 	},
 
 	_arrowIdle: function(){
 		if(!this.popupWidget.autocompleter!=this){
-			this._removeClass(this.downArrowNode, "dojoArrowButtonPushed");
+			dojo.removeClass(this.downArrowNode, "dojoArrowButtonPushed");
 		}
 	},
 	arrowClicked: function(){

@@ -82,14 +82,14 @@ dojo.declare(
 	_onMouseOver: function(){
 		if(!this.editing){
 			var classname = this.disabled ? "dojoDisabledClickableRegion" : "dojoClickableRegion";
-			this._addClass(this.editable, classname);
+			dojo.addClass(this.editable, classname);
 		}
 	},
 
 	_onMouseOut: function(){
 		if(!this.editing){
 			var classStr = this.disabled ? "dojoDisabledClickableRegion" : "dojoClickableRegion";
-			this._removeClass(this.editable, classStr);
+			dojo.removeClass(this.editable, classStr);
 		}
 	},
 

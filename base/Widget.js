@@ -208,25 +208,7 @@ function(params, srcNodeRef){
 			}
 		}
 		return nodes;
-	},
-
-		// helper classes needed by most widgets.  Move to a util class?
-		_addClass: function(/*HTMLElement*/ node, /*String*/ classStr){
-			// summary
-			//	adds classStr to node iff it isn't already there
-			if(!(new RegExp('(^|\\s+)'+classStr+'(\\s+|$)')).test(node.className)){
-				node.className += " "+classStr;
-			}
-		},
-
-		_removeClass: function(/*HTMLElement*/ node, /*String*/ classStr){
-			// summary
-			//	removes classStr from node if it is present
-
-		//PERF: compare with plain string replace
-			node.className = node.className.replace(new RegExp('(^|\\s+)'+classStr+'(\\s+|$)'), "$1$2");
-		}
-	
+	}
 });
 
 //PORT - where does this go?  dijit.util?  dojo.html?

@@ -272,7 +272,7 @@ dojo.declare(
 		labelNode.setAttribute("tabIndex", "0");
 		node.tree.lastFocused = node;
 	
-		dojo.html.addClass(labelNode, "TreeLabelFocused");
+		dojo.addClass(labelNode, "TreeLabelFocused");
 
 		// set focus so that the label wil be voiced using screen readers
 		labelNode.focus();
@@ -358,15 +358,15 @@ dojo.declare(
 	_updateLayout: function() {
 		// summary: set appropriate CSS classes for this.domNode
 
-		dojo.html.removeClass(this.domNode, "TreeIsRoot");
+		dojo.removeClass(this.domNode, "TreeIsRoot");
 		if (this.getParent()["isTree"]) {
 			// use setClass, not addClass for speed
-			dojo.html.setClass(this.domNode, dojo.html.getClass(this.domNode) + ' '+'TreeIsRoot')
+			dojo.setClass(this.domNode, dojo.getClass(this.domNode) + ' '+'TreeIsRoot')
 		}
 
-		dojo.html.removeClass(this.domNode, "TreeIsLast");
+		dojo.removeClass(this.domNode, "TreeIsLast");
 		if (this.isLastChild()) {
-			dojo.html.setClass(this.domNode, dojo.html.getClass(this.domNode) + ' '+'TreeIsLast')			
+			dojo.setClass(this.domNode, dojo.getClass(this.domNode) + ' '+'TreeIsLast')			
 		}
 	},
 		

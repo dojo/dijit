@@ -43,7 +43,7 @@ dojo.declare(
 	_setCss: function(){
 		var classes = ["dojoClosed", "dojoOpen"];
 		var boolIndex = this.open;
-		this._removeClass(this.domNode, classes[!boolIndex+0]);
+		dojo.removeClass(this.domNode, classes[!boolIndex+0]);
 		this.domNode.className += " " + classes[boolIndex+0];
 	},
 

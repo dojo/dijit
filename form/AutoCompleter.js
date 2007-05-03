@@ -320,14 +320,14 @@ dojo.declare(
 			this._blurOptionNode();
 			this._highlighted_option = node;
 			console.log(node);
-			this._addClass(this._highlighted_option, "dojoMenuItemHover");
+			dojo.addClass(this._highlighted_option, "dojoMenuItemHover");
 		}
 	},
 
 	_blurOptionNode: function(){
 		// summary: removes highlight on highlighted
 		if(this._highlighted_option){
-			this._removeClass(this._highlighted_option, "dojoMenuItemHover");
+			dojo.removeClass(this._highlighted_option, "dojoMenuItemHover");
 			this._highlighted_option = null;
 		}
 	},
@@ -619,7 +619,7 @@ dojo.declare(
 			this.store=new dpClass(this);
 		}
 
-		this._addClass(this.optionsListNode, 'dojoMenu');
+		dojo.addClass(this.optionsListNode, 'dojoMenu');
 		this.optionsListNode.style.overflow="scroll";
 		dojo.connect(this.optionsListNode, 'onclick', this, '_selectOption');
 		dojo.connect(this.optionsListNode, 'onmouseover', this, '_onMouseOver');

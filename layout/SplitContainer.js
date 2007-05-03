@@ -54,7 +54,7 @@ dojo.declare(
 	postCreate: function(){
 		this.sizers = [];
 		dijit.layout.SplitContainer.superclass.postCreate.apply(this, arguments);
-		this._addClass(this.domNode, "dojoSplitContainer");
+		dojo.addClass(this.domNode, "dojoSplitContainer");
 		// overflow has to be explicitly hidden for splitContainers using gekko (trac #1435)
 		// to keep other combined css classes from inadvertantly making the overflow visible
 		if(dojo.isMozilla){
@@ -97,7 +97,7 @@ dojo.declare(
 			with(children[i].domNode.style){
 				position = "absolute";
 			}
-			this._addClass(children[i].domNode, "dojoSplitPane");
+			dojo.addClass(children[i].domNode, "dojoSplitPane");
 
 			if(i == children.length-1){
 				break;
@@ -116,7 +116,7 @@ dojo.declare(
 		with(child.domNode.style){
 			position = "absolute";
 		}
-		this._addClass(child.domNode, "dojoSplitPane");
+		dojo.addClass(child.domNode, "dojoSplitPane");
 	},
 
 	_addSizer: function(){

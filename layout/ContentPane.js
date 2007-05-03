@@ -72,7 +72,7 @@ dojo.declare(
 
 			// for programatically created ContentPane (with <span> tag), need to muck w/CSS
 			// or it's as though overflow:visible is set
-			this._addClass(this.domNode, this["class"]);
+			dojo.addClass(this.domNode, this["class"]);
 
 			if(this.handler!==""){
 				this.setHandler(this.handler);

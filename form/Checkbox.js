@@ -81,8 +81,8 @@ dojo.declare(
 
 			// Turn the input element invisible and make sure it overlays
 			// the dojo image container.
-			this._addClass(this.inputNode,"dojoCheckboxInputInvisible");
-			this._addClass(this.imageContainer,"dojoCheckboxImageContainer");
+			dojo.addClass(this.inputNode,"dojoCheckboxInputInvisible");
+			dojo.addClass(this.imageContainer,"dojoCheckboxImageContainer");
 
 			var imageContainerStyle = this.imageContainer.style;
 			var inputStyle = this.inputNode.style;

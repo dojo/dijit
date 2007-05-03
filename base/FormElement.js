@@ -80,11 +80,11 @@ dojo.declare("dijit.base.FormElement", dijit.base.Widget,
 			css = "dojo"+this.declaredClass.replace(/.*\./g,"");
 		}
 		if(disabled){
-			this._addClass(this.domNode, css+"Disabled");
-			this._removeClass(this.domNode, css+"Enabled");
+			dojo.addClass(this.domNode, css+"Disabled");
+			dojo.removeClass(this.domNode, css+"Enabled");
 		}else{
-			this._addClass(this.domNode, css+"Enabled");
-			this._removeClass(this.domNode, css+"Disabled");
+			dojo.addClass(this.domNode, css+"Enabled");
+			dojo.removeClass(this.domNode, css+"Disabled");
 		}
 		this.domNode.disabled = this.disabled = disabled;
 		dijit.util.wai.setAttr(this.domNode, "waiState", "disabled", disabled);

@@ -91,15 +91,7 @@ dijit.base.Layout.layoutChildren = function(/*DomNode*/ container, /*Object[]*/ 
 	 *		an array like [ {domNode: foo, layoutAlign: "bottom" }, {domNode: bar, layoutAlign: "client"} ]
 	 */
 
-	// PORT FIXME: temporary until we figure out where addClass should go 
-	var	_addClass = function(/*HTMLElement*/ node, /*String*/ classStr){
-			// summary
-			//	adds classStr to node iff it isn't already there
-			if(!(new RegExp('(^|\\s+)'+classStr+'(\\s+|$)')).test(node.className)){
-				node.className += " "+classStr;
-			}
-	};
-	_addClass(container, "dojoLayoutContainer");
+	dojo.addClass(container, "dojoLayoutContainer");
 
 	// Copy children array and remove elements w/out layout.
 	// Also record each child's position in the input array, for sorting purposes.
@@ -159,7 +151,7 @@ dijit.base.Layout.layoutChildren = function(/*DomNode*/ container, /*Object[]*/ 
 			return word.substring(0,1).toUpperCase() + word.substring(1);
 		};
 		
-		_addClass(elm, "dojoAlign" + capitalize(pos));
+		dojo.addClass(elm, "dojoAlign" + capitalize(pos));
 
 		// set size && adjust record of remaining space.
 		// note that setting the width of a <div> may affect it's height.

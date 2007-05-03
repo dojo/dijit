@@ -103,7 +103,7 @@ dojo.declare(
 				
 				var highlightNode = document.createElement("img");
 				highlightNode.src = dojo.moduleUrl("dijit", "templates/blank.gif")
-				this._addClass(highlightNode, "dojoPaletteImg");
+				dojo.addClass(highlightNode, "dojoPaletteImg");
 				highlightNode.color = alts[row][col];
 				highlightNode.style.color = "#"+highlightNode.color;
 				var obj=this;
@@ -223,7 +223,7 @@ dojo.declare(
 		// highlightNode:
 		// 		The color node to be highlighted.
 		this._unhighlightColor();
-		this._addClass(highlightNode, "dojoPaletteImgHighlight");
+		dojo.addClass(highlightNode, "dojoPaletteImgHighlight");
 		this._currentHighlight = highlightNode;
 		this._ignoreFocus = true;
 		if (this._currentFocus != null)
@@ -240,7 +240,7 @@ dojo.declare(
 		// summary: 
 		//		This removes the highlight style
 		if (this._currentHighlight) {
-			this._removeClass(this._currentHighlight, "dojoPaletteImgHighlight");
+			dojo.removeClass(this._currentHighlight, "dojoPaletteImgHighlight");
 		}
 	},
 	

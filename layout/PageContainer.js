@@ -223,7 +223,7 @@ dojo.declare(
 		"class": "dojoPageController",
 		
 		postCreate: function(){
-			this._addClass(this.domNode, this["class"]);  // "class" is a reserved word in JS
+			dojo.addClass(this.domNode, this["class"]);  // "class" is a reserved word in JS
 			dijit.util.wai.setAttr(this.domNode, "waiRole", "role", "tablist");
 
 			this.pane2button = {};		// mapping from panes to buttons
@@ -366,13 +366,13 @@ dojo.declare(
 	onCloseButtonMouseOver: function(){
 		// summary
 		//	The close button changes color a bit when you mouse over	
-		this._addClass(this.closeButtonNode, "closeHover");
+		dojo.addClass(this.closeButtonNode, "closeHover");
 	},
 
 	onCloseButtonMouseOut: function(){
 		// summary
 		// 	Revert close button to normal color on mouse out
-		this._removeClass(this.closeButtonNode, "closeHover");
+		dojo.removeClass(this.closeButtonNode, "closeHover");
 	},
 
 	onCloseButtonClick: function(/*Event*/ evt){
@@ -383,14 +383,14 @@ dojo.declare(
 	setSelected: function(){
 		// summary
 		//	This is run whenever the page corresponding to this button has been selected
-		this._addClass(this.domNode, "current");
+		dojo.addClass(this.domNode, "current");
 		this.titleNode.setAttribute("tabIndex","0");
 	},
 	
 	clearSelected: function(){
 		// summary
 		//	This function is run whenever the page corresponding to this button has been deselected (and another page has been shown)
-		this._removeClass(this.domNode, "current");
+		dojo.removeClass(this.domNode, "current");
 		this.titleNode.setAttribute("tabIndex","-1");
 	},
 

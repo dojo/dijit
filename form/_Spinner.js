@@ -38,14 +38,14 @@ dojo.declare(
 		},
 
 		_arrowPressed: function(/*Node*/ nodePressed, /*Number*/ direction){
-			this._addClass(nodePressed, "dojoSpinnerButtonPushed");
+			dojo.addClass(nodePressed, "dojoSpinnerButtonPushed");
 			this.setValue(this.adjust(this.getValue(), direction*this.smallDelta));
 		},
 
 		_arrowReleased: function(/*Node*/ node){
 			this._wheelTimer = null;
 			this.textbox.focus();
-			this._removeClass(node, "dojoSpinnerButtonPushed");
+			dojo.removeClass(node, "dojoSpinnerButtonPushed");
 		},
 
 		_typematicCallback: function(/*Node*/ node, /*Number*/ count){

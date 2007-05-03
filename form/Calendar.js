@@ -38,10 +38,10 @@ dojo.declare(
 			this.value = dateObj;
 		
 			if(this.selectedNode){
-				this._removeClass(this.selectedNode,this.classNames.selectedDate);
+				dojo.removeClass(this.selectedNode,this.classNames.selectedDate);
 			}
 			if(this.clickedNode){
-				this._addClass(this.clickedNode,this.classNames.selectedDate);
+				dojo.addClass(this.clickedNode,this.classNames.selectedDate);
 				this.selectedNode = this.clickedNode;
 			}else{
 				//only call this if setDate was called by means other than clicking a date
