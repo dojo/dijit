@@ -555,3 +555,8 @@ body .dojoAlignClient { position: absolute; }
 	border-width: 2px;
 	border-color: #ffffff;
 }
+
+/* AccordionPane */
+.dojoAccordionPane .accBody {
+	overflow: auto;
+}

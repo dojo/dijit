@@ -75,7 +75,7 @@ dojo.declare("dijit.base.Container",
 			}
 
 			if(typeof insertIndex == "undefined"){
-				dojo.place(widget.domNode, containerNode);
+				dojo.place(widget.domNode, containerNode, "last");
 			}else{
 				dojo.place(widget.domNode, containerNode, insertIndex);
 			}

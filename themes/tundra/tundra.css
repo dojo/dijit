@@ -417,3 +417,27 @@ table.dojoButton .dojoButtonNode {
 	display:none;
 }
 
+/*Accordion*/
+
+.dojoAccordionPane .label {
+	background:#fafafa url("titleBarBg.gif") repeat-x top left;
+	border:1px solid #bfbfbf;
+	padding:4px 4px 2px 4px;
+	font-size:0.9em;
+}
+
+.dojoAccordionPane-selected .label {
+	background: url("dojoTundraGradientBgActive.png") repeat-x top left #85aeec;
+	font-weight: bold;
+	border:1px solid #84a3d1;
+	padding:4px 4px 2px 4px;
+}
+
+.dojoAccordionPane .label:hover {
+	cursor: pointer;
+}
+
+.dojoAccordionPane .accBody {
+	background: #fff;
+	border:1px solid #84a3d1;
+}

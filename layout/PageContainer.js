@@ -162,7 +162,7 @@ dojo.declare(
 		// size the current page (in case this is the first time it's being shown, or I have been resized)
 		if(this.doLayout){
 			var content = dojo.contentBox(this.containerNode);
-			if(page.resize){ // check it is Showable
+			if(page.resize){ // check it is Sizable
 				page.resize(content);
 			}
 		}

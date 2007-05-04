@@ -17,10 +17,7 @@ dojo.declare("dijit.base.Sizable",
 			// param: Object
 			//		{w: int, h: int}
 
-			dojo.marginBox(this.domNode, param);
-			if(!param.w || !param.h){
-				param = dojo.marginBox(this.domNode);
-			}
+			param =	dojo.marginBox(this.domNode, param);
 			this.onResized(param);
 		},
 	
