@@ -19,7 +19,11 @@ dojo.declare(
 	// open: Boolean
 	//		Whether pane is opened or closed.
 	open: true,
-	
+
+	// duration: Integer
+	//		milliseconds to fade in/fade out
+	duration: 250,
+
 	templatePath: dojo.moduleUrl("dijit", "templates/TitlePane.html"),
 
 	postCreate: function(){
@@ -31,11 +35,20 @@ dojo.declare(
 		dijit.TitlePane.superclass.postCreate.apply(this, arguments);
 		dijit.util.wai.setAttr(this.containerNode, "waiState", "labelledby", this.labelNode.id);
 		dijit.util.wai.setAttr(this.labelNode, "waiState", "haspopup", "true");
+		
+		// setup open/close animations
+		this._slideIn = dojo.fx.slideIn({node: this.containerNode, duration: this.duration});
+		this._slideOut = dojo.fx.slideOut({node: this.containerNode, duration: this.duration});
 	},
 
 	onLabelClick: function(){
 		// summary: callback when label is clicked
-		dojo.fx[this.open ? "slideOut" : "slideIn"]({node: this.containerNode, duration: 250}).play();
+		dojo.forEach([this._slideIn, this._slideOut], function(animation){
+			if(animation.status() == "playing"){
+				animation.stop();
+			}
+		});
+		this[this.open ? "_slideOut" : "_slideIn"].play();
 		this.open=!this.open;
 		this._setCss();
 	},
