@@ -122,7 +122,6 @@ dojo.declare(
 		//	callback to process key strokes
 		//	return true to stop the event being processed by the
 		//	parent popupmenu
-
 		if(evt.ctrlKey || evt.altKey || !evt.keyCode){ return false; }
 
 		switch(evt.keyCode){
@@ -218,14 +217,36 @@ dojo.declare(
 			win = dijit._iframeContentWindow(node);
 			node = dojo.withGlobal(win, dojo.body);
 		}
-
-		dojo.addListener(node, "contextmenu", this, this.open);
+		
+		// to capture these events at the top level, 
+		// attach to document, not body
+		var cn = (node == dojo.body() ? dojo.doc : node);
+		node[this.widgetId+'connect'] = [
+			dojo.connect(cn, "oncontextmenu", this, "open"),
+			dojo.connect(cn, "onkeydown", this, "_contextKey")
+		];
 	},
 
 	unBindDomNode: function(/*String|DomNode*/ nodeName){
 		// summary: detach menu from given node
 		var node = dojo.byId(nodeName);
-		dojo.removeListener(node, "contextmenu", this.open); //PORT fix 3rd arg (handle)
+		dojo.forEach(node[this.widgetId+'connect'], dojo.disconnect);
+	},
+
+	_contextKey: function(e){
+		if (e.keyCode == dojo.keys.F10) {
+			dojo.stopEvent(e);
+			if (e.shiftKey && e.type=="keydown") {
+				// FF: copying the wrong property from e will cause the system 
+				// context menu to appear in spite of stopEvent. Don't know 
+				// exactly which properties cause this effect.
+				var _e = { target: e.target, pageX: e.pageX, pageY: e.pageY };
+				_e.preventDefault = _e.stopPropagation = function(){};
+				// IE: without the delay, focus work in "open" causes the system 
+				// context menu to appear in spite of stopEvent.
+				window.setTimeout(dojo.hitch(this, function(){ this.open(_e); }), 1);
+			}
+		}
 	},
 
 	_openAsSubmenu: function(/*Widget|DomNode*/parent, /*Object*/explodeSrc, /*String?*/orient){
@@ -246,8 +267,8 @@ dojo.declare(
 	open: function(/*Event*/ e){
 		// summary
 		//		Open menu relative to the mouse
-		dijit.util.PopupManager.open(e, this);
 		dojo.stopEvent(e);
+		dijit.util.PopupManager.open(e, this);
 		this._highlightOption(1);
 	},
 

@@ -21,6 +21,9 @@ dijit.util.PopupManager = new function(){
 		//		TODO: if widget has href, attach to onLoaded() and reposition
 
 		var x = e.pageX, y = e.pageY;
+		// FIXME: consider skipping everything up to _open
+		// if x == y == 0, allowing the popup to appear 
+		// wherever it was last time. 
 		var win = dijit.util.window.getDocumentWindow(e.target.ownerDocument);
 		var iframe = win._frameElement || win.frameElement;
 		if(iframe){
