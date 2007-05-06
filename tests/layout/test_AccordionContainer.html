@@ -2,22 +2,25 @@
 	"http://www.w3.org/TR/html4/strict.dtd">
 <html>
 	<head>
-	
 		<title>Accordion Widget Demo</title>
-<style>
-@import "../../../dojo/resources/dojo.css";
-@import "../../themes/tundra/tundra.css";
-@import "css/dijitTests.css";
-</style>		
-		<script type="text/javascript">
-			var djConfig = {isDebug: true };
-		</script>
-		<script type="text/javascript" src="../../../dojo/dojo.js"></script>
+		<style type="text/css">
+			@import "../../../dojo/resources/dojo.css";
+			@import "../../themes/tundra/tundra.css";
+			@import "../css/dijitTests.css";
+		</style>		
+		<script type="text/javascript" 
+			djConfig="isDebug: true"
+			src="../../../dojo/dojo.js"></script>
+		<!--
+			uncomment for profiling
+		<script type="text/javascript" 
+			src="../../../dojo/_base/html.js"></script>
+		<script type="text/javascript" 
+			src="../../base/Layout.js"></script>
+		-->
 		<script type="text/javascript">
 			dojo.require("dijit.layout.AccordionContainer");
 			dojo.require("dijit.layout.ContentPane");
-//			dojo.require("dojo.widget.TreeV3");
-//			dojo.require("dojo.widget.TreeBasicControllerV3");
 			dojo.require("dijit.layout.SplitContainer");
 //		 	dojo.require("dijit.form.ComboBox");
 		 	dojo.require("dijit.form.Button");
@@ -30,7 +33,7 @@
 		
 			function init(){
 				accordion = new dijit.layout.AccordionContainer({}, dojo.byId("accordionShell"));
-				var label=["pane 1", "pane 2", "pane 3"];
+				var label=[ "pane 1", "pane 2", "pane 3" ];
 				for(i=0; i<label.length; ++i){
 					// add a node that will be promoted to the content widget
 					var refNode = document.createElement("span");
@@ -57,99 +60,99 @@
 		<p>HTML before</p>
 		<p>HTML before</p>
 
-		<div dojoType="dijit.layout.AccordionContainer" duration="200" labelNodeClass="label" containerNodeClass="accBody"
-			style="float: left; margin-right: 30px;  width: 400px; height: 300px; overflow: hidden"
-		>
-		<div dojoType="dijit.layout.ContentPane" selected="true" label="Pane 1 (tree, select box)" style="overflow: scroll;"
-			onShow="console.debug('pane 1 shown');" onHide="console.debug('pane 1 hidden');" >
+		<div dojoType="dijit.layout.AccordionContainer" duration="200" 
+			labelNodeClass="label" containerNodeClass="accBody"
+			style="float: left; margin-right: 30px;  width: 400px; height: 300px; overflow: hidden">
+			<div dojoType="dijit.layout.ContentPane" selected="true" 
+				label="Pane 1 (tree, select box)" style="overflow: scroll;"
+				onShow="console.debug('pane 1 shown');" onHide="console.debug('pane 1 hidden');" >
 
-		    <div zdojoType="TreeBasicControllerV3" widgetId="controller"></div>	
-				
-		    <div zdojoType="TreeV3" listeners="controller" toggle="fade">
-		    <div zdojoType="TreeNodeV3" title="Item 1">
-			<div zdojoType="TreeNodeV3" title="Item 1.1"><br/></div>
-			<div zdojoType="TreeNodeV3" title="Item 1.2">
-			    <div zdojoType="TreeNodeV3" title="Item 1.2.1"></div>
-			    <div zdojoType="TreeNodeV3" title="Item 1.2.2"></div>
-			</div>
-			<div zdojoType="TreeNodeV3" title="Item 1.3">
-			    <div zdojoType="TreeNodeV3" title="Item 1.3.1"></div>
-			    <div zdojoType="TreeNodeV3" title="Item 1.3.2"></div>
-			</div>
-			<div zdojoType="TreeNodeV3" title="Item 1.4">
-			    <div zdojoType="TreeNodeV3" title="Item 1.4.1"></div>
-			</div>
-		    </div>
-		</div>
-
+				<div zdojoType="TreeBasicControllerV3" widgetId="controller"></div>	
+					
+				<div zdojoType="TreeV3" listeners="controller" toggle="fade">
+					<div zdojoType="TreeNodeV3" title="Item 1">
+						<div zdojoType="TreeNodeV3" title="Item 1.1"><br></div>
+						<div zdojoType="TreeNodeV3" title="Item 1.2">
+							<div zdojoType="TreeNodeV3" title="Item 1.2.1"></div>
+							<div zdojoType="TreeNodeV3" title="Item 1.2.2"></div>
+						</div>
+						<div zdojoType="TreeNodeV3" title="Item 1.3">
+							<div zdojoType="TreeNodeV3" title="Item 1.3.1"></div>
+							<div zdojoType="TreeNodeV3" title="Item 1.3.2"></div>
+						</div>
+						<div zdojoType="TreeNodeV3" title="Item 1.4">
+							<div zdojoType="TreeNodeV3" title="Item 1.4.1"></div>
+						</div>
+					</div>
+				</div>
 				<br>
 				<select>
 					<option>red</option>
 					<option>blue</option>
 					<option>green</option>
 				</select>
-
-		<p>
-			Nunc consequat nisi vitae quam. Suspendisse sed nunc. Proin
-			suscipit porta magna. Duis accumsan nunc in velit. Nam et nibh.
-			Nulla facilisi. Cras venenatis urna et magna. Aenean magna mauris,
-			bibendum sit amet, semper quis, aliquet nec, sapien.  Aliquam
-			aliquam odio quis erat. Etiam est nisi, condimentum non, lacinia
-			ac, vehicula laoreet, elit. Sed interdum augue sit amet quam
-			dapibus semper. Nulla facilisi. Pellentesque lobortis erat nec
-			quam.
-		</p>
-		<p>
-			Sed arcu magna, molestie at, fringilla in, sodales eu, elit.
-			Curabitur mattis lorem et est. Quisque et tortor. Integer bibendum
-			vulputate odio. Nam nec ipsum. Vestibulum mollis eros feugiat
-			augue. Integer fermentum odio lobortis odio. Nullam mollis nisl non
-			metus. Maecenas nec nunc eget pede ultrices blandit. Ut non purus
-			ut elit convallis eleifend. Fusce tincidunt, justo quis tempus
-			euismod, magna nulla viverra libero, sit amet lacinia odio diam id
-			risus. Ut varius viverra turpis. Morbi urna elit, imperdiet eu,
-			porta ac, pharetra sed, nisi. Etiam ante libero, ultrices ac,
-			faucibus ac, cursus sodales, nisl. Praesent nisl sem, fermentum eu,
-			consequat quis, varius interdum, nulla. Donec neque tortor,
-			sollicitudin sed, consequat nec, facilisis sit amet, orci. Aenean
-			ut eros sit amet ante pharetra interdum.
-		</p>
-		</div>
+				<p>
+					Nunc consequat nisi vitae quam. Suspendisse sed nunc. Proin
+					suscipit porta magna. Duis accumsan nunc in velit. Nam et nibh.
+					Nulla facilisi. Cras venenatis urna et magna. Aenean magna mauris,
+					bibendum sit amet, semper quis, aliquet nec, sapien.  Aliquam
+					aliquam odio quis erat. Etiam est nisi, condimentum non, lacinia
+					ac, vehicula laoreet, elit. Sed interdum augue sit amet quam
+					dapibus semper. Nulla facilisi. Pellentesque lobortis erat nec
+					quam.
+				</p>
+				<p>
+					Sed arcu magna, molestie at, fringilla in, sodales eu, elit.
+					Curabitur mattis lorem et est. Quisque et tortor. Integer bibendum
+					vulputate odio. Nam nec ipsum. Vestibulum mollis eros feugiat
+					augue. Integer fermentum odio lobortis odio. Nullam mollis nisl non
+					metus. Maecenas nec nunc eget pede ultrices blandit. Ut non purus
+					ut elit convallis eleifend. Fusce tincidunt, justo quis tempus
+					euismod, magna nulla viverra libero, sit amet lacinia odio diam id
+					risus. Ut varius viverra turpis. Morbi urna elit, imperdiet eu,
+					porta ac, pharetra sed, nisi. Etiam ante libero, ultrices ac,
+					faucibus ac, cursus sodales, nisl. Praesent nisl sem, fermentum eu,
+					consequat quis, varius interdum, nulla. Donec neque tortor,
+					sollicitudin sed, consequat nec, facilisis sit amet, orci. Aenean
+					ut eros sit amet ante pharetra interdum.
+				</p>
+			</div>
 
 			<!-- test lazy loading -->
-			<div dojoType="dijit.layout.ContentPane" label="Pane 2 (lazy load)" href="tab1.html" style="display:none;"></div>
+			<div dojoType="dijit.layout.ContentPane" 
+				label="Pane 2 (lazy load)" href="tab1.html" 
+				style="display:none;"></div>
 
 			<div dojoType="dijit.layout.SplitContainer" label="Pane 3 (split pane)">
-			
-			<p dojoType="dijit.layout.ContentPane">
-				Sed arcu magna, molestie at, fringilla in, sodales eu, elit.
-				Curabitur mattis lorem et est. Quisque et tortor. Integer bibendum
-				vulputate odio. Nam nec ipsum. Vestibulum mollis eros feugiat
-				augue. Integer fermentum odio lobortis odio. Nullam mollis nisl non
-				metus. Maecenas nec nunc eget pede ultrices blandit. Ut non purus
-				ut elit convallis eleifend. Fusce tincidunt, justo quis tempus
-				euismod, magna nulla viverra libero, sit amet lacinia odio diam id
-				risus. Ut varius viverra turpis. Morbi urna elit, imperdiet eu,
-				porta ac, pharetra sed, nisi. Etiam ante libero, ultrices ac,
-				faucibus ac, cursus sodales, nisl. Praesent nisl sem, fermentum eu,
-				consequat quis, varius interdum, nulla. Donec neque tortor,
-				sollicitudin sed, consequat nec, facilisis sit amet, orci. Aenean
-				ut eros sit amet ante pharetra interdum.
-			</p>
-			<p dojoType="dijit.layout.ContentPane">
-				Sed arcu magna, molestie at, fringilla in, sodales eu, elit.
-				Curabitur mattis lorem et est. Quisque et tortor. Integer bibendum
-				vulputate odio. Nam nec ipsum. Vestibulum mollis eros feugiat
-				augue. Integer fermentum odio lobortis odio. Nullam mollis nisl non
-				metus. Maecenas nec nunc eget pede ultrices blandit. Ut non purus
-				ut elit convallis eleifend. Fusce tincidunt, justo quis tempus
-				euismod, magna nulla viverra libero, sit amet lacinia odio diam id
-				risus. Ut varius viverra turpis. Morbi urna elit, imperdiet eu,
-				porta ac, pharetra sed, nisi. Etiam ante libero, ultrices ac,
-				faucibus ac, cursus sodales, nisl. Praesent nisl sem, fermentum eu,
-				consequat quis, varius interdum, nulla. Donec neque tortor,
-				sollicitudin sed, consequat nec, facilisis sit amet, orci. Aenean
-				ut eros sit amet ante pharetra interdum.
+				<p dojoType="dijit.layout.ContentPane">
+					Sed arcu magna, molestie at, fringilla in, sodales eu, elit.
+					Curabitur mattis lorem et est. Quisque et tortor. Integer bibendum
+					vulputate odio. Nam nec ipsum. Vestibulum mollis eros feugiat
+					augue. Integer fermentum odio lobortis odio. Nullam mollis nisl non
+					metus. Maecenas nec nunc eget pede ultrices blandit. Ut non purus
+					ut elit convallis eleifend. Fusce tincidunt, justo quis tempus
+					euismod, magna nulla viverra libero, sit amet lacinia odio diam id
+					risus. Ut varius viverra turpis. Morbi urna elit, imperdiet eu,
+					porta ac, pharetra sed, nisi. Etiam ante libero, ultrices ac,
+					faucibus ac, cursus sodales, nisl. Praesent nisl sem, fermentum eu,
+					consequat quis, varius interdum, nulla. Donec neque tortor,
+					sollicitudin sed, consequat nec, facilisis sit amet, orci. Aenean
+					ut eros sit amet ante pharetra interdum.
+				</p>
+				<p dojoType="dijit.layout.ContentPane">
+					Sed arcu magna, molestie at, fringilla in, sodales eu, elit.
+					Curabitur mattis lorem et est. Quisque et tortor. Integer bibendum
+					vulputate odio. Nam nec ipsum. Vestibulum mollis eros feugiat
+					augue. Integer fermentum odio lobortis odio. Nullam mollis nisl non
+					metus. Maecenas nec nunc eget pede ultrices blandit. Ut non purus
+					ut elit convallis eleifend. Fusce tincidunt, justo quis tempus
+					euismod, magna nulla viverra libero, sit amet lacinia odio diam id
+					risus. Ut varius viverra turpis. Morbi urna elit, imperdiet eu,
+					porta ac, pharetra sed, nisi. Etiam ante libero, ultrices ac,
+					faucibus ac, cursus sodales, nisl. Praesent nisl sem, fermentum eu,
+					consequat quis, varius interdum, nulla. Donec neque tortor,
+					sollicitudin sed, consequat nec, facilisis sit amet, orci. Aenean
+					ut eros sit amet ante pharetra interdum.
 				</p>
 			</div>
 		</div>
