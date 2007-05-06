@@ -23,9 +23,9 @@ dojo.declare(
 		//		Converts all characters to lowercase if true.  Default is false.
 		lowercase: false,
 
-		//	ucFirst: Boolean
+		//	propercase: Boolean
 		//		Converts the first character of each word to uppercase if true.
-		ucFirst: false,
+		propercase: false,
 
 		// size: String
 		//              Basic input tag size declaration.
@@ -90,8 +90,7 @@ dojo.declare(
 			if(this.lowercase){
 				val = val.toLowerCase();
 			} 
-			if(this.ucFirst){
-//PORT is this intended to work on all words or first only?  Perhaps we should use a name more consistent with Dojo's style like capitalize or capitalizeAll?
+			if(this.propercase){
 				val = val.replace(/[^\s]+/g, function(word){
 					return word.substring(0,1).toUpperCase() + word.substring(1);
 				});
