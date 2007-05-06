@@ -29,6 +29,8 @@ function(params, srcNodeRef){
 		//				actions once the widget has been placed in the UI
 		// store pointer to original dom tree
 		this.srcNodeRef = dojo.byId(srcNodeRef);
+		// copy id from srcNodeRef
+		if (this.srcNodeRef && (typeof this.srcNodeRef.id == "string")) { this.id = this.srcNodeRef.id; }
 
 		//mixin our passed parameters
 		if(params){
