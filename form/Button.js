@@ -18,6 +18,7 @@ dojo.declare(
 		//	Basically the same thing as a normal HTML button, but with special styling.
 
 		isContainer: true,
+		type: "button",
 		// caption: String
 		//	text to display in button
 		caption: "",

@@ -44,7 +44,7 @@ dojo.declare("dijit.base.FormElement", dijit.base.Widget,
 
 	// type: String
 	//		Corresponds to the native HTML <input> element's attribute.
-	type: "input",
+	type: "text",
 
 	// tabIndex: Integer
 	//		Order fields are traversed when user hits the tab key
