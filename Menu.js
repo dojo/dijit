@@ -8,27 +8,6 @@ dojo.require("dijit.util.PopupManager");
 dojo.require("dijit.util.scroll");
 dojo.require("dijit.util.window");
 
-// thanks burstlib!
-dijit.Menu._iframeContentWindow = function(/* HTMLIFrameElement */iframe_el) {
-	//	summary
-	//	returns the window reference of the passed iframe
-	var win = dijit.util.window.getDocumentWindow(dijit.Menu._iframeContentDocument(iframe_el)) ||
-		// Moz. TODO: is this available when defaultView isn't?
-		dijit.Menu._iframeContentDocument(iframe_el)['__parent__'] ||
-		(iframe_el.name && document.frames[iframe_el.name]) || null;
-	return win;	//	Window
-};
-
-dijit.Menu._iframeContentDocument = function(/* HTMLIFrameElement */iframe_el){
-	//	summary
-	//	returns a reference to the document object inside iframe_el
-	var doc = iframe_el.contentDocument // W3
-		|| ((iframe_el.contentWindow)&&(iframe_el.contentWindow.document))	// IE
-		|| ((iframe_el.name)&&(document.frames[iframe_el.name])&&(document.frames[iframe_el.name].document)) 
-		|| null;
-	return doc;	//	HTMLDocument
-};
-
 dojo.declare(
 	"dijit.PopupMenu",
 	[dijit.base.Widget, dijit.base.TemplatedWidget, dijit.base.Container],
@@ -207,13 +186,35 @@ dojo.declare(
 		this.currentSubmenuTrigger = null;
 	},
 
+// thanks burstlib!
+	_iframeContentWindow: function(/* HTMLIFrameElement */iframe_el) {
+	//	summary
+	//	returns the window reference of the passed iframe
+	var win = dijit.util.window.getDocumentWindow(dijit.Menu._iframeContentDocument(iframe_el)) ||
+		// Moz. TODO: is this available when defaultView isn't?
+		dijit.Menu._iframeContentDocument(iframe_el)['__parent__'] ||
+		(iframe_el.name && document.frames[iframe_el.name]) || null;
+	return win;	//	Window
+},
+
+	_iframeContentDocument: function(/* HTMLIFrameElement */iframe_el){
+	//	summary
+	//	returns a reference to the document object inside iframe_el
+	var doc = iframe_el.contentDocument // W3
+		|| ((iframe_el.contentWindow)&&(iframe_el.contentWindow.document))	// IE
+		|| ((iframe_el.name)&&(document.frames[iframe_el.name])&&(document.frames[iframe_el.name].document)) 
+		|| null;
+	return doc;	//	HTMLDocument
+},
+
 	bindDomNode: function(/*String|DomNode*/ node){
 		// summary: attach menu to given node
 		node = dojo.byId(node);
 
+		//TODO: this is to support context popups in Editor.  Maybe this shouldn't be in dijit.Menu
 		var win = dijit.util.window.getDocumentWindow(node.ownerDocument);
 		if(node.tagName.toLowerCase()=="iframe"){
-			win = dijit.Menu._iframeContentWindow(node);
+			win = this._iframeContentWindow(node);
 			node = dojo.withGlobal(win, dojo.body);
 		}
 		
