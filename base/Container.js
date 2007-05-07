@@ -70,26 +70,19 @@ dojo.declare("dijit.base.Container",
 			//		a child of our dom node
 
 			var containerNode = this.containerNode || this.domNode;
-			if(containerNode === widget){
-				return false;  // throw instead?
-			}
-
 			if(typeof insertIndex == "undefined"){
 				dojo.place(widget.domNode, containerNode, "last");
 			}else{
 				dojo.place(widget.domNode, containerNode, insertIndex);
 			}
-//FIXME: does this function have to return a boolean?  only for recursive check?  Should that throw instead?
-			return true; // boolean
 		},
 
 		removeChild: function(/*Widget*/ widget){
 			// summary: 
 			//		removes the passed widget instance from this widget but does
 			//		not destroy it
-//PORT leak?
 			var node = widget.domNode;
-			node.parentNode.removeChild(node);
+			node.parentNode.removeChild(node); //PORT leak #2931 -- call widget.destroy() instead?
 		},
 		
 		_nextElement: function(node){
