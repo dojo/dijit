@@ -438,11 +438,9 @@ dojo.declare(
 			try{
 				var node = this.containerNode || this.domNode;
 				while(node.firstChild){
-					try{
-			//PORT memory leak?
-						node.firstChild.parentNode.removeChild(node.firstChild);
-						delete node.firstChild;
-					}catch(e){ /* squelch! */ }
+			//PORT memory leak #2931
+					node.firstChild.parentNode.removeChild(node.firstChild);
+//					delete node.firstChild; //Q is this wrong?
 				}
 				if(typeof cont != "string"){
 					node.appendChild(cont);

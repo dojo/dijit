@@ -106,6 +106,7 @@ dojo.declare(
 			}
 		},
 
+//Q: Bill: layout is called on instantiation, so there should be no children to remove
 		layout: function(){
 			var tmpChildren = this.getChildren();
 
@@ -113,11 +114,12 @@ dojo.declare(
 			var _removeChildren = function(node){
 				var count = node.childNodes.length;
 				while(node.hasChildNodes()){
-					node.removeChild(node.firstChild); 
+					node.removeChild(node.firstChild); // PORT #2931?
 				}
 				return count; // int
 			};
 			_removeChildren(this.domNode);
+//Q: Bill: this is O(n^2).  Should attach children first, then do sizing.
 			dojo.forEach(tmpChildren, dojo.hitch(this,"_addChild"));
 			this._setSizes();
 		},
