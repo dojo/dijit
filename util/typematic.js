@@ -72,7 +72,7 @@ dijit.util.typematic = {
 			&& ((typeof keyObject.altKey == "undefined") || keyObject.altKey == evt.ctrlKey)
 			&& ((typeof keyObject.shiftKey == "undefined") || keyObject.shiftKey == evt.ctrlKey)){
 				dojo.stopEvent(evt);
-				dijit.util.typematic.trigger(evt, _this, node, callback, keyObject, subsequentDelay, initialDelay);
+				dijit.util.typematic.trigger(keyObject, _this, node, callback, keyObject, subsequentDelay, initialDelay);
 			}else if (dijit.util.typematic._obj == keyObject){
 				dijit.util.typematic.stop();
 			}
@@ -122,8 +122,7 @@ dijit.util.typematic = {
 		//	keyNode: the DOM node object to listen on for key events.
 		//	The mouseNode is used as the callback obj parameter.
 		//	See the trigger method for other parameters.
-		return Array.concat(
-			this.addKeyListener(keyNode, keyObject, _this, callback, subsequentDelay, initialDelay),
+		return this.addKeyListener(keyNode, keyObject, _this, callback, subsequentDelay, initialDelay).concat(
 			this.addMouseListener(mouseNode, _this, callback, subsequentDelay, initialDelay));
 	}
 };
