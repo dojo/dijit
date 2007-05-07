@@ -6,7 +6,7 @@ dojo.require("dijit.Tree");
 
 dojo.declare(
 	"dijit._tree.Controller",
-	[dijit.base.Widget, dijit._tree.Listener],
+	[dijit.base.Widget],
 {
 	// Summary: _tree.Controller performs all basic operations on Tree
 	// Description:
@@ -18,25 +18,27 @@ dojo.declare(
 	//  Controller processes expand/collapse and should be used if you 
 	//  modify a tree.
 
-	// Summary: TreeCommon.listenTree will attach listeners to these events
-	// Description:
-	//	The logic behind the naming:
-	//	1. (after|before)
-	//	2. if an event refers to tree, then add "Tree"
-	//	3. add action	
-	listenTreeEvents: [
-		"execute", "toggleOpen", "zoomIn", "zoomOut", "next", "previous",
-		// TODO: check if these are necessary
-		"afterSetFolder", "afterTreeCreate", "beforeTreeDestroy"],
+	// treeId: String
+	//		id of Tree widget that I'm controlling
+	treeId: "",
 
 	postMixInProperties: function(){
-		// single controller can handle multiple trees. widgetId => tree widget mapping is stored here.
-		this._listenedTrees = {};
-		dojo.lang.forEach(this.listenTrees, this.listenTree);
+		// setup to handle events from tree
+					var eventHandler =  "on" + event.charAt(0).toUpperCase() + event.substr(1);
+		dojo.subscribe(treeId, this, "_listener");	
+	},
+
+	_listener: function(/*Object*/ message){
+		// summary: dispatcher to handle events from tree
+		var event = message.event;
+		var eventHandler =  "on" + event.charAt(0).toUpperCase() + event.substr(1);
+		if(this[eventHandler]){
+			this[eventHandler](message);
+		}
 	},
 
 	onBeforeTreeDestroy: function(message) {
-        this.unlistenTree(message.source);
+		dojo.unsubscribe(message.source.id);
 	},
 
 	onNext: function(message) {
@@ -138,12 +140,6 @@ dojo.declare(
 		}
 	},
 
-	onAfterTreeCreate: function(message) {		
-		if (tree.expandLevel) {								
-			this.expandToLevel(tree, tree.expandLevel);
-		}
-	},
-
 	onToggleOpen: function(node){
 		// summary: user clicked the +/- icon; expand or collapse my children.
 		if (node.isExpanded){
@@ -153,26 +149,10 @@ dojo.declare(
 		}
 	},
 	
-	getWidgetByNode: function(/*DomNode*/ node) {
-		// summary:
-		//		trace up the DOM tree starting from the given node until we
-		//		find out what widget it's in.
-		// returns:
-		//		widget
-		var widgetId;
-		var newNode = node;
-		while (! (widgetId = newNode.widgetId) ) {
-			newNode = newNode.parentNode;
-			if (newNode == null) { break; }
-		}
-		if (widgetId) { return dijit.byId(widgetId); }
-		else { return null; }
-	},
-
 	_expand: function(node) {
-		if (node.isFolder) {			
+		if (node.isFolder) {
 			node.expand(); // skip trees or non-folders
-		}		
+		}
 	},
 
 	_collapse: function(node) {
@@ -180,4 +160,120 @@ dojo.declare(
 			node.collapse();
 		}
 	}
+});
+
+
+
+dijit.declare(
+	"dijit._tree.DataController",
+	dijit._tree.Controller,
+{
+	// summary
+	//		Controller for tree that hooks up to dojo.data
+
+	// store: dojo.data.Store
+	//		Reference to store object
+	store: null,
+
+	// query: String
+	//	query to get top level node(s) of tree
+	query: "",
+
+	// labelAttr: String
+	//		name of attribute that holds label (title) for each tree node
+	labelAttr: "label",
+
+	// typeAttr: String
+	//		name of attribute that holds type for each tree node
+	typeAttr: "type",
+
+	onAfterTreeCreate: function(message) {
+		// when a tree is created, we query against the store to get the top level nodes
+		// in the tree
+		var tree = message.tree;
+
+		var _this = this;
+		function onComplete(/*dojo.data.Item[]*/ items){
+			var childParams=dojo.map(items,
+				function(item){
+					return {
+						item: item,
+						label: _this.store.getValue(item, _this.labelAttr),
+						type: _this.store.getValue(item, _this.typeAttr)
+						};
+				});
+			tree.setChildren(childParams);
+		}
+		store.fetch({ query: this.query, onComplete: onComplete });
+
+		dijit._tree.Controller.prototype.onAfterTreeCreate.apply(this, arguments);
+	},
+
+	_expand: function(message){
+		var store = this.store;
+		var node = message.node;	// the _TreeNode being expanded
+		var getValue = this.store.getValue;
+
+		switch(node.state){
+			case "LOADING":
+				// ignore clicks while we are in the process of loading data
+				return;
+
+			case "UNCHECKED":
+				// need to load all the children, and then expand
+				var parentItem = node.item;
+				var childItems = store.getValues(parentItem, "children");
+	
+				// count how many items need to be loaded
+				var _waitCount = 0;
+				dojo.forEach(childItems, function(item){ if(!store.isLoaded(item)){ _waitCount++; } });
+	
+		       	if(_waitCount == 0){
+		       		// all items are already loaded.  proceed..
+		       		this._onLoadAllItems(node);
+		       	}else{
+		       		// still waiting for some or all of the items to load
+		       		node.markProcessing();
+	
+					var _this = this;
+					function onItem(item){
+		   				if(--_waitCount == 0){
+							// all nodes have been loaded, send them to the tree
+							node.unmarkProcessing();
+							_this._onLoadAllItems(node);
+						}
+					}
+					dojo.forEach(childItems, function(item){
+						if(!store.isLoaded(item)){
+			       			store.loadItem({item: item, onItem: onItem});
+			       		}
+			       	});
+		       	}
+		       	break;
+		       	
+			default:
+				// data is already loaded; just proceed
+				dijit._tree.Controller.prototype._expand.apply(this, arguments);
+				break;
+		}
+	},
+
+	_onLoadAllItems: function(/*_TreeNode*/ node){
+		// sumary: callback when all the children of a given node have been loaded
+		// TODO: should this be used when the top level nodes are loaded too?
+		var childParams=dojo.map(items, function(item){
+			return { item: item, label: this.store.getValue(item, this.labelAttr), type: this.store.getValue(item, this,typeAttr) };
+		}, this);
+		node.setChildren(childParams);
+		dijit._tree.Controller.prototype._expand.apply(this, arguments);
+	},
+
+	_collapse: function(message){
+		if(node.state == "LOADING"){
+			// ignore clicks while we are in the process of loading data
+			return;
+		}
+		dijit._tree.Controller.prototype._collapse.apply(this, arguments);
+	}
+
 });

@@ -1,8 +1,11 @@
 dojo.provide("dijit.Tree");
 
+dojo.require("dojo.fx");
+
 dojo.require("dijit.base.Widget");
 dojo.require("dijit.base.TemplatedWidget");
 dojo.require("dijit.base.Container");
+dojo.require("dijit._tree.Controller");
 
 dojo.declare(
 	"dijit._TreeBase",
@@ -11,23 +14,11 @@ dojo.declare(
 	// summary:
 	//	Base class for Tree and _TreeNode
 
-	/*
-	 * dynamic loading-related stuff. 
-	 * When an empty folder node appears, it is "UNCHECKED" first,
-	 * then after dojo.data query it becomes LOADING and, finally LOADED
-	 *
-	 * tree may be dynamically loaded also
-	 */
-	loadStates: {
-		UNCHECKED: "UNCHECKED",	// may or may not be children
-    	LOADING: "LOADING",		// children being loaded
-    	LOADED: "LOADED"		// children loaded
-	},
-	
-	state: "UNCHECKED",  // after creation will change to loadStates: "loaded/loading/unchecked"
-
-	expandLevel: 0, // expand to level automatically
-
+	// state: String
+	//		dynamic loading-related stuff. 
+	//		When an empty folder node appears, it is "UNCHECKED" first,
+	//		then after dojo.data query it becomes "LOADING" and, finally "LOADED"	
+	state: "UNCHECKED",
 	locked: false,
 
 	lock: function() {
@@ -67,41 +58,35 @@ dojo.declare(
 
 		this.destroyDescendants();
 
-		this.state = this.loadStates.LOADED;
+		this.state = "LOADED";
 
-		if(!childrenArray || childrenArray.length == 0){
-			if(this.isTreeNode && this.isFolder){
-				this._setLeaf();
+		if(childrenArray && childrenArray.length > 0){
+			this.isFolder = true;
+			if (!this.containerNode) { // maybe this node was unfolderized and still has container
+				this.containerNode = this.tree.containerNodeTemplate.cloneNode(true);
+				this.domNode.appendChild(this.containerNode);
 			}
-			return;
+	
+			// Create _TreeNode widget for each specified tree node
+			dojo.lang.forEach(childrenArray, function(childParams){
+				var child = new dijit._TreeNode(childParams);
+				this.addChild(child);
+			});
+	
+			// note that updateLayout() needs to be called on each child after
+			// _all_ the children exist
+			dojo.forEach(this.getChildren(), function(child, idx){
+				child._updateLayout();
+	
+				var message = {
+					child: child,
+					index: idx,
+					parent: this,
+				};
+			});
+		}else{
+			this.isFolder=false;
 		}
-
-		if (this.isTreeNode && !this.isFolder) {
-			this._setFolder();
-		}
-		if (!this.containerNode) { // maybe this node was unfolderized and still has container
-			this.containerNode = this.tree.containerNodeTemplate.cloneNode(true);
-			this.domNode.appendChild(this.containerNode);
-		}
-
-		// Create _TreeNode widget for each specified tree node
-		dojo.lang.forEach(childrenArray, function(childParams){
-			var child = new dijit._TreeNode(childParams);
-			this.addChild(child);
-		});
-
-		// note that updateLayout() needs to be called on each child after
-		// all the children exist
-		dojo.forEach(this.getChildren(), function(child, idx){
-			child._updateLayout();
-
-			var message = {
-				child: child,
-				index: idx,
-				parent: this,
-			};
-			dojo.event.topic.publish(this.tree.eventNames.afterAddChild, message);
-		});
 	}
 });
 
@@ -112,6 +97,15 @@ dojo.declare(
 	// summary
 	//	Tree view does all the drawing, visual node management etc.
 	//	Throws events about clicks on it, so someone may catch them and process
+	//	Events:
+	//		afterTreeCreate,
+	//		beforeTreeDestroy,
+	//		execute				: for clicking the label, or hitting the enter key when focused on the label,
+	//		toggleOpen			: for clicking the expando key (toggles hide/collapse),
+	//		previous			: go to previous visible node,
+	//		next				: go to next visible node,
+	//		zoomIn				: go to child nodes,
+	//		zoomOut				: go to parent node
 
 	// store: String||dojo.data.Store
 	//	The store to get data to display in the tree
@@ -123,21 +117,26 @@ dojo.declare(
 
 	isTree: true,
 
-	// TODO: create Controller automatically
-	
+	_publish: function(/*String*/ topicName, /*Object*/ message){
+		// summary:
+		//		Publish a message for this widget/topic
+		dojo.publish(this.widgetId, dojo.mixin({source: this, event: topicName}, message||{}));
+	},
+
 	postMixInProperties: function(){
 		this.tree = this;
 
-		// generate topic names for all events on widget
-		this.eventNames = {};
-		for(var name in this._baseEventNames){
-			this.eventNames[name] = this.widgetId+"/"+this._baseEventNames[name];
-		}
+		// setup table mapping keys to events
+		var keyTopicMap = {};
+		keyTopicMap[dojo.keys.ENTER]=this.eventNames.execute;
+		keyTopicMap[dojo.keys.LEFT_ARROW]=this.eventNames.zoomOut;
+		keyTopicMap[dojo.keys.RIGHT_ARROW]=this.eventNames.zoomIn;
+		keyTopicMap[dojo.keys.UP_ARROW]=this.eventNames.previous;
+		keyTopicMap[dojo.keys.DOWN_ARROW]=this.eventNames.next;
+		this._keyTopicMap = keyTopicMap;
 
-		for(var i=0; i<this.actionsDisabled.length; i++){
-			this.actionsDisabled[i] = this.actionsDisabled[i].toUpperCase();
-		}
-		// TODO: start the controller, passing in the store
+		// start the controller, passing in the store
+		this._controller = new dijit._tree.DataController({store: this.store, treeId: this.id});
 	},
 	
 	postCreate: function(){
@@ -147,62 +146,33 @@ dojo.declare(
 		// Will set this.expandoOpenImg = "expando_open.gif" etc.
 		dojo.lang.forEach(["expandoOpen", "expandoClosed", "expandoLeaf", "expandoProcessing"],
 			function(item){
-				var bi = dojo.html.getComputedStyle(this[item], "background-image");
+				var bi = dojo.getComputedStyle(this[item]).backgroundImage;
 				var href = bi.charAt(4)=='"' ? bi.slice(5,-2) : bi.slice(4,-1);	// url(foo) --> foo, url("foo") --> foo
 				this[item+"Img"]=href;
 			});
 
-		this._makeContainerNodeTemplate();
+		// make template for container node (we will clone this and insert it into
+		// any nodes that have children)
+		var div = document.createElement('div');
+		div.style.display = 'none';			
+		dojo.html.setClass(div, "TreeContainer");
+		dojo.widget.wai.setAttr(div, "waiRole", "role", "presentation");
+		this.containerNodeTemplate = div;
 
-		dojo.event.topic.publish(this.eventNames.afterTreeCreate, { source: this } );
+		this._publish("afterTreeCreate");
 	},
 	
-	_baseEventNames:{
-		// tree created.. Perform tree-wide actions if needed
-		afterTreeCreate: "afterTreeCreate",
-		beforeTreeDestroy: "beforeTreeDestroy",
-		/* can't name it "beforeDestroy", because such name causes memleaks in IE */
-		beforeNodeDestroy: "beforeNodeDestroy",
-		afterChangeTree: "afterChangeTree",
-
-		afterSetFolder: "afterSetFolder",
-		afterUnsetFolder: "afterUnsetFolder",		
-		afterAddChild: "afterAddChild",
-		afterExpand: "afterExpand",
-		beforeExpand: "beforeExpand",
-		afterSetTitle: "afterSetTitle",		
-		afterCollapse: "afterCollapse",	
-		beforeCollapse: "beforeCollapse",
-		afterNavigate: "afterNavigate",
-
-		// Keyboard and mouse actions	
-		execute: "execute",		// for clicking the label, or hitting the enter key when focused on the label
-		toggleOpen: "toggleOpen",// for clicking the expando key (toggles hide/collapse)
-		previous: "previous",	// go to previous visible node
-		next: "next",			// go to next visible node
-		zoomIn: "zoomIn",		// go to child nodes
-		zoomOut: "zoomOut",		// go to parent node
-	},
-
 	destroy: function(){
 		// publish destruction event so that any listeners should stop listening
-		dojo.event.topic.publish(this.tree.eventNames.beforeTreeDestroy, { source: this } );
+		this._publish("beforeTreeDestroy");
 
-		return dojo.widget.HtmlWidget.prototype.destroy.apply(this, arguments);
+		return dijit.base.Widget.prototype.destroy.apply(this, arguments);
 	},
 	
 	toString: function(){
 		return "["+this.widgetType+" ID:"+this.id	+"]"
 	},
 	
-	_makeContainerNodeTemplate: function(){
-		var div = document.createElement('div');
-		div.style.display = 'none';			
-		dojo.html.setClass(div, "TreeContainer");
-		dojo.widget.wai.setAttr(div, "waiRole", "role", "presentation");
-		this.containerNodeTemplate = div;
-	},
-
 	onClick: function(/*Event*/ e){
 		// summary: translates click events into commands for the controller to process
 		var domElement = e.target;
@@ -214,8 +184,8 @@ dojo.declare(
 		}
 
 		if (domElement == node.expandoNode) {
-			dojo.event.topic.publish(
-				domElement == node.expandoNode ? this.eventNames.toggleOpen : this.eventNames.execute,
+			this._publish(
+				domElement == node.expandoNode ? "toggleOpen" : "execute",
 				 { node: actionWidget, event: e} );	
 			e.preventDefault();
 			e.stopPropogation();
@@ -230,15 +200,8 @@ dojo.declare(
 
 		var actionWidget = null;
 
-		var keyTopicMap = {};
-		keyTopicMap[dojo.keys.ENTER]=this.eventNames.execute;
-		keyTopicMap[dojo.keys.LEFT_ARROW]=this.eventNames.zoomOut;
-		keyTopicMap[dojo.keys.RIGHT_ARROW]=this.eventNames.zoomIn;
-		keyTopicMap[dojo.keys.UP_ARROW]=this.eventNames.previous;
-		keyTopicMap[dojo.keys.DOWN_ARROW]=this.eventNames.next;
-
-		if(keyTopicMap[e.keyCode]){
-			dojo.event.topic.publish(keyTopicMap[e.keyCode], { node: actionWidget, event: e} );	
+		if(this._keyTopicMap[e.keyCode]){
+			this._publish(this._keyTopicMap[e.keyCode], { node: actionWidget, event: e} );	
 			e.stopPropogation();
 			e.preventDefault();
 		}
@@ -270,7 +233,7 @@ dojo.declare(
 		// set tabIndex so that the tab key can find this node
 		var labelNode = node.labelNode;
 		labelNode.setAttribute("tabIndex", "0");
-		node.tree.lastFocused = node;
+		this.lastFocused = node;
 	
 		dojo.addClass(labelNode, "TreeLabelFocused");
 
@@ -286,11 +249,6 @@ dojo.declare(
 	// summary
 	//		Single node within a tree
 
-	// actions: Objects
-	//		List of basic actions one can perform on nodes and, some(addchild) on trees
-	//		TODO: remove?  we have item pointer
-	actions: ["move", "detach", "edit", "addchild", "select"],
-
     // type: String
     //		User defined identifier to differentiate nodes, and to control icon used
     //		Example: folder, garbage, inbox, draftsFolder
@@ -303,9 +261,9 @@ dojo.declare(
 			
 	isTreeNode: true,
 
-	// title: String
+	// label: String
 	//		HTML for the text of this tree node
-	title: "",
+	label: "",
 
 	isFolder: null, // set by widget depending on children/args
 
@@ -315,19 +273,18 @@ dojo.declare(
 	},
 
 	postCreate: function() {
-		this.labelNode.innerHTML = this.title;				
+		this.labelNode.innerHTML = this.label;				
 		if (this.children.length || this.isFolder) {
 			this.setFolder();		// calls _setExpando()	
 		} else {
 			// set expand icon for leaf 	
 			this._setExpando();
 		}
-
-		dojo.event.topic.publish(this.tree.eventNames.afterChangeTree, {oldTree:null, newTree:this.tree, node:this} );
 	},
 	
 	markProcessing: function() {
 		// summary: visually denote that tree is loading data, etc.
+		this.state = "LOADING";
 		this._setExpando(true);	
 	},
 
@@ -336,25 +293,6 @@ dojo.declare(
 		this._setExpando(false);	
 	},
 
-	_setFolder: function() {
-		// summary:
-		//		Mark this node as a folder.
-		//		This means that the node *may* have children, but we won't
-		//		know for sure until we query the data source for children.
-
-		this.isFolder = true;
-		dijit.util.wai.setAttr(this.labelNode, "waiState", "expanded", (this.isExpanded ? "true" : "false") );
-		this._setExpando();
-		dojo.event.topic.publish(this.tree.eventNames.afterSetFolder, { source: this });
-	},
-
-	_setLeaf: function() {
-		// summary: Mark a node as a leaf, implying that there are no children
-		this.isFolder = false;
-		this._setExpando();		
-		dojo.event.topic.publish(this.tree.eventNames.afterUnsetFolder, { source: this });
-	},
-	
 	_updateLayout: function() {
 		// summary: set appropriate CSS classes for this.domNode
 
@@ -375,16 +313,20 @@ dojo.declare(
 		var src = this.tree [ 
 			processing ? "expandoProcssingSrc" :
 				(this.isFolder ?
-					(this.isExpanded ? "expandoOpenedSrc" : "expandoClosedSrc") : "expandoLeafSrc" ) ];
+					(this.isExpanded ? "expandoOpenedSrc" : "expandoClosedSrc") : "expandoLeafSrc") ];
 		this.expandoNode.src = src;
 	},	
 
-	destroy: function() {
-		// publish destruction event so that controller may unregister/unlisten
-		dojo.event.topic.publish(this.tree.eventNames.beforeNodeDestroy, { source: this } );		
-		return dojo.widget.HtmlWidget.prototype.destroy.apply(this, arguments);
+	setChildren: function(items){
+		dijit.Tree.superclass.setChildren.apply(this, arguments);
+		
+		// create animations for showing/hiding the children
+		this._slideIn = dojo.fx.slideIn({node: this.containerNode, duration: 250});
+		dojo.connect(this.slideIn, "onEnd", dojo.hitch(this, "_afterExpand"));
+		this._slideOut = dojo.fx.slideOut({node: this.containerNode, duration: 250});
+		dojo.connect(this.slideOut, "onEnd", dojo.hitch(this, "_afterCollapse"));
 	},
-	
+
 	expand: function(){
         // summary: show my children
 		if (this.isExpanded) return;
@@ -394,20 +336,12 @@ dojo.declare(
 		
 		this._setExpando();
 
-		/**
-		 * no matter if I have children or not. need to show/hide container anyway.
-		 * use case: empty folder is expanded => then child is added, container already shown all fine
-		 */
-		// TODO
-		this.tree.toggleObj.show(
-			this.containerNode, this.tree.toggleDuration, this.explodeSrc, dojo.lang.hitch(this, "_afterExpand")
-		);
-        
+		this._slideIn();
 	},
 
 	_afterExpand: function() {
         this.onShow();
- 		dojo.event.topic.publish(this.tree.eventNames.afterExpand, {source: this} );		
+ 		this._publish("afterExpand", {source: this} );		
 	},
 
 	collapse: function(){					
@@ -415,20 +349,19 @@ dojo.declare(
 		
 		this.isExpanded = false;
 		dijit.util.wai.setAttr(this.labelNode, "waiState", "expanded", "false");
-
-		// TODO
-		this.tree.toggleObj.hide(
-			this.containerNode, this.tree.toggleDuration, this.explodeSrc, dojo.lang.hitch(this, "_afterCollapse")
-		);
+		
+		dojo.style(this.containerNode, "display", "");
+		
+		this._slideOut();
 	},
     
 	_afterCollapse: function() {
 		this._setExpando();
 		this.onHide();
-		dojo.event.topic.publish(this.tree.eventNames.afterCollapse, {source: this} );
+		this._publish("afterCollapse", {source: this} );
 	},
 
 	toString: function() {
-		return '['+this.widgetType+', '+this.title+']';
+		return '['+this.widgetType+', '+this.label+']';
 	}
 });
