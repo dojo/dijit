@@ -149,24 +149,18 @@ function(params, srcNodeRef){
 	},
 
 	destroyRendering: function(/*Boolean*/ finalize){
-		try{
-			if(this.bgIframe){
-				this.bgIframe.remove();
-				delete this.bgIframe;
-			}
-		}catch(e){ /* squelch! */ }
-		try{
+		if(this.bgIframe){
+			this.bgIframe.remove();
+			delete this.bgIframe;
+		}
 //			dojo.dom.destroyNode(this.domNode);
-//PORT memory leak?
-			this.domNode.parentNode.removeChild(this.domNode);
-			delete this.domNode;
-		}catch(e){ /* squelch! */ }
+//PORT #2931
+		this.domNode.parentNode.removeChild(this.domNode);
+		delete this.domNode;
 		if(this.srcNodeRef){
-			try{
-//				dojo.dom.destroyNode(this._sourceNodeRef);
-//PORT memory leak?
-				this._sourceNodeRef.parentNode.removeChild(this._sourceNodeRef);
-			}catch(e){ /* squelch! */ }
+//			dojo.dom.destroyNode(this.srcNodeRef);
+//PORT #2931
+			this.srcNodeRef.parentNode.removeChild(this.srcNodeRef);
 		}
 	},
 
