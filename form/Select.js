@@ -54,7 +54,9 @@ dojo.declare(
 			state[this.keyField]=this.getValue();
 			return state;
 		},
-
+		getValue:function(){
+			return this.comboBoxSelectionValue.value;
+		},
 		setState: function(/*Object*/ state){
 			// summary:
 			//	Used for restoring state of AutoCompleter when has navigated to a new
@@ -91,7 +93,7 @@ dojo.declare(
 		},
 
 		_isInputEqualToResult: function(/*Object*/ result){
-			var input = this.textInputNode.value;
+			var input = this.textbox.value;
 			var testlabel=this.store.getValue(result, this.searchField);
 			if(!this.ignoreCase){
 				input = input.toLowerCase();
@@ -105,25 +107,21 @@ dojo.declare(
 			
 			// get the actual label to display
 			var textlabel;
-			try {
-				// throws exception if item not in store (item created by internal processes)
+			
+			if(this.store.isItem(item)) {
 				textlabel=this.store.getValue(item, this.searchField);
 			}
-			catch(e) {
-				// item might have been created by Select (not by store)
-				// in this case, use associative array access
-				textlabel=item[this.searchField];
-			}
+			else textlabel=item[this.searchField];
 			// if custom label function present, call it
-			if(this.textInputNode.value!=textlabel&&this.labelFunc){
-				textlabel=this.labelFunc(item);
-				this.textInputNode.value = textlabel;
+			if(this.labelFunc){
+				textlabel=this.labelFunc(item);	
 			}
+			this.textbox.value = textlabel;
 		},
 		labelFunc: function(/*Object*/ item){
 			// summary: Event handler called when the label changes
 			// returns the label that the AutoCompleter should display
-			return item[this.searchField];
+			return this.store.getValue(item, this.searchField);
 		},
 		getState: function(){
 			// summary: returns current value and label
@@ -145,10 +143,10 @@ dojo.declare(
 			td[this.keyField]=tr[this.keyField];
 			return td;
 		},
-		_onKeyUp: function(/*Event*/ evt){
+		onkeyup: function(/*Event*/ evt){
 			// summary: internal function
 			// Select needs to wait for the complete label before committing to a reverse lookup
-			//this.setTextValue(this.textInputNode.value);
+			//this.setTextValue(this.textbox.value);
 		},
 
 		setState: function(/*Object*/ state){
@@ -165,7 +163,12 @@ dojo.declare(
 			this.comboBoxSelectionValue.setAttribute("dojoAttachPoint","comboBoxSelectionValue");
 			this.domNode.appendChild(this.comboBoxSelectionValue);
 			dijit.form.Select.superclass.postCreate.apply(this, arguments);
-			this.textInputNode.removeAttribute("name");
+			this.textbox.removeAttribute("name");
+			// setting the value here is needed since value="" in the template causes "undefined" on form reset
+			this.comboBoxSelectionValue.setAttribute("value", this.value);
+			this.setValue(this.value);
+			// FIXME: set this in the right spot so the form resets correctly
+			this.textbox.setAttribute("value", this.getTextValue());
 			//console.log(this.value);
 			//this.setValue(this.value);
 		},
@@ -173,8 +176,8 @@ dojo.declare(
 			keyValArr[this.keyField]=option.value;
 		},
 		_doSelect: function(/*Event*/ tgt){
-			this._setValue(tgt[this.keyField]);
-			this._setLabel(tgt);
+			this._setValue(tgt.item[this.keyField]);
+			this._setLabel(tgt.item);
 		},
 		
 		_isValidOption: function(){
@@ -182,27 +185,26 @@ dojo.declare(
 			// using _validateOption now
 			var isValidOption = false;
 			// this test doesn't work if optionsListNode is empty (page first loaded)
-			var tgt = this.optionsListNode.firstChild;
+			//var tgt = dojo.html.firstElement(this.optionsListNode); //PORT
+			var tgt=this.optionsListNode.firstChild;
 			while(!isValidOption && tgt){
-				if(this._isInputEqualToResult(tgt)){
+				if(this._isInputEqualToResult(tgt.item)){
 					isValidOption = true;
 				}else{
+					//tgt = dojo.html.nextElement(tgt); //PORT
 					tgt=this.optionsListNode.nextSibling;
 				}
 			}
 
 			return isValidOption;
 		},
-		getTextValue: function(){
-			// summary: returns current label
-			return this.textInputNode.value;	// String
-		},
 		setTextValue:function(/*String*/ label){
 			// summary: set the label to the passed label.
 			// The hidden value is set by reverse lookup
-			var query={};
+			dijit.form.Select.superclass.setTextValue.apply(this, arguments);
+			/*var query={};
 			query[this.searchField]=label;
-			this.store.fetch({queryIgnoreCase:this.ignoreCase, query: query, onComplete:dojo.hitch(this, this._validateOption) });
+			this.store.fetch({queryIgnoreCase:this.ignoreCase, query: query, onComplete:dojo.hitch(this, this._validateOption) });*/
 		},
 		_validateOption: function(/*Object*/ ret){
 			// summary: callback function.  Checks if user input is valid
@@ -230,13 +232,14 @@ dojo.declare(
 			if(!this._hasFocus && !this._mouseover_list){
 				this._hideResultList();
 				// clear the list if the user empties field and moves away. (no need to search)
-				if(!this.textInputNode.value.length){
+				if(!this.textbox.value.length){
 					this.setValue("");
 					return;
 				}
-
 				// asynchronously validate the user input using store's default search method
-				this.setTextValue(this.textInputNode.value);
+				var query={};
+				query[this.searchField]=this.textbox.value;
+				this.store.fetch({queryIgnoreCase:this.ignoreCase, query: query, onComplete:dojo.hitch(this, this._validateOption) });
 			}
 		}
 	}

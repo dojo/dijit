@@ -4,11 +4,11 @@ dojo.require("dijit.util.scroll");
 dojo.require("dijit.util.wai");
 dojo.require("dojo.data.JsonItemStore");
 dojo.require("dijit.form._DropDownTextBox");
-
+dojo.require("dijit.form.ValidationTextbox");
 
 dojo.declare(
 			"dijit.form.AutoCompleter",
-	[dijit.form._DropDownTextBox],
+	[dijit.form.SerializableTextbox, dijit.form._DropDownTextBox],
 {
 	// summary:
 	//		Auto-completing text box, and base class for Select widget.
@@ -20,7 +20,7 @@ dojo.declare(
 	//		Some of the options to the AutoCompleter are actually arguments to the data
 	//		provider.
 	
-	// Fixes #2313, #2562, #2790, #2883, #2884.
+	// Fixes #2885, #2309
 	
 	// searchLimit: Integer
 	//		Argument to data provider.
@@ -87,9 +87,9 @@ dojo.declare(
 	
 	_setTextFieldValue:function(/*String*/ value){
 		// summary: Select wants to call AutoCompleter's setValue to reach FormElement's setValue
-		// But Select does not want to display the value in the text field!
-		// this function fixes that problem by separating the code
-		this.textInputNode.value=value;
+		// But Select does not want to display the "value" in the text field!
+		// this function fixes that problem by separating the code from Select's setTextValue
+		this.textbox.value=value;
 	},
 	setValue:function(/*String*/ value){
 		// summary: Sets the value of the AutoCompleter
@@ -121,12 +121,12 @@ dojo.declare(
 
 	enable:function(){
 		this.disabled=false;
-		this.textInputNode.removeAttribute("disabled");
+		this.textbox.removeAttribute("disabled");
 	},
 
 	disable: function(){
 		this.disabled = true;
-		this.textInputNode.setAttribute("disabled",true);
+		this.textbox.setAttribute("disabled",true);
 	},
 
 	_getCaretPos: function(/*DomNode*/ element){
@@ -193,7 +193,7 @@ dojo.declare(
 		}
 	},
 
-	_handleKeyEvents: function(/*Event*/ evt){
+	onkeypress: function(/*Event*/ evt){
 		// summary: handles keyboard events
 		if(evt.ctrlKey || evt.altKey){ return; }
 
@@ -234,7 +234,7 @@ dojo.declare(
 						this._selectOption({ 'target': this._highlighted_option, 'noHide': false});
 
 						// put caret last
-						this._setSelectedRange(this.textInputNode, this.textInputNode.value.length, null);
+						this._setSelectedRange(this.textbox, this.textbox.value.length, null);
 					}else{
 						this._selectOption();
 						return;
@@ -271,7 +271,7 @@ dojo.declare(
 				case dojo.keys.BACKSPACE:
 					//try{
 						this._prev_key_backspace = true;
-						if(!this.textInputNode.value.length){
+						if(!this.textbox.value.length){
 							this.setValue("");
 							//this._hideResultList();
 							//doSearch = false;
@@ -306,12 +306,12 @@ dojo.declare(
 		// summary: When inputting characters using an input method, such as Asian
 		// languages, it will generate this event instead of onKeyDown event
 		evt.key = evt.charCode = -1;
-		this._handleKeyEvents(evt);
+		this.onkeypress(evt);
 	},
 
-	_onKeyUp: function(/*Event*/ evt){
+	onkeyup: function(/*Event*/ evt){
 		// summary: callback on key up event
-		this.setValue(this.textInputNode.value);
+		this.setValue(this.textbox.value);
 	},
 
 	_focusOptionNode: function(/*DomNode*/ node){
@@ -372,23 +372,24 @@ dojo.declare(
 			this._hideResultList();
 			return;
 		}
-		var zerothvalue=new String(results[0][this.searchField]);
+		var zerothvalue=new String(this.store.getValue(results[0], this.searchField));
 		if(zerothvalue&&(this.autoComplete)&&
 			(!this._prev_key_backspace)&&
-			(this.textInputNode.value.length > 0)&&
-			(new RegExp("^"+this.textInputNode.value, "").test(zerothvalue))){
-				var cpos = this._getCaretPos(this.textInputNode);
+			(this.textbox.value.length > 0)&&
+			(new RegExp("^"+this.textbox.value, "").test(zerothvalue))){
+				var cpos = this._getCaretPos(this.textbox);
 				// only try to extend if we added the last character at the end of the input
-				if((cpos+1) > this.textInputNode.value.length){
+				if((cpos+1) > this.textbox.value.length){
 					// only add to input node as we would overwrite Capitalisation of chars
-					this.textInputNode.value += zerothvalue.substr(cpos);
+					this.textbox.value += zerothvalue.substr(cpos);
 					// build a new range that has the distance from the earlier
 					// caret position to the end of the first string selected
-					this._setSelectedRange(this.textInputNode, cpos, this.textInputNode.value.length);
+					this._setSelectedRange(this.textbox, cpos, this.textbox.value.length);
 				}
 		}
-		while(results.length){
-			var tr = results.shift();
+		// #2309: iterate over cache nondestructively
+		for(var i=0; i<results.length; i++) {
+			var tr=results[i];
 			if(tr){
 				var td=this._createOption(tr);
 				td.className = "dojoMenuItem";
@@ -404,20 +405,19 @@ dojo.declare(
 	_createOption:function(/*Object*/ tr){
 		// summary: creates an option to appear on the popup menu
 		var td = document.createElement("div");
-		td.appendChild(document.createTextNode(tr[this.searchField]));
-
-		td[this.searchField]=tr[this.searchField];
+		td.appendChild(document.createTextNode(this.store.getValue(tr, this.searchField)));
+		td.item=tr;
 		return td;
 	},
-
-	_onFocusInput: function(){
+	onfocus:function(){
+		dijit.form.RangeBoundTextbox.prototype.onfocus.apply(this, arguments);
 		this._hasFocus = true;
 	},
-
-	_onBlurInput: function(){
-		
-			this._hasFocus = false;
-			this._handleBlurTimer(true, 500);
+	onblur:function(){
+		dijit.form._DropDownTextBox.prototype.onblur.apply(this, arguments);
+		dijit.form.RangeBoundTextbox.prototype.onblur.apply(this, arguments);
+		this._hasFocus = false;
+		this._handleBlurTimer(true, 500);
 		
 	},
 
@@ -454,29 +454,23 @@ dojo.declare(
 			}
 		
 	},
-
-		
 	_checkBlurred: function(){
-			
-		
 			if(!this._hasFocus && !this._mouseover_list){
 				this._hideResultList();
-				//this._checkValueChanged();
 			}
-		
 	},
-
 	_selectOption: function(/*Event*/ evt){
 		var tgt = null;
 		if(!evt){
 			// what if nothing is highlighted yet?
-			evt = { target: (this._highlighted_option ? this._highlighted_option:this.optionsListNode.firstChild) };
+			evt = { target: this._highlighted_option };
+			if(!evt.target) return;
 		}
-		if(evt.target.parentNode!=this.optionsListNode){
+		if(evt.target&&evt.target.parentNode!=this.optionsListNode){
 			
 				// handle autocompletion where the the user has hit ENTER or TAB
 				// if the input is empty do nothing
-				if(!this.textInputNode.value.length){
+				if(!this.textbox.value.length){
 					//this._checkValueChanged();
 					return;
 				}
@@ -491,7 +485,7 @@ dojo.declare(
 		}else{
 			tgt = evt.target;
 		}
-		while((tgt.nodeType!=1)||(!tgt[this.searchField])){
+		while((tgt.nodeType!=1)||(!tgt.item[this.searchField])){
 			tgt = tgt.parentNode;
 			if(tgt == dojo.body()){
 				//this._checkValueChanged();
@@ -501,7 +495,7 @@ dojo.declare(
 		this._doSelect(tgt);
 		if(!evt.noHide){
 			this._hideResultList();
-			this._setSelectedRange(this.textInputNode, 0, null);
+			this._setSelectedRange(this.textbox, 0, null);
 		}
 		//this._checkValueChanged();
 		this.focus();
@@ -509,51 +503,12 @@ dojo.declare(
 
 
 	_doSelect: function(tgt){
-		this.setValue(tgt[this.searchField]);
-	},
-
-	
-
-	_showResultList: function(){
-			// Our dear friend IE doesnt take max-height so we need to calculate that on our own every time
-		var childs = this.optionsListNode.childNodes;
-		if(childs.length){
-			var visibleCount = Math.min(childs.length,this.maxListLength);
-				
-			this.popupWidget.open(this.optionsListNode, this);
-			with(this.optionsListNode.style)
-			{
-				//display = "";
-				if(visibleCount == childs.length){
-						//no scrollbar is required, so unset height to let browser calcuate it,
-						//as in css, overflow is already set to auto
-					height = "";
-				}else{
-					//show it first to get the correct dojo.style.getOuterHeight(childs[0])
-					//FIXME: shall we cache the height of the item?
-					var calcheight = visibleCount * (childs[0]).offsetHeight;
-					var windowheight=dijit.util.getViewport().h;
-					if(calcheight>windowheight){
-						var coords=dojo.coords(this.popupWidget.domNode);
-						calcheight=windowheight-coords.y;
-					}
-					height=calcheight+"px";
-						
-				}
-				width = this.domNode.offsetWidth+"px";
-			}
-			// do it again to reposition
-			this.popupWidget.close(this);
-			this.popupWidget.open(this.optionsListNode, this);
-				
-		}else{
-			this._hideResultList();
-		}
+		this.setValue(this.store.getValue(tgt.item, this.searchField));
 	},
 
 	arrowClicked: function(){
 			// summary: callback when arrow is clicked
-		
+		if(this.disabled) return;
 		this._handleBlurTimer(true, 0);
 		this.focus();
 		if(this.popupWidget.isShowingNow){
@@ -565,16 +520,10 @@ dojo.declare(
 		}
 	},
 
-	focus: function(){
-		try{
-			this.textInputNode.focus();
-		}catch (e){
-				// element isn't focusable if disabled, or not visible etc - not easy to test for.
-		};
-	},
+	
 
 	_startSearchFromInput: function(){
-		this._startSearch(this.textInputNode.value);
+		this._startSearch(this.textbox.value);
 	},
 
 	_startSearch: function(/*String*/ key){
@@ -588,12 +537,14 @@ dojo.declare(
 		return;
 	},
 	postCreate: function(){
-		dijit.form.AutoCompleter.superclass.postCreate.apply(this, arguments);
+		//dijit.form.AutoCompleter.superclass.postCreate.apply(this, arguments);
+		dijit.form.SerializableTextbox.prototype.postCreate.apply(this, arguments);
+		dijit.form._DropDownTextBox.prototype.postCreate.apply(this, arguments);
 
 		/* different nodes get different parts of the style */
 		// FIXME: test different style attributes
 		//var source = this.srcNodeRef;
-		//this.textInputNode.style=source.style;
+		//this.textbox.style=source.style;
 			
 		var dpClass=dojo.getObject(this.dataProviderClass, false);
 			
@@ -601,6 +552,7 @@ dojo.declare(
 		// is the store not specified?  If so, use inline read
 		if(this.store==null){
 			if(this.url==""&&this.data==null){
+ 				dpClass=dojo.getObject("dojo.data.JsonItemStore", false);
 				var opts = this.domNode.getElementsByTagName("option");
 				var ol = opts.length;
 				var data=[];
@@ -619,8 +571,7 @@ dojo.declare(
 			this.store=new dpClass(this);
 		}
 
-		dojo.addClass(this.optionsListNode, 'dojoMenu');
-		this.optionsListNode.style.overflow="scroll";
+		
 		dojo.connect(this.optionsListNode, 'onclick', this, '_selectOption');
 		dojo.connect(this.optionsListNode, 'onmouseover', this, '_onMouseOver');
 		dojo.connect(this.optionsListNode, 'onmouseout', this, '_onMouseOut');
@@ -639,6 +590,8 @@ dojo.declare(
 		}
 		else this.setValue(this.value);*/
 		this.setValue(this.value);
+		// setting the value here is needed since value="" in the template causes "undefined" on form reset
+		this.textbox.setAttribute("value", this.value);
 	}
 }
 );

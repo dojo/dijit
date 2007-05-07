@@ -6,10 +6,11 @@ dojo.require("dojo.date.serial");
 
 dojo.require("dijit.base.Widget");
 dojo.require("dijit.base.TemplatedWidget");
+dojo.require("dijit.base.FormElement");
 
 dojo.declare(
 	"dijit.form.Calendar",
-	[dijit.base.Widget, dijit.base.TemplatedWidget],
+	[dijit.base.FormElement, dijit.base.TemplatedWidget],
 	{
 		/*
 		summary: 
@@ -50,6 +51,7 @@ dojo.declare(
 				this._preInitUI((this.value=="")?this.curMonth:this.value,false,true);
 			}
 			this.clickedNode=null;
+			dijit.form.Calendar.superclass.setValue.apply(this, arguments);
 		},
 
 		postCreate: function(){

@@ -61,7 +61,7 @@ Enhancements over plain HTML version:
 <form action="#" method="GET">
  
     <p>Select #1: inlined data, autocomplete=false:</p>
-	<select searchField="name" keyField="abbreviation" labelFunc="myLabelFunc" id="setvaluetest2" searchLimit="Infinity" name="state3" dojoType="dijit.form.Select" style="width: 300px;" autocomplete="false" dataProviderClass="dojo.data.JsonItemStore"
+	<select searchField="name" keyField="abbreviation" labelFunc="myLabelFunc" id="setvaluetest2" searchLimit="Infinity" name="state3" dojoType="dijit.form.Select" style="width: 300px;" autocomplete="false" dataProviderClass="dojo.data.JsonItemStore" promptMessage="Please enter a state"
 		onValueChanged="setVal1" value="CA">
 		<option value="AL">Alabama</option>
 		<option value="AK">Alaska</option>
@@ -133,7 +133,7 @@ Enhancements over plain HTML version:
 	<p>Select #2: url, autocomplete=true:</p>
 	<input searchField="name" keyField="abbreviation" id="setvaluetest" dojoType="dijit.form.Select" value="IA"
 		url="autoCompleterData.json" name="state1" autocomplete="true" labelField="label" labelType="html"
-		onValueChanged="setVal2" dataProviderClass="dojo.data.JsonItemStore"
+		onValueChanged="setVal2" dataProviderClass="dojo.data.JsonItemStore" promptMessage="Please enter a state"
 	>	<!--<button onclick='dojo.widget.byId("setvaluetest").setValue("VI"); return false;'>Set value to VI</button>  
 		<button onclick='alert(dojo.widget.byId("setvaluetest").getValue()); return false;'>Get value</button>  -->
 	<br>
@@ -143,7 +143,7 @@ Enhancements over plain HTML version:
     <p>Select #3: url, autocomplete=false:</p>
  	<input searchField="name" keyField="abbreviation" dojoType="dijit.form.Select" value="VI"
 		url="autoCompleterData.json" name="state2" autocomplete="false" labelField="label" labelType="html"
-		onValueChanged="setVal3" dataProviderClass="dojo.data.JsonItemStore"
+		onValueChanged="setVal3" dataProviderClass="dojo.data.JsonItemStore" promptMessage="Please enter a state"
 	>
 	<br>
 	<div>Value: <input id="value3" disabled></div>

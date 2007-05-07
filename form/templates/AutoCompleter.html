@@ -1,12 +1,13 @@
-<fieldset class="dojoAutoCompleter dojoInlineBox dojoInputField" id='${this.id}'
-	><input style="display:inline" type="text" autocomplete="off" class="dojoAutoCompleterInput" name="${this.name}" id=""
-		dojoAttachEvent="onkeypress:_handleKeyEvents; onKeyUp: _onKeyUp; compositionEnd; onfocus:_onFocusInput; onblur:_onBlurInput;"
-		dojoAttachPoint="textInputNode"
+<fieldset class="dojoAutoCompleter dojoInlineBox dojoInputField" id='${this.id}' width="${this.width}"
+	><input style="display:inline" type="text" autocomplete="off" class="dojoAutoCompleterInput" name="${this.name}"
+		dojoAttachEvent="onkeypress; onkeyup; onfocus; onblur;"
+		dojoAttachPoint="textbox"
 		tabIndex='${this.tabIndex}' size='${this.size}' maxlength='${this.maxlength}'
+	><span dojoAttachPoint='messageSpan' class='dojoValidationTextboxMessage' waiRole='alert'></span
 	><fieldset class="dojoArrowButton"
 		><fieldset 
 			dojoAttachPoint="downArrowNode"
-			dojoAttachEvent="onclick:arrowClicked; onmousedown:_arrowPressed; onmouseout:_arrowIdle;"
+			dojoAttachEvent="onclick:arrowClicked;"
 			><div class="dojoDownArrowOuter" style="display:block;"
 				><div class="dojoDownArrowInner"></div
 			></div
