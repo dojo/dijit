@@ -52,7 +52,6 @@ dijit.util.FocusManager = new function(){
 	var restoreFocus;		// focused node before menu opened
 	var bookmark;			// selected text before menu opened
 
-//PORT from dojo.html.selection
 	var isCollapsed = function(){
 		// summary: return whether the current selection is empty
 		var _window = dojo.global;
@@ -90,8 +89,9 @@ dijit.util.FocusManager = new function(){
 			}
 		}else{
 			var selection;
+			//TODO: why a try/catch?  check for getSelection instead?
 			try{selection = dojo.global.getSelection();}
-			catch(e){}
+			catch(e){/*squelch*/}
 			if(selection){
 				var range = selection.getRangeAt(0);
 				bookmark = range.cloneRange();
@@ -101,6 +101,7 @@ dijit.util.FocusManager = new function(){
 		}
 		return bookmark;
 	};
+
 	var moveToBookmark = function(/*Object*/bookmark){
 		// summary: Moves current selection to a bookmark
 		// bookmark: this should be a returned object from dojo.html.selection.getBookmark()
@@ -120,8 +121,9 @@ dijit.util.FocusManager = new function(){
 			}
 		}else{ //Moz/W3C
 			var selection;
+			//TODO: why a try/catch?  check for getSelection instead?
 			try{selection = dojo.global.getSelection();}
-			catch(e){}
+			catch(e){/*squelch*/}
 			if(selection && selection.removeAllRanges){
 				selection.removeAllRanges();
 				selection.addRange(bookmark);
@@ -144,7 +146,7 @@ dijit.util.FocusManager = new function(){
 		currentMenu = menu;
 		openedForWindow = _openedForWindow;
 
-		//PORT from dojo.dom.isDescendantOf
+		//PORT #2804. Use isAncestor
 		var isDescendantOf = function(/*Node*/node, /*Node*/ancestor){
 			//	summary
 			//	Returns boolean if node is a descendant of ancestor
