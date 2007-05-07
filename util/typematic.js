@@ -9,12 +9,12 @@ dijit.util.typematic = {
 
 	_fireEventAndReload: function(){
 		this._timer = null;
-		this._callback(this._obj,++this._count);
+		this._callback(++this._count, this._node, this._evt);
 		this._currentTimeout = (this._currentTimeout < 0) ? this._initialDelay : ((this._subsequentDelay > 1) ? this._subsequentDelay : Math.round(this._currentTimeout * this._subsequentDelay));
 		this._timer = setTimeout(dojo.hitch(this, "_fireEventAndReload"), this._currentTimeout);
 	},
 
-	trigger: function(/* Object */ _this, /* Function */ callback, /* Object */ obj, /* Number */ subsequentDelay, /* Number */ initialDelay){
+	trigger: function(/*Event*/ evt, /* Object */ _this, /*DOMNode*/ node, /* Function */ callback, /* Object */ obj, /* Number */ subsequentDelay, /* Number */ initialDelay){
 		// summary:
 		//      Start a timed, repeating callback sequence.
 		//	If already started, the function call is ignored.
@@ -31,6 +31,8 @@ dijit.util.typematic = {
 			this._initialDelay = initialDelay ? initialDelay : 500;
 			this._subsequentDelay = subsequentDelay ? subsequentDelay : 0.90;
 			this._obj = obj;
+			this._evt = evt;
+			this._node = node;
 			this._currentTimeout = -1;
 			this._count = -1;
 			this._callback = dojo.hitch(_this, callback);
@@ -46,12 +48,12 @@ dijit.util.typematic = {
 			this._timer = null;
 		}
 		if(this._obj){
-			this._callback(this._obj,-1);
+			this._callback(-1, this._node, this._evt);
 			this._obj = null;
 		}
 	},
 
-	addKeyListener: function(/*Node*/ node, /*Object*/ keyObject, /*Object*/ _this, /*Function*/ callback, /*Object*/ obj, /*Number*/ subsequentDelay, /*Number*/ initialDelay){
+	addKeyListener: function(/*DOMNode*/ node, /*Object*/ keyObject, /*Object*/ _this, /*Function*/ callback, /*Number*/ subsequentDelay, /*Number*/ initialDelay){
 		// summary: Start listening for a specific typematic key.
 		//	node: the DOM node object to listen on for key events.
 		//	keyObject: an object defining the key to listen for.
@@ -63,50 +65,54 @@ dijit.util.typematic = {
 		//		altKey: same as ctrlKey but for the alt key
 		//		shiftKey: same as ctrlKey but for the shift key
 		//	See the trigger method for other parameters.
-		dojo.addListener(node, "keypress", null, function(evt){
-			if(evt.keyCode == keyObject.key
+		var ary = [];
+		ary.push(dojo.connect(node, "onkeypress", this, function(evt){
+			if(evt.keyCode == keyObject.keyCode && (!keyObject.charCode || keyObject.charCode == evt.charCode)
 			&& ((typeof keyObject.ctrlKey == "undefined") || keyObject.ctrlKey == evt.ctrlKey)
 			&& ((typeof keyObject.altKey == "undefined") || keyObject.altKey == evt.ctrlKey)
 			&& ((typeof keyObject.shiftKey == "undefined") || keyObject.shiftKey == evt.ctrlKey)){
 				dojo.stopEvent(evt);
-				dijit.util.typematic.trigger(_this, callback, obj, subsequentDelay, initialDelay);
-			}else if (dijit.util.typematic._obj == obj){
+				dijit.util.typematic.trigger(evt, _this, node, callback, keyObject, subsequentDelay, initialDelay);
+			}else if (dijit.util.typematic._obj == keyObject){
 				dijit.util.typematic.stop();
 			}
-		});
-		dojo.addListener(node, "keyup", null, function(evt){
-			if(dijit.util.typematic._obj == obj){
+		}));
+		ary.push(dojo.connect(node, "onkeyup", this, function(evt){
+			if(dijit.util.typematic._obj == keyObject){
 				dijit.util.typematic.stop();
 			}
-		});
+		}));
+		return ary;
 	},
 
-	addMouseListener: function(/*Node*/ node, /*Object*/ _this, /*Function*/ callback, /*Object*/ obj, /*Number*/ subsequentDelay, /*Number*/ initialDelay){
+	addMouseListener: function(/*DOMNode*/ node, /*Object*/ _this, /*Function*/ callback, /*Number*/ subsequentDelay, /*Number*/ initialDelay){
 		// summary: Start listening for a typematic mouse click.
 		//	node: the DOM node object to listen on for mouse events.
 		//	See the trigger method for other parameters.
-		dojo.addListener(node, "mousedown", null, function(evt){
+		var ary = [];
+		ary.push(dojo.connect(node, "mousedown", this, function(evt){
 			dojo.stopEvent(evt);
-			dijit.util.typematic.trigger(_this, callback, obj, subsequentDelay, initialDelay);
-		});
-		dojo.addListener(node, "mouseup", null,function(evt){
-			dojo.stopEvent(evt);
-			dijit.util.typematic.stop();
-		});
-		dojo.addListener(node, "mouseout", null, function(evt){
+			dijit.util.typematic.trigger(evt, _this, node, callback, node, subsequentDelay, initialDelay);
+		}));
+		ary.push(dojo.connect(node, "mouseup", this, function(evt){
 			dojo.stopEvent(evt);
 			dijit.util.typematic.stop();
-		});
-		dojo.addListener(node, "mousemove", null, function(evt){
+		}));
+		ary.push(dojo.connect(node, "mouseout", this, function(evt){
 			dojo.stopEvent(evt);
-		});
-		dojo.addListener(node, "dblclick", null, function(evt){
+			dijit.util.typematic.stop();
+		}));
+		ary.push(dojo.connect(node, "mousemove", this, function(evt){
+			dojo.stopEvent(evt);
+		}));
+		ary.push(dojo.connect(node, "dblclick", this, function(evt){
 			dojo.stopEvent(evt);
 			if(dojo.isIE){
-				dijit.util.typematic.trigger(_this, callback, obj, subsequentDelay, initialDelay);
+				dijit.util.typematic.trigger(evt, _this, node, callback, node, subsequentDelay, initialDelay);
 				setTimeout("dijit.util.typematic.stop()",50);
 			}
-		});
+		}));
+		return ary;
 	},
 
 	addListener: function(/*Node*/ mouseNode, /*Node*/ keyNode, /*Object*/ keyObject, /*Object*/ _this, /*Function*/ callback, /*Number*/ subsequentDelay, /*Number*/ initialDelay){
@@ -116,7 +122,8 @@ dijit.util.typematic = {
 		//	keyNode: the DOM node object to listen on for key events.
 		//	The mouseNode is used as the callback obj parameter.
 		//	See the trigger method for other parameters.
-		this.addKeyListener(keyNode, keyObject, _this, callback, mouseNode, subsequentDelay, initialDelay);
-		this.addMouseListener(mouseNode, _this, callback, mouseNode, subsequentDelay, initialDelay);
+		return Array.concat(
+			this.addKeyListener(keyNode, keyObject, _this, callback, subsequentDelay, initialDelay),
+			this.addMouseListener(mouseNode, _this, callback, subsequentDelay, initialDelay));
 	}
 };

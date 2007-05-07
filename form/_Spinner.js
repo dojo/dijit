@@ -48,7 +48,8 @@ dojo.declare(
 			dojo.removeClass(node, "dojoSpinnerButtonPushed");
 		},
 
-		_typematicCallback: function(/*Node*/ node, /*Number*/ count){
+		_typematicCallback: function(/*Number*/ count, /*DOMNode*/ node, /*Event*/ evt){
+			if(node == this.textbox){ node = (evt.keyCode == dojo.keys.UP_ARROW) ? this.upArrowNode : this.downArrowNode; }
 			if(count == -1){ this._arrowReleased(node); }
 			else{ this._arrowPressed(node, (node == this.upArrowNode) ? 1 : -1); }
 		},
@@ -79,24 +80,21 @@ dojo.declare(
 
 		postCreate: function(){
 			dijit.form._Spinner.superclass.postCreate.apply(this, arguments);
-			// there's some browser specific CSS
-
-			var node = this.textbox;
 
 			// textbox and domNode get the same style but the css separates the 2 using !important
 			if(this.srcNodeRef){
-				dojo.style(node, "cssText", this.srcNodeRef.style.cssText);
-				node.className += " " + this.srcNodeRef.className;
+				dojo.style(this.textbox, "cssText", this.srcNodeRef.style.cssText);
+				this.textbox.className += " " + this.srcNodeRef.className;
 			}
 
 			// extra listeners
-			if(node.addEventListener){
+			if(this.textbox.addEventListener){
 				// dojo.connect() doesn't seem to work with DOMMouseScroll
-				node.addEventListener('DOMMouseScroll', dojo.hitch(this, "_mouseWheeled"), false); // Mozilla + Firefox + Netscape
+				this.textbox.addEventListener('DOMMouseScroll', dojo.hitch(this, "_mouseWheeled"), false); // Mozilla + Firefox + Netscape
 			}else{
-				dojo.connect(node, "onmousewheel", this, "_mouseWheeled"); // IE + Safari
+				dojo.connect(this.textbox, "onmousewheel", this, "_mouseWheeled"); // IE + Safari
 			}
-			dijit.util.typematic.addListener(this.upArrowNode, node, {key:dojo.keys.UP_ARROW,ctrlKey:false,altKey:false,shiftKey:false}, this, "_typematicCallback", this.timeoutChangeRate, this.defaultTimeout);
-			dijit.util.typematic.addListener(this.downArrowNode, node, {key:dojo.keys.DOWN_ARROW,ctrlKey:false,altKey:false,shiftKey:false}, this, "_typematicCallback", this.timeoutChangeRate, this.defaultTimeout);
+			dijit.util.typematic.addListener(this.upArrowNode, this.textbox, {keyCode:dojo.keys.UP_ARROW,ctrlKey:false,altKey:false,shiftKey:false}, this, "_typematicCallback", this.timeoutChangeRate, this.defaultTimeout);
+			dijit.util.typematic.addListener(this.downArrowNode, this.textbox, {keyCode:dojo.keys.DOWN_ARROW,ctrlKey:false,altKey:false,shiftKey:false}, this, "_typematicCallback", this.timeoutChangeRate, this.defaultTimeout);
 		}
 });

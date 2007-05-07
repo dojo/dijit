@@ -10,8 +10,13 @@
 	</script>
 <script>
 	var lastCount = 0;
-	function typematicCallBack(key, count){
+	function typematicCallBack(count, node, evt){
 		var inputNode = document.getElementById('typematicInput');
+		if (node == inputNode){
+			key = "a";
+		}else{
+			key = "b";
+		}
 		if (count == -1){
 			console.debug((lastCount+1) + ' ' + key + ' events');
 		}else{
@@ -24,10 +29,10 @@
 		var keyNode = document.getElementById('typematicInput');
 		var mouseNode = document.getElementById('typematicButton');
 		dijit.util.typematic.addKeyListener(keyNode, 
-			{key:dojo.keys.F10,ctrlKey:true},
-			this, typematicCallBack, "a", 200, 200);
+			{keyCode:dojo.keys.F10,ctrlKey:true},
+			this, typematicCallBack, 200, 200);
 		dijit.util.typematic.addMouseListener(mouseNode, 
-			this, typematicCallBack, "b", 0.9, 200);
+			this, typematicCallBack, 0.9, 200);
 		keyNode.focus(); // make it easier to type 
 	});
 </script>
