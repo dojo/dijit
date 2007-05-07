@@ -46,23 +46,8 @@ dojo.declare("dijit.base.TemplatedWidget",
 
 			var cached = dijit.base.getCachedTemplate(this.templatePath, this.templateString);
 
-//PORT: from dojo.dom.  promote this?  reduce?
-			var isNode = function(/* object */wh){
-				//	summary:
-				//		checks to see if wh is actually a node.
-				if(typeof Element == "function"){
-					return wh instanceof Element;	//	boolean
-				}else{
-					// best-guess
-					return wh && !isNaN(wh.nodeType);	//	boolean
-				}
-			};
-
 			var node;
-			if(isNode(cached)){
-				// if it's a node, all we have to do is clone it
-				node = cached.cloneNode(true);
-			}else{
+			if(dojo.isString(cached)){
 				// construct table for property replacement
 				var hash = this.strings || {};
 				for(var key in dijit.base.defaultStrings){
@@ -87,6 +72,9 @@ dojo.declare("dijit.base.TemplatedWidget",
 				});
 
 				node = dijit.base._createNodesFromText(tstr)[0];
+			}else{
+				// if it's a node, all we have to do is clone it
+				node = cached.cloneNode(true);
 			}
 
 			// recurse through the node, looking for, and attaching to, our

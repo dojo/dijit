@@ -212,8 +212,9 @@ dojo.declare(
 	
 		destroy: function(){
 			// if we have multiple controllers destroying us, bail after the first
-			if(this._beingDestroyed)
+			if(this._beingDestroyed){
 				return;
+			}
 			// make sure we call onUnload
 			this.onUnload();
 			this._beingDestroyed = true;
@@ -462,25 +463,8 @@ dojo.declare(
 			this.abort();
 			if(this._callOnUnload){ this.onUnload(); }// this tells a remote script clean up after itself
 			this._callOnUnload = true;
-			
-//PORT: from dojo.dom.  promote this?  reduce?
-			var isNode = function(/* object */wh){
-				//	summary:
-				//		checks to see if wh is actually a node.
-				if(typeof Element == "function"){
-					return wh instanceof Element;	//	boolean
-				}else{
-					// best-guess
-					return wh && !isNaN(wh.nodeType);	//	boolean
-				}
-			};
-	
-			if(!data || isNode(data)){
-				// if we do a clean using setContent(""); or setContent(#node) bypass all parsing, extractContent etc
-				this._setContent(data);
-				this.onResized();
-				this.onLoad();
-			}else{
+
+			if(data && dojo.isString(data)){
 				// need to run splitAndFixPaths? ie. manually setting content
 				// adjustPaths is taken care of inside splitAndFixPaths
 				if(typeof data.xml != "string"){ 
@@ -500,14 +484,14 @@ dojo.declare(
 				}
 	
 				if(this.parseContent){
-					for(var i = 0; i < data.requires.length; i++){
+					dojo.forEach(data.requires, function(require){
 						try{
-							eval(data.requires[i]);
+							eval(require);
 						}catch(e){
 							e.text = "ContentPane: error in package loading calls, " + (e.description||e);
 							this._handleDefaults(e, "onContentError", "debug");
 						}
-					}
+					});
 				}
 				// need to allow async load, Xdomain uses it
 				// is inline function because we cant send args to dojo.addOnLoad
@@ -526,6 +510,11 @@ dojo.declare(
 				}else{
 */					asyncParse();
 //				}
+			}else{
+				// if we do a clean using setContent(""); or setContent(#node) bypass all parsing, extractContent etc
+				this._setContent(data);
+				this.onResized();
+				this.onLoad();
 			}
 		},
 

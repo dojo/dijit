@@ -63,28 +63,14 @@ dojo.extend(dijit.util.BackgroundIframe, {
 
 	setZIndex: function(/* HTMLElement|int */node){
 		//	summary:
-		//		Sets the z-index of the background iframe.
+		//		Sets the z-index of the background iframe
+		//	node:
+		//		If an element, sets zIndex of iframe to zIndex of node minus one. 
+		//		Otherwise, specifies the new zIndex as an integer.
 
-		//TODOC: if it's an element, decrements zIndex by one?
 		if(!this.iframe){ return; }
 
-//PORT: from dojo.dom.  promote this?  reduce?
-		var isNode = function(/* object */wh){
-			//	summary:
-			//		checks to see if wh is actually a node.
-			if(typeof Element == "function"){
-				return wh instanceof Element;	//	boolean
-			}else{
-				// best-guess
-				return wh && !isNaN(wh.nodeType);	//	boolean
-			}
-		};
-
-		if(isNode(node)){
-			this.iframe.style.zIndex = dojo.style(node, "zIndex") - 1;
-		}else if(!isNaN(node)){
-			this.iframe.style.zIndex = node;
-		}
+		this.iframe.style.zIndex = !isNaN(node) ? node : (node.style.zIndex - 1);
 	},
 
 	show: function(){
