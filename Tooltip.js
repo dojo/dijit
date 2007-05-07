@@ -123,7 +123,7 @@ dojo.declare(
 			}, this);
 		},
 
-		//PORT from dojo.dom.isDescendantOf
+		//PORT #2804
 		_isDescendantOf: function(/*Node*/node, /*Node*/ancestor){
 			//	summary
 			//	Returns boolean if node is a descendant of ancestor
