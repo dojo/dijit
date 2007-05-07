@@ -1,24 +1,10 @@
 dojo.provide("dijit.base.Showable");
 
+//TODO: do we need this class at all?
 dojo.declare("dijit.base.Showable", null,
 {
 	// Summary
 	//		Mixin for widgets that show/hide themselves in a fancy way
-
-	// toggle: String
-	//	Controls animation effect for when show() and hide() (or toggle()) are called.
-	//	Possible values: "plain", "wipe", "fade", "explode"
-	toggle: "plain",
-
-	// toggleDuration: Integer
-	//	Number of milliseconds for toggle animation effect to complete
-	toggleDuration: 150,
-
-	postMixInProperties: function(args, frag){
-		// now that we know the setting for toggler, get toggler object
-		// (default to plain toggler if user specified toggler not present)
-//		this.toggleObj = new (dojo.lfx.toggler[this.toggle.toLowerCase()] || dojo.lfx.toggler.plain); //PORT me
-	},
 
 	isShowing: function(){
 		// summary
@@ -44,16 +30,8 @@ dojo.declare("dijit.base.Showable", null,
 	show: function(){
 		// summary: show the widget
 		if(this.isShowing()){ return; }
-		this.animationInProgress=true;
 		this.domNode.style.display = "";
 		this.onShow();
-//		this.toggleObj.show(this.domNode, this.toggleDuration, null,
-//			dojo.hitch(this, this.onShow), this.explodeSrc);
-	},
-
-	_onShow: function(){
-		// summary: called after the show() animation has completed
-		this.animationInProgress=false;
 	},
 
 	onShow: function(){
@@ -63,16 +41,8 @@ dojo.declare("dijit.base.Showable", null,
 	hide: function(){
 		// summary: hide the widget (ending up with display:none)
 		if(!this.isShowing()){ return; }
-		this.animationInProgress = true;
 		this.domNode.style.display = "none";
 		this.onHide();
-//		this.toggleObj.hide(this.domNode, this.toggleDuration, null,
-//			dojo.hitch(this, this.onHide), this.explodeSrc);
-	},
-
-	_onHide: function(){
-		// summary: called after the hide() animation has completed
-		this.animationInProgress=false;
 	},
 	
 	onHide: function(){
