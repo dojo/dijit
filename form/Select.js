@@ -182,13 +182,11 @@ dojo.declare(
 			// using _validateOption now
 			var isValidOption = false;
 			// this test doesn't work if optionsListNode is empty (page first loaded)
-			//var tgt = dojo.html.firstElement(this.optionsListNode); //PORT
-			var tgt=this.optionsListNode.firstChild;
+			var tgt = this.optionsListNode.firstChild;
 			while(!isValidOption && tgt){
 				if(this._isInputEqualToResult(tgt)){
 					isValidOption = true;
 				}else{
-					//tgt = dojo.html.nextElement(tgt); //PORT
 					tgt=this.optionsListNode.nextSibling;
 				}
 			}
