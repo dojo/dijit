@@ -20,14 +20,6 @@ dojo.declare("dijit.base.Contained",
 			return null;
 		},
 
-/*FIXME: is this used anywhere?
-		getSiblings: function(){
-			// summary: gets an array of all children of our parent, including "this"
-			var container = this.getParent();
-			if(!container){ return [this]; }
-			return container.getChildren(); // Array
-		},
-*/
 		_getSibling: function(which){
 			var node = this.domNode;
 			do{
