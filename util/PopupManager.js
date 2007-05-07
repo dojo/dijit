@@ -149,7 +149,7 @@ dijit.util.PopupManager = new function(){
 
 		if(stack.length==0){ return; }
 
-		//PORT from dojo.dom.isDescendantOf
+		//PORT #2804. Use isAncestor
 		var isDescendantOf = function(/*Node*/node, /*Node*/ancestor){
 			//	summary
 			//	Returns boolean if node is a descendant of ancestor

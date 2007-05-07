@@ -15,8 +15,6 @@ dijit.util.scroll.scrollIntoView = function(/* HTMLElement */node){
 			node.scrollIntoView(false);
 		}
 	}else if(dojo.isMozilla){
-		// IE, mozilla
-		//PORT IE, mozilla?
 		node.scrollIntoView(false);
 	}else{
 		var parent = node.parentNode;
