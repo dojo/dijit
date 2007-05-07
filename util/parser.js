@@ -128,7 +128,7 @@ dijit.util.parser = new function(){
 
 dojo.addOnLoad(function(){ dijit.util.parser.parse(); });
 
-//PORT belongs in dojo core?
+//TODO: ported from 0.4.x Dojo.  Can we reduce this?
 dijit.util.parser._anonCtr = 0;
 dijit.util.parser._anon = {}; // why is this property required?
 dijit.util.parser._nameAnonFunc = function(/*Function*/anonFuncPtr, /*Object*/thisObj, /*Boolean*/searchForNames){
