@@ -8,19 +8,18 @@ dojo.require("dijit.util.PopupManager");
 dojo.require("dijit.util.scroll");
 dojo.require("dijit.util.window");
 
-//PORT: move these to dijit.util.iframe?
 // thanks burstlib!
-dijit._iframeContentWindow = function(/* HTMLIFrameElement */iframe_el) {
+dijit.Menu._iframeContentWindow = function(/* HTMLIFrameElement */iframe_el) {
 	//	summary
 	//	returns the window reference of the passed iframe
-	var win = dijit.util.window.getDocumentWindow(dijit._iframeContentDocument(iframe_el)) ||
+	var win = dijit.util.window.getDocumentWindow(dijit.Menu._iframeContentDocument(iframe_el)) ||
 		// Moz. TODO: is this available when defaultView isn't?
-		dijit._iframeContentDocument(iframe_el)['__parent__'] ||
+		dijit.Menu._iframeContentDocument(iframe_el)['__parent__'] ||
 		(iframe_el.name && document.frames[iframe_el.name]) || null;
 	return win;	//	Window
 };
 
-dijit._iframeContentDocument = function(/* HTMLIFrameElement */iframe_el){
+dijit.Menu._iframeContentDocument = function(/* HTMLIFrameElement */iframe_el){
 	//	summary
 	//	returns a reference to the document object inside iframe_el
 	var doc = iframe_el.contentDocument // W3
@@ -214,7 +213,7 @@ dojo.declare(
 
 		var win = dijit.util.window.getDocumentWindow(node.ownerDocument);
 		if(node.tagName.toLowerCase()=="iframe"){
-			win = dijit._iframeContentWindow(node);
+			win = dijit.Menu._iframeContentWindow(node);
 			node = dojo.withGlobal(win, dojo.body);
 		}
 		
