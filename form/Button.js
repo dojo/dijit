@@ -17,15 +17,13 @@ dojo.declare(
 		// summary
 		//	Basically the same thing as a normal HTML button, but with special styling.
 
-		isContainer: true,
-		type: "button",
 		// caption: String
 		//	text to display in button
 		caption: "",
 
 		type: "button",
 		baseClass: "dojoButton",
-		templatePath: dojo.moduleUrl("dijit.form", "templates/ButtonTemplate.html"),
+		templatePath: dojo.moduleUrl("dijit.form", "templates/Button.html"),
 		
 		postCreate: function(){
 			dijit.form.Button.superclass.postCreate.apply(this, arguments);
@@ -81,13 +79,11 @@ dojo.declare(
 		// summary
 		//		push the button and a menu shows up
 
-		isContainer: true,
-
 		// menuId: String
 		//	widget id of the menu that this button should activate
 		menuId: "",
 
-		templatePath: dojo.moduleUrl("dijit.form" , "templates/DropDownButtonTemplate.html"),
+		templatePath: dojo.moduleUrl("dijit.form" , "templates/DropDownButton.html"),
 
 		postCreate: function(){
 			dijit.form.DropDownButton.superclass.postCreate.apply(this, arguments);
@@ -148,5 +144,5 @@ dojo.declare(
 	{
 		// summary
 		//		left side is normal button, right side displays menu
-		templatePath: dojo.moduleUrl("dijit.form", "templates/ComboButtonTemplate.html")
+		templatePath: dojo.moduleUrl("dijit.form", "templates/ComboButton.html")
 	});
