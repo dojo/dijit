@@ -2,17 +2,18 @@
         "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 <head>
-<title>ColorPalette Widget Demo</title>
-
-<link rel=stylesheet href="../themes/tundra/tundra.css" type="text/css">
-
-<script type="text/javascript"> var djConfig = {isDebug: true, debugAtAllCosts: true}; </script>
-<script type="text/javascript" src="../../dojo/dojo.js"></script>
+<title>ColorPalette Test</title>
+<style type="text/css">
+	@import "../../dojo/resources/dojo.css";
+	@import "../themes/tundra/tundra.css";
+	@import "css/dijitTests.css";
+</style>
+<script type="text/javascript" src="../../dojo/dojo.js" djConfig="isDebug: true, debugAtAllCosts: true"></script>
 <script language="JavaScript" type="text/javascript">
-	dojo.registerModulePath("dijit", "../dijit");
 	dojo.require("dijit.ColorPalette");
-	dojo.require("dijit.util.parser");
-	
+	dojo.require("dijit.util.parser");	// scan page for widgets and instantiate them
+</script>
+<script>
 	var palette;
 	function init(){
 		palette = new dijit.ColorPalette({palette: "7x10", id: "progPalette"}, dojo.byId("programPalette"));
@@ -27,10 +28,9 @@
 		theSpan.innerHTML = color;
 	
 	}
-	
 </script>
 </head>
-<body>
+<body class="tundra">
 <p>Default color palette (7x10):</p>
 <div dojoType="dijit.ColorPalette" onColorSelect="setColor(this.selectedColor);"></div>  
 Test color is: <span id="outputSpan"></span>.
@@ -42,4 +42,4 @@ Test color is: <span id="outputSpan"></span>.
 <div id="programPalette"></div>
 </body>
 
-</html><html><body></body></html>
+</html>

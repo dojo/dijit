@@ -32,16 +32,6 @@ dojo.declare(
 	//_currentFocus: Integer
 	//		Index of the currently focused color.
 	_currentFocus: 0,
-
-	//_currentHighlight: Dom node.
-	//		The node that is currently highlighted.
-	_currentHighlight: null,
-	
-	// _ignoreFocus: Boolean
-	//		This indicates that focus events on the palette should be ignored.
-	//		This is used during keyboard navigation, to prevent this being fired
-	//		multiple times.
-	_ignoreFocus: false,
 	
 	// _xDim: Integer
 	//		This is the number of colors horizontally across.
@@ -81,7 +71,7 @@ dojo.declare(
 	//		This is a map that is used to calculate the coordinates of the 
 	//		images that make up the palette. 
 	_paletteCoords: {
-		"leftOffset": 3, "rightOffset": 19, "topOffset": 3, "bottomOffset": 17,
+		"leftOffset": 3, "topOffset": 3,
 		"cWidth": 18, "cHeight": 16
 	},
 	
@@ -95,27 +85,28 @@ dojo.declare(
 		this.imageNode.setAttribute("src",this._imagePaths[this.palette]);
 		var alts = this._palettes[this.palette];	
 		var imagePos = dojo.coords(this.imageNode);
-		this._highlightNodes = new Array();					 				 
+		this.domNode.style.position = "relative";
+		this._highlightNodes = [];	
+				 				 
 		for (var row=0; row<alts.length; row++) {
 			for (var col=0; col<alts[row].length; col++) {
-				var leftcoord = this._paletteCoords["leftOffset"] + (col * this._paletteCoords["cWidth"]);
-				var topcoord = this._paletteCoords["topOffset"] + (row * this._paletteCoords["cHeight"]);
-				
 				var highlightNode = document.createElement("img");
 				highlightNode.src = dojo.moduleUrl("dijit", "templates/blank.gif")
 				dojo.addClass(highlightNode, "dojoPaletteImg");
 				highlightNode.color = alts[row][col];
 				highlightNode.style.color = "#"+highlightNode.color;
-				var obj=this;
-				dojo.addListener(highlightNode, "onmouseover", function(evt) { obj.onMouseOver(evt) } );
+				dojo.connect(highlightNode,"onmouseover", this, "onMouseOver");
 				dojo.connect(highlightNode,"onmousedown", this, "onClick");
+				dojo.connect(highlightNode,"onblur",this, "onBlur");
+				dojo.connect(highlightNode,"onfocus",this, "onFocus");
+				dojo.connect(highlightNode,"onkeydown",this, "onKeyDown");
 				this.domNode.appendChild(highlightNode);
-				dijit.util.placeOnScreen(highlightNode,parseInt(imagePos.x)+leftcoord,parseInt(imagePos.y)+topcoord);
+				highlightNode.style.top = this._paletteCoords["topOffset"] + (row * this._paletteCoords["cHeight"])+"px";
+				highlightNode.style.left = this._paletteCoords["leftOffset"] + (col * this._paletteCoords["cWidth"])+"px";
 				highlightNode.setAttribute("tabIndex","-1");
-				
 				highlightNode.title = highlightNode.color;
 				highlightNode.index = this._highlightNodes.length;
-				this._highlightNodes[this._highlightNodes.length] = highlightNode;
+				this._highlightNodes.push(highlightNode);
 			}
 		}
 		this._highlightNodes[this._currentFocus].tabIndex = 0;
@@ -129,23 +120,23 @@ dojo.declare(
 		// For the up key the index is changed by negative the x dimension.		
 			
 		dijit.util.typematic.addKeyListener(this.domNode, 
-			{key:dojo.keys.UP_ARROW,ctrlKey:false,altKey:false,shiftKey:false}, 
-			this, function(node,count) { this._navigateByKey(-this._xDim,count); }, 
-			"up",this.timeoutChangeRate, this.defaultTimeout);
+			{keyCode:dojo.keys.UP_ARROW,ctrlKey:false,altKey:false,shiftKey:false}, 
+			this, function(count,node,evt) { this._navigateByKey(-this._xDim,count); }, 
+			this.timeoutChangeRate, this.defaultTimeout);
 		// The down key the index is increase by the x dimension.	
 		dijit.util.typematic.addKeyListener(this.domNode, 
-			{key:dojo.keys.DOWN_ARROW,ctrlKey:false,altKey:false,shiftKey:false}, 
-			this, function(node,count) { this._navigateByKey(this._xDim,count); }, 
-			"down",this.timeoutChangeRate, this.defaultTimeout);
+			{keyCode:dojo.keys.DOWN_ARROW,ctrlKey:false,altKey:false,shiftKey:false}, 
+			this, function(count,node,evt) { this._navigateByKey(this._xDim,count); }, 
+			this.timeoutChangeRate, this.defaultTimeout);
 		// Right and left move the index by 1.
 		dijit.util.typematic.addKeyListener(this.domNode, 
-			{key:dojo.keys.RIGHT_ARROW,ctrlKey:false,altKey:false,shiftKey:false}, 
-			this, function(node,count) { this._navigateByKey(1,count); }, 
-			"right",this.timeoutChangeRate, this.defaultTimeout);
+			{keyCode:dojo.keys.RIGHT_ARROW,ctrlKey:false,altKey:false,shiftKey:false}, 
+			this, function(count,node,evt) { this._navigateByKey(1,count); }, 
+			this.timeoutChangeRate, this.defaultTimeout);
 		dijit.util.typematic.addKeyListener(this.domNode, 
-			{key:dojo.keys.LEFT_ARROW,ctrlKey:false,altKey:false,shiftKey:false}, 
-			this, function(node,count) { this._navigateByKey(-1,count); }, 
-			"left",this.timeoutChangeRate, this.defaultTimeout);
+			{keyCode:dojo.keys.LEFT_ARROW,ctrlKey:false,altKey:false,shiftKey:false}, 
+			this, function(count,node,evt) { this._navigateByKey(-1,count); }, 
+			this.timeoutChangeRate, this.defaultTimeout);
 	},
 			
 	onColorSelect: function(color){
@@ -171,9 +162,8 @@ dojo.declare(
 		//		Handler for onMouseOver. This changes the color being highlighted.
 		// evt:
 		//		The mouse event.	
-		var areaNode = evt.currentTarget;
-		if ( !areaNode ) { 	return; }
-		this._highlightColor(areaNode);
+		evt.currentTarget.tabIndex = 0;
+		evt.currentTarget.focus();
 	},
 	
 	onBlur: function(evt) {
@@ -182,8 +172,7 @@ dojo.declare(
 		//		to be destroyed.
 		// evt:
 		//		The blur event.
-		if (this._ignoreFocus) { return; }
-		this._unhighlightColor();
+		dojo.removeClass(evt.currentTarget, "dojoPaletteImgHighlight");
 	},
 	
 	onFocus: function(evt) {
@@ -193,10 +182,13 @@ dojo.declare(
 		//		Otherwise the last color highlighted is focused. 
 		// evt:
 		//		The focus event.
-		if (this._ignoreFocus) 	{ return; }
-		if (evt.currentTarget!=this.domNode) { return; }
-		this._currentFocus = this._currentFocus==null?0:this._currentFocus;
-		this._highlightColor(this._highlightNodes[this._currentFocus]);
+		if (this._currentFocus != evt.currentTarget.index)
+		{
+			this._highlightNodes[this._currentFocus].tabIndex = -1;
+		}
+		this._currentFocus = evt.currentTarget.index;
+		dojo.addClass(evt.currentTarget, "dojoPaletteImgHighlight");
+		
 	},
 	
 	onKeyDown: function(evt) {
@@ -214,33 +206,6 @@ dojo.declare(
 			{
 				this._selectColor(this._highlightNodes[this._currentFocus]);
 			}
-		}
-	},
-		
-	_highlightColor: function(highlightNode) {	
-		// summary:
-		// 		This creates a div to highlight a color.
-		// highlightNode:
-		// 		The color node to be highlighted.
-		this._unhighlightColor();
-		dojo.addClass(highlightNode, "dojoPaletteImgHighlight");
-		this._currentHighlight = highlightNode;
-		this._ignoreFocus = true;
-		if (this._currentFocus != null)
-		{
-			this._highlightNodes[this._currentFocus].tabIndex = -1;
-		}
-		this._currentFocus = highlightNode.index;
-		highlightNode.tabIndex = 0;
-		highlightNode.focus();
-		this._ignoreFocus = false;
-	},
-	
-	_unhighlightColor: function() {
-		// summary: 
-		//		This removes the highlight style
-		if (this._currentHighlight) {
-			dojo.removeClass(this._currentHighlight, "dojoPaletteImgHighlight");
 		}
 	},
 	
@@ -268,7 +233,8 @@ dojo.declare(
 		var newFocus = this._currentFocus+increment;
 		if (newFocus < this._highlightNodes.length && newFocus > -1) 
 		{
-			this._highlightColor(this._highlightNodes[newFocus]);
+			this._highlightNodes[newFocus].tabIndex = 0;
+			this._highlightNodes[newFocus].focus();
 		}
 	}
 });

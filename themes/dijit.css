@@ -601,3 +601,23 @@ table.dojoButton .dojoButtonNode {
 .dojoButtonContentsDropDown {
         padding-right: 3px;
 }
+
+
+/* Color Palette */
+.dojoPaletteImg {
+		width: 18px; /*This is the width of one color in the provided palettes. */
+		height: 16px; /* Height of one color in the provided palettes. */
+		position: absolute;
+		overflow: hidden;
+		cursor: default;
+		z-index: 10;
+		
+}
+
+.dojoPaletteImgHighlight {
+	width: 14px; /*This is the width of one color in the provided palettes. */
+	height: 12px; /* Height of one color in the provided palettes. */
+	border-style: solid;
+	border-width: 2px;
+	border-color: #ffffff;
+}
