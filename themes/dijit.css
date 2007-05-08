@@ -21,7 +21,7 @@
 .dojoPositionOnly {
 	padding: 0px !important;
 	border: 0px !important;
-	background-color: none !important;
+	background-color: transparent !important;
 	background-image: none !important;
 	height: auto !important;
 	width: auto !important;
