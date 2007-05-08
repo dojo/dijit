@@ -53,7 +53,7 @@ dojo.declare(
 
 		// loadingMessage: String
 		//		Message that shows while downloading
-		loadingMessage: "Loading...",
+		loadingMessage: "Loading...", //TODO: i18n
 
 		// isLoaded: Boolean
 		//		Tells loading status
@@ -176,7 +176,7 @@ dojo.declare(
 	
 			if(err.length){
 				var name = (stName== "_onLoadStack") ? "addOnLoad" : "addOnUnLoad";
-				this._handleDefaults(name+" failure\n "+err, "onExecError", "debug");
+				this._handleDefaults(name+" failure\n "+err, "onExecError", "debug"); //TODO: i18n
 			}
 		},
 	
@@ -358,7 +358,7 @@ dojo.declare(
 									}
 									break;
 								case "style":// style
-									path = dojo.html.fixPathsInCssText(origPath, url);
+									path = dojo.html.fixPathsInCssText(origPath, url);//PORT me
 									break;
 								default:
 									path = origPath;
@@ -377,7 +377,7 @@ dojo.declare(
 				regex = /(?:<(style)[^>]*>([\s\S]*?)<\/style>|<link ([^>]*rel=['"]?stylesheet['"]?[^>]*)>)/i;
 				while(match = regex.exec(s)){
 					if(match[1] && match[1].toLowerCase() == "style"){
-						styles.push(dojo.html.fixPathsInCssText(match[2],url));
+						styles.push(dojo.html.fixPathsInCssText(match[2],url)); // PORT me
 					}else if(attr = match[3].match(/href=(['"]?)([^'">]*)\1/i)){
 						styles.push({path: attr[2]});
 					}
@@ -448,11 +448,11 @@ dojo.declare(
 					node.innerHTML = cont;
 				}
 			}catch(e){
-				e.text = "Couldn't load content:"+e.description;
+				e.text = "Couldn't load content:"+e.description; //TODO: i18n
 				this._handleDefaults(e, "onContentError");
 			}
 		},
-	
+
 		setContent: function(data){
 			// summary:
 			//		Replaces old content with data content, include style classes from old content
@@ -461,8 +461,25 @@ dojo.declare(
 			this.abort();
 			if(this._callOnUnload){ this.onUnload(); }// this tells a remote script clean up after itself
 			this._callOnUnload = true;
+			
+//PORT: from dojo.dom.  get rid of isNode check and use something else instead?
+			var isNode = function(/* object */wh){
+				//	summary:
+				//		checks to see if wh is actually a node.
+				if(typeof Element == "function"){
+					return wh instanceof Element;	//	boolean
+				}else{
+					// best-guess
+					return wh && !isNaN(wh.nodeType);	//	boolean
+				}
+			};
 
-			if(data && dojo.isString(data)){
+			if(!data || isNode(data)){
+				// if we do a clean using setContent(""); or setContent(#node) bypass all parsing, extractContent etc
+				this._setContent(data);
+				this.onResized();
+				this.onLoad();
+			}else{
 				// need to run splitAndFixPaths? ie. manually setting content
 				// adjustPaths is taken care of inside splitAndFixPaths
 				if(typeof data.xml != "string"){ 
@@ -473,19 +490,17 @@ dojo.declare(
 				this._setContent(data.xml);
 
 				// insert styles from content (in same order they came in)
-				for(var i = 0; i < data.styles.length; i++){
-					if(data.styles[i].path){
-						this._styleNodes.push(dojo.html.insertCssFile(data.styles[i].path, dojo.doc, false, true));
-					}else{
-						this._styleNodes.push(dojo.html.insertCssText(data.styles[i]));
-					}
-				}
+				dojo.forEach(data.style, function(style){
+					this._styleNodes.push(
+						style.path ? dojo.html.insertCssFile(style.path, dojo.doc, false, true) : dojo.html.insertCssText(style));//PORT me?
+				}, this);
 	
 				if(this.parseContent){
 					dojo.forEach(data.requires, function(require){
 						try{
 							eval(require);
 						}catch(e){
+							//TODO: i18n - user visible error.  Should this be presented in the UI at all?
 							e.text = "ContentPane: error in package loading calls, " + (e.description||e);
 							this._handleDefaults(e, "onContentError", "debug");
 						}
@@ -508,11 +523,6 @@ dojo.declare(
 				}else{
 */					asyncParse();
 //				}
-			}else{
-				// if we do a clean using setContent(""); or setContent(#node) bypass all parsing, extractContent etc
-				this._setContent(data);
-				this.onResized();
-				this.onLoad();
 			}
 		},
 
@@ -544,7 +554,7 @@ dojo.declare(
 			var fcn = dojo.isFunction(handler) ? handler : window[handler];
 			if(!dojo.isFunction(fcn)){
 				// FIXME: needs testing! somebody with java knowledge needs to try this
-				this._handleDefaults("Unable to set handler, '" + handler + "' not a function.", "onExecError", true);
+				this._handleDefaults("Unable to set handler, '" + handler + "' not a function.", "onExecError", true); //TODO: i18n
 				return;
 			}
 			this.handler = function(){
