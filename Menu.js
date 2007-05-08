@@ -186,26 +186,26 @@ dojo.declare(
 		this.currentSubmenuTrigger = null;
 	},
 
-// thanks burstlib!
+	// thanks burstlib!
 	_iframeContentWindow: function(/* HTMLIFrameElement */iframe_el) {
-	//	summary
-	//	returns the window reference of the passed iframe
-	var win = dijit.util.window.getDocumentWindow(dijit.Menu._iframeContentDocument(iframe_el)) ||
-		// Moz. TODO: is this available when defaultView isn't?
-		dijit.Menu._iframeContentDocument(iframe_el)['__parent__'] ||
-		(iframe_el.name && document.frames[iframe_el.name]) || null;
-	return win;	//	Window
-},
+		//	summary
+		//	returns the window reference of the passed iframe
+		var win = dijit.util.window.getDocumentWindow(dijit.Menu._iframeContentDocument(iframe_el)) ||
+			// Moz. TODO: is this available when defaultView isn't?
+			dijit.Menu._iframeContentDocument(iframe_el)['__parent__'] ||
+			(iframe_el.name && document.frames[iframe_el.name]) || null;
+		return win;	//	Window
+	},
 
 	_iframeContentDocument: function(/* HTMLIFrameElement */iframe_el){
-	//	summary
-	//	returns a reference to the document object inside iframe_el
-	var doc = iframe_el.contentDocument // W3
-		|| ((iframe_el.contentWindow)&&(iframe_el.contentWindow.document))	// IE
-		|| ((iframe_el.name)&&(document.frames[iframe_el.name])&&(document.frames[iframe_el.name].document)) 
-		|| null;
-	return doc;	//	HTMLDocument
-},
+		//	summary
+		//	returns a reference to the document object inside iframe_el
+		var doc = iframe_el.contentDocument // W3
+			|| (iframe_el.contentWindow && iframe_el.contentWindow.document) // IE
+			|| (iframe_el.name && document.frames[iframe_el.name] && document.frames[iframe_el.name].document) 
+			|| null;
+		return doc;	//	HTMLDocument
+	},
 
 	bindDomNode: function(/*String|DomNode*/ node){
 		// summary: attach menu to given node
@@ -217,7 +217,7 @@ dojo.declare(
 			win = this._iframeContentWindow(node);
 			node = dojo.withGlobal(win, dojo.body);
 		}
-		
+
 		// to capture these events at the top level, 
 		// attach to document, not body
 		var cn = (node == dojo.body() ? dojo.doc : node);
