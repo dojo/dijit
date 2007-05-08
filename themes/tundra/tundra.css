@@ -10,99 +10,59 @@
 
 /*Dojo Button Rules*/
 
-.dojoButton {
-	padding:0 0 1px 1px;
-	border-width:1px;
-	border-style:solid;
-	line-height:0px; /* needed by webkit */
-}
-
-.dojoButton .dojoButtonNode {
-	border:0px;
-	margin:0px;
-	font-family: Myriad, Arial, Helvetica;
-	font-size:13px;
-	font-weight:normal;
-	padding:2px 4px;
-	overflow:visible;
-	line-height:normal;
-}
-
-table.dojoButton .dojoButtonNode {
-	#overflow:hidden; /* visible messes up if the button is inside a table on IE */
-}
-
-.dojoButtonEnabled {
+.tundra .dojoButtonEnabled {
 	background-color:#fff;
 	border-color:#dadada #a9a9a9 #a9a9a9 #dadada;
 }
 
-.dojoButtonEnabled .dojoButtonNode {
+.tundra .dojoButtonEnabled .dojoButtonNode {
 	background:#e2e2e2 url("dojoTundraGradientBg.png") repeat-x 0 0;
 }
 
-.dojoButton .dojoButtonArrow {
+.tundra .dojoButton .dojoButtonArrow {
 	border-left:1px solid #a9a9a9;
 }
 
-.dojoButtonDisabled {
+.tundra .dojoButtonDisabled {
 	border-color:#dadada #a9a9a9 #a9a9a9 #dadada;
 }
 
-.dojoButtonDisabled {
+.tundra .dojoButtonDisabled {
 	background-color:#dadada;
 }
 
-.dojoButtonDisabled,
-.dojoButtonDisabled * {
-	cursor: url("no.gif"), default;
+.tundra .dojoButtonDisabled,
+.tundra .dojoButtonDisabled * {
+	cursor: url("no.gif"), default; /*FIXME*/
 }
 
-.dojoButtonDisabled .dojoButtonNode {
+.tundra .dojoButtonDisabled .dojoButtonNode {
 	color:#787878;
 	background-image: url("dojoTundraGradientBgActive.png");
 }
 
-.dojoButtonEnabled:hover {
+.tundra .dojoButtonEnabled:hover {
 	border-color:#9dcff5 #4aa0e1 #4aa0e1 #9dcff5;
 }
 
-.dojoButtonEnabled:hover .dojoButtonNode {
+.tundra .dojoButtonEnabled:hover .dojoButtonNode {
 	color:#236190;
 }
 
-.dojoButtonEnabled:active {
+.tundra .dojoButtonEnabled:active {
 	border-color:#42739a #80a5c2 #80a5c2 #42739a;
 }
 
-.dojoButtonEnabled *[popupActive],
-.dojoButtonEnabled *:active {
+.tundra .dojoButtonEnabled *[popupActive],
+.tundra .dojoButtonEnabled *:active {
 	/*background-image: url("dojoTundraGradientBgActive.png");
 	background-position:bottom left;*/
 	background-color:#d3e7f5;
 }
 
-.dojoButtonContents {
-        padding: 0px;
-        text-align: center;     /* if icon and label are split across two lines, center icon */
-        vertical-align: middle; /* if icon and label are on same line, center them */
-        white-space: nowrap;
-        color: inherit;
-}
 
-.dojoButtonContents * {
-        text-align: center;
-        vertical-align: middle; /* if icon and label are on same line, center them */
-}
-
-/* border between label and arrow for drop down buttons */
-.dojoButtonContentsDropDown {
-        padding-right: 3px;
-}
-
-/* Base of Tundra default theme */
-.dojoInputField
-{
+/* Input Fields */
+.tundra .dojoInputField {
 	background:#e9e9e9 url("dojoTundraGradientBg.png") repeat-x 0 0;
 	border-color:#e8e8e8;
 	border-width:1px;
@@ -111,38 +71,32 @@ table.dojoButton .dojoButtonNode {
 	font-weight:normal;
 	padding:2px 4px;
 }
-
-
-/* Default Hover Styles */ 
-.dojoInputField:hover {
+ 
+.tundra .dojoInputField:hover {
 	color:#0e4978;
 	border-color:#92adc2;
 }
 
 /* Default Active/Focus style*/
-.dojoInputField:focus,
-.dojoInputFieldFocused
-{
+.tundra .dojoInputField:focus,
+.tundra .dojoInputFieldFocused {
 	background-image: url("dojoTundraGradientBgActive.png");
 	background-position:bottom left;
 	border:1px solid #92adc2;
 }
 
-/* Default Disabled Styles*/
-.dojoInputField[disabled],
-.dojoInputFieldDisabled {
+.tundra .dojoInputField[disabled],
+.tundra .dojoInputFieldDisabled {
 	background-position:0 -8px;
 	background-color:#dbdbdb;
 	color:#787878;
 	border-color:#e0e0e0;
 }
 
-.dojoInputField[disabled]:active,
-.dojoInputFieldDisabled:active {
+.tundra .dojoInputField[disabled]:active,
+.tundra .dojoInputFieldDisabled:active {
 	background-image: url("dojoTundraGradientBg.png");
 }
-
-/* Widget Specific Rules */
 
 /* Dojo Input Field */
 
@@ -175,9 +129,9 @@ table.dojoButton .dojoButtonNode {
 
 /* Menu */
 .tundra .dojoMenu{
-	border: solid 1px #bfbfbf;
-	border-right:2px solid #ababab;
-	border-bottom:2px solid #ababab;
+	border: solid 1px #60a1ea;
+	border-right:2px solid #7cb0ea;
+	border-bottom:2px solid #7cb0ea;
 	border-collapse:collapse;
 	background:#fff url("popupMenuBg.gif") repeat-x bottom left;
 }
@@ -191,7 +145,8 @@ table.dojoButton .dojoButtonNode {
 .tundra .dojoMenuItemHover {
 	cursor:pointer;
 	cursor:hand;
-	background-color:#cbe3f5;
+	background-color:#60a1ea;
+	color:#fff;
 }
 
 .tundra .dojoMenuItemIcon {

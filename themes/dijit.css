@@ -560,3 +560,44 @@ body .dojoAlignClient { position: absolute; }
 .dojoAccordionPane .accBody {
 	overflow: auto;
 }
+
+/* Dojo Button */
+.dojoButton {
+	padding:0 0 1px 1px;
+	border-width:1px;
+	border-style:solid;
+	line-height:0px; /* needed by webkit */
+}
+
+.dojoButton .dojoButtonNode {
+	border:0px;
+	margin:0px;
+	font-family: Myriad, Arial, Helvetica;
+	font-size:13px;
+	font-weight:normal;
+	padding:2px 4px;
+	overflow:visible;
+	line-height:normal;
+}
+
+table.dojoButton .dojoButtonNode {
+	#overflow:hidden; /* visible messes up if the button is inside a table on IE */
+}
+
+.dojoButtonContents {
+        padding: 0px;
+        text-align: center;     /* if icon and label are split across two lines, center icon */
+        vertical-align: middle; /* if icon and label are on same line, center them */
+        white-space: nowrap;
+        color: inherit;
+}
+
+.dojoButtonContents * {
+        text-align: center;
+        vertical-align: middle; /* if icon and label are on same line, center them */
+}
+
+/* border between label and arrow for drop down buttons */
+.dojoButtonContentsDropDown {
+        padding-right: 3px;
+}
