@@ -25,6 +25,8 @@ dojo.declare(
 			// manual import of RangeBoundTextbox properties
 			dijit.form.RangeBoundTextbox.prototype.postMixInProperties.apply(this, arguments);
 			//dijit.form.DateTextbox.superclass.postMixInProperties.apply(this, arguments);
+			if (typeof this.constraints.min == "string"){ this.constraints.min = dojo.date.serial.fromRfc3339(this.constraints.min); }
+			if (typeof this.constraints.max == "string"){ this.constraints.max = dojo.date.serial.fromRfc3339(this.constraints.max); }
 		},
 		serialize: function(val){
 			return dojo.date.serial.toRfc3339(val, 'date');

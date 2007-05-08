@@ -83,7 +83,7 @@ dojo.declare(
 			//		Show missing or invalid messages if appropriate, and highlight textbox field.
 			
 			var message;
-			if (!this.isValid()){
+			if (!this.isValid(isFocused)){
 				this.updateClass("Error");
 				message = this.getErrorMessage(isFocused);
 			}else{
@@ -237,11 +237,14 @@ dojo.declare(
 			return this.rangeCheck(this.getValue(), this.constraints);
 		},
 	
+		isValid: function(/* Boolean*/ isFocused){
+			return dijit.form.RangeBoundTextbox.superclass.isValid.call(this, isFocused) &&
+				this.isInRange(isFocused);
+		},
+	
 		getErrorMessage: function(/* Boolean*/ isFocused){
-			var msg = dijit.form.RangeBoundTextbox.superclass.getErrorMessage.apply(this, arguments);
-			if(typeof msg != "string"){
-				if(this.isValid(false) && !this.isInRange(isFocused)){ return this.rangeMessage; }
-			}else{ return msg; }
+			if(dijit.form.RangeBoundTextbox.superclass.isValid.call(this, false) && !this.isInRange(isFocused)){ return this.rangeMessage; }
+			else{ return dijit.form.RangeBoundTextbox.superclass.getErrorMessage.apply(this, arguments); }
 		},
 
 		postMixInProperties: function(){
