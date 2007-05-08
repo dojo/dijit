@@ -490,10 +490,12 @@ dojo.declare(
 				this._setContent(data.xml);
 
 				// insert styles from content (in same order they came in)
+				/*
 				dojo.forEach(data.style, function(style){
 					this._styleNodes.push(
 						style.path ? dojo.html.insertCssFile(style.path, dojo.doc, false, true) : dojo.html.insertCssText(style));//PORT me?
 				}, this);
+				*/
 	
 				if(this.parseContent){
 					dojo.forEach(data.requires, function(require){
