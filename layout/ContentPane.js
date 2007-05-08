@@ -11,11 +11,11 @@ dojo.declare(
 		//		A widget that can be used as a standalone widget 
 		//		or as a baseclass for other widgets
 		//		Handles replacement of document fragment using either external uri or javascript/java 
-		//		generated markup or DomNode content, instanciating widgets within content and runs scripts.
+		//		generated markup or DomNode content, instantiating widgets within content and runs scripts.
 		//		Dont confuse it with an iframe, it only needs document fragments.
 		//		It's useful as a child of LayoutContainer, SplitContainer, or TabContainer.
 		//		But note that those classes can contain any widget as a child.
-{		
+{
 		// loading options
 		// adjustPaths: Boolean
 		//		adjust relative paths in markup to fit this page
@@ -209,8 +209,8 @@ dojo.declare(
 				stack.push(function(){ obj[func](); });
 			}
 		},
-	
-		destroy: function(){
+
+		_destroy: function(){
 			// if we have multiple controllers destroying us, bail after the first
 			if(this._beingDestroyed){
 				return;
@@ -218,7 +218,7 @@ dojo.declare(
 			// make sure we call onUnload
 			this.onUnload();
 			this._beingDestroyed = true;
-			dijit.layout.ContentPane.superclass.destroy.call(this);
+			dijit.layout.ContentPane.superclass._destroy.call(this);
 		},
  
 		onExecError: function(/*Object*/e){
@@ -428,13 +428,13 @@ dojo.declare(
 			this.destroyDescendants();
 	
 			// remove old stylenodes from HEAD
-			for(var i = 0; i < this._styleNodes.length; i++){
-				if(this._styleNodes[i] && this._styleNodes[i].parentNode){
-					this._styleNodes[i].parentNode.removeChild(this._styleNodes[i]);
+			dojo.forEach(this._styleNodes, function(style){
+				if(style && style.parentNode){
+					style.parentNode.removeChild(style);
 				}
-			}
+			}, this);
 			this._styleNodes = [];
-	
+
 			try{
 				var node = this.containerNode || this.domNode;
 				while(node.firstChild){
