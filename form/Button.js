@@ -83,6 +83,8 @@ dojo.declare(
 		//	widget id of the menu that this button should activate
 		menuId: "",
 
+		_orientation: {'BL':'TL', 'TL':'BL'},
+		
 		templatePath: dojo.moduleUrl("dijit.form" , "templates/DropDownButton.html"),
 
 		postCreate: function(){
@@ -108,8 +110,7 @@ dojo.declare(
 			var menu = dijit.byId(this.menuId); 
 			if(!menu){ return; }
 			if(menu.open && menu.domNode.style.display=="none"){
-				var pos = dojo.coords(this.popupStateNode, true);
-				dijit.util.PopupManager.open({pageX:pos.x, pageY:pos.y+this.domNode.offsetHeight, target:this.domNode}, menu);
+				dijit.util.PopupManager.openAround(this.popupStateNode, menu, this._orientation, [0,0]);
 				if(menu.domNode.style.display!="none"){
 					this._menu = menu;
 					this.popupStateNode.setAttribute("popupActive", "true");
@@ -144,5 +145,6 @@ dojo.declare(
 	{
 		// summary
 		//		left side is normal button, right side displays menu
-		templatePath: dojo.moduleUrl("dijit.form", "templates/ComboButton.html")
+		templatePath: dojo.moduleUrl("dijit.form", "templates/ComboButton.html"),
+		_orientation: {'BR':'TR', 'TR':'BR'}
 	});
