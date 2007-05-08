@@ -84,8 +84,8 @@ dojo.declare(
 			this.domNode.style.overflowY = 'hidden';
 			this.eventNode = this.editNode;
 			this.focusNode = this.editNode;
-			dojo.addListener(this.eventNode, "oncut", this, this._changing);
-			dojo.addListener(this.eventNode, "onpaste", this, this._changing);
+			dojo.connect(this.eventNode, "oncut", this, this._changing);
+			dojo.connect(this.eventNode, "onpaste", this, this._changing);
 		}else if(dojo.isMozilla){
 			this.iframe = this.domNode.firstChild;
 			var w = this.iframe.contentWindow;
@@ -105,10 +105,10 @@ dojo.declare(
 		}
 		this.setValue(this.value);
 		if(this.eventNode){
-			dojo.addListener(this.eventNode, "keydown", this, this._changing);
-			dojo.addListener(this.eventNode, "mousemove", this, this._changed);
-			dojo.addListener(this.eventNode, "focus", this, this._focused);
-			dojo.addListener(this.eventNode, "blur", this, this._blurred);
+			dojo.connect(this.eventNode, "keydown", this, this._changing);
+			dojo.connect(this.eventNode, "mousemove", this, this._changed);
+			dojo.connect(this.eventNode, "focus", this, this._focused);
+			dojo.connect(this.eventNode, "blur", this, this._blurred);
 		}
 	},
 
