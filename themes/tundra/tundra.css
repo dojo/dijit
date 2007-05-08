@@ -1,3 +1,7 @@
+/*
+	Adds cosmetic styling to Dijit.  Users may swap with a custom theme CSS file.
+*/
+
 @import url("../dijit.css");
 
 /*IE6 Hack */
@@ -312,6 +316,24 @@
 
 .dojoTabActive span {
 	background:#fff url("dojoTundraTabActiveBg.png") top left repeat-x;
+}
+
+.dojoTab .close {
+	display : inline-block;
+	height : 12px;
+	width : 12px;
+	padding : 0 12px 0 0;
+	margin : 0px;
+	cursor : default;
+	font-size: small;
+}
+
+.dojoTab .closeImage {
+	background : url(tab_close.gif) no-repeat right top;
+}
+
+.dojoTab .closeHover {
+	background-image : url(tab_close_h.gif);
 }
 
 .tundra .dojoAutoCompleter {
