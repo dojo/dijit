@@ -141,21 +141,25 @@ dojo.declare(
 			var totalCollapsedHeight = 0;
 			var openIdx = 0;
 			dojo.forEach(this.getChildren(), function(child, idx){
-				totalCollapsedHeight += child.getLabelHeight();
-				if(child.selected){ openIdx=idx; }
+				if(child["getLabelHeight"]){
+					totalCollapsedHeight += child.getLabelHeight();
+					if(child.selected){ openIdx=idx; }
+				}
 			});
 			// size and position each pane
 			var mySize = dojo.contentBox(this.domNode);
 			var y = 0;
 			dojo.forEach(this.getChildren(), function(child, idx){
-				var childCollapsedHeight = child.getLabelHeight();
-				child.resize({w: mySize.w, h: mySize.h -totalCollapsedHeight+childCollapsedHeight});
-				var style = child.domNode.style;
-				style.zIndex=idx+1;
-				style.position="absolute";
-				style.top = y+"px";
-				// TODO: REVISIT: PORT: was getBorderBox, now is marginBox ?
-				y += (idx==openIdx) ? dojo.marginBox(child.domNode).h : childCollapsedHeight;
+				if(child["getLabelHeight"]){
+					var childCollapsedHeight = child.getLabelHeight();
+					child.resize({w: mySize.w, h: mySize.h -totalCollapsedHeight+childCollapsedHeight});
+					var style = child.domNode.style;
+					style.zIndex=idx+1;
+					style.position="absolute";
+					style.top = y+"px";
+					// TODO: REVISIT: PORT: was getBorderBox, now is marginBox ?
+					y += (idx==openIdx) ? dojo.marginBox(child.domNode).h : childCollapsedHeight;
+				}
 			});
 		},
 
