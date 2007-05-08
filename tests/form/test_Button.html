@@ -162,13 +162,14 @@ Here's an example:</p>
 <p>clicking the buttons below will change the buttons above</p>
 <script>
 	function forEachButton(func){
-		dojo.forEach(dijit.util.manager.getAllWidgets(), 
-			function(widget){
-				if (widget instanceof dijit.form.Button){ 
-					func(widget); 
-				}
+		var registry = dij
+		
+		it.util.manager.getWidgets();
+		for(var id in registry){ 
+			if(registry[id] instanceof dijit.form.Button){ 
+				func(registry[id]);
 			}
-		);
+		}
 	}
 
 	var disabled=false;

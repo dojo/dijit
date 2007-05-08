@@ -40,7 +40,7 @@ dojo.declare(
 			}
 		},
 
-		onClick: function(/*Event*/ e) {
+		onClick: function(/*Event*/ e){
 			// summary: callback for when button is clicked; user can override this function
 		},
 
@@ -92,7 +92,7 @@ dojo.declare(
 
 		arrowKey: function(/*Event*/ e){
 			// summary: callback when the user presses a key (on key-down)
-			if (this.disabled) { return; }
+			if(this.disabled){ return; }
 			if(e.keyCode == dojo.keys.DOWN_ARROW || (e.currentTarget == this.popupStateNode && (e.keyCode == dojo.keys.SPACE || e.keyCode == dojo.keys.ENTER))){
 				if (!this._menu || this._menu.domNode.style.display=="none"){
 					this.arrowClick(e);
@@ -105,19 +105,19 @@ dojo.declare(
 			dojo.stopEvent(e);
 			if(this.disabled){ return; }
 			this.popupStateNode.focus();
-			var menu = dijit.util.manager.byId(this.menuId); 
-			if ( !menu ) { return; }
-			if ( menu.open && menu.domNode.style.display=="none") {
+			var menu = dijit.byId(this.menuId); 
+			if(!menu){ return; }
+			if(menu.open && menu.domNode.style.display=="none"){
 				var pos = dojo.coords(this.popupStateNode, true);
 				dijit.util.PopupManager.open({pageX:pos.x, pageY:pos.y+this.domNode.offsetHeight, target:this.domNode}, menu);
-				if (menu.domNode.style.display!="none") {
+				if(menu.domNode.style.display!="none"){
 					this._menu = menu;
 					this.popupStateNode.setAttribute("popupActive", "true");
 					this._oldMenuClose = menu.close;
 					var _this = this;
 					menu.close = function(){
 						_this._menu = null;
-						if (typeof _this._oldMenuClose == "function") {
+						if (typeof _this._oldMenuClose == "function"){
 							_this.popupStateNode.removeAttribute("popupActive");
 							this.close = _this._oldMenuClose;
 							_this._oldMenuClose = null;
