@@ -30,7 +30,7 @@ function(params, srcNodeRef){
 		// store pointer to original dom tree
 		this.srcNodeRef = dojo.byId(srcNodeRef);
 		// copy id from srcNodeRef
-		if (this.srcNodeRef && (typeof this.srcNodeRef.id == "string")) { this.id = this.srcNodeRef.id; }
+		if(this.srcNodeRef && (typeof this.srcNodeRef.id == "string")){ this.id = this.srcNodeRef.id; }
 
 		//mixin our passed parameters
 		if(params){
@@ -59,6 +59,11 @@ function(params, srcNodeRef){
 		//console.profile(this.widgetType + " postCreate");
 		this.postCreate();
 		//console.profileEnd(this.widgetType + " postCreate");
+
+		// If srcNodeRef has been processed and removed from the DOM (e.g. TemplatedWidget) then delete it to allow GC.
+		if(this.srcNodeRef && !this.srcNodeRef.parentNode){
+			delete this.srcNodeRef;
+		}
 
 		// console.debug(this.widgetType, "done!");
 		
@@ -139,7 +144,7 @@ function(params, srcNodeRef){
 	
 	_destroy: function(/*Boolean*/ finalize){
 		// summary:
-		// 		Destroy this widget
+		// 		Destroy this widget, but not its descendents
 		// finalize: Boolean
 		//		is this function being called part of global environment
 		//		tear-down?
@@ -149,18 +154,26 @@ function(params, srcNodeRef){
 	},
 
 	destroyRendering: function(/*Boolean*/ finalize){
+		// summary:
+		//		Destroys the DOM nodes associated with this widget
+		// finalize: Boolean
+		//		is this function being called part of global environment
+		//		tear-down?
 		if(this.bgIframe){
 			this.bgIframe.remove();
 			delete this.bgIframe;
 		}
 //			dojo.dom.destroyNode(this.domNode);
 //PORT #2931
-		this.domNode.parentNode.removeChild(this.domNode);
+		if(this.domNode.parentNode){
+			this.domNode.parentNode.removeChild(this.domNode);
+		}
 		delete this.domNode;
-		if(this.srcNodeRef){
+		if(this.srcNodeRef && this.srcNodeRef.parentNode){
 //			dojo.dom.destroyNode(this.srcNodeRef);
 //PORT #2931
 			this.srcNodeRef.parentNode.removeChild(this.srcNodeRef);
+			delete this.srcNodeRef;
 		}
 	},
 
