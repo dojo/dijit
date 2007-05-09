@@ -112,9 +112,11 @@ dojo.declare(
 		},
 
 		_setDisabled: function(/*Boolean*/ disabled){
+			// summary: set disabled state of widget.
 			this.domNode.disabled = this.inputNode.disabled = this.disabled = disabled;
+			this._updateView();
 		},
-		
+
 		onChecked: function(/*Boolean*/ newCheckedState){
 			// summary: callback when value is changed
 		},
@@ -156,7 +158,7 @@ dojo.declare(
 
 		// offset from left of image
 		_leftOffset: 0,
-
+		
 		_updateView: function(/*Widget?*/ awidget){
 			var w = awidget || this;
 
@@ -166,8 +168,6 @@ dojo.declare(
 			}
 
 			this.setValue(w.checked? this.inputNode.value:"");
-
-			this._setDisabled(w.disabled);
 
 			// show the right sprite, depending on state of checkbox
 			if(w.imageLoaded){
