@@ -1,6 +1,7 @@
 dojo.provide("dijit.base.TemplatedWidget");
 
 dojo.require("dijit.util.wai");
+dojo.require("dijit.util.parser");
 
 dojo.declare("dijit.base.TemplatedWidget", 
 	null,
@@ -87,6 +88,15 @@ dojo.declare("dijit.base.TemplatedWidget",
 			}
 
 			this.domNode = node;
+			if(this.srcNodeRef && this.srcNodeRef.parentNode){
+				this.srcNodeRef.parentNode.replaceChild(this.domNode, this.srcNodeRef);
+			}
+			if(this.widgetsInTemplate){
+				var childWidgets=dijit.util.parser.parse(this.domNode);
+				this._attachTemplateNodes(childWidgets, function(n,p){
+					return n[p];
+				});
+			}
 
 			// relocate source contents to templated container node
 			// this.containerNode must be able to receive children, or exceptions will be thrown
@@ -96,13 +106,9 @@ dojo.declare("dijit.base.TemplatedWidget",
 					dest.appendChild(this.srcNodeRef.firstChild);
 				}
 			}
-
-			if(this.srcNodeRef && this.srcNodeRef.parentNode){
-				this.srcNodeRef.parentNode.replaceChild(this.domNode, this.srcNodeRef);
-			}
 		},
 
-		_attachTemplateNodes: function(rootNode){
+		_attachTemplateNodes: function(rootNode, getAttrFunc){
 			// summary:
 			//		map widget properties and functions to the handlers specified in
 			//		the dom node and it's descendants. This function iterates over all
@@ -111,43 +117,51 @@ dojo.declare("dijit.base.TemplatedWidget",
 			//			* dojoAttachEvent	
 			//			* waiRole
 			//			* waiState
-			// rootNode: DomNode
+			// rootNode: DomNode|Array[Widgets]
 			//		the node to search for properties. All children will be searched.
+			// getAttrFunc: function?
+			//		a function which will be used to obtain property for a given 
+			//		DomNode/Widget
 		
 			var trim = function(str){
 				return str.replace(/^\s+|\s+$/g, "");
 			};
-		
-			var nodes = rootNode.all || rootNode.getElementsByTagName("*");
-			for(var x=-1; x<nodes.length; x++){
+
+			getAttrFunc = getAttrFunc || function(n,p){ return n.getAttribute(p); } 
+
+			var nodes = dojo.isArray(rootNode) ? rootNode : (rootNode.all || rootNode.getElementsByTagName("*")); 
+			var x=dojo.isArray(rootNode)?0:-1; 
+			for(; x<nodes.length; x++){
 				var baseNode = (x == -1) ? rootNode : nodes[x];
-		
+				if(this.widgetsInTemplate && getAttrFunc(baseNode,'dojoType')){
+					return;
+				}
 				// Process dojoAttachPoint
-				if(!this.widgetsInTemplate || !baseNode.getAttribute('dojoType')){
-					var tmpAttachPoint = baseNode.getAttribute("dojoAttachPoint");
-					if(tmpAttachPoint){
-						var attachPoint = tmpAttachPoint.split(";");
-						for(var z=0; z<attachPoint.length; z++){
-							if(dojo.isArray(this[attachPoint[z]])){
-								this[attachPoint[z]].push(baseNode);
-							}else{
-								this[attachPoint[z]]=baseNode;
-							}
+				var tmpAttachPoint = getAttrFunc(baseNode, "dojoAttachPoint");
+				if(tmpAttachPoint){
+					var attachPoint = tmpAttachPoint.split(";");
+					var z=0,ap;
+					while(ap=attachPoint[z++]){
+						if(dojo.isArray(this[ap])){
+							this[ap].push(baseNode);
+						}else{
+							this[ap]=baseNode;
 						}
 					}
 				}
-		
+
 				// dojoAttachEvent
-				var attachEvent = baseNode.getAttribute("dojoAttachEvent");
+				var attachEvent = getAttrFunc(baseNode, "dojoAttachEvent");
 				if(attachEvent){
 					// NOTE: we want to support attributes that have the form
 					// "domEvent: nativeEvent; ..."
 					var evts = attachEvent.split(";");
-					for(var y=0; y<evts.length; y++){
-						if(!evts[y] || !evts[y].length){ continue; }
+					var y=0,evt;
+					while(evt=evts[y++]){
+						if(!evt || !evt.length){ continue; }
 						var thisFunc = null;
-						var tevt = trim(evts[y]);
-						if(evts[y].indexOf(":") != -1){
+						var tevt = trim(evt);
+						if(evt.indexOf(":") != -1){
 							// oh, if only JS had tuple assignment
 							var funcNameArr = tevt.split(":");
 							tevt = trim(funcNameArr[0]);
@@ -156,14 +170,14 @@ dojo.declare("dijit.base.TemplatedWidget",
 						if(!thisFunc){
 							thisFunc = tevt;
 						}
-						this.connect(baseNode, tevt.toLowerCase(), thisFunc); 
+						this.connect(baseNode, tevt, thisFunc); 
 					}
 				}
 		
 				// waiRole, waiState
 				dojo.forEach(["waiRole", "waiState"], function(name){
 					var wai = dijit.util.wai[name];
-					var val = baseNode.getAttribute(wai.name);
+					var val = getAttrFunc(baseNode, wai.name);
 					if(val){
 						var role = "role";
 						if(val.indexOf('-') != -1){ 
@@ -298,3 +312,13 @@ dijit.base._createNodesFromText = function(/*String*/text){
 	dojo.body().removeChild(tn);
 	return nodes;	//	Array
 }
+
+// These arguments can be specified for widgets which are used in templates.
+// Since any widget can be specified as sub widgets in template, mix it
+// into the base widget class.  (This is a hack, but it's effective.)
+dojo.extend(dijit.base.Widget,{
+	dojoAttachEvent: "",
+	dojoAttachPoint: "",
+	waiRole: "",
+	waiState:""
+})
