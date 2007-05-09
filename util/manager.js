@@ -42,9 +42,9 @@ dijit.util.manager = new function(){
 	this.destroyAll = function(){
 		// summary
 		//	Destroys all the widgets
-		
-		for(var widget in registry){
-			registry[widget]._destroy();
+
+		for(var id in registry){
+			registry[id]._destroy();
 		}
 	}
 

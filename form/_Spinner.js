@@ -92,7 +92,7 @@ dojo.declare(
 				// dojo.connect() doesn't seem to work with DOMMouseScroll
 				this.textbox.addEventListener('DOMMouseScroll', dojo.hitch(this, "_mouseWheeled"), false); // Mozilla + Firefox + Netscape
 			}else{
-				dojo.connect(this.textbox, "onmousewheel", this, "_mouseWheeled"); // IE + Safari
+				this.connect(this.textbox, "onmousewheel", "_mouseWheeled"); // IE + Safari
 			}
 			dijit.util.typematic.addListener(this.upArrowNode, this.textbox, {keyCode:dojo.keys.UP_ARROW,ctrlKey:false,altKey:false,shiftKey:false}, this, "_typematicCallback", this.timeoutChangeRate, this.defaultTimeout);
 			dijit.util.typematic.addListener(this.downArrowNode, this.textbox, {keyCode:dojo.keys.DOWN_ARROW,ctrlKey:false,altKey:false,shiftKey:false}, this, "_typematicCallback", this.timeoutChangeRate, this.defaultTimeout);

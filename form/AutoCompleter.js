@@ -572,13 +572,13 @@ dojo.declare(
 		}
 
 		
-		dojo.connect(this.optionsListNode, 'onclick', this, '_selectOption');
-		dojo.connect(this.optionsListNode, 'onmouseover', this, '_onMouseOver');
-		dojo.connect(this.optionsListNode, 'onmouseout', this, '_onMouseOut');
+		this.connect(this.optionsListNode, 'onclick', '_selectOption');
+		this.connect(this.optionsListNode, 'onmouseover', '_onMouseOver');
+		this.connect(this.optionsListNode, 'onmouseout', '_onMouseOut');
 			
 		// TODO: why does onmouseover and onmouseout connect to two separate handlers???
-		dojo.connect(this.optionsListNode, "onmouseover", this, "_itemMouseOver");
-		dojo.connect(this.optionsListNode, "onmouseout", this, "_itemMouseOut");
+		this.connect(this.optionsListNode, "onmouseover", "_itemMouseOver");
+		this.connect(this.optionsListNode, "onmouseout", "_itemMouseOut");
 		if(this.disabled){
 			this.disable();
 		}

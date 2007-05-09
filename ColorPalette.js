@@ -95,11 +95,11 @@ dojo.declare(
 				dojo.addClass(highlightNode, "dojoPaletteImg");
 				highlightNode.color = alts[row][col];
 				highlightNode.style.color = "#"+highlightNode.color;
-				dojo.connect(highlightNode,"onmouseover", this, "onMouseOver");
-				dojo.connect(highlightNode,"onmousedown", this, "onClick");
-				dojo.connect(highlightNode,"onblur",this, "onBlur");
-				dojo.connect(highlightNode,"onfocus",this, "onFocus");
-				dojo.connect(highlightNode,"onkeydown",this, "onKeyDown");
+				this.connect(highlightNode,"onmouseover", "onMouseOver");
+				this.connect(highlightNode,"onmousedown", "onClick");
+				this.connect(highlightNode,"onblur","onBlur");
+				this.connect(highlightNode,"onfocus","onFocus");
+				this.connect(highlightNode,"onkeydown","onKeyDown");
 				this.domNode.appendChild(highlightNode);
 				highlightNode.style.top = this._paletteCoords["topOffset"] + (row * this._paletteCoords["cHeight"])+"px";
 				highlightNode.style.left = this._paletteCoords["leftOffset"] + (col * this._paletteCoords["cWidth"])+"px";

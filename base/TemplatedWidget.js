@@ -79,9 +79,7 @@ dojo.declare("dijit.base.TemplatedWidget",
 
 			// recurse through the node, looking for, and attaching to, our
 			// attachment points which should be defined on the template node.
-			// dojo.profile.start("attachTemplateNodes");
-			dijit.base.attachTemplateNodes(node, this);
-			// dojo.profile.end("attachTemplateNodes");
+			this._attachTemplateNodes(node);
 
 			if(this.srcNodeRef){
 				dojo.style(node, "cssText", this.srcNodeRef.style.cssText);
@@ -102,8 +100,83 @@ dojo.declare("dijit.base.TemplatedWidget",
 			if(this.srcNodeRef && this.srcNodeRef.parentNode){
 				this.srcNodeRef.parentNode.replaceChild(this.domNode, this.srcNodeRef);
 			}
-		}
+		},
 
+		_attachTemplateNodes: function(rootNode){
+			// summary:
+			//		map widget properties and functions to the handlers specified in
+			//		the dom node and it's descendants. This function iterates over all
+			//		nodes and looks for these properties:
+			//			* dojoAttachPoint
+			//			* dojoAttachEvent	
+			//			* waiRole
+			//			* waiState
+			// rootNode: DomNode
+			//		the node to search for properties. All children will be searched.
+		
+			var trim = function(str){
+				return str.replace(/^\s+|\s+$/g, "");
+			};
+		
+			var nodes = rootNode.all || rootNode.getElementsByTagName("*");
+			for(var x=-1; x<nodes.length; x++){
+				var baseNode = (x == -1) ? rootNode : nodes[x];
+		
+				// Process dojoAttachPoint
+				if(!this.widgetsInTemplate || !baseNode.getAttribute('dojoType')){
+					var tmpAttachPoint = baseNode.getAttribute("dojoAttachPoint");
+					if(tmpAttachPoint){
+						var attachPoint = tmpAttachPoint.split(";");
+						for(var z=0; z<attachPoint.length; z++){
+							if(dojo.isArray(this[attachPoint[z]])){
+								this[attachPoint[z]].push(baseNode);
+							}else{
+								this[attachPoint[z]]=baseNode;
+							}
+						}
+					}
+				}
+		
+				// dojoAttachEvent
+				var attachEvent = baseNode.getAttribute("dojoAttachEvent");
+				if(attachEvent){
+					// NOTE: we want to support attributes that have the form
+					// "domEvent: nativeEvent; ..."
+					var evts = attachEvent.split(";");
+					for(var y=0; y<evts.length; y++){
+						if(!evts[y] || !evts[y].length){ continue; }
+						var thisFunc = null;
+						var tevt = trim(evts[y]);
+						if(evts[y].indexOf(":") != -1){
+							// oh, if only JS had tuple assignment
+							var funcNameArr = tevt.split(":");
+							tevt = trim(funcNameArr[0]);
+							thisFunc = trim(funcNameArr[1]);
+						}
+						if(!thisFunc){
+							thisFunc = tevt;
+						}
+						this.connect(baseNode, tevt.toLowerCase(), thisFunc); 
+					}
+				}
+		
+				// waiRole, waiState
+				dojo.forEach(["waiRole", "waiState"], function(name){
+					var wai = dijit.util.wai[name];
+					var val = baseNode.getAttribute(wai.name);
+					if(val){
+						var role = "role";
+						if(val.indexOf('-') != -1){ 
+							// this is a state-value pair
+							var statePair = val.split('-');
+							role = statePair[0];
+							val = statePair[1];
+						}
+						dijit.util.wai.setAttr(baseNode, wai.name, role, val);
+					}
+				}, this);
+			}
+		}
 	}
 );
 
@@ -168,81 +241,6 @@ dijit.base._sanitizeTemplateString = function(/*String*/tString){
 	return tString; //String
 };
 
-dijit.base.attachTemplateNodes = function(rootNode, /*Widget*/ targetObj){
-	// summary:
-	//		map widget properties and functions to the handlers specified in
-	//		the dom node and it's descendants. This function iterates over all
-	//		nodes and looks for these properties:
-	//			* dojoAttachPoint
-	//			* dojoAttachEvent	
-	//			* waiRole
-	//			* waiState
-	// rootNode: DomNode
-	//		the node to search for properties. All children will be searched.
-
-	var trim = function(str){
-		return str.replace(/^\s+|\s+$/g, "");
-	};
-
-	var nodes = rootNode.all || rootNode.getElementsByTagName("*");
-	for(var x=-1; x<nodes.length; x++){
-		var baseNode = (x == -1) ? rootNode : nodes[x];
-
-		// Process dojoAttachPoint
-		if(!targetObj.widgetsInTemplate || !baseNode.getAttribute('dojoType')){
-			var tmpAttachPoint = baseNode.getAttribute("dojoAttachPoint");
-			if(tmpAttachPoint){
-				var attachPoint = tmpAttachPoint.split(";");
-				for(var z=0; z<attachPoint.length; z++){
-					if(dojo.isArray(targetObj[attachPoint[z]])){
-						targetObj[attachPoint[z]].push(baseNode);
-					}else{
-						targetObj[attachPoint[z]]=baseNode;
-					}
-				}
-			}
-		}
-
-		// dojoAttachEvent
-		var attachEvent = baseNode.getAttribute("dojoAttachEvent");
-		if(attachEvent){
-			// NOTE: we want to support attributes that have the form
-			// "domEvent: nativeEvent; ..."
-			var evts = attachEvent.split(";");
-			for(var y=0; y<evts.length; y++){
-				if(!evts[y] || !evts[y].length){ continue; }
-				var thisFunc = null;
-				var tevt = trim(evts[y]);
-				if(evts[y].indexOf(":") != -1){
-					// oh, if only JS had tuple assignment
-					var funcNameArr = tevt.split(":");
-					tevt = trim(funcNameArr[0]);
-					thisFunc = trim(funcNameArr[1]);
-				}
-				if(!thisFunc){
-					thisFunc = tevt;
-				}
-				dojo.connect(baseNode, tevt.toLowerCase(), targetObj, thisFunc); 
-			}
-		}
-
-		// waiRole, waiState
-		dojo.forEach(["waiRole", "waiState"], function(name){
-			var wai = dijit.util.wai[name];
-			var val = baseNode.getAttribute(wai.name);
-			if(val){
-				var role = "role";
-				if(val.indexOf('-') != -1){ 
-					// this is a state-value pair
-					var statePair = val.split('-');
-					role = statePair[0];
-					val = statePair[1];
-				}
-				dijit.util.wai.setAttr(baseNode, wai.name, role, val);
-			}
-		}, this);
-	}
-};
 
 if(dojo.isIE){
 	dojo.addOnUnload(function(){

@@ -103,11 +103,11 @@ dojo.declare(
 		},
 		
 		_connectEvents: function(/*DomNode*/ node){
-			dojo.connect(node, "onfocus", this, this.mouseOver);
-			dojo.connect(node, "onblur", this, this.mouseOut);
-			dojo.connect(node, "onmouseover", this, this.mouseOver);
-			dojo.connect(node, "onmouseout", this, this.mouseOut);
-			dojo.connect(node, "onclick", this, this._onClick);
+			this.connect(node, "onfocus", this.mouseOver);
+			this.connect(node, "onblur", this.mouseOut);
+			this.connect(node, "onmouseover", this.mouseOver);
+			this.connect(node, "onmouseout", this.mouseOut);
+			this.connect(node, "onclick", this._onClick);
 			dijit._disableSelection(node);
 		},
 

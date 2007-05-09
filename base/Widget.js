@@ -4,71 +4,54 @@ dojo.require("dijit.util.manager");
 
 dojo.declare("dijit.base.Widget", null,
 function(params, srcNodeRef){
-		// summary:
-		//		To understand the process by which widgets are instantiated, it
-		//		is critical to understand what other methods the constructor calls and
-		//		which of them you'll want to over-ride. Of course, adventurous
-		//		developers could over-ride the constructor entirely, but this should
-		//		only be done as a last resort.
-		//
-		//		Below is a list of the methods that are called, in the order
-		//		they are fired, along with notes about what they do and if/when
-		//		you should over-ride them in your widget:
-		//			
-		//			postMixInProperties:
-		//				a stub function that you can over-ride to modify
-		//				variables that may have been naively assigned by
-		//				mixInProperties
-		//			# widget is added to manager object here
-		//			buildRendering
-		//				Subclasses use this method to handle all UI initialization
-		//				Sets this.domNode.  Templated widgets do this automatically
-		//				and otherwise it just uses the source dom node. 
-		//			postCreate
-		//				a stub function that you can over-ride to modify take
-		//				actions once the widget has been placed in the UI
-		// store pointer to original dom tree
-		this.srcNodeRef = dojo.byId(srcNodeRef);
-		// copy id from srcNodeRef
-		if(this.srcNodeRef && (typeof this.srcNodeRef.id == "string")){ this.id = this.srcNodeRef.id; }
+	// summary:
+	//		To understand the process by which widgets are instantiated, it
+	//		is critical to understand what other methods the constructor calls and
+	//		which of them you'll want to over-ride. Of course, adventurous
+	//		developers could over-ride the constructor entirely, but this should
+	//		only be done as a last resort.
+	//
+	//		Below is a list of the methods that are called, in the order
+	//		they are fired, along with notes about what they do and if/when
+	//		you should over-ride them in your widget:
+	//			
+	//			postMixInProperties:
+	//				a stub function that you can over-ride to modify
+	//				variables that may have been naively assigned by
+	//				mixInProperties
+	//			# widget is added to manager object here
+	//			buildRendering
+	//				Subclasses use this method to handle all UI initialization
+	//				Sets this.domNode.  Templated widgets do this automatically
+	//				and otherwise it just uses the source dom node. 
+	//			postCreate
+	//				a stub function that you can over-ride to modify take
+	//				actions once the widget has been placed in the UI
 
-		//mixin our passed parameters
-		if(params){
-			dojo.mixin(this,params);
-		}
+	// store pointer to original dom tree
+	this.srcNodeRef = dojo.byId(srcNodeRef);
 
-		//console.profile(this.widgetType + " create");
-		// console.debug(this.widgetType, "create");
+	// copy id from srcNodeRef
+	if(this.srcNodeRef && (typeof this.srcNodeRef.id == "string")){ this.id = this.srcNodeRef.id; }
 
-		// console.debug(this.widgetType, "-> postMixInProperties");
-		//console.profile(this.widgetType + " postMixInProperties");
-		this.postMixInProperties();
-		//console.profileEnd(this.widgetType + " postMixInProperties");
+	// for garbage collection
+	this._connects=[];
 
-		// console.debug(this.widgetType, "-> dojo.widget.manager.add");
-		dijit.util.manager.add(this);
+	//mixin our passed parameters
+	if(params){
+		dojo.mixin(this,params);
+	}
 
-		// console.debug(this.widgetType, "-> buildRendering");
-		//console.profile(this.widgetType + " buildRendering");
-		this.buildRendering();
-		//console.profileEnd(this.widgetType + " buildRendering");
+	this.postMixInProperties();
+	dijit.util.manager.add(this);
+	this.buildRendering();
+	this.domNode.widgetId = this.id;
+	this.postCreate();
 
-		this.domNode.widgetId = this.id;
-		this.widgetId = this.id;
-		// console.debug(this.widgetType, "-> postCreate");
-		//console.profile(this.widgetType + " postCreate");
-		this.postCreate();
-		//console.profileEnd(this.widgetType + " postCreate");
-
-		// If srcNodeRef has been processed and removed from the DOM (e.g. TemplatedWidget) then delete it to allow GC.
-		if(this.srcNodeRef && !this.srcNodeRef.parentNode){
-			delete this.srcNodeRef;
-		}
-
-		// console.debug(this.widgetType, "done!");
-		
-		//console.profileEnd(this.widgetType + " create");
-
+	// If srcNodeRef has been processed and removed from the DOM (e.g. TemplatedWidget) then delete it to allow GC.
+	if(this.srcNodeRef && !this.srcNodeRef.parentNode){
+		delete this.srcNodeRef;
+	}
 },
 {
 	// id: String
@@ -149,6 +132,7 @@ function(params, srcNodeRef){
 		//		is this function being called part of global environment
 		//		tear-down?
 		this.uninitialize();
+		dojo.forEach(this._connects, dojo.disconnect);
 		this.destroyRendering(finalize);
 		dijit.util.manager.remove(this.id);
 	},
@@ -159,10 +143,12 @@ function(params, srcNodeRef){
 		// finalize: Boolean
 		//		is this function being called part of global environment
 		//		tear-down?
+
 		if(this.bgIframe){
 			this.bgIframe.remove();
 			delete this.bgIframe;
 		}
+
 //			dojo.dom.destroyNode(this.domNode);
 //PORT #2931
 		if(this.domNode.parentNode){
@@ -217,6 +203,18 @@ function(params, srcNodeRef){
 			}
 		}
 		return nodes;
+	},
+
+	connect: function(
+			/*Object|null*/ obj, 
+			/*String*/ event, 
+			/*String|Function*/ method){
+
+		// summary:
+		//		Connects specified obj/event to specified method of this object
+		//		and registers for disconnect() on widget destroy.
+		//		Similar to dojo.connect() but takes three arguments rather than four.
+		this._connects.push(dojo.connect(obj, event, this, method));
 	}
 });
 

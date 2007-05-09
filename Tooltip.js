@@ -113,13 +113,10 @@ dojo.declare(
 		connectId: "",
 
 		postCreate: function(){
-			// An array to hold connect handles for cleanup (per instance)
-			this._connections = [];
-			
 			this._connectNode = dojo.byId(this.connectId);
 
 			dojo.forEach(["onMouseOver", "onHover", "onMouseOut", "onUnHover"], function(event){
-				this._connections.push(dojo.connect(this._connectNode, event.toLowerCase(), this, "_"+event));
+				this.connect(this._connectNode, event.toLowerCase(), "_"+event);
 			}, this);
 		},
 
@@ -201,8 +198,6 @@ dojo.declare(
 
 		uninitialize: function(){
 			this.close();
-			dojo.forEach(this._connections, dojo.disconnect);
-			this._connections = {};
 		}
 	}
 );

@@ -44,8 +44,7 @@ dojo.declare("dijit.base.Sizable",
 
 			// if my parent isn't a layout container, and my style is width=height=100% (or something similar),
 			// then I need to watch when the window resizes, and size myself accordingly
-			// TODO: disconnect on destroy (need to have array of stuff to disconnect on widget destroy, see #2793)
-			dojo.connect(window, 'onresize', this, "_onWindowResize"); // window resize
+			this.connect(window, 'onresize', "_onWindowResize");
 
 			this._onWindowResize();
 		},
