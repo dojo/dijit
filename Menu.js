@@ -230,7 +230,7 @@ dojo.declare(
 	unBindDomNode: function(/*String|DomNode*/ nodeName){
 		// summary: detach menu from given node
 		var node = dojo.byId(nodeName);
-		dojo.forEach(node[this.widgetId+'connect'], dojo.disconnect);
+		dojo.forEach(node[this.id+'connect'], dojo.disconnect);
 	},
 
 	_contextKey: function(e){
@@ -333,7 +333,7 @@ dojo.declare(
 	// Make 3columns
 	//   icon, label, and arrow (BiDi-dependent) indicating sub-menu
 	templateString:
-		 '<tr class="dojoMenuItem" dojoAttachEvent="onMouseOver: onHover; onMouseOut: onUnhover; onClick: _onClick;">'
+		 '<tr class="dojoMenuItem" dojoAttachEvent="onmouseover: onHover; onmouseout: onUnhover; onclick: _onClick;">'
 		+'<td><div class="dojoMenuItemIcon" style="${this.iconStyle}"></div></td>'
 		+'<td tabIndex="-1" class="dojoMenuItemLabel" dojoAttachPoint="containerNode"></td>'
 		+'<td dojoAttachPoint="arrowCell"><div class="dojoRightArrowOuter"><div class="dojoRightArrowInner" style="display:none;" dojoAttachPoint="arrow"></div></div></td>'

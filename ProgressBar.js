@@ -68,7 +68,7 @@ dojo.declare(
 		postCreate: function(){
 			dijit.ProgressBar.superclass.postCreate.apply(this, arguments);
 			if(this.orientation == "vertical"){
-//PORT: if !this.domNode.className?
+//TODO: if !this.domNode.className?
 				this.domNode.className += " "+"dojoProgressBarVertical";
 				this._dimension = "height";
 			}else{

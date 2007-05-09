@@ -52,8 +52,8 @@ dojo.declare(
 	},
 
 	postCreate: function(){
-		this.sizers = [];
 		dijit.layout.SplitContainer.superclass.postCreate.apply(this, arguments);
+		this.sizers = [];
 		dojo.addClass(this.domNode, "dojoSplitContainer");
 		// overflow has to be explicitly hidden for splitContainers using gekko (trac #1435)
 		// to keep other combined css classes from inadvertantly making the overflow visible
@@ -503,7 +503,7 @@ dojo.declare(
 	},
 	
 	_getCookieName: function(i){
-		return this.widgetId + "_" + i;
+		return this.id + "_" + i;
 	},
 
 	_restoreState: function (){

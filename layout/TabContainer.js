@@ -31,15 +31,15 @@ dojo.declare(
 	templateString: null,	// override setting in PageContainer
 	templatePath: dojo.moduleUrl("dijit.layout", "templates/TabContainer.html"),
 
-	postCreate: function(args, frag) {	
+	postCreate: function() {	
 		dijit.layout.TabContainer.superclass.postCreate.apply(this, arguments);
 		// create the tab list that will have a tab (a.k.a. tab button) for each tab panel
 		this.tablist = new dijit.layout.TabController(
 			{
-				id: this.widgetId + "_tablist",
+				id: this.id + "_tablist",
 				labelPosition: this.labelPosition,
 				doLayout: this.doLayout,
-				containerId: this.widgetId
+				containerId: this.id
 			}, this.tablistNode);		
 	},
 	
@@ -115,7 +115,7 @@ dojo.declare(
 		//	TabController also monitors the TabContainer, and whenever a pane is
 		//	added or deleted updates itself accordingly.
 
-		templateString: "<div wairole='tablist' dojoAttachEvent='onkeypress'></div>",
+		templateString: "<div wairole='tablist' dojoAttachEvent='onkeypress:onkeypress'></div>",
 
 		// labelPosition: String
 		//   Defines where tab labels go relative to tab content.
@@ -150,11 +150,11 @@ dojo.declare(
 	//	Contains the title (aka label) of the pane, and optionally a close-button to destroy the pane.
 	//	This is an internal widget and should not be instantiated directly.
 
-	templateString: "<div class='dojoTab' dojoAttachEvent='onClick'>"
+	templateString: "<div class='dojoTab' dojoAttachEvent='onclick:onClick'>"
 						+"<div dojoAttachPoint='innerDiv'>"
 							+"<span dojoAttachPoint='titleNode' tabIndex='-1' waiRole='tab'>${this.label}</span>"
 							+"<span dojoAttachPoint='closeButtonNode' class='close closeImage' style='${this.closeButtonStyle}'"
-							+"    dojoAttachEvent='onMouseOver:onCloseButtonMouseOver; onMouseOut:onCloseButtonMouseOut; onClick:onCloseButtonClick'></span>"
+							+"    dojoAttachEvent='onmouseover:onCloseButtonMouseOver; onmouseout:onCloseButtonMouseOut; onclick:onCloseButtonClick'></span>"
 						+"</div>"
 					+"</div>",
 
@@ -189,11 +189,11 @@ dojo.declare(
 
 		imgPath: dojo.moduleUrl("dijit", "themes/tundra/tab_close.gif"),
 		
-		templateString: "<div class='dojoTab' dojoAttachEvent='onClick;onkeypress'>"
+		templateString: "<div class='dojoTab' dojoAttachEvent='onclick:onClick;onkeypress:onkeypress'>"
 							+"<div dojoAttachPoint='innerDiv'>"
 								+"<span dojoAttachPoint='titleNode' tabIndex='-1' waiRole='tab'>${this.label}</span>"
 								+"<img class='close' src='${this.imgPath}' alt='[x]' style='${this.closeButtonStyle}'"
-								+"    dojoAttachEvent='onClick:onCloseButtonClick'>"
+								+"    dojoAttachEvent='onclick:onCloseButtonClick'>"
 							+"</div>"
 						+"</div>"
 	}

@@ -72,7 +72,7 @@ dojo.declare(
 		page.domNode.style.position="relative";
 
 		// publish the addChild event for panes added via addChild(), and the original panes too
-		dojo.publish(this.widgetId+"-addChild", [page]);
+		dojo.publish(this.id+"-addChild", [page]);
 	},
 
 	removeChild: function(/*Widget*/ page){
@@ -84,7 +84,7 @@ dojo.declare(
 		if(this._beingDestroyed){ return; }
 
 		// this will notify any tablists to remove a button; do this first because it may affect sizing
-		dojo.publish(this.widgetId+"-removeChild", [page]);
+		dojo.publish(this.id+"-removeChild", [page]);
 
 		// in case the tab labels now take up one line instead of two lines
 		this.onResized();
@@ -115,12 +115,12 @@ dojo.declare(
 			this._hideChild(this.selectedChildWidget);
 		}
 		this.selectedChildWidget = page;
-		this.selectedChild = page.widgetId;
+		this.selectedChild = page.id;
 		this._showChild(page);
 		var children = this.getChildren();
 		page.isFirstChild = (page == children[0]);
 		page.isLastChild = (page == children[children.length-1]);
-		dojo.publish(this.widgetId+"-selectChild", [page]);
+		dojo.publish(this.id+"-selectChild", [page]);
 	},
 
 	forward: function(){
@@ -345,8 +345,8 @@ dojo.declare(
 	//	The button-like or tab-like object you click to select or delete a page
 
 	templateString: "<span class='item'>" +
-						"<span dojoAttachEvent='onClick' dojoAttachPoint='titleNode' class='selectButton'>${this.label}</span>" +
-						"<span dojoAttachEvent='onClick:onCloseButtonClick' class='closeButton'>[X]</span>" +
+						"<span dojoAttachEvent='onclick:onClick' dojoAttachPoint='titleNode' class='selectButton'>${this.label}</span>" +
+						"<span dojoAttachEvent='onclick:onCloseButtonClick' class='closeButton'>[X]</span>" +
 					"</span>",
 
 	// label: String
