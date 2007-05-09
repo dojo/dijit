@@ -48,7 +48,7 @@ dojo.declare(
 			// summary: reset the caption (text) of the button; takes an HTML string
 			this.containerNode.innerHTML = this.caption = content;
 			if (dojo.isMozilla){ // Firefox has re-render issues with tables
-				var oldDisplay = dojo.getComputedStyle(this.domNode, 'display');
+				var oldDisplay = dojo.getComputedStyle(this.domNode).display;
 				this.domNode.style.display="none";
 				var _this = this;
 				setTimeout(function(){_this.domNode.style.display=oldDisplay;},1);
