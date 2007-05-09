@@ -1,10 +1,10 @@
-dojo.provide("dijit.form.ResizableTextarea");
+dojo.provide("dijit.form.Textarea");
 
 dojo.require("dijit.base.FormElement");
 dojo.require("dijit.base.TemplatedWidget");
 
 dojo.declare(
-	"dijit.form.ResizableTextarea",
+	"dijit.form.Textarea",
 	[dijit.base.FormElement, dijit.base.TemplatedWidget],
 {
 	// summary
@@ -47,7 +47,7 @@ dojo.declare(
 				this.lastHeight = newHeight;
 			}
 		}
-		dijit.form.ResizableTextarea.superclass.setValue.call(this, value);
+		dijit.form.Textarea.superclass.setValue.call(this, value);
 	},
 
 	setValue: function(/*String*/ value){
@@ -67,7 +67,7 @@ dojo.declare(
 	},
 
 	postMixInProperties: function(){
-		dijit.form.ResizableTextarea.superclass.postMixInProperties.apply(this,arguments);
+		dijit.form.Textarea.superclass.postMixInProperties.apply(this,arguments);
 		// don't let the source text be converted to a DOM structure since we just want raw text
 		if(this.srcNodeRef && this.srcNodeRef.innerHTML != ""){
 			this.value = this.srcNodeRef.innerHTML;
