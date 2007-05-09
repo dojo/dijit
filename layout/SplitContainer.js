@@ -389,6 +389,7 @@ dojo.declare(
 	},
 
 	changeSizing: function(e){
+		if(!this.isSizing){ return; }
 		this.lastPoint = this.isHorizontal ? e.pageX : e.pageY;
 		if(this.activeSizing){
 			this.movePoint();
