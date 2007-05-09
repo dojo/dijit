@@ -23,7 +23,7 @@
 		dojo.addOnLoad(
 			function(){
 				window.t1 = new Date().getTime();
-				dojo.byId("results").innerHTML = "It took " + (t1 - t0) + " msec to parse and create " + count + " Buttons programmatically.";
+				dojo.byId("results").innerHTML = "It took " + (t1 - t0) + " msec to parse (and create) 100 Buttons programmatically.";
 			}
 		);
 		logMessage = window.alert;
@@ -58,7 +58,7 @@
 </style>
         </head>
 <body class=tundra>
-<h2>Parsing 100 simple dijit.form.Buttons!</h2>
+<h2>Parsing simple dijit.form.Buttons:</h2>
 <h3 id="results"></h3>
 
 <div id="buttonContainer" class='box'>
