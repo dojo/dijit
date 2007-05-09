@@ -382,8 +382,8 @@ dojo.declare(
 		//					 
 		// attach mouse events
 		//
-		this.connect(document.documentElement, "onmousemove", "changeSizing"),
-		this.connect(document.documentElement, "onmouseup", "endSizing")
+		this.connect(document.documentElement, "onmousemove", "changeSizing");
+		this.connect(document.documentElement, "onmouseup", "endSizing");
 
 		dojo.stopEvent(e);
 	},
@@ -401,6 +401,7 @@ dojo.declare(
 	},
 
 	endSizing: function(e){
+		if(!this.isSizing){ return; }
 		if(this.cover){
 			this.cover.style.zIndex=-1;
 		}
