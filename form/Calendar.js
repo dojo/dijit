@@ -45,13 +45,16 @@ dojo.declare(
 
 		setValue: function(/*Date*/ value){
 			//summary: set the current date and update the UI
-			this.value = new Date(value);
-			this.displayMonth = new Date(value);
-			this._fillInMonth();
-			this.onValueChanged(value);
+			if(!this.value || dojo.date.calc.compare(value, this.value)){
+				this.value = new Date(value);
+				this.value.setHours(0,0,0,0);
+				this.displayMonth = new Date(this.value);
+				this._populateGrid();
+				this.onValueChanged(this.value);
+			}
 		},
 
-		_fillInMonth: function(){
+		_populateGrid: function(){
 			var month = this.displayMonth;
 			month.setDate(1);
 			var firstDay = month.getDay();
@@ -66,19 +69,25 @@ dojo.declare(
 			dojo.query(".calendarDateTemplate").forEach(function(template, i){
 				i += weekStartsOn;
 				var date = new Date(month);
-				var clazz;
+				var number, clazz, adj = 0;
+
 				if(i < firstDay){
-					date = dojo.date.calc.add(date, dojo.date.calc.parts.MONTH, -1);
-					date.setDate(daysInPreviousMonth + i - 1);
+					number = daysInPreviousMonth - firstDay + i + 1;
+					adj = -1;
 					clazz = "previous";
 				}else if(i >= (firstDay + daysInMonth)){
-					date = dojo.date.calc.add(date, dojo.date.calc.parts.MONTH, 1);
-					date.setDate(i - firstDay - daysInMonth + 1);
+					number = i - firstDay - daysInMonth + 1;
+					adj = 1;
 					clazz = "next";
 				}else{
-					date.setDate(i - firstDay + 1);
+					number = i - firstDay + 1;
 					clazz = "current";
 				}
+
+				if(adj){
+					date = dojo.date.calc.add(date, dojo.date.calc.parts.MONTH, adj);
+				}
+				date.setDate(number);
 
 				if(!dojo.date.calc.compare(date, today, dojo.date.calc.types.DATE)){
 					clazz = "currentDate " + clazz;
@@ -130,12 +139,13 @@ dojo.declare(
 				label.innerHTML = dayNames[(i + weekStartsOn) % 7];
 			});
 
-			this.setValue(this.value);
+			this.value = null;
+			this.setValue(new Date());
 		},
 
 		_adjustDate: function(/*String*/part, /*int*/amount){
 			this.displayMonth = dojo.date.calc.add(this.displayMonth, part, amount);
-			this._fillInMonth();
+			this._populateGrid();
 		},
 
 		_onIncrementMonth: function(/*Event*/evt){
