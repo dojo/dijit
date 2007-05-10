@@ -93,6 +93,8 @@ dojo.declare(
 		}
 	},
 
+	onClick: function(){},
+
 	_onClick: function(e){
 		// summary
 		// 		When user clicks the text, then start editing.
