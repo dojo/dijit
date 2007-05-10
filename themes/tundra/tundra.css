@@ -67,31 +67,22 @@
 
 /* Input Fields */
 .tundra .dojoInputField {
-	background:#e9e9e9 url("dojoTundraGradientBg.png") repeat-x 0 0;
-	border-color:#e8e8e8;
+	background:#fff url("validationInputBg.png") repeat-x top left;
+	border-color:#9b9b9b;
 	border-width:1px;
 	font-family: Myriad, Arial, Helvetica;
 	font-size:13px;
 	font-weight:normal;
 	padding:2px 4px;
 }
- 
-.tundra .dojoInputField:hover {
-	color:#0e4978;
-	border-color:#92adc2;
-}
 
-/* Default Active/Focus style*/
 .tundra .dojoInputField:focus,
 .tundra .dojoInputFieldFocused {
-	background-image: url("dojoTundraGradientBgActive.png");
-	background-position:bottom left;
-	border:1px solid #92adc2;
+	border:1px solid #7788a0;
 }
 
 .tundra .dojoInputField[disabled],
 .tundra .dojoInputFieldDisabled {
-	background-position:0 -8px;
 	background-color:#dbdbdb;
 	color:#787878;
 	border-color:#e0e0e0;
@@ -99,29 +90,29 @@
 
 .tundra .dojoInputField[disabled]:active,
 .tundra .dojoInputFieldDisabled:active {
-	background-image: url("dojoTundraGradientBg.png");
+	background-color:#dbdbdb;
+	color:#787878;
+	border-color:#e0e0e0;
 }
 
 /* Dojo Input Field */
 
-.dojoInputFieldValidationNormal {
-	background-color:#e9e9e9;
+.tundra .dojoInputFieldValidationNormal {
+	
 }
 
-.dojoInputFieldValidationWarning,
-.dojoInputFieldValidationWarning:hover,
-.dojoInputFieldValidationWarning:focus {
-/* TBD */
-	background-color:cyan;
+.tundra .dojoInputFieldValidationWarning {
+	border:1px solid #f3d118;
 }
 
-.dojoInputFieldValidationError {
-	background-color:#f4ee88;
+.tundra .dojoInputFieldValidationError {
+	border:1px solid #f3d118;
+	background:#f9f7ba;
 }
 
-.dojoInputFieldValidationError:hover,
-.dojoInputFieldValidationError:focus {
-	border-color:#ede11b;
+.tundra .dojoInputFieldValidationError:hover,
+.tundra .dojoInputFieldValidationError:focus {
+	
 }
 
 .dojoCheckbox {
