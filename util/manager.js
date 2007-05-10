@@ -57,7 +57,7 @@ dijit.util.manager = new function(){
 	this.byNode = function(/* DOMNode */ node){
 		// summary
 		//	Returns the widget as referenced by node.?
-		return registry[node.id]; // FIXME should be widgetId?  Is this method really necessary?
+		return registry[node.widgetId];
 	}
 };
 

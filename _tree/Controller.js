@@ -1,6 +1,5 @@
 dojo.provide("dijit._tree.Controller");
 
-
 dojo.require("dijit.base.Widget");
 dojo.require("dijit.Tree");
 
@@ -24,8 +23,7 @@ dojo.declare(
 
 	postMixInProperties: function(){
 		// setup to handle events from tree
-					var eventHandler =  "on" + event.charAt(0).toUpperCase() + event.substr(1);
-		dojo.subscribe(treeId, this, "_listener");	
+		dojo.subscribe(this.treeId, this, "_listener");	
 	},
 
 	_listener: function(/*Object*/ message){
@@ -38,10 +36,10 @@ dojo.declare(
 	},
 
 	onBeforeTreeDestroy: function(message) {
-		dojo.unsubscribe(message.source.id);
+		dojo.unsubscribe(message.tree.id);
 	},
 
-	onNext: function(message) {
+	onNext: function(/*Object*/ message) {
 		// summary: down arrow pressed; move to next visible node
 
 		var returnWidget;
@@ -67,9 +65,10 @@ dojo.declare(
 		}	
 	},
 	
-	onPrevious: function(nodeWidget) {
+	onPrevious: function(/*Object*/ message) {
 		// summary: up arrow pressed; move to previous visible node
 
+		var nodeWidget = message.node;
 		var returnWidget = nodeWidget;
 		
 		// if younger siblings		
@@ -98,8 +97,9 @@ dojo.declare(
 		}
 	},
 	
-	onZoomIn: function(nodeWidget) {
+	onZoomIn: function(/*Object*/ message) {
 		// summary: right arrow pressed; go to child node
+		var nodeWidget = message.node;
 		var returnWidget = nodeWidget;
 		
 		// if not expanded, expand, else move to 1st child
@@ -119,9 +119,10 @@ dojo.declare(
 		}
 	},
 	
-	onZoomOut: function(node) {
+	onZoomOut: function(/*Object*/ message) {
 		// summary: left arrow pressed; go to parent
 		
+		var node = message.node;
 		var returnWidget = node;
 
 		// if not collapsed, collapse, else move to parent
@@ -140,8 +141,9 @@ dojo.declare(
 		}
 	},
 
-	onToggleOpen: function(node){
+	onToggleOpen: function(/*Object*/ message){
 		// summary: user clicked the +/- icon; expand or collapse my children.
+		var node = message.node;
 		if (node.isExpanded){
 			this._collapse(node);
 		} else {
@@ -164,28 +166,12 @@ dojo.declare(
 
 
 
-dijit.declare(
+dojo.declare(
 	"dijit._tree.DataController",
 	dijit._tree.Controller,
 {
 	// summary
 	//		Controller for tree that hooks up to dojo.data
-
-	// store: dojo.data.Store
-	//		Reference to store object
-	store: null,
-
-	// query: String
-	//	query to get top level node(s) of tree
-	query: "",
-
-	// labelAttr: String
-	//		name of attribute that holds label (title) for each tree node
-	labelAttr: "label",
-
-	// typeAttr: String
-	//		name of attribute that holds type for each tree node
-	typeAttr: "type",
 
 	onAfterTreeCreate: function(message) {
 		// when a tree is created, we query against the store to get the top level nodes
@@ -199,19 +185,17 @@ dijit.declare(
 					return {
 						item: item,
 						label: _this.store.getValue(item, _this.labelAttr),
-						type: _this.store.getValue(item, _this.typeAttr)
+						type: _this.store.getValue(item, _this.typeAttr),
+						isFolder: _this.store.hasAttribute(item, _this.childrenAttr)
 						};
 				});
 			tree.setChildren(childParams);
 		}
-		store.fetch({ query: this.query, onComplete: onComplete });
-
-		dijit._tree.Controller.prototype.onAfterTreeCreate.apply(this, arguments);
+		this.store.fetch({ query: this.query, onComplete: onComplete });
 	},
 
-	_expand: function(message){
+	_expand: function(/*_TreeNode*/ node){
 		var store = this.store;
-		var node = message.node;	// the _TreeNode being expanded
 		var getValue = this.store.getValue;
 
 		switch(node.state){
@@ -222,15 +206,15 @@ dijit.declare(
 			case "UNCHECKED":
 				// need to load all the children, and then expand
 				var parentItem = node.item;
-				var childItems = store.getValues(parentItem, "children");
+				var childItems = store.getValues(parentItem, this.childrenAttr);
 	
 				// count how many items need to be loaded
 				var _waitCount = 0;
-				dojo.forEach(childItems, function(item){ if(!store.isLoaded(item)){ _waitCount++; } });
+				dojo.forEach(childItems, function(item){ if(!store.isItemLoaded(item)){ _waitCount++; } });
 	
 		       	if(_waitCount == 0){
 		       		// all items are already loaded.  proceed..
-		       		this._onLoadAllItems(node);
+		       		this._onLoadAllItems(node, childItems);
 		       	}else{
 		       		// still waiting for some or all of the items to load
 		       		node.markProcessing();
@@ -240,11 +224,11 @@ dijit.declare(
 		   				if(--_waitCount == 0){
 							// all nodes have been loaded, send them to the tree
 							node.unmarkProcessing();
-							_this._onLoadAllItems(node);
+							_this._onLoadAllItems(node, childItems);
 						}
 					}
 					dojo.forEach(childItems, function(item){
-						if(!store.isLoaded(item)){
+						if(!store.isItemLoaded(item)){
 			       			store.loadItem({item: item, onItem: onItem});
 			       		}
 			       	});
@@ -258,17 +242,22 @@ dijit.declare(
 		}
 	},
 
-	_onLoadAllItems: function(/*_TreeNode*/ node){
+	_onLoadAllItems: function(/*_TreeNode*/ node, /*dojo.data.Item[]*/ items){
 		// sumary: callback when all the children of a given node have been loaded
 		// TODO: should this be used when the top level nodes are loaded too?
 		var childParams=dojo.map(items, function(item){
-			return { item: item, label: this.store.getValue(item, this.labelAttr), type: this.store.getValue(item, this,typeAttr) };
+			return {
+				item: item,
+				label: this.store.getValue(item, this.labelAttr),
+				type: this.store.getValue(item, this.typeAttr),
+				isFolder: this.store.hasAttribute(item, this.childrenAttr)
+			};
 		}, this);
 		node.setChildren(childParams);
 		dijit._tree.Controller.prototype._expand.apply(this, arguments);
 	},
 
-	_collapse: function(message){
+	_collapse: function(/*_TreeNode*/ node){
 		if(node.state == "LOADING"){
 			// ignore clicks while we are in the process of loading data
 			return;

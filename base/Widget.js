@@ -31,13 +31,11 @@ function(params, srcNodeRef){
 	// store pointer to original dom tree
 	this.srcNodeRef = dojo.byId(srcNodeRef);
 
-	// copy id from srcNodeRef
-	if(this.srcNodeRef && (typeof this.srcNodeRef.id == "string")){ this.id = this.srcNodeRef.id; }
-
 	// for garbage collection
 	this._connects=[];
 
 	//mixin our passed parameters
+	if(this.srcNodeRef && (typeof this.srcNodeRef.id == "string")){ this.id = this.srcNodeRef.id; }
 	if(params){
 		dojo.mixin(this,params);
 	}
@@ -45,7 +43,9 @@ function(params, srcNodeRef){
 	this.postMixInProperties();
 	dijit.util.manager.add(this);
 	this.buildRendering();
-	this.domNode.widgetId = this.id;
+	if(this.domNode){
+		this.domNode.widgetId = this.id;
+	}
 	this.postCreate();
 
 	// If srcNodeRef has been processed and removed from the DOM (e.g. TemplatedWidget) then delete it to allow GC.

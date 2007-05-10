@@ -28,7 +28,7 @@ dojo.declare(
 	unlock: function() {
 		if (!this.locked) {
 			//dojo.debug((new Error()).stack);
-			dojo.raise(this.widgetType+" unlock: not locked");
+			throw new Error(this.declaredClass+" unlock: not locked");
 		}
 		this.locked=false;
 	},
@@ -68,10 +68,10 @@ dojo.declare(
 			}
 	
 			// Create _TreeNode widget for each specified tree node
-			dojo.lang.forEach(childrenArray, function(childParams){
-				var child = new dijit._TreeNode(childParams);
+			dojo.forEach(childrenArray, function(childParams){
+				var child = new dijit._TreeNode(dojo.mixin({tree: this.tree}, childParams));
 				this.addChild(child);
-			});
+			}, this);
 	
 			// note that updateLayout() needs to be called on each child after
 			// _all_ the children exist
@@ -111,7 +111,23 @@ dojo.declare(
 	//	The store to get data to display in the tree
 	store: null,
 
-	templatePath: dojo.uri.moduleUri("dijit", "_tree/Tree.html"),		
+	// query: String
+	//	query to get top level node(s) of tree (ex: {type:'continent'})
+	query: null,
+
+	// labelAttr: String
+	//		name of attribute that holds label (title) for each tree node
+	labelAttr: "label",
+
+	// typeAttr: String
+	//		name of attribute that holds type for each tree node
+	typeAttr: "type",
+
+	// childrenAttr: String
+	//		name of attribute that holds children of a tree node
+	childrenAttr: "children",
+
+	templatePath: dojo.moduleUrl("dijit", "_tree/Tree.html"),		
 
 	isExpanded: true, // consider this "root node" to be always expanded
 
@@ -120,7 +136,7 @@ dojo.declare(
 	_publish: function(/*String*/ topicName, /*Object*/ message){
 		// summary:
 		//		Publish a message for this widget/topic
-		dojo.publish(this.widgetId, dojo.mixin({source: this, event: topicName}, message||{}));
+		dojo.publish(this.id, [dojo.mixin({tree: this, event: topicName}, message||{})]);
 	},
 
 	postMixInProperties: function(){
@@ -128,36 +144,41 @@ dojo.declare(
 
 		// setup table mapping keys to events
 		var keyTopicMap = {};
-		keyTopicMap[dojo.keys.ENTER]=this.eventNames.execute;
-		keyTopicMap[dojo.keys.LEFT_ARROW]=this.eventNames.zoomOut;
-		keyTopicMap[dojo.keys.RIGHT_ARROW]=this.eventNames.zoomIn;
-		keyTopicMap[dojo.keys.UP_ARROW]=this.eventNames.previous;
-		keyTopicMap[dojo.keys.DOWN_ARROW]=this.eventNames.next;
+		keyTopicMap[dojo.keys.ENTER]="execute";
+		keyTopicMap[dojo.keys.LEFT_ARROW]="zoomOut";
+		keyTopicMap[dojo.keys.RIGHT_ARROW]="zoomIn";
+		keyTopicMap[dojo.keys.UP_ARROW]="previous";
+		keyTopicMap[dojo.keys.DOWN_ARROW]="next";
 		this._keyTopicMap = keyTopicMap;
-
-		// start the controller, passing in the store
-		this._controller = new dijit._tree.DataController({store: this.store, treeId: this.id});
 	},
 	
 	postCreate: function(){
 		this.containerNode = this.domNode;
 
-		// Find images to use for expando icon
-		// Will set this.expandoOpenImg = "expando_open.gif" etc.
-		dojo.lang.forEach(["expandoOpen", "expandoClosed", "expandoLeaf", "expandoProcessing"],
+		// The template has dummy <span> nodes for each possible expando icon, with
+		// CSS background-image set appropriately; use those span
+		// nodes to get image path for each expando icon.
+		// Will set this.expandoOpenedImg = "expando_open.gif" etc.
+		dojo.forEach(["expandoOpened", "expandoClosed", "expandoLeaf", "expandoProcessing"],
 			function(item){
 				var bi = dojo.getComputedStyle(this[item]).backgroundImage;
 				var href = bi.charAt(4)=='"' ? bi.slice(5,-2) : bi.slice(4,-1);	// url(foo) --> foo, url("foo") --> foo
 				this[item+"Img"]=href;
-			});
+			}, this);
 
 		// make template for container node (we will clone this and insert it into
 		// any nodes that have children)
 		var div = document.createElement('div');
-		div.style.display = 'none';			
-		dojo.html.setClass(div, "TreeContainer");
-		dojo.widget.wai.setAttr(div, "waiRole", "role", "presentation");
+		div.style.display = 'none';
+		div.className="TreeContainer";	
+		dijit.util.wai.setAttr(div, "waiRole", "role", "presentation");
 		this.containerNodeTemplate = div;
+
+
+		// start the controller, passing in the store
+		this._controller = new dijit._tree.DataController(
+			{store: this.store, treeId: this.id,
+			query: this.query, labelAttr: this.labelAttr, typeAttr: this.typeAttr, childrenAttr: this.childrenAttr});
 
 		this._publish("afterTreeCreate");
 	},
@@ -170,40 +191,46 @@ dojo.declare(
 	},
 	
 	toString: function(){
-		return "["+this.widgetType+" ID:"+this.id	+"]"
+		return "["+this.declaredClass+" ID:"+this.id	+"]"
 	},
-	
-	onClick: function(/*Event*/ e){
+
+	_domElement2TreeNode: function(/*DomNode*/ domElement){
+		var ret;
+		do{
+			ret=dijit.util.manager.byNode(domElement);
+		} while(!ret && (domElement=domElement.parentNode));
+		return ret;
+	},
+
+	_onClick: function(/*Event*/ e){
 		// summary: translates click events into commands for the controller to process
 		var domElement = e.target;
 
 		// find node
-        var node = this.domElement2TreeNode(domElement);		
-		if (!node || !node.isTreeNode) {
+        var nodeWidget = this._domElement2TreeNode(domElement);	
+		if (!nodeWidget || !nodeWidget.isTreeNode) {
 			return;
 		}
 
-		if (domElement == node.expandoNode) {
+		if (domElement == nodeWidget.expandoNode) {
 			this._publish(
-				domElement == node.expandoNode ? "toggleOpen" : "execute",
-				 { node: actionWidget, event: e} );	
-			e.preventDefault();
-			e.stopPropogation();
+				domElement == nodeWidget.expandoNode ? "toggleOpen" : "execute",
+				 { node: nodeWidget} );	
+			dojo.stopEvent(e);
 		}
 	},
 	
-	onKey: function(/*Event*/ e) { 
+	_onKeyPress: function(/*Event*/ e) { 
 		// summary: translates key events into commands for the controller to process
 		if (!e.keyCode || e.altKey) { return; }
-		var nodeWidget = this.domElement2TreeNode(e.target);
+		var nodeWidget = this._domElement2TreeNode(e.target);
 		if (!nodeWidget) { return; }
 
 		var actionWidget = null;
 
 		if(this._keyTopicMap[e.keyCode]){
-			this._publish(this._keyTopicMap[e.keyCode], { node: actionWidget, event: e} );	
-			e.stopPropogation();
-			e.preventDefault();
+			this._publish(this._keyTopicMap[e.keyCode], { node: nodeWidget} );	
+			dojo.stopEvent(e);
 		}
 	},
 	
@@ -214,7 +241,7 @@ dojo.declare(
 		var node = this.lastFocused;
 		if(!node){ return; }
 		var labelNode = node.labelNode;
-		dojo.html.removeClass(labelNode, "TreeLabelFocused");
+		dojo.removeClass(labelNode, "TreeLabelFocused");
 		labelNode.setAttribute("tabIndex", "-1");
 		this.lastFocused = null;
 	},
@@ -249,10 +276,12 @@ dojo.declare(
 	// summary
 	//		Single node within a tree
 
-    // type: String
-    //		User defined identifier to differentiate nodes, and to control icon used
-    //		Example: folder, garbage, inbox, draftsFolder
-    //		TODO: set CSS string base on this type
+	templatePath: dojo.moduleUrl("dijit", "_tree/Node.html"),		
+
+	// type: String
+	//		User defined identifier to differentiate nodes, and to control icon used
+	//		Example: folder, garbage, inbox, draftsFolder
+	//		TODO: set CSS string base on this type
 	nodeType: "",
 	
 	// item: dojo.data.Item
@@ -269,17 +298,11 @@ dojo.declare(
 
 	isExpanded: false,
 	
-	postMixInProperties: function(){
-	},
-
 	postCreate: function() {
-		this.labelNode.innerHTML = this.label;				
-		if (this.children.length || this.isFolder) {
-			this.setFolder();		// calls _setExpando()	
-		} else {
-			// set expand icon for leaf 	
-			this._setExpando();
-		}
+		this.labelNode.innerHTML = this.label;	
+		var children = this.getChildren();			
+		// set expand icon for leaf 	
+		this._setExpando();
 	},
 	
 	markProcessing: function() {
@@ -298,23 +321,21 @@ dojo.declare(
 
 		dojo.removeClass(this.domNode, "TreeIsRoot");
 		if (this.getParent()["isTree"]) {
-			// use setClass, not addClass for speed
-			dojo.setClass(this.domNode, dojo.getClass(this.domNode) + ' '+'TreeIsRoot')
+			dojo.addClass(this.domNode, 'TreeIsRoot');
 		}
 
 		dojo.removeClass(this.domNode, "TreeIsLast");
-		if (this.isLastChild()) {
-			dojo.setClass(this.domNode, dojo.getClass(this.domNode) + ' '+'TreeIsLast')			
+		if (!this.getNextSibling()) {
+			dojo.addClass(this.domNode, 'TreeIsLast');	
 		}
 	},
 		
 	_setExpando: function(/*Boolean*/ processing) {
 		// summary: set the right image for the expando node
-		var src = this.tree [ 
-			processing ? "expandoProcssingSrc" :
+		var img = processing ? "expandoProcessingImg" :
 				(this.isFolder ?
-					(this.isExpanded ? "expandoOpenedSrc" : "expandoClosedSrc") : "expandoLeafSrc") ];
-		this.expandoNode.src = src;
+					(this.isExpanded ? "expandoOpenedImg" : "expandoClosedImg") : "expandoLeafImg");
+		this.expandoNode.src = this.tree[img];
 	},	
 
 	setChildren: function(items){
@@ -331,37 +352,47 @@ dojo.declare(
         // summary: show my children
 		if (this.isExpanded) return;
 
+		// cancel in progress collapse operation
+		if(this._slideOut.status() == "playing"){
+			this._slideOut.stop();
+		}
+
+		this.isExpanded = true;
 		dijit.util.wai.setAttr(this.labelNode, "waiState", "expanded", "true");
 		dijit.util.wai.setAttr(this.containerNode, "waiRole", "role", "group");
 		
 		this._setExpando();
 
-		this._slideIn();
+		// TODO: use animation that's constant speed of movement, not constant time regardless of height
+		this._slideIn.play();
 	},
 
 	_afterExpand: function() {
         this.onShow();
- 		this._publish("afterExpand", {source: this} );		
+ 		this._publish("afterExpand", {node: this});		
 	},
 
 	collapse: function(){					
 		if (!this.isExpanded) return;
 		
+		// cancel in progress expand operation
+		if(this._slideIn.status() == "playing"){
+			this._slideIn.stop();
+		}
+
 		this.isExpanded = false;
 		dijit.util.wai.setAttr(this.labelNode, "waiState", "expanded", "false");
+		this._setExpando();
 		
-		dojo.style(this.containerNode, "display", "");
-		
-		this._slideOut();
+		this._slideOut.play();
 	},
     
 	_afterCollapse: function() {
-		this._setExpando();
 		this.onHide();
-		this._publish("afterCollapse", {source: this} );
+		this._publish("afterCollapse", {node: this});
 	},
 
 	toString: function() {
-		return '['+this.widgetType+', '+this.label+']';
+		return '['+this.declaredClass+', '+this.label+']';
 	}
 });
