@@ -93,7 +93,9 @@ dojo.declare(
 		}
 	},
 
-	onClick: function(){},
+	onClick: function(/*Event*/ e){
+		// summary: callback for when button is clicked; user can override this function
+	},
 
 	_onClick: function(e){
 		// summary
@@ -131,14 +133,14 @@ dojo.declare(
 
 	save: function(e){
 		// summary: Callback when user presses "Save" button
-		dojo.stopEvent(e);
+		if(e){ dojo.stopEvent(e); }
 		this.editing = false;
 		this._showText();
 	},
 
 	cancel: function(e){
 		// summary: Callback when user presses "Cancel" button
-		dojo.stopEvent(e);
+		if(e){ dojo.stopEvent(e); }
 		this.editing = false;
 		this._visualize();
 	},
