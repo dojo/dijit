@@ -1,69 +1,64 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" 
 	"http://www.w3.org/TR/html4/strict.dtd">
 <html>
-<head>
+	<head>
+		<title>Inline Edit Box Test</title>
+		<script type="text/javascript" src="../../../dojo/dojo.js"
+			djConfig="isDebug: true"></script>
+		<script type="text/javascript">
+			dojo.require("dijit.form.InlineEditBox");
+			dojo.require("dijit.form.Textarea");
+			dojo.require("dijit.form.Textbox");
+			dojo.require("dijit.form.DateTextbox");
+			dojo.require("dijit.util.parser");      // scan page for widgets and instantiate them
+			function myHandler(id,newValue) {
+				console.debug("onValueChanged for id = " + id + ", value: " + newValue);
+			};
+		</script>
+		<style type="text/css">
+			@import "../../../dojo/resources/dojo.css";
+			@import "../../themes/tundra/tundra.css";
+			@import "../css/dijitTests.css";
+		
+			.inlineEdit { background-color: #CCC76A; }
+		</style>
+	</head>
+	<body class="tundra">
+		<h1 class="testTitle">Dijit InlineEditBox Test</h1>
+		before
+		<span id="editable" style="font-size:larger;" dojoType="dijit.form.InlineEditBox" onValueChanged="myHandler(this.id,arguments[0])">
+			<input dojoType="dijit.form.Textbox" value="Edit me - I trigger the onValueChanged callback">
+		</span>
+		after
 
-<title>Inline Edit Box Widget Demo</title>
-	<script type="text/javascript" src="../../../dojo/dojo.js"
-		djConfig="isDebug: true"></script>
-	<script type="text/javascript">
-        dojo.require("dijit.form.InlineEditBox");
-        dojo.require("dijit.form.Textarea");
-        dojo.require("dijit.form.Textbox");
-		dojo.require("dijit.form.DateTextbox");
-        dojo.require("dijit.util.parser");      // scan page for widgets and instantiate them
-		function myHandler(id,newValue) {
-			console.debug("onValueChanged for id = " + id + ", value: " + newValue);
-		};
-	</script>
-	<style type="text/css">
-		@import "../../../dojo/resources/dojo.css";
-		@import "../../themes/tundra/tundra.css";
-	
-		.inlineEdit { background-color: #CCC76A; }
-	</style>
-</head>
-<body class="tundra" style="padding: 50px;">
-	before
-	<span id="editable" style="font-size:larger;" dojoType="dijit.form.InlineEditBox" onValueChanged="myHandler(this.id,arguments[0])">
-		<input dojoType="dijit.form.Textbox" value="Edit me - I trigger the onValueChanged callback">
-	</span>
-	after
+		<blockquote style="width:50%;">
+			<p><span id="areaEditable" dojoType="dijit.form.InlineEditBox">
+				<textarea dojoType="dijit.form.Textarea">I'm one big paragraph.  Go ahead and <i>edit</i> me.  <b>I dare you.</b> The quick brown fox jumped over the lazy dog.  Blah blah blah blah blah blah blah ...</textarea>
+			</span></p>
+		</blockquote>
+		<p>
+		These links will
+		<a href="#" onClick="dijit.byId('areaEditable').disable()">disable</a> /
+		<a href="#" onClick="dijit.byId('areaEditable').enable()">enable</a>
+		the text area above.
 
-	<blockquote style="width:50%;">
-	<p><span id="areaEditable" dojoType="dijit.form.InlineEditBox">
-	<textarea dojoType="dijit.form.Textarea">
-	I'm one big paragraph.  Go ahead and <i>edit</i> me.
-	<b>I dare you.</b>
-	The quick brown fox jumped over the lazy dog.
-	  Blah blah blah blah blah blah blah ...
-	</textarea>
-	</span></p>
-	</blockquote>
-	<p>
-	These links will
-	<a href="#" onClick="dijit.byId('areaEditable').disable()">disable</a>
-	/
-	<a href="#" onClick="dijit.byId('areaEditable').enable()">enable</a>
-	the text area above.
+		</p>
 
-	</p>
-
-	<b>Date text box:</b>
-	<p id="backgroundArea" class="inlineEdit" dojoType="dijit.form.InlineEditBox" >
-		<input name="date" value="2005-12-30"
-				dojoType="dijit.form.DateTextbox"
-				constraints={locale:'en-us'}
-				required="true"
-				promptMessage="mm/dd/yyyy"
-				invalidMessage="Invalid date. Use mm/dd/yyyy format.">
-	</p>
-	<div style="display:block;" id="programmatic"></div>
-	<script type="text/javascript">
-		// See if we can make a widget in script
-		var refNode = dojo.byId('programmatic');
-		var editorWidget = new dijit.form.Textbox({ value: "Click here to edit a programmatically created<BR>inline edit region" }, document.createElement('span'));
-		var inlineWidget = new dijit.form.InlineEditBox({ editWidget: editorWidget }, refNode);
-	</script>
-</body>
+		<b>Date text box:</b>
+		<p id="backgroundArea" class="inlineEdit" dojoType="dijit.form.InlineEditBox" >
+			<input name="date" value="2005-12-30"
+					dojoType="dijit.form.DateTextbox"
+					constraints={locale:'en-us'}
+					required="true"
+					promptMessage="mm/dd/yyyy"
+					invalidMessage="Invalid date. Use mm/dd/yyyy format.">
+		</p>
+		<div style="display:block;" id="programmatic"></div>
+		<script type="text/javascript">
+			// See if we can make a widget in script
+			var refNode = dojo.byId('programmatic');
+			var editorWidget = new dijit.form.Textbox({ value: "Click here to edit a programmatically created<BR>inline edit region" }, document.createElement('span'));
+			var inlineWidget = new dijit.form.InlineEditBox({ editWidget: editorWidget }, refNode);
+		</script>
+	</body>
 </html>
