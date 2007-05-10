@@ -126,12 +126,10 @@ dijit.base.Layout.layoutChildren = function(/*DomNode*/ container, /*Object[]*/ 
 	}
 	var px = _toPixelValue;
 	
-	// remaining space (blank area where nothing has been written)
-	var f={
-		top: px(container, dojo.getComputedStyle(container, "padding-top")),
-		left: px(container, dojo.getComputedStyle(container, "padding-left"))
-	};
-	dojo.mixin(f, dojo.contentBox(container));
+		// remaining space (blank area where nothing has been written)
+		
+	// contentBox gives you the whole box (l, t, w, h)
+	f = dojo.contentBox(container);
 
 	var ret = true;
 	// set positions/sizes
@@ -140,8 +138,8 @@ dijit.base.Layout.layoutChildren = function(/*DomNode*/ container, /*Object[]*/ 
 		var pos=child.layoutAlign;
 		// set elem to upper left corner of unused space; may move it later
 		var elmStyle = elm.style;
-		elmStyle.left = f.left+"px";
-		elmStyle.top = f.top+"px";
+		elmStyle.left = f.l+"px";
+		elmStyle.top = f.t+"px";
 		elmStyle.bottom = elmStyle.right = "auto";
 
 		var capitalize = function(word){
@@ -154,16 +152,14 @@ dijit.base.Layout.layoutChildren = function(/*DomNode*/ container, /*Object[]*/ 
 		// note that setting the width of a <div> may affect it's height.
 		// TODO: same is true for widgets but need to implement API to support that
 		if (pos=="top" || pos=="bottom"){
-			// filter for zero widths (almost always invalid #1635)
-			if(f.w != 0){
-				dojo.marginBox(elm, { w: f.w });
-			}
+			// marginBox will ignore f.w if it's <= 0
+			dojo.marginBox(elm, { w: f.w });
 			var h = dojo.marginBox(elm).h;
 			f.h -= h;
 			if(pos=="top"){
-				f.top += h;
+				f.t += h;
 			}else{
-				elmStyle.top = f.top + f.h + "px";
+				elmStyle.top = f.t + f.h + "px";
 			}
 			// TODO: for widgets I want to call resizeTo(), but I can't because
 			// I only want to set the width, and have the height determined
@@ -183,9 +179,9 @@ dijit.base.Layout.layoutChildren = function(/*DomNode*/ container, /*Object[]*/ 
 			}
 			f.w -= w;
 			if(pos=="left"){
-				f.left += w;
+				f.l += w;
 			}else{
-				elmStyle.left = f.left + f.w + "px";
+				elmStyle.left = f.l + f.w + "px";
 			}
 		} else if(pos=="flood" || pos=="client"){
 			// #1635 - filter for zero dimensions (see below)
