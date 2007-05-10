@@ -57,5 +57,19 @@
 
 	<p style="clear: both;">HTML after</p>
 
+<div dojoType="dijit.layout.SplitContainer"
+	orientation="horizontal"
+	sizerWidth="5"
+	activeSizing="false"
+	style="border: 2px solid black; float: left; width: 100%; height: 300px;"
+>
+	<div dojoType="dijit.layout.ContentPane" sizeMin="20" sizeShare="20">
+		<iframe style="width: 100%; height: 100%"></iframe>
+	</div>
+	<div dojoType="dijit.layout.ContentPane" sizeMin="50" sizeShare="50">
+		<iframe style="width: 100%; height: 100%"></iframe>
+	</div>
+</div>
+
 </body>
 </html>
