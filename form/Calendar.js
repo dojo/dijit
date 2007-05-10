@@ -1,8 +1,12 @@
+//TODO: move out of dijit.form.*?
+//TODO: make private unless/until we make this accessible?
 dojo.provide("dijit.form.Calendar");
 
 dojo.require("dojo.date.calc");
 dojo.require("dojo.date.local");
 dojo.require("dojo.date.serial");
+dojo.require("dojo.date.util");
+dojo.require("dojo.cldr.supplemental");
 
 dojo.require("dijit.base.Widget");
 dojo.require("dijit.base.TemplatedWidget");
@@ -10,264 +14,165 @@ dojo.require("dijit.base.FormElement");
 
 dojo.declare(
 	"dijit.form.Calendar",
-	[dijit.base.FormElement, dijit.base.TemplatedWidget],
+	[dijit.base.Widget, dijit.base.TemplatedWidget],
 	{
 		/*
 		summary: 
-			Base class for an embedded/stand-alone DatePicker widget 
-			which makes it easy to select a date, or switch by month and/or year.
+			A simple GUI for choosing a date in the context of a monthly calendar.
+
+		description:
 			It can't be used in a form because it doesn't serialize the date to an
-			<input> field.
-		 	              
+			<input> field.  For a form element, use DateTextbox instead.
+
 			Note that the parser takes all dates attributes passed in the `RFC 3339` format:
 			http://www.faqs.org/rfcs/rfc3339.html (2005-06-30T08:05:00-07:00)
 			so that they are serializable and locale-independent.
 		
 		usage: 
-			var datePicker = dojo.widget.createWidget("DatePicker", {},   
-			dojo.byId("datePickerNode")); 
-		 	 
+			var datePicker = new dijit.Calendar({}, dojo.byId("datePickerNode")); 
+		 	-or-
 			<div dojoType="DatePicker"></div> 
 		*/
 		templatePath: dojo.moduleUrl("dijit.form", "templates/Calendar.html"),
 
 		// value: Date
+		// the currently selected Date
 		value: new Date(),
 
-		_dayWidth: "narrow",
+		// dayWidth: String
+		// How to represent the days of the week in the calendar header. See dojo.date.locale
+		dayWidth: "narrow",
 
-		setValue: function(/*Date*/ dateObj){
+		setValue: function(/*Date*/ value){
 			//summary: set the current date and update the UI
-			this.value = dateObj;
-		
-			if(this.selectedNode){
-				dojo.removeClass(this.selectedNode,this.classNames.selectedDate);
-			}
-			if(this.clickedNode){
-				dojo.addClass(this.clickedNode,this.classNames.selectedDate);
-				this.selectedNode = this.clickedNode;
-			}else{
-				//only call this if setDate was called by means other than clicking a date
-				this._preInitUI((this.value=="")?this.curMonth:this.value,false,true);
-			}
-			this.clickedNode=null;
-			dijit.form.Calendar.superclass.setValue.apply(this, arguments);
+			this.value = new Date(value);
+			this.displayMonth = new Date(value);
+			this._fillInMonth();
+			this.onValueChanged(value);
+		},
+
+		_fillInMonth: function(){
+			var month = this.displayMonth;
+			month.setDate(1);
+			var firstDay = month.getDay();
+			var daysInMonth = dojo.date.getDaysInMonth(month);
+			var daysInPreviousMonth = dojo.date.getDaysInMonth(dojo.date.calc.add(month, dojo.date.calc.parts.MONTH, -1));
+			var today = new Date();
+			var selected = this.value;
+
+			var weekStartsOn = dojo.cldr.supplemental.getFirstDayOfWeek(this.lang);
+
+			// Iterate through dates in the calendar and fill in date numbers and style info
+			dojo.query(".calendarDateTemplate").forEach(function(template, i){
+				i += weekStartsOn;
+				var date = new Date(month);
+				var clazz;
+				if(i < firstDay){
+					date = dojo.date.calc.add(date, dojo.date.calc.parts.MONTH, -1);
+					date.setDate(daysInPreviousMonth + i - 1);
+					clazz = "previous";
+				}else if(i >= (firstDay + daysInMonth)){
+					date = dojo.date.calc.add(date, dojo.date.calc.parts.MONTH, 1);
+					date.setDate(i - firstDay - daysInMonth + 1);
+					clazz = "next";
+				}else{
+					date.setDate(i - firstDay + 1);
+					clazz = "current";
+				}
+
+				if(!dojo.date.calc.compare(date, today, dojo.date.calc.types.DATE)){
+					clazz = "currentDate " + clazz;
+				}
+
+				if(!dojo.date.calc.compare(date, selected, dojo.date.calc.types.DATE)){
+					clazz = "selectedDate " + clazz;
+				}
+
+				template.className =  clazz + "Month calendarDateTemplate";
+				template.dijitDateValue = date.valueOf();
+				var label = dojo.query(".calendarDateLabel", template)[0];
+				label.innerHTML = date.getDate();
+			});
+
+			// Fill in localized month name
+			this.monthLabelNode.innerHTML = dojo.date.local.getNames('months', 'wide', 'standAlone', this.lang)[month.getMonth()];
+
+			// Fill in localized prev/current/next years
+			var y = month.getFullYear() - 1;
+			dojo.forEach(["previous", "current", "next"], function(name){
+				this[name+"YearLabelNode"].innerHTML =
+					dojo.date.local.format(new Date(y++, 0), {selector:'year', locale:this.lang});
+			}, this);
 		},
 
 		postCreate: function(){
-			// TODO: get this from dojo.date routines
-			this.weekStartsOn = 0;
-
 			dijit.form.Calendar.superclass.postCreate.apply(this);
-			this.weekTemplate = this.calendarWeekTemplate.parentNode.removeChild(this.calendarWeekTemplate);
-			this._preInitUI(this.value ? this.value : this.today, false, true); //init UI with date selected ONLY if user supplies one
 
-			// Insert localized day names in the template
-			var dayLabels = dojo.date.local.getNames('days', this._dayWidth, 'standAlone', this.lang);
-			var dayLabelNodes = this.dayLabelsRow.getElementsByTagName("td");
- 			for(i=0; i<7; i++){
-				dayLabelNodes.item(i).innerHTML = dayLabels[(i + this.weekStartsOn) % 7];
-			}
+			var dayLabelTemplate = dojo.query(".dayLabelTemplate")[0];
+			var calendarDateTemplate = dojo.query(".calendarDateTemplate")[0];
+ 			for(var i=1; i<7; i++){
+				// clone the day label and calendar day templates to make 7 columns
+				dayLabelTemplate.parentNode.appendChild(dayLabelTemplate.cloneNode(true));
+				calendarDateTemplate.parentNode.appendChild(calendarDateTemplate.cloneNode(true));
+  			}
 
-			if(this.value){
-				this.setValue(this.value);
-			}
-		},
-
-		// TODO: do we need this level of indirection?
-		classNames:{
-			previous: "dojopreviousMonth",
-			current: "dojocurrentMonth",
-			next: "dojonextMonth",
-			currentDate: "dojocurrentDate",
-			selectedDate: "dojoselectedDate"
-		},
-
-		_preInitUI: function(dateObj,initFirst,initUI){
-			/*
-	 	              To get a sense of what month to highlight, we initialize on 
-	 	              the first Saturday of each month, since that will be either the first  
-	 	              of two or the second of three months being partially displayed, and  
-	 	              then work forwards and backwards from that point.
-			*/
-
-			//initFirst is to tell _initFirstDay if you want first day of the displayed calendar, or first day of the week for dateObj
-			//initUI tells preInitUI to go ahead and run initUI if set to true
-			function checkDate(d , s){
-				if(typeof(d)=="string"){
-					var t = dojo.date.fromRfc3339(d);
-					if(t==null && typeof(s)=="string"){
-						var t = dojo.date.fromRfc3339(s);
-					}
-					return t;
-				}
-				return d;
-			}		
-			this.firstDay = this._initFirstDay(dateObj,initFirst);
-			this.selectedIsUsed = false;
-			this.currentIsUsed = false;
-			var nextDate = new Date(this.firstDay);
-			var tmpMonth = nextDate.getMonth();
-			this.curMonth = new Date(nextDate);
-			this.curMonth.setDate(nextDate.getDate()+6); //first saturday gives us the current Month
-			this.curMonth.setDate(1);
-			var days = 42; //init total days to display
-			this.curMonth = new Date(nextDate);
-			this.curMonth.setDate(nextDate.getDate()+6);
-			this.curMonth.setDate(1);
-			var curClass = (nextDate.getMonth() == this.curMonth.getMonth())?'current':'previous';
-			if(initUI){
-				this._initUI(days);
-			}
-		},
-		_initUI: function(days){
-			// remove children
-			var datesContainer = this.calendarDatesContainerNode;
-			while(datesContainer.hasChildNodes()){
-				datesContainer.removeChild(datesContainer.firstChild);
-			}
-			for(var i=0;i<6;i++){
-				datesContainer.appendChild(this.weekTemplate.cloneNode(true));
+			// now make 6 rows
+			var calendarWeekTemplate = dojo.query(".calendarWeekTemplate")[0];
+ 			for(var j=1; j<6; j++){
+				// clone the day label and calendar day templates to make 7 columns
+				calendarWeekTemplate.parentNode.appendChild(calendarWeekTemplate.cloneNode(true));
 			}
 
-			var nextDate = new Date(this.firstDay);
-			this._setMonthLabel(this.curMonth.getMonth());
-			this._setYearLabels(this.curMonth.getFullYear());
-			var calendarNodes = datesContainer.getElementsByTagName("td");
-			var calendarRows = datesContainer.getElementsByTagName("tr");
-			var currentCalendarNode;
-			for(i=0;i<days;i++){
-				//this is our new UI loop... one loop to rule them all, and in the datepicker bind them
-				currentCalendarNode = calendarNodes.item(i);
-				currentCalendarNode.innerHTML = nextDate.getDate();
-				currentCalendarNode.dojoDateValue=nextDate;
-				var curClass = (nextDate.getMonth() != this.curMonth.getMonth() && Number(nextDate) < Number(this.curMonth))?'previous':(nextDate.getMonth()==this.curMonth.getMonth())?'current':'next';
-				var mappedClass = curClass;
-				currentCalendarNode.className = this._getDateClassName(nextDate, mappedClass);
-				if(" "+currentCalendarNode+" ".indexOf(this.classNames.selectedDate) != -1){
-					this.selectedNode = currentCalendarNode;
-				}
-				nextDate = dojo.date.calc.add(nextDate, dojo.date.calc.parts.DAY, 1);
-			}
-			this.lastDay = dojo.date.calc.add(nextDate, dojo.date.calc.parts.DAY, -1);
-			this._initControls();
+			// insert localized day names in the header
+			var dayNames = dojo.date.local.getNames('days', this.dayWidth, 'standAlone', this.lang);
+			var weekStartsOn = dojo.cldr.supplemental.getFirstDayOfWeek(this.lang);
+			dojo.query(".dayLabel").forEach(function(label, i){
+				label.innerHTML = dayNames[(i + weekStartsOn) % 7];
+			});
+
+			this.setValue(this.value);
 		},
-		_initControls: function(){
-			//left incase we want to disable/enable Controls
+
+		_adjustDate: function(/*String*/part, /*int*/amount){
+			this.displayMonth = dojo.date.calc.add(this.displayMonth, part, amount);
+			this._fillInMonth();
 		},
-		
-		_incrementMonth: function(evt){
-			var d = new Date(this.curMonth);
-			switch(evt.currentTarget){
-				case this.increaseMonthNode.getElementsByTagName("img").item(0):
-				case this.increaseMonthNode:
-					d = dojo.date.calc.add(d, dojo.date.calc.parts.MONTH, 1);
-					break;
-				case this.decreaseMonthNode.getElementsByTagName("img").item(0):
-				case this.decreaseMonthNode:
-					d = dojo.date.calc.add(d, dojo.date.calc.parts.MONTH, -1);
-					break;
-			}
-			this._preInitUI(d,false,true);
-		},
-	
-		_incrementYear: function(evt){
-			var d = new Date(this.curMonth);
-			switch(evt.target){
-				case this.nextYearLabelNode:
-					d = dojo.date.calc.add(d, dojo.date.calc.parts.YEAR, 1);
-					break;
-				case this.previousYearLabelNode:
-					d = dojo.date.calc.add(d, dojo.date.calc.parts.YEAR, -1);
-					break;
-			}
-			this._preInitUI(d,false,true);
-		},
-	
-		onIncrementMonth: function(/*Event*/evt){
+
+		_onIncrementMonth: function(/*Event*/evt){
 			// summary: handler for increment month event
 			evt.stopPropagation();
-			this._incrementMonth(evt);
+			this._adjustDate(dojo.date.calc.parts.MONTH, 1);
 		},
-		
-		onIncrementYear: function(/*Event*/evt){
+	
+		_onDecrementMonth: function(/*Event*/evt){
+			// summary: handler for increment month event
+			evt.stopPropagation();
+			this._adjustDate(dojo.date.calc.parts.MONTH, -1);
+		},
+
+		_onIncrementYear: function(/*Event*/evt){
 			// summary: handler for increment year event
 			evt.stopPropagation();
-			this._incrementYear(evt);
+			this._adjustDate(dojo.date.calc.parts.YEAR, 1);
 		},
 	
-		_setMonthLabel: function(monthIndex){
-			this.monthLabelNode.innerHTML = dojo.date.local.getNames('months', 'wide', 'standAlone', this.lang)[monthIndex];
-		},
-		
-		_setYearLabels: function(year){
-			var y = year - 1;
-			var that = this;
-			function f(n){
-				that[n+"YearLabelNode"].innerHTML =
-					dojo.date.local.format(new Date(y++, 0), {selector:'year', locale:that.lang});
-			}
-			f("previous");
-			f("current");
-			f("next");
-		},
-		
-		_getDateClassName: function(date, monthState){
-			var currentClassName = this.classNames[monthState];
-			//we use Number comparisons because 2 dateObjects never seem to equal each other otherwise
-			if ((!this.selectedIsUsed && this.value) && (Number(date) == Number(this.value))){
-				currentClassName = this.classNames.selectedDate + " " + currentClassName;
-				this.selectedIsUsed = true;
-			}
-			if((!this.currentIsUsed) && (Number(date) == Number(this.today))){
-				currentClassName = currentClassName + " "  + this.classNames.currentDate;
-				this.currentIsUsed = true;
-			}
-			return currentClassName;
-		},
-	
-		onClick: function(/*Event*/evt){
-			//summary: the click event handler
-			dojo.stopEvent(evt);
+		_onDecrementYear: function(/*Event*/evt){
+			// summary: handler for increment year event
+			evt.stopPropagation();
+			this._adjustDate(dojo.date.calc.parts.YEAR, -1);
 		},
 
-		_handleUiClick: function(/*Event*/evt){
-			var eventTarget = evt.target;
-			if(eventTarget.nodeType != 1){eventTarget = eventTarget.parentNode;}
+		_onDayClick: function(/*Event*/evt){
+			var node = evt.target;
 			dojo.stopEvent(evt);
-			this.selectedIsUsed = this.todayIsUsed = false;
-			this.clickedNode = eventTarget;
-			this.setValue(eventTarget.dojoDateValue);
+			while(!node.dijitDateValue){
+				node = node.parentNode;
+			}
+			this.setValue(node.dijitDateValue);
 		},
-		
+
 		onValueChanged: function(/*Date*/date){
 			//summary: the set date event handler
-		},
-		
-		_initFirstDay: function(/*Date*/dateObj, /*Boolean*/adj){
-			//adj: false for first day of month, true for first day of week adjusted by startOfWeek
-			var d = new Date(dateObj);
-			if(!adj){d.setDate(1);}
-			d.setDate(d.getDate()-this._getAdjustedDay(d,this.weekStartsOn));
-			d.setHours(0,0,0,0);
-			return d; // Date
-		},
-
-		_getAdjustedDay: function(/*Date*/dateObj){
-		//FIXME: use mod instead?
-			//summary: used to adjust date.getDay() values to the new values based on the current first day of the week value
-			var days = [0,1,2,3,4,5,6];
-			if(this.weekStartsOn>0){
-				for(var i=0;i<this.weekStartsOn;i++){
-					days.unshift(days.pop());
-				}
-			}
-			return days[dateObj.getDay()]; // Number: 0..6 where 0=Sunday
-		},
-
-		destroy: function(){
-			dijit.Form.Calendar.superclass.destroy.apply(this, arguments);
-			this.weekTemplate.parentNode.removeChild(this.weekTemplate); // PORT leak? used to destroyNode
 		}
 	}
 );

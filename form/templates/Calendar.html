@@ -8,17 +8,17 @@
 							<td class="dojomonthCurve dojomonthCurveTL" valign="top"></td>
 							<td class="dojomonthLabelContainer" valign="top">
 								<span 
-									dojoAttachPoint="increaseMonthNode" 
-									dojoAttachEvent="onclick: onIncrementMonth;" class="dojoincrementControl dojoincrease">
-									<img src="${dijitModuleUri}templates/increaseMonth.png" 
-										alt="&darr;" dojoAttachPoint="incrementMonthImageNode">
+									dojoAttachPoint="decreaseMonthNode" 
+									dojoAttachEvent="onclick: _onDecrementMonth;" class="dojoincrementControl dojodecrease">
+									<img src="${dijitModuleUri}templates/decrementMonth.png" 
+										alt="&uarr;" dojoAttachPoint="decrementMonthImageNode">
 								</span>
 								<span dojoAttachPoint="monthLabelNode" class="dojomonth"></span>
 								<span 
-									dojoAttachPoint="decreaseMonthNode" 
-									dojoAttachEvent="onclick: onIncrementMonth;" class="dojoincrementControl dojodecrease">
-									<img src="${dijitModuleUri}templates/decrementMonth.png" 
-										alt="&uarr;" dojoAttachPoint="decrementMonthImageNode">
+									dojoAttachPoint="increaseMonthNode" 
+									dojoAttachEvent="onclick: _onIncrementMonth;" class="dojoincrementControl dojoincrease">
+									<img src="${dijitModuleUri}templates/increaseMonth.png" 
+										alt="&darr;" dojoAttachPoint="incrementMonthImageNode">
 								</span>
 							</td>
 							<td class="dojomonthCurve dojomonthCurveTR" valign="top"></td>
@@ -32,26 +32,14 @@
 				<td colspan="3">
 					<table class="dojocalendarBodyContainer" cellspacing="0" cellpadding="0" border="0">
 						<thead>
-							<tr dojoAttachPoint="dayLabelsRow">
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
+							<tr>
+								<td class="dayLabelTemplate"><span class="dayLabel"></span></td>
 							</tr>
 						</thead>
 						<tbody dojoAttachPoint="calendarDatesContainerNode" 
-							dojoAttachEvent="onclick: _handleUiClick;">
-							<tr dojoAttachPoint="calendarWeekTemplate">
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
+							dojoAttachEvent="onclick: _onDayClick;">
+							<tr class="calendarWeekTemplate">
+								<td class="calendarDateTemplate"><span class="calendarDateLabel"></span></td>
 							</tr>
 						</tbody>
 					</table>
@@ -67,10 +55,10 @@
 							<td valign="top">
 								<h3 class="dojoyearLabel">
 									<span dojoAttachPoint="previousYearLabelNode"
-										dojoAttachEvent="onclick: onIncrementYear;" class="dojopreviousYear"></span>
+										dojoAttachEvent="onclick: _onDecrementYear;" class="dojopreviousYear"></span>
 									<span class="dojoselectedYear" dojoAttachPoint="currentYearLabelNode"></span>
 									<span dojoAttachPoint="nextYearLabelNode" 
-										dojoAttachEvent="onclick: onIncrementYear;" class="dojonextYear"></span>
+										dojoAttachEvent="onclick: _onIncrementYear;" class="dojonextYear"></span>
 								</h3>
 							</td>
 							<td class="dojocurveBR" valign="top"></td>
