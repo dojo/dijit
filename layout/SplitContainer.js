@@ -6,6 +6,7 @@ dojo.provide("dijit.layout.SplitContainer");
 // active dragging upwards doesn't always shift other bars (direction calculation is wrong in this case)
 //
 
+dojo.require("dojo.cookie");
 dojo.require("dijit.base.Widget");
 dojo.require("dijit.base.Showable");
 dojo.require("dijit.base.Layout");
@@ -494,14 +495,13 @@ dojo.declare(
 	},
 
 	_moveSizingLine: function(){
-		var pos = this.lastPoint - this.startPoint + this.sizingSplitter.position;
 		if(this.isHorizontal){
+			var pos = this.lastPoint - this.startPoint + this.sizingSplitter.position;
 			this.virtualSizer.style.left = pos + 'px';
 		}else{
 			var pos = (this.lastPoint - this.startPoint) + this.sizingSplitter.position;
 			this.virtualSizer.style.top = pos + 'px';
 		}
-
 	},
 	
 	_getCookieName: function(i){
@@ -512,7 +512,7 @@ dojo.declare(
 		var children = this.getChildren();
 		for(var i = 0; i < children.length; i++){
 			var cookieName = this._getCookieName(i);
-			var cookieValue = dijit.base.cookie.getCookie(cookieName);
+			var cookieValue = dojo.cookie(cookieName);
 			if(cookieValue != null){
 				var pos = parseInt(cookieValue);
 				if(typeof pos == "number"){
@@ -525,8 +525,7 @@ dojo.declare(
 	_saveState: function (){
 		var children = this.getChildren();
 		for(var i = 0; i < children.length; i++){
-			var cookieName = this._getCookieName(i);
-			dijit.base.cookie.setCookie(cookieName, children[i].sizeShare, null, null, null, null);
+			dojo.cookie(this._getCookieName(i), children[i].sizeShare);
 		}
 	}
 });
@@ -547,46 +546,3 @@ dojo.extend(dijit.base.Widget, {
 	//	each takes up 50% of the available space.
 	sizeShare: 10
 });
-
-// ported from dojo.io.cookie - should probably go to dijit.util but only splitcon
-dojo.declare("dijit.base.cookie");
-
-dijit.base.cookie.setCookie = function(/*String*/name, /*String*/value, 
-									/*Number?*/days, /*String?*/path, 
-									/*String?*/domain, /*boolean?*/secure){
-	//summary: sets a cookie.
-	var expires = -1;
-	if((typeof days == "number")&&(days >= 0)){
-		var d = new Date();
-		d.setTime(d.getTime()+(days*24*60*60*1000));
-		expires = d.toGMTString();
-	}
-	value = escape(value);
-	document.cookie = name + "=" + value + ";"
-		+ (expires != -1 ? " expires=" + expires + ";" : "")
-		+ (path ? "path=" + path : "")
-		+ (domain ? "; domain=" + domain : "")
-		+ (secure ? "; secure" : "");
-}
-
-dijit.base.cookie.getCookie = function(/*String*/name){
-	//summary: Gets a cookie with the given name.
-
-	// FIXME: Which cookie should we return?
-	// If there are cookies set for different sub domains in the current
-	// scope there could be more than one cookie with the same name.
-	// I think taking the last one in the list takes the one from the
-	// deepest subdomain, which is what we're doing here.
-	var idx = document.cookie.lastIndexOf(name+'=');
-	if(idx == -1){ return null; }
-	var value = document.cookie.substring(idx+name.length+1);
-	var end = value.indexOf(';');
-	if(end == -1){ end = value.length; }
-	value = value.substring(0, end);
-	value = unescape(value);
-	return value; //String
-}
-
-
-
-
