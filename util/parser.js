@@ -8,7 +8,6 @@ dijit.util.parser = new function(){
 	function val2type(/*Object*/ value){
 		// summary:
 		//	Returns name of type of given value.
-		//	Like dojo.lang but more types.
 
 		if(dojo.isString(value)){ return "string"; }
 		if(typeof value == "number"){ return "number"; }
@@ -69,6 +68,10 @@ dijit.util.parser = new function(){
 		if(!widgetClasses[className]){
 			// get pointer to widget class
 			var cls = dojo.getObject(className);
+			if(!dojo.isFunction(cls)){
+				throw new Error("Could not load widget '" + className +
+					"'. Did you spell the name correctly and use a full path, like 'dijit.form.Button'?");
+			}
 			var proto = cls.prototype;
 	
 			// get table of parameter names & types
