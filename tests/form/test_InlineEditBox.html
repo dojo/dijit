@@ -24,46 +24,46 @@
 	</style>
 </head>
 <body class="tundra" style="padding: 50px;">
-before
-<span id="editable" style="font-size:larger;" dojoType="dijit.form.InlineEditBox" onValueChanged="myHandler(this.id,arguments[0])">
-	<input dojoType="dijit.form.Textbox" value="Edit me - I trigger the onValueChanged callback">
-</span>
-after
+	before
+	<span id="editable" style="font-size:larger;" dojoType="dijit.form.InlineEditBox" onValueChanged="myHandler(this.id,arguments[0])">
+		<input dojoType="dijit.form.Textbox" value="Edit me - I trigger the onValueChanged callback">
+	</span>
+	after
 
-<blockquote style="width:50%;">
-<p><span id="areaEditable" dojoType="dijit.form.InlineEditBox">
-<textarea dojoType="dijit.form.Textarea">
-I'm one big paragraph.  Go ahead and <i>edit</i> me.
-<b>I dare you.</b>
-The quick brown fox jumped over the lazy dog.
-  Blah blah blah blah blah blah blah ...
-</textarea>
-</span></p>
-</blockquote>
-<p>
-These links will
-<a href="#" onClick="dijit.byId('areaEditable').disable()">disable</a>
-/
-<a href="#" onClick="dijit.byId('areaEditable').enable()">enable</a>
-the text area above.
+	<blockquote style="width:50%;">
+	<p><span id="areaEditable" dojoType="dijit.form.InlineEditBox">
+	<textarea dojoType="dijit.form.Textarea">
+	I'm one big paragraph.  Go ahead and <i>edit</i> me.
+	<b>I dare you.</b>
+	The quick brown fox jumped over the lazy dog.
+	  Blah blah blah blah blah blah blah ...
+	</textarea>
+	</span></p>
+	</blockquote>
+	<p>
+	These links will
+	<a href="#" onClick="dijit.byId('areaEditable').disable()">disable</a>
+	/
+	<a href="#" onClick="dijit.byId('areaEditable').enable()">enable</a>
+	the text area above.
 
-</p>
+	</p>
 
-<b>Date text box:</b>
-<p id="backgroundArea" class="inlineEdit" dojoType="dijit.form.InlineEditBox" >
-	<input name="date" value="2005-12-30"
-        	dojoType="dijit.form.DateTextbox"
-        	constraints={locale:'en-us'}
-        	required="true"
-        	promptMessage="mm/dd/yyyy"
-        	invalidMessage="Invalid date. Use mm/dd/yyyy format.">
-</p>
-<div style="display:block;" id="programmatic"></div>
-<script type="text/javascript">
-        // See if we can make a widget in script
-        var refNode = document.getElementById('programmatic');
-        var editorWidget = new dijit.form.Textbox({ value: "Click here to edit a programmatically created<BR>inline edit region" }, document.createElement('span'));
-        var inlineWidget = new dijit.form.InlineEditBox({ editWidget: editorWidget }, refNode);
-</script>
+	<b>Date text box:</b>
+	<p id="backgroundArea" class="inlineEdit" dojoType="dijit.form.InlineEditBox" >
+		<input name="date" value="2005-12-30"
+				dojoType="dijit.form.DateTextbox"
+				constraints={locale:'en-us'}
+				required="true"
+				promptMessage="mm/dd/yyyy"
+				invalidMessage="Invalid date. Use mm/dd/yyyy format.">
+	</p>
+	<div style="display:block;" id="programmatic"></div>
+	<script type="text/javascript">
+		// See if we can make a widget in script
+		var refNode = dojo.byId('programmatic');
+		var editorWidget = new dijit.form.Textbox({ value: "Click here to edit a programmatically created<BR>inline edit region" }, document.createElement('span'));
+		var inlineWidget = new dijit.form.InlineEditBox({ editWidget: editorWidget }, refNode);
+	</script>
 </body>
 </html>
