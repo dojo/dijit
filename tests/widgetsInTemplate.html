@@ -27,7 +27,7 @@
 								testW = dijit.byId("test2Widget");
 								t.t(testW.containerNode);
 								t.f(isNaN(testW.containerNode.nodeType));
-								t.is(testW.buttonWidget,undefined);
+								t.is(undefined,testW.buttonWidget);
 								t.t(testW.checkboxWidget instanceof dijit.form.Checkbox);
 							}
 						},
@@ -41,9 +41,9 @@
 								testW.checkboxWidget.onClick(testW.checkboxWidget);
 								testW.progressBarWidget._counter=0;
 								testW.progressBarWidget.onChange(testW.progressBarWidget);
-								t.is(testW.buttonWidget._counter,1);
-								t.is(testW.checkboxWidget._counter,1);
-								t.is(testW.progressBarWidget._counter,1);
+								t.is(1,testW.buttonWidget._counter);
+								t.is(1,testW.checkboxWidget._counter);
+								t.is(1,testW.progressBarWidget._counter);
 							}
 						}
 					]
