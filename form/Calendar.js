@@ -117,8 +117,8 @@ dojo.declare(
 		postCreate: function(){
 			dijit.form.Calendar.superclass.postCreate.apply(this);
 
-			var dayLabelTemplate = dojo.query(".dayLabelTemplate")[0];
-			var calendarDateTemplate = dojo.query(".calendarDateTemplate")[0];
+			var dayLabelTemplate = dojo.query(".dayLabelTemplate", this.domNode)[0];
+			var calendarDateTemplate = dojo.query(".calendarDateTemplate", this.domNode)[0];
  			for(var i=1; i<7; i++){
 				// clone the day label and calendar day templates to make 7 columns
 				dayLabelTemplate.parentNode.appendChild(dayLabelTemplate.cloneNode(true));
@@ -126,7 +126,7 @@ dojo.declare(
   			}
 
 			// now make 6 rows
-			var calendarWeekTemplate = dojo.query(".calendarWeekTemplate")[0];
+			var calendarWeekTemplate = dojo.query(".calendarWeekTemplate", this.domNode)[0];
  			for(var j=1; j<6; j++){
 				// clone the day label and calendar day templates to make 7 columns
 				calendarWeekTemplate.parentNode.appendChild(calendarWeekTemplate.cloneNode(true));
