@@ -104,7 +104,8 @@ dojo.declare(
 			});
 
 			// Fill in localized month name
-			this.monthLabelNode.innerHTML = dojo.date.local.getNames('months', 'wide', 'standAlone', this.lang)[month.getMonth()];
+			var monthNames = dojo.date.local.getNames('months', 'wide', 'standAlone', this.lang);
+			this.monthLabelNode.innerHTML = monthNames[month.getMonth()];
 
 			// Fill in localized prev/current/next years
 			var y = month.getFullYear() - 1;
@@ -138,6 +139,14 @@ dojo.declare(
 			dojo.query(".dayLabel", this.domNode).forEach(function(label, i){
 				label.innerHTML = dayNames[(i + weekStartsOn) % 7];
 			});
+
+			// Fill in spacer element with all the month names (invisible) so that the maximum width will affect layout
+			var monthNames = dojo.date.local.getNames('months', 'wide', 'standAlone', this.lang);
+			dojo.forEach(monthNames, function(name){
+				var monthSpacer = dojo.doc.createElement("div");
+				monthSpacer.innerHTML = name;
+				this.monthLabelSpacer.appendChild(monthSpacer);
+			}, this);
 
 			this.value = null;
 			this.setValue(new Date());

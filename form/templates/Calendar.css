@@ -47,6 +47,13 @@
 	padding:0.25em;
 }
 
+.dojomonthLabelSpacer {
+  	position: relative;
+  	height: 1px;	/* don't display it, but make it affect the width */
+  	overflow: hidden;
+  	visibility: hidden;
+}
+
 .monthCurve {
 	width:12px;
 }

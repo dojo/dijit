@@ -7,19 +7,24 @@
 						<tr>
 							<td class="dojomonthCurve dojomonthCurveTL" valign="top"></td>
 							<td class="dojomonthLabelContainer" valign="top">
-								<span 
-									dojoAttachPoint="decreaseMonthNode" 
-									dojoAttachEvent="onclick: _onDecrementMonth;" class="dojoincrementControl dojodecrease">
-									<img src="${dijitModuleUri}templates/decrementMonth.png" 
-										alt="-" dojoAttachPoint="decrementMonthImageNode">
-								</span>
-								<span dojoAttachPoint="monthLabelNode" class="dojomonth"></span>
-								<span 
-									dojoAttachPoint="increaseMonthNode" 
-									dojoAttachEvent="onclick: _onIncrementMonth;" class="dojoincrementControl dojoincrease">
-									<img src="${dijitModuleUri}templates/increaseMonth.png" 
-										alt="+" dojoAttachPoint="incrementMonthImageNode">
-								</span>
+								<table>
+									<tr>
+										<td dojoAttachPoint="decreaseMonthNode" 
+											dojoAttachEvent="onclick: _onDecrementMonth;" class="dojoincrementControl dojodecrease">
+											<img src="${dijitModuleUri}templates/decrementMonth.png" 
+												alt="-" dojoAttachPoint="decrementMonthImageNode">
+										</td>
+										<td>
+											<div dojoAttachPoint="monthLabelSpacer" class="dojomonthLabelSpacer"></div>
+											<div dojoAttachPoint="monthLabelNode" class="dojomonth"></div>
+										</td>
+										<td dojoAttachPoint="increaseMonthNode" 
+											dojoAttachEvent="onclick: _onIncrementMonth;" class="dojoincrementControl dojoincrease">
+											<img src="${dijitModuleUri}templates/increaseMonth.png" 
+												alt="+" dojoAttachPoint="incrementMonthImageNode">
+										</td>
+									</tr>
+								</table>
 							</td>
 							<td class="dojomonthCurve dojomonthCurveTR" valign="top"></td>
 						</tr>
