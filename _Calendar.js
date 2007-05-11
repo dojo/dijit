@@ -1,6 +1,4 @@
-//TODO: move out of dijit.form.*?
-//TODO: make private unless/until we make this accessible?
-dojo.provide("dijit.form.Calendar");
+dojo.provide("dijit._Calendar");
 
 dojo.require("dojo.date.calc");
 dojo.require("dojo.date.local");
@@ -13,7 +11,7 @@ dojo.require("dijit.base.TemplatedWidget");
 dojo.require("dijit.base.FormElement");
 
 dojo.declare(
-	"dijit.form.Calendar",
+	"dijit._Calendar",
 	[dijit.base.Widget, dijit.base.TemplatedWidget],
 	{
 		/*
@@ -21,7 +19,9 @@ dojo.declare(
 			A simple GUI for choosing a date in the context of a monthly calendar.
 
 		description:
-			It can't be used in a form because it doesn't serialize the date to an
+			This widget is used internally by other widgets and is not accessible
+			as a standalone widget..
+			This widget can't be used in a form because it doesn't serialize the date to an
 			<input> field.  For a form element, use DateTextbox instead.
 
 			Note that the parser takes all dates attributes passed in the `RFC 3339` format:
@@ -116,7 +116,7 @@ dojo.declare(
 		},
 
 		postCreate: function(){
-			dijit.form.Calendar.superclass.postCreate.apply(this);
+			dijit._Calendar.superclass.postCreate.apply(this);
 
 			var dayLabelTemplate = dojo.query(".dayLabelTemplate", this.domNode)[0];
 			var calendarDateTemplate = dojo.query(".calendarDateTemplate", this.domNode)[0];
