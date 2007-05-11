@@ -20,7 +20,7 @@ dojo.declare(
 
 		description:
 			This widget is used internally by other widgets and is not accessible
-			as a standalone widget..
+			as a standalone widget.
 			This widget can't be used in a form because it doesn't serialize the date to an
 			<input> field.  For a form element, use DateTextbox instead.
 
@@ -29,9 +29,9 @@ dojo.declare(
 			so that they are serializable and locale-independent.
 		
 		usage: 
-			var datePicker = new dijit.Calendar({}, dojo.byId("datePickerNode")); 
+			var calendar = new dijit.Calendar({}, dojo.byId("calendarNode")); 
 		 	-or-
-			<div dojoType="DatePicker"></div> 
+			<div dojoType="Calendar"></div> 
 		*/
 		templatePath: dojo.moduleUrl("dijit.form", "templates/Calendar.html"),
 
@@ -63,11 +63,12 @@ dojo.declare(
 			var today = new Date();
 			var selected = this.value;
 
-			var weekStartsOn = dojo.cldr.supplemental.getFirstDayOfWeek(this.lang);
+			var dayOffset = dojo.cldr.supplemental.getFirstDayOfWeek(this.lang);
+			if(dayOffset > firstDay){ dayOffset -= 7; }
 
 			// Iterate through dates in the calendar and fill in date numbers and style info
 			dojo.query(".calendarDateTemplate", this.domNode).forEach(function(template, i){
-				i += weekStartsOn;
+				i += dayOffset;
 				var date = new Date(month);
 				var number, clazz, adj = 0;
 
@@ -135,9 +136,9 @@ dojo.declare(
 
 			// insert localized day names in the header
 			var dayNames = dojo.date.local.getNames('days', this.dayWidth, 'standAlone', this.lang);
-			var weekStartsOn = dojo.cldr.supplemental.getFirstDayOfWeek(this.lang);
+			var dayOffset = dojo.cldr.supplemental.getFirstDayOfWeek(this.lang);
 			dojo.query(".dayLabel", this.domNode).forEach(function(label, i){
-				label.innerHTML = dayNames[(i + weekStartsOn) % 7];
+				label.innerHTML = dayNames[(i + dayOffset) % 7];
 			});
 
 			// Fill in spacer element with all the month names (invisible) so that the maximum width will affect layout
