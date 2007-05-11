@@ -1,7 +1,3 @@
-.datePickerContainer {
-	width:164px; /* needed for proper user styling */
-}
-
 .calendarContainer {
 /*	border:1px solid #566f8f;*/
 }
@@ -30,16 +26,16 @@
 }
 
 
-.monthWrapper {
+.calendarMonthWrapper {
 	padding-bottom:2px;
 	background: url("images/dpHorizLine.gif") bottom left repeat-x;
 }
 
-.monthContainer {
+.calendarMonthContainer {
 	width:100%;
 }
 
-.monthLabelContainer {
+.calendarMonthLabelContainer {
 	text-align:center;
 	font:bold 0.75em Helvetica, Arial, Verdana, sans-serif;
 	background: url("images/dpMonthBg.png") repeat-x top left !important;
@@ -47,40 +43,40 @@
 	padding:0.25em;
 }
 
-.dojomonthLabelSpacer {
+.calendarMonthLabelSpacer {
   	position: relative;
   	height: 1px;	/* don't display it, but make it affect the width */
   	overflow: hidden;
   	visibility: hidden;
 }
 
-.monthCurve {
+.calendarMonthCurve {
 	width:12px;
 }
 
-.monthCurveTL {
+.calendarMonthCurveTL {
 	background: url("images/dpCurveTL.png") no-repeat top left !important;
 }
 
-.monthCurveTR {
+.calendarMonthCurveTR {
 		background: url("images/dpCurveTR.png") no-repeat top right !important;
 }
 
 
-.yearWrapper {
+.calendarYearWrapper {
 	background: url("images/dpHorizLineFoot.gif") top left repeat-x;
 	padding-top:2px;
 }
 
-.yearContainer {
+.calendarYearContainer {
 	width:100%;
 }
 
-.yearContainer td {
+.calendarYearContainer td {
 	background:url("images/dpYearBg.png") top left repeat-x;
 }
 
-.yearContainer .yearLabel {
+.calendarYearContainer .calendarYearLabel {
 	margin:0;
 	padding:0.45em 0 0.45em 0;
 	color:#fff;
@@ -88,14 +84,14 @@
 	text-align:center;
 }
 
-.curveBL {
+.calendarCurveBL {
 	background: url("images/dpCurveBL.png") bottom left no-repeat !important;
 	width:9px !important;
 	padding:0;
 	margin:0;
 }
 
-.curveBR {
+.calendarCurveBR {
 	background: url("images/dpCurveBR.png") bottom right no-repeat !important;
 	width:9px !important;
 	padding:0;
@@ -103,70 +99,70 @@
 }
 
 
-.previousMonth {
+.calendarPreviousMonth {
 	background-color:#6782a8 !important;
 }
 
-.previousMonthDisabled {
+.calendarPreviousMonthDisabled {
 	background-color:#a4a5a6 !important;
 	cursor:default !important
 }
-.currentMonth {
+.calendarCurrentMonth {
 }
 
-.currentMonthDisabled {
+.calendarCurrentMonthDisabled {
 	background-color:#bbbbbc !important;
 	cursor:default !important
 }
-.nextMonth {
+.calendarNextMonth {
 	background-color:#6782a8 !important;
 }
-.nextMonthDisabled {
+.calendarNextMonthDisabled {
 	background-color:#a4a5a6 !important;
 	cursor:default !important;
 }
 
-.currentDate {
+.calendarCurrentDate {
 	text-decoration:underline;
 	font-style:italic;
 }
 
-.selectedDate {
+.calendarSelectedDate {
 	background-color:#fff !important;
 	color:#6782a8 !important;
 }
 
-.yearLabel .selectedYear {
+.calendarYearLabel .calendarSelectedYear {
 	padding:0.2em;
 	background-color:#9ec3fb !important;
 }
 
-.nextYear, .previousYear {
+.calendarNextYear, .calendarPreviousYear {
 	cursor:pointer;cursor:hand;
 	padding:0;
 }
 
-.nextYear {
+.calendarNextYear {
 	margin:0 0 0 0.55em;
 }
 
-.previousYear {
+.calendarPreviousYear {
 	margin:0 0.55em 0 0;
 }
 
-.incrementControl {
+.calendarIncrementControl {
 	cursor:pointer;cursor:hand;
 	width:1em;
 }
 
-.increase {
+.calendarIncrease {
 	float:right;
 }
 
-.decrease {
+.calendarDecrease {
 	float:left;
 }
 
-.lastColumn {
+.calendarLastColumn {
 	background-image:none !important;
 }

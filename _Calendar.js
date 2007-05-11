@@ -73,14 +73,14 @@ dojo.declare(
 				if(i < firstDay){
 					number = daysInPreviousMonth - firstDay + i + 1;
 					adj = -1;
-					clazz = "previous";
+					clazz = "calendarPrevious";
 				}else if(i >= (firstDay + daysInMonth)){
 					number = i - firstDay - daysInMonth + 1;
 					adj = 1;
-					clazz = "next";
+					clazz = "calendarNext";
 				}else{
 					number = i - firstDay + 1;
-					clazz = "current";
+					clazz = "calendarCurrent";
 				}
 
 				if(adj){
@@ -89,11 +89,11 @@ dojo.declare(
 				date.setDate(number);
 
 				if(!dojo.date.compare(date, today, dojo.date.types.DATE)){
-					clazz = "currentDate " + clazz;
+					clazz = "calendarCurrentDate " + clazz;
 				}
 
 				if(!dojo.date.compare(date, selected, dojo.date.types.DATE)){
-					clazz = "selectedDate " + clazz;
+					clazz = "calendarSelectedDate " + clazz;
 				}
 
 				template.className =  clazz + "Month calendarDateTemplate";
@@ -117,7 +117,7 @@ dojo.declare(
 		postCreate: function(){
 			dijit._Calendar.superclass.postCreate.apply(this);
 
-			var dayLabelTemplate = dojo.query(".dayLabelTemplate", this.domNode)[0];
+			var dayLabelTemplate = dojo.query(".calendarDayLabelTemplate", this.domNode)[0];
 			var calendarDateTemplate = dojo.query(".calendarDateTemplate", this.domNode)[0];
  			for(var i=1; i<7; i++){
 				// clone the day label and calendar day templates to make 7 columns
@@ -135,7 +135,7 @@ dojo.declare(
 			// insert localized day names in the header
 			var dayNames = dojo.date.locale.getNames('days', this.dayWidth, 'standAlone', this.lang);
 			var dayOffset = dojo.cldr.supplemental.getFirstDayOfWeek(this.lang);
-			dojo.query(".dayLabel", this.domNode).forEach(function(label, i){
+			dojo.query(".calendarDayLabel", this.domNode).forEach(function(label, i){
 				label.innerHTML = dayNames[(i + dayOffset) % 7];
 			});
 
