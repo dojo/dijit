@@ -1,0 +1,14 @@
+console.warn("dijit.dijit may dissapear in the 0.9 timeframe in lieu of a different rollup file!");
+dojo.provide("dijit.dijit");
+dojo.require("dijit.base.Widget");
+dojo.require("dijit.base.Layout");
+dojo.require("dijit.base.Showable");
+dojo.require("dijit.base.Container");
+dojo.require("dijit.base.FormElement");
+dojo.require("dijit.base.TemplatedWidget");
+dojo.require("dijit.util.parser");
+dojo.require("dijit.util.manager");
+dojo.require("dijit.util.wai");
+dojo.require("dijit.util.FocusManager");
+dojo.require("dijit.util.BackgroundIframe");
+dojo.require("dijit.util.place");
