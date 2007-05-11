@@ -66,7 +66,7 @@ dojo.declare(
 			var weekStartsOn = dojo.cldr.supplemental.getFirstDayOfWeek(this.lang);
 
 			// Iterate through dates in the calendar and fill in date numbers and style info
-			dojo.query(".calendarDateTemplate").forEach(function(template, i){
+			dojo.query(".calendarDateTemplate", this.domNode).forEach(function(template, i){
 				i += weekStartsOn;
 				var date = new Date(month);
 				var number, clazz, adj = 0;
@@ -135,7 +135,7 @@ dojo.declare(
 			// insert localized day names in the header
 			var dayNames = dojo.date.local.getNames('days', this.dayWidth, 'standAlone', this.lang);
 			var weekStartsOn = dojo.cldr.supplemental.getFirstDayOfWeek(this.lang);
-			dojo.query(".dayLabel").forEach(function(label, i){
+			dojo.query(".dayLabel", this.domNode).forEach(function(label, i){
 				label.innerHTML = dayNames[(i + weekStartsOn) % 7];
 			});
 

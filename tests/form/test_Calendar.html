@@ -11,21 +11,24 @@
 			@import "../../form/templates/Calendar.css";
 		</style>
 		<script type="text/javascript" src="../../../dojo/dojo.js"
-			djConfig="isDebug: true"></script>
+			djConfig="isDebug: true, extraLocale: ['en-us', 'ar-sy', 'es-es', 'zh-cn']"></script>
 		<script type="text/javascript">
 			dojo.require("dijit.form.Calendar");
 			dojo.require("dijit.util.parser"); // scan page for widgets
 
 			function myHandler(id,newValue){
 				console.debug("onValueChanged for id = " + id + ", value: " + newValue);
-			};
+			}
 		</script>
 	</head>
 	<body class="tundra">
 		<h1 class="testTitle">Dijit Calendar Test</h1>
 
 		before
-		<input id="calendar" dojoType="dijit.form.Calendar" onValueChanged="myHandler(this.id,arguments[0])" >
+		<input id="calendar" dojoType="dijit.form.Calendar" onValueChanged="myHandler(this.id,arguments[0])" lang="en-us">
+		<input id="calendar2" dojoType="dijit.form.Calendar" onValueChanged="myHandler(this.id,arguments[0])" lang="es-es">
+		<input id="calendar3" dojoType="dijit.form.Calendar" onValueChanged="myHandler(this.id,arguments[0])" lang="zh-cn">
+		<input id="calendar4" dojoType="dijit.form.Calendar" onValueChanged="myHandler(this.id,arguments[0])" lang="ar-sy">
 		after
 		<p>
 			These links will
