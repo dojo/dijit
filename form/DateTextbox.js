@@ -1,10 +1,11 @@
 dojo.provide("dijit.form.DateTextbox");
 
+dojo.require("dojo.date");
+dojo.require("dojo.date.locale");
+dojo.require("dojo.date.stamp");
+
 dojo.require("dijit._Calendar");
 dojo.require("dijit.form._DropDownTextBox");
-dojo.require("dojo.date.calc");
-dojo.require("dojo.date.local");
-dojo.require("dojo.date.serial");
 dojo.require("dijit.form.ValidationTextbox");
 
 dojo.declare(
@@ -15,21 +16,21 @@ dojo.declare(
 		//		A validating, serializable, range-bound date text box.
 		// constraints object: min, max
 		templatePath: dojo.moduleUrl("dijit.form", "templates/AutoCompleter.html"),
-		regExpGen: dojo.date.local.regexp,
-		compare: dojo.date.calc.compare,
-		format: dojo.date.local.format,
-		parse: dojo.date.local.parse,
+		regExpGen: dojo.date.locale.regexp,
+		compare: dojo.date.compare,
+		format: dojo.date.locale.format,
+		parse: dojo.date.locale.parse,
 		value: new Date(),
 		postMixInProperties: function(){
 			this.constraints.selector = 'date';
 			// manual import of RangeBoundTextbox properties
 			dijit.form.RangeBoundTextbox.prototype.postMixInProperties.apply(this, arguments);
 			//dijit.form.DateTextbox.superclass.postMixInProperties.apply(this, arguments);
-			if (typeof this.constraints.min == "string"){ this.constraints.min = dojo.date.serial.fromRfc3339(this.constraints.min); }
-			if (typeof this.constraints.max == "string"){ this.constraints.max = dojo.date.serial.fromRfc3339(this.constraints.max); }
+			if (typeof this.constraints.min == "string"){ this.constraints.min = dojo.date.stamp.fromRfc3339(this.constraints.min); }
+			if (typeof this.constraints.max == "string"){ this.constraints.max = dojo.date.stamp.fromRfc3339(this.constraints.max); }
 		},
 		serialize: function(val){
-			return dojo.date.serial.toRfc3339(val, 'date');
+			return dojo.date.stamp.toRfc3339(val, 'date');
 		},
 		setValue:function(value){
 			// summary:

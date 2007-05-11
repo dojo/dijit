@@ -1,7 +1,7 @@
 dojo.provide("dijit.util.parser");
 
 dojo.require("dijit.util.manager");
-dojo.require("dojo.date.serial");
+dojo.require("dojo.date.stamp");
 
 dijit.util.parser = new function(){
 
@@ -43,7 +43,7 @@ dijit.util.parser = new function(){
 			case "array":
 				return value.split(";");
 			case "date":
-				return dojo.date.serial.fromRfc3339(value);
+				return dojo.date.stamp.fromRfc3339(value);
 			case "url":
 //PORT FIXME: is value absolute or relative?  Need to join with "/"?
 				return dojo.baseUrl + value;

@@ -1,10 +1,8 @@
 dojo.provide("dijit._Calendar");
 
-dojo.require("dojo.date.calc");
-dojo.require("dojo.date.local");
-dojo.require("dojo.date.serial");
-dojo.require("dojo.date.util");
 dojo.require("dojo.cldr.supplemental");
+dojo.require("dojo.date");
+dojo.require("dojo.date.locale");
 
 dojo.require("dijit.base.Widget");
 dojo.require("dijit.base.TemplatedWidget");
@@ -45,7 +43,7 @@ dojo.declare(
 
 		setValue: function(/*Date*/ value){
 			//summary: set the current date and update the UI
-			if(!this.value || dojo.date.calc.compare(value, this.value)){
+			if(!this.value || dojo.date.compare(value, this.value)){
 				this.value = new Date(value);
 				this.value.setHours(0,0,0,0);
 				this.displayMonth = new Date(this.value);
@@ -59,7 +57,7 @@ dojo.declare(
 			month.setDate(1);
 			var firstDay = month.getDay();
 			var daysInMonth = dojo.date.getDaysInMonth(month);
-			var daysInPreviousMonth = dojo.date.getDaysInMonth(dojo.date.calc.add(month, dojo.date.calc.parts.MONTH, -1));
+			var daysInPreviousMonth = dojo.date.getDaysInMonth(dojo.date.add(month, dojo.date.parts.MONTH, -1));
 			var today = new Date();
 			var selected = this.value;
 
@@ -86,15 +84,15 @@ dojo.declare(
 				}
 
 				if(adj){
-					date = dojo.date.calc.add(date, dojo.date.calc.parts.MONTH, adj);
+					date = dojo.date.add(date, dojo.date.parts.MONTH, adj);
 				}
 				date.setDate(number);
 
-				if(!dojo.date.calc.compare(date, today, dojo.date.calc.types.DATE)){
+				if(!dojo.date.compare(date, today, dojo.date.types.DATE)){
 					clazz = "currentDate " + clazz;
 				}
 
-				if(!dojo.date.calc.compare(date, selected, dojo.date.calc.types.DATE)){
+				if(!dojo.date.compare(date, selected, dojo.date.types.DATE)){
 					clazz = "selectedDate " + clazz;
 				}
 
@@ -105,14 +103,14 @@ dojo.declare(
 			});
 
 			// Fill in localized month name
-			var monthNames = dojo.date.local.getNames('months', 'wide', 'standAlone', this.lang);
+			var monthNames = dojo.date.locale.getNames('months', 'wide', 'standAlone', this.lang);
 			this.monthLabelNode.innerHTML = monthNames[month.getMonth()];
 
 			// Fill in localized prev/current/next years
 			var y = month.getFullYear() - 1;
 			dojo.forEach(["previous", "current", "next"], function(name){
 				this[name+"YearLabelNode"].innerHTML =
-					dojo.date.local.format(new Date(y++, 0), {selector:'year', locale:this.lang});
+					dojo.date.locale.format(new Date(y++, 0), {selector:'year', locale:this.lang});
 			}, this);
 		},
 
@@ -135,14 +133,14 @@ dojo.declare(
 			}
 
 			// insert localized day names in the header
-			var dayNames = dojo.date.local.getNames('days', this.dayWidth, 'standAlone', this.lang);
+			var dayNames = dojo.date.locale.getNames('days', this.dayWidth, 'standAlone', this.lang);
 			var dayOffset = dojo.cldr.supplemental.getFirstDayOfWeek(this.lang);
 			dojo.query(".dayLabel", this.domNode).forEach(function(label, i){
 				label.innerHTML = dayNames[(i + dayOffset) % 7];
 			});
 
 			// Fill in spacer element with all the month names (invisible) so that the maximum width will affect layout
-			var monthNames = dojo.date.local.getNames('months', 'wide', 'standAlone', this.lang);
+			var monthNames = dojo.date.locale.getNames('months', 'wide', 'standAlone', this.lang);
 			dojo.forEach(monthNames, function(name){
 				var monthSpacer = dojo.doc.createElement("div");
 				monthSpacer.innerHTML = name;
@@ -154,32 +152,32 @@ dojo.declare(
 		},
 
 		_adjustDate: function(/*String*/part, /*int*/amount){
-			this.displayMonth = dojo.date.calc.add(this.displayMonth, part, amount);
+			this.displayMonth = dojo.date.add(this.displayMonth, part, amount);
 			this._populateGrid();
 		},
 
 		_onIncrementMonth: function(/*Event*/evt){
 			// summary: handler for increment month event
 			evt.stopPropagation();
-			this._adjustDate(dojo.date.calc.parts.MONTH, 1);
+			this._adjustDate(dojo.date.parts.MONTH, 1);
 		},
 	
 		_onDecrementMonth: function(/*Event*/evt){
 			// summary: handler for increment month event
 			evt.stopPropagation();
-			this._adjustDate(dojo.date.calc.parts.MONTH, -1);
+			this._adjustDate(dojo.date.parts.MONTH, -1);
 		},
 
 		_onIncrementYear: function(/*Event*/evt){
 			// summary: handler for increment year event
 			evt.stopPropagation();
-			this._adjustDate(dojo.date.calc.parts.YEAR, 1);
+			this._adjustDate(dojo.date.parts.YEAR, 1);
 		},
 	
 		_onDecrementYear: function(/*Event*/evt){
 			// summary: handler for increment year event
 			evt.stopPropagation();
-			this._adjustDate(dojo.date.calc.parts.YEAR, -1);
+			this._adjustDate(dojo.date.parts.YEAR, -1);
 		},
 
 		_onDayClick: function(/*Event*/evt){
