@@ -11,7 +11,7 @@
 			dojo.require("dijit.form.DateTextbox");
 //			dojo.require("dojo.validate.common");
 //			dojo.require("dojo.validate.us");
-			dojo.require("dojo.date.local");
+			dojo.require("dojo.date.locale");
 			dojo.require("dijit.util.parser");	// scan page for widgets and instantiate them
 		</script>
 		<style type="text/css">
@@ -349,7 +349,7 @@
 			<div class="testExample">
 				<input id="q16" type="text" name="time1" class="medium" value="5:45:00 pm"
 					dojoType="dijit.form.ValidationTextbox"
-					validator="dojo.date.local.parse"
+					validator="dojo.date.locale.parse"
 					constraints={formatLength:'medium',selector:'time'}
 					trim="true" 
 					required="true" 
@@ -364,7 +364,7 @@
 			<div class="testExample">
 				<input id="q17" type="text" name="time2" class="medium" value="17:45:00"
 					dojoType="dijit.form.ValidationTextbox"
-					validator="dojo.date.local.parse"
+					validator="dojo.date.locale.parse"
 					constraints={formatLength:'short',selector:'time',timePattern:'HH:mm:ss'}
 					trim="true" 
 					required="true" 
