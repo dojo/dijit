@@ -26,6 +26,10 @@
 			dojo.byId("oncheckedoutput").innerHTML = checked;
 		}
 		
+		function reportValueChanged(value) {
+			dojo.byId("onvaluechangedoutput").innerHTML = value;
+		}
+		
 		dojo.addOnLoad(function(){
 			var params = {id: "cb6", name: "cb6"};
 			var widget = new dijit.form.Checkbox(params, dojo.byId("checkboxContainer"));
@@ -69,10 +73,12 @@
 		<div id="checkboxContainer"></div>
 			<label for="cb6">cb6: instantiated from script</label>
 		<br>
-		<input type="checkbox" name="cb7" id="cb7" dojoType="dijit.form.Checkbox">
+		<input onValueChanged="reportValueChanged" type="checkbox" name="cb7" id="cb7" dojoType="dijit.form.Checkbox">
 			<label for="cb7">cb7: normal checkbox.</label>
 			<input type="button" onclick='dijit.byId("cb7").disable();' value="disable" />
 			<input type="button" onclick='dijit.byId("cb7").enable();' value="enable" />
+			<input type="button" onclick='dijit.byId("cb7").setValue("fish");' value='set value to "fish"' />
+			<span>"onValueChanged" handler updates: [<span id="onvaluechangedoutput"></span>]</span>
 		<br>
 	<p>
 	Here are some radio buttons.  Try clicking, and hovering, tabbing, and arrowing

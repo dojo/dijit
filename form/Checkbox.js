@@ -118,13 +118,13 @@ dojo.declare(
 		},
 
 		onChecked: function(/*Boolean*/ newCheckedState){
-			// summary: callback when value is changed
+			// summary: callback when checked state is changed
 		},
 		
 		setChecked: function(/*Boolean*/ check){
 			// summary: set the checked state of the widget.
 			if(check != this.inputNode.checked){
-				this.inputNode.checked;
+				this.inputNode.checked = check;
 				this._updateView();
 			}
 		},
@@ -132,6 +132,12 @@ dojo.declare(
 		getChecked: function(){
 			// summary: get the checked state of the widget.
 			return this.checked;
+		},
+
+		setValue: function(value){
+			if (value == null){ value = ""; }
+			this.inputNode.value = value;
+			dijit.form.Checkbox.superclass.setValue.call(this,value);
 		},
 
 		onClick: function(/*Event*/ e){
@@ -166,8 +172,6 @@ dojo.declare(
 				w.checked = w.inputNode.checked;
 				w.onChecked(w.checked);
 			}
-
-			this.setValue(w.checked? this.inputNode.value:"");
 
 			// show the right sprite, depending on state of checkbox
 			if(w.imageLoaded){
