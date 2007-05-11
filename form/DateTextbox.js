@@ -1,6 +1,6 @@
 dojo.provide("dijit.form.DateTextbox");
 
-dojo.require("dijit.form.Calendar");
+dojo.require("dijit._Calendar");
 dojo.require("dijit.form._DropDownTextBox");
 dojo.require("dojo.date.calc");
 dojo.require("dojo.date.local");
@@ -43,7 +43,7 @@ dojo.declare(
 			dijit.form.RangeBoundTextbox.prototype.postCreate.apply(this, arguments);
 			dijit.form._DropDownTextBox.prototype.postCreate.apply(this, arguments);
 			//dijit.form.DateTextbox.superclass.postCreate.apply(this, arguments);
-			this.optionsListNode=new dijit.form.Calendar({value:this.getValue(), onValueChanged:dojo.hitch(this, this._calendarOnValueChanged)},this.optionsListNode);
+			this.optionsListNode=new dijit._Calendar({value:this.getValue(), onValueChanged:dojo.hitch(this, this._calendarOnValueChanged)},this.optionsListNode);
 		},
 		_calendarOnValueChanged:function(value){
 			// summary: taps into the popup Calendar onValueChanged
