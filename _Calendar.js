@@ -31,7 +31,7 @@ dojo.declare(
 		 	-or-
 			<div dojoType="dijit._Calendar"></div> 
 		*/
-		templatePath: dojo.moduleUrl("dijit.form", "templates/Calendar.html"),
+		templatePath: dojo.moduleUrl("dijit", "templates/Calendar.html"),
 
 		// value: Date
 		// the currently selected Date
