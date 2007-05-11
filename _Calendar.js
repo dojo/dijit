@@ -29,9 +29,9 @@ dojo.declare(
 			so that they are serializable and locale-independent.
 		
 		usage: 
-			var calendar = new dijit.Calendar({}, dojo.byId("calendarNode")); 
+			var calendar = new dijit._Calendar({}, dojo.byId("calendarNode")); 
 		 	-or-
-			<div dojoType="Calendar"></div> 
+			<div dojoType="dijit._Calendar"></div> 
 		*/
 		templatePath: dojo.moduleUrl("dijit.form", "templates/Calendar.html"),
 
