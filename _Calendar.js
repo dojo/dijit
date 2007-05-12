@@ -57,7 +57,7 @@ dojo.declare(
 			month.setDate(1);
 			var firstDay = month.getDay();
 			var daysInMonth = dojo.date.getDaysInMonth(month);
-			var daysInPreviousMonth = dojo.date.getDaysInMonth(dojo.date.add(month, dojo.date.parts.MONTH, -1));
+			var daysInPreviousMonth = dojo.date.getDaysInMonth(dojo.date.add(month, "month", -1));
 			var today = new Date();
 			var selected = this.value;
 
@@ -84,15 +84,15 @@ dojo.declare(
 				}
 
 				if(adj){
-					date = dojo.date.add(date, dojo.date.parts.MONTH, adj);
+					date = dojo.date.add(date, "month", adj);
 				}
 				date.setDate(number);
 
-				if(!dojo.date.compare(date, today, dojo.date.types.DATE)){
+				if(!dojo.date.compare(date, today, "date")){
 					clazz = "calendarCurrentDate " + clazz;
 				}
 
-				if(!dojo.date.compare(date, selected, dojo.date.types.DATE)){
+				if(!dojo.date.compare(date, selected, "date")){
 					clazz = "calendarSelectedDate " + clazz;
 				}
 
@@ -159,25 +159,25 @@ dojo.declare(
 		_onIncrementMonth: function(/*Event*/evt){
 			// summary: handler for increment month event
 			evt.stopPropagation();
-			this._adjustDate(dojo.date.parts.MONTH, 1);
+			this._adjustDate("month", 1);
 		},
 	
 		_onDecrementMonth: function(/*Event*/evt){
 			// summary: handler for increment month event
 			evt.stopPropagation();
-			this._adjustDate(dojo.date.parts.MONTH, -1);
+			this._adjustDate("month", -1);
 		},
 
 		_onIncrementYear: function(/*Event*/evt){
 			// summary: handler for increment year event
 			evt.stopPropagation();
-			this._adjustDate(dojo.date.parts.YEAR, 1);
+			this._adjustDate("year", 1);
 		},
 	
 		_onDecrementYear: function(/*Event*/evt){
 			// summary: handler for increment year event
 			evt.stopPropagation();
-			this._adjustDate(dojo.date.parts.YEAR, -1);
+			this._adjustDate("year", -1);
 		},
 
 		_onDayClick: function(/*Event*/evt){
