@@ -1,5 +1,14 @@
-.calendarContainer {
+.calendarContainer table {
 /*	border:1px solid #566f8f;*/
+	font-size: 100%;
+	border-collapse: collapse; 
+	border-spacing: 0; 
+	border: 1px solid #ccc; 
+	margin: 0;
+}
+
+.calendarContainer thead tr th, .calendarContainer thead tr td, .calendarContainer tbody tr td, .calendarContainer tfoot tr td { 
+	padding: 0;
 }
 
 .calendarBodyContainer {
@@ -50,19 +59,6 @@
   	visibility: hidden;
 }
 
-.calendarMonthCurve {
-	width:12px;
-}
-
-.calendarMonthCurveTL {
-	background: url("images/dpCurveTL.png") no-repeat top left !important;
-}
-
-.calendarMonthCurveTR {
-		background: url("images/dpCurveTR.png") no-repeat top right !important;
-}
-
-
 .calendarYearWrapper {
 	background: url("images/dpHorizLineFoot.gif") top left repeat-x;
 	padding-top:2px;
@@ -83,21 +79,6 @@
 	font:bold 0.75em Helvetica, Arial, Verdana, sans-serif;
 	text-align:center;
 }
-
-.calendarCurveBL {
-	background: url("images/dpCurveBL.png") bottom left no-repeat !important;
-	width:9px !important;
-	padding:0;
-	margin:0;
-}
-
-.calendarCurveBR {
-	background: url("images/dpCurveBR.png") bottom right no-repeat !important;
-	width:9px !important;
-	padding:0;
-	margin:0;
-}
-
 
 .calendarPreviousMonth {
 	background-color:#6782a8 !important;
