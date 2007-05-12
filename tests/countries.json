@@ -40,5 +40,5 @@
      { name:'South America', type:'continent',
          children:[{reference:'Brazil'}, {reference:'Argentina'}] },
      { name:'Brazil', type:'country', population:'186 million' },
-     { name:'Argentina', type:'country', population:'40 million' },
+     { name:'Argentina', type:'country', population:'40 million' }
 ]}

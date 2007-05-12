@@ -21,27 +21,27 @@ dojo.declare(
 	state: "UNCHECKED",
 	locked: false,
 
-	lock: function() {
+	lock: function(){
 		// summary: lock this node (and it's descendants) while a delete is taking place?
 		this.locked=true;
 	},
-	unlock: function() {
-		if (!this.locked) {
+	unlock: function(){
+		if(!this.locked){
 			//dojo.debug((new Error()).stack);
 			throw new Error(this.declaredClass+" unlock: not locked");
 		}
 		this.locked=false;
 	},
 		
-	isLocked: function() {
+	isLocked: function(){
 		// summary: can this node be modified?
 		// returns: false if this node or any of it's ancestors are locked
 		var node = this;
-		while (true) {
-			if (node.lockLevel) {
+		while(true){
+			if(node.lockLevel){
 				return true;
 			}
-			if (!node.getParent() || node.isTree) {
+			if(!node.getParent() || node.isTree){
 				break;
 			}	
 			node = node.getParent();	
@@ -49,7 +49,7 @@ dojo.declare(
 		return false;
 	},
 
-	setChildren: function(/* Object[] */ childrenArray) {
+	setChildren: function(/* Object[] */ childrenArray){
 		// summary:
 		//		Sets the children of this node.
 		//		Sets this.isFolder based on whether or not there are children
@@ -62,7 +62,7 @@ dojo.declare(
 
 		if(childrenArray && childrenArray.length > 0){
 			this.isFolder = true;
-			if (!this.containerNode) { // maybe this node was unfolderized and still has container
+			if(!this.containerNode){ // maybe this node was unfolderized and still has container
 				this.containerNode = this.tree.containerNodeTemplate.cloneNode(true);
 				this.domNode.appendChild(this.containerNode);
 			}
@@ -81,7 +81,7 @@ dojo.declare(
 				var message = {
 					child: child,
 					index: idx,
-					parent: this,
+					parent: this
 				};
 			});
 		}else{
@@ -177,8 +177,15 @@ dojo.declare(
 
 		// start the controller, passing in the store
 		this._controller = new dijit._tree.DataController(
-			{store: this.store, treeId: this.id,
-			query: this.query, labelAttr: this.labelAttr, typeAttr: this.typeAttr, childrenAttr: this.childrenAttr});
+			{	
+				store: this.store, 
+				treeId: this.id,
+				query: this.query, 
+				labelAttr: this.labelAttr, 
+				typeAttr: this.typeAttr, 
+				childrenAttr: this.childrenAttr
+			}
+		);
 
 		this._publish("afterTreeCreate");
 	},
@@ -198,7 +205,7 @@ dojo.declare(
 		var ret;
 		do{
 			ret=dijit.util.manager.byNode(domElement);
-		} while(!ret && (domElement=domElement.parentNode));
+		}while(!ret && (domElement=domElement.parentNode));
 		return ret;
 	},
 
@@ -208,11 +215,11 @@ dojo.declare(
 
 		// find node
         var nodeWidget = this._domElement2TreeNode(domElement);	
-		if (!nodeWidget || !nodeWidget.isTreeNode) {
+		if(!nodeWidget || !nodeWidget.isTreeNode){
 			return;
 		}
 
-		if (domElement == nodeWidget.expandoNode) {
+		if(domElement == nodeWidget.expandoNode){
 			this._publish(
 				domElement == nodeWidget.expandoNode ? "toggleOpen" : "execute",
 				 { node: nodeWidget} );	
@@ -220,11 +227,11 @@ dojo.declare(
 		}
 	},
 	
-	_onKeyPress: function(/*Event*/ e) { 
+	_onKeyPress: function(/*Event*/ e){
 		// summary: translates key events into commands for the controller to process
-		if (!e.keyCode || e.altKey) { return; }
+		if(!e.keyCode || e.altKey){ return; }
 		var nodeWidget = this._domElement2TreeNode(e.target);
-		if (!nodeWidget) { return; }
+		if(!nodeWidget){ return; }
 
 		var actionWidget = null;
 
@@ -234,7 +241,7 @@ dojo.declare(
 		}
 	},
 	
-	blurNode: function() {	
+	blurNode: function(){
 		// summary
 		//	Removes focus from the currently focused node (which must be visible).
 		//	Usually not called directly (just call focusNode() on another node instead)
@@ -251,7 +258,7 @@ dojo.declare(
 	//	if you programatically create a tree with no data, when the first row is added
 	//	tabIndex will go to that node
 	
-	focusNode: function(/* _tree.Node */ node) {
+	focusNode: function(/* _tree.Node */ node){
 		// summary
 		//	Focus on the specified node (which must be visible)
 
@@ -298,34 +305,34 @@ dojo.declare(
 
 	isExpanded: false,
 	
-	postCreate: function() {
+	postCreate: function(){
 		this.labelNode.innerHTML = this.label;	
 		var children = this.getChildren();			
 		// set expand icon for leaf 	
 		this._setExpando();
 	},
 	
-	markProcessing: function() {
+	markProcessing: function(){
 		// summary: visually denote that tree is loading data, etc.
 		this.state = "LOADING";
 		this._setExpando(true);	
 	},
 
-	unmarkProcessing: function() {
+	unmarkProcessing: function(){
 		// summary: clear markup from markProcessing() call
 		this._setExpando(false);	
 	},
 
-	_updateLayout: function() {
+	_updateLayout: function(){
 		// summary: set appropriate CSS classes for this.domNode
 
 		dojo.removeClass(this.domNode, "TreeIsRoot");
-		if (this.getParent()["isTree"]) {
+		if(this.getParent()["isTree"]){
 			dojo.addClass(this.domNode, 'TreeIsRoot');
 		}
 
 		dojo.removeClass(this.domNode, "TreeIsLast");
-		if (!this.getNextSibling()) {
+		if(!this.getNextSibling()){
 			dojo.addClass(this.domNode, 'TreeIsLast');	
 		}
 	},
@@ -350,7 +357,7 @@ dojo.declare(
 
 	expand: function(){
         // summary: show my children
-		if (this.isExpanded) return;
+		if(this.isExpanded){ return; }
 
 		// cancel in progress collapse operation
 		if(this._slideOut.status() == "playing"){
@@ -367,13 +374,13 @@ dojo.declare(
 		this._slideIn.play();
 	},
 
-	_afterExpand: function() {
+	_afterExpand: function(){
         this.onShow();
  		this._publish("afterExpand", {node: this});		
 	},
 
 	collapse: function(){					
-		if (!this.isExpanded) return;
+		if(!this.isExpanded){ return; }
 		
 		// cancel in progress expand operation
 		if(this._slideIn.status() == "playing"){
@@ -387,12 +394,12 @@ dojo.declare(
 		this._slideOut.play();
 	},
     
-	_afterCollapse: function() {
+	_afterCollapse: function(){
 		this.onHide();
 		this._publish("afterCollapse", {node: this});
 	},
 
-	toString: function() {
+	toString: function(){
 		return '['+this.declaredClass+', '+this.label+']';
 	}
 });
