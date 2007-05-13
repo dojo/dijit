@@ -1,35 +1,33 @@
-<div class="calendarContainer">
-	<table cellspacing="0" cellpadding="0" class="calendarContainer">
-		<thead>
-			<tr class="calendarMonthContainer" valign="top">
-				<td colspan="7">
-					<img dojoAttachPoint="monthDecrease" dojoAttachEvent="onclick: _onDecrementMonth;" class="calendarMonthDecrement calendarIncrementControl calendarDecrease" alt="-">
-					<img dojoAttachPoint="monthIncrease" dojoAttachEvent="onclick: _onIncrementMonth;" class="calendarMonthIncrement calendarIncrementControl calendarIncrease" alt="+">
-					<div dojoAttachPoint="monthLabelSpacer" class="calendarMonthLabelSpacer"></div>
-					<div dojoAttachPoint="monthLabelNode" class="calendarMonth"></div>
-				</td>
-			</tr>
-			<tr>
-				<td class="calendarDayLabelTemplate"><span class="calendarDayLabel"></span></td>
-			</tr>
-		</thead>
-		<tbody dojoAttachEvent="onclick: _onDayClick;" class="calendarBodyContainer">
-			<tr class="calendarWeekTemplate">
-				<td class="calendarDateTemplate"><span class="calendarDateLabel"></span></td>
-			</tr>
-		</tbody>
-		<tfoot class="calendarYearWrapper calendarYearContainer">
-			<tr>
-				<td valign="top" colspan="7">
-					<h3 class="calendarYearLabel">
-						<span dojoAttachPoint="previousYearLabelNode"
-							dojoAttachEvent="onclick: _onDecrementYear;" class="calendarPreviousYear"></span>
-						<span dojoAttachPoint="currentYearLabelNode" class="calendarSelectedYear"></span>
-						<span dojoAttachPoint="nextYearLabelNode" 
-							dojoAttachEvent="onclick: _onIncrementYear;" class="calendarNextYear"></span>
-					</h3>
-				</td>
-			</tr>
-		</tfoot>
-	</table>	
-</div>
+<table cellspacing="0" cellpadding="0" class="calendarContainer">
+	<thead>
+		<tr class="calendarMonthContainer" valign="top">
+			<td colspan="7">
+				<img dojoAttachPoint="monthDecrease" dojoAttachEvent="onclick: _onDecrementMonth;" class="calendarMonthDecrement calendarIncrementControl calendarDecrease" alt="-">
+				<img dojoAttachPoint="monthIncrease" dojoAttachEvent="onclick: _onIncrementMonth;" class="calendarMonthIncrement calendarIncrementControl calendarIncrease" alt="+">
+				<div dojoAttachPoint="monthLabelSpacer" class="calendarMonthLabelSpacer"></div>
+				<div dojoAttachPoint="monthLabelNode" class="calendarMonth"></div>
+			</td>
+		</tr>
+		<tr>
+			<td class="calendarDayLabelTemplate"><span class="calendarDayLabel"></span></td>
+		</tr>
+	</thead>
+	<tbody dojoAttachEvent="onclick: _onDayClick;" class="calendarBodyContainer">
+		<tr class="calendarWeekTemplate">
+			<td class="calendarDateTemplate"><span class="calendarDateLabel"></span></td>
+		</tr>
+	</tbody>
+	<tfoot class="calendarYearWrapper calendarYearContainer">
+		<tr>
+			<td valign="top" colspan="7">
+				<h3 class="calendarYearLabel">
+					<span dojoAttachPoint="previousYearLabelNode"
+						dojoAttachEvent="onclick: _onDecrementYear;" class="calendarPreviousYear"></span>
+					<span dojoAttachPoint="currentYearLabelNode" class="calendarSelectedYear"></span>
+					<span dojoAttachPoint="nextYearLabelNode" 
+						dojoAttachEvent="onclick: _onIncrementYear;" class="calendarNextYear"></span>
+				</h3>
+			</td>
+		</tr>
+	</tfoot>
+</table>	
