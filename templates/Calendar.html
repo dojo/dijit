@@ -1,38 +1,30 @@
-<div class="calendarContainer" dojoAttachPoint="calendarContainerNode">
+<div class="calendarContainer">
 	<table cellspacing="0" cellpadding="0" class="calendarContainer">
 		<thead>
-			<tr class="calendarMonthWrapper calendarMonthLabelContainer calendarMonthContainer" valign="top">
-				<td dojoAttachPoint="decreaseMonthNode" 
-					dojoAttachEvent="onclick: _onDecrementMonth;" class="calendarIncrementControl calendarDecrease">
-					<img src="${dijitModuleUri}templates/decrementMonth.png" 
-						alt="-" dojoAttachPoint="decrementMonthImageNode">
-				</td>
-				<td colspan="5">
+			<tr class="calendarMonthContainer" valign="top">
+				<td colspan="7">
+					<img dojoAttachPoint="monthDecrease" dojoAttachEvent="onclick: _onDecrementMonth;" class="calendarMonthDecrement calendarIncrementControl calendarDecrease" alt="-">
+					<img dojoAttachPoint="monthIncrease" dojoAttachEvent="onclick: _onIncrementMonth;" class="calendarMonthIncrement calendarIncrementControl calendarIncrease" alt="+">
 					<div dojoAttachPoint="monthLabelSpacer" class="calendarMonthLabelSpacer"></div>
 					<div dojoAttachPoint="monthLabelNode" class="calendarMonth"></div>
-				</td>
-				<td dojoAttachPoint="increaseMonthNode" 
-					dojoAttachEvent="onclick: _onIncrementMonth;" class="calendarIncrementControl calendarIncrease">
-					<img src="${dijitModuleUri}templates/increaseMonth.png" 
-						alt="+" dojoAttachPoint="incrementMonthImageNode">
 				</td>
 			</tr>
 			<tr>
 				<td class="calendarDayLabelTemplate"><span class="calendarDayLabel"></span></td>
 			</tr>
 		</thead>
-		<tbody class="calendarBodyContainer" dojoAttachPoint="calendarDatesContainerNode" dojoAttachEvent="onclick: _onDayClick;">
+		<tbody dojoAttachEvent="onclick: _onDayClick;" class="calendarBodyContainer">
 			<tr class="calendarWeekTemplate">
 				<td class="calendarDateTemplate"><span class="calendarDateLabel"></span></td>
 			</tr>
 		</tbody>
-		<tfoot>
-			<tr class="calendarYearWrapper calendarYearContainer">
+		<tfoot class="calendarYearWrapper calendarYearContainer">
+			<tr>
 				<td valign="top" colspan="7">
 					<h3 class="calendarYearLabel">
 						<span dojoAttachPoint="previousYearLabelNode"
 							dojoAttachEvent="onclick: _onDecrementYear;" class="calendarPreviousYear"></span>
-						<span class="calendarSelectedYear" dojoAttachPoint="currentYearLabelNode"></span>
+						<span dojoAttachPoint="currentYearLabelNode" class="calendarSelectedYear"></span>
 						<span dojoAttachPoint="nextYearLabelNode" 
 							dojoAttachEvent="onclick: _onIncrementYear;" class="calendarNextYear"></span>
 					</h3>

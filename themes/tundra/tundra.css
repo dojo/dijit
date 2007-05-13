@@ -481,3 +481,128 @@
 .TreeExpandoLoading {
 	background-image: url('expand_loading.gif');
 }
+
+/* Calendar*/
+
+.calendarMonthDecrement {
+	background-image: url('decrementMonth.gif');
+}
+
+.calendarMonthIncrement {
+	background-image: url('incrementMonth.gif');
+}
+
+.calendarContainer table {
+/*	border:1px solid #566f8f;*/
+	font-size: 100%;
+	border-collapse: collapse; 
+	border-spacing: 0; 
+	border: 1px solid #ccc; 
+	margin: 0;
+}
+
+.calendarBodyContainer {
+/*	width:100%; /* needed for the explode effect (explain?) */
+	background: #7591bc url("images/dpBg.gif") top left repeat-x;
+}
+
+.calendarBodyContainer thead tr td {
+	color:#293a4b;
+	font:bold 0.75em Helvetica, Arial, Verdana, sans-serif;
+	text-align:center;
+	padding:0.25em;
+	background: url("images/dpHorizLine.gif") bottom left repeat-x;
+}
+
+.calendarBodyContainer tbody tr td {
+	color:#fff;
+	font:bold 0.7em Helvetica, Arial, Verdana, sans-serif;
+	text-align:center;
+	padding:0.4em;
+	background: url("images/dpVertLine.gif") top right repeat-y;
+	cursor:pointer;
+	cursor:hand;
+}
+
+/* this was applied to the same node as calendarMonthContainer.  What was it for?
+.calendarMonthWrapper {
+	padding-bottom:2px;
+	background: url("images/dpHorizLine.gif") bottom left repeat-x;
+}
+*/
+
+.calendarMonthContainer {
+	text-align:center;
+	font:bold 0.75em Helvetica, Arial, Verdana, sans-serif;
+	background: url("images/dpMonthBg.png") repeat-x top left !important;
+	color:#293a4b;
+	padding:0.25em;
+}
+
+.calendarMonthLabelSpacer {
+  	position: relative;
+  	height: 1px;	/* don't display it, but make it affect the width */
+  	overflow: hidden;
+  	visibility: hidden;
+}
+
+.calendarYearWrapper {
+	background: url("images/dpHorizLineFoot.gif") top left repeat-x;
+	padding-top:2px;
+}
+
+.calendarYearContainer td {
+	background:url("images/dpYearBg.png") top left repeat-x;
+}
+
+.calendarYearContainer .calendarYearLabel {
+	margin:0;
+	padding:0.45em 0 0.45em 0;
+	color:#fff;
+	font:bold 0.75em Helvetica, Arial, Verdana, sans-serif;
+	text-align:center;
+}
+
+.calendarPreviousMonth {
+	background-color:#6782a8 !important;
+}
+
+.calendarPreviousMonthDisabled {
+	background-color:#a4a5a6 !important;
+	cursor:default !important
+}
+
+.calendarCurrentMonth {
+}
+
+.calendarCurrentMonthDisabled {
+	background-color:#bbbbbc !important;
+	cursor:default !important
+}
+.calendarNextMonth {
+	background-color:#6782a8 !important;
+}
+.calendarNextMonthDisabled {
+	background-color:#a4a5a6 !important;
+	cursor:default !important;
+}
+
+.calendarCurrentDate {
+	text-decoration:underline;
+	font-style:italic;
+}
+
+.calendarSelectedDate {
+	background-color:#fff !important;
+	color:#6782a8 !important;
+}
+
+.calendarYearLabel .calendarSelectedYear {
+	padding:0.2em;
+	background-color:#9ec3fb !important;
+}
+
+.calendarNextYear, .calendarPreviousYear {
+	cursor:pointer;cursor:hand;
+	padding:0;
+}

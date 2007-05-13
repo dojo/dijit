@@ -149,6 +149,13 @@ dojo.declare(
 
 			this.value = null;
 			this.setValue(new Date());
+
+			// Trick to get image path reference from CSS as background image, then copy it into the img src attribute
+			dojo.forEach(["monthDecrease", "monthIncrease"], function(item){
+				var bi = dojo.getComputedStyle(this[item]).backgroundImage;
+				var href = bi.charAt(4)=='"' ? bi.slice(5,-2) : bi.slice(4,-1);	// url(foo) --> foo, url("foo") --> foo
+				this[item].src=href;
+			}, this);
 		},
 
 		_adjustDate: function(/*String*/part, /*int*/amount){

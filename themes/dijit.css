@@ -545,3 +545,30 @@ table.dojoButton .dojoButtonNode {
 	border-width: 2px;
 	border-color: #ffffff;
 }
+
+/* Calendar */
+
+.calendarContainer thead tr th, .calendarContainer thead tr td, .calendarContainer tbody tr td, .calendarContainer tfoot tr td { 
+	padding: 0;
+}
+
+.calendarNextYear {
+	margin:0 0 0 0.55em;
+}
+
+.calendarPreviousYear {
+	margin:0 0.55em 0 0;
+}
+
+.calendarIncrementControl {
+	cursor:pointer;cursor:hand;
+	width:1em;
+}
+
+.calendarIncrease {
+	float:right;
+}
+
+.calendarDecrease {
+	float:left;
+}
