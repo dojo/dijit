@@ -303,23 +303,24 @@
 -->
 
 			<div class="dojoTitlePaneLabel">
-				<label for="q14"> Date (American format) </label>
+				<label for="q14"> Date (American) </label>
 				<span class="noticeMessage">DateTextbox class, 
-					Attributes: {locale: "en-us", required: true}. Works for leap years</span>
+					Attributes: {lang: "en-us", required: true}. Works for leap years</span>
 			</div>
 			<div class="testExample">
 				<input id="q14" type="text" name="date1" class="medium" value="2005-12-30"
 					dojoType="dijit.form.DateTextbox"
-					constraints={locale:'en-us',min:'2005-01-01',max:'2006-12-31'}
+					constraints={min:'2005-01-01',max:'2006-12-31'}
+					lang="en-us"
 					required="true"
 					promptMessage="mm/dd/yyyy"
 					invalidMessage="Invalid date. Use mm/dd/yyyy format." />
 			</div>
 
 			<div class="dojoTitlePaneLabel">
-				<label for="q15"> Date (German format) </label>
+				<label for="q15"> Date (German) </label>
 				<span class="noticeMessage">DateTextbox class, 
-					Attributes: {locale: "de-de", min:2006-01-01, max:2006-12-31}. Works for leap years</span>
+					Attributes: {lang: "de-de", min:2006-01-01, max:2006-12-31}. Works for leap years</span>
 			</div>
 			<div class="testExample">
 				<input id="q15" class="medium"/>
@@ -330,7 +331,8 @@
 		var props = {
 			name: "date2",
 			value: new Date(2006,10,29),
-			constraints: {locale:'de-de',min:new Date(2006,0,1),max:new Date(2006,11,31)},
+			lang: "de-de",
+			constraints: {min:new Date(2006,0,1),max:new Date(2006,11,31)},
 			promptMessage: "dd.mm.yyyy",
 			rangeMessage: "Enter a date in 2006.",
 			invalidMessage: "Invalid date. Use dd.mm.yyyy format."
