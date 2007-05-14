@@ -12,6 +12,7 @@
 			djConfig="isDebug: true, extraLocale: ['en-us', 'ar-sy', 'es-es', 'zh-cn']"></script>
 		<script type="text/javascript">
 			dojo.require("dijit._Calendar");
+			dojo.require("dojo.cldr.supplemental");
 			dojo.require("dijit.util.parser"); // scan page for widgets
 
 			function myHandler(id,newValue){
@@ -23,16 +24,19 @@
 		<h1 class="testTitle">Dijit Calendar Test</h1>
 
 		before
-		<input id="calendar" dojoType="dijit._Calendar" onValueChanged="myHandler(this.id,arguments[0])" lang="en-us">
+		<input id="calendar1" dojoType="dijit._Calendar" onValueChanged="myHandler(this.id,arguments[0])" lang="en-us">
 		<input id="calendar2" dojoType="dijit._Calendar" onValueChanged="myHandler(this.id,arguments[0])" lang="es-es">
 		<input id="calendar3" dojoType="dijit._Calendar" onValueChanged="myHandler(this.id,arguments[0])" lang="zh-cn">
 		<input id="calendar4" dojoType="dijit._Calendar" onValueChanged="myHandler(this.id,arguments[0])" lang="ar-sy">
 		after
 		<p>
-			These links will
-			<a href="#" onClick="dijit.byId('calendar').disable()">disable</a> / 
-			<a href="#" onClick="dijit.byId('calendar').enable()">enable</a>
-			the text area above.
+			<a href="#" onClick="for(var i=1; i!=5; i++){
+									var c = dijit.byId('calendar'+i);
+									c.isDisabledDate=dojo.cldr.supplemental.isWeekend;
+									c._populateGrid();
+									
+								}									
+								">disable weekends</a>
 		</p>
 	</body>
 </html>

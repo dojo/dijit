@@ -44,7 +44,9 @@ dojo.declare(
 		setValue: function(/*Date*/ value){
 			//summary: set the current date and update the UI
 			if(!this.value || dojo.date.compare(value, this.value)){
-				this.value = new Date(value);
+				value = new Date(value);
+				if(this.isDisabledDate(value, this.lang)){return;}
+				this.value = value;
 				this.value.setHours(0,0,0,0);
 				this.displayMonth = new Date(this.value);
 				this._populateGrid();
@@ -96,11 +98,15 @@ dojo.declare(
 					clazz = "calendarSelectedDate " + clazz;
 				}
 
+				if(this.isDisabledDate(date, this.lang)){
+					clazz = "calendarDisabledDate " + clazz;
+				}
+
 				template.className =  clazz + "Month calendarDateTemplate";
 				template.dijitDateValue = date.valueOf();
 				var label = dojo.query(".calendarDateLabel", template)[0];
 				label.innerHTML = date.getDate();
-			});
+			}, this);
 
 			// Fill in localized month name
 			var monthNames = dojo.date.locale.getNames('months', 'wide', 'standAlone', this.lang);
@@ -192,8 +198,10 @@ dojo.declare(
 			while(!node.dijitDateValue){
 				node = node.parentNode;
 			}
-			this.setValue(node.dijitDateValue);
-			this.onValueSelected(this.value);
+			if(!dojo.hasClass(node, "calendarDisabledDate")){
+				this.setValue(node.dijitDateValue);
+				this.onValueSelected(this.value);
+			}
 		},
 
 		onValueSelected: function(/*Date*/date){
@@ -202,6 +210,12 @@ dojo.declare(
 
 		onValueChanged: function(/*Date*/date){
 			//summary: called only when the selected date has changed
+		},
+
+		isDisabledDate: function(/*Date*/dateObj, /*String?*/locale){
+			// summary:
+			//	May be overridden to disable certain dates in the calendar e.g. isDisabledDate=dojo.cldr.supplemental.isWeekend
+			return false; // Boolean
 		}
 	}
 );

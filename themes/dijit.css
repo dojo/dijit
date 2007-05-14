@@ -572,3 +572,7 @@ table.dojoButton .dojoButtonNode {
 .calendarDecrease {
 	float:left;
 }
+
+.calendarDisabledDate {
+	color:gray !important;
+}
