@@ -34,7 +34,7 @@ dojo.declare(
 		this._setCss();
 		dijit.TitlePane.superclass.postCreate.apply(this, arguments);
 		dijit.util.wai.setAttr(this.containerNode, "waiState", "labelledby", this.labelNode.id);
-		dijit.util.wai.setAttr(this.labelNode, "waiState", "haspopup", "true");
+		dijit.util.wai.setAttr(this.focusNode, "waiState", "haspopup", "true");
 		
 		// setup open/close animations
 		this._slideIn = dojo.fx.slideIn({node: this.containerNode, duration: this.duration});
@@ -62,10 +62,13 @@ dojo.declare(
 
 	onLabelKey: function(/*Event*/ e){
 		// summary: callback when user hits a key
-		if(e.keyCode == dojo.keys.ENTER){
+		if(e.keyCode == dojo.keys.ENTER || e.charCode == dojo.keys.SPACE){
 			this.onLabelClick();
+		}
+		else if (e.keyCode == dojo.keys.DOWN_ARROW){
 			if(this.open){
 				this.containerNode.focus();
+				e.preventDefault();
 			}
 	 	}
 	},
