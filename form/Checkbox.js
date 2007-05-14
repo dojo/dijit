@@ -92,7 +92,17 @@ dojo.declare(
 			inputStyle.width = imageContainerStyle.width = this.width + "px";
 			inputStyle.height = imageContainerStyle.height = this.height + "px";
 			domNodeStyle.position = "relative";
-			domNodeStyle.fontFamily = "monospace"; // webkit spacing hack
+			
+			// carve some space in the flow for this dom node
+			if (dojo.isSafari) {
+				// use this hack sparingly (see ticket:2942)
+				domNodeStyle.fontFamily = "monospace";
+				var spacer = document.createTextNode("\u00a0\u00a0");
+				this.domNode.appendChild(spacer);
+			}
+			else {
+				domNodeStyle.paddingRight = this.width + "px";
+			}
 			
 			// User will always interact with input element
 			this._connectEvents(this.inputNode);
