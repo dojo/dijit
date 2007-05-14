@@ -117,20 +117,19 @@ dojo.declare(
 		postCreate: function(){
 			dijit._Calendar.superclass.postCreate.apply(this);
 
-			var dayLabelTemplate = dojo.query(".calendarDayLabelTemplate", this.domNode)[0];
-			var calendarDateTemplate = dojo.query(".calendarDateTemplate", this.domNode)[0];
- 			for(var i=1; i<7; i++){
-				// clone the day label and calendar day templates to make 7 columns
-				dayLabelTemplate.parentNode.appendChild(dayLabelTemplate.cloneNode(true));
-				calendarDateTemplate.parentNode.appendChild(calendarDateTemplate.cloneNode(true));
-  			}
+			var cloneClass = dojo.hitch(this, function(clazz, n){
+				var template = dojo.query(clazz, this.domNode)[0];
+	 			for(var i=0; i<n; i++){
+					template.parentNode.appendChild(template.cloneNode(true));
+				}
+			});
 
-			// now make 6 rows
-			var calendarWeekTemplate = dojo.query(".calendarWeekTemplate", this.domNode)[0];
- 			for(var j=1; j<6; j++){
-				// clone the day label and calendar day templates to make 7 columns
-				calendarWeekTemplate.parentNode.appendChild(calendarWeekTemplate.cloneNode(true));
-			}
+			// clone the day label and calendar day templates 6 times to make 7 columns
+			cloneClass(".calendarDayLabelTemplate", 6);
+			cloneClass(".calendarDateTemplate", 6);
+
+			// now make 6 week rows
+			cloneClass(".calendarWeekTemplate", 5);
 
 			// insert localized day names in the header
 			var dayNames = dojo.date.locale.getNames('days', this.dayWidth, 'standAlone', this.lang);
@@ -194,10 +193,15 @@ dojo.declare(
 				node = node.parentNode;
 			}
 			this.setValue(node.dijitDateValue);
+			this.onValueSelected(this.value);
+		},
+
+		onValueSelected: function(/*Date*/date){
+			//summary: a date cell was selected.  It may be the same as the previous value.
 		},
 
 		onValueChanged: function(/*Date*/date){
-			//summary: the set date event handler
+			//summary: called only when the selected date has changed
 		}
 	}
 );
