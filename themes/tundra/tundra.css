@@ -129,6 +129,8 @@
 	border-bottom:2px solid #7cb0ea;
 	border-collapse:collapse;
 	background:#fff url("popupMenuBg.gif") repeat-x bottom left;
+	margin: 0px;
+	padding: 0px;
 }
 
 .tundra .dojoMenuItem{
