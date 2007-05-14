@@ -212,9 +212,9 @@ dojo.declare(
 			//summary: called only when the selected date has changed
 		},
 
-		isDisabledDate: function(/*Date*/dateObj, /*String?*/locale){
+		isDisabledDate: function(/*Date*/dateObject, /*String?*/locale){
 			// summary:
-			//	May be overridden to disable certain dates in the calendar e.g. isDisabledDate=dojo.cldr.supplemental.isWeekend
+			//	May be overridden to disable certain dates in the calendar e.g. isDisabledDate=dojo.date.locale.isWeekend
 			return false; // Boolean
 		}
 	}
