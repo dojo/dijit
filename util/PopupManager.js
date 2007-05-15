@@ -127,7 +127,7 @@ dijit.util.PopupManager = new function(){
 	function onKeyPress(/*Event*/e){
 		// summary
 		//	Handles keystrokes, passing them up the chain of menus
-		if(!e.keyCode){ return; }
+		if((!e.keyCode) && (e.charCode != dojo.keys.SPACE)){ return; }
 		if(stack.length==0){ return; }
 
 		// loop from child menu up ancestor chain, ending at button that spawned the menu

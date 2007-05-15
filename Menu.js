@@ -64,15 +64,20 @@ dojo.declare(
 	},
 
 	_moveToParentMenu: function(/*Event*/ evt){
-		if(this._highlighted_option && this.parentMenu){
+		if(this.parentMenu){
 			//only process event in the focused menu
 			//and its immediate parentPopup to support
 			//MenuBar2
 			if(evt._menu2UpKeyProcessed){
 				return true; //do not pass to parent menu
 			}else{
-				this._highlighted_option._onUnhover();
+				if(this._selectedItem){
+					this._selectedItem._unselectItem();
+				}
+				var trigger = this.parentMenu.currentSubmenuTrigger;
 				this.parentMenu.closeSubmenu();
+				trigger._selectItem();
+				dijit.util.scroll.scrollIntoView(trigger.domNode);
 				evt._menu2UpKeyProcessed = true;
 			}
 		}
@@ -80,17 +85,19 @@ dojo.declare(
 	},
 
 	_moveToChildMenu: function(/*Event*/ evt){
-		if(this._highlighted_option && this._highlighted_option.submenuId){
-			this._highlighted_option._onClick(true);
-			return true; //do not pass to parent menu
+		if(this._selectedItem && this._selectedItem.submenuId){
+			return this._activateCurrentItem(evt);
 		}
 		return false;
 	},
 
-	_selectCurrentItem: function(/*Event*/ evt){
-		if(this._highlighted_option){
-			this._highlighted_option._onClick();
-			return true;
+	_activateCurrentItem: function(/*Event*/ evt){
+		if(this._selectedItem){
+			this._selectedItem._onClick();
+			if(this.currentSubmenu){
+				this.currentSubmenu._selectNextItem(1);
+			}
+			return true; //do not pass to parent menu
 		}
 		return false;
 	},
@@ -100,14 +107,15 @@ dojo.declare(
 		//	callback to process key strokes
 		//	return true to stop the event being processed by the
 		//	parent popupmenu
-		if(evt.ctrlKey || evt.altKey || !evt.keyCode){ return false; }
+		if(evt.ctrlKey || evt.altKey){ return false; }
 
-		switch(evt.keyCode){
+		var key = (evt.charCode == dojo.keys.SPACE ? dojo.keys.SPACE : evt.keyCode);
+		switch(key){
  			case dojo.keys.DOWN_ARROW:
-				this._highlightOption(1);
+				this._selectNextItem(1);
 				return true; //do not pass to parent menu
 			case dojo.keys.UP_ARROW:
-				this._highlightOption(-1);
+				this._selectNextItem(-1);
 				return true; //do not pass to parent menu
 			case dojo.keys.RIGHT_ARROW:
 				return this._moveToChildMenu(evt);
@@ -115,19 +123,21 @@ dojo.declare(
 				return this._moveToParentMenu(evt);
 			case dojo.keys.SPACE: //fall through
 			case dojo.keys.ENTER:
-				if((rval = this._selectCurrentItem(evt))){
-					break;
+				if((rval = this._activateCurrentItem(evt))){
+					return true; //do not pass to parent menu
 				}
 				//fall through
 			case dojo.keys.ESCAPE:
-				if(this.parentMenu) {
+				if(this.parentMenu){
 					return this._moveToParentMenu(evt);
 				}
 				//fall through
 			case dojo.keys.TAB:
-				this.close(true);
-				return true;
+				this.closeAll(true);
+				return true; //do not pass to parent menu
 		}
+		// otherwise, pass to parent menu
+		return false;
 	},
 
 	_findValidItem: function(dir, curItem){
@@ -148,19 +158,19 @@ dojo.declare(
 		}
 	},
 
-	_highlightOption: function(dir){
+	_selectNextItem: function(dir){
 		var item;
-		// || !this._highlighted_option.parentNode
-		if(!this._highlighted_option){
+		// || !this._selectedItem.parentNode
+		if(!this._selectedItem){
 			item = this._findValidItem(dir);
 		}else{
-			item = this._findValidItem(dir, this._highlighted_option);
+			item = this._findValidItem(dir, this._selectedItem);
 		}
 		if(item){
-			if(this._highlighted_option){
-				this._highlighted_option._onUnhover();
+			if(this._selectedItem){
+				this._selectedItem._unselectItem();
 			}
-			item.onHover();
+			item._selectItem();
 			dijit.util.scroll.scrollIntoView(item.domNode);
 		}
 	},
@@ -178,10 +188,6 @@ dojo.declare(
 
 		this.currentSubmenuTrigger.is_open = false;
 		this.currentSubmenuTrigger._closedSubmenu(force);
-
-// some overlap here with _highlightOption
-		this.currentSubmenuTrigger.onHover();
-		dijit.util.scroll.scrollIntoView(this.currentSubmenuTrigger.domNode);
 
 		this.currentSubmenuTrigger = null;
 	},
@@ -260,7 +266,6 @@ dojo.declare(
 		//		Location to place ourselves relative to explodeSrc
 		if(this.isShowingNow){ return; }
 		this.parentMenu = parent;
-
 		dijit.util.PopupManager.openAround(explodeSrc, this, orient);
 	},
 	
@@ -269,14 +274,18 @@ dojo.declare(
 		//		Open menu relative to the mouse
 		dojo.stopEvent(e);
 		dijit.util.PopupManager.open(e, this);
-		this._highlightOption(1);
+		this._selectNextItem(1);
 	},
 
 	close: function(/*Boolean*/ force){
-		// summary: close this menu
+		// summary: close this menu and any open submenus
 
-		if(this._highlighted_option){
-			this._highlighted_option._onUnhover();
+		if(this.currentSubmenu){
+			this.closeSubmenu(force);
+		}
+
+		if(this._selectedItem){
+			this._selectedItem._unselectItem();
 		}
 
 		dijit.util.PopupManager.close(this);
@@ -288,11 +297,7 @@ dojo.declare(
 
 	closeAll: function(/*Boolean?*/force){
 		// summary: close all popups in the chain
-		var parentMenu = this.parentMenu;
-		this.close(force);
-		if (parentMenu){
-			parentMenu.closeAll(force);
-		}
+		this._getTopMenu().close(force);
 	},
 	
 	_openSubmenu: function(submenu, from_item){
@@ -364,6 +369,11 @@ dojo.declare(
 	//	widget ID of Menu2 widget to open when this menu item is clicked
 	submenuId: '',
 	
+	// disabled: Boolean
+	//  if true, the menu item is disabled
+	//  if false, the menu item is enabled
+	disabled: false,
+	
 	postMixInProperties: function(){
 		this.iconStyle="";
 		if(this.iconSrc){
@@ -388,17 +398,15 @@ dojo.declare(
 		}
 	},
 
-	onHover: function(){
-		// summary: callback when mouse is moved onto menu item
-
-		if(this.is_hovering || this.is_open){ return; }
+	_selectItem: function(){
+		// summary: internal function to select an item
 
 		var parent = this.getParent();
 		parent.closeSubmenu();
-		if(parent._highlighted_option){
-			parent._highlighted_option._onUnhover();
+		if(parent._selectedItem){
+			parent._selectedItem._unselectItem();
 		}
-		parent._highlighted_option = this;
+		parent._selectedItem = this;
 
 		this._highlightItem();
 
@@ -410,23 +418,31 @@ dojo.declare(
 
 		if(this.is_hovering){ this._stopSubmenuTimer(); }
 		this.is_hovering = true;
+	},
+
+	onHover: function(){
+		// summary: callback when mouse is moved onto menu item
+		if(this.is_hovering || this.is_open){ return; }
+		this._selectItem();
 		this._startSubmenuTimer();
 	},
 
-	_onUnhover: function(){
-		// summary: internal function for unhover
-		if(!this.is_open){ this._unhighlightItem(); }
+	_unselectItem: function(){
+		// summary: internal function to remove selection from an item
+		if(!this.is_open){
+			this._unhighlightItem();
+			this.getParent()._selectedItem = null;
+		}
 		this.is_hovering = false;
-		this.getParent()._highlighted_option = null;
 		this._stopSubmenuTimer();
 	},
 
 	onUnhover: function(){
 		// summary: callback when mouse is moved off of menu item
-		// if we are unhovering the currently highlighted option
-		// then unhighlight it
-		if (this.getParent()._highlighted_option === this) {
-			this._onUnhover();
+		// if we are unhovering the currently selected item
+		// then unselect it
+		if(this.getParent()._selectedItem === this){
+			this._unselectItem();
 		}
 	},
 
@@ -449,10 +465,6 @@ dojo.declare(
 
 		// user defined handler for click
 		this.onClick();
-		
-		if(displayingSubMenu && focus){
-			dijit.byId(this.submenuId)._highlightOption(1);
-		}
 	},
 
 	onClick: function() {
@@ -502,7 +514,7 @@ dojo.declare(
 	},
 
 	_closedSubmenu: function(){
-		this.onUnhover();
+		this._unselectItem();
 	},
 
 	setDisabled: function(/*Boolean*/ value){
