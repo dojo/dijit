@@ -78,6 +78,10 @@ dojo.declare(
 			dijit.form.Select.superclass.setValue.apply(this, arguments);
 			this.settingValue=false;
 		},
+// Bill: see comments in Autocompleter about settingValue and setValue/setTextValue().
+// This all seems overcomplicated.
+// If it helps, you can call any function directly, such as:
+// dijit.form.FormElement.prototype.setValue.apply(this, arguments)
 
 		setValue: function(/*String*/ value){
 			// summary
@@ -89,14 +93,20 @@ dojo.declare(
 				label[this.keyField]=value;
 				this._setLabel(label);
 				return;
+// Bill: This code is for clearing the value (and label), but in that case
+// you shouldn't use a fake item attribute; rather just have a clearLabel()
+// function or something, or just inline the code here
+
 			}
 
 			// Defect #1451: set the label by reverse lookup
 			var query={};
 			query[this.keyField]=value;
+
 			function find_onError(e){
 				console.log("Error trying to find: "+e);
 			}
+// Bill: this function could be inlined in the call below
 
 			// do not use case sensitivity for the hidden value
 			this.store.fetch({queryIgnoreCase:false, query:query, onComplete:dojo.hitch(this, "_callbackSetLabel"), onError:find_onError});
@@ -104,8 +114,11 @@ dojo.declare(
 
 		_setLabel: function(/*Object*/ item){
 			// summary
+			//	Set the displayed valued in the input box, based on a selected item.
 			//	Users shouldn't call this function; they should be calling setTextValue() instead
-			
+
+// Bill: users shouldn't be calling setTextValue() either.   Just setValue() and getValue()
+
 			// get the actual label to display
 			var textlabel;
 			
@@ -115,10 +128,15 @@ dojo.declare(
 				textlabel=item[this.searchField];
 			}
 
+// Bill: above if could be more compactly represented as:
+//		var textlabel = this.store.isItem(item) ? this.store.getValue(item, this.searchField) : item[this.searchField]
+// but see comments above in setValue();  shouldn't be passing around a fake item to begin with
+
 			// if custom label function present, call it
 			if(this.labelFunc&&this.store.isItem(item)){
 				textlabel=this.labelFunc(item);
 			}
+// Bill: this.labelFunc is always defined; no reason to test if it's null
 
 			this.textbox.value = textlabel;
 		},
@@ -139,6 +157,8 @@ dojo.declare(
 			obj[this.searchField]=this.getTextValue();
 			return obj;
 		},
+// Bill: not sure getState() is even being used.  Doesn't getValue() tell you
+// what the state is?
 
 		_createOption:function(/*Object*/ tr){
 			// summary: creates an option to appear on the popup menu
@@ -169,6 +189,9 @@ dojo.declare(
 			this.comboBoxSelectionValue.setAttribute("value", "");
 			this.comboBoxSelectionValue.setAttribute("dojoAttachPoint","comboBoxSelectionValue");
 			this.domNode.appendChild(this.comboBoxSelectionValue);
+			
+// Bill: doesn't SerializableTextbox do all that stuff about adding the hidden field?
+
 			dijit.form.Select.superclass.postCreate.apply(this, arguments);
 			this.textbox.removeAttribute("name");
 
@@ -185,16 +208,21 @@ dojo.declare(
 
 		},
 
-		_assignHiddenValue:function(/*Object*/ keyValArr, /*DomNode*/ option){
+		_assignHiddenValue: function(/*Object*/ keyValArr, /*DomNode*/ option){
 			keyValArr[this.keyField]=option.value;
 		},
+// Bill: this function is never used
 
 		_doSelect: function(/*Event*/ tgt){
 			this._setLabel(tgt.item);
 			this._setValue(this.store.getValue(tgt.item, this.keyField));
 		},
+// Bill: neither is this function
 
-		setTextValue:function(/*String*/ label){
+		setTextValue: function(/*String*/ label){
+
+// Bill: is there a reason we need to support this at all?
+
 			// summary:
 			//	Set textbox to display label
 			//	Also performs reverse lookup to set the hidden value
@@ -252,6 +280,9 @@ dojo.declare(
 			}
 			
 		}
+		
+// Bill: I don't understand what _validateOption is doing exactly.
+// Why do we need to scan through the whole list?  Can't we do a direct query?
 
 	}
 

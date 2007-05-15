@@ -10,6 +10,10 @@ dojo.require("dijit.base.TemplatedWidget");
 dojo.declare(
 	"dijit.form.AutoCompleter",
 	[dijit.form.SerializableTextbox, dijit.form._DropDownTextBox],
+	
+// Bill: this shouldn't inherit SerializableTextbox
+// because there's no hidden value for the AutoCompleter
+
 	{
 		// summary:
 		//		Auto-completing text box, and base class for Select widget.
@@ -48,19 +52,30 @@ dojo.declare(
 		//		An example of the URL format for the default data provider is
 		//		"autoCompleterData.js"
 		url: "",
-	
+		
+// Bill: not sure we want to support url parameter; if we do then we have to support it for
+// all dojo.data widgets (grid, tree)
+
 		// maxListLength: Integer
 		//		Limits list to X visible rows, scroll on rest
 		maxListLength: 8,
-	
+
+// Bill: is maxListLength actually working?   I don't see any code that limits the # of visible rows
+// (that would be a good feature in _AutoCompleterMenu)
+
 		// dataProviderClass: String
 		//		Name of data provider class (code that maps a search string to a list of values)
 		//		The class must match the interface demonstrated by dojo.data.JsonItemStore
 		dataProviderClass: "dojo.data.JsonItemStore",
-	
+
+// Bill: not sure we want to support this; if we do then we have to support it for
+// all dojo.data widgets (grid, tree)
+
 		// searchField: String
 		//		Searches pattern match against this field
 		searchField: "name",
+		
+// Bill: rename to searchAttr to match dojo.data spec
 	
 		// size: String
 		//              Basic input tag size declaration.
@@ -69,7 +84,9 @@ dojo.declare(
 		// maxlength: String
 		//              Basic input tag maxlength declaration.
 		maxlength: "",
-			
+
+// Bill: size and maxlength shouldn't be here.  Maybe in a base class for input widgets?
+	
 		// ignoreCase: Boolean
 		//		Does the AutoCompleter menu ignore case?
 		ignoreCase: true,
@@ -91,13 +108,17 @@ dojo.declare(
 		setValue:function(/*String*/ value){
 			// summary: Sets the value of the AutoCompleter
 			this._setTextFieldValue(value);
-			console.log("Setting value to: "+value);
+
 			// reuse dijit setValue code
 			this.settingValue=true;
 			dijit.form.AutoCompleter.superclass.setValue.apply(this, arguments);
 			this.settingValue=false;
 		},
-	
+
+// Bill: there's got to be a better way to do this than settingValue attribute
+// But this is all tied in w/Autocompleter being defined as a SerializableTextbox
+// when it really isn't
+
 		setTextValue:function(/*String*/ value){
 			// summary: keeps value of AutoCompleter in sync with its text value
 	
@@ -118,7 +139,9 @@ dojo.declare(
 			state[this.searchField]=this.getValue();
 			return state;
 		},
-	
+
+// Bill: this doesn't seem necessary; can just use getValue()
+
 		setState: function(/*Object*/ state){
 			// summary:
 			//	Used for restoring state of AutoCompleter when has navigated to a new
@@ -137,7 +160,10 @@ dojo.declare(
 			dijit.form.AutoCompleter.superclass.disable.apply(this, arguments);
 			this.textbox.setAttribute("disabled",true);
 		},
-	
+
+// Bill: enable()/disable() seem unnecessary; FormElement already has code for
+// setting CSS classes when the widget is enabled/disabled
+
 		_getCaretPos: function(/*DomNode*/ element){
 			// khtml 3.5.2 has selection* methods as does webkit nightlies from 2005-06-22
 			if(typeof(element.selectionStart)=="number"){
@@ -246,6 +272,7 @@ dojo.declare(
 					for(var i=0; i<this.maxListLength; i++){
 						this.popupWidget._highlightNextOption();
 					}
+// Bill: maybe there should be a pageDown() method in AutoCompleterMenu
 					dojo.stopEvent(evt);
 					this._prev_key_backspace = false;
 					this._prev_key_esc = false;
@@ -348,7 +375,6 @@ dojo.declare(
 		},
 	
 		_openResultList: function(/*Object*/ results){
-			console.log("Opening result list; "+results.length+" items");
 			if(this.disabled){
 				return;
 			}
@@ -376,7 +402,10 @@ dojo.declare(
 				}
 	
 			}
-	
+
+// Bill: I'm not sure what this setSelectedRange() is doing;
+// there should be a comment explaining it here)
+
 			// #2309: iterate over cache nondestructively
 			for(var i=0; i<results.length; i++){
 				var tr=results[i];
@@ -387,6 +416,12 @@ dojo.declare(
 				}
 	
 			}
+// Bill: above loop could be done w/ "dojo.forEach(results, function(tr){" or better yet map()
+//
+// But actually the interface between AutoCompleterMenu and Autocompleter is strange to me.
+// AutoCompleterMenu should be in charge of the
+// DOM manipulation (creating text nodes, etc).   autocompleter should just pass in a list of
+// items
 				
 			// show our list (only if we have content, else nothing)
 			this._showResultList();
@@ -399,7 +434,10 @@ dojo.declare(
 			td.item=tr;
 			return td;
 		},
-	
+
+// Bill: since createOption() is only called once it doesn't need to be a separate method.
+// Code can be inlined.
+
 		onfocus:function(){
 			dijit.form.SerializableTextbox.prototype.onfocus.apply(this, arguments);
 			this._hasFocus = true;
@@ -410,7 +448,9 @@ dojo.declare(
 			dijit.form.SerializableTextbox.prototype.onblur.apply(this, arguments);
 			this._hasFocus = false;
 		},
-	
+
+// Bill: you are setting hasFocus but never using it, so the above functions seem unnecessary
+
 		_selectOption: function(/*Event*/ evt){
 			var tgt = null;
 			if(!evt){
@@ -461,6 +501,7 @@ dojo.declare(
 		},
 	
 		arrowClicked: function(){
+// Bill: should rename to _onArrowClicked() for consistency
 			// summary: callback when arrow is clicked
 			if(this.disabled) {
 				return;
@@ -475,22 +516,28 @@ dojo.declare(
 			}
 	
 		},
-	
+
 		_startSearchFromInput: function(){
 			this._startSearch(this.textbox.value);
 		},
 	
 		_startSearch: function(/*String*/ key){
-			console.log("_startSearch");
 			var query={};
 			query[this.searchField]=key+"*";
 			this.store.fetch({queryIgnoreCase:this.ignoreCase, query: query, onComplete:dojo.hitch(this, "_openResultList"), count:this.searchLimit});
+
+// Bill: actually you should save the query object (in this._query) and reuse it
+// (after modifying the query), because
+// fetch might maintain state info in there (caching,etc.)
+// Same for Select
+
 		},
 	
 		_assignHiddenValue:function(/*Object*/ keyValArr, /*DomNode*/ option){
 			// not necessary in AutoCompleter
 			return;
 		},
+// Bill: again, a remnant of descending from SerializableTextbox?
 	
 		postCreate: function(){
 			//dijit.form.AutoCompleter.superclass.postCreate.apply(this, arguments);
@@ -499,6 +546,10 @@ dojo.declare(
 			//document.body.appendChild(node);
 			this.popupWidget=dijit.form.AutoCompleter.MasterPopup; //new dijit.form._AutoCompleterMenu({}, node);
 			
+// Bill: not sure having a MasterPopup is giving us here.
+// How about creating the menu on demand (NOT at postCreate() time),
+// but having one per widget?
+
 			var dpClass=dojo.getObject(this.dataProviderClass, false);
 			
 			// new dojo.data code
@@ -518,7 +569,12 @@ dojo.declare(
 						this.domNode.removeChild(opts[x]);
 						//dojo.dom.removeNode(opts[x]);
 					}
-	
+// Bill: is there a reason the loop goes backwards?  couldn't you make the loop go
+// forwards and just call data.push()?  Not sure why you are calling this.domNode.removeChild()
+// either.   This would all probably be easier if you just called
+//	dojo.query("option", this.domNode).map(function(node){ return ...}) and it will construct the array
+// for you
+
 					// pass store inline data
 					this.data={items:data};
 				}
@@ -549,6 +605,28 @@ dojo.declare(
 	"dijit.form._AutoCompleterMenu",
 	[dijit.base.FormElement, dijit.base.TemplatedWidget, dijit.form._DropDownTextBox.Popup],
 
+// Bill: 
+// In addition, I'd like the interface to AutoCompleterMenu to be higher level,
+// taking a list of items to initialize it, and returns the selected item
+//
+//                new _AutoCompleterMenu({
+//                                 items: /*dojo.data.Item[]*/ items,
+//                                 labelFunc: dojo.hitc(this, "_makeLabel"),
+//                                 onSelectItem: dojo.hitch(this, "_itemSelected")
+//               });
+//
+// (This is dependent on NOT having a global widget for this, but rather
+// creating it on the fly, as per discussion with Bill, Adam, and Mark)
+// 
+// It could also have a method like handleKey(evt) that takes a keystroke
+// the <input> received and handles it.
+//
+// also doesn't seem like this should inherit from FormElement, and again I'm not
+// sure of the utility of dijit.form._DropDownTextBox.Popup;
+// all the popup functionality is supposed to be in PopupManager
+//
+
+
 	{
 		// summary:
 		//	Focus-less div based menu for internal use in AutoCompleter
@@ -565,7 +643,7 @@ dojo.declare(
 			this.onValueChanged=dojo.hitch(widget, widget._selectOption);
 			dijit.form._DropDownTextBox.Popup.prototype.open.apply(this, arguments);
 		},
-	
+
 		close:function(){
 			dijit.form._DropDownTextBox.Popup.prototype.close.apply(this, arguments);
 			this._blurOptionNode();
@@ -574,19 +652,22 @@ dojo.declare(
 		addItem:function(/*Node*/ item){
 			this.domNode.appendChild(item);
 		},
-	
+// Bill: see comments above; this call is too low level for the interface
+// between Autocompleter and AutocompleterMenu
+
 		clearResultList:function(){
 			this.domNode.innerHTML="";
 		},
 	
-		getItems:function(){
+		getItems: function(){
 			return this.domNode.childNodes;
 		},
 	
-		getListLength:function(){
+		getListLength: function(){
 			return this.domNode.childNodes.length;
 		},
-	
+// Bill: above two functions are never called
+
 		onclick:function(/*Event*/ evt){
 			if(evt.target === this.domNode){ return; }
 			var tgt=evt.target;
