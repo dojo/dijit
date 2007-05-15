@@ -38,6 +38,9 @@ based on the browser type (like dojo.gfx or dojo.charting).
 
 Templates
 ---------
+"this." is no longer used within ${} substitution notation.  See ticket #2905.
+dojoRoot,buildScriptBase,dojoModuleUrl are no longer supported, but
+any JavaScript properties on the widget's 'this' may be referenced with dotted notation.
 The attributes dojoOn* are desupported (including dojoOnBuild);
 also can't use id attribute to affect a dojoAttachPoint.
 
