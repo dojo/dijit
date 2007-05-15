@@ -1,5 +1,6 @@
 dojo.provide("dijit.base.TemplatedWidget");
 
+dojo.require("dojo.string");
 dojo.require("dijit.util.wai");
 dojo.require("dijit.util.parser");
 
@@ -49,27 +50,12 @@ dojo.declare("dijit.base.TemplatedWidget",
 
 			var node;
 			if(dojo.isString(cached)){
-				// construct table for property replacement
-				var hash = this.strings || {};
-				for(var key in dijit.base.defaultStrings){
-					if(typeof hash[key] == "undefined"){
-						hash[key] = dijit.base.defaultStrings[key];
-					}
-				}
-
 				// Cache contains a string because we need to do property replacement
-				var tstr = cached;
-
 				// do the property replacement
-				var _this = this;
-				tstr = tstr.replace(/\$\{([^\}]+)\}/g, function(match, key){
-				//TODO: use dojo.string.substitute
-					var value = (key.substring(0, 5) == "this.") ? dojo.getObject(key.substring(5), false, _this) : hash[key];
-					if(value){
-						// Safer substitution, see heading "Attribute values" in  
-						// http://www.w3.org/TR/REC-html40/appendix/notes.html#h-B.3.2
-						return value.toString().replace(/"/g,"&quot;");
-					}
+				var tstr = dojo.string.substitute(cached, this, function(value){
+					// Safer substitution, see heading "Attribute values" in  
+					// http://www.w3.org/TR/REC-html40/appendix/notes.html#h-B.3.2
+					return value.toString().replace(/"/g,"&quot;"); //TODO: support a more complete set of escapes?
 				});
 
 				node = dijit.base._createNodesFromText(tstr)[0];
@@ -92,7 +78,7 @@ dojo.declare("dijit.base.TemplatedWidget",
 				this.srcNodeRef.parentNode.replaceChild(this.domNode, this.srcNodeRef);
 			}
 			if(this.widgetsInTemplate){
-				var childWidgets=dijit.util.parser.parse(this.domNode);
+				var childWidgets = dijit.util.parser.parse(this.domNode);
 				this._attachTemplateNodes(childWidgets, function(n,p){
 					return n[p];
 				});
@@ -140,8 +126,8 @@ dojo.declare("dijit.base.TemplatedWidget",
 				var tmpAttachPoint = getAttrFunc(baseNode, "dojoAttachPoint");
 				if(tmpAttachPoint){
 					var attachPoint = tmpAttachPoint.split(";");
-					var z=0,ap;
-					while(ap=attachPoint[z++]){
+					var z = 0, ap;
+					while((ap=attachPoint[z++])){
 						if(dojo.isArray(this[ap])){
 							this[ap].push(baseNode);
 						}else{
@@ -156,8 +142,8 @@ dojo.declare("dijit.base.TemplatedWidget",
 					// NOTE: we want to support attributes that have the form
 					// "domEvent: nativeEvent; ..."
 					var evts = attachEvent.split(";");
-					var y=0,evt;
-					while(evt=evts[y++]){
+					var y = 0, evt;
+					while((evt=evts[y++])){
 						if(!evt || !evt.length){ continue; }
 						var thisFunc = null;
 						var tevt = trim(evt);
@@ -193,14 +179,6 @@ dojo.declare("dijit.base.TemplatedWidget",
 		}
 	}
 );
-
-dijit.base.defaultStrings = {
-	// summary: a mapping of strings that are used in template variable replacement
-	dojoRoot: dojo.baseUrl,
-	dojoModuleUri: dojo.moduleUrl("dojo"),
-	dijitModuleUri: dojo.moduleUrl("dijit"),	
-	baseScriptUri: dojo.baseUrl
-};
 
 // key is either templatePath or templateString; object is either string or DOM tree
 dijit.base._templateCache = {};

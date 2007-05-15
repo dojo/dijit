@@ -23,7 +23,7 @@
 				{
 					caption: "",
 			
-					templateString: "<button dojoAttachEvent='onclick:onClick'>${this.caption}</button>",
+					templateString: "<button dojoAttachEvent='onclick:onClick'>${caption}</button>",
 			
 					onClick: function(){
 						this.domNode.style.backgroundColor="green";

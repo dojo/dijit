@@ -345,7 +345,7 @@ dojo.declare(
 	//	The button-like or tab-like object you click to select or delete a page
 
 	templateString: "<span class='item'>" +
-						"<span dojoAttachEvent='onclick:onClick' dojoAttachPoint='titleNode' class='selectButton'>${this.label}</span>" +
+						"<span dojoAttachEvent='onclick:onClick' dojoAttachPoint='titleNode' class='selectButton'>${label}</span>" +
 						"<span dojoAttachEvent='onclick:onCloseButtonClick' class='closeButton'>[X]</span>" +
 					"</span>",
 

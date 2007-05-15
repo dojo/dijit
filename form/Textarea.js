@@ -15,16 +15,16 @@ dojo.declare(
 	// usage:
 	//	<textarea dojoType="dijit.form.ResizableTextArea">...</textarea>
 
-	templateString: (dojo.isIE || dojo.isSafari || dojo.isMozilla) ? '<fieldset id="${this.id}" tabIndex="${this.tabIndex}" class="dojoInlineBox dojoInputField dojoTextArea">'
+	templateString: (dojo.isIE || dojo.isSafari || dojo.isMozilla) ? '<fieldset id="${id}" tabIndex="${tabIndex}" class="dojoInlineBox dojoInputField dojoTextArea">'
 				+ ((dojo.isIE || dojo.isSafari) ? '<div dojoAttachPoint="editNode" style="text-decoration:none;_padding-bottom:16px;display:block;overflow:auto;" contentEditable="true"></div>' 
 					: '<iframe dojoAttachPoint="iframe" src="javascript:void(0)" style="border:0px;margin:0px;padding:0px;display:block;width:100%;height:100%;overflow-x:auto;overflow-y:hidden;"></iframe>')
-				+ '<textarea name="${this.name}" value="${this.value}" dojoAttachPoint="formValueNode" style="display:none;"></textarea>'
+				+ '<textarea name="${name}" value="${value}" dojoAttachPoint="formValueNode" style="display:none;"></textarea>'
 				+ '</fieldset>'
-			: '<textarea id="${this.id}" name="${this.name}" value="${this.value}" dojoAttachPoint="formValueNode" tabIndex="${this.tabIndex}" class="dojoInputField dojoTextArea"></textarea>',
+			: '<textarea id="${id}" name="${name}" value="${value}" dojoAttachPoint="formValueNode" tabIndex="${tabIndex}" class="dojoInputField dojoTextArea"></textarea>',
 
 	focus: function(){
 		// summary: Received focus, needed for the InlineEditBox widget
-		if (!this.disabled){
+		if(!this.disabled){
 			this._changing(); // set initial height
 			this.focusNode.focus();
 		}

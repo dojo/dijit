@@ -152,8 +152,8 @@ dojo.declare(
 
 	templateString: "<div class='dojoTab' dojoAttachEvent='onclick:onClick'>"
 						+"<div dojoAttachPoint='innerDiv'>"
-							+"<span dojoAttachPoint='titleNode' tabIndex='-1' waiRole='tab'>${this.label}</span>"
-							+"<span dojoAttachPoint='closeButtonNode' class='close closeImage' style='${this.closeButtonStyle}'"
+							+"<span dojoAttachPoint='titleNode' tabIndex='-1' waiRole='tab'>${label}</span>"
+							+"<span dojoAttachPoint='closeButtonNode' class='close closeImage' style='${closeButtonStyle}'"
 							+"    dojoAttachEvent='onmouseover:onCloseButtonMouseOver; onmouseout:onCloseButtonMouseOut; onclick:onCloseButtonClick'></span>"
 						+"</div>"
 					+"</div>",
@@ -191,8 +191,8 @@ dojo.declare(
 		
 		templateString: "<div class='dojoTab' dojoAttachEvent='onclick:onClick;onkeypress:onkeypress'>"
 							+"<div dojoAttachPoint='innerDiv'>"
-								+"<span dojoAttachPoint='titleNode' tabIndex='-1' waiRole='tab'>${this.label}</span>"
-								+"<img class='close' src='${this.imgPath}' alt='[x]' style='${this.closeButtonStyle}'"
+								+"<span dojoAttachPoint='titleNode' tabIndex='-1' waiRole='tab'>${label}</span>"
+								+"<img class='close' src='${imgPath}' alt='[x]' style='${closeButtonStyle}'"
 								+"    dojoAttachEvent='onclick:onCloseButtonClick'>"
 							+"</div>"
 						+"</div>"
