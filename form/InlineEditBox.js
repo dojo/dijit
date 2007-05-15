@@ -46,21 +46,28 @@ dojo.declare(
 			// look for the input widget as a child of the containerNode
 			if(_this.editWidget){
 				_this.containerNode.appendChild(_this.editWidget.domNode);
-			}else{
+			}
+
+			else{
 				var node = _this.containerNode.firstChild;
 				while(node != null){
 					_this.editWidget = dijit.util.manager.byNode(node);
 					if(_this.editWidget){
 						break;
 					}
+
 					node = node.nextSibling;
 				}
+
 			}
+
 			_this._setEditValue = dojo.hitch(_this.editWidget,_this.editWidget.setTextValue||_this.editWidget.setValue);
 			_this._getEditValue = dojo.hitch(_this.editWidget,_this.editWidget.getTextValue||_this.editWidget.getValue);
 			_this._setEditFocus = dojo.hitch(_this.editWidget,_this.editWidget.focus);
+			_this.editWidget.onValueChanged = dojo.hitch(_this,"checkForValueChange");
 			_this._showText();
 		});
+
 	},
 	
 	postMixInProperties: function(){
@@ -71,8 +78,8 @@ dojo.declare(
 		}, this);
 	},
 
-	_onKeyPress: function(e) {
-		if (this.disabled || e.altKey || e.ctrlKey) { return; }
+	_onKeyPress: function(e){
+		if (this.disabled || e.altKey || e.ctrlKey){ return; }
 		if (e.charCode == dojo.keys.SPACE || e.keyCode == dojo.keys.ENTER){
 			dojo.stopEvent(e);
 			this._onClick(e);
@@ -113,7 +120,8 @@ dojo.declare(
 
 		this._setEditFocus();
 		this.saveButton.disabled = true;
-		this.editWidget.onValueChanged = dojo.hitch(this,"checkForValueChange");
+		// moved to postCreate to always listen
+		//this.editWidget.onValueChanged = dojo.hitch(this,"checkForValueChange");
 		this.onClick();
 	},
 
@@ -156,7 +164,14 @@ dojo.declare(
 		// summary
 		//		Callback when user changes input value.
 		//		Enable save button if the text value is different than the original value.
-		this.saveButton.disabled = (this._getEditValue() == this._initialText);
+		if(this.editing){
+			this.saveButton.disabled = (this._getEditValue() == this._initialText);
+		}
+
+		else{
+			this._showText();
+		}
+
 	},
 	
 	disable: function(){

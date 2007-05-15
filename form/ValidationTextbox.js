@@ -132,6 +132,7 @@ dojo.declare(
 				this.constraints = {};
 			}
 			dijit.form.ValidationTextbox.superclass.postMixInProperties.apply(this, arguments);
+			this.constraints.locale=this.lang;
 			this.messages = dojo.i18n.getLocalization("dijit.form", "validate", this.lang);
 			dojo.forEach(["invalidMessage", "missingMessage"], function(prop){
 				if(!this[prop]){ this[prop] = this.messages[prop]; }
