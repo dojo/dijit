@@ -11,6 +11,5 @@ dijit.util.bidi.isLeftToRight = function(/*HtmlElement*/node){
 			return node.dir == "ltr";
 		}
 	}
-	return dojo.doc.dir; // Boolean
+	return dojo.doc.dir != "rtl"; // Boolean
 }
-
