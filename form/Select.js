@@ -5,6 +5,9 @@ dojo.require("dijit.form.AutoCompleter");
 dojo.declare(
 	"dijit.form.Select",
 	dijit.form.AutoCompleter,
+
+// Bill: shouldn't this be inheriting from SerializableTextbox?
+
 	{
 		/*
 		 * summary
@@ -102,7 +105,6 @@ dojo.declare(
 			// Defect #1451: set the label by reverse lookup
 			var query={};
 			query[this.keyField]=value;
-
 			function find_onError(e){
 				console.log("Error trying to find: "+e);
 			}
@@ -116,7 +118,7 @@ dojo.declare(
 			// summary
 			//	Set the displayed valued in the input box, based on a selected item.
 			//	Users shouldn't call this function; they should be calling setTextValue() instead
-
+			
 // Bill: users shouldn't be calling setTextValue() either.   Just setValue() and getValue()
 
 			// get the actual label to display
@@ -124,7 +126,7 @@ dojo.declare(
 			
 			if(this.store.isItem(item)){
 				textlabel=this.store.getValue(item, this.searchField);
-			}else {
+			}else{
 				textlabel=item[this.searchField];
 			}
 
@@ -208,7 +210,7 @@ dojo.declare(
 
 		},
 
-		_assignHiddenValue: function(/*Object*/ keyValArr, /*DomNode*/ option){
+		_assignHiddenValue:function(/*Object*/ keyValArr, /*DomNode*/ option){
 			keyValArr[this.keyField]=option.value;
 		},
 // Bill: this function is never used
@@ -219,7 +221,7 @@ dojo.declare(
 		},
 // Bill: neither is this function
 
-		setTextValue: function(/*String*/ label){
+		setTextValue:function(/*String*/ label){
 
 // Bill: is there a reason we need to support this at all?
 
@@ -232,7 +234,7 @@ dojo.declare(
 			// stop the recursion
 			if(!this.settingValue){
 				dijit.form.AutoCompleter.superclass.setTextValue.apply(this, arguments);
-				if(this.store) {
+				if(this.store){
 					this.store.fetch({query:query, queryIgnoreCase:this.ignoreCase, onComplete: dojo.hitch(this, this._validateOption)});
 				}
 			}
@@ -243,9 +245,9 @@ dojo.declare(
 			// TODO: pass through labelFunc
 			var input = this.textbox.value;
 			var testlabel;
-			if(this.store.isItem(result)) {
+			if(this.store.isItem(result)){
 				testlabel=this.store.getValue(result, this.searchField);
-			}else {
+			}else{
 				testlabel=result[this.searchField];
 			}
 
@@ -280,7 +282,7 @@ dojo.declare(
 			}
 			
 		}
-		
+
 // Bill: I don't understand what _validateOption is doing exactly.
 // Why do we need to scan through the whole list?  Can't we do a direct query?
 

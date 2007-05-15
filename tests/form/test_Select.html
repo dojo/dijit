@@ -31,6 +31,7 @@
 	function myLabelFunc(item){
 		return item['name'];
 	}
+	myStore=new dojo.data.JsonItemStore({url:"autoCompleterData.json"});
 </script>
 </head>
 
@@ -145,8 +146,14 @@ Enhancements over plain HTML version:
 		url="autoCompleterData.json" name="state2" autocomplete="false" labelField="label" labelType="html"
 		onValueChanged="setVal3" dataProviderClass="dojo.data.JsonItemStore" promptMessage="Please enter a state"
 	>
-	<br>
 	<div>Value: <input id="value3" disabled></div>
+	<hr>
+  <p>Select #4: declarative store, autocomplete=false:</p>
+ 	<input searchField="name" keyField="abbreviation" dojoType="dijit.form.Select" value="VI"
+		name="state4" autocomplete="false" labelField="label" labelType="html"
+		store="myStore" promptMessage="Please enter a state"
+	>
+	<br>
 	<hr>
 	<!--<p>Stress test</p>
 	<input searchField="name" keyField="abbreviation" dojoType="dijit.form.Select" value="VI"
