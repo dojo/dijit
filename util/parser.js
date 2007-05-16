@@ -7,7 +7,7 @@ dijit.util.parser = new function(){
 
 	function val2type(/*Object*/ value){
 		// summary:
-		//	Returns name of type of given value.
+		//		Returns name of type of given value.
 
 		if(dojo.isString(value)){ return "string"; }
 		if(typeof value == "number"){ return "number"; }
@@ -20,8 +20,8 @@ dijit.util.parser = new function(){
 	}
 
 	function str2obj(/*String*/ value, /*String*/ type){
-		// summary
-		//	Convert given string value to given type
+		// summary:
+		//		Convert given string value to given type
 		switch(type){
 			case "string":
 				return value;
@@ -60,10 +60,13 @@ dijit.util.parser = new function(){
 	
 	function getWidgetClassInfo(/*String*/ className){
 		// className:
-		//	fully qualified name (like "dijit.Button")
+		//		fully qualified name (like "dijit.Button")
 		// returns:
-		//	structure like
-		//	{ cls: dijit.Button, params: {caption: "string", disabled: "boolean"} }
+		//		structure like
+		//			{ 
+		//				cls: dijit.Button, 
+		//				params: { caption: "string", disabled: "boolean"}
+		//			}
 
 		if(!widgetClasses[className]){
 			// get pointer to widget class
@@ -89,8 +92,8 @@ dijit.util.parser = new function(){
 	
 	this.instantiate = function(nodes){
 		// summary:
-		//	Takes array of nodes, and turns them into widgets
-		//	Calls their layout method to allow them to connect with any children		
+		//		Takes array of nodes, and turns them into widgets Calls their
+		//		layout method to allow them to connect with any children		
 		var thelist = [];
 		dojo.forEach(nodes, function(node){
 			if(!node){ return; }
@@ -105,6 +108,10 @@ dijit.util.parser = new function(){
 				}
 			}
 			thelist.push(new clsInfo.cls(params, node));
+			var jsname = node.getAttribute('jsId');
+			if(jsname){
+				dojo.setObject(jsname, thelist[thelist.length-1]);
+			}
 		});
 
 		// first sort the widgets so that we can do a top-down wiring phase
@@ -121,9 +128,10 @@ dijit.util.parser = new function(){
 	};
 
 	this.parse = function(/*DomNode?*/ rootNode){
-		// Summary
-		//		Search specified node (or root node) recursively for widgets, and instantiate them
-		//		Searches for dojoType="qualified.class.name"
+		// summary:
+		//		Search specified node (or root node) recursively for widgets,
+		//		and instantiate them Searches for
+		//		dojoType="qualified.class.name"
 		var list = dojo.query('[dojoType]', rootNode);
 		return this.instantiate(list);
 	};
@@ -142,10 +150,9 @@ dijit.util.parser._nameAnonFunc = function(/*Function*/anonFuncPtr, /*Object*/th
 	//		existing reference to anonFuncPtr in thisObj, and if one is found,
 	//		the existing name will be returned instead. The default is for
 	//		searchForNames to be false.
-	var isIE = dojo.isIE;
 	var jpn = "$joinpoint";
 	var nso = (thisObj|| dijit.util.parser._anon);
-	if(isIE){
+	if(dojo.isIE){
 		var cn = anonFuncPtr["__dojoNameCache"];
 		if(cn && nso[cn] === anonFuncPtr){
 			return anonFuncPtr["__dojoNameCache"];
@@ -154,22 +161,6 @@ dijit.util.parser._nameAnonFunc = function(/*Function*/anonFuncPtr, /*Object*/th
 			var tindex = cn.indexOf(jpn);
 			if(tindex != -1){
 				return cn.substring(0, tindex);
-			}
-		}
-	}
-	if( (searchForNames) ||
-		((dojo.global["djConfig"])&&(djConfig["slowAnonFuncLookups"] == true)) ){
-		for(var x in nso){
-			if(nso[x] === anonFuncPtr){
-				if(isIE){
-					anonFuncPtr["__dojoNameCache"] = x;
-					// hack to see if we've been event-system mangled
-					var tindex = x.indexOf(jpn);
-					if(tindex != -1){
-						x = x.substring(0, tindex);
-					}
-				}
-				return x;
 			}
 		}
 	}
