@@ -16,28 +16,37 @@ dojo.declare(
 		//	link to the popup widget
 		popupWidget:null,
 		
-		// visibleCount: Integer
-		//	how many items to display
-		visibleCount:1,
+		// maxListLength: Integer
+		//		Limits list to X visible rows, scroll on rest
+		maxListLength: 8,
 		
 		_arrowPressed: function(){
 			if(!this.disabled){
 				dojo.addClass(this.downArrowNode, "dojoArrowButtonPushed");
 			}
-			
 		},
 
 		_arrowIdle: function(){
 			if(this.disabled){
 				return;
 			}
-			
 			if(this.popupWidget.aroundwidget!=this){
 				dojo.removeClass(this.downArrowNode, "dojoArrowButtonPushed");
 			}
-			
 		},
-
+		
+		enable:function(){
+			this.parentClass.enable.apply(this, arguments);
+			// not enabled by FormElement
+			this.textbox.removeAttribute("disabled");
+		},
+	
+		disable: function(){
+			this.parentClass.disable.apply(this, arguments);
+			// not disabled by FormElement
+			this.textbox.setAttribute("disabled",true);
+		},
+	
 		arrowClicked: function(){
 			// summary: callback when arrow is clicked
 			if(this.disabled){
@@ -60,7 +69,6 @@ dojo.declare(
 				this.popupWidget.close(true);
 				this._arrowIdle();
 			}
-			
 		},
 
 		_openResultList:function(){
@@ -77,7 +85,6 @@ dojo.declare(
 			if(!this.popupWidget.isShowingNow){
 				this.setValue(this.getValue());
 			}
-			
 			// sometimes the tooltip gets stuck; confused by dropdown
 			dijit.MasterTooltip.hide();
 		},
@@ -91,11 +98,9 @@ dojo.declare(
 			try{
 				this.textbox.focus();
 			}
-			
 			catch(e){
 				// element isn't focusable if disabled, or not visible etc - not easy to test for.
 			}
-			
 		},
 		
 		_showResultList: function(){
@@ -117,26 +122,16 @@ dojo.declare(
 							var coords=dojo.coords(this.popupWidget.domNode);
 							calcheight=windowheight-coords.y;
 						}
-						
 						height=calcheight+"px";
 					}
-					
-					//width = childs[0].width==undefined ? childs[0].offsetWidth+"px":childs[0].width+"px";
 					width="";
 				}
-				
-				// reopen to reposition
-				//this.popupWidget.close(true);
-				//this.popupWidget.open(this);
 				this._arrowPressed();
 			}else{
 				this._hideResultList();
 			}
-			
 		}
-		
 	}
-	
 );
 
  dojo.declare(
@@ -178,17 +173,13 @@ dojo.declare(
 			if(!this.isShowingNow){
 				return;
 			}
-			
 			this.isShowingNow=false;
 			this.onValueChanged=function(){
 				return;
 			};
-			
 			dijit.util.PopupManager.close(force);
 			this.parentWidget=null;
 			document.body.removeChild(this.domNode);
 		}
-		
 	}
-	
 );

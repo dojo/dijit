@@ -8,8 +8,8 @@ dojo.require("dijit.form.ValidationTextbox");
 dojo.require("dijit.base.TemplatedWidget");
 
 dojo.declare(
-	"dijit.form.AutoCompleter",
-	[dijit.form.ValidationTextbox, dijit.form._DropDownTextBox],
+	"dijit.form.AutoCompleterMixin",
+	dijit.form._DropDownTextBox,
 	{
 		// summary:
 		//		Auto-completing text box, and base class for Select widget.
@@ -52,13 +52,6 @@ dojo.declare(
 // Bill: not sure we want to support url parameter; if we do then we have to support it for
 // all dojo.data widgets (grid, tree)
 
-		// maxListLength: Integer
-		//		Limits list to X visible rows, scroll on rest
-		maxListLength: 8,
-	
-// Bill: is maxListLength actually working?   I don't see any code that limits the # of visible rows
-// (that would be a good feature in _AutoCompleterMenu)
-
 		// dataProviderClass: String
 		//		Name of data provider class (code that maps a search string to a list of values)
 		//		The class must match the interface demonstrated by dojo.data.JsonItemStore
@@ -67,22 +60,16 @@ dojo.declare(
 // Bill: not sure we want to support this; if we do then we have to support it for
 // all dojo.data widgets (grid, tree)
 
-		// searchField: String
+		// data: Object
+		//		Inline data to put in store
+		//		Data must match data type of dataProviderClass
+		//		For example, data would contain JSON data if dataProviderClass is a JsonItemStore
+		data:null,
+
+		// searchAttr: String
 		//		Searches pattern match against this field
-		searchField: "name",
-	
-// Bill: rename to searchAttr to match dojo.data spec
-	
-		// size: String
-		//              Basic input tag size declaration.
-		size: "",
-	
-		// maxlength: String
-		//              Basic input tag maxlength declaration.
-		maxlength: "",
-			
-// Bill: size and maxlength shouldn't be here.  Maybe in a base class for input widgets?
-	
+		searchAttr: "name",
+		
 		// ignoreCase: Boolean
 		//		Does the AutoCompleter menu ignore case?
 		ignoreCase: true,
@@ -107,7 +94,7 @@ dojo.declare(
 
 			// reuse dijit setValue code
 			this.settingValue=true;
-			dijit.form.AutoCompleter.superclass.setValue.apply(this, arguments);
+			this.parentClass.setValue.apply(this, arguments);
 			this.settingValue=false;
 		},
 	
@@ -122,43 +109,9 @@ dojo.declare(
 			if(!this.settingValue){
 				this.setValue(value);
 			}else{
-				dijit.form.AutoCompleter.superclass.setTextValue.apply(this, arguments);
+				this.parentClass.setTextValue.apply(this, arguments);
 			}
-
 		},
-
-		getState: function(){
-			// summary:
-			//	Used for saving state of AutoCompleter when navigates to a new
-			//	page, in case they then hit the browser's "Back" button.
-			var state={};
-			state[this.searchField]=this.getValue();
-			return state;
-		},
-	
-// Bill: this doesn't seem necessary; can just use getValue()
-
-		setState: function(/*Object*/ state){
-			// summary:
-			//	Used for restoring state of AutoCompleter when has navigated to a new
-			//	page but then hits browser's "Back" button.
-			this.setValue(state[this.searchField]);
-		},
-	
-		enable:function(){
-			//this.disabled=false;
-			dijit.form.AutoCompleter.superclass.enable.apply(this, arguments);
-			this.textbox.removeAttribute("disabled");
-		},
-	
-		disable: function(){
-			//this.disabled = true;
-			dijit.form.AutoCompleter.superclass.disable.apply(this, arguments);
-			this.textbox.setAttribute("disabled",true);
-		},
-	
-// Bill: enable()/disable() seem unnecessary; FormElement already has code for
-// setting CSS classes when the widget is enabled/disabled
 
 		_getCaretPos: function(/*DomNode*/ element){
 			// khtml 3.5.2 has selection* methods as does webkit nightlies from 2005-06-22
@@ -181,13 +134,10 @@ dojo.declare(
 					ntr.setEndPoint("EndToEnd", tr);
 					return String(ntr.text).replace(/\r/g,"").length;
 				}
-	
 				catch(e){
 					return 0; // If focus has shifted, 0 is fine for caret pos.
 				}
-	
 			}
-	
 		},
 	
 		_setCaretPos: function(/*DomNode*/ element, /*Number*/ location){
@@ -212,7 +162,6 @@ dojo.declare(
 					moveStart('character', start);
 					select();
 				}
-			
 			}else{ //otherwise try the event-creation hack (our own invention)
 				// do we need these?
 				element.value = element.value;
@@ -227,9 +176,7 @@ dojo.declare(
 					te.initKeyEvent("keypress", true, true, null, false, false, false, false, tcc, tcc);
 					element.dispatchEvent(te);
 				}
-	
 			}
-	
 		},
 	
 		onkeyup:function(){
@@ -250,13 +197,12 @@ dojo.declare(
 						this._arrowPressed();
 						this._startSearchFromInput();
 					}
-	
 					this.popupWidget._highlightNextOption();
 					dojo.stopEvent(evt);
 					this._prev_key_backspace = false;
 					this._prev_key_esc = false;
 					return;
-	
+
 				case dojo.keys.UP_ARROW:
 					this.popupWidget._highlightPrevOption();
 					dojo.stopEvent(evt);
@@ -314,7 +260,6 @@ dojo.declare(
 						this._hideResultList();
 						return;
 					}
-	
 					break;
 	
 				case dojo.keys.ESCAPE:
@@ -329,7 +274,6 @@ dojo.declare(
 					if(!this.textbox.value.length){
 						this.setValue("");
 					}
-	
 					break;
 	
 				case dojo.keys.RIGHT_ARROW: // fall through
@@ -346,13 +290,10 @@ dojo.declare(
 					if(evt.charCode==0){
 						doSearch = false;
 					}
-	
 			}
-	
 			if(this.searchTimer){
 				clearTimeout(this.searchTimer);
 			}
-	
 			if(doSearch){
 				// if we have gotten this far we dont want to keep our highlight
 				//this._blurOptionNode();
@@ -360,7 +301,6 @@ dojo.declare(
 				// need to wait a tad before start search so that the event bubbles through DOM and we have value visible
 				this.searchTimer = setTimeout(dojo.hitch(this, this._startSearchFromInput), this.searchDelay);
 			}
-	
 		},
 	
 		compositionEnd: function(/*Event*/ evt){
@@ -374,14 +314,12 @@ dojo.declare(
 			if(this.disabled){
 				return;
 			}
-	
 			this.popupWidget.clearResultList();
 			if(!results.length){
 				this._hideResultList();
 				return;
 			}
-	
-			var zerothvalue=new String(this.store.getValue(results[0], this.searchField));
+			var zerothvalue=new String(this.store.getValue(results[0], this.searchAttr));
 			if(zerothvalue&&(this.autoComplete)&&
 			(!this._prev_key_backspace)&&
 			(this.textbox.value.length > 0)&&
@@ -392,16 +330,10 @@ dojo.declare(
 					// only add to input node as we would overwrite Capitalisation of chars
 					// actually, that is ok
 					this.textbox.value = zerothvalue;//.substr(cpos);
-					// build a new range that has the distance from the earlier
-					// caret position to the end of the first string selected
+					// visually highlight the autocompleted characters
 					this._setSelectedRange(this.textbox, cpos, this.textbox.value.length);
 				}
-	
 			}
-	
-// Bill: I'm not sure what this setSelectedRange() is doing;
-// there should be a comment explaining it here)
-
 			// #2309: iterate over cache nondestructively
 			for(var i=0; i<results.length; i++){
 				var tr=results[i];
@@ -425,27 +357,21 @@ dojo.declare(
 	
 		_createOption:function(/*Object*/ tr){
 			// summary: creates an option to appear on the popup menu
+			// subclassed by Select
 			var td = document.createElement("div");
-			td.appendChild(document.createTextNode(this.store.getValue(tr, this.searchField)));
+			td.appendChild(document.createTextNode(this.store.getValue(tr, this.searchAttr)));
 			td.item=tr;
 			return td;
 		},
-	
-// Bill: since createOption() is only called once it doesn't need to be a separate method.
-// Code can be inlined.
 
 		onfocus:function(){
-			dijit.form.ValidationTextbox.prototype.onfocus.apply(this, arguments);
-			this._hasFocus = true;
+			this.parentClass.onfocus.apply(this, arguments);
 		},
 	
 		onblur:function(){
 			dijit.form._DropDownTextBox.prototype.onblur.apply(this, arguments);
-			dijit.form.ValidationTextbox.prototype.onblur.apply(this, arguments);
-			this._hasFocus = false;
+			this.parentClass.onblur.apply(this, arguments);
 		},
-	
-// Bill: you are setting hasFocus but never using it, so the above functions seem unnecessary
 
 		_selectOption: function(/*Event*/ evt){
 			var tgt = null;
@@ -453,39 +379,31 @@ dojo.declare(
 				// what if nothing is highlighted yet?
 				evt ={ target: this._highlighted_option };
 			}
-	
 			if(!evt.target){
-				
 				// handle autocompletion where the the user has hit ENTER or TAB
 				// if the input is empty do nothing
 				if(!this.textbox.value.length){
 					//this._checkValueChanged();
 					return;
 				}
-	
 				//tgt = this.popupWidget.firstChild;
 				this.setTextValue(this.getTextValue());
 				return;
-				
 			// otherwise the user has accepted the autocompleted value
 			}else{
 				tgt = evt.target;
 			}
-			
-			while((tgt.nodeType!=1)||(!this.store.getValue(tgt.item, this.searchField))){
+			while((tgt.nodeType!=1)||(!this.store.getValue(tgt.item, this.searchAttr))){
 				tgt = tgt.parentNode;
 				if(tgt == dojo.body()){
 					return false;
 				}
-	
 			}
-	
 			this._doSelect(tgt);
 			if(!evt.noHide){
 				this._hideResultList();
 				this._setSelectedRange(this.textbox, 0, null);
 			}
-	
 			this.focus();
 			if(this.popupWidget.domNode.style.display!="none"){
 				dijit.util.PopupManager.close(this.popupWidget);
@@ -493,7 +411,7 @@ dojo.declare(
 		},
 	
 		_doSelect: function(tgt){
-			this.setValue(this.store.getValue(tgt.item, this.searchField));
+			this.setValue(this.store.getValue(tgt.item, this.searchAttr));
 		},
 	
 		arrowClicked: function(){
@@ -510,7 +428,6 @@ dojo.declare(
 				// on the arrow it means they want to see more options
 				this._startSearch("");
 			}
-	
 		},
 	
 		_startSearchFromInput: function(){
@@ -518,28 +435,24 @@ dojo.declare(
 		},
 	
 		_startSearch: function(/*String*/ key){
+
+			// create a new query to prevent accidentally querying for a hidden value from Select's keyField
 			var query={};
-			query[this.searchField]=key+"*";
-			this.store.fetch({queryIgnoreCase:this.ignoreCase, query: query, onComplete:dojo.hitch(this, "_openResultList"), count:this.searchLimit});
-
-// Bill: actually you should save the query object (in this._query) and reuse it
-// (after modifying the query), because
-// fetch might maintain state info in there (caching,etc.)
-// Same for Select
-
+			query[this.searchAttr]=key+"*";
+			// fetch maintains its state in the returned object, not the query
+			// TODO: save request for caching
+			var request=this.store.fetch({queryIgnoreCase:this.ignoreCase, query: query, onComplete:dojo.hitch(this, "_openResultList"), count:this.searchLimit});
 		},
 	
 		_assignHiddenValue:function(/*Object*/ keyValArr, /*DomNode*/ option){
-			// not necessary in AutoCompleter
-			return;
+			// sets the hidden value of an item created from an <option value="CA">
+			// AutoCompleter does not care about the value; Select does though
+			// Select overrides this method
 		},
-// Bill: this shouldn't be here?   Autocompleter has no hidden value
 	
 		postCreate: function(){
-			//dijit.form.AutoCompleter.superclass.postCreate.apply(this, arguments);
-			dijit.form.ValidationTextbox.prototype.postCreate.apply(this, arguments);
-			//dijit.form._DropDownTextBox.prototype.postCreate.apply(this, arguments);
-			//document.body.appendChild(node);
+			this.parentClass=dojo.getObject(this.declaredClass, false).superclass;
+			this.parentClass.postCreate.apply(this, arguments);
 			this.popupWidget=dijit.form.AutoCompleter.MasterPopup; //new dijit.form._AutoCompleterMenu({}, node);
 			
 // Bill: not sure having a MasterPopup is giving us here.
@@ -556,14 +469,18 @@ dojo.declare(
 					var opts = this.domNode.getElementsByTagName("option");
 					var ol = opts.length;
 					var data=[];
+					// go backwards to create the options list
+					// have to go backwards because we are removing the option nodes
+					// the option nodes are not necessary once the AutoCompleter initializes
 					for(var x=ol-1; x>=0; x--){
 						var text = opts[x].innerHTML;
 						var keyValArr ={};
-						keyValArr[this.searchField]=String(text);
+						keyValArr[this.searchAttr]=String(text);
+						// Select: assign the value attribute to the hidden value
 						this._assignHiddenValue(keyValArr, opts[x]);
 						data.unshift(keyValArr);
+						// remove the unnecessary node
 						this.domNode.removeChild(opts[x]);
-						//dojo.dom.removeNode(opts[x]);
 					}
 // Bill: is there a reason the loop goes backwards?  couldn't you make the loop go
 // forwards and just call data.push()?  Not sure why you are calling this.domNode.removeChild()
@@ -574,10 +491,8 @@ dojo.declare(
 					// pass store inline data
 					this.data={items:data};
 				}
-	
 				this.store=new dpClass(this);
 			}
-			
 			if(this.disabled){
 				this.disable();
 			}
@@ -592,9 +507,7 @@ dojo.declare(
 			}*/
 			this._setTextFieldValue(this.value);
 		}
-
 	}
-
 );
 
 dojo.declare(
@@ -672,7 +585,6 @@ dojo.declare(
 				// recurse to the top
 				tgt=tgt.parentNode;
 			}
-
 			this.setValue({target:tgt});
 		},
 	
@@ -694,7 +606,6 @@ dojo.declare(
 				this._highlighted_option = node;
 				dojo.addClass(this._highlighted_option, "dojoMenuItemHover");
 			}
-	
 		},
 	
 		_blurOptionNode:function(){
@@ -704,7 +615,6 @@ dojo.declare(
 				dojo.removeClass(this._highlighted_option, "dojoMenuItemHover");
 				this._highlighted_option = null;
 			}
-	
 		},
 	
 		_highlightNextOption:function(){
@@ -713,7 +623,6 @@ dojo.declare(
 			}else if(this._highlighted_option.nextSibling){
 				this._focusOptionNode(this._highlighted_option.nextSibling);
 			}
-	
 			dijit.util.scroll.scrollIntoView(this._highlighted_option);
 		},
 	
@@ -725,7 +634,6 @@ dojo.declare(
 				this.close(true);
 				return;
 			}
-	
 			dijit.util.scroll.scrollIntoView(this._highlighted_option);
 		},
 	
@@ -745,10 +653,15 @@ dojo.declare(
 
 );
 
+dojo.declare(
+	"dijit.form.AutoCompleter",
+	[dijit.form.ValidationTextbox, dijit.form.AutoCompleterMixin],
+	{}
+);
+
 // dojo.addOnLoad() throws things on the end of the onload stack. We want to be on the front.
 dojo._loaders.unshift(function(){
 	if(!dijit.form.AutoCompleter.MasterPopup){
 		dijit.form.AutoCompleter.MasterPopup = new dijit.form._AutoCompleterMenu({}, document.createElement("div"));
 	}
-
 });

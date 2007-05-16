@@ -41,7 +41,7 @@
 	var combo;
 	function init(){
 		//var store=new dojo.data.JsonItemStore({});
-		combo = new dijit.form.AutoCompleter({data:{items:[{name:"California", label:"California"}]}, name:"prog",autocomplete:false,searchField:"name", labelField:"label", labelType:"text"}, document.getElementById("progCombo"));
+		combo = new dijit.form.AutoCompleter({data:{items:[{name:"California", label:"California"}]}, name:"prog",autocomplete:false,searchAttr:"name", labelField:"label", labelType:"text"}, document.getElementById("progCombo"));
 	}
 	dojo.addOnLoad(init);
 	
@@ -64,7 +64,7 @@ The drop down list is filtered by the data you have already typed in.
 <form action="#" method="GET">
  
     <p>AutoCompleter #1: inlined data, autocomplete=false, default value of CA (California)</p>
-	<select id="setvaluetest" name="state" dojoType="dijit.form.AutoCompleter" class="medium" searchField="name" labelField="name" labelType="text" style="width: 300px;font-size:20pt;background-color:cyan;" name="foo.bar1" autocomplete="false" value="Iowa" promptMessage="Please enter a state"
+	<select id="setvaluetest" name="state1" dojoType="dijit.form.AutoCompleter" class="medium" searchAttr="name" labelField="name" labelType="text" style="width: 300px;font-size:20pt;background-color:cyan;" name="foo.bar1" autocomplete="false" value="Iowa" promptMessage="Please enter a state"
 		onValueChanged="setVal1"
 	>
 		<option value="Alabama">Alabama</option>
@@ -136,7 +136,7 @@ The drop down list is filtered by the data you have already typed in.
 
 	<p>AutoCompleter #2: url, autocomplete=true:</p>
 	<input dojoType="dijit.form.AutoCompleter" value="California" class="medium"
-		url="autoCompleterData.json" searchField="name" labelField="label" labelType="html" style="width: 300px;" name="foo.bar" promptMessage="Please enter a state"
+		url="autoCompleterData.json" searchAttr="name" labelField="label" labelType="html" style="width: 300px;" name="state2" promptMessage="Please enter a state"
 		onValueChanged="setVal2"
 	>
 	<br>
@@ -145,7 +145,7 @@ The drop down list is filtered by the data you have already typed in.
 		
     <p>AutoCompleter #3: initially disabled, url, autocomplete=false:</p>
  	<input id="combo3" dojoType="dijit.form.AutoCompleter" value="California" class="medium"
-		url="autoCompleterData.json" searchField="name" labelField="label" labelType="html" style="width: 300px;" name="foo.bar" autocomplete="false" promptMessage="Please enter a state"
+		url="autoCompleterData.json" searchAttr="name" labelField="label" labelType="html" style="width: 300px;" name="state3" autocomplete="false" promptMessage="Please enter a state"
 		onValueChanged="setVal3" disabled
 	>
 	<br>
@@ -169,15 +169,15 @@ The drop down list is filtered by the data you have already typed in.
 	
 	<p>Key value JSON object</p>
 	<input dojoType="dijit.form.ComboBox" value="this should never be seen - it is replaced!"
-		url="comboBoxDataKeyValue.js" searchField="name" style="width: 300px;" name="foo.bar">
+		url="comboBoxDataKeyValue.js" searchAttr="name" style="width: 300px;" name="foo.bar">
 	<hr>
 -->
     <p>Multiple autocompleters on a single line:</p>
  	<input dojoType="dijit.form.AutoCompleter" value="California"
-		url="autoCompleterData.json" searchField="name" labelField="label" labelType="html" style="width: 200px;" name="foo.bar" autocomplete="false"
+		url="autoCompleterData.json" searchAttr="name" labelField="label" labelType="html" style="width: 200px;" name="state4" autocomplete="false"
 	>
  	<input dojoType="dijit.form.AutoCompleter" value="California"
-		url="autoCompleterData.json" searchField="name" labelField="label" labelType="html" style="width: 200px;" name="foo.bar" autocomplete="false"
+		url="autoCompleterData.json" searchAttr="name" labelField="label" labelType="html" style="width: 200px;" name="state5" autocomplete="false"
 	>
 	<hr>
 

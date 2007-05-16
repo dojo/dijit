@@ -43,7 +43,6 @@ dojo.declare(
 			}else{
 				this.popupWidget.setValue(value);
 			}
-
 		},
 
 		postCreate:function(){
@@ -57,9 +56,7 @@ dojo.declare(
 			dijit.form.DateTextbox.superclass.setValue.apply(this, arguments);
 			this._hideResultList();
 		}
-
 	}
-
 );
 
 dojo.declare(
@@ -99,11 +96,8 @@ dojo.declare(
 			}else{
 				return false;
 			}
-
 		}
-
 	}
-
 );
 
 // dojo.addOnLoad() throws things on the end of the onload stack. We want to be on the front.
@@ -112,5 +106,4 @@ dojo._loaders.unshift(function(){
 		// append some popup code to Calendar
 		dijit.form.DateTextbox.MasterPopup = new dijit._CalendarPopup({lang:this.lang},document.createElement('div'));
 	}
-
 });
