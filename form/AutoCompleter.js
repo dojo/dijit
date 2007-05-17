@@ -319,6 +319,13 @@ dojo.declare(
 				this._hideResultList();
 				return;
 			}
+
+
+			// Fill in the textbox with the first item from the drop down list, and
+			// highlight the characters that were auto-completed.   For example, if user
+			// typed "CA" and the drop down list appeared, the textbox would be changed to
+			// "California" and "ifornia" would be highlighted.
+
 			var zerothvalue=new String(this.store.getValue(results[0], this.searchAttr));
 			if(zerothvalue&&(this.autoComplete)&&
 			(!this._prev_key_backspace)&&
