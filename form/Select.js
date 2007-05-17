@@ -21,17 +21,17 @@ dojo.declare(
 		 *    - List can be specified either as a static list or via a javascript function (that can get the list from a server)
 		 */
 
-		// labelField: String
+		// labelAttr: String
 		//		The text that actually appears in the drop down
-		labelField: "name",
-	
+		labelAttr: "name",
+
 		// labelType: String
 		//		"html" or "text"
 		labelType: "text",
 
-		// keyField: String
-		//		The field of the selected object that the client should send to the server on submit
-		keyField: "value",
+		// keyAttr: String
+		//		The field of the selected item that the client should send to the server on submit
+		keyAttr: "value",
 
 		_callbackSetLabel: function(/*Object*/ result){
 			// summary
@@ -42,7 +42,7 @@ dojo.declare(
 				this._setValue("");
 			}else{
 				this._setLabel(result[0]);
-				this._setValue(this.store.getValue(result[0], this.keyField));
+				this._setValue(this.store.getValue(result[0], this.keyAttr));
 			}
 		},
 
@@ -51,7 +51,7 @@ dojo.declare(
 			//	Used for saving state of AutoCompleter when navigates to a new
 			//	page, in case they then hit the browser's "Back" button.
 			var state={};
-			state[this.keyField]=this.getValue();
+			state[this.keyAttr]=this.getValue();
 			return state;
 		},
 
@@ -63,7 +63,7 @@ dojo.declare(
 			// summary:
 			//	Used for restoring state of AutoCompleter when has navigated to a new
 			//	page but then hits browser's "Back" button.
-			this.setValue(state[this.keyField]);
+			this.setValue(state[this.keyAttr]);
 		},
 
 		_setTextFieldValue:function(/*String*/ value){
@@ -90,7 +90,7 @@ dojo.declare(
 			if(/^\s*$/.test(value)){
 				var label=[];
 				label[this.searchAttr]="";
-				label[this.keyField]=value;
+				label[this.keyAttr]=value;
 				this._setLabel(label);
 				return;
 // Bill: This code is for clearing the value (and label), but in that case
@@ -100,7 +100,7 @@ dojo.declare(
 			}
 			// Defect #1451: set the label by reverse lookup
 			var query={};
-			query[this.keyField]=value;
+			query[this.keyAttr]=value;
 			// use case sensitivity for the hidden value
 			this.store.fetch({queryIgnoreCase:false, query:query, onComplete:dojo.hitch(this, "_callbackSetLabel")});
 		},
@@ -133,7 +133,7 @@ dojo.declare(
 			
 			var td=dijit.form.AutoCompleterMixin.prototype._createOption.apply(this, arguments);
 			if(this.labelType=="html"){
-				td.innerHTML=tr[this.labelField];
+				td.innerHTML=tr[this.labelAttr];
 			}
 			return td;
 		},
@@ -146,7 +146,7 @@ dojo.declare(
 
 		setState: function(/*Object*/ state){
 			// summary: internal function to set both value and label
-			this.setValue(state[this.keyField]);
+			this.setValue(state[this.keyAttr]);
 		},
 
 		postCreate: function(){
@@ -168,7 +168,7 @@ dojo.declare(
 			// summary:
 			// 	Overrides AutoCompleter._assignHiddenValue for creating a data store from an options list.
 			// 	Takes the <option value="CA"> and makes the CA the hidden value of the item.
-			keyValArr[this.keyField]=option.value;
+			keyValArr[this.keyAttr]=option.value;
 		},
 
 		_doSelect: function(/*Event*/ tgt){
@@ -176,7 +176,7 @@ dojo.declare(
 			//	AutoCompleter's menu callback function
 			//	Select overrides this to set both the visible and hidden value from the information stored in the menu
 			this._setLabel(tgt.item);
-			this._setValue(this.store.getValue(tgt.item, this.keyField));
+			this._setValue(this.store.getValue(tgt.item, this.keyAttr));
 		},
 
 		setTextValue:function(/*String*/ label){
@@ -224,7 +224,7 @@ dojo.declare(
 					isValidOption=true;
 					// set value by reverse lookup
 					this._setLabel(ret[i]);
-					this._setValue(this.store.getValue(ret[i], this.keyField));
+					this._setValue(this.store.getValue(ret[i], this.keyAttr));
 					break;
 				}
 			}
