@@ -133,7 +133,7 @@ dijit.util.PopupManager = new function(){
 		// loop from child menu up ancestor chain, ending at button that spawned the menu
 		var m = stack[stack.length-1];
 		while(m){
-			if(m.processKey(e)){
+			if(m.processKey && m.processKey(e)){
 				e.preventDefault();
 				e.stopPropagation();
 				break;
