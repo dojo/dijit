@@ -28,17 +28,13 @@ dojo.declare(
 		propercase: false,
 
 		// size: String
-		//              Basic input tag size declaration.
+		//		HTML INPUT tag size declaration.
 		size: "20",
 
 		// maxlength: String
-		//              Basic input tag maxlength declaration.
+		//		HTML INPUT tag maxlength declaration.
 		maxlength: "999999",
 
-		//	digit: Boolean
-		//		Removes all characters that are not digits if true.  Default is false.
-		digit: false,
-		
 		templatePath: dojo.moduleUrl("dijit.form", "templates/Textbox.html"),
 	
 		getTextValue: function(){
@@ -54,8 +50,7 @@ dojo.declare(
 		},
 
 		setValue: function(value){
-			if (value == null){ value = ""; }
-			this.setTextValue((value == "")? "" : this.format(value, this.constraints));
+			this.setTextValue(!value ? "" : this.format(value, this.constraints));
 			dijit.form.Textbox.superclass.setValue.call(this,value);
 		},
 
@@ -94,9 +89,6 @@ dojo.declare(
 				val = val.replace(/[^\s]+/g, function(word){
 					return word.substring(0,1).toUpperCase() + word.substring(1);
 				});
-			} 
-			if(this.digit){
-				val = val.replace(/\D/g, "");
 			} 
 			return val;
 		},
