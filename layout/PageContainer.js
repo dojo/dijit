@@ -7,7 +7,7 @@ dojo.require("dijit.base.Showable");
 
 dojo.declare(
 	"dijit.layout.PageContainer",
-	[dijit.base.Widget, dijit.base.TemplatedWidget, dijit.base.Container, dijit.base.Showable],
+	[dijit.base.Widget, dijit.base.TemplatedWidget, dijit.base.Layout],
 	// summary
 	//	A container that has multiple children, but shows only
 	//	one child at a time (like looking at the pages in a book one by one).
@@ -26,28 +26,20 @@ dojo.declare(
 	//   id of the currently shown page
 	selectedChild: "",
 
-	layout: function(){
+	startup: function(){
 		var children = this.getChildren();
-		if(children.length){
-			// Setup each page panel
-			dojo.forEach(children, this._setupChild, this);
 
-			// Figure out which child to initially display
-			var initialChild;
-			if(this.selectedChild){
-				this.selectChild(this.selectedChild);
-			}else{
-				for(var i=0; i<children.length; i++){
-					if(children[i].selected){
-						this.selectChild(children[i]);
-						break;
-					}
-				}
-				if(!this.selectedChildWidget){
-					this.selectChild(children[0]);
-				}
-			}
-		}
+		// Setup each page panel
+		dojo.forEach(children, this._setupChild, this);
+
+		// Figure out which child to initially display
+		var idx = dojo.indexOf(children, function(child){ return child.selected; });
+		if(idx == -1){ idx=0; }
+
+		this.selectedChildWidget = children[idx];
+		this.selectedChildWidget.show();
+
+		dijit.base.Layout.prototype.startup.apply(this, arguments);
 	},
 
 	addChild: function(/*Widget*/ child, /*Integer*/ insertIndex){
@@ -55,7 +47,7 @@ dojo.declare(
 		this._setupChild(child);
 
 		// in case the tab labels have overflowed from one line to two lines
-		this.onResized();
+		this.layout();
 
 		// if this is the first child, then select it
 		if(!this.selectedChildWidget){
@@ -64,7 +56,7 @@ dojo.declare(
 	},
 
 	_setupChild: function(/*Widget*/ page){
-		// Summary: Add the given child to this page container
+		// Summary: prepare the given child
 		page.hide();
 		
 		// since we are setting the width/height of the child elements, they need
@@ -87,7 +79,7 @@ dojo.declare(
 		dojo.publish(this.id+"-removeChild", [page]);
 
 		// in case the tab labels now take up one line instead of two lines
-		this.onResized();
+		this.layout();
 
 		if(this.selectedChildWidget === page){
 			this.selectedChildWidget = undefined;
@@ -117,9 +109,6 @@ dojo.declare(
 		this.selectedChildWidget = page;
 		this.selectedChild = page.id;
 		this._showChild(page);
-		var children = this.getChildren();
-		page.isFirstChild = (page == children[0]);
-		page.isLastChild = (page == children[children.length-1]);
 		dojo.publish(this.id+"-selectChild", [page]);
 	},
 
@@ -135,26 +124,13 @@ dojo.declare(
 		this.selectChild(this.getChildren()[index-1]);
 	},
 
-	onResized: function(){
+	layout: function(){
 		// Summary: called when any page is shown, to make it fit the container correctly
-		if(this.doLayout && this.selectedChildWidget){
-						
-			// REVISIT: we need getPixelValue to be public
-//			var px = dojo._getPixelizer();
-			var _toPixelValue = function(element, value){
-				// parseInt or parseFloat? (style values can be floats)
-				return parseFloat(value) || 0; 
-			}
-			var px = _toPixelValue;
-
-			with(this.selectedChildWidget.domNode.style){
-				top = px(this.containerNode, dojo.getComputedStyle(this.containerNode, "padding-top"));
-				left = px(this.containerNode, dojo.getComputedStyle(this.containerNode, "padding-left"));
-			}
+		if(this.doLayout && this.selectedChildWidget && this.selectedChildWidget.resize){
+			// TODO: if the containerNode == the domNode then dojo.contentBox() can
+			// be replaced by this._contentBox
 			var content = dojo.contentBox(this.containerNode);
-			if(this.selectedChildWidget.resize){
-				this.selectedChildWidget.resize(content);
-			}
+			this.selectedChildWidget.resize(content);
 		}
 	},
 
@@ -171,6 +147,9 @@ dojo.declare(
 		if(page.show){
 			page.show();
 		}
+		var children = this.getChildren();
+		page.isFirstChild = (page == children[0]);
+		page.isLastChild = (page == children[children.length-1]);
 	},
 
 	_hideChild: function(/*Widget*/ page){

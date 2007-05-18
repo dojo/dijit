@@ -45,13 +45,6 @@ dojo.declare(
 		this.isHorizontal = (this.orientation == 'horizontal');
 	},
 	
-	onResized: function(e){
-		var content = dojo.contentBox(this.domNode);
-		this.paneWidth = content.w;
-		this.paneHeight = content.h;
-		this._layoutPanels();
-	},
-
 	postCreate: function(){
 		dijit.layout.SplitContainer.superclass.postCreate.apply(this, arguments);
 		this.sizers = [];
@@ -91,7 +84,7 @@ dojo.declare(
 
 	},
 	
-	layout: function(){
+	startup: function(){
 		var children = this.getChildren();
 		// attach the children and create the draggers
 		for(var i = 0; i < children.length; i++){
@@ -109,8 +102,7 @@ dojo.declare(
 		if(this.persist){
 			this._restoreState();
 		}
-		// size the panels once the browser has caught up
-		this.startup();
+		dijit.base.Layout.prototype.startup.apply(this, arguments);
 	},
 
 	_injectChild: function(child){
@@ -152,7 +144,7 @@ dojo.declare(
 
 		// Remove widget and repaint
 		dijit.base.Container.prototype.removeChild.apply(this, arguments);
-		this.onResized();
+		this.layout();
    },
 
 	addChild: function(child, insertIndex){
@@ -163,10 +155,18 @@ dojo.declare(
 		if(children.length > 1){
 			this._addSizer();
 		}
-		this._layoutPanels();
+		this.layout();
 	},
 
-	_layoutPanels: function(){
+	layout: function(){
+		// summary:
+		//		Do layout of panels
+
+		// base class defines this._contentBox on initial creation and also
+		// on resize
+		this.paneWidth = this._contentBox.w;
+		this.paneHeight = this._contentBox.h;
+
 		var children = this.getChildren();
 		if(children.length == 0){ return; }
 
@@ -474,7 +474,7 @@ dojo.declare(
 			children[i].sizeShare = children[i].sizeActual;
 		}
 
-		this._layoutPanels();
+		this.layout();
 	},
 
 	_showSizingLine: function(){

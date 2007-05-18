@@ -80,7 +80,9 @@ dojo.declare(
 
 		addChild: function(widget){
 			var child = this._addChild(widget);
-			this._setSizes();
+			if(this._started){
+				this.layout();
+			}
 			return child;	// Widget
 		},
 		
@@ -106,34 +108,19 @@ dojo.declare(
 			}
 		},
 
-//Q: Bill: layout is called on instantiation, so there should be no children to remove
-		layout: function(){
-			var tmpChildren = this.getChildren();
-
-			// PORT: move to utility class
-			var _removeChildren = function(node){
-				var count = node.childNodes.length;
-				while(node.hasChildNodes()){
-					node.removeChild(node.firstChild); // PORT #2931?
-				}
-				return count; // int
-			};
-			_removeChildren(this.domNode);
-//Q: Bill: this is O(n^2).  Should attach children first, then do sizing.
-			dojo.forEach(tmpChildren, dojo.hitch(this,"_addChild"));
-			this._setSizes();
+		startup: function(){
+			var children = this.getChildren();
+			dojo.forEach(children, this._addChild, this);
+			dijit.base.Sizable.prototype.startup.apply(this, arguments);
 		},
 
 		removeChild: function(widget){
 			dijit.layout.AccordionContainer.superclass.removeChild.call(this, widget);
-			this._setSizes();
+			this.layout();
+			// TODO: maybe base class removeChild() should call layout()?
 		},
 		
-		onResized: function(){
-			this._setSizes();
-		},
-
-		_setSizes: function(){
+		layout: function(){
 			// summary
 			//		Set panes' size/position based on my size, and the current open node.
 
@@ -147,7 +134,7 @@ dojo.declare(
 				}
 			});
 			// size and position each pane
-			var mySize = dojo.contentBox(this.domNode);
+			var mySize = this._contentBox;
 			var y = 0;
 			dojo.forEach(this.getChildren(), function(child, idx){
 				if(child["getLabelHeight"]){
@@ -228,16 +215,15 @@ dojo.declare(
 		this.labelNode.innerHTML=label;
 	},
 	
-	onResized: function(){
+	layout: function(){
 		var children = [
 			{domNode: this.labelNode, layoutAlign: "top"},
 			{domNode: this.containerNode, layoutAlign: "client"}
 		];
 		dijit.base.Layout.layoutChildren(this.domNode, children);
-		var childSize = dojo.contentBox(this.containerNode);
 		var child = this.getChildren()[0];
 		if(child && child.resize){
-			child.resize(childSize);
+			child.resize(this._contentBox);
 		}
 	},
 

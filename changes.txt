@@ -44,6 +44,17 @@ any JavaScript properties on the widget's 'this' may be referenced with dotted n
 The attributes dojoOn* are desupported (including dojoOnBuild);
 also can't use id attribute to affect a dojoAttachPoint.
 
+dojoAttachEvent is case sensitive, so capitalization matters.   You will probably have
+to change
+
+dojoAttachEvent="onClick"
+
+to
+
+dojoAttachEvent="onclick: onClick"
+
+(given that the event name is lowercase, and assuming that the method name is camel case)
+
 Parent/Child relationships
 --------------------------
 By default widgets exist as islands, not knowing about their parent widget or children widgets.

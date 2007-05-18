@@ -51,14 +51,8 @@ dojo.declare(
 
 	layout: function(){
 		
-		
+		// TODO: pass in size
 		var ok = dijit.base.Layout.layoutChildren(this.domNode, this.getChildren(), this.layoutChildPriority);
-		this.startup();
-
-/*		if(!ok){
-			// give the browser some time to catch up and try again 
-			this.resizeSoon();
-		} */
 	},
 
 	addChild: function(child, overrideContainerNode, pos, ref, insertIndex){
@@ -68,10 +62,6 @@ dojo.declare(
 
 	removeChild: function(pane){
         dijit.base.Container.prototype.removeChild.apply(this, arguments);
-		dijit.base.Layout.layoutChildren(this.domNode, this.getChildren(), this.layoutChildPriority);
-	},
-
-	onResized: function(){
 		dijit.base.Layout.layoutChildren(this.domNode, this.getChildren(), this.layoutChildPriority);
 	},
 

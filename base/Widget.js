@@ -100,9 +100,9 @@ function(params, srcNodeRef){
 		//		Called after a widget's dom has been setup
 	},
 
-	layout: function(){
+	startup: function(){
 		// summary:
-		//		Called after a widget's children have created
+		//		Called after a widget's children, and other widgets on the page, have been created.
 		//		Provides an opportunity to manipulate any children before they are displayed
 		//		This is useful for composite widgets that need to control or layout sub-widgets
 		//		Many layout widgets can use this as a wiring phase

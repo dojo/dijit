@@ -9,66 +9,90 @@ dojo.declare("dijit.base.Sizable",
 		//		Helper mixin for widgets that can have their size adjusted,
 		//		and that need to do some processing when their size changes (like SplitContainer)
 
-		resize: function(param){
+		resize: function(mb){
 			// summary:
-			//		explicitly set this widget's size (in pixels).
-			//		called if our parent is a layout widget.
+			//		Explicitly set this widget's size (in pixels), 
+			//		and then call layout() to resize contents (and maybe adjust child widgets)
 			//	
-			// param: Object
-			//		{w: int, h: int}
+			// mb: Object?
+			//		{w: int, h: int, l: int, t: int}
 
-			param =	dojo.marginBox(this.domNode, param);
-			this.onResized(param);
-		},
-	
-		onResized: function(param){
-			//	summary
-			//		Layout widgets will override this method to size & position their children
-			//	
-			// param: Object
-			//		{w: int, h: int}
-		},
-		
-		startup: function(){
-			// summary:
-			//		Called after all the widgets have been instantiated and their
-			//		dom nodes have been inserted somewhere under document.body
+			// set margin box size, unless it wasn't specified, in which case use current size
+			if(mb){
+				dojo.marginBox(this.domNode, mb);
+			}
+			mb = dojo.marginBox(this.domNode);
 
-			// if my parent is a layout container then it will resize me; just wait for it's call
-			if(this.getParent){
-				var parent = this.getParent();
-				if(parent && parent.isLayoutContainer){
-					return;
-				}
+			// set offset of the node
+			with(this.domNode.style){
+				if(mb.t){ top = mb.t + "px"; }
+				if(mb.l){ left = mb.l + "px"; }
 			}
 
-			// if my parent isn't a layout container, and my style is width=height=100% (or something similar),
-			// then I need to watch when the window resizes, and size myself accordingly
-			this.connect(window, 'onresize', "_onWindowResize");
-
-			this._onWindowResize();
+			// Save the size of my content box.
+			// TODO: this calculation is wrong; need to include borders, etc.
+			// I could just call dojo.contentBox() except that it might return 0, if the pane is hidden
+			// or the browser hasn't had time to do calculations; this is more reliable.
+			var cs = dojo.getComputedStyle(this.domNode);
+			var me=dojo._getMarginExtents(this.domNode, cs);
+			var pb=dojo._getPadBounds(this.domNode, cs);
+			this._contentBox = { l: pb.l, t: pb.t, w: mb.w - me.w - pb.w, h: mb.h - me.h - pb.h };
+			
+			// Callback for widget to adjust size of it's children
+			this.layout();
 		},
-		
-		_onWindowResize: function(){
-			// summary:
-			//		Called when my size has been changed to an unknown value.
-			//		If the size is explicitly changed by calling resize() this
-			//		function is not called.
-			// Size my children based on my size
-			var size = dojo.marginBox(this.domNode);
-			this.onResized(size);
+	
+		layout: function(){
+			//	summary
+			//		Widgets override this method to size & position their contents/children.
+			//		When this is called this._contentBox is guaranteed to be set (see resize()).
+			//
+			//		This is called after startup(), and also when the widget's size has been
+			//		changed.
 		}
 	}
 );
 
 dojo.declare("dijit.base.Layout", 
-	[dijit.base.Container, dijit.base.Sizable],
+	[dijit.base.Sizable, dijit.base.Container, dijit.base.Contained, dijit.base.Showable],
 	{
 		// summary
 		//		Mixin for widgets that contain a list of children like SplitContainer.
-		//		Widgets which mixin this code must define onResized() to lay out the children
+		//		Widgets which mixin this code must define layout() to lay out the children
 
-		isLayoutContainer: true
+		isLayoutContainer: true,
+
+		startup: function(){
+			// summary:
+			//		Called after all the widgets have been instantiated and their
+			//		dom nodes have been inserted somewhere under document.body.
+			//
+			//		Widgets should override this method to do any initialization
+			//		dependent on other widgets existing, and then call
+			//		this superclass method to finish things off.
+			//
+			//		startup() in subclasses shouldn't do anything
+			//		size related because the size of the widget hasn't been set yet.
+
+			if(this._started){
+				return;
+			}
+			this._started=true;
+
+			if(this.getChildren){
+				dojo.forEach(this.getChildren(), function(child){ child.startup(); });
+			}
+
+			// If I am a top level widget
+			if(!this.getParent || !this.getParent()){
+				// Do recursive sizing and layout of all my descendants
+				this.resize();
+
+				// since my parent isn't a layout container, and my style is width=height=100% (or something similar),
+				// then I need to watch when the window resizes, and size myself accordingly
+				this.connect(window, 'onresize', "resize");
+			}
+		}
 	}
 );
 
@@ -152,8 +176,11 @@ dijit.base.Layout.layoutChildren = function(/*DomNode*/ container, /*Object[]*/ 
 		// note that setting the width of a <div> may affect it's height.
 		// TODO: same is true for widgets but need to implement API to support that
 		if (pos=="top" || pos=="bottom"){
-			// marginBox will ignore f.w if it's <= 0
-			dojo.marginBox(elm, { w: f.w });
+			if(child.resize){
+				child.resize({w: f.w});
+			}else{
+				dojo.marginBox(elm, { w: f.w });
+			}
 			var h = dojo.marginBox(elm).h;
 			f.h -= h;
 			if(pos=="top"){
@@ -161,18 +188,10 @@ dijit.base.Layout.layoutChildren = function(/*DomNode*/ container, /*Object[]*/ 
 			}else{
 				elmStyle.top = f.t + f.h + "px";
 			}
-			// TODO: for widgets I want to call resizeTo(), but I can't because
-			// I only want to set the width, and have the height determined
-			// dynamically.  (The thinner you make a div, the more height it consumes.)
-			if(child.onResized){
-				child.onResized();
-			}
 		}else if(pos=="left" || pos=="right"){
 			var w = dojo.marginBox(elm).w;
 
-			// TODO: I only want to set the height, not the width, but see bug#941 (FF),
-			// and also the resizeTo() function demands both height and width arguments
-			// place the child, make sure to filter for zero widths and height
+			// TODO: this zero stuff shouldn't be necessary anymore
 			var hasZero = dijit.base.Layout._sizeChild(child, elm, w, f.h);
 			if(hasZero){
 				ret = false;

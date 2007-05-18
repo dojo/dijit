@@ -114,15 +114,12 @@ dijit.util.parser = new function(){
 			}
 		});
 
-		// first sort the widgets so that we can do a top-down wiring phase
-		thelist.sort(function(a,b){
-			// prefer containers to leaf nodes; keep in document order otherwise
-			return (b.getParent && !a.getParent)?1:0;
-		});
-
-		// now call layout method on each widget so they can wire up their children
-		dojo.forEach(thelist, function(node){
-			if(node && node.layout){ node.layout(); }
+		// Call startup on each top level widget.  Parent widgets will
+		// recursively call startup on their (non-top level) children
+		dojo.forEach(thelist, function(widget){
+			if(widget && widget.startup && (!widget.getParent || widget.getParent()==null)){
+				widget.startup();
+			}
 		});
 		return thelist;
 	};

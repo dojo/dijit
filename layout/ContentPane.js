@@ -477,7 +477,6 @@ dojo.declare(
 			if(!data || isNode(data)){
 				// if we do a clean using setContent(""); or setContent(#node) bypass all parsing, extractContent etc
 				this._setContent(data);
-				this.onResized();
 				this.onLoad();
 			}else{
 				// need to run splitAndFixPaths? ie. manually setting content
@@ -516,7 +515,6 @@ dojo.declare(
 						_self._createSubWidgets();
 					}
 	
-					_self.onResized();
 					_self.onLoad();
 				}
 				// try as long as possible to make setContent sync call

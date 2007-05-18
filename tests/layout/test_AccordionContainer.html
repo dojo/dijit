@@ -43,8 +43,7 @@
 					console.debug("adding content pane " + content.widgetId);
 					accordion.addChild(content);
 				}
-				accordion.layout();
-				accordion.onResized();
+				accordion.startup();
 			}
 			dojo.addOnLoad(init);
 			
