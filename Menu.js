@@ -3,7 +3,6 @@ dojo.provide("dijit.Menu");
 dojo.require("dijit.base.Widget");
 dojo.require("dijit.base.Container");
 dojo.require("dijit.base.TemplatedWidget");
-dojo.require("dijit.util.bidi");
 dojo.require("dijit.util.PopupManager");
 dojo.require("dijit.util.scroll");
 dojo.require("dijit.util.window");
@@ -44,13 +43,12 @@ dojo.declare(
 	
 	postCreate: function(){
 		if(this.contextMenuForWindow){
-			var doc = dojo.body();
-			this.bindDomNode(doc);
+			this.bindDomNode(dojo.body());
 		}else if(this.targetNodeIds.length > 0){
 			dojo.forEach(this.targetNodeIds, this.bindDomNode, this);
 		}
 
-		if(!dijit.util.bidi.isLeftToRight(this.domNode)){
+		if(this.dir == "rtl"){
 			this.containerNode.className += " dojoRTL";
 		}
 	},
@@ -307,7 +305,7 @@ dojo.declare(
 	
 	_openSubmenu: function(submenu, from_item){
 		// summary: open the submenu to the side of the current menu item
-		var orient = dijit.util.bidi.isLeftToRight(from_item.arrowCell) ? {'TR': 'TL', 'TL': 'TR'} : {'TL': 'TR', 'TR': 'TL'};
+		var orient = (this.dir == "ltr") ? {'TR': 'TL', 'TL': 'TR'} : {'TL': 'TR', 'TR': 'TL'};
 		submenu._openAsSubmenu(this, from_item.arrowCell, orient);
 
 		this.currentSubmenu = submenu;

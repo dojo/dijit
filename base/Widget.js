@@ -45,6 +45,9 @@ function(params, srcNodeRef){
 	this.buildRendering();
 	if(this.domNode){
 		this.domNode.widgetId = this.id;
+		if(this.srcNodeRef && this.srcNodeRef.dir){ 
+			this.domNode.dir = this.srcNodeRef.dir; 
+		}
 	}
 	this.postCreate();
 
@@ -66,6 +69,12 @@ function(params, srcNodeRef){
 	//	Defaults to brower's specified preferred language (typically the language of the OS)
 	lang: "",
 
+	// dir: String
+	//  Bi-directional support, as defined by the HTML DIR attribute. Either left-to-right "ltr" or right-to-left "rtl",
+	//	as defined by this instance.  Otherwise, the computed style will be used - inherited from the parent DOM node,
+	//	where applicable, or picked up from dojo.body().
+	dir: "",
+
 	// srcNodeRef: DomNode
 	//		pointer to original dom node
 	srcNodeRef: null,
@@ -85,7 +94,8 @@ function(params, srcNodeRef){
 		//	but before the widget template is instantiated.
 		//	Especially useful to set properties that are referenced in the widget template.
 
-		if(this.lang === ""){this.lang = null;}
+		this.lang = this.lang || null;
+		this.dir = this.dir || dojo.getComputedStyle(this.srcNodeRef || dojo.body()).direction;
 	},
 
 	buildRendering: function(){
@@ -221,7 +231,6 @@ function(params, srcNodeRef){
 //PORT - where does this go?  dijit.util?  dojo.html?
 dijit._disableSelection = function(/*DomNode*/element){
 	// summary: disable selection on a node
-	element = dojo.byId(element)||dojo.body();
 
 	if(dojo.isMozilla){
 		element.style.MozUserSelect = "none";
@@ -230,5 +239,5 @@ dijit._disableSelection = function(/*DomNode*/element){
 	}else if(dojo.isIE){
 		element.unselectable = "on";
 	}
-	return false;
+	//FIXME: else?  Opera?
 };
