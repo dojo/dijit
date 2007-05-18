@@ -13,7 +13,7 @@ dojo.declare(
 	[dijit.base.Widget, dijit.base.TemplatedWidget, dijit.base.Container],
 {
 	templateString: 
-		'<table class="dojoMenu dojoPopup">' +
+		'<table class="dojoMenu dojoPopup" waiRole="menu">' +
 			'<tbody dojoAttachPoint="containerNode"></tbody>'+
 		'</table>' ,
 
@@ -95,7 +95,7 @@ dojo.declare(
 		if(this._selectedItem){
 			this._selectedItem._onClick();
 			if(this.currentSubmenu){
-				this.currentSubmenu._selectNextItem(1);
+				this.currentSubmenu._selectFirstItem();
 			}
 			return true; //do not pass to parent menu
 		}
@@ -167,9 +167,14 @@ dojo.declare(
 			item = this._findValidItem(dir, this._selectedItem);
 		}
 		if(item){
-			if(this._selectedItem){
-				this._selectedItem._unselectItem();
-			}
+			item._selectItem();
+			dijit.util.scroll.scrollIntoView(item.domNode);
+		}
+	},
+
+	_selectFirstItem: function(){
+		var item = this._findValidItem(1);
+		if(item){
 			item._selectItem();
 			dijit.util.scroll.scrollIntoView(item.domNode);
 		}
@@ -274,7 +279,7 @@ dojo.declare(
 		//		Open menu relative to the mouse
 		dojo.stopEvent(e);
 		dijit.util.PopupManager.open(e, this);
-		this._selectNextItem(1);
+		this._selectFirstItem();
 	},
 
 	close: function(/*Boolean*/ force){
@@ -340,7 +345,7 @@ dojo.declare(
 	templateString:
 		 '<tr class="dojoMenuItem" dojoAttachEvent="onmouseover: onHover; onmouseout: onUnhover; onclick: _onClick;">'
 		+'<td><div class="dojoMenuItemIcon" style="${iconStyle}"></div></td>'
-		+'<td tabIndex="-1" class="dojoMenuItemLabel" dojoAttachPoint="containerNode"></td>'
+		+'<td tabIndex="-1" class="dojoMenuItemLabel" dojoAttachPoint="containerNode" waiRole="menuitem"></td>'
 		+'<td dojoAttachPoint="arrowCell"><div class="dojoRightArrowOuter"><div class="dojoRightArrowInner" style="display:none;" dojoAttachPoint="arrow"></div></div></td>'
 		+'</tr>',
 
@@ -389,10 +394,9 @@ dojo.declare(
 		dijit._disableSelection(this.domNode);
 		if(this.submenuId){
 			dojo.style(this.arrow, "display", "");
+			dijit.util.wai.setAttr(this.containerNode, "waiState", "haspopup", "true");
 		}
-		if(this.disabled){
-			this.setDisabled(true);
-		}
+		this.setDisabled(this.disabled);
 		if(this.caption){
 			this.containerNode.innerHTML=this.caption;
 		}
@@ -521,7 +525,13 @@ dojo.declare(
 		// summary: enable or disable this menu item
 		this.disabled = value;
 
-		(value ? dojo.addClass : dojo.removeClass)(this.domNode, 'dojoMenuItemDisabled');
+		if(value){
+			dojo.addClass(this.domNode, 'dojoMenuItemDisabled');
+			dijit.util.wai.setAttr(this.containerNode, 'waiState', 'disabled', 'true');
+		}else{
+			dojo.removeClass(this.domNode, 'dojoMenuItemDisabled');
+			dijit.util.wai.setAttr(this.containerNode, 'waiState', 'disabled', 'false');
+		}
 	},
 
 	menuOpen: function(message){

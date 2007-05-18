@@ -47,10 +47,8 @@
 <div style="padding: 1em">
 	<h1 class="testTitle">Dijit Menu System Test</h1>
 	
-	<h2>This page has a menu bar and context menu</h2>
-
 	<h3>Form</h3>
-	<p>This is for testing whether focus and selection are restored after a popup menu closes</p>
+
 	<form>
 		<input id=input1 value=tom><br>
 		<input id=input2 value=jones><br>
@@ -58,184 +56,97 @@
 		<button id=button>push me</button>
 	</form>
 
-	<h3>Popup opening tests</h3>
+	<p>See also: <a href="form/test_Button.html">form/test_Button</a>
+	(PopupMenu is used with DropDownButton and ComboButton)</p>
+
+	<h3>Mouse opening tests</h3>
 
 	<ul>
-		<li>Right clicking on the client area of the page (ctrl-click for opera) should make a popup menu appear.</li>
-		<li>Right clicking near the righthand window border should open the menu to the left of the pointer.</li>
-		<li>Right clicking near the bottom window border should open the menu above the pointer.</li>
-		<li>Scrolling the contents of this scrollable area and right-clicking should make the menu appear at the pointer.</li>
-		<li>When the popup menu appears, it should not have any items pre-selected (blue background by default - ymmv).</li>
-		<li>In IE, test bleed through here <select><option>popupmenu</option><option>should</option><option>cover</option><option>this</option><option>select</option></select></li>
+		<li>Right click on the client area of the page (ctrl-click for Macintosh). Menu should open.</li>
+		<li>Right click on each of the form controls above. Menu should open.</li>
+		<li>Right click near the righthand window border. Menu should open to the left of the pointer.</li>
+		<li>Right click near the bottom window border. Menu should open above the pointer.</li>
 	</ul>
 
 
-	<h3>Popup hover tests</h3>
+	<h3>Mouse hover tests</h3>
 
 	<ul>
-		<li>Hovering over the first item with the pointer should highlight it.</li>
-		<li>Hovering over the second (disabled) item should also highlight it.</li>
+		<li>Hover over the first item with the pointer. Item should highlight and get focus.</li>
+		<li>Hover over the second (disabled) item. Item should highlight and get focus.</li>
 		<li>Seperator items should not highlight on hover - no items should highlight in this case.</li>
-		<li>Removing the pointer from the menu should de-highlight all items.</li>
+		<li>Remove the pointer from the menu. Should de-highlight all items.</li>
 	</ul>
 
 
-	<h3>Popup click tests</h3>
+	<h3>Mouse click tests</h3>
 
 	<ul>
-		<li>Clicking on the first menu item should alert with the message "<i>Hello world</i>". The menu should dissapear.</li>
-		<li>Clicking on the second menu item (disabled) should not do anything - focus should remain on the disabled item.</li>
-		<li>Clicking anywhere outside the menu should hide the menu.</li>
+		<li>Click on the first menu item. Alert should open with the message "Hello world". The menu should dissapear.</li>
+		<li>Click on the second menu item (disabled). Should not do anything - focus should remain on the disabled item.</li>
+		<li>Click anywhere outside the menu. Menu should close. Focus will be set by the browser based on where the user clicks.</li>
 	</ul>
 
 
-	<h3>Popup submenu tests</h3>
+	<h3>Mouse submenu tests</h3>
 
 	<ul>
-		<li>Hovering over item three (enabled submenu) should highlight the item and then pop open a submenu after a short (500ms) delay</li>
-		<li>Hovering over either of the first two items should close the submenu immediately and deselect the submenu parent item. The newly hovered item should become selected.</li>
-		<li>Hovering over item four (disabled submenu) should highlight the item, but no submenu should appear.</li>
-		<li>Clicking on item 3 before the submenu has opened (you'll have to be quick!) should immediatley open the submenu.</li>
-		<li>Clicking on item 3 <i>after</i> the submenu has opened should have no effect - the item is still selected and the submenu still open.</li>
-		<li>Clicking on item 4 should do nothing - the item remains selected and the menu remains open.</li>
-		<li>Hovering over submenu item 1 should select it - the parent menu item should stay selected also.</li>
-		<li>Hovering over submenu item 2 should select it - the parent menu item should stay selected also.</li>
-		<li>Removing the pointer from both menus should de-highlight all items in the submenu and keep the parent menu item highlighted. The submenu should remain open.</li>
+		<li>Hover over the "Enabled Submenu" item. Item should highlight and then pop open a submenu after a short (500ms) delay.</li>
+		<li>Hover over any of the other menu items. Submenu should close immediately and deselect the submenu parent item. The newly hovered item should become selected.</li>
+		<li>Hover over the "Disabled Submenu" item. Item should highlight, but no submenu should appear.</li>
+		<li>Clicking on the "Enabled Submenu" item before the submenu has opened (you'll have to be quick!) should immediatley open the submenu.</li>
+		<li>Clicking on the "Enabled Submenu" item <i>after</i> the submenu has opened should have no effect - the item is still selected and the submenu still open.</li>
+		<li>Hover over submenu item 1. Should select it - the parent menu item should stay selected also.</li>
+		<li>Hover over submenu item 2. Should select it - the parent menu item should stay selected also.</li>
+		<li>Remove the pointer from both menus. Should de-highlight all items in the submenu and keep the parent menu item highlighted. The submenu should remain open.</li>
 		<li>While the submenu is open, hovering over the parent menu item should keep the submenu open with no items selected, while the parent menu item stays selected.</li>
 	</ul>
 
 
-	<h3>Menubar hover tests (<i>1 error</i>)</h3>
+	<h3>Keyboard opening tests</h3>
 
 	<ul>
-		<li>Hovering over any of the four menu bar items should highlight them to state 1 (raised 3D). No submenus should appear.</li>
-		<li>Removing the mouse from all menu bar items should de-highlight all items.</li>
-		<li>Clicking on the disabled item (item 3) should change it's highlight to state 2 (sunken 3D).</li>
-		<li>Removing the mouse from all menu bar items should leave item 3 highlighted in state 2.</li>
-		<li>Hovering over item 2 should cause its popups to open and it's highlight state to change to 2 - item 3 should become de-highlighted.</li>
-		<li>Hovering over item 3 again should hide the popup menu, de-highlight item 2 and change item 3's highlight to state 2.</li>
-		<li>Removing the pointer from item 3 should leave item 3 in highlighted state 2 with no submenu showing.</li>
-		<li>Clicking elsewhere on the page should de-highlight all items (<b>currently broken - disabled item stays in state 2</b>).</li>		
-		<li>Clicking on the first item should open a submenu below the item. The parent item should be highlighted in state 2 (sunken 3D) with none of the submenu items highlighted.</li>
-		<li>Hovering the pointer over the second item should hide the first submenu and show a new submenu under the newly selected item. The first parent item should become de-selected while the second parent item should be highlighted in state 2.</li>
-		<li>Removing the mouse from all menu bar items again should leave the submenu open and the parent item selected in state 2.</li>
-		<li>Clicking elsewhere on the page should close the submenu and deselect all menu bar items.</li>
-		<li>Hovering over any menu bar items again should highlight them in state 1.</li>
+		<li>On Windows: press shift-f10 with focus on any of the form controls. Should open the menu.</li>
+		<li>On Windows: press the context menu key (located on the right of the space bar on North American keyboards) with focus on any of the form controls. Should open the menu.</li>
+		<li>On Firefox on the Mac: press ctrl-space with focus on any of the form controls. Should open the menu.</li>
+	</ul>
+
+	
+	<h3>Keyboard closing tests</h3>
+	
+	<ul>
+		<li>Open the menu.</li>
+		<li>Press tab. Should close the menu and return focus to where it was before the menu was opened.</li>
+		<li>Open the menu.</li>
+		<li>Press escape. Should close the menu and return focus to where it was before the menu was opened.</li>
 	</ul>
 
 
-	<h3>Menubar click tests</h3>
+	<h3>Keyboard navigation tests</h3>
 
 	<ul>
-		<li>Clicking on bar item 1 should open up a submenu.</li>
-		<li>Click on item 1 in the submenu - an alert should say "<i>hello world</i>". The submenu should dissapear and the menu bar items should all be deselected.</li>
-		<li>Clicking on bar item 1 should open up a submenu.</li>
-		<li>Click on item 3 in the submenu to open a subsubmenu. Item 1 in the menu bar should remain depressed and item 3 in the submenu should remain highlighted.</li>
-		<li>Hover over item 1 in the subsubmenu. Item 1 in the menu bar should remain depressed and item 3 in the submenu should remain highlighted.</li>
-		<li>Click on item 1 in the subsubmenu - an alert should say "<i>submenu 1!</i>". The submenu and subsubmenu should dissapear and the menu bar items should all be deselected.</li>
-		<li>Click on bar item 1 and then submenu item 3 to expand the subsubmenu as before.</li>
-		<li>Hover over bar item 2. The subsubmenu and submenu should close immediately and a new submenu open under bar item 2.</li>
-		<li>Hover over bar item 1. The submenu should appear, while item 2's submenu should vanish.</li>
-		<li>Click on submenu item 3 to expand the subsubmenu as before.</li>
-		<li>Click elsewhere on the page - the submenu and subsubmenu should dissapear and the bar items should all become deselected.</li>
+		<li>Open the menu.</li>
+		<li>Pressing up or down arrow should cycle focus through the items in that menu.</li>
+		<li>Pressing enter or space should invoke the menu item.</li>
+		<li>Disabled items receive focus but no action is taken upon pressing enter or space.</li>
 	</ul>
 
-	<h3>Popup key tests (<i>mostly failing</i>)</h3>
+
+	<h3>Keyboard submenu tests</h3>
 
 	<ul>
-		<li>Right click on the page to show the context menu. No items should be selected.</li>
-		<li>Press the left arrow. Nothing should happen.</li>
-		<li>Press the right arrow. Nothing should happen.</li>
-		<li>Press escape. The menu should vanish.</li>
-	</ul>
-	<ul>
-		<li>Right click on the page to show the context menu. No items should be selected.</li>
-		<li>Press enter. The menu should vanish.</li>
-	</ul>
-	<ul>
-		<li>Right click on the page to show the context menu. No items should be selected.</li>
-		<li>Press the down arrow. The top item should become selected.</li>
-		<li>Press escape. The menu should vanish.</li>
-	</ul>
-	<ul>
-		<li>Right click on the page to show the context menu. No items should be selected.</li>
-		<li>Press the up arrow. The bottom item should become selected.</li>
-		<li>Press escape. The menu should vanish.</li>
-	</ul>
-	<ul>
-		<li>Right click on the page to show the context menu. No items should be selected.</li>
-		<li>Press the up arrow. The bottom item should become selected.</li>
-		<li>Press the up arrow. The next item up should become selected.</li>
-		<li>Press the up arrow until the top item becomes selected.</li>
-		<li>Press the up arrow again. The bottom item should become selected.</li>
-		<li>Press the down arrow again. The top item should become selected.</li>
-		<li>Press the down arrow until the bottom item becomes selected.</li>
-		<li>Press the down arrow again. The top item should become selected.</li>
-		<li>Press escape. The menu should vanish.</li>
-	</ul>
-	<ul>
-		<li>Select some text in this scrolling box.</li>
-		<li>Right click on the page to show the context menu. No items should be selected.</li>
-		<li>Press the up and down arrows several times. The scrolling box should not scroll when the selected menu item changes.</li>
-		<li>Press escape. The menu should vanish.</li>
-	</ul>
-	<ul>
-		<li>Right click on the page to show the context menu. No items should be selected.</li>
-		<li>Press the down arrow. The top item should become selected.</li>
-		<li>Press enter. An alert should fire with "<i>hello world</i>". The menu should vanish.</li>
-	</ul>
-
-	<h3>Submenu key tests (<i>mostly failing</i>)</h3>
-
-	<ul>
-		<li>Right click on the page to show the context menu. No items should be selected.</li>
+		<li>Open the menu.</li>
 		<li>Press the down arrow. The first item should become selected.</li>
 		<li>Press the right arrow key. Nothing should happen.</li>
 		<li>Press the left arrow key. Nothing should happen.</li>
-		<li>Press the down arrow twice. The third item should become selected. The submenu should not appear.</li>
+		<li>Press the down arrow until "Enabled Submenu" is selected. The submenu should not appear.</li>
 		<li>Press enter. The submenu should appear with the first item selected.</li>
-		<li>Press escape. The submenu should vanish - item three should remain selected.</li>
+		<li>Press escape. The submenu should vanish - "Enabled Submenu" should remain selected.</li>
 		<li>Press the right arrow key. The submenu should appear with the first item selected.</li>
 		<li>Press the right arrow key. Nothing should happen.</li>
-		<li>Press the left arrow key. The submenu should vanish - item three should remain selected.</li>
-		<li>Press the left arrow key. The context menu should <i>not</i> vanish and item three should remain selected.</li>
-		<li>Press escape. The context menu should vanish.</li>
-	</ul>
-
-	<ul>
-		<li>Right click on the page to show the context menu. No items should be selected.</li>
-		<li>Press the down arrow three times. The third item should become selected. The submenu should not appear.</li>
-		<li>Press enter. The submenu should appear with the first item selected.</li>
-		<li>Press the down arrow. The second item in the submenu should be selected.</li>
-		<li>Press the up arrow. The first item in the submenu should be selected.</li>
-		<li>Press the up arrow. The last item in the submenu should be selected.</li>
-		<li>Press escape. The submenu should vanish, leaving item three selected.</li>
-		<li>Press escape. The context menu should vanish.</li>
-	</ul>
-
-	<h3>Menubar key tests (<i>mostly failing</i>)</h3>
-
-	<ul>
-		<li>Hover the pointer over bar item one. It should highlight in state 1.</li>
-		<li>Press the left, right, up and down arrows - the menu should be unaffected (the window may scroll, if focused).</li>
-		<li>Click on menu bar item 1. The popup should appear with no items selected. The bar item should highlight in state 2.</li>
-		<li>Press the right arrow. The bar selection should change to item 2. Bar item 1's popup should vanish and bar item 2's popup should appear with item 1 selected.</li>
-		<li>Press the left arrow. The bar selection should change to item 1. Bar item 2's popup should vanish and bar item 1's popup should appear with item 1 selected.</li>
-		<li>Press the left arrow. The bar selection should change to item 4. Bar item 1's popup should vanish and bar item 4's popup should appear with item 1 selected.</li>
-		<li>Press the right arrow. The bar selection should change to item 1. Bar item 4's popup should vanish and bar item 1's popup should appear with item 1 selected.</li>
-		<li>Press the down arrow repeatedly - the selection within the popup should move down until it hits the bottom item, after which the top item should become selected.</li>
-		<li>Press the up arrow repeatedly - the selection within the popup should move up until it hits the top item, after which the bottom item should become selected.</li>
-		<li>Press escape. The popup should vanish but the bar item should stay highlighted in mode 2 (windows does this, but maybe we should forget it?)
-		<li>Press escape. The bar item should become unhighlighted.</li>
-	</ul>
-
-	<h3>TODO tests</h3>
-
-	<ul>
-		<li>TODO: left and right with no popups open and bar item selected (only if we allow this)</li>
-		<li>TODO: popup submenu opening tests</li>
-		<li>TODO: left and right within submenus testing</li>
-		<li>TODO: key/mouse switchover tests (these get complicated)</li>
+		<li>Press the left arrow key. The submenu should close - "Enabled Submenu" should remain selected.</li>
+		<li>Press the left arrow key. The menu should <i>not</i> close and "Enabled Submenu" should remain selected.</li>
+		<li>Press escape. The menu should close and focus should be returned to where it was before the menu was opened.</li>
 	</ul>
 
 </div>
