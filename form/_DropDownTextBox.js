@@ -130,6 +130,30 @@ dojo.declare(
 			}else{
 				this._hideResultList();
 			}
+		},
+		
+		setupLabels: function(){
+			// summary: 
+			//		associate label with input element for accessibility.
+			// description: 
+			//		find any label initially associated with the input element and reconnect
+			// to the input element (orig input id has been moved to the outer fieldset)
+			// assumes <label for="inputId">label text </label> rather than
+			// <label><input type="xyzzy">label text</label>
+			if(this.id && this.id != ""){
+				var labels = document.getElementsByTagName("label");
+				if (labels != null && labels.length > 0){
+					for(var i=0; i<labels.length; i++){
+						if (labels[i].htmlFor == this.id){
+							if (!this.textbox.id){
+								this.textbox.id = (this.id + "input");
+							}
+							labels[i].htmlFor=this.textbox.id;
+							break;
+						}
+					}
+				}
+			}
 		}
 	}
 );

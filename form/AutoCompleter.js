@@ -461,7 +461,8 @@ dojo.declare(
 			this.parentClass=dojo.getObject(this.declaredClass, false).superclass;
 			this.parentClass.postCreate.apply(this, arguments);
 			this.popupWidget=dijit.form.AutoCompleter.MasterPopup; //new dijit.form._AutoCompleterMenu({}, node);
-			
+			this.setupLabels();
+					
 // Bill: not sure having a MasterPopup is giving us here.
 // How about creating the menu on demand (NOT at postCreate() time),
 // but having one per widget?

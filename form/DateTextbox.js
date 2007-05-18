@@ -49,6 +49,7 @@ dojo.declare(
 			dijit.form.DateTextbox.superclass.postCreate.apply(this, arguments);
 			var node=document.createElement('div');
 			this.popupWidget=dijit.form.DateTextbox.MasterPopup;
+			this.setupLabels();
 		},
 
 		_calendarOnValueSelected:function(value){
