@@ -50,19 +50,17 @@ dojo.declare(
 	layoutChildPriority: 'top-bottom',
 
 	layout: function(){
-		
-		// TODO: pass in size
-		var ok = dijit.base.Layout.layoutChildren(this.domNode, this.getChildren(), this.layoutChildPriority);
+		var ok = dijit.base.Layout.layoutChildren(this.domNode, this._contentBox, this.getChildren(), this.layoutChildPriority);
 	},
 
 	addChild: function(child, overrideContainerNode, pos, ref, insertIndex){
 		dijit.base.Container.prototype.addChild.apply(this, arguments);
-		dijit.base.Layout.layoutChildren(this.domNode, this.getChildren(), this.layoutChildPriority);
+		dijit.base.Layout.layoutChildren(this.domNode, this._contentBox, this.getChildren(), this.layoutChildPriority);
 	},
 
 	removeChild: function(pane){
         dijit.base.Container.prototype.removeChild.apply(this, arguments);
-		dijit.base.Layout.layoutChildren(this.domNode, this.getChildren(), this.layoutChildPriority);
+		dijit.base.Layout.layoutChildren(this.domNode, this._contentBox, this.getChildren(), this.layoutChildPriority);
 	},
 
 	show: function(){

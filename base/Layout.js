@@ -17,26 +17,30 @@ dojo.declare("dijit.base.Sizable",
 			// mb: Object?
 			//		{w: int, h: int, l: int, t: int}
 
+			var node = this.domNode;
+
 			// set margin box size, unless it wasn't specified, in which case use current size
 			if(mb){
-				dojo.marginBox(this.domNode, mb);
-			}
-			mb = dojo.marginBox(this.domNode);
+				dojo.marginBox(node, mb);
 
-			// set offset of the node
-			with(this.domNode.style){
-				if(mb.t){ top = mb.t + "px"; }
-				if(mb.l){ left = mb.l + "px"; }
+				// set offset of the node
+				if(mb.t){ node.style.top = mb.t + "px"; }
+				if(mb.l){ node.style.left = mb.l + "px"; }
 			}
+			mb = dojo.marginBox(node);
 
 			// Save the size of my content box.
-			// TODO: this calculation is wrong; need to include borders, etc.
-			// I could just call dojo.contentBox() except that it might return 0, if the pane is hidden
+			// I could just call dojo.contentBox() except that it might return 0, if my dom node is hidden
 			// or the browser hasn't had time to do calculations; this is more reliable.
-			var cs = dojo.getComputedStyle(this.domNode);
-			var me=dojo._getMarginExtents(this.domNode, cs);
-			var pb=dojo._getPadBounds(this.domNode, cs);
-			this._contentBox = { l: pb.l, t: pb.t, w: mb.w - me.w - pb.w, h: mb.h - me.h - pb.h };
+			var cs = dojo.getComputedStyle(node);
+			var me=dojo._getMarginExtents(node, cs);
+			var pb=dojo._getPadBorderExtents(node, cs);
+			this._contentBox = {
+				l: dojo._toPixelValue(node, cs.paddingLeft),
+				t: dojo._toPixelValue(node, cs.paddingTop),
+				w: mb.w - (me.w + pb.w),
+				h: mb.h - (me.h + pb.h)
+			};
 			
 			// Callback for widget to adjust size of it's children
 			this.layout();
@@ -96,7 +100,7 @@ dojo.declare("dijit.base.Layout",
 	}
 );
 
-dijit.base.Layout.layoutChildren = function(/*DomNode*/ container, /*Object[]*/ children, /*String*/ layoutPriority){
+dijit.base.Layout.layoutChildren = function(/*DomNode*/ container, /*Object*/ dim, /*Object[]*/ children, /*String*/ layoutPriority){
 	/**
 	 * summary
 	 *		Layout a bunch of child dom nodes within a parent dom node
@@ -106,6 +110,8 @@ dijit.base.Layout.layoutChildren = function(/*DomNode*/ container, /*Object[]*/ 
 	 *		reschedule a layout at a later time - when the browser has more accurate metrics
 	 * container:
 	 *		parent node
+	 * dim:
+	 *		{l, t, w, h} object specifying dimensions of container into which to place children
 	 * layoutPriority:
 	 *		"top-bottom" or "left-right"
 	 * children:
@@ -143,27 +149,15 @@ dijit.base.Layout.layoutChildren = function(/*DomNode*/ container, /*Object[]*/ 
 		});
 	}
 
-	// REVISIT: we need getPixelValue to be public
-	var _toPixelValue = function(element, value){
-		// parseInt or parseFloat? (style values can be floats)
-		return parseFloat(value) || 0; 
-	}
-	var px = _toPixelValue;
-	
-		// remaining space (blank area where nothing has been written)
-		
-	// contentBox gives you the whole box (l, t, w, h)
-	f = dojo.contentBox(container);
-
-	var ret = true;
 	// set positions/sizes
+	var ret=true;
 	dojo.forEach(children, function(child){
 		var elm=child.domNode;
 		var pos=child.layoutAlign;
 		// set elem to upper left corner of unused space; may move it later
 		var elmStyle = elm.style;
-		elmStyle.left = f.l+"px";
-		elmStyle.top = f.t+"px";
+		elmStyle.left = dim.l+"px";
+		elmStyle.top = dim.t+"px";
 		elmStyle.bottom = elmStyle.right = "auto";
 
 		var capitalize = function(word){
@@ -174,37 +168,36 @@ dijit.base.Layout.layoutChildren = function(/*DomNode*/ container, /*Object[]*/ 
 
 		// set size && adjust record of remaining space.
 		// note that setting the width of a <div> may affect it's height.
-		// TODO: same is true for widgets but need to implement API to support that
 		if (pos=="top" || pos=="bottom"){
 			if(child.resize){
-				child.resize({w: f.w});
+				child.resize({w: dim.w});
 			}else{
-				dojo.marginBox(elm, { w: f.w });
+				dojo.marginBox(elm, { w: dim.w });
 			}
 			var h = dojo.marginBox(elm).h;
-			f.h -= h;
+			dim.h -= h;
 			if(pos=="top"){
-				f.t += h;
+				dim.t += h;
 			}else{
-				elmStyle.top = f.t + f.h + "px";
+				elmStyle.top = dim.t + dim.h + "px";
 			}
 		}else if(pos=="left" || pos=="right"){
 			var w = dojo.marginBox(elm).w;
 
 			// TODO: this zero stuff shouldn't be necessary anymore
-			var hasZero = dijit.base.Layout._sizeChild(child, elm, w, f.h);
+			var hasZero = dijit.base.Layout._sizeChild(child, elm, w, dim.h);
 			if(hasZero){
 				ret = false;
 			}
-			f.w -= w;
+			dim.w -= w;
 			if(pos=="left"){
-				f.l += w;
+				dim.l += w;
 			}else{
-				elmStyle.left = f.l + f.w + "px";
+				elmStyle.left = dim.l + dim.w + "px";
 			}
 		} else if(pos=="flood" || pos=="client"){
 			// #1635 - filter for zero dimensions (see below)
-			var hasZero = dijit.base.Layout._sizeChild(child, elm, f.w, f.h);
+			var hasZero = dijit.base.Layout._sizeChild(child, elm, dim.w, dim.h);
 			if(hasZero){
 				ret = false;
 			}
@@ -218,8 +211,11 @@ dijit.base.Layout._sizeChild = function (child, elm, w, h){
 	// don't allow such values for width and height, let the browser adjust the
 	// layout itself when it reflows and report if any dimension is zero
 	var box = {};
+	
 	var hasZero = (w == 0 || h == 0);
 	if(!hasZero){
+	// TODO: Bill: this makes no sense.  If !hasZero then w!=0 and h!=0.
+	// The following two if statements are meaningless.
 		if(w != 0){
 			box.w = w;
 		}

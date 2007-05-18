@@ -71,8 +71,7 @@ dojo.declare(
 			{domNode: this.containerNode, layoutAlign: "client"}
 		];
 		
-		// TODO: pass in size to layoutChildren()
-		dijit.base.Layout.layoutChildren(this.domNode, children);
+		dijit.base.Layout.layoutChildren(this.domNode, this._contentBox, children);
 		// TODO: return the size so we don't have to call contentBox() below
 
 		if(this.selectedChildWidget){

@@ -111,7 +111,7 @@ dojo.declare(
 		startup: function(){
 			var children = this.getChildren();
 			dojo.forEach(children, this._addChild, this);
-			dijit.base.Sizable.prototype.startup.apply(this, arguments);
+			dijit.base.Layout.prototype.startup.apply(this, arguments);
 		},
 
 		removeChild: function(widget){
@@ -220,7 +220,7 @@ dojo.declare(
 			{domNode: this.labelNode, layoutAlign: "top"},
 			{domNode: this.containerNode, layoutAlign: "client"}
 		];
-		dijit.base.Layout.layoutChildren(this.domNode, children);
+		dijit.base.Layout.layoutChildren(this.domNode, this._contentBox, children);
 		var child = this.getChildren()[0];
 		if(child && child.resize){
 			child.resize(this._contentBox);
