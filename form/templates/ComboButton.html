@@ -4,7 +4,7 @@
 			><button type="${type}"
 			    class="dojoNonPositionOnly dojoButtonContents dojoButtonNode"
 			    dojoAttachEvent="onclick:buttonClick; onkeypress:arrowKey;"
-			    tabIndex="${tabIndex}" dojoAttachPoint="containerNode"
+			    tabIndex="${tabIndex}" dojoAttachPoint="containerNode;focusNode"
 			></button
 		></td
 		><td class="dojoButtonArrow dojoButtonNode"
@@ -12,6 +12,7 @@
 		    dojoAttachEvent="onclick:arrowClick; onkeypress:arrowKey;"
 		    style="height:100%;"
 			><div tabIndex="${tabIndex}" class="dojoDownArrowOuter"
+		      waiRole="button" waiState="haspopup-true"
 				><div class="dojoDownArrowInner"></div
 			></div
 		></td
