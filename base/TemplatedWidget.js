@@ -56,7 +56,7 @@ dojo.declare("dijit.base.TemplatedWidget",
 					// Safer substitution, see heading "Attribute values" in  
 					// http://www.w3.org/TR/REC-html40/appendix/notes.html#h-B.3.2
 					return value.toString().replace(/"/g,"&quot;"); //TODO: support a more complete set of escapes?
-				});
+				}, this);
 
 				node = dijit.base._createNodesFromText(tstr)[0];
 			}else{
