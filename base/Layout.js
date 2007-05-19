@@ -176,6 +176,7 @@ dijit.base.Layout.layoutChildren = function(/*DomNode*/ container, /*Object*/ di
 			}
 			var h = dojo.marginBox(elm).h;
 			dim.h -= h;
+			dojo.mixin(child, {w: dim.w, h: h});	// return child size
 			if(pos=="top"){
 				dim.t += h;
 			}else{
@@ -228,6 +229,7 @@ dijit.base.Layout._sizeChild = function (child, elm, w, h){
 			dojo.marginBox(elm, box);
 		}
 	}
+	dojo.mixin(child, box);	// return child size
 	return hasZero;
 }
 

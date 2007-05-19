@@ -127,10 +127,7 @@ dojo.declare(
 	layout: function(){
 		// Summary: called when any page is shown, to make it fit the container correctly
 		if(this.doLayout && this.selectedChildWidget && this.selectedChildWidget.resize){
-			// TODO: if the containerNode == the domNode then dojo.contentBox() can
-			// be replaced by this._contentBox
-			var content = dojo.contentBox(this.containerNode);
-			this.selectedChildWidget.resize(content);
+			this.selectedChildWidget.resize(this._contentBox);
 		}
 	},
 

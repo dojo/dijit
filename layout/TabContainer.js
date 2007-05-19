@@ -22,12 +22,6 @@ dojo.declare(
 	//   "top", "bottom", "left-h", "right-h"
 	labelPosition: "top",
 	
-	// closeButton: String
-	//   If closebutton=="tab", then every tab gets a close button.
-	//   DEPRECATED:  Should just say closable=true on each
-	//   pane you want to be closable.
-	closeButton: "none",
-
 	templateString: null,	// override setting in PageContainer
 	templatePath: dojo.moduleUrl("dijit.layout", "templates/TabContainer.html"),
 
@@ -43,42 +37,34 @@ dojo.declare(
 			}, this.tablistNode);		
 	},
 	
-	layout: function(){
-		dijit.layout.TabContainer.superclass.layout.apply(this, arguments);
-		// wire up the tablist and its tabs
-		this.tablist.layout();
-		// size the container pane to take up the space not used by the tabs themselves
-		this.onResized();	
-	},
-
 	_setupChild: function(tab){
-		if(this.closeButton=="tab" || this.closeButton=="pane"){
-			// TODO: remove in 0.5
-			tab.closable=true;
-		}
 		dojo.addClass(tab.domNode, "dojoTabPane");
 		dijit.layout.TabContainer.superclass._setupChild.apply(this, arguments);
 	},
 
-	onResized: function(){
+	startup: function(){
+		// wire up the tablist and its tabs
+		this.tablist.startup();
+		dijit.layout.TabContainer.superclass.startup.apply(this, arguments);
+	},
+
+	layout: function(){
 		// Summary: Configure the content pane to take up all the space except for where the tabs are
+		this.tablist.layout();
 		if(!this.doLayout){ return; }
 
-		// position the labels and the container node
+		// position and size the labels and the container node
 		var labelAlign=this.labelPosition.replace(/-h/,"");
 		var children = [
 			{domNode: this.tablist.domNode, layoutAlign: labelAlign},
 			{domNode: this.containerNode, layoutAlign: "client"}
 		];
-		
 		dijit.base.Layout.layoutChildren(this.domNode, this._contentBox, children);
-		// TODO: return the size so we don't have to call contentBox() below
 
-		if(this.selectedChildWidget){
-			var containerSize = dojo.contentBox(this.containerNode);
-			if(this.selectedChildWidget.resize){
-				this.selectedChildWidget.resize(containerSize);
-			}
+		if(this.selectedChildWidget && this.selectedChildWidget.resize){
+			var containerSize = children[1];		// returned info from layoutChildren()
+			// TODO: subtract out padding border margin...
+			this.selectedChildWidget.resize(containerSize);
 		}
 	},
 
