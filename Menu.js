@@ -131,7 +131,7 @@ dojo.declare(
 				}
 				//fall through
 			case dojo.keys.TAB:
-				this.closeAll(true);
+				dijit.util.PopupManager.closeAll();
 				return true; //do not pass to parent menu
 		}
 		// otherwise, pass to parent menu
@@ -230,8 +230,8 @@ dojo.declare(
 		// to capture these events at the top level, 
 		// attach to document, not body
 		var cn = (node == dojo.body() ? dojo.doc : node);
-		node[this.widgetId+'connect'] = [
-			dojo.connect(cn, "oncontextmenu", this, "open"),
+		node[this.widgetId+'_connect'] = [
+			dojo.connect(cn, "oncontextmenu", this, "_openMyself"),
 			dojo.connect(cn, "onkeydown", this, "_contextKey")
 		];
 	},
@@ -239,7 +239,7 @@ dojo.declare(
 	unBindDomNode: function(/*String|DomNode*/ nodeName){
 		// summary: detach menu from given node
 		var node = dojo.byId(nodeName);
-		dojo.forEach(node[this.id+'connect'], dojo.disconnect);
+		dojo.forEach(node[this.id+'_connect'], dojo.disconnect);
 	},
 
 	_contextKey: function(e){
@@ -253,60 +253,44 @@ dojo.declare(
 				_e.preventDefault = _e.stopPropagation = function(){};
 				// IE: without the delay, focus work in "open" causes the system 
 				// context menu to appear in spite of stopEvent.
-				window.setTimeout(dojo.hitch(this, function(){ this.open(_e); }), 1);
+				window.setTimeout(dojo.hitch(this, function(){ this._openMyself(_e); }), 1);
 			}
 		}
 	},
 
-	_openAsSubmenu: function(/*Widget|DomNode*/parent, /*Object*/explodeSrc, /*String?*/orient){
+	_openMyself: function(/*Event*/ e){
 		// summary:
-		//		Open this menu as a child to specified parent, which is a Menu or Button
-		// parent:
-		//		The parent menu or button
-		// explodeSrc:
-		//		Typically the MenuItem.domNode that the user clicked
-		// orient:
-		//		Location to place ourselves relative to explodeSrc
-		if(this.isShowingNow){ return; }
-		this.parentMenu = parent;
-		dijit.util.PopupManager.openAround(explodeSrc, this, orient);
-	},
-	
-	open: function(/*Event*/ e){
-		// summary
-		//		Open menu relative to the mouse
+		//		Just an internal function for opening myself when the user
+		//		does a right-click or something similar
 		dojo.stopEvent(e);
 		dijit.util.PopupManager.open(e, this);
+	},
+
+
+	onOpen: function(/*Event*/ e){
+		// summary
+		//		Open menu relative to the mouse
 		this._selectFirstItem();
 	},
 
-	close: function(/*Boolean*/ force){
+	onClose: function(/*Boolean*/ force){
 		// summary: close this menu and any open submenus
-
-		if(this.currentSubmenu){
-			this.closeSubmenu(force);
-		}
 
 		if(this._selectedItem){
 			this._selectedItem._unselectItem();
 		}
-
-		dijit.util.PopupManager.close(this);
-
 		this.parentMenu = null;
 		
 		// TODO: focus back on parent menu?
 	},
 
-	closeAll: function(/*Boolean?*/force){
-		// summary: close all popups in the chain
-		this._getTopMenu().close(force);
-	},
-	
 	_openSubmenu: function(submenu, from_item){
 		// summary: open the submenu to the side of the current menu item
 		var orient = (this.dir == "ltr") ? {'TR': 'TL', 'TL': 'TR'} : {'TL': 'TR', 'TR': 'TL'};
-		submenu._openAsSubmenu(this, from_item.arrowCell, orient);
+		
+		if(submenu.isShowingNow){ return; }
+		submenu.parentMenu = this;
+		dijit.util.PopupManager.openAround(from_item.arrowCell, submenu, orient);
 
 		this.currentSubmenu = submenu;
 		this.currentSubmenuTrigger = from_item;
@@ -323,10 +307,6 @@ dojo.declare(
 				//squelch
 			}
 		}
-	},
-
-	onOpen: function(/*Event*/ e){
-		// summary: callback when menu is opened
 	}
 }
 );
@@ -403,13 +383,17 @@ dojo.declare(
 	_selectItem: function(){
 		// summary: internal function to select an item
 
-		var parent = this.getParent();
-		parent.closeSubmenu();
-		if(parent._selectedItem){
-			parent._selectedItem._unselectItem();
-		}
-		parent._selectedItem = this;
+		var thisMenu = this.getParent();
 
+		// Close all submenus that are open and descendents of this menu
+		dijit.util.PopupManager.closeTo(thisMenu);
+		
+		// Change highlighting to this item
+		// TODO: move highlightItem function to Menu to make this easier?
+		if(thisMenu._selectedItem){
+			thisMenu._selectedItem._unselectItem();
+		}
+		thisMenu._selectedItem = this;
 		this._highlightItem();
 
 		try{
@@ -426,7 +410,9 @@ dojo.declare(
 		// summary: callback when mouse is moved onto menu item
 		if(this.is_hovering || this.is_open){ return; }
 		this._selectItem();
-		this._startSubmenuTimer();
+		if(this.submenuId){
+			this._startSubmenuTimer();
+		}
 	},
 
 	_unselectItem: function(){
@@ -460,9 +446,11 @@ dojo.declare(
 			}
 			displayingSubMenu = true;
 		}else{
+			// selection of given element
+
 			// for some browsers the onMouseOut doesn't get called (?), so call it manually
 			this.onUnhover(); //only onUnhover when no submenu is available
-			this.getParent().closeAll(true);
+			dijit.util.PopupManager.closeAll();
 		}
 
 		// user defined handler for click
@@ -506,12 +494,14 @@ dojo.declare(
 	_openSubmenu: function(){
 		if(this.disabled){ return; }
 
+		var thisMenu = this.getParent();
+
 		// first close any other open submenu
-		this.getParent().closeSubmenu();
+		thisMenu.closeSubmenu();
 
 		var submenu = dijit.byId(this.submenuId);
 		if(submenu){
-			this.getParent()._openSubmenu(submenu, this);
+			thisMenu._openSubmenu(submenu, this);
 		}
 	},
 

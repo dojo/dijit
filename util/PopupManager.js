@@ -33,7 +33,7 @@ dijit.util.PopupManager = new function(){
 		}
 		dijit.util.placeOnScreen(widget.domNode, x, y, padding, true);
 		
-		_open(widget);
+		this._open(widget);
 	}
 
 	this.openAround = function(/*Widget*/parent, /*Widget*/widget, /*String?*/orient, /*Array?*/padding){
@@ -43,10 +43,10 @@ dijit.util.PopupManager = new function(){
 
 		dijit.util.placeOnScreenAroundElement(widget.domNode, parent, padding, orient);
 			
-		_open(widget);
+		this._open(widget);
 	};
-	
-	function _open(widget){
+
+	this._open = function(widget){
 		// summary:
 		//		Utility function to help opening
 
@@ -57,7 +57,7 @@ dijit.util.PopupManager = new function(){
 		}
 
 		if(stack.length == 0){
-			beforeTopOpen(null, widget);
+			this._beforeTopOpen(null, widget);
 		}
 
 		stack.push(widget);
@@ -73,12 +73,11 @@ dijit.util.PopupManager = new function(){
 			widget.bgIframe.size(widget.domNode);
 			widget.bgIframe.show();
 		}
-
 	};
 
 	this.close = function(){
 		// summary:
-		//		Close top level popup
+		//		Close popup on the top of the stack (the highest z-index popup)
 
 		var widget = stack.pop();
 
@@ -86,9 +85,27 @@ dijit.util.PopupManager = new function(){
 		if(dojo.isIE && dojo.isIE < 7){
 			widget.bgIframe.hide();
 		}
-		
+
+		if(widget.onClose){
+			widget.onClose();
+		}
+
 		if(stack.length == 0){
-			afterTopClose(widget);
+			this._afterTopClose(widget);
+		}
+	};
+
+	this.closeAll = function(){
+		// summary: close every popup, from top of stack down to the first one
+		while(stack.length){
+			this.close();
+		}
+	};
+
+	this.closeTo = function(/*Widget*/ widget){
+		// summary: closes every popup above specified widget
+		while(stack.length && stack[stack.length-1] != widget){
+			this.close();
 		}
 	};
 
@@ -96,7 +113,7 @@ dijit.util.PopupManager = new function(){
 	// Utility functions for making mouse click close popup chain
 	var currentTrigger;
 	
-	function beforeTopOpen(/*Widget*/ button, /*Widget*/menu){
+	this._beforeTopOpen = function(/*Widget*/ button, /*Widget*/menu){
 		// summary:
 		//	Called when a popup is opened, typically a button opening a menu.
 		//	Registers handlers so that clicking somewhere else on the screen will close the popup
@@ -107,24 +124,24 @@ dijit.util.PopupManager = new function(){
 		currentTrigger=button;
 
 		// setup handlers to catch screen clicks and close current menu	
-		setWindowEvents("connect");
+		this._setWindowEvents("connect");
 	};
 
-	function afterTopClose(/*Widget*/menu){
+	this._afterTopClose = function(/*Widget*/menu){
 		// summary:
 		//	called when the top level popup is closed, but before it performs it's actions
 		//	removes handlers for mouse movement detection
 
 		// remove handlers to catch screen clicks and close current menu
 		// TODO: this doesn't seem to have any effect; try it after scott's new event code.	
-		setWindowEvents("disconnect");
+		this._setWindowEvents("disconnect");
 
 		currentTrigger = null;
 
 		dijit.util.FocusManager.restore(menu);
 	};
 
-	function onKeyPress(/*Event*/e){
+	this._onKeyPress = function(/*Event*/e){
 		// summary
 		//	Handles keystrokes, passing them up the chain of menus
 		if((!e.keyCode) && (e.charCode != dojo.keys.SPACE)){ return; }
@@ -142,7 +159,7 @@ dijit.util.PopupManager = new function(){
 		}
 	};
 
-	function onMouse(/*Event*/e){
+	this._onMouse = function(/*Event*/e){
 		// summary
 		// Monitor clicks in the screen.  If popup has requested it than
 		// clicking anywhere on the screen will close the current menu hierarchy
@@ -177,11 +194,11 @@ dijit.util.PopupManager = new function(){
 			return;
 		}
 
-		// the click didn't fall within the open menu tree so close it
-		stack[0].close(true);
+		// the click didn't fall within the open popups so close all open popups
+		this.closeAll();
 	};
 
-	function setWindowEvents(/*String*/ command, /*Window*/targetWindow){
+	this._setWindowEvents = function(/*String*/ command, /*Window*/targetWindow){
 		// summary:
 		//		This function connects or disconnects listeners on all the iframes
 		//		and the top window, so that whereever the user clicks in the page,
@@ -192,10 +209,11 @@ dijit.util.PopupManager = new function(){
 		}
 
 		if(command == 'connect'){
-			targetWindow._onmousedownhandler = dojo.connect(targetWindow.document, "onmousedown", null, onMouse);
-			targetWindow._onscrollhandler = dojo.connect(targetWindow, "onscroll", null, onMouse);
-			targetWindow._onkeyhandler = dojo.connect(targetWindow.document, "onkeypress", null, onKeyPress);
+			targetWindow._onmousedownhandler = dojo.connect(targetWindow.document, "onmousedown", this, "_onMouse");
+			targetWindow._onscrollhandler = dojo.connect(targetWindow, "onscroll", this, "_onMouse");
+			targetWindow._onkeyhandler = dojo.connect(targetWindow.document, "onkeypress", this, "_onKeyPress");
 		}else{
+			// TODO: couldn't I just keep a list of everything that needs to be disconnected?
 			dojo.disconnect(targetWindow._onmousedownhandler);
 			targetWindow._onmousedownhandler = null;
 			dojo.disconnect(targetWindow._onscrollhandler);
@@ -209,10 +227,12 @@ dijit.util.PopupManager = new function(){
 				//do not remove dijit.util.window.getDocumentWindow, see comment in it
 				var win = dijit.util.window.getDocumentWindow(targetWindow.frames[i].document);
 				if(win){
-					setWindowEvents(command, win);
+					this._setWindowEvents(command, win);
 				}
 			}catch(e){ /* squelch error for cross domain iframes */ }
 		}
 	};
-	dojo.addOnUnload(function(){ setWindowEvents("disconnect"); });
+	
+	var self = this;
+	dojo.addOnUnload(function(){ self._setWindowEvents("disconnect"); });
 }();
