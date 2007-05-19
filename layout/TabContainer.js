@@ -50,7 +50,6 @@ dojo.declare(
 
 	layout: function(){
 		// Summary: Configure the content pane to take up all the space except for where the tabs are
-		this.tablist.layout();
 		if(!this.doLayout){ return; }
 
 		// position and size the labels and the container node

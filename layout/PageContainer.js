@@ -53,6 +53,7 @@ dojo.declare(
 		if(!this.selectedChildWidget){
 			this.selectChild(child);
 		}
+		dojo.publish(this.id+"-addChild", [child]);
 	},
 
 	_setupChild: function(/*Widget*/ page){
@@ -62,9 +63,6 @@ dojo.declare(
 		// since we are setting the width/height of the child elements, they need
 		// to be position:relative, or IE has problems (See bug #2033)
 		page.domNode.style.position="relative";
-
-		// publish the addChild event for panes added via addChild(), and the original panes too
-		dojo.publish(this.id+"-addChild", [page]);
 	},
 
 	removeChild: function(/*Widget*/ page){
@@ -184,7 +182,7 @@ dojo.declare(
 		//	Monitors the specified PageContainer, and whenever a page is
 		//	added, deleted, or selected, updates itself accordingly.
 
-		templateString: "<span wairole='tablist' dojoAttachEvent='onkeypress'></span>",
+		templateString: "<span wairole='tablist' dojoAttachEvent='onkeypress' class='dojoPageController'></span>",
 
 		// containerId: String
 		//	the id of the page container that I point to
@@ -194,24 +192,16 @@ dojo.declare(
 		//	the name of the button widget to create to correspond to each page
 		buttonWidget: "dijit.layout.PageButton",
 
-		// class: String
-		//	Class name to apply to the top dom node
-		"class": "dojoPageController",
-		
 		postCreate: function(){
-			dojo.addClass(this.domNode, this["class"]);  // "class" is a reserved word in JS
 			dijit.util.wai.setAttr(this.domNode, "waiRole", "role", "tablist");
 
 			this.pane2button = {};		// mapping from panes to buttons
 		},
 
-		layout: function(){
-			// at this stage we can wire up to sub-widgets that we control
-			// If children have already been added to the page container then create buttons for them
+		startup: function(){
+			// At this stage we can wire up to sub-widgets that we control
 			var container = dijit.byId(this.containerId);
-			if(container){
-				dojo.forEach(container.getChildren(), this.onAddChild, this);
-			}
+			dojo.forEach(container.getChildren(), this.onAddChild, this);
 
 			dojo.subscribe(this.containerId+"-addChild", this, "onAddChild");
 			dojo.subscribe(this.containerId+"-removeChild", this, "onRemoveChild");
