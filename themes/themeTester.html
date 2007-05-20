@@ -38,13 +38,12 @@
 		dojo.require("dojo.data.JsonItemStore");
 		continentStore = new dojo.data.JsonItemStore({url: "../tests/countries.json"});
 
-		function logMessage(msg) {
+		function logMessage(msg){
 			console.debug(msg); 
 		}
 
 		// for the colorpalette
-		function setColor(color)
-		{
+		function setColor(color){
 	
 			var theSpan = dojo.byId("outputSpan");
 			theSpan.style.color = "#"+color;
@@ -52,7 +51,7 @@
 		}
 
 		// for the calendar
-		function myHandler(id,newValue) {
+		function myHandler(id,newValue){
 				console.debug("onValueChanged for id = " + id + ", value: " + newValue);
 		};
 
@@ -68,26 +67,26 @@
 <body class="tundra">
 	<h1 style="margin:15px; margin-left:0px;" >Dijit Theme Test Page</h1>
 
-<div dojoType="dijit.PopupMenu" id="submenu1" contextMenuForWindow="true" style="display: none;">
-	<div dojoType="dijit.MenuItem" caption="Enabled Item" onClick="alert('Hello world');"></div>
-	<div dojoType="dijit.MenuItem" caption="Disabled Item" disabled="true"></div>
-	<div dojoType="dijit.MenuSeparator"></div>
-	<div dojoType="dijit.MenuItem" iconSrc="../tunda/images/cut.gif" caption="Cut" accelKey="Ctrl+C"
-		onClick="alert('not actually cutting anything, just a test!')"></div>
-	<div dojoType="dijit.MenuItem" iconSrc="../../src/widget/templates/buttons/copy.gif" caption="Copy" accelKey="Ctrl+X"
-		onClick="alert('not actually copying anything, just a test!')"></div>
-	<div dojoType="dijit.MenuItem" iconSrc="../../src/widget/templates/buttons/paste.gif" caption="Paste" accelKey="Ctrl+V"
-		onClick="alert('not actually pasting anything, just a test!')"></div>
+	<div dojoType="dijit.PopupMenu" id="submenu1" contextMenuForWindow="true" style="display: none;">
+		<div dojoType="dijit.MenuItem" caption="Enabled Item" onClick="alert('Hello world');"></div>
+		<div dojoType="dijit.MenuItem" caption="Disabled Item" disabled="true"></div>
+		<div dojoType="dijit.MenuSeparator"></div>
+		<div dojoType="dijit.MenuItem" iconSrc="../tunda/images/cut.gif" caption="Cut" accelKey="Ctrl+C"
+			onClick="alert('not actually cutting anything, just a test!')"></div>
+		<div dojoType="dijit.MenuItem" iconSrc="../../src/widget/templates/buttons/copy.gif" caption="Copy" accelKey="Ctrl+X"
+			onClick="alert('not actually copying anything, just a test!')"></div>
+		<div dojoType="dijit.MenuItem" iconSrc="../../src/widget/templates/buttons/paste.gif" caption="Paste" accelKey="Ctrl+V"
+			onClick="alert('not actually pasting anything, just a test!')"></div>
 
-	<div dojoType="dijit.MenuSeparator"></div>
-	<div dojoType="dijit.MenuItem" caption="Enabled Submenu" submenuId="submenu2"></div>
-	<div dojoType="dijit.MenuItem" caption="Disabled Submenu" submenuId="submenu2" disabled="true"></div>
-</div>
+		<div dojoType="dijit.MenuSeparator"></div>
+		<div dojoType="dijit.MenuItem" caption="Enabled Submenu" submenuId="submenu2"></div>
+		<div dojoType="dijit.MenuItem" caption="Disabled Submenu" submenuId="submenu2" disabled="true"></div>
+	</div>
 
-<div dojoType="dijit.PopupMenu" id="submenu2" style="display: none;">
-	<div dojoType="dijit.MenuItem" caption="Submenu Item One" onClick="alert('Submenu 1!')"></div>
-	<div dojoType="dijit.MenuItem" caption="Submenu Item Two" onClick="alert('Submenu 2!')"></div>
-</div>
+	<div dojoType="dijit.PopupMenu" id="submenu2" style="display: none;">
+		<div dojoType="dijit.MenuItem" caption="Submenu Item One" onClick="alert('Submenu 1!')"></div>
+		<div dojoType="dijit.MenuItem" caption="Submenu Item Two" onClick="alert('Submenu 2!')"></div>
+	</div>
 
 	<div dojoType="dijit.layout.SplitContainer"
 		orientation="horizontal" sizerWidth="7"
@@ -106,18 +105,17 @@ lang="en-us">
 			</div>
 
 			<div dojoType="dijit.layout.ContentPane" 
-label="Color Picker" style="padding:10px; display:none; ">
-<div class="testBlock">
-	<h2 class="testHeader">Dijit Color Palette(7x10)</h2>
+				label="Color Picker" style="padding:10px; display:none; ">
+				<div class="testBlock">
+					<h2 class="testHeader">Dijit Color Palette(7x10)</h2>
 
-	<div dojoType="dijit.ColorPalette" onColorSelect="setColor(this.selectedColor);"></div>  
-	<br />Test color is: <span id="outputSpan"></span>.
-</div>
-
-	
-
+					<div dojoType="dijit.ColorPalette" onColorSelect="setColor(this.selectedColor);"></div>  
+					<br>
+					Test color is: <span id="outputSpan"></span>.
+				</div>
 			</div>
 		</div><!-- end AccordionContainer -->
+
 		<div dojoType="dijit.layout.SplitContainer"
 			orientation="vertical" sizerWidth="7" sizeShare="80">
 			<!--
@@ -134,129 +132,116 @@ label="Color Picker" style="padding:10px; display:none; ">
 
 				</div><!-- end:info tab -->
 				<div id="tab11" 
-dojoType="dijit.layout.ContentPane" label="Some Dijits" 
-style="padding:10px; background:#fff; display:none;">
+					dojoType="dijit.layout.ContentPane" label="Some Dijits" 
+					style="padding:10px; background:#fff; display:none;">
 
-<div class="testBlock">
-	<h2 class="testHeader">Dijit ProgressBar</h2>
+					<div class="testBlock">
+						<h2 class="testHeader">Dijit ProgressBar</h2>
+						<div style="width:400px" annotate="true" maximum="200" id="setTestBar" 
+							progress="20" dojoType="dijit.ProgressBar"></div>
 
-	<div style="width:400px" annotate="true" maximum="200" id="setTestBar" progress="20" dojoType="dijit.ProgressBar"></div>
+					</div>
+					<div class="testBlock">
+						<h2 class="testHeader">Dijit TitlePane (nested)</h2>
+						<div dojoType="dijit.TitlePane" label="Outer pane" width="300">
+							<p>This is a title pane, containing another title pane ...
 
-</div>
+							<div dojoType="dijit.TitlePane" label="Inner pane" width="250">
+								<p>And this is the inner title pane...
+								<p>Sed sollicitudin suscipit risus. Nam ullamcorper. Sed nisl lectus, pellentesque nec, 
+					malesuada eget, ornare a, libero. Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
+							</div>
+							
+							<p>And this is the closing line for the outer title pane.
+						</div>
+					</div>
 
+					<div class="testBlock">
+						<h2>Dijit Tooltips:</h2>
+						<span id="ttRich">rich text tooltip</span>
+						<span dojoType="dijit.Tooltip" connectId="ttRich" style="display:none;">
+							Embedded <b>bold</b> <i>RICH</i> text <span 
+					style="color:#309; font-size:x-large;">weirdness!</span>
+						</span>
 
-<div class="testBlock">
+						<a id="ttOne" href="#bogus">anchor tooltip</a>
+						<span dojoType="dijit.Tooltip" connectId="ttOne" caption="inline caption." style="display:none;"></span>
 
-	<h2 class="testHeader">Dijit TitlePane (nested)</h2>
-	<div dojoType="dijit.TitlePane" label="Outer pane" width="300">
-		<p>This is a title pane, containing another title pane ...
-
-		<div dojoType="dijit.TitlePane" label="Inner pane" width="250">
-			<p>And this is the inner title pane...
-			<p>Sed sollicitudin suscipit risus. Nam ullamcorper. Sed nisl lectus, pellentesque nec, 
-malesuada eget, ornare a, libero. Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
-		</div>
-		
-		<p>And this is the closing line for the outer title pane.
-	</div>
-</div>
-
-<div class="testBlock">
-	<h2>Dijit Tooltips:</h2>
-	<span id="ttRich">rich text tooltip</span>
-	<span dojoType="dijit.Tooltip" connectId="ttRich" style="display:none;">
-		Embedded <b>bold</b> <i>RICH</i> text <span 
-style="color:#309; font-size:x-large;">weirdness!</span>
-	</span>
-
-	<a id="ttOne" href="#bogus">anchor tooltip</a>
-	<span dojoType="dijit.Tooltip" connectId="ttOne" caption="inline caption." style="display:none;"></span>
-
-</div>
-
-
-
-
+					</div>
 				</div> <!-- end:some dijits -->
+
 				<div id="tab2" 
-dojoType="dijit.layout.ContentPane" label="Form Feel" 
-style="padding:10px; background:#fff; display:none;" >
+					dojoType="dijit.layout.ContentPane" label="Form Feel" 
+					style="padding:10px; background:#fff; display:none;" >
 
 					<h2>Various Form Elements:</h2>
 					<form name="dijitFormTest">
-			
-					Text Input: <input type="text" name="textInfo" value="Lorem" size="10" />
-			
-					<br/><input type="checkbox" dojoType="dijit.form.Checkbox" checked="checked"/> Standard Checkbox
-					<br/><input type="checkbox" dojoType="dijit.form.Checkbox" disabled="disabled"/> Disabled
-					<br/><input type="checkbox" dojoType="dijit.form.Checkbox" disabled="disabled" checked="checked" /> Checked and Disabled	</li>	
-				<p>
-					<span>Radio group #1:</span>
-					<input type="radio" name="g1" id="g1rb1" value="news" dojoType="dijit.form.RadioButton">
-					<label for="g1rb1">news</label>
-					<input type="radio" name="g1" id="g1rb2" value="talk" dojoType="dijit.form.RadioButton" checked="checked"/>
-					<label for="g1rb2">talk</label>
-					<input type="radio" name="g1" id="g1rb3" value="weather" dojoType="dijit.form.RadioButton" disabled="disabled"/>
-		
-					<label for="g1rb3">weather</label>
-				</p>	
-				<p>	
-					<span>Radio group #2: (no default value, and has breaks)</span><br>
-					<input type="radio" name="g2" id="g2rb1" value="top40" dojoType="dijit.form.RadioButton"/>
-					<label for="g2rb1">top 40</label><br>
-					<input type="radio" name="g2" id="g2rb2" value="oldies" dojoType="dijit.form.RadioButton"/>
+				
+						Text Input: <input type="text" name="textInfo" value="Lorem" size="10">
+				
+						<br><input type="checkbox" dojoType="dijit.form.Checkbox" checked="checked"> Standard Checkbox
+						<br><input type="checkbox" dojoType="dijit.form.Checkbox" disabled="disabled"> Disabled
+						<br><input type="checkbox" dojoType="dijit.form.Checkbox" disabled="disabled" checked="checked"> Checked and Disabled
+						<p>
+							<span>Radio group #1:</span>
+							<input type="radio" name="g1" id="g1rb1" value="news" dojoType="dijit.form.RadioButton">
+							<label for="g1rb1">news</label>
+							<input type="radio" name="g1" id="g1rb2" value="talk" dojoType="dijit.form.RadioButton" checked="checked"/>
+							<label for="g1rb2">talk</label>
+							<input type="radio" name="g1" id="g1rb3" value="weather" dojoType="dijit.form.RadioButton" disabled="disabled"/>
+				
+							<label for="g1rb3">weather</label>
+						</p>	
+						<p>	
+							<span>Radio group #2: (no default value, and has breaks)</span><br>
+							<input type="radio" name="g2" id="g2rb1" value="top40" dojoType="dijit.form.RadioButton">
+							<label for="g2rb1">top 40</label><br>
+							<input type="radio" name="g2" id="g2rb2" value="oldies" dojoType="dijit.form.RadioButton">
 
-					<label for="g2rb2">oldies</label><br>
-					<input type="radio" name="g2" id="g2rb3" value="country" dojoType="dijit.form.RadioButton"/>
-					<label for="g2rb3">country</label><br>
-					(Note if using keyboard: tab to navigate, and use arrow or space to select)
-				</p>
+							<label for="g2rb2">oldies</label><br>
+							<input type="radio" name="g2" id="g2rb3" value="country" dojoType="dijit.form.RadioButton">
+							<label for="g2rb3">country</label><br>
+							(Note if using keyboard: tab to navigate, and use arrow or space to select)
+						</p>
+					
+						<p><span>Autocompleting dijit.form.Select: (from tree datastore?)</span>
+						<!-- <input searchAttr="name" keyField="name" dojoType="dijit.form.Select" value=""
+				name="state4" autocomplete="true" labelField="type" labelType="html"
+				store="continentStore" promptMessage="Please enter a Continent" />
+						-->
 			
-				<p><span>Autocompleting dijit.form.Select: (from tree datastore?)</span>
-				<!-- <input searchAttr="name" keyField="name" dojoType="dijit.form.Select" value=""
-		name="state4" autocomplete="true" labelField="type" labelType="html"
-		store="continentStore" promptMessage="Please enter a Continent" />
-				-->
-	
-				<p><span>Number Spinner:</span>
-				<input dojoType="dijit.form.NumberSpinner" id="integertextbox3"> (enter a number or text)
-				</p>
+						<p><span>Number Spinner:</span>
+						<input dojoType="dijit.form.NumberSpinner" id="integertextbox3"> (enter a number or text)
+						</p>
 
-				<p><span>Text Area: (sans <i>any</i> styling...)</span><br />
-				<textarea dojoType="dijit.form.Textarea" name="areText">
-Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore 
-magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis 
-nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse 
-molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui 
-blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi.
-				</textarea>
-				</p>
+						<p><span>Text Area: (sans <i>any</i> styling...)</span><br />
+						<textarea dojoType="dijit.form.Textarea" name="areText">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi.
+						</textarea>
+						</p>
 
 					</form>
-
-
 				</div>
 				<div id="tab3" 
-dojoType="dijit.layout.ContentPane" label="Buttons" 
-style="background:#fff;padding:10px; display:none;  ">
+					dojoType="dijit.layout.ContentPane" label="Buttons" 
+					style="background:#fff;padding:10px; display:none;  ">
 
 					<h2>Simple, drop down & combo buttons</h2>
 					<p>Buttons can do an action, display a menu, or both:</p>
 					<div class="box">
 						<button dojoType="dijit.form.Button" onClick='logMessage("clicked simple")'>
-						<img src="../images/plus.gif" width="16" height="16"> Create
+							<img src="../images/plus.gif" width="16" height="16"> Create
 						</button>
 
 						<button dojoType="dijit.form.Button" onclick='logMessage("clicked simple")'>
-						<img src="../images/plus.gif" width="16" height="16"><br>Create
+							<img src="../images/plus.gif" width="16" height="16"><br>Create
 						</button>
 
 						<button dojoType="dijit.form.DropDownButton" menuId='editMenu'>
-						<img src="../images/note.gif" width="20" height="20"> Edit
+							<img src="../images/note.gif" width="20" height="20"> Edit
 						</button>
 
 						<button dojoType="dijit.form.DropDownButton" menuId='editMenu'>
-						<img src="../images/note.gif" width="20" height="20"><br>Edit
+							<img src="../images/note.gif" width="20" height="20"><br>Edit
 						</button>
 
 						<button dojoType="dijit.form.ComboButton" menuId='saveMenu' 
@@ -271,42 +256,42 @@ style="background:#fff;padding:10px; display:none;  ">
 
 						<button dojoType="dijit.form.Button" onClick='logMessage("clicked simple")' 
 							disabled='true'>
-						<img src="../images/plus.gif" width="16" height="16"> Disabled
+							<img src="../images/plus.gif" width="16" height="16"> Disabled
 						</button>
 
 					</div>
 					<br clear=both>
 					<h2>Sizing</h2>
-					<p>Short button, tall buttons, big buttons, small buttons...
-					These buttons size to their content (just like &lt;button&gt;).</p>
+					<p>
+						Short button, tall buttons, big buttons, small buttons...
+						These buttons size to their content (just like &lt;button&gt;).
+					</p>
 					<div class="box">
 						<button dojoType="dijit.form.Button" onclick='logMessage("big");'>
-						<img src="../images/flatScreen.gif" width="32" height="32">
-						<span style="font-size:xx-large">big</span>
+							<img src="../images/flatScreen.gif" width="32" height="32">
+							<span style="font-size:xx-large">big</span>
 						</button>
 
 						<button id="smallButton1" dojoType="dijit.form.Button" onclick='logMessage("small");'>
-						<img src="../images/arrowSmall.gif" width="15" height="5">
-						<span style="font-size:x-small">small</span>
+							<img src="../images/arrowSmall.gif" width="15" height="5">
+							<span style="font-size:x-small">small</span>
 						</button>
 
 						<button dojoType="dijit.form.Button" onclick='logMessage("long");'>
-						<img src="../images/tube.gif" width="150" height="16">
-						long
+							<img src="../images/tube.gif" width="150" height="16"> long
 						</button>
 
 						<button dojoType="dijit.form.Button" onclick='logMessage("tall");' width2height="0.1">
-						<img src="../images/tubeTall.gif" height="75" width="35"><br>
-						<span style="font-size:medium">tall</span>
+							<img src="../images/tubeTall.gif" height="75" width="35"><br>
+							<span style="font-size:medium">tall</span>
 						</button>
 
 						<div style="clear: both;"></div>
 					</div>
 					<br clear=both>
 					<h2>Customized buttons</h2>
-					<p>Dojo users can mix in their styles.
-					Here's an example:</p>
-					<style>
+					<p>Dojo users can mix in their styles.  Here's an example:</p>
+					<style type="text/css">
 						.dc {
 							font-size: x-large !important;
 							padding-top: 10px !important;
@@ -394,7 +379,7 @@ style="background:#fff; padding:10px; display:none; ">
 					<h2 class="testTitle">Dijit InlineEditBox Test</h1>
 					before
 					<span id="editable" style="font-size:larger;" dojoType="dijit.form.InlineEditBox" onValueChanged="myHandler(this.id,arguments[0])">
-					<input dojoType="dijit.form.Textbox" value="Edit me - I trigger the onValueChanged callback">
+						<input dojoType="dijit.form.Textbox" value="Edit me - I trigger the onValueChanged callback">
 					</span>
 					after
 
@@ -404,10 +389,10 @@ style="background:#fff; padding:10px; display:none; ">
 						</span></p>
 					</blockquote>
 					<p>
-					These links will
-					<a href="#" onClick="dijit.byId('areaEditable').disable()">disable</a> /
-					<a href="#" onClick="dijit.byId('areaEditable').enable()">enable</a>
-					the text area above.
+						These links will
+						<a href="#" onClick="dijit.byId('areaEditable').disable()">disable</a> /
+						<a href="#" onClick="dijit.byId('areaEditable').enable()">enable</a>
+						the text area above.
 					</p>
 					<!-- why does promptMessage dump to screen? -->
 					<b>Date text box:</b>
@@ -431,18 +416,16 @@ style="background:#fff; padding:10px; display:none; ">
 					</p>
 
 				</div>
-
 				<div id="tab4" 
-style="display:none; background:#fff;" 
-dojoType="dijit.layout.ContentPane" label="Closable" closable="true"> This pane is closable, just for the icon ...</div>
-
-
+					style="display:none; background:#fff;" 
+					dojoType="dijit.layout.ContentPane" label="Closable" closable="true"> 
+					This pane is closable, just for the icon ...
+				</div>
 			</div> 
 			<div dojoType="dijit.layout.ContentPane" id="thirdPane" sizeMin="10" sizeShare="20">
 				<p>I am the third pane.</p>
 				<p>three-way sizable template courtesy alex.</p>
 			</div>
-
 		</div>
 	</div>
 </body>
