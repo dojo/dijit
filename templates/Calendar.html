@@ -1,25 +1,29 @@
 <table cellspacing="0" cellpadding="0" class="calendarContainer">
 	<thead>
-		<tr class="calendarMonthContainer" valign="top">
-			<td colspan="7">
-				<img dojoAttachPoint="monthDecrease" dojoAttachEvent="onclick: _onDecrementMonth;" class="calendarMonthDecrement calendarIncrementControl calendarDecrease" alt="-">
-				<img dojoAttachPoint="monthIncrease" dojoAttachEvent="onclick: _onIncrementMonth;" class="calendarMonthIncrement calendarIncrementControl calendarIncrease" alt="+">
+		<tr class="dijitReset calendarMonthContainer" valign="top">
+			<th class='dijitReset'>
+				<img dojoAttachPoint="monthDecrease" dojoAttachEvent="onclick: _onDecrementMonth;" class="dijitDownArrow calendarMonthDecrement calendarIncrementControl calendarDecrease" alt="-">
+			</th>
+			<th class='dijitReset' colspan="5">
 				<div dojoAttachPoint="monthLabelSpacer" class="calendarMonthLabelSpacer"></div>
 				<div dojoAttachPoint="monthLabelNode" class="calendarMonth"></div>
-			</td>
+			</th>
+			<th class='dijitReset'>
+				<img dojoAttachPoint="monthIncrease" dojoAttachEvent="onclick: _onIncrementMonth;" class="dijitUpArrow calendarMonthIncrement calendarIncrementControl calendarIncrease" alt="+">
+			</th>
 		</tr>
 		<tr>
-			<td class="calendarDayLabelTemplate"><span class="calendarDayLabel"></span></td>
+			<th class="dijitReset calendarDayLabelTemplate"><span class="calendarDayLabel"></span></th>
 		</tr>
 	</thead>
-	<tbody dojoAttachEvent="onclick: _onDayClick;" class="calendarBodyContainer">
-		<tr class="calendarWeekTemplate">
-			<td class="calendarDateTemplate"><span class="calendarDateLabel"></span></td>
+	<tbody dojoAttachEvent="onclick: _onDayClick;" class="dijitReset calendarBodyContainer">
+		<tr class="dijitReset calendarWeekTemplate">
+			<td class="dijitReset calendarDateTemplate"><span class="calendarDateLabel"></span></td>
 		</tr>
 	</tbody>
-	<tfoot class="calendarYearWrapper calendarYearContainer">
+	<tfoot class="dijitReset calendarYearContainer">
 		<tr>
-			<td valign="top" colspan="7">
+			<td class='dijitReset' valign="top" colspan="7">
 				<h3 class="calendarYearLabel">
 					<span dojoAttachPoint="previousYearLabelNode"
 						dojoAttachEvent="onclick: _onDecrementYear;" class="calendarPreviousYear"></span>

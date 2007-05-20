@@ -184,7 +184,7 @@ dojo.declare(
 
 	// class: String
 	//	CSS class name for the AccordionPane's dom node
-	"class": "dojoAccordionPane",
+	"class": "dijitAccordionPane",
 
 	// labelNodeClass: String
 	//	CSS class name for the AccordionPane's label node
@@ -212,7 +212,7 @@ dojo.declare(
 
 	setLabel: function(/*String*/ label){
 		// summary: set the  title of the node
-		this.labelNode.innerHTML=label;
+		this.labelTextNode.innerHTML=label;
 	},
 	
 	layout: function(){
@@ -238,7 +238,7 @@ dojo.declare(
 	},
 	
 	setSelected: function(/*Boolean*/ isSelected){
-		this.selected=isSelected;
+		this.selected = isSelected;
 		(isSelected ? dojo.addClass : dojo.removeClass)(this.domNode, this["class"]+"-selected");
 
 		// make sure child is showing (lazy load), and also that onShow()/onHide() is called

@@ -110,8 +110,8 @@ dojo.declare(
 			// summary: used to ensure that only 1 validation class is set at a time
 			var _this = this;
 			dojo.forEach(["Normal", "Warning", "Error"], function(label){
-				dojo.removeClass(_this.nodeWithBorder, "dojoInputFieldValidation"+label); });
-			dojo.addClass(this.nodeWithBorder, "dojoInputFieldValidation"+className);
+				dojo.removeClass(_this.nodeWithBorder, "dijitInputFieldValidation"+label); });
+			dojo.addClass(this.nodeWithBorder, "dijitInputFieldValidation"+className);
 		},
 		
 		onfocus: function(evt){

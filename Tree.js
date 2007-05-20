@@ -159,12 +159,24 @@ dojo.declare(
 		// CSS background-image set appropriately; use those span
 		// nodes to get image path for each expando icon.
 		// Will set this.expandoOpenedImg = "expando_open.gif" etc.
+
+		var imageNames = ["expandoOpened", "expandoClosed", "expandoLeaf", "expandoProcessing"];
+		dojo.forEach(imageNames, 
+			function(name) {
+				dijit.util.wai.imageBgToSrc(this[name]);
+				this[name + "Img"] = this[name].src;
+			}, this
+		);
+		
+
+/*
 		dojo.forEach(["expandoOpened", "expandoClosed", "expandoLeaf", "expandoProcessing"],
 			function(item){
 				var bi = dojo.getComputedStyle(this[item]).backgroundImage;
 				var href = bi.charAt(4)=='"' ? bi.slice(5,-2) : bi.slice(4,-1);	// url(foo) --> foo, url("foo") --> foo
 				this[item+"Img"]=href;
 			}, this);
+*/
 
 		// make template for container node (we will clone this and insert it into
 		// any nodes that have children)

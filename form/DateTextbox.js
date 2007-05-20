@@ -49,6 +49,10 @@ dojo.declare(
 			dijit.form.DateTextbox.superclass.postCreate.apply(this, arguments);
 			var node=document.createElement('div');
 			this.popupWidget=dijit.form.DateTextbox.MasterPopup;
+
+			// convert the arrow image from using style.background-image to the .src property (a11y)
+			dijit.util.wai.imageBgToSrc(this.arrowImage);
+
 			this.setupLabels();
 		},
 
@@ -71,7 +75,7 @@ dojo.declare(
 			dijit._Calendar.prototype.postCreate.apply(this, arguments);
 			dijit.form._DropDownTextBox.Popup.prototype.postCreate.apply(this, arguments);
 			// FIXME: Calendar does not have a background color
-			dojo.addClass(this.domNode, 'dojoMenu');
+			dojo.addClass(this.domNode, 'dijitMenu');
 		},
 
 		open:function(/*Widget*/ widget){

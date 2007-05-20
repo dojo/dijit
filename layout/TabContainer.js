@@ -38,7 +38,7 @@ dojo.declare(
 	},
 	
 	_setupChild: function(tab){
-		dojo.addClass(tab.domNode, "dojoTabPane");
+		dojo.addClass(tab.domNode, "dijitTabPane");
 		dijit.layout.TabContainer.superclass._setupChild.apply(this, arguments);
 	},
 
@@ -121,7 +121,7 @@ dojo.declare(
 
 		postMixInProperties: function(){
 			if(!this["class"]){
-				this["class"] = "dojoTabLabels-" + this.labelPosition + (this.doLayout ? "" : " dojoTabNoLayout");
+				this["class"] = "dijitTabLabels-" + this.labelPosition + (this.doLayout ? "" : " dijitTabNoLayout");
 			}
 			dijit.layout.TabController.superclass.postMixInProperties.apply(this, arguments);
 		}
@@ -137,10 +137,14 @@ dojo.declare(
 	//	Contains the title (aka label) of the pane, and optionally a close-button to destroy the pane.
 	//	This is an internal widget and should not be instantiated directly.
 
-	templateString: "<div class='dojoTab' dojoAttachEvent='onclick:onClick'>"
-						+"<div dojoAttachPoint='innerDiv'>"
+	selectedClass: "dijitTabActive",
+	hoverClass : "dijitTabHover",
+	closeHoverClass : "closeImageHover",
+
+	templateString: "<div class='dijitTab' dojoAttachEvent='onclick:onClick; onmouseover:onMouseOver; onmouseout:onMouseOut;'>"
+						+"<div class='dijitTabInnerDiv' dojoAttachPoint='innerDiv'>"
 							+"<span dojoAttachPoint='titleNode' tabIndex='-1' waiRole='tab'>${label}</span>"
-							+"<span dojoAttachPoint='closeButtonNode' class='close closeImage' style='${closeButtonStyle}'"
+							+"<span dojoAttachPoint='closeButtonNode' class='closeImage' style='${closeButtonStyle}'"
 							+"    dojoAttachEvent='onmouseover:onCloseButtonMouseOver; onmouseout:onCloseButtonMouseOut; onclick:onCloseButtonClick'></span>"
 						+"</div>"
 					+"</div>",
@@ -176,8 +180,8 @@ dojo.declare(
 
 		imgPath: dojo.moduleUrl("dijit", "themes/tundra/tab_close.gif"),
 		
-		templateString: "<div class='dojoTab' dojoAttachEvent='onclick:onClick;onkeypress:onkeypress'>"
-							+"<div dojoAttachPoint='innerDiv'>"
+		templateString: "<div class='dijitTab' dojoAttachEvent='onclick:onClick;onkeypress:onkeypress'>"
+							+"<div class='dijitTabInnerDiv' dojoAttachPoint='innerDiv'>"
 								+"<span dojoAttachPoint='titleNode' tabIndex='-1' waiRole='tab'>${label}</span>"
 								+"<img class='close' src='${imgPath}' alt='[x]' style='${closeButtonStyle}'"
 								+"    dojoAttachEvent='onclick:onCloseButtonClick'>"

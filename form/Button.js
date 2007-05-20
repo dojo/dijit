@@ -22,7 +22,7 @@ dojo.declare(
 		caption: "",
 
 		type: "button",
-		baseClass: "dojoButton",
+		baseClass: "dijitButton",
 		templatePath: dojo.moduleUrl("dijit.form", "templates/Button.html"),
 		
 		postCreate: function(){

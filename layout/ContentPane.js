@@ -61,7 +61,7 @@ dojo.declare(
 
 		// class: String
 		//		Class name to apply to ContentPane dom nodes
-		"class": "dojoContentPane",
+		"class": "dijitContentPane",
 
 		postCreate: function(){
 			// per widgetImpl variables

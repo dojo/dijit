@@ -38,14 +38,14 @@ dojo.declare(
 		},
 
 		_arrowPressed: function(/*Node*/ nodePressed, /*Number*/ direction){
-			dojo.addClass(nodePressed, "dojoSpinnerButtonPushed");
+			dojo.addClass(nodePressed, "dijitSpinnerButtonActive");
 			this.setValue(this.adjust(this.getValue(), direction*this.smallDelta));
 		},
 
 		_arrowReleased: function(/*Node*/ node){
 			this._wheelTimer = null;
 			this.textbox.focus();
-			dojo.removeClass(node, "dojoSpinnerButtonPushed");
+			dojo.removeClass(node, "dijitSpinnerButtonActive");
 		},
 
 		_typematicCallback: function(/*Number*/ count, /*DOMNode*/ node, /*Event*/ evt){
@@ -91,5 +91,8 @@ dojo.declare(
 			this.connect(dojo.isIE ? "onmousewheel" : 'DOMMouseScroll', "_mouseWheeled");
 			dijit.util.typematic.addListener(this.upArrowNode, this.textbox, {keyCode:dojo.keys.UP_ARROW,ctrlKey:false,altKey:false,shiftKey:false}, this, "_typematicCallback", this.timeoutChangeRate, this.defaultTimeout);
 			dijit.util.typematic.addListener(this.downArrowNode, this.textbox, {keyCode:dojo.keys.DOWN_ARROW,ctrlKey:false,altKey:false,shiftKey:false}, this, "_typematicCallback", this.timeoutChangeRate, this.defaultTimeout);
+
+			// convert the arrow images from using style.background-image to the .src property (a11y)
+			dijit.util.wai.imageBgToSrc([this.upArrowImage, this.downArrowImage]);
 		}
 });

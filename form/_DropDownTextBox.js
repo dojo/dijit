@@ -22,7 +22,7 @@ dojo.declare(
 		
 		_arrowPressed: function(){
 			if(!this.disabled){
-				dojo.addClass(this.downArrowNode, "dojoArrowButtonPushed");
+				dojo.addClass(this.downArrowNode, "dijitArrowButtonActive");
 			}
 		},
 
@@ -31,7 +31,7 @@ dojo.declare(
 				return;
 			}
 			if(this.popupWidget.aroundwidget!=this){
-				dojo.removeClass(this.downArrowNode, "dojoArrowButtonPushed");
+				dojo.removeClass(this.downArrowNode, "dijitArrowButtonActive");
 			}
 		},
 		
@@ -80,8 +80,8 @@ dojo.declare(
 
 		onblur:function(){
 			this._arrowIdle();
-			// removeClass dojoInputFieldFocused
-			dojo.removeClass(this.nodeWithBorder, "dojoInputFieldFocused");
+			// removeClass dijitInputFieldFocused
+			dojo.removeClass(this.nodeWithBorder, "dijitInputFieldFocused");
 			if(!this.popupWidget.isShowingNow){
 				this.setValue(this.getValue());
 			}

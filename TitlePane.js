@@ -24,6 +24,8 @@ dojo.declare(
 	//		milliseconds to fade in/fade out
 	duration: 250,
 
+	contentClass : "dijitTitlePaneContent",
+
 	templatePath: dojo.moduleUrl("dijit", "templates/TitlePane.html"),
 
 	postCreate: function(){
@@ -54,7 +56,7 @@ dojo.declare(
 	},
 
 	_setCss: function(){
-		var classes = ["dojoClosed", "dojoOpen"];
+		var classes = ["dijitClosed", "dijitOpen"];
 		var boolIndex = this.open;
 		dojo.removeClass(this.domNode, classes[!boolIndex+0]);
 		this.domNode.className += " " + classes[boolIndex+0];

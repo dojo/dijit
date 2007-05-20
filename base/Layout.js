@@ -118,7 +118,7 @@ dijit.base.Layout.layoutChildren = function(/*DomNode*/ container, /*Object*/ di
 	 *		an array like [ {domNode: foo, layoutAlign: "bottom" }, {domNode: bar, layoutAlign: "client"} ]
 	 */
 
-	dojo.addClass(container, "dojoLayoutContainer");
+	dojo.addClass(container, "dijitLayoutContainer");
 
 	// Copy children array and remove elements w/out layout.
 	// Also record each child's position in the input array, for sorting purposes.
@@ -164,7 +164,7 @@ dijit.base.Layout.layoutChildren = function(/*DomNode*/ container, /*Object*/ di
 			return word.substring(0,1).toUpperCase() + word.substring(1);
 		};
 		
-		dojo.addClass(elm, "dojoAlign" + capitalize(pos));
+		dojo.addClass(elm, "dijitAlign" + capitalize(pos));
 
 		// set size && adjust record of remaining space.
 		// note that setting the width of a <div> may affect it's height.

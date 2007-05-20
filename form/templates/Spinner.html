@@ -1,18 +1,14 @@
-<fieldset class="dojoSpinner dojoInputField" dojoAttachPoint='nodeWithBorder' id='${id}'
+<fieldset class="dijitSpinner dijitInputField" dojoAttachPoint='nodeWithBorder' id='${id}'
 	><input dojoAttachPoint='textbox;focusNode' type='${type}' dojoAttachEvent='onblur;onfocus;onkeyup;'
 		value='${value}' name='${name}' size='${size}' maxlength='${maxlength}'
 		waiRole="spinbutton" autocomplete="off" tabIndex='${tabIndex}'
-	><fieldset class="dojoSpinnerArrowGroup"
-                ><fieldset dojoAttachPoint="upArrowNode" class="dojoSpinnerButton"
-                        ><div class="dojoSpinnerArrow"
-                                ><div class="dojoSpinnerUpArrow"></div
-                        ></div
+	><fieldset class="dijitSpinnerArrowGroup"
+                ><fieldset dojoAttachPoint="upArrowNode" class="dijitSpinnerButton dijitSpinnerUpArrow"
+                        ><img dojoAttachPoint='upArrowImage' border=0 class='dijitSmallUpArrow'
                 ></fieldset
-                ><fieldset dojoAttachPoint="downArrowNode" class="dojoSpinnerButton"
-                        ><div class="dojoSpinnerArrow"
-                                ><div class="dojoSpinnerDownArrow"></div
-                        ></div
+                ><fieldset dojoAttachPoint="downArrowNode" class="dijitSpinnerButton dijitSpinnerDownArrow"
+                        ><img dojoAttachPoint='downArrowImage' border=0 class='dijitSmallDownArrow'
                 ></fieldset
 	></fieldset
-	><span dojoAttachPoint='messageSpan' class='dojoValidationTextboxMessage' waiRole='alert'></span
+	><span dojoAttachPoint='messageSpan' class='dijitValidationTextboxMessage' waiRole='alert'></span
 ></fieldset>

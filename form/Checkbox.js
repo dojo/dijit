@@ -35,6 +35,21 @@ dojo.declare(
 		// because of two modes of dijit checkbox: image loaded, vs 
 		// image not loaded. Also for accessibility it is important 
 		// that dijit work with images off (a browser preference).
+		//
+		//	Order of images in the sprite (from L to R):
+		//		checkbox	normal 	 - checked
+		//							 - unchecked
+		//					disabled - checked
+		//							 - unchecked
+		//					hover 	 - checked
+		//							 - unchecked
+		//
+		//		radio		normal 	 - checked
+		//							 - unchecked
+		//					disabled - checked
+		//							 - unchecked
+		//					hover 	 - checked
+		//							 - unchecked
 
 		templatePath: dojo.moduleUrl("dijit.form", "templates/Checkbox.html"),
 
@@ -81,8 +96,8 @@ dojo.declare(
 
 			// Turn the input element invisible and make sure it overlays
 			// the dojo image container.
-			dojo.addClass(this.inputNode,"dojoCheckboxInputInvisible");
-			dojo.addClass(this.imageContainer,"dojoCheckboxImageContainer");
+			dojo.addClass(this.inputNode,"dijitCheckboxInputInvisible");
+			dojo.addClass(this.imageContainer,"dijitCheckboxImageContainer");
 
 			var imageContainerStyle = this.imageContainer.style;
 			var inputStyle = this.inputNode.style;

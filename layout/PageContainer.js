@@ -192,6 +192,10 @@ dojo.declare(
 		//	the name of the button widget to create to correspond to each page
 		buttonWidget: "dijit.layout.PageButton",
 
+		// class: String
+		//	Class name to apply to the top dom node
+		"class": "dijitPageController",
+		
 		postCreate: function(){
 			dijit.util.wai.setAttr(this.domNode, "waiRole", "role", "tablist");
 
@@ -322,6 +326,23 @@ dojo.declare(
 	// closeButton: Boolean
 	//	true iff we should also print a close icon to destroy corresponding page
 	closeButton: false,
+	
+	// selectedClass: String
+	//  name of the CSS class to apply to this button when the corresponding page has been selected
+	//	override in a subclass to make it easier to style
+	selectedClass : "current",
+
+
+	// hoverClass: String
+	//  name of the CSS class to apply to this button when the cursor is over it
+	//	override in a subclass to make it easier to style
+	hoverClass : "hover",
+
+	// closeHoverClass: String
+	//  name of the CSS class to apply to the close button when the cursor is over it
+	//	override in a subclass to make it easier to style
+	closeHoverClass : "hover",
+
 
 	onClick: function(){
 		// summary
@@ -329,16 +350,28 @@ dojo.declare(
 		this.focus();
 	},
 
+	onMouseOver: function(){
+		// summary
+		//	Mouse over the entire button
+		dojo.addClass(this.domNode, this.hoverClass);
+	},
+
+	onMouseOut: function(){
+		// summary
+		// 	Mouse out from the entire button
+		dojo.removeClass(this.domNode, this.hoverClass);
+	},
+
 	onCloseButtonMouseOver: function(){
 		// summary
 		//	The close button changes color a bit when you mouse over	
-		dojo.addClass(this.closeButtonNode, "closeHover");
+		dojo.addClass(this.closeButtonNode, this.closeHoverClass);
 	},
 
 	onCloseButtonMouseOut: function(){
 		// summary
 		// 	Revert close button to normal color on mouse out
-		dojo.removeClass(this.closeButtonNode, "closeHover");
+		dojo.removeClass(this.closeButtonNode, this.closeHoverClass);
 	},
 
 	onCloseButtonClick: function(/*Event*/ evt){
@@ -349,14 +382,14 @@ dojo.declare(
 	setSelected: function(){
 		// summary
 		//	This is run whenever the page corresponding to this button has been selected
-		dojo.addClass(this.domNode, "current");
+		dojo.addClass(this.domNode, this.selectedClass);
 		this.titleNode.setAttribute("tabIndex","0");
 	},
 	
 	clearSelected: function(){
 		// summary
 		//	This function is run whenever the page corresponding to this button has been deselected (and another page has been shown)
-		dojo.removeClass(this.domNode, "current");
+		dojo.removeClass(this.domNode, this.selectedClass);
 		this.titleNode.setAttribute("tabIndex","-1");
 	},
 

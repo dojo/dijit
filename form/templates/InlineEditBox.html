@@ -1,11 +1,11 @@
 <span>
-	<span tabIndex="0" dojoAttachPoint="editable;focusNode" style="" 
+	<span class='dijitInlineValue' tabIndex="0" dojoAttachPoint="editable;focusNode" style="" 
 		dojoAttachEvent="onkeypress:_onKeyPress;onclick:_onClick;onmouseout:_onMouseOut;onmouseover:_onMouseOver;onfocus:_onMouseOver;onblur:_onMouseOut;"></span>
-	<fieldset style="display:none;" dojoAttachPoint="editNode" class="dojoInlineBox">
+	<fieldset style="display:none;" dojoAttachPoint="editNode" class="dijitInlineEditor">
 		<div dojoAttachPoint="containerNode" dojoAttachEvent="onkeyup:checkForValueChange;"></div>
-		<input type="button" value="${buttonSave}" 
+		<input class='saveButton' type="button" value="${buttonSave}" 
 			dojoAttachPoint="saveButton" dojoAttachEvent="onclick:save;">
-		<input type="button" value="${buttonCancel}" 
+		<input class='cancelButton' type="button" value="${buttonCancel}" 
 			dojoAttachPoint="cancelButton" dojoAttachEvent="onclick:cancel;">
 	</fieldset>
 </span>

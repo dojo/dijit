@@ -4,8 +4,25 @@
 */
 
 
-/* To inline block elements, surround them with <fieldset class="dojoInlineBox"> */
-.dojoInlineBox {
+/* Use this style to null out padding, margin, border in your template elements
+	so that page specific styles don't break them.
+	
+	Place it as the first class name so that 
+*/
+.dijitReset {
+	margin:0px;
+	border:0px;
+	padding:0px;
+}
+
+
+
+
+/* inline text box and children */
+
+
+/* To inline block elements, surround them with <fieldset class="dijitInlineBox"> */
+.dijitInlineBox {
 	display:inline-block;
 	display: -moz-inline-stack;
 	#display:inline;
@@ -14,11 +31,13 @@
 	vertical-align:middle;
 }
 
-.dojoPopup {
+
+
+.dijitPopup {
 	position: absolute;
 }
 
-.dojoPositionOnly {
+.dijitPositionOnly {
 	padding: 0px !important;
 	border: 0px !important;
 	background-color: transparent !important;
@@ -27,54 +46,57 @@
 	width: auto !important;
 }
 
-.dojoNonPositionOnly {
+.dijitNonPositionOnly {
 	float: none !important;
 	position: static !important;
 	margin: 0px 0px 0px 0px !important;
 	vertical-align: middle !important;
 }
 
-.dojoCheckboxImageContainer,
-.dojoCheckboxInputInvisible {
+.dijitCheckboxImageContainer,
+.dijitCheckboxInputInvisible {
 	border: 0;
 	margin: 0;
 	padding: 0;
 }
 
-.dojoCheckbox {
+.dijitCheckbox {
 	position: relative;
 }
 
 
-.dojoCheckboxImageContainer,
-.dojoCheckboxInputInvisible {
+.dijitCheckboxImageContainer,
+.dijitCheckboxInputInvisible {
 	position: absolute;
 	left: 0;
 	top: 0;
 }
 
 
-.dojoCheckboxInputInvisible {
+.dijitCheckboxInputInvisible {
 	z-index: 100;
 	opacity: 0.01;
 	filter: alpha(opacity=0);
 }
 
 
-.dj_ie .dojoCheckboxImageContainer, 
-.dj_ie .dojoCheckboxInputInvisible {
+.dj_ie .dijitCheckboxImageContainer, 
+.dj_ie .dijitCheckboxInputInvisible {
 	top: 3px;
 }
 
 
-.dojoDisabledClickableRegion {
+.dijitDisabledClickableRegion {
 	cursor: default;        /* makes opera happy */
-	cursor: url("no.gif"), default;
+	cursor: url("no.gif"), not-allowed, default;
 }
 
-.dojoClickableRegion {
-	background-color : #ffc !important;
+.dijitClickableRegion {
 	cursor : pointer;
+}
+
+.dijitDisplayNone {
+	display:none !important;
 }
 
 
@@ -82,8 +104,8 @@
 
 /* Down arrow */
 
-.dojoDownArrowOuter,
-.dojoOpen .dojoOpenCloseArrowOuter {
+.dijitDownArrowOuter,
+.dijitOpen .dijitOpenCloseArrowOuter {
 	padding:0px;
 	margin:auto;
 	border:0px;
@@ -95,8 +117,8 @@
 	vertical-align:middle;
 }
 
-.dojoDownArrowInner,
-.dojoOpen .dojoOpenCloseArrowInner {
+.dijitDownArrowInner,
+.dijitOpen .dijitOpenCloseArrowInner {
 	border-width:2.1em 1.32em;
 	margin:-1.4em 0px 0px -.88em;
 	border-style:solid dotted;
@@ -107,7 +129,7 @@
 	display: block;
 }
 
-.dj_ie6 .dojoDownArrowInner {
+.dj_ie6 .dijitDownArrowInner {
 	margin: 0px;
 	border-width:.7em .44em 0px .44em;
 }
@@ -115,8 +137,8 @@
 
 /* Right arrow */
 
-.dojoRightArrowOuter,
-.dojoClosed .dojoOpenCloseArrowOuter {
+.dijitRightArrowOuter,
+.dijitClosed .dijitOpenCloseArrowOuter {
 	border:0px none;
 	height:0.9em;
 	margin:auto;
@@ -125,8 +147,8 @@
 	width:0.7em;
 }
 
-.dojoRightArrowInner,
-.dojoClosed .dojoOpenCloseArrowInner {
+.dijitRightArrowInner,
+.dijitClosed .dijitOpenCloseArrowInner {
 	border-width:1.32em 2.1em 1.32em 2.1em;
 	margin:-.88em -1.4em -.88em -1.4em;
 	border-style:dotted solid;
@@ -138,18 +160,18 @@
 }
 
 /* it becomes a left arrow for LTR locales */
-.dojoRTL .dojoRightArrowInner {
+.dijitRTL .dijitRightArrowInner {
 	margin-left:-2.1em;
 }
 
 
 /* Toaster defaults */
-.dojoToasterClip {
+.dijitToasterClip {
 	position: absolute;
 	overflow: hidden;
 }
 
-.dojoToasterContainer {
+.dijitToasterContainer {
 	display: block;
 	position: absolute;
 	width: 17.5em;
@@ -159,13 +181,13 @@
 }
 
 /*Progress Bar defaults */
-.dojoProgressBarEmpty{
+.dijitProgressBarEmpty{
 	position:relative;overflow:hidden;
 	width:300px;height:30px;
 	border:1px solid #84a3d1;
 }
 
-.dojoProgressBarColorLayer{
+.dijitProgressBarColorLayer{
 	background-color:#84a3d1;
 	border-color:#84a3d1;
 	/* the border provides visibility in high-contrast mode */
@@ -173,79 +195,69 @@
 	width:auto;height:auto;
 }
 
-.dj_ie .dojoProgressBarColorLayer{
-	width:100%;height:100%;
+.dj_ie .dijitProgressBarColorLayer{
+	width:100%;
+	height:100%;
 }
 
-.dojoProgressBarTileLayer{
+.dijitProgressBarTileLayer{
 	background:url("bar.gif") repeat bottom left;
 	background-attachment: fixed;
 }
 
-.dojoProgressBarVertical .dojoProgressBarTileLayer{
+.dijitProgressBarVertical .dijitProgressBarTileLayer{
 	background-image:url("h-bar.gif");
 }
 
-.dojoProgressBarVertical .dojoProgressBarFull{
+.dijitProgressBarVertical .dijitProgressBarFull{
 	bottom:0px
 }
 
-.dojoProgressBarColor div.dojoProgressBarTileLayer{
+.dijitProgressBarColor div.dijitProgressBarTileLayer{
 	/* turn off the tile image when we want a colored bar */
 	background-image:none
 }
 
-.dojoProgressBarFrontLabel,.dojoProgressBarBackLabel{
+.dijitProgressBarFrontLabel,.dijitProgressBarBackLabel{
 	font:bold 13px helvetica;
 }
 
-.dojoProgressBarBackLabel{
+.dijitProgressBarBackLabel{
 	color:#293a4b;
 }
-.dojoProgressBarFrontLabel{
+.dijitProgressBarFrontLabel{
 	color:#fff;
 }
 
 
 /* Spinner defaults */
 
-.dojoSpinner {
+.dijitSpinner {
 	display:inline;
 	vertical-align:middle;
-	padding:0px;
+	padding:0px !important;
 	white-space:nowrap !important;
 	width:auto !important;
 	height:auto !important;
 }
 
-.dojoSpinnerArrowGroup {
+.dijitSpinnerArrowGroup {
 	display:inline;
 	padding:0px;
 	border:0px;
 	margin: 0px;
-	vertical-align:middle;
-	line-spacing:0px !important;
-	width:1.12em;
+	vertical-align:top;
+	line-height:1px !important;
 }
 
-.dojoSpinnerArrowGroup fieldset {
+.dijitSpinnerButton {
 	display:block;
-	padding:.1em;
-	margin: .08em;
-	vertical-align:middle;
-	line-spacing:0px !important;
-	border:.08em outset;
-	border-color:rgb(200,200,200) black black rgb(200,200,200);
+	vertical-align:top;
+	line-height:0px !important;
 	text-align:center;
 }
 
-.dojoSpinnerArrowGroup fieldset.dojoSpinnerButtonPushed {
-	border-style:inset;
-	border-color:black rgb(200,200,200) rgb(200,200,200) black;
-	background-color:gray;
-}
-
-.dojoSpinner input {
+.dijitSpinner input {
 	padding:0px !important;
 	vertical-align:middle !important;
 	margin:auto !important;
@@ -258,50 +270,16 @@
 	background-color:transparent !important;
 }
 
-.dojoSpinnerArrow {
-	padding:0px;
-	margin:auto;
-	border:0px;
-	overflow:hidden;
-	height:0.4em;
-	width:0.6em;
-}
 
-.dojoSpinnerArrow div {
-	border-width:1.2em .9em;
-	border-style:solid dotted;
-	border-color:gray transparent;
-	line-height:0px;
-	height:0px;
-	width:0px;
-}
 
-.dojoSpinnerUpArrow {
-	margin:-1.2em 0px 0px -.6em;
-}
-
-.dojoSpinnerDownArrow {
-	margin:-.8em 0px 0px -.6em;
-}
-
-.dj_ie6 .dojoSpinnerUpArrow {
-	border-width:0px .3em .4em .3em;
-	margin:0px;
-}
-
-.dj_ie6 .dojoSpinnerDownArrow {
-	border-width:.4em .3em 0px .3em;
-	margin:0px;
-}
-
-.dojoSpinnerButtonPushed .dojoSpinnerArrow div {
+.dijitSpinnerButtonPushed .dijitSpinnerArrow div {
 	border-color:white transparent;
 }
 
 
 /* Tooltip defaults */
 
-.dojoTooltip {
+.dijitTooltip {
 	position: absolute;
 	z-index: 10;
 	display: block;
@@ -312,7 +290,7 @@
 	top: -10000px;
 }
 
-.dojoTooltipContainer {
+.dijitTooltipContainer {
 	border: solid black 2px;
 	background: #b8b5b5;
 	color: black;
@@ -320,10 +298,15 @@
 	padding: 2px 2px 2px 2px;
 }
 
-.dojoTooltipConnector {
+
+.dijitTooltipConnector {
+	position: absolute;
+}
+
+/* draw an arrow with CSS only */
+.dijitTooltipConnector {
 	/* the border on the triangle */
 	font-size: 0px; line-height: 0%; width: 0px;
-	position: absolute;
 	border-top: none;
 	border-bottom: 14px solid black;
 	border-left: 7px solid transparent;
@@ -333,7 +316,7 @@
 	z-index: 2;
 }
 
-.dojoTooltipConnector div {
+.dijitTooltipConnector div {
 	/* the background of the triangle */
 	font-size: 0px; line-height: 0%; width: 0px;
 	position: absolute;
@@ -345,87 +328,73 @@
 	z-index: 3;
 }
 
-.dojoArrowButton {
+.dijitArrowButtonContainer {
 	display:inline !important;
+	overflow:hidden;
+	line-height:0px !important;
 	padding:0px;
 	border:0px;
-	margin:0px 0px 0px 0px;
-	vertical-align:middle;
-	line-spacing:0px !important;
-	width:1.62em;
-	height:1.42em;
-	overflow:hidden;
-}
-
-/* Allow user to specify width without messing up defaults; other attributes are put on parent node */
-.dojoAutoCompleterInput {
-	BACKGROUND-COLOR: transparent !important;
-	border:0px !important;
-	padding:0px !important;
-	margin:0px !important;
-	position:static !important;
-	display:inline !important;
-	float:none !important;
-	vertical-align:middle !important;
-	
-}
-.dojoArrowButton fieldset {
-	display:block;
-	padding:.2em;
 	margin:0px;
-	line-spacing:0px !important;
-	border:.16em outset;
-	border-color:rgb(200,200,200) black black rgb(200,200,200);
-	vertical-align:middle;
-	text-align:center;
+	vertical-align:top;
 }
 
-.dojoArrowButton fieldset.dojoArrowButtonPushed {
-	border-style:inset;
-	border-color:black rgb(200,200,200) rgb(200,200,200) black;
-	background-color:gray;
+.dijitArrowButton {
+	display:block;
+	margin:0px;
+	line-height:0px !important;
+	-moz-box-sizing:border-box;
+	cursor:pointer;
 }
-.dojoArrowButtonPushed .dojoDownArrowInner {
-        border-color:white transparent;
+
+
+.dijitAutoCompleterDisabled .dijitArrowButton {
+	cursor: default;        /* makes opera happy */
+	cursor: url("no.gif"), not-allowed, default;
 }
+
+
 
 /* Layout widgets. This is essential CSS to make layout work (it isn't "styling" CSS)
-   make sure that the position:absolute in dojoAlign* overrides other classes */
+   make sure that the position:absolute in dijitAlign* overrides other classes */
 
-.dojoLayoutContainer{ 
+.dijitLayoutContainer{ 
 	position: relative;
 	display: block;
 	overflow: hidden; 
 }
 
-body .dojoAlignTop,
-body .dojoAlignBottom,
-body .dojoAlignLeft,
-body .dojoAlignRight {
+body .dijitAlignTop,
+body .dijitAlignBottom,
+body .dijitAlignLeft,
+body .dijitAlignRight {
 	position: absolute;
 	overflow: hidden; 
 }
 
-body .dojoAlignClient { position: absolute; }
+body .dijitAlignClient { position: absolute; }
 
-.dojoAlignClient { overflow: auto; }
+.dijitAlignClient { overflow: auto; }
 
 
 
-/* SplitContainer */
+/* SplitContainer 
 
-.dojoSplitContainer{
+	'V' == container that splits vertically (up/down)
+	'H' = horizontal (left/right)
+*/
+.dijitSplitContainer{
 	position: relative;
 	overflow: hidden;
 	display: block;
 }
 
-.dojoSplitPane{
+.dijitSplitPane{
 	position: absolute;
 }
 
-.dojoSplitContainerSizerH,
-.dojoSplitContainerSizerV {
+.dijitSplitContainerSizerH,
+.dijitSplitContainerSizerV {
+	position:absolute;
 	font-size: 1px;
 	cursor: move;
 	cursor: w-resize;
@@ -435,12 +404,22 @@ body .dojoAlignClient { position: absolute; }
 	margin: 0;
 }
 
-.dojoSplitContainerSizerV {
+.dijitSplitContainerSizerV {
 	cursor: n-resize;
 }
 
-.dojoSplitContainerVirtualSizerH,
-.dojoSplitContainerVirtualSizerV {
+.dijitSplitContainerSizerH .thumb {
+	position:absolute;
+	top:49%;
+}
+
+.dijitSplitContainerSizerV .thumb {
+	position:absolute;
+	left:49%;
+}
+
+.dijitSplitContainerVirtualSizerH,
+.dijitSplitContainerVirtualSizerV {
 	font-size: 1px;
 	cursor: move;
 	cursor: w-resize;
@@ -451,18 +430,20 @@ body .dojoAlignClient { position: absolute; }
 	margin: 0;
 }
 
-.dojoSplitContainerVirtualSizerV {
+.dijitSplitContainerVirtualSizerV {
 	cursor: n-resize;
 }
+
+
 /* ContentPane */
 
-.dojoContentPane {
+.dijitContentPane {
 	display: block;
 	overflow: auto;	/* if we don't have this (or overflow:hidden), then Widget.resizeTo() doesn't make sense for ContentPane */
 }
 
 /* Color Palette */
-.dojoPaletteImg {
+.dijitPaletteImg {
 		width: 18px; /*This is the width of one color in the provided palettes. */
 		height: 16px; /* Height of one color in the provided palettes. */
 		position: absolute;
@@ -472,7 +453,8 @@ body .dojoAlignClient { position: absolute; }
 		
 }
 
-.dojoPaletteImg:hover, .dojoPaletteImgHighlight {
+.dijitPaletteImg:hover, 
+.dijitPaletteImgHighlight {
 	width: 14px; /*This is the width of one color in the provided palettes. */
 	height: 12px; /* Height of one color in the provided palettes. */
 	border-style: solid;
@@ -480,20 +462,37 @@ body .dojoAlignClient { position: absolute; }
 	border-color: #ffffff;
 }
 
+
+.dijitColorPaletteCell {
+	width:16px;
+	height:16px;
+	border:1px outset;
+}
+
+.dijitColorPaletteCell:hover {
+	border-style:inset;
+}
+
 /* AccordionPane */
-.dojoAccordionPane .accBody {
+.dijitAccordionPane .accBody {
 	overflow: auto;
 }
 
+.dijitAccordionPane .label:hover {
+	cursor: pointer;
+}
+
+.dijitAccordionPane .label .arrow {
+	float:right;
+}
+
+
 /* Dojo Button */
-.dojoButton {
-	padding:0 0 1px 1px;
-	border-width:1px;
-	border-style:solid;
+.dijitButton {
 	line-height:0px; /* needed by webkit */
 }
 
-.dojoButton .dojoButtonNode {
+.dijitButton .dijitButtonNode {
 	border:0px;
 	margin:0px;
 	font-family: Myriad, Arial, Helvetica;
@@ -504,11 +503,17 @@ body .dojoAlignClient { position: absolute; }
 	line-height:normal;
 }
 
-table.dojoButton .dojoButtonNode {
+.dijitButtonDisabled,
+.dijitButtonDisabled * {
+	cursor: url("no.gif"), not-allowed, default; /*FIXME*/
+}
+
+
+table.dijitButton .dijitButtonNode {
 	#overflow:hidden; /* visible messes up if the button is inside a table on IE */
 }
 
-.dojoButtonContents {
+.dijitButtonContents {
         padding: 0px;
         text-align: center;     /* if icon and label are split across two lines, center icon */
         vertical-align: middle; /* if icon and label are on same line, center them */
@@ -516,35 +521,16 @@ table.dojoButton .dojoButtonNode {
         color: inherit;
 }
 
-.dojoButtonContents * {
+.dijitButtonContents * {
         text-align: center;
         vertical-align: middle; /* if icon and label are on same line, center them */
 }
 
 /* border between label and arrow for drop down buttons */
-.dojoButtonContentsDropDown {
+.dijitButtonContentsDropDown {
         padding-right: 3px;
 }
 
-
-/* Color Palette */
-.dojoPaletteImg {
-		width: 18px; /*This is the width of one color in the provided palettes. */
-		height: 16px; /* Height of one color in the provided palettes. */
-		position: absolute;
-		overflow: hidden;
-		cursor: default;
-		z-index: 10;
-		
-}
-
-.dojoPaletteImgHighlight {
-	width: 14px; /*This is the width of one color in the provided palettes. */
-	height: 12px; /* Height of one color in the provided palettes. */
-	border-style: solid;
-	border-width: 2px;
-	border-color: #ffffff;
-}
 
 /* Calendar */
 
@@ -561,18 +547,214 @@ table.dojoButton .dojoButtonNode {
 }
 
 .calendarIncrementControl {
-	cursor:pointer;cursor:hand;
+	cursor:pointer;
+	cursor:hand;
 	width:1em;
 }
 
-.calendarIncrease {
-	float:right;
-}
+.calendarIncrease {}
 
-.calendarDecrease {
-	float:left;
-}
+.calendarDecrease {}
+
 
 .calendarDisabledDate {
 	color:gray !important;
+}
+
+
+.calendarBodyContainer tbody tr td {
+	cursor:pointer;
+	cursor:hand;
+}
+
+.calendarPreviousMonthDisabled {
+	cursor:default !important
+}
+
+.calendarCurrentMonthDisabled {
+	cursor:default !important
+}
+
+.calendarNextMonthDisabled {
+	cursor:default !important;
+}
+
+.calendarDateTemplate {
+	cursor:pointer;
+}
+
+.calendarSelectedYear {
+	cursor:pointer;
+}
+.calendarNextYear, 
+.calendarPreviousYear {
+	cursor:pointer;
+}
+
+.tundra .calendarMontLabel {}
+
+.tundra .calendarMonthLabelSpacer {
+	/* don't display it, but make it affect the width */
+  	position: relative;
+  	height: 1px;
+  	overflow: hidden;
+  	visibility: hidden;
+}
+
+
+/* Menu */
+
+.dijitMenu {
+	border-collapse:collapse;
+}
+.dijitMenuTable {
+	margin:1px;
+	border-width:0px;
+}
+
+.tundra .dijitMenuItem{
+	white-space: nowrap;
+}
+
+.dijitMenuItemHover {
+	cursor:pointer;
+	cursor:hand;
+}
+
+.tundra .dijitMenuItemIcon {
+	position: relative;
+	background-position: center center;
+	background-repeat: no-repeat;
+}
+
+.dijitMenuItemDisabled * {
+	/* for a disabled menu item, just set it to mostly transparent */
+	opacity:0.3;
+	cursor:default;
+}
+.dj_IE6 .dijitMenuItemDisabled * {
+	filter:Alpha(Opacity=30);
+}
+
+.dijitMenuItemLabel {
+	position: relative;
+	vertical-align: middle;
+}
+
+
+/* Tab */
+
+
+.tundra .dijitTabContainer .dijitAlignTop {
+/* position the tab labels row down by 1 px, and on top of the dijitTabPaneWrapper
+	so the buttons can overlay the tab pane properly		*/
+	top:1px !important;
+	z-index:10;	
+}
+
+.tundra .dijitTabContainer .dijitAlignBottom {
+/* position the tab labels row up by 1 px so they overlap	*/
+	margin-top:-1px !important;
+	z-index:10;	
+}
+
+.tundra .dijitTabContainer .dijitAlignLeft {
+/* position the tab labels left by 1 px so they overlap		*/
+	margin-right:-1px !important;
+	z-index:10;	
+}
+
+.tundra .dijitTabContainer .dijitAlignRight {
+/* position the tab labels row up by 1 px, and on top of the dijitTabPaneWrapper
+	so the buttons can overlay the tab pane properly		*/
+	margin-left:-1px !important;
+	z-index:10;	
+}
+
+.dijitTabPaneWrapper {
+	z-index:0;
+}
+
+.dijitTabPane {
+	clear:left;
+}
+
+.dijitTab {
+	position:relative;
+	float:left;
+	cursor:pointer;
+	white-space:nowrap;
+	z-index:3;
+}
+
+.dijitTabContainer .dijitAlignLeft .dijitTab,
+.dijitTabContainer .dijitAlignRight .dijitTab {
+	float:none;
+}
+
+.dijitTab {
+	position:relative;
+	float:left;
+}
+
+.dijitTabInnerDiv {
+	position:relative;
+	top:0px;
+	bottom:1px;
+}
+
+.dijitTab .close {
+	display : inline-block;
+	cursor : default;
+	font-size: small;
+}
+
+
+
+/* AutoCompleter */
+/* Allow user to specify width without messing up defaults; other attributes are put on parent node */
+.dijitAutoCompleter {
+	width:auto !important;
+}
+
+.dijitAutoCompleterInput {
+	display:inline !important;
+	float:none !important;	
+}
+
+
+.dijitInlineEditor {
+	/* span around an inline-editable value when in edit mode */
+}
+
+.dijitInlineValue {
+	/* span around an inline-editable value when NOT in edit mode */
+}
+
+
+
+
+
+
+/* Tree */
+
+.TreeExpando {
+    float: left;
+    display: inline;
+    clear:both;
+}
+
+
+.TreeExpand {
+    float: left;
+    display: inline;
+}
+
+.TreeContent {
+    cursor: default;
+    /* can't make inline - multiline bugs */
+}
+
+.TreeIcon {
+
 }

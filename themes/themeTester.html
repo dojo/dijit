@@ -1,0 +1,300 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>Theme Test Page</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+	<script type="text/javascript">document.documentElement.className="js";</script>
+	<style type="text/css">
+		@import "../../dojo/resources/dojo.css";
+		@import "./tundra/tundra.css";
+		@import "./tests/css/digitTests.css";
+		
+		.testBlock {
+			padding: 10px; 
+			border-bottom: 1px solid #999;
+			margin: 0 0 10px 0;
+		}
+		.testHeader {
+			margin: 5px 0 .3em 10px;
+		}
+		/* set a body background color so we can more easily see the extent of the styling on the widget?
+		body {
+			background-color: #cde;
+		} */
+		
+	</style>
+	<script type="text/javascript" src="../../dojo/dojo.js" djConfig="isDebug: true, extraLocale: ['en-us']"></script>
+	<script language="JavaScript" type="text/javascript">
+		dojo.require("dijit.Menu");
+		
+		dojo.require("dijit._Calendar");
+		dojo.require("dojo.date.locale");
+		dojo.require("dijit.ColorPalette");
+		dojo.require("dijit.ProgressBar");
+		dojo.require("dijit.TitlePane");
+		dojo.require("dijit.Tooltip");
+		dojo.require("dojo.data.JsonItemStore");
+		dojo.require("dijit.Tree");
+	
+		dojo.require("dijit.layout.AccordionContainer");
+		dojo.require("dijit.layout.ContentPane");
+		dojo.require("dijit.layout.SplitContainer");
+		dojo.require("dijit.layout.TabContainer");
+
+		dojo.require("dijit.form.Button");
+
+		dojo.require("dijit.util.parser");	// scan page for widgets and instantiate them
+
+		// for the calendar
+		function myHandler(id,newValue){
+				console.debug("onValueChanged for id = " + id + ", value: " + newValue);
+		}
+
+		// for the colorpalette
+		function setColor(color)
+		{
+	
+			var theSpan = dojo.byId("outputSpan");
+			theSpan.style.color = "#"+color;
+			theSpan.innerHTML = color;
+		}
+		// for the Tree
+		continentStore = new dojo.data.JsonItemStore({url: "../tests/countries.json"});
+		
+	</script>
+</head>
+<body class="tundra">
+	<h1 class="testHeader">Theme Tester Page</h1>
+	<p>	As more widgets land and are themed, we can make this more attractive, 
+	and maybe pull everything together in a semi-plausible and more usable/navigable way
+	</p>
+	<div class="testBlock">
+	<h2 class="testHeader">Menus</h2>
+	<p>Right-click/option-click/middle-click/shift f10, or do whatever you'd normally do to get a context menu - in order to see the menu</p>
+<!--
+	Menus:
+		context menu
+		menubar: not currently working? 
+-->
+<div dojoType="dijit.PopupMenu" id="submenu1" contextMenuForWindow="true" style="display: none;">
+	<div dojoType="dijit.MenuItem" caption="Enabled Item" onClick="alert('Hello world');"></div>
+	<div dojoType="dijit.MenuItem" caption="Disabled Item" disabled="true"></div>
+	<div dojoType="dijit.MenuSeparator"></div>
+	<div dojoType="dijit.MenuItem" iconSrc="../../src/widget/templates/buttons/cut.gif" caption="Cut" accelKey="Ctrl+C"
+		onClick="alert('not actually cutting anything, just a test!')"></div>
+	<div dojoType="dijit.MenuItem" iconSrc="../../src/widget/templates/buttons/copy.gif" caption="Copy" accelKey="Ctrl+X"
+		onClick="alert('not actually copying anything, just a test!')"></div>
+	<div dojoType="dijit.MenuItem" iconSrc="../../src/widget/templates/buttons/paste.gif" caption="Paste" accelKey="Ctrl+V"
+		onClick="alert('not actually pasting anything, just a test!')"></div>
+	<div dojoType="dijit.MenuSeparator"></div>
+	<div dojoType="dijit.MenuItem" caption="Enabled Submenu" submenuId="submenu2"></div>
+	<div dojoType="dijit.MenuItem" caption="Disabled Submenu" submenuId="submenu2" disabled="true"></div>
+</div>
+
+<div dojoType="dijit.PopupMenu" id="submenu2" style="display: none;">
+	<div dojoType="dijit.MenuItem" caption="Submenu Item One" onClick="alert('Submenu 1!')"></div>
+	<div dojoType="dijit.MenuItem" caption="Submenu Item Two" onClick="alert('Submenu 2!')"></div>
+</div>
+<!--<div dojoType="dijit.MenuBar">
+	<div dojoType="dijit.MenuBarItem" caption="File" submenuId="submenu1"></div>
+	<div dojoType="dijit.MenuBarItem" caption="Edit" submenuId="submenu"></div>
+	<div dojoType="dijit.MenuBarItem" caption="View" disabled="true"></div>
+	<div dojoType="dijit.MenuBarItem" caption="Help" submenuId="submenu"></div>
+	<div dojoType="dijit.MenuBarItem" caption="Click Me" onClick="alert('you clicked a menu bar button');"></div>
+</div> -->
+
+</div>
+
+<div class="testBlock">
+		<h2 class="testHeader">Dijit Calendar Test</h2>
+
+		before
+		<input id="calendar1" dojoType="dijit._Calendar" onValueChanged="myHandler(this.id,arguments[0])" lang="en-us">
+		after
+</div>
+
+<div class="testBlock">
+	<h2 class="testHeader">Dijit Color Palette(7x10)</h2>
+
+	<div dojoType="dijit.ColorPalette" onColorSelect="setColor(this.selectedColor);"></div>  
+	Test color is: <span id="outputSpan"></span>.
+</div>
+
+<div class="testBlock">
+	<h2 class="testHeader">Dijit ProgressBar</h2>
+
+	<div style="width:400px" annotate="true"
+			maximum="200" id="setTestBar" progress="20" dojoType="dijit.ProgressBar"></div>
+</div>
+
+<div class="testBlock">
+	<h2 class="testHeader">Dijit TitlePane (nested)</h2>
+	<div dojoType="dijit.TitlePane" label="Outer pane" width="300">
+		<p>This is a title pane, containing another title pane ...
+
+		<div dojoType="dijit.TitlePane" label="Inner pane" width="250">
+			<p>And this is the inner title pane...
+			<p>Sed sollicitudin suscipit risus. Nam ullamcorper. Sed nisl lectus, pellentesque nec, malesuada eget, ornare a, libero. Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
+		</div>
+		
+		<p>And this is the closing line for the outer title pane.
+	</div>
+</div>
+
+<div class="testBlock">
+	<h2 class="testTitle">Tooltip test</h2>
+	<p>Mouse-over the items below to test tooltips</p>
+	<p>
+		<span id="one" class="tt">text</span>
+		<span dojoType="dijit.Tooltip" connectId="one" style="display:none;">
+			<b>
+				<span style="color: blue;">rich formatting</span>
+				<span style="color: red; font-size: x-large;"><i>!</i></span>
+			</b>
+		</span>
+		
+		<a id="three" href="#bogus">anchor</a>
+		<span dojoType="dijit.Tooltip" connectId="three" caption="inline caption" style="display:none;"></span>
+	</p>
+</div>
+
+<div class="testBlock">
+	<h2 class="testTitle">Dijit Tree Test</h2>
+
+	<div dojoType="dijit.Tree" store="continentStore" query="{type:'continent'}"
+		labelAttr="name" typeAttr="type"></div>
+</div>
+
+<div class="testBlock">
+		<h2>Accordion</h2>
+		<p>HTML before</p>
+		<p>HTML before</p>
+		<p>HTML before</p>
+
+		<div dojoType="dijit.layout.AccordionContainer" duration="200" 
+			labelNodeClass="label" containerNodeClass="accBody"
+			style="float: left; margin-right: 30px;  width: 400px; height: 300px; overflow: hidden">
+			<div dojoType="dijit.layout.ContentPane" selected="true" 
+				label="Pane 1 (tree, select box)" style="overflow: scroll;"
+				onShow="console.debug('pane 1 shown');" onHide="console.debug('pane 1 hidden');" >
+
+				<div zdojoType="TreeBasicControllerV3" widgetId="controller"></div>	
+					
+				<div zdojoType="TreeV3" listeners="controller" toggle="fade">
+					<div zdojoType="TreeNodeV3" title="Item 1">
+						<div zdojoType="TreeNodeV3" title="Item 1.1"><br></div>
+						<div zdojoType="TreeNodeV3" title="Item 1.2">
+							<div zdojoType="TreeNodeV3" title="Item 1.2.1"></div>
+							<div zdojoType="TreeNodeV3" title="Item 1.2.2"></div>
+						</div>
+						<div zdojoType="TreeNodeV3" title="Item 1.3">
+							<div zdojoType="TreeNodeV3" title="Item 1.3.1"></div>
+							<div zdojoType="TreeNodeV3" title="Item 1.3.2"></div>
+						</div>
+						<div zdojoType="TreeNodeV3" title="Item 1.4">
+							<div zdojoType="TreeNodeV3" title="Item 1.4.1"></div>
+						</div>
+					</div>
+				</div>
+				<br>
+				<select>
+					<option>red</option>
+					<option>blue</option>
+					<option>green</option>
+				</select>
+				<p>
+					Nunc consequat nisi vitae quam. Suspendisse sed nunc. Proin
+					suscipit porta magna. Duis accumsan nunc in velit. Nam et nibh.
+					Nulla facilisi. Cras venenatis urna et magna. Aenean magna mauris,
+					bibendum sit amet, semper quis, aliquet nec, sapien.  Aliquam
+					aliquam odio quis erat. Etiam est nisi, condimentum non, lacinia
+					ac, vehicula laoreet, elit. Sed interdum augue sit amet quam
+					dapibus semper. Nulla facilisi. Pellentesque lobortis erat nec
+					quam.
+				</p>
+			</div>
+
+			<div dojoType="dijit.layout.ContentPane" label="Pane 2">
+				<p>Content in the 2nd pane</p>
+			</div>
+
+			<div dojoType="dijit.layout.SplitContainer" label="Pane 3 (split pane)">
+				<p dojoType="dijit.layout.ContentPane">
+					Sed arcu magna, molestie at, fringilla in, sodales eu, elit.
+					Curabitur mattis lorem et est. Quisque et tortor. Integer bibendum
+					vulputate odio. Nam nec ipsum. Vestibulum mollis eros feugiat
+					augue. Integer fermentum odio lobortis odio. Nullam mollis nisl non
+					metus. Maecenas nec nunc eget pede ultrices blandit. Ut non purus
+					ut elit convallis eleifend. Fusce tincidunt, justo quis tempus
+					euismod, magna nulla viverra libero, sit amet lacinia odio diam id
+					risus. Ut varius viverra turpis. Morbi urna elit, imperdiet eu,
+					porta ac, pharetra sed, nisi. Etiam ante libero, ultrices ac,
+					faucibus ac, cursus sodales, nisl. Praesent nisl sem, fermentum eu,
+					consequat quis, varius interdum, nulla. Donec neque tortor,
+					sollicitudin sed, consequat nec, facilisis sit amet, orci. Aenean
+					ut eros sit amet ante pharetra interdum.
+				</p>
+				<p dojoType="dijit.layout.ContentPane">
+					Sed arcu magna, molestie at, fringilla in, sodales eu, elit.
+					Curabitur mattis lorem et est. Quisque et tortor. Integer bibendum
+					vulputate odio. Nam nec ipsum. Vestibulum mollis eros feugiat
+					augue. Integer fermentum odio lobortis odio. Nullam mollis nisl non
+					metus. Maecenas nec nunc eget pede ultrices blandit. Ut non purus
+					ut elit convallis eleifend. Fusce tincidunt, justo quis tempus
+					euismod, magna nulla viverra libero, sit amet lacinia odio diam id
+					risus. Ut varius viverra turpis. Morbi urna elit, imperdiet eu,
+					porta ac, pharetra sed, nisi. Etiam ante libero, ultrices ac,
+					faucibus ac, cursus sodales, nisl. Praesent nisl sem, fermentum eu,
+					consequat quis, varius interdum, nulla. Donec neque tortor,
+					sollicitudin sed, consequat nec, facilisis sit amet, orci. Aenean
+					ut eros sit amet ante pharetra interdum.
+				</p>
+			</div>
+		</div>
+		<p style="clear: both;">HTML after</p>
+		<p>HTML after</p>
+		<p>HTML after</p>
+</div>
+
+<div class="testBlock">
+	<h2 class="testTitle">Dijit Split Container Test</h2>
+	<div dojoType="dijit.layout.SplitContainer"
+		orientation="horizontal"
+		sizerWidth="7"
+		activeSizing="true"
+		style="border: 1px solid #bfbfbf; float: left; width: 400px; height: 300px;">
+		<div dojoType="dijit.layout.ContentPane" sizeMin="20" sizeShare="20">
+			this box has two horizontal panes
+		</div>
+		<div dojoType="dijit.layout.ContentPane" sizeMin="50" sizeShare="50">
+			with active resizing, a smaller sizer, different starting sizes and minimum sizes
+		</div>
+	</div>
+
+	<p style="clear: both;">HTML after</p>
+
+</div>
+
+<div class="testBlock">
+	<h2 class="testTitle">Dijit Tab Container Test</h2>
+
+	<div id="ttabs" dojoType="dijit.layout.TabContainer" labelPosition="top" style="width: 100%; height: 10em;">
+		<div id="ttab1" dojoType="dijit.layout.ContentPane" label="Tab 1" closable="true">
+		</div>
+		<div id="ttab2" dojoType="dijit.layout.ContentPane" refreshOnShow="true" label="A Much Longer Label That Might Even Need To Wrap">
+				<p>Some more content in this tab</p>
+		</div>
+		<div dojoType="dijit.layout.ContentPane" label="Tab 3" onClose="testClose" closable="true">
+			<h1>I am tab 3</h1>
+			<p>And I was already part of the page! That's cool, no?</p>
+			<p>If you try to close me there should be a confirm dialog.</p>
+		</div>
+	</div>
+
+
+</div>
+</body>
+</html>
+

@@ -12,9 +12,11 @@ dojo.declare(
 	[dijit.base.Widget, dijit.base.TemplatedWidget, dijit.base.Container],
 {
 	templateString: 
-		'<table class="dojoMenu dojoPopup" waiRole="menu">' +
-			'<tbody dojoAttachPoint="containerNode"></tbody>'+
-		'</table>' ,
+		'<div class="dijitMenu dijitPopup">' +
+			'<table class="dijitReset dijitMenuTable">' +
+				'<tbody class="dijitReset" dojoAttachPoint="containerNode"></tbody>'+
+			'</table>' +
+		'</div>',
 
 	// targetNodeIds: String[]
 	//	Array of dom node ids of nodes to attach to.
@@ -321,10 +323,10 @@ dojo.declare(
 	// Make 3columns
 	//   icon, label, and arrow (BiDi-dependent) indicating sub-menu
 	templateString:
-		 '<tr class="dojoMenuItem" dojoAttachEvent="onmouseover: onHover; onmouseout: onUnhover; onclick: _onClick;">'
-		+'<td><div class="dojoMenuItemIcon" style="${iconStyle}"></div></td>'
-		+'<td tabIndex="-1" class="dojoMenuItemLabel" dojoAttachPoint="containerNode" waiRole="menuitem"></td>'
-		+'<td dojoAttachPoint="arrowCell"><div class="dojoRightArrowOuter"><div class="dojoRightArrowInner" style="display:none;" dojoAttachPoint="arrow"></div></div></td>'
+		 '<tr class="dijitReset dijitMenuItem" dojoAttachEvent="onmouseover: onHover; onmouseout: onUnhover; onclick: _onClick;">'
+		+'<td class="dijitReset"><div class="dijitMenuItemIcon" style="${iconStyle}"></div></td>'
+		+'<td tabIndex="-1" class="dijitReset dijitMenuItemLabel" dojoAttachPoint="containerNode" waiRole="menuitem"></td>'
+		+'<td class="dijitReset" dojoAttachPoint="arrowCell"><div class="dijitRightArrowOuter"><div class="dijitRightArrowInner" style="display:none;" dojoAttachPoint="arrow"></div></div></td>'
 		+'</tr>',
 
 	//
@@ -408,6 +410,7 @@ dojo.declare(
 
 	onHover: function(){
 		// summary: callback when mouse is moved onto menu item
+		if(this.disabled){ return false; }
 		if(this.is_hovering || this.is_open){ return; }
 		this._selectItem();
 		if(this.submenuId){
@@ -466,11 +469,11 @@ dojo.declare(
 	},
 
 	_highlightItem: function(){
-		dojo.addClass(this.domNode, 'dojoMenuItemHover');
+		dojo.addClass(this.domNode, 'dijitMenuItemHover');
 	},
 
 	_unhighlightItem: function(){
-		dojo.removeClass(this.domNode, 'dojoMenuItemHover');
+		dojo.removeClass(this.domNode, 'dijitMenuItemHover');
 	},
 
 	_startSubmenuTimer: function(){
@@ -514,10 +517,10 @@ dojo.declare(
 		this.disabled = value;
 
 		if(value){
-			dojo.addClass(this.domNode, 'dojoMenuItemDisabled');
+			dojo.addClass(this.domNode, 'dijitMenuItemDisabled');
 			dijit.util.wai.setAttr(this.containerNode, 'waiState', 'disabled', 'true');
 		}else{
-			dojo.removeClass(this.domNode, 'dojoMenuItemDisabled');
+			dojo.removeClass(this.domNode, 'dijitMenuItemDisabled');
 			dijit.util.wai.setAttr(this.containerNode, 'waiState', 'disabled', 'false');
 		}
 	},
@@ -535,9 +538,9 @@ dojo.declare(
 	// summary
 	//	A line between two menu items
 
-	templateString: '<tr class="dojoMenuSeparator2"><td colspan=3>'
-			+'<div class="dojoMenuSeparator2Top"></div>'
-			+'<div class="dojoMenuSeparator2Bottom"></div>'
+	templateString: '<tr class="dijitMenuSeparator"><td colspan=3>'
+			+'<div class="dijitMenuSeparatorTop"></div>'
+			+'<div class="dijitMenuSeparatorBottom"></div>'
 			+'</td></tr>',
 
 	postCreate: function(){

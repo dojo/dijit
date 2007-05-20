@@ -48,7 +48,7 @@ dojo.declare(
 	postCreate: function(){
 		dijit.layout.SplitContainer.superclass.postCreate.apply(this, arguments);
 		this.sizers = [];
-		dojo.addClass(this.domNode, "dojoSplitContainer");
+		dojo.addClass(this.domNode, "dijitSplitContainer");
 		// overflow has to be explicitly hidden for splitContainers using gekko (trac #1435)
 		// to keep other combined css classes from inadvertantly making the overflow visible
 		if(dojo.isMozilla){
@@ -72,14 +72,13 @@ dojo.declare(
 		// If the splitcontainer's dimensions are specified in percentages, it
 		// will be resized when the virtualsizer is displayed in _showSizingLine
 		// (typically expanding its bounds unnecessarily). This happens because
-		// we use position: relative for .dojoSplitContainer.
+		// we use position: relative for .dijitSplitContainer.
 		// The workaround: instead of changing the display style attribute,
 		// switch to changing the zIndex (bring to front/move to back)
 
 		this.virtualSizer.style.zIndex = 10;
-		this.virtualSizer.className = this.isHorizontal ? 'dojoSplitContainerVirtualSizerH' : 'dojoSplitContainerVirtualSizerV';
+		this.virtualSizer.className = this.isHorizontal ? 'dijitSplitContainerVirtualSizerH' : 'dijitSplitContainerVirtualSizerV';
 		this.domNode.appendChild(this.virtualSizer);
-
 		dijit._disableSelection(this.virtualSizer);
 
 	},
@@ -91,7 +90,7 @@ dojo.declare(
 			with(children[i].domNode.style){
 				position = "absolute";
 			}
-			dojo.addClass(children[i].domNode, "dojoSplitPane");
+			dojo.addClass(children[i].domNode, "dijitSplitPane");
 
 			if(i == children.length-1){
 				break;
@@ -109,22 +108,27 @@ dojo.declare(
 		with(child.domNode.style){
 			position = "absolute";
 		}
-		dojo.addClass(child.domNode, "dojoSplitPane");
+		dojo.addClass(child.domNode, "dijitSplitPane");
 	},
 
 	_addSizer: function(){
 		var i = this.sizers.length;
 
-		this.sizers[i] = document.createElement('div');
-		this.sizers[i].style.position = 'absolute';
-		this.sizers[i].className = this.isHorizontal ? 'dojoSplitContainerSizerH' : 'dojoSplitContainerSizerV';
+		// TODO: use a template for this!!!
+		var sizer = this.sizers[i] = document.createElement('div');
+		sizer.className = this.isHorizontal ? 'dijitSplitContainerSizerH' : 'dijitSplitContainerSizerV';
+
+		// add the thumb div
+		var thumb = document.createElement('div');
+		thumb.className = 'thumb';
+		sizer.appendChild(thumb);
 
 		var self = this;
 		var handler = (function(){ var sizer_i = i; return function(e){ self.beginSizing(e, sizer_i); } })();
-		dojo.connect(this.sizers[i], "onmousedown", handler);
+		dojo.connect(sizer, "onmousedown", handler);
 
-		this.domNode.appendChild(this.sizers[i]);
-		dijit._disableSelection(this.sizers[i]);
+		this.domNode.appendChild(sizer);
+		dijit._disableSelection(sizer);
 	},
 
 	removeChild: function(widget){

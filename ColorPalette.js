@@ -92,7 +92,7 @@ dojo.declare(
 			for (var col=0; col<alts[row].length; col++) {
 				var highlightNode = document.createElement("img");
 				highlightNode.src = dojo.moduleUrl("dijit", "templates/blank.gif")
-				dojo.addClass(highlightNode, "dojoPaletteImg");
+				dojo.addClass(highlightNode, "dijitPaletteImg");
 				highlightNode.color = alts[row][col];
 				highlightNode.style.color = "#"+highlightNode.color;
 				this.connect(highlightNode,"onmouseover", "onMouseOver");
@@ -172,7 +172,7 @@ dojo.declare(
 		//		to be destroyed.
 		// evt:
 		//		The blur event.
-		dojo.removeClass(evt.currentTarget, "dojoPaletteImgHighlight");
+		dojo.removeClass(evt.currentTarget, "dijitPaletteImgHighlight");
 	},
 	
 	onFocus: function(evt) {
@@ -187,7 +187,7 @@ dojo.declare(
 			this._highlightNodes[this._currentFocus].tabIndex = -1;
 		}
 		this._currentFocus = evt.currentTarget.index;
-		dojo.addClass(evt.currentTarget, "dojoPaletteImgHighlight");
+		dojo.addClass(evt.currentTarget, "dijitPaletteImgHighlight");
 		
 	},
 	

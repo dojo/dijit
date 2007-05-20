@@ -346,7 +346,7 @@ dojo.declare(
 				var tr=results[i];
 				if(tr){
 					var td=this._createOption(tr);
-					td.className = "dojoMenuItem";
+					td.className = "dijitMenuItem";
 					this.popupWidget.addItem(td);
 				}
 	
@@ -514,6 +514,8 @@ dojo.declare(
 				this.setValue(this.value);
 			}*/
 			this._setTextFieldValue(this.value);
+			// convert the arrow image from using style.background-image to the .src property (a11y)
+			dijit.util.wai.imageBgToSrc(this.arrowImage);
 		}
 	}
 );
@@ -548,7 +550,7 @@ dojo.declare(
 		// summary:
 		//	Focus-less div based menu for internal use in AutoCompleter
 
-		templateString:"<div class='dojoMenu' dojoAttachEvent='onclick; onmouseover; onmouseout;' tabIndex='-1' style='display:none; position:absolute; overflow:\"auto\";'></div>",
+		templateString:"<div class='dijitMenu' dojoAttachEvent='onclick; onmouseover; onmouseout;' tabIndex='-1' style='display:none; position:absolute; overflow:\"auto\";'></div>",
 		postCreate:function(){
 			// summary:
 			//	call all postCreates
@@ -612,7 +614,7 @@ dojo.declare(
 			if(this._highlighted_option != node){
 				this._blurOptionNode();
 				this._highlighted_option = node;
-				dojo.addClass(this._highlighted_option, "dojoMenuItemHover");
+				dojo.addClass(this._highlighted_option, "dijitMenuItemHover");
 			}
 		},
 	
@@ -620,7 +622,7 @@ dojo.declare(
 			// summary:
 			//	removes highlight on highlighted option
 			if(this._highlighted_option){
-				dojo.removeClass(this._highlighted_option, "dojoMenuItemHover");
+				dojo.removeClass(this._highlighted_option, "dijitMenuItemHover");
 				this._highlighted_option = null;
 			}
 		},

@@ -1,16 +1,14 @@
-<fieldset class="dojoAutoCompleter dojoInlineBox dojoInputField" id='${id}' waiRole="presentation"
-	><input style="display:inline" type="text" autocomplete="off" class="dojoAutoCompleterInput" name="${name}"
+<fieldset class="dijitAutoCompleter dijitInlineBox dijitInput" id='${id}' waiRole="presentation"
+	><input style="display:inline" type="text" autocomplete="off" class="dijitInputField dijitAutoCompleterInput" name="${name}"
 		dojoAttachEvent="onkeypress; onkeyup; onfocus; onblur;"
 		dojoAttachPoint="textbox;focusNode"
 		tabIndex='${tabIndex}' size='${size}' maxlength='${maxlength}'
-	><span dojoAttachPoint='messageSpan' class='dojoValidationTextboxMessage' waiRole='alert'></span
-	><fieldset class="dojoArrowButton"
-		><fieldset 
+	><span dojoAttachPoint='messageSpan' class='dijitValidationTextboxMessage' waiRole='alert'></span
+	><fieldset class="dijitArrowButtonContainer"
+		><fieldset class='dijitArrowButton'
 			dojoAttachPoint="downArrowNode"
 			dojoAttachEvent="onclick:arrowClicked;"
-			><div class="dojoDownArrowOuter" style="display:block;"
-				><div class="dojoDownArrowInner"></div
-			></div
-		></fieldset
+			><img dojoAttachPoint='arrowImage' border=0 class='dijitDownArrow'>
+			</fieldset
 	></fieldset
 ></fieldset>

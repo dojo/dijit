@@ -77,7 +77,7 @@ dojo.declare("dijit.base.FormElement", dijit.base.Widget,
 		//		not sure which code is common to many widgets and which is specific to a particular widget.
 		var css = this.baseClass;
 		if(css == ""){
-			css = "dojo"+this.declaredClass.replace(/.*\./g,"");
+			css = this.baseClass = "dijit"+this.declaredClass.replace(/.*\./g,"");
 		}
 		if(disabled){
 			dojo.addClass(this.domNode, css+"Disabled");

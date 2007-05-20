@@ -21,7 +21,7 @@ dojo.declare(
 
 		// opacity: Number
 		//		Final opacity tooltips are shown at, after fade in
-		opacity: 0.9,
+		opacity: 0.95,
 
 		templatePath: dojo.moduleUrl("dijit", "templates/Tooltip.html"),
 
