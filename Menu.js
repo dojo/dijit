@@ -37,8 +37,6 @@ dojo.declare(
 	// pointer to menu that displayed me
 	parentMenu: null,
 
-	isMenu: true,
-
 	// submenuDelay: Integer
 	//	number of milliseconds before hovering (without clicking) causes the submenu to automatically open
 	submenuDelay: 500,
@@ -46,7 +44,7 @@ dojo.declare(
 	postCreate: function(){
 		if(this.contextMenuForWindow){
 			this.bindDomNode(dojo.body());
-		}else if(this.targetNodeIds.length > 0){
+		}else{
 			dojo.forEach(this.targetNodeIds, this.bindDomNode, this);
 		}
 
@@ -55,47 +53,36 @@ dojo.declare(
 		}
 	},
 
-	_getTopMenu: function(){
-		var menu = this;
-		while(menu.parentMenu){
-			menu = menu.parentMenu;
-		}
-		return menu;
-	},
-
 	_moveToParentMenu: function(/*Event*/ evt){
 		if(this.parentMenu){
 			//only process event in the focused menu
 			//and its immediate parentPopup to support
-			//MenuBar2
-			if(evt._menu2UpKeyProcessed){
+			//MenuBar
+			if(evt._menuUpKeyProcessed){
 				return true; //do not pass to parent menu
 			}else{
-				if(this._selectedItem){
-					this._selectedItem._unselectItem();
+				if(this._focusedItem){
+					this._blurFocusedItem();
 				}
-				var trigger = this.parentMenu.currentSubmenuTrigger;
 				this.parentMenu.closeSubmenu();
-				trigger._selectItem();
-				dijit.util.scroll.scrollIntoView(trigger.domNode);
-				evt._menu2UpKeyProcessed = true;
+				evt._menuUpKeyProcessed = true;
 			}
 		}
 		return false;
 	},
 
 	_moveToChildMenu: function(/*Event*/ evt){
-		if(this._selectedItem && this._selectedItem.submenuId){
+		if(this._focusedItem && this._focusedItem.submenuId && !this._focusedItem.disabled){
 			return this._activateCurrentItem(evt);
 		}
 		return false;
 	},
 
 	_activateCurrentItem: function(/*Event*/ evt){
-		if(this._selectedItem){
-			this._selectedItem._onClick();
+		if(this._focusedItem){
+			this._focusedItem._onClick();
 			if(this.currentSubmenu){
-				this.currentSubmenu._selectFirstItem();
+				this.currentSubmenu._focusFirstItem();
 			}
 			return true; //do not pass to parent menu
 		}
@@ -104,7 +91,7 @@ dojo.declare(
 
 	processKey: function(/*Event*/ evt){
 		// summary
-		//	callback to process key strokes
+		//	Callback from PopupManager to process key strokes
 		//	return true to stop the event being processed by the
 		//	parent popupmenu
 		if(evt.ctrlKey || evt.altKey){ return false; }
@@ -112,26 +99,24 @@ dojo.declare(
 		var key = (evt.charCode == dojo.keys.SPACE ? dojo.keys.SPACE : evt.keyCode);
 		switch(key){
  			case dojo.keys.DOWN_ARROW:
-				this._selectNextItem(1);
+				this._focusNeighborItem(1);
 				return true; //do not pass to parent menu
 			case dojo.keys.UP_ARROW:
-				this._selectNextItem(-1);
+				this._focusNeighborItem(-1);
 				return true; //do not pass to parent menu
 			case dojo.keys.RIGHT_ARROW:
 				return this._moveToChildMenu(evt);
 			case dojo.keys.LEFT_ARROW:
-				return this._moveToParentMenu(evt);
-			case dojo.keys.SPACE: //fall through
-			case dojo.keys.ENTER:
-				if((rval = this._activateCurrentItem(evt))){
-					return true; //do not pass to parent menu
-				}
-				//fall through
 			case dojo.keys.ESCAPE:
 				if(this.parentMenu){
 					return this._moveToParentMenu(evt);
+				}else{
+					dijit.util.PopupManager.closeAll();
 				}
-				//fall through
+				return true;
+			case dojo.keys.SPACE: //fall through
+			case dojo.keys.ENTER:
+				return this._activateCurrentItem(evt);
 			case dojo.keys.TAB:
 				dijit.util.PopupManager.closeAll();
 				return true; //do not pass to parent menu
@@ -140,7 +125,10 @@ dojo.declare(
 		return false;
 	},
 
-	_findValidItem: function(dir, curItem){
+	_findValidItem: function(dir){
+		// summary: find the next/previous item to focus on (depending on dir setting).
+
+		var curItem = this._focusedItem;
 		if(curItem){
 			curItem = dir>0 ? curItem.getNextSibling() : curItem.getPreviousSibling();
 		}
@@ -148,53 +136,104 @@ dojo.declare(
 		var children = this.getChildren();
 		for(var i=0; i < children.length; ++i){
 			if(!curItem){
-				curItem = dir>0 ? children[0] : children[children.length-1];
+				curItem = children[(dir>0) ? 0 : (children.length-1)];
 			}
 			//find next/previous visible menu item, not including separators
-			if(curItem.onHover && dojo.style(curItem.domNode, "display") != "none"){
+			if(curItem._onHover && dojo.style(curItem.domNode, "display") != "none"){
 				return curItem;
 			}
 			curItem = dir>0 ? curItem.getNextSibling() : curItem.getPreviousSibling();
 		}
 	},
 
-	_selectNextItem: function(dir){
-		var item;
-		// || !this._selectedItem.parentNode
-		if(!this._selectedItem){
-			item = this._findValidItem(dir);
-		}else{
-			item = this._findValidItem(dir, this._selectedItem);
-		}
-		if(item){
-			item._selectItem();
-			dijit.util.scroll.scrollIntoView(item.domNode);
-		}
+	_focusNeighborItem: function(dir){
+		// summary: focus on the next / previous item (depending on dir setting)
+		var item = this._findValidItem(dir);
+		this._focusItem(item);
 	},
 
-	_selectFirstItem: function(){
+	_focusFirstItem: function(){
 		var item = this._findValidItem(1);
-		if(item){
-			item._selectItem();
-			dijit.util.scroll.scrollIntoView(item.domNode);
+		this._focusItem(item);
+	},
+
+	_focusItem: function(/*MenuItem*/ item){
+		// summary: internal function to focus a given menu item
+
+		if(!item || item==this._focusedItem){
+			return;
+		}
+
+		if(this._focusedItem){
+			this._blurFocusedItem();
+		}
+		item.focus();
+		this._focusedItem = item;
+
+		if(this._focusedItem.submenuId && !this._focusedItem.disabled){
+			this.hover_timer = setTimeout(dojo.hitch(this, "_openSubmenu"), this.submenuDelay);
 		}
 	},
 
+	onItemHover: function(/*MenuItem*/ item){
+		this._focusItem(item);
+	},
+
+	_blurFocusedItem: function(){
+		// summary: internal function to remove focus from the currently focused item
+		if(this._focusedItem){
+			// Close all submenus that are open and descendents of this menu
+			dijit.util.PopupManager.closeTo(this);
+			this._focusedItem.blur();
+			this._stopSubmenuTimer();
+			this._focusedItem = null;
+		}
+	},
+
+	onItemUnhover: function(/*MenuItem*/ item){
+		//this._blurFocusedItem();
+	},
+
+	_stopSubmenuTimer: function(){
+		if(this.hover_timer){
+			clearTimeout(this.hover_timer);
+			this.hover_timer = null;
+		}
+	},
+	
 	onItemClick: function(/*Widget*/ item){
 		// summary: user defined function to handle clicks on an item
+		// summary: internal function for clicks
+		if(this.disabled){ return false; }
+
+		this._stopSubmenuTimer();
+		if(item.submenuId){
+			if(!this.is_open){
+				this._openSubmenu();
+			}
+		}else{
+			dijit.util.PopupManager.closeAll();
+		}
+
+		// user defined handler for click
+		this.onClick();
+	},
+
+	onClick: function() {
+		// summary
+		//	User defined function to handle clicks
+		//	this default function call the parent
+		//	menu's onItemClick
 	},
 
 	closeSubmenu: function(force){
 		// summary: close the currently displayed submenu
 		if(!this.currentSubmenu){ return; }
 
-		this.currentSubmenu.close(force);
+		dijit.util.PopupManager.closeTo(this);
+		this._focusedItem.focus();	// put focus back on my node
+
 		this.currentSubmenu = null;
-
-		this.currentSubmenuTrigger.is_open = false;
-		this.currentSubmenuTrigger._closedSubmenu(force);
-
-		this.currentSubmenuTrigger = null;
 	},
 
 	// thanks burstlib!
@@ -262,51 +301,36 @@ dojo.declare(
 
 	_openMyself: function(/*Event*/ e){
 		// summary:
-		//		Just an internal function for opening myself when the user
+		//		Internal function for opening myself when the user
 		//		does a right-click or something similar
 		dojo.stopEvent(e);
 		dijit.util.PopupManager.open(e, this);
 	},
 
-
 	onOpen: function(/*Event*/ e){
 		// summary
 		//		Open menu relative to the mouse
 		this._selectFirstItem();
+		this.isShowingNow = true;
 	},
 
-	onClose: function(/*Boolean*/ force){
+	onClose: function(){
 		// summary: close this menu and any open submenus
-
-		if(this._selectedItem){
-			this._selectedItem._unselectItem();
-		}
+		this._stopSubmenuTimer();
 		this.parentMenu = null;
-		
-		// TODO: focus back on parent menu?
+		this.isShowingNow = false;
 	},
 
-	_openSubmenu: function(submenu, from_item){
+	_openSubmenu: function(){
 		// summary: open the submenu to the side of the current menu item
+		var from_item = this._focusedItem;
+		var submenu = dijit.byId(from_item.submenuId);
+
 		if(submenu.isShowingNow){ return; }
 		submenu.parentMenu = this;
 		dijit.util.PopupManager.openAround(from_item.arrowCell, submenu, {'TR': 'TL', 'TL': 'TR'});
 
 		this.currentSubmenu = submenu;
-		this.currentSubmenuTrigger = from_item;
-		this.currentSubmenuTrigger.is_open = true;
-	},
-
-	focus: function(){
-		var trigger = this.currentSubmenuTrigger;
-		if(trigger){
-			try{
-				var element = trigger.caption || trigger.domNode;
-				element.focus();
-			}catch(e){
-				//squelch
-			}
-		}
 	}
 }
 );
@@ -318,27 +342,14 @@ dojo.declare(
 	// summary
 	//	A line item in a Menu2
 
-	// Make 3columns
+	// Make 3 columns
 	//   icon, label, and arrow (BiDi-dependent) indicating sub-menu
 	templateString:
-		 '<tr class="dijitReset dijitMenuItem" dojoAttachEvent="onmouseover: onHover; onmouseout: onUnhover; onclick: _onClick;">'
+		 '<tr class="dijitReset dijitMenuItem" dojoAttachEvent="onmouseover: _onHover; onmouseout: _onUnhover; onclick: _onClick;">'
 		+'<td class="dijitReset"><div class="dijitMenuItemIcon" style="${iconStyle}"></div></td>'
 		+'<td tabIndex="-1" class="dijitReset dijitMenuItemLabel" dojoAttachPoint="containerNode" waiRole="menuitem"></td>'
 		+'<td class="dijitReset" dojoAttachPoint="arrowCell"><div class="dijitRightArrowOuter"><div class="dijitRightArrowInner" style="display:none;" dojoAttachPoint="arrow"></div></div></td>'
 		+'</tr>',
-
-	//
-	// internal settings
-	//
-
-	is_hovering: false,
-	hover_timer: null,
-	is_open: false,
-	topPosition: 0,
-
-	//
-	// options
-	//
 
 	// iconSrc: String
 	//	path to icon to display to the left of the menu text
@@ -380,152 +391,41 @@ dojo.declare(
 		}
 	},
 
-	_selectItem: function(){
-		// summary: internal function to select an item
+	_onHover: function(){
+		// summary: callback when mouse is moved onto menu item
+		this.getParent().onItemHover(this);
+	},
 
-		var thisMenu = this.getParent();
+	_onUnhover: function(){
+		// summary: callback when mouse is moved off of menu item
+		// if we are unhovering the currently selected item
+		// then unselect it
+		this.getParent().onItemUnhover(this);
+	},
 
-		// Close all submenus that are open and descendents of this menu
-		dijit.util.PopupManager.closeTo(thisMenu);
-		
-		// Change highlighting to this item
-		// TODO: move highlightItem function to Menu to make this easier?
-		if(thisMenu._selectedItem){
-			thisMenu._selectedItem._unselectItem();
-		}
-		thisMenu._selectedItem = this;
-		this._highlightItem();
+	_onClick: function(focus){
+		this.getParent().onItemClick(this);
+	},
 
+	focus: function(){
+		dojo.addClass(this.domNode, 'dijitMenuItemHover');
 		try{
 			this.containerNode.focus();
 		}catch(e){
 			// this throws on IE (at least) in some scenarios
 		}
-
-		if(this.is_hovering){ this._stopSubmenuTimer(); }
-		this.is_hovering = true;
+		dijit.util.scroll.scrollIntoView(this.domNode);
 	},
 
-	onHover: function(){
-		// summary: callback when mouse is moved onto menu item
-		if(this.disabled){ return false; }
-		if(this.is_hovering || this.is_open){ return; }
-		this._selectItem();
-		if(this.submenuId){
-			this._startSubmenuTimer();
-		}
-	},
-
-	_unselectItem: function(){
-		// summary: internal function to remove selection from an item
-		if(!this.is_open){
-			this._unhighlightItem();
-			this.getParent()._selectedItem = null;
-		}
-		this.is_hovering = false;
-		this._stopSubmenuTimer();
-	},
-
-	onUnhover: function(){
-		// summary: callback when mouse is moved off of menu item
-		// if we are unhovering the currently selected item
-		// then unselect it
-		if(this.getParent()._selectedItem === this){
-			this._unselectItem();
-		}
-	},
-
-	_onClick: function(focus){
-		// summary: internal function for clicks
-		var displayingSubMenu = false;
-		if(this.disabled){ return false; }
-
-		if(this.submenuId){
-			if(!this.is_open){
-				this._stopSubmenuTimer();
-				this._openSubmenu();
-			}
-			displayingSubMenu = true;
-		}else{
-			// selection of given element
-
-			// for some browsers the onMouseOut doesn't get called (?), so call it manually
-			this.onUnhover(); //only onUnhover when no submenu is available
-			dijit.util.PopupManager.closeAll();
-		}
-
-		// user defined handler for click
-		this.onClick();
-	},
-
-	onClick: function() {
-		// summary
-		//	User defined function to handle clicks
-		//	this default function call the parent
-		//	menu's onItemClick
-		this.getParent().onItemClick(this);
-	},
-
-	_highlightItem: function(){
-		dojo.addClass(this.domNode, 'dijitMenuItemHover');
-	},
-
-	_unhighlightItem: function(){
+	blur: function(){
 		dojo.removeClass(this.domNode, 'dijitMenuItemHover');
-	},
-
-	_startSubmenuTimer: function(){
-		this._stopSubmenuTimer();
-
-		if(this.disabled){ return; }
-
-		var self = this;
-		var closure = function(){ return function(){ self._openSubmenu(); }; }();
-
-		this.hover_timer = setTimeout(closure, this.getParent().submenuDelay);
-	},
-
-	_stopSubmenuTimer: function(){
-		if(this.hover_timer){
-			clearTimeout(this.hover_timer);
-			this.hover_timer = null;
-		}
-	},
-
-	_openSubmenu: function(){
-		if(this.disabled){ return; }
-
-		var thisMenu = this.getParent();
-
-		// first close any other open submenu
-		thisMenu.closeSubmenu();
-
-		var submenu = dijit.byId(this.submenuId);
-		if(submenu){
-			thisMenu._openSubmenu(submenu, this);
-		}
-	},
-
-	_closedSubmenu: function(){
-		this._unselectItem();
 	},
 
 	setDisabled: function(/*Boolean*/ value){
 		// summary: enable or disable this menu item
 		this.disabled = value;
-
-		if(value){
-			dojo.addClass(this.domNode, 'dijitMenuItemDisabled');
-			dijit.util.wai.setAttr(this.containerNode, 'waiState', 'disabled', 'true');
-		}else{
-			dojo.removeClass(this.domNode, 'dijitMenuItemDisabled');
-			dijit.util.wai.setAttr(this.containerNode, 'waiState', 'disabled', 'false');
-		}
-	},
-
-	menuOpen: function(message){
-		// summary: callback when menu is opened
-		// TODO: I don't see anyone calling this menu item
+		dojo[value ? "addClass" : "removeClass"](this.domNode, 'dijitMenuItemDisabled');
+		dijit.util.wai.setAttr(this.containerNode, 'waiState', 'disabled', value ? 'true' : 'false');
 	}
 });
 
