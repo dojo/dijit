@@ -35,18 +35,6 @@ dojo.declare(
 			}
 		},
 		
-		enable:function(){
-			this.parentClass.enable.apply(this, arguments);
-			// not enabled by FormElement
-			this.textbox.removeAttribute("disabled");
-		},
-	
-		disable: function(){
-			this.parentClass.disable.apply(this, arguments);
-			// not disabled by FormElement
-			this.textbox.setAttribute("disabled",true);
-		},
-	
 		arrowClicked: function(){
 			// summary: callback when arrow is clicked
 			if(this.disabled){
@@ -142,10 +130,10 @@ dojo.declare(
 			// <label><input type="xyzzy">label text</label>
 			if(this.id && this.id != ""){
 				var labels = document.getElementsByTagName("label");
-				if (labels != null && labels.length > 0){
+				if(labels != null && labels.length > 0){
 					for(var i=0; i<labels.length; i++){
-						if (labels[i].htmlFor == this.id){
-							if (!this.textbox.id){
+						if(labels[i].htmlFor == this.id){
+							if(!this.textbox.id){
 								this.textbox.id = (this.id + "input");
 							}
 							labels[i].htmlFor=this.textbox.id;
@@ -187,7 +175,7 @@ dojo.declare(
 			this.parentWidget=widget;
 			this.isShowingNow=true;
 			document.body.appendChild(this.domNode);
-			setTimeout( dojo.hitch(this, function(){dijit.util.PopupManager.openAround(widget.textbox, this,{'BL':'TL', 'TL':'BL'}, [0,0]);}), 1);
+			setTimeout(dojo.hitch(this, function(){dijit.util.PopupManager.openAround(widget.textbox, this,{'BL':'TL', 'TL':'BL'}, [0,0]);}), 1);
 		},
 		
 		close: function(/*Boolean*/ force){

@@ -109,13 +109,12 @@ dojo.declare(
 			domNodeStyle.position = "relative";
 			
 			// carve some space in the flow for this dom node
-			if (dojo.isSafari) {
+			if(dojo.isSafari){
 				// use this hack sparingly (see ticket:2942)
 				domNodeStyle.fontFamily = "monospace";
 				var spacer = document.createTextNode("\u00a0\u00a0");
 				this.domNode.appendChild(spacer);
-			}
-			else {
+			}else{
 				domNodeStyle.paddingRight = this.width + "px";
 			}
 			
@@ -138,7 +137,7 @@ dojo.declare(
 
 		_setDisabled: function(/*Boolean*/ disabled){
 			// summary: set disabled state of widget.
-			this.domNode.disabled = this.inputNode.disabled = this.disabled = disabled;
+			dijit.form.Checkbox.superclass._setDisabled.apply(this,arguments);
 			this._updateView();
 		},
 
@@ -160,7 +159,7 @@ dojo.declare(
 		},
 
 		setValue: function(value){
-			if (value == null){ value = ""; }
+			if(value == null){ value = ""; }
 			this.inputNode.value = value;
 			dijit.form.Checkbox.superclass.setValue.call(this,value);
 		},
@@ -193,7 +192,7 @@ dojo.declare(
 		_updateView: function(/*Widget?*/ awidget){
 			var w = awidget || this;
 
-			if (w.checked != w.inputNode.checked) {
+			if(w.checked != w.inputNode.checked){
 				w.checked = w.inputNode.checked;
 				w.onChecked(w.checked);
 			}

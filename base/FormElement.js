@@ -87,6 +87,9 @@ dojo.declare("dijit.base.FormElement", dijit.base.Widget,
 			dojo.removeClass(this.domNode, css+"Disabled");
 		}
 		this.domNode.disabled = this.disabled = disabled;
+		if(this.focusNode){
+			this.focusNode.disabled = disabled;
+		}
 		dijit.util.wai.setAttr(this.focusNode || this.domNode, "waiState", "disabled", disabled);
 	},
 

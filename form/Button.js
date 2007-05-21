@@ -47,21 +47,12 @@ dojo.declare(
 		setCaption: function(/*String*/ content){
 			// summary: reset the caption (text) of the button; takes an HTML string
 			this.containerNode.innerHTML = this.caption = content;
-			if (dojo.isMozilla){ // Firefox has re-render issues with tables
+			if(dojo.isMozilla){ // Firefox has re-render issues with tables
 				var oldDisplay = dojo.getComputedStyle(this.domNode).display;
 				this.domNode.style.display="none";
 				var _this = this;
 				setTimeout(function(){_this.domNode.style.display=oldDisplay;},1);
 			}
-		},
-
-		_setDisabled: function(/*Boolean*/ disable){
-			dojo.forEach(this.domNode.getElementsByTagName('BUTTON'),
-				function(button){
-					button.disabled = (disable != false);
-				}
-			);
-			dijit.form.Button.superclass._setDisabled.apply(this, arguments);
 		}
 	});
 
@@ -103,7 +94,7 @@ dojo.declare(
 			// summary: callback when the user presses a key (on key-down)
 			if(this.disabled){ return; }
 			if(e.keyCode == dojo.keys.DOWN_ARROW || (e.currentTarget == this.popupStateNode && (e.keyCode == dojo.keys.SPACE || e.keyCode == dojo.keys.ENTER))){
-				if (!this._menu || this._menu.domNode.style.display=="none"){
+				if(!this._menu || this._menu.domNode.style.display=="none"){
 					this.arrowClick(e);
 				}
 			}
