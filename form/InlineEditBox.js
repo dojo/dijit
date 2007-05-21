@@ -4,6 +4,7 @@ dojo.require("dijit.base.FormElement");
 dojo.require("dijit.base.Container");
 dojo.require("dijit.base.TemplatedWidget");
 dojo.require("dojo.i18n");
+dojo.require("dijit.form.Button");
 
 dojo.requireLocalization("dijit", "common");
 
@@ -32,15 +33,17 @@ dojo.declare(
 	//		Is the node currently in edit mode?
 	editing: false,
 
-	// saveButton: String
+	// buttonSave: String
 	//              Save button label
-	saveButton: "",
+	buttonSave: "",
 
-	// cancelButton: String
+	// buttonCancel: String
 	//              Cancel button label
-	cancelButton: "",
+	buttonCancel: "",
 
 	postCreate: function(){
+		this.saveWidget = new dijit.form.Button({ caption: this.buttonSave, onClick: dojo.hitch(this, this.save) }, this.saveButton);
+		this.cancelWidget = new dijit.form.Button({ caption: this.buttonCancel, onClick: dojo.hitch(this, this.cancel) }, this.cancelButton);
 		var _this = this;
 		dojo.addOnLoad(function(){
 			// look for the input widget as a child of the containerNode
@@ -57,7 +60,6 @@ dojo.declare(
 					node = node.nextSibling;
 				}
 			}
-
 			_this._setEditValue = dojo.hitch(_this.editWidget,_this.editWidget.setTextValue||_this.editWidget.setValue);
 			_this._getEditValue = dojo.hitch(_this.editWidget,_this.editWidget.getTextValue||_this.editWidget.getValue);
 			_this._setEditFocus = dojo.hitch(_this.editWidget,_this.editWidget.focus);
@@ -116,7 +118,7 @@ dojo.declare(
 		this._visualize();
 
 		this._setEditFocus();
-		this.saveButton.disabled = true;
+		this.saveWidget.disable();
 		// moved to postCreate to always listen
 		//this.editWidget.onValueChanged = dojo.hitch(this,"checkForValueChange");
 		this.onClick();
@@ -162,7 +164,7 @@ dojo.declare(
 		//		Callback when user changes input value.
 		//		Enable save button if the text value is different than the original value.
 		if(this.editing){
-			this.saveButton.disabled = (this._getEditValue() == this._initialText);
+			(this._getEditValue() == this._initialText) ? this.saveWidget.disable() : this.saveWidget.enable();
 		}else{
 			this._showText();
 		}
@@ -170,8 +172,8 @@ dojo.declare(
 	},
 	
 	disable: function(){
-		this.saveButton.disabled = true;
-		this.cancelButton.disabled = true;
+		this.saveWidget.disable();
+		this.cancelWidget.disable();
 		this.editable.disabled = true;
 		this.editWidget.disable();
 		dijit.form.InlineEditBox.superclass.disable.apply(this, arguments);
@@ -179,7 +181,7 @@ dojo.declare(
 	
 	enable: function(){
 		this.checkForValueChange();
-		this.cancelButton.disabled = false;
+		this.cancelWidget.enable();
 		this.editable.disabled = false;
 		this.editWidget.enable();
 		dijit.form.InlineEditBox.superclass.enable.apply(this, arguments);

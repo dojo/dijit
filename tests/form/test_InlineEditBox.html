@@ -30,20 +30,20 @@
 		<span id="editable" style="font-size:larger;" dojoType="dijit.form.InlineEditBox" onValueChanged="myHandler(this.id,arguments[0])">
 			<input dojoType="dijit.form.Textbox" value="Edit me - I trigger the onValueChanged callback">
 		</span>
-		after
+		after<br>
 
+		<hr style="width:100%;">
 		<blockquote style="width:50%;">
 			<p><span id="areaEditable" dojoType="dijit.form.InlineEditBox">
 				<textarea dojoType="dijit.form.Textarea">I'm one big paragraph.  Go ahead and <i>edit</i> me.  <b>I dare you.</b> The quick brown fox jumped over the lazy dog.  Blah blah blah blah blah blah blah ...</textarea>
 			</span></p>
 		</blockquote>
-		<p>
 		These links will
 		<a href="#" onClick="dijit.byId('areaEditable').disable()">disable</a> /
 		<a href="#" onClick="dijit.byId('areaEditable').enable()">enable</a>
 		the text area above.
 
-		</p>
+		<hr style="width:100%;">
 
 		<b>Date text box:</b>
 		<p id="backgroundArea" dojoType="dijit.form.InlineEditBox" >
@@ -54,13 +54,14 @@
 					promptMessage="mm/dd/yy"
 					invalidMessage="Invalid date. Use mm/dd/yy format.">
 		</p>
-		<p/>
+		<hr style="width:100%;">
 		<b>Select:</b>
-		<p id="backgroundArea" dojoType="dijit.form.InlineEditBox" >
-			<input searchField="name" keyField="abbreviation" id="setvaluetest" dojoType="dijit.form.Select" value="IA"
-					url="autoCompleterData.json" name="state1" autocomplete="true" labelField="label" labelType="html"
+		<span id="backgroundArea" dojoType="dijit.form.InlineEditBox" >
+			<input searchAttr="name" keyAttr="abbreviation" id="setvaluetest" dojoType="dijit.form.Select" value="IA"
+					url="autoCompleterData.json" name="state1" autocomplete="true" labelAttr="label" labelType="html"
 					dataProviderClass="dojo.data.JsonItemStore" promptMessage="Please enter a state">
-		</p>
+		</span>
+		<hr style="width:100%;">
 		<div style="display:block;" id="programmatic"></div>
 		<script type="text/javascript">
 			// See if we can make a widget in script
