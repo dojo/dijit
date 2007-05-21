@@ -46,9 +46,7 @@ dojo.declare(
 			// look for the input widget as a child of the containerNode
 			if(_this.editWidget){
 				_this.containerNode.appendChild(_this.editWidget.domNode);
-			}
-
-			else{
+			}else{
 				var node = _this.containerNode.firstChild;
 				while(node != null){
 					_this.editWidget = dijit.util.manager.byNode(node);
@@ -58,7 +56,6 @@ dojo.declare(
 
 					node = node.nextSibling;
 				}
-
 			}
 
 			_this._setEditValue = dojo.hitch(_this.editWidget,_this.editWidget.setTextValue||_this.editWidget.setValue);
@@ -166,9 +163,7 @@ dojo.declare(
 		//		Enable save button if the text value is different than the original value.
 		if(this.editing){
 			this.saveButton.disabled = (this._getEditValue() == this._initialText);
-		}
-
-		else{
+		}else{
 			this._showText();
 		}
 

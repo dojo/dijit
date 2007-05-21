@@ -81,6 +81,10 @@ dojo.declare(
 	
 		templatePath: dojo.moduleUrl("dijit.form", "templates/AutoCompleter.html"),
 		
+		_popupName:"dijit.form.AutoCompleter.MasterPopup",
+		
+		_popupClass:"dijit.form._AutoCompleterMenu",
+		
 		_setTextFieldValue:function(/*String*/ value){
 			// summary: Select wants to call AutoCompleter's setValue to reach FormElement's setValue
 			// But Select does not want to display the "value" in the text field!
@@ -193,37 +197,33 @@ dojo.declare(
 			var doSearch = true;
 			switch(evt.keyCode){
 				case dojo.keys.DOWN_ARROW:
-					if(!this.popupWidget.isShowingNow||this._prev_key_esc){
+					if(!this.isShowingNow()||this._prev_key_esc){
 						this._arrowPressed();
 						this._startSearchFromInput();
+					}else{
+						this._popupWidget._highlightNextOption();
 					}
-					this.popupWidget._highlightNextOption();
 					dojo.stopEvent(evt);
 					this._prev_key_backspace = false;
 					this._prev_key_esc = false;
 					return;
 
 				case dojo.keys.UP_ARROW:
-					this.popupWidget._highlightPrevOption();
+					if(this.isShowingNow()){this._popupWidget._highlightPrevOption();}
 					dojo.stopEvent(evt);
 					this._prev_key_backspace = false;
 					this._prev_key_esc = false;
 					return;
 	
 				case dojo.keys.PAGE_DOWN:
-					for(var i=0; i<this.maxListLength; i++){
-						this.popupWidget._highlightNextOption();
-					}
-// Bill: maybe there should be a pageDown() method in AutoCompleterMenu
+					if(this.isShowingNow()){this._popupWidget.pageDown();}
 					dojo.stopEvent(evt);
 					this._prev_key_backspace = false;
 					this._prev_key_esc = false;
 					return;
 	
 				case dojo.keys.PAGE_UP:
-					for(var i=0; i<this.maxListLength; i++){
-						this.popupWidget._highlightPrevOption();
-					}
+					this._popupWidget.pageUp();
 					dojo.stopEvent(evt);
 					this._prev_key_backspace = false;
 					this._prev_key_esc = false;
@@ -234,27 +234,27 @@ dojo.declare(
 					dojo.stopEvent(evt);
 	
 				case dojo.keys.TAB:
-					if(this.popupWidget.isShowingNow){
+					if(this.isShowingNow()){
 						
 						this._prev_key_backspace = false;
 						this._prev_key_esc = false;
-						if(this.popupWidget.getHighlightedOption()){
-							this.popupWidget.setValue({target:this.popupWidget.getHighlightedOption()});
+						if(this._popupWidget.getHighlightedOption()){
+							this._popupWidget.setValue({target:this._popupWidget.getHighlightedOption()});
 						}else{
 							this.setTextValue(this.getTextValue());
 						}
 						this._hideResultList();
-						doSearch=false;
 					}else{
 						// also allow arbitrary user input
 						this.setTextValue(this.getTextValue());
 					}
+					doSearch=false;
 					break;
 	
 				case dojo.keys.SPACE:
 					this._prev_key_backspace = false;
 					this._prev_key_esc = false;
-					if(this.popupWidget.isShowingNow && this._highlighted_option){
+					if(this.isShowingNow() && this._highlighted_option){
 						dojo.stopEvent(evt);
 						this._selectOption();
 						this._hideResultList();
@@ -295,9 +295,6 @@ dojo.declare(
 				clearTimeout(this.searchTimer);
 			}
 			if(doSearch){
-				// if we have gotten this far we dont want to keep our highlight
-				//this._blurOptionNode();
-	
 				// need to wait a tad before start search so that the event bubbles through DOM and we have value visible
 				this.searchTimer = setTimeout(dojo.hitch(this, this._startSearchFromInput), this.searchDelay);
 			}
@@ -314,7 +311,7 @@ dojo.declare(
 			if(this.disabled){
 				return;
 			}
-			this.popupWidget.clearResultList();
+			this._popupWidget.clearResultList();
 			if(!results.length){
 				this._hideResultList();
 				return;
@@ -347,7 +344,7 @@ dojo.declare(
 				if(tr){
 					var td=this._createOption(tr);
 					td.className = "dijitMenuItem";
-					this.popupWidget.addItem(td);
+					this._popupWidget.addItem(td);
 				}
 	
 			}
@@ -388,12 +385,6 @@ dojo.declare(
 			}
 			if(!evt.target){
 				// handle autocompletion where the the user has hit ENTER or TAB
-				// if the input is empty do nothing
-				if(!this.textbox.value.length){
-					//this._checkValueChanged();
-					return;
-				}
-				//tgt = this.popupWidget.firstChild;
 				this.setTextValue(this.getTextValue());
 				return;
 			// otherwise the user has accepted the autocompleted value
@@ -412,8 +403,8 @@ dojo.declare(
 				this._setSelectedRange(this.textbox, 0, null);
 			}
 			this.focus();
-			if(this.popupWidget.domNode.style.display!="none"){
-				dijit.util.PopupManager.close(this.popupWidget);
+			if(this._popupWidget.domNode.style.display!="none"){
+				dijit.util.PopupManager.close(this._popupWidget);
 			}
 		},
 	
@@ -428,7 +419,8 @@ dojo.declare(
 				return;
 			}
 			this.focus();
-			if(this.popupWidget.isShowingNow){
+			this.makePopup();
+			if(this.isShowingNow()){
 				this._hideResultList();
 			}else{
 				// forces full population of results, if they click
@@ -436,36 +428,36 @@ dojo.declare(
 				this._startSearch("");
 			}
 		},
-	
+		
+		isShowingNow:function(){
+			// summary
+			//	test if the popup is visible
+			return this._popupWidget&&this._popupWidget.isShowingNow();
+		},
+		
 		_startSearchFromInput: function(){
 			this._startSearch(this.textbox.value);
 		},
 	
 		_startSearch: function(/*String*/ key){
-
+			this.makePopup();
 			// create a new query to prevent accidentally querying for a hidden value from Select's keyField
 			var query={};
 			query[this.searchAttr]=key+"*";
-			// fetch maintains its state in the returned object, not the query
-			// TODO: save request for caching
-			var request=this.store.fetch({queryIgnoreCase:this.ignoreCase, query: query, onComplete:dojo.hitch(this, "_openResultList"), count:this.searchLimit});
+			// no need to page; no point in caching the return object
+			this.store.fetch({queryIgnoreCase:this.ignoreCase, query: query, onComplete:dojo.hitch(this, "_openResultList"), count:this.searchLimit});
 		},
-	
+
 		_assignHiddenValue:function(/*Object*/ keyValArr, /*DomNode*/ option){
 			// sets the hidden value of an item created from an <option value="CA">
 			// AutoCompleter does not care about the value; Select does though
 			// Select overrides this method
 		},
-	
+
 		postCreate: function(){
 			this.parentClass=dojo.getObject(this.declaredClass, false).superclass;
 			this.parentClass.postCreate.apply(this, arguments);
-			this.popupWidget=dijit.form.AutoCompleter.MasterPopup; //new dijit.form._AutoCompleterMenu({}, node);
 			this.setupLabels();
-					
-// Bill: not sure having a MasterPopup is giving us here.
-// How about creating the menu on demand (NOT at postCreate() time),
-// but having one per widget?
 
 			var dpClass=dojo.getObject(this.dataProviderClass, false);
 			
@@ -479,7 +471,7 @@ dojo.declare(
 					var data=[];
 					// go backwards to create the options list
 					// have to go backwards because we are removing the option nodes
-					// the option nodes are not necessary once the AutoCompleter initializes
+					// the option nodes are visible once the AutoCompleter initializes
 					for(var x=ol-1; x>=0; x--){
 						var text = opts[x].innerHTML;
 						var keyValArr ={};
@@ -488,14 +480,9 @@ dojo.declare(
 						this._assignHiddenValue(keyValArr, opts[x]);
 						data.unshift(keyValArr);
 						// remove the unnecessary node
+						// if you keep the node, it is visible on the page!
 						this.domNode.removeChild(opts[x]);
-					}
-// Bill: is there a reason the loop goes backwards?  couldn't you make the loop go
-// forwards and just call data.push()?  Not sure why you are calling this.domNode.removeChild()
-// either.   This would all probably be easier if you just called
-//	dojo.query("option", this.domNode).map(function(node){ return ...}) and it will construct the array
-// for you
-	
+					}	
 					// pass store inline data
 					this.data={items:data};
 				}
@@ -504,15 +491,6 @@ dojo.declare(
 			if(this.disabled){
 				this.disable();
 			}
-	
-			// FIXME: add state code back
-			/*var s = dojo.widget.html.stabile.getState(this.id);
-				
-			if(s){
-				this.setState(s);
-			}else{
-				this.setValue(this.value);
-			}*/
 			this._setTextFieldValue(this.value);
 			// convert the arrow image from using style.background-image to the .src property (a11y)
 			dijit.util.wai.imageBgToSrc(this.arrowImage);
@@ -559,6 +537,7 @@ dojo.declare(
 		},
 	
 		open:function(/*Widget*/ widget){
+			this.maxListLength=widget.maxListLength;
 			this.onValueChanged=dojo.hitch(widget, widget._selectOption);
 			dijit.form._DropDownTextBox.Popup.prototype.open.apply(this, arguments);
 		},
@@ -628,20 +607,35 @@ dojo.declare(
 		},
 	
 		_highlightNextOption:function(){
-			if(!this._highlighted_option){
+			// because each press of a button clears the menu,
+			// the highlighted option sometimes becomes detached from the menu!
+			// test to see if the option has a parent to see if this is the case.
+			if(!this._highlighted_option||!this._highlighted_option.parentNode){
 				this._focusOptionNode(this.domNode.firstChild);
 			}else if(this._highlighted_option.nextSibling){
 				this._focusOptionNode(this._highlighted_option.nextSibling);
 			}
 			dijit.util.scroll.scrollIntoView(this._highlighted_option);
 		},
-	
+
+		pageUp:function(){
+			for(var i=0; i<this.maxListLength; i++){
+				this._highlightPrevOption();
+			}
+		},
+
+		pageDown:function(){
+			for(var i=0; i<this.maxListLength; i++){
+				this._highlightNextOption();
+			}
+		},
+
 		_highlightPrevOption:function(){
 			if(this._highlighted_option && this._highlighted_option.previousSibling){
 				this._focusOptionNode(this._highlighted_option.previousSibling);
 			}else{
 				this._highlighted_option = null;
-				this.close(true);
+				dijit.util.PopupManager.close(true);
 				return;
 			}
 			dijit.util.scroll.scrollIntoView(this._highlighted_option);
@@ -650,15 +644,8 @@ dojo.declare(
 		getHighlightedOption:function(){
 			// summary:
 			//	Returns the highlighted option.
-			return this._highlighted_option;
-		},
-	
-		processKey:function(/*Event*/ evt){
-			// summary:
-			//	Required by PopupManager
-			return false;
+			return this._highlighted_option&&this._highlighted_option.parentNode ? this._highlighted_option : null;
 		}
-
 	}
 
 );
@@ -668,10 +655,3 @@ dojo.declare(
 	[dijit.form.ValidationTextbox, dijit.form.AutoCompleterMixin],
 	{}
 );
-
-// dojo.addOnLoad() throws things on the end of the onload stack. We want to be on the front.
-dojo._loaders.unshift(function(){
-	if(!dijit.form.AutoCompleter.MasterPopup){
-		dijit.form.AutoCompleter.MasterPopup = new dijit.form._AutoCompleterMenu({}, document.createElement("div"));
-	}
-});

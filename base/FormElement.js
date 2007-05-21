@@ -105,9 +105,9 @@ dojo.declare("dijit.base.FormElement", dijit.base.Widget,
 	setValue: function(newValue){
 		// summary: set the value of the widget.
 		if(newValue != this._lastValueReported){
+			this._lastValueReported = newValue;
 			dijit.util.wai.setAttr(this.focusNode || this.domNode, "waiState", "valuenow", newValue);
 			this.onValueChanged(newValue);
-			this._lastValueReported = newValue;
 		}
 	},
 

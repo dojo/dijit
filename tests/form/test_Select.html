@@ -12,7 +12,6 @@
 	dojo.require("dijit.form.Select");
 	
 	dojo.require("dijit.util.parser");	// scan page for widgets and instantiate them
-	//dojo.hostenv.writeIncludes();
 </script>
 <style>
         @import "../../../dojo/resources/dojo.css";
@@ -27,12 +26,18 @@
 	}
 	function setVal2(val){
 		document.getElementById('value2').value=val;
+		alert("Value changed to ["+val+"] in second Select (#1652)");
 	}
 	function setVal3(val){
 		document.getElementById('value3').value=val;
 	}
-	function myLabelFunc(item){
-		return item['name'];
+	function myLabelFunc(item, store){
+		var label=store.getValue(item, 'name');
+		// DEMO: uncomment to chop off a character
+		//label=label.substr(0, label.length-1);
+		// DEMO: uncomment to set to lower case
+		label=label.toLowerCase();
+		return label;
 	}
 	myStore=new dojo.data.JsonItemStore({url:"autoCompleterData.json"});
 </script>
@@ -65,7 +70,7 @@ Enhancements over plain HTML version:
 <form action="#" method="GET">
  
     <p>Select #1: inlined data, autocomplete=false:</p>
-	<select searchAttr="name" keyField="abbreviation" labelFunc="myLabelFunc" id="setvaluetest2" searchLimit="Infinity" name="state3" dojoType="dijit.form.Select" style="width: 300px;" autocomplete="false" dataProviderClass="dojo.data.JsonItemStore" promptMessage="Please enter a state"
+	<select searchAttr="name" keyAttr="abbreviation" id="setvaluetest2" searchLimit="Infinity" name="state1" dojoType="dijit.form.Select" style="width: 300px;" autocomplete="false" dataProviderClass="dojo.data.JsonItemStore" promptMessage="Please enter a state"
 		onValueChanged="setVal1" value="CA">
 		<option value="AL">Alabama</option>
 		<option value="AK">Alaska</option>
@@ -128,33 +133,37 @@ Enhancements over plain HTML version:
 		<option value="WV">West Virginia</option>
 		<option value="WI">Wisconsin</option>
 		<option value="WY">Wyoming</option>
-	</select>    <!--
-<button onclick='dojo.widget.byId("setvaluetest2").setValue("VI"); return false;'>Set value to VI</button>  -->
+	</select>
 	<br>
 	<div>Value: <input id="value1" disabled></div>
 	<hr>
 
 	<p>Select #2: url, autocomplete=true:</p>
-	<input searchAttr="name" keyField="abbreviation" id="setvaluetest" dojoType="dijit.form.Select" value="IA"
-		url="autoCompleterData.json" name="state1" autocomplete="true" labelField="label" labelType="html"
+	<input searchAttr="name" keyAttr="abbreviation" id="setvaluetest" dojoType="dijit.form.Select" value="IA"
+		url="autoCompleterData.json" name="state2" autocomplete="true" labelAttr="label" labelType="html"
 		onValueChanged="setVal2" dataProviderClass="dojo.data.JsonItemStore" promptMessage="Please enter a state"
-	>	<!--<button onclick='dojo.widget.byId("setvaluetest").setValue("VI"); return false;'>Set value to VI</button>  
-		<button onclick='alert(dojo.widget.byId("setvaluetest").getValue()); return false;'>Get value</button>  -->
 	<br>
 	<div>Value: <input id="value2" disabled></div>
 	<hr>
 		
     <p>Select #3: url, autocomplete=false:</p>
- 	<input searchAttr="name" keyField="abbreviation" dojoType="dijit.form.Select" value="VI"
-		url="autoCompleterData.json" name="state2" autocomplete="false" labelField="label" labelType="html"
+ 	<input searchAttr="name" keyAttr="abbreviation" dojoType="dijit.form.Select" value="VI"
+		url="autoCompleterData.json" name="state3" autocomplete="false" labelAttr="label" labelType="html"
 		onValueChanged="setVal3" dataProviderClass="dojo.data.JsonItemStore" promptMessage="Please enter a state"
 	>
 	<div>Value: <input id="value3" disabled></div>
 	<hr>
   <p>Select #4: declarative store, autocomplete=false:</p>
- 	<input searchAttr="name" keyField="abbreviation" dojoType="dijit.form.Select" value="VI"
-		name="state4" autocomplete="false" labelField="label" labelType="html"
+ 	<input searchAttr="name" keyAttr="abbreviation" dojoType="dijit.form.Select" value="AL"
+		name="state4" autocomplete="false" labelAttr="label" labelType="html"
 		store="myStore" promptMessage="Please enter a state"
+	>
+	<br>
+	<hr>
+	<p>Select #5: custom labelFunc (value in textbox should be lower case when onValueChanged is called), autocomplete=true:</p>
+ 	<input searchAttr="name" keyAttr="abbreviation" dojoType="dijit.form.Select" value="OR" labelFunc="myLabelFunc"
+		url="autoCompleterData.json" name="state5" autocomplete="true" labelAttr="label" labelType="html"
+		dataProviderClass="dojo.data.JsonItemStore" promptMessage="Please enter a state"
 	>
 	<br>
 	<hr>

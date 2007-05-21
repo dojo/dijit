@@ -38,32 +38,15 @@ dojo.declare(
 			//	Callback function that dynamically sets the label of the AutoCompleter
 			
 			if(!result.length){
-				this._setLabel("");
-				this._setValue("");
+				this.setValue("");
 			}else{
 				this._setLabel(result[0]);
 				this._setValue(this.store.getValue(result[0], this.keyAttr));
 			}
 		},
 
-		getState: function(){
-			// summary:
-			//	Used for saving state of AutoCompleter when navigates to a new
-			//	page, in case they then hit the browser's "Back" button.
-			var state={};
-			state[this.keyAttr]=this.getValue();
-			return state;
-		},
-
 		getValue:function(){
 			return this.valueNode.value;
-		},
-
-		setState: function(/*Object*/ state){
-			// summary:
-			//	Used for restoring state of AutoCompleter when has navigated to a new
-			//	page but then hits browser's "Back" button.
-			this.setValue(state[this.keyAttr]);
 		},
 
 		_setTextFieldValue:function(/*String*/ value){
@@ -74,29 +57,23 @@ dojo.declare(
 		_setValue:function(/*String*/ value){
 
 			// stop the setTextValue recursion going on in Textbox
+			// can't circumvent Textbox's setValue because that is where the ValidationTextbox code happens
 			this.settingValue=true;
 			dijit.form.AutoCompleterMixin.prototype.setValue.apply(this, arguments);
 			this.settingValue=false;
 		},
-// Bill: see comments in Autocompleter about settingValue and setValue/setTextValue().
-// This all seems overcomplicated.
-// If it helps, you can call any function directly, such as:
-// dijit.form.FormElement.prototype.setValue.apply(this, arguments)
 
 		setValue: function(/*String*/ value){
 			// summary
 			//	Sets the value of the select.
 			//	Also sets the label to the corresponding value by reverse lookup.
-			if(/^\s*$/.test(value)){
-				var label=[];
-				label[this.searchAttr]="";
-				label[this.keyAttr]=value;
-				this._setLabel(label);
-				return;
-// Bill: This code is for clearing the value (and label), but in that case
-// you shouldn't use a fake item attribute; rather just have a clearLabel()
-// function or something, or just inline the code here
 
+			// test for blank value
+			if(/^\s*$/.test(value)){
+				this._setValue("");
+				// _setValue does not set the text value because settingValue is true
+				this.textbox.value="";
+				return;
 			}
 			// Defect #1451: set the label by reverse lookup
 			var query={};
@@ -110,22 +87,13 @@ dojo.declare(
 			//	Set the displayed valued in the input box, based on a selected item.
 			//	Users shouldn't call this function; they should be calling setTextValue() instead
 			
-// Bill: users shouldn't be calling setTextValue() either.   Just setValue() and getValue()
-
-			// get the actual label to display
-			var textlabel = this.store.isItem(item) ? this.store.getValue(item, this.searchAttr) : item[this.searchAttr];
-
-			// if custom label function present, call it
-			if(this.store.isItem(item)){
-				textlabel=this.labelFunc(item);
-			}
-			this.textbox.value = textlabel;
+			this.textbox.value = this.labelFunc(item, this.store);
 		},
 
-		labelFunc: function(/*Object*/ item){
+		labelFunc: function(/*Object*/ item, /*dojo.data.store*/ store){
 			// summary: Event handler called when the label changes
 			// returns the label that the AutoCompleter should display
-			return this.store.getValue(item, this.searchAttr);
+			return store.getValue(item, this.searchAttr);
 		},
 
 		_createOption:function(/*Object*/ tr){
@@ -133,7 +101,7 @@ dojo.declare(
 			
 			var td=dijit.form.AutoCompleterMixin.prototype._createOption.apply(this, arguments);
 			if(this.labelType=="html"){
-				td.innerHTML=tr[this.labelAttr];
+				td.innerHTML=this.store.getValue(tr, this.labelAttr);
 			}
 			return td;
 		},
@@ -144,14 +112,8 @@ dojo.declare(
 			//this.setTextValue(this.textbox.value);
 		},
 
-		setState: function(/*Object*/ state){
-			// summary: internal function to set both value and label
-			this.setValue(state[this.keyAttr]);
-		},
-
 		postCreate: function(){
 			dijit.form.AutoCompleterMixin.prototype.postCreate.apply(this, arguments);
-
 			// InlineEditBox creates a listener for onValueChanged in an onLoad event
 			// if you set the value of Select in postCreate,
 			// InlineEditBox will not get the right text value because it is not necessarily listening yet!
@@ -191,46 +153,8 @@ dojo.declare(
 			if(!this.settingValue){
 				this.parentClass.setTextValue.apply(this, arguments);
 				if(this.store){
-					this.store.fetch({query:query, queryIgnoreCase:this.ignoreCase, onComplete: dojo.hitch(this, this._validateOption)});
+					this.store.fetch({query:query, queryIgnoreCase:this.ignoreCase, onComplete: dojo.hitch(this, this._callbackSetLabel)});
 				}
-			}
-		},
-
-		_isInputEqualToResult: function(/*Object*/ result){
-			// TODO: pass through labelFunc
-			var input = this.textbox.value;
-			var testlabel;
-			if(this.store.isItem(result)){
-				testlabel=this.store.getValue(result, this.searchAttr);
-			}else{
-				testlabel=result[this.searchAttr];
-			}
-			if(!this.ignoreCase){
-				input = input.toLowerCase();
-				testlabel = testlabel.toLowerCase();
-			}
-			return (input == testlabel);
-		},
-
-		_validateOption: function(/*Object*/ ret){
-			// summary: callback function.  Checks if user input is valid
-			//		after the store checks to see if the user input exists
-			//		ret is just the result from a direct query (only a few items)
-
-			// find the user's input in the search results to see if it is valid
-			var isValidOption=false;
-			for(var i=0; i<ret.length; i++){
-				if(this._isInputEqualToResult(ret[i])){
-					isValidOption=true;
-					// set value by reverse lookup
-					this._setLabel(ret[i]);
-					this._setValue(this.store.getValue(ret[i], this.keyAttr));
-					break;
-				}
-			}
-			// enforce selection from option list
-			if(!isValidOption){
-				this.setValue("");
 			}
 		}
 	}

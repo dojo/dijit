@@ -12,9 +12,22 @@ dojo.declare(
 		
 		templatePath: dojo.moduleUrl("dijit.form", "templates/AutoCompleter.html"),
 		
-		// popupWidget: Widget
-		//	link to the popup widget
-		popupWidget:null,
+		// _popupWidget: Widget
+		//	link to the popup widget created by makePopop
+		_popupWidget:null,
+		
+		// _popupName: String
+		//	Name of master popup (dijit.form.AutoCompleter.MasterPopup)
+		// If left blank, then makePopup() creates one popup per widget instance
+		_popupName:"",
+		
+		// _popupClass: String
+		//	Class of master popup (dijit.form._AutoCompleterMenu)
+		_popupClass:"",
+		
+		// _popupArgs: Object
+		//	Object to pass to popup widget on initialization
+		_popupObject:{},
 		
 		// maxListLength: Integer
 		//		Limits list to X visible rows, scroll on rest
@@ -30,8 +43,34 @@ dojo.declare(
 			if(this.disabled){
 				return;
 			}
-			if(this.popupWidget.aroundwidget!=this){
-				dojo.removeClass(this.downArrowNode, "dijitArrowButtonActive");
+			dojo.removeClass(this.downArrowNode, "dojoArrowButtonPushed");
+		},
+		
+		makePopup: function(){
+			// summary:
+			//	create popup widget on demand
+			
+			// this code only runs if there is no popup reference
+			if(!this._popupWidget){
+				// does this widget have one "master" popup?
+				if(this._popupName){
+					// does the master popup not exist yet?
+					if(!eval(this._popupName)){
+						// create the master popup for the first time
+						var node=document.createElement("div");
+						document.body.appendChild(node);		
+						var popupProto=dojo.getObject(this._popupClass, false);
+						eval(this._popupName+"=new popupProto(this._popupArgs, node);");
+					}
+					// assign master popup to local link
+					this._popupWidget=eval(this._popupName);
+				}else{
+					// if master popup is not being used, create one popup per widget instance
+					var node=document.createElement("div");
+					document.body.appendChild(node);		
+					var popupProto=dojo.getObject(this._popupClass, false);
+					this._popupWidget=new popupProto(this._popupArgs, node);
+				}
 			}
 		},
 		
@@ -41,8 +80,8 @@ dojo.declare(
 				return;
 			}
 			this.focus();
-			
-			if(this.popupWidget.isShowingNow){
+			this.makePopup();
+			if(this._popupWidget.isShowingNow()){
 				this._hideResultList();
 			}else{
 				// forces full population of results, if they click
@@ -53,8 +92,8 @@ dojo.declare(
 		},
 		
 		_hideResultList: function(){
-			if(this.popupWidget){
-				this.popupWidget.close(true);
+			if(this._popupWidget&&(!this._popupWidget.isShowingNow||this._popupWidget.isShowingNow())){
+				dijit.util.PopupManager.close(true);
 				this._arrowIdle();
 			}
 		},
@@ -70,7 +109,7 @@ dojo.declare(
 			this._arrowIdle();
 			// removeClass dijitInputFieldFocused
 			dojo.removeClass(this.nodeWithBorder, "dijitInputFieldFocused");
-			if(!this.popupWidget.isShowingNow){
+			if(!this._popupWidget||!this._popupWidget.isShowingNow()){
 				this.setValue(this.getValue());
 			}
 			// sometimes the tooltip gets stuck; confused by dropdown
@@ -93,12 +132,15 @@ dojo.declare(
 		
 		_showResultList: function(){
 			// Our dear friend IE doesnt take max-height so we need to calculate that on our own every time
-			var childs = this.popupWidget.getListLength ? this.popupWidget.getItems() : [this.popupWidget.domNode];
-			this.popupWidget.open(this);
+			var childs = this._popupWidget.getListLength ? this._popupWidget.getItems() : [this._popupWidget.domNode];
+			
 			if(childs.length){
 				var visibleCount = Math.min(childs.length,this.maxListLength);
-				with(this.popupWidget.domNode.style){
+				with(this._popupWidget.domNode.style){
+					// trick to get the dimensions of the popup
+					visibility="hidden";
 					display="";
+					
 					if(visibleCount == childs.length){
 						//no scrollbar is required, so unset height to let browser calcuate it,
 						//as in css, overflow is already set to auto
@@ -107,14 +149,16 @@ dojo.declare(
 						var calcheight = visibleCount * (childs[0]).offsetHeight;
 						var windowheight=dijit.util.getViewport().h;
 						if(calcheight>windowheight){
-							var coords=dojo.coords(this.popupWidget.domNode);
+							var coords=dojo.coords(this._popupWidget.domNode);
 							calcheight=windowheight-coords.y;
 						}
 						height=calcheight+"px";
 					}
 					width="";
+					visibility="visible";
 				}
 				this._arrowPressed();
+				this._popupWidget.open(this);
 			}else{
 				this._hideResultList();
 			}
@@ -153,10 +197,6 @@ dojo.declare(
 		// summary:
 		//	Mixin that provides basic open/close behavior for popup widgets
 		
-		// isShowingNow: Boolean
-		//	Read-only value that indicates whether the popup is visible
-		isShowingNow:false,
-		
 		// parentWidget: Widget
 		//	Reference to parent widget
 		parentWidget:null,
@@ -173,25 +213,24 @@ dojo.declare(
 			//	opens the menu
 			
 			this.parentWidget=widget;
-			this.isShowingNow=true;
-			document.body.appendChild(this.domNode);
 			setTimeout(dojo.hitch(this, function(){dijit.util.PopupManager.openAround(widget.textbox, this,{'BL':'TL', 'TL':'BL'}, [0,0]);}), 1);
 		},
 		
+		isShowingNow:function(){
+			return this.domNode.style.display!="none";
+		},
+
 		close: function(/*Boolean*/ force){
 			// summary:
 			//	closes the menu
 			
-			if(!this.isShowingNow){
+			if(!this.isShowingNow()){
 				return;
 			}
-			this.isShowingNow=false;
 			this.onValueChanged=function(){
 				return;
 			};
-			dijit.util.PopupManager.close(force);
 			this.parentWidget=null;
-			document.body.removeChild(this.domNode);
 		}
 	}
 );

@@ -20,6 +20,7 @@ dojo.declare(
 		format: dojo.date.locale.format,
 		parse: dojo.date.locale.parse,
 		value: new Date(),
+		_popupClass:"dijit._CalendarPopup",
 
 		postMixInProperties: function(){
 			this.constraints.selector = 'date';
@@ -38,18 +39,17 @@ dojo.declare(
 			// summary:
 			//	Sets the date on this textbox
 
-			if(this.popupWidget.parentWidget!=this){
+			if(!this._popupWidget||this._popupWidget.parentWidget!=this){
 				dijit.form.DateTextbox.superclass.setValue.apply(this, arguments);
 			}else{
-				this.popupWidget.setValue(value);
+				this._popupWidget.setValue(date);
 			}
 		},
 
 		postCreate:function(){
 			dijit.form.DateTextbox.superclass.postCreate.apply(this, arguments);
-			var node=document.createElement('div');
-			this.popupWidget=dijit.form.DateTextbox.MasterPopup;
-
+			// #3000: set popupArgs here so Calendar gets the widget's lang, not the user's lang
+			this._popupArgs={lang:this.lang};
 			// convert the arrow image from using style.background-image to the .src property (a11y)
 			dijit.util.wai.imageBgToSrc(this.arrowImage);
 
@@ -104,11 +104,3 @@ dojo.declare(
 		}
 	}
 );
-
-// dojo.addOnLoad() throws things on the end of the onload stack. We want to be on the front.
-dojo._loaders.unshift(function(){
-	if(!dijit.form.DateTextbox.MasterPopup){
-		// append some popup code to Calendar
-		dijit.form.DateTextbox.MasterPopup = new dijit._CalendarPopup({lang:this.lang},document.createElement('div'));
-	}
-});
