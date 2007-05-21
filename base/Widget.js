@@ -70,9 +70,7 @@ function(params, srcNodeRef){
 	lang: "",
 
 	// dir: String
-	//  Bi-directional support, as defined by the HTML DIR attribute. Either left-to-right "ltr" or right-to-left "rtl",
-	//	as defined by this instance.  Otherwise, the computed style will be used - inherited from the parent DOM node,
-	//	where applicable, or picked up from dojo.body().
+	//  Bi-directional support, as defined by the HTML DIR attribute. Either left-to-right "ltr" or right-to-left "rtl".
 	dir: "",
 
 	// srcNodeRef: DomNode
@@ -94,8 +92,7 @@ function(params, srcNodeRef){
 		//	but before the widget template is instantiated.
 		//	Especially useful to set properties that are referenced in the widget template.
 
-		this.lang = this.lang || null;
-		this.dir = this.dir || dojo.getComputedStyle(this.srcNodeRef || dojo.body()).direction;
+//		this.lang = this.lang || null;
 	},
 
 	buildRendering: function(){
@@ -225,6 +222,17 @@ function(params, srcNodeRef){
 		//		and registers for disconnect() on widget destroy.
 		//		Similar to dojo.connect() but takes three arguments rather than four.
 		this._connects.push(dojo.connect(obj, event, this, method));
+	},
+
+	isLeftToRight: function(){
+		// summary:
+		//		Checks the DOM to for the text direction for bi-directional support
+		//		See HTML spec, DIR attribute for more information.
+
+		if(typeof this._ltr == "undefined"){
+			this._ltr = (this.dir || dojo.getComputedStyle(this.domNode).direction) != "rtl";
+		}
+		return this._ltr; //Boolean
 	}
 });
 

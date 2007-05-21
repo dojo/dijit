@@ -50,7 +50,7 @@ dojo.declare(
 			dojo.forEach(this.targetNodeIds, this.bindDomNode, this);
 		}
 
-		if(this.dir == "rtl"){
+		if(!this.isLeftToRight()){
 			this.containerNode.className += " dojoRTL";
 		}
 	},
@@ -288,11 +288,9 @@ dojo.declare(
 
 	_openSubmenu: function(submenu, from_item){
 		// summary: open the submenu to the side of the current menu item
-		var orient = (this.dir == "ltr") ? {'TR': 'TL', 'TL': 'TR'} : {'TL': 'TR', 'TR': 'TL'};
-		
 		if(submenu.isShowingNow){ return; }
 		submenu.parentMenu = this;
-		dijit.util.PopupManager.openAround(from_item.arrowCell, submenu, orient);
+		dijit.util.PopupManager.openAround(from_item.arrowCell, submenu, {'TR': 'TL', 'TL': 'TR'});
 
 		this.currentSubmenu = submenu;
 		this.currentSubmenuTrigger = from_item;
