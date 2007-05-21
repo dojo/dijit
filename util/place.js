@@ -43,46 +43,46 @@ dijit.util.getScroll = function(){
 };
 
 dijit.util.placeOnScreen = function(
-	/* HTMLElement */node,
-	/* integer */desiredX,
-	/* integer */desiredY,
-	/* integer */padding,
-	/* boolean? */hasScroll,
-	/* string? */corners,
-	/* boolean? */tryOnly){
-	//	summary
-	//	Keeps 'node' in the visible area of the screen while trying to
-	//	place closest to desiredX, desiredY. The input coordinates are
-	//	expected to be the desired screen position, not accounting for
-	//	scrolling. If you already accounted for scrolling, set 'hasScroll'
-	//	to true. Set padding to either a number or array for [paddingX, paddingY]
-	//	to put some buffer around the element you want to position.
-	//	Set which corner(s) you want to bind to, such as
-	//
-	//	placeOnScreen(node, desiredX, desiredY, padding, hasScroll, "TR")
-	//	placeOnScreen(node, [desiredX, desiredY], padding, hasScroll, ["TR", "BL"])
-	//
-	//	The desiredX/desiredY will be treated as the topleft(TL)/topright(TR) or
-	//	BottomLeft(BL)/BottomRight(BR) corner of the node. Each corner is tested
-	//	and if a perfect match is found, it will be used. Otherwise, it goes through
-	//	all of the specified corners, and choose the most appropriate one.
-	//	By default, corner = ['TL'].
-	//	If tryOnly is set to true, the node will not be moved to the place.
-	//
-	//	NOTE: node is assumed to be absolutely or relatively positioned.
-	//
+	/* HTMLElement */	node,
+	/* integer */		desiredX,
+	/* integer */		desiredY,
+	/* integer */		padding,
+	/* boolean? */		hasScroll,
+	/* string? */		corners,
+	/* boolean? */		tryOnly){
+	//	summary:
+	//		Keeps 'node' in the visible area of the screen while trying to
+	//		place closest to desiredX, desiredY. The input coordinates are
+	//		expected to be the desired screen position, not accounting for
+	//		scrolling. If you already accounted for scrolling, set 'hasScroll'
+	//		to true. Set padding to either a number or array for [paddingX, paddingY]
+	//		to put some buffer around the element you want to position.
+	//		Set which corner(s) you want to bind to, such as
+	//		
+	//			placeOnScreen(node, desiredX, desiredY, padding, hasScroll, "TR")
+	//			placeOnScreen(node, [desiredX, desiredY], padding, hasScroll, ["TR", "BL"])
+	//		
+	//		The desiredX/desiredY will be treated as the topleft(TL)/topright(TR) or
+	//		BottomLeft(BL)/BottomRight(BR) corner of the node. Each corner is tested
+	//		and if a perfect match is found, it will be used. Otherwise, it goes through
+	//		all of the specified corners, and choose the most appropriate one.
+	//		By default, corner = ['TL'].
+	//		If tryOnly is set to true, the node will not be moved to the place.
+	//		
+	//		NOTE: node is assumed to be absolutely or relatively positioned.
+	//		
 	//	Alternate call sig:
-	//	 placeOnScreen(node, [x, y], padding, hasScroll)
-	//
+	//		 placeOnScreen(node, [x, y], padding, hasScroll)
+	//		
 	//	Examples:
-	//	 placeOnScreen(node, 100, 200)
-	//	 placeOnScreen("myId", [800, 623], 5)
-	//	 placeOnScreen(node, 234, 3284, [2, 5], true)
+	//		 placeOnScreen(node, 100, 200)
+	//		 placeOnScreen("myId", [800, 623], 5)
+	//		 placeOnScreen(node, 234, 3284, [2, 5], true)
 
 	// TODO: make this function have variable call sigs
 	//	kes(node, ptArray, cornerArray, padding, hasScroll)
 	//	kes(node, ptX, ptY, cornerA, cornerB, cornerC, paddingArray, hasScroll)
-	if(desiredX instanceof Array || typeof desiredX == "array") {
+	if(dojo.isArray(desiredX)){
 		tryOnly = corners;
 		corners = hasScroll;
 		hasScroll = padding;
@@ -91,13 +91,13 @@ dijit.util.placeOnScreen = function(
 		desiredX = desiredX[0];
 	}
 
-	if(corners instanceof String || typeof corners == "string"){
+	if(dojo.isString(corners)){
 		corners = corners.split(",");
 	}
 
 	if(!isNaN(padding)){
 		padding = [Number(padding), Number(padding)];
-	}else if(!(padding instanceof Array || typeof padding == "array")) {
+	}else if(!dojo.isArray(padding)){
 		padding = [0, 0];
 	}
 
@@ -106,14 +106,17 @@ dijit.util.placeOnScreen = function(
 
 	node = dojo.byId(node);
 	var oldDisplay = node.style.display;
-	node.style.display="";
+	var oldVis = node.style.visibility;
+	node.style.visibility = "hidden";
+	node.style.display = "";
 //	var bb = dojo.html.getBorderBox(node);
 	var bb = dojo.marginBox(node); //PORT okay?
 	var w = bb.w;
 	var h = bb.h;
-	node.style.display=oldDisplay;
+	node.style.display = oldDisplay;
+	node.style.visibility = oldVis;
 
-	if(!(corners instanceof Array || typeof corners == "array")){
+	if(!dojo.isArray(corners)){
 		corners = ['TL'];
 	}
 
