@@ -641,7 +641,7 @@
 
 .tundra .calendarMonthContainer th {
 	/* month header cell */
-	background:white; url("images/dijitCalendarMonthLabel.png") repeat-x top;
+	background:white url("images/dijitCalendarMonthLabel.png") repeat-x top;
 	padding-top:.2em;
 }
 
@@ -858,4 +858,5 @@
 	/* container for bottom spinner button */
 	margin:-1px -1px -1px 0px;
 }
+
 
