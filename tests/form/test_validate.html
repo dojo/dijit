@@ -3,9 +3,9 @@
 <html>
 	<head>
 		<title>Test Textbox Validation Widgets</title>
-		
+
 		<script type="text/javascript" src="../testBidi.js"></script>
-		
+
 		<script type="text/javascript" src="../../../dojo/dojo.js"
 			djConfig="isDebug: true, extraLocale: ['de-de', 'en-us']"></script>
 		<script type="text/javascript">
@@ -16,6 +16,7 @@
 			dojo.require("dijit.form.DateTextbox");
 //			dojo.require("dojo.validate.common");
 //			dojo.require("dojo.validate.us");
+			dojo.require("dojo.currency");
 			dojo.require("dojo.date.locale");
 			dojo.require("dijit.util.parser");	// scan page for widgets and instantiate them
 		</script>
@@ -204,16 +205,27 @@
 					dojoType="dijit.form.CurrencyTextbox"
 					required="true" 
 					currency="USD"
-					invalidMessage="Invalid amount.  Include dollar sign, commas, and cents. Example: $12,000.00" />USD
+					invalidMessage="Invalid amount.  Include dollar sign, commas, and cents." />USD
 			</div>
 
 			<div class="testExample">
-				<input id="q08eur" type="text" name="income2" class="medium" value="54775.53"
-					dojoType="dijit.form.CurrencyTextbox"
-					required="true" 
-					currency="EUR"
-					invalidMessage="Invalid amount.  Include euro sign, commas, and cents. Example: &#x20ac;12,000.00" />EUR
+				euro currency (locale en-us) programmatically created: <input id="q08eur" class="medium"/>EUR
 			</div>
+<script>
+	// See if we can make a widget in script and attach it to the DOM ourselves.
+	var example = dojo.currency.format(54775.53, {locale: 'en-us', currency: "EUR"});
+	dojo.addOnLoad(function(){
+		var props = {
+			name: "income2",
+			value: 54775.53,
+			constraints: {locale: 'en-us'},
+			required: "true",
+			currency: "EUR",
+			invalidMessage: "Invalid amount.  Example: " + example
+		};
+		var w = new dijit.form.CurrencyTextbox(props, "q08eur");
+	});
+</script>
 <!-- 
 			<div class="dojoTitlePaneLabel">
 				<label for="q08a">Annual Income:  </label>
