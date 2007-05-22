@@ -13,6 +13,7 @@
 	margin:0px;
 	border:0px;
 	padding:0px;
+	line-height:auto;
 }
 
 
@@ -487,7 +488,7 @@ body .dijitAlignClient { position: absolute; }
 }
 
 
-/* Dojo Button */
+/* Button widget */
 .dijitButton {
 	line-height:0px; /* needed by webkit */
 }
@@ -495,10 +496,6 @@ body .dijitAlignClient { position: absolute; }
 .dijitButton .dijitButtonNode {
 	border:0px;
 	margin:0px;
-	font-family: Myriad, Arial, Helvetica;
-	font-size:13px;
-	font-weight:normal;
-	padding:2px 4px;
 	overflow:visible;
 	line-height:normal;
 }
@@ -645,26 +642,26 @@ table.dijitButton .dijitButtonNode {
 /* Tab */
 
 
-.tundra .dijitTabContainer .dijitAlignTop {
+.dijitTabContainer .dijitAlignTop {
 /* position the tab labels row down by 1 px, and on top of the dijitTabPaneWrapper
 	so the buttons can overlay the tab pane properly		*/
 	top:1px !important;
 	z-index:10;	
 }
 
-.tundra .dijitTabContainer .dijitAlignBottom {
+.dijitTabContainer .dijitAlignBottom {
 /* position the tab labels row up by 1 px so they overlap	*/
 	margin-top:-1px !important;
 	z-index:10;	
 }
 
-.tundra .dijitTabContainer .dijitAlignLeft {
+.dijitTabContainer .dijitAlignLeft {
 /* position the tab labels left by 1 px so they overlap		*/
 	margin-right:-1px !important;
 	z-index:10;	
 }
 
-.tundra .dijitTabContainer .dijitAlignRight {
+.dijitTabContainer .dijitAlignRight {
 /* position the tab labels row up by 1 px, and on top of the dijitTabPaneWrapper
 	so the buttons can overlay the tab pane properly		*/
 	margin-left:-1px !important;
@@ -692,15 +689,8 @@ table.dijitButton .dijitButtonNode {
 	float:none;
 }
 
-.dijitTab {
-	position:relative;
-	float:left;
-}
-
 .dijitTabInnerDiv {
 	position:relative;
-	top:0px;
-	bottom:1px;
 }
 
 .dijitTab .close {

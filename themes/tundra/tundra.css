@@ -74,6 +74,10 @@
 	border:1px solid;
 }
 
+.dijitButton .dijitButtonNode {
+	padding:2px 4px;
+}
+
 .tundra .dijitButtonEnabled {
 	background-color:#fff;
 	border-color:#a0a0a0 #9b9b9b #9b9b9b #a0a0a0;
@@ -98,6 +102,7 @@
 }
 
 .tundra .dijitButtonEnabled:hover {
+	color: #243C5F;
 	border-color:#7788a0;
 }
 
@@ -377,8 +382,8 @@
 
 .tundra .dijitTab {
 	margin-right:5px;		/* space between one tab and the next in top/bottom mode */
+	padding:0px;
 	border:1px solid #afafaf;
-	height:26px;
 	background:#e2e2e2 url("images/dijitTab-enabled.png") repeat-x;
 }
 
@@ -390,9 +395,10 @@
 
 
 .tundra .dijitTabInnerDiv {
-	padding:6px 10px 0px 10px;
+/*	min-height:16px;	*/
+	padding:6px 10px 4px 10px;
 	border-left:1px solid #fff;
-	border-right:1px solid #fff;
+	border-bottom:1px solid #fff;
 }
 
 .tundra .dijitTabActive {
@@ -404,11 +410,12 @@
 /* make the active tab white on the side next to the content pane */
 .tundra .dijitAlignTop .dijitTabActive {
 	border-bottom-color:white;
+	vertical-align:bottom;
 }
 
 .tundra .dijitAlignBottom .dijitTabActive {
 	border-top-color:white;
-	-moz-border-radius:2px 2px 0px 0px;
+	-moz-border-radius:2px 2px 0px 0px;	/* eliminate some border detritrus on moz */
 }
 
 .tundra .dijitAlignLeft .dijitTabActive {
@@ -421,6 +428,7 @@
 
 
 .tundra .dijitTabHover {
+	color: #243C5F;
 	border-top-color:#92a0b3;
 	border-left-color:#92a0b3;
 	border-right-color:#92a0b3;
