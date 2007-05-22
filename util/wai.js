@@ -88,12 +88,12 @@ dijit.util.wai = {
 		if (!dojo.isArrayLike(images)) { images = [images]; }
 		dojo.forEach(images, 
 			function(image) {
-				var url = dojo.getComputedStyle(image).backgroundImage;
-				var href = url.match(/url\(['"]?(.*?)['"]?\)/);
-				if (href) {
-					image.src = href[1];
-					image.style.backgroundImage = "none";
-				}
+				var style = dojo.getComputedStyle(image);
+				if (!style) return;
+				var href = style.backgroundImage.match(/url\(['"]?(.*?)['"]?\)/);
+				if (!href) return;
+				image.src = href[1];
+				image.style.backgroundImage = "none";
 			}
 		);
 	}
