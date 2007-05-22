@@ -3,7 +3,7 @@
 		dojoAttachEvent="onkeypress:_onKeyPress;onclick:_onClick;onmouseout:_onMouseOut;onmouseover:_onMouseOver;onfocus:_onMouseOver;onblur:_onMouseOut;"></span>
 	<fieldset style="display:none;" dojoAttachPoint="editNode" class="dijitInlineEditor">
 		<div dojoAttachPoint="containerNode" dojoAttachEvent="onkeyup:checkForValueChange;"></div>
-		<input class='saveButton' dojoAttachPoint="saveButton">
-		<input class='cancelButton' dojoAttachPoint="cancelButton">
+		<button class='saveButton' dojoAttachPoint="saveButton" dojoType="dijit.form.Button" dojoAttachEvent="onClick:save">${buttonSave}</button>
+		<button class='cancelButton' dojoAttachPoint="cancelButton" dojoType="dijit.form.Button" dojoAttachEvent="onClick:cancel">${buttonCancel}</button>
 	</fieldset>
 </span>

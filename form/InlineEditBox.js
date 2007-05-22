@@ -41,9 +41,9 @@ dojo.declare(
 	//              Cancel button label
 	buttonCancel: "",
 
+	widgetsInTemplate: true,
+
 	postCreate: function(){
-		this.saveWidget = new dijit.form.Button({ caption: this.buttonSave, onClick: dojo.hitch(this, this.save) }, this.saveButton);
-		this.cancelWidget = new dijit.form.Button({ caption: this.buttonCancel, onClick: dojo.hitch(this, this.cancel) }, this.cancelButton);
 		var _this = this;
 		dojo.addOnLoad(function(){
 			// look for the input widget as a child of the containerNode
@@ -118,7 +118,7 @@ dojo.declare(
 		this._visualize();
 
 		this._setEditFocus();
-		this.saveWidget.disable();
+		this.saveButton.disable();
 		// moved to postCreate to always listen
 		//this.editWidget.onValueChanged = dojo.hitch(this,"checkForValueChange");
 		this.onClick();
@@ -164,7 +164,7 @@ dojo.declare(
 		//		Callback when user changes input value.
 		//		Enable save button if the text value is different than the original value.
 		if(this.editing){
-			(this._getEditValue() == this._initialText) ? this.saveWidget.disable() : this.saveWidget.enable();
+			(this._getEditValue() == this._initialText) ? this.saveButton.disable() : this.saveButton.enable();
 		}else{
 			this._showText();
 		}
@@ -172,8 +172,8 @@ dojo.declare(
 	},
 	
 	disable: function(){
-		this.saveWidget.disable();
-		this.cancelWidget.disable();
+		this.saveButton.disable();
+		this.cancelButton.disable();
 		this.editable.disabled = true;
 		this.editWidget.disable();
 		dijit.form.InlineEditBox.superclass.disable.apply(this, arguments);
@@ -181,7 +181,7 @@ dojo.declare(
 	
 	enable: function(){
 		this.checkForValueChange();
-		this.cancelWidget.enable();
+		this.cancelButton.enable();
 		this.editable.disabled = false;
 		this.editWidget.enable();
 		dijit.form.InlineEditBox.superclass.enable.apply(this, arguments);
