@@ -25,13 +25,6 @@ dojo.declare(
 		baseClass: "dijitButton",
 		templatePath: dojo.moduleUrl("dijit.form", "templates/Button.html"),
 		
-		postCreate: function(){
-			dijit.form.Button.superclass.postCreate.apply(this, arguments);
-			if(this.caption){
-				this.setCaption(this.caption);
-			}
-		},
-	
 		buttonClick: function(/*Event*/ e){
 			// summary: internal function for handling button clicks via mouse or keybd
 			dojo.stopEvent(e);
