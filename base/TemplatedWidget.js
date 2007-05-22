@@ -208,6 +208,8 @@ dijit.base.getCachedTemplate = function(templatePath, templateString){
 		templateString = dijit.base._sanitizeTemplateString(dojo._getText(templatePath));
 	}
 
+	templateString = templateString.replace(/^\s+|\s+$/g, "");
+
 	if(templateString.match(/\$\{([^\}]+)\}/g)){
 		// there are variables in the template so all we can do is cache the string
 		return (tmplts[key] = templateString); //String
@@ -247,49 +249,60 @@ if(dojo.isIE){
 	});
 }
 
-dijit.base._createNodesFromText = function(/*String*/text){
-	//	summary
-	//	Attempts to create a set of nodes based on the structure of the passed text.
-
-	text = text.replace(/^\s+|\s+$/g, "");
-
-	var tn = dojo.doc.createElement("div");
-	tn.style.visibility="hidden";
-	dojo.body().appendChild(tn);
-	var tableType = "none";
+(function(){
 	var tagMap = {
 		cell: {re: /^<t[dh][\s\r\n>]/i, pre: "<table><tbody><tr>", post: "</tr></tbody></table>"},
 		row: {re: /^<tr[\s\r\n>]/i, pre: "<table><tbody>", post: "</tbody></table>"},
 		section: {re: /^<(thead|tbody|tfoot)[\s\r\n>]/i, pre: "<table>", post: "</table>"}
 	};
-	for(var type in tagMap){
-		var map = tagMap[type];
-		if(map.re.test(text.replace(/^\s+/))){ //FIXME: replace with one arg?  is this a no-op?
-			tableType = type;
-			text = map.pre + text + map.post;
-			break;
+
+	var tn;
+	var _parent;
+
+	dijit.base._createNodesFromText = function(/*String*/text){
+		//	summary
+		//	Attempts to create a set of nodes based on the structure of the passed text.
+
+		if(!tn){
+			_parent = tn = dojo.doc.createElement("div");
+			tn.style.visibility="hidden";
 		}
-	}
+		var tableType = "none";
+		var rtext = text.replace(/^\s+/);
+		for(var type in tagMap){
+			var map = tagMap[type];
+			if(map.re.test(rtext)){ //FIXME: replace with one arg?  is this a no-op?
+				tableType = type;
+				text = map.pre + text + map.post;
+				break;
+			}
+		}
 
-	tn.innerHTML = text;
-	if(tn.normalize){
-		tn.normalize();
-	}
+		tn.innerHTML = text;
+		dojo.body().appendChild(tn);
+		if(tn.normalize){
+			tn.normalize();
+		}
 
-	var tag = {cell: "tr", row: "tbody", section: "table"}[tableType];
-	var parent = tn;
-	if(typeof tag != "undefined"){
-		parent = tn.getElementsByTagName(tag)[0];
-	}
+		var tag = { cell: "tr", row: "tbody", section: "table" }[tableType];
+		if(typeof tag != "undefined"){
+			_parent = tn.getElementsByTagName(tag)[0];
+		}
 
-	var nodes = [];
-	for(var x=0; x<parent.childNodes.length; x++){
-		nodes.push(parent.childNodes[x].cloneNode(true));
+		var nodes = [];
+		/*
+		for(var x=0; x<_parent.childNodes.length; x++){
+			nodes.push(_parent.childNodes[x].cloneNode(true));
+		}
+		*/
+		while(_parent.firstChild){
+			nodes.push(_parent.removeChild(_parent.firstChild));
+		}
+		//PORT	dojo.html.destroyNode(tn); FIXME: need code to prevent leaks and such
+		_parent = dojo.body().removeChild(tn);
+		return nodes;	//	Array
 	}
-//PORT	dojo.html.destroyNode(tn); FIXME: need code to prevent leaks and such
-	dojo.body().removeChild(tn);
-	return nodes;	//	Array
-}
+})();
 
 // These arguments can be specified for widgets which are used in templates.
 // Since any widget can be specified as sub widgets in template, mix it
