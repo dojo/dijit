@@ -179,6 +179,9 @@
 
 .tundra .dijitArrowButtonContainer {
 	/* outer container (fieldset) for the arrow button in a select, etc */
+	width:1.6em;
+	height:1.6em;
+	line-height:100%;
 }
 
 .tundra .dijitArrowButton {
@@ -198,9 +201,9 @@
 		BUG: There seems to be a minimum size of this on Mac.  :-(
 	*/
 	font-family:Arial;
-	font-size:.7em;
+	font-size:.5em;
 	margin:0em .5em;
-	line-height:1em;
+	line-height:0em;
 }
 
 .tundra  .dijitAutoCompleterDisabled .dijitArrowButton {

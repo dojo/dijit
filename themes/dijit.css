@@ -801,6 +801,11 @@ table.dijitButton .dijitButtonNode {
 	border:0px;
 	margin:0px;
 	vertical-align:top;
+	/* NOTE: width and height are necessary for IE!
+		Override in your theme to make same as your input height.
+	*/
+	width:1em;		
+	height:1em;
 }
 
 .dijitArrowButton {
