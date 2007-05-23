@@ -522,14 +522,15 @@
 
 .tundra .dijitAccordionPane .label {
 	background:#fafafa url("images/dijitTitleBar.png") repeat-x bottom left;
-	border:1px solid #bfbfbf;
+	border: 1px solid #bfbfbf;
 	padding:4px 4px 2px 4px;
 }
 
 .tundra .dijitAccordionPane-selected .label {
 	background: #ededed url("images/dijitButton-active.png") bottom repeat-x;
 	font-weight: bold;
-	border:1px solid #84a3d1;
+	/* border:1px solid #84a3d1; */
+	border: 1px solid #aaaaaa;
 	padding:4px 4px 2px 4px;
 }
 
@@ -547,7 +548,11 @@
 
 .tundra .dijitAccordionPane .accBody {
 	background: #fff;
-	border:1px solid #84a3d1;
+	/* 
+	border:1px solid #84a3d1; 
+	border:1px solid #d5d5d5;
+	*/
+	border:1px solid #bfbfbf;
 }
 
 
