@@ -493,7 +493,7 @@ dojo.declare(
 			}
 			this._setTextFieldValue(this.value);
 			// convert the arrow image from using style.background-image to the .src property (a11y)
-			dijit.util.wai.imageBgToSrc(this.arrowImage);
+//			dijit.util.wai.imageBgToSrc(this.arrowImage);
 		}
 	}
 );

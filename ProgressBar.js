@@ -19,13 +19,13 @@ dojo.declare(
 		// (implementation) four overlapped divs:
 		// (1) lower z-index
 		// (4) higher z-index
-		// back and front percent label have the same content: when the vertical line (*)
-		// partially hides the backLabel, the frontLabel becomes visible
+		// empty and full percent label have the same content: when the vertical line (*)
+		// partially hides the emptyLabel, the fullLabel becomes visible
 		// 
 		//  ___________________________(1)_domNode____________________________________
 		// |__(3)_internalProgress____________                                        |
 		// |                                  | <--- (*)                              |
-		// |     (4) frontLabel        | (2) backLabel                  |
+		// |            (4) fullLabel        | (2) emptyLabel                         |
 		// |__________________________________|                                       |
 		// |__________________________________________________________________________| 
 		//
@@ -75,7 +75,9 @@ dojo.declare(
 				this._dimension = "width";
 			}
 			//TODO: can this be accomplished in the template layout?
-			this.frontLabel.style.width = dojo.getComputedStyle(this.domNode).width; 
+			// MOW: don't think so because it needs to be set to the absolute size
+			//		of the dom node, not the size of the containing element (the full part)
+			this.fullLabel.style.width = dojo.getComputedStyle(this.domNode).width; 
 			this.update();
 		},
 
@@ -102,7 +104,7 @@ dojo.declare(
 			this.internalProgress.style[this._dimension] = pixels + 'px';
 
 			var display = this.annotate ? "block" : "none";
-			dojo.forEach(["front", "back"], function(name){
+			dojo.forEach(["full", "empty"], function(name){
 				var labelNode = this[name+"Label"];
 				var text = this.report(percent);
 				if(labelNode.firstChild){

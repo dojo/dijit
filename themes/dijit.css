@@ -4,12 +4,17 @@
 */
 
 
-/* Use this style to null out padding, margin, border in your template elements
-	so that page specific styles don't break them.
-	
-	Place it as the first class name so that 
-*/
+
+/**** 
+		GENERIC PIECES 
+ ****/
+
 .dijitReset {
+	/* Use this style to null out padding, margin, border in your template elements
+		so that page specific styles don't break them.
+		- Use in all TABLE, TR and TD tags.	
+		- If there is more than one class on the tag, place this first so other classes override.
+	*/
 	margin:0px;
 	border:0px;
 	padding:0px;
@@ -17,16 +22,11 @@
 }
 
 
-
-
-/* inline text box and children */
-
-
-/* To inline block elements, surround them with <fieldset class="dijitInlineBox"> */
 .dijitInlineBox {
+	/* To inline block elements, surround them with <fieldset class="dijitInlineBox"> */
 	display:inline-block;
 	display: -moz-inline-stack;
-	#display:inline;
+	#display:inline;		/* MOW: if this is IE-specific, move it to another declaration */
 	border:0px;
 	padding:0px;
 	vertical-align:middle;
@@ -35,10 +35,12 @@
 
 
 .dijitPopup {
+	/* For popup items, such as menu */
 	position: absolute;
 }
 
 .dijitPositionOnly {
+	/* Null out all position-related properties */
 	padding: 0px !important;
 	border: 0px !important;
 	background-color: transparent !important;
@@ -48,62 +50,35 @@
 }
 
 .dijitNonPositionOnly {
+	/* Null position-related properties */
 	float: none !important;
 	position: static !important;
 	margin: 0px 0px 0px 0px !important;
 	vertical-align: middle !important;
 }
 
-.dijitCheckboxImageContainer,
-.dijitCheckboxInputInvisible {
-	border: 0;
-	margin: 0;
-	padding: 0;
+
+.dijitClickableRegion {
+	/* a region we expect the user to click on */
+	cursor : pointer;
 }
-
-.dijitCheckbox {
-	position: relative;
-}
-
-
-.dijitCheckboxImageContainer,
-.dijitCheckboxInputInvisible {
-	position: absolute;
-	left: 0;
-	top: 0;
-}
-
-
-.dijitCheckboxInputInvisible {
-	z-index: 100;
-	opacity: 0.01;
-	filter: alpha(opacity=0);
-}
-
-
-.dj_ie .dijitCheckboxImageContainer, 
-.dj_ie .dijitCheckboxInputInvisible {
-	top: 3px;
-}
-
 
 .dijitDisabledClickableRegion {
+	/* a region the user would be able to click on, but it's disabled */
 	cursor: default;        /* makes opera happy */
 	cursor: url("no.gif"), not-allowed, default;
 }
 
-.dijitClickableRegion {
-	cursor : pointer;
-}
-
 .dijitDisplayNone {
+	/* hide something.  Use this as a class rather than element.style so another class can override */
 	display:none !important;
 }
 
 
 /*** Full sized arrows (matching the size of a line of text) ***/
 
-/* Down arrow */
+/* MOW: potentially deprecating these
+/* Down arrow * /
 
 .dijitDownArrowOuter,
 .dijitOpen .dijitOpenCloseArrowOuter {
@@ -136,7 +111,7 @@
 }
 
 
-/* Right arrow */
+/* Right arrow * /
 
 .dijitRightArrowOuter,
 .dijitClosed .dijitOpenCloseArrowOuter {
@@ -166,7 +141,52 @@
 }
 
 
-/* Toaster defaults */
+
+
+/****
+		dijit.form.Checkbox
+ 	 & 
+  		dijit.form.RadioButton 
+ ****/
+
+.dijitCheckbox {
+	position: relative;
+}
+
+.dijitCheckboxImageContainer,
+.dijitCheckboxInputInvisible {
+	/* place the checkbox and the actual input on top of each other */
+	position: absolute;
+	left: 0;
+	top: 0;
+	border: 0;
+	margin: 0;
+	padding: 0;
+}
+
+
+.dj_ie .dijitCheckboxImageContainer, 
+.dj_ie .dijitCheckboxInputInvisible {
+	top: 3px;
+}
+
+.dijitCheckboxInputInvisible {
+	/* place the actual input on top, but all-but-invisible */
+	z-index: 100;
+	opacity: 0.01;
+}
+
+.dj_ie .dijitCheckboxInputInvisible {
+	filter: alpha(opacity=0);
+}
+
+
+
+
+/****
+		dijit.Toaster (?)
+ ****/
+ 
 .dijitToasterClip {
 	position: absolute;
 	overflow: hidden;
@@ -181,59 +201,117 @@
 	font:0.75em Tahoma, Helvetica, Verdana, Arial;
 }
 
-/*Progress Bar defaults */
+
+/****
+		dijit.ProgressBar
+ ****/
+ 
 .dijitProgressBarEmpty{
+	/* outer container and background of the bar that's not finished yet*/
 	position:relative;overflow:hidden;
-	width:300px;height:30px;
-	border:1px solid #84a3d1;
+	border:1px solid black; 	/* a11y: border necessary for high-contrast mode */
+	height:20px;
+}
+
+
+.dijitProgressBarFull {
+	/* outer container for background of bar that is finished */
+	position:absolute;
+	overflow:hidden;
+	width:100%;
+	height:100%;
 }
 
 .dijitProgressBarColorLayer{
-	background-color:#84a3d1;
-	border-color:#84a3d1;
-	/* the border provides visibility in high-contrast mode */
-	border-width:4px;border-style:solid;
-	width:auto;height:auto;
+	/* inner container for finished portion when in 'color' mode */
+	width:auto;
+	height:auto;
+
+	/* a11y:  The border provides visibility in high-contrast mode.
+		Set border color and background color in your theme to the same value  */
+	border:4px solid;
 }
 
 .dj_ie .dijitProgressBarColorLayer{
+	position:absolute;
+	overflow:hidden;
+	top:0px;
+	left:0px;
+	bottom:0px;
+	right:0px;
+	margin:0px;
 	width:100%;
 	height:100%;
 }
 
 .dijitProgressBarTileLayer{
-	background:url("bar.gif") repeat bottom left;
+	/* inner container for finished portion when in 'tile' (image) mode */
+	position:absolute;
+	overflow:hidden;
+	top:0px;
+	left:0px;
+	width:100%;
+	height:100%;
+	background-color:transparent;
 	background-attachment: fixed;
+}
+
+
+.dijitProgressBarColor dijitProgressBarTileLayer{
+	/* turn off the tile image when we want in 'color' mode */
+	background-image:none !important;
+}
+
+.dijitProgressBarIndeterminate dijitProgressBarTileLayer{
+	/* animated gif for 'indeterminate' mode */
+}
+
+
+
+.dijitProgressBarEmptyLabel{
+	/* label for portion of the bar that's not finished yet */
+	display:none;	/* turned on in code */
+	position:absolute;
+	top:0px;
+	left:0px;
+	width:100%;
+	height:100%;
+	text-align:center
+}
+.dijitProgressBarFullLabel{
+	/* label for portion of the bar that is finished */
+	display:none;	/* turned on in code */
+	position:absolute;
+	top:0px;
+	left:0px;
+	width:100%;
+	height:100%;
+	text-align:center;
+}
+
+/* progress bar in vertical mode */
+.dijitProgressBarVertical .dijitProgressBarFull{
+	bottom:0px;		/* start at the bottom */
 }
 
 .dijitProgressBarVertical .dijitProgressBarTileLayer{
 	background-image:url("h-bar.gif");
 }
 
-.dijitProgressBarVertical .dijitProgressBarFull{
-	bottom:0px
-}
-
-.dijitProgressBarColor div.dijitProgressBarTileLayer{
-	/* turn off the tile image when we want a colored bar */
-	background-image:none
-}
-
-.dijitProgressBarFrontLabel,.dijitProgressBarBackLabel{
-	font:bold 13px helvetica;
-}
-
-.dijitProgressBarBackLabel{
-	color:#293a4b;
-}
-.dijitProgressBarFrontLabel{
-	color:#fff;
-}
 
 
-/* Spinner defaults */
+
+
+/****
+		dijit.form.NumberSpinner  (template: form/templates/Spinner.html)
+		
+		Note: NumberSpinner works differently than other Textbox types.
+			In NS, the outer fieldset element is the one that shows the border, etc.
+			rather than the actual INPUT element. 
+ ****/
 
 .dijitSpinner {
+	/* outer element, which in the spinner case actually shows the border */
 	display:inline;
 	vertical-align:middle;
 	padding:0px !important;
@@ -242,7 +320,25 @@
 	height:auto !important;
 }
 
+.dijitSpinner input {
+	/* The .style assigned to the spinner dijit is actually copied 
+		on to the INPUT element as well as the outer element.
+		The below turns off things on the input that should apply to the outer element.
+	*/
+	display:inline;
+	position:static !important;
+	float:none !important;
+	vertical-align:middle !important;
+	padding:0px !important;
+	margin:auto !important;
+	border:0px !important;
+	visibility:visible !important;
+	font-size:100% !important;
+	background-color:transparent !important;
+}
+
 .dijitSpinnerArrowGroup {
+	/* fieldset that contains the up/down arrows */
 	display:inline;
 	padding:0px;
 	border:0px;
@@ -252,33 +348,19 @@
 }
 
 .dijitSpinnerButton {
+	/* one of the up/down arrows */
 	display:block;
 	vertical-align:top;
 	line-height:0px !important;
 	text-align:center;
 }
 
-.dijitSpinner input {
-	padding:0px !important;
-	vertical-align:middle !important;
-	margin:auto !important;
-	border:0px !important;
-	position:static !important;
-	display:inline;
-	float:none !important;
-	visibility:visible !important;
-	font-size:100% !important;
-	background-color:transparent !important;
-}
 
 
 
-.dijitSpinnerButtonPushed .dijitSpinnerArrow div {
-	border-color:white transparent;
-}
-
-
-/* Tooltip defaults */
+/****
+		dijit.Tooltip
+ ****/
 
 .dijitTooltip {
 	position: absolute;
@@ -304,9 +386,10 @@
 	position: absolute;
 }
 
-/* draw an arrow with CSS only */
+/* MOW: using actual images at this time
+/* draw an arrow with CSS only * /
 .dijitTooltipConnector {
-	/* the border on the triangle */
+	/* the border on the triangle * /
 	font-size: 0px; line-height: 0%; width: 0px;
 	border-top: none;
 	border-bottom: 14px solid black;
@@ -318,7 +401,7 @@
 }
 
 .dijitTooltipConnector div {
-	/* the background of the triangle */
+	/* the background of the triangle * /
 	font-size: 0px; line-height: 0%; width: 0px;
 	position: absolute;
 	border-bottom: 10px solid #b8b5b5;
@@ -329,29 +412,7 @@
 	z-index: 3;
 }
 
-.dijitArrowButtonContainer {
-	display:inline !important;
-	overflow:hidden;
-	line-height:0px !important;
-	padding:0px;
-	border:0px;
-	margin:0px;
-	vertical-align:top;
-}
-
-.dijitArrowButton {
-	display:block;
-	margin:0px;
-	line-height:0px !important;
-	-moz-box-sizing:border-box;
-	cursor:pointer;
-}
-
-
-.dijitAutoCompleterDisabled .dijitArrowButton {
-	cursor: default;        /* makes opera happy */
-	cursor: url("no.gif"), not-allowed, default;
-}
+*/
 
 
 
@@ -638,6 +699,22 @@ table.dijitButton .dijitButtonNode {
 	vertical-align: middle;
 }
 
+/* separator can be two pixels -- set border of either one to 0px to have only one */
+.tundra .dijitMenuSeparatorTop {
+	height: 50%;
+	margin: 0px;
+	margin-top:3px;
+	font-size: 1px;
+}
+
+.tundra .dijitMenuSeparatorBottom {
+	height: 50%;
+	margin: 0px;
+	margin-bottom:3px;
+	font-size: 1px;
+}
+
+
 
 /* Tab */
 
@@ -701,16 +778,47 @@ table.dijitButton .dijitButtonNode {
 
 
 
-/* AutoCompleter */
-/* Allow user to specify width without messing up defaults; other attributes are put on parent node */
+/****
+		dijit.form.AutoCompleter 
+ ****/
 .dijitAutoCompleter {
+	/* Allow user to specify width without messing up defaults; other attributes are put on parent node */
 	width:auto !important;
 }
 
 .dijitAutoCompleterInput {
+	/* input element in the Autocompleter */
 	display:inline !important;
 	float:none !important;	
 }
+
+.dijitArrowButtonContainer {
+	/* fieldset that contains the arrow button */
+	display:inline !important;
+	overflow:hidden;
+	line-height:auto;
+	padding:0px;
+	border:0px;
+	margin:0px;
+	vertical-align:top;
+}
+
+.dijitArrowButton {
+	/* actual arrow button */
+	-moz-box-sizing:border-box;
+	display:block;
+	margin:0px;
+	cursor:pointer;
+}
+
+
+.dijitAutoCompleterDisabled .dijitArrowButton {
+	cursor: default;        /* makes opera happy */
+	cursor: url("no.gif"), not-allowed, default;
+}
+
+
+
 
 
 .dijitInlineEditor {

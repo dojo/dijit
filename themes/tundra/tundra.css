@@ -4,12 +4,6 @@
 
 @import url("../dijit.css");
 
-/* hack to change focus outline */
-/*
-	*:focus {
-		outline:3px red solid;
-	}
-*/
 
 /* IE: HACK use filter property for all 24-bit PNG images in IE6 */
 .dj_ie6 .tundra .dijitInputField {
@@ -65,6 +59,11 @@
 	width:5px;
 	height:3px;	
 }
+
+.dijitRTL .tundra .dijitRightArrow {
+	background:url('images/dijitArrow-left.png') no-repeat;
+}
+
 
 
 /*Dojo Button Rules*/
@@ -126,15 +125,22 @@
 }
 */
 
-/* Input Fields */
-
-.tundra .dijitInput {
-	/* outer class for an input field */
-}
+/****
+		dijit.form.Textbox
+		dijit.form.ValidationTextbox
+		dijit.form.SerializableTextbox
+		dijit.form.RangeBoundTextbox
+		dijit.form.NumberTextbox
+		dijit.form.CurrencyTextbox
+		dijit.form.AutoCompleter
+		dijit.form.NumberSpinner
+ ****/
 
 .tundra .dijitInputField,
 .tundra .dijitAutoCompleterInput {
-	/* the actual input element */
+	/* 	For all except dijit.form.NumberSpinner:  the actual input element.
+		For dijit.form.NumberSpinner: the outer fieldset that contains the input.
+	*/
 	font-size:inherit;
 	background:#fff url("validationInputBg.png") repeat-x top left;
 	border:1px solid #9b9b9b;
@@ -145,16 +151,19 @@
 }
 
 .tundra .dijitAutoCompleterInput {
+	/* remove the right-margin so the drop down button fits snugly on the side */
 	margin-right:0em;
 }
 
 .tundra .dijitInputField:focus,
 .tundra .dijitInputFieldFocused {
+	/* input field when focused (eg: typing affects it) */
 	border:1px solid #7788a0;
 }
 
 .tundra .dijitInputField[disabled],
 .tundra .dijitInputFieldDisabled {
+	/* input field when disabled */
 	background-color:#dbdbdb;
 	color:#787878;
 	border-color:#e0e0e0;
@@ -162,6 +171,7 @@
 
 .tundra .dijitInputField[disabled]:active,
 .tundra .dijitInputFieldDisabled:active {
+	/* input field when focused (eg: typing affects it) */
 	background-color:#dbdbdb;
 	color:#787878;
 	border-color:#e0e0e0;
@@ -172,17 +182,29 @@
 }
 
 .tundra .dijitArrowButton {
-	/* inner container (fieldset) for the arrow button in a select */
-	/* set height to same as dijitInputField so they line up! */
-	height:1.6em;
-	padding:0em .3em;
+	/* inner container (fieldset) for the arrow button in a select 
+		Sets size and border.
+	*/
+	
+	height:1.6em;		/* set height to same as dijitInputField so they line up! */
+	line-height:1.6em;	/* line-height controls top of arrow */
 	border:1px solid #a0a0a0;
 	border-left-width:0px;
-
 	background:white url('images/dijitButton-enabled.png') repeat-x bottom;
 }
 
+.dijitArrow {
+	/* Actual arrow.  Currently implemented as a unicode black arrow char. 
+		BUG: There seems to be a minimum size of this on Mac.  :-(
+	*/
+	font-family:Arial;
+	font-size:.7em;
+	margin:0em .5em;
+	line-height:1em;
+}
+
 .tundra  .dijitAutoCompleterDisabled .dijitArrowButton {
+	color:#d5d5d5;
 	border-color:#d5d5d5;
 	background:#e4e4e4 url('images/dijitButton-disabled.png') top;	
 }
@@ -231,9 +253,7 @@
 	border: solid;
 	border-color: #7788a0 #344257 #344257 #7788a0;
 	border-width:1px 2px 2px 1px;
-	/* make BL and TR corners indent on Moz so it looks like we have a shadow */
-	-moz-border-radius:2px;
-	padding:1px;
+	-moz-border-radius:0px 2px 0px 2px;	/* make BL and TR corners indent on Moz so it looks like we have a shadow */
 	background:#fff url("images/dijitMenu.gif") repeat-x bottom;
 	margin: 0px;
 	padding: 0px;
@@ -286,19 +306,11 @@
 
 /* separator can be two pixels -- set border of either one to 0px to have only one */
 .tundra .dijitMenuSeparatorTop {
-	height: 50%;
 	border-bottom: 1px solid #97adcb;
-	margin: 0px;
-	margin-top:3px;
-	font-size: 1px;
 }
 
 .tundra .dijitMenuSeparatorBottom {
-	height: 50%;
 	border-top: 1px solid #c9deff;
-	margin: 0px;
-	margin-bottom:3px;
-	font-size: 1px;
 }
 
 
@@ -494,7 +506,7 @@
 	border: solid;
 	border-color: #7788a0 #344257 #344257 #7788a0;
 	border-width:1px 2px 2px 1px;
-	-moz-border-radius:2px;	/* make BL and TR corners indent on Moz so it looks like we have a shadow */
+	-moz-border-radius:0px 2px 0px 2px;	/* make BL and TR corners indent on Moz so it looks like we have a shadow */
 	padding:0.45em;
 	background:#fff url("popupMenuBg.gif") repeat-x bottom left;
 }
@@ -819,8 +831,7 @@
 	border: solid;
 	border-color: #7788a0 #344257 #344257 #7788a0;
 	border-width:1px 2px 2px 1px;
-	/* make BL and TR corners indent on Moz so it looks like we have a shadow */
-	-moz-border-radius:2px;
+	-moz-border-radius:0px 2px 0px 2px;	/* make BL and TR corners indent on Moz so it looks like we have a shadow */
 	background-color:white;
 }
 
@@ -865,3 +876,53 @@
 }
 
 
+
+/****
+		dijit.ProgressBar
+ ****/
+ 
+.tundra .dijitProgressBar {
+	margin:2px 0px 2px 0px;
+}
+
+ 
+.tundra .dijitProgressBarEmpty{
+	/* outer container and background of the bar that's not finished yet*/
+	background:#ececec url("images/dijitProgressBarEmpty.png") repeat-x bottom left;
+	border-color: #84a3d1;
+}
+
+
+.dijitProgressBarFull {
+	/* outer container for background of bar that is finished */
+}
+
+.tundra .dijitProgressBarColorLayer{
+	/* inner container for finished portion when in 'color' mode */
+	background-color:#cad2de;
+	border-color:#cad2de;
+}
+.tundra .dijitProgressBarTileLayer{
+	/* inner container for finished portion when in 'tile' (image) mode */
+	background:#cad2de url("images/dijitProgressBarFull.png") repeat-x top left;
+}
+
+.tundra .dijitProgressBarEmptyLabel{
+	/* label for portion of the bar that's not finished yet 
+		Set to a color that contrasts with the "Empty" part.  
+	*/
+	color:#293a4b;
+}
+
+.tundra .dijitProgressBarFullLabel{
+	/* label for portion of the bar that is finished 
+		set to a color that contrasts with the "Full" part
+	*/
+	color:#2963b9;
+}
+
+
+.tundra .dijitProgressBarIndeterminate .dijitProgressBarTileLayer {
+	/* use an animated gif for the progress bar in 'indeterminate' mode */
+	background:#cad2de url("images/dijitProgressBarAnim.gif") repeat-x top left;
+}

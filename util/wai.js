@@ -88,7 +88,7 @@ dijit.util.wai = {
 		if (!dojo.isArrayLike(images)) { images = [images]; }
 		dojo.forEach(images, 
 			function(image) {
-				var style = dojo.getComputedStyle(image);
+				var style = image && dojo.getComputedStyle(image);
 				if (!style) return;
 				var href = style.backgroundImage.match(/url\(['"]?(.*?)['"]?\)/);
 				if (!href) return;

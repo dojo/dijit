@@ -89,7 +89,7 @@ function remoteProgress(bar){
 			function keyUpHandler(){
 				dijit.byId("testBar").update({progress:dojo.byId("test").value.length});
 				dijit.byId("testBarInt").update({progress:dojo.byId("test").value.length});
-				dijit.byId("testBar2").update({progress:dojo.byId("test").value.length});
+				dijit.byId("testBarVert").update({progress:dojo.byId("test").value.length});
 				dijit.byId("smallTestBar").update({progress:dojo.byId("test").value.length});
 			}
 /*
@@ -105,7 +105,7 @@ function remoteProgress(bar){
 		</script>
 	</head> 
 
-	<body>
+	<body class='tundra'>
 		<h3>Test 1</h3>
 		Progress Value <input type="text" name="progressValue" id="progressValue" />
 		<br />
@@ -121,13 +121,13 @@ function remoteProgress(bar){
 		Write here: <input type="text" value="" name="test" maxlength="256" id="test" style="width:300"/>
 		<br />
 		<br />
-		<div id="testBar"></div>		
+		<div id="testBar" style='width:300px'></div>		
 		<input type="button" name="start" id="start" value="start" />
 		<input type="button" name="stop" id="stop" value="stop" />
 		<br />
 		Small, without text and background image:
 		<br />
-		<div style="width:440px; height:10px" class="dojoProgressBarColor red" orientation="horizontal" 
+		<div style="width:400px; height:10px" class="dojoProgressBarColor red" orientation="horizontal" 
 			maximum="256" id="smallTestBar" dojoType="dijit.ProgressBar"></div>		
 		<br />
 		Show decimal place:
@@ -137,18 +137,24 @@ function remoteProgress(bar){
 		<div style="position:absolute;top:70px;left:530px">
 		Vertical:
 		<div progress="0" style="height:420px; width:50px" annotate="true" orientation="vertical" 
-				maximum="256" id="testBar2" dojoType="dijit.ProgressBar"></div>
+				maximum="256" id="testBarVert" dojoType="dijit.ProgressBar"></div>
 		</div>
 		<h3>Test 3</h3>
-		No explicit maximum (both 25%)
+		No explicit maximum (both 50%)
 		<div style="width:400px" annotate="true"
-			id="implied1" progress="25" dojoType="dijit.ProgressBar"></div>		
+			id="implied1" progress="50" dojoType="dijit.ProgressBar"></div>		
 		<br />
 		<div style="width:400px" annotate="true"
-			id="implied2" progress="25%" dojoType="dijit.ProgressBar"></div>
+			id="implied2" progress="50%" dojoType="dijit.ProgressBar"></div>
 		<h3>Test 4</h3>
 		<input type="button" name="startTimer" id="startTimer" value="Start Timer" />
 		<div style="width:400px" id="timerBar" annotate="true"
 			maximum="100" progress="0" dojoType="dijit.ProgressBar"></div>
+
+		<h3>Test 5 - indeterminate progess</h3>
+		<input type="button" name="startTimer" id="startTimer" value="Start Timer" />
+		<div style="width:400px" class='dijitProgressBarIndeterminate' progress='100' 
+			id="indeterminateBar" annotate="false"
+			dojoType="dijit.ProgressBar"></div>
 	</body>
 </html>

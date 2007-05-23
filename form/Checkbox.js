@@ -27,7 +27,7 @@ dojo.declare(
 		//   2. Image loaded and used.
 		// In case 1, the regular html inputs are shown and used by the user.
 		// In case 2, the regular html inputs are invisible but still used by
-		// the user. They are turned invisible and overlay the dijit image.
+		// the user. They are turned quasi-invisible and overlay the dijit image.
 		//
 		// Layout
 		//   Styling is controlled in 3 places: tundra, template, and 
@@ -36,7 +36,7 @@ dojo.declare(
 		// image not loaded. Also for accessibility it is important 
 		// that dijit work with images off (a browser preference).
 		//
-		//	Order of images in the sprite (from L to R):
+		//	Order of images in the sprite (from L to R, checkbox and radio in same image):
 		//		checkbox	normal 	 - checked
 		//							 - unchecked
 		//					disabled - checked
