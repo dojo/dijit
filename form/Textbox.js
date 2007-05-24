@@ -45,12 +45,12 @@ dojo.declare(
 			return this.parse(this.getTextValue(), this.constraints);
 		},
 
-		setTextValue: function(value){
+		_setTextValue: function(value){
 			this.textbox.value = this.filter(value);
 		},
 
 		setValue: function(value){
-			this.setTextValue(!value ? "" : this.format(value, this.constraints));
+			this._setTextValue(!value ? "" : this.format(value, this.constraints));
 			dijit.form.Textbox.superclass.setValue.call(this,value);
 		},
 
@@ -64,14 +64,14 @@ dojo.declare(
 			return value;
 		},
 
-		postCreate: function() {
+		postCreate: function(){
 			dijit.form.Textbox.superclass.postCreate.apply(this);
 			// get the node for which the background color will be updated
-			if (typeof this.nodeWithBorder != "object"){
+			if(typeof this.nodeWithBorder != "object"){
 				this.nodeWithBorder = this.textbox;
 			}
 			// assign value programatically in case it has a quote in it
-			this.setTextValue(this.value);
+			this._setTextValue(this.value);
 		},
 
 		filter: function(val){

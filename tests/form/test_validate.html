@@ -209,16 +209,17 @@
 			</div>
 
 			<div class="testExample">
-				euro currency (locale en-us) programmatically created: <input id="q08eur" class="medium"/>EUR
+				euro currency (locale de-de) programmatically created: <input id="q08eur" class="medium"/>EUR
 			</div>
 <script>
 	// See if we can make a widget in script and attach it to the DOM ourselves.
-	var example = dojo.currency.format(54775.53, {locale: 'en-us', currency: "EUR"});
+	var example = dojo.currency.format(54775.53, {locale: 'de-de', currency: "EUR"});
 	dojo.addOnLoad(function(){
 		var props = {
 			name: "income2",
 			value: 54775.53,
-			constraints: {locale: 'en-us'},
+			constraints: {locale: 'de-de'},
+			lang: 'de-de',
 			required: "true",
 			currency: "EUR",
 			invalidMessage: "Invalid amount.  Example: " + example

@@ -37,7 +37,7 @@ dojo.declare(
 		// &amp;&lt;&nbsp;&gt; --> &< >
 		value = this.editNode.innerHTML.replace(/<(br[^>]*|\/(p|div))>$|^<(p|div)[^>]*>|\r/gi,"").replace(/<\/(p|div)>\s*<\1[^>]*>|<(br|p|div)[^>]*>/gi,"\n").replace(/<[^>]*>/g,"").replace(/&amp;/gi,"\&").replace(/&nbsp;/gi," ").replace(/&lt;/gi,"<").replace(/&gt;/gi,">");
 		this.formValueNode.value = value;
-		if (this.iframe){
+		if(this.iframe){
 			var d = this.iframe.contentWindow.document;
 			var newHeight = d.body.firstChild.scrollHeight;
 			if(d.body.scrollWidth > d.body.clientWidth){ newHeight+=16; } // scrollbar space needed?

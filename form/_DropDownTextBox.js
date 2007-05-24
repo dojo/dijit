@@ -9,30 +9,30 @@ dojo.declare(
 	{
 		// summary:
 		//		Mixin text box with drop down
-		
+
 		templatePath: dojo.moduleUrl("dijit.form", "templates/AutoCompleter.html"),
-		
+
 		// _popupWidget: Widget
 		//	link to the popup widget created by makePopop
 		_popupWidget:null,
-		
+
 		// _popupName: String
 		//	Name of master popup (dijit.form.AutoCompleter.MasterPopup)
 		// If left blank, then makePopup() creates one popup per widget instance
 		_popupName:"",
-		
+
 		// _popupClass: String
 		//	Class of master popup (dijit.form._AutoCompleterMenu)
 		_popupClass:"",
-		
+
 		// _popupArgs: Object
 		//	Object to pass to popup widget on initialization
 		_popupObject:{},
-		
+
 		// maxListLength: Integer
 		//		Limits list to X visible rows, scroll on rest
 		maxListLength: 8,
-		
+
 		_arrowPressed: function(){
 			if(!this.disabled){
 				dojo.addClass(this.downArrowNode, "dijitArrowButtonActive");
@@ -45,11 +45,11 @@ dojo.declare(
 			}
 			dojo.removeClass(this.downArrowNode, "dojoArrowButtonPushed");
 		},
-		
+
 		makePopup: function(){
 			// summary:
 			//	create popup widget on demand
-			
+
 			// this code only runs if there is no popup reference
 			if(!this._popupWidget){
 				// does this widget have one "master" popup?
@@ -58,7 +58,7 @@ dojo.declare(
 					if(!eval(this._popupName)){
 						// create the master popup for the first time
 						var node=document.createElement("div");
-						document.body.appendChild(node);		
+						document.body.appendChild(node);
 						var popupProto=dojo.getObject(this._popupClass, false);
 						eval(this._popupName+"=new popupProto(this._popupArgs, node);");
 					}
@@ -67,13 +67,13 @@ dojo.declare(
 				}else{
 					// if master popup is not being used, create one popup per widget instance
 					var node=document.createElement("div");
-					document.body.appendChild(node);		
+					document.body.appendChild(node);
 					var popupProto=dojo.getObject(this._popupClass, false);
 					this._popupWidget=new popupProto(this._popupArgs, node);
 				}
 			}
 		},
-		
+
 		arrowClicked: function(){
 			// summary: callback when arrow is clicked
 			if(this.disabled){
@@ -88,9 +88,8 @@ dojo.declare(
 				// on the arrow it means they want to see more options
 				this._openResultList();
 			}
-			
 		},
-		
+
 		_hideResultList: function(){
 			if(this._popupWidget&&(!this._popupWidget.isShowingNow||this._popupWidget.isShowingNow())){
 				dijit.util.PopupManager.close(true);
@@ -109,18 +108,46 @@ dojo.declare(
 			this._arrowIdle();
 			// removeClass dijitInputFieldFocused
 			dojo.removeClass(this.nodeWithBorder, "dijitInputFieldFocused");
-			if(!this._popupWidget||!this._popupWidget.isShowingNow()){
-				this.setValue(this.getValue());
-			}
 			// sometimes the tooltip gets stuck; confused by dropdown
-			dijit.MasterTooltip.hide();
+			// don't hide if already hidden
+			if(dijit.MasterTooltip.domNode.style.opacity){dijit.MasterTooltip.hide();}
 		},
 
-		onkeypress:function(){
-			// AutoCompleter uses keypress, but not DateTextbox
-			// this placeholder prevents errors
+		onkeypress: function(/*Event*/ evt){
+			// summary: generic handler for popup keyboard events
+			if(evt.ctrlKey || evt.altKey){
+				return;
+			}
+			switch(evt.keyCode){
+				case dojo.keys.PAGE_DOWN:
+				case dojo.keys.DOWN_ARROW:
+					if(!this.isShowingNow()||this._prev_key_esc){
+						this.makePopup();
+						this._arrowPressed();
+						this._openResultList();
+					}
+					dojo.stopEvent(evt);
+					this._prev_key_backspace = false;
+					this._prev_key_esc = false;
+					break;
+
+				case dojo.keys.PAGE_UP:
+				case dojo.keys.UP_ARROW:
+				case dojo.keys.ENTER:
+					// prevent default actions
+					dojo.stopEvent(evt);
+					// fall through
+				case dojo.keys.ESCAPE:
+				case dojo.keys.TAB:
+					if(this.isShowingNow()){
+						this._prev_key_backspace = false;
+						this._prev_key_esc = (evt.keyCode==dojo.keys.ESCAPE);
+						this._hideResultList();
+					}
+					break;
+			}
 		},
-		
+
 		focus: function(){
 			try{
 				this.textbox.focus();
@@ -129,18 +156,18 @@ dojo.declare(
 				// element isn't focusable if disabled, or not visible etc - not easy to test for.
 			}
 		},
-		
+
 		_showResultList: function(){
 			// Our dear friend IE doesnt take max-height so we need to calculate that on our own every time
 			var childs = this._popupWidget.getListLength ? this._popupWidget.getItems() : [this._popupWidget.domNode];
-			
+
 			if(childs.length){
 				var visibleCount = Math.min(childs.length,this.maxListLength);
 				with(this._popupWidget.domNode.style){
 					// trick to get the dimensions of the popup
 					visibility="hidden";
 					display="";
-					
+
 					if(visibleCount == childs.length){
 						//no scrollbar is required, so unset height to let browser calcuate it,
 						//as in css, overflow is already set to auto
@@ -163,7 +190,7 @@ dojo.declare(
 				this._hideResultList();
 			}
 		},
-		
+
 		setupLabels: function(){
 			// summary: 
 			//		associate label with input element for accessibility.
@@ -186,6 +213,20 @@ dojo.declare(
 					}
 				}
 			}
+		},
+
+		isShowingNow:function(){
+			// summary
+			//	test if the popup is visible
+			return this._popupWidget&&this._popupWidget.isShowingNow();
+		},
+
+		getDisplayedValue:function(){
+			return this.textbox.value;
+		},
+
+		setDisplayedValue:function(/*String*/ value){
+			this.textbox.value=value;
 		}
 	}
 );
@@ -196,26 +237,26 @@ dojo.declare(
 	{
 		// summary:
 		//	Mixin that provides basic open/close behavior for popup widgets
-		
+
 		// parentWidget: Widget
 		//	Reference to parent widget
 		parentWidget:null,
-		
+
 		postCreate:function(){
 			// FIXME: create an external template so template style isn't displaced
 			this.domNode.style.display="none";
 			this.domNode.style.overflow="auto";
 			this.domNode.style.position="absolute";
 		},
-		
+
 		open:function(/*Widget*/ widget){
 			// summary:
 			//	opens the menu
-			
+
 			this.parentWidget=widget;
 			setTimeout(dojo.hitch(this, function(){dijit.util.PopupManager.openAround(widget.textbox, this,{'BL':'TL', 'TL':'BL'}, [0,0]);}), 1);
 		},
-		
+
 		isShowingNow:function(){
 			return this.domNode.style.display!="none";
 		},
@@ -223,7 +264,7 @@ dojo.declare(
 		close: function(/*Boolean*/ force){
 			// summary:
 			//	closes the menu
-			
+
 			if(!this.isShowingNow()){
 				return;
 			}

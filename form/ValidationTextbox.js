@@ -56,7 +56,7 @@ dojo.declare(
 			return this.validator(this.textbox.value, this.constraints);
 		},
 	
-		isEmpty: function() {
+		isEmpty: function(){
 			// summary: Checks for whitespace
 			return /^\s*$/.test(this.textbox.value); // Boolean
 		},
@@ -83,7 +83,7 @@ dojo.declare(
 			//		Show missing or invalid messages if appropriate, and highlight textbox field.
 			
 			var message;
-			if (!this.isValid(isFocused)){
+			if(!this.isValid(isFocused)){
 				this.updateClass("Error");
 				message = this.getErrorMessage(isFocused);
 			}else{
@@ -116,7 +116,7 @@ dojo.declare(
 		
 		onfocus: function(evt){
 			dijit.form.ValidationTextbox.superclass.onfocus.apply(this, arguments);
-			if (this.listenOnKeyPress){
+			if(this.listenOnKeyPress){
 				this.validate(true);
 			}else{
 				this.updateClass("Warning");
@@ -159,7 +159,7 @@ dojo.declare(
 );
 
 dojo.declare(
-	"dijit.form.SerializableTextbox",
+	"dijit.form.MappedTextbox",
 	dijit.form.ValidationTextbox,
 	{
 		// summary:
@@ -170,7 +170,7 @@ dojo.declare(
 			// summary: user replaceable function used to convert the getValue() result to a String
 			return val.toString();
 		},
-
+		
 		toString: function(){
 			// summary: display the widget as a printable string using the widget's value
 			var val = this.getValue();
@@ -179,7 +179,7 @@ dojo.declare(
 
 		validate: function(){
 			this.valueNode.value = this.toString();
-			dijit.form.SerializableTextbox.superclass.validate.apply(this, arguments);
+			dijit.form.MappedTextbox.superclass.validate.apply(this, arguments);
 		},
 
 		postCreate: function(){
@@ -193,17 +193,17 @@ dojo.declare(
 
 			dojo.place(valueNode, textbox, "after"); 
 
-			dijit.form.SerializableTextbox.superclass.postCreate.apply(this, arguments);
+			dijit.form.MappedTextbox.superclass.postCreate.apply(this, arguments);
 		}
 	}
 );
 
 dojo.declare(
 	"dijit.form.RangeBoundTextbox",
-	dijit.form.SerializableTextbox,
+	dijit.form.MappedTextbox,
 	{
 		// summary:
-		//		A subclass of SerializableTextbox.
+		//		A subclass of MappedTextbox.
 		//		Tests for a value out-of-range
 		/*===== contraints object:
 		// min: Number
@@ -227,7 +227,7 @@ dojo.declare(
 			// summary: user replaceable function used to validate the range of the numeric input value
 			var isMin = (typeof constraints.min != "undefined");
 			var isMax = (typeof constraints.max != "undefined");
-			if (isMin || isMax){
+			if(isMin || isMax){
 				return (!isMin || this.compare(primitive,constraints.min) >= 0) &&
 					(!isMax || this.compare(primitive,constraints.max) <= 0);
 			}else{ return true; }

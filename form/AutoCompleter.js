@@ -20,35 +20,35 @@ dojo.declare(
 		//
 		//		Some of the options to the AutoCompleter are actually arguments to the data
 		//		provider.
-		
+
 		// searchLimit: Integer
 		//		Argument to data provider.
 		//		Specifies cap on maximum number of search results.
 		//		Default is Infinity.
 		searchLimit: Infinity,
-	
+
 		// store: Object
 		//		Reference to data provider object created for this AutoCompleter
 		//		according to "dataProviderClass" argument.
 		store: null,
-	
+
 		// autoComplete: Boolean
 		//		If you type in a partial string, and then tab out of the <input> box,
 		//		automatically copy the first entry displayed in the drop down list to
 		//		the <input> field
 		autoComplete: true,
-	
+
 		// searchDelay: Integer
 		//		Delay in milliseconds between when user types something and we start
 		//		searching based on that value
 		searchDelay: 100,
-	
+
 		// url: String
 		//		URL argument passed to data provider object (class name specified in "dataProviderClass")
 		//		An example of the URL format for the default data provider is
 		//		"autoCompleterData.js"
 		url: "",
-	
+
 // Bill: not sure we want to support url parameter; if we do then we have to support it for
 // all dojo.data widgets (grid, tree)
 
@@ -56,7 +56,7 @@ dojo.declare(
 		//		Name of data provider class (code that maps a search string to a list of values)
 		//		The class must match the interface demonstrated by dojo.data.JsonItemStore
 		dataProviderClass: "dojo.data.JsonItemStore",
-	
+
 // Bill: not sure we want to support this; if we do then we have to support it for
 // all dojo.data widgets (grid, tree)
 
@@ -69,53 +69,21 @@ dojo.declare(
 		// searchAttr: String
 		//		Searches pattern match against this field
 		searchAttr: "name",
-		
+
 		// ignoreCase: Boolean
 		//		Does the AutoCompleter menu ignore case?
 		ignoreCase: true,
-			
+
 		// value: String
 		//		The initial value of the AutoCompleter.
 		//		This is the value that actually appears in the text area.
 		value:"",
-	
+
 		templatePath: dojo.moduleUrl("dijit.form", "templates/AutoCompleter.html"),
-		
+
 		_popupName:"dijit.form.AutoCompleter.MasterPopup",
-		
+
 		_popupClass:"dijit.form._AutoCompleterMenu",
-		
-		_setTextFieldValue:function(/*String*/ value){
-			// summary: Select wants to call AutoCompleter's setValue to reach FormElement's setValue
-			// But Select does not want to display the "value" in the text field!
-			// this function fixes that problem by separating the code from Select's setTextValue
-			this.textbox.value=value;
-		},
-	
-		setValue:function(/*String*/ value){
-			// summary: Sets the value of the AutoCompleter
-			this._setTextFieldValue(value);
-
-			// reuse dijit setValue code
-			this.settingValue=true;
-			this.parentClass.setValue.apply(this, arguments);
-			this.settingValue=false;
-		},
-	
-// Bill: there's got to be a better way to do this than settingValue attribute
-// But this is all tied in w/Autocompleter being defined as a SerializableTextbox
-// when it really isn't
-
-		setTextValue:function(/*String*/ value){
-			// summary: keeps value of AutoCompleter in sync with its text value
-	
-			// prevent Textbox recursion
-			if(!this.settingValue){
-				this.setValue(value);
-			}else{
-				this.parentClass.setTextValue.apply(this, arguments);
-			}
-		},
 
 		_getCaretPos: function(/*DomNode*/ element){
 			// khtml 3.5.2 has selection* methods as does webkit nightlies from 2005-06-22
@@ -143,12 +111,12 @@ dojo.declare(
 				}
 			}
 		},
-	
+
 		_setCaretPos: function(/*DomNode*/ element, /*Number*/ location){
 			location = parseInt(location);
 			this._setSelectedRange(element, location, location);
 		},
-	
+
 		_setSelectedRange: function(/*DomNode*/ element, /*Number*/ start, /*Number*/ end){
 			if(!end){
 				end = element.value.length;
@@ -182,75 +150,63 @@ dojo.declare(
 				}
 			}
 		},
-	
+
 		onkeyup:function(){
 			// Textbox uses onkeyup, but not AutoCompleter
 			// this placeholder prevents errors
 		},
-	
+
 		onkeypress: function(/*Event*/ evt){
 			// summary: handles keyboard events
 			if(evt.ctrlKey || evt.altKey){
 				return;
 			}
-			var k = dojo.keys;
-			var doSearch = true;
+			var doSearch = false;
 			switch(evt.keyCode){
+				case dojo.keys.PAGE_DOWN:
 				case dojo.keys.DOWN_ARROW:
 					if(!this.isShowingNow()||this._prev_key_esc){
 						this._arrowPressed();
-						this._startSearchFromInput();
+						doSearch=true;
 					}else{
-						this._popupWidget._highlightNextOption();
+						evt.keyCode==dojo.keys.PAGE_DOWN ? this._popupWidget.pageDown(): this._popupWidget._highlightNextOption();
 					}
 					dojo.stopEvent(evt);
 					this._prev_key_backspace = false;
 					this._prev_key_esc = false;
-					return;
+					break;
 
-				case dojo.keys.UP_ARROW:
-					if(this.isShowingNow()){this._popupWidget._highlightPrevOption();}
-					dojo.stopEvent(evt);
-					this._prev_key_backspace = false;
-					this._prev_key_esc = false;
-					return;
-	
-				case dojo.keys.PAGE_DOWN:
-					if(this.isShowingNow()){this._popupWidget.pageDown();}
-					dojo.stopEvent(evt);
-					this._prev_key_backspace = false;
-					this._prev_key_esc = false;
-					return;
-	
 				case dojo.keys.PAGE_UP:
-					this._popupWidget.pageUp();
+				case dojo.keys.UP_ARROW:
+					if(this.isShowingNow()){
+						evt.keyCode==dojo.keys.PAGE_UP ? this._popupWidget.pageUp() : this._popupWidget._highlightPrevOption();
+					}
 					dojo.stopEvent(evt);
 					this._prev_key_backspace = false;
 					this._prev_key_esc = false;
-					return;
-	
+					break;
+
 				case dojo.keys.ENTER:
 					// prevent submitting form if user presses enter
 					dojo.stopEvent(evt);
-	
+					// fall through
+
 				case dojo.keys.TAB:
 					if(this.isShowingNow()){
-						
 						this._prev_key_backspace = false;
 						this._prev_key_esc = false;
 						if(this._popupWidget.getHighlightedOption()){
 							this._popupWidget.setValue({target:this._popupWidget.getHighlightedOption()});
 						}else{
-							this.setTextValue(this.getTextValue());
+							this.setDisplayedValue(this.getDisplayedValue());
 						}
 						this._hideResultList();
 					}else{
 						// also allow arbitrary user input
-						this.setTextValue(this.getTextValue());
+						this.setDisplayedValue(this.getDisplayedValue());
 					}
-					doSearch=false;
 					break;
-	
+
 				case dojo.keys.SPACE:
 					this._prev_key_backspace = false;
 					this._prev_key_esc = false;
@@ -258,37 +214,38 @@ dojo.declare(
 						dojo.stopEvent(evt);
 						this._selectOption();
 						this._hideResultList();
-						return;
 					}
+					else{doSearch=true;}
 					break;
-	
+
 				case dojo.keys.ESCAPE:
 					this._prev_key_backspace = false;
-					this._hideResultList();
 					this._prev_key_esc = true;
-					return;
-	
+					this._hideResultList();
+					this.setValue(this.getValue());
+					break;
+
 				case dojo.keys.BACKSPACE:
 					this._prev_key_esc = false;
 					this._prev_key_backspace = true;
+					doSearch=true;
 					if(!this.textbox.value.length){
 						this.setValue("");
 					}
 					break;
-	
+
 				case dojo.keys.RIGHT_ARROW: // fall through
-	
+
 				case dojo.keys.LEFT_ARROW: // fall through
 					this._prev_key_backspace = false;
 					this._prev_key_esc = false;
-					doSearch = false;
 					break;
-	
+
 				default:// non char keys (F1-F12 etc..)  shouldn't open list
 					this._prev_key_backspace = false;
 					this._prev_key_esc = false;
-					if(evt.charCode==0){
-						doSearch = false;
+					if(evt.charCode!=0){
+						doSearch = true;
 					}
 			}
 			if(this.searchTimer){
@@ -299,14 +256,14 @@ dojo.declare(
 				this.searchTimer = setTimeout(dojo.hitch(this, this._startSearchFromInput), this.searchDelay);
 			}
 		},
-	
+
 		compositionEnd: function(/*Event*/ evt){
 			// summary: When inputting characters using an input method, such as Asian
 			// languages, it will generate this event instead of onKeyDown event
 			evt.key = evt.charCode = -1;
 			this.onkeypress(evt);
 		},
-	
+
 		_openResultList: function(/*Object*/ results){
 			if(this.disabled){
 				return;
@@ -346,7 +303,7 @@ dojo.declare(
 					td.className = "dijitMenuItem";
 					this._popupWidget.addItem(td);
 				}
-	
+
 			}
 // Bill: above loop could be done w/ "dojo.forEach(results, function(tr){" or better yet map()
 //
@@ -354,11 +311,11 @@ dojo.declare(
 // AutoCompleterMenu should be in charge of the
 // DOM manipulation (creating text nodes, etc).   autocompleter should just pass in a list of
 // items
-				
+
 			// show our list (only if we have content, else nothing)
 			this._showResultList();
 		},
-	
+
 		_createOption:function(/*Object*/ tr){
 			// summary: creates an option to appear on the popup menu
 			// subclassed by Select
@@ -371,10 +328,15 @@ dojo.declare(
 		onfocus:function(){
 			this.parentClass.onfocus.apply(this, arguments);
 		},
-	
+
 		onblur:function(){
+			// if the user clicks away from the textbox, set the value to the textbox value
+			this.setDisplayedValue(this.getDisplayedValue());
 			dijit.form._DropDownTextBox.prototype.onblur.apply(this, arguments);
-			this.parentClass.onblur.apply(this, arguments);
+			// don't call this since the Textbox setValue is asynchronous
+			// if you uncomment this line, when you click away from the textbox,
+			// the value in the textbox reverts to match the hidden value
+			//this.parentClass.onblur.apply(this, arguments);
 		},
 
 		_selectOption: function(/*Event*/ evt){
@@ -385,7 +347,7 @@ dojo.declare(
 			}
 			if(!evt.target){
 				// handle autocompletion where the the user has hit ENTER or TAB
-				this.setTextValue(this.getTextValue());
+				this.setDisplayedValue(this.getDisplayedValue());
 				return;
 			// otherwise the user has accepted the autocompleted value
 			}else{
@@ -407,11 +369,11 @@ dojo.declare(
 				dijit.util.PopupManager.close(this._popupWidget);
 			}
 		},
-	
+
 		_doSelect: function(tgt){
 			this.setValue(this.store.getValue(tgt.item, this.searchAttr));
 		},
-	
+
 		arrowClicked: function(){
 // Bill: should rename to _onArrowClicked() for consistency
 			// summary: callback when arrow is clicked
@@ -428,17 +390,11 @@ dojo.declare(
 				this._startSearch("");
 			}
 		},
-		
-		isShowingNow:function(){
-			// summary
-			//	test if the popup is visible
-			return this._popupWidget&&this._popupWidget.isShowingNow();
-		},
-		
+
 		_startSearchFromInput: function(){
 			this._startSearch(this.textbox.value);
 		},
-	
+
 		_startSearch: function(/*String*/ key){
 			this.makePopup();
 			// create a new query to prevent accidentally querying for a hidden value from Select's keyField
@@ -455,15 +411,11 @@ dojo.declare(
 		},
 
 		postCreate: function(){
-			this.parentClass=dojo.getObject(this.declaredClass, false).superclass;
-			this.parentClass.postCreate.apply(this, arguments);
-			this.setupLabels();
-
+			// dojo.data code
 			var dpClass=dojo.getObject(this.dataProviderClass, false);
-			
-			// new dojo.data code
-			// is the store not specified?  If so, use inline read
+			// is the store not specified?
 			if(this.store==null){
+				// if user didn't specify either url or data, then assume there are option tags
 				if(this.url==""&&this.data==null){
 					dpClass=dojo.getObject("dojo.data.JsonItemStore", false);
 					var opts = this.domNode.getElementsByTagName("option");
@@ -482,16 +434,19 @@ dojo.declare(
 						// remove the unnecessary node
 						// if you keep the node, it is visible on the page!
 						this.domNode.removeChild(opts[x]);
-					}	
+					}
 					// pass store inline data
 					this.data={items:data};
 				}
 				this.store=new dpClass(this);
 			}
-			if(this.disabled){
-				this.disable();
-			}
-			this._setTextFieldValue(this.value);
+			// call the associated Textbox postCreate
+			// ValidationTextbox for AutoCompleter; MappedTextbox for Select
+			this.parentClass=dojo.getObject(this.declaredClass, false).superclass;
+			this.parentClass.postCreate.apply(this, arguments);
+
+			this.setupLabels();
+			this.setValue(this.value);
 			// convert the arrow image from using style.background-image to the .src property (a11y)
 //			dijit.util.wai.imageBgToSrc(this.arrowImage);
 		}
@@ -535,37 +490,37 @@ dojo.declare(
 			dijit.form._DropDownTextBox.Popup.prototype.postCreate.apply(this, arguments);
 			dijit.base.FormElement.prototype.postCreate.apply(this, arguments);
 		},
-	
+
 		open:function(/*Widget*/ widget){
 			this.maxListLength=widget.maxListLength;
 			this.onValueChanged=dojo.hitch(widget, widget._selectOption);
 			dijit.form._DropDownTextBox.Popup.prototype.open.apply(this, arguments);
 		},
-	
+
 		close:function(){
 			dijit.form._DropDownTextBox.Popup.prototype.close.apply(this, arguments);
 			this._blurOptionNode();
 		},
-	
+
 		addItem:function(/*Node*/ item){
 			this.domNode.appendChild(item);
 		},
 // Bill: see comments above; this call is too low level for the interface
 // between Autocompleter and AutocompleterMenu
-	
+
 		clearResultList:function(){
 			this.domNode.innerHTML="";
 		},
-	
+
+		// these functions are called in showResultList
 		getItems:function(){
 			return this.domNode.childNodes;
 		},
-	
+
 		getListLength:function(){
 			return this.domNode.childNodes.length;
 		},
-// Bill: above two functions are never called
-	
+
 		onclick:function(/*Event*/ evt){
 			if(evt.target === this.domNode){ return; }
 			var tgt=evt.target;
@@ -576,17 +531,17 @@ dojo.declare(
 			}
 			this.setValue({target:tgt});
 		},
-	
+
 		onmouseover:function(/*Event*/ evt){
 			if(evt.target === this.domNode){ return; }
 			this._focusOptionNode(evt.target);
 		},
-	
+
 		onmouseout:function(/*Event*/ evt){
 			if(evt.target === this.domNode){ return; }
 			this._blurOptionNode();
 		},
-	
+
 		_focusOptionNode:function(/*DomNode*/ node){
 			// summary:
 			//	does the actual highlight
@@ -596,7 +551,7 @@ dojo.declare(
 				dojo.addClass(this._highlighted_option, "dijitMenuItemHover");
 			}
 		},
-	
+
 		_blurOptionNode:function(){
 			// summary:
 			//	removes highlight on highlighted option
@@ -605,7 +560,7 @@ dojo.declare(
 				this._highlighted_option = null;
 			}
 		},
-	
+
 		_highlightNextOption:function(){
 			// because each press of a button clears the menu,
 			// the highlighted option sometimes becomes detached from the menu!
@@ -640,7 +595,7 @@ dojo.declare(
 			}
 			dijit.util.scroll.scrollIntoView(this._highlighted_option);
 		},
-	
+
 		getHighlightedOption:function(){
 			// summary:
 			//	Returns the highlighted option.

@@ -49,6 +49,7 @@ dojo.declare(
 		postCreate:function(){
 			dijit.form.DateTextbox.superclass.postCreate.apply(this, arguments);
 			// #3000: set popupArgs here so Calendar gets the widget's lang, not the user's lang
+			// TODO: move popup code inside here
 			this._popupArgs={lang:this.lang};
 			// convert the arrow image from using style.background-image to the .src property (a11y)
 			dijit.util.wai.imageBgToSrc(this.arrowImage);
@@ -70,12 +71,9 @@ dojo.declare(
 	{
 		postCreate:function(){
 			// summary:
-			//	call all postCreates and set background color
-			
+			//	call all postCreates
 			dijit._Calendar.prototype.postCreate.apply(this, arguments);
 			dijit.form._DropDownTextBox.Popup.prototype.postCreate.apply(this, arguments);
-			// FIXME: Calendar does not have a background color
-			dojo.addClass(this.domNode, 'dijitMenu');
 		},
 
 		open:function(/*Widget*/ widget){
@@ -96,11 +94,7 @@ dojo.declare(
 		isDisabledDate:function(/*Date*/ date){
 			// summary:
 			// 	disables dates outside of the min/max of the DateTextbox
-			if(this.constraints){
-				return((dojo.date.compare(this.constraints.min,date)>0||dojo.date.compare(this.constraints.max,date)<0));
-			}else{
-				return false;
-			}
+			return(this.constraints!=null&&(dojo.date.compare(this.constraints.min,date)>0||dojo.date.compare(this.constraints.max,date)<0));
 		}
 	}
 );

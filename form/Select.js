@@ -4,7 +4,7 @@ dojo.require("dijit.form.AutoCompleter");
 
 dojo.declare(
 	"dijit.form.Select",
-	[dijit.form.SerializableTextbox, dijit.form.AutoCompleterMixin],
+	[dijit.form.MappedTextbox, dijit.form.AutoCompleterMixin],
 	{
 		/*
 		 * summary
@@ -21,9 +21,13 @@ dojo.declare(
 		 *    - List can be specified either as a static list or via a javascript function (that can get the list from a server)
 		 */
 
+		// searchAttr: String
+		//		Searches pattern match against this field
+
 		// labelAttr: String
-		//		The text that actually appears in the drop down
-		labelAttr: "name",
+		//		Optional.  The text that actually appears in the drop down.
+		//		If not specified, the searchAttr text is used instead.
+		labelAttr: "",
 
 		// labelType: String
 		//		"html" or "text"
@@ -33,10 +37,14 @@ dojo.declare(
 		//		The field of the selected item that the client should send to the server on submit
 		keyAttr: "value",
 
+		// value: String
+		//		The initial value of the Select.
+		//		This is the hidden value that the form submits.
+
 		_callbackSetLabel: function(/*Object*/ result){
 			// summary
 			//	Callback function that dynamically sets the label of the AutoCompleter
-			
+
 			if(!result.length){
 				this.setValue("");
 			}else{
@@ -46,21 +54,11 @@ dojo.declare(
 		},
 
 		getValue:function(){
-			return this.valueNode.value;
-		},
-
-		_setTextFieldValue:function(/*String*/ value){
-			// do NOT set the visible text field to the hidden value!
-			this.valueNode.value=value;
+			return dijit.base.FormElement.prototype.getValue.apply(this, arguments);;
 		},
 
 		_setValue:function(/*String*/ value){
-
-			// stop the setTextValue recursion going on in Textbox
-			// can't circumvent Textbox's setValue because that is where the ValidationTextbox code happens
-			this.settingValue=true;
-			dijit.form.AutoCompleterMixin.prototype.setValue.apply(this, arguments);
-			this.settingValue=false;
+			dijit.form.Select.superclass.setValue.apply(this, arguments);
 		},
 
 		setValue: function(/*String*/ value){
@@ -85,8 +83,8 @@ dojo.declare(
 		_setLabel: function(/*Object*/ item){
 			// summary
 			//	Set the displayed valued in the input box, based on a selected item.
-			//	Users shouldn't call this function; they should be calling setTextValue() instead
-			
+			//	Users shouldn't call this function; they should be calling setDisplayedValue() instead
+
 			this.textbox.value = this.labelFunc(item, this.store);
 		},
 
@@ -98,10 +96,18 @@ dojo.declare(
 
 		_createOption:function(/*Object*/ tr){
 			// summary: creates an option to appear on the popup menu
-			
+
 			var td=dijit.form.AutoCompleterMixin.prototype._createOption.apply(this, arguments);
-			if(this.labelType=="html"){
-				td.innerHTML=this.store.getValue(tr, this.labelAttr);
+			// #3129
+			if(this.labelAttr){
+				if(this.labelType=="html"){
+					td.innerHTML=this.store.getValue(tr, this.labelAttr);
+				}else{
+					// prevent parsing of HTML
+					var textnode=document.createTextNode(this.store.getValue(tr, this.labelAttr));
+					td.innerHTML="";
+					td.appendChild(textnode);
+				}
 			}
 			return td;
 		},
@@ -109,21 +115,7 @@ dojo.declare(
 		onkeyup: function(/*Event*/ evt){
 			// summary: internal function
 			// Select needs to wait for the complete label before committing to a reverse lookup
-			//this.setTextValue(this.textbox.value);
-		},
-
-		postCreate: function(){
-			dijit.form.AutoCompleterMixin.prototype.postCreate.apply(this, arguments);
-			// InlineEditBox creates a listener for onValueChanged in an onLoad event
-			// if you set the value of Select in postCreate,
-			// InlineEditBox will not get the right text value because it is not necessarily listening yet!
-			// This addOnLoad prevents race conditions by allowing the InlineEditBox to create the listener first
-			// Ideally, dojo.data would support a synchronous fetch so getTextValue could get the right label in time,
-			// but it does not, so we do this instead.
-			var _this=this;
-			dojo.addOnLoad(function(){
-				_this.setValue(_this.value);
-			});
+			//this.setDisplayedValue(this.textbox.value);
 		},
 
 		_assignHiddenValue:function(/*Object*/ keyValArr, /*DomNode*/ option){
@@ -137,11 +129,16 @@ dojo.declare(
 			// summary:
 			//	AutoCompleter's menu callback function
 			//	Select overrides this to set both the visible and hidden value from the information stored in the menu
+
 			this._setLabel(tgt.item);
 			this._setValue(this.store.getValue(tgt.item, this.keyAttr));
 		},
 
-		setTextValue:function(/*String*/ label){
+		_setTextValue:function(/*String*/ value){
+			// TODO: setTextValue in Textbox will become _setTextValue eventually
+		},
+
+		setDisplayedValue:function(/*String*/ label){
 			// summary:
 			//	Set textbox to display label
 			//	Also performs reverse lookup to set the hidden value
@@ -149,12 +146,8 @@ dojo.declare(
 
 			var query=[];
 			query[this.searchAttr]=label;
-			// stop the recursion
-			if(!this.settingValue){
-				this.parentClass.setTextValue.apply(this, arguments);
-				if(this.store){
-					this.store.fetch({query:query, queryIgnoreCase:this.ignoreCase, onComplete: dojo.hitch(this, this._callbackSetLabel)});
-				}
+			if(this.store){
+				this.store.fetch({query:query, queryIgnoreCase:this.ignoreCase, onComplete: dojo.hitch(this, this._callbackSetLabel)});
 			}
 		}
 	}

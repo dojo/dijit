@@ -60,15 +60,15 @@ dojo.declare(
 					node = node.nextSibling;
 				}
 			}
-			_this._setEditValue = dojo.hitch(_this.editWidget,_this.editWidget.setTextValue||_this.editWidget.setValue);
-			_this._getEditValue = dojo.hitch(_this.editWidget,_this.editWidget.getTextValue||_this.editWidget.getValue);
+			_this._setEditValue = dojo.hitch(_this.editWidget,_this.editWidget.setDisplayedValue||_this.editWidget.setValue);
+			_this._getEditValue = dojo.hitch(_this.editWidget,_this.editWidget.getDisplayedValue||_this.editWidget.getValue);
 			_this._setEditFocus = dojo.hitch(_this.editWidget,_this.editWidget.focus);
 			_this.editWidget.onValueChanged = dojo.hitch(_this,"checkForValueChange");
+			_this.checkForValueChange();
 			_this._showText();
 		});
-
 	},
-	
+
 	postMixInProperties: function(){
 		dijit.form.InlineEditBox.superclass.postMixInProperties.apply(this, arguments);
 		this.messages = dojo.i18n.getLocalization("dijit", "common", this.lang);
@@ -78,8 +78,8 @@ dojo.declare(
 	},
 
 	_onKeyPress: function(e){
-		if (this.disabled || e.altKey || e.ctrlKey){ return; }
-		if (e.charCode == dojo.keys.SPACE || e.keyCode == dojo.keys.ENTER){
+		if(this.disabled || e.altKey || e.ctrlKey){ return; }
+		if(e.charCode == dojo.keys.SPACE || e.keyCode == dojo.keys.ENTER){
 			dojo.stopEvent(e);
 			this._onClick(e);
 		}
@@ -134,6 +134,7 @@ dojo.declare(
 		dijit.form.InlineEditBox.superclass.setValue.call(this, value);
 		// whitespace is really hard to click so show a ?
 		if(/^\s*$/.test(value)){ value = "?"; this._isEmpty = true; }
+		else { this._isEmpty = false; }
 		this.editable.innerHTML = value;
 		this._visualize();
 	},
@@ -170,7 +171,7 @@ dojo.declare(
 		}
 
 	},
-	
+
 	disable: function(){
 		this.saveButton.disable();
 		this.cancelButton.disable();
@@ -178,7 +179,7 @@ dojo.declare(
 		this.editWidget.disable();
 		dijit.form.InlineEditBox.superclass.disable.apply(this, arguments);
 	},
-	
+
 	enable: function(){
 		this.checkForValueChange();
 		this.cancelButton.enable();
