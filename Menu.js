@@ -13,7 +13,7 @@ dojo.declare(
 {
 	templateString: 
 		'<div class="dijitPopup dijitMenu">' +
-			'<table class="dijitReset dijitMenuTable">' +
+			'<table class="dijitReset dijitMenuTable" waiRole="menu">' +
 				'<tbody class="dijitReset" dojoAttachPoint="containerNode"></tbody>'+
 			'</table>' +
 		'</div>',
@@ -105,8 +105,10 @@ dojo.declare(
 				this._focusNeighborItem(-1);
 				return true; //do not pass to parent menu
 			case dojo.keys.RIGHT_ARROW:
-				return this._moveToChildMenu(evt);
+				this._moveToChildMenu(evt);
+				return true; //do not pass to parent menu
 			case dojo.keys.LEFT_ARROW:
+				return this._moveToParentMenu(evt);
 			case dojo.keys.ESCAPE:
 				if(this.parentMenu){
 					return this._moveToParentMenu(evt);
@@ -153,6 +155,10 @@ dojo.declare(
 	},
 
 	_focusFirstItem: function(){
+		// blur focused item to make findValidItem() find the first item in the menu
+		if(this._focusedItem){
+			this._blurFocusedItem();
+		}
 		var item = this._findValidItem(1);
 		this._focusItem(item);
 	},
@@ -167,16 +173,16 @@ dojo.declare(
 		if(this._focusedItem){
 			this._blurFocusedItem();
 		}
-		item.focus();
+		item._focus();
 		this._focusedItem = item;
-
-		if(this._focusedItem.submenuId && !this._focusedItem.disabled){
-			this.hover_timer = setTimeout(dojo.hitch(this, "_openSubmenu"), this.submenuDelay);
-		}
 	},
 
 	onItemHover: function(/*MenuItem*/ item){
 		this._focusItem(item);
+
+		if(this._focusedItem.submenuId && !this._focusedItem.disabled && !this.hover_timer){
+			this.hover_timer = setTimeout(dojo.hitch(this, "_openSubmenu"), this.submenuDelay);
+		}
 	},
 
 	_blurFocusedItem: function(){
@@ -184,7 +190,7 @@ dojo.declare(
 		if(this._focusedItem){
 			// Close all submenus that are open and descendents of this menu
 			dijit.util.PopupManager.closeTo(this);
-			this._focusedItem.blur();
+			this._focusedItem._blur();
 			this._stopSubmenuTimer();
 			this._focusedItem = null;
 		}
@@ -204,9 +210,8 @@ dojo.declare(
 	onItemClick: function(/*Widget*/ item){
 		// summary: user defined function to handle clicks on an item
 		// summary: internal function for clicks
-		if(this.disabled){ return false; }
+		if(item.disabled){ return false; }
 
-		this._stopSubmenuTimer();
 		if(item.submenuId){
 			if(!this.is_open){
 				this._openSubmenu();
@@ -216,14 +221,7 @@ dojo.declare(
 		}
 
 		// user defined handler for click
-		this.onClick();
-	},
-
-	onClick: function() {
-		// summary
-		//	User defined function to handle clicks
-		//	this default function call the parent
-		//	menu's onItemClick
+		item.onClick();
 	},
 
 	closeSubmenu: function(force){
@@ -231,7 +229,7 @@ dojo.declare(
 		if(!this.currentSubmenu){ return; }
 
 		dijit.util.PopupManager.closeTo(this);
-		this._focusedItem.focus();	// put focus back on my node
+		this._focusedItem._focus();	// put focus back on my node
 
 		this.currentSubmenu = null;
 	},
@@ -310,7 +308,7 @@ dojo.declare(
 	onOpen: function(/*Event*/ e){
 		// summary
 		//		Open menu relative to the mouse
-		this._selectFirstItem();
+		this._focusFirstItem();
 		this.isShowingNow = true;
 	},
 
@@ -319,10 +317,12 @@ dojo.declare(
 		this._stopSubmenuTimer();
 		this.parentMenu = null;
 		this.isShowingNow = false;
+		this.currentSubmenu = null;
 	},
 
 	_openSubmenu: function(){
 		// summary: open the submenu to the side of the current menu item
+		this._stopSubmenuTimer();
 		var from_item = this._focusedItem;
 		var submenu = dijit.byId(from_item.submenuId);
 
@@ -407,7 +407,12 @@ dojo.declare(
 		this.getParent().onItemClick(this);
 	},
 
-	focus: function(){
+	onClick: function() {
+		// summary
+		//	User defined function to handle clicks
+	},
+
+	_focus: function(){
 		dojo.addClass(this.domNode, 'dijitMenuItemHover');
 		try{
 			this.containerNode.focus();
@@ -417,7 +422,7 @@ dojo.declare(
 		dijit.util.scroll.scrollIntoView(this.domNode);
 	},
 
-	blur: function(){
+	_blur: function(){
 		dojo.removeClass(this.domNode, 'dijitMenuItemHover');
 	},
 

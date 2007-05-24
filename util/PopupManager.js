@@ -73,6 +73,10 @@ dijit.util.PopupManager = new function(){
 			widget.bgIframe.size(widget.domNode);
 			widget.bgIframe.show();
 		}
+
+		if(widget.onOpen){
+			widget.onOpen();
+		}
 	};
 
 	this.close = function(){
