@@ -227,6 +227,10 @@ dojo.declare(
 
 		setDisplayedValue:function(/*String*/ value){
 			this.textbox.value=value;
+		},
+
+		uninitialize:function(){
+			if(this._popupWidget){this._popupWidget.destroy()};
 		}
 	}
 );

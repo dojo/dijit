@@ -7,7 +7,7 @@
 		<script type="text/javascript" src="../testBidi.js"></script>
 
 		<script type="text/javascript" src="../../../dojo/dojo.js"
-			djConfig="isDebug: true, extraLocale: ['de-de', 'en-us']"></script>
+			djConfig="isDebug: false, extraLocale: ['de-de', 'en-us']"></script>
 		<script type="text/javascript">
 			dojo.require("dijit.form.Textbox");
 			dojo.require("dijit.form.ValidationTextbox");
@@ -332,6 +332,7 @@
 					required="true"
 					promptMessage="mm/dd/yyyy"
 					invalidMessage="Invalid date. Use mm/dd/yyyy format." />
+				<input type="button" value="Destroy" onClick="dijit.byId('q14').destroy(); return false;">
 			</div>
 
 			<div class="dojoTitlePaneLabel">
@@ -513,4 +514,5 @@
 		</form>
 	</body>
 </html>
+
 
