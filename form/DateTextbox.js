@@ -53,8 +53,6 @@ dojo.declare(
 			this._popupArgs={lang:this.lang};
 			// convert the arrow image from using style.background-image to the .src property (a11y)
 			dijit.util.wai.imageBgToSrc(this.arrowImage);
-
-			this.setupLabels();
 		},
 
 		_calendarOnValueSelected:function(value){
