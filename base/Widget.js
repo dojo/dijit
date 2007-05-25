@@ -118,7 +118,7 @@ function(params, srcNodeRef){
 
 	//////////// DESTROY FUNCTIONS ////////////////////////////////
 
-	destroy: function(/*Boolean*/ finalize){
+	destroyRecursive: function(/*Boolean*/ finalize){
 		// summary:
 		// 		Destroy this widget and it's descendants. This is the generic
 		// 		"destructor" function that all widget users should call to
@@ -129,10 +129,10 @@ function(params, srcNodeRef){
 		//		tear-down?
 
 		this.destroyDescendants();
-		this._destroy();
+		this.destroy();
 	},
 	
-	_destroy: function(/*Boolean*/ finalize){
+	destroy: function(/*Boolean*/ finalize){
 		// summary:
 		// 		Destroy this widget, but not its descendents
 		// finalize: Boolean
@@ -178,7 +178,7 @@ function(params, srcNodeRef){
 		//		Recursively destroy the children of this widget and their
 		//		descendents.
 		dojo.forEach(this.getDescendants(), function(widget){
-			widget._destroy();
+			widget.destroy();
 		});
 	},
 

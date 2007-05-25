@@ -210,7 +210,7 @@ dojo.declare(
 			}
 		},
 
-		_destroy: function(){
+		destroy: function(){
 			// if we have multiple controllers destroying us, bail after the first
 			if(this._beingDestroyed){
 				return;
@@ -218,7 +218,7 @@ dojo.declare(
 			// make sure we call onUnload
 			this.onUnload();
 			this._beingDestroyed = true;
-			dijit.layout.ContentPane.superclass._destroy.call(this);
+			dijit.layout.ContentPane.superclass.destroy.call(this);
 		},
  
 		onExecError: function(/*Object*/e){
