@@ -17,6 +17,7 @@
 
 /* generic arrows */
 
+/*
 .tundra .dijitDownArrow {
 	border:0px;
 	background:url('images/dijitArrow-down.png') no-repeat;
@@ -60,6 +61,7 @@
 	height:3px;	
 }
 
+*/
 .dijitRTL .tundra .dijitRightArrow {
 	background:url('images/dijitArrow-left.png') no-repeat;
 }
@@ -69,13 +71,11 @@
 /*Dojo Button Rules*/
 
 .tundra .dijitButton {
-	padding:0 0 1px 1px;
-	border:1px solid;
+	padding:0px 0px 1px 1px;
+	margin:2px;
 }
-
-.dijitButton .dijitButtonNode {
-	padding:2px 4px;
-}
+.tundra .dijitButton .dijitButtonNode,
+.tundra .dijitComboButton .dijitButtonNode {}
 
 .tundra .dijitButtonEnabled {
 	background-color:#fff;
@@ -124,6 +124,11 @@
 	background-image: url("dijitButton-active.png");
 }
 */
+
+.tundra .dijitComboButtonArrow {
+	border-left:1px solid black;
+}
+
 
 /****
 		dijit.form.Textbox
@@ -762,7 +767,7 @@
 
 
 
-/* generic 'show an arrow' stuff */
+/* generic 'show an arrow' stuff 
 
 .tundra .dijitDownArrowOuter,
 .tundra .dijitOpen .dijitOpenCloseArrowOuter {
@@ -814,7 +819,7 @@
 .dijitRTL .tundra .dijitRightArrowInner {
 	background:url('images/dijitArrow-left.png') no-repeat;
 }
-
+*/
 
 /* inline edit boxen */
 .tundra .dijitInlineValue {
