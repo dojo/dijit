@@ -128,7 +128,7 @@ dijit.util.PopupManager = new function(){
 		currentTrigger=button;
 
 		// setup handlers to catch screen clicks and close current menu	
-		this._setWindowEvents("connect");
+		this._connectHandlers();
 	};
 
 	this._afterTopClose = function(/*Widget*/menu){
@@ -137,8 +137,7 @@ dijit.util.PopupManager = new function(){
 		//	removes handlers for mouse movement detection
 
 		// remove handlers to catch screen clicks and close current menu
-		// TODO: this doesn't seem to have any effect; try it after scott's new event code.	
-		this._setWindowEvents("disconnect");
+		this._disconnectHandlers();
 
 		currentTrigger = null;
 
@@ -202,41 +201,39 @@ dijit.util.PopupManager = new function(){
 		this.closeAll();
 	};
 
-	this._setWindowEvents = function(/*String*/ command, /*Window*/targetWindow){
+	// List of everything we need to disconnect
+	this._connects = [];
+
+	this._connectHandlers = function(/*Window?*/targetWindow){
 		// summary:
-		//		This function connects or disconnects listeners on all the iframes
-		//		and the top window, so that whereever the user clicks in the page,
-		//		the popup menu will be closed
+		//		Listens on top window and all the iframes so that whereever 
+		//		the user clicks in the page, the popup menu will be closed
 
 		if(!targetWindow){ //see comment below
 			targetWindow = dijit.util.window.getDocumentWindow(window.top && window.top.document || window.document);
 		}
 
-		if(command == 'connect'){
-			targetWindow._onmousedownhandler = dojo.connect(targetWindow.document, "onmousedown", this, "_onMouse");
-			targetWindow._onscrollhandler = dojo.connect(targetWindow, "onscroll", this, "_onMouse");
-			targetWindow._onkeyhandler = dojo.connect(targetWindow.document, "onkeypress", this, "_onKeyPress");
-		}else{
-			// TODO: couldn't I just keep a list of everything that needs to be disconnected?
-			dojo.disconnect(targetWindow._onmousedownhandler);
-			targetWindow._onmousedownhandler = null;
-			dojo.disconnect(targetWindow._onscrollhandler);
-			targetWindow._onscrollhandler = null;
-			dojo.disconnect(targetWindow._onkeyhandler);
-			targetWindow._onkeyhandler = null;
-		}
+		this._connects.push(dojo.connect(targetWindow.document, "onmousedown", this, "_onMouse"));
+		this._connects.push(dojo.connect(targetWindow, "onscroll", this, "_onMouse"));
+		this._connects.push(dojo.connect(targetWindow.document, "onkeypress", this, "_onKeyPress"));
 
-		for(var i = 0; i < targetWindow.frames.length; i++){
+		dojo.forEach(targetWindow.frames, function(frame){
 			try{
 				//do not remove dijit.util.window.getDocumentWindow, see comment in it
-				var win = dijit.util.window.getDocumentWindow(targetWindow.frames[i].document);
+				var win = dijit.util.window.getDocumentWindow(frame.document);
 				if(win){
-					this._setWindowEvents(command, win);
+					this._connectHandlers(win);
 				}
 			}catch(e){ /* squelch error for cross domain iframes */ }
-		}
+		});
 	};
-	
-	var self = this;
-	dojo.addOnUnload(function(){ self._setWindowEvents("disconnect"); });
+
+	this._disconnectHandlers = function(){
+		// summary:
+		//		Disconnects handlers for mouse click etc. setup by _connectHandlers()
+		dojo.forEach(this._connects, dojo.disconnect);
+		this._connects=[];
+	};
+
+	dojo.addOnUnload(this, "_disconnectHandlers");
 }();
