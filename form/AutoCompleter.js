@@ -81,7 +81,7 @@ dojo.declare(
 
 		templatePath: dojo.moduleUrl("dijit.form", "templates/AutoCompleter.html"),
 
-		_popupName:"dijit.form.AutoCompleter.MasterPopup",
+		_hasMasterPopup:true,
 
 		_popupClass:"dijit.form._AutoCompleterMenu",
 

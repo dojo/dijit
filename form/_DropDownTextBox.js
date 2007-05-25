@@ -16,10 +16,12 @@ dojo.declare(
 		//	link to the popup widget created by makePopop
 		_popupWidget:null,
 
-		// _popupName: String
-		//	Name of master popup (dijit.form.AutoCompleter.MasterPopup)
-		// If left blank, then makePopup() creates one popup per widget instance
-		_popupName:"",
+		// _hasMasterPopup: Boolean
+		//	Flag that determines if this widget should share one popup per widget prototype,
+		//	or create one popup per widget instance.
+		//	If true, then makePopup() creates one popup per widget prototype.
+		//	If false, then makePopup() creates one popup per widget instance.
+		_hasMasterPopup:false,
 
 		// _popupClass: String
 		//	Class of master popup (dijit.form._AutoCompleterMenu)
@@ -27,7 +29,7 @@ dojo.declare(
 
 		// _popupArgs: Object
 		//	Object to pass to popup widget on initialization
-		_popupObject:{},
+		_popupArgs:{},
 
 		// maxListLength: Integer
 		//		Limits list to X visible rows, scroll on rest
@@ -49,27 +51,29 @@ dojo.declare(
 		makePopup: function(){
 			// summary:
 			//	create popup widget on demand
-
+			var _this=this;
+			function _createNewPopup(){
+				// common code from makePopup
+				var node=document.createElement("div");
+				document.body.appendChild(node);
+				var popupProto=dojo.getObject(_this._popupClass, false);
+				return new popupProto(_this._popupArgs, node);
+			}
 			// this code only runs if there is no popup reference
 			if(!this._popupWidget){
 				// does this widget have one "master" popup?
-				if(this._popupName){
+				if(this._hasMasterPopup){
 					// does the master popup not exist yet?
-					if(!eval(this._popupName)){
+					var parentClass = dojo.getObject(this.declaredClass, false);
+					if(!parentClass.prototype._popupWidget){
 						// create the master popup for the first time
-						var node=document.createElement("div");
-						document.body.appendChild(node);
-						var popupProto=dojo.getObject(this._popupClass, false);
-						eval(this._popupName+"=new popupProto(this._popupArgs, node);");
+						parentClass.prototype._popupWidget=_createNewPopup();
 					}
 					// assign master popup to local link
-					this._popupWidget=eval(this._popupName);
+					this._popupWidget=parentClass.prototype._popupWidget;
 				}else{
 					// if master popup is not being used, create one popup per widget instance
-					var node=document.createElement("div");
-					document.body.appendChild(node);
-					var popupProto=dojo.getObject(this._popupClass, false);
-					this._popupWidget=new popupProto(this._popupArgs, node);
+					this._popupWidget=_createNewPopup();
 				}
 			}
 		},
