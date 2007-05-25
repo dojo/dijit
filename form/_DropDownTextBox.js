@@ -152,6 +152,12 @@ dojo.declare(
 			}
 		},
 
+		compositionend: function(/*Event*/ evt){
+			// summary: When inputting characters using an input method, such as Asian
+			// languages, it will generate this event instead of onKeyDown event
+			this.onkeypress({charCode:-1});
+		},
+
 		focus: function(){
 			try{
 				this.textbox.focus();

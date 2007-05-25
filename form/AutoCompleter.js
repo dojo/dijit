@@ -151,11 +151,6 @@ dojo.declare(
 			}
 		},
 
-		onkeyup:function(){
-			// Textbox uses onkeyup, but not AutoCompleter
-			// this placeholder prevents errors
-		},
-
 		onkeypress: function(/*Event*/ evt){
 			// summary: handles keyboard events
 			if(evt.ctrlKey || evt.altKey){
@@ -255,13 +250,6 @@ dojo.declare(
 				// need to wait a tad before start search so that the event bubbles through DOM and we have value visible
 				this.searchTimer = setTimeout(dojo.hitch(this, this._startSearchFromInput), this.searchDelay);
 			}
-		},
-
-		compositionEnd: function(/*Event*/ evt){
-			// summary: When inputting characters using an input method, such as Asian
-			// languages, it will generate this event instead of onKeyDown event
-			evt.key = evt.charCode = -1;
-			this.onkeypress(evt);
 		},
 
 		_openResultList: function(/*Object*/ results){

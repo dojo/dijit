@@ -69,7 +69,7 @@ Enhancements over plain HTML version:
 
 <form action="#" method="GET">
  
-    <p>Select #1: inlined data, autocomplete=false:</p>
+	<p>Select #1: inlined data, autocomplete=false:</p>
 	<select searchAttr="name" 
 			keyAttr="abbreviation" 
 			id="setvaluetest2" 
@@ -167,7 +167,7 @@ Enhancements over plain HTML version:
 	<div>Value: <input id="value2" disabled></div>
 	<hr>
 		
-    <p>Select #3: url, autocomplete=false:</p>
+	<p>Select #3: url, autocomplete=false:</p>
  	<input searchAttr="name"
  			keyAttr="abbreviation"
  			dojoType="dijit.form.Select"
@@ -183,7 +183,7 @@ Enhancements over plain HTML version:
 	>
 	<div>Value: <input id="value3" disabled></div>
 	<hr>
-  <p>Select #4: declarative store, autocomplete=false:</p>
+	<p>Select #4: declarative store, autocomplete=false:</p>
  	<input searchAttr="name"
  			keyAttr="abbreviation"
  			dojoType="dijit.form.Select"
@@ -216,14 +216,28 @@ Enhancements over plain HTML version:
 	<p>Select #6: No promptMessage, labelType=text</p>
 	<p>Select an item from the list.  You shouldn't get an error.</p>
 	<input
-        dojoType="dijit.form.Select"
-        store="myStore"
-        searchAttr="name"
-        keyAttr="abbreviation"
-        labelAttr="label"
-        labelType="text"
-        value="KY"
->
+		dojoType="dijit.form.Select"
+		store="myStore"
+		searchAttr="name"
+		keyAttr="abbreviation"
+		labelAttr="label"
+		labelType="text"
+		value="KY"
+	>
+	<br>
+	<hr>
+	<p>Select #7: Input method editor Chinese characters</p>
+	<p>Using an input method editor (see <a href="http://www.microsoft.com/windows/ie/ie6/downloads/recommended/ime/default.mspx">IME</a> for Windows) try typing &#38463; (a) or &#25226; (ba).</p>
+
+	<select dojoType="dijit.form.Select"
+		searchAttr="name"
+		keyAttr="abbreviation"
+		name="state7"
+		value="a"
+	>
+		<option value="a">&#38463;</option>
+		<option value="ba">&#25226;</option>
+	</select>
 	<br>
 	<hr>
 	<input type="submit">
