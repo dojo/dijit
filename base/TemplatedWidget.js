@@ -67,10 +67,11 @@ dojo.declare("dijit.base.TemplatedWidget",
 			// recurse through the node, looking for, and attaching to, our
 			// attachment points which should be defined on the template node.
 			this._attachTemplateNodes(node);
-
 			if(this.srcNodeRef){
 				dojo.style(node, "cssText", this.srcNodeRef.style.cssText);
-				node.className += " " + this.srcNodeRef.className;
+				if(this.srcNodeRef.className){
+					node.className += " " + this.srcNodeRef.className;
+				}
 			}
 
 			this.domNode = node;
