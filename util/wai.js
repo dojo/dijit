@@ -98,3 +98,22 @@ dijit.util.wai = {
 		);
 	}
 };
+
+// On page load and at intervals, detect if we are in high-contrast mode or not
+dojo._loaders.unshift(function(){
+	// create div for testing
+	var div = document.createElement("div");
+	div.style.cssText = "border: 1px solid; border-color:red green; position: absolute; left: -999px; top: -999px;";  
+	dojo.body().appendChild(div);
+	
+	// test it
+	function check(){
+		var cs = dojo.getComputedStyle(div);
+		dojo[(cs.borderTopColor==cs.borderRightColor) ? "addClass" : "removeClass"](dojo.body(), "dijit_a11y");
+	}
+	check();
+	if(dojo.isIE){
+		setInterval(check, 4000);
+	}
+});
+
