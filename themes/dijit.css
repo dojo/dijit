@@ -1,6 +1,8 @@
 /*
+
 	Essential styles that themes can inherit.
 	In other words, works but doesn't look great.
+
 */
 
 
@@ -21,31 +23,17 @@
 	line-height:auto;
 }
 
-.dijitInline {
-	/* MOW: similar to InlineBox below, but this has fewer side-effects in Moz.  
-		Also, apparently works on a DIV as well as a FIELDSET.
-		Consider abandoning inlineBox in favor of this.
-	*/
-	display:inline-block;			/* webkit */
-	display:-moz-inline-box;		/* gecko */
-	#display:inline;				/* MSIE   */
+
+.dijitInlineBox {
+	/* To inline block elements, surround them with <fieldset class="dijitInlineBox"> */
+	display:inline-block;
+	display: -moz-inline-stack;
+	#display:inline;		/* MOW: if this is IE-specific, move it to another declaration */
 	border:0px;
 	padding:0px;
 	vertical-align:middle;
 }
 
-.dijitInlineBox {
-	/* To inline block elements, surround them with <fieldset class="dijitInlineBox"> */
-	display:inline-block;			/* webkit */
-	display: -moz-inline-stack;		/* gecko  */
-	#display:inline;				/* MSIE   */
-	border:0px;
-	padding:0px;
-	vertical-align:middle;
-}
-.dj_ie6 .dijitInlineBox {
-	#display:inline;				/* IE */
-}
 
 
 .dijitPopup {
@@ -89,149 +77,70 @@
 }
 
 
-/* MOW: TODOC */
-.dijitLeft {
-	background-position:left top;
-	background-repeat:no-repeat;
+/*** Full sized arrows (matching the size of a line of text) ***/
+
+/* MOW: potentially deprecating these
+/* Down arrow * /
+
+.dijitDownArrowOuter,
+.dijitOpen .dijitOpenCloseArrowOuter {
+	padding:0px;
+	margin:auto;
+	border:0px;
+	overflow:hidden;
+	height:.7em;
+	width:.9em;
+	display: inline-block;
+	display: -moz-inline-stack;
+	vertical-align:middle;
 }
 
-.dijitStretch {
-	white-space:nowrap;			/* MOW: move somewhere else */
-	background-repeat:repeat-x;
+.dijitDownArrowInner,
+.dijitOpen .dijitOpenCloseArrowInner {
+	border-width:2.1em 1.32em;
+	margin:-1.4em 0px 0px -.88em;
+	border-style:solid dotted;
+	border-color:gray transparent;
+	line-height:0px;
+	height:0px;
+	width:0px;
+	display: block;
 }
 
-.dijitRight {
-	#display:inline;				/* IE7 sizes to outer size w/o this */
-	background-position:right top;
-	background-repeat:no-repeat;
+.dj_ie6 .dijitDownArrowInner {
+	margin: 0px;
+	border-width:.7em .44em 0px .44em;
+}
+
+
+/* Right arrow * /
+
+.dijitRightArrowOuter,
+.dijitClosed .dijitOpenCloseArrowOuter {
+	border:0px none;
+	height:0.9em;
+	margin:auto;
+	overflow:hidden;
+	padding:0px;
+	width:0.7em;
+}
+
+.dijitRightArrowInner,
+.dijitClosed .dijitOpenCloseArrowInner {
+	border-width:1.32em 2.1em 1.32em 2.1em;
+	margin:-.88em -1.4em -.88em -1.4em;
+	border-style:dotted solid;
+	border-color:transparent gray;
+	line-height:0px;
+	height:0px;
+	width:0px;
+	display: block;
 }
 
 /* it becomes a left arrow for LTR locales */
 .dijitRTL .dijitRightArrowInner {
 	margin-left:-2.1em;
 }
-
-
-
-/****
-		 dijit.form.Button 
- ****/
-.dijitButton {
-	border:1px outset gray;
-}
-
-.dijitButtonNode {
-	border:0px;
-	margin:0px;
-	overflow:visible;
-	line-height:normal;
-	font-family:inherit;
-	font-size:inherit;
-	padding:4px;
-}
-
-.dijitComboButton .dijitButtonNode {
-	border:1px outset gray;
-	vertical-align:top;
-}
-
-.dijitComboButton .dijitComboButtonArrow {
-	border-left-width:0px;
-}
-
-.dijitButtonDisabled,
-.dijitButtonDisabled *,
-.dijitComboButtonDisabled.
-.dijitComboButtonDisabled * {
-	cursor: url("no.gif"), not-allowed, default; /*FIXME*/
-}
-
-
-.dijitDDButton .dijitButtonNode, 
-.dijitDDButton .dijitButtonNode *{
-	font-family:inherit;
-	font-size:inherit;
-}
-
-table.dijitButton .dijitButtonNode,
-table.dijitComboButton .dijitButtonNode {
-	#overflow:hidden; /* visible messes up if the button is inside a table on IE */
-}
-
-.dijitButtonContents {
-        text-align: center;     /* if icon and label are split across two lines, center icon */
-        vertical-align: middle; /* if icon and label are on same line, center them */
-        white-space: nowrap;
-        color: inherit;
-}
-
-/* border between label and arrow for drop down buttons */
-.dijitButtonContentsDropDown {
-        padding-right: 3px;
-}
-
-
-
-
-
-/****
-		dijit.form.AutoCompleter 
- ****/
-.dijitAutoCompleter {
-	/* Allow user to specify width without messing up defaults; other attributes are put on parent node */
-	width:auto !important;
-}
-
-.dijitAutoCompleter .dijitButtonNode {
-	border:1px outset gray;
-	vertical-align:top;
-}
-
-.dijitAutoCompleter .dijitAutoCompleterArrow {
-	border-left-width:0px;
-	padding:0px;
-	vertical-align: top;
-}
-
-.dijitAutoCompleterInput {
-	/* input element in the Autocompleter */
-	display:inline !important;
-	float:none !important;
-	font-family:inherit;
-	font-size:inherit;
-	font-weight:inherit;
-}
-
-.dijitArrowButtonContainer {
-	/* fieldset that contains the arrow button */
-	display:inline !important;
-	overflow:hidden;
-	line-height:auto;
-	padding:0px;
-	border:0px;
-	margin:0px;
-	vertical-align:top;
-	/* NOTE: width and height are necessary for IE!
-		Override in your theme to make same as your input height.
-	*/
-	width:1em;		
-	height:1em;
-}
-
-.dijitArrowButton {
-	/* actual arrow button */
-	-moz-box-sizing:border-box;
-	display:block;
-	margin:0px;
-	cursor:pointer;
-}
-
-
-.dijitAutoCompleterDisabled .dijitArrowButton {
-	cursor: default;        /* makes opera happy */
-	cursor: url("no.gif"), not-allowed, default;
-}
-
 
 
 
@@ -642,6 +551,47 @@ body .dijitAlignClient { position: absolute; }
 }
 
 
+/* Button widget */
+.dijitButton {
+	line-height:0px; /* needed by webkit */
+}
+
+.dijitButton .dijitButtonNode {
+	border:0px;
+	margin:0px;
+	overflow:visible;
+	line-height:normal;
+}
+
+.dijitButtonDisabled,
+.dijitButtonDisabled * {
+	cursor: url("no.gif"), not-allowed, default; /*FIXME*/
+}
+
+
+table.dijitButton .dijitButtonNode {
+	#overflow:hidden; /* visible messes up if the button is inside a table on IE */
+}
+
+.dijitButtonContents {
+        padding: 0px;
+        text-align: center;     /* if icon and label are split across two lines, center icon */
+        vertical-align: middle; /* if icon and label are on same line, center them */
+        white-space: nowrap;
+        color: inherit;
+}
+
+.dijitButtonContents * {
+        text-align: center;
+        vertical-align: middle; /* if icon and label are on same line, center them */
+}
+
+/* border between label and arrow for drop down buttons */
+.dijitButtonContentsDropDown {
+        padding-right: 3px;
+}
+
+
 /* Calendar */
 
 .calendarContainer thead tr th, .calendarContainer thead tr td, .calendarContainer tbody tr td, .calendarContainer tfoot tr td { 
@@ -826,6 +776,52 @@ body .dijitAlignClient { position: absolute; }
 	display : inline-block;
 	cursor : default;
 	font-size: small;
+}
+
+
+
+/****
+		dijit.form.AutoCompleter 
+ ****/
+.dijitAutoCompleter {
+	/* Allow user to specify width without messing up defaults; other attributes are put on parent node */
+	width:auto !important;
+}
+
+.dijitAutoCompleterInput {
+	/* input element in the Autocompleter */
+	display:inline !important;
+	float:none !important;	
+}
+
+.dijitArrowButtonContainer {
+	/* fieldset that contains the arrow button */
+	display:inline !important;
+	overflow:hidden;
+	line-height:auto;
+	padding:0px;
+	border:0px;
+	margin:0px;
+	vertical-align:top;
+	/* NOTE: width and height are necessary for IE!
+		Override in your theme to make same as your input height.
+	*/
+	width:1em;		
+	height:1em;
+}
+
+.dijitArrowButton {
+	/* actual arrow button */
+	-moz-box-sizing:border-box;
+	display:block;
+	margin:0px;
+	cursor:pointer;
+}
+
+
+.dijitAutoCompleterDisabled .dijitArrowButton {
+	cursor: default;        /* makes opera happy */
+	cursor: url("no.gif"), not-allowed, default;
 }
 
 
