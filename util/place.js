@@ -202,6 +202,13 @@ dijit.util.placeOnScreenAroundElement = function(
 	//		corners parameter in dijit.util.placeOnScreen)
 	//		e.g. {'TL': 'BL', 'BL': 'TL'}
 
+	// This won't work if the node is inside a <div style="position: relative>,
+	// so reattach it to document.body.   (Otherwise, the positioning will be wrong
+	// and also it might get cutoff)
+	if(!node.parentNode || String(node.parentNode.tagName).toLowerCase() != "body"){
+		dojo.body().appendChild(node);
+	}
+
 	var best, bestDistance=Infinity;
 	aroundNode = dojo.byId(aroundNode);
 	var oldDisplay = aroundNode.style.display;
