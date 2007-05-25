@@ -225,7 +225,7 @@ dijit.util.PopupManager = new function(){
 					this._connectHandlers(win);
 				}
 			}catch(e){ /* squelch error for cross domain iframes */ }
-		});
+		}, this);
 	};
 
 	this._disconnectHandlers = function(){
