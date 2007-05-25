@@ -287,11 +287,11 @@ dojo.declare(
 
 			if(this.saveName != "" && (!djConfig["useXDomain"] || djConfig["allowXdRichTextSave"])){
 				var saveTextarea = dojo.byId("dijit._editor.RichText.savedContent");
-				if (saveTextarea.value != "") {
+				if(saveTextarea.value != ""){
 					var datas = saveTextarea.value.split(this._SEPARATOR), i=0, dat;
 					while(dat=datas[i++]){
 						var data = dat.split(":");
-						if (data[0] == this.saveName) {
+						if(data[0] == this.saveName){
 							html = data[1];
 							datas.splice(i, 1);
 							break;
@@ -1071,7 +1071,7 @@ dojo.declare(
 				}
 				_letBrowserHandle = false;
 			}else{ //press enter in the middle of P
-				if(dojo.render.html.moz){
+				if(dojo.isMoz){
 					//press enter in middle of P may leave a trailing <br/>, let's remove it later
 					this._pressedEnterInBlock = block.blockNode;
 				}
@@ -1111,7 +1111,7 @@ dojo.declare(
 		_initialFocus: true,
 		onFocus: function(e){
 			// summary: Fired on focus
-			if( (dojo.render.html.mozilla)&&(this._initialFocus) ){
+			if( (dojo.isMoz)&&(this._initialFocus) ){
 				this._initialFocus = false;
 				if(dojo.string.trim(this.editNode.innerHTML) == "&nbsp;"){
 					this.placeCursorAtStart();
@@ -1121,19 +1121,24 @@ dojo.declare(
 			}
 		},
 
-		blur: function () {
+		blur: function(){
 			// summary: remove focus from this instance
-			if(this.iframe) { this.window.blur(); }
-			else if(this.editNode) { this.editNode.blur(); }
+			if(this.iframe){
+				this.window.blur();
+			}else if(this.editNode){ 
+				this.editNode.blur();
+			}
 		},
 
-		focus: function () {
+		focus: function(){
 			// summary: move focus to this instance
-			if(this.iframe && !dojo.render.html.ie) { this.window.focus(); }
-			// editNode may be hidden in display:none div, lets just punt in this case
-			else if(this.editNode && this.editNode.focus) { this.editNode.focus(); }
-			else{
-				dojo.debug("Have no idea how to focus into the editor!");
+			if(this.iframe && !dojo.isIE){ 
+				this.window.focus();
+			}else if(this.editNode && this.editNode.focus){ 
+				// editNode may be hidden in display:none div, lets just punt in this case
+				this.editNode.focus();
+			}else{
+				console.debug("Have no idea how to focus into the editor!");
 			}
 		},
 
@@ -1146,12 +1151,11 @@ dojo.declare(
 			//		Used as the advice function by dojo.event.connect to map our
 		 	//		normalized set of commands to those supported by the target
 		 	//		browser
-			var drh = dojo.render.html;
 
 			var command = cmd.toLowerCase();
 			if(command == "formatblock"){
-				if(drh.safari){ command = "heading"; }
-			}else if(command == "hilitecolor" && !drh.mozilla){
+				if(dojo.isSafari){ command = "heading"; }
+			}else if(command == "hilitecolor" && !dojo.isMoz){
 				command = "backcolor";
 			}
 
@@ -1234,11 +1238,11 @@ dojo.declare(
 				default: return false;
 			}
 
-			return (dojo.render.html.ie && supportedBy.ie) ||
-				(dojo.render.html.mozilla && supportedBy.mozilla) ||
-				(dojo.render.html.safari && supportedBy.safari) ||
+			return (dojo.isIE && supportedBy.ie) ||
+				(dojo.isMoz && supportedBy.mozilla) ||
+				(dojo.isSafari && supportedBy.safari) ||
 				(gt420 && supportedBy.safari420) ||
-				(dojo.render.html.opera && supportedBy.opera);  // Boolean return true if the command is supported, false otherwise
+				(dojo.isOpera && supportedBy.opera);  // Boolean return true if the command is supported, false otherwise
 		},
 
 		execCommand: function (/*String*/command, argument){
@@ -1262,25 +1266,26 @@ dojo.declare(
 			if(command == "inserthtml"){
 				//TODO: we shall probably call _preDomFilterContent here as well
 				argument=this._preFilterContent(argument);
-				if(dojo.render.html.ie){
-					//dojo.debug("inserthtml breaks the undo stack when not using the ActiveX version of the control!");
+				if(dojo.isIE){
 					var insertRange = this.document.selection.createRange();
 					insertRange.pasteHTML(argument);
 					insertRange.select();
 					//insertRange.collapse(true);
 					return true;
-				}else if(dojo.render.html.moz && argument.length==0){
+				}else if(dojo.isMoz && argument.length==0){
 					//mozilla can not inserthtml an empty html to delete current selection
 					//so we delete the selection instead in this case
-					dojo.withGlobal(this.window,'remove',dojo.html.selection);
+					dojo.withGlobal(this.window,'remove',dojo.html.selection); // FIXME
 					return true;
 				}else{
 					return this.document.execCommand(command, false, argument);
 				}
 			// fix up unlink in Mozilla to unlink the link and not just the selection
-			}else if((command == "unlink")&&
+			}else if(
+				(command == "unlink")&&
 				(this.queryCommandEnabled("unlink"))&&
-				(dojo.render.html.mozilla)){
+				(dojo.isMoz)
+			){
 				// grab selection
 				// Mozilla gets upset if we just store the range so we have to
 				// get the basic properties and recreate to save the selection
@@ -1296,7 +1301,7 @@ dojo.declare(
 				dojo.withGlobal(this.window, "selectElement", dojo.html.selection, [a]);
 
 				return this.document.execCommand("unlink");
-			}else if((command == "hilitecolor")&&(dojo.render.html.mozilla)){
+			}else if((command == "hilitecolor")&&(dojo.isMoz)){
 //				// mozilla doesn't support hilitecolor properly when useCSS is
 //				// set to false (bugzilla #279330)
 
@@ -1304,7 +1309,7 @@ dojo.declare(
 				returnValue = this.document.execCommand(command, false, argument);
 //				this.document.execCommand("useCSS", false, true);
 
-			}else if((dojo.render.html.ie)&&( (command == "backcolor")||(command == "forecolor") )){
+			}else if((dojo.isIE)&&( (command == "backcolor")||(command == "forecolor") )){
 				// Tested under IE 6 XP2, no problem here, comment out
 				// IE weirdly collapses ranges when we exec these commands, so prevent it
 //				var tr = this.document.selection.createRange();
@@ -1316,10 +1321,8 @@ dojo.declare(
 				// apparently isn't bound to it
 //				setTimeout(function(){tr.select();}, 1);
 			}else{
-				// dojo.debug("command:", command, "arg:", argument);
-
 				argument = arguments.length > 1 ? argument : null;
-//				if(dojo.render.html.moz){
+//				if(dojo.isMoz){
 //					this.document = this.iframe.contentWindow.document
 //				}
 
@@ -1335,7 +1338,7 @@ dojo.declare(
 		queryCommandEnabled: function(/*String*/command){
 			// summary: check whether a command is enabled or not
 			command = this._normalizeCommand(command);
-			if(dojo.render.html.mozilla){
+			if(dojo.isMoz){
 				if(command == "unlink"){ // mozilla returns true always
 					return dojo.withGlobal(this.window, "hasAncestorElement",dojo.html.selection, ['a']);
 				} else if (command == "inserttable") {
@@ -1344,7 +1347,7 @@ dojo.declare(
 			}
 
 			// return this.document.queryCommandEnabled(command);
-			var elem = (dojo.render.html.ie) ? this.document.selection.createRange() : this.document;
+			var elem = (dojo.isIE) ? this.document.selection.createRange() : this.document;
 			return elem.queryCommandEnabled(command);
 		},
 
@@ -1357,7 +1360,7 @@ dojo.declare(
 		queryCommandValue: function (command) {
 			// summary: check the value of a given command
 			command = this._normalizeCommand(command);
-			if(dojo.render.html.ie && command == "formatblock"){
+			if(dojo.isIE && command == "formatblock"){
 				return this._local2NativeFormatNames[this.document.queryCommandValue(command)] || this.document.queryCommandValue(command);
 			}
 			return this.document.queryCommandValue(command);
@@ -1374,11 +1377,11 @@ dojo.declare(
 
 			//see comments in placeCursorAtEnd
 			var isvalid=false;
-			if(dojo.render.html.moz){
+			if(dojo.isMoz){
 				var first=this.editNode.firstChild;
 				while(first){
 					if(first.nodeType == 3){
-						if(dojo.string.trim(first.nodeValue).length>0){
+						if(first.nodeValue.replace(/^\s+|\s+$/g, "").length>0){
 							isvalid=true;
 							dojo.withGlobal(this.window, "selectElement",dojo.html.selection, [first]);
 							break;
@@ -1407,11 +1410,11 @@ dojo.declare(
 			//In mozilla, if last child is not a text node, we have to use selectElementChildren on this.editNode.lastChild
 			//otherwise the cursor would be placed at the end of the closing tag of this.editNode.lastChild
 			var isvalid=false;
-			if(dojo.render.html.moz){
+			if(dojo.isMoz){
 				var last=this.editNode.lastChild;
 				while(last){
 					if(last.nodeType == 3){
-						if(dojo.string.trim(last.nodeValue).length>0){
+						if(last.nodeValue.replace(/^\s+|\s+$/g, "").length>0){
 							isvalid=true;
 							dojo.withGlobal(this.window, "selectElement",dojo.html.selection, [last]);
 							break;
@@ -1460,10 +1463,6 @@ dojo.declare(
 				}
 			}
 		},
-		replaceEditorContent: function(/*String*/html){
-			dojo.deprecated("replaceEditorContent", "is deprecated in favor of replaceValue", "0.6");
-			this.replaceValue(html);
-		},
 		replaceValue: function(/*String*/html){
 			// summary:
 			//		this function set the content while trying to maintain the undo stack
@@ -1471,13 +1470,13 @@ dojo.declare(
 			//		other browsers)
 			if(this.isClosed){
 				this.setValue(html);
-			}else if(this.window && this.window.getSelection && !dojo.render.html.moz){ // Safari
+			}else if(this.window && this.window.getSelection && !dojo.isMoz){ // Safari
 				// look ma! it's a totally f'd browser!
 				this.setValue(html);
 			}else if(this.window && this.window.getSelection){ // Moz
 				html = this._preFilterContent(html);
 				this.execCommand("selectall");
-				if(dojo.render.html.moz && !html){ html = "&nbsp;" }
+				if(dojo.isMoz && !html){ html = "&nbsp;" }
 				this.execCommand("inserthtml", html);
 				this._preDomFilterContent(this.editNode);
 			}else if(this.document && this.document.selection){//IE
@@ -1516,7 +1515,7 @@ dojo.declare(
 				});
 			}
 			var ec = this.getNodeChildrenHtml(dom);
-			if(dojo.string.trim(ec) == "&nbsp;"){ ec = ""; }
+			if(ec.replace(/^\s+|\s+$/g, "") == "&nbsp;"){ ec = ""; }
 
 //			if(dojo.render.html.ie){
 //				//removing appended <P>&nbsp;</P> for IE
@@ -1538,38 +1537,34 @@ dojo.declare(
 			if(!this.isLoaded){ return; }
 			if(this.height){ return; }
 
-			var height = dojo.html.getBorderBox(this.editNode).height;
+			var height = dojo.marginBox(this.editNode).h;
 			//height maybe zero in some cases even though the content is not empty,
 			//we try the height of body instead
 			if(!height){
-				height = dojo.html.getBorderBox(this.document.body).height;
+				height = dojo.marginBox(this.document.body).h;
 			}
 			if(height == 0){
-				dojo.debug("Can not figure out the height of the editing area!");
+				console.debug("Can not figure out the height of the editing area!");
 				return; //prevent setting height to 0
 			}
 			this._lastHeight = height;
-			this.editorObject.style.height = this._lastHeight + "px";
-//			this.window.scrollTo(0, 0);
+			// this.editorObject.style.height = this._lastHeight + "px";
+			dojo.marginBox(this.editorObject, { h: this._lastHeight });
+			// this.window.scrollTo(0, 0);
 		},
 
 		_saveContent: function(e){
 			// summary:
 			//		Saves the content in an onunload event if the editor has not been closed
-			var saveTextarea = dojo.byId("dojo.widget.RichText.savedContent");
+			var saveTextarea = dojo.byId("dijit._editor.RichText.savedContent");
 			saveTextarea.value += this._SEPARATOR + this.saveName + ":" + this.getValue();
-		},
-
-		getEditorContent: function(){
-			dojo.deprecated("getEditorContent", "is deprecated in favor of getValue", "0.6");
-			return this.getValue();
 		},
 
 		getNodeHtml: function(node){
 			switch(node.nodeType){
 				case 1: //element node
 					var output = '<'+node.tagName.toLowerCase();
-					if(dojo.render.html.moz){
+					if(dojo.isMoz){
 						if(node.getAttribute('type')=='_moz'){
 							node.removeAttribute('type');
 						}
@@ -1580,7 +1575,7 @@ dojo.declare(
 					//store the list of attributes and sort it to have the
 					//attributes appear in the dictionary order
 					var attrarray = [];
-					if(dojo.render.html.ie){
+					if(dojo.isIE){
 						var s = node.outerHTML;
 						s = s.substr(0,s.indexOf('>'));
 						s = s.replace(/(?:['"])[^"']*\1/g, '');//to make the following regexp safe
@@ -1633,10 +1628,12 @@ dojo.declare(
 					}
 					break;
 				case 3: //text
-					var output = dojo.string.escapeXml(node.nodeValue,true);
+					// FIXME:
+					// var output = dojo.string.escapeXml(node.nodeValue,true);
 					break;
 				case 8: //comment
-					var output = '<!--'+dojo.string.escapeXml(node.nodeValue,true)+'-->';
+					// FIXME:
+					// var output = '<!--'+dojo.string.escapeXml(node.nodeValue,true)+'-->';
 					break;
 				default:
 					var output = "Element not recognized - Type: " + node.nodeType + " Name: " + node.nodeName;
@@ -1671,21 +1668,23 @@ dojo.declare(
 
 			if(this.interval){ clearInterval(this.interval); }
 
-			if(dojo.render.html.ie){
+			/*
+			if(dojo.isIE){
 				dojo.event.browser.clean(this.editNode);
 			}
 
-			if (this.iframe) {
+			if(this.iframe){
 				// FIXME: should keep iframe around for later re-use
 				dojo.html.destroyNode(this.iframe);
 				delete this.iframe;
 			}
+			*/
 
 			if(this.textarea){
 				with(this.textarea.style){
 					position = "";
 					left = top = "";
-					if(dojo.render.html.ie){
+					if(dojo.isIE){
 						overflow = this.__overflow;
 						this.__overflow = null;
 					}
@@ -1695,11 +1694,12 @@ dojo.declare(
 				}else{
 					this.textarea.value = this.savedContent;
 				}
-				dojo.html.removeNode(this.domNode);
+				// dojo.html.removeNode(this.domNode);
+				this.domNode.parentNode.removeNode(this.domNode);
 				this.domNode = this.textarea;
 			}else{
 				if(save){
-					if(dojo.render.html.moz){
+					if(dojo.isMoz){
 						var nc = dojo.doc.createElement("span");
 						this.domNode.appendChild(nc);
 						nc.innerHTML = this.editNode.innerHTML;
@@ -1711,7 +1711,7 @@ dojo.declare(
 				}
 			}
 
-			dojo.html.removeClass(this.domNode, "RichTextEditable");
+			dojo.removeClass(this.domNode, "RichTextEditable");
 			this.isClosed = true;
 			this.isLoaded = false;
 			// FIXME: is this always the right thing to do?
@@ -1731,21 +1731,11 @@ dojo.declare(
 
 		destroyRendering: function(){}, // stub!
 
-		destroy: function (){
+		destroy: function(){
 			this.destroyRendering();
 			if(!this.isClosed){ this.close(false); }
 
 			dijit._editor.RichText.superclass.destroy.call(this);
-		},
-
-		connect: function (targetObj, targetFunc, thisFunc) {
-			// summary: convenient method for dojo.event.connect
-			dojo.event.connect(targetObj, targetFunc, this, thisFunc);
-		},
-
-		disconnect: function (targetObj, targetFunc, thisFunc) {
-			// summary: convenient method for dojo.event.disconnect
-			dojo.event.disconnect(targetObj, targetFunc, this, thisFunc);
 		},
 
 		_fixContentForMoz: function(html){
@@ -1911,9 +1901,10 @@ dojo.declare(
 		},
 		
 		_fixNewLineBehaviorForIE: function(){
-			if (typeof this.document.__INSERTED_EDITIOR_NEWLINE_CSS == "undefined") {
+			if(typeof this.document.__INSERTED_EDITIOR_NEWLINE_CSS == "undefined"){
 				var lineFixingStyles = "p{margin:0;}";
-				dojo.html.insertCssText(lineFixingStyles, this.document);
+				// FIXME:
+				// dojo.html.insertCssText(lineFixingStyles, this.document);
 				this.document.__INSERTED_EDITIOR_NEWLINE_CSS = true;
 //				this.regularPsToSingleLinePs(this.editNode);
 			}
