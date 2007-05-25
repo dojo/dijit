@@ -35,9 +35,11 @@ dojo.declare(
 		// Figure out which child to initially display
 		var idx = dojo.indexOf(children, function(child){ return child.selected; });
 		if(idx == -1){ idx=0; }
-
 		this.selectedChildWidget = children[idx];
 		this.selectedChildWidget.show();
+		
+		// Now publish information about myself so any PageControllers can initialize..
+		dojo.publish(this.id+"-startup", [{children: children, selected: this.selectedChildWidget}]);
 
 		dijit.base.Layout.prototype.startup.apply(this, arguments);
 	},
@@ -200,22 +202,22 @@ dojo.declare(
 			dijit.util.wai.setAttr(this.domNode, "waiRole", "role", "tablist");
 
 			this.pane2button = {};		// mapping from panes to buttons
+			this._subscriptions=[
+				{topic: this.containerId+"-startup", handle: dojo.subscribe(this.containerId+"-startup", this, "onStartup")},
+				{topic: this.containerId+"-addChild", handle: dojo.subscribe(this.containerId+"-addChild", this, "onAddChild")},
+				{topic: this.containerId+"-removeChild", handle: dojo.subscribe(this.containerId+"-removeChild", this, "onRemoveChild")},
+				{topic: this.containerId+"-selectChild", handle: dojo.subscribe(this.containerId+"-selectChild", this, "onSelectChild")}
+			];
 		},
 
-		startup: function(){
-			// At this stage we can wire up to sub-widgets that we control
-			var container = dijit.byId(this.containerId);
-			dojo.forEach(container.getChildren(), this.onAddChild, this);
-
-			dojo.subscribe(this.containerId+"-addChild", this, "onAddChild");
-			dojo.subscribe(this.containerId+"-removeChild", this, "onRemoveChild");
-			dojo.subscribe(this.containerId+"-selectChild", this, "onSelectChild");
+		onStartup: function(/*Object*/ info){
+			// summary: called after PageContainer has finished initializing
+			dojo.forEach(info.children, this.onAddChild, this);
+			this.onSelectChild(info.selected);
 		},
 
 		destroy: function(){
-			dojo.unsubscribe(this.containerId+"-addChild", this, "onAddChild");
-			dojo.unsubscribe(this.containerId+"-removeChild", this, "onRemoveChild");
-			dojo.unsubscribe(this.containerId+"-selectChild", this, "onSelectChild");
+			dojo.forEach(this._subscriptions, function(sub){ dojo.unsubscribe(sub.topic, sub.handle); });
 			dijit.layout.PageController.superclass.destroy.apply(this, arguments);
 		},
 
