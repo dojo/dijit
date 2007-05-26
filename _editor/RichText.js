@@ -1,8 +1,8 @@
 dojo.provide("dijit._editor.RichText");
 dojo.require("dijit.base.Widget");
+dojo.require("dijit._editor.selection");
 
 // dojo.require("dojo.html.layout");
-// dojo.require("dojo.html.selection");
 // dojo.require("dojo.html.range");
 // dojo.require("dojo.string.extras");
 
@@ -341,9 +341,14 @@ dojo.declare(
 				// elements have margins set in CSS :-(
 
 				//in IE, names for blockformat is locale dependent, so we cache the values here
+
 				//if the normal way fails, we try the hard way to get the list
-				//do not use _cacheLocalBlockFormatNames here, as it will trigger security warning in IE7
-				//in the array below, ul can not come directly after ol, otherwise the queryCommandValue returns Normal for it
+
+				//do not use _cacheLocalBlockFormatNames here, as it will
+				//trigger security warning in IE7
+
+				//in the array below, ul can not come directly after ol,
+				//otherwise the queryCommandValue returns Normal for it
 				var formats = ['p', 'pre', 'address', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'ol', 'div', 'ul'];
 				var localhtml = "", format, i=0;
 				while(format=formats[i++]){
@@ -362,11 +367,9 @@ dojo.declare(
 				this.editNode.innerHTML = localhtml;
 				var node = this.editNode.firstChild;
 				while(node){
-					// FIXME: dojo.html.selection is no more!!
-					dojo.withGlobal(this.window, "selectElement", dojo.html.selection, [node.firstChild]);
+					dojo.withGlobal(this.window, "selectElement", dijit._editor.selection, [node.firstChild]);
 					var nativename = node.tagName.toLowerCase();
 					this._local2NativeFormatNames[nativename] = this.queryCommandValue("formatblock");
-//						dojo.debug([nativename,this._local2NativeFormatNames[nativename]]);
 					this._native2LocalFormatNames[this._local2NativeFormatNames[nativename]] = nativename;
 					node = node.nextSibling;
 				}
@@ -795,7 +798,6 @@ dojo.declare(
 
 					this.interval = setInterval(dojo.hitch(this, "onDisplayChanged"), 750);
 					// dojo.raise("onload");
-					// dojo.debug(this.editNode.parentNode.parentNode.parentNode.nodeName);
 				}else if(dojo.isMoz|| dojo.isOpera){
 					var doc = this.document;
 					var self = this;
@@ -851,7 +853,7 @@ dojo.declare(
 		onKeyDown: function(e){
 			// summary: Fired on keydown
 
-			// dojo.debug("onkeydown:", e.keyCode);
+			console.debug("onkeydown:", e.keyCode);
 			// we need this event at the moment to get the events from control keys
 			// such as the backspace. It might be possible to add this to Dojo, so that
 			// keyPress events can be emulated by the keyDown and keyUp detection.
@@ -869,7 +871,6 @@ dojo.declare(
 					e.charCode = e.keyCode;
 					this.onKeyPress(e);
 				}
-				// dojo.debug(e.charCode, e.keyCode, e.ctrlKey);
 			}
 		},
 
@@ -883,6 +884,7 @@ dojo.declare(
 
 		onKeyPress: function(e){
 			// summary: Fired on keypress
+			console.debug("onkeypress:", e.keyCode);
 
 			// handle the various key events
 			var modifiers = e.ctrlKey ? this.KEY_CTRL : 0 | e.shiftKey?this.KEY_SHIFT : 0;
@@ -909,7 +911,7 @@ dojo.declare(
 
 		addKeyHandler: function (/*String*/key, /*Int*/modifiers, /*Function*/handler) {
 			// summary: add a handler for a keyboard shortcut
-			if (!(this._keyHandlers[key] instanceof Array)) { this._keyHandlers[key] = []; }
+			if(!dojo.isArray(this._keyHandlers[key])){ this._keyHandlers[key] = []; }
 			this._keyHandlers[key].push({
 				modifiers: modifiers || 0,
 				handler: handler
@@ -919,14 +921,14 @@ dojo.declare(
 		onKeyPressed: function(e){
 			if(this._checkListLater){
 				// FIXME:
-				if(dojo.withGlobal(this.window, 'isCollapsed', dojo.html.selection)){
+				if(dojo.withGlobal(this.window, 'isCollapsed', dijit._editor.selection)){
 					// FIXME:
-					if(!dojo.withGlobal(this.window, 'hasAncestorElement', dojo.html.selection, ['LI'])){
+					if(!dojo.withGlobal(this.window, 'hasAncestorElement', dijit._editor.selection, ['LI'])){
 						//circulate the undo detection code by calling RichText::execCommand directly
 						// FIXME:
 						dijit._editor.RichText.prototype.execCommand.apply(this, ['formatblock',this.blockNodeForEnter]);
 						//set the innerHTML of the new block node
-						var block = dojo.withGlobal(this.window, 'getAncestorElement', dojo.html.selection, [this.blockNodeForEnter])
+						var block = dojo.withGlobal(this.window, 'getAncestorElement', dijit._editor.selection, [this.blockNodeForEnter])
 						if(block){
 							block.innerHTML=this.bogusHtmlContent;
 							if(dojo.isIE){
@@ -968,7 +970,7 @@ dojo.declare(
 			if(e.shiftKey  //shift+enter always generates <br>
 			    || this.blockNodeForEnter=='BR'){
 				// FIXME
-				var parent = dojo.withGlobal(this.window, "getParentElement",dojo.html.selection);
+				var parent = dojo.withGlobal(this.window, "getParentElement", dijit._editor.selection);
 				// FIXME
 				var header = dojo.html.range.getAncestor(parent,/^(?:H1|H2|H3|H4|H5|H6|LI)$/);
 				if(header){
@@ -1027,7 +1029,7 @@ dojo.declare(
 				this.document.execCommand('formatblock',false, this.blockNodeForEnter);
 				//get the newly created block node
 				// FIXME
-				block = {blockNode:dojo.withGlobal(this.window, "getAncestorElement",dojo.html.selection, [this.blockNodeForEnter]),
+				block = {blockNode:dojo.withGlobal(this.window, "getAncestorElement", dijit._editor.selection, [this.blockNodeForEnter]),
 						blockContainer: this.editNode};
 				if(block.blockNode){
 					if(dojo.html.textContent(block.blockNode).replace(/^\s+|\s+$/g, "").length==0){
@@ -1082,7 +1084,7 @@ dojo.declare(
 			if(/P|DIV|LI/i .test(container.tagName)){
 				var para = container;
 			}else{
-				var para = dojo.html.selection.getParentOfType(container,['P','DIV','LI']);
+				var para = dijit._editor.selection.getParentOfType(container,['P','DIV','LI']);
 			}
 
 			if(!para){ return; }
@@ -1275,30 +1277,31 @@ dojo.declare(
 				}else if(dojo.isMoz && argument.length==0){
 					//mozilla can not inserthtml an empty html to delete current selection
 					//so we delete the selection instead in this case
-					dojo.withGlobal(this.window,'remove',dojo.html.selection); // FIXME
+					dojo.withGlobal(this.window,'remove',dijit._editor.selection); // FIXME
 					return true;
 				}else{
 					return this.document.execCommand(command, false, argument);
 				}
-			// fix up unlink in Mozilla to unlink the link and not just the selection
 			}else if(
 				(command == "unlink")&&
 				(this.queryCommandEnabled("unlink"))&&
 				(dojo.isMoz)
 			){
+				// fix up unlink in Mozilla to unlink the link and not just the selection
+
 				// grab selection
 				// Mozilla gets upset if we just store the range so we have to
 				// get the basic properties and recreate to save the selection
 				var selection = this.window.getSelection();
-//				var selectionRange = selection.getRangeAt(0);
-//				var selectionStartContainer = selectionRange.startContainer;
-//				var selectionStartOffset = selectionRange.startOffset;
-//				var selectionEndContainer = selectionRange.endContainer;
-//				var selectionEndOffset = selectionRange.endOffset;
+				//	var selectionRange = selection.getRangeAt(0);
+				//	var selectionStartContainer = selectionRange.startContainer;
+				//	var selectionStartOffset = selectionRange.startOffset;
+				//	var selectionEndContainer = selectionRange.endContainer;
+				//	var selectionEndOffset = selectionRange.endOffset;
 
 				// select our link and unlink
-				var a = dojo.withGlobal(this.window, "getAncestorElement",dojo.html.selection, ['a']);
-				dojo.withGlobal(this.window, "selectElement", dojo.html.selection, [a]);
+				var a = dojo.withGlobal(this.window, "getAncestorElement",dijit._editor.selection, ['a']);
+				dojo.withGlobal(this.window, "selectElement", dijit._editor.selection, [a]);
 
 				return this.document.execCommand("unlink");
 			}else if((command == "hilitecolor")&&(dojo.isMoz)){
@@ -1340,7 +1343,7 @@ dojo.declare(
 			command = this._normalizeCommand(command);
 			if(dojo.isMoz){
 				if(command == "unlink"){ // mozilla returns true always
-					return dojo.withGlobal(this.window, "hasAncestorElement",dojo.html.selection, ['a']);
+					return dojo.withGlobal(this.window, "hasAncestorElement",dijit._editor.selection, ['a']);
 				} else if (command == "inserttable") {
 					return true;
 				}
@@ -1366,9 +1369,7 @@ dojo.declare(
 			return this.document.queryCommandValue(command);
 		},
 
-
-	/* Misc.
-	 ********/
+		// Misc.
 
 		placeCursorAtStart: function(){
 			// summary:
@@ -1383,22 +1384,22 @@ dojo.declare(
 					if(first.nodeType == 3){
 						if(first.nodeValue.replace(/^\s+|\s+$/g, "").length>0){
 							isvalid=true;
-							dojo.withGlobal(this.window, "selectElement",dojo.html.selection, [first]);
+							dojo.withGlobal(this.window, "selectElement", dijit._editor.selection, [first]);
 							break;
 						}
 					}else if(first.nodeType == 1){
 						isvalid=true;
-						dojo.withGlobal(this.window, "selectElementChildren",dojo.html.selection, [first]);
+						dojo.withGlobal(this.window, "selectElementChildren",dijit._editor.selection, [first]);
 						break;
 					}
 					first = first.nextSibling;
 				}
 			}else{
 				isvalid=true;
-				dojo.withGlobal(this.window, "selectElementChildren",dojo.html.selection, [this.editNode]);
+				dojo.withGlobal(this.window, "selectElementChildren",dijit._editor.selection, [this.editNode]);
 			}
 			if(isvalid){
-				dojo.withGlobal(this.window, "collapse", dojo.html.selection, [true]);
+				dojo.withGlobal(this.window, "collapse", dijit._editor.selection, [true]);
 			}
 		},
 
@@ -1416,25 +1417,25 @@ dojo.declare(
 					if(last.nodeType == 3){
 						if(last.nodeValue.replace(/^\s+|\s+$/g, "").length>0){
 							isvalid=true;
-							dojo.withGlobal(this.window, "selectElement",dojo.html.selection, [last]);
+							dojo.withGlobal(this.window, "selectElement",dijit._editor.selection, [last]);
 							break;
 						}
 					}else if(last.nodeType == 1){
 						isvalid=true;
 						if(last.lastChild){
-							dojo.withGlobal(this.window, "selectElement",dojo.html.selection, [last.lastChild]);
+							dojo.withGlobal(this.window, "selectElement",dijit._editor.selection, [last.lastChild]);
 						}else{
-							dojo.withGlobal(this.window, "selectElement",dojo.html.selection, [last]);
+							dojo.withGlobal(this.window, "selectElement",dijit._editor.selection, [last]);
 						}
 						break;
 					}
 					last = last.previousSibling;
 				}
 			}else{
-				dojo.withGlobal(this.window, "selectElementChildren",dojo.html.selection, [this.editNode]);
+				dojo.withGlobal(this.window, "selectElementChildren",dijit._editor.selection, [this.editNode]);
 			}
 			if(isvalid){
-				dojo.withGlobal(this.window, "collapse", dojo.html.selection, [false]);
+				dojo.withGlobal(this.window, "collapse", dijit._editor.selection, [false]);
 			}
 		},
 
