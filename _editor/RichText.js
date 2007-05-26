@@ -33,67 +33,66 @@ if(!djConfig["useXDomain"] || djConfig["allowXdRichTextSave"]){
 		}catch(e){ }
 	}
 }
-
 dojo.declare(
 	"dijit._editor.RichText",
-	[ dijit.base.Widget ],
-	function(){
-		// summary:
-		//		dojo.widget.RichText is the core of the WYSIWYG editor in dojo, which
-		//		provides the basic editing features. It also encapsulates the differences
-		//		of different js engines for various browsers
-
-		// contentPreFilters: Array
-		//		pre content filter function register array.
-		//		these filters will be executed before the actual
-		//		editing area get the html content
-		this.contentPreFilters = [];
-
-		// contentPostFilters: Array
-		//		post content filter function register array.
-		//		these will be used on the resulting html
-		//		from contentDomPostFilters. The resuling
-		//		content is the final html (returned by getValue())
-		this.contentPostFilters = [];
-
-		// contentDomPreFilters: Array
-		//		pre content dom filter function register array.
-		//		these filters are applied after the result from
-		//		contentPreFilters are set to the editing area
-		this.contentDomPreFilters = [];
-
-		// contentDomPostFilters: Array
-		//		post content dom filter function register array.
-		//		these filters are executed on the editing area dom
-		//		the result from these will be passed to contentPostFilters
-		this.contentDomPostFilters = [];
-
-		// editingAreaStyleSheets: Array
-		//		array to store all the stylesheets applied to the editing area
-		this.editingAreaStyleSheets=[];
-
-		this.contentPreFilters.push(dojo.hitch(this, "_preFixUrlAttributes"));
-		if(dojo.isMoz){
-			this.contentPreFilters.push(this._fixContentForMoz);
-		}
-//		this.contentDomPostFilters.push(this._postDomFixUrlAttributes);
-
-		this._keyHandlers = {};
-
-		this.onLoadDeferred = new dojo.Deferred();
-		if(this.blockNodeForEnter=='BR'){
-			if(dojo.isIE){
-				this.contentDomPreFilters.push(dojo.hitch(this, "regularPsToSingleLinePs"));
-				this.contentDomPostFilters.push(dojo.hitch(this, "singleLinePsToRegularPs"));
-			}
-		}else if(this.blockNodeForEnter){
-			//add enter key handler
-			// FIXME: need to port to the new event code!!
-			this.addKeyHandler(13, 0, this.handleEnterKey); //enter
-			this.addKeyHandler(13, 2, this.handleEnterKey); //shift+enter
-		}
-	},
+	[ dijit.base.Widget ], null,
 	{
+		preamble: function(){
+			// summary:
+			//		dijit._editor.RichText is the core of the WYSIWYG editor in dojo, which
+			//		provides the basic editing features. It also encapsulates the differences
+			//		of different js engines for various browsers
+
+			// contentPreFilters: Array
+			//		pre content filter function register array.
+			//		these filters will be executed before the actual
+			//		editing area get the html content
+			this.contentPreFilters = [];
+
+			// contentPostFilters: Array
+			//		post content filter function register array.
+			//		these will be used on the resulting html
+			//		from contentDomPostFilters. The resuling
+			//		content is the final html (returned by getValue())
+			this.contentPostFilters = [];
+
+			// contentDomPreFilters: Array
+			//		pre content dom filter function register array.
+			//		these filters are applied after the result from
+			//		contentPreFilters are set to the editing area
+			this.contentDomPreFilters = [];
+
+			// contentDomPostFilters: Array
+			//		post content dom filter function register array.
+			//		these filters are executed on the editing area dom
+			//		the result from these will be passed to contentPostFilters
+			this.contentDomPostFilters = [];
+
+			// editingAreaStyleSheets: Array
+			//		array to store all the stylesheets applied to the editing area
+			this.editingAreaStyleSheets=[];
+
+			this._keyHandlers = {};
+			this.contentPreFilters.push(dojo.hitch(this, "_preFixUrlAttributes"));
+			if(dojo.isMoz){
+				this.contentPreFilters.push(this._fixContentForMoz);
+			}
+			//this.contentDomPostFilters.push(this._postDomFixUrlAttributes);
+
+
+			this.onLoadDeferred = new dojo.Deferred();
+			if(this.blockNodeForEnter=='BR'){
+				if(dojo.isIE){
+					this.contentDomPreFilters.push(dojo.hitch(this, "regularPsToSingleLinePs"));
+					this.contentDomPostFilters.push(dojo.hitch(this, "singleLinePsToRegularPs"));
+				}
+			}else if(this.blockNodeForEnter){
+				//add enter key handler
+				// FIXME: need to port to the new event code!!
+				this.addKeyHandler(13, 0, this.handleEnterKey); //enter
+				this.addKeyHandler(13, 2, this.handleEnterKey); //shift+enter
+			}
+		},
 		// inheritWidth: Boolean
 		//		whether to inherit the parent's width or simply use 100%
 		inheritWidth: false,
@@ -139,20 +138,10 @@ dojo.declare(
 		//		will only be set if dojo.Deferred is required
 		onLoadDeferred: null,
 
-	/* Init
-	 *******/
-
+		// Init
 		postCreate: function(){
-			// summary: see dojo.widget.DomWidget
-			dojo.publish("dojo.widget.RichText::init", [this]);
+			dojo.publish("dijit._editor.RichText::init", [this]);
 			this.open();
-
-			// backwards compatibility, needs to be removed
-			dojo.connect(this, "onKeyPressed", this, "afterKeyPress");
-			dojo.connect(this, "onKeyPress", this, "keyPress");
-			dojo.connect(this, "onKeyDown", this, "keyDown");
-			dojo.connect(this, "onKeyUp", this, "keyUp");
-
 			this.setupDefaultShortcuts();
 		},
 
@@ -231,13 +220,13 @@ dojo.declare(
 						position = "absolute";
 						left = top = "-1000px";
 
-						if(h.ie){ //nasty IE bug: abnormal formatting if overflow is not hidden
+						if(dojo.isIE){ //nasty IE bug: abnormal formatting if overflow is not hidden
 							this.__overflow = overflow;
 							overflow = "hidden";
 						}
 					}
 				});
-				if(h.ie){
+				if(dojo.isIE){
 					setTimeout(tmpFunc, 10);
 				}else{
 					tmpFunc();
@@ -246,12 +235,11 @@ dojo.declare(
 				// this.domNode.innerHTML = html;
 
 				if(this.textarea.form){
-					dojo.event.connect('before', this.textarea.form, "onsubmit",
+					// FIXME: port: this used to be before advice!!!
+					dojo.connect(this.textarea.form, "onsubmit", this, function(){
 						// FIXME: should we be calling close() here instead?
-						dojo.hitch(this, function(){
-							this.textarea.value = this.getValue();
-						})
-					);
+						this.textarea.value = this.getValue();
+					});
 				}
 
 				// dojo plucks our original domNode from the document so we need
@@ -307,7 +295,7 @@ dojo.declare(
 			// Safari's selections go all out of whack if we do it inline,
 			// so for now IE is our only hero
 			//if (typeof document.body.contentEditable != "undefined") {
-			if(h.ie || this._safariIsLeopard() || h.opera){ // contentEditable, easy
+			if(dojo.isIE || this._safariIsLeopard() || dojo.isOpera){ // contentEditable, easy
 				this.iframe = dojo.doc.createElement('iframe');
 				this.iframe.src = 'javascript:void(0)';
 				this.editorObject = this.iframe;
@@ -330,8 +318,8 @@ dojo.declare(
 					this.editNode = this.document.body.firstChild;
 				}
 				this.editNode.contentEditable = true;
-				with (this.iframe.style) {
-					if(h.ie70){
+				with(this.iframe.style){
+					if(dojo.isIE >= 7){
 						if(this.height){
 							height = this.height;
 						}
@@ -375,7 +363,7 @@ dojo.declare(
 				var node = this.editNode.firstChild;
 				while(node){
 					// FIXME: dojo.html.selection is no more!!
-					dojo.withGlobal(this.window, "selectElement",dojo.html.selection, [node.firstChild]);
+					dojo.withGlobal(this.window, "selectElement", dojo.html.selection, [node.firstChild]);
 					var nativename = node.tagName.toLowerCase();
 					this._local2NativeFormatNames[nativename] = this.queryCommandValue("formatblock");
 //						dojo.debug([nativename,this._local2NativeFormatNames[nativename]]);
@@ -433,6 +421,8 @@ dojo.declare(
 			//		child are contributing to the total margin between this element
 			//		and the adjacent node. CSS border collapsing makes this
 			//		necessary.
+			
+			return 0; // FIXME: port
 
 			// FIXME: OMG. This has to be horribly inefficient.
 			if(topOrBottom == "top"){
@@ -547,7 +537,7 @@ dojo.declare(
 			this.domNode.appendChild(this.iframe);
 			if(!this.height){
 				// fix margins on tmpContent
-				var c = dojo.query("> *", tmpContent);
+				var c = dojo.query(">", tmpContent);
 				var firstChild = c[0];
 				var lastChild = c.pop();
 				if(firstChild){
@@ -569,8 +559,11 @@ dojo.declare(
 
 			var _iframeInitialized = false;
 
-			// FIXME: port this getStyle thing to 0.9 methods!!
 
+			var _cs = dojo.getComputedStyle(this.domNode);
+
+			/*
+			// FIXME: port this getStyle thing to 0.9 methods!!
 			// curry the getStyle function
 			var getStyle = (function(domNode){ return function(style){
 				return dojo.html.getStyle(domNode, style);
@@ -581,13 +574,18 @@ dojo.declare(
 				getStyle('font-size') + " " +
 				getStyle('font-family');
 
+			*/
+			var font = [ _cs.fontWeight, _cs.fontSize, _cs.fontFamily ].join(" ");
+
 			// line height is tricky - applying a units value will mess things up.
 			// if we can't get a non-units value, bail out.
-			var lineHeight = "1.0";
+			var lineHeight = _cs.lineHeight||"1.0";
+			/*
 			var lineHeightStyle = dojo.html.getUnitValue(this.domNode, 'line-height');
 			if (lineHeightStyle.value && lineHeightStyle.units=="") {
 				lineHeight = lineHeightStyle.value;
 			}
+			*/
 			var contentDoc = this.iframe.contentWindow.document;
 			contentDoc.open();
 			var fulldoc = '<html><head><style>'+
@@ -626,7 +624,8 @@ dojo.declare(
 					}
 
 					// FIXME: what's the 0.9 eqivalent for this?
-					dojo.html.removeNode(tmpContent);
+					// dojo.html.removeNode(tmpContent);
+					tmpContent.parentNode.removeChild(tmpContent);
 					this.document.body.innerHTML = html;
 //					try{
 						this.document.designMode = "on";
@@ -643,7 +642,8 @@ dojo.declare(
 					this.onLoad();
 				}else{
 					// FIXME: what's the 0.9 eqivalent for this?
-					dojo.html.removeNode(tmpContent);
+					// dojo.html.removeNode(tmpContent);
+					tmpContent.parentNode.removeChild(tmpContent);
 					this.editNode.innerHTML = html;
 					this.onDisplayChanged();
 				}
@@ -689,7 +689,7 @@ dojo.declare(
 			// uri:	a dojo.uri.Uri pointing to the url of the external css file
 			var url=uri.toString();
 			if(dojo.indexOf(this.editingAreaStyleSheets, url) > -1){
-				console.debug("dojo.widget.RichText.addStyleSheet: Style sheet "+url+" is already applied to the editing area!");
+				console.debug("dijit._editor.RichText.addStyleSheet: Style sheet "+url+" is already applied to the editing area!");
 				return;
 			}
 
@@ -723,7 +723,7 @@ dojo.declare(
 			}
 			var index = dojo.indexOf(this.editingAreaStyleSheets, url);
 			if(index == -1){
-				console.debug("dojo.widget.RichText.removeStyleSheet: Style sheet "+url+" is not applied to the editing area so it can not be removed!");
+				console.debug("dijit._editor.RichText.removeStyleSheet: Style sheet "+url+" is not applied to the editing area so it can not be removed!");
 				return;
 			}
 			delete this.editingAreaStyleSheets[index];
@@ -924,7 +924,7 @@ dojo.declare(
 					if(!dojo.withGlobal(this.window, 'hasAncestorElement', dojo.html.selection, ['LI'])){
 						//circulate the undo detection code by calling RichText::execCommand directly
 						// FIXME:
-						dojo.widget.RichText.prototype.execCommand.apply(this, ['formatblock',this.blockNodeForEnter]);
+						dijit._editor.RichText.prototype.execCommand.apply(this, ['formatblock',this.blockNodeForEnter]);
 						//set the innerHTML of the new block node
 						var block = dojo.withGlobal(this.window, 'getAncestorElement', dojo.html.selection, [this.blockNodeForEnter])
 						if(block){
@@ -998,7 +998,7 @@ dojo.declare(
 				}else{
 					//don't change this: do not call this.execCommand, as that may have other logic in subclass
 					// FIXME
-					dojo.widget.RichText.prototype.execCommand.call(this, 'inserthtml', '<br>');
+					dijit._editor.RichText.prototype.execCommand.call(this, 'inserthtml', '<br>');
 				}
 				return false;
 			}
@@ -1030,7 +1030,7 @@ dojo.declare(
 				block = {blockNode:dojo.withGlobal(this.window, "getAncestorElement",dojo.html.selection, [this.blockNodeForEnter]),
 						blockContainer: this.editNode};
 				if(block.blockNode){
-					if(dojo.string.trim(dojo.html.textContent(block.blockNode)).length==0){
+					if(dojo.html.textContent(block.blockNode).replace(/^\s+|\s+$/g, "").length==0){
 						this.removeTrailingBr(block.blockNode);
 						return false;
 					}
@@ -1113,7 +1113,7 @@ dojo.declare(
 			// summary: Fired on focus
 			if( (dojo.isMoz)&&(this._initialFocus) ){
 				this._initialFocus = false;
-				if(dojo.string.trim(this.editNode.innerHTML) == "&nbsp;"){
+				if(this.editNode.innerHTML.replace(/^\s+|\s+$/g, "") == "&nbsp;"){
 					this.placeCursorAtStart();
 //					this.execCommand("selectall");
 //					this.window.getSelection().collapseToStart();
@@ -1164,8 +1164,8 @@ dojo.declare(
 
 		_safariIsLeopard: function(){
 			var gt420 = false;
-			if(dojo.render.html.safari){
-				var tmp = dojo.render.html.UA.split("AppleWebKit/")[1];
+			if(dojo.isSafari){
+				var tmp = navigator.userAgent.split("AppleWebKit/")[1];
 				var ver = parseFloat(tmp.split(" ")[0]);
 				if(ver >= 420){ gt420 = true; }
 			}
@@ -1438,13 +1438,13 @@ dojo.declare(
 			}
 		},
 
-		getValue: function(/*Boolean?*/nondistructive){
+		getValue: function(/*Boolean?*/nonDestructive){
 			// summary:
 			//		return the current content of the editing area (post filters are applied)
 			if(this.isClosed && this.textarea){
 				return this.textarea.value;
 			}else{
-				return this._postFilterContent(null,nondistructive);
+				return this._postFilterContent(null, nonDestructive);
 			}
 		},
 		setValue: function(/*String*/html){
@@ -1492,22 +1492,26 @@ dojo.declare(
 			// summary:
 			//		filter the input before setting the content of the editing area
 			var ec = html;
-			dojo.forEach(this.contentPreFilters, function(ef){ ec = ef(ec); });
+			dojo.forEach(this.contentPreFilters, function(ef){ if(ef){ ec = ef(ec); } });
 			return ec;
 		},
 		_preDomFilterContent: function(/*DomNode*/dom){
 			// summary:
 			//		filter the input 
 			dom = dom || this.editNode;
-			dojo.forEach(this.contentDomPreFilters, function(ef){ ef(dom); }, this);
+			dojo.forEach(this.contentDomPreFilters, function(ef){ 
+				if(ef && dojo.isFunction(ef)){ 
+					ef(dom); 
+				} 
+			}, this);
 		},
 
-		_postFilterContent: function(/*DomNode|DomNode[]?*/dom,/*Boolean?*/nondistructive){
+		_postFilterContent: function(/*DomNode|DomNode[]?*/dom,/*Boolean?*/nonDestructive){
 			// summary:
 			//		filter the output after getting the content of the editing area
 			dom = dom || this.editNode;
-			if(this.contentDomPostFilters.length>0){
-				if(nondistructive && dom['cloneNode']){
+			if(this.contentDomPostFilters.length){
+				if(nonDestructive && dom['cloneNode']){
 					dom = dom.cloneNode(true);
 				}
 				dojo.forEach(this.contentDomPostFilters, function(ef){
@@ -1558,6 +1562,18 @@ dojo.declare(
 			//		Saves the content in an onunload event if the editor has not been closed
 			var saveTextarea = dojo.byId("dijit._editor.RichText.savedContent");
 			saveTextarea.value += this._SEPARATOR + this.saveName + ":" + this.getValue();
+		},
+
+
+		escapeXml: function(/*string*/str, /*boolean*/noSingleQuotes){
+			//summary:
+			//		Adds escape sequences for special characters in XML: &<>"'
+			//		Optionally skips escapes for single quotes
+			str = str.replace(/&/gm, "&amp;").replace(/</gm, "&lt;").replace(/>/gm, "&gt;").replace(/"/gm, "&quot;");
+			if(!noSingleQuotes){ 
+				str = str.replace(/'/gm, "&#39;");
+			}
+			return str; // string
 		},
 
 		getNodeHtml: function(node){
@@ -1629,11 +1645,11 @@ dojo.declare(
 					break;
 				case 3: //text
 					// FIXME:
-					// var output = dojo.string.escapeXml(node.nodeValue,true);
+					var output = this.escapeXml(node.nodeValue,true);
 					break;
 				case 8: //comment
 					// FIXME:
-					// var output = '<!--'+dojo.string.escapeXml(node.nodeValue,true)+'-->';
+					var output = '<!--'+this.escapeXml(node.nodeValue,true)+'-->';
 					break;
 				default:
 					var output = "Element not recognized - Type: " + node.nodeType + " Name: " + node.nodeName;
@@ -1642,12 +1658,15 @@ dojo.declare(
 		},
 
 		getNodeChildrenHtml: function(dom){
-			var output='';
-			var nodes = dom.childNodes||dom, i=0, node;
+			var out = "";
+			if(!dom){ return out; }
+			var nodes = dom["childNodes"]||dom;
+			var i=0;
+			var node;
 			while(node=nodes[i++]){
-				output += this.getNodeHtml(node);
+				out += this.getNodeHtml(node);
 			}
-			return output;
+			return out;
 		},
 
 		close: function(/*Boolean*/save, /*Boolean*/force){
@@ -1717,7 +1736,7 @@ dojo.declare(
 			// FIXME: is this always the right thing to do?
 			delete this.editNode;
 
-			if(this.window._frameElement){
+			if(this.window && this.window._frameElement){
 				this.window._frameElement = null;
 			}
 
