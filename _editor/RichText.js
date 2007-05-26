@@ -153,9 +153,9 @@ dojo.declare(
 			//		executes the builtin commands within the underlying browser
 			//		support.
 			var ctrl = this.KEY_CTRL;
-			var exec = function (cmd, arg) {
-				return arguments.length == 1 ? function () { this.execCommand(cmd); } :
-					function () { this.execCommand(cmd, arg); }
+			var exec = function(cmd, arg){
+				return arguments.length == 1 ? function(){ this.execCommand(cmd); } :
+					function(){ this.execCommand(cmd, arg); }
 			}
 			this.addKeyHandler("b", ctrl, exec("bold"));
 			this.addKeyHandler("i", ctrl, exec("italic"));
@@ -889,7 +889,8 @@ dojo.declare(
 			// handle the various key events
 			var modifiers = e.ctrlKey ? this.KEY_CTRL : 0 | e.shiftKey?this.KEY_SHIFT : 0;
 
-			var key = e.key||e.keyCode;
+			// var key = e.key||e.keyCode;
+			var key = e.keyChar;
 			if(this._keyHandlers[key]){
 				// dojo.debug("char:", e.key);
 				var handlers = this._keyHandlers[key], i = 0, h;
@@ -1259,9 +1260,10 @@ dojo.declare(
 			this.focus();
 
 			command = this._normalizeCommand(command);
-			if (argument != undefined) {
-				if(command == "heading") { throw new Error("unimplemented"); }
-				else if(command == "formatblock" && dojo.render.html.ie){
+			if(argument != undefined){
+				if(command == "heading"){ 
+					throw new Error("unimplemented");
+				}else if((command == "formatblock") && dojo.isIE){
 					argument = '<'+argument+'>';
 				}
 			}
@@ -1522,10 +1524,10 @@ dojo.declare(
 			var ec = this.getNodeChildrenHtml(dom);
 			if(ec.replace(/^\s+|\s+$/g, "") == "&nbsp;"){ ec = ""; }
 
-//			if(dojo.render.html.ie){
-//				//removing appended <P>&nbsp;</P> for IE
-//				ec = ec.replace(/(?:<p>&nbsp;</p>[\n\r]*)+$/i,"");
-//			}
+			//	if(dojo.isIE){
+			//		//removing appended <P>&nbsp;</P> for IE
+			//		ec = ec.replace(/(?:<p>&nbsp;</p>[\n\r]*)+$/i,"");
+			//	}
 			dojo.forEach(this.contentPostFilters, function(ef){
 				ec = ef(ec);
 			});
