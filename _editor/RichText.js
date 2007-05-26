@@ -308,8 +308,7 @@ dojo.declare(
 				this.window = this.iframe.contentWindow;
 				this.document = this.window.document;
 				this.document.open();
-				this.document.write('<html><head><style>body{margin:0;padding:0;border:0;overflow:auto;}</style>'+
-					 this._applyEditingAreaStyleSheets()+ "</head><body></body></html>");
+				this.document.write(this._getIframeDocTxt());
 				this.document.close();
 				if(this.height){
 					this.editNode = this.document.body;
@@ -495,7 +494,57 @@ dojo.declare(
 			}
 		},
 
-		_drawIframe: function (/*String*/html){
+		_getIframeDocTxt: function(){
+			var _cs = dojo.getComputedStyle(this.domNode);
+
+			var font = [ _cs.fontWeight, _cs.fontSize, _cs.fontFamily ].join(" ");
+
+			// line height is tricky - applying a units value will mess things up.
+			// if we can't get a non-units value, bail out.
+			var lineHeight = _cs.lineHeight;
+			if(lineHeight.indexOf("px") >= 0){
+				lineHeight = parseFloat(lineHeight)/parseFloat(_cs.fontSize);
+				// console.debug(lineHeight);
+			}else if(lineHeight.indexOf("em")>=0){
+				lineHeight = parseFloat(lineHeight);
+			}else{
+				lineHeight = "1.0";
+			}
+			return [
+				"<html><head><style>",
+				"body,html {",
+				"	background:transparent;",
+				"	padding: 0;",
+				"	margin: 0;",
+				"}",
+				// TODO: left positioning will case contents to disappear out of view
+				//       if it gets too wide for the visible area
+				"body{",
+				"	top:0px; left:0px; right:0px;",
+					((this.height||dojo.isOpera) ? "" : "position: fixed;"),
+				"	font:", font, ";",
+				// FIXME: IE 6 won't understand min-height?
+				"	min-height:", this.minHeight, ";",
+				"	line-height:", lineHeight,
+				"}",
+				"p{ margin: 1em 0 !important; }",
+				(this.height ? 
+					"" :
+					"body > *:first-child{ padding-top:0 !important;margin-top:" + this._firstChildContributingMargin + "px !important;}" + // FIXME: test firstChild nodeType
+					"body > *:last-child {"+
+					"	padding-bottom:0 !important;"+
+					"	margin-bottom:" + this._lastChildContributingMargin + "px !important;"+
+					"}"
+				),
+				"li > ul:-moz-first-node, li > ol:-moz-first-node{ padding-top: 1.2em; } ",
+				"li{ min-height:1.2em; }",
+				"</style>", 
+				this._applyEditingAreaStyleSheets(),
+				"</head><body></body></html>"
+			].join("");
+		},
+
+		_drawIframe: function(/*String*/html){
 			// summary:
 			//		Draws an iFrame using the existing one if one exists.
 			//		Used by Mozilla, Safari, and Opera
@@ -561,54 +610,9 @@ dojo.declare(
 			}
 
 			var _iframeInitialized = false;
-
-
-			var _cs = dojo.getComputedStyle(this.domNode);
-
-			/*
-			// FIXME: port this getStyle thing to 0.9 methods!!
-			// curry the getStyle function
-			var getStyle = (function(domNode){ return function(style){
-				return dojo.html.getStyle(domNode, style);
-			}; })(this.domNode);
-
-			var font =
-				getStyle('font-weight') + " " +
-				getStyle('font-size') + " " +
-				getStyle('font-family');
-
-			*/
-			var font = [ _cs.fontWeight, _cs.fontSize, _cs.fontFamily ].join(" ");
-
-			// line height is tricky - applying a units value will mess things up.
-			// if we can't get a non-units value, bail out.
-			var lineHeight = _cs.lineHeight||"1.0";
-			/*
-			var lineHeightStyle = dojo.html.getUnitValue(this.domNode, 'line-height');
-			if (lineHeightStyle.value && lineHeightStyle.units=="") {
-				lineHeight = lineHeightStyle.value;
-			}
-			*/
 			var contentDoc = this.iframe.contentWindow.document;
 			contentDoc.open();
-			var fulldoc = '<html><head><style>'+
-				'body,html{background:transparent;padding:0;margin:0;}' +
-				// TODO: left positioning will case contents to disappear out of view
-				//       if it gets too wide for the visible area
-				'body{top:0;left:0;right:0;' +
-				((this.height||dojo.isOpera) ? '' : 'position:fixed;') +
-				'font:' + font + ';' +
-				'min-height:' + this.minHeight + ';' +
-				'line-height:' + lineHeight + '}' +
-				'p{margin: 1em 0 !important;}' +
-				(this.height?'':
-				'body > *:first-child{padding-top:0 !important;margin-top:' + this._firstChildContributingMargin + 'px !important;}' + // FIXME: test firstChild nodeType
-				'body > *:last-child{padding-bottom:0 !important;margin-bottom:' + this._lastChildContributingMargin + 'px !important;}') +
-				'li > ul:-moz-first-node, li > ol:-moz-first-node{padding-top:1.2em;}\n' +
-				'li{min-height:1.2em;}' +
-				'</style>' + this._applyEditingAreaStyleSheets()+
-				'</head><body></body></html>';
-			contentDoc.write(fulldoc);
+			contentDoc.write(this._getIframeDocTxt());
 			contentDoc.close();
 
 			// now we wait for onload. Janky hack!
@@ -630,11 +634,12 @@ dojo.declare(
 					// dojo.html.removeNode(tmpContent);
 					tmpContent.parentNode.removeChild(tmpContent);
 					this.document.body.innerHTML = html;
-//					try{
-						this.document.designMode = "on";
-//					}catch(e){
-//						this._tryDesignModeOnClick=true;
-//					}
+					this.document.designMode = "on";
+					//	try{
+					//	this.document.designMode = "on";
+					// }catch(e){
+					//	this._tryDesignModeOnClick=true;
+					// }
 					try{
 						var currentDomain = (new dojo._Url(dojo.doc.location)).host;
 						if(dojo.doc.domain!=currentDomain){
@@ -829,8 +834,6 @@ dojo.declare(
 				// give the node Layout on IE
 				this.editNode.style.zoom = 1.0;
 			}
-
-//			this._applyEditingAreaStyleSheets();
 
 			if(this.focusOnLoad){
 				this.focus();
