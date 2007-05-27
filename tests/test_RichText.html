@@ -22,14 +22,32 @@
 		<div style="padding: 1em">
 			<h1 class="testTitle">Rich Text Test</h1>
 			
-			<div dojoType="dijit._editor.RichText" 
-				styleSheets="../../dojo/resources/dojo.css">
-				<ul>
-					<li>Right click on the client area of the page (ctrl-click for Macintosh). Menu should open.</li>
-					<li>Right click on each of the form controls above. Menu should open.</li>
-					<li>Right click near the righthand window border. Menu should open to the left of the pointer.</li>
-					<li>Right click near the bottom window border. Menu should open above the pointer.</li>
-				</ul>
+			<div style="border: 1px dotted black;">
+				<h3>thud</h3>
+				<textarea dojoType="dijit._editor.RichText" 
+					styleSheets="../../dojo/resources/dojo.css">
+					<ul>
+						<li>Right click on the client area of the page (ctrl-click for Macintosh). Menu should open.</li>
+						<li>Right click on each of the form controls above. Menu should open.</li>
+						<li>Right click near the righthand window border. Menu should open to the left of the pointer.</li>
+						<li>Right click near the bottom window border. Menu should open above the pointer.</li>
+					</ul>
+				</textarea>
+				<h3>..after</h3>
+			</div>
+
+			<div style="border: 1px dotted black;">
+				<h3>blah</h3>
+				<div dojoType="dijit._editor.RichText" 
+					styleSheets="../../dojo/resources/dojo.css">
+					<ul>
+						<li>Right click on the client area of the page (ctrl-click for Macintosh). Menu should open.</li>
+						<li>Right click on each of the form controls above. Menu should open.</li>
+						<li>Right click near the righthand window border. Menu should open to the left of the pointer.</li>
+						<li>Right click near the bottom window border. Menu should open above the pointer.</li>
+					</ul>
+				</div>
+				<h3>..after</h3>
 			</div>
 		</div>
 

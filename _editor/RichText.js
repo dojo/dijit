@@ -93,6 +93,7 @@ dojo.declare(
 				this.addKeyHandler(13, 2, this.handleEnterKey); //shift+enter
 			}
 		},
+
 		// inheritWidth: Boolean
 		//		whether to inherit the parent's width or simply use 100%
 		inheritWidth: false,
@@ -177,11 +178,23 @@ dojo.declare(
 		// events: Array
 		//		 events which should be connected to the underlying editing area
 		events: ["onBlur", "onFocus", "onKeyPress", "onKeyDown", "onKeyUp", "onClick"],
+
 		// events: Array
 		//		 events which should be connected to the underlying editing
 		//		 area, events in this array will be addListener with
 		//		 capture=true
 		captureEvents: [],
+
+		_safariIsLeopard: function(){
+			var gt420 = false;
+			if(dojo.isSafari){
+				var tmp = navigator.userAgent.split("AppleWebKit/")[1];
+				var ver = parseFloat(tmp.split(" ")[0]);
+				if(ver >= 420){ gt420 = true; }
+			}
+			return gt420;
+		},
+
 		open: function(/*DomNode, optional*/element){
 			// summary:
 			//		Transforms the node referenced in this.domNode into a rich text editing
@@ -253,7 +266,11 @@ dojo.declare(
 				this.domNode.innerHTML = '';
 			}
 			if(html == ""){ html = "&nbsp;"; }
+
+			// dojo.body().appendChild(this.domNode);
+			dojo.place(this.domNode, this.srcNodeRef, "before");
 			var content = dojo.contentBox(this.domNode);
+			// var content = dojo.contentBox(this.srcNodeRef);
 			this._oldHeight = content.height;
 			this._oldWidth = content.width;
 
@@ -296,16 +313,14 @@ dojo.declare(
 			// so for now IE is our only hero
 			//if (typeof document.body.contentEditable != "undefined") {
 			if(dojo.isIE || this._safariIsLeopard() || dojo.isOpera){ // contentEditable, easy
-				this.iframe = dojo.doc.createElement('iframe');
-				this.iframe.src = 'javascript:void(0)';
-				this.editorObject = this.iframe;
-				with(this.iframe.style){
-					border = '0';
-					width = "100%";
-				}
-				this.iframe.frameBorder = 0;
-				this.editingArea.appendChild(this.iframe)
-				this.window = this.iframe.contentWindow;
+				var ifr = this.iframe = dojo.doc.createElement('iframe');
+				ifr.src = 'javascript:void(0)';
+				this.editorObject = ifr;
+				ifr.style.border = "none";
+				ifr.style.width = "100%";
+				ifr.frameBorder = 0;
+				this.editingArea.appendChild(ifr)
+				this.window = ifr.contentWindow;
 				this.document = this.window.document;
 				this.document.open();
 				this.document.write(this._getIframeDocTxt());
@@ -317,7 +332,7 @@ dojo.declare(
 					this.editNode = this.document.body.firstChild;
 				}
 				this.editNode.contentEditable = true;
-				with(this.iframe.style){
+				with(ifr){
 					if(dojo.isIE >= 7){
 						if(this.height){
 							height = this.height;
@@ -553,18 +568,21 @@ dojo.declare(
 			var oldMoz = Boolean(dojo.isMoz && (typeof window.XML == 'undefined'));
 
 			if(!this.iframe){
-				this.iframe = dojo.doc.createElement("iframe");
-//				dojo.body().appendChild(this.iframe);
-				with(this.iframe){
-					style.border = "none";
-					style.lineHeight = "0"; // squash line height
-					style.verticalAlign = "bottom";
-					scrolling = this.height ? "auto" : "vertical";
-				}
+				var ifr = this.iframe = dojo.doc.createElement("iframe");
+				// this.iframe.src = "about:blank";
+				// document.body.appendChild(this.iframe);
+				// console.debug(this.iframe.contentDocument.open());
+				// dojo.body().appendChild(this.iframe);
+				var ifrs = ifr.style;
+				// ifrs.border = "1px solid black";
+				ifrs.border = "none";
+				ifrs.lineHeight = "0"; // squash line height
+				ifrs.verticalAlign = "bottom";
+				ifrscrolling = this.height ? "auto" : "vertical";
 			}
 			// opera likes this to be outside the with block
-//			this.iframe.src = "javascript:void(0)";//dojo.uri.dojoUri("src/widget/templates/richtextframe.html") + ((dojo.doc.domain != currentDomain) ? ("#"+dojo.doc.domain) : "");
-			this.iframe.width = this.inheritWidth ? this._oldWidth : "100%";
+			//	this.iframe.src = "javascript:void(0)";//dojo.uri.dojoUri("src/widget/templates/richtextframe.html") + ((dojo.doc.domain != currentDomain) ? ("#"+dojo.doc.domain) : "");
+			this.iframe.style.width = this.inheritWidth ? this._oldWidth : "100%";
 
 			if(this.height){
 				this.iframe.style.height = this.height;
@@ -586,7 +604,11 @@ dojo.declare(
 			//calculation below is correct
 			this.editingArea.appendChild(tmpContent);
 
-			this.domNode.appendChild(this.iframe);
+			if(!dojo.isSafari){
+				dojo.place(this.iframe, this.srcNodeRef, "before");
+			}
+			// this.domNode.appendChild(this.iframe);
+			// dojo.body().appendChild(this.domNode);
 			if(!this.height){
 				// fix margins on tmpContent
 				var c = dojo.query(">", tmpContent);
@@ -610,7 +632,9 @@ dojo.declare(
 			}
 
 			var _iframeInitialized = false;
-			var contentDoc = this.iframe.contentWindow.document;
+			// console.debug(this.iframe);
+			// var contentDoc = this.iframe.contentWindow.document;
+			var contentDoc = this.iframe.contentDocument;
 			contentDoc.open();
 			contentDoc.write(this._getIframeDocTxt());
 			contentDoc.close();
@@ -1168,16 +1192,6 @@ dojo.declare(
 			return command;
 		},
 
-		_safariIsLeopard: function(){
-			var gt420 = false;
-			if(dojo.isSafari){
-				var tmp = navigator.userAgent.split("AppleWebKit/")[1];
-				var ver = parseFloat(tmp.split(" ")[0]);
-				if(ver >= 420){ gt420 = true; }
-			}
-			return gt420;
-		},
-
 		queryCommandAvailable: function (/*String*/command) {
 			// summary:
 			//		Tests whether a command is supported by the host. Clients SHOULD check
@@ -1453,6 +1467,7 @@ dojo.declare(
 				return this._postFilterContent(null, nonDestructive);
 			}
 		},
+
 		setValue: function(/*String*/html){
 			// summary:
 			//		this function set the content. No undo history is preserved
@@ -1469,6 +1484,7 @@ dojo.declare(
 				}
 			}
 		},
+
 		replaceValue: function(/*String*/html){
 			// summary:
 			//		this function set the content while trying to maintain the undo stack
@@ -1720,7 +1736,9 @@ dojo.declare(
 					this.textarea.value = this.savedContent;
 				}
 				// dojo.html.removeNode(this.domNode);
-				this.domNode.parentNode.removeNode(this.domNode);
+				if(this.domNode.parentNode){ // FIXME
+					this.domNode.parentNode.removeNode(this.domNode);
+				}
 				this.domNode = this.textarea;
 			}else{
 				if(save){
