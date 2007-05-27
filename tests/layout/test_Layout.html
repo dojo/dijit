@@ -15,7 +15,6 @@
 		dojo.require("dijit.layout.LinkPane");
 		dojo.require("dijit.layout.SplitContainer");
 		dojo.require("dijit.layout.TabContainer");
-		//	dojo.require("dijit.Tree");
 		dojo.require("dijit.util.parser");	// scan page for widgets and instantiate them
 
 	</script>
@@ -57,22 +56,9 @@
 			activeSizing="0"
 			layoutAlign="client"
 		>
-			<div zdojoType="Tree" publishSelectionTopic="treeSelected" toggle="fade"
+			<div dojoType="dijit.layout.ContentPane"
 				 sizeMin="20" sizeShare="20">
-				<div zdojoType="TreeNode" title="Item 1">
-					<div zdojoType="TreeNode" title="Item 1.1"><br/></div>
-					<div zdojoType="TreeNode" title="Item 1.2">
-						<div zdojoType="TreeNode" title="Item 1.2.1"></div>
-						<div zdojoType="TreeNode" title="Item 1.2.2"></div>
-					</div>
-					<div zdojoType="TreeNode" title="Item 1.3">
-						<div zdojoType="TreeNode" title="Item 1.3.1"></div>
-						<div zdojoType="TreeNode" title="Item 1.3.2"></div>
-					</div>
-					<div zdojoType="TreeNode" title="Item 1.4">
-						<div zdojoType="TreeNode" title="Item 1.4.1"></div>
-					</div>
-				</div>
+				Left side
 			</div>
 
 			<div dojoType="dijit.layout.SplitContainer"
@@ -89,7 +75,7 @@
 					<a id="tab2" dojoType="dijit.layout.LinkPane" href="tab2.html">Tab 2</a>
 				</div>
 				<div dojoType="dijit.layout.ContentPane" sizeMin="20" sizeShare="30">
-					This is just a test of the various containers nested inside each other.
+					Bottom right
 				</div>
 			</div>
 		</div>
