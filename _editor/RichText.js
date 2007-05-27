@@ -255,6 +255,8 @@ dojo.declare(
 
 			if(	(this.domNode["nodeName"])&&
 				(this.domNode.nodeName.toLowerCase() == "textarea")){
+				// if we were created from a textarea, then we need to create a
+				// new editing harness node.
 				this.textarea = this.domNode;
 				var html = this._preFilterContent(this.textarea.value);
 				this.domNode = dojo.doc.createElement("div");
@@ -604,12 +606,13 @@ dojo.declare(
 				this.iframe.height = height;
 			}
 
-			var tmpContent = dojo.doc.createElement('div');
-//			tmpContent.style.display="none";
-			tmpContent.innerHTML = html;
+			var tmpContent = this.srcNodeRef;
+			// var tmpContent = dojo.doc.createElement('div');
+			//	tmpContent.style.display="none";
+			// tmpContent.innerHTML = html;
 			//append tmpContent to under the current domNode so that the margin
 			//calculation below is correct
-			this.editingArea.appendChild(tmpContent);
+			// this.editingArea.appendChild(tmpContent);
 
 			if(!dojo.isSafari){
 				dojo.place(this.iframe, this.srcNodeRef, "before");
@@ -632,8 +635,8 @@ dojo.declare(
 			//if external style sheets are used for the editing area, the appearance now
 			//and after loading of the editing area won't be the same (and padding/margin
 			//calculation above may not be accurate)
-//			tmpContent.style.display = "none";
-//			this.editingArea.appendChild(this.iframe);
+			//	tmpContent.style.display = "none";
+			//	this.editingArea.appendChild(this.iframe);
 			if(dojo.isSafari){
 				this.iframe.src = this.iframe.src;
 			}
