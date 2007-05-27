@@ -195,6 +195,48 @@ dojo.declare(
 			return gt420;
 		},
 
+		_editorCommandsLocalized: false,
+		_localizeEditorCommands: function(){
+			if(this._editorCommandsLocalized){
+				return;
+			}
+			this._editorCommandsLocalized = true;
+			//do not use _cacheLocalBlockFormatNames here, as it will
+			//trigger security warning in IE7
+
+			//in the array below, ul can not come directly after ol,
+			//otherwise the queryCommandValue returns Normal for it
+			var formats = ['p', 'pre', 'address', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'ol', 'div', 'ul'];
+			var localhtml = "", format, i=0;
+			while(format=formats[i++]){
+				if(format.charAt(1) != 'l'){
+					localhtml += "<"+format+"><span>content</span></"+format+">";
+				}else{
+					localhtml += "<"+format+"><li>content</li></"+format+">";
+				}
+			}
+			//queryCommandValue returns empty if we hide editNode, so move it out of screen temporary
+			with(this.iframe.style){
+				position = "absolute";
+				left = "-2000px";
+				top = "-2000px";
+			}
+			this.editNode.innerHTML = localhtml;
+			var node = this.editNode.firstChild;
+			while(node){
+				dojo.withGlobal(this.window, "selectElement", dijit._editor.selection, [node.firstChild]);
+				var nativename = node.tagName.toLowerCase();
+				this._local2NativeFormatNames[nativename] = this.queryCommandValue("formatblock");
+				this._native2LocalFormatNames[this._local2NativeFormatNames[nativename]] = nativename;
+				node = node.nextSibling;
+			}
+			with(this.iframe.style){
+				position = "";
+				left = "";
+				top = "";
+			}
+		},
+
 		open: function(/*DomNode, optional*/element){
 			// summary:
 			//		Transforms the node referenced in this.domNode into a rich text editing
@@ -257,10 +299,10 @@ dojo.declare(
 
 				// dojo plucks our original domNode from the document so we need
 				// to go back and put ourselves back in
-//				var editor = this;
-//				dojo.connect(this, "postCreate", function (){
-//					dojo.place(editor.textarea, editor.domNode, "after");
-//				});
+				//	var editor = this;
+				//	dojo.connect(this, "postCreate", function (){
+				//		dojo.place(editor.textarea, editor.domNode, "after");
+				//	});
 			}else{
 				var html = this._preFilterContent(this.getNodeChildrenHtml(this.domNode));
 				this.domNode.innerHTML = '';
@@ -282,8 +324,8 @@ dojo.declare(
 
 			// If we're a list item we have to put in a blank line to force the
 			// bullet to nicely align at the top of text
-			if(	(this.domNode["nodeName"])&&
-				(this.domNode.nodeName == "LI")){
+			if(	(this.domNode["nodeName"]) &&
+				(this.domNode.nodeName == "LI") ){
 				this.domNode.innerHTML = " <br>";
 			}
 
@@ -332,17 +374,15 @@ dojo.declare(
 					this.editNode = this.document.body.firstChild;
 				}
 				this.editNode.contentEditable = true;
-				with(ifr){
-					if(dojo.isIE >= 7){
-						if(this.height){
-							height = this.height;
-						}
-						if(this.minHeight){
-							minHeight = this.minHeight;
-						}
-					}else{
-						height = this.height ? this.height : this.minHeight;
+				if(dojo.isIE >= 7){
+					if(this.height){
+						ifr.style.height = this.height;
 					}
+					if(this.minHeight){
+						ifr.style.minHeight = this.minHeight;
+					}
+				}else{
+					ifr.style.height = this.height ? this.height : this.minHeight;
 				}
 
 				// FIXME: setting contentEditable on switches this element to
@@ -358,44 +398,11 @@ dojo.declare(
 
 				//if the normal way fails, we try the hard way to get the list
 
-				//do not use _cacheLocalBlockFormatNames here, as it will
-				//trigger security warning in IE7
-
-				//in the array below, ul can not come directly after ol,
-				//otherwise the queryCommandValue returns Normal for it
-				var formats = ['p', 'pre', 'address', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'ol', 'div', 'ul'];
-				var localhtml = "", format, i=0;
-				while(format=formats[i++]){
-					if(format.charAt(1) != 'l'){
-						localhtml += "<"+format+"><span>content</span></"+format+">";
-					}else{
-						localhtml += "<"+format+"><li>content</li></"+format+">";
-					}
-				}
-				//queryCommandValue returns empty if we hide editNode, so move it out of screen temporary
-				with(this.iframe.style){
-					position = "absolute";
-					left = "-2000px";
-					top = "-2000px";
-				}
-				this.editNode.innerHTML = localhtml;
-				var node = this.editNode.firstChild;
-				while(node){
-					dojo.withGlobal(this.window, "selectElement", dijit._editor.selection, [node.firstChild]);
-					var nativename = node.tagName.toLowerCase();
-					this._local2NativeFormatNames[nativename] = this.queryCommandValue("formatblock");
-					this._native2LocalFormatNames[this._local2NativeFormatNames[nativename]] = nativename;
-					node = node.nextSibling;
-				}
-				with(this.iframe.style){
-					position = "";
-					left = "";
-					top = "";
-				}
+				this._localizeEditorCommands();
 
 				this.editNode.innerHTML = html;
 				this._preDomFilterContent(this.editNode);
-//				if(this.height){ this.document.body.style.overflowY="scroll"; }
+				//	if(this.height){ this.document.body.style.overflowY="scroll"; }
 				var events=this.events.concat(this.captureEvents);
 				dojo.forEach(events, function(e){
 					dojo.connect(this.editNode, e.toLowerCase(), this, e);
