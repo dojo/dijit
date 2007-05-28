@@ -8,13 +8,14 @@
 			>${caption}</button
 		></td
 		><td class="dijitReset dijitButtonArrow dijitButtonNode"
-		    dojoAttachPoint="popupStateNode"
-		    dojoAttachEvent="onclick:arrowClick; onkeypress:arrowKey;"
 		    style="height:100%;"
-			><div tabIndex="${tabIndex}" class="dijitDownArrowOuter"
-		      waiRole="button" waiState="haspopup-true"
+		    dojoAttachEvent="onclick:arrowClick;"
+			><button class="dijitDownArrowOuter" tabIndex="${tabIndex}"
+				dojoAttachPoint="popupStateNode"
+				dojoAttachEvent="onclick:arrowClick; onkeypress:arrowKey;"
+				waiRole="button" waiState="haspopup-true"
 				><div class="dijitDownArrowInner"></div
-			></div
+			></button
 		></td
 	></tr
 ></table>

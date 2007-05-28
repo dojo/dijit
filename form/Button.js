@@ -86,7 +86,7 @@ dojo.declare(
 		arrowKey: function(/*Event*/ e){
 			// summary: callback when the user presses a key (on key-down)
 			if(this.disabled){ return; }
-			if(e.keyCode == dojo.keys.DOWN_ARROW || (e.currentTarget == this.popupStateNode && (e.keyCode == dojo.keys.SPACE || e.keyCode == dojo.keys.ENTER))){
+			if(e.keyCode == dojo.keys.DOWN_ARROW){
 				if(!this._menu || this._menu.domNode.style.display=="none"){
 					this.arrowClick(e);
 				}
@@ -105,7 +105,7 @@ dojo.declare(
 				this.popupStateNode.setAttribute("popupActive", "true");
 				this._opened=true;
 			}else{
-				// PopupManager already caught the click and closed the menu so nothing to do here
+				dijit.util.PopupManager.closeAll();
 				this._opened=false;
 			}
 		}
