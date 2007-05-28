@@ -41,6 +41,10 @@ dijit.util.PopupManager = new function(){
 		//		Open the widget relative to parent widget (typically as a drop down to that widget)
 		//		TODO: if widget has href attach to onLoaded and reposition
 
+		// default values for args
+		if(!orient){ orient={'BL':'TL', 'TL':'BL'}; }
+		if(!padding){ padding=[0,0]; }
+
 		dijit.util.placeOnScreenAroundElement(widget.domNode, parent, padding, orient);
 			
 		this._open(widget);

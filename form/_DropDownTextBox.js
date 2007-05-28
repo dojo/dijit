@@ -244,7 +244,7 @@ dojo.declare(
 			//	opens the menu
 
 			this.parentWidget=widget;
-			setTimeout(dojo.hitch(this, function(){dijit.util.PopupManager.openAround(widget.textbox, this,{'BL':'TL', 'TL':'BL'}, [0,0]);}), 1);
+			setTimeout(dojo.hitch(this, function(){dijit.util.PopupManager.openAround(widget.textbox, this);}), 1);
 		},
 
 		isShowingNow:function(){

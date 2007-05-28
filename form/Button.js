@@ -101,7 +101,7 @@ dojo.declare(
 			var menu = this._menu;
 			if(!menu){ return; }
 			if(!this._opened){
-				dijit.util.PopupManager.openAround(this.popupStateNode, menu, this._orientation, [0,0]);
+				dijit.util.PopupManager.openAround(this.popupStateNode, menu, this._orientation);
 				this.popupStateNode.setAttribute("popupActive", "true");
 				this._opened=true;
 			}else{
