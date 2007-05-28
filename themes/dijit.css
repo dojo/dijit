@@ -76,7 +76,19 @@
 	display:none !important;
 }
 
-
+/**** 
+		A11Y CHECK 
+ ****/
+#a11yTestNode {
+	/* used to test if high contrast mode is on or images are turned off */
+	border: 1px solid;
+	border-color:red green;
+	position: absolute;
+	left: -999px;
+	top: -999px;
+	background-image: url("../form/templates/blank.gif");
+}  
+ 
 /*** Full sized arrows (matching the size of a line of text) ***/
 
 /* MOW: potentially deprecating these

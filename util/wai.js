@@ -103,13 +103,15 @@ dijit.util.wai = {
 dojo._loaders.unshift(function(){
 	// create div for testing
 	var div = document.createElement("div");
-	div.style.cssText = "border: 1px solid; border-color:red green; position: absolute; left: -999px; top: -999px;";  
+	div.id = "a11yTestNode";
 	dojo.body().appendChild(div);
 	
 	// test it
 	function check(){
 		var cs = dojo.getComputedStyle(div);
-		dojo[(cs.borderTopColor==cs.borderRightColor) ? "addClass" : "removeClass"](dojo.body(), "dijit_a11y");
+		var bkImg = cs.backgroundImage; 
+		var needsA11y = (cs.borderTopColor==cs.borderRightColor) || (bkImg != null && (bkImg == "none" || bkImg == "url(invalid-url:)" ));
+		dojo[needsA11y ? "addClass" : "removeClass"](dojo.body(), "dijit_a11y");
 	}
 	check();
 	if(dojo.isIE){
