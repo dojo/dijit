@@ -315,8 +315,8 @@ dojo.declare(
 			dojo.place(this.domNode, this.srcNodeRef, "before");
 			var content = dojo.contentBox(this.domNode);
 			// var content = dojo.contentBox(this.srcNodeRef);
-			this._oldHeight = content.height;
-			this._oldWidth = content.width;
+			this._oldHeight = content.h;
+			this._oldWidth = content.w;
 
 			// FIXME: port to new style APIs instead?
 			this._firstChildContributingMargin = this.height ? 0 : this._getContributingMargin(this.domNode, "top");
@@ -614,11 +614,8 @@ dojo.declare(
 			//calculation below is correct
 			// this.editingArea.appendChild(tmpContent);
 
-			if(!dojo.isSafari){
-				dojo.place(this.iframe, this.srcNodeRef, "before");
-			}
-			// this.domNode.appendChild(this.iframe);
-			// dojo.body().appendChild(this.domNode);
+			dojo.place(this.iframe, this.srcNodeRef, "before");
+
 			if(!this.height){
 				// fix margins on tmpContent
 				var c = dojo.query(">", tmpContent);
@@ -637,13 +634,15 @@ dojo.declare(
 			//calculation above may not be accurate)
 			//	tmpContent.style.display = "none";
 			//	this.editingArea.appendChild(this.iframe);
-			if(dojo.isSafari){
-				this.iframe.src = this.iframe.src;
-			}
 
 			var _iframeInitialized = false;
 			// console.debug(this.iframe);
 			// var contentDoc = this.iframe.contentWindow.document;
+
+
+			// note that on Safari lower than 420+, we have to get the iframe
+			// by ID in order to get something w/ a contentDocument property
+
 			var contentDoc = this.iframe.contentDocument;
 			contentDoc.open();
 			contentDoc.write(this._getIframeDocTxt());
@@ -890,7 +889,8 @@ dojo.declare(
 		onKeyDown: function(e){
 			// summary: Fired on keydown
 
-			console.debug("onkeydown:", e.keyCode);
+			// console.debug("onkeydown:", e.keyCode);
+
 			// we need this event at the moment to get the events from control keys
 			// such as the backspace. It might be possible to add this to Dojo, so that
 			// keyPress events can be emulated by the keyDown and keyUp detection.
@@ -921,7 +921,8 @@ dojo.declare(
 
 		onKeyPress: function(e){
 			// summary: Fired on keypress
-			console.debug("onkeypress:", e.keyCode);
+
+			// console.debug("onkeypress:", e.keyCode);
 
 			// handle the various key events
 			var modifiers = e.ctrlKey ? this.KEY_CTRL : 0 | e.shiftKey?this.KEY_SHIFT : 0;
@@ -1182,15 +1183,17 @@ dojo.declare(
 			}
 		},
 
-		/** this event will be fired everytime the display context changes and the
-		 result needs to be reflected in the UI */
-		onDisplayChanged: function (e){},
+		onDisplayChanged: function(e){
+			// summary:
+			//		this event will be fired everytime the display context
+			//		changes and the result needs to be reflected in the UI
+		},
 
 		_normalizeCommand: function (/*String*/cmd){
 			// summary:
-			//		Used as the advice function by dojo.event.connect to map our
-		 	//		normalized set of commands to those supported by the target
-		 	//		browser
+			//		Used as the advice function by dojo.connect to map our
+			//		normalized set of commands to those supported by the target
+			//		browser
 
 			var command = cmd.toLowerCase();
 			if(command == "formatblock"){
@@ -1573,7 +1576,27 @@ dojo.declare(
 			if(!this.isLoaded){ return; }
 			if(this.height){ return; }
 
+			if(dojo.isSafari && (!this._safariIsLeopard())){
+				// old safari (2.0.4) is super-janky
+				if(!this.editorObject){ return; }
+				try{
+					this.editorObject.style.height = (this.editNode.offsetHeight + 10) + "px";
+					// console.debug("_updateHeight"); 
+				}catch(e){
+					try{
+						this.editorObject.style.height = "500px";
+					}catch(e2){}
+				}
+				// this.editorObject.style.height = (this.editNode.offsetHeight + 10) + "px";
+				return;
+			}
+
+			// var height = dojo.marginBox(this.editNode).h;
 			var height = dojo.marginBox(this.editNode).h;
+
+			// console.debug(this.editNode);
+			// alert(this.editNode);
+
 			//height maybe zero in some cases even though the content is not empty,
 			//we try the height of body instead
 			if(!height){
