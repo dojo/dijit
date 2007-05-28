@@ -39,6 +39,13 @@ dojo.declare(
 		dojo.unsubscribe(message.tree.id);
 	},
 
+	onExecute: function(/*Object*/ message) {
+		// summary: an execute event has occured
+		
+		// does the user override this handler?
+		console.log("execute message for " + message.node);
+	},
+	
 	onNext: function(/*Object*/ message) {
 		// summary: down arrow pressed; move to next visible node
 
@@ -55,7 +62,7 @@ dojo.declare(
 				if(returnWidget){
 					break;
 				}
-				nodeWidget = nodeWidget.parent;
+				nodeWidget = nodeWidget.getParent();
 			}	
 		}
 				
@@ -84,7 +91,7 @@ dojo.declare(
 			}
 		} else {
 			// if this is the first child, return the parent
-			nodeWidget = nodeWidget.parent;
+			nodeWidget = nodeWidget.getParent();
 		}
 		
 		if (nodeWidget && nodeWidget.isTreeNode) {
@@ -129,13 +136,57 @@ dojo.declare(
 		if (node.isFolder && node.isExpanded) {
 			this._collapse(node);
 		} else {
-			node = node.parent;
+			node = node.getParent();
 		}
 		if (node && node.isTreeNode) {
 			returnWidget = node;
 		}
 		
 		if (returnWidget && returnWidget.isTreeNode) {
+			returnWidget.tree.focusNode(returnWidget);
+			return returnWidget;
+		}
+	},
+
+	onFirst: function(/*Object*/ message) {
+		// summary: home pressed; go to first visible node
+
+		var returnWidget = message.node;
+
+		// the first node is always the root; isn't it?
+		while (!returnWidget.isTree){
+			returnWidget = returnWidget.getParent();
+		}
+		
+		if (returnWidget){
+			returnWidget = returnWidget.getChildren()[0];
+			if (returnWidget && returnWidget.isTreeNode){
+				returnWidget.tree.focusNode(returnWidget);
+				return returnWidget;
+			}
+		}
+	},
+
+	onLast: function(/*Object*/ message) {
+		// summary: end pressed; go to last visible node
+
+		var returnWidget = message.node;
+		
+		// find the tree root
+		while (!returnWidget.isTree){
+			returnWidget = returnWidget.getParent();
+		}
+		
+		var lastChild = returnWidget;
+		while(lastChild.isExpanded){
+			var c = lastChild.getChildren();
+			lastChild = c[c.length - 1];
+			if (lastChild.isTreeNode){
+				returnWidget = lastChild;
+			}
+		}
+
+		if (returnWidget && returnWidget.isTreeNode){
 			returnWidget.tree.focusNode(returnWidget);
 			return returnWidget;
 		}

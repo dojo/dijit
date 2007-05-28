@@ -149,6 +149,8 @@ dojo.declare(
 		keyTopicMap[dojo.keys.RIGHT_ARROW]="zoomIn";
 		keyTopicMap[dojo.keys.UP_ARROW]="previous";
 		keyTopicMap[dojo.keys.DOWN_ARROW]="next";
+		keyTopicMap[dojo.keys.HOME]="first";
+		keyTopicMap[dojo.keys.END]="last";
 		this._keyTopicMap = keyTopicMap;
 	},
 	
@@ -231,12 +233,11 @@ dojo.declare(
 			return;
 		}
 
-		if(domElement == nodeWidget.expandoNode){
-			this._publish(
-				domElement == nodeWidget.expandoNode ? "toggleOpen" : "execute",
-				 { node: nodeWidget} );	
-			dojo.stopEvent(e);
-		}
+		this._publish(
+			domElement == nodeWidget.expandoNode ? "toggleOpen" : "execute",
+			 { node: nodeWidget} );	
+
+		dojo.stopEvent(e);
 	},
 	
 	_onKeyPress: function(/*Event*/ e){
@@ -244,8 +245,6 @@ dojo.declare(
 		if(!e.keyCode || e.altKey){ return; }
 		var nodeWidget = this._domElement2TreeNode(e.target);
 		if(!nodeWidget){ return; }
-
-		var actionWidget = null;
 
 		if(this._keyTopicMap[e.keyCode]){
 			this._publish(this._keyTopicMap[e.keyCode], { node: nodeWidget} );	
