@@ -2,64 +2,59 @@
 	PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
+<!-- FIXME: why XHTML for this page? -->
+
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-<title>TabContainer Demo</title>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"></meta>
+	<title>TabContainer Demo</title>
 
-<script type="text/javascript" src="../testBidi.js"></script>
+	<script type="text/javascript" src="../testBidi.js"></script>
 
-<script type="text/javascript">
-	var djConfig = { isDebug: true };
-</script>
-<script type="text/javascript" src="../../../dojo/dojo.js"></script>
-<script type="text/javascript">
-	dojo.require("dijit.layout.ContentPane");
-	dojo.require("dijit.layout.TabContainer");
-	dojo.require("dijit.Tooltip");
-	dojo.require("dijit.layout.LinkPane");
-	dojo.require("dijit.form.Button");
+	<script type="text/javascript" djConfig="isDebug: true" 
+		src="../../../dojo/dojo.js"></script>
+	<script type="text/javascript">
+		dojo.require("dijit.layout.ContentPane");
+		dojo.require("dijit.layout.TabContainer");
+		dojo.require("dijit.Tooltip");
+		dojo.require("dijit.layout.LinkPane");
+		dojo.require("dijit.form.Button");
 
-	dojo.require("dijit.util.parser");	// scan page for widgets and instantiate them
-</script>
+		dojo.require("dijit.util.parser");	// scan page for widgets and instantiate them
+	</script>
 
-<style type="text/css">
-@import "../../../dojo/resources/dojo.css";
-@import "../../themes/tundra/tundra.css";
-@import "css/dijitTests.css";
+	<style type="text/css">
+		@import "../../../dojo/resources/dojo.css";
+		@import "../../themes/tundra/tundra.css";
+		@import "css/dijitTests.css";
 
-body {
-	font-family : sans-serif;
-	margin:20px;
-}
+		body {
+			font-family : sans-serif;
+			margin:20px;
+		}
 
-/* add padding to each contentpane inside the tab container, and scrollbar if necessary */
-.dojoTabPane {
-  padding : 10px 10px 10px 10px;
-  overflow: auto;
-}
+		/* add padding to each contentpane inside the tab container, and scrollbar if necessary */
+		.dojoTabPane {
+			padding : 10px 10px 10px 10px;
+			overflow: auto;
+		}
+	</style>
+	<script type="text/javascript">
+		function boo(panel, node) {
+			node.innerHTML = "Handlers override grabbing from URLs. They run in context of the widget, so 'this' refers to the tab widget.";
+		}
+		function testClose(pane,tab) {
+		  return confirm("Please confirm that you want tab "+tab.label+" closed");
+		}
 
-</style>
-<script type="text/javascript">
-function boo(panel, node) {
-	node.innerHTML = "Handlers override grabbing from URLs. They run in context of the widget, so 'this' refers to the tab widget.";
-}
-function testClose(pane,tab) {
-  return confirm("Please confirm that you want tab "+tab.label+" closed");
-}
-</script>
-<script type="text/javascript">
-startTime = new Date();
-dojo.addOnLoad(function(){
-	var elapsed = new Date().getTime() - startTime;
-	var p = document.createElement("p");
-	p.appendChild(document.createTextNode("Widgets loaded in " + elapsed + "ms"));
-	document.body.appendChild(p);
-});
-</script>
-
+		startTime = new Date();
+		dojo.addOnLoad(function(){
+			var elapsed = new Date().getTime() - startTime;
+			var p = document.createElement("p");
+			p.appendChild(document.createTextNode("Widgets loaded in " + elapsed + "ms"));
+			document.body.appendChild(p);
+		});
+	</script>
 </head>
-
 <body class="tundra">
 	<p>These tabs are made up of local and external content. Tab 1 and Tab 2 are loading
 	files tab1.html and tab2.html. Tab 3 and Another Tab are using content that is already
@@ -159,12 +154,12 @@ dojo.addOnLoad(function(){
 		<div id="rhtab2" dojoType="dijit.layout.ContentPane" href="tab2.html" refreshOnShow="true" label="Tab 2"></div>
 	</div>
 
+	<h3>Typical rendering time</h3>
+	<table border=1>
+	  <tr><th>IE</th><th>Firefox (mac)</th></tr>
+	  <tr><td>1719</td><td>922</td></tr>
+	</table>  
+	<h3>Rendering time</h3>
 </body>
 
-<h3>Typical rendering time</h3>
-<table border=1>
-  <tr><th>IE</th><th>Firefox (mac)</th></tr>
-  <tr><td>1719</td><td>922</td></tr>
-</table>  
-<h3>Rendering time</h3>
 </html>
