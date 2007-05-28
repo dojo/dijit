@@ -2,6 +2,7 @@
         "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 <head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
 <title>Dojo Select Widget Test</title>
 
 <script type="text/javascript" src="../testBidi.js"></script>
@@ -13,7 +14,6 @@
 <script type="text/javascript" src="../../../dojo/dojo.js"></script>
 <script type="text/javascript">
 	dojo.require("dijit.form.Select");
-	
 	dojo.require("dijit.util.parser");	// scan page for widgets and instantiate them
 </script>
 <style>
@@ -21,15 +21,8 @@
         @import "../../themes/tundra/tundra.css";
 </style>
 <script>
-	function setVal1(val){
-		document.getElementById('value1').value=val;
-	}
-	function setVal2(val){
-		document.getElementById('value2').value=val;
-		console.debug("Value changed to ["+val+"] in second Select (#1652)");
-	}
-	function setVal3(val){
-		document.getElementById('value3').value=val;
+	function setValue(id, val){
+		dojo.byId(id).value=val;
 	}
 	function myLabelFunc(item, store){
 		var label=store.getValue(item, 'name');
@@ -80,7 +73,7 @@ Enhancements over plain HTML version:
 			autocomplete="false" 
 			dataProviderClass="dojo.data.JsonItemStore" 
 			promptMessage="Please enter a state"
-			onValueChanged="setVal1" value="CA"
+			onValueChanged="setValue('value1', arguments[0]);" value="CA"
 	>
 		<option value="AL">Alabama</option>
 		<option value="AK">Alaska</option>
@@ -159,7 +152,7 @@ Enhancements over plain HTML version:
 			autocomplete="true"
 			labelAttr="label"
 			labelType="html"
-			onValueChanged="setVal2"
+			onValueChanged="setValue('value2', arguments[0]);"
 			dataProviderClass="dojo.data.JsonItemStore"
 			promptMessage="Please enter a state"
 	>
@@ -177,7 +170,7 @@ Enhancements over plain HTML version:
  			autocomplete="false"
  			labelAttr="label"
  			labelType="html"
- 			onValueChanged="setVal3"
+ 			onValueChanged="setValue('value3', arguments[0]);"
  			dataProviderClass="dojo.data.JsonItemStore"
  			promptMessage="Please enter a state"
 	>
@@ -240,6 +233,27 @@ Enhancements over plain HTML version:
 	</select>
 	<br>
 	<hr>
+	<p>Select #8: Japanese</p>
+	<p>Try typing 東、西、北、南  (north, south, east west) and a few choices will pop up.</p>
+	 
+	<select name="state3" dojoType="dijit.form.Select" style="width: 300px;" autocomplete="false"
+		onValueChanged="setValue('value8', arguments[0]);">
+		<option value="nanboku">南北</option>
+		<option value="touzai">東西</option>
+		<option value="toukyou">東京</option>
+		<option value="higashiguchi">東口</option>
+		<option value="nishiguchi">西口</option>
+		<option value="minamiguchi">南口</option>
+		<option value="kitaguchi">北口</option>
+		<option value="higashiku">東区</option>
+		<option value="nishiku">西区</option>
+		<option value="minamiku">南区</option>
+		<option value="kitaku">北区</option>
+	</select>    
+	<br>
+	<div>Value: <input id="value8" disabled></div>
+	<hr>
+
 	<input type="submit">
 </form>
 <p>
