@@ -651,7 +651,7 @@
 	padding:2px;
 }
 
-.tundra .calendarContainer table {
+.tundra table.calendarContainer {
 /*	border:1px solid #566f8f;*/
 	font-size: 100%;
 	border-collapse: collapse; 
@@ -683,13 +683,15 @@
 .tundra .calendarMonthLabel {
 	/* day of week labels */
 	color:#293a4b;
-	font:bold 0.75em;
+	font-size: 0.75em;
+	font-weight: bold;
 	text-align:center;
 }
 
 .tundra .calendarDateTemplate {
 	/* style for each day cell */
-	font:bold 0.7em;
+	font-size: 0.7em;
+	font-weight: bold;
 	text-align:center;
 	padding:0.1em 0.3em 0.05em .3em;
 	letter-spacing:1px;
