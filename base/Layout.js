@@ -30,17 +30,7 @@ dojo.declare("dijit.base.Sizable",
 			mb = dojo.marginBox(node);
 
 			// Save the size of my content box.
-			// I could just call dojo.contentBox() except that it might return 0, if my dom node is hidden
-			// or the browser hasn't had time to do calculations; this is more reliable.
-			var cs = dojo.getComputedStyle(node);
-			var me=dojo._getMarginExtents(node, cs);
-			var pb=dojo._getPadBorderExtents(node, cs);
-			this._contentBox = {
-				l: dojo._toPixelValue(node, cs.paddingLeft),
-				t: dojo._toPixelValue(node, cs.paddingTop),
-				w: mb.w - (me.w + pb.w),
-				h: mb.h - (me.h + pb.h)
-			};
+			this._contentBox = dijit.base.Layout.marginBox2contentBox(node, mb);
 			
 			// Callback for widget to adjust size of it's children
 			this.layout();
@@ -99,6 +89,22 @@ dojo.declare("dijit.base.Layout",
 		}
 	}
 );
+
+dijit.base.Layout.marginBox2contentBox = function(/*DomNode*/ node, /*Object*/ mb){
+	// summary:
+	//		Given the margin-box size of a node, return it's content box size.
+	//		Functions like dojo.contentBox() but is more reliable since it doesn't have
+	//		to wait for the browser to compute sizes.
+	var cs = dojo.getComputedStyle(node);
+	var me=dojo._getMarginExtents(node, cs);
+	var pb=dojo._getPadBorderExtents(node, cs);
+	return {
+		l: dojo._toPixelValue(this.containerNode, cs.paddingLeft),
+		t: dojo._toPixelValue(this.containerNode, cs.paddingTop),
+		w: mb.w - (me.w + pb.w),
+		h: mb.h - (me.h + pb.h)
+	};
+};
 
 dijit.base.Layout.layoutChildren = function(/*DomNode*/ container, /*Object*/ dim, /*Object[]*/ children, /*String*/ layoutPriority){
 	/**

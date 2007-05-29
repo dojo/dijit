@@ -60,6 +60,10 @@ dojo.declare(
 		];
 		dijit.base.Layout.layoutChildren(this.domNode, this._contentBox, children);
 
+		// Compute size to make each of my children.
+		// children[1] is the margin-box size of this.containerNode, set by layoutChildren() call above
+		this._containerContentBox = dijit.base.Layout.marginBox2contentBox(this.containerNode, children[1]);
+
 		if(this.selectedChildWidget){
 			this._showChild(this.selectedChildWidget);
 		}
