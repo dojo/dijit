@@ -442,7 +442,7 @@ dojo.declare(
 
 dojo.declare(
 	"dijit.form._AutoCompleterMenu",
-	[dijit.base.FormElement, dijit.base.TemplatedWidget, dijit.form._DropDownTextBox.Popup],
+	[dijit.base.FormElement, dijit.base.TemplatedWidget],
 
 // Bill: 
 // I'd like the interface to AutoCompleterMenu to be higher level,
@@ -474,18 +474,16 @@ dojo.declare(
 		postCreate:function(){
 			// summary:
 			//	call all postCreates
-			dijit.form._DropDownTextBox.Popup.prototype.postCreate.apply(this, arguments);
 			dijit.base.FormElement.prototype.postCreate.apply(this, arguments);
 		},
 
 		open:function(/*Widget*/ widget){
 			this.maxListLength=widget.maxListLength;
 			this.onValueChanged=dojo.hitch(widget, widget._selectOption);
-			dijit.form._DropDownTextBox.Popup.prototype.open.apply(this, arguments);
+			dijit.util.PopupManager.openAround(widget.textbox, this);
 		},
 
 		close:function(){
-			dijit.form._DropDownTextBox.Popup.prototype.close.apply(this, arguments);
 			this._blurOptionNode();
 		},
 

@@ -56,6 +56,16 @@ dojo.declare(
 				// common code from makePopup
 				var node=document.createElement("div");
 				document.body.appendChild(node);
+				// If you leave display="", _DropDownTextBox will think that the popup is open.
+				// _DropDownTextBox will call PopupManager.close() to close its last popup.
+				// However, because this popup was never popped up, 
+				// PopupManager has an empty popup stack and creates an error.
+				// Setting display="none" prevents this bad call to PopupManager.close().
+				with(node.style){
+					display="none";
+					position="absolute";
+					overflow="auto";
+				}
 				var popupProto=dojo.getObject(_this._popupClass, false);
 				return new popupProto(_this._popupArgs, node);
 			}
@@ -85,7 +95,7 @@ dojo.declare(
 			}
 			this.focus();
 			this.makePopup();
-			if(this._popupWidget.isShowingNow()){
+			if(this.isShowingNow()){
 				this._hideResultList();
 			}else{
 				// forces full population of results, if they click
@@ -95,7 +105,7 @@ dojo.declare(
 		},
 
 		_hideResultList: function(){
-			if(this._popupWidget&&(!this._popupWidget.isShowingNow||this._popupWidget.isShowingNow())){
+			if(this.isShowingNow()){
 				dijit.util.PopupManager.close(true);
 				this._arrowIdle();
 			}
@@ -204,7 +214,7 @@ dojo.declare(
 		isShowingNow:function(){
 			// summary
 			//	test if the popup is visible
-			return this._popupWidget&&this._popupWidget.isShowingNow();
+			return this._popupWidget&&this._popupWidget.domNode.style.display!="none";
 		},
 
 		getDisplayedValue:function(){
@@ -217,51 +227,6 @@ dojo.declare(
 
 		uninitialize:function(){
 			if(this._popupWidget){this._popupWidget.destroy()};
-		}
-	}
-);
-
- dojo.declare(
-	"dijit.form._DropDownTextBox.Popup",
- 	null,
-	{
-		// summary:
-		//	Mixin that provides basic open/close behavior for popup widgets
-
-		// parentWidget: Widget
-		//	Reference to parent widget
-		parentWidget:null,
-
-		postCreate:function(){
-			// FIXME: create an external template so template style isn't displaced
-			this.domNode.style.display="none";
-			this.domNode.style.overflow="auto";
-			this.domNode.style.position="absolute";
-		},
-
-		open:function(/*Widget*/ widget){
-			// summary:
-			//	opens the menu
-
-			this.parentWidget=widget;
-			setTimeout(dojo.hitch(this, function(){dijit.util.PopupManager.openAround(widget.textbox, this);}), 1);
-		},
-
-		isShowingNow:function(){
-			return this.domNode.style.display!="none";
-		},
-
-		close: function(/*Boolean*/ force){
-			// summary:
-			//	closes the menu
-
-			if(!this.isShowingNow()){
-				return;
-			}
-			this.onValueChanged=function(){
-				return;
-			};
-			this.parentWidget=null;
 		}
 	}
 );
