@@ -77,7 +77,7 @@ dojo.declare(
 			var query={};
 			query[this.keyAttr]=value;
 			// use case sensitivity for the hidden value
-			this.store.fetch({queryIgnoreCase:false, query:query, onComplete:dojo.hitch(this, "_callbackSetLabel")});
+			this.store.fetch({queryOptions:{ignoreCase:false}, query:query, onComplete:dojo.hitch(this, "_callbackSetLabel")});
 		},
 
 		_setLabel: function(/*Object*/ item){
@@ -147,7 +147,7 @@ dojo.declare(
 			var query=[];
 			query[this.searchAttr]=label;
 			if(this.store){
-				this.store.fetch({query:query, queryIgnoreCase:this.ignoreCase, onComplete: dojo.hitch(this, this._callbackSetLabel)});
+				this.store.fetch({query:query, queryOptions:{ignoreCase:this.ignoreCase}, onComplete: dojo.hitch(this, this._callbackSetLabel)});
 			}
 		}
 	}

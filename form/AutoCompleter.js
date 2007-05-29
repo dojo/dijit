@@ -389,7 +389,7 @@ dojo.declare(
 			var query={};
 			query[this.searchAttr]=key+"*";
 			// no need to page; no point in caching the return object
-			this.store.fetch({queryIgnoreCase:this.ignoreCase, query: query, onComplete:dojo.hitch(this, "_openResultList"), count:this.searchLimit});
+			this.store.fetch({queryOptions:{ignoreCase:this.ignoreCase}, query: query, onComplete:dojo.hitch(this, "_openResultList"), count:this.searchLimit});
 		},
 
 		_assignHiddenValue:function(/*Object*/ keyValArr, /*DomNode*/ option){
