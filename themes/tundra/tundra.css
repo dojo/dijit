@@ -534,7 +534,8 @@
 /*Accordion*/
 
 .tundra .dijitAccordionPane-selected {
-	background-color:#85aeec;
+	/* background-color:#85aeec; */
+	background-color: #e7e7e7;
 }
 
 .tundra .dijitAccordionPane .label {
@@ -548,7 +549,7 @@
 	font-weight: bold;
 	/* border:1px solid #84a3d1; */
 	border: 1px solid #aaaaaa;
-	padding:4px 4px 2px 4px;
+	padding: 4px 4px 2px 4px;
 }
 
 .tundra .dijitAccordionPane .label .arrow {
