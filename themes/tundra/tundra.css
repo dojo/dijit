@@ -73,6 +73,7 @@
 .tundra .dijitButton {
 	padding:0 0 1px 1px;
 	border:1px solid;
+	margin:3px;
 }
 
 .dijitButton .dijitButtonNode {
