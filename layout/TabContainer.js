@@ -60,10 +60,8 @@ dojo.declare(
 		];
 		dijit.base.Layout.layoutChildren(this.domNode, this._contentBox, children);
 
-		if(this.selectedChildWidget && this.selectedChildWidget.resize){
-			var containerSize = children[1];		// returned info from layoutChildren()
-			// TODO: subtract out padding border margin...
-			this.selectedChildWidget.resize(containerSize);
+		if(this.selectedChildWidget){
+			this._showChild(this.selectedChildWidget);
 		}
 	},
 
