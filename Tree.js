@@ -234,7 +234,8 @@ dojo.declare(
 		}
 
 		this._publish(
-			domElement == nodeWidget.expandoNode ? "toggleOpen" : "execute",
+			(domElement == nodeWidget.expandoNode || 
+			 domElement == nodeWidget.expandoNodeText) ? "toggleOpen" : "execute",
 			 { node: nodeWidget} );	
 
 		dojo.stopEvent(e);
@@ -354,6 +355,11 @@ dojo.declare(
 				(this.isFolder ?
 					(this.isExpanded ? "expandoOpenedImg" : "expandoClosedImg") : "expandoLeafImg");
 		this.expandoNode.src = this.tree[img];
+		
+		this.expandoNodeText.innerHTML = 
+			processing ? "*" :
+				(this.isFolder ?
+					(this.isExpanded ? "&#9660;" : "&#9658;") : "-");
 	},	
 
 	setChildren: function(items){

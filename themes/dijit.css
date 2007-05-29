@@ -884,6 +884,13 @@ table.dijitButton .dijitButtonNode {
     /* can't make inline - multiline bugs */
 }
 
-.TreeIcon {
-
-}
+.dijitExpandoText { 
+	display: none; 
+} 
+ 
+.dijit_a11y .dijitExpandoText { 
+	float: left; 
+	display: inline; 
+	padding-right: 3px; 
+	font: 0.75em Arial; 
+} 
