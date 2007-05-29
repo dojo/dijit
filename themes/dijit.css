@@ -520,13 +520,25 @@ body .dijitAlignClient { position: absolute; }
 
 /* Color Palette */
 .dijitPaletteImg {
-		width: 18px; /*This is the width of one color in the provided palettes. */
-		height: 16px; /* Height of one color in the provided palettes. */
-		position: absolute;
-		overflow: hidden;
-		cursor: default;
-		z-index: 10;
-		
+	width: 16px; /*This is the width of one color in the provided palettes. */
+	height: 13px; /* Height of one color in the provided palettes. */
+	position: absolute;
+	overflow: hidden;
+	cursor: default;
+	z-index: 10;
+	border-style: solid;
+	border-bottom-width: 1px;
+	border-right-width: 1px;
+	border-color: #000000;		
+}
+
+.dijitPaletteImgHighlight {
+	width: 14px; /*This is the width of one color in the provided palettes. */
+	height: 12px; /* Height of one color in the provided palettes. */
+	position: absolute;
+	overflow: hidden;
+	cursor: default;
+	z-index: 10;
 }
 
 .dijitPaletteImg:hover, 

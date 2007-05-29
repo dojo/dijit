@@ -79,9 +79,18 @@ dojo.declare(
 	//		Path to the template of this widget.
 	templatePath: dojo.moduleUrl("dijit", "templates/ColorPalette.html"),
 		
+	
+	_paletteDims: {
+		"7x10": {"width": "185px", "height": "117px"},
+		"3x4": {"width": "82px", "height": "58px"}
+	},
+	
+		
 	postCreate: function() {
 		
 		// A name has to be given to the colorMap, this needs to be unique per Palette.	
+		this.divNode.style.width = this._paletteDims[this.palette]["width"];
+		this.divNode.style.height = this._paletteDims[this.palette]["height"];
 		this.imageNode.setAttribute("src",this._imagePaths[this.palette]);
 		var alts = this._palettes[this.palette];	
 		var imagePos = dojo.coords(this.imageNode);
@@ -94,13 +103,15 @@ dojo.declare(
 				highlightNode.src = dojo.moduleUrl("dijit", "templates/blank.gif")
 				dojo.addClass(highlightNode, "dijitPaletteImg");
 				highlightNode.color = alts[row][col];
+				highlightNode.alt = highlightNode.color;
 				highlightNode.style.color = "#"+highlightNode.color;
+				highlightNode.style.backgroundColor = "#"+highlightNode.color; 
 				this.connect(highlightNode,"onmouseover", "onMouseOver");
 				this.connect(highlightNode,"onmousedown", "onClick");
 				this.connect(highlightNode,"onblur","onBlur");
 				this.connect(highlightNode,"onfocus","onFocus");
 				this.connect(highlightNode,"onkeydown","onKeyDown");
-				this.domNode.appendChild(highlightNode);
+				this.divNode.appendChild(highlightNode);
 				highlightNode.style.top = this._paletteCoords["topOffset"] + (row * this._paletteCoords["cHeight"])+"px";
 				highlightNode.style.left = this._paletteCoords["leftOffset"] + (col * this._paletteCoords["cWidth"])+"px";
 				highlightNode.setAttribute("tabIndex","-1");
