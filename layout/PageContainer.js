@@ -2,7 +2,7 @@ dojo.provide("dijit.layout.PageContainer");
 
 dojo.require("dijit.base.Widget");
 dojo.require("dijit.base.TemplatedWidget");
-dojo.require("dijit.base.Container");
+dojo.require("dijit.base.Layout");
 dojo.require("dijit.base.Showable");
 
 dojo.declare(

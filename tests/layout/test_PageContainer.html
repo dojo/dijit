@@ -33,7 +33,7 @@
 </script>
 <script type="text/javascript">
 	function selected(page){
-		console.debug("page selected " + page.widgetId);
+		console.debug("page selected " + page.id);
 		var widget=dijit.byId("myPageContainer");
 		dojo.byId("previous").disabled = page.isFirstChild;
 		dojo.byId("next").disabled = page.isLastChild;
