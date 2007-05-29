@@ -50,7 +50,7 @@ dojo.declare(
 		},
 
 		setValue: function(value){
-			this._setTextValue(!value ? "" : this.format(value, this.constraints));
+			this._setTextValue((typeof value == "undefined" || value == null) ? "" : this.format(value, this.constraints));
 			dijit.form.Textbox.superclass.setValue.call(this,value);
 		},
 
