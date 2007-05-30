@@ -10,6 +10,7 @@
 			djConfig="isDebug: true"></script>
 		<script type="text/javascript">
 			dojo.require("dijit.Menu");
+			dojo.require("dijit.Tooltip");
 			dojo.require("dijit.form.Button");
 			dojo.require("dijit.util.parser");
 			logMessage = console.debug;
@@ -51,9 +52,10 @@
 		Buttons can do an action, display a menu, or both:
 		</p>
 		<div class="box">
-			<button dojoType="dijit.form.Button" onClick='logMessage("clicked simple")'>
+			<button id="1465" dojoType="dijit.form.Button" onClick='logMessage("clicked simple")'>
 				<img src="../images/plus.gif" width="16" height="16"> Create
 			</button>
+			<span dojoType="dijit.Tooltip" connectId="1465" caption="tooltip on button"></span>
 			<button dojoType="dijit.form.Button" onclick='logMessage("clicked simple")'>
 				<img src="../images/plus.gif" width="16" height="16"><br>Create
 			</button>
