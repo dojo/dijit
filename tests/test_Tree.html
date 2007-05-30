@@ -18,12 +18,11 @@
 	dojo.require("dijit.Tree");
 	dojo.require("dijit.util.parser");	// scan page for widgets and instantiate them
 </script>
-<script>
-	continentStore = new dojo.data.JsonItemStore({url: "countries.json"});
-</script>
 </head>
 <body class="tundra">
 	<h1 class="testTitle">Dijit Tree Test</h1>
+	<div dojoType="dojo.data.JsonItemStore" jsId="continentStore"
+		url="../tests/countries.json"></div>
 	<div dojoType="dijit.Tree" store="continentStore" query="{type:'continent'}"
 		labelAttr="name" typeAttr="type"></div>
 </body>
