@@ -98,6 +98,7 @@ dijit.util.parser = new function(){
 		dojo.forEach(nodes, function(node){
 			if(!node){ return; }
 			var type = node.getAttribute('dojoType');
+			if((!type)||(!type.length)){ return; }
 			var clsInfo = getWidgetClassInfo(type);
 			var params = {};
 			for(var attrName in clsInfo.params){
