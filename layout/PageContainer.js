@@ -85,12 +85,12 @@ dojo.declare(
 			this.selectedChildWidget = undefined;
 			var children = this.getChildren();
 			if(children.length){
-				this.selectChild(children[0], true);
+				this.selectChild(children[0]);
 			}
 		}
 	},
 
-	selectChild: function(/*Widget*/ page, /*Widget*/ callingWidget){
+	selectChild: function(/*Widget*/ page){
 		// summary
 		//	Show the given widget (which must be one of my children)
 		
@@ -100,7 +100,6 @@ dojo.declare(
 		if(page && ((typeof page == "string")||(page instanceof String))){
 			page = dijit.byId(page);
 		}
-		this.correspondingPageButton = callingWidget;
 
 		// Deselect old page and select new one
 		if(this.selectedChildWidget){
@@ -269,7 +268,7 @@ dojo.declare(
 			// summary
 			//   Called whenever one of my child buttons is pressed in an attempt to select a page
 			var container = dijit.byId(this.containerId);	// TODO: do this via topics?
-			container.selectChild(page, false, this);
+			container.selectChild(page);
 		},
 
 		onCloseButtonClick: function(/*Widget*/ page){
