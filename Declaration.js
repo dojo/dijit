@@ -16,11 +16,8 @@ dojo.declare(
 		mixins: [],
 		buildRendering: function(){
 			var src = this.srcNodeRef.parentNode.removeChild(this.srcNodeRef);
-
 			var srcType = src.nodeName;
 
-			// FIXME: need to figure out how to "turn off" widget creation
-			// below us by the parser!
 			if(this.mixins.length){
 				this.mixins = dojo.map(this.mixins, dojo.getObject);
 			}else{
