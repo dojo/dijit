@@ -1,0 +1,10 @@
+<div class="dijitDialog" dojoattachpoint="wrapper">
+	<span dojoattachpoint="tabStartOuter" dojoonfocus="trapTabs" dojoonblur="clearTrap"	tabindex="0"></span>
+	<span dojoattachpoint="tabStart" dojoonfocus="trapTabs" dojoonblur="clearTrap" tabindex="0"></span>
+	<div dojoAttachPoint="titleBar" class="dijitDialogTitleBar" style="display:none">
+		<span dojoAttachPoint="labelNode" class="dijitDialogLabel">${label}</span><span dojoAttachPoint="closeButtonNode" class="dijitDialogCloseIcon"></span>
+	</div>
+	<div dojoattachpoint="containerNode" style="z-index: 2; overflow: auto;" class="dijitDialogContent"></div>
+	<span dojoattachpoint="tabEnd" dojoonfocus="trapTabs" dojoonblur="clearTrap" tabindex="0"></span>
+	<span dojoattachpoint="tabEndOuter" dojoonfocus="trapTabs" dojoonblur="clearTrap" tabindex="0"></span>
+</div>

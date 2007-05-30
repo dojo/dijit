@@ -935,3 +935,43 @@
 	/* use an animated gif for the progress bar in 'indeterminate' mode */
 	background:#cad2de url("images/dijitProgressBarAnim.gif") repeat-x top left;
 }
+
+/* Dialog */
+
+.tundra .dijitDialog {
+	background: #eee;
+	border: 1px solid #999;
+	-moz-border-radius: 5px;
+}
+
+.tundra .dijitDialogTitleBar {
+	/* outer container for the titlebar of the dialog */
+	background: #fafafa url("titleBarBg.gif") repeat-x bottom left;
+	border: 1px solid #bfbfbf;
+	padding: 4px 8px 2px 4px;
+	cursor: move;
+}
+
+.tundra .dijitDialogLabel {
+	/* typography and styling of the dialog title */
+	font-weight: bold;
+	padding: 8px 12px 8px 12px;
+}
+
+.tundra .dijitDialogCloseIcon {
+	/* the default close icon for the dialog */
+	background : url("tab_close.gif") no-repeat right top;
+    float: right;
+	position: absolute;
+	vertical-align: middle;
+	right: 5px;
+	top: 5px;
+	height: 22px;
+	width: 22px;
+	cursor: pointer;
+}
+
+.tundra .dijitDialogContent {
+	/* the body of the dialog */
+	padding: 8px;
+}
