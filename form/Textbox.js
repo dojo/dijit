@@ -45,12 +45,13 @@ dojo.declare(
 			return this.parse(this.getTextValue(), this.constraints);
 		},
 
-		_setTextValue: function(value){
-			this.textbox.value = this.filter(value);
-		},
-
-		setValue: function(value){
-			this._setTextValue((typeof value == "undefined" || value == null) ? "" : this.format(value, this.constraints));
+		setValue: function(value, /*String, optional*/ formattedValue){
+			if(typeof formattedValue == "undefined" ){ 
+				formattedValue = (typeof value == "undefined" || value == null || value == NaN) ? null : this.filter(this.format(value, this.constraints));
+			}
+			if(formattedValue != null){
+				this.textbox.value = formattedValue;
+			}
 			dijit.form.Textbox.superclass.setValue.call(this,value);
 		},
 
@@ -71,11 +72,15 @@ dojo.declare(
 				this.nodeWithBorder = this.textbox;
 			}
 			// assign value programatically in case it has a quote in it
-			this._setTextValue(this.value);
+			this.setValue(this.value);
+			// setting the value here is needed since value="" in the template causes "undefined"
+			// and setting in the DOM (instead of the JS object) helps with form reset actions
+			this.textbox.setAttribute("value", this.getTextValue());
 		},
 
 		filter: function(val){
 			// summary: Apply various filters to textbox value
+			if(val == null){ return null; }
 			if(this.trim){
 				val = val.replace(/(^\s*|\s*$)/g, "");
 			} 
@@ -102,11 +107,13 @@ dojo.declare(
 		onfocus: function(){
 			dojo.addClass(this.nodeWithBorder, "dijitInputFieldFocused");
 		},
+
 		onblur: function(){
 			dojo.removeClass(this.nodeWithBorder, "dijitInputFieldFocused");
 
 			this.setValue(this.getValue()); 
 		},
+
 		onkeyup: function(){ 
 			// TODO: it would be nice to massage the value (ie: automatic uppercase, etc) as the user types
 			// but this messes up the cursor position if you are typing into the middle of a word, and

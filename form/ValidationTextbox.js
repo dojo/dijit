@@ -41,8 +41,8 @@ dojo.declare(
 		//		Do not specify both regExp and regExpGen
 		regExpGen: function(constraints){ return this.regExp; },
 	
-		setValue: function(value){
-			dijit.form.ValidationTextbox.superclass.setValue.call(this, value);
+		setValue: function(){
+			dijit.form.ValidationTextbox.superclass.setValue.apply(this, arguments);
 			this.validate(false);
 		},
 	
@@ -140,20 +140,6 @@ dojo.declare(
 			var p = this.regExpGen(this.constraints);
 			this.regExp = p;
 			// make value a string for all types so that form reset works well
-			this.value = (this.value == null || this.value == "") ? "" : this.format(this.value, this.constraints);
-		},
-	
-		postCreate: function(){
-			dijit.form.ValidationTextbox.superclass.postCreate.apply(this);
-
-			// Attach isMissing and isValid methods to the textbox.
-			// We may use them later in connection with a submit button widget.
-			// TODO: this is unorthodox; it seems better to do it another way -- Bill
-			this.textbox.isValid = function(){ this.isValid.call(this); };
-			this.textbox.isMissing = function(){ this.isMissing.call(this); };
-			// setting the value here is needed since value="" in the template causes "undefined" on form reset
-			this.textbox.setAttribute("value", this.value);
-			this.validate(false); 
 		}
 	}
 );

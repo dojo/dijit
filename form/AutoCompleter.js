@@ -433,7 +433,6 @@ dojo.declare(
 			this.parentClass=dojo.getObject(this.declaredClass, false).superclass;
 			this.parentClass.postCreate.apply(this, arguments);
 
-			this.setValue(this.value);
 			// convert the arrow image from using style.background-image to the .src property (a11y)
 //			dijit.util.wai.imageBgToSrc(this.arrowImage);
 		}

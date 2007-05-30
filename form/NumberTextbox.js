@@ -10,9 +10,7 @@ dojo.declare(
 		// summary:
 		//		A mixin for all number textboxes
 		regExpGen: dojo.number.regexp,
-		format: function(val, constraints){
-			return isNaN(val) ? "" : dojo.number.format(val, constraints);
-		},
+		format: dojo.number.format,
 		parse: dojo.number.parse,
 		value: 0
 	}

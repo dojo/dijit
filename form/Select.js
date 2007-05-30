@@ -37,27 +37,24 @@ dojo.declare(
 		//		The field of the selected item that the client should send to the server on submit
 		keyAttr: "value",
 
-		// value: String
-		//		The initial value of the Select.
-		//		This is the hidden value that the form submits.
-
 		_callbackSetLabel: function(/*Object*/ result){
 			// summary
 			//	Callback function that dynamically sets the label of the AutoCompleter
 
 			if(!result.length){
-				this.setValue("");
+				this._setValue("", "");
 			}else{
-				this._setLabel(result[0]);
-				this._setValue(this.store.getValue(result[0], this.keyAttr));
+				this._setValueFromItem(result[0]);
 			}
 		},
 
 		getValue:function(){
-			return dijit.base.FormElement.prototype.getValue.apply(this, arguments);;
+			// don't get the textbox value but rather the previously set hidden value
+			return this.valueNode.value;
 		},
 
-		_setValue:function(/*String*/ value){
+		_setValue:function(/*String*/ value, /*String*/ displayedValue){
+			this.valueNode.value = value;
 			dijit.form.Select.superclass.setValue.apply(this, arguments);
 		},
 
@@ -68,9 +65,7 @@ dojo.declare(
 
 			// test for blank value
 			if(/^\s*$/.test(value)){
-				this._setValue("");
-				// _setValue does not set the text value because settingValue is true
-				this.textbox.value="";
+				this._setValue("", "");
 				return;
 			}
 			// Defect #1451: set the label by reverse lookup
@@ -80,12 +75,12 @@ dojo.declare(
 			this.store.fetch({queryOptions:{ignoreCase:false}, query:query, onComplete:dojo.hitch(this, "_callbackSetLabel")});
 		},
 
-		_setLabel: function(/*Object*/ item){
+		_setValueFromItem: function(/*Object*/ item){
 			// summary
 			//	Set the displayed valued in the input box, based on a selected item.
 			//	Users shouldn't call this function; they should be calling setDisplayedValue() instead
 
-			this.textbox.value = this.labelFunc(item, this.store);
+			this._setValue(this.store.getValue(item, this.keyAttr), this.labelFunc(item, this.store));
 		},
 
 		labelFunc: function(/*Object*/ item, /*dojo.data.store*/ store){
@@ -130,12 +125,7 @@ dojo.declare(
 			//	AutoCompleter's menu callback function
 			//	Select overrides this to set both the visible and hidden value from the information stored in the menu
 
-			this._setLabel(tgt.item);
-			this._setValue(this.store.getValue(tgt.item, this.keyAttr));
-		},
-
-		_setTextValue:function(/*String*/ value){
-			// TODO: setTextValue in Textbox will become _setTextValue eventually
+			this._setValueFromItem(tgt.item);
 		},
 
 		setDisplayedValue:function(/*String*/ label){
