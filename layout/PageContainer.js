@@ -282,8 +282,8 @@ dojo.declare(
 			// summary:
 			//   Handle keystrokes on the page list, for advancing to next/previous button
 
-			if( (evt.keyCode == evt.KEY_RIGHT_ARROW)||
-				(evt.keyCode == evt.KEY_LEFT_ARROW) ){
+			if( (evt.keyCode == dojo.keys.RIGHT_ARROW)||
+				(evt.keyCode == dojo.keys.LEFT_ARROW) ){
 				var current = 0;
 				var next = null;	// the next button to focus on
 				var children = this.getChildren();
@@ -291,7 +291,7 @@ dojo.declare(
 				var current = dojo.indexOf(children, this.pane2button[this._currentChild]);
 				
 				// pick next button to focus on
-				if(evt.keyCode == evt.KEY_RIGHT_ARROW){
+				if(evt.keyCode == dojo.keys.RIGHT_ARROW){
 					next = children[ (current+1) % children.length ]; 
 				}else{ // is LEFT_ARROW
 					next = children[ (current+ (children.length-1)) % children.length ];
@@ -421,5 +421,6 @@ dojo.extend(dijit.base.Widget, {
 		return true;
 	}
 });
+
 
 
