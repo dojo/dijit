@@ -166,6 +166,7 @@ dojo.declare(
 
 		_showResultList: function(){
 			// Our dear friend IE doesnt take max-height so we need to calculate that on our own every time
+			this._hideResultList();
 			var childs = this._popupWidget.getListLength ? this._popupWidget.getItems() : [this._popupWidget.domNode];
 
 			if(childs.length){
@@ -181,8 +182,6 @@ dojo.declare(
 				var best=this._popupWidget.open(this);
 				dojo.marginBox(this._popupWidget.domNode, {h:best.h});
 				this._popupWidget.domNode.style.visibility="visible";
-			}else{
-				this._hideResultList();
 			}
 		},
 

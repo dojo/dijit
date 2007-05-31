@@ -470,6 +470,7 @@ dojo.declare(
 		//	Focus-less div based menu for internal use in AutoCompleter
 
 		templateString:"<div class='dijitMenu' dojoAttachEvent='onclick; onmouseover; onmouseout;' tabIndex='-1' style='display:none; position:absolute; overflow:\"auto\";'></div>",
+		_onkeypresshandle:null,
 		postCreate:function(){
 			// summary:
 			//	call all postCreates
@@ -478,10 +479,13 @@ dojo.declare(
 
 		open:function(/*Widget*/ widget){
 			this.onValueChanged=dojo.hitch(widget, widget._selectOption);
+			// connect onkeypress to AutoCompleter
+			this._onkeypresshandle=dojo.connect(this.domNode, "onkeypress", widget, "onkeypress");
 			return dijit.util.PopupManager.openAround(widget.textbox, this);
 		},
 
-		close:function(){
+		onClose:function(){
+			dojo.disconnect(this._onkeypresshandle);
 			this._blurOptionNode();
 		},
 
