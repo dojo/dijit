@@ -119,6 +119,9 @@ dijit.util.placeOnScreen = function(
 	node.style.display = oldDisplay;
 	node.style.visibility = oldVis;
 
+	//#2670
+	var visiblew,visibleh,bestw,besth="";
+
 	if(!dojo.isArray(corners)){
 		corners = ['TL'];
 	}
@@ -126,56 +129,92 @@ dijit.util.placeOnScreen = function(
 	var bestx, besty, bestDistance = Infinity, bestCorner;
 
 	for(var cidex=0; cidex<corners.length; ++cidex){
+		var visiblew,visibleh="";
 		var corner = corners[cidex];
 		var match = true;
+		// guess where to put the upper left corner of the popup, based on which corner was passed
+		// if you choose a corner other than the upper left, 
+		// obviously you have to move the popup
+		// so that the selected corner is at the x,y you asked for
 		var tryX = desiredX - (corner.charAt(1)=='L' ? 0 : w) + padding[0]*(corner.charAt(1)=='L' ? 1 : -1);
 		var tryY = desiredY - (corner.charAt(0)=='T' ? 0 : h) + padding[1]*(corner.charAt(0)=='T' ? 1 : -1);
+		// document => viewport
 		if(hasScroll){
 			tryX -= scroll.x;
 			tryY -= scroll.y;
 		}
-
-		if(tryX < 0){
-			tryX = 0;
-			match = false;
-		}
-
-		if(tryY < 0){
-			tryY = 0;
-			match = false;
-		}
-
+		// x component
+		// test if the popup does not fit
 		var x = tryX + w;
 		if(x > view.w){
-			x = view.w - w;
 			match = false;
-		}else{
-			x = tryX;
 		}
-		x = Math.max(padding[0], x) + scroll.x;
-
+		// viewport => document
+		// min: left side of screen
+		x = Math.max(padding[0], tryX) + scroll.x;
+		// calculate the optimal width of the popup
+		if(corner.charAt(1)=='L'){
+			if(w>view.w-tryX){
+				visiblew=view.w-tryX;
+				match=false;
+			}else{
+				visiblew=w;
+			}
+		}else{
+			if(tryX<0){
+				visiblew=w+tryX;
+				match=false;
+			}else{
+				visiblew=w;
+			}
+		}
+		// y component
+		// test if the popup does not fit
 		var y = tryY + h;
 		if(y > view.h){
-			y = view.h - h;
 			match = false;
-		}else{
-			y = tryY;
 		}
-		y = Math.max(padding[1], y) + scroll.y;
+		// viewport => document
+		// min: top side of screen
+		y = Math.max(padding[1], tryY) + scroll.y;
+		// calculate the optimal height of the popup
+		if(corner.charAt(0)=='T'){
+			if(h>view.h-tryY){
+				visibleh=view.h-tryY;
+				match=false;
+			}else{
+				visibleh=h;
+			}
+		}else{
+			if(tryY<0){
+				visibleh=h+tryY;
+				match=false;
+			}else{
+				visibleh=h;
+			}
+		}
 
 		if(match){ //perfect match, return now
 			bestx = x;
 			besty = y;
 			bestDistance = 0;
+			bestw = visiblew;
+			besth = visibleh;
 			bestCorner = corner;
 			break;
 		}else{
 			//not perfect, find out whether it is better than the saved one
+			// weight this position by its squared distance
 			var dist = Math.pow(x-tryX-scroll.x,2)+Math.pow(y-tryY-scroll.y,2);
+			// if there was not a perfect match but dist=0 anyway (popup too small) weight by size of popup
+			if(dist==0){dist=Math.pow(h-visibleh,2);}
+			// choose the lightest (closest or biggest popup) position
 			if(bestDistance > dist){
 				bestDistance = dist;
 				bestx = x;
 				besty = y;
+				bestw = visiblew;
+				besth = visibleh;
 				bestCorner = corner;
 			}
 		}
@@ -186,7 +225,7 @@ dijit.util.placeOnScreen = function(
 		node.style.top = besty + "px";
 	}
 
-	return {left: bestx, top: besty, x: bestx, y: besty, dist: bestDistance, corner:  bestCorner};	//	object
+	return {left: bestx, top: besty, x: bestx, y: besty, dist: bestDistance, corner:  bestCorner, h:besth, w:bestw};	//	object
 }
 
 dijit.util.placeOnScreenAroundElement = function(

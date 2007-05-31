@@ -45,9 +45,9 @@ dijit.util.PopupManager = new function(){
 		if(!orient){ orient={'BL':'TL', 'TL':'BL'}; }
 		if(!padding){ padding=[0,0]; }
 
-		dijit.util.placeOnScreenAroundElement(widget.domNode, parent, padding, orient);
-			
+		var best=dijit.util.placeOnScreenAroundElement(widget.domNode, parent, padding, orient);
 		this._open(widget);
+		return best;
 	};
 
 	this._open = function(widget){

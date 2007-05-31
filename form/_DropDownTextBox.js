@@ -31,10 +31,6 @@ dojo.declare(
 		//	Object to pass to popup widget on initialization
 		_popupArgs:{},
 
-		// maxListLength: Integer
-		//		Limits list to X visible rows, scroll on rest
-		maxListLength: 8,
-
 		_arrowPressed: function(){
 			if(!this.disabled){
 				dojo.addClass(this.downArrowNode, "dijitArrowButtonActive");
@@ -168,15 +164,6 @@ dojo.declare(
 			this.onkeypress({charCode:-1});
 		},
 
-		focus: function(){
-			try{
-				this.textbox.focus();
-			}
-			catch(e){
-				// element isn't focusable if disabled, or not visible etc - not easy to test for.
-			}
-		},
-
 		_showResultList: function(){
 			// Our dear friend IE doesnt take max-height so we need to calculate that on our own every time
 			var childs = this._popupWidget.getListLength ? this._popupWidget.getItems() : [this._popupWidget.domNode];
@@ -187,25 +174,13 @@ dojo.declare(
 					// trick to get the dimensions of the popup
 					visibility="hidden";
 					display="";
-
-					if(visibleCount == childs.length){
-						//no scrollbar is required, so unset height to let browser calcuate it,
-						//as in css, overflow is already set to auto
-						height = "";
-					}else{
-						var calcheight = visibleCount * (childs[0]).offsetHeight;
-						var windowheight=dijit.util.getViewport().h;
-						if(calcheight>windowheight){
-							var coords=dojo.coords(this._popupWidget.domNode);
-							calcheight=windowheight-coords.y;
-						}
-						height=calcheight+"px";
-					}
 					width="";
-					visibility="visible";
+					height="";
 				}
 				this._arrowPressed();
-				this._popupWidget.open(this);
+				var best=this._popupWidget.open(this);
+				dojo.marginBox(this._popupWidget.domNode, {h:best.h});
+				this._popupWidget.domNode.style.visibility="visible";
 			}else{
 				this._hideResultList();
 			}

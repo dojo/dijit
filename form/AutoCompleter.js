@@ -477,9 +477,8 @@ dojo.declare(
 		},
 
 		open:function(/*Widget*/ widget){
-			this.maxListLength=widget.maxListLength;
 			this.onValueChanged=dojo.hitch(widget, widget._selectOption);
-			dijit.util.PopupManager.openAround(widget.textbox, this);
+			return dijit.util.PopupManager.openAround(widget.textbox, this);
 		},
 
 		close:function(){
@@ -557,16 +556,35 @@ dojo.declare(
 			dijit.util.scroll.scrollIntoView(this._highlighted_option);
 		},
 
-		pageUp:function(){
-			for(var i=0; i<this.maxListLength; i++){
-				this._highlightPrevOption();
+		_page:function(/*Boolean*/ up){
+			var scrollamount=0;
+			var oldscroll=this.domNode.scrollTop;
+			var height=parseInt(dojo.getComputedStyle(this.domNode).height);
+			// if no item is highlighted, highlight the first option
+			if(!this.getHighlightedOption()){this._highlightNextOption();}
+			while(scrollamount<height){
+				if(up){
+					// stop at option 1
+					if(!this.getHighlightedOption().previousSibling){break;}
+					this._highlightPrevOption();
+				}else{
+					// stop at last option
+					if(!this.getHighlightedOption().nextSibling){break;}
+					this._highlightNextOption();
+				}
+				// going backwards
+				var newscroll=this.domNode.scrollTop;
+				scrollamount+=(newscroll-oldscroll)*(up ? -1:1);
+				oldscroll=newscroll;
 			}
 		},
 
+		pageUp:function(){
+			this._page(true);
+		},
+
 		pageDown:function(){
-			for(var i=0; i<this.maxListLength; i++){
-				this._highlightNextOption();
-			}
+			this._page(false);
 		},
 
 		_highlightPrevOption:function(){
