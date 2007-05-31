@@ -43,7 +43,7 @@
 					document.body.appendChild(refNode);
 					var content = new dijit.layout.ContentPane({label: label[i], selected: i==1}, refNode);
 					content.setContent("this is " + label[i]);
-					console.debug("adding content pane " + content.widgetId);
+					console.debug("adding content pane " + content.id);
 					accordion.addChild(content);
 				}
 				accordion.startup();
