@@ -125,5 +125,9 @@ dojo.declare(
 		// summary
 		//		left side is normal button, right side displays menu
 		templatePath: dojo.moduleUrl("dijit.form", "templates/ComboButton.html"),
-		_orientation: {'BR':'TR', 'TR':'BR'}
+		_orientation: {'BR':'TR', 'TR':'BR'},
+		
+		// optionsTitle: String
+		//  text that describes the options menu (accessibility)
+		optionsTitle: ""
 	});
