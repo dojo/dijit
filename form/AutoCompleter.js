@@ -552,10 +552,21 @@ dojo.declare(
 			// because each press of a button clears the menu,
 			// the highlighted option sometimes becomes detached from the menu!
 			// test to see if the option has a parent to see if this is the case.
-			if(!this._highlighted_option||!this._highlighted_option.parentNode){
+			if(!this.getHighlightedOption()){
 				this._focusOptionNode(this.domNode.firstChild);
 			}else if(this._highlighted_option.nextSibling){
 				this._focusOptionNode(this._highlighted_option.nextSibling);
+			}
+			dijit.util.scroll.scrollIntoView(this._highlighted_option);
+		},
+
+
+		_highlightPrevOption:function(){
+			if(!this.getHighlightedOption()){
+				dijit.util.PopupManager.close(true);
+				return;
+			}else if(this._highlighted_option.previousSibling){
+				this._focusOptionNode(this._highlighted_option.previousSibling);
 			}
 			dijit.util.scroll.scrollIntoView(this._highlighted_option);
 		},
@@ -589,17 +600,6 @@ dojo.declare(
 
 		pageDown:function(){
 			this._page(false);
-		},
-
-		_highlightPrevOption:function(){
-			if(this._highlighted_option && this._highlighted_option.previousSibling){
-				this._focusOptionNode(this._highlighted_option.previousSibling);
-			}else{
-				this._highlighted_option = null;
-				dijit.util.PopupManager.close(true);
-				return;
-			}
-			dijit.util.scroll.scrollIntoView(this._highlighted_option);
 		},
 
 		getHighlightedOption:function(){
