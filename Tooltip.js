@@ -124,7 +124,6 @@ dojo.declare(
 		_isDescendantOf: function(/*Node*/node, /*Node*/ancestor){
 			//	summary
 			//	Returns boolean if node is a descendant of ancestor
-			// guaranteeDescendant allows us to be a "true" isDescendantOf function
 
 			while(node){
 				if(node === ancestor){ 
@@ -133,17 +132,13 @@ dojo.declare(
 				try{
 					node = node.parentNode;
 				}catch(e){
-					return true;
+					return false;
 				}
 			}
 			return false; // boolean
 		},
 
 		_onMouseOver: function(/*Event*/ e){
-			if(this._isDescendantOf(e.relatedTarget, this._connectNode)){
-				// false event; just moved from target child to target; ignore.
-				return;
-			}
 			this._onHover(e);
 		},
 
@@ -158,7 +153,6 @@ dojo.declare(
 		_onHover: function(/*Event*/ e){
 			if(this._hover){ return; }
 			this._hover=true;
-
 			// If tooltip not showing yet then set a timer to show it shortly
 			if(!this.isShowingNow && !this._showTimer){
 				this._showTimer = setTimeout(dojo.hitch(this, "open"), this.showDelay);
@@ -184,7 +178,6 @@ dojo.declare(
 				clearTimeout(this._showTimer);
 				delete this._showTimer;
 			}
-			delete this._showTimer;
 			dijit.MasterTooltip.show(this.caption || this.domNode.innerHTML, this._connectNode);
 			this.isShowingNow = true;
 		},
