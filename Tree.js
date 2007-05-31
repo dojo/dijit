@@ -157,29 +157,6 @@ dojo.declare(
 	postCreate: function(){
 		this.containerNode = this.domNode;
 
-		// The template has dummy <span> nodes for each possible expando icon, with
-		// CSS background-image set appropriately; use those span
-		// nodes to get image path for each expando icon.
-		// Will set this.expandoOpenedImg = "expando_open.gif" etc.
-
-		var imageNames = ["expandoOpened", "expandoClosed", "expandoLeaf", "expandoProcessing"];
-		dojo.forEach(imageNames, 
-			function(name) {
-				dijit.util.wai.imageBgToSrc(this[name]);
-				this[name + "Img"] = this[name].src;
-			}, this
-		);
-		
-
-/*
-		dojo.forEach(["expandoOpened", "expandoClosed", "expandoLeaf", "expandoProcessing"],
-			function(item){
-				var bi = dojo.getComputedStyle(this[item]).backgroundImage;
-				var href = bi.charAt(4)=='"' ? bi.slice(5,-2) : bi.slice(4,-1);	// url(foo) --> foo, url("foo") --> foo
-				this[item+"Img"]=href;
-			}, this);
-*/
-
 		// make template for container node (we will clone this and insert it into
 		// any nodes that have children)
 		var div = document.createElement('div');
@@ -351,11 +328,19 @@ dojo.declare(
 		
 	_setExpando: function(/*Boolean*/ processing) {
 		// summary: set the right image for the expando node
-		var img = processing ? "expandoProcessingImg" :
-				(this.isFolder ?
-					(this.isExpanded ? "expandoOpenedImg" : "expandoClosedImg") : "expandoLeafImg");
-		this.expandoNode.src = this.tree[img];
+
+		// apply the appropriate class to the expando node
+		var styles = ["TreeExpandoLoading", "TreeExpandoOpened", 
+			"TreeExpandoClosed", "TreeExpandoLeaf"];
+		var idx = processing ? 0 : (this.isFolder ?	(this.isExpanded ? 1 : 2) : 3);
+		dojo.forEach(styles,
+			function(s){
+				dojo.removeClass(this.expandoNode, s);
+			}, this
+		);
+		dojo.addClass(this.expandoNode, styles[idx]);
 		
+		// provide a non-image based indicator for images-off mode
 		this.expandoNodeText.innerHTML = 
 			processing ? "*" :
 				(this.isFolder ?
