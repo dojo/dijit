@@ -269,7 +269,7 @@ dojo.declare(
 		// to capture these events at the top level, 
 		// attach to document, not body
 		var cn = (node == dojo.body() ? dojo.doc : node);
-		node[this.widgetId+'_connect'] = [
+		node[this.id+'_connect'] = [
 			dojo.connect(cn, "oncontextmenu", this, "_openMyself"),
 			dojo.connect(cn, "onkeydown", this, "_contextKey")
 		];
