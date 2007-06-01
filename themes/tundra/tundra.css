@@ -5,11 +5,20 @@
 @import url("../dijit.css");
 
 
-/* IE: HACK use filter property for all 24-bit PNG images in IE6 */
+/*
+ * IE6: can't display PNG images with gradient transparency.
+ * Want to use filter property for those images, but then need to specify a path relative
+ * to the main page, rather than relative to this file... using gifs for now
+ */
 .dj_ie6 .tundra .dijitInputField,
 .dj_ie6 .tundra .dijitAutoCompleterInput {
 	background-image: none;
+	/* TODO: won't work; path is wrong; use gif instead? */
 	filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src="dijitTundraGradientBg.png", sizingMethod="scale");
+}
+
+.dj_ie6 .tundra .dijitTooltipConnector {
+	background-image: url(tooltipConnector.gif);
 }
 
 /** TODO: add all other PNGs here that need this */
@@ -427,6 +436,10 @@
 
 /*Tooltip*/
 
+.tundra .dijitTooltip {
+	opacity: 0.9;
+}
+
 .tundra .dijitTooltipContainer {
 	border: solid;
 	border-color: #7788a0 #344257 #344257 #7788a0;
@@ -444,11 +457,6 @@
 	background:url("tooltipConnector.png") no-repeat top left;
 	width:16px;
 	height:14px;
-}
-
-.tundra .dijitTooltipConnector div {
-	/*Override the html/css arrow*/
-	display:none;
 }
 
 /*Accordion*/

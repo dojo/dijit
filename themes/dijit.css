@@ -572,10 +572,10 @@ table .dijitComboButton .dijitButtonNode {
 	z-index: 10;
 	display: block;
 	margin-top: 10px;
-	border: red;
 	/* make visible but off screen */
 	left: -10000px;
 	top: -10000px;
+	overflow: visible;
 }
 
 .dijitTooltipContainer {

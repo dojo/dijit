@@ -4,6 +4,7 @@ dojo.require("dijit.base.Widget");
 dojo.require("dijit.base.TemplatedWidget");
 dojo.require("dijit.util.place");
 dojo.require("dijit.util.BackgroundIframe");
+dojo.require("dijit.util.sniff");
 
 dojo.declare(
 	"dijit._MasterTooltip",
@@ -19,10 +20,6 @@ dojo.declare(
 		//		Milliseconds to fade in/fade out
 		duration: 200,
 
-		// opacity: Number
-		//		Final opacity tooltips are shown at, after fade in
-		opacity: 0.95,
-
 		templatePath: dojo.moduleUrl("dijit", "templates/Tooltip.html"),
 
 		postCreate: function(){
@@ -31,7 +28,10 @@ dojo.declare(
 			this.bgIframe = new dijit.util.BackgroundIframe();
 			this.bgIframe.setZIndex(dojo.style(this.domNode, "zIndex")-1);
 
-			this.fadeIn = dojo._fade({node: this.domNode, duration: this.duration, end: this.opacity});
+			// Setup fade-in and fade-out functions.  An IE bug prevents the arrow from showing up
+			// unless opacity==1, because it's displayed via overflow: visible on the main div. 
+			var opacity = dojo.isIE ? 1 : dojo.style(this.domNode, "opacity");
+			this.fadeIn = dojo._fade({node: this.domNode, duration: this.duration, end: opacity});
 			dojo.connect(this.fadeIn, "onEnd", this, "_onShow");
 			this.fadeOut = dojo._fade({node: this.domNode, duration: this.duration, end: 0});
 			dojo.connect(this.fadeOut, "onEnd", this, "_onHide");
@@ -57,6 +57,10 @@ dojo.declare(
 		_onShow: function(){
 			this.bgIframe.size(this.domNode);
 			this.bgIframe.show();
+			if(dojo.isIE){
+				// the arrow won't show up on a node w/an opacity filter
+				this.domNode.style.filter="";
+			}
 		},
 
 		hide: function(){
