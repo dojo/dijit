@@ -118,9 +118,8 @@ dojo.declare(
 			this._arrowIdle();
 			// removeClass dijitInputFieldFocused
 			dojo.removeClass(this.nodeWithBorder, "dijitInputFieldFocused");
-			// sometimes the tooltip gets stuck; confused by dropdown
-			// don't hide if already hidden
-			if(dijit.MasterTooltip.domNode.style.opacity){dijit.MasterTooltip.hide();}
+			// hide the Tooltip
+			this._displayMessage("");
 		},
 
 		onkeypress: function(/*Event*/ evt){
@@ -179,8 +178,10 @@ dojo.declare(
 					height="";
 				}
 				this._arrowPressed();
+				// hide the tooltip
+				this._displayMessage("");
 				var best=this._popupWidget.open(this);
-				dojo.marginBox(this._popupWidget.domNode, {h:best.h});
+				dojo.marginBox(this._popupWidget.domNode, {h:best.h,w:dojo.marginBox(this.domNode).w});
 				this._popupWidget.domNode.style.visibility="visible";
 			}
 		},

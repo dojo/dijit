@@ -255,9 +255,11 @@ dijit.util.placeOnScreenAroundElement = function(
 	aroundNode = dojo.byId(aroundNode);
 	var oldDisplay = aroundNode.style.display;
 	aroundNode.style.display="";
-	var mb = dojo.marginBox(aroundNode);
-	var aroundNodeW = mb.w;
-	var aroundNodeH = mb.h;
+	// #3172: use the slightly tighter border box instead of marginBox
+	//var mb = dojo.marginBox(aroundNode);
+	//aroundNode.style.borderWidth="10px";
+	var aroundNodeW = aroundNode.offsetWidth; //mb.w;
+	var aroundNodeH = aroundNode.offsetHeight; //mb.h;
 	var aroundNodePos = dojo.coords(aroundNode, true);
 	aroundNode.style.display=oldDisplay;
 

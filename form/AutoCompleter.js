@@ -481,7 +481,7 @@ dojo.declare(
 			this.onValueChanged=dojo.hitch(widget, widget._selectOption);
 			// connect onkeypress to AutoCompleter
 			this._onkeypresshandle=dojo.connect(this.domNode, "onkeypress", widget, "onkeypress");
-			return dijit.util.PopupManager.openAround(widget.textbox, this);
+			return dijit.util.PopupManager.openAround(widget.domNode, this);
 		},
 
 		onClose:function(){
