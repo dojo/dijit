@@ -33,7 +33,7 @@ dojo.declare(
 		// <div dojoType="ProgressBar"
 		//   duration="..."
 		//   places="0"
-		//   annotate="true|false" orientation="vertical" 
+		//   orientation="vertical" 
 		//   progress="..." maximum="..."></div>
 	
 		// progress: String (Percentage or Number)
@@ -49,10 +49,6 @@ dojo.declare(
 		// orientation: String
 		// whether bar grows along the x-axis (default) or y- axis (vertical)
 		orientation: "",
-
-		// annotate: Boolean
-		// if true, the percent label is visible
-		annotate: false,
 
 		// places: Number
 		// number of places to show in values; 0 by default
@@ -98,21 +94,17 @@ dojo.declare(
 
 			if(!this._animationStopped){return;}
 
-			this._setWaiValueNow(this.report(percent));
+			var text = this.report(percent);
+			this._setWaiValueNow(text);
+			this.internalProgress.style[this._dimension] = (percent * 100) + "%";
 
-			var pixels = percent * parseInt(dojo.getComputedStyle(this.domNode)[this._dimension]);
-			this.internalProgress.style[this._dimension] = pixels + 'px';
-
-			var display = this.annotate ? "block" : "none";
 			dojo.forEach(["full", "empty"], function(name){
 				var labelNode = this[name+"Label"];
-				var text = this.report(percent);
 				if(labelNode.firstChild){
 					labelNode.firstChild.nodeValue = text;
 				}else{
 					labelNode.appendChild(dojo.doc.createTextNode(text));
 				}
-				dojo.style(labelNode, "display", display);
 
 // move this out of update, or perhaps replace with css or template layout?
 				var dim = dojo.contentBox(labelNode);
@@ -124,7 +116,7 @@ dojo.declare(
 		},
 
 		report: function(/*float*/percent){
-			// Generates message to overlay, shown if annotate is true; may be overridden by user
+			// Generates message to show; may be overridden by user
 			return dojo.number.format(percent, {type: "percent", places: this.places, locale: this.lang});
 		},
 
@@ -154,8 +146,8 @@ dojo.declare(
 			// summary: starts the left-right animation, useful when
 			// the user doesn't know how much time the operation will last
 			if(this._animationStopped){
-				this._backup = {progress: this.progress, annotate: this.annotate};
-				this.update({progress: "10%", annotate: false});
+				this._backup = {progress: this.progress};
+				this.update({progress: "10%"});
 				this._setWaiValueNow("unknown");
 				this._animationStopped = false;
 				this._setupAnimation();

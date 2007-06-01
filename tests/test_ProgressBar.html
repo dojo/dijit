@@ -13,9 +13,12 @@
 				margin: 1em;
 			}
 
-			.red .dojoProgressBarColorLayer { 
-				background-color:red;
-				border-color:red
+			.smallred .dijitProgressBarTile { 
+				background:red;
+			}
+			.smallred .dijitProgressBarEmptyLabel,
+			.smallred .dijitProgressBarFullLabel {
+				display:none;
 			}
 		</style>
 		
@@ -128,7 +131,7 @@ function remoteProgress(bar){
 		<br />
 		Small, without text and background image:
 		<br />
-		<div style="width:400px; height:10px" class="dojoProgressBarColor red" orientation="horizontal" 
+		<div style="width:400px; height:10px" class="smallred" orientation="horizontal" 
 			maximum="256" id="smallTestBar" dojoType="dijit.ProgressBar"></div>		
 		<br />
 		Show decimal place:

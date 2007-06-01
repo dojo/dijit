@@ -755,12 +755,7 @@
 	/* outer container for background of bar that is finished */
 }
 
-.tundra .dijitProgressBarColorLayer{
-	/* inner container for finished portion when in 'color' mode */
-	background-color:#cad2de;
-	border-color:#cad2de;
-}
-.tundra .dijitProgressBarTileLayer{
+.tundra .dijitProgressBarTile{
 	/* inner container for finished portion when in 'tile' (image) mode */
 	background:#cad2de url("images/progressBarFull.png") repeat-x top left;
 }
@@ -780,7 +775,7 @@
 }
 
 
-.tundra .dijitProgressBarIndeterminate .dijitProgressBarTileLayer {
+.tundra .dijitProgressBarIndeterminate .dijitProgressBarTile {
 	/* use an animated gif for the progress bar in 'indeterminate' mode */
 	background:#cad2de url("images/dijitProgressBarAnim.gif") repeat-x top left;
 }

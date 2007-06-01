@@ -484,17 +484,8 @@ table .dijitComboButton .dijitButtonNode {
 	height:100%;
 }
 
-.dijitProgressBarColorLayer{
-	/* inner container for finished portion when in 'color' mode */
-	width:auto;
-	height:auto;
-
-	/* a11y:  The border provides visibility in high-contrast mode.
-		Set border color and background color in your theme to the same value  */
-	border:4px solid;
-}
-
-.dj_ie .dijitProgressBarColorLayer{
+.dijitProgressBarTile{
+	/* inner container for finished portion */
 	position:absolute;
 	overflow:hidden;
 	top:0px;
@@ -502,29 +493,40 @@ table .dijitComboButton .dijitButtonNode {
 	bottom:0px;
 	right:0px;
 	margin:0px;
-	width:100%;
-	height:100%;
-}
-
-.dijitProgressBarTileLayer{
-	/* inner container for finished portion when in 'tile' (image) mode */
-	position:absolute;
-	overflow:hidden;
-	top:0px;
-	left:0px;
-	width:100%;
-	height:100%;
-	background-color:transparent;
+	padding:0px;
+	width:auto;
+	height:auto;
+	background-color:#aaa;
 	background-attachment: fixed;
 }
 
-
-.dijitProgressBarColor dijitProgressBarTileLayer{
-	/* turn off the tile image when we want in 'color' mode */
-	background-image:none !important;
+.dijit_a11y .dijitProgressBarTile{
+	/* a11y:  The border provides visibility in high-contrast mode */
+	border-width:4px;
+	border-style:solid;
+	background-color:transparent !important;
 }
 
-.dijitProgressBarIndeterminate dijitProgressBarTileLayer{
+.dj_iequirks .dijitProgressBarTile{
+	width:100%;
+	height:100%;
+}
+
+.dj_ie6 .dijitProgressBarTile{
+	/* width:auto works in IE6 with position:static but not position:absolute */
+	position:static;
+	/* height:auto does not work in IE6 */
+	height:100%;
+}
+
+.dj_ie6 .dijitProgressBarVertical .dijitProgressBarTile{
+	position:absolute;
+	/* can't use position:static here -- need absolute positioning to place
+	   the bar at the bottom of a vertical progressbar */
+	width:100%;
+}
+
+.dijitProgressBarIndeterminate dijitProgressBarTile{
 	/* animated gif for 'indeterminate' mode */
 }
 
@@ -532,22 +534,16 @@ table .dijitComboButton .dijitButtonNode {
 
 .dijitProgressBarEmptyLabel{
 	/* label for portion of the bar that's not finished yet */
-	display:none;	/* turned on in code */
+	display:block;
 	position:absolute;
-	top:0px;
-	left:0px;
 	width:100%;
-	height:100%;
 	text-align:center
 }
 .dijitProgressBarFullLabel{
 	/* label for portion of the bar that is finished */
-	display:none;	/* turned on in code */
+	display:block;
 	position:absolute;
-	top:0px;
-	left:0px;
 	width:100%;
-	height:100%;
 	text-align:center;
 }
 
@@ -556,9 +552,6 @@ table .dijitComboButton .dijitButtonNode {
 	bottom:0px;		/* start at the bottom */
 }
 
-.dijitProgressBarVertical .dijitProgressBarTileLayer{
-	background-image:url("h-bar.gif");
-}
 
 
 
