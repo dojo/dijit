@@ -1,22 +1,21 @@
-<table class="dijitReset dijitInlineBox dijitButton" cellspacing=0 cellpadding=0 id="${id}" name="${name}"
-	><tr class="dijitReset"
-		><td class="dijitReset"
-			><button type="${type}"
-			    class="dijitNonPositionOnly dijitButtonContents dijitButtonNode"
-			    dojoAttachEvent="onclick:buttonClick; onkeypress:arrowKey;"
-			    tabIndex="${tabIndex}" dojoAttachPoint="containerNode;focusNode"
-			>${caption}</button
-		></td
-		><td class="dijitReset dijitButtonArrow dijitButtonNode"
-		    style="height:100%;"
-		    dojoAttachEvent="onclick:arrowClick;"
-			><button class="dijitDownArrowOuter" tabIndex="${tabIndex}"
-				title="${optionsTitle}"
-				dojoAttachPoint="popupStateNode"
-				dojoAttachEvent="onclick:arrowClick; onkeypress:arrowKey;"
-				waiRole="button" waiState="haspopup-true"
-				><div class="dijitDownArrowInner"></div
-			></button
-		></td
-	></tr
-></table>
+<fieldset class='dijit dijitInline dijitLeft dijitComboButton' id="${id}" name="${name}"
+	dojoAttachEvent="onmouseover:setStateClass;onmouseout:setStateClass;onmousedown:setStateClass;onclick:setStateClass; onkeypress:arrowKey;"	
+>
+<table cellspacing='0' cellpadding='0'  waiRole="presentation" >
+	<tr>
+		<td	class="dijitStretch dijitButtonContents dijitButtonNode"
+			tabIndex="${tabIndex}" dojoAttachPoint="containerNode;focusNode"
+			waiRole="button">
+			${caption}
+		</td>
+		<td class='dijitReset dijitRight dijitButtonNode dijitDownArrowButton'
+			dojoAttachPoint="popupStateNode"
+			dojoAttachEvent="onmouseover:setArrowStateClass;onmouseout:setArrowStateClass;onmousedown:setArrowStateClass;onclick:arrowClick; onkeypress:arrowKey;"
+			baseClass="dijitComboButtonDownArrow"
+			title="${optionsTitle}"
+			tabIndex="${tabIndex}"
+			waiRole="button" waiState="haspopup-true"
+		><div class='dijitRightSpacer'><span class='dijitA11yDownArrow'>&#9660;</span></div>
+	</td></tr>
+</table>
+</fieldset>

@@ -113,8 +113,9 @@ dojo._loaders.unshift(function(){
 		var needsA11y = (cs.borderTopColor==cs.borderRightColor) || (bkImg != null && (bkImg == "none" || bkImg == "url(invalid-url:)" ));
 		dojo[needsA11y ? "addClass" : "removeClass"](dojo.body(), "dijit_a11y");
 	}
-	check();
+	// TODO: only perform check if on windows!
 	if(dojo.isIE){
+		check();	// NOTE: checking in Safari messes things up
 		setInterval(check, 4000);
 	}
 });

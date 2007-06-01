@@ -1,1 +1,8 @@
-<div class="dijitInlineBox dijitButton"><button class="dijitButtonNode dijitButtonContents" tabIndex="${tabIndex}" type="${type}" id="${id}" name="${name}" alt="${alt}" dojoAttachPoint="containerNode;focusNode" dojoAttachEvent="onclick:buttonClick;">${caption}</button></div>
+<div class="dijit dijitLeft dijitInline dijitButton" 
+	dojoAttachEvent="onclick:setStateClass;onmouseover:setStateClass;onmouseout:setStateClass;onmousedown:setStateClass"><div class='dijitRight'>
+	<button class="dijitStretch dijitButtonNode dijitButtonContents" 
+		tabIndex="${tabIndex}" type="${type}" id="${id}" name="${name}" alt="${alt}" 
+		dojoAttachPoint="containerNode;focusNode">
+			${caption}
+	</button>
+</div></div>

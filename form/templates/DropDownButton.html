@@ -1,14 +1,9 @@
-<div class="dijitInlineBox dijitButton"
-><button tabIndex="${tabIndex}" class="dijitButtonNode" type="${type}" id="${id}" name="${name}" alt="${alt}" dojoAttachEvent="onclick:arrowClick; onkeypress:arrowKey;"
-    dojoAttachPoint="popupStateNode;focusNode" waiRole="button" waiState="haspopup-true"
-	><table class="dijitReset" cellpadding=0 cellspacing=0 cols=2
-		><tr class="dijitReset"
-			><td class="dijitReset dijitButtonContents dijitButtonContentsDropDown" dojoAttachPoint="containerNode">${caption}</td
-			><td class="dijitReset dijitNonPositionOnly" style="height:100%;"
-			        ><div class="dijitDownArrowOuter"
-			                ><div class="dijitDownArrowInner"></div
-			        ></div
-			></td
-		></tr
-	></table
-></button></div>
+<div class="dijit dijitLeft dijitInlineBox dijitDropDownButton"
+	dojoAttachEvent="onmouseover:setStateClass;onmouseout:setStateClass;onmousedown:setStateClass;onclick:arrowClick; onkeypress:arrowKey;"
+	><div class='dijitRight'>
+	<button tabIndex="${tabIndex}" class="dijitStretch dijitButtonNode" type="${type}" id="${id}" name="${name}" alt="${alt}"
+	dojoAttachPoint="popupStateNode;focusNode" waiRole="button" waiState="haspopup-true"
+		><span class="dijitButtonContents" dojoAttachPoint="containerNode">${caption}</span
+		><span class='dijitA11yDownArrow'>&#9660;</span>
+	</button>
+</div></div>

@@ -8,6 +8,7 @@ dojo.declare(
 	"dijit.form._Spinner",
 	dijit.form.RangeBoundTextbox,
 	{
+	
 		// summary: Mixin for validation widgets with a spinner
 		// description: This class basically (conceptually) extends dijit.form.ValidationTextbox.
 		//	It modifies the template to have up/down arrows, and provides related handling code.
@@ -36,6 +37,15 @@ dojo.declare(
 			// the val is adjusted in a way that makes sense to the object type
 			return val;
 		},
+
+		_handleUpArrowEvent : function(/*Event*/ e){
+			this.setStateClass(e, this.upArrowNode);
+		},
+
+		_handleDownArrowEvent : function(/*Event*/ e){
+			this.setStateClass(e, this.downArrowNode);
+		},
+
 
 		_arrowPressed: function(/*Node*/ nodePressed, /*Number*/ direction){
 			dojo.addClass(nodePressed, "dijitSpinnerButtonActive");
@@ -92,7 +102,6 @@ dojo.declare(
 			dijit.util.typematic.addListener(this.upArrowNode, this.textbox, {keyCode:dojo.keys.UP_ARROW,ctrlKey:false,altKey:false,shiftKey:false}, this, "_typematicCallback", this.timeoutChangeRate, this.defaultTimeout);
 			dijit.util.typematic.addListener(this.downArrowNode, this.textbox, {keyCode:dojo.keys.DOWN_ARROW,ctrlKey:false,altKey:false,shiftKey:false}, this, "_typematicCallback", this.timeoutChangeRate, this.defaultTimeout);
 
-			// convert the arrow images from using style.background-image to the .src property (a11y)
-			dijit.util.wai.imageBgToSrc([this.upArrowImage, this.downArrowImage]);
+			this._setDisabled(this.disabled == true);
 		}
 });

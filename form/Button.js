@@ -25,14 +25,6 @@ dojo.declare(
 		baseClass: "dijitButton",
 		templatePath: dojo.moduleUrl("dijit.form", "templates/Button.html"),
 		
-		buttonClick: function(/*Event*/ e){
-			// summary: internal function for handling button clicks via mouse or keybd
-			dojo.stopEvent(e);
-			if(!this.disabled){ 
-				this.onClick(e); 
-			}
-		},
-
 		onClick: function(/*Event*/ e){
 			// summary: callback for when button is clicked; user can override this function
 		},
@@ -46,8 +38,9 @@ dojo.declare(
 				var _this = this;
 				setTimeout(function(){_this.domNode.style.display=oldDisplay;},1);
 			}
-		}
-	});
+		}		
+	}
+);
 
 /*
  * usage
@@ -66,7 +59,8 @@ dojo.declare(
 		// menuId: String
 		//	widget id of the menu that this button should activate
 		menuId: "",
-
+		baseClass : "dijitDropDownButton",
+		
 		_orientation: {'BL':'TL', 'TL':'BL'},
 		
 		templatePath: dojo.moduleUrl("dijit.form" , "templates/DropDownButton.html"),
@@ -86,7 +80,9 @@ dojo.declare(
 		arrowKey: function(/*Event*/ e){
 			// summary: callback when the user presses a key (on key-down)
 			if(this.disabled){ return; }
-			if(e.keyCode == dojo.keys.DOWN_ARROW){
+			if(	   e.keyCode == dojo.keys.DOWN_ARROW
+				|| e.keyCode == dojo.keys.ENTER
+				|| e.keyCode == dojo.keys.SPACE){
 				if(!this._menu || this._menu.domNode.style.display=="none"){
 					this.arrowClick(e);
 				}
@@ -100,7 +96,7 @@ dojo.declare(
 			this.popupStateNode.focus();
 			var menu = this._menu;
 			if(!menu){ return; }
-			if(!this._opened){
+			if(!menu.isShowingNow){
 				dijit.util.PopupManager.openAround(this.popupStateNode, menu, this._orientation);
 				this.popupStateNode.setAttribute("popupActive", "true");
 				this._opened=true;
@@ -129,5 +125,11 @@ dojo.declare(
 		
 		// optionsTitle: String
 		//  text that describes the options menu (accessibility)
-		optionsTitle: ""
+		optionsTitle: "",
+
+		baseClass: "dijitComboButton",
+		setArrowStateClass : function(/*Event*/ e){
+			this.setStateClass(e, this.popupStateNode);
+		}
+
 	});

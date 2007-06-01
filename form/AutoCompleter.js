@@ -362,7 +362,7 @@ dojo.declare(
 			this.setValue(this.store.getValue(tgt.item, this.searchAttr));
 		},
 
-		arrowClicked: function(){
+		arrowClick: function(){
 // Bill: should rename to _onArrowClicked() for consistency
 			// summary: callback when arrow is clicked
 			if(this.disabled){

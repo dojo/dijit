@@ -1,13 +1,30 @@
-<fieldset class="dijitSpinner dijitInputField" dojoAttachPoint='nodeWithBorder' id='${id}'
-	><input dojoAttachPoint='textbox;focusNode' type='${type}' dojoAttachEvent='onblur;onfocus;onkeyup;'
-		value='${value}' name='${name}' size='${size}' maxlength='${maxlength}'
-		waiRole="spinbutton" autocomplete="off" tabIndex='${tabIndex}'
-	><fieldset class="dijitSpinnerArrowGroup"
-                ><fieldset dojoAttachPoint="upArrowNode" class="dijitSpinnerButton dijitSpinnerUpArrow"
-                        ><img dojoAttachPoint='upArrowImage' border=0 class='dijitSmallUpArrow'
-                ></fieldset
-                ><fieldset dojoAttachPoint="downArrowNode" class="dijitSpinnerButton dijitSpinnerDownArrow"
-                        ><img dojoAttachPoint='downArrowImage' border=0 class='dijitSmallDownArrow'
-                ></fieldset
-	></fieldset
-></fieldset>
+<fieldset class='dijit dijitInline dijitSpinner' id="widget_${id}" name="${name}"
+	dojoAttachEvent="onmouseover:setStateClass;onmouseout:setStateClass;"
+	baseClass='dijitSpinner'
+>
+<table cellspacing='0' cellpadding='0' waiRole="presentation" class='dijitReset dijitLeft'>
+	<tr>
+		<td class='dijitReset dijitStretch dijitSpinnerInput'>
+			<input dojoAttachPoint='textbox;focusNode' type='${type}' dojoAttachEvent='onblur;onfocus;onkeyup;'
+				value='${value}' name='${name}' size='${size}' maxlength='${maxlength}'
+				waiRole="spinbutton" autocomplete="off" tabIndex='${tabIndex}'
+			>
+		</td><td class='dijitReset'>
+			<div class='dijitButtonNode dijitUpArrowButton'
+				dojoAttachPoint="upArrowNode"
+				dojoAttachEvent="onmousedown:_handleUpArrowEvent;onmouseup:_handleUpArrowEvent;onmouseover:_handleUpArrowEvent;onmouseout:_handleUpArrowEvent;"
+				baseClass='dijitSpinnerUpArrow'
+				tabIndex="${tabIndex}"
+				waiRole="button"
+			><span class='dijitA11yUpArrow'>&#9650;</span></div>
+			<div class='dijitButtonNode dijitDownArrowButton'
+				dojoAttachPoint="downArrowNode"
+				dojoAttachEvent="onmousedown:_handleDownArrowEvent;onmouseup:_handleDownArrowEvent;onmouseover:_handleDownArrowEvent;onmouseout:_handleDownArrowEvent;"
+				baseClass='dijitSpinnerDownArrow'
+				tabIndex="${tabIndex}"
+				waiRole="button"
+			><span class='dijitA11yDownArrow'>&#9660;</span></div>
+		</td>
+	</tr>
+</table>
+</fieldset>

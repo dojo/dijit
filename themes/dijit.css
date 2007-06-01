@@ -1,8 +1,6 @@
 /*
-
 	Essential styles that themes can inherit.
 	In other words, works but doesn't look great.
-
 */
 
 
@@ -23,18 +21,37 @@
 	line-height:auto;
 }
 
-
-.dijitInlineBox {
-	/* To inline block elements, surround them with <fieldset class="dijitInlineBox"> */
-	display:inline-block;
-	display: -moz-inline-stack;
-	#display:inline;		/* MOW: if this is IE-specific, move it to another declaration */
+.dijitInline {
+	/* MOW: similar to InlineBox below, but this has fewer side-effects in Moz.  
+		Also, apparently works on a DIV as well as a FIELDSET.
+		Consider abandoning inlineBox in favor of this.  ???
+	*/
+	display:inline-block;			/* webkit */
+	display:-moz-inline-box;		/* gecko */
+	#display:inline;				/* MSIE   */
 	border:0px;
 	padding:0px;
 	vertical-align:middle;
 }
 
+.dijitInlineBox {
+	/* To inline block elements, surround them with <fieldset class="dijitInlineBox"> */
+	display:inline-block;			/* webkit */
+	display: -moz-inline-stack;		/* gecko  */
+	#display:inline;				/* MSIE   */
+	border:0px;
+	padding:0px;
+	vertical-align:middle;
+}
+.dj_ie6 .dijitInlineBox {
+	#display:inline;				/* IE */
+}
 
+
+.dijitTeeny {
+	font-size:1px;
+	line-height:1px;
+}
 
 .dijitPopup {
 	/* For popup items, such as menu */
@@ -76,6 +93,21 @@
 	display:none !important;
 }
 
+
+
+.dijitButtonDisabled *,
+.dijitDropDownButtonDisabled *,
+.dijitComboButtonDisabled *,
+.dijitAutoCompleterDisabled * {
+	cursor: default;
+	cursor: not-allowed !important;
+	cursor: url("no.gif"), not-allowed, default;
+}
+
+
+
+
+
 /**** 
 		A11Y CHECK 
  ****/
@@ -88,72 +120,288 @@
 	top: -999px;
 	background-image: url("../form/templates/blank.gif");
 }  
- 
-/*** Full sized arrows (matching the size of a line of text) ***/
 
-/* MOW: potentially deprecating these
-/* Down arrow * /
 
-.dijitDownArrowOuter,
-.dijitOpen .dijitOpenCloseArrowOuter {
-	padding:0px;
-	margin:auto;
-	border:0px;
-	overflow:hidden;
-	height:.7em;
-	width:.9em;
-	display: inline-block;
-	display: -moz-inline-stack;
-	vertical-align:middle;
+.dijit_a11y * {
+	background-image:none !important;
+	background-color:transparent !important;
 }
 
-.dijitDownArrowInner,
-.dijitOpen .dijitOpenCloseArrowInner {
-	border-width:2.1em 1.32em;
-	margin:-1.4em 0px 0px -.88em;
-	border-style:solid dotted;
-	border-color:gray transparent;
-	line-height:0px;
-	height:0px;
-	width:0px;
-	display: block;
-}
-
-.dj_ie6 .dijitDownArrowInner {
-	margin: 0px;
-	border-width:.7em .44em 0px .44em;
+.dijitA11yDownArrow,
+.dijitA11yUpArrow    {
+	/* down arrow shown when in a11y mode */
+	font-family:Arial, sans serif;
+	font-size:.5em;
+	line-height:.5em;
+	padding:0em .25em;
 }
 
 
-/* Right arrow * /
-
-.dijitRightArrowOuter,
-.dijitClosed .dijitOpenCloseArrowOuter {
-	border:0px none;
-	height:0.9em;
-	margin:auto;
-	overflow:hidden;
-	padding:0px;
-	width:0.7em;
+.dj_ie .dijitA11yDownArrow,
+.dj_ie .dijitA11yUpArrow  {
+	font-size:.8em;
 }
 
-.dijitRightArrowInner,
-.dijitClosed .dijitOpenCloseArrowInner {
-	border-width:1.32em 2.1em 1.32em 2.1em;
-	margin:-.88em -1.4em -.88em -1.4em;
-	border-style:dotted solid;
-	border-color:transparent gray;
-	line-height:0px;
-	height:0px;
-	width:0px;
-	display: block;
+
+
+
+.dijit_a11y .dijitButton .dijitButtonNode,
+.dijit_a11y .dijitDropDownButton .dijitButtonNode,
+.dijit_a11y .dijitComboButton .dijitButtonNode,
+.dijit_a11y .dijitAutoCompleter .dijitAutoCompleterInput,
+.dijit_a11y .dijitAutoCompleter .dijitButtonNode {
+	border:1px solid black !important;
+	background:white !important;
+	color:black !important;
 }
 
-/* it becomes a left arrow for LTR locales */
-.dijitRTL .dijitRightArrowInner {
+.dijit_a11y .dijitButtonDisabled .dijitButtonNode,
+.dijit_a11y .dijitDropDownButtonDisabled .dijitButtonNode,
+.dijit_a11y .dijitComboButtonDisabled .dijitButtonNode,
+.dijit_a11y .dijitAutoCompleterDisabled .dijitAutoCompleterInput,
+.dijit_a11y .dijitAutoCompleterDisabled .dijitButtonNode,
+.dijit_a11y .dijitSpinnerDisabled .dijitButtonNode,
+.dijit_a11y .dijitSpinnerDisabled .dijitSpinnerInput {
+	border:1px dotted #999999 !important;
+	color:#999999 !important;
+}
+
+.dijit_a11y .dijitComboButton .dijitDownArrowButton,
+.dijit_a11y .dijitAutoCompleter .dijitDownArrowButton {
+	border-left:0px !important;
+}
+
+
+
+
+/****
+		3-element borders:  ( dijitLeft + dijitStretch + dijitRight ) 
+ ****/
+	
+.dijitLeft {
+	/* Left part of a 3-element border */
+	background-position:left top;
+	background-repeat:no-repeat;
+}
+
+.dijitStretch {
+	/* Middle (stretchy) part of a 3-element border */
+	white-space:nowrap;			/* MOW: move somewhere else */
+	background-repeat:repeat-x;
+}
+
+.dijitRight {
+	/* Right part of a 3-element border */
+	#display:inline;				/* IE7 sizes to outer size w/o this */
+	background-position:right top;
+	background-repeat:no-repeat;
+}
+
+
+/****
+		Right-to-left rules
+ ****/
+.dijitRTL .dijitRightArrow {
+	/* it becomes a left arrow for LTR locales */
+	/* MOW: TODO... */
 	margin-left:-2.1em;
 }
 
+
+
+
+
+/****
+		dijit.form.Button
+		dijit.form.DropDownButton
+		dijit.form.ComboButton
+		dijit.form.AutoCompleter (partial)
+ ****/
+.dijitButton,
+.dijitDropDownButton,
+.dijitComboButton,
+.dijitAutoCompleter {
+	/* outside of button */
+	margin:.2em;
+}
+
+.dijitButtonNode {
+	/* Node that is acting as a button -- may or may not be a BUTTON element */
+	border:1px outset gray;
+	margin:0px;
+	padding:.2em .2em .1em .2em;
+	overflow:visible;
+	line-height:normal;
+	font-family:inherit;
+	font-size:inherit;
+	color: inherit;
+	cursor:pointer;
+	vertical-align:middle;	
+	text-align:center;
+	white-space: nowrap;
+}
+
+.dijitDownArrowButton,
+.dijitUpArrowButton {
+	/* Node that is acting as a arrow button -- drop down or spinner.  Also gets dijitButtonNode */
+	/* place AFTER dijitButtonNode so it overrides */
+	padding:0em .4em;
+	margin:0px;
+}
+
+
+.dijitButtonContents {
+	color:inherit;
+}
+
+.dijitDropDownButton .dijitA11yDownArrow {
+	margin-left:.8em;
+}
+
+.dijitComboButton TABLE {
+	/* each cell in a combo-table should have its own separate border */
+	border-collapse: separate;
+	border:0px;
+	padding:0px;
+	margin:0px;
+}
+
+.dijitComboButton .dijitButtonContents {
+	border-right-width:0px !important;
+}
+
+
+table .dijitButton .dijitButtonNode,
+table .dijitComboButton .dijitButtonNode {
+	#overflow:hidden; /* visible messes up if the button is inside a table on IE */
+}
+
+
+
+.dijitButtonNode IMG {
+	/* make text and images line up cleanly */
+	vertical-align:middle;
+	margin-bottom:.2em;
+}
+
+
+
+
+
+/****
+		dijit.form.AutoCompleter 
+		dijit.form.NumberSpinner  (template: form/templates/Spinner.html)
+
+		Note: these works differently than other Textbox types:
+			The outer fieldset element is the one that shows the border, etc.
+			rather than the actual INPUT element. 
+
+ ****/
+.dijitAutoCompleter {
+	/* Allow user to specify width without messing up defaults; other attributes are put on parent node */
+	width:auto !important;
+}
+
+.dijitAutoCompleter TABLE,
+.dijitSpinner TABLE {
+	/* each cell in a combo-table should have its own separate border */
+	border-collapse: separate;
+	border:0px;
+	padding:0px;
+	margin:0px;
+}
+
+.dijitAutoCompleterInput,
+.dijitSpinnerInput {
+	/* container for the input element */
+	font-family:inherit;
+	font-size:inherit;
+	font-weight:inherit;
+	border:1px inset gray;
+	padding:.1em .2em .2em .2em;
+	border-right-width:0px !important;
+}
+
+.dijitAutoCompleter INPUT,
+.dijitSpinner INPUT {
+	/* turn off the border on the actual input element */
+	border:0px !important;
+	background-color:transparent;
+}
+
+.dj_safari .dijitAutoCompleterInput,
+.dj_safari .dijitSpinnerInput {
+	padding:0px;
+	border:0px !important;
+}
+.dj_safari .dijitAutoCompleter INPUT,
+.dj_safari .dijitSpinner INPUT{
+	margin:-2px -4px -3px -3px;
+	line-height:2em;
+	font-size:1em;
+}
+
+
+.dijitSpinner {
+	/* outer element, which in the spinner case actually shows the border */
+	display:inline;
+	vertical-align:middle;
+	padding:0px !important;
+	width:auto !important;
+	height:auto !important;
+}
+
+.dijitSpinner INPUT {
+	/* The .style assigned to the spinner dijit is actually copied 
+		on to the INPUT element as well as the outer element.
+		The below turns off things on the input that should apply to the outer element.
+	*/
+	display:inline;
+	position:static !important;
+	float:none !important;
+	vertical-align:middle !important;
+	padding:0px !important;
+	margin:auto !important;
+	border:0px !important;
+	visibility:visible !important;
+	font-size:100% !important;
+	background-color:transparent !important;
+}
+
+.dijitSpinner .dijitDownArrowButton,
+.dijitSpinner .dijitUpArrowButton {
+	line-height:0px;
+	padding:.3em .3em .1em .25em;
+	height:50%;
+}
+
+
+/* total hacks to get IE to work */
+.dj_ie .dijitSpinner .dijitDownArrowButton,
+.dj_ie .dijitSpinner .dijitUpArrowButton {
+	vertical-align:top;
+	padding:0px;
+	margin:0px;
+}
+
+.dj_ie .dijitSpinner .dijitDownArrowButton {
+	border-top-width:0px;
+}
+
+.dj_ie .dijitSpinner .dijitA11yUpArrow    {
+	vertical-align:top;
+}
+.dj_ie .dijitSpinner .dijitA11yDownArrow {
+	vertical-align:middle;
+}
+
+.dj_ie .dijitSpinner .dijitA11yDownArrow,
+.dj_ie .dijitSpinner .dijitA11yUpArrow    {
+	font-size:.6em;
+	line-height:1.6em;
+	padding:0em .25em;
+	margin:0px;
+}
 
 
 
@@ -310,63 +558,6 @@
 
 .dijitProgressBarVertical .dijitProgressBarTileLayer{
 	background-image:url("h-bar.gif");
-}
-
-
-
-
-
-/****
-		dijit.form.NumberSpinner  (template: form/templates/Spinner.html)
-		
-		Note: NumberSpinner works differently than other Textbox types.
-			In NS, the outer fieldset element is the one that shows the border, etc.
-			rather than the actual INPUT element. 
- ****/
-
-.dijitSpinner {
-	/* outer element, which in the spinner case actually shows the border */
-	display:inline;
-	vertical-align:middle;
-	padding:0px !important;
-	white-space:nowrap !important;
-	width:auto !important;
-	height:auto !important;
-}
-
-.dijitSpinner input {
-	/* The .style assigned to the spinner dijit is actually copied 
-		on to the INPUT element as well as the outer element.
-		The below turns off things on the input that should apply to the outer element.
-	*/
-	display:inline;
-	position:static !important;
-	float:none !important;
-	vertical-align:middle !important;
-	padding:0px !important;
-	margin:auto !important;
-	border:0px !important;
-	visibility:visible !important;
-	font-size:100% !important;
-	background-color:transparent !important;
-}
-
-.dijitSpinnerArrowGroup {
-	/* fieldset that contains the up/down arrows */
-	display:inline;
-	padding:0px;
-	border:0px;
-	margin: 0px;
-	vertical-align:top;
-	line-height:1px !important;
-}
-
-.dijitSpinnerButton {
-	/* one of the up/down arrows */
-	display:block;
-	vertical-align:top;
-	line-height:0px !important;
-	text-align:center;
 }
 
 
@@ -575,47 +766,6 @@ body .dijitAlignClient { position: absolute; }
 }
 
 
-/* Button widget */
-.dijitButton {
-	line-height:0px; /* needed by webkit */
-}
-
-.dijitButton .dijitButtonNode {
-	border:0px;
-	margin:0px;
-	overflow:visible;
-	line-height:normal;
-}
-
-.dijitButtonDisabled,
-.dijitButtonDisabled * {
-	cursor: url("no.gif"), not-allowed, default; /*FIXME*/
-}
-
-
-table.dijitButton .dijitButtonNode {
-	#overflow:hidden; /* visible messes up if the button is inside a table on IE */
-}
-
-.dijitButtonContents {
-        padding: 0px;
-        text-align: center;     /* if icon and label are split across two lines, center icon */
-        vertical-align: middle; /* if icon and label are on same line, center them */
-        white-space: nowrap;
-        color: inherit;
-}
-
-.dijitButtonContents * {
-        text-align: center;
-        vertical-align: middle; /* if icon and label are on same line, center them */
-}
-
-/* border between label and arrow for drop down buttons */
-.dijitButtonContentsDropDown {
-        padding-right: 3px;
-}
-
-
 /* Calendar */
 
 .calendarContainer thead tr th, .calendarContainer thead tr td, .calendarContainer tbody tr td, .calendarContainer tfoot tr td { 
@@ -689,20 +839,25 @@ table.dijitButton .dijitButtonNode {
 /* Menu */
 
 .dijitMenu {
-	border-collapse:collapse;
+	border:1px solid black;
+	background-color:white;
 }
 .dijitMenuTable {
-	margin:1px;
+	margin:1px 0px;
+	border-collapse:collapse;
 	border-width:0px;
 }
 
-.tundra .dijitMenuItem{
+.dijitMenuItem{
 	white-space: nowrap;
+	padding:.1em .2em;
 }
 
 .dijitMenuItemHover {
 	cursor:pointer;
 	cursor:hand;
+	background-color:black;
+	color:white;
 }
 
 .tundra .dijitMenuItemIcon {
@@ -716,8 +871,8 @@ table.dijitButton .dijitButtonNode {
 	opacity:0.3;
 	cursor:default;
 }
-.dj_IE6 .dijitMenuItemDisabled * {
-	filter:Alpha(Opacity=30);
+.dj_ie .dijitMenuItemDisabled * {
+	color:gray;
 }
 
 .dijitMenuItemLabel {
@@ -804,52 +959,6 @@ table.dijitButton .dijitButtonNode {
 
 
 
-/****
-		dijit.form.AutoCompleter 
- ****/
-.dijitAutoCompleter {
-	/* Allow user to specify width without messing up defaults; other attributes are put on parent node */
-	width:auto !important;
-}
-
-.dijitAutoCompleterInput {
-	/* input element in the Autocompleter */
-	display:inline !important;
-	float:none !important;	
-}
-
-.dijitArrowButtonContainer {
-	/* fieldset that contains the arrow button */
-	display:inline !important;
-	overflow:hidden;
-	line-height:auto;
-	padding:0px;
-	border:0px;
-	margin:0px;
-	vertical-align:top;
-	/* NOTE: width and height are necessary for IE!
-		Override in your theme to make same as your input height.
-	*/
-	width:1em;		
-	height:1em;
-}
-
-.dijitArrowButton {
-	/* actual arrow button */
-	-moz-box-sizing:border-box;
-	display:block;
-	margin:0px;
-	cursor:pointer;
-}
-
-
-.dijitAutoCompleterDisabled .dijitArrowButton {
-	cursor: default;        /* makes opera happy */
-	cursor: url("no.gif"), not-allowed, default;
-}
-
-
-
 
 
 .dijitInlineEditor {
@@ -894,3 +1003,8 @@ table.dijitButton .dijitButtonNode {
 	padding-right: 3px; 
 	font: 0.75em Arial; 
 } 
+
+
+
+
+

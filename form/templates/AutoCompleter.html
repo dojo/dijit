@@ -1,13 +1,19 @@
-<fieldset class="dijitAutoCompleter dijitInlineBox" id='widget_${id}' waiRole="presentation"
-	><input style="display:inline" type="text" autocomplete="off" class="dijitInputField dijitAutoCompleterInput" name="${name}"
-		dojoAttachEvent="onkeypress; onkeyup; onfocus; onblur; compositionend;"
-		dojoAttachPoint="textbox;focusNode" id='${id}'
-		tabIndex='${tabIndex}' size='${size}' maxlength='${maxlength}'
-	><fieldset class="dijitArrowButtonContainer"
-		><span class='dijitArrowButton'
+<fieldset class='dijit dijitInline dijitLeft dijitAutoCompleter' id="widget_${id}" name="${name}"
+	dojoAttachEvent="onmouseover:setStateClass;onmouseout:setStateClass;"	
+>
+<table cellspacing=0 cellpadding=0>
+	<tr>
+		<td class='dijitReset dijitStretch dijitAutoCompleterInput'
+			><input class='XdijitInputField' type="text" autocomplete="off" name="${name}"
+			dojoAttachEvent="onkeypress; onkeyup; onfocus; onblur; compositionend;"
+			dojoAttachPoint="textbox;focusNode" id='${id}'
+			tabIndex='${tabIndex}' size='${size}' maxlength='${maxlength}'
+	></td><td class='dijitReset dijitRight dijitButtonNode dijitDownArrowButton'
 			dojoAttachPoint="downArrowNode"
-			dojoAttachEvent="onclick:arrowClicked;"
-			><span class='dijitArrow'>&#9660;</span>
-			</span
-	></fieldset
-></fieldset>
+			dojoAttachEvent="onclick:arrowClick;onmousedown:setStateClass;onmouseup:setStateClass;onmouseover:setStateClass;onmouseout:setStateClass;"
+			tabIndex="${tabIndex}"
+			waiRole="button" waiState="haspopup-true"
+		><div class='dijitRightSpacer'><span class='dijitA11yDownArrow'>&#9660;</span></div>
+	</td></tr>
+</table>
+</fieldset>

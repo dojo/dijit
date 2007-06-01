@@ -1,6 +1,7 @@
 dojo.provide("dijit.base.FormElement");
 
 dojo.require("dijit.base.Widget");
+dojo.require("dijit.util.sniff");
 dojo.require("dijit.util.wai");
 
 dojo.declare("dijit.base.FormElement", dijit.base.Widget,
@@ -75,22 +76,71 @@ dojo.declare("dijit.base.FormElement", dijit.base.Widget,
 		// TODO:
 		//		not sure which parts of disabling a widget should be here;
 		//		not sure which code is common to many widgets and which is specific to a particular widget.
-		var css = this.baseClass;
-		if(css == ""){
-			css = this.baseClass = "dijit"+this.declaredClass.replace(/.*\./g,"");
-		}
-		if(disabled){
-			dojo.addClass(this.domNode, css+"Disabled");
-			dojo.removeClass(this.domNode, css+"Enabled");
-		}else{
-			dojo.addClass(this.domNode, css+"Enabled");
-			dojo.removeClass(this.domNode, css+"Disabled");
-		}
 		this.domNode.disabled = this.disabled = disabled;
 		if(this.focusNode){
 			this.focusNode.disabled = disabled;
 		}
 		dijit.util.wai.setAttr(this.focusNode || this.domNode, "waiState", "disabled", disabled);
+		this.setStateClass(null, this.domNode);
+	},
+	
+
+	setStateClass : function(event, mouseNode, baseClass) {
+		// summary:
+		//	Update the visual state of the widget by changing the css class according to the mouse state.
+		//	State will be one of:
+		//		<baseClass> + "Enabled"|"Disabled"|"Active"|"Hover"
+		if (mouseNode == null) mouseNode = this.domNode;
+		if (event) dojo.stopEvent(event);
+		var base = mouseNode.getAttribute("baseClass") || this.baseClass || (this.baseClass = "dijit"+this.declaredClass.replace(/.*\./g,""));
+		
+		if (this.disabled) {
+			dojo.removeClass(this.domNode, base+"Enabled");
+			dojo.removeClass(this.domNode, base+"Hover");
+			dojo.removeClass(this.domNode, base+"Active");
+			dojo.addClass(this.domNode, base+"Disabled");
+		} else {
+			if (event) {
+				switch (event.type) {
+					case "mouseover" :
+						mouseNode._hovering = true;
+						break;
+						
+					case "mouseout" :	
+						mouseNode._hovering = false;	
+						break;
+						
+					case "mousedown" :
+						mouseNode._active = true;
+						// set a global event to handle mouseup, so it fires properly
+						//	even if the cursor leaves the button
+						var self = this;
+						var method = function(event) {
+							self.setStateClass(event, mouseNode);
+						}
+						mouseNode._mouseUpConnector = dojo.connect(dojo.global, "onmouseup", this, method);
+						break;
+	
+					case "mouseup" :
+						mouseNode._active = false;
+						// clear the global mouseup event, if set
+						if (this._mouseUpConnector) {
+							dojo.disconnect(mouseNode._mouseUpConnector);
+							mouseNode._mouseUpConnector = false;
+						}
+						break;
+						
+					case "click" :
+						this.onClick(event);
+						break;				
+				}
+			}
+//console.info(this.disabled, this._hovering, this._active);
+			dojo.removeClass(this.domNode, base+"Disabled");
+			dojo.toggleClass(this.domNode, base+"Active", mouseNode._active == true);
+			dojo.toggleClass(this.domNode, base+"Hover", mouseNode._hovering == true && mouseNode._active != true);
+			dojo.addClass(this.domNode, base+"Enabled");
+		}
 	},
 
 	onValueChanged: function(newValue){
