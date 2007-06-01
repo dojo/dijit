@@ -1,0 +1,186 @@
+@import url("../dijit.css");
+@import url(images/images.css);
+
+.blackie .dijit {
+	font-family:Tahoma;
+	font-size:14px;
+}
+
+.blackie .dijitUpArrowButton,
+.blackie .dijitDownArrowButton {
+	background-repeat:no-repeat;
+}
+
+.blackie .dijitA11yUpArrow,
+.blackie .dijitA11yDownArrow {
+	display:none;	
+}
+
+
+.blackie .dijitButtonNode {
+	border:0px !important;
+}
+
+.blackie .dijitButton,
+.blackie .dijitComboButton,
+.blackie .dijitDropDownButton,
+.blackie .dijitAutoCompleter {
+	height:30px;
+	padding:0px;
+	border-width:0px;
+	background-color:transparent;
+	background-repeat:no-repeat;
+	margin:5px;
+}
+
+.blackie .dijitButton .dijitRight {
+	height:30px;	
+	margin-left:15px; 
+	padding-right:15px;
+}
+.dj_ie .blackie .dijitButton .dijitRight {
+	padding-right:11px;
+}
+
+.blackie .dijitButton .dijitButtonNode,
+.blackie .dijitComboButton .dijitButtonNode, 
+.blackie .dijitDropDownButton .dijitButtonNode {
+	/* generic styles */
+	vertical-align:top;
+	height:30px;
+	font-family:inherit;
+	font-size:inherit;
+	background-color:transparent;
+	padding:0px !important;
+	line-height:25px;	/* Safari only */
+
+	/* enabled-specific styles */
+	color:#cccccc;
+}
+
+
+
+.blackie .dijitButtonHover .dijitButtonNode,
+.blackie .dijitComboButtonHover .dijitButtonNode, 
+.blackie .dijitDropDownButtonHover .dijitButtonNode {
+	/* hover styles */
+	color:#fa4242;
+}
+
+.blackie .dijitButtonActive .dijitButtonNode,
+.blackie .dijitComboButtonActive .dijitButtonNode,
+.blackie .dijitDropDownButtonActive .dijitButtonNode {
+	/* active (down) styles */
+	color:#31d397;
+}
+
+.blackie .dijitButtonDisabled .dijitButtonNode,
+.blackie .dijitComboButtonDisabled .dijitButtonNode,
+.blackie .dijitDropDownButtonDisabled .dijitButtonNode {
+	/* disabled styles */
+	color:#3f3f3f;
+}
+
+
+/* drop-down-button specific */
+
+.blackie .dijitDropDownButton .dijitRight {
+	height:30px;	
+	margin-left:15px; 
+	padding-right:31px;
+}
+
+.blackie .dijitDropDownButton .dijitA11yDownArrow {
+	display:none;	
+}
+
+
+/* combo-specific */
+.blackie .dijitComboButton TABLE {
+	margin-left:15px;
+}
+.blackie .dijitComboButton .dijitRight,
+.blackie .dijitComboButton .dijitRightSpacer {	
+	height:30px;	
+	width:35px;
+}
+
+
+
+
+/****
+		dijit.form.AutoCompleter 
+ ****/
+.blackie .dijitAutoCompleter TABLE {
+	margin-left:10px;
+}
+
+.blackie .dijitAutoCompleter .dijitStretch {	
+	height:30px;
+	#margin-top:0px;
+}
+
+.blackie .dijitAutoCompleter .dijitRight,
+.blackie .dijitAutoCompleter .dijitRightSpacer {	
+	height:30px;
+	width:32px;
+}
+
+.blackie .dijitAutoCompleter .dijitDownArrowButton {
+	padding:0px !important;
+	width:32px;
+}
+
+.blackie .dijitAutoCompleter .dijitButtonNode {
+	font-family:inherit;
+	font-size:inherit;
+	background-color:transparent;
+}
+
+
+.blackie .dijitAutoCompleterInput,
+.blackie .dijitSpinnerInput {
+	border:0px;
+	margin:0px;
+
+	/* IE7 HACK: get things to line up 
+	#top:-1px;					
+	#left:10px;
+	#padding-top:6px;
+	*/
+	/* SAFARI HACK: get things to line up (a little better) * /
+	top:4px;
+	margin-right:-10px;
+	*/
+}
+
+.blackie .dijitAutoCompleter INPUT,
+.blackie .dijitSpinner INPUT {
+	color:white;
+	background:black;
+}
+
+.blackie .dijitAutoCompleterDisabled INPUT,
+.blackie .dijitSpinnerDisabled INPUT{
+	color:#3f3f3f;
+}
+
+
+
+
+/* dijit.form.NumberSpinner */
+.blackie .dijitSpinner TABLE {
+	padding-left:10px;
+}
+
+.blackie .dijitSpinner .dijitStretch {	
+	height:30px;
+	#margin-top:0px;
+}
+
+.blackie .dijitSpinner .dijitUpArrowButton,
+.blackie .dijitSpinner .dijitDownArrowButton{
+	height:15px;
+	width:34px;
+	padding:0px !important;
+}
