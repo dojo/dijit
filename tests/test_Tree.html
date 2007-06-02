@@ -23,7 +23,8 @@
 	<h1 class="testTitle">Dijit Tree Test</h1>
 	<div dojoType="dojo.data.JsonItemStore" jsId="continentStore"
 		url="../tests/countries.json"></div>
-	<div dojoType="dijit.Tree" store="continentStore" query="{type:'continent'}"
+	<div dojoType="dijit.Tree" id=tree store="continentStore" query="{type:'continent'}"
 		labelAttr="name" typeAttr="type"></div>
+	<button onclick="dijit.byId('tree').destroyRecursive();">destroy</button>
 </body>
 </html>

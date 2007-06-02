@@ -13,13 +13,13 @@ dijit.util.manager = new function(){
 		// summary
 		//	Generates a unique id for a given widgetType
 
-		var widgetId;
+		var id;
 		do{
-			widgetId = widgetType + "_" +
+			id = widgetType + "_" +
 				(widgetTypeCtr[widgetType] !== undefined ?
 					++widgetTypeCtr[widgetType] : widgetTypeCtr[widgetType] = 0);
-		}while(registry[widgetId]);
-		return widgetId;
+		}while(registry[id]);
+		return id;
 	}
 
 	this.add = function(/*Widget*/ widget){
@@ -57,7 +57,7 @@ dijit.util.manager = new function(){
 	this.byNode = function(/* DOMNode */ node){
 		// summary
 		//	Returns the widget as referenced by node.?
-		return registry[node.widgetId];
+		return registry[node.getAttribute("widgetId")];
 	}
 };
 

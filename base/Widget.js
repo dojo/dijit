@@ -44,7 +44,7 @@ function(params, srcNodeRef){
 	dijit.util.manager.add(this);
 	this.buildRendering();
 	if(this.domNode){
-		this.domNode.widgetId = this.id;
+		this.domNode.setAttribute("widgetId", this.id);
 		if(this.srcNodeRef && this.srcNodeRef.dir){ 
 			this.domNode.dir = this.srcNodeRef.dir; 
 		}
@@ -91,8 +91,6 @@ function(params, srcNodeRef){
 		//	Called after the parameters to the widget have been read-in,
 		//	but before the widget template is instantiated.
 		//	Especially useful to set properties that are referenced in the widget template.
-
-//		this.lang = this.lang || null;
 	},
 
 	buildRendering: function(){
@@ -113,7 +111,6 @@ function(params, srcNodeRef){
 		//		Provides an opportunity to manipulate any children before they are displayed
 		//		This is useful for composite widgets that need to control or layout sub-widgets
 		//		Many layout widgets can use this as a wiring phase
-		
 	},
 
 	//////////// DESTROY FUNCTIONS ////////////////////////////////
@@ -176,10 +173,10 @@ function(params, srcNodeRef){
 	destroyDescendants: function(){
 		// summary:
 		//		Recursively destroy the children of this widget and their
-		//		descendents.
-		dojo.forEach(this.getDescendants(), function(widget){
-			widget.destroy();
-		});
+		//		descendants.
+		
+		// TODO: should I destroy in the reverse order, to go bottom up?
+		dojo.forEach(this.getDescendants(), function(widget){ widget.destroy(); });
 	},
 
 	uninitialize: function(){
@@ -203,16 +200,8 @@ function(params, srcNodeRef){
 	getDescendants: function(){
 		// summary:
 		//	return all the descendent widgets
-		var allNodes = this.domNode.all || this.domNode.getElementsByTagName("*");
-		var i=0, node;
-		var nodes = [];
-		while((node = allNodes[i++])){
-			var id = node.widgetId;
-			if(id){
-				nodes.push(dijit.byId(id));
-			}
-		}
-		return nodes;
+		var list = dojo.query('[widgetId]', this.domNode);
+		return list.map(dijit.util.manager.byNode);		// Array
 	},
 
 	connect: function(

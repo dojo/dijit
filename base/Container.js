@@ -12,9 +12,9 @@ dojo.declare("dijit.base.Contained",
 			// summary:
 			//		returns parent widget
 			for(var p=this.domNode.parentNode; p; p=p.parentNode){
-				var widgetId = p.widgetId;
-				if(widgetId){
-					return dijit.byId(widgetId);
+				var id = p.getAttribute && p.getAttribute("widgetId");
+				if(id){
+					return dijit.byId(id);
 				}
 			}
 			return null;
@@ -26,7 +26,7 @@ dojo.declare("dijit.base.Contained",
 				node = node[which+"Sibling"];
 			}while(node && node.nodeType != 1);
 			if(!node){ return null; } // null
-			var id = node.widgetId;
+			var id = node.getAttribute("widgetId");
 			return dijit.byId(id);
 		},
 
@@ -95,18 +95,7 @@ dojo.declare("dijit.base.Container",
 		getChildren: function(){
 			// summary:
 			//		returns array of children widgets
-
-			var res = [];
-			var cn = this.containerNode || this.domNode;
-			var childNode = this._firstElement(cn);
-			while(childNode){
-				var tmp = dijit.byId(childNode.widgetId);
-				if(tmp){
-					res.push(tmp);
-				}
-				childNode = this._nextElement(childNode);
-			}
-			return res;
+			return dojo.query("> [widgetId]", this.containerNode || this.domNode).map(dijit.util.manager.byNode);
 		},
 
 		hasChildren: function(){
