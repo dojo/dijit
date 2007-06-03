@@ -27,12 +27,12 @@ dojo.declare(
 			// manual import of RangeBoundTextbox properties
 			dijit.form.DateTextbox.superclass.postMixInProperties.apply(this, arguments);
 			// #2999
-			if(typeof this.constraints.min == "string"){ this.constraints.min = dojo.date.stamp.fromRfc3339(this.constraints.min); }
- 			if(typeof this.constraints.max == "string"){ this.constraints.max = dojo.date.stamp.fromRfc3339(this.constraints.max); }
+			if(typeof this.constraints.min == "string"){ this.constraints.min = dojo.date.stamp.fromISOString(this.constraints.min); }
+ 			if(typeof this.constraints.max == "string"){ this.constraints.max = dojo.date.stamp.fromISOString(this.constraints.max); }
 		},
 
 		serialize: function(/*Date*/date){
-			return dojo.date.stamp.toRfc3339(date, 'date'); // String
+			return dojo.date.stamp.toISOString(date, 'date'); // String
 		},
 
 		setValue:function(/*Date*/date){
