@@ -56,7 +56,7 @@ dijit.util.manager = new function(){
 
 	this.byNode = function(/* DOMNode */ node){
 		// summary
-		//	Returns the widget as referenced by node.?
+		//	Returns the widget as referenced by node
 		return registry[node.getAttribute("widgetId")];
 	}
 };
