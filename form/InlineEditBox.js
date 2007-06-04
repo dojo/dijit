@@ -41,6 +41,10 @@ dojo.declare(
 	//              Cancel button label
 	buttonCancel: "",
 
+	// renderHTML: Boolean
+	//              should text render as HTML(true) or plain text(false)
+	renderHTML: false,
+
 	widgetsInTemplate: true,
 
 	postCreate: function(){
@@ -105,7 +109,7 @@ dojo.declare(
 		this.editing = true;
 
 		// show the edit form and hide the read only version of the text
-		this._setEditValue(this._isEmpty ? '' : this.editable.innerHTML);
+		this._setEditValue(this._isEmpty ? '' : (this.renderHTML ? this.editable.innerHTML : this.editable.firstChild.nodeValue));
 		this._initialText = this._getEditValue();
 		this._visualize();
 
@@ -127,7 +131,12 @@ dojo.declare(
 		// whitespace is really hard to click so show a ?
 		if(/^\s*$/.test(value)){ value = "?"; this._isEmpty = true; }
 		else { this._isEmpty = false; }
-		this.editable.innerHTML = value;
+		if(this.renderHTML){
+			this.editable.innerHTML = value;
+		}else{
+			this.editable.innerHTML = "";
+			this.editable.appendChild(document.createTextNode(value));
+		}
 		this._visualize();
 	},
 

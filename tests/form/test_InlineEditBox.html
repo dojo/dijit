@@ -37,7 +37,7 @@
 
 		<hr style="width:100%;">
 		<blockquote style="width:50%;">
-			<p><span id="areaEditable" dojoType="dijit.form.InlineEditBox">
+			<p><span id="areaEditable" dojoType="dijit.form.InlineEditBox" renderHTML="true">
 				<textarea dojoType="dijit.form.Textarea">I'm one big paragraph.  Go ahead and <i>edit</i> me.  <b>I dare you.</b> The quick brown fox jumped over the lazy dog.  Blah blah blah blah blah blah blah ...</textarea>
 			</span></p>
 		</blockquote>
@@ -69,9 +69,8 @@
 		<div style="display:block;" id="programmatic"></div>
 		<script type="text/javascript">
 			// See if we can make a widget in script
-			var refNode = dojo.byId('programmatic');
 			var editorWidget = new dijit.form.Textbox({ value: "Click here to edit a programmatically created<BR>inline edit region" }, document.createElement('span'));
-			var inlineWidget = new dijit.form.InlineEditBox({ editWidget: editorWidget }, refNode);
+			var inlineWidget = new dijit.form.InlineEditBox({ editWidget: editorWidget, renderHTML: true }, 'programmatic');
 		</script>
 	</body>
 </html>
