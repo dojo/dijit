@@ -43,19 +43,22 @@ dojo.declare(
 
 	widgetsInTemplate: true,
 
-	startup: function(){
+	postCreate: function(){
 		// look for the input widget as a child of the containerNode
-		if(this.editWidget){
-			this.containerNode.appendChild(this.editWidget.domNode);
-		}else{
-			this.editWidget = this.getChildren()[0];
-		}
-		this._setEditValue = dojo.hitch(this.editWidget,this.editWidget.setDisplayedValue||this.editWidget.setValue);
-		this._getEditValue = dojo.hitch(this.editWidget,this.editWidget.getDisplayedValue||this.editWidget.getValue);
-		this._setEditFocus = dojo.hitch(this.editWidget,this.editWidget.focus);
-		this.editWidget.onValueChanged = dojo.hitch(this,"checkForValueChange");
-		this.checkForValueChange();
-		this._showText();
+		var _this = this;
+		dojo.addOnLoad(function(){
+			if(_this.editWidget){
+				_this.containerNode.appendChild(_this.editWidget.domNode);
+			}else{
+				_this.editWidget = _this.getChildren()[0];
+			}
+			_this._setEditValue = dojo.hitch(_this.editWidget,_this.editWidget.setDisplayedValue||_this.editWidget.setValue);
+			_this._getEditValue = dojo.hitch(_this.editWidget,_this.editWidget.getDisplayedValue||_this.editWidget.getValue);
+			_this._setEditFocus = dojo.hitch(_this.editWidget,_this.editWidget.focus);
+			_this.editWidget.onValueChanged = dojo.hitch(_this,"checkForValueChange");
+			_this.checkForValueChange();
+			_this._showText();
+		});
 	},
 
 	postMixInProperties: function(){
