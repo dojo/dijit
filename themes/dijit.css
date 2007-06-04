@@ -997,7 +997,23 @@ body .dijitAlignClient { position: absolute; }
 	font: 0.75em Arial; 
 } 
 
+/* Dialog */
 
+.dijitDialog {
+	position: absolute;
+	z-index: 999;
+	display: none;
+}
 
-
-
+.dijitDialogUnderlay {
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	z-index: 998;
+	display: none;
+	background: gray;
+	opacity: 0.4;
+}
+.dj_ie .dijitDialogUnderlay {
+	filter: alpha(opacity=40);
+}

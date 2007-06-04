@@ -1,10 +1,11 @@
-<div class="dijitDialog" dojoattachpoint="wrapper">
-	<span dojoattachpoint="tabStartOuter" dojoonfocus="trapTabs" dojoonblur="clearTrap"	tabindex="0"></span>
-	<span dojoattachpoint="tabStart" dojoonfocus="trapTabs" dojoonblur="clearTrap" tabindex="0"></span>
-	<div dojoAttachPoint="titleBar" class="dijitDialogTitleBar" style="display:none">
-		<span dojoAttachPoint="labelNode" class="dijitDialogLabel">${label}</span><span dojoAttachPoint="closeButtonNode" class="dijitDialogCloseIcon"></span>
+<div class="dijitDialog">
+	<span dojoAttachPoint="tabStartOuter" dojoAttachEvents="onfocus: _trapTabs; onblur: _clearTrap" tabindex="0"></span>
+	<span dojoAttachPoint="tabStart" dojoAttachEvents="onfocus: _trapTabs; onblur: _clearTrap" tabindex="0"></span>
+	<div dojoAttachPoint="titleBar" class="dijitTitlePaneLabel">
+		<span dojoAttachPoint="labelNode" class="dijitDialogLabel">${title}</span>
+		<span dojoAttachPoint="closeButtonNode" class="dijitDialogCloseIcon" dojoAttachEvent="onclick: hide"></span>
 	</div>
-	<div dojoattachpoint="containerNode" style="z-index: 2; overflow: auto;" class="dijitDialogContent"></div>
-	<span dojoattachpoint="tabEnd" dojoonfocus="trapTabs" dojoonblur="clearTrap" tabindex="0"></span>
-	<span dojoattachpoint="tabEndOuter" dojoonfocus="trapTabs" dojoonblur="clearTrap" tabindex="0"></span>
+	<div dojoAttachPoint="containerNode" class="dijitTitlePaneContent"></div>
+	<span dojoAttachPoint="tabEnd" dojoAttachEvents="onfocus: _trapTabs; onblur: _clearTrap;" tabindex="0"></span>
+	<span dojoAttachPoint="tabEndOuter" dojoAttachEvents="onfocus: _trapTabs; onblur: _clearTrap" tabindex="0"></span>
 </div>

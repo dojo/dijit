@@ -790,7 +790,7 @@
 
 .tundra .dijitDialogTitleBar {
 	/* outer container for the titlebar of the dialog */
-	background: #fafafa url("titleBarBg.gif") repeat-x bottom left;
+	background: #fafafa url("images/titleBarBg.gif") repeat-x bottom left;
 	border: 1px solid #bfbfbf;
 	padding: 4px 8px 2px 4px;
 	cursor: move;
@@ -804,8 +804,8 @@
 
 .tundra .dijitDialogCloseIcon {
 	/* the default close icon for the dialog */
-	background : url("tab_close.gif") no-repeat right top;
-    float: right;
+	background : url("images/tabClose.png") no-repeat right top;
+	float: right;
 	position: absolute;
 	vertical-align: middle;
 	right: 5px;

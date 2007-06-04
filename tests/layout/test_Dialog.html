@@ -3,18 +3,17 @@
 <html>
 <head>
 <title>Dialog Widget Dojo Tests</title>
-		<style type="text/css">
-			@import "../../../dojo/resources/dojo.css";
-			@import "../../themes/tundra/tundra.css";
-			@import "../css/dijitTests.css";
-		</style>		
-		<script type="text/javascript" 
-			djConfig="isDebug: true"
-			src="../../../dojo/dojo.js"></script>
+<style type="text/css">
+	@import "../../../dojo/resources/dojo.css";
+	@import "../../themes/tundra/tundra.css";
+	@import "../css/dijitTests.css";
+</style>		
+<script type="text/javascript" 
+	djConfig="isDebug: true"
+	src="../../../dojo/dojo.js"></script>
 <script type="text/javascript">
 	dojo.require("dijit.layout.Dialog");
 	dojo.require("dijit.util.parser");	// scan page for widgets and instantiate them
-
 </script>
 
 <script type="text/javascript">
@@ -39,7 +38,7 @@ form {
 <body class="tundra">
 <a href="javascript:dlg.show()">Show First Dialog</a>
 
-<div dojoType="dijit.layout.Dialog" id="DialogContent" bgColor="white" bgOpacity="0.5" toggle="fade" toggleDuration="250" closeNode="hider" label="First Dialog">
+<div dojoType="dijit.layout.Dialog" id="DialogContent" bgColor="white" bgOpacity="0.5" toggle="fade" toggleDuration="250" closeNode="hider" title="First Dialog">
 	<form onsubmit="return false;">
 		<table>
 			<tr>
@@ -279,7 +278,7 @@ turpis sed odio. Curabitur in est id nibh tempus ultrices. Aliquam
 consectetuer dapibus eros. Aliquam nisl.
 </p>
 
-<div dojoType="dijit.layout.Dialog" id="SecondDialog" bgColor="black" closeNode="closeButton" label="Second Dialog">
+<div dojoType="dijit.layout.Dialog" id="SecondDialog" bgColor="black" closeNode="closeButton" title="Second Dialog">
 	<form onsubmit="return false;">
 		<table>
 			<tr>
