@@ -48,11 +48,13 @@ dojo.declare(
 
 
 		_arrowPressed: function(/*Node*/ nodePressed, /*Number*/ direction){
+			if(this.disabled){ return; }
 			dojo.addClass(nodePressed, "dijitSpinnerButtonActive");
 			this.setValue(this.adjust(this.getValue(), direction*this.smallDelta));
 		},
 
 		_arrowReleased: function(/*Node*/ node){
+			if(this.disabled){ return; }
 			this._wheelTimer = null;
 			this.textbox.focus();
 			dojo.removeClass(node, "dijitSpinnerButtonActive");
