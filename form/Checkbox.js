@@ -81,6 +81,9 @@ dojo.declare(
 			img.onload = function(){ self.onImageLoad(); }
 			img.src = href;
 			this._setDisabled(this.disabled);
+
+			// User will always interact with input element
+			this._connectEvents(this.inputNode);
 		},
 
 		onImageLoad: function(){
@@ -117,9 +120,6 @@ dojo.declare(
 			}else{
 				domNodeStyle.paddingRight = this.width + "px";
 			}
-			
-			// User will always interact with input element
-			this._connectEvents(this.inputNode);
 			
 			this.imageContainer.appendChild(this.imageNode);
 			
