@@ -162,9 +162,11 @@ dojo.declare(
 				case dojo.keys.DOWN_ARROW:
 					if(!this.isShowingNow()||this._prev_key_esc){
 						this._arrowPressed();
-						doSearch=true;
+						// bring up full list
+						this._startSearch("");
 					}else{
 						evt.keyCode==dojo.keys.PAGE_DOWN ? this._popupWidget.pageDown(): this._popupWidget._highlightNextOption();
+						this._announceOption(this._popupWidget.getHighlightedOption());
 					}
 					dojo.stopEvent(evt);
 					this._prev_key_backspace = false;
@@ -175,6 +177,7 @@ dojo.declare(
 				case dojo.keys.UP_ARROW:
 					if(this.isShowingNow()){
 						evt.keyCode==dojo.keys.PAGE_UP ? this._popupWidget.pageUp() : this._popupWidget._highlightPrevOption();
+						this._announceOption(this._popupWidget.getHighlightedOption());
 					}
 					dojo.stopEvent(evt);
 					this._prev_key_backspace = false;
@@ -210,7 +213,7 @@ dojo.declare(
 						this._selectOption();
 						this._hideResultList();
 					}
-					else{doSearch=true;}
+					else{doSearch=this.autoComplete;}
 					break;
 
 				case dojo.keys.ESCAPE:
@@ -223,7 +226,7 @@ dojo.declare(
 				case dojo.keys.BACKSPACE:
 					this._prev_key_esc = false;
 					this._prev_key_backspace = true;
-					doSearch=true;
+					doSearch=this.autoComplete;
 					if(!this.textbox.value.length){
 						this.setValue("");
 					}
@@ -240,7 +243,7 @@ dojo.declare(
 					this._prev_key_backspace = false;
 					this._prev_key_esc = false;
 					if(evt.charCode!=0){
-						doSearch = true;
+						doSearch=this.autoComplete;
 					}
 			}
 			if(this.searchTimer){
@@ -326,7 +329,18 @@ dojo.declare(
 			// the value in the textbox reverts to match the hidden value
 			//this.parentClass.onblur.apply(this, arguments);
 		},
+		
+		_announceOption: function(/*Node*/ node){
+			// summary:
+			//	a11y code that puts the highlighted option in the textbox 
+			//	This way screen readers will know what is happening in the menu
 
+			if(node==null){return;}
+			var newValue=this.store.getValue(node.item, this.searchAttr);
+			dijit.util.wai.setAttr(this.focusNode || this.domNode, "waiState", "valuenow", newValue);
+			this.focusNode.value=newValue;
+		},
+		
 		_selectOption: function(/*Event*/ evt){
 			var tgt = null;
 			if(!evt){
