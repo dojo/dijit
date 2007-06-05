@@ -12,9 +12,10 @@ dojo.declare(
 	"dijit.layout.Dialog",
 	[dijit.layout.ContentPane, dijit.base.TemplatedWidget],
 	{
-		// summary
-		//	Pops up a modal dialog window, blocking access to the screen and also graying out the screen
-		//	Dialog is extended from ContentPane so it supports all the same parameters (href, etc.)
+		// summary:
+		//		Pops up a modal dialog window, blocking access to the screen
+		//		and also graying out the screen Dialog is extended from
+		//		ContentPane so it supports all the same parameters (href, etc.)
 
 		templatePath: dojo.moduleUrl("dijit.layout", "templates/Dialog.html"),
 
@@ -41,54 +42,54 @@ dojo.declare(
 		},
 		
 		_trapTabs: function(/*Event*/ e){
-			// summary
-			//	callback on focus
-			if(e.target == this.tabStartOuter) {
-				if(this._fromTrap) {
+			// summary: callback on focus
+			if(e.target == this.tabStartOuter){
+				if(this._fromTrap){
 					this.tabStart.focus();
 					this._fromTrap = false;
-				} else {
+				}else{
 					this._fromTrap = true;
 					this.tabEnd.focus();
 				}
-			} else if (e.target == this.tabStart) {
-				if(this._fromTrap) {
+			}else if(e.target == this.tabStart){
+				if(this._fromTrap){
 					this._fromTrap = false;
-				} else {
+				}else{
 					this._fromTrap = true;
 					this.tabEnd.focus();
 				}
-			} else if(e.target == this.tabEndOuter) {
-				if(this._fromTrap) {
+			}else if(e.target == this.tabEndOuter){
+				if(this._fromTrap){
 					this.tabEnd.focus();
 					this._fromTrap = false;
-				} else {
+				}else{
 					this._fromTrap = true;
 					this.tabStart.focus();
 				}
-			} else if(e.target == this.tabEnd) {
-				if(this._fromTrap) {
+			}else if(e.target == this.tabEnd){
+				if(this._fromTrap){
 					this._fromTrap = false;
-				} else {
+				}else{
 					this._fromTrap = true;
 					this.tabStart.focus();
 				}
 			}
 		},
 
-		_clearTrap: function(/*Event*/ e) {
-			// summary
-			//	callback on blur
-			var _this = this;
-			setTimeout(function() {
-				_this._fromTrap = false;
-			}, 100);
+		_clearTrap: function(/*Event*/ e){
+			// summary: callback on blur
+			setTimeout(dojo.hitch(this, function(){
+				this._fromTrap = false;
+			}), 100);
 		},
 
-		_setup: function() {
-			// summary
-			//	stuff we need to do before showing the Dialog for the first time
-			//	(but we defer it until right beforehand, for performance reasons)
+		_visibleBgOpacity: 0.4,
+
+		_setup: function(){
+			// summary:
+			//		stuff we need to do before showing the Dialog for the first
+			//		time (but we defer it until right beforehand, for
+			//		performance reasons)
 
 			var b = dojo.body();
 			b.appendChild(this.domNode);
@@ -107,16 +108,30 @@ dojo.declare(
 			var node = this.domNode;
 			this._fadeIn = dojo.fadeIn({
 				node: node,
-				duration: this._duration,
-				onEnd: dojo.hitch(this, "_showBackground")
-			});
+				duration: this._duration
+			}).combine([
+				dojo.animateProperty({
+					node: this.bg,
+					duration: this._duration,
+					onBegin: dojo.hitch(this, "_showBackground"),
+					properties: {
+						opacity: { start: 0, end: this._visibleBgOpacity }
+					}
+				})
+			]);
+
 			this._fadeOut = dojo.fadeOut({
 				node: node,
 				duration: this._duration,
 				onEnd: function(){
 					node.style.display="none";
 				}
-			});
+			}).combine([
+				dojo.fadeOut({
+					node: this.bg,
+					duration: this._duration
+				})
+			]);
 		},
 
 		uninitialize: function(){
@@ -128,7 +143,7 @@ dojo.declare(
 			}
 		},
 
-		_sizeBackground: function() {
+		_sizeBackground: function(){
 			// summary
 			//		Sets the background to the size of the viewport (rather than the size
 			//		of the document) since we need to cover the whole browser window, even
@@ -148,18 +163,19 @@ dojo.declare(
 			// process twice since the scroll bar may have been removed
 			// by the previous resizing
 			viewport = dijit.util.getViewport();
-			if (viewport.w != w) { this.bg.style.width = viewport.w + "px"; }
-			if (viewport.h != h) { this.bg.style.height = viewport.h + "px"; }
+			if(viewport.w != w){ this.bg.style.width = viewport.w + "px"; }
+			if(viewport.h != h){ this.bg.style.height = viewport.h + "px"; }
 		},
 
-		_showBackground: function() {
+		_showBackground: function(){
+			console.debug("_showBackground");
 			this.bg.style.display = "block";
 			if(this.bgIframe.iframe){
 				this.bgIframe.iframe.style.display = "block";
 			}
 		},
 
-		_center: function() {
+		_center: function(){
 			// summary: position modal dialog in center of screen
 
 			var scroll_offset = dijit.util.getScroll().offset;
@@ -180,11 +196,11 @@ dojo.declare(
 		},
 
 		_onKey: function(/*Event*/ evt){
-			if (evt.keyCode){
+			if(evt.keyCode){
 				// see if the key is for the dialog
 				var node = evt.target;
 				while (node != null){
-					if (node == this.domNode){
+					if(node == this.domNode){
 						return; // yes, so just let it go
 					}
 					node = node.parentNode;
@@ -194,14 +210,14 @@ dojo.declare(
 					dojo.stopEvent(evt);
 				// opera won't tab to a div
 				}else if (!dojo.isOpera){
-					try {
+					try{
 						this.tabStart.focus(); 
-					} catch(e){}
+					}catch(e){}
 				}
 			}
 		},
 
-		show: function() {
+		show: function(){
 			// summary: display the dialog
 
 			// first time we show the dialog, there's some initialization stuff to do			
