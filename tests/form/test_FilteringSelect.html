@@ -1,9 +1,9 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
         "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 <head>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-<title>Dojo Select Widget Test</title>
+<title>Dojo FilteringSelect Widget Test</title>
 
 <script type="text/javascript" src="../testBidi.js"></script>
 
@@ -13,7 +13,7 @@
 </script>
 <script type="text/javascript" src="../../../dojo/dojo.js"></script>
 <script type="text/javascript">
-	dojo.require("dijit.form.Select");
+	dojo.require("dijit.form.FilteringSelect");
 	dojo.require("dijit.util.parser");	// scan page for widgets and instantiate them
 </script>
 <style>
@@ -32,14 +32,14 @@
 		label=label.toLowerCase();
 		return label;
 	}
-	myStore=new dojo.data.JsonItemStore({url:"autoCompleterData.json"});
+	myStore=new dojo.data.JsonItemStore({url:"comboBoxData.json"});
 </script>
 </head>
 
 <body class="tundra">
-<h1>Dojo Select Widget Test</h1>
+<h1>Dojo FilteringSelect Widget Test</h1>
 <p>
-The Select widget is an enhanced version of HTML's &lt;select&gt; tag.
+The FilteringSelect widget is an enhanced version of HTML's &lt;select&gt; tag.
 </p>
 <p>
 Similar features:
@@ -62,13 +62,13 @@ Enhancements over plain HTML version:
 
 <form action="#" method="GET">
  
-	<p>Select #1: inlined data, autocomplete=false:</p>
+	<p>FilteringSelect #1: inlined data, autocomplete=false:</p>
 	<select searchAttr="name" 
 			keyAttr="abbreviation" 
 			id="setvaluetest2" 
 			searchLimit="Infinity" 
 			name="state1" 
-			dojoType="dijit.form.Select" 
+			dojoType="dijit.form.FilteringSelect" 
 			style="width: 300px;" 
 			autocomplete="false" 
 			dataProviderClass="dojo.data.JsonItemStore" 
@@ -141,13 +141,13 @@ Enhancements over plain HTML version:
 	<div>Value: <input id="value1" disabled></div>
 	<hr>
 
-	<p>Select #2: url, autocomplete=true:</p>
+	<p>FilteringSelect #2: url, autocomplete=true:</p>
 	<input searchAttr="name"
 			keyAttr="abbreviation"
 			id="setvaluetest"
-			dojoType="dijit.form.Select"
+			dojoType="dijit.form.FilteringSelect"
 			value="IA"
-			url="autoCompleterData.json"
+			url="comboBoxData.json"
 			name="state2"
 			autocomplete="true"
 			labelAttr="label"
@@ -160,12 +160,12 @@ Enhancements over plain HTML version:
 	<div>Value: <input id="value2" disabled></div>
 	<hr>
 		
-	<p>Select #3: url, autocomplete=false:</p>
+	<p>FilteringSelect #3: url, autocomplete=false:</p>
  	<input searchAttr="name"
  			keyAttr="abbreviation"
- 			dojoType="dijit.form.Select"
+ 			dojoType="dijit.form.FilteringSelect"
  			value="VI"
- 			url="autoCompleterData.json"
+ 			url="comboBoxData.json"
  			name="state3"
  			autocomplete="false"
  			labelAttr="label"
@@ -176,10 +176,10 @@ Enhancements over plain HTML version:
 	>
 	<div>Value: <input id="value3" disabled></div>
 	<hr>
-	<p>Select #4: declarative store, autocomplete=false:</p>
+	<p>FilteringSelect #4: declarative store, autocomplete=false:</p>
  	<input searchAttr="name"
  			keyAttr="abbreviation"
- 			dojoType="dijit.form.Select"
+ 			dojoType="dijit.form.FilteringSelect"
  			value="AL"
  			name="state4"
  			autocomplete="false"
@@ -190,13 +190,13 @@ Enhancements over plain HTML version:
 	>
 	<br>
 	<hr>
-	<p>Select #5: custom labelFunc (value in textbox should be lower case when onValueChanged is called), autocomplete=true:</p>
+	<p>FilteringSelect #5: custom labelFunc (value in textbox should be lower case when onValueChanged is called), autocomplete=true:</p>
  	<input searchAttr="name"
  			keyAttr="abbreviation"
- 			dojoType="dijit.form.Select"
+ 			dojoType="dijit.form.FilteringSelect"
  			value="OR"
  			labelFunc="myLabelFunc"
- 			url="autoCompleterData.json"
+ 			url="comboBoxData.json"
  			name="state5"
  			autocomplete="true"
  			labelAttr="label"
@@ -206,10 +206,10 @@ Enhancements over plain HTML version:
 	>
 	<br>
 	<hr>
-	<p>Select #6: No promptMessage, labelType=text</p>
-	<p>Select an item from the list.  You shouldn't get an error.</p>
+	<p>FilteringSelect #6: No promptMessage, labelType=text</p>
+	<p>FilteringSelect an item from the list.  You shouldn't get an error.</p>
 	<input
-		dojoType="dijit.form.Select"
+		dojoType="dijit.form.FilteringSelect"
 		store="myStore"
 		searchAttr="name"
 		keyAttr="abbreviation"
@@ -219,10 +219,10 @@ Enhancements over plain HTML version:
 	>
 	<br>
 	<hr>
-	<p>Select #7: Input method editor Chinese characters</p>
+	<p>FilteringSelect #7: Input method editor Chinese characters</p>
 	<p>Using an input method editor (see <a href="http://www.microsoft.com/windows/ie/ie6/downloads/recommended/ime/default.mspx">IME</a> for Windows) try typing &#38463; (a) or &#25226; (ba).</p>
 
-	<select dojoType="dijit.form.Select"
+	<select dojoType="dijit.form.FilteringSelect"
 		searchAttr="name"
 		keyAttr="abbreviation"
 		name="state7"
@@ -233,10 +233,10 @@ Enhancements over plain HTML version:
 	</select>
 	<br>
 	<hr>
-	<p>Select #8: Japanese</p>
+	<p>FilteringSelect #8: Japanese</p>
 	<p>Try typing 東、西、北、南  (north, south, east west) and a few choices will pop up.</p>
 	 
-	<select name="state3" dojoType="dijit.form.Select" style="width: 300px;" autocomplete="false"
+	<select name="state8" dojoType="dijit.form.FilteringSelect" style="width: 300px;" autocomplete="false"
 		onValueChanged="setValue('value8', arguments[0]);">
 		<option value="nanboku">南北</option>
 		<option value="touzai">東西</option>

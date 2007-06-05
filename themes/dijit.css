@@ -99,7 +99,7 @@
 .dijitButtonDisabled *,
 .dijitDropDownButtonDisabled *,
 .dijitComboButtonDisabled *,
-.dijitAutoCompleterDisabled * {
+.dijitComboBoxDisabled * {
 	cursor: default;
 	cursor: not-allowed !important;
 	cursor: url("no.gif"), not-allowed, default;
@@ -149,8 +149,8 @@
 .dijit_a11y .dijitButton .dijitButtonNode,
 .dijit_a11y .dijitDropDownButton .dijitButtonNode,
 .dijit_a11y .dijitComboButton .dijitButtonNode,
-.dijit_a11y .dijitAutoCompleter .dijitAutoCompleterInput,
-.dijit_a11y .dijitAutoCompleter .dijitButtonNode {
+.dijit_a11y .dijitComboBox .dijitComboBoxInput,
+.dijit_a11y .dijitComboBox .dijitButtonNode {
 	border:1px solid black !important;
 	background:white !important;
 	color:black !important;
@@ -159,8 +159,8 @@
 .dijit_a11y .dijitButtonDisabled .dijitButtonNode,
 .dijit_a11y .dijitDropDownButtonDisabled .dijitButtonNode,
 .dijit_a11y .dijitComboButtonDisabled .dijitButtonNode,
-.dijit_a11y .dijitAutoCompleterDisabled .dijitAutoCompleterInput,
-.dijit_a11y .dijitAutoCompleterDisabled .dijitButtonNode,
+.dijit_a11y .dijitComboBoxDisabled .dijitComboBoxInput,
+.dijit_a11y .dijitComboBoxDisabled .dijitButtonNode,
 .dijit_a11y .dijitSpinnerDisabled .dijitButtonNode,
 .dijit_a11y .dijitSpinnerDisabled .dijitSpinnerInput {
 	border:1px dotted #999999 !important;
@@ -168,7 +168,7 @@
 }
 
 .dijit_a11y .dijitComboButton .dijitDownArrowButton,
-.dijit_a11y .dijitAutoCompleter .dijitDownArrowButton {
+.dijit_a11y .dijitComboBox .dijitDownArrowButton {
 	border-left:0px !important;
 }
 
@@ -216,12 +216,12 @@
 		dijit.form.Button
 		dijit.form.DropDownButton
 		dijit.form.ComboButton
-		dijit.form.AutoCompleter (partial)
+		dijit.form.ComboBox (partial)
  ****/
 .dijitButton,
 .dijitDropDownButton,
 .dijitComboButton,
-.dijitAutoCompleter {
+.dijitComboBox {
 	/* outside of button */
 	margin:.2em;
 }
@@ -290,7 +290,7 @@ table .dijitComboButton .dijitButtonNode {
 
 
 /****
-		dijit.form.AutoCompleter 
+		dijit.form.ComboBox 
 		dijit.form.NumberSpinner  (template: form/templates/Spinner.html)
 
 		Note: these works differently than other Textbox types:
@@ -298,12 +298,12 @@ table .dijitComboButton .dijitButtonNode {
 			rather than the actual INPUT element. 
 
  ****/
-.dijitAutoCompleter {
+.dijitComboBox {
 	/* Allow user to specify width without messing up defaults; other attributes are put on parent node */
 	width:auto !important;
 }
 
-.dijitAutoCompleter TABLE,
+.dijitComboBox TABLE,
 .dijitSpinner TABLE {
 	/* each cell in a combo-table should have its own separate border */
 	border-collapse: separate;
@@ -312,7 +312,7 @@ table .dijitComboButton .dijitButtonNode {
 	margin:0px;
 }
 
-.dijitAutoCompleterInput,
+.dijitComboBoxInput,
 .dijitSpinnerInput {
 	/* container for the input element */
 	font-family:inherit;
@@ -323,19 +323,19 @@ table .dijitComboButton .dijitButtonNode {
 	border-right-width:0px !important;
 }
 
-.dijitAutoCompleter INPUT,
+.dijitComboBox INPUT,
 .dijitSpinner INPUT {
 	/* turn off the border on the actual input element */
 	border:0px !important;
 	background-color:transparent;
 }
 
-.dj_safari .dijitAutoCompleterInput,
+.dj_safari .dijitComboBoxInput,
 .dj_safari .dijitSpinnerInput {
 	padding:0px;
 	border:0px !important;
 }
-.dj_safari .dijitAutoCompleter INPUT,
+.dj_safari .dijitComboBox INPUT,
 .dj_safari .dijitSpinner INPUT{
 	margin:-2px -4px -3px -3px;
 	line-height:2em;

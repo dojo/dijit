@@ -16,7 +16,7 @@
 <script type="text/javascript" src="../../../dojo/dojo.js"></script> 
 <script type="text/javascript">
 	
-	dojo.require("dijit.form.AutoCompleter");
+	dojo.require("dijit.form.ComboBox");
 	dojo.require("dijit.util.manager");
 	dojo.require("dijit.util.parser");	// scan page for widgets and instantiate them
     if ("debugAtAllCosts" in djConfig && djConfig.debugAtAllCosts) {
@@ -26,7 +26,7 @@
 <script type="text/javascript">
 	dojo.addOnLoad(init);
 	function init(){
-	//new dijit.form.AutoCompleter({name:"prog", id:"combo_02",autocomplete:false,url:"autoCompleterData.js",searchField:"name"}, document.getElementById("progCombo"));
+	//new dijit.form.ComboBox({name:"prog", id:"combo_02",autocomplete:false,url:"comboBoxData.js",searchField:"name"}, document.getElementById("progCombo"));
         dojo.connect(dojo.byId("killit"), "onclick", function() {
             dijit.byId("combo_01").destroy(true);
         });
@@ -50,7 +50,7 @@ Steps:
 </p>
 <form action="#" method="GET">
    <input type="button" id="killit" name="killit" value="killit" />
-	<select name="state" searchField="name" keyField="abbreviation" id="combo_01" dojoType="dijit.form.AutoCompleter" style="width: 300px;" name="foo.bar1" autocomplete="false"
+	<select name="state" searchField="name" keyField="abbreviation" id="combo_01" dojoType="dijit.form.ComboBox" style="width: 300px;" name="foo.bar1" autocomplete="false"
 	>
 		<option value="AL">Alabama</option>
 

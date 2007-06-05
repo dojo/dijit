@@ -64,23 +64,23 @@
 
 
 
-/* dijit.form.AutoCompleter */
+/* dijit.form.ComboBox */
 
-.noir .dijitAutoCompleter							{	background-image:url('selectEnabled-left.png');		}
-.noir .dijitAutoCompleter .dijitRight				{	background-image:url('selectEnabled-right.png');	}
-.noir .dijitAutoCompleter .dijitStretch				{	background-image:url('selectEnabled-stretch.png');	}
+.noir .dijitComboBox							{	background-image:url('selectEnabled-left.png');		}
+.noir .dijitComboBox .dijitRight				{	background-image:url('selectEnabled-right.png');	}
+.noir .dijitComboBox .dijitStretch				{	background-image:url('selectEnabled-stretch.png');	}
 		
-.noir .dijitAutoCompleterHover						{	background-image:url('selectHover-left.png');		}
-.noir .dijitAutoCompleterHover .dijitRight			{	background-image:url('selectHover-right.png');		}
-.noir .dijitAutoCompleterHover .dijitStretch		{	background-image:url('selectHover-stretch.png');	}
+.noir .dijitComboBoxHover						{	background-image:url('selectHover-left.png');		}
+.noir .dijitComboBoxHover .dijitRight			{	background-image:url('selectHover-right.png');		}
+.noir .dijitComboBoxHover .dijitStretch		{	background-image:url('selectHover-stretch.png');	}
 	
-.noir .dijitAutoCompleterActive						{	background-image:url('selectActive-left.png');		}
-.noir .dijitAutoCompleterActive .dijitRight			{	background-image:url('selectActive-right.png');	}
-.noir .dijitAutoCompleterActive .dijitStretch		{	background-image:url('selectActive-stretch.png');	}
+.noir .dijitComboBoxActive						{	background-image:url('selectActive-left.png');		}
+.noir .dijitComboBoxActive .dijitRight			{	background-image:url('selectActive-right.png');	}
+.noir .dijitComboBoxActive .dijitStretch		{	background-image:url('selectActive-stretch.png');	}
 
-.noir .dijitAutoCompleterDisabled					{	background-image:url('selectDisabled-left.png');	}
-.noir .dijitAutoCompleterDisabled .dijitRight		{	background-image:url('selectDisabled-right.png');	}
-.noir .dijitAutoCompleterDisabled .dijitStretch		{	background-image:url('selectDisabled-stretch.png');	}
+.noir .dijitComboBoxDisabled					{	background-image:url('selectDisabled-left.png');	}
+.noir .dijitComboBoxDisabled .dijitRight		{	background-image:url('selectDisabled-right.png');	}
+.noir .dijitComboBoxDisabled .dijitStretch		{	background-image:url('selectDisabled-stretch.png');	}
 
 
 

@@ -180,14 +180,14 @@ BODY {
 
 <br><br>
 
-		<!-- dijit.form.Select 
-			 dijit.form.AutoCompleter 
+		<!-- dijit.form.FilteringSelect 
+			 dijit.form.ComboBox 
 		-->
 
-<table class="dijitReset dijit dijitInline dijitAutoCompleter" id='widget_${id}' waiRole="presentation" cellspacing=0 cellpadding=0
+<table class="dijitReset dijit dijitInline dijitComboBox" id='widget_${id}' waiRole="presentation" cellspacing=0 cellpadding=0
 	><tr>
 		<td class='dijitReset dijitLeft'>&nbsp;</td>
-		<td class='dijitReset dijitStretch XdijitInputField XdijitAutoCompleterInput'
+		<td class='dijitReset dijitStretch XdijitInputField XdijitComboBoxInput'
 			><input type="text" autocomplete="off" name="${name}" style='border:0px;padding:.2em;'
 			dojoAttachEvent="onkeypress; onkeyup; onfocus; onblur; compositionend;onmouseover:setStateClass;onmouseout:setStateClass;"
 			dojoAttachPoint="textbox;focusNode" id='${id}'
@@ -203,8 +203,8 @@ BODY {
 
 
 <!--
-<div class="dijit dijitLeft dijitInline dijitAutoCompleter dijitAutoCompleterDisabled" id='widget_${id}' waiRole="presentation"
-	><input type="text" autocomplete="off" class="dijitStretch dijitInputField dijitAutoCompleterInput" name="${name}"
+<div class="dijit dijitLeft dijitInline dijitComboBox dijitComboBoxDisabled" id='widget_${id}' waiRole="presentation"
+	><input type="text" autocomplete="off" class="dijitStretch dijitInputField dijitComboBoxInput" name="${name}"
 			dojoAttachEvent="onkeypress; onkeyup; onfocus; onblur; compositionend;onmouseover:setStateClass;onmouseout:setStateClass;"
 			dojoAttachPoint="textbox;focusNode" id='${id}'
 			tabIndex='${tabIndex}' size='${size}' maxlength='${maxlength}'
@@ -230,7 +230,7 @@ BODY {
 		
 		<br><br>
 		
-		<!- - dijit.form.AutoCompleter 
+		<!- - dijit.form.ComboBox 
 		<span class='dijit dijitInlineBlock widgetLeft dijitCombo dijitComboEnabled'>
 			<div class='widgetRight' style='position:relative;' onclick='console.info("right")'>
 				<div class='a11yIndicator a11yDownArrow'>&#9660;</div>

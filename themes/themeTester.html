@@ -28,7 +28,7 @@
 		// various Form elemetns
 		dojo.require("dijit.form.Checkbox"); 
 		dojo.require("dijit.form.Textarea");
-		dojo.require("dijit.form.Select");
+		dojo.require("dijit.form.FilteringSelect");
 		dojo.require("dijit.form.Textbox");
 		dojo.require("dijit.form.DateTextbox");	
 		dojo.require("dijit.form.Button");
@@ -215,10 +215,10 @@
 						(Note if using keyboard: tab to navigate, and use arrow or space to select)
 						</p>
 					
-						<p><span>Autocompleting dijit.form.Select: (from tree datastore?)</span>
+						<p><span>Autocompleting dijit.form.FilteringSelect: (from tree datastore?)</span>
 						<!-- FIXME: 
 
-							<input searchAttr="name" keyField="name" dojoType="dijit.form.Select" 
+							<input searchAttr="name" keyField="name" dojoType="dijit.form.FilteringSelect" 
 								value="" name="state4" autocomplete="true" 
 								labelField="type" labelType="html"
 								store="continentStore" promptMessage="Please enter a Continent" />
@@ -438,11 +438,11 @@
 						invalidMessage="Invalid date. Use mm/dd/yyyy format.">
 					</p>
 					<p/>
-					<b>Select Dijit with JsonItemStore of States::</b>
+					<b>FilteringSelect Dijit with JsonItemStore of States::</b>
 					<p id="backgroundArea" dojoType="dijit.form.InlineEditBox" >
 					<input searchField="name" keyField="abbreviation" id="setvaluetest" 
-						dojoType="dijit.form.Select" value="IA"
-						url="../tests/form/autoCompleterData.json" name="state1" autocomplete="true" 
+						dojoType="dijit.form.FilteringSelect" value="IA"
+						url="../tests/form/comboBoxData.json" name="state1" autocomplete="true" 
 						labelField="label" labelType="html"
 						dataProviderClass="dojo.data.JsonItemStore" promptMessage="Please enter a state">
 					</p>

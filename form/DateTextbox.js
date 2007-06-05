@@ -14,7 +14,7 @@ dojo.declare(
 		// summary:
 		//		A validating, serializable, range-bound date text box.
 		// constraints object: min, max
-		templatePath: dojo.moduleUrl("dijit.form", "templates/AutoCompleter.html"),
+		templatePath: dojo.moduleUrl("dijit.form", "templates/ComboBox.html"),
 		regExpGen: dojo.date.locale.regexp,
 		compare: dojo.date.compare,
 		format: dojo.date.locale.format,

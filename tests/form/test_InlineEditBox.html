@@ -13,7 +13,7 @@
 			dojo.require("dijit.form.Textarea");
 			dojo.require("dijit.form.Textbox");
 			dojo.require("dijit.form.DateTextbox");
-			dojo.require("dijit.form.Select");
+			dojo.require("dijit.form.FilteringSelect");
 			dojo.require("dijit.util.parser");      // scan page for widgets and instantiate them
 			function myHandler(id,newValue) {
 				console.debug("onValueChanged for id = " + id + ", value: " + newValue);
@@ -59,10 +59,10 @@
 					invalidMessage="Invalid date. Use mm/dd/yy format.">
 		</p>
 		<hr style="width:100%;">
-		<b>Select:</b>
+		<b>FilteringSelect:</b>
 		<span id="backgroundArea" dojoType="dijit.form.InlineEditBox" >
-			<input searchAttr="name" keyAttr="abbreviation" id="setvaluetest" dojoType="dijit.form.Select" value="IA"
-					url="autoCompleterData.json" name="state1" autocomplete="true" labelAttr="label" labelType="html"
+			<input searchAttr="name" keyAttr="abbreviation" id="setvaluetest" dojoType="dijit.form.FilteringSelect" value="IA"
+					url="comboBoxData.json" name="state1" autocomplete="true" labelAttr="label" labelType="html"
 					dataProviderClass="dojo.data.JsonItemStore" promptMessage="Please enter a state">
 		</span>
 		<hr style="width:100%;">

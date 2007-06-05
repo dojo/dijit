@@ -1,10 +1,10 @@
-dojo.provide("dijit.form.Select");
+dojo.provide("dijit.form.FilteringSelect");
 
-dojo.require("dijit.form.AutoCompleter");
+dojo.require("dijit.form.ComboBox");
 
 dojo.declare(
-	"dijit.form.Select",
-	[dijit.form.MappedTextbox, dijit.form.AutoCompleterMixin],
+	"dijit.form.FilteringSelect",
+	[dijit.form.MappedTextbox, dijit.form.ComboBoxMixin],
 	{
 		/*
 		 * summary
@@ -39,7 +39,7 @@ dojo.declare(
 
 		_callbackSetLabel: function(/*Object*/ result){
 			// summary
-			//	Callback function that dynamically sets the label of the AutoCompleter
+			//	Callback function that dynamically sets the label of the ComboBox
 
 			if(!result.length){
 				this._setValue("", "");
@@ -55,7 +55,7 @@ dojo.declare(
 
 		_setValue:function(/*String*/ value, /*String*/ displayedValue){
 			this.valueNode.value = value;
-			dijit.form.Select.superclass.setValue.apply(this, arguments);
+			dijit.form.FilteringSelect.superclass.setValue.apply(this, arguments);
 		},
 
 		setValue: function(/*String*/ value){
@@ -85,14 +85,14 @@ dojo.declare(
 
 		labelFunc: function(/*Object*/ item, /*dojo.data.store*/ store){
 			// summary: Event handler called when the label changes
-			// returns the label that the AutoCompleter should display
+			// returns the label that the ComboBox should display
 			return store.getValue(item, this.searchAttr);
 		},
 
 		_createOption:function(/*Object*/ tr){
 			// summary: creates an option to appear on the popup menu
 
-			var td=dijit.form.AutoCompleterMixin.prototype._createOption.apply(this, arguments);
+			var td=dijit.form.ComboBoxMixin.prototype._createOption.apply(this, arguments);
 			// #3129
 			if(this.labelAttr){
 				if(this.labelType=="html"){
@@ -109,21 +109,21 @@ dojo.declare(
 
 		onkeyup: function(/*Event*/ evt){
 			// summary: internal function
-			// Select needs to wait for the complete label before committing to a reverse lookup
+			// FilteringSelect needs to wait for the complete label before committing to a reverse lookup
 			//this.setDisplayedValue(this.textbox.value);
 		},
 
 		_assignHiddenValue:function(/*Object*/ keyValArr, /*DomNode*/ option){
 			// summary:
-			// 	Overrides AutoCompleter._assignHiddenValue for creating a data store from an options list.
+			// 	Overrides ComboBox._assignHiddenValue for creating a data store from an options list.
 			// 	Takes the <option value="CA"> and makes the CA the hidden value of the item.
 			keyValArr[this.keyAttr]=option.value;
 		},
 
 		_doSelect: function(/*Event*/ tgt){
 			// summary:
-			//	AutoCompleter's menu callback function
-			//	Select overrides this to set both the visible and hidden value from the information stored in the menu
+			//	ComboBox's menu callback function
+			//	FilteringSelect overrides this to set both the visible and hidden value from the information stored in the menu
 
 			this._setValueFromItem(tgt.item);
 		},

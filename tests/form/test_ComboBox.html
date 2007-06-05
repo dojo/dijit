@@ -2,7 +2,7 @@
         "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 <head>
-<title>Dojo AutoCompleter Widget Test</title>
+<title>Dojo ComboBox Widget Test</title>
 
 <script type="text/javascript" src="../testBidi.js"></script>
 
@@ -12,7 +12,7 @@
 </script>
 <script type="text/javascript" src="../../../dojo/dojo.js"></script>
 <script type="text/javascript">
-	dojo.require("dijit.form.AutoCompleter");
+	dojo.require("dijit.form.ComboBox");
 	dojo.require("dijit.util.manager");
 	dojo.require("dijit.util.parser");	// scan page for widgets and instantiate them
 </script>
@@ -27,7 +27,7 @@
 	}
 	function setVal2(val){
 		document.getElementById('value2').value=val;
-		console.debug("Value changed to ["+val+"] in second AutoCompleter (#1652)");
+		console.debug("Value changed to ["+val+"] in second ComboBox (#1652)");
 	}
 	function setVal3(val){
 		document.getElementById('value3').value=val;
@@ -35,7 +35,7 @@
 	var combo;
 	function init(){
 		//var store=new dojo.data.JsonItemStore({});
-		combo = new dijit.form.AutoCompleter({data:{items:[{name:"California", label:"California"}]}, name:"prog",autocomplete:false,searchAttr:"name", labelField:"label", labelType:"text"}, document.getElementById("progCombo"));
+		combo = new dijit.form.ComboBox({data:{items:[{name:"California", label:"California"}]}, name:"prog",autocomplete:false,searchAttr:"name", labelField:"label", labelType:"text"}, document.getElementById("progCombo"));
 	}
 	dojo.addOnLoad(init);
 	
@@ -49,19 +49,19 @@
 </head>
 
 <body class="tundra">
-<h1>Dojo AutoCompleter Widget Test</h1>
+<h1>Dojo ComboBox Widget Test</h1>
 <p>
-A AutoCompleter is like a text &lt;input&gt; field (ie, you can input any value you want),
+A ComboBox is like a text &lt;input&gt; field (ie, you can input any value you want),
 but it also has a list of suggested values that you can choose from.
 The drop down list is filtered by the data you have already typed in.
 </p>
 <form action="#" method="GET">
  
-    <p>AutoCompleter #1: inlined data, autocomplete=false, default value of CA (California)</p>
+    <p>ComboBox #1: inlined data, autocomplete=false, default value of CA (California)</p>
     <label for="setvaluetest">US State test 1: </label>
 	<select id="setvaluetest"
 			name="state1"
-			dojoType="dijit.form.AutoCompleter"
+			dojoType="dijit.form.ComboBox"
 			class="medium"
 			searchAttr="name"
 			labelField="name"
@@ -140,12 +140,12 @@ The drop down list is filtered by the data you have already typed in.
 	<div>Value: <input id="value1" disabled></div>
 	<hr>
 
-	<p>AutoCompleter #2: url, autocomplete=true:</p>
+	<p>ComboBox #2: url, autocomplete=true:</p>
 	<label for="datatest">US State test 2: </label>
-	<input dojoType="dijit.form.AutoCompleter"
+	<input dojoType="dijit.form.ComboBox"
 			value="California"
 			class="medium"
-			url="autoCompleterData.json"
+			url="comboBoxData.json"
 			searchAttr="name"
 			labelField="label"
 			labelType="html"
@@ -159,13 +159,13 @@ The drop down list is filtered by the data you have already typed in.
 	<div>Value: <input id="value2" disabled></div>
 	<hr>
 		
-    <p>AutoCompleter #3: initially disabled, url, autocomplete=false:</p>
+    <p>ComboBox #3: initially disabled, url, autocomplete=false:</p>
     <label for="combo3">US State test 3: </label>
  	<input id="combo3"
- 			dojoType="dijit.form.AutoCompleter"
+ 			dojoType="dijit.form.ComboBox"
  			value="California"
  			class="medium"
-			url="autoCompleterData.json"
+			url="comboBoxData.json"
 			searchAttr="name"
 			labelField="label"
 			labelType="html"
@@ -184,10 +184,10 @@ The drop down list is filtered by the data you have already typed in.
 	<hr>
     <p>Multiple autocompleters on a single line:</p>
     <label for="one">US State 1: </label>
- 	<input dojoType="dijit.form.AutoCompleter"
+ 	<input dojoType="dijit.form.ComboBox"
  			value="California"
  			id="one"
-			url="autoCompleterData.json"
+			url="comboBoxData.json"
 			searchAttr="name"
 			labelField="label"
 			labelType="html"
@@ -195,10 +195,10 @@ The drop down list is filtered by the data you have already typed in.
 			name="state4"
 			autocomplete="false"
 	>	<label for="two">US State 2: </label>
- 	<input dojoType="dijit.form.AutoCompleter"
+ 	<input dojoType="dijit.form.ComboBox"
  			value="California"
  			id="two"
-			url="autoCompleterData.json"
+			url="comboBoxData.json"
 			searchAttr="name"
 			labelField="label"
 			labelType="html"

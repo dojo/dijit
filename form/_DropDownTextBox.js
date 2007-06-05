@@ -10,7 +10,7 @@ dojo.declare(
 		// summary:
 		//		Mixin text box with drop down
 
-		templatePath: dojo.moduleUrl("dijit.form", "templates/AutoCompleter.html"),
+		templatePath: dojo.moduleUrl("dijit.form", "templates/ComboBox.html"),
 
 		// _popupWidget: Widget
 		//	link to the popup widget created by makePopop
@@ -24,7 +24,7 @@ dojo.declare(
 		_hasMasterPopup:false,
 
 		// _popupClass: String
-		//	Class of master popup (dijit.form._AutoCompleterMenu)
+		//	Class of master popup (dijit.form._ComboBoxMenu)
 		_popupClass:"",
 
 		// _popupArgs: Object

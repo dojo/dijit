@@ -24,7 +24,7 @@
 .noir .dijitButton,
 .noir .dijitComboButton,
 .noir .dijitDropDownButton,
-.noir .dijitAutoCompleter {
+.noir .dijitComboBox {
 	height:30px;
 	padding:0px;
 	border-width:0px;
@@ -109,36 +109,36 @@
 
 
 /****
-		dijit.form.AutoCompleter 
+		dijit.form.ComboBox 
  ****/
-.noir .dijitAutoCompleter TABLE {
+.noir .dijitComboBox TABLE {
 	margin-left:10px;
 }
 
-.noir .dijitAutoCompleter .dijitStretch {	
+.noir .dijitComboBox .dijitStretch {	
 	height:30px;
 	#margin-top:0px;
 }
 
-.noir .dijitAutoCompleter .dijitRight,
-.noir .dijitAutoCompleter .dijitRightSpacer {	
+.noir .dijitComboBox .dijitRight,
+.noir .dijitComboBox .dijitRightSpacer {	
 	height:30px;
 	width:32px;
 }
 
-.noir .dijitAutoCompleter .dijitDownArrowButton {
+.noir .dijitComboBox .dijitDownArrowButton {
 	padding:0px !important;
 	width:32px;
 }
 
-.noir .dijitAutoCompleter .dijitButtonNode {
+.noir .dijitComboBox .dijitButtonNode {
 	font-family:inherit;
 	font-size:inherit;
 	background-color:transparent;
 }
 
 
-.noir .dijitAutoCompleterInput,
+.noir .dijitComboBoxInput,
 .noir .dijitSpinnerInput {
 	border:0px;
 	margin:0px;
@@ -154,13 +154,13 @@
 	*/
 }
 
-.noir .dijitAutoCompleter INPUT,
+.noir .dijitComboBox INPUT,
 .noir .dijitSpinner INPUT {
 	color:white;
 	background:black;
 }
 
-.noir .dijitAutoCompleterDisabled INPUT,
+.noir .dijitComboBoxDisabled INPUT,
 .noir .dijitSpinnerDisabled INPUT{
 	color:#3f3f3f;
 }

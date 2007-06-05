@@ -10,7 +10,7 @@
 			dojo.require("dijit.util.sniff");
 			dojo.require("dijit.Menu");
 			dojo.require("dijit.form.Button");
-			dojo.require("dijit.form.AutoCompleter");
+			dojo.require("dijit.form.ComboBox");
 			dojo.require("dijit.form.NumberSpinner");
 			dojo.require("dijit.util.manager");
 			dojo.require("dijit.util.parser");
@@ -75,10 +75,10 @@
 				Combo Disabled
 			</button>
 		<br><br>
-			<input dojoType="dijit.form.AutoCompleter"
+			<input dojoType="dijit.form.ComboBox"
 					value="California"
 					class="medium"
-					url="autoCompleterData.json"
+					url="../tests/form/comboBoxData.json"
 					searchAttr="name"
 					labelField="label"
 					labelType="html"
@@ -88,10 +88,10 @@
 					id="datatest"
 			>
 
-			<input dojoType="dijit.form.AutoCompleter"
+			<input dojoType="dijit.form.ComboBox"
 					value="California"
 					class="medium"
-					url="autoCompleterData.json"
+					url="../tests/form/comboBoxData.json"
 					searchAttr="name"
 					labelField="label"
 					labelType="html"

@@ -1,4 +1,4 @@
-dojo.provide("dijit.form.AutoCompleter");
+dojo.provide("dijit.form.ComboBox");
 
 dojo.require("dijit.util.scroll");
 dojo.require("dijit.util.wai");
@@ -8,17 +8,17 @@ dojo.require("dijit.form.ValidationTextbox");
 dojo.require("dijit.base.TemplatedWidget");
 
 dojo.declare(
-	"dijit.form.AutoCompleterMixin",
+	"dijit.form.ComboBoxMixin",
 	dijit.form._DropDownTextBox,
 	{
 		// summary:
-		//		Auto-completing text box, and base class for Select widget.
+		//		Auto-completing text box, and base class for FilteringSelect widget.
 		//
 		//		The drop down box's values are populated from an class called
 		//		a data provider, which returns a list of values based on the characters
 		//		that the user has typed into the input box.
 		//
-		//		Some of the options to the AutoCompleter are actually arguments to the data
+		//		Some of the options to the ComboBox are actually arguments to the data
 		//		provider.
 
 		// searchLimit: Integer
@@ -28,7 +28,7 @@ dojo.declare(
 		searchLimit: Infinity,
 
 		// store: Object
-		//		Reference to data provider object created for this AutoCompleter
+		//		Reference to data provider object created for this ComboBox
 		//		according to "dataProviderClass" argument.
 		store: null,
 
@@ -46,7 +46,7 @@ dojo.declare(
 		// url: String
 		//		URL argument passed to data provider object (class name specified in "dataProviderClass")
 		//		An example of the URL format for the default data provider is
-		//		"autoCompleterData.js"
+		//		"comboBoxData.js"
 		url: "",
 
 // Bill: not sure we want to support url parameter; if we do then we have to support it for
@@ -71,19 +71,19 @@ dojo.declare(
 		searchAttr: "name",
 
 		// ignoreCase: Boolean
-		//		Does the AutoCompleter menu ignore case?
+		//		Does the ComboBox menu ignore case?
 		ignoreCase: true,
 
 		// value: String
-		//		The initial value of the AutoCompleter.
+		//		The initial value of the ComboBox.
 		//		This is the value that actually appears in the text area.
 		value:"",
 
-		templatePath: dojo.moduleUrl("dijit.form", "templates/AutoCompleter.html"),
+		templatePath: dojo.moduleUrl("dijit.form", "templates/ComboBox.html"),
 
 		_hasMasterPopup:true,
 
-		_popupClass:"dijit.form._AutoCompleterMenu",
+		_popupClass:"dijit.form._ComboBoxMenu",
 
 		_getCaretPos: function(/*DomNode*/ element){
 			// khtml 3.5.2 has selection* methods as does webkit nightlies from 2005-06-22
@@ -163,7 +163,8 @@ dojo.declare(
 					if(!this.isShowingNow()||this._prev_key_esc){
 						this._arrowPressed();
 						// bring up full list
-						this._startSearch("");
+						//this._startSearch("");
+						doSearch=true;
 					}else{
 						evt.keyCode==dojo.keys.PAGE_DOWN ? this._popupWidget.pageDown(): this._popupWidget._highlightNextOption();
 						this._announceOption(this._popupWidget.getHighlightedOption());
@@ -213,7 +214,7 @@ dojo.declare(
 						this._selectOption();
 						this._hideResultList();
 					}
-					else{doSearch=this.autoComplete;}
+					else{doSearch=true;}
 					break;
 
 				case dojo.keys.ESCAPE:
@@ -226,7 +227,7 @@ dojo.declare(
 				case dojo.keys.BACKSPACE:
 					this._prev_key_esc = false;
 					this._prev_key_backspace = true;
-					doSearch=this.autoComplete;
+					doSearch=true;
 					if(!this.textbox.value.length){
 						this.setValue("");
 					}
@@ -243,7 +244,7 @@ dojo.declare(
 					this._prev_key_backspace = false;
 					this._prev_key_esc = false;
 					if(evt.charCode!=0){
-						doSearch=this.autoComplete;
+						doSearch=true;
 					}
 			}
 			if(this.searchTimer){
@@ -298,8 +299,8 @@ dojo.declare(
 			}
 // Bill: above loop could be done w/ "dojo.forEach(results, function(tr){" or better yet map()
 //
-// But actually the interface between AutoCompleterMenu and Autocompleter is strange to me.
-// AutoCompleterMenu should be in charge of the
+// But actually the interface between ComboBoxMenu and Autocompleter is strange to me.
+// ComboBoxMenu should be in charge of the
 // DOM manipulation (creating text nodes, etc).   autocompleter should just pass in a list of
 // items
 
@@ -309,7 +310,7 @@ dojo.declare(
 
 		_createOption:function(/*Object*/ tr){
 			// summary: creates an option to appear on the popup menu
-			// subclassed by Select
+			// subclassed by FilteringSelect
 			var td = document.createElement("div");
 			td.appendChild(document.createTextNode(this.store.getValue(tr, this.searchAttr)));
 			td.item=tr;
@@ -399,7 +400,7 @@ dojo.declare(
 
 		_startSearch: function(/*String*/ key){
 			this.makePopup();
-			// create a new query to prevent accidentally querying for a hidden value from Select's keyField
+			// create a new query to prevent accidentally querying for a hidden value from FilteringSelect's keyField
 			var query={};
 			query[this.searchAttr]=key+"*";
 			// no need to page; no point in caching the return object
@@ -408,8 +409,8 @@ dojo.declare(
 
 		_assignHiddenValue:function(/*Object*/ keyValArr, /*DomNode*/ option){
 			// sets the hidden value of an item created from an <option value="CA">
-			// AutoCompleter does not care about the value; Select does though
-			// Select overrides this method
+			// ComboBox does not care about the value; FilteringSelect does though
+			// FilteringSelect overrides this method
 		},
 
 		postCreate: function(){
@@ -425,12 +426,12 @@ dojo.declare(
 					var data=[];
 					// go backwards to create the options list
 					// have to go backwards because we are removing the option nodes
-					// the option nodes are visible once the AutoCompleter initializes
+					// the option nodes are visible once the ComboBox initializes
 					for(var x=ol-1; x>=0; x--){
 						var text = opts[x].innerHTML;
 						var keyValArr ={};
 						keyValArr[this.searchAttr]=String(text);
-						// Select: assign the value attribute to the hidden value
+						// FilteringSelect: assign the value attribute to the hidden value
 						this._assignHiddenValue(keyValArr, opts[x]);
 						data.unshift(keyValArr);
 						// remove the unnecessary node
@@ -443,7 +444,7 @@ dojo.declare(
 				this.store=new dpClass(this);
 			}
 			// call the associated Textbox postCreate
-			// ValidationTextbox for AutoCompleter; MappedTextbox for Select
+			// ValidationTextbox for ComboBox; MappedTextbox for FilteringSelect
 			this.parentClass=dojo.getObject(this.declaredClass, false).superclass;
 			this.parentClass.postCreate.apply(this, arguments);
 
@@ -454,14 +455,14 @@ dojo.declare(
 );
 
 dojo.declare(
-	"dijit.form._AutoCompleterMenu",
+	"dijit.form._ComboBoxMenu",
 	[dijit.base.FormElement, dijit.base.TemplatedWidget],
 
 // Bill: 
-// I'd like the interface to AutoCompleterMenu to be higher level,
+// I'd like the interface to ComboBoxMenu to be higher level,
 // taking a list of items to initialize it, and returns the selected item
 //
-//                new _AutoCompleterMenu({
+//                new _ComboBoxMenu({
 //                                 items: /*dojo.data.Item[]*/ items,
 //                                 labelFunc: dojo.hitc(this, "_makeLabel"),
 //                                 onSelectItem: dojo.hitch(this, "_itemSelected")
@@ -481,7 +482,7 @@ dojo.declare(
 
 	{
 		// summary:
-		//	Focus-less div based menu for internal use in AutoCompleter
+		//	Focus-less div based menu for internal use in ComboBox
 
 		templateString:"<div class='dijitMenu' dojoAttachEvent='onclick; onmouseover; onmouseout;' tabIndex='-1' style='display:none; position:absolute; overflow:\"auto\";'></div>",
 		_onkeypresshandle:null,
@@ -493,7 +494,7 @@ dojo.declare(
 
 		open:function(/*Widget*/ widget){
 			this.onValueChanged=dojo.hitch(widget, widget._selectOption);
-			// connect onkeypress to AutoCompleter
+			// connect onkeypress to ComboBox
 			this._onkeypresshandle=dojo.connect(this.domNode, "onkeypress", widget, "onkeypress");
 			return dijit.util.PopupManager.openAround(widget.domNode, this);
 		},
@@ -626,7 +627,7 @@ dojo.declare(
 );
 
 dojo.declare(
-	"dijit.form.AutoCompleter",
-	[dijit.form.ValidationTextbox, dijit.form.AutoCompleterMixin],
+	"dijit.form.ComboBox",
+	[dijit.form.ValidationTextbox, dijit.form.ComboBoxMixin],
 	{}
 );
