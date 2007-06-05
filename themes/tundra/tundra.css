@@ -698,7 +698,6 @@
 /* inline edit boxen */
 .tundra .dijitInlineValue {
 	/* span around an inline-editable value when NOT in edit mode */
-	border:1px solid #eeeeee;
 	padding:3px;
 	margin:4px;
 }
