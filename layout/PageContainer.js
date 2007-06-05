@@ -199,10 +199,10 @@ dojo.declare(
 
 			this.pane2button = {};		// mapping from panes to buttons
 			this._subscriptions=[
-				{topic: this.containerId+"-startup", handle: dojo.subscribe(this.containerId+"-startup", this, "onStartup")},
-				{topic: this.containerId+"-addChild", handle: dojo.subscribe(this.containerId+"-addChild", this, "onAddChild")},
-				{topic: this.containerId+"-removeChild", handle: dojo.subscribe(this.containerId+"-removeChild", this, "onRemoveChild")},
-				{topic: this.containerId+"-selectChild", handle: dojo.subscribe(this.containerId+"-selectChild", this, "onSelectChild")}
+				dojo.subscribe(this.containerId+"-startup", this, "onStartup"),
+				dojo.subscribe(this.containerId+"-addChild", this, "onAddChild"),
+				dojo.subscribe(this.containerId+"-removeChild", this, "onRemoveChild"),
+				dojo.subscribe(this.containerId+"-selectChild", this, "onSelectChild")
 			];
 		},
 
@@ -213,7 +213,7 @@ dojo.declare(
 		},
 
 		destroy: function(){
-			dojo.forEach(this._subscriptions, function(sub){ dojo.unsubscribe(sub.topic, sub.handle); });
+			dojo.forEach(this._subscriptions, dojo.unsubscribe);
 			dijit.layout.PageController.superclass.destroy.apply(this, arguments);
 		},
 
