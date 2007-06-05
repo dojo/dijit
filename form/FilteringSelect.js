@@ -42,7 +42,8 @@ dojo.declare(
 			//	Callback function that dynamically sets the label of the ComboBox
 
 			if(!result.length){
-				this._setValue("", "");
+				//#3268: do nothing on bad input
+				//this._setValue("", "");
 			}else{
 				this._setValueFromItem(result[0]);
 			}
