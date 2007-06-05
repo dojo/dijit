@@ -330,7 +330,7 @@ dojo.declare(
 			// the value in the textbox reverts to match the hidden value
 			//this.parentClass.onblur.apply(this, arguments);
 		},
-		
+
 		_announceOption: function(/*Node*/ node){
 			// summary:
 			//	a11y code that puts the highlighted option in the textbox 
@@ -341,7 +341,7 @@ dojo.declare(
 			dijit.util.wai.setAttr(this.focusNode || this.domNode, "waiState", "valuenow", newValue);
 			this.focusNode.value=newValue;
 		},
-		
+
 		_selectOption: function(/*Event*/ evt){
 			var tgt = null;
 			if(!evt){
@@ -417,13 +417,14 @@ dojo.declare(
 			// dojo.data code
 			var dpClass=dojo.getObject(this.dataProviderClass, false);
 			// is the store not specified?
+			var data;
 			if(this.store==null){
 				// if user didn't specify either url or data, then assume there are option tags
 				if(this.url==""&&this.data==null){
 					dpClass=dojo.getObject("dojo.data.JsonItemStore", false);
 					var opts = this.domNode.getElementsByTagName("option");
 					var ol = opts.length;
-					var data=[];
+					data=[];
 					// go backwards to create the options list
 					// have to go backwards because we are removing the option nodes
 					// the option nodes are visible once the ComboBox initializes
@@ -447,6 +448,12 @@ dojo.declare(
 			// ValidationTextbox for ComboBox; MappedTextbox for FilteringSelect
 			this.parentClass=dojo.getObject(this.declaredClass, false).superclass;
 			this.parentClass.postCreate.apply(this, arguments);
+
+			// if there is no value set and there is an option list,
+			// set the value to the first value to be consistent with native Select
+			if(data&&data.length&&!this.getValue()){
+				this.setDisplayedValue(data[0][this.searchAttr]);
+			}
 
 			// convert the arrow image from using style.background-image to the .src property (a11y)
 //			dijit.util.wai.imageBgToSrc(this.arrowImage);
