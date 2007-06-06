@@ -77,19 +77,19 @@ dojo.declare(
 			}); 
 		},
 
-		arrowKey: function(/*Event*/ e){
+		_onKey: function(/*Event*/ e){
 			// summary: callback when the user presses a key (on key-down)
 			if(this.disabled){ return; }
 			if(	   e.keyCode == dojo.keys.DOWN_ARROW
 				|| e.keyCode == dojo.keys.ENTER
 				|| e.keyCode == dojo.keys.SPACE){
 				if(!this._menu || this._menu.domNode.style.display=="none"){
-					this.arrowClick(e);
+					this._onArrowClick(e);
 				}
 			}
 		},
 
-		arrowClick: function(/*Event*/ e){
+		_onArrowClick: function(/*Event*/ e){
 			// summary: callback when button is clicked; user shouldn't override this function or else the menu won't toggle
 			dojo.stopEvent(e);
 			if(this.disabled){ return; }

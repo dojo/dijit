@@ -84,7 +84,7 @@ dojo.declare(
 			}
 		},
 
-		arrowClick: function(){
+		_onArrowClick: function(){
 			// summary: callback when arrow is clicked
 			if(this.disabled){
 				return;
