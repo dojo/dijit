@@ -76,26 +76,34 @@ dojo.declare(
 				this.popupStateNode.removeAttribute("popupActive");
 			}); 
 		},
+		
+		_onArrowUp: function(/*Event*/ e){
+			// summary: callback when the user mouse clicks on menu popup node
+			if(this.disabled){ return; }
+			// note: don't stop event; FormElement needs it to update styles
+			this._toggleMenu();
+		},
 
 		_onKey: function(/*Event*/ e){
-			// summary: callback when the user presses a key (on key-down)
+			// summary: callback when the user presses a key on menu popup node
 			if(this.disabled){ return; }
-			if(	   e.keyCode == dojo.keys.DOWN_ARROW
-				|| e.keyCode == dojo.keys.ENTER
-				|| e.keyCode == dojo.keys.SPACE){
+			var key = (e.charCode == dojo.keys.SPACE ? dojo.keys.SPACE : e.keyCode);
+			if((key == dojo.keys.DOWN_ARROW)
+				|| (key == dojo.keys.ENTER)
+				|| (key == dojo.keys.SPACE)){
 				if(!this._menu || this._menu.domNode.style.display=="none"){
-					this._onArrowClick(e);
+					dojo.stopEvent(e);
+					return this._toggleMenu();
 				}
 			}
 		},
 
-		_onArrowClick: function(/*Event*/ e){
-			// summary: callback when button is clicked; user shouldn't override this function or else the menu won't toggle
-			dojo.stopEvent(e);
+		_toggleMenu: function(){
+			// summary: toggle the menu; if it is up, close it, if not, open it
 			if(this.disabled){ return; }
 			this.popupStateNode.focus();
 			var menu = this._menu;
-			if(!menu){ return; }
+			if(!menu){ return false; }
 			if(!menu.isShowingNow){
 				dijit.util.PopupManager.openAround(this.popupStateNode, menu, this._orientation);
 				this.popupStateNode.setAttribute("popupActive", "true");
@@ -104,6 +112,7 @@ dojo.declare(
 				dijit.util.PopupManager.closeAll();
 				this._opened=false;
 			}
+			return false;
 		}
 	});
 
@@ -130,6 +139,24 @@ dojo.declare(
 		baseClass: "dijitComboButton",
 		_onArrowMouse : function(/*Event*/ e){
 			this._onMouse(e, this.popupStateNode);
+		},
+
+		_onButtonClick: function(/*Event*/ e){
+			// summary: callback when the user mouse clicks the button portion
+			dojo.stopEvent(e);
+			if(this.disabled){ return; }
+			this.focusNode.focus();
+			return this.onClick(e);
+		},
+
+		_onButtonKey: function(/*Event*/ e){
+			// summary: callback when the user presses a key on the button portion
+			if(this.disabled){ return; }
+			var key = (e.charCode == dojo.keys.SPACE ? dojo.keys.SPACE : e.keyCode);
+			if((key == dojo.keys.SPACE) || (key == dojo.keys.ENTER)){
+				dojo.stopEvent(e);
+				return this.onClick(e);
+			}
 		}
 
 	});
