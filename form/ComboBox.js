@@ -85,6 +85,15 @@ dojo.declare(
 
 		_popupClass:"dijit.form._ComboBoxMenu",
 
+		getValue:function(){
+			// don't get the textbox value but rather the previously set hidden value
+			return dijit.form.Textbox.superclass.getValue.apply(this, arguments);
+		},
+
+		setDisplayedValue:function(/*String*/ value){
+			this.setValue(value);
+		},
+
 		_getCaretPos: function(/*DomNode*/ element){
 			// khtml 3.5.2 has selection* methods as does webkit nightlies from 2005-06-22
 			if(typeof(element.selectionStart)=="number"){
