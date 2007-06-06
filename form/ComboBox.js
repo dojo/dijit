@@ -232,9 +232,6 @@ dojo.declare(
 					this._prev_key_esc = false;
 					this._prev_key_backspace = true;
 					doSearch=true;
-					if(!this.focusNode.value.length){
-						this.setValue("");
-					}
 					break;
 
 				case dojo.keys.RIGHT_ARROW: // fall through
