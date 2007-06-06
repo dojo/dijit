@@ -74,11 +74,6 @@ dojo.declare(
 		//		Does the ComboBox menu ignore case?
 		ignoreCase: true,
 
-		// value: String
-		//		The initial value of the ComboBox.
-		//		This is the value that actually appears in the text area.
-		value:"",
-
 		templatePath: dojo.moduleUrl("dijit.form", "templates/ComboBox.html"),
 
 		_hasMasterPopup:true,
@@ -386,8 +381,7 @@ dojo.declare(
 			this.setValue(this.store.getValue(tgt.item, this.searchAttr));
 		},
 
-		arrowClick: function(){
-// Bill: should rename to _onArrowClicked() for consistency
+		_onArrowClick: function(){
 			// summary: callback when arrow is clicked
 			if(this.disabled){
 				return;
@@ -494,14 +488,13 @@ dojo.declare(
 // sure of the utility of dijit.form._DropDownTextBox.Popup;
 // all the popup functionality is supposed to be in PopupManager
 //
-
-
 	{
 		// summary:
 		//	Focus-less div based menu for internal use in ComboBox
 
 		templateString:"<div class='dijitMenu' dojoAttachEvent='onclick; onmouseover; onmouseout;' tabIndex='-1' style='display:none; position:absolute; overflow:\"auto\";'></div>",
 		_onkeypresshandle:null,
+
 		postCreate:function(){
 			// summary:
 			//	call all postCreates
@@ -639,7 +632,6 @@ dojo.declare(
 			return this._highlighted_option&&this._highlighted_option.parentNode ? this._highlighted_option : null;
 		}
 	}
-
 );
 
 dojo.declare(
