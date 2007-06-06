@@ -128,7 +128,7 @@ dojo.declare(
 		optionsTitle: "",
 
 		baseClass: "dijitComboButton",
-		setArrowStateClass : function(/*Event*/ e){
+		_onArrowMouse : function(/*Event*/ e){
 			this._onMouse(e, this.popupStateNode);
 		}
 
