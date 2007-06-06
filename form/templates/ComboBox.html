@@ -1,5 +1,5 @@
 <fieldset class='dijit dijitInline dijitLeft dijitComboBox' id="widget_${id}" name="${name}"
-	dojoAttachEvent="onmouseover:setStateClass;onmouseout:setStateClass;"	
+	dojoAttachEvent="onmouseover:_onMouse;onmouseout:_onMouse;"	
 >
 <table cellspacing=0 cellpadding=0>
 	<tr>
@@ -10,7 +10,7 @@
 			tabIndex='${tabIndex}' size='${size}' maxlength='${maxlength}'
 	></td><td class='dijitReset dijitRight dijitButtonNode dijitDownArrowButton'
 			dojoAttachPoint="downArrowNode"
-			dojoAttachEvent="onclick:arrowClick;onmousedown:setStateClass;onmouseup:setStateClass;onmouseover:setStateClass;onmouseout:setStateClass;"
+			dojoAttachEvent="onclick:arrowClick;onmousedown:_onMouse;onmouseup:_onMouse;onmouseover:_onMouse;onmouseout:_onMouse;"
 			tabIndex="${tabIndex}"
 			waiRole="button" waiState="haspopup-true"
 		><div class='dijitRightSpacer'><span class='dijitA11yDownArrow'>&#9660;</span></div>

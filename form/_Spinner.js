@@ -39,11 +39,11 @@ dojo.declare(
 		},
 
 		_handleUpArrowEvent : function(/*Event*/ e){
-			this.setStateClass(e, this.upArrowNode);
+			this._onMouse(e, this.upArrowNode);
 		},
 
 		_handleDownArrowEvent : function(/*Event*/ e){
-			this.setStateClass(e, this.downArrowNode);
+			this._onMouse(e, this.downArrowNode);
 		},
 
 

@@ -189,12 +189,12 @@ BODY {
 		<td class='dijitReset dijitLeft'>&nbsp;</td>
 		<td class='dijitReset dijitStretch XdijitInputField XdijitComboBoxInput'
 			><input type="text" autocomplete="off" name="${name}" style='border:0px;padding:.2em;'
-			dojoAttachEvent="onkeypress; onkeyup; onfocus; onblur; compositionend;onmouseover:setStateClass;onmouseout:setStateClass;"
+			dojoAttachEvent="onkeypress; onkeyup; onfocus; onblur; compositionend;onmouseover:_onMouse;onmouseout:_onMouse;"
 			dojoAttachPoint="textbox;focusNode" id='${id}'
 			tabIndex='${tabIndex}' size='${size}' maxlength='${maxlength}'
 	></td><td class='dijitReset dijitRight dijitButtonNode dijitArrowButton'
 			dojoAttachPoint="downArrowNode"
-			dojoAttachEvent="onclick:arrowClicked;onmousedown:setStateClass;onmouseup:setStateClass;onmouseover:setStateClass;onmouseout:setStateClass;"
+			dojoAttachEvent="onclick:arrowClicked;onmousedown:_onMouse;onmouseup:_onMouse;onmouseover:_onMouse;onmouseout:_onMouse;"
 			tabIndex="${tabIndex}"
 			waiRole="button" waiState="haspopup-true"
 		><span class='dijitA11yDownArrow'>&#9660;</span
@@ -205,12 +205,12 @@ BODY {
 <!--
 <div class="dijit dijitLeft dijitInline dijitComboBox dijitComboBoxDisabled" id='widget_${id}' waiRole="presentation"
 	><input type="text" autocomplete="off" class="dijitStretch dijitInputField dijitComboBoxInput" name="${name}"
-			dojoAttachEvent="onkeypress; onkeyup; onfocus; onblur; compositionend;onmouseover:setStateClass;onmouseout:setStateClass;"
+			dojoAttachEvent="onkeypress; onkeyup; onfocus; onblur; compositionend;onmouseover:_onMouse;onmouseout:_onMouse;"
 			dojoAttachPoint="textbox;focusNode" id='${id}'
 			tabIndex='${tabIndex}' size='${size}' maxlength='${maxlength}'
 	><button class='dijitRight dijitButtonNode dijitArrowButton'
 			dojoAttachPoint="downArrowNode"
-			dojoAttachEvent="onclick:arrowClicked;onmousedown:setStateClass;onmouseup:setStateClass;onmouseover:setStateClass;onmouseout:setStateClass;"
+			dojoAttachEvent="onclick:arrowClicked;onmousedown:_onMouse;onmouseup:_onMouse;onmouseover:_onMouse;onmouseout:_onMouse;"
 			tabIndex="${tabIndex}"
 			waiRole="button" waiState="haspopup-true"
 		><span class='dijitTeeny'>&nbsp;</span><span class='dijitA11yDownArrow'>&#9660;</span

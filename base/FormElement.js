@@ -81,15 +81,16 @@ dojo.declare("dijit.base.FormElement", dijit.base.Widget,
 			this.focusNode.disabled = disabled;
 		}
 		dijit.util.wai.setAttr(this.focusNode || this.domNode, "waiState", "disabled", disabled);
-		this.setStateClass(null, this.domNode);
+		this._onMouse(null, this.domNode);
 	},
 	
 
-	setStateClass : function(event, mouseNode, baseClass) {
+	_onMouse : function(event, mouseNode, baseClass) {
 		// summary:
 		//	Update the visual state of the widget by changing the css class according to the mouse state.
 		//	State will be one of:
 		//		<baseClass> + "Enabled"|"Disabled"|"Active"|"Hover"
+		//	Also forwards to onClick() if the mouse was clicked.
 		if (mouseNode == null) mouseNode = this.domNode;
 		if (event) dojo.stopEvent(event);
 		var base = mouseNode.getAttribute("baseClass") || this.baseClass || (this.baseClass = "dijit"+this.declaredClass.replace(/.*\./g,""));
@@ -116,7 +117,7 @@ dojo.declare("dijit.base.FormElement", dijit.base.Widget,
 						//	even if the cursor leaves the button
 						var self = this;
 						var method = function(event) {
-							self.setStateClass(event, mouseNode);
+							self._onMouse(event, mouseNode);
 						}
 						mouseNode._mouseUpConnector = dojo.connect(dojo.global, "onmouseup", this, method);
 						break;

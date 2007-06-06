@@ -129,7 +129,7 @@ dojo.declare(
 
 		baseClass: "dijitComboButton",
 		setArrowStateClass : function(/*Event*/ e){
-			this.setStateClass(e, this.popupStateNode);
+			this._onMouse(e, this.popupStateNode);
 		}
 
 	});
