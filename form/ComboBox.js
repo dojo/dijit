@@ -232,7 +232,7 @@ dojo.declare(
 					this._prev_key_esc = false;
 					this._prev_key_backspace = true;
 					doSearch=true;
-					if(!this.textbox.value.length){
+					if(!this.focusNode.value.length){
 						this.setValue("");
 					}
 					break;
@@ -260,6 +260,36 @@ dojo.declare(
 			}
 		},
 
+		_autoCompleteText: function(/*String*/ text){
+			// summary:
+			// Fill in the textbox with the first item from the drop down list, and
+			// highlight the characters that were auto-completed.   For example, if user
+			// typed "CA" and the drop down list appeared, the textbox would be changed to
+			// "California" and "ifornia" would be highlighted.
+			
+			// IE7: clear selection so next highlight works all the time
+			this._setSelectedRange(this.focusNode, this.focusNode.value.length, this.focusNode.value.length);
+			// does text autoComplete the value in the textbox?
+			if(new RegExp("^"+this.focusNode.value, this.ignoreCase ? "i" : "").test(text)){
+				var cpos = this._getCaretPos(this.focusNode);
+				// only try to extend if we added the last character at the end of the input
+				if((cpos+1) > this.focusNode.value.length){
+					// only add to input node as we would overwrite Capitalisation of chars
+					// actually, that is ok
+					this.focusNode.value = text;//.substr(cpos);
+					// visually highlight the autocompleted characters
+					this._setSelectedRange(this.focusNode, cpos, this.focusNode.value.length);
+				}
+			}
+			// text does not autoComplete; replace the whole value and highlight
+			else{
+				this.focusNode.value = text;
+				this._setSelectedRange(this.focusNode, 0, this.focusNode.value.length);
+			}
+			// announce the change
+			dijit.util.wai.setAttr(this.focusNode || this.domNode, "waiState", "valuenow", text);
+		},
+
 		_openResultList: function(/*Object*/ results){
 			if(this.disabled){
 				return;
@@ -279,17 +309,8 @@ dojo.declare(
 			var zerothvalue=new String(this.store.getValue(results[0], this.searchAttr));
 			if(zerothvalue&&(this.autoComplete)&&
 			(!this._prev_key_backspace)&&
-			(this.textbox.value.length > 0)&&
-			(new RegExp("^"+this.textbox.value, this.ignoreCase ? "i" : "").test(zerothvalue))){
-				var cpos = this._getCaretPos(this.textbox);
-				// only try to extend if we added the last character at the end of the input
-				if((cpos+1) > this.textbox.value.length){
-					// only add to input node as we would overwrite Capitalisation of chars
-					// actually, that is ok
-					this.textbox.value = zerothvalue;//.substr(cpos);
-					// visually highlight the autocompleted characters
-					this._setSelectedRange(this.textbox, cpos, this.textbox.value.length);
-				}
+			(this.focusNode.value.length > 0)){
+				this._autoCompleteText(zerothvalue);
 			}
 			// #2309: iterate over cache nondestructively
 			for(var i=0; i<results.length; i++){
@@ -341,9 +362,12 @@ dojo.declare(
 			//	This way screen readers will know what is happening in the menu
 
 			if(node==null){return;}
+			// pull the text value from the item attached to the DOM node
 			var newValue=this.store.getValue(node.item, this.searchAttr);
-			dijit.util.wai.setAttr(this.focusNode || this.domNode, "waiState", "valuenow", newValue);
-			this.focusNode.value=newValue;
+			// get the text that the user manually entered (cut off autocompleted text)
+			this.focusNode.value=this.focusNode.value.substring(0, this._getCaretPos(this.focusNode));
+			// autocomplete the rest of the option to announce change
+			this._autoCompleteText(newValue);
 		},
 
 		_selectOption: function(/*Event*/ evt){
@@ -369,7 +393,7 @@ dojo.declare(
 			this._doSelect(tgt);
 			if(!evt.noHide){
 				this._hideResultList();
-				this._setSelectedRange(this.textbox, 0, null);
+				this._setSelectedRange(this.focusNode, 0, null);
 			}
 			this.focus();
 			if(this._popupWidget.domNode.style.display!="none"){
@@ -398,7 +422,7 @@ dojo.declare(
 		},
 
 		_startSearchFromInput: function(){
-			this._startSearch(this.textbox.value);
+			this._startSearch(this.focusNode.value);
 		},
 
 		_startSearch: function(/*String*/ key){
