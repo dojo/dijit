@@ -48,7 +48,7 @@ dojo.declare(
 		dijit.base.Container.prototype.addChild.apply(this, arguments);
 		this._setupChild(child);
 
-		// in case the tab labels have overflowed from one line to two lines
+		// in case the tab titles have overflowed from one line to two lines
 		this.layout();
 
 		// if this is the first child, then select it
@@ -78,7 +78,7 @@ dojo.declare(
 		// this will notify any tablists to remove a button; do this first because it may affect sizing
 		dojo.publish(this.id+"-removeChild", [page]);
 
-		// in case the tab labels now take up one line instead of two lines
+		// in case the tab titles now take up one line instead of two lines
 		this.layout();
 
 		if(this.selectedChildWidget === page){
@@ -227,7 +227,7 @@ dojo.declare(
 			this.domNode.appendChild(refNode);
 			// create an instance of the button widget
 			var cls = dojo.getObject(this.buttonWidget);
-			var button = new cls({label: page.label, closeButton: page.closable}, refNode);
+			var button = new cls({label: page.title, closeButton: page.closable}, refNode);
 			this.addChild(button);
 			this.pane2button[page]=button;
 			page.controlButton = button;	// this value might be overwritten if two tabs point to same container
@@ -313,13 +313,13 @@ dojo.declare(
 	//	The button-like or tab-like object you click to select or delete a page
 
 	templateString: "<span class='item'>" +
-						"<span dojoAttachEvent='onclick:onClick' dojoAttachPoint='titleNode' class='selectButton'>${label}</span>" +
+						"<span dojoAttachEvent='onclick:onClick' dojoAttachPoint='titleNode' class='selectButton'>${title}</span>" +
 						"<span dojoAttachEvent='onclick:onCloseButtonClick' class='closeButton'>[X]</span>" +
 					"</span>",
 
-	// label: String
+	// title: String
 	//  Name to print on the button
-	label: "foo",
+	title: "foo",
 	
 	// closeButton: Boolean
 	//	true iff we should also print a close icon to destroy corresponding page
@@ -404,9 +404,9 @@ dojo.declare(
 // Since any widget can be specified as a PageContainer child, mix them
 // into the base widget class.  (This is a hack, but it's effective.)
 dojo.extend(dijit.base.Widget, {
-	// label: String
-	//		Label or title of this widget.  Used by TabContainer to the name the tab, etc.
-	label: "",
+	// title: String
+	//		Title of this widget.  Used by TabContainer to the name the tab, etc.
+	title: "",
 	
 	// selected: Boolean
 	//		Is this child currently selected?

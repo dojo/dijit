@@ -12,9 +12,9 @@ dojo.declare(
 	// summary
 	//		A pane with a title on top, that can be opened or collapsed.
 	
-	// label: String
+	// title: String
 	//		Title of the pane
-	label: "",
+	title: "",
 	
 	// open: Boolean
 	//		Whether pane is opened or closed.
@@ -29,13 +29,13 @@ dojo.declare(
 	templatePath: dojo.moduleUrl("dijit", "templates/TitlePane.html"),
 
 	postCreate: function(){
-		this.setLabel(this.label);
+		this.setTitle(this.title);
 		if(!this.open){
 			dojo.style(this.containerNode, "display", "none");
 		}
 		this._setCss();
 		dijit.TitlePane.superclass.postCreate.apply(this, arguments);
-		dijit.util.wai.setAttr(this.containerNode, "waiState", "labelledby", this.labelNode.id);
+		dijit.util.wai.setAttr(this.containerNode, "waiState", "titleledby", this.titleNode.id);
 		dijit.util.wai.setAttr(this.focusNode, "waiState", "haspopup", "true");
 		
 		// setup open/close animations
@@ -43,8 +43,8 @@ dojo.declare(
 		this._slideOut = dojo.fx.slideOut({node: this.containerNode, duration: this.duration});
 	},
 
-	onLabelClick: function(){
-		// summary: callback when label is clicked
+	_onTitleClick: function(){
+		// summary: callback when title is clicked
 		dojo.forEach([this._slideIn, this._slideOut], function(animation){
 			if(animation.status() == "playing"){
 				animation.stop();
@@ -62,10 +62,10 @@ dojo.declare(
 		this.domNode.className += " " + classes[boolIndex+0];
 	},
 
-	onLabelKey: function(/*Event*/ e){
+	_onTitleKey: function(/*Event*/ e){
 		// summary: callback when user hits a key
 		if(e.keyCode == dojo.keys.ENTER || e.charCode == dojo.keys.SPACE){
-			this.onLabelClick();
+			this._onTitleClick();
 		}
 		else if (e.keyCode == dojo.keys.DOWN_ARROW){
 			if(this.open){
@@ -75,8 +75,8 @@ dojo.declare(
 	 	}
 	},
 
-	setLabel: function(/*String*/ label){
-		// summary: sets the text of the label
-		this.labelNode.innerHTML=label;
+	setTitle: function(/*String*/ title){
+		// summary: sets the text of the title
+		this.titleNode.innerHTML=title;
 	}
 });

@@ -105,7 +105,10 @@ dijit.util.parser = new function(){
 				var attrValue = node.getAttribute(attrName);
 				if(attrValue != null){
 					var attrType = clsInfo.params[attrName];
-					params[attrName] = str2obj(attrValue, attrType);
+					var val = str2obj(attrValue, attrType);
+					if(val != null){
+						params[attrName] = val;
+					}
 				}
 			}
 			thelist.push(new clsInfo.cls(params, node));

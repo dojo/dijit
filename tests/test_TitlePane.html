@@ -21,7 +21,7 @@
 </head>
 <body class="tundra">
 	<h1 class="testTitle">Dijit TitlePane Test</h1>
-	<div dojoType="dijit.TitlePane" label="Title Pane #1" style="width: 300px;">
+	<div dojoType="dijit.TitlePane" title="Title Pane #1" style="width: 300px;">
 		Lorem Ipsum
 
 Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Quisque iaculis, nulla id semper faucibus, pede tellus nonummy magna, vitae adipiscing orci arcu ut augue. Nunc condimentum, magna a vestibulum convallis, libero purus pulvinar orci, sed vestibulum urna sem ut pede.
@@ -33,7 +33,7 @@ Sed sollicitudin suscipit risus. Nam ullamcorper. Sed nisl lectus, pellentesque 
 
 	<br>
 
-	<div dojoType="dijit.TitlePane" label="Title Pane #2" id="pane_2" style="width: 300px;">
+	<div dojoType="dijit.TitlePane" title="Title Pane #2" id="pane_2" style="width: 300px;">
 		<form>
 			Age: <input><br>
 			Discount card <input type=checkbox><br>
@@ -43,25 +43,25 @@ Sed sollicitudin suscipit risus. Nam ullamcorper. Sed nisl lectus, pellentesque 
 
 	<br>
 
-	<div dojoType="dijit.TitlePane" label="Pane from href broken until contentPane ported to dijit" href="doc0.html"></div>
+	<div dojoType="dijit.TitlePane" title="Pane from href broken until contentPane ported to dijit" href="doc0.html"></div>
 
 	<br>
-	<div dojoType="dijit.TitlePane" label="Initially closed pane" open="false" width="200">
+	<div dojoType="dijit.TitlePane" title="Initially closed pane" open="false" width="200">
 		<form>
-			<label for="age">Age: </label><input id="age"><br>
-			<label for="discount">Discount card </label><input type=checkbox id="discount"><br>
+			<title for="age">Age: </title><input id="age"><br>
+			<title for="discount">Discount card </title><input type=checkbox id="discount"><br>
 			<button>Submit</button><br>
 		</form>
 	</div>
 
 	<br>
 	
-	<div dojoType="dijit.TitlePane" label="Outer pane" width="300">
+	<div dojoType="dijit.TitlePane" title="Outer pane" width="300">
 		<p>This is a title pane, containing another title pane ...
 		<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Quisque iaculis, nulla id semper faucibus, pede tellus nonummy magna, vitae adipiscing orci arcu ut augue. Nunc condimentum, magna a vestibulum convallis, libero purus pulvinar orci, sed vestibulum urna sem ut pede.
 More Ipsum...
 
-		<div dojoType="dijit.TitlePane" label="Inner pane" width="250">
+		<div dojoType="dijit.TitlePane" title="Inner pane" width="250">
 			<p>And this is the inner title pane...
 			<p>Sed sollicitudin suscipit risus. Nam ullamcorper. Sed nisl lectus, pellentesque nec, malesuada eget, ornare a, libero. Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
 		</div>

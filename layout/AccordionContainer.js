@@ -38,7 +38,7 @@ dojo.require("dijit.base.TemplatedWidget");
  *
  * usage
  *	<div dojoType="dijit.layout.AccordionContainer">
- *		<div dojoType="dijit.layout.ContentPane" label="pane 1">...</div>
+ *		<div dojoType="dijit.layout.ContentPane" title="pane 1">...</div>
  *		...
  *	</div>
  *
@@ -55,14 +55,6 @@ dojo.declare(
 		//		Holds a set of panes where every pane's title is visible, but only one pane's content is visible at a time,
 		//		and switching between panes is visualized by sliding the other panes up/down.
 		
-		// labelNodeClass: String
-		//		CSS class name for dom node w/the title
-		labelNodeClass: "label",
-		
-		// containerNodeClass: String
-		//		CSS class name for dom node holding the content
-		containerNodeClass: "accBody",
-
 		// duration: Integer
 		//		Amount of time (in ms) it takes to slide panes
 		duration: 250,
@@ -94,15 +86,14 @@ dojo.declare(
 				// create a node that will be promoted to an accordionpane
 				var refNode = document.createElement("span");
 				this.domNode.appendChild(refNode);
-				var wrapper = new dijit.layout.AccordionPane({label: widget.label, 
-									selected: widget.selected, labelNodeClass: this.labelNodeClass,
-									containerNodeClass: this.containerNodeClass, allowCollapse: this.allowCollapse }, refNode);
+				var wrapper = new dijit.layout.AccordionPane({title: widget.title, 
+									selected: widget.selected, allowCollapse: this.allowCollapse }, refNode);
 				wrapper.addChild(widget);
 				this.domNode.appendChild(wrapper.domNode);
 				return wrapper;	// Widget
 			}else{
-				dojo.addClass(widget.containerNode, this.containerNodeClass);
-				dojo.addClass(widget.labelNode, this.labelNodeClass);
+				dojo.addClass(widget.containerNode, "body");
+				dojo.addClass(widget.titleNode, "title");
 				dojo.place(widget.domNode, this.domNode, "last");
 				return widget;	// Widget
 			}
@@ -128,8 +119,8 @@ dojo.declare(
 			var totalCollapsedHeight = 0;
 			var openIdx = 0;
 			dojo.forEach(this.getChildren(), function(child, idx){
-				if(child["getLabelHeight"]){
-					totalCollapsedHeight += child.getLabelHeight();
+				if(child["_getTitleHeight"]){
+					totalCollapsedHeight += child._getTitleHeight();
 					if(child.selected){ openIdx=idx; }
 				}
 			});
@@ -137,8 +128,8 @@ dojo.declare(
 			var mySize = this._contentBox;
 			var y = 0;
 			dojo.forEach(this.getChildren(), function(child, idx){
-				if(child["getLabelHeight"]){
-					var childCollapsedHeight = child.getLabelHeight();
+				if(child["_getTitleHeight"]){
+					var childCollapsedHeight = child._getTitleHeight();
 					child.resize({w: mySize.w, h: mySize.h -totalCollapsedHeight+childCollapsedHeight});
 					var style = child.domNode.style;
 					style.zIndex=idx+1;
@@ -163,7 +154,7 @@ dojo.declare(
 								top: y, left: 0, duration: this.duration}));
 				}
 				// TODO: REVISIT: PORT: was getBorderBox, now is marginBox ?
-				y += child.selected ? dojo.marginBox(child.domNode).h : child.getLabelHeight();
+				y += child.selected ? dojo.marginBox(child.domNode).h : child._getTitleHeight();
 			}, this);
 			dojo.fx.combine(anims).play();
 		}
@@ -178,22 +169,11 @@ dojo.declare(
 	// summary
 	//		AccordionPane is a box with a title that contains another widget (often a ContentPane).
 	//		It's a widget used internally by AccordionContainer.
-	// label: String
-	//		label to print on top of AccordionPane
-	label: "",
 
-	// class: String
-	//	CSS class name for the AccordionPane's dom node
-	"class": "dijitAccordionPane",
+	// title: String
+	//		title to print on top of AccordionPane
+	title: "",
 
-	// labelNodeClass: String
-	//	CSS class name for the AccordionPane's label node
-	labelNodeClass: "label",
-
-	// containerNodeClass: String
-	//	CSS class name for the AccordionPane's container node
-	containerNodeClass: "accBody",
-	
 	// selected: Boolean
 	//	if true, this is the open pane
 	selected: false,
@@ -203,21 +183,16 @@ dojo.declare(
 	postCreate: function(){
 		dijit.layout.AccordionPane.superclass.postCreate.apply(this, arguments);
 		dojo.addClass(this.domNode, this["class"]);
-		dijit._disableSelection(this.labelNode);
+		dijit._disableSelection(this.titleNode);
 		this.setSelected(this.selected);
 
 		// Prevent IE bleed-through problem
 		this.bgIframe = new dijit.util.BackgroundIframe(this.domNode);
 	},
 
-	setLabel: function(/*String*/ label){
-		// summary: set the  title of the node
-		this.labelTextNode.innerHTML=label;
-	},
-	
 	layout: function(){
 		var children = [
-			{domNode: this.labelNode, layoutAlign: "top"},
+			{domNode: this.titleNode, layoutAlign: "top"},
 			{domNode: this.containerNode, layoutAlign: "client"}
 		];
 		dijit.base.Layout.layoutChildren(this.domNode, this._contentBox, children);
@@ -227,19 +202,19 @@ dojo.declare(
 		}
 	},
 
-	getLabelHeight: function(){
+	_getTitleHeight: function(){
 		// summary: returns the height of the title dom node
-		return dojo.marginBox(this.labelNode).h;	// Integer
+		return dojo.marginBox(this.titleNode).h;	// Integer
 	},
 
-	onLabelClick: function(){
-		// summary: callback when someone clicks my label
+	_onTitleClick: function(){
+		// summary: callback when someone clicks my title
 		this.getParent().selectChild(this);
 	},
 	
 	setSelected: function(/*Boolean*/ isSelected){
 		this.selected = isSelected;
-		(isSelected ? dojo.addClass : dojo.removeClass)(this.domNode, this["class"]+"-selected");
+		(isSelected ? dojo.addClass : dojo.removeClass)(this.domNode, "dijitAccordionPane-selected");
 
 		// make sure child is showing (lazy load), and also that onShow()/onHide() is called
 		var child = this.getChildren()[0];
@@ -261,3 +236,17 @@ dojo.declare(
 		}
 	}
 });
+
+// These arguments can be specified for the children of a PageContainer.
+// Since any widget can be specified as a PageContainer child, mix them
+// into the base widget class.  (This is a hack, but it's effective.)
+dojo.extend(dijit.base.Widget, {
+	// title: String
+	//		Title of this widget.  Used by TabContainer to the name the tab, etc.
+	title: "",
+	
+	// selected: Boolean
+	//		Is this child currently selected?
+	selected: false
+});
+

@@ -1,8 +1,8 @@
 <div id="${id}">
-	<div dojoAttachEvent="onclick: onLabelClick; onkeypress: onLabelKey" tabindex="0" 
-			waiRole="button" class="dijitTitlePaneLabel" dojoAttachPoint="focusNode">
+	<div dojoAttachEvent="onclick: _onTitleClick; onkeypress: _onTitleKey" tabindex="0" 
+			waiRole="button" class="dijitTitlePaneTitle" dojoAttachPoint="focusNode">
 		<span class="dijitOpenCloseArrowOuter" style="float: left;"><span class="dijitOpenCloseArrowInner"></span></span>
-		<span dojoAttachPoint="labelNode" class="dijitInlineBox dijitLabelNode"></span>
+		<span dojoAttachPoint="titleNode" class="dijitInlineBox dijitTitleNode"></span>
 	</div>
-	<div dojoAttachPoint="containerNode" waiRole="region" tabindex="-1" class="${contentClass}"></div>
+	<div dojoAttachPoint="containerNode" waiRole="region" tabindex="-1" class="dijitTitlePaneContent"></div>
 </div>

@@ -15,7 +15,7 @@
 	];
 
 	</script>
-	<script type="text/javascript"> // dojo.reuires()
+	<script type="text/javascript"> // dojo.requires()
 
 		dojo.require("dijit.Menu");
 		dojo.require("dijit._Calendar");
@@ -72,7 +72,7 @@
 
 	/* FIXME: this may or may not be good. need to ask becka11y the implications of disabling 
            focus, or how to make it asthetically pleasing to imply focus on an element 
-	   it DEFINATELY breaks 'tree', so perhaps a nicer way to highlight the selected node in a 
+	   it DEFINITELY breaks 'tree', so perhaps a nicer way to highlight the selected node in a 
            tree would be a Good Thing (tm). below is general, and bad, but is the 'idea'
 	*/
 	/* 
@@ -138,23 +138,22 @@
 	<div dojoType="dijit.layout.SplitContainer" orientation="horizontal" sizerWidth="7"
 		style="width: 100%; height: 87%; ">
 
-		<div dojoType="dijit.layout.AccordionContainer" duration="200" 
-			sizeMin="20" sizeShare="38"
-			labelNodeClass="label" containerNodeClass="accBody">
-			<div dojoType="dijit.layout.ContentPane" label="Dojo Countries Tree" style="display:none; padding:5px; ">
+		<div dojoType="dijit.layout.AccordionContainer" duration="200"
+			sizeMin="20" sizeShare="38">
+			<div dojoType="dijit.layout.ContentPane" title="Dojo Countries Tree" style="display:none; padding:5px; ">
 				<div dojoType="dijit.Tree" store="continentStore" query="{type:'continent'}"
 					labelAttr="name" typeAttr="type"></div>
 			</div>
-			<div dojoType="dijit.layout.ContentPane" label="Calendar" style="padding:10px;" selected="true">
+			<div dojoType="dijit.layout.ContentPane" title="Calendar" style="padding:10px;" selected="true">
 				<input id="calendar1" dojoType="dijit._Calendar" onValueChanged="myHandler(this.id,arguments[0])" lang="en-us">
 			</div>
-			<div dojoType="dijit.layout.ContentPane" label="Color Picker" style="padding:10px; display:none; ">
+			<div dojoType="dijit.layout.ContentPane" title="Color Picker" style="padding:10px; display:none; ">
 					<h2 class="testHeader">Dijit Color Palette(7x10)</h2>
 					<div dojoType="dijit.ColorPalette" onColorSelect="setColor(this.selectedColor);"></div>  
 					<br>
 					Test color is: <span id="outputSpan"></span>.
 			</div>
-			<div dojoType="dijit.layout.ContentPane" label="Tooltips" style="padding:10px;">
+			<div dojoType="dijit.layout.ContentPane" title="Tooltips" style="padding:10px;">
 				<h2>Dijit Tooltips:</h2>
 				<span id="ttRich">rich text tooltip</span>
 				<span dojoType="dijit.Tooltip" connectId="ttRich" style="display:none;">
@@ -170,7 +169,7 @@
 		<div dojoType="dijit.layout.SplitContainer" orientation="vertical" sizerWidth="7" sizeShare="75">
 
 			<div dojoType="dijit.layout.TabContainer" style="width: 100%; height: 30em;" selectedChild="tab11" sizeShare="40">
-				<div id="tab2" dojoType="dijit.layout.ContentPane" label="Form Feel" 
+				<div id="tab2" dojoType="dijit.layout.ContentPane" title="Form Feel" 
 					style="padding:10px; background:#fff; display:none;" >
 
 					<h2>Various Form Elements:</h2>
@@ -244,7 +243,7 @@
 					</form>
 				</div>
 
-				<div id="tab11" dojoType="dijit.layout.ContentPane" label="Some Dijits" 
+				<div id="tab11" dojoType="dijit.layout.ContentPane" title="Some Dijits" 
 					style="padding:10px; background:#fff; display:none;">
 
 					<h2>Dijit ProgressBar</h2>
@@ -252,9 +251,9 @@
 						progress="20" dojoType="dijit.ProgressBar"></div>
 
 					<h2>Dijit TitlePane (nested)</h2>
-					<div dojoType="dijit.TitlePane" label="Outer pane" width="275">
+					<div dojoType="dijit.TitlePane" title="Outer pane" width="275">
 						<p>This is a title pane, containing another title pane ...</p>
-						<div dojoType="dijit.TitlePane" label="Inner pane" width="125">
+						<div dojoType="dijit.TitlePane" title="Inner pane" width="125">
 
 							<p>And this is the inner title pane...</p>
 
@@ -271,7 +270,7 @@
 
 				</div>
 				<!-- end:some dijits -->
-				<div id="tab3" dojoType="dijit.layout.ContentPane" label="Buttons" 
+				<div id="tab3" dojoType="dijit.layout.ContentPane" title="Buttons" 
 					style="background:#fff;padding:10px; display:none;  ">
 
 					<h2>Simple, drop down & combo buttons</h2>
@@ -402,7 +401,7 @@
 	
 				</div><!-- end: buttons tab -->
 
-				<div id="tab32" dojoType="dijit.layout.ContentPane" label="Inline Edit Boxes" 
+				<div id="tab32" dojoType="dijit.layout.ContentPane" title="Inline Edit Boxes" 
 					style="background:#fff; padding:10px; display:none; ">
 
 					<h2 class="testTitle">Dijit InlineEditBox Test</h2>
@@ -450,16 +449,16 @@
 					<b>HTML After</b><br /><br />
 
 				</div>
-				<div id="tab4" dojoType="dijit.layout.ContentPane" label="Closable"
+				<div id="tab4" dojoType="dijit.layout.ContentPane" title="Closable"
 					style="display:none; background:transparent; padding:10px; " closable="true"> 
 					This pane is closable, just for the icon ... background:transparent; in this box.
 				</div>
 			</div> 
 
-			<div dojoType="dijit.layout.TabContainer" labelPosition="bottom" sizeMin="10" sizeShare="40"
+			<div dojoType="dijit.layout.TabContainer" tabPosition="bottom"
 				style="width: 100%; height: 30em;" selectedChild="btab1">
 
-				<div id="btab1" dojoType="dijit.layout.ContentPane" label="Info" 
+				<div id="btab1" dojoType="dijit.layout.ContentPane" title="Info" 
 					style="background:#fff; padding:10px; ">
 					<p>You can explore this single page after applying a Theme 
 					for use in creation of your own theme.</p>
@@ -470,12 +469,12 @@
 					
 					<p>There is a right-click [context] pop-up menu here, as well.</p>
 				</div><!-- end:info tab -->
-				<div id="btab2" dojoType="dijit.layout.ContentPane" Label="Remote" 
+				<div id="btab2" dojoType="dijit.layout.ContentPane" title="Remote" 
 					href="../changes.txt" style="white-space:pre; padding:10px; display:none;"></div>
-				<div id="btab21" dojoType="dijit.layout.ContentPane" label="Alternate Themes" style="padding:20px;">
+				<div id="btab21" dojoType="dijit.layout.ContentPane" title="Alternate Themes" style="padding:20px;">
 					<span id="themeData"></span>
 				</div>
-				<div id="btab3" dojoType="dijit.layout.ContentPane" label="Bottom 3" closable="true">
+				<div id="btab3" dojoType="dijit.layout.ContentPane" title="Bottom 3" closable="true">
 					<p>I am the last Tab</p>
 
 				</div>

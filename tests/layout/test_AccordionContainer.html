@@ -36,13 +36,13 @@
 		
 			function init(){
 				accordion = new dijit.layout.AccordionContainer({}, dojo.byId("accordionShell"));
-				var label=[ "pane 1", "pane 2", "pane 3" ];
-				for(i=0; i<label.length; ++i){
+				var title=[ "pane 1", "pane 2", "pane 3" ];
+				for(i=0; i<title.length; ++i){
 					// add a node that will be promoted to the content widget
 					var refNode = document.createElement("span");
 					document.body.appendChild(refNode);
-					var content = new dijit.layout.ContentPane({label: label[i], selected: i==1}, refNode);
-					content.setContent("this is " + label[i]);
+					var content = new dijit.layout.ContentPane({title: title[i], selected: i==1}, refNode);
+					content.setContent("this is " + title[i]);
 					console.debug("adding content pane " + content.id);
 					accordion.addChild(content);
 				}
@@ -65,7 +65,7 @@
 		<div dojoType="dijit.layout.AccordionContainer" duration="200" 
 			style="float: left; margin-right: 30px;  width: 400px; height: 300px; overflow: hidden">
 			<div dojoType="dijit.layout.ContentPane" selected="true" 
-				label="Pane 1 " style="overflow: scroll;"
+				title="Pane 1 " style="overflow: scroll;"
 				onShow="console.debug('pane 1 shown');" onHide="console.debug('pane 1 hidden');" >
 				<select>
 					<option>red</option>
@@ -101,10 +101,10 @@
 
 			<!-- test lazy loading -->
 			<div dojoType="dijit.layout.ContentPane" 
-				label="Pane 2 (lazy load)" href="tab1.html" 
+				title="Pane 2 (lazy load)" href="tab1.html" 
 				style="display:none;"></div>
 
-			<div dojoType="dijit.layout.SplitContainer" label="Pane 3 (split pane)">
+			<div dojoType="dijit.layout.SplitContainer" title="Pane 3 (split pane)">
 				<p dojoType="dijit.layout.ContentPane">
 					Sed arcu magna, molestie at, fringilla in, sodales eu, elit.
 					Curabitur mattis lorem et est. Quisque et tortor. Integer bibendum

@@ -747,15 +747,15 @@ body .dijitAlignClient { position: absolute; }
 }
 
 /* AccordionPane */
-.dijitAccordionPane .accBody {
+.dijitAccordionPane .body {
 	overflow: auto;
 }
 
-.dijitAccordionPane .label:hover {
+.dijitAccordionPane .title:hover {
 	cursor: pointer;
 }
 
-.dijitAccordionPane .label .arrow {
+.dijitAccordionPane .title .arrow {
 	float:right;
 }
 

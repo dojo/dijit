@@ -12,15 +12,15 @@ dojo.declare(
 	// summary
 	//	A TabContainer is a container that has multiple panes, but shows only
 	//	one pane at a time.  There are a set of tabs corresponding to each pane,
-	//	where each tab has the title (aka label) of the pane, and optionally a close button.
+	//	where each tab has the title (aka title) of the pane, and optionally a close button.
 	//
 	//	Publishes topics <widgetId>-addChild, <widgetId>-removeChild, and <widgetId>-selectChild
 	//	(where <widgetId> is the id of the TabContainer itself.
 
-	// labelPosition: String
-	//   Defines where tab labels go relative to tab content.
+	// tabPosition: String
+	//   Defines where tabs go relative to tab content.
 	//   "top", "bottom", "left-h", "right-h"
-	labelPosition: "top",
+	tabPosition: "top",
 	
 	templateString: null,	// override setting in PageContainer
 	templatePath: dojo.moduleUrl("dijit.layout", "templates/TabContainer.html"),
@@ -31,7 +31,7 @@ dojo.declare(
 		this.tablist = new dijit.layout.TabController(
 			{
 				id: this.id + "_tablist",
-				labelPosition: this.labelPosition,
+				tabPosition: this.tabPosition,
 				doLayout: this.doLayout,
 				containerId: this.id
 			}, this.tablistNode);		
@@ -52,10 +52,10 @@ dojo.declare(
 		// Summary: Configure the content pane to take up all the space except for where the tabs are
 		if(!this.doLayout){ return; }
 
-		// position and size the labels and the container node
-		var labelAlign=this.labelPosition.replace(/-h/,"");
+		// position and size the titles and the container node
+		var titleAlign=this.tabPosition.replace(/-h/,"");
 		var children = [
-			{domNode: this.tablist.domNode, layoutAlign: labelAlign},
+			{domNode: this.tablist.domNode, layoutAlign: titleAlign},
 			{domNode: this.containerNode, layoutAlign: "client"}
 		];
 		dijit.base.Layout.layoutChildren(this.domNode, this._contentBox, children);
@@ -99,32 +99,26 @@ dojo.declare(
     dijit.layout.PageController,
 	{
 		// summary
-		// 	Set of tabs (the things with labels and a close button, that you click to show a tab panel).
+		// 	Set of tabs (the things with titles and a close button, that you click to show a tab panel).
 		//	Lets the user select the currently shown pane in a TabContainer or PageContainer.
 		//	TabController also monitors the TabContainer, and whenever a pane is
 		//	added or deleted updates itself accordingly.
 
 		templateString: "<div wairole='tablist' dojoAttachEvent='onkeypress:onkeypress'></div>",
 
-		// labelPosition: String
-		//   Defines where tab labels go relative to tab content.
+		// tabPosition: String
+		//   Defines where tabs go relative to the content.
 		//   "top", "bottom", "left-h", "right-h"
-		labelPosition: "top",
+		tabPosition: "top",
 
 		doLayout: true,
-
-		// class: String
-		//	Class name to apply to the top dom node
-		"class": "",
 
 		// buttonWidget: String
 		//	the name of the tab widget to create to correspond to each page
 		buttonWidget: "dijit.layout.TabButton",
 
 		postMixInProperties: function(){
-			if(!this["class"]){
-				this["class"] = "dijitTabLabels-" + this.labelPosition + (this.doLayout ? "" : " dijitTabNoLayout");
-			}
+			this["class"] = "dijitTabLabels-" + this.tabPosition + (this.doLayout ? "" : " dijitTabNoLayout");
 			dijit.layout.TabController.superclass.postMixInProperties.apply(this, arguments);
 		}
 	}
@@ -136,7 +130,7 @@ dojo.declare(
 {
 	// summary
 	//	A tab (the thing you click to select a pane).
-	//	Contains the title (aka label) of the pane, and optionally a close-button to destroy the pane.
+	//	Contains the title of the pane, and optionally a close-button to destroy the pane.
 	//	This is an internal widget and should not be instantiated directly.
 
 	selectedClass: "dijitTabActive",
@@ -168,27 +162,3 @@ dojo.declare(
 		dijit.layout.TabButton.superclass.onCloseButtonClick.apply(this, arguments);
 	}
 });
-
-
-//TODO: make private?
-//TODO: how does a11y get activated?
-dojo.declare(
-	"dijit.a11y.TabButton",
-	dijit.layout.TabButton,
-	{
-		// summary
-		//	Tab for display in high-contrast mode (where background images don't show up).
-		//	This is an internal widget and shouldn't be instantiated directly.
-
-		imgPath: dojo.moduleUrl("dijit", "themes/tundra/tab_close.gif"),
-		
-		templateString: "<div class='dijitTab' dojoAttachEvent='onclick:onClick;onkeypress:onkeypress'>"
-							+"<div class='dijitTabInnerDiv' dojoAttachPoint='innerDiv'>"
-								+"<span dojoAttachPoint='titleNode' tabIndex='-1' waiRole='tab'>${label}</span>"
-								+"<img class='close' src='${imgPath}' alt='[x]' style='${closeButtonStyle}'"
-								+"    dojoAttachEvent='onclick:onCloseButtonClick'>"
-							+"</div>"
-						+"</div>"
-	}
-);
-

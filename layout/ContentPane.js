@@ -64,6 +64,10 @@ dojo.declare(
 		"class": "dijitContentPane",
 
 		postCreate: function(){
+			// remove the title attribute so it doesn't show up when i hover
+			// over a node
+			this.domNode.title = "";
+
 			// per widgetImpl variables
 			this._styleNodes = [];
 			this._onLoadStack = [];

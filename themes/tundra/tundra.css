@@ -283,18 +283,18 @@
 
 /* TitlePane */
 
-.tundra .dijitTitlePaneLabel {
+.tundra .dijitTitlePaneTitle {
 	background: #cccccc;
 	background:#fafafa url("titleBarBg.gif") repeat-x bottom left;
 	border:1px solid #bfbfbf;
 	padding:4px 4px 2px 4px;
 }
 
-.tundra .dijitTitlePaneLabel .dijitOpenCloseArrowOuter {
+.tundra .dijitTitlePaneTitle .dijitOpenCloseArrowOuter {
 	margin-right:5px;
 }
 
-.tundra .dijitOpen .dijitTitlePaneLabel .dijitOpenCloseArrowOuter {
+.tundra .dijitOpen .dijitTitlePaneTitle .dijitOpenCloseArrowOuter {
 	position:relative;
 	top:2px;
 }
@@ -466,13 +466,13 @@
 	background-color: #e7e7e7;
 }
 
-.tundra .dijitAccordionPane .label {
+.tundra .dijitAccordionPane .title {
 	background:#fafafa url("images/titleBar.png") repeat-x bottom left;
 	border: 1px solid #bfbfbf;
 	padding:4px 4px 2px 4px;
 }
 
-.tundra .dijitAccordionPane-selected .label {
+.tundra .dijitAccordionPane-selected .title {
 	background: #ededed url("images/buttonActive.png") bottom repeat-x;
 	font-weight: bold;
 	/* border:1px solid #84a3d1; */
@@ -480,24 +480,20 @@
 	padding: 4px 4px 2px 4px;
 }
 
-.tundra .dijitAccordionPane .label .arrow {
+.tundra .dijitAccordionPane .title .arrow {
 	background:url("images/doubleArrowUp.png") no-repeat;
 	width:9px;
 	height:9px;
 	margin-top:2px;
 }
 
-.tundra .dijitAccordionPane-selected .label .arrow {
+.tundra .dijitAccordionPane-selected .title .arrow {
 	background:url("images/doubleArrowDown.png") no-repeat;
 	margin-top:3px;
 }
 
-.tundra .dijitAccordionPane .accBody {
+.tundra .dijitAccordionPane .body {
 	background: #fff;
-	/* 
-	border:1px solid #84a3d1; 
-	border:1px solid #d5d5d5;
-	*/
 	border:1px solid #bfbfbf;
 }
 
@@ -795,7 +791,7 @@
 	cursor: move;
 }
 
-.tundra .dijitDialogLabel {
+.tundra .dijitDialogTitle {
 	/* typography and styling of the dialog title */
 	font-weight: bold;
 	padding: 8px 12px 8px 12px;
