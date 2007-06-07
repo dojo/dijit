@@ -1,6 +1,7 @@
 dojo.provide("dijit.base.Layout");
 
 dojo.require("dijit.base.Container");
+dojo.require("dijit.base.Showable");
 
 dojo.declare("dijit.base.Sizable", 
 	null,
