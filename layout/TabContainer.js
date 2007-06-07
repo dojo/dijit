@@ -115,7 +115,7 @@ dojo.declare(
 
 		// buttonWidget: String
 		//	the name of the tab widget to create to correspond to each page
-		buttonWidget: "dijit.layout.TabButton",
+		buttonWidget: "dijit.layout._TabButton",
 
 		postMixInProperties: function(){
 			this["class"] = "dijitTabLabels-" + this.tabPosition + (this.doLayout ? "" : " dijitTabNoLayout");
@@ -124,41 +124,29 @@ dojo.declare(
 	}
 );
 
-//TODO: make private?
 dojo.declare(
-	"dijit.layout.TabButton", dijit.layout.PageButton,
+	"dijit.layout._TabButton", dijit.layout._PageButton,
 {
 	// summary
 	//	A tab (the thing you click to select a pane).
 	//	Contains the title of the pane, and optionally a close-button to destroy the pane.
 	//	This is an internal widget and should not be instantiated directly.
 
-	selectedClass: "dijitTabActive",
-	hoverClass : "dijitTabHover",
-	closeHoverClass : "closeImageHover",
+	baseClass: "dijitTab",
 
-	templateString: "<div class='dijitTab' dojoAttachEvent='onclick:onClick; onmouseover:onMouseOver; onmouseout:onMouseOut;'>"
+	templateString: "<div class='dijitTab' dojoAttachEvent='onclick:_onMouse; onmouseover:_onMouse; onmouseout:_onMouse'>"
 						+"<div class='dijitTabInnerDiv' dojoAttachPoint='innerDiv'>"
-							+"<span dojoAttachPoint='titleNode' tabIndex='-1' waiRole='tab'>${label}</span>"
-							+"<span dojoAttachPoint='closeButtonNode' class='closeImage' style='${closeButtonStyle}'"
-							+"    dojoAttachEvent='onmouseover:onCloseButtonMouseOver; onmouseout:onCloseButtonMouseOut; onclick:onCloseButtonClick'></span>"
+							+"<span dojoAttachPoint='titleNode' tabIndex='-1' waiRole='tab'>${caption}</span>"
+							+"<span dojoAttachPoint='closeButtonNode' class='closeImage'"
+							+"    dojoAttachEvent='onmouseover:_onMouseCloseButton; onmouseout:_onMouseCloseButton; onclick:onClickCloseButton'></span>"
 						+"</div>"
 					+"</div>",
 
-	postMixInProperties: function(){
-		this.closeButtonStyle = this.closeButton ? "" : "display: none";
-		dijit.layout.TabButton.superclass.postMixInProperties.apply(this, arguments);
-	},
-
 	postCreate: function(){
-		dijit.layout.TabButton.superclass.postCreate.apply(this, arguments);
+		if(!this.closeButton){
+			this.closeButtonNode.style.display="none";
+		}
+		dijit.layout._TabButton.superclass.postCreate.apply(this, arguments);
 		dijit._disableSelection(this.titleNode);
-	},
-	
-	onCloseButtonClick: function(/*Event*/ evt){
-		// since the close button is located inside the select button, make sure that the select
-		// button doesn't inadvertently get an onClick event
-		evt.stopPropagation();
-		dijit.layout.TabButton.superclass.onCloseButtonClick.apply(this, arguments);
 	}
 });

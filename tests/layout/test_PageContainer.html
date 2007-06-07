@@ -16,15 +16,36 @@
 @import "../../../dojo/resources/dojo.css";
 @import "../../themes/tundra/tundra.css";
 @import "css/dijitTests.css";
-	h1 { font-family: cursive; font-size: 24pt; }
+	h1 { font-family: cursive; font-size: 24pt; margin-bottom: 1em;}
 	p { font-family: cursive; font-size: 14pt; }
 
 	/* set style for page controller */
-	.dojoPageController .item { margin: 0px 5px 0px 5px; }
-	.dojoPageController .selectButton { text-decoration: underline; cursor: pointer; margin-right: 3px;}
-	.dojoPageController .closeButton { cursor: pointer; };
-	.dojoPageController .item { color: #333366; }
-	.dojoPageController .current { color: blue; font: bold;}
+	.dijitPageButton {
+		margin: 0px 5px 0px 5px;
+		border: ridge 2px gray;
+		padding: 2px;
+		font-family: cursive; 
+		color: gray;
+		cursor: pointer;
+	}
+	.dijitPageButtonHover, .dijitPageButtonCloseButtonHover {
+		color: red;
+		border: ridge 2px red;
+	}	
+	.dijitPageButtonActive {
+		color: blue;
+		border: ridge 2px blue;
+		font-style: bold;
+	}
+	.dijitPageButton .selectButton {
+		padding-right: 5px;
+	}
+	.dijitPageButtonHover .selectButton {
+		font-style: italic;
+	}
+	.dijitPageButtonCloseButtonHover .closeButton {
+		font-style: italic;
+	}
 </style>
 <script type="text/javascript" src="../../../dojo/dojo.js"></script>
 <script type="text/javascript">

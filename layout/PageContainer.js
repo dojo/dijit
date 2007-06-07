@@ -3,7 +3,7 @@ dojo.provide("dijit.layout.PageContainer");
 dojo.require("dijit.base.Widget");
 dojo.require("dijit.base.TemplatedWidget");
 dojo.require("dijit.base.Layout");
-dojo.require("dijit.base.Showable");
+dojo.require("dijit.form.Button");
 
 dojo.declare(
 	"dijit.layout.PageContainer",
@@ -188,7 +188,7 @@ dojo.declare(
 
 		// buttonWidget: String
 		//	the name of the button widget to create to correspond to each page
-		buttonWidget: "dijit.layout.PageButton",
+		buttonWidget: "dijit.layout._PageButton",
 
 		// class: String
 		//	Class name to apply to the top dom node
@@ -227,14 +227,14 @@ dojo.declare(
 			this.domNode.appendChild(refNode);
 			// create an instance of the button widget
 			var cls = dojo.getObject(this.buttonWidget);
-			var button = new cls({label: page.title, closeButton: page.closable}, refNode);
+			var button = new cls({caption: page.title, closeButton: page.closable}, refNode);
 			this.addChild(button);
 			this.pane2button[page]=button;
 			page.controlButton = button;	// this value might be overwritten if two tabs point to same container
 
 			var _this = this;
 			dojo.connect(button, "onClick", function(){ _this.onButtonClick(page); });
-			dojo.connect(button, "onCloseButtonClick", function(){ _this.onCloseButtonClick(page); });
+			dojo.connect(button, "onClickCloseButton", function(){ _this.onCloseButtonClick(page); });
 		},
 
 		onRemoveChild: function(/*Widget*/ page){
@@ -305,99 +305,32 @@ dojo.declare(
 );
 
 dojo.declare(
-	"dijit.layout.PageButton",
-	[dijit.base.Widget, dijit.base.TemplatedWidget, dijit.base.Contained],
+	"dijit.layout._PageButton",
+	[dijit.form._ToggleButton],
 {
 	// summary
 	//	Internal widget used by PageList.
 	//	The button-like or tab-like object you click to select or delete a page
 
-	templateString: "<span class='item'>" +
-						"<span dojoAttachEvent='onclick:onClick' dojoAttachPoint='titleNode' class='selectButton'>${title}</span>" +
-						"<span dojoAttachEvent='onclick:onCloseButtonClick' class='closeButton'>[X]</span>" +
+	baseClass: "dijitPageButton",
+
+	templateString: "<span class='${baseClass}'>" +
+						"<span dojoAttachEvent='onclick:_onMouse;onmouseover:_onMouse;onmouseout:_onMouse' class='selectButton'>${caption}</span>" +
+						"<span dojoAttachPoint='closeButtonNode' dojoAttachEvent='onclick:onClickCloseButton;onmouseover:_onMouseCloseButton;onmouseout:_onMouseCloseButton' class='closeButton' baseClass='dijitPageButtonCloseButton'>[X]</span>" +
 					"</span>",
 
-	// title: String
-	//  Name to print on the button
-	title: "foo",
-	
+	_onMouseCloseButton: function(/*Event*/ evt){
+		// TODO: can we avoid this function by looking at evt.target in _onMouse() ?
+		this._onMouse(evt, this.closeButtonNode);
+	},
+
+	onClickCloseButton: function(/*Event*/ evt){
+		evt.stopPropagation();
+	},
+
 	// closeButton: Boolean
 	//	true iff we should also print a close icon to destroy corresponding page
-	closeButton: false,
-	
-	// selectedClass: String
-	//  name of the CSS class to apply to this button when the corresponding page has been selected
-	//	override in a subclass to make it easier to style
-	selectedClass : "current",
-
-
-	// hoverClass: String
-	//  name of the CSS class to apply to this button when the cursor is over it
-	//	override in a subclass to make it easier to style
-	hoverClass : "hover",
-
-	// closeHoverClass: String
-	//  name of the CSS class to apply to the close button when the cursor is over it
-	//	override in a subclass to make it easier to style
-	closeHoverClass : "hover",
-
-
-	onClick: function(){
-		// summary
-		//  Basically this is the attach point PageController listens to, to select the page
-		this.focus();
-	},
-
-	onMouseOver: function(){
-		// summary
-		//	Mouse over the entire button
-		dojo.addClass(this.domNode, this.hoverClass);
-	},
-
-	onMouseOut: function(){
-		// summary
-		// 	Mouse out from the entire button
-		dojo.removeClass(this.domNode, this.hoverClass);
-	},
-
-	onCloseButtonMouseOver: function(){
-		// summary
-		//	The close button changes color a bit when you mouse over	
-		dojo.addClass(this.closeButtonNode, this.closeHoverClass);
-	},
-
-	onCloseButtonMouseOut: function(){
-		// summary
-		// 	Revert close button to normal color on mouse out
-		dojo.removeClass(this.closeButtonNode, this.closeHoverClass);
-	},
-
-	onCloseButtonClick: function(/*Event*/ evt){
-		// summary
-		//	Handle clicking the close button for this tab
-	},
-	
-	setSelected: function(){
-		// summary
-		//	This is run whenever the page corresponding to this button has been selected
-		dojo.addClass(this.domNode, this.selectedClass);
-		this.titleNode.setAttribute("tabIndex","0");
-	},
-	
-	clearSelected: function(){
-		// summary
-		//	This function is run whenever the page corresponding to this button has been deselected (and another page has been shown)
-		dojo.removeClass(this.domNode, this.selectedClass);
-		this.titleNode.setAttribute("tabIndex","-1");
-	},
-
-	focus: function(){
-		// summary
-		//	This will focus on the this button (for accessibility you need to do this when the button is selected)
-		if(this.titleNode.focus){	// mozilla 1.7 doesn't have focus() func
-			this.titleNode.focus();
-		}
-	}
+	closeButton: false
 });
 
 // These arguments can be specified for the children of a PageContainer.

@@ -160,3 +160,32 @@ dojo.declare(
 		}
 
 	});
+
+dojo.declare(
+	"dijit.form._ToggleButton",
+	[dijit.form.Button],
+{
+	// summary
+	//	A button that stays pressed down when you click it.
+	//	(Has to be released programatically)
+
+	onClick: function(/*Event*/ evt){
+		// summary
+		//  Basically this is the attach point PageController listens to, to select the page
+		this.setSelected();
+	},
+	
+	setSelected: function(){
+		// summary
+		//	Programatically deselect the button
+		this._selected=true;
+		this._onMouse(null);	// refresh CSS classes for selected state
+	},
+	
+	clearSelected: function(){
+		// summary
+		//	Programatically deselect the button
+		this._selected=false;
+		this._onMouse(null);	// refresh CSS classes for selected state
+	}
+});
