@@ -138,7 +138,9 @@ dojo.declare(
 						+"<div class='dijitTabInnerDiv' dojoAttachPoint='innerDiv'>"
 							+"<span dojoAttachPoint='titleNode' tabIndex='-1' waiRole='tab'>${caption}</span>"
 							+"<span dojoAttachPoint='closeButtonNode' class='closeImage'"
-							+"    dojoAttachEvent='onmouseover:_onMouseCloseButton; onmouseout:_onMouseCloseButton; onclick:onClickCloseButton'></span>"
+							+"	dojoAttachEvent='onmouseover:_onMouseCloseButton; onmouseout:_onMouseCloseButton; onclick:onClickCloseButton'>"
+							+"	<span dojoAttachPoint='closeText' class='closeText'>x</span>"
+							+"</span>"
 						+"</div>"
 					+"</div>",
 

@@ -951,8 +951,27 @@ body .dijitAlignClient { position: absolute; }
 	font-size: small;
 }
 
-
-
+/* images off, high-contrast mode styles */
+.dijitTab .closeText {
+	display:none;
+	padding: 0px 2px;
+	margin: 0px 2px;
+	border-left:thin solid;
+	border-right:thin solid;
+}
+.dijit_a11y .dijitTab .closeImage {
+	padding: 0px !important;
+	margin: 0px !important;
+	top: 0px !important;
+	bottom: 0px !important;
+}
+.dijit_a11y .closeText { 
+	display:inline; 
+	margin-left:6px; 
+} 
+.dijit_a11y .closeText:hover { 
+	border:thin solid;
+} 
 
 
 .dijitInlineEditor {
