@@ -335,6 +335,10 @@ dojo.declare(
 			// subclassed by FilteringSelect
 			var td = document.createElement("div");
 			td.appendChild(document.createTextNode(this.store.getValue(tr, this.searchAttr)));
+			// #3250: in blank options, assign a normal height
+			if(td.innerHTML==""){
+				td.innerHTML="&nbsp;"
+			}
 			td.item=tr;
 			return td;
 		},
@@ -370,9 +374,9 @@ dojo.declare(
 		_selectOption: function(/*Event*/ evt){
 			var tgt = null;
 			if(!evt){
-				// what if nothing is highlighted yet?
-				evt ={ target: this._highlighted_option };
+				evt ={ target: this._popupWidget.getHighlightedOption()};
 			}
+			// what if nothing is highlighted yet?
 			if(!evt.target){
 				// handle autocompletion where the the user has hit ENTER or TAB
 				this.setDisplayedValue(this.getDisplayedValue());
@@ -380,12 +384,6 @@ dojo.declare(
 			// otherwise the user has accepted the autocompleted value
 			}else{
 				tgt = evt.target;
-			}
-			while((tgt.nodeType!=1)||(!this.store.getValue(tgt.item, this.searchAttr))){
-				tgt = tgt.parentNode;
-				if(tgt == dojo.body()){
-					return false;
-				}
 			}
 			this._doSelect(tgt);
 			if(!evt.noHide){
