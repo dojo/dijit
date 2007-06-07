@@ -1,7 +1,7 @@
 <fieldset class='dijit dijitInline dijitLeft dijitComboBox' id="widget_${id}" name="${name}"
-	dojoAttachEvent="onmouseover:_onMouse;onmouseout:_onMouse;"	
+	dojoAttachEvent="onmouseover:_onMouse;onmouseout:_onMouse;"	waiRole="presentation"
 >
-<table cellspacing=0 cellpadding=0>
+<table cellspacing=0 cellpadding=0 waiRole="presentation">
 	<tr>
 		<td class='dijitReset dijitStretch dijitComboBoxInput'
 			><input class='XdijitInputField' type="text" autocomplete="off" name="${name}"
@@ -13,7 +13,7 @@
 			dojoAttachEvent="onclick:_onArrowClick;onmousedown:_onMouse;onmouseup:_onMouse;onmouseover:_onMouse;onmouseout:_onMouse;"
 			tabIndex="${tabIndex}"
 			waiRole="button" waiState="haspopup-true"
-		><div class='dijitRightSpacer'><span class='dijitA11yDownArrow'>&#9660;</span></div>
+		><div class='dijitRightSpacer'><span class='dijitA11yDownArrow' waiRole="presentation">&#9660;</span></div>
 	</td></tr>
 </table>
 </fieldset>

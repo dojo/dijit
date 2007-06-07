@@ -67,7 +67,6 @@ dojo.declare(
 
 		postCreate: function(){
 			dijit.form.DropDownButton.superclass.postCreate.apply(this, arguments);
-			dijit.util.wai.setAttr(this.domNode, "waiState", "haspopup", this.menuId);
 		},
 
 		startup: function(){
