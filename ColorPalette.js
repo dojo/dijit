@@ -115,7 +115,8 @@ dojo.declare(
 				highlightNode.style.top = this._paletteCoords["topOffset"] + (row * this._paletteCoords["cHeight"])+"px";
 				highlightNode.style.left = this._paletteCoords["leftOffset"] + (col * this._paletteCoords["cWidth"])+"px";
 				highlightNode.setAttribute("tabIndex","-1");
-				highlightNode.title = highlightNode.color;
+				highlightNode.title = highlightNode.color+ " "; //color name will go here
+				dijit.util.wai.setAttr(highlightNode, "waiRole", "role", "td");
 				highlightNode.index = this._highlightNodes.length;
 				this._highlightNodes.push(highlightNode);
 			}
