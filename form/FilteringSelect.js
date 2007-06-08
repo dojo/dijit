@@ -37,6 +37,12 @@ dojo.declare(
 		//		The field of the selected item that the client should send to the server on submit
 		keyAttr: "value",
 
+		_isvalid:true,
+
+		isValid:function(){
+			return this._isvalid;
+		},
+
 		_callbackSetLabel: function(/*Object*/ result){
 			// summary
 			//	Callback function that dynamically sets the label of the ComboBox
@@ -44,9 +50,19 @@ dojo.declare(
 			if(!result.length){
 				//#3268: do nothing on bad input
 				//this._setValue("", "");
+				//#3285: change CSS to indicate error
+				this._isvalid=false;
+				this.validate(true);
 			}else{
 				this._setValueFromItem(result[0]);
 			}
+		},
+
+		_openResultList: function(/*Object*/ results){
+			// #3285: tap into search callback to see if user's query resembles a match
+			this._isvalid=results.length!=0;
+			this.validate(true);
+			dijit.form.ComboBoxMixin.prototype._openResultList.apply(this, arguments);
 		},
 
 		getValue:function(){
@@ -64,11 +80,6 @@ dojo.declare(
 			//	Sets the value of the select.
 			//	Also sets the label to the corresponding value by reverse lookup.
 
-			// test for blank value
-			if(/^\s*$/.test(value)){
-				this._setValue("", "");
-				return;
-			}
 			// Defect #1451: set the label by reverse lookup
 			var query={};
 			query[this.keyAttr]=value;
@@ -76,11 +87,19 @@ dojo.declare(
 			this.store.fetch({queryOptions:{ignoreCase:false}, query:query, onComplete:dojo.hitch(this, "_callbackSetLabel")});
 		},
 
+		_getValueField: function(){
+			// summary
+			//	Get the field that contains the form submit value
+			//	ComboBox: this.searchAttr
+			//	FilteredSelect: this.keyAttr
+			return this.keyAttr;
+		},
+
 		_setValueFromItem: function(/*Object*/ item){
 			// summary
 			//	Set the displayed valued in the input box, based on a selected item.
 			//	Users shouldn't call this function; they should be calling setDisplayedValue() instead
-
+			this._isvalid=true;
 			this._setValue(this.store.getValue(item, this.keyAttr), this.labelFunc(item, this.store));
 		},
 
@@ -134,7 +153,6 @@ dojo.declare(
 			//	Set textbox to display label
 			//	Also performs reverse lookup to set the hidden value
 			//	Used in InlineEditBox
-
 			var query=[];
 			query[this.searchAttr]=label;
 			if(this.store){

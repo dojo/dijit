@@ -263,7 +263,7 @@ dojo.declare(
 			// highlight the characters that were auto-completed.   For example, if user
 			// typed "CA" and the drop down list appeared, the textbox would be changed to
 			// "California" and "ifornia" would be highlighted.
-			
+
 			// IE7: clear selection so next highlight works all the time
 			this._setSelectedRange(this.focusNode, this.focusNode.value.length, this.focusNode.value.length);
 			// does text autoComplete the value in the textbox?
@@ -348,8 +348,10 @@ dojo.declare(
 		},
 
 		onblur:function(){
-			// if the user clicks away from the textbox, set the value to the textbox value
-			this.setDisplayedValue(this.getDisplayedValue());
+			if(!this.isShowingNow()){
+				// if the user clicks away from the textbox, set the value to the textbox value
+				this.setDisplayedValue(this.getDisplayedValue());
+			}
 			dijit.form._DropDownTextBox.prototype.onblur.apply(this, arguments);
 			// don't call this since the Textbox setValue is asynchronous
 			// if you uncomment this line, when you click away from the textbox,
@@ -435,6 +437,14 @@ dojo.declare(
 			// FilteringSelect overrides this method
 		},
 
+		_getValueField: function(){
+			// summary
+			//	Get the field that contains the form submit value
+			//	ComboBox: this.searchAttr
+			//	FilteredSelect: this.keyAttr
+			return this.searchAttr;
+		},
+
 		postCreate: function(){
 			// dojo.data code
 			var dpClass=dojo.getObject(this.dataProviderClass, false);
@@ -466,16 +476,17 @@ dojo.declare(
 				}
 				this.store=new dpClass(this);
 			}
+
+			// if there is no value set and there is an option list,
+			// set the value to the first value to be consistent with native Select
+			if(data&&data.length&&!this.value){
+				this.value=data[0][this._getValueField()];
+			}
+
 			// call the associated Textbox postCreate
 			// ValidationTextbox for ComboBox; MappedTextbox for FilteringSelect
 			this.parentClass=dojo.getObject(this.declaredClass, false).superclass;
 			this.parentClass.postCreate.apply(this, arguments);
-
-			// if there is no value set and there is an option list,
-			// set the value to the first value to be consistent with native Select
-			if(data&&data.length&&!this.getValue()){
-				this.setDisplayedValue(data[0][this.searchAttr]);
-			}
 
 			// convert the arrow image from using style.background-image to the .src property (a11y)
 //			dijit.util.wai.imageBgToSrc(this.arrowImage);
