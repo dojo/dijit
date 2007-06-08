@@ -840,6 +840,11 @@ body .dijitAlignClient { position: absolute; }
 	margin:1px 0px;
 	border-collapse:collapse;
 	border-width:0px;
+	background-color:white;
+}
+
+.dijit_a11y .dijitMenuTable {
+	background-color:white !important;
 }
 
 .dijitMenuItem{
@@ -872,6 +877,11 @@ body .dijitAlignClient { position: absolute; }
 .dijitMenuItemLabel {
 	position: relative;
 	vertical-align: middle;
+}
+
+.dijit_a11y .dijitMenuItemHover .dijitMenuItemLabel {
+	border-width: 1px;
+	border-style: solid;
 }
 
 /* separator can be two pixels -- set border of either one to 0px to have only one */

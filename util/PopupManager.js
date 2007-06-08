@@ -69,14 +69,12 @@ dijit.util.PopupManager = new function(){
 		// TODO: use effects
 		dojo.style(widget.domNode, "display", "");
 
-		if(dojo.isIE && dojo.isIE < 7){
-			if(!widget.bgIframe){
-				widget.bgIframe = new dijit.util.BackgroundIframe();
-				widget.bgIframe.setZIndex(widget.domNode);
-			}
-			widget.bgIframe.size(widget.domNode);
-			widget.bgIframe.show();
+		if(!widget.bgIframe){
+			widget.bgIframe = new dijit.util.BackgroundIframe();
+			widget.bgIframe.setZIndex(widget.domNode);
 		}
+		widget.bgIframe.size(widget.domNode);
+		widget.bgIframe.show();
 
 		if(widget.onOpen){
 			widget.onOpen();
@@ -90,7 +88,7 @@ dijit.util.PopupManager = new function(){
 		var widget = stack.pop();
 
 		dojo.style(widget.domNode, "display", "none");
-		if(dojo.isIE && dojo.isIE < 7){
+		if(widget.bgIframe){
 			widget.bgIframe.hide();
 		}
 

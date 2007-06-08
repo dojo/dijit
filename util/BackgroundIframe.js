@@ -10,11 +10,16 @@ dijit.util.BackgroundIframe = function(/* HTMLElement */node){
 	//			2. new dijit.util.BackgroundIframe()
 	//				Attaches frame to dojo.body().  User must call size() to
 	//				set size.
-	if(dojo.isIE && dojo.isIE < 7){
-		var html="<iframe src='javascript:false'"
-			+ " style='position: absolute; left: 0px; top: 0px; width: 100%; height: 100%;"
-			+ "z-index: -1; filter:Alpha(Opacity=\"0\");'>";
-		this.iframe = dojo.doc.createElement(html);
+	if( (dojo.isIE && dojo.isIE < 7) || (dojo.isFF && dojo.isFF < 3 && dojo.hasClass(dojo.body(), "dijit_a11y")) ){
+		this.iframe = dojo.doc.createElement("iframe");
+		this.iframe.src = 'javascript:""';
+		this.iframe.style.position = 'absolute';
+		this.iframe.style.left = '0px';
+		this.iframe.style.top = '0px';
+		this.iframe.style.width = '100%';
+		this.iframe.style.height = '100%';
+		this.iframe.style.zIndex = -1;
+		this.iframe.filter = 'Alpha(Opacity="0")';
 		this.iframe.tabIndex = -1; // Magic to prevent iframe from getting focus on tab keypress - as style didnt work.
 		if(node){
 			node.appendChild(this.iframe);
@@ -28,37 +33,15 @@ dijit.util.BackgroundIframe = function(/* HTMLElement */node){
 
 dojo.extend(dijit.util.BackgroundIframe, {
 	iframe: null,
-	onResized: function(){
-		//	summary:
-		//		Resize event handler.
-
-		// TODO: this function shouldn't be necessary but setting
-		// 			width=height=100% doesn't work!
-		if(this.iframe && this.domNode && this.domNode.parentNode){ 
-			// No parentElement if onResized() timeout event occurs on a removed domnode
-			var outer = dojo.marginBox(this.domNode);
-			if (!outer.w || !outer.h){
-				setTimeout(this, this.onResized, 100);
-				return;
-			}
-			this.iframe.style.width = outer.w + "px";
-			this.iframe.style.height = outer.h + "px";
-		}
-	},
 
 	size: function(/* HTMLElement */node){
 		// summary:
 		//		Call this function if the iframe is connected to dojo.body()
 		//		rather than the node being shadowed 
 
-		//	(TODO: erase)
 		if(!this.iframe){ return; }
-		var coords = dojo.coords(node, true); // PORT used BORDER_BOX
-		var s = this.iframe.style;
-		s.width = coords.w + "px";
-		s.height = coords.h + "px";
-		s.left = coords.x + "px";
-		s.top = coords.y + "px";
+		var coords = dojo.coords(node, true);
+		dojo.marginBox(this.iframe, coords);
 	},
 
 	setZIndex: function(/* HTMLElement|int */node){
