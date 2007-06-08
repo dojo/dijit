@@ -866,7 +866,7 @@ body .dijitAlignClient { position: absolute; }
 	cursor:default;
 }
 .dj_ie .dijitMenuItemDisabled * {
-	color:gray;
+	filter: alpha(opacity=30);
 }
 
 .dijitMenuItemLabel {
@@ -972,6 +972,8 @@ body .dijitAlignClient { position: absolute; }
 .dijit_a11y .closeText:hover { 
 	border:thin solid;
 } 
+
+
 
 
 .dijitInlineEditor {

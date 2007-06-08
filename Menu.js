@@ -6,6 +6,7 @@ dojo.require("dijit.base.TemplatedWidget");
 dojo.require("dijit.util.PopupManager");
 dojo.require("dijit.util.scroll");
 dojo.require("dijit.util.window");
+dojo.require("dijit.util.sniff");
 
 dojo.declare(
 	"dijit.PopupMenu",
