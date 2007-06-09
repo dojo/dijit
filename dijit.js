@@ -10,5 +10,5 @@ dojo.require("dijit.util.parser");
 dojo.require("dijit.util.manager");
 dojo.require("dijit.util.wai");
 dojo.require("dijit.util.FocusManager");
-dojo.require("dijit.util.BackgroundIframe");
+dojo.require("dijit.util.popup");
 dojo.require("dijit.util.place");

@@ -1,6 +1,6 @@
 dojo.provide("dijit.form._DropDownTextBox");
 
-dojo.require("dijit.util.PopupManager");
+dojo.require("dijit.util.popup");
 dojo.require("dijit.util.wai");
 
 dojo.declare(

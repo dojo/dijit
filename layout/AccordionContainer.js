@@ -5,7 +5,7 @@ dojo.require("dijit.base.Widget");
 dojo.require("dijit.base.Layout");
 dojo.require("dijit.base.Showable");
 dojo.require("dijit.layout.PageContainer");
-dojo.require("dijit.util.BackgroundIframe");
+dojo.require("dijit.util.popup");		// for the background iframe (TODO: after adam's refactor this should no longer be needed)
 dojo.require("dijit.base.TemplatedWidget");
 /**
  * description

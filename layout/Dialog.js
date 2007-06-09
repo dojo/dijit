@@ -4,7 +4,7 @@ dojo.require("dojo.dnd.move");
 
 dojo.require("dijit.util.place");
 dojo.require("dijit.util.sniff");
-dojo.require("dijit.util.BackgroundIframe");
+dojo.require("dijit.util.popup");
 dojo.require("dijit.layout.ContentPane");
 dojo.require("dijit.base.TemplatedWidget");
 

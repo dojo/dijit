@@ -3,7 +3,7 @@ dojo.provide("dijit.Menu");
 dojo.require("dijit.base.Widget");
 dojo.require("dijit.base.Container");
 dojo.require("dijit.base.TemplatedWidget");
-dojo.require("dijit.util.PopupManager");
+dojo.require("dijit.util.popup");
 dojo.require("dijit.util.scroll");
 dojo.require("dijit.util.window");
 dojo.require("dijit.util.sniff");
