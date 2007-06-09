@@ -263,7 +263,7 @@ dojo.declare(
 			// highlight the characters that were auto-completed.   For example, if user
 			// typed "CA" and the drop down list appeared, the textbox would be changed to
 			// "California" and "ifornia" would be highlighted.
-
+			
 			// IE7: clear selection so next highlight works all the time
 			this._setSelectedRange(this.focusNode, this.focusNode.value.length, this.focusNode.value.length);
 			// does text autoComplete the value in the textbox?
@@ -349,8 +349,8 @@ dojo.declare(
 
 		onblur:function(){
 			if(!this.isShowingNow()){
-				// if the user clicks away from the textbox, set the value to the textbox value
-				this.setDisplayedValue(this.getDisplayedValue());
+			// if the user clicks away from the textbox, set the value to the textbox value
+			this.setDisplayedValue(this.getDisplayedValue());
 			}
 			dijit.form._DropDownTextBox.prototype.onblur.apply(this, arguments);
 			// don't call this since the Textbox setValue is asynchronous
@@ -378,7 +378,7 @@ dojo.declare(
 			if(!evt){
 				evt ={ target: this._popupWidget.getHighlightedOption()};
 			}
-			// what if nothing is highlighted yet?
+				// what if nothing is highlighted yet?
 			if(!evt.target){
 				// handle autocompletion where the the user has hit ENTER or TAB
 				this.setDisplayedValue(this.getDisplayedValue());
@@ -394,7 +394,7 @@ dojo.declare(
 			}
 			this.focus();
 			if(this._popupWidget.domNode.style.display!="none"){
-				dijit.util.PopupManager.close(this._popupWidget);
+				dijit.util.popup.close(this._popupWidget);
 			}
 		},
 
@@ -516,7 +516,7 @@ dojo.declare(
 //
 // Also, doesn't seem like this should inherit from FormElement, and again I'm not
 // sure of the utility of dijit.form._DropDownTextBox.Popup;
-// all the popup functionality is supposed to be in PopupManager
+// all the popup functionality is supposed to be in dijit.util.popup
 //
 	{
 		// summary:
@@ -535,7 +535,7 @@ dojo.declare(
 			this.onValueChanged=dojo.hitch(widget, widget._selectOption);
 			// connect onkeypress to ComboBox
 			this._onkeypresshandle=dojo.connect(this.domNode, "onkeypress", widget, "onkeypress");
-			return dijit.util.PopupManager.openAround(widget.domNode, this);
+			return dijit.util.popup.openAround(widget.domNode, this);
 		},
 
 		onClose:function(){
@@ -617,7 +617,7 @@ dojo.declare(
 
 		_highlightPrevOption:function(){
 			if(!this.getHighlightedOption()){
-				dijit.util.PopupManager.close(true);
+				dijit.util.popup.close(true);
 				return;
 			}else if(this._highlighted_option.previousSibling){
 				this._focusOptionNode(this._highlighted_option.previousSibling);

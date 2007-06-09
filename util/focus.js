@@ -1,6 +1,6 @@
 dojo.provide("dijit.util.focus");
 
-dijit.util.FocusManager = new function(){
+dijit.util.focus = new function(){
 	// summary:
 	//		This class is used to save the current focus / selection on the screen,
 	//		and restore it later.   It's typically used for popups (menus and dialogs),

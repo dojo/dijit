@@ -92,7 +92,7 @@ dojo.declare(
 
 	processKey: function(/*Event*/ evt){
 		// summary
-		//	Callback from PopupManager to process key strokes
+		//	Callback from dijit.util.popup to process key strokes
 		//	return true to stop the event being processed by the
 		//	parent popupmenu
 		if(evt.ctrlKey || evt.altKey){ return false; }
@@ -114,14 +114,14 @@ dojo.declare(
 				if(this.parentMenu){
 					return this._moveToParentMenu(evt);
 				}else{
-					dijit.util.PopupManager.closeAll();
+					dijit.util.popup.closeAll();
 				}
 				return true;
 			case dojo.keys.SPACE: //fall through
 			case dojo.keys.ENTER:
 				return this._activateCurrentItem(evt);
 			case dojo.keys.TAB:
-				dijit.util.PopupManager.closeAll();
+				dijit.util.popup.closeAll();
 				return true; //do not pass to parent menu
 		}
 		// otherwise, pass to parent menu
@@ -190,7 +190,7 @@ dojo.declare(
 		// summary: internal function to remove focus from the currently focused item
 		if(this._focusedItem){
 			// Close all submenus that are open and descendents of this menu
-			dijit.util.PopupManager.closeTo(this);
+			dijit.util.popup.closeTo(this);
 			this._focusedItem._blur();
 			this._stopSubmenuTimer();
 			this._focusedItem = null;
@@ -218,7 +218,7 @@ dojo.declare(
 				this._openSubmenu();
 			}
 		}else{
-			dijit.util.PopupManager.closeAll();
+			dijit.util.popup.closeAll();
 		}
 
 		// user defined handler for click
@@ -229,7 +229,7 @@ dojo.declare(
 		// summary: close the currently displayed submenu
 		if(!this.currentSubmenu){ return; }
 
-		dijit.util.PopupManager.closeTo(this);
+		dijit.util.popup.closeTo(this);
 		this._focusedItem._focus();	// put focus back on my node
 
 		this.currentSubmenu = null;
@@ -303,7 +303,7 @@ dojo.declare(
 		//		Internal function for opening myself when the user
 		//		does a right-click or something similar
 		dojo.stopEvent(e);
-		dijit.util.PopupManager.open(e, this);
+		dijit.util.popup.open(e, this);
 	},
 
 	onOpen: function(/*Event*/ e){
@@ -329,7 +329,7 @@ dojo.declare(
 
 		if(submenu.isShowingNow){ return; }
 		submenu.parentMenu = this;
-		dijit.util.PopupManager.openAround(from_item.arrowCell, submenu, {'TR': 'TL', 'TL': 'TR'});
+		dijit.util.popup.openAround(from_item.arrowCell, submenu, {'TR': 'TL', 'TL': 'TR'});
 
 		this.currentSubmenu = submenu;
 	}

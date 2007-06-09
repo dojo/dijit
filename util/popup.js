@@ -4,7 +4,7 @@ dojo.require("dijit.util.focus");
 dojo.require("dijit.util.place");
 dojo.require("dijit.util.window");
 
-dijit.util.PopupManager = new function(){
+dijit.util.popup = new function(){
 	// summary:
 	//		This class is used to show/hide popups.
 	//
@@ -127,7 +127,7 @@ dijit.util.PopupManager = new function(){
 		//	Registers handlers so that clicking somewhere else on the screen will close the popup
 
 		// TODO: should do this at every level of popup?
-		dijit.util.FocusManager.save(menu);
+		dijit.util.focus.save(menu);
 
 		currentTrigger=button;
 
@@ -145,7 +145,7 @@ dijit.util.PopupManager = new function(){
 
 		currentTrigger = null;
 
-		dijit.util.FocusManager.restore(menu);
+		dijit.util.focus.restore(menu);
 	};
 
 	this._onKeyPress = function(/*Event*/e){

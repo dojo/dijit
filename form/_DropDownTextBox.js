@@ -53,10 +53,10 @@ dojo.declare(
 				var node=document.createElement("div");
 				document.body.appendChild(node);
 				// If you leave display="", _DropDownTextBox will think that the popup is open.
-				// _DropDownTextBox will call PopupManager.close() to close its last popup.
+				// _DropDownTextBox will call popup.close() to close its last popup.
 				// However, because this popup was never popped up, 
-				// PopupManager has an empty popup stack and creates an error.
-				// Setting display="none" prevents this bad call to PopupManager.close().
+				// popup has an empty popup stack and creates an error.
+				// Setting display="none" prevents this bad call to dijit.util.popup.close().
 				with(node.style){
 					display="none";
 					position="absolute";
@@ -102,7 +102,7 @@ dojo.declare(
 
 		_hideResultList: function(){
 			if(this.isShowingNow()){
-				dijit.util.PopupManager.close(true);
+				dijit.util.popup.close(true);
 				this._arrowIdle();
 			}
 		},

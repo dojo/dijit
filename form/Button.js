@@ -104,11 +104,11 @@ dojo.declare(
 			var menu = this._menu;
 			if(!menu){ return false; }
 			if(!menu.isShowingNow){
-				dijit.util.PopupManager.openAround(this.popupStateNode, menu, this._orientation);
+				dijit.util.popup.openAround(this.popupStateNode, menu, this._orientation);
 				this.popupStateNode.setAttribute("popupActive", "true");
 				this._opened=true;
 			}else{
-				dijit.util.PopupManager.closeAll();
+				dijit.util.popup.closeAll();
 				this._opened=false;
 			}
 			return false;

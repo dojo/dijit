@@ -59,7 +59,7 @@ dojo.declare(
 					this.constraints=widget.constraints;
 					this.setValue(widget.getValue());
 					this.onValueSelected=dojo.hitch(widget, widget._calendarOnValueSelected);
-					return dijit.util.PopupManager.openAround(widget.domNode, this);
+					return dijit.util.popup.openAround(widget.domNode, this);
 				},
 
 				isDisabledDate:function(/*Date*/ date){
