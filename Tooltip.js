@@ -25,8 +25,7 @@ dojo.declare(
 		postCreate: function(){
 			dojo.body().appendChild(this.domNode);
 
-			this.bgIframe = new dijit.util.BackgroundIframe();
-			this.bgIframe.setZIndex(dojo.style(this.domNode, "zIndex")-1);
+			this.bgIframe = new dijit.util.BackgroundIframe(this.domNode);
 
 			// Setup fade-in and fade-out functions.  An IE bug prevents the arrow from showing up
 			// unless opacity==1, because it's displayed via overflow: visible on the main div. 
@@ -55,8 +54,6 @@ dojo.declare(
 		},
 
 		_onShow: function(){
-			this.bgIframe.size(this.domNode);
-			this.bgIframe.show();
 			if(dojo.isIE){
 				// the arrow won't show up on a node w/an opacity filter
 				this.domNode.style.filter="";
@@ -78,9 +75,8 @@ dojo.declare(
 
 		_onHide: function(){
 			this.domNode.style.cssText="";	// to position offscreen again
-			this.bgIframe.hide();
 			if(this._onDeck){
-				// a show request has been queue up; do it now
+				// a show request has been queued up; do it now
 				this.show.apply(this, this._onDeck);
 				this._onDeck=null;
 			}

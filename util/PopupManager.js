@@ -14,8 +14,9 @@ dijit.util.PopupManager = new function(){
 
 	var stack = [];
 	var beginZIndex=1000;
+	var idGen = 1;
 
-	this.open = function(/*Event*/ e, /*Widget*/widget, /*Object*/ padding){
+	this.open = function(/*Event*/ e, /*Widget*/widget, /*Array?*/ padding){
 		// summary:
 		//		Open the widget at mouse position
 		//		TODO: if widget has href, attach to onLoaded() and reposition
@@ -31,66 +32,68 @@ dijit.util.PopupManager = new function(){
 			x += cood.x - dojo.withGlobal(win, dijit.util.getScroll).left;
 			y += cood.y - dojo.withGlobal(win, dijit.util.getScroll).top;
 		}
-		dijit.util.placeOnScreen(widget.domNode, x, y, padding, true);
 		
-		this._open(widget);
-	}
-
+		return this._open(widget, padding, {x: x, y: y, id: "dropdown_"+idGen++});
+	};
+	
 	this.openAround = function(/*Widget*/parent, /*Widget*/widget, /*String?*/orient, /*Array?*/padding){
 		// summary:
 		//		Open the widget relative to parent widget (typically as a drop down to that widget)
 		//		TODO: if widget has href attach to onLoaded and reposition
 
-		// default values for args
-		if(!orient){ orient={'BL':'TL', 'TL':'BL'}; }
-		if(!padding){ padding=[0,0]; }
-
-		var best=dijit.util.placeOnScreenAroundElement(widget.domNode, parent, padding, orient);
-		this._open(widget);
-		return best;
+		return this._open(widget, padding, { around: parent, orient: orient || {'BL':'TL', 'TL':'BL'}, id: parent.id+"_dropdown" });
 	};
 
-	this._open = function(widget){
-		// summary:
-		//		Utility function to help opening
+	this._open = function(/*Widget*/ widget, /*Array*/ padding, /*Object*/ args){
+		// summary: utility function to help opening
 
-		// display temporarily, and move into position, then hide again
-		with(widget.domNode.style){
-			zIndex = beginZIndex + stack.length;
-			position = "absolute";
-		}
-
+		if(!padding){ padding=[0,0]; }
+			
 		if(stack.length == 0){
 			this._beforeTopOpen(null, widget);
 		}
 
-		stack.push(widget);
-
-		// TODO: use effects
-		dojo.style(widget.domNode, "display", "");
-
-		if(!widget.bgIframe){
-			widget.bgIframe = new dijit.util.BackgroundIframe();
-			widget.bgIframe.setZIndex(widget.domNode);
+		// make wrapper div to hold widget and possibly hold iframe behind it.
+		// we can't attach the iframe as a child of the widget.domNode because
+		// widget.domNode might be a <table>, <ul>, etc.
+		var wrapper = dojo.doc.createElement("div"),
+			iframe = new dijit.util.BackgroundIframe(wrapper);
+		wrapper.id = args.id;
+		with(wrapper.style){
+			zIndex = beginZIndex + stack.length;
+			position = "absolute";
 		}
-		widget.bgIframe.size(widget.domNode);
-		widget.bgIframe.show();
+		wrapper.appendChild(widget.domNode);
+		dojo.style(widget.domNode, "display", "");
+		dojo.body().appendChild(wrapper);
+		
+		// position the wrapper node
+		var best = args.around ? 
+			dijit.util.placeOnScreenAroundElement(wrapper, args.around, padding, args.orient) :
+			dijit.util.placeOnScreen(wrapper, args.x, args.y, padding, true);
+
+		// TODO: use effects to fade in wrapper
+
+		stack.push({wrapper: wrapper, iframe: iframe, widget: widget});
 
 		if(widget.onOpen){
 			widget.onOpen();
 		}
+		
+		return best;
 	};
 
 	this.close = function(){
 		// summary:
 		//		Close popup on the top of the stack (the highest z-index popup)
-
-		var widget = stack.pop();
+		var top = stack.pop();
+		var wrapper = top.wrapper,
+			iframe = top.iframe,
+			widget = top.widget;
 
 		dojo.style(widget.domNode, "display", "none");
-		if(widget.bgIframe){
-			widget.bgIframe.hide();
-		}
+		iframe.remove();
+		wrapper.parentNode.removeChild(wrapper);
 
 		if(widget.onClose){
 			widget.onClose();
@@ -110,7 +113,7 @@ dijit.util.PopupManager = new function(){
 
 	this.closeTo = function(/*Widget*/ widget){
 		// summary: closes every popup above specified widget
-		while(stack.length && stack[stack.length-1] != widget){
+		while(stack.length && stack[stack.length-1].widget != widget){
 			this.close();
 		}
 	};
@@ -153,13 +156,14 @@ dijit.util.PopupManager = new function(){
 		if(stack.length==0){ return; }
 
 		// loop from child menu up ancestor chain, ending at button that spawned the menu
-		var m = stack[stack.length-1];
+		var m = stack[stack.length-1].widget;
 		while(m){
 			if(m.processKey && m.processKey(e)){
 				e.preventDefault();
 				e.stopPropagation();
 				break;
 			}
+			// TODO: shouldn't this be going up the stack rather than using internal vars?
 			m = m.parentPopup || m.parentMenu;
 		}
 	};
@@ -192,8 +196,8 @@ dijit.util.PopupManager = new function(){
 		}
 
 		// if they clicked on the popup itself then ignore it
-		if(dojo.some(stack, function(widget){
-			return isDescendantOf(e.target, widget.domNode);
+		if(dojo.some(stack, function(elem){
+			return isDescendantOf(e.target, elem.widget.domNode);
 		}))
 		{
 			return;
@@ -216,7 +220,7 @@ dijit.util.PopupManager = new function(){
 		}
 
 		this._connects.push(dojo.connect(targetWindow.document, "onmousedown", this, "_onMouse"));
-		this._connects.push(dojo.connect(targetWindow, "onscroll", this, "_onMouse"));
+		//this._connects.push(dojo.connect(targetWindow, "onscroll", this, "_onMouse"));
 		this._connects.push(dojo.connect(targetWindow.document, "onkeypress", this, "_onKeyPress"));
 
 		dojo.forEach(targetWindow.frames, function(frame){
