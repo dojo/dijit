@@ -1,4 +1,4 @@
-dojo.provide("dijit.util.FocusManager");
+dojo.provide("dijit.util.focus");
 
 dijit.util.FocusManager = new function(){
 	// summary:

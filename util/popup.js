@@ -1,6 +1,6 @@
 dojo.provide("dijit.util.popup");
 
-dojo.require("dijit.util.FocusManager");
+dojo.require("dijit.util.focus");
 dojo.require("dijit.util.place");
 dojo.require("dijit.util.window");
 
