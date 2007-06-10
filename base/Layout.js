@@ -125,6 +125,9 @@ dijit.base.Layout.layoutChildren = function(/*DomNode*/ container, /*Object*/ di
 	 *		an array like [ {domNode: foo, layoutAlign: "bottom" }, {domNode: bar, layoutAlign: "client"} ]
 	 */
 
+	// copy dim because we are going to modify it
+	dim = dojo.mixin({}, dim);
+
 	dojo.addClass(container, "dijitLayoutContainer");
 
 	// Copy children array and remove elements w/out layout.
