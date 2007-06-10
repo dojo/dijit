@@ -249,7 +249,7 @@ dijit.util.BackgroundIframe = function(/* HTMLElement */node){
 	//		new dijit.util.BackgroundIframe(node)
 	//			Makes a background iframe as a child of node, that fills
 	//			area (and position) of node
-	if(true || (dojo.isIE && dojo.isIE < 7) || (dojo.isFF && dojo.isFF < 3 && dojo.hasClass(dojo.body(), "dijit_a11y")) ){
+	if( (dojo.isIE && dojo.isIE < 7) || (dojo.isFF && dojo.isFF < 3 && dojo.hasClass(dojo.body(), "dijit_a11y")) ){
 		var iframe;
 		if(dojo.isIE){
 			var html="<iframe src='javascript:\"\"'"
