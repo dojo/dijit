@@ -180,7 +180,7 @@ dojo.declare(
 		//	Monitors the specified PageContainer, and whenever a page is
 		//	added, deleted, or selected, updates itself accordingly.
 
-		templateString: "<span wairole='tablist' dojoAttachEvent='onkeypress' class='dojoPageController'></span>",
+		templateString: "<span wairole='tablist' dojoAttachEvent='onkeypress' class='dijitPageController'></span>",
 
 		// containerId: String
 		//	the id of the page container that I point to
@@ -190,10 +190,6 @@ dojo.declare(
 		//	the name of the button widget to create to correspond to each page
 		buttonWidget: "dijit.layout._PageButton",
 
-		// class: String
-		//	Class name to apply to the top dom node
-		"class": "dijitPageController",
-		
 		postCreate: function(){
 			dijit.util.wai.setAttr(this.domNode, "waiRole", "role", "tablist");
 
@@ -306,7 +302,7 @@ dojo.declare(
 
 dojo.declare(
 	"dijit.layout._PageButton",
-	[dijit.form._ToggleButton],
+	[dijit.form.ToggleButton],
 {
 	// summary
 	//	Internal widget used by PageList.
@@ -318,6 +314,10 @@ dojo.declare(
 						"<span dojoAttachEvent='onclick:_onMouse;onmouseover:_onMouse;onmouseout:_onMouse' class='selectButton'>${caption}</span>" +
 						"<span dojoAttachPoint='closeButtonNode' dojoAttachEvent='onclick:onClickCloseButton;onmouseover:_onMouseCloseButton;onmouseout:_onMouseCloseButton' class='closeButton' baseClass='dijitPageButtonCloseButton'>[X]</span>" +
 					"</span>",
+
+	onClick: function(/*Event*/ evt) {
+		// Don't do anything; let PageController catch the event and tell me what to do
+	},
 
 	_onMouseCloseButton: function(/*Event*/ evt){
 		// TODO: can we avoid this function by looking at evt.target in _onMouse() ?

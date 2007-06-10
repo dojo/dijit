@@ -161,17 +161,16 @@ dojo.declare(
 	});
 
 dojo.declare(
-	"dijit.form._ToggleButton",
+	"dijit.form.ToggleButton",
 	[dijit.form.Button],
 {
 	// summary
-	//	A button that stays pressed down when you click it.
-	//	(Has to be released programatically)
+	//	A button that can be in two states (selected or not).
+	//	Can be base class for things like tabs or checkbox or radio buttons
 
 	onClick: function(/*Event*/ evt){
-		// summary
-		//  Basically this is the attach point PageController listens to, to select the page
-		this.setSelected();
+		// summary: callback from _onMouse()
+		this._selected = !this._selected;
 	},
 	
 	setSelected: function(){
