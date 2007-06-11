@@ -308,29 +308,16 @@ dojo.declare(
 	//	Internal widget used by PageList.
 	//	The button-like or tab-like object you click to select or delete a page
 
-	baseClass: "dijitPageButton",
-
-	templateString: "<span class='${baseClass}'>" +
-						"<span dojoAttachEvent='onclick:_onMouse;onmouseover:_onMouse;onmouseout:_onMouse' class='selectButton'>${caption}</span>" +
-						"<span dojoAttachPoint='closeButtonNode' dojoAttachEvent='onclick:onClickCloseButton;onmouseover:_onMouseCloseButton;onmouseout:_onMouseCloseButton' class='closeButton' baseClass='dijitPageButtonCloseButton'>[X]</span>" +
-					"</span>",
-
 	onClick: function(/*Event*/ evt) {
 		// Don't do anything; let PageController catch the event and tell me what to do
 	},
 
-	_onMouseCloseButton: function(/*Event*/ evt){
-		// TODO: can we avoid this function by looking at evt.target in _onMouse() ?
-		this._onMouse(evt, this.closeButtonNode);
-	},
-
 	onClickCloseButton: function(/*Event*/ evt){
+		// summary
+		//	PageContainer connects to this function; if your widget contains a close button
+		//	then clicking it should call this function.
 		evt.stopPropagation();
-	},
-
-	// closeButton: Boolean
-	//	true iff we should also print a close icon to destroy corresponding page
-	closeButton: false
+	}
 });
 
 // These arguments can be specified for the children of a PageContainer.

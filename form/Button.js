@@ -61,8 +61,6 @@ dojo.declare(
 		menuId: "",
 		baseClass : "dijitDropDownButton",
 		
-		_orientation: {'BL':'TL', 'TL':'BL'},
-		
 		templatePath: dojo.moduleUrl("dijit.form" , "templates/DropDownButton.html"),
 
 		postCreate: function(){
@@ -76,10 +74,9 @@ dojo.declare(
 			}); 
 		},
 		
-		_onArrowUp: function(/*Event*/ e){
+		_onArrowClick: function(/*Event*/ e){
 			// summary: callback when the user mouse clicks on menu popup node
 			if(this.disabled){ return; }
-			// note: don't stop event; FormElement needs it to update styles
 			this._toggleMenu();
 		},
 
@@ -104,13 +101,14 @@ dojo.declare(
 			var menu = this._menu;
 			if(!menu){ return false; }
 			if(!menu.isShowingNow){
-				dijit.util.popup.openAround(this.popupStateNode, menu, this._orientation);
+				dijit.util.popup.openAround(this.domNode, menu);
 				this.popupStateNode.setAttribute("popupActive", "true");
 				this._opened=true;
 			}else{
 				dijit.util.popup.closeAll();
 				this._opened=false;
 			}
+			// TODO: set this.selected and call setStateClass(), to affect button look while drop down is shown
 			return false;
 		}
 	});
@@ -129,16 +127,12 @@ dojo.declare(
 		// summary
 		//		left side is normal button, right side displays menu
 		templatePath: dojo.moduleUrl("dijit.form", "templates/ComboButton.html"),
-		_orientation: {'BR':'TR', 'TR':'BR'},
 		
 		// optionsTitle: String
 		//  text that describes the options menu (accessibility)
 		optionsTitle: "",
 
 		baseClass: "dijitComboButton",
-		_onArrowMouse : function(/*Event*/ e){
-			this._onMouse(e, this.popupStateNode);
-		},
 
 		_onButtonClick: function(/*Event*/ e){
 			// summary: callback when the user mouse clicks the button portion
@@ -168,22 +162,24 @@ dojo.declare(
 	//	A button that can be in two states (selected or not).
 	//	Can be base class for things like tabs or checkbox or radio buttons
 
+	baseClass: "dijitToggleButton",
+
 	onClick: function(/*Event*/ evt){
-		// summary: callback from _onMouse()
 		this._selected = !this._selected;
+		this._setStateClass();
 	},
 	
 	setSelected: function(){
 		// summary
 		//	Programatically deselect the button
 		this._selected=true;
-		this._onMouse(null);	// refresh CSS classes for selected state
+		this._setStateClass();
 	},
 	
 	clearSelected: function(){
 		// summary
 		//	Programatically deselect the button
 		this._selected=false;
-		this._onMouse(null);	// refresh CSS classes for selected state
+		this._setStateClass();
 	}
 });

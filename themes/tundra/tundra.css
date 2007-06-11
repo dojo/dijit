@@ -41,6 +41,7 @@
 }
 
 .tundra .dijitButtonDisabled .dijitButtonNode,
+.tundra .dijitToggleButtonDisabled .dijitButtonNode,
 .tundra .dijitDropDownButtonDisabled .dijitButtonNode,
 .tundra .dijitComboButtonDisabled .dijitButtonNode,
 .tundra .dijitComboBoxDisabled .dijitDownArrowButton,
@@ -55,6 +56,8 @@
 }
 
 .tundra .dijitButtonHover .dijitButtonNode,
+.tundra .dijitToggleButtonHover .dijitButtonNode,
+.tundra .dijitToggleButtonSelectedHover .dijitButtonNode,
 .tundra .dijitDropDownButtonHover .dijitButtonNode,
 .tundra .dijitComboButtonHover .dijitButtonContents,
 .tundra .dijitComboButtonDownArrowHover .dijitDownArrowButton,
@@ -68,16 +71,21 @@
 }
 
 .tundra .dijitButtonActive .dijitButtonNode,
+.tundra .dijitToggleButtonActive .dijitButtonNode,
+.tundra .dijitToggleButtonSelected .dijitButtonNode,
+.tundra .dijitToggleButtonSelectedHover .dijitButtonNode,
+.tundra .dijitToggleButtonSelectedActive .dijitButtonNode,
 .tundra .dijitDropDownButtonActive .dijitButtonNode,
 .tundra .dijitComboButtonActive .dijitButtonContents,
 .tundra .dijitDownArrowActive .dijitDownArrowButton,
 .tundra .dijitComboBoxActive .dijitDownArrowButton {
-	/* active state - inner */
+	/* active state - inner (for when you are pressing a normal button, or
+	 * when a toggle button is in a depressed state
+	 */
 	border-color:#366dba;
 	border-style:inset;
 	background: #ededed url("images/buttonActive.png") bottom repeat-x;
 }
-
 
 /** ???
 .tundra .dijitButtonEnabled *[popupActive],
@@ -348,33 +356,37 @@
 	border-bottom:1px solid #fff;
 }
 
-.tundra .dijitTabActive {
+.tundra .dijitTabSelected,
+.tundra .dijitTabSelectedHover,
+.tundra .dijitTabCloseButtonSelectedHover
+{
 	background:#e2e2e2 url("images/tabActive.png") repeat-x bottom !important;
 }
 
 
 
 /* make the active tab white on the side next to the content pane */
-.tundra .dijitAlignTop .dijitTabActive {
+.tundra .dijitAlignTop .dijitTabSelected {
 	border-bottom-color:white;
 	vertical-align:bottom;
 }
 
-.tundra .dijitAlignBottom .dijitTabActive {
+.tundra .dijitAlignBottom .dijitTabSelected {
 	border-top-color:white;
 	-moz-border-radius:2px 2px 0px 0px;	/* eliminate some border detritrus on moz */
 }
 
-.tundra .dijitAlignLeft .dijitTabActive {
+.tundra .dijitAlignLeft .dijitTabSelected {
 	border-right-color:white;
 }
 
-.tundra .dijitAlignRight .dijitTabActive {
+.tundra .dijitAlignRight .dijitTabSelected {
 	border-left-color:white;
 }
 
 
-.tundra .dijitTabHover {
+.tundra .dijitTabHover,
+.tundra .dijitTabCloseButtonHover {
 	color: #243C5F;
 	border-top-color:#92a0b3;
 	border-left-color:#92a0b3;
@@ -390,13 +402,10 @@
 	width : 12px;
 	padding : 0 12px 0 0;
 	margin : 0px 0px 0px 10px;
-}
-
-.tundra .dijitTab .closeImage {
 	background : url("images/tabClose.png") no-repeat right top;
 }
 
-.tundra .dijitTab .closeImageHover {
+.tundra .dijitTabCloseButton .closeImage {
 	background-image : url("images/tabCloseHover.png") !important;
 }
 

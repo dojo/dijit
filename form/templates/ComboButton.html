@@ -1,4 +1,5 @@
-<fieldset class='dijit dijitInline dijitLeft dijitComboButton' id="${id}" name="${name}"
+<fieldset class='dijit dijitInline dijitLeft dijitComboButton'  baseClass='dijitComboButton'
+	id="${id}" name="${name}"
 	dojoAttachEvent="onmouseover:_onMouse;onmouseout:_onMouse;onmousedown:_onMouse;"	
 >
 <table cellspacing='0' cellpadding='0'  waiRole="presentation" >
@@ -11,7 +12,7 @@
 		</td>
 		<td class='dijitReset dijitRight dijitButtonNode dijitDownArrowButton'
 			dojoAttachPoint="popupStateNode"
-			dojoAttachEvent="onmouseover:_onArrowMouse;onmouseout:_onArrowMouse;onmousedown:_onArrowMouse;onmouseup:_onArrowUp; onkeypress:_onKey;"
+			dojoAttachEvent="onmouseover:_onMouse;onmouseout:_onMouse;onmousedown:_onMouse;onclick:_onArrowClick; onkeypress:_onKey;"
 			baseClass="dijitComboButtonDownArrow"
 			title="${optionsTitle}"
 			tabIndex="${tabIndex}"

@@ -24,6 +24,7 @@ dojo.declare("dijit.base.FormElement", dijit.base.Widget,
 
 	// baseClass: String
 	//		Used to add CSS classes like FormElementDisabled
+	// TODO: remove this in favor of this.domNode.baseClass
 	baseClass: "",
 
 	// value: String
@@ -88,72 +89,95 @@ dojo.declare("dijit.base.FormElement", dijit.base.Widget,
 			this.focusNode.disabled = disabled;
 		}
 		dijit.util.wai.setAttr(this.focusNode || this.domNode, "waiState", "disabled", disabled);
-		this._onMouse(null, this.domNode);
+		this._setStateClass();
 	},
 	
 
-	_onMouse : function(/*Event*/ event, /*Node*/ mouseNode, /*String*/ baseClass){
+	_onMouse : function(/*Event*/ event){
 		// summary:
-		//	Update the visual state of the widget by changing the css class according to the mouse state.
-		//	State will be one of:
-		//		<baseClass> + "Enabled"|"Disabled"|"Active"|"Hover"
-		//	Also forwards to onClick() if the mouse was clicked.
+		//	Sets _hovering, _active, and baseClass attributes depending on mouse state,
+		//	then calls setStateClass() to set appropriate CSS class for this.domNode.
+		//
+		//	To get a different CSS class for hover, send onmouseover and onmouseout events to this method.
+		//	To get a different CSS class while mouse button is depressed, send onmousedown to this method.
 
-		if(mouseNode == null){ mouseNode = this.domNode; }
-		if(event){ dojo.stopEvent(event); }
-		var base = mouseNode.getAttribute("baseClass") || this.baseClass || (this.baseClass = "dijit"+this.declaredClass.replace(/.*\./g,""));
+		var mouseNode = event.target;
+		dojo.stopEvent(event);
 		
-		if(this.disabled){
-			dojo.removeClass(this.domNode, base+"Enabled");
-			dojo.removeClass(this.domNode, base+"Hover");
-			dojo.removeClass(this.domNode, base+"Active");
-			dojo.addClass(this.domNode, base+"Disabled");
-		}else{
-			if(event){
-				switch(event.type){
-					case "mouseover" :
-						mouseNode._hovering = true;
-						break;
-						
-					case "mouseout" :	
-						mouseNode._hovering = false;	
-						break;
-						
-					case "mousedown" :
-						mouseNode._active = true;
-						// set a global event to handle mouseup, so it fires properly
-						//	even if the cursor leaves the button
-						var self = this;
-						var method = function(event){
-							self._onMouse(event, mouseNode);
-						}
-						// #2685: assign connector with this.connect so destroy() cleans it up
-						mouseNode._mouseUpConnector = this.connect(dojo.global, "onmouseup", method);
-						break;
-	
-					case "mouseup" :
-						mouseNode._active = false;
-						// clear the global mouseup event, if set
-						if(this._mouseUpConnector){
-							this.disconnect(mouseNode._mouseUpConnector);
-							mouseNode._mouseUpConnector = false;
-						}
-						break;
-						
-					case "click" :
-						if(this.focusNode && this.focusNode.focus){	// mozilla 1.7 doesn't have focus() func
-							this.focusNode.focus();
-						}
-						this.onClick(event);
-						break;				
-				}
+		if(!this.disabled){
+			switch(event.type){
+				case "mouseover" :
+					this._hovering = true;
+					var baseClass, node=mouseNode;
+					while( !(baseClass=node.getAttribute("baseClass")) && node != this.domNode ){
+						node=node.parentNode;
+					}
+					this.baseClass= baseClass || "dijit"+this.declaredClass.replace(/.*\./g,"");
+					break;
+					
+				case "mouseout" :	
+					this._hovering = false;	
+					this.baseClass=null;
+					break;
+					
+				case "mousedown" :
+					this._active = true;
+					// set a global event to handle mouseup, so it fires properly
+					//	even if the cursor leaves the button
+					this._active = true;
+					var self = this;
+					var mouseUpConnector = dojo.connect(dojo.body(), "onmouseup", function(){
+						self._active = false;
+						self._setStateClass();
+						dojo.disconnect(mouseUpConnector);
+					});
+					break;
 			}
-
-			dojo.removeClass(this.domNode, base+"Disabled");
-			dojo.toggleClass(this.domNode, base+"Active", this._selected || mouseNode._active == true);
-			dojo.toggleClass(this.domNode, base+"Hover", mouseNode._hovering == true && mouseNode._active != true);
-			dojo.addClass(this.domNode, base+"Enabled");
+			this._setStateClass();
 		}
+	},
+
+	focus: function(){
+		if(this.focusNode && this.focusNode.focus){	// mozilla 1.7 doesn't have focus() func
+			this.focusNode.focus();
+		}
+	},
+
+	_setStateClass: function(/*String*/ base){
+		// summary:
+		//	Update the visual state of the widget by changing the css class on the domnode
+		//	according to widget state.
+		//
+		//	State will be one of:
+		//		<baseClass>
+		//		<baseClass> + "Disabled"	- if the widget is disabled
+		//		<baseClass> + "Active"		- if the mouse is being pressed down
+		//		<baseClass> + "Hover"		- if the mouse is over the widget
+		//
+		//	For widgets which can be in a selected state (like checkbox or radio),
+		//	in addition to the above classes...
+		//		<baseClass> + "Selected"
+		//		<baseClass> + "SelectedDisabled"	- if the widget is disabled
+		//		<baseClass> + "SelectedActive"		- if the mouse is being pressed down
+		//		<baseClass> + "SelectedHover"		- if the mouse is over the widget
+
+		// get original class specified in template
+		var origClass = this._origClass || (this._origClass = this.domNode.className);
+
+		// compute the single classname representing the state of the widget
+		var state = this.baseClass || this.domNode.getAttribute("baseClass");
+		if(this._selected){
+			state += "Selected"
+		}
+		if(this.disabled){
+			state += "Disabled";
+		}else if(this._active){
+			state += "Active";
+		}else if(this._hovering){
+			state += "Hover";
+		}
+		this.domNode.className = origClass + " " + " " + state;
+		//console.log(this.id + ": disabled=" + this.disabled + ", active=" + this._active + ", hover=" + this._hovering + "; state=" + state + "--> className is " + this.domNode.className);
 	},
 
 	onValueChanged: function(newValue){
@@ -162,6 +186,7 @@ dojo.declare("dijit.base.FormElement", dijit.base.Widget,
 	
 	postCreate: function(){
 		this._setDisabled(this.disabled == true);
+		this._setStateClass();
 	},
 
 	_lastValueReported: null,
