@@ -96,28 +96,40 @@ dijit.util.wai = {
 				image.style.backgroundImage = "none";
 			}
 		);
+	},
+	
+	onload: function(){
+		// summary:
+		//		Function that detects if we are in high-contrast mode or not,
+		//		and sets up a timer to periodically confirm the value.
+		//		figure out the background-image style property
+		//		and apply that to the image.src property.
+		// description:
+		//		This must be a named function and not an anonymous
+		//		function, so that the widget parsing code can make sure it
+		//		registers its onload function after this function.
+		//		DO NOT USE "this" within this function.
+
+		// create div for testing
+		var div = document.createElement("div");
+		div.id = "a11yTestNode";
+		dojo.body().appendChild(div);
+		
+		// test it
+		function check(){
+			var cs = dojo.getComputedStyle(div);
+			var bkImg = cs.backgroundImage; 
+			var needsA11y = (cs.borderTopColor==cs.borderRightColor) || (bkImg != null && (bkImg == "none" || bkImg == "url(invalid-url:)" ));
+			dojo[needsA11y ? "addClass" : "removeClass"](dojo.body(), "dijit_a11y");
+		}
+		if(dojo.isIE || dojo.isMoz){	// NOTE: checking in Safari messes things up
+			check();
+			if(dojo.isIE){
+				setInterval(check, 4000);
+			}
+		}
 	}
 };
 
-// On page load and at intervals, detect if we are in high-contrast mode or not
-dojo._loaders.unshift(function(){
-	// create div for testing
-	var div = document.createElement("div");
-	div.id = "a11yTestNode";
-	dojo.body().appendChild(div);
-	
-	// test it
-	function check(){
-		var cs = dojo.getComputedStyle(div);
-		var bkImg = cs.backgroundImage; 
-		var needsA11y = (cs.borderTopColor==cs.borderRightColor) || (bkImg != null && (bkImg == "none" || bkImg == "url(invalid-url:)" ));
-		dojo[needsA11y ? "addClass" : "removeClass"](dojo.body(), "dijit_a11y");
-	}
-	if(dojo.isIE || dojo.isMoz){	// NOTE: checking in Safari messes things up
-		check();
-		if(dojo.isIE){
-			setInterval(check, 4000);
-		}
-	}
-});
-
+// Make sure the a11y test runs first.
+dojo._loaders.unshift(dijit.util.wai.onload);

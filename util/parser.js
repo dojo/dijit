@@ -138,7 +138,15 @@ dijit.util.parser = new function(){
 	};
 }();
 
-dojo.addOnLoad(function(){ dijit.util.parser.parse(); });
+//Register the parser callback. It should be the first callback
+//after the a11y test.
+if(dijit.util["wai"]
+	&& dijit.util.wai["onload"]
+	&& dijit.util.wai.onload === dojo._loaders[0]){
+	dojo._loaders.splice(1, 0, function(){ dijit.util.parser.parse(); });
+}else{
+	dojo._loaders.unshift(function(){ dijit.util.parser.parse(); });
+}
 
 //TODO: ported from 0.4.x Dojo.  Can we reduce this?
 dijit.util.parser._anonCtr = 0;
