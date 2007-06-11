@@ -455,12 +455,20 @@
 }
 
 .tundra .dijitTooltipContainer {
+	border:1px solid #9b9b9b;
+	/*
 	border: solid;
 	border-color: #7788a0 #344257 #344257 #7788a0;
 	border-width:1px 2px 2px 1px;
-	-moz-border-radius:0px 2px 0px 2px;	/* make BL and TR corners indent on Moz so it looks like we have a shadow */
+	*/
 	padding:0.45em;
 	background:#fff url("popupMenuBg.gif") repeat-x bottom left;
+	border-radius: 7px;	/* make BL and TR corners indent on Moz so it looks like we have a shadow */
+	-webkit-border-radius: 5px;	/* make BL and TR corners indent on Moz so it looks like we have a shadow */
+	/*
+	-moz-border-radius: 5px;
+	*/
+	/* -moz-border-radius: 0px 2px 0px 2px;	*//* make BL and TR corners indent on Moz so it looks like we have a shadow */
 }
 
 .tundra .dijitTooltipConnector {
