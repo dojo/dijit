@@ -178,7 +178,7 @@ dojo.declare(
 				this._arrowPressed();
 				// hide the tooltip
 				this._displayMessage("");
-				var best=this._popupWidget.open(this);
+				var best=this.open();
 				dojo.marginBox(this._popupWidget.domNode, {h:best.h,w:dojo.marginBox(this.domNode).w});
 			}
 		},
@@ -202,6 +202,11 @@ dojo.declare(
 				this._hideResultList();
 				this._popupWidget.destroy()
 			};
+		},
+
+		open:function(){
+			this.makePopup();
+			return dijit.util.popup.openAround(this.domNode, this._popupWidget);
 		}
 	}
 );

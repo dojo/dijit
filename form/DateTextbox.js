@@ -46,21 +46,20 @@ dojo.declare(
 			}
 		},
 
+		open:function(){
+			// summary:
+			//	opens the Calendar, and sets the onValueSelected for the Calendar
+			this._popupWidget.constraints=this.constraints;
+			this._popupWidget.setValue(this.getValue());
+			this._popupWidget.onValueSelected=dojo.hitch(this, this._calendarOnValueSelected);
+			return dijit.form._DropDownTextBox.prototype.open.apply(this, arguments);
+		},
+
 		postCreate:function(){
 			dijit.form.DateTextbox.superclass.postCreate.apply(this, arguments);
 			this._popupArgs={
 				// #3000: set popupArgs here so Calendar gets the widget's lang, not the user's lang
 				lang:this.lang,
-
-				open:function(/*Widget*/ widget){
-					// summary:
-					//	opens the Calendar, and sets the onValueSelected for the Calendar
-
-					this.constraints=widget.constraints;
-					this.setValue(widget.getValue());
-					this.onValueSelected=dojo.hitch(widget, widget._calendarOnValueSelected);
-					return dijit.util.popup.openAround(widget.domNode, this);
-				},
 
 				isDisabledDate:function(/*Date*/ date){
 					// summary:

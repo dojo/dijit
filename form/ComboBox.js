@@ -490,6 +490,13 @@ dojo.declare(
 
 			// convert the arrow image from using style.background-image to the .src property (a11y)
 //			dijit.util.wai.imageBgToSrc(this.arrowImage);
+		},
+
+		open:function(){
+			this._popupWidget.onValueChanged=dojo.hitch(this, this._selectOption);
+			// connect onkeypress to ComboBox
+			this._popupWidget._onkeypresshandle=this.connect(this._popupWidget.domNode, "onkeypress", "onkeypress");
+			return dijit.form._DropDownTextBox.prototype.open.apply(this, arguments);
 		}
 	}
 );
@@ -529,13 +536,6 @@ dojo.declare(
 			// summary:
 			//	call all postCreates
 			dijit.base.FormElement.prototype.postCreate.apply(this, arguments);
-		},
-
-		open:function(/*Widget*/ widget){
-			this.onValueChanged=dojo.hitch(widget, widget._selectOption);
-			// connect onkeypress to ComboBox
-			this._onkeypresshandle=widget.connect(this.domNode, "onkeypress", "onkeypress");
-			return dijit.util.popup.openAround(widget.domNode, this);
 		},
 
 		onClose:function(){
