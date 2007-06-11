@@ -23,11 +23,11 @@ dojo.declare(
 		//   Model: The dijit checked state is synched with the input node.
 		//
 		// There are two modes:
-		//   1. Image not used or failed to load
-		//   2. Image loaded and used.
+		//   1. High contrast mode
+		//   2. Normal mode
 		// In case 1, the regular html inputs are shown and used by the user.
 		// In case 2, the regular html inputs are invisible but still used by
-		// the user. They are turned quasi-invisible and overlay the dijit image.
+		// the user. They are turned quasi-invisible and overlay the background-image
 		//
 		// Layout
 		//   Styling is controlled in 3 places: tundra, template, and 
@@ -68,77 +68,20 @@ dojo.declare(
 		value: "on",
 		
 		postCreate: function(){
-			// find the image to use, as notated in the CSS file, but use it as a foreground
-			var bi = dojo.getComputedStyle(this.imageContainer).backgroundImage;
-			var href = bi.charAt(4)=='"' ? bi.slice(5,-2) : bi.slice(4,-1);	// url(foo) --> foo, url("foo") --> foo
-			this.imageContainer.style.backgroundImage = "none";
-			var img = (this.imageNode = document.createElement("img"));
-			var self=this;
-
-			// inputNode.checked must be assigned before img.onload handler
 			this.inputNode.checked=this.checked;
-			// note: onImageLoad may get called as a side-effect of this assignment
-			img.onload = function(){ self.onImageLoad(); }
-			img.src = href;
 			this._setDisabled(this.disabled);
 
 			// User will always interact with input element
-			this._connectEvents(this.inputNode);
-		},
-
-		onImageLoad: function(){
-			this.imageLoaded = true;
-
-			// set image container size to just show one sprite
-			if(!this.width){
-				this.width = 16;
-			} // dojo.html.getPixelValue is not succeeding for all browsers
-			if(!this.height){
-				this.height = 16;
-			}
-
-			// Turn the input element invisible and make sure it overlays
-			// the dojo image container.
-			dojo.addClass(this.inputNode,"dijitCheckboxInputInvisible");
-			dojo.addClass(this.imageContainer,"dijitCheckboxImageContainer");
-
-			var imageContainerStyle = this.imageContainer.style;
-			var inputStyle = this.inputNode.style;
-			var domNodeStyle = this.domNode.style;
-			 
-			// Force size based on width and height.
-			inputStyle.width = imageContainerStyle.width = this.width + "px";
-			inputStyle.height = imageContainerStyle.height = this.height + "px";
-			domNodeStyle.position = "relative";
-			
-			// carve some space in the flow for this dom node
-			if(dojo.isSafari){
-				// use this hack sparingly (see ticket:2942)
-				domNodeStyle.fontFamily = "monospace";
-				var spacer = document.createTextNode("\u00a0\u00a0");
-				this.domNode.appendChild(spacer);
-			}else{
-				domNodeStyle.paddingRight = this.width + "px";
-			}
-			
-			this.imageContainer.appendChild(this.imageNode);
-			
-			this._updateView();
-		},
-		
-		_connectEvents: function(/*DomNode*/ node){
-			this.connect(node, "onfocus", this.mouseOver);
-			this.connect(node, "onblur", this.mouseOut);
-			this.connect(node, "onmouseover", this.mouseOver);
-			this.connect(node, "onmouseout", this.mouseOut);
-			this.connect(node, "onclick", this._onClick);
+			var node = this.inputNode;
 			dijit._disableSelection(node);
+			
+			this._updateView(false);
 		},
 
 		_setDisabled: function(/*Boolean*/ disabled){
 			// summary: set disabled state of widget.
 			dijit.form.Checkbox.superclass._setDisabled.apply(this,arguments);
-			this._updateView();
+			this._updateView(false);
 		},
 
 		onChecked: function(/*Boolean*/ newCheckedState){
@@ -149,7 +92,7 @@ dojo.declare(
 			// summary: set the checked state of the widget.
 			if(check != this.inputNode.checked){
 				this.inputNode.checked = check;
-				this._updateView();
+				this._updateView(true);
 			}
 		},
 	
@@ -170,40 +113,39 @@ dojo.declare(
 		
 		_onClick: function(/*Event*/ e){
 			/// summary: callback for a click event
-			this._updateView();
+			this._updateView(true);
 			this.onClick(e);
 		},
 
-		mouseOver: function(/*Event*/ e){
+		_mouseOver: function(/*Event*/ e){
 			// summary: callback when user moves mouse over checkbox
 			this.hover=true;
-			this._updateView();
+			this._updateView(true);
 		},
 
-		mouseOut: function(/*Event*/ e){
+		_mouseOut: function(/*Event*/ e){
 			// summary: callback when user moves mouse off of checkbox
 			this.hover=false;
-			this._updateView();
+			this._updateView(true);
 		},
 
 		// offset from left of image
 		_leftOffset: 0,
 		
-		_updateView: function(/*Widget?*/ awidget){
-			var w = awidget || this;
-
-			if(w.checked != w.inputNode.checked){
-				w.checked = w.inputNode.checked;
-				w.onChecked(w.checked);
+		_updateView: function(/*Boolean*/ updateSiblings){
+			if(this.checked != this.inputNode.checked){
+				this.checked = this.inputNode.checked;
+				this.onChecked(this.checked);
 			}
 
 			// show the right sprite, depending on state of checkbox
-			if(w.imageLoaded){
-				var left = w._leftOffset + (w.checked ? 0 : w.width) +
-					(w.disabled ? this.width*2 : (w.hover ? w.width*4 : 0));
-				w.imageNode.style.marginLeft = -1*left + "px";
-			}
-			if(!awidget){
+			// TODO: just set a CSS class and let the CSS file handle the rest (leverage FormElement._onMouse() too)
+			this.width=16;
+			var left = this._leftOffset + (this.checked ? 0 : this.width) +
+				(this.disabled ? this.width*2 : (this.hover ? this.width*4 : 0));
+			this.domNode.style.backgroundPosition = -1*left + "px";
+
+			if(updateSiblings){
 				this.updateContext();
 			}
 		},
@@ -256,7 +198,12 @@ dojo.declare(
 				}
 			}, this);
 		},
-		
+
+		postCreate: function(){
+			this._register();
+			dijit.form.Checkbox.prototype.postCreate.apply(this, arguments);
+		},
+	
 		uninitialize: function(){
 			this._deregister();
 		},
@@ -265,15 +212,11 @@ dojo.declare(
 			// summary: make sure the sibling radio views are correct
 			dojo.forEach(this._groups[this.name], function(widget){
 				if(widget != this){
-					widget._updateView(widget);
+					widget._updateView(false);
 				}
 			}, this);
 		},
 
-		onImageLoad: function(){
-			this._leftOffset = 96;	// this.imageNode.width/2;
-			this._register();
-			dijit.form.Checkbox.prototype.onImageLoad.call(this);
-		}
+		_leftOffset: 96
 	}
 );

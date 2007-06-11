@@ -1,4 +1,7 @@
-<span
- ><span dojoAttachPoint="imageContainer" class="dijitCheckbox" style="overflow:hidden;"></span
- ><input dojoAttachPoint="inputNode;focusNode" class="dijitCheckboxInput" id="${id}" tabIndex="${tabIndex}" type="${_type}" name="${name}" value="${value}"
+<span class="dijitCheckbox"
+	><input
+	 	id="${id}" tabIndex="${tabIndex}" type="${_type}" name="${name}" value="${value}"
+		class="dijitCheckboxInput"
+		dojoAttachPoint="inputNode;focusNode"
+	 	dojoAttachEvent="onfocus:_mouseOver;onblur:_mouseOut;onmouseover:_mouseOver;onmouseout:_mouseOut;onclick:_onClick"
 ></span>

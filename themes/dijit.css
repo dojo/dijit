@@ -427,42 +427,36 @@ table .dijitComboButton .dijitButtonNode {
   		dijit.form.RadioButton 
  ****/
 
-.dijitCheckbox {
-	position: relative;
-}
-
-.dijitCheckboxImageContainer,
-.dijitCheckboxInputInvisible {
-	/* place the checkbox and the actual input on top of each other */
-	position: absolute;
-	left: 0;
-	top: 0;
-	border: 0;
-	margin: 0;
+.dijitCheckbox, .dijitCheckboxInput {
 	padding: 0;
+	width: 16px;
+	height: 16px;
 }
 
-
-.dj_ie .dijitCheckboxImageContainer, 
-.dj_ie .dijitCheckboxInputInvisible {
-	top: 3px;
-}
-
-.dijitCheckboxInputInvisible {
+.dijitCheckboxInput {
 	/* place the actual input on top, but all-but-invisible */
-	z-index: 100;
 	opacity: 0.01;
 }
 
-.dj_ie .dijitCheckboxInputInvisible {
+.dj_ie .dijitCheckboxInput {
 	filter: alpha(opacity=0);
 }
 
-
+.dijit_a11y .dijitCheckbox {
+	width: auto;
+	height: auto;
+}
+.dijit_a11y .dijitCheckboxInput {
+	opacity: none;
+	filter: none;
+	width: auto;
+	height: auto;
+}
 
 
 /****
 		dijit.Toaster (?)
+		TODO: move to dojox
  ****/
  
 .dijitToasterClip {
