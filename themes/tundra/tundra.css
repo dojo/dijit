@@ -624,11 +624,11 @@
 
 .tundra .calendarDateTemplate {
 	/* style for each day cell */
-	font-size: 0.7em;
+	font-size: 0.9em;
 	font-weight: bold;
-	text-align:center;
-	padding:0.1em 0.3em 0.05em .3em;
-	letter-spacing:1px;
+	text-align: center;
+	padding: 0.3em 0.3em 0.05em 0.3em;
+	letter-spacing: 1px;
 }
 
 
