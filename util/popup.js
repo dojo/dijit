@@ -89,7 +89,8 @@ dijit.util.popup = new function(){
 		var wrapper = top.wrapper,
 			iframe = top.iframe,
 			widget = top.widget;
-
+		// #2685: check if the widget still has a domNode so ContentPane can change its URL without getting an error
+		if(!widget||!widget.domNode){ return; }
 		dojo.style(widget.domNode, "display", "none");
 		iframe.remove();
 		wrapper.parentNode.removeChild(wrapper);

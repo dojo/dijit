@@ -534,12 +534,12 @@ dojo.declare(
 		open:function(/*Widget*/ widget){
 			this.onValueChanged=dojo.hitch(widget, widget._selectOption);
 			// connect onkeypress to ComboBox
-			this._onkeypresshandle=dojo.connect(this.domNode, "onkeypress", widget, "onkeypress");
+			this._onkeypresshandle=widget.connect(this.domNode, "onkeypress", "onkeypress");
 			return dijit.util.popup.openAround(widget.domNode, this);
 		},
 
 		onClose:function(){
-			dojo.disconnect(this._onkeypresshandle);
+			this.disconnect(this._onkeypresshandle);
 			this._blurOptionNode();
 		},
 

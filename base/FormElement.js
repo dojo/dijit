@@ -127,14 +127,15 @@ dojo.declare("dijit.base.FormElement", dijit.base.Widget,
 						var method = function(event){
 							self._onMouse(event, mouseNode);
 						}
-						mouseNode._mouseUpConnector = dojo.connect(dojo.global, "onmouseup", this, method);
+						// #2685: assign connector with this.connect so destroy() cleans it up
+						mouseNode._mouseUpConnector = this.connect(dojo.global, "onmouseup", method);
 						break;
 	
 					case "mouseup" :
 						mouseNode._active = false;
 						// clear the global mouseup event, if set
 						if(this._mouseUpConnector){
-							dojo.disconnect(mouseNode._mouseUpConnector);
+							this.disconnect(mouseNode._mouseUpConnector);
 							mouseNode._mouseUpConnector = false;
 						}
 						break;

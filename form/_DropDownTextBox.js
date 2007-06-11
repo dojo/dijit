@@ -59,7 +59,6 @@ dojo.declare(
 				// Setting display="none" prevents this bad call to dijit.util.popup.close().
 				with(node.style){
 					display="none";
-					position="absolute";
 					overflow="auto";
 				}
 				var popupProto=dojo.getObject(_this._popupClass, false);
@@ -172,7 +171,6 @@ dojo.declare(
 				var visibleCount = Math.min(childs.length,this.maxListLength);
 				with(this._popupWidget.domNode.style){
 					// trick to get the dimensions of the popup
-					visibility="hidden";
 					display="";
 					width="";
 					height="";
@@ -182,14 +180,13 @@ dojo.declare(
 				this._displayMessage("");
 				var best=this._popupWidget.open(this);
 				dojo.marginBox(this._popupWidget.domNode, {h:best.h,w:dojo.marginBox(this.domNode).w});
-				this._popupWidget.domNode.style.visibility="visible";
 			}
 		},
 
 		isShowingNow:function(){
 			// summary
 			//	test if the popup is visible
-			return this._popupWidget&&this._popupWidget.domNode.style.display!="none";
+			return this._popupWidget&&this._popupWidget.domNode&&this._popupWidget.domNode.style.display!="none";
 		},
 
 		getDisplayedValue:function(){
@@ -201,7 +198,10 @@ dojo.declare(
 		},
 
 		uninitialize:function(){
-			if(this._popupWidget){this._popupWidget.destroy()};
+			if(this._popupWidget){
+				this._hideResultList();
+				this._popupWidget.destroy()
+			};
 		}
 	}
 );

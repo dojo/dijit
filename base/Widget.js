@@ -213,7 +213,23 @@ function(params, srcNodeRef){
 		//		Connects specified obj/event to specified method of this object
 		//		and registers for disconnect() on widget destroy.
 		//		Similar to dojo.connect() but takes three arguments rather than four.
-		this._connects.push(dojo.connect(obj, event, this, method));
+		var handle=dojo.connect(obj, event, this, method);
+		this._connects.push(handle);
+		// return handle for FormElement and ComboBox
+		return handle;
+	},
+
+	disconnect: function(/*Object*/ handle){
+		// summary:
+		//		Disconnects handle created by this.connect.
+		//		Also removes handle from this widget's list of connects
+		for(var i=0; i<this._connects.length; i++){
+			if(this._connects[i]==handle){
+				dojo.disconnect(handle);
+				this._connects.splice(i, 1);
+				return;
+			}
+		}
 	},
 
 	isLeftToRight: function(){

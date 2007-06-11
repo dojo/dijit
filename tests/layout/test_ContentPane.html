@@ -10,6 +10,7 @@
 			djConfig="isDebug:true"></script>
 		<script type="text/javascript">
 			dojo.require("dijit.layout.ContentPane");
+			dojo.require("dijit.form.ComboBox");
 			dojo.require("dijit.util.parser");	// scan page for widgets and instantiate them
 		</script>
 		<style>
@@ -75,7 +76,10 @@
 		<div id="ContentPane3" class="box" hasShadow="true">
 			some content pane blah blah blah
 		</div>
-
+		<div dojoType="dijit.layout.ContentPane" class="box" href="combotab.html" hasShadow="true" id="test">
+					hi
+				</div>
+				<input type="button" value="Change pane in 3 seconds" onClick='setTimeout("dijit.byId(\"test\").setUrl(\"tab2.html\")", 3000);'>
 		<script type="text/javascript">
 			dojo.addOnLoad(function(){
 				var tmp = new dijit.layout.ContentPane({}, dojo.byId("ContentPane3"));
