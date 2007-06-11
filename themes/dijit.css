@@ -144,7 +144,9 @@
 }
 
 .dijitA11yDownArrow,
-.dijitA11yUpArrow    {
+.dijitA11yUpArrow,
+.dijitA11yLeftArrow,
+.dijitA11yRightArrow {
 	/* down arrow shown when in a11y mode */
 	font-family:Arial, sans serif;
 	font-size:.5em;
@@ -153,9 +155,18 @@
 }
 
 
+.dijitA11yRightArrow,
+.dijitA11yLeftArrow {
+	vertical-align:top;
+	margin-right:1em;
+	line-height:2em;
+}
+
 .dj_ie .dijitA11yDownArrow,
-.dj_ie .dijitA11yUpArrow  {
+.dj_ie .dijitA11yUpArrow {
 	font-size:.8em;
+	vertical-align:middle;
+	margin-right:.5em;
 }
 
 

@@ -349,7 +349,9 @@ dojo.declare(
 		 '<tr class="dijitReset dijitMenuItem" dojoAttachEvent="onmouseover: _onHover; onmouseout: _onUnhover; onclick: _onClick;">'
 		+'<td class="dijitReset"><div class="dijitMenuItemIcon" style="${iconStyle}"></div></td>'
 		+'<td tabIndex="-1" class="dijitReset dijitMenuItemLabel" dojoAttachPoint="containerNode" waiRole="menuitem"></td>'
-		+'<td class="dijitReset" dojoAttachPoint="arrowCell"><div class="dijitRightArrowOuter"><div class="dijitRightArrowInner" style="display:none;" dojoAttachPoint="arrow"></div></div></td>'
+		+'<td class="dijitReset" dojoAttachPoint="arrowCell">'
+			+'<span class="dijitA11yRightArrow" style="display:none;" dojoAttachPoint="arrow">&#9658;</span>'
+		+'</td>'
 		+'</tr>',
 
 	// iconSrc: String
