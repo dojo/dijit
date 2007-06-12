@@ -3,7 +3,7 @@ dojo.provide("dijit.layout.LinkPane");
 dojo.require("dijit.layout.ContentPane");
 dojo.require("dijit.base.TemplatedWidget");
 
-dojo.declare("dijit.layout.LinkPane", 
+dojo.declare("dijit.layout.LinkPane",
 	[dijit.layout.ContentPane, dijit.base.TemplatedWidget],
 {
 	// summary

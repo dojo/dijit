@@ -22,7 +22,7 @@ dojo.require("dijit.base.TemplatedWidget");
  *	Side view (showing implementation):
  *
  *         viewport    pane#3     pane#2     pane#1
- *            =                                
+ *            =
  *            |                                =
  *            |                      =         |
  *	front     |                      |         |
@@ -51,7 +51,7 @@ dojo.declare(
 	[dijit.base.Widget, dijit.base.Layout, dijit.base.Showable],
 	{
 
-		// summary: 
+		// summary:
 		//		Holds a set of panes where every pane's title is visible, but only one pane's content is visible at a time,
 		//		and switching between panes is visualized by sliding the other panes up/down.
 		
@@ -86,7 +86,7 @@ dojo.declare(
 				// create a node that will be promoted to an accordionpane
 				var refNode = document.createElement("span");
 				this.domNode.appendChild(refNode);
-				var wrapper = new dijit.layout.AccordionPane({title: widget.title, 
+				var wrapper = new dijit.layout.AccordionPane({title: widget.title,
 									selected: widget.selected, allowCollapse: this.allowCollapse }, refNode);
 				wrapper.addChild(widget);
 				this.domNode.appendChild(wrapper.domNode);

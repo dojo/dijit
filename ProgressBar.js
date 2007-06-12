@@ -15,29 +15,29 @@ dojo.declare(
 		// summary:
 		// a progress widget, with some calculation and server polling capabilities
 		//
-		// description: 
+		// description:
 		// (implementation) four overlapped divs:
 		// (1) lower z-index
 		// (4) higher z-index
 		// empty and full percent label have the same content: when the vertical line (*)
 		// partially hides the emptyLabel, the fullLabel becomes visible
-		// 
+		//
 		//  ___________________________(1)_domNode____________________________________
 		// |__(3)_internalProgress____________                                        |
 		// |                                  | <--- (*)                              |
 		// |            (4) fullLabel        | (2) emptyLabel                         |
 		// |__________________________________|                                       |
-		// |__________________________________________________________________________| 
+		// |__________________________________________________________________________|
 		//
 		// usage:
 		// <div dojoType="ProgressBar"
 		//   duration="..."
 		//   places="0"
-		//   orientation="vertical" 
+		//   orientation="vertical"
 		//   progress="..." maximum="..."></div>
 	
 		// progress: String (Percentage or Number)
-		// initial progress value. 
+		// initial progress value.
 		// with "%": percentual value, 0% <= progress <= 100%
 		// or without "%": absolute value, 0 <= progress <= maximum
 		progress: "0",
@@ -73,7 +73,7 @@ dojo.declare(
 			//TODO: can this be accomplished in the template layout?
 			// MOW: don't think so because it needs to be set to the absolute size
 			//		of the dom node, not the size of the containing element (the full part)
-			this.fullLabel.style.width = dojo.getComputedStyle(this.domNode).width; 
+			this.fullLabel.style.width = dojo.getComputedStyle(this.domNode).width;
 			this.update();
 		},
 

@@ -29,7 +29,7 @@ dojo.declare("dijit.base.FormElement", dijit.base.Widget,
 
 	// value: String
 	//		Corresponds to the native HTML <input> element's attribute.
-	value: "", 
+	value: "",
 
 	// name: String
 	//		Name used when submitting form; same as "name" attribute or plain HTML elements

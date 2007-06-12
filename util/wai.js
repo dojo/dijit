@@ -8,10 +8,10 @@ dijit.util.wai = {
 	waiRole: { 	
 				// name: String:
 				//		information for mapping accessibility role
-				name: "waiRole", 
+				name: "waiRole",
 				// namespace: String:
 				//		URI of the namespace for the set of roles
-				"namespace": "http://www.w3.org/TR/xhtml2", 
+				"namespace": "http://www.w3.org/TR/xhtml2",
 				// alias: String:
 				//		The alias to assign the namespace
 				alias: "x2",
@@ -19,13 +19,13 @@ dijit.util.wai = {
 				//		The prefix to assign to the role value
 				prefix: "wairole:"
 	},
-	waiState: { 
+	waiState: {
 				// name: String:
 				//		information for mapping accessibility state
-				name: "waiState", 
+				name: "waiState",
 				// namespace: String:
 				//		URI of the namespace for the set of states
-				"namespace": "http://www.w3.org/2005/07/aaa", 
+				"namespace": "http://www.w3.org/2005/07/aaa",
 				// alias: String:
 				//		The alias to assign the namespace
 				alias: "aaa",
@@ -36,7 +36,7 @@ dijit.util.wai = {
 	setAttr: function(/*DomNode*/node, /*String*/ ns, /*String*/ attr, /*String|Boolean*/value){
 		// summary: Use appropriate API to set the role or state attribute onto the element.
 		// description: In IE use the generic setAttribute() api.  Append a namespace
-		//   alias to the attribute name and appropriate prefix to the value. 
+		//   alias to the attribute name and appropriate prefix to the value.
 		//   Otherwise, use the setAttribueNS api to set the namespaced attribute. Also
 		//   add the appropriate prefix to the attribute value.
 		if(dojo.isIE){
@@ -48,7 +48,7 @@ dijit.util.wai = {
 
 	getAttr: function(/*DomNode*/ node, /*String*/ ns, /*String|Boolena*/ attr){
 		// Summary:  Use the appropriate API to retrieve the role or state value
-		// Description: In IE use the generic getAttribute() api.  An alias value 
+		// Description: In IE use the generic getAttribute() api.  An alias value
 		// 	was added to the attribute name to simulate a namespace when the attribute
 		//  was set.  Otherwise use the getAttributeNS() api to retrieve the state value
 		if(dojo.isIE){
@@ -59,7 +59,7 @@ dijit.util.wai = {
 	},
 	removeAttr: function(/*DomNode*/ node, /*String*/ ns, /*String|Boolena*/ attr){
 		// summary:  Use the appropriate API to remove the role or state value
-		// description: In IE use the generic removeAttribute() api.  An alias value 
+		// description: In IE use the generic removeAttribute() api.  An alias value
 		// 	was added to the attribute name to simulate a namespace when the attribute
 		//  was set.  Otherwise use the removeAttributeNS() api to remove the state value
 		var success = true; //only IE returns a value
@@ -72,11 +72,11 @@ dijit.util.wai = {
 	},
 	
 	imageBgToSrc : function(/* Node | Node[] */ images) {
-		// summary:  
+		// summary:
 		//		Given a single image or array of images
 		//		figure out the background-image style property
 		//		and apply that to the image.src property.
-		// description:  
+		// description:
 		//		For accessibility reasons, all images that are necessary to the
 		//		functioning of a widget should use <image> tags.  Using this method
 		//		allows the image URLs to come from themes (via CSS),
@@ -86,7 +86,7 @@ dijit.util.wai = {
 		//			wrap the image in an inline div that allows us to crop
 		//			the image according to width and height specified in CSS.
 		if (!dojo.isArrayLike(images)) { images = [images]; }
-		dojo.forEach(images, 
+		dojo.forEach(images,
 			function(image) {
 				var style = image && dojo.getComputedStyle(image);
 				if (!style) return;
@@ -118,7 +118,7 @@ dijit.util.wai = {
 		// test it
 		function check(){
 			var cs = dojo.getComputedStyle(div);
-			var bkImg = cs.backgroundImage; 
+			var bkImg = cs.backgroundImage;
 			var needsA11y = (cs.borderTopColor==cs.borderRightColor) || (bkImg != null && (bkImg == "none" || bkImg == "url(invalid-url:)" ));
 			dojo[needsA11y ? "addClass" : "removeClass"](dojo.body(), "dijit_a11y");
 		}

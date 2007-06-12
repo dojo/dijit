@@ -71,7 +71,7 @@ dojo.declare(
 			this._menu = dijit.byId(this.menuId);
 			this.connect(this._menu, "onClose", function(){
 				this.popupStateNode.removeAttribute("popupActive");
-			}); 
+			});
 		},
 		
 		_onArrowClick: function(/*Event*/ e){

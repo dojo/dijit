@@ -60,9 +60,9 @@ dojo.declare(
 		this.paneWidth = content.w;
 		this.paneHeight = content.h;
 		// create the fake dragger
-		if(typeof this.sizerWidth == "object"){ 
+		if(typeof this.sizerWidth == "object"){
 			try{
-				this.sizerWidth = parseInt(this.sizerWidth.toString()); 
+				this.sizerWidth = parseInt(this.sizerWidth.toString());
 			}catch(e){ this.sizerWidth = 15; }
 		}
 		this.virtualSizer = document.createElement('div');
@@ -258,7 +258,7 @@ dojo.declare(
 		}else{
 			panel.domNode.style.left = 0;
 			panel.domNode.style.top = pos + 'px';
-			var box = {w: this.paneWidth, h: size}; 
+			var box = {w: this.paneWidth, h: size};
 			if(panel.resize){
 				panel.resize(box);
 			}else{
@@ -384,7 +384,7 @@ dojo.declare(
 			this._showSizingLine();
 		}
 
-		//					 
+		//					
 		// attach mouse events
 		//
 		this.connect(document.documentElement, "onmousemove", "changeSizing");

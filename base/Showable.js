@@ -8,7 +8,7 @@ dojo.declare("dijit.base.Showable", null,
 
 	isShowing: function(){
 		// summary
-		//	Tests whether widget is set to show-mode or hide-mode (see show() and 
+		//	Tests whether widget is set to show-mode or hide-mode (see show() and
 		//	hide() methods)
 		//
 		//	This function is poorly named.  Even if widget is in show-mode,

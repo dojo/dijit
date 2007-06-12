@@ -288,7 +288,7 @@ dojo.declare(
 				
 				// pick next button to focus on
 				if(evt.keyCode == dojo.keys.RIGHT_ARROW){
-					next = children[ (current+1) % children.length ]; 
+					next = children[ (current+1) % children.length ];
 				}else{ // is LEFT_ARROW
 					next = children[ (current+ (children.length-1)) % children.length ];
 				}

@@ -35,11 +35,11 @@ dojo.declare(
 		//	Value of "type" attribute for <input>
 		_type: "checkbox",
 
-		// checked: Boolean 
-		// Corresponds to the native HTML <input> element's attribute. 
-		// If true, checkbox is initially marked turned on; 
+		// checked: Boolean
+		// Corresponds to the native HTML <input> element's attribute.
+		// If true, checkbox is initially marked turned on;
 		// in markup, specified as "checked='checked'" or just "checked"
-		checked: false, 
+		checked: false,
 
 		// value: Value
 		//	equivalent to value field on normal checkbox (if checked, the value is passed as
@@ -109,13 +109,13 @@ dojo.declare(
 		//
 		// Specialization:
 		// We keep track of dijit radio groups so that we can update the state
-		// of all the siblings (the "context") in a group based on input 
+		// of all the siblings (the "context") in a group based on input
 		// events. We don't rely on browser radio grouping.
 		//
 		// At the time of implementation not all browsers fire the same events
 		// when a different radio button in a group is checked (and the previous
 		// unchecked). When the events do fire, e.g. a focus event on the newly
-		// checked radio, the checked state of that "newly checked" radio is 
+		// checked radio, the checked state of that "newly checked" radio is
 		// set to true in some browsers and false in others.
 		// It is vital that the view of the resulting input states be correct
 		// so that at the time of form submission the intended data is sent.

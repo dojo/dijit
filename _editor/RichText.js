@@ -148,7 +148,7 @@ dojo.declare(
 
 		setupDefaultShortcuts: function(){
 			// summary: add some default key handlers
-			// description: 
+			// description:
 			// 		Overwrite this to setup your own handlers. The default
 			// 		implementation does not use Editor2 commands, but directly
 			//		executes the builtin commands within the underlying browser
@@ -240,7 +240,7 @@ dojo.declare(
 		open: function(/*DomNode, optional*/element){
 			// summary:
 			//		Transforms the node referenced in this.domNode into a rich text editing
-			//		node. This will result in the creation and replacement with an <iframe> 
+			//		node. This will result in the creation and replacement with an <iframe>
 			//		if designMode(FF)/contentEditable(IE) is used.
 
 			if((!this.onLoadDeferred)||(this.onLoadDeferred.fired >= 0)){
@@ -552,7 +552,7 @@ dojo.declare(
 				"	line-height:", lineHeight,
 				"}",
 				"p{ margin: 1em 0 !important; }",
-				(this.height ? 
+				(this.height ?
 					"" :
 					"body > *:first-child{ padding-top:0 !important;margin-top:" + this._firstChildContributingMargin + "px !important;}" + // FIXME: test firstChild nodeType
 					"body > *:last-child {"+
@@ -562,7 +562,7 @@ dojo.declare(
 				),
 				"li > ul:-moz-first-node, li > ol:-moz-first-node{ padding-top: 1.2em; } ",
 				"li{ min-height:1.2em; }",
-				"</style>", 
+				"</style>",
 				this._applyEditingAreaStyleSheets(),
 				"</head><body></body></html>"
 			].join("");
@@ -719,7 +719,7 @@ dojo.declare(
 			while(url=files[i++]){
 				var abstring = (new dojo._Url(dojo.global.location, url)).toString();
 				this.editingAreaStyleSheets.push(abstring);
-				text += '<link rel="stylesheet" type="text/css" href="'+abstring+'"/>' 
+				text += '<link rel="stylesheet" type="text/css" href="'+abstring+'"/>'
  			}
 			return text;
 		},
@@ -997,7 +997,7 @@ dojo.declare(
 		},
 
 		// blockNodeForEnter: String
-		//		this property decides the behavior of Enter key. It can be either P, 
+		//		this property decides the behavior of Enter key. It can be either P,
 		//		DIV, BR, or empty (which means disable this feature). Anything else
 		//		will trigger errors.
 		blockNodeForEnter: 'BR',
@@ -1005,7 +1005,7 @@ dojo.declare(
 		handleEnterKey: function(e){
 			// summary: manually handle enter key event to make the behavior consistant across
 			//	all supported browsers. See property blockNodeForEnter for available options
-			if(!this.blockNodeForEnter){ return true; } //let browser handle this 
+			if(!this.blockNodeForEnter){ return true; } //let browser handle this
 			if(e.shiftKey  //shift+enter always generates <br>
 			    || this.blockNodeForEnter=='BR'){
 				// FIXME
@@ -1099,7 +1099,7 @@ dojo.declare(
 				if(this.height){
 					newblock.scrollIntoView(false);
 				}
-			}else if(dojo.html.range.atBeginningOfContainer(block.blockNode, 
+			}else if(dojo.html.range.atBeginningOfContainer(block.blockNode,
 					range.startContainer, range.startOffset)){
 				if(block.blockNode === block.blockContainer){
 					dojo.html.prependChild(newblock,block.blockNode);
@@ -1139,7 +1139,7 @@ dojo.declare(
 				para.innerHTML=this.bogusHtmlContent;
 			}
 		},
-		onClick: function(e){ 
+		onClick: function(e){
 //			dojo.debug('onClick',this._tryDesignModeOnClick);
 //			if(this._tryDesignModeOnClick){
 //				try{
@@ -1166,16 +1166,16 @@ dojo.declare(
 			// summary: remove focus from this instance
 			if(this.iframe){
 				this.window.blur();
-			}else if(this.editNode){ 
+			}else if(this.editNode){
 				this.editNode.blur();
 			}
 		},
 
 		focus: function(){
 			// summary: move focus to this instance
-			if(this.iframe && !dojo.isIE){ 
+			if(this.iframe && !dojo.isIE){
 				this.window.focus();
-			}else if(this.editNode && this.editNode.focus){ 
+			}else if(this.editNode && this.editNode.focus){
 				// editNode may be hidden in display:none div, lets just punt in this case
 				this.editNode.focus();
 			}else{
@@ -1291,7 +1291,7 @@ dojo.declare(
 
 			command = this._normalizeCommand(command);
 			if(argument != undefined){
-				if(command == "heading"){ 
+				if(command == "heading"){
 					throw new Error("unimplemented");
 				}else if((command == "formatblock") && dojo.isIE){
 					argument = '<'+argument+'>';
@@ -1501,7 +1501,7 @@ dojo.declare(
 		replaceValue: function(/*String*/html){
 			// summary:
 			//		this function set the content while trying to maintain the undo stack
-			//		(now only works fine with Moz, this is identical to setValue in all 
+			//		(now only works fine with Moz, this is identical to setValue in all
 			//		other browsers)
 			if(this.isClosed){
 				this.setValue(html);
@@ -1516,7 +1516,7 @@ dojo.declare(
 				this._preDomFilterContent(this.editNode);
 			}else if(this.document && this.document.selection){//IE
 				//In IE, when the first element is not a text node, say
-				//an <a> tag, when replacing the content of the editing 
+				//an <a> tag, when replacing the content of the editing
 				//area, the <a> tag will be around all the content
 				//so for now, use setValue for IE too
 				this.setValue(html);
@@ -1532,12 +1532,12 @@ dojo.declare(
 		},
 		_preDomFilterContent: function(/*DomNode*/dom){
 			// summary:
-			//		filter the input 
+			//		filter the input
 			dom = dom || this.editNode;
-			dojo.forEach(this.contentDomPreFilters, function(ef){ 
-				if(ef && dojo.isFunction(ef)){ 
-					ef(dom); 
-				} 
+			dojo.forEach(this.contentDomPreFilters, function(ef){
+				if(ef && dojo.isFunction(ef)){
+					ef(dom);
+				}
 			}, this);
 		},
 
@@ -1581,7 +1581,7 @@ dojo.declare(
 				if(!this.editorObject){ return; }
 				try{
 					this.editorObject.style.height = (this.editNode.offsetHeight + 10) + "px";
-					// console.debug("_updateHeight"); 
+					// console.debug("_updateHeight");
 				}catch(e){
 					try{
 						this.editorObject.style.height = "500px";
@@ -1625,7 +1625,7 @@ dojo.declare(
 			//		Adds escape sequences for special characters in XML: &<>"'
 			//		Optionally skips escapes for single quotes
 			str = str.replace(/&/gm, "&amp;").replace(/</gm, "&lt;").replace(/>/gm, "&gt;").replace(/"/gm, "&quot;");
-			if(!noSingleQuotes){ 
+			if(!noSingleQuotes){
 				str = str.replace(/'/gm, "&#39;");
 			}
 			return str; // string
@@ -1671,9 +1671,9 @@ dojo.declare(
 					}else{
 						var attr, i=0, attrs = node.attributes;
 						while(attr=attrs[i++]) {
-							//ignore all attributes starting with _dj which are 
+							//ignore all attributes starting with _dj which are
 							//internal temporary attributes used by the editor
-							if(attr.name.substr(0,3) != '_dj' /*&& 
+							if(attr.name.substr(0,3) != '_dj' /*&&
 								(attr.specified == undefined || attr.specified)*/){
 								var v = attr.value;
 								if(attr.name == 'src' || attr.name == 'href'){
@@ -1839,13 +1839,13 @@ dojo.declare(
 					    newP.appendChild(nodes[i]);
 					}
 				}
-			    
+			
 				var currentNodeIndex = 0;
 				var nodesInLine = [];
 				var currentNode;
 				while(currentNodeIndex < el.childNodes.length){
 					currentNode = el.childNodes[currentNodeIndex];
-					if( (currentNode.nodeName!='BR') && 
+					if( (currentNode.nodeName!='BR') &&
 						(dojo.style(currentNode, "display")!="block")
 					){
 						nodesInLine.push(currentNode);
@@ -1954,8 +1954,8 @@ dojo.declare(
 						if(firstPInBlock == null){
 							firstPInBlock = node;
 						}else{
-							if( (!firstPInBlock.lastChild || firstPInBlock.lastChild.nodeName != 'BR') && 
-								(node.firstChild) && 
+							if( (!firstPInBlock.lastChild || firstPInBlock.lastChild.nodeName != 'BR') &&
+								(node.firstChild) &&
 								(node.firstChild.nodeName != 'BR')
 							){
 								firstPInBlock.appendChild(this.document.createElement('br'));

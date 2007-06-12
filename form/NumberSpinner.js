@@ -16,10 +16,10 @@ dojo.declare(
 		// summary: change Number val by the given amount
 		var newval = val+delta;
 		if(isNaN(val) || isNaN(newval)){ return val; }
-		if((typeof this.constraints.max == "number") && (newval > this.constraints.max)){ 
+		if((typeof this.constraints.max == "number") && (newval > this.constraints.max)){
 			newval = this.constraints.max;
 		}
-		if((typeof this.constraints.min == "number") && (newval < this.constraints.min)){ 
+		if((typeof this.constraints.min == "number") && (newval < this.constraints.min)){
 			newval = this.constraints.min;
 		}
 		return newval;

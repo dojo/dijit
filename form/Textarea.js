@@ -16,7 +16,7 @@ dojo.declare(
 	//	<textarea dojoType="dijit.form.ResizableTextArea">...</textarea>
 
 	templateString: (dojo.isIE || dojo.isSafari || dojo.isMozilla) ? '<fieldset id="${id}" tabIndex="${tabIndex}" class="dijitInlineBox dijitInputField dijitTextArea">'
-				+ ((dojo.isIE || dojo.isSafari) ? '<div dojoAttachPoint="editNode" style="text-decoration:none;_padding-bottom:16px;display:block;overflow:auto;" contentEditable="true"></div>' 
+				+ ((dojo.isIE || dojo.isSafari) ? '<div dojoAttachPoint="editNode" style="text-decoration:none;_padding-bottom:16px;display:block;overflow:auto;" contentEditable="true"></div>'
 					: '<iframe dojoAttachPoint="iframe" src="javascript:void(0)" style="border:0px;margin:0px;padding:0px;display:block;width:100%;height:100%;overflow-x:auto;overflow-y:hidden;"></iframe>')
 				+ '<textarea name="${name}" value="${value}" dojoAttachPoint="formValueNode" style="display:none;"></textarea>'
 				+ '</fieldset>'

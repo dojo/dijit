@@ -95,7 +95,7 @@ dojo.declare(
 			b.appendChild(this.domNode);
 
 			// make background (which sits behind the dialog but above the normal text)
-			this.bg = document.createElement("div"); 
+			this.bg = document.createElement("div");
 			this.bg.className = "dijitDialogUnderlay";
 			b.appendChild(this.bg);
 
@@ -211,7 +211,7 @@ dojo.declare(
 				// opera won't tab to a div
 				}else if (!dojo.isOpera){
 					try{
-						this.tabStart.focus(); 
+						this.tabStart.focus();
 					}catch(e){}
 				}
 			}
@@ -238,7 +238,7 @@ dojo.declare(
 
 			this._fadeIn.play();
 
-			// set timeout to allow the browser to render dialog 
+			// set timeout to allow the browser to render dialog
 			setTimeout(dojo.hitch(this, function(){
 				try{
 					this.tabStart.focus();

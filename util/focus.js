@@ -153,7 +153,7 @@ dijit.util.focus = new function(){
 			// guaranteeDescendant allows us to be a "true" isDescendantOf function
 
 			while(node){
-				if(node === ancestor){ 
+				if(node === ancestor){
 					return true; // boolean
 				}
 				node = node.parentNode;

@@ -23,7 +23,7 @@ function(params, srcNodeRef){
 	//			buildRendering
 	//				Subclasses use this method to handle all UI initialization
 	//				Sets this.domNode.  Templated widgets do this automatically
-	//				and otherwise it just uses the source dom node. 
+	//				and otherwise it just uses the source dom node.
 	//			postCreate
 	//				a stub function that you can over-ride to modify take
 	//				actions once the widget has been placed in the UI
@@ -45,8 +45,8 @@ function(params, srcNodeRef){
 	this.buildRendering();
 	if(this.domNode){
 		this.domNode.setAttribute("widgetId", this.id);
-		if(this.srcNodeRef && this.srcNodeRef.dir){ 
-			this.domNode.dir = this.srcNodeRef.dir; 
+		if(this.srcNodeRef && this.srcNodeRef.dir){
+			this.domNode.dir = this.srcNodeRef.dir;
 		}
 	}
 	this.postCreate();
@@ -82,7 +82,7 @@ function(params, srcNodeRef){
 	//		Nodes may by assigned to other properties, usually through the
 	//		template system's dojoAttachPonit syntax, but the domNode
 	//		property is the canonical "top level" node in widget UI.
-	domNode: null, 
+	domNode: null,
 
 	//////////// INITIALIZATION METHODS ///////////////////////////////////////
 
@@ -180,7 +180,7 @@ function(params, srcNodeRef){
 	},
 
 	uninitialize: function(){
-		// summary: 
+		// summary:
 		//		stub function. Over-ride to implement custom widget tear-down
 		//		behavior.
 		return false;
@@ -205,8 +205,8 @@ function(params, srcNodeRef){
 	},
 
 	connect: function(
-			/*Object|null*/ obj, 
-			/*String*/ event, 
+			/*Object|null*/ obj,
+			/*String*/ event,
 			/*String|Function*/ method){
 
 		// summary:
@@ -251,7 +251,7 @@ dijit._disableSelection = function(/*DomNode*/element){
 	if(dojo.isMozilla){
 		element.style.MozUserSelect = "none";
 	}else if(dojo.isKhtml){
-		element.style.KhtmlUserSelect = "none"; 
+		element.style.KhtmlUserSelect = "none";
 	}else if(dojo.isIE){
 		element.unselectable = "on";
 	}

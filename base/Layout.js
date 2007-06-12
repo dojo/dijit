@@ -3,7 +3,7 @@ dojo.provide("dijit.base.Layout");
 dojo.require("dijit.base.Container");
 dojo.require("dijit.base.Showable");
 
-dojo.declare("dijit.base.Sizable", 
+dojo.declare("dijit.base.Sizable",
 	null,
 	{
 		// summary
@@ -12,7 +12,7 @@ dojo.declare("dijit.base.Sizable",
 
 		resize: function(mb){
 			// summary:
-			//		Explicitly set this widget's size (in pixels), 
+			//		Explicitly set this widget's size (in pixels),
 			//		and then call layout() to resize contents (and maybe adjust child widgets)
 			//	
 			// mb: Object?
@@ -48,7 +48,7 @@ dojo.declare("dijit.base.Sizable",
 	}
 );
 
-dojo.declare("dijit.base.Layout", 
+dojo.declare("dijit.base.Layout",
 	[dijit.base.Sizable, dijit.base.Container, dijit.base.Contained, dijit.base.Showable],
 	{
 		// summary
@@ -111,7 +111,7 @@ dijit.base.Layout.layoutChildren = function(/*DomNode*/ container, /*Object*/ di
 	/**
 	 * summary
 	 *		Layout a bunch of child dom nodes within a parent dom node
-	 *		Returns true if successful, returns false if any of the children would 
+	 *		Returns true if successful, returns false if any of the children would
 	 * 		have been calculated to be hidden (typically if browser hasn't flowed the nodes)
 	 *		In the latter case, a best-effort of the layout is done and the caller can
 	 *		reschedule a layout at a later time - when the browser has more accurate metrics

@@ -1,6 +1,6 @@
 dojo.provide("dijit._editor.selection");
 
-// FIXME: 
+// FIXME:
 //		all of these methods branch internally for IE. This is probably
 //		sub-optimal in terms of runtime performance. We should investigate the
 //		size difference for differentiating at definition time.
@@ -37,8 +37,8 @@ dojo.mixin(dijit._editor.selection, {
 			
 			if(oSel && oSel.rangeCount==1){
 				var oRange = oSel.getRangeAt(0);
-				if(	(oRange.startContainer == oRange.endContainer) && 
-					((oRange.endOffset - oRange.startOffset) == 1) && 
+				if(	(oRange.startContainer == oRange.endContainer) &&
+					((oRange.endOffset - oRange.startOffset) == 1) &&
 					(oRange.startContainer.nodeType != 3 /* text node*/)
 				){
 					stype = "control";
@@ -49,7 +49,7 @@ dojo.mixin(dijit._editor.selection, {
 	},
 
 	getSelectedElement: function(){
-		// summary: 
+		// summary:
 		//		Retrieves the selected element (if any), just in the case that
 		//		a single element (object like and image or a table) is
 		//		selected.
@@ -67,7 +67,7 @@ dojo.mixin(dijit._editor.selection, {
 	},
 
 	getParentElement: function(){
-		// summary: 
+		// summary:
 		//		Get the parent element of the current selection
 		if(this.getType() == "control"){
 			var p = this.getSelectedElement();
@@ -91,7 +91,7 @@ dojo.mixin(dijit._editor.selection, {
 	},
 
 	hasAncestorElement: function(/*String*/tagName /* ... */){
-		// summary: 
+		// summary:
 		// 		Check whether current selection has a  parent element which is
 		// 		of type tagName (or one of the other specified tagName)
 		return (this.getAncestorElement.apply(this, arguments) != null);
@@ -145,7 +145,7 @@ dojo.mixin(dijit._editor.selection, {
 	},
 
 	selectElementChildren: function(/*DomNode*/element){
-		// summary: 
+		// summary:
 		//		clear previous selection and select the content of the node
 		//		(excluding the node itself)
 		var _window = dojo.global;
@@ -166,7 +166,7 @@ dojo.mixin(dijit._editor.selection, {
 	},
 
 	selectElement: function(/*DomNode*/element){
-		// summary: 
+		// summary:
 		//		clear previous selection and select element (including all its children)
 		var _document = dojo.doc;
 		element = dojo.byId(element);

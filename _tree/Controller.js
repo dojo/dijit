@@ -14,7 +14,7 @@ dojo.declare(
 	//  but operating on the tree often involves higher-level extensible logic,
 	//  like: database synchronization, node loading, reacting on clicks etc.
 	//  That's why it is handled by separate controller.
-	//  Controller processes expand/collapse and should be used if you 
+	//  Controller processes expand/collapse and should be used if you
 	//  modify a tree.
 
 	// treeId: String

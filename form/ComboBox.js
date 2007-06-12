@@ -361,7 +361,7 @@ dojo.declare(
 
 		_announceOption: function(/*Node*/ node){
 			// summary:
-			//	a11y code that puts the highlighted option in the textbox 
+			//	a11y code that puts the highlighted option in the textbox
 			//	This way screen readers will know what is happening in the menu
 
 			if(node==null){return;}
@@ -505,7 +505,7 @@ dojo.declare(
 	"dijit.form._ComboBoxMenu",
 	[dijit.base.FormElement, dijit.base.TemplatedWidget],
 
-// Bill: 
+// Bill:
 // I'd like the interface to ComboBoxMenu to be higher level,
 // taking a list of items to initialize it, and returns the selected item
 //
@@ -517,7 +517,7 @@ dojo.declare(
 //
 // (This is dependent on NOT having a global widget for this, but rather
 // creating it on the fly, as per discussion with Bill, Adam, and Mark)
-// 
+//
 // It could also have a method like handleKey(evt) that takes a keystroke
 // the <input> received and handles it.
 //

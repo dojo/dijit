@@ -54,7 +54,7 @@ dojo.declare(
 				document.body.appendChild(node);
 				// If you leave display="", _DropDownTextBox will think that the popup is open.
 				// _DropDownTextBox will call popup.close() to close its last popup.
-				// However, because this popup was never popped up, 
+				// However, because this popup was never popped up,
 				// popup has an empty popup stack and creates an error.
 				// Setting display="none" prevents this bad call to dijit.util.popup.close().
 				with(node.style){

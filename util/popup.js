@@ -22,8 +22,8 @@ dijit.util.popup = new function(){
 
 		var x = e.pageX, y = e.pageY;
 		// FIXME: consider skipping everything up to _open
-		// if x == y == 0, allowing the popup to appear 
-		// wherever it was last time. 
+		// if x == y == 0, allowing the popup to appear
+		// wherever it was last time.
 		var win = dijit.util.window.getDocumentWindow(e.target.ownerDocument);
 		var iframe = win._frameElement || win.frameElement;
 		if(iframe){
@@ -67,7 +67,7 @@ dijit.util.popup = new function(){
 		dojo.body().appendChild(wrapper);
 		
 		// position the wrapper node
-		var best = args.around ? 
+		var best = args.around ?
 			dijit.util.placeOnScreenAroundElement(wrapper, args.around, padding, args.orient) :
 			dijit.util.placeOnScreen(wrapper, args.x, args.y, padding, true);
 
@@ -182,7 +182,7 @@ dijit.util.popup = new function(){
 			// guaranteeDescendant allows us to be a "true" isDescendantOf function
 
 			while(node){
-				if(node === ancestor){ 
+				if(node === ancestor){
 					return true; // boolean
 				}
 				node = node.parentNode;
@@ -212,7 +212,7 @@ dijit.util.popup = new function(){
 
 	this._connectHandlers = function(/*Window?*/targetWindow){
 		// summary:
-		//		Listens on top window and all the iframes so that whereever 
+		//		Listens on top window and all the iframes so that whereever
 		//		the user clicks in the page, the popup menu will be closed
 
 		if(!targetWindow){ //see comment below

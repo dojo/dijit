@@ -12,7 +12,7 @@ dojo.declare(
 	"dijit.PopupMenu",
 	[dijit.base.Widget, dijit.base.TemplatedWidget, dijit.base.Container],
 {
-	templateString: 
+	templateString:
 		'<div class="dijit dijitPopup dijitMenu">' +
 			'<table class="dijitReset dijitMenuTable" waiRole="menu">' +
 				'<tbody class="dijitReset" dojoAttachPoint="containerNode"></tbody>'+
@@ -251,7 +251,7 @@ dojo.declare(
 		//	returns a reference to the document object inside iframe_el
 		var doc = iframe_el.contentDocument // W3
 			|| (iframe_el.contentWindow && iframe_el.contentWindow.document) // IE
-			|| (iframe_el.name && document.frames[iframe_el.name] && document.frames[iframe_el.name].document) 
+			|| (iframe_el.name && document.frames[iframe_el.name] && document.frames[iframe_el.name].document)
 			|| null;
 		return doc;	//	HTMLDocument
 	},
@@ -267,7 +267,7 @@ dojo.declare(
 			node = dojo.withGlobal(win, dojo.body);
 		}
 
-		// to capture these events at the top level, 
+		// to capture these events at the top level,
 		// attach to document, not body
 		var cn = (node == dojo.body() ? dojo.doc : node);
 		node[this.id+'_connect'] = [
@@ -286,12 +286,12 @@ dojo.declare(
 		if (e.keyCode == dojo.keys.F10) {
 			dojo.stopEvent(e);
 			if (e.shiftKey && e.type=="keydown") {
-				// FF: copying the wrong property from e will cause the system 
-				// context menu to appear in spite of stopEvent. Don't know 
+				// FF: copying the wrong property from e will cause the system
+				// context menu to appear in spite of stopEvent. Don't know
 				// exactly which properties cause this effect.
 				var _e = { target: e.target, pageX: e.pageX, pageY: e.pageY };
 				_e.preventDefault = _e.stopPropagation = function(){};
-				// IE: without the delay, focus work in "open" causes the system 
+				// IE: without the delay, focus work in "open" causes the system
 				// context menu to appear in spite of stopEvent.
 				window.setTimeout(dojo.hitch(this, function(){ this._openMyself(_e); }), 1);
 			}

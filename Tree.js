@@ -15,7 +15,7 @@ dojo.declare(
 	//	Base class for Tree and _TreeNode
 
 	// state: String
-	//		dynamic loading-related stuff. 
+	//		dynamic loading-related stuff.
 	//		When an empty folder node appears, it is "UNCHECKED" first,
 	//		then after dojo.data query it becomes "LOADING" and, finally "LOADED"	
 	state: "UNCHECKED",
@@ -169,11 +169,11 @@ dojo.declare(
 		// start the controller, passing in the store
 		this._controller = new dijit._tree.DataController(
 			{	
-				store: this.store, 
+				store: this.store,
 				treeId: this.id,
-				query: this.query, 
-				labelAttr: this.labelAttr, 
-				typeAttr: this.typeAttr, 
+				query: this.query,
+				labelAttr: this.labelAttr,
+				typeAttr: this.typeAttr,
 				childrenAttr: this.childrenAttr
 			}
 		);
@@ -211,7 +211,7 @@ dojo.declare(
 		}
 
 		this._publish(
-			(domElement == nodeWidget.expandoNode || 
+			(domElement == nodeWidget.expandoNode ||
 			 domElement == nodeWidget.expandoNodeText) ? "toggleOpen" : "execute",
 			 { node: nodeWidget} );	
 
@@ -330,7 +330,7 @@ dojo.declare(
 		// summary: set the right image for the expando node
 
 		// apply the appropriate class to the expando node
-		var styles = ["TreeExpandoLoading", "TreeExpandoOpened", 
+		var styles = ["TreeExpandoLoading", "TreeExpandoOpened",
 			"TreeExpandoClosed", "TreeExpandoLeaf"];
 		var idx = processing ? 0 : (this.isFolder ?	(this.isExpanded ? 1 : 2) : 3);
 		dojo.forEach(styles,
@@ -341,7 +341,7 @@ dojo.declare(
 		dojo.addClass(this.expandoNode, styles[idx]);
 		
 		// provide a non-image based indicator for images-off mode
-		this.expandoNodeText.innerHTML = 
+		this.expandoNodeText.innerHTML =
 			processing ? "*" :
 				(this.isFolder ?
 					(this.isExpanded ? "&#9660;" : "&#9658;") : "-");
@@ -395,7 +395,7 @@ dojo.declare(
 		
 		this._slideOut.play();
 	},
-    
+
 	_afterCollapse: function(){
 		this.onHide();
 		this._publish("afterCollapse", {node: this});

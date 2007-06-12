@@ -13,7 +13,7 @@ dojo.declare(
 	[dijit.base.Widget, dijit.base.TemplatedWidget],
 	{
 		/*
-		summary: 
+		summary:
 			A simple GUI for choosing a date in the context of a monthly calendar.
 
 		description:
@@ -26,10 +26,10 @@ dojo.declare(
 			http://www.faqs.org/rfcs/rfc3339.html (2005-06-30T08:05:00-07:00)
 			so that they are serializable and locale-independent.
 		
-		usage: 
-			var calendar = new dijit._Calendar({}, dojo.byId("calendarNode")); 
+		usage:
+			var calendar = new dijit._Calendar({}, dojo.byId("calendarNode"));
 		 	-or-
-			<div dojoType="dijit._Calendar"></div> 
+			<div dojoType="dijit._Calendar"></div>
 		*/
 		templatePath: dojo.moduleUrl("dijit", "templates/Calendar.html"),
 

@@ -28,7 +28,7 @@ dojo.declare(
 			this.bgIframe = new dijit.util.BackgroundIframe(this.domNode);
 
 			// Setup fade-in and fade-out functions.  An IE bug prevents the arrow from showing up
-			// unless opacity==1, because it's displayed via overflow: visible on the main div. 
+			// unless opacity==1, because it's displayed via overflow: visible on the main div.
 			var opacity = dojo.isIE ? 1 : dojo.style(this.domNode, "opacity");
 			this.fadeIn = dojo._fade({node: this.domNode, duration: this.duration, end: opacity});
 			dojo.connect(this.fadeIn, "onEnd", this, "_onShow");
@@ -126,7 +126,7 @@ dojo.declare(
 			//	Returns boolean if node is a descendant of ancestor
 
 			while(node){
-				if(node === ancestor){ 
+				if(node === ancestor){
 					return true; // boolean
 				}
 				try{

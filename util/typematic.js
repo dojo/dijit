@@ -2,8 +2,8 @@ dojo.provide("dijit.util.typematic");
 
 dijit.util.typematic = {
 	// summary:
-	//              These functions are used to repetitively call a user specified callback 
-	//		method when a specific key or mouse click over a specific DOM node is 
+	//              These functions are used to repetitively call a user specified callback
+	//		method when a specific key or mouse click over a specific DOM node is
 	//		held down for a specific amount of time.
 	//		Only 1 such event is allowed to occur on the browser page at 1 time.
 
@@ -26,7 +26,7 @@ dijit.util.typematic = {
 		//	subsequentDelay: if > 1, the number of milliseconds until the 3->n events occur
 		//		or else the fractional time multiplier for the next event.
 		//	initialDelay: the number of milliseconds until the 2nd event occurs.
-		if (obj != this._obj){ 
+		if (obj != this._obj){
 			this.stop();
 			this._initialDelay = initialDelay ? initialDelay : 500;
 			this._subsequentDelay = subsequentDelay ? subsequentDelay : 0.90;

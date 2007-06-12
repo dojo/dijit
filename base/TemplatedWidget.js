@@ -4,12 +4,12 @@ dojo.require("dojo.string");
 dojo.require("dijit.util.wai");
 dojo.require("dijit.util.parser");
 
-dojo.declare("dijit.base.TemplatedWidget", 
+dojo.declare("dijit.base.TemplatedWidget",
 	null,
 	{
 		// summary:
 		//		mixin for widgets that are instantiated from a template
-			 
+			
 		// templateNode: DomNode
 		//		a node that represents the widget template. Pre-empts both templateString and templatePath.
 		templateNode: null,
@@ -53,7 +53,7 @@ dojo.declare("dijit.base.TemplatedWidget",
 				// Cache contains a string because we need to do property replacement
 				// do the property replacement
 				var tstr = dojo.string.substitute(cached, this, function(value){
-					// Safer substitution, see heading "Attribute values" in  
+					// Safer substitution, see heading "Attribute values" in
 					// http://www.w3.org/TR/REC-html40/appendix/notes.html#h-B.3.2
 					return value.toString().replace(/"/g,"&quot;"); //TODO: support a more complete set of escapes?
 				}, this);
@@ -107,17 +107,17 @@ dojo.declare("dijit.base.TemplatedWidget",
 			// rootNode: DomNode|Array[Widgets]
 			//		the node to search for properties. All children will be searched.
 			// getAttrFunc: function?
-			//		a function which will be used to obtain property for a given 
+			//		a function which will be used to obtain property for a given
 			//		DomNode/Widget
 		
 			var trim = function(str){
 				return str.replace(/^\s+|\s+$/g, "");
 			};
 
-			getAttrFunc = getAttrFunc || function(n,p){ return n.getAttribute(p); } 
+			getAttrFunc = getAttrFunc || function(n,p){ return n.getAttribute(p); }
 
-			var nodes = dojo.isArray(rootNode) ? rootNode : (rootNode.all || rootNode.getElementsByTagName("*")); 
-			var x=dojo.isArray(rootNode)?0:-1; 
+			var nodes = dojo.isArray(rootNode) ? rootNode : (rootNode.all || rootNode.getElementsByTagName("*"));
+			var x=dojo.isArray(rootNode)?0:-1;
 			for(; x<nodes.length; x++){
 				var baseNode = (x == -1) ? rootNode : nodes[x];
 				if(this.widgetsInTemplate && getAttrFunc(baseNode,'dojoType')){
@@ -157,7 +157,7 @@ dojo.declare("dijit.base.TemplatedWidget",
 						if(!thisFunc){
 							thisFunc = tevt;
 						}
-						this.connect(baseNode, tevt, thisFunc); 
+						this.connect(baseNode, tevt, thisFunc);
 					}
 				}
 		
@@ -168,7 +168,7 @@ dojo.declare("dijit.base.TemplatedWidget",
 					if(values){
 						var role = "role";
 						dojo.forEach(values.split(";"), function(val){	// allow multiple states
-							if(val.indexOf('-') != -1){ 
+							if(val.indexOf('-') != -1){
 								// this is a state-value pair
 								var statePair = val.split('-');
 								role = statePair[0];

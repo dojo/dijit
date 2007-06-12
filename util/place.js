@@ -38,10 +38,10 @@ dijit.util.getScroll = function(){
 	var _document = dojo.doc;
 	var top = _window.pageYOffset || _document.documentElement.scrollTop || dojo.body().scrollTop || 0;
 	var left = _window.pageXOffset || _document.documentElement.scrollLeft || dojo.body().scrollLeft || 0;
-	return { 
+	return {
 		top: top,
-		left: left, 
-		offset:{ x: left, y: top }	//	note the change, NOT an Array with added properties. 
+		left: left,
+		offset:{ x: left, y: top }	//	note the change, NOT an Array with added properties.
 	};	//	object
 };
 
@@ -133,7 +133,7 @@ dijit.util.placeOnScreen = function(
 		var corner = corners[cidex];
 		var match = true;
 		// guess where to put the upper left corner of the popup, based on which corner was passed
-		// if you choose a corner other than the upper left, 
+		// if you choose a corner other than the upper left,
 		// obviously you have to move the popup
 		// so that the selected corner is at the x,y you asked for
 		var tryX = desiredX - (corner.charAt(1)=='L' ? 0 : w) + padding[0]*(corner.charAt(1)=='L' ? 1 : -1);

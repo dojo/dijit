@@ -46,7 +46,7 @@ dojo.declare(
 		},
 
 		setValue: function(value, /*String, optional*/ formattedValue){
-			if(typeof formattedValue == "undefined" ){ 
+			if(typeof formattedValue == "undefined" ){
 				formattedValue = (typeof value == "undefined" || value == null || value == NaN) ? null : this.filter(this.format(value, this.constraints));
 			}
 			if(formattedValue != null){
@@ -83,18 +83,18 @@ dojo.declare(
 			if(val == null){ return null; }
 			if(this.trim){
 				val = val.replace(/(^\s*|\s*$)/g, "");
-			} 
+			}
 			if(this.uppercase){
 				val = val.toUpperCase();
-			} 
+			}
 			if(this.lowercase){
 				val = val.toLowerCase();
-			} 
+			}
 			if(this.propercase){
 				val = val.replace(/[^\s]+/g, function(word){
 					return word.substring(0,1).toUpperCase() + word.substring(1);
 				});
-			} 
+			}
 			return val;
 		},
 	
@@ -111,14 +111,14 @@ dojo.declare(
 		onblur: function(){
 			dojo.removeClass(this.nodeWithBorder, "dijitInputFieldFocused");
 
-			this.setValue(this.getValue()); 
+			this.setValue(this.getValue());
 		},
 
-		onkeyup: function(){ 
+		onkeyup: function(){
 			// TODO: it would be nice to massage the value (ie: automatic uppercase, etc) as the user types
 			// but this messes up the cursor position if you are typing into the middle of a word, and
 			// also trimming doesn't work correctly (it prevents spaces between words too!)
-			// this.setValue(this.getValue()); 
+			// this.setValue(this.getValue());
 		}
 	}
 );

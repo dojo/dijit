@@ -8,9 +8,9 @@ dojo.declare(
 	"dijit.layout.ContentPane",
 	[dijit.base.Widget, dijit.base.Layout, dijit.base.Showable],
 		// summary:
-		//		A widget that can be used as a standalone widget 
+		//		A widget that can be used as a standalone widget
 		//		or as a baseclass for other widgets
-		//		Handles replacement of document fragment using either external uri or javascript/java 
+		//		Handles replacement of document fragment using either external uri or javascript/java
 		//		generated markup or DomNode content, instantiating widgets within content and runs scripts.
 		//		Dont confuse it with an iframe, it only needs document fragments.
 		//		It's useful as a child of LayoutContainer, SplitContainer, or TabContainer.
@@ -82,7 +82,7 @@ dojo.declare(
 				this.setHandler(this.handler);
 			}
 			if(this.isShowing() || this.preload){
-				this._prepareForShow(); 
+				this._prepareForShow();
 			}
 		},
 	
@@ -139,14 +139,14 @@ dojo.declare(
 			this.abort();
 			this._handleDefaults(this.loadingMessage, "onDownloadStart");
 			var self = this;
-			var getArgs = { 
+			var getArgs = {
 				url: url,
 				handleAs: "text"
-			}; 
-			var getHandler = dojo.xhrGet(getArgs); 
+			};
+			var getHandler = dojo.xhrGet(getArgs);
 			getHandler.addCallback(function(data){
 				self.onDownloadEnd.call(self, url, data);
-			}); 
+			});
 			getHandler.addErrback(function(e){
 				self._handleDefaults.call(self, e, "onDownloadError");
 				self.onLoad();
@@ -155,7 +155,7 @@ dojo.declare(
 	
 		onLoad: function(e){
 			// summary:
-			//		Event hook, is called after everything is loaded and widgetified 
+			//		Event hook, is called after everything is loaded and widgetified
 			this._runStack("_onLoadStack");
 			this.isLoaded=true;
 		},
@@ -172,7 +172,7 @@ dojo.declare(
 			for(var i = 0;i < st.length; i++){
 				try{
 					st[i].call(scope);
-				}catch(e){ 
+				}catch(e){
 					err += "\n"+st[i]+" failed: "+e.description;
 				}
 			}
@@ -191,7 +191,7 @@ dojo.declare(
 			//	obj: Function||Object?
 			//		holder object
 			//	func: Function
-			//		function that will be called 
+			//		function that will be called
 			this._pushOnStack(this._onLoadStack, obj, func);
 		},
 	
@@ -202,7 +202,7 @@ dojo.declare(
 			//	obj: Function||Object
 			//		holder object
 			//	func: Function
-			//		function that will be called 
+			//		function that will be called
 			this._pushOnStack(this._onUnloadStack, obj, func);
 		},
 	
@@ -224,7 +224,7 @@ dojo.declare(
 			this._beingDestroyed = true;
 			dijit.layout.ContentPane.superclass.destroy.call(this);
 		},
- 
+
 		onExecError: function(/*Object*/e){
 			// summary:
 			//		called when content script eval error or Java error occurs, preventDefault-able
@@ -232,13 +232,13 @@ dojo.declare(
 		},
 	
 		onContentError: function(/*Object*/e){
-			// summary: 
+			// summary:
 			//		called on DOM faults, require fault etc in content, preventDefault-able
 			//		default is to display errormessage inside pane
 		},
 	
 		onDownloadError: function(/*Object*/e){
-			// summary: 
+			// summary:
 			//		called when download error occurs, preventDefault-able
 			//		default is to display errormessage inside pane
 		},
@@ -250,7 +250,7 @@ dojo.declare(
 			//		by changing e.text in your event handler you can change loading message
 		},
 	
-		// 
+		//
 		onDownloadEnd: function(url, data){
 			// summary:
 			//		called when download is finished
@@ -272,7 +272,7 @@ dojo.declare(
 			e.toString = function(){ return this.text; };
 
 			if(typeof e.returnValue != "boolean"){
-				e.returnValue = true; 
+				e.returnValue = true;
 			}
 			if(typeof e.preventDefault != "function"){
 				e.preventDefault = function(){ this.returnValue = false; };
@@ -288,7 +288,7 @@ dojo.declare(
 						console.debug(e.toString()); break;
 					default:
 					// makes sure scripts can clean up after themselves, before we setContent
-					if(this._callOnUnload){ this.onUnload(); } 
+					if(this._callOnUnload){ this.onUnload(); }
 					// makes sure we dont try to call onUnLoad again on this event,
 					// ie onUnLoad before 'Loading...' but not before clearing 'Loading...'
 					this._callOnUnload = false;
@@ -401,7 +401,7 @@ dojo.declare(
 						var sc = match[2].replace(regexInvalid, "");
 						if(!sc){ continue; }
 		
-						// cut out all dojo.require (...) calls, if we have execute 
+						// cut out all dojo.require (...) calls, if we have execute
 						// scripts false widgets dont get there require calls
 						// takes out possible widgetpackage registration as well
 						while((tmp = regexRequires.exec(sc))){
@@ -485,9 +485,9 @@ dojo.declare(
 			}else{
 				// need to run splitAndFixPaths? ie. manually setting content
 				// adjustPaths is taken care of inside splitAndFixPaths
-				if(typeof data.xml != "string"){ 
+				if(typeof data.xml != "string"){
 					this.href = ""; // so we can refresh safely
-					data = this.splitAndFixPaths(data); 
+					data = this.splitAndFixPaths(data);
 				}
 
 				this._setContent(data.xml);
@@ -552,7 +552,7 @@ dojo.declare(
 			dijit.util.parser.instantiate(nodes);*/		
 		},
 
-		setHandler: function(/*Function*/ handler){ 
+		setHandler: function(/*Function*/ handler){
 			// summary:
 			//		Generate pane content from given java function
 			var fcn = dojo.isFunction(handler) ? handler : window[handler];

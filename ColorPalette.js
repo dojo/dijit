@@ -68,8 +68,8 @@ dojo.declare(
 	},
 	
 	// _paletteCoords: Map
-	//		This is a map that is used to calculate the coordinates of the 
-	//		images that make up the palette. 
+	//		This is a map that is used to calculate the coordinates of the
+	//		images that make up the palette.
 	_paletteCoords: {
 		"leftOffset": 3, "topOffset": 3,
 		"cWidth": 18, "cHeight": 16
@@ -96,7 +96,7 @@ dojo.declare(
 		var imagePos = dojo.coords(this.imageNode);
 		this.domNode.style.position = "relative";
 		this._highlightNodes = [];	
-				 				 
+				 				
 		for (var row=0; row<alts.length; row++) {
 			for (var col=0; col<alts[row].length; col++) {
 				var highlightNode = document.createElement("img");
@@ -105,7 +105,7 @@ dojo.declare(
 				highlightNode.color = alts[row][col];
 				highlightNode.alt = highlightNode.color;
 				highlightNode.style.color = "#"+highlightNode.color;
-				highlightNode.style.backgroundColor = "#"+highlightNode.color; 
+				highlightNode.style.backgroundColor = "#"+highlightNode.color;
 				this.connect(highlightNode,"onmouseover", "onMouseOver");
 				this.connect(highlightNode,"onmousedown", "onClick");
 				this.connect(highlightNode,"onblur","onBlur");
@@ -131,23 +131,23 @@ dojo.declare(
 		// Spacebar selects the color.
 		// For the up key the index is changed by negative the x dimension.		
 			
-		dijit.util.typematic.addKeyListener(this.domNode, 
-			{keyCode:dojo.keys.UP_ARROW,ctrlKey:false,altKey:false,shiftKey:false}, 
-			this, function(count,node,evt) { this._navigateByKey(-this._xDim,count); }, 
+		dijit.util.typematic.addKeyListener(this.domNode,
+			{keyCode:dojo.keys.UP_ARROW,ctrlKey:false,altKey:false,shiftKey:false},
+			this, function(count,node,evt) { this._navigateByKey(-this._xDim,count); },
 			this.timeoutChangeRate, this.defaultTimeout);
 		// The down key the index is increase by the x dimension.	
-		dijit.util.typematic.addKeyListener(this.domNode, 
-			{keyCode:dojo.keys.DOWN_ARROW,ctrlKey:false,altKey:false,shiftKey:false}, 
-			this, function(count,node,evt) { this._navigateByKey(this._xDim,count); }, 
+		dijit.util.typematic.addKeyListener(this.domNode,
+			{keyCode:dojo.keys.DOWN_ARROW,ctrlKey:false,altKey:false,shiftKey:false},
+			this, function(count,node,evt) { this._navigateByKey(this._xDim,count); },
 			this.timeoutChangeRate, this.defaultTimeout);
 		// Right and left move the index by 1.
-		dijit.util.typematic.addKeyListener(this.domNode, 
-			{keyCode:dojo.keys.RIGHT_ARROW,ctrlKey:false,altKey:false,shiftKey:false}, 
-			this, function(count,node,evt) { this._navigateByKey(1,count); }, 
+		dijit.util.typematic.addKeyListener(this.domNode,
+			{keyCode:dojo.keys.RIGHT_ARROW,ctrlKey:false,altKey:false,shiftKey:false},
+			this, function(count,node,evt) { this._navigateByKey(1,count); },
 			this.timeoutChangeRate, this.defaultTimeout);
-		dijit.util.typematic.addKeyListener(this.domNode, 
-			{keyCode:dojo.keys.LEFT_ARROW,ctrlKey:false,altKey:false,shiftKey:false}, 
-			this, function(count,node,evt) { this._navigateByKey(-1,count); }, 
+		dijit.util.typematic.addKeyListener(this.domNode,
+			{keyCode:dojo.keys.LEFT_ARROW,ctrlKey:false,altKey:false,shiftKey:false},
+			this, function(count,node,evt) { this._navigateByKey(-1,count); },
 			this.timeoutChangeRate, this.defaultTimeout);
 	},
 			
@@ -180,7 +180,7 @@ dojo.declare(
 	
 	onBlur: function(evt) {
 		// summary:
-		//		Handler for the onBlur event. Causes the highlight Div 
+		//		Handler for the onBlur event. Causes the highlight Div
 		//		to be destroyed.
 		// evt:
 		//		The blur event.
@@ -189,9 +189,9 @@ dojo.declare(
 	
 	onFocus: function(evt) {
 		// summary:
-		//		Handler for onFocus. This highlights the first color in the 
+		//		Handler for onFocus. This highlights the first color in the
 		//		palette if it is the first time the palette is focused.
-		//		Otherwise the last color highlighted is focused. 
+		//		Otherwise the last color highlighted is focused.
 		// evt:
 		//		The focus event.
 		if (this._currentFocus != evt.currentTarget.index)
@@ -205,14 +205,14 @@ dojo.declare(
 	
 	onKeyDown: function(evt) {
 		// summary:
-		//		Handler for the onKeyDown event. 
+		//		Handler for the onKeyDown event.
 		//		It handles space and tab being pressed.
 		//		Space selects the color currently highlighted.
 		//		Tab blurs the area currently highlighted.
 		// evt:
 		//		The keydown event.
 		
-		if (evt.keyCode == dojo.keys.SPACE) 
+		if (evt.keyCode == dojo.keys.SPACE)
 		{
 			if (this._currentFocus != null)
 			{
@@ -224,7 +224,7 @@ dojo.declare(
 	_selectColor: function (selectNode) {	
 		// summary:
 		// 		This selects a color. It triggers the onColorSelect event
-		// area: 
+		// area:
 		//		The area node that covers the color being selected.
 		this.selectedColor = selectNode.color;
 		this.onColorSelect(selectNode.color);
@@ -243,7 +243,7 @@ dojo.declare(
 		if (typeCount==-1) { return; }
 		
 		var newFocus = this._currentFocus+increment;
-		if (newFocus < this._highlightNodes.length && newFocus > -1) 
+		if (newFocus < this._highlightNodes.length && newFocus > -1)
 		{
 			this._highlightNodes[newFocus].tabIndex = 0;
 			this._highlightNodes[newFocus].focus();

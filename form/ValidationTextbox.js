@@ -177,7 +177,7 @@ dojo.declare(
 			valueNode.name = this.textbox.name;
 			this.textbox.removeAttribute("name");
 
-			dojo.place(valueNode, textbox, "after"); 
+			dojo.place(valueNode, textbox, "after");
 
 			dijit.form.MappedTextbox.superclass.postCreate.apply(this, arguments);
 		}
@@ -236,7 +236,7 @@ dojo.declare(
 
 		postMixInProperties: function(){
 			dijit.form.RangeBoundTextbox.superclass.postMixInProperties.apply(this, arguments);
-			if(!this.rangeMessage){ 
+			if(!this.rangeMessage){
 				this.messages = dojo.i18n.getLocalization("dijit.form", "validate", this.lang);
 				this.rangeMessage = this.messages.rangeMessage;
 			}
