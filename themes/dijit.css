@@ -438,8 +438,12 @@ table .dijitComboButton .dijitButtonNode {
   		dijit.form.RadioButton 
  ****/
 
-.dijitCheckbox, .dijitCheckboxInput {
+.dijitCheckbox,
+.dijitRadio,
+ .dijitCheckboxInput
+{
 	padding: 0;
+	border: 0;
 	width: 16px;
 	height: 16px;
 }
@@ -453,12 +457,14 @@ table .dijitComboButton .dijitButtonNode {
 	filter: alpha(opacity=0);
 }
 
-.dijit_a11y .dijitCheckbox {
+.dijit_a11y .dijitCheckbox,
+.dijit_a11y .dijitRadio,
+{
 	width: auto;
 	height: auto;
 }
 .dijit_a11y .dijitCheckboxInput {
-	opacity: none;
+	opacity: 1;
 	filter: none;
 	width: auto;
 	height: auto;

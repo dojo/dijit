@@ -183,13 +183,43 @@
 	
 }
 
-/* Checkbox and Radio*/
-.tundra .dijitCheckbox {
+/*
+ *  Checkbox and Radio
+ *
+ *	Order of images in the default sprite (from L to R, checkbox and radio in same image):
+ *		checkbox	normal 	 - checked
+ *							 - unchecked
+ *					disabled - checked
+ *							 - unchecked
+ *					hover 	 - checked
+ *							 - unchecked
+ *
+ *		radio		normal 	 - checked
+ *							 - unchecked
+ *					disabled - checked
+ *							 - unchecked
+ *					hover 	 - checked
+ *							 - unchecked
+*/
+.tundra .dijitCheckbox,
+.tundra .dijitRadio {
 	background-image: url('images/checkmark.png'); /* checkbox sprite image */
 	width: 16px;
 	height: 16px;
 }
+.tundra .dijitCheckbox { background-position: -16px; }
+.tundra .dijitCheckboxSelected { background-position: 0px; }
+.tundra .dijitCheckboxSelectedDisabled { background-position: -32px; }
+.tundra .dijitCheckboxDisabled { background-position: -48px; }
+.tundra .dijitCheckboxSelectedHover { background-position: -64px; }
+.tundra .dijitCheckboxHover { background-position: -80px; }
 
+.tundra .dijitRadio { background-position: -112px; }
+.tundra .dijitRadioSelected { background-position: -96px; }
+.tundra .dijitRadioSelectedDisabled { background-position: -128px; }
+.tundra .dijitRadioDisabled { background-position: -144px; }
+.tundra .dijitRadioSelectedHover { background-position: -160px; }
+.tundra .dijitRadioHover { background-position: -176px; }
 
 /* Menu */
 .tundra .dijitMenu{

@@ -1,7 +1,7 @@
-<span class="dijitCheckbox"
+<span class="${baseClass}" baseClass="${baseClass}"
 	><input
 	 	id="${id}" tabIndex="${tabIndex}" type="${_type}" name="${name}" value="${value}"
 		class="dijitCheckboxInput"
 		dojoAttachPoint="inputNode;focusNode"
-	 	dojoAttachEvent="onfocus:_mouseOver;onblur:_mouseOut;onmouseover:_mouseOver;onmouseout:_mouseOut;onclick:_onClick"
+	 	dojoAttachEvent="onfocus:_update;onblur:_update;onmouseover:_onMouse;onmouseout:_onMouse;onclick:_update"
 ></span>

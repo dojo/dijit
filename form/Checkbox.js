@@ -1,13 +1,12 @@
 dojo.provide("dijit.form.Checkbox");
 
-dojo.require("dijit.base.FormElement");
-dojo.require("dijit.base.TemplatedWidget");
+dojo.require("dijit.form.Button");
 dojo.require("dijit.util.sniff");
 dojo.require("dijit.util.wai");
 
 dojo.declare(
 	"dijit.form.Checkbox",
-	[dijit.base.FormElement, dijit.base.TemplatedWidget],
+	[dijit.form.ToggleButton],
 	{
 		// summary:
 		// 		Same as an HTML checkbox, but with fancy styling.
@@ -28,30 +27,10 @@ dojo.declare(
 		// In case 1, the regular html inputs are shown and used by the user.
 		// In case 2, the regular html inputs are invisible but still used by
 		// the user. They are turned quasi-invisible and overlay the background-image
-		//
-		// Layout
-		//   Styling is controlled in 3 places: tundra, template, and 
-		// programmatically in Checkbox.js. The latter is required 
-		// because of two modes of dijit checkbox: image loaded, vs 
-		// image not loaded. Also for accessibility it is important 
-		// that dijit work with images off (a browser preference).
-		//
-		//	Order of images in the sprite (from L to R, checkbox and radio in same image):
-		//		checkbox	normal 	 - checked
-		//							 - unchecked
-		//					disabled - checked
-		//							 - unchecked
-		//					hover 	 - checked
-		//							 - unchecked
-		//
-		//		radio		normal 	 - checked
-		//							 - unchecked
-		//					disabled - checked
-		//							 - unchecked
-		//					hover 	 - checked
-		//							 - unchecked
 
 		templatePath: dojo.moduleUrl("dijit.form", "templates/Checkbox.html"),
+		
+		baseClass: "dijitCheckbox",
 
 		//	Value of "type" attribute for <input>
 		_type: "checkbox",
@@ -68,20 +47,9 @@ dojo.declare(
 		value: "on",
 		
 		postCreate: function(){
-			this.inputNode.checked=this.checked;
-			this._setDisabled(this.disabled);
-
-			// User will always interact with input element
-			var node = this.inputNode;
-			dijit._disableSelection(node);
-			
-			this._updateView(false);
-		},
-
-		_setDisabled: function(/*Boolean*/ disabled){
-			// summary: set disabled state of widget.
-			dijit.form.Checkbox.superclass._setDisabled.apply(this,arguments);
-			this._updateView(false);
+			this.inputNode.checked=this._selected=this.checked;
+			dijit._disableSelection(this.inputNode);
+			dijit.form.ToggleButton.prototype.postCreate.apply(this, arguments);
 		},
 
 		onChecked: function(/*Boolean*/ newCheckedState){
@@ -91,14 +59,14 @@ dojo.declare(
 		setChecked: function(/*Boolean*/ check){
 			// summary: set the checked state of the widget.
 			if(check != this.inputNode.checked){
-				this.inputNode.checked = check;
-				this._updateView(true);
+				this.inputNode.checked = this._selected = check;
+				this._update();
 			}
 		},
 	
 		getChecked: function(){
 			// summary: get the checked state of the widget.
-			return this.checked;
+			return this._selected;
 		},
 
 		setValue: function(value){
@@ -107,51 +75,24 @@ dojo.declare(
 			dijit.form.Checkbox.superclass.setValue.call(this,value);
 		},
 
-		onClick: function(/*Event*/ e){
-			// summary: user overridable callback for click event handling 
-		},
-		
-		_onClick: function(/*Event*/ e){
-			/// summary: callback for a click event
-			this._updateView(true);
-			this.onClick(e);
+		_onMouse: function(/*Event*/ e){
+			// any mouse event could change the value of the checkbox,
+			// so check for that, and then pass on to default handlers
+			this._update();
+			dijit.form.Checkbox.superclass._onMouse.apply(this,arguments);
 		},
 
-		_mouseOver: function(/*Event*/ e){
-			// summary: callback when user moves mouse over checkbox
-			this.hover=true;
-			this._updateView(true);
-		},
-
-		_mouseOut: function(/*Event*/ e){
-			// summary: callback when user moves mouse off of checkbox
-			this.hover=false;
-			this._updateView(true);
-		},
-
-		// offset from left of image
-		_leftOffset: 0,
-		
-		_updateView: function(/*Boolean*/ updateSiblings){
+		_updateView: function(){
 			if(this.checked != this.inputNode.checked){
-				this.checked = this.inputNode.checked;
+				this._selected = this.checked = this.inputNode.checked;
+				this._setStateClass();
 				this.onChecked(this.checked);
 			}
-
-			// show the right sprite, depending on state of checkbox
-			// TODO: just set a CSS class and let the CSS file handle the rest (leverage FormElement._onMouse() too)
-			this.width=16;
-			var left = this._leftOffset + (this.checked ? 0 : this.width) +
-				(this.disabled ? this.width*2 : (this.hover ? this.width*4 : 0));
-			this.domNode.style.backgroundPosition = -1*left + "px";
-
-			if(updateSiblings){
-				this.updateContext();
-			}
 		},
 		
-		updateContext: function(){
-			// summary: specialize this function to update related GUI
+		_update: function(){
+			// summary: called on possible state change
+			this._updateView();
 		}
 	}
 );
@@ -180,17 +121,20 @@ dojo.declare(
 		// so that at the time of form submission the intended data is sent.
 		
 		_type: "radio",
+		baseClass: "dijitRadio",
 		
 		// This shared object keeps track of all widgets, grouped by name
 		_groups: {},
 
-		_register: function(){
-			// summary: add this widget to _groups
+		postCreate: function(){
+			// add this widget to _groups
 			(this._groups[this.name] = this._groups[this.name] || []).push(this);
-		},
 
-		_deregister: function(){
-			// summary: remove this widget from _groups
+			dijit.form.Checkbox.prototype.postCreate.apply(this, arguments);
+		},
+	
+		uninitialize: function(){
+			// remove this widget from _groups
 			dojo.forEach(this._groups[this.name], function(widget, i, arr){
 				if(widget === this){
 					arr.splice(i, 1);
@@ -199,24 +143,9 @@ dojo.declare(
 			}, this);
 		},
 
-		postCreate: function(){
-			this._register();
-			dijit.form.Checkbox.prototype.postCreate.apply(this, arguments);
-		},
-	
-		uninitialize: function(){
-			this._deregister();
-		},
-
-		updateContext: function(){
+		_update: function(){
 			// summary: make sure the sibling radio views are correct
-			dojo.forEach(this._groups[this.name], function(widget){
-				if(widget != this){
-					widget._updateView(false);
-				}
-			}, this);
-		},
-
-		_leftOffset: 96
+			dojo.forEach(this._groups[this.name], function(widget){ widget._updateView(); });
+		}
 	}
 );
