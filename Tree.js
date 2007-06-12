@@ -32,7 +32,7 @@ dojo.declare(
 		}
 		this.locked=false;
 	},
-		
+
 	isLocked: function(){
 		// summary: can this node be modified?
 		// returns: false if this node or any of it's ancestors are locked
@@ -66,18 +66,18 @@ dojo.declare(
 				this.containerNode = this.tree.containerNodeTemplate.cloneNode(true);
 				this.domNode.appendChild(this.containerNode);
 			}
-	
+
 			// Create _TreeNode widget for each specified tree node
 			dojo.forEach(childrenArray, function(childParams){
 				var child = new dijit._TreeNode(dojo.mixin({tree: this.tree}, childParams));
 				this.addChild(child);
 			}, this);
-	
+
 			// note that updateLayout() needs to be called on each child after
 			// _all_ the children exist
 			dojo.forEach(this.getChildren(), function(child, idx){
 				child._updateLayout();
-	
+
 				var message = {
 					child: child,
 					index: idx,
@@ -153,7 +153,7 @@ dojo.declare(
 		keyTopicMap[dojo.keys.END]="last";
 		this._keyTopicMap = keyTopicMap;
 	},
-	
+
 	postCreate: function(){
 		this.containerNode = this.domNode;
 
@@ -180,14 +180,14 @@ dojo.declare(
 
 		this._publish("afterTreeCreate");
 	},
-	
+
 	destroy: function(){
 		// publish destruction event so that any listeners should stop listening
 		this._publish("beforeTreeDestroy");
 
 		return dijit.base.Widget.prototype.destroy.apply(this, arguments);
 	},
-	
+
 	toString: function(){
 		return "["+this.declaredClass+" ID:"+this.id	+"]"
 	},
@@ -217,7 +217,7 @@ dojo.declare(
 
 		dojo.stopEvent(e);
 	},
-	
+
 	_onKeyPress: function(/*Event*/ e){
 		// summary: translates key events into commands for the controller to process
 		if(!e.keyCode || e.altKey){ return; }
@@ -229,7 +229,7 @@ dojo.declare(
 			dojo.stopEvent(e);
 		}
 	},
-	
+
 	blurNode: function(){
 		// summary
 		//	Removes focus from the currently focused node (which must be visible).
@@ -241,12 +241,12 @@ dojo.declare(
 		labelNode.setAttribute("tabIndex", "-1");
 		this.lastFocused = null;
 	},
-	
+
 	// TODO:
 	//	make sure that if a node is deleted tabIndex goes to another node, and also that
 	//	if you programatically create a tree with no data, when the first row is added
 	//	tabIndex will go to that node
-	
+
 	focusNode: function(/* _tree.Node */ node){
 		// summary
 		//	Focus on the specified node (which must be visible)
@@ -257,7 +257,7 @@ dojo.declare(
 		var labelNode = node.labelNode;
 		labelNode.setAttribute("tabIndex", "0");
 		this.lastFocused = node;
-	
+
 		dojo.addClass(labelNode, "TreeLabelFocused");
 
 		// set focus so that the label wil be voiced using screen readers
@@ -279,11 +279,11 @@ dojo.declare(
 	//		Example: folder, garbage, inbox, draftsFolder
 	//		TODO: set CSS string base on this type
 	nodeType: "",
-	
+
 	// item: dojo.data.Item
 	//		the dojo.data entry this tree represents
 	item: null,	
-			
+
 	isTreeNode: true,
 
 	// label: String
@@ -293,14 +293,14 @@ dojo.declare(
 	isFolder: null, // set by widget depending on children/args
 
 	isExpanded: false,
-	
+
 	postCreate: function(){
 		this.labelNode.innerHTML = this.label;	
 		var children = this.getChildren();			
 		// set expand icon for leaf 	
 		this._setExpando();
 	},
-	
+
 	markProcessing: function(){
 		// summary: visually denote that tree is loading data, etc.
 		this.state = "LOADING";
@@ -325,7 +325,7 @@ dojo.declare(
 			dojo.addClass(this.domNode, 'TreeIsLast');	
 		}
 	},
-		
+
 	_setExpando: function(/*Boolean*/ processing) {
 		// summary: set the right image for the expando node
 
@@ -339,7 +339,7 @@ dojo.declare(
 			}, this
 		);
 		dojo.addClass(this.expandoNode, styles[idx]);
-		
+
 		// provide a non-image based indicator for images-off mode
 		this.expandoNodeText.innerHTML =
 			processing ? "*" :
@@ -349,7 +349,7 @@ dojo.declare(
 
 	setChildren: function(items){
 		dijit.Tree.superclass.setChildren.apply(this, arguments);
-		
+
 		// create animations for showing/hiding the children
 		this._slideIn = dojo.fx.slideIn({node: this.containerNode, duration: 250});
 		dojo.connect(this.slideIn, "onEnd", dojo.hitch(this, "_afterExpand"));
@@ -369,7 +369,7 @@ dojo.declare(
 		this.isExpanded = true;
 		dijit.util.wai.setAttr(this.labelNode, "waiState", "expanded", "true");
 		dijit.util.wai.setAttr(this.containerNode, "waiRole", "role", "group");
-		
+
 		this._setExpando();
 
 		// TODO: use animation that's constant speed of movement, not constant time regardless of height
@@ -383,7 +383,7 @@ dojo.declare(
 
 	collapse: function(){					
 		if(!this.isExpanded){ return; }
-		
+
 		// cancel in progress expand operation
 		if(this._slideIn.status() == "playing"){
 			this._slideIn.stop();
@@ -392,7 +392,7 @@ dojo.declare(
 		this.isExpanded = false;
 		dijit.util.wai.setAttr(this.labelNode, "waiState", "expanded", "false");
 		this._setExpando();
-		
+
 		this._slideOut.play();
 	},
 

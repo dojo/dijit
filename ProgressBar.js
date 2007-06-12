@@ -35,7 +35,7 @@ dojo.declare(
 		//   places="0"
 		//   orientation="vertical"
 		//   progress="..." maximum="..."></div>
-	
+
 		// progress: String (Percentage or Number)
 		// initial progress value.
 		// with "%": percentual value, 0% <= progress <= 100%

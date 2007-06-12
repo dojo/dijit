@@ -28,7 +28,7 @@ dojo.declare(
 	//	a submenu usually appears to the right, but slightly overlapping, it's parent menu;
 	//	this controls the number of pixels the two menus overlap.
 	submenuOverlap: 5,
-	
+
 	// contextMenuForWindow: Boolean
 	//	if true, right clicking anywhere on the window will cause this context menu to open;
 	//	if false, must specify targetNodeIds
@@ -41,7 +41,7 @@ dojo.declare(
 	// submenuDelay: Integer
 	//	number of milliseconds before hovering (without clicking) causes the submenu to automatically open
 	submenuDelay: 500,
-	
+
 	postCreate: function(){
 		if(this.contextMenuForWindow){
 			this.bindDomNode(dojo.body());
@@ -207,7 +207,7 @@ dojo.declare(
 			this.hover_timer = null;
 		}
 	},
-	
+
 	onItemClick: function(/*Widget*/ item){
 		// summary: user defined function to handle clicks on an item
 		// summary: internal function for clicks
@@ -365,12 +365,12 @@ dojo.declare(
 	// submenuId: String
 	//	widget ID of Menu2 widget to open when this menu item is clicked
 	submenuId: '',
-	
+
 	// disabled: Boolean
 	//  if true, the menu item is disabled
 	//  if false, the menu item is enabled
 	disabled: false,
-	
+
 	postMixInProperties: function(){
 		this.iconStyle="";
 		if(this.iconSrc){

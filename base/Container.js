@@ -37,12 +37,12 @@ dojo.declare("dijit.base.Contained",
 
 			return this._getSibling("previous");
 		},
-	
+
 		getNextSibling: function(){
 			// summary:
 			//		returns null if this is the last child of the parent,
 			//		otherwise returns the next element sibling to the "right".
-	
+
 			return this._getSibling("next");
 		}
 	}
@@ -76,7 +76,7 @@ dojo.declare("dijit.base.Container",
 			var node = widget.domNode;
 			node.parentNode.removeChild(node); //PORT leak #2931 -- call widget.destroy() instead?
 		},
-		
+
 		_nextElement: function(node){
 			do{
 				node = node.nextSibling;

@@ -12,12 +12,12 @@ dojo.declare("dijit.base.FormElement", dijit.base.Widget,
 		Each FormElement represents a single input value, and has a (possibly hidden) <input> element,
 		to which it serializes its input value, so that form submission (either normal submission or via FormBind?)
 		works as expected.
-		
+
 		All these widgets should have these attributes just like native HTML input elements.
 		You can set them during widget construction, but after that they are read only.
-		
+
 		They also share some common methods.
-		
+
 	TODO:
 		should this be a mixin or a base class?
 	*/
@@ -77,7 +77,7 @@ dojo.declare("dijit.base.FormElement", dijit.base.Widget,
 		//		unsetting event handlers. Not implemented here.
 		this._setDisabled(true);
 	},
-	
+
 	_setDisabled: function(/*Boolean*/ disabled){
 		// summary:
 		//		Set disabled state of widget.
@@ -91,7 +91,7 @@ dojo.declare("dijit.base.FormElement", dijit.base.Widget,
 		dijit.util.wai.setAttr(this.focusNode || this.domNode, "waiState", "disabled", disabled);
 		this._setStateClass();
 	},
-	
+
 
 	_onMouse : function(/*Event*/ event){
 		// summary:
@@ -103,7 +103,7 @@ dojo.declare("dijit.base.FormElement", dijit.base.Widget,
 
 		var mouseNode = event.target;
 		dojo.stopEvent(event);
-		
+
 		if(!this.disabled){
 			switch(event.type){
 				case "mouseover" :
@@ -114,12 +114,12 @@ dojo.declare("dijit.base.FormElement", dijit.base.Widget,
 					}
 					this.baseClass= baseClass || "dijit"+this.declaredClass.replace(/.*\./g,"");
 					break;
-					
+
 				case "mouseout" :	
 					this._hovering = false;	
 					this.baseClass=null;
 					break;
-					
+
 				case "mousedown" :
 					this._active = true;
 					// set a global event to handle mouseup, so it fires properly
@@ -183,7 +183,7 @@ dojo.declare("dijit.base.FormElement", dijit.base.Widget,
 	onValueChanged: function(newValue){
 		// summary: callback when value is changed
 	},
-	
+
 	postCreate: function(){
 		this._setDisabled(this.disabled == true);
 		this._setStateClass();

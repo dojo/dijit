@@ -29,7 +29,7 @@ dojo.declare(
 		// the user. They are turned quasi-invisible and overlay the background-image
 
 		templatePath: dojo.moduleUrl("dijit.form", "templates/Checkbox.html"),
-		
+
 		baseClass: "dijitCheckbox",
 
 		//	Value of "type" attribute for <input>
@@ -45,7 +45,7 @@ dojo.declare(
 		//	equivalent to value field on normal checkbox (if checked, the value is passed as
 		//	the value when form is submitted)
 		value: "on",
-		
+
 		postCreate: function(){
 			this.inputNode.checked=this._selected=this.checked;
 			dijit._disableSelection(this.inputNode);
@@ -55,7 +55,7 @@ dojo.declare(
 		onChecked: function(/*Boolean*/ newCheckedState){
 			// summary: callback when checked state is changed
 		},
-		
+
 		setChecked: function(/*Boolean*/ check){
 			// summary: set the checked state of the widget.
 			if(check != this.inputNode.checked){
@@ -63,7 +63,7 @@ dojo.declare(
 				this._update();
 			}
 		},
-	
+
 		getChecked: function(){
 			// summary: get the checked state of the widget.
 			return this._selected;
@@ -89,7 +89,7 @@ dojo.declare(
 				this.onChecked(this.checked);
 			}
 		},
-		
+
 		_update: function(){
 			// summary: called on possible state change
 			this._updateView();
@@ -119,10 +119,10 @@ dojo.declare(
 		// set to true in some browsers and false in others.
 		// It is vital that the view of the resulting input states be correct
 		// so that at the time of form submission the intended data is sent.
-		
+
 		_type: "radio",
 		baseClass: "dijitRadio",
-		
+
 		// This shared object keeps track of all widgets, grouped by name
 		_groups: {},
 
@@ -132,7 +132,7 @@ dojo.declare(
 
 			dijit.form.Checkbox.prototype.postCreate.apply(this, arguments);
 		},
-	
+
 		uninitialize: function(){
 			// remove this widget from _groups
 			dojo.forEach(this._groups[this.name], function(widget, i, arr){

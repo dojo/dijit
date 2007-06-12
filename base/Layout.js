@@ -32,11 +32,11 @@ dojo.declare("dijit.base.Sizable",
 
 			// Save the size of my content box.
 			this._contentBox = dijit.base.Layout.marginBox2contentBox(node, mb);
-			
+
 			// Callback for widget to adjust size of it's children
 			this.layout();
 		},
-	
+
 		layout: function(){
 			//	summary
 			//		Widgets override this method to size & position their contents/children.
@@ -173,7 +173,7 @@ dijit.base.Layout.layoutChildren = function(/*DomNode*/ container, /*Object*/ di
 		var capitalize = function(word){
 			return word.substring(0,1).toUpperCase() + word.substring(1);
 		};
-		
+
 		dojo.addClass(elm, "dijitAlign" + capitalize(pos));
 
 		// set size && adjust record of remaining space.
@@ -222,7 +222,7 @@ dijit.base.Layout._sizeChild = function (child, elm, w, h){
 	// don't allow such values for width and height, let the browser adjust the
 	// layout itself when it reflows and report if any dimension is zero
 	var box = {};
-	
+
 	var hasZero = (w == 0 || h == 0);
 	if(!hasZero){
 	// TODO: Bill: this makes no sense.  If !hasZero then w!=0 and h!=0.

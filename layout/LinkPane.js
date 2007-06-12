@@ -19,11 +19,11 @@ dojo.declare("dijit.layout.LinkPane",
 	templateString: '<div class="dijitLinkPane"></div>',
 
 	postCreate: function(){
-		
+
 		// If user has specified node contents, they become the title
 		// (the link must be plain text)
 		this.title += this.domNode.innerHTML;
-		
+
 		dijit.layout.LinkPane.superclass.postCreate.apply(this, arguments);
 
 	}

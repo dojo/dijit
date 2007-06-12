@@ -70,7 +70,7 @@ dijit.util.wai = {
 		}
 		return success;
 	},
-	
+
 	imageBgToSrc : function(/* Node | Node[] */ images) {
 		// summary:
 		//		Given a single image or array of images
@@ -97,7 +97,7 @@ dijit.util.wai = {
 			}
 		);
 	},
-	
+
 	onload: function(){
 		// summary:
 		//		Function that detects if we are in high-contrast mode or not,
@@ -114,7 +114,7 @@ dijit.util.wai = {
 		var div = document.createElement("div");
 		div.id = "a11yTestNode";
 		dojo.body().appendChild(div);
-		
+
 		// test it
 		function check(){
 			var cs = dojo.getComputedStyle(div);

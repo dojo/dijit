@@ -28,13 +28,13 @@ dojo.mixin(dijit._editor.selection, {
 			return dojo.doc.selection.type.toLowerCase();
 		}else{
 			var stype = "text";
-	
+
 			// Check if the actual selection is a CONTROL (IMG, TABLE, HR, etc...).
 			var oSel;
 			try{
 				oSel = dojo.global.getSelection();
 			}catch(e){ /*squelch*/ }
-			
+
 			if(oSel && oSel.rangeCount==1){
 				var oRange = oSel.getRangeAt(0);
 				if(	(oRange.startContainer == oRange.endContainer) &&
@@ -79,11 +79,11 @@ dojo.mixin(dijit._editor.selection, {
 				var selection = dojo.global.getSelection();
 				if(selection){
 					var node = selection.anchorNode;
-		
+
 					while(node && (node.nodeType != 1)){ // not an element
 						node = node.parentNode;
 					}
-		
+
 					return node;
 				}
 			}

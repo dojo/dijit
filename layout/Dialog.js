@@ -22,7 +22,7 @@ dojo.declare(
 		// title: String
 		//		Title of the dialog
 		title: "",
-		
+
 		// closeNode: String
 		//	Id of button or other dom node to click to close this dialog
 		closeNode: "",
@@ -40,7 +40,7 @@ dojo.declare(
 			this._center();
 			dijit.layout.Dialog.superclass.onLoad.call(this);
 		},
-		
+
 		_trapTabs: function(/*Event*/ e){
 			// summary: callback on focus
 			if(e.target == this.tabStartOuter){
@@ -180,11 +180,11 @@ dojo.declare(
 
 			var scroll_offset = dijit.util.getScroll().offset;
 			var viewport_size = dijit.util.getViewport();
-			
+
 			// find the size of the dialog (dialog needs to be showing to get the size)
 			var mb = dojo.marginBox(this.domNode);
 			var padborder = dojo._getPadBorderExtents(this.domNode);
-			
+
 			var x = scroll_offset.x + (viewport_size.w - mb.w)/2;
 			var y = scroll_offset.y + (viewport_size.h - mb.h)/2;
 			var maxheight = viewport_size.h - padborder.h;
@@ -225,7 +225,7 @@ dojo.declare(
 				this._setup();
 				this._alreadyInitialized=true;
 			}
-				
+
 			this._modalconnects.push(dojo.connect(window, "onscroll", this, "_onScroll"));
 			this._modalconnects.push(dojo.connect(document.documentElement, "onkeypress", this, "_onKey"));
 
@@ -269,7 +269,7 @@ dojo.declare(
 			}
 			dojo.forEach(this._modalconnects, dojo.disconnect);
 			this._modalconnects = [];
-			
+
 		},
 
 		_onScroll: function(){

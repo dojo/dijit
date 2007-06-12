@@ -263,7 +263,7 @@ dojo.declare(
 			// highlight the characters that were auto-completed.   For example, if user
 			// typed "CA" and the drop down list appeared, the textbox would be changed to
 			// "California" and "ifornia" would be highlighted.
-			
+
 			// IE7: clear selection so next highlight works all the time
 			this._setSelectedRange(this.focusNode, this.focusNode.value.length, this.focusNode.value.length);
 			// does text autoComplete the value in the textbox?

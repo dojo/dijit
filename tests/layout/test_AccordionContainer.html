@@ -8,9 +8,9 @@
 			@import "../../themes/tundra/tundra.css";
 			@import "../css/dijitTests.css";
 		</style>		
-		
+
 		<script type="text/javascript" src="../testBidi.js"></script>
-		
+
 		<script type="text/javascript"
 			djConfig="isDebug: true"
 			src="../../../dojo/dojo.js"></script>
@@ -29,11 +29,11 @@
 		 	dojo.require("dijit.form.Button");
 			dojo.require("dijit.util.parser");	// scan page for widgets and instantiate them
 		</script>
-		
+
 		<!-- programatic creation -->
 		<script>
 			var accordion;
-		
+
 			function init(){
 				accordion = new dijit.layout.AccordionContainer({}, dojo.byId("accordionShell"));
 				var title=[ "pane 1", "pane 2", "pane 3" ];
@@ -49,7 +49,7 @@
 				accordion.startup();
 			}
 			dojo.addOnLoad(init);
-			
+
 			function destroyChildren(){
 				accordion.destroyDescendants();
 			}

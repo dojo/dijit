@@ -54,7 +54,7 @@ dojo.declare(
 		// summary:
 		//		Holds a set of panes where every pane's title is visible, but only one pane's content is visible at a time,
 		//		and switching between panes is visualized by sliding the other panes up/down.
-		
+
 		// duration: Integer
 		//		Amount of time (in ms) it takes to slide panes
 		duration: 250,
@@ -77,7 +77,7 @@ dojo.declare(
 			}
 			return child;	// Widget
 		},
-		
+
 		_addChild: function(widget){
 			// summary
 			//		Internal call to add child, used during postCreate() and by the real addChild() call
@@ -110,7 +110,7 @@ dojo.declare(
 			this.layout();
 			// TODO: maybe base class removeChild() should call layout()?
 		},
-		
+
 		layout: function(){
 			// summary
 			//		Set panes' size/position based on my size, and the current open node.
@@ -211,7 +211,7 @@ dojo.declare(
 		// summary: callback when someone clicks my title
 		this.getParent().selectChild(this);
 	},
-	
+
 	setSelected: function(/*Boolean*/ isSelected){
 		this.selected = isSelected;
 		(isSelected ? dojo.addClass : dojo.removeClass)(this.domNode, "dijitAccordionPane-selected");
@@ -244,7 +244,7 @@ dojo.extend(dijit.base.Widget, {
 	// title: String
 	//		Title of this widget.  Used by TabContainer to the name the tab, etc.
 	title: "",
-	
+
 	// selected: Boolean
 	//		Is this child currently selected?
 	selected: false

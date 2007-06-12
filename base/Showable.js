@@ -44,7 +44,7 @@ dojo.declare("dijit.base.Showable", null,
 		this.domNode.style.display = "none";
 		this.onHide();
 	},
-	
+
 	onHide: function(){
 		// summary: callback for when widget is hidden
 	}

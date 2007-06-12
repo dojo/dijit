@@ -40,12 +40,12 @@ dojo.declare(
 		//		user replaceable function used to generate regExp when dependent on constraints
 		//		Do not specify both regExp and regExpGen
 		regExpGen: function(constraints){ return this.regExp; },
-	
+
 		setValue: function(){
 			dijit.form.ValidationTextbox.superclass.setValue.apply(this, arguments);
 			this.validate(false);
 		},
-	
+
 		validator: function(value,constraints){
 			// summary: user replaceable function used to validate the text input against the regular expression.
 			return (new RegExp("^(" + this.regExpGen(constraints) + ")$")).test(value);
@@ -55,7 +55,7 @@ dojo.declare(
 			// summary: Need to over-ride with your own validation code in subclasses
 			return this.validator(this.textbox.value, this.constraints);
 		},
-	
+
 		isEmpty: function(){
 			// summary: Checks for whitespace
 			return /^\s*$/.test(this.textbox.value); // Boolean
@@ -65,7 +65,7 @@ dojo.declare(
 			// summary: Checks to see if value is required and is whitespace
 			return this.required && this.isEmpty(); // Boolean
 		},
-	
+
 		getErrorMessage: function(/* Boolean*/ isFocused){
 			// summary: return an error message to show if appropriate
 			return this.invalidMessage;
@@ -81,7 +81,7 @@ dojo.declare(
 			//		Called by oninit, onblur, and onkeypress.
 			// description:
 			//		Show missing or invalid messages if appropriate, and highlight textbox field.
-			
+
 			var message;
 			if(!this.isValid(isFocused)){
 				this.updateClass("Error");
@@ -92,7 +92,7 @@ dojo.declare(
 			}
 			this._displayMessage(isFocused ? message : "");
 		},
-		
+
 		// currently displayed message
 		_message: "",		
 
@@ -113,7 +113,7 @@ dojo.declare(
 				dojo.removeClass(_this.nodeWithBorder, "dijitInputFieldValidation"+label); });
 			dojo.addClass(this.nodeWithBorder, "dijitInputFieldValidation"+className);
 		},
-		
+
 		onfocus: function(evt){
 			dijit.form.ValidationTextbox.superclass.onfocus.apply(this, arguments);
 			if(this.listenOnKeyPress){
@@ -122,7 +122,7 @@ dojo.declare(
 				this.updateClass("Warning");
 			}
 		},
-	
+
 		onkeyup: function(evt){
 			this.onfocus(evt);
 		},
@@ -156,7 +156,7 @@ dojo.declare(
 			// summary: user replaceable function used to convert the getValue() result to a String
 			return val.toString();
 		},
-		
+
 		toString: function(){
 			// summary: display the widget as a printable string using the widget's value
 			var val = this.getValue();
@@ -223,12 +223,12 @@ dojo.declare(
 			// summary: Need to over-ride with your own validation code in subclasses
 			return this.rangeCheck(this.getValue(), this.constraints);
 		},
-	
+
 		isValid: function(/* Boolean*/ isFocused){
 			return dijit.form.RangeBoundTextbox.superclass.isValid.call(this, isFocused) &&
 				this.isInRange(isFocused);
 		},
-	
+
 		getErrorMessage: function(/* Boolean*/ isFocused){
 			if(dijit.form.RangeBoundTextbox.superclass.isValid.call(this, false) && !this.isInRange(isFocused)){ return this.rangeMessage; }
 			else{ return dijit.form.RangeBoundTextbox.superclass.getErrorMessage.apply(this, arguments); }

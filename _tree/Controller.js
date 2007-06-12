@@ -41,11 +41,11 @@ dojo.declare(
 
 	onExecute: function(/*Object*/ message) {
 		// summary: an execute event has occured
-		
+
 		// does the user override this handler?
 		console.log("execute message for " + message.node);
 	},
-	
+
 	onNext: function(/*Object*/ message) {
 		// summary: down arrow pressed; move to next visible node
 
@@ -65,19 +65,19 @@ dojo.declare(
 				nodeWidget = nodeWidget.getParent();
 			}	
 		}
-				
+
 		if (returnWidget && returnWidget.isTreeNode) {
 			returnWidget.tree.focusNode(returnWidget);
 			return returnWidget;
 		}	
 	},
-	
+
 	onPrevious: function(/*Object*/ message) {
 		// summary: up arrow pressed; move to previous visible node
 
 		var nodeWidget = message.node;
 		var returnWidget = nodeWidget;
-		
+
 		// if younger siblings		
 		var previousSibling = nodeWidget.getPreviousSibling();
 		if (previousSibling) {
@@ -93,42 +93,42 @@ dojo.declare(
 			// if this is the first child, return the parent
 			nodeWidget = nodeWidget.getParent();
 		}
-		
+
 		if (nodeWidget && nodeWidget.isTreeNode) {
 			returnWidget = nodeWidget;
 		}
-		
+
 		if (returnWidget && returnWidget.isTreeNode) {
 			returnWidget.tree.focusNode(returnWidget);
 			return returnWidget;
 		}
 	},
-	
+
 	onZoomIn: function(/*Object*/ message) {
 		// summary: right arrow pressed; go to child node
 		var nodeWidget = message.node;
 		var returnWidget = nodeWidget;
-		
+
 		// if not expanded, expand, else move to 1st child
 		if (nodeWidget.isFolder && !nodeWidget.isExpanded) {
 			this._expand(nodeWidget);
 		}else if (nodeWidget.hasChildren()) {
 			nodeWidget = nodeWidget.getChildren()[0];
 		}
-		
+
 		if (nodeWidget && nodeWidget.isTreeNode) {
 			returnWidget = nodeWidget;
 		}
-		
+
 		if (returnWidget && returnWidget.isTreeNode) {
 			returnWidget.tree.focusNode(returnWidget);
 			return returnWidget;
 		}
 	},
-	
+
 	onZoomOut: function(/*Object*/ message) {
 		// summary: left arrow pressed; go to parent
-		
+
 		var node = message.node;
 		var returnWidget = node;
 
@@ -141,7 +141,7 @@ dojo.declare(
 		if (node && node.isTreeNode) {
 			returnWidget = node;
 		}
-		
+
 		if (returnWidget && returnWidget.isTreeNode) {
 			returnWidget.tree.focusNode(returnWidget);
 			return returnWidget;
@@ -157,7 +157,7 @@ dojo.declare(
 		while (!returnWidget.isTree){
 			returnWidget = returnWidget.getParent();
 		}
-		
+
 		if (returnWidget){
 			returnWidget = returnWidget.getChildren()[0];
 			if (returnWidget && returnWidget.isTreeNode){
@@ -171,12 +171,12 @@ dojo.declare(
 		// summary: end pressed; go to last visible node
 
 		var returnWidget = message.node;
-		
+
 		// find the tree root
 		while (!returnWidget.isTree){
 			returnWidget = returnWidget.getParent();
 		}
-		
+
 		var lastChild = returnWidget;
 		while(lastChild.isExpanded){
 			var c = lastChild.getChildren();
@@ -201,7 +201,7 @@ dojo.declare(
 			this._expand(node);
 		}
 	},
-	
+
 	_expand: function(node) {
 		if (node.isFolder) {
 			node.expand(); // skip trees or non-folders
@@ -258,18 +258,18 @@ dojo.declare(
 				// need to load all the children, and then expand
 				var parentItem = node.item;
 				var childItems = store.getValues(parentItem, this.childrenAttr);
-	
+
 				// count how many items need to be loaded
 				var _waitCount = 0;
 				dojo.forEach(childItems, function(item){ if(!store.isItemLoaded(item)){ _waitCount++; } });
-	
+
 		       	if(_waitCount == 0){
 		       		// all items are already loaded.  proceed..
 		       		this._onLoadAllItems(node, childItems);
 		       	}else{
 		       		// still waiting for some or all of the items to load
 		       		node.markProcessing();
-	
+
 					var _this = this;
 					function onItem(item){
 		   				if(--_waitCount == 0){
@@ -285,7 +285,7 @@ dojo.declare(
 			       	});
 		       	}
 		       	break;
-		       	
+
 			default:
 				// data is already loaded; just proceed
 				dijit._tree.Controller.prototype._expand.apply(this, arguments);

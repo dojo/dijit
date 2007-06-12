@@ -36,7 +36,7 @@ dojo.declare(
 		maxlength: "999999",
 
 		templatePath: dojo.moduleUrl("dijit.form", "templates/Textbox.html"),
-	
+
 		getTextValue: function(){
 			return this.filter(this.textbox.value);
 		},
@@ -97,7 +97,7 @@ dojo.declare(
 			}
 			return val;
 		},
-	
+
 		focus: function(){
 			// summary: if the widget wants focus, then focus the textbox
 			this.textbox.focus();

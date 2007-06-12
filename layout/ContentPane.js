@@ -85,7 +85,7 @@ dojo.declare(
 				this._prepareForShow();
 			}
 		},
-	
+
 		onShow: function(){
 			// if refreshOnShow is true, reload the contents every time; otherwise, load only the first time
 			if(this.refreshOnShow){
@@ -94,14 +94,14 @@ dojo.declare(
 				this._prepareForShow();
 			}
 		},
-	
+
 		refresh: function(){
 			// summary:
 			//		Force a refresh (re-download) of content, be sure to turn off cache
 			this.isLoaded=false;
 			this._prepareForShow();
 		},
-	
+
 		_prepareForShow: function(){
 			// summary:
 			//		Called whenever the ContentPane is displayed.  The first time it's called,
@@ -116,7 +116,7 @@ dojo.declare(
 				this._downloadExternalContent(this.href, this.cacheContent && !this.refreshOnShow);
 			}
 		},
-		
+
 		setUrl: function(/*String||dojo.uri.Uri*/ url){
 			// summary:
 			//		Reset the (external defined) content of this pane and replace with new url
@@ -134,7 +134,7 @@ dojo.declare(
 			// summary
 			//		Aborts a inflight download of content
 		},
-	
+
 		_downloadExternalContent: function(url, useCache){
 			this.abort();
 			this._handleDefaults(this.loadingMessage, "onDownloadStart");
@@ -152,20 +152,20 @@ dojo.declare(
 				self.onLoad();
 			});
 		},
-	
+
 		onLoad: function(e){
 			// summary:
 			//		Event hook, is called after everything is loaded and widgetified
 			this._runStack("_onLoadStack");
 			this.isLoaded=true;
 		},
-	
+
 		onUnload: function(e){
 			// summary:
 			//		Event hook, is called before old content is cleared
 			this._runStack("_onUnloadStack");
 		},
-	
+
 		_runStack: function(stName){
 			var st = this[stName]; var err = "";
 			var scope = window;
@@ -177,13 +177,13 @@ dojo.declare(
 				}
 			}
 			this[stName] = [];
-	
+
 			if(err.length){
 				var name = (stName== "_onLoadStack") ? "addOnLoad" : "addOnUnLoad";
 				this._handleDefaults(name+" failure\n "+err, "onExecError", "debug"); //TODO: i18n
 			}
 		},
-	
+
 		addOnLoad: function(obj, func){
 			// summary
 			//		Stores function refs and calls them one by one in the order they came in
@@ -194,7 +194,7 @@ dojo.declare(
 			//		function that will be called
 			this._pushOnStack(this._onLoadStack, obj, func);
 		},
-	
+
 		addOnUnload: function(obj, func){
 			// summary
 			//		Stores function refs and calls them one by one in the order they came in
@@ -205,7 +205,7 @@ dojo.declare(
 			//		function that will be called
 			this._pushOnStack(this._onUnloadStack, obj, func);
 		},
-	
+
 		_pushOnStack: function(stack, obj, func){
 			if(typeof func == 'undefined'){
 				stack.push(obj);
@@ -230,26 +230,26 @@ dojo.declare(
 			//		called when content script eval error or Java error occurs, preventDefault-able
 			//		default is to debug not alert as in 0.3.1
 		},
-	
+
 		onContentError: function(/*Object*/e){
 			// summary:
 			//		called on DOM faults, require fault etc in content, preventDefault-able
 			//		default is to display errormessage inside pane
 		},
-	
+
 		onDownloadError: function(/*Object*/e){
 			// summary:
 			//		called when download error occurs, preventDefault-able
 			//		default is to display errormessage inside pane
 		},
-	
+
 		onDownloadStart: function(/*Object*/e){
 			// summary:
 			//		called before download starts, preventDefault-able
 			//		default is to display loadingMessage inside pane
 			//		by changing e.text in your event handler you can change loading message
 		},
-	
+
 		//
 		onDownloadEnd: function(url, data){
 			// summary:
@@ -260,7 +260,7 @@ dojo.declare(
 			data = this.splitAndFixPaths(data, url);
 			this.setContent(data);
 		},
-	
+
 		// useful if user wants to prevent default behaviour ie: _setContent("Error...")
 		_handleDefaults: function(e, handler, messType){
 			if(!handler){ handler = "onContentError"; }
@@ -304,7 +304,7 @@ dojo.declare(
 			}
 			arguments.callee._loopStop = false;
 		},
-	
+
 		// pathfixes, require calls, css stuff and neccesary content clean
 		// pathfixes, require calls, css stuff and neccesary content clean
 		// pathfixes, require calls, css stuff and neccesary content clean
@@ -318,7 +318,7 @@ dojo.declare(
 			var titles = [], scripts = [],tmp = [];// init vars
 			var match = [], requires = [], attr = [], styles = [];
 			var str = '', path = '', fix = '', tagFix = '', tag = '', origPath = '';
-	
+
 			if(!url){ url = "./"; } // point to this page if not set
 
 			if(s){ // make sure we dont run regexes on empty content
@@ -342,12 +342,12 @@ dojo.declare(
 					var regexFindAttr = /\s(src|href|style)=(['"]?)([\w()\[\]\/.,\\'"-:;#=&?\s@]+?)\2/i;
 					// these are the supported protocols, all other is considered relative
 					var regexProtocols = /^(?:[#]|(?:(?:https?|ftps?|file|javascript|mailto|news):))/;
-		
+
 					while(tag = regexFindTag.exec(s)){
 						str += s.substring(0, tag.index);
 						s = s.substring((tag.index + tag[0].length), s.length);
 						tag = tag[0];
-			
+
 						// loop through attributes
 						tagFix = '';
 						while(attr = regexFindAttr.exec(tag)){
@@ -400,7 +400,7 @@ dojo.declare(
 						// remove all invalid variables etc like djConfig and dojo.hostenv.writeIncludes()
 						var sc = match[2].replace(regexInvalid, "");
 						if(!sc){ continue; }
-		
+
 						// cut out all dojo.require (...) calls, if we have execute
 						// scripts false widgets dont get there require calls
 						// takes out possible widgetpackage registration as well
@@ -426,11 +426,11 @@ dojo.declare(
 				"scripts": 		scripts,
 				"url": 			url};
 		},
-	
-		
+
+
 		_setContent: function(cont){
 			this.destroyDescendants();
-	
+
 			// remove old stylenodes from HEAD
 			dojo.forEach(this._styleNodes, function(style){
 				if(style && style.parentNode){
@@ -465,7 +465,7 @@ dojo.declare(
 			this.abort();
 			if(this._callOnUnload){ this.onUnload(); }// this tells a remote script clean up after itself
 			this._callOnUnload = true;
-			
+
 //PORT: from dojo.dom.  get rid of isNode check and use something else instead?
 			var isNode = function(/* object */wh){
 				//	summary:
@@ -499,7 +499,7 @@ dojo.declare(
 						style.path ? dojo.html.insertCssFile(style.path, dojo.doc, false, true) : dojo.html.insertCssText(style));//PORT me?
 				}, this);
 				*/
-	
+
 				if(this.parseContent){
 					dojo.forEach(data.requires, function(require){
 						try{
@@ -518,7 +518,7 @@ dojo.declare(
 					if(_self.parseContent){
 						_self._createSubWidgets();
 					}
-	
+
 					_self.onLoad();
 				}
 				// try as long as possible to make setContent sync call
@@ -533,10 +533,10 @@ dojo.declare(
 		_createSubWidgets: function(){
 			// summary: scan my contents and create subwidgets
 			var rootNode = this.containerNode || this.domNode;
-			
+
 			// FIXME: this isn't working (see below)
 			dojo.parser.parse(rootNode);
-			
+
 /*			// temporary workaround until dojo.query works with passed in rootNode
 			// in above call first find all the descendent widget nodes
 			var allNodes = rootNode.all || rootNode.getElementsByTagName("*");
@@ -565,7 +565,7 @@ dojo.declare(
 				return fcn.apply(this, arguments);
 			}
 		},
-	
+
 		_runHandler: function(){
 			var ret = true;
 			if(dojo.isFunction(this.handler)){
@@ -575,5 +575,5 @@ dojo.declare(
 			this.onLoad();
 			return ret;
 		}
-		
+
 });

@@ -11,7 +11,7 @@ dojo.declare(
 {
 	// summary
 	//		Grid showing various colors, so the user can pick a certain color
-	
+
 	// defaultTimeout: Number
 	//      number of milliseconds before a held key or button becomes typematic
 	defaultTimeout: 500,
@@ -24,23 +24,23 @@ dojo.declare(
 	// palette: String
 	//		Size of grid, either "7x10" or "3x4".
 	palette: "7x10",
-	
+
 	//_selectedColor: String
 	//		The value of the selected color.
 	selectedColor: null,
-	
+
 	//_currentFocus: Integer
 	//		Index of the currently focused color.
 	_currentFocus: 0,
-	
+
 	// _xDim: Integer
 	//		This is the number of colors horizontally across.
 	_xDim: null,
-	
+
 	// _yDim: Integer
 	///		This is the number of colors vertically down.
 	_yDim: null,
-	
+
 	// _palettes: Map
 	// 		This represents the value of the colors.
 	//		The first level is a hashmap of the different arrays available
@@ -59,14 +59,14 @@ dojo.declare(
 			["808080"/*gray*/, "ff0000"/*red*/, "800080"/*purple*/, "000000"/*black*/]]
 			//["00ffff"/*aqua*/, "808000"/*olive*/, "800000"/*maroon*/, "008080"/*teal*/]];
 	},
-	
+
 	// _imagePaths: Map
 	//		This is stores the path to the palette images
 	_imagePaths: {
 		"7x10": dojo.moduleUrl("dijit", "templates/colors7x10.png"),
 		"3x4": dojo.moduleUrl("dijit", "templates/colors3x4.png")
 	},
-	
+
 	// _paletteCoords: Map
 	//		This is a map that is used to calculate the coordinates of the
 	//		images that make up the palette.
@@ -74,20 +74,20 @@ dojo.declare(
 		"leftOffset": 3, "topOffset": 3,
 		"cWidth": 18, "cHeight": 16
 	},
-	
+
 	// templatePath: String
 	//		Path to the template of this widget.
 	templatePath: dojo.moduleUrl("dijit", "templates/ColorPalette.html"),
-		
-	
+
+
 	_paletteDims: {
 		"7x10": {"width": "185px", "height": "117px"},
 		"3x4": {"width": "82px", "height": "58px"}
 	},
-	
-		
+
+
 	postCreate: function() {
-		
+
 		// A name has to be given to the colorMap, this needs to be unique per Palette.	
 		this.divNode.style.width = this._paletteDims[this.palette]["width"];
 		this.divNode.style.height = this._paletteDims[this.palette]["height"];
@@ -96,7 +96,7 @@ dojo.declare(
 		var imagePos = dojo.coords(this.imageNode);
 		this.domNode.style.position = "relative";
 		this._highlightNodes = [];	
-				 				
+
 		for (var row=0; row<alts.length; row++) {
 			for (var col=0; col<alts[row].length; col++) {
 				var highlightNode = document.createElement("img");
@@ -124,13 +124,13 @@ dojo.declare(
 		this._highlightNodes[this._currentFocus].tabIndex = 0;
 		this._xDim = alts[0].length;
 		this._yDim = alts.length;
-				
+
 		// Now set all events
 		// The palette itself is navigated to with the tab key on the keyboard
 		// Keyboard navigation within the Palette is with the arrow keys
 		// Spacebar selects the color.
 		// For the up key the index is changed by negative the x dimension.		
-			
+
 		dijit.util.typematic.addKeyListener(this.domNode,
 			{keyCode:dojo.keys.UP_ARROW,ctrlKey:false,altKey:false,shiftKey:false},
 			this, function(count,node,evt) { this._navigateByKey(-this._xDim,count); },
@@ -150,7 +150,7 @@ dojo.declare(
 			this, function(count,node,evt) { this._navigateByKey(-1,count); },
 			this.timeoutChangeRate, this.defaultTimeout);
 	},
-			
+
 	onColorSelect: function(color){
 		// summary:
 		//		Callback when a color is selected.
@@ -168,7 +168,7 @@ dojo.declare(
 		evt.currentTarget.focus();
 		this._selectColor(evt.currentTarget);	
 	},
-	
+
 	onMouseOver: function(evt) {
 		// summary:
 		//		Handler for onMouseOver. This changes the color being highlighted.
@@ -177,7 +177,7 @@ dojo.declare(
 		evt.currentTarget.tabIndex = 0;
 		evt.currentTarget.focus();
 	},
-	
+
 	onBlur: function(evt) {
 		// summary:
 		//		Handler for the onBlur event. Causes the highlight Div
@@ -186,7 +186,7 @@ dojo.declare(
 		//		The blur event.
 		dojo.removeClass(evt.currentTarget, "dijitPaletteImgHighlight");
 	},
-	
+
 	onFocus: function(evt) {
 		// summary:
 		//		Handler for onFocus. This highlights the first color in the
@@ -200,9 +200,9 @@ dojo.declare(
 		}
 		this._currentFocus = evt.currentTarget.index;
 		dojo.addClass(evt.currentTarget, "dijitPaletteImgHighlight");
-		
+
 	},
-	
+
 	onKeyDown: function(evt) {
 		// summary:
 		//		Handler for the onKeyDown event.
@@ -211,7 +211,7 @@ dojo.declare(
 		//		Tab blurs the area currently highlighted.
 		// evt:
 		//		The keydown event.
-		
+
 		if (evt.keyCode == dojo.keys.SPACE)
 		{
 			if (this._currentFocus != null)
@@ -220,7 +220,7 @@ dojo.declare(
 			}
 		}
 	},
-	
+
 	_selectColor: function (selectNode) {	
 		// summary:
 		// 		This selects a color. It triggers the onColorSelect event
@@ -229,7 +229,7 @@ dojo.declare(
 		this.selectedColor = selectNode.color;
 		this.onColorSelect(selectNode.color);
 	},
-	
+
 	_navigateByKey: function(increment,typeCount) {
 		// summary:
 		// 	  	This is the callback for typematic.
@@ -238,10 +238,10 @@ dojo.declare(
 		// 		How much the key is navigated.
 		//	typeCount:
 		//		How many times typematic has fired.
-		
+
 		// typecount == -1 means the key is released.
 		if (typeCount==-1) { return; }
-		
+
 		var newFocus = this._currentFocus+increment;
 		if (newFocus < this._highlightNodes.length && newFocus > -1)
 		{

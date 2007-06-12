@@ -8,7 +8,7 @@ dojo.declare(
 	"dijit.form._Spinner",
 	dijit.form.RangeBoundTextbox,
 	{
-	
+
 		// summary: Mixin for validation widgets with a spinner
 		// description: This class basically (conceptually) extends dijit.form.ValidationTextbox.
 		//	It modifies the template to have up/down arrows, and provides related handling code.

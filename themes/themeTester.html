@@ -52,7 +52,7 @@
 
 		// for the colorpalette
 		function setColor(color){
-	
+
 			var theSpan = dojo.byId("outputSpan");
 			theSpan.style.color = "#"+color;
 			theSpan.innerHTML = color;
@@ -65,20 +65,20 @@
 
 	</script>
 	<style type="text/css">
-	
+
 	@import "../../dojo/resources/dojo.css";
 	@import "../../dijit/themes/dijit.css";
 	@import "../tests/css/dijitTests.css";
 
 	body { padding:10px; }	
-	
+
 	/* for custom menu buttons, do not appear to have any effect */
 	.dc {
 		font-size: x-large !important;
 		padding-top: 10px !important;
 		padding-bottom: 10px !important;
 	}
-		
+
 	.Acme *,
 	.Acme {
 		background: rgb(96,96,96) !important;
@@ -131,7 +131,7 @@
 		<div dojoType="dijit.MenuItem" caption="Submenu Item Two" onClick="alert('Submenu 2!')"></div>
 	</div>
 	<!-- end sub menu -->
-	
+
 	<!-- overall splitcontainer horizontal -->
 	<div dojoType="dijit.layout.SplitContainer" orientation="horizontal" sizerWidth="7"
 		style="width: 100%; height: 87%; ">
@@ -171,7 +171,7 @@
 				<a href="javascript:dijit.byId('dialog1').show()">show Popup Dialog</a>
 				<br>
 				<a href="javascript:dijit.byId('dialog2').show()">show Second Dialog</a>
-	
+
 			</div>
 
 		</div><!-- end AccordionContainer -->
@@ -188,7 +188,7 @@
 					<h2>Various Form Elements:</h2>
 
 					<form name="dijitFormTest">
-				
+
 					[plain] Text Input: <input type="text" name="textInfo" value="Lorem" size="10">
 					<br>
 
@@ -219,14 +219,14 @@
 
 					<input type="radio" name="g2" id="g2rb3" value="country" dojoType="dijit.form.RadioButton">
 					<label for="g2rb3">country</label><br>
-						
+
 					<input type="radio" name="g2" id="g2rb4" value="standard">
 					<label for="g2rb4">standard</label><br>
-						
+
 					<br>
 					(Note if using keyboard: tab to navigate, and use arrow or space to select)
 					</p>
-					
+
 					<p><span>Autocompleting dijit.form.FilteringSelect: (from tree datastore?)</span>
 						<!-- FIXME: 
 
@@ -357,7 +357,7 @@
 
 					<h2>Customized buttons</h2>
 					<p>Dojo users can mix in their styles.  Here's an example:</p>
-					
+
 					<div class="box"><!-- custom styled button tests -->
 						<button dojoType="dijit.form.Button" class="Acme"
 							onclick='console.debug("short");'>
@@ -396,7 +396,7 @@
 							caption="Paste" accelKey="Ctrl+V"
 							onClick="console.debug('not actually pasting anything, just a test!')">
 						</div>
-	
+
 					</div>
 
 					<div dojoType="dijit.PopupMenu" id="saveMenu" toggle="wipe"
@@ -412,7 +412,7 @@
 							onClick="console.debug('not actually saving anything, just a test!')">
 						</div>
 					</div>
-	
+
 				</div><!-- end third upper tab-->
 
 				<!-- fourth upper tab -->
@@ -426,7 +426,7 @@
 						<input dojoType="dijit.form.Textbox" value="Edit me - I trigger the onValueChanged callback">
 					</span>
 					after
-	
+
 					<h2>Dijit InlineEditBox vs. Textarea dijit</h2>
 
 					<blockquote style="width:300px;">
@@ -484,7 +484,7 @@
 					<p>I am a Split Container, containing a Split Container on
 					the right. TabContainer on the top right, Bottom-aligned Tab Container
 					bottom right. AccordionPane on the left.</p>
-					
+
 					<p>There is a right-click [context] pop-up menu here, as well.</p>
 				</div><!-- end:info btab1 -->
 

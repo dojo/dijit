@@ -7,8 +7,8 @@ dojo.declare(
 	"dijit.layout.TabContainer",
 	[dijit.layout.PageContainer, dijit.base.Sizable],
 {	
-	
-	
+
+
 	// summary
 	//	A TabContainer is a container that has multiple panes, but shows only
 	//	one pane at a time.  There are a set of tabs corresponding to each pane,
@@ -21,7 +21,7 @@ dojo.declare(
 	//   Defines where tabs go relative to tab content.
 	//   "top", "bottom", "left-h", "right-h"
 	tabPosition: "top",
-	
+
 	templateString: null,	// override setting in PageContainer
 	templatePath: dojo.moduleUrl("dijit.layout", "templates/TabContainer.html"),
 
@@ -36,7 +36,7 @@ dojo.declare(
 				containerId: this.id
 			}, this.tablistNode);		
 	},
-	
+
 	_setupChild: function(tab){
 		dojo.addClass(tab.domNode, "dijitTabPane");
 		dijit.layout.TabContainer.superclass._setupChild.apply(this, arguments);

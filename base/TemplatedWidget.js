@@ -9,7 +9,7 @@ dojo.declare("dijit.base.TemplatedWidget",
 	{
 		// summary:
 		//		mixin for widgets that are instantiated from a template
-			
+
 		// templateNode: DomNode
 		//		a node that represents the widget template. Pre-empts both templateString and templatePath.
 		templateNode: null,
@@ -30,7 +30,7 @@ dojo.declare("dijit.base.TemplatedWidget",
 		//		declared in markup inside it? false by default.
 		// TODO: unsupported; need to copy over code from trunk
 		widgetsInTemplate: false,
-		
+
 		// containerNode DomNode:
 		//		holds child elements. "containerNode" is generally set via a
 		//		dojoAttachPoint assignment and it designates where children of
@@ -109,7 +109,7 @@ dojo.declare("dijit.base.TemplatedWidget",
 			// getAttrFunc: function?
 			//		a function which will be used to obtain property for a given
 			//		DomNode/Widget
-		
+
 			var trim = function(str){
 				return str.replace(/^\s+|\s+$/g, "");
 			};
@@ -160,7 +160,7 @@ dojo.declare("dijit.base.TemplatedWidget",
 						this.connect(baseNode, tevt, thisFunc);
 					}
 				}
-		
+
 				// waiRole, waiState
 				dojo.forEach(["waiRole", "waiState"], function(name){
 					var wai = dijit.util.wai[name];

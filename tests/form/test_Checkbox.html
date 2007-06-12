@@ -3,9 +3,9 @@
 <html>
 <head>
 	<title>Checkbox Widget Demo</title>
-	
+
 	<script type="text/javascript" src="../testBidi.js"></script>
-	
+
 	<script type="text/javascript" src="../../../dojo/dojo.js"
 		djConfig="isDebug: true"></script>
 	<script type="text/javascript">
@@ -24,15 +24,15 @@
 			dojo.byId("result").innerHTML = str;
 			return false;
 		}
-		
+
 		function reportChecked(checked) {
 			dojo.byId("oncheckedoutput").innerHTML = checked;
 		}
-		
+
 		function reportValueChanged(value) {
 			dojo.byId("onvaluechangedoutput").innerHTML = value;
 		}
-		
+
 		dojo.addOnLoad(function(){
 			var params = {id: "cb6", name: "cb6"};
 			var widget = new dijit.form.Checkbox(params, dojo.byId("checkboxContainer"));

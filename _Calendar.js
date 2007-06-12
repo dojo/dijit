@@ -25,7 +25,7 @@ dojo.declare(
 			Note that the parser takes all dates attributes passed in the `RFC 3339` format:
 			http://www.faqs.org/rfcs/rfc3339.html (2005-06-30T08:05:00-07:00)
 			so that they are serializable and locale-independent.
-		
+
 		usage:
 			var calendar = new dijit._Calendar({}, dojo.byId("calendarNode"));
 		 	-or-
@@ -168,7 +168,7 @@ dojo.declare(
 			evt.stopPropagation();
 			this._adjustDate("month", 1);
 		},
-	
+
 		_onDecrementMonth: function(/*Event*/evt){
 			// summary: handler for increment month event
 			evt.stopPropagation();
@@ -180,7 +180,7 @@ dojo.declare(
 			evt.stopPropagation();
 			this._adjustDate("year", 1);
 		},
-	
+
 		_onDecrementYear: function(/*Event*/evt){
 			// summary: handler for increment year event
 			evt.stopPropagation();

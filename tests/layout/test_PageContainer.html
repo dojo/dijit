@@ -36,7 +36,7 @@
 		dijit.byId("next2")[page.isLastChild ? "disable" : "enable"]();
 	}
 	dojo.subscribe("myPageContainer-selectChild", selected);
-	
+
 	dojo.require("dijit.util.parser");	// scan page for widgets and instantiate them
 </script>
 </head>
@@ -57,6 +57,6 @@
 	<button dojoType="dijit.form.Button" id="previous2" onClick="dijit.byId('myPageContainer').back()">&lt;</button>
 	<span dojoType="dijit.layout.PageController" containerId="myPageContainer"></span>
 	<button dojoType="dijit.form.Button" id="next2" onClick="dijit.byId('myPageContainer').forward()">&gt;</button>
-	
+
 </body>
 </html>

@@ -24,7 +24,7 @@ dojo.declare(
 		type: "button",
 		baseClass: "dijitButton",
 		templatePath: dojo.moduleUrl("dijit.form", "templates/Button.html"),
-		
+
 		onClick: function(/*Event*/ e){
 			// summary: callback for when button is clicked; user can override this function
 		},
@@ -60,7 +60,7 @@ dojo.declare(
 		//	widget id of the menu that this button should activate
 		menuId: "",
 		baseClass : "dijitDropDownButton",
-		
+
 		templatePath: dojo.moduleUrl("dijit.form" , "templates/DropDownButton.html"),
 
 		postCreate: function(){
@@ -73,7 +73,7 @@ dojo.declare(
 				this.popupStateNode.removeAttribute("popupActive");
 			});
 		},
-		
+
 		_onArrowClick: function(/*Event*/ e){
 			// summary: callback when the user mouse clicks on menu popup node
 			if(this.disabled){ return; }
@@ -127,7 +127,7 @@ dojo.declare(
 		// summary
 		//		left side is normal button, right side displays menu
 		templatePath: dojo.moduleUrl("dijit.form", "templates/ComboButton.html"),
-		
+
 		// optionsTitle: String
 		//  text that describes the options menu (accessibility)
 		optionsTitle: "",
@@ -168,14 +168,14 @@ dojo.declare(
 		this._selected = !this._selected;
 		this._setStateClass();
 	},
-	
+
 	setSelected: function(){
 		// summary
 		//	Programatically deselect the button
 		this._selected=true;
 		this._setStateClass();
 	},
-	
+
 	clearSelected: function(){
 		// summary
 		//	Programatically deselect the button

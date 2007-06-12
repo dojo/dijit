@@ -26,16 +26,16 @@ dojo.declare(
 	//		If true, the children's size changes as you drag the bar;
 	//		otherwise, the sizes don't change until you drop the bar (by mouse-up)
 	activeSizing: false,
-	
+
 	// sizerWidget: Integer
 	//		Size in pixels of the bar between each child
 	sizerWidth: 15,
-	
+
 	// orientation: String
 	//		either 'horizontal' or vertical; indicates whether the children are
 	//		arranged side-by-side or up/down.
 	orientation: 'horizontal',
-	
+
 	// persist: Boolean
 	//		Save splitter positions in a cookie
 	persist: true,
@@ -44,7 +44,7 @@ dojo.declare(
 		dijit.layout.SplitContainer.superclass.postMixInProperties.apply(this, arguments);
 		this.isHorizontal = (this.orientation == 'horizontal');
 	},
-	
+
 	postCreate: function(){
 		dijit.layout.SplitContainer.superclass.postCreate.apply(this, arguments);
 		this.sizers = [];
@@ -56,7 +56,7 @@ dojo.declare(
 		}
 
 		var content = dojo.contentBox(this.domNode);
-		
+
 		this.paneWidth = content.w;
 		this.paneHeight = content.h;
 		// create the fake dragger
@@ -82,7 +82,7 @@ dojo.declare(
 		dijit._disableSelection(this.virtualSizer);
 
 	},
-	
+
 	startup: function(){
 		var children = this.getChildren();
 		// attach the children and create the draggers
@@ -154,7 +154,7 @@ dojo.declare(
 	addChild: function(child, insertIndex){
 		dijit.base.Container.prototype.addChild.apply(this, arguments);
 		this._injectChild(child);
-		
+
 		var children = this.getChildren();
 		if(children.length > 1){
 			this._addSizer();
@@ -228,7 +228,7 @@ dojo.declare(
 		// algorithm to guaranteed the ordering of calls to layout method
 		if(!this.sizers)
 			return;
-		
+
 		for(var i=1; i<children.length; i++){
 			// error-checking
 			if(!this.sizers[i-1])
@@ -507,7 +507,7 @@ dojo.declare(
 			this.virtualSizer.style.top = pos + 'px';
 		}
 	},
-	
+
 	_getCookieName: function(i){
 		return this.id + "_" + i;
 	},

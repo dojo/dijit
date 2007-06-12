@@ -447,7 +447,7 @@ dojo.declare(
 			//		child are contributing to the total margin between this element
 			//		and the adjacent node. CSS border collapsing makes this
 			//		necessary.
-			
+
 			return 0; // FIXME: port
 
 			// FIXME: OMG. This has to be horribly inefficient.
@@ -1052,10 +1052,10 @@ dojo.declare(
 			if(!range.collapsed){
 				range.deleteContents();
 			}
-	
+
 			// FIXME
 			var block = dojo.html.range.getBlockAncestor(range.endContainer, null, this.editNode);
-	
+
 			if(block.blockNode && block.blockNode.tagName == 'LI'){
 				this._checkListLater = true;
 				return true;
@@ -1839,7 +1839,7 @@ dojo.declare(
 					    newP.appendChild(nodes[i]);
 					}
 				}
-			
+
 				var currentNodeIndex = 0;
 				var nodesInLine = [];
 				var currentNode;
@@ -1865,7 +1865,7 @@ dojo.declare(
 				}
 				if(nodesInLine.length){ wrapNodes(nodesInLine); }
 			}
-		
+
 			function splitP(el){
 			    // split a paragraph into seperate paragraphs at BRs
 			    var currentNode = null;
@@ -1889,7 +1889,7 @@ dojo.declare(
 					}
 			    }
 			}
-		
+
 			var pList = [];
 			var ps = element.getElementsByTagName('p');
 			dojo.forEach(ps, function(p){ pList.push(p); });
@@ -1908,7 +1908,7 @@ dojo.declare(
 			wrapLinesInPs(element);
 			return element;
 		},
-		
+
 		singleLinePsToRegularPs: function(element){
 			function getParagraphParents(node){
 				var ps = node.getElementsByTagName('p');
@@ -1928,7 +1928,7 @@ dojo.declare(
 				}
 				return parents;
 			}
-		
+
 			function isParagraphDelimiter(node){
 				if(node.nodeType != 1 || node.tagName != 'P'){
 					return (dojo.style(node, 'display') == 'block');
@@ -1937,7 +1937,7 @@ dojo.declare(
 				//return node.innerHTML.match(/^(<br\ ?\/?>| |\&nbsp\;)$/i);
 				}
 			}
-		
+
 			var paragraphContainers = getParagraphParents(element);
 			for(var i=0; i<paragraphContainers.length; i++){
 				var container = paragraphContainers[i];
@@ -1975,7 +1975,7 @@ dojo.declare(
 			}
 			return element;
 		},
-		
+
 		_fixNewLineBehaviorForIE: function(){
 			if(typeof this.document.__INSERTED_EDITIOR_NEWLINE_CSS == "undefined"){
 				var lineFixingStyles = "p{margin:0;}";

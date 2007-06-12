@@ -128,7 +128,7 @@ function(params, srcNodeRef){
 		this.destroyDescendants();
 		this.destroy();
 	},
-	
+
 	destroy: function(/*Boolean*/ finalize){
 		// summary:
 		// 		Destroy this widget, but not its descendents
@@ -174,7 +174,7 @@ function(params, srcNodeRef){
 		// summary:
 		//		Recursively destroy the children of this widget and their
 		//		descendants.
-		
+
 		// TODO: should I destroy in the reverse order, to go bottom up?
 		dojo.forEach(this.getDescendants(), function(widget){ widget.destroy(); });
 	},
@@ -187,7 +187,7 @@ function(params, srcNodeRef){
 	},
 
 	////////////////// MISCELLANEOUS METHODS ///////////////////
-	
+
 	toString: function(){
 		// summary:
 		//		returns a string that represents the widget. When a widget is

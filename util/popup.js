@@ -31,10 +31,10 @@ dijit.util.popup = new function(){
 			x += cood.x - dojo.withGlobal(win, dijit.util.getScroll).left;
 			y += cood.y - dojo.withGlobal(win, dijit.util.getScroll).top;
 		}
-		
+
 		return this._open(widget, padding, {x: x, y: y, id: "dropdown_"+idGen++});
 	};
-	
+
 	this.openAround = function(/*Widget*/parent, /*Widget*/widget, /*String?*/orient, /*Array?*/padding){
 		// summary:
 		//		Open the widget relative to parent widget (typically as a drop down to that widget)
@@ -47,7 +47,7 @@ dijit.util.popup = new function(){
 		// summary: utility function to help opening
 
 		if(!padding){ padding=[0,0]; }
-			
+
 		if(stack.length == 0){
 			this._beforeTopOpen(null, widget);
 		}
@@ -65,7 +65,7 @@ dijit.util.popup = new function(){
 		wrapper.appendChild(widget.domNode);
 		dojo.style(widget.domNode, "display", "");
 		dojo.body().appendChild(wrapper);
-		
+
 		// position the wrapper node
 		var best = args.around ?
 			dijit.util.placeOnScreenAroundElement(wrapper, args.around, padding, args.orient) :
@@ -78,7 +78,7 @@ dijit.util.popup = new function(){
 		if(widget.onOpen){
 			widget.onOpen();
 		}
-		
+
 		return best;
 	};
 
@@ -121,7 +121,7 @@ dijit.util.popup = new function(){
 	///////////////////////////////////////////////////////////////////////
 	// Utility functions for making mouse click close popup chain
 	var currentTrigger;
-	
+
 	this._beforeTopOpen = function(/*Widget*/ button, /*Widget*/menu){
 		// summary:
 		//	Called when a popup is opened, typically a button opening a menu.

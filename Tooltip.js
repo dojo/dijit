@@ -101,12 +101,12 @@ dojo.declare(
 		//		Text to display in the tooltip.
 		//		Can also be specified as innerHTML (when creating the widget from markup).
 		caption: "",
-		
+
 		// showDelay: Integer
 		//		Number of milliseconds to wait after hovering over/focusing on the object, before
 		//		the tooltip is displayed.
 		showDelay: 400,
-		
+
 		// connectId: String
 		//		Id of domNode to attach the tooltip to.
 		//		(When user hovers over specified dom node, the tooltip will appear.)

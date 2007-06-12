@@ -62,11 +62,11 @@
 	part of this page.   Tab2 is initially selected.</p>
 
 	<div id="mainTabContainer" dojoType="dijit.layout.TabContainer" style="width: 100%; height: 20em;" selectedChild="tab2">
-	
+
 		<div id="tab1" dojoType="dijit.layout.ContentPane" href="tab1.html" title="Tab 1"></div>
-		
+
 		<div id="tab2" dojoType="dijit.layout.ContentPane" href="tab2.html" refreshOnShow="true" title="Tab 2"></div>
-		
+
 		<div dojoType="dijit.layout.ContentPane" title="Tab 3">
 			<h1>I am tab 3</h1>
 			<p>And I was already part of the page! That's cool, no?</p>
@@ -97,7 +97,7 @@
 			tortor pharetra congue. Suspendisse pulvinar.
 			</p>
 		</div>
-		
+
 		<div dojoType="dijit.layout.LinkPane" title="Handler tab" handler="boo"></div>
 
 		<div dojoType="dijit.layout.ContentPane" title="Another Tab">
@@ -133,21 +133,21 @@
 			<p>If you try to close me there should be a confirm dialog.</p>
 		</div>
 	</div>
-	
+
 	<p>Tabs with titles on the bottom:</p>
 
 	<div id="btabs" dojoType="dijit.layout.TabContainer" tabPosition="bottom" style="width: 100%; height: 10em;">
 		<div id="btab1" dojoType="dijit.layout.ContentPane" href="tab1.html" title="Tab 1" closable="true"></div>
 		<div id="btab2" dojoType="dijit.layout.ContentPane" href="tab2.html" refreshOnShow="true" onLoad="console.debug('Tab2 onLoad');" title="Tab 2"></div>
 	</div>
-	
+
 	<p>Tabs with titles on the left:</p>
 
 	<div id="lhtabs" dojoType="dijit.layout.TabContainer" tabPosition="left-h" style="width: 100%; height: 10em;">
 		<div id="lhtab1" dojoType="dijit.layout.ContentPane" href="tab1.html" title="Tab 1"></div>
 		<div id="lhtab2" dojoType="dijit.layout.ContentPane" href="tab2.html" refreshOnShow="true" title="Tab 2"></div>
 	</div>
-	
+
 	<p>Tabs with titles on the right:</p>
 
 	<div id="lrtabs" dojoType="dijit.layout.TabContainer" tabPosition="right-h" style="width: 100%; height: 10em;">

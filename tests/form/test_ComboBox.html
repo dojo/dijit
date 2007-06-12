@@ -39,7 +39,7 @@
 		combo = new dijit.form.ComboBox({data:{items:[{name:"California", label:"California"}]}, name:"prog",autocomplete:false,searchAttr:"name", labelField:"label", labelType:"text"}, document.getElementById("progCombo"));
 	}
 	dojo.addOnLoad(init);
-	
+
 	function toggleDisabled(button, widget){
 		widget = dijit.byId(widget);
 		button = document.getElementById(button);
@@ -137,7 +137,7 @@ The drop down list is filtered by the data you have already typed in.
 		<option value="Wisconsin">Wisconsin</option>
 		<option value="Wyoming">Wyoming</option>
 	</select>
-	
+
 	<br>
 	<div>Value: <input id="value1" disabled></div>
 	<hr>
@@ -160,7 +160,7 @@ The drop down list is filtered by the data you have already typed in.
 	<br>
 	<div>Value: <input id="value2" disabled></div>
 	<hr>
-		
+
     <p>ComboBox #3: initially disabled, url, autocomplete=false:</p>
     <label for="combo3">US State test 3: </label>
  	<input id="combo3"
@@ -215,7 +215,7 @@ The drop down list is filtered by the data you have already typed in.
 	<hr>
 	<input type="button" value="Create one in a window" onclick="var win=window.open(window.location);"></input>
 	<input type="submit">
-	
+
 </form>
 <p>
 this is some text below the autocompleters. It shouldn't get pushed out of the way when search results get returned.

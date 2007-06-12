@@ -3,18 +3,18 @@
 <html>
 <head>
 	<title>Dojo Tooltip Widget Test</title>
-	
+
 	<script type="text/javascript" src="testBidi.js"></script>
-	
+
 	<script type="text/javascript" src="../../dojo/dojo.js" djConfig="isDebug: true, debugAtAllCosts: true"></script>
 	<script type="text/javascript">
 		dojo.require("dijit.Tooltip");
 		dojo.require("dijit.util.parser");	// find widgets
 	</script>
-	
+
 	<style type="text/css">
 		@import "../../dojo/resources/dojo.css";
-		
+
 		@import "../themes/tundra/tundra.css";
 		@import "css/dijitTests.css";
 	</style>
@@ -31,11 +31,11 @@
 				<span style="color: red; font-size: x-large;"><i>!</i></span>
 			</b>
 		</span>
-		
+
 		<a id="three" href="#bogus">anchor</a>
 		<span dojoType="dijit.Tooltip" connectId="three" caption="inline caption" style="display:none;"></span>
 	</p>
-	
+
 	<button id="four">button</button>
 	<span id="btnTt" dojoType="dijit.Tooltip" connectId="four" caption="tooltip on button" style="display:none;"></span>
 

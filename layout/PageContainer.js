@@ -37,7 +37,7 @@ dojo.declare(
 		if(idx == -1){ idx=0; }
 		this.selectedChildWidget = children[idx];
 		this.selectedChildWidget.show();
-		
+
 		// Now publish information about myself so any PageControllers can initialize..
 		dojo.publish(this.id+"-startup", [{children: children, selected: this.selectedChildWidget}]);
 
@@ -61,14 +61,14 @@ dojo.declare(
 	_setupChild: function(/*Widget*/ page){
 		// Summary: prepare the given child
 		page.hide();
-		
+
 		// since we are setting the width/height of the child elements, they need
 		// to be position:relative, or IE has problems (See bug #2033)
 		page.domNode.style.position="relative";
 	},
 
 	removeChild: function(/*Widget*/ page){
-		
+
 		dijit.base.Container.prototype.removeChild.apply(this, arguments);
 
 		// If we are being destroyed than don't run the code below (to select another page), because we are deleting
@@ -93,9 +93,9 @@ dojo.declare(
 	selectChild: function(/*Widget*/ page){
 		// summary
 		//	Show the given widget (which must be one of my children)
-		
+
 		if(!page){ return; }
-		
+
 		// allow indexing by widget id
 		if(page && ((typeof page == "string")||(page instanceof String))){
 			page = dijit.byId(page);
@@ -217,7 +217,7 @@ dojo.declare(
 			// summary
 			//   Called whenever a page is added to the container.
 			//   Create button corresponding to the page.
-			
+
 			// add a node that will be promoted to the button widget
 			var refNode = document.createElement("span");
 			this.domNode.appendChild(refNode);
@@ -249,12 +249,12 @@ dojo.declare(
 			// Summary
 			//	Called when a page has been selected in the PageContainer, either by me or by another PageController
 			if(!page){ return; }
-			
+
 			if(this._currentChild){
 				var oldButton=this.pane2button[this._currentChild];
 				oldButton.clearSelected();
 			}
-			
+
 			var newButton=this.pane2button[page];
 			newButton.setSelected();
 			this._currentChild=page;
@@ -285,14 +285,14 @@ dojo.declare(
 				var children = this.getChildren();
 				// find currently focused button in children array
 				var current = dojo.indexOf(children, this.pane2button[this._currentChild]);
-				
+
 				// pick next button to focus on
 				if(evt.keyCode == dojo.keys.RIGHT_ARROW){
 					next = children[ (current+1) % children.length ];
 				}else{ // is LEFT_ARROW
 					next = children[ (current+ (children.length-1)) % children.length ];
 				}
-				
+
 				dojo.stopEvent(evt);
 				next.onClick();
 			}
@@ -327,15 +327,15 @@ dojo.extend(dijit.base.Widget, {
 	// title: String
 	//		Title of this widget.  Used by TabContainer to the name the tab, etc.
 	title: "",
-	
+
 	// selected: Boolean
 	//		Is this child currently selected?
 	selected: false,
-	
+
 	// closable: Boolean
 	//		True if user can close (destroy) this child, such as (for example) clicking the X on the tab.
 	closable: false,	// true if user can close this tab pane
-	
+
 	onClose: function(){
 		// summary: Callback if someone tries to close the child, child will be closed if func returns true
 		return true;

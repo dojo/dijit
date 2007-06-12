@@ -11,11 +11,11 @@ dojo.declare(
 {
 	// summary
 	//		A pane with a title on top, that can be opened or collapsed.
-	
+
 	// title: String
 	//		Title of the pane
 	title: "",
-	
+
 	// open: Boolean
 	//		Whether pane is opened or closed.
 	open: true,
@@ -37,7 +37,7 @@ dojo.declare(
 		dijit.TitlePane.superclass.postCreate.apply(this, arguments);
 		dijit.util.wai.setAttr(this.containerNode, "waiState", "titleledby", this.titleNode.id);
 		dijit.util.wai.setAttr(this.focusNode, "waiState", "haspopup", "true");
-		
+
 		// setup open/close animations
 		this._slideIn = dojo.fx.slideIn({node: this.containerNode, duration: this.duration});
 		this._slideOut = dojo.fx.slideOut({node: this.containerNode, duration: this.duration});

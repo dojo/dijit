@@ -30,7 +30,7 @@ dijit.util.focus = new function(){
 			console.debug("focused on ", node ? (node.id ? node.id : node.tagName) : "nothing");
 		}
 	}
-	
+
 	dojo.addOnLoad(function(){
 		if(dojo.isIE){
 			// TODO: to make this more deterministic should delay updating curFocus/prevFocus for 10ms?
@@ -39,7 +39,7 @@ dijit.util.focus = new function(){
 			dojo.body().addEventListener('focus', function(evt){ onFocus(evt.target); }, true);
 		}
 	});
-	
+
 	/////////////////////////////////////////////////////////////////
 	// Main methods, called when a dialog/menu is opened/closed
 
