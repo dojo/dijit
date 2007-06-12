@@ -535,7 +535,7 @@ dojo.declare(
 			var rootNode = this.containerNode || this.domNode;
 			
 			// FIXME: this isn't working (see below)
-			dijit.util.parser.parse(rootNode);
+			dojo.parser.parse(rootNode);
 			
 /*			// temporary workaround until dojo.query works with passed in rootNode
 			// in above call first find all the descendent widget nodes

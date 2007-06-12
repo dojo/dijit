@@ -79,7 +79,7 @@ dojo.declare("dijit.base.TemplatedWidget",
 				this.srcNodeRef.parentNode.replaceChild(this.domNode, this.srcNodeRef);
 			}
 			if(this.widgetsInTemplate){
-				var childWidgets = dijit.util.parser.parse(this.domNode);
+				var childWidgets = dojo.parser.parse(this.domNode);
 				this._attachTemplateNodes(childWidgets, function(n,p){
 					return n[p];
 				});
