@@ -8,6 +8,15 @@
 	<script type="text/javascript">
 		dojo.require("dijit.util.typematic");
 	</script>
+
+<style type="text/css">
+ @import "../../../dojo/resources/dojo.css";
+ @import "../../themes/tundra/tundra.css";
+ @import "../css/dijitTests.css";
+</style>
+
+
+
 <script>
 	var lastCount = 0;
 	function typematicCallBack(count, node, evt){
@@ -37,7 +46,9 @@
 	});
 </script>
 </head>
-<body style="background-color: #fff; color: black; padding: 0; margin: 0">
+<body class="tundra">
+
+<h2>Dijit typematic tests</h2>
 
 Press and hold the <b>ctrl+F10</b> keys to see a's typed (constant rate) in the input field,<br>
 or left-mouse click the button and hold down to see b's typed (increasing rate) in the input field.<br>

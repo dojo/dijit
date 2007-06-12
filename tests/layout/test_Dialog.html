@@ -17,12 +17,23 @@
 </script>
 
 <script type="text/javascript">
-var dlg;
-var secDlg;
+var dlg, secDlg, thirdDlg, fourthDlg;
+
 function init(e) {
 	dlg = dijit.byId("DialogContent");
 	secDlg = dijit.byId("SecondDialog");
+	fourthDlg = dijit.byId("fourthDlg"); 
 }
+
+function createDialog() {
+	var pane = dojo.byId('thirdDialog'); 
+	pane.style.width = "300px"; 	
+	thirdDlg = new dijit.layout.Dialog({
+		title: "Programatic Dialog Creation"
+	},pane);
+	setTimeout("thirdDlg.show()","3000"); 
+}
+
 dojo.addOnLoad(init);
 
 </script>
@@ -36,7 +47,11 @@ form {
 </style>
 </head>
 <body class="tundra">
-<a href="javascript:dlg.show()">Show First Dialog</a>
+<h2>Dijit layout.Dialog tests</h2>
+<a href="javascript:dlg.show()">Show First Dialog</a> | <a href="javascript:createDialog()" title="shows 
+after 3 second delay">Progamatic Dialog</a> | <a href="javascript:fourthDlg.show();">Test HREF Dialog</a>
+
+<div dojoType="dijit.layout.Dialog" id="fourthDlg" href="tab2.html" title="From HREF"></div>
 
 <div dojoType="dijit.layout.Dialog" id="DialogContent" bgColor="white" bgOpacity="0.5" toggle="fade" toggleDuration="250" closeNode="hider" title="First Dialog">
 	<form onsubmit="return false;">
@@ -73,6 +88,7 @@ form {
 	<option>amet</option>
 </select>
 
+<div id="thirdDialog">
 <p>
 Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean
 semper sagittis velit. Cras in mi. Duis porta mauris ut ligula. Proin
@@ -81,6 +97,8 @@ Maecenas luctus venenatis nulla. In sit amet dui non mi semper iaculis.
 Sed molestie tortor at ipsum. Morbi dictum rutrum magna. Sed vitae
 risus.
 </p>
+</div>
+
 <p>Aliquam vitae enim. Duis scelerisque metus auctor est venenatis
 imperdiet. Fusce dignissim porta augue. Nulla vestibulum. Integer lorem
 nunc, ullamcorper a, commodo ac, malesuada sed, dolor. Aenean id mi in
