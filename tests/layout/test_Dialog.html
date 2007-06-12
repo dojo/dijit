@@ -8,7 +8,7 @@
 	@import "../../themes/tundra/tundra.css";
 	@import "../css/dijitTests.css";
 </style>		
-<script type="text/javascript" 
+<script type="text/javascript"
 	djConfig="isDebug: true"
 	src="../../../dojo/dojo.js"></script>
 <script type="text/javascript">
@@ -22,16 +22,16 @@ var dlg, secDlg, thirdDlg, fourthDlg;
 function init(e) {
 	dlg = dijit.byId("DialogContent");
 	secDlg = dijit.byId("SecondDialog");
-	fourthDlg = dijit.byId("fourthDlg"); 
+	fourthDlg = dijit.byId("fourthDlg");
 }
 
 function createDialog() {
-	var pane = dojo.byId('thirdDialog'); 
+	var pane = dojo.byId('thirdDialog');
 	pane.style.width = "300px"; 	
 	thirdDlg = new dijit.layout.Dialog({
 		title: "Programatic Dialog Creation"
 	},pane);
-	setTimeout("thirdDlg.show()","3000"); 
+	setTimeout("thirdDlg.show()","3000");
 }
 
 dojo.addOnLoad(init);
@@ -48,7 +48,7 @@ form {
 </head>
 <body class="tundra">
 <h2>Dijit layout.Dialog tests</h2>
-<a href="javascript:dlg.show()">Show First Dialog</a> | <a href="javascript:createDialog()" title="shows 
+<a href="javascript:dlg.show()">Show First Dialog</a> | <a href="javascript:createDialog()" title="shows
 after 3 second delay">Progamatic Dialog</a> | <a href="javascript:fourthDlg.show();">Test HREF Dialog</a>
 
 <div dojoType="dijit.layout.Dialog" id="fourthDlg" href="tab2.html" title="From HREF"></div>

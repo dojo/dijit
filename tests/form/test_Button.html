@@ -176,8 +176,8 @@
 			// FIXME: doesn't the manager have a function for filtering by type?
 			function forEachButton(func){
 				var registry = dijit.util.manager.getWidgets();
-				for(var id in registry){ 
-					if(registry[id] instanceof dijit.form.Button){ 
+				for(var id in registry){
+					if(registry[id] instanceof dijit.form.Button){
 						func(registry[id]);
 					}
 				}
@@ -194,8 +194,8 @@
 						 "<img src='../images/plus.gif' width='16' height='16'>boy"];
 			var idx=0;
 			function changeCaptions(){
-				forEachButton(function(widget){ 
-					widget.setCaption( captions[idx++ % captions.length]); 
+				forEachButton(function(widget){
+					widget.setCaption( captions[idx++ % captions.length]);
 				});
 			}
 		</script>

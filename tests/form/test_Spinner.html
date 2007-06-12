@@ -50,21 +50,21 @@
 		<h1>number spinner</h1>
 		<br>
 		initial value=900, no delta specified, no min specified, max=1550, onValueChanged debug message<br>
-		<input dojoType="dijit.form.NumberSpinner" 
+		<input dojoType="dijit.form.NumberSpinner"
 			onValueChanged="console.debug('onValueChanged fired for widget id = ' + this.id + ' with value = ' + arguments[0]);"
-			value="900" 
+			value="900"
 			constraints="{max:1550,places:0}"
-			maxlength="20" 
+			maxlength="20"
 			id="integerspinner1">
 		<br>
 		<br>
 		initial value=1000, delta=10, min=9 max=1550<br>
 		with custom styling:<input dojoType="dijit.form.NumberSpinner"
 			style="font-size:20pt;border:1px solid blue;position:relative;left:30px;"
-			value="1000" 
-			smallDelta="10" 
+			value="1000"
+			smallDelta="10"
 			constraints="{min:9,max:1550,places:0}"
-			maxlength="20" 
+			maxlength="20"
 			id="integerspinner2">
 		<br>
 		<br>
@@ -77,9 +77,9 @@
 		initial value=+1.0, delta=0.1, min=-10.9, max=155, places=1<br>
 		<input dojoType="dijit.form.NumberSpinner"
 			value="1.0"
-			smallDelta="0.1" 
+			smallDelta="0.1"
 			constraints={min:-10.9,max:155,places:1,round:true}
-			maxlength="20" 
+			maxlength="20"
 			id="realspinner1">
 		<br>
 	</body>

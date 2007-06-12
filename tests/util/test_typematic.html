@@ -37,12 +37,12 @@
 	dojo.addOnLoad(function(){
 		var keyNode = document.getElementById('typematicInput');
 		var mouseNode = document.getElementById('typematicButton');
-		dijit.util.typematic.addKeyListener(keyNode, 
+		dijit.util.typematic.addKeyListener(keyNode,
 			{keyCode:dojo.keys.F10,ctrlKey:true},
 			this, typematicCallBack, 200, 200);
-		dijit.util.typematic.addMouseListener(mouseNode, 
+		dijit.util.typematic.addMouseListener(mouseNode,
 			this, typematicCallBack, 0.9, 200);
-		keyNode.focus(); // make it easier to type 
+		keyNode.focus(); // make it easier to type
 	});
 </script>
 </head>

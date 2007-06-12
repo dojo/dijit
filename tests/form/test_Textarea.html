@@ -31,9 +31,9 @@
 			// See if we can make a widget in script
 			var refNode = document.createElement('span');
 			dojo.byId('form1').appendChild(refNode);
-			var w = new dijit.form.Textarea({ 
-					name: "programmaticTextArea", 
-					value: "test value" 
+			var w = new dijit.form.Textarea({
+					name: "programmaticTextArea",
+					value: "test value"
 				}, refNode);
 			w.setValue('we will create this one programatically');
 		</script>
