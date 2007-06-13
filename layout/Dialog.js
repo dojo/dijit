@@ -103,7 +103,7 @@ dojo.declare(
 
 			this._modalconnects = [];
 
-			this._moveable = new dojo.dnd.Moveable(this.domNode, this.titleBar);
+			this._moveable = new dojo.dnd.Moveable(this.domNode, { handle: this.titleBar });
 
 			var node = this.domNode;
 			this._fadeIn = dojo.fadeIn({
