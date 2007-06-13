@@ -36,7 +36,7 @@ dijit.util.manager = new function(){
 		// summary
 		//	Removes a widget from the registry by id, but does not destroy the widget
 
-		delete registry.id;
+		delete registry[id];
 	}
 
 	this.destroyAll = function(){
