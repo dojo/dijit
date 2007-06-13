@@ -267,7 +267,7 @@ dojo.declare(
 					// FIXME: VERY STRANGE safari 2.0.4 behavior here caused by
 					// moving the textarea. Often crashed the browser!!! Seems
 					// fixed on webkit nightlies.
-					dojo.place(this.domeNode, this.textarea, "before");
+					dojo.place(this.domNode, this.textarea, "before");
 				}
 				var tmpFunc = dojo.hitch(this, function(){
 					//some browsers refuse to submit display=none textarea, so
