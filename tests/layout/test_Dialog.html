@@ -26,11 +26,13 @@ function init(e) {
 }
 
 function createDialog() {
-	var pane = dojo.byId('thirdDialog');
-	pane.style.width = "300px"; 	
-	thirdDlg = new dijit.layout.Dialog({
-		title: "Programatic Dialog Creation"
-	},pane);
+	if(!thirdDlg){
+		var pane = dojo.byId('thirdDialog');
+		pane.style.width = "300px"; 	
+		thirdDlg = new dijit.layout.Dialog({
+			title: "Programatic Dialog Creation"
+		},pane);
+	}
 	setTimeout("thirdDlg.show()","3000");
 }
 
@@ -49,7 +51,7 @@ form {
 <body class="tundra">
 <h2>Dijit layout.Dialog tests</h2>
 <a href="javascript:dlg.show()">Show First Dialog</a> | <a href="javascript:createDialog()" title="shows
-after 3 second delay">Progamatic Dialog</a> | <a href="javascript:fourthDlg.show();">Test HREF Dialog</a>
+after 3 second delay">Programatic Dialog (3 second delay)</a> | <a href="javascript:fourthDlg.show();">Test HREF Dialog</a>
 
 <div dojoType="dijit.layout.Dialog" id="fourthDlg" href="tab2.html" title="From HREF"></div>
 
@@ -88,7 +90,7 @@ after 3 second delay">Progamatic Dialog</a> | <a href="javascript:fourthDlg.show
 	<option>amet</option>
 </select>
 
-<div id="thirdDialog">
+<div id="thirdDialog" style="display: none;">
 <p>
 Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean
 semper sagittis velit. Cras in mi. Duis porta mauris ut ligula. Proin

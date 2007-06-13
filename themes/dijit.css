@@ -1067,12 +1067,16 @@ body .dijitAlignClient { position: absolute; }
 	display: none;
 }
 
-.dijitDialogUnderlay {
+.dijitDialogUnderlayWrapper {
 	position: absolute;
 	left: 0px;
 	top: 0px;
 	z-index: 998;
 	display: none;
+	background: transparent;
+}
+
+.dijitDialogUnderlay {
 	background: gray;
 	opacity: 0.4;
 }

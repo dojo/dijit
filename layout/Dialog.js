@@ -9,6 +9,74 @@ dojo.require("dijit.layout.ContentPane");
 dojo.require("dijit.base.TemplatedWidget");
 
 dojo.declare(
+	"dijit.layout.DialogUnderlay",
+	[dijit.base.Widget, dijit.base.TemplatedWidget, dijit.base.Layout],
+	{
+		// summary: the thing that grays out the screen behind the dialog
+		
+		// Template has two divs; outer div is used for fade-in/fade-out, and also to hold background iframe.
+		// Inner div has opacity specified in CSS file.
+		templateString: "<div class=dijitDialogUnderlayWrapper><div class=dijitDialogUnderlay dojoAttachPoint='node'></div></div>",
+		
+		postCreate: function(){
+			var b = dojo.body();
+			b.appendChild(this.domNode);
+			this.bgIframe = new dijit.util.BackgroundIframe(this.domNode);
+		},
+
+		layout: function(){
+			// summary
+			//		Sets the background to the size of the viewport (rather than the size
+			//		of the document) since we need to cover the whole browser window, even
+			//		if the document is only a few lines long.
+
+			var viewport = dijit.util.getViewport(),
+				h = viewport.h,
+				w = viewport.w;
+
+			var scroll_offset = dijit.util.getScroll().offset;
+			with(this.domNode.style){
+				top = scroll_offset.y + "px";
+				left = scroll_offset.x + "px";
+			}
+
+			var style = this.node.style;
+			style.width = w + "px";
+			style.height = h + "px";
+			
+			// process twice since the scroll bar may have been removed
+			// by the previous resizing
+			viewport = dijit.util.getViewport();
+			if(viewport.w != w){ style.width = viewport.w + "px"; }
+			if(viewport.h != h){ style.height = viewport.h + "px"; }
+		},
+
+		show: function(){
+			console.debug("_showBackground");
+			this.domNode.style.display = "block";
+			this.layout();
+			if(this.bgIframe.iframe){
+				this.bgIframe.iframe.style.display = "block";
+			}
+		},
+
+		hide: function(){
+			this.domNode.style.display = "none";
+			this.domNode.style.width = this.domNode.style.height = "1px";
+			if(this.bgIframe.iframe){
+				this.bgIframe.iframe.style.display = "none";
+			}
+		},
+
+		uninitialize: function(){
+			if(this.bgIframe){
+				this.bgIframe.remove();
+			}
+		}
+	}
+);
+	
+dojo.declare(
 	"dijit.layout.Dialog",
 	[dijit.layout.ContentPane, dijit.base.TemplatedWidget],
 	{
@@ -83,40 +151,27 @@ dojo.declare(
 			}), 100);
 		},
 
-		_visibleBgOpacity: 0.4,
-
 		_setup: function(){
 			// summary:
 			//		stuff we need to do before showing the Dialog for the first
 			//		time (but we defer it until right beforehand, for
 			//		performance reasons)
 
-			var b = dojo.body();
-			b.appendChild(this.domNode);
-
-			// make background (which sits behind the dialog but above the normal text)
-			this.bg = document.createElement("div");
-			this.bg.className = "dijitDialogUnderlay";
-			b.appendChild(this.bg);
-
-			this.bgIframe = new dijit.util.BackgroundIframe(this.bg);
-
 			this._modalconnects = [];
 
 			this._moveable = new dojo.dnd.Moveable(this.domNode, { handle: this.titleBar });
+
+			this._underlay = new dijit.layout.DialogUnderlay();
 
 			var node = this.domNode;
 			this._fadeIn = dojo.fadeIn({
 				node: node,
 				duration: this._duration
 			}).combine([
-				dojo.animateProperty({
-					node: this.bg,
+				dojo.fadeIn({
+					node: this._underlay.domNode,
 					duration: this._duration,
-					onBegin: dojo.hitch(this, "_showBackground"),
-					properties: {
-						opacity: { start: 0, end: this._visibleBgOpacity }
-					}
+					onBegin: dojo.hitch(this._underlay, "show")
 				})
 			]);
 
@@ -128,51 +183,15 @@ dojo.declare(
 				}
 			}).combine([
 				dojo.fadeOut({
-					node: this.bg,
-					duration: this._duration
+					node: this._underlay.domNode,
+					duration: this._duration,
+					onEnd: dojo.hitch(this._underlay, "hide")
 				})
 			]);
 		},
 
 		uninitialize: function(){
-			if(this.bgIframe){
-				this.bgIframe.remove();
-			}
-			if(this.bg && this.bg.parentNode){
-				this.bg.parentNode.removeChild(this.bg);
-			}
-		},
-
-		_sizeBackground: function(){
-			// summary
-			//		Sets the background to the size of the viewport (rather than the size
-			//		of the document) since we need to cover the whole browser window, even
-			//		if the document is only a few lines long.
-
-			var viewport = dijit.util.getViewport();
-			var h = viewport.h;
-			var w = viewport.w;
-			with(this.bg.style){
-				width = w + "px";
-				height = h + "px";
-			}
-			var scroll_offset = dijit.util.getScroll().offset;
-			this.bg.style.top = scroll_offset.y + "px";
-			this.bg.style.left = scroll_offset.x + "px";
-
-			// process twice since the scroll bar may have been removed
-			// by the previous resizing
-			viewport = dijit.util.getViewport();
-			if(viewport.w != w){ this.bg.style.width = viewport.w + "px"; }
-			if(viewport.h != h){ this.bg.style.height = viewport.h + "px"; }
-		},
-
-		_showBackground: function(){
-			console.debug("_showBackground");
-			this.bg.style.display = "block";
-			if(this.bgIframe.iframe){
-				this.bgIframe.iframe.style.display = "block";
-			}
+			this._underlay.destroy();
 		},
 
 		_center: function(){
@@ -226,14 +245,18 @@ dojo.declare(
 				this._alreadyInitialized=true;
 			}
 
-			this._modalconnects.push(dojo.connect(window, "onscroll", this, "_onScroll"));
+			if(this._fadeOut.status() == "playing"){
+				this._fadeOut.stop();
+			}
+
+			this._modalconnects.push(dojo.connect(window, "onscroll", this, "layout"));
 			this._modalconnects.push(dojo.connect(document.documentElement, "onkeypress", this, "_onKey"));
 
 			dojo.style(this.domNode, "opacity", 0);
 			this.domNode.style.display="block";
 
 			this._center();
-			this._sizeBackground();
+
 			this._fromTrap = true;
 
 			this._fadeIn.play();
@@ -256,13 +279,10 @@ dojo.declare(
 				return;
 			}
 
-			this._fadeOut.play();
-
-			this.bg.style.display = "none";
-			this.bg.style.width = this.bg.style.height = "1px";
-			if(this.bgIframe.iframe){
-				this.bgIframe.iframe.style.display = "none";
+			if(this._fadeIn.status() == "playing"){
+				this._fadeIn.stop();
 			}
+			this._fadeOut.play();
 
 			if (this._scrollConnected){
 				this._scrollConnected = false;
@@ -272,17 +292,9 @@ dojo.declare(
 
 		},
 
-		_onScroll: function(){
-			var scroll_offset = dijit.util.getScroll().offset;
-			// TODO: move dialog the same amount as the scroll, but don't recenter (like CSS position: fixed)
-			this._center();
-			this.bg.style.top = scroll_offset.y + "px";
-			this.bg.style.left = scroll_offset.x + "px";
-		},
-
 		layout: function() {
-			if(this.domNode.style.visibility == "visible"){
-				this._sizeBackground();
+			if(this.domNode.style.display == "block"){
+				this._underlay.layout();
 				this._center();
 			}
 		}
