@@ -149,8 +149,11 @@
 .dijitA11yRightArrow {
 	/* down arrow shown when in a11y mode */
 	font-family:Arial, sans serif;
+	/* 
 	font-size:.5em;
 	line-height:.5em;
+	*/
+	font-size: x-small;
 	padding:0em .25em;
 }
 
