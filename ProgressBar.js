@@ -33,7 +33,6 @@ dojo.declare(
 		// <div dojoType="ProgressBar"
 		//   duration="..."
 		//   places="0"
-		//   orientation="vertical"
 		//   progress="..." maximum="..."></div>
 
 		// progress: String (Percentage or Number)
@@ -45,10 +44,6 @@ dojo.declare(
 		// maximum: Float
 		// max sample number
 		maximum: 100,
-
-		// orientation: String
-		// whether bar grows along the x-axis (default) or y- axis (vertical)
-		orientation: "",
 
 		// places: Number
 		// number of places to show in values; 0 by default
@@ -63,13 +58,6 @@ dojo.declare(
 		// public functions
 		postCreate: function(){
 			dijit.ProgressBar.superclass.postCreate.apply(this, arguments);
-			if(this.orientation == "vertical"){
-//TODO: if !this.domNode.className?
-				this.domNode.className += " "+"dijitProgressBarVertical";
-				this._dimension = "height";
-			}else{
-				this._dimension = "width";
-			}
 			//TODO: can this be accomplished in the template layout?
 			// MOW: don't think so because it needs to be set to the absolute size
 			//		of the dom node, not the size of the containing element (the full part)
@@ -96,7 +84,7 @@ dojo.declare(
 
 			var text = this.report(percent);
 			this._setWaiValueNow(text);
-			this.internalProgress.style[this._dimension] = (percent * 100) + "%";
+			this.internalProgress.style["width"] = (percent * 100) + "%";
 
 			dojo.forEach(["full", "empty"], function(name){
 				var labelNode = this[name+"Label"];
