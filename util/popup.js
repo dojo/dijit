@@ -63,7 +63,7 @@ dijit.util.popup = new function(){
 		}
 		dojo.body().appendChild(wrapper);
 
-		widget.domNode.style.display="block";
+		widget.domNode.style.display="";
 		wrapper.appendChild(widget.domNode);
 
 		var iframe = new dijit.util.BackgroundIframe(wrapper);
