@@ -16,7 +16,7 @@ dojo.declare(
 		
 		// Template has two divs; outer div is used for fade-in/fade-out, and also to hold background iframe.
 		// Inner div has opacity specified in CSS file.
-		templateString: "<div class=dijitDialogUnderlayWrapper><div class=dijitDialogUnderlay dojoAttachPoint='node'></div></div>",
+		templateString: "<div class=dijitDialogUnderlayWrapper id='${id}_underlay'><div class=dijitDialogUnderlay dojoAttachPoint='node'></div></div>",
 		
 		postCreate: function(){
 			var b = dojo.body();
