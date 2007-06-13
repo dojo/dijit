@@ -29,6 +29,7 @@
 .tundra .dijitPopup div,
 .tundra .dijitPopup table {
 	opacity: 0.95;
+	background-color: white;
 }
 
 /*****
