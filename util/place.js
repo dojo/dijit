@@ -32,17 +32,14 @@ dijit.util.getViewport = function(){
 };
 
 dijit.util.getScroll = function(){
-	//	summary
-	//	Returns the scroll position of the document
+	//	summary: returns the scroll position of the document
 	var _window = dojo.global;
-	var _document = dojo.doc;
-	var top = _window.pageYOffset || _document.documentElement.scrollTop || dojo.body().scrollTop || 0;
-	var left = _window.pageXOffset || _document.documentElement.scrollLeft || dojo.body().scrollLeft || 0;
-	return {
-		top: top,
-		left: left,
-		offset:{ x: left, y: top }	//	note the change, NOT an Array with added properties.
-	};	//	object
+	if( typeof _window.pageYOffset != "undefined" ){
+		return { x: _window.pageXOffset, y: _window.pageYOffset };
+	}else{
+		var _doc = dojo.doc.documentElement;
+		return { x: _doc.scrollLeft, y: _doc.scrollTop };
+	}
 };
 
 dijit.util.placeOnScreen = function(
@@ -104,7 +101,7 @@ dijit.util.placeOnScreen = function(
 		padding = [0, 0];
 	}
 
-	var scroll = dijit.util.getScroll().offset;
+	var scroll = dijit.util.getScroll();
 	var view = dijit.util.getViewport();
 
 	node = dojo.byId(node);

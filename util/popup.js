@@ -28,8 +28,8 @@ dijit.util.popup = new function(){
 		var iframe = win._frameElement || win.frameElement;
 		if(iframe){
 			var cood = dojo.coords(iframe, true);
-			x += cood.x - dojo.withGlobal(win, dijit.util.getScroll).left;
-			y += cood.y - dojo.withGlobal(win, dijit.util.getScroll).top;
+			x += cood.x - dojo.withGlobal(win, dijit.util.getScroll).x;
+			y += cood.y - dojo.withGlobal(win, dijit.util.getScroll).y;
 		}
 
 		return this._open(widget, padding, {x: x, y: y, id: "dropdown_"+idGen++});
@@ -62,9 +62,10 @@ dijit.util.popup = new function(){
 			zIndex = beginZIndex + stack.length;
 			position = "absolute";
 		}
-		wrapper.appendChild(widget.domNode);
-		dojo.style(widget.domNode, "display", "");
 		dojo.body().appendChild(wrapper);
+
+		widget.domNode.style.display="block";
+		wrapper.appendChild(widget.domNode);
 
 		// position the wrapper node
 		var best = args.around ?

@@ -34,7 +34,7 @@ dojo.declare(
 				h = viewport.h,
 				w = viewport.w;
 
-			var scroll_offset = dijit.util.getScroll().offset;
+			var scroll_offset = dijit.util.getScroll();
 			with(this.domNode.style){
 				top = scroll_offset.y + "px";
 				left = scroll_offset.x + "px";
@@ -197,7 +197,7 @@ dojo.declare(
 		_center: function(){
 			// summary: position modal dialog in center of screen
 
-			var scroll_offset = dijit.util.getScroll().offset;
+			var scroll_offset = dijit.util.getScroll();
 			var viewport_size = dijit.util.getViewport();
 
 			// find the size of the dialog (dialog needs to be showing to get the size)
