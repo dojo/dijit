@@ -64,15 +64,10 @@ Enhancements over plain HTML version:
 <form action="#" method="GET">
 
 	<p>FilteringSelect #1: inlined data, autocomplete=false:</p>
-	<select searchAttr="name"
-			keyAttr="abbreviation"
+	<select	dojoType="dijit.form.FilteringSelect"
 			id="setvaluetest2"
-			searchLimit="Infinity"
 			name="state1"
-			dojoType="dijit.form.FilteringSelect"
-			style="width: 300px;"
 			autocomplete="false"
-			dataProviderClass="dojo.data.JsonItemStore"
 			promptMessage="Please enter a state"
 			onValueChanged="setValue('value1', arguments[0]);" value="CA"
 	>
@@ -145,7 +140,6 @@ Enhancements over plain HTML version:
 
 	<p>FilteringSelect #2: url, autocomplete=true:</p>
 	<input searchAttr="name"
-			keyAttr="abbreviation"
 			id="setvaluetest"
 			dojoType="dijit.form.FilteringSelect"
 			value="IA"
@@ -164,7 +158,6 @@ Enhancements over plain HTML version:
 
 	<p>FilteringSelect #3: url, autocomplete=false:</p>
  	<input searchAttr="name"
- 			keyAttr="abbreviation"
  			dojoType="dijit.form.FilteringSelect"
  			value="VI"
  			url="comboBoxData.json"
@@ -173,14 +166,12 @@ Enhancements over plain HTML version:
  			labelAttr="label"
  			labelType="html"
  			onValueChanged="setValue('value3', arguments[0]);"
- 			dataProviderClass="dojo.data.JsonItemStore"
  			promptMessage="Please enter a state"
 	>
 	<div>Value: <input id="value3" disabled></div>
 	<hr>
 	<p>FilteringSelect #4: declarative store, autocomplete=false:</p>
  	<input searchAttr="name"
- 			keyAttr="abbreviation"
  			dojoType="dijit.form.FilteringSelect"
  			value="AL"
  			name="state4"
@@ -194,7 +185,6 @@ Enhancements over plain HTML version:
 	<hr>
 	<p>FilteringSelect #5: custom labelFunc (value in textbox should be lower case when onValueChanged is called), autocomplete=true:</p>
  	<input searchAttr="name"
- 			keyAttr="abbreviation"
  			dojoType="dijit.form.FilteringSelect"
  			value="OR"
  			labelFunc="myLabelFunc"
@@ -214,7 +204,6 @@ Enhancements over plain HTML version:
 		dojoType="dijit.form.FilteringSelect"
 		store="myStore"
 		searchAttr="name"
-		keyAttr="abbreviation"
 		labelAttr="label"
 		labelType="text"
 		value="KY"
@@ -225,8 +214,6 @@ Enhancements over plain HTML version:
 	<p>Using an input method editor (see <a href="http://www.microsoft.com/windows/ie/ie6/downloads/recommended/ime/default.mspx">IME</a> for Windows) try typing &#38463; (a) or &#25226; (ba).</p>
 
 	<select dojoType="dijit.form.FilteringSelect"
-		searchAttr="name"
-		keyAttr="abbreviation"
 		name="state7"
 		value="a"
 	>
