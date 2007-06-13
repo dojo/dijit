@@ -82,19 +82,22 @@ dojo.declare(
 			// description:
 			//		Show missing or invalid messages if appropriate, and highlight textbox field.
 
-			var message;
 			if(!this.isValid(isFocused)){
 				this.updateClass("Error");
-				message = this.getErrorMessage(isFocused);
+				var message = this.getErrorMessage(isFocused);
 			}else{
 				this.updateClass(this.isMissing() ? "Warning" : "Normal");
-				message = this.getPromptMessage(isFocused);
+				var message = "";
+			}
+			if(this.isEmpty()){
+				var prompt = this.getPromptMessage(isFocused);
+				if(prompt){ message = prompt; }
 			}
 			this._displayMessage(isFocused ? message : "");
 		},
 
 		// currently displayed message
-		_message: "",		
+		_message: "",
 
 		_displayMessage: function(/*String*/ message){
 			if(this._message == message){ return; }
@@ -112,6 +115,11 @@ dojo.declare(
 			dojo.forEach(["Normal", "Warning", "Error"], function(label){
 				dojo.removeClass(_this.nodeWithBorder, "dijitInputFieldValidation"+label); });
 			dojo.addClass(this.nodeWithBorder, "dijitInputFieldValidation"+className);
+		},
+
+		onblur: function(evt){
+			this.validate(false);
+			dijit.form.ValidationTextbox.superclass.onblur.apply(this, arguments);
 		},
 
 		onfocus: function(evt){

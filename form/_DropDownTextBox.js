@@ -117,8 +117,8 @@ dojo.declare(
 			this._arrowIdle();
 			// removeClass dijitInputFieldFocused
 			dojo.removeClass(this.nodeWithBorder, "dijitInputFieldFocused");
-			// hide the Tooltip only if valid input
-			if(this.isValid()){this._displayMessage("");}
+			// hide the Tooltip
+			this.validate(false);
 		},
 
 		onkeypress: function(/*Event*/ evt){
