@@ -23,7 +23,13 @@
 
 /** TODO: add all other PNGs here that need this */
 
-
+/*
+ * Control opacity of popups
+ */
+.tundra .dijitPopup div,
+.tundra .dijitPopup table {
+	opacity: 0.95;
+}
 
 /*****
 		dijit.form.Button
@@ -225,20 +231,9 @@
 
 /* Menu */
 .tundra .dijitMenu{
-	/*
-	border: solid;
-	border-color: #7788a0 #344257 #344257 #7788a0;
-	border-width:1px 2px 2px 1px;
-
-	background-color: white;
-	background: #e9e9e9 url("images/buttonActive.png") repeat-x top;
-	background: #dddddd url("images/tabDisabled.png") repeat-x;
-	*/
 	border: 1px solid #9b9b9b;
 	margin: 0px;
 	padding: 0px;
-	opacity: 0.9;
-
 }
 
 .tundra .dijitMenuItem{

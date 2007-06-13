@@ -13,7 +13,7 @@ dojo.declare(
 	[dijit.base.Widget, dijit.base.TemplatedWidget, dijit.base.Container],
 {
 	templateString:
-		'<div class="dijit dijitPopup dijitMenu">' +
+		'<div class="dijit dijitMenu">' +
 			'<table class="dijitReset dijitMenuTable" waiRole="menu">' +
 				'<tbody class="dijitReset" dojoAttachPoint="containerNode"></tbody>'+
 			'</table>' +

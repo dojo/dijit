@@ -55,17 +55,18 @@ dijit.util.popup = new function(){
 		// make wrapper div to hold widget and possibly hold iframe behind it.
 		// we can't attach the iframe as a child of the widget.domNode because
 		// widget.domNode might be a <table>, <ul>, etc.
-		var wrapper = dojo.doc.createElement("div"),
-			iframe = new dijit.util.BackgroundIframe(wrapper);
+		var wrapper = dojo.doc.createElement("div");
 		wrapper.id = args.id;
+		wrapper.className="dijitPopup";
 		with(wrapper.style){
 			zIndex = beginZIndex + stack.length;
-			position = "absolute";
 		}
 		dojo.body().appendChild(wrapper);
 
 		widget.domNode.style.display="block";
 		wrapper.appendChild(widget.domNode);
+
+		var iframe = new dijit.util.BackgroundIframe(wrapper);
 
 		// position the wrapper node
 		var best = args.around ?
@@ -251,7 +252,7 @@ dijit.util.BackgroundIframe = function(/* HTMLElement */node){
 	//		new dijit.util.BackgroundIframe(node)
 	//			Makes a background iframe as a child of node, that fills
 	//			area (and position) of node
-	if( (dojo.isIE && dojo.isIE < 7) || (dojo.isFF && dojo.isFF < 3 && dojo.hasClass(dojo.body(), "dijit_a11y")) ){
+	if(  (dojo.isIE && dojo.isIE < 7) || (dojo.isFF && dojo.isFF < 3 && dojo.hasClass(dojo.body(), "dijit_a11y")) ){
 		var iframe;
 		if(dojo.isIE){
 			var html="<iframe src='javascript:\"\"'"

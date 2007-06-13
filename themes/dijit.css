@@ -53,9 +53,22 @@
 	line-height:1px;
 }
 
+/*
+ * Popup items have a wrapper div (dijitPopup)
+ * with the real popup inside, and maybe an iframe too
+ */
 .dijitPopup {
-	/* For popup items, such as menu */
 	position: absolute;
+	background-color: transparent;
+}
+.dijit_a11y .dijitPopup,
+.dijit_ally .dijitPopup div,
+.dijit_a11y .dijitPopup table {
+	opacity: 1 !important;
+	background-color: white !important;
+}
+.dj_ie .dijit_a11y .dijitPopup * {
+	filter: none;
 }
 
 .dijitPositionOnly {
@@ -86,7 +99,7 @@
 	top: 0px;
 	width: 100%;
 	height: 100%;
-	zIndex: -1;
+	z-index: -1;
 	border: 0;
 	padding: 0;
 	margin: 0;
@@ -871,10 +884,6 @@ body .dijitAlignClient { position: absolute; }
 	border-collapse:collapse;
 	border-width:0px;
 	background-color:white;
-}
-
-.dijit_a11y .dijitMenuTable {
-	background-color:white !important;
 }
 
 .dijitMenuItem{
