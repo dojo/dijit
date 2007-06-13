@@ -422,7 +422,6 @@ dojo.declare(
 		}catch(e){
 			// this throws on IE (at least) in some scenarios
 		}
-		dijit.util.scroll.scrollIntoView(this.domNode);
 	},
 
 	_blur: function(){
