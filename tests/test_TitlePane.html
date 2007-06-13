@@ -2,33 +2,34 @@
 	"http://www.w3.org/TR/html4/strict.dtd">
 <html>
 <head>
+	<title>TitlePane Test</title>
+	<script type="text/javascript" src="testBidi.js"></script>
 
-<title>TitlePane Test</title>
+	<script type="text/javascript" src="../../dojo/dojo.js"
+		djConfig="isDebug: true, debugAtAllCosts: true"></script>
 
-<script type="text/javascript" src="testBidi.js"></script>
+	<script language="JavaScript" type="text/javascript">
+		dojo.require("dijit.TitlePane");
+		dojo.require("dojo.parser");	// scan page for widgets and instantiate them
+	</script>
 
-<script type="text/javascript" src="../../dojo/dojo.js"
-	djConfig="isDebug: true, debugAtAllCosts: true"></script>
-<script language="JavaScript" type="text/javascript">
-	dojo.require("dijit.TitlePane");
-	dojo.require("dijit.util.parser");	// scan page for widgets and instantiate them
-</script>
-<style type="text/css">
-@import "../../dojo/resources/dojo.css";
-@import "../themes/tundra/tundra.css";
-@import "css/dijitTests.css";
-</style>
+	<style type="text/css">
+		@import "../../dojo/resources/dojo.css";
+		@import "../themes/tundra/tundra.css";
+		@import "css/dijitTests.css";
+	</style>
 </head>
 <body class="tundra">
 	<h1 class="testTitle">Dijit TitlePane Test</h1>
+
 	<div dojoType="dijit.TitlePane" title="Title Pane #1" style="width: 300px;">
-		Lorem Ipsum
-
-Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Quisque iaculis, nulla id semper faucibus, pede tellus nonummy magna, vitae adipiscing orci arcu ut augue. Nunc condimentum, magna a vestibulum convallis, libero purus pulvinar orci, sed vestibulum urna sem ut pede.
-More Ipsum...
-
-Sed sollicitudin suscipit risus. Nam ullamcorper. Sed nisl lectus, pellentesque nec, malesuada eget, ornare a, libero. Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
-
+		Lorem Ipsum Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Quisque
+		iaculis, nulla id semper faucibus, pede tellus nonummy magna, vitae adipiscing
+		orci arcu ut augue. Nunc condimentum, magna a vestibulum convallis, libero purus
+		pulvinar orci, sed vestibulum urna sem ut pede. More Ipsum...
+		Sed sollicitudin suscipit risus. Nam ullamcorper. Sed nisl lectus, pellentesque
+		nec, malesuada eget, ornare a, libero. Lorem ipsum dolor sit amet,
+		consectetuer adipiscing elit.
 	</div>
 
 	<br>
@@ -40,12 +41,11 @@ Sed sollicitudin suscipit risus. Nam ullamcorper. Sed nisl lectus, pellentesque 
 			<button>Submit</button><br>
 		</form>
 	</div>
-
 	<br>
 
 	<div dojoType="dijit.TitlePane" title="Pane from href broken until contentPane ported to dijit" href="doc0.html"></div>
-
 	<br>
+
 	<div dojoType="dijit.TitlePane" title="Initially closed pane" open="false" width="200">
 		<form>
 			<title for="age">Age: </title><input id="age"><br>

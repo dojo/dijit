@@ -6,7 +6,7 @@ dojo.require("dijit.base.Showable");
 dojo.require("dijit.base.Container");
 dojo.require("dijit.base.FormElement");
 dojo.require("dijit.base.TemplatedWidget");
-dojo.require("dijit.util.parser");
+dojo.require("dojo.parser");
 dojo.require("dijit.util.manager");
 dojo.require("dijit.util.wai");
 dojo.require("dijit.util.focus");

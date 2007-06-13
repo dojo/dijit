@@ -10,7 +10,7 @@ Markup
 dojoType="button" replaced by dojoType="dijit.Button"  Must use fully qualified class name,
 and it's case-sensitive.
 
-Need to manually dojo.require("dijit.util.parser") to get parsing
+Need to manually dojo.require("dojo.parser") to get parsing
 
 Widget namespaces and widget auto-loading are desupported.
 

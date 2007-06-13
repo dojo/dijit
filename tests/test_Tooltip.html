@@ -39,41 +39,45 @@
 	<button id="four">button</button>
 	<span id="btnTt" dojoType="dijit.Tooltip" connectId="four" caption="tooltip on button" style="display:none;"></span>
 
-    <select id="seven">
-      <option value="alpha">Alpha</option>
-      <option value="beta">Beta</option>
-      <option value="gamma">Gamma</option>
-      <option value="delta">Delta</option>
-    </select>
-	<span dojoType="dijit.Tooltip" connectId="seven"
-		style="display:none;">tooltip on a select<br>two line tooltip.
+	<select id="seven">
+		<option value="alpha">Alpha</option>
+		<option value="beta">Beta</option>
+		<option value="gamma">Gamma</option>
+		<option value="delta">Delta</option>
+	</select>
+
+	<span dojoType="dijit.Tooltip" connectId="seven" style="display:none;">
+		tooltip on a select<br>
+		two line tooltip.
 	</span>
 
-<p></p>
+	<p></p>
 
 	<form>
-		<input type="input" id="id1" value="#1"/><br>
-		<input type="input" id="id2" value="#2"/><br>
-		<input type="input" id="id3" value="#3"/><br>
-		<input type="input" id="id4" value="#4"/><br>
-   		<input type="input" id="id5" value="#5"/><br>
-		<input type="input" id="id6" value="#6"/><br>
+		<input type="input" id="id1" value="#1"><br>
+		<input type="input" id="id2" value="#2"><br>
+		<input type="input" id="id3" value="#3"><br>
+		<input type="input" id="id4" value="#4"><br>
+   		<input type="input" id="id5" value="#5"><br>
+		<input type="input" id="id6" value="#6"><br>
 	</form>
 	<br>
 
-<div style="overflow: auto; height: 100px; position: relative; border: solid blue 3px;">
-	<span id="s1">s1 text</span><br><br><br>
-	<span id="s2">s2 text</span><br><br><br>
-	<span id="s3">s3 text</span><br><br><br>
-	<span id="s4">s4 text</span><br><br><br>
-	<span id="s5">s5 text</span><br><br><br>
-</div>
+	<div style="overflow: auto; height: 100px; position: relative; border: solid blue 3px;">
+		<span id="s1">s1 text</span><br><br><br>
+		<span id="s2">s2 text</span><br><br><br>
+		<span id="s3">s3 text</span><br><br><br>
+		<span id="s4">s4 text</span><br><br><br>
+		<span id="s5">s5 text</span><br><br><br>
+	</div>
 
 	<span dojoType="dijit.Tooltip" connectId="id1" style="display:none;">
-		tooltip for #1<br>
-		long&nbsp;long&nbsp;long&nbsp;long&nbsp;long&nbsp;long&nbsp;long&nbsp;long&nbsp;long&nbsp;long&nbsp;long&nbsp;text<br>
-		make sure that this works properly with a really narrow window
+
+	tooltip for #1<br>
+	long&nbsp;long&nbsp;long&nbsp;long&nbsp;long&nbsp;long&nbsp;long&nbsp;long&nbsp;long&nbsp;long&nbsp;long&nbsp;text<br>
+	make sure that this works properly with a really narrow window
 	</span>
+
 	<span dojoType="dijit.Tooltip" connectId="id2" style="display:none;">tooltip for #2</span>
 	<span dojoType="dijit.Tooltip" connectId="id3" style="display:none;">tooltip for #3</span>
 	<span dojoType="dijit.Tooltip" connectId="id4" style="display:none;">tooltip for #4</span>

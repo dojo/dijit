@@ -1,32 +1,31 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
 	"http://www.w3.org/TR/html4/strict.dtd">
 <html>
-	<head>
-		<title>Dojo Toolkit - ProgressBar test</title>
-		<style type="text/css">
-			@import "../../dojo/resources/dojo.css";
-			@import "../themes/tundra/tundra.css";
-			@import "css/dijitTests.css";
-		</style>
-		<script type="text/javascript" src="../../dojo/dojo.js"
-			djConfig="isDebug: true"></script>
-		<script type="text/javascript">
-			dojo.require("dijit.Declaration");
-			dojo.require("dijit.ProgressBar");
-			dojo.require("dijit.util.parser");	// scan page for widgets and instantiate them
-		</script>
-	</head>
+<head>
+	<title>Dojo Toolkit - ProgressBar test</title>
+	<style type="text/css">
+		@import "../../dojo/resources/dojo.css";
+		@import "../themes/tundra/tundra.css";
+		@import "css/dijitTests.css";
+	</style>
+	<script type="text/javascript" src="../../dojo/dojo.js" djConfig="isDebug: true"></script>
+	<script type="text/javascript">
+		dojo.require("dijit.Declaration");
+		dojo.require("dijit.ProgressBar");
+		dojo.require("dojo.parser");	// scan page for widgets and instantiate them
+	</script>
+</head>
+<body class="tundra">
+	<div dojoType="dijit.Declaration" widgetClass="foo" defaults="{ foo: 'thud', progress: 10 }">
+	<p>thinger blah stuff ${foo}</p>
 
-	<body class='tundra'>
-		<div dojoType="dijit.Declaration" widgetClass="foo"
-			defaults="{ foo: 'thud', progress: 10 }">
-			<p>thinger blah stuff ${foo}</p>
-			<div style="width:400px" annotate="true"
-				maximum="200" id="setTestBar" progress="${progress}" dojoType="dijit.ProgressBar"></div>
-			<p>baz thud</p>
-		</div>
+	<div style="width:400px" annotate="true" maximum="200"
+		id="setTestBar" progress="${progress}" dojoType="dijit.ProgressBar"></div>
+	<p>baz thud</p>
+	</div>
 
-		<div dojoType="foo" foo="blah" progress="50"></div>
-		<div dojoType="foo" foo="thinger" progress="73"></div>
-	</body>
+	<div dojoType="foo" foo="blah" progress="50"></div>
+	<div dojoType="foo" foo="thinger" progress="73"></div>
+
+</body>
 </html>

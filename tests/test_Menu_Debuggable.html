@@ -2,49 +2,44 @@
         "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 <head>
-<title>Menu System Test</title>
-<style type="text/css">
-	@import "../../dojo/resources/dojo.css";
-	@import "../themes/tundra/tundra.css";
-	@import "css/dijitTests.css";
-</style>
 
-<script type="text/javascript" src="testBidi.js"></script>
+	<title>Menu System Test</title>
 
-<script type="text/javascript">
-	djConfig = { isDebug: true, baseUrl: "../../dojo/"  };
-</script>
+	<style type="text/css">
+		@import "../../dojo/resources/dojo.css";
+		@import "../themes/tundra/tundra.css";
+		@import "css/dijitTests.css";
+	</style>
 
-<script type="text/javascript" src="../../dojo/_base/_loader/bootstrap.js"></script>
-<script type="text/javascript" src="../../dojo/_base/_loader/loader.js"></script>
-<script type="text/javascript" src="../../dojo/_base/_loader/hostenv_browser.js"></script>
-<script type="text/javascript" src="../../dojo/_base/lang.js"></script>
-<script type="text/javascript" src="../../dojo/_base/declare.js"></script>
-<script type="text/javascript" src="../../dojo/_base/connect.js"></script>
-<script type="text/javascript" src="../../dojo/_base/Deferred.js"></script>
-<script type="text/javascript" src="../../dojo/_base/json.js"></script>
-<script type="text/javascript" src="../../dojo/_base/array.js"></script>
-<script type="text/javascript" src="../../dojo/_base/event.js"></script>
-<script type="text/javascript" src="../../dojo/_base/html.js"></script>
-<script type="text/javascript" src="../../dojo/_base/NodeList.js"></script>
-<script type="text/javascript" src="../../dojo/_base/query.js"></script>
-<script type="text/javascript" src="../../dojo/_base/xhr.js"></script>
-<script type="text/javascript" src="../../dojo/_base/fx.js"></script>
+	<script type="text/javascript" src="testBidi.js"></script>
+	<script type="text/javascript">
+		djConfig = { isDebug: true, baseUrl: "../../dojo/"  };
+	</script>
 
-<!--<script type="text/javascript" src="../../dojo/dojo.js" djConfig="isDebug: true, debugAtAllCosts: true"></script>-->
+	<script type="text/javascript" src="../../dojo/_base/_loader/bootstrap.js"></script>
+	<script type="text/javascript" src="../../dojo/_base/_loader/loader.js"></script>
+	<script type="text/javascript" src="../../dojo/_base/_loader/hostenv_browser.js"></script>
+	<script type="text/javascript" src="../../dojo/_base/lang.js"></script>
+	<script type="text/javascript" src="../../dojo/_base/declare.js"></script>
+	<script type="text/javascript" src="../../dojo/_base/connect.js"></script>
+	<script type="text/javascript" src="../../dojo/_base/Deferred.js"></script>
+	<script type="text/javascript" src="../../dojo/_base/json.js"></script>
+	<script type="text/javascript" src="../../dojo/_base/array.js"></script>
+	<script type="text/javascript" src="../../dojo/_base/event.js"></script>
+	<script type="text/javascript" src="../../dojo/_base/html.js"></script>
+	<script type="text/javascript" src="../../dojo/_base/NodeList.js"></script>
+	<script type="text/javascript" src="../../dojo/_base/query.js"></script>
+	<script type="text/javascript" src="../../dojo/_base/xhr.js"></script>
+	<script type="text/javascript" src="../../dojo/_base/fx.js"></script>
 
-<script type="text/javascript" src="../util/popup.js"></script>
-<script type="text/javascript" src="../Menu.js"></script>
-<script type="text/javascript" src="../util/parser.js"></script>
-
-<!--<script type="text/javascript">
-	dojo.require("dijit.Menu");
-	dojo.require("dijit.util.parser");	// scan page for widgets and instantiate them
-</script>-->
+	<script type="text/javascript" src="../util/popup.js"></script>
+	<script type="text/javascript" src="../Menu.js"></script>
+	<script type="text/javascript" src="../../dojo/parser.js"></script>
 
 </head>
 <body class="tundra">
 
+<!-- these are context popup menu definitions -->
 <div dojoType="dijit.PopupMenu" id="submenu1" contextMenuForWindow="true" style="display: none;">
 	<div dojoType="dijit.MenuItem" caption="Enabled Item" onClick="alert('Hello world');"></div>
 	<div dojoType="dijit.MenuItem" caption="Disabled Item" disabled="true"></div>
@@ -64,6 +59,7 @@
 	<div dojoType="dijit.MenuItem" caption="Submenu Item One" onClick="alert('Submenu 1!')"></div>
 	<div dojoType="dijit.MenuItem" caption="Submenu Item Two" onClick="alert('Submenu 2!')"></div>
 </div>
+
 <!--
 <div dojoType="dijit.MenuBar">
 	<div dojoType="dijit.MenuBarItem" caption="File" submenuId="submenu1"></div>
@@ -88,7 +84,6 @@
 	</form>
 
 	<h3>Popup opening tests</h3>
-
 	<ul>
 		<li>Right clicking on the client area of the page (ctrl-click for opera) should make a popup menu appear.</li>
 		<li>Right clicking near the righthand window border should open the menu to the left of the pointer.</li>
@@ -100,7 +95,6 @@
 
 
 	<h3>Popup hover tests</h3>
-
 	<ul>
 		<li>Hovering over the first item with the pointer should highlight it.</li>
 		<li>Hovering over the second (disabled) item should also highlight it.</li>
@@ -110,7 +104,6 @@
 
 
 	<h3>Popup click tests</h3>
-
 	<ul>
 		<li>Clicking on the first menu item should alert with the message "<i>Hello world</i>". The menu should dissapear.</li>
 		<li>Clicking on the second menu item (disabled) should not do anything - focus should remain on the disabled item.</li>
@@ -119,7 +112,6 @@
 
 
 	<h3>Popup submenu tests</h3>
-
 	<ul>
 		<li>Hovering over item three (enabled submenu) should highlight the item and then pop open a submenu after a short (500ms) delay</li>
 		<li>Hovering over either of the first two items should close the submenu immediately and deselect the submenu parent item. The newly hovered item should become selected.</li>
@@ -135,7 +127,6 @@
 
 
 	<h3>Menubar hover tests (<i>1 error</i>)</h3>
-
 	<ul>
 		<li>Hovering over any of the four menu bar items should highlight them to state 1 (raised 3D). No submenus should appear.</li>
 		<li>Removing the mouse from all menu bar items should de-highlight all items.</li>
@@ -154,7 +145,6 @@
 
 
 	<h3>Menubar click tests</h3>
-
 	<ul>
 		<li>Clicking on bar item 1 should open up a submenu.</li>
 		<li>Click on item 1 in the submenu - an alert should say "<i>hello world</i>". The submenu should dissapear and the menu bar items should all be deselected.</li>
@@ -170,7 +160,6 @@
 	</ul>
 
 	<h3>Popup key tests (<i>mostly failing</i>)</h3>
-
 	<ul>
 		<li>Right click on the page to show the context menu. No items should be selected.</li>
 		<li>Press the left arrow. Nothing should happen.</li>
