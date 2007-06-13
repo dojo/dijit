@@ -247,7 +247,7 @@ dojo.declare(
 
 	_movePanel: function(panel, pos, size){
 		if(this.isHorizontal){
-			panel.domNode.style.left = pos + 'px';
+			panel.domNode.style.left = pos + 'px';	// TODO: resize() takes l and t parameters too, don't need to set manually
 			panel.domNode.style.top = 0;
 			var box = {w: size, h: this.paneHeight};
 			if(panel.resize){
@@ -256,7 +256,7 @@ dojo.declare(
 				dojo.marginBox(panel.domNode, box);
 			}
 		}else{
-			panel.domNode.style.left = 0;
+			panel.domNode.style.left = 0;	// TODO: resize() takes l and t parameters too, don't need to set manually
 			panel.domNode.style.top = pos + 'px';
 			var box = {w: this.paneWidth, h: size};
 			if(panel.resize){

@@ -28,7 +28,11 @@ dojo.declare("dijit.base.Sizable",
 				if(mb.t){ node.style.top = mb.t + "px"; }
 				if(mb.l){ node.style.left = mb.l + "px"; }
 			}
-			mb = dojo.marginBox(node);
+			
+			// If either height or width wasn't specified by the user, then query node for it.
+			// But note that setting the margin box and then immediately querying dimensions may return
+			// inaccurate results, so try not to depend on it.
+			mb = dojo.mixin(dojo.marginBox(node), mb||{});
 
 			// Save the size of my content box.
 			this._contentBox = dijit.base.Layout.marginBox2contentBox(node, mb);
