@@ -87,6 +87,13 @@ dojo.declare(
 		}else{
 			this.isFolder=false;
 		}
+		
+		if (this.isTree){
+			// put first child in tab index if one exists.
+			var fc = this.getChildren()[0];
+			var tabnode = (fc) ? fc.labelNode : this.domNode; 
+			tabnode.setAttribute("tabIndex", "0");
+		}
 	}
 });
 
@@ -256,8 +263,8 @@ dojo.declare(
 		// set tabIndex so that the tab key can find this node
 		var labelNode = node.labelNode;
 		labelNode.setAttribute("tabIndex", "0");
-		this.lastFocused = node;
 
+		this.lastFocused = node;
 		dojo.addClass(labelNode, "TreeLabelFocused");
 
 		// set focus so that the label wil be voiced using screen readers
@@ -310,6 +317,12 @@ dojo.declare(
 	unmarkProcessing: function(){
 		// summary: clear markup from markProcessing() call
 		this._setExpando(false);	
+	},
+	
+	_onFocus: function(/*Event*/ e){
+		// summary: don't bubble focus out of tree
+
+		dojo.stopEvent(e);
 	},
 
 	_updateLayout: function(){

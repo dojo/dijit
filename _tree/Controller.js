@@ -35,18 +35,20 @@ dojo.declare(
 		}
 	},
 
-	onBeforeTreeDestroy: function(message) {
+	onBeforeTreeDestroy: function(message){
 		dojo.unsubscribe(message.tree.id);
 	},
 
-	onExecute: function(/*Object*/ message) {
+	onExecute: function(/*Object*/ message){
 		// summary: an execute event has occured
 
-		// does the user override this handler?
+		message.node.tree.focusNode(message.node);
+		
+		// TODO: user guide: tell users to listen for execute events
 		console.log("execute message for " + message.node);
 	},
 
-	onNext: function(/*Object*/ message) {
+	onNext: function(/*Object*/ message){
 		// summary: down arrow pressed; move to next visible node
 
 		var returnWidget;
@@ -72,7 +74,7 @@ dojo.declare(
 		}	
 	},
 
-	onPrevious: function(/*Object*/ message) {
+	onPrevious: function(/*Object*/ message){
 		// summary: up arrow pressed; move to previous visible node
 
 		var nodeWidget = message.node;
@@ -104,7 +106,7 @@ dojo.declare(
 		}
 	},
 
-	onZoomIn: function(/*Object*/ message) {
+	onZoomIn: function(/*Object*/ message){
 		// summary: right arrow pressed; go to child node
 		var nodeWidget = message.node;
 		var returnWidget = nodeWidget;
@@ -126,7 +128,7 @@ dojo.declare(
 		}
 	},
 
-	onZoomOut: function(/*Object*/ message) {
+	onZoomOut: function(/*Object*/ message){
 		// summary: left arrow pressed; go to parent
 
 		var node = message.node;
@@ -148,15 +150,10 @@ dojo.declare(
 		}
 	},
 
-	onFirst: function(/*Object*/ message) {
+	onFirst: function(/*Object*/ message){
 		// summary: home pressed; go to first visible node
 
-		var returnWidget = message.node;
-
-		// the first node is always the root; isn't it?
-		while (!returnWidget.isTree){
-			returnWidget = returnWidget.getParent();
-		}
+		var returnWidget = message.tree;
 
 		if (returnWidget){
 			returnWidget = returnWidget.getChildren()[0];
@@ -167,15 +164,10 @@ dojo.declare(
 		}
 	},
 
-	onLast: function(/*Object*/ message) {
+	onLast: function(/*Object*/ message){
 		// summary: end pressed; go to last visible node
 
-		var returnWidget = message.node;
-
-		// find the tree root
-		while (!returnWidget.isTree){
-			returnWidget = returnWidget.getParent();
-		}
+		var returnWidget = message.node.tree;
 
 		var lastChild = returnWidget;
 		while(lastChild.isExpanded){
@@ -202,14 +194,20 @@ dojo.declare(
 		}
 	},
 
-	_expand: function(node) {
-		if (node.isFolder) {
+	_expand: function(node){
+		if (node.isFolder){
 			node.expand(); // skip trees or non-folders
+			var t = node.tree;
+			if (t.lastFocused){ t.focusNode(t.lastFocused); } // restore focus
 		}
 	},
 
-	_collapse: function(node) {
-		if (node.isFolder) {
+	_collapse: function(node){
+		if (node.isFolder){
+			// are we collapsing a child that has the tab index?
+			if (dojo.query("[tabindex=0]", node.domNode).length > 0){
+				node.tree.focusNode(node);
+			}
 			node.collapse();
 		}
 	}
@@ -224,7 +222,7 @@ dojo.declare(
 	// summary
 	//		Controller for tree that hooks up to dojo.data
 
-	onAfterTreeCreate: function(message) {
+	onAfterTreeCreate: function(message){
 		// when a tree is created, we query against the store to get the top level nodes
 		// in the tree
 		var tree = message.tree;
