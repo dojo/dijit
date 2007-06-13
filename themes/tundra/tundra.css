@@ -370,6 +370,9 @@
 
 
 .tundra .dijitTabPaneWrapper {
+	/*
+	overflow: hidden;
+	*/
 	border:1px solid #ccc;
 }
 
@@ -435,13 +438,19 @@
 
 
 .tundra .dijitTab .closeImage {
-	position:relative;
+	position: relative;
 	top: 2px;
-	height : 12px;
-	width : 12px;
-	padding : 0 12px 0 0;
-	margin : 0px 0px 0px 10px;
+	height: 12px;
+	width: 12px;
+	display: inline-block;
+	display: -moz-inline-stack;
+	padding: 0px 12px 0px 0px;
+	margin: 0px 0px 0px 0px;
 	background : url("images/tabClose.png") no-repeat right top;
+}
+
+.dj_ie .tundra .dijitTab .closeImage {
+	padding: 0px 12px 0px 10px;
 }
 
 .tundra .dijitTabCloseButton .closeImage {
