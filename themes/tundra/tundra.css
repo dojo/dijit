@@ -659,8 +659,7 @@
 	font-weight:normal;
 	padding-top:.15em;
 	padding-bottom:0em;
-	border-top:1px solid #eeeeee;
-	border-bottom:
+	border-top: 1px solid #eeeeee;
 	color:#293a4b;
 	text-align:center;
 }
@@ -671,6 +670,11 @@
 	font-size: 0.75em;
 	font-weight: bold;
 	text-align:center;
+}
+
+.dj_ie7 .tundra .calendarDateTemplate,
+.dj_ie6 .tundra .calendarDateTemplate {
+	font-size: 0.8em;
 }
 
 .tundra .calendarDateTemplate {
@@ -747,7 +751,6 @@
 	color:black !important;
 	font-weight:normal;
 }
-
 
 
 
@@ -843,13 +846,22 @@
 .tundra .dijitDialog {
 	background: #eee;
 	border: 1px solid #999;
-	-moz-border-radius: 5px;
+}
+
+.tundra .dijitDialog .dijitTitlePaneTitle{
+	border-top: none;
+	border-left: none;
+	border-right: none;
+}
+
+.tundra .dijitDialog .dijitTitlePaneContent {
+	border: none;
 }
 
 .tundra .dijitDialogTitleBar {
 	/* outer container for the titlebar of the dialog */
 	background: #fafafa url("images/titleBarBg.gif") repeat-x bottom left;
-	border: 1px solid #bfbfbf;
+	/* border: 1px solid #bfbfbf; */
 	padding: 4px 8px 2px 4px;
 	cursor: move;
 }
