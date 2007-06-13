@@ -50,8 +50,7 @@
 .tundra .dijitSpinnerDisabled .dijitSpinnerInput,
 .tundra .dijitSpinnerDisabled .dijitButtonNode {
 	/* disabled state - inner */
-	border-style: solid;
-	border-color: #d5d5d5;
+	border: 1px solid #d5d5d5;
 	color:#b4b4b4;
 	background:#e4e4e4 url("images/buttonDisabled.png") top repeat-x;
 }
@@ -84,7 +83,7 @@
 	 * when a toggle button is in a depressed state
 	 */
 	border-color:#366dba;
-	border-style:inset;
+	/* border-style:inset; */
 	background: #ededed url("images/buttonActive.png") bottom repeat-x;
 }
 
@@ -117,16 +116,19 @@
 
 
 /*.tundra .dijitInputField,		MOW TODO */
+.tundra .dijitSpinner input,
+.tundra .dijitInlineEditor input,
+.tundra .dijitTextaArea,
 .tundra .dijitComboBoxInput,
 .tundra .dijitSpinnerInput {
 	/* 	For all except dijit.form.NumberSpinner:  the actual input element.
 		For dijit.form.NumberSpinner: the outer fieldset that contains the input.
 	*/
-	font-size:inherit;
+	font-size: inherit;
 	background:#fff url("validationInputBg.png") repeat-x top left;
-	border:1px inset #9b9b9b;
-	line-height:normal;
-	padding:.2em .3em;
+	border:1px solid #9b9b9b;
+	line-height: normal;
+	padding: 0.2em 0.3em;
 }
 
 /*
@@ -223,19 +225,24 @@
 
 /* Menu */
 .tundra .dijitMenu{
-	border:1px solid #9b9b9b;
 	/*
 	border: solid;
 	border-color: #7788a0 #344257 #344257 #7788a0;
 	border-width:1px 2px 2px 1px;
+
+	background-color: white;
+	background: #e9e9e9 url("images/buttonActive.png") repeat-x top;
+	background: #dddddd url("images/tabDisabled.png") repeat-x;
 	*/
-	-moz-border-radius:0px 2px 0px 2px;	/* make BL and TR corners indent on Moz so it looks like we have a shadow */
-	background:#fff url("images/dijitMenu.gif") repeat-x bottom;
+	border: 1px solid #9b9b9b;
 	margin: 0px;
 	padding: 0px;
+	opacity: 0.9;
+
 }
 
 .tundra .dijitMenuItem{
+	background-color: #f7f7f7;
 	font: menu;
 	margin: 0;
 }
@@ -245,7 +252,7 @@
 }
 
 .tundra .dijitMenuItemHover {
-	background-color:#60a1ea;
+	background-color: #95a0b0; /* #555555; #aaaaaa; #646464;  #60a1ea; */
 	color:#fff;
 }
 
@@ -278,15 +285,17 @@
 
 
 
-.tundra .dijitMenuSeparator {}
+.tundra .dijitMenuSeparator {
+	background-color: #f7f7f7;
+}
 
 /* separator can be two pixels -- set border of either one to 0px to have only one */
 .tundra .dijitMenuSeparatorTop {
-	border-bottom: 1px solid #97adcb;
+	border-bottom: 1px solid #9b9b9b; /*97adcb; */
 }
 
 .tundra .dijitMenuSeparatorBottom {
-	border-top: 1px solid #c9deff;
+	border-top: 1px solid #e8e8e8;
 }
 
 
@@ -331,6 +340,7 @@
 	background:#fafafa url("titleBarBg.gif") repeat-x bottom left;
 	border:1px solid #bfbfbf;
 	padding:4px 4px 2px 4px;
+	cursor: pointer;
 }
 
 .tundra .dijitTitlePaneTitle .dijitOpenCloseArrowOuter {
@@ -485,20 +495,19 @@
 }
 
 .tundra .dijitTooltipContainer {
+	/*
+		NOTE: 
+			FF doesn't clip images used as CSS bgs if you specify a border
+			radius. If you use a solid color, it does. Webkit gets it right.
+			Sigh.
+		background: #ffffff url("popupMenuBg.gif") repeat-x bottom left;
+	*/
+	background-color: white;
 	border:1px solid #9b9b9b;
-	/*
-	border: solid;
-	border-color: #7788a0 #344257 #344257 #7788a0;
-	border-width:1px 2px 2px 1px;
-	*/
 	padding:0.45em;
-	background:#fff url("popupMenuBg.gif") repeat-x bottom left;
-	border-radius: 7px;	/* make BL and TR corners indent on Moz so it looks like we have a shadow */
-	-webkit-border-radius: 5px;	/* make BL and TR corners indent on Moz so it looks like we have a shadow */
-	/*
-	-moz-border-radius: 5px;
-	*/
-	/* -moz-border-radius: 0px 2px 0px 2px;	*//* make BL and TR corners indent on Moz so it looks like we have a shadow */
+	border-radius: 6px;
+	-moz-border-radius: 7px;
+	-webkit-border-radius: 6px;
 }
 
 .tundra .dijitTooltipConnector {
@@ -754,14 +763,16 @@
 /* MOW: trying to get this to look like a mini-dialog.  Advised? */
 .tundra .dijitInlineEditor {
 	/* fieldset surrounding an inlineEditor in edit mode */
-	display:inline-block;
+	display: inline-block;
 	display: -moz-inline-stack;
 	#display:inline;
+	/*
 	border: solid;
 	border-color: #7788a0 #344257 #344257 #7788a0;
 	border-width:1px 2px 2px 1px;
-	-moz-border-radius:0px 2px 0px 2px;	/* make BL and TR corners indent on Moz so it looks like we have a shadow */
+	-moz-border-radius:0px 2px 0px 2px;	make BL and TR corners indent on Moz so it looks like we have a shadow
 	background-color:white;
+	*/
 }
 
 .dijitInlineEditor .saveButton,
@@ -774,7 +785,7 @@
 
 .tundra .dijitSpinner {}
 
-.tundra .dijitSpinner INPUT {
+.tundra .dijitSpinner input {
 }
 
 .tundra .dijitSpinnerArrowGroup {}
