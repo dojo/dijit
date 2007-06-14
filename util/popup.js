@@ -69,7 +69,7 @@ dijit.util.popup = new function(){
 		// position the wrapper node
 		var best = args.around ?
 			dijit.util.placeOnScreenAroundElement(wrapper, args.around, args.orient) :
-			dijit.util.placeOnScreen(wrapper, args, ['TL','BL','BL','BR']);
+			dijit.util.placeOnScreen(wrapper, args, ['TL','BL','TR','BR']);
 
 		// TODO: use effects to fade in wrapper
 

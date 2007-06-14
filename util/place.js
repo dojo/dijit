@@ -41,15 +41,16 @@ dijit.util.getScroll = function(){
 		return { x: _doc.scrollLeft, y: _doc.scrollTop };
 	}
 };
+// TODO: combine above two functions
 
 dijit.util.placeOnScreen = function(
 	/* HTMLElement */	node,
-	/* Object */		desiredPos,
+	/* Object */		pos,
 	/* Object */		corners,
 	/* boolean? */		tryOnly){
 	//	summary:
 	//		Keeps 'node' in the visible area of the screen while trying to
-	//		place closest to desiredPos.x, desiredPos.y. The input coordinates are
+	//		place closest to pos.x, pos.y. The input coordinates are
 	//		expected to be the desired document position.
 	//
 	//		Set which corner(s) you want to bind to, such as
@@ -60,126 +61,76 @@ dijit.util.placeOnScreen = function(
 	//		BottomLeft(BL)/BottomRight(BR) corner of the node. Each corner is tested
 	//		and if a perfect match is found, it will be used. Otherwise, it goes through
 	//		all of the specified corners, and choose the most appropriate one.
-	//
-	//		If tryOnly is set to true, the node will not be moved to the place.
 	//		
 	//		NOTE: node is assumed to be absolutely or relatively positioned.
+	
+	var choices = dojo.map(corners, function(corner){ return { corner: corner, pos: pos }; });
+	
+	return dijit.util._place(node, choices);
+}
 
-	var scroll = dijit.util.getScroll();
-	var view = dijit.util.getViewport();
+dijit.util._place = function(/*HtmlElement*/ node, /* Array */ choices){
+	// summary:
+	//		Given a list of spots to put node, put it at the first spot where it fits,
+	//		of if it doesn't fit anywhere then the place with the least overflow
+	// choices: Array
+	//		Array of elements like: {corner: 'TL', pos: {x: 10, y: 20} }
+	//		Above example says to put the top-left corner of the node at (10,20)
+			
+	// get {x: 10, y: 10, w: 100, h:100} type obj representing position of
+	// viewport over document
+	var view = dojo.mixin(dijit.util.getViewport(), dijit.util.getScroll());
 
-	node = dojo.byId(node);
+	// This won't work if the node is inside a <div style="position: relative">,
+	// so reattach it to document.body.   (Otherwise, the positioning will be wrong
+	// and also it might get cutoff)
+	if(!node.parentNode || String(node.parentNode.tagName).toLowerCase() != "body"){
+		dojo.body().appendChild(node);
+	}
+
+	// get node margin box size
 	var oldDisplay = node.style.display;
 	var oldVis = node.style.visibility;
 	node.style.visibility = "hidden";
 	node.style.display = "";
-//	var bb = dojo.html.getBorderBox(node);
-	var bb = dojo.marginBox(node); //PORT okay?
-	var w = bb.w;
-	var h = bb.h;
+	var mb = dojo.marginBox(node);
 	node.style.display = oldDisplay;
 	node.style.visibility = oldVis;
 
-	//#2670
-	var visiblew,visibleh,bestw,besth="";
+	var best=null;
+	for(var i=0; i<choices.length; i++){
+		var corner = choices[i].corner;
+		var pos = choices[i].pos;
 
-	var bestx, besty, bestDistance = Infinity, bestCorner;
-
-	for(var cidex=0; cidex<corners.length; ++cidex){
-		var visiblew,visibleh="";
-		var corner = corners[cidex];
-		var match = true;
-
-		// guess where to put the upper left corner of the popup, based on which corner was passed
-		// if you choose a corner other than the upper left,
-		// obviously you have to move the popup
-		// so that the selected corner is at the x,y you asked for
-		var tryX = desiredPos.x - (corner.charAt(1)=='L' ? 0 : w) - scroll.x;
-		var tryY = desiredPos.y - (corner.charAt(0)=='T' ? 0 : h) - scroll.y;
-
-		// x component
-		// test if the popup does not fit
-		var x = tryX + w;
-		if(x > view.w){
-			match = false;
+		// coordinates and size of node with specified corner placed at pos,
+		// and clipped by viewport
+		var startX = (corner.charAt(1)=='L' ? pos.x : Math.max(view.x, pos.x - mb.w)),
+			startY = (corner.charAt(0)=='T' ? pos.y : Math.max(view.y, pos.y -  mb.h)),
+			endX = (corner.charAt(1)=='L' ? Math.min(view.x+view.w, startX+mb.w) : pos.x),
+			endY = (corner.charAt(0)=='T' ? Math.min(view.y+view.h, startY+mb.h) : pos.y),
+			width = endX-startX,
+			height = endY-startY,
+			overflow = (mb.w-width) + (mb.h-height);
+			
+		if(best==null || overflow<best.overflow){
+			best = {
+				corner: corner,
+				aroundCorner: choices[i].aroundCorner,
+				x: startX,
+				y: startY,
+				w: width,
+				h: height,
+				overflow: overflow
+			};
 		}
-		// viewport => document
-		// min: left side of screen
-		x = tryX + scroll.x;
-		// calculate the optimal width of the popup
-		if(corner.charAt(1)=='L'){
-			if(w>view.w-tryX){
-				visiblew=view.w-tryX;
-				match=false;
-			}else{
-				visiblew=w;
-			}
-		}else{
-			if(tryX<0){
-				visiblew=w+tryX;
-				match=false;
-			}else{
-				visiblew=w;
-			}
-		}
-		// y component
-		// test if the popup does not fit
-		var y = tryY + h;
-		if(y > view.h){
-			match = false;
-		}
-		// viewport => document
-		// min: top side of screen
-		y = tryY + scroll.y;
-		// calculate the optimal height of the popup
-		if(corner.charAt(0)=='T'){
-			if(h>view.h-tryY){
-				visibleh=view.h-tryY;
-				match=false;
-			}else{
-				visibleh=h;
-			}
-		}else{
-			if(tryY<0){
-				visibleh=h+tryY;
-				match=false;
-			}else{
-				visibleh=h;
-			}
-		}
-
-		if(match){ //perfect match, return now
-			bestx = x;
-			besty = y;
-			bestDistance = 0;
-			bestw = visiblew;
-			besth = visibleh;
-			bestCorner = corner;
+		if(overflow==0){
 			break;
-		}else{
-			//not perfect, find out whether it is better than the saved one
-			// weight this position by its squared distance
-			var dist = Math.pow(x-tryX-scroll.x,2)+Math.pow(y-tryY-scroll.y,2);
-			// if there was not a perfect match but dist=0 anyway (popup too small) weight by size of popup
-			if(dist==0){dist=Math.pow(h-visibleh,2);}
-			// choose the lightest (closest or biggest popup) position
-			if(bestDistance > dist){
-				bestDistance = dist;
-				bestx = x;
-				besty = y;
-				bestw = visiblew;
-				besth = visibleh;
-				bestCorner = corner;
-			}
 		}
 	}
 
-	if(!tryOnly){
-		node.style.left = bestx + "px";
-		node.style.top = besty + "px";
-	}
-
-	return {left: bestx, top: besty, x: bestx, y: besty, dist: bestDistance, corner:  bestCorner, h:besth, w:bestw};	//	object
+	node.style.left = best.x + "px";
+	node.style.top = best.y + "px";
+	return best;
 }
 
 dijit.util.placeOnScreenAroundElement = function(
@@ -196,49 +147,29 @@ dijit.util.placeOnScreenAroundElement = function(
 	//		used to place the node => which corner(s) of node to use (see the
 	//		corners parameter in dijit.util.placeOnScreen)
 	//		e.g. {'TL': 'BL', 'BL': 'TL'}
-
-	// This won't work if the node is inside a <div style="position: relative">,
-	// so reattach it to document.body.   (Otherwise, the positioning will be wrong
-	// and also it might get cutoff)
-	if(!node.parentNode || String(node.parentNode.tagName).toLowerCase() != "body"){
-		dojo.body().appendChild(node);
-	}
-
-	var best, bestDistance=Infinity;
+	
+	// get coordinates of aroundNode
 	aroundNode = dojo.byId(aroundNode);
 	var oldDisplay = aroundNode.style.display;
 	aroundNode.style.display="";
 	// #3172: use the slightly tighter border box instead of marginBox
-	//var mb = dojo.marginBox(aroundNode);
-	//aroundNode.style.borderWidth="10px";
 	var aroundNodeW = aroundNode.offsetWidth; //mb.w;
 	var aroundNodeH = aroundNode.offsetHeight; //mb.h;
 	var aroundNodePos = dojo.coords(aroundNode, true);
 	aroundNode.style.display=oldDisplay;
 
+	// Generate list of possible positions for node
+	var choices = [];
 	for(var nodeCorner in aroundCorners){
-		var corners = aroundCorners[nodeCorner];
-
-		var desiredPos = {
-			x: aroundNodePos.x + (nodeCorner.charAt(1)=='L' ? 0 : aroundNodeW),
-			y: aroundNodePos.y + (nodeCorner.charAt(0)=='T' ? 0 : aroundNodeH)
-		};
-
-		var pos = dijit.util.placeOnScreen(node, desiredPos, [corners], true);
-		if(pos.dist == 0){
-			best = pos;
-			break;
-		}else{
-			//not perfect, find out whether it is better than the saved one
-			if(bestDistance > pos.dist){
-				bestDistance = pos.dist;
-				best = pos;
+		choices.push( {
+			aroundCorner: nodeCorner,
+			corner: aroundCorners[nodeCorner],
+			pos: {
+				x: aroundNodePos.x + (nodeCorner.charAt(1)=='L' ? 0 : aroundNodeW),
+				y: aroundNodePos.y + (nodeCorner.charAt(0)=='T' ? 0 : aroundNodeH)
 			}
-		}
+		});
 	}
-
-	node.style.left = best.left + "px";
-	node.style.top = best.top + "px";
-
-	return best;	//	object
+	
+	return dijit.util._place(node, choices);
 }

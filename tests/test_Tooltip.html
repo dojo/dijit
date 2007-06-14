@@ -39,16 +39,19 @@
 	<button id="four">button</button>
 	<span id="btnTt" dojoType="dijit.Tooltip" connectId="four" caption="tooltip on button" style="display:none;"></span>
 
-	<select id="seven">
-		<option value="alpha">Alpha</option>
-		<option value="beta">Beta</option>
-		<option value="gamma">Gamma</option>
-		<option value="delta">Delta</option>
-	</select>
-
-	<span dojoType="dijit.Tooltip" connectId="seven" style="display:none;">
-		tooltip on a select<br>
-		two line tooltip.
+	<span style="float: right">
+		Test tooltip on right aligned element.  Tooltip should flow to the left --&gt;
+		<select id="seven">
+			<option value="alpha">Alpha</option>
+			<option value="beta">Beta</option>
+			<option value="gamma">Gamma</option>
+			<option value="delta">Delta</option>
+		</select>
+	
+		<span dojoType="dijit.Tooltip" connectId="seven" style="display:none;">
+			tooltip on a select<br>
+			two line tooltip.
+		</span>
 	</span>
 
 	<p></p>

@@ -51,9 +51,8 @@ dojo.declare(
 
 			// position the element and change CSS according to position	
 			var align = this.isLeftToRight() ? {'BR': 'BL', 'BL': 'BR'} : {'BL': 'BR', 'BR': 'BL'};
-			dijit.util.placeOnScreenAroundElement(this.domNode, aroundNode, align);
-			// TODO: need to know which position placeOnScreenAroundElement picked
-			this.domNode.className="dijitTooltip dijitTooltip" + (this.isLeftToRight() ? "Right" : "Left");
+			var pos = dijit.util.placeOnScreenAroundElement(this.domNode, aroundNode, align);
+			this.domNode.className="dijitTooltip dijitTooltip" + (pos.corner=='BL' ? "Right" : "Left");
 			
 			// show it
 			dojo.style(this.domNode, "opacity", 0);
