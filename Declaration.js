@@ -16,6 +16,7 @@ dojo.declare(
 		mixins: [],
 		buildRendering: function(){
 			var src = this.srcNodeRef.parentNode.removeChild(this.srcNodeRef);
+			var scripts = dojo.query("> script[type='dojo/connect']", src).orphan();
 			var srcType = src.nodeName;
 
 			if(this.mixins.length){
@@ -23,6 +24,11 @@ dojo.declare(
 			}else{
 				this.mixins = [ dijit.base.Widget, dijit.base.TemplatedWidget ];
 			}
+			this.mixins.push(function(){
+				scripts.forEach(function(script){
+					dojo.parser._wireUpConnect(this, script);
+				});
+			});
 
 			var propList = this.defaults||{};
 			propList.widgetsInTemplate = true;
