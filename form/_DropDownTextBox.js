@@ -11,6 +11,13 @@ dojo.declare(
 		//		Mixin text box with drop down
 
 		templatePath: dojo.moduleUrl("dijit.form", "templates/ComboBox.html"),
+		
+		baseClass:"dijitComboBox",
+
+		// hasDownArrow: Boolean
+		// Set this textbox to have a down arrow button
+		// Defaults to true
+		hasDownArrow:true,
 
 		// _popupWidget: Widget
 		//	link to the popup widget created by makePopop
@@ -32,16 +39,15 @@ dojo.declare(
 		_popupArgs:{},
 
 		_arrowPressed: function(){
-			if(!this.disabled){
+			if(!this.disabled&&this.hasDownArrow){
 				dojo.addClass(this.downArrowNode, "dijitArrowButtonActive");
 			}
 		},
 
 		_arrowIdle: function(){
-			if(this.disabled){
-				return;
+			if(!this.disabled&&this.hasDownArrow){
+				dojo.removeClass(this.downArrowNode, "dojoArrowButtonPushed");
 			}
-			dojo.removeClass(this.downArrowNode, "dojoArrowButtonPushed");
 		},
 
 		makePopup: function(){
@@ -207,6 +213,10 @@ dojo.declare(
 		open:function(){
 			this.makePopup();
 			return dijit.util.popup.openAround(this.domNode, this._popupWidget);
+		},
+
+		postMixInProperties:function(){
+			this.baseClass=this.hasDownArrow?this.baseClass:this.baseClass+"NoArrow";
 		}
 	}
 );

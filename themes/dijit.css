@@ -373,6 +373,14 @@ table .dijitComboButton .dijitButtonNode {
 	background-color:transparent;
 }
 
+.dijitComboBoxNoArrow .dijitDownArrowButton {
+	display:none;
+}		 
+
+.dijitComboBoxNoArrow .dijitComboBoxInput {
+	border-right-width:1px !important;
+}
+
 .dj_safari .dijitComboBoxInput,
 .dj_safari .dijitSpinnerInput {
 	padding:0px;
