@@ -45,7 +45,7 @@ dijit.util.getScroll = function(){
 dijit.util.placeOnScreen = function(
 	/* HTMLElement */	node,
 	/* Object */		desiredPos,
-	/* string? */		corners,
+	/* Object */		corners,
 	/* boolean? */		tryOnly){
 	//	summary:
 	//		Keeps 'node' in the visible area of the screen while trying to
@@ -60,17 +60,10 @@ dijit.util.placeOnScreen = function(
 	//		BottomLeft(BL)/BottomRight(BR) corner of the node. Each corner is tested
 	//		and if a perfect match is found, it will be used. Otherwise, it goes through
 	//		all of the specified corners, and choose the most appropriate one.
-	//		By default, corner = ['TL'].
+	//
 	//		If tryOnly is set to true, the node will not be moved to the place.
 	//		
 	//		NOTE: node is assumed to be absolutely or relatively positioned.
-	//		
-	//	Examples:
-	//		 placeOnScreen("myId", [800, 623])
-
-	if(dojo.isString(corners)){
-		corners = corners.split(",");
-	}
 
 	var scroll = dijit.util.getScroll();
 	var view = dijit.util.getViewport();
@@ -89,10 +82,6 @@ dijit.util.placeOnScreen = function(
 
 	//#2670
 	var visiblew,visibleh,bestw,besth="";
-
-	if(!dojo.isArray(corners)){
-		corners = ['TL'];
-	}
 
 	var bestx, besty, bestDistance = Infinity, bestCorner;
 
@@ -194,10 +183,10 @@ dijit.util.placeOnScreen = function(
 }
 
 dijit.util.placeOnScreenAroundElement = function(
-	/* HTMLElement */node,
-	/* HTMLElement */aroundNode,
-	/* string? */aroundCorners,
-	/* boolean? */tryOnly){
+	/* HTMLElement */	node,
+	/* HTMLElement */	aroundNode,
+	/* Object */		aroundCorners){
+
 	//	summary
 	//	Like placeOnScreen, except it accepts aroundNode instead of x,y
 	//	and attempts to place node around it.  Uses margin box dimensions.
@@ -208,7 +197,7 @@ dijit.util.placeOnScreenAroundElement = function(
 	//		corners parameter in dijit.util.placeOnScreen)
 	//		e.g. {'TL': 'BL', 'BL': 'TL'}
 
-	// This won't work if the node is inside a <div style="position: relative>,
+	// This won't work if the node is inside a <div style="position: relative">,
 	// so reattach it to document.body.   (Otherwise, the positioning will be wrong
 	// and also it might get cutoff)
 	if(!node.parentNode || String(node.parentNode.tagName).toLowerCase() != "body"){
@@ -228,7 +217,6 @@ dijit.util.placeOnScreenAroundElement = function(
 	aroundNode.style.display=oldDisplay;
 
 	for(var nodeCorner in aroundCorners){
-		var pos;
 		var corners = aroundCorners[nodeCorner];
 
 		var desiredPos = {
@@ -236,7 +224,7 @@ dijit.util.placeOnScreenAroundElement = function(
 			y: aroundNodePos.y + (nodeCorner.charAt(0)=='T' ? 0 : aroundNodeH)
 		};
 
-		pos = dijit.util.placeOnScreen(node, desiredPos, corners, true);
+		var pos = dijit.util.placeOnScreen(node, desiredPos, [corners], true);
 		if(pos.dist == 0){
 			best = pos;
 			break;
@@ -249,9 +237,8 @@ dijit.util.placeOnScreenAroundElement = function(
 		}
 	}
 
-	if(!tryOnly){
-		node.style.left = best.left + "px";
-		node.style.top = best.top + "px";
-	}
+	node.style.left = best.left + "px";
+	node.style.top = best.top + "px";
+
 	return best;	//	object
 }
