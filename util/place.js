@@ -45,19 +45,16 @@ dijit.util.getScroll = function(){
 dijit.util.placeOnScreen = function(
 	/* HTMLElement */	node,
 	/* Object */		desiredPos,
-	/* boolean? */		hasScroll,
 	/* string? */		corners,
 	/* boolean? */		tryOnly){
 	//	summary:
 	//		Keeps 'node' in the visible area of the screen while trying to
 	//		place closest to desiredPos.x, desiredPos.y. The input coordinates are
-	//		expected to be the desired screen position, not accounting for
-	//		scrolling. If you already accounted for scrolling, set 'hasScroll'
-	//		to true.
+	//		expected to be the desired document position.
 	//
 	//		Set which corner(s) you want to bind to, such as
 	//		
-	//			placeOnScreen(node, {x: 10, y: 20}, hasScroll, ["TR", "BL"])
+	//			placeOnScreen(node, {x: 10, y: 20}, ["TR", "BL"])
 	//		
 	//		The desired x/y will be treated as the topleft(TL)/topright(TR) or
 	//		BottomLeft(BL)/BottomRight(BR) corner of the node. Each corner is tested
@@ -103,17 +100,14 @@ dijit.util.placeOnScreen = function(
 		var visiblew,visibleh="";
 		var corner = corners[cidex];
 		var match = true;
+
 		// guess where to put the upper left corner of the popup, based on which corner was passed
 		// if you choose a corner other than the upper left,
 		// obviously you have to move the popup
 		// so that the selected corner is at the x,y you asked for
-		var tryX = desiredPos.x - (corner.charAt(1)=='L' ? 0 : w);
-		var tryY = desiredPos.y - (corner.charAt(0)=='T' ? 0 : h);
-		// document => viewport
-		if(hasScroll){
-			tryX -= scroll.x;
-			tryY -= scroll.y;
-		}
+		var tryX = desiredPos.x - (corner.charAt(1)=='L' ? 0 : w) - scroll.x;
+		var tryY = desiredPos.y - (corner.charAt(0)=='T' ? 0 : h) - scroll.y;
+
 		// x component
 		// test if the popup does not fit
 		var x = tryX + w;
@@ -242,7 +236,7 @@ dijit.util.placeOnScreenAroundElement = function(
 			y: aroundNodePos.y + (nodeCorner.charAt(0)=='T' ? 0 : aroundNodeH)
 		};
 
-		pos = dijit.util.placeOnScreen(node, desiredPos, true, corners, true);
+		pos = dijit.util.placeOnScreen(node, desiredPos, corners, true);
 		if(pos.dist == 0){
 			best = pos;
 			break;
