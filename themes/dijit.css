@@ -597,9 +597,6 @@ table .dijitComboButton .dijitButtonNode {
 }
 
 
-
-
-
 /****
 		dijit.Tooltip
  ****/
@@ -608,7 +605,6 @@ table .dijitComboButton .dijitButtonNode {
 	position: absolute;
 	z-index: 10;
 	display: block;
-	margin-top: 10px;
 	/* make visible but off screen */
 	left: -10000px;
 	top: -10000px;

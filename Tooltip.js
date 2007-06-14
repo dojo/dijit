@@ -38,7 +38,9 @@ dojo.declare(
 		},
 
 		show: function(/*String*/ innerHTML, /*DomNode*/ aroundNode){
-			// summary: display tooltip w/specified contents underneath specified node
+			// summary:
+			//	Display tooltip w/specified contents to right specified node
+			//	(To left if there's no space on the right, or if LTR==right
 
 			if(this.fadeOut.status() == "playing"){
 				// previous tooltip is being hidden; wait until the hide completes then show new one
@@ -46,8 +48,14 @@ dojo.declare(
 				return;
 			}
 			this.containerNode.innerHTML=innerHTML;
-			dijit.util.placeOnScreenAroundElement(this.domNode, aroundNode, [0,0],
-				{'BL': 'TL', 'TL': 'BL'});
+
+			// position the element and change CSS according to position	
+			var align = this.isLeftToRight() ? {'BR': 'BL', 'BL': 'BR'} : {'BL': 'BR', 'BR': 'BL'};
+			dijit.util.placeOnScreenAroundElement(this.domNode, aroundNode, [0,0], align);
+			// TODO: need to know which position placeOnScreenAroundElement picked
+			this.domNode.className="dijitTooltip dijitTooltip" + (this.isLeftToRight() ? "Right" : "Left");
+			
+			// show it
 			dojo.style(this.domNode, "opacity", 0);
 			this.fadeIn.play();
 			this.isShowingNow = true;
