@@ -191,7 +191,9 @@ dojo.declare(
 		},
 
 		uninitialize: function(){
-			this._underlay.destroy();
+			if(this._underlay){
+				this._underlay.destroy();
+			}
 		},
 
 		_center: function(){
