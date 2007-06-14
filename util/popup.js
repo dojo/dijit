@@ -15,7 +15,7 @@ dijit.util.popup = new function(){
 	var beginZIndex=1000;
 	var idGen = 1;
 
-	this.open = function(/*Event*/ e, /*Widget*/widget, /*Array?*/ padding){
+	this.open = function(/*Event*/ e, /*Widget*/widget){
 		// summary:
 		//		Open the widget at mouse position
 		//		TODO: if widget has href, attach to onLoaded() and reposition
@@ -32,21 +32,19 @@ dijit.util.popup = new function(){
 			y += cood.y - dojo.withGlobal(win, dijit.util.getScroll).y;
 		}
 
-		return this._open(widget, padding, {x: x, y: y, id: "dropdown_"+idGen++});
+		return this._open(widget, {x: x, y: y, id: "dropdown_"+idGen++});
 	};
 
-	this.openAround = function(/*Widget*/parent, /*Widget*/widget, /*String?*/orient, /*Array?*/padding){
+	this.openAround = function(/*Widget*/parent, /*Widget*/widget, /*String?*/orient){
 		// summary:
 		//		Open the widget relative to parent widget (typically as a drop down to that widget)
 		//		TODO: if widget has href attach to onLoaded and reposition
 
-		return this._open(widget, padding, { around: parent, orient: orient || {'BL':'TL', 'TL':'BL'}, id: parent.id+"_dropdown" });
+		return this._open(widget, { around: parent, orient: orient || {'BL':'TL', 'TL':'BL'}, id: parent.id+"_dropdown" });
 	};
 
-	this._open = function(/*Widget*/ widget, /*Array*/ padding, /*Object*/ args){
+	this._open = function(/*Widget*/ widget, /*Object*/ args){
 		// summary: utility function to help opening
-
-		if(!padding){ padding=[0,0]; }
 
 		if(stack.length == 0){
 			this._beforeTopOpen(null, widget);
@@ -70,8 +68,8 @@ dijit.util.popup = new function(){
 
 		// position the wrapper node
 		var best = args.around ?
-			dijit.util.placeOnScreenAroundElement(wrapper, args.around, padding, args.orient) :
-			dijit.util.placeOnScreen(wrapper, args.x, args.y, padding, true);
+			dijit.util.placeOnScreenAroundElement(wrapper, args.around, args.orient) :
+			dijit.util.placeOnScreen(wrapper, args.x, args.y, true);
 
 		// TODO: use effects to fade in wrapper
 
