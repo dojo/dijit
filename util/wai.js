@@ -110,9 +110,15 @@ dijit.util.wai = {
 		//		registers its onload function after this function.
 		//		DO NOT USE "this" within this function.
 
-		// create div for testing
+		// create div for testing if high contrast mode is on or images are turned off
 		var div = document.createElement("div");
 		div.id = "a11yTestNode";
+		div.style.cssText = 'border: 1px solid;'
+			+ 'border-color:red green;'
+			+ 'position: absolute;'
+			+ 'left: -999px;'
+			+ 'top: -999px;'
+			+ 'background-image: url("' + dojo.moduleUrl("dijit", "form/templates/blank.gif") + '");';
 		dojo.body().appendChild(div);
 
 		// test it

@@ -138,19 +138,8 @@
 
 
 /**** 
-		A11Y CHECK 
+		A11Y 
  ****/
-#a11yTestNode {
-	/* used to test if high contrast mode is on or images are turned off */
-	border: 1px solid;
-	border-color:red green;
-	position: absolute;
-	left: -999px;
-	top: -999px;
-	background-image: url("../form/templates/blank.gif");
-}  
-
-
 .dijit_a11y * {
 	background-image:none !important;
 	background-color:transparent !important;
