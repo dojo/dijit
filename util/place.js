@@ -44,24 +44,22 @@ dijit.util.getScroll = function(){
 
 dijit.util.placeOnScreen = function(
 	/* HTMLElement */	node,
-	/* integer */		desiredX,
-	/* integer */		desiredY,
+	/* Object */		desiredPos,
 	/* boolean? */		hasScroll,
 	/* string? */		corners,
 	/* boolean? */		tryOnly){
 	//	summary:
 	//		Keeps 'node' in the visible area of the screen while trying to
-	//		place closest to desiredX, desiredY. The input coordinates are
+	//		place closest to desiredPos.x, desiredPos.y. The input coordinates are
 	//		expected to be the desired screen position, not accounting for
 	//		scrolling. If you already accounted for scrolling, set 'hasScroll'
 	//		to true.
 	//
 	//		Set which corner(s) you want to bind to, such as
 	//		
-	//			placeOnScreen(node, desiredX, desiredY, hasScroll, "TR")
-	//			placeOnScreen(node, [desiredX, desiredY], hasScroll, ["TR", "BL"])
+	//			placeOnScreen(node, {x: 10, y: 20}, hasScroll, ["TR", "BL"])
 	//		
-	//		The desiredX/desiredY will be treated as the topleft(TL)/topright(TR) or
+	//		The desired x/y will be treated as the topleft(TL)/topright(TR) or
 	//		BottomLeft(BL)/BottomRight(BR) corner of the node. Each corner is tested
 	//		and if a perfect match is found, it will be used. Otherwise, it goes through
 	//		all of the specified corners, and choose the most appropriate one.
@@ -70,22 +68,8 @@ dijit.util.placeOnScreen = function(
 	//		
 	//		NOTE: node is assumed to be absolutely or relatively positioned.
 	//		
-	//	Alternate call sig:
-	//		 placeOnScreen(node, [x, y], hasScroll)
-	//		
 	//	Examples:
-	//		 placeOnScreen(node, 100, 200)
-	//		 placeOnScreen("myId", [800, 623], 5)
-	//		 placeOnScreen(node, 234, 3284, [2, 5], true)
-
-	if(dojo.isArray(desiredX)){
-		tryOnly = corners;
-		corners = hasScroll;
-		hasScroll = padding;
-		padding = desiredY;
-		desiredY = desiredX[1];
-		desiredX = desiredX[0];
-	}
+	//		 placeOnScreen("myId", [800, 623])
 
 	if(dojo.isString(corners)){
 		corners = corners.split(",");
@@ -123,8 +107,8 @@ dijit.util.placeOnScreen = function(
 		// if you choose a corner other than the upper left,
 		// obviously you have to move the popup
 		// so that the selected corner is at the x,y you asked for
-		var tryX = desiredX - (corner.charAt(1)=='L' ? 0 : w);
-		var tryY = desiredY - (corner.charAt(0)=='T' ? 0 : h);
+		var tryX = desiredPos.x - (corner.charAt(1)=='L' ? 0 : w);
+		var tryY = desiredPos.y - (corner.charAt(0)=='T' ? 0 : h);
 		// document => viewport
 		if(hasScroll){
 			tryX -= scroll.x;
@@ -250,13 +234,15 @@ dijit.util.placeOnScreenAroundElement = function(
 	aroundNode.style.display=oldDisplay;
 
 	for(var nodeCorner in aroundCorners){
-		var pos, desiredX, desiredY;
+		var pos;
 		var corners = aroundCorners[nodeCorner];
 
-		desiredX = aroundNodePos.x + (nodeCorner.charAt(1)=='L' ? 0 : aroundNodeW);
-		desiredY = aroundNodePos.y + (nodeCorner.charAt(0)=='T' ? 0 : aroundNodeH);
+		var desiredPos = {
+			x: aroundNodePos.x + (nodeCorner.charAt(1)=='L' ? 0 : aroundNodeW),
+			y: aroundNodePos.y + (nodeCorner.charAt(0)=='T' ? 0 : aroundNodeH)
+		};
 
-		pos = dijit.util.placeOnScreen(node, desiredX, desiredY, true, corners, true);
+		pos = dijit.util.placeOnScreen(node, desiredPos, true, corners, true);
 		if(pos.dist == 0){
 			best = pos;
 			break;
