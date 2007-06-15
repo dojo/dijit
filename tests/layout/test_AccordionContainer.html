@@ -7,7 +7,7 @@
 			@import "../../../dojo/resources/dojo.css";
 			@import "../../themes/tundra/tundra.css";
 			@import "../css/dijitTests.css";
-		</style>		
+		</style>
 
 		<script type="text/javascript" src="../testBidi.js"></script>
 
@@ -36,16 +36,15 @@
 
 			function init(){
 				accordion = new dijit.layout.AccordionContainer({}, dojo.byId("accordionShell"));
-				var title=[ "pane 1", "pane 2", "pane 3" ];
-				for(i=0; i<title.length; ++i){
+				dojo.forEach([ "pane 1", "pane 2", "pane 3" ], function(title, i){
 					// add a node that will be promoted to the content widget
 					var refNode = document.createElement("span");
+					refNode.innerHTML = "this is " + title;
 					document.body.appendChild(refNode);
-					var content = new dijit.layout.ContentPane({title: title[i], selected: i==1}, refNode);
-					content.setContent("this is " + title[i]);
+					var content = new dijit.layout.AccordionPane({title: title, selected: i==1}, refNode);
 					console.debug("adding content pane " + content.id);
 					accordion.addChild(content);
-				}
+				});
 				accordion.startup();
 			}
 			dojo.addOnLoad(init);
@@ -53,9 +52,9 @@
 			function destroyChildren(){
 				accordion.destroyDescendants();
 			}
-	</script>
-</head>
-<body style="padding: 50px;" class="tundra">
+		</script>
+	</head>
+	<body style="padding: 50px;" class="tundra">
 
 		<h2>Accordion from markup:</h2>
 		<p>HTML before</p>
@@ -64,15 +63,33 @@
 
 		<div dojoType="dijit.layout.AccordionContainer" duration="200"
 			style="float: left; margin-right: 30px;  width: 400px; height: 300px; overflow: hidden">
-			<div dojoType="dijit.layout.ContentPane" selected="true"
-				title="Pane 1 " style="overflow: scroll;"
+			<div dojoType="dijit.layout.AccordionPane" title="a">
+				Hello World
+			</div>
+			<div dojoType="dijit.layout.AccordionPane" title="b">
+				<p>Line 1</p><p>Line 2</p>
+			</div>
+			<div dojoType="dijit.layout.AccordionPane" title="c">
+				<p>The quick brown fox jumps over the lazy dog.  The quick brown fox jumps over the lazy dog.  The quick brown fox jumps over the lazy dog.</p>
+			</div>
+		</div>
+		<p style="clear: both;">HTML after</p>
+		<p>HTML after</p>
+		<p>HTML after</p>
+		<p></p>
+		<p>Accordion with complex widgets</p>
+		<div dojoType="dijit.layout.AccordionContainer" duration="200"
+			style="float: left; margin-right: 30px;  width: 400px; height: 300px; overflow: hidden">
+			<div dojoType="dijit.layout.AccordionPane" selected="true"
+				title="Pane 1"
 				onShow="console.debug('pane 1 shown');" onHide="console.debug('pane 1 hidden');" >
-				<select>
-					<option>red</option>
-					<option>blue</option>
-					<option>green</option>
-				</select>
-				<p>
+				<div dojoType="dijit.layout.ContentPane">
+					<select>
+						<option>red</option>
+						<option>blue</option>
+						<option>green</option>
+					</select>
+					<p>
 					Nunc consequat nisi vitae quam. Suspendisse sed nunc. Proin
 					suscipit porta magna. Duis accumsan nunc in velit. Nam et nibh.
 					Nulla facilisi. Cras venenatis urna et magna. Aenean magna mauris,
@@ -81,8 +98,8 @@
 					ac, vehicula laoreet, elit. Sed interdum augue sit amet quam
 					dapibus semper. Nulla facilisi. Pellentesque lobortis erat nec
 					quam.
-				</p>
-				<p>
+					</p>
+					<p>
 					Sed arcu magna, molestie at, fringilla in, sodales eu, elit.
 					Curabitur mattis lorem et est. Quisque et tortor. Integer bibendum
 					vulputate odio. Nam nec ipsum. Vestibulum mollis eros feugiat
@@ -96,16 +113,18 @@
 					consequat quis, varius interdum, nulla. Donec neque tortor,
 					sollicitudin sed, consequat nec, facilisis sit amet, orci. Aenean
 					ut eros sit amet ante pharetra interdum.
-				</p>
+					</p>
+				</div>
 			</div>
 
 			<!-- test lazy loading -->
-			<div dojoType="dijit.layout.ContentPane"
-				title="Pane 2 (lazy load)" href="tab1.html"
-				style="display:none;"></div>
+			<div dojoType="dijit.layout.AccordionPane" title="Pane 2 (lazy load)">
+				<div dojoType="dijit.layout.ContentPane" href="tab1.html"></div>
+			</div>
 
-			<div dojoType="dijit.layout.SplitContainer" title="Pane 3 (split pane)">
-				<p dojoType="dijit.layout.ContentPane">
+			<div dojoType="dijit.layout.AccordionPane" title="Pane 3 (split pane)">
+				<div dojoType="dijit.layout.SplitContainer">
+					<p dojoType="dijit.layout.ContentPane">
 					Sed arcu magna, molestie at, fringilla in, sodales eu, elit.
 					Curabitur mattis lorem et est. Quisque et tortor. Integer bibendum
 					vulputate odio. Nam nec ipsum. Vestibulum mollis eros feugiat
@@ -119,8 +138,8 @@
 					consequat quis, varius interdum, nulla. Donec neque tortor,
 					sollicitudin sed, consequat nec, facilisis sit amet, orci. Aenean
 					ut eros sit amet ante pharetra interdum.
-				</p>
-				<p dojoType="dijit.layout.ContentPane">
+					</p>
+					<p dojoType="dijit.layout.ContentPane">
 					Sed arcu magna, molestie at, fringilla in, sodales eu, elit.
 					Curabitur mattis lorem et est. Quisque et tortor. Integer bibendum
 					vulputate odio. Nam nec ipsum. Vestibulum mollis eros feugiat
@@ -134,12 +153,10 @@
 					consequat quis, varius interdum, nulla. Donec neque tortor,
 					sollicitudin sed, consequat nec, facilisis sit amet, orci. Aenean
 					ut eros sit amet ante pharetra interdum.
-				</p>
+					</p>
+				</div>
 			</div>
 		</div>
-		<p style="clear: both;">HTML after</p>
-		<p>HTML after</p>
-		<p>HTML after</p>
 
 		<h2>Programatically created:</h2>
 		<button onclick="destroyChildren();">destroy children</button>

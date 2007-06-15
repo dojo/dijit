@@ -24,7 +24,7 @@ dojo.declare(
 
 	// selectedChild: String
 	//   id of the currently shown page
-	selectedChild: "",
+//	selectedChild: "",
 
 	startup: function(){
 		var children = this.getChildren();
@@ -33,9 +33,9 @@ dojo.declare(
 		dojo.forEach(children, this._setupChild, this);
 
 		// Figure out which child to initially display
-		var idx = dojo.indexOf(children, function(child){ return child.selected; });
-		if(idx == -1){ idx=0; }
-		this.selectedChildWidget = children[idx];
+		var index = dojo.indexOf(children, function(child){ return child.selected; });
+		if(index == -1){ index = 0; }
+		this.selectedChildWidget = children[index];
 		this.selectedChildWidget.show();
 
 		// Now publish information about myself so any PageControllers can initialize..
@@ -46,7 +46,7 @@ dojo.declare(
 
 	addChild: function(/*Widget*/ child, /*Integer*/ insertIndex){
 		dijit.base.Container.prototype.addChild.apply(this, arguments);
-		this._setupChild(child);
+		child = this._setupChild(child);
 
 		// in case the tab titles have overflowed from one line to two lines
 		this.layout();
@@ -65,6 +65,7 @@ dojo.declare(
 		// since we are setting the width/height of the child elements, they need
 		// to be position:relative, or IE has problems (See bug #2033)
 		page.domNode.style.position="relative";
+		return page;
 	},
 
 	removeChild: function(/*Widget*/ page){
@@ -94,21 +95,27 @@ dojo.declare(
 		// summary
 		//	Show the given widget (which must be one of my children)
 
-		if(!page){ return; }
+//		if(!page){ return; }
 
 		// allow indexing by widget id
 		if(page && ((typeof page == "string")||(page instanceof String))){
 			page = dijit.byId(page);
 		}
 
-		// Deselect old page and select new one
-		if(this.selectedChildWidget){
-			this._hideChild(this.selectedChildWidget);
+		if(this.selectedChildWidget != page){
+			// Deselect old page and select new one
+			this._transition(page, this.selectedChildWidget);
+			this.selectedChildWidget = page;
+//			this.selectedChild = page ? page.id : null; //TODO is this used anywhere?
+			dojo.publish(this.id+"-selectChild", [page]);
 		}
-		this.selectedChildWidget = page;
-		this.selectedChild = page.id;
-		this._showChild(page);
-		dojo.publish(this.id+"-selectChild", [page]);
+	},
+
+	_transition: function(/*Widget*/newWidget, /*Widget*/oldWidget){
+		if(oldWidget){
+			this._hideChild(oldWidget);
+		}
+		this._showChild(newWidget);
 	},
 
 	forward: function(){

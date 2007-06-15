@@ -1,165 +1,128 @@
 dojo.provide("dijit.layout.AccordionContainer");
 
 dojo.require("dojo.fx");
-dojo.require("dijit.base.Widget");
-dojo.require("dijit.base.Layout");
-dojo.require("dijit.base.Showable");
+
 dojo.require("dijit.layout.PageContainer");
-dojo.require("dijit.util.popup");		// for the background iframe (TODO: after adam's refactor this should no longer be needed)
-dojo.require("dijit.base.TemplatedWidget");
-/**
- * description
- *	Front view (3 panes, pane #2 open)
- *	------------------------
- *	|:::Pane#1 title:::    |
- * 	|:::Pane#2 title:::    |
- *	|                      |
- *	|    pane#2 contents   |
- *	|                      |
- *	|:::Pane#3 title:::    |
- *	------------------------
- *
- *	Side view (showing implementation):
- *
- *         viewport    pane#3     pane#2     pane#1
- *            =
- *            |                                =
- *            |                      =         |
- *	front     |                      |         |
- *            |                      |         =
- *            |                      =
- *            |          =
- *            =          |
- *                       |
- *                       =
- *
- *	Panes are stacked by z-index like a stack of cards, so they can be slid correctly.
- *	The panes on the bottom extend past the bottom of the viewport (but are hidden).
- *
- * usage
- *	<div dojoType="dijit.layout.AccordionContainer">
- *		<div dojoType="dijit.layout.ContentPane" title="pane 1">...</div>
- *		...
- *	</div>
- *
- * TODO:
- *	* this widget should extend PageContainer
- */
+dojo.require("dijit.util.popup");
 
 dojo.declare(
 	"dijit.layout.AccordionContainer",
-	[dijit.base.Widget, dijit.base.Layout, dijit.base.Showable],
+	[dijit.layout.PageContainer, dijit.base.Showable], //TODO why Showable?
 	{
-
-		// summary:
+		// summary: 
 		//		Holds a set of panes where every pane's title is visible, but only one pane's content is visible at a time,
 		//		and switching between panes is visualized by sliding the other panes up/down.
+		// usage:
+		// 	<div dojoType="dijit.layout.AccordionContainer">
+		// 		<div dojoType="dijit.layout.AccordionPane" title="pane 1">
+		// 			<div dojoType="dijit.layout.ContentPane">...</div>
+		//  	</div>
+		// 		<div dojoType="dijit.layout.AccordionPane" title="pane 2">
+		// 			...
+		// 	</div>
 
 		// duration: Integer
 		//		Amount of time (in ms) it takes to slide panes
 		duration: 250,
 
-		postCreate: function(){
-			dijit.layout.AccordionContainer.superclass.postCreate.apply(this, arguments);
-			with(this.domNode.style){
-				// position must be either relative or absolute
-				if(position!="absolute"){
-					position="relative";
-				}
-				overflow="hidden";
-			}
-		},
-
-		addChild: function(widget){
-			var child = this._addChild(widget);
-			if(this._started){
-				this.layout();
-			}
-			return child;	// Widget
-		},
-
-		_addChild: function(widget){
-			// summary
-			//		Internal call to add child, used during postCreate() and by the real addChild() call
-
-			if(widget.declaredClass != "dijit.layout.AccordionPane"){
-				// create a node that will be promoted to an accordionpane
-				var refNode = document.createElement("span");
-				this.domNode.appendChild(refNode);
-				var wrapper = new dijit.layout.AccordionPane({title: widget.title,
-									selected: widget.selected, allowCollapse: this.allowCollapse }, refNode);
-				wrapper.addChild(widget);
-				this.domNode.appendChild(wrapper.domNode);
-				return wrapper;	// Widget
-			}else{
-				dojo.addClass(widget.containerNode, "body");
-				dojo.addClass(widget.titleNode, "title");
-				dojo.place(widget.domNode, this.domNode, "last");
-				return widget;	// Widget
-			}
-		},
+		_verticalSpace: 0,
 
 		startup: function(){
 			var children = this.getChildren();
-			dojo.forEach(children, this._addChild, this);
-			dijit.base.Layout.prototype.startup.apply(this, arguments);
+			if(!children.some(function(child){ return child.selected; })){
+				children[0].selected = true;
+			}
+			dijit.layout.PageContainer.prototype.startup.apply(this, arguments);
+// redundant?			this.layout();
 		},
 
-		removeChild: function(widget){
-			dijit.layout.AccordionContainer.superclass.removeChild.call(this, widget);
-			this.layout();
-			// TODO: maybe base class removeChild() should call layout()?
+/*
+		resize: function(mb){
+//TODO
 		},
+*/
 
 		layout: function(){
 			// summary
-			//		Set panes' size/position based on my size, and the current open node.
-
+			//		Set the height of the open pane based on what room remains
 			// get cumulative height of all the title bars, and figure out which pane is open
 			var totalCollapsedHeight = 0;
-			var openIdx = 0;
-			dojo.forEach(this.getChildren(), function(child, idx){
-				if(child["_getTitleHeight"]){
-					totalCollapsedHeight += child._getTitleHeight();
-					if(child.selected){ openIdx=idx; }
-				}
+			var openPane = this.selectedChildWidget;
+			dojo.forEach(this.getChildren(), function(child){
+				totalCollapsedHeight += child.getTitleHeight();
 			});
-			// size and position each pane
 			var mySize = this._contentBox;
-			var y = 0;
-			dojo.forEach(this.getChildren(), function(child, idx){
-				if(child["_getTitleHeight"]){
-					var childCollapsedHeight = child._getTitleHeight();
-					child.resize({w: mySize.w, h: mySize.h -totalCollapsedHeight+childCollapsedHeight});
-					var style = child.domNode.style;
-					style.zIndex=idx+1;
-					style.position="absolute";
-					style.top = y+"px";
-					// TODO: REVISIT: PORT: was getBorderBox, now is marginBox ?
-					y += (idx==openIdx) ? dojo.marginBox(child.domNode).h : childCollapsedHeight;
+			if(mySize){
+			//TODO: why are we getting called when _contentBox is undefined?
+				this._verticalSpace = (mySize.h - totalCollapsedHeight);
+			}
+			if(openPane){
+				openPane.containerNode.style.height = this._verticalSpace + "px";
+				if(openPane.resize){
+					openPane.resize({h: this.verticalSpace});
 				}
-			});
+			}
 		},
 
-		selectChild: function(page){
-			// summary
-			//		close the current page and select a new one
-			dojo.forEach(this.getChildren(), function(child){child.setSelected(child==page);});
-			// slide each pane that needs to be moved
-			var y = 0;
-			var anims = [];
-			dojo.forEach(this.getChildren(), function(child, idx){
-				if(child.domNode.style.top != (y+"px")){
-					anims.push(dojo.fx.slideTo({node: child.domNode,
-								top: y, left: 0, duration: this.duration}));
-				}
-				// TODO: REVISIT: PORT: was getBorderBox, now is marginBox ?
-				y += child.selected ? dojo.marginBox(child.domNode).h : child._getTitleHeight();
-			}, this);
-			dojo.fx.combine(anims).play();
+		_setupChild: function(/*Widget*/ page){
+			if(page.selected){ this._transition(page); }
+			return page;
+		},
+
+		_transition: function(/*Widget*/newWidget, /*Widget?*/oldWidget){
+//TODO: generate show events or call showChild?
+//			this._showChild(newWidget);
+			if(newWidget){
+				newWidget.setSelected(true);
+				newWidget.containerNode.style.display = "";
+				var paneHeight = this._verticalSpace;
+				newWidget.getChildren().forEach(function(widget){
+					widget.resize({h: paneHeight});
+				});
+
+				var openAnimation = dojo.animateProperty({ 
+					node: newWidget.containerNode, 
+					duration: this.duration,
+					properties: {
+						height: { start: "1", end: paneHeight } 
+					}
+				});
+			}
+			if(oldWidget){
+				oldWidget.setSelected(false);
+				var closeAnimation = dojo.animateProperty({ 
+					node: oldWidget.containerNode, 
+					duration: this.duration,
+					properties: {
+						height: { start: paneHeight, end: "1" } 
+					} 
+				});
+/*
+				dojo.connect(animation, "onAnimate", animation, function(size){ 
+//TODO: resize Sizable singleton child to avoid scrollbar problems on FF2?
+				});
+*/
+				dojo.connect(closeAnimation, "onEnd", null, function(){ 
+					oldWidget.containerNode.style.display = "none";
+				});
+			}
+
+			var animation = openAnimation;
+			if(openAnimation && closeAnimation){
+				animation = openAnimation.combine([ closeAnimation ]);
+			}else if(closeAnimation){
+				animation = closeAnimation;
+			}
+			animation.play();
+/*
+//TODO: events need to fire here also
+			if(oldWidget){
+				this._hideChild(oldWidget);
+			}
+*/
 		}
 	}
-);	
+);
 
 dojo.declare(
 	"dijit.layout.AccordionPane",
@@ -190,6 +153,8 @@ dojo.declare(
 		this.bgIframe = new dijit.util.BackgroundIframe(this.domNode);
 	},
 
+/*
+//TODO: why do we need Layout for AccordionPane?
 	layout: function(){
 		var children = [
 			{domNode: this.titleNode, layoutAlign: "top"},
@@ -201,21 +166,24 @@ dojo.declare(
 			child.resize(this._contentBox);
 		}
 	},
+*/
 
-	_getTitleHeight: function(){
+	getTitleHeight: function(){
 		// summary: returns the height of the title dom node
 		return dojo.marginBox(this.titleNode).h;	// Integer
 	},
 
 	_onTitleClick: function(){
 		// summary: callback when someone clicks my title
-		this.getParent().selectChild(this);
+		var parent = this.getParent();
+//		parent.selectChild(parent.selectedChildWidget == this ? null : this);
+		parent.selectChild(this);
 	},
 
 	setSelected: function(/*Boolean*/ isSelected){
 		this.selected = isSelected;
 		(isSelected ? dojo.addClass : dojo.removeClass)(this.domNode, "dijitAccordionPane-selected");
-
+/*
 		// make sure child is showing (lazy load), and also that onShow()/onHide() is called
 		var child = this.getChildren()[0];
 		if(child){
@@ -234,6 +202,7 @@ dojo.declare(
 				child.onHide();
 			}
 		}
+*/
 	}
 });
 
@@ -249,4 +218,3 @@ dojo.extend(dijit.base.Widget, {
 	//		Is this child currently selected?
 	selected: false
 });
-

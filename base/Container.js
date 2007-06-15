@@ -1,7 +1,5 @@
 dojo.provide("dijit.base.Container");
 
-dojo.require("dijit.util.manager");
-
 dojo.declare("dijit.base.Contained",
 	null,
 	{
@@ -63,10 +61,9 @@ dojo.declare("dijit.base.Container",
 
 			var containerNode = this.containerNode || this.domNode;
 			if(typeof insertIndex == "undefined"){
-				dojo.place(widget.domNode, containerNode, "last");
-			}else{
-				dojo.place(widget.domNode, containerNode, insertIndex);
+				insertIndex = "last";
 			}
+			dojo.place(widget.domNode, containerNode, insertIndex);
 		},
 
 		removeChild: function(/*Widget*/ widget){
@@ -95,14 +92,14 @@ dojo.declare("dijit.base.Container",
 		getChildren: function(){
 			// summary:
 			//		returns array of children widgets
-			return dojo.query("> [widgetId]", this.containerNode || this.domNode).map(dijit.util.manager.byNode);
+			return dojo.query("> [widgetId]", this.containerNode || this.domNode).map(dijit.util.manager.byNode); // Array
 		},
 
 		hasChildren: function(){
 			// summary:
 			//		returns true if widget has children
 			var cn = this.containerNode || this.domNode;
-			return !!this._firstElement(cn);
+			return !!this._firstElement(cn); // Boolean
 		}
 	}
 );
