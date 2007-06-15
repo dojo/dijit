@@ -18,19 +18,13 @@ dijit.util.popup = new function(){
 	this.open = function(/*Event*/ e, /*Widget*/widget){
 		// summary:
 		//		Open the widget at mouse position
-		//		TODO: if widget has href, attach to onLoaded() and reposition
 
-		var x = e.pageX, y = e.pageY;
-		// FIXME: consider skipping everything up to _open
-		// if x == y == 0, allowing the popup to appear
-		// wherever it was last time.
-		var win = dijit.util.window.getDocumentWindow(e.target.ownerDocument);
-		var iframe = win._frameElement || win.frameElement;
-		if(iframe){
-			var cood = dojo.coords(iframe, true);
-			x += cood.x - dojo.withGlobal(win, dijit.util.getScroll).x;
-			y += cood.y - dojo.withGlobal(win, dijit.util.getScroll).y;
-		}
+		return this.openAt(e.pageX, e.pageY, widget);
+	};
+
+	this.openAt = function(/*int*/ x, /*int*/ y, /*Widget*/ widget){
+		// summary:
+		//		Open the widget at (x, y)
 
 		return this._open(widget, {x: x, y: y, id: "dropdown_"+idGen++});
 	};
@@ -38,7 +32,6 @@ dijit.util.popup = new function(){
 	this.openAround = function(/*Widget*/parent, /*Widget*/widget, /*String?*/orient){
 		// summary:
 		//		Open the widget relative to parent widget (typically as a drop down to that widget)
-		//		TODO: if widget has href attach to onLoaded and reposition
 
 		return this._open(widget, { around: parent, orient: orient || {'BL':'TL', 'TL':'BL'}, id: parent.id+"_dropdown" });
 	};

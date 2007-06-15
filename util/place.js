@@ -4,7 +4,7 @@ dojo.provide("dijit.util.place");
 
 dijit.util.getViewport = function(){
 	//	summary
-	//	Returns the dimensions of the viewable area of a browser window
+	//	Returns the dimensions and scroll position of the viewable area of a browser window
 	var _window = dojo.global;
 	var _document = dojo.doc;
 	var w = 0;

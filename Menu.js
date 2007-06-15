@@ -42,6 +42,11 @@ dojo.declare(
 	//	number of milliseconds before hovering (without clicking) causes the submenu to automatically open
 	submenuDelay: 500,
 
+	// _contextMenuWithMouse: Boolean
+	//	used to record mouse and keyboard events to determine if a context
+	//	menu is being opened with the keyboard or the mouse
+	_contextMenuWithMouse: false,
+
 	postCreate: function(){
 		if(this.contextMenuForWindow){
 			this.bindDomNode(dojo.body());
@@ -272,7 +277,8 @@ dojo.declare(
 		var cn = (node == dojo.body() ? dojo.doc : node);
 		node[this.id+'_connect'] = [
 			dojo.connect(cn, "oncontextmenu", this, "_openMyself"),
-			dojo.connect(cn, "onkeydown", this, "_contextKey")
+			dojo.connect(cn, "onkeydown", this, "_contextKey"),
+			dojo.connect(cn, "onmousedown", this, "_contextMouse")
 		];
 	},
 
@@ -283,6 +289,7 @@ dojo.declare(
 	},
 
 	_contextKey: function(e){
+		this._contextMenuWithMouse = false;
 		if (e.keyCode == dojo.keys.F10) {
 			dojo.stopEvent(e);
 			if (e.shiftKey && e.type=="keydown") {
@@ -298,12 +305,27 @@ dojo.declare(
 		}
 	},
 
+	_contextMouse: function(e){
+		this._contextMenuWithMouse = true;
+	},
+
 	_openMyself: function(/*Event*/ e){
 		// summary:
 		//		Internal function for opening myself when the user
 		//		does a right-click or something similar
 		dojo.stopEvent(e);
-		dijit.util.popup.open(e, this);
+		// if we are opening the menu with the mouse or on safari open
+		// the menu at the mouse cursor
+		// (Safari does not have a keyboard command to open the context menu
+		// and we don't currently have a reliable way to determine
+		// _contextMenuWithMouse on Safari)
+		if(dojo.isSafari || this._contextMenuWithMouse){
+			dijit.util.popup.open(e, this);
+		}else{
+			// otherwise open near e.target
+			var coords = dojo.coords(e.target, true);
+			dijit.util.popup.openAt(coords.x + 10, coords.y + 10, this);
+		}
 	},
 
 	onOpen: function(/*Event*/ e){
