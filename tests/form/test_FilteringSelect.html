@@ -242,10 +242,24 @@ Enhancements over plain HTML version:
 	<br>
 	<div>Value: <input id="value8" disabled></div>
 	<hr>
-	<p>FilteringSelect #9: No data, hasDownArrow=false</p>
+	<p>FilteringSelect #9: No data</p>
 	<p>This FilteringSelect has no options to choose from.  It should still load.</p>
-	<select name="state9" dojoType="dijit.form.FilteringSelect" style="width: 300px;" autocomplete="false" hasDownArrow="false">
+	<select name="state9" dojoType="dijit.form.FilteringSelect" style="width: 300px;" autocomplete="false">
 	</select>
+	<br>
+	<hr>
+	<p>FilteringSelect #10: hasDownArrow=false:</p>
+ 	<input searchAttr="name"
+ 			dojoType="dijit.form.FilteringSelect"
+ 			value="AL"
+ 			name="state10"
+ 			autocomplete="false"
+ 			labelAttr="label"
+ 			labelType="html"
+ 			store="myStore"
+ 			promptMessage="Please enter a state"
+			hasDownArrow="false"
+	>
 	<br>
 	<hr>
 	<input type="submit">
