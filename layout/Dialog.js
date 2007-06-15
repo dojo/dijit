@@ -30,25 +30,20 @@ dojo.declare(
 			//		of the document) since we need to cover the whole browser window, even
 			//		if the document is only a few lines long.
 
-			var viewport = dijit.util.getViewport(),
-				h = viewport.h,
-				w = viewport.w;
+			var viewport = dijit.util.getViewport();
+			var is = this.node.style,
+				os = this.domNode.style;
 
-			var scroll_offset = dijit.util.getScroll();
-			with(this.domNode.style){
-				top = scroll_offset.y + "px";
-				left = scroll_offset.x + "px";
-			}
-
-			var style = this.node.style;
-			style.width = w + "px";
-			style.height = h + "px";
+			os.top = viewport.t + "px";
+			os.left = viewport.l + "px";
+			is.width = viewport.w + "px";
+			is.height = viewport.h + "px";
 			
 			// process twice since the scroll bar may have been removed
 			// by the previous resizing
-			viewport = dijit.util.getViewport();
-			if(viewport.w != w){ style.width = viewport.w + "px"; }
-			if(viewport.h != h){ style.height = viewport.h + "px"; }
+			var viewport2 = dijit.util.getViewport();
+			if(viewport.w != viewport2.w){ is.width = viewport2.w + "px"; }
+			if(viewport.h != viewport2.h){ is.height = viewport2.h + "px"; }
 		},
 
 		show: function(){
@@ -199,20 +194,12 @@ dojo.declare(
 		_center: function(){
 			// summary: position modal dialog in center of screen
 
-			var scroll_offset = dijit.util.getScroll();
-			var viewport_size = dijit.util.getViewport();
-
-			// find the size of the dialog (dialog needs to be showing to get the size)
+			var viewport = dijit.util.getViewport();
 			var mb = dojo.marginBox(this.domNode);
-			var padborder = dojo._getPadBorderExtents(this.domNode);
-
-			var x = scroll_offset.x + (viewport_size.w - mb.w)/2;
-			var y = scroll_offset.y + (viewport_size.h - mb.h)/2;
-			var maxheight = viewport_size.h - padborder.h;
 
 			with(this.domNode.style){
-				left = x + "px";
-				top = y + "px";
+				left = (viewport.l + (viewport.w - mb.w)/2) + "px";
+				top = (viewport.t + (viewport.h - mb.h)/2) + "px";
 			}
 		},
 

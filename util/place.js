@@ -5,11 +5,12 @@ dojo.provide("dijit.util.place");
 dijit.util.getViewport = function(){
 	//	summary
 	//	Returns the dimensions and scroll position of the viewable area of a browser window
+
 	var _window = dojo.global;
 	var _document = dojo.doc;
-	var w = 0;
-	var h = 0;
 
+	// get viewport size
+	var w = 0, h = 0;
 	if(dojo.isMozilla){
 		// mozilla
 		w = _document.documentElement.clientWidth;
@@ -28,20 +29,19 @@ dijit.util.getViewport = function(){
 		w = dojo.body().clientWidth;
 		h = dojo.body().clientHeight;
 	}
-	return { w: w, h: h };	//	object
-};
-
-dijit.util.getScroll = function(){
-	//	summary: returns the scroll position of the document
-	var _window = dojo.global;
+	
+	// get scroll position
+	var x, y;
 	if( typeof _window.pageYOffset != "undefined" ){
-		return { x: _window.pageXOffset, y: _window.pageYOffset };
+		x = _window.pageXOffset;
+		y = _window.pageYOffset;
 	}else{
-		var _doc = dojo.doc.documentElement;
-		return { x: _doc.scrollLeft, y: _doc.scrollTop };
+		x = _doc.scrollLeft;
+		y = _doc.scrollTop;
 	}
+
+	return { w: w, h: h, l: x, t: y };	//	object
 };
-// TODO: combine above two functions
 
 dijit.util.placeOnScreen = function(
 	/* HTMLElement */	node,
