@@ -15,21 +15,21 @@ dijit.util.popup = new function(){
 	var beginZIndex=1000;
 	var idGen = 1;
 
-	this.open = function(/*Event*/ e, /*Widget*/widget){
+	this.openMouse = function(/*Widget*/widget, /*Event*/ e){
 		// summary:
 		//		Open the widget at mouse position
 
-		return this.openAt(e.pageX, e.pageY, widget);
+		return this.openAt(widget, {x: e.pageX, y: e.pageY});
 	};
 
-	this.openAt = function(/*int*/ x, /*int*/ y, /*Widget*/ widget){
+	this.openAt = function(/*Widget*/ widget, /*Object*/ pos){
 		// summary:
 		//		Open the widget at (x, y)
 
-		return this._open(widget, {x: x, y: y, id: "dropdown_"+idGen++});
+		return this._open(widget, {x: pos.x, y: pos.y, id: "popup_"+idGen++});
 	};
 
-	this.openAround = function(/*Widget*/parent, /*Widget*/widget, /*String?*/orient){
+	this.openAround = function(/*Widget*/widget, /*Widget*/parent, /*Object?*/orient){
 		// summary:
 		//		Open the widget relative to parent widget (typically as a drop down to that widget)
 

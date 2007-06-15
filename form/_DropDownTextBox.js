@@ -212,7 +212,7 @@ dojo.declare(
 
 		open:function(){
 			this.makePopup();
-			return dijit.util.popup.openAround(this.domNode, this._popupWidget);
+			return dijit.util.popup.openAround(this._popupWidget, this.domNode);
 		},
 
 		postMixInProperties:function(){

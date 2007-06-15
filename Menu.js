@@ -320,11 +320,11 @@ dojo.declare(
 		// and we don't currently have a reliable way to determine
 		// _contextMenuWithMouse on Safari)
 		if(dojo.isSafari || this._contextMenuWithMouse){
-			dijit.util.popup.open(e, this);
+			dijit.util.popup.openMouse(this, e);
 		}else{
 			// otherwise open near e.target
 			var coords = dojo.coords(e.target, true);
-			dijit.util.popup.openAt(coords.x + 10, coords.y + 10, this);
+			dijit.util.popup.openAt(this, {x: coords.x + 10, y: coords.y + 10});
 		}
 	},
 
@@ -351,7 +351,7 @@ dojo.declare(
 
 		if(submenu.isShowingNow){ return; }
 		submenu.parentMenu = this;
-		dijit.util.popup.openAround(from_item.arrowCell, submenu, {'TR': 'TL', 'TL': 'TR'});
+		dijit.util.popup.openAround(submenu, from_item.arrowCell, {'TR': 'TL', 'TL': 'TR'});
 
 		this.currentSubmenu = submenu;
 	}
