@@ -242,17 +242,17 @@ dojo.declare(
 			//		Transforms the node referenced in this.domNode into a rich text editing
 			//		node. This will result in the creation and replacement with an <iframe>
 			//		if designMode(FF)/contentEditable(IE) is used.
-
+			
 			if((!this.onLoadDeferred)||(this.onLoadDeferred.fired >= 0)){
 				this.onLoadDeferred = new dojo.Deferred();
 			}
-
+			
 			if(!this.isClosed){ this.close(); }
 			dojo.publish("dijit._editor.RichText::open", [ this ]);
-
+			
 			this._content = "";
 			if((arguments.length == 1)&&(element["nodeName"])){ this.domNode = element; } // else unchanged
-
+			
 			if(	(this.domNode["nodeName"])&&
 				(this.domNode.nodeName.toLowerCase() == "textarea")){
 				// if we were created from a textarea, then we need to create a
@@ -363,7 +363,7 @@ dojo.declare(
 				ifr.style.border = "none";
 				ifr.style.width = "100%";
 				ifr.frameBorder = 0;
-				this.editingArea.appendChild(ifr)
+				this.editingArea.appendChild(ifr);
 				this.window = ifr.contentWindow;
 				this.document = this.window.document;
 				this.document.open();
@@ -399,9 +399,9 @@ dojo.declare(
 				//in IE, names for blockformat is locale dependent, so we cache the values here
 
 				//if the normal way fails, we try the hard way to get the list
-
+				
 				this._localizeEditorCommands();
-
+				
 				this.editNode.innerHTML = html;
 				this._preDomFilterContent(this.editNode);
 				//	if(this.height){ this.document.body.style.overflowY="scroll"; }
@@ -409,7 +409,7 @@ dojo.declare(
 				dojo.forEach(events, function(e){
 					dojo.connect(this.editNode, e.toLowerCase(), this, e);
 				}, this);
-
+				
 				this.onLoad();
 			}else{ // designMode in iframe
 				this._drawIframe(html);
@@ -1846,6 +1846,7 @@ dojo.declare(
 				while(currentNodeIndex < el.childNodes.length){
 					currentNode = el.childNodes[currentNodeIndex];
 					if( (currentNode.nodeName!='BR') &&
+						(currentNode.nodeType==1) &&
 						(dojo.style(currentNode, "display")!="block")
 					){
 						nodesInLine.push(currentNode);
@@ -1883,7 +1884,7 @@ dojo.declare(
 							newP.appendChild(node);
 						});
 						currentNode.parentNode.removeChild(currentNode);
-						trailingNodes = []
+						trailingNodes = [];
 					}else{
 						trailingNodes.unshift(currentNode);
 					}
