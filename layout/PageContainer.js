@@ -197,6 +197,10 @@ dojo.declare(
 		//	the name of the button widget to create to correspond to each page
 		buttonWidget: "dijit.layout._PageButton",
 
+		// childInTabOrder: Widget
+		//  the only child button widget in the tab order
+		childInTabOrder: undefined,
+
 		postCreate: function(){
 			dijit.util.wai.setAttr(this.domNode, "waiRole", "role", "tablist");
 
@@ -238,6 +242,10 @@ dojo.declare(
 			var _this = this;
 			dojo.connect(button, "onClick", function(){ _this.onButtonClick(page); });
 			dojo.connect(button, "onClickCloseButton", function(){ _this.onCloseButtonClick(page); });
+			if (!this.childInTabOrder){ // put the first child into the tab order
+				button.focusNode.setAttribute("tabIndex","0");
+				this.childInTabOrder = button;
+			}
 		},
 
 		onRemoveChild: function(/*Widget*/ page){
@@ -247,6 +255,7 @@ dojo.declare(
 			if(this._currentChild == page){ this._currentChild = null; }
 			var button = this.pane2button[page];
 			if(button){
+				// TODO? if (button == this.childInTabOrder){ reassign }
 				button.destroy();
 			}
 			this.pane2button[page] = null;
@@ -260,11 +269,13 @@ dojo.declare(
 			if(this._currentChild){
 				var oldButton=this.pane2button[this._currentChild];
 				oldButton.clearSelected();
+				oldButton.focusNode.setAttribute("tabIndex", "-1");
 			}
 
 			var newButton=this.pane2button[page];
 			newButton.setSelected();
 			this._currentChild=page;
+			newButton.focusNode.setAttribute("tabIndex", "0");
 		},
 
 		onButtonClick: function(/*Widget*/ page){
@@ -316,7 +327,8 @@ dojo.declare(
 	//	The button-like or tab-like object you click to select or delete a page
 
 	onClick: function(/*Event*/ evt) {
-		// Don't do anything; let PageController catch the event and tell me what to do
+		if (this.focusNode){ this.focusNode.focus(); }
+		// ... now let PageController catch the event and tell me what to do
 	},
 
 	onClickCloseButton: function(/*Event*/ evt){
