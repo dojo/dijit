@@ -31,16 +31,9 @@ dijit.util.getViewport = function(){
 	}
 	
 	// get scroll position
-	var x, y;
-	if( typeof _window.pageYOffset != "undefined" ){
-		x = _window.pageXOffset;
-		y = _window.pageYOffset;
-	}else{
-		x = _doc.scrollLeft;
-		y = _doc.scrollTop;
-	}
+	var scroll = dojo._docScroll();
 
-	return { w: w, h: h, l: x, t: y };	//	object
+	return { w: w, h: h, l: scroll.x, t: scroll.y };	//	object
 };
 
 dijit.util.placeOnScreen = function(
