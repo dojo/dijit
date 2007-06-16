@@ -1,48 +1,50 @@
-<!DOCTYPE html
-	PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+        "http://www.w3.org/TR/html4/strict.dtd">
+<html>
 <head>
-<title>PageContainer Demo</title>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"></meta>
+	<title>PageContainer Demo</title>
 
-<script type="text/javascript" src="../testBidi.js"></script>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"></meta>
 
-<script type="text/javascript">
-	var djConfig = { isDebug: true };
-</script>
-<style>
-@import "../../../dojo/resources/dojo.css";
-@import "../../themes/tundra/tundra.css";
-@import "../css/dijitTests.css";
-	* { font-family: cursive; }
-	h1 { font-size: 24pt; margin-bottom: 1em;}
-	p {  font-size: 14pt; }
-</style>
-<script type="text/javascript" src="../../../dojo/dojo.js"></script>
-<script type="text/javascript">
-	dojo.require("dijit.layout.ContentPane");
-	dojo.require("dijit.layout.PageContainer");
-	dojo.require("dijit.form.Button");
-</script>
-<script type="text/javascript">
-	function selected(page){
-		console.debug("page selected " + page.id);
-		var widget=dijit.byId("myPageContainer");
-		dijit.byId("previous")[page.isFirstChild ? "disable" : "enable"]();
-		dijit.byId("next")[page.isLastChild ? "disable" : "enable"]();
-		dijit.byId("previous2")[page.isFirstChild ? "disable" : "enable"]();
-		dijit.byId("next2")[page.isLastChild ? "disable" : "enable"]();
-	}
-	dojo.subscribe("myPageContainer-selectChild", selected);
+	<script type="text/javascript" src="../testBidi.js"></script>
 
-	dojo.require("dijit.util.parser");	// scan page for widgets and instantiate them
-</script>
+	<script type="text/javascript">
+		var djConfig = { isDebug: true };
+	</script>
+
+	<style>
+		@import "../../../dojo/resources/dojo.css";
+		@import "../../themes/tundra/tundra.css";
+		@import "../css/dijitTests.css";
+		* { font-family: cursive; }
+		h1 { font-size: 24pt; margin-bottom: 1em;}
+		p {  font-size: 14pt; }
+	</style>
+
+	<script type="text/javascript" src="../../../dojo/dojo.js"></script>
+	<script type="text/javascript">
+		dojo.require("dijit.layout.ContentPane");
+		dojo.require("dijit.layout.PageContainer");
+		dojo.require("dijit.form.Button");
+		dojo.require("dojo.parser");	// scan page for widgets and instantiate them
+
+	</script>
+
+	<script type="text/javascript">
+		function selected(page){
+			console.debug("page selected " + page.id);
+			var widget=dijit.byId("myPageContainer");
+			dijit.byId("previous")[page.isFirstChild ? "disable" : "enable"]();
+			dijit.byId("next")[page.isLastChild ? "disable" : "enable"]();
+			dijit.byId("previous2")[page.isFirstChild ? "disable" : "enable"]();
+			dijit.byId("next2")[page.isLastChild ? "disable" : "enable"]();
+		}
+		dojo.subscribe("myPageContainer-selectChild", selected);
+	</script>
 </head>
 
 <body class="tundra">
-	<h1>A Tale Of Two Cities</h1>
+	<h1 class="testTitle">A Tale Of Two Cities</h1>
 
 	<button dojoType="dijit.form.Button" id="previous" onClick="dijit.byId('myPageContainer').back()">&lt;</button>
 	<span dojoType="dijit.layout.PageController" containerId="myPageContainer"></span>

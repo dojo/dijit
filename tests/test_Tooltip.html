@@ -2,6 +2,7 @@
         "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 <head>
+
 	<title>Dojo Tooltip Widget Test</title>
 
 	<script type="text/javascript" src="testBidi.js"></script>
@@ -9,17 +10,16 @@
 	<script type="text/javascript" src="../../dojo/dojo.js" djConfig="isDebug: true, debugAtAllCosts: true"></script>
 	<script type="text/javascript">
 		dojo.require("dijit.Tooltip");
-		dojo.require("dijit.util.parser");	// find widgets
+		dojo.require("dojo.parser");	// find widgets
 	</script>
 
 	<style type="text/css">
 		@import "../../dojo/resources/dojo.css";
-
 		@import "../themes/tundra/tundra.css";
 		@import "css/dijitTests.css";
 	</style>
-</head>
 
+</head>
 <body class="tundra">
 	<h1 class="testTitle">Tooltip test</h1>
 	<p>Mouse-over the items below to test tooltips. <button onclick="dijit.byId('btnTt').destroy()">Remove</button> tooltip from button.</p>
