@@ -560,7 +560,7 @@ dojo.declare(
 				}
 			}
 			// instantiate subwidgets
-			dijit.util.parser.instantiate(nodes);*/		
+			dojo.parser.instantiate(nodes);*/		
 		},
 
 		setHandler: function(/*Function*/ handler){

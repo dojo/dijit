@@ -2,7 +2,7 @@ dojo.provide("dijit.base.TemplatedWidget");
 
 dojo.require("dojo.string");
 dojo.require("dijit.util.wai");
-dojo.require("dijit.util.parser");
+dojo.require("dojo.parser");
 
 dojo.declare("dijit.base.TemplatedWidget",
 	null,
