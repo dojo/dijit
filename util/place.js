@@ -72,7 +72,7 @@ dijit.util._place = function(/*HtmlElement*/ node, /* Array */ choices){
 			
 	// get {x: 10, y: 10, w: 100, h:100} type obj representing position of
 	// viewport over document
-	var view = dojo.mixin(dijit.util.getViewport(), dijit.util.getScroll());
+	var view = dijit.util.getViewport();
 
 	// This won't work if the node is inside a <div style="position: relative">,
 	// so reattach it to document.body.   (Otherwise, the positioning will be wrong
@@ -97,10 +97,10 @@ dijit.util._place = function(/*HtmlElement*/ node, /* Array */ choices){
 
 		// coordinates and size of node with specified corner placed at pos,
 		// and clipped by viewport
-		var startX = (corner.charAt(1)=='L' ? pos.x : Math.max(view.x, pos.x - mb.w)),
-			startY = (corner.charAt(0)=='T' ? pos.y : Math.max(view.y, pos.y -  mb.h)),
-			endX = (corner.charAt(1)=='L' ? Math.min(view.x+view.w, startX+mb.w) : pos.x),
-			endY = (corner.charAt(0)=='T' ? Math.min(view.y+view.h, startY+mb.h) : pos.y),
+		var startX = (corner.charAt(1)=='L' ? pos.x : Math.max(view.l, pos.x - mb.w)),
+			startY = (corner.charAt(0)=='T' ? pos.y : Math.max(view.t, pos.y -  mb.h)),
+			endX = (corner.charAt(1)=='L' ? Math.min(view.l+view.w, startX+mb.w) : pos.x),
+			endY = (corner.charAt(0)=='T' ? Math.min(view.t+view.h, startY+mb.h) : pos.y),
 			width = endX-startX,
 			height = endY-startY,
 			overflow = (mb.w-width) + (mb.h-height);
