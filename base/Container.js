@@ -1,5 +1,7 @@
 dojo.provide("dijit.base.Container");
 
+dojo.require("dijit.util.manager");
+
 dojo.declare("dijit.base.Contained",
 	null,
 	{
