@@ -144,26 +144,27 @@
 	
 			<div dojoType="dijit.layout.AccordionContainer" duration="200"
 				sizeMin="20" sizeShare="38">
-				<!-- tree widget -->
-				<div dojoType="dijit.layout.ContentPane" title="Dojo Countries Tree" style="display:none; padding:5px; ">
+				<div dojoType="dijit.layout.AccordionPane" title="Dojo Countries Tree">
+					<!-- tree widget -->
 					<div dojoType="dijit.Tree" store="continentStore" query="{type:'continent'}"
-						labelAttr="name" typeAttr="type"></div>
-				</div><!-- end: tree pane -->
+						labelAttr="name" typeAttr="type">
+					</div>
+				</div>
 	
-				<!-- calendar widget pane -->
-				<div dojoType="dijit.layout.ContentPane" title="Calendar" style="padding:10px;" selected="true">
-					<input id="calendar1" dojoType="dijit._Calendar" onValueChanged="myHandler(this.id,arguments[0])" lang="en-us">
-				</div><!-- end: calendar pane -->
+				<div dojoType="dijit.layout.AccordionPane" title="Calendar" selected="true">
+					<!-- calendar widget pane -->
+					<input id="calendar1" dojoType="dijit._Calendar" onValueChanged="myHandler(this.id,arguments[0])">
+				</div>
 	
-				<!-- color palette picker -->
-				<div dojoType="dijit.layout.ContentPane" title="Color Picker" style="padding:10px; display:none; ">
-						<h2 class="testHeader">Dijit Color Palette(7x10)</h2>
-						<div dojoType="dijit.ColorPalette" onColorSelect="setColor(this.selectedColor);"></div>
-						<br>
-						Test color is: <span id="outputSpan"></span>.
-				</div><!-- color palette picker end -->
-	
-				<div dojoType="dijit.layout.ContentPane" title="Tooltips" style="padding:10px;">
+				<div dojoType="dijit.layout.AccordionPane" title="Color Picker">
+					<!-- color palette picker -->
+					<h2 class="testHeader">Dijit Color Palette(7x10)</h2>
+					<div dojoType="dijit.ColorPalette" onColorSelect="setColor(this.selectedColor);"></div>
+					<br>
+					Test color is: <span id="outputSpan"></span>.
+				</div>
+
+				<div dojoType="dijit.layout.AccordionPane" title="Tooltips">
 					<h2>Dijit Tooltips:</h2>
 					<span id="ttRich">rich text tooltip</span>
 					<span dojoType="dijit.Tooltip" connectId="ttRich" style="display:none;">
@@ -176,8 +177,7 @@
 					<h2>Dialogs:</h2>
 					<a href="javascript:dijit.byId('dialog1').show()">show Popup Dialog</a>
 					<br>
-					<a href="javascript:dijit.byId('dialog2').show()">show Second Dialog</a>
-	
+					<a href="javascript:dijit.byId('dialog2').show()">show Second Dialog</a>	
 				</div>
 	
 			</div><!-- end AccordionContainer -->

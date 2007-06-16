@@ -77,7 +77,9 @@ dojo.declare(
 				newWidget.containerNode.style.display = "";
 				var paneHeight = this._verticalSpace;
 				newWidget.getChildren().forEach(function(widget){
-					widget.resize({h: paneHeight});
+					if(widget.resize){
+						widget.resize({h: paneHeight});
+					}
 				});
 
 				var openAnimation = dojo.animateProperty({ 
