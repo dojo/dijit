@@ -133,23 +133,33 @@ dojo.declare(
 		abort: function(){
 			// summary
 			//		Aborts a inflight download of content
+			if (this.currentDownloadDeferred && this.currentDownloadDeferred.fired==-1) {
+				this.currentDownloadDeferred.cancel();
+				this.currentDownloadDeferred=null;
+			}
+
 		},
 
 		_downloadExternalContent: function(url, useCache){
-			this.abort();
 			this._handleDefaults(this.loadingMessage, "onDownloadStart");
 			var self = this;
 			var getArgs = {
 				url: url,
 				handleAs: "text"
 			};
+			this.abort();
 			var getHandler = dojo.xhrGet(getArgs);
+			this.currentDownloadDeferred = getHandler;
+
 			getHandler.addCallback(function(data){
 				self.onDownloadEnd.call(self, url, data);
 			});
+
 			getHandler.addErrback(function(e){
-				self._handleDefaults.call(self, e, "onDownloadError");
-				self.onLoad();
+				if (e.message!="Deferred Cancelled") {
+					self._handleDefaults.call(self, e, "onDownloadError");
+					self.onLoad();
+				}
 			});
 		},
 
@@ -257,6 +267,7 @@ dojo.declare(
 			//
 			//	url String: url that downloaded data
 			//	data String: the markup that was downloaded
+
 			data = this.splitAndFixPaths(data, url);
 			this.setContent(data);
 		},
