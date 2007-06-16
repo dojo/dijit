@@ -40,7 +40,7 @@ dojo.declare(
 		show: function(/*String*/ innerHTML, /*DomNode*/ aroundNode){
 			// summary:
 			//	Display tooltip w/specified contents to right specified node
-			//	(To left if there's no space on the right, or if LTR==right
+			//	(To left if there's no space on the right, or if LTR==right)
 
 			if(this.fadeOut.status() == "playing"){
 				// previous tooltip is being hidden; wait until the hide completes then show new one
