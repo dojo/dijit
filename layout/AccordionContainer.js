@@ -29,7 +29,7 @@ dojo.declare(
 
 		startup: function(){
 			var children = this.getChildren();
-			if(!children.some(function(child){ return child.selected; })){
+			if(!dojo.some(children, function(child){ return child.selected; })){
 				children[0].selected = true;
 			}
 			dijit.layout.PageContainer.prototype.startup.apply(this, arguments);
