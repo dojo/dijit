@@ -76,7 +76,7 @@ dojo.declare(
 				newWidget.setSelected(true);
 				newWidget.containerNode.style.display = "";
 				var paneHeight = this._verticalSpace;
-				newWidget.getChildren().forEach(function(widget){
+				dojo.forEach(newWidget.getChildren(), function(widget){
 					if(widget.resize){
 						widget.resize({h: paneHeight});
 					}

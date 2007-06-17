@@ -40,6 +40,7 @@ dojo.declare(
 	_setupChild: function(tab){
 		dojo.addClass(tab.domNode, "dijitTabPane");
 		dijit.layout.TabContainer.superclass._setupChild.apply(this, arguments);
+		return tab;
 	},
 
 	startup: function(){
@@ -138,9 +139,9 @@ dojo.declare(
 						+"<div class='dijitTabInnerDiv' dojoAttachPoint='innerDiv'>"
 							+"<span dojoAttachPoint='titleNode;focusNode' tabIndex='-1' waiRole='tab'>${caption}</span>"
 							+"<span dojoAttachPoint='closeButtonNode' class='closeImage'"
-							+"	dojoAttachEvent='onmouseover:_onMouse; onmouseout:_onMouse; onclick:onClickCloseButton'"
-							+"	baseClass='dijitTabCloseButton'>"
-							+"	<span dojoAttachPoint='closeText' class='closeText'>x</span>"
+							+" dojoAttachEvent='onmouseover:_onMouse; onmouseout:_onMouse; onclick:onClickCloseButton'"
+							+" baseClass='dijitTabCloseButton'>"
+								+"<span dojoAttachPoint='closeText' class='closeText'>x</span>"
 							+"</span>"
 						+"</div>"
 					+"</div>",
