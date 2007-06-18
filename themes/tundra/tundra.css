@@ -539,11 +539,10 @@
 
 /*Tooltip*/
 
-.tundra .dijitTooltip {
+.tundra .dijitTooltip,
+.tundra .dijitTooltipDialog {
 	/* the outermost dom node, holding the connector and container */
-	opacity: 0.9;
-	border: none;
-	background: transparent;
+	opacity: 0.95;
 }
 
 .tundra .dijitTooltipContainer {

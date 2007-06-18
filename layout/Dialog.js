@@ -299,22 +299,36 @@ dojo.declare(
 	
 dojo.declare(
 	"dijit.layout.TooltipDialog",
-	[dijit.layout.Dialog],
+	[dijit.layout.ContentPane, dijit.base.TemplatedWidget],
 	{
 		// summary:
 		//		Pops up a dialog that appears like a Tooltip
 
+		// closeNode: String
+		//	Id of button or other dom node to click to close this dialog
+		closeNode: "",
+
 		templatePath: dojo.moduleUrl("dijit.layout", "templates/TooltipDialog.html"),
 
-		show: function(/*Widget||DomNode*/ anchor){
-			// summary: display the dialog underneath specified button/link
-			this.anchor = dijit.byId(anchor) || dojo.byId(anchor);
-			dijit.layout.TooltipDialog.superclass.show.call(this);
+		postCreate: function(){
+			dijit.layout.TooltipDialog.superclass.postCreate.apply(this, arguments);
+			this.domNode.style.display="none";
 		},
 
-		_position: function() {
-			var pos = dijit.util.placeOnScreenAroundElement(this.domNode, this.anchor, {'BL': 'TL', 'TL': 'BL'});
-			this.domNode.className="dijitDialog dijitTooltip dijitTooltip" + (pos.corner=='TL' ? "Below" : "Above");
+		startup: function(){
+			var closeNode = dojo.byId(this.closeNode);
+			this.connect(closeNode, "onclick", "hide");
+		},
+
+		show: function(/*DomNode*/ anchor){
+			// summary: display the dialog underneath specified button/link
+			var pos = dijit.util.popup.openAround(this, anchor, {'BL': 'TL', 'TL': 'BL'});
+			this.domNode.className="dijitTooltipDialog dijitTooltip" + (pos.corner=='TL' ? "Below" : "Above");
+		},
+		
+		hide: function(){
+			// summary: hide the dialog
+			dijit.util.popup.close();
 		}
 	}
 );

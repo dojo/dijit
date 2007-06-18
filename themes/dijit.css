@@ -607,7 +607,9 @@ table .dijitComboButton .dijitButtonNode {
 	top: -10000px;
 	overflow: visible;
 }
-
+.dijitTooltipDialog {
+	position: relative;
+}
 .dijitTooltipContainer {
 	border: solid black 2px;
 	background: #b8b5b5;
