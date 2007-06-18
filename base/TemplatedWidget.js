@@ -28,7 +28,6 @@ dojo.declare("dijit.base.TemplatedWidget",
 		// widgetsInTemplate Boolean:
 		//		should we parse the template to find widgets that might be
 		//		declared in markup inside it? false by default.
-		// TODO: unsupported; need to copy over code from trunk
 		widgetsInTemplate: false,
 
 		// containerNode DomNode:
