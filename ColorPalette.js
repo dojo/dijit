@@ -7,7 +7,7 @@ dojo.require("dijit.base.TemplatedWidget");
 
 dojo.declare(
 		"dijit.ColorPalette",
-		[dijit.base.Widget, dijit.base.TemplatedWidget],null,
+		[dijit.base.Widget, dijit.base.TemplatedWidget],
 {
 	// summary
 	//		Grid showing various colors, so the user can pick a certain color
@@ -21,6 +21,7 @@ dojo.declare(
 	//      1.0 means that each typematic event fires at defaultTimeout intervals
 	//      < 1.0 means that each typematic event fires at an increasing faster rate
 	timeoutChangeRate: 0.90,
+
 	// palette: String
 	//		Size of grid, either "7x10" or "3x4".
 	palette: "7x10",
@@ -93,7 +94,6 @@ dojo.declare(
 		this.divNode.style.height = this._paletteDims[this.palette]["height"];
 		this.imageNode.setAttribute("src",this._imagePaths[this.palette]);
 		var alts = this._palettes[this.palette];	
-		var imagePos = dojo.coords(this.imageNode);
 		this.domNode.style.position = "relative";
 		this._highlightNodes = [];	
 
