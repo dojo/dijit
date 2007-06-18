@@ -320,9 +320,9 @@ dojo.declare(
 			this.connect(closeNode, "onclick", "hide");
 		},
 
-		show: function(/*DomNode*/ anchor){
+		show: function(/*DomNode|String*/ anchor){
 			// summary: display the dialog underneath specified button/link
-			var pos = dijit.util.popup.openAround(this, anchor, {'BL': 'TL', 'TL': 'BL'});
+			var pos = dijit.util.popup.openAround(this, dojo.byId(anchor), {'BL': 'TL', 'TL': 'BL'});
 			this.domNode.className="dijitTooltipDialog dijitTooltip" + (pos.corner=='TL' ? "Below" : "Above");
 		},
 		
