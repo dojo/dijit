@@ -29,6 +29,7 @@ dojo.declare(
 
 	// sizerWidget: Integer
 	//		Size in pixels of the bar between each child
+	// TODO: this should be a CSS attribute
 	sizerWidth: 15,
 
 	// orientation: String
@@ -55,10 +56,6 @@ dojo.declare(
 			this.domNode.style.overflow = '-moz-scrollbars-none'; // hidden doesn't work
 		}
 
-		var content = dojo.contentBox(this.domNode);
-
-		this.paneWidth = content.w;
-		this.paneHeight = content.h;
 		// create the fake dragger
 		if(typeof this.sizerWidth == "object"){
 			try{
