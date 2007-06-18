@@ -221,7 +221,7 @@ dojo.declare(
 					node = node.parentNode;
 				}
 				// this key is for the disabled document window
-				if (evt.keyCode != evt.KEY_TAB){ // allow tabbing into the dialog for a11y
+				if (evt.keyCode != dojo.keys.TAB){ // allow tabbing into the dialog for a11y
 					dojo.stopEvent(evt);
 				// opera won't tab to a div
 				}else if (!dojo.isOpera){
@@ -253,17 +253,16 @@ dojo.declare(
 
 			this._position();
 
-			this._fromTrap = true;
+			this._fromTrap = false;
 
 			this._fadeIn.play();
 
 			// set timeout to allow the browser to render dialog
 			setTimeout(dojo.hitch(this, function(){
 				try{
-					this.tabStart.focus();
+					this.titleBar.focus();
 				}catch(e){}
 			}), 50);
-
 		},
 
 		hide: function(){
