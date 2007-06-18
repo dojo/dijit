@@ -22,10 +22,6 @@ dojo.declare(
 
 	templateString: "<div dojoAttachPoint='containerNode'></div>",
 
-	// selectedChild: String
-	//   id of the currently shown page
-//	selectedChild: "",
-
 	startup: function(){
 		var children = this.getChildren();
 
@@ -36,7 +32,9 @@ dojo.declare(
 		var index = dojo.indexOf(children, function(child){ return child.selected; });
 		if(index == -1){ index = 0; }
 		this.selectedChildWidget = children[index];
-		this.selectedChildWidget.show();
+		if(children[index]){
+			children[index].show();
+		}
 
 		// Now publish information about myself so any PageControllers can initialize..
 		dojo.publish(this.id+"-startup", [{children: children, selected: this.selectedChildWidget}]);

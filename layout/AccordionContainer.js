@@ -28,19 +28,13 @@ dojo.declare(
 		_verticalSpace: 0,
 
 		startup: function(){
-			var children = this.getChildren();
-			if(!dojo.some(children, function(child){ return child.selected; })){
-				children[0].selected = true;
-			}
 			dijit.layout.PageContainer.prototype.startup.apply(this, arguments);
-// redundant?			this.layout();
+			var selectedChild = this.selectedChildWidget;
+			if(selectedChild){
+				selectedChild.selected = true;
+				selectedChild.containerNode.style.display = "";
+			}
 		},
-
-/*
-		resize: function(mb){
-//TODO
-		},
-*/
 
 		layout: function(){
 			// summary
@@ -52,10 +46,7 @@ dojo.declare(
 				totalCollapsedHeight += child.getTitleHeight();
 			});
 			var mySize = this._contentBox;
-			if(mySize){
-			//TODO: why are we getting called when _contentBox is undefined?
-				this._verticalSpace = (mySize.h - totalCollapsedHeight);
-			}
+			this._verticalSpace = (mySize.h - totalCollapsedHeight);
 			if(openPane){
 				openPane.containerNode.style.height = this._verticalSpace + "px";
 				if(openPane.resize){
@@ -65,7 +56,7 @@ dojo.declare(
 		},
 
 		_setupChild: function(/*Widget*/ page){
-			if(page.selected){ this._transition(page); }
+			// Summary: prepare the given child
 			return page;
 		},
 
