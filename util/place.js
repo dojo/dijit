@@ -158,8 +158,8 @@ dijit.util.placeOnScreenAroundElement = function(
 			aroundCorner: nodeCorner,
 			corner: aroundCorners[nodeCorner],
 			pos: {
-				x: aroundNodePos.l + (nodeCorner.charAt(1)=='L' ? 0 : aroundNodeW),
-				y: aroundNodePos.t + (nodeCorner.charAt(0)=='T' ? 0 : aroundNodeH)
+				x: aroundNodePos.x + (nodeCorner.charAt(1)=='L' ? 0 : aroundNodeW),
+				y: aroundNodePos.y + (nodeCorner.charAt(0)=='T' ? 0 : aroundNodeH)
 			}
 		});
 	}
