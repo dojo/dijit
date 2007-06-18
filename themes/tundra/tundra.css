@@ -488,11 +488,62 @@
 }
 
 
+/* Dialog */
+
+.tundra .dijitDialog {
+	background: #eee;
+	border: 1px solid #999;
+}
+
+.tundra .dijitDialog .dijitTitlePaneTitle{
+	border-top: none;
+	border-left: none;
+	border-right: none;
+}
+
+.tundra .dijitDialog .dijitTitlePaneContent {
+	border: none;
+}
+
+.tundra .dijitDialogTitleBar {
+	/* outer container for the titlebar of the dialog */
+	background: #fafafa url("images/titleBarBg.gif") repeat-x bottom left;
+	/* border: 1px solid #bfbfbf; */
+	padding: 4px 8px 2px 4px;
+	cursor: move;
+}
+
+.tundra .dijitDialogTitle {
+	/* typography and styling of the dialog title */
+	font-weight: bold;
+	padding: 8px 12px 8px 12px;
+}
+
+.tundra .dijitDialogCloseIcon {
+	/* the default close icon for the dialog */
+	background : url("images/tabClose.png") no-repeat right top;
+	float: right;
+	position: absolute;
+	vertical-align: middle;
+	right: 5px;
+	top: 5px;
+	height: 22px;
+	width: 22px;
+	cursor: pointer;
+}
+
+.tundra .dijitDialogContent {
+	/* the body of the dialog */
+	padding: 8px;
+}
+
 /*Tooltip*/
 
 .tundra .dijitTooltip {
 	/* the outermost dom node, holding the connector and container */
 	opacity: 0.9;
+	border: none;
+	background: transparent;
 }
 
 .tundra .dijitTooltipContainer {
@@ -539,7 +590,7 @@
 }
 .tundra .dijitTooltipAbove .dijitTooltipConnector {
 	/* the arrow piece for tooltips above an element */
-	bottom: -13px;
+	bottom: -12px;
 	left: 3px;
 	background:url("images/tooltipConnectorDown.png") no-repeat top left;
 	width:16px;
@@ -900,51 +951,3 @@
 	background:#cad2de url("images/dijitProgressBarAnim.gif") repeat-x top left;
 }
 
-/* Dialog */
-
-.tundra .dijitDialog {
-	background: #eee;
-	border: 1px solid #999;
-}
-
-.tundra .dijitDialog .dijitTitlePaneTitle{
-	border-top: none;
-	border-left: none;
-	border-right: none;
-}
-
-.tundra .dijitDialog .dijitTitlePaneContent {
-	border: none;
-}
-
-.tundra .dijitDialogTitleBar {
-	/* outer container for the titlebar of the dialog */
-	background: #fafafa url("images/titleBarBg.gif") repeat-x bottom left;
-	/* border: 1px solid #bfbfbf; */
-	padding: 4px 8px 2px 4px;
-	cursor: move;
-}
-
-.tundra .dijitDialogTitle {
-	/* typography and styling of the dialog title */
-	font-weight: bold;
-	padding: 8px 12px 8px 12px;
-}
-
-.tundra .dijitDialogCloseIcon {
-	/* the default close icon for the dialog */
-	background : url("images/tabClose.png") no-repeat right top;
-	float: right;
-	position: absolute;
-	vertical-align: middle;
-	right: 5px;
-	top: 5px;
-	height: 22px;
-	width: 22px;
-	cursor: pointer;
-}
-
-.tundra .dijitDialogContent {
-	/* the body of the dialog */
-	padding: 8px;
-}

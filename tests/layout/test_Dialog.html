@@ -7,6 +7,7 @@
 	@import "../../../dojo/resources/dojo.css";
 	@import "../../themes/tundra/tundra.css";
 	@import "../css/dijitTests.css";
+	table { border: none; }
 </style>		
 <script type="text/javascript"
 	djConfig="isDebug: true"
@@ -17,14 +18,7 @@
 </script>
 
 <script type="text/javascript">
-var dlg, secDlg, thirdDlg, fourthDlg;
-
-function init(e) {
-	dlg = dijit.byId("DialogContent");
-	secDlg = dijit.byId("SecondDialog");
-	fourthDlg = dijit.byId("fourthDlg");
-}
-
+var thirdDlg;
 function createDialog() {
 	if(!thirdDlg){
 		var pane = dojo.byId('thirdDialog');
@@ -35,8 +29,6 @@ function createDialog() {
 	}
 	setTimeout("thirdDlg.show()","3000");
 }
-
-dojo.addOnLoad(init);
 
 </script>
 <style type="text/css">
@@ -50,12 +42,9 @@ form {
 </head>
 <body class="tundra">
 <h2>Dijit layout.Dialog tests</h2>
-<a href="javascript:dlg.show()">Show First Dialog</a> | <a href="javascript:createDialog()" title="shows
-after 3 second delay">Programatic Dialog (3 second delay)</a> | <a href="javascript:fourthDlg.show();">Test HREF Dialog</a>
+<a href="javascript:dijit.byId('dialog1').show()">Show First Dialog</a> |
 
-<div dojoType="dijit.layout.Dialog" id="fourthDlg" href="tab2.html" title="From HREF"></div>
-
-<div dojoType="dijit.layout.Dialog" id="DialogContent" bgColor="white" bgOpacity="0.5" toggle="fade" toggleDuration="250" closeNode="hider" title="First Dialog">
+<div dojoType="dijit.layout.Dialog" id="dialog1" closeNode="hider" title="First Dialog">
 	<form onsubmit="return false;">
 		<table>
 			<tr>
@@ -82,6 +71,47 @@ after 3 second delay">Programatic Dialog (3 second delay)</a> | <a href="javascr
 	</form>
 </div>
 
+<a id="loginLink" href="javascript:dijit.byId('tooltipDlg').show('loginLink')">Show Tooltip Dialog</a> |
+
+<div dojoType="dijit.layout.TooltipDialog" id="tooltipDlg" closeNode="hider2">
+	<form onsubmit="return false;">
+		<table>
+			<tr>
+				<td>User:</td>
+				<td><input type="text"></td>
+			</tr>
+			<tr>
+				<td>Password:</td>
+				<td><input type="password"></td>
+			</tr>
+			<tr>
+				<td colspan="2" align="center">
+					<button id="hider2">Login</button>
+			</tr>
+		</table>
+	</form>
+</div>
+
+<a href="javascript:createDialog()" title="shows after 3 second delay">Programatic Dialog (3 second delay)</a> |
+
+
+<div id="thirdDialog" style="display: none;">
+	<p>
+	Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean
+	semper sagittis velit. Cras in mi. Duis porta mauris ut ligula. Proin
+	porta rutrum lacus. Etiam consequat scelerisque quam. Nulla facilisi.
+	Maecenas luctus venenatis nulla. In sit amet dui non mi semper iaculis.
+	Sed molestie tortor at ipsum. Morbi dictum rutrum magna. Sed vitae
+	risus.
+	</p>
+</div>
+
+
+<a href="javascript:dijit.byId('fourthDlg').show();">Test HREF Dialog</a> |
+
+<div dojoType="dijit.layout.Dialog" id="fourthDlg" href="tab2.html" title="From HREF"></div>
+
+<p><b><i>(scroll down to see more links to click, for testing positioning / scroll handling)</i></b></p>
 <select>
 	<option>Lorem</option>
 	<option>ipsum</option>
@@ -90,17 +120,6 @@ after 3 second delay">Programatic Dialog (3 second delay)</a> | <a href="javascr
 	<option>amet</option>
 </select>
 
-<div id="thirdDialog" style="display: none;">
-<p>
-Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean
-semper sagittis velit. Cras in mi. Duis porta mauris ut ligula. Proin
-porta rutrum lacus. Etiam consequat scelerisque quam. Nulla facilisi.
-Maecenas luctus venenatis nulla. In sit amet dui non mi semper iaculis.
-Sed molestie tortor at ipsum. Morbi dictum rutrum magna. Sed vitae
-risus.
-</p>
-</div>
-
 <p>Aliquam vitae enim. Duis scelerisque metus auctor est venenatis
 imperdiet. Fusce dignissim porta augue. Nulla vestibulum. Integer lorem
 nunc, ullamcorper a, commodo ac, malesuada sed, dolor. Aenean id mi in
@@ -169,6 +188,10 @@ semper velit ante id metus. Praesent massa dolor, porttitor sed,
 pulvinar in, consequat ut, leo. Nullam nec est. Aenean id risus blandit
 tortor pharetra congue. Suspendisse pulvinar.
 </p>
+
+<a id="loginLink2" href="javascript:dijit.byId('tooltipDlg').show('loginLink2')">Show Tooltip Dialog pointing upwards</a>
+(will go up if there isn't enough space on the bottom of the screen)
+
 <p>Vestibulum convallis eros ac justo. Proin dolor. Etiam aliquam. Nam
 ornare elit vel augue. Suspendisse potenti. Etiam sed mauris eu neque
 nonummy mollis. Vestibulum vel purus ac pede semper accumsan. Vivamus
@@ -203,7 +226,7 @@ turpis sed odio. Curabitur in est id nibh tempus ultrices. Aliquam
 consectetuer dapibus eros. Aliquam nisl.
 </p>
 
-<a href="javascript:secDlg.show()">Show Second Dialog</a>
+<a href="javascript:dijit.byId('SecondDialog').show()">Show Second Dialog</a>
 <p>
 Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean
 semper sagittis velit. Cras in mi. Duis porta mauris ut ligula. Proin

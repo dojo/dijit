@@ -4,7 +4,7 @@ dojo.require("dojo.dnd.move");
 
 dojo.require("dijit.util.place");
 dojo.require("dijit.util.sniff");
-dojo.require("dijit.util.popup");
+dojo.require("dijit.util.popup");			// for BackgroundIFrame
 dojo.require("dijit.layout.ContentPane");
 dojo.require("dijit.base.TemplatedWidget");
 
@@ -92,6 +92,11 @@ dojo.declare(
 
 		_duration: 400,
 
+		postCreate: function(){
+			dijit.layout.Dialog.superclass.postCreate.apply(this, arguments);
+			this.domNode.style.display="none";
+		},
+
 		startup: function(){
 			var closeNode = dojo.byId(this.closeNode);
 			this.connect(closeNode, "onclick", "hide");
@@ -100,7 +105,7 @@ dojo.declare(
 		onLoad: function(){
 			// when href is specified we need to reposition
 			// the dialog after the data is loaded
-			this._center();
+			this._position();
 			dijit.layout.Dialog.superclass.onLoad.call(this);
 		},
 
@@ -154,7 +159,9 @@ dojo.declare(
 
 			this._modalconnects = [];
 
-			this._moveable = new dojo.dnd.Moveable(this.domNode, { handle: this.titleBar });
+			if(this.titleBar){
+				this._moveable = new dojo.dnd.Moveable(this.domNode, { handle: this.titleBar });
+			}
 
 			this._underlay = new dijit.layout.DialogUnderlay();
 
@@ -191,7 +198,7 @@ dojo.declare(
 			}
 		},
 
-		_center: function(){
+		_position: function(){
 			// summary: position modal dialog in center of screen
 
 			var viewport = dijit.util.getViewport();
@@ -244,7 +251,7 @@ dojo.declare(
 			dojo.style(this.domNode, "opacity", 0);
 			this.domNode.style.display="block";
 
-			this._center();
+			this._position();
 
 			this._fromTrap = true;
 
@@ -284,8 +291,31 @@ dojo.declare(
 		layout: function() {
 			if(this.domNode.style.display == "block"){
 				this._underlay.layout();
-				this._center();
+				this._position();
 			}
 		}
 	}
 );
+	
+dojo.declare(
+	"dijit.layout.TooltipDialog",
+	[dijit.layout.Dialog],
+	{
+		// summary:
+		//		Pops up a dialog that appears like a Tooltip
+
+		templatePath: dojo.moduleUrl("dijit.layout", "templates/TooltipDialog.html"),
+
+		show: function(/*Widget||DomNode*/ anchor){
+			// summary: display the dialog underneath specified button/link
+			this.anchor = dijit.byId(anchor) || dojo.byId(anchor);
+			dijit.layout.TooltipDialog.superclass.show.call(this);
+		},
+
+		_position: function() {
+			var pos = dijit.util.placeOnScreenAroundElement(this.domNode, this.anchor, {'BL': 'TL', 'TL': 'BL'});
+			this.domNode.className="dijitDialog dijitTooltip dijitTooltip" + (pos.corner=='TL' ? "Below" : "Above");
+		}
+	}
+);
+
