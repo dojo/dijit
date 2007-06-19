@@ -37,6 +37,7 @@
 
 		function init(){
 			accordion = new dijit.layout.AccordionContainer({}, dojo.byId("accordionShell"));
+			accordion.startup(); //TODO where does this go?
 			dojo.forEach([ "pane 1", "pane 2", "pane 3" ], function(title, i){
 				// add a node that will be promoted to the content widget
 				var refNode = document.createElement("span");
@@ -46,7 +47,6 @@
 				console.debug("adding content pane " + content.id);
 				accordion.addChild(content);
 			});
-			accordion.startup();
 		}
 
 		dojo.addOnLoad(init);
@@ -72,7 +72,31 @@
 			Hello World
 		</div>
 		<div dojoType="dijit.layout.AccordionPane" title="b">
-			<p>Line 1</p><p>Line 2</p>
+			<p>
+				Nunc consequat nisi vitae quam. Suspendisse sed nunc. Proin
+				suscipit porta magna. Duis accumsan nunc in velit. Nam et nibh.
+				Nulla facilisi. Cras venenatis urna et magna. Aenean magna mauris,
+				bibendum sit amet, semper quis, aliquet nec, sapien.  Aliquam
+				aliquam odio quis erat. Etiam est nisi, condimentum non, lacinia
+				ac, vehicula laoreet, elit. Sed interdum augue sit amet quam
+				dapibus semper. Nulla facilisi. Pellentesque lobortis erat nec
+				quam.
+			</p>
+			<p>
+				Sed arcu magna, molestie at, fringilla in, sodales eu, elit.
+				Curabitur mattis lorem et est. Quisque et tortor. Integer bibendum
+				vulputate odio. Nam nec ipsum. Vestibulum mollis eros feugiat
+				augue. Integer fermentum odio lobortis odio. Nullam mollis nisl non
+				metus. Maecenas nec nunc eget pede ultrices blandit. Ut non purus
+				ut elit convallis eleifend. Fusce tincidunt, justo quis tempus
+				euismod, magna nulla viverra libero, sit amet lacinia odio diam id
+				risus. Ut varius viverra turpis. Morbi urna elit, imperdiet eu,
+				porta ac, pharetra sed, nisi. Etiam ante libero, ultrices ac,
+				faucibus ac, cursus sodales, nisl. Praesent nisl sem, fermentum eu,
+				consequat quis, varius interdum, nulla. Donec neque tortor,
+				sollicitudin sed, consequat nec, facilisis sit amet, orci. Aenean
+				ut eros sit amet ante pharetra interdum.
+			</p>
 		</div>
 		<div dojoType="dijit.layout.AccordionPane" title="c">
 			<p>The quick brown fox jumps over the lazy dog.  The quick brown fox jumps over the lazy dog.  The quick brown fox jumps over the lazy dog.</p>
