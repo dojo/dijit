@@ -74,8 +74,6 @@ dojo.declare(
 					return(this.constraints!=null&&(dojo.date.compare(this.constraints.min,date)>0||dojo.date.compare(this.constraints.max,date)<0));
 				}
 			};
-			// convert the arrow image from using style.background-image to the .src property (a11y)
-			dijit.util.wai.imageBgToSrc(this.arrowImage);
 		},
 
 		_calendarOnValueSelected:function(value){

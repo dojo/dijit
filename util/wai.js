@@ -71,33 +71,6 @@ dijit.util.wai = {
 		return success;
 	},
 
-	imageBgToSrc : function(/* Node | Node[] */ images) {
-		// summary:
-		//		Given a single image or array of images
-		//		figure out the background-image style property
-		//		and apply that to the image.src property.
-		// description:
-		//		For accessibility reasons, all images that are necessary to the
-		//		functioning of a widget should use <image> tags.  Using this method
-		//		allows the image URLs to come from themes (via CSS),
-		//		while still using the image tags.
-		// todo:
-		//		* have this examine background-position and, if set,
-		//			wrap the image in an inline div that allows us to crop
-		//			the image according to width and height specified in CSS.
-		if (!dojo.isArrayLike(images)) { images = [images]; }
-		dojo.forEach(images,
-			function(image) {
-				var style = image && dojo.getComputedStyle(image);
-				if (!style) return;
-				var href = style.backgroundImage.match(/url\(['"]?(.*?)['"]?\)/);
-				if (!href) return;
-				image.src = href[1];
-				image.style.backgroundImage = "none";
-			}
-		);
-	},
-
 	onload: function(){
 		// summary:
 		//		Function that detects if we are in high-contrast mode or not,

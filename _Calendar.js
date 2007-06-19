@@ -154,8 +154,6 @@ dojo.declare(
 
 			this.value = null;
 			this.setValue(new Date());
-
-			dijit.util.wai.imageBgToSrc([this.monthDecrease, this.monthIncrease]);
 		},
 
 		_adjustDate: function(/*String*/part, /*int*/amount){

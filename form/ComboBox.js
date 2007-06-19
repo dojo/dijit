@@ -489,9 +489,6 @@ dojo.declare(
 			// ValidationTextbox for ComboBox; MappedTextbox for FilteringSelect
 			this.parentClass=dojo.getObject(this.declaredClass, false).superclass;
 			this.parentClass.postCreate.apply(this, arguments);
-
-			// convert the arrow image from using style.background-image to the .src property (a11y)
-//			dijit.util.wai.imageBgToSrc(this.arrowImage);
 		},
 
 		open:function(){
