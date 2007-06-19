@@ -117,12 +117,7 @@ dojo.declare(
 		// summary
 		//	Show the given widget (which must be one of my children)
 
-//		if(!page){ return; }
-
-		// allow indexing by widget id
-		if(page && ((typeof page == "string")||(page instanceof String))){
-			page = dijit.byId(page);
-		}
+		page = dijit.byId(page);
 
 		if(this.selectedChildWidget != page){
 			// Deselect old page and select new one
@@ -284,6 +279,7 @@ dojo.declare(
 		onSelectChild: function(/*Widget*/ page){
 			// Summary
 			//	Called when a page has been selected in the PageContainer, either by me or by another PageController
+
 			if(!page){ return; }
 
 			if(this._currentChild){

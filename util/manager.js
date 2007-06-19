@@ -49,14 +49,14 @@ dijit.util.manager = new function(){
 	}
 
 	this.getWidgets = function(){
-		// summary
-		//	Returns the hash of id->widget
+		// summary:
+		//		Returns the hash of id->widget
 		return registry;
 	}
 
 	this.byNode = function(/* DOMNode */ node){
-		// summary
-		//	Returns the widget as referenced by node
+		// summary:
+		//		Returns the widget as referenced by node
 		return registry[node.getAttribute("widgetId")];
 	}
 };
@@ -66,7 +66,7 @@ dojo.addOnUnload(function(){
 });
 
 dijit.byId = function(/*String*/id){
-	// summary
-	//	Returns a widget by its id
-	return dijit.util.manager.getWidgets()[id];
+	// summary:
+	//		Returns a widget by its id
+	return (dojo.isString(id)) ? dijit.util.manager.getWidgets()[id] : id;
 };
