@@ -49,11 +49,15 @@ dojo.declare(
 		// number of places to show in values; 0 by default
 		places: 0,
 
-		// duration: Integer
-		// duration of the animation
-		duration: 1000,
+		// indeterminate: Boolean
+		// false: show progress
+		// true: show that a process is underway but that the progress is unknown
+		indeterminate: false,
 
-		templatePath: dojo.moduleUrl("dijit", "templates/ProgressBar.html"),		
+		templatePath: dojo.moduleUrl("dijit", "templates/ProgressBar.html"),
+
+		_indeterminateHighContrastImagePath:
+			dojo.moduleUrl("dijit", "themes/a11y/indeterminate_progress.gif"),
 
 		// public functions
 		postCreate: function(){
@@ -62,6 +66,8 @@ dojo.declare(
 			// MOW: don't think so because it needs to be set to the absolute size
 			//		of the dom node, not the size of the containing element (the full part)
 			this.fullLabel.style.width = dojo.getComputedStyle(this.domNode).width;
+			this.inteterminateHighContrastImage.setAttribute("src",
+				this._indeterminateHighContrastImagePath);
 			this.update();
 		},
 
@@ -71,21 +77,30 @@ dojo.declare(
 			// attributes: may provide progress and/or maximum properties on this parameter,
 			//	see attribute specs for details.
 			dojo.mixin(this, attributes||{});
-			var percent;
-			if(String(this.progress).indexOf("%") != -1){
-				percent = Math.min(parseFloat(this.progress)/100, 1);
-				this.progress = percent * this.maximum;
+			if(this.indeterminate){
+				dojo.addClass(this.domNode, "dijitProgressBarIndeterminate");
+				this.internalProgress.style.width = "100%";
+				dijit.util.wai.removeAttr(this.internalProgress, "waiState", "valuenow");
+				this._setLabels("");
 			}else{
-				this.progress = Math.min(this.progress, this.maximum);
-				percent = this.progress / this.maximum;
+				dojo.removeClass(this.domNode, "dijitProgressBarIndeterminate");
+				var percent;
+				if(String(this.progress).indexOf("%") != -1){
+					percent = Math.min(parseFloat(this.progress)/100, 1);
+					this.progress = percent * this.maximum;
+				}else{
+					this.progress = Math.min(this.progress, this.maximum);
+					percent = this.progress / this.maximum;
+				}
+				this.internalProgress.style.width = (percent * 100) + "%";
+				var text = this.report(percent);
+				dijit.util.wai.setAttr(this.internalProgress, "waiState", "valuenow", text);
+				this._setLabels(text);
 			}
+			this.onChange();
+		},
 
-			if(!this._animationStopped){return;}
-
-			var text = this.report(percent);
-			this._setWaiValueNow(text);
-			this.internalProgress.style["width"] = (percent * 100) + "%";
-
+		_setLabels: function(/*string*/text){
 			dojo.forEach(["full", "empty"], function(name){
 				var labelNode = this[name+"Label"];
 				if(labelNode.firstChild){
@@ -99,64 +114,11 @@ dojo.declare(
 				var labelBottom = (parseInt(dojo.getComputedStyle(this.domNode).height) - dim.h)/2;
 				labelNode.style.bottom = labelBottom + 'px';
 			}, this);
-
-			this.onChange();
 		},
 
 		report: function(/*float*/percent){
 			// Generates message to show; may be overridden by user
 			return dojo.number.format(percent, {type: "percent", places: this.places, locale: this.lang});
-		},
-
-		_animationStopped: true,
-
-		_setupAnimation: function(){
-			var self = this;
-			this._animation = dojo.fx.slideTo({node: this.internalProgress,
-				top: 0,
-				left: parseInt(dojo.getComputedStyle(this.domNode).width)-parseInt(dojo.getComputedStyle(this.internalProgress).width),
-				duration: this.duration});
-			dojo.connect(this._animation, "onEnd", null, function(){
-				var backAnim = dojo.fx.slideTo({node: self.internalProgress, top: 0, left: 0, duration: self.duration});
-				dojo.connect(backAnim, "onEnd", null, function(){
-					if(!self._animationStopped){
-						self._animation.play();
-					}
-				});
-				if(!self._animationStopped){
-					backAnim.play();
-				}
-				backAnim = null; // to avoid memory leaks in IE
-			});
-		},
-
-		startAnimation: function(){
-			// summary: starts the left-right animation, useful when
-			// the user doesn't know how much time the operation will last
-			if(this._animationStopped){
-				this._backup = {progress: this.progress};
-				this.update({progress: "10%"});
-				this._setWaiValueNow("unknown");
-				this._animationStopped = false;
-				this._setupAnimation();
-				this.internalProgress.style.height="105%";
-				this._animation.play();
-			}
-		},
-		stopAnimation: function(){
-			// summary: stops the left-right animation
-			if(this._animation){
-				this._animationStopped = true;
-				this._animation.stop();
-				this.internalProgress.style.height="100%";
-				this.internalProgress.style.left = "0px";
-				dojo.mixin(this, this._backup);
-				this.update();
-			}
-		},
-
-		_setWaiValueNow: function(value){
-			dijit.util.wai.setAttr(this.internalProgress, "waiState", "valuenow", value);
 		},
 
 		onChange: function(){}

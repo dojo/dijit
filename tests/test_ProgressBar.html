@@ -43,8 +43,6 @@
 					return dojo.string.substitute("${0} out of ${1} max chars", [this.progress, this.maximum]);
 				}
 			}, dojo.byId("testBar"));
-			dojo.connect(dojo.byId("start"), "onclick", null, dojo.hitch(theBar,theBar.startAnimation));
-			dojo.connect(dojo.byId("stop"), "onclick", null, dojo.hitch(theBar,theBar.stopAnimation));
 
 			dojo.byId("test").value="";
 			dojo.byId("progressValue").focus();
@@ -54,6 +52,14 @@
 			dojo.connect(dojo.byId("set"), "onclick", null, setParameters);
 			dojo.connect(dojo.byId("startTimer"), "onclick", null,
 				function(){ remoteProgress(dijit.byId("timerBar")); } );
+			dojo.connect(dojo.byId("setIndeterminateTrue"), "onclick", null,
+				function(){
+					dijit.byId("indeterminateBar").update({'indeterminate': true})
+				} );
+			dojo.connect(dojo.byId("setIndeterminateFalse"), "onclick", null,
+				function(){
+					dijit.byId("indeterminateBar").update({'indeterminate': false})
+				} );
 		}
 
 		// An example of polling on a separate (heartbeat) server thread.  This is useful when the progress 
@@ -98,20 +104,8 @@
 		function keyUpHandler(){
 			dijit.byId("testBar").update({progress:dojo.byId("test").value.length});
 			dijit.byId("testBarInt").update({progress:dojo.byId("test").value.length});
-			dijit.byId("testBarVert").update({progress:dojo.byId("test").value.length});
 			dijit.byId("smallTestBar").update({progress:dojo.byId("test").value.length});
 		}
-
-		/*
-		function moveBar(bar, progress){
-			bar.update({progress: progress});
-			if (progress >= 100) {
-				return;
-			} else {
-				setTimeout(function(){ moveBar(bar, progress + 10) }, 1000);
-			}
-		}
-		*/
 
 		</script>
 
@@ -129,15 +123,12 @@
 	<br>
 	<div style="width:400px" annotate="true"
 		maximum="200" id="setTestBar" progress="20" dojoType="dijit.ProgressBar"></div>
-	<br>
-	<br>
+
 	<h3>Test 2</h3>
 	Write here: <input type="text" value="" name="test" maxlength="256" id="test" style="width:300"/>
 	<br />
 	<br />
 	<div id="testBar" style='width:300px'></div>		
-	<input type="button" name="start" id="start" value="start" />
-	<input type="button" name="stop" id="stop" value="stop" />
 	<br />
 	Small, without text and background image:
 	<br />
@@ -147,7 +138,7 @@
 	Show decimal place:
 	<div places="1" style="width:400px" annotate="true"
 		maximum="256" id="testBarInt" dojoType="dijit.ProgressBar"></div>
-	<br />
+
 	<h3>Test 3</h3>
 	No explicit maximum (both 50%)
 	<div style="width:400px" annotate="true"
@@ -155,15 +146,16 @@
 	<br />
 	<div style="width:400px" annotate="true"
 		id="implied2" progress="50%" dojoType="dijit.ProgressBar"></div>
+
 	<h3>Test 4</h3>
 	<input type="button" name="startTimer" id="startTimer" value="Start Timer" />
 	<div style="width:400px" id="timerBar" annotate="true"
 		maximum="100" progress="0" dojoType="dijit.ProgressBar"></div>
 
 	<h3>Test 5 - indeterminate progess</h3>
-	<input type="button" name="startTimer" id="startTimer" value="Start Timer" />
-	<div style="width:400px" class='dijitProgressBarIndeterminate' progress='100'
-		id="indeterminateBar" annotate="false"
+	<input type="button" name="setIndeterminateTrue" id="setIndeterminateTrue" value="Make Indeterminate" />
+	<input type="button" name="setIndeterminateFalse" id="setIndeterminateFalse" value="Make Determinate" />
+	<div style="width:400px" progress="50" id="indeterminateBar"
 		dojoType="dijit.ProgressBar"></div>
 
 </body>

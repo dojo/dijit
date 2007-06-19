@@ -579,11 +579,27 @@ table .dijitComboButton .dijitButtonNode {
 	width:100%;
 }
 
-.dijitProgressBarIndeterminate dijitProgressBarTile{
+.dijitProgressBarIndeterminate .dijitProgressBarEmptyLabel{
+	display:none;
+}
+
+.dijitProgressBarIndeterminate .dijitProgressBarFullLabel{
+	display:none;
+}
+
+.dijitProgressBarIndeterminate .dijitProgressBarTile{
 	/* animated gif for 'indeterminate' mode */
 }
 
+.dijitIndeterminateProgressBarHighContrastImage{
+	display:none;
+}
 
+.dijit_a11y .dijitProgressBarIndeterminate .dijitIndeterminateProgressBarHighContrastImage{
+	display:block;
+	width:100%;
+	height:100%;
+}
 
 .dijitProgressBarEmptyLabel{
 	/* label for portion of the bar that's not finished yet */
