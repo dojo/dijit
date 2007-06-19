@@ -3,7 +3,6 @@ dojo.provide("dijit.layout.AccordionContainer");
 dojo.require("dojo.fx");
 
 dojo.require("dijit.layout.PageContainer");
-dojo.require("dijit.util.popup");
 
 dojo.declare(
 	"dijit.layout.AccordionContainer",
@@ -132,8 +131,6 @@ dojo.declare(
 		dijit._disableSelection(this.titleNode);
 		this.setSelected(this.selected);
 
-		// Prevent IE bleed-through problem
-		this.bgIframe = new dijit.util.BackgroundIframe(this.domNode);
 	},
 
 /*
