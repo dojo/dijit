@@ -57,13 +57,6 @@ dojo.declare("dijit.base.FormElement", dijit.base.Widget,
 	//		In markup, this is specified as "disabled='disabled'", or just "disabled".
 	disabled: false,
 
-	// _selected: Boolean
-	//		Widgets like ToggleButton, RadioButton, etc., have a selected/not selected
-	//		state important for CSS reasons.
-	// TODO: should this be on the node instead?  something like ComboButton,
-	// the drop down arrow toggles, but the button doesn't
-	_selected: false,
-
 	enable: function(){
 		// summary:
 		//		enables the widget, usually involving unmasking inputs and
@@ -166,7 +159,7 @@ dojo.declare("dijit.base.FormElement", dijit.base.Widget,
 
 		// compute the single classname representing the state of the widget
 		var state = this.baseClass || this.domNode.getAttribute("baseClass");
-		if(this._selected){
+		if(this.selected){
 			state += "Selected"
 		}
 		if(this.disabled){

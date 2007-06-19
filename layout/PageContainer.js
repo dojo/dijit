@@ -284,12 +284,12 @@ dojo.declare(
 
 			if(this._currentChild){
 				var oldButton=this.pane2button[this._currentChild];
-				oldButton.clearSelected();
+				oldButton.setSelected(false);
 				oldButton.focusNode.setAttribute("tabIndex", "-1");
 			}
 
 			var newButton=this.pane2button[page];
-			newButton.setSelected();
+			newButton.setSelected(true);
 			this._currentChild=page;
 			newButton.focusNode.setAttribute("tabIndex", "0");
 		},

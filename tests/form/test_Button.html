@@ -79,7 +79,7 @@
 			<button dojoType="dijit.form.Button" onClick='logMessage("clicked simple")' disabled='true'>
 				<img src="../images/plus.gif" width="16" height="16"> Disabled
 			</button>
-			<button dojoType="dijit.form.ToggleButton">
+			<button dojoType="dijit.form.ToggleButton" onChange="console.log('toggled button selected='+arguments[0]);">
 				<img src="../images/plus.gif" width="16" height="16"> Toggle me
 			</button>
 		</div>

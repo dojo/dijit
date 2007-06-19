@@ -164,22 +164,24 @@ dojo.declare(
 
 	baseClass: "dijitToggleButton",
 
+	// selected: Boolean
+	//		True if the button is depressed, or the checkbox is checked,
+	//		or the radio button is selected, etc.
+	selected: false,
+
+	onChange: function(/*Boolean*/ selected){
+		// summary: callback for when state changes
+	},
+
 	onClick: function(/*Event*/ evt){
-		this._selected = !this._selected;
-		this._setStateClass();
+		this.setSelected(!this.selected);
 	},
 
-	setSelected: function(){
+	setSelected: function(/*Boolean*/ selected){
 		// summary
 		//	Programatically deselect the button
-		this._selected=true;
+		this.selected=selected;
 		this._setStateClass();
-	},
-
-	clearSelected: function(){
-		// summary
-		//	Programatically deselect the button
-		this._selected=false;
-		this._setStateClass();
+		this.onChange(selected);	// TODO: finalize arg list to onChange()
 	}
 });

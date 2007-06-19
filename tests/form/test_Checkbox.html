@@ -36,7 +36,7 @@
 		dojo.addOnLoad(function(){
 			var params = {id: "cb6", name: "cb6"};
 			var widget = new dijit.form.Checkbox(params, dojo.byId("checkboxContainer"));
-			widget.setChecked(true);
+			widget.setSelected(true);
 		});
 	</script>
 	<style type="text/css">
@@ -60,9 +60,9 @@
 		<input type="checkbox" name="cb1" id="cb1" value="foo" dojoType="dijit.form.Checkbox">
 			<label for="cb1">cb1: normal checkbox, with value=foo</label>
 		<br>
-		<input onChecked="reportChecked" type="checkbox" name="cb2" id="cb2" dojoType="dijit.form.Checkbox" checked="checked"/>
+		<input onChange="reportChecked" type="checkbox" name="cb2" id="cb2" dojoType="dijit.form.Checkbox" checked="checked"/>
 			<label for="cb2">cb2: normal checkbox, initially turned on.</label>
-			<span>"onChecked" handler updates: [<span id="oncheckedoutput"></span>]</span>
+			<span>"onChange" handler updates: [<span id="oncheckedoutput"></span>]</span>
 		<br>
 		<input type="checkbox" name="cb3" id="cb3" dojoType="dijit.form.Checkbox" disabled="disabled">
 			<label for="cb3">cb3: disabled checkbox</label>
