@@ -74,11 +74,11 @@ dojo.declare(
 					node: newWidget.containerNode, 
 					duration: this.duration,
 					properties: {
-						height: { start: "1", end: paneHeight } 
+						height: { start: "1", end: paneHeight }
+					},
+					onEnd: function(){ 
+						newWidget.containerNode.style.overflow = "auto";
 					}
-				});
-				dojo.connect(openAnimation, "onEnd", null, function(){ 
-					newWidget.containerNode.style.overflow = "auto";
 				});
 			}
 			if(oldWidget){
@@ -89,15 +89,10 @@ dojo.declare(
 					duration: this.duration,
 					properties: {
 						height: { start: paneHeight, end: "1" } 
-					} 
-				});
-/*
-				dojo.connect(animation, "onAnimate", animation, function(size){ 
-//TODO: resize Sizable singleton child to avoid scrollbar problems on FF2?
-				});
-*/
-				dojo.connect(closeAnimation, "onEnd", null, function(){ 
-					oldWidget.containerNode.style.display = "none";
+					},
+					onEnd: function(){
+						oldWidget.containerNode.style.display = "none";
+					}
 				});
 			}
 
@@ -155,19 +150,3 @@ dojo.declare(
 		(isSelected ? dojo.addClass : dojo.removeClass)(this.domNode, "dijitAccordionPane-selected");
 	}
 });
-
-//TODO: do we need the below mixin hack anymore?
-/*
-// These arguments can be specified for the children of a PageContainer.
-// Since any widget can be specified as a PageContainer child, mix them
-// into the base widget class.  (This is a hack, but it's effective.)
-dojo.extend(dijit.base.Widget, {
-	// title: String
-	//		Title of this widget.  Used by TabContainer to the name the tab, etc.
-	title: "",
-
-	// selected: Boolean
-	//		Is this child currently selected?
-	selected: false
-});
-*/
