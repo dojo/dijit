@@ -42,7 +42,7 @@ dojo.declare(
 			this.selectedChildWidget.selected = true;
 		}
 		if(this.selectedChildWidget){
-			this.selectedChildWidget.show();
+			this._showChild(this.selectedChildWidget)
 		}
 
 		// Now publish information about myself so any PageControllers can initialize..
@@ -67,11 +67,13 @@ dojo.declare(
 
 	_setupChild: function(/*Widget*/ page){
 		// Summary: prepare the given child
-		page.hide();
+
+		page.domNode.style.display="none";
 
 		// since we are setting the width/height of the child elements, they need
 		// to be position:relative, or IE has problems (See bug #2033)
 		page.domNode.style.position="relative";
+
 		return page;
 	},
 
@@ -145,25 +147,23 @@ dojo.declare(
 	},
 
 	_showChild: function(/*Widget*/ page){
-		// size the current page (in case this is the first time it's being shown, or I have been resized)
-		if(this.doLayout && page.resize){
-			page.resize(this._containerContentBox || this._contentBox);
-		}
 
-		page.selected=true;
-		if(page.show){
-			page.show();
-		}
 		var children = this.getChildren();
 		page.isFirstChild = (page == children[0]);
 		page.isLastChild = (page == children[children.length-1]);
+		page.selected=true;
+
+		// size the current page (in case this is the first time it's being shown, or I have been resized)
+		// page must be visible for resizing to work
+		page.domNode.style.display="";
+		if(this.doLayout && page.resize){
+			page.resize(this._containerContentBox || this._contentBox);
+		}
 	},
 
 	_hideChild: function(/*Widget*/ page){
 		page.selected=false;
-		if(page.hide){
-			page.hide();
-		}
+		page.domNode.style.display="none";
 	},
 
 	closeChild: function(/*Widget*/ page){

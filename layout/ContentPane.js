@@ -1,12 +1,11 @@
 dojo.provide("dijit.layout.ContentPane");
 
 dojo.require("dijit.base.Widget");
-dojo.require("dijit.base.Showable");
 dojo.require("dijit.base.Layout");
 
 dojo.declare(
 	"dijit.layout.ContentPane",
-	[dijit.base.Widget, dijit.base.Layout, dijit.base.Showable],
+	[dijit.base.Widget, dijit.base.Layout],
 		// summary:
 		//		A widget that can be used as a standalone widget
 		//		or as a baseclass for other widgets
@@ -84,6 +83,10 @@ dojo.declare(
 			if(this.isShowing() || this.preload){
 				this._prepareForShow();
 			}
+		},
+
+		isShowing: function(){
+			return this.domNode.style.display != "none";
 		},
 
 		onShow: function(){

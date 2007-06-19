@@ -1,7 +1,6 @@
 dojo.provide("dijit.base.Layout");
 
 dojo.require("dijit.base.Container");
-dojo.require("dijit.base.Showable");
 
 dojo.declare("dijit.base.Sizable",
 	null,
@@ -53,7 +52,7 @@ dojo.declare("dijit.base.Sizable",
 );
 
 dojo.declare("dijit.base.Layout",
-	[dijit.base.Sizable, dijit.base.Container, dijit.base.Contained, dijit.base.Showable],
+	[dijit.base.Sizable, dijit.base.Container, dijit.base.Contained],
 	{
 		// summary
 		//		Mixin for widgets that contain a list of children like SplitContainer.

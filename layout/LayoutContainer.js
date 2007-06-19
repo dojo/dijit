@@ -1,12 +1,11 @@
 dojo.provide("dijit.layout.LayoutContainer");
 
 dojo.require("dijit.base.Widget");
-dojo.require("dijit.base.Showable");
 dojo.require("dijit.base.Layout");
 
 dojo.declare(
 	"dijit.layout.LayoutContainer",
-	[dijit.base.Widget, dijit.base.Layout, dijit.base.Showable],
+	[dijit.base.Widget, dijit.base.Layout],
 {
 	// summary
 	//	Provides Delphi-style panel layout semantics.
@@ -61,17 +60,6 @@ dojo.declare(
 	removeChild: function(pane){
         dijit.base.Container.prototype.removeChild.apply(this, arguments);
 		dijit.base.Layout.layoutChildren(this.domNode, this._contentBox, this.getChildren(), this.layoutChildPriority);
-	},
-
-	show: function(){
-		// If this node was created while display=="none" then it
-		// hasn't been laid out yet.  Do that now.
-		this.domNode.style.display="";
-		this.checkSize();
-		this.domNode.style.display="none";
-		this.domNode.style.visibility="";
-
-		dijit.base.Showable.prototype.show.apply(this, arguments);
 	}
 });
 

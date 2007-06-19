@@ -6,7 +6,7 @@ dojo.require("dijit.layout.PageContainer");
 
 dojo.declare(
 	"dijit.layout.AccordionContainer",
-	[dijit.layout.PageContainer, dijit.base.Showable], //TODO why Showable?
+	[dijit.layout.PageContainer],
 	{
 		// summary: 
 		//		Holds a set of panes where every pane's title is visible, but only one pane's content is visible at a time,
@@ -108,7 +108,7 @@ dojo.declare(
 
 dojo.declare(
 	"dijit.layout.AccordionPane",
-	[dijit.base.Widget, dijit.base.TemplatedWidget, dijit.base.Showable,
+	[dijit.base.Widget, dijit.base.TemplatedWidget,
 	  dijit.base.Layout, dijit.base.Contained],
 {
 	// summary
