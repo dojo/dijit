@@ -239,11 +239,16 @@ dijit.util.popup = new function(){
 
 dijit.util.BackgroundIframe = function(/* HTMLElement */node){
 	//	summary:
-	//		For IE z-index schenanigans
+	//		For IE z-index schenanigans. id attribute is required.
+	//
+	//	description:
 	//		new dijit.util.BackgroundIframe(node)
 	//			Makes a background iframe as a child of node, that fills
 	//			area (and position) of node
-	if(  (dojo.isIE && dojo.isIE < 7) || (dojo.isFF && dojo.isFF < 3 && dojo.hasClass(dojo.body(), "dijit_a11y")) ){
+
+	if(!node.id){ throw new Error("no id"); }
+
+	if((dojo.isIE && dojo.isIE < 7) || (dojo.isFF && dojo.isFF < 3 && dojo.hasClass(dojo.body(), "dijit_a11y"))){
 		var iframe;
 		if(dojo.isIE){
 			var html="<iframe src='javascript:\"\"'"
