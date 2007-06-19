@@ -29,10 +29,8 @@ dojo.declare(
 
 		startup: function(){
 			dijit.layout.PageContainer.prototype.startup.apply(this, arguments);
-			var selectedChild = this.selectedChildWidget;
-			if(selectedChild){
-				selectedChild.selected = true;
-				selectedChild.containerNode.style.display = "";
+			if(this.selectedChildWidget){
+				this.selectedChildWidget.containerNode.style.display = "";
 			}
 		},
 
@@ -61,8 +59,6 @@ dojo.declare(
 		},
 
 		_transition: function(/*Widget*/newWidget, /*Widget?*/oldWidget){
-//TODO: generate show events or call showChild?
-//			this._showChild(newWidget);
 			if(newWidget){
 				newWidget.setSelected(true);
 				newWidget.containerNode.style.display = "";
@@ -107,12 +103,6 @@ dojo.declare(
 				animation = closeAnimation;
 			}
 			animation.play();
-/*
-//TODO: events need to fire here also
-			if(oldWidget){
-				this._hideChild(oldWidget);
-			}
-*/
 		}
 	}
 );

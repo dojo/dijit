@@ -29,11 +29,20 @@ dojo.declare(
 		dojo.forEach(children, this._setupChild, this);
 
 		// Figure out which child to initially display
-		var index = dojo.indexOf(children, function(child){ return child.selected; });
-		if(index == -1){ index = 0; }
-		this.selectedChildWidget = children[index];
-		if(children[index]){
-			children[index].show();
+		dojo.some(children, function(child){
+			if(child.selected){
+				this.selectedChildWidget = child;
+			}
+			return child.selected;
+		}, this);
+
+		// Default to the first child
+		if(!this.selectedChildWidget && children[0]){
+			this.selectedChildWidget = children[0];
+			this.selectedChildWidget.selected = true;
+		}
+		if(this.selectedChildWidget){
+			this.selectedChildWidget.show();
 		}
 
 		// Now publish information about myself so any PageControllers can initialize..
