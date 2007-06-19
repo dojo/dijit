@@ -22,6 +22,8 @@ dojo.declare(
 
 	templateString: "<div dojoAttachPoint='containerNode'></div>",
 
+	_started: false,
+
 	startup: function(){
 		var children = this.getChildren();
 
@@ -49,32 +51,39 @@ dojo.declare(
 		dojo.publish(this.id+"-startup", [{children: children, selected: this.selectedChildWidget}]);
 
 		dijit.base.Layout.prototype.startup.apply(this, arguments);
+		this._started = true;
+	},
+
+	_setupChild: function(/*Widget*/ page){
+		// Summary: prepare the given child
+
+		page.domNode.style.display = "none";
+
+		// since we are setting the width/height of the child elements, they need
+		// to be position:relative, or IE has problems (See bug #2033)
+		page.domNode.style.position = "relative";
+
+		return page;
 	},
 
 	addChild: function(/*Widget*/ child, /*Integer*/ insertIndex){
 		dijit.base.Container.prototype.addChild.apply(this, arguments);
 		child = this._setupChild(child);
 
-		// in case the tab titles have overflowed from one line to two lines
-		this.layout();
+		var started = this._started;
+		if(started){
+			// in case the tab titles have overflowed from one line to two lines
+			this.layout();
+		}
 
 		// if this is the first child, then select it
-		if(!this.selectedChildWidget){
+		if(!this.selectedChildWidget && started){
 			this.selectChild(child);
 		}
-		dojo.publish(this.id+"-addChild", [child]);
-	},
 
-	_setupChild: function(/*Widget*/ page){
-		// Summary: prepare the given child
-
-		page.domNode.style.display="none";
-
-		// since we are setting the width/height of the child elements, they need
-		// to be position:relative, or IE has problems (See bug #2033)
-		page.domNode.style.position="relative";
-
-		return page;
+		if(started){
+			dojo.publish(this.id+"-addChild", [child]);
+		}
 	},
 
 	removeChild: function(/*Widget*/ page){
@@ -85,17 +94,21 @@ dojo.declare(
 		// every page one by one
 		if(this._beingDestroyed){ return; }
 
-		// this will notify any tablists to remove a button; do this first because it may affect sizing
-		dojo.publish(this.id+"-removeChild", [page]);
+		if(this._started){
+			// this will notify any tablists to remove a button; do this first because it may affect sizing
+			dojo.publish(this.id+"-removeChild", [page]);
 
-		// in case the tab titles now take up one line instead of two lines
-		this.layout();
+			// in case the tab titles now take up one line instead of two lines
+			this.layout();
+		}
 
 		if(this.selectedChildWidget === page){
 			this.selectedChildWidget = undefined;
-			var children = this.getChildren();
-			if(children.length){
-				this.selectChild(children[0]);
+			if(this._started){
+				var children = this.getChildren();
+				if(children.length){
+					this.selectChild(children[0]);
+				}
 			}
 		}
 	},
@@ -259,7 +272,7 @@ dojo.declare(
 			// summary
 			//   Called whenever a page is removed from the container.
 			//   Remove the button corresponding to the page.
-			if(this._currentChild == page){ this._currentChild = null; }
+			if(this._currentChild === page){ this._currentChild = null; }
 			var button = this.pane2button[page];
 			if(button){
 				// TODO? if (button == this.childInTabOrder){ reassign }

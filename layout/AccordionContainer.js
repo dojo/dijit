@@ -58,7 +58,8 @@ dojo.declare(
 			return page;
 		},
 
-		_transition: function(/*Widget*/newWidget, /*Widget?*/oldWidget){
+		_transition: function(/*Widget?*/newWidget, /*Widget?*/oldWidget){
+//TODO: should be able to replace this with calls to slideIn/slideOut
 			if(newWidget){
 				newWidget.setSelected(true);
 				newWidget.containerNode.style.display = "";
@@ -135,23 +136,7 @@ dojo.declare(
 		dojo.addClass(this.domNode, this["class"]);
 		dijit._disableSelection(this.titleNode);
 		this.setSelected(this.selected);
-
 	},
-
-/*
-//TODO: why do we need Layout for AccordionPane?
-	layout: function(){
-		var children = [
-			{domNode: this.titleNode, layoutAlign: "top"},
-			{domNode: this.containerNode, layoutAlign: "client"}
-		];
-		dijit.base.Layout.layoutChildren(this.domNode, this._contentBox, children);
-		var child = this.getChildren()[0];
-		if(child && child.resize){
-			child.resize(this._contentBox);
-		}
-	},
-*/
 
 	getTitleHeight: function(){
 		// summary: returns the height of the title dom node
@@ -168,29 +153,11 @@ dojo.declare(
 	setSelected: function(/*Boolean*/ isSelected){
 		this.selected = isSelected;
 		(isSelected ? dojo.addClass : dojo.removeClass)(this.domNode, "dijitAccordionPane-selected");
-/*
-		// make sure child is showing (lazy load), and also that onShow()/onHide() is called
-		var child = this.getChildren()[0];
-		if(child){
-			if(isSelected){
-				if(child.isShowing()){
-					child.onShow();
-				}else{
-					child.show();
-				}
-			}else{
-				// #1969 - Firefox has a display glitch, force child to hide
-				// only the titlepane will get the slide animation
-				if(child.isShowing()){
-					child.hide();
-				}
-				child.onHide();
-			}
-		}
-*/
 	}
 });
 
+//TODO: do we need the below mixin hack anymore?
+/*
 // These arguments can be specified for the children of a PageContainer.
 // Since any widget can be specified as a PageContainer child, mix them
 // into the base widget class.  (This is a hack, but it's effective.)
@@ -203,3 +170,4 @@ dojo.extend(dijit.base.Widget, {
 	//		Is this child currently selected?
 	selected: false
 });
+*/
