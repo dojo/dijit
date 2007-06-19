@@ -260,7 +260,7 @@
 
 .dijitButtonNode {
 	/* Node that is acting as a button -- may or may not be a BUTTON element */
-	border:1px outset gray;
+	border:1px solid gray;
 	margin:0px;
 	padding:.2em .2em .1em .2em;
 	overflow:visible;
@@ -382,11 +382,14 @@ table .dijitComboButton .dijitButtonNode {
 	border-right-width:1px !important;
 }
 
+/*
 .dj_safari .dijitComboBoxInput,
 .dj_safari .dijitSpinnerInput {
 	padding:0px;
 	border:0px !important;
 }
+*/
+
 .dj_safari .dijitComboBox INPUT,
 .dj_safari .dijitSpinner INPUT{
 	margin:-2px -4px -3px -3px;
@@ -805,11 +808,11 @@ body .dijitAlignClient { position: absolute; }
 .dijitColorPaletteCell {
 	width:16px;
 	height:16px;
-	border:1px outset;
+	border: 1px solid;
 }
 
 .dijitColorPaletteCell:hover {
-	border-style:inset;
+	border-style: solid;
 }
 
 /* AccordionPane */
