@@ -364,6 +364,18 @@ table .dijitComboButton .dijitButtonNode {
 
 .dijitComboBoxNoArrow .dijitDownArrowButton {
 	display:none;
+	padding:0px;
+	margin:0px;
+}
+
+.dijitComboBoxNoArrow table {
+	padding:0px;
+	margin:0px;
+}		 
+
+.dijitComboBoxNoArrow INPUT {
+	border:0px !important;
+	background-color:transparent;
 }		 
 
 .dijitComboBoxNoArrow .dijitComboBoxInput {
