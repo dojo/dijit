@@ -21,7 +21,7 @@
 				// start the timer
 				t0 = new Date().getTime();
 			});
-			dojo.require("dijit.util.parser");
+			dojo.require("dojo.parser");
 			// this should end the timer right AFTER the parser finishes
 			dojo.addOnLoad(
 				function(){
