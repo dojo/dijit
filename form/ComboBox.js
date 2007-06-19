@@ -344,15 +344,17 @@ dojo.declare(
 		},
 
 		onfocus:function(){
+			dijit.form._DropDownTextBox.prototype.onfocus.apply(this, arguments);
 			this.parentClass.onfocus.apply(this, arguments);
 		},
 
 		onblur:function(){
-			if(!this.isShowingNow()){
-			// if the user clicks away from the textbox, set the value to the textbox value
-			this.setDisplayedValue(this.getDisplayedValue());
-			}
+			// call onblur first to avoid race conditions with _hasFocus
 			dijit.form._DropDownTextBox.prototype.onblur.apply(this, arguments);
+			if(!this.isShowingNow()){
+				// if the user clicks away from the textbox, set the value to the textbox value
+				this.setDisplayedValue(this.getDisplayedValue());
+			}
 			// don't call this since the Textbox setValue is asynchronous
 			// if you uncomment this line, when you click away from the textbox,
 			// the value in the textbox reverts to match the hidden value

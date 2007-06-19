@@ -53,7 +53,7 @@ dojo.declare(
 				//this._setValue("", "");
 				//#3285: change CSS to indicate error
 				this._isvalid=false;
-				this.validate(true);
+				this.validate(this._hasFocus);
 			}else{
 				this._setValueFromItem(result[0]);
 			}
@@ -174,6 +174,10 @@ dojo.declare(
 			//	Used in InlineEditBox
 			var query=[];
 			query[this.searchAttr]=label;
+			// if the label is not valid, the callback will never set it,
+			// so the last valid value will get the warning textbox
+			// set the textbox value now so that the impending warning will make sense to the user
+			this.textbox.value=label;
 			if(this.store){
 				this.store.fetch({query:query, queryOptions:{ignoreCase:this.ignoreCase}, onComplete: dojo.hitch(this, this._callbackSetLabel)});
 			}

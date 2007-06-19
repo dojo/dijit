@@ -37,6 +37,10 @@ dojo.declare(
 		// _popupArgs: Object
 		//	Object to pass to popup widget on initialization
 		_popupArgs:{},
+		
+		// _hasFocus: Boolean
+		// Represents focus state of the textbox
+		_hasFocus:false,
 
 		_arrowPressed: function(){
 			if(!this.disabled&&this.hasDownArrow){
@@ -119,8 +123,13 @@ dojo.declare(
 			this._showResultList();
 		},
 
+		onfocus:function(){
+			this._hasFocus=true;
+		},
+
 		onblur:function(){
 			this._arrowIdle();
+			this._hasFocus=false;
 			// removeClass dijitInputFieldFocused
 			dojo.removeClass(this.nodeWithBorder, "dijitInputFieldFocused");
 			// hide the Tooltip

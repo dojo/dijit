@@ -25,10 +25,17 @@ dojo.declare(
 		postMixInProperties: function(){
 			this.constraints.selector = 'date';
 			// manual import of RangeBoundTextbox properties
-			dijit.form.DateTextbox.superclass.postMixInProperties.apply(this, arguments);
+			// both _DropDownTextBox and RangeBoundTextbox have a postMixInProperties!
+			dijit.form.RangeBoundTextbox.prototype.postMixInProperties.apply(this, arguments);
+			dijit.form._DropDownTextBox.prototype.postMixInProperties.apply(this, arguments);
 			// #2999
 			if(typeof this.constraints.min == "string"){ this.constraints.min = dojo.date.stamp.fromISOString(this.constraints.min); }
  			if(typeof this.constraints.max == "string"){ this.constraints.max = dojo.date.stamp.fromISOString(this.constraints.max); }
+		},
+
+		onfocus: function(){
+			dijit.form._DropDownTextBox.prototype.onfocus.apply(this, arguments);
+			dijit.form.RangeBoundTextbox.prototype.onfocus.apply(this, arguments);
 		},
 
 		serialize: function(/*Date*/date){
