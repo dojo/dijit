@@ -69,6 +69,7 @@ Enhancements over plain HTML version:
 			name="state1"
 			autocomplete="false"
 			promptMessage="Please enter a state"
+			invalidMessage="Enter a valid state name"
 			onValueChanged="setValue('value1', arguments[0]);" value="CA"
 	>
 		<option value="blank"></option>
@@ -134,6 +135,8 @@ Enhancements over plain HTML version:
 		<option value="WI">Wisconsin</option>
 		<option value="WY">Wyoming</option>
 	</select>
+	<input type="button" value="Set displayed value to Kentucky (valid)" onClick="dijit.byId('setvaluetest2').setDisplayedValue('Kentucky')">
+	<input type="button" value="Set displayed value to Canada (invalid)" onClick="dijit.byId('setvaluetest2').setDisplayedValue('Canada')">
 	<br>
 	<div>Value: <input id="value1" disabled></div>
 	<hr>
@@ -151,6 +154,7 @@ Enhancements over plain HTML version:
 			onValueChanged="setValue('value2', arguments[0]);"
 			dataProviderClass="dojo.data.JsonItemStore"
 			promptMessage="Please enter a state"
+			invalidMessage="Enter a valid state name"
 	>
 	<br>
 	<div>Value: <input id="value2" disabled></div>
@@ -167,6 +171,7 @@ Enhancements over plain HTML version:
  			labelType="html"
  			onValueChanged="setValue('value3', arguments[0]);"
  			promptMessage="Please enter a state"
+			invalidMessage="Enter a valid state name"
 	>
 	<div>Value: <input id="value3" disabled></div>
 	<hr>
@@ -180,6 +185,7 @@ Enhancements over plain HTML version:
  			labelType="html"
  			store="myStore"
  			promptMessage="Please enter a state"
+			invalidMessage="Enter a valid state name"
 	>
 	<br>
 	<hr>
@@ -195,6 +201,7 @@ Enhancements over plain HTML version:
  			labelType="html"
  			dataProviderClass="dojo.data.JsonItemStore"
  			promptMessage="Please enter a state"
+			invalidMessage="Enter a valid state name"
 	>
 	<br>
 	<hr>
@@ -258,6 +265,7 @@ Enhancements over plain HTML version:
  			labelType="html"
  			store="myStore"
  			promptMessage="Please enter a state"
+			invalidMessage="Enter a valid state name"
 			hasDownArrow="false"
 	>
 	<br>
