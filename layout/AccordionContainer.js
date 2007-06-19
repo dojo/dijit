@@ -17,7 +17,8 @@ dojo.declare(
 		// 			<div dojoType="dijit.layout.ContentPane">...</div>
 		//  	</div>
 		// 		<div dojoType="dijit.layout.AccordionPane" title="pane 2">
-		// 			...
+		//			<p>This is some text</p>
+		// 		...
 		// 	</div>
 
 		// duration: Integer
@@ -75,9 +76,13 @@ dojo.declare(
 						height: { start: "1", end: paneHeight } 
 					}
 				});
+				dojo.connect(openAnimation, "onEnd", null, function(){ 
+					newWidget.containerNode.style.overflow = "auto";
+				});
 			}
 			if(oldWidget){
 				oldWidget.setSelected(false);
+				oldWidget.containerNode.style.overflow = "hidden";
 				var closeAnimation = dojo.animateProperty({ 
 					node: oldWidget.containerNode, 
 					duration: this.duration,
