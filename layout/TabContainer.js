@@ -1,11 +1,11 @@
 dojo.provide("dijit.layout.TabContainer");
 
-dojo.require("dijit.layout.PageContainer");
+dojo.require("dijit.layout.StackContainer");
 dojo.require("dijit.base.Layout");
 
 dojo.declare(
 	"dijit.layout.TabContainer",
-	dijit.layout.PageContainer,
+	dijit.layout.StackContainer,
 {
 	// summary
 	//	A TabContainer is a container that has multiple panes, but shows only
@@ -20,7 +20,7 @@ dojo.declare(
 	//   "top", "bottom", "left-h", "right-h"
 	tabPosition: "top",
 
-	templateString: null,	// override setting in PageContainer
+	templateString: null,	// override setting in StackContainer
 	templatePath: dojo.moduleUrl("dijit.layout", "templates/TabContainer.html"),
 
 	postCreate: function(){	
@@ -95,11 +95,11 @@ dojo.declare(
 //TODO: make private?
 dojo.declare(
     "dijit.layout.TabController",
-    dijit.layout.PageController,
+    dijit.layout.StackController,
 	{
 		// summary
 		// 	Set of tabs (the things with titles and a close button, that you click to show a tab panel).
-		//	Lets the user select the currently shown pane in a TabContainer or PageContainer.
+		//	Lets the user select the currently shown pane in a TabContainer or StackContainer.
 		//	TabController also monitors the TabContainer, and whenever a pane is
 		//	added or deleted updates itself accordingly.
 
@@ -124,7 +124,7 @@ dojo.declare(
 );
 
 dojo.declare(
-	"dijit.layout._TabButton", dijit.layout._PageButton,
+	"dijit.layout._TabButton", dijit.layout._StackButton,
 {
 	// summary
 	//	A tab (the thing you click to select a pane).

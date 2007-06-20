@@ -2,11 +2,11 @@ dojo.provide("dijit.layout.AccordionContainer");
 
 dojo.require("dojo.fx");
 
-dojo.require("dijit.layout.PageContainer");
+dojo.require("dijit.layout.StackContainer");
 
 dojo.declare(
 	"dijit.layout.AccordionContainer",
-	[dijit.layout.PageContainer],
+	[dijit.layout.StackContainer],
 	{
 		// summary: 
 		//		Holds a set of panes where every pane's title is visible, but only one pane's content is visible at a time,
@@ -28,7 +28,7 @@ dojo.declare(
 		_verticalSpace: 0,
 
 		startup: function(){
-			dijit.layout.PageContainer.prototype.startup.apply(this, arguments);
+			dijit.layout.StackContainer.prototype.startup.apply(this, arguments);
 			if(this.selectedChildWidget){
 				var style = this.selectedChildWidget.containerNode.style;
 				style.display = "";
