@@ -66,6 +66,11 @@ dojo.declare(
 			return this.valueNode.value;
 		},
 
+		_getValueField:function(){
+			// used for option tag selects
+			return "value";
+		},
+
 		_setValue:function(/*String*/ value, /*String*/ displayedValue){
 			this.valueNode.value = value;
 			dijit.form.FilteringSelect.superclass.setValue.apply(this, arguments);

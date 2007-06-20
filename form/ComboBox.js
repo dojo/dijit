@@ -439,6 +439,10 @@ dojo.declare(
 			// FilteringSelect overrides this method
 		},
 
+		_getValueField:function(){
+			return this.searchAttr;
+		},
+
 		postCreate: function(){
 			// dojo.data code
 			var dpClass=dojo.getObject(this.dataProviderClass, false);
@@ -466,7 +470,7 @@ dojo.declare(
 						this.domNode.removeChild(opts[x]);
 					}
 					// pass store inline data
-					this.data={identifier:"value",items:data};
+					this.data={identifier:this._getValueField(), items:data};
 				}
 				this.store=new dpClass(this);
 			}
@@ -474,9 +478,8 @@ dojo.declare(
 			// if there is no value set and there is an option list,
 			// set the value to the first value to be consistent with native Select
 			if(data&&data.length&&!this.value){
-				this.value=data[0]["value"];
+				this.value=data[0][this._getValueField()];
 			}
-
 			// call the associated Textbox postCreate
 			// ValidationTextbox for ComboBox; MappedTextbox for FilteringSelect
 			this.parentClass=dojo.getObject(this.declaredClass, false).superclass;
