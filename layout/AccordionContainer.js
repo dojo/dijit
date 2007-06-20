@@ -60,6 +60,7 @@ dojo.declare(
 
 		_transition: function(/*Widget?*/newWidget, /*Widget?*/oldWidget){
 //TODO: should be able to replace this with calls to slideIn/slideOut
+			var animations = [];
 			if(newWidget){
 				newWidget.setSelected(true);
 				newWidget.containerNode.style.display = "";
@@ -70,39 +71,35 @@ dojo.declare(
 					}
 				});
 
-				var openAnimation = dojo.animateProperty({ 
+				animations.push(dojo.animateProperty({ 
 					node: newWidget.containerNode, 
 					duration: this.duration,
 					properties: {
 						height: { start: "1", end: paneHeight }
 					},
-					onEnd: function(){ 
+					onEnd: function(){
+console.log("newWidget onEnd");
 						newWidget.containerNode.style.overflow = "auto";
 					}
-				});
+				}));
 			}
 			if(oldWidget){
 				oldWidget.setSelected(false);
 				oldWidget.containerNode.style.overflow = "hidden";
-				var closeAnimation = dojo.animateProperty({ 
-					node: oldWidget.containerNode, 
+				animations.push(dojo.animateProperty({ 
+					node: oldWidget.containerNode,
 					duration: this.duration,
 					properties: {
 						height: { start: paneHeight, end: "1" } 
 					},
 					onEnd: function(){
+console.log("oldWidget onEnd");
 						oldWidget.containerNode.style.display = "none";
 					}
-				});
+				}));
 			}
 
-			var animation = openAnimation;
-			if(openAnimation && closeAnimation){
-				animation = openAnimation.combine([ closeAnimation ]);
-			}else if(closeAnimation){
-				animation = closeAnimation;
-			}
-			animation.play();
+			dojo.fx.combine(animations).play();
 		}
 	}
 );

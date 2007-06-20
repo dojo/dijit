@@ -1,6 +1,7 @@
 dojo.provide("dijit.layout.Dialog");
 
 dojo.require("dojo.dnd.move");
+dojo.require("dojo.fx");
 
 dojo.require("dijit.util.place");
 dojo.require("dijit.util.sniff");
@@ -166,30 +167,34 @@ dojo.declare(
 			this._underlay = new dijit.layout.DialogUnderlay();
 
 			var node = this.domNode;
-			this._fadeIn = dojo.fadeIn({
-				node: node,
-				duration: this._duration
-			}).combine([
-				dojo.fadeIn({
+			this._fadeIn = dojo.fx.combine(
+				[dojo.fadeIn({
+					node: node,
+					duration: this._duration
+				 }),
+				 dojo.fadeIn({
 					node: this._underlay.domNode,
 					duration: this._duration,
 					onBegin: dojo.hitch(this._underlay, "show")
-				})
-			]);
+				 })
+				]
+			);
 
-			this._fadeOut = dojo.fadeOut({
-				node: node,
-				duration: this._duration,
-				onEnd: function(){
-					node.style.display="none";
-				}
-			}).combine([
-				dojo.fadeOut({
+			this._fadeOut = dojo.fx.combine(
+				[dojo.fadeOut({
+					node: node,
+					duration: this._duration,
+					onEnd: function(){
+						node.style.display="none";
+					}
+				 }),
+				 dojo.fadeOut({
 					node: this._underlay.domNode,
 					duration: this._duration,
 					onEnd: dojo.hitch(this._underlay, "hide")
-				})
-			]);
+				 })
+				]
+			);
 		},
 
 		uninitialize: function(){
@@ -204,17 +209,16 @@ dojo.declare(
 			var viewport = dijit.util.getViewport();
 			var mb = dojo.marginBox(this.domNode);
 
-			with(this.domNode.style){
-				left = (viewport.l + (viewport.w - mb.w)/2) + "px";
-				top = (viewport.t + (viewport.h - mb.h)/2) + "px";
-			}
+			var style = this.domNode.style;
+			style.left = (viewport.l + (viewport.w - mb.w)/2) + "px";
+			style.top = (viewport.t + (viewport.h - mb.h)/2) + "px";
 		},
 
 		_onKey: function(/*Event*/ evt){
 			if(evt.keyCode){
 				// see if the key is for the dialog
 				var node = evt.target;
-				while (node != null){
+				while(node){
 					if(node == this.domNode){
 						return; // yes, so just let it go
 					}
@@ -227,7 +231,7 @@ dojo.declare(
 				}else if (!dojo.isOpera){
 					try{
 						this.tabStart.focus();
-					}catch(e){}
+					}catch(e){/*squelch*/}
 				}
 			}
 		},
@@ -261,7 +265,7 @@ dojo.declare(
 			setTimeout(dojo.hitch(this, function(){
 				try{
 					this.titleBar.focus();
-				}catch(e){}
+				}catch(e){/*squelch*/}
 			}), 50);
 		},
 

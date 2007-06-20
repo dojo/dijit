@@ -47,7 +47,10 @@
 				accordion.addChild(content);
 			});
 			accordion.startup();
-			accordion.addChild(new dijit.layout.AccordionPane({title: "pane 4"}));
+			var refNode = document.createElement("span");
+			var title = "pane 4";
+			refNode.innerHTML = "this is " + title;
+			accordion.addChild(new dijit.layout.AccordionPane({title: title}, refNode));
 		}
 
 		dojo.addOnLoad(init);
