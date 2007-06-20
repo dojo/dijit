@@ -30,7 +30,9 @@ dojo.declare(
 		startup: function(){
 			dijit.layout.PageContainer.prototype.startup.apply(this, arguments);
 			if(this.selectedChildWidget){
-				this.selectedChildWidget.containerNode.style.display = "";
+				var style = this.selectedChildWidget.containerNode.style;
+				style.display = "";
+				style.overflow = "auto";
 			}
 		},
 
@@ -61,10 +63,11 @@ dojo.declare(
 		_transition: function(/*Widget?*/newWidget, /*Widget?*/oldWidget){
 //TODO: should be able to replace this with calls to slideIn/slideOut
 			var animations = [];
+			var paneHeight = this._verticalSpace;
 			if(newWidget){
 				newWidget.setSelected(true);
-				newWidget.containerNode.style.display = "";
-				var paneHeight = this._verticalSpace;
+				var newContents = newWidget.containerNode;
+				newContents.style.display = "";
 				dojo.forEach(newWidget.getChildren(), function(widget){
 					if(widget.resize){
 						widget.resize({h: paneHeight});
@@ -72,27 +75,28 @@ dojo.declare(
 				});
 
 				animations.push(dojo.animateProperty({ 
-					node: newWidget.containerNode, 
+					node: newContents, 
 					duration: this.duration,
 					properties: {
 						height: { start: "1", end: paneHeight }
 					},
 					onEnd: function(){
-						newWidget.containerNode.style.overflow = "auto";
+						newContents.style.overflow = "auto";
 					}
 				}));
 			}
 			if(oldWidget){
 				oldWidget.setSelected(false);
-				oldWidget.containerNode.style.overflow = "hidden";
+				var oldContents = oldWidget.containerNode;
+				oldContents.style.overflow = "hidden";
 				animations.push(dojo.animateProperty({ 
-					node: oldWidget.containerNode,
+					node: oldContents,
 					duration: this.duration,
 					properties: {
 						height: { start: paneHeight, end: "1" } 
 					},
 					onEnd: function(){
-						oldWidget.containerNode.style.display = "none";
+						oldContents.style.display = "none";
 					}
 				}));
 			}
