@@ -92,15 +92,19 @@ dojo.declare(
 		closeNode: "",
 
 		_duration: 400,
-
+		
+		_lastFocusItem:null,
+				
 		postCreate: function(){
 			dijit.layout.Dialog.superclass.postCreate.apply(this, arguments);
 			this.domNode.style.display="none";
 		},
 
 		startup: function(){
-			var closeNode = dojo.byId(this.closeNode);
-			this.connect(closeNode, "onclick", "hide");
+			if(this.closeNode){
+				var closeNode = dojo.byId(this.closeNode);
+				this.connect(closeNode, "onclick", "hide");
+			}
 		},
 
 		onLoad: function(){
@@ -108,48 +112,6 @@ dojo.declare(
 			// the dialog after the data is loaded
 			this._position();
 			dijit.layout.Dialog.superclass.onLoad.call(this);
-		},
-
-		_trapTabs: function(/*Event*/ e){
-			// summary: callback on focus
-			if(e.target == this.tabStartOuter){
-				if(this._fromTrap){
-					this.tabStart.focus();
-					this._fromTrap = false;
-				}else{
-					this._fromTrap = true;
-					this.tabEnd.focus();
-				}
-			}else if(e.target == this.tabStart){
-				if(this._fromTrap){
-					this._fromTrap = false;
-				}else{
-					this._fromTrap = true;
-					this.tabEnd.focus();
-				}
-			}else if(e.target == this.tabEndOuter){
-				if(this._fromTrap){
-					this.tabEnd.focus();
-					this._fromTrap = false;
-				}else{
-					this._fromTrap = true;
-					this.tabStart.focus();
-				}
-			}else if(e.target == this.tabEnd){
-				if(this._fromTrap){
-					this._fromTrap = false;
-				}else{
-					this._fromTrap = true;
-					this.tabStart.focus();
-				}
-			}
-		},
-
-		_clearTrap: function(/*Event*/ e){
-			// summary: callback on blur
-			setTimeout(dojo.hitch(this, function(){
-				this._fromTrap = false;
-			}), 100);
 		},
 
 		_setup: function(){
@@ -213,25 +175,52 @@ dojo.declare(
 			style.left = (viewport.l + (viewport.w - mb.w)/2) + "px";
 			style.top = (viewport.t + (viewport.h - mb.h)/2) + "px";
 		},
+		
+		_findLastFocus: function(/*Event*/ evt){
+			// summary:  called from onblur of dialog container to determine the last focusable item 
+			this._lastFocused = evt.target;
+		},
+		
+		_cycleFocus: function(/*Event*/ evt){
+			// summary: when tabEnd receives focus, advance focus around to titleBar
+			
+			// on first focus to tabEnd, store the last focused item in dialog
+			if(!this._lastFocusItem){
+				this._lastFocusItem = this._lastFocused;
+			}
+			this.titleBar.focus();
+		},
 
 		_onKey: function(/*Event*/ evt){
 			if(evt.keyCode){
-				// see if the key is for the dialog
 				var node = evt.target;
-				while(node){
-					if(node == this.domNode){
-						return; // yes, so just let it go
+				// see if we are shift-tabbing from titleBar
+				if(node == this.titleBar && evt.shiftKey && evt.keyCode == dojo.keys.TAB){
+					if (this._lastFocusItem){
+						this._lastFocusItem.focus(); // send focus to last item in dialog if known
 					}
-					node = node.parentNode;
-				}
-				// this key is for the disabled document window
-				if (evt.keyCode != dojo.keys.TAB){ // allow tabbing into the dialog for a11y
 					dojo.stopEvent(evt);
-				// opera won't tab to a div
-				}else if (!dojo.isOpera){
-					try{
-						this.tabStart.focus();
-					}catch(e){/*squelch*/}
+				}else{
+					// see if the key is for the dialog
+					while (node){
+						if(node == this.domNode){
+							if (evt.keyCode == dojo.keys.ESCAPE){
+								this.hide(); 
+							}else{
+								return; // just let it go
+							}
+						}
+						node = node.parentNode;
+					}
+					// this key is for the disabled document window
+					if (evt.keyCode != dojo.keys.TAB){ // allow tabbing into the dialog for a11y
+						dojo.stopEvent(evt);
+					// opera won't tab to a div
+					}else if (!dojo.isOpera){
+						try{
+							this.titleBar.focus();
+						}catch(e){/*squelch*/}
+					}
 				}
 			}
 		},
@@ -251,16 +240,21 @@ dojo.declare(
 
 			this._modalconnects.push(dojo.connect(window, "onscroll", this, "layout"));
 			this._modalconnects.push(dojo.connect(document.documentElement, "onkeypress", this, "_onKey"));
-
+			
+			// IE doesn't bubble onblur events - use ondeactivate instead
+			var ev = typeof(document.ondeactivate) == "object" ? "ondeactivate" : "onblur";
+			this._modalconnects.push(dojo.connect(this.containerNode, ev, this, "_findLastFocus"));
+			
+			
 			dojo.style(this.domNode, "opacity", 0);
 			this.domNode.style.display="block";
 
 			this._position();
 
-			this._fromTrap = false;
-
 			this._fadeIn.play();
-
+			
+			dijit.util.focus.save(this);
+			
 			// set timeout to allow the browser to render dialog
 			setTimeout(dojo.hitch(this, function(){
 				try{
@@ -288,7 +282,8 @@ dojo.declare(
 			}
 			dojo.forEach(this._modalconnects, dojo.disconnect);
 			this._modalconnects = [];
-
+			
+			dijit.util.focus.restore(this);
 		},
 
 		layout: function() {
