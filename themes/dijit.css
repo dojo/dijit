@@ -1053,16 +1053,27 @@ body .dijitAlignClient { position: absolute; }
 
 .dijitInlineEditor {
 	/* span around an inline-editable value when in edit mode */
+	position:relative;
+	vertical-align:bottom;
+}
+.dj_ie .dijitInlineEditor {
+	vertical-align:middle;
 }
 
 .dijitInlineValue {
 	/* span around an inline-editable value when NOT in edit mode */
 }
 
+.dijitInlineEditor .dijitButtonContainer {
+	/* div around the buttons -- makes them float below the field */
+	position:absolute;
+	right:0px;
+	overflow:visible;
+}
 
-
-
-
+.dijitInlineEditor .saveButton,
+.dijitInlineEditor .cancelButton {
+}
 
 /* Tree */
 
