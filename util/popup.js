@@ -15,6 +15,8 @@ dijit.util.popup = new function(){
 	var beginZIndex=1000;
 	var idGen = 1;
 
+	this.duration = 200;
+
 	this.openMouse = function(/*Widget*/widget, /*Event*/ e){
 		// summary:
 		//		Open the widget at mouse position
@@ -55,6 +57,7 @@ dijit.util.popup = new function(){
 		dojo.body().appendChild(wrapper);
 
 		widget.domNode.style.display="";
+		dojo.style(widget.domNode, "opacity", 0);
 		wrapper.appendChild(widget.domNode);
 
 		var iframe = new dijit.util.BackgroundIframe(wrapper);
@@ -71,6 +74,7 @@ dijit.util.popup = new function(){
 		if(widget.onOpen){
 			widget.onOpen();
 		}
+		dojo.fadeIn({ node: widget.domNode, duration: (this.duration/3) }).play();
 
 		return best;
 	};
@@ -79,22 +83,28 @@ dijit.util.popup = new function(){
 		// summary:
 		//		Close popup on the top of the stack (the highest z-index popup)
 		var top = stack.pop();
-		var wrapper = top.wrapper,
-			iframe = top.iframe,
-			widget = top.widget;
+		var wrapper = top.wrapper;
+		var iframe = top.iframe;
+		var widget = top.widget;
 		// #2685: check if the widget still has a domNode so ContentPane can change its URL without getting an error
 		if(!widget||!widget.domNode){ return; }
-		dojo.style(widget.domNode, "display", "none");
-		iframe.remove();
-		wrapper.parentNode.removeChild(wrapper);
+		dojo.fadeOut({
+			node: widget.domNode,
+			duration: this.duration,
+			onEnd: function(){
+				dojo.style(widget.domNode, "display", "none");
+				iframe.remove();
+				wrapper.parentNode.removeChild(wrapper);
 
-		if(widget.onClose){
-			widget.onClose();
-		}
+				if(widget.onClose){
+					widget.onClose();
+				}
 
-		if(stack.length == 0){
-			this._afterTopClose(widget);
-		}
+				if(stack.length == 0){
+					dijit.util.popup._afterTopClose(widget);
+				}
+			}
+		}).play();
 	};
 
 	this.closeAll = function(){
