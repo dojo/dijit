@@ -439,14 +439,6 @@ dojo.declare(
 			// FilteringSelect overrides this method
 		},
 
-		_getValueField: function(){
-			// summary
-			//	Get the field that contains the form submit value
-			//	ComboBox: this.searchAttr
-			//	FilteredSelect: this.keyAttr
-			return this.searchAttr;
-		},
-
 		postCreate: function(){
 			// dojo.data code
 			var dpClass=dojo.getObject(this.dataProviderClass, false);
@@ -474,7 +466,7 @@ dojo.declare(
 						this.domNode.removeChild(opts[x]);
 					}
 					// pass store inline data
-					this.data={items:data};
+					this.data={identifier:"value",items:data};
 				}
 				this.store=new dpClass(this);
 			}
@@ -482,7 +474,7 @@ dojo.declare(
 			// if there is no value set and there is an option list,
 			// set the value to the first value to be consistent with native Select
 			if(data&&data.length&&!this.value){
-				this.value=data[0][this._getValueField()];
+				this.value=data[0]["value"];
 			}
 
 			// call the associated Textbox postCreate

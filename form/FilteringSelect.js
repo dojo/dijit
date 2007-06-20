@@ -33,11 +33,6 @@ dojo.declare(
 		//		"html" or "text"
 		labelType: "text",
 
-		// keyAttr: String
-		//		The field of the selected item that the client should send to the server on submit.
-		//		If left blank, FilteringSelect will load the identifier from the data as the submission field.
-		keyAttr: "",
-
 		_isvalid:true,
 
 		isValid:function(){
@@ -76,41 +71,24 @@ dojo.declare(
 			dijit.form.FilteringSelect.superclass.setValue.apply(this, arguments);
 		},
 
-		getIdentity:function(/*item*/ item, /*dojo.data.store*/ store){
-			return this.keyAttr ? store.getValue(item, this.keyAttr): store.getIdentity(item);
-		},
-
 		setValue: function(/*String*/ value){
 			// summary
 			//	Sets the value of the select.
 			//	Also sets the label to the corresponding value by reverse lookup.
 
 			//#3347: getItemByIdentity if no keyAttr specified
-			if(!this.keyAttr){
-				var item=this.store.getItemByIdentity(value);
-				if(item){this._callbackSetLabel([item]);}
-				else{
-					this._isvalid=false;
-					// prevent errors from Tooltip not being created yet
-					this.validate(false);
+			var item=this.store.getItemByIdentity(value);
+			if(item){
+				if(this.store.isItemLoaded(item)){
+					this._callbackSetLabel([item]);
+				}else{
+					this.store.loadItem({item:item, onItem: this._callbackSetLabel});
 				}
+			}else{
+				this._isvalid=false;
+				// prevent errors from Tooltip not being created yet
+				this.validate(false);
 			}
-			else{
-				// basic fetch when user specifies keyAttr
-				// Defect #1451: set the label by reverse lookup
-				var query={};
-				query[this.keyAttr]=value;
-				// use case sensitivity for the hidden value
-				this.store.fetch({queryOptions:{ignoreCase:false}, query:query, onComplete:dojo.hitch(this, "_callbackSetLabel")});
-			}
-		},
-
-		_getValueField: function(){
-			// summary
-			//	Get the field that contains the form submit value
-			//	ComboBox: this.searchAttr
-			//	FilteredSelect: this.keyAttr
-			return this.keyAttr;
 		},
 
 		_setValueFromItem: function(/*item*/ item){
@@ -118,7 +96,7 @@ dojo.declare(
 			//	Set the displayed valued in the input box, based on a selected item.
 			//	Users shouldn't call this function; they should be calling setDisplayedValue() instead
 			this._isvalid=true;
-			this._setValue(this.getIdentity(item, this.store), this.labelFunc(item, this.store));
+			this._setValue(this.store.getIdentity(item), this.labelFunc(item, this.store));
 		},
 
 		labelFunc: function(/*item*/ item, /*dojo.data.store*/ store){
@@ -155,8 +133,7 @@ dojo.declare(
 			// summary:
 			// 	Overrides ComboBox._assignHiddenValue for creating a data store from an options list.
 			// 	Takes the <option value="CA"> and makes the CA the hidden value of the item.
-			if(!this.keyAttr){this.keyAttr="value";}
-			keyValArr[this.keyAttr]=option.value;
+			keyValArr["value"]=option.value;
 		},
 
 		_doSelect: function(/*Event*/ tgt){
