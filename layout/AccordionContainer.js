@@ -78,7 +78,6 @@ dojo.declare(
 						height: { start: "1", end: paneHeight }
 					},
 					onEnd: function(){
-console.log("newWidget onEnd");
 						newWidget.containerNode.style.overflow = "auto";
 					}
 				}));
@@ -93,7 +92,6 @@ console.log("newWidget onEnd");
 						height: { start: paneHeight, end: "1" } 
 					},
 					onEnd: function(){
-console.log("oldWidget onEnd");
 						oldWidget.containerNode.style.display = "none";
 					}
 				}));
