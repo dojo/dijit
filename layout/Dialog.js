@@ -10,7 +10,7 @@ dojo.require("dijit.base.TemplatedWidget");
 
 dojo.declare(
 	"dijit.layout.DialogUnderlay",
-	[dijit.base.Widget, dijit.base.TemplatedWidget, dijit.base.Layout],
+	[dijit.base.Widget, dijit.base.TemplatedWidget],
 	{
 		// summary: the thing that grays out the screen behind the dialog
 		

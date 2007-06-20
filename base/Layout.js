@@ -2,13 +2,47 @@ dojo.provide("dijit.base.Layout");
 
 dojo.require("dijit.base.Container");
 
-dojo.declare("dijit.base.Sizable",
-	null,
+dojo.declare("dijit.base.Layout",
+	[dijit.base.Container, dijit.base.Contained],
 	{
 		// summary
-		//		Helper mixin for widgets that can have their size adjusted,
-		//		and that need to do some processing when their size changes (like SplitContainer)
+		//		Mixin for widgets that contain a list of children like SplitContainer.
+		//		Widgets which mixin this code must define layout() to lay out the children
 
+		isLayoutContainer: true,
+
+		startup: function(){
+			// summary:
+			//		Called after all the widgets have been instantiated and their
+			//		dom nodes have been inserted somewhere under document.body.
+			//
+			//		Widgets should override this method to do any initialization
+			//		dependent on other widgets existing, and then call
+			//		this superclass method to finish things off.
+			//
+			//		startup() in subclasses shouldn't do anything
+			//		size related because the size of the widget hasn't been set yet.
+
+			if(this._started){
+				return;
+			}
+			this._started=true;
+
+			if(this.getChildren){
+				dojo.forEach(this.getChildren(), function(child){ child.startup(); });
+			}
+
+			// If I am a top level widget
+			if(!this.getParent || !this.getParent()){
+				// Do recursive sizing and layout of all my descendants
+				this.resize();
+
+				// since my parent isn't a layout container, and my style is width=height=100% (or something similar),
+				// then I need to watch when the window resizes, and size myself accordingly
+				this.connect(window, 'onresize', "resize");
+			}
+		},
+		
 		resize: function(mb){
 			// summary:
 			//		Explicitly set this widget's size (in pixels),
@@ -47,49 +81,6 @@ dojo.declare("dijit.base.Sizable",
 			//
 			//		This is called after startup(), and also when the widget's size has been
 			//		changed.
-		}
-	}
-);
-
-dojo.declare("dijit.base.Layout",
-	[dijit.base.Sizable, dijit.base.Container, dijit.base.Contained],
-	{
-		// summary
-		//		Mixin for widgets that contain a list of children like SplitContainer.
-		//		Widgets which mixin this code must define layout() to lay out the children
-
-		isLayoutContainer: true,
-
-		startup: function(){
-			// summary:
-			//		Called after all the widgets have been instantiated and their
-			//		dom nodes have been inserted somewhere under document.body.
-			//
-			//		Widgets should override this method to do any initialization
-			//		dependent on other widgets existing, and then call
-			//		this superclass method to finish things off.
-			//
-			//		startup() in subclasses shouldn't do anything
-			//		size related because the size of the widget hasn't been set yet.
-
-			if(this._started){
-				return;
-			}
-			this._started=true;
-
-			if(this.getChildren){
-				dojo.forEach(this.getChildren(), function(child){ child.startup(); });
-			}
-
-			// If I am a top level widget
-			if(!this.getParent || !this.getParent()){
-				// Do recursive sizing and layout of all my descendants
-				this.resize();
-
-				// since my parent isn't a layout container, and my style is width=height=100% (or something similar),
-				// then I need to watch when the window resizes, and size myself accordingly
-				this.connect(window, 'onresize', "resize");
-			}
 		}
 	}
 );
