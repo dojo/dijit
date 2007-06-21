@@ -1,15 +1,15 @@
 <table cellspacing="0" cellpadding="0" class="calendarContainer">
 	<thead>
 		<tr class="dijitReset calendarMonthContainer" valign="top">
-			<th class='dijitReset'>
-				<span dojoAttachPoint="monthDecrease" dojoAttachEvent="onclick: _onDecrementMonth;" class="dijitDownArrow calendarMonthDecrement calendarIncrementControl calendarDecrease">-</span>
+			<th class='dijitReset' dojoAttachEvent="onclick: _onDecrementMonth;">
+				<span class="dijitA11yLeftArrow calendarIncrementControl calendarDecrease">&#9668;</span>
 			</th>
 			<th class='dijitReset' colspan="5">
 				<div dojoAttachPoint="monthLabelSpacer" class="calendarMonthLabelSpacer"></div>
 				<div dojoAttachPoint="monthLabelNode" class="calendarMonth"></div>
 			</th>
-			<th class='dijitReset'>
-				<span dojoAttachPoint="monthIncrease" dojoAttachEvent="onclick: _onIncrementMonth;" class="dijitUpArrow calendarMonthIncrement calendarIncrementControl calendarIncrease">+</span>
+			<th class='dijitReset' dojoAttachEvent="onclick: _onIncrementMonth;">
+				<span class="dijitA11yRightArrow calendarIncrementControl calendarIncrease">&#9658;</span>
 			</th>
 		</tr>
 		<tr>
