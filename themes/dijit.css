@@ -1110,6 +1110,7 @@ body .dijitAlignClient { position: absolute; }
 .dijitDialog {
 	position: absolute;
 	z-index: 999;
+	padding: 1px;
 }
 
 .dijitDialogUnderlayWrapper {
