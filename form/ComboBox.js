@@ -398,9 +398,6 @@ dojo.declare(
 				this._setSelectedRange(this.focusNode, 0, null);
 			}
 			this.focus();
-			if(this._popupWidget.domNode.style.display!="none"){
-				dijit.util.popup.close(this._popupWidget);
-			}
 		},
 
 		_doSelect: function(tgt){
