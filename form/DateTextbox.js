@@ -20,7 +20,7 @@ dojo.declare(
 		format: dojo.date.locale.format,
 		parse: dojo.date.locale.parse,
 		value: new Date(),
-		_popupClass:"dijit._Calendar",
+		_popupClass: "dijit._Calendar",
 
 		postMixInProperties: function(){
 			this.constraints.selector = 'date';
@@ -42,41 +42,39 @@ dojo.declare(
 			return dojo.date.stamp.toISOString(date, 'date'); // String
 		},
 
-		setValue:function(/*Date*/date){
+		setValue: function(/*Date*/date){
 			// summary:
 			//	Sets the date on this textbox
 
-			if(!this._popupWidget||!this._popupWidget.onValueSelected){
+			if(!this._popupWidget || !this._popupWidget.onValueSelected){
 				dijit.form.DateTextbox.superclass.setValue.apply(this, arguments);
 			}else{
 				this._popupWidget.setValue(date);
 			}
 		},
 
-		open:function(){
+		open: function(){
 			// summary:
 			//	opens the Calendar, and sets the onValueSelected for the Calendar
-			this._popupWidget.constraints=this.constraints;
-			this._popupWidget.setValue(this.getValue());
-			this._popupWidget.onValueSelected=dojo.hitch(this, this._calendarOnValueSelected);
+			this._popupWidget.constraints = this.constraints;
+			this._popupWidget.setValue(this.getValue() || new Date());
+			this._popupWidget.onValueSelected = dojo.hitch(this, this._calendarOnValueSelected);
 			return dijit.form._DropDownTextBox.prototype.open.apply(this, arguments);
 		},
 
-		postCreate:function(){
+		postCreate: function(){
 			dijit.form.DateTextbox.superclass.postCreate.apply(this, arguments);
 			this._popupArgs={
-				// #3000: set popupArgs here so Calendar gets the widget's lang, not the user's lang
-				lang:this.lang,
-
-				isDisabledDate:function(/*Date*/ date){
+				lang: this.lang,
+				isDisabledDate: function(/*Date*/ date){
 					// summary:
 					// 	disables dates outside of the min/max of the DateTextbox
-					return(this.constraints!=null&&(dojo.date.compare(this.constraints.min,date)>0||dojo.date.compare(this.constraints.max,date)<0));
+					return this.constraints && (dojo.date.compare(this.constraints.min,date) > 0 || dojo.date.compare(this.constraints.max,date) < 0);
 				}
 			};
 		},
 
-		_calendarOnValueSelected:function(value){
+		_calendarOnValueSelected: function(value){
 			// summary: taps into the popup Calendar onValueSelected
 			dijit.form.DateTextbox.superclass.setValue.apply(this, arguments);
 			this._hideResultList();

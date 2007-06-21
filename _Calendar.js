@@ -42,15 +42,17 @@ dojo.declare(
 		dayWidth: "narrow",
 
 		setValue: function(/*Date*/ value){
-			//summary: set the current date and update the UI
+			// summary: set the current date and update the UI.  If the date is disabled, the selection will
+			//	not change, but the display will change to the corresponding month.
 			if(!this.value || dojo.date.compare(value, this.value)){
 				value = new Date(value);
-				if(this.isDisabledDate(value, this.lang)){return;}
-				this.value = value;
-				this.value.setHours(0,0,0,0);
-				this.displayMonth = new Date(this.value);
+				this.displayMonth = new Date(value);
+				if(!this.isDisabledDate(value, this.lang)){
+					this.value = value;
+					this.value.setHours(0,0,0,0);
+					this.onValueChanged(this.value);
+				}
 				this._populateGrid();
-				this.onValueChanged(this.value);
 			}
 		},
 
