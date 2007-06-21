@@ -39,10 +39,15 @@ dojo.declare(
 			return this._isvalid;
 		},
 
-		_callbackSetLabel: function(/*Array*/ result){
+		_callbackSetLabel: function(/*Array*/ result, /*Object*/ dataObject){
 			// summary
 			//	Callback function that dynamically sets the label of the ComboBox
 
+			// setValue does a synchronous lookup,
+			// so it calls _callbackSetLabel directly, 
+			// and so does not pass dataObject
+			// dataObject==null means do not test the lastQuery, just continue
+			if(dataObject&&dataObject.query[this.searchAttr]!=this._lastQuery){return;}
 			if(!result.length){
 				//#3268: do nothing on bad input
 				//this._setValue("", "");
@@ -54,8 +59,9 @@ dojo.declare(
 			}
 		},
 
-		_openResultList: function(/*Object*/ results){
+		_openResultList: function(/*Object*/ results, /*Object*/ dataObject){
 			// #3285: tap into search callback to see if user's query resembles a match
+			if(dataObject.query[this.searchAttr]!=this._lastQuery){return;}
 			this._isvalid=results.length!=0;
 			this.validate(true);
 			dijit.form.ComboBoxMixin.prototype._openResultList.apply(this, arguments);
@@ -154,13 +160,14 @@ dojo.declare(
 			//	Set textbox to display label
 			//	Also performs reverse lookup to set the hidden value
 			//	Used in InlineEditBox
-			var query=[];
-			query[this.searchAttr]=label;
-			// if the label is not valid, the callback will never set it,
-			// so the last valid value will get the warning textbox
-			// set the textbox value now so that the impending warning will make sense to the user
-			this.textbox.value=label;
+
 			if(this.store){
+				var query={};
+				this._lastQuery=query[this.searchAttr]=label;
+				// if the label is not valid, the callback will never set it,
+				// so the last valid value will get the warning textbox
+				// set the textbox value now so that the impending warning will make sense to the user
+				this.textbox.value=label;
 				this.store.fetch({query:query, queryOptions:{ignoreCase:this.ignoreCase}, onComplete: dojo.hitch(this, this._callbackSetLabel)});
 			}
 		}

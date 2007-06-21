@@ -277,9 +277,8 @@ dojo.declare(
 					// visually highlight the autocompleted characters
 					this._setSelectedRange(this.focusNode, cpos, this.focusNode.value.length);
 				}
-			}
-			// text does not autoComplete; replace the whole value and highlight
-			else{
+			}else{
+				// text does not autoComplete; replace the whole value and highlight
 				this.focusNode.value = text;
 				this._setSelectedRange(this.focusNode, 0, this.focusNode.value.length);
 			}
@@ -287,8 +286,8 @@ dojo.declare(
 			dijit.util.wai.setAttr(this.focusNode || this.domNode, "waiState", "valuenow", text);
 		},
 
-		_openResultList: function(/*Object*/ results){
-			if(this.disabled){
+		_openResultList: function(/*Object*/ results, /*Object*/ dataObject){
+			if(this.disabled||dataObject.query[this.searchAttr]!=this._lastQuery){
 				return;
 			}
 			this._popupWidget.clearResultList();
@@ -306,7 +305,11 @@ dojo.declare(
 			var zerothvalue=new String(this.store.getValue(results[0], this.searchAttr));
 			if(zerothvalue&&(this.autoComplete)&&
 			(!this._prev_key_backspace)&&
-			(this.focusNode.value.length > 0)){
+			// when the user clicks the arrow button to show the full list,
+			// startSearch looks for "*".
+			// it does not make sense to autocomplete
+			// if they are just previewing the options available.
+			(dataObject.query[this.searchAttr]!="*")){
 				this._autoCompleteText(zerothvalue);
 			}
 			// #2309: iterate over cache nondestructively
@@ -428,7 +431,7 @@ dojo.declare(
 			this.makePopup();
 			// create a new query to prevent accidentally querying for a hidden value from FilteringSelect's keyField
 			var query={};
-			query[this.searchAttr]=key+"*";
+			this._lastQuery=query[this.searchAttr]=key+"*";
 			// no need to page; no point in caching the return object
 			this.store.fetch({queryOptions:{ignoreCase:this.ignoreCase}, query: query, onComplete:dojo.hitch(this, "_openResultList"), count:this.searchLimit});
 		},
@@ -503,11 +506,11 @@ dojo.declare(
 // I'd like the interface to ComboBoxMenu to be higher level,
 // taking a list of items to initialize it, and returns the selected item
 //
-//                new _ComboBoxMenu({
-//                                 items: /*dojo.data.Item[]*/ items,
-//                                 labelFunc: dojo.hitc(this, "_makeLabel"),
-//                                 onSelectItem: dojo.hitch(this, "_itemSelected")
-//               });
+//		new _ComboBoxMenu({
+//			items: /*dojo.data.Item[]*/ items,
+//			labelFunc: dojo.hitc(this, "_makeLabel"),
+//			onSelectItem: dojo.hitch(this, "_itemSelected")
+//		});
 //
 // (This is dependent on NOT having a global widget for this, but rather
 // creating it on the fly, as per discussion with Bill, Adam, and Mark)
