@@ -1,13 +1,13 @@
 dojo.provide("dijit.layout.StackContainer");
 
-dojo.require("dijit.base.Widget");
 dojo.require("dijit.base.TemplatedWidget");
 dojo.require("dijit.layout._LayoutWidget");
 dojo.require("dijit.form.Button");
 
 dojo.declare(
 	"dijit.layout.StackContainer",
-	[dijit.base.Widget, dijit.base.TemplatedWidget, dijit.layout._LayoutWidget],
+	dijit.layout._LayoutWidget,
+
 	// summary
 	//	A container that has multiple children, but shows only
 	//	one child at a time (like looking at the pages in a book one by one).
@@ -19,8 +19,6 @@ dojo.declare(
 	// doLayout: Boolean
 	//  if true, change the size of my currently displayed child to match my size
 	doLayout: true,
-
-	templateString: "<div dojoAttachPoint='containerNode'></div>",
 
 	_started: false,
 
@@ -194,7 +192,7 @@ dojo.declare(
 
 dojo.declare(
 	"dijit.layout.StackController",
-	[dijit.base.Widget, dijit.base.TemplatedWidget, dijit.base.Container ],
+	[dijit.base.Widget, dijit.base.TemplatedWidget, dijit.base.Container],
 	{
 		// summary
 		//	Set of buttons to select a page in a page list.
@@ -331,7 +329,7 @@ dojo.declare(
 
 dojo.declare(
 	"dijit.layout._StackButton",
-	[dijit.form.ToggleButton],
+	dijit.form.ToggleButton,
 {
 	// summary
 	//	Internal widget used by StackContainer.

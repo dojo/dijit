@@ -1,11 +1,10 @@
 dojo.provide("dijit.layout.LayoutContainer");
 
-dojo.require("dijit.base.Widget");
 dojo.require("dijit.layout._LayoutWidget");
 
 dojo.declare(
 	"dijit.layout.LayoutContainer",
-	[dijit.base.Widget, dijit.layout._LayoutWidget],
+	dijit.layout._LayoutWidget,
 {
 	// summary
 	//	Provides Delphi-style panel layout semantics.

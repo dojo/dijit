@@ -6,7 +6,7 @@ dojo.require("dijit.layout.StackContainer");
 
 dojo.declare(
 	"dijit.layout.AccordionContainer",
-	[dijit.layout.StackContainer],
+	dijit.layout.StackContainer,
 	{
 		// summary: 
 		//		Holds a set of panes where every pane's title is visible, but only one pane's content is visible at a time,
@@ -108,8 +108,7 @@ dojo.declare(
 
 dojo.declare(
 	"dijit.layout.AccordionPane",
-	[dijit.base.Widget, dijit.base.TemplatedWidget,
-	  dijit.layout._LayoutWidget],
+	[dijit.layout._LayoutWidget, dijit.base.TemplatedWidget],
 {
 	// summary
 	//		AccordionPane is a box with a title that contains another widget (often a ContentPane).

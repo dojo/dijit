@@ -7,12 +7,11 @@ dojo.provide("dijit.layout.SplitContainer");
 //
 
 dojo.require("dojo.cookie");
-dojo.require("dijit.base.Widget");
 dojo.require("dijit.layout._LayoutWidget");
 
 dojo.declare(
 	"dijit.layout.SplitContainer",
-	[dijit.base.Widget, dijit.layout._LayoutWidget],
+	dijit.layout._LayoutWidget,
 {
 	// summary
 	//		Contains multiple children widgets, all of which are displayed side by side

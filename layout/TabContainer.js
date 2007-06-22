@@ -1,11 +1,11 @@
 dojo.provide("dijit.layout.TabContainer");
 
 dojo.require("dijit.layout.StackContainer");
-dojo.require("dijit.layout._LayoutWidget");
+dojo.require("dijit.base.TemplatedWidget");
 
 dojo.declare(
 	"dijit.layout.TabContainer",
-	dijit.layout.StackContainer,
+	[dijit.layout.StackContainer, dijit.base.TemplatedWidget],
 {
 	// summary
 	//	A TabContainer is a container that has multiple panes, but shows only

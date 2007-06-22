@@ -1,9 +1,10 @@
 dojo.provide("dijit.layout._LayoutWidget");
 
+dojo.require("dijit.base.Widget");
 dojo.require("dijit.base.Container");
 
 dojo.declare("dijit.layout._LayoutWidget",
-	[dijit.base.Container, dijit.base.Contained],
+	[dijit.base.Widget, dijit.base.Container, dijit.base.Contained],
 	{
 		// summary
 		//		Mixin for widgets that contain a list of children like SplitContainer.
@@ -190,7 +191,7 @@ dijit.layout.layoutChildren = function(/*DomNode*/ container, /*Object*/ dim, /*
 			var w = dojo.marginBox(elm).w;
 
 			// TODO: this zero stuff shouldn't be necessary anymore
-			var hasZero = dijit.layout._LayoutWidget._sizeChild(child, elm, w, dim.h);
+			var hasZero = dijit.layout._sizeChild(child, elm, w, dim.h);
 			if(hasZero){
 				ret = false;
 			}
@@ -202,7 +203,7 @@ dijit.layout.layoutChildren = function(/*DomNode*/ container, /*Object*/ dim, /*
 			}
 		} else if(pos=="flood" || pos=="client"){
 			// #1635 - filter for zero dimensions (see below)
-			var hasZero = dijit.layout._LayoutWidget._sizeChild(child, elm, dim.w, dim.h);
+			var hasZero = dijit.layout._sizeChild(child, elm, dim.w, dim.h);
 			if(hasZero){
 				ret = false;
 			}
@@ -211,7 +212,7 @@ dijit.layout.layoutChildren = function(/*DomNode*/ container, /*Object*/ dim, /*
 	return ret;
 };
 
-dijit.layout._LayoutWidget._sizeChild = function (child, elm, w, h){
+dijit.layout._sizeChild = function (child, elm, w, h){
 	// Note: zero dimensions can occur if we are called before the browser
 	// don't allow such values for width and height, let the browser adjust the
 	// layout itself when it reflows and report if any dimension is zero
