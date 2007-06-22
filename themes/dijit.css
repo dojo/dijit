@@ -825,9 +825,29 @@ body .dijitAlignClient { position: absolute; }
 }
 
 .dijitAccordionPane .title .arrow {
-	float:right;
+	float: right;
 }
 
+/* images off, high-contrast mode styles */
+.dijitAccordionPane .title .arrowTextUp,
+.dijitAccordionPane .title .arrowTextDown {
+	display: none; 
+	float: right;
+	font-size: 0.65em; 
+	font-weight: normal !important;
+}
+
+.dijit_a11y .dijitAccordionPane .title .arrowTextUp { 
+	display: inline; 
+}
+
+.dijit_a11y .dijitAccordionPane-selected .title .arrowTextDown {
+	display: inline; 
+}
+
+.dijit_a11y .dijitAccordionPane-selected .title .arrowTextUp {
+	display: none; 
+}
 
 /* Calendar */
 
