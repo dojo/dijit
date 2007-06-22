@@ -5,7 +5,6 @@ dojo.require("dijit.util.wai");
 dojo.require("dojo.data.JsonItemStore");
 dojo.require("dijit.form._DropDownTextBox");
 dojo.require("dijit.form.ValidationTextbox");
-dojo.require("dijit.base.TemplatedWidget");
 
 dojo.declare(
 	"dijit.form.ComboBoxMixin",
@@ -497,7 +496,7 @@ dojo.declare(
 
 dojo.declare(
 	"dijit.form._ComboBoxMenu",
-	[dijit.form._FormWidget, dijit.base.TemplatedWidget],
+	dijit.form._FormWidget,
 
 // Bill:
 // I'd like the interface to ComboBoxMenu to be higher level,

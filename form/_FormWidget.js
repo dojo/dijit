@@ -1,10 +1,11 @@
 dojo.provide("dijit.form._FormWidget");
 
 dojo.require("dijit.base.Widget");
+dojo.require("dijit.base.TemplatedWidget");
 dojo.require("dijit.util.sniff");
 dojo.require("dijit.util.wai");
 
-dojo.declare("dijit.form._FormWidget", dijit.base.Widget,
+dojo.declare("dijit.form._FormWidget", [dijit.base.Widget, dijit.base.TemplatedWidget],
 {
 	/*
 	Summary:
@@ -17,14 +18,11 @@ dojo.declare("dijit.form._FormWidget", dijit.base.Widget,
 		You can set them during widget construction, but after that they are read only.
 
 		They also share some common methods.
-
-	TODO:
-		should this be a mixin or a base class?
 	*/
 
 	// baseClass: String
 	//		Used to add CSS classes like FormElementDisabled
-	// TODO: remove this in favor of this.domNode.baseClass
+	// TODO: remove this in favor of this.domNode.baseClass?
 	baseClass: "",
 
 	// value: String

@@ -1,11 +1,10 @@
 dojo.provide("dijit.form.Button");
 
 dojo.require("dijit.form._FormWidget");
-dojo.require("dijit.base.TemplatedWidget");
 
 dojo.declare(
 	"dijit.form.Button",
-	[dijit.form._FormWidget, dijit.base.TemplatedWidget],
+	dijit.form._FormWidget,
 	{
 /*
  * usage
@@ -156,7 +155,7 @@ dojo.declare(
 
 dojo.declare(
 	"dijit.form.ToggleButton",
-	[dijit.form.Button],
+	dijit.form.Button,
 {
 	// summary
 	//	A button that can be in two states (selected or not).
