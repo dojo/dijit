@@ -8,8 +8,8 @@ dojo.require("dijit.util.focus");
 dojo.require("dijit.util.popup");
 dojo.require("dijit.util.place");
 
-dojo.require("dijit.base.Widget");
-dojo.require("dijit.base.TemplatedWidget");
-dojo.require("dijit.base.Container");
+dojo.require("dijit._Widget");
+dojo.require("dijit._Templated");
+dojo.require("dijit._Container");
 dojo.require("dijit.layout._LayoutWidget");
 dojo.require("dijit.form._FormWidget");

@@ -3,13 +3,13 @@ dojo.provide("dijit.ProgressBar");
 dojo.require("dojo.fx");
 dojo.require("dojo.number");
 
-dojo.require("dijit.base.Widget");
-dojo.require("dijit.base.TemplatedWidget");
+dojo.require("dijit._Widget");
+dojo.require("dijit._Templated");
 dojo.require("dijit.util.sniff");
 
 dojo.declare(
 	"dijit.ProgressBar",
-	[dijit.base.Widget, dijit.base.TemplatedWidget],
+	[dijit._Widget, dijit._Templated],
 	null,
 	{
 		// summary:

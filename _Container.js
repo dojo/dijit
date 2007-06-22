@@ -1,8 +1,8 @@
-dojo.provide("dijit.base.Container");
+dojo.provide("dijit._Container");
 
 dojo.require("dijit.util.manager");
 
-dojo.declare("dijit.base.Contained",
+dojo.declare("dijit._Contained",
 	null,
 	{
 		// summary
@@ -48,7 +48,7 @@ dojo.declare("dijit.base.Contained",
 	}
 );
 
-dojo.declare("dijit.base.Container",
+dojo.declare("dijit._Container",
 	null,
 	{
 		// summary

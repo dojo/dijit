@@ -1,11 +1,11 @@
 dojo.provide("dijit.form._FormWidget");
 
-dojo.require("dijit.base.Widget");
-dojo.require("dijit.base.TemplatedWidget");
+dojo.require("dijit._Widget");
+dojo.require("dijit._Templated");
 dojo.require("dijit.util.sniff");
 dojo.require("dijit.util.wai");
 
-dojo.declare("dijit.form._FormWidget", [dijit.base.Widget, dijit.base.TemplatedWidget],
+dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 {
 	/*
 	Summary:

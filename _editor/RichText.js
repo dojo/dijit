@@ -1,5 +1,5 @@
 dojo.provide("dijit._editor.RichText");
-dojo.require("dijit.base.Widget");
+dojo.require("dijit._Widget");
 dojo.require("dijit._editor.selection");
 
 // dojo.require("dojo.html.layout");
@@ -35,7 +35,7 @@ if(!djConfig["useXDomain"] || djConfig["allowXdRichTextSave"]){
 }
 dojo.declare(
 	"dijit._editor.RichText",
-	[ dijit.base.Widget ], null,
+	[ dijit._Widget ], null,
 	{
 		preamble: function(){
 			// summary:

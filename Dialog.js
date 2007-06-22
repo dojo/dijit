@@ -7,11 +7,11 @@ dojo.require("dijit.util.place");
 dojo.require("dijit.util.sniff");
 dojo.require("dijit.util.popup");			// for BackgroundIFrame
 dojo.require("dijit.layout.ContentPane");
-dojo.require("dijit.base.TemplatedWidget");
+dojo.require("dijit._Templated");
 
 dojo.declare(
 	"dijit.DialogUnderlay",
-	[dijit.base.Widget, dijit.base.TemplatedWidget],
+	[dijit._Widget, dijit._Templated],
 	{
 		// summary: the thing that grays out the screen behind the dialog
 		
@@ -74,7 +74,7 @@ dojo.declare(
 	
 dojo.declare(
 	"dijit.Dialog",
-	[dijit.layout.ContentPane, dijit.base.TemplatedWidget],
+	[dijit.layout.ContentPane, dijit._Templated],
 	{
 		// summary:
 		//		Pops up a modal dialog window, blocking access to the screen
@@ -297,7 +297,7 @@ dojo.declare(
 	
 dojo.declare(
 	"dijit.layout.TooltipDialog",
-	[dijit.layout.ContentPane, dijit.base.TemplatedWidget],
+	[dijit.layout.ContentPane, dijit._Templated],
 	{
 		// summary:
 		//		Pops up a dialog that appears like a Tooltip

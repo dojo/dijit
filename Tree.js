@@ -2,14 +2,14 @@ dojo.provide("dijit.Tree");
 
 dojo.require("dojo.fx");
 
-dojo.require("dijit.base.Widget");
-dojo.require("dijit.base.TemplatedWidget");
-dojo.require("dijit.base.Container");
+dojo.require("dijit._Widget");
+dojo.require("dijit._Templated");
+dojo.require("dijit._Container");
 dojo.require("dijit._tree.Controller");
 
 dojo.declare(
 	"dijit._TreeBase",
-	[dijit.base.Widget, dijit.base.TemplatedWidget, dijit.base.Container, dijit.base.Contained],
+	[dijit._Widget, dijit._Templated, dijit._Container, dijit._Contained],
 {
 	// summary:
 	//	Base class for Tree and _TreeNode
@@ -192,7 +192,7 @@ dojo.declare(
 		// publish destruction event so that any listeners should stop listening
 		this._publish("beforeTreeDestroy");
 
-		return dijit.base.Widget.prototype.destroy.apply(this, arguments);
+		return dijit._Widget.prototype.destroy.apply(this, arguments);
 	},
 
 	toString: function(){

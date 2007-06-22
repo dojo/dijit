@@ -1,8 +1,8 @@
 dojo.provide("dijit.Menu");
 
-dojo.require("dijit.base.Widget");
-dojo.require("dijit.base.Container");
-dojo.require("dijit.base.TemplatedWidget");
+dojo.require("dijit._Widget");
+dojo.require("dijit._Container");
+dojo.require("dijit._Templated");
 dojo.require("dijit.util.popup");
 dojo.require("dijit.util.scroll");
 dojo.require("dijit.util.window");
@@ -10,7 +10,7 @@ dojo.require("dijit.util.sniff");
 
 dojo.declare(
 	"dijit.PopupMenu",
-	[dijit.base.Widget, dijit.base.TemplatedWidget, dijit.base.Container],
+	[dijit._Widget, dijit._Templated, dijit._Container],
 {
 	templateString:
 		'<div class="dijit dijitMenu">' +
@@ -360,7 +360,7 @@ dojo.declare(
 
 dojo.declare(
 	"dijit.MenuItem",
-	[dijit.base.Widget, dijit.base.TemplatedWidget, dijit.base.Contained],
+	[dijit._Widget, dijit._Templated, dijit._Contained],
 {
 	// summary
 	//	A line item in a Menu2
@@ -460,7 +460,7 @@ dojo.declare(
 
 dojo.declare(
 	"dijit.MenuSeparator",
-	[dijit.base.Widget, dijit.base.TemplatedWidget, dijit.base.Contained],
+	[dijit._Widget, dijit._Templated, dijit._Contained],
 {
 	// summary
 	//	A line between two menu items

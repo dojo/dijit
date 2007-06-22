@@ -108,7 +108,7 @@ dojo.declare(
 
 dojo.declare(
 	"dijit.layout.AccordionPane",
-	[dijit.layout._LayoutWidget, dijit.base.TemplatedWidget],
+	[dijit.layout._LayoutWidget, dijit._Templated],
 {
 	// summary
 	//		AccordionPane is a box with a title that contains another widget (often a ContentPane).

@@ -1,8 +1,8 @@
-dojo.provide("dijit.base.Widget");
+dojo.provide("dijit._Widget");
 
 dojo.require("dijit.util.manager");
 
-dojo.declare("dijit.base.Widget", null,
+dojo.declare("dijit._Widget", null,
 function(params, srcNodeRef){
 	// summary:
 	//		To understand the process by which widgets are instantiated, it

@@ -1,11 +1,11 @@
 dojo.provide("dijit._tree.Controller");
 
-dojo.require("dijit.base.Widget");
+dojo.require("dijit._Widget");
 dojo.require("dijit.Tree");
 
 dojo.declare(
 	"dijit._tree.Controller",
-	[dijit.base.Widget],
+	[dijit._Widget],
 {
 	// Summary: _tree.Controller performs all basic operations on Tree
 	// Description:

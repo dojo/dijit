@@ -8,11 +8,11 @@
 	<script type="text/javascript" src="../../dojo/dojo.js" djConfig="isDebug: true"></script>
 	<script type="text/javascript">
 		dojo.require("doh.runner");
-		dojo.require("dijit.base.Widget");
-		dojo.require("dijit.base.Container");
+		dojo.require("dijit._Widget");
+		dojo.require("dijit._Container");
 
 		dojo.declare("dijit.TestContainer",
-			[dijit.base.Widget, dijit.base.Container], { }
+			[dijit._Widget, dijit._Container], { }
 		);
 
 		dojo.require("dojo.parser");
@@ -41,9 +41,9 @@
 <body class="tundra">
 
 	<div id="container" dojoType="dijit.TestContainer">
-		<div id="zero" dojoType="dijit.base.Widget"></div>
-		<div id="one" dojoType="dijit.base.Widget"></div>
-		<div id="two" dojoType="dijit.base.Widget"></div>
+		<div id="zero" dojoType="dijit._Widget"></div>
+		<div id="one" dojoType="dijit._Widget"></div>
+		<div id="two" dojoType="dijit._Widget"></div>
 	</div>
 
 </body>

@@ -1,10 +1,10 @@
 dojo.provide("dijit.Declaration");
-dojo.require("dijit.base.Widget");
-dojo.require("dijit.base.TemplatedWidget");
+dojo.require("dijit._Widget");
+dojo.require("dijit._Templated");
 
 dojo.declare(
 	"dijit.Declaration",
-	[ dijit.base.Widget ],
+	dijit._Widget,
 	{
 		// summary:
 		//		The Declaration widget allows a user to declare new widget
@@ -22,7 +22,7 @@ dojo.declare(
 			if(this.mixins.length){
 				this.mixins = dojo.map(this.mixins, dojo.getObject);
 			}else{
-				this.mixins = [ dijit.base.Widget, dijit.base.TemplatedWidget ];
+				this.mixins = [ dijit._Widget, dijit._Templated ];
 			}
 			this.mixins.push(function(){
 				scripts.forEach(function(script){

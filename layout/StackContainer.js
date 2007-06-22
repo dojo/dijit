@@ -1,6 +1,6 @@
 dojo.provide("dijit.layout.StackContainer");
 
-dojo.require("dijit.base.TemplatedWidget");
+dojo.require("dijit._Templated");
 dojo.require("dijit.layout._LayoutWidget");
 dojo.require("dijit.form.Button");
 
@@ -65,7 +65,7 @@ dojo.declare(
 	},
 
 	addChild: function(/*Widget*/ child, /*Integer*/ insertIndex){
-		dijit.base.Container.prototype.addChild.apply(this, arguments);
+		dijit._Container.prototype.addChild.apply(this, arguments);
 		child = this._setupChild(child);
 
 		var started = this._started;
@@ -86,7 +86,7 @@ dojo.declare(
 
 	removeChild: function(/*Widget*/ page){
 
-		dijit.base.Container.prototype.removeChild.apply(this, arguments);
+		dijit._Container.prototype.removeChild.apply(this, arguments);
 
 		// If we are being destroyed than don't run the code below (to select another page), because we are deleting
 		// every page one by one
@@ -192,7 +192,7 @@ dojo.declare(
 
 dojo.declare(
 	"dijit.layout.StackController",
-	[dijit.base.Widget, dijit.base.TemplatedWidget, dijit.base.Container],
+	[dijit._Widget, dijit._Templated, dijit._Container],
 	{
 		// summary
 		//	Set of buttons to select a page in a page list.
@@ -351,7 +351,7 @@ dojo.declare(
 // These arguments can be specified for the children of a StackContainer.
 // Since any widget can be specified as a StackContainer child, mix them
 // into the base widget class.  (This is a hack, but it's effective.)
-dojo.extend(dijit.base.Widget, {
+dojo.extend(dijit._Widget, {
 	// title: String
 	//		Title of this widget.  Used by TabContainer to the name the tab, etc.
 	title: "",

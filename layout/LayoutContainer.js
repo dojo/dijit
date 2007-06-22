@@ -52,12 +52,12 @@ dojo.declare(
 	},
 
 	addChild: function(child, overrideContainerNode, pos, ref, insertIndex){
-		dijit.base.Container.prototype.addChild.apply(this, arguments);
+		dijit._Container.prototype.addChild.apply(this, arguments);
 		dijit.layout.layoutChildren(this.domNode, this._contentBox, this.getChildren(), this.layoutChildPriority);
 	},
 
 	removeChild: function(pane){
-        dijit.base.Container.prototype.removeChild.apply(this, arguments);
+        dijit._Container.prototype.removeChild.apply(this, arguments);
 		dijit.layout.layoutChildren(this.domNode, this._contentBox, this.getChildren(), this.layoutChildPriority);
 	}
 });
@@ -65,7 +65,7 @@ dojo.declare(
 // This argument can be specified for the children of a LayoutContainer.
 // Since any widget can be specified as a LayoutContainer child, mix it
 // into the base widget class.  (This is a hack, but it's effective.)
-dojo.extend(dijit.base.Widget, {
+dojo.extend(dijit._Widget, {
 	// layoutAlign: String
 	//		"none", "left", "right", "bottom", "top", and "client".
 	//		See the LayoutContainer description for details on this parameter.

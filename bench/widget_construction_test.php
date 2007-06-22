@@ -12,13 +12,13 @@
 			djConfig="isDebug: true, debugAtAllCosts: true"></script>
 		<script type="text/javascript">
 			dojo.require("dijit.util.parser");	// scan page for widgets and instantiate them
-			dojo.require("dijit.base.Widget");
-			dojo.require("dijit.base.TemplatedWidget");
+			dojo.require("dijit._Widget");
+			dojo.require("dijit._Templated");
 
 			/* dummy widget for benchmarking purposes */
 			dojo.declare(
 				"dijit.Button",
-				[ dijit.base.Widget, dijit.base.TemplatedWidget ],
+				[ dijit._Widget, dijit._Templated ],
 				function(){  },
 				{
 					caption: "",

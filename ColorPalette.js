@@ -2,12 +2,12 @@ dojo.provide("dijit.ColorPalette");
 
 dojo.require("dijit.util.place");
 dojo.require("dijit.util.typematic");
-dojo.require("dijit.base.Widget");
-dojo.require("dijit.base.TemplatedWidget");
+dojo.require("dijit._Widget");
+dojo.require("dijit._Templated");
 
 dojo.declare(
 		"dijit.ColorPalette",
-		[dijit.base.Widget, dijit.base.TemplatedWidget],
+		[dijit._Widget, dijit._Templated],
 {
 	// summary
 	//		Grid showing various colors, so the user can pick a certain color

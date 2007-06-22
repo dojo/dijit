@@ -142,12 +142,12 @@ dojo.declare(
 		}
 
 		// Remove widget and repaint
-		dijit.base.Container.prototype.removeChild.apply(this, arguments);
+		dijit._Container.prototype.removeChild.apply(this, arguments);
 		this.layout();
    },
 
 	addChild: function(child, insertIndex){
-		dijit.base.Container.prototype.addChild.apply(this, arguments);
+		dijit._Container.prototype.addChild.apply(this, arguments);
 		this._injectChild(child);
 
 		var children = this.getChildren();
@@ -532,7 +532,7 @@ dojo.declare(
 // These arguments can be specified for the children of a SplitContainer.
 // Since any widget can be specified as a SplitContainer child, mix them
 // into the base widget class.  (This is a hack, but it's effective.)
-dojo.extend(dijit.base.Widget, {
+dojo.extend(dijit._Widget, {
 	// sizeMin: Integer
 	//	Minimum size (width or height) of a child of a SplitContainer.
 	//	The value is relative to other children's sizeShare properties.

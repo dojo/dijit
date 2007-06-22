@@ -2,12 +2,12 @@ dojo.provide("dijit.TitlePane");
 
 dojo.require("dojo.fx");
 
-dojo.require("dijit.base.Widget");
-dojo.require("dijit.base.TemplatedWidget");
+dojo.require("dijit._Widget");
+dojo.require("dijit._Templated");
 
 dojo.declare(
 	"dijit.TitlePane",
-	[dijit.base.Widget, dijit.base.TemplatedWidget],
+	[dijit._Widget, dijit._Templated],
 {
 	// summary
 	//		A pane with a title on top, that can be opened or collapsed.

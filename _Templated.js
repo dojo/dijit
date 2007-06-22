@@ -1,10 +1,10 @@
-dojo.provide("dijit.base.TemplatedWidget");
+dojo.provide("dijit._Templated");
 
 dojo.require("dojo.string");
 dojo.require("dijit.util.wai");
 dojo.require("dojo.parser");
 
-dojo.declare("dijit.base.TemplatedWidget",
+dojo.declare("dijit._Templated",
 	null,
 	{
 		// summary:
@@ -45,7 +45,7 @@ dojo.declare("dijit.base.TemplatedWidget",
 			// isn't there already.  Returns either a DomNode or a string, depending on
 			// whether or not the template contains ${foo} replacement parameters.
 
-			var cached = dijit.base.getCachedTemplate(this.templatePath, this.templateString);
+			var cached = dijit._Templated.getCachedTemplate(this.templatePath, this.templateString);
 
 			var node;
 			if(dojo.isString(cached)){
@@ -57,7 +57,7 @@ dojo.declare("dijit.base.TemplatedWidget",
 					return value.toString().replace(/"/g,"&quot;"); //TODO: support a more complete set of escapes?
 				}, this);
 
-				node = dijit.base._createNodesFromText(tstr)[0];
+				node = dijit._Templated._createNodesFromText(tstr)[0];
 			}else{
 				// if it's a node, all we have to do is clone it
 				node = cached.cloneNode(true);
@@ -183,9 +183,9 @@ dojo.declare("dijit.base.TemplatedWidget",
 );
 
 // key is either templatePath or templateString; object is either string or DOM tree
-dijit.base._templateCache = {};
+dijit._Templated._templateCache = {};
 
-dijit.base.getCachedTemplate = function(templatePath, templateString){
+dijit._Templated.getCachedTemplate = function(templatePath, templateString){
 	// summary:
 	//		static method to get a template based on the templatePath or
 	//		templateString key
@@ -198,7 +198,7 @@ dijit.base.getCachedTemplate = function(templatePath, templateString){
 	//	a DOM tree (if the node can be cloned directly)
 
 	// is it already cached?
-	var tmplts = dijit.base._templateCache;
+	var tmplts = dijit._Templated._templateCache;
 	var key = templateString || templatePath;
 	var cached = tmplts[key];
 	if(cached){
@@ -207,7 +207,7 @@ dijit.base.getCachedTemplate = function(templatePath, templateString){
 
 	// If necessary, load template string from template path
 	if(!templateString){
-		templateString = dijit.base._sanitizeTemplateString(dojo._getText(templatePath));
+		templateString = dijit._Templated._sanitizeTemplateString(dojo._getText(templatePath));
 	}
 
 	templateString = templateString.replace(/^\s+|\s+$/g, "");
@@ -217,11 +217,11 @@ dijit.base.getCachedTemplate = function(templatePath, templateString){
 		return (tmplts[key] = templateString); //String
 	}else{
 		// there are no variables in the template so we can cache the DOM tree
-		return (tmplts[key] = dijit.base._createNodesFromText(templateString)[0]); //Node
+		return (tmplts[key] = dijit._Templated._createNodesFromText(templateString)[0]); //Node
 	}
 };
 
-dijit.base._sanitizeTemplateString = function(/*String*/tString){
+dijit._Templated._sanitizeTemplateString = function(/*String*/tString){
 	//summary: Strips <?xml ...?> declarations so that external SVG and XML
 	//documents can be added to a document without worry. Also, if the string
 	//is an HTML document, only the part inside the body tag is returned.
@@ -240,7 +240,7 @@ dijit.base._sanitizeTemplateString = function(/*String*/tString){
 
 if(dojo.isIE){
 	dojo.addOnUnload(function(){
-		var cache = dijit.base._templateCache;
+		var cache = dijit._Templated._templateCache;
 		for(var key in cache){
 			var value = cache[key];
 			if(!isNaN(value.nodeType)){ // isNode equivalent
@@ -261,7 +261,7 @@ if(dojo.isIE){
 	var tn;
 	var _parent;
 
-	dijit.base._createNodesFromText = function(/*String*/text){
+	dijit._Templated._createNodesFromText = function(/*String*/text){
 		//	summary
 		//	Attempts to create a set of nodes based on the structure of the passed text.
 
@@ -309,7 +309,7 @@ if(dojo.isIE){
 // These arguments can be specified for widgets which are used in templates.
 // Since any widget can be specified as sub widgets in template, mix it
 // into the base widget class.  (This is a hack, but it's effective.)
-dojo.extend(dijit.base.Widget,{
+dojo.extend(dijit._Widget,{
 	dojoAttachEvent: "",
 	dojoAttachPoint: "",
 	waiRole: "",

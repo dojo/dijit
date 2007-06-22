@@ -1,10 +1,10 @@
 dojo.provide("dijit.layout._LayoutWidget");
 
-dojo.require("dijit.base.Widget");
-dojo.require("dijit.base.Container");
+dojo.require("dijit._Widget");
+dojo.require("dijit._Container");
 
 dojo.declare("dijit.layout._LayoutWidget",
-	[dijit.base.Widget, dijit.base.Container, dijit.base.Contained],
+	[dijit._Widget, dijit._Container, dijit._Contained],
 	{
 		// summary
 		//		Mixin for widgets that contain a list of children like SplitContainer.

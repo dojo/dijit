@@ -1,14 +1,14 @@
 dojo.provide("dijit.Tooltip");
 
-dojo.require("dijit.base.Widget");
-dojo.require("dijit.base.TemplatedWidget");
+dojo.require("dijit._Widget");
+dojo.require("dijit._Templated");
 dojo.require("dijit.util.place");
 dojo.require("dijit.util.popup");
 dojo.require("dijit.util.sniff");
 
 dojo.declare(
 	"dijit._MasterTooltip",
-	[dijit.base.Widget, dijit.base.TemplatedWidget],
+	[dijit._Widget, dijit._Templated],
 	{
 		// summary
 		//		Internal widget that holds the actual tooltip markup,
@@ -99,7 +99,7 @@ dojo.addOnLoad(function(){
 
 dojo.declare(
 	"dijit.Tooltip",
-	dijit.base.Widget,
+	dijit._Widget,
 	{
 		// summary
 		//		Pops up a tooltip (a help message) when you hover over a node.

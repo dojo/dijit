@@ -1,10 +1,10 @@
 dojo.provide("dijit.layout.LinkPane");
 
 dojo.require("dijit.layout.ContentPane");
-dojo.require("dijit.base.TemplatedWidget");
+dojo.require("dijit._Templated");
 
 dojo.declare("dijit.layout.LinkPane",
-	[dijit.layout.ContentPane, dijit.base.TemplatedWidget],
+	[dijit.layout.ContentPane, dijit._Templated],
 {
 	// summary
 	//	LinkPane is just a ContentPane that loads data remotely (via the href attribute),

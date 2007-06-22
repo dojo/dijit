@@ -4,12 +4,12 @@ dojo.require("dojo.cldr.supplemental");
 dojo.require("dojo.date");
 dojo.require("dojo.date.locale");
 
-dojo.require("dijit.base.Widget");
-dojo.require("dijit.base.TemplatedWidget");
+dojo.require("dijit._Widget");
+dojo.require("dijit._Templated");
 
 dojo.declare(
 	"dijit._Calendar",
-	[dijit.base.Widget, dijit.base.TemplatedWidget],
+	[dijit._Widget, dijit._Templated],
 	{
 		/*
 		summary:
