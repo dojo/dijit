@@ -1,4 +1,4 @@
-dojo.provide("dijit.layout.Dialog");
+dojo.provide("dijit.Dialog");
 
 dojo.require("dojo.dnd.move");
 dojo.require("dojo.fx");
@@ -10,7 +10,7 @@ dojo.require("dijit.layout.ContentPane");
 dojo.require("dijit.base.TemplatedWidget");
 
 dojo.declare(
-	"dijit.layout.DialogUnderlay",
+	"dijit.DialogUnderlay",
 	[dijit.base.Widget, dijit.base.TemplatedWidget],
 	{
 		// summary: the thing that grays out the screen behind the dialog
@@ -73,7 +73,7 @@ dojo.declare(
 );
 	
 dojo.declare(
-	"dijit.layout.Dialog",
+	"dijit.Dialog",
 	[dijit.layout.ContentPane, dijit.base.TemplatedWidget],
 	{
 		// summary:
@@ -81,7 +81,7 @@ dojo.declare(
 		//		and also graying out the screen Dialog is extended from
 		//		ContentPane so it supports all the same parameters (href, etc.)
 
-		templatePath: dojo.moduleUrl("dijit.layout", "templates/Dialog.html"),
+		templatePath: dojo.moduleUrl("dijit", "templates/Dialog.html"),
 
 		// title: String
 		//		Title of the dialog
@@ -96,7 +96,7 @@ dojo.declare(
 		_lastFocusItem:null,
 				
 		postCreate: function(){
-			dijit.layout.Dialog.superclass.postCreate.apply(this, arguments);
+			dijit.Dialog.superclass.postCreate.apply(this, arguments);
 			this.domNode.style.display="none";
 		},
 
@@ -111,7 +111,7 @@ dojo.declare(
 			// when href is specified we need to reposition
 			// the dialog after the data is loaded
 			this._position();
-			dijit.layout.Dialog.superclass.onLoad.call(this);
+			dijit.Dialog.superclass.onLoad.call(this);
 		},
 
 		_setup: function(){
@@ -126,7 +126,7 @@ dojo.declare(
 				this._moveable = new dojo.dnd.Moveable(this.domNode, { handle: this.titleBar });
 			}
 
-			this._underlay = new dijit.layout.DialogUnderlay();
+			this._underlay = new dijit.DialogUnderlay();
 
 			var node = this.domNode;
 			this._fadeIn = dojo.fx.combine(

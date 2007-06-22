@@ -41,7 +41,7 @@
 		dojo.require("dijit.layout.SplitContainer");
 		dojo.require("dijit.layout.TabContainer");
 		dojo.require("dijit.layout.LayoutContainer");
-		dojo.require("dijit.layout.Dialog");
+		dojo.require("dijit.Dialog");
 
 		dojo.require("dojo.parser");	// scan page for widgets and instantiate them
 
@@ -503,7 +503,7 @@
 	
 					<div id="btab3" dojoType="dijit.layout.ContentPane" title="Bottom 3" closable="true">
 						<p>I am the last Tab</p>
-						<div id="dialog2" dojoType="dijit.layout.Dialog" title="Encased Dialog" style="display:none;">
+						<div id="dialog2" dojoType="dijit.Dialog" title="Encased Dialog" style="display:none;">
 						I am the second dialog. I am
 						parented by the Low Tab Pane #3
 						</div>
@@ -517,7 +517,7 @@
 	</div><!-- Layoutcontainer -->
 
 <!-- dialog in body -->
-<div id="dialog1" dojoType="dijit.layout.Dialog" title="My Test Dialog"
+<div id="dialog1" dojoType="dijit.Dialog" title="My Test Dialog"
 style="display:none;">
 this is test dialog1 ... i am parented by the body tag
 </div>

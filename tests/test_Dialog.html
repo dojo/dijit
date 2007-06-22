@@ -4,16 +4,16 @@
 <head>
 <title>Dialog Widget Dojo Tests</title>
 <style type="text/css">
-	@import "../../../dojo/resources/dojo.css";
-	@import "../../themes/tundra/tundra.css";
-	@import "../css/dijitTests.css";
+	@import "../../dojo/resources/dojo.css";
+	@import "../themes/tundra/tundra.css";
+	@import "css/dijitTests.css";
 	table { border: none; }
 </style>		
 <script type="text/javascript"
 	djConfig="isDebug: true"
-	src="../../../dojo/dojo.js"></script>
+	src="../../dojo/dojo.js"></script>
 <script type="text/javascript">
-	dojo.require("dijit.layout.Dialog");
+	dojo.require("dijit.Dialog");
 	dojo.require("dojo.parser");	// scan page for widgets and instantiate them
 </script>
 
@@ -23,7 +23,7 @@ function createDialog() {
 	if(!thirdDlg){
 		var pane = dojo.byId('thirdDialog');
 		pane.style.width = "300px"; 	
-		thirdDlg = new dijit.layout.Dialog({
+		thirdDlg = new dijit.Dialog({
 			title: "Programatic Dialog Creation"
 		},pane);
 	}
@@ -44,7 +44,7 @@ form {
 <h2>Dijit layout.Dialog tests</h2>
 <a href="javascript:dijit.byId('dialog1').show()">Show First Dialog</a> |
 
-<div dojoType="dijit.layout.Dialog" id="dialog1" closeNode="hider" title="First Dialog">
+<div dojoType="dijit.Dialog" id="dialog1" closeNode="hider" title="First Dialog">
 	<form onsubmit="return false;">
 		<table>
 			<tr>
@@ -109,7 +109,7 @@ form {
 
 <a href="javascript:dijit.byId('fourthDlg').show();">Test HREF Dialog</a> |
 
-<div dojoType="dijit.layout.Dialog" id="fourthDlg" href="tab2.html" title="From HREF"></div>
+<div dojoType="dijit.Dialog" id="fourthDlg" href="layout/tab2.html" title="From HREF"></div>
 
 <p><b><i>(scroll down to see more links to click, for testing positioning / scroll handling)</i></b></p>
 <select>
@@ -321,7 +321,7 @@ turpis sed odio. Curabitur in est id nibh tempus ultrices. Aliquam
 consectetuer dapibus eros. Aliquam nisl.
 </p>
 
-<div dojoType="dijit.layout.Dialog" id="SecondDialog" bgColor="black" closeNode="closeButton" title="Second Dialog">
+<div dojoType="dijit.Dialog" id="SecondDialog" bgColor="black" closeNode="closeButton" title="Second Dialog">
 	<form onsubmit="return false;">
 		<table>
 			<tr>
