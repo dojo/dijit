@@ -1,7 +1,7 @@
 console.warn("dijit.dijit may dissapear in the 0.9 timeframe in lieu of a different rollup file!");
 dojo.provide("dijit.dijit");
 dojo.require("dijit.base.Widget");
-dojo.require("dijit.base.Layout");
+dojo.require("dijit.layout._LayoutWidget");
 dojo.require("dijit.base.Container");
 dojo.require("dijit.form._FormWidget");
 dojo.require("dijit.base.TemplatedWidget");

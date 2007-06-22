@@ -1,11 +1,11 @@
 dojo.provide("dijit.layout.LayoutContainer");
 
 dojo.require("dijit.base.Widget");
-dojo.require("dijit.base.Layout");
+dojo.require("dijit.layout._LayoutWidget");
 
 dojo.declare(
 	"dijit.layout.LayoutContainer",
-	[dijit.base.Widget, dijit.base.Layout],
+	[dijit.base.Widget, dijit.layout._LayoutWidget],
 {
 	// summary
 	//	Provides Delphi-style panel layout semantics.
@@ -49,17 +49,17 @@ dojo.declare(
 	layoutChildPriority: 'top-bottom',
 
 	layout: function(){
-		var ok = dijit.base.Layout.layoutChildren(this.domNode, this._contentBox, this.getChildren(), this.layoutChildPriority);
+		var ok = dijit.layout.layoutChildren(this.domNode, this._contentBox, this.getChildren(), this.layoutChildPriority);
 	},
 
 	addChild: function(child, overrideContainerNode, pos, ref, insertIndex){
 		dijit.base.Container.prototype.addChild.apply(this, arguments);
-		dijit.base.Layout.layoutChildren(this.domNode, this._contentBox, this.getChildren(), this.layoutChildPriority);
+		dijit.layout.layoutChildren(this.domNode, this._contentBox, this.getChildren(), this.layoutChildPriority);
 	},
 
 	removeChild: function(pane){
         dijit.base.Container.prototype.removeChild.apply(this, arguments);
-		dijit.base.Layout.layoutChildren(this.domNode, this._contentBox, this.getChildren(), this.layoutChildPriority);
+		dijit.layout.layoutChildren(this.domNode, this._contentBox, this.getChildren(), this.layoutChildPriority);
 	}
 });
 

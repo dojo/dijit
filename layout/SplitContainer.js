@@ -8,11 +8,11 @@ dojo.provide("dijit.layout.SplitContainer");
 
 dojo.require("dojo.cookie");
 dojo.require("dijit.base.Widget");
-dojo.require("dijit.base.Layout");
+dojo.require("dijit.layout._LayoutWidget");
 
 dojo.declare(
 	"dijit.layout.SplitContainer",
-	[dijit.base.Widget, dijit.base.Layout],
+	[dijit.base.Widget, dijit.layout._LayoutWidget],
 {
 	// summary
 	//		Contains multiple children widgets, all of which are displayed side by side
@@ -97,7 +97,7 @@ dojo.declare(
 		if(this.persist){
 			this._restoreState();
 		}
-		dijit.base.Layout.prototype.startup.apply(this, arguments);
+		dijit.layout._LayoutWidget.prototype.startup.apply(this, arguments);
 	},
 
 	_injectChild: function(child){

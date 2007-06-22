@@ -1,8 +1,8 @@
-dojo.provide("dijit.base.Layout");
+dojo.provide("dijit.layout._LayoutWidget");
 
 dojo.require("dijit.base.Container");
 
-dojo.declare("dijit.base.Layout",
+dojo.declare("dijit.layout._LayoutWidget",
 	[dijit.base.Container, dijit.base.Contained],
 	{
 		// summary
@@ -68,7 +68,7 @@ dojo.declare("dijit.base.Layout",
 			mb = dojo.mixin(dojo.marginBox(node), mb||{});
 
 			// Save the size of my content box.
-			this._contentBox = dijit.base.Layout.marginBox2contentBox(node, mb);
+			this._contentBox = dijit.layout.marginBox2contentBox(node, mb);
 
 			// Callback for widget to adjust size of it's children
 			this.layout();
@@ -85,7 +85,7 @@ dojo.declare("dijit.base.Layout",
 	}
 );
 
-dijit.base.Layout.marginBox2contentBox = function(/*DomNode*/ node, /*Object*/ mb){
+dijit.layout.marginBox2contentBox = function(/*DomNode*/ node, /*Object*/ mb){
 	// summary:
 	//		Given the margin-box size of a node, return it's content box size.
 	//		Functions like dojo.contentBox() but is more reliable since it doesn't have
@@ -101,7 +101,7 @@ dijit.base.Layout.marginBox2contentBox = function(/*DomNode*/ node, /*Object*/ m
 	};
 };
 
-dijit.base.Layout.layoutChildren = function(/*DomNode*/ container, /*Object*/ dim, /*Object[]*/ children, /*String*/ layoutPriority){
+dijit.layout.layoutChildren = function(/*DomNode*/ container, /*Object*/ dim, /*Object[]*/ children, /*String*/ layoutPriority){
 	/**
 	 * summary
 	 *		Layout a bunch of child dom nodes within a parent dom node
@@ -190,7 +190,7 @@ dijit.base.Layout.layoutChildren = function(/*DomNode*/ container, /*Object*/ di
 			var w = dojo.marginBox(elm).w;
 
 			// TODO: this zero stuff shouldn't be necessary anymore
-			var hasZero = dijit.base.Layout._sizeChild(child, elm, w, dim.h);
+			var hasZero = dijit.layout._LayoutWidget._sizeChild(child, elm, w, dim.h);
 			if(hasZero){
 				ret = false;
 			}
@@ -202,7 +202,7 @@ dijit.base.Layout.layoutChildren = function(/*DomNode*/ container, /*Object*/ di
 			}
 		} else if(pos=="flood" || pos=="client"){
 			// #1635 - filter for zero dimensions (see below)
-			var hasZero = dijit.base.Layout._sizeChild(child, elm, dim.w, dim.h);
+			var hasZero = dijit.layout._LayoutWidget._sizeChild(child, elm, dim.w, dim.h);
 			if(hasZero){
 				ret = false;
 			}
@@ -211,7 +211,7 @@ dijit.base.Layout.layoutChildren = function(/*DomNode*/ container, /*Object*/ di
 	return ret;
 };
 
-dijit.base.Layout._sizeChild = function (child, elm, w, h){
+dijit.layout._LayoutWidget._sizeChild = function (child, elm, w, h){
 	// Note: zero dimensions can occur if we are called before the browser
 	// don't allow such values for width and height, let the browser adjust the
 	// layout itself when it reflows and report if any dimension is zero

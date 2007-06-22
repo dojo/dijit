@@ -2,12 +2,12 @@ dojo.provide("dijit.layout.StackContainer");
 
 dojo.require("dijit.base.Widget");
 dojo.require("dijit.base.TemplatedWidget");
-dojo.require("dijit.base.Layout");
+dojo.require("dijit.layout._LayoutWidget");
 dojo.require("dijit.form.Button");
 
 dojo.declare(
 	"dijit.layout.StackContainer",
-	[dijit.base.Widget, dijit.base.TemplatedWidget, dijit.base.Layout],
+	[dijit.base.Widget, dijit.base.TemplatedWidget, dijit.layout._LayoutWidget],
 	// summary
 	//	A container that has multiple children, but shows only
 	//	one child at a time (like looking at the pages in a book one by one).
@@ -50,7 +50,7 @@ dojo.declare(
 		// Now publish information about myself so any StackControllers can initialize..
 		dojo.publish(this.id+"-startup", [{children: children, selected: this.selectedChildWidget}]);
 
-		dijit.base.Layout.prototype.startup.apply(this, arguments);
+		dijit.layout._LayoutWidget.prototype.startup.apply(this, arguments);
 		this._started = true;
 	},
 

@@ -1,7 +1,7 @@
 dojo.provide("dijit.layout.TabContainer");
 
 dojo.require("dijit.layout.StackContainer");
-dojo.require("dijit.base.Layout");
+dojo.require("dijit.layout._LayoutWidget");
 
 dojo.declare(
 	"dijit.layout.TabContainer",
@@ -57,11 +57,11 @@ dojo.declare(
 			{domNode: this.tablist.domNode, layoutAlign: titleAlign},
 			{domNode: this.containerNode, layoutAlign: "client"}
 		];
-		dijit.base.Layout.layoutChildren(this.domNode, this._contentBox, children);
+		dijit.layout.layoutChildren(this.domNode, this._contentBox, children);
 
 		// Compute size to make each of my children.
 		// children[1] is the margin-box size of this.containerNode, set by layoutChildren() call above
-		this._containerContentBox = dijit.base.Layout.marginBox2contentBox(this.containerNode, children[1]);
+		this._containerContentBox = dijit.layout.marginBox2contentBox(this.containerNode, children[1]);
 
 		if(this.selectedChildWidget){
 			this._showChild(this.selectedChildWidget);
