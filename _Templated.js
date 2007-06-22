@@ -1,5 +1,7 @@
 dojo.provide("dijit._Templated");
 
+dojo.require("dijit._Widget");
+
 dojo.require("dojo.string");
 dojo.require("dijit.util.wai");
 dojo.require("dojo.parser");
