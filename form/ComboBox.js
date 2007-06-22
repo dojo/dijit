@@ -497,7 +497,7 @@ dojo.declare(
 
 dojo.declare(
 	"dijit.form._ComboBoxMenu",
-	[dijit.base.FormElement, dijit.base.TemplatedWidget],
+	[dijit.form._FormWidget, dijit.base.TemplatedWidget],
 
 // Bill:
 // I'd like the interface to ComboBoxMenu to be higher level,
@@ -529,7 +529,7 @@ dojo.declare(
 		postCreate:function(){
 			// summary:
 			//	call all postCreates
-			dijit.base.FormElement.prototype.postCreate.apply(this, arguments);
+			dijit.form._FormWidget.prototype.postCreate.apply(this, arguments);
 		},
 
 		onClose:function(){

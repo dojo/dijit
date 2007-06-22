@@ -6,7 +6,6 @@ dojo.require("dojo.date.locale");
 
 dojo.require("dijit.base.Widget");
 dojo.require("dijit.base.TemplatedWidget");
-dojo.require("dijit.base.FormElement");
 
 dojo.declare(
 	"dijit._Calendar",

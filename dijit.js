@@ -3,7 +3,7 @@ dojo.provide("dijit.dijit");
 dojo.require("dijit.base.Widget");
 dojo.require("dijit.base.Layout");
 dojo.require("dijit.base.Container");
-dojo.require("dijit.base.FormElement");
+dojo.require("dijit.form._FormWidget");
 dojo.require("dijit.base.TemplatedWidget");
 dojo.require("dojo.parser");
 dojo.require("dijit.util.manager");

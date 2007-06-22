@@ -1,10 +1,10 @@
-dojo.provide("dijit.base.FormElement");
+dojo.provide("dijit.form._FormWidget");
 
 dojo.require("dijit.base.Widget");
 dojo.require("dijit.util.sniff");
 dojo.require("dijit.util.wai");
 
-dojo.declare("dijit.base.FormElement", dijit.base.Widget,
+dojo.declare("dijit.form._FormWidget", dijit.base.Widget,
 {
 	/*
 	Summary:

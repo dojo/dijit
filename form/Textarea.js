@@ -1,11 +1,11 @@
 dojo.provide("dijit.form.Textarea");
 
-dojo.require("dijit.base.FormElement");
+dojo.require("dijit.form._FormWidget");
 dojo.require("dijit.base.TemplatedWidget");
 
 dojo.declare(
 	"dijit.form.Textarea",
-	[dijit.base.FormElement, dijit.base.TemplatedWidget],
+	[dijit.form._FormWidget, dijit.base.TemplatedWidget],
 {
 	// summary
 	//	A textarea that resizes vertically to contain the data.

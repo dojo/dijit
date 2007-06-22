@@ -1,11 +1,11 @@
 dojo.provide("dijit.form.Button");
 
-dojo.require("dijit.base.FormElement");
+dojo.require("dijit.form._FormWidget");
 dojo.require("dijit.base.TemplatedWidget");
 
 dojo.declare(
 	"dijit.form.Button",
-	[dijit.base.FormElement, dijit.base.TemplatedWidget],
+	[dijit.form._FormWidget, dijit.base.TemplatedWidget],
 	{
 /*
  * usage

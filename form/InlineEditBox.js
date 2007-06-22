@@ -1,6 +1,6 @@
 dojo.provide("dijit.form.InlineEditBox");
 
-dojo.require("dijit.base.FormElement");
+dojo.require("dijit.form._FormWidget");
 dojo.require("dijit.base.Container");
 dojo.require("dijit.base.TemplatedWidget");
 dojo.require("dojo.i18n");
@@ -10,7 +10,7 @@ dojo.requireLocalization("dijit", "common");
 
 dojo.declare(
 	"dijit.form.InlineEditBox",
-	[dijit.base.FormElement, dijit.base.Container, dijit.base.TemplatedWidget],
+	[dijit.form._FormWidget, dijit.base.Container, dijit.base.TemplatedWidget],
 	// summary
 	//		Wrapper widget to a text edit widget.
 	//		The text is displayed on the page using normal user-styling.

@@ -1,11 +1,11 @@
 dojo.provide("dijit.form.Textbox");
 
-dojo.require("dijit.base.FormElement");
+dojo.require("dijit.form._FormWidget");
 dojo.require("dijit.base.TemplatedWidget");
 
 dojo.declare(
 	"dijit.form.Textbox",
-	[dijit.base.FormElement, dijit.base.TemplatedWidget],
+	[dijit.form._FormWidget, dijit.base.TemplatedWidget],
 	{
 		// summary:
 		//		A generic textbox field.
