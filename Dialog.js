@@ -253,7 +253,7 @@ dojo.declare(
 
 			this._fadeIn.play();
 			
-			dijit.util.focus.save(this);
+			this._savedFocus = dijit.util.focus.save(this);
 			
 			// set timeout to allow the browser to render dialog
 			setTimeout(dojo.hitch(this, function(){
@@ -283,7 +283,7 @@ dojo.declare(
 			dojo.forEach(this._modalconnects, dojo.disconnect);
 			this._modalconnects = [];
 			
-			dijit.util.focus.restore(this);
+			dijit.util.focus.restore(this._savedFocus);
 		},
 
 		layout: function() {

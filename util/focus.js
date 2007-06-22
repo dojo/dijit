@@ -43,15 +43,6 @@ dijit.util.focus = new function(){
 	/////////////////////////////////////////////////////////////////
 	// Main methods, called when a dialog/menu is opened/closed
 
-	// TODO: convert this to a stack, so we can save and restore multiple times?
-	// or have save return an object that can be passed to restore?
-
-	var currentMenu = null;	// current menu/dialog
-	var closeOnScreenClick = false;	// should clicking the screen close the menu?
-	var openedForWindow;	// iframe in which menu was opened
-	var restoreFocus;		// focused node before menu opened
-	var bookmark;			// selected text before menu opened
-
 	var isCollapsed = function(){
 		// summary: return whether the current selection is empty
 		var _window = dojo.global;
@@ -133,18 +124,19 @@ dijit.util.focus = new function(){
 		}
 	};
 
-	this.save = function(/*Widget*/menu, /*Window*/ _openedForWindow){
+	this.save = function(/*Widget*/menu, /*Window*/ openedForWindow){
 		// summary:
 		//	called when a popup appears (either a top level menu or a dialog),
 		//	or when a toolbar/menubar receives focus
-		if (menu == currentMenu){ return; }
-
-		if (currentMenu){
-			currentMenu.close();
-		}
-
-		currentMenu = menu;
-		openedForWindow = _openedForWindow;
+		//
+		// menu:
+		//	the menu that's being opened
+		//
+		// openedForWindow:
+		//	iframe in which menu was opened
+		//
+		// returns:
+		//	a handle to restore focus/selection
 
 		//PORT #2804. Use isAncestor
 		var isDescendantOf = function(/*Node*/node, /*Node*/ancestor){
@@ -161,46 +153,45 @@ dijit.util.focus = new function(){
 			return false; // boolean
 		};
 
-		// Find node to restore focus to, when this menu/dialog closes
-		restoreFocus = isDescendantOf(curFocus, menu.domNode) ? prevFocus : curFocus;
-		console.debug("will restore focus to " + ( restoreFocus ? (restoreFocus.id || restoreFocus.tagName) : "nothing") );
-		console.debug("prev focus is " + prevFocus);
-
-		//Store the current selection and restore it before the action for a menu item
-		//is executed. This is required as clicking on an menu item deselects current selection
-		if(!dojo.withGlobal(openedForWindow||dojo.global, isCollapsed)){
-			bookmark = dojo.withGlobal(openedForWindow||dojo.global, getBookmark);
-		}else{
-			bookmark = null;
-		}
+		return {
+			// Node to return focus to
+			focus: isDescendantOf(curFocus, menu.domNode) ? prevFocus : curFocus,
+			
+			// Previously selected text
+			bookmark: 
+				!dojo.withGlobal(openedForWindow||dojo.global, isCollapsed) ?
+				dojo.withGlobal(openedForWindow||dojo.global, getBookmark) :
+				null,
+				
+			openedForWindow: openedForWindow
+		};
 	};
 
-	this.restore = function(/*Widget*/menu){
+	this.restore = function(/*Object*/ handle){
 		// summary:
 		//	notify the manager that menu is closed; it will return focus to
-		//	where it was before the menu got focus
-		if(currentMenu == menu){
-			// focus on element that was focused before menu stole the focus
-			if(restoreFocus){
-				restoreFocus.focus();
-			}
+		//	the specified handle
 
-			//do not need to restore if current selection is not empty
-			//(use keyboard to select a menu item)
-			if(bookmark && dojo.withGlobal(openedForWindow||dojo.global, isCollapsed)){
-				if(openedForWindow){
-					openedForWindow.focus();
-				}
-				try{
-					dojo.withGlobal(openedForWindow||dojo.global, moveToBookmark, null, [bookmark]);
-				}catch(e){
-					/*squelch IE internal error, see http://trac.dojotoolkit.org/ticket/1984 */
-				}
-			}
+		var restoreFocus = handle.focus,
+			bookmark = handle.bookmark,
+			openedForWindow = openedForWindow;
+			
+		// focus on element that was focused before menu stole the focus
+		if(restoreFocus){
+			restoreFocus.focus();
+		}
 
-			bookmark = null;
-			closeOnScreenClick = false;
-			currentMenu = null;
+		//do not need to restore if current selection is not empty
+		//(use keyboard to select a menu item)
+		if(bookmark && dojo.withGlobal(openedForWindow||dojo.global, isCollapsed)){
+			if(openedForWindow){
+				openedForWindow.focus();
+			}
+			try{
+				dojo.withGlobal(openedForWindow||dojo.global, moveToBookmark, null, [bookmark]);
+			}catch(e){
+				/*squelch IE internal error, see http://trac.dojotoolkit.org/ticket/1984 */
+			}
 		}
 	};
 }();

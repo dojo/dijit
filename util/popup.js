@@ -113,16 +113,15 @@ dijit.util.popup = new function(){
 
 	///////////////////////////////////////////////////////////////////////
 	// Utility functions for making mouse click close popup chain
-	var currentTrigger;
+	var currentTrigger,
+		savedFocus;
 
 	this._beforeTopOpen = function(/*Widget*/ button, /*Widget*/menu){
 		// summary:
 		//	Called when a popup is opened, typically a button opening a menu.
 		//	Registers handlers so that clicking somewhere else on the screen will close the popup
 
-		// TODO: should do this at every level of popup?
-		dijit.util.focus.save(menu);
-
+		savedFocus = dijit.util.focus.save(menu);
 		currentTrigger=button;
 
 		// setup handlers to catch screen clicks and close current menu	
@@ -139,7 +138,7 @@ dijit.util.popup = new function(){
 
 		currentTrigger = null;
 
-		dijit.util.focus.restore(menu);
+		dijit.util.focus.restore(savedFocus);
 	};
 
 	this._onKeyPress = function(/*Event*/e){

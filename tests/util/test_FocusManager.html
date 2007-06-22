@@ -16,15 +16,16 @@
 </style>
 
 <script>
+	var savedFocus;
 	dojo.addOnLoad(function(){
 		fakeWidget = { domNode: dojo.byId("save") };
 	});
 	function save(){
 		console.debug("save function");
-		dijit.util.focus.save(fakeWidget);
+		savedFocus = dijit.util.focus.save(fakeWidget);
 	}
 	function restore(){
-		dijit.util.focus.restore(fakeWidget);
+		dijit.util.focus.restore(savedFocus);
 	}
 </script>
 </head>
