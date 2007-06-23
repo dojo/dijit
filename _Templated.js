@@ -122,7 +122,7 @@ dojo.declare("dijit._Templated",
 			for(; x<nodes.length; x++){
 				var baseNode = (x == -1) ? rootNode : nodes[x];
 				if(this.widgetsInTemplate && getAttrFunc(baseNode,'dojoType')){
-					return;
+					continue;
 				}
 				// Process dojoAttachPoint
 				var tmpAttachPoint = getAttrFunc(baseNode, "dojoAttachPoint");
