@@ -227,6 +227,7 @@ dojo.declare(
 					this.setValue(this.getValue());
 					break;
 
+				case dojo.keys.DELETE:
 				case dojo.keys.BACKSPACE:
 					this._prev_key_esc = false;
 					this._prev_key_backspace = true;
