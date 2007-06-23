@@ -31,34 +31,24 @@ dojo.declare(
 	//		<div dojoType="ContentPane" layoutAlign="left" style="width: 200px;">table of contents</div>
 	//		<div dojoType="ContentPane" layoutAlign="client">client area</div>
 	//	</div>
-
-	// layoutChildPriority: String
-	//	- If the value is "top-bottom", then LayoutContainer will first position the "top" and "bottom" aligned elements,
-	//	to and then put the left and right aligned elements in the remaining space, between the top and the bottom elements.
-	//	It aligns the client element at the very end, in the remaining space.
 	//
-	//	- If the value is "left-right", then it first positions the "left" and "right" elements, and then puts the
-	//	"top" and "bottom" elements in the remaining space, between the left and the right elements.
-	//	It aligns the client element at the very end, in the remaining space.
-	//
-	//	- If the value is "none", then it will lay out each child in the natural order the children occur in.
+	//	Lays out each child in the natural order the children occur in.
 	//	Basically each child is laid out into the "remaining space", where "remaining space" is initially
 	//	the content area of this widget, but is reduced to a smaller rectangle each time a child is added.
 	//	
-	layoutChildPriority: 'top-bottom',
 
 	layout: function(){
-		var ok = dijit.layout.layoutChildren(this.domNode, this._contentBox, this.getChildren(), this.layoutChildPriority);
+		var ok = dijit.layout.layoutChildren(this.domNode, this._contentBox, this.getChildren());
 	},
 
 	addChild: function(child, overrideContainerNode, pos, ref, insertIndex){
 		dijit._Container.prototype.addChild.apply(this, arguments);
-		dijit.layout.layoutChildren(this.domNode, this._contentBox, this.getChildren(), this.layoutChildPriority);
+		dijit.layout.layoutChildren(this.domNode, this._contentBox, this.getChildren());
 	},
 
 	removeChild: function(pane){
         dijit._Container.prototype.removeChild.apply(this, arguments);
-		dijit.layout.layoutChildren(this.domNode, this._contentBox, this.getChildren(), this.layoutChildPriority);
+		dijit.layout.layoutChildren(this.domNode, this._contentBox, this.getChildren());
 	}
 });
 

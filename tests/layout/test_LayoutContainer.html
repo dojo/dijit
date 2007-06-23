@@ -25,20 +25,19 @@
 <p>Basic layout</p>
 
 <div dojoType="dijit.layout.LayoutContainer"
-	layoutChildPriority='left-right'
 	style="border: 2px solid black; width: 90%; height: 300px; padding: 10px;"
 >
-	<div dojoType="dijit.layout.ContentPane" layoutAlign="top" style="background-color: #b39b86; ">
-		top bar
-	</div>
-	<div dojoType="dijit.layout.ContentPane" layoutAlign="bottom" style="background-color: #b39b86;">
-		bottom bar
-	</div>
 	<div dojoType="dijit.layout.ContentPane" layoutAlign="left" style="background-color: #acb386; width: 100px;">
 		left
 	</div>
 	<div dojoType="dijit.layout.ContentPane" layoutAlign="right" style="background-color: #acb386;">
 		right
+	</div>
+	<div dojoType="dijit.layout.ContentPane" layoutAlign="top" style="background-color: #b39b86; ">
+		top bar
+	</div>
+	<div dojoType="dijit.layout.ContentPane" layoutAlign="bottom" style="background-color: #b39b86;">
+		bottom bar
 	</div>
 	<div dojoType="dijit.layout.ContentPane" layoutAlign="client" style="background-color: #f5ffbf; padding: 10px;">
 		main panel with <a href="http://www.dojotoolkit.org/">a link</a>.<br />
@@ -54,7 +53,6 @@
 
 <p>Advanced layout:</p>
 <div dojoType="dijit.layout.LayoutContainer"
-	layoutChildPriority='none'
 	style="border: 2px solid black; width: 90%; height: 300px; padding: 10px;"
 >
 	<div dojoType="dijit.layout.ContentPane" layoutAlign="left" style="background-color: #acb386; width: 100px; margin: 5px;">
@@ -86,7 +84,6 @@
 
 <p>Goofy spiral layout:</p>
 <div dojoType="dijit.layout.LayoutContainer"
-	layoutChildPriority='none'
 	style="border: 2px solid black; width: 90%; height: 300px; padding: 10px;"
 >
 	<div dojoType="dijit.layout.ContentPane" layoutAlign="left" style="background-color: #663333; color: white; width: 100px;">

@@ -102,7 +102,7 @@ dijit.layout.marginBox2contentBox = function(/*DomNode*/ node, /*Object*/ mb){
 	};
 };
 
-dijit.layout.layoutChildren = function(/*DomNode*/ container, /*Object*/ dim, /*Object[]*/ children, /*String*/ layoutPriority){
+dijit.layout.layoutChildren = function(/*DomNode*/ container, /*Object*/ dim, /*Object[]*/ children){
 	/**
 	 * summary
 	 *		Layout a bunch of child dom nodes within a parent dom node
@@ -114,8 +114,6 @@ dijit.layout.layoutChildren = function(/*DomNode*/ container, /*Object*/ dim, /*
 	 *		parent node
 	 * dim:
 	 *		{l, t, w, h} object specifying dimensions of container into which to place children
-	 * layoutPriority:
-	 *		"top-bottom" or "left-right"
 	 * children:
 	 *		an array like [ {domNode: foo, layoutAlign: "bottom" }, {domNode: bar, layoutAlign: "client"} ]
 	 */
@@ -124,35 +122,6 @@ dijit.layout.layoutChildren = function(/*DomNode*/ container, /*Object*/ dim, /*
 	dim = dojo.mixin({}, dim);
 
 	dojo.addClass(container, "dijitLayoutContainer");
-
-	// Copy children array and remove elements w/out layout.
-	// Also record each child's position in the input array, for sorting purposes.
-	children = dojo.filter(children, function(child, idx){
-		child.idx = idx;
-		return dojo.indexOf(["top","bottom","left","right","client","flood"], child.layoutAlign) > -1;
-	});
-
-	// Order the children according to layoutPriority.
-	// Multiple children w/the same layoutPriority will be sorted by their position in the input array.
-	if(layoutPriority && layoutPriority!="none"){
-		var rank = function(child){
-			switch(child.layoutAlign){
-				case "flood":
-					return 1;
-				case "left":
-				case "right":
-					return (layoutPriority=="left-right") ? 2 : 3;
-				case "top":
-				case "bottom":
-					return (layoutPriority=="left-right") ? 3 : 2;
-				default:
-					return 4;
-			}
-		};
-		children.sort(function(a,b){
-			return (rank(a)-rank(b)) || (a.idx - b.idx);
-		});
-	}
 
 	// set positions/sizes
 	var ret=true;
