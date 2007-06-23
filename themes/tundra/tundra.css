@@ -97,7 +97,7 @@
 /** ???
 .tundra .dijitButtonEnabled *[popupActive],
 .tundra .dijitButtonEnabled *:active {
-	background-image: url("buttonActive.png");
+	background-image: url("images/buttonActive.png");
 }
 */
 
@@ -132,7 +132,7 @@
 		For dijit.form.NumberSpinner: the outer fieldset that contains the input.
 	*/
 	font-size: inherit;
-	background:#fff url("validationInputBg.png") repeat-x top left;
+	background:#fff url("images/validationInputBg.png") repeat-x top left;
 	border:1px solid #9b9b9b;
 	line-height: normal;
 	padding: 0.2em 0.3em;
@@ -333,7 +333,8 @@
 
 .tundra .dijitTitlePaneTitle {
 	background: #cccccc;
-	background:#fafafa url("titleBarBg.gif") repeat-x bottom left;
+	background:#fafafa url("images/titleBarBg.gif") repeat-x bottom 
+left;
 	border:1px solid #bfbfbf;
 	padding:4px 4px 2px 4px;
 	cursor: pointer;
@@ -552,7 +553,7 @@
 			FF doesn't clip images used as CSS bgs if you specify a border
 			radius. If you use a solid color, it does. Webkit gets it right.
 			Sigh.
-		background: #ffffff url("popupMenuBg.gif") repeat-x bottom left;
+		background: #ffffff url("images/popupMenuBg.gif") repeat-x bottom left;
 	*/
 	background-color: #fafafa;
 	border:1px solid #b6c7d5;
@@ -670,7 +671,7 @@
 
 /* Tree */
 .tundra .TreeNode {
-    background-image : url('i.gif');
+    background-image : url('images/i.gif');
     background-position : top left;
     background-repeat : repeat-y;
     margin-left: 19px;
@@ -682,7 +683,7 @@
  
 /* left vertical line (grid) for all nodes */
 .tundra .TreeIsLast {
-    background: url('i_half.gif') no-repeat;
+    background: url('images/i_half.gif') no-repeat;
 }
 
 .tundra .TreeExpando {
@@ -720,19 +721,19 @@
 }
 
 .tundra .TreeExpandoOpened {
-	background-image: url('expand_minus.gif');
+	background-image: url('images/treeExpand_minus.gif');
 }
  
 .tundra .TreeExpandoClosed {
-	background-image: url('expand_plus.gif');
+	background-image: url('images/treeExpand_plus.gif');
 }
  
 .tundra .TreeExpandoLeaf {
-	background-image: url('expand_leaf.gif');
+	background-image: url('images/treeExpand_leaf.gif');
 }
 
 .tundra .TreeExpandoLoading {
-	background-image: url('expand_loading.gif');
+	background-image: url('images/treeExpand_loading.gif');
 }
 
 

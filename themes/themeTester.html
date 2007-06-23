@@ -43,7 +43,8 @@
 		dojo.require("dijit.layout.LayoutContainer");
 		dojo.require("dijit.Dialog");
 
-		dojo.require("dojo.parser");	// scan page for widgets and instantiate them
+		// scan page for widgets and instantiate them
+		dojo.require("dojo.parser");	
 
 		// humm?		
 		dojo.require("dojo.date.locale");
@@ -63,6 +64,15 @@
 		function myHandler(id,newValue){
 				console.debug("onValueChanged for id = " + id + ", value: " + newValue);
 		};
+
+		dojo.addOnLoad(function() {
+                        var holder = dojo.byId('themeData');
+                        var tmpString='';
+                        dojo.forEach(availableThemes,function(theme){
+                                tmpString += '<a href="?theme='+theme.theme+'">'+theme.theme+'</'+'a> - by: '+theme.author+' <br>';
+                        });
+                        holder.innerHTML = tmpString;
+                });
 
 	</script>
 	<style type="text/css">
@@ -104,8 +114,10 @@
 	</style>
 
 </head>
-<body class="tundra">
-
+<body id="container">
+        <script type="text/javascript">
+                document.getElementById('container').className = themeName;
+        </script>
 	<!-- store for Tree widget -->
 	<div dojoType="dojo.data.JsonItemStore" jsId="continentStore"
 		url="../tests/countries.json"></div>
@@ -269,7 +281,9 @@
 						<h2>Dijit ProgressBar</h2>
 						<div style="width:400px" annotate="true" maximum="200" id="setTestBar"
 							progress="20" dojoType="dijit.ProgressBar"></div>
-						<br><a href="javascript:dijit.byId('setTestBar').startAnimation();">play</a> | <a href="javascript:dijit.byId('setTestBar').stopAnimation()">stop</a>
+			
+						Indeterminate: 
+						<div style="width:400px" indeterminate="true" dojoType="dijit.ProgressBar"></div>
 	
 						<h2>Dijit TitlePane (nested)</h2>
 						<div dojoType="dijit.TitlePane" title="Outer pane" width="275">
