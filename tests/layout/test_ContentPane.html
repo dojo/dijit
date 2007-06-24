@@ -81,7 +81,7 @@
 		<div dojoType="dijit.layout.ContentPane" class="box" href="combotab.html" hasShadow="true" id="test">
 					hi
 				</div>
-				<input type="button" value="Change pane in 3 seconds" onClick='setTimeout("dijit.byId(\"test\").setUrl(\"tab2.html\")", 3000);'>
+				<input type="button" value="Change pane in 3 seconds" onClick='setTimeout("dijit.byId(\"test\").setHref(\"tab2.html\")", 3000);'>
 		<script type="text/javascript">
 			dojo.addOnLoad(function(){
 				var tmp = new dijit.layout.ContentPane({}, dojo.byId("ContentPane3"));

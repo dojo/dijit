@@ -1,0 +1,524 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+        "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+	<title>Test ContentPane</title>
+	<style type="text/css">
+		@import "../../../dojo/resources/dojo.css";
+		@import "../../themes/tundra/tundra.css";
+		@import "../css/dijitTests.css";
+
+		.box {
+			border: 1px solid black;
+			padding: 8px;
+		}
+
+		.dijitTestWidget {
+			border: 1px dashed red;
+			background-color: #C0E209 ;
+		}
+	</style>
+
+	<script type="text/javascript" src="../../../dojo/dojo.js" djConfig="isDebug: true"></script>
+	<script type="text/javascript">
+		dojo.require("doh.runner");
+		dojo.require("dijit.layout.ContentPane");
+		dojo.require("dijit._Templated");
+
+		// create a do nothing, only for test widget
+		dojo.declare("dijit.TestWidget",
+			[dijit._Widget, dijit._Templated], {
+			templateString: "<span class='dijitTestWidget'></span>"
+			
+		});
+
+
+		dojo.addOnLoad(function(){
+			doh.register("pane1",
+				[
+					{
+						name: "no_autoparse",
+						runTest: function(t){
+							if(dijit.byId("pane1")){
+								throw doh._AssertFailure("Page got autoparsed when it shouldn't");
+							}
+						}
+					}
+				]
+			);
+
+			var pane2 = {}; // an Object just to get a ref instead of a copy in all closures below
+
+			doh.registerGroup("pane2",
+				[
+					function(t){ t.assertTrue(pane2)},
+					{
+						name: "autocreate_subwidgets",
+						runTest: function(t){
+							// make sure the page havent autoparsed
+							t.assertFalse(dijit.byId('pane2'));
+
+							pane2 = new dijit.layout.ContentPane({}, dojo.byId("pane2"));
+
+							var children = pane2.getChildren();
+
+							t.assertEqual(children.length, 4);
+							t.assertEqual("zero", children[0].id);
+							t.assertEqual("one", children[1].id);
+							t.assertEqual("two", children[2].id);
+							t.assertEqual("three", children[3].id);
+						}
+					},
+					{
+						name: "clear_content",
+						setUp: function(t){
+							pane2.setContent();// pass undefined on purpose
+						},
+						runTest: function(t){
+							t.assertEqual(0, pane2.getChildren().length);
+							t.assertEqual("", pane2.domNode.innerHTML)
+						}
+					},
+					{
+						name: "setContent_DOMNode",
+						setUp: function(t){
+							var div = dojo.doc.createElement('div');
+							div.innerHTML = "setContent( [DOMNode] )";
+							div.setAttribute('dojoType', 'dijit.TestWidget');
+							pane2.setContent(div);
+						},
+						runTest: function(t){
+							t.assertEqual(1, pane2.getChildren().length);
+						},
+						tearDown: function(t){
+							pane2.setContent(); // clear content for next test
+						}
+					},
+					{
+						name: "setContent_NodeList",
+						setUp: function(t){
+							var div = dojo.doc.createElement('div');
+							div.innerHTML = "<div dojotype='dijit.TestWidget'>above</div>"
+											+"Testing!<div><p><span><b>Deep nested</b></span></p></div>"
+											+"<div dojotype='dijit.TestWidget'>below</div>";
+
+							var list = div.childNodes;
+							pane2.setContent(div.childNodes);
+						},
+						runTest: function(t){
+							t.assertEqual(2, pane2.getChildren().length);
+
+							//regular DOM check
+							var children = pane2.domNode.childNodes;
+							t.assertEqual(4, children.length);
+							t.assertEqual("Testing!", children[1].nodeValue);
+							t.assertEqual("div", children[2].nodeName.toLowerCase());
+							t.assertEqual("<p><span><b>deep nested</b></span></p>", children[2].innerHTML.toLowerCase());
+						}
+					},
+					{
+						name: "setContent_dojo_NodeList",
+						setUp: function(t){
+							pane2.setContent();
+						},
+						runTest: function(t){
+							var div = dojo.doc.createElement('div');
+							div.innerHTML = "<div dojotype='dijit.TestWidget'>above</div>"
+										+"Testing!<div><p><span><b>Deep nested</b></span></p></div>"
+										+"<div dojotype='dijit.TestWidget'>below</div>";
+
+							var list = new dojo.NodeList();
+							dojo.forEach(div.childNodes, function(n){
+								list.push(n.cloneNode(true));
+							});
+
+							pane2.setContent(list);
+							t.assertEqual(4, pane2.domNode.childNodes.length);
+						}
+					},
+					// TODO: this test only passes on khtml(3.5.7) < (CSS3 selectors)?
+// 					{
+// 						name: "setContent_dojo_query",
+// 						setUp: function(t){
+// 							pane2.setContent();
+// 						},
+// 						runTest: function(t){
+// 							var div = dojo.doc.createElement('div');
+// 							div.innerHTML = "<div dojotype='dijit.TestWidget'>above</div>"
+// 										+"Testing!<div><p><span id='one' style='background-color:white'>"
+// 										+"<b>Deep nested</b></span></p></div>"
+// 										+"<div id='two' style='display:inline'>Inline!</div>"
+// 										+"<div dojotype='dijit.TestWidget'>below</div>";
+// 
+// 							pane2.setContent(dojo.query("[style]", div));
+// 
+// 							var children = pane2.domNode.childNodes;
+// 
+// 							t.assertEqual(2, children.length);
+// 							// test for correct order
+// 							t.assertEqual('one', children[0].id);
+// 							t.assertEqual('two', children[1].id);
+// 
+// 							t.assertEqual("white", children[0].style.backgroundColor);
+// 							t.assertEqual("<b>deep nested</b>", children[0].innerHTML.toLowerCase());
+// 							t.assertEqual("inline", children[1].style.display);
+// 							t.assertEqual("inline!", children[1].innerHTML.toLowerCase());
+// 						}
+// 					},
+
+					{
+						name: "extractContent",
+						runTest: function(t){
+							var def = pane2.extractContent;
+							t.assertFalse(def);
+
+							// test that it's actually working
+							pane2.extractContent = true;
+							pane2.setContent('<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" '
+								+'"http://www.w3.org/TR/html4/strict.dtd">'
+								+'<html><head><style>body{font-weight:bold;}</style></head>'
+								+'<body>extractContent test</body></html>');
+
+							t.assertEqual("extractContent test", pane2.domNode.innerHTML);
+
+							// reset back to default
+							pane2.extractContent = def;
+						}
+					},
+					{
+						name: "setHref_loading",
+						timeout: 1100,
+						setUp: function(t){
+							pane2.setHref('getResponse.php?messId=1');
+						},
+						runTest: function(t){
+							var d = new tests.Deferred();
+							setTimeout(d.getTestCallback(
+								function(){
+									t.assertEqual(1, pane2.getChildren().length);
+								})
+							, 1000);
+							return d;
+						}
+					},
+					{
+						name: "setHref_then_cancel",
+						timeout: 1500,
+						setUp: function(t){
+							pane2.setContent();// clear previous
+						},
+						runTest: function(t){
+							var msg = "This should NEVER be seen!";
+							pane2.setHref('getResponse.php?delay=1000&message='+encodeURI(msg));
+							var d = new t.Deferred();
+							setTimeout(d.getTestCallback(
+								function(){
+									t.assertFalse(pane2.domNode.innerHTML == msg);
+								}
+							), 1400);
+
+							pane2.cancel();
+
+							return d;
+						}
+					},
+					{
+						// test that setHref cancels a inflight setHref
+						name: "setHref_cancels_previous_setHref",
+						timeout: 1300,
+						setUp: function(t){
+							pane2.setContent();
+						},
+						runTest: function(t){
+							var msgCanceled = "This should be canceled";
+							pane2.setHref("getResponse.php?delay=1000&message="+encodeURI(msgCanceled));
+
+							var msg = "This message should win over the previous";
+							setTimeout(function(){
+								pane2.setHref("getResponse.php?message="+encodeURI(msg));
+							}, 900);
+
+							var d = new t.Deferred();
+							setTimeout(d.getTestCallback(
+								function(){
+									t.assertEqual(msg, pane2.domNode.innerHTML);
+								}
+							), 1250);
+							return d;
+						}
+					},
+					{
+						name: "setContent_cancels_setHref",
+						timeout: 1300,
+						setUp: function(t){
+							pane2.setContent();
+						},
+						runTest: function(t){
+							var msgCanceled = "This message be canceled";
+							pane2.setHref("getResponse.php?delay=1000&message="+encodeURI(msgCanceled));
+
+							var msg = "This message should win over the inflight one";
+							setTimeout(function(){
+								pane2.setContent(msg);
+							}, 900);
+
+							var d = new t.Deferred();
+							setTimeout(d.getTestCallback(
+								function(){
+									t.assertEqual(msg, pane2.domNode.innerHTML);
+								}
+							), 1250);
+							return d;
+						}
+					},
+					{
+						name: "refresh",
+						setUp: function(t){
+							pane2.setHref("getResponse.php?message="+encodeURI('initial load'));
+						},
+						runTest: function(t){
+							var msg = 'refreshed load'
+							setTimeout(function(){
+								pane2.href = "getResponse.php?message="+encodeURI(msg);
+								pane2.refresh();
+							}, 100);
+
+							var d = new t.Deferred();
+							setTimeout(d.getTestCallback(
+								function(){
+									t.assertEqual(msg, pane2.domNode.innerHTML);
+								}
+							), 400);
+							return d;
+
+						}
+					},
+					{
+						name: "preventCache",
+						setUp: function(t){
+							pane2.setContent();
+						},
+						runTest: function(t){
+							var def = pane2.preventCache;
+							t.assertFalse(def);
+
+							pane2.preventCache = true;
+
+							pane2.setHref("getResponse.php?bounceGetStr=1&message="+encodeURI('initial'));
+							var d = new t.Deferred();
+							setTimeout(d.getTestCallback(
+								function(){
+									var getStr = dojo.byId('bouncedGetStr');
+									t.assertTrue(getStr.innerHTML.indexOf('preventCache=') > -1);
+								}
+							), 300);
+
+							pane2.preventCache = def;
+							return d;
+						},
+						tearDown: function(t){
+							pane2.preventCache = false;
+						}
+					},
+					{
+						name: "isLoaded",
+						setUp: function(t){
+							pane2.setContent();
+						},
+						runTest: function(t){
+							t.assertTrue(pane2.isLoaded);
+
+							pane2.setHref("getResponse.php?delay=300&message=test");
+
+							t.assertFalse(pane2.isLoaded);
+
+							var ilObj = {}; // a object to get a reference instead of copy
+
+							// probe after 200ms
+							setTimeout(function(){
+								ilObj.probed = pane2.isLoaded;
+							}, 200);
+
+							var d = new t.Deferred();
+							setTimeout(d.getTestCallback(
+								function(){
+									t.assertTrue(pane2.isLoaded);
+									t.assertFalse(ilObj.probed);
+								}
+							), 450);
+							return d;
+						}
+					},
+					{
+						// test that we does'nt load a response if we are hidden
+						name: "wait_with_load_when_domNode_hidden",
+						timeout: 600,
+						setUp: function(t){
+							pane2.domNode.style.display = 'none';
+							pane2.setContent();
+						},
+						runTest: function(t){
+							pane2._msg = "This text should not be loaded until after widget is shown";
+							pane2.setHref("getResponse.php?message="+encodeURI(pane2._msg));
+
+							var d = new t.Deferred();
+							setTimeout(d.getTestCallback(
+								function(){
+									t.assertFalse(pane2.domNode.innerHTML == pane2._msg);
+								}
+							), 500);
+							return d;
+						},
+						tearDown: function(t){
+							pane2.domNode.style.display = "";
+						}
+					},
+					{
+						name: "onDownloadError",
+						setUp: function(t){
+							pane2.setContent();
+						},
+						runTest: function(t){
+							var res = {};
+							var msg = "Error downloading modified message";
+							var orig = pane2.onDownloadError;
+
+
+							pane2.onDownloadError = function(){
+								return msg;
+							}
+
+							this.onError = function(e){
+								res.onError = true;
+								res.onError_Arg = !!e;
+								return "This message should be ignored as it gets invoked by dojo.connect";
+							}
+
+							var evtHandle = dojo.connect(pane2, 'onDownloadError', this, 'onError');
+
+							// test onDownloadError
+							pane2.setHref('nonexistant');
+
+							// do the test
+							var d = new t.Deferred();
+							setTimeout(function(){
+								try{
+									if(!res.onError){
+										d.errback(new doh._AssertFailure("onDownloadError was never invoked"));
+									}
+									if(!res.onError_Arg){
+										d.errback(new doh._AssertFailure("onDownloadError did'nt get any argument on invokation"));
+									}
+									if(pane2.domNode.innerHTML != msg){
+										d.errback(new doh._AssertFailure("custom errortext not set"));
+									}
+								}catch(e){
+									d.errback(e);
+								}finally{
+									// reset to default
+									dojo.disconnect(evtHandle);
+									pane2.onDownloadError = orig;
+								}
+							}, 450);
+
+							return d;
+						}
+					},
+					{
+						name: "onLoad|Unload_onDownloadStart|End",
+						setUp:function(t){
+							pane2.setContent();
+						},
+						runTest:function(t){
+							var obj = {
+								start:function(){
+									this.start_called = 1; 
+									// check that custom message gets set
+									setTimeout(function(){
+										obj.start_msg = (pane2.domNode.innerHTML == msg);
+									}, 20);
+								},
+								end: function(){ this.end_called = 1; },
+								load: function(){ this.load_called = 1; },
+								unload: function(){ this.unload_called = 1; }
+							};
+
+							//set custom message
+							var origStart = pane2.onDownloadStart;
+							var msg = "custom downloadstart message";
+							pane2.onDownloadStart = function(){ return msg; };
+
+							var startHandler = dojo.connect(pane2, 'onDownloadStart', obj, 'start');
+							var endHandler = dojo.connect(pane2, 'onDownloadEnd', obj, 'end');
+							var loadHandler = dojo.connect(pane2, 'onLoad', obj, 'load');
+							var unloadHandler = dojo.connect(pane2, 'onUnload', obj, 'unload');
+
+
+							pane2.setHref('getResponse.php?delay=400');
+
+							var d = new t.Deferred();
+							setTimeout(function(){
+								try{
+									if(!obj.start_called){
+										d.errback(new doh._AssertFailure('onDownloadStart not called')); 
+									}
+									if(!obj.start_msg){
+										d.errback(new doh._AssertFailure('custom download message not set'));
+									}
+									if(!obj.end_called){
+										d.errback(new doh._AssertFailure('onDownloadEnd not called'));
+									}
+									if(!obj.unload_called){
+										d.errback(new doh._AssertFailure('onUnload not called'));
+									}
+									if(!obj.load_called){
+										d.errback(new doh._AssertFailure('onLoad not called'));
+									}
+								}catch(e){
+									d.errback(e);
+								}finally{
+									dojo.disconnect(endHandler);
+									dojo.disconnect(startHandler);
+									dojo.disconnect(unloadHandler);
+									dojo.disconnect(loadHandler);
+
+									pane2.onDownloadStart = origStart;
+								}
+							}, 450);
+
+							return d;
+						}
+					}
+
+					// TODO:
+					// add tests for:
+					//	refreshOnShow ?? should we realy have this in dijit ContentPane?
+				]
+			);
+			
+			doh.run();
+		});
+
+	</script>
+</head>
+<body class="tundra">
+
+		<h2>dijit.layout.ContentPane test</h2>
+		<h3>Test designed to run on localhost (minimize impact from network latency)</h3>
+
+		<h4>This should NOT be parsed automatically</h4>
+		<div dojoType="dijit.layout.ContentPane" class="box" hasShadow="true" id="pane1">
+			<div dojoType='dijit.TestWidget'>If this has a different background and a red border, the page parsed when it shouldn't</div>
+		</div>
+		<br/><h3>Testing ContentPane</h3>
+		<div id='pane2' class='box'>
+			Even tough the entire page isn't scanned for widgets, 
+			any sub widgets of a ContentPane will be created when a ContentPane is created<br/>
+			<span id="zero" dojoType='dijit.TestWidget'>This should have a backgroundcolor and a border</span>
+			<div id="one" dojoType="dijit._Widget"></div>
+			<div id="two" dojoType="dijit._Widget"></div>
+			<div id="three" dojoType="dijit._Widget"></div>
+		</div>
+		<br/><br/>
+</body>
+</html>
