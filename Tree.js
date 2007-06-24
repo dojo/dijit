@@ -69,7 +69,10 @@ dojo.declare(
 
 			// Create _TreeNode widget for each specified tree node
 			dojo.forEach(childrenArray, function(childParams){
-				var child = new dijit._TreeNode(dojo.mixin({tree: this.tree}, childParams));
+				var child = new dijit._TreeNode(dojo.mixin({
+					tree: this.tree,
+					label: this.tree.store.getLabel(childParams.item)
+				}, childParams));
 				this.addChild(child);
 			}, this);
 
@@ -122,14 +125,6 @@ dojo.declare(
 	//	query to get top level node(s) of tree (ex: {type:'continent'})
 	query: null,
 
-	// labelAttr: String
-	//		name of attribute that holds label (title) for each tree node
-	labelAttr: "label",
-
-	// typeAttr: String
-	//		name of attribute that holds type for each tree node
-	typeAttr: "type",
-
 	// childrenAttr: String
 	//		name of attribute that holds children of a tree node
 	childrenAttr: "children",
@@ -179,8 +174,6 @@ dojo.declare(
 				store: this.store,
 				treeId: this.id,
 				query: this.query,
-				labelAttr: this.labelAttr,
-				typeAttr: this.typeAttr,
 				childrenAttr: this.childrenAttr
 			}
 		);
@@ -249,11 +242,6 @@ dojo.declare(
 		this.lastFocused = null;
 	},
 
-	// TODO:
-	//	make sure that if a node is deleted tabIndex goes to another node, and also that
-	//	if you programatically create a tree with no data, when the first row is added
-	//	tabIndex will go to that node
-
 	focusNode: function(/* _tree.Node */ node){
 		// summary
 		//	Focus on the specified node (which must be visible)
@@ -294,7 +282,7 @@ dojo.declare(
 	isTreeNode: true,
 
 	// label: String
-	//		HTML for the text of this tree node
+	//		Text of this tree node
 	label: "",
 
 	isFolder: null, // set by widget depending on children/args
@@ -302,8 +290,10 @@ dojo.declare(
 	isExpanded: false,
 
 	postCreate: function(){
-		this.labelNode.innerHTML = this.label;	
-		var children = this.getChildren();			
+		// set label, escaping special characters
+		this.labelNode.innerHTML="";
+		this.labelNode.appendChild(document.createTextNode(this.label));
+		
 		// set expand icon for leaf 	
 		this._setExpando();
 	},

@@ -1,5 +1,6 @@
 { identifier: 'name',
-   items: [
+  label: 'name',
+  items: [
      { name:'Africa', type:'continent',
          children:[{reference:'Egypt'}, {reference:'Kenya'}, {reference:'Sudan'}] },
      { name:'Egypt', type:'country' },

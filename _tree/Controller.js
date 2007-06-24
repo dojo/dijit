@@ -233,8 +233,6 @@ dojo.declare(
 				function(item){
 					return {
 						item: item,
-						label: _this.store.getValue(item, _this.labelAttr),
-						type: _this.store.getValue(item, _this.typeAttr),
 						isFolder: _this.store.hasAttribute(item, _this.childrenAttr)
 						};
 				});
@@ -297,8 +295,6 @@ dojo.declare(
 		var childParams=dojo.map(items, function(item){
 			return {
 				item: item,
-				label: this.store.getValue(item, this.labelAttr),
-				type: this.store.getValue(item, this.typeAttr),
 				isFolder: this.store.hasAttribute(item, this.childrenAttr)
 			};
 		}, this);
