@@ -106,10 +106,6 @@ dijit.layout.layoutChildren = function(/*DomNode*/ container, /*Object*/ dim, /*
 	/**
 	 * summary
 	 *		Layout a bunch of child dom nodes within a parent dom node
-	 *		Returns true if successful, returns false if any of the children would
-	 * 		have been calculated to be hidden (typically if browser hasn't flowed the nodes)
-	 *		In the latter case, a best-effort of the layout is done and the caller can
-	 *		reschedule a layout at a later time - when the browser has more accurate metrics
 	 * container:
 	 *		parent node
 	 * dim:
@@ -126,8 +122,9 @@ dijit.layout.layoutChildren = function(/*DomNode*/ container, /*Object*/ dim, /*
 	// set positions/sizes
 	var ret=true;
 	dojo.forEach(children, function(child){
-		var elm=child.domNode;
-		var pos=child.layoutAlign;
+		var elm=child.domNode,
+			pos=child.layoutAlign;
+
 		// set elem to upper left corner of unused space; may move it later
 		var elmStyle = elm.style;
 		elmStyle.left = dim.l+"px";
@@ -137,74 +134,39 @@ dijit.layout.layoutChildren = function(/*DomNode*/ container, /*Object*/ dim, /*
 		var capitalize = function(word){
 			return word.substring(0,1).toUpperCase() + word.substring(1);
 		};
+		var size = function(widget, dim){
+			// size the child
+			widget.resize ? widget.resize(dim) : dojo.marginBox(widget.domNode, dim);
+			
+			// record child's size, but favor our own numbers when we have them.
+			// the browser lies sometimes
+			dojo.mixin(widget, dojo.marginBox(widget.domNode));
+			dojo.mixin(widget, dim);
+		};
 
 		dojo.addClass(elm, "dijitAlign" + capitalize(pos));
 
 		// set size && adjust record of remaining space.
 		// note that setting the width of a <div> may affect it's height.
 		if (pos=="top" || pos=="bottom"){
-			if(child.resize){
-				child.resize({w: dim.w});
-			}else{
-				dojo.marginBox(elm, { w: dim.w });
-			}
-			var h = dojo.marginBox(elm).h;
-			dim.h -= h;
-			dojo.mixin(child, {w: dim.w, h: h});	// return child size
+			size(child, { w: dim.w });
+			dim.h -= child.h;
 			if(pos=="top"){
-				dim.t += h;
+				dim.t += child.h;
 			}else{
 				elmStyle.top = dim.t + dim.h + "px";
 			}
 		}else if(pos=="left" || pos=="right"){
-			var w = dojo.marginBox(elm).w;
-
-			// TODO: this zero stuff shouldn't be necessary anymore
-			var hasZero = dijit.layout._sizeChild(child, elm, w, dim.h);
-			if(hasZero){
-				ret = false;
-			}
-			dim.w -= w;
+			size(child, { h: dim.h });
+			dim.w -= child.w;
 			if(pos=="left"){
-				dim.l += w;
+				dim.l += child.w;
 			}else{
 				elmStyle.left = dim.l + dim.w + "px";
 			}
-		} else if(pos=="flood" || pos=="client"){
-			// #1635 - filter for zero dimensions (see below)
-			var hasZero = dijit.layout._sizeChild(child, elm, dim.w, dim.h);
-			if(hasZero){
-				ret = false;
-			}
+		}else if(pos=="flood" || pos=="client"){
+			size(child, dim);
 		}
 	});
 	return ret;
 };
-
-dijit.layout._sizeChild = function (child, elm, w, h){
-	// Note: zero dimensions can occur if we are called before the browser
-	// don't allow such values for width and height, let the browser adjust the
-	// layout itself when it reflows and report if any dimension is zero
-	var box = {};
-
-	var hasZero = (w == 0 || h == 0);
-	if(!hasZero){
-	// TODO: Bill: this makes no sense.  If !hasZero then w!=0 and h!=0.
-	// The following two if statements are meaningless.
-		if(w != 0){
-			box.w = w;
-		}
-		if(h != 0){
-			box.h = h;
-		}
-		if(child.resize){
-			child.resize(box);
-		}else{
-			dojo.marginBox(elm, box);
-		}
-	}
-	dojo.mixin(child, box);	// return child size
-	return hasZero;
-}
-
-
