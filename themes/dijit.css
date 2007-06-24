@@ -908,9 +908,9 @@ body .dijitAlignClient { position: absolute; }
 	cursor:pointer;
 }
 
-.tundra .calendarMontLabel {}
+.calendarMontLabel {}
 
-.tundra .calendarMonthLabelSpacer {
+.calendarMonthLabelSpacer {
 	/* don't display it, but make it affect the width */
   	position: relative;
   	height: 1px;
@@ -944,7 +944,7 @@ body .dijitAlignClient { position: absolute; }
 	color:white;
 }
 
-.tundra .dijitMenuItemIcon {
+.dijitMenuItemIcon {
 	position: relative;
 	background-position: center center;
 	background-repeat: no-repeat;
@@ -970,14 +970,14 @@ body .dijitAlignClient { position: absolute; }
 }
 
 /* separator can be two pixels -- set border of either one to 0px to have only one */
-.tundra .dijitMenuSeparatorTop {
+.dijitMenuSeparatorTop {
 	height: 50%;
 	margin: 0px;
 	margin-top:3px;
 	font-size: 1px;
 }
 
-.tundra .dijitMenuSeparatorBottom {
+.dijitMenuSeparatorBottom {
 	height: 50%;
 	margin: 0px;
 	margin-bottom:3px;
