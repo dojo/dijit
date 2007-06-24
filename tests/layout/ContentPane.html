@@ -23,18 +23,19 @@
 	<script type="text/javascript">
 		dojo.require("doh.runner");
 		dojo.require("dijit.layout.ContentPane");
+		dojo.require("dijit._Container");
 		dojo.require("dijit._Templated");
 
 		// create a do nothing, only for test widget
 		dojo.declare("dijit.TestWidget",
 			[dijit._Widget, dijit._Templated], {
 			templateString: "<span class='dijitTestWidget'></span>"
-			
 		});
 
 
 		dojo.addOnLoad(function(){
-			doh.register("pane1",
+			// TODO: trac #3510 to se if we should uncomment
+			/*doh.register("pane1",
 				[
 					{
 						name: "no_autoparse",
@@ -45,14 +46,15 @@
 						}
 					}
 				]
-			);
+			);*/
 
 			var pane2 = {}; // an Object just to get a ref instead of a copy in all closures below
 
 			doh.registerGroup("pane2",
 				[
-					function(t){ t.assertTrue(pane2)},
-					{
+					// TODO: trac #3510 to se if we should uncomment
+					// see note about remove a the creation statement in next test
+					/*{
 						name: "autocreate_subwidgets",
 						runTest: function(t){
 							// make sure the page havent autoparsed
@@ -60,7 +62,7 @@
 
 							pane2 = new dijit.layout.ContentPane({}, dojo.byId("pane2"));
 
-							var children = pane2.getChildren();
+							var children = dijit._Container.prototype.getChildren.call(pane2);
 
 							t.assertEqual(children.length, 4);
 							t.assertEqual("zero", children[0].id);
@@ -68,15 +70,29 @@
 							t.assertEqual("two", children[2].id);
 							t.assertEqual("three", children[3].id);
 						}
-					},
+					},*/
 					{
 						name: "clear_content",
 						setUp: function(t){
+							// TODO: remove this line if we uncomment above
+							pane2 = new dijit.layout.ContentPane({}, dojo.byId("pane2"));
+
 							pane2.setContent();// pass undefined on purpose
 						},
 						runTest: function(t){
-							t.assertEqual(0, pane2.getChildren().length);
+							t.assertEqual(0, dijit._Container.prototype.getChildren.call(pane2).length);
 							t.assertEqual("", pane2.domNode.innerHTML)
+						}
+					},
+					{
+						name: "setContent_String",
+						setUp: function(){
+							pane2.setContent();
+						},
+						runTest: function(t){
+							var msg = "<h3>a simple html string</h3>";
+							pane2.setContent(msg);
+							t.assertEqual(msg, pane2.domNode.innerHTML.toLowerCase());
 						}
 					},
 					{
@@ -88,7 +104,7 @@
 							pane2.setContent(div);
 						},
 						runTest: function(t){
-							t.assertEqual(1, pane2.getChildren().length);
+							t.assertEqual(1, dijit._Container.prototype.getChildren.call(pane2).length);
 						},
 						tearDown: function(t){
 							pane2.setContent(); // clear content for next test
@@ -106,7 +122,7 @@
 							pane2.setContent(div.childNodes);
 						},
 						runTest: function(t){
-							t.assertEqual(2, pane2.getChildren().length);
+							t.assertEqual(2, dijit._Container.prototype.getChildren.call(pane2).length);
 
 							//regular DOM check
 							var children = pane2.domNode.childNodes;
@@ -136,36 +152,6 @@
 							t.assertEqual(4, pane2.domNode.childNodes.length);
 						}
 					},
-					// TODO: this test only passes on khtml(3.5.7) < (CSS3 selectors)?
-// 					{
-// 						name: "setContent_dojo_query",
-// 						setUp: function(t){
-// 							pane2.setContent();
-// 						},
-// 						runTest: function(t){
-// 							var div = dojo.doc.createElement('div');
-// 							div.innerHTML = "<div dojotype='dijit.TestWidget'>above</div>"
-// 										+"Testing!<div><p><span id='one' style='background-color:white'>"
-// 										+"<b>Deep nested</b></span></p></div>"
-// 										+"<div id='two' style='display:inline'>Inline!</div>"
-// 										+"<div dojotype='dijit.TestWidget'>below</div>";
-// 
-// 							pane2.setContent(dojo.query("[style]", div));
-// 
-// 							var children = pane2.domNode.childNodes;
-// 
-// 							t.assertEqual(2, children.length);
-// 							// test for correct order
-// 							t.assertEqual('one', children[0].id);
-// 							t.assertEqual('two', children[1].id);
-// 
-// 							t.assertEqual("white", children[0].style.backgroundColor);
-// 							t.assertEqual("<b>deep nested</b>", children[0].innerHTML.toLowerCase());
-// 							t.assertEqual("inline", children[1].style.display);
-// 							t.assertEqual("inline!", children[1].innerHTML.toLowerCase());
-// 						}
-// 					},
-
 					{
 						name: "extractContent",
 						runTest: function(t){
@@ -195,7 +181,7 @@
 							var d = new tests.Deferred();
 							setTimeout(d.getTestCallback(
 								function(){
-									t.assertEqual(1, pane2.getChildren().length);
+									t.assertEqual(1, dijit._Container.prototype.getChildren.call(pane2).length);
 								})
 							, 1000);
 							return d;
@@ -373,7 +359,7 @@
 							pane2.domNode.style.display = "";
 						}
 					},
-					{
+					{	// this test fails due to #3503
 						name: "onDownloadError",
 						setUp: function(t){
 							pane2.setContent();
@@ -424,7 +410,7 @@
 							return d;
 						}
 					},
-					{
+					{// this test fails due to #3503
 						name: "onLoad|Unload_onDownloadStart|End",
 						setUp:function(t){
 							pane2.setContent();
@@ -502,23 +488,22 @@
 	</script>
 </head>
 <body class="tundra">
+	<h2>dijit.layout.ContentPane test</h2>
+	<h3>Test designed to run on localhost (minimize impact from network latency)</h3>
 
-		<h2>dijit.layout.ContentPane test</h2>
-		<h3>Test designed to run on localhost (minimize impact from network latency)</h3>
-
-		<h4>This should NOT be parsed automatically</h4>
-		<div dojoType="dijit.layout.ContentPane" class="box" hasShadow="true" id="pane1">
-			<div dojoType='dijit.TestWidget'>If this has a different background and a red border, the page parsed when it shouldn't</div>
-		</div>
-		<br/><h3>Testing ContentPane</h3>
-		<div id='pane2' class='box'>
-			Even tough the entire page isn't scanned for widgets, 
-			any sub widgets of a ContentPane will be created when a ContentPane is created<br/>
-			<span id="zero" dojoType='dijit.TestWidget'>This should have a backgroundcolor and a border</span>
-			<div id="one" dojoType="dijit._Widget"></div>
-			<div id="two" dojoType="dijit._Widget"></div>
-			<div id="three" dojoType="dijit._Widget"></div>
-		</div>
-		<br/><br/>
+	<h4>This should NOT be parsed automatically</h4>
+	<div dojoType="dijit.layout.ContentPane" class="box" hasShadow="true" id="pane1">
+		<div dojoType='dijit.TestWidget'>If this has a different background and a red border, the page parsed when it shouldn't</div>
+	</div>
+	<br/><h3>Testing ContentPane</h3>
+	<div id='pane2' class='box'>
+		Even tough the entire page isn't scanned for widgets, 
+		any sub widgets of a ContentPane will be created when a ContentPane is created<br/>
+		<span id="zero" dojoType='dijit.TestWidget'>This should have a backgroundcolor and a border</span>
+		<div id="one" dojoType="dijit._Widget"></div>
+		<div id="two" dojoType="dijit._Widget"></div>
+		<div id="three" dojoType="dijit._Widget"></div>
+	</div>
+	<br/><br/>
 </body>
 </html>

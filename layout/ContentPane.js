@@ -6,7 +6,7 @@ dojo.require("dojo.parser");
 
 dojo.declare(
 	"dijit.layout.ContentPane",
-	[dijit._Widget, dijit._Container],
+	dijit._Widget,
 {
 	// summary:
 	//		A widget that acts as a Container for other widgets, and includes a ajax interface
@@ -189,7 +189,9 @@ dojo.declare(
 		}
 		if(this.href != ""){
 			this._prepareLoad();
-		}else if(this.parse && !dojo.autoparse && !this._initialyParsed){
+		}
+		// TODO: trac #3510 to see if auto parse will optional when requiring dojo.parser
+		/*else if(this.parse && !dojo.autoparse && !this._initialyParsed){
 			// support creating a page without auto widgetParse
 			// with a contentPane a Root of some widgetified nodes below
 			// these would be created along with the contentPane
@@ -197,7 +199,7 @@ dojo.declare(
 			this._createSubWidgets();
 			this._initialyParsed = true;
 			this._onLoadHandler();
-		}
+		}*/
 	},
 
 	_prepareLoad: function(forceLoad){
