@@ -118,9 +118,11 @@
         <script type="text/javascript">
                 document.getElementById('container').className = themeName;
         </script>
-	<!-- store for Tree widget -->
+	<!-- data for tree and combobox -->
 	<div dojoType="dojo.data.JsonItemStore" jsId="continentStore"
 		url="../tests/countries.json"></div>
+	<div dojoType="dojo.data.JsonItemStore" jsId="stateStore"
+		url="../tests/form/comboBoxData.json"></div>
 	<!-- contentMenu popup -->
 	<div dojoType="dijit.PopupMenu" id="submenu1" contextMenuForWindow="true" style="display: none;">
 		<div dojoType="dijit.MenuItem" caption="Enabled Item" onClick="alert('Hello world');"></div>
@@ -475,9 +477,8 @@
 						<p id="backgroundArea" dojoType="dijit.form.InlineEditBox">
 						<input searchField="name" keyField="abbreviation" id="setvaluetest"
 							dojoType="dijit.form.FilteringSelect" value="IA"
-							url="../tests/form/comboBoxData.json" name="state1" autocomplete="true"
-							labelField="label" labelType="html"
-							dataProviderClass="dojo.data.JsonItemStore" promptMessage="Please enter a state">
+							store="stateStore" name="state1" autocomplete="true"
+							promptMessage="Please enter a state">
 						</p>
 	
 						<b>HTML After</b><br><br>
