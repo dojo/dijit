@@ -426,11 +426,17 @@ left;
 	-moz-border-radius:2px 2px 0px 0px;	/* eliminate some border detritrus on moz */
 }
 
-.tundra .dijitAlignLeft .dijitTabSelected {
+.tundra .dijitAlignLeft .dijitTabSelected,
+.tundra .dijitAlignLeft .dijitTabSelectedHover,
+.tundra .dijitAlignLeft .dijitTabCloseButtonSelectedHover
+{
 	border-right-color:white;
 }
 
-.tundra .dijitAlignRight .dijitTabSelected {
+.tundra .dijitAlignRight .dijitTabSelected,
+.tundra .dijitAlignRight .dijitTabSelectedHover,
+.tundra .dijitAlignRight .dijitTabCloseButtonSelectedHover
+{
 	border-left-color:white;
 }
 
