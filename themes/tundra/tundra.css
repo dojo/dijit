@@ -410,12 +410,18 @@ left;
 
 
 /* make the active tab white on the side next to the content pane */
-.tundra .dijitAlignTop .dijitTabSelected {
+.tundra .dijitAlignTop .dijitTabSelected,
+.tundra .dijitAlignTop .dijitTabSelectedHover,
+.tundra .dijitAlignTop .dijitTabCloseButtonSelectedHover
+{
 	border-bottom-color:white;
 	vertical-align:bottom;
 }
 
-.tundra .dijitAlignBottom .dijitTabSelected {
+.tundra .dijitAlignBottom .dijitTabSelected,
+.tundra .dijitAlignBottom .dijitTabSelectedHover,
+.tundra .dijitAlignBottom .dijitTabCloseButtonSelectedHover
+{
 	border-top-color:white;
 	-moz-border-radius:2px 2px 0px 0px;	/* eliminate some border detritrus on moz */
 }
