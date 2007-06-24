@@ -27,8 +27,7 @@ dojo.declare(
 		searchLimit: Infinity,
 
 		// store: Object
-		//		Reference to data provider object created for this ComboBox
-		//		according to "dataProviderClass" argument.
+		//		Reference to data provider object used by this ComboBox
 		store: null,
 
 		// autoComplete: Boolean
@@ -41,29 +40,6 @@ dojo.declare(
 		//		Delay in milliseconds between when user types something and we start
 		//		searching based on that value
 		searchDelay: 100,
-
-		// url: String
-		//		URL argument passed to data provider object (class name specified in "dataProviderClass")
-		//		An example of the URL format for the default data provider is
-		//		"comboBoxData.js"
-		url: "",
-
-// Bill: not sure we want to support url parameter; if we do then we have to support it for
-// all dojo.data widgets (grid, tree)
-
-		// dataProviderClass: String
-		//		Name of data provider class (code that maps a search string to a list of values)
-		//		The class must match the interface demonstrated by dojo.data.JsonItemStore
-		dataProviderClass: "dojo.data.JsonItemStore",
-
-// Bill: not sure we want to support this; if we do then we have to support it for
-// all dojo.data widgets (grid, tree)
-
-		// data: Object
-		//		Inline data to put in store
-		//		Data must match data type of dataProviderClass
-		//		For example, data would contain JSON data if dataProviderClass is a JsonItemStore
-		data:null,
 
 		// searchAttr: String
 		//		Searches pattern match against this field
@@ -433,53 +409,29 @@ dojo.declare(
 			this.store.fetch({queryOptions:{ignoreCase:this.ignoreCase}, query: query, onComplete:dojo.hitch(this, "_openResultList"), count:this.searchLimit});
 		},
 
-		_assignHiddenValue:function(/*Object*/ keyValArr, /*DomNode*/ option){
-			// sets the hidden value of an item created from an <option value="CA">
-			// ComboBox does not care about the value; FilteringSelect does though
-			// FilteringSelect overrides this method
-		},
-
 		_getValueField:function(){
 			return this.searchAttr;
 		},
 
-		postCreate: function(){
-			// dojo.data code
-			var dpClass=dojo.getObject(this.dataProviderClass, false);
-			// is the store not specified?
-			var data;
-			if(this.store==null){
-				// if user didn't specify either url or data, then assume there are option tags
-				if(this.url==""&&this.data==null){
-					dpClass=dojo.getObject("dojo.data.JsonItemStore", false);
-					var opts = this.domNode.getElementsByTagName("option");
-					var ol = opts.length;
-					data=[];
-					// go backwards to create the options list
-					// have to go backwards because we are removing the option nodes
-					// the option nodes are visible once the ComboBox initializes
-					for(var x=ol-1; x>=0; x--){
-						var text = opts[x].innerHTML;
-						var keyValArr ={};
-						keyValArr[this.searchAttr]=String(text);
-						// FilteringSelect: assign the value attribute to the hidden value
-						this._assignHiddenValue(keyValArr, opts[x]);
-						data.unshift(keyValArr);
-						// remove the unnecessary node
-						// if you keep the node, it is visible on the page!
-						this.domNode.removeChild(opts[x]);
-					}
-					// pass store inline data
-					this.data={identifier:this._getValueField(), items:data};
-				}
-				this.store=new dpClass(this);
-			}
+		postMixInProperties: function(){
+			if(!this.store){
+				// if user didn't specify store, then assume there are option tags
+				var items = dojo.query("> option", this.srcNodeRef).map(function(node){
+					return { value: node.getAttribute("value"), name: String(node.innerHTML) };
+				});
+				this.store = new dojo.data.JsonItemStore({data: {identifier:this._getValueField(), items:items}});
 
-			// if there is no value set and there is an option list,
-			// set the value to the first value to be consistent with native Select
-			if(data&&data.length&&!this.value){
-				this.value=data[0][this._getValueField()];
+				// if there is no value set and there is an option list,
+				// set the value to the first value to be consistent with native Select
+				if(items&&items.length&&!this.value){
+					this.value=items[0][this._getValueField()];
+				}
+				
+				this.srcNodeRef.innerHTML="";
 			}
+		},
+		
+		postCreate: function(){
 			// call the associated Textbox postCreate
 			// ValidationTextbox for ComboBox; MappedTextbox for FilteringSelect
 			this.parentClass=dojo.getObject(this.declaredClass, false).superclass;

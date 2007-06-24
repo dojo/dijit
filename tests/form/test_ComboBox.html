@@ -12,13 +12,14 @@
 </script>
 <script type="text/javascript" src="../../../dojo/dojo.js"></script>
 <script type="text/javascript">
+	dojo.require("dojo.data.JsonItemStore");
 	dojo.require("dijit.form.ComboBox");
 	dojo.require("dijit.util.manager");
 	dojo.require("dojo.parser");	// scan page for widgets and instantiate them
 </script>
 <style>
-        @import "../../../dojo/resources/dojo.css";
-        @import "../../themes/tundra/tundra.css";
+	@import "../../../dojo/resources/dojo.css";
+	@import "../../themes/tundra/tundra.css";
 	@import "../css/dijitTests.css";
 </style>
 
@@ -35,8 +36,13 @@
 	}
 	var combo;
 	function init(){
-		//var store=new dojo.data.JsonItemStore({});
-		combo = new dijit.form.ComboBox({data:{items:[{name:"California", label:"California"}]}, name:"prog",autocomplete:false,searchAttr:"name", labelField:"label", labelType:"text"}, document.getElementById("progCombo"));
+		var store=new dojo.data.JsonItemStore({url: '../tests/form/comboBoxData.json'});
+		combo = new dijit.form.ComboBox({
+			name:"prog",
+			autocomplete:false,
+			store: store,
+			searchAttr:"name"
+		}, document.getElementById("progCombo"));
 	}
 	dojo.addOnLoad(init);
 
@@ -64,101 +70,95 @@ The drop down list is filtered by the data you have already typed in.
 			name="state1"
 			dojoType="dijit.form.ComboBox"
 			class="medium"
-			searchAttr="name"
-			labelField="name"
-			labelType="text"
 			style="width: 300px;font-size:20pt;background-color:cyan;"
 			name="foo.bar1"
 			autocomplete="false"
 			value="Iowa"
-			promptMessage="Please enter a state"
 			onValueChanged="setVal1"
 	>
 		<option></option>
-		<option value="Alabama">Alabama</option>
-		<option value="Alaska">Alaska</option>
-		<option value="American Samoa">American Samoa</option>
-		<option value="Arizona">Arizona</option>
-		<option value="Arkansas">Arkansas</option>
-		<option value="Armed Forces Europe">Armed Forces Europe</option>
-		<option value="Armed Forces Pacific">Armed Forces Pacific</option>
-		<option value="Armed Forces the Americas">Armed Forces the Americas</option>
-		<option value="California">California</option>
-		<option value="Colorado">Colorado</option>
-		<option value="Connecticut">Connecticut</option>
-		<option value="Delaware">Delaware</option>
-		<option value="District of Columbia">District of Columbia</option>
-		<option value="Federated States of Micronesia">Federated States of Micronesia</option>
-		<option value="Florida">Florida</option>
-		<option value="Georgia">Georgia</option>
-		<option value="Guam">Guam</option>
-		<option value="Hawaii">Hawaii</option>
-		<option value="Idaho">Idaho</option>
-		<option value="Illinois">Illinois</option>
-		<option value="Indiana">Indiana</option>
-		<option value="Iowa" selected>Iowa</option>
-		<option value="Kansas">Kansas</option>
-		<option value="Kentucky">Kentucky</option>
-		<option value="Louisiana">Louisiana</option>
-		<option value="Maine">Maine</option>
-		<option value="Marshall Islands">Marshall Islands</option>
-		<option value="Maryland">Maryland</option>
-		<option value="Massachusetts">Massachusetts</option>
-		<option value="Michigan">Michigan</option>
-		<option value="Minnesota">Minnesota</option>
-		<option value="Mississippi">Mississippi</option>
-		<option value="Missouri">Missouri</option>
-		<option value="Montana">Montana</option>
-		<option value="Nebraska">Nebraska</option>
-		<option value="Nevada">Nevada</option>
-		<option value="New Hampshire">New Hampshire</option>
-		<option value="New Jersey">New Jersey</option>
-		<option value="New Mexico">New Mexico</option>
-		<option value="New York">New York</option>
-		<option value="North Carolina">North Carolina</option>
-		<option value="North Dakota">North Dakota</option>
-		<option value="Northern Mariana Islands">Northern Mariana Islands</option>
-		<option value="Ohio">Ohio</option>
-		<option value="Oklahoma">Oklahoma</option>
-		<option value="Oregon">Oregon</option>
-		<option value="Pennsylvania">Pennsylvania</option>
-		<option value="Puerto Rico">Puerto Rico</option>
-		<option value="Rhode Island">Rhode Island</option>
-		<option value="South Carolina">South Carolina</option>
-		<option value="South Dakota">South Dakota</option>
-		<option value="Tennessee">Tennessee</option>
-		<option value="Texas">Texas</option>
-		<option value="Utah">Utah</option>
-		<option value="Vermont">Vermont</option>
-		<option value="Virgin Islands, U.S.">Virgin Islands, U.S.</option>
-		<option value="Virginia">Virginia</option>
-		<option value="Washington">Washington</option>
-		<option value="West Virginia">West Virginia</option>
-		<option value="Wisconsin">Wisconsin</option>
-		<option value="Wyoming">Wyoming</option>
+		<option>Alabama</option>
+		<option>Alaska</option>
+		<option>American Samoa</option>
+		<option>Arizona</option>
+		<option>Arkansas</option>
+		<option>Armed Forces Europe</option>
+		<option>Armed Forces Pacific</option>
+		<option>Armed Forces the Americas</option>
+		<option>California</option>
+		<option>Colorado</option>
+		<option>Connecticut</option>
+		<option>Delaware</option>
+		<option>District of Columbia</option>
+		<option>Federated States of Micronesia</option>
+		<option>Florida</option>
+		<option>Georgia</option>
+		<option>Guam</option>
+		<option>Hawaii</option>
+		<option>Idaho</option>
+		<option>Illinois</option>
+		<option>Indiana</option>
+		<option selected>Iowa</option>
+		<option>Kansas</option>
+		<option>Kentucky</option>
+		<option>Louisiana</option>
+		<option>Maine</option>
+		<option>Marshall Islands</option>
+		<option>Maryland</option>
+		<option>Massachusetts</option>
+		<option>Michigan</option>
+		<option>Minnesota</option>
+		<option>Mississippi</option>
+		<option>Missouri</option>
+		<option>Montana</option>
+		<option>Nebraska</option>
+		<option>Nevada</option>
+		<option>New Hampshire</option>
+		<option>New Jersey</option>
+		<option>New Mexico</option>
+		<option>New York</option>
+		<option>North Carolina</option>
+		<option>North Dakota</option>
+		<option>Northern Mariana Islands</option>
+		<option>Ohio</option>
+		<option>Oklahoma</option>
+		<option>Oregon</option>
+		<option>Pennsylvania</option>
+		<option>Puerto Rico</option>
+		<option>Rhode Island</option>
+		<option>South Carolina</option>
+		<option>South Dakota</option>
+		<option>Tennessee</option>
+		<option>Texas</option>
+		<option>Utah</option>
+		<option>Vermont</option>
+		<option>Virgin Islands, U.S.</option>
+		<option>Virginia</option>
+		<option>Washington</option>
+		<option>West Virginia</option>
+		<option>Wisconsin</option>
+		<option>Wyoming</option>
 	</select>
 
-	<br>
-	<div>Value: <input id="value1" disabled></div>
+	<span>Value: <input id="value1" disabled></span>
 	<hr>
+
+	<div dojoType="dojo.data.JsonItemStore" jsId="stateStore"
+		url="comboBoxData.json"></div>
 
 	<p>ComboBox #2: url, autocomplete=true:</p>
 	<label for="datatest">US State test 2: </label>
 	<input dojoType="dijit.form.ComboBox"
 			value="California"
 			class="medium"
-			url="comboBoxData.json"
+			store="stateStore"
 			searchAttr="name"
-			labelField="label"
-			labelType="html"
 			style="width: 300px;"
 			name="state2"
-			promptMessage="Please enter a state"
 			onValueChanged="setVal2"
 			id="datatest"
 	>
-	<br>
-	<div>Value: <input id="value2" disabled></div>
+	<span>Value: <input id="value2" disabled></span>
 	<hr>
 
     <p>ComboBox #3: initially disabled, url, autocomplete=false:</p>
@@ -167,52 +167,23 @@ The drop down list is filtered by the data you have already typed in.
  			dojoType="dijit.form.ComboBox"
  			value="California"
  			class="medium"
-			url="comboBoxData.json"
+			store="stateStore"
 			searchAttr="name"
-			labelField="label"
-			labelType="html"
 			style="width: 300px;"
 			name="state3"
 			autocomplete="false"
-			promptMessage="Please enter a state"
 			onValueChanged="setVal3"
 			disabled
 	>
-	<br>
-	<div>Value: <input id="value3" disabled></div>
+	<span>Value: <input id="value3" disabled></span>
 	<div>
 		<button id="but" onclick='toggleDisabled("but", "combo3"); return false;'>Enable</button>
 	</div>
 	<hr>
-    <p>Multiple autocompleters on a single line:</p>
-    <label for="one">US State 1: </label>
- 	<input dojoType="dijit.form.ComboBox"
- 			value="California"
- 			id="one"
-			url="comboBoxData.json"
-			searchAttr="name"
-			labelField="label"
-			labelType="html"
-			style="width: 200px;"
-			name="state4"
-			autocomplete="false"
-	>	<label for="two">US State 2: </label>
- 	<input dojoType="dijit.form.ComboBox"
- 			value="California"
- 			id="two"
-			url="comboBoxData.json"
-			searchAttr="name"
-			labelField="label"
-			labelType="html"
-			style="width: 200px;"
-			name="state5"
-			autocomplete="false"
-	>
-	<hr>
 	<p>A ComboBox with no arrow</p>
  	<input dojoType="dijit.form.ComboBox"
  			value="California"
-			url="comboBoxData.json"
+			store="stateStore"
 			searchAttr="name"
 			name="state5"
 			autocomplete="false"

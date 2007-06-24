@@ -140,13 +140,6 @@ dojo.declare(
 			//this.setDisplayedValue(this.textbox.value);
 		},
 
-		_assignHiddenValue:function(/*Object*/ keyValArr, /*DomNode*/ option){
-			// summary:
-			// 	Overrides ComboBox._assignHiddenValue for creating a data store from an options list.
-			// 	Takes the <option value="CA"> and makes the CA the hidden value of the item.
-			keyValArr["value"]=option.value;
-		},
-
 		_doSelect: function(/*Event*/ tgt){
 			// summary:
 			//	ComboBox's menu callback function

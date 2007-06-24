@@ -68,9 +68,9 @@ Enhancements over plain HTML version:
 			id="setvaluetest2"
 			name="state1"
 			autocomplete="false"
-			promptMessage="Please enter a state"
-			invalidMessage="Enter a valid state name"
-			onValueChanged="setValue('value1', arguments[0]);" value="CA"
+			invalidMessage="Invalid state name"
+			onValueChanged="setValue('value1', arguments[0]);"
+			value="CA"
 	>
 		<option value="blank"></option>
 		<option value="AL">Alabama</option>
@@ -141,20 +141,19 @@ Enhancements over plain HTML version:
 	<div>Value: <input id="value1" disabled></div>
 	<hr>
 
+	<div dojoType="dojo.data.JsonItemStore" jsId="stateStore"
+		url="comboBoxData.json"></div>
+
 	<p>FilteringSelect #2: url, autocomplete=true:</p>
 	<input searchAttr="name"
 			id="setvaluetest"
 			dojoType="dijit.form.FilteringSelect"
 			value="IA"
-			url="comboBoxData.json"
+			store="stateStore"
 			name="state2"
 			autocomplete="true"
-			labelAttr="label"
-			labelType="html"
 			onValueChanged="setValue('value2', arguments[0]);"
-			dataProviderClass="dojo.data.JsonItemStore"
-			promptMessage="Please enter a state"
-			invalidMessage="Enter a valid state name"
+			invalidMessage="Invalid state name"
 	>
 	<br>
 	<div>Value: <input id="value2" disabled></div>
@@ -164,59 +163,31 @@ Enhancements over plain HTML version:
  	<input searchAttr="name"
  			dojoType="dijit.form.FilteringSelect"
  			value="VI"
- 			url="comboBoxData.json"
+ 			store="stateStore"
  			name="state3"
  			autocomplete="false"
- 			labelAttr="label"
- 			labelType="html"
  			onValueChanged="setValue('value3', arguments[0]);"
- 			promptMessage="Please enter a state"
-			invalidMessage="Enter a valid state name"
+			invalidMessage="Invalid state name."
 	>
 	<div>Value: <input id="value3" disabled></div>
-	<hr>
-	<p>FilteringSelect #4: declarative store, autocomplete=false:</p>
- 	<input searchAttr="name"
- 			dojoType="dijit.form.FilteringSelect"
- 			value="AL"
- 			name="state4"
- 			autocomplete="false"
- 			labelAttr="label"
- 			labelType="html"
- 			store="myStore"
- 			promptMessage="Please enter a state"
-			invalidMessage="Enter a valid state name"
-	>
-	<br>
 	<hr>
 	<p>FilteringSelect #5: custom labelFunc (value in textbox should be lower case when onValueChanged is called), autocomplete=true:</p>
  	<input searchAttr="name"
  			dojoType="dijit.form.FilteringSelect"
  			value="OR"
  			labelFunc="myLabelFunc"
- 			url="comboBoxData.json"
+ 			store="stateStore"
  			name="state5"
  			autocomplete="true"
  			labelAttr="label"
  			labelType="html"
  			dataProviderClass="dojo.data.JsonItemStore"
  			promptMessage="Please enter a state"
-			invalidMessage="Enter a valid state name"
+			invalidMessage="Invalid state name."
 	>
 	<br>
 	<hr>
-	<p>FilteringSelect #6: No promptMessage, labelType=text</p>
-	<p>FilteringSelect an item from the list.  You shouldn't get an error.</p>
-	<input
-		dojoType="dijit.form.FilteringSelect"
-		store="myStore"
-		searchAttr="name"
-		labelAttr="label"
-		labelType="text"
-		value="KY"
-	>
-	<br>
-	<hr>
+
 	<p>FilteringSelect #7: Input method editor Chinese characters</p>
 	<p>Using an input method editor (see <a href="http://www.microsoft.com/windows/ie/ie6/downloads/recommended/ime/default.mspx">IME</a> for Windows) try typing &#38463; (a) or &#25226; (ba).</p>
 
@@ -261,11 +232,8 @@ Enhancements over plain HTML version:
  			value="AL"
  			name="state10"
  			autocomplete="false"
- 			labelAttr="label"
- 			labelType="html"
  			store="myStore"
- 			promptMessage="Please enter a state"
-			invalidMessage="Enter a valid state name"
+ 			invalidMessage="Invalid state name."
 			hasDownArrow="false"
 	>
 	<br>
