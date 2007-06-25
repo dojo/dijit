@@ -14,7 +14,7 @@
 .dj_ie6 .tundra .dijitComboBoxInput {
 	background-image: none;
 	/* TODO: won't work; path is wrong; use gif instead? */
-	filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src="dijitTundraGradientBg.png", sizingMethod="scale");
+	/* filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src="dijitTundraGradientBg.png", sizingMethod="scale"); */
 }
 
 /** TODO: add all other PNGs here that need this */
