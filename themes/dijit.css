@@ -1149,3 +1149,17 @@ body .dijitAlignClient { position: absolute; }
 .dj_ie .dijitDialogUnderlay {
 	filter: alpha(opacity=50);
 }
+/* images off, high-contrast mode styles */
+.dijit_a11y .dijitDialog {
+	opacity: 1 !important;
+	background-color: white !important;
+}
+
+.dijitDialog .closeText {
+	display:none;
+	position:absolute;
+}
+
+.dijit_a11y .dijitDialog .closeText { 
+	display:inline;
+}
