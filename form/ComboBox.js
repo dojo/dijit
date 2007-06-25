@@ -49,8 +49,6 @@ dojo.declare(
 		//		Does the ComboBox menu ignore case?
 		ignoreCase: true,
 
-		templatePath: dojo.moduleUrl("dijit.form", "templates/ComboBox.html"),
-
 		_hasMasterPopup:true,
 
 		_popupClass:"dijit.form._ComboBoxMenu",

@@ -14,7 +14,6 @@ dojo.declare(
 		// summary:
 		//		A validating, serializable, range-bound date text box.
 		// constraints object: min, max
-		templatePath: dojo.moduleUrl("dijit.form", "templates/ComboBox.html"),
 		regExpGen: dojo.date.locale.regexp,
 		compare: dojo.date.compare,
 		format: dojo.date.locale.format,
@@ -23,11 +22,12 @@ dojo.declare(
 		_popupClass: "dijit._Calendar",
 
 		postMixInProperties: function(){
-			this.constraints.selector = 'date';
 			// manual import of RangeBoundTextbox properties
 			// both _DropDownTextBox and RangeBoundTextbox have a postMixInProperties!
 			dijit.form.RangeBoundTextbox.prototype.postMixInProperties.apply(this, arguments);
 			dijit.form._DropDownTextBox.prototype.postMixInProperties.apply(this, arguments);
+			// #3407: only change constraints after postMixInProperties or ValidationTextbox will clear the change
+			this.constraints.selector = 'date';
 			// #2999
 			if(typeof this.constraints.min == "string"){ this.constraints.min = dojo.date.stamp.fromISOString(this.constraints.min); }
  			if(typeof this.constraints.max == "string"){ this.constraints.max = dojo.date.stamp.fromISOString(this.constraints.max); }

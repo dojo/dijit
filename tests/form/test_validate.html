@@ -339,28 +339,34 @@
 			invalidMessage="Invalid Email Address List." />
 	</div>
 	-->
-
 	<div class="dojoTitlePaneLabel">
 		<label for="q14"> Date (local format) </label>
+		<span class="noticeMessage">DateTextbox class, no attributes</span>
+	</div>
+	<div class="testExample">
+		<input id="q14" type="text" dojoType="dijit.form.DateTextbox"> 
+	</div>
+	<div class="dojoTitlePaneLabel">
+		<label for="q14a"> Date (local format) </label>
 		<span class="noticeMessage">DateTextbox class,
 			Attributes: required="true", constraints={min:'2004-01-01',max:'2006-12-31'}. Works for leap years</span>
 	</div>
 	<div class="testExample">
-		<input id="q14" type="text" name="date1" class="medium" value="2005-12-30"
+		<input id="q14a" type="text" name="date1" class="medium" value="2005-12-30"
 			dojoType="dijit.form.DateTextbox"
 			constraints={min:'2004-01-01',max:'2006-12-31'}
 			required="true"
 			promptMessage="mm/dd/yyyy"
 			invalidMessage="Invalid date. Use mm/dd/yyyy format." />
-		<input type="button" value="Destroy" onClick="dijit.byId('q14').destroy(); return false;">
+		<input type="button" value="Destroy" onClick="dijit.byId('q14a').destroy(); return false;">
 	</div>
 	<div class="dojoTitlePaneLabel">
-		<label for="q14"> Date (American format) </label>
+		<label for="q14b"> Date (American format) </label>
 		<span class="noticeMessage">DateTextbox class,
 			Attributes: lang="en-us", required="true", constraints={min:'2004-01-01',max:'2006-12-31'}. Works for leap years</span>
 	</div>
 	<div class="testExample">
-		<input id="q14a" type="text" name="date1" class="medium" value="2005-12-30"
+		<input id="q14b" type="text" name="date1" class="medium" value="2005-12-30"
 			dojoType="dijit.form.DateTextbox"
 			constraints={min:'2004-01-01',max:'2006-12-31'}
 			lang="en-us"
@@ -368,7 +374,6 @@
 			promptMessage="mm/dd/yyyy"
 			invalidMessage="Invalid date. Use mm/dd/yyyy format." />
 	</div>
-
 	<div class="dojoTitlePaneLabel">
 		<label for="q15"> Date (German format) </label>
 		<span class="noticeMessage">DateTextbox class,
