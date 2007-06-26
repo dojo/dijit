@@ -68,8 +68,8 @@ dojo.declare(
 		},
 
 		startup: function(){
-			this._menu = dijit.byId(this.dropDownId);
-			this.connect(this._menu, "onClose", function(){
+			this._dropDown = dijit.byId(this.dropDownId);
+			this.connect(this._dropDown, "onClose", function(){
 				this.popupStateNode.removeAttribute("popupActive");
 			});
 		},
@@ -77,28 +77,28 @@ dojo.declare(
 		_onArrowClick: function(/*Event*/ e){
 			// summary: callback when the user mouse clicks on menu popup node
 			if(this.disabled){ return; }
-			this._toggleMenu();
+			this._toggleDropDown();
 		},
 
 		_onKey: function(/*Event*/ e){
 			// summary: callback when the user presses a key on menu popup node
 			if(this.disabled){ return; }
 			if(e.keyCode == dojo.keys.DOWN_ARROW){
-				if(!this._menu || this._menu.domNode.style.display=="none"){
+				if(!this._dropDown || this._dropDown.domNode.style.display=="none"){
 					dojo.stopEvent(e);
-					return this._toggleMenu();
+					return this._toggleDropDown();
 				}
 			}
 		},
 
-		_toggleMenu: function(){
-			// summary: toggle the menu; if it is up, close it, if not, open it
+		_toggleDropDown: function(){
+			// summary: toggle the drop-down widget; if it is up, close it, if not, open it
 			if(this.disabled){ return; }
 			this.popupStateNode.focus();
-			var menu = this._menu;
-			if(!menu){ return false; }
-			if(!menu.isShowingNow){
-				dijit.util.popup.open({popup: menu, around: this.domNode});
+			var dropDown = this._dropDown;
+			if(!dropDown){ return false; }
+			if(!dropDown.isShowingNow){
+				dijit.util.popup.open({popup: dropDown, around: this.domNode});
 				this.popupStateNode.setAttribute("popupActive", "true");
 				this._opened=true;
 			}else{
