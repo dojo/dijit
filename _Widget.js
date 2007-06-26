@@ -214,18 +214,23 @@ function(params, srcNodeRef){
 		// summary:
 		//		Connects specified obj/event to specified method of this object
 		//		and registers for disconnect() on widget destroy.
-		//		Special event: "onklick" triggers on a click or [space|enter]-key-up.
+		//		Special event: "onklick" triggers on a click or enter-down or space-up
 		//		Similar to dojo.connect() but takes three arguments rather than four.
 		var handles =[];
 		if (event == "onklick"){
 			var w = this;
 			// add key based click activation for unsupported nodes.
 			if (!this.nodesWithKeyClick[obj.nodeName]){
+				handles.push(dojo.connect(obj, "onkeydown", this,
+					function(e){
+						if(e.keyCode == dojo.keys.ENTER){
+							return (dojo.isString(method))? 
+								w[method](e) : method.call(w, e);
+						}
+			 		}));
 				handles.push(dojo.connect(obj, "onkeyup", this,
 					function(e){
-						if(e.keyCode == dojo.keys.SPACE ||
-							e.keyCode == dojo.keys.ENTER){
-							e._dijit_onklick = true;
+						if(e.keyCode == dojo.keys.SPACE){
 							return (dojo.isString(method))? 
 								w[method](e) : method.call(w, e);
 						}
