@@ -204,6 +204,8 @@ function(params, srcNodeRef){
 		return list.map(dijit.util.manager.byNode);		// Array
 	},
 
+	nodesWithKeyClick : ["input", "button"],
+
 	connect: function(
 			/*Object|null*/ obj,
 			/*String*/ event,
@@ -212,20 +214,41 @@ function(params, srcNodeRef){
 		// summary:
 		//		Connects specified obj/event to specified method of this object
 		//		and registers for disconnect() on widget destroy.
+		//		Special event: "onklick" triggers on a click or [space|enter]-key-up.
 		//		Similar to dojo.connect() but takes three arguments rather than four.
-		var handle=dojo.connect(obj, event, this, method);
-		this._connects.push(handle);
-		// return handle for FormElement and ComboBox
-		return handle;
+		var handles =[];
+		if (event == "onklick"){
+			var w = this;
+			// add key based click activation for unsupported nodes.
+			if (!this.nodesWithKeyClick[obj.nodeName]){
+				handles.push(dojo.connect(obj, "onkeyup", this,
+					function(e){
+						if(e.keyCode == dojo.keys.SPACE ||
+							e.keyCode == dojo.keys.ENTER){
+							e._dijit_onklick = true;
+							return (dojo.isString(method))? 
+								w[method](e) : method.call(w, e);
+						}
+			 		}));
+			}
+			event = "onclick";
+		}
+		handles.push(dojo.connect(obj, event, this, method));
+
+		// return handles for FormElement and ComboBox
+		this._connects.push(handles);
+		return handles;
 	},
 
-	disconnect: function(/*Object*/ handle){
+	disconnect: function(/*Object*/ handles){
 		// summary:
 		//		Disconnects handle created by this.connect.
 		//		Also removes handle from this widget's list of connects
 		for(var i=0; i<this._connects.length; i++){
-			if(this._connects[i]==handle){
-				dojo.disconnect(handle);
+			if(this._connects[i]==handles){
+				handles.forEach(function(h) {
+					dojo.disconnect(h);
+				});
 				this._connects.splice(i, 1);
 				return;
 			}

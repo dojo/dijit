@@ -1,0 +1,94 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+        "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+
+	<title>Test Dijit Internal Event: "onklick"</title>
+
+	<script type="text/javascript" src="../../dojo/dojo.js" djConfig="isDebug: true"></script>
+	<script type="text/javascript">
+		dojo.require("doh.runner");
+		dojo.require("dijit.form.Button");
+
+		dojo.require("dojo.parser");
+		
+		var kclick_handler_fired = 0;
+
+		dojo.addOnLoad(function(){
+			doh.register("onklick",
+				[
+					{
+						name: "the widget we are testing uses onklick (if fails then need to test different widget)",
+						runTest: function(t){
+							var c = dijit.byId("combo1");
+							t.t(dojo.query('[dojoattachEvent*=\"onklick\"]', c.domNode).length);
+						}
+					},
+					{
+						name: "onklick fires once on a  space-key-up",
+						runTest: function(t){
+							var c = dijit.byId("combo1");
+							if (dojo.isSafari){ // safari has error
+								this.name += " * SKIPPED *";
+								return;
+							}
+
+							// simulate space up
+							if (document.createEvent){
+								var e = document.createEvent("KeyboardEvent");
+								e.initKeyEvent("keyup",true,true,null,false,false,false,false,32,0);
+								c.focusNode.focus();
+								kclick_handler_fired = 0;
+								c.focusNode.dispatchEvent(e);
+								t.t(kclick_handler_fired);
+							}
+						}
+					},
+					{
+						name: "onklick fires once on an enter-key-up",
+						runTest: function(t){
+							var c = dijit.byId("combo1");
+							if (dojo.isSafari){ // safari has error
+								this.name += " * SKIPPED *";
+								return;
+							}
+
+							// simulate enter up
+							if (document.createEvent && !dojo.isSafari){
+								var e = document.createEvent("KeyboardEvent");
+								e.initKeyEvent("keyup",true,true,null,false,false,false,false,13,0);
+								c.focusNode.focus();
+								kclick_handler_fired = 0;
+								c.focusNode.dispatchEvent(e);
+								t.is(1,kclick_handler_fired);
+							}
+						}
+					},
+					{
+						name: "onklick fires once on a mouse click",
+						runTest: function(t){
+							var c = dijit.byId("combo1");
+
+							// simulate enter up
+							if (document.createEvent){
+								var e = document.createEvent("MouseEvents");
+								e.initMouseEvent('click', true, true, document.defaultView, 1, 0, 0, 3, 3, false, false, false, false, 0, c.focusNode);
+								kclick_handler_fired = 0;
+								c.focusNode.dispatchEvent(e);
+								t.is(1,kclick_handler_fired);
+							}
+						}
+					},
+				]
+			);
+			doh.run();
+		});
+
+	</script>
+</head>
+<body class="tundra">
+			<div id="combo1" dojoType="dijit.form.ComboButton" optionsTitle='save options' menuId='saveMenu' onClick='kclick_handler_fired++;' onkeyup='user_onkeyup_fired = true'>
+				<img src="../images/note.gif" width="20" height="20">Test Button
+			</div>
+</body>
+</html>

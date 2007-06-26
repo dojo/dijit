@@ -82,10 +82,7 @@ dojo.declare(
 		_onKey: function(/*Event*/ e){
 			// summary: callback when the user presses a key on menu popup node
 			if(this.disabled){ return; }
-			var key = (e.charCode == dojo.keys.SPACE ? dojo.keys.SPACE : e.keyCode);
-			if((key == dojo.keys.DOWN_ARROW)
-				|| (key == dojo.keys.ENTER)
-				|| (key == dojo.keys.SPACE)){
+			if(e.keyCode == dojo.keys.DOWN_ARROW){
 				if(!this._menu || this._menu.domNode.style.display=="none"){
 					dojo.stopEvent(e);
 					return this._toggleMenu();
@@ -139,18 +136,7 @@ dojo.declare(
 			if(this.disabled){ return; }
 			this.focusNode.focus();
 			return this.onClick(e);
-		},
-
-		_onButtonKey: function(/*Event*/ e){
-			// summary: callback when the user presses a key on the button portion
-			if(this.disabled){ return; }
-			var key = (e.charCode == dojo.keys.SPACE ? dojo.keys.SPACE : e.keyCode);
-			if((key == dojo.keys.SPACE) || (key == dojo.keys.ENTER)){
-				dojo.stopEvent(e);
-				return this.onClick(e);
-			}
 		}
-
 	});
 
 dojo.declare(
