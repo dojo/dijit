@@ -9,7 +9,7 @@ dojo.declare(
 	[dijit._Widget, dijit._Templated, dijit._Container],
 {
 	templateString:
-		'<div class="dijit dijitToolbar" waiRole="toolbar" dojoAttachPoint="containerNode">' +
+		'<div class="dijit dijitToolbar" waiRole="toolbar" tabIndex="-1" dojoAttachPoint="containerNode">' +
 //			'<table style="table-layout: fixed" class="dijitReset dijitToolbarTable">' + // factor out style
 //				'<tr class="dijitReset" dojoAttachPoint="containerNode"></tr>'+
 //			'</table>' +
