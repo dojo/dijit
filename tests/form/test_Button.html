@@ -9,6 +9,7 @@
 		<script type="text/javascript" src="../../../dojo/dojo.js"
 			djConfig="isDebug: true"></script>
 		<script type="text/javascript">
+			dojo.require("dijit.ColorPalette");
 			dojo.require("dijit.Menu");
 			dojo.require("dijit.Tooltip");
 			dojo.require("dijit.form.Button");
@@ -64,16 +65,19 @@
 			<button dojoType="dijit.form.Button" onclick='logMessage("clicked simple")'>
 				<img src="../images/plus.gif" width="16" height="16"><br>Create
 			</button>
-			<button dojoType="dijit.form.DropDownButton" menuId='editMenu'>
+			<button dojoType="dijit.form.DropDownButton" dropDownId='editMenu'>
 				<img src="../images/note.gif" width="20" height="20"> Edit
 			</button>
-			<button dojoType="dijit.form.DropDownButton" menuId='editMenu'>
+			<button dojoType="dijit.form.DropDownButton" dropDownId='editMenu'>
 				<img src="../images/note.gif" width="20" height="20"><br>Edit
 			</button>
-			<button dojoType="dijit.form.ComboButton" optionsTitle='save options' menuId='saveMenu' onClick='logMessage("clicked combo save")'>
+			<button dojoType="dijit.form.DropDownButton" dropDownId='colorPalette'>
+				<img src="../images/note.gif" width="20" height="20"> Color
+			</button>
+			<button dojoType="dijit.form.ComboButton" optionsTitle='save options' dropDownId='saveMenu' onClick='logMessage("clicked combo save")'>
 				<img src="../images/note.gif" width="20" height="20"> Save
 			</button>
-			<button dojoType="dijit.form.ComboButton" optionsTitle='save options' menuId='saveMenu' onclick='logMessage("clicked combo save")'>
+			<button dojoType="dijit.form.ComboButton" optionsTitle='save options' dropDownId='saveMenu' onclick='logMessage("clicked combo save")'>
 				<img src="../images/note.gif" width="20" height="20"><br>Save
 			</button>
 			<button dojoType="dijit.form.Button" onClick='logMessage("clicked simple")' disabled='true'>
@@ -204,6 +208,8 @@
 			<button onclick='changeCaptions()'>Change caption</button>
 			<button onclick='location.reload()'>Revert</button>
 		</div>
+
+		<div dojoType="dijit.ColorPalette" id="colorPalette" style="display: none" palette="3x4" onColorSelect="console.log(this.selectedColor);"></div>
 
 		<div dojoType="dijit.PopupMenu" id="editMenu" toggle="fade" toggleDuration="500" style="display: none;">
 			<div dojoType="dijit.MenuItem" iconSrc="../../src/widget/templates/buttons/cut.gif" caption="Cut" accelKey="Ctrl+C"

@@ -1,6 +1,7 @@
 dojo.provide("dijit.form.Button");
 
 dojo.require("dijit.form._FormWidget");
+dojo.require("dijit.util.popup");
 
 dojo.declare(
 	"dijit.form.Button",
@@ -43,9 +44,9 @@ dojo.declare(
 
 /*
  * usage
- *	<button dojoType="DropDownButton" menuId="mymenu">Hello world</button>
+ *	<button dojoType="DropDownButton" dropDownId="mymenu">Hello world</button>
  *
- *  var button1 = dojo.widget.createWidget("DropDownButton", {caption: "hello world", menuId: foo});
+ *  var button1 = dojo.widget.createWidget("DropDownButton", {caption: "hello world", dropDownId: foo});
  *	document.body.appendChild(button1.domNode);
  */
 dojo.declare(
@@ -55,9 +56,9 @@ dojo.declare(
 		// summary
 		//		push the button and a menu shows up
 
-		// menuId: String
+		// dropDownId: String
 		//	widget id of the menu that this button should activate
-		menuId: "",
+		dropDownId: "",
 		baseClass : "dijitDropDownButton",
 
 		templatePath: dojo.moduleUrl("dijit.form" , "templates/DropDownButton.html"),
@@ -67,7 +68,7 @@ dojo.declare(
 		},
 
 		startup: function(){
-			this._menu = dijit.byId(this.menuId);
+			this._menu = dijit.byId(this.dropDownId);
 			this.connect(this._menu, "onClose", function(){
 				this.popupStateNode.removeAttribute("popupActive");
 			});
@@ -111,9 +112,9 @@ dojo.declare(
 
 /*
  * usage
- *	<button dojoType="ComboButton" onClick="..." menuId="mymenu">Hello world</button>
+ *	<button dojoType="ComboButton" onClick="..." dropDownId="mymenu">Hello world</button>
  *
- *  var button1 = dojo.widget.createWidget("DropDownButton", {caption: "hello world", onClick: foo, menuId: "myMenu"});
+ *  var button1 = dojo.widget.createWidget("DropDownButton", {caption: "hello world", onClick: foo, dropDownId: "myMenu"});
  *	document.body.appendChild(button1.domNode);
  */
 dojo.declare(
