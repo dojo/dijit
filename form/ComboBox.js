@@ -137,7 +137,7 @@ dojo.declare(
 			switch(evt.keyCode){
 				case dojo.keys.PAGE_DOWN:
 				case dojo.keys.DOWN_ARROW:
-					if(!this.isShowingNow()||this._prev_key_esc){
+					if(!this._isShowingNow||this._prev_key_esc){
 						this._arrowPressed();
 						// bring up full list
 						//this._startSearch("");
@@ -153,7 +153,7 @@ dojo.declare(
 
 				case dojo.keys.PAGE_UP:
 				case dojo.keys.UP_ARROW:
-					if(this.isShowingNow()){
+					if(this._isShowingNow){
 						evt.keyCode==dojo.keys.PAGE_UP ? this._popupWidget.pageUp() : this._popupWidget._highlightPrevOption();
 						this._announceOption(this._popupWidget.getHighlightedOption());
 					}
@@ -168,7 +168,7 @@ dojo.declare(
 					// fall through
 
 				case dojo.keys.TAB:
-					if(this.isShowingNow()){
+					if(this._isShowingNow){
 						this._prev_key_backspace = false;
 						this._prev_key_esc = false;
 						if(this._popupWidget.getHighlightedOption()){
@@ -186,7 +186,7 @@ dojo.declare(
 				case dojo.keys.SPACE:
 					this._prev_key_backspace = false;
 					this._prev_key_esc = false;
-					if(this.isShowingNow() && this._highlighted_option){
+					if(this._isShowingNow && this._highlighted_option){
 						dojo.stopEvent(evt);
 						this._selectOption();
 						this._hideResultList();
@@ -328,7 +328,7 @@ dojo.declare(
 		onblur:function(){
 			// call onblur first to avoid race conditions with _hasFocus
 			dijit.form._DropDownTextBox.prototype.onblur.apply(this, arguments);
-			if(!this.isShowingNow()){
+			if(!this._isShowingNow){
 				// if the user clicks away from the textbox, set the value to the textbox value
 				this.setDisplayedValue(this.getDisplayedValue());
 			}
@@ -385,7 +385,7 @@ dojo.declare(
 			}
 			this.focus();
 			this.makePopup();
-			if(this.isShowingNow()){
+			if(this._isShowingNow){
 				this._hideResultList();
 			}else{
 				// forces full population of results, if they click
@@ -412,6 +412,7 @@ dojo.declare(
 		},
 
 		postMixInProperties: function(){
+			dijit.form._DropDownTextBox.prototype.postMixInProperties.apply(this, arguments);
 			if(!this.store){
 				// if user didn't specify store, then assume there are option tags
 				var items = dojo.query("> option", this.srcNodeRef).map(function(node){

@@ -129,6 +129,7 @@ dojo.declare(
 		var value = this._getEditValue();
 		dijit.form.InlineEditBox.superclass.setValue.call(this, value);
 		// whitespace is really hard to click so show a ?
+		// TODO: show user defined message in gray
 		if(/^\s*$/.test(value)){ value = "?"; this._isEmpty = true; }
 		else { this._isEmpty = false; }
 		if(this.renderHTML){

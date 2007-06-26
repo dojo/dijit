@@ -61,8 +61,8 @@ dojo.declare(
 		_open: function(){
 			// summary:
 			//	opens the Calendar, and sets the onValueSelected for the Calendar
+			var self = this;
 			if(!this._calendar){
-				var self = this;
 				this._calendar = new dijit._Calendar({
 					onValueSelected: function(){
 						dijit.form.DateTextbox.superclass.setValue.apply(self, arguments);					
@@ -75,17 +75,16 @@ dojo.declare(
 						// summary:
 						// 	disables dates outside of the min/max of the DateTextbox
 						return self.constraints && (dojo.date.compare(self.constraints.min,date) > 0 || dojo.date.compare(self.constraints.max,date) < 0);
-					},
-				// TODO: why is this an argument to the popup widget; it should be a callback specified to openAround()
-					onClose: function(){
-						self._opened=false;
 					}
 				});
 				this._calendar.setValue(this.getValue() || new Date());
 			}
 			if(!this._opened){
-				dijit.util.popup.closeAll();	// close any other opened popups (TODO combine into openAround API)
-				dijit.util.popup.openAround(this._calendar, this.domNode);
+				dijit.util.popup.open({
+					popup: this._calendar,
+					around: this.domNode,
+					onClose: function(){ self._opened=false; }
+				});
 				this._opened=true;
 			}
 		},

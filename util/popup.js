@@ -15,38 +15,45 @@ dijit.util.popup = new function(){
 	var beginZIndex=1000;
 	var idGen = 1;
 
-	this.openMouse = function(/*Widget*/widget, /*Event*/ e){
+	this.open = function(/*Object*/ args){
 		// summary:
-		//		Open the widget at mouse position
+		//		Popup the widget at the specified position
+		//
+		// args: Object
+		//		popup: Widget
+		//			widget to display,
+		//		around: DomNode
+		//			DOM node (typically a button); place popup relative to this node
+		//		orient: Object
+		//			structure specifying position of object relative to "around" node
+		//		onClose: Function
+		//			callback when the popup is closed
+		//		submenu: Boolean
+		//			Is this a submenu off of the existing popup?
+		//
+		// examples:
+		//		1. opening at the mouse position
+		//			dijit.util.popup.open({widget: menuWidget, x: evt.pageX, y: evt.pageY});
+		//		2. opening the widget as a dropdown
+		//			dijit.util.popup.open({widget: menuWidget, around: buttonWidget, onClose: function(){...}  });
 
-		return this.openAt(widget, {x: e.pageX, y: e.pageY});
-	};
+		var widget = args.popup,
+			orient = args.orient || {'BL':'TL', 'TL':'BL'},
+			around = args.around,
+			id = (args.around && args.around.id) ? (args.id+"_dropdown") : ("popup_"+idGen++);
 
-	this.openAt = function(/*Widget*/ widget, /*Object*/ pos){
-		// summary:
-		//		Open the widget at (x, y)
-
-		return this._open(widget, {x: pos.x, y: pos.y, id: "popup_"+idGen++});
-	};
-
-	this.openAround = function(/*Widget*/widget, /*Widget*/parent, /*Object?*/orient){
-		// summary:
-		//		Open the widget relative to parent widget (typically as a drop down to that widget)
-
-		return this._open(widget, { around: parent, orient: orient || {'BL':'TL', 'TL':'BL'}, id: parent.id+"_dropdown" });
-	};
-
-	this._open = function(/*Widget*/ widget, /*Object*/ args){
-		// summary: utility function to help opening
-
-		if(stack.length == 0){
-			this._beforeTopOpen(args.around, widget);
+		if(!args.submenu){
+			this.closeAll();
 		}
+		if(stack.length == 0){
+			this._beforeTopOpen(around, widget);
+		}
+
 		// make wrapper div to hold widget and possibly hold iframe behind it.
 		// we can't attach the iframe as a child of the widget.domNode because
 		// widget.domNode might be a <table>, <ul>, etc.
 		var wrapper = dojo.doc.createElement("div");
-		wrapper.id = args.id;
+		wrapper.id = id;
 		wrapper.className="dijitPopup";
 		with(wrapper.style){
 			zIndex = beginZIndex + stack.length;
@@ -59,13 +66,13 @@ dijit.util.popup = new function(){
 		var iframe = new dijit.util.BackgroundIframe(wrapper);
 
 		// position the wrapper node
-		var best = args.around ?
-			dijit.util.placeOnScreenAroundElement(wrapper, args.around, args.orient) :
+		var best = around ?
+			dijit.util.placeOnScreenAroundElement(wrapper, around, orient) :
 			dijit.util.placeOnScreen(wrapper, args, ['TL','BL','TR','BR']);
 
 		// TODO: use effects to fade in wrapper
 
-		stack.push({wrapper: wrapper, iframe: iframe, widget: widget});
+		stack.push({wrapper: wrapper, iframe: iframe, widget: widget, onClose: args.onClose});
 
 		if(widget.onOpen){
 			widget.onOpen();
@@ -80,7 +87,9 @@ dijit.util.popup = new function(){
 		var top = stack.pop();
 		var wrapper = top.wrapper,
 			iframe = top.iframe,
-			widget = top.widget;
+			widget = top.widget,
+			onClose = top.onClose;
+
 		// #2685: check if the widget still has a domNode so ContentPane can change its URL without getting an error
 		if(!widget||!widget.domNode){ return; }
 		dojo.style(widget.domNode, "display", "none");
@@ -89,6 +98,9 @@ dijit.util.popup = new function(){
 
 		if(widget.onClose){
 			widget.onClose();
+		}
+		if(onClose){
+			onClose();
 		}
 
 		if(stack.length == 0){
@@ -228,7 +240,10 @@ dijit.util.popup = new function(){
 		//		Disconnects handlers for mouse click etc. setup by _connectHandlers()
 		dojo.forEach(this._connects, dojo.disconnect);
 		this._connects=[];
-		dojo.unsubscribe(this._focusListener);
+		if(this._focusListener){
+			dojo.unsubscribe(this._focusListener);
+			this._focusListener=null;
+		}
 	};
 
 	dojo.addOnUnload(this, "_disconnectHandlers");

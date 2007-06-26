@@ -62,15 +62,9 @@ dojo.declare(
 				// common code from makePopup
 				var node=document.createElement("div");
 				document.body.appendChild(node);
-				// If you leave display="", _DropDownTextBox will think that the popup is open.
-				// _DropDownTextBox will call popup.close() to close its last popup.
-				// However, because this popup was never popped up,
-				// popup has an empty popup stack and creates an error.
-				// Setting display="none" prevents this bad call to dijit.util.popup.close().
-				with(node.style){
-					display="none";
-					overflow="auto";
-				}
+				// TODO: do we really want to adjusting the size of the dropdown,
+				// rather than using the wrapper created in dijit.util.popup to scroll
+				node.style.overflow="auto";
 				var popupProto=dojo.getObject(_this._popupClass, false);
 				return new popupProto(_this._popupArgs, node);
 			}
@@ -100,7 +94,7 @@ dojo.declare(
 			}
 			this.focus();
 			this.makePopup();
-			if(this.isShowingNow()){
+			if(this._isShowingNow){
 				this._hideResultList();
 			}else{
 				// forces full population of results, if they click
@@ -110,8 +104,8 @@ dojo.declare(
 		},
 
 		_hideResultList: function(){
-			if(this.isShowingNow()){
-				dijit.util.popup.close(true);
+			if(this._isShowingNow){
+				dijit.util.popup.close();
 				this._arrowIdle();
 			}
 		},
@@ -144,7 +138,7 @@ dojo.declare(
 			switch(evt.keyCode){
 				case dojo.keys.PAGE_DOWN:
 				case dojo.keys.DOWN_ARROW:
-					if(!this.isShowingNow()||this._prev_key_esc){
+					if(!this._isShowingNow||this._prev_key_esc){
 						this.makePopup();
 						this._arrowPressed();
 						this._openResultList();
@@ -162,7 +156,7 @@ dojo.declare(
 					// fall through
 				case dojo.keys.ESCAPE:
 				case dojo.keys.TAB:
-					if(this.isShowingNow()){
+					if(this._isShowingNow){
 						this._prev_key_backspace = false;
 						this._prev_key_esc = (evt.keyCode==dojo.keys.ESCAPE);
 						this._hideResultList();
@@ -186,6 +180,7 @@ dojo.declare(
 				var visibleCount = Math.min(childs.length,this.maxListLength);
 				with(this._popupWidget.domNode.style){
 					// trick to get the dimensions of the popup
+					// TODO: doesn't dijit.util.popup.open() do this automatically?
 					display="";
 					width="";
 					height="";
@@ -196,12 +191,6 @@ dojo.declare(
 				var best=this.open();
 				dojo.marginBox(this._popupWidget.domNode, {h:best.h,w:dojo.marginBox(this.domNode).w});
 			}
-		},
-
-		isShowingNow:function(){
-			// summary
-			//	test if the popup is visible
-			return this._popupWidget&&this._popupWidget.domNode&&this._popupWidget.domNode.style.display!="none";
 		},
 
 		getDisplayedValue:function(){
@@ -221,7 +210,13 @@ dojo.declare(
 
 		open:function(){
 			this.makePopup();
-			return dijit.util.popup.openAround(this._popupWidget, this.domNode);
+			var self=this;
+			self._isShowingNow=true;
+			return dijit.util.popup.open({
+				popup: this._popupWidget,
+				around: this.domNode,
+				onClose: function(){ self._isShowingNow=false; }
+			});
 		},
 
 		postMixInProperties:function(){

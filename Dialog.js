@@ -48,7 +48,6 @@ dojo.declare(
 		},
 
 		show: function(){
-			console.debug("_showBackground");
 			this.domNode.style.display = "block";
 			this.layout();
 			if(this.bgIframe.iframe){
@@ -320,7 +319,7 @@ dojo.declare(
 
 		show: function(/*DomNode|String*/ anchor){
 			// summary: display the dialog underneath specified button/link
-			var pos = dijit.util.popup.openAround(this, dojo.byId(anchor), {'BL': 'TL', 'TL': 'BL'});
+			var pos = dijit.util.popup.open({popup: this, around: dojo.byId(anchor), orient: {'BL': 'TL', 'TL': 'BL'}});
 			this.domNode.className="dijitTooltipDialog dijitTooltip" + (pos.corner=='TL' ? "Below" : "Above");
 		},
 		
