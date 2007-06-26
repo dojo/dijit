@@ -1,0 +1,89 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+        "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+
+	<title>Dojo Toolbar Widget Test</title>
+
+	<script type="text/javascript" src="testBidi.js"></script>
+
+	<script type="text/javascript" src="../../dojo/dojo.js" djConfig="isDebug: true, debugAtAllCosts: true"></script>
+	<script type="text/javascript">
+		dojo.require("dijit.form.Button");
+		dojo.require("dijit.ColorPalette");
+		dojo.require("dijit.Toolbar");
+		dojo.require("dojo.parser");	// find widgets
+	</script>
+
+	<!-- programatic creation -->
+	<script>
+		function init(){
+			var toolbar = new dijit.Toolbar({}, dojo.byId("toolbar2"));
+			dojo.forEach(["cut", "copy", "paste"], function(title){
+				var refNode = document.createElement("span");
+				refNode.innerHTML = "<img src=\"../templates/buttons/"+title+".gif\"></img>";
+				var button = new dijit.form.Button({id: "toolbar2."+title, title: title}, refNode);
+				toolbar.addChild(button);
+			});
+		}
+
+		dojo.addOnLoad(init);
+	</script>
+
+	<style type="text/css">
+		@import "../../dojo/resources/dojo.css";
+		@import "../themes/tundra/tundra.css";
+		@import "css/dijitTests.css";
+		
+		.dijitToolbar .dijitButton, .dijitToolbar .dijitDropDownButton { margin: 0px; }
+		.dijitToolbar .dijitToggleButtonSelected BUTTON, .dijitToolbar .dijitToggleButtonSelectedHover BUTTON { border-width: 3px; }
+	</style>
+
+</head>
+<body class="tundra">
+	<h1 class="testTitle">Toolbar test</h1>
+
+    <h2>Toolbar from markup</h2>
+
+	<div dojoType="dijit.ColorPalette" id="toolbar1.colorPalette" style="display: none" palette="3x4" onColorSelect="console.log(this.selectedColor);"></div>
+
+<!-- TODO: enhance buttons to use background images -->
+    <div id="toolbar1" dojoType="dijit.Toolbar"
+            ><div dojoType="dijit.form.Button" id="toolbar1.cut" title="Cut"><img src="../templates/buttons/cut.gif"></img></div
+            ><div dojoType="dijit.form.Button" id="toolbar1.copy" title="Copy"><img src="../templates/buttons/copy.gif"></img></div
+            ><div dojoType="dijit.form.Button" id="toolbar1.paste" title="Paste"><img src="../templates/buttons/paste.gif"></img></div
+
+            ><span dojoType="dijit.ToolbarSeparator"><img src="../templates/buttons/sep.gif"></img></span
+
+            ><div dojoType="dijit.form.ToggleButton" id="toolbar1.bold" title="Bold"><img src="../templates/buttons/bold.gif"></img></div
+            ><div dojoType="dijit.form.ToggleButton" id="toolbar1.italic" title="Italic"><img src="../templates/buttons/italic.gif"></img></div
+            ><div dojoType="dijit.form.ToggleButton" id="toolbar1.underline" title="Underline"><img src="../templates/buttons/underline.gif"></img></div
+            ><div dojoType="dijit.form.ToggleButton" id="toolbar1.strikethrough" title="Strikethrough"><img src="../templates/buttons/strikethrough.gif"></img></div
+
+><!--
+            <span dojoType="dijit.ToolbarSeparator">&nbsp;</span>
+
+            <span dojo:type="ToolbarButtonGroup" name="justify" defaultButton="justifyleft" preventDeselect="true">
+                <div dojoType="dijit.form.Button">justifyleft.gif" toggleItem="true" name="justifyleft"/>
+                <div dojoType="dijit.form.Button">justifycenter.gif" toggleItem="true" name="justifycenter"/>
+                <div dojoType="dijit.form.Button">justifyright.gif" toggleItem="true" name="justifyright"/>
+                <div dojoType="dijit.form.Button">justifyfull.gif" toggleItem="true" name="justifyfull"/>
+            </span>
+
+            --><span dojoType="dijit.ToolbarSeparator"><img src="../templates/buttons/sep.gif"></img></span
+
+            ><div dojoType="dijit.form.Button" id="toolbar1.insertorderedlist" title="Ordered list"><img src="../templates/buttons/insertorderedlist.gif"></img></div
+            ><div dojoType="dijit.form.Button" id="toolbar1.insertunorderedlist" title="Unordered list"><img src="../templates/buttons/insertunorderedlist.gif"></img></div
+            ><div dojoType="dijit.form.Button" id="toolbar1.indent" title="Indent"><img src="../templates/buttons/indent.gif"></img></div
+            ><div dojoType="dijit.form.Button" id="toolbar1.outdent" title="Outdent"><img src="../templates/buttons/outdent.gif"></img></div
+
+            ><span dojoType="dijit.ToolbarSeparator"><img src="../templates/buttons/sep.gif"></img></span
+			><div dojoType="dijit.form.DropDownButton" id="toolbar1.backcolor" dropDownId="toolbar1.colorPalette" title="Change background color"><img src="../templates/buttons/backcolor.gif"></img></div
+            ><div dojoType="dijit.form.DropDownButton" id="toolbar1.forecolor" dropDownId="toolbar1.colorPalette" title="Change foreground color"><img src="../templates/buttons/forecolor.gif"></img></div
+    ></div>
+
+    <h2>Toolbar from script</h2>
+
+	<div id="toolbar2"></div>
+  </body>
+</html>
