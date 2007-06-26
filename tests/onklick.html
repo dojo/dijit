@@ -45,7 +45,7 @@
 						}
 					},
 					{
-						name: "onklick fires once on an enter-key-up",
+						name: "onklick fires once on an enter-key-down",
 						runTest: function(t){
 							var c = dijit.byId("combo1");
 							if (dojo.isSafari){ // safari has error
@@ -53,10 +53,10 @@
 								return;
 							}
 
-							// simulate enter up
+							// simulate enter down
 							if (document.createEvent && !dojo.isSafari){
 								var e = document.createEvent("KeyboardEvent");
-								e.initKeyEvent("keyup",true,true,null,false,false,false,false,13,0);
+								e.initKeyEvent("keydown",true,true,null,false,false,false,false,13,0);
 								c.focusNode.focus();
 								kclick_handler_fired = 0;
 								c.focusNode.dispatchEvent(e);
