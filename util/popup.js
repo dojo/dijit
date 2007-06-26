@@ -148,25 +148,6 @@ dijit.util.popup = new function(){
 		currentTrigger = null;
 	};
 
-	this._onKeyPress = function(/*Event*/e){
-		// summary
-		//	Handles keystrokes, passing them up the chain of menus
-		if((!e.keyCode) && (e.charCode != dojo.keys.SPACE)){ return; }
-		if(stack.length==0){ return; }
-
-		// loop from child menu up ancestor chain, ending at button that spawned the menu
-		var m = stack[stack.length-1].widget;
-		while(m){
-			if(m.processKey && m.processKey(e)){
-				e.preventDefault();
-				e.stopPropagation();
-				break;
-			}
-			// TODO: shouldn't this be going up the stack rather than using internal vars?
-			m = m.parentPopup || m.parentMenu;
-		}
-	};
-
 	this._onEvent = function(/*DomNode*/ node){
 		// summary
 		// Monitor clicks or focuses on elements on the screen.
@@ -221,7 +202,6 @@ dijit.util.popup = new function(){
 		var self=this;
 		this._connects.push(dojo.connect(targetWindow.document, "onmousedown", this, function(evt){self._onEvent(evt.target||evt.srcElement);}));
 		//this._connects.push(dojo.connect(targetWindow, "onscroll", this, ???);
-		this._connects.push(dojo.connect(targetWindow.document, "onkeypress", this, "_onKeyPress"));
 		this._focusListener=dojo.subscribe("focus", this, "_onEvent");
 
 		dojo.forEach(targetWindow.frames, function(frame){

@@ -92,9 +92,7 @@ dojo.declare(
 
 	processKey: function(/*Event*/ evt){
 		// summary
-		//	Callback from dijit.util.popup to process key strokes
-		//	return true to stop the event being processed by the
-		//	parent popupmenu
+		//	Handle keyboard based menu navigation.
 		if(evt.ctrlKey || evt.altKey){ return false; }
 
 		var key = (evt.charCode == dojo.keys.SPACE ? dojo.keys.SPACE : evt.keyCode);
@@ -117,15 +115,13 @@ dojo.declare(
 					dijit.util.popup.closeAll();
 				}
 				return true;
-			case dojo.keys.SPACE: //fall through
-			case dojo.keys.ENTER:
-				return this._activateCurrentItem(evt);
 			case dojo.keys.TAB:
 				dijit.util.popup.closeAll();
 				return true; //do not pass to parent menu
 		}
+
 		// otherwise, pass to parent menu
-		return false;
+		return true;
 	},
 
 	_findValidItem: function(dir){
@@ -375,7 +371,8 @@ dojo.declare(
 	// Make 3 columns
 	//   icon, label, and arrow (BiDi-dependent) indicating sub-menu
 	templateString:
-		 '<tr class="dijitReset dijitMenuItem" dojoAttachEvent="onmouseover: _onHover; onmouseout: _onUnhover; onclick: _onClick;">'
+		 '<tr class="dijitReset dijitMenuItem"'
+		+'dojoAttachEvent="onmouseover:_onHover;onmouseout:_onUnhover;onklick:_onClick;onkeypress:_onKeyPress">'
 		+'<td class="dijitReset"><div class="dijitMenuItemIcon" style="${iconStyle}"></div></td>'
 		+'<td tabIndex="-1" class="dijitReset dijitMenuItemLabel" dojoAttachPoint="containerNode" waiRole="menuitem"></td>'
 		+'<td class="dijitReset" dojoAttachPoint="arrowCell">'
@@ -442,6 +439,12 @@ dojo.declare(
 	onClick: function() {
 		// summary
 		//	User defined function to handle clicks
+	},
+	
+	_onKeyPress: function(/*Event*/ e){
+		if (this.getParent().processKey(e)){
+			dojo.stopEvent(e);
+		}
 	},
 
 	_focus: function(){
