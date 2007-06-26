@@ -1,7 +1,7 @@
 dojo.provide("dijit.form.DateTextbox");
 
 dojo.require("dijit._Calendar");
-dojo.require("dijit.form._DropDownTextBox");
+dojo.require("dijit.util.popup");
 dojo.require("dojo.date");
 dojo.require("dojo.date.locale");
 dojo.require("dojo.date.stamp");
@@ -9,32 +9,37 @@ dojo.require("dijit.form.ValidationTextbox");
 
 dojo.declare(
 	"dijit.form.DateTextbox",
-	[dijit.form.RangeBoundTextbox, dijit.form._DropDownTextBox],
+	dijit.form.RangeBoundTextbox,
 	{
 		// summary:
 		//		A validating, serializable, range-bound date text box.
+
 		// constraints object: min, max
 		regExpGen: dojo.date.locale.regexp,
 		compare: dojo.date.compare,
 		format: dojo.date.locale.format,
 		parse: dojo.date.locale.parse,
 		value: new Date(),
-		_popupClass: "dijit._Calendar",
 
 		postMixInProperties: function(){
-			// manual import of RangeBoundTextbox properties
-			// both _DropDownTextBox and RangeBoundTextbox have a postMixInProperties!
 			dijit.form.RangeBoundTextbox.prototype.postMixInProperties.apply(this, arguments);
-			dijit.form._DropDownTextBox.prototype.postMixInProperties.apply(this, arguments);
+
 			// #3407: only change constraints after postMixInProperties or ValidationTextbox will clear the change
 			this.constraints.selector = 'date';
+	
 			// #2999
 			if(typeof this.constraints.min == "string"){ this.constraints.min = dojo.date.stamp.fromISOString(this.constraints.min); }
  			if(typeof this.constraints.max == "string"){ this.constraints.max = dojo.date.stamp.fromISOString(this.constraints.max); }
 		},
 
-		onfocus: function(){
-			dijit.form._DropDownTextBox.prototype.onfocus.apply(this, arguments);
+		onfocus: function(/*Event*/ evt){
+			// open the calendar, UNLESS we received focus because somebody clicked the calendar
+			// (which should close the calendar rather than opening it)
+			if(this._skipNextFocusOpen){
+				this._skipNextFocusOpen = false;
+			}else{
+				this._open();
+			}
 			dijit.form.RangeBoundTextbox.prototype.onfocus.apply(this, arguments);
 		},
 
@@ -46,38 +51,48 @@ dojo.declare(
 			// summary:
 			//	Sets the date on this textbox
 
-			if(!this._popupWidget || !this._popupWidget.onValueSelected){
+			if(!this._calendar || !this._calendar.onValueSelected){
 				dijit.form.DateTextbox.superclass.setValue.apply(this, arguments);
 			}else{
-				this._popupWidget.setValue(date);
+				this._calendar.setValue(date);
 			}
 		},
 
-		open: function(){
+		_open: function(){
 			// summary:
 			//	opens the Calendar, and sets the onValueSelected for the Calendar
-			this._popupWidget.constraints = this.constraints;
-			this._popupWidget.setValue(this.getValue() || new Date());
-			this._popupWidget.onValueSelected = dojo.hitch(this, this._calendarOnValueSelected);
-			return dijit.form._DropDownTextBox.prototype.open.apply(this, arguments);
+			if(!this._calendar){
+				var self = this;
+				this._calendar = new dijit._Calendar({
+					onValueSelected: function(){
+						dijit.form.DateTextbox.superclass.setValue.apply(self, arguments);					
+						dijit.util.popup.close();
+						self._skipNextFocusOpen=true;	// refocus on <input> but don't reopen popup
+						self.focus();
+					},
+					lang: this.lang,
+					isDisabledDate: function(/*Date*/ date){
+						// summary:
+						// 	disables dates outside of the min/max of the DateTextbox
+						return self.constraints && (dojo.date.compare(self.constraints.min,date) > 0 || dojo.date.compare(self.constraints.max,date) < 0);
+					},
+				// TODO: why is this an argument to the popup widget; it should be a callback specified to openAround()
+					onClose: function(){
+						self._opened=false;
+					}
+				});
+				this._calendar.setValue(this.getValue() || new Date());
+			}
+			if(!this._opened){
+				dijit.util.popup.closeAll();	// close any other opened popups (TODO combine into openAround API)
+				dijit.util.popup.openAround(this._calendar, this.domNode);
+				this._opened=true;
+			}
 		},
 
 		postCreate: function(){
 			dijit.form.DateTextbox.superclass.postCreate.apply(this, arguments);
-			this._popupArgs={
-				lang: this.lang,
-				isDisabledDate: function(/*Date*/ date){
-					// summary:
-					// 	disables dates outside of the min/max of the DateTextbox
-					return this.constraints && (dojo.date.compare(this.constraints.min,date) > 0 || dojo.date.compare(this.constraints.max,date) < 0);
-				}
-			};
-		},
-
-		_calendarOnValueSelected: function(value){
-			// summary: taps into the popup Calendar onValueSelected
-			dijit.form.DateTextbox.superclass.setValue.apply(this, arguments);
-			this._hideResultList();
+			this.connect(this.domNode, "onclick", "_open");
 		}
 	}
 );
