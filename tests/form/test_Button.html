@@ -49,7 +49,7 @@
 		var match = (window.location.search+"&").match(/theme=(.*?)&/);
 		var theme = (match ? match[1] : "tundra");
 		document.getElementsByTagName("BODY")[0].className = theme;
-		document.write("<style>	@import '../../themes/"+theme+"/"+theme+".css'; <\/style>");
+		document.write("<style>	@import '../../themes/"+theme+"/"+theme+".css'; </style>");
 	</script>
 		<h1 class="testTitle">Dijit Button Test</h1>
 		<h2>Simple, drop down & combo buttons</h2>

@@ -144,7 +144,13 @@ dojo.declare(
 	},
 
 	setSelected: function(/*Boolean*/ isSelected){
+		// summary: change the selected state on this pane
 		this.selected = isSelected;
 		(isSelected ? dojo.addClass : dojo.removeClass)(this.domNode, "dijitAccordionPane-selected");
+		if(isSelected){ this.onSelected(); }
+	},
+
+	onSelected: function(){
+		// summary: called when this pane is selected
 	}
 });

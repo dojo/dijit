@@ -116,10 +116,10 @@
 	<p></p>
 	<p>Accordion with complex widgets</p>
 	<div dojoType="dijit.layout.AccordionContainer" duration="200"
-		style="float: left; margin-right: 30px;  width: 400px; height: 300px; overflow: hidden">
+		style="float: left; margin-right: 30px; width: 400px; height: 300px; overflow: hidden">
 		<div dojoType="dijit.layout.AccordionPane" selected="true"
 			title="Pane 1"
-			onShow="console.debug('pane 1 shown');" onHide="console.debug('pane 1 hidden');" >
+			onSelected="console.debug('pane 1 selected');" >
 			<div dojoType="dijit.layout.ContentPane">
 				<select>
 					<option>red</option>
