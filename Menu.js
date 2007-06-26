@@ -24,11 +24,6 @@ dojo.declare(
 	//	Fill this with nodeIds upon widget creation and it becomes context menu for those nodes.
 	targetNodeIds: [],
 
-	// submenuOverlap: Integer
-	//	a submenu usually appears to the right, but slightly overlapping, it's parent menu;
-	//	this controls the number of pixels the two menus overlap.
-	submenuOverlap: 5,
-
 	// contextMenuForWindow: Boolean
 	//	if true, right clicking anywhere on the window will cause this context menu to open;
 	//	if false, must specify targetNodeIds
@@ -213,6 +208,11 @@ dojo.declare(
 		}
 	},
 
+	_getTopMenu: function(){
+		for(var top=this; top.parentMenu; top=top.parentMenu);
+		return top;
+	},
+
 	onItemClick: function(/*Widget*/ item){
 		// summary: user defined function to handle clicks on an item
 		// summary: internal function for clicks
@@ -223,6 +223,12 @@ dojo.declare(
 				this._openSubmenu();
 			}
 		}else{
+			// before calling user defined handler, close hierarchy of menus
+			// and restore focus to place it was when menu was opened
+			var savedFocus = this._getTopMenu()._savedFocus;
+			if(savedFocus){
+				dijit.util.focus.restore(savedFocus);
+			}
 			dijit.util.popup.closeAll();
 		}
 
@@ -319,6 +325,7 @@ dojo.declare(
 		// (Safari does not have a keyboard command to open the context menu
 		// and we don't currently have a reliable way to determine
 		// _contextMenuWithMouse on Safari)
+		this._savedFocus = dijit.util.focus.save(this);
 		if(dojo.isSafari || this._contextMenuWithMouse){
 			dijit.util.popup.open({ popup: this, x: e.pageX, y: e.pageY });
 		}else{
@@ -336,7 +343,7 @@ dojo.declare(
 	},
 
 	onClose: function(){
-		// summary: close this menu and any open submenus
+		// summary: callback when this menu is closed
 		this._stopSubmenuTimer();
 		this.parentMenu = null;
 		this.isShowingNow = false;
