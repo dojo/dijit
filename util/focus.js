@@ -27,7 +27,11 @@ dijit.util.focus = new function(){
 		if(node !== curFocus){
 			prevFocus = curFocus;
 			curFocus = node;
-			console.debug("focused on ", node ? (node.id ? node.id : node.tagName) : "nothing");
+			
+			// Publish event that this node received focus.
+			// Note that on IE this event comes late (up to 100ms late) so it may be out of order
+			// w.r.t. other events.   Use sparingly.
+			dojo.publish("focus", [node]);
 		}
 	}
 

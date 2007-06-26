@@ -40,9 +40,8 @@ dijit.util.popup = new function(){
 		// summary: utility function to help opening
 
 		if(stack.length == 0){
-			this._beforeTopOpen(null, widget);
+			this._beforeTopOpen(args.around, widget);
 		}
-
 		// make wrapper div to hold widget and possibly hold iframe behind it.
 		// we can't attach the iframe as a child of the widget.domNode because
 		// widget.domNode might be a <table>, <ul>, etc.
@@ -113,15 +112,13 @@ dijit.util.popup = new function(){
 
 	///////////////////////////////////////////////////////////////////////
 	// Utility functions for making mouse click close popup chain
-	var currentTrigger,
-		savedFocus;
+	var currentTrigger;
 
-	this._beforeTopOpen = function(/*Widget*/ button, /*Widget*/menu){
+	this._beforeTopOpen = function(/*DomNode*/ button, /*Widget*/menu){
 		// summary:
 		//	Called when a popup is opened, typically a button opening a menu.
 		//	Registers handlers so that clicking somewhere else on the screen will close the popup
 
-		savedFocus = dijit.util.focus.save(menu);
 		currentTrigger=button;
 
 		// setup handlers to catch screen clicks and close current menu	
@@ -137,8 +134,6 @@ dijit.util.popup = new function(){
 		this._disconnectHandlers();
 
 		currentTrigger = null;
-
-		dijit.util.focus.restore(savedFocus);
 	};
 
 	this._onKeyPress = function(/*Event*/e){
@@ -160,10 +155,10 @@ dijit.util.popup = new function(){
 		}
 	};
 
-	this._onMouse = function(/*Event*/e){
+	this._onEvent = function(/*DomNode*/ node){
 		// summary
-		// Monitor clicks in the screen.  If popup has requested it than
-		// clicking anywhere on the screen will close the current menu hierarchy
+		// Monitor clicks or focuses on elements on the screen.
+		// Clicking or focusing anywhere on the screen will close the current popup hierarchy
 
 		if(stack.length==0){ return; }
 
@@ -183,13 +178,13 @@ dijit.util.popup = new function(){
 		}
 
 		// if they clicked on the trigger node (often a button), ignore the click
-		if(currentTrigger && isDescendantOf(e.target, currentTrigger)){
+		if(currentTrigger && isDescendantOf(node, currentTrigger)){
 			return;
 		}
 
 		// if they clicked on the popup itself then ignore it
 		if(dojo.some(stack, function(elem){
-			return isDescendantOf(e.target, elem.widget.domNode);
+			return isDescendantOf(node, elem.widget.domNode);
 		}))
 		{
 			return;
@@ -211,9 +206,11 @@ dijit.util.popup = new function(){
 			targetWindow = dijit.util.window.getDocumentWindow(window.top && window.top.document || window.document);
 		}
 
-		this._connects.push(dojo.connect(targetWindow.document, "onmousedown", this, "_onMouse"));
-		//this._connects.push(dojo.connect(targetWindow, "onscroll", this, "_onMouse"));
+		var self=this;
+		this._connects.push(dojo.connect(targetWindow.document, "onmousedown", this, function(evt){self._onEvent(evt.target||evt.srcElement);}));
+		//this._connects.push(dojo.connect(targetWindow, "onscroll", this, ???);
 		this._connects.push(dojo.connect(targetWindow.document, "onkeypress", this, "_onKeyPress"));
+		this._focusListener=dojo.subscribe("focus", this, "_onEvent");
 
 		dojo.forEach(targetWindow.frames, function(frame){
 			try{
@@ -231,6 +228,7 @@ dijit.util.popup = new function(){
 		//		Disconnects handlers for mouse click etc. setup by _connectHandlers()
 		dojo.forEach(this._connects, dojo.disconnect);
 		this._connects=[];
+		dojo.unsubscribe(this._focusListener);
 	};
 
 	dojo.addOnUnload(this, "_disconnectHandlers");
