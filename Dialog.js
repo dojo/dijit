@@ -319,6 +319,7 @@ dojo.declare(
 
 		show: function(/*DomNode|String*/ anchor){
 			// summary: display the dialog underneath specified button/link
+			this._savedFocus = dijit.util.focus.save(this);
 			var pos = dijit.util.popup.open({popup: this, around: dojo.byId(anchor), orient: {'BL': 'TL', 'TL': 'BL'}});
 			this.domNode.className="dijitTooltipDialog dijitTooltip" + (pos.corner=='TL' ? "Below" : "Above");
 		},
@@ -326,6 +327,7 @@ dojo.declare(
 		hide: function(){
 			// summary: hide the dialog
 			dijit.util.popup.close();
+			dijit.util.focus.restore(this._savedFocus);
 		}
 	}
 );
