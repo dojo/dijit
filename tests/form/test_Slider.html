@@ -1,0 +1,90 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+	"http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<title>Dojo Slider Widget Demo</title>
+		<script type="text/javascript" src="../../../dojo/dojo.js"
+		        djConfig="isDebug: true, extraLocale: ['de-de', 'en-us']"></script>
+		<script type="text/javascript">
+		        dojo.require("dijit.form.Slider");
+		        dojo.require("dojo.parser"); // scan page for widgets
+		</script>
+		<style type="text/css">
+		        @import "../../../dojo/resources/dojo.css";
+		        @import "../../themes/tundra/tundra.css";
+		        @import "../css/dijitTests.css";
+
+			#slider1 .dijitSliderBumper {
+				visibility:hidden;
+			}
+			#slider1 .dijitHorizontalSliderBar {
+				border-width:1px;
+			}
+
+			#slider2 .dijitVerticalSliderBumper {
+				height:12px;
+			}
+			#slider2 .dijitVerticalSliderBumper,
+			#slider2 .dijitVerticalSliderBar {
+				width: 12px;
+			}
+			#slider2 .dijitVerticalSliderBottomBumper {
+				border-bottom:1px dashed black;
+			}
+			#slider2 .dijitVerticalSliderTopBumper {
+				border-top:1px dashed black;
+			}
+			#slider2 .dijitVerticalSliderImageHandle {
+				left:0px;
+			}
+			#slider2 .dijitSliderVerticalButton {
+				width:12px;
+			}
+			#slider2 .dijitButtonNode {
+				width:12px;
+				height:12px;
+				border-width:0px;
+				font-size:11px;
+				padding:0px;
+			}
+			#slider2 .dijitSliderBar {
+				border-width:0px;
+				border-color:red;
+			}
+			#slider2 .dijitSliderImageHandle {
+				height:24px;
+				width:12px;
+			}
+			#slider2 .dijitVerticalSliderImageHandle {
+				top:-12px;
+			}
+		</style>
+	</head>
+
+	<body class="tundra">
+		<h1>Slider</h1>
+		Also try using the arrow keys, buttons, or clicking on the progress bar to move the slider.
+		<br>
+		<br>initial value=10, min=0, max=100, onValueChanged debug message<br>
+
+		<input dojoType="dijit.form.HorizontalSlider" name="horizontal1"
+			onValueChanged="console.debug('onValueChanged fired for widget id = ' + this.id + ' with value = ' + arguments[0]);"
+			value=10
+			maximum=100
+			minimum=0
+			showButtons="false"
+			style="width:50%;height:20px;"
+			id="slider1">
+		<br>
+		<input dojoType="dijit.form.VerticalSlider" name="vertical1"
+			onValueChanged="console.debug('onValueChanged fired for widget id = ' + this.id + ' with value = ' + arguments[0]);"
+			value=10
+			maximum=256
+			minimum=0
+			discreteValues=16
+			incrementButtonContent="<img src=../../themes/tundra/images/arrowUp.png alt=+>"
+			decrementButtonContent="<img src=../../themes/tundra/images/arrowDown.png alt=->"
+			style="height:300px;border:1px solid black;"
+			id="slider2">
+	</body>
+</html>

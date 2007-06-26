@@ -1146,9 +1146,11 @@ body .dijitAlignClient { position: absolute; }
 	background: #eeeeee;
 	opacity: 0.5;
 }
+
 .dj_ie .dijitDialogUnderlay {
 	filter: alpha(opacity=50);
 }
+
 /* images off, high-contrast mode styles */
 .dijit_a11y .dijitDialog {
 	opacity: 1 !important;
@@ -1162,4 +1164,161 @@ body .dijitAlignClient { position: absolute; }
 
 .dijit_a11y .dijitDialog .closeText { 
 	display:inline;
+}
+
+.dijitSliderMoveable {
+	z-index:99;
+	position:absolute !important;
+	display:block;
+	vertical-align:middle;
+}
+
+.dijitHorizontalSliderMoveable {
+	right:0px;
+}
+
+.dijitSliderA11yHandle {
+	text-decoration:none;
+	font-style:normal;
+	font-family:monospace;
+	font-size:32px;
+	position:relative !important;
+	line-height:1.1em;
+	top:-.45em;
+	left:-0.3em;
+}
+
+.dijitSliderImageHandle {
+	margin:0px;
+	padding:0px;
+	border:0px;
+	position:absolute !important;
+	width:16px;
+	height:16px;
+}
+
+.dijitVerticalSliderImageHandle {
+	top:-8px;
+	left:-6px;
+}
+
+.dijitHorizontalSliderImageHandle {
+	left:-8px;
+	top:-4px;
+	vertical-align:top;
+}
+
+.dijit_a11y .dijitSliderA11yHandle {
+        display: inline !important;
+}
+
+.dijit_a11y .dijitSliderHandle {
+        display: none !important;
+}
+
+.dijitSliderBar {
+	border-style:solid;
+	border-color:black;
+}
+
+.dijitHorizontalSliderBar {
+	height:4px;
+	border-width:1px 0px;
+}
+
+.dijitVerticalSliderBar {
+	width:4px;
+	border-width:0px 1px;
+}
+
+.dijitSliderProgressBar {
+	background-color:red;
+	#z-index:0;
+}
+
+.dijitVerticalSliderProgressBar {
+	position:static !important;
+	height:0%;
+	vertical-align:top;
+	overflow:hidden;
+	text-align:left;
+}
+
+.dijitHorizontalSliderProgressBar {
+	position:absolute !important;
+	width:0%;
+	vertical-align:center;
+	overflow:visible;
+}
+
+.dijitSliderRemainingBar {
+	overflow:hidden;
+	background-color:transparent;
+	#z-index:-1;
+}
+
+.dijitVerticalSliderRemainingBar {
+	height:100%;
+	text-align:left;
+}
+
+.dijitHorizontalSliderRemainingBar {
+	width:100% !important;
+}
+
+/* the slider bumper is the space consumed by the slider handle when it hangs over an edge */
+.dijitSliderBumper {
+	overflow:hidden;
+	#z-index:-1
+}
+
+.dijitVerticalSliderBumper {
+	width:4px;
+	height:8px;
+	border-width:0px 1px;
+}
+
+.dijitHorizontalSliderBumper {
+	width:8px;
+	height:4px;
+	border-width:1px 0px;
+}
+
+.dijitVerticalSliderBottomBumper,
+.dijitHorizontalSliderLeftBumper {
+	background-color:red;
+}
+
+.dijitVerticalSliderTopBumper,
+.dijitHorizontalSliderRightBumper {
+	background-color:transparent;
+}
+
+.dijitHorizontalSliderDecoration {
+	text-align:center;
+}
+
+.dijitSlider .dijitSliderButton {
+	font-family:monospace;
+	margin:0px;
+	padding:0px;
+	display:block;
+}
+
+.dijitSlider .dijitVerticalSliderTopButton {
+	vertical-align:bottom;
+}
+
+.dijitSlider .dijitVerticalSliderBottomButton {
+	vertical-align:top;
+}
+
+.dijitSliderButtonContainer {
+	text-align:center;
+	height:0px;
+}
+
+.dijitSlider .dijitButtonNode {
+	padding:0px;
+	display:block;
 }
