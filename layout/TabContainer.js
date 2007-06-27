@@ -68,17 +68,11 @@ dojo.declare(
 		}
 	},
 
-	onkeypress: function(e){
+	_onKeyPress: function(e){
 		// summary
 		//	Keystroke handling for keystrokes on the tab panel itself (that were bubbled up to me)
-		//	Ctrl-up: focus is returned from the pane to the tab button
-		//	Alt-del: close tab
-		if(e.keyCode == e.KEY_UP_ARROW && e.ctrlKey){
-			// set focus to current tab
-			var button = this.correspondingTabButton || this.selectedTabWidget.tabButton;
-			button.focus();
-			dojo.stopEvent(e);
-		}else if(e.keyCode == e.KEY_DELETE && e.altKey){
+		//	Ctrl-w: close tab
+		if((e.keyChar == "w") && e.ctrlKey){
 			if (this.selectedChildWidget.closable){
 				this.closeChild(this.selectedChildWidget);
 				dojo.stopEvent(e);
