@@ -835,7 +835,7 @@ dojo.declare(
 					this.connect(this.editNode, "onclick", "onFocus");
 
 					this.interval = setInterval(dojo.hitch(this, "onDisplayChanged"), 750);
-					// dojo.raise("onload");
+					// throw new Error("onload");
 				}else if(dojo.isMoz|| dojo.isOpera){
 					var doc = this.document;
 					var self = this;
