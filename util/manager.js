@@ -61,9 +61,12 @@ dijit.util.manager = new function(){
 	}
 };
 
+// #3531: causes errors, commenting out for now
+/***
 dojo.addOnUnload(function(){
 	dijit.util.manager.destroyAll();
 });
+***/
 
 dijit.byId = function(/*String*/id){
 	// summary:

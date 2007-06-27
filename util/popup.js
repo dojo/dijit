@@ -226,7 +226,8 @@ dijit.util.popup = new function(){
 		}
 	};
 
-	dojo.addOnUnload(this, "_disconnectHandlers");
+	// #3531: causes errors, commenting out for now
+	//dojo.addOnUnload(this, "_disconnectHandlers");
 }();
 
 dijit.util.BackgroundIframe = function(/* HTMLElement */node){
