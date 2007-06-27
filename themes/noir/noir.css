@@ -100,9 +100,12 @@
 	margin-left:15px;
 }
 .noir .dijitComboButton .dijitRight,
-.noir .dijitComboButton .dijitRightSpacer {	
+.noir .dijitComboButton .dijitDownArrowButton div {	
 	height:30px;	
 	width:35px;
+	
+	/* don't display arrow text; just use background image */
+	font-size: 0px;
 }
 
 
