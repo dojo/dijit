@@ -68,23 +68,23 @@
 		<br>initial value=10, min=0, max=100, onValueChanged debug message<br>
 
 		<input dojoType="dijit.form.HorizontalSlider" name="horizontal1"
-			onValueChanged="console.debug('onValueChanged fired for widget id = ' + this.id + ' with value = ' + arguments[0]);"
+			onValueChanged="dojo.byId('slider1input').value=arguments[0];"
 			value=10
 			maximum=100
 			minimum=0
 			showButtons="false"
 			style="width:50%;height:20px;"
-			id="slider1">
+			id="slider1">Slider1 Value:<input readonly id=slider1input>
 		<br>
 		<input dojoType="dijit.form.VerticalSlider" name="vertical1"
-			onValueChanged="console.debug('onValueChanged fired for widget id = ' + this.id + ' with value = ' + arguments[0]);"
+			onValueChanged="dojo.byId('slider2input').value=arguments[0];"
 			value=10
-			maximum=256
+			maximum=100
 			minimum=0
-			discreteValues=16
+			discreteValues=10
 			incrementButtonContent="<img src=../../themes/tundra/images/arrowUp.png alt=+>"
 			decrementButtonContent="<img src=../../themes/tundra/images/arrowDown.png alt=->"
 			style="height:300px;border:1px solid black;"
-			id="slider2">
+			id="slider2">Slider2 Value:<input readonly id=slider2input>
 	</body>
 </html>
