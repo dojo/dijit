@@ -303,12 +303,16 @@ dojo.declare(
 			//   Called whenever one of my child buttons [X] is pressed in an attempt to close a page
 			var container = dijit.byId(this.containerId);
 			container.closeChild(page);
+			var b = this.pane2button[this._currentChild];
+			(b.focusNode || b.domNode).focus();
 		},
 
 		onkeypress: function(/*Event*/ evt){
 			// summary:
 			//   Handle keystrokes on the page list, for advancing to next/previous button
+			//   and closing the current page.
 
+			if(this.disabled || evt.altKey || evt.shiftKey || evt.ctrlKey){ return; }
 			if( (evt.keyCode == dojo.keys.RIGHT_ARROW)||
 				(evt.keyCode == dojo.keys.LEFT_ARROW) ){
 				var children = this.getChildren();
@@ -322,6 +326,11 @@ dojo.declare(
 
 				dojo.stopEvent(evt);
 				next.onClick();
+			}else if(evt.keyCode == dojo.keys.DELETE){
+				if (this._currentChild.closable){
+					this.onCloseButtonClick(this._currentChild);
+					dojo.stopEvent(evt); // so we don't close a browser tab!
+				}
 			}
 		}
 	}
