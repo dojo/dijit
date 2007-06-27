@@ -62,9 +62,6 @@ dojo.declare(
 				// common code from makePopup
 				var node=document.createElement("div");
 				document.body.appendChild(node);
-				// TODO: do we really want to adjusting the size of the dropdown,
-				// rather than using the wrapper created in dijit.util.popup to scroll
-				node.style.overflow="auto";
 				var popupProto=dojo.getObject(_this._popupClass, false);
 				return new popupProto(_this._popupArgs, node);
 			}
@@ -189,6 +186,10 @@ dojo.declare(
 				// hide the tooltip
 				this._displayMessage("");
 				var best=this.open();
+				// #3212: only set auto scroll bars if necessary
+				// prevents issues with scroll bars appearing when they shouldn't when node is made wider (fractional pixels cause this)
+				var popupbox=dojo.marginBox(this._popupWidget.domNode);
+				this._popupWidget.domNode.style.overflow=((best.h==popupbox.h)&&(best.w==popupbox.w))?"hidden":"auto";
 				dojo.marginBox(this._popupWidget.domNode, {h:best.h,w:dojo.marginBox(this.domNode).w});
 			}
 		},
