@@ -33,6 +33,9 @@ dojo.declare(
 				var style = this.selectedChildWidget.containerNode.style;
 				style.display = "";
 				style.overflow = "auto";
+				this.selectedChildWidget._setSelectedState(true);
+			}else{
+				this.children[0].focusNode.setAttribute("tabIndex","0");
 			}
 		},
 
@@ -57,6 +60,7 @@ dojo.declare(
 
 		_setupChild: function(/*Widget*/ page){
 			// Summary: prepare the given child
+			(this.children || (this.children = [])).push(page);
 			return page;
 		},
 
@@ -102,6 +106,20 @@ dojo.declare(
 			}
 
 			dojo.fx.combine(animations).play();
+		},
+
+		// note: we are treating the container as controller here
+		processKey: function(/*Event*/ evt){
+			if((evt.keyCode == dojo.keys.RIGHT_ARROW)||
+				(evt.keyCode == dojo.keys.LEFT_ARROW) ){
+				// find currently focused button in children array
+				var current = dojo.indexOf(this.children, evt._dijitWidget);
+				// pick next button to focus on
+				var offset = evt.keyCode == dojo.keys.RIGHT_ARROW ? 1 : this.children.length - 1;
+				var next = this.children[ (current + offset) % this.children.length ];
+				dojo.stopEvent(evt);
+				next._onTitleClick();
+			}
 		}
 	}
 );
@@ -141,12 +159,23 @@ dojo.declare(
 		var parent = this.getParent();
 //		parent.selectChild(parent.selectedChildWidget == this ? null : this);
 		parent.selectChild(this);
+		this.focusNode.focus();
 	},
 
-	setSelected: function(/*Boolean*/ isSelected){
-		// summary: change the selected state on this pane
+	_onKeyPress: function(/*Event*/ evt){
+		evt._dijitWidget = this;
+		return this.getParent().processKey(evt);
+	},
+	
+	_setSelectedState: function(/*Boolean*/ isSelected){
 		this.selected = isSelected;
 		(isSelected ? dojo.addClass : dojo.removeClass)(this.domNode, "dijitAccordionPane-selected");
+		this.focusNode.setAttribute("tabIndex",(isSelected)? "0":"-1");
+	},
+	
+	setSelected: function(/*Boolean*/ isSelected){
+		// summary: change the selected state on this pane
+		this._setSelectedState(isSelected);
 		if(isSelected){ this.onSelected(); }
 	},
 
