@@ -31,7 +31,8 @@ function(params, srcNodeRef){
 	// store pointer to original dom tree
 	this.srcNodeRef = dojo.byId(srcNodeRef);
 
-	// for garbage collection
+	// For garbage collection.  An array of handles returned by Widget.connect()
+	// Each handle returned from Widget.connect() is an array of handles from dojo.connect()
 	this._connects=[];
 
 	//mixin our passed parameters
@@ -136,7 +137,9 @@ function(params, srcNodeRef){
 		//		is this function being called part of global environment
 		//		tear-down?
 		this.uninitialize();
-		dojo.forEach(this._connects, dojo.disconnect);
+		dojo.forEach(this._connects, function(array){
+			dojo.forEach(array, dojo.disconnect);
+		});
 		this.destroyRendering(finalize);
 		dijit.util.manager.remove(this.id);
 	},
@@ -251,9 +254,7 @@ function(params, srcNodeRef){
 		//		Also removes handle from this widget's list of connects
 		for(var i=0; i<this._connects.length; i++){
 			if(this._connects[i]==handles){
-				handles.forEach(function(h) {
-					dojo.disconnect(h);
-				});
+				dojo.forEach(handles, dojo.disconnect);
 				this._connects.splice(i, 1);
 				return;
 			}
