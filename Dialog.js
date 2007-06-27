@@ -304,6 +304,12 @@ dojo.declare(
 		// closeNode: String
 		//	Id of button or other dom node to click to close this dialog
 		closeNode: "",
+		
+		// title: String
+		// Description of tooltip dialog (required for a11Y)
+		title: "",
+		
+		_lastFocusItem: null,
 
 		templatePath: dojo.moduleUrl("dijit.layout", "templates/TooltipDialog.html"),
 
@@ -313,8 +319,12 @@ dojo.declare(
 		},
 
 		startup: function(){
-			var closeNode = dojo.byId(this.closeNode);
-			this.connect(closeNode, "onclick", "hide");
+			if(this.closeNode){
+				var closeNode = dojo.byId(this.closeNode);
+				this.connect(closeNode, "onclick", "hide");
+			}
+			this.containerNode.title=this.title;
+			this._modalconnects = [];
 		},
 
 		show: function(/*DomNode|String*/ anchor){
@@ -322,13 +332,51 @@ dojo.declare(
 			this._savedFocus = dijit.util.focus.save(this);
 			var pos = dijit.util.popup.open({popup: this, around: dojo.byId(anchor), orient: {'BL': 'TL', 'TL': 'BL'}});
 			this.domNode.className="dijitTooltipDialog dijitTooltip" + (pos.corner=='TL' ? "Below" : "Above");
+			
+			this._modalconnects.push(dojo.connect(this.containerNode, "onkeypress", this, "_onKey"));
+			// IE doesn't bubble onblur events - use ondeactivate instead
+			var ev = typeof(document.ondeactivate) == "object" ? "ondeactivate" : "onblur";
+			this._modalconnects.push(dojo.connect(this.containerNode, ev, this, "_findLastFocus"));
+						
+			this.containerNode.focus();
 		},
 		
 		hide: function(){
 			// summary: hide the dialog
+			dojo.forEach(this._modalconnects, dojo.disconnect);
+			this._modalconnects = [];
+			
 			dijit.util.popup.close();
 			dijit.util.focus.restore(this._savedFocus);
+		},
+		
+		_onKey: function(/*Event*/ evt){
+		var count=0;
+			//summary: keep keyboard focus in dialog; close dialog on escape key
+			if (evt.keyCode == dojo.keys.ESCAPE){
+				this.hide();
+			}else if (evt.target == this.containerNode && evt.shiftKey && evt.keyCode == dojo.keys.TAB){
+				if (this._lastFocusItem){
+					this._lastFocusItem.focus();
+				}
+				dojo.stopEvent(evt);
+			}
+		},
+		
+		_findLastFocus: function(/*Event*/ evt){
+			// summary:  called from onblur of dialog container to determine the last focusable item 
+			this._lastFocused = evt.target;
+		},
+
+		_cycleFocus: function(/*Event*/ evt){
+			// summary: when tabEnd receives focus, advance focus around to containerNode
+			
+			// on first focus to tabEnd, store the last focused item in dialog
+			if(!this._lastFocusItem){
+				this._lastFocusItem = this._lastFocused;
+			}
+			this.containerNode.focus();
 		}
-	}
+	}	
 );
 

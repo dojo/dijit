@@ -1,4 +1,5 @@
-<div id="${id}" class="dijitTooltipDialog">
-	<div class="dijitTooltipContainer dijitTooltipContents" dojoAttachPoint="containerNode" waiRole='alert'></div>
-	<div class="dijitTooltipConnector"></div>
+<div id="${id}" class="dijitTooltipDialog" >
+	<div class="dijitTooltipContainer dijitTooltipContents" dojoAttachPoint="containerNode" tabindex="0" waiRole="dialog"></div>
+	<span dojoAttachPoint="tabEnd" tabindex="0" dojoAttachEvent="focus:_cycleFocus"></span>
+	<div class="dijitTooltipConnector" ></div>
 </div>

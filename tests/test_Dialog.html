@@ -73,16 +73,16 @@ form {
 
 <a id="loginLink" href="javascript:dijit.byId('tooltipDlg').show('loginLink')">Show Tooltip Dialog</a> |
 
-<div dojoType="dijit.layout.TooltipDialog" id="tooltipDlg" closeNode="hider2">
+<div dojoType="dijit.layout.TooltipDialog" id="tooltipDlg" title="Enter Login information" closeNode="hider2">
 	<form onsubmit="return false;">
 		<table>
 			<tr>
 				<td>User:</td>
-				<td><input type="text"></td>
+				<td><label for="user"><input type="text" id="user"></label></td>
 			</tr>
 			<tr>
 				<td>Password:</td>
-				<td><input type="password"></td>
+				<td><label for="pwd"><input type="password" id="pwd"></label></td>
 			</tr>
 			<tr>
 				<td colspan="2" align="center">
@@ -214,7 +214,7 @@ pulvinar in, consequat ut, leo. Nullam nec est. Aenean id risus blandit
 tortor pharetra congue. Suspendisse pulvinar.
 </p>
 
-<a id="loginLink2" href="javascript:dijit.byId('tooltipDlg').show('loginLink2')">Show Tooltip Dialog pointing upwards</a>
+<a id="loginLink2" href="javascript:dijit.byId('tooltipDlg').show('loginLink2')" title="Enter Login information2">Show Tooltip Dialog pointing upwards</a>
 (will go up if there isn't enough space on the bottom of the screen)
 
 <p>Vestibulum convallis eros ac justo. Proin dolor. Etiam aliquam. Nam
@@ -345,6 +345,23 @@ tempus. Nunc euismod nisl id dolor tristique tincidunt. Nullam placerat
 turpis sed odio. Curabitur in est id nibh tempus ultrices. Aliquam
 consectetuer dapibus eros. Aliquam nisl.
 </p>
+<p><button id="dlgButton" onclick="javascript:dijit.byId('tooltipDlg2').show('dlgButton')"'>Tooltip with Links</button>
+</p>
+<div dojoType="dijit.layout.TooltipDialog" id="tooltipDlg2" title="General Information Dialog">
+	<p>Vestibulum convallis eros ac justo. Proin dolor. Etiam aliquam. Nam
+	ornare elit vel augue. Suspendisse potenti. Etiam sed mauris eu neque
+	nonummy mollis. <a href="http://www.lipsum.com/">Vestibulum</a> vel purus ac pede semper accumsan. Vivamus
+	lobortis, sem vitae nonummy lacinia, nisl est gravida magna, non cursus
+	est quam sed urna. Phasellus adipiscing justo in <a href="http://www.lipsum.com/">ipsum</a>. Duis sagittis
+	dolor sit amet magna. Suspendisse suscipit, neque eu dictum auctor,
+	nisi augue tincidunt arcu, non lacinia magna purus nec magna. Praesent
+	pretium sollicitudin sapien. <a href="http://www.lipsum.com/">Suspendisse imperdiet</a>. Class aptent taciti
+	sociosqu ad litora torquent per conubia nostra, per inceptos
+	hymenaeos.
+	</p>
+</div>
+
+ 
 
 <div dojoType="dijit.Dialog" id="SecondDialog" bgColor="black" closeNode="closeButton" title="Second Dialog">
 	<form onsubmit="return false;">
