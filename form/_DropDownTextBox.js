@@ -190,7 +190,8 @@ dojo.declare(
 				// prevents issues with scroll bars appearing when they shouldn't when node is made wider (fractional pixels cause this)
 				var popupbox=dojo.marginBox(this._popupWidget.domNode);
 				this._popupWidget.domNode.style.overflow=((best.h==popupbox.h)&&(best.w==popupbox.w))?"hidden":"auto";
-				dojo.marginBox(this._popupWidget.domNode, {h:best.h,w:dojo.marginBox(this.domNode).w});
+				dojo.marginBox(this._popupWidget.domNode, {h:best.h,w:Math.max(best.w,this.domNode.offsetWidth)});
+
 			}
 		},
 

@@ -40,7 +40,7 @@ dijit.util.popup = new function(){
 		var widget = args.popup,
 			orient = args.orient || {'BL':'TL', 'TL':'BL'},
 			around = args.around,
-			id = (args.around && args.around.id) ? (args.id+"_dropdown") : ("popup_"+idGen++);
+			id = (args.around && args.around.id) ? (args.around.id+"_dropdown") : ("popup_"+idGen++);
 
 		if(!args.submenu){
 			this.closeAll();
