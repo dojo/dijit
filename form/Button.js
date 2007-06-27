@@ -69,9 +69,6 @@ dojo.declare(
 
 		startup: function(){
 			this._dropDown = dijit.byId(this.dropDownId);
-			this.connect(this._dropDown, "onClose", function(){
-				this.popupStateNode.removeAttribute("popupActive");
-			});
 		},
 
 		_onArrowClick: function(/*Event*/ e){
@@ -99,10 +96,14 @@ dojo.declare(
 			if(!dropDown){ return false; }
 			if(!dropDown.isShowingNow){
 				var oldWidth=dropDown.domNode.style.width;
+				var self = this;
 				dijit.util.popup.open({
 					popup: dropDown,
 					around: this.domNode,
-					onClose: function(){ dropDown.domNode.style.width = oldWidth; }
+					onClose: function(){
+						dropDown.domNode.style.width = oldWidth;
+						self.popupStateNode.removeAttribute("popupActive");
+					}
 				});
 				if(this.domNode.offsetWidth > dropDown.domNode.offsetWidth){
 					// make menu at least as wide as the button
