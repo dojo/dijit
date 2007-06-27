@@ -13,11 +13,9 @@ dojo.declare(
 	[dijit._Widget, dijit._Templated, dijit._Container],
 {
 	templateString:
-		'<div class="dijit dijitMenu">' +
-			'<table class="dijitReset dijitMenuTable" waiRole="menu">' +
+			'<table class="dijit dijitMenu dijitReset dijitMenuTable" waiRole="menu">' +
 				'<tbody class="dijitReset" dojoAttachPoint="containerNode"></tbody>'+
-			'</table>' +
-		'</div>',
+			'</table>',
 
 	// targetNodeIds: String[]
 	//	Array of dom node ids of nodes to attach to.

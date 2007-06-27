@@ -98,7 +98,16 @@ dojo.declare(
 			var dropDown = this._dropDown;
 			if(!dropDown){ return false; }
 			if(!dropDown.isShowingNow){
-				dijit.util.popup.open({popup: dropDown, around: this.domNode});
+				var oldWidth=dropDown.domNode.style.width;
+				dijit.util.popup.open({
+					popup: dropDown,
+					around: this.domNode,
+					onClose: function(){ dropDown.domNode.style.width = oldWidth; }
+				});
+				if(this.domNode.offsetWidth > dropDown.domNode.offsetWidth){
+					// make menu at least as wide as the button
+					dojo.marginBox(dropDown.domNode, {w:this.domNode.offsetWidth});
+				}
 				this.popupStateNode.setAttribute("popupActive", "true");
 				this._opened=true;
 			}else{
