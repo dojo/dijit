@@ -21,9 +21,15 @@ dojo.declare(
 		//	text to display in button
 		label: "",
 
+		// iconClass: String
+		//	class to apply to div in button to make it display an icon
+		iconClass: "",
+
 		type: "button",
 		baseClass: "dijitButton",
 		templatePath: dojo.moduleUrl("dijit.form", "templates/Button.html"),
+
+		// TODO: set button's title to this.containerNode.innerText
 
 		onClick: function(/*Event*/ e){
 			// summary: callback for when button is clicked; user can override this function
@@ -38,6 +44,7 @@ dojo.declare(
 				var _this = this;
 				setTimeout(function(){_this.domNode.style.display=oldDisplay;},1);
 			}
+			// TODO: set button's title to this.containerNode.innerText
 		}		
 	}
 );

@@ -104,7 +104,6 @@
 	padding: 0px;
 	margin: 1px;
 	border: 1px solid transparent;
-	background: none;
 }
 .tundra .dijitToolbar .dijitButtonHover .dijitButtonNode,
 .tundra .dijitToolbar .dijitToggleButtonHover .dijitButtonNode,
@@ -114,6 +113,11 @@
 .tundra .dijitToolbar .dijitToggleButtonSelectedHover .dijitButtonNode,
 .tundra .dijitToolbar .dijitToggleButtonSelected .dijitButtonNode {
 	border-color: #366dba;
+}
+.dijitToolbarSeparator {
+	background-image: url(images/editor.gif);
+	height: 18px;
+	width: 18px;
 }
 
 /** ???
@@ -215,7 +219,8 @@
 }
 
 /*
- *  Checkbox and Radio
+ *  Checkbox and Radio Widgets,
+ *	and the CSS to embed a checkbox or radio icon inside a ToggleButton.
  *
  *	Order of images in the default sprite (from L to R, checkbox and radio in same image):
  *		checkbox	normal 	 - checked
@@ -233,24 +238,89 @@
  *							 - unchecked
 */
 .tundra .dijitCheckbox,
-.tundra .dijitRadio {
+.tundra .dijitRadio,
+.tundra .dijitCheckboxIcon,		/* inside a toggle button */
+.tundra .dijitRadioIcon	{		/* inside a toggle button */
 	background-image: url('images/checkmark.png'); /* checkbox sprite image */
 	width: 16px;
 	height: 16px;
 }
-.tundra .dijitCheckbox { background-position: -16px; }
-.tundra .dijitCheckboxSelected { background-position: 0px; }
-.tundra .dijitCheckboxSelectedDisabled { background-position: -32px; }
-.tundra .dijitCheckboxDisabled { background-position: -48px; }
-.tundra .dijitCheckboxSelectedHover { background-position: -64px; }
-.tundra .dijitCheckboxHover { background-position: -80px; }
 
-.tundra .dijitRadio { background-position: -112px; }
-.tundra .dijitRadioSelected { background-position: -96px; }
-.tundra .dijitRadioSelectedDisabled { background-position: -128px; }
-.tundra .dijitRadioDisabled { background-position: -144px; }
-.tundra .dijitRadioSelectedHover { background-position: -160px; }
-.tundra .dijitRadioHover { background-position: -176px; }
+.tundra .dijitCheckbox,
+.tundra .dijitToggleButton .dijitCheckboxIcon {
+	/* unchecked */
+	background-position: -16px;
+}
+ 
+.tundra .dijitCheckboxSelected,
+.tundra .dijitToggleButtonSelected .dijitCheckboxIcon {
+	/* checked */
+	background-position: 0px;
+}
+
+.tundra .dijitCheckboxSelectedDisabled,
+.tundra .dijitToggleButtonSelectedDisabled .dijitCheckboxIcon {
+	/* disabled but selected */
+	background-position: -32px;
+}
+
+.tundra .dijitCheckboxDisabled,
+.tundra .dijitToggleButtonDisabled .dijitCheckboxIcon {
+	/* disabled */
+	background-position: -48px;
+}
+
+.tundra .dijitCheckboxSelectedHover,
+.tundra .dijitToggleButtonSelectedHover .dijitCheckboxIcon,
+.tundra .dijitToggleButtonSelectedActive .dijitCheckboxIcon {
+	/* selected and being hovered over, or being pressed to uncheck */
+	background-position: -64px;
+}
+
+.tundra .dijitCheckboxHover,
+.tundra .dijitToggleButtonHover .dijitCheckboxIcon,
+.tundra .dijitToggleButtonActive .dijitCheckboxIcon {
+	/* unselected, but being hovered over or being pressed */
+	background-position: -80px;
+}
+
+.tundra .dijitRadio,
+.tundra .dijitToggleButton .dijitRadioIcon {
+	/* unselected */
+	background-position: -112px;
+}
+
+.tundra .dijitRadioSelected,
+.tundra .dijitToggleButtonSelected .dijitRadioIcon {
+	/* selected */
+	background-position: -96px;
+}
+
+.tundra .dijitRadioSelectedDisabled,
+.tundra .dijitToggleButtonSelectedDisabled .dijitRadioIcon {
+	/* selected but disabled */
+	background-position: -128px;
+}
+
+.tundra .dijitRadioDisabled,
+.tundra .dijitToggleButtonDisabled .dijitRadioIcon {
+	/* unselected and disabled */
+	background-position: -144px;
+}
+
+.tundra .dijitRadioSelectedHover,
+.tundra .dijitToggleButtonSelectedHover .dijitRadioIcon,
+.tundra .dijitToggleButtonSelectedActive .dijitRadioIcon {
+	/* selected but hovering over it or pressing it */
+	background-position: -160px;
+}
+
+.tundra .dijitRadioHover,
+.tundra .dijitToggleButtonHover .dijitRadioIcon,
+.tundra .dijitToggleButtonActive .dijitRadioIcon {
+	/* hovering over or pressing an unselected radio button */
+	background-position: -176px;
+}
 
 /* Menu */
 .tundra .dijitMenu {
@@ -983,4 +1053,91 @@ left;
 	/* use an animated gif for the progress bar in 'indeterminate' mode */
 	background:#cad2de url("images/dijitProgressBarAnim.gif") repeat-x top left;
 }
+
+/**** ICONS *****/
+
+.tundra .dijitEditorIconSep,
+.tundra .dijitEditorIconBackColor,
+.tundra .dijitEditorIconBold,
+.tundra .dijitEditorIconCancel,
+.tundra .dijitEditorIconCopy,
+.tundra .dijitEditorIconCreateLink,
+.tundra .dijitEditorIconCut,
+.tundra .dijitEditorIconDelete,
+.tundra .dijitEditorIconForeColor,
+.tundra .dijitEditorIconHiliteColor,
+.tundra .dijitEditorIconIndent,
+.tundra .dijitEditorIconInsertHorizontalRule,
+.tundra .dijitEditorIconInsertImage,
+.tundra .dijitEditorIconInsertOrderedList,
+.tundra .dijitEditorIconInsertTable,
+.tundra .dijitEditorIconInsertUnorderedList,
+.tundra .dijitEditorIconItalic,
+.tundra .dijitEditorIconJustifycenter,
+.tundra .dijitEditorIconJustifyfull,
+.tundra .dijitEditorIconJustifyleft,
+.tundra .dijitEditorIconJustifyright,
+.tundra .dijitEditorIconLeftToRight,
+.tundra .dijitEditorIconListBulletIndent,
+.tundra .dijitEditorIconListBulletOutdent,
+.tundra .dijitEditorIconListNumIndent,
+.tundra .dijitEditorIconListNumOutdent,
+.tundra .dijitEditorIconOutdent,
+.tundra .dijitEditorIconPaste,
+.tundra .dijitEditorIconRedo,
+.tundra .dijitEditorIconRemoveFormat,
+.tundra .dijitEditorIconRightToLeft,
+.tundra .dijitEditorIconSave,
+.tundra .dijitEditorIconSpace,
+.tundra .dijitEditorIconStrikethrough,
+.tundra .dijitEditorIconSubscript,
+.tundra .dijitEditorIconSuperscript,
+.tundra .dijitEditorIconUnderline,
+.tundra .dijitEditorIconUndo,
+.tundra .dijitEditorIconWikiword {
+	background-image: url('images/editor.gif'); /* editor icons sprite image */
+	width: 18px;
+	height: 18px;
+	display: block;		/* optional: if unspecified icon will be inline */
+	text-align: center;
+}
+.tundra .dijitEditorIconSep { background-position: 0px; }
+.tundra .dijitEditorIconBackColor { background-position: -18px; }
+.tundra .dijitEditorIconBold { background-position: -36px; }
+.tundra .dijitEditorIconCancel { background-position: -54px; }
+.tundra .dijitEditorIconCopy { background-position: -72px; }
+.tundra .dijitEditorIconCreateLink { background-position: -90px; }
+.tundra .dijitEditorIconCut { background-position: -108px; }
+.tundra .dijitEditorIconDelete { background-position: -126px; }
+.tundra .dijitEditorIconForeColor { background-position: -144px; }
+.tundra .dijitEditorIconHiliteColor { background-position: -162px; }
+.tundra .dijitEditorIconIndent { background-position: -180px; }
+.tundra .dijitEditorIconInsertHorizontalRule { background-position: -198px; }
+.tundra .dijitEditorIconInsertImage { background-position: -216px; }
+.tundra .dijitEditorIconInsertOrderedList { background-position: -234px; }
+.tundra .dijitEditorIconInsertTable { background-position: -252px; }
+.tundra .dijitEditorIconInsertUnorderedList { background-position: -270px; }
+.tundra .dijitEditorIconItalic { background-position: -288px; }
+.tundra .dijitEditorIconJustifycenter { background-position: -306px; }
+.tundra .dijitEditorIconJustifyfull { background-position: -324px; }
+.tundra .dijitEditorIconJustifyleft { background-position: -342px; }
+.tundra .dijitEditorIconJustifyright { background-position: -360px; }
+.tundra .dijitEditorIconLeftToRight { background-position: -378px; }
+.tundra .dijitEditorIconListBulletIndent { background-position: -396px; }
+.tundra .dijitEditorIconListBulletOutdent { background-position: -414px; }
+.tundra .dijitEditorIconListNumIndent { background-position: -432px; }
+.tundra .dijitEditorIconListNumOutdent { background-position: -450px; }
+.tundra .dijitEditorIconOutdent { background-position: -468px; }
+.tundra .dijitEditorIconPaste { background-position: -486px; }
+.tundra .dijitEditorIconRedo { background-position: -504px; }
+.tundra .dijitEditorIconRemoveFormat { background-position: -522px; }
+.tundra .dijitEditorIconRightToLeft { background-position: -540px; }
+.tundra .dijitEditorIconSave { background-position: -558px; }
+.tundra .dijitEditorIconSpace { background-position: -576px; }
+.tundra .dijitEditorIconStrikethrough { background-position: -594px; }
+.tundra .dijitEditorIconSubscript { background-position: -612px; }
+.tundra .dijitEditorIconSuperscript { background-position: -630px; }
+.tundra .dijitEditorIconUnderline { background-position: -648px; }
+.tundra .dijitEditorIconUndo { background-position: -666px; }
+.tundra .dijitEditorIconWikiword { background-position: -684px; }
 

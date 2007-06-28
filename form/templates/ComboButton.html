@@ -5,10 +5,11 @@
 <table cellspacing='0' cellpadding='0'  waiRole="presentation" >
 	<tr>
 		<td	class="dijitStretch dijitButtonContents dijitButtonNode"
-			tabIndex="${tabIndex}" dojoAttachPoint="containerNode;focusNode"
+			tabIndex="${tabIndex}"
 			dojoAttachEvent="onklick:_onButtonClick"
 			waiRole="button">
-			${label}
+			<div class="dijitInline ${iconClass}"></div>
+			<span class="dijitButtonContents" dojoAttachPoint="containerNode;focusNode" id="${id}_label">${label}</span>
 		</td>
 		<td class='dijitReset dijitRight dijitButtonNode dijitDownArrowButton'
 			dojoAttachPoint="popupStateNode"

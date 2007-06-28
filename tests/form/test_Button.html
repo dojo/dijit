@@ -42,7 +42,6 @@
 			.dojoMenuItem2Disabled .dojoMenuItem2Accel span span {
 				color: ThreeDHighlight;
 			}
-
 		</style>
 	</head>
 	<body>
@@ -58,33 +57,33 @@
 		Buttons can do an action, display a menu, or both:
 		</p>
 		<div class="box">
-			<button id="1465" dojoType="dijit.form.Button" onClick='logMessage("clicked simple")'>
-				<img src="../images/plus.gif" width="16" height="16"> Create
+			<button id="1465" dojoType="dijit.form.Button" onClick='logMessage("clicked simple")' iconClass="plusIcon">
+				Create
 			</button>
 			<span dojoType="dijit.Tooltip" connectId="1465">tooltip on button</span>
-			<button dojoType="dijit.form.Button" onclick='logMessage("clicked simple")'>
-				<img src="../images/plus.gif" width="16" height="16"><br>Create
+			<button dojoType="dijit.form.DropDownButton" dropDownId='editMenu' iconClass="noteIcon">
+				Edit
 			</button>
-			<button dojoType="dijit.form.DropDownButton" dropDownId='editMenu'>
-				<img src="../images/note.gif" width="20" height="20"> Edit
+			<button dojoType="dijit.form.DropDownButton" dropDownId='colorPalette' iconClass="noteIcon">
+				Color
 			</button>
-			<button dojoType="dijit.form.DropDownButton" dropDownId='editMenu'>
-				<img src="../images/note.gif" width="20" height="20"><br>Edit
+			<button dojoType="dijit.form.ComboButton" optionsTitle='save options' dropDownId='saveMenu' onClick='logMessage("clicked combo save")'
+					iconClass="plusBlockIcon">
+				Save
 			</button>
-			<button dojoType="dijit.form.DropDownButton" dropDownId='colorPalette'>
-				<img src="../images/note.gif" width="20" height="20"> Color
+			<button dojoType="dijit.form.Button" onClick='logMessage("clicked simple")' disabled='true' iconClass="plusIcon">
+				Disabled
 			</button>
-			<button dojoType="dijit.form.ComboButton" optionsTitle='save options' dropDownId='saveMenu' onClick='logMessage("clicked combo save")'>
-				<img src="../images/note.gif" width="20" height="20"> Save
+		</div>
+		<br clear=both>
+		<h2>Toggle buttons</h2>
+		<p>The button CSS as well as the icon CSS can change on toggle </p>
+		<div class="box">
+			<button dojoType="dijit.form.ToggleButton" onChange="console.log('toggled button selected='+arguments[0]);" iconClass="dijitCheckboxIcon">
+				Toggle me
 			</button>
-			<button dojoType="dijit.form.ComboButton" optionsTitle='save options' dropDownId='saveMenu' onclick='logMessage("clicked combo save")'>
-				<img src="../images/note.gif" width="20" height="20"><br>Save
-			</button>
-			<button dojoType="dijit.form.Button" onClick='logMessage("clicked simple")' disabled='true'>
-				<img src="../images/plus.gif" width="16" height="16"> Disabled
-			</button>
-			<button dojoType="dijit.form.ToggleButton" onChange="console.log('toggled button selected='+arguments[0]);">
-				<img src="../images/plus.gif" width="16" height="16"> Toggle me
+			<button dojoType="dijit.form.ToggleButton" onChange="console.log('toggled button selected='+arguments[0]);" iconClass="dijitRadioIcon">
+				Toggle me
 			</button>
 		</div>
 		<br clear=both>
@@ -93,8 +92,7 @@
 		<p>Short button, tall buttons, big buttons, small buttons...
 		These buttons size to their content (just like &lt;button&gt;).</p>
 		<div class="box">
-			<button dojoType="dijit.form.Button" onclick='logMessage("big");'>
-				<img src="../images/flatScreen.gif" width="32" height="32">
+			<button dojoType="dijit.form.Button" onclick='logMessage("big");' iconClass="flatScreenIcon">
 				<span style="font-size:xx-large">big</span>
 			</button>
 			<button id="smallButton1" dojoType="dijit.form.Button" onclick='logMessage("small");'>
@@ -165,11 +163,11 @@
 			</button>
 		</div>
 		<div class="box" style="display:none;" id="hiddenNode">
-			<button dojoType="dijit.form.Button" onclick='logMessage("clicked simple")'>
-				<img src="../images/plus.gif" width="16" height="16"> Create
+			<button dojoType="dijit.form.Button" onclick='logMessage("clicked simple")' iconClass="plusIcon">
+				Create
 			</button>
-			<button dojoType="dijit.form.Button" onclick='logMessage("clicked simple")'>
-				<img src="../images/plus.gif" width="16" height="16"> Create
+			<button dojoType="dijit.form.Button" onclick='logMessage("clicked simple")' iconClass="plusIcon">
+				Create
 			</button>
 		</div>
 		<div style="clear: both;"></div>
