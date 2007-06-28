@@ -11,7 +11,9 @@
  * to the main page, rather than relative to this file... using gifs for now
  */
 .dj_ie6 .tundra .dijitInputField,
-.dj_ie6 .tundra .dijitComboBoxInput {
+.dj_ie6 .tundra .dijitComboBoxInput, 
+.dj_ie6 .tundra .dijitSpinnerInput
+ {
 	background-image: none;
 	/* TODO: won't work; path is wrong; use gif instead? */
 	/* filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src="dijitTundraGradientBg.png", sizingMethod="scale"); */
@@ -94,6 +96,7 @@
 	background: #ededed url("images/buttonActive.png") bottom repeat-x;
 }
 
+
 .tundra .dijitToolbar {
 	border:1px solid #9b9b9b;
 	background:#e9e9e9 url("images/buttonEnabled.png") repeat-x top;
@@ -127,7 +130,14 @@
 }
 */
 
+/*****
+		dijit.form.NumberSpinner
+		override for the shorter stacked buttons
+ *****/
 
+.tundra .dijitSpinner .dijitButtonNode {
+	padding: 0 .4em 0 .4em;
+}
 
 
 /****
@@ -149,7 +159,6 @@
 
 
 /*.tundra .dijitInputField,		MOW TODO */
-.tundra .dijitSpinner input,
 .tundra .dijitInlineEditor input,
 .tundra .dijitTextaArea,
 .tundra .dijitComboBoxInput,
@@ -1000,11 +1009,8 @@ left;
 /* spinner */
 
 .tundra .dijitSpinner {}
-
 .tundra .dijitSpinner input {
 }
-
-.tundra .dijitSpinnerArrowGroup {}
 
 
 

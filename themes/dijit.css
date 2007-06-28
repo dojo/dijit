@@ -26,12 +26,17 @@
 		Also, apparently works on a DIV as well as a FIELDSET.
 		Consider abandoning inlineBox in favor of this.  ???
 	*/
-	display:inline-block;			/* webkit */
 	display:-moz-inline-box;		/* gecko */
-	#display:inline;				/* MSIE   */
+	display:inline-block;			/* webkit */
 	border:0px;
 	padding:0px;
 	vertical-align:middle;
+}
+.dj_ie .dijitInline {
+	#display:inline;				/* IE */
+}
+.dj_ie6 .dijitInline {
+	#zoom: 1;								/* IE6 */
 }
 
 .dijitInlineBox {
@@ -43,10 +48,10 @@
 	padding:0px;
 	vertical-align:middle;
 }
+
 .dj_ie6 .dijitInlineBox {
 	#display:inline;				/* IE */
 }
-
 
 .dijitTeeny {
 	font-size:1px;
@@ -279,7 +284,7 @@
 
 .dijitDownArrowButton,
 .dijitUpArrowButton {
-	/* Node that is acting as a arrow button -- drop down or spinner.  Also gets dijitButtonNode */
+	/* Node that is acting as a arrow button -- drop down (spinner has its own treatment).  Also gets dijitButtonNode */
 	/* place AFTER dijitButtonNode so it overrides */
 	padding:0em .4em;
 	margin:0px;
@@ -321,12 +326,85 @@ table .dijitComboButton .dijitButtonNode {
 }
 
 
+/****
+		dijit.form.NumberSpinner  (template: form/templates/Spinner.html)
 
+		Note: works differently than other Textbox types:
+			The outer fieldset element is the one that shows the border, etc.
+			rather than the actual INPUT element. 
 
+ ****/
+
+.dijitSpinner {
+	/* outer element - also has .dijitInline */
+	vertical-align:middle;
+	padding:0px !important;
+	width:auto !important;
+	height:auto !important;
+}
+
+.dijitSpinner TABLE {
+	border-collapse: collapse;
+}
+.dijitSpinner .dijitButtonNode {
+	padding: 0;
+}
+
+.dijitSpinnerInput {
+	/* container for the input element */
+	font-family:inherit;
+	font-size:inherit;
+	font-weight:inherit;
+	border:1px inset gray;
+	padding:.1em .2em .2em .2em;
+}
+
+.dijitSpinner INPUT {
+	/* The .style assigned to the spinner dijit is actually copied 
+		on to the INPUT element as well as the outer element.
+		The below turns off things on the input that should apply to the outer element.
+	*/
+	display:inline;
+	position:static !important;
+	/* turn off the border on the actual input element */
+	border:0px !important;
+	
+	padding:0px;
+	margin:0px;
+	vertical-align:middle !important;
+	padding:0px !important;
+	margin:auto !important;
+	border:0px !important;
+	visibility:visible !important;
+	font-size:100% !important;
+	background-color:transparent !important;
+	background-image:none !important;
+}
+
+.dijitSpinner .dijitDownArrowButton,
+.dijitSpinner .dijitUpArrowButton {
+    padding: 0 .4em;
+    border: 1px solid;
+    line-height: .769em;
+    /* TODO: as we use border-collapse, is this necessary? */
+    border-left-style: none;
+}
+.dj_ie .dijitSpinner .dijitDownArrowButton,
+.dj_ie .dijitSpinner .dijitUpArrowButton {
+    padding: 0 .2em!important;
+    text-align: center;
+}
+.dijitSpinner .dijitDownArrowButton div,
+.dijitSpinner .dijitUpArrowButton div {
+    text-align: center;
+    font-size: .769em;
+    line-height: 1em;
+    vertical-align: baseline;
+    margin: 0 auto;
+}
 
 /****
 		dijit.form.ComboBox 
-		dijit.form.NumberSpinner  (template: form/templates/Spinner.html)
 
 		Note: these works differently than other Textbox types:
 			The outer fieldset element is the one that shows the border, etc.
@@ -338,8 +416,7 @@ table .dijitComboButton .dijitButtonNode {
 	width:auto !important;
 }
 
-.dijitComboBox TABLE,
-.dijitSpinner TABLE {
+.dijitComboBox TABLE {
 	/* each cell in a combo-table should have its own separate border */
 	border-collapse: separate;
 	border:0px;
@@ -347,8 +424,7 @@ table .dijitComboButton .dijitButtonNode {
 	margin:0px;
 }
 
-.dijitComboBoxInput,
-.dijitSpinnerInput {
+.dijitComboBoxInput {
 	/* container for the input element */
 	font-family:inherit;
 	font-size:inherit;
@@ -358,8 +434,7 @@ table .dijitComboButton .dijitButtonNode {
 	border-right-width:0px !important;
 }
 
-.dijitComboBox INPUT,
-.dijitSpinner INPUT {
+.dijitComboBox INPUT {
 	/* turn off the border on the actual input element */
 	border:0px !important;
 	background-color:transparent;
@@ -384,82 +459,17 @@ table .dijitComboButton .dijitButtonNode {
 }
 
 /*
-.dj_safari .dijitComboBoxInput,
-.dj_safari .dijitSpinnerInput {
+.dj_safari .dijitComboBoxInput {
 	padding:0px;
 	border:0px !important;
 }
 */
 
-.dj_safari .dijitComboBox INPUT,
-.dj_safari .dijitSpinner INPUT{
+.dj_safari .dijitComboBox INPUT {
 	margin:-2px -4px -3px -3px;
 	line-height:2em;
 	font-size:1em;
 }
-
-
-.dijitSpinner {
-	/* outer element, which in the spinner case actually shows the border */
-	display:inline;
-	vertical-align:middle;
-	padding:0px !important;
-	width:auto !important;
-	height:auto !important;
-}
-
-.dijitSpinner INPUT {
-	/* The .style assigned to the spinner dijit is actually copied 
-		on to the INPUT element as well as the outer element.
-		The below turns off things on the input that should apply to the outer element.
-	*/
-	display:inline;
-	position:static !important;
-	float:none !important;
-	vertical-align:middle !important;
-	padding:0px !important;
-	margin:auto !important;
-	border:0px !important;
-	visibility:visible !important;
-	font-size:100% !important;
-	background-color:transparent !important;
-}
-
-.dijitSpinner .dijitDownArrowButton,
-.dijitSpinner .dijitUpArrowButton {
-	line-height:0px;
-	padding:.3em .3em .1em .25em;
-	height:50%;
-}
-
-
-/* total hacks to get IE to work */
-.dj_ie .dijitSpinner .dijitDownArrowButton,
-.dj_ie .dijitSpinner .dijitUpArrowButton {
-	vertical-align:top;
-	padding:0px;
-	margin:0px;
-}
-
-.dj_ie .dijitSpinner .dijitDownArrowButton {
-	border-top-width:0px;
-}
-
-.dj_ie .dijitSpinner .dijitA11yUpArrow    {
-	vertical-align:top;
-}
-.dj_ie .dijitSpinner .dijitA11yDownArrow {
-	vertical-align:middle;
-}
-
-.dj_ie .dijitSpinner .dijitA11yDownArrow,
-.dj_ie .dijitSpinner .dijitA11yUpArrow    {
-	font-size:.6em;
-	line-height:1.6em;
-	padding:0em .25em;
-	margin:0px;
-}
-
 
 
 /****
