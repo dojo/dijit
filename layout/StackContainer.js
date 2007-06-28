@@ -313,20 +313,22 @@ dojo.declare(
 			//   and closing the current page.
 
 			if(this.disabled || evt.altKey || evt.shiftKey || evt.ctrlKey){ return; }
-			if( (evt.keyCode == dojo.keys.RIGHT_ARROW)||
-				(evt.keyCode == dojo.keys.LEFT_ARROW) ){
+			var kc=evt.keyCode, djk=dojo.keys;
+			var pre=(kc == djk.LEFT_ARROW || kc == djk.UP_ARROW);
+			var nxt=(kc == djk.RIGHT_ARROW || kc == djk.DOWN_ARROW);
+			if(pre || nxt){
 				var children = this.getChildren();
 
 				// find currently focused button in children array
 				var current = dojo.indexOf(children, this.pane2button[this._currentChild]);
 
 				// pick next button to focus on
-				var offset = evt.keyCode == dojo.keys.RIGHT_ARROW ? 1 : children.length - 1;
+				var offset = nxt ? 1 : children.length - 1;
 				var next = children[ (current + offset) % children.length ];	// the next button to focus on
 
 				dojo.stopEvent(evt);
 				next.onClick();
-			}else if(evt.keyCode == dojo.keys.DELETE){
+			}else if(kc == djk.DELETE){
 				if (this._currentChild.closable){
 					this.onCloseButtonClick(this._currentChild);
 					dojo.stopEvent(evt); // so we don't close a browser tab!
