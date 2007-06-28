@@ -102,12 +102,16 @@
 .tundra .dijitToolbar .dijitButtonNode,
 .tundra .dijitToolbar .dijitToolbarSeparator {
 	padding: 0px;
-	margin: 0px;
+	margin: 1px;
 	border: 1px solid transparent;
 	background: none;
 }
 .tundra .dijitToolbar .dijitButtonHover .dijitButtonNode,
+.tundra .dijitToolbar .dijitToggleButtonHover .dijitButtonNode,
 .tundra .dijitToolbar .dijitToggleButtonActive .dijitButtonNode,
+.tundra .dijitToolbar .dijitToggleButtonSelected .dijitButtonNode,
+.tundra .dijitToolbar .dijitDropDownButtonHover .dijitButtonNode,
+.tundra .dijitToolbar .dijitToggleButtonSelectedHover .dijitButtonNode,
 .tundra .dijitToolbar .dijitToggleButtonSelected .dijitButtonNode {
 	border-color: #366dba;
 }
