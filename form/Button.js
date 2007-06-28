@@ -11,15 +11,15 @@ dojo.declare(
  * usage
  *	<button dojoType="button" onClick="...">Hello world</button>
  *
- *  var button1 = dojo.widget.createWidget("Button", {caption: "hello world", onClick: foo});
+ *  var button1 = dojo.widget.createWidget("Button", {label: "hello world", onClick: foo});
  *	document.body.appendChild(button1.domNode);
  */
 		// summary
 		//	Basically the same thing as a normal HTML button, but with special styling.
 
-		// caption: String
+		// label: String
 		//	text to display in button
-		caption: "",
+		label: "",
 
 		type: "button",
 		baseClass: "dijitButton",
@@ -29,9 +29,9 @@ dojo.declare(
 			// summary: callback for when button is clicked; user can override this function
 		},
 
-		setCaption: function(/*String*/ content){
-			// summary: reset the caption (text) of the button; takes an HTML string
-			this.containerNode.innerHTML = this.caption = content;
+		setLabel: function(/*String*/ content){
+			// summary: reset the label (text) of the button; takes an HTML string
+			this.containerNode.innerHTML = this.label = content;
 			if(dojo.isMozilla){ // Firefox has re-render issues with tables
 				var oldDisplay = dojo.getComputedStyle(this.domNode).display;
 				this.domNode.style.display="none";
@@ -46,7 +46,7 @@ dojo.declare(
  * usage
  *	<button dojoType="DropDownButton" dropDownId="mymenu">Hello world</button>
  *
- *  var button1 = dojo.widget.createWidget("DropDownButton", {caption: "hello world", dropDownId: foo});
+ *  var button1 = dojo.widget.createWidget("DropDownButton", {label: "hello world", dropDownId: foo});
  *	document.body.appendChild(button1.domNode);
  */
 dojo.declare(
@@ -124,7 +124,7 @@ dojo.declare(
  * usage
  *	<button dojoType="ComboButton" onClick="..." dropDownId="mymenu">Hello world</button>
  *
- *  var button1 = dojo.widget.createWidget("DropDownButton", {caption: "hello world", onClick: foo, dropDownId: "myMenu"});
+ *  var button1 = dojo.widget.createWidget("DropDownButton", {label: "hello world", onClick: foo, dropDownId: "myMenu"});
  *	document.body.appendChild(button1.domNode);
  */
 dojo.declare(

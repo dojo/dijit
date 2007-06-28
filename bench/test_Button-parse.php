@@ -6,7 +6,6 @@
 		<title>PARSE - Dojo Button Instantiation Test</title>
 	<script type="text/javascript" src="../../dojo/dojo.js" XdjConfig='isDebug: true, debugAtAllCosts: true'></script>
 	<script type="text/javascript">
-		dojo.registerModulePath("dijit", "../dijit");
 		dojo.require("dijit.form.Button");
 		// start the timer right before the parser is loaded
 		dojo.addOnLoad(
@@ -19,7 +18,7 @@
 				window.t0 = new Date().getTime();
 			}
 		);
-		dojo.require("dijit.util.parser");
+		dojo.require("dojo.parser");
 		// this should end the timer right AFTER the parser finishes
 		dojo.addOnLoad(
 			function(){

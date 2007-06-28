@@ -193,19 +193,19 @@
 				forEachButton(function(widget){ widget._setDisabled(disabled); });
 				dojo.byId("toggle").innerHTML= disabled ? "Enable all" : "Disable all";
 			}
-			var captions=["<img src='../images/note.gif' width='20' height='20'>All", "<i>work</i>", "and no", "<h1>play</h1>",
+			var labels=["<img src='../images/note.gif' width='20' height='20'>All", "<i>work</i>", "and no", "<h1>play</h1>",
 						 "<span style='color: red'>makes</span>", "Jack", "<h3>a</h3>", "dull",
 						 "<img src='../images/plus.gif' width='16' height='16'>boy"];
 			var idx=0;
-			function changeCaptions(){
+			function changeLabels(){
 				forEachButton(function(widget){
-					widget.setCaption( captions[idx++ % captions.length]);
+					widget.setLabel( labels[idx++ % labels.length]);
 				});
 			}
 		</script>
 		<div>
 			<button id="toggle" onclick='toggleDisabled()'>Disable all</button>
-			<button onclick='changeCaptions()'>Change caption</button>
+			<button onclick='changeLabels()'>Change labels</button>
 			<button onclick='location.reload()'>Revert</button>
 		</div>
 
@@ -233,7 +233,7 @@
 		// See if we can make a widget in script and attach it to the DOM ourselves.
 		dojo.addOnLoad(function(){
 			var params = {
-				caption: "hello!",
+				label: "hello!",
 				name: "programmatic"
 			};
 			var widget = new dijit.form.Button(params, document.getElementById("buttonContainer"));

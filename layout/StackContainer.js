@@ -246,7 +246,7 @@ dojo.declare(
 			this.domNode.appendChild(refNode);
 			// create an instance of the button widget
 			var cls = dojo.getObject(this.buttonWidget);
-			var button = new cls({caption: page.title, closeButton: page.closable}, refNode);
+			var button = new cls({label: page.title, closeButton: page.closable}, refNode);
 			this.addChild(button);
 			this.pane2button[page] = button;
 			page.controlButton = button;	// this value might be overwritten if two tabs point to same container

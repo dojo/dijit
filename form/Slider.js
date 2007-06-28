@@ -19,11 +19,11 @@ dojo.declare(
 	showButtons: true,
 
 	// incrementButtonContents: String
-	//	The increment button caption
+	//	The increment button label
 	incrementButtonContent: "+",
 
 	// decrementButtonContents: String
-	//	The decrement button caption
+	//	The decrement button label
 	decrementButtonContent: "-",
 
 	// handleSrc: String
@@ -151,7 +151,7 @@ dojo.declare(
 	},
 
 	_createButton: function(node, label, fcn){
-		var widget = new dijit.form.Button({caption: label, tabIndex:-1, onClick: dojo.hitch(this, fcn)}, node);
+		var widget = new dijit.form.Button({label: label, tabIndex:-1, onClick: dojo.hitch(this, fcn)}, node);
 		widget.domNode.style.display="";
 		return widget;
 	},

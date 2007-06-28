@@ -382,9 +382,9 @@ dojo.declare(
 	//	path to icon to display to the left of the menu text
 	iconSrc: '',
 
-	// caption: String
+	// label: String
 	//	menu text
-	caption: '',
+	label: '',
 
 	// submenuId: String
 	//	widget ID of Menu2 widget to open when this menu item is clicked
@@ -413,8 +413,8 @@ dojo.declare(
 			dijit.util.wai.setAttr(this.containerNode, "waiState", "haspopup", "true");
 		}
 		this.setDisabled(this.disabled);
-		if(this.caption){
-			this.containerNode.innerHTML=this.caption;
+		if(this.label){
+			this.containerNode.innerHTML=this.label;
 		}
 	},
 

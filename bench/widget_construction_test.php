@@ -17,13 +17,13 @@
 
 			/* dummy widget for benchmarking purposes */
 			dojo.declare(
-				"dijit.Button",
+				"SimpleButton",
 				[ dijit._Widget, dijit._Templated ],
 				function(){  },
 				{
-					caption: "",
+					label: "",
 			
-					templateString: "<button dojoAttachEvent='onclick:onClick'>${caption}</button>",
+					templateString: "<button dojoAttachEvent='onclick:onClick'>${label}</button>",
 			
 					onClick: function(){
 						this.domNode.style.backgroundColor="green";
@@ -143,7 +143,7 @@
 			</p>
 		<? } 
 	} // end generateChaff
-	$widgetName = "dijit.Button";
+	$widgetName = "SimpleButton";
 ?>
 <? generateChaff($leadingChaff); ?>
 <hr>
@@ -159,7 +159,7 @@
 			<br>
 <? } ?>
 <? for($i=0;$i<$items;$i++){ ?>
-			<div dojoType="<?= $widgetName ?>" caption="item2 <?= $i ?>">item2 <?= $i ?></div>
+			<div dojoType="<?= $widgetName ?>" label="item2 <?= $i ?>">item2 <?= $i ?></div>
 <? } ?>
 <? for($i=0;$i<$containerDepth;$i++){ ?>
 			</td>
@@ -168,7 +168,7 @@
 <? } ?>
 <? generateChaff($trailingChaff);  ?>
 <? for($i=0;$i<$items;$i++){ ?>
-	<div dojoType="<?= $widgetName ?>" caption="item2 <?= $i ?>"><span>item <?= $i ?></span></div>
+	<div dojoType="<?= $widgetName ?>" label="item2 <?= $i ?>"><span>item <?= $i ?></span></div>
 <? } ?>
 
 <script type="text/javascript">

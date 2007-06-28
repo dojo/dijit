@@ -104,10 +104,10 @@ dojo.declare(
 		// summary
 		//		Pops up a tooltip (a help message) when you hover over a node.
 
-		// caption: String
+		// label: String
 		//		Text to display in the tooltip.
-		//		Can also be specified as innerHTML (when creating the widget from markup).
-		caption: "",
+		//		Specified as innerHTML when creating the widget from markup.
+		label: "",
 
 		// showDelay: Integer
 		//		Number of milliseconds to wait after hovering over/focusing on the object, before
@@ -187,7 +187,7 @@ dojo.declare(
 				clearTimeout(this._showTimer);
 				delete this._showTimer;
 			}
-			dijit.MasterTooltip.show(this.caption || this.domNode.innerHTML, this._connectNode);
+			dijit.MasterTooltip.show(this.label || this.domNode.innerHTML, this._connectNode);
 			this.isShowingNow = true;
 		},
 

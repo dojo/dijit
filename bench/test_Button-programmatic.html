@@ -5,7 +5,6 @@
 		<title>PROGRAMMATIC - Dojo Button 100 Test</title>
 	<script type="text/javascript" src="../../dojo/dojo.js" XdjConfig='isDebug: true, debugAtAllCosts: true'></script>
 	<script type="text/javascript">
-		dojo.registerModulePath("dijit", "../dijit");
 		dojo.require("dijit.form.Button");
 		dojo.require("dojo.parser");
 		logMessage = window.alert;
@@ -59,7 +58,7 @@ function makeEm() {
 	for (var i = 1; i <= count; i++) {
 		var it =
 			new dijit.form.Button(
-					{caption:"Button "+i, onclick:'logMessage("clicked simple")'}
+					{label:"Button "+i, onclick:'logMessage("clicked simple")'}
 				);
 		container.appendChild(it.domNode);
 		it.domNode.style.display = '';
