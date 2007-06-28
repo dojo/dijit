@@ -313,26 +313,30 @@ dojo.declare(
 			//   and closing the current page.
 
 			if(this.disabled || evt.altKey || evt.shiftKey || evt.ctrlKey){ return; }
-			var kc=evt.keyCode, djk=dojo.keys;
-			var pre=(kc == djk.LEFT_ARROW || kc == djk.UP_ARROW);
-			var nxt=(kc == djk.RIGHT_ARROW || kc == djk.DOWN_ARROW);
-			if(pre || nxt){
-				var children = this.getChildren();
-
-				// find currently focused button in children array
-				var current = dojo.indexOf(children, this.pane2button[this._currentChild]);
-
-				// pick next button to focus on
-				var offset = nxt ? 1 : children.length - 1;
-				var next = children[ (current + offset) % children.length ];	// the next button to focus on
-
-				dojo.stopEvent(evt);
-				next.onClick();
-			}else if(kc == djk.DELETE){
-				if (this._currentChild.closable){
-					this.onCloseButtonClick(this._currentChild);
-					dojo.stopEvent(evt); // so we don't close a browser tab!
-				}
+			var forward = true;
+			switch(evt.keyCode){				
+				case dojo.keys.LEFT_ARROW:
+				case dojo.keys.UP_ARROW:
+					forward=false;
+					// fall through
+				case dojo.keys.RIGHT_ARROW:
+				case dojo.keys.DOWN_ARROW:
+					// find currently focused button in children array
+					var children = this.getChildren();
+					var current = dojo.indexOf(children, this.pane2button[this._currentChild]);
+					// pick next button to focus on
+					var offset = forward ? 1 : children.length - 1;
+					var next = children[ (current + offset) % children.length ];
+					dojo.stopEvent(evt);
+					next.onClick();
+					break;
+				case dojo.keys.DELETE:
+					if (this._currentChild.closable){
+						this.onCloseButtonClick(this._currentChild);
+						dojo.stopEvent(evt); // so we don't close a browser tab!
+					}
+				default:
+					return;
 			}
 		}
 	}
