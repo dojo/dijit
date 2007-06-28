@@ -185,7 +185,7 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 		// summary: set the value of the widget.
 		if(newValue != this._lastValueReported){
 			this._lastValueReported = newValue;
-			dijit.util.wai.setAttr(this.focusNode || this.domNode, "waiState", "valuenow", newValue);
+			dijit.util.wai.setAttr(this.focusNode || this.domNode, "waiState", "valuenow", this.forWaiValuenow());
 			this.onValueChanged(newValue);
 		}
 	},
@@ -193,5 +193,13 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 	getValue: function(){
 		// summary: get the value of the widget.
 		return this._lastValueReported;
+	},
+
+	forWaiValuenow: function(){
+		// summary: returns a value, reflecting the current state of the widget,
+		//		to be used for the ARIA valuenow.
+		// 		This method may be overridden by subclasses that want
+		// 		to use something other than this.getValue() for valuenow
+		return this.getValue();
 	}
 });

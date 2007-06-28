@@ -256,8 +256,7 @@ dojo.declare(
 				this.focusNode.value = text;
 				this._setSelectedRange(this.focusNode, 0, this.focusNode.value.length);
 			}
-			// announce the change
-			dijit.util.wai.setAttr(this.focusNode || this.domNode, "waiState", "valuenow", text);
+// TODO: announce autocompleted text after typing
 		},
 
 		_openResultList: function(/*Object*/ results, /*Object*/ dataObject){

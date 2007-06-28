@@ -54,6 +54,10 @@ dojo.declare(
 			dijit.form.Textbox.superclass.setValue.call(this,value);
 		},
 
+		forWaiValuenow: function(){
+			return this.getTextValue();
+		},
+
 		format: function(/* String */ value, /* Object */ constraints){
 			// summary: Replacable function to convert a value to a properly formatted string
 			return value;
