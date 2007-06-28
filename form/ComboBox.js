@@ -256,7 +256,6 @@ dojo.declare(
 				this.focusNode.value = text;
 				this._setSelectedRange(this.focusNode, 0, this.focusNode.value.length);
 			}
-// TODO: announce autocompleted text after typing
 		},
 
 		_openResultList: function(/*Object*/ results, /*Object*/ dataObject){
@@ -284,6 +283,8 @@ dojo.declare(
 			// if they are just previewing the options available.
 			(dataObject.query[this.searchAttr]!="*")){
 				this._autoCompleteText(zerothvalue);
+				// announce the autocompleted value
+				dijit.util.wai.setAttr(this.focusNode || this.domNode, "waiState", "valuenow", zerothvalue);
 			}
 			// #2309: iterate over cache nondestructively
 			for(var i=0; i<results.length; i++){

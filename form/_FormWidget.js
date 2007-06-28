@@ -183,9 +183,9 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 	_lastValueReported: null,
 	setValue: function(newValue){
 		// summary: set the value of the widget.
+		dijit.util.wai.setAttr(this.focusNode || this.domNode, "waiState", "valuenow", this.forWaiValuenow());
 		if(newValue != this._lastValueReported){
 			this._lastValueReported = newValue;
-			dijit.util.wai.setAttr(this.focusNode || this.domNode, "waiState", "valuenow", this.forWaiValuenow());
 			this.onValueChanged(newValue);
 		}
 	},
