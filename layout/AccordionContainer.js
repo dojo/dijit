@@ -35,7 +35,7 @@ dojo.declare(
 				style.overflow = "auto";
 				this.selectedChildWidget._setSelectedState(true);
 			}else{
-				this.children[0].focusNode.setAttribute("tabIndex","0");
+				this.getChildren()[0].focusNode.setAttribute("tabIndex","0");
 			}
 		},
 
@@ -60,7 +60,6 @@ dojo.declare(
 
 		_setupChild: function(/*Widget*/ page){
 			// Summary: prepare the given child
-			(this.children || (this.children = [])).push(page);
 			return page;
 		},
 
@@ -110,15 +109,25 @@ dojo.declare(
 
 		// note: we are treating the container as controller here
 		processKey: function(/*Event*/ evt){
-			if((evt.keyCode == dojo.keys.RIGHT_ARROW)||
-				(evt.keyCode == dojo.keys.LEFT_ARROW) ){
-				// find currently focused button in children array
-				var current = dojo.indexOf(this.children, evt._dijitWidget);
-				// pick next button to focus on
-				var offset = evt.keyCode == dojo.keys.RIGHT_ARROW ? 1 : this.children.length - 1;
-				var next = this.children[ (current + offset) % this.children.length ];
-				dojo.stopEvent(evt);
-				next._onTitleClick();
+			if(this.disabled || evt.altKey || evt.shiftKey || evt.ctrlKey){ return; }
+			var forward = true;
+			switch(evt.keyCode){				
+				case dojo.keys.LEFT_ARROW:
+				case dojo.keys.UP_ARROW:
+					forward=false;
+				case dojo.keys.RIGHT_ARROW:
+				case dojo.keys.DOWN_ARROW:
+					// find currently focused button in children array
+					var children = this.getChildren();
+					var current = dojo.indexOf(children, evt._dijitWidget);
+					// pick next button to focus on
+					var offset = forward ? 1 : children.length - 1;
+					var next = children[ (current + offset) % children.length ];
+					dojo.stopEvent(evt);
+					next._onTitleClick();
+					break;
+			default:
+				return;
 			}
 		}
 	}
