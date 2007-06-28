@@ -120,6 +120,8 @@ dojo.declare(
 		connectId: "",
 
 		postCreate: function(){
+			this.srcNodeRef.style.display="none";
+
 			this._connectNode = dojo.byId(this.connectId);
 
 			dojo.forEach(["onMouseOver", "onHover", "onMouseOut", "onUnHover"], function(event){

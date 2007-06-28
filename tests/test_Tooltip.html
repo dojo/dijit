@@ -25,7 +25,7 @@
 	<p>Mouse-over the items below to test tooltips. <button onclick="dijit.byId('btnTt').destroy()">Remove</button> tooltip from button.</p>
 	<p>
 		<span id="one" class="tt">text</span>
-		<span dojoType="dijit.Tooltip" connectId="one" style="display:none;">
+		<span dojoType="dijit.Tooltip" connectId="one">
 			<b>
 				<span style="color: blue;">rich formatting</span>
 				<span style="color: red; font-size: x-large;"><i>!</i></span>
@@ -33,11 +33,11 @@
 		</span>
 
 		<a id="three" href="#bogus">anchor</a>
-		<span dojoType="dijit.Tooltip" connectId="three" caption="inline caption" style="display:none;"></span>
+		<span dojoType="dijit.Tooltip" connectId="three">tooltip on a link </span>
 	</p>
 
 	<button id="four">button</button>
-	<span id="btnTt" dojoType="dijit.Tooltip" connectId="four" caption="tooltip on button" style="display:none;"></span>
+	<span id="btnTt" dojoType="dijit.Tooltip" connectId="four">tooltip on a button</span>
 
 	<span style="float: right">
 		Test tooltip on right aligned element.  Tooltip should flow to the left --&gt;
@@ -48,7 +48,7 @@
 			<option value="delta">Delta</option>
 		</select>
 	
-		<span dojoType="dijit.Tooltip" connectId="seven" style="display:none;">
+		<span dojoType="dijit.Tooltip" connectId="seven">
 			tooltip on a select<br>
 			two line tooltip.
 		</span>
@@ -74,24 +74,24 @@
 		<span id="s5">s5 text</span><br><br><br>
 	</div>
 
-	<span dojoType="dijit.Tooltip" connectId="id1" style="display:none;">
+	<span dojoType="dijit.Tooltip" connectId="id1">
 
 	tooltip for #1<br>
 	long&nbsp;long&nbsp;long&nbsp;long&nbsp;long&nbsp;long&nbsp;long&nbsp;long&nbsp;long&nbsp;long&nbsp;long&nbsp;text<br>
 	make sure that this works properly with a really narrow window
 	</span>
 
-	<span dojoType="dijit.Tooltip" connectId="id2" style="display:none;">tooltip for #2</span>
-	<span dojoType="dijit.Tooltip" connectId="id3" style="display:none;">tooltip for #3</span>
-	<span dojoType="dijit.Tooltip" connectId="id4" style="display:none;">tooltip for #4</span>
-	<span dojoType="dijit.Tooltip" connectId="id5" style="display:none;">tooltip for #5</span>
-	<span dojoType="dijit.Tooltip" connectId="id6" style="display:none;">tooltip for #6</span>
+	<span dojoType="dijit.Tooltip" connectId="id2">tooltip for #2</span>
+	<span dojoType="dijit.Tooltip" connectId="id3">tooltip for #3</span>
+	<span dojoType="dijit.Tooltip" connectId="id4">tooltip for #4</span>
+	<span dojoType="dijit.Tooltip" connectId="id5">tooltip for #5</span>
+	<span dojoType="dijit.Tooltip" connectId="id6">tooltip for #6</span>
 
-	<span dojoType="dijit.Tooltip" connectId="s1" style="display:none;">s1 tooltip</span>
-	<span dojoType="dijit.Tooltip" connectId="s2" style="display:none;">s2 tooltip</span>
-	<span dojoType="dijit.Tooltip" connectId="s3" style="display:none;">s3 tooltip</span>
-	<span dojoType="dijit.Tooltip" connectId="s4" style="display:none;">s4 tooltip</span>
-	<span dojoType="dijit.Tooltip" connectId="s5" style="display:none;">s5 tooltip</span>
+	<span dojoType="dijit.Tooltip" connectId="s1">s1 tooltip</span>
+	<span dojoType="dijit.Tooltip" connectId="s2">s2 tooltip</span>
+	<span dojoType="dijit.Tooltip" connectId="s3">s3 tooltip</span>
+	<span dojoType="dijit.Tooltip" connectId="s4">s4 tooltip</span>
+	<span dojoType="dijit.Tooltip" connectId="s5">s5 tooltip</span>
 
 </body>
 </html>

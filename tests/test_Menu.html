@@ -24,31 +24,31 @@
 <body class="tundra">
 
 <div dojoType="dijit.PopupMenu" id="submenu1" contextMenuForWindow="true" style="display: none;">
-	<div dojoType="dijit.MenuItem" caption="Enabled Item" onClick="alert('Hello world');"></div>
-	<div dojoType="dijit.MenuItem" caption="Disabled Item" disabled="true"></div>
+	<div dojoType="dijit.MenuItem" onClick="alert('Hello world');">Enabled Item</div>
+	<div dojoType="dijit.MenuItem" disabled="true">Disabled Item</div>
 	<div dojoType="dijit.MenuSeparator"></div>
-	<div dojoType="dijit.MenuItem" iconSrc="images/cut.gif" caption="Cut" accelKey="Ctrl+X"
-		onClick="alert('not actually cutting anything, just a test!')"></div>
-	<div dojoType="dijit.MenuItem" iconSrc="images/copy.gif" caption="Copy" accelKey="Ctrl+C"
-		onClick="alert('not actually copying anything, just a test!')"></div>
-	<div dojoType="dijit.MenuItem" iconSrc="images/paste.gif" caption="Paste" accelKey="Ctrl+V"
-		onClick="alert('not actually pasting anything, just a test!')"></div>
+	<div dojoType="dijit.MenuItem" iconSrc="images/cut.gif"
+		onClick="alert('not actually cutting anything, just a test!')">Cut</div>
+	<div dojoType="dijit.MenuItem" iconSrc="images/copy.gif"
+		onClick="alert('not actually copying anything, just a test!')">Copy</div>
+	<div dojoType="dijit.MenuItem" iconSrc="images/paste.gif"
+		onClick="alert('not actually pasting anything, just a test!')">Paste</div>
 	<div dojoType="dijit.MenuSeparator"></div>
-	<div dojoType="dijit.MenuItem" caption="Enabled Submenu" submenuId="submenu2"></div>
-	<div dojoType="dijit.MenuItem" caption="Disabled Submenu" submenuId="submenu2" disabled="true"></div>
+	<div dojoType="dijit.MenuItem" submenuId="submenu2">Enabled Submenu</div>
+	<div dojoType="dijit.MenuItem" submenuId="submenu2" disabled="true">Disabled Submenu</div>
 </div>
 
 <div dojoType="dijit.PopupMenu" id="submenu2" style="display: none;">
-	<div dojoType="dijit.MenuItem" caption="Submenu Item One" onClick="alert('Submenu 1!')"></div>
-	<div dojoType="dijit.MenuItem" caption="Submenu Item Two" onClick="alert('Submenu 2!')"></div>
+	<div dojoType="dijit.MenuItem" onClick="alert('Submenu 1!')">Submenu Item One</div>
+	<div dojoType="dijit.MenuItem" onClick="alert('Submenu 2!')">Submenu Item One</div>
 </div>
 <!--
 <div dojoType="dijit.MenuBar">
-	<div dojoType="dijit.MenuBarItem" caption="File" submenuId="submenu1"></div>
-	<div dojoType="dijit.MenuBarItem" caption="Edit" submenuId="submenu"></div>
-	<div dojoType="dijit.MenuBarItem" caption="View" disabled="true"></div>
-	<div dojoType="dijit.MenuBarItem" caption="Help" submenuId="submenu"></div>
-	<div dojoType="dijit.MenuBarItem" caption="Click Me" onClick="alert('you clicked a menu bar button');"></div>
+	<div dojoType="dijit.MenuBarItem" submenuId="submenu1">File</div>
+	<div dojoType="dijit.MenuBarItem" submenuId="submenu">Edit</div>
+	<div dojoType="dijit.MenuBarItem" disabled="true">View</div>
+	<div dojoType="dijit.MenuBarItem" submenuId="submenu">Help</div>
+	<div dojoType="dijit.MenuBarItem" onClick="alert('you clicked a menu bar button');">Click Me</div>
 </div>
 -->
 <div style="padding: 1em">
