@@ -87,19 +87,22 @@ dojo.declare(
 			//	Sets the value of the select.
 			//	Also sets the label to the corresponding value by reverse lookup.
 
-			//#3347: getItemByIdentity if no keyAttr specified
-			var item=this.store.getItemByIdentity(value);
-			if(item){
-				if(this.store.isItemLoaded(item)){
-					this._callbackSetLabel([item]);
+			//#3347: fetchItemByIdentity if no keyAttr specified
+			var self=this;
+			var handleFetchByIdentity = function(item){
+				if(item){
+					if(self.store.isItemLoaded(item)){
+						self._callbackSetLabel([item]);
+					}else{
+						self.store.loadItem({item:item, onItem: self._callbackSetLabel});
+					}
 				}else{
-					this.store.loadItem({item:item, onItem: this._callbackSetLabel});
+					self._isvalid=false;
+					// prevent errors from Tooltip not being created yet
+					self.validate(false);
 				}
-			}else{
-				this._isvalid=false;
-				// prevent errors from Tooltip not being created yet
-				this.validate(false);
 			}
+			this.store.fetchItemByIdentity({identity: value, onItem: handleFetchByIdentity});
 		},
 
 		_setValueFromItem: function(/*item*/ item){
