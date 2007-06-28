@@ -838,7 +838,6 @@ dojo.declare(
 					// throw new Error("onload");
 				}else if(dojo.isMoz|| dojo.isOpera){
 					var doc = this.document;
-					var self = this;
 					var events=this.events.concat(this.captureEvents);
 					dojo.forEach(events, function(e){
 						var l = dojo.connect(this.document, e.toLowerCase(), dojo.hitch(this, e));
@@ -1189,7 +1188,7 @@ dojo.declare(
 			//		changes and the result needs to be reflected in the UI
 		},
 
-		_normalizeCommand: function (/*String*/cmd){
+		_normalizeCommand: function(/*String*/cmd){
 			// summary:
 			//		Used as the advice function by dojo.connect to map our
 			//		normalized set of commands to those supported by the target
@@ -1205,7 +1204,7 @@ dojo.declare(
 			return command;
 		},
 
-		queryCommandAvailable: function (/*String*/command) {
+		queryCommandAvailable: function(/*String*/command){
 			// summary:
 			//		Tests whether a command is supported by the host. Clients SHOULD check
 			//		whether a command is supported before attempting to use it, behaviour
@@ -1219,7 +1218,7 @@ dojo.declare(
 
 			var gt420 = this._safariIsLeopard();
 
-			function isSupportedBy (browsers) {
+			function isSupportedBy(browsers){
 				return {
 					ie: Boolean(browsers & ie),
 					mozilla: Boolean(browsers & mozilla),
@@ -1231,7 +1230,7 @@ dojo.declare(
 
 			var supportedBy = null;
 
-			switch (command.toLowerCase()) {
+			switch(command.toLowerCase()){
 				case "bold": case "italic": case "underline":
 				case "subscript": case "superscript":
 				case "fontname": case "fontsize":
@@ -1278,7 +1277,7 @@ dojo.declare(
 				(dojo.isOpera && supportedBy.opera);  // Boolean return true if the command is supported, false otherwise
 		},
 
-		execCommand: function (/*String*/command, argument){
+		execCommand: function(/*String*/command, argument){
 			// summary: Executes a command in the Rich Text area
 			// command: The command to execute
 			// argument: An optional argument to the command
@@ -1306,7 +1305,7 @@ dojo.declare(
 					insertRange.select();
 					//insertRange.collapse(true);
 					return true;
-				}else if(dojo.isMoz && argument.length==0){
+				}else if(dojo.isMoz && !argument.length){
 					//mozilla can not inserthtml an empty html to delete current selection
 					//so we delete the selection instead in this case
 					dojo.withGlobal(this.window,'remove',dijit._editor.selection); // FIXME
@@ -1361,7 +1360,7 @@ dojo.declare(
 //					this.document = this.iframe.contentWindow.document
 //				}
 
-				if(argument || command!="createlink") {
+				if(argument || command!="createlink"){
 					returnValue = this.document.execCommand(command, false, argument);
 				}
 			}
@@ -1376,7 +1375,7 @@ dojo.declare(
 			if(dojo.isMoz){
 				if(command == "unlink"){ // mozilla returns true always
 					return dojo.withGlobal(this.window, "hasAncestorElement",dijit._editor.selection, ['a']);
-				} else if (command == "inserttable") {
+				}else if (command == "inserttable"){
 					return true;
 				}
 			}
@@ -1392,7 +1391,7 @@ dojo.declare(
 			return this.document.queryCommandState(command);
 		},
 
-		queryCommandValue: function (command) {
+		queryCommandValue: function(command){
 			// summary: check the value of a given command
 			command = this._normalizeCommand(command);
 			if(dojo.isIE && command == "formatblock"){
@@ -1670,7 +1669,7 @@ dojo.declare(
 						}
 					}else{
 						var attr, i=0, attrs = node.attributes;
-						while(attr=attrs[i++]) {
+						while(attr=attrs[i++]){
 							//ignore all attributes starting with _dj which are
 							//internal temporary attributes used by the editor
 							if(attr.name.substr(0,3) != '_dj' /*&&
@@ -1692,7 +1691,7 @@ dojo.declare(
 					while(attr=attrarray[i++]){
 						output += ' '+attr[0]+'="'+attr[1]+'"';
 					}
-					if(node.childNodes.length>0){
+					if(node.childNodes.length){
 						output += '>' + this.getNodeChildrenHtml(node)+'</'+node.tagName.toLowerCase()+'>';
 					}else{
 						output += ' />';
@@ -1733,7 +1732,7 @@ dojo.declare(
 			// force:
 			if(this.isClosed){return false; }
 
-			if (arguments.length == 0) { save = true; }
+			if(!arguments.length){ save = true; }
 			this._content = this.getValue();
 			var changed = (this.savedContent != this._content);
 
@@ -1741,18 +1740,6 @@ dojo.declare(
 			// FIXME: why was this here? if (this.iframe){ this.domNode.style.lineHeight = null; }
 
 			if(this.interval){ clearInterval(this.interval); }
-
-			/*
-			if(dojo.isIE){
-				dojo.event.browser.clean(this.editNode);
-			}
-
-			if(this.iframe){
-				// FIXME: should keep iframe around for later re-use
-				dojo.html.destroyNode(this.iframe);
-				delete this.iframe;
-			}
-			*/
 
 			if(this.textarea){
 				with(this.textarea.style){
@@ -1934,8 +1921,8 @@ dojo.declare(
 				if(node.nodeType != 1 || node.tagName != 'P'){
 					return (dojo.style(node, 'display') == 'block');
 				}else{
-				if(!node.childNodes.length || node.innerHTML=="&nbsp;"){ return true }
-				//return node.innerHTML.match(/^(<br\ ?\/?>| |\&nbsp\;)$/i);
+					if(!node.childNodes.length || node.innerHTML=="&nbsp;"){ return true }
+					//return node.innerHTML.match(/^(<br\ ?\/?>| |\&nbsp\;)$/i);
 				}
 			}
 
@@ -1983,7 +1970,7 @@ dojo.declare(
 				// FIXME:
 				// dojo.html.insertCssText(lineFixingStyles, this.document);
 				this.document.__INSERTED_EDITIOR_NEWLINE_CSS = true;
-//				this.regularPsToSingleLinePs(this.editNode);
+				// this.regularPsToSingleLinePs(this.editNode);
 			}
 		}
 	}

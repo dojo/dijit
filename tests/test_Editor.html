@@ -1,0 +1,53 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+        "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+	<title>Editor Test</title>
+
+	<style type="text/css">
+		@import "../../dojo/resources/dojo.css";
+		@import "../themes/tundra/tundra.css";
+		@import "css/dijitTests.css";
+	</style>
+
+	<script type="text/javascript" src="../../dojo/dojo.js"
+		djConfig="isDebug: true"></script>
+	<script type="text/javascript">
+		dojo.require("dijit.Editor");
+		dojo.require("dojo.parser");	// scan page for widgets and instantiate them
+	</script>
+</head>
+<body class="tundra">
+
+	<h1 class="testTitle">Editor + Plugins Test</h1>
+
+	<div style="border: 1px dotted black;">
+		<h3>thud</h3>
+		<textarea dojoType="dijit.Editor"
+			styleSheets="../../dojo/resources/dojo.css">
+			<ul>
+				<li>Right click on the client area of the page (ctrl-click for Macintosh). Menu should open.</li>
+				<li>Right click on each of the form controls above. Menu should open.</li>
+				<li>Right click near the righthand window border. Menu should open to the left of the pointer.</li>
+				<li>Right click near the bottom window border. Menu should open above the pointer.</li>
+			</ul>
+		</textarea>
+		<h3>..after</h3>
+	</div>
+
+	<div style="border: 1px dotted black;">
+		<h3>blah</h3>
+		<textarea dojoType="dijit.Editor"
+			styleSheets="../../dojo/resources/dojo.css">
+			<ul>
+				<li>Right click on the client area of the page (ctrl-click for Macintosh). Menu should open.</li>
+				<li>Right click on each of the form controls above. Menu should open.</li>
+				<li>Right click near the righthand window border. Menu should open to the left of the pointer.</li>
+				<li>Right click near the bottom window border. Menu should open above the pointer.</li>
+			</ul>
+		</div>
+		<h3>..after</h3>
+	</div>
+
+</body>
+</html>
