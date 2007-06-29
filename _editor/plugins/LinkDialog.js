@@ -11,9 +11,13 @@ dojo.declare("dijit._editor.plugins.LinkDialog",
 		});
 		// FIXME: this is totally torturned. _Templated should make this easier. *sigh*
 		this._linkDialog.containerNode.innerHTML = this.linkDialogTemplate;
+		// dojo.body().appendChild(this._linkDialog.domNode);
 		dijit._Templated.prototype._attachTemplateNodes.call(this, this._linkDialog.containerNode);
 		this._linkDialog.startup();
-		this.connect(this.button, "onClick", "showEditor");
+
+		dojo.connect(this, "_initButton", this, function(){
+			this.connect(this.button, "onClick", "showEditor");
+		});
 	},
 	{
 		// FIXME: this is a PITA. There should be a lighter weight way to do this
@@ -30,18 +34,44 @@ dojo.declare("dijit._editor.plugins.LinkDialog",
 		command: "createLink",
 		_linkDialog: null,
 		setValue: function(){
-			this.editor.execCommand(this.command, this.urlInput.value);
+			var val = this.urlInput.value;
 			this.hideEditor();
+			this.editor.execCommand(this.command, val);
 		},
+		_savedSelection: null,
 		hideEditor: function(){
 			this._linkDialog.hide();
+			/* // FIXME: IE is really messed up here!!
+			if(dojo.isIE){
+				// this.urlInput.blur();
+				// console.debug(this._savedSelection);
+				// var range = this.editor.document.selection.createRange();
+				var range = document.selection.createRange();
+				range.moveToBookmark(this._savedSelection);
+				setTimeout(function(){
+					range.select();
+				}, 1);
+				// this._savedSelection = null;
+			}
+			*/
 		},
 		showEditor: function(){
-			// console.debug("showEditor");
 			if(!this.button.selected){
+				console.debug("selected");
 				this.editor.execCommand("unlink");
-				this.button.setSelected();
+				// this.button.setSelected();
 			}else{
+
+				/* // FIXME: IE is *really* b0rken
+				if(dojo.isIE){
+					var range = this.editor.document.selection.createRange();
+					// range.select();
+					// console.debug(range.htmlText);
+					this._savedSelection = range.getBookmark();
+					// console.debug(this._savedSelection);
+				}
+				*/
+				dojo.coords(this.button.domNode);
 				this._linkDialog.show(this.button.domNode);
 				this.urlInput.focus();
 			}
@@ -59,15 +89,11 @@ dojo.declare("dijit._editor.plugins.LinkDialog",
 			if(!_e.isLoaded){ return; }
 			if(this.button){
 				try{
-					var enabled = _e.queryCommandEnabled("unlink");
-					this.button._setDisabled(!enabled);
+					// var enabled = _e.queryCommandEnabled("unlink");
+					var enabled = _e.queryCommandEnabled("createlink");
+					// this.button._setDisabled(!enabled);
 					if(this.button.setSelected){
-						var selected;
-						if(dojo.isSafari){
-							selected = !!dojo.withGlobal(this.editor.window, "getAncestorElement",dijit._editor.selection, ['a']);
-						}else{
-							selected = _e.queryCommandState("createLink");
-						}
+						var selected = !!dojo.withGlobal(this.editor.window, "getAncestorElement",dijit._editor.selection, ['a']);
 						this.button.setSelected(selected);
 					}
 				}catch(e){
