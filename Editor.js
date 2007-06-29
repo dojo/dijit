@@ -18,15 +18,15 @@ dojo.declare(
 		toolbar: null,
 		postCreate: function(){
 			try{
-			dijit.Editor.superclass.postCreate.apply(this, arguments);
-			
-			if(!this.toolbar){
-				// if we haven't been assigned a toolbar, create one
-				this.toolbar = new dijit.Toolbar();
-				dojo.place(this.toolbar.domNode, this.domNode, "before");
-			}
+				dijit.Editor.superclass.postCreate.apply(this, arguments);
+				
+				if(!this.toolbar){
+					// if we haven't been assigned a toolbar, create one
+					this.toolbar = new dijit.Toolbar();
+					dojo.place(this.toolbar.domNode, this.domNode, "before");
+				}
 
-			dojo.forEach(this.plugins, this.addPlugin, this);
+				dojo.forEach(this.plugins, this.addPlugin, this);
 			}catch(e){ console.debug(e); }
 		},
 

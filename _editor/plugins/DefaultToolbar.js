@@ -1,5 +1,6 @@
 dojo.provide("dijit._editor.plugins.DefaultToolbar");
 dojo.require("dijit._editor._Plugin");
+dojo.require("dijit._editor.plugins.LinkDialog");
 dojo.require("dijit._Widget");
 dojo.require("dijit._Container");
 
@@ -24,7 +25,10 @@ dojo.declare("dijit._editor.plugins.DefaultToolbar", null,
 			// new _p({ command: "sep" }), // test for disabled command hiding
 			new _p({ command: "insertunorderedlist" }),
 			new _p({ command: "indent" }),
-			new _p({ command: "outdent" }) //,
+			new _p({ command: "outdent" }),
+			new _p({ button: new dijit.ToolbarSeparator() }),
+			new dijit._editor.plugins.LinkDialog() //,
+			// new _p({ command: "unlink" })
 			// new _p({ button: new dijit.ToolbarSeparator() }),
 		];
 		// console.debug("...created");

@@ -1317,7 +1317,7 @@ dojo.declare(
 			}else if(
 				(command == "unlink")&&
 				(this.queryCommandEnabled("unlink"))&&
-				(dojo.isMoz)
+				(dojo.isMoz || dojo.isSafari)
 			){
 				// fix up unlink in Mozilla to unlink the link and not just the selection
 
@@ -1373,7 +1373,7 @@ dojo.declare(
 		queryCommandEnabled: function(/*String*/command){
 			// summary: check whether a command is enabled or not
 			command = this._normalizeCommand(command);
-			if(dojo.isMoz){
+			if(dojo.isMoz || dojo.isSafari){
 				if(command == "unlink"){ // mozilla returns true always
 					// console.debug(dojo.withGlobal(this.window, "hasAncestorElement",dijit._editor.selection, ['a']));
 					return dojo.withGlobal(this.window, "hasAncestorElement",dijit._editor.selection, ['a']);
