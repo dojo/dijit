@@ -98,7 +98,7 @@
 
 
 .tundra .dijitToolbar {
-	border:1px solid #9b9b9b;
+	border: 1px solid #9b9b9b;
 	background:#e9e9e9 url("images/buttonEnabled.png") repeat-x top;
 }
 
@@ -106,11 +106,16 @@
 	display: none; !important
 }
 
-.tundra .dijitToolbar .dijitButtonNode,
-.tundra .dijitToolbar .dijitToolbarSeparator {
+.tundra .dijitToolbar .dijitButton {
 	padding: 0px;
-	margin: 1px;
+	margin: 0px;
+}
+
+.tundra .dijitToolbar .dijitButtonNode {
+	padding: 0px;
+	margin: 0px;
 	border: 1px solid transparent;
+	background: none;
 }
 .tundra .dijitToolbar .dijitButtonHover .dijitButtonNode,
 .tundra .dijitToolbar .dijitToggleButtonHover .dijitButtonNode,
@@ -122,11 +127,15 @@
 	border-color: #366dba;
 }
 .dijitToolbarSeparator {
-	background-image: url(images/editor.gif);
+	background: url(images/editor.gif);
 	height: 18px;
-	width: 4px;
-	padding: 0px;
+	width: 5px;
+	padding: 0px 1px 0px 1px;
 	margin: 0px;
+}
+
+.tundra .dijitToolbar .dijitToolbarSeparator {
+	background: url(images/editor.gif);
 }
 
 /** ???
