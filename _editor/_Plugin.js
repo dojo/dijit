@@ -16,9 +16,12 @@ dojo.declare("dijit._editor._Plugin", null,
 		// iconClass: "dijitEditorIcon"+label
 		iconClass: "dijitEditorIcon",
 		button: null,
+		queryCommand: null,
 		command: "",
 		commandArg: null,
+		useDefaultCommand: true,
 		buttonClass: dijit.form.Button,
+		updateInterval: 200, // only allow updates every two tenths of a second
 		initButton: function(){
 			if(this.command.length){
 				// FIXME: 
@@ -38,6 +41,13 @@ dojo.declare("dijit._editor._Plugin", null,
 			}
 		},
 		updateState: function(){
+			if(!this._lastUpdate){
+				this._lateUpdate = new Date();
+			}else{
+				if(((new Date())-this._lastUpdate) < this.updateInterval){
+					return;
+				}
+			}
 			var _e = this.editor;
 			var _c = this.command;
 			if(!_e){ return; }
@@ -45,7 +55,6 @@ dojo.declare("dijit._editor._Plugin", null,
 			if(!_c.length){ return; }
 			if(this.button){
 				try{
-					// console.debug(this.command, _e.queryCommandEnabled(_c));
 					var enabled = _e.queryCommandEnabled(_c);
 					this.button._setDisabled(!enabled);
 					if(this.button.setSelected){
@@ -55,6 +64,7 @@ dojo.declare("dijit._editor._Plugin", null,
 					console.debug(e);
 				}
 			}
+			this._lateUpdate = new Date();
 		},
 		setEditor: function(/*Widget*/editor){
 			// FIXME: detatch from previous editor!!
@@ -68,7 +78,7 @@ dojo.declare("dijit._editor._Plugin", null,
 					this.button.domNode.style.display = "none";
 				}
 			}
-			if(this.button){
+			if(this.button && this.useDefaultCommand){
 				dojo.connect(this.button, "onClick",
 					dojo.hitch(this.editor, "execCommand", this.command, this.commandArg)
 				);
