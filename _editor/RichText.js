@@ -810,13 +810,13 @@ dojo.declare(
 		onLoad: function(e){
 			// summary: handler after the content of the document finishes loading
 			this.isLoaded = true;
-			if (this.iframe && !dojo.isIE){
+			if(this.iframe && !dojo.isIE){
 				this.editNode = this.document.body;
 				if(!this.height){
 					this.connect(this, "onDisplayChanged", "_updateHeight");
 				}
 
-				try { // sanity check for Mozilla
+				try{ // sanity check for Mozilla
 //					this.document.execCommand("useCSS", false, true); // old moz call
 					this.document.execCommand("styleWithCSS", false, false); // new moz call
 					//this.document.execCommand("insertBrOnReturn", false, false); // new moz call
@@ -836,7 +836,7 @@ dojo.declare(
 
 					this.interval = setInterval(dojo.hitch(this, "onDisplayChanged"), 750);
 					// throw new Error("onload");
-				}else if(dojo.isMoz|| dojo.isOpera){
+				}else if(dojo.isMoz || dojo.isOpera){
 					var doc = this.document;
 					var events=this.events.concat(this.captureEvents);
 					dojo.forEach(events, function(e){
@@ -902,8 +902,9 @@ dojo.declare(
 				this.execCommand((e.shiftKey ? "outdent" : "indent"));
 			}else if(dojo.isIE){
 				// FIXME: get this from connect() instead!
-				if((65 <= e.keyCode&&e.keyCode <= 90) ||
-				  (e.keyCode>=37&&e.keyCode<=40)){ //arrow keys
+				if(	(65 <= e.keyCode&&e.keyCode <= 90) ||
+					(e.keyCode>=37&&e.keyCode<=40)
+				){ //arrow keys
 					e.charCode = e.keyCode;
 					this.onKeyPress(e);
 				}
@@ -947,7 +948,7 @@ dojo.declare(
 			}), 1);
 		},
 
-		addKeyHandler: function (/*String*/key, /*Int*/modifiers, /*Function*/handler) {
+		addKeyHandler: function(/*String*/key, /*Int*/modifiers, /*Function*/handler){
 			// summary: add a handler for a keyboard shortcut
 			if(!dojo.isArray(this._keyHandlers[key])){ this._keyHandlers[key] = []; }
 			this._keyHandlers[key].push({
@@ -1334,7 +1335,7 @@ dojo.declare(
 				var a = dojo.withGlobal(this.window, "getAncestorElement",dijit._editor.selection, ['a']);
 				dojo.withGlobal(this.window, "selectElement", dijit._editor.selection, [a]);
 
-				return this.document.execCommand("unlink");
+				return this.document.execCommand("unlink", false, null);
 			}else if((command == "hilitecolor")&&(dojo.isMoz)){
 //				// mozilla doesn't support hilitecolor properly when useCSS is
 //				// set to false (bugzilla #279330)
@@ -1374,6 +1375,7 @@ dojo.declare(
 			command = this._normalizeCommand(command);
 			if(dojo.isMoz){
 				if(command == "unlink"){ // mozilla returns true always
+					// console.debug(dojo.withGlobal(this.window, "hasAncestorElement",dijit._editor.selection, ['a']));
 					return dojo.withGlobal(this.window, "hasAncestorElement",dijit._editor.selection, ['a']);
 				}else if (command == "inserttable"){
 					return true;
@@ -1592,6 +1594,9 @@ dojo.declare(
 
 			// var height = dojo.marginBox(this.editNode).h;
 			var height = dojo.marginBox(this.editNode).h;
+			if(dojo.isOpera){
+				height = this.editNode.scrollHeight;
+			}
 
 			// console.debug(this.editNode);
 			// alert(this.editNode);

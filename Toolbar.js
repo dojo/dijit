@@ -25,7 +25,8 @@ dojo.declare(
 	// summary
 	//	A line between two menu items
 
-	templateString: '<span class="dijitToolbarSeparator dijitInline"></span>',
+	imageUrl: dojo.moduleUrl("dijit", "templates/buttons/sep.gif"),
+	templateString: '<div class="dijitToolbarSeparator dijitInline"><img src="${imageUrl}" style="width: 5px; height: 21px;"></div>',
 
 	postCreate: function(){
 		dijit._disableSelection(this.domNode);
