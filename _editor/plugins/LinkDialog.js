@@ -27,7 +27,7 @@ dojo.declare("dijit._editor.plugins.LinkDialog",
 			"<input class='dijitButtonNode' type='button' dojoAttachEvent='onclick: hideEditor;' value='cancel'>"
 		].join(""),
 		useDefaultCommand: false,
-		command: "createlink",
+		command: "createLink",
 		_linkDialog: null,
 		setValue: function(){
 			this.editor.execCommand(this.command, this.urlInput.value);
@@ -66,7 +66,7 @@ dojo.declare("dijit._editor.plugins.LinkDialog",
 						if(dojo.isSafari){
 							selected = !!dojo.withGlobal(this.editor.window, "getAncestorElement",dijit._editor.selection, ['a']);
 						}else{
-							selected = _e.queryCommandState("createlink");
+							selected = _e.queryCommandState("createLink");
 						}
 						this.button.setSelected(selected);
 					}
