@@ -48,7 +48,7 @@ dojo.declare("dijit._editor.plugins.LinkDialog",
 		},
 		updateState: function(){
 			if(!this._lastUpdate){
-				this._lateUpdate = new Date();
+				this._lastUpdate = new Date();
 			}else{
 				if(((new Date())-this._lastUpdate) < this.updateInterval){
 					return;
@@ -62,13 +62,19 @@ dojo.declare("dijit._editor.plugins.LinkDialog",
 					var enabled = _e.queryCommandEnabled("unlink");
 					this.button._setDisabled(!enabled);
 					if(this.button.setSelected){
-						this.button.setSelected(_e.queryCommandState("createlink"));
+						var selected;
+						if(dojo.isSafari){
+							selected = !!dojo.withGlobal(this.editor.window, "getAncestorElement",dijit._editor.selection, ['a']);
+						}else{
+							selected = _e.queryCommandState("createlink");
+						}
+						this.button.setSelected(selected);
 					}
 				}catch(e){
-					// console.debug(e);
+					console.debug(e);
 				}
 			}
-			this._lateUpdate = new Date();
+			this._lastUpdate = new Date();
 		}
 	}
 );
