@@ -8,13 +8,10 @@ dojo.declare("dijit._editor._Plugin", null,
 		if(args){
 			dojo.mixin(this, args);
 		}
-		// FIXME: prevent creating this if we don't need to (i.e., editor can't handle our command)
-		this.initButton();
 	},
 	{
 		editor: null,
-		// iconClass: "dijitEditorIcon"+label
-		iconClass: "dijitEditorIcon",
+		iconClassPrefix: "dijitEditorIcon",
 		button: null,
 		queryCommand: null,
 		command: "",
@@ -22,19 +19,14 @@ dojo.declare("dijit._editor._Plugin", null,
 		useDefaultCommand: true,
 		buttonClass: dijit.form.Button,
 		updateInterval: 200, // only allow updates every two tenths of a second
-		initButton: function(){
+		_initButton: function(){
 			if(this.command.length){
-				// FIXME: 
-				//		this is a grotty hack to deal w/ CSS classes being used
-				//		to set most icon images now. *sigh*
-				var ctag = (dijit.Editor.commandNames[this.command]||"");
-				// FIXME: not working for orderedlist!!
-				var ic = this.iconClass+ctag.replace(/\s*/g, "");
-				// console.debug(ic);
+				var label = this.editor.commands[this.command];
+				var className = this.iconClassPrefix + this.command.charAt(0).toUpperCase() + this.command.substr(1);
 				if(!this.button){
 					var props = {
-						alt: ctag,
-						iconClass: ic
+						label: label,
+						iconClass: className
 					};
 					this.button = new this.buttonClass(props);
 				}
@@ -69,6 +61,10 @@ dojo.declare("dijit._editor._Plugin", null,
 		setEditor: function(/*Widget*/editor){
 			// FIXME: detatch from previous editor!!
 			this.editor = editor;
+
+			// FIXME: prevent creating this if we don't need to (i.e., editor can't handle our command)
+			this._initButton();
+
 			// FIXME: wire up editor to button here!
 			if(	(this.command.length) && 
 				(!this.editor.queryCommandAvailable(this.command))
