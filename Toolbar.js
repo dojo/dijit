@@ -20,15 +20,10 @@ dojo.declare(
 // Combine with dijit.MenuSeparator??
 dojo.declare(
 	"dijit.ToolbarSeparator",
-	[dijit._Widget, dijit._Templated, dijit._Contained],
+	[ dijit._Widget, dijit._Templated ],
 {
 	// summary
 	//	A line between two menu items
-
-	imageUrl: dojo.moduleUrl("dijit", "templates/buttons/sep.gif"),
-	templateString: '<div class="dijitToolbarSeparator dijitInline"><img src="${imageUrl}" style="width: 5px; height: 21px;"></div>',
-
-	postCreate: function(){
-		dijit._disableSelection(this.domNode);
-	}
+	templateString: '<div class="dijitToolbarSeparator dijitInline"></div>',
+	postCreate: function(){ dijit._disableSelection(this.domNode); }
 });
