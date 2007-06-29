@@ -41,19 +41,14 @@ dojo.declare("dijit._editor.plugins.LinkDialog",
 		_savedSelection: null,
 		hideEditor: function(){
 			this._linkDialog.hide();
-			/* // FIXME: IE is really messed up here!!
+			// FIXME: IE is really messed up here!!
 			if(dojo.isIE){
-				// this.urlInput.blur();
-				// console.debug(this._savedSelection);
-				// var range = this.editor.document.selection.createRange();
-				var range = document.selection.createRange();
+				this.editor.focus();
+				var range = this.editor.document.selection.createRange();
 				range.moveToBookmark(this._savedSelection);
-				setTimeout(function(){
-					range.select();
-				}, 1);
-				// this._savedSelection = null;
+				range.select();
+				this._savedSelection = null;
 			}
-			*/
 		},
 		showEditor: function(){
 			if(!this.button.selected){
@@ -62,15 +57,11 @@ dojo.declare("dijit._editor.plugins.LinkDialog",
 				// this.button.setSelected();
 			}else{
 
-				/* // FIXME: IE is *really* b0rken
+				// FIXME: IE is *really* b0rken
 				if(dojo.isIE){
 					var range = this.editor.document.selection.createRange();
-					// range.select();
-					// console.debug(range.htmlText);
 					this._savedSelection = range.getBookmark();
-					// console.debug(this._savedSelection);
 				}
-				*/
 				dojo.coords(this.button.domNode);
 				this._linkDialog.show(this.button.domNode);
 				this.urlInput.focus();
