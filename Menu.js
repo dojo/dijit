@@ -13,7 +13,7 @@ dojo.declare(
 	[dijit._Widget, dijit._Templated, dijit._Container],
 {
 	templateString:
-			'<table class="dijit dijitMenu dijitReset dijitMenuTable" waiRole="menu">' +
+			'<table class="dijit dijitMenu dijitReset dijitMenuTable" waiRole="menu" dojoAttachEvent="onkeypress:_onKeyPress">' +
 				'<tbody class="dijitReset" dojoAttachPoint="containerNode"></tbody>'+
 			'</table>',
 
@@ -58,7 +58,7 @@ dojo.declare(
 			//and its immediate parentPopup to support
 			//MenuBar
 			if(evt._menuUpKeyProcessed){
-				return true; //do not pass to parent menu
+				dojo.stopEvent(e);
 			}else{
 				if(this._focusedItem){
 					this._blurFocusedItem();
@@ -67,7 +67,6 @@ dojo.declare(
 				evt._menuUpKeyProcessed = true;
 			}
 		}
-		return false;
 	},
 
 	_moveToChildMenu: function(/*Event*/ evt){
@@ -88,38 +87,40 @@ dojo.declare(
 		return false;
 	},
 
-	processKey: function(/*Event*/ evt){
+	_onKeyPress: function(/*Event*/ evt){
 		// summary
 		//	Handle keyboard based menu navigation.
-		if(evt.ctrlKey || evt.altKey){ return false; }
+		if(evt.ctrlKey || evt.altKey){ return; }
 
 		var key = (evt.charCode == dojo.keys.SPACE ? dojo.keys.SPACE : evt.keyCode);
 		switch(key){
  			case dojo.keys.DOWN_ARROW:
 				this._focusNeighborItem(1);
-				return true; //do not pass to parent menu
+				dojo.stopEvent(evt);
+				break;
 			case dojo.keys.UP_ARROW:
 				this._focusNeighborItem(-1);
-				return true; //do not pass to parent menu
+				break;
 			case dojo.keys.RIGHT_ARROW:
 				this._moveToChildMenu(evt);
-				return true; //do not pass to parent menu
+				dojo.stopEvent(evt);
+				break;
 			case dojo.keys.LEFT_ARROW:
-				return this._moveToParentMenu(evt);
+				this._moveToParentMenu(evt);
+				break;
 			case dojo.keys.ESCAPE:
 				if(this.parentMenu){
-					return this._moveToParentMenu(evt);
+					this._moveToParentMenu(evt);
 				}else{
+					dojo.stopEvent(evt);
 					dijit.util.popup.closeAll();
 				}
-				return true;
+				break;
 			case dojo.keys.TAB:
+				dojo.stopEvent(evt);
 				dijit.util.popup.closeAll();
-				return true; //do not pass to parent menu
+				break;
 		}
-
-		// otherwise, pass to parent menu
-		return true;
 	},
 
 	_findValidItem: function(dir){
@@ -370,7 +371,7 @@ dojo.declare(
 	//   icon, label, and arrow (BiDi-dependent) indicating sub-menu
 	templateString:
 		 '<tr class="dijitReset dijitMenuItem"'
-		+'dojoAttachEvent="onmouseover:_onHover;onmouseout:_onUnhover;onklick:_onClick;onkeypress:_onKeyPress">'
+		+'dojoAttachEvent="onmouseover:_onHover;onmouseout:_onUnhover;onklick:_onClick;">'
 		+'<td class="dijitReset"><div class="dijitMenuItemIcon" style="${iconStyle}"></div></td>'
 		+'<td tabIndex="-1" class="dijitReset dijitMenuItemLabel" dojoAttachPoint="containerNode" waiRole="menuitem"></td>'
 		+'<td class="dijitReset" dojoAttachPoint="arrowCell">'
@@ -437,12 +438,6 @@ dojo.declare(
 	onClick: function() {
 		// summary
 		//	User defined function to handle clicks
-	},
-	
-	_onKeyPress: function(/*Event*/ e){
-		if (this.getParent().processKey(e)){
-			dojo.stopEvent(e);
-		}
 	},
 
 	_focus: function(){
