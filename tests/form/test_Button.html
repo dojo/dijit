@@ -61,15 +61,31 @@
 				Create
 			</button>
 			<span dojoType="dijit.Tooltip" connectId="1465">tooltip on button</span>
-			<button dojoType="dijit.form.DropDownButton" dropDownId='editMenu' iconClass="noteIcon">
-				Edit
+			<button dojoType="dijit.form.DropDownButton" iconClass="noteIcon">
+				<span>Edit<b>!</b></span>
+				<div dojoType="dijit.PopupMenu">
+					<div dojoType="dijit.MenuItem" iconSrc="../images/cut.gif"
+						onClick="logMessage('not actually cutting anything, just a test!')">Cut</div>
+					<div dojoType="dijit.MenuItem" iconSrc="../images/copy.gif"
+						onClick="logMessage('not actually copying anything, just a test!')">Copy</div>
+					<div dojoType="dijit.MenuItem" iconSrc="../images/paste.gif"
+						onClick="logMessage('not actually pasting anything, just a test!')">Paste</div>
+				</div>
 			</button>
-			<button dojoType="dijit.form.DropDownButton" dropDownId='colorPalette' iconClass="noteIcon">
-				Color
+			<button dojoType="dijit.form.DropDownButton" iconClass="noteIcon">
+				<span>Color</span>
+				<div dojoType="dijit.ColorPalette" id="colorPalette" style="display: none" palette="3x4"
+					onColorSelect="console.log(this.selectedColor);"></div>
 			</button>
-			<button dojoType="dijit.form.ComboButton" optionsTitle='save options' dropDownId='saveMenu' onClick='logMessage("clicked combo save")'
+			<button dojoType="dijit.form.ComboButton" optionsTitle='save options' onClick='logMessage("clicked combo save")'
 					iconClass="plusBlockIcon">
-				Save
+				<span>Save</span>
+				<div dojoType="dijit.PopupMenu" id="saveMenu" style="display: none;">
+					<div dojoType="dijit.MenuItem" iconSrc="../../templates/buttons/save.gif"
+						onClick="logMessage('not actually saving anything, just a test!')">Save</div>
+					<div dojoType="dijit.MenuItem" iconSrc="../../templates/buttons/save.gif"
+						onClick="logMessage('not actually saving anything, just a test!')">Save As</div>
+				</div>
 			</button>
 			<button dojoType="dijit.form.Button" onClick='logMessage("clicked simple")' disabled='true' iconClass="plusIcon">
 				Disabled
@@ -205,24 +221,6 @@
 			<button id="toggle" onclick='toggleDisabled()'>Disable all</button>
 			<button onclick='changeLabels()'>Change labels</button>
 			<button onclick='location.reload()'>Revert</button>
-		</div>
-
-		<div dojoType="dijit.ColorPalette" id="colorPalette" style="display: none" palette="3x4" onColorSelect="console.log(this.selectedColor);"></div>
-
-		<div dojoType="dijit.PopupMenu" id="editMenu" toggle="fade" toggleDuration="500" style="display: none;">
-			<div dojoType="dijit.MenuItem" iconSrc="../images/cut.gif"
-				onClick="logMessage('not actually cutting anything, just a test!')">Cut</div>
-			<div dojoType="dijit.MenuItem" iconSrc="../images/copy.gif"
-				onClick="logMessage('not actually copying anything, just a test!')">Copy</div>
-			<div dojoType="dijit.MenuItem" iconSrc="../images/paste.gif"
-				onClick="logMessage('not actually pasting anything, just a test!')">Paste</div>
-		</div>
-
-		<div dojoType="dijit.PopupMenu" id="saveMenu" toggle="wipe" toggleDuration="500" style="display: none;">
-			<div dojoType="dijit.MenuItem" iconSrc="../../templates/buttons/save.gif"
-				onClick="logMessage('not actually saving anything, just a test!')">Save</div>
-			<div dojoType="dijit.MenuItem" iconSrc="../../templates/buttons/save.gif"
-				onClick="logMessage('not actually saving anything, just a test!')">Save As</div>
 		</div>
 
 		<h3>Button instantiated via javacript:</h3>

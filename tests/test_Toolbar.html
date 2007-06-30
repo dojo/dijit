@@ -43,8 +43,6 @@
 
     <h2>Toolbar from markup</h2>
 
-	<div dojoType="dijit.ColorPalette" id="toolbar1.colorPalette" style="display: none" palette="3x4" onColorSelect="console.log(this.selectedColor);"></div>
-
     <div id="toolbar1" dojoType="dijit.Toolbar"
             ><div dojoType="dijit.form.Button" id="toolbar1.cut" iconClass="dijitEditorIconCut">Cut</div
             ><div dojoType="dijit.form.Button" id="toolbar1.copy" iconClass="dijitEditorIconCopy">Copy</div
@@ -74,8 +72,14 @@
             ><div dojoType="dijit.form.Button" id="toolbar1.outdent" iconClass="dijitEditorIconOutdent">Outdent</div
 
             ><span dojoType="dijit.ToolbarSeparator"></span
-			><div dojoType="dijit.form.DropDownButton" id="toolbar1.backcolor" dropDownId="toolbar1.colorPalette" iconClass="dijitEditorIconBackColor">Background</div
-            ><div dojoType="dijit.form.DropDownButton" id="toolbar1.forecolor" dropDownId="toolbar1.colorPalette" iconClass="dijitEditorIconForeColor">Foreground</div
+			><div dojoType="dijit.form.DropDownButton" id="toolbar1.backcolor" iconClass="dijitEditorIconBackColor">
+				<span>Background</span>
+				<div dojoType="dijit.ColorPalette" id="toolbar1.colorPalette" style="display: none" palette="3x4" onColorSelect="console.log(this.selectedColor);"></div>
+			</div
+            ><div dojoType="dijit.form.DropDownButton" id="toolbar1.forecolor" iconClass="dijitEditorIconForeColor">
+				<span>Foreground</span>
+				<div dojoType="dijit.ColorPalette" id="toolbar1.colorPalette2" style="display: none" palette="3x4" onColorSelect="console.log(this.selectedColor);"></div>
+			</div
     ></div>
 
     <h2>Toolbar from script</h2>

@@ -51,31 +51,44 @@ dojo.declare(
 
 /*
  * usage
- *	<button dojoType="DropDownButton" dropDownId="mymenu">Hello world</button>
+ *	<button dojoType="DropDownButton" label="Hello world"><div dojotype=dijit.Menu>...</div></button>
  *
  *  var button1 = dojo.widget.createWidget("DropDownButton", {label: "hello world", dropDownId: foo});
  *	document.body.appendChild(button1.domNode);
  */
 dojo.declare(
 	"dijit.form.DropDownButton",
-	dijit.form.Button,
+	[dijit.form.Button, dijit._Container],
 	{
 		// summary
 		//		push the button and a menu shows up
 
-		// dropDownId: String
-		//	widget id of the menu that this button should activate
-		dropDownId: "",
 		baseClass : "dijitDropDownButton",
 
 		templatePath: dojo.moduleUrl("dijit.form" , "templates/DropDownButton.html"),
 
-		postCreate: function(){
-			dijit.form.DropDownButton.superclass.postCreate.apply(this, arguments);
+		_fillContent: function(){
+			// my inner HTML contains both the button text and a drop down widget, like
+			// <DropDownButton>  <button>push me</button>  <Menu> ... </Menu> </DropDownButton>
+			// first part holds button label and second part is popup
+			if(this.srcNodeRef){
+				var nodes = dojo.query("*", this.srcNodeRef);
+				dijit.form.DropDownButton.superclass._fillContent.call(this, nodes[0]);
+				
+				// save pointer to srcNode so we can grab the drop down widget after it's instantiated
+				this.dropDownContainer = this.srcNodeRef;
+			}
 		},
 
 		startup: function(){
-			this._dropDown = dijit.byId(this.dropDownId);
+			// we didn't copy the dropdown widget from the this.srcNodeRef, so it's in no-man's
+			// land now.  move it to document.body.
+			if(!this.dropDown){
+				var node = dojo.query("[widgetId]", this.dropDownContainer)[0];
+				this.dropDown = dijit.util.manager.byNode(node);
+			}
+			dojo.body().appendChild(this.dropDown.domNode);
+			this.dropDown.domNode.style.display="none";
 		},
 
 		_onArrowClick: function(/*Event*/ e){
@@ -88,7 +101,7 @@ dojo.declare(
 			// summary: callback when the user presses a key on menu popup node
 			if(this.disabled){ return; }
 			if(e.keyCode == dojo.keys.DOWN_ARROW){
-				if(!this._dropDown || this._dropDown.domNode.style.display=="none"){
+				if(!this.dropDown || this.dropDown.domNode.style.display=="none"){
 					dojo.stopEvent(e);
 					return this._toggleDropDown();
 				}
@@ -99,7 +112,7 @@ dojo.declare(
 			// summary: toggle the drop-down widget; if it is up, close it, if not, open it
 			if(this.disabled){ return; }
 			this.popupStateNode.focus();
-			var dropDown = this._dropDown;
+			var dropDown = this.dropDown;
 			if(!dropDown){ return false; }
 			if(!dropDown.isShowingNow){
 				var oldWidth=dropDown.domNode.style.width;
@@ -129,7 +142,7 @@ dojo.declare(
 
 /*
  * usage
- *	<button dojoType="ComboButton" onClick="..." dropDownId="mymenu">Hello world</button>
+ *	<button dojoType="ComboButton" onClick="..."><span>Hello world</span><div dojoType=dijit.Menu>...</div></button>
  *
  *  var button1 = dojo.widget.createWidget("DropDownButton", {label: "hello world", onClick: foo, dropDownId: "myMenu"});
  *	document.body.appendChild(button1.domNode);

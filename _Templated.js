@@ -86,12 +86,17 @@ dojo.declare("dijit._Templated",
 				});
 			}
 
-			// relocate source contents to templated container node
-			// this.containerNode must be able to receive children, or exceptions will be thrown
-			if(this.srcNodeRef && this.srcNodeRef.hasChildNodes()){
+			this._fillContent(this.srcNodeRef);
+		},
+
+		_fillContent: function(/*DomNode*/ source){
+			// summary:
+			//		relocate source contents to templated container node
+			//		this.containerNode must be able to receive children, or exceptions will be thrown
+			if(source){
 				var dest = this.containerNode||this.domNode;
-				while(this.srcNodeRef.hasChildNodes()){
-					dest.appendChild(this.srcNodeRef.firstChild);
+				while(source.hasChildNodes()){
+					dest.appendChild(source.firstChild);
 				}
 			}
 		},
