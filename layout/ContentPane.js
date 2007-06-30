@@ -153,7 +153,7 @@ dojo.declare(
 		}
 		// make sure we call onUnload
 		this._onUnloadHandler();
-		this.unlinkLazyLoadToParent();
+		this.unlinkLazyLoadFromParent();
 		this._beingDestroyed = true;
 		dijit.layout.ContentPane.superclass.destroy.call(this);
 	},
@@ -165,6 +165,7 @@ dojo.declare(
 	linkLazyLoadToParent: function(){
 		// summary:
 		//		start to listen on parent Container selectChild publishes (lazy load)
+		//		You dont need to call this method unless you manualy addChild this ContentPane to a Container
 		// description:
 		//		Container must be a instanceof dijit.layout.StackContainer
 		//		like TabContainer, AccordionContainer etc
@@ -190,7 +191,7 @@ dojo.declare(
 				if(p.selectedChildWidget == ch){ this._loadCheck(); }
 
 				this._subscr_show = dojo.subscribe(p.id+"-selectChild", this, cb(this._loadCheck));
-				this._subscr_remove = dojo.subscribe(p.id+"-selectChild", this, cb(this.unlinkLazyLoadToParent));
+				this._subscr_remove = dojo.subscribe(p.id+"-selectChild", this, cb(this.unlinkLazyLoadFromParent));
 				return true; // Boolean
 			}
 		}
