@@ -398,6 +398,7 @@
 									if(pane2.domNode.innerHTML != msg){
 										d.errback(new doh._AssertFailure("custom errortext not set"));
 									}
+									d.callback(true);
 								}catch(e){
 									d.errback(e);
 								}finally{
@@ -460,6 +461,7 @@
 									if(!obj.load_called){
 										d.errback(new doh._AssertFailure('onLoad not called'));
 									}
+									d.callback(true);
 								}catch(e){
 									d.errback(e);
 								}finally{

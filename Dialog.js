@@ -248,6 +248,8 @@ dojo.declare(
 			dojo.style(this.domNode, "opacity", 0);
 			this.domNode.style.display="block";
 
+			this._loadCheck(); // lazy load trigger
+
 			this._position();
 
 			this._fadeIn.play();
