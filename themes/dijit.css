@@ -1220,11 +1220,11 @@ body .dijitAlignClient { position: absolute; }
 }
 
 .dijit_a11y .dijitSliderA11yHandle {
-        display: inline !important;
+	display: inline !important;
 }
 
 .dijit_a11y .dijitSliderHandle {
-        display: none !important;
+	display: none !important;
 }
 
 .dijitSliderBar {

@@ -10,53 +10,15 @@
 		        dojo.require("dojo.parser"); // scan page for widgets
 		</script>
 		<style type="text/css">
-		        @import "../../../dojo/resources/dojo.css";
-		        @import "../../themes/tundra/tundra.css";
-		        @import "../css/dijitTests.css";
-
-			#slider1 .dijitSliderBumper {
-				visibility:hidden;
-			}
-			#slider1 .dijitHorizontalSliderBar {
-				border-width:1px;
-			}
-
-			#slider2 .dijitVerticalSliderBumper {
-				height:12px;
-			}
-			#slider2 .dijitVerticalSliderBumper,
-			#slider2 .dijitVerticalSliderBar {
-				width: 12px;
-			}
-			#slider2 .dijitVerticalSliderBottomBumper {
-				border-bottom:1px dashed black;
-			}
-			#slider2 .dijitVerticalSliderTopBumper {
-				border-top:1px dashed black;
-			}
-			#slider2 .dijitVerticalSliderImageHandle {
-				left:0px;
-			}
-			#slider2 .dijitSliderVerticalButton {
-				width:12px;
-			}
+			@import "../../../dojo/resources/dojo.css";
+			@import "../../themes/tundra/tundra.css";
+			@import "../css/dijitTests.css";
 			#slider2 .dijitButtonNode {
 				width:12px;
 				height:12px;
-				border-width:0px;
+				border: none;
 				font-size:11px;
 				padding:0px;
-			}
-			#slider2 .dijitSliderBar {
-				border-width:0px;
-				border-color:red;
-			}
-			#slider2 .dijitSliderImageHandle {
-				height:24px;
-				width:12px;
-			}
-			#slider2 .dijitVerticalSliderImageHandle {
-				top:-12px;
 			}
 		</style>
 	</head>
@@ -69,22 +31,22 @@
 
 		<input dojoType="dijit.form.HorizontalSlider" name="horizontal1"
 			onValueChanged="dojo.byId('slider1input').value=arguments[0];"
-			value=10
-			maximum=100
-			minimum=0
+			value="10"
+			maximum="100"
+			minimum="0"
 			showButtons="false"
-			style="width:50%;height:20px;"
+			style="width:50%; height: 20px;"
 			id="slider1">Slider1 Value:<input readonly id=slider1input>
 		<br>
 		<input dojoType="dijit.form.VerticalSlider" name="vertical1"
 			onValueChanged="dojo.byId('slider2input').value=arguments[0];"
-			value=10
-			maximum=100
-			minimum=0
-			discreteValues=10
+			value="10"
+			maximum="100"
+			minimum="0"
+			discreteValues="10"
 			incrementButtonContent="<img src=../../themes/tundra/images/arrowUp.png alt=+>"
 			decrementButtonContent="<img src=../../themes/tundra/images/arrowDown.png alt=->"
-			style="height:300px;border:1px solid black;"
+			style="height:300px;"
 			id="slider2">Slider2 Value:<input readonly id=slider2input>
 	</body>
 </html>

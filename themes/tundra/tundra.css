@@ -1076,6 +1076,60 @@ left;
 	background:#cad2de url("images/dijitProgressBarAnim.gif") repeat-x top left;
 }
 
+/****
+ 	SLIDER
+****/
+
+.tundra .dijitHorizontalSliderProgressBar {
+	border-color: #aab0bb;
+	background: #c0c2c5 url("images/sliderFull.png") repeat-x top left;
+}
+
+.tundra .dijitVerticalSliderProgressBar {
+	border-color: #aab0bb;
+	background: #c0c2c5 url("images/sliderFullVertical.png") repeat-y bottom left;
+}
+
+.tundra .dijitVerticalSliderRemainingBar {
+	border-color: #b4b4b4;
+	background: #dcdcdc url("images/sliderEmptyVertical.png") repeat-y bottom left;
+}
+
+.dijitHorizontalSliderRemainingBar {
+	border-color: #b4b4b4;
+	background: #dcdcdc url("images/sliderEmpty.png") repeat-x top left;
+}
+
+.tundra .dijitSliderBar {
+	border-style: solid;
+	/* border-color: #b4b4b4; */
+}
+
+.tundra .dijitHorizontalSliderLeftBumper {
+	border-left-width: 1px;
+	border-color: #aab0bb;
+	background: #c0c2c5 url("images/sliderFull.png") repeat-x top left;
+}
+
+
+.tundra .dijitHorizontalSliderRightBumper {
+	background: #dcdcdc url("images/sliderEmpty.png") repeat-x top left;
+	border-color: #b4b4b4;
+	border-right-width: 1px;
+}
+
+.tundra .dijitVerticalSliderBottomBumper {
+	border-bottom-width: 1px;
+	border-color: #aab0bb;
+	background: #c0c2c5 url("images/sliderFullVertical.png") repeat-y bottom left;
+}
+
+.tundra .dijitVerticalSliderTopBumper {
+	background: #dcdcdc url("images/sliderEmptyVertical.png") repeat-y top left;
+	border-color: #b4b4b4;
+	border-top-width: 1px;
+}
+
 /**** ICONS *****/
 
 .tundra .dijitEditorIconSep,
