@@ -57,41 +57,41 @@
 		<br><br>
 			<button dojoType="dijit.form.DropDownButton">
 				<span>Drop Down Button</span>
-				<div dojoType="dijit.PopupMenu" id="editMenu" style="display: none;">
-					<div dojoType="dijit.MenuItem" iconSrc="../../templates/buttons/cut.gif"
+				<div dojoType="dijit.Menu" id="editMenu" style="display: none;">
+					<div dojoType="dijit.MenuItem"  iconClass="dijitEditorIconCut"
 						onClick="logMessage('not actually cutting anything, just a test!')">Cut</div>
-					<div dojoType="dijit.MenuItem" iconSrc="../../templates/buttons/copy.gif"
+					<div dojoType="dijit.MenuItem"  iconClass="dijitEditorIconCopy"
 						onClick="logMessage('not actually copying anything, just a test!')">Copy</div>
-					<div dojoType="dijit.MenuItem" iconSrc="../../templates/buttons/paste.gif"
+					<div dojoType="dijit.MenuItem"  iconClass="dijitEditorIconPaste"
 						onClick="logMessage('not actually pasting anything, just a test!')">Paste</div>
 				</div>
 			</button>
 			<button dojoType="dijit.form.DropDownButton" iconClass="noteIcon">
 				<span>Button w/image</span>
-				<div dojoType="dijit.PopupMenu" id="editMenu2" style="display: none;">
-					<div dojoType="dijit.MenuItem" iconSrc="../../templates/buttons/cut.gif"
+				<div dojoType="dijit.Menu" id="editMenu2" style="display: none;">
+					<div dojoType="dijit.MenuItem"  iconClass="dijitEditorIconCut"
 						onClick="logMessage('not actually cutting anything, just a test!')">Cut</div>
-					<div dojoType="dijit.MenuItem" iconSrc="../../templates/buttons/copy.gif"
+					<div dojoType="dijit.MenuItem"  iconClass="dijitEditorIconCopy"
 						onClick="logMessage('not actually copying anything, just a test!')">Copy</div>
-					<div dojoType="dijit.MenuItem" iconSrc="../../templates/buttons/paste.gif"
+					<div dojoType="dijit.MenuItem"  iconClass="dijitEditorIconPaste"
 						onClick="logMessage('not actually pasting anything, just a test!')">Paste</div>
 				</div>
 			</button>
 			<button dojoType="dijit.form.DropDownButton" disabled='true'>
 				<span>Drop Down Disabled</span>
-				<div dojoType="dijit.PopupMenu" id="editMenu3" style="display: none;">
-					<div dojoType="dijit.MenuItem" iconSrc="../../templates/buttons/cut.gif"
+				<div dojoType="dijit.Menu" id="editMenu3" style="display: none;">
+					<div dojoType="dijit.MenuItem"  iconClass="dijitEditorIconCut"
 						onClick="logMessage('not actually cutting anything, just a test!')">Cut</div>
-					<div dojoType="dijit.MenuItem" iconSrc="../../templates/buttons/copy.gif"
+					<div dojoType="dijit.MenuItem"  iconClass="dijitEditorIconCopy"
 						onClick="logMessage('not actually copying anything, just a test!')">Copy</div>
-					<div dojoType="dijit.MenuItem" iconSrc="../../templates/buttons/paste.gif"
+					<div dojoType="dijit.MenuItem"  iconClass="dijitEditorIconPaste"
 						onClick="logMessage('not actually pasting anything, just a test!')">Paste</div>
 				</div>
 			</button>
 		<br><br>
 			<button dojoType="dijit.form.ComboButton" onClick='logMessage("clicked combo save")'>
 				<span>Combo Button</span>
-				<div dojoType="dijit.PopupMenu" id="saveMenu" style="display: none;">
+				<div dojoType="dijit.Menu" id="saveMenu" style="display: none;">
 					<div dojoType="dijit.MenuItem" iconSrc="../../templates/buttons/save.gif"
 						onClick="logMessage('not actually saving anything, just a test!')">Save</div>
 					<div dojoType="dijit.MenuItem" iconSrc="../../templates/buttons/save.gif"
@@ -100,19 +100,19 @@
 			</button>
 			<button dojoType="dijit.form.ComboButton" iconClass="noteIcon" onClick='logMessage("clicked combo save")'>
 				<span>Combo w/image</span>
-				<div dojoType="dijit.PopupMenu" id="saveMenu" style="display: none;">
-					<div dojoType="dijit.MenuItem" iconSrc="../../templates/buttons/save.gif"
+				<div dojoType="dijit.Menu" id="saveMenu" style="display: none;">
+					<div dojoType="dijit.MenuItem"  iconClass="dijitEditorIconSave"
 						onClick="logMessage('not actually saving anything, just a test!')">Save</div>
-					<div dojoType="dijit.MenuItem" iconSrc="../../templates/buttons/save.gif"
+					<div dojoType="dijit.MenuItem"
 						onClick="logMessage('not actually saving anything, just a test!')">Save As</div>
 				</div>
 			</button>
 			<button dojoType="dijit.form.ComboButton" onClick='logMessage("clicked combo save")' disabled='true'>
 				<span>Combo Disabled</span>
-				<div dojoType="dijit.PopupMenu" id="saveMenu" style="display: none;">
-					<div dojoType="dijit.MenuItem" iconSrc="../../templates/buttons/save.gif"
+				<div dojoType="dijit.Menu" id="saveMenu" style="display: none;">
+					<div dojoType="dijit.MenuItem"  iconClass="dijitEditorIconSave"
 						onClick="logMessage('not actually saving anything, just a test!')">Save</div>
-					<div dojoType="dijit.MenuItem" iconSrc="../../templates/buttons/save.gif"
+					<div dojoType="dijit.MenuItem"
 						onClick="logMessage('not actually saving anything, just a test!')">Save As</div>
 				</div>
 			</button>

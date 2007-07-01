@@ -123,30 +123,48 @@
 	<div dojoType="dojo.data.JsonItemStore" jsId="stateStore"
 		url="../tests/form/comboBoxData.json"></div>
 	<!-- contentMenu popup -->
-	<div dojoType="dijit.PopupMenu" id="submenu1" contextMenuForWindow="true" style="display: none;">
+	<div dojoType="dijit.Menu" id="submenu1" contextMenuForWindow="true" style="display: none;">
 		<div dojoType="dijit.MenuItem" onClick="alert('Hello world');">Enabled Item</div>
 		<div dojoType="dijit.MenuItem" disabled="true">Disabled Item</div>
 		<div dojoType="dijit.MenuSeparator"></div>
-		<!-- FIXME: there's no cut.gif!! -->
-		<div dojoType="dijit.MenuItem" iconSrc="../tests/images/cut.gif"
+		<div dojoType="dijit.MenuItem" iconClass="dijitEditorIconCut"
 			onClick="alert('not actually cutting anything, just a test!')">Cut</div>
-		<div dojoType="dijit.MenuItem" iconSrc="../tests/images/copy.gif"
+		<div dojoType="dijit.MenuItem" iconClass="dijitEditorIconCopy"
 			onClick="alert('not actually copying anything, just a test!')">Copy</div>
-		<div dojoType="dijit.MenuItem" iconSrc="../tests/images/paste.gif"
+		<div dojoType="dijit.MenuItem" iconClass="dijitEditorIconPaste"
 			onClick="alert('not actually pasting anything, just a test!')">Paste</div>
-
 		<div dojoType="dijit.MenuSeparator"></div>
-		<div dojoType="dijit.MenuItem" submenuId="submenu2">Enabled Submenu</div>
-		<div dojoType="dijit.MenuItem" submenuId="submenu2" disabled="true">Disabled Submenu</div>
-		<div dojoType="dijit.MenuItem" onClick="alert('Hello world');">Enabled Item</div>
+		<div dojoType="dijit.PopupMenuItem">
+			<span>Enabled Submenu</span>
+			<div dojoType="dijit.Menu" id="submenu2">
+				<div dojoType="dijit.MenuItem" onClick="alert('Submenu 1!')">Submenu Item One</div>
+				<div dojoType="dijit.MenuItem" onClick="alert('Submenu 2!')">Submenu Item Two</div>
+				<div dojoType="dijit.PopupMenuItem">
+					<span>Deeper Submenu</span>
+					<div dojoType="dijit.Menu" id="submenu4"">
+						<div dojoType="dijit.MenuItem" onClick="alert('Sub-submenu 1!')">Sub-sub-menu Item One</div>
+						<div dojoType="dijit.MenuItem" onClick="alert('Sub-submenu 2!')">Sub-sub-menu Item Two</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div dojoType="dijit.PopupMenuItem" disabled="true">
+			<span>Disabled Submenu</span>
+			<div dojoType="dijit.Menu" id="submenu3" style="display: none;">
+				<div dojoType="dijit.MenuItem" onClick="alert('Submenu 1!')">Submenu Item One</div>
+				<div dojoType="dijit.MenuItem" onClick="alert('Submenu 2!')">Submenu Item Two</div>
+			</div>
+		</div>
+		<div dojoType="dijit.PopupMenuItem">
+			<span>Different popup</span>
+			<div dojoType="dijit.ColorPalette"></div>
+		</div>
+		<div dojoType="dijit.PopupMenuItem">
+			<span>Different popup</span>
+			<div dojoType="dijit._Calendar"></div>
+		</div>
 	</div>
 	<!-- end contextMenu -->
-	<!-- contentMenu submenu -->
-	<div dojoType="dijit.PopupMenu" id="submenu2" style="display: none;">
-		<div dojoType="dijit.MenuItem" onClick="alert('Submenu 1!')">Submenu Item One</div>
-		<div dojoType="dijit.MenuItem" onClick="alert('Submenu 2!')">Submenu Item Two</div>
-	</div>
-	<!-- end sub menu -->
 	
 	<div id="main" dojoType="dijit.layout.LayoutContainer">
 		<h1 id="header" dojoType="dijit.layout.ContentPane" layoutAlign=top>Dijit Theme Test Page</h1>
@@ -318,21 +336,21 @@
 	
 							<button dojoType="dijit.form.DropDownButton" iconClass="noteIcon">
 								<span>Edit</span>
-								<div dojoType="dijit.PopupMenu" id="editMenu" style="display: none;">
+								<div dojoType="dijit.Menu" id="editMenu" style="display: none;">
 									<div dojoType="dijit.MenuItem"
-										iconSrc="../tests/images/cut.gif"
+										iconClass="dijitEditorIconCut"
 										onClick="console.debug('not actually cutting anything, just a test!')">
 										Cut
 									</div>
 			
 									<div dojoType="dijit.MenuItem"
-										iconSrc="../tests/images/copy.gif"
+										 iconClass="dijitEditorIconCopy"
 										onClick="console.debug('not actually copying anything, just a test!')">
 										Copy
 									</div>
 			
 									<div dojoType="dijit.MenuItem"
-										iconSrc="../tests/images/paste.gif"
+										 iconClass="dijitEditorIconPaste"
 										onClick="console.debug('not actually pasting anything, just a test!')">
 										Paste
 									</div>
@@ -343,14 +361,13 @@
 								optionsTitle='save options'
 								onClick='console.debug("clicked combo save")'>
 								<span>Save</span>
-								<div dojoType="dijit.PopupMenu" id="saveMenu" style="display: none;">
+								<div dojoType="dijit.Menu" id="saveMenu" style="display: none;">
 									<div dojoType="dijit.MenuItem"
-										iconSrc="../tests/images/save.gif"
+										 iconClass="dijitEditorIconSave"
 										onClick="console.debug('not actually saving anything, just a test!')">
 										Save
 									</div>
 									<div dojoType="dijit.MenuItem"
-										iconSrc="../tests/images/save.gif"
 										onClick="console.debug('not actually saving anything, just a test!')">
 										Save As
 									</div>

@@ -18,30 +18,56 @@
 
 	<script language="JavaScript" type="text/javascript">
 		dojo.require("dijit.Menu");
+		dojo.require("dijit.ColorPalette");
+		dojo.require("dijit._Calendar");
 		dojo.require("dojo.parser");	// scan page for widgets and instantiate them
 	</script>
 </head>
 <body class="tundra">
 
-<div dojoType="dijit.PopupMenu" id="submenu1" contextMenuForWindow="true" style="display: none;">
+<div dojoType="dijit.Menu" id="submenu1" contextMenuForWindow="true" style="display: none;">
 	<div dojoType="dijit.MenuItem" onClick="alert('Hello world');">Enabled Item</div>
 	<div dojoType="dijit.MenuItem" disabled="true">Disabled Item</div>
 	<div dojoType="dijit.MenuSeparator"></div>
-	<div dojoType="dijit.MenuItem" iconSrc="images/cut.gif"
+	<div dojoType="dijit.MenuItem" iconClass="dijitEditorIconCut"
 		onClick="alert('not actually cutting anything, just a test!')">Cut</div>
-	<div dojoType="dijit.MenuItem" iconSrc="images/copy.gif"
+	<div dojoType="dijit.MenuItem" iconClass="dijitEditorIconCopy"
 		onClick="alert('not actually copying anything, just a test!')">Copy</div>
-	<div dojoType="dijit.MenuItem" iconSrc="images/paste.gif"
+	<div dojoType="dijit.MenuItem" iconClass="dijitEditorIconPaste"
 		onClick="alert('not actually pasting anything, just a test!')">Paste</div>
 	<div dojoType="dijit.MenuSeparator"></div>
-	<div dojoType="dijit.MenuItem" submenuId="submenu2">Enabled Submenu</div>
-	<div dojoType="dijit.MenuItem" submenuId="submenu2" disabled="true">Disabled Submenu</div>
+	<div dojoType="dijit.PopupMenuItem">
+		<span>Enabled Submenu</span>
+		<div dojoType="dijit.Menu" id="submenu2">
+			<div dojoType="dijit.MenuItem" onClick="alert('Submenu 1!')">Submenu Item One</div>
+			<div dojoType="dijit.MenuItem" onClick="alert('Submenu 2!')">Submenu Item Two</div>
+			<div dojoType="dijit.PopupMenuItem">
+				<span>Deeper Submenu</span>
+				<div dojoType="dijit.Menu" id="submenu4"">
+					<div dojoType="dijit.MenuItem" onClick="alert('Sub-submenu 1!')">Sub-sub-menu Item One</div>
+					<div dojoType="dijit.MenuItem" onClick="alert('Sub-submenu 2!')">Sub-sub-menu Item Two</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div dojoType="dijit.PopupMenuItem" disabled="true">
+		<span>Disabled Submenu</span>
+		<div dojoType="dijit.Menu" id="submenu3" style="display: none;">
+			<div dojoType="dijit.MenuItem" onClick="alert('Submenu 1!')">Submenu Item One</div>
+			<div dojoType="dijit.MenuItem" onClick="alert('Submenu 2!')">Submenu Item Two</div>
+		</div>
+	</div>
+	<div dojoType="dijit.PopupMenuItem">
+		<span>Different popup</span>
+		<div dojoType="dijit.ColorPalette"></div>
+	</div>
+	<div dojoType="dijit.PopupMenuItem">
+		<span>Different popup</span>
+		<div dojoType="dijit._Calendar"></div>
+	</div>
 </div>
 
-<div dojoType="dijit.PopupMenu" id="submenu2" style="display: none;">
-	<div dojoType="dijit.MenuItem" onClick="alert('Submenu 1!')">Submenu Item One</div>
-	<div dojoType="dijit.MenuItem" onClick="alert('Submenu 2!')">Submenu Item One</div>
-</div>
+
 <!--
 <div dojoType="dijit.MenuBar">
 	<div dojoType="dijit.MenuBarItem" submenuId="submenu1">File</div>
