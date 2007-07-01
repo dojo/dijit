@@ -186,7 +186,7 @@ dojo.declare(
 	//	A form widget that allows one to select a value with a vertically draggable image
 
 	templatePath: dojo.moduleUrl('dijit.form','templates/VerticalSlider.html'),
-	handleSrc: dojo.moduleUrl('dijit','themes/tundra/images/SliderThumb.png'),
+	handleSrc: dojo.moduleUrl('dijit','themes/tundra/images/sliderThumb.png'),
 	_mousePixelCoord: "pageY",
 	_pixelCount: "h",
 	_startingPixelCoord: "y",
