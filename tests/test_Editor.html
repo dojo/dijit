@@ -11,7 +11,7 @@
 	</style>
 
 	<script type="text/javascript" src="../../dojo/dojo.js"
-		djConfig="isDebug: true"></script>
+		djConfig="parseOnLoad: true, isDebug: true"></script>
 	<script type="text/javascript">
 		dojo.require("dijit.Editor");
 		dojo.require("dojo.parser");	// scan page for widgets and instantiate them
@@ -26,7 +26,7 @@
 		<textarea dojoType="dijit.Editor"
 			styleSheets="../../dojo/resources/dojo.css">
 			<ul>
-				<li>Right click on the client area of the page (ctrl-click for Macintosh). Menu should open.</li>
+				<li>Right click <a href="http://dojotoolkit.org">on the client area of the page</a> (ctrl-click for Macintosh). Menu should open.</li>
 				<li>Right click on each of the form controls above. Menu should open.</li>
 				<li>Right click near the righthand window border. Menu should open to the left of the pointer.</li>
 				<li>Right click near the bottom window border. Menu should open above the pointer.</li>
@@ -35,6 +35,7 @@
 		<h3>..after</h3>
 	</div>
 
+	<!--
 	<div style="border: 1px dotted black;">
 		<h3>blah</h3>
 		<textarea dojoType="dijit.Editor"
@@ -48,6 +49,7 @@
 		</textarea>
 		<h3>..after</h3>
 	</div>
+	-->
 
 </body>
 </html>

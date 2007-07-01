@@ -5,9 +5,8 @@
 	<title>TabContainer Demo</title>
 
 	<script type="text/javascript" src="../testBidi.js"></script>
-
-	<script type="text/javascript" djConfig="isDebug: true"
-		src="../../../dojo/dojo.js"></script>
+	<script type="text/javascript" src="../../../dojo/dojo.js" 
+		djConfig="isDebug: true, parseOnLoad: true"></script>
 	<script type="text/javascript">
 		dojo.require("dijit.layout.ContentPane");
 		dojo.require("dijit.layout.TabContainer");
@@ -15,6 +14,21 @@
 		dojo.require("dijit.layout.LinkPane");
 		dojo.require("dijit.form.Button");
 		dojo.require("dojo.parser");	// scan page for widgets and instantiate them
+
+		function boo(panel, node){
+			node.innerHTML = "Handlers override grabbing from URLs. They run in context of the widget, so 'this' refers to the tab widget.";
+		}
+		function testClose(pane,tab){
+		  return confirm("Please confirm that you want tab "+tab.title+" closed");
+		}
+
+		startTime = new Date();
+		dojo.addOnLoad(function(){
+			var elapsed = new Date().getTime() - startTime;
+			var p = document.createElement("p");
+			p.appendChild(document.createTextNode("Widgets loaded in " + elapsed + "ms"));
+			document.body.appendChild(p);
+		});
 	</script>
 
 	<style type="text/css">
@@ -33,22 +47,6 @@
 			overflow: auto;
 		}
 	</style>
-	<script type="text/javascript">
-		function boo(panel, node) {
-			node.innerHTML = "Handlers override grabbing from URLs. They run in context of the widget, so 'this' refers to the tab widget.";
-		}
-		function testClose(pane,tab) {
-		  return confirm("Please confirm that you want tab "+tab.title+" closed");
-		}
-
-		startTime = new Date();
-		dojo.addOnLoad(function(){
-			var elapsed = new Date().getTime() - startTime;
-			var p = document.createElement("p");
-			p.appendChild(document.createTextNode("Widgets loaded in " + elapsed + "ms"));
-			document.body.appendChild(p);
-		});
-	</script>
 </head>
 <body class="tundra">
 

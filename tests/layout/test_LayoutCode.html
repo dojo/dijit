@@ -6,9 +6,8 @@
 
 	<script type="text/javascript" src="../testBidi.js"></script>
 
-	<script type="text/javascript"
-		djConfig="isDebug: true"
-		src="../../../dojo/dojo.js"></script>
+	<script type="text/javascript" src="../../../dojo/dojo.js" 
+		djConfig="isDebug: true, parseOnLoad: true"></script>
 	<script type="text/javascript">
 		dojo.require("dijit.layout.LayoutContainer");
 		dojo.require("dijit.layout.AccordionContainer");
@@ -16,304 +15,303 @@
 		dojo.require("dijit.layout.SplitContainer");
 		dojo.require("dijit.layout.TabContainer");
 		dojo.require("dojo.parser");	// scan page for widgets and instantiate them
-	</script>
-	<script>	
-	// Simple layout container layout
-	var simpleLayout = {
-		widgetType: "LayoutContainer",
-		params: { widgetId: "rootWidget" },
-		style: "border: 3px solid grey; width: 95%; height: 400px;",
-		children: [
-			{
-				widgetType: "ContentPane",
-				params: {widgetId: "left", layoutAlign: "left"},
-				style: "width: 100px; background: #ffeeff;",
-				innerHTML: "this is the left"
-			},
-			{
-				widgetType: "ContentPane",
-				params: {widgetId: "right", layoutAlign: "right"},
-				style: "width: 100px; background: #ffeeff;",
-				innerHTML: "this is the right"
-			},
-			{
-				widgetType: "ContentPane",
-				params: {widgetId: "top", layoutAlign: "top"},
-				style: "height: 100px; background: #eeeeee;",
-				innerHTML: "this is the top"
-			},
-			{
-				widgetType: "ContentPane",
-				params: {widgetId: "bottom", layoutAlign: "bottom"},
-				style: "height: 100px; background: #eeeeee;",
-				innerHTML: "this is the bottom"
-			},
-			{
-				widgetType: "ContentPane",
-				params: {widgetId: "client", layoutAlign: "client"},
-				style: "height: 100px; background: #ffffee;",
-				innerHTML: "this is the client"
-			}
-		]
-	};
-	
-	// split container layout
-	var splitLayout = {
-		widgetType: "SplitContainer",
-		params: {widgetId: "rootWidget", orientation: "horizontal"},
-		style: "border: 3px solid grey; width: 95%; height: 400px;",
-		children: [
-			{
-				widgetType: "ContentPane",
-				params: {widgetId: "left"},
-				style: "background: #ffeeff;",
-				innerHTML: "left pane of split container"
-			},
-			{
-				widgetType: "SplitContainer",
-				params: {
-					widgetId: "nested", orientation: "vertical"},
-				children: [
-					{
-						widgetType: "ContentPane",
-						params: {widgetId: "top"},
-						style: "background: #eeffee;",
-						innerHTML: "center-top pane of nested split container"
-					},
-					{
-						widgetType: "ContentPane",
-						params: {widgetId: "bottom"},
-						style: "background: #eeffee;",
-						innerHTML: "center-bottom pane of nested split container"
-					}
-				]
-			},
-			{
-				widgetType: "ContentPane",
-				params: {widgetId: "right"},
-				style: "background: #ffeeff;",
-				innerHTML: "right pane of split container"
-			}
-		]
-	};
-	
-	// tab container layout
-	var tabLayout = {
-		widgetType: "TabContainer",
-		params: {widgetId: "rootWidget"},
-		style: "width: 95%; height: 400px;",
-		children: [
-			{
-				widgetType: "ContentPane",
-				params: {widgetId: "content", label: "Content tab", href: "doc0.html", executeScripts: true},
-				style: "background: #ffeeff;"
-			},
-			{
-				widgetType: "SplitContainer",
-				params: {widgetId: "nestedSplit", label: "Split pane tab", orientation: "vertical"},
-				children: [
-					{
-						widgetType: "ContentPane",
-						params: {widgetId: "top"},
-						style: "background: #eeffee;",
-						innerHTML: "top pane of nested split container"
-					},
-					{
-						widgetType: "ContentPane",
-						params: {widgetId: "bottom"},
-						style: "background: #eeffee;",
-						innerHTML: "bottom pane of nested split container"
-					}
-				]
-			},
-			{
-				widgetType: "TabContainer",
-				params: {widgetId: "nestedTab", label: "Nested tabs"},
-				children: [
-					{
-						widgetType: "ContentPane",
-						params: {widgetId: "left", label: "Nested Tab #1"},
-						style: "background: #eeffee;",
-						innerHTML: "tab 1 of nested tabs"
-					},
-					{
-						widgetType: "ContentPane",
-						params: {
-							widgetId: "right", label: "Nested Tab #2"},
-						style: "background: #eeffee;",
-						innerHTML: "tab 2 of nested tabs"
-					}
-				]
-			}
-		]
-	};
 
-	// tab container layout
-	var tabNoLayout = {
-		widgetType: "TabContainer",
-		params: {widgetId: "rootWidget", doLayout: false},
-		children: [
-			{
-				widgetType: "ContentPane",
-				params: {widgetId: "doc0", label: "Doc 0", href: "doc0.html", executeScripts: true},
-				style: "background: #ffeeff;"
-			},
-			{
-				widgetType: "ContentPane",
-				params: {widgetId: "doc1", label: "Doc 1", href: "doc1.html", executeScripts: true},
-				style: "background: #eeffee;"
-			},
-			{
-				widgetType: "ContentPane",
-				params: {widgetId: "doc2", label: "Doc 2", href: "doc2.html", executeScripts: true},
-				style: "background: #ffffee;"
-			}
-		]
-	};
-	
-	// accordion container layout
-	var accordionLayout = {
-		widgetType: "AccordionContainer",
-		params: {widgetId: "rootWidget"},
-		style: "border: 3px solid grey; width: 95%; height: 400px;",
-		children: [
-			{
-				widgetType: "AccordionPane",
-				params: {widgetId: "one", title: "Pane #1"},
-				style: "background: #ffeeff;",
-				innerHTML: "first pane contents"
-			},
-			{
-				widgetType: "AccordionPane",
-				params: {widgetId: "two", title: "Pane #2"},
-				style: "background: #ffeeff;",
-				innerHTML: "second pane contents"
-			},
-			{
-				widgetType: "AccordionPane",
-				params: {widgetId: "three", title: "Pane #3"},
-				style: "background: #ffeeff;",
-				innerHTML: "third pane contents"
-			}
-		]
-	};
+		// Simple layout container layout
+		var simpleLayout = {
+			widgetType: "LayoutContainer",
+			params: { widgetId: "rootWidget" },
+			style: "border: 3px solid grey; width: 95%; height: 400px;",
+			children: [
+				{
+					widgetType: "ContentPane",
+					params: {widgetId: "left", layoutAlign: "left"},
+					style: "width: 100px; background: #ffeeff;",
+					innerHTML: "this is the left"
+				},
+				{
+					widgetType: "ContentPane",
+					params: {widgetId: "right", layoutAlign: "right"},
+					style: "width: 100px; background: #ffeeff;",
+					innerHTML: "this is the right"
+				},
+				{
+					widgetType: "ContentPane",
+					params: {widgetId: "top", layoutAlign: "top"},
+					style: "height: 100px; background: #eeeeee;",
+					innerHTML: "this is the top"
+				},
+				{
+					widgetType: "ContentPane",
+					params: {widgetId: "bottom", layoutAlign: "bottom"},
+					style: "height: 100px; background: #eeeeee;",
+					innerHTML: "this is the bottom"
+				},
+				{
+					widgetType: "ContentPane",
+					params: {widgetId: "client", layoutAlign: "client"},
+					style: "height: 100px; background: #ffffee;",
+					innerHTML: "this is the client"
+				}
+			]
+		};
+		
+		// split container layout
+		var splitLayout = {
+			widgetType: "SplitContainer",
+			params: {widgetId: "rootWidget", orientation: "horizontal"},
+			style: "border: 3px solid grey; width: 95%; height: 400px;",
+			children: [
+				{
+					widgetType: "ContentPane",
+					params: {widgetId: "left"},
+					style: "background: #ffeeff;",
+					innerHTML: "left pane of split container"
+				},
+				{
+					widgetType: "SplitContainer",
+					params: {
+						widgetId: "nested", orientation: "vertical"},
+					children: [
+						{
+							widgetType: "ContentPane",
+							params: {widgetId: "top"},
+							style: "background: #eeffee;",
+							innerHTML: "center-top pane of nested split container"
+						},
+						{
+							widgetType: "ContentPane",
+							params: {widgetId: "bottom"},
+							style: "background: #eeffee;",
+							innerHTML: "center-bottom pane of nested split container"
+						}
+					]
+				},
+				{
+					widgetType: "ContentPane",
+					params: {widgetId: "right"},
+					style: "background: #ffeeff;",
+					innerHTML: "right pane of split container"
+				}
+			]
+		};
+		
+		// tab container layout
+		var tabLayout = {
+			widgetType: "TabContainer",
+			params: {widgetId: "rootWidget"},
+			style: "width: 95%; height: 400px;",
+			children: [
+				{
+					widgetType: "ContentPane",
+					params: {widgetId: "content", label: "Content tab", href: "doc0.html", executeScripts: true},
+					style: "background: #ffeeff;"
+				},
+				{
+					widgetType: "SplitContainer",
+					params: {widgetId: "nestedSplit", label: "Split pane tab", orientation: "vertical"},
+					children: [
+						{
+							widgetType: "ContentPane",
+							params: {widgetId: "top"},
+							style: "background: #eeffee;",
+							innerHTML: "top pane of nested split container"
+						},
+						{
+							widgetType: "ContentPane",
+							params: {widgetId: "bottom"},
+							style: "background: #eeffee;",
+							innerHTML: "bottom pane of nested split container"
+						}
+					]
+				},
+				{
+					widgetType: "TabContainer",
+					params: {widgetId: "nestedTab", label: "Nested tabs"},
+					children: [
+						{
+							widgetType: "ContentPane",
+							params: {widgetId: "left", label: "Nested Tab #1"},
+							style: "background: #eeffee;",
+							innerHTML: "tab 1 of nested tabs"
+						},
+						{
+							widgetType: "ContentPane",
+							params: {
+								widgetId: "right", label: "Nested Tab #2"},
+							style: "background: #eeffee;",
+							innerHTML: "tab 2 of nested tabs"
+						}
+					]
+				}
+			]
+		};
 
-	// Create a widget hierarchy from a JSON structure like
-	// {widgetType: "LayoutContainer", params: { ... }, children: { ... } }
-	function createWidgetHierarchy(widgetJson){
-		// setup input node
-		var node = document.createElement("div");
-		document.body.appendChild(node);	// necessary for tab contianer ???
-		if(widgetJson.style){
-			node.style.cssText = widgetJson.style;
+		// tab container layout
+		var tabNoLayout = {
+			widgetType: "TabContainer",
+			params: {widgetId: "rootWidget", doLayout: false},
+			children: [
+				{
+					widgetType: "ContentPane",
+					params: {widgetId: "doc0", label: "Doc 0", href: "doc0.html", executeScripts: true},
+					style: "background: #ffeeff;"
+				},
+				{
+					widgetType: "ContentPane",
+					params: {widgetId: "doc1", label: "Doc 1", href: "doc1.html", executeScripts: true},
+					style: "background: #eeffee;"
+				},
+				{
+					widgetType: "ContentPane",
+					params: {widgetId: "doc2", label: "Doc 2", href: "doc2.html", executeScripts: true},
+					style: "background: #ffffee;"
+				}
+			]
+		};
+		
+		// accordion container layout
+		var accordionLayout = {
+			widgetType: "AccordionContainer",
+			params: {widgetId: "rootWidget"},
+			style: "border: 3px solid grey; width: 95%; height: 400px;",
+			children: [
+				{
+					widgetType: "AccordionPane",
+					params: {widgetId: "one", title: "Pane #1"},
+					style: "background: #ffeeff;",
+					innerHTML: "first pane contents"
+				},
+				{
+					widgetType: "AccordionPane",
+					params: {widgetId: "two", title: "Pane #2"},
+					style: "background: #ffeeff;",
+					innerHTML: "second pane contents"
+				},
+				{
+					widgetType: "AccordionPane",
+					params: {widgetId: "three", title: "Pane #3"},
+					style: "background: #ffeeff;",
+					innerHTML: "third pane contents"
+				}
+			]
+		};
+
+		// Create a widget hierarchy from a JSON structure like
+		// {widgetType: "LayoutContainer", params: { ... }, children: { ... } }
+		function createWidgetHierarchy(widgetJson){
+			// setup input node
+			var node = document.createElement("div");
+			document.body.appendChild(node);	// necessary for tab contianer ???
+			if(widgetJson.style){
+				node.style.cssText = widgetJson.style;
+			}
+			if(widgetJson.innerHTML){
+				node.innerHTML=widgetJson.innerHTML;
+			}
+			
+			// create the widget
+			var widget = new dijit.layout[widgetJson.widgetType](widgetJson.params, node);
+			
+			// add its children (recursively)
+			if(widgetJson.children){
+				dojo.forEach(widgetJson.children, 
+					function(child){ widget.addChild(createWidgetHierarchy(child)); });
+			}
+			widget.startup(); //TODO: this is required now, right?
+
+			return widget;
 		}
-		if(widgetJson.innerHTML){
-			node.innerHTML=widgetJson.innerHTML;
-		}
-		
-		// create the widget
-		var widget = new dijit.layout[widgetJson.widgetType](widgetJson.params, node);
-		
-		// add its children (recursively)
-		if(widgetJson.children){
-			dojo.forEach(widgetJson.children, 
-				function(child){ widget.addChild(createWidgetHierarchy(child)); });
-		}
-		widget.startup(); //TODO: this is required now, right?
 
-		return widget;
-	}
+		// create the widgets specified in layout and add them to widget "rootWidget"
+		function create(layout){
 
-	// create the widgets specified in layout and add them to widget "rootWidget"
-	function create(layout){
-
-		// erase old widget hierarchy (if it exists)
-		var rootWidget = dijit.byId("rootWidget");
-		if(rootWidget){
-			rootWidget.destroy();
-		}
-		
-		// create new widget
-		rootWidget = createWidgetHierarchy(layout);
-		
-		// and display it
-		var wrapper = dojo.byId("wrapper");
-		wrapper.innerHTML="";	// just to erase the initial HTML message
-		wrapper.appendChild(rootWidget.domNode);
-//		rootWidget.onResized();
-		
-		// make/update the menu of operations on each widget
-		makeOperationTable();
-	}
-
-	// write out a menu of operations on each widget
-	function makeOperationTable(){
-		var html = "<table border=1>";
-		dojo.forEach(dijit.util.manager.getWidgets(), function(widget){
-			html += "<tr><td>" + widget.widgetId + "</td><td>";
-			html += "<button onclick='removeFromParent(\"" + widget.widgetId + "\");'> destroy </button> ";
-			if(/Container/.test(widget.widgetType)){
-				html += "<button onclick='addChild(\"" + widget.widgetId + "\");'> add a child </button> ";
+			// erase old widget hierarchy (if it exists)
+			var rootWidget = dijit.byId("rootWidget");
+			if(rootWidget){
+				rootWidget.destroy();
 			}
-			html += "</td></tr>";
-		});
-		html += "</table>";
-		dojo.byId("operations").innerHTML=html;
-	}
-
-	// remove a widget from it's parent and destroy it
-	function removeFromParent(widget){
-		widget = dijit.byId(widget);
-		if(widget.parent){
-			widget.parent.removeChild(widget);
+			
+			// create new widget
+			rootWidget = createWidgetHierarchy(layout);
+			
+			// and display it
+			var wrapper = dojo.byId("wrapper");
+			wrapper.innerHTML="";	// just to erase the initial HTML message
+			wrapper.appendChild(rootWidget.domNode);
+	//		rootWidget.onResized();
+			
+			// make/update the menu of operations on each widget
+			makeOperationTable();
 		}
-		widget.destroy();
+
+		// write out a menu of operations on each widget
+		function makeOperationTable(){
+			var html = "<table border=1>";
+			dojo.forEach(dijit.util.manager.getWidgets(), function(widget){
+				html += "<tr><td>" + widget.widgetId + "</td><td>";
+				html += "<button onclick='removeFromParent(\"" + widget.widgetId + "\");'> destroy </button> ";
+				if(/Container/.test(widget.widgetType)){
+					html += "<button onclick='addChild(\"" + widget.widgetId + "\");'> add a child </button> ";
+				}
+				html += "</td></tr>";
+			});
+			html += "</table>";
+			dojo.byId("operations").innerHTML=html;
+		}
+
+		// remove a widget from it's parent and destroy it
+		function removeFromParent(widget){
+			widget = dijit.byId(widget);
+			if(widget.parent){
+				widget.parent.removeChild(widget);
+			}
+			widget.destroy();
+			
+			// reset the operation table so this widget is no longer shown
+			makeOperationTable();
+		}
+
+		// add a child to given widget
+		function addChild(widget){
+			widget = dijit.byId(widget);
+
+			// setup input node
+			var node = document.createElement("div");
+			node.style.cssText = "height: 70px; width: 150px; overflow: auto; background: #cccccc; border: dotted black 2px;";	// necessary if parent is LayoutContainer
+
+			// create the widget
+			var alignments = ["top","bottom","left","right"];
+			var hrefs = ["doc0.html", "doc1.html", "doc2.html"];
+			var child = new dijit.layout.ContentPane(
+				{
+					widgetId: "widget_" + cnt,
+					label: "Widget " + cnt,	// necessary if parent is tab
+					layoutAlign: alignments[cnt%4],	// necessary if parent is LayoutContainer
+					executeScripts: true,
+					href: hrefs[cnt%3]
+				},
+				node);
+			cnt++;
+			
+			// add it to the parent
+			widget.addChild(child);
+
+			// reset the operation table so the new widget is shown
+			makeOperationTable();
+		}
+		var cnt=1;
 		
-		// reset the operation table so this widget is no longer shown
-		makeOperationTable();
-	}
+		// show a widget
+		function show(widget){
+			widget = dijit.byId(widget);
+			widget.show();
+		}
 
-	// add a child to given widget
-	function addChild(widget){
-		widget = dijit.byId(widget);
-
-		// setup input node
-		var node = document.createElement("div");
-		node.style.cssText = "height: 70px; width: 150px; overflow: auto; background: #cccccc; border: dotted black 2px;";	// necessary if parent is LayoutContainer
-
-		// create the widget
-		var alignments = ["top","bottom","left","right"];
-		var hrefs = ["doc0.html", "doc1.html", "doc2.html"];
-		var child = new dijit.layout.ContentPane(
-			{
-				widgetId: "widget_" + cnt,
-				label: "Widget " + cnt,	// necessary if parent is tab
-				layoutAlign: alignments[cnt%4],	// necessary if parent is LayoutContainer
-				executeScripts: true,
-				href: hrefs[cnt%3]
-			},
-			node);
-		cnt++;
-		
-		// add it to the parent
-		widget.addChild(child);
-
-		// reset the operation table so the new widget is shown
-		makeOperationTable();
-	}
-	var cnt=1;
-	
-	// show a widget
-	function show(widget){
-		widget = dijit.byId(widget);
-		widget.show();
-	}
-
-	// hide a widget
-	function hide(widget){
-		widget = dijit.byId(widget);
-		widget.hide();
-	}
+		// hide a widget
+		function hide(widget){
+			widget = dijit.byId(widget);
+			widget.hide();
+		}
 	</script>
 	<style type="text/css">
 		@import "../../../dojo/resources/dojo.css";

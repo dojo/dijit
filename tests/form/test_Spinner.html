@@ -7,7 +7,7 @@
 		<script type="text/javascript" src="../testBidi.js"></script>
 
 		<script type="text/javascript" src="../../../dojo/dojo.js"
-			djConfig="isDebug: true, extraLocale: ['de-de', 'en-us']"></script>
+			djConfig="isDebug: true, parseOnLoad: true, extraLocale: ['de-de', 'en-us']"></script>
 		<script type="text/javascript">
 			dojo.require("dijit.form.NumberSpinner");
 			dojo.require("dojo.parser"); // scan page for widgets
@@ -42,7 +42,7 @@
 		</style>
 	</head>
 
-	<body class=tundra>
+	<body class="tundra">
 		<h1 class="testTitle">Dijit Spinner Test</h1>
 		Try typing values, and use the up/down arrow keys and/or the arrow push
 		buttons to spin

@@ -2,57 +2,50 @@
         "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 <head>
-<title>Dojo ComboBox Widget Test</title>
+	<title>Dojo ComboBox Widget Test</title>
+	<style>
+		@import "../../../dojo/resources/dojo.css";
+		@import "../../themes/tundra/tundra.css";
+		@import "../css/dijitTests.css";
+	</style>
+	<script type="text/javascript" src="../testBidi.js"></script>
+	<script type="text/javascript" src="../../../dojo/dojo.js"
+		djConfig="isDebug: true, parseOnLoad: true"></script>
+	<script type="text/javascript">
+		dojo.require("dojo.data.JsonItemStore");
+		dojo.require("dijit.form.ComboBox");
+		dojo.require("dijit.util.manager");
+		dojo.require("dojo.parser");	// scan page for widgets and instantiate them
 
-<script type="text/javascript" src="../testBidi.js"></script>
+		function setVal1(val){
+			dojo.byId('value1').value=val;
+		}
+		function setVal2(val){
+			dojo.byId('value2').value=val;
+			console.debug("Value changed to ["+val+"] in second ComboBox (#1652)");
+		}
+		function setVal3(val){
+			dojo.byId('value3').value=val;
+		}
+		var combo;
+		function init(){
+			var store = new dojo.data.JsonItemStore({url: 'comboBoxData.json'});
+			combo = new dijit.form.ComboBox({
+				name:"prog",
+				autocomplete:false,
+				store: store,
+				searchAttr:"name"
+			}, dojo.byId("progCombo"));
+		}
+		dojo.addOnLoad(init);
 
-<script type="text/javascript">
-	var djConfig = {
-		isDebug: true};
-</script>
-<script type="text/javascript" src="../../../dojo/dojo.js"></script>
-<script type="text/javascript">
-	dojo.require("dojo.data.JsonItemStore");
-	dojo.require("dijit.form.ComboBox");
-	dojo.require("dijit.util.manager");
-	dojo.require("dojo.parser");	// scan page for widgets and instantiate them
-</script>
-<style>
-	@import "../../../dojo/resources/dojo.css";
-	@import "../../themes/tundra/tundra.css";
-	@import "../css/dijitTests.css";
-</style>
-
-<script>
-	function setVal1(val){
-		document.getElementById('value1').value=val;
-	}
-	function setVal2(val){
-		document.getElementById('value2').value=val;
-		console.debug("Value changed to ["+val+"] in second ComboBox (#1652)");
-	}
-	function setVal3(val){
-		document.getElementById('value3').value=val;
-	}
-	var combo;
-	function init(){
-		var store=new dojo.data.JsonItemStore({url: 'comboBoxData.json'});
-		combo = new dijit.form.ComboBox({
-			name:"prog",
-			autocomplete:false,
-			store: store,
-			searchAttr:"name"
-		}, document.getElementById("progCombo"));
-	}
-	dojo.addOnLoad(init);
-
-	function toggleDisabled(button, widget){
-		widget = dijit.byId(widget);
-		button = document.getElementById(button);
-		widget.disabled ? widget.enable() : widget.disable();
-		button.innerHTML= widget.disabled ? "Enable" : "Disable";
-	}
-</script>
+		function toggleDisabled(button, widget){
+			widget = dijit.byId(widget);
+			button = dojo.byId(button);
+			widget.disabled ? widget.enable() : widget.disable();
+			button.innerHTML= widget.disabled ? "Enable" : "Disable";
+		}
+	</script>
 </head>
 
 <body class="tundra">
