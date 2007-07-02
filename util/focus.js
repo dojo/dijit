@@ -142,24 +142,9 @@ dijit.util.focus = new function(){
 		// returns:
 		//	a handle to restore focus/selection
 
-		//PORT #2804. Use isAncestor
-		var isDescendantOf = function(/*Node*/node, /*Node*/ancestor){
-			//	summary
-			//	Returns boolean if node is a descendant of ancestor
-			// guaranteeDescendant allows us to be a "true" isDescendantOf function
-
-			while(node){
-				if(node === ancestor){
-					return true; // boolean
-				}
-				node = node.parentNode;
-			}
-			return false; // boolean
-		};
-
 		return {
 			// Node to return focus to
-			focus: isDescendantOf(curFocus, menu.domNode) ? prevFocus : curFocus,
+			focus: dojo.isDescendant(curFocus, menu.domNode) ? prevFocus : curFocus,
 			
 			// Previously selected text
 			bookmark: 

@@ -129,30 +129,12 @@ dojo.declare(
 			}, this);
 		},
 
-		//PORT #2804
-		_isDescendantOf: function(/*Node*/node, /*Node*/ancestor){
-			//	summary
-			//	Returns boolean if node is a descendant of ancestor
-
-			while(node){
-				if(node === ancestor){
-					return true; // boolean
-				}
-				try{
-					node = node.parentNode;
-				}catch(e){
-					return false;
-				}
-			}
-			return false; // boolean
-		},
-
 		_onMouseOver: function(/*Event*/ e){
 			this._onHover(e);
 		},
 
 		_onMouseOut: function(/*Event*/ e){
-			if(this._isDescendantOf(e.relatedTarget, this._connectNode)){
+			if(dojo.isDescendant(e.relatedTarget, this._connectNode)){
 				// false event; just moved from target to target child; ignore.
 				return;
 			}

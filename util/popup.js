@@ -156,31 +156,15 @@ dijit.util.popup = new function(){
 
 		if(stack.length==0){ return; }
 
-		//PORT #2804. Use isAncestor
-		var isDescendantOf = function(/*Node*/node, /*Node*/ancestor){
-			//	summary
-			//	Returns boolean if node is a descendant of ancestor
-			// guaranteeDescendant allows us to be a "true" isDescendantOf function
-
-			while(node){
-				if(node === ancestor){
-					return true; // boolean
-				}
-				node = node.parentNode;
-			}
-			return false; // boolean
-		}
-
 		// if they clicked on the trigger node (often a button), ignore the click
-		if(currentTrigger && isDescendantOf(node, currentTrigger)){
+		if(currentTrigger && dojo.isDescendant(node, currentTrigger)){
 			return;
 		}
 
 		// if they clicked on the popup itself then ignore it
 		if(dojo.some(stack, function(elem){
-			return isDescendantOf(node, elem.widget.domNode);
-		}))
-		{
+			return dojo.isDescendant(node, elem.widget.domNode);
+		})){
 			return;
 		}
 
