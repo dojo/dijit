@@ -102,6 +102,13 @@ dojo.declare(
 		_displayMessage: function(/*String*/ message){
 			if(this._message == message){ return; }
 			this._message = message;
+			this.displayMessage(message);
+		},
+		
+		displayMessage: function(/*String*/ message){
+			// summary:
+			//		User overridable method to display validation errors/hints.
+			//		By default uses a tooltip.
 			if(message){
 				dijit.MasterTooltip.show(message, this.domNode);
 			}else{
