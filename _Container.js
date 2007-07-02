@@ -75,7 +75,7 @@ dojo.declare("dijit._Container",
 			//		removes the passed widget instance from this widget but does
 			//		not destroy it
 			var node = widget.domNode;
-			node.parentNode.removeChild(node); //PORT leak #2931 -- call widget.destroy() instead?
+			node.parentNode.removeChild(node);	// detach but don't destroy
 		},
 
 		_nextElement: function(node){

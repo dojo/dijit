@@ -157,18 +157,12 @@ function(params, srcNodeRef){
 		}
 
 		if(this.domNode){
-			//			dojo.dom.destroyNode(this.domNode);
-			//PORT #2931
-			if(this.domNode.parentNode){
-				this.domNode.parentNode.removeChild(this.domNode);
-			}
+			dojo._destroyElement(this.domNode);
 			delete this.domNode;
 		}
 
-		if(this.srcNodeRef && this.srcNodeRef.parentNode){
-//			dojo.dom.destroyNode(this.srcNodeRef);
-//PORT #2931
-			this.srcNodeRef.parentNode.removeChild(this.srcNodeRef);
+		if(this.srcNodeRef){
+			dojo._destroyElement(this.srcNodeRef);
 			delete this.srcNodeRef;
 		}
 	},

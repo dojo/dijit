@@ -663,9 +663,7 @@ dojo.declare(
 						this.document = this.iframe.contentDocument;
 					}
 
-					// FIXME: what's the 0.9 eqivalent for this?
-					// dojo.html.removeNode(tmpContent);
-					tmpContent.parentNode.removeChild(tmpContent);
+					dojo._destroyElement(tmpContent);
 					this.document.body.innerHTML = html;
 					this.document.designMode = "on";
 					//	try{
@@ -682,9 +680,7 @@ dojo.declare(
 
 					this.onLoad();
 				}else{
-					// FIXME: what's the 0.9 eqivalent for this?
-					// dojo.html.removeNode(tmpContent);
-					tmpContent.parentNode.removeChild(tmpContent);
+					dojo._destroyElement(tmpContent);
 					this.editNode.innerHTML = html;
 					this.onDisplayChanged();
 				}
@@ -1849,7 +1845,7 @@ dojo.declare(
 							wrapNodes(nodesInLine);
 							currentNodeIndex = (currentNodeIndex+1)-nodesInLine.length;
 							if(currentNode.nodeName=="BR"){
-								currentNode.parentNode.removeChild(currentNode);
+								dojo._destroyElement(currentNode);
 							}
 						}
 						nodesInLine = [];
@@ -1875,7 +1871,7 @@ dojo.declare(
 						dojo.forEach(trailingNodes, function(node){
 							newP.appendChild(node);
 						});
-						currentNode.parentNode.removeChild(currentNode);
+						dojo._destroyElement(currentNode);
 						trailingNodes = [];
 					}else{
 						trailingNodes.unshift(currentNode);
@@ -1961,7 +1957,7 @@ dojo.declare(
 					}
 					node = node.nextSibling;
 					if(deleteNode){
-						deleteNode.parentNode.removeChild(deleteNode);
+						dojo._destroyElement(deleteNode);
 						deleteNode = null;
 					}
 				}

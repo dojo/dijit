@@ -299,16 +299,10 @@ if(dojo.isIE){
 		}
 
 		var nodes = [];
-		/*
-		for(var x=0; x<_parent.childNodes.length; x++){
-			nodes.push(_parent.childNodes[x].cloneNode(true));
-		}
-		*/
 		while(_parent.firstChild){
 			nodes.push(_parent.removeChild(_parent.firstChild));
 		}
-		//PORT	dojo.html.destroyNode(tn); FIXME: need code to prevent leaks and such
-		_parent = dojo.body().removeChild(tn);
+		dojo._destroyElement(tn);
 		return nodes;	//	Array
 	}
 })();

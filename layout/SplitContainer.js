@@ -134,7 +134,7 @@ dojo.declare(
 			for(var x = 0; x < children.length; x++){
 				if(children[x] === widget){
 					var i = this.sizers.length - 1;
-					this.domNode.removeChild(this.sizers[i]);
+					dojo._destroyElement(this.sizers[i]);
 					this.sizers.length = i;
 					break;
 				}

@@ -291,9 +291,7 @@ dojo.declare(
 		try{
 			var node = this.containerNode || this.domNode;
 			while(node.firstChild){
-		//PORT memory leak #2931
-				node.firstChild.parentNode.removeChild(node.firstChild);
-			//	delete node.firstChild; //Q is this wrong?
+				dojo._destroyElement(node.firstChild);
 			}
 			if(typeof cont == "string"){
 				// dijit.ContentPane does only minimal fixes,

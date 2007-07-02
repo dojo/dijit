@@ -93,8 +93,9 @@ dijit.util.popup = new function(){
 		// #2685: check if the widget still has a domNode so ContentPane can change its URL without getting an error
 		if(!widget||!widget.domNode){ return; }
 		dojo.style(widget.domNode, "display", "none");
+		dojo.body().appendChild(widget.domNode);
 		iframe.remove();
-		wrapper.parentNode.removeChild(wrapper);
+		dojo._destroyElement(wrapper);
 
 		if(widget.onClose){
 			widget.onClose();
@@ -265,7 +266,7 @@ dojo.extend(dijit.util.BackgroundIframe, {
 	remove: function(){
 		//	summary: remove the iframe
 		if(this.iframe){
-			this.iframe.parentNode.removeChild(this.iframe); // PORT: leak?
+			dojo._destroyElement(this.iframe);
 			delete this.iframe;
 			this.iframe=null;
 		}
