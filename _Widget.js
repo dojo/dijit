@@ -152,7 +152,7 @@ function(params, srcNodeRef){
 		//		tear-down?
 
 		if(this.bgIframe){
-			this.bgIframe.remove();
+			this.bgIframe.destroy();
 			delete this.bgIframe;
 		}
 

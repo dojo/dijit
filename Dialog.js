@@ -65,7 +65,7 @@ dojo.declare(
 
 		uninitialize: function(){
 			if(this.bgIframe){
-				this.bgIframe.remove();
+				this.bgIframe.destroy();
 			}
 		}
 	}

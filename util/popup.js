@@ -94,7 +94,7 @@ dijit.util.popup = new function(){
 		if(!widget||!widget.domNode){ return; }
 		dojo.style(widget.domNode, "display", "none");
 		dojo.body().appendChild(widget.domNode);
-		iframe.remove();
+		iframe.destroy();
 		dojo._destroyElement(wrapper);
 
 		if(widget.onClose){
@@ -263,12 +263,11 @@ dijit.util.BackgroundIframe = function(/* HTMLElement */node){
 };
 
 dojo.extend(dijit.util.BackgroundIframe, {
-	remove: function(){
-		//	summary: remove the iframe
+	destroy: function(){
+		//	summary: destroy the iframe
 		if(this.iframe){
 			dojo._destroyElement(this.iframe);
 			delete this.iframe;
-			this.iframe=null;
 		}
 	}
 });
