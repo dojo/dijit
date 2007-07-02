@@ -61,12 +61,13 @@ dijit.util.manager = new function(){
 	}
 };
 
-// #3531: causes errors, commenting out for now
-/***
-dojo.addOnUnload(function(){
-	dijit.util.manager.destroyAll();
-});
-***/
+if(dojo.isIE && dojo.isIE < 7){
+	// Only run this for IE6 because we think it's only necessary in that case,
+	// and because it causes problems on FF.  See bugt #3531 for details.
+	dojo.addOnUnload(function(){
+		dijit.util.manager.destroyAll();
+	});
+}
 
 dijit.byId = function(/*String*/id){
 	// summary:
