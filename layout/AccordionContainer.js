@@ -154,7 +154,7 @@ dojo.declare(
 	postCreate: function(){
 		dijit.layout.AccordionPane.superclass.postCreate.apply(this, arguments);
 		dojo.addClass(this.domNode, this["class"]);
-		dijit._disableSelection(this.titleNode);
+		dojo.setSelectable(this.titleNode, false);
 		this.setSelected(this.selected);
 	},
 

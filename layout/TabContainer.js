@@ -143,6 +143,6 @@ dojo.declare(
 			this.closeButtonNode.style.display="none";
 		}
 		dijit.layout._TabButton.superclass.postCreate.apply(this, arguments);
-		dijit._disableSelection(this.titleNode);
+		dojo.setSelectable(this.titleNode, false);
 	}
 });

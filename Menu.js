@@ -401,7 +401,7 @@ dojo.declare(
 	disabled: false,
 
 	postCreate: function(){
-		dijit._disableSelection(this.domNode);
+		dojo.setSelectable(this.domNode, false);
 		this.setDisabled(this.disabled);
 		if(this.label){
 			this.containerNode.innerHTML=this.label;
@@ -495,6 +495,6 @@ dojo.declare(
 			+'</td></tr>',
 
 	postCreate: function(){
-		dijit._disableSelection(this.domNode);
+		dojo.setSelectable(this.domNode, false);
 	}
 });

@@ -25,5 +25,5 @@ dojo.declare(
 	// summary
 	//	A line between two menu items
 	templateString: '<div class="dijitToolbarSeparator dijitInline"></div>',
-	postCreate: function(){ dijit._disableSelection(this.domNode); }
+	postCreate: function(){ dojo.setSelectable(this.domNode, false); }
 });

@@ -266,17 +266,3 @@ function(params, srcNodeRef){
 		return this._ltr; //Boolean
 	}
 });
-
-//PORT - where does this go?  dijit.util?  dojo.html?
-dijit._disableSelection = function(/*DomNode*/element){
-	// summary: disable selection on a node
-
-	if(dojo.isMozilla){
-		element.style.MozUserSelect = "none";
-	}else if(dojo.isKhtml){
-		element.style.KhtmlUserSelect = "none";
-	}else if(dojo.isIE){
-		element.unselectable = "on";
-	}
-	//FIXME: else?  Opera?
-};

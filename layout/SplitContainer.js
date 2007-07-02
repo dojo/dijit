@@ -74,7 +74,7 @@ dojo.declare(
 		this.virtualSizer.style.zIndex = 10;
 		this.virtualSizer.className = this.isHorizontal ? 'dijitSplitContainerVirtualSizerH' : 'dijitSplitContainerVirtualSizerV';
 		this.domNode.appendChild(this.virtualSizer);
-		dijit._disableSelection(this.virtualSizer);
+		dojo.setSelectable(this.virtualSizer, false);
 
 	},
 
@@ -123,7 +123,7 @@ dojo.declare(
 		dojo.connect(sizer, "onmousedown", handler);
 
 		this.domNode.appendChild(sizer);
-		dijit._disableSelection(sizer);
+		dojo.setSelectable(sizer, false);
 	},
 
 	removeChild: function(widget){

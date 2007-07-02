@@ -43,7 +43,7 @@ dojo.declare(
 		value: "on",
 
 		postCreate: function(){
-			dijit._disableSelection(this.inputNode);
+			dojo.setSelectable(this.inputNode, false);
 			this.setSelected(this.checked);
 			dijit.form.ToggleButton.prototype.postCreate.apply(this, arguments);
 		},
