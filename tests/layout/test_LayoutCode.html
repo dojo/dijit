@@ -14,6 +14,11 @@
 		dojo.require("dijit.layout.ContentPane");
 		dojo.require("dijit.layout.SplitContainer");
 		dojo.require("dijit.layout.TabContainer");
+
+		// Used in doc0.html
+	 	dojo.require("dijit.form.ComboBox");
+	 	dojo.require("dijit.form.Button");
+
 		dojo.require("dojo.parser");	// scan page for widgets and instantiate them
 
 		// Simple layout container layout
@@ -103,12 +108,12 @@
 			children: [
 				{
 					widgetType: "ContentPane",
-					params: {widgetId: "content", label: "Content tab", href: "doc0.html", executeScripts: true},
+					params: {widgetId: "content", title: "Content tab", href: "doc0.html", executeScripts: true},
 					style: "background: #ffeeff;"
 				},
 				{
 					widgetType: "SplitContainer",
-					params: {widgetId: "nestedSplit", label: "Split pane tab", orientation: "vertical"},
+					params: {widgetId: "nestedSplit", title: "Split pane tab", orientation: "vertical"},
 					children: [
 						{
 							widgetType: "ContentPane",
@@ -126,18 +131,18 @@
 				},
 				{
 					widgetType: "TabContainer",
-					params: {widgetId: "nestedTab", label: "Nested tabs"},
+					params: {widgetId: "nestedTab", title: "Nested tabs"},
 					children: [
 						{
 							widgetType: "ContentPane",
-							params: {widgetId: "left", label: "Nested Tab #1"},
+							params: {widgetId: "left", title: "Nested Tab #1"},
 							style: "background: #eeffee;",
 							innerHTML: "tab 1 of nested tabs"
 						},
 						{
 							widgetType: "ContentPane",
 							params: {
-								widgetId: "right", label: "Nested Tab #2"},
+								widgetId: "right", title: "Nested Tab #2"},
 							style: "background: #eeffee;",
 							innerHTML: "tab 2 of nested tabs"
 						}
@@ -153,17 +158,17 @@
 			children: [
 				{
 					widgetType: "ContentPane",
-					params: {widgetId: "doc0", label: "Doc 0", href: "doc0.html", executeScripts: true},
+					params: {widgetId: "doc0", title: "Doc 0", href: "doc0.html", executeScripts: true},
 					style: "background: #ffeeff;"
 				},
 				{
 					widgetType: "ContentPane",
-					params: {widgetId: "doc1", label: "Doc 1", href: "doc1.html", executeScripts: true},
+					params: {widgetId: "doc1", title: "Doc 1", href: "doc1.html", executeScripts: true},
 					style: "background: #eeffee;"
 				},
 				{
 					widgetType: "ContentPane",
-					params: {widgetId: "doc2", label: "Doc 2", href: "doc2.html", executeScripts: true},
+					params: {widgetId: "doc2", title: "Doc 2", href: "doc2.html", executeScripts: true},
 					style: "background: #ffffee;"
 				}
 			]
@@ -285,7 +290,7 @@
 			var child = new dijit.layout.ContentPane(
 				{
 					widgetId: "widget_" + cnt,
-					label: "Widget " + cnt,	// necessary if parent is tab
+					title: "Widget " + cnt,	// necessary if parent is tab
 					layoutAlign: alignments[cnt%4],	// necessary if parent is LayoutContainer
 					executeScripts: true,
 					href: hrefs[cnt%3]
