@@ -12,6 +12,7 @@
 	<script type="text/javascript">
 		dojo.require("dijit.form.Button");
 		dojo.require("dijit.ColorPalette");
+		dojo.require("dijit.Dialog");
 		dojo.require("dijit.Toolbar");
 		dojo.require("dojo.parser");	// find widgets
 	</script>
@@ -73,6 +74,28 @@
             ><div dojoType="dijit.form.Button" id="toolbar1.outdent" iconClass="dijitEditorIconOutdent">Outdent</div
 
             ><span dojoType="dijit.ToolbarSeparator"></span
+			><div dojoType="dijit.form.DropDownButton" id="toolbar1.dialog">
+				<span>Login</span>
+				<div dojoType="dijit.layout.TooltipDialog" id="tooltipDlg" title="Enter Login information" closeNode="hider2">
+					<form onsubmit="return false;">
+						<table>
+							<tr>
+								<td>User:</td>
+								<td><label for="user"><input type="text" id="user"></label></td>
+							</tr>
+							<tr>
+								<td>Password:</td>
+								<td><label for="pwd"><input type="password" id="pwd"></label></td>
+							</tr>
+							<tr>
+								<td colspan="2" align="center">
+									<button id="hider2">Login</button>
+								</td>
+							</tr>
+						</table>
+					</form>
+				</div>
+			</div
 			><div dojoType="dijit.form.DropDownButton" id="toolbar1.backcolor" iconClass="dijitEditorIconBackColor">
 				<span>Background</span>
 				<div dojoType="dijit.ColorPalette" id="toolbar1.colorPalette" style="display: none" palette="3x4" onColorSelect="console.log(this.selectedColor);"></div>
