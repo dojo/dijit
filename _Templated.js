@@ -265,15 +265,15 @@ if(dojo.isIE){
 		section: {re: /^<(thead|tbody|tfoot)[\s\r\n>]/i, pre: "<table>", post: "</table>"}
 	};
 
+	// dummy container node used temporarily to hold nodes being created
 	var tn;
-	var _parent;
 
 	dijit._Templated._createNodesFromText = function(/*String*/text){
 		//	summary
 		//	Attempts to create a set of nodes based on the structure of the passed text.
 
 		if(!tn){
-			_parent = tn = dojo.doc.createElement("div");
+			tn = dojo.doc.createElement("div");
 			tn.style.visibility="hidden";
 		}
 		var tableType = "none";
@@ -294,15 +294,15 @@ if(dojo.isIE){
 		}
 
 		var tag = { cell: "tr", row: "tbody", section: "table" }[tableType];
-		if(typeof tag != "undefined"){
-			_parent = tn.getElementsByTagName(tag)[0];
-		}
+		var _parent = (typeof tag != "undefined") ?
+						tn.getElementsByTagName(tag)[0] :
+						tn;
 
 		var nodes = [];
 		while(_parent.firstChild){
 			nodes.push(_parent.removeChild(_parent.firstChild));
 		}
-		dojo._destroyElement(tn);
+		tn.innerHTML="";
 		return nodes;	//	Array
 	}
 })();
