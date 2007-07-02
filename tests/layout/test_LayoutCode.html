@@ -252,16 +252,16 @@
 		// write out a menu of operations on each widget
 		function makeOperationTable(){
 			var html = "<table border=1>";
-			dojo.forEach(dijit.util.manager.getWidgets(), function(widget){
-				html += "<tr><td>" + widget.widgetId + "</td><td>";
-				html += "<button onclick='removeFromParent(\"" + widget.widgetId + "\");'> destroy </button> ";
-				if(/Container/.test(widget.widgetType)){
-					html += "<button onclick='addChild(\"" + widget.widgetId + "\");'> add a child </button> ";
+			for(var widgetId in dijit.util.manager.getWidgets()){
+				html += "<tr><td>" + widgetId + "</td><td>";
+				html += "<button onclick='removeFromParent(\"" + widgetId + "\");'> destroy </button> ";
+				if(/Container/.test(dijit.byId(widgetId).declaredClass)){
+					html += "<button onclick='addChild(\"" + widgetId + "\");'> add a child </button> ";
 				}
 				html += "</td></tr>";
-			});
+			}
 			html += "</table>";
-			dojo.byId("operations").innerHTML=html;
+			dojo.byId("operations").innerHTML = html;
 		}
 
 		// remove a widget from it's parent and destroy it
@@ -280,16 +280,23 @@
 		function addChild(widget){
 			widget = dijit.byId(widget);
 
+			if(/AccordionContainer/.test(widget.declaredClass)){
+				var child = new dijit.layout.AccordionPane({
+					title: "AccordionWidget " + cnt
+				});
+				// add it to the parent
+				widget.addChild(child);
+				widget = child;
+			}
+
 			// setup input node
 			var node = document.createElement("div");
 			node.style.cssText = "height: 70px; width: 150px; overflow: auto; background: #cccccc; border: dotted black 2px;";	// necessary if parent is LayoutContainer
-
 			// create the widget
 			var alignments = ["top","bottom","left","right"];
 			var hrefs = ["doc0.html", "doc1.html", "doc2.html"];
 			var child = new dijit.layout.ContentPane(
 				{
-					widgetId: "widget_" + cnt,
 					title: "Widget " + cnt,	// necessary if parent is tab
 					layoutAlign: alignments[cnt%4],	// necessary if parent is LayoutContainer
 					executeScripts: true,
