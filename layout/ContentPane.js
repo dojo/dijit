@@ -21,7 +21,7 @@ dojo.declare(
 	//		Some quick samples:
 	//		To change the innerHTML use .setContent('<b>new content</b>')
 	//
-	//		Or you can send it a NodeList, .setContent(dojo.query('#t div > h3', otherFrame))
+	//		Or you can send it a NodeList, .setContent(dojo.query('div [class=selected]', userSelection))
 	//		please note that the nodes in NodeList will copied, not moved
 	//
 	//		To do a ajax update use .setHref('url')
@@ -36,9 +36,9 @@ dojo.declare(
 	//	Extract visible content from inside of <body> .... </body>
 	extractContent: false,
 
-	// parse: Boolean
+	// parseOnLoad: Boolean
 	//	parse content and create the widgets, if any
-	parse:	true,
+	parseOnLoad:	true,
 
 	// preventCache: Boolean
 	//	Cache content retreived externally
@@ -129,7 +129,7 @@ dojo.declare(
 
 		this._isDownloaded = false; // must be set after _setContent(..), pathadjust in dojox.widget.ContentPane
 
-		if(this.parse){
+		if(this.parseOnLoad){
 			this._createSubWidgets();
 		}
 
@@ -257,7 +257,6 @@ dojo.declare(
 		});
 
 		getHandler.addErrback(function(err){
-			// TODO: trac #3507 to find out if this check is needed or just a workaround
 			if(!getHandler.cancelled){
 				// show error message in the pane
 				self._onError.call(self, 'Download', err); // onDownloadError
@@ -372,7 +371,7 @@ dojo.declare(
 		//		default is to display errormessage inside pane
 	},
 
-	onDownloadError: function(){
+	onDownloadError: function(/*Error*/ error){
 		// summary:
 		//		Called when download error occurs, default is to display
 		//		errormessage inside pane. Overide function to change that.
