@@ -12,10 +12,15 @@
 		// the url below points to dojo.inpdx.net/benchResults.php
 		// need to setup DB on dtk.org and change URL here to store
 		// results elsewhere ... work db structure in accompanying
-		// .php file
+		// .php file 
+		// basic stats are located at http://dojo.inpdx.net/benchmarks.html
 		
 		dojo.require("dojo.fx"); 
+		// FIXME: this seems an excessive fix for IE6 issue ...
+		dojo.require("dijit.dijit-all"); 
+		dojo.require("dojo.parser");
 
+	
 		// setup global variables
 		var masterResults = { clientNavigator: navigator.userAgent, dataSet: [], errors: [] }
 		var isRunning = false; 
@@ -28,7 +33,6 @@
 			masterResults.dojoVersion = dojo.version.toString(); 
 		});
 		
-		dojo.require("dojo.parser");
 
 		function _toggleRunMsg() {
 			var newMsg = (isRunning) ? " Run Test " : " Running ..."
@@ -58,6 +62,9 @@
 			var aclass = theClass.value.toString(); 
 			var theMethod = (dojo.byId('parse').checked) ? "parse" : "create"; 
 
+			// FIXME: this is where IE6 dies on dijit.form.* the added dijit-all rollup
+			// includes everything, but leaving this here so people can benchmark
+			// dojox.* widgets, or their own.
 			try { dojo.require(aclass+''); }
 			catch(e) { _error = e; }
 
