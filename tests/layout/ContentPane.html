@@ -20,7 +20,7 @@
 	</style>
 
 	<script type="text/javascript" src="../../../dojo/dojo.js" 
-		djConfig="isDebug: true, parseOnLoad: true"></script>
+		djConfig="isDebug: true"></script>
 	<script type="text/javascript">
 		dojo.require("doh.runner");
 		dojo.require("dijit.layout.ContentPane");
@@ -36,7 +36,7 @@
 
 		dojo.addOnLoad(function(){
 			// TODO: trac #3510 to se if we should uncomment
-			/*doh.register("pane1",
+			doh.register("pane1",
 				[
 					{
 						name: "no_autoparse",
@@ -47,37 +47,16 @@
 						}
 					}
 				]
-			);*/
+			);
 
 			var pane2 = {}; // an Object just to get a ref instead of a copy in all closures below
 
 			doh.registerGroup("pane2",
 				[
-					// TODO: trac #3510 to se if we should uncomment
-					// see note about remove a the creation statement in next test
-					/*{
-						name: "autocreate_subwidgets",
-						runTest: function(t){
-							// make sure the page havent autoparsed
-							t.assertFalse(dijit.byId('pane2'));
-
-							pane2 = new dijit.layout.ContentPane({}, dojo.byId("pane2"));
-
-							var children = dijit._Container.prototype.getChildren.call(pane2);
-
-							t.assertEqual(children.length, 4);
-							t.assertEqual("zero", children[0].id);
-							t.assertEqual("one", children[1].id);
-							t.assertEqual("two", children[2].id);
-							t.assertEqual("three", children[3].id);
-						}
-					},*/
 					{
 						name: "clear_content",
 						setUp: function(t){
-							// TODO: remove this line if we uncomment above
 							pane2 = new dijit.layout.ContentPane({}, dojo.byId("pane2"));
-
 							pane2.setContent();// pass undefined on purpose
 						},
 						runTest: function(t){
@@ -190,7 +169,7 @@
 					},
 					{
 						name: "setHref_then_cancel",
-						timeout: 1500,
+						timeout: 1700,
 						setUp: function(t){
 							pane2.setContent();// clear previous
 						},
@@ -202,7 +181,7 @@
 								function(){
 									t.assertFalse(pane2.domNode.innerHTML == msg);
 								}
-							), 1400);
+							), 1600);
 
 							pane2.cancel();
 
@@ -212,7 +191,7 @@
 					{
 						// test that setHref cancels a inflight setHref
 						name: "setHref_cancels_previous_setHref",
-						timeout: 1300,
+						timeout: 1700,
 						setUp: function(t){
 							pane2.setContent();
 						},
@@ -230,7 +209,7 @@
 								function(){
 									t.assertEqual(msg, pane2.domNode.innerHTML);
 								}
-							), 1250);
+							), 1600);
 							return d;
 						}
 					},
@@ -309,6 +288,7 @@
 					},
 					{
 						name: "isLoaded",
+						timeout: 700,
 						setUp: function(t){
 							pane2.setContent();
 						},
@@ -332,7 +312,7 @@
 									t.assertTrue(pane2.isLoaded);
 									t.assertFalse(ilObj.probed);
 								}
-							), 450);
+							), 600);
 							return d;
 						}
 					},
@@ -347,7 +327,6 @@
 						runTest: function(t){
 							pane2._msg = "This text should not be loaded until after widget is shown";
 							pane2.setHref("getResponse.php?message="+encodeURI(pane2._msg));
-
 							var d = new t.Deferred();
 							setTimeout(d.getTestCallback(
 								function(){
@@ -362,6 +341,7 @@
 					},
 					{	// this test fails due to #3503
 						name: "onDownloadError",
+						timeout: 700,
 						setUp: function(t){
 							pane2.setContent();
 						},
@@ -407,13 +387,14 @@
 									dojo.disconnect(evtHandle);
 									pane2.onDownloadError = orig;
 								}
-							}, 450);
+							}, 600);
 
 							return d;
 						}
 					},
 					{// this test fails due to #3503
 						name: "onLoad|Unload_onDownloadStart|End",
+						timeout: 700,
 						setUp:function(t){
 							pane2.setContent();
 						},
@@ -473,7 +454,7 @@
 
 									pane2.onDownloadStart = origStart;
 								}
-							}, 450);
+							}, 600);
 
 							return d;
 						}
