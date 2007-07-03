@@ -45,7 +45,7 @@ dijit.util.popup = new function(){
 		if(!args.submenu){
 			this.closeAll();
 		}
-		if(stack.length == 0){
+		if(!stack.length){
 			this._beforeTopOpen(around, widget);
 		}
 
@@ -55,9 +55,7 @@ dijit.util.popup = new function(){
 		var wrapper = dojo.doc.createElement("div");
 		wrapper.id = id;
 		wrapper.className="dijitPopup";
-		with(wrapper.style){
-			zIndex = beginZIndex + stack.length;
-		}
+		wrapper.style.zIndex = beginZIndex + stack.length;
 		dojo.body().appendChild(wrapper);
 
 		widget.domNode.style.display="";
@@ -104,7 +102,7 @@ dijit.util.popup = new function(){
 			onClose();
 		}
 
-		if(stack.length == 0){
+		if(!stack.length){
 			this._afterTopClose(widget);
 		}
 	};
@@ -154,7 +152,7 @@ dijit.util.popup = new function(){
 		// Monitor clicks or focuses on elements on the screen.
 		// Clicking or focusing anywhere on the screen will close the current popup hierarchy
 
-		if(stack.length==0){ return; }
+		if(!stack.length){ return; }
 
 		// if they clicked on the trigger node (often a button), ignore the click
 		if(currentTrigger && dojo.isDescendant(node, currentTrigger)){
@@ -181,13 +179,15 @@ dijit.util.popup = new function(){
 		//		the user clicks in the page, the popup menu will be closed
 
 		if(!targetWindow){ //see comment below
-			targetWindow = dijit.util.window.getDocumentWindow(window.top && window.top.document || window.document);
+			try{
+				targetWindow = dijit.util.window.getDocumentWindow(window.top && window.top.document || window.document);
+			}catch(e){ return; /* squelch error for cross domain iframes and abort */ }
 		}
 
-		var self=this;
+		var self = this;
 		this._connects.push(dojo.connect(targetWindow.document, "onmousedown", this, function(evt){self._onEvent(evt.target||evt.srcElement);}));
 		//this._connects.push(dojo.connect(targetWindow, "onscroll", this, ???);
-		this._focusListener=dojo.subscribe("focus", this, "_onEvent");
+		this._focusListener = dojo.subscribe("focus", this, "_onEvent");
 
 		dojo.forEach(targetWindow.frames, function(frame){
 			try{
