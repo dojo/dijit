@@ -251,7 +251,7 @@ if(dojo.isIE){
 		for(var key in cache){
 			var value = cache[key];
 			if(!isNaN(value.nodeType)){ // isNode equivalent
-// PORT.  Fix leak			dojo.dom.destroyNode(value);
+				dojo.dom.destroyNode(value);
 			}
 			cache[key] = null;
 		}
