@@ -124,10 +124,9 @@
 			<option value="WI">Wisconsin</option>
 			<option value="WY">Wyoming</option>
 		</select>
+		<span>Value: <input id="value1" disabled></span>
 		<input type="button" value="Set displayed value to Kentucky (valid)" onClick="dijit.byId('setvaluetest2').setDisplayedValue('Kentucky')">
 		<input type="button" value="Set displayed value to Canada (invalid)" onClick="dijit.byId('setvaluetest2').setDisplayedValue('Canada')">
-		<br>
-		<div>Value: <input id="value1" disabled></div>
 		<hr>
 
 		<div dojoType="dojo.data.JsonItemStore" jsId="stateStore"
@@ -144,9 +143,7 @@
 				onValueChanged="setValue('value2', arguments[0]);"
 				invalidMessage="Invalid state name"
 		>
-		<br>
-		<div>Value: <input id="value2" disabled></div>
-		<hr>
+		<span>Value: <input id="value2" disabled></span>
 
 		<p>FilteringSelect #3: url, autocomplete=false:</p>
 		<input searchAttr="name"
@@ -158,7 +155,7 @@
 				onValueChanged="setValue('value3', arguments[0]);"
 				invalidMessage="Invalid state name."
 		>
-		<div>Value: <input id="value3" disabled></div>
+		<span>Value: <input id="value3" disabled></span>
 		<hr>
 		<p>FilteringSelect #5: custom labelFunc (value in textbox should be lower case when onValueChanged is called), autocomplete=true:</p>
 		<input searchAttr="name"
@@ -206,8 +203,7 @@
 			<option value="minamiku">南区</option>
 			<option value="kitaku">北区</option>
 		</select>
-		<br>
-		<div>Value: <input id="value8" disabled></div>
+		<span>Value: <input id="value8" disabled></span>
 		<hr>
 		<p>FilteringSelect #9: No data</p>
 		<p>This FilteringSelect has no options to choose from.  It should still load.</p>
