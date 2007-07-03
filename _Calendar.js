@@ -55,6 +55,10 @@ dojo.declare(
 			}
 		},
 
+		_appendText: function(node, text){
+			node.appendChild(document.createTextNode(text));
+		},
+
 		_populateGrid: function(){
 			var month = this.displayMonth;
 			month.setDate(1);
@@ -106,18 +110,18 @@ dojo.declare(
 				template.className =  clazz + "Month calendarDateTemplate";
 				template.dijitDateValue = date.valueOf();
 				var label = dojo.query(".calendarDateLabel", template)[0];
-				label.innerHTML = date.getDate();
+				this._appendText(label, date.getDate());
 			}, this);
 
 			// Fill in localized month name
 			var monthNames = dojo.date.locale.getNames('months', 'wide', 'standAlone', this.lang);
-			this.monthLabelNode.innerHTML = monthNames[month.getMonth()];
+			this._appendText(this.monthLabelNode, monthNames[month.getMonth()]);
 
 			// Fill in localized prev/current/next years
 			var y = month.getFullYear() - 1;
 			dojo.forEach(["previous", "current", "next"], function(name){
-				this[name+"YearLabelNode"].innerHTML =
-					dojo.date.locale.format(new Date(y++, 0), {selector:'year', locale:this.lang});
+				this._appendText(this[name+"YearLabelNode"],
+					dojo.date.locale.format(new Date(y++, 0), {selector:'year', locale:this.lang}));
 			}, this);
 		},
 
@@ -142,14 +146,14 @@ dojo.declare(
 			var dayNames = dojo.date.locale.getNames('days', this.dayWidth, 'standAlone', this.lang);
 			var dayOffset = dojo.cldr.supplemental.getFirstDayOfWeek(this.lang);
 			dojo.query(".calendarDayLabel", this.domNode).forEach(function(label, i){
-				label.innerHTML = dayNames[(i + dayOffset) % 7];
+				this._appendText(label, dayNames[(i + dayOffset) % 7]);
 			});
 
 			// Fill in spacer element with all the month names (invisible) so that the maximum width will affect layout
 			var monthNames = dojo.date.locale.getNames('months', 'wide', 'standAlone', this.lang);
 			dojo.forEach(monthNames, function(name){
 				var monthSpacer = dojo.doc.createElement("div");
-				monthSpacer.innerHTML = name;
+				this._appendText(monthSpacer, name);
 				this.monthLabelSpacer.appendChild(monthSpacer);
 			}, this);
 
