@@ -297,7 +297,7 @@ dojo.declare(
 );
 	
 dojo.declare(
-	"dijit.layout.TooltipDialog",
+	"dijit.TooltipDialog",
 	[dijit.layout.ContentPane, dijit._Templated],
 	{
 		// summary:
@@ -316,7 +316,7 @@ dojo.declare(
 		templatePath: dojo.moduleUrl("dijit.layout", "templates/TooltipDialog.html"),
 
 		postCreate: function(){
-			dijit.layout.TooltipDialog.superclass.postCreate.apply(this, arguments);
+			dijit.TooltipDialog.superclass.postCreate.apply(this, arguments);
 			this.connect(this.containerNode, "onkeypress", "_onKey");
 
 			// IE doesn't bubble onblur events - use ondeactivate instead

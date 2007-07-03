@@ -6,7 +6,7 @@ dojo.require("dijit._Templated");
 dojo.declare("dijit._editor.plugins.LinkDialog", 
 	[ dijit._editor._Plugin, dijit._Widget ],  
 	function(){
-		this._linkDialog = new dijit.layout.TooltipDialog({
+		this._linkDialog = new dijit.TooltipDialog({
 			title: "link url" // FIxmE: i18n
 		});
 		// FIXME: this is totally torturned. _Templated should make this easier. *sigh*
