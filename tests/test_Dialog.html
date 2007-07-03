@@ -14,6 +14,7 @@
 	src="../../dojo/dojo.js"></script>
 <script type="text/javascript">
 	dojo.require("dijit.Dialog");
+	dojo.require("dijit.form.Button");
 	dojo.require("dojo.parser");	// scan page for widgets and instantiate them
 </script>
 
@@ -42,7 +43,7 @@ form {
 </head>
 <body class="tundra">
 <h2>Dijit layout.Dialog tests</h2>
-<a href="javascript:dijit.byId('dialog1').show()">Show First Dialog</a> |
+<button dojoType="dijit.form.Button" onclick="dijit.byId('dialog1').show()">Show First Dialog</button> |
 
 <div dojoType="dijit.Dialog" id="dialog1" closeNode="hider" title="First Dialog">
 	<form onsubmit="return false;">
@@ -71,28 +72,29 @@ form {
 	</form>
 </div>
 
-<a id="loginLink" href="javascript:dijit.byId('tooltipDlg').show('loginLink')">Show Tooltip Dialog</a> |
+<div dojoType="dijit.form.DropDownButton">
+	<span>Show Tooltip Dialog</span>
+	<div dojoType="dijit.layout.TooltipDialog" id="tooltipDlg" title="Enter Login information" closeNode="hider2">
+		<form onsubmit="return false;">
+			<table>
+				<tr>
+					<td><label for="user">User:</label></td>
+					<td><input type="text" id="user"></td>
+				</tr>
+				<tr>
+					<td><label for="pwd">Password:</label></td>
+					<td><input type="password" id="pwd"></td>
+				</tr>
+				<tr>
+					<td colspan="2" align="center">
+						<button id="hider2">Login</button>
+				</tr>
+			</table>
+		</form>
+	</div>
+</div> |
 
-<div dojoType="dijit.layout.TooltipDialog" id="tooltipDlg" title="Enter Login information" closeNode="hider2">
-	<form onsubmit="return false;">
-		<table>
-			<tr>
-				<td>User:</td>
-				<td><label for="user"><input type="text" id="user"></label></td>
-			</tr>
-			<tr>
-				<td>Password:</td>
-				<td><label for="pwd"><input type="password" id="pwd"></label></td>
-			</tr>
-			<tr>
-				<td colspan="2" align="center">
-					<button id="hider2">Login</button>
-			</tr>
-		</table>
-	</form>
-</div>
-
-<a href="javascript:createDialog()" title="shows after 3 second delay">Programatic Dialog (3 second delay)</a> |
+<button dojoType="dijit.form.Button" onclick="createDialog()" title="shows after 3 second delay">Programatic Dialog (3 second delay)</button> |
 
 
 <div id="thirdDialog" style="display: none;">
@@ -120,7 +122,7 @@ form {
 </div>
 
 
-<a href="javascript:dijit.byId('fourthDlg').show();">Test HREF Dialog</a> |
+<button dojoType="dijit.form.Button" href="dijit.byId('fourthDlg').show();">Test HREF Dialog</button> |
 
 <div dojoType="dijit.Dialog" id="fourthDlg" href="layout/tab2.html" title="From HREF"></div>
 
@@ -214,7 +216,22 @@ pulvinar in, consequat ut, leo. Nullam nec est. Aenean id risus blandit
 tortor pharetra congue. Suspendisse pulvinar.
 </p>
 
-<a id="loginLink2" href="javascript:dijit.byId('tooltipDlg').show('loginLink2')" title="Enter Login information2">Show Tooltip Dialog pointing upwards</a>
+<div dojoType="dijit.form.DropDownButton" title="Enter Login information2">
+	<span>Show Tooltip Dialog pointing upwards, with links</span>
+	<div dojoType="dijit.layout.TooltipDialog" title="General Information Dialog">
+		<p>Vestibulum convallis eros ac justo. Proin dolor. Etiam aliquam. Nam
+		ornare elit vel augue. Suspendisse potenti. Etiam sed mauris eu neque
+		nonummy mollis. <a href="http://www.lipsum.com/">Vestibulum</a> vel purus ac pede semper accumsan. Vivamus
+		lobortis, sem vitae nonummy lacinia, nisl est gravida magna, non cursus
+		est quam sed urna. Phasellus adipiscing justo in <a href="http://www.lipsum.com/">ipsum</a>. Duis sagittis
+		dolor sit amet magna. Suspendisse suscipit, neque eu dictum auctor,
+		nisi augue tincidunt arcu, non lacinia magna purus nec magna. Praesent
+		pretium sollicitudin sapien. <a href="http://www.lipsum.com/">Suspendisse imperdiet</a>. Class aptent taciti
+		sociosqu ad litora torquent per conubia nostra, per inceptos
+		hymenaeos.
+		</p>
+	</div>	
+</div>
 (will go up if there isn't enough space on the bottom of the screen)
 
 <p>Vestibulum convallis eros ac justo. Proin dolor. Etiam aliquam. Nam
@@ -345,23 +362,6 @@ tempus. Nunc euismod nisl id dolor tristique tincidunt. Nullam placerat
 turpis sed odio. Curabitur in est id nibh tempus ultrices. Aliquam
 consectetuer dapibus eros. Aliquam nisl.
 </p>
-<p><button id="dlgButton" onclick="javascript:dijit.byId('tooltipDlg2').show('dlgButton')"'>Tooltip with Links</button>
-</p>
-<div dojoType="dijit.layout.TooltipDialog" id="tooltipDlg2" title="General Information Dialog">
-	<p>Vestibulum convallis eros ac justo. Proin dolor. Etiam aliquam. Nam
-	ornare elit vel augue. Suspendisse potenti. Etiam sed mauris eu neque
-	nonummy mollis. <a href="http://www.lipsum.com/">Vestibulum</a> vel purus ac pede semper accumsan. Vivamus
-	lobortis, sem vitae nonummy lacinia, nisl est gravida magna, non cursus
-	est quam sed urna. Phasellus adipiscing justo in <a href="http://www.lipsum.com/">ipsum</a>. Duis sagittis
-	dolor sit amet magna. Suspendisse suscipit, neque eu dictum auctor,
-	nisi augue tincidunt arcu, non lacinia magna purus nec magna. Praesent
-	pretium sollicitudin sapien. <a href="http://www.lipsum.com/">Suspendisse imperdiet</a>. Class aptent taciti
-	sociosqu ad litora torquent per conubia nostra, per inceptos
-	hymenaeos.
-	</p>
-</div>
-
- 
 
 <div dojoType="dijit.Dialog" id="SecondDialog" bgColor="black" closeNode="closeButton" title="Second Dialog">
 	<form onsubmit="return false;">

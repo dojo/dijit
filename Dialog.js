@@ -317,46 +317,37 @@ dojo.declare(
 
 		postCreate: function(){
 			dijit.layout.TooltipDialog.superclass.postCreate.apply(this, arguments);
-			this.domNode.style.display="none";
-		},
+			this.connect(this.containerNode, "onkeypress", "_onKey");
 
-		startup: function(){
-			if(this.closeNode){
-				var closeNode = dojo.byId(this.closeNode);
-				this.connect(closeNode, "onclick", "hide");
-			}
-			this.containerNode.title=this.title;
-			this._modalconnects = [];
-		},
-
-		show: function(/*DomNode|String*/ anchor){
-			// summary: display the dialog underneath specified button/link
-			this._savedFocus = dijit.util.focus.save(this);
-			var pos = dijit.util.popup.open({popup: this, around: dojo.byId(anchor), orient: {'BL': 'TL', 'TL': 'BL'}});
-			this.domNode.className="dijitTooltipDialog dijitTooltip" + (pos.corner=='TL' ? "Below" : "Above");
-			
-			this._modalconnects.push(dojo.connect(this.containerNode, "onkeypress", this, "_onKey"));
 			// IE doesn't bubble onblur events - use ondeactivate instead
 			var ev = typeof(document.ondeactivate) == "object" ? "ondeactivate" : "onblur";
-			this._modalconnects.push(dojo.connect(this.containerNode, ev, this, "_findLastFocus"));
+			this.connect(this.containerNode, ev, "_findLastFocus");
+			this.containerNode.title=this.title;
+	},
+	
+	startup: function(){
+			if(this.closeNode){
+				var closeNode = dojo.byId(this.closeNode);
+				this.connect(closeNode, "onclick", "_hide");
+			}
+		},
+
+		onOpen: function(/*Object*/ pos){
+			// summary: called when dialog is displayed, with info on where it's being displayed relative to the button
+			this.domNode.className="dijitTooltipDialog dijitTooltip" + (pos.corner=='TL' ? "Below" : "Above");
 						
 			this.containerNode.focus();
 		},
 		
-		hide: function(){
+		_hide: function(){
 			// summary: hide the dialog
-			dojo.forEach(this._modalconnects, dojo.disconnect);
-			this._modalconnects = [];
-			
-			dijit.util.popup.close();
-			dijit.util.focus.restore(this._savedFocus);
+			dijit.util.popup.closeAll();
 		},
 		
 		_onKey: function(/*Event*/ evt){
-		var count=0;
 			//summary: keep keyboard focus in dialog; close dialog on escape key
 			if (evt.keyCode == dojo.keys.ESCAPE){
-				this.hide();
+				this._hide();
 			}else if (evt.target == this.containerNode && evt.shiftKey && evt.keyCode == dojo.keys.TAB){
 				if (this._lastFocusItem){
 					this._lastFocusItem.focus();

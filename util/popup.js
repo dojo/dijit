@@ -75,7 +75,7 @@ dijit.util.popup = new function(){
 		stack.push({wrapper: wrapper, iframe: iframe, widget: widget, onClose: args.onClose});
 
 		if(widget.onOpen){
-			widget.onOpen();
+			widget.onOpen(best);
 		}
 
 		return best;
