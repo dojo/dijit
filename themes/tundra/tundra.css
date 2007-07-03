@@ -76,7 +76,7 @@
 	/* hover state - inner */
 	border-color:#366dba;
 	color:#366dba;
-	background-image: url("images/buttonHover.png") bottom;
+	background: url("images/buttonHover.png") bottom;
 }
 
 .tundra .dijitButtonActive .dijitButtonNode,
@@ -103,7 +103,7 @@
 }
 
 .tundra .dijitToolbar .dijitButtonContents SPAN {
-	display: none; !important
+	display: none !important;
 }
 
 .tundra .dijitToolbar .dijitButton {
