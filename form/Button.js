@@ -11,8 +11,8 @@ dojo.declare(
  * usage
  *	<button dojoType="button" onClick="...">Hello world</button>
  *
- *  var button1 = dojo.widget.createWidget("Button", {label: "hello world", onClick: foo});
- *	document.body.appendChild(button1.domNode);
+ *  var button1 = new dijit.form.Button({label: "hello world", onClick: foo});
+ *	dojo.body().appendChild(button1.domNode);
  */
 		// summary
 		//	Basically the same thing as a normal HTML button, but with special styling.
@@ -53,8 +53,8 @@ dojo.declare(
  * usage
  *	<button dojoType="DropDownButton" label="Hello world"><div dojotype=dijit.Menu>...</div></button>
  *
- *  var button1 = dojo.widget.createWidget("DropDownButton", {label: "hello world", dropDownId: foo});
- *	document.body.appendChild(button1.domNode);
+ *  var button1 = new dijit.form.DropDownButton({ label: "hi", dropDown: new dijit.Menu(...) });
+ *	dojo.body().appendChild(button1);
  */
 dojo.declare(
 	"dijit.form.DropDownButton",
@@ -68,24 +68,27 @@ dojo.declare(
 		templatePath: dojo.moduleUrl("dijit.form" , "templates/DropDownButton.html"),
 
 		_fillContent: function(){
-			// my inner HTML contains both the button text and a drop down widget, like
-			// <DropDownButton>  <button>push me</button>  <Menu> ... </Menu> </DropDownButton>
-			// first part holds button label and second part is popup
-			if(this.srcNodeRef){
+			// my inner HTML contains both the button contents and a drop down widget, like
+			// <DropDownButton>  <span>push me</span>  <Menu> ... </Menu> </DropDownButton>
+			// The first node is assumed to be the button content. The widget is the popup.
+//			if(this.srcNodeRef){ //FIXME: how is it possible for srcNodeRef to be undefined?
+				//FIXME: figure out how to filter out the widget and use all remaining nodes as button
+				//	content, not just nodes[0]
 				var nodes = dojo.query("*", this.srcNodeRef);
 				dijit.form.DropDownButton.superclass._fillContent.call(this, nodes[0]);
-				
+
 				// save pointer to srcNode so we can grab the drop down widget after it's instantiated
 				this.dropDownContainer = this.srcNodeRef;
-			}
+//			}
 		},
 
 		startup: function(){
-			// we didn't copy the dropdown widget from the this.srcNodeRef, so it's in no-man's
-			// land now.  move it to document.body.
+			// the child widget from srcNodeRef is the dropdown widget.  Insert it in the page DOM,
+			// make it invisible, and store a reference to pass to the popup code.
 			if(!this.dropDown){
-				var node = dojo.query("[widgetId]", this.dropDownContainer)[0];
-				this.dropDown = dijit.util.manager.byNode(node);
+				var dropDownNode = dojo.query("[widgetId]", this.dropDownContainer)[0];
+				this.dropDown = dijit.util.manager.byNode(dropDownNode);
+				delete this.dropDownContainer;
 			}
 			dojo.body().appendChild(this.dropDown.domNode);
 			this.dropDown.domNode.style.display="none";
@@ -133,7 +136,7 @@ dojo.declare(
 				this._opened=true;
 			}else{
 				dijit.util.popup.closeAll();
-				this._opened=false;
+				this._opened = false;
 			}
 			// TODO: set this.selected and call setStateClass(), to affect button look while drop down is shown
 			return false;
@@ -144,8 +147,8 @@ dojo.declare(
  * usage
  *	<button dojoType="ComboButton" onClick="..."><span>Hello world</span><div dojoType=dijit.Menu>...</div></button>
  *
- *  var button1 = dojo.widget.createWidget("DropDownButton", {label: "hello world", onClick: foo, dropDownId: "myMenu"});
- *	document.body.appendChild(button1.domNode);
+ *  var button1 = new dijit.form.ComboButton({label: "hello world", onClick: foo, dropDown: "myMenu"});
+ *	dojo.body().appendChild(button1.domNode);
  */
 dojo.declare(
 	"dijit.form.ComboButton",
@@ -196,7 +199,7 @@ dojo.declare(
 	setSelected: function(/*Boolean*/ selected){
 		// summary
 		//	Programatically deselect the button
-		this.selected=selected;
+		this.selected = selected;
 		this._setStateClass();
 		this.onChange(selected);
 	}
