@@ -114,7 +114,7 @@ dojo.declare(
 		this._visualize();
 
 		this._setEditFocus();
-		this.saveButton.disable();
+		this.saveButton.setDisabled(true);
 		// moved to postCreate to always listen
 		//this.editWidget.onValueChanged = dojo.hitch(this,"checkForValueChange");
 		this.onClick();
@@ -167,26 +167,18 @@ dojo.declare(
 		//		Callback when user changes input value.
 		//		Enable save button if the text value is different than the original value.
 		if(this.editing){
-			(this._getEditValue() == this._initialText) ? this.saveButton.disable() : this.saveButton.enable();
+			this.saveButton.setDisabled(this._getEditValue() == this._initialText);
 		}else{
 			this._showText();
 		}
 
 	},
 
-	disable: function(){
-		this.saveButton.disable();
-		this.cancelButton.disable();
-		this.editable.disabled = true;
-		this.editWidget.disable();
-		dijit.form.InlineEditBox.superclass.disable.apply(this, arguments);
-	},
-
-	enable: function(){
-		this.checkForValueChange();
-		this.cancelButton.enable();
-		this.editable.disabled = false;
-		this.editWidget.enable();
-		dijit.form.InlineEditBox.superclass.enable.apply(this, arguments);
+	setDisabled: function(/*Boolean*/ disabled){
+		this.saveButton.setDisabled(disabled);
+		this.cancelButton.setDisabled(disabled);
+		this.editable.disabled = disabled;
+		this.editWidget.setDisabled(disabled);
+		dijit.form.InlineEditBox.superclass.setDisabled.apply(this, arguments);
 	}
 });

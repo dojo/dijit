@@ -204,7 +204,7 @@
 			var disabled=false;
 			function toggleDisabled(){	
 				disabled=!disabled;
-				forEachButton(function(widget){ widget._setDisabled(disabled); });
+				forEachButton(function(widget){ widget.setDisabled(disabled); });
 				dojo.byId("toggle").innerHTML= disabled ? "Enable all" : "Disable all";
 			}
 			var labels=["<img src='../images/note.gif' width='20' height='20'>All", "<i>work</i>", "and no", "<h1>play</h1>",

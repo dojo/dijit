@@ -778,26 +778,20 @@ dojo.declare(
 			}
 		},
 
-		enabled: true,
-		enable: function(){
+		disabled: false,
+		setDisabled: function(/*Boolean*/ disabled){
 			if(dojo.isIE || this._safariIsLeopard() || dojo.isOpera){
-				this.editNode.contentEditable=true;
+				this.editNode.contentEditable=!disabled;
 			}else{ //moz
-				this.document.execCommand('contentReadOnly', false, false);
-//				this.document.designMode='on';
+				this.document.execCommand('contentReadOnly', false, disabled);
+//				if(disabled){
+//					this.blur(); //to remove the blinking caret
+//				}
+//				this.document.designMode=(disabled?'off':'on');
 			}
-			this.enabled=true;
+			this.disabled=disabled;
 		},
-		disable: function(){
-			if(dojo.isIE || this._safariIsLeopard() || dojo.isOpera){
-				this.editNode.contentEditable=false;
-			}else{ //moz
-				this.document.execCommand('contentReadOnly', false, true);
-//				this.blur(); //to remove the blinking caret
-//				this.document.designMode='off';
-			}
-			this.enabled=false;
-		},
+
 	/* Event handlers
 	 *****************/
 

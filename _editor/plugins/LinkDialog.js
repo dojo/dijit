@@ -82,7 +82,7 @@ dojo.declare("dijit._editor.plugins.LinkDialog",
 				try{
 					// var enabled = _e.queryCommandEnabled("unlink");
 					var enabled = _e.queryCommandEnabled("createlink");
-					// this.button._setDisabled(!enabled);
+					// this.button.setDisabled(!enabled);
 					if(this.button.setSelected){
 						var selected = !!dojo.withGlobal(this.editor.window, "getAncestorElement",dijit._editor.selection, ['a']);
 						this.button.setSelected(selected);

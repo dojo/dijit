@@ -58,12 +58,12 @@ dojo.declare(
 	_progressPixelSize: "width",
 	_upsideDown: false,
 
-	 _setDisabled: function(/*Boolean*/ disabled){
+	 setDisabled: function(/*Boolean*/ disabled){
 		if(this.showButtons){
 			this.incrementButton.disabled = disabled;
 			this.decrementButton.disabled = disabled;
 		}
-		dijit.form.HorizontalSlider.superclass._setDisabled.apply(this, arguments); 
+		dijit.form.HorizontalSlider.superclass.setDisabled.apply(this, arguments); 
 	 },
 
 	_onKeyPress: function(/*Event*/ e){

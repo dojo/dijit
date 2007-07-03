@@ -20,10 +20,10 @@
 		function selected(page){
 			console.debug("page selected " + page.id);
 			var widget=dijit.byId("myStackContainer");
-			dijit.byId("previous")[page.isFirstChild ? "disable" : "enable"]();
-			dijit.byId("next")[page.isLastChild ? "disable" : "enable"]();
-			dijit.byId("previous2")[page.isFirstChild ? "disable" : "enable"]();
-			dijit.byId("next2")[page.isLastChild ? "disable" : "enable"]();
+			dijit.byId("previous").setDisabled(page.isFirstChild);
+			dijit.byId("next").setDisabled(page.isLastChild);
+			dijit.byId("previous2").setDisabled(page.isFirstChild);
+			dijit.byId("next2").setDisabled(page.isLastChild);
 		}
 		dojo.subscribe("myStackContainer-selectChild", selected);
 	</script>

@@ -55,26 +55,10 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 	//		In markup, this is specified as "disabled='disabled'", or just "disabled".
 	disabled: false,
 
-	enable: function(){
-		// summary:
-		//		enables the widget, usually involving unmasking inputs and
-		//		turning on event handlers. Not implemented here.
-		this._setDisabled(false);
-	},
-
-	disable: function(){
-		// summary:
-		//		disables the widget, usually involves masking inputs and
-		//		unsetting event handlers. Not implemented here.
-		this._setDisabled(true);
-	},
-
-	_setDisabled: function(/*Boolean*/ disabled){
+	setDisabled: function(/*Boolean*/ disabled){
 		// summary:
 		//		Set disabled state of widget.
-		// TODO:
-		//		not sure which parts of disabling a widget should be here;
-		//		not sure which code is common to many widgets and which is specific to a particular widget.
+
 		this.domNode.disabled = this.disabled = disabled;
 		if(this.focusNode){
 			this.focusNode.disabled = disabled;
@@ -176,7 +160,7 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 	},
 
 	postCreate: function(){
-		this._setDisabled(this.disabled == true);
+		this.setDisabled(this.disabled);
 		this._setStateClass();
 	},
 
