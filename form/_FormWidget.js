@@ -155,7 +155,7 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 		//console.log(this.id + ": disabled=" + this.disabled + ", active=" + this._active + ", hover=" + this._hovering + "; state=" + state + "--> className is " + this.domNode.className);
 	},
 
-	onValueChanged: function(newValue){
+	onChange: function(newValue){
 		// summary: callback when value is changed
 	},
 
@@ -170,7 +170,7 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 		dijit.util.wai.setAttr(this.focusNode || this.domNode, "waiState", "valuenow", this.forWaiValuenow());
 		if(newValue != this._lastValueReported){
 			this._lastValueReported = newValue;
-			this.onValueChanged(newValue);
+			this.onChange(newValue);
 		}
 	},
 

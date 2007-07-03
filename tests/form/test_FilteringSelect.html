@@ -58,7 +58,7 @@
 				name="state1"
 				autocomplete="false"
 				invalidMessage="Invalid state name"
-				onValueChanged="setValue('value1', arguments[0]);"
+				onChange="setValue('value1', arguments[0]);"
 				value="CA"
 		>
 			<option value="blank"></option>
@@ -140,7 +140,7 @@
 				store="stateStore"
 				name="state2"
 				autocomplete="true"
-				onValueChanged="setValue('value2', arguments[0]);"
+				onChange="setValue('value2', arguments[0]);"
 				invalidMessage="Invalid state name"
 		>
 		<span>Value: <input id="value2" disabled></span>
@@ -152,12 +152,12 @@
 				store="stateStore"
 				name="state3"
 				autocomplete="false"
-				onValueChanged="setValue('value3', arguments[0]);"
+				onChange="setValue('value3', arguments[0]);"
 				invalidMessage="Invalid state name."
 		>
 		<span>Value: <input id="value3" disabled></span>
 		<hr>
-		<p>FilteringSelect #5: custom labelFunc (value in textbox should be lower case when onValueChanged is called), autocomplete=true:</p>
+		<p>FilteringSelect #5: custom labelFunc (value in textbox should be lower case when onChange is called), autocomplete=true:</p>
 		<input searchAttr="name"
 				dojoType="dijit.form.FilteringSelect"
 				value="OR"
@@ -190,7 +190,7 @@
 		<p>Try typing 東、西、北、南  (north, south, east west) and a few choices will pop up.</p>
 
 		<select name="state8" dojoType="dijit.form.FilteringSelect" style="width: 300px;" autocomplete="false"
-			onValueChanged="setValue('value8', arguments[0]);">
+			onChange="setValue('value8', arguments[0]);">
 			<option value="nanboku">南北</option>
 			<option value="touzai">東西</option>
 			<option value="toukyou">東京</option>

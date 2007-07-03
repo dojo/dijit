@@ -198,6 +198,6 @@ dojo.declare(
 		//	Programatically deselect the button
 		this.selected=selected;
 		this._setStateClass();
-		this.onChange(selected);	// TODO: finalize arg list to onChange()
+		this.onChange(selected);
 	}
 });

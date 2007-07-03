@@ -59,7 +59,7 @@ dojo.declare(
 			_this._setEditValue = dojo.hitch(_this.editWidget,_this.editWidget.setDisplayedValue||_this.editWidget.setValue);
 			_this._getEditValue = dojo.hitch(_this.editWidget,_this.editWidget.getDisplayedValue||_this.editWidget.getValue);
 			_this._setEditFocus = dojo.hitch(_this.editWidget,_this.editWidget.focus);
-			_this.editWidget.onValueChanged = dojo.hitch(_this,"checkForValueChange");
+			_this.editWidget.onChange = dojo.hitch(_this,"checkForValueChange");
 			_this.checkForValueChange();
 			_this._showText();
 		});
@@ -116,7 +116,7 @@ dojo.declare(
 		this._setEditFocus();
 		this.saveButton.setDisabled(true);
 		// moved to postCreate to always listen
-		//this.editWidget.onValueChanged = dojo.hitch(this,"checkForValueChange");
+		//this.editWidget.onChange = dojo.hitch(this,"checkForValueChange");
 		this.onClick();
 	},
 

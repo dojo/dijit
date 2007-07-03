@@ -27,10 +27,10 @@
 		<h1>Slider</h1>
 		Also try using the arrow keys, buttons, or clicking on the progress bar to move the slider.
 		<br>
-		<br>initial value=10, min=0, max=100, onValueChanged debug message<br>
+		<br>initial value=10, min=0, max=100, onChange debug message<br>
 
 		<input dojoType="dijit.form.HorizontalSlider" name="horizontal1"
-			onValueChanged="dojo.byId('slider1input').value=arguments[0];"
+			onChange="dojo.byId('slider1input').value=arguments[0];"
 			value="10"
 			maximum="100"
 			minimum="0"
@@ -39,7 +39,7 @@
 			id="slider1">Slider1 Value:<input readonly id=slider1input>
 		<br>
 		<input dojoType="dijit.form.VerticalSlider" name="vertical1"
-			onValueChanged="dojo.byId('slider2input').value=arguments[0];"
+			onChange="dojo.byId('slider2input').value=arguments[0];"
 			value="10"
 			maximum="100"
 			minimum="0"

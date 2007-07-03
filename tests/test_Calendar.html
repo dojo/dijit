@@ -19,7 +19,7 @@
 			dojo.require("dojo.parser"); // scan page for widgets
 
 			function myHandler(id,newValue){
-				console.debug("onValueChanged for id = " + id + ", value: " + newValue);
+				console.debug("onChange for id = " + id + ", value: " + newValue);
 			}
 		</script>
 	</head>
@@ -27,10 +27,10 @@
 		<h1 class="testTitle">Dijit Calendar Test</h1>
 
 		before
-		<input id="calendar1" dojoType="dijit._Calendar" onValueChanged="myHandler(this.id,arguments[0])" lang="en-us">
-		<input id="calendar2" dojoType="dijit._Calendar" onValueChanged="myHandler(this.id,arguments[0])" lang="es-es">
-		<input id="calendar3" dojoType="dijit._Calendar" onValueChanged="myHandler(this.id,arguments[0])" lang="zh-cn">
-		<input id="calendar4" dojoType="dijit._Calendar" onValueChanged="myHandler(this.id,arguments[0])" lang="ar-sy">
+		<input id="calendar1" dojoType="dijit._Calendar" onChange="myHandler(this.id,arguments[0])" lang="en-us">
+		<input id="calendar2" dojoType="dijit._Calendar" onChange="myHandler(this.id,arguments[0])" lang="es-es">
+		<input id="calendar3" dojoType="dijit._Calendar" onChange="myHandler(this.id,arguments[0])" lang="zh-cn">
+		<input id="calendar4" dojoType="dijit._Calendar" onChange="myHandler(this.id,arguments[0])" lang="ar-sy">
 		after
 		<p>
 			<a href="#" 

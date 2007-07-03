@@ -62,7 +62,7 @@
 
 		// for the calendar
 		function myHandler(id,newValue){
-				console.debug("onValueChanged for id = " + id + ", value: " + newValue);
+				console.debug("onChange for id = " + id + ", value: " + newValue);
 		};
 
 		dojo.addOnLoad(function() {
@@ -185,7 +185,7 @@
 	
 				<div dojoType="dijit.layout.AccordionPane" title="Calendar" selected="true">
 					<!-- calendar widget pane -->
-					<input id="calendar1" dojoType="dijit._Calendar" onValueChanged="myHandler(this.id,arguments[0])">
+					<input id="calendar1" dojoType="dijit._Calendar" onChange="myHandler(this.id,arguments[0])">
 				</div>
 	
 				<div dojoType="dijit.layout.AccordionPane" title="Color Picker">
@@ -441,8 +441,8 @@
 						<h2 class="testTitle">Dijit InlineEditBox Test</h2>
 	
 						before
-						<span id="editable" style="font-size:larger;" dojoType="dijit.form.InlineEditBox" onValueChanged="myHandler(this.id,arguments[0])">
-							<input dojoType="dijit.form.Textbox" value="Edit me - I trigger the onValueChanged callback">
+						<span id="editable" style="font-size:larger;" dojoType="dijit.form.InlineEditBox" onChange="myHandler(this.id,arguments[0])">
+							<input dojoType="dijit.form.Textbox" value="Edit me - I trigger the onChange callback">
 						</span>
 						after
 	

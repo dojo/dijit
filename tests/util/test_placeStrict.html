@@ -111,7 +111,7 @@
 					dojoType="dijit.form.NumberTextbox"
 					promptMessage="(optional) Enter an age between 0 and 120"
 					constraints={places:0,min:0,max:120}
-					onValueChanged="console.debug('onValueChanged fired for widget id = ' + this.id + ' with value = ' + arguments[0]);"
+					onChange="console.debug('onChange fired for widget id = ' + this.id + ' with value = ' + arguments[0]);"
 					digit="true"
 					trim="true"
 					/>

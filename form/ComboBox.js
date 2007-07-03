@@ -438,7 +438,7 @@ dojo.declare(
 		},
 
 		open:function(){
-			this._popupWidget.onValueChanged=dojo.hitch(this, this._selectOption);
+			this._popupWidget.onChange=dojo.hitch(this, this._selectOption);
 			// connect onkeypress to ComboBox
 			this._popupWidget._onkeypresshandle=this.connect(this._popupWidget.domNode, "onkeypress", "onkeypress");
 			return dijit.form._DropDownTextBox.prototype.open.apply(this, arguments);

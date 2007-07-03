@@ -49,7 +49,7 @@ dojo.declare(
 				if(!this.isDisabledDate(value, this.lang)){
 					this.value = value;
 					this.value.setHours(0,0,0,0);
-					this.onValueChanged(this.value);
+					this.onChange(this.value);
 				}
 				this._populateGrid();
 			}
@@ -202,7 +202,7 @@ dojo.declare(
 			//summary: a date cell was selected.  It may be the same as the previous value.
 		},
 
-		onValueChanged: function(/*Date*/date){
+		onChange: function(/*Date*/date){
 			//summary: called only when the selected date has changed
 		},
 
