@@ -114,20 +114,18 @@ dojo.declare(
 			switch(evt.keyCode){				
 				case dojo.keys.LEFT_ARROW:
 				case dojo.keys.UP_ARROW:
-					forward=false;
+					forward = false;
+					// fallthrough
 				case dojo.keys.RIGHT_ARROW:
 				case dojo.keys.DOWN_ARROW:
 					// find currently focused button in children array
 					var children = this.getChildren();
-					var current = dojo.indexOf(children, evt._dijitWidget);
+					var index = dojo.indexOf(children, evt._dijitWidget);
 					// pick next button to focus on
-					var offset = forward ? 1 : children.length - 1;
-					var next = children[ (current + offset) % children.length ];
+					index += forward ? 1 : children.length - 1;
+					var next = children[ index % children.length ];
 					dojo.stopEvent(evt);
 					next._onTitleClick();
-					break;
-			default:
-				return;
 			}
 		}
 	}
@@ -141,10 +139,6 @@ dojo.declare(
 	//		AccordionPane is a box with a title that contains another widget (often a ContentPane).
 	//		It's a widget used internally by AccordionContainer.
 
-	// title: String
-	//		title to print on top of AccordionPane
-	title: "",
-
 	// selected: Boolean
 	//	if true, this is the open pane
 	selected: false,
@@ -153,7 +147,6 @@ dojo.declare(
 
 	postCreate: function(){
 		dijit.layout.AccordionPane.superclass.postCreate.apply(this, arguments);
-		dojo.addClass(this.domNode, this["class"]);
 		dojo.setSelectable(this.titleNode, false);
 		this.setSelected(this.selected);
 	},

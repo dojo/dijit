@@ -121,7 +121,6 @@ dojo.declare(
 			// Deselect old page and select new one
 			this._transition(page, this.selectedChildWidget);
 			this.selectedChildWidget = page;
-//			this.selectedChild = page ? page.id : null; //TODO is this used anywhere?
 			dojo.publish(this.id+"-selectChild", [page]);
 		}
 	},
@@ -135,14 +134,16 @@ dojo.declare(
 
 	forward: function(){
 		// Summary: advance to next page
-		var index = dojo.indexOf(this.getChildren(), this.selectedChildWidget);
-		this.selectChild(this.getChildren()[index+1]);
+		var children = this.getChildren();
+		var index = dojo.indexOf(children, this.selectedChildWidget);
+		this.selectChild(children[index+1]);
 	},
 
 	back: function(){
 		// Summary: go back to previous page
-		var index = dojo.indexOf(this.getChildren(), this.selectedChildWidget);
-		this.selectChild(this.getChildren()[index-1]);
+		var children = this.getChildren();
+		var index = dojo.indexOf(children, this.selectedChildWidget);
+		this.selectChild(children[index-1]);
 	},
 
 	layout: function(){
