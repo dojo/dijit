@@ -61,7 +61,7 @@
 				Create
 			</button>
 			<span dojoType="dijit.Tooltip" connectId="1465">tooltip on button</span>
-			<button dojoType="dijit.form.DropDownButton" iconClass="noteIcon">
+			<div dojoType="dijit.form.DropDownButton" iconClass="noteIcon">
 				<span>Edit<b>!</b></span>
 				<div dojoType="dijit.Menu">
 					<div dojoType="dijit.MenuItem"  iconClass="dijitEditorIconCut"
@@ -71,13 +71,13 @@
 					<div dojoType="dijit.MenuItem"  iconClass="dijitEditorIconPaste"
 						onClick="logMessage('not actually pasting anything, just a test!')">Paste</div>
 				</div>
-			</button>
-			<button dojoType="dijit.form.DropDownButton" iconClass="noteIcon">
+			</div>
+			<div dojoType="dijit.form.DropDownButton" iconClass="noteIcon">
 				<span>Color</span>
 				<div dojoType="dijit.ColorPalette" id="colorPalette" style="display: none" palette="3x4"
 					onColorSelect="console.log(this.selectedColor);"></div>
-			</button>
-			<button dojoType="dijit.form.ComboButton" optionsTitle='save options' onClick='logMessage("clicked combo save")'
+			</div>
+			<div dojoType="dijit.form.ComboButton" optionsTitle='save options' onClick='logMessage("clicked combo save")'
 					iconClass="plusBlockIcon">
 				<span>Save</span>
 				<div dojoType="dijit.Menu" id="saveMenu" style="display: none;">
@@ -86,7 +86,7 @@
 					<div dojoType="dijit.MenuItem"
 						onClick="logMessage('not actually saving anything, just a test!')">Save As</div>
 				</div>
-			</button>
+			</div>
 			<button dojoType="dijit.form.Button" onClick='logMessage("clicked simple")' disabled='true' iconClass="plusIcon">
 				Disabled
 			</button>
