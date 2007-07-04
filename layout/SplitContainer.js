@@ -310,9 +310,7 @@ dojo.declare(
 			var growth = 0;
 
 			for(var i=0; i<children.length; i++){
-
 				if(children[i].sizeActual < children[i].sizeMin){
-
 					growth += children[i].sizeMin - children[i].sizeActual;
 					children[i].sizeActual = children[i].sizeMin;
 				}
@@ -391,11 +389,10 @@ dojo.declare(
 	changeSizing: function(e){
 		if(!this.isSizing){ return; }
 		this.lastPoint = this.isHorizontal ? e.pageX : e.pageY;
+		this.movePoint();
 		if(this.activeSizing){
-			this.movePoint();
 			this._updateSize();
 		}else{
-			this.movePoint();
 			this._moveSizingLine();
 		}
 		dojo.stopEvent(e);
@@ -404,7 +401,7 @@ dojo.declare(
 	endSizing: function(e){
 		if(!this.isSizing){ return; }
 		if(this.cover){
-			this.cover.style.zIndex=-1;
+			this.cover.style.zIndex = -1;
 		}
 		if(!this.activeSizing){
 			this._hideSizingLine();
@@ -435,18 +432,17 @@ dojo.declare(
 
 		a += this.sizingSplitter.position;
 
-		this.isDraggingLeft = (a > 0) ? true : false;
+		this.isDraggingLeft = !!(a > 0);
 
 		if(!this.activeSizing){
-
-			if(a < this.paneBefore.position + this.paneBefore.sizeMin){
-
-				a = this.paneBefore.position + this.paneBefore.sizeMin;
+			var min = this.paneBefore.position + this.paneBefore.sizeMin;
+			if(a < min){
+				a = min;
 			}
 
-			if(a > this.paneAfter.position + (this.paneAfter.sizeActual - (this.sizerWidth + this.paneAfter.sizeMin))){
-
-				a = this.paneAfter.position + (this.paneAfter.sizeActual - (this.sizerWidth + this.paneAfter.sizeMin));
+			var max = this.paneAfter.position + (this.paneAfter.sizeActual - (this.sizerWidth + this.paneAfter.sizeMin));
+			if(a > max){
+				a = max;
 			}
 		}
 
@@ -481,11 +477,8 @@ dojo.declare(
 
 		this._moveSizingLine();
 
-		if(this.isHorizontal){
-			dojo.marginBox(this.virtualSizer, { w: this.sizerWidth, h: this.paneHeight });
-		}else{
-			dojo.marginBox(this.virtualSizer, { w: this.paneWidth, h: this.sizerWidth });
-		}
+		dojo.marginBox(this.virtualSizer,
+			this.isHorizontal ? { w: this.sizerWidth, h: this.paneHeight } : { w: this.paneWidth, h: this.sizerWidth });
 
 		this.virtualSizer.style.display = 'block';
 	},
@@ -495,13 +488,8 @@ dojo.declare(
 	},
 
 	_moveSizingLine: function(){
-		if(this.isHorizontal){
-			var pos = this.lastPoint - this.startPoint + this.sizingSplitter.position;
-			this.virtualSizer.style.left = pos + 'px';
-		}else{
-			var pos = (this.lastPoint - this.startPoint) + this.sizingSplitter.position;
-			this.virtualSizer.style.top = pos + 'px';
-		}
+		var pos = (this.lastPoint - this.startPoint) + this.sizingSplitter.position;
+		this.virtualSizer.style[ this.isHorizontal ? "left" : "top" ] = pos + 'px';
 	},
 
 	_getCookieName: function(i){
@@ -513,7 +501,7 @@ dojo.declare(
 		for(var i = 0; i < children.length; i++){
 			var cookieName = this._getCookieName(i);
 			var cookieValue = dojo.cookie(cookieName);
-			if(cookieValue != null){
+			if(cookieValue){
 				var pos = parseInt(cookieValue);
 				if(typeof pos == "number"){
 					children[i].sizeShare=pos;
