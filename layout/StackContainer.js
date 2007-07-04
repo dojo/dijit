@@ -42,7 +42,7 @@ dojo.declare(
 			this.selectedChildWidget.selected = true;
 		}
 		if(this.selectedChildWidget){
-			this._showChild(this.selectedChildWidget)
+			this._showChild(this.selectedChildWidget);
 		}
 
 		// Now publish information about myself so any StackControllers can initialize..

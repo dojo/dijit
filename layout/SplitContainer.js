@@ -56,7 +56,7 @@ dojo.declare(
 
 		// create the fake dragger
 		if(typeof this.sizerWidth == "object"){
-			try{
+			try{ //FIXME: do this without a try/catch
 				this.sizerWidth = parseInt(this.sizerWidth.toString());
 			}catch(e){ this.sizerWidth = 15; }
 		}
@@ -82,9 +82,7 @@ dojo.declare(
 		var children = this.getChildren();
 		// attach the children and create the draggers
 		for(var i = 0; i < children.length; i++){
-			with(children[i].domNode.style){
-				position = "absolute";
-			}
+			children[i].domNode.style.position = "absolute";
 			dojo.addClass(children[i].domNode, "dijitSplitPane");
 
 			if(i == children.length-1){
@@ -97,12 +95,11 @@ dojo.declare(
 			this._restoreState();
 		}
 		dijit.layout._LayoutWidget.prototype.startup.apply(this, arguments);
+		this._started = true;
 	},
 
 	_injectChild: function(child){
-		with(child.domNode.style){
-			position = "absolute";
-		}
+		child.domNode.style.position = "absolute";
 		dojo.addClass(child.domNode, "dijitSplitPane");
 	},
 
@@ -143,7 +140,9 @@ dojo.declare(
 
 		// Remove widget and repaint
 		dijit._Container.prototype.removeChild.apply(this, arguments);
-		this.layout();
+		if(this._started){
+			this.layout();
+		}
    },
 
 	addChild: function(child, insertIndex){
@@ -154,7 +153,9 @@ dojo.declare(
 		if(children.length > 1){
 			this._addSizer();
 		}
-		this.layout();
+		if(this._started){
+			this.layout();
+		}
 	},
 
 	layout: function(){
@@ -469,11 +470,12 @@ dojo.declare(
 
 		var children = this.getChildren();
 		for(var i=0; i<children.length; i++){
-
 			children[i].sizeShare = children[i].sizeActual;
 		}
 
-		this.layout();
+		if(this._started){
+			this.layout();
+		}
 	},
 
 	_showSizingLine: function(){
@@ -507,7 +509,7 @@ dojo.declare(
 		return this.id + "_" + i;
 	},
 
-	_restoreState: function (){
+	_restoreState: function(){
 		var children = this.getChildren();
 		for(var i = 0; i < children.length; i++){
 			var cookieName = this._getCookieName(i);
@@ -521,7 +523,7 @@ dojo.declare(
 		}
 	},
 
-	_saveState: function (){
+	_saveState: function(){
 		var children = this.getChildren();
 		for(var i = 0; i < children.length; i++){
 			dojo.cookie(this._getCookieName(i), children[i].sizeShare);
