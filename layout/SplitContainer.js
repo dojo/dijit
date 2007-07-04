@@ -60,8 +60,8 @@ dojo.declare(
 				this.sizerWidth = parseInt(this.sizerWidth.toString());
 			}catch(e){ this.sizerWidth = 15; }
 		}
-		this.virtualSizer = document.createElement('div');
-		this.virtualSizer.style.position = 'relative';
+		var sizer = this.virtualSizer = document.createElement('div');
+		sizer.style.position = 'relative';
 
 		// #1681: work around the dreaded 'quirky percentages in IE' layout bug
 		// If the splitcontainer's dimensions are specified in percentages, it
@@ -71,25 +71,22 @@ dojo.declare(
 		// The workaround: instead of changing the display style attribute,
 		// switch to changing the zIndex (bring to front/move to back)
 
-		this.virtualSizer.style.zIndex = 10;
-		this.virtualSizer.className = this.isHorizontal ? 'dijitSplitContainerVirtualSizerH' : 'dijitSplitContainerVirtualSizerV';
-		this.domNode.appendChild(this.virtualSizer);
-		dojo.setSelectable(this.virtualSizer, false);
-
+		sizer.style.zIndex = 10;
+		sizer.className = this.isHorizontal ? 'dijitSplitContainerVirtualSizerH' : 'dijitSplitContainerVirtualSizerV';
+		this.domNode.appendChild(sizer);
+		dojo.setSelectable(sizer, false);
 	},
 
 	startup: function(){
-		var children = this.getChildren();
-		// attach the children and create the draggers
-		for(var i = 0; i < children.length; i++){
-			children[i].domNode.style.position = "absolute";
-			dojo.addClass(children[i].domNode, "dijitSplitPane");
+		dojo.forEach(this.getChildren(), function(child, i, children){
+			// attach the children and create the draggers
+			child.domNode.style.position = "absolute";
+			dojo.addClass(child.domNode, "dijitSplitPane");
 
-			if(i == children.length-1){
-				break;
+			if(i < children.length-1){
+				this._addSizer();
 			}
-			this._addSizer();
-		}
+		}, this);
 
 		if(this.persist){
 			this._restoreState();
@@ -126,16 +123,10 @@ dojo.declare(
 	removeChild: function(widget){
 		// Remove sizer, but only if widget is really our child and
 		// we have at least one sizer to throw away
-		if(this.sizers.length > 0){
-			var children = this.getChildren();
-			for(var x = 0; x < children.length; x++){
-				if(children[x] === widget){
-					var i = this.sizers.length - 1;
-					dojo._destroyElement(this.sizers[i]);
-					this.sizers.length = i;
-					break;
-				}
-			}
+		if(this.sizers.length && dojo.indexOf(this.getChildren(), widget) != -1){
+			var i = this.sizers.length - 1;
+			dojo._destroyElement(this.sizers[i]);
+			this.sizers.length--;
 		}
 
 		// Remove widget and repaint
@@ -168,7 +159,7 @@ dojo.declare(
 		this.paneHeight = this._contentBox.h;
 
 		var children = this.getChildren();
-		if(children.length == 0){ return; }
+		if(!children.length){ return; }
 
 		//
 		// calculate space
@@ -182,26 +173,26 @@ dojo.declare(
 		//
 		// calculate total of SizeShare values
 		//
-		var out_of = 0;
-		for(var i=0; i<children.length; i++){
-			out_of += children[i].sizeShare;
-		}
+		var outOf = 0;
+		dojo.forEach(children, function(child){
+			outOf += child.sizeShare;
+		});
 
 		//
 		// work out actual pixels per sizeshare unit
 		//
-		var pix_per_unit = space / out_of;
+		var pix_per_unit = space / outOf;
 
 
 		//
 		// set the SizeActual member of each pane
 		//
 		var total_size = 0;
-		for(var i = 0; i< children.length-1; i++){
-			var size = Math.round(pix_per_unit * children[i].sizeShare);
-			children[i].sizeActual = size;
+		dojo.forEach(children, function(child){
+			var size = Math.round(pix_per_unit * child.sizeShare);
+			child.sizeActual = size;
 			total_size += size;
-		}
+		});
 		children[children.length-1].sizeActual = space - total_size;
 
 		//
