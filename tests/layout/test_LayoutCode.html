@@ -24,36 +24,36 @@
 		// Simple layout container layout
 		var simpleLayout = {
 			widgetType: "LayoutContainer",
-			params: { widgetId: "rootWidget" },
+			params: { id: "rootWidget" },
 			style: "border: 3px solid grey; width: 95%; height: 400px;",
 			children: [
 				{
 					widgetType: "ContentPane",
-					params: {widgetId: "left", layoutAlign: "left"},
+					params: {id: "left", layoutAlign: "left"},
 					style: "width: 100px; background: #ffeeff;",
 					innerHTML: "this is the left"
 				},
 				{
 					widgetType: "ContentPane",
-					params: {widgetId: "right", layoutAlign: "right"},
+					params: {id: "right", layoutAlign: "right"},
 					style: "width: 100px; background: #ffeeff;",
 					innerHTML: "this is the right"
 				},
 				{
 					widgetType: "ContentPane",
-					params: {widgetId: "top", layoutAlign: "top"},
+					params: {id: "top", layoutAlign: "top"},
 					style: "height: 100px; background: #eeeeee;",
 					innerHTML: "this is the top"
 				},
 				{
 					widgetType: "ContentPane",
-					params: {widgetId: "bottom", layoutAlign: "bottom"},
+					params: {id: "bottom", layoutAlign: "bottom"},
 					style: "height: 100px; background: #eeeeee;",
 					innerHTML: "this is the bottom"
 				},
 				{
 					widgetType: "ContentPane",
-					params: {widgetId: "client", layoutAlign: "client"},
+					params: {id: "client", layoutAlign: "client"},
 					style: "height: 100px; background: #ffffee;",
 					innerHTML: "this is the client"
 				}
@@ -63,29 +63,29 @@
 		// split container layout
 		var splitLayout = {
 			widgetType: "SplitContainer",
-			params: {widgetId: "rootWidget", orientation: "horizontal"},
+			params: {id: "rootWidget", orientation: "horizontal"},
 			style: "border: 3px solid grey; width: 95%; height: 400px;",
 			children: [
 				{
 					widgetType: "ContentPane",
-					params: {widgetId: "left"},
+					params: {id: "left"},
 					style: "background: #ffeeff;",
 					innerHTML: "left pane of split container"
 				},
 				{
 					widgetType: "SplitContainer",
 					params: {
-						widgetId: "nested", orientation: "vertical"},
+						id: "nested", orientation: "vertical"},
 					children: [
 						{
 							widgetType: "ContentPane",
-							params: {widgetId: "top"},
+							params: {id: "top"},
 							style: "background: #eeffee;",
 							innerHTML: "center-top pane of nested split container"
 						},
 						{
 							widgetType: "ContentPane",
-							params: {widgetId: "bottom"},
+							params: {id: "bottom"},
 							style: "background: #eeffee;",
 							innerHTML: "center-bottom pane of nested split container"
 						}
@@ -93,7 +93,7 @@
 				},
 				{
 					widgetType: "ContentPane",
-					params: {widgetId: "right"},
+					params: {id: "right"},
 					style: "background: #ffeeff;",
 					innerHTML: "right pane of split container"
 				}
@@ -103,27 +103,27 @@
 		// tab container layout
 		var tabLayout = {
 			widgetType: "TabContainer",
-			params: {widgetId: "rootWidget"},
+			params: {id: "rootWidget"},
 			style: "width: 95%; height: 400px;",
 			children: [
 				{
 					widgetType: "ContentPane",
-					params: {widgetId: "content", title: "Content tab", href: "doc0.html", executeScripts: true},
+					params: {id: "content", title: "Content tab", href: "doc0.html", executeScripts: true},
 					style: "background: #ffeeff;"
 				},
 				{
 					widgetType: "SplitContainer",
-					params: {widgetId: "nestedSplit", title: "Split pane tab", orientation: "vertical"},
+					params: {id: "nestedSplit", title: "Split pane tab", orientation: "vertical"},
 					children: [
 						{
 							widgetType: "ContentPane",
-							params: {widgetId: "top"},
+							params: {id: "top"},
 							style: "background: #eeffee;",
 							innerHTML: "top pane of nested split container"
 						},
 						{
 							widgetType: "ContentPane",
-							params: {widgetId: "bottom"},
+							params: {id: "bottom"},
 							style: "background: #eeffee;",
 							innerHTML: "bottom pane of nested split container"
 						}
@@ -131,18 +131,18 @@
 				},
 				{
 					widgetType: "TabContainer",
-					params: {widgetId: "nestedTab", title: "Nested tabs"},
+					params: {id: "nestedTab", title: "Nested tabs"},
 					children: [
 						{
 							widgetType: "ContentPane",
-							params: {widgetId: "left", title: "Nested Tab #1"},
+							params: {id: "left", title: "Nested Tab #1"},
 							style: "background: #eeffee;",
 							innerHTML: "tab 1 of nested tabs"
 						},
 						{
 							widgetType: "ContentPane",
 							params: {
-								widgetId: "right", title: "Nested Tab #2"},
+								id: "right", title: "Nested Tab #2"},
 							style: "background: #eeffee;",
 							innerHTML: "tab 2 of nested tabs"
 						}
@@ -154,21 +154,21 @@
 		// tab container layout
 		var tabNoLayout = {
 			widgetType: "TabContainer",
-			params: {widgetId: "rootWidget", doLayout: false},
+			params: {id: "rootWidget", doLayout: false},
 			children: [
 				{
 					widgetType: "ContentPane",
-					params: {widgetId: "doc0", title: "Doc 0", href: "doc0.html", executeScripts: true},
+					params: {id: "doc0", title: "Doc 0", href: "doc0.html", executeScripts: true},
 					style: "background: #ffeeff;"
 				},
 				{
 					widgetType: "ContentPane",
-					params: {widgetId: "doc1", title: "Doc 1", href: "doc1.html", executeScripts: true},
+					params: {id: "doc1", title: "Doc 1", href: "doc1.html", executeScripts: true},
 					style: "background: #eeffee;"
 				},
 				{
 					widgetType: "ContentPane",
-					params: {widgetId: "doc2", title: "Doc 2", href: "doc2.html", executeScripts: true},
+					params: {id: "doc2", title: "Doc 2", href: "doc2.html", executeScripts: true},
 					style: "background: #ffffee;"
 				}
 			]
@@ -177,24 +177,24 @@
 		// accordion container layout
 		var accordionLayout = {
 			widgetType: "AccordionContainer",
-			params: {widgetId: "rootWidget"},
+			params: {id: "rootWidget"},
 			style: "border: 3px solid grey; width: 95%; height: 400px;",
 			children: [
 				{
 					widgetType: "AccordionPane",
-					params: {widgetId: "one", title: "Pane #1"},
+					params: {id: "one", title: "Pane #1"},
 					style: "background: #ffeeff;",
 					innerHTML: "first pane contents"
 				},
 				{
 					widgetType: "AccordionPane",
-					params: {widgetId: "two", title: "Pane #2"},
+					params: {id: "two", title: "Pane #2"},
 					style: "background: #ffeeff;",
 					innerHTML: "second pane contents"
 				},
 				{
 					widgetType: "AccordionPane",
-					params: {widgetId: "three", title: "Pane #3"},
+					params: {id: "three", title: "Pane #3"},
 					style: "background: #ffeeff;",
 					innerHTML: "third pane contents"
 				}
@@ -233,7 +233,7 @@
 			// erase old widget hierarchy (if it exists)
 			var rootWidget = dijit.byId("rootWidget");
 			if(rootWidget){
-				rootWidget.destroy();
+				rootWidget.destroyDescendants();
 			}
 			
 			// create new widget
