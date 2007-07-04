@@ -488,24 +488,22 @@ dojo.declare(
 	},
 
 	_restoreState: function(){
-		var children = this.getChildren();
-		for(var i = 0; i < children.length; i++){
+		dojo.forEach(this.getChildren(), function(child, i){
 			var cookieName = this._getCookieName(i);
 			var cookieValue = dojo.cookie(cookieName);
 			if(cookieValue){
 				var pos = parseInt(cookieValue);
 				if(typeof pos == "number"){
-					children[i].sizeShare=pos;
+					child.sizeShare = pos;
 				}
 			}
-		}
+		}, this);
 	},
 
 	_saveState: function(){
-		var children = this.getChildren();
-		for(var i = 0; i < children.length; i++){
-			dojo.cookie(this._getCookieName(i), children[i].sizeShare);
-		}
+		dojo.forEach(this.getChildren(), function(child, i){
+			dojo.cookie(this._getCookieName(i), child.sizeShare);
+		}, this);
 	}
 });
 
