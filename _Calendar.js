@@ -56,6 +56,9 @@ dojo.declare(
 		},
 
 		_appendText: function(node, text){
+			while(node.firstChild){
+				node.removeChild(node.firstChild);
+			}
 			node.appendChild(document.createTextNode(text));
 		},
 
