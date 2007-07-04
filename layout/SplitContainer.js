@@ -78,17 +78,15 @@ dojo.declare(
 	},
 
 	startup: function(){
-		var children = this.getChildren();
-		// attach the children and create the draggers
-		for(var i = 0; i < children.length; i++){
-			children[i].domNode.style.position = "absolute";
-			dojo.addClass(children[i].domNode, "dijitSplitPane");
+		dojo.forEach(this.getChildren(), function(child, i, children){
+			// attach the children and create the draggers
+			child.domNode.style.position = "absolute";
+			dojo.addClass(child.domNode, "dijitSplitPane");
 
-			if(i == children.length-1){
-				break;
+			if(i < children.length-1){
+				this._addSizer();
 			}
-			this._addSizer();
-		}
+		}, this);
 
 		if(this.persist){
 			this._restoreState();
@@ -125,16 +123,10 @@ dojo.declare(
 	removeChild: function(widget){
 		// Remove sizer, but only if widget is really our child and
 		// we have at least one sizer to throw away
-		if(this.sizers.length > 0){
-			var children = this.getChildren();
-			for(var x = 0; x < children.length; x++){
-				if(children[x] === widget){
-					var i = this.sizers.length - 1;
-					dojo._destroyElement(this.sizers[i]);
-					this.sizers.length = i;
-					break;
-				}
-			}
+		if(this.sizers.length && dojo.indexOf(this.getChildren(), widget) != -1){
+			var i = this.sizers.length - 1;
+			dojo._destroyElement(this.sizers[i]);
+			this.sizers.length--;
 		}
 
 		// Remove widget and repaint
@@ -189,19 +181,19 @@ dojo.declare(
 		//
 		// work out actual pixels per sizeshare unit
 		//
-		var pix_per_unit = space / outOf;
-
+		var pixPerUnit = space / outOf;
 
 		//
 		// set the SizeActual member of each pane
 		//
-		var total_size = 0;
+		var totalSize = 0;
 		for(var i = 0; i< children.length-1; i++){
-			var size = Math.round(pix_per_unit * children[i].sizeShare);
+			var size = Math.round(pixPerUnit * children[i].sizeShare);
 			children[i].sizeActual = size;
-			total_size += size;
+			totalSize += size;
 		}
-		children[children.length-1].sizeActual = space - total_size;
+
+		children[children.length-1].sizeActual = space - totalSize;
 
 		//
 		// make sure the sizes are ok
@@ -294,18 +286,18 @@ dojo.declare(
 
 	_checkSizes: function(){
 
-		var total_min_size = 0;
-		var total_size = 0;
+		var totalMinSize = 0;
+		var totalSize = 0;
 		var children = this.getChildren();
 
 		for(var i=0; i<children.length; i++){
-			total_size += children[i].sizeActual;
-			total_min_size += children[i].sizeMin;
+			totalSize += children[i].sizeActual;
+			totalMinSize += children[i].sizeMin;
 		}
 
 		// only make adjustments if we have enough space for all the minimums
 
-		if(total_min_size <= total_size){
+		if(totalMinSize <= totalSize){
 
 			var growth = 0;
 
@@ -330,7 +322,7 @@ dojo.declare(
 		}else{
 
 			for(var i=0; i<children.length; i++){
-				children[i].sizeActual = Math.round(total_size * (children[i].sizeMin / total_min_size));
+				children[i].sizeActual = Math.round(totalSize * (children[i].sizeMin / totalMinSize));
 			}
 		}
 	},
@@ -454,6 +446,7 @@ dojo.declare(
 	},
 
 	_updateSize: function(){
+	//FIXME: sometimes this.lastPoint is NaN
 		var pos = this.lastPoint - this.dragOffset - this.originPos;
 
 		var start_region = this.paneBefore.position;
