@@ -147,7 +147,7 @@ dojo.declare(
 			var dayOffset = dojo.cldr.supplemental.getFirstDayOfWeek(this.lang);
 			dojo.query(".calendarDayLabel", this.domNode).forEach(function(label, i){
 				this._appendText(label, dayNames[(i + dayOffset) % 7]);
-			});
+			}, this);
 
 			// Fill in spacer element with all the month names (invisible) so that the maximum width will affect layout
 			var monthNames = dojo.date.locale.getNames('months', 'wide', 'standAlone', this.lang);
