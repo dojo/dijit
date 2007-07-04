@@ -290,10 +290,10 @@ dojo.declare(
 		var totalSize = 0;
 		var children = this.getChildren();
 
-		for(var i=0; i<children.length; i++){
-			totalSize += children[i].sizeActual;
-			totalMinSize += children[i].sizeMin;
-		}
+		dojo.forEach(children, function(child){
+			totalSize += child.sizeActual;
+			totalMinSize += child.sizeMin;
+		});
 
 		// only make adjustments if we have enough space for all the minimums
 
@@ -301,12 +301,12 @@ dojo.declare(
 
 			var growth = 0;
 
-			for(var i=0; i<children.length; i++){
-				if(children[i].sizeActual < children[i].sizeMin){
-					growth += children[i].sizeMin - children[i].sizeActual;
-					children[i].sizeActual = children[i].sizeMin;
+			dojo.forEach(children, function(child){
+				if(child.sizeActual < child.sizeMin){
+					growth += child.sizeMin - child.sizeActual;
+					child.sizeActual = child.sizeMin;
 				}
-			}
+			});
 
 			if(growth > 0){
 				if(this.isDraggingLeft){
@@ -320,10 +320,9 @@ dojo.declare(
 				}
 			}
 		}else{
-
-			for(var i=0; i<children.length; i++){
-				children[i].sizeActual = Math.round(totalSize * (children[i].sizeMin / totalMinSize));
-			}
+			dojo.forEach(children, function(child){
+				child.sizeActual = Math.round(total_size * (child.sizeMin / total_min_size));
+			});
 		}
 	},
 
@@ -456,10 +455,9 @@ dojo.declare(
 		this.paneAfter.position	= pos + this.sizerWidth;
 		this.paneAfter.sizeActual  = end_region - this.paneAfter.position;
 
-		var children = this.getChildren();
-		for(var i=0; i<children.length; i++){
-			children[i].sizeShare = children[i].sizeActual;
-		}
+		dojo.forEach(this.getChildren(), function(child){
+			child.sizeShare = child.sizeActual;
+		});
 
 		if(this._started){
 			this.layout();
