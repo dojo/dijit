@@ -321,7 +321,7 @@ dojo.declare(
 			}
 		}else{
 			dojo.forEach(children, function(child){
-				child.sizeActual = Math.round(total_size * (child.sizeMin / total_min_size));
+				child.sizeActual = Math.round(totalSize * (child.sizeMin / totalMinSize));
 			});
 		}
 	},
