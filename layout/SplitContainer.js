@@ -60,8 +60,8 @@ dojo.declare(
 				this.sizerWidth = parseInt(this.sizerWidth.toString());
 			}catch(e){ this.sizerWidth = 15; }
 		}
-		this.virtualSizer = document.createElement('div');
-		this.virtualSizer.style.position = 'relative';
+		var sizer = this.virtualSizer = document.createElement('div');
+		sizer.style.position = 'relative';
 
 		// #1681: work around the dreaded 'quirky percentages in IE' layout bug
 		// If the splitcontainer's dimensions are specified in percentages, it
@@ -71,11 +71,10 @@ dojo.declare(
 		// The workaround: instead of changing the display style attribute,
 		// switch to changing the zIndex (bring to front/move to back)
 
-		this.virtualSizer.style.zIndex = 10;
-		this.virtualSizer.className = this.isHorizontal ? 'dijitSplitContainerVirtualSizerH' : 'dijitSplitContainerVirtualSizerV';
-		this.domNode.appendChild(this.virtualSizer);
-		dojo.setSelectable(this.virtualSizer, false);
-
+		sizer.style.zIndex = 10;
+		sizer.className = this.isHorizontal ? 'dijitSplitContainerVirtualSizerH' : 'dijitSplitContainerVirtualSizerV';
+		this.domNode.appendChild(sizer);
+		dojo.setSelectable(sizer, false);
 	},
 
 	startup: function(){
@@ -168,7 +167,7 @@ dojo.declare(
 		this.paneHeight = this._contentBox.h;
 
 		var children = this.getChildren();
-		if(children.length == 0){ return; }
+		if(!children.length){ return; }
 
 		//
 		// calculate space
@@ -182,15 +181,15 @@ dojo.declare(
 		//
 		// calculate total of SizeShare values
 		//
-		var out_of = 0;
-		for(var i=0; i<children.length; i++){
-			out_of += children[i].sizeShare;
-		}
+		var outOf = 0;
+		dojo.forEach(children, function(child){
+			outOf += child.sizeShare;
+		});
 
 		//
 		// work out actual pixels per sizeshare unit
 		//
-		var pix_per_unit = space / out_of;
+		var pix_per_unit = space / outOf;
 
 
 		//
@@ -350,16 +349,16 @@ dojo.declare(
 			this.cover = dojo.doc.createElement('div');
 			this.domNode.appendChild(this.cover);
 			var s = this.cover.style;
-			s.position='absolute';
-			s.zIndex=1;
-			s.top=0;
-			s.left=0;
-			s.width="100%";
-			s.height="100%";
+			s.position = 'absolute';
+			s.zIndex = 1;
+			s.top = 0;
+			s.left = 0;
+			s.width = "100%";
+			s.height = "100%";
 		}else{
-			this.cover.style.zIndex=1;
+			this.cover.style.zIndex = 1;
 		}
-		this.sizingSplitter.style.zIndex=2;
+		this.sizingSplitter.style.zIndex = 2;
 
 		// TODO: REVISIT - we want MARGIN_BOX and core hasn't exposed that yet
 		this.originPos = dojo.coords(children[0].domNode, true);
