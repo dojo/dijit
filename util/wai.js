@@ -101,14 +101,15 @@ dijit.util.wai = {
 			var needsA11y = (cs.borderTopColor==cs.borderRightColor) || (bkImg != null && (bkImg == "none" || bkImg == "url(invalid-url:)" ));
 			dojo[needsA11y ? "addClass" : "removeClass"](dojo.body(), "dijit_a11y");
 		}
-		if(dojo.isIE || dojo.isMoz){	// NOTE: checking in Safari messes things up
-			check();
-			if(dojo.isIE){
-				setInterval(check, 4000);
-			}
+		check();
+		if(dojo.isIE){
+			setInterval(check, 4000);
 		}
 	}
 };
 
-// Make sure the a11y test runs first.
-dojo._loaders.unshift(dijit.util.wai.onload);
+// Test if computer is in high contrast mode.
+// Make sure the a11y test runs first, before widgets are instantiated.
+if(dojo.isIE || dojo.isMoz){	// NOTE: checking in Safari messes things up
+	dojo._loaders.unshift(dijit.util.wai.onload);
+}
