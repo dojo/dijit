@@ -97,9 +97,11 @@ dijit.util.wai = {
 		// test it
 		function check(){
 			var cs = dojo.getComputedStyle(div);
-			var bkImg = cs.backgroundImage;
-			var needsA11y = (cs.borderTopColor==cs.borderRightColor) || (bkImg != null && (bkImg == "none" || bkImg == "url(invalid-url:)" ));
-			dojo[needsA11y ? "addClass" : "removeClass"](dojo.body(), "dijit_a11y");
+			if(cs){
+				var bkImg = cs.backgroundImage;
+				var needsA11y = (cs.borderTopColor==cs.borderRightColor) || (bkImg != null && (bkImg == "none" || bkImg == "url(invalid-url:)" ));
+				dojo[needsA11y ? "addClass" : "removeClass"](dojo.body(), "dijit_a11y");
+			}
 		}
 		check();
 		if(dojo.isIE){
