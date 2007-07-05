@@ -21,8 +21,8 @@ dijit.util.focus = new function(){
 
 	var curFocus, prevFocus;	
 	function onFocus(/*DomNode*/ node){
-		if(node && node.tagName=="body"){
-			node=null;
+		if(node && node.tagName == "body"){
+			node = null;
 		}
 		if(node !== curFocus){
 			prevFocus = curFocus;
@@ -48,42 +48,33 @@ dijit.util.focus = new function(){
 	// Main methods, called when a dialog/menu is opened/closed
 
 	var isCollapsed = function(){
-		// summary: return whether the current selection is empty
+		// summary: tests whether the current selection is empty
 		var _window = dojo.global;
 		var _document = dojo.doc;
 		if(_document.selection){ // IE
-			return _document.selection.createRange().text == "";
+			return !_document.selection.createRange().text; // Boolean
 		}else if(_window.getSelection){
 			var selection = _window.getSelection();
 			if(dojo.isString(selection)){ // Safari
-				return selection == "";
+				return !selection; // Boolean
 			}else{ // Mozilla/W3
-				return selection.isCollapsed || selection.toString() == "";
+				return selection.isCollapsed || !selection.toString(); // Boolean
 			}
 		}
 	};
 
 	var getBookmark = function(){
 		// summary: Retrieves a bookmark that can be used with moveToBookmark to return to the same range
-		var bookmark;
-		var _document = dojo.doc;
-		if(_document.selection){ // IE
-			var range = _document.selection.createRange();
-			if(_document.selection.type.toUpperCase()=='CONTROL'){
-				if(range.length){
-					bookmark=[];
-					var i=0;
-					while(i<range.length){
-						bookmark.push(range.item(i++));
-					}
-				}else{
-					bookmark = null;
-				}
+		var bookmark, selection = dojo.doc.selection;
+		if(selection){ // IE
+			var range = selection.createRange();
+			if(selection.type.toUpperCase()=='CONTROL'){
+				bookmark = range.length ? dojo._toArray(range) : null;
 			}else{
 				bookmark = range.getBookmark();
 			}
 		}else{
-			var selection;
+			selection = null;
 			//TODO: why a try/catch?  check for getSelection instead?
 			try{selection = dojo.global.getSelection();}
 			catch(e){/*squelch*/}
@@ -94,7 +85,7 @@ dijit.util.focus = new function(){
 				console.debug("No idea how to store the current selection for this browser!");
 			}
 		}
-		return bookmark;
+		return bookmark; // Array
 	};
 
 	var moveToBookmark = function(/*Object*/bookmark){
@@ -102,23 +93,20 @@ dijit.util.focus = new function(){
 		// bookmark: this should be a returned object from dojo.html.selection.getBookmark()
 		var _document = dojo.doc;
 		if(_document.selection){ // IE
+			var range;
 			if(dojo.isArray(bookmark)){
-				var range= _document.body.createControlRange();
-				var i=0;
-				while(i<bookmark.length){
-					range.addElement(bookmark[i++]);
-				}
-				range.select();
+				range = _document.body.createControlRange();
+				dojo.forEach(bookmark, range.addElement);
 			}else{
-				var range = _document.selection.createRange();
+				range = _document.selection.createRange();
 				range.moveToBookmark(bookmark);
-				range.select();
 			}
+			range.select();
 		}else{ //Moz/W3C
 			var selection;
 			//TODO: why a try/catch?  check for getSelection instead?
 			try{selection = dojo.global.getSelection();}
-			catch(e){/*squelch*/}
+			catch(e){ console.debug(e); /*squelch?*/}
 			if(selection && selection.removeAllRanges){
 				selection.removeAllRanges();
 				selection.addRange(bookmark);
@@ -153,7 +141,7 @@ dijit.util.focus = new function(){
 				null,
 				
 			openedForWindow: openedForWindow
-		};
+		}; // Object
 	};
 
 	this.restore = function(/*Object*/ handle){
@@ -163,7 +151,7 @@ dijit.util.focus = new function(){
 
 		var restoreFocus = handle.focus,
 			bookmark = handle.bookmark,
-			openedForWindow = openedForWindow;
+			openedForWindow = handle.openedForWindow;
 			
 		// focus on element that was focused before menu stole the focus
 		if(restoreFocus){

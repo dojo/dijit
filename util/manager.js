@@ -19,7 +19,7 @@ dijit.util.manager = new function(){
 				(widgetTypeCtr[widgetType] !== undefined ?
 					++widgetTypeCtr[widgetType] : widgetTypeCtr[widgetType] = 0);
 		}while(registry[id]);
-		return id;
+		return id; // String
 	}
 
 	this.add = function(/*Widget*/ widget){
@@ -51,13 +51,13 @@ dijit.util.manager = new function(){
 	this.getWidgets = function(){
 		// summary:
 		//		Returns the hash of id->widget
-		return registry;
+		return registry; // Object
 	}
 
 	this.byNode = function(/* DOMNode */ node){
 		// summary:
 		//		Returns the widget as referenced by node
-		return registry[node.getAttribute("widgetId")];
+		return registry[node.getAttribute("widgetId")]; // Widget
 	}
 };
 
@@ -69,8 +69,9 @@ if(dojo.isIE && dojo.isIE < 7){
 	});
 }
 
+//FIXME: either remove isString/type widget support or fix the docs
 dijit.byId = function(/*String*/id){
 	// summary:
 	//		Returns a widget by its id
-	return (dojo.isString(id)) ? dijit.util.manager.getWidgets()[id] : id;
+	return (dojo.isString(id)) ? dijit.util.manager.getWidgets()[id] : id; // Widget
 };
