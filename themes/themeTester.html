@@ -112,7 +112,23 @@
 	}
 
 	</style>
+	<script>
+		/***
+		dojo.addOnLoad(function(){
+			// use "before advice" to print log message each time resize is called on a layout widget
+			var origResize = dijit.layout._LayoutWidget.prototype.resize;
+			dijit.layout._LayoutWidget.prototype.resize = function(mb){
+				console.log(this + ": resize({w:"+ mb.w + ", h:" + mb.h + "})");
+				origResize.apply(this, arguments);
+			};
 
+			// content pane has no children so just use dojo's builtin after advice
+			dojo.connect(dijit.layout.ContentPane.prototype, "resize", function(mb){
+				console.log(this + ": resize({w:"+ mb.w + ", h:" + mb.h + "})");
+			});
+		});
+		***/
+	</script>
 </head>
 <body id="container">
         <script type="text/javascript">

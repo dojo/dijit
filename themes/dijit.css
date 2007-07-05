@@ -1026,10 +1026,7 @@ body .dijitAlignClient { position: absolute; }
 
 .dijitTabPaneWrapper {
 	z-index:0;
-}
-
-.dijitTabPane {
-	clear:left;
+	overflow: hidden;
 }
 
 .dijitTab {
