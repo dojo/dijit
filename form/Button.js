@@ -31,6 +31,14 @@ dojo.declare(
 
 		// TODO: set button's title to this.containerNode.innerText
 
+		_onButtonClick: function(/*Event*/ e){
+			// summary: callback when the user mouse clicks the button portion
+			dojo.stopEvent(e);
+			if(this.disabled){ return; }
+			this.focusNode.focus();
+			return this.onClick(e);
+		},
+		
 		onClick: function(/*Event*/ e){
 			// summary: callback for when button is clicked; user can override this function
 		},
@@ -162,15 +170,7 @@ dojo.declare(
 		//  text that describes the options menu (accessibility)
 		optionsTitle: "",
 
-		baseClass: "dijitComboButton",
-
-		_onButtonClick: function(/*Event*/ e){
-			// summary: callback when the user mouse clicks the button portion
-			dojo.stopEvent(e);
-			if(this.disabled){ return; }
-			this.focusNode.focus();
-			return this.onClick(e);
-		}
+		baseClass: "dijitComboButton"
 	});
 
 dojo.declare(
