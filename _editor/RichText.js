@@ -1750,10 +1750,7 @@ dojo.declare(
 				}else{
 					this.textarea.value = this.savedContent;
 				}
-				// dojo.html.removeNode(this.domNode);
-				if(this.domNode.parentNode){ // FIXME
-					this.domNode.parentNode.removeNode(this.domNode);
-				}
+				dojo._destroyElement(this.domNode);
 				this.domNode = this.textarea;
 			}else{
 				if(save){
