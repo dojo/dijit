@@ -2,7 +2,7 @@ dojo.provide("dijit.form.ComboBox");
 
 dojo.require("dijit.util.scroll");
 dojo.require("dijit.util.wai");
-dojo.require("dojo.data.JsonItemStore");
+dojo.require("dojo.data.ItemFileReadStore");
 dojo.require("dijit.form._DropDownTextBox");
 dojo.require("dijit.form.ValidationTextbox");
 
@@ -418,7 +418,7 @@ dojo.declare(
 				var items = dojo.query("> option", this.srcNodeRef).map(function(node){
 					return { value: node.getAttribute("value"), name: String(node.innerHTML) };
 				});
-				this.store = new dojo.data.JsonItemStore({data: {identifier:this._getValueField(), items:items}});
+				this.store = new dojo.data.ItemFileReadStore({data: {identifier:this._getValueField(), items:items}});
 
 				// if there is no value set and there is an option list,
 				// set the value to the first value to be consistent with native Select

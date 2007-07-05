@@ -12,7 +12,7 @@
 	<script type="text/javascript" src="../../../dojo/dojo.js"
 		djConfig="isDebug: true, parseOnLoad: true"></script>
 	<script type="text/javascript">
-		dojo.require("dojo.data.JsonItemStore");
+		dojo.require("dojo.data.ItemFileReadStore");
 		dojo.require("dijit.form.ComboBox");
 		dojo.require("dijit.util.manager");
 		dojo.require("dojo.parser");	// scan page for widgets and instantiate them
@@ -29,7 +29,7 @@
 		}
 		var combo;
 		function init(){
-			var store = new dojo.data.JsonItemStore({url: 'comboBoxData.json'});
+			var store = new dojo.data.ItemFileReadStore({url: 'comboBoxData.json'});
 			combo = new dijit.form.ComboBox({
 				name:"prog",
 				autocomplete:false,
@@ -136,7 +136,7 @@ The drop down list is filtered by the data you have already typed in.
 	<span>Value: <input id="value1" disabled></span>
 	<hr>
 
-	<div dojoType="dojo.data.JsonItemStore" jsId="stateStore"
+	<div dojoType="dojo.data.ItemFileReadStore" jsId="stateStore"
 		url="comboBoxData.json"></div>
 
 	<p>ComboBox #2: url, autocomplete=true:</p>

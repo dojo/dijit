@@ -50,7 +50,7 @@
 		dojo.require("dojo.date.locale");
 
 		// for the Tree
-		dojo.require("dojo.data.JsonItemStore");
+		dojo.require("dojo.data.ItemFileReadStore");
 
 		// for the colorpalette
 		function setColor(color){
@@ -135,9 +135,9 @@
                 document.getElementById('container').className = themeName;
         </script>
 	<!-- data for tree and combobox -->
-	<div dojoType="dojo.data.JsonItemStore" jsId="continentStore"
+	<div dojoType="dojo.data.ItemFileReadStore" jsId="continentStore"
 		url="../tests/countries.json"></div>
-	<div dojoType="dojo.data.JsonItemStore" jsId="stateStore"
+	<div dojoType="dojo.data.ItemFileReadStore" jsId="stateStore"
 		url="../tests/form/comboBoxData.json"></div>
 	<!-- contentMenu popup -->
 	<div dojoType="dijit.Menu" id="submenu1" contextMenuForWindow="true" style="display: none;">
@@ -486,7 +486,7 @@
 							invalidMessage="Invalid date. Use mm/dd/yyyy format.">
 						</p>
 						<p/>
-						<b>FilteringSelect Dijit with JsonItemStore of States::</b>
+						<b>FilteringSelect Dijit with ItemFileReadStore of States::</b>
 						<p id="backgroundArea" dojoType="dijit.form.InlineEditBox">
 						<input searchField="name" keyField="abbreviation" id="setvaluetest"
 							dojoType="dijit.form.FilteringSelect" value="IA"

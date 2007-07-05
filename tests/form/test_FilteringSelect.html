@@ -27,7 +27,7 @@
 			label = label.toLowerCase();
 			return label;
 		}
-		myStore = new dojo.data.JsonItemStore({url:"comboBoxData.json"});
+		myStore = new dojo.data.ItemFileReadStore({url:"comboBoxData.json"});
 	</script>
 </head>
 
@@ -129,7 +129,7 @@
 		<input type="button" value="Set displayed value to Canada (invalid)" onClick="dijit.byId('setvaluetest2').setDisplayedValue('Canada')">
 		<hr>
 
-		<div dojoType="dojo.data.JsonItemStore" jsId="stateStore"
+		<div dojoType="dojo.data.ItemFileReadStore" jsId="stateStore"
 			url="comboBoxData.json"></div>
 
 		<p>FilteringSelect #2: url, autocomplete=true:</p>
@@ -167,7 +167,7 @@
 				autocomplete="true"
 				labelAttr="label"
 				labelType="html"
-				dataProviderClass="dojo.data.JsonItemStore"
+				dataProviderClass="dojo.data.ItemFileReadStore"
 				promptMessage="Please enter a state"
 				invalidMessage="Invalid state name."
 		>

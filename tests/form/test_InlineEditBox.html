@@ -19,7 +19,7 @@
 		<script type="text/javascript" src="../../form/InlineEditBox.js"></script>
 		-->
 		<script type="text/javascript">
-			dojo.require("dojo.data.JsonItemStore");
+			dojo.require("dojo.data.ItemFileReadStore");
 			dojo.require("dijit.form.InlineEditBox");
 			dojo.require("dijit.form.Textarea");
 			dojo.require("dijit.form.Textbox");
@@ -65,7 +65,7 @@
 		</p>
 		<hr style="width:100%;">
 		<b>FilteringSelect:</b>
-		<div dojoType="dojo.data.JsonItemStore" jsId="stateStore"
+		<div dojoType="dojo.data.ItemFileReadStore" jsId="stateStore"
 			url="comboBoxData.json"></div>
 		<span id="backgroundArea" dojoType="dijit.form.InlineEditBox" >
 			<input searchAttr="name" keyAttr="abbreviation" id="setvaluetest" dojoType="dijit.form.FilteringSelect" value="IA"
