@@ -188,10 +188,6 @@ dojo.declare(
 	//		or the radio button is selected, etc.
 	selected: false,
 
-	onChange: function(/*Boolean*/ selected){
-		// summary: callback for when state changes
-	},
-
 	onClick: function(/*Event*/ evt){
 		this.setSelected(!this.selected);
 	},
