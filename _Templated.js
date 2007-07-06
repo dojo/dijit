@@ -96,7 +96,10 @@ dojo.declare("dijit._Templated",
 			if(source){
 				var dest = this.containerNode||this.domNode;
 				while(source.hasChildNodes()){
-					dest.appendChild(source.firstChild);
+					if(source.firstChild.getAttribute){
+						var auxDest = source.firstChild.getAttribute('container');
+					}
+					(auxDest ? (this[auxDest]||dest) : dest).appendChild(source.firstChild);
 				}
 			}
 		},

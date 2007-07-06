@@ -1,12 +1,13 @@
 dojo.provide("dijit.form.Slider");
 
 dojo.require("dijit.form._FormWidget");
+dojo.require("dijit._Container");
 dojo.require("dojo.dnd.move");
 dojo.require("dijit.form.Button");
 
 dojo.declare(
 	"dijit.form.HorizontalSlider",
-	dijit.form._FormWidget,
+	[dijit.form._FormWidget, dijit._Container],
 {
 	// summary
 	//	A form widget that allows one to select a value with a horizontally draggable image
@@ -212,5 +213,100 @@ dojo.declare("dijit.form._slider",
 		var m = this.marginBox;
 		var pixelValue = m[widget._startingPixelCount] + e[widget._mousePixelCoord];
 		dojo.hitch(widget, "_setPixelValue")(widget._upsideDown? (c[widget._pixelCount]-pixelValue) : pixelValue, c[widget._pixelCount]);
+	}
+});
+
+dojo.declare("dijit.form.HorizontalRule", [dijit._Widget, dijit._Templated],
+{
+	//	Summary:
+	//		Create hash marks for the Horizontal slider
+	templateString: '<div class="RuleContainer HorizontalRuleContainer"></div>',
+
+	// count: Integer
+	//      Number of hash marks to generate
+	count: 3,
+
+	// container: Node
+	//      If this is a child widget, connect it to this parent node 
+	container: "containerNode",
+
+	// ruleStyle: String
+	//      CSS style to apply to individual hash marks
+	ruleStyle: "",
+
+	_positionPrefix: '<div class="RuleMark HorizontalRuleMark" style="left:',
+	_positionSuffix: '%;',
+	_suffix: '"></div>',
+
+	_genHTML: function(pos, ndx){
+		return this._positionPrefix + pos + this._positionSuffix + this.ruleStyle + this._suffix;
+	},
+
+	postCreate: function(){
+		if(this.count==1){
+			var innerHTML = this._genHTML(50, 0);
+		}else{
+			var innerHTML = this._genHTML(0, 0);
+			var interval = 100 / (this.count-1);
+			for(var i=1; i < this.count-1; i++){
+				innerHTML += this._genHTML(interval*i, i);
+			}
+			innerHTML += this._genHTML(100, this.count-1);
+		}
+		this.domNode.innerHTML = innerHTML;
+	}
+});
+
+dojo.declare("dijit.form.VerticalRule", dijit.form.HorizontalRule,
+{
+	//	Summary:
+	//		Create hash marks for the Vertical slider
+	templateString: '<div class="RuleContainer VerticalRuleContainer"></div>',
+	_positionPrefix: '<div class="RuleMark VerticalRuleMark" style="top:'
+});
+
+dojo.declare("dijit.form.HorizontalRuleLabels", dijit.form.HorizontalRule,
+{
+	//	Summary:
+	//		Create labels for the Horizontal slider
+	templateString: '<div class="RuleContainer HorizontalRuleContainer"></div>',
+
+	// labelStyle: String
+	//      CSS style to apply to individual text labels
+	labelStyle: "",
+
+	// labels: Array
+	//	Array of text labels to render - evenly spaced from left-to-right or bottom-to-top
+	labels: [],
+
+	_positionPrefix: '<div class="RuleLabelContainer HorizontalRuleLabelContainer" style="left:',
+	_labelPrefix: '"><span class="RuleLabel HorizontalRuleLabel">',
+	_suffix: '</span></div>',
+
+	_calcPosition: function(pos){
+		return pos;
+	},
+
+	_genHTML: function(pos, ndx){
+		return this._positionPrefix + this._calcPosition(pos) + this._positionSuffix + this.labelStyle + this._labelPrefix + this.labels[ndx] + this._suffix;
+	},
+
+	postCreate: function(){
+		this.count = this.labels.length;
+		dijit.form.HorizontalRuleLabels.superclass.postCreate.apply(this);
+	}
+});
+
+dojo.declare("dijit.form.VerticalRuleLabels", dijit.form.HorizontalRuleLabels,
+{
+	//	Summary:
+	//		Create labels for the Vertical slider
+	templateString: '<div class="RuleContainer VerticalRuleContainer"></div>',
+
+	_positionPrefix: '<div class="RuleLabelContainer VerticalRuleLabelContainer" style="top:',
+	_labelPrefix: '"><span class="RuleLabel VerticalRuleLabel">',
+
+	_calcPosition: function(pos){
+		return 100-pos;
 	}
 });

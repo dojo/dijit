@@ -1328,3 +1328,68 @@ body .dijitAlignClient { position: absolute; }
 	padding:0px;
 	display:block;
 }
+
+.RuleContainer {
+	position:relative;
+	overflow:visible;
+}
+
+.VerticalRuleContainer {
+	height:100%;
+	line-height:0px;
+	float:left;
+	text-align:left;
+}
+
+.dj_opera .VerticalRuleContainer {
+	line-height:2%;
+}
+
+.dj_ie .VerticalRuleContainer {
+	line-height:normal;
+}
+
+.dj_gecko .VerticalRuleContainer {
+	margin:0px 0px 1px 0px; /* mozilla bug workaround for float:left,height:100% block elements */
+}
+
+.RuleMark {
+	position:absolute;
+	border:1px solid black;
+	line-height:0px;
+	height:100%;
+}
+
+.HorizontalRuleMark {
+	width:0px;
+	border-top-width:0px !important;
+	border-bottom-width:0px !important;
+	border-left-width:0px !important;
+}
+
+.RuleLabelContainer {
+	position:absolute;
+}
+
+.HorizontalRuleLabelContainer {
+	text-align:center;
+	display:inline-block;
+}
+
+.HorizontalRuleLabel {
+	position:relative;
+	left:-50%;
+}
+
+.VerticalRuleMark {
+	height:0px;
+	border-right-width:0px !important;
+	border-bottom-width:0px !important;
+	border-left-width:0px !important;
+	width:100%;
+	left:0px;
+}
+
+.dj_ie .VerticalRuleLabelContainer {
+	margin-top:-.55em;
+}
