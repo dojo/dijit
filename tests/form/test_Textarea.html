@@ -25,15 +25,16 @@
 			this is a plain text area
 			for comparison
 		</textarea>
+		<br><textarea id="programmatic"></textarea>
 		<script type="text/javascript">
 			// See if we can make a widget in script
-			var refNode = document.createElement('span');
-			dojo.byId('form1').appendChild(refNode);
-			var w = new dijit.form.Textarea({
+			dojo.addOnLoad(function(){
+				var w = new dijit.form.Textarea({
 					name: "programmaticTextArea",
 					value: "test value"
-				}, refNode);
-			w.setValue('we will create this one programatically');
+				}, "programmatic");
+				w.setValue('we will create this one programatically');
+			});
 		</script>
 		<div name="simpleTextArea" dojoType="dijit.form.Textarea" style="width:33%;border:20px solid red;">
 			this is a very simple resizable text area
