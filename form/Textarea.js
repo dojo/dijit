@@ -12,19 +12,29 @@ dojo.declare(
 	//	Cols is not supported and the width should be specified with style width.
 	//	Rows is not supported since this widget adjusts the height.
 	// usage:
-	//	<textarea dojoType="dijit.form.ResizableTextArea">...</textarea>
+	//	<textarea dojoType="dijit.form.TextArea">...</textarea>
 
-	templateString: (dojo.isIE || dojo.isSafari || dojo.isMozilla) ? '<fieldset id="${id}" tabIndex="${tabIndex}" class="dijitInlineBox dijitInputField dijitTextArea">'
-				+ ((dojo.isIE || dojo.isSafari) ? '<div dojoAttachPoint="editNode" style="text-decoration:none;_padding-bottom:16px;display:block;overflow:auto;" contentEditable="true"></div>'
+	templateString: (dojo.isIE || dojo.isSafari || dojo.isMozilla) ? '<fieldset id="${id}" class="dijitInlineBox dijitInputField dijitTextArea">'
+				+ ((dojo.isIE || dojo.isSafari) ? '<div dojoAttachPoint="editNode" waiRole="textarea" tabIndex="${tabIndex}" style="text-decoration:none;_padding-bottom:16px;display:block;overflow:auto;" contentEditable="true"></div>'
 					: '<iframe dojoAttachPoint="iframe" src="javascript:void(0)" style="border:0px;margin:0px;padding:0px;display:block;width:100%;height:100%;overflow-x:auto;overflow-y:hidden;"></iframe>')
 				+ '<textarea name="${name}" value="${value}" dojoAttachPoint="formValueNode" style="display:none;"></textarea>'
 				+ '</fieldset>'
-			: '<textarea id="${id}" name="${name}" value="${value}" dojoAttachPoint="formValueNode" tabIndex="${tabIndex}" class="dijitInputField dijitTextArea"></textarea>',
+			: '<textarea id="${id}" name="${name}" value="${value}" dojoAttachPoint="formValueNode;editNode" class="dijitInputField dijitTextArea"></textarea>',
 
 	focus: function(){
 		// summary: Received focus, needed for the InlineEditBox widget
 		if(!this.disabled){
 			this._changing(); // set initial height
+			setTimeout(dojo.hitch(this, this._focusAfterDelay), 100);			
+		}
+	},
+
+	_focusAfterDelay: function(){
+		// For Firefox you have to fire focus on iframe.contentWindow, but you have
+		// to set focusNode to the innermost div.
+		if(dojo.isMozilla){
+			this.iframe.contentWindow.focus();
+		}else{
 			this.focusNode.focus();
 		}
 	},
@@ -86,11 +96,25 @@ dojo.declare(
 			this.connect(this.eventNode, "oncut", this._changing);
 			this.connect(this.eventNode, "onpaste", this._changing);
 		}else if(dojo.isMozilla){
-			this.iframe = this.domNode.firstChild;
 			var w = this.iframe.contentWindow;
 			var d = w.document;
+			// In the case of Firefox an iframe is used and when the text gets focus,
+			// focus is fired from the document object.  There isn't a way to put a
+			// waiRole on the document object and as a result screen readers don't
+			// announce the role.  As a result screen reader users are lost.
+			//
+			// An additional problem is that the browser gives the document object a
+			// very cryptic accessible name, e.g.
+			// wyciwyg://13/http://archive.dojotoolkit.org/nightly/dojotoolkit/dijit/tests/form/test_InlineEditBox.html
+			// When focus is fired from the document object, the screen reader speaks
+			// the accessible name.  The cyptic accessile name is confusing.
+			//
+			// A workaround for both of these problems is to give the iframe's
+			// document a title, the name of which is similar to a role name, i.e.
+			// "edit box".  This will be used as the accessible name which will replace
+			// the cryptic name and will also convey the role information to the user.
 			d.open();
-			d.write('<html><body style="margin:0px;padding:0px;border:0px;"><div tabIndex="1" style="padding:2px;"></div></body></html>');
+			d.write('<html><head><title>edit box</title></head><body style="margin:0px;padding:0px;border:0px;"><div tabIndex="1" style="padding:2px;"></div></body></html>');
 			d.close();
 			try{ this.iframe.contentDocument.designMode="on"; }catch(e){/*squelch*/} // this can fail if display:none
 			this.editNode = d.body.firstChild;
@@ -124,6 +148,8 @@ dojo.declare(
 
 	_interceptTab: function(e){
 		if(e.keyCode == 9 && !e.shiftKey && !e.ctrlKey && !e.altKey){
+			// Place focus on the iframe. A subsequent tab or shift tab will put focus
+			// on the correct control.  (Having to tab twice is a low priority bug.)
 			this.iframe.focus();
 			e.preventDefault();
 		}
