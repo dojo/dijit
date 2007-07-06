@@ -18,11 +18,15 @@
 </head>
 <body class="tundra">
 	<div dojoType="dijit.Declaration" widgetClass="foo" defaults="{ foo: 'thud', progress: 10 }">
+		<script type='dojo/connect' event='startup'>
+			this.baz.innerHTML += " (modified by dojo/connect event=startup) ";
+		</script>
+	
 	<p>thinger blah stuff ${foo}</p>
 
 	<div style="width:400px" annotate="true" maximum="200"
 		id="setTestBar" progress="${progress}" dojoType="dijit.ProgressBar"></div>
-	<p>baz thud</p>
+	<p dojoAttachPoint='baz'>baz thud</p>
 	</div>
 
 	<div dojoType="foo" foo="blah" progress="50"></div>

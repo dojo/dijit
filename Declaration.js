@@ -26,8 +26,8 @@ dojo.declare(
 			}
 			this.mixins.push(function(){
 				scripts.forEach(function(script){
-					dojo.parser._wireUpConnect(this, script);
-				});
+					dojo.parser._wireUpMethod(this, script);
+				}, this);
 			});
 
 			var propList = this.defaults||{};
