@@ -65,10 +65,15 @@ dojo.declare(
 			if(!this._calendar){
 				this._calendar = new dijit._Calendar({
 					onValueSelected: function(){
-						dijit.form.DateTextbox.superclass.setValue.apply(self, arguments);					
+
 						dijit.util.popup.close();
-						self._skipNextFocusOpen=true;	// refocus on <input> but don't reopen popup
+						
+						// refocus on <input> but don't reopen popup (we just closed it!)
+						self._skipNextFocusOpen=true;
 						self.focus();
+
+						// this will cause InlineEditBox and other handlers to do stuff so make sure it's last
+						dijit.form.DateTextbox.superclass.setValue.apply(self, arguments);					
 					},
 					lang: this.lang,
 					isDisabledDate: function(/*Date*/ date){

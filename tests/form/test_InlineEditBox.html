@@ -42,7 +42,7 @@
 
 		<hr style="width:100%;">
 		<blockquote style="width:50%;">
-			<p><span id="areaEditable" dojoType="dijit.form.InlineEditBox" renderHTML="true">
+			<p><span id="areaEditable" dojoType="dijit.form.InlineEditBox" renderHTML="true" autoSave="false">
 				<textarea dojoType="dijit.form.Textarea">I'm one big paragraph.  Go ahead and <i>edit</i> me.  <b>I dare you.</b> The quick brown fox jumped over the lazy dog.  Blah blah blah blah blah blah blah ...</textarea>
 			</span></p>
 		</blockquote>
@@ -69,7 +69,7 @@
 			url="comboBoxData.json"></div>
 		<span id="backgroundArea" dojoType="dijit.form.InlineEditBox" >
 			<input searchAttr="name" keyAttr="abbreviation" id="setvaluetest" dojoType="dijit.form.FilteringSelect" value="IA"
-					store="stateStore" name="state1" autocomplete="true">
+					store="stateStore" name="state1" autocomplete="true" hasDownArrow="false">
 		</span>
 		<hr style="width:100%;">
 		<div style="display:block;" id="programmatic"></div>

@@ -33,6 +33,10 @@ dojo.declare(
 	//		Is the node currently in edit mode?
 	editing: false,
 
+	// autoSave: Boolean
+	//				Changing the value automatically saves it, don't have to push save button
+	autoSave: true,
+
 	// buttonSave: String
 	//              Save button label
 	buttonSave: "",
@@ -59,10 +63,13 @@ dojo.declare(
 			_this._setEditValue = dojo.hitch(_this.editWidget,_this.editWidget.setDisplayedValue||_this.editWidget.setValue);
 			_this._getEditValue = dojo.hitch(_this.editWidget,_this.editWidget.getDisplayedValue||_this.editWidget.getValue);
 			_this._setEditFocus = dojo.hitch(_this.editWidget,_this.editWidget.focus);
-			_this.editWidget.onChange = dojo.hitch(_this,"checkForValueChange");
+			_this.editWidget.onChange = dojo.hitch(_this,"_onChange");
 			_this.checkForValueChange();
 			_this._showText();
 		});
+		if(this.autoSave){
+			this.buttonSpan.style.display="none";
+		}
 	},
 
 	postMixInProperties: function(){
@@ -116,7 +123,7 @@ dojo.declare(
 		this._setEditFocus();
 		this.saveButton.setDisabled(true);
 		// moved to postCreate to always listen
-		//this.editWidget.onChange = dojo.hitch(this,"checkForValueChange");
+		//this.editWidget.onChange = dojo.hitch(this,"_onChange");
 		this.onClick();
 	},
 
@@ -172,6 +179,15 @@ dojo.declare(
 			this._showText();
 		}
 
+	},
+
+	_onChange: function(){
+		// summary:
+		//	This is called when the underlying widget fires an onChange event,
+		//	which means that the user has presumably finished entering the value
+		if(this.autoSave){
+			this.save();
+		}
 	},
 
 	setDisabled: function(/*Boolean*/ disabled){
