@@ -61,7 +61,11 @@ dojo.declare(
 		var boolIndex = this.open;
 		dojo.removeClass(this.domNode, classes[!boolIndex+0]);
 		this.domNode.className += " " + classes[boolIndex+0];
-	},
+
+		// provide a character based indicator for images-off mode
+		this.arrowNode.innerHTML =
+			this.open ? "&#9660;" : "&#9658;";
+	},	
 
 	_onTitleKey: function(/*Event*/ e){
 		// summary: callback when user hits a key
