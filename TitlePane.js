@@ -34,6 +34,7 @@ dojo.declare(
 			dojo.style(this.containerNode, "display", "none");
 		}
 		this._setCss();
+		dojo.setSelectable(this.titleNode, false);
 		dijit.TitlePane.superclass.postCreate.apply(this, arguments);
 		dijit.util.wai.setAttr(this.containerNode, "waiState", "titleledby", this.titleNode.id);
 		dijit.util.wai.setAttr(this.focusNode, "waiState", "haspopup", "true");
