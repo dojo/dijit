@@ -2,11 +2,8 @@
         "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 <head>
-
-	<title>DOJO interactive benchmark tool</title>
-
-	<script type="text/javascript" src="../../dojo/dojo.js" XdjConfig='isDebug: true, debugAtAllCosts: true'></script>
-
+	<title>Dojo interactive benchmark tool</title>
+	<script type="text/javascript" src="../../dojo/dojo.js"></script>
 	<script type="text/javascript">
 		// FIXME:
 		// the url below points to dojo.inpdx.net/benchResults.php
@@ -18,6 +15,7 @@
 		dojo.require("dojo.fx"); 
 		// FIXME: this seems an excessive fix for IE6 issue ...
 		dojo.require("dijit.dijit"); 
+		// dojo.require("dijit.form.Button"); 
 		dojo.require("dijit.dijit-all"); 
 		dojo.require("dojo.parser");
 
@@ -27,7 +25,7 @@
 		var isRunning = false; 
 		var theCount, theClass, runner = null;
 		var testCount = 0;
-		dojo.addOnLoad(function() {
+		dojo.addOnLoad(function(){
 			theCount = dojo.byId('countNode');
 			theClass = dojo.byId('classNode');
 			runner = dojo.byId('runner'); 
@@ -35,28 +33,28 @@
 		});
 		
 
-		function _toggleRunMsg() {
+		function _toggleRunMsg(){
 			var newMsg = (isRunning) ? " Run Test " : " Running ..."
 			dojo.fx.chain([
 				dojo.fadeOut({
 					node:runner,
 					duration:200,
-					onEnd: function() {
+					onEnd: function(){
 						runner.innerHTML = newMsg;
 						isRunning=!isRunning;
-						}
-					}),
+					}
+				}),
 				dojo.fadeIn({ node:runner, duration: 200 })
 			]).play();
 		}
 
-		function runTest() {
-			if (isRunning) return;
+		function runTest(){
+			if(isRunning){ return; }
 			_toggleRunMsg();
 			setTimeout("_runRealTest()",1000);
 		}
 
-		function _runRealTest() {
+		function _runRealTest(){
 
 			var _error = false; 
 			var count = theCount.value;
@@ -66,18 +64,19 @@
 			// FIXME: this is where IE6 dies on dijit.form.* the added dijit-all rollup
 			// includes everything, but leaving this here so people can benchmark
 			// dojox.* widgets, or their own.
-			try { dojo.require(aclass+''); }
-			catch(e) { _error = e; }
+			try{
+				dojo.require(aclass+'');
+			}catch(e){ _error = e; }
 
-			if (!_error) { 
+			if(!_error){ 
 				var tmpNode = document.createElement('div');
-				switch (theMethod) {
+				switch(theMethod){
 					case "parse" : 
-						var tmpString = ''; 
-						for (i=0; i<count; i++) {
-							tmpString += '<div dojoType="'+aclass+'"></div>';
+						var tmpString = []; 
+						for(var i=0; i<count; i++){
+							tmpString.push('<div dojoType="', aclass, '"></div>');
 						}
-						tmpNode.innerHTML = tmpString; 
+						tmpNode.innerHTML = tmpString.join(""); 
 						var tmpTimer = new Date().getTime();
 						dojo.parser.parse(tmpNode); 
 						var endTime = new Date().getTime() - tmpTimer; 
@@ -85,7 +84,7 @@
 					case "create" : 
 						var construction = dojo.getObject(aclass); 
 						var tmpTimer = new Date().getTime();
-						for (i=0; i<count; i++) {
+						for(var i=0; i<count; i++){
 							var tmp = new construction({}); 
 							tmpNode.appendChild(tmp.domNode); 
 						}	
@@ -106,7 +105,7 @@
 					testTime: endTime
 				});
 
-			} else { 
+			}else{ 
 				var msg = "ERROR: "+_error.message+"<br><br>"; 
 				masterResults.errors.push(_error); 
 			}
@@ -114,7 +113,7 @@
 			setTimeout("_toggleRunMsg()",250); 
 		}
 
-		function doDebug() {
+		function doDebug(){
 			var key = escape(dojo.toJson(masterResults));
 			dojo.byId('hiddenHolder').value = key;
 			return true;
@@ -148,7 +147,7 @@
 </head>
 <body class="tundra">
 
-	<h1 class="testTitle">DOJO Benchmark Tool</h1>
+	<h1 class="testTitle">Dojo Benchmark Tool</h1>
 
 	<div id="leftControl">
 		<div id="testControl">
@@ -184,13 +183,9 @@
 				</form>
 			</div>
 		</div>
-
-
 	</div>
 
-
 	<div id="theContainer"><h3>Results:</h3><div id="results"></div></div>
-
 	
 </body>
 </html>
