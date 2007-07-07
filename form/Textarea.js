@@ -1,6 +1,8 @@
 dojo.provide("dijit.form.Textarea");
 
 dojo.require("dijit.form._FormWidget");
+dojo.require("dojo.i18n");
+dojo.requireLocalization("dijit.form", "Textarea");
 
 dojo.declare(
 	"dijit.form.Textarea",
@@ -60,13 +62,13 @@ dojo.declare(
 	},
 
 	setValue: function(/*String*/ value){
-		if(this.editNode){
-			this.editNode.innerHTML = ""; // wipe out old nodes
-			var lines = value.split("\n");
-			for(var i=0; i < lines.length; i++){
-				this.editNode.appendChild(document.createTextNode(lines[i])); // use text nodes so that imbedded tags can be edited
-				this.editNode.appendChild(document.createElement("BR")); // preserve line breaks
-			}
+		var node = this.editNode;
+		if(node){
+			node.innerHTML = ""; // wipe out old nodes
+			dojo.forEach(value.split("\n"), function(line){
+				node.appendChild(document.createTextNode(line)); // use text nodes so that imbedded tags can be edited
+				node.appendChild(document.createElement("BR")); // preserve line breaks
+			});
 		}
 		this._setFormValue();
 	},
@@ -91,8 +93,7 @@ dojo.declare(
 	postCreate: function(){
 		if(dojo.isIE || dojo.isSafari){
 			this.domNode.style.overflowY = 'hidden';
-			this.eventNode = this.editNode;
-			this.focusNode = this.editNode;
+			this.eventNode = this.focusNode = this.editNode;
 			this.connect(this.eventNode, "oncut", this._changing);
 			this.connect(this.eventNode, "onpaste", this._changing);
 		}else if(dojo.isMozilla){
@@ -113,8 +114,12 @@ dojo.declare(
 			// document a title, the name of which is similar to a role name, i.e.
 			// "edit box".  This will be used as the accessible name which will replace
 			// the cryptic name and will also convey the role information to the user.
+			// Because it is read directly to the user, the string must be localized.
+			var resources = dojo.i18n.getLocalization("dijit.form", "Textarea");
 			d.open();
-			d.write('<html><head><title>edit box</title></head><body style="margin:0px;padding:0px;border:0px;"><div tabIndex="1" style="padding:2px;"></div></body></html>');
+			d.write('<html><head><title>' +
+				resources.iframeTitle +
+				'</title></head><body style="margin:0px;padding:0px;border:0px;"><div tabIndex="1" style="padding:2px;"></div></body></html>');
 			d.close();
 			try{ this.iframe.contentDocument.designMode="on"; }catch(e){/*squelch*/} // this can fail if display:none
 			this.editNode = d.body.firstChild;
