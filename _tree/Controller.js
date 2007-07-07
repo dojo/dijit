@@ -55,11 +55,11 @@ dojo.declare(
 
 		// if this is an expanded folder, get the first child
 		var nodeWidget = message.node;
-		if (nodeWidget.isFolder && nodeWidget.isExpanded && nodeWidget.hasChildren()) {
+		if(nodeWidget.isFolder && nodeWidget.isExpanded && nodeWidget.hasChildren()){
 			returnWidget = nodeWidget.getChildren()[0];			
-		} else {
+		}else{
 			// find a parent node with a sibling
-			while (nodeWidget.isTreeNode) {
+			while(nodeWidget.isTreeNode) {
 				returnWidget = nodeWidget.getNextSibling();
 				if(returnWidget){
 					break;
@@ -68,7 +68,7 @@ dojo.declare(
 			}	
 		}
 
-		if (returnWidget && returnWidget.isTreeNode) {
+		if(returnWidget && returnWidget.isTreeNode){
 			returnWidget.tree.focusNode(returnWidget);
 			return returnWidget;
 		}	
@@ -82,25 +82,25 @@ dojo.declare(
 
 		// if younger siblings		
 		var previousSibling = nodeWidget.getPreviousSibling();
-		if (previousSibling) {
+		if(previousSibling){
 			nodeWidget = previousSibling;
 			// if the previous nodeWidget is expanded, dive in deep
-			while (nodeWidget.isFolder && nodeWidget.isExpanded && nodeWidget.hasChildren()) {
+			while(nodeWidget.isFolder && nodeWidget.isExpanded && nodeWidget.hasChildren()){
 				returnWidget = nodeWidget;
 				// move to the last child
 				var children = nodeWidget.getChildren();
 				nodeWidget = children[children.length-1];
 			}
-		} else {
+		}else{
 			// if this is the first child, return the parent
 			nodeWidget = nodeWidget.getParent();
 		}
 
-		if (nodeWidget && nodeWidget.isTreeNode) {
+		if(nodeWidget && nodeWidget.isTreeNode){
 			returnWidget = nodeWidget;
 		}
 
-		if (returnWidget && returnWidget.isTreeNode) {
+		if(returnWidget && returnWidget.isTreeNode){
 			returnWidget.tree.focusNode(returnWidget);
 			return returnWidget;
 		}
@@ -112,17 +112,17 @@ dojo.declare(
 		var returnWidget = nodeWidget;
 
 		// if not expanded, expand, else move to 1st child
-		if (nodeWidget.isFolder && !nodeWidget.isExpanded) {
+		if(nodeWidget.isFolder && !nodeWidget.isExpanded){
 			this._expand(nodeWidget);
-		}else if (nodeWidget.hasChildren()) {
+		}else if(nodeWidget.hasChildren()){
 			nodeWidget = nodeWidget.getChildren()[0];
 		}
 
-		if (nodeWidget && nodeWidget.isTreeNode) {
+		if(nodeWidget && nodeWidget.isTreeNode){
 			returnWidget = nodeWidget;
 		}
 
-		if (returnWidget && returnWidget.isTreeNode) {
+		if(returnWidget && returnWidget.isTreeNode){
 			returnWidget.tree.focusNode(returnWidget);
 			return returnWidget;
 		}
@@ -135,16 +135,16 @@ dojo.declare(
 		var returnWidget = node;
 
 		// if not collapsed, collapse, else move to parent
-		if (node.isFolder && node.isExpanded) {
+		if(node.isFolder && node.isExpanded){
 			this._collapse(node);
-		} else {
+		}else{
 			node = node.getParent();
 		}
-		if (node && node.isTreeNode) {
+		if(node && node.isTreeNode){
 			returnWidget = node;
 		}
 
-		if (returnWidget && returnWidget.isTreeNode) {
+		if(returnWidget && returnWidget.isTreeNode){
 			returnWidget.tree.focusNode(returnWidget);
 			return returnWidget;
 		}
@@ -155,9 +155,9 @@ dojo.declare(
 
 		var returnWidget = message.tree;
 
-		if (returnWidget){
+		if(returnWidget){
 			returnWidget = returnWidget.getChildren()[0];
-			if (returnWidget && returnWidget.isTreeNode){
+			if(returnWidget && returnWidget.isTreeNode){
 				returnWidget.tree.focusNode(returnWidget);
 				return returnWidget;
 			}
@@ -173,12 +173,12 @@ dojo.declare(
 		while(lastChild.isExpanded){
 			var c = lastChild.getChildren();
 			lastChild = c[c.length - 1];
-			if (lastChild.isTreeNode){
+			if(lastChild.isTreeNode){
 				returnWidget = lastChild;
 			}
 		}
 
-		if (returnWidget && returnWidget.isTreeNode){
+		if(returnWidget && returnWidget.isTreeNode){
 			returnWidget.tree.focusNode(returnWidget);
 			return returnWidget;
 		}
@@ -187,25 +187,25 @@ dojo.declare(
 	onToggleOpen: function(/*Object*/ message){
 		// summary: user clicked the +/- icon; expand or collapse my children.
 		var node = message.node;
-		if (node.isExpanded){
+		if(node.isExpanded){
 			this._collapse(node);
-		} else {
+		}else{
 			this._expand(node);
 		}
 	},
 
 	_expand: function(node){
-		if (node.isFolder){
+		if(node.isFolder){
 			node.expand(); // skip trees or non-folders
 			var t = node.tree;
-			if (t.lastFocused){ t.focusNode(t.lastFocused); } // restore focus
+			if(t.lastFocused){ t.focusNode(t.lastFocused); } // restore focus
 		}
 	},
 
 	_collapse: function(node){
-		if (node.isFolder){
+		if(node.isFolder){
 			// are we collapsing a child that has the tab index?
-			if (dojo.query("[tabindex=0]", node.domNode).length > 0){
+			if(dojo.query("[tabindex=0]", node.domNode).length > 0){
 				node.tree.focusNode(node);
 			}
 			node.collapse();
