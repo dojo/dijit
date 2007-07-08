@@ -254,7 +254,7 @@ if(dojo.isIE){
 		for(var key in cache){
 			var value = cache[key];
 			if(!isNaN(value.nodeType)){ // isNode equivalent
-				dojo._destroyNode(value);
+				dojo._destroyElement(value);
 			}
 			cache[key] = null;
 		}
