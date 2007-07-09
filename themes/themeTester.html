@@ -207,7 +207,7 @@
 				<div dojoType="dijit.layout.AccordionPane" title="Color Picker">
 					<!-- color palette picker -->
 					<h2 class="testHeader">Dijit Color Palette(7x10)</h2>
-					<div dojoType="dijit.ColorPalette" onColorSelect="setColor(this.selectedColor);"></div>
+					<div dojoType="dijit.ColorPalette" onChange="setColor(this.value);"></div>
 					<br>
 					Test color is: <span id="outputSpan"></span>.
 				</div>

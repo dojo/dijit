@@ -75,7 +75,7 @@
 			<div dojoType="dijit.form.DropDownButton" iconClass="noteIcon">
 				<span>Color</span>
 				<div dojoType="dijit.ColorPalette" id="colorPalette" style="display: none" palette="3x4"
-					onColorSelect="console.log(this.selectedColor);"></div>
+					onChange="console.log(this.value);"></div>
 			</div>
 			<div dojoType="dijit.form.ComboButton" optionsTitle='save options' onClick='logMessage("clicked combo save")'
 					iconClass="plusBlockIcon">

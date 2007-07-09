@@ -26,9 +26,9 @@ dojo.declare(
 	//		Size of grid, either "7x10" or "3x4".
 	palette: "7x10",
 
-	//_selectedColor: String
+	//_value: String
 	//		The value of the selected color.
-	selectedColor: null,
+	value: null,
 
 	//_currentFocus: Integer
 	//		Index of the currently focused color.
@@ -149,7 +149,7 @@ dojo.declare(
 		}
 	},
 
-	onColorSelect: function(color){
+	onChange: function(color){
 		// summary:
 		//		Callback when a color is selected.
 		// color: String
@@ -218,11 +218,11 @@ dojo.declare(
 
 	_selectColor: function(selectNode){	
 		// summary:
-		// 		This selects a color. It triggers the onColorSelect event
+		// 		This selects a color. It triggers the onChange event
 		// area:
 		//		The area node that covers the color being selected.
-		this.selectedColor = selectNode.color;
-		this.onColorSelect(selectNode.color);
+		this.value = selectNode.color;
+		this.onChange(selectNode.color);
 	},
 
 	_navigateByKey: function(increment, typeCount){
