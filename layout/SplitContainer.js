@@ -187,11 +187,11 @@ dojo.declare(
 		// set the SizeActual member of each pane
 		//
 		var totalSize = 0;
-		for(var i = 0; i< children.length-1; i++){
-			var size = Math.round(pixPerUnit * children[i].sizeShare);
-			children[i].sizeActual = size;
+		dojo.forEach(children.slice(0, children.length - 1), function(child){
+			var size = Math.round(pixPerUnit * child.sizeShare);
+			child.sizeActual = size;
 			totalSize += size;
-		}
+		});
 
 		children[children.length-1].sizeActual = space - totalSize;
 
@@ -213,23 +213,25 @@ dojo.declare(
 		// if we don't have any sizers, our layout method hasn't been called yet
 		// so bail until we are called..TODO: REVISIT: need to change the startup
 		// algorithm to guaranteed the ordering of calls to layout method
-		if(!this.sizers)
+		if(!this.sizers){
 			return;
+		}
 
-		for(var i=1; i<children.length; i++){
+		dojo.some(children.slice(1), function(child, i){
 			// error-checking
-			if(!this.sizers[i-1])
-				break;
+			if(!this.sizers[i]){
+				return true;
+			}
 			// first we position the sizing handle before this pane
-			this._moveSlider(this.sizers[i-1], pos, this.sizerWidth);
-			this.sizers[i-1].position = pos;
+			this._moveSlider(this.sizers[i], pos, this.sizerWidth);
+			this.sizers[i].position = pos;
 			pos += this.sizerWidth;
 
-			size = children[i].sizeActual;
-			this._movePanel(children[i], pos, size);
-			children[i].position = pos;
+			size = child.sizeActual;
+			this._movePanel(child, pos, size);
+			child.position = pos;
 			pos += size;
-		}
+		}, this);
 	},
 
 	_movePanel: function(panel, pos, size){
@@ -309,15 +311,10 @@ dojo.declare(
 			});
 
 			if(growth > 0){
-				if(this.isDraggingLeft){
-					for(var i=children.length-1; i>=0; i--){
-						growth = this._growPane(growth, children[i]);
-					}
-				}else{
-					for(var i=0; i<children.length; i++){
-						growth = this._growPane(growth, children[i]);
-					}
-				}
+				var list = this.isDraggingLeft ? children.reverse() : children;
+				dojo.forEach(list, function(child){
+					growth = this._growPane(growth, child);
+				}, this);
 			}
 		}else{
 			dojo.forEach(children, function(child){
