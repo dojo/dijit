@@ -119,6 +119,12 @@ dojo.declare(
 			}
 		},
 
+		_onBlur: function(){
+			// summary: called magically when focus has shifted away from this widget and it's dropdown
+			dijit.util.popup.closeAll();
+			// don't focus on button.  the user has explicitly focused on something else.
+		},
+
 		_toggleDropDown: function(){
 			// summary: toggle the drop-down widget; if it is up, close it, if not, open it
 			if(this.disabled){ return; }
@@ -129,6 +135,7 @@ dojo.declare(
 				var oldWidth=dropDown.domNode.style.width;
 				var self = this;
 				dijit.util.popup.open({
+					host: this,
 					popup: dropDown,
 					around: this.domNode,
 					onExecute: function(){
@@ -138,10 +145,6 @@ dojo.declare(
 					onCancel: function(){
 						dijit.util.popup.closeAll();
 						self.focus();	// TODO: for combobutton focus on arrow
-					},
-					onBlur: function(){
-						dijit.util.popup.closeAll();
-						// don't focus on button.  the user has explicitly focused on something else.
 					},
 					onClose: function(){
 						dropDown.domNode.style.width = oldWidth;

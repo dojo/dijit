@@ -1,0 +1,63 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+        "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+	<title>dijit.util.focus Test</title>
+	<style type="text/css">
+		@import "../../../dojo/resources/dojo.css";
+		@import "../../themes/tundra/tundra.css";
+		@import "../css/dijitTests.css";
+	</style>
+
+	<script type="text/javascript" src="../../../dojo/dojo.js"
+		djConfig="isDebug: true, parseOnLoad: true"></script>
+	<script type="text/javascript">
+		dojo.require("dijit.util.focus");
+		dojo.require("dijit.form.DateTextbox");
+		dojo.require("dijit.form.ComboBox");
+		dojo.require("dijit.form.NumberSpinner");
+		dojo.require("dijit.form.Button");
+		dojo.require("dijit.Menu");
+
+		dojo.addOnLoad(function(){
+			dojo.subscribe("widgetBlur", function(widget){ console.log("blurred widget " + (widget?widget:"nothing"));});
+			dojo.subscribe("widgetFocus", function(widget){ console.log("focused on widget " + (widget?widget:"nothing"));});
+		});
+	</script>
+</head>
+<body style="background-color: #fff; color: black; padding: 0; margin: 0" class="tundra">
+
+	<h3>Widget Focus Test</h3>
+	<p>
+		This is for testing code to detect onBlur and onFocus on a widget level.
+		Check the console log for focus and blur events on widgets.
+	</p>
+
+	<form style="border: 2px solid blue;">
+		<select id=select dojoType="dijit.form.ComboBox">
+			<option>this</option>
+			<option>is</option>
+			<option>a</option>
+			<option>list</option>
+		</select>
+		<input id=plain value=plain><br>
+		<input id=date dojoType="dijit.form.DateTextbox"><br>
+		<textarea id=textarea>hello there!</textarea><br>
+		<input id=spinner dojoType="dijit.form.NumberSpinner" value=100><br>
+		<div id=button dojoType="dijit.form.ComboButton" tabIndex=0>
+			<span>push me</span>
+			<div id=menu dojoType="dijit.Menu">
+				<div id=mi1 dojoType="dijit.MenuItem">menu item 1</div>
+				<div id=mi2 dojoType="dijit.MenuItem">menu item 2</div>
+				<div id=popupMenuItem dojoType="dijit.PopupMenuItem">
+					<span>submenu</span>
+					<div id=submenu dojoType="dijit.Menu">
+						<div id=smi1 dojoType="dijit.MenuItem">submenu item 1</div>
+						<div id=smi2 dojoType="dijit.MenuItem">submenu item 2</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+</body>
+</html>

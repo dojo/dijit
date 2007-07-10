@@ -8,15 +8,10 @@ dijit.util.popup = new function(){
 	// summary:
 	//		This class is used to show/hide widgets as popups.
 	//
-	//		It has various callbacks that fire:
-	//		 - onExecute: when user has hit the submit button on a dialog or clicked a menu choice
-	//		 - onCancel: when user has hit the cancel button on a dialog or hit ESC on a menu
-	//		 - onBlur: when user cancels indirectly by clicking/focusing on another element outside of
-	//				the popup and the widget that spawned it
 
-	var stack = [];
-	var beginZIndex=1000;
-	var idGen = 1;
+	var stack = [],
+		beginZIndex=1000,
+		idGen = 1;
 
 	this.open = function(/*Object*/ args){
 		// summary:
@@ -25,6 +20,8 @@ dijit.util.popup = new function(){
 		// args: Object
 		//		popup: Widget
 		//			widget to display,
+		//		host: Widget
+		//			the button etc. that is displaying this popup
 		//		around: DomNode
 		//			DOM node (typically a button); place popup relative to this node
 		//		orient: Object
@@ -37,8 +34,6 @@ dijit.util.popup = new function(){
 		//			Is this a submenu off of the existing popup?
 		//		onExecute: Function
 		//			callback when user "executed" on the popup/sub-popup by selecting a menu choice, etc. (top menu only)
-		//		onBlur: Function
-		//			callback when user has canceled the popup tree implicitly by focusing/clicking somewhere else (top menu only)
 		//
 		// examples:
 		//		1. opening at the mouse position
@@ -54,9 +49,6 @@ dijit.util.popup = new function(){
 		if(!args.submenu){
 			this.closeAll();
 		}
-		if(!stack.length){
-			this._beforeTopOpen(around, widget);
-		}
 
 		// make wrapper div to hold widget and possibly hold iframe behind it.
 		// we can't attach the iframe as a child of the widget.domNode because
@@ -65,6 +57,9 @@ dijit.util.popup = new function(){
 		wrapper.id = id;
 		wrapper.className="dijitPopup";
 		wrapper.style.zIndex = beginZIndex + stack.length;
+		if(args.host){
+			wrapper.host=args.host.id;
+		}
 		dojo.body().appendChild(wrapper);
 
 		widget.domNode.style.display="";
@@ -98,8 +93,7 @@ dijit.util.popup = new function(){
 			widget: widget,
 			onExecute: args.onExecute,
 			onCancel: args.onCancel,
-			onBlur: args.onBlur,
-			onClose: args.onClose,
+ 			onClose: args.onClose,
 			handlers: handlers
 		});
 
@@ -139,10 +133,6 @@ dijit.util.popup = new function(){
 		if(onClose){
 			onClose();
 		}
-
-		if(!stack.length){
-			this._afterTopClose(widget);
-		}
 	};
 
 	this.closeAll = function(){
@@ -159,101 +149,6 @@ dijit.util.popup = new function(){
 		}
 	};
 
-	///////////////////////////////////////////////////////////////////////
-	// Utility functions for making mouse click close popup chain
-	var currentTrigger;
-
-	this._beforeTopOpen = function(/*DomNode*/ button, /*Widget*/menu){
-		// summary:
-		//	Called when a popup is opened, typically a button opening a menu.
-		//	Registers handlers so that clicking somewhere else on the screen will close the popup
-
-		currentTrigger=button;
-
-		// setup handlers to catch screen clicks and close current menu	
-		this._connectHandlers();
-	};
-
-	this._afterTopClose = function(/*Widget*/menu){
-		// summary:
-		//	called when the top level popup is closed, but before it performs it's actions
-		//	removes handlers for mouse movement detection
-
-		// remove handlers to catch screen clicks and close current menu
-		this._disconnectHandlers();
-
-		currentTrigger = null;
-	};
-
-	this._onEvent = function(/*DomNode*/ node){
-		// summary
-		// Monitor clicks or focuses on elements on the screen.
-		// Clicking or focusing anywhere on the screen will close the current popup hierarchy
-
-		if(!stack.length){ return; }
-
-		// if they clicked on the trigger node (often a button), ignore the click
-		if(currentTrigger && dojo.isDescendant(node, currentTrigger)){
-			return;
-		}
-
-		// if they clicked on the popup itself then ignore it
-		if(dojo.some(stack, function(elem){
-			return dojo.isDescendant(node, elem.widget.domNode);
-		})){
-			return;
-		}
-
-		// the click didn't fall within the open popups so notify whoever opened the popup
-		// (which will in turn close the popup chain)
-		if(stack[0].onBlur){
-			stack[0].onBlur();
-		}
-	};
-
-	// List of everything we need to disconnect
-	this._connects = [];
-
-	this._connectHandlers = function(/*Window?*/targetWindow){
-		// summary:
-		//		Listens on top window and all the iframes so that whereever
-		//		the user clicks in the page, the popup menu will be closed
-
-		if(!targetWindow){ //see comment below
-			try{
-				targetWindow = dijit.util.window.getDocumentWindow(window.top && window.top.document || window.document);
-			}catch(e){ return; /* squelch error for cross domain iframes and abort */ }
-		}
-
-		var self = this;
-		this._connects.push(dojo.connect(targetWindow.document, "onmousedown", this, function(evt){self._onEvent(evt.target||evt.srcElement);}));
-		//this._connects.push(dojo.connect(targetWindow, "onscroll", this, ???);
-		this._focusListener = dojo.subscribe("focus", this, "_onEvent");
-
-		dojo.forEach(targetWindow.frames, function(frame){
-			try{
-				//do not remove dijit.util.window.getDocumentWindow, see comment in it
-				var win = dijit.util.window.getDocumentWindow(frame.document);
-				if(win){
-					this._connectHandlers(win);
-				}
-			}catch(e){ /* squelch error for cross domain iframes */ }
-		}, this);
-	};
-
-	this._disconnectHandlers = function(){
-		// summary:
-		//		Disconnects handlers for mouse click etc. setup by _connectHandlers()
-		dojo.forEach(this._connects, dojo.disconnect);
-		this._connects=[];
-		if(this._focusListener){
-			dojo.unsubscribe(this._focusListener);
-			this._focusListener=null;
-		}
-	};
-
-	// #3531: causes errors, commenting out for now
-	//dojo.addOnUnload(this, "_disconnectHandlers");
 }();
 
 dijit.util.BackgroundIframe = function(/* HTMLElement */node){

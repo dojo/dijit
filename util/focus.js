@@ -172,3 +172,115 @@ dijit.util.focus = new function(){
 		}
 	};
 }();
+
+dijit.util.widgetFocusTracer = new function(){
+	// summary:
+	//	This utility class will trace whenever focus enters/leaves a widget so
+	//	that the widget can fire onFocus/onBlur events.
+	//
+	//	Actually, "focus" isn't quite the right word because we keep track of
+	//	a whole stack of "active" widgets.  Example:  Combobutton --> Menu -->
+	//	MenuItem.   The onBlur event for Combobutton doesn't fire due to focusing
+	//	on the Menu or a MenuItem, since they are considered part of the
+	//	Combobutton widget.  It only happens when focus is shifted
+	//	somewhere completely different.
+
+	// List of currently active widgets (focused widget and it's ancestors)
+	var activeStack=[];
+
+	// List of everything we need to disconnect
+	this._connects = [];
+
+	this.register = function(/*Window?*/targetWindow){
+		// summary:
+		//		Registers listeners on the specified window (either the main
+		//		window or an iframe) to detect when the user has clicked somewhere
+
+		if(!targetWindow){ //see comment below
+			try{
+				targetWindow = dijit.util.window.getDocumentWindow(window.top && window.top.document || window.document);
+			}catch(e){ return; /* squelch error for cross domain iframes and abort */ }
+		}
+
+		var self = this;
+		this._connects.push(dojo.connect(targetWindow.document, "onmousedown", this, function(evt){
+			self._onEvent(evt.target||evt.srcElement);
+		}));
+		//this._connects.push(dojo.connect(targetWindow, "onscroll", this, ???);4
+		
+		this._focusListener = dojo.subscribe("focus", this, "_onEvent");
+
+		dojo.forEach(targetWindow.frames, function(frame){
+			try{
+				//do not remove dijit.util.window.getDocumentWindow, see comment in it
+				var win = dijit.util.window.getDocumentWindow(frame.document);
+				if(win){
+					this.register(win);
+				}
+			}catch(e){ /* squelch error for cross domain iframes */ }
+		}, this);
+	};
+
+	this._onEvent = function(/*DomNode*/ node){
+		// summary
+		//	Trace to see which widget event was on, or
+		//	if it was on a "free node", not associated w/any widget.
+		//	Fire onBlur and onFocus events if focus has changed
+		//	(including case where we are no longer focused on any widget)
+
+		// compute stack of active widgets (ex: ComboButton --> Menu --> MenuItem)
+		var stack=[];
+		try{
+			while(node){
+				if(node.host){
+					node=dijit.byId(node.host).domNode;
+				}else{
+					var id = node.getAttribute && node.getAttribute("widgetId");
+					if(id){
+						stack.unshift(id);
+					}
+					node=node.parentNode;
+				}
+			}
+		}catch(e){ /* squelch */ }
+/**
+		console.log("old active stack: ");
+		dojo.forEach(activeStack, function(id){ console.log("   " + id); });
+		
+		console.log("new active stack: ");
+		dojo.forEach(stack, function(id){ console.log("   " + id); });
+**/
+		// compare old stack to new stack to see how many elements they have in common
+		for(var nCommon=0; nCommon<Math.min(activeStack.length, stack.length); nCommon++){
+			if(activeStack[nCommon] != stack[nCommon]){
+				break;
+			}
+		}
+
+		// for all elements that have gone out of focus, send blur event
+		for(var i=activeStack.length-1; i>=nCommon; i--){
+			var widget = dijit.byId(activeStack[i]);
+			dojo.publish("widgetBlur", [widget]);
+			if(widget._onBlur){
+				widget._onBlur();
+			}
+		}
+
+		// for all element that have come into focus, send focus event
+		for(var i=nCommon; i<stack.length; i++){
+			var widget = dijit.byId(stack[i]);
+			dojo.publish("widgetFocus", [widget]);
+			if(widget._onBlur){
+				widget._onBlur();
+			}
+		}
+		
+		activeStack = stack;
+	};
+
+	// register top window
+	dojo.addOnLoad(this, "register");
+	
+	// #3531: causes errors, commenting out for now
+	//dojo.addOnUnload(this, "_disconnectHandlers");
+}();

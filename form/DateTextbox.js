@@ -86,12 +86,19 @@ dojo.declare(
 			}
 			if(!this._opened){
 				dijit.util.popup.open({
+					host: this,
 					popup: this._calendar,
 					around: this.domNode,
 					onClose: function(){ self._opened=false; }
 				});
 				this._opened=true;
 			}
+		},
+
+		_onBlur: function(){
+			// summary: called magically when focus has shifted away from this widget and it's dropdown
+			dijit.util.popup.closeAll();
+			// don't focus on <input>.  the user has explicitly focused on something else.
 		},
 
 		postCreate: function(){

@@ -10,13 +10,14 @@
 	</style>
 
 	<script type="text/javascript" src="../../../dojo/dojo.js"
-		djConfig="isDebug: true, debugAtAllCosts: true"></script>
+		djConfig="isDebug: true"></script>
 	<script type="text/javascript">
 		dojo.require("dijit.util.focus");
 
 		var savedFocus;
 		dojo.addOnLoad(function(){
 			fakeWidget = { domNode: dojo.byId("save") };
+			dojo.subscribe("focus", function(node){ console.log("focused on " + (node?node:"nothing"));});
 		});
 		function save(){
 			console.debug("save function");

@@ -218,8 +218,13 @@ dojo.declare(
 			return dijit.util.popup.open({
 				popup: this._popupWidget,
 				around: this.domNode,
-				onBlur: dojo.hitch(self, "_hideResultList")
+				host: this
 			});
+		},
+
+		_onBlur: function(){
+			// summary: called magically when focus has shifted away from this widget and it's dropdown
+			this._hideResultList();
 		},
 
 		postMixInProperties:function(){
