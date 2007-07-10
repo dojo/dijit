@@ -366,11 +366,11 @@ dojo.declare(
 			}else{
 				tgt = evt.target;
 			}
-			this._doSelect(tgt);
 			if(!evt.noHide){
 				this._hideResultList();
-				this._setSelectedRange(this.focusNode, 0, null);
+				this._setCaretPos(this.focusNode, this.store.getValue(tgt.item, this.searchAttr).length);
 			}
+			this._doSelect(tgt);
 			this.focus();
 		},
 
