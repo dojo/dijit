@@ -104,6 +104,7 @@ dojo.declare(
 			if(this._isShowingNow){
 				dijit.util.popup.close();
 				this._arrowIdle();
+				this._isShowingNow=false;
 			}
 		},
 
