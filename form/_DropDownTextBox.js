@@ -217,7 +217,7 @@ dojo.declare(
 			return dijit.util.popup.open({
 				popup: this._popupWidget,
 				around: this.domNode,
-				onClose: function(){ self._isShowingNow=false; }
+				onBlur: dojo.hitch(self, "_hideResultList")
 			});
 		},
 

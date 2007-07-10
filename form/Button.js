@@ -131,6 +131,18 @@ dojo.declare(
 				dijit.util.popup.open({
 					popup: dropDown,
 					around: this.domNode,
+					onExecute: function(){
+						dijit.util.popup.closeAll();
+						self.focus();	// TODO: for combobutton focus on arrow
+					},
+					onCancel: function(){
+						dijit.util.popup.closeAll();
+						self.focus();	// TODO: for combobutton focus on arrow
+					},
+					onBlur: function(){
+						dijit.util.popup.closeAll();
+						// don't focus on button.  the user has explicitly focused on something else.
+					},
 					onClose: function(){
 						dropDown.domNode.style.width = oldWidth;
 						self.popupStateNode.removeAttribute("popupActive");

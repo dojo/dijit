@@ -3,7 +3,7 @@ dojo.provide("dijit.Tooltip");
 dojo.require("dijit._Widget");
 dojo.require("dijit._Templated");
 dojo.require("dijit.util.place");
-dojo.require("dijit.util.popup");
+dojo.require("dijit.util.popup");	// for BackgroundIFrame
 dojo.require("dijit.util.sniff");
 
 dojo.declare(

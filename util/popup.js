@@ -6,10 +6,13 @@ dojo.require("dijit.util.window");
 
 dijit.util.popup = new function(){
 	// summary:
-	//		This class is used to show/hide popups.
+	//		This class is used to show/hide widgets as popups.
 	//
-	//		The widget must implement a close() callback, which is called when someone
-	//		clicks somewhere random on the screen.  It will hide the [chain of] context menus
+	//		It has various callbacks that fire:
+	//		 - onExecute: when user has hit the submit button on a dialog or clicked a menu choice
+	//		 - onCancel: when user has hit the cancel button on a dialog or hit ESC on a menu
+	//		 - onBlur: when user cancels indirectly by clicking/focusing on another element outside of
+	//				the popup and the widget that spawned it
 
 	var stack = [];
 	var beginZIndex=1000;
@@ -26,10 +29,16 @@ dijit.util.popup = new function(){
 		//			DOM node (typically a button); place popup relative to this node
 		//		orient: Object
 		//			structure specifying position of object relative to "around" node
+		//		onCancel: Function
+		//			callback when user has canceled the popup by hitting ESC, etc.
 		//		onClose: Function
-		//			callback when the popup is closed
+		//			callback whenever this popup is closed (via close(), closeAll(), or closeTo())
 		//		submenu: Boolean
 		//			Is this a submenu off of the existing popup?
+		//		onExecute: Function
+		//			callback when user "executed" on the popup/sub-popup by selecting a menu choice, etc. (top menu only)
+		//		onBlur: Function
+		//			callback when user has canceled the popup tree implicitly by focusing/clicking somewhere else (top menu only)
 		//
 		// examples:
 		//		1. opening at the mouse position
@@ -70,7 +79,29 @@ dijit.util.popup = new function(){
 
 		// TODO: use effects to fade in wrapper
 
-		stack.push({wrapper: wrapper, iframe: iframe, widget: widget, onClose: args.onClose});
+		// watch for cancel/execute events on the popup and notify the caller
+		// (for a menu, "execute" means clicking an item)
+		var handlers = [];
+		if(widget.onCancel){
+			handlers.push(dojo.connect(widget, "onCancel", null, args.onCancel));
+		}
+		// TODO: monitor ESC key on wrapper (bug #3544)
+		handlers.push(dojo.connect(widget, widget.onExecute ? "onExecute" : "onChange", null, function(){
+			if(stack[0] && stack[0].onExecute){
+				stack[0].onExecute();
+			}
+		}));
+
+		stack.push({
+			wrapper: wrapper,
+			iframe: iframe,
+			widget: widget,
+			onExecute: args.onExecute,
+			onCancel: args.onCancel,
+			onBlur: args.onBlur,
+			onClose: args.onClose,
+			handlers: handlers
+		});
 
 		if(widget.onOpen){
 			widget.onOpen(best);
@@ -82,11 +113,21 @@ dijit.util.popup = new function(){
 	this.close = function(){
 		// summary:
 		//		Close popup on the top of the stack (the highest z-index popup)
+
+		// this needs to happen before the stack is popped, because menu's
+		// onClose calls closeTo(this)
+		var widget = stack[stack.length-1].widget;
+		if(widget.onClose){
+			widget.onClose();
+		}
+
 		var top = stack.pop();
 		var wrapper = top.wrapper,
 			iframe = top.iframe,
 			widget = top.widget,
 			onClose = top.onClose;
+
+		dojo.forEach(top.handlers, dojo.disconnect);
 
 		// #2685: check if the widget still has a domNode so ContentPane can change its URL without getting an error
 		if(!widget||!widget.domNode){ return; }
@@ -95,9 +136,6 @@ dijit.util.popup = new function(){
 		iframe.destroy();
 		dojo._destroyElement(wrapper);
 
-		if(widget.onClose){
-			widget.onClose();
-		}
 		if(onClose){
 			onClose();
 		}
@@ -116,7 +154,7 @@ dijit.util.popup = new function(){
 
 	this.closeTo = function(/*Widget*/ widget){
 		// summary: closes every popup above specified widget
-		while(stack.length && stack[stack.length-1].widget != widget){
+		while(stack.length && stack[stack.length-1].widget.id != widget.id){
 			this.close();
 		}
 	};
@@ -166,8 +204,11 @@ dijit.util.popup = new function(){
 			return;
 		}
 
-		// the click didn't fall within the open popups so close all open popups
-		this.closeAll();
+		// the click didn't fall within the open popups so notify whoever opened the popup
+		// (which will in turn close the popup chain)
+		if(stack[0].onBlur){
+			stack[0].onBlur();
+		}
 	};
 
 	// List of everything we need to disconnect

@@ -56,21 +56,12 @@ dojo.declare(
 		dojo.forEach(this.getChildren(), function(child){ child.startup(); });
 	},
 
-	_moveToParentMenu: function(/*Event*/ evt){
-		if(this.parentMenu){
-			//only process event in the focused menu
-			//and its immediate parentPopup to support
-			//MenuBar
-			if(evt._menuUpKeyProcessed){
-				dojo.stopEvent(e);
-			}else{
-				if(this._focusedItem){
-					this._blurFocusedItem();
-				}
-				this.parentMenu.closeSubmenu();
-				evt._menuUpKeyProcessed = true;
-			}
-		}
+	onExecute: function(){
+		// summary: attach point for notification about when a menu item has been executed
+	},
+
+	onCancel: function(/*Boolean*/ closeAll){
+		// summary: attach point for notification about when the user cancels the current menu
 	},
 
 	_moveToChildMenu: function(/*Event*/ evt){
@@ -110,19 +101,13 @@ dojo.declare(
 				dojo.stopEvent(evt);
 				break;
 			case dojo.keys.LEFT_ARROW:
-				this._moveToParentMenu(evt);
-				break;
 			case dojo.keys.ESCAPE:
-				if(this.parentMenu){
-					this._moveToParentMenu(evt);
-				}else{
-					dojo.stopEvent(evt);
-					dijit.util.popup.closeAll();
-				}
+				// TODO: escape handling should be in dijit.util.popup (bug #3544)
+				this.onCancel(false);
 				break;
 			case dojo.keys.TAB:
 				dojo.stopEvent(evt);
-				dijit.util.popup.closeAll();
+				this.onCancel(true);
 				break;
 		}
 	},
@@ -188,7 +173,7 @@ dojo.declare(
 	_blurFocusedItem: function(){
 		// summary: internal function to remove focus from the currently focused item
 		if(this._focusedItem){
-			// Close all submenus that are open and descendents of this menu
+			// Close all submenus that are open and descendants of this menu
 			dijit.util.popup.closeTo(this);
 			this._focusedItem._blur();
 			this._stopSubmenuTimer();
@@ -224,25 +209,11 @@ dojo.declare(
 		}else{
 			// before calling user defined handler, close hierarchy of menus
 			// and restore focus to place it was when menu was opened
-			var savedFocus = this._getTopMenu()._savedFocus;
-			if(savedFocus){
-				dijit.util.focus.restore(savedFocus);
-			}
-			dijit.util.popup.closeAll();
+			this.onExecute();
+
+			// user defined handler for click
+			item.onClick();
 		}
-
-		// user defined handler for click
-		item.onClick();
-	},
-
-	closeSubmenu: function(force){
-		// summary: close the currently displayed submenu
-		if(!this.currentSubmenu){ return; }
-
-		dijit.util.popup.closeTo(this);
-		this._focusedItem._focus();	// put focus back on my node
-
-		this.currentSubmenu = null;
 	},
 
 	// thanks burstlib!
@@ -318,20 +289,44 @@ dojo.declare(
 		// summary:
 		//		Internal function for opening myself when the user
 		//		does a right-click or something similar
+
 		dojo.stopEvent(e);
+		
+		// Get coordinates.
 		// if we are opening the menu with the mouse or on safari open
 		// the menu at the mouse cursor
 		// (Safari does not have a keyboard command to open the context menu
 		// and we don't currently have a reliable way to determine
 		// _contextMenuWithMouse on Safari)
-		this._savedFocus = dijit.util.focus.save(this);
+		var x,y;
 		if(dojo.isSafari || this._contextMenuWithMouse){
-			dijit.util.popup.open({ popup: this, x: e.pageX, y: e.pageY });
+			x=e.pageX;
+			y=e.pageY;
 		}else{
 			// otherwise open near e.target
 			var coords = dojo.coords(e.target, true);
-			dijit.util.popup.open({popup: this, x: coords.x + 10, y: coords.y + 10});
+			x = coords.x + 10;
+			y = coords.y + 10;
 		}
+
+		var self=this;
+		var savedFocus = dijit.util.focus.save(this);
+		function closeAndRestoreFocus(){
+			// user has clicked on a menu or submenu
+			dijit.util.focus.restore(savedFocus);
+			dijit.util.popup.closeAll();
+		}
+		function closeOnly(){
+			dijit.util.popup.closeAll();
+		}
+		dijit.util.popup.open({
+			popup: this,
+			x: x,
+			y: y,
+			onExecute: closeAndRestoreFocus,
+			onCancel: closeAndRestoreFocus,
+			onBlur: closeOnly
+		});
 	},
 
 	onOpen: function(/*Event*/ e){
@@ -347,6 +342,9 @@ dojo.declare(
 		this.parentMenu = null;
 		this.isShowingNow = false;
 		this.currentSubmenu = null;
+		if(this._focusedItem){
+			this._blurFocusedItem();
+		}
 	},
 
 	_openSubmenu: function(){
@@ -357,7 +355,20 @@ dojo.declare(
 
 		if(submenu.isShowingNow){ return; }
 		submenu.parentMenu = this;
-		dijit.util.popup.open({popup: submenu, around: from_item.arrowCell, orient: {'TR': 'TL', 'TL': 'TR'}, submenu: true});
+		var self = this;
+		dijit.util.popup.open({
+			popup: submenu,
+			around: from_item.arrowCell,
+			orient: {'TR': 'TL', 'TL': 'TR'},
+			submenu: true,
+			onCancel: function(){
+				// called when the child menu is canceled
+				dijit.util.popup.close();
+				self._focusedItem._focus();	// put focus back on my node
+				self.currentSubmenu = null;
+			}
+		});
+			
 
 		this.currentSubmenu = submenu;
 	}
