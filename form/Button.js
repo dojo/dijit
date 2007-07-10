@@ -79,7 +79,7 @@ dojo.declare(
 			// my inner HTML contains both the button contents and a drop down widget, like
 			// <DropDownButton>  <span>push me</span>  <Menu> ... </Menu> </DropDownButton>
 			// The first node is assumed to be the button content. The widget is the popup.
-//			if(this.srcNodeRef){ //FIXME: how is it possible for srcNodeRef to be undefined?
+			if(this.srcNodeRef){ // programatically created buttons might not define srcNodeRef
 				//FIXME: figure out how to filter out the widget and use all remaining nodes as button
 				//	content, not just nodes[0]
 				var nodes = dojo.query("*", this.srcNodeRef);
@@ -87,7 +87,7 @@ dojo.declare(
 
 				// save pointer to srcNode so we can grab the drop down widget after it's instantiated
 				this.dropDownContainer = this.srcNodeRef;
-//			}
+			}
 		},
 
 		startup: function(){
