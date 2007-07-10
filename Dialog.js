@@ -303,14 +303,26 @@ dojo.declare(
 		// summary:
 		//		Pops up a dialog that appears like a Tooltip
 
-		// closeNode: String
-		//	Id of button or other dom node to click to close this dialog
-		closeNode: "",
+		// submitNode: String
+		//	Id of button or other dom node to click to submit this dialog
+		submitNode: "",
+		
+		// cancelNode: String
+		//	Id of button or other dom node to click to cancel this dialog
+		cancelNode: "",
 		
 		// title: String
 		// Description of tooltip dialog (required for a11Y)
 		title: "",
-		
+
+		// onCancel: Function
+		//	Callback when user has canceled dialog
+		onCancel: function(){},
+
+		// onExecute: Function
+		//	Callback when user has executed dialog
+		onExecute: function(){},
+
 		_lastFocusItem: null,
 
 		templatePath: dojo.moduleUrl("dijit.layout", "templates/TooltipDialog.html"),
@@ -323,12 +335,16 @@ dojo.declare(
 			var ev = typeof(document.ondeactivate) == "object" ? "ondeactivate" : "onblur";
 			this.connect(this.containerNode, ev, "_findLastFocus");
 			this.containerNode.title=this.title;
-	},
-	
-	startup: function(){
-			if(this.closeNode){
-				var closeNode = dojo.byId(this.closeNode);
-				this.connect(closeNode, "onclick", "_hide");
+		},
+
+		startup: function(){
+			if(this.cancelNode){
+				var cancelNode = dojo.byId(this.cancelNode);
+				this.connect(cancelNode, "onclick", "onCancel");
+			}
+			if(this.submitNode){
+				var submitNode = dojo.byId(this.submitNode);
+				this.connect(submitNode, "onclick", "onExecute");
 			}
 		},
 
@@ -339,15 +355,10 @@ dojo.declare(
 			this.containerNode.focus();
 		},
 		
-		_hide: function(){
-			// summary: hide the dialog
-			dijit.util.popup.closeAll();
-		},
-		
 		_onKey: function(/*Event*/ evt){
 			//summary: keep keyboard focus in dialog; close dialog on escape key
 			if (evt.keyCode == dojo.keys.ESCAPE){
-				this._hide();
+				this.onCancel();
 			}else if (evt.target == this.containerNode && evt.shiftKey && evt.keyCode == dojo.keys.TAB){
 				if (this._lastFocusItem){
 					this._lastFocusItem.focus();

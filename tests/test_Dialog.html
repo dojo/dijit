@@ -74,7 +74,7 @@ form {
 
 <div dojoType="dijit.form.DropDownButton">
 	<span>Show Tooltip Dialog</span>
-	<div dojoType="dijit.TooltipDialog" id="tooltipDlg" title="Enter Login information" closeNode="hider2">
+	<div dojoType="dijit.TooltipDialog" id="tooltipDlg" title="Enter Login information" submitNode="submit" cancelNode="cancel">
 		<form onsubmit="return false;">
 			<table>
 				<tr>
@@ -87,7 +87,8 @@ form {
 				</tr>
 				<tr>
 					<td colspan="2" align="center">
-						<button id="hider2">Login</button>
+						<button id="submit">Login</button>
+						<button id="cancel">Cancel</button>
 				</tr>
 			</table>
 		</form>
