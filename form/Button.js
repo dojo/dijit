@@ -157,6 +157,9 @@ dojo.declare(
 				}
 				this.popupStateNode.setAttribute("popupActive", "true");
 				this._opened=true;
+				if(dropDown.focus){
+					dropDown.focus();
+				}
 			}else{
 				dijit.util.popup.closeAll();
 				this._opened = false;
