@@ -18,7 +18,7 @@
 		><td dojoAttachPoint="leftDecoration" class="dijitReset" style="text-align:center;height:100%;"></td
 		><td class="dijitReset" style="height:100%;"
 			><input dojoAttachPoint="valueNode" type="hidden" name="${name}"
-			><center style="position:relative;height:100%;" dojoAttachPoint="containerNode"
+			><center style="position:relative;height:100%;" dojoAttachPoint="sliderBarContainer"
 				><div dojoAttachPoint="remainingBar" class="dijitSliderBar dijitVerticalSliderBar dijitSliderRemainingBar dijitVerticalSliderRemainingBar" dojoAttachEvent="onclick:_onBarClick;"></div
 				><div dojoAttachPoint="progressBar" class="dijitSliderBar dijitVerticalSliderBar dijitSliderProgressBar dijitVerticalSliderProgressBar" dojoAttachEvent="onclick:_onBarClick;"
 					><div tabIndex="${tabIndex}" dojoAttachPoint="sliderHandle;focusNode;" class="dijitSliderMoveable" dojoAttachEvent="onkeypress:_onKeyPress;onclick:_onHandleClick;" style="vertical-align:top;" waiRole="slider" valuemin="${minimum}" valuemax="${maximum}"
@@ -28,7 +28,7 @@
 				></div
 			></center
 		></td
-		><td dojoAttachPoint="rightDecoration" class="dijitReset" style="text-align:center;height:100%;"></td
+		><td dojoAttachPoint="containerNode;rightDecoration" class="dijitReset" style="text-align:center;height:100%;"></td
 	></tr
 	><tr class="dijitReset"
 		><td class="dijitReset"></td

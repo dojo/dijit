@@ -99,7 +99,7 @@ dojo.declare(
 	_onBarClick: function(e){
 		if(this.disabled || !this.clickSelect){ return; }
 		dojo.stopEvent(e);
-		var abspos = dojo.coords(this.containerNode, true);
+		var abspos = dojo.coords(this.sliderBarContainer, true);
 		var pixelValue = e[this._mousePixelCoord] - abspos[this._startingPixelCoord];
 		this._setPixelValue(this._upsideDown ? (abspos[this._pixelCount] - pixelValue) : pixelValue, abspos[this._pixelCount]);
 	},
@@ -122,8 +122,8 @@ dojo.declare(
 	},
 
 	_bumpValue: function(signedChange){
-		var s = dojo.getComputedStyle(this.containerNode);
-		var c = dojo._getContentBox(this.containerNode, s);
+		var s = dojo.getComputedStyle(this.sliderBarContainer);
+		var c = dojo._getContentBox(this.sliderBarContainer, s);
 		var count = this.discreteValues;
 		if(count > c[this._pixelCount]){ count = c[this._pixelCount]; }
 		var value = (this.value - this.minimum) * count / (this.maximum - this.minimum) + signedChange;
@@ -167,6 +167,15 @@ dojo.declare(
 		this.decrementButton = w.focusNode;
 	},
 
+	startup: function(){
+		var _this = this;
+		dojo.forEach(this.getChildren(), function(child){
+			if(_this[child.container] != _this.containerNode){
+				_this[child.container].appendChild(child.domNode);
+			}
+		});
+	},
+
 	postCreate: function(){
 		if(this.showButtons){
 			this._createIncrementButton();
@@ -204,7 +213,7 @@ dojo.declare("dijit.form._slider",
 		var widget = this.node.widget;
 		var c = this.constraintBox;
 		if(!c){
-			var container = widget.containerNode;
+			var container = widget.sliderBarContainer;
 			var s = dojo.getComputedStyle(container);
 			var c = dojo._getContentBox(container, s);
 			c[widget._startingPixelCount] = 0;
