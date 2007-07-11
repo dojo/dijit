@@ -27,6 +27,11 @@ dojo.declare(
 
 		_verticalSpace: 0,
 
+		postCreate: function(){
+			this.domNode.style.overflow="hidden";
+			dijit.layout.AccordionContainer.superclass.postCreate.apply(this, arguments);
+		},
+
 		startup: function(){
 			dijit.layout.StackContainer.prototype.startup.apply(this, arguments);
 			if(this.selectedChildWidget){
@@ -52,9 +57,13 @@ dojo.declare(
 			this._verticalSpace = (mySize.h - totalCollapsedHeight);
 			if(openPane){
 				openPane.containerNode.style.height = this._verticalSpace + "px";
+/***
+TODO: this is wrong.  probably you wanted to call resize on the SplitContainer
+inside the AccordionPane??
 				if(openPane.resize){
-					openPane.resize({h: this.verticalSpace});
+					openPane.resize({h: this._verticalSpace});
 				}
+***/
 			}
 		},
 

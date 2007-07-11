@@ -130,6 +130,13 @@ dojo.declare(
 			this._hideChild(oldWidget);
 		}
 		this._showChild(newWidget);
+
+		// Size the new widget, in case this is the first time it's being shown,
+		// or I have been resized since the last time it was shown.
+		// page must be visible for resizing to work
+		if(this.doLayout && newWidget.resize){
+			newWidget.resize(this._containerContentBox || this._contentBox);
+		}
 	},
 
 	forward: function(){
@@ -159,12 +166,7 @@ dojo.declare(
 		page.isLastChild = (page == children[children.length-1]);
 		page.selected = true;
 
-		// size the current page (in case this is the first time it's being shown, or I have been resized)
-		// page must be visible for resizing to work
 		page.domNode.style.display="";
-		if(this.doLayout && page.resize){
-			page.resize(this._containerContentBox || this._contentBox);
-		}
 	},
 
 	_hideChild: function(/*Widget*/ page){

@@ -36,37 +36,39 @@ dojo.declare("dijit.layout._LayoutWidget",
 			// If I am a top level widget
 			if(!this.getParent || !this.getParent()){
 				// Do recursive sizing and layout of all my descendants
+				// (passing in no argument to resize means that it has to glean the size itself)
 				this.resize();
 
 				// since my parent isn't a layout container, and my style is width=height=100% (or something similar),
 				// then I need to watch when the window resizes, and size myself accordingly
-				this.connect(window, 'onresize', "resize");
+				// (passing in no argument to resize means that it has to glean the size itself)
+				this.connect(window, 'onresize', function(){this.resize();});
 			}
 		},
 		
-		resize: function(mb){
+		resize: function(args){
 			// summary:
 			//		Explicitly set this widget's size (in pixels),
 			//		and then call layout() to resize contents (and maybe adjust child widgets)
 			//	
-			// mb: Object?
+			// ars: Object?
 			//		{w: int, h: int, l: int, t: int}
 
 			var node = this.domNode;
 
 			// set margin box size, unless it wasn't specified, in which case use current size
-			if(mb){
-				dojo.marginBox(node, mb);
+			if(args){
+				dojo.marginBox(node, args);
 
 				// set offset of the node
-				if(mb.t){ node.style.top = mb.t + "px"; }
-				if(mb.l){ node.style.left = mb.l + "px"; }
+				if(args.t){ node.style.top = args.t + "px"; }
+				if(args.l){ node.style.left = args.l + "px"; }
 			}
-			
 			// If either height or width wasn't specified by the user, then query node for it.
 			// But note that setting the margin box and then immediately querying dimensions may return
 			// inaccurate results, so try not to depend on it.
-			mb = dojo.mixin(dojo.marginBox(node), mb||{});
+			var mb = dojo.mixin(dojo.marginBox(node), args||{});
+			console.log(this + ": resize to height " + mb.h);
 
 			// Save the size of my content box.
 			this._contentBox = dijit.layout.marginBox2contentBox(node, mb);
