@@ -30,6 +30,11 @@ dojo.declare(
 		//		Reference to data provider object used by this ComboBox
 		store: null,
 
+		// query: Object 
+		//		A query that can be passed to 'store' to initially filter the items, 
+		//		before doing further filtering based on searchAttr and the key. 
+		query: {},
+
 		// autoComplete: Boolean
 		//		If you type in a partial string, and then tab out of the <input> box,
 		//		automatically copy the first entry displayed in the drop down list to
@@ -401,7 +406,7 @@ dojo.declare(
 		_startSearch: function(/*String*/ key){
 			this.makePopup();
 			// create a new query to prevent accidentally querying for a hidden value from FilteringSelect's keyField
-			var query={};
+			var query=this.query;
 			this._lastQuery=query[this.searchAttr]=key+"*";
 			// no need to page; no point in caching the return object
 			this.store.fetch({queryOptions:{ignoreCase:this.ignoreCase}, query: query, onComplete:dojo.hitch(this, "_openResultList"), count:this.searchLimit});
