@@ -60,6 +60,12 @@ dojo.declare(
 			}else{
 				_this.editWidget = _this.getChildren()[0];
 			}
+			// #3209: copy the style from the source
+			// don't copy ALL properties though, just the necessary/applicable ones
+			dojo.forEach(["fontSize","fontFamily","fontWeight"], function(prop){
+				_this.editWidget.focusNode.style[prop]=_this._srcStyle[prop];
+				_this.editable.style[prop]=_this._srcStyle[prop];
+			});
 			_this._setEditValue = dojo.hitch(_this.editWidget,_this.editWidget.setDisplayedValue||_this.editWidget.setValue);
 			_this._getEditValue = dojo.hitch(_this.editWidget,_this.editWidget.getDisplayedValue||_this.editWidget.getValue);
 			_this._setEditFocus = dojo.hitch(_this.editWidget,_this.editWidget.focus);
@@ -73,6 +79,7 @@ dojo.declare(
 	},
 
 	postMixInProperties: function(){
+		this._srcStyle=dojo.getComputedStyle(this.srcNodeRef);
 		dijit.form.InlineEditBox.superclass.postMixInProperties.apply(this, arguments);
 		this.messages = dojo.i18n.getLocalization("dijit", "common", this.lang);
 		dojo.forEach(["buttonSave", "buttonCancel"], function(prop){
@@ -146,6 +153,15 @@ dojo.declare(
 			this.editable.appendChild(document.createTextNode(value));
 		}
 		this._visualize();
+		// #3209: resize the textarea to match the text
+		// height scales automatically; only width needs setting
+		// TODO: implement resize functions in the widgets so InlineEditBox doesn't have to know about things like TextArea's iframe
+		/*
+		if(this.editWidget.iframe){
+			dojo.contentBox(this.editWidget.iframe, {w:dojo.contentBox(this.editable).w});
+		}else{
+			dojo.contentBox(this.editWidget.focusNode, {w:dojo.contentBox(this.editable).w});
+		}*/
 	},
 
 	save: function(e){
