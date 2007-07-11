@@ -37,9 +37,9 @@ dijit.util.popup = new function(){
 		//
 		// examples:
 		//		1. opening at the mouse position
-		//			dijit.util.popup.open({widget: menuWidget, x: evt.pageX, y: evt.pageY});
+		//			dijit.util.popup.open({popup: menuWidget, x: evt.pageX, y: evt.pageY});
 		//		2. opening the widget as a dropdown
-		//			dijit.util.popup.open({widget: menuWidget, around: buttonWidget, onClose: function(){...}  });
+		//			dijit.util.popup.open({host: this, popup: menuWidget, around: this.domNode, onClose: function(){...}  });
 
 		var widget = args.popup,
 			orient = args.orient || {'BL':'TL', 'TL':'BL'},
