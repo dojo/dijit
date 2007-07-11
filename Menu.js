@@ -319,17 +319,21 @@ dojo.declare(
 			dijit.util.focus.restore(savedFocus);
 			dijit.util.popup.closeAll();
 		}
-		function closeOnly(){
-			dijit.util.popup.closeAll();
-		}
 		dijit.util.popup.open({
 			popup: this,
 			x: x,
 			y: y,
 			onExecute: closeAndRestoreFocus,
-			onCancel: closeAndRestoreFocus,
-			onBlur: closeOnly
+			onCancel: closeAndRestoreFocus
 		});
+		
+		this._onBlur = function(){
+			// Usually the parent closes the child widget but if this is a context
+			// menu then there is no parent
+			dijit.util.popup.closeAll();
+			// don't try to restor focus; user has clicked another part of the screen
+			// and set focus there
+		}
 	},
 
 	onOpen: function(/*Event*/ e){
