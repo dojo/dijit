@@ -243,13 +243,7 @@ dijit.util.widgetFocusTracer = new function(){
 				}
 			}
 		}catch(e){ /* squelch */ }
-/**
-		console.log("old active stack: ");
-		dojo.forEach(activeStack, function(id){ console.log("   " + id); });
-		
-		console.log("new active stack: ");
-		dojo.forEach(stack, function(id){ console.log("   " + id); });
-**/
+
 		// compare old stack to new stack to see how many elements they have in common
 		for(var nCommon=0; nCommon<Math.min(activeStack.length, stack.length); nCommon++){
 			if(activeStack[nCommon] != stack[nCommon]){
@@ -270,8 +264,8 @@ dijit.util.widgetFocusTracer = new function(){
 		for(var i=nCommon; i<stack.length; i++){
 			var widget = dijit.byId(stack[i]);
 			dojo.publish("widgetFocus", [widget]);
-			if(widget._onBlur){
-				widget._onBlur();
+			if(widget._onFocus){
+				widget._onFocus();
 			}
 		}
 		
