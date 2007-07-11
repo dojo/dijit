@@ -38,17 +38,21 @@ dojo.declare(
 	//	
 
 	layout: function(){
-		var ok = dijit.layout.layoutChildren(this.domNode, this._contentBox, this.getChildren());
+		dijit.layout.layoutChildren(this.domNode, this._contentBox, this.getChildren());
 	},
 
-	addChild: function(child, overrideContainerNode, pos, ref, insertIndex){
+	addChild: function(/*Widget*/ child, /*Integer?*/ insertIndex){
 		dijit._Container.prototype.addChild.apply(this, arguments);
-		dijit.layout.layoutChildren(this.domNode, this._contentBox, this.getChildren());
+		if(this._started){
+			dijit.layout.layoutChildren(this.domNode, this._contentBox, this.getChildren());
+		}
 	},
 
-	removeChild: function(pane){
+	removeChild: function(/*Widget*/ widget){
         dijit._Container.prototype.removeChild.apply(this, arguments);
-		dijit.layout.layoutChildren(this.domNode, this._contentBox, this.getChildren());
+        if(this._started){
+			dijit.layout.layoutChildren(this.domNode, this._contentBox, this.getChildren());
+		}
 	}
 });
 

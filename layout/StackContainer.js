@@ -64,7 +64,7 @@ dojo.declare(
 		return page;
 	},
 
-	addChild: function(/*Widget*/ child, /*Integer*/ insertIndex){
+	addChild: function(/*Widget*/ child, /*Integer?*/ insertIndex){
 		dijit._Container.prototype.addChild.apply(this, arguments);
 		child = this._setupChild(child);
 
