@@ -88,7 +88,10 @@
 </head>
 <body class="tundra">
 			<div id="combo1" dojoType="dijit.form.ComboButton" optionsTitle='save options' dropDownId='saveMenu' onClick='kclick_handler_fired++;' onkeyup='user_onkeyup_fired = true'>
-				<img src="../images/note.gif" width="20" height="20">Test Button
+				<span>Save</span>
+				<div id="saveMenu" style="display: none;">
+					<div dojoType="dijit.form.Button">dummy button</div>
+ 				</div>
 			</div>
 </body>
 </html>
