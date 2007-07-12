@@ -90,6 +90,10 @@ dojo.declare(
 			this._wheelTimer = setTimeout(function(){_this._arrowReleased(node);}, 50);
 		},
 
+		_onBlur: function(){
+			dijit.form._Spinner.superclass.onblur.apply(this, arguments);
+		},
+
 		postCreate: function(){
 			dijit.form._Spinner.superclass.postCreate.apply(this, arguments);
 

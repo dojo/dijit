@@ -79,7 +79,7 @@ dojo.declare(
 
 		_setValue:function(/*String*/ value, /*String*/ displayedValue){
 			this.valueNode.value = value;
-			dijit.form.FilteringSelect.superclass.setValue.apply(this, arguments);
+			dijit.form.FilteringSelect.superclass.setValue.call(this, value, true, displayedValue);
 		},
 
 		setValue: function(/*String*/ value){

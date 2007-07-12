@@ -159,8 +159,14 @@ dojo.declare(
 				case dojo.keys.PAGE_UP:
 				case dojo.keys.UP_ARROW:
 					if(this._isShowingNow){
-						evt.keyCode==dojo.keys.PAGE_UP ? this._popupWidget.pageUp() : this._popupWidget._highlightPrevOption();
-						this._announceOption(this._popupWidget.getHighlightedOption());
+						if(!this._popupWidget.getHighlightedOption()){
+							this._hideResultList();
+						}else{
+							evt.keyCode==dojo.keys.PAGE_UP ? 
+								this._popupWidget.pageUp() :
+								this._popupWidget._highlightPrevOption();
+							this._announceOption(this._popupWidget.getHighlightedOption());
+						}
 					}
 					dojo.stopEvent(evt);
 					this._prev_key_backspace = false;
@@ -177,7 +183,7 @@ dojo.declare(
 						this._prev_key_backspace = false;
 						this._prev_key_esc = false;
 						if(this._popupWidget.getHighlightedOption()){
-							this._popupWidget.setValue({target:this._popupWidget.getHighlightedOption()});
+							this._popupWidget.setValue({target:this._popupWidget.getHighlightedOption()}, true);
 						}else{
 							this.setDisplayedValue(this.getDisplayedValue());
 						}
@@ -380,7 +386,7 @@ dojo.declare(
 		},
 
 		_doSelect: function(tgt){
-			this.setValue(this.store.getValue(tgt.item, this.searchAttr));
+			this.setValue(this.store.getValue(tgt.item, this.searchAttr), true);
 		},
 
 		_onArrowClick: function(){
@@ -520,7 +526,7 @@ dojo.declare(
 				// recurse to the top
 				tgt=tgt.parentNode;
 			}
-			this.setValue({target:tgt});
+			this.setValue({target:tgt}, true);
 		},
 
 		onmouseover:function(/*Event*/ evt){
@@ -566,10 +572,7 @@ dojo.declare(
 
 
 		_highlightPrevOption:function(){
-			if(!this.getHighlightedOption()){
-				dijit.util.popup.close(true);
-				return;
-			}else if(this._highlighted_option.previousSibling){
+			if(this._highlighted_option.previousSibling){
 				this._focusOptionNode(this._highlighted_option.previousSibling);
 			}
 			dijit.util.scroll.scrollIntoView(this._highlighted_option);

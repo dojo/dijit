@@ -33,13 +33,8 @@ dojo.declare(
 		},
 
 		onfocus: function(/*Event*/ evt){
-			// open the calendar, UNLESS we received focus because somebody clicked the calendar
-			// (which should close the calendar rather than opening it)
-			if(this._skipNextFocusOpen){
-				this._skipNextFocusOpen = false;
-			}else{
-				this._open();
-			}
+			// open the calendar
+			this._open();
 			dijit.form.RangeBoundTextbox.prototype.onfocus.apply(this, arguments);
 		},
 
@@ -51,9 +46,8 @@ dojo.declare(
 			// summary:
 			//	Sets the date on this textbox
 
-			if(!this._calendar || !this._calendar.onValueSelected){
-				dijit.form.DateTextbox.superclass.setValue.apply(this, arguments);
-			}else{
+			dijit.form.DateTextbox.superclass.setValue.apply(this, arguments);
+			if(this._calendar){
 				this._calendar.setValue(date);
 			}
 		},
@@ -62,18 +56,16 @@ dojo.declare(
 			// summary:
 			//	opens the Calendar, and sets the onValueSelected for the Calendar
 			var self = this;
+
 			if(!this._calendar){
 				this._calendar = new dijit._Calendar({
-					onValueSelected: function(){
+					onValueSelected: function(value){
 
-						dijit.util.popup.close();
-						
-						// refocus on <input> but don't reopen popup (we just closed it!)
-						self._skipNextFocusOpen=true;
-						self.focus();
+						self.focus(); // focus the textbox before the popup closes to avoid reopening the popup
+						setTimeout(dijit.util.popup.close, 1); // allow focus time to take
 
 						// this will cause InlineEditBox and other handlers to do stuff so make sure it's last
-						dijit.form.DateTextbox.superclass.setValue.apply(self, arguments);					
+						dijit.form.DateTextbox.superclass.setValue.call(self, value, true);
 					},
 					lang: this.lang,
 					isDisabledDate: function(/*Date*/ date){
@@ -98,12 +90,13 @@ dojo.declare(
 		_onBlur: function(){
 			// summary: called magically when focus has shifted away from this widget and it's dropdown
 			dijit.util.popup.closeAll();
+			dijit.form.DateTextbox.superclass.onblur.apply(this, arguments);
 			// don't focus on <input>.  the user has explicitly focused on something else.
 		},
 
 		postCreate: function(){
 			dijit.form.DateTextbox.superclass.postCreate.apply(this, arguments);
-			this.connect(this.domNode, "onclick", "_open");
+			this.connect(this.domNode, "onclick", this._open);
 		},
 
 		getDisplayedValue:function(){

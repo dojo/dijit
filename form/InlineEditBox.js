@@ -200,7 +200,7 @@ dojo.declare(
 	_onBlur: function(){
 		// summary:
 		//	magically called when focus moves outside of the InlineEditBox widget (or it's descendants)
-		if(this.autoSave){
+		if(this.autoSave && this.editing){
 			if(this._getEditValue() == this._initialText){
 				this.cancel();
 			}else{

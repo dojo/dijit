@@ -176,6 +176,10 @@ dojo.declare(
 		});
 	},
 
+	_onBlur: function(){
+		dijit.form.HorizontalSlider.superclass.setValue.call(this, this.value, true);
+	},
+
 	postCreate: function(){
 		if(this.showButtons){
 			this._createIncrementButton();

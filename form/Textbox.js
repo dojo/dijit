@@ -44,14 +44,14 @@ dojo.declare(
 			return this.parse(this.getTextValue(), this.constraints);
 		},
 
-		setValue: function(value, /*String, optional*/ formattedValue){
+		setValue: function(value, /*Boolean, optional*/ priorityChange, /*String, optional*/ formattedValue){
 			if(typeof formattedValue == "undefined" ){
 				formattedValue = (typeof value == "undefined" || value == null || value == NaN) ? null : this.filter(this.format(value, this.constraints));
 			}
 			if(formattedValue != null){
 				this.textbox.value = formattedValue;
 			}
-			dijit.form.Textbox.superclass.setValue.call(this,value);
+			dijit.form.Textbox.superclass.setValue.call(this, value, priorityChange);
 		},
 
 		forWaiValuenow: function(){
@@ -103,7 +103,7 @@ dojo.declare(
 
 		focus: function(){
 			// summary: if the widget wants focus, then focus the textbox
-			this.textbox.focus();
+			try { this.focusNode.focus(); } catch(e) {} // this can fail in IE for seemingly no reason 
 		},
 
 		// event handlers, you can over-ride these in your own subclasses
@@ -114,7 +114,7 @@ dojo.declare(
 		onblur: function(){
 			dojo.removeClass(this.nodeWithBorder, "dijitInputFieldFocused");
 
-			this.setValue(this.getValue());
+			this.setValue(this.getValue(), true);
 		},
 
 		onkeyup: function(){

@@ -55,6 +55,10 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 	//		In markup, this is specified as "disabled='disabled'", or just "disabled".
 	disabled: false,
 
+	// intermediateChanges: Boolean
+	//              Fires onChange for each value change or only on demand
+	intermediateChanges: false,
+
 	setDisabled: function(/*Boolean*/ disabled){
 		// summary:
 		//		Set disabled state of widget.
@@ -165,10 +169,12 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 	},
 
 	_lastValueReported: null,
-	setValue: function(newValue){
+	_lastValue: null,
+	setValue: function(/*anything*/ newValue, /*Boolean, optional*/ priorityChange){
 		// summary: set the value of the widget.
+		this._lastValue = newValue;
 		dijit.util.wai.setAttr(this.focusNode || this.domNode, "waiState", "valuenow", this.forWaiValuenow());
-		if(newValue != this._lastValueReported){
+		if((this.intermediateChanges || priorityChange) && newValue != this._lastValueReported){
 			this._lastValueReported = newValue;
 			this.onChange(newValue);
 		}
@@ -176,7 +182,7 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 
 	getValue: function(){
 		// summary: get the value of the widget.
-		return this._lastValueReported;
+		return this._lastValue;
 	},
 
 	forWaiValuenow: function(){

@@ -41,7 +41,7 @@ dojo.declare(
 		}
 	},
 
-	_setFormValue: function(){
+	_setFormValue: function(/*Boolean, optional*/ priorityChange){
 		// blah<BR>blah --> blah\nblah
 		// <P>blah</P><P>blah</P> --> blah\nblah
 		// <DIV>blah</DIV><DIV>blah</DIV> --> blah\nblah
@@ -58,10 +58,10 @@ dojo.declare(
 				this.lastHeight = newHeight;
 			}
 		}
-		dijit.form.Textarea.superclass.setValue.call(this, value);
+		dijit.form.Textarea.superclass.setValue.call(this, value, priorityChange);
 	},
 
-	setValue: function(/*String*/ value){
+	setValue: function(/*String*/ value, /*Boolean, optional*/ priorityChange){
 		var node = this.editNode;
 		if(node){
 			node.innerHTML = ""; // wipe out old nodes
@@ -70,7 +70,7 @@ dojo.declare(
 				node.appendChild(document.createElement("BR")); // preserve line breaks
 			});
 		}
-		this._setFormValue();
+		this._setFormValue(priorityChange);
 	},
 
 	getValue: function(){
@@ -141,14 +141,14 @@ dojo.declare(
 	},
 
 	// event handlers, you can over-ride these in your own subclasses
-	_focused: function(){
+	_focused: function(e){
 		dojo.addClass(this.domNode, "dijitInputFieldFocused");
-		this._changed();
+		this._changed(e);
 	},
 
-	_blurred: function(){
+	_blurred: function(e){
 		dojo.removeClass(this.domNode, "dijitInputFieldFocused");
-		this._changed();
+		this._changed(e, true);
 	},
 
 	_interceptTab: function(e){
@@ -160,16 +160,16 @@ dojo.declare(
 		}
 	},
 
-	_changing: function(){
+	_changing: function(e){
 		// summary: event handler for when a change is imminent
-		setTimeout(dojo.hitch(this,"_changed"),1);
+		setTimeout(dojo.hitch(this, "_changed", e, false),1);
 	},
 
-	_changed: function(){
+	_changed: function(e, priorityChange){
 		// summary: event handler for when a change has already happened
 		if(this.iframe && this.iframe.contentDocument.designMode != "on"){
 			this.iframe.contentDocument.designMode="on"; // in case this failed on init due to being hidden
 		}
-		this._setFormValue();
+		this._setFormValue(priorityChange);
 	}
 });

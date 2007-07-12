@@ -4,20 +4,9 @@
 	<head>
 		<title>Inline Edit Box Test</title>
 
-		<style type="text/css">
-			@import "../../../dojo/resources/dojo.css";
-			@import "../../themes/tundra/tundra.css";
-			@import "../css/dijitTests.css";
-
-			.inlineEdit { background-color: #CCC76A; }
-		</style>
-
 		<script type="text/javascript" src="../testBidi.js"></script>
 		<script type="text/javascript" src="../../../dojo/dojo.js"
 			djConfig="isDebug: true, parseOnLoad: true"></script>
-		<!--
-		<script type="text/javascript" src="../../form/InlineEditBox.js"></script>
-		-->
 		<script type="text/javascript">
 			dojo.require("dojo.data.ItemFileReadStore");
 			dojo.require("dijit.form.InlineEditBox");
@@ -25,12 +14,21 @@
 			dojo.require("dijit.form.Textbox");
 			dojo.require("dijit.form.DateTextbox");
 			dojo.require("dijit.form.FilteringSelect");
+			dojo.require("dijit.form.NumberSpinner");
+			dojo.require("dijit.form.Slider");
 			dojo.require("dojo.parser");      // scan page for widgets and instantiate them
 
 			function myHandler(id,newValue){
 				console.debug("onChange for id = " + id + ", value: " + newValue);
 			};
 		</script>
+		<style type="text/css">
+			@import "../../../dojo/resources/dojo.css";
+			@import "../../themes/tundra/tundra.css";
+			@import "../css/dijitTests.css";
+
+			.inlineEdit { background-color: #CCC76A; }
+		</style>
 	</head>
 	<body class="tundra">
 		<h1 class="testTitle">Dijit InlineEditBox Test</h1>
@@ -42,7 +40,7 @@
 
 		<hr style="width:100%;">
 		<blockquote style="width:50%;">
-			<p><span id="areaEditable" dojoType="dijit.form.InlineEditBox" renderHTML="true" autoSave="false">
+			<p><span id="areaEditable" dojoType="dijit.form.InlineEditBox" renderHTML="true" autoSave="true">
 				<textarea dojoType="dijit.form.Textarea">I'm one big paragraph.  Go ahead and <i>edit</i> me.  <b>I dare you.</b> The quick brown fox jumped over the lazy dog.  Blah blah blah blah blah blah blah ...</textarea>
 			</span></p>
 		</blockquote>
@@ -65,8 +63,8 @@
 		</p>
 		<hr style="width:100%;">
 		<b>FilteringSelect:</b>
-		<div dojoType="dojo.data.ItemFileReadStore" jsId="stateStore"
-			url="comboBoxData.json"></div>
+		<span dojoType="dojo.data.ItemFileReadStore" jsId="stateStore"
+			url="comboBoxData.json"></span>
 		<span id="backgroundArea" dojoType="dijit.form.InlineEditBox" >
 			<input searchAttr="name" keyAttr="abbreviation" id="setvaluetest" dojoType="dijit.form.FilteringSelect" value="IA"
 					store="stateStore" name="state1" autocomplete="true" hasDownArrow="false">
@@ -78,5 +76,25 @@
 			var editorWidget = new dijit.form.Textbox({ value: "Click here to edit a programmatically created<BR>inline edit region" }, document.createElement('span'));
 			var inlineWidget = new dijit.form.InlineEditBox({ editWidget: editorWidget, renderHTML: true }, 'programmatic');
 		</script>
+		<hr style="width:100%;">
+		<b>Spinner:</b>
+		<div dojoType="dijit.form.InlineEditBox">
+			<input dojoType="dijit.form.NumberSpinner"
+				name="spinner"
+				value="900"
+				constraints="{places:0}">
+		</div>
+<!-- InlineEditBox/Slider doesn't work on Firefox but does on IE and Safari
+		<hr style="width:100%;">
+		<b>Slider:</b>
+		<p dojoType="dijit.form.InlineEditBox">
+			<input dojoType="dijit.form.VerticalSlider"
+				value="10"
+				maximum="100"
+				minimum="0"
+				showButtons="false"
+				style="height:100px;width:20px;">
+		</p>
+-->
 	</body>
 </html>

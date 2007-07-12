@@ -27,7 +27,7 @@
 		<h1>Slider</h1>
 		Also try using the arrow keys, buttons, or clicking on the progress bar to move the slider.
 		<br>
-		<br>initial value=10, min=0, max=100, onChange event triggers input box value change<br>
+		<br>initial value=10, min=0, max=100, onChange event triggers input box value change immediately<br>
 
 		<div dojoType="dijit.form.HorizontalSlider" name="horizontal1"
 			onChange="dojo.byId('slider1input').value=arguments[0];"
@@ -35,6 +35,7 @@
 			maximum="100"
 			minimum="0"
 			showButtons="false"
+			intermediateChanges="true"
 			style="width:50%; height: 20px;"
 			id="slider1">
 				<div dojoType="dijit.form.HorizontalRuleLabels" container="topDecoration" labels="&nbsp;,20%,40%,60%,80%,&nbsp;" style="height:1.2em;font-size:75%;color:gray;"></div>
@@ -44,6 +45,8 @@
 		</div>
 		Slider1 Value:<input readonly id=slider1input size=4>
 		<br>
+		<br>
+		<br>initial value=10, min=0, max=100, onChange event triggers input box value change when you click away<br>
 		<div dojoType="dijit.form.VerticalSlider" name="vertical1"
 			onChange="dojo.byId('slider2input').value=arguments[0];"
 			value="10"

@@ -26,9 +26,6 @@ dojo.declare(
 		// invalidMessage: String
 		// 		The message to display if value is invalid.
 		invalidMessage: "",
-		// listenOnKeyPress: Boolean
-		//		Updates messages on each key press.  Default is true.
-		listenOnKeyPress: true,
 		// constraints: Object
 		//		user-defined object needed to pass parameters to the validator functions
 		constraints: {},
@@ -131,11 +128,7 @@ dojo.declare(
 
 		onfocus: function(evt){
 			dijit.form.ValidationTextbox.superclass.onfocus.apply(this, arguments);
-			if(this.listenOnKeyPress){
-				this.validate(true);
-			}else{
-				this.updateClass("Warning");
-			}
+			this.validate(true);
 		},
 
 		onkeyup: function(evt){
