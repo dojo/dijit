@@ -459,6 +459,7 @@ dojo.declare(
 
 	_blur: function(){
 		dojo.removeClass(this.domNode, 'dijitMenuItemHover');
+		this.containerNode.blur();
 	},
 
 	setDisabled: function(/*Boolean*/ value){

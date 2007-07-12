@@ -20,32 +20,32 @@ dijit.util.focus = new function(){
 	// Keep track of currently focused and previously focused element
 
 	var curFocus, prevFocus;	
-	function onFocus(/*DomNode*/ node){
+	function setCurrentFocus(/*DomNode*/ node){
 		if(node && node.tagName && node.tagName.toLowerCase() == "body"){
 			node = null;
-		}
-		if(!node){
-			// this is just a blur event (focus moved off of old object onto nothing).
-			// since we aren't reporting blur events, just ignore it.
-			return;
 		}
 		if(node !== curFocus){
 			prevFocus = curFocus;
 			curFocus = node;
 			
-			// Publish event that this node received focus.
+			// If a node has received focus, then publish topic.
 			// Note that on IE this event comes late (up to 100ms late) so it may be out of order
 			// w.r.t. other events.   Use sparingly.
-			dojo.publish("focus", [node]);
+			if(node){
+				//console.log("focus on " + (node.id ? node.id : node) );
+				dojo.publish("focus", [node]);
+			}else{
+				//console.log("nothing focused");
+			}
 		}
 	}
 
 	dojo.addOnLoad(function(){
 		if(dojo.isIE){
-			// TODO: to make this more deterministic should delay updating curFocus/prevFocus for 10ms?
-			window.setInterval(function(){ onFocus(document.activeElement); }, 100);
+			window.setInterval(function(){ setCurrentFocus(document.activeElement); }, 100);
 		}else{
-			dojo.body().addEventListener('focus', function(evt){ onFocus(evt.target); }, true);
+			dojo.body().addEventListener('focus', function(evt){ setCurrentFocus(evt.target); }, true);
+			dojo.body().addEventListener('blur', function(evt){ setCurrentFocus(null); }, true);
 		}
 	});
 
@@ -191,15 +191,16 @@ dijit.util.widgetFocusTracer = new function(){
 	//	somewhere completely different.
 
 	// List of currently active widgets (focused widget and it's ancestors)
-	var activeStack=[];
+	var stack=[];
 
 	// List of everything we need to disconnect
-	this._connects = [];
+	var connects = [];
 
 	this.register = function(/*Window?*/targetWindow){
 		// summary:
 		//		Registers listeners on the specified window (either the main
-		//		window or an iframe) to detect when the user has clicked somewhere
+		//		window or an iframe) to detect when the user has clicked somewhere.
+		//		Anyone that creates an iframe should call this function.
 
 		if(!targetWindow){ //see comment below
 			try{
@@ -208,10 +209,10 @@ dijit.util.widgetFocusTracer = new function(){
 		}
 
 		var self = this;
-		this._connects.push(dojo.connect(targetWindow.document, "onmousedown", this, function(evt){
+		connects.push(dojo.connect(targetWindow.document, "onmousedown", this, function(evt){
 			self._onEvent(evt.target||evt.srcElement);
 		}));
-		//this._connects.push(dojo.connect(targetWindow, "onscroll", this, ???);4
+		//connects.push(dojo.connect(targetWindow, "onscroll", this, ???);4
 		
 		this._focusListener = dojo.subscribe("focus", this, "_onEvent");
 
@@ -226,6 +227,36 @@ dijit.util.widgetFocusTracer = new function(){
 		}, this);
 	};
 
+	this.entered = function(/*Widget*/ widget){
+		// summary:
+		//	Dijit.util.popup.open() calls this function, to notify us that a popup
+		//	has opened.  Usually this is unnecessary, as we are tipped off by a focus
+		//	event on a node inside the popup, but safari lets us down...
+		// newStack = stack truncated at the point that matches widget
+		//console.log("entered: old stack " + stack.join(", "));
+		if(dojo.indexOf(stack, widget.id) == -1){
+			setStack( stack.concat(widget.id) );
+		}
+		//console.log("entered: new stack " + stack.join(", "));
+	};
+
+	this.exited = function(/*Widget*/ widget){
+		// summary:
+		//	Dijit.util.popup.close() calls this function, to notify us that a popup
+		//	has closed.  Usually this is unnecessary, as we are tipped off by a focus
+		//	event on another node, but sometimes *no* node gets focus, like
+		//		- if the user clicks a blank area of the screen
+		//		- when a context menu closes and there was nothing focused before the menu opened
+
+		// newStack = stack truncated at the point that matches widget
+		var i = dojo.indexOf(stack, widget.id),
+			newStack = stack.slice(0, i>=0 ? i : stack.length);
+
+		//console.log("old stack " + stack.join(", "));
+		//console.log("new stack " + newStack.join(", "));
+		setStack(newStack);
+	};
+		
 	this._onEvent = function(/*DomNode*/ node){
 		// summary
 		//	Trace to see which widget event was on, or
@@ -234,7 +265,7 @@ dijit.util.widgetFocusTracer = new function(){
 		//	(including case where we are no longer focused on any widget)
 
 		// compute stack of active widgets (ex: ComboButton --> Menu --> MenuItem)
-		var stack=[];
+		var newStack=[];
 		try{
 			while(node){
 				if(node.host){
@@ -242,23 +273,30 @@ dijit.util.widgetFocusTracer = new function(){
 				}else{
 					var id = node.getAttribute && node.getAttribute("widgetId");
 					if(id){
-						stack.unshift(id);
+						newStack.unshift(id);
 					}
 					node=node.parentNode;
 				}
 			}
 		}catch(e){ /* squelch */ }
 
+		setStack(newStack);
+	};
+	
+	function setStack(newStack){
+		// summary
+		//	The stack of active widgets has changed.  Send out appropriate events and record new stack
+
 		// compare old stack to new stack to see how many elements they have in common
-		for(var nCommon=0; nCommon<Math.min(activeStack.length, stack.length); nCommon++){
-			if(activeStack[nCommon] != stack[nCommon]){
+		for(var nCommon=0; nCommon<Math.min(stack.length, newStack.length); nCommon++){
+			if(stack[nCommon] != newStack[nCommon]){
 				break;
 			}
 		}
 
 		// for all elements that have gone out of focus, send blur event
-		for(var i=activeStack.length-1; i>=nCommon; i--){
-			var widget = dijit.byId(activeStack[i]);
+		for(var i=stack.length-1; i>=nCommon; i--){
+			var widget = dijit.byId(stack[i]);
 			dojo.publish("widgetBlur", [widget]);
 			if(widget._onBlur){
 				widget._onBlur();
@@ -266,16 +304,16 @@ dijit.util.widgetFocusTracer = new function(){
 		}
 
 		// for all element that have come into focus, send focus event
-		for(var i=nCommon; i<stack.length; i++){
-			var widget = dijit.byId(stack[i]);
+		for(var i=nCommon; i<newStack.length; i++){
+			var widget = dijit.byId(newStack[i]);
 			dojo.publish("widgetFocus", [widget]);
 			if(widget._onFocus){
 				widget._onFocus();
 			}
 		}
 		
-		activeStack = stack;
-	};
+		stack = newStack;
+	}
 
 	// register top window
 	dojo.addOnLoad(this, "register");

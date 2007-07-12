@@ -80,6 +80,9 @@ dijit.util.popup = new function(){
 
 		// TODO: use effects to fade in wrapper
 
+		// announce that popup has opened (and has focus)
+		dijit.util.widgetFocusTracer.entered(widget);
+
 		// watch for cancel/execute events on the popup and notify the caller
 		// (for a menu, "execute" means clicking an item)
 		var handlers = [];
@@ -135,6 +138,9 @@ dijit.util.popup = new function(){
 		dojo.body().appendChild(widget.domNode);
 		iframe.destroy();
 		dojo._destroyElement(wrapper);
+
+		// announce that popup has closed (and no longer has focus)
+		dijit.util.widgetFocusTracer.exited(widget);
 
 		if(onClose){
 			onClose();
