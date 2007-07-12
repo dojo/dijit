@@ -27,7 +27,10 @@ dijit.util.popup = new function(){
 		//		orient: Object
 		//			structure specifying position of object relative to "around" node
 		//		onCancel: Function
-		//			callback when user has canceled the popup by hitting ESC, etc.
+		//			callback when user has canceled the popup by 
+		//          	1. hitting ESC or
+		//				2. by using the popup widget's proprietary cancel mechanism (like a cancel button in a dialog);
+		//				   ie: whenever popupWidget.onCancel() is called, args.onCancel is called
 		//		onClose: Function
 		//			callback whenever this popup is closed (via close(), closeAll(), or closeTo())
 		//		submenu: Boolean
@@ -40,6 +43,9 @@ dijit.util.popup = new function(){
 		//			dijit.util.popup.open({popup: menuWidget, x: evt.pageX, y: evt.pageY});
 		//		2. opening the widget as a dropdown
 		//			dijit.util.popup.open({host: this, popup: menuWidget, around: this.domNode, onClose: function(){...}  });
+		//
+		//	Note that whatever widget called dijit.util.popup.open() should also listen to it's own _onBlur callback
+		//	(fired by widgetFocusTracer) to know that focus has moved somewhere else and thus the popup should be closed.
 
 		var widget = args.popup,
 			orient = args.orient || {'BL':'TL', 'TL':'BL'},
