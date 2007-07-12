@@ -21,8 +21,13 @@ dijit.util.focus = new function(){
 
 	var curFocus, prevFocus;	
 	function onFocus(/*DomNode*/ node){
-		if(node && node.tagName == "body"){
+		if(node && node.tagName && node.tagName.toLowerCase() == "body"){
 			node = null;
+		}
+		if(!node){
+			// this is just a blur event (focus moved off of old object onto nothing).
+			// since we aren't reporting blur events, just ignore it.
+			return;
 		}
 		if(node !== curFocus){
 			prevFocus = curFocus;

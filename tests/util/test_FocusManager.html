@@ -17,7 +17,7 @@
 		var savedFocus;
 		dojo.addOnLoad(function(){
 			fakeWidget = { domNode: dojo.byId("save") };
-			dojo.subscribe("focus", function(node){ console.log("focused on " + (node?node:"nothing"));});
+			dojo.subscribe("focus", function(node){ console.log("focused on " + (node?(node.id||node.tagName):"nothing"));});
 		});
 		function save(){
 			console.debug("save function");
