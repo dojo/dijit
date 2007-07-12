@@ -15,9 +15,6 @@
 		dojo.require("dijit.form.Button");
 		dojo.require("dojo.parser");	// scan page for widgets and instantiate them
 
-		function boo(panel, node){
-			node.innerHTML = "Handlers override grabbing from URLs. They run in context of the widget, so 'this' refers to the tab widget.";
-		}
 		function testClose(pane,tab){
 		  return confirm("Please confirm that you want tab "+tab.title+" closed");
 		}
@@ -93,8 +90,6 @@
 			tortor pharetra congue. Suspendisse pulvinar.
 			</p>
 		</div>
-
-		<div dojoType="dijit.layout.LinkPane" title="Handler tab" handler="boo"></div>
 
 		<div dojoType="dijit.layout.ContentPane" title="Another Tab">
 			<h1>I love local content</h1>
