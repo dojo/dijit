@@ -75,7 +75,7 @@ dojo.declare(
 				this.nodeWithBorder = this.textbox;
 			}
 			// assign value programatically in case it has a quote in it
-			this.setValue(this.value);
+			this.setValue(this.value, true);
 			// setting the value here is needed since value="" in the template causes "undefined"
 			// and setting in the DOM (instead of the JS object) helps with form reset actions
 			this.textbox.setAttribute("value", this.getTextValue());
