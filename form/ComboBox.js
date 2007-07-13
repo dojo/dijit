@@ -437,7 +437,9 @@ dojo.declare(
 				// if there is no value set and there is an option list,
 				// set the value to the first value to be consistent with native Select
 				if(items&&items.length&&!this.value){
-					this.value=items[0][this._getValueField()];
+					// For <select>, IE does not let you set the value attribute of the srcNodeRef (and thus dojo.mixin does not copy it).
+					// IE does understand selectedIndex though, which is automatically set by the selected attribute of an option tag
+					this.value=items[this.srcNodeRef.selectedIndex!=-1?this.srcNodeRef.selectedIndex:0][this._getValueField()];
 				}
 				
 				this.srcNodeRef.innerHTML="";
