@@ -109,10 +109,6 @@ dojo.declare(
 		}
 	},
 
-	onClick: function(/*Event*/ e){
-		// summary: callback for when button is clicked; user can override this function
-	},
-
 	_onClick: function(e){
 		// summary
 		// 		When user clicks the text, then start editing.
@@ -128,13 +124,10 @@ dojo.declare(
 		this._visualize();
 
 		// Before changing the focus, give the browser time to render.
-		setTimeout(dojo.hitch(this, this._focusOnEditBoxAfterDelay(e)), 1);
-	},
-
-	_focusOnEditBoxAfterDelay: function(e){	
-		this._setEditFocus();
-		this.saveButton.setDisabled(true);
-		this.onClick(e);
+		setTimeout(dojo.hitch(this, function(){	
+			this._setEditFocus();
+			this.saveButton.setDisabled(true);
+		}), 1);
 	},
 
 	_visualize: function(){
