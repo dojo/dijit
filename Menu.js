@@ -101,8 +101,6 @@ dojo.declare(
 				dojo.stopEvent(evt);
 				break;
 			case dojo.keys.LEFT_ARROW:
-			case dojo.keys.ESCAPE:
-				// TODO: escape handling should be in dijit.util.popup (bug #3544)
 				this.onCancel(false);
 				break;
 			case dojo.keys.TAB:

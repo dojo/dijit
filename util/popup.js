@@ -83,13 +83,20 @@ dijit.util.popup = new function(){
 		// announce that popup has opened (and has focus)
 		dijit.util.widgetFocusTracer.entered(widget);
 
+		// provide default escape key handling 
+		handlers.push(dojo.connect(wrapper, "onkeypress", this, function(evt){
+			if (evt.keyCode == dojo.keys.ESCAPE){
+				args.onCancel();
+			}
+		}));
+
 		// watch for cancel/execute events on the popup and notify the caller
 		// (for a menu, "execute" means clicking an item)
 		var handlers = [];
 		if(widget.onCancel){
 			handlers.push(dojo.connect(widget, "onCancel", null, args.onCancel));
 		}
-		// TODO: monitor ESC key on wrapper (bug #3544)
+		
 		handlers.push(dojo.connect(widget, widget.onExecute ? "onExecute" : "onChange", null, function(){
 			if(stack[0] && stack[0].onExecute){
 				stack[0].onExecute();
