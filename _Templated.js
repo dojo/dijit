@@ -150,23 +150,24 @@ dojo.declare("dijit._Templated",
 				if(attachEvent){
 					// NOTE: we want to support attributes that have the form
 					// "domEvent: nativeEvent; ..."
-					var evts = attachEvent.split(";");
-					var y = 0, evt;
-					while((evt=evts[y++])){
-						if(!evt || !evt.length){ continue; }
-						var thisFunc = null;
-						var tevt = dojo.trim(evt);
-						if(evt.indexOf(":") != -1){
-							// oh, if only JS had tuple assignment
-							var funcNameArr = tevt.split(":");
-							tevt = dojo.trim(funcNameArr[0]);
-							thisFunc = dojo.trim(funcNameArr[1]);
+					dojo.forEach(attachEvent.split(";"), function(event){
+						if(event){
+							var thisFunc = null;
+							var trim = dojo.trim;
+							if(event.indexOf(":") != -1){
+								// oh, if only JS had tuple assignment
+								var funcNameArr = event.split(":");
+								event = trim(funcNameArr[0]);
+								thisFunc = trim(funcNameArr[1]);
+							}else{
+								event = trim(event);
+							}
+							if(!thisFunc){
+								thisFunc = event;
+							}
+							this.connect(baseNode, event, thisFunc);
 						}
-						if(!thisFunc){
-							thisFunc = tevt;
-						}
-						this.connect(baseNode, tevt, thisFunc);
-					}
+					}, this);
 				}
 
 				// waiRole, waiState
@@ -219,7 +220,7 @@ dijit._Templated.getCachedTemplate = function(templatePath, templateString){
 		templateString = dijit._Templated._sanitizeTemplateString(dojo._getText(templatePath));
 	}
 
-	templateString = templateString.replace(/^\s+|\s+$/g, "");
+	templateString = dojo.string.trim(templateString);
 
 	if(templateString.match(/\$\{([^\}]+)\}/g)){
 		// there are variables in the template so all we can do is cache the string
@@ -279,10 +280,10 @@ if(dojo.isIE){
 			tn.style.visibility="hidden";
 		}
 		var tableType = "none";
-		var rtext = text.replace(/^\s+/);
+		var rtext = text.replace(/^\s+/, "");
 		for(var type in tagMap){
 			var map = tagMap[type];
-			if(map.re.test(rtext)){ //FIXME: replace with one arg?  is this a no-op?
+			if(map.re.test(rtext)){
 				tableType = type;
 				text = map.pre + text + map.post;
 				break;
