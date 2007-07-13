@@ -88,7 +88,7 @@ dojo.declare(
 			// summary: Apply various filters to textbox value
 			if(val == null){ return null; }
 			if(this.trim){
-				val = val.replace(/(^\s*|\s*$)/g, "");
+				val = dojo.trim(val);
 			}
 			if(this.uppercase){
 				val = val.toUpperCase();

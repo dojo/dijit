@@ -116,10 +116,6 @@ dojo.declare("dijit._Templated",
 			//		a function which will be used to obtain property for a given
 			//		DomNode/Widget
 
-			var trim = function(str){
-				return str.replace(/^\s+|\s+$/g, "");
-			};
-
 			getAttrFunc = getAttrFunc || function(n,p){ return n.getAttribute(p); }
 
 			var nodes = dojo.isArray(rootNode) ? rootNode : (rootNode.all || rootNode.getElementsByTagName("*"));
@@ -153,12 +149,12 @@ dojo.declare("dijit._Templated",
 					while((evt=evts[y++])){
 						if(!evt || !evt.length){ continue; }
 						var thisFunc = null;
-						var tevt = trim(evt);
+						var tevt = dojo.trim(evt);
 						if(evt.indexOf(":") != -1){
 							// oh, if only JS had tuple assignment
 							var funcNameArr = tevt.split(":");
-							tevt = trim(funcNameArr[0]);
-							thisFunc = trim(funcNameArr[1]);
+							tevt = dojo.trim(funcNameArr[0]);
+							thisFunc = dojo.trim(funcNameArr[1]);
 						}
 						if(!thisFunc){
 							thisFunc = tevt;
