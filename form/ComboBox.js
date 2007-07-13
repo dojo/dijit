@@ -336,7 +336,7 @@ dojo.declare(
 			this.parentClass.onfocus.apply(this, arguments);
 		},
 
-		onblur:function(){
+		onblur:function(){ /* not _onBlur! */
 			// call onblur first to avoid race conditions with _hasFocus
 			dijit.form._DropDownTextBox.prototype.onblur.apply(this, arguments);
 			if(!this._isShowingNow){

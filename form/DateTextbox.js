@@ -89,7 +89,7 @@ dojo.declare(
 		_onBlur: function(){
 			// summary: called magically when focus has shifted away from this widget and it's dropdown
 			dijit.util.popup.closeAll();
-			dijit.form.DateTextbox.superclass.onblur.apply(this, arguments);
+			this.inherited('_onBlur', arguments);
 			// don't focus on <input>.  the user has explicitly focused on something else.
 		},
 

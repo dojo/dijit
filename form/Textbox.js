@@ -114,7 +114,7 @@ dojo.declare(
 			dojo.addClass(this.nodeWithBorder, "dijitInputFieldFocused");
 		},
 
-		onblur: function(){
+		_onBlur: function(){
 			dojo.removeClass(this.nodeWithBorder, "dijitInputFieldFocused");
 
 			this.setValue(this.getValue(), true);

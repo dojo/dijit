@@ -121,9 +121,9 @@ dojo.declare(
 			dojo.addClass(this.nodeWithBorder, "dijitInputFieldValidation"+className);
 		},
 
-		onblur: function(evt){
+		_onBlur: function(evt){
 			this.validate(false);
-			dijit.form.ValidationTextbox.superclass.onblur.apply(this, arguments);
+			this.inherited('_onBlur', arguments);
 		},
 
 		onfocus: function(evt){
