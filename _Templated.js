@@ -53,10 +53,14 @@ dojo.declare("dijit._Templated",
 			if(dojo.isString(cached)){
 				// Cache contains a string because we need to do property replacement
 				// do the property replacement
-				var tstr = dojo.string.substitute(cached, this, function(value){
+				var tstr = dojo.string.substitute(cached, this, function(value, key){
 					// Safer substitution, see heading "Attribute values" in
 					// http://www.w3.org/TR/REC-html40/appendix/notes.html#h-B.3.2
-					return value.toString().replace(/"/g,"&quot;"); //TODO: support a more complete set of escapes?
+					if(!value){ throw new Error("_Templated substitution key="+key); } // a debugging aide
+
+					// substitution keys beginning with ! will skip the transform step,
+					// in case a user wishes to insert unescaped markup, e.g. ${!foo}
+					return key.charAt(0) == "!" ? value : value.toString().replace(/"/g,"&quot;"); //TODO: support a more complete set of escapes?
 				}, this);
 
 				node = dijit._Templated._createNodesFromText(tstr)[0];
@@ -120,7 +124,7 @@ dojo.declare("dijit._Templated",
 				return str.replace(/^\s+|\s+$/g, "");
 			};
 
-			getAttrFunc = getAttrFunc || function(n,p){ return n.getAttribute(p); }
+			getAttrFunc = getAttrFunc || function(n,p){ return n.getAttribute(p); };
 
 			var nodes = dojo.isArray(rootNode) ? rootNode : (rootNode.all || rootNode.getElementsByTagName("*"));
 			var x=dojo.isArray(rootNode)?0:-1;
