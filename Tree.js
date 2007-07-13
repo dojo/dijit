@@ -309,12 +309,6 @@ dojo.declare(
 		this._setExpando(false);	
 	},
 	
-	_onFocus: function(/*Event*/ e){
-		// summary: don't bubble focus out of tree
-
-		dojo.stopEvent(e);
-	},
-
 	_updateLayout: function(){
 		// summary: set appropriate CSS classes for this.domNode
 

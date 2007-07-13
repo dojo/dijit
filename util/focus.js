@@ -297,18 +297,22 @@ dijit.util.widgetFocusTracer = new function(){
 		// for all elements that have gone out of focus, send blur event
 		for(var i=stack.length-1; i>=nCommon; i--){
 			var widget = dijit.byId(stack[i]);
-			dojo.publish("widgetBlur", [widget]);
-			if(widget._onBlur){
-				widget._onBlur();
+			if(widget){
+				dojo.publish("widgetBlur", [widget]);
+				if(widget._onBlur){
+					widget._onBlur();
+				}
 			}
 		}
 
 		// for all element that have come into focus, send focus event
 		for(var i=nCommon; i<newStack.length; i++){
 			var widget = dijit.byId(newStack[i]);
-			dojo.publish("widgetFocus", [widget]);
-			if(widget._onFocus){
-				widget._onFocus();
+			if(widget){
+				dojo.publish("widgetFocus", [widget]);
+				if(widget._onFocus){
+					widget._onFocus();
+				}
 			}
 		}
 		
