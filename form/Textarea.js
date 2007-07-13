@@ -126,18 +126,17 @@ dojo.declare(
 			this.domNode.style.overflowY = 'hidden';
 			this.eventNode = d;
 			this.focusNode = this.editNode;
-			this.eventNode.addEventListener("keypress", dojo.hitch(this, "_interceptTab"), false);
 			this.eventNode.addEventListener("resize", dojo.hitch(this, "_changed"), false);
 		}else{
 			this.focusNode = this.domNode;
 		}
-		this.setValue(this.value);
 		if(this.eventNode){
-			this.connect(this.eventNode, "keydown", this._changing);
+			this.connect(this.eventNode, "keypress", this._onKeyPress);
 			this.connect(this.eventNode, "mousemove", this._changed);
 			this.connect(this.eventNode, "focus", this._focused);
 			this.connect(this.eventNode, "blur", this._blurred);
 		}
+		this.inherited('postCreate', arguments);
 	},
 
 	// event handlers, you can over-ride these in your own subclasses
@@ -151,13 +150,16 @@ dojo.declare(
 		this._changed(e, true);
 	},
 
-	_interceptTab: function(e){
-		if(e.keyCode == 9 && !e.shiftKey && !e.ctrlKey && !e.altKey){
+	_onKeyPress: function(e){
+		if(e.keyCode == 9 && !e.shiftKey && !e.ctrlKey && !e.altKey && this.iframe){
 			// Place focus on the iframe. A subsequent tab or shift tab will put focus
 			// on the correct control.  (Having to tab twice is a low priority bug.)
 			this.iframe.focus();
 			e.preventDefault();
+		}else{
+			this.inherited("_onKeyPress", arguments);
 		}
+		this._changing();
 	},
 
 	_changing: function(e){

@@ -45,11 +45,16 @@ dojo.declare(
 		},
 
 		setValue: function(value, /*Boolean, optional*/ priorityChange, /*String, optional*/ formattedValue){
+			value = this.filter(value);
 			if(typeof formattedValue == "undefined" ){
-				formattedValue = (typeof value == "undefined" || value == null || value == NaN) ? null : this.filter(this.format(value, this.constraints));
+				formattedValue = (typeof value == "undefined" || value == null || value == NaN) ? null : this.format(value, this.constraints);
 			}
 			if(formattedValue != null){
+				var _this = this;
+				// synchronous value set needed for InlineEditBox
 				this.textbox.value = formattedValue;
+				// asynch value set needed for FF2 if altering the value after a keypress
+				setTimeout(function(){_this.textbox.value = formattedValue;}, 1);
 			}
 			dijit.form.Textbox.superclass.setValue.call(this, value, priorityChange);
 		},
@@ -69,16 +74,14 @@ dojo.declare(
 		},
 
 		postCreate: function(){
-			dijit.form.Textbox.superclass.postCreate.apply(this);
 			// get the node for which the background color will be updated
 			if(typeof this.nodeWithBorder != "object"){
 				this.nodeWithBorder = this.textbox;
 			}
-			// assign value programatically in case it has a quote in it
-			this.setValue(this.value, true);
 			// setting the value here is needed since value="" in the template causes "undefined"
 			// and setting in the DOM (instead of the JS object) helps with form reset actions
 			this.textbox.setAttribute("value", this.getTextValue());
+			this.inherited('postCreate', arguments);
 		},
 
 		filter: function(val){

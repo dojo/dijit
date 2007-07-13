@@ -42,11 +42,10 @@ dojo.declare(
 			return dojo.date.stamp.toISOString(date, 'date'); // String
 		},
 
-		setValue: function(/*Date*/date){
+		setValue: function(/*Date*/date, /*Boolean, optional*/ priorityChange){
 			// summary:
 			//	Sets the date on this textbox
-
-			dijit.form.DateTextbox.superclass.setValue.apply(this, arguments);
+			this.inherited('setValue', arguments);
 			if(this._calendar){
 				this._calendar.setValue(date);
 			}
@@ -95,7 +94,7 @@ dojo.declare(
 		},
 
 		postCreate: function(){
-			dijit.form.DateTextbox.superclass.postCreate.apply(this, arguments);
+			this.inherited('postCreate', arguments);
 			this.connect(this.domNode, "onclick", this._open);
 		},
 

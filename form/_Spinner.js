@@ -95,7 +95,7 @@ dojo.declare(
 		},
 
 		postCreate: function(){
-			dijit.form._Spinner.superclass.postCreate.apply(this, arguments);
+			this.inherited('postCreate', arguments);
 
 			// textbox and domNode get the same style but the css separates the 2 using !important
 			if(this.srcNodeRef){
@@ -107,7 +107,5 @@ dojo.declare(
 			this.connect(this.textbox, dojo.isIE ? "onmousewheel" : 'DOMMouseScroll', "_mouseWheeled");
 			dijit.util.typematic.addListener(this.upArrowNode, this.textbox, {keyCode:dojo.keys.UP_ARROW,ctrlKey:false,altKey:false,shiftKey:false}, this, "_typematicCallback", this.timeoutChangeRate, this.defaultTimeout);
 			dijit.util.typematic.addListener(this.downArrowNode, this.textbox, {keyCode:dojo.keys.DOWN_ARROW,ctrlKey:false,altKey:false,shiftKey:false}, this, "_typematicCallback", this.timeoutChangeRate, this.defaultTimeout);
-
-			this.setDisabled(this.disabled);
 		}
 });

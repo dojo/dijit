@@ -85,6 +85,7 @@ dojo.declare(
 				this.decrement(e);
 				break;
 			default:
+				this.inherited("_onKeyPress", arguments);
 				return;
 		}
 		dojo.stopEvent(e);
@@ -113,9 +114,9 @@ dojo.declare(
 		this.setValue((this.maximum-this.minimum)*wholeIncrements/count + this.minimum);
 	},
 
-	setValue: function(/*Number*/ value){
+	setValue: function(/*Number*/ value, /*Boolean, optional*/ priorityChange){
 		this.valueNode.value = this.value = value;
-		dijit.form.HorizontalSlider.superclass.setValue.call(this, value);
+		this.inherited('setValue', arguments);
 		var percent = (value - this.minimum) / (this.maximum - this.minimum);
 		this.progressBar.style[this._progressPixelSize] = (percent*100) + "%";
 		this.remainingBar.style[this._progressPixelSize] = ((1-percent)*100) + "%";
@@ -188,7 +189,7 @@ dojo.declare(
 		this.sliderHandle.widget = this;
 
 		new dojo.dnd.Moveable(this.sliderHandle, {mover: dijit.form._slider});
-		this.setValue(this.value);
+		this.inherited('postCreate', arguments);
 	}
 });
 

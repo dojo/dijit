@@ -156,7 +156,6 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 			state += "Hover";
 		}
 		this.domNode.className = origClass + " " + " " + state;
-		//console.log(this.id + ": disabled=" + this.disabled + ", active=" + this._active + ", hover=" + this._hovering + "; state=" + state + "--> className is " + this.domNode.className);
 	},
 
 	onChange: function(newValue){
@@ -166,10 +165,9 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 	postCreate: function(){
 		this.setDisabled(this.disabled);
 		this._setStateClass();
+		this.setValue(this.value, true);
 	},
 
-	_lastValueReported: null,
-	_lastValue: null,
 	setValue: function(/*anything*/ newValue, /*Boolean, optional*/ priorityChange){
 		// summary: set the value of the widget.
 		this._lastValue = newValue;
@@ -183,6 +181,23 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 	getValue: function(){
 		// summary: get the value of the widget.
 		return this._lastValue;
+	},
+
+	undo: function(){
+		// summary: restore the value to the last value passed to onChange
+		this.setValue(this._lastValueReported, false);
+	},
+
+	_onKeyPress: function(e){
+		if(e.keyCode == 27 && !e.shiftKey && !e.ctrlKey && !e.altKey){
+			var v = this.getValue();
+			if(v != this._lastValueReported && this._lastValueReported != undefined){
+				this.undo();
+				dojo.stopEvent(e);
+			}else if(dojo.isMozilla){ // needed by FF2 to keep it from putting the value back
+				this.setValue(v, false);
+			}
+		}
 	},
 
 	forWaiValuenow: function(){
