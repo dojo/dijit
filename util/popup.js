@@ -83,6 +83,8 @@ dijit.util.popup = new function(){
 		// announce that popup has opened (and has focus)
 		dijit.util.widgetFocusTracer.entered(widget);
 
+		var handlers = [];
+
 		// provide default escape key handling 
 		handlers.push(dojo.connect(wrapper, "onkeypress", this, function(evt){
 			if (evt.keyCode == dojo.keys.ESCAPE){
@@ -92,7 +94,6 @@ dijit.util.popup = new function(){
 
 		// watch for cancel/execute events on the popup and notify the caller
 		// (for a menu, "execute" means clicking an item)
-		var handlers = [];
 		if(widget.onCancel){
 			handlers.push(dojo.connect(widget, "onCancel", null, args.onCancel));
 		}
