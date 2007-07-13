@@ -27,13 +27,7 @@ dojo.declare(
 		// summary: Received focus, needed for the InlineEditBox widget
 		if(!this.disabled){
 			this._changing(); // set initial height
-			setTimeout(dojo.hitch(this, this._focusAfterDelay), 100);			
 		}
-	},
-
-	_focusAfterDelay: function(){
-		// For Firefox you have to fire focus on iframe.contentWindow, but you have
-		// to set focusNode to the innermost div.
 		if(dojo.isMozilla){
 			this.iframe.contentWindow.focus();
 		}else{

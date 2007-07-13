@@ -15,7 +15,7 @@ dojo.declare(
 	//		Wrapper widget to a text edit widget.
 	//		The text is displayed on the page using normal user-styling.
 	//		When clicked, the text is hidden, and the edit widget is
-	//		visible, allowing the text to be updated.  Additionally,
+	//		visible, allowing the text to be updated.  Optionally,
 	//		Save and Cancel button are displayed below the edit widget.
 	//		When Save is clicked, the text is pulled from the edit
 	//		widget and redisplayed and the edit widget is again hidden.
@@ -70,7 +70,6 @@ dojo.declare(
 			_this._getEditValue = dojo.hitch(_this.editWidget,_this.editWidget.getDisplayedValue||_this.editWidget.getValue);
 			_this._setEditFocus = dojo.hitch(_this.editWidget,_this.editWidget.focus);
 			_this.editWidget.onChange = dojo.hitch(_this,"_onChange");
-			_this.checkForValueChange();
 			_this._showText();
 		});
 		if(this.autoSave){
@@ -88,6 +87,7 @@ dojo.declare(
 	},
 
 	_onKeyPress: function(e){
+		// summary: handle keypress when edit box is not open
 		if(this.disabled || e.altKey || e.ctrlKey){ return; }
 		if(e.charCode == dojo.keys.SPACE || e.keyCode == dojo.keys.ENTER){
 			dojo.stopEvent(e);
@@ -127,14 +127,17 @@ dojo.declare(
 		this._initialText = this._getEditValue();
 		this._visualize();
 
-		this._setEditFocus();
-		this.saveButton.setDisabled(true);
-		// moved to postCreate to always listen
-		//this.editWidget.onChange = dojo.hitch(this,"_onChange");
-		this.onClick();
+		// Before changing the focus, give the browser time to render.
+		setTimeout(dojo.hitch(this, this._focusOnEditBoxAfterDelay(e)), 1);
 	},
 
-	_visualize: function(e){
+	_focusOnEditBoxAfterDelay: function(e){	
+		this._setEditFocus();
+		this.saveButton.setDisabled(true);
+		this.onClick(e);
+	},
+
+	_visualize: function(){
 		dojo.style(this.editNode, "display", this.editing ? "" : "none");
 		dojo.style(this.editable, "display", this.editing ? "none" : "");
 	},
@@ -165,17 +168,27 @@ dojo.declare(
 	},
 
 	save: function(e){
-		// summary: Callback when user presses "Save" button
+		// summary: Callback when user presses "Save" button or it's simulated.
+		// e is passed in if click on save button or user presses Enter.  It's not
+		// passed in when called by _onBlur.
 		if(e){ dojo.stopEvent(e); }
 		this.editing = false;
 		this._showText();
+		// If save button pressed on non-autoSave widget or Enter pressed on autoSave
+		// widget, restore focus to the inline text.
+		if(e){ this.focusNode.focus(); }
 	},
 
 	cancel: function(e){
-		// summary: Callback when user presses "Cancel" button
+		// summary: Callback when user presses "Cancel" button or it's simulated.
+		// e is passed in if click on cancel button or user presses Esc.  It's not
+		// passed in when called by _onBlur.
 		if(e){ dojo.stopEvent(e); }
 		this.editing = false;
 		this._visualize();
+		// If cancel button pressed on non-autoSave widget or Esc pressed on autoSave
+		// widget, restore focus to the inline text.
+		if(e){ this.focusNode.focus(); }
 	},
 
 	setValue: function(/*String*/ value){
@@ -185,21 +198,29 @@ dojo.declare(
 		this._showText();
 	},
 
-	checkForValueChange: function(){
-		// summary
-		//		Callback when user changes input value.
-		//		Enable save button if the text value is different than the original value.
-		if(this.editing){
-			this.saveButton.setDisabled(this._getEditValue() == this._initialText);
+	_onEditWidgetKeyPress: function(e){
+		// summary:
+		//		Callback when keypress in the edit box (see template).
+		//		For autoSave widgets, if Esc/Enter, call cancel/save.
+		//		For non-autoSave widgets, enable save button if the text value is 
+		//		different than the original value.
+		if(this.autoSave){
+			// If Enter/Esc pressed, treat as save/cancel.
+			if(e.keyCode == dojo.keys.ESCAPE){
+				this.cancel(e);
+			}else if(e.keyCode == dojo.keys.ENTER){
+				this.save(e);
+			}
 		}else{
-			this._showText();
+			this.saveButton.setDisabled(this._getEditValue() == this._initialText);
 		}
 
 	},
 
 	_onBlur: function(){
 		// summary:
-		//	magically called when focus moves outside of the InlineEditBox widget (or it's descendants)
+		//	Called by the focus manager in focus.js when focus moves outside of the 
+		//	InlineEditBox widget (or it's descendants).
 		if(this.autoSave && this.editing){
 			if(this._getEditValue() == this._initialText){
 				this.cancel();
@@ -212,7 +233,7 @@ dojo.declare(
 	_onChange: function(){
 		// summary:
 		//	This is called when the underlying widget fires an onChange event,
-		//	which means that the user has presumably finished entering the value
+		//	which means that the user has finished entering the value
 		if(this.autoSave){
 			this.save();
 		}
