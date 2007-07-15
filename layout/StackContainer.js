@@ -307,7 +307,8 @@ dojo.declare(
 			var container = dijit.byId(this.containerId);
 			container.closeChild(page);
 			var b = this.pane2button[this._currentChild];
-			(b.focusNode || b.domNode).focus();
+			b = b ? (b.focusNode || b.domNode) : null;
+			if(b && b.focus){ b.focus(); }
 		},
 
 		onkeypress: function(/*Event*/ evt){
