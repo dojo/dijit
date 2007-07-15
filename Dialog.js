@@ -104,6 +104,7 @@ dojo.declare(
 				var closeNode = dojo.byId(this.closeNode);
 				this.connect(closeNode, "onclick", "hide");
 			}
+			dijit.Dialog.superclass.startup.apply(this, arguments);// makes preload=true possible
 		},
 
 		onLoad: function(){
@@ -346,12 +347,13 @@ dojo.declare(
 				var submitNode = dojo.byId(this.submitNode);
 				this.connect(submitNode, "onclick", "onExecute");
 			}
+			dijit.TooltipDialog.superclass.startup.apply(this, arguments);// makes preload=true possible
 		},
 
 		onOpen: function(/*Object*/ pos){
 			// summary: called when dialog is displayed, with info on where it's being displayed relative to the button
 			this.domNode.className="dijitTooltipDialog dijitTooltip" + (pos.corner=='TL' ? "Below" : "Above");
-						
+			this._loadCheck(); // lazy load trigger
 			this.containerNode.focus();
 		},
 		
