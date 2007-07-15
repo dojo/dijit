@@ -354,7 +354,7 @@ dojo.declare(
 	//	The button-like or tab-like object you click to select or delete a page
 
 	onClick: function(/*Event*/ evt) {
-		if(this.focusNode){ this.focusNode.focus(); }
+		if(this.focusNode && this.focusNode.focus){ this.focusNode.focus(); }
 		// ... now let StackController catch the event and tell me what to do
 	},
 
