@@ -74,13 +74,13 @@ dojo.declare(
 			this.layout();
 		}
 
+		if(started){
+			dojo.publish(this.id+"-addChild", [child]);
+		}
+
 		// if this is the first child, then select it
 		if(!this.selectedChildWidget && started){
 			this.selectChild(child);
-		}
-
-		if(started){
-			dojo.publish(this.id+"-addChild", [child]);
 		}
 	},
 
