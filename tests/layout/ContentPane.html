@@ -26,6 +26,7 @@
 		dojo.require("dijit.layout.ContentPane");
 		dojo.require("dijit._Container");
 		dojo.require("dijit._Templated");
+		dojo.require("dijit.layout.StackContainer");
 
 		// create a do nothing, only for test widget
 		dojo.declare("dijit.TestWidget",
@@ -35,7 +36,6 @@
 
 
 		dojo.addOnLoad(function(){
-			// TODO: trac #3510 to se if we should uncomment
 			doh.register("pane1",
 				[
 					{
@@ -49,7 +49,7 @@
 				]
 			);
 
-			var pane2 = {}; // an Object just to get a ref instead of a copy in all closures below
+			var pane2;
 
 			doh.registerGroup("pane2",
 				[
@@ -153,7 +153,7 @@
 					},
 					{
 						name: "setHref_loading",
-						timeout: 1100,
+						timeout: 1200,
 						setUp: function(t){
 							pane2.setHref('getResponse.php?messId=1');
 						},
@@ -169,7 +169,7 @@
 					},
 					{
 						name: "setHref_then_cancel",
-						timeout: 1700,
+						timeout: 1800,
 						setUp: function(t){
 							pane2.setContent();// clear previous
 						},
@@ -191,7 +191,7 @@
 					{
 						// test that setHref cancels a inflight setHref
 						name: "setHref_cancels_previous_setHref",
-						timeout: 1700,
+						timeout: 1800,
 						setUp: function(t){
 							pane2.setContent();
 						},
@@ -215,7 +215,7 @@
 					},
 					{
 						name: "setContent_cancels_setHref",
-						timeout: 1300,
+						timeout: 1500,
 						setUp: function(t){
 							pane2.setContent();
 						},
@@ -239,6 +239,7 @@
 					},
 					{
 						name: "refresh",
+						timeout: 800,
 						setUp: function(t){
 							pane2.setHref("getResponse.php?message="+encodeURI('initial load'));
 						},
@@ -254,7 +255,7 @@
 								function(){
 									t.assertEqual(msg, pane2.domNode.innerHTML);
 								}
-							), 400);
+							), 600);
 							return d;
 
 						}
@@ -288,7 +289,7 @@
 					},
 					{
 						name: "isLoaded",
-						timeout: 700,
+						timeout: 800,
 						setUp: function(t){
 							pane2.setContent();
 						},
@@ -319,7 +320,7 @@
 					{
 						// test that we does'nt load a response if we are hidden
 						name: "wait_with_load_when_domNode_hidden",
-						timeout: 600,
+						timeout: 700,
 						setUp: function(t){
 							pane2.domNode.style.display = 'none';
 							pane2.setContent();
@@ -339,9 +340,9 @@
 							pane2.domNode.style.display = "";
 						}
 					},
-					{	// this test fails due to #3503
+					{
 						name: "onDownloadError",
-						timeout: 700,
+						timeout: 800,
 						setUp: function(t){
 							pane2.setContent();
 						},
@@ -392,9 +393,9 @@
 							return d;
 						}
 					},
-					{// this test fails due to #3503
+					{
 						name: "onLoad|Unload_onDownloadStart|End",
-						timeout: 700,
+						timeout: 800,
 						setUp:function(t){
 							pane2.setContent();
 						},
@@ -460,15 +461,94 @@
 						}
 					}
 
-					// TODO:
-					// add tests for:
-					//	refreshOnShow ?? should we realy have this in dijit ContentPane?
+				]
+			);
+
+			var pane3, st, tmp;
+
+			doh.registerGroup("child_to_StackContainer",
+				[
+					{
+						// TODO: this test should be moved to registerGroup setUp when #3504 is fixed
+						//		We actually dont need to test anything here, just setUp
+						name: "setUp_StackContainer",
+						setUp:function(t){
+							st = dojo.byId('stackcontainer');
+							dojo.addClass(st, 'box');
+							st = new dijit.layout.StackContainer({}, st);
+
+							st.addChild(new dijit.TestWidget());
+							pane3 = new dijit.layout.ContentPane({href:'getResponse.php?delay=300&message=Loaded!'}, dojo.doc.createElement('div'));
+							st.addChild(pane3);
+
+							pane3.startup(); // starts the ContentPane
+						},
+						runTest:function(t){
+							t.assertTrue(st);
+							t.assertEqual(2, st.getChildren().length);
+						}
+					},
+					{
+						name: "preload_false_by_default",
+						runTest: function(t){
+							t.assertFalse(pane3.isLoaded);
+							t.assertEqual('', pane3.domNode.innerHTML);
+						}
+					},
+					{
+						name: "startLoad when selected",
+						timeout: 900,
+						runTest: function(t){
+							st.selectChild(pane3);
+
+							var d = new t.Deferred();
+							setTimeout(d.getTestCallback(
+								function(){
+									t.assertTrue(pane3.isLoaded);
+									t.assertEqual('Loaded!', pane3.domNode.innerHTML);
+								}
+							), 800);
+
+							return d;
+						}
+					},
+					{
+						name: "refreshOnShow",
+						timeout: 900,
+						setUp: function(t){
+							tmp = {
+								onUnload: function(){ this._unload_fired = 1; },
+								onLoad: function(){ this._load_fired = 1; }
+							};
+							tmp.unload = dojo.connect(pane3, 'onUnload', tmp, 'onUnload');
+							tmp.load = dojo.connect(pane3, 'onLoad', tmp, 'onLoad');
+
+							pane3.refreshOnShow = true;
+						},
+						runTest: function(t){
+							var d = new t.Deferred();
+							st.back();
+							st.forward();
+
+							setTimeout(d.getTestCallback(function(){
+								t.assertTrue(tmp._unload_fired);
+								t.assertTrue(tmp._load_fired);
+								t.assertEqual('Loaded!', pane3.domNode.innerHTML);
+							}), 800);
+
+							return d;
+						},
+						tearDown: function(){
+							dojo.disconnect(tmp.unload);
+							dojo.disconnect(tmp.load);
+							pane3.refreshOnShow = pane3.constructor.prototype.refreshOnShow;
+						}
+					}
 				]
 			);
 			
 			doh.run();
 		});
-
 	</script>
 </head>
 <body class="tundra">
@@ -489,5 +569,6 @@
 		<div id="three" dojoType="dijit._Widget"></div>
 	</div>
 	<br/><br/>
+	<div id='stackcontainer'></div>
 </body>
 </html>

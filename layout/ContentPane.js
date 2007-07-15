@@ -81,8 +81,11 @@ dojo.declare(
 	},
 
 	startup: function(){
+		// summary:
+		//		starts href load and/or subscribes to parent selectChild event
+		//		Call this after you have created added your widget to any Container widget
 		if(!this._started){
-			if(!this.linkLazyLoadToParent()){
+			if(!this._linkLazyLoadToParent()){
 				this._loadCheck();
 			}
 			this._started = true;
@@ -153,7 +156,7 @@ dojo.declare(
 		}
 		// make sure we call onUnload
 		this._onUnloadHandler();
-		this.unlinkLazyLoadFromParent();
+		this._unlinkLazyLoadFromParent();
 		this._beingDestroyed = true;
 		dijit.layout.ContentPane.superclass.destroy.call(this);
 	},
@@ -162,15 +165,12 @@ dojo.declare(
 		dojo.marginBox(this.domNode, size);
 	},
 
-	linkLazyLoadToParent: function(){
-		// summary:
-		//		start to listen on parent Container selectChild publishes (lazy load)
-		//		You dont need to call this method unless you manualy addChild this ContentPane to a Container
-		// description:
-		//		Container must be a instanceof dijit.layout.StackContainer
-		//		like TabContainer, AccordionContainer etc
-		//		For this method to work, this.domNode must already be
-		//		inserted in DOM as a Child of Container
+	_linkLazyLoadToParent: function(){
+		// start to listen on parent Container selectChild publishes (lazy load)
+		// Container must be a instanceof dijit.layout.StackContainer
+		// like TabContainer, AccordionContainer etc
+		// For this method to work, this.domNode must already be
+		// inserted in DOM as a Child of Container
 		if(dijit._Contained && dijit.layout.StackContainer && !this._subscr_show){
 			// look upwards to find the closest stackContainer
 			var p = this, ch = this;
@@ -191,16 +191,15 @@ dojo.declare(
 				if(p.selectedChildWidget == ch){ this._loadCheck(); }
 
 				this._subscr_show = dojo.subscribe(p.id+"-selectChild", this, cb(this._loadCheck));
-				this._subscr_remove = dojo.subscribe(p.id+"-selectChild", this, cb(this.unlinkLazyLoadFromParent));
+				this._subscr_remove = dojo.subscribe(p.id+"-removeChild", this, cb(this._unlinkLazyLoadFromParent));
 				return true; // Boolean
 			}
 		}
 		return false; // Boolean
 	},
 
-	unlinkLazyLoadFromParent: function(){
-		// summary:
-		//		unhooks selectChild publishes from parent Container (lazy load)
+	_unlinkLazyLoadFromParent: function(){
+		// unhooks selectChild publishes from parent Container (lazy load)
 		if(this._subscr_show){
 			dojo.unsubscribe(this._subscr_remove);
 			dojo.unsubscribe(this._subscr_show);
@@ -211,7 +210,7 @@ dojo.declare(
 	_loadCheck: function(){
 		// call this when you change onShow (onSelected) status when selected in parent container
 		// its used as a trigger for href download when this.domNode.display != 'none'
-		if(this.refreshOnShow || (!this.isLoaded && this.href)){
+		if(this.href && (this.refreshOnShow || !this.isLoaded)){
 			this._prepareLoad(this.refreshOnShow);
 		}
 	},
@@ -238,7 +237,7 @@ dojo.declare(
 
 		var self = this;
 		var getArgs = {
-			preventCache:  (this.preventCache || this.refreshOnShow),
+			preventCache: (this.preventCache || this.refreshOnShow),
 			url: this.href,
 			handleAs: "text"
 		};
