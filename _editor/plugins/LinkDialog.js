@@ -27,8 +27,8 @@ dojo.declare("dijit._editor.plugins.LinkDialog",
 			"<span>url: &nbsp;</span>",
 			"<input class='dijitComboBoxInput' type='text' dojoAttachPoint='urlInput'>",
 			"<br>",
-			"<input class='dijitButtonNode' type='button' dojoAttachEvent='onclick: setValue;' value='set'>",
-			"<input class='dijitButtonNode' type='button' dojoAttachEvent='onclick: hideEditor;' value='cancel'>"
+			"<input class='dijitButtonNode' type='button' dojoAttachEvent='onclick: setValue' value='set'>",
+			"<input class='dijitButtonNode' type='button' dojoAttachEvent='onclick: hideEditor' value='cancel'>"
 		].join(""),
 		useDefaultCommand: false,
 		command: "createLink",

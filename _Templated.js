@@ -132,25 +132,23 @@ dojo.declare("dijit._Templated",
 					continue;
 				}
 				// Process dojoAttachPoint
-				var tmpAttachPoint = getAttrFunc(baseNode, "dojoAttachPoint");
-				if(tmpAttachPoint){
-					var attachPoint = tmpAttachPoint.split(";");
-					var z = 0, ap;
-					while((ap=attachPoint[z++])){
-						if(dojo.isArray(this[ap])){
-							this[ap].push(baseNode);
+				var attachPoint = getAttrFunc(baseNode, "dojoAttachPoint");
+				if(attachPoint){
+					dojo.forEach(attachPoint.split(","), function(point){
+						if(dojo.isArray(this[point])){
+							this[point].push(baseNode);
 						}else{
-							this[ap]=baseNode;
+							this[point]=baseNode;
 						}
-					}
+					}, this);
 				}
 
-				// dojoAttachEvent
+				// Process dojoAttachEvent
 				var attachEvent = getAttrFunc(baseNode, "dojoAttachEvent");
 				if(attachEvent){
 					// NOTE: we want to support attributes that have the form
 					// "domEvent: nativeEvent; ..."
-					dojo.forEach(attachEvent.split(";"), function(event){
+					dojo.forEach(attachEvent.split(","), function(event){
 						if(event){
 							var thisFunc = null;
 							var trim = dojo.trim;
@@ -176,7 +174,7 @@ dojo.declare("dijit._Templated",
 					var values = getAttrFunc(baseNode, wai.name);
 					if(values){
 						var role = "role";
-						dojo.forEach(values.split(";"), function(val){	// allow multiple states
+						dojo.forEach(values.split(","), function(val){	// allow multiple states
 							if(val.indexOf('-') != -1){
 								// this is a state-value pair
 								var statePair = val.split('-');

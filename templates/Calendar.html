@@ -1,14 +1,14 @@
 <table cellspacing="0" cellpadding="0" class="calendarContainer">
 	<thead>
 		<tr class="dijitReset calendarMonthContainer" valign="top">
-			<th class='dijitReset' dojoAttachEvent="onclick: _onDecrementMonth;">
+			<th class='dijitReset' dojoAttachEvent="onclick: _onDecrementMonth">
 				<span class="dijitA11yLeftArrow calendarIncrementControl calendarDecrease">&#9668;</span>
 			</th>
 			<th class='dijitReset' colspan="5">
 				<div dojoAttachPoint="monthLabelSpacer" class="calendarMonthLabelSpacer"></div>
 				<div dojoAttachPoint="monthLabelNode" class="calendarMonth"></div>
 			</th>
-			<th class='dijitReset' dojoAttachEvent="onclick: _onIncrementMonth;">
+			<th class='dijitReset' dojoAttachEvent="onclick: _onIncrementMonth">
 				<span class="dijitA11yRightArrow calendarIncrementControl calendarIncrease">&#9658;</span>
 			</th>
 		</tr>
@@ -16,7 +16,7 @@
 			<th class="dijitReset calendarDayLabelTemplate"><span class="calendarDayLabel"></span></th>
 		</tr>
 	</thead>
-	<tbody dojoAttachEvent="onclick: _onDayClick;" class="dijitReset calendarBodyContainer">
+	<tbody dojoAttachEvent="onclick: _onDayClick" class="dijitReset calendarBodyContainer">
 		<tr class="dijitReset calendarWeekTemplate">
 			<td class="dijitReset calendarDateTemplate"><span class="calendarDateLabel"></span></td>
 		</tr>
@@ -26,10 +26,10 @@
 			<td class='dijitReset' valign="top" colspan="7">
 				<h3 class="calendarYearLabel">
 					<span dojoAttachPoint="previousYearLabelNode"
-						dojoAttachEvent="onclick: _onDecrementYear;" class="calendarPreviousYear"></span>
+						dojoAttachEvent="onclick: _onDecrementYear" class="calendarPreviousYear"></span>
 					<span dojoAttachPoint="currentYearLabelNode" class="calendarSelectedYear"></span>
 					<span dojoAttachPoint="nextYearLabelNode"
-						dojoAttachEvent="onclick: _onIncrementYear;" class="calendarNextYear"></span>
+						dojoAttachEvent="onclick: _onIncrementYear" class="calendarNextYear"></span>
 				</h3>
 			</td>
 		</tr>

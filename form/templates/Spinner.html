@@ -1,23 +1,23 @@
 <div class="dijit dijitInline dijitLeft dijitSpinner" baseClass="dijitSpinner"
 	id="${id}" name="${name}"
-	dojoAttachEvent="onmouseover:_onMouse;onmouseout:_onMouse;onkeypress:_onKeyPress"
+	dojoAttachEvent="onmouseover:_onMouse,onmouseout:_onMouse,onkeypress:_onKeyPress"
 	waiRole="presentation"
 ><table class="dijitReset" cellspacing="0"  cellpadding="0" waiRole="presentation">
 	<tr class="dijitReset">
 		<td rowspan="2" class="dijitReset dijitStretch dijitSpinnerInput">
-			<input dojoAttachPoint="textbox;focusNode" type="${type}" dojoAttachEvent="onfocus;onkeyup;"
+			<input dojoAttachPoint="textbox,focusNode" type="${type}" dojoAttachEvent="onfocus,onkeyup"
 				value="${value}" name="${name}" size="${size}" maxlength="${maxlength}"
 				waiRole="spinbutton" autocomplete="off" tabIndex="${tabIndex}"
 			></td>
 		<td class="dijitReset dijitRight dijitButtonNode dijitUpArrowButton" 
 				dojoAttachPoint="upArrowNode"
-				dojoAttachEvent="onmousedown:_handleUpArrowEvent;onmouseup:_handleUpArrowEvent;onmouseover:_handleUpArrowEvent;onmouseout:_handleUpArrowEvent;"
+				dojoAttachEvent="onmousedown:_handleUpArrowEvent,onmouseup:_handleUpArrowEvent,onmouseover:_handleUpArrowEvent,onmouseout:_handleUpArrowEvent"
 				baseClass="dijitSpinnerUpArrow"
 			><div class="dijitA11yUpArrow">&#9650;</div></td>
 	</tr><tr class="dijitReset">
 		<td class="dijitReset dijitRight dijitButtonNode dijitDownArrowButton" 
 				dojoAttachPoint="downArrowNode"
-				dojoAttachEvent="onmousedown:_handleDownArrowEvent;onmouseup:_handleDownArrowEvent;onmouseover:_handleDownArrowEvent;onmouseout:_handleDownArrowEvent;"
+				dojoAttachEvent="onmousedown:_handleDownArrowEvent,onmouseup:_handleDownArrowEvent,onmouseover:_handleDownArrowEvent,onmouseout:_handleDownArrowEvent"
 				baseClass="dijitSpinnerDownArrow"
 			><div class="dijitA11yDownArrow">&#9660;</div></td>
 	</tr>
