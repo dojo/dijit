@@ -150,7 +150,7 @@ dojo.declare(
 			// summary: add some default key handlers
 			// description:
 			// 		Overwrite this to setup your own handlers. The default
-			// 		implementation does not use Editor2 commands, but directly
+			// 		implementation does not use Editor commands, but directly
 			//		executes the builtin commands within the underlying browser
 			//		support.
 			var ctrl = this.KEY_CTRL;
@@ -201,6 +201,11 @@ dojo.declare(
 				return;
 			}
 			this._editorCommandsLocalized = true;
+			
+			//in IE, names for blockformat is locale dependent, so we cache the values here
+
+			//if the normal way fails, we try the hard way to get the list
+		
 			//do not use _cacheLocalBlockFormatNames here, as it will
 			//trigger security warning in IE7
 
@@ -395,10 +400,6 @@ dojo.declare(
 				// this. Sadly _firstChildContributingMargin and
 				// _lastChildContributingMargin don't work on IE unless all
 				// elements have margins set in CSS :-(
-
-				//in IE, names for blockformat is locale dependent, so we cache the values here
-
-				//if the normal way fails, we try the hard way to get the list
 				
 				this._localizeEditorCommands();
 				
@@ -573,9 +574,6 @@ dojo.declare(
 			//		Draws an iFrame using the existing one if one exists.
 			//		Used by Mozilla, Safari, and Opera
 
-			// detect firefox < 1.5, which has some iframe loading issues
-			var oldMoz = Boolean(dojo.isMoz && (typeof window.XML == 'undefined'));
-
 			if(!this.iframe){
 				var ifr = this.iframe = dojo.doc.createElement("iframe");
 				// this.iframe.src = "about:blank";
@@ -690,10 +688,9 @@ dojo.declare(
 			if(this.editNode){
 				ifrFunc(); // iframe already exists, just set content
 			}else if(dojo.isMoz){
-//				// FIXME: if we put this on a delay, we get a height of 20px.
-//				// Otherwise we get the correctly specified minHeight value.
+				//mozilla requires some time to make the iframe content window/document ready
 				setTimeout(ifrFunc, 250);
-			}else{ // new mozillas, opera, safari
+			}else{ // opera, safari
 				ifrFunc();
 			}
 		},
