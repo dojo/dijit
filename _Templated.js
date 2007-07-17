@@ -134,7 +134,7 @@ dojo.declare("dijit._Templated",
 				// Process dojoAttachPoint
 				var attachPoint = getAttrFunc(baseNode, "dojoAttachPoint");
 				if(attachPoint){
-					dojo.forEach(attachPoint.split(","), function(point){
+					dojo.forEach(attachPoint.split(/\s*,\s*/), function(point){
 						if(dojo.isArray(this[point])){
 							this[point].push(baseNode);
 						}else{
@@ -148,7 +148,7 @@ dojo.declare("dijit._Templated",
 				if(attachEvent){
 					// NOTE: we want to support attributes that have the form
 					// "domEvent: nativeEvent; ..."
-					dojo.forEach(attachEvent.split(","), function(event){
+					dojo.forEach(attachEvent.split(/\s*,\s*/), function(event){
 						if(event){
 							var thisFunc = null;
 							var trim = dojo.trim;
@@ -174,7 +174,7 @@ dojo.declare("dijit._Templated",
 					var values = getAttrFunc(baseNode, wai.name);
 					if(values){
 						var role = "role";
-						dojo.forEach(values.split(","), function(val){	// allow multiple states
+						dojo.forEach(values.split(/\s*,\s*/), function(val){	// allow multiple states
 							if(val.indexOf('-') != -1){
 								// this is a state-value pair
 								var statePair = val.split('-');
