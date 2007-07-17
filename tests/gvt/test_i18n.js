@@ -22,9 +22,9 @@ function getString(n){
 	return n == null ? null : n.toString();
 }
 
-function startTest(){
-	startTestFormat();
-	startTestValidate();
+function startTest(t){
+	startTestFormat(t);
+	startTestValidate(t);
 }
 
 function escapeEx(s){
@@ -46,18 +46,19 @@ function escapeEx(s){
 	return result;
 }
 
-function startTestFormat(){
+function startTestFormat(t){
 	for(var i = 0; i < formatWidgetCount; i++){
 		var test_node = dojo.doc.getElementById("test_display_" + i); 
 		var exp = dojo.doc.getElementById("test_display_expected_" + i).value; 
 		var res_node = dojo.doc.getElementById("test_display_result_" + i);
 		res_node.innerHTML = test_node.value;
-		res_node.style.backgroundColor = test_node.value == exp ? "#AFA" : "#FAA";
+		res_node.style.backgroundColor = (test_node.value == exp) ? "#AFA" : "#FAA";
 		res_node.innerHTML += " <a style='font-size:0.8em' href='javascript:alert(\"Expected: " + escapeEx(exp) + "\\n Result: " + escapeEx(test_node.value) + "\")'>Compare (Escaped)</a>";
+		t.is(exp, test_node.value);
 	}
 }
 
-function startTestValidate(){
+function startTestValidate(t){
 	/*
 	 * The dijit.util.manager.byNode has an issue: cannot handle same id.
 	 */
@@ -76,11 +77,11 @@ function startTestValidate(){
 		var node = test_node;
 		while ((widget = dijit.util.manager.byNode(node)) == null){
 			node = node.parentNode;
-			if(node == null){
+			if(!node){
 				break;
 			}
 		}
-		if(widget != null){
+		if(widget){
 			widget.focus();
 
 			var expected = validateValues[i];
@@ -92,6 +93,7 @@ function startTestValidate(){
 			var parseCorrect = getString(expected) == getString(result);
 			val_node.style.backgroundColor = parseCorrect ?  "#AFA" : "#FAA";
 			val_node.innerHTML = getString(result) + (parseCorrect ? "" : "<br>Expected: " + getString(expected));
+			t.is(getString(expected), getString(result));
 		} 
 		
 		var color = dojo.getComputedStyle(test_node).backgroundColor;

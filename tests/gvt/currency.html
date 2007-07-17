@@ -18,10 +18,31 @@
 			dojo.require("dojo.date.locale");
 			dojo.require("dojo.date.stamp");
 			dojo.require("dojo.parser");	// scan page for widgets and instantiate them
+			dojo.require("doh.runner");
 		</script>
-		<script src="test_i18n.js">
+		<script src="test_i18n.js"></script>
+		<script type="text/javascript">
+			dojo.addOnLoad(function(){
+				doh.register("t", 
+					[
+						{
+							name: "format",
+							runTest: function(t){
+								startTestFormat(t);
+							}
+						},
+						{
+							name: "validate",
+							runTest: function(t){
+								startTestValidate(t);
+							}
+						}
+					]
+				);
+				doh.run();
+			});
 		</script>
-		
+
 		<style type="text/css">
 			@import "../../../dojo/resources/dojo.css";
 			@import "../../themes/tundra/tundra.css";
@@ -53,10 +74,11 @@
 	<body class="tundra">
 		<h1 class="testTitle">Dijit Textbox Globalization Test for Currency</h1>
 
-		<h2 class="testTitle">Press the following button to start all test after this page is loaded.</h2>
-		<button id="startButton" onclick="startTest()">Start Test</button>
+<!--		<h2 class="testTitle">Press the following button to start all test after this page is loaded.</h2>
+ 		<button id="startButton" onclick="startTest()">Start Test</button> -->
 		<p>
-			Before start this test, make sure the <b>dojo/cldr/nls</b> contains the data for "zh-cn", "fr-fr", "ja-jp" and "ar-eg". If not, convert these CLDR data and put them there. 
+			Before start this test, make sure the <b>dojo/cldr/nls</b> contains the data for "zh-cn", "fr-fr", "ja-jp" and "ar-eg"
+			and currencies CNY, EGP, EUR, JPY. If not, convert these CLDR data and put them there. 
 		</p>
 
 		<script>
@@ -204,7 +226,7 @@
 		</script>
 		
 		<h2 class="testTitle">Issues &amp; Comments</h2>
-		<a name="cmt_1"><h3 class="testTitle">Issue #1<sup style="color:blue">Fixed</sup></h3></a>
+		<h3 class="testTitle"><a name="cmt_1">Issue #1<sup style="color:blue">Fixed</sup></a></h3>
 		<p>
 			Some browsers like FireFox have a bug on the non-breaking space character (U+00A0, <b>&amp;nbsp;</b> or <b>&amp;#160;</b> or 
 			<b>&amp;#xA0;</b> in HTML). 
@@ -228,20 +250,20 @@
 			So Dojo may generate formatted data with NBSP characters in it but cannot read NBSP charaters from user's input in some browser.
 		</p>
 
-		<a name="cmt_2"><h3 class="testTitle">Issue #2<sup style="color:blue">Fixed: the CLDR data generator should be fixed by adding code to convert U+200F to "\u200F" in nls JS files.</sup></h3></a>
+		<h3 class="testTitle"><a name="cmt_2">Issue #2<sup style="color:blue">Fixed: the CLDR data generator should be fixed by adding code to convert U+200F to "\u200F" in nls JS files.</sup></a></h3>
 		<p>
 			Most Bidi currency symbols contain an LTR-MARK (U+200F) character at the very beginning.
 			But Firefox ignores it when it is not in any escaping form. This should be a bug of Firefox.
 			For example, click <a href="javascript:alert('‏'.indexOf('\u200F'))"><code>alert('‏'.indexOf('\u+200F'))</code></a> (there is a U+200F in the empty-looking string):
 			<ul>
 				<li>In Firefox, shows "-1" -- no U+200F found</li>
-				<li>In IE & Opera, shows "0" -- the U+200F is found</li>
+				<li>In IE &amp; Opera, shows "0" -- the U+200F is found</li>
 			</ul> 
 			But if the U+200F is in some escaping form, Firefox will work as well as other browsers.
 			Click <a href="javascript:alert('\u200F'.indexOf('\u200F'))"><code>alert('\u200F'.indexOf('\u+200F'))</code></a> to see the same result both in Firefox and IE:
 		</p>
 
-		<a name="cmt_3"><h3 class="testTitle">Issue #3<sup style="color:blue">Fixed: added a "localeDigit" to the options</sup></h3></a>
+		<h3 class="testTitle"><a name="cmt_3">Issue #3<sup style="color:blue">Fixed: added a "localeDigit" to the options</sup></a></h3>
 		<p>
 			Strictly speaking, the data conversion must support non-European number characters in some locales like Arabic and Hindi.
 			For example, ICU formats a number data into Indic number characters by default in the Arabic locale.
@@ -250,4 +272,3 @@
 
 	</body>
 </html>
-
