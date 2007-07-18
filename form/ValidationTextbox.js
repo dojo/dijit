@@ -168,7 +168,7 @@ dojo.declare(
 		toString: function(){
 			// summary: display the widget as a printable string using the widget's value
 			var val = this.getValue();
-			return val ? ((typeof val == "string") ? val : this.serialize(val)) : "";
+			return val ? ((typeof val == "string") ? val : this.serialize(val, this.constraints)) : "";
 		},
 
 		validate: function(){

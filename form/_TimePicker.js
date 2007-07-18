@@ -67,6 +67,8 @@ dojo.declare("dijit.form._TimePicker",
 		constraints:{},
 		lang:this.lang,
 
+		serialize: dojo.date.stamp.toISOString,
+
 		setValue:function(/*Date*/ date, /*Boolean*/ priority){
 			// summary:
 			//	Set the value of the TimePicker
@@ -84,9 +86,10 @@ dojo.declare("dijit.form._TimePicker",
 
 		_showText:function(){
 			this.timeMenu.innerHTML="";
-			this._clickableIncrementDate=dojo.date.stamp.fromISOString(this.clickableIncrement);
-			this._visibleIncrementDate=dojo.date.stamp.fromISOString(this.visibleIncrement);
-			this._visibleRangeDate=dojo.date.stamp.fromISOString(this.visibleRange);
+			var fromIso = dojo.date.stamp.fromISOString;
+			this._clickableIncrementDate=fromIso(this.clickableIncrement);
+			this._visibleIncrementDate=fromIso(this.visibleIncrement);
+			this._visibleRangeDate=fromIso(this.visibleRange);
 			// get the value of the increments and the range in seconds (since 00:00:00) to find out how many divs to create
 			var clickableIncrementSeconds=this._toSeconds(this._clickableIncrementDate);
 			var visibleIncrementSeconds=this._toSeconds(this._visibleIncrementDate);
@@ -176,7 +179,6 @@ dojo.declare("dijit.form._TimePicker",
 		},
 		
 		onValueSelected:function(value){
-			
 		},
 		
 		onmouseover:function(/*Event*/ evt){
@@ -188,10 +190,6 @@ dojo.declare("dijit.form._TimePicker",
 		onmouseout:function(/*Event*/ evt){
 			if(evt.target === this.timeMenu){ return; }
 			dojo.removeClass(this._highlighted_option, "dijitMenuItemHover");
-		},
-
-		serialize: function(/*Date*/time){
-			return dojo.date.stamp.toISOString(time, this.constraints); // String
 		},
 
 		_onArrowUp:function(){

@@ -14,8 +14,6 @@ dojo.declare(
 		
 		postMixInProperties: function(){
 			this.inherited('postMixInProperties', arguments);
-
-			// #3407: only change constraints after postMixInProperties or ValidationTextbox will clear the change
 			this.constraints.selector = 'date';
 		}
 	}

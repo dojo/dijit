@@ -404,12 +404,12 @@
 	<div class="dojoTitlePaneLabel">
 		<label for="q16"> 12 Hour Time </label>
 		<span class="noticeMessage">TimeTextbox class,
-			Attributes: {formatLength: "medium", required: true, trim: true}</span>
+			Attributes: {timePattern:'h:mm:ss a'}</span>
 	</div>
 	<div class="testExample">
 		<input id="q16" type="text" name="time1" class="medium" value="T17:45:00"
 			dojoType="dijit.form.TimeTextbox"
-			constraints={formatLength:'medium',selector:'time'}
+			constraints={timePattern:'h:mm:ss&nbsp;a'}
 			required="true"
 			invalidMessage="Invalid time." />
 	</div>
@@ -417,78 +417,18 @@
 	<div class="dojoTitlePaneLabel">
 		<label for="q17"> 24 Hour Time</label>
 		<span class="noticeMessage">TimeTextbox class,
-			Attributes: {displayFormat:"HH:mm:ss", required: true, trim: true}</span>
+			Attributes: {timePattern:'HH:mm:ss'}</span>
 	</div>
 	<div class="testExample">
 		<input id="q17" type="text" name="time2" class="medium" value="T17:45:00"
 			dojoType="dijit.form.TimeTextbox"
-			constraints={formatLength:'short',selector:'time',timePattern:'HH:mm:ss'}
+			constraints={timePattern:'HH:mm:ss'}
 			required="true"
 			invalidMessage="Invalid time. Use HH:mm:ss where HH is 00 - 23 hours.">
 			</div>
 
-	<!--
 	<div class="dojoTitlePaneLabel">
-		<label for="q18"> US State 2 letter abbr. </label>
-		<span class="noticeMessage">UsStateTextbox class,
-			Attributes: {required: true, trim: true, uppercase: true}</span>
-	</div>
-	<div class="testExample">
-		<input id="q18" type="text" name="state" class="small" value="CA"
-			dojoType="dijit.form.ValidationTextbox"
-			regExpGen="dojo.regexp.us.state"
-			constraints={allowTerritories:false}
-			trim="true"
-			uppercase="true"
-			required="true"
-			invalidMessage="Invalid US state abbr.">
-	</div>
-
-	<div class="dojoTitlePaneLabel">
-		<label for="q19"> US Zip Code </label>
-		<span class="noticeMessage">UsZipTextbox class,
-			Attributes: {required: true, trim: true} Five digit Zip code or 5 + 4.</span>
-	</div>
-	<div class="testExample">
-		<input id="q19" type="text" name="zip" class="medium" value="98225-1649"
-			dojoType="dijit.form.ValidationTextbox"
-			validator="dojo.validate.us.isZipCode"
-			trim="true"
-			required="true"
-			invalidMessage="Invalid US Zip Code.">
-	</div>
-
-	<div class="dojoTitlePaneLabel">
-		<label for="q20"> US Social Security Number </label>
-		<span class="noticeMessage">UsSocialSecurityNumberTextbox class,
-			Attributes: {required: true, trim: true} </span>
-	</div>
-	<div class="testExample">
-		<input id="q20" type="text" name="ssn" class="medium" value="123-45-6789"
-			dojoType="dijit.form.ValidationTextbox"
-			validator="dojo.validate.us.isSocialSecurityNumber"
-			trim="true"
-			required="true"
-			invalidMessage="Invalid US Social Security Number.">
-	</div>
-
-	<div class="dojoTitlePaneLabel">
-		<label for="q21"> 10-digit US Phone Number </label>
-		<span class="noticeMessage">UsPhoneNumberTextbox class,
-			Attributes: {required: true, trim: true} </span>
-	</div>
-	<div class="testExample">
-		<input id="q21" type="text" name="phone" class="medium" value="(123) 456-7890"
-			dojoType="dijit.form.ValidationTextbox"
-			validator="dojo.validate.us.isPhoneNumber"
-			trim="true"
-			required="true"
-			invalidMessage="Invalid US Phone Number.">
-	</div>
-	-->
-
-	<div class="dojoTitlePaneLabel">
-		<label for="q22"> Regular Expression </label>
+		<label for="q22">Regular Expression </label>
 		<span class="noticeMessage">RegexpTextbox class,
 			Attributes: {required: true} </span>
 	</div>
