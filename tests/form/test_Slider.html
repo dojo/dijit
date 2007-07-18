@@ -38,10 +38,21 @@
 			intermediateChanges="true"
 			style="width:50%; height: 20px;"
 			id="slider1">
-				<div dojoType="dijit.form.HorizontalRuleLabels" container="topDecoration" labels="&nbsp;,20%,40%,60%,80%,&nbsp;" style="height:1.2em;font-size:75%;color:gray;"></div>
+				<ol dojoType="dijit.form.HorizontalRuleLabels" container="topDecoration" style="height:1.2em;font-size:75%;color:gray;">
+					<li>
+					<li>20%
+					<li>40%
+					<li>60%
+					<li>80%
+					<li>
+				</ol>
 				<div dojoType="dijit.form.HorizontalRule" container="topDecoration" count=11 style="height:5px;"></div>
 				<div dojoType="dijit.form.HorizontalRule" container="bottomDecoration" count=5 style="height:5px;"></div>
-				<div dojoType="dijit.form.HorizontalRuleLabels" container="bottomDecoration" labels="0%,50%,100%" style="height:1em;font-size:75%;color:gray;"></div>
+				<ol dojoType="dijit.form.HorizontalRuleLabels" container="bottomDecoration"style="height:1em;font-size:75%;color:gray;">
+					<li>lowest
+					<li>normal
+					<li>highest
+				</ol>
 		</div>
 		Slider1 Value:<input readonly id=slider1input size=4>
 		<br>
@@ -57,10 +68,20 @@
 			decrementButtonContent="<img src=../../themes/tundra/images/arrowDown.png alt=->"
 			style="height:300px;"
 			id="slider2">
-				<div dojoType="dijit.form.VerticalRuleLabels" container="leftDecoration" labels="0,100" style="width:2em;color:gray;" labelStyle="right:0px;"></div>
+				<ol dojoType="dijit.form.VerticalRuleLabels" container="leftDecoration"style="width:2em;color:gray;" labelStyle="right:0px;">
+					<li>0
+					<li>100
+				</ol>
 				<div dojoType="dijit.form.VerticalRule" container="leftDecoration" count=11 style="width:5px;" ruleStyle="border-color:gray;"></div>
 				<div dojoType="dijit.form.VerticalRule" container="rightDecoration" count=11 style="width:5px;" ruleStyle="border-color:gray;"></div>
-				<div dojoType="dijit.form.VerticalRuleLabels" container="rightDecoration" labels="&nbsp;,20,40,60,80,&nbsp;" style="width:2em;color:gray;"></div>
+				<ol dojoType="dijit.form.VerticalRuleLabels" container="rightDecoration"style="width:2em;color:gray;">
+					<li>
+					<li>20
+					<li>40
+					<li>60
+					<li>80
+					<li>
+				</ol>
 		</div>
 		Slider2 Value:<input readonly id=slider2input size=3>
 		<p><h1>Standalone ruler example:</h1></p>
@@ -69,7 +90,11 @@
 			<div dojoType="dijit.form.HorizontalRule" count=9 style="height:.4em;"></div>
 			<div dojoType="dijit.form.HorizontalRule" count=5 style="height:.4em;"></div>
 			<div dojoType="dijit.form.HorizontalRule" count=3 style="height:.4em;"></div>
-			<div dojoType="dijit.form.HorizontalRuleLabels" labels="&nbsp;,1,2" labelStyle="font-style:monospace;font-size:.7em;margin:-1em 0px 0px -.35em;"></div>
+			<ol dojoType="dijit.form.HorizontalRuleLabels"labelStyle="font-style:monospace;font-size:.7em;margin:-1em 0px 0px -.35em;">
+				<li>
+				<li>1
+				<li>2
+			</ol>
 		</div>
 	</body>
 </html>

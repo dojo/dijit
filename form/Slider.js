@@ -305,6 +305,17 @@ dojo.declare("dijit.form.HorizontalRuleLabels", dijit.form.HorizontalRule,
 		return this._positionPrefix + this._calcPosition(pos) + this._positionSuffix + this.labelStyle + this._labelPrefix + this.labels[ndx] + this._suffix;
 	},
 
+	postMixInProperties: function(){
+		dijit.form.HorizontalRuleLabels.superclass.postMixInProperties.apply(this);
+		if(!this.labels.length){
+			// for markup creation, labels are specified as child elements
+			this.labels = dojo.query("> li", this.srcNodeRef).map(function(node){
+				return String(node.innerHTML);
+			});
+		}
+		this.srcNodeRef.innerHTML="";
+	},
+
 	postCreate: function(){
 		this.count = this.labels.length;
 		dijit.form.HorizontalRuleLabels.superclass.postCreate.apply(this);
