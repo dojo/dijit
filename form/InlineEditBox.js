@@ -45,9 +45,9 @@ dojo.declare(
 	//              Cancel button label
 	buttonCancel: "",
 
-	// renderHTML: Boolean
+	// renderAsHtml: Boolean
 	//              should text render as HTML(true) or plain text(false)
-	renderHTML: false,
+	renderAsHtml: false,
 
 	widgetsInTemplate: true,
 
@@ -119,7 +119,7 @@ dojo.declare(
 		this.editing = true;
 
 		// show the edit form and hide the read only version of the text
-		this._setEditValue(this._isEmpty ? '' : (this.renderHTML ? this.editable.innerHTML : this.editable.firstChild.nodeValue));
+		this._setEditValue(this._isEmpty ? '' : (this.renderAsHtml ? this.editable.innerHTML : this.editable.firstChild.nodeValue));
 		this._initialText = this._getEditValue();
 		this._visualize();
 
@@ -142,7 +142,7 @@ dojo.declare(
 		// TODO: show user defined message in gray
 		if(/^\s*$/.test(value)){ value = "?"; this._isEmpty = true; }
 		else { this._isEmpty = false; }
-		if(this.renderHTML){
+		if(this.renderAsHtml){
 			this.editable.innerHTML = value;
 		}else{
 			this.editable.innerHTML = "";
