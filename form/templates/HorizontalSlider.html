@@ -1,13 +1,13 @@
 <table class="dijitReset dijitSlider" cellspacing=0 cellpadding=0 border=0 rules=none id="${id}"
 	><tr class="dijitReset"
 		><td class="dijitReset" colspan=2></td
-		><td dojoAttachPoint="topDecoration" class="dijitReset" style="text-align:center;"></td
+		><td dojoAttachPoint="containerNode,topDecoration" class="dijitReset" style="text-align:center;"></td
 		><td class="dijitReset" colspan=2></td
 	></tr
 	><tr class="dijitReset"
 		><td class="dijitReset dijitSliderButtonContainer dijitHorizontalSliderButtonContainer"
-			><span dojoAttachPoint="decrementButton" class="dijitSliderButton dijitSliderHorizontalButton" style="display:none;"></span
-		></td
+			><button dojoType="dijit.form.Button" tabIndex="-1" alt="-" style="display:none" dojoAttachPoint="decrementButton" dojoAttachEvent="onClick: decrement">-</button
+		</td
 		><td class="dijitReset"
 			><div class="dijitSliderBar dijitSliderBumper dijitHorizontalSliderBumper dijitSliderLeftBumper dijitHorizontalSliderLeftBumper"></div
 		></td
@@ -27,8 +27,8 @@
 			><div class="dijitSliderBar dijitSliderBumper dijitHorizontalSliderBumper dijitSliderRightBumper dijitHorizontalSliderRightBumper"></div
 		></td
 		><td class="dijitReset dijitSliderButtonContainer dijitHorizontalSliderButtonContainer"
-			><span dojoAttachPoint="incrementButton" class="dijitSliderButton dijitSliderHorizontalButton" style="display:none;"></span
-		></td
+			><button dojoType="dijit.form.Button" tabIndex="-1" alt="+" style="display:none" dojoAttachPoint="incrementButton" dojoAttachEvent="onClick: increment">+</button
+		</td
 	></tr
 	><tr class="dijitReset"
 		><td class="dijitReset" colspan=2></td

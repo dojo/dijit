@@ -19,14 +19,6 @@ dojo.declare(
 	//	Show increment/decrement buttons at the ends of the slider?
 	showButtons: true,
 
-	// incrementButtonContents: String
-	//	The increment button label
-	incrementButtonContent: "+",
-
-	// decrementButtonContents: String
-	//	The decrement button label
-	decrementButtonContent: "-",
-
 	// handleSrc: String
 	//	The draggable handle image src value
 	handleSrc: dojo.moduleUrl('dijit','themes/tundra/images/preciseSliderThumb.png'),
@@ -50,7 +42,9 @@ dojo.declare(
 	// clickSelect: boolean
 	//	If clicking the progress bar changes the value or not
 	clickSelect: true,
-	
+
+	widgetsInTemplate: true,
+
 	_mousePixelCoord: "pageX",
 	_pixelCount: "w",
 	_startingPixelCoord: "x",
@@ -148,33 +142,16 @@ dojo.declare(
 
 	repeatString: function(str,n){
 		   var s = "", t = str.toString()
-		   while (--n >= 0) s += t
-		   return s
-	},
-
-	_createButton: function(node, label, fcn){
-		var widget = new dijit.form.Button({label: label, tabIndex:-1, onClick: dojo.hitch(this, fcn)}, node);
-		widget.domNode.style.display="";
-		return widget;
-	},
-
-	_createIncrementButton: function(){
-		var w = this._createButton(this.incrementButton, this.incrementButtonContent, "increment");
-		this.incrementButton = w.focusNode;
-	},
-
-	_createDecrementButton: function(){
-		var w = this._createButton(this.decrementButton, this.decrementButtonContent, "decrement");
-		this.decrementButton = w.focusNode;
+		   while (--n >= 0){ s += t; }
+		   return s;
 	},
 
 	startup: function(){
-		var _this = this;
 		dojo.forEach(this.getChildren(), function(child){
-			if(_this[child.container] != _this.containerNode){
-				_this[child.container].appendChild(child.domNode);
+			if(this[child.container] != this.containerNode){
+				this[child.container].appendChild(child.domNode);
 			}
-		});
+		}, this);
 	},
 
 	_onBlur: function(){
@@ -183,8 +160,8 @@ dojo.declare(
 
 	postCreate: function(){
 		if(this.showButtons){
-			this._createIncrementButton();
-			this._createDecrementButton();
+			this.incrementButton.domNode.style.display="";
+			this.decrementButton.domNode.style.display="";
 		}
 		this.sliderHandle.widget = this;
 
