@@ -14,6 +14,7 @@
 			dojo.require("dijit.form.NumberTextbox");
 			dojo.require("dijit.form.CurrencyTextbox");
 			dojo.require("dijit.form.DateTextbox");
+			dojo.require("dijit.form.TimeTextbox");
 //			dojo.require("dojo.validate.common");
 //			dojo.require("dojo.validate.us");
 			dojo.require("dojo.currency");
@@ -406,11 +407,9 @@
 			Attributes: {formatLength: "medium", required: true, trim: true}</span>
 	</div>
 	<div class="testExample">
-		<input id="q16" type="text" name="time1" class="medium" value="5:45:00 pm"
-			dojoType="dijit.form.ValidationTextbox"
-			validator="dojo.date.locale.parse"
+		<input id="q16" type="text" name="time1" class="medium" value="T17:45:00"
+			dojoType="dijit.form.TimeTextbox"
 			constraints={formatLength:'medium',selector:'time'}
-			trim="true"
 			required="true"
 			invalidMessage="Invalid time." />
 	</div>
@@ -421,11 +420,9 @@
 			Attributes: {displayFormat:"HH:mm:ss", required: true, trim: true}</span>
 	</div>
 	<div class="testExample">
-		<input id="q17" type="text" name="time2" class="medium" value="17:45:00"
-			dojoType="dijit.form.ValidationTextbox"
-			validator="dojo.date.locale.parse"
+		<input id="q17" type="text" name="time2" class="medium" value="T17:45:00"
+			dojoType="dijit.form.TimeTextbox"
 			constraints={formatLength:'short',selector:'time',timePattern:'HH:mm:ss'}
-			trim="true"
 			required="true"
 			invalidMessage="Invalid time. Use HH:mm:ss where HH is 00 - 23 hours.">
 			</div>
