@@ -168,9 +168,8 @@ dojo.declare(
 	_onTitleClick: function(){
 		// summary: callback when someone clicks my title
 		var parent = this.getParent();
-//		parent.selectChild(parent.selectedChildWidget == this ? null : this);
 		parent.selectChild(this);
-		this.focusNode.focus();
+		dijit.util.focus.set(this.focusNode);
 	},
 
 	_onKeyPress: function(/*Event*/ evt){

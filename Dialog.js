@@ -3,6 +3,7 @@ dojo.provide("dijit.Dialog");
 dojo.require("dojo.dnd.move");
 dojo.require("dojo.fx");
 
+dojo.require("dijit.util.focus");
 dojo.require("dijit.util.place");
 dojo.require("dijit.util.sniff");
 dojo.require("dijit.util.popup");			// for BackgroundIFrame
@@ -255,13 +256,11 @@ dojo.declare(
 
 			this._fadeIn.play();
 			
-			this._savedFocus = dijit.util.focus.save(this);
+			this._savedFocus = dijit.util.focus.get(this);
 			
 			// set timeout to allow the browser to render dialog
 			setTimeout(dojo.hitch(this, function(){
-				try{
-					this.titleBar.focus();
-				}catch(e){/*squelch*/}
+				dijit.util.focus.set(this.titleBar);
 			}), 50);
 		},
 
@@ -284,8 +283,10 @@ dojo.declare(
 			}
 			dojo.forEach(this._modalconnects, dojo.disconnect);
 			this._modalconnects = [];
-			
-			dijit.util.focus.restore(this._savedFocus);
+
+			// TODO: this is failing on FF presumably because the DialogUnderlay hasn't disappeared yet?
+			// Attach it to fire at the end of the animation
+			dijit.util.focus.set(this._savedFocus);
 		},
 
 		layout: function() {

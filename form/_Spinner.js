@@ -56,7 +56,7 @@ dojo.declare(
 		_arrowReleased: function(/*Node*/ node){
 			if(this.disabled){ return; }
 			this._wheelTimer = null;
-			this.textbox.focus();
+			dijit.util.focus.set(this.textbox);
 			dojo.removeClass(node, "dijitSpinnerButtonActive");
 		},
 

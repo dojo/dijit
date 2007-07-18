@@ -1,10 +1,8 @@
 dojo.provide("dijit._editor.RichText");
-dojo.require("dijit._Widget");
-dojo.require("dijit._editor.selection");
 
-// dojo.require("dojo.html.layout");
-// dojo.require("dojo.html.range");
-// dojo.require("dojo.string.extras");
+dojo.require("dijit._Widget");
+dojo.require("dijit.util.focus");
+dojo.require("dijit._editor.selection");
 
 // used to save content
 // but do not try doing document.write if we are using xd loading.
@@ -1161,10 +1159,10 @@ dojo.declare(
 		focus: function(){
 			// summary: move focus to this instance
 			if(this.iframe && !dojo.isIE){
-				this.window.focus();
+				dijit.util.focus.set(this.window);
 			}else if(this.editNode && this.editNode.focus){
 				// editNode may be hidden in display:none div, lets just punt in this case
-				this.editNode.focus();
+				dijit.util.focus.set(this.editNode);
 			}else{
 				console.debug("Have no idea how to focus into the editor!");
 			}

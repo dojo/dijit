@@ -87,7 +87,7 @@ dojo.declare(
 
 	_onHandleClick: function(e){
 		if(this.disabled){ return; }
-		this.sliderHandle.focus();
+		dijit.util.focus.set(this.sliderHandle);
 		dojo.stopEvent(e);
 	},
 

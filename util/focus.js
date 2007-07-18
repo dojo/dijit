@@ -1,5 +1,7 @@
 dojo.provide("dijit.util.focus");
 
+dojo.require("dijit.util.window");
+
 dijit.util.focus = new function(){
 	// summary:
 	//		This class is used to save the current focus / selection on the screen,
@@ -7,14 +9,6 @@ dijit.util.focus = new function(){
 	//		but can also be used for a menubar or toolbar.   (For example, in the editor
 	//		the user might type Ctrl-T to focus the toolbar, and then when he/she selects
 	//		a menu choice, focus is returned to the editor window.)
-	//
-	//		Note that it doesn't deal with submenus off of an original menu;
-	//		From this class's perspective it's all part of one big menu.
-	//
-	//		The widget must implement a close() callback, which will close dialogs or
-	//		a context menu, and for a menubar, it will close the submenus and remove
-	//		highlighting classes on the root node.
-
 
 	/////////////////////////////////////////////////////////////
 	// Keep track of currently focused and previously focused element
@@ -25,7 +19,9 @@ dijit.util.focus = new function(){
 			node = null;
 		}
 		if(node !== curFocus){
-			prevFocus = curFocus;
+			if(curFocus != null){
+				prevFocus = curFocus;
+			}
 			curFocus = node;
 			
 			// If a node has received focus, then publish topic.
@@ -121,9 +117,10 @@ dijit.util.focus = new function(){
 		}
 	};
 
-	this.save = function(/*Widget*/menu, /*Window*/ openedForWindow){
+	this.get = function(/*Widget*/menu, /*Window*/ openedForWindow){
 		// summary:
-		//	called when a popup appears (either a top level menu or a dialog),
+		//	Returns the current focus and selection.
+		//	Called when a popup appears (either a top level menu or a dialog),
 		//	or when a toolbar/menubar receives focus
 		//
 		// menu:
@@ -137,7 +134,7 @@ dijit.util.focus = new function(){
 
 		return {
 			// Node to return focus to
-			focus: dojo.isDescendant(curFocus, menu.domNode) ? prevFocus : curFocus,
+			node: dojo.isDescendant(curFocus, menu.domNode) ? prevFocus : curFocus,
 			
 			// Previously selected text
 			bookmark: 
@@ -149,22 +146,29 @@ dijit.util.focus = new function(){
 		}; // Object
 	};
 
-	this.restore = function(/*Object*/ handle){
+	this.set = function(/*Object || DomNode */ handle){
 		// summary:
-		//	notify the manager that menu is closed; it will return focus to
-		//	the specified handle
+		//		sets the focused node and the selection according to argument
+		// handle:
+		//		object returned by get(), or a DomNode
 
-		var restoreFocus = handle.focus,
+		var node = handle.node || handle,		// because handle is either DomNode or a composite object
 			bookmark = handle.bookmark,
 			openedForWindow = handle.openedForWindow;
 			
-		// focus on element that was focused before menu stole the focus
-		if(restoreFocus){
-			restoreFocus.focus();
+		// set the focus
+		if(node && node.focus){
+			try{
+				// Gecko throws sometimes if setting focus is impossible,
+				// node not displayed or something like that
+				node.focus();
+				setCurrentFocus(node);
+			}catch(e){/*quiet*/}
 		}
 
-		//do not need to restore if current selection is not empty
-		//(use keyboard to select a menu item)
+		// set the selection
+		// do not need to restore if current selection is not empty
+		// (use keyboard to select a menu item)
 		if(bookmark && dojo.withGlobal(openedForWindow||dojo.global, isCollapsed)){
 			if(openedForWindow){
 				openedForWindow.focus();

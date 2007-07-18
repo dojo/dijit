@@ -104,12 +104,8 @@ dojo.declare(
 			return val;
 		},
 
-		focus: function(){
-			// summary: if the widget wants focus, then focus the textbox
-			try { this.focusNode.focus(); } catch(e) {} // this can fail in IE for seemingly no reason 
-		},
-
 		// event handlers, you can over-ride these in your own subclasses
+		// TODO: this should be _onFocus (and onfocus removed from the template)
 		onfocus: function(){
 			dojo.addClass(this.nodeWithBorder, "dijitInputFieldFocused");
 		},

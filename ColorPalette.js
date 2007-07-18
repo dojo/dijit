@@ -1,5 +1,6 @@
 dojo.provide("dijit.ColorPalette");
 
+dojo.require("dijit.util.focus");
 dojo.require("dijit.util.place");
 dojo.require("dijit.util.typematic");
 dojo.require("dijit._Widget");
@@ -151,9 +152,7 @@ dojo.declare(
 	focus: function(){
 		// summary:
 		//		Focus this ColorPalette.
-		if(this._highlightNodes[this._currentFocus].focus){
-			this._highlightNodes[this._currentFocus].focus();
-		}
+		dijit.util.focus.set(this._highlightNodes[this._currentFocus]);
 	},
 
 	onChange: function(color){
@@ -171,7 +170,7 @@ dojo.declare(
 		//		The mouse event.
 		var target = evt.currentTarget;
 		this._currentFocus = target.index;
-		target.focus();
+		dijit.util.focus.set(target);
 		this._selectColor(target);	
 	},
 

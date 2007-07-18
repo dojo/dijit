@@ -106,7 +106,7 @@ dojo.declare(
 			// Mozilla
 			// parts borrowed from http://www.faqts.com/knowledge_base/view.phtml/aid/13562/fid/130
 			if(element.setSelectionRange){
-				element.focus();
+				dijit.util.focus.set(element);
 				element.setSelectionRange(start, end);
 			}else if(element.createTextRange){ // IE
 				var range = element.createTextRange();
@@ -120,7 +120,7 @@ dojo.declare(
 				// do we need these?
 				element.value = element.value;
 				element.blur();
-				element.focus();
+				dijit.util.focus.set(element);
 				// figure out how far back to go
 				var dist = parseInt(element.value.length)-end;
 				var tchar = String.fromCharCode(37);

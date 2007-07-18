@@ -3,6 +3,7 @@ dojo.provide("dijit.layout.StackContainer");
 dojo.require("dijit._Templated");
 dojo.require("dijit.layout._LayoutWidget");
 dojo.require("dijit.form.Button");
+dojo.require("dijit.util.focus");
 
 dojo.declare(
 	"dijit.layout.StackContainer",
@@ -307,8 +308,9 @@ dojo.declare(
 			var container = dijit.byId(this.containerId);
 			container.closeChild(page);
 			var b = this.pane2button[this._currentChild];
-			b = b ? (b.focusNode || b.domNode) : null;
-			if(b && b.focus){ b.focus(); }
+			if(b){
+				dijit.util.focus.set(b.focusNode || b.domNode);
+			}
 		},
 
 		onkeypress: function(/*Event*/ evt){
@@ -355,7 +357,10 @@ dojo.declare(
 	//	The button-like or tab-like object you click to select or delete a page
 
 	onClick: function(/*Event*/ evt) {
-		if(this.focusNode && this.focusNode.focus){ this.focusNode.focus(); }
+		// this is for TabContainer where the tabs are <span> rather than button,
+		// so need to set focus explicitly (on some browsers)
+		dijit.util.focus.set(this.focusNode);
+
 		// ... now let StackController catch the event and tell me what to do
 	},
 

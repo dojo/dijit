@@ -3,6 +3,7 @@ dojo.provide("dijit.Menu");
 dojo.require("dijit._Widget");
 dojo.require("dijit._Container");
 dojo.require("dijit._Templated");
+dojo.require("dijit.util.focus");
 dojo.require("dijit.util.popup");
 dojo.require("dijit.util.scroll");
 dojo.require("dijit.util.window");
@@ -311,10 +312,10 @@ dojo.declare(
 		}
 
 		var self=this;
-		var savedFocus = dijit.util.focus.save(this);
+		var savedFocus = dijit.util.focus.get(this);
 		function closeAndRestoreFocus(){
 			// user has clicked on a menu or submenu
-			dijit.util.focus.restore(savedFocus);
+			dijit.util.focus.set(savedFocus);
 			dijit.util.popup.closeAll();
 		}
 		dijit.util.popup.open({

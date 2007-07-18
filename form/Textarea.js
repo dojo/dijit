@@ -29,9 +29,9 @@ dojo.declare(
 			this._changing(); // set initial height
 		}
 		if(dojo.isMozilla){
-			this.iframe.contentWindow.focus();
+			dijit.util.focus.set(this.iframe.contentWindow);
 		}else{
-			this.focusNode.focus();
+			dijit.util.focus.set(this.focusNode);
 		}
 	},
 
@@ -148,7 +148,7 @@ dojo.declare(
 		if(e.keyCode == 9 && !e.shiftKey && !e.ctrlKey && !e.altKey && this.iframe){
 			// Place focus on the iframe. A subsequent tab or shift tab will put focus
 			// on the correct control.  (Having to tab twice is a low priority bug.)
-			this.iframe.focus();
+			this.focus();
 			e.preventDefault();
 		}else{
 			this.inherited("_onKeyPress", arguments);

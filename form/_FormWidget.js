@@ -4,6 +4,7 @@ dojo.require("dijit._Widget");
 dojo.require("dijit._Templated");
 dojo.require("dijit.util.sniff");
 dojo.require("dijit.util.wai");
+dojo.require("dijit.util.focus");
 
 dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 {
@@ -117,9 +118,7 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 	},
 
 	focus: function(){
-		if(this.focusNode && this.focusNode.focus){	// mozilla 1.7 doesn't have focus() func
-			this.focusNode.focus();
-		}
+		dijit.util.focus.set(this.focusNode);
 	},
 
 	_setStateClass: function(/*String*/ base){

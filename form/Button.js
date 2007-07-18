@@ -35,7 +35,6 @@ dojo.declare(
 			// summary: callback when the user mouse clicks the button portion
 			dojo.stopEvent(e);
 			if(this.disabled){ return; }
-			this.focusNode.focus();
 			return this.onClick(e);
 		},
 		
@@ -128,7 +127,7 @@ dojo.declare(
 		_toggleDropDown: function(){
 			// summary: toggle the drop-down widget; if it is up, close it, if not, open it
 			if(this.disabled){ return; }
-			this.popupStateNode.focus();
+			dijit.util.focus.set(this.popupStateNode);
 			var dropDown = this.dropDown;
 			if(!dropDown){ return false; }
 			if(!dropDown.isShowingNow){
