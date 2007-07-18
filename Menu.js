@@ -397,7 +397,9 @@ dojo.declare(
 		+'<td class="dijitReset"><div class="dijitMenuItemIcon ${iconClass}"></div></td>'
 		+'<td tabIndex="-1" class="dijitReset dijitMenuItemLabel" dojoAttachPoint="containerNode" waiRole="menuitem"></td>'
 		+'<td class="dijitReset" dojoAttachPoint="arrowCell">'
-			+'<span class="dijitA11yRightArrow" style="display:none;" dojoAttachPoint="arrow">&#9658;</span>'
+			+'<span class="dijitMenuRightArrow" dojoAttachPoint="arrow" style="display:none">'
+			+'<span class="dijit_a11y dijitMenuRightArrowInner">&#9658;</span>'
+			+'</span>'
 		+'</td>'
 		+'</tr>',
 
@@ -495,6 +497,7 @@ dojo.declare(
 		dojo.body().appendChild(this.popup.domNode);
 
 		this.popup.domNode.style.display="none";
+		dojo.addClass(this.arrow, "dijitMenuRightArrowEnabled");
 		dojo.style(this.arrow, "display", "");
 		dijit.util.wai.setAttr(this.containerNode, "waiState", "haspopup", "true");
 	}

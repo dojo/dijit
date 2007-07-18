@@ -63,7 +63,7 @@ dojo.declare(
 		this.domNode.className += " " + classes[boolIndex+0];
 
 		// provide a character based indicator for images-off mode
-		this.arrowNode.innerHTML =
+		this.arrowNodeInner.innerHTML =
 			this.open ? "&#9660;" : "&#9658;";
 	},	
 

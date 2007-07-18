@@ -171,9 +171,7 @@
 	margin:.0em .1em .2em .1em;
 }
 
-
-
-/*.tundra .dijitInputField,		MOW TODO */
+.tundra .dijitInputField,
 .tundra .dijitInlineEditor input,
 .tundra .dijitTextaArea,
 .tundra .dijitComboBoxInput,
@@ -214,14 +212,6 @@
 	/* input field when mouse is down (?) */
 }
 
-
-
-
-
-
-
-
-
 /* Dojo Input Field */
 
 .tundra .dijitInputFieldValidationNormal {
@@ -230,16 +220,25 @@
 
 .tundra .dijitInputFieldValidationWarning {
 	border:1px solid #f3d118;
+	background-image:none; 
+	background-color:#ff6; /* FIXME: better yellow? */
+	 
 }
 
 .tundra .dijitInputFieldValidationError {
 	border:1px solid #f3d118;
-	background:#f9f7ba;
+	background-color::#f9f7ba;
+	background-image:none; 
+}
+
+.tundra .dijitInputFieldFocused { 
+	border:1px solid #666; 
 }
 
 .tundra .dijitInputFieldValidationError:hover,
 .tundra .dijitInputFieldValidationError:focus {
-	
+	background-color:#ff6;
+	background-image:none;	
 }
 
 /*
@@ -375,27 +374,17 @@
 }
 
 
-/* MOW: I don't think this is used anymore:
-.tundra .dijitMenuItemHover .dijitMenuItemSubmenu {
-	background-image: url(images/submenu_on.gif);
+.tundra .dijitMenuRightArrow {
+	display:none; 
 }
-
-.tundra .dijitRTL .dijitMenuItemHover .dijitMenuItemSubmenu {
-	background-image: url(images/submenu_on_rtl.gif);
+.tundra .dijitMenuRightArrowEnabled {
+	margin-top:4px; 
+	background:url('images/arrowRight.png') no-repeat bottom center;
+	display:inline;
 }
-*/
-
-/* MOW: I don't think this is used anymore:
-.tundra .dijitMenuItemDisabled .dijitMenuItemSubmenu {
-	background-image: url(images/submenu_disabled.gif);
+.tundra .dijitMenuRightArrowInner {
+	visibility:hidden; 
 }
-
-.tundra .dijitRTL .dijitMenuItemDisabled .dijitMenuItemSubmenu {
-	background-image: url(images/submenu_disabled_rtl.gif);
-}
-*/
-
-
 
 .tundra .dijitMenuSeparator {
 	background-color: #f7f7f7;
@@ -410,50 +399,25 @@
 	border-top: 1px solid #e8e8e8;
 }
 
-
-
-
-
-/* Toaster */
-
-.tundra .dijitToasterContent{
-	padding:1em;
-	padding-top:0.25em;
-	background:#73c74a;
-}
-
-.tundra .dijitToasterMessage{ 
-	color:#fff;
-}
-.tundra .dijitToasterWarning{ }
-.tundra .dijitToasterError,
-.tundra .dijitToasterFatal{
-	font-weight:bold;
-	color:#fff;
-}
-
-.tundra .dijitToasterWarning .dijitToasterContent{
-	padding:1em;
-	padding-top:0.25em;
-	background:#d4d943;
-} 
-
-.tundra .dijitToasterError .dijitToasterContent{
-	padding:1em;
-	padding-top:0.25em;
-	background:#c46600;
-} 
-
-
 /* TitlePane */
 
 .tundra .dijitTitlePaneTitle {
 	background: #cccccc;
-	background:#fafafa url("images/titleBarBg.gif") repeat-x bottom 
-left;
+	background:#fafafa url("images/titleBarBg.gif") repeat-x bottom left;
 	border:1px solid #bfbfbf;
 	padding:4px 4px 2px 4px;
 	cursor: pointer;
+}
+
+.tundra .dijitClosed .dijitArrowNode  {
+	background:url('images/arrowRight.png') no-repeat center center; 
+}
+.tundra .dijitOpen .dijitArrowNode {
+	background:url('images/arrowDown.png') no-repeat center center; 
+}
+
+.tundra .dijitArrowNodeInner { 
+	visibility:hidden;
 }
 
 .tundra .dijitTitlePaneTitle .dijitOpenCloseArrowOuter {
@@ -476,7 +440,6 @@ left;
 	background-color : #ffc !important;
 }
 
-
 .tundra .dijitTextArea {
 	width:50%;
 	overflow:auto;
@@ -485,7 +448,6 @@ left;
 
 
 /* Tabs */
-
 
 .tundra .dijitTabPaneWrapper {
 	/*
@@ -497,9 +459,9 @@ left;
 
 .tundra .dijitTab {
 	line-height:normal;
-	margin-right:5px;		/* space between one tab and the next in top/bottom mode */
+	margin-right:5px;	/* space between one tab and the next in top/bottom mode */
 	padding:0px;
-	border:1px solid #afafaf;
+	border:1px solid #ccc;
 	background:#e2e2e2 url("images/tabEnabled.png") repeat-x;
 }
 
@@ -509,9 +471,7 @@ left;
 	margin-bottom:5px;	/* space between one tab and the next in left/right mode */
 }
 
-
 .tundra .dijitTabInnerDiv {
-/*	min-height:16px;	*/
 	padding:6px 10px 4px 10px;
 	border-left:1px solid #fff;
 	border-bottom:1px solid #fff;
@@ -521,10 +481,9 @@ left;
 .tundra .dijitTabSelectedHover,
 .tundra .dijitTabCloseButtonSelectedHover
 {
-	background:#e2e2e2 url("images/tabActive.png") repeat-x bottom !important;
+	background-color:#fff;
+	background-image:none; /* url("images/tabActive.png") repeat-x bottom !important; */
 }
-
-
 
 /* make the active tab white on the side next to the content pane */
 .tundra .dijitAlignTop .dijitTabSelected,
@@ -557,7 +516,6 @@ left;
 	border-left-color:white;
 }
 
-
 .tundra .dijitTabHover,
 .tundra .dijitTabCloseButtonHover {
 	color: #243C5F;
@@ -567,7 +525,6 @@ left;
 	background:#e2e2e2 url("images/tabHover.png") repeat-x bottom;
 }
 
-
 .tundra .dijitTab .closeImage {
 	position:relative;
 	top: 2px;
@@ -575,14 +532,12 @@ left;
 	width : 12px;
 	padding : 0 12px 0 0;
 	margin : 0px 0px 0px 10px;
-	background : url("images/tabClose.png") no-repeat right top;
+	background : url("images/tabClose.png") no-repeat top right;
 }
 
 .tundra .dijitTabCloseButton .closeImage {
 	background-image : url("images/tabCloseHover.png") !important;
 }
-
-
 
 /* SplitContainer */
 
@@ -595,7 +550,7 @@ left;
 }
 
 .tundra .dijitSplitContainerSizerH .thumb {
-	background:url("images/splitContainerSizerHThumb.png") no-repeat #ccc;
+	background:url("images/splitContainerSizerH-Thumb.png") no-repeat #ccc;
 	left:1px;
 	width:3px;
 	height:19px;
@@ -610,7 +565,7 @@ left;
 }
 
 .tundra .dijitSplitContainerSizerV .thumb {
-	background:url("images/splitContainerSizerVThumb.png") no-repeat #ccc;
+	background:url("images/splitContainerSizerV-Thumb.png") no-repeat #ccc;
 	top:1px;
 	width:19px;
 	height:3px;
@@ -625,14 +580,18 @@ left;
 	-webkit-box-shadow: 0px 3px 7px #adadad;
 }
 
-.tundra .dijitDialog .dijitTitlePaneTitle {
+.tundra .dijitDialog .dijitDialogTitle {
 	border-top: none;
 	border-left: none;
 	border-right: none;
 }
 
-.tundra .dijitDialog .dijitTitlePaneContent {
-	border: none;
+.tundra .dijitDialog .dijitDialogPaneContent {
+	background: #ffffff;
+	border:none;
+	border-top: 1px solid #ccc; /* #cddde9;	/* w/out this, an <h1> on the top line causes a gap between the .content and .label */
+	padding:10px;
+
 }
 
 .tundra .dijitDialogTitleBar {
@@ -1106,17 +1065,26 @@ left;
 	/* border-color: #b4b4b4; */
 }
 
+.tundra .dijitHorizontalSliderImageHandle {
+	background:url("images/preciseSliderThumb.png") no-repeat center center; 
+	cursor:pointer; 
+}
+
 .tundra .dijitHorizontalSliderLeftBumper {
 	border-left-width: 1px;
 	border-color: #aab0bb;
 	background: #c0c2c5 url("images/sliderFull.png") repeat-x top left;
 }
 
-
 .tundra .dijitHorizontalSliderRightBumper {
 	background: #dcdcdc url("images/sliderEmpty.png") repeat-x top left;
 	border-color: #b4b4b4;
 	border-right-width: 1px;
+}
+
+.tundra .dijitVerticalSliderImageHandle {
+	background:url("images/sliderThumb.png") no-repeat center center; 
+	cursor:pointer;
 }
 
 .tundra .dijitVerticalSliderBottomBumper {

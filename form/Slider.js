@@ -19,10 +19,6 @@ dojo.declare(
 	//	Show increment/decrement buttons at the ends of the slider?
 	showButtons: true,
 
-	// handleSrc: String
-	//	The draggable handle image src value
-	handleSrc: dojo.moduleUrl('dijit','themes/tundra/images/preciseSliderThumb.png'),
-	
 	// minimum:: integer
 	//	The minimum value allowed.
 	minimum: 0,
@@ -178,7 +174,6 @@ dojo.declare(
 	//	A form widget that allows one to select a value with a vertically draggable image
 
 	templatePath: dojo.moduleUrl('dijit.form','templates/VerticalSlider.html'),
-	handleSrc: dojo.moduleUrl('dijit','themes/tundra/images/sliderThumb.png'),
 	_mousePixelCoord: "pageY",
 	_pixelCount: "h",
 	_startingPixelCoord: "y",
