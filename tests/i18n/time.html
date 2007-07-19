@@ -79,14 +79,13 @@
 			}
 
 			function gen4DateFormat(testCases, language, locale, date, short, shortCmt, medium, mediumCmt, long, longCmt, full, fullCmt) {
-				if (language.indexOf("hi") == 0 && dojo.number.normalizeDigitChars) {
-					tz_s = dojo.number.normalizeDigitChars(tz_s, language);
-				}
+				var tz_l = language.indexOf("hi") == 0 && dojo.number.normalizeDigitChars ? 
+					dojo.number.normalizeDigitChars(tz_s, language) : tz_s;
 				
-				short = short.replace(/UTC/, tz_s);
-				medium = medium.replace(/UTC/, tz_s);
-				long = long.replace(/UTC/g, tz_s);
-				full = full.replace(/UTC/, tz_s);
+				short = short.replace(/UTC/, tz_l);
+				medium = medium.replace(/UTC/, tz_l);
+				long = long.replace(/UTC/g, tz_l);
+				full = full.replace(/UTC/, tz_l);
 				
 				var shortDate = null;
 				testCases.push({

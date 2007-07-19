@@ -7,19 +7,19 @@ function getElementsById(id){
 
 	if(!id || typeof(id) != "string"){
 		return result;
-	};
+	}
 	
 	var ae = document.getElementsByTagName(dojo.byId(id).tagName);
 	for(var i = 0; i < ae.length; i++){
 		if(ae[i].id == id){
 			result.push(ae[i]);
-		};
-	};	
+		}
+	}
 	return result;
 }
 
 function getString(n){
-	return n == null ? null : n.toString();
+	return n && n.toString();
 }
 
 function startTest(t){
@@ -109,9 +109,7 @@ function startTestValidate(i, t){
 		val_node.style.backgroundColor = parseCorrect ?  "#AFA" : "#FAA";
 		val_node.innerHTML = getString(result) + (parseCorrect ? "" : "<br>Expected: " + getString(expected));
 
-		var color = dojo.getComputedStyle(test_node).backgroundColor;
-		res_node.innerHTML = color == dojo.getComputedStyle(inp_node).backgroundColor || color == "transparent" ?
-			"Correct" : "Wrong";
+		res_node.innerHTML = widget.isValid && !widget.isValid() ? "Wrong" : "Correct";
 		res_node.style.backgroundColor = res_node.innerHTML == exp ? "#AFA" : "#FAA";
 
 		t.is(getString(expected), getString(result));
