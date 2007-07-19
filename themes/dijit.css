@@ -1393,3 +1393,8 @@ body .dijitAlignClient { position: absolute; }
 .dj_ie .VerticalRuleLabelContainer {
 	margin-top:-.55em;
 }
+
+/* Toolbar A11y */
+.dijit_a11y .dijitButtonContents .dijitButtonText {
+	display: block !important;
+}

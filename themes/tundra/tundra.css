@@ -102,8 +102,8 @@
 	background:#e9e9e9 url("images/buttonEnabled.png") repeat-x top;
 }
 
-.tundra .dijitToolbar .dijitButtonContents SPAN {
-	display: none !important;
+.tundra .dijitToolbar .dijitButtonContents .dijitButtonText {
+	display: none;
 }
 
 .tundra .dijitToolbar .dijitButton {
