@@ -24,8 +24,6 @@ dojo.declare(
 	//		milliseconds to fade in/fade out
 	duration: 250,
 
-	contentClass : "dijitTitlePaneContent",
-
 	templatePath: dojo.moduleUrl("dijit", "templates/TitlePane.html"),
 
 	postCreate: function(){
