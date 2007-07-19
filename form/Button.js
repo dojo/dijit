@@ -139,11 +139,11 @@ dojo.declare(
 					around: this.domNode,
 					onExecute: function(){
 						dijit.util.popup.closeAll();
-						self.focus();	// TODO: for combobutton focus on arrow
+						self.focus();
 					},
 					onCancel: function(){
 						dijit.util.popup.closeAll();
-						self.focus();	// TODO: for combobutton focus on arrow
+						self.focus();
 					},
 					onClose: function(){
 						dropDown.domNode.style.width = oldWidth;

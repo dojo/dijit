@@ -6,13 +6,13 @@
 	<tr>
 		<td	class="dijitStretch dijitButtonContents dijitButtonNode"
 			tabIndex="${tabIndex}"
-			dojoAttachEvent="onklick:_onButtonClick" dojoAttachPoint="containerNode,focusNode"
+			dojoAttachEvent="onklick:_onButtonClick" dojoAttachPoint="containerNode"
 			waiRole="button" waiState="labelledby-${id}_label">
 			<div class="dijitInline ${iconClass}" title="${label}"></div>
 			<span class="dijitButtonContents"  id="${id}_label">${label}</span>
 		</td>
 		<td class='dijitReset dijitRight dijitButtonNode dijitDownArrowButton'
-			dojoAttachPoint="popupStateNode"
+			dojoAttachPoint="popupStateNode,focusNode"
 			dojoAttachEvent="onmouseover:_onMouse,onmouseout:_onMouse,onmousedown:_onMouse,onklick:_onArrowClick, onkeypress:_onKey"
 			baseClass="dijitComboButtonDownArrow"
 			title="${optionsTitle}"
