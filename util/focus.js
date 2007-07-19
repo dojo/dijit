@@ -148,22 +148,30 @@ dijit.util.focus = new function(){
 
 	this.set = function(/*Object || DomNode */ handle){
 		// summary:
-		//		sets the focused node and the selection according to argument
+		//		Sets the focused node and the selection according to argument.
+		//		To set focus to an iframe's content, pass in the iframe itself.
 		// handle:
 		//		object returned by get(), or a DomNode
+
+		if(!handle){ return; }
 
 		var node = handle.node || handle,		// because handle is either DomNode or a composite object
 			bookmark = handle.bookmark,
 			openedForWindow = handle.openedForWindow;
 			
-		// set the focus
-		if(node && node.focus){
-			try{
-				// Gecko throws sometimes if setting focus is impossible,
-				// node not displayed or something like that
-				node.focus();
-				setCurrentFocus(node);
-			}catch(e){/*quiet*/}
+		// Set the focus
+		// Note that for iframe's we need to use the <iframe> to follow the parentNode chain,
+		// but we need to set focus to iframe.contentWindow
+		if(node){
+			var focusNode = (node.tagName.toLowerCase()=="iframe") ? node.contentWindow : node;
+			if(focusNode && focusNode.focus){
+				try{
+					// Gecko throws sometimes if setting focus is impossible,
+					// node not displayed or something like that
+					focusNode.focus();
+				}catch(e){/*quiet*/}
+			}			
+			setCurrentFocus(node);
 		}
 
 		// set the selection

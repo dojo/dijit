@@ -29,7 +29,7 @@ dojo.declare(
 			this._changing(); // set initial height
 		}
 		if(dojo.isMozilla){
-			dijit.util.focus.set(this.iframe.contentWindow);
+			dijit.util.focus.set(this.iframe);
 		}else{
 			dijit.util.focus.set(this.focusNode);
 		}

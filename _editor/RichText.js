@@ -1159,7 +1159,7 @@ dojo.declare(
 		focus: function(){
 			// summary: move focus to this instance
 			if(this.iframe && !dojo.isIE){
-				dijit.util.focus.set(this.window);
+				dijit.util.focus.set(this.iframe);
 			}else if(this.editNode && this.editNode.focus){
 				// editNode may be hidden in display:none div, lets just punt in this case
 				dijit.util.focus.set(this.editNode);
