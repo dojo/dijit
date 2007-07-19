@@ -46,61 +46,76 @@ function escapeEx(s){
 	return result;
 }
 
-function startTestFormat(t){
+function getAllTestCases(){
+	var allTestCases = [];
 	for(var i = 0; i < formatWidgetCount; i++){
-		var test_node = dojo.doc.getElementById("test_display_" + i); 
-		var exp = dojo.doc.getElementById("test_display_expected_" + i).value; 
-		var res_node = dojo.doc.getElementById("test_display_result_" + i);
-		res_node.innerHTML = test_node.value;
-		res_node.style.backgroundColor = (test_node.value == exp) ? "#AFA" : "#FAA";
-		res_node.innerHTML += " <a style='font-size:0.8em' href='javascript:alert(\"Expected: " + escapeEx(exp) + "\\n Result: " + escapeEx(test_node.value) + "\")'>Compare (Escaped)</a>";
-		t.is(exp, test_node.value);
+		allTestCases.push({
+			name: "format-" + i,
+			runTest: new Function("t", "startTestFormat(" + i + ", t)")
+		});
 	}
+	for(var i = 0; i < validateWidgetCount; i++){
+		allTestCases.push({
+			name: "validate-" + i,
+			runTest: new Function("t", "startTestValidate(" + i + ", t)")
+		});
+	}
+	return allTestCases;
 }
 
-function startTestValidate(t){
+function startTestFormat(i, t){
+	var test_node = dojo.doc.getElementById("test_display_" + i); 
+	var exp = dojo.doc.getElementById("test_display_expected_" + i).value; 
+	var res_node = dojo.doc.getElementById("test_display_result_" + i);
+	res_node.innerHTML = test_node.value;
+	res_node.style.backgroundColor = (test_node.value == exp) ? "#AFA" : "#FAA";
+	res_node.innerHTML += " <a style='font-size:0.8em' href='javascript:alert(\"Expected: " + escapeEx(exp) + "\\n Result: " + escapeEx(test_node.value) + "\")'>Compare (Escaped)</a>";
+	t.is(exp, test_node.value);
+}
+
+function startTestValidate(i, t){
 	/*
 	 * The dijit.util.manager.byNode has an issue: cannot handle same id.
 	 */
-	for(var i = 0; i < validateWidgetCount; i++){
-		var test_node = dojo.doc.getElementById("test_validate_" + i); 
-		var inp_node = dojo.doc.getElementById("test_validate_input_" + i); 
-		var exp = dojo.doc.getElementById("test_validate_expected_" + i).innerHTML; 
-		var res_node = dojo.doc.getElementById("test_validate_result_" + i); 
-		var val_node = dojo.doc.getElementById("test_display_value_" + i);
-		
-		test_node.value = inp_node.value;
-		/*
-		 * The dijit.util.manager.byNode has an issue.
-		 */
-		var widget = null;
-		var node = test_node;
-		while ((widget = dijit.util.manager.byNode(node)) == null){
-			node = node.parentNode;
-			if(!node){
-				break;
-			}
+	var test_node = dojo.doc.getElementById("test_validate_" + i); 
+	var inp_node = dojo.doc.getElementById("test_validate_input_" + i); 
+	var exp = dojo.doc.getElementById("test_validate_expected_" + i).innerHTML; 
+	var res_node = dojo.doc.getElementById("test_validate_result_" + i); 
+	var val_node = dojo.doc.getElementById("test_display_value_" + i);
+	
+	test_node.value = inp_node.value;
+	/*
+	 * The dijit.util.manager.byNode has an issue.
+	 */
+	var widget = null;
+	var node = test_node;
+	while ((widget = dijit.util.manager.byNode(node)) == null){
+		node = node.parentNode;
+		if(!node){
+			break;
 		}
-		if(widget){
-			widget.focus();
+	}
+	
+	if(widget){
+		widget.focus();
 
-			var expected = validateValues[i];
-			var result = widget.getValue();
-			if(validateValues[i].processValue){
-				expected = validateValues[i].processValue(expected);
-				result = validateValues[i].processValue(result);
-			}
-			var parseCorrect = getString(expected) == getString(result);
-			val_node.style.backgroundColor = parseCorrect ?  "#AFA" : "#FAA";
-			val_node.innerHTML = getString(result) + (parseCorrect ? "" : "<br>Expected: " + getString(expected));
-			t.is(getString(expected), getString(result));
-		} 
-		
+		var expected = validateValues[i];
+		var result = widget.getValue();
+		if(validateValues[i].processValue){
+			expected = validateValues[i].processValue(expected);
+			result = validateValues[i].processValue(result);
+		}
+		var parseCorrect = getString(expected) == getString(result);
+		val_node.style.backgroundColor = parseCorrect ?  "#AFA" : "#FAA";
+		val_node.innerHTML = getString(result) + (parseCorrect ? "" : "<br>Expected: " + getString(expected));
+
 		var color = dojo.getComputedStyle(test_node).backgroundColor;
 		res_node.innerHTML = color == dojo.getComputedStyle(inp_node).backgroundColor || color == "transparent" ?
 			"Correct" : "Wrong";
 		res_node.style.backgroundColor = res_node.innerHTML == exp ? "#AFA" : "#FAA";
-	}
+
+		t.is(getString(expected), getString(result));
+	} 
 }
 
 function genFormatTestCase(desc, dojoType, dojoAttrs, value, expValue, comment){

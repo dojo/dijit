@@ -22,22 +22,7 @@
 		<script src="test_i18n.js"></script>
 		<script type="text/javascript">
 			dojo.addOnLoad(function(){
-				doh.register("t", 
-					[
-						{
-							name: "format",
-							runTest: function(t){
-								startTestFormat(t);
-							}
-						},
-						{
-							name: "validate",
-							runTest: function(t){
-								startTestValidate(t);
-							}
-						}
-					]
-				);
+				doh.register("t", getAllTestCases());
 				doh.run();
 			});
 		</script>
