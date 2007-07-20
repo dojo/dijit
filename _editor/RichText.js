@@ -659,7 +659,7 @@ dojo.declare(
 					}
 
 					dojo._destroyElement(tmpContent);
-					this.document.body.innerHTML = html;
+					dojo.query("body", this.document.documentElement)[0].innerHTML = html;
 					this.document.designMode = "on";
 					//	try{
 					//	this.document.designMode = "on";
@@ -1113,10 +1113,10 @@ dojo.declare(
 			if(!para){ return; }
 			if(para.lastChild){
 				if(para.childNodes.length>1 && para.lastChild.nodeType==3 && /^[\s\xAD]*$/ .test(para.lastChild.nodeValue)){
-					dojo.html.destroyNode(para.lastChild);
+					dojo._destroyElement(para.lastChild);
 				}
 				if(para.lastChild && para.lastChild.tagName=='BR'){
-					dojo.html.destroyNode(para.lastChild);
+					dojo._destroyElement(para.lastChild);
 				}
 			}
 			if(para.childNodes.length==0){
