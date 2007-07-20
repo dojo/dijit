@@ -655,9 +655,11 @@ table .dijitComboButton .dijitButtonNode {
 	background: #b8b5b5;
 	color: black;
 	font-size: small;
-	padding: 2px 2px 2px 2px;
 }
 
+.dijitTooltipFocusNode {
+	padding: 2px 2px 2px 2px;
+}
 
 .dijitTooltipConnector {
 	position: absolute;
