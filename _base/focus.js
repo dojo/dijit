@@ -160,10 +160,10 @@ dojo.mixin(dijit,
 
 		if(!handle){ return; }
 
-		var node = handle.node || handle,		// because handle is either DomNode or a composite object
+		var node = "node" in handle ? handle.node : handle,		// because handle is either DomNode or a composite object
 			bookmark = handle.bookmark,
 			openedForWindow = handle.openedForWindow;
-			
+
 		// Set the focus
 		// Note that for iframe's we need to use the <iframe> to follow the parentNode chain,
 		// but we need to set focus to iframe.contentWindow

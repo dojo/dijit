@@ -447,7 +447,7 @@ dojo.declare(
 	_focus: function(){
 		dojo.addClass(this.domNode, 'dijitMenuItemHover');
 		try{
-			this.containerNode.focus();
+			dijit.focus(this.containerNode);
 		}catch(e){
 			// this throws on IE (at least) in some scenarios
 		}
