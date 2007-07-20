@@ -53,10 +53,10 @@ dojo.declare("dijit._editor.plugins.LinkDialog",
 			}
 		},
 		showEditor: function(){
-			if(!this.button.selected){
+			if(!this.button.checked){
 				console.debug("selected");
 				this.editor.execCommand("unlink");
-				// this.button.setSelected();
+				// this.button.setChecked();
 			}else{
 
 				// FIXME: IE is *really* b0rken
@@ -85,9 +85,9 @@ dojo.declare("dijit._editor.plugins.LinkDialog",
 					// var enabled = _e.queryCommandEnabled("unlink");
 					var enabled = _e.queryCommandEnabled("createlink");
 					// this.button.setDisabled(!enabled);
-					if(this.button.setSelected){
-						var selected = !!dojo.withGlobal(this.editor.window, "getAncestorElement",dijit._editor.selection, ['a']);
-						this.button.setSelected(selected);
+					if(this.button.setChecked){
+						var checked = !!dojo.withGlobal(this.editor.window, "getAncestorElement",dijit._editor.selection, ['a']);
+						this.button.setChecked(checked);
 					}
 				}catch(e){
 					console.debug(e);

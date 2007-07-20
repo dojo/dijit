@@ -163,7 +163,7 @@ dojo.declare(
 				dijit.util.popup.closeAll();
 				this._opened = false;
 			}
-			// TODO: set this.selected and call setStateClass(), to affect button look while drop down is shown
+			// TODO: set this.checked and call setStateClass(), to affect button look while drop down is shown
 			return false;
 		}
 	});
@@ -195,25 +195,27 @@ dojo.declare(
 	dijit.form.Button,
 {
 	// summary
-	//	A button that can be in two states (selected or not).
+	//	A button that can be in two states (checked or not).
 	//	Can be base class for things like tabs or checkbox or radio buttons
 
 	baseClass: "dijitToggleButton",
 
-	// selected: Boolean
+	// checked: Boolean
+	//		Corresponds to the native HTML <input> element's attribute.
+	//		In markup, specified as "checked='checked'" or just "checked".
 	//		True if the button is depressed, or the checkbox is checked,
 	//		or the radio button is selected, etc.
-	selected: false,
+	checked: false,
 
 	onClick: function(/*Event*/ evt){
-		this.setSelected(!this.selected);
+		this.setChecked(!this.checked);
 	},
 
-	setSelected: function(/*Boolean*/ selected){
+	setChecked: function(/*Boolean*/ checked){
 		// summary
 		//	Programatically deselect the button
-		this.selected = selected;
+		this.checked = checked;
 		this._setStateClass();
-		this.onChange(selected);
+		this.onChange(checked);
 	}
 });

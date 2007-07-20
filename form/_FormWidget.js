@@ -129,23 +129,30 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 		//	State will be one of:
 		//		<baseClass>
 		//		<baseClass> + "Disabled"	- if the widget is disabled
-		//		<baseClass> + "Active"		- if the mouse is being pressed down
-		//		<baseClass> + "Hover"		- if the mouse is over the widget
+		//		<baseClass> + "Active"		- if the mouse (or space/enter key?) is being pressed down
+		//		<baseClass> + "Hover"		- if the mouse is over the widget (TODO: also on focus?)
 		//
-		//	For widgets which can be in a selected state (like checkbox or radio),
+		//	Note: if you don't want to change the way the widget looks on hover, then don't call
+		//	this routine on hover.  Similarly for mousedown --> active
+		//
+		//	For widgets which can be in a checked state (like checkbox or radio),
 		//	in addition to the above classes...
-		//		<baseClass> + "Selected"
-		//		<baseClass> + "SelectedDisabled"	- if the widget is disabled
-		//		<baseClass> + "SelectedActive"		- if the mouse is being pressed down
-		//		<baseClass> + "SelectedHover"		- if the mouse is over the widget
+		//		<baseClass> + "Checked"
+		//		<baseClass> + "CheckedDisabled"	- if the widget is disabled
+		//		<baseClass> + "CheckedActive"		- if the mouse is being pressed down
+		//		<baseClass> + "CheckedHover"		- if the mouse is over the widget
+		//
+		//	TODO:
+		//		Selected widgets. A menu item can be selected (ie, highlighted),
+		//		and eventually will be able to be checked/not checked, independently.
 
 		// get original class specified in template
 		var origClass = this._origClass || (this._origClass = this.domNode.className);
 
 		// compute the single classname representing the state of the widget
 		var state = this.baseClass || this.domNode.getAttribute("baseClass");
-		if(this.selected){
-			state += "Selected"
+		if(this.checked){
+			state += "Checked"
 		}
 		if(this.disabled){
 			state += "Disabled";

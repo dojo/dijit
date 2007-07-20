@@ -285,12 +285,12 @@ dojo.declare(
 
 			if(this._currentChild){
 				var oldButton=this.pane2button[this._currentChild];
-				oldButton.setSelected(false);
+				oldButton.setChecked(false);
 				oldButton.focusNode.setAttribute("tabIndex", "-1");
 			}
 
 			var newButton=this.pane2button[page];
-			newButton.setSelected(true);
+			newButton.setChecked(true);
 			this._currentChild = page;
 			newButton.focusNode.setAttribute("tabIndex", "0");
 		},
