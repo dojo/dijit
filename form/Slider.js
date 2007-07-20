@@ -68,10 +68,12 @@ dojo.declare(
 				break;
 			case dojo.keys.UP_ARROW:
 			case dojo.keys.RIGHT_ARROW:
+			case dojo.keys.PAGE_UP:
 				this.increment(e);
 				break;
 			case dojo.keys.DOWN_ARROW:
 			case dojo.keys.LEFT_ARROW:
+			case dojo.keys.PAGE_DOWN:
 				this.decrement(e);
 				break;
 			default:
@@ -127,13 +129,13 @@ dojo.declare(
 	decrement: function(e){
 		// summary
 		//	decrement slider by 1 unit
-		this._bumpValue(e.shiftKey?-this.pageIncrement:-1);
+		this._bumpValue(e.keyCode == dojo.keys.PAGE_DOWN?-this.pageIncrement:-1);
 	},
 
 	increment: function(e){
 		// summary
 		//	increment slider by 1 unit
-		this._bumpValue(e.shiftKey?this.pageIncrement:1);
+		this._bumpValue(e.keyCode == dojo.keys.PAGE_UP?this.pageIncrement:1);
 	},
 
 	repeatString: function(str,n){
