@@ -826,37 +826,38 @@ body .dijitAlignClient { position: absolute; }
 	border-style: solid;
 }
 
-/* AccordionPane */
-.dijitAccordionPane .body {
+/* Accordion */
+
+.dijitAccordionPane .dijitAccordionBody {
 	overflow: auto;
 }
 
-.dijitAccordionPane .title:hover {
+.dijitAccordionPane .dijitAccordionTitle:hover {
 	cursor: pointer;
 }
 
-.dijitAccordionPane .title .arrow {
+.dijitAccordionPane .dijitAccordionTitle .dijitAccordionArrow {
 	float: right;
 }
 
 /* images off, high-contrast mode styles */
-.dijitAccordionPane .title .arrowTextUp,
-.dijitAccordionPane .title .arrowTextDown {
+.dijitAccordionPane .dijitAccordionTitle .arrowTextUp,
+.dijitAccordionPane .dijitAccordionTitle .arrowTextDown {
 	display: none; 
 	float: right;
 	font-size: 0.65em; 
 	font-weight: normal !important;
 }
 
-.dijit_a11y .dijitAccordionPane .title .arrowTextUp { 
+.dijit_a11y .dijitAccordionPane .dijitAccordionTitle .arrowTextUp { 
 	display: inline; 
 }
 
-.dijit_a11y .dijitAccordionPane-selected .title .arrowTextDown {
+.dijit_a11y .dijitAccordionPane-selected .dijitAccordionTitle .arrowTextDown {
 	display: inline; 
 }
 
-.dijit_a11y .dijitAccordionPane-selected .title .arrowTextUp {
+.dijit_a11y .dijitAccordionPane-selected .dijitAccordionTitle .arrowTextUp {
 	display: none; 
 }
 
