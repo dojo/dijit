@@ -2,7 +2,7 @@
         "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 <head>
-	<title>dijit.util.focus Test</title>
+	<title>dijit.focus Test</title>
 	<style type="text/css">
 		@import "../../../dojo/resources/dojo.css";
 		@import "../../themes/tundra/tundra.css";
@@ -12,8 +12,7 @@
 	<script type="text/javascript" src="../../../dojo/dojo.js"
 		djConfig="isDebug: true"></script>
 	<script type="text/javascript">
-		dojo.require("dijit.util.focus");
-
+		dojo.require("dijit._base.focus");
 		var savedFocus;
 		dojo.addOnLoad(function(){
 			fakeWidget = { domNode: dojo.byId("save") };
@@ -21,10 +20,10 @@
 		});
 		function save(){
 			console.debug("save function");
-			savedFocus = dijit.util.focus.get(fakeWidget);
+			savedFocus = dijit.focus.get(fakeWidget);
 		}
 		function restore(){
-			dijit.util.focus.set(savedFocus);
+			dijit.focus.set(savedFocus);
 		}
 	</script>
 </head>

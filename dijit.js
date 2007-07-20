@@ -1,13 +1,10 @@
-console.warn("dijit.dijit may dissapear in the 0.9 timeframe in lieu of a different rollup file!");
 dojo.provide("dijit.dijit");
 
-dojo.require("dojo.parser");
-dojo.require("dijit.util.manager");
-dojo.require("dijit.util.wai");
-dojo.require("dijit.util.focus");
-dojo.require("dijit.util.popup");
-dojo.require("dijit.util.place");
+// All the stuff in _base (these are the function that are guaranteed available without an explicit dojo.require)
+dojo.require("dijit._base");
 
+// And some other stuff that we tend to pull in all the time anyway
+dojo.require("dojo.parser");
 dojo.require("dijit._Widget");
 dojo.require("dijit._Templated");
 dojo.require("dijit._Container");

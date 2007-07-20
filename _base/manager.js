@@ -1,6 +1,6 @@
-dojo.provide("dijit.util.manager");
+dojo.provide("dijit._base.manager");
 
-dijit.util.manager = new function(){
+dijit.manager = new function(){
 	// summary
 	//	manager class for the widgets.
 
@@ -65,7 +65,7 @@ if(dojo.isIE && dojo.isIE < 7){
 	// Only run this for IE6 because we think it's only necessary in that case,
 	// and because it causes problems on FF.  See bugt #3531 for details.
 	dojo.addOnUnload(function(){
-		dijit.util.manager.destroyAll();
+		dijit.manager.destroyAll();
 	});
 }
 
@@ -73,5 +73,5 @@ if(dojo.isIE && dojo.isIE < 7){
 dijit.byId = function(/*String*/id){
 	// summary:
 	//		Returns a widget by its id
-	return (dojo.isString(id)) ? dijit.util.manager.getWidgets()[id] : id; // Widget
+	return (dojo.isString(id)) ? dijit.manager.getWidgets()[id] : id; // Widget
 };

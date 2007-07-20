@@ -1,8 +1,8 @@
-dojo.provide("dijit.util.focus");
+dojo.provide("dijit._base.focus");
 
-dojo.require("dijit.util.window");
+dojo.require("dijit._base.window");
 
-dijit.util.focus = new function(){
+dijit.focus = new function(){
 	// summary:
 	//		This class is used to save the current focus / selection on the screen,
 	//		and restore it later.   It's typically used for popups (menus and dialogs),
@@ -190,7 +190,7 @@ dijit.util.focus = new function(){
 	};
 }();
 
-dijit.util.widgetFocusTracer = new function(){
+dijit.widgetFocusTracer = new function(){
 	// summary:
 	//	This utility class will trace whenever focus enters/leaves a widget so
 	//	that the widget can fire onFocus/onBlur events.
@@ -216,7 +216,7 @@ dijit.util.widgetFocusTracer = new function(){
 
 		if(!targetWindow){ //see comment below
 			try{
-				targetWindow = dijit.util.window.getDocumentWindow(window.top && window.top.document || window.document);
+				targetWindow = dijit.getDocumentWindow(window.top && window.top.document || window.document);
 			}catch(e){ return; /* squelch error for cross domain iframes and abort */ }
 		}
 
@@ -230,8 +230,8 @@ dijit.util.widgetFocusTracer = new function(){
 
 		dojo.forEach(targetWindow.frames, function(frame){
 			try{
-				//do not remove dijit.util.window.getDocumentWindow, see comment in it
-				var win = dijit.util.window.getDocumentWindow(frame.document);
+				//do not remove dijit.getDocumentWindow, see comment in it
+				var win = dijit.getDocumentWindow(frame.document);
 				if(win){
 					this.register(win);
 				}

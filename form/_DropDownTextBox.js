@@ -1,8 +1,5 @@
 dojo.provide("dijit.form._DropDownTextBox");
 
-dojo.require("dijit.util.popup");
-dojo.require("dijit.util.wai");
-
 dojo.declare(
 	"dijit.form._DropDownTextBox",
 	null,
@@ -102,7 +99,7 @@ dojo.declare(
 
 		_hideResultList: function(){
 			if(this._isShowingNow){
-				dijit.util.popup.close();
+				dijit.popup.close();
 				this._arrowIdle();
 				this._isShowingNow=false;
 			}
@@ -178,7 +175,7 @@ dojo.declare(
 				var visibleCount = Math.min(childs.length,this.maxListLength);
 				with(this._popupWidget.domNode.style){
 					// trick to get the dimensions of the popup
-					// TODO: doesn't dijit.util.popup.open() do this automatically?
+					// TODO: doesn't dijit.popup.open() do this automatically?
 					display="";
 					width="";
 					height="";
@@ -215,7 +212,7 @@ dojo.declare(
 			this.makePopup();
 			var self=this;
 			self._isShowingNow=true;
-			return dijit.util.popup.open({
+			return dijit.popup.open({
 				popup: this._popupWidget,
 				around: this.domNode,
 				host: this

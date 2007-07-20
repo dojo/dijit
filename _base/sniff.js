@@ -1,4 +1,4 @@
-dojo.provide("dijit.util.sniff");
+dojo.provide("dijit._base.sniff");
 
 // ported from dojo.html.applyBrowserClass (style.js)
 

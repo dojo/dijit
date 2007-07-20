@@ -3,15 +3,15 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 	<head>
-		<title>dijit.util.place tests</title>
+		<title>dijit.place tests</title>
 		<script type="text/javascript" src="../../../dojo/dojo.js"
 			djConfig="isDebug: true, extraLocale: ['de-de', 'en-us']"></script>
 		<script type="text/javascript">
-			dojo.require("dijit.util.place");
+			dojo.require("dijit.dijit");
 		</script>
 		<script>
 			dojo.addOnLoad(function(){
-				var vp = dijit.util.getViewport();
+				var vp = dijit.getViewport();
 				alert("viewport w="+vp.w + ", h=" + vp.h);
 			});
 		</script>
@@ -72,7 +72,7 @@
 	</head>
 
 	<body class=tundra>
-		<h2 class="pageSubContentTitle">Test dijit.util.place</h2>
+		<h2 class="pageSubContentTitle">Test dijit.place</h2>
 		<p>Currently this just tests getViewport().  Change the size of your browser window and then reload,
 		and see if it reports the browser window size correctly.<br>
 		<p>All the text below is just filler text...<br>

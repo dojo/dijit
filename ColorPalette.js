@@ -1,8 +1,5 @@
 dojo.provide("dijit.ColorPalette");
 
-dojo.require("dijit.util.focus");
-dojo.require("dijit.util.place");
-dojo.require("dijit.util.typematic");
 dojo.require("dijit._Widget");
 dojo.require("dijit._Templated");
 
@@ -114,7 +111,7 @@ dojo.declare(
 				highlightStyle.left = coords.leftOffset + (col * coords.cWidth) + "px";
 				highlightNode.setAttribute("tabIndex","-1");
 				highlightNode.title = color+ " "; //color name will go here
-				dijit.util.wai.setAttr(highlightNode, "waiRole", "role", "td");
+				dijit.wai.setAttr(highlightNode, "waiRole", "role", "td");
 				highlightNode.index = this._highlightNodes.length;
 				this._highlightNodes.push(highlightNode);
 			}
@@ -138,7 +135,7 @@ dojo.declare(
 			LEFT_ARROW: -1
 		};
 		for(var key in keyIncrementMap){
-			dijit.util.typematic.addKeyListener(this.domNode,
+			dijit.typematic.addKeyListener(this.domNode,
 				{keyCode:dojo.keys[key], ctrlKey:false, altKey:false, shiftKey:false},
 				this,
 				function(){
@@ -152,7 +149,7 @@ dojo.declare(
 	focus: function(){
 		// summary:
 		//		Focus this ColorPalette.
-		dijit.util.focus.set(this._highlightNodes[this._currentFocus]);
+		dijit.focus.set(this._highlightNodes[this._currentFocus]);
 	},
 
 	onChange: function(color){
@@ -170,7 +167,7 @@ dojo.declare(
 		//		The mouse event.
 		var target = evt.currentTarget;
 		this._currentFocus = target.index;
-		dijit.util.focus.set(target);
+		dijit.focus.set(target);
 		this._selectColor(target);	
 	},
 

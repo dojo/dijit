@@ -1,6 +1,6 @@
-dojo.provide("dijit.util.typematic");
+dojo.provide("dijit._base.typematic");
 
-dijit.util.typematic = {
+dijit.typematic = {
 	// summary:
 	//              These functions are used to repetitively call a user specified callback
 	//		method when a specific key or mouse click over a specific DOM node is
@@ -72,14 +72,14 @@ dijit.util.typematic = {
 			&& ((typeof keyObject.altKey == "undefined") || keyObject.altKey == evt.ctrlKey)
 			&& ((typeof keyObject.shiftKey == "undefined") || keyObject.shiftKey == evt.ctrlKey)){
 				dojo.stopEvent(evt);
-				dijit.util.typematic.trigger(keyObject, _this, node, callback, keyObject, subsequentDelay, initialDelay);
-			}else if (dijit.util.typematic._obj == keyObject){
-				dijit.util.typematic.stop();
+				dijit.typematic.trigger(keyObject, _this, node, callback, keyObject, subsequentDelay, initialDelay);
+			}else if (dijit.typematic._obj == keyObject){
+				dijit.typematic.stop();
 			}
 		}));
 		ary.push(dojo.connect(node, "onkeyup", this, function(evt){
-			if(dijit.util.typematic._obj == keyObject){
-				dijit.util.typematic.stop();
+			if(dijit.typematic._obj == keyObject){
+				dijit.typematic.stop();
 			}
 		}));
 		return ary;
@@ -92,15 +92,15 @@ dijit.util.typematic = {
 		var ary = [];
 		ary.push(dojo.connect(node, "mousedown", this, function(evt){
 			dojo.stopEvent(evt);
-			dijit.util.typematic.trigger(evt, _this, node, callback, node, subsequentDelay, initialDelay);
+			dijit.typematic.trigger(evt, _this, node, callback, node, subsequentDelay, initialDelay);
 		}));
 		ary.push(dojo.connect(node, "mouseup", this, function(evt){
 			dojo.stopEvent(evt);
-			dijit.util.typematic.stop();
+			dijit.typematic.stop();
 		}));
 		ary.push(dojo.connect(node, "mouseout", this, function(evt){
 			dojo.stopEvent(evt);
-			dijit.util.typematic.stop();
+			dijit.typematic.stop();
 		}));
 		ary.push(dojo.connect(node, "mousemove", this, function(evt){
 			dojo.stopEvent(evt);
@@ -108,8 +108,8 @@ dijit.util.typematic = {
 		ary.push(dojo.connect(node, "dblclick", this, function(evt){
 			dojo.stopEvent(evt);
 			if(dojo.isIE){
-				dijit.util.typematic.trigger(evt, _this, node, callback, node, subsequentDelay, initialDelay);
-				setTimeout("dijit.util.typematic.stop()",50);
+				dijit.typematic.trigger(evt, _this, node, callback, node, subsequentDelay, initialDelay);
+				setTimeout("dijit.typematic.stop()",50);
 			}
 		}));
 		return ary;

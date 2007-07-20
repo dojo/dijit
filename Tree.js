@@ -164,7 +164,7 @@ dojo.declare(
 		var div = document.createElement('div');
 		div.style.display = 'none';
 		div.className="TreeContainer";	
-		dijit.util.wai.setAttr(div, "waiRole", "role", "presentation");
+		dijit.wai.setAttr(div, "waiRole", "role", "presentation");
 		this.containerNodeTemplate = div;
 
 
@@ -195,7 +195,7 @@ dojo.declare(
 	_domElement2TreeNode: function(/*DomNode*/ domElement){
 		var ret;
 		do{
-			ret=dijit.util.manager.byNode(domElement);
+			ret=dijit.manager.byNode(domElement);
 		}while(!ret && (domElement=domElement.parentNode));
 		return ret;
 	},
@@ -364,8 +364,8 @@ dojo.declare(
 		}
 
 		this.isExpanded = true;
-		dijit.util.wai.setAttr(this.labelNode, "waiState", "expanded", "true");
-		dijit.util.wai.setAttr(this.containerNode, "waiRole", "role", "group");
+		dijit.wai.setAttr(this.labelNode, "waiState", "expanded", "true");
+		dijit.wai.setAttr(this.containerNode, "waiRole", "role", "group");
 
 		this._setExpando();
 
@@ -387,7 +387,7 @@ dojo.declare(
 		}
 
 		this.isExpanded = false;
-		dijit.util.wai.setAttr(this.labelNode, "waiState", "expanded", "false");
+		dijit.wai.setAttr(this.labelNode, "waiState", "expanded", "false");
 		this._setExpando();
 
 		this._slideOut.play();

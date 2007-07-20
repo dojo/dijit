@@ -2,9 +2,6 @@ dojo.provide("dijit.Tooltip");
 
 dojo.require("dijit._Widget");
 dojo.require("dijit._Templated");
-dojo.require("dijit.util.place");
-dojo.require("dijit.util.popup");	// for BackgroundIFrame
-dojo.require("dijit.util.sniff");
 
 dojo.declare(
 	"dijit._MasterTooltip",
@@ -25,7 +22,7 @@ dojo.declare(
 		postCreate: function(){
 			dojo.body().appendChild(this.domNode);
 
-			this.bgIframe = new dijit.util.BackgroundIframe(this.domNode);
+			this.bgIframe = new dijit.BackgroundIframe(this.domNode);
 
 			// Setup fade-in and fade-out functions.  An IE bug prevents the arrow from showing up
 			// unless opacity==1, because it's displayed via overflow: visible on the main div.
@@ -51,7 +48,7 @@ dojo.declare(
 
 			// position the element and change CSS according to position	
 			var align = this.isLeftToRight() ? {'BR': 'BL', 'BL': 'BR'} : {'BL': 'BR', 'BR': 'BL'};
-			var pos = dijit.util.placeOnScreenAroundElement(this.domNode, aroundNode, align);
+			var pos = dijit.placeOnScreenAroundElement(this.domNode, aroundNode, align);
 			this.domNode.className="dijitTooltip dijitTooltip" + (pos.corner=='BL' ? "Right" : "Left");
 			
 			// show it

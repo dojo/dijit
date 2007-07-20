@@ -12,7 +12,7 @@
 	<script type="text/javascript" src="../../../dojo/dojo.js"
 		djConfig="isDebug: true, debugAtAllCosts: true"></script>
 	<script type="text/javascript">
-		dojo.require("dijit.util.typematic");
+		dojo.require("dijit._base.typematic");
 
 		var lastCount = 0;
 		function typematicCallBack(count, node, evt){
@@ -33,13 +33,13 @@
 		dojo.addOnLoad(function(){
 			var keyNode = dojo.byId('typematicInput');
 			var mouseNode = dojo.byId('typematicButton');
-			dijit.util.typematic.addKeyListener(keyNode, 
+			dijit.typematic.addKeyListener(keyNode, 
 				{
 					keyCode:dojo.keys.F10,
 					ctrlKey:true
 				},
 				this, typematicCallBack, 200, 200);
-			dijit.util.typematic.addMouseListener(mouseNode,
+			dijit.typematic.addMouseListener(mouseNode,
 				this, typematicCallBack, 0.9, 200);
 			keyNode.focus(); // make it easier to type
 		});

@@ -169,7 +169,7 @@ dojo.declare(
 		this._showText();
 		// If save button pressed on non-autoSave widget or Enter pressed on autoSave
 		// widget, restore focus to the inline text.
-		if(e){ dijit.util.focus.set(this.focusNode); }
+		if(e){ dijit.focus.set(this.focusNode); }
 	},
 
 	cancel: function(e){
@@ -181,7 +181,7 @@ dojo.declare(
 		this._visualize();
 		// If cancel button pressed on non-autoSave widget or Esc pressed on autoSave
 		// widget, restore focus to the inline text.
-		if(e){ dijit.util.focus.set(this.focusNode); }
+		if(e){ dijit.focus.set(this.focusNode); }
 	},
 
 	setValue: function(/*String*/ value){

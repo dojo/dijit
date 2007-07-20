@@ -3,7 +3,6 @@ dojo.provide("dijit._Templated");
 dojo.require("dijit._Widget");
 
 dojo.require("dojo.string");
-dojo.require("dijit.util.wai");
 dojo.require("dojo.parser");
 
 dojo.declare("dijit._Templated",
@@ -170,7 +169,7 @@ dojo.declare("dijit._Templated",
 
 				// waiRole, waiState
 				dojo.forEach(["waiRole", "waiState"], function(name){
-					var wai = dijit.util.wai[name];
+					var wai = dijit.wai[name];
 					var values = getAttrFunc(baseNode, wai.name);
 					if(values){
 						var role = "role";
@@ -181,7 +180,7 @@ dojo.declare("dijit._Templated",
 								role = statePair[0];
 								val = statePair[1];
 							}
-							dijit.util.wai.setAttr(baseNode, wai.name, role, val);
+							dijit.wai.setAttr(baseNode, wai.name, role, val);
 						}, this);
 					}
 				}, this);

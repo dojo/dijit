@@ -1,7 +1,6 @@
 dojo.provide("dijit.form.ValidationTextbox");
 
 dojo.require("dojo.i18n");
-dojo.require("dijit.util.wai");
 
 dojo.require("dijit.form.Textbox");
 dojo.require("dijit.Tooltip");
@@ -253,10 +252,10 @@ dojo.declare(
 		postCreate: function(){
 			dijit.form.RangeBoundTextbox.superclass.postCreate.apply(this, arguments);
 			if(typeof this.constraints.min != "undefined"){
-				dijit.util.wai.setAttr(this.domNode, "waiState", "valuemin", this.constraints.min);
+				dijit.wai.setAttr(this.domNode, "waiState", "valuemin", this.constraints.min);
 			}
 			if(typeof this.constraints.max != "undefined"){
-				dijit.util.wai.setAttr(this.domNode, "waiState", "valuemax", this.constraints.max);
+				dijit.wai.setAttr(this.domNode, "waiState", "valuemax", this.constraints.max);
 			}
 		}
 	}

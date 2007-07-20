@@ -3,11 +3,6 @@ dojo.provide("dijit.Menu");
 dojo.require("dijit._Widget");
 dojo.require("dijit._Container");
 dojo.require("dijit._Templated");
-dojo.require("dijit.util.focus");
-dojo.require("dijit.util.popup");
-dojo.require("dijit.util.scroll");
-dojo.require("dijit.util.window");
-dojo.require("dijit.util.sniff");
 
 dojo.declare(
 	"dijit.Menu",
@@ -176,7 +171,7 @@ dojo.declare(
 		// summary: internal function to remove focus from the currently focused item
 		if(this._focusedItem){
 			// Close all submenus that are open and descendants of this menu
-			dijit.util.popup.closeTo(this);
+			dijit.popup.closeTo(this);
 			this._focusedItem._blur();
 			this._stopSubmenuTimer();
 			this._focusedItem = null;
@@ -222,7 +217,7 @@ dojo.declare(
 	_iframeContentWindow: function(/* HTMLIFrameElement */iframe_el) {
 		//	summary
 		//	returns the window reference of the passed iframe
-		var win = dijit.util.window.getDocumentWindow(dijit.Menu._iframeContentDocument(iframe_el)) ||
+		var win = dijit.getDocumentWindow(dijit.Menu._iframeContentDocument(iframe_el)) ||
 			// Moz. TODO: is this available when defaultView isn't?
 			dijit.Menu._iframeContentDocument(iframe_el)['__parent__'] ||
 			(iframe_el.name && document.frames[iframe_el.name]) || null;
@@ -244,7 +239,7 @@ dojo.declare(
 		node = dojo.byId(node);
 
 		//TODO: this is to support context popups in Editor.  Maybe this shouldn't be in dijit.Menu
-		var win = dijit.util.window.getDocumentWindow(node.ownerDocument);
+		var win = dijit.getDocumentWindow(node.ownerDocument);
 		if(node.tagName.toLowerCase()=="iframe"){
 			win = this._iframeContentWindow(node);
 			node = dojo.withGlobal(win, dojo.body);
@@ -312,13 +307,13 @@ dojo.declare(
 		}
 
 		var self=this;
-		var savedFocus = dijit.util.focus.get(this);
+		var savedFocus = dijit.focus.get(this);
 		function closeAndRestoreFocus(){
 			// user has clicked on a menu or submenu
-			dijit.util.focus.set(savedFocus);
-			dijit.util.popup.closeAll();
+			dijit.focus.set(savedFocus);
+			dijit.popup.closeAll();
 		}
-		dijit.util.popup.open({
+		dijit.popup.open({
 			popup: this,
 			x: x,
 			y: y,
@@ -329,7 +324,7 @@ dojo.declare(
 		this._onBlur = function(){
 			// Usually the parent closes the child widget but if this is a context
 			// menu then there is no parent
-			dijit.util.popup.closeAll();
+			dijit.popup.closeAll();
 			// don't try to restor focus; user has clicked another part of the screen
 			// and set focus there
 		}
@@ -362,7 +357,7 @@ dojo.declare(
 		if(submenu.isShowingNow){ return; }
 		submenu.parentMenu = this;
 		var self = this;
-		dijit.util.popup.open({
+		dijit.popup.open({
 			host: this,
 			popup: submenu,
 			around: from_item.arrowCell,
@@ -370,7 +365,7 @@ dojo.declare(
 			submenu: true,
 			onCancel: function(){
 				// called when the child menu is canceled
-				dijit.util.popup.close();
+				dijit.popup.close();
 				self._focusedItem._focus();	// put focus back on my node
 				self.currentSubmenu = null;
 			}
@@ -466,7 +461,7 @@ dojo.declare(
 		// summary: enable or disable this menu item
 		this.disabled = value;
 		dojo[value ? "addClass" : "removeClass"](this.domNode, 'dijitMenuItemDisabled');
-		dijit.util.wai.setAttr(this.containerNode, 'waiState', 'disabled', value ? 'true' : 'false');
+		dijit.wai.setAttr(this.containerNode, 'waiState', 'disabled', value ? 'true' : 'false');
 	}
 });
 
@@ -492,14 +487,14 @@ dojo.declare(
 		// land now.  move it to document.body.
 		if(!this.popup){
 			var node = dojo.query("[widgetId]", this.dropDownContainer)[0];
-			this.popup = dijit.util.manager.byNode(node);
+			this.popup = dijit.manager.byNode(node);
 		}
 		dojo.body().appendChild(this.popup.domNode);
 
 		this.popup.domNode.style.display="none";
 		dojo.addClass(this.arrow, "dijitMenuRightArrowEnabled");
 		dojo.style(this.arrow, "display", "");
-		dijit.util.wai.setAttr(this.containerNode, "waiState", "haspopup", "true");
+		dijit.wai.setAttr(this.containerNode, "waiState", "haspopup", "true");
 	}
 });
 

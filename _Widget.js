@@ -1,6 +1,6 @@
 dojo.provide("dijit._Widget");
 
-dojo.require("dijit.util.manager");
+dojo.require("dijit._base");
 
 dojo.declare("dijit._Widget", null,
 function(params, srcNodeRef){
@@ -42,7 +42,7 @@ function(params, srcNodeRef){
 	}
 
 	this.postMixInProperties();
-	dijit.util.manager.add(this);
+	dijit.manager.add(this);
 	this.buildRendering();
 	if(this.domNode){
 		this.domNode.setAttribute("widgetId", this.id);
@@ -141,7 +141,7 @@ function(params, srcNodeRef){
 			dojo.forEach(array, dojo.disconnect);
 		});
 		this.destroyRendering(finalize);
-		dijit.util.manager.remove(this.id);
+		dijit.manager.remove(this.id);
 	},
 
 	destroyRendering: function(/*Boolean*/ finalize){
@@ -198,7 +198,7 @@ function(params, srcNodeRef){
 		// summary:
 		//	return all the descendent widgets
 		var list = dojo.query('[widgetId]', this.domNode);
-		return list.map(dijit.util.manager.byNode);		// Array
+		return list.map(dijit.manager.byNode);		// Array
 	},
 
 	nodesWithKeyClick : ["input", "button"],

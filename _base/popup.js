@@ -1,10 +1,10 @@
-dojo.provide("dijit.util.popup");
+dojo.provide("dijit._base.popup");
 
-dojo.require("dijit.util.focus");
-dojo.require("dijit.util.place");
-dojo.require("dijit.util.window");
+dojo.require("dijit._base.focus");
+dojo.require("dijit._base.place");
+dojo.require("dijit._base.window");
 
-dijit.util.popup = new function(){
+dijit.popup = new function(){
 	// summary:
 	//		This class is used to show/hide widgets as popups.
 	//
@@ -40,11 +40,11 @@ dijit.util.popup = new function(){
 		//
 		// examples:
 		//		1. opening at the mouse position
-		//			dijit.util.popup.open({popup: menuWidget, x: evt.pageX, y: evt.pageY});
+		//			dijit.popup.open({popup: menuWidget, x: evt.pageX, y: evt.pageY});
 		//		2. opening the widget as a dropdown
-		//			dijit.util.popup.open({host: this, popup: menuWidget, around: this.domNode, onClose: function(){...}  });
+		//			dijit.popup.open({host: this, popup: menuWidget, around: this.domNode, onClose: function(){...}  });
 		//
-		//	Note that whatever widget called dijit.util.popup.open() should also listen to it's own _onBlur callback
+		//	Note that whatever widget called dijit.popup.open() should also listen to it's own _onBlur callback
 		//	(fired by widgetFocusTracer) to know that focus has moved somewhere else and thus the popup should be closed.
 
 		var widget = args.popup,
@@ -71,17 +71,17 @@ dijit.util.popup = new function(){
 		widget.domNode.style.display="";
 		wrapper.appendChild(widget.domNode);
 
-		var iframe = new dijit.util.BackgroundIframe(wrapper);
+		var iframe = new dijit.BackgroundIframe(wrapper);
 
 		// position the wrapper node
 		var best = around ?
-			dijit.util.placeOnScreenAroundElement(wrapper, around, orient) :
-			dijit.util.placeOnScreen(wrapper, args, ['TL','BL','TR','BR']);
+			dijit.placeOnScreenAroundElement(wrapper, around, orient) :
+			dijit.placeOnScreen(wrapper, args, ['TL','BL','TR','BR']);
 
 		// TODO: use effects to fade in wrapper
 
 		// announce that popup has opened (and has focus)
-		dijit.util.widgetFocusTracer.entered(widget);
+		dijit.widgetFocusTracer.entered(widget);
 
 		var handlers = [];
 
@@ -148,7 +148,7 @@ dijit.util.popup = new function(){
 		dojo._destroyElement(wrapper);
 
 		// announce that popup has closed (and no longer has focus)
-		dijit.util.widgetFocusTracer.exited(widget);
+		dijit.widgetFocusTracer.exited(widget);
 
 		if(onClose){
 			onClose();
@@ -171,12 +171,12 @@ dijit.util.popup = new function(){
 
 }();
 
-dijit.util.BackgroundIframe = function(/* HTMLElement */node){
+dijit.BackgroundIframe = function(/* HTMLElement */node){
 	//	summary:
 	//		For IE z-index schenanigans. id attribute is required.
 	//
 	//	description:
-	//		new dijit.util.BackgroundIframe(node)
+	//		new dijit.BackgroundIframe(node)
 	//			Makes a background iframe as a child of node, that fills
 	//			area (and position) of node
 
@@ -202,7 +202,7 @@ dijit.util.BackgroundIframe = function(/* HTMLElement */node){
 	}
 };
 
-dojo.extend(dijit.util.BackgroundIframe, {
+dojo.extend(dijit.BackgroundIframe, {
 	destroy: function(){
 		//	summary: destroy the iframe
 		if(this.iframe){

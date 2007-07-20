@@ -252,7 +252,7 @@
 		// write out a menu of operations on each widget
 		function makeOperationTable(){
 			var html = "<table border=1>";
-			for(var widgetId in dijit.util.manager.getWidgets()){
+			for(var widgetId in dijit.manager.getWidgets()){
 				html += "<tr><td>" + widgetId + "</td><td>";
 				html += "<button onclick='removeFromParent(\"" + widgetId + "\");'> destroy </button> ";
 				if(/Container/.test(dijit.byId(widgetId).declaredClass)){

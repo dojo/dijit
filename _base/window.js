@@ -1,6 +1,6 @@
-dojo.provide("dijit.util.window");
+dojo.provide("dijit._base.window");
 
-dijit.util.window.getDocumentWindow = function(doc){
+dijit.getDocumentWindow = function(doc){
 	//	summary
 	// 	Get window object associated with document doc
 

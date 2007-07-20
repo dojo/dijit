@@ -1,6 +1,6 @@
-dojo.provide("dijit.util.scroll");
+dojo.provide("dijit._base.scroll");
 
-dijit.util.scroll.scrollIntoView = function(/* HTMLElement */node){
+dijit.scrollIntoView = function(/* HTMLElement */node){
 	//	summary
 	//	Scroll the passed node into view, if it is not.
 

@@ -1,7 +1,5 @@
 dojo.provide("dijit._Container");
 
-dojo.require("dijit.util.manager");
-
 dojo.declare("dijit._Contained",
 	null,
 	{
@@ -96,7 +94,7 @@ dojo.declare("dijit._Container",
 		getChildren: function(){
 			// summary:
 			//		returns array of children widgets
-			return dojo.query("> [widgetId]", this.containerNode || this.domNode).map(dijit.util.manager.byNode); // Array
+			return dojo.query("> [widgetId]", this.containerNode || this.domNode).map(dijit.manager.byNode); // Array
 		},
 
 		hasChildren: function(){

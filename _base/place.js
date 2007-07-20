@@ -1,8 +1,8 @@
-dojo.provide("dijit.util.place");
+dojo.provide("dijit._base.place");
 
 // ported from dojo.html.util
 
-dijit.util.getViewport = function(){
+dijit.getViewport = function(){
 	//	summary
 	//	Returns the dimensions and scroll position of the viewable area of a browser window
 
@@ -36,7 +36,7 @@ dijit.util.getViewport = function(){
 	return { w: w, h: h, l: scroll.x, t: scroll.y };	//	object
 };
 
-dijit.util.placeOnScreen = function(
+dijit.placeOnScreen = function(
 	/* HTMLElement */	node,
 	/* Object */		pos,
 	/* Object */		corners,
@@ -59,10 +59,10 @@ dijit.util.placeOnScreen = function(
 	
 	var choices = dojo.map(corners, function(corner){ return { corner: corner, pos: pos }; });
 	
-	return dijit.util._place(node, choices);
+	return dijit._place(node, choices);
 }
 
-dijit.util._place = function(/*HtmlElement*/ node, /* Array */ choices){
+dijit._place = function(/*HtmlElement*/ node, /* Array */ choices){
 	// summary:
 	//		Given a list of spots to put node, put it at the first spot where it fits,
 	//		of if it doesn't fit anywhere then the place with the least overflow
@@ -72,7 +72,7 @@ dijit.util._place = function(/*HtmlElement*/ node, /* Array */ choices){
 			
 	// get {x: 10, y: 10, w: 100, h:100} type obj representing position of
 	// viewport over document
-	var view = dijit.util.getViewport();
+	var view = dijit.getViewport();
 
 	// This won't work if the node is inside a <div style="position: relative">,
 	// so reattach it to document.body.   (Otherwise, the positioning will be wrong
@@ -126,7 +126,7 @@ dijit.util._place = function(/*HtmlElement*/ node, /* Array */ choices){
 	return best;
 }
 
-dijit.util.placeOnScreenAroundElement = function(
+dijit.placeOnScreenAroundElement = function(
 	/* HTMLElement */	node,
 	/* HTMLElement */	aroundNode,
 	/* Object */		aroundCorners){
@@ -138,7 +138,7 @@ dijit.util.placeOnScreenAroundElement = function(
 	//	aroundCorners
 	//		specify Which corner of aroundNode should be
 	//		used to place the node => which corner(s) of node to use (see the
-	//		corners parameter in dijit.util.placeOnScreen)
+	//		corners parameter in dijit.placeOnScreen)
 	//		e.g. {'TL': 'BL', 'BL': 'TL'}
 	
 	// get coordinates of aroundNode
@@ -164,5 +164,5 @@ dijit.util.placeOnScreenAroundElement = function(
 		});
 	}
 	
-	return dijit.util._place(node, choices);
+	return dijit._place(node, choices);
 }

@@ -1,7 +1,5 @@
 dojo.provide("dijit.form.ComboBox");
 
-dojo.require("dijit.util.scroll");
-dojo.require("dijit.util.wai");
 dojo.require("dojo.data.ItemFileReadStore");
 dojo.require("dijit.form._DropDownTextBox");
 dojo.require("dijit.form.ValidationTextbox");
@@ -106,7 +104,7 @@ dojo.declare(
 			// Mozilla
 			// parts borrowed from http://www.faqts.com/knowledge_base/view.phtml/aid/13562/fid/130
 			if(element.setSelectionRange){
-				dijit.util.focus.set(element);
+				dijit.focus.set(element);
 				element.setSelectionRange(start, end);
 			}else if(element.createTextRange){ // IE
 				var range = element.createTextRange();
@@ -120,7 +118,7 @@ dojo.declare(
 				// do we need these?
 				element.value = element.value;
 				element.blur();
-				dijit.util.focus.set(element);
+				dijit.focus.set(element);
 				// figure out how far back to go
 				var dist = parseInt(element.value.length)-end;
 				var tchar = String.fromCharCode(37);
@@ -298,7 +296,7 @@ dojo.declare(
 			(dataObject.query[this.searchAttr]!="*")){
 				this._autoCompleteText(zerothvalue);
 				// announce the autocompleted value
-				dijit.util.wai.setAttr(this.focusNode || this.domNode, "waiState", "valuenow", zerothvalue);
+				dijit.wai.setAttr(this.focusNode || this.domNode, "waiState", "valuenow", zerothvalue);
 			}
 			// #2309: iterate over cache nondestructively
 			for(var i=0; i<results.length; i++){
@@ -484,7 +482,7 @@ dojo.declare(
 //
 // Also, doesn't seem like this should inherit from FormElement, and again I'm not
 // sure of the utility of dijit.form._DropDownTextBox.Popup;
-// all the popup functionality is supposed to be in dijit.util.popup
+// all the popup functionality is supposed to be in dijit.popup
 //
 	{
 		// summary:
@@ -572,7 +570,7 @@ dojo.declare(
 			}else if(this._highlighted_option.nextSibling){
 				this._focusOptionNode(this._highlighted_option.nextSibling);
 			}
-			dijit.util.scroll.scrollIntoView(this._highlighted_option);
+			dijit.scrollIntoView(this._highlighted_option);
 		},
 
 
@@ -580,7 +578,7 @@ dojo.declare(
 			if(this._highlighted_option.previousSibling){
 				this._focusOptionNode(this._highlighted_option.previousSibling);
 			}
-			dijit.util.scroll.scrollIntoView(this._highlighted_option);
+			dijit.scrollIntoView(this._highlighted_option);
 		},
 
 		_page:function(/*Boolean*/ up){

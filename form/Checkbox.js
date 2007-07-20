@@ -1,8 +1,6 @@
 dojo.provide("dijit.form.Checkbox");
 
 dojo.require("dijit.form.Button");
-dojo.require("dijit.util.sniff");
-dojo.require("dijit.util.wai");
 
 dojo.declare(
 	"dijit.form.Checkbox",

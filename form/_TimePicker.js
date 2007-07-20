@@ -1,6 +1,5 @@
 dojo.provide("dijit.form._TimePicker");
 
-dojo.require("dijit.util.typematic");
 dojo.require("dijit.form._FormWidget");
 dojo.require("dojo.date.locale");
 
@@ -119,8 +118,8 @@ dojo.declare("dijit.form._TimePicker",
 			if(!this.constraints.locale){
 				this.constraints.locale=this.lang;
 			}
-			dijit.util.typematic.addMouseListener(this.upArrow,this,this._onArrowUp, 0.8, 500);
-			dijit.util.typematic.addMouseListener(this.downArrow,this,this._onArrowDown, 0.8, 500);
+			dijit.typematic.addMouseListener(this.upArrow,this,this._onArrowUp, 0.8, 500);
+			dijit.typematic.addMouseListener(this.downArrow,this,this._onArrowDown, 0.8, 500);
 			dijit.form._TimePicker.superclass.postCreate.apply(this, arguments);
 			this.setValue(this.value);
 		},

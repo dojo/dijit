@@ -1,8 +1,8 @@
-dojo.provide("dijit.util.wai");
+dojo.provide("dijit._base.wai");
 
-dijit.util.waiNames  = ["waiRole", "waiState"];
+dijit.waiNames  = ["waiRole", "waiState"];
 
-dijit.util.wai = {
+dijit.wai = {
 	// summary: Contains functions to set accessibility roles and states
 	//		onto widget elements
 	waiRole: { 	
@@ -113,5 +113,5 @@ dijit.util.wai = {
 // Test if computer is in high contrast mode.
 // Make sure the a11y test runs first, before widgets are instantiated.
 if(dojo.isIE || dojo.isMoz){	// NOTE: checking in Safari messes things up
-	dojo._loaders.unshift(dijit.util.wai.onload);
+	dojo._loaders.unshift(dijit.wai.onload);
 }

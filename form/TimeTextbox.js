@@ -1,10 +1,9 @@
 dojo.provide("dijit.form.TimeTextbox");
 
-dojo.require("dijit.form._TimePicker");
-dojo.require("dijit.util.popup");
 dojo.require("dojo.date");
 dojo.require("dojo.date.locale");
 dojo.require("dojo.date.stamp");
+dojo.require("dijit.form._TimePicker");
 dojo.require("dijit.form.ValidationTextbox");
 
 dojo.declare(
@@ -59,7 +58,7 @@ dojo.declare(
 					onValueSelected: function(value){
 
 						self.focus(); // focus the textbox before the popup closes to avoid reopening the popup
-						setTimeout(dijit.util.popup.close, 1); // allow focus time to take
+						setTimeout(dijit.popup.close, 1); // allow focus time to take
 
 						// this will cause InlineEditBox and other handlers to do stuff so make sure it's last
 						dijit.form.TimeTextbox.superclass.setValue.call(self, value, true);
@@ -75,7 +74,7 @@ dojo.declare(
 				this._picker.setValue(this.getValue() || new Date());
 			}
 			if(!this._opened){
-				dijit.util.popup.open({
+				dijit.popup.open({
 					host: this,
 					popup: this._picker,
 					around: this.domNode,
@@ -87,7 +86,7 @@ dojo.declare(
 
 		_onBlur: function(){
 			// summary: called magically when focus has shifted away from this widget and it's dropdown
-			dijit.util.popup.closeAll();
+			dijit.popup.closeAll();
 			this.inherited('_onBlur', arguments);
 			// don't focus on <input>.  the user has explicitly focused on something else.
 		},

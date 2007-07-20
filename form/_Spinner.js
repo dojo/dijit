@@ -1,8 +1,6 @@
 dojo.provide("dijit.form._Spinner");
 
 dojo.require("dijit.form.ValidationTextbox");
-dojo.require("dijit.util.typematic");
-dojo.require("dijit.util.sniff");
 
 dojo.declare(
 	"dijit.form._Spinner",
@@ -56,7 +54,7 @@ dojo.declare(
 		_arrowReleased: function(/*Node*/ node){
 			if(this.disabled){ return; }
 			this._wheelTimer = null;
-			dijit.util.focus.set(this.textbox);
+			dijit.focus.set(this.textbox);
 			dojo.removeClass(node, "dijitSpinnerButtonActive");
 		},
 
@@ -101,7 +99,7 @@ dojo.declare(
 
 			// extra listeners
 			this.connect(this.textbox, dojo.isIE ? "onmousewheel" : 'DOMMouseScroll', "_mouseWheeled");
-			dijit.util.typematic.addListener(this.upArrowNode, this.textbox, {keyCode:dojo.keys.UP_ARROW,ctrlKey:false,altKey:false,shiftKey:false}, this, "_typematicCallback", this.timeoutChangeRate, this.defaultTimeout);
-			dijit.util.typematic.addListener(this.downArrowNode, this.textbox, {keyCode:dojo.keys.DOWN_ARROW,ctrlKey:false,altKey:false,shiftKey:false}, this, "_typematicCallback", this.timeoutChangeRate, this.defaultTimeout);
+			dijit.typematic.addListener(this.upArrowNode, this.textbox, {keyCode:dojo.keys.UP_ARROW,ctrlKey:false,altKey:false,shiftKey:false}, this, "_typematicCallback", this.timeoutChangeRate, this.defaultTimeout);
+			dijit.typematic.addListener(this.downArrowNode, this.textbox, {keyCode:dojo.keys.DOWN_ARROW,ctrlKey:false,altKey:false,shiftKey:false}, this, "_typematicCallback", this.timeoutChangeRate, this.defaultTimeout);
 		}
 });

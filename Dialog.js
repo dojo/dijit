@@ -3,12 +3,9 @@ dojo.provide("dijit.Dialog");
 dojo.require("dojo.dnd.move");
 dojo.require("dojo.fx");
 
-dojo.require("dijit.util.focus");
-dojo.require("dijit.util.place");
-dojo.require("dijit.util.sniff");
-dojo.require("dijit.util.popup");			// for BackgroundIFrame
-dojo.require("dijit.layout.ContentPane");
+dojo.require("dijit._Widget");
 dojo.require("dijit._Templated");
+dojo.require("dijit.layout.ContentPane");
 
 dojo.declare(
 	"dijit.DialogUnderlay",
@@ -23,7 +20,7 @@ dojo.declare(
 		postCreate: function(){
 			var b = dojo.body();
 			b.appendChild(this.domNode);
-			this.bgIframe = new dijit.util.BackgroundIframe(this.domNode);
+			this.bgIframe = new dijit.BackgroundIframe(this.domNode);
 		},
 
 		layout: function(){
@@ -32,7 +29,7 @@ dojo.declare(
 			//		of the document) since we need to cover the whole browser window, even
 			//		if the document is only a few lines long.
 
-			var viewport = dijit.util.getViewport();
+			var viewport = dijit.getViewport();
 			var is = this.node.style,
 				os = this.domNode.style;
 
@@ -43,7 +40,7 @@ dojo.declare(
 			
 			// process twice since the scroll bar may have been removed
 			// by the previous resizing
-			var viewport2 = dijit.util.getViewport();
+			var viewport2 = dijit.getViewport();
 			if(viewport.w != viewport2.w){ is.width = viewport2.w + "px"; }
 			if(viewport.h != viewport2.h){ is.height = viewport2.h + "px"; }
 		},
@@ -169,7 +166,7 @@ dojo.declare(
 		_position: function(){
 			// summary: position modal dialog in center of screen
 
-			var viewport = dijit.util.getViewport();
+			var viewport = dijit.getViewport();
 			var mb = dojo.marginBox(this.domNode);
 
 			var style = this.domNode.style;
@@ -256,11 +253,11 @@ dojo.declare(
 
 			this._fadeIn.play();
 			
-			this._savedFocus = dijit.util.focus.get(this);
+			this._savedFocus = dijit.focus.get(this);
 			
 			// set timeout to allow the browser to render dialog
 			setTimeout(dojo.hitch(this, function(){
-				dijit.util.focus.set(this.titleBar);
+				dijit.focus.set(this.titleBar);
 			}), 50);
 		},
 
@@ -286,7 +283,7 @@ dojo.declare(
 
 			// TODO: this is failing on FF presumably because the DialogUnderlay hasn't disappeared yet?
 			// Attach it to fire at the end of the animation
-			dijit.util.focus.set(this._savedFocus);
+			dijit.focus.set(this._savedFocus);
 		},
 
 		layout: function() {

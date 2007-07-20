@@ -1,7 +1,6 @@
 dojo.provide("dijit.form.Button");
 
 dojo.require("dijit.form._FormWidget");
-dojo.require("dijit.util.popup");
 
 dojo.declare(
 	"dijit.form.Button",
@@ -94,7 +93,7 @@ dojo.declare(
 			// make it invisible, and store a reference to pass to the popup code.
 			if(!this.dropDown){
 				var dropDownNode = dojo.query("[widgetId]", this.dropDownContainer)[0];
-				this.dropDown = dijit.util.manager.byNode(dropDownNode);
+				this.dropDown = dijit.manager.byNode(dropDownNode);
 				delete this.dropDownContainer;
 			}
 			dojo.body().appendChild(this.dropDown.domNode);
@@ -120,29 +119,29 @@ dojo.declare(
 
 		_onBlur: function(){
 			// summary: called magically when focus has shifted away from this widget and it's dropdown
-			dijit.util.popup.closeAll();
+			dijit.popup.closeAll();
 			// don't focus on button.  the user has explicitly focused on something else.
 		},
 
 		_toggleDropDown: function(){
 			// summary: toggle the drop-down widget; if it is up, close it, if not, open it
 			if(this.disabled){ return; }
-			dijit.util.focus.set(this.popupStateNode);
+			dijit.focus.set(this.popupStateNode);
 			var dropDown = this.dropDown;
 			if(!dropDown){ return false; }
 			if(!dropDown.isShowingNow){
 				var oldWidth=dropDown.domNode.style.width;
 				var self = this;
-				dijit.util.popup.open({
+				dijit.popup.open({
 					host: this,
 					popup: dropDown,
 					around: this.domNode,
 					onExecute: function(){
-						dijit.util.popup.closeAll();
+						dijit.popup.closeAll();
 						self.focus();
 					},
 					onCancel: function(){
-						dijit.util.popup.closeAll();
+						dijit.popup.closeAll();
 						self.focus();
 					},
 					onClose: function(){
@@ -160,7 +159,7 @@ dojo.declare(
 					dropDown.focus();
 				}
 			}else{
-				dijit.util.popup.closeAll();
+				dijit.popup.closeAll();
 				this._opened = false;
 			}
 			// TODO: set this.checked and call setStateClass(), to affect button look while drop down is shown

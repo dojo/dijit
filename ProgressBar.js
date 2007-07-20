@@ -5,7 +5,6 @@ dojo.require("dojo.number");
 
 dojo.require("dijit._Widget");
 dojo.require("dijit._Templated");
-dojo.require("dijit.util.sniff");
 
 dojo.declare(
 	"dijit.ProgressBar",
@@ -80,7 +79,7 @@ dojo.declare(
 			if(this.indeterminate){
 				dojo.addClass(this.domNode, "dijitProgressBarIndeterminate");
 				this.internalProgress.style.width = "100%";
-				dijit.util.wai.removeAttr(this.internalProgress, "waiState", "valuenow");
+				dijit.wai.removeAttr(this.internalProgress, "waiState", "valuenow");
 				this._setLabels("");
 			}else{
 				dojo.removeClass(this.domNode, "dijitProgressBarIndeterminate");
@@ -94,7 +93,7 @@ dojo.declare(
 				}
 				this.internalProgress.style.width = (percent * 100) + "%";
 				var text = this.report(percent);
-				dijit.util.wai.setAttr(this.internalProgress, "waiState", "valuenow", text);
+				dijit.wai.setAttr(this.internalProgress, "waiState", "valuenow", text);
 				this._setLabels(text);
 			}
 			this.onChange();

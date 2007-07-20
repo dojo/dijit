@@ -193,7 +193,7 @@
 		<script type="text/javascript">
 			// FIXME: doesn't the manager have a function for filtering by type?
 			function forEachButton(func){
-				var registry = dijit.util.manager.getWidgets();
+				var registry = dijit.manager.getWidgets();
 				for(var id in registry){
 					if(registry[id] instanceof dijit.form.Button){
 						func(registry[id]);

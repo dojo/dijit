@@ -2,9 +2,6 @@ dojo.provide("dijit.form._FormWidget");
 
 dojo.require("dijit._Widget");
 dojo.require("dijit._Templated");
-dojo.require("dijit.util.sniff");
-dojo.require("dijit.util.wai");
-dojo.require("dijit.util.focus");
 
 dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 {
@@ -68,7 +65,7 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 		if(this.focusNode){
 			this.focusNode.disabled = disabled;
 		}
-		dijit.util.wai.setAttr(this.focusNode || this.domNode, "waiState", "disabled", disabled);
+		dijit.wai.setAttr(this.focusNode || this.domNode, "waiState", "disabled", disabled);
 		this._setStateClass();
 	},
 
@@ -118,7 +115,7 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 	},
 
 	focus: function(){
-		dijit.util.focus.set(this.focusNode);
+		dijit.focus.set(this.focusNode);
 	},
 
 	_setStateClass: function(/*String*/ base){
@@ -186,7 +183,7 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 	setValue: function(/*anything*/ newValue, /*Boolean, optional*/ priorityChange){
 		// summary: set the value of the widget.
 		this._lastValue = newValue;
-		dijit.util.wai.setAttr(this.focusNode || this.domNode, "waiState", "valuenow", this.forWaiValuenow());
+		dijit.wai.setAttr(this.focusNode || this.domNode, "waiState", "valuenow", this.forWaiValuenow());
 		if((this.intermediateChanges || priorityChange) && newValue != this._lastValueReported){
 			this._lastValueReported = newValue;
 			this.onChange(newValue);
