@@ -141,27 +141,36 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 		//		<baseClass> + "CheckedDisabled"	- if the widget is disabled
 		//		<baseClass> + "CheckedActive"		- if the mouse is being pressed down
 		//		<baseClass> + "CheckedHover"		- if the mouse is over the widget
-		//
-		//	TODO:
-		//		Selected widgets. A menu item can be selected (ie, highlighted),
-		//		and eventually will be able to be checked/not checked, independently.
 
-		// get original class specified in template
+		// get original class (non state related) specified in template
 		var origClass = this._origClass || (this._origClass = this.domNode.className);
 
-		// compute the single classname representing the state of the widget
-		var state = this.baseClass || this.domNode.getAttribute("baseClass");
+		// compute list of classname representing the states of the widget
+		var base = this.baseClass || this.domNode.getAttribute("baseClass");
+		var classes = [ base ];
+		
+		function multiply(modifier){
+			classes=classes.concat(dojo.map(classes, function(c){ return c+modifier; }));
+		}
+
 		if(this.checked){
-			state += "Checked"
+			multiply("Checked");
 		}
+		if(this.selected){
+			multiply("Selected");
+		}
+		
+		// Only one of these three can be applied.
+		// Active trumps Hover, and Disabled trumps Active.
 		if(this.disabled){
-			state += "Disabled";
+			multiply("Disabled");
 		}else if(this._active){
-			state += "Active";
+			multiply("Active");
 		}else if(this._hovering){
-			state += "Hover";
+			multiply("Hover");
 		}
-		this.domNode.className = origClass + " " + " " + state;
+
+		this.domNode.className = origClass + " " + classes.join(" ");
 	},
 
 	onChange: function(newValue){

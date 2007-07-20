@@ -66,7 +66,6 @@
 
 .tundra .dijitButtonHover .dijitButtonNode,
 .tundra .dijitToggleButtonHover .dijitButtonNode,
-.tundra .dijitToggleButtonCheckedHover .dijitButtonNode,
 .tundra .dijitDropDownButtonHover .dijitButtonNode,
 .tundra .dijitComboButtonHover .dijitButtonContents,
 .tundra .dijitComboButtonDownArrowHover .dijitDownArrowButton,
@@ -74,6 +73,7 @@
 .tundra .dijitSpinnerUpArrowHover .dijitUpArrowButton,
 .tundra .dijitSpinnerDownArrowHover .dijitDownArrowButton {
 	/* hover state - inner */
+	/* TODO: change from Hover to Selected so that button is still highlighted while drop down is being used */
 	border-color:#366dba;
 	color:#366dba;
 	background:url("images/buttonHover.png") repeat-x bottom;
@@ -81,9 +81,6 @@
 
 .tundra .dijitButtonActive .dijitButtonNode,
 .tundra .dijitToggleButtonActive .dijitButtonNode,
-.tundra .dijitToggleButtonChecked .dijitButtonNode,
-.tundra .dijitToggleButtonCheckedHover .dijitButtonNode,
-.tundra .dijitToggleButtonCheckedActive .dijitButtonNode,
 .tundra .dijitDropDownButtonActive .dijitButtonNode,
 .tundra .dijitComboButtonActive .dijitButtonContents,
 .tundra .dijitDownArrowActive .dijitDownArrowButton,
@@ -92,7 +89,6 @@
 	 * when a toggle button is in a depressed state
 	 */
 	border-color:#366dba;
-	/* border-style:inset; */
 	background: #ededed url("images/buttonActive.png") bottom repeat-x;
 }
 
@@ -119,11 +115,8 @@
 }
 .tundra .dijitToolbar .dijitButtonHover .dijitButtonNode,
 .tundra .dijitToolbar .dijitToggleButtonHover .dijitButtonNode,
-.tundra .dijitToolbar .dijitToggleButtonActive .dijitButtonNode,
-.tundra .dijitToolbar .dijitToggleButtonChecked .dijitButtonNode,
-.tundra .dijitToolbar .dijitDropDownButtonHover .dijitButtonNode,
-.tundra .dijitToolbar .dijitToggleButtonCheckedHover .dijitButtonNode,
-.tundra .dijitToolbar .dijitToggleButtonChecked .dijitButtonNode {
+.tundra .dijitToolbar .dijitDropDownButtonHover .dijitButtonNode {
+	/* TODO: change this from Hover to Selected so that button is still highlighted while drop down is being used */
 	border-color: #366dba;
 }
 .dijitToolbarSeparator {
@@ -137,13 +130,6 @@
 .tundra .dijitToolbar .dijitToolbarSeparator {
 	background: url(images/editor.gif);
 }
-
-/** ???
-.tundra .dijitButtonEnabled *[popupActive],
-.tundra .dijitButtonEnabled *:active {
-	background-image: url("images/buttonActive.png");
-}
-*/
 
 /*****
 		dijit.form.NumberSpinner
@@ -185,13 +171,6 @@
 	line-height: normal;
 	padding: 0.2em 0.3em;
 }
-
-/*
-.tundra .dijitComboBoxInput {
-	margin:0em;
-	padding:.1em .3em;
-}
-*/
 
 .tundra .dijitComboBoxFocused .dijitComboBoxInput {
 	/* input field when focused (eg: typing affects it) */
@@ -281,30 +260,24 @@
 	background-position: 0px;
 }
 
-.tundra .dijitCheckboxCheckedDisabled,
-.tundra .dijitToggleButtonCheckedDisabled .dijitCheckboxIcon {
-	/* disabled but selected */
-	background-position: -32px;
-}
-
-.tundra .dijitCheckboxDisabled,
-.tundra .dijitToggleButtonDisabled .dijitCheckboxIcon {
+.tundra .dijitCheckboxDisabled {
 	/* disabled */
 	background-position: -48px;
 }
 
-.tundra .dijitCheckboxCheckedHover,
-.tundra .dijitToggleButtonCheckedHover .dijitCheckboxIcon,
-.tundra .dijitToggleButtonCheckedActive .dijitCheckboxIcon {
-	/* selected and being hovered over, or being pressed to uncheck */
-	background-position: -64px;
+.tundra .dijitCheckboxCheckedDisabled {
+	/* disabled but checked */
+	background-position: -32px;
 }
 
-.tundra .dijitCheckboxHover,
-.tundra .dijitToggleButtonHover .dijitCheckboxIcon,
-.tundra .dijitToggleButtonActive .dijitCheckboxIcon {
-	/* unselected, but being hovered over or being pressed */
+.tundra .dijitCheckboxHover {
+	/* hovering over an unchecked enabled checkbox */
 	background-position: -80px;
+}
+
+.tundra .dijitCheckboxCheckedHover {
+	/* hovering over a checked enabled checkbox */
+	background-position: -64px;
 }
 
 .tundra .dijitRadio,
@@ -319,29 +292,23 @@
 	background-position: -96px;
 }
 
-.tundra .dijitRadioCheckedDisabled,
-.tundra .dijitToggleButtonCheckedDisabled .dijitRadioIcon {
+.tundra .dijitRadioCheckedDisabled {
 	/* selected but disabled */
 	background-position: -128px;
 }
 
-.tundra .dijitRadioDisabled,
-.tundra .dijitToggleButtonDisabled .dijitRadioIcon {
+.tundra .dijitRadioDisabled {
 	/* unselected and disabled */
 	background-position: -144px;
 }
 
-.tundra .dijitRadioCheckedHover,
-.tundra .dijitToggleButtonCheckedHover .dijitRadioIcon,
-.tundra .dijitToggleButtonCheckedActive .dijitRadioIcon {
-	/* selected but hovering over it or pressing it */
+.tundra .dijitRadioCheckedHover {
+	/* hovering over a selected enabled radio button */
 	background-position: -160px;
 }
 
-.tundra .dijitRadioHover,
-.tundra .dijitToggleButtonHover .dijitRadioIcon,
-.tundra .dijitToggleButtonActive .dijitRadioIcon {
-	/* hovering over or pressing an unselected radio button */
+.tundra .dijitRadioHover {
+	/* hovering over an unselected enabled radio button */
 	background-position: -176px;
 }
 
@@ -477,45 +444,6 @@
 	border-bottom:1px solid #fff;
 }
 
-.tundra .dijitTabChecked,
-.tundra .dijitTabCheckedHover,
-.tundra .dijitTabCloseButtonCheckedHover
-{
-	background-color:#fff;
-	background-image:none; /* url("images/tabActive.png") repeat-x bottom !important; */
-}
-
-/* make the active tab white on the side next to the content pane */
-.tundra .dijitAlignTop .dijitTabChecked,
-.tundra .dijitAlignTop .dijitTabCheckedHover,
-.tundra .dijitAlignTop .dijitTabCloseButtonCheckedHover
-{
-	border-bottom-color:white;
-	vertical-align:bottom;
-}
-
-.tundra .dijitAlignBottom .dijitTabChecked,
-.tundra .dijitAlignBottom .dijitTabCheckedHover,
-.tundra .dijitAlignBottom .dijitTabCloseButtonCheckedHover
-{
-	border-top-color:white;
-	-moz-border-radius:2px 2px 0px 0px;	/* eliminate some border detritrus on moz */
-}
-
-.tundra .dijitAlignLeft .dijitTabChecked,
-.tundra .dijitAlignLeft .dijitTabCheckedHover,
-.tundra .dijitAlignLeft .dijitTabCloseButtonCheckedHover
-{
-	border-right-color:white;
-}
-
-.tundra .dijitAlignRight .dijitTabChecked,
-.tundra .dijitAlignRight .dijitTabCheckedHover,
-.tundra .dijitAlignRight .dijitTabCloseButtonCheckedHover
-{
-	border-left-color:white;
-}
-
 .tundra .dijitTabHover,
 .tundra .dijitTabCloseButtonHover {
 	color: #243C5F;
@@ -524,6 +452,43 @@
 	border-right-color:#92a0b3;
 	background:#e2e2e2 url("images/tabHover.png") repeat-x bottom;
 }
+
+.tundra .dijitTabChecked,
+.tundra .dijitTabCloseButtonChecked
+{
+	/* the selected tab (with or without hover) */
+	background-color:#fff;
+	border-color: #ccc;
+	background-image:none; /* url("images/tabActive.png") repeat-x bottom !important; */
+}
+
+/* make the active tab white on the side next to the content pane */
+.tundra .dijitAlignTop .dijitTabChecked,
+.tundra .dijitAlignTop .dijitTabCloseButtonChecked
+{
+	border-bottom-color:white;
+	vertical-align:bottom;
+}
+
+.tundra .dijitAlignBottom .dijitTabChecked,
+.tundra .dijitAlignBottom .dijitTabCloseButtonChecked
+{
+	border-top-color:white;
+	-moz-border-radius:2px 2px 0px 0px;	/* eliminate some border detritrus on moz */
+}
+
+.tundra .dijitAlignLeft .dijitTabChecked,
+.tundra .dijitAlignLeft .dijitTabCloseButtonChecked
+{
+	border-right-color:white;
+}
+
+.tundra .dijitAlignRight .dijitTabChecked,
+.tundra .dijitAlignRight .dijitTabCloseButtonChecked
+{
+	border-left-color:white;
+}
+
 
 .tundra .dijitTab .closeImage {
 	position:relative;
@@ -788,10 +753,7 @@
     padding-left:1px;
 }
 
-.tundra .TreeIEContent {
-	height: 18px;
-}
- 
+
 .tundra .TreeExpand {
     width: 18px;
     height: 18px;
