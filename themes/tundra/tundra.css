@@ -244,8 +244,9 @@
 .tundra .dijitToggleButton .dijitRadio,
 .tundra .dijitToggleButton .dijitCheckboxIcon,
 .tundra .dijitToggleButton .dijitRadioIcon {
-	background-image: url('images/checkmarkNoBorder.png');
+	background-image: url('images/checkmarkNoBorder.gif');
 }
+
 
 .tundra .dijitCheckbox,
 .tundra .dijitRadio,
