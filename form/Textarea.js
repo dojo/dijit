@@ -29,9 +29,9 @@ dojo.declare(
 			this._changing(); // set initial height
 		}
 		if(dojo.isMozilla){
-			dijit.focus.set(this.iframe);
+			dijit.focus(this.iframe);
 		}else{
-			dijit.focus.set(this.focusNode);
+			dijit.focus(this.focusNode);
 		}
 	},
 

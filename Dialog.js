@@ -253,11 +253,11 @@ dojo.declare(
 
 			this._fadeIn.play();
 			
-			this._savedFocus = dijit.focus.get(this);
+			this._savedFocus = dijit.getFocus(this);
 			
 			// set timeout to allow the browser to render dialog
 			setTimeout(dojo.hitch(this, function(){
-				dijit.focus.set(this.titleBar);
+				dijit.focus(this.titleBar);
 			}), 50);
 		},
 
@@ -283,7 +283,7 @@ dojo.declare(
 
 			// TODO: this is failing on FF presumably because the DialogUnderlay hasn't disappeared yet?
 			// Attach it to fire at the end of the animation
-			dijit.focus.set(this._savedFocus);
+			dijit.focus(this._savedFocus);
 		},
 
 		layout: function() {

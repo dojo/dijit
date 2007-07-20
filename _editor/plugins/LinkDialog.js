@@ -66,7 +66,7 @@ dojo.declare("dijit._editor.plugins.LinkDialog",
 				}
 				dojo.coords(this.button.domNode);
 				this._linkDialog.show(this.button.domNode);
-				dijit.focus.set(this.urlInput);
+				dijit.focus(this.urlInput);
 			}
 		},
 		updateState: function(){

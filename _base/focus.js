@@ -2,27 +2,44 @@ dojo.provide("dijit._base.focus");
 
 dojo.require("dijit._base.window");
 
-dijit.focus = new function(){
-	// summary:
-	//		This class is used to save the current focus / selection on the screen,
-	//		and restore it later.   It's typically used for popups (menus and dialogs),
-	//		but can also be used for a menubar or toolbar.   (For example, in the editor
-	//		the user might type Ctrl-T to focus the toolbar, and then when he/she selects
-	//		a menu choice, focus is returned to the editor window.)
+// summary:
+//		This class is used to save the current focus / selection on the screen,
+//		and restore it later.   It's typically used for popups (menus and dialogs),
+//		but can also be used for a menubar or toolbar.   (For example, in the editor
+//		the user might type Ctrl-T to focus the toolbar, and then when he/she selects
+//		a menu choice, focus is returned to the editor window.)
+dojo.addOnLoad(function(){
+	if(dojo.isIE){
+		window.setInterval(function(){ dijit._setCurrentFocus(document.activeElement); }, 100);
+	}else{
+		dojo.body().addEventListener('focus', function(evt){ dijit._setCurrentFocus(evt.target); }, true);
+		dojo.body().addEventListener('blur', function(evt){ dijit._setCurrentFocus(null); }, true);
+	}
+});
 
-	/////////////////////////////////////////////////////////////
-	// Keep track of currently focused and previously focused element
+/////////////////////////////////////////////////////////////
+// Keep track of currently focused and previously focused element
 
-	var curFocus, prevFocus;	
-	function setCurrentFocus(/*DomNode*/ node){
+dojo.mixin(dijit,
+{
+	// _curFocus: DomNode
+	//		Currently focused item on screen
+	_curFocus: null,
+	
+	// _prevFocus: DomNode
+	//		Previously focused item on screen
+	_prevFocus: null,
+		
+	_setCurrentFocus: function(/*DomNode*/ node){
+		// summary: saves info on currently focused item on screen
 		if(node && node.tagName && node.tagName.toLowerCase() == "body"){
 			node = null;
 		}
-		if(node !== curFocus){
-			if(curFocus != null){
-				prevFocus = curFocus;
+		if(node !== dijit._curFocus){
+			if(dijit._curFocus != null){
+				dijit._prevFocus = dijit._curFocus;
 			}
-			curFocus = node;
+			dijit._curFocus = node;
 			
 			// If a node has received focus, then publish topic.
 			// Note that on IE this event comes late (up to 100ms late) so it may be out of order
@@ -34,21 +51,9 @@ dijit.focus = new function(){
 				//console.log("nothing focused");
 			}
 		}
-	}
+	},
 
-	dojo.addOnLoad(function(){
-		if(dojo.isIE){
-			window.setInterval(function(){ setCurrentFocus(document.activeElement); }, 100);
-		}else{
-			dojo.body().addEventListener('focus', function(evt){ setCurrentFocus(evt.target); }, true);
-			dojo.body().addEventListener('blur', function(evt){ setCurrentFocus(null); }, true);
-		}
-	});
-
-	/////////////////////////////////////////////////////////////////
-	// Main methods, called when a dialog/menu is opened/closed
-
-	var isCollapsed = function(){
+	_isCollapsed: function(){
 		// summary: tests whether the current selection is empty
 		var _window = dojo.global;
 		var _document = dojo.doc;
@@ -59,12 +64,12 @@ dijit.focus = new function(){
 			if(dojo.isString(selection)){ // Safari
 				return !selection; // Boolean
 			}else{ // Mozilla/W3
-				return selection.isCollapsed || !selection.toString(); // Boolean
+				return selection._isCollapsed || !selection.toString(); // Boolean
 			}
 		}
-	};
+	},
 
-	var getBookmark = function(){
+	_getBookmark: function(){
 		// summary: Retrieves a bookmark that can be used with moveToBookmark to return to the same range
 		var bookmark, selection = dojo.doc.selection;
 		if(selection){ // IE
@@ -87,9 +92,9 @@ dijit.focus = new function(){
 			}
 		}
 		return bookmark; // Array
-	};
+	},
 
-	var moveToBookmark = function(/*Object*/bookmark){
+	_moveToBookmark: function(/*Object*/bookmark){
 		// summary: Moves current selection to a bookmark
 		// bookmark: this should be a returned object from dojo.html.selection.getBookmark()
 		var _document = dojo.doc;
@@ -115,9 +120,9 @@ dijit.focus = new function(){
 				console.debug("No idea how to restore selection for this browser!");
 			}
 		}
-	};
+	},
 
-	this.get = function(/*Widget*/menu, /*Window*/ openedForWindow){
+	getFocus: function(/*Widget*/menu, /*Window*/ openedForWindow){
 		// summary:
 		//	Returns the current focus and selection.
 		//	Called when a popup appears (either a top level menu or a dialog),
@@ -134,19 +139,19 @@ dijit.focus = new function(){
 
 		return {
 			// Node to return focus to
-			node: dojo.isDescendant(curFocus, menu.domNode) ? prevFocus : curFocus,
+			node: dojo.isDescendant(dijit._curFocus, menu.domNode) ? dijit._prevFocus : dijit._curFocus,
 			
 			// Previously selected text
 			bookmark: 
-				!dojo.withGlobal(openedForWindow||dojo.global, isCollapsed) ?
+				!dojo.withGlobal(openedForWindow||dojo.global, dijit._isCollapsed) ?
 				dojo.withGlobal(openedForWindow||dojo.global, getBookmark) :
 				null,
 				
 			openedForWindow: openedForWindow
 		}; // Object
-	};
+	},
 
-	this.set = function(/*Object || DomNode */ handle){
+	focus: function(/*Object || DomNode */ handle){
 		// summary:
 		//		Sets the focused node and the selection according to argument.
 		//		To set focus to an iframe's content, pass in the iframe itself.
@@ -171,13 +176,13 @@ dijit.focus = new function(){
 					focusNode.focus();
 				}catch(e){/*quiet*/}
 			}			
-			setCurrentFocus(node);
+			dijit._setCurrentFocus(node);
 		}
 
 		// set the selection
 		// do not need to restore if current selection is not empty
 		// (use keyboard to select a menu item)
-		if(bookmark && dojo.withGlobal(openedForWindow||dojo.global, isCollapsed)){
+		if(bookmark && dojo.withGlobal(openedForWindow||dojo.global, dijit._isCollapsed)){
 			if(openedForWindow){
 				openedForWindow.focus();
 			}
@@ -187,8 +192,9 @@ dijit.focus = new function(){
 				/*squelch IE internal error, see http://trac.dojotoolkit.org/ticket/1984 */
 			}
 		}
-	};
-}();
+	}
+});
+
 
 dijit.widgetFocusTracer = new function(){
 	// summary:

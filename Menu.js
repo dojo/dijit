@@ -307,10 +307,10 @@ dojo.declare(
 		}
 
 		var self=this;
-		var savedFocus = dijit.focus.get(this);
+		var savedFocus = dijit.getFocus(this);
 		function closeAndRestoreFocus(){
 			// user has clicked on a menu or submenu
-			dijit.focus.set(savedFocus);
+			dijit.focus(savedFocus);
 			dijit.popup.closeAll();
 		}
 		dijit.popup.open({

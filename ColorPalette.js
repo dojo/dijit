@@ -149,7 +149,7 @@ dojo.declare(
 	focus: function(){
 		// summary:
 		//		Focus this ColorPalette.
-		dijit.focus.set(this._highlightNodes[this._currentFocus]);
+		dijit.focus(this._highlightNodes[this._currentFocus]);
 	},
 
 	onChange: function(color){
@@ -167,7 +167,7 @@ dojo.declare(
 		//		The mouse event.
 		var target = evt.currentTarget;
 		this._currentFocus = target.index;
-		dijit.focus.set(target);
+		dijit.focus(target);
 		this._selectColor(target);	
 	},
 

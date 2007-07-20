@@ -20,10 +20,10 @@
 		});
 		function save(){
 			console.debug("save function");
-			savedFocus = dijit.focus.get(fakeWidget);
+			savedFocus = dijit.getFocus(fakeWidget);
 		}
 		function restore(){
-			dijit.focus.set(savedFocus);
+			dijit.focus(savedFocus);
 		}
 	</script>
 </head>

@@ -308,7 +308,7 @@ dojo.declare(
 			container.closeChild(page);
 			var b = this.pane2button[this._currentChild];
 			if(b){
-				dijit.focus.set(b.focusNode || b.domNode);
+				dijit.focus(b.focusNode || b.domNode);
 			}
 		},
 
@@ -358,7 +358,7 @@ dojo.declare(
 	onClick: function(/*Event*/ evt) {
 		// this is for TabContainer where the tabs are <span> rather than button,
 		// so need to set focus explicitly (on some browsers)
-		dijit.focus.set(this.focusNode);
+		dijit.focus(this.focusNode);
 
 		// ... now let StackController catch the event and tell me what to do
 	},

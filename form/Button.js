@@ -126,7 +126,7 @@ dojo.declare(
 		_toggleDropDown: function(){
 			// summary: toggle the drop-down widget; if it is up, close it, if not, open it
 			if(this.disabled){ return; }
-			dijit.focus.set(this.popupStateNode);
+			dijit.focus(this.popupStateNode);
 			var dropDown = this.dropDown;
 			if(!dropDown){ return false; }
 			if(!dropDown.isShowingNow){

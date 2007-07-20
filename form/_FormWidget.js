@@ -115,7 +115,7 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 	},
 
 	focus: function(){
-		dijit.focus.set(this.focusNode);
+		dijit.focus(this.focusNode);
 	},
 
 	_setStateClass: function(/*String*/ base){
