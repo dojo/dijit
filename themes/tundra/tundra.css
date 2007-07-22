@@ -498,18 +498,51 @@
 }
 
 
-.tundra .dijitTab .closeImage {
-	position:relative;
-	top: 2px;
-	height : 12px;
-	width : 12px;
-	padding : 0 12px 0 0;
-	margin : 0px 0px 0px 10px;
-	background : url("images/tabClose.png") no-repeat top right;
+/* make space for a positioned close button */
+.tundra .dijitTab .dijitClosable {
+	position: relative; 
+	padding:6px 20px 4px 10px;
 }
 
-.tundra .dijitTabCloseButton .closeImage {
-	background-image : url("images/tabCloseHover.png") !important;
+.tundra .dijitTab .dijitClosable .closeImage {
+	position:absolute;
+	top: 7px;
+	right: 3px;
+	height: 12px;
+	width: 12px;
+	padding: 0;
+	margin: 0;
+	background: url("images/tabClose.png") no-repeat right top;
+}
+
+.tundra .dijitTabCloseButton .dijitClosable .closeImage {
+	background-image : url("images/tabClose.png");
+}
+.tundra .dijitTabCloseButtonHover .dijitClosable .closeImage {
+	background-image : url("images/tabCloseHover.png");
+}
+
+.tundra .dijitAlignLeft .dijitTab .dijitClosable {
+	padding:6px 10px 4px 20px;
+}
+
+/* correct for IE6. 
+    We cant force hasLayout as that blows out the shrink wrapped tabs
+    ..so we shim in the closeImage position properties instead
+*/
+.dj_ie6 .tundra .dijitAlignLeft .dijitTab .dijitClosable .closeImage {
+	left:-20px;
+}
+
+.tundra .dijitAlignBottom .dijitTab .dijitClosable .closeImage {
+	top: auto;
+	bottom: 2px;
+	right:2px;
+}
+
+.tundra .dijitAlignLeft .dijitTab .dijitClosable .closeImage {
+	top: 2px;
+	left:2px;
 }
 
 /* SplitContainer */

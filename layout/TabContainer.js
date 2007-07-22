@@ -139,7 +139,9 @@ dojo.declare(
 					+"</div>",
 
 	postCreate: function(){
-		if(!this.closeButton){
+		if(this.closeButton){
+			dojo.addClass(this.innerDiv, "dijitClosable");
+		} else {
 			this.closeButtonNode.style.display="none";
 		}
 		dijit.layout._TabButton.superclass.postCreate.apply(this, arguments);
