@@ -1,77 +1,85 @@
 dojo.provide("dijit._base.manager");
 
-dijit.manager = new function(){
+dojo.declare("dijit.WidgetSet",
+	null,
+	function(){
+		// summary:
+		//	A set of widgets indexed by id
+
+		this._hash={};
+	},
+	{
+		length: 0,
+
+		add: function(/*Widget*/ widget){
+			this._hash[widget.id]=widget;
+			length++;
+		},
+		
+		remove: function(/*String*/ id){
+			delete this._hash[id];
+			length--;
+		},
+
+		forEach: function(/*Function*/ func){
+			for(var id in this._hash){
+				func(this._hash[id]);
+			}
+		},
+		
+		filter: function(/*Function*/ filter){
+			var res = new WidgetSet();
+			this.forEach(function(widget){
+				if(filter(widget)){ res.add(widget); }
+			});
+			return res;		// dijit.WidgetSet
+		},
+		
+		byId: function(/*String*/ id){
+			return this._hash[id];
+		},
+
+		byClass: function(/*String*/ cls){
+			return this.filter(function(widget){ return widget.declaredClass==cls; });
+		}
+	}
+);
+
+// registry: list of all widgets on page
+dijit.registry = new dijit.WidgetSet();
+
+dijit._widgetTypeCtr = {};
+
+dijit.getUniqueId = function(/*String*/widgetType){
 	// summary
-	//	manager class for the widgets.
+	//	Generates a unique id for a given widgetType
 
-	// registry of widgets
-	var registry = {};
-
-	var widgetTypeCtr = {};
-
-	this.getUniqueId = function(/*String*/widgetType){
-		// summary
-		//	Generates a unique id for a given widgetType
-
-		var id;
-		do{
-			id = widgetType + "_" +
-				(widgetTypeCtr[widgetType] !== undefined ?
-					++widgetTypeCtr[widgetType] : widgetTypeCtr[widgetType] = 0);
-		}while(registry[id]);
-		return id; // String
-	}
-
-	this.add = function(/*Widget*/ widget){
-		// summary
-		//	Adds a widget to the registry
-
-		if(!widget.id){
-			widget.id = this.getUniqueId(widget.declaredClass.replace("\.","_"));
-		}
-		registry[widget.id] = widget;
-	}
-
-	this.remove = function(id){
-		// summary
-		//	Removes a widget from the registry by id, but does not destroy the widget
-
-		delete registry[id];
-	}
-
-	this.destroyAll = function(){
-		// summary
-		//	Destroys all the widgets
-
-		for(var id in registry){
-			registry[id].destroy();
-		}
-	}
-
-	this.getWidgets = function(){
-		// summary:
-		//		Returns the hash of id->widget
-		return registry; // Object
-	}
-
-	this.byNode = function(/* DOMNode */ node){
-		// summary:
-		//		Returns the widget as referenced by node
-		return registry[node.getAttribute("widgetId")]; // Widget
-	}
+	var id;
+	do{
+		id = widgetType + "_" +
+			(dijit._widgetTypeCtr[widgetType] !== undefined ?
+				++dijit._widgetTypeCtr[widgetType] : dijit._widgetTypeCtr[widgetType] = 0);
+	}while(dijit.byId(id));
+	return id; // String
 };
+
 
 if(dojo.isIE && dojo.isIE < 7){
 	// Only run this for IE6 because we think it's only necessary in that case,
-	// and because it causes problems on FF.  See bugt #3531 for details.
+	// and because it causes problems on FF.  See bug #3531 for details.
 	dojo.addOnUnload(function(){
-		dijit.manager.destroyAll();
+		dijit.registry.forEach(function(widget){ widget.destroy(); });
 	});
 }
 
-//FIXME: either remove isString/type widget support or fix the docs
-dijit.byId = function(/*String*/id){
+dijit.byId = function(/*String|Widget*/id){
 	// summary:
-	//		Returns a widget by its id
-	return (dojo.isString(id)) ? dijit.manager.getWidgets()[id] : id; // Widget
+	//		Returns a widget by its id, or if passed a widget, no-op (like dojo.byId())
+	return (dojo.isString(id)) ? dijit.registry.byId(id) : id; // Widget
+};
+
+dijit.byNode = function(/* DOMNode */ node){
+	// summary:
+	//		Returns the widget as referenced by node
+	return dijit.registry.byId(node.getAttribute("widgetId")); // Widget
 };
