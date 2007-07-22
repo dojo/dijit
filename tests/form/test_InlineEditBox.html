@@ -39,6 +39,14 @@
 		after<br>
 
 		<hr style="width:100%;">
+
+		before
+		<span id="editableWithButtons" style="font-size:larger;" dojoType="dijit.form.InlineEditBox" onChange="myHandler(this.id,arguments[0])" autoSave="false">
+			<input dojoType="dijit.form.Textbox" value="Edit me - I trigger the onChange callback when Save button is clicked">
+		</span>
+		after<br>
+
+		<hr style="width:100%;">
 		<blockquote style="width:50%;">
 			<p><span id="areaEditable" dojoType="dijit.form.InlineEditBox" renderAsHtml="true" autoSave="true">
 				<textarea dojoType="dijit.form.Textarea">I'm one big paragraph.  Go ahead and <i>edit</i> me.  <b>I dare you.</b> The quick brown fox jumped over the lazy dog.  Blah blah blah blah blah blah blah ...</textarea>

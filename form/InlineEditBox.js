@@ -175,6 +175,10 @@ dojo.declare(
 		// If save button pressed on non-autoSave widget or Enter pressed on autoSave
 		// widget, restore focus to the inline text.
 		if(e){ dijit.focus(this.focusNode); }
+
+		if(this._lastValue != this._lastValueReported){
+			this.onChange(this._lastValue); // tell the world that we have changed
+		}
 	},
 
 	cancel: function(e){
@@ -210,7 +214,7 @@ dojo.declare(
 				this.save(e);
 			}
 		}else{
-			this.saveButton.setDisabled(this._getEditValue() == this._initialText);
+			this.saveButton.setDisabled(false);
 		}
 
 	},
