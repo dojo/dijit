@@ -195,7 +195,7 @@ dojo.declare(
 	_domElement2TreeNode: function(/*DomNode*/ domElement){
 		var ret;
 		do{
-			ret=dijit.manager.byNode(domElement);
+			ret=dijit.byNode(domElement);
 		}while(!ret && (domElement=domElement.parentNode));
 		return ret;
 	},

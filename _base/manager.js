@@ -9,16 +9,12 @@ dojo.declare("dijit.WidgetSet",
 		this._hash={};
 	},
 	{
-		length: 0,
-
 		add: function(/*Widget*/ widget){
 			this._hash[widget.id]=widget;
-			length++;
 		},
 		
 		remove: function(/*String*/ id){
 			delete this._hash[id];
-			length--;
 		},
 
 		forEach: function(/*Function*/ func){
@@ -28,7 +24,7 @@ dojo.declare("dijit.WidgetSet",
 		},
 		
 		filter: function(/*Function*/ filter){
-			var res = new WidgetSet();
+			var res = new dijit.WidgetSet();
 			this.forEach(function(widget){
 				if(filter(widget)){ res.add(widget); }
 			});
@@ -40,7 +36,7 @@ dojo.declare("dijit.WidgetSet",
 		},
 
 		byClass: function(/*String*/ cls){
-			return this.filter(function(widget){ return widget.declaredClass==cls; });
+			return this.filter(function(widget){ return widget.declaredClass==cls; });	// dijit.WidgetSet
 		}
 	}
 );

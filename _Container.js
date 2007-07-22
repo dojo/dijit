@@ -94,7 +94,7 @@ dojo.declare("dijit._Container",
 		getChildren: function(){
 			// summary:
 			//		returns array of children widgets
-			return dojo.query("> [widgetId]", this.containerNode || this.domNode).map(dijit.manager.byNode); // Array
+			return dojo.query("> [widgetId]", this.containerNode || this.domNode).map(dijit.byNode); // Array
 		},
 
 		hasChildren: function(){

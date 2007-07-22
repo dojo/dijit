@@ -487,7 +487,7 @@ dojo.declare(
 		// land now.  move it to document.body.
 		if(!this.popup){
 			var node = dojo.query("[widgetId]", this.dropDownContainer)[0];
-			this.popup = dijit.manager.byNode(node);
+			this.popup = dijit.byNode(node);
 		}
 		dojo.body().appendChild(this.popup.domNode);
 

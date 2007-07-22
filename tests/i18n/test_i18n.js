@@ -75,7 +75,7 @@ function startTestFormat(i, t){
 
 function startTestValidate(i, t){
 	/*
-	 * The dijit.manager.byNode has an issue: cannot handle same id.
+	 * The dijit.byNode has an issue: cannot handle same id.
 	 */
 	var test_node = dojo.doc.getElementById("test_validate_" + i); 
 	var inp_node = dojo.doc.getElementById("test_validate_input_" + i); 
@@ -85,11 +85,11 @@ function startTestValidate(i, t){
 	
 	test_node.value = inp_node.value;
 	/*
-	 * The dijit.manager.byNode has an issue.
+	 * The dijit.byNode has an issue.
 	 */
 	var widget = null;
 	var node = test_node;
-	while ((widget = dijit.manager.byNode(node)) == null){
+	while ((widget = dijit.byNode(node)) == null){
 		node = node.parentNode;
 		if(!node){
 			break;

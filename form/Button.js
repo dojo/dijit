@@ -93,7 +93,7 @@ dojo.declare(
 			// make it invisible, and store a reference to pass to the popup code.
 			if(!this.dropDown){
 				var dropDownNode = dojo.query("[widgetId]", this.dropDownContainer)[0];
-				this.dropDown = dijit.manager.byNode(dropDownNode);
+				this.dropDown = dijit.byNode(dropDownNode);
 				delete this.dropDownContainer;
 			}
 			dojo.body().appendChild(this.dropDown.domNode);

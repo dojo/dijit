@@ -252,14 +252,14 @@
 		// write out a menu of operations on each widget
 		function makeOperationTable(){
 			var html = "<table border=1>";
-			for(var widgetId in dijit.manager.getWidgets()){
-				html += "<tr><td>" + widgetId + "</td><td>";
-				html += "<button onclick='removeFromParent(\"" + widgetId + "\");'> destroy </button> ";
-				if(/Container/.test(dijit.byId(widgetId).declaredClass)){
-					html += "<button onclick='addChild(\"" + widgetId + "\");'> add a child </button> ";
+			dijit.registry.forEach(function(widget){
+				html += "<tr><td>" + widget.id + "</td><td>";
+				html += "<button onclick='removeFromParent(\"" + widget.id + "\");'> destroy </button> ";
+				if(/Container/.test(widget.declaredClass)){
+					html += "<button onclick='addChild(\"" + widget.id + "\");'> add a child </button> ";
 				}
 				html += "</td></tr>";
-			}
+			});
 			html += "</table>";
 			dojo.byId("operations").innerHTML = html;
 		}
