@@ -151,9 +151,13 @@
 							pane2.extractContent = def;
 						}
 					},
+
+					/////////////////////////////////////////////////////////////////////////
+					// We assume that our network connection has a maximum of 1.5 sec latency
+					/////////////////////////////////////////////////////////////////////////
 					{
 						name: "setHref_loading",
-						timeout: 1200,
+						timeout: 1800,
 						setUp: function(t){
 							pane2.setHref('getResponse.php?messId=1');
 						},
@@ -163,13 +167,13 @@
 								function(){
 									t.assertEqual(1, dijit._Container.prototype.getChildren.call(pane2).length);
 								})
-							, 1000);
+							, 1500);
 							return d;
 						}
 					},
 					{
 						name: "setHref_then_cancel",
-						timeout: 1800,
+						timeout: 2800,
 						setUp: function(t){
 							pane2.setContent();// clear previous
 						},
@@ -181,7 +185,7 @@
 								function(){
 									t.assertFalse(pane2.domNode.innerHTML == msg);
 								}
-							), 1600);
+							), 2500);
 
 							pane2.cancel();
 
@@ -191,7 +195,7 @@
 					{
 						// test that setHref cancels a inflight setHref
 						name: "setHref_cancels_previous_setHref",
-						timeout: 1800,
+						timeout: 2800,
 						setUp: function(t){
 							pane2.setContent();
 						},
@@ -209,13 +213,13 @@
 								function(){
 									t.assertEqual(msg, pane2.domNode.innerHTML);
 								}
-							), 1600);
+							), 2500);
 							return d;
 						}
 					},
 					{
 						name: "setContent_cancels_setHref",
-						timeout: 1500,
+						timeout: 2800,
 						setUp: function(t){
 							pane2.setContent();
 						},
@@ -233,13 +237,13 @@
 								function(){
 									t.assertEqual(msg, pane2.domNode.innerHTML);
 								}
-							), 1250);
+							), 2500);
 							return d;
 						}
 					},
 					{
 						name: "refresh",
-						timeout: 800,
+						timeout: 1900,
 						setUp: function(t){
 							pane2.setHref("getResponse.php?message="+encodeURI('initial load'));
 						},
@@ -255,13 +259,14 @@
 								function(){
 									t.assertEqual(msg, pane2.domNode.innerHTML);
 								}
-							), 600);
+							), 1600);
 							return d;
 
 						}
 					},
 					{
 						name: "preventCache",
+						timeout:1800,
 						setUp: function(t){
 							pane2.setContent();
 						},
@@ -278,7 +283,7 @@
 									var getStr = dojo.byId('bouncedGetStr');
 									t.assertTrue(getStr.innerHTML.indexOf('preventCache=') > -1);
 								}
-							), 300);
+							), 1500);
 
 							pane2.preventCache = def;
 							return d;
@@ -289,7 +294,7 @@
 					},
 					{
 						name: "isLoaded",
-						timeout: 800,
+						timeout: 1800,
 						setUp: function(t){
 							pane2.setContent();
 						},
@@ -313,14 +318,14 @@
 									t.assertTrue(pane2.isLoaded);
 									t.assertFalse(ilObj.probed);
 								}
-							), 600);
+							), 1500);
 							return d;
 						}
 					},
 					{
 						// test that we does'nt load a response if we are hidden
 						name: "wait_with_load_when_domNode_hidden",
-						timeout: 700,
+						timeout: 1800,
 						setUp: function(t){
 							pane2.domNode.style.display = 'none';
 							pane2.setContent();
@@ -333,7 +338,7 @@
 								function(){
 									t.assertFalse(pane2.domNode.innerHTML == pane2._msg);
 								}
-							), 500);
+							), 1500);
 							return d;
 						},
 						tearDown: function(t){
@@ -342,7 +347,7 @@
 					},
 					{
 						name: "onDownloadError",
-						timeout: 800,
+						timeout: 1800,
 						setUp: function(t){
 							pane2.setContent();
 						},
@@ -388,14 +393,14 @@
 									dojo.disconnect(evtHandle);
 									pane2.onDownloadError = orig;
 								}
-							}, 600);
+							}, 1500);
 
 							return d;
 						}
 					},
 					{
 						name: "onLoad|Unload_onDownloadStart|End",
-						timeout: 800,
+						timeout: 2400,
 						setUp:function(t){
 							pane2.setContent();
 						},
@@ -422,7 +427,6 @@
 							var endHandler = dojo.connect(pane2, 'onDownloadEnd', obj, 'end');
 							var loadHandler = dojo.connect(pane2, 'onLoad', obj, 'load');
 							var unloadHandler = dojo.connect(pane2, 'onUnload', obj, 'unload');
-
 
 							pane2.setHref('getResponse.php?delay=400');
 
@@ -455,7 +459,7 @@
 
 									pane2.onDownloadStart = origStart;
 								}
-							}, 600);
+							}, 1900);
 
 							return d;
 						}
@@ -497,7 +501,7 @@
 					},
 					{
 						name: "startLoad when selected",
-						timeout: 900,
+						timeout: 2100,
 						runTest: function(t){
 							st.selectChild(pane3);
 
@@ -507,14 +511,14 @@
 									t.assertTrue(pane3.isLoaded);
 									t.assertEqual('Loaded!', pane3.domNode.innerHTML);
 								}
-							), 800);
+							), 1800);
 
 							return d;
 						}
 					},
 					{
 						name: "refreshOnShow",
-						timeout: 900,
+						timeout: 2100,
 						setUp: function(t){
 							tmp = {
 								onUnload: function(){ this._unload_fired = 1; },
@@ -534,7 +538,7 @@
 								t.assertTrue(tmp._unload_fired);
 								t.assertTrue(tmp._load_fired);
 								t.assertEqual('Loaded!', pane3.domNode.innerHTML);
-							}), 800);
+							}), 1800);
 
 							return d;
 						},
