@@ -24,7 +24,7 @@ dojo.declare(
 	}
 );
 
-doh.register("t",
+doh.register("dijit.tests._base.manager",
 	[
 		function setUp(t){
 			new foo({id: "one", name: "bob", attr1: 10, attr2: 10});
