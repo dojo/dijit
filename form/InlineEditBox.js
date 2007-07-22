@@ -51,27 +51,32 @@ dojo.declare(
 
 	widgetsInTemplate: true,
 
-	postCreate: function(){
+	startup: function(){
 		// look for the input widget as a child of the containerNode
-		var _this = this;
-		dojo.addOnLoad(function(){
-			if(_this.editWidget){
-				_this.containerNode.appendChild(_this.editWidget.domNode);
+		if(!this._started){
+
+			if(this.editWidget){
+				this.containerNode.appendChild(this.editWidget.domNode);
 			}else{
-				_this.editWidget = _this.getChildren()[0];
+				this.editWidget = this.getChildren()[0];
 			}
 			// #3209: copy the style from the source
 			// don't copy ALL properties though, just the necessary/applicable ones
 			dojo.forEach(["fontSize","fontFamily","fontWeight"], function(prop){
-				_this.editWidget.focusNode.style[prop]=_this._srcStyle[prop];
-				_this.editable.style[prop]=_this._srcStyle[prop];
-			});
-			_this._setEditValue = dojo.hitch(_this.editWidget,_this.editWidget.setDisplayedValue||_this.editWidget.setValue);
-			_this._getEditValue = dojo.hitch(_this.editWidget,_this.editWidget.getDisplayedValue||_this.editWidget.getValue);
-			_this._setEditFocus = dojo.hitch(_this.editWidget,_this.editWidget.focus);
-			_this.editWidget.onChange = dojo.hitch(_this,"_onChange");
-			_this._showText();
-		});
+				this.editWidget.focusNode.style[prop]=this._srcStyle[prop];
+				this.editable.style[prop]=this._srcStyle[prop];
+			}, this);
+			this._setEditValue = dojo.hitch(this.editWidget,this.editWidget.setDisplayedValue||this.editWidget.setValue);
+			this._getEditValue = dojo.hitch(this.editWidget,this.editWidget.getDisplayedValue||this.editWidget.getValue);
+			this._setEditFocus = dojo.hitch(this.editWidget,this.editWidget.focus);
+			this.editWidget.onChange = dojo.hitch(this,"_onChange");
+			this._showText();
+
+			this._started = true;
+		}
+	},
+
+	postCreate: function(){
 		if(this.autoSave){
 			this.buttonSpan.style.display="none";
 		}

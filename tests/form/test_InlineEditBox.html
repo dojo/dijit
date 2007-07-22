@@ -73,8 +73,15 @@
 		<div style="display:block;" id="programmatic"></div>
 		<script type="text/javascript">
 			// See if we can make a widget in script
-			var editorWidget = new dijit.form.Textbox({ value: "Click here to edit a programmatically created<BR>inline edit region" }, document.createElement('span'));
-			var inlineWidget = new dijit.form.InlineEditBox({ editWidget: editorWidget, renderAsHtml: true }, 'programmatic');
+			var inlineWidget = new dijit.form.InlineEditBox({renderAsHtml: true}, 'programmatic');
+
+ 			var editorWidget = new dijit.form.Textbox({
+									value:"Click here to edit a programmatically created<BR>inline edit region"
+								});
+
+ 			inlineWidget.addChild(editorWidget);
+ 			inlineWidget.startup(); // scan for editWidget here, not on widget creation
+
 		</script>
 		<hr style="width:100%;">
 		<b>Spinner:</b>
