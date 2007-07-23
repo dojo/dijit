@@ -19,20 +19,19 @@
 		dojo.require("dijit.form.Checkbox");
 		dojo.require("dijit.form.DateTextbox");
 
-		 var obj;
-		 function getValues() {
-		   obj = dijit.byId('myForm').getValues();
-		   console.log("Object is: " + dojo.toJson(obj, true));
-		 }
+		var obj;
+		function getValues(){
+			obj = dijit.byId('myForm').getValues();
+			console.log("Object is: " + dojo.toJson(obj, true));
+		}
 		
-		 function setValues() {
-		   if (obj == null) {
-		    obj ={};
-		    obj.testF='testi';
-		   }
-		   console.log("Object is: " + dojo.toJson(obj, true));
-		   dijit.byId('myForm').setValues(obj);
-		 }
+		function setValues(){
+			if(!obj){
+		 		obj = {testF: 'testi'};
+			}
+			console.log("Object is: " + dojo.toJson(obj, true));
+			dijit.byId('myForm').setValues(obj);
+		}
 	</script>
 </head>
 <body class="tundra">
@@ -40,8 +39,8 @@
 <p>
 The form widget takes data in a form and serializes/deserializes it,
 so it can be submitted as a JSON string of nested objects.
-<div style="color:red">Currently only widgets are supported, not raw elements.</div>
 </p>
+<div style="color:red">Currently only widgets are supported, not raw elements.</div>
 <form dojoType="dijit.form.Form" id="myForm" action="showPost.php">
 <p>Just HTML text</p>
 <table border=2>
@@ -65,7 +64,7 @@ so it can be submitted as a JSON string of nested objects.
 
 <tr><td>DateTextbox inside contentpane</td><td>foo.bar.baz.quux</td><td>
 <div dojoType="dijit.layout.ContentPane">
-<input type="text" name="foo.bar.baz.quux" dojoType="dijit.form.DateTextbox" displayFormat="dd.MM.yyyy" date="2007-12-30" />
+<input type="text" name="foo.bar.baz.quux" dojoType="dijit.form.DateTextbox" value="2007-12-30" />
 </div>
 </td></tr>
 <tr><td>Layoutcontainer</td><td>
@@ -74,12 +73,12 @@ so it can be submitted as a JSON string of nested objects.
 </td></tr>
 <tr>
 <td>DateTextbox 1</td><td>available.from</td><td>
-<input type="text" name="available.from" dojoType="dijit.form.DateTextbox" displayFormat="dd.MM.yyyy" />
+<input type="text" name="available.from" dojoType="dijit.form.DateTextbox" />
 </td>
 </tr>
 <tr>
 <td>DateTextbox 2</td><td>available.to</td><td>
-<input type="text" name="available.to" dojoType="dijit.form.DateTextbox" displayFormat="dd.MM.yyyy" date="2006-01-02" />
+<input type="text" name="available.to" dojoType="dijit.form.DateTextbox" value="2006-01-02" />
 </td>
 </tr>
 
