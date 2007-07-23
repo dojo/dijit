@@ -41,6 +41,17 @@
 		.dijitToolbar .dijitToggleButtonSelected BUTTON, .dijitToolbar .dijitToggleButtonSelectedHover BUTTON { border-width: 3px; }
 	</style>
 
+	<!--  Tundra turns off text in toolbar buttons, by default.  To override this, add your own classes and/or CSS rules -->
+	<style>
+		.tundra .toolbarWithText .dijitButtonContents .dijitButtonText {
+			display: block;
+		}		
+		.tundra .toolbarWithNoImages .dijitButtonContents .dijitInline,
+		.tundra .toolbarWithNoImages .dijitButtonContents .dijitInline {
+			display: none;
+		}
+	</style>
+
 </head>
 <body class="tundra">
 	<h1 class="testTitle">Toolbar test</h1>
@@ -76,7 +87,7 @@
             ><div dojoType="dijit.form.Button" id="toolbar1.outdent" iconClass="dijitEditorIconOutdent">Outdent</div
 
             ><span dojoType="dijit.ToolbarSeparator"></span
-			><div dojoType="dijit.form.DropDownButton" id="toolbar1.dialog">
+			><div dojoType="dijit.form.DropDownButton" id="toolbar1.dialog" class="toolbarWithText">
 				<span>Login</span>
 				<div dojoType="dijit.TooltipDialog" id="tooltipDlg" title="Enter Login information" closeNode="hider2">
 					<form onsubmit="return false;">
@@ -110,16 +121,6 @@
 
     <h2>Toolbar from script</h2>
 	<div id="toolbar2"></div>
-
-	<!--  Tundra turns off text in toolbar buttons, by default.  To override this, add your own classes and/or CSS rules -->
-	<style>
-		.tundra .toolbarWithText .dijitButtonContents .dijitButtonText {
-			display: block;
-		}		
-		.tundra .toolbarWithNoImages .dijitButtonContents .dijitInline {
-			display: none;
-		}		
-	</style>
 
     <h2>Toolbar with text and icons</h2>
 	<div id="toolbar3" class="toolbarWithText"></div>
