@@ -50,6 +50,7 @@
 		<h1>number spinner</h1>
 		<br>
 		initial value=900, no delta specified, no min specified, max=1550, onChange debug message<br>
+		<label for="integerspinner1">Spinbox #1: </label><br>
 		<input dojoType="dijit.form.NumberSpinner"
 			onChange="console.debug('onChange fired for widget id = ' + this.id + ' with value = ' + arguments[0]);"
 			value="900"
@@ -59,7 +60,7 @@
 		<br>
 		<br>
 		initial value=1000, delta=10, min=9 max=1550<br>
-		with custom styling:<input dojoType="dijit.form.NumberSpinner"
+		<label for="integerspinner2">Spinbox with custom styling: </label><input dojoType="dijit.form.NumberSpinner"
 			style="font-size:20pt;border:1px solid blue;position:relative;left:30px;"
 			value="1000"
 			smallDelta="10"
@@ -68,13 +69,14 @@
 			id="integerspinner2">
 		<br>
 		<br>
-		initial value not specified, delta not specified, min not specified, max not specified, signed not specified, separator not specified<br>
+		<label for="integertextbox3">Spinner line break test: </label>initial value not specified, delta not specified, min not specified, max not specified, signed not specified, separator not specified<br>
 		[verify no line break just after this text]<input dojoType="dijit.form.NumberSpinner" id="integertextbox3">[verify no line break just before this text]
 		<br>
 		<br>
 		Move the cursor left and right within the input field to see the effect on the spinner.
 		<br>
 		initial value=+1.0, delta=0.1, min=-10.9, max=155, places=1<br>
+		<label for="realspinner1">Real Number Spinbox #1: </label><br>
 		<input dojoType="dijit.form.NumberSpinner"
 			value="1.0"
 			smallDelta="0.1"
