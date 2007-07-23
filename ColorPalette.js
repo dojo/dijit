@@ -81,7 +81,7 @@ dojo.declare(
 
 	_paletteDims: {
 		"7x10": {"width": "185px", "height": "117px"},
-		"3x4": {"width": "82px", "height": "58px"}
+		"3x4": {"width": "77px", "height": "53px"}
 	},
 
 
