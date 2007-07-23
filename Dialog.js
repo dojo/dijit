@@ -350,7 +350,7 @@ dojo.declare(
 
 		onOpen: function(/*Object*/ pos){
 			// summary: called when dialog is displayed, with info on where it's being displayed relative to the button
-			this.domNode.className="dijitTooltipDialog dijitTooltip" + (pos.corner=='TL' ? "Below" : "Above");
+			this.domNode.className="dijitTooltipDialog " +" dijitTooltipAB"+(pos.corner.charAt(1)=='L'?"Left":"Right")+" dijitTooltip"+(pos.corner.charAt(0)=='T' ? "Below" : "Above");
 			this._loadCheck(); // lazy load trigger
 			this.containerNode.focus();
 		},

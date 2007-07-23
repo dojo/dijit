@@ -664,6 +664,10 @@
 	z-index: 2;
 }
 
+.tundra .dijitTooltipABRight .dijitTooltipConnector {
+	left: auto !important;
+	right: 3px;
+}
 .tundra .dijitTooltipBelow {
 	margin-top: 13px;
 }

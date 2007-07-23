@@ -136,6 +136,7 @@ dojo.declare(
 					host: this,
 					popup: dropDown,
 					around: this.domNode,
+					orient: {'BL':'TL', 'BR':'TR', 'TL':'BL', 'TR':'BR'},
 					onExecute: function(){
 						dijit.popup.closeAll();
 						self.focus();
