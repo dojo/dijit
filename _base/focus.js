@@ -10,7 +10,8 @@ dojo.require("dijit._base.window");
 //		a menu choice, focus is returned to the editor window.)
 dojo.addOnLoad(function(){
 	if(dojo.isIE){
-		window.setInterval(function(){ dijit._setCurrentFocus(document.activeElement); }, 100);
+		dojo.body().attachEvent('onactivate', function(evt){ dijit._setCurrentFocus(evt.srcElement); });
+		dojo.body().attachEvent('ondeactivate', function(evt){ dijit._setCurrentFocus(null); });
 	}else{
 		dojo.body().addEventListener('focus', function(evt){ dijit._setCurrentFocus(evt.target); }, true);
 		dojo.body().addEventListener('blur', function(evt){ dijit._setCurrentFocus(null); }, true);
