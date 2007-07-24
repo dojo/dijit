@@ -2,7 +2,8 @@
         "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 <head>
-	<title>Form test</title>
+
+	<title>Form unit test</title>
 	<style type="text/css">
 		@import "../../../dojo/resources/dojo.css";
 		@import "../../themes/tundra/tundra.css";
@@ -12,6 +13,7 @@
 	<script type="text/javascript" src="../../../dojo/dojo.js"
 		djConfig="isDebug: true, parseOnLoad: true"></script>
 	<script type="text/javascript">
+		dojo.require("doh.runner");
 		dojo.require("dojo.date");
 		dojo.require("dijit.form.Form");
 		dojo.require("dijit.layout.LayoutContainer");
@@ -34,13 +36,49 @@
 			console.log("Object is: " + dojo.toJson(obj, true));
 			dijit.byId('myForm').setValues(obj);
 		}
-		
+
 		// make dojo.toJson() print dates correctly (this feels a bit dirty)
 		Date.prototype.json = function(){ return dojo.date.stamp.toISOString(this, {selector: 'date'});};
+
+		var d = dojo.date.stamp.fromISOString;
+
+		// These are the values assigned to the widgets in the page's HTML
+		var original =	{
+							foo: {bar: {baz: {quux: d("2007-12-30")} } },
+							available: {from: d("2005-01-02"), to: d("2006-01-02")},
+							plop: {combo: "one"},
+							cb2: ["2", "3"],
+							r2: "2"
+						};
+
+		// we reset the form to these values
+		var changed =	{
+							foo: {bar: {baz: {quux: d("2005-01-01")} } },
+							available: {from: d("2005-11-02"), to: d("2006-11-02")},
+							plop: {combo: "three"},
+							cb2: ["4"],
+							r2: "1"
+						};
+
+		dojo.addOnLoad(function(){
+			doh.register("dijit.form.Form",
+				[
+					function getValues(){
+						doh.is( dojo.toJson(dijit.byId("myForm").getValues()), dojo.toJson(original) );
+					},
+					function setValues(){
+						dijit.byId("myForm").setValues(changed);
+						doh.is( dojo.toJson(dijit.byId("myForm").getValues()), dojo.toJson(changed) );
+					}
+				]
+			);
+			doh.run();
+		});
+
 	</script>
 </head>
 <body class="tundra">
-<h1>Form Widget Test</h1>
+<h1>Form Widget Unit Test</h1>
 <p>
 The form widget takes data in a form and serializes/deserializes it,
 so it can be submitted as a JSON string of nested objects.
@@ -78,7 +116,7 @@ so it can be submitted as a JSON string of nested objects.
 </td></tr>
 <tr>
 <td>DateTextbox 1</td><td>available.from</td><td>
-<input type="text" name="available.from" dojoType="dijit.form.DateTextbox" />
+<input type="text" name="available.from" dojoType="dijit.form.DateTextbox" value="2005-01-02" />
 </td>
 </tr>
 <tr>
