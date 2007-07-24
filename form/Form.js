@@ -31,9 +31,9 @@ dojo.declare("dijit.form._FormMixin", null,
    		templateString: "<form dojoAttachPoint='containerNode' dojoAttachEvent='onsubmit:_onSubmit' enctype='multipart/form-data'></form>",
 
  		_onSubmit: function(/*event*/e) {
- 			// summary: callback when user hits submit button
-    		dojo.stopEvent(e);
-    		this.execute(this.getValues());
+			// summary: callback when user hits submit button
+			dojo.stopEvent(e);
+			this.execute(this.getValues());
   		},
 
 		submit: function() {
