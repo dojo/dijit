@@ -17,6 +17,10 @@ dojo.declare("dijit.form._FormMixin", null,
 			dijit.byId('myForm').setValues(myObj);
 
 			myObj=dijit.byId('myForm').getValues();
+		TODO:
+		* Repeater
+		* better handling for arrays.  Often form elements have names with [] like
+		* people[3].sex (for a list of people [{name: Bill, sex: M}, ...])
 
 		*/
 
@@ -148,16 +152,29 @@ dojo.declare("dijit.form._FormMixin", null,
 			dojo.forEach(this.getDescendants(), function(widget){
 				var value = widget.getValue ? widget.getValue() : widget.value;
 				var name = widget.name;
-				if(!value || !name){ return; }
-				if("checked" in widget && !widget.checked){ return; }
+				if(!name){ return; }
 
-				// store widgets' values as an array, even if there's only value
-				// (just for consistency; there might be more than one value at another time)
-				var existingObj=dojo.getObject(name, false, obj);
-				if(existingObj){
-					existingObj.push(value);
+				// Store widget's value(s) as a scalar, except for checkboxes which are automatically arrays
+				if(widget.setChecked){
+					if(/Radio/.test(widget.declaredClass)){
+						// radio button
+						if(widget.checked){
+							dojo.setObject(name, value, obj);
+						}
+					}else{
+						// checkbox/toggle button
+						var ary=dojo.getObject(name, false, obj);
+						if(!ary){
+							ary=[];
+							dojo.setObject(name, ary, obj);
+						}
+						if(widget.checked){
+							ary.push(value);
+						}
+					}
 				}else{
-					dojo.setObject(name, [value], obj);
+					// plain input
+					dojo.setObject(name, value, obj);
 				}
 			});
 
