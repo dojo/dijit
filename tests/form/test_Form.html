@@ -18,6 +18,7 @@
 		dojo.require("dijit.form.ComboBox");
 		dojo.require("dijit.form.Checkbox");
 		dojo.require("dijit.form.DateTextbox");
+		dojo.require("dijit.form.Button");
 
 		var obj;
 		function getValues(){
@@ -41,7 +42,7 @@ The form widget takes data in a form and serializes/deserializes it,
 so it can be submitted as a JSON string of nested objects.
 </p>
 <div style="color:red">Currently only widgets are supported, not raw elements.</div>
-<form dojoType="dijit.form.Form" id="myForm" action="showPost.php">
+<form dojoType="dijit.form.Form" id="myForm" action="showPost.php" execute="alert('Execute form w/values:\n'+dojo.toJson(arguments[0],true));">
 <p>Just HTML text</p>
 <table border=2>
 <tr><th>Description</th><th>Name</th><th>Form node/widget</th></tr>
@@ -147,8 +148,9 @@ text text text """ \\\/
 </tr>
 </table>
 
-<input type="button" onClick="getValues();" value="Get Values from form!" />
-<input type="button" onClick="setValues();" value="Set Values to form!" />
+<button dojoType=dijit.form.Button onClick="getValues();">Get Values from form!</button>
+<button dojoType=dijit.form.Button onClick="setValues();">Set Values to form!</button>
+<button dojoType=dijit.form.Button type=submit">Submit</button>
 </form>
 
 

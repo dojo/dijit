@@ -3,24 +3,12 @@ dojo.provide("dijit.form.Form");
 dojo.require("dijit._Widget");
 dojo.require("dijit._Templated");
 
-dojo.declare(
-	"dijit.form.Form",
-	[dijit._Widget, dijit._Templated],
+dojo.declare("dijit.form._FormMixin", null,
 	{
 		/*
 		summary: 
 			Widget corresponding to <form> tag, for validation and serialization
 		
-		description:
-			gets and sets data to and from js-object. With
-			this it's easy to create forms to application.
-			Just create empty form, then set it's values
-			with this and after user pushes submit,
-			getValues and send them as json-notation to
-			server.
-
-			Note: not all Form widgets are supported ATM
-				
 		usage: 
 			<form dojoType="dijit.form.Form" id="myForm">
 				Name: <input type="text" name="name" />
@@ -32,11 +20,16 @@ dojo.declare(
 
 		*/
 
+		// execute: Function
+		//	User defined function to do stuff when the user hits the submit button
+		execute: function(/*Object*/ formContents){},
+
    		templateString: "<form dojoAttachPoint='containerNode' dojoAttachEvent='onsubmit:_onSubmit' enctype='multipart/form-data'></form>",
 
  		_onSubmit: function(/*event*/e) {
  			// summary: callback when user hits submit button
-    		e.preventDefault();
+    		dojo.stopEvent(e);
+    		this.execute(this.getValues());
   		},
 
 		submit: function() {
@@ -236,3 +229,10 @@ dojo.declare(
 	 		});
 		}
 	});
+	
+dojo.declare(
+	"dijit.form.Form",
+	[dijit._Widget, dijit._Templated, dijit.form._FormMixin],
+	null
+);
+
