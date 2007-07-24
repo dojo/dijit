@@ -190,7 +190,8 @@ dojo.declare("dijit.form._FormMixin", null,
 			});
 
 			/***
-			 * code for plain input boxex
+			 * code for plain input boxes (see also dojo.formToObject, can we use that instead of this code?
+			 * but it doesn't understand [] notation, presumably)
 			var obj = { };
 			dojo.forEach(this.containerNode.elements, function(elm){
 				if (!elm.name)	{

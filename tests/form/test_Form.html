@@ -12,6 +12,7 @@
 	<script type="text/javascript" src="../../../dojo/dojo.js"
 		djConfig="isDebug: true, parseOnLoad: true"></script>
 	<script type="text/javascript">
+		dojo.require("dojo.date");
 		dojo.require("dijit.form.Form");
 		dojo.require("dijit.layout.LayoutContainer");
 		dojo.require("dijit.layout.ContentPane");
@@ -33,6 +34,9 @@
 			console.log("Object is: " + dojo.toJson(obj, true));
 			dijit.byId('myForm').setValues(obj);
 		}
+		
+		// make dojo.toJson() print dates correctly (this feels a bit dirty)
+		Date.prototype.json = function(){ return dojo.date.stamp.toISOString(this, {selector: 'date'});};
 	</script>
 </head>
 <body class="tundra">
