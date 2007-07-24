@@ -51,7 +51,7 @@ dojo.declare("dijit.layout._LayoutWidget",
 			//		Explicitly set this widget's size (in pixels),
 			//		and then call layout() to resize contents (and maybe adjust child widgets)
 			//	
-			// ars: Object?
+			// args: Object?
 			//		{w: int, h: int, l: int, t: int}
 
 			var node = this.domNode;

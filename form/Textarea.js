@@ -167,5 +167,10 @@ dojo.declare(
 			this.iframe.contentDocument.designMode="on"; // in case this failed on init due to being hidden
 		}
 		this._setFormValue(priorityChange);
+	},
+
+	resize:function(/*Object*/ contentBox){
+		// summary: set content box size
+		dojo.contentBox(this.iframe || this.focusNode, contentBox);
 	}
 });

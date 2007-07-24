@@ -218,5 +218,16 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 		// 		This method may be overridden by subclasses that want
 		// 		to use something other than this.getValue() for valuenow
 		return this.getValue();
+	},
+
+	resize:function(/*Object*/ contentBox){
+		// summary:
+		//		Explicitly set this widget's size (in pixels).
+		//		Unlike layout containers, this sets the content box size.
+		//		Subwidgets may override this function
+		//	
+		// contentBox: Object
+		//		{w: int, h: int}
+		dojo.contentBox(this.domNode, contentBox);
 	}
 });

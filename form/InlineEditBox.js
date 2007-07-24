@@ -155,14 +155,7 @@ dojo.declare(
 		}
 		this._visualize();
 		// #3209: resize the textarea to match the text
-		// height scales automatically; only width needs setting
-		// TODO: implement resize functions in the widgets so InlineEditBox doesn't have to know about things like TextArea's iframe
-		/*
-		if(this.editWidget.iframe){
-			dojo.contentBox(this.editWidget.iframe, {w:dojo.contentBox(this.editable).w});
-		}else{
-			dojo.contentBox(this.editWidget.focusNode, {w:dojo.contentBox(this.editable).w});
-		}*/
+		this.editWidget.resize(dojo.contentBox(this.editable));
 	},
 
 	save: function(e){
