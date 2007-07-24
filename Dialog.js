@@ -6,6 +6,7 @@ dojo.require("dojo.fx");
 dojo.require("dijit._Widget");
 dojo.require("dijit._Templated");
 dojo.require("dijit.layout.ContentPane");
+dojo.require("dijit.form.Form");
 
 dojo.declare(
 	"dijit.DialogUnderlay",
@@ -297,34 +298,19 @@ dojo.declare(
 	
 dojo.declare(
 	"dijit.TooltipDialog",
-	[dijit.layout.ContentPane, dijit._Templated],
+	[dijit.layout.ContentPane, dijit._Templated, dijit.form._FormMixin],
 	{
 		// summary:
 		//		Pops up a dialog that appears like a Tooltip
 
-		// submitNode: String
-		//	Id of button or other dom node to click to submit this dialog
-		submitNode: "",
-		
-		// cancelNode: String
-		//	Id of button or other dom node to click to cancel this dialog
-		cancelNode: "",
-		
 		// title: String
 		// Description of tooltip dialog (required for a11Y)
 		title: "",
 
-		// onCancel: Function
-		//	Callback when user has canceled dialog
-		onCancel: function(){},
-
-		// onExecute: Function
-		//	Callback when user has executed dialog
-		onExecute: function(){},
-
 		_lastFocusItem: null,
 
 		templatePath: dojo.moduleUrl("dijit.layout", "templates/TooltipDialog.html"),
+		templateString: null,
 
 		postCreate: function(){
 			dijit.TooltipDialog.superclass.postCreate.apply(this, arguments);
@@ -335,19 +321,7 @@ dojo.declare(
 			this.connect(this.containerNode, ev, "_findLastFocus");
 			this.containerNode.title=this.title;
 		},
-
-		startup: function(){
-			if(this.cancelNode){
-				var cancelNode = dojo.byId(this.cancelNode);
-				this.connect(cancelNode, "onclick", "onCancel");
-			}
-			if(this.submitNode){
-				var submitNode = dojo.byId(this.submitNode);
-				this.connect(submitNode, "onclick", "onExecute");
-			}
-			dijit.TooltipDialog.superclass.startup.apply(this, arguments);// makes preload=true possible
-		},
-
+ 
 		onOpen: function(/*Object*/ pos){
 			// summary: called when dialog is displayed, with info on where it's being displayed relative to the button
 			this.domNode.className="dijitTooltipDialog " +" dijitTooltipAB"+(pos.corner.charAt(1)=='L'?"Left":"Right")+" dijitTooltip"+(pos.corner.charAt(0)=='T' ? "Below" : "Above");

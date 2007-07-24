@@ -15,6 +15,7 @@
 <script type="text/javascript">
 	dojo.require("dijit.Dialog");
 	dojo.require("dijit.form.Button");
+	dojo.require("dijit.form.Textbox");
 	dojo.require("dojo.parser");	// scan page for widgets and instantiate them
 </script>
 
@@ -74,24 +75,23 @@ form {
 
 <div dojoType="dijit.form.DropDownButton">
 	<span>Show Tooltip Dialog</span>
-	<div dojoType="dijit.TooltipDialog" id="tooltipDlg" title="Enter Login information" submitNode="submit" cancelNode="cancel">
-		<form onsubmit="return false;">
-			<table>
-				<tr>
-					<td><label for="user">User:</label></td>
-					<td><input type="text" id="user"></td>
-				</tr>
-				<tr>
-					<td><label for="pwd">Password:</label></td>
-					<td><input type="password" id="pwd"></td>
-				</tr>
-				<tr>
-					<td colspan="2" align="center">
-						<button id="submit">Login</button>
-						<button id="cancel">Cancel</button>
-				</tr>
-			</table>
-		</form>
+	<div dojoType="dijit.TooltipDialog" id="tooltipDlg" title="Enter Login information"
+		execute="alert('submitted w/args:\n' + dojo.toJson(arguments[0], true));">
+		<table>
+			<tr>
+				<td><label for="user">User:</label></td>
+				<td><input dojoType=dijit.form.Textbox type="text" name="user" ></td>
+			</tr>
+			<tr>
+				<td><label for="pwd">Password:</label></td>
+				<td><input dojoType=dijit.form.Textbox type="password" name="pwd"></td>
+			</tr>
+			<tr>
+				<td colspan="2" align="center">
+					<button dojoType=dijit.form.Button type="submit" name="submit">Login</button>
+					<button dojoType=dijit.form.Button type="cancel">Cancel</button>
+			</tr>
+		</table>
 	</div>
 </div> |
 

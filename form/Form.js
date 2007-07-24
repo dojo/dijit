@@ -28,11 +28,22 @@ dojo.declare("dijit.form._FormMixin", null,
 		//	User defined function to do stuff when the user hits the submit button
 		execute: function(/*Object*/ formContents){},
 
+		// onCancel: Function
+		//	Callback when user has canceled dialog, to notify container
+		//	(user shouldn't override)
+		onCancel: function(){},
+
+		// onExecute: Function
+		//	Callback when user is about to execute dialog, to notify container
+		//	(user shouldn't override)
+		onExecute: function(){},
+
    		templateString: "<form dojoAttachPoint='containerNode' dojoAttachEvent='onsubmit:_onSubmit' enctype='multipart/form-data'></form>",
 
  		_onSubmit: function(/*event*/e) {
 			// summary: callback when user hits submit button
 			dojo.stopEvent(e);
+			this.onExecute();	// notify container that we are about to execute
 			this.execute(this.getValues());
   		},
 
