@@ -26,7 +26,8 @@ dojo.declare("dijit._editor._Plugin", null,
 				if(!this.button){
 					var props = {
 						label: label,
-						iconClass: className
+						iconClass: className,
+						dropDown: this.dropDown
 					};
 					this.button = new this.buttonClass(props);
 				}

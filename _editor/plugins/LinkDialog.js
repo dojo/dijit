@@ -4,45 +4,56 @@ dojo.require("dijit._Widget");
 dojo.require("dijit._Templated");
 dojo.require("dijit._editor._Plugin");
 dojo.require("dijit.Dialog");
+dojo.require("dijit.form.Button");
+dojo.require("dijit.form.ValidationTextbox");
+
+dojo.declare("dijit._editor.plugins.DualStateDropDownButton",
+	dijit.form.DropDownButton,
+	{
+		// summary: a DropDownButton but button can be displayed in two states (checked or unchecked)
+		setChecked: dijit.form.ToggleButton.prototype.setChecked
+	}
+);
 
 dojo.declare("dijit._editor.plugins.LinkDialog", 
 	[ dijit._editor._Plugin, dijit._Widget ],  
 	function(){
-		this._linkDialog = new dijit.TooltipDialog({
-			title: "link url" // FIxmE: i18n
+		var _this = this;
+		this.dropDown = new dijit.TooltipDialog({
+			title: "link url", // FIxmE: i18n
+			execute: dojo.hitch(this, "setValue"),
+			onOpen: function(){
+				dijit.TooltipDialog.prototype.onOpen.apply(this, arguments);
+				_this._onOpenDialog();
+			},
+			onClose: dojo.hitch(this, "_onCloseDialog")
 		});
-		// FIXME: this is totally torturned. _Templated should make this easier. *sigh*
-		this._linkDialog.containerNode.innerHTML = this.linkDialogTemplate;
-		// dojo.body().appendChild(this._linkDialog.domNode);
-		dijit._Templated.prototype._attachTemplateNodes.call(this, this._linkDialog.containerNode);
-		this._linkDialog.startup();
-
-		dojo.connect(this, "_initButton", this, function(){
-			this.connect(this.button, "onClick", "showEditor");
-		});
+		this.dropDown.setContent(this.linkDialogTemplate);
+		this.dropDown.startup();
 	},
 	{
-		// FIXME: this is a PITA. There should be a lighter weight way to do this
-		urlInput: null,
-		buttonClass: dijit.form.ToggleButton,
+		buttonClass: dijit._editor.plugins.DualStateDropDownButton,
+
 		linkDialogTemplate: [
-			"<span>url: &nbsp;</span>",
-			"<input class='dijitComboBoxInput' type='text' dojoAttachPoint='urlInput'>",
+			"<label for='urlInput'>url:&nbsp;</label><input dojoType=dijit.form.ValidationTextbox name='urlInput' id='urlInput' required=true>",
 			"<br>",
-			"<input class='dijitButtonNode' type='button' dojoAttachEvent='onclick: setValue' value='set'>",
-			"<input class='dijitButtonNode' type='button' dojoAttachEvent='onclick: hideEditor' value='cancel'>"
+			"<button dojoType=dijit.form.Button type='submit'>Set</button>"
 		].join(""),
+
 		useDefaultCommand: false,
+
 		command: "createLink",
-		_linkDialog: null,
-		setValue: function(){
-			var val = this.urlInput.value;
-			this.hideEditor();
-			this.editor.execCommand(this.command, val);
+
+		dropDown: null,
+
+		setValue: function(args){
+			// summary: callback from the dialog when user hits "set" button
+			this._onCloseDialog();
+			this.editor.execCommand(this.command, args.urlInput);
 		},
+
 		_savedSelection: null,
-		hideEditor: function(){
-			this._linkDialog.hide();
+		_onCloseDialog: function(){
 			// FIXME: IE is really messed up here!!
 			if(dojo.isIE){
 				this.editor.focus();
@@ -52,24 +63,19 @@ dojo.declare("dijit._editor.plugins.LinkDialog",
 				this._savedSelection = null;
 			}
 		},
-		showEditor: function(){
-			if(!this.button.checked){
-				console.debug("selected");
-				this.editor.execCommand("unlink");
-				// this.button.setChecked();
-			}else{
-
-				// FIXME: IE is *really* b0rken
-				if(dojo.isIE){
-					var range = this.editor.document.selection.createRange();
-					this._savedSelection = range.getBookmark();
-				}
-				dojo.coords(this.button.domNode);
-				this._linkDialog.show(this.button.domNode);
-				dijit.focus(this.urlInput);
+		_onOpenDialog: function(){
+			// FIXME: IE is *really* b0rken
+			if(dojo.isIE){
+				var range = this.editor.document.selection.createRange();
+				this._savedSelection = range.getBookmark();
 			}
+			//dijit.focus(this.urlInput);
+			// TODO: if there's an existing link when we click this, should suck the
+			// information about that link and prepopulate the dialog
 		},
+
 		updateState: function(){
+			// summary: change shading on button if we are over a link (or not)
 			if(!this._lastUpdate){
 				this._lastUpdate = new Date();
 			}else{
@@ -82,10 +88,10 @@ dojo.declare("dijit._editor.plugins.LinkDialog",
 			if(!_e.isLoaded){ return; }
 			if(this.button){
 				try{
-					// var enabled = _e.queryCommandEnabled("unlink");
 					var enabled = _e.queryCommandEnabled("createlink");
-					// this.button.setDisabled(!enabled);
+					//this.button.setDisabled(!enabled);
 					if(this.button.setChecked){
+						// display button differently if there is an existing link associated with the current selection
 						var checked = !!dojo.withGlobal(this.editor.window, "getAncestorElement",dijit._editor.selection, ['a']);
 						this.button.setChecked(checked);
 					}
