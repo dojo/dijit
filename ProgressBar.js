@@ -65,6 +65,9 @@ dojo.declare(
 			// MOW: don't think so because it needs to be set to the absolute size
 			//		of the dom node, not the size of the containing element (the full part)
 			this.fullLabel.style.width = dojo.getComputedStyle(this.domNode).width;
+			if(!this.isLeftToRight()){
+				this.fullLabel.style.right = "0px"; // necessary for FF
+			}
 			this.inteterminateHighContrastImage.setAttribute("src",
 				this._indeterminateHighContrastImagePath);
 			this.update();
