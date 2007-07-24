@@ -238,6 +238,11 @@ dojo.declare(
 		//	which means that the user has finished entering the value
 		if(this.autoSave){
 			this.save();
+		}else{
+			// #3752
+			// if the keypress does not bubble up to the div, (iframe in TextArea blocks it for example)
+			// make sure the save button gets enabled
+			this.saveButton.setDisabled(false);
 		}
 	},
 
