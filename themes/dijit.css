@@ -640,7 +640,7 @@ table .dijitComboButton .dijitButtonNode {
 
 .dijitTooltip {
 	position: absolute;
-	z-index: 10;
+	z-index: 2000;
 	display: block;
 	/* make visible but off screen */
 	left: -10000px;
