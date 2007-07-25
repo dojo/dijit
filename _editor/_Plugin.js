@@ -10,6 +10,10 @@ dojo.declare("dijit._editor._Plugin", null,
 		}
 	},
 	{
+		// summary
+		//		This represents a "plugin" to the editor, which is basically
+		//		a single button on the Toolbar and some associated code
+
 		editor: null,
 		iconClassPrefix: "dijitEditorIcon",
 		button: null,
