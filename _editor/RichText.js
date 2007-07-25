@@ -300,21 +300,13 @@ dojo.declare(
 						this.textarea.value = this.getValue();
 					});
 				}
-
-				// dojo plucks our original domNode from the document so we need
-				// to go back and put ourselves back in
-				//	var editor = this;
-				//	dojo.connect(this, "postCreate", function (){
-				//		dojo.place(editor.textarea, editor.domNode, "after");
-				//	});
+				dojo.place(this.domNode, this.srcNodeRef, "before");
 			}else{
 				var html = this._preFilterContent(this.getNodeChildrenHtml(this.domNode));
 				this.domNode.innerHTML = '';
 			}
 			if(html == ""){ html = "&nbsp;"; }
 
-			// dojo.body().appendChild(this.domNode);
-			dojo.place(this.domNode, this.srcNodeRef, "before");
 			var content = dojo.contentBox(this.domNode);
 			// var content = dojo.contentBox(this.srcNodeRef);
 			this._oldHeight = content.h;
@@ -601,15 +593,19 @@ dojo.declare(
 				this.iframe.height = height;
 			}
 
-			var tmpContent = this.srcNodeRef;
-			// var tmpContent = dojo.doc.createElement('div');
-			//	tmpContent.style.display="none";
-			// tmpContent.innerHTML = html;
-			//append tmpContent to under the current domNode so that the margin
-			//calculation below is correct
-			// this.editingArea.appendChild(tmpContent);
+			if(this.textarea){
+				var tmpContent = this.srcNodeRef;
+			}else{
+				var tmpContent = dojo.doc.createElement('div');
+				tmpContent.style.display="none";
+				tmpContent.innerHTML = html;
+				//append tmpContent to under the current domNode so that the margin
+				//calculation below is correct
+				this.editingArea.appendChild(tmpContent);
+			}
 
-			dojo.place(this.iframe, this.srcNodeRef, "before");
+
+			this.editingArea.appendChild(this.iframe);
 
 			if(!this.height){
 				// fix margins on tmpContent
