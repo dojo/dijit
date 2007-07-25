@@ -156,6 +156,16 @@ dojo.declare(
 		}else{
 			this.inherited("_onKeyPress", arguments);
 		}
+		if(this.iframe){
+			// #3752:
+			// The key press will not make it past the iframe.
+			// If a widget is listening outside of the iframe, (like InlineEditBox)
+			// it will not hear anything.
+			// Create an equivalent event so everyone else knows what is going on.
+			var te = document.createEvent("KeyEvents");
+			te.initKeyEvent("keypress", true, true, null, false, false, false, false, e.charCode, e.charCode);
+			this.iframe.dispatchEvent(te);
+		}
 		this._changing();
 	},
 
