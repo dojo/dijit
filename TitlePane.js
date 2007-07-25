@@ -62,7 +62,7 @@ dojo.declare(
 
 		// provide a character based indicator for images-off mode
 		this.arrowNodeInner.innerHTML =
-			this.open ? "&#9660;" : "&#9658;";
+			this.open ? "&#9660;" : this.isLeftToRight() ? "&#9658;" : "&#9668"; 
 	},	
 
 	_onTitleKey: function(/*Event*/ e){
