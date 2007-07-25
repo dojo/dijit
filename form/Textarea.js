@@ -171,6 +171,6 @@ dojo.declare(
 
 	resize:function(/*Object*/ contentBox){
 		// summary: set content box size
-		dojo.contentBox(this.iframe || this.focusNode, contentBox);
+		dojo.contentBox(this.iframe || this.focusNode, {w:contentBox.w});
 	}
 });
