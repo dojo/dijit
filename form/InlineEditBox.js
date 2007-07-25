@@ -136,6 +136,8 @@ dojo.declare(
 	},
 
 	_visualize: function(){
+		// #3209: resize the textarea to match the text
+		this.editWidget.resize(dojo.contentBox(this.editable));
 		dojo.style(this.editNode, "display", this.editing ? "" : "none");
 		dojo.style(this.editable, "display", this.editing ? "none" : "");
 	},
@@ -154,8 +156,6 @@ dojo.declare(
 			this.editable.appendChild(document.createTextNode(value));
 		}
 		this._visualize();
-		// #3209: resize the textarea to match the text
-		this.editWidget.resize(dojo.contentBox(this.editable));
 	},
 
 	save: function(e){
