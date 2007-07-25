@@ -643,7 +643,7 @@ table .dijitComboButton .dijitButtonNode {
 	z-index: 2000;
 	display: block;
 	/* make visible but off screen */
-	left: -10000px;
+	left: 50%;
 	top: -10000px;
 	overflow: visible;
 }

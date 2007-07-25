@@ -1,0 +1,26 @@
+/* Tree */
+
+.dijitRtl .TreeContainer .TreeExpando {
+    float: right;
+}
+
+.dijitRtl .TreeContainer .TreeExpand {
+    float: right;
+}
+
+/* ComboBox */
+
+.dijitRtl .dijitComboBoxInput {
+	border-right-width:1px !important;
+	border-left-width:0px !important;
+}
+
+/* Calendar */
+
+.dijitRtl .calendarNextYear {
+	margin:0 0.55em 0 0;
+}
+
+.dijitRtl .calendarPreviousYear {
+	margin:0 0 0 0.55em ;
+}
