@@ -101,6 +101,7 @@ dojo.declare(
 		pixelValue = pixelValue < 0 ? 0 : maxPixels < pixelValue ? maxPixels : pixelValue;
 		var count = this.discreteValues;
 		if(count > maxPixels){ count = maxPixels; }
+		count--;
 		var pixelsPerValue = maxPixels / count;
 		var wholeIncrements = Math.round(pixelValue / pixelsPerValue);
 		this.setValue((this.maximum-this.minimum)*wholeIncrements/count + this.minimum);
@@ -119,6 +120,7 @@ dojo.declare(
 		var c = dojo._getContentBox(this.sliderBarContainer, s);
 		var count = this.discreteValues;
 		if(count > c[this._pixelCount]){ count = c[this._pixelCount]; }
+		count--;
 		var value = (this.value - this.minimum) * count / (this.maximum - this.minimum) + signedChange;
 		if(value < 0){ value = 0; }
 		if(value > count){ value = count; }
