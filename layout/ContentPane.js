@@ -41,7 +41,7 @@ dojo.declare(
 	parseOnLoad:	true,
 
 	// preventCache: Boolean
-	//	Cache content retreived externally
+	//		Cache content retreived externally
 	preventCache:	false,
 
 	// preload: Boolean
@@ -96,7 +96,7 @@ dojo.declare(
 		// summary:
 		//		Force a refresh (re-download) of content, be sure to turn off cache
 
-		// we return result of _prepareLoad here to avoid code dup. in dojox.widget.ContentPane
+		// we return result of _prepareLoad here to avoid code dup. in dojox.layout.ContentPane
 		return this._prepareLoad(true);
 	},
 
@@ -108,7 +108,7 @@ dojo.declare(
 		//		url to the page you want to get, must be within the same domain as your mainpage
 		this.href = href;
 
-		// we return result of _prepareLoad here to avoid code dup. in dojox.widget.ContentPane
+		// we return result of _prepareLoad here to avoid code dup. in dojox.layout.ContentPane
 		return this._prepareLoad();
 	},
 
@@ -130,7 +130,7 @@ dojo.declare(
 
 		this._setContent(data || "");
 
-		this._isDownloaded = false; // must be set after _setContent(..), pathadjust in dojox.widget.ContentPane
+		this._isDownloaded = false; // must be set after _setContent(..), pathadjust in dojox.layout.ContentPane
 
 		if(this.parseOnLoad){
 			this._createSubWidgets();
@@ -241,10 +241,13 @@ dojo.declare(
 			url: this.href,
 			handleAs: "text"
 		};
+		if(dojo.isObject(this.ioArgs)){
+			dojo.mixin(getArgs, this.ioArgs);
+		}
 
-		var getHandler = this._xhrDfd = dojo.xhrGet(getArgs);
+		var hand = this._xhrDfd = (this.ioMethod || dojo.xhrGet)(getArgs);
 
-		getHandler.addCallback(function(html){
+		hand.addCallback(function(html){
 			try{
 				self.onDownloadEnd.call(self);
 				self._isDownloaded = true;
@@ -255,8 +258,8 @@ dojo.declare(
 			return html;
 		});
 
-		getHandler.addErrback(function(err){
-			if(!getHandler.cancelled){
+		hand.addErrback(function(err){
+			if(!hand.cancelled){
 				// show error message in the pane
 				self._onError.call(self, 'Download', err); // onDownloadError
 			}
@@ -294,7 +297,7 @@ dojo.declare(
 			if(typeof cont == "string"){
 				// dijit.ContentPane does only minimal fixes,
 				// No pathAdjustments, script retrieval, style clean etc
-				// some of these should be available in the dojox.widget.ContentPane
+				// some of these should be available in the dojox.layout.ContentPane
 				if(this.extractContent){
 					match = cont.match(/<body[^>]*>\s*([\s\S]+)\s*<\/body>/im);
 					if(match){ cont = match[1]; }
