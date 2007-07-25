@@ -4,7 +4,7 @@ dojo.require("dijit.Editor");
 dojo.require("dijit.form.Button");
 
 dojo.declare("dijit._editor._Plugin", null, 
-	function(/*Object*/args, /*DomNode?*/node){
+	function(/*Object?*/args, /*DomNode?*/node){
 		if(args){
 			dojo.mixin(this, args);
 		}

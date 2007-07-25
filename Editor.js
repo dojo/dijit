@@ -2,7 +2,6 @@ dojo.provide("dijit.Editor");
 dojo.require("dijit._editor.RichText");
 dojo.require("dijit.Toolbar");
 dojo.require("dijit._Container");
-dojo.require("dijit._editor.plugins.DefaultToolbar");
 dojo.require("dojo.i18n");
 dojo.requireLocalization("dijit._editor", "commands");
 
@@ -14,6 +13,7 @@ dojo.declare(
 		//		a list of plugin names (as strings) or instances (as objects)
 		//		for this widget.
 		plugins: [ "dijit._editor.plugins.DefaultToolbar" ],
+		pluginsConfig: null,
 		preamble: function(){
 			this.plugins = [].concat(this.plugins);
 		},
@@ -30,11 +30,14 @@ dojo.declare(
 				dojo.place(this.toolbar.domNode, this.editingArea, "before");
 			}
 
-			dojo.forEach(this.plugins, this.addPlugin, this);
+			dojo.forEach(this.plugins, function(p,i){
+				var args=this.pluginsConfig && this.pluginsConfig[i]; //pluginsConfig may be null
+				this.addPlugin(p,args);
+			}, this);
 			}catch(e){ console.debug(e); }
 		},
 
-		addPlugin: function(/*String||Object*/plugin, /*Integer?*/index){
+		addPlugin: function(/*String||Object*/plugin, /*Object?*/args,/*Integer?*/index){
 			//	summary:
 			//		takes a plugin name as a string or a plugin instance and
 			//		adds it to the toolbar and associates it with this editor
@@ -43,14 +46,15 @@ dojo.declare(
 			//		array at that index. No big magic, but a nice helper for
 			//		passing in plugin names via markup. 
 			//	plugin: String or plugin instance. Required.
+			//	args: This object will be passed to the plugin constructor.
 			//	index:	
 			//		Integer, optional. Used when creating an instance from
 			//		something already in this.plugins. Ensures that the new
 			//		instance is assigned to this.plugins at that index.
 			if(dojo.isString(plugin)){
 				var pc = dojo.getObject(plugin);
-				plugin = new pc();
-				if(arguments.length > 1){
+				plugin = new pc(args);
+				if(arguments.length > 2){
 					this.plugins[index] = plugin;
 				}else{
 					this.plugins.push(plugin);

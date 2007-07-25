@@ -14,6 +14,8 @@
 		djConfig="parseOnLoad: true, isDebug: true"></script>
 	<script type="text/javascript">
 		dojo.require("dijit.Editor");
+		dojo.require("dijit._editor.plugins.DefaultToolbar");
+		dojo.require("dijit._editor.plugins.LinkDialog");
 		dojo.require("dojo.parser");	// scan page for widgets and instantiate them
 	</script>
 </head>
@@ -26,7 +28,7 @@
 			<p>This instance is created from a div directly with default toolbar and plugins</p>
 		</div>
 	</div>
-	<br>
+	<hr/>
 	<div style="border: 1px dotted black;">
 		<h3>thud</h3>
 		<textarea dojoType="dijit.Editor"
@@ -41,22 +43,21 @@
 		</textarea>
 		<h3>..after</h3>
 	</div>
-
-	<!--
+	<hr/>
 	<div style="border: 1px dotted black;">
 		<h3>blah</h3>
-		<textarea dojoType="dijit.Editor"
+		<textarea dojoType="dijit.Editor" plugins="dijit._editor.plugins.DefaultToolbar,dijit._editor.plugins.LinkDialog"
+			pluginsConfig="[{items:['bold','italic','|']},{'command':'underline'}]"
 			styleSheets="../../dojo/resources/dojo.css">
-			<ul>
-				<li>Right click on the client area of the page (ctrl-click for Macintosh). Menu should open.</li>
-				<li>Right click on each of the form controls above. Menu should open.</li>
-				<li>Right click near the righthand window border. Menu should open to the left of the pointer.</li>
-				<li>Right click near the bottom window border. Menu should open above the pointer.</li>
-			</ul>
+			This instance demos how to:
+			<ol>
+				<li>specify which plugins to load (see the plugins property);</li>
+				<li>specify options for each plugins (see the pluginsConfig property, the second element in that array changes the icon from link to underline for the last button in the toolbar) and</li>
+				<li>specify what buttons this toolbar should contain (this is a use case of the above item)</li>
+			</ol>
 		</textarea>
 		<h3>..after</h3>
 	</div>
-	-->
 
 </body>
 </html>
