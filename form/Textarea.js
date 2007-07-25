@@ -130,6 +130,9 @@ dojo.declare(
 			this.connect(this.eventNode, "focus", this._focused);
 			this.connect(this.eventNode, "blur", this._blurred);
 		}
+		if(this.editNode){
+			this.connect(this.editNode, "change", this._changed); // needed for mouse paste events per #3479
+		}
 		this.inherited('postCreate', arguments);
 	},
 
@@ -158,7 +161,7 @@ dojo.declare(
 
 	_changing: function(e){
 		// summary: event handler for when a change is imminent
-		setTimeout(dojo.hitch(this, "_changed", e, false),1);
+		setTimeout(dojo.hitch(this, "_changed", e, false), 1);
 	},
 
 	_changed: function(e, priorityChange){
