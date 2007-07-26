@@ -61,15 +61,19 @@ dojo.declare(
 		// public functions
 		postCreate: function(){
 			dijit.ProgressBar.superclass.postCreate.apply(this, arguments);
-			//TODO: can this be accomplished in the template layout?
-			// MOW: don't think so because it needs to be set to the absolute size
-			//		of the dom node, not the size of the containing element (the full part)
-			this.fullLabel.style.width = dojo.getComputedStyle(this.domNode).width;
-			if(!this.isLeftToRight()){
-				this.fullLabel.style.right = "0px"; // necessary for FF
-			}
+
 			this.inteterminateHighContrastImage.setAttribute("src",
 				this._indeterminateHighContrastImagePath);
+
+			// Vertically center label boxes.  One is absolute positioned, so we cannot do this in CSS, apparently.
+			var domNode = this.domNode;
+			var align = function(labelNode){
+				labelNode.style.bottom =
+					(parseInt(dojo.getComputedStyle(domNode).height) - dojo.contentBox(labelNode).h)/2 + 'px';
+			};
+			align(this.emptyLabel);
+			align(this.fullLabel);
+
 			this.update();
 		},
 
@@ -79,14 +83,12 @@ dojo.declare(
 			// attributes: may provide progress and/or maximum properties on this parameter,
 			//	see attribute specs for details.
 			dojo.mixin(this, attributes||{});
+			var percent = 1, classFunc;
 			if(this.indeterminate){
-				dojo.addClass(this.domNode, "dijitProgressBarIndeterminate");
-				this.internalProgress.style.width = "100%";
+				classFunc = "addClass";
 				dijit.wai.removeAttr(this.internalProgress, "waiState", "valuenow");
-				this._setLabels("");
 			}else{
-				dojo.removeClass(this.domNode, "dijitProgressBarIndeterminate");
-				var percent;
+				classFunc = "removeClass";
 				if(String(this.progress).indexOf("%") != -1){
 					percent = Math.min(parseFloat(this.progress)/100, 1);
 					this.progress = percent * this.maximum;
@@ -94,28 +96,14 @@ dojo.declare(
 					this.progress = Math.min(this.progress, this.maximum);
 					percent = this.progress / this.maximum;
 				}
-				this.internalProgress.style.width = (percent * 100) + "%";
 				var text = this.report(percent);
+				this.fullLabel.firstChild.nodeValue = this.emptyLabel.firstChild.nodeValue = text;
 				dijit.wai.setAttr(this.internalProgress, "waiState", "valuenow", text);
-				this._setLabels(text);
 			}
+			dojo[classFunc](this.domNode, "dijitProgressBarIndeterminate");
+			this.internalProgress.style.width = (percent * 100) + "%";
+			this.fullLabel.style.width = (this.maximum / this.progress) * 100 + "%";
 			this.onChange();
-		},
-
-		_setLabels: function(/*string*/text){
-			dojo.forEach(["full", "empty"], function(name){
-				var labelNode = this[name+"Label"];
-				if(labelNode.firstChild){
-					labelNode.firstChild.nodeValue = text;
-				}else{
-					labelNode.appendChild(dojo.doc.createTextNode(text));
-				}
-
-// move this out of update, or perhaps replace with css or template layout?
-				var dim = dojo.contentBox(labelNode);
-				var labelBottom = (parseInt(dojo.getComputedStyle(this.domNode).height) - dim.h)/2;
-				labelNode.style.bottom = labelBottom + 'px';
-			}, this);
 		},
 
 		report: function(/*float*/percent){

@@ -1,11 +1,11 @@
 /* Tree */
 
 .dijitRtl .TreeContainer .TreeExpando {
-    float: right;
+	float:right;
 }
 
 .dijitRtl .TreeContainer .TreeExpand {
-    float: right;
+	float:right;
 }
 
 /* ComboBox */
@@ -22,5 +22,9 @@
 }
 
 .dijitRtl .calendarPreviousYear {
-	margin:0 0 0 0.55em ;
+	margin:0 0 0 0.55em;
+}
+
+.dijitRtl .dijitProgressBarFull .dijitProgressBarLabel {
+	right:0px; // FF workaround
 }
