@@ -20,6 +20,10 @@ dojo.declare(
 		//	text to display in button
 		label: "",
 
+		// showLabel: Boolean
+		// whether or not to display the text label in button 
+		showLabel: true,
+
 		// iconClass: String
 		//	class to apply to div in button to make it display an icon
 		iconClass: "",
@@ -36,7 +40,21 @@ dojo.declare(
 			if(this.disabled){ return; }
 			return this.onClick(e);
 		},
-		
+
+		postCreate: function(){
+			// summary:
+			//	get label and set as title on button icon if necessary
+			if (this.showLabel == false){
+				var labelText = "";
+				this.label = this.containerNode.innerHTML;
+				labelText = dojo.trim(this.containerNode.innerText || this.containerNode.textContent);
+				// set title attrib on iconNode
+				this.titleNode.title=labelText;
+				dojo.addClass(this.containerNode,"dijitDisplayNone");
+			}
+			dijit.form._FormWidget.prototype.postCreate.apply(this, arguments);
+		},
+
 		onClick: function(/*Event*/ e){
 			// summary: callback for when button is clicked; user can override this function
 
@@ -65,7 +83,9 @@ dojo.declare(
 				var _this = this;
 				setTimeout(function(){_this.domNode.style.display=oldDisplay;},1);
 			}
-			// TODO: set button's title to this.containerNode.innerText
+			if (this.showLabel == false){
+					this.titleNode.title=dojo.trim(this.containerNode.innerText || this.containerNode.textContent);
+			}
 		}		
 	}
 );
