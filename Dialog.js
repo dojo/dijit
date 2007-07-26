@@ -78,8 +78,8 @@ dojo.declare(
 		//		and also graying out the screen Dialog is extended from
 		//		ContentPane so it supports all the same parameters (href, etc.)
 
-		templatePath: dojo.moduleUrl("dijit", "templates/Dialog.html"),
 		templateString: null,
+		templatePath: dojo.moduleUrl("dijit", "templates/Dialog.html"),
 
 		// title: String
 		//		Title of the dialog
@@ -300,8 +300,8 @@ dojo.declare(
 
 		_lastFocusItem: null,
 
-		templatePath: dojo.moduleUrl("dijit.layout", "templates/TooltipDialog.html"),
 		templateString: null,
+		templatePath: dojo.moduleUrl("dijit.layout", "templates/TooltipDialog.html"),
 
 		postCreate: function(){
 			dijit.TooltipDialog.superclass.postCreate.apply(this, arguments);
