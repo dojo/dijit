@@ -19,8 +19,7 @@ dojo.declare(
 		templateString: "<div class=dijitDialogUnderlayWrapper id='${id}_underlay'><div class=dijitDialogUnderlay dojoAttachPoint='node'></div></div>",
 		
 		postCreate: function(){
-			var b = dojo.body();
-			b.appendChild(this.domNode);
+			dojo.body().appendChild(this.domNode);
 			this.bgIframe = new dijit.BackgroundIframe(this.domNode);
 		},
 
@@ -94,6 +93,7 @@ dojo.declare(
 		_lastFocusItem:null,
 				
 		postCreate: function(){
+			dojo.body().appendChild(this.domNode);
 			dijit.Dialog.superclass.postCreate.apply(this, arguments);
 			this.domNode.style.display="none";
 		},
