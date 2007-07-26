@@ -428,6 +428,7 @@ dojo.declare(
 			if(!this.store){
 				// if user didn't specify store, then assume there are option tags
 				var items = dojo.query("> option", this.srcNodeRef).map(function(node){
+					node.style.display="none";
 					return { value: node.getAttribute("value"), name: String(node.innerHTML) };
 				});
 				this.store = new dojo.data.ItemFileReadStore({data: {identifier:this._getValueField(), items:items}});
@@ -439,8 +440,6 @@ dojo.declare(
 					// IE does understand selectedIndex though, which is automatically set by the selected attribute of an option tag
 					this.value=items[this.srcNodeRef.selectedIndex!=-1?this.srcNodeRef.selectedIndex:0][this._getValueField()];
 				}
-				
-				this.srcNodeRef.innerHTML="";
 			}
 		},
 		
