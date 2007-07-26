@@ -540,7 +540,6 @@ table .dijitComboButton .dijitButtonNode {
 	height:20px;
 }
 
-
 .dijitProgressBarFull {
 	/* outer container for background of bar that is finished */
 	position:absolute;
@@ -584,18 +583,7 @@ table .dijitComboButton .dijitButtonNode {
 	height:100%;
 }
 
-.dj_ie6 .dijitProgressBarVertical .dijitProgressBarTile{
-	position:absolute;
-	/* can't use position:static here -- need absolute positioning to place
-	   the bar at the bottom of a vertical progressbar */
-	width:100%;
-}
-
-.dijitProgressBarIndeterminate .dijitProgressBarEmptyLabel{
-	display:none;
-}
-
-.dijitProgressBarIndeterminate .dijitProgressBarFullLabel{
+.dijitProgressBarIndeterminate .dijitProgressBarLabel{
 	display:none;
 }
 
@@ -603,34 +591,33 @@ table .dijitComboButton .dijitButtonNode {
 	/* animated gif for 'indeterminate' mode */
 }
 
-.dijitIndeterminateProgressBarHighContrastImage{
+.dijitProgressBarIndeterminateHighContrastImage{
 	display:none;
 }
 
-.dijit_a11y .dijitProgressBarIndeterminate .dijitIndeterminateProgressBarHighContrastImage{
+.dijit_a11y .dijitProgressBarIndeterminate .dijitProgressBarIndeterminateHighContrastImage{
 	display:block;
 	width:100%;
 	height:100%;
 }
 
-.dijitProgressBarEmptyLabel{
-	/* label for portion of the bar that's not finished yet */
-	display:block;
-	position:absolute;
-	width:100%;
-	text-align:center
-}
-.dijitProgressBarFullLabel{
-	/* label for portion of the bar that is finished */
+.dijitProgressBarLabel{
 	display:block;
 	position:absolute;
 	width:100%;
 	text-align:center;
 }
 
-/* progress bar in vertical mode */
+/* progress bar in vertical mode - TODO: remove? no longer supported? */
 .dijitProgressBarVertical .dijitProgressBarFull{
 	bottom:0px;		/* start at the bottom */
+}
+
+.dj_ie6 .dijitProgressBarVertical .dijitProgressBarTile{
+	position:absolute;
+	/* can't use position:static here -- need absolute positioning to place
+	   the bar at the bottom of a vertical progressbar */
+	width:100%;
 }
 
 

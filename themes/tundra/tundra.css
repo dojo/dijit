@@ -1005,16 +1005,10 @@
 	margin:2px 0px 2px 0px;
 }
 
- 
 .tundra .dijitProgressBarEmpty{
 	/* outer container and background of the bar that's not finished yet*/
 	background:#ececec url("images/progressBarEmpty.png") repeat-x bottom left;
 	border-color: #84a3d1;
-}
-
-
-.dijitProgressBarFull {
-	/* outer container for background of bar that is finished */
 }
 
 .tundra .dijitProgressBarTile{
@@ -1022,14 +1016,14 @@
 	background:#cad2de url("images/progressBarFull.png") repeat-x top left;
 }
 
-.tundra .dijitProgressBarEmptyLabel{
+.tundra .dijitProgressBarEmpty .dijitProgressBarLabel {
 	/* label for portion of the bar that's not finished yet 
 		Set to a color that contrasts with the "Empty" part.  
 	*/
 	color:#293a4b;
 }
 
-.tundra .dijitProgressBarFullLabel{
+.tundra .dijitProgressBarFull .dijitProgressBarLabel {
 	/* label for portion of the bar that is finished 
 		set to a color that contrasts with the "Full" part
 	*/
