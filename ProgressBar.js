@@ -65,15 +65,6 @@ dojo.declare(
 			this.inteterminateHighContrastImage.setAttribute("src",
 				this._indeterminateHighContrastImagePath);
 
-			// Vertically center label boxes.  One is absolute positioned, so we cannot do this in CSS, apparently.
-			var domNode = this.domNode;
-			var align = function(labelNode){
-				labelNode.style.bottom =
-					(parseInt(dojo.getComputedStyle(domNode).height) - dojo.contentBox(labelNode).h)/2 + 'px';
-			};
-			align(this.emptyLabel);
-			align(this.fullLabel);
-
 			this.update();
 		},
 
