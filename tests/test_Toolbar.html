@@ -14,6 +14,8 @@
 		dojo.require("dijit.ColorPalette");
 		dojo.require("dijit.Dialog");
 		dojo.require("dijit.Toolbar");
+		dojo.require("dijit.form.Button");
+		dojo.require("dijit.form.Textbox");
 		dojo.require("dojo.parser");	// find widgets
 	</script>
 
@@ -89,26 +91,23 @@
             ><span dojoType="dijit.ToolbarSeparator"></span
 			><div dojoType="dijit.form.DropDownButton" id="toolbar1.dialog" class="toolbarWithText">
 				<span>Login</span>
-				<div dojoType="dijit.TooltipDialog" id="tooltipDlg" title="Enter Login information" closeNode="hider2">
-					<form onsubmit="return false;">
-						<table>
-							<tr>
-								<td>User:</td>
-								<td><label for="user"><input type="text" id="user"></label></td>
-							</tr>
-							<tr>
-								<td>Password:</td>
-								<td><label for="pwd"><input type="password" id="pwd"></label></td>
-							</tr>
-							<tr>
-								<td colspan="2" align="center">
-									<button id="hider2">Login</button>
-								</td>
-							</tr>
-						</table>
-					</form>
-				</div>
-			</div
+				<div dojoType="dijit.TooltipDialog" id="tooltipDlg" title="Enter Login information"
+					execute="alert('submitted w/args:\n' + dojo.toJson(arguments[0], true));">
+					<table>
+						<tr>
+							<td><label for="user">User:</label></td>
+							<td><input dojoType=dijit.form.Textbox type="text" name="user" ></td>
+						</tr>
+						<tr>
+							<td><label for="pwd">Password:</label></td>
+							<td><input dojoType=dijit.form.Textbox type="password" name="pwd"></td>
+						</tr>
+						<tr>
+							<td colspan="2" align="center">
+								<button dojoType=dijit.form.Button type="submit" name="submit">Login</button>
+						</tr>
+					</table>
+				</div
 			><div dojoType="dijit.form.DropDownButton" id="toolbar1.backcolor" iconClass="dijitEditorIconBackColor">
 				<span>Background</span>
 				<div dojoType="dijit.ColorPalette" id="toolbar1.colorPalette" style="display: none" palette="3x4" onChange="console.log(this.value);"></div>
