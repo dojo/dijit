@@ -49,29 +49,31 @@ dojo.declare(
 	},
 
 	onNext: function(/*Object*/ message){
-		// summary: down arrow pressed; move to next visible node
+		// summary: down arrow pressed; get next visible node, set focus there
+		var returnNode = this._navToNextNode(message.node);
+		if(returnNode && returnNode.isTreeNode){
+			returnNode.tree.focusNode(returnNode);
+			return returnNode;
+		}	
+	},
 
-		var returnWidget;
-
-		// if this is an expanded folder, get the first child
-		var nodeWidget = message.node;
-		if(nodeWidget.isFolder && nodeWidget.isExpanded && nodeWidget.hasChildren()){
-			returnWidget = nodeWidget.getChildren()[0];			
+	_navToNextNode: function(node){
+		// summary: get next visible node
+		var returnNode;
+		// if this is an expanded node, get the first child
+		if(node.isFolder && node.isExpanded && node.hasChildren()){
+			returnNode = node.getChildren()[0];			
 		}else{
 			// find a parent node with a sibling
-			while(nodeWidget.isTreeNode) {
-				returnWidget = nodeWidget.getNextSibling();
-				if(returnWidget){
+			while(node.isTreeNode) {
+				returnNode = node.getNextSibling();
+				if(returnNode){
 					break;
 				}
-				nodeWidget = nodeWidget.getParent();
+				node = node.getParent();
 			}	
 		}
-
-		if(returnWidget && returnWidget.isTreeNode){
-			returnWidget.tree.focusNode(returnWidget);
-			return returnWidget;
-		}	
+		return returnNode;
 	},
 
 	onPrevious: function(/*Object*/ message){
@@ -151,15 +153,21 @@ dojo.declare(
 	},
 
 	onFirst: function(/*Object*/ message){
-		// summary: home pressed; go to first visible node
+		// summary: home pressed; get first visible node, set focus there
+		var returnNode = this._navToFirstNode(message.tree);
+		if(returnNode){
+			returnNode.tree.focusNode(returnNode);
+			return returnNode;
+		}
+	},
 
-		var returnWidget = message.tree;
-
-		if(returnWidget){
-			returnWidget = returnWidget.getChildren()[0];
-			if(returnWidget && returnWidget.isTreeNode){
-				returnWidget.tree.focusNode(returnWidget);
-				return returnWidget;
+	_navToFirstNode: function(/*Object*/ tree){
+		// summary: get first visible node
+		var returnNode;
+		if(tree){
+			returnNode = tree.getChildren()[0];
+			if(returnNode && returnNode.isTreeNode){
+				return returnNode;
 			}
 		}
 	},
@@ -191,6 +199,27 @@ dojo.declare(
 			this._collapse(node);
 		}else{
 			this._expand(node);
+		}
+	},
+
+	onLetterKeyNav: function(message) {
+		// summary: letter key pressed; search for node starting with first char = key
+		var node = startNode = message.node;
+		var tree = message.tree;
+		var key = message.key;
+		do{
+			node = this._navToNextNode(node);
+			//check for last node, jump to first node if necessary
+			if(!node){
+				node = this._navToFirstNode(tree);
+			}
+		}while(node !== startNode && (node.label.charAt(0).toLowerCase() != key));
+		if(node && node.isTreeNode){
+			// no need to set focus if back where we started
+			if(node !== startNode){
+				node.tree.focusNode(node);
+			}
+			return node;
 		}
 	},
 

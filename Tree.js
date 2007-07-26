@@ -219,14 +219,26 @@ dojo.declare(
 	},
 
 	_onKeyPress: function(/*Event*/ e){
-		// summary: translates key events into commands for the controller to process
-		if(!e.keyCode || e.altKey){ return; }
-		var nodeWidget = this._domElement2TreeNode(e.target);
-		if(!nodeWidget){ return; }
+		// summary: translates keypress events into commands for the controller
+		if(e.altKey){ return; }
+		var treeNode = this._domElement2TreeNode(e.target);
+		if(!treeNode){ return; }
 
-		if(this._keyTopicMap[e.keyCode]){
-			this._publish(this._keyTopicMap[e.keyCode], { node: nodeWidget} );	
-			dojo.stopEvent(e);
+		// Note: On IE e.keyCode is not 0 for printables so check e.charCode.
+		// In dojo charCode is universally 0 for non-printables.
+		if(e.charCode){  // handle printables (letter navigation)
+			// Check for key navigation.
+			var navKey = e.charCode;
+			if(!e.altKey && !e.ctrlKey && !e.shiftKey && !e.metaKey){
+				navKey = (String.fromCharCode(navKey)).toLowerCase();
+				this._publish("letterKeyNav", { node: treeNode, key: navKey } );
+				dojo.stopEvent(e);
+			}
+		}else{  // handle non-printables (arrow keys)
+			if(this._keyTopicMap[e.keyCode]){
+				this._publish(this._keyTopicMap[e.keyCode], { node: treeNode } );	
+				dojo.stopEvent(e);
+			}
 		}
 	},
 
