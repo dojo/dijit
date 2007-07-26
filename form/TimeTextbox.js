@@ -75,7 +75,7 @@ dojo.declare(
 			}
 			if(!this._opened){
 				dijit.popup.open({
-					host: this,
+					parent: this,
 					popup: this._picker,
 					around: this.domNode,
 					onClose: function(){ self._opened=false; }

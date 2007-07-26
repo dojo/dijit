@@ -148,7 +148,7 @@ dojo.declare(
 				var oldWidth=dropDown.domNode.style.width;
 				var self = this;
 				dijit.popup.open({
-					host: this,
+					parent: this,
 					popup: dropDown,
 					around: this.domNode,
 					orient: {'BL':'TL', 'BR':'TR', 'TL':'BL', 'TR':'BR'},

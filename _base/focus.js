@@ -287,8 +287,8 @@ dijit.widgetFocusTracer = new function(){
 		var newStack=[];
 		try{
 			while(node){
-				if(node.host){
-					node=dijit.byId(node.host).domNode;
+				if(node.dijitPopupParent){
+					node=dijit.byId(node.dijitPopupParent).domNode;
 				}else{
 					var id = node.getAttribute && node.getAttribute("widgetId");
 					if(id){

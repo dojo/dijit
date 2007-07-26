@@ -358,7 +358,7 @@ dojo.declare(
 		submenu.parentMenu = this;
 		var self = this;
 		dijit.popup.open({
-			host: this,
+			parent: this,
 			popup: submenu,
 			around: from_item.arrowCell,
 			orient: {'TR': 'TL', 'TL': 'TR'},

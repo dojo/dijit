@@ -215,7 +215,7 @@ dojo.declare(
 			return dijit.popup.open({
 				popup: this._popupWidget,
 				around: this.domNode,
-				host: this
+				parent: this
 			});
 		},
 

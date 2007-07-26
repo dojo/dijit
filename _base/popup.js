@@ -20,7 +20,7 @@ dijit.popup = new function(){
 		// args: Object
 		//		popup: Widget
 		//			widget to display,
-		//		host: Widget
+		//		parent: Widget
 		//			the button etc. that is displaying this popup
 		//		around: DomNode
 		//			DOM node (typically a button); place popup relative to this node
@@ -42,7 +42,7 @@ dijit.popup = new function(){
 		//		1. opening at the mouse position
 		//			dijit.popup.open({popup: menuWidget, x: evt.pageX, y: evt.pageY});
 		//		2. opening the widget as a dropdown
-		//			dijit.popup.open({host: this, popup: menuWidget, around: this.domNode, onClose: function(){...}  });
+		//			dijit.popup.open({parent: this, popup: menuWidget, around: this.domNode, onClose: function(){...}  });
 		//
 		//	Note that whatever widget called dijit.popup.open() should also listen to it's own _onBlur callback
 		//	(fired by widgetFocusTracer) to know that focus has moved somewhere else and thus the popup should be closed.
@@ -63,8 +63,8 @@ dijit.popup = new function(){
 		wrapper.id = id;
 		wrapper.className="dijitPopup";
 		wrapper.style.zIndex = beginZIndex + stack.length;
-		if(args.host){
-			wrapper.host=args.host.id;
+		if(args.parent){
+			wrapper.dijitPopupParent=args.parent.id;
 		}
 		dojo.body().appendChild(wrapper);
 
