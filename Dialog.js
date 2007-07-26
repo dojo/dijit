@@ -85,7 +85,7 @@ dojo.declare(
 		//		Title of the dialog
 		title: "",
 
-		_duration: 400,
+		duration: 400,
 		
 		_lastFocusItem:null,
 				
@@ -122,11 +122,11 @@ dojo.declare(
 			this._fadeIn = dojo.fx.combine(
 				[dojo.fadeIn({
 					node: node,
-					duration: this._duration
+					duration: this.duration
 				 }),
 				 dojo.fadeIn({
 					node: this._underlay.domNode,
-					duration: this._duration,
+					duration: this.duration,
 					onBegin: dojo.hitch(this._underlay, "show")
 				 })
 				]
@@ -135,14 +135,14 @@ dojo.declare(
 			this._fadeOut = dojo.fx.combine(
 				[dojo.fadeOut({
 					node: node,
-					duration: this._duration,
+					duration: this.duration,
 					onEnd: function(){
 						node.style.display="none";
 					}
 				 }),
 				 dojo.fadeOut({
 					node: this._underlay.domNode,
-					duration: this._duration,
+					duration: this.duration,
 					onEnd: dojo.hitch(this._underlay, "hide")
 				 })
 				]
