@@ -46,33 +46,28 @@ form {
 </head>
 <body class="tundra">
 <h2>Dijit layout.Dialog tests</h2>
-<button dojoType="dijit.form.Button" onclick="dijit.byId('dialog1').show()">Show First Dialog</button> |
+<button dojoType="dijit.form.Button" onclick="dijit.byId('dialog1').show()">Show Dialog</button> |
 
-<div dojoType="dijit.Dialog" id="dialog1" closeNode="hider" title="First Dialog">
-	<form onsubmit="return false;">
-		<table>
-			<tr>
-				<td><label for="name">Name: </label></td>
-				<td><input type="text" id="name"></td>
-			</tr>
-			<tr>
-				<td><label for="loc">Location: </label></td>
-				<td><input type="text" id="loc"></td>
-			</tr>
-			<tr>
-				<td><label for="desc">Description: </label></td>
-				<td><input type="text" id="desc"></td>
-			</tr>
-			<tr>
-				<td><label for="fileloc">Location: </label></td>
-				<td><input type="file" id="fileloc"></td>
-			</tr>
-			<tr>
-				<td colspan="2" align="center">
-					<input type="button" id="hider" value="OK"></td>
-			</tr>
-		</table>
-	</form>
+<div dojoType="dijit.Dialog" id="dialog1" title="First Dialog"
+		execute="alert('submitted w/args:\n' + dojo.toJson(arguments[0], true));">
+	<table>
+		<tr>
+			<td><label for="name">Name: </label></td>
+			<td><input dojoType=dijit.form.Textbox type="text" name="name"></td>
+		</tr>
+		<tr>
+			<td><label for="loc">Location: </label></td>
+			<td><input dojoType=dijit.form.Textbox type="text" name="loc"></td>
+		</tr>
+		<tr>
+			<td><label for="desc">Description: </label></td>
+			<td><input dojoType=dijit.form.Textbox type="text" name="desc"></td>
+		</tr>
+		<tr>
+			<td colspan="2" align="center">
+				<button dojoType=dijit.form.Button type="submit">OK</button></td>
+		</tr>
+	</table>
 </div>
 
 <div dojoType="dijit.form.DropDownButton">
@@ -276,7 +271,7 @@ turpis sed odio. Curabitur in est id nibh tempus ultrices. Aliquam
 consectetuer dapibus eros. Aliquam nisl.
 </p>
 
-<a href="javascript:dijit.byId('SecondDialog').show()">Show Second Dialog</a>
+<a href="javascript:dijit.byId('dialog1').show()">Show Dialog</a>
 <p>
 Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean
 semper sagittis velit. Cras in mi. Duis porta mauris ut ligula. Proin
@@ -370,33 +365,6 @@ tempus. Nunc euismod nisl id dolor tristique tincidunt. Nullam placerat
 turpis sed odio. Curabitur in est id nibh tempus ultrices. Aliquam
 consectetuer dapibus eros. Aliquam nisl.
 </p>
-
-<div dojoType="dijit.Dialog" id="SecondDialog" bgColor="black" closeNode="closeButton" title="Second Dialog">
-	<form onsubmit="return false;">
-		<table>
-			<tr>
-				<td>Name:</td>
-				<td><input type="text"></td>
-			</tr>
-			<tr>
-				<td>Location:</td>
-				<td><input type="text"></td>
-			</tr>
-			<tr>
-				<td>Description:</td>
-				<td><input type="text"></td>
-			</tr>
-			<tr>
-				<td>Location:</td>
-				<td><input type="file"></td>
-			</tr>
-			<tr>
-				<td colspan="2" align="center">
-					<input type="button" id="closeButton" value="OK"></td>
-			</tr>
-		</table>
-	</form>
-</div>
 
 </body>
 </html>

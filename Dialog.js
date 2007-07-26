@@ -71,7 +71,7 @@ dojo.declare(
 	
 dojo.declare(
 	"dijit.Dialog",
-	[dijit.layout.ContentPane, dijit._Templated],
+	[dijit.layout.ContentPane, dijit._Templated, dijit.form._FormMixin],
 	{
 		// summary:
 		//		Pops up a modal dialog window, blocking access to the screen
@@ -79,14 +79,11 @@ dojo.declare(
 		//		ContentPane so it supports all the same parameters (href, etc.)
 
 		templatePath: dojo.moduleUrl("dijit", "templates/Dialog.html"),
+		templateString: null,
 
 		// title: String
 		//		Title of the dialog
 		title: "",
-
-		// closeNode: String
-		//	Id of button or other dom node to click to close this dialog
-		closeNode: "",
 
 		_duration: 400,
 		
@@ -96,14 +93,8 @@ dojo.declare(
 			dojo.body().appendChild(this.domNode);
 			dijit.Dialog.superclass.postCreate.apply(this, arguments);
 			this.domNode.style.display="none";
-		},
-
-		startup: function(){
-			if(this.closeNode){
-				var closeNode = dojo.byId(this.closeNode);
-				this.connect(closeNode, "onclick", "hide");
-			}
-			dijit.Dialog.superclass.startup.apply(this, arguments);// makes preload=true possible
+			this.connect(this, "onExecute", "hide");
+			this.connect(this, "onCancel", "hide");
 		},
 
 		onLoad: function(){
