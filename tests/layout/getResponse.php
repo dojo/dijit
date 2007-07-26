@@ -10,6 +10,8 @@
 	// to select a predefined message
 	// getResponse.php?messId=0
 
+	error_reporting(E_ALL ^ E_NOTICE);
+
 	$delay = 0;
 	if(isset($_GET['delay']) && is_numeric($_GET['delay'])){
 		$delay = (intval($_GET['delay']) * 1000);
@@ -42,11 +44,11 @@
 		}
 	}
 
-	if(isset($_GET) &&  $_GET['bounceGetStr']){
+	if(isset($_GET['bounceGetStr']) &&  $_GET['bounceGetStr']){
 		echo "<div id='bouncedGetStr'>{$_SERVER["QUERY_STRING"]}</div>";
 	}
 
-	if(isset($_GET) && $_GET['message']){
+	if(isset($_GET['message']) && $_GET['message']){
 		echo $_GET['message'];
 	}
 
