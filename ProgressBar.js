@@ -36,7 +36,7 @@ dojo.declare(
 
 		// progress: String (Percentage or Number)
 		// initial progress value.
-		// with "%": percentual value, 0% <= progress <= 100%
+		// with "%": percentage value, 0% <= progress <= 100%
 		// or without "%": absolute value, 0 <= progress <= maximum
 		progress: "0",
 
@@ -102,7 +102,7 @@ dojo.declare(
 			}
 			dojo[classFunc](this.domNode, "dijitProgressBarIndeterminate");
 			this.internalProgress.style.width = (percent * 100) + "%";
-			this.fullLabel.style.width = (this.maximum / this.progress) * 100 + "%";
+			this.fullLabel.style.width = (this.progress ? (this.maximum / this.progress) * 100 : 0) + "%";
 			this.onChange();
 		},
 
