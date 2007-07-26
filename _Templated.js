@@ -50,10 +50,11 @@ dojo.declare("dijit._Templated",
 
 			var node;
 			if(dojo.isString(cached)){
-				var className = this.declaredClass;
+				var className = this.declaredClass, _this = this;
 				// Cache contains a string because we need to do property replacement
 				// do the property replacement
 				var tstr = dojo.string.substitute(cached, this, function(value, key){
+					if(key.charAt(0) == '!'){ value = _this[key.substr(1)]; }
 					if(typeof value == "undefined"){ throw new Error(className+" template:"+key); } // a debugging aide
 
 					// Substitution keys beginning with ! will skip the transform step,

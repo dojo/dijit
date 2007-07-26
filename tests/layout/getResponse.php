@@ -12,7 +12,7 @@
 
 	error_reporting(E_ALL ^ E_NOTICE);
 
-	$delay = 0;
+	$delay = 1; // 1 micro second to avoid zero division in messId 2
 	if(isset($_GET['delay']) && is_numeric($_GET['delay'])){
 		$delay = (intval($_GET['delay']) * 1000);
 	}
@@ -28,7 +28,7 @@
 				break;
 			case 2:
 				echo "<div dojotype='dijit.TestWidget'>Delayed setHref test</div>
-					  <div dojotype='dijit.TestWidget'>Delayed by $delay sec.</div>";
+					  <div dojotype='dijit.TestWidget'>Delayed by " . ($delay/1000000) . " sec.</div>";
 				break;
 			case 3:
 				echo "IT WAS the best of times, it was the worst of times, it was the age of wisdom, it was the age of foolishness, it was the epoch of belief, it was the epoch of incredulity, it was the season of Light, it was the season of Darkness, it was the spring of hope, it was the winter of despair, we had everything before us, we had nothing before us, we were all going direct to Heaven, we were all going direct the other way -- in short, the period was so far like the present period, that some of its noisiest authorities insisted on its being received, for good or for evil, in the superlative degree of comparison only";
