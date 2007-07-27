@@ -37,7 +37,7 @@ dojo.mixin(dijit,
 			node = null;
 		}
 		if(node !== dijit._curFocus){
-			if(dijit._curFocus != null){
+			if(dijit._curFocus){
 				dijit._prevFocus = dijit._curFocus;
 			}
 			dijit._curFocus = node;
@@ -48,8 +48,8 @@ dojo.mixin(dijit,
 			if(node){
 				//console.log("focus on " + (node.id ? node.id : node) );
 				dojo.publish("focus", [node]);
-			}else{
-				//console.log("nothing focused");
+//			}else{
+//				console.log("nothing focused");
 			}
 		}
 	},
@@ -81,13 +81,12 @@ dojo.mixin(dijit,
 				bookmark = range.getBookmark();
 			}
 		}else{
-			selection = null;
-			//TODO: why a try/catch?  check for getSelection instead?
-			try{selection = dojo.global.getSelection();}
-			catch(e){/*squelch*/}
-			if(selection){
-				var range = selection.getRangeAt(0);
-				bookmark = range.cloneRange();
+			if(dojo.global.getSelection){
+				selection = dojo.global.getSelection();
+				if(selection){
+					var range = selection.getRangeAt(0);
+					bookmark = range.cloneRange();
+				}
 			}else{
 				console.debug("No idea how to store the current selection for this browser!");
 			}
@@ -110,10 +109,7 @@ dojo.mixin(dijit,
 			}
 			range.select();
 		}else{ //Moz/W3C
-			var selection;
-			//TODO: why a try/catch?  check for getSelection instead?
-			try{selection = dojo.global.getSelection();}
-			catch(e){ console.debug(e); /*squelch?*/}
+			var selection = dojo.global.getSelection && dojo.global.getSelection();
 			if(selection && selection.removeAllRanges){
 				selection.removeAllRanges();
 				selection.addRange(bookmark);
@@ -145,7 +141,7 @@ dojo.mixin(dijit,
 			// Previously selected text
 			bookmark: 
 				!dojo.withGlobal(openedForWindow||dojo.global, dijit._isCollapsed) ?
-				dojo.withGlobal(openedForWindow||dojo.global, getBookmark) :
+				dojo.withGlobal(openedForWindow||dojo.global, dijit._getBookmark) :
 				null,
 				
 			openedForWindow: openedForWindow
