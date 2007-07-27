@@ -4,6 +4,6 @@ dojo.provide("dijit._base.bidi");
 
 dojo.addOnLoad(function(){
 	if(!dojo._isBodyLtr()){
-		dojo.addClass(dojo.doc.documentElement, "dijitRtl");
+		dojo.addClass(dojo.body(), "dijitRtl");
 	}
 });

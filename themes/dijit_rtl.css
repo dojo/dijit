@@ -17,14 +17,20 @@
 
 /* Calendar */
 
-.dijitRtl .calendarNextYear {
+.dijitRtl .dijitCalendarNextYear {
 	margin:0 0.55em 0 0;
 }
 
-.dijitRtl .calendarPreviousYear {
+.dijitRtl .dijitCalendarPreviousYear {
 	margin:0 0 0 0.55em;
 }
 
 .dijitRtl .dijitProgressBarFull .dijitProgressBarLabel {
 	right:0px; // FF workaround
+}
+
+/* Button */
+
+.dijitRtl .dijitComboButton .dijitButtonContents {
+	border-right-width:1px !important;
 }

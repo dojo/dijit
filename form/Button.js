@@ -167,11 +167,16 @@ dojo.declare(
 			if(!dropDown.isShowingNow){
 				var oldWidth=dropDown.domNode.style.width;
 				var self = this;
+				if(this.domNode.offsetWidth > dropDown.domNode.offsetWidth){
+					// make menu at least as wide as the button
+					dojo.marginBox(dropDown.domNode, {w:this.domNode.offsetWidth});
+				}
 				dijit.popup.open({
 					parent: this,
 					popup: dropDown,
 					around: this.domNode,
-					orient: {'BL':'TL', 'BR':'TR', 'TL':'BL', 'TR':'BR'},
+					orient: this.isLeftToRight() ? {'BL':'TL', 'BR':'TR', 'TL':'BL', 'TR':'BR'}
+						: {'BR':'TR', 'BL':'TL', 'TR':'BR', 'TL':'BL'},
 					onExecute: function(){
 						dijit.popup.closeAll();
 						self.focus();
@@ -185,10 +190,6 @@ dojo.declare(
 						self.popupStateNode.removeAttribute("popupActive");
 					}
 				});
-				if(this.domNode.offsetWidth > dropDown.domNode.offsetWidth){
-					// make menu at least as wide as the button
-					dojo.marginBox(dropDown.domNode, {w:this.domNode.offsetWidth});
-				}
 				this.popupStateNode.setAttribute("popupActive", "true");
 				this._opened=true;
 				if(dropDown.focus){

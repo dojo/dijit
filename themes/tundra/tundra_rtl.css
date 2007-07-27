@@ -64,3 +64,16 @@
 .dijitRtl .TreeContainer .TreeExpandoLeaf {
 	background-image: url('images/treeExpand_leaf_rtl.gif');
 }
+
+/* ToolTip */
+
+.dj_ie .dijitRtl .dijitTooltipLeft {
+	margin-right: 0px;
+	margin-left: 13px;
+}
+
+.dj_ie .dijitRtl .dijitTooltipRight {
+	margin-left: 26px;
+	margin-right: -13px;
+}
+
