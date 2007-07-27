@@ -831,12 +831,12 @@
 /* Calendar*/
 
 
-.tundra .calendarIncrementControl {
+.tundra .dijitCalendarIncrementControl {
 	/* next/prev month buttons */
 	padding:2px;
 }
 
-.tundra table.calendarContainer {
+.tundra table.dijitCalendarContainer {
 /*	border:1px solid #566f8f;*/
 	font-size: 100%;
 	border-collapse: collapse; 
@@ -847,13 +847,13 @@
 
 
 
-.tundra .calendarMonthContainer th {
+.tundra .dijitCalendarMonthContainer th {
 	/* month header cell */
 	background:white url("images/calendarMonthLabel.png") repeat-x top;
 	padding-top:.2em;
 }
 
-.tundra .calendarDayLabelTemplate {
+.tundra .dijitCalendarDayLabelTemplate {
 	/* day of week labels */
 	background:white url("images/calendarDayLabel.png") repeat-x bottom;
 	font-weight:normal;
@@ -864,7 +864,7 @@
 	text-align:center;
 }
 
-.tundra .calendarMonthLabel {
+.tundra .dijitCalendarMonthLabel {
 	/* day of week labels */
 	color:#293a4b;
 	font-size: 0.75em;
@@ -872,12 +872,12 @@
 	text-align:center;
 }
 
-.dj_ie7 .tundra .calendarDateTemplate,
-.dj_ie6 .tundra .calendarDateTemplate {
+.dj_ie7 .tundra .dijitCalendarDateTemplate,
+.dj_ie6 .tundra .dijitCalendarDateTemplate {
 	font-size: 0.8em;
 }
 
-.tundra .calendarDateTemplate {
+.tundra .dijitCalendarDateTemplate {
 	/* style for each day cell */
 	font-size: 0.9em;
 	font-weight: bold;
@@ -887,57 +887,57 @@
 }
 
 
-.tundra .calendarPreviousMonth,
-.tundra .calendarNextMonth 		{
+.tundra .dijitCalendarPreviousMonth,
+.tundra .dijitCalendarNextMonth 		{
 	/* days that are part of the previous or next month */
 	color:#999999;
 	background-color:#f8f8f8 !important;
 }
 
-.tundra .calendarPreviousMonthDisabled,
-.tundra .calendarNextMonthDisabled	{
+.tundra .dijitCalendarPreviousMonthDisabled,
+.tundra .dijitCalendarNextMonthDisabled	{
 	/* days that are part of the previous or next month - disabled*/
 	background-color:#a4a5a6 !important;
 }
 
-.tundra .calendarCurrentMonth {
+.tundra .dijitCalendarCurrentMonth {
 	/* days that are part of this month */
 	background-color:white !important;
 }
 
-.tundra .calendarCurrentMonthDisabled {
+.tundra .dijitCalendarCurrentMonthDisabled {
 	/* days that are part of this month - disabled */	
 	background-color:#bbbbbc !important;
 }
 
 
-.tundra .calendarCurrentDate {
+.tundra .dijitCalendarCurrentDate {
 	/* cell for today's date */
 	text-decoration:underline;
 	font-weight:bold;
 }
 
-.tundra .calendarSelectedDate {
+.tundra .dijitCalendarSelectedDate {
 	/* cell for the selected date */
 	background-color:#bbc4d0 !important;
 	color:black !important;
 }
 
 
-.tundra .calendarYearContainer {
+.tundra .dijitCalendarYearContainer {
 	/* footer of the table that contains the year display/selector */
 	background:white url("images/calendarYearLabel.png") repeat-x bottom;
 	border-top:1px solid #ccc;
 }
 
-.tundra .calendarYearLabel {
+.tundra .dijitCalendarYearLabel {
 	/* container for all of 3 year labels */
 	margin:0;
 	padding:0.4em 0 0.25em 0;
 	text-align:center;
 }
 
-.tundra .calendarSelectedYear {
+.tundra .dijitCalendarSelectedYear {
 	/* label for selected year */
 	color:black;
 	padding:0.2em;
@@ -945,8 +945,8 @@
 	background-color:#bbc4d0 !important;
 }
 
-.tundra .calendarNextYear, 
-.tundra .calendarPreviousYear {
+.tundra .dijitCalendarNextYear, 
+.tundra .dijitCalendarPreviousYear {
 	/* label for next/prev years */
 	color:black !important;
 	font-weight:normal;
