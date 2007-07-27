@@ -42,10 +42,6 @@ dojo.declare(
 		}else{
 			dojo.forEach(this.targetNodeIds, this.bindDomNode, this);
 		}
-
-		if(!this.isLeftToRight()){
-			this.containerNode.className += " dojoRTL";
-		}
 	},
 
 	startup: function(){
@@ -318,7 +314,8 @@ dojo.declare(
 			x: x,
 			y: y,
 			onExecute: closeAndRestoreFocus,
-			onCancel: closeAndRestoreFocus
+			onCancel: closeAndRestoreFocus,
+			orient: this.isLeftToRight() ? 'L' : 'R'
 		});
 		
 		this._onBlur = function(){
@@ -361,7 +358,7 @@ dojo.declare(
 			parent: this,
 			popup: submenu,
 			around: from_item.arrowCell,
-			orient: {'TR': 'TL', 'TL': 'TR'},
+			orient: this.isLeftToRight() ? {'TR': 'TL', 'TL': 'TR'} : {'TL': 'TR', 'TR': 'TL'},
 			submenu: true,
 			onCancel: function(){
 				// called when the child menu is canceled
