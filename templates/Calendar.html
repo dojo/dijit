@@ -1,35 +1,35 @@
-<table cellspacing="0" cellpadding="0" class="calendarContainer">
+<table cellspacing="0" cellpadding="0" class="dijitCalendarContainer">
 	<thead>
-		<tr class="dijitReset calendarMonthContainer" valign="top">
+		<tr class="dijitReset dijitCalendarMonthContainer" valign="top">
 			<th class='dijitReset' dojoAttachEvent="onclick: _onDecrementMonth">
-				<span class="calendarIncrementControl calendarDecrease"><span dojoAttachPoint="decreaseArrowNode" class="dijitA11yLeftArrow calendarIncrementControl calendarDecrease">&#9668;</span></span>
+				<span class="dijitCalendarIncrementControl dijitCalendarDecrease"><span dojoAttachPoint="decreaseArrowNode" class="dijitA11ySideArrow dijitCalendarIncrementControl dijitCalendarDecrease">&#9668;</span></span>
 			</th>
 			<th class='dijitReset' colspan="5">
-				<div dojoAttachPoint="monthLabelSpacer" class="calendarMonthLabelSpacer"></div>
-				<div dojoAttachPoint="monthLabelNode" class="calendarMonth"></div>
+				<div dojoAttachPoint="monthLabelSpacer" class="dijitCalendarMonthLabelSpacer"></div>
+				<div dojoAttachPoint="monthLabelNode" class="dijitCalendarMonth"></div>
 			</th>
 			<th class='dijitReset' dojoAttachEvent="onclick: _onIncrementMonth">
-				<span class="calendarIncrementControl calendarIncrease"><span dojoAttachPoint="increaseArrowNode" class="dijitA11yRightArrow calendarIncrementControl calendarIncrease">&#9658;</span></span>
+				<span class="dijitCalendarIncrementControl dijitCalendarIncrease"><span dojoAttachPoint="increaseArrowNode" class="dijitA11ySideArrow dijitCalendarIncrementControl dijitCalendarIncrease">&#9658;</span></span>
 			</th>
 		</tr>
 		<tr>
-			<th class="dijitReset calendarDayLabelTemplate"><span class="calendarDayLabel"></span></th>
+			<th class="dijitReset dijitCalendarDayLabelTemplate"><span class="dijitCalendarDayLabel"></span></th>
 		</tr>
 	</thead>
-	<tbody dojoAttachEvent="onclick: _onDayClick" class="dijitReset calendarBodyContainer">
-		<tr class="dijitReset calendarWeekTemplate">
-			<td class="dijitReset calendarDateTemplate"><span class="calendarDateLabel"></span></td>
+	<tbody dojoAttachEvent="onclick: _onDayClick" class="dijitReset dijitCalendarBodyContainer">
+		<tr class="dijitReset dijitCalendarWeekTemplate">
+			<td class="dijitReset dijitCalendarDateTemplate"><span class="dijitCalendarDateLabel"></span></td>
 		</tr>
 	</tbody>
-	<tfoot class="dijitReset calendarYearContainer">
+	<tfoot class="dijitReset dijitCalendarYearContainer">
 		<tr>
 			<td class='dijitReset' valign="top" colspan="7">
-				<h3 class="calendarYearLabel">
+				<h3 class="dijitCalendarYearLabel">
 					<span dojoAttachPoint="previousYearLabelNode"
-						dojoAttachEvent="onclick: _onDecrementYear" class="dijitInline calendarPreviousYear"></span>
-					<span dojoAttachPoint="currentYearLabelNode" class="dijitInline calendarSelectedYear"></span>
+						dojoAttachEvent="onclick: _onDecrementYear" class="dijitInline dijitCalendarPreviousYear"></span>
+					<span dojoAttachPoint="currentYearLabelNode" class="dijitInline dijitCalendarSelectedYear"></span>
 					<span dojoAttachPoint="nextYearLabelNode"
-						dojoAttachEvent="onclick: _onIncrementYear" class="dijitInline calendarNextYear"></span>
+						dojoAttachEvent="onclick: _onIncrementYear" class="dijitInline dijitCalendarNextYear"></span>
 				</h3>
 			</td>
 		</tr>

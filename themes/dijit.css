@@ -155,8 +155,7 @@
 
 .dijitA11yDownArrow,
 .dijitA11yUpArrow,
-.dijitA11yLeftArrow,
-.dijitA11yRightArrow {
+.dijitA11ySideArrow {
 	/* down arrow shown when in a11y mode */
 	font-family:Arial, sans serif;
 	/* 
@@ -169,8 +168,7 @@
 }
 
 
-.dijitA11yRightArrow,
-.dijitA11yLeftArrow {
+.dijitA11ySideArrow {
 	vertical-align:top;
 	margin-right:1em;
 	line-height:2em;
@@ -850,66 +848,66 @@ body .dijitAlignClient { position: absolute; }
 
 /* Calendar */
 
-.calendarContainer thead tr th, .calendarContainer thead tr td, .calendarContainer tbody tr td, .calendarContainer tfoot tr td { 
+.dijitCalendarContainer thead tr th, .dijitCalendarContainer thead tr td, .dijitCalendarContainer tbody tr td, .dijitCalendarContainer tfoot tr td { 
 	padding: 0;
 }
 
-.calendarNextYear {
+.dijitCalendarNextYear {
 	margin:0 0 0 0.55em;
 }
 
-.calendarPreviousYear {
+.dijitCalendarPreviousYear {
 	margin:0 0.55em 0 0;
 }
 
-.calendarIncrementControl {
+.dijitCalendarIncrementControl {
 	cursor:pointer;
 	cursor:hand;
 	width:1em;
 }
 
-.calendarIncrease {}
+.dijitCalendarIncrease {}
 
-.calendarDecrease {}
+.dijitCalendarDecrease {}
 
 
-.calendarDisabledDate {
+.dijitCalendarDisabledDate {
 	color:gray !important;
 }
 
 
-.calendarBodyContainer tbody tr td {
+.dijitCalendarBodyContainer tbody tr td {
 	cursor:pointer;
 	cursor:hand;
 }
 
-.calendarPreviousMonthDisabled {
+.dijitCalendarPreviousMonthDisabled {
 	cursor:default !important
 }
 
-.calendarCurrentMonthDisabled {
+.dijitCalendarCurrentMonthDisabled {
 	cursor:default !important
 }
 
-.calendarNextMonthDisabled {
+.dijitCalendarNextMonthDisabled {
 	cursor:default !important;
 }
 
-.calendarDateTemplate {
+.dijitCalendarDateTemplate {
 	cursor:pointer;
 }
 
-.calendarSelectedYear {
+.dijitCalendarSelectedYear {
 	cursor:pointer;
 }
-.calendarNextYear, 
-.calendarPreviousYear {
+.dijitCalendarNextYear, 
+.dijitCalendarPreviousYear {
 	cursor:pointer;
 }
 
-.calendarMontLabel {}
+.dijitCalendarMontLabel {}
 
-.calendarMonthLabelSpacer {
+.dijitCalendarMonthLabelSpacer {
 	/* don't display it, but make it affect the width */
   	position: relative;
   	height: 1px;
