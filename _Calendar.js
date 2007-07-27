@@ -55,7 +55,7 @@ dojo.declare(
 			}
 		},
 
-		_appendText: function(node, text){
+		_setText: function(node, text){
 			while(node.firstChild){
 				node.removeChild(node.firstChild);
 			}
@@ -113,17 +113,17 @@ dojo.declare(
 				template.className =  clazz + "Month calendarDateTemplate";
 				template.dijitDateValue = date.valueOf();
 				var label = dojo.query(".calendarDateLabel", template)[0];
-				this._appendText(label, date.getDate());
+				this._setText(label, date.getDate());
 			}, this);
 
 			// Fill in localized month name
 			var monthNames = dojo.date.locale.getNames('months', 'wide', 'standAlone', this.lang);
-			this._appendText(this.monthLabelNode, monthNames[month.getMonth()]);
+			this._setText(this.monthLabelNode, monthNames[month.getMonth()]);
 
 			// Fill in localized prev/current/next years
 			var y = month.getFullYear() - 1;
 			dojo.forEach(["previous", "current", "next"], function(name){
-				this._appendText(this[name+"YearLabelNode"],
+				this._setText(this[name+"YearLabelNode"],
 					dojo.date.locale.format(new Date(y++, 0), {selector:'year', locale:this.lang}));
 			}, this);
 		},
@@ -149,19 +149,25 @@ dojo.declare(
 			var dayNames = dojo.date.locale.getNames('days', this.dayWidth, 'standAlone', this.lang);
 			var dayOffset = dojo.cldr.supplemental.getFirstDayOfWeek(this.lang);
 			dojo.query(".calendarDayLabel", this.domNode).forEach(function(label, i){
-				this._appendText(label, dayNames[(i + dayOffset) % 7]);
+				this._setText(label, dayNames[(i + dayOffset) % 7]);
 			}, this);
 
 			// Fill in spacer element with all the month names (invisible) so that the maximum width will affect layout
 			var monthNames = dojo.date.locale.getNames('months', 'wide', 'standAlone', this.lang);
 			dojo.forEach(monthNames, function(name){
 				var monthSpacer = dojo.doc.createElement("div");
-				this._appendText(monthSpacer, name);
+				this._setText(monthSpacer, name);
 				this.monthLabelSpacer.appendChild(monthSpacer);
 			}, this);
 
 			this.value = null;
 			this.setValue(new Date());
+
+			if(!this.isLeftToRight()){
+				var temp = this.decreaseArrowNode.innerHTML;
+				this.decreaseArrowNode.innerHTML = this.increaseArrowNode.innerHTML;
+				this.increaseArrowNode.innerHTML = temp;
+			}
 		},
 
 		_adjustDate: function(/*String*/part, /*int*/amount){

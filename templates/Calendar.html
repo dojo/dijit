@@ -2,14 +2,14 @@
 	<thead>
 		<tr class="dijitReset calendarMonthContainer" valign="top">
 			<th class='dijitReset' dojoAttachEvent="onclick: _onDecrementMonth">
-				<span class="calendarIncrementControl calendarDecrease"><span class="dijitA11yLeftArrow calendarDecreaseInner">&#9668;</span></span>
+				<span class="calendarIncrementControl calendarDecrease"><span dojoAttachPoint="decreaseArrowNode" class="dijitA11yLeftArrow calendarIncrementControl calendarDecrease">&#9668;</span></span>
 			</th>
 			<th class='dijitReset' colspan="5">
 				<div dojoAttachPoint="monthLabelSpacer" class="calendarMonthLabelSpacer"></div>
 				<div dojoAttachPoint="monthLabelNode" class="calendarMonth"></div>
 			</th>
 			<th class='dijitReset' dojoAttachEvent="onclick: _onIncrementMonth">
-				<span class="calendarIncrementControl calendarIncrease"><span class="dijitA11yRightArrow calendarIncreaseInner">&#9658;</span></span>
+				<span class="calendarIncrementControl calendarIncrease"><span dojoAttachPoint="increaseArrowNode" class="dijitA11yRightArrow calendarIncrementControl calendarIncrease">&#9658;</span></span>
 			</th>
 		</tr>
 		<tr>
@@ -26,10 +26,10 @@
 			<td class='dijitReset' valign="top" colspan="7">
 				<h3 class="calendarYearLabel">
 					<span dojoAttachPoint="previousYearLabelNode"
-						dojoAttachEvent="onclick: _onDecrementYear" class="calendarPreviousYear"></span>
-					<span dojoAttachPoint="currentYearLabelNode" class="calendarSelectedYear"></span>
+						dojoAttachEvent="onclick: _onDecrementYear" class="dijitInline calendarPreviousYear"></span>
+					<span dojoAttachPoint="currentYearLabelNode" class="dijitInline calendarSelectedYear"></span>
 					<span dojoAttachPoint="nextYearLabelNode"
-						dojoAttachEvent="onclick: _onIncrementYear" class="calendarNextYear"></span>
+						dojoAttachEvent="onclick: _onIncrementYear" class="dijitInline calendarNextYear"></span>
 				</h3>
 			</td>
 		</tr>
