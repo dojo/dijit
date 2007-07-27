@@ -75,22 +75,22 @@ dojo.declare(
 			if(dayOffset > firstDay){ dayOffset -= 7; }
 
 			// Iterate through dates in the calendar and fill in date numbers and style info
-			dojo.query(".calendarDateTemplate", this.domNode).forEach(function(template, i){
+			dojo.query(".dijitCalendarDateTemplate", this.domNode).forEach(function(template, i){
 				i += dayOffset;
 				var date = new Date(month);
-				var number, clazz, adj = 0;
+				var number, clazz = "dijitCalendar", adj = 0;
 
 				if(i < firstDay){
 					number = daysInPreviousMonth - firstDay + i + 1;
 					adj = -1;
-					clazz = "calendarPrevious";
+					clazz += "Previous";
 				}else if(i >= (firstDay + daysInMonth)){
 					number = i - firstDay - daysInMonth + 1;
 					adj = 1;
-					clazz = "calendarNext";
+					clazz += "Next";
 				}else{
 					number = i - firstDay + 1;
-					clazz = "calendarCurrent";
+					clazz += "Current";
 				}
 
 				if(adj){
@@ -99,20 +99,20 @@ dojo.declare(
 				date.setDate(number);
 
 				if(!dojo.date.compare(date, today, "date")){
-					clazz = "calendarCurrentDate " + clazz;
+					clazz = "dijitCalendarCurrentDate " + clazz;
 				}
 
 				if(!dojo.date.compare(date, selected, "date")){
-					clazz = "calendarSelectedDate " + clazz;
+					clazz = "dijitCalendarSelectedDate " + clazz;
 				}
 
 				if(this.isDisabledDate(date, this.lang)){
-					clazz = "calendarDisabledDate " + clazz;
+					clazz = "dijitCalendarDisabledDate " + clazz;
 				}
 
-				template.className =  clazz + "Month calendarDateTemplate";
+				template.className =  clazz + "Month dijitCalendarDateTemplate";
 				template.dijitDateValue = date.valueOf();
-				var label = dojo.query(".calendarDateLabel", template)[0];
+				var label = dojo.query(".dijitCalendarDateLabel", template)[0];
 				this._setText(label, date.getDate());
 			}, this);
 
@@ -139,16 +139,16 @@ dojo.declare(
 			});
 
 			// clone the day label and calendar day templates 6 times to make 7 columns
-			cloneClass(".calendarDayLabelTemplate", 6);
-			cloneClass(".calendarDateTemplate", 6);
+			cloneClass(".dijitCalendarDayLabelTemplate", 6);
+			cloneClass(".dijitCalendarDateTemplate", 6);
 
 			// now make 6 week rows
-			cloneClass(".calendarWeekTemplate", 5);
+			cloneClass(".dijitCalendarWeekTemplate", 5);
 
 			// insert localized day names in the header
 			var dayNames = dojo.date.locale.getNames('days', this.dayWidth, 'standAlone', this.lang);
 			var dayOffset = dojo.cldr.supplemental.getFirstDayOfWeek(this.lang);
-			dojo.query(".calendarDayLabel", this.domNode).forEach(function(label, i){
+			dojo.query(".dijitCalendarDayLabel", this.domNode).forEach(function(label, i){
 				this._setText(label, dayNames[(i + dayOffset) % 7]);
 			}, this);
 
@@ -205,7 +205,7 @@ dojo.declare(
 			while(!node.dijitDateValue){
 				node = node.parentNode;
 			}
-			if(!dojo.hasClass(node, "calendarDisabledDate")){
+			if(!dojo.hasClass(node, "dijitCalendarDisabledDate")){
 				this.setValue(node.dijitDateValue);
 				this.onValueSelected(this.value);
 			}
