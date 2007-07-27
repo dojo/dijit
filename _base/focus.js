@@ -229,11 +229,28 @@ dijit.widgetFocusTracer = new function(){
 
 		var self = this;
 		connects.push(dojo.connect(targetWindow.document, "onmousedown", this, function(evt){
-			self._onEvent(evt.target||evt.srcElement);
+			// this mouse down event will probably be immediately followed by a blur event; ignore it
+			self._ignoreNextBlurEvent = true;
+			setTimeout(function(){ self.ignoreNextBlurEvent = false; }, 0);
+			self._onTouchNode(evt.target||evt.srcElement);
 		}));
 		//connects.push(dojo.connect(targetWindow, "onscroll", this, ???);4
-		
-		this._focusListener = dojo.subscribe("focus", this, "_onEvent");
+
+		// Listen for blur and focus events on targetWindow's body
+		var body = targetWindow.document.body || targetWindow.document.getElementsByTagName("body")[0];
+		if(body){
+			if(dojo.isIE){
+				body.attachEvent('onactivate', function(evt){
+					if(evt.srcElement.tagName.toLowerCase() != "body"){
+						self._onTouchNode(evt.srcElement);
+					}
+				});
+				body.attachEvent('ondeactivate', function(evt){ self._onBlurNode(); });
+			}else{
+				body.addEventListener('focus', function(evt){ self._onTouchNode(evt.target); }, true);
+				body.addEventListener('blur', function(evt){ self._onBlurNode(); }, true);
+			}
+		}
 
 		dojo.forEach(targetWindow.frames, function(frame){
 			try{
@@ -275,13 +292,30 @@ dijit.widgetFocusTracer = new function(){
 		//console.log("new stack " + newStack.join(", "));
 		setStack(newStack);
 	};
-		
-	this._onEvent = function(/*DomNode*/ node){
+	
+	this._onBlurNode = function(){
+		// summary:
+		// 		Called when focus leaves a node.
+		//		Usually ignored, _unless_ it *isn't* follwed by touching another node,
+		//		which indicates that we tabbed off the last field on the page,
+		//		in which case everything is blurred
+		var self = this;
+		if(this._ignoreNextBlurEvent){
+			this._ignoreNextBlurEvent = false;
+			return;
+		}
+		this._blurAllTimer = setTimeout(function(){ delete self._blurAllTimer; setStack([]); }, 0);
+	}
+
+	this._onTouchNode = function(/*DomNode*/ node){
 		// summary
-		//	Trace to see which widget event was on, or
-		//	if it was on a "free node", not associated w/any widget.
-		//	Fire onBlur and onFocus events if focus has changed
-		//	(including case where we are no longer focused on any widget)
+		//		Callback when node is focused or mouse-downed
+
+		// ignore the recent blurNode event
+		if(this._blurAllTimer){
+			clearTimeout(this._blurAllTimer);
+			delete this._blurAllTimer;
+		}
 
 		// compute stack of active widgets (ex: ComboButton --> Menu --> MenuItem)
 		var newStack=[];
