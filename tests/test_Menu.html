@@ -61,10 +61,6 @@
 		<span>Different popup</span>
 		<div dojoType="dijit.ColorPalette"></div>
 	</div>
-	<div dojoType="dijit.PopupMenuItem">
-		<span>Different popup</span>
-		<div dojoType="dijit._Calendar"></div>
-	</div>
 </div>
 
 
@@ -114,7 +110,6 @@
 		<li>Hover over the first item with the pointer. Item should highlight and get focus.</li>
 		<li>Hover over the second (disabled) item. Item should highlight and get focus.</li>
 		<li>Seperator items should not highlight on hover - no items should highlight in this case.</li>
-		<li>Remove the pointer from the menu. Should de-highlight all items.</li>
 	</ul>
 
 
@@ -137,8 +132,6 @@
 		<li>Clicking on the "Enabled Submenu" item <i>after</i> the submenu has opened should have no effect - the item is still selected and the submenu still open.</li>
 		<li>Hover over submenu item 1. Should select it - the parent menu item should stay selected also.</li>
 		<li>Hover over submenu item 2. Should select it - the parent menu item should stay selected also.</li>
-		<li>Remove the pointer from both menus. Should de-highlight all items in the submenu and keep the parent menu item highlighted. The submenu should remain open.</li>
-		<li>While the submenu is open, hovering over the parent menu item should keep the submenu open with no items selected, while the parent menu item stays selected.</li>
 	</ul>
 
 
@@ -175,7 +168,7 @@
 
 	<ul>
 		<li>Open the menu.</li>
-		<li>Press the down arrow. The first item should become selected.</li>
+		<li>The first item should become selected.</li>
 		<li>Press the right arrow key. Nothing should happen.</li>
 		<li>Press the left arrow key. Nothing should happen.</li>
 		<li>Press the down arrow until "Enabled Submenu" is selected. The submenu should not appear.</li>
