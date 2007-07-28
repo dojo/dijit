@@ -42,8 +42,8 @@ dojo.declare(
 		this._slideOut = dojo.fx.slideOut({node: this.containerNode, duration: this.duration});
 	},
 
-	_onTitleClick: function(){
-		// summary: callback when title is clicked
+	toggle: function(){
+		// summary: switches between opened and closed state
 		dojo.forEach([this._slideIn, this._slideOut], function(animation){
 			if(animation.status() == "playing"){
 				animation.stop();
