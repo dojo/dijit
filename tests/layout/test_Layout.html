@@ -39,7 +39,7 @@
 			// use "before advice" to print log message each time resize is called on a layout widget
 			var origResize = dijit.layout._LayoutWidget.prototype.resize;
 			dijit.layout._LayoutWidget.prototype.resize = function(mb){
-				console.log(this + ": resize({w:"+ mb.w + ", h:" + mb.h + "})");
+				console.log(this + ": resize(" + (mb ? "{w:"+ mb.w + ", h:" + mb.h + "}" : "null") +")" );
 				origResize.apply(this, arguments);
 			};
 			
