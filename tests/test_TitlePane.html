@@ -15,6 +15,10 @@
 		// widgets used inside subpage loaded via href=
 		dojo.require("dijit.form.Button");
 		dojo.require("dijit.form.ComboBox");
+
+		function randomMessageId(){
+			return Math.floor(Math.random() * 3) + 3;
+		}
 	</script>
 
 	<style type="text/css">
@@ -27,6 +31,7 @@
 <body class="tundra">
 	<h1 class="testTitle">Dijit TitlePane Test</h1>
 
+	<h1>Test #1: plain title pane, width=300px</h1>
 	<div dojoType="dijit.TitlePane" title="Title Pane #1" style="width: 300px;">
 		Lorem Ipsum Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Quisque
 		iaculis, nulla id semper faucibus, pede tellus nonummy magna, vitae adipiscing
@@ -37,7 +42,7 @@
 		consectetuer adipiscing elit.
 	</div>
 
-	<br>
+	<h1>Test #2: title pane with form, width=300px</h1>
 
 	<div dojoType="dijit.TitlePane" title="Title Pane #2" id="pane_2" style="width: 300px;">
 		<form>
@@ -48,12 +53,7 @@
 	</div>
 	<br>
 
-	<p>Here's a TitlePane with an href.  The content should load when you open the pane.</p>
-	<div dojoType="dijit.TitlePane" title="Pane from href, initially closed" href="layout/doc0.html" open="false">
-		Loading...
-	</div>
-	<br>
-
+	<h1>Test #3: initially closed pane</h1>
 	<div dojoType="dijit.TitlePane" title="Initially closed pane" open="false" width="200">
 		<form>
 			<title for="age">Age: </title><input id="age"><br>
@@ -62,8 +62,19 @@
 		</form>
 	</div>
 
-	<br>
+	<h1>Test #4: title pane with href (initially closed)</h1>
+	<p>The pane should open to "Loading..." message and then 2 seconds later it should slide open more to show loaded data.</p>
+	<div dojoType="dijit.TitlePane" duration=1000 title="Pane from href" href="layout/getResponse.php?delay=3000&messId=3" open="false">
+		Loading...
+	</div>
 
+	<h1>Test #5: title pane with href (initially closed)</h1>
+	<p>The pane should start to open to "Loading..." but halfway through href data will be loaded, and it should expand correctly.</p>
+	<div dojoType="dijit.TitlePane" duration=1000 title="Pane from href" href="layout/getResponse.php?delay=500&messId=3" open="false">
+		Loading...
+	</div>
+
+	<h1>Test #6: nested title pane</h1>
 	<div dojoType="dijit.TitlePane" title="Outer pane" width="300">
 		<p>This is a title pane, containing another title pane ...
 		<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Quisque iaculis, nulla id semper faucibus, pede tellus nonummy magna, vitae adipiscing orci arcu ut augue. Nunc condimentum, magna a vestibulum convallis, libero purus pulvinar orci, sed vestibulum urna sem ut pede.

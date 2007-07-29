@@ -4,5 +4,11 @@
 		<span dojoAttachPoint="arrowNode" class="dijitArrowNode"><span dojoAttachPoint="arrowNodeInner" class="dijit_a11y dijitArrowNodeInner"></span></span>
 		<span dojoAttachPoint="titleNode" class="dijitInlineBox dijitTitleNode"></span>
 	</div>
-	<div dojoAttachPoint="containerNode" waiRole="region" tabindex="-1" class="dijitTitlePaneContent"></div>
+	<div class="dijitTitlePaneContentOuter" dojoAttachPoint="hideNode">
+		<div class="dijitReset" dojoAttachPoint="wipeNode">
+			<div class="dijitTitlePaneContentInner" dojoAttachPoint="containerNode" waiRole="region" tabindex="-1">
+				<!-- nested divs because wipeIn()/wipeOut() doesn't work right on node w/padding etc.  Put padding on inner div. -->
+			</div>
+		</div>
+	</div>
 </div>

@@ -29,7 +29,7 @@ dojo.declare(
 	postCreate: function(){
 		this.setTitle(this.title);
 		if(!this.open){
-			dojo.style(this.containerNode, "display", "none");
+			this.hideNode.style.display = this.wipeNode.style.display = "none";
 		}
 		this._setCss();
 		dojo.setSelectable(this.titleNode, false);
@@ -38,8 +38,43 @@ dojo.declare(
 		dijit.wai.setAttr(this.focusNode, "waiState", "haspopup", "true");
 
 		// setup open/close animations
-		this._slideIn = dojo.fx.slideIn({node: this.containerNode, duration: this.duration});
-		this._slideOut = dojo.fx.slideOut({node: this.containerNode, duration: this.duration});
+		var hideNode = this.hideNode, wipeNode = this.wipeNode;
+		this._slideIn = dojo.fx.slideIn({
+			node: this.wipeNode,
+			duration: this.duration,
+			beforeBegin: function(){
+				hideNode.style.display="";
+			}
+		});
+		this._slideOut = dojo.fx.slideOut({
+			node: this.wipeNode,
+			duration: this.duration,
+			onEnd: function(){
+				hideNode.style.display="none";
+			}
+		});
+	},
+
+	setContent: function(content){
+		// summary
+		// 		Typically called when an href is loaded.  Our job is to make the animation smooth
+		if(this._slideOut.status() == "playing"){
+			// we are currently *closing* the pane, so just let that continue
+			dijit.layout.ContentPane.prototype.setContent.apply(this, content);
+		}else{
+			if(this._slideIn.status() == "playing"){
+				this._slideIn.stop();
+			}
+			
+			// freeze container at current height so that adding new content doesn't make it jump
+			dojo.marginBox(this.wipeNode, {h: dojo.marginBox(this.wipeNode).h});
+
+			// add the new content (erasing the old content, if any)
+			dijit.layout.ContentPane.prototype.setContent.apply(this, arguments);
+			
+			// call _slideIn.play() to animate from current height to new height
+			this._slideIn.play();
+		}
 	},
 
 	toggle: function(){
