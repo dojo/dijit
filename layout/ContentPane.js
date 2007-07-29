@@ -55,12 +55,11 @@ dojo.declare(
 
 	// loadingMessage: String
 	//	Message that shows while downloading
-	// TODO: why not just put this in the content of the pane, like <div dojoType=... href=...>Loading...</div> ?
-	loadingMessage: "Loading...", //TODO: i18n or set a image containing the same info (no i18n required)
+	loadingMessage: "<span class='dijitContentPaneLoading'>Loading...</span>", //TODO: i18n or set a image containing the same info (no i18n required)
 
 	// errorMessage: String
 	//	Message that shows if an error occurs
-	errorMessage: "Sorry, but an error occured", // TODO: i18n?  But do we really need I18N for an unexpected error??
+	errorMessage: "<span class='dijitContentPaneError'>Sorry, but an error occured</span>", // TODO: i18n?  But do we really need I18N for an unexpected error??
 
 	// isLoaded: Boolean
 	//	Tells loading status see onLoad|onUnload for event hooks
@@ -82,6 +81,13 @@ dojo.declare(
 		// for programatically created ContentPane (with <span> tag), need to muck w/CSS
 		// or it's as though overflow:visible is set
 		dojo.addClass(this.domNode, this["class"]);
+	},
+
+	startup: function(){
+		if(!this._started){
+			this._loadCheck()
+			this._started = true;
+		}
 	},
 
 	refresh: function(){
@@ -156,14 +162,6 @@ dojo.declare(
 		dojo.marginBox(this.domNode, size);
 	},
 
-	_loadCheck: function(){
-		// call this when you change onShow (onSelected) status when selected in parent container
-		// it's used as a trigger for href download when this.domNode.display != 'none'
-		if(this.href && (this.refreshOnShow || !this.isLoaded)){
-			this._prepareLoad(this.refreshOnShow);
-		}
-	},
-
 	onShow: function(){
 		// summary
 		//	Callback from StackContainer or TitlePane when contents are selected/
@@ -171,12 +169,20 @@ dojo.declare(
 		this._loadCheck();
 	},
 
+	_loadCheck: function(){
+		// call this when you change onShow (onSelected) status when selected in parent container
+		// it's used as a trigger for href download when this.domNode.display != 'none'
+		if(this.href && (this.refreshOnShow || (!this.isLoaded && !this._xhrDfd))){
+			this._prepareLoad(this.refreshOnShow);
+		}
+	},
+
 	_prepareLoad: function(forceLoad){
 		// sets up for a xhrLoad, load is deferred until widget onShowor selected in parentContainer
 		this.isLoaded = false;
 
 		// defer load if until widget is showing
-		if(forceLoad || this.preload || (this.domNode.style.display != 'none')){
+		if(forceLoad || this.preload || (this.containerNode || this.domNode).style.display != 'none'){
 			this._downloadExternalContent();
 		}
 	},

@@ -84,12 +84,13 @@ dojo.declare(
 				animation.stop();
 			}
 		});
-		
-		// load content (if this is the first time we are opening the TitlePane,
-		// and content is specified as an href)
-		this.onShow();
 
 		this[this.open ? "_slideOut" : "_slideIn"].play();
+
+		// load content (if this is the first time we are opening the TitlePane,
+		// and content is specified as an href), must be called after we unhidden containerNode
+		this.onShow();
+
 		this.open=!this.open;
 		this._setCss();
 	},

@@ -81,9 +81,9 @@
 			some content pane blah blah blah
 		</div>
 		<div dojoType="dijit.layout.ContentPane" class="box" href="combotab.html" hasShadow="true" id="test">
-					hi
-				</div>
-				<input type="button" value="Change pane in 3 seconds" onClick='setTimeout("dijit.byId(\"test\").setHref(\"tab2.html\")", 3000);'>
+			<p style='background-color:yellow;border:1px solid red;text-align:center;'>This text should automatically be replaced by downloaded content from combotab.html</p>
+		</div>
+		<input type="button" value="Change pane in 3 seconds" onClick='setTimeout("dijit.byId(\"test\").setHref(\"tab2.html\")", 3000);'>
 		<script type="text/javascript">
 			dojo.addOnLoad(function(){
 				var tmp = new dijit.layout.ContentPane({}, dojo.byId("ContentPane3"));
