@@ -167,11 +167,17 @@ dojo.declare(
 		page.selected = true;
 
 		page.domNode.style.display="";
+		if(page.onShow){
+			page.onShow();
+		}
 	},
 
 	_hideChild: function(/*Widget*/ page){
 		page.selected=false;
 		page.domNode.style.display="none";
+		if(page.onHide){
+			page.onHide();
+		}
 	},
 
 	closeChild: function(/*Widget*/ page){

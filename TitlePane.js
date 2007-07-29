@@ -2,12 +2,12 @@ dojo.provide("dijit.TitlePane");
 
 dojo.require("dojo.fx");
 
-dojo.require("dijit._Widget");
 dojo.require("dijit._Templated");
+dojo.require("dijit.layout.ContentPane");
 
 dojo.declare(
 	"dijit.TitlePane",
-	[dijit._Widget, dijit._Templated],
+	[dijit.layout.ContentPane, dijit._Templated],
 {
 	// summary
 	//		A pane with a title on top, that can be opened or collapsed.
@@ -49,6 +49,11 @@ dojo.declare(
 				animation.stop();
 			}
 		});
+		
+		// load content (if this is the first time we are opening the TitlePane,
+		// and content is specified as an href)
+		this.onShow();
+
 		this[this.open ? "_slideOut" : "_slideIn"].play();
 		this.open=!this.open;
 		this._setCss();

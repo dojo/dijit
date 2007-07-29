@@ -11,6 +11,10 @@
 	<script language="JavaScript" type="text/javascript">
 		dojo.require("dijit.TitlePane");
 		dojo.require("dojo.parser");	// scan page for widgets and instantiate them
+		
+		// widgets used inside subpage loaded via href=
+		dojo.require("dijit.form.Button");
+		dojo.require("dijit.form.ComboBox");
 	</script>
 
 	<style type="text/css">
@@ -44,7 +48,10 @@
 	</div>
 	<br>
 
-	<div dojoType="dijit.TitlePane" title="Pane from href broken until contentPane ported to dijit" href="layout/doc0.html"></div>
+	<p>Here's a TitlePane with an href.  The content should load when you open the pane.</p>
+	<div dojoType="dijit.TitlePane" title="Pane from href, initially closed" href="layout/doc0.html" open="false">
+		Loading...
+	</div>
 	<br>
 
 	<div dojoType="dijit.TitlePane" title="Initially closed pane" open="false" width="200">

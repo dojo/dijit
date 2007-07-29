@@ -27,9 +27,10 @@ dojo.declare(
 	//		To do a ajax update use .setHref('url')
 
 	// href: String
-	//		The href of the content that displays now
-	//		Set this at construction if you want to load externally,
-	//		changing href after creation doesn't have any effect, see setHref
+	//		The href of the content that displays now.
+	//		Set this at construction if you want to load data externally when the
+	//		pane is shown.  (Set preload=true to load it immediately.)
+	//		Changing href after creation doesn't have any effect; see setHref();
 	href: "",
 
 	// extractContent: Boolean
@@ -46,8 +47,6 @@ dojo.declare(
 
 	// preload: Boolean
 	//	Force load of data even if pane is hidden.
-	// Note:
-	//		In order to delay download you need to initially hide the node it constructs from
 	preload: false,
 
 	// refreshOnShow: Boolean
@@ -56,11 +55,12 @@ dojo.declare(
 
 	// loadingMessage: String
 	//	Message that shows while downloading
+	// TODO: why not just put this in the content of the pane, like <div dojoType=... href=...>Loading...</div> ?
 	loadingMessage: "Loading...", //TODO: i18n or set a image containing the same info (no i18n required)
 
 	// errorMessage: String
 	//	Message that shows if an error occurs
-	errorMessage: "Sorry, but an error occured", // TODO: i18n
+	errorMessage: "Sorry, but an error occured", // TODO: i18n?  But do we really need I18N for an unexpected error??
 
 	// isLoaded: Boolean
 	//	Tells loading status see onLoad|onUnload for event hooks
@@ -75,21 +75,13 @@ dojo.declare(
 		// over a node
 		this.domNode.title = "";
 
+		if(this.preload){
+			this._loadCheck();
+		}
+
 		// for programatically created ContentPane (with <span> tag), need to muck w/CSS
 		// or it's as though overflow:visible is set
 		dojo.addClass(this.domNode, this["class"]);
-	},
-
-	startup: function(){
-		// summary:
-		//		starts href load and/or subscribes to parent selectChild event
-		//		Call this after you have created added your widget to any Container widget
-		if(!this._started){
-			if(!this._linkLazyLoadToParent()){
-				this._loadCheck();
-			}
-			this._started = true;
-		}
 	},
 
 	refresh: function(){
@@ -156,7 +148,6 @@ dojo.declare(
 		}
 		// make sure we call onUnload
 		this._onUnloadHandler();
-		this._unlinkLazyLoadFromParent();
 		this._beingDestroyed = true;
 		dijit.layout.ContentPane.superclass.destroy.call(this);
 	},
@@ -165,54 +156,19 @@ dojo.declare(
 		dojo.marginBox(this.domNode, size);
 	},
 
-	_linkLazyLoadToParent: function(){
-		// start to listen on parent Container selectChild publishes (lazy load)
-		// Container must be a instanceof dijit.layout.StackContainer
-		// like TabContainer, AccordionContainer etc
-		// For this method to work, this.domNode must already be
-		// inserted in DOM as a Child of Container
-		if(dijit._Contained && dijit.layout.StackContainer && !this._subscr_show){
-			// look upwards to find the closest stackContainer
-			var p = this, ch = this;
-			while(p = dijit._Contained.prototype.getParent.call(p)){
-				if(p && p instanceof dijit.layout.StackContainer){ break; }
-				ch = p; // containers child isn't always this widget, see AccordionPane
-			}
-
-			if(p){
-				// relay published event to correct function (code reuse)
-				function cb(receiver){
-					return function(page){
-						if(page==ch && receiver){ receiver.call(this);}
-					};
-				}
-
-				// if container has this page selected, start loading..
-				if(p.selectedChildWidget == ch){ this._loadCheck(); }
-
-				this._subscr_show = dojo.subscribe(p.id+"-selectChild", this, cb(this._loadCheck));
-				this._subscr_remove = dojo.subscribe(p.id+"-removeChild", this, cb(this._unlinkLazyLoadFromParent));
-				return true; // Boolean
-			}
-		}
-		return false; // Boolean
-	},
-
-	_unlinkLazyLoadFromParent: function(){
-		// unhooks selectChild publishes from parent Container (lazy load)
-		if(this._subscr_show){
-			dojo.unsubscribe(this._subscr_remove);
-			dojo.unsubscribe(this._subscr_show);
-			this._subscr_remove = this._subscr_show = null;
-		}
-	},
-
 	_loadCheck: function(){
 		// call this when you change onShow (onSelected) status when selected in parent container
-		// its used as a trigger for href download when this.domNode.display != 'none'
+		// it's used as a trigger for href download when this.domNode.display != 'none'
 		if(this.href && (this.refreshOnShow || !this.isLoaded)){
 			this._prepareLoad(this.refreshOnShow);
 		}
+	},
+
+	onShow: function(){
+		// summary
+		//	Callback from StackContainer or TitlePane when contents are selected/
+		//	title pane is opened
+		this._loadCheck();
 	},
 
 	_prepareLoad: function(forceLoad){
