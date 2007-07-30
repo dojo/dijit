@@ -215,7 +215,9 @@ dojo.declare(
 				this.save(e);
 			}
 		}else{
-			this.saveButton.setDisabled(false);
+			if(e.keyCode && e.keyCode != dojo.keys.TAB){	// ignore the tab key
+				this.saveButton.setDisabled(false);
+			}
 		}
 
 	},
