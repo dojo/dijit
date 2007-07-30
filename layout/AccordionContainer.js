@@ -39,8 +39,6 @@ dojo.declare(
 				style.display = "";
 				style.overflow = "auto";
 				this.selectedChildWidget._setSelectedState(true);
-			}else{
-				this.getChildren()[0].focusNode.setAttribute("tabIndex","0");
 			}
 		},
 
