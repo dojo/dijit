@@ -169,26 +169,41 @@ dojo.declare(
 		this._loadCheck();
 	},
 
-	_loadCheck: function(){
-		// call this when you change onShow (onSelected) status when selected in parent container
-		// it's used as a trigger for href download when this.domNode.display != 'none'
-		if(this.href && (this.refreshOnShow || (!this.isLoaded && !this._xhrDfd))){
-			this._prepareLoad(this.refreshOnShow);
-		}
+	_prepareLoad: function(forceLoad){
+		// sets up for a xhrLoad, load is deferred until widget onShow
+		// cancels a inflight download
+		this.cancel();
+		this.isLoaded = false;
+		this._loadCheck(forceLoad);
 	},
 
-	_prepareLoad: function(forceLoad){
-		// sets up for a xhrLoad, load is deferred until widget onShowor selected in parentContainer
-		this.isLoaded = false;
+	_loadCheck: function(forceLoad){
+		// call this when you change onShow (onSelected) status when selected in parent container
+		// it's used as a trigger for href download when this.domNode.display != 'none'
 
-		// defer load if until widget is showing
-		if(forceLoad || this.preload || (this.containerNode || this.domNode).style.display != 'none'){
+		// sequence:
+		// if no href -> bail
+		// forceLoad -> always load
+		// this.preload -> load when download not in progress, domNode display doesn't matter
+		// this.refreshOnShow -> load when download in progress bails, domNode display !='none' AND
+		//						this.open !== false (undefined is ok), isLoaded doesn't matter
+		// else -> load when download not in progress, if this.open !== false (undefined is ok) AND
+		//						domNode display != 'none', isLoaded must be false
+
+		var displayState = ((this.open !== false) && (this.domNode.style.display != 'none'));
+
+		if(this.href &&	
+			(forceLoad ||
+				(this.preload && !this._xhrDfd) ||
+				(this.refreshOnShow && displayState && !this._xhrDfd) ||
+				(!this.isLoaded && displayState && !this._xhrDfd)
+			)
+		){
 			this._downloadExternalContent();
 		}
 	},
 
 	_downloadExternalContent: function(){
-		this.cancel();
 		this._onUnloadHandler();
 
 		// display loading message
@@ -217,6 +232,7 @@ dojo.declare(
 			}catch(err){
 				self._onError.call(self, 'Content', err); // onContentError
 			}
+			delete self._xhrDfd;
 			return html;
 		});
 
@@ -225,6 +241,7 @@ dojo.declare(
 				// show error message in the pane
 				self._onError.call(self, 'Download', err); // onDownloadError
 			}
+			delete self._xhrDfd;
 			return err;
 		});
 	},

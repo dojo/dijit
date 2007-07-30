@@ -86,12 +86,14 @@ dojo.declare(
 		});
 
 		this[this.open ? "_slideOut" : "_slideIn"].play();
+		this.open=!this.open;
 
-		// load content (if this is the first time we are opening the TitlePane,
-		// and content is specified as an href), must be called after we unhidden containerNode
+		// load content (if this is the first time we are opening the TitlePane
+		// and content is specified as an href, or we have setHref when hidden)
+		// FIXME: this breaks when user declares onShow='myFunction()' in markup
+		// see #3905
 		this.onShow();
 
-		this.open=!this.open;
 		this._setCss();
 	},
 

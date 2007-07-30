@@ -123,6 +123,12 @@ form {
 
 <div dojoType="dijit.Dialog" id="fourthDlg" href="layout/tab2.html" title="From HREF"></div>
 
+
+<button dojoType="dijit.form.Button" onclick="dijit.byId('fifthDlg').show();">Test slow loading HREF Dialog</button>
+
+<div dojoType="dijit.Dialog" id="fifthDlg" href="layout/getResponse.php?delay=3000&messId=3" title="From HREF (slow network emulated)"></div>
+
+
 <p><b><i>(scroll down to see more links to click, for testing positioning / scroll handling)</i></b></p>
 
 <p>
