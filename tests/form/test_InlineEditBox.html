@@ -47,6 +47,7 @@
 		after<br>
 
 		<hr style="width:100%;">
+		The following inline text area has Save/Cancel buttons when open.		
 		<blockquote style="width:50%;">
 			<p><span id="areaEditable" dojoType="dijit.form.InlineEditBox" renderAsHtml="false" autoSave="false">
 				<textarea dojoType="dijit.form.Textarea">I'm one big paragraph.  Go ahead and edit me.  I dare you. The quick brown fox jumped over the lazy dog.  Blah blah blah blah blah blah blah ...</textarea>
@@ -57,6 +58,14 @@
 		<a href="#" onClick="dijit.byId('areaEditable').setDisabled(false)">enable</a>
 		the text area above.
 
+		<hr style="width:100%;">
+		The following inline text area does not have Save/Cancel buttons when open.		
+		<blockquote style="width:50%;">
+			<p><span id="areaEditable" dojoType="dijit.form.InlineEditBox" renderAsHtml="false" autoSave="true">
+				<textarea dojoType="dijit.form.Textarea">I'm one big paragraph.  Go ahead and edit me.  I dare you. The quick brown fox jumped over the lazy dog.  Blah blah blah blah blah blah blah ...</textarea>
+			</span></p>
+		</blockquote>
+		
 		<hr style="width:100%;">
 
 		<b>Date text box:</b>
@@ -73,7 +82,7 @@
 		<b>FilteringSelect:</b>
 		<span dojoType="dojo.data.ItemFileReadStore" jsId="stateStore"
 			url="comboBoxData.json"></span>
-		<span id="backgroundArea" dojoType="dijit.form.InlineEditBox" >
+		<span id="filteringSelect" dojoType="dijit.form.InlineEditBox" >
 			<input searchAttr="name" keyAttr="abbreviation" id="setvaluetest" dojoType="dijit.form.FilteringSelect" value="IA"
 					store="stateStore" name="state1" autocomplete="true" hasDownArrow="false">
 		</span>
