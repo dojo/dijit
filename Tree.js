@@ -269,6 +269,28 @@ dojo.declare(
 
 		// set focus so that the label wil be voiced using screen readers
 		labelNode.focus();
+	},
+	
+	_onBlur: function(){
+		// summary:
+		// 		We've moved away from the whole tree.  The currently "focused" node
+		//		(see focusNode above) should remain as the lastFocused node so we can
+		//		tab back into the tree.  Just change CSS to get rid of the dotted border
+		//		until that time
+		if(this.lastFocused){
+			var labelNode = this.lastFocused.labelNode;
+			dojo.removeClass(labelNode, "TreeLabelFocused");	
+		}
+	},
+	
+	_onFocus: function(){
+		// summary:
+		//		If we were previously on the tree, there's a currently "focused" node
+		//		already.  Just need to set the CSS back so it looks focused.
+		if(this.lastFocused){
+			var labelNode = this.lastFocused.labelNode;
+			dojo.addClass(labelNode, "TreeLabelFocused");			
+		}
 	}
 });
 
