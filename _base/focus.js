@@ -300,7 +300,7 @@ dijit.widgetFocusTracer = new function(){
 			this._ignoreNextBlurEvent = false;
 			return;
 		}
-		this._blurAllTimer = setTimeout(function(){ delete self._blurAllTimer; setStack([]); }, 0);
+		this._blurAllTimer = setTimeout(function(){ delete self._blurAllTimer; setStack([]); }, 100);
 	}
 
 	this._onTouchNode = function(/*DomNode*/ node){
