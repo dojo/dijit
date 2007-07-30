@@ -124,7 +124,7 @@ dojo.declare(
 		this.editing = true;
 
 		// show the edit form and hide the read only version of the text
-		this._setEditValue(this._isEmpty ? '' : (this.renderAsHtml ? this.editable.innerHTML : this.editable.firstChild.nodeValue));
+		this._setEditValue(this._isEmpty ? '' : (this.renderAsHtml ? this.editable.innerHTML : this.editable.innerHTML.replace(/<br\/?>/gi, "\n")));
 		this._initialText = this._getEditValue();
 		this._visualize();
 
@@ -153,7 +153,15 @@ dojo.declare(
 			this.editable.innerHTML = value;
 		}else{
 			this.editable.innerHTML = "";
-			this.editable.appendChild(document.createTextNode(value));
+			if(value.split){
+				var _this=this;
+				dojo.forEach(value.split("\n"), function(line){
+					_this.editable.appendChild(document.createTextNode(line)); // use text nodes so that imbedded tags can be edited
+					_this.editable.appendChild(document.createElement("BR")); // preserve line breaks
+				});
+			}else{
+				this.editable.appendChild(document.createTextNode(value));
+			}
 		}
 		this._visualize();
 	},
