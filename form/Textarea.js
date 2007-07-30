@@ -18,10 +18,12 @@ dojo.declare(
 
 	templateString: (dojo.isIE || dojo.isSafari || dojo.isMozilla) ? '<fieldset id="${id}" class="dijitInlineBox dijitInputField dijitTextArea">'
 				+ ((dojo.isIE || dojo.isSafari) ? '<div dojoAttachPoint="editNode" waiRole="textarea" tabIndex="${tabIndex}" style="text-decoration:none;_padding-bottom:16px;display:block;overflow:auto;" contentEditable="true"></div>'
-					: '<iframe dojoAttachPoint="iframe" src="javascript:void(0)" style="border:0px;margin:0px;padding:0px;display:block;width:100%;height:100%;overflow-x:auto;overflow-y:hidden;"></iframe>')
+					: '<iframe dojoAttachPoint="iframe" dojoAttachEvent="onblur:_onIframeBlur" src="javascript:void(0)" style="border:0px;margin:0px;padding:0px;display:block;width:100%;height:100%;overflow-x:auto;overflow-y:hidden;"></iframe>')
 				+ '<textarea name="${name}" value="${value}" dojoAttachPoint="formValueNode" style="display:none;"></textarea>'
 				+ '</fieldset>'
 			: '<textarea id="${id}" name="${name}" value="${value}" dojoAttachPoint="formValueNode,editNode" class="dijitInputField dijitTextArea"></textarea>',
+
+	_nlsResources: null,	// Needed for screen readers on FF2
 
 	focus: function(){
 		// summary: Received focus, needed for the InlineEditBox widget
@@ -106,13 +108,13 @@ dojo.declare(
 			//
 			// A workaround for both of these problems is to give the iframe's
 			// document a title, the name of which is similar to a role name, i.e.
-			// "edit box".  This will be used as the accessible name which will replace
+			// "edit area".  This will be used as the accessible name which will replace
 			// the cryptic name and will also convey the role information to the user.
 			// Because it is read directly to the user, the string must be localized.
-			var resources = dojo.i18n.getLocalization("dijit.form", "Textarea");
+			this._nlsResources = dojo.i18n.getLocalization("dijit.form", "Textarea");
 			d.open();
 			d.write('<html><head><title>' +
-				resources.iframeTitle +
+				this._nlsResources.iframeTitle1 +	// "edit area"
 				'</title></head><body style="margin:0px;padding:0px;border:0px;"><div tabIndex="1" style="padding:2px;"></div></body></html>');
 			d.close();
 			try{ this.iframe.contentDocument.designMode="on"; }catch(e){/*squelch*/} // this can fail if display:none
@@ -147,12 +149,30 @@ dojo.declare(
 		this._changed(e, true);
 	},
 
+	_onIframeBlur: function(){
+		// Reset the title back to "edit area".
+		this.iframe.contentDocument.title = this._nlsResources.iframeTitle1;
+	},
+
 	_onKeyPress: function(e){
-		if(e.keyCode == 9 && !e.shiftKey && !e.ctrlKey && !e.altKey && this.iframe){
+		if(e.keyCode == dojo.keys.TAB && !e.shiftKey && !e.ctrlKey && !e.altKey && this.iframe){
+			// Pressing the tab key in the iframe (with designMode on) will cause the
+			// entry of a tab character so we have to trap that here.  Since we don't
+			// know the next focusable object we put focus on the iframe and then the
+			// user has to press tab again (which then does the expected thing).
+			// A problem with that is that the screen reader user hears "edit area"
+			// announced twice which causes confusion.  By setting the
+			// contentDocument's title to "edit area frame" the confusion should be
+			// eliminated.
+			this.iframe.contentDocument.title = this._nlsResources.iframeTitle2;
 			// Place focus on the iframe. A subsequent tab or shift tab will put focus
-			// on the correct control.  (Having to tab twice is a low priority bug.)
-			this.focus();
+			// on the correct control.
+			// Note: Can't use this.focus() because that results in a call to 
+			// dijit.focus and if that receives an iframe target it will set focus
+			// on the iframe's contentWindow.
+			this.iframe.focus();  // this.focus(); won't work
 			e.preventDefault();
+			e.stopPropagation();
 		}else{
 			this.inherited("_onKeyPress", arguments);
 		}
