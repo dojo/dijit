@@ -34,3 +34,9 @@
 .dijitRtl .dijitComboButton .dijitButtonContents {
 	border-right-width:1px !important;
 }
+
+/* A11y */
+.dijitA11ySideArrow {
+	margin-left:1em;
+	margin-right:0;
+}

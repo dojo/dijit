@@ -77,3 +77,16 @@
 	margin-right: -13px;
 }
 
+/* Calendar */
+
+.dijitRtl .dijitCalendarDecrease {
+	background:url(images/arrowRight.png) no-repeat center center; 
+	margin-left:0;
+	margin-right:2px;
+}
+
+.dijitRtl .dijitCalendarIncrease {
+	background:url(images/arrowLeft.png) no-repeat center center; 
+	margin-right:0;
+	margin-left:4px; 
+}
