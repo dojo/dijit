@@ -26,7 +26,7 @@
 }
 
 .dijitRtl .dijitProgressBarFull .dijitProgressBarLabel {
-	right:0px; // FF workaround
+	right:0px; /* FF workaround */
 }
 
 /* Button */
