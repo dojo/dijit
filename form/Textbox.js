@@ -53,8 +53,6 @@ dojo.declare(
 				var _this = this;
 				// synchronous value set needed for InlineEditBox
 				this.textbox.value = formattedValue;
-				// asynch value set needed for FF2 if altering the value after a keypress
-				setTimeout(function(){_this.textbox.value = formattedValue;}, 1);
 			}
 			dijit.form.Textbox.superclass.setValue.call(this, value, priorityChange);
 		},

@@ -206,8 +206,6 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 			if(v != this._lastValueReported && this._lastValueReported != undefined){
 				this.undo();
 				dojo.stopEvent(e);
-			}else if(dojo.isMozilla){ // needed by FF2 to keep it from putting the value back
-				this.setValue(v, false);
 			}
 		}
 	},
