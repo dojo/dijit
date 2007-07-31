@@ -6,22 +6,6 @@ dojo.provide("dijit._editor.selection");
 //		size difference for differentiating at definition time.
 
 dojo.mixin(dijit._editor.selection, {
-	isCollapsed: function(){
-		// summary: return whether the current selection is empty
-		var _window = dojo.global;
-		var _document = dojo.doc;
-		if(_document["selection"]){ // IE
-			return _document.selection.createRange().text == "";
-		}else if(_window["getSelection"]){
-			var selection = _window.getSelection();
-			if(dojo.isString(selection)){ // Safari
-				return selection == "";
-			}else{ // Mozilla/W3
-				return selection.isCollapsed || selection.toString() == "";
-			}
-		}
-	},
-
 	getType: function(){
 		// summary: Get the selection type (like document.select.type in IE).
 		if(dojo.doc["selection"]){ //IE
@@ -45,6 +29,42 @@ dojo.mixin(dijit._editor.selection, {
 				}
 			}
 			return stype;
+		}
+	},
+
+	getSelectedText: function(){
+		// summary:
+		//		Return the text (no html tags) included in the current selection or null if no text is selected
+		if(dojo.doc["selection"]){ //IE
+			if(dijit._editor.selection.getType() == 'control'){
+				return null;
+			}
+			return dojo.doc.selection.createRange().text;
+		}else{
+			var selection = dojo.global.getSelection();
+			if(selection){
+				return selection.toString();
+			}
+		}
+	},
+
+	getSelectedHtml: function(){
+		// summary:
+		//		Return the html of the current selection or null if unavailable
+		if(dojo.doc["selection"]){ //IE
+			if(dijit._editor.selection.getType() == 'control'){
+				return null;
+			}
+			return dojo.doc.selection.createRange().htmlText;
+		}else{
+			var selection = dojo.global.getSelection();
+			if(selection && selection.rangeCount){
+				var frag = selection.getRangeAt(0).cloneContents();
+				var div = document.createElement("div");
+				div.appendChild(frag);
+				return div.innerHTML;
+			}
+			return null;
 		}
 	},
 

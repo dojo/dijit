@@ -132,6 +132,9 @@ dijit.popup = new function(){
 			widget.onClose();
 		}
 
+		if(!stack.length){
+			return;
+		}
 		var top = stack.pop();
 		var wrapper = top.wrapper,
 			iframe = top.iframe,

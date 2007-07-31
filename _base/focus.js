@@ -54,7 +54,7 @@ dojo.mixin(dijit,
 		}
 	},
 
-	_isCollapsed: function(){
+	isCollapsed: function(){
 		// summary: tests whether the current selection is empty
 		var _window = dojo.global;
 		var _document = dojo.doc;
@@ -65,12 +65,12 @@ dojo.mixin(dijit,
 			if(dojo.isString(selection)){ // Safari
 				return !selection; // Boolean
 			}else{ // Mozilla/W3
-				return selection._isCollapsed || !selection.toString(); // Boolean
+				return selection.isCollapsed || !selection.toString(); // Boolean
 			}
 		}
 	},
 
-	_getBookmark: function(){
+	getBookmark: function(){
 		// summary: Retrieves a bookmark that can be used with moveToBookmark to return to the same range
 		var bookmark, selection = dojo.doc.selection;
 		if(selection){ // IE
@@ -94,7 +94,7 @@ dojo.mixin(dijit,
 		return bookmark; // Array
 	},
 
-	_moveToBookmark: function(/*Object*/bookmark){
+	moveToBookmark: function(/*Object*/bookmark){
 		// summary: Moves current selection to a bookmark
 		// bookmark: this should be a returned object from dojo.html.selection.getBookmark()
 		var _document = dojo.doc;
@@ -140,8 +140,8 @@ dojo.mixin(dijit,
 			
 			// Previously selected text
 			bookmark: 
-				!dojo.withGlobal(openedForWindow||dojo.global, dijit._isCollapsed) ?
-				dojo.withGlobal(openedForWindow||dojo.global, dijit._getBookmark) :
+				!dojo.withGlobal(openedForWindow||dojo.global, dijit.isCollapsed) ?
+				dojo.withGlobal(openedForWindow||dojo.global, dijit.getBookmark) :
 				null,
 				
 			openedForWindow: openedForWindow
@@ -179,7 +179,7 @@ dojo.mixin(dijit,
 		// set the selection
 		// do not need to restore if current selection is not empty
 		// (use keyboard to select a menu item)
-		if(bookmark && dojo.withGlobal(openedForWindow||dojo.global, dijit._isCollapsed)){
+		if(bookmark && dojo.withGlobal(openedForWindow||dojo.global, dijit.isCollapsed)){
 			if(openedForWindow){
 				openedForWindow.focus();
 			}
