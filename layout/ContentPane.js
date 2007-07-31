@@ -162,13 +162,6 @@ dojo.declare(
 		dojo.marginBox(this.domNode, size);
 	},
 
-	onShow: function(){
-		// summary
-		//	Callback from StackContainer or TitlePane when contents are selected/
-		//	title pane is opened
-		this._loadCheck();
-	},
-
 	_prepareLoad: function(forceLoad){
 		// sets up for a xhrLoad, load is deferred until widget onShow
 		// cancels a inflight download

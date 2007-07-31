@@ -90,9 +90,7 @@ dojo.declare(
 
 		// load content (if this is the first time we are opening the TitlePane
 		// and content is specified as an href, or we have setHref when hidden)
-		// FIXME: this breaks when user declares onShow='myFunction()' in markup
-		// see #3905
-		this.onShow();
+		this._loadCheck();
 
 		this._setCss();
 	},

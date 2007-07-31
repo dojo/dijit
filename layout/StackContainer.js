@@ -167,6 +167,9 @@ dojo.declare(
 		page.selected = true;
 
 		page.domNode.style.display="";
+		if(page._loadCheck){
+			page._loadCheck(); // trigger load in ContentPane
+		}
 		if(page.onShow){
 			page.onShow();
 		}
