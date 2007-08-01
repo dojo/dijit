@@ -143,14 +143,42 @@ dojo.declare(
 		// Summary: advance to next page
 		var children = this.getChildren();
 		var index = dojo.indexOf(children, this.selectedChildWidget);
-		this.selectChild(children[index+1]);
+		this.selectChild(children[ (index + 1) % children.length ]);
 	},
 
 	back: function(){
 		// Summary: go back to previous page
 		var children = this.getChildren();
 		var index = dojo.indexOf(children, this.selectedChildWidget);
-		this.selectChild(children[index-1]);
+		this.selectChild(children[ (index + children.length - 1) % children.length ]);
+	},
+
+	// TODO: move this logic into controller?
+	_onKeyPress: function(e){
+		// summary
+		//	Keystroke handling for keystrokes on the tab panel itself (that were bubbled up to me)
+		//	Ctrl-w: close tab
+		if (e.ctrlKey){
+			switch(e.keyCode){
+				case dojo.keys.PAGE_DOWN:
+				case dojo.keys.PAGE_UP:
+					if (e.keyCode == dojo.keys.PAGE_DOWN){
+						this.forward();
+					}else{
+						this.back();
+					}
+					dijit.focus(this.selectedChildWidget.domNode);
+					dojo.stopEvent(e);
+					return false;
+					break;
+				default:
+					if((e.keyChar == "w") &&
+						(this.selectedChildWidget.closable)){
+							this.closeChild(this.selectedChildWidget);
+							dojo.stopEvent(e);
+					}
+			}
+		}
 	},
 
 	layout: function(){
@@ -167,9 +195,6 @@ dojo.declare(
 		page.selected = true;
 
 		page.domNode.style.display="";
-		if(page._loadCheck){
-			page._loadCheck(); // trigger load in ContentPane
-		}
 		if(page.onShow){
 			page.onShow();
 		}
@@ -221,10 +246,6 @@ dojo.declare(
 		//	the name of the button widget to create to correspond to each page
 		buttonWidget: "dijit.layout._StackButton",
 
-		// childInTabOrder: Widget
-		//  the only child button widget in the tab order
-		childInTabOrder: undefined,
-
 		postCreate: function(){
 			dijit.wai.setAttr(this.domNode, "waiRole", "role", "tablist");
 
@@ -266,9 +287,9 @@ dojo.declare(
 			var _this = this;
 			dojo.connect(button, "onClick", function(){ _this.onButtonClick(page); });
 			dojo.connect(button, "onClickCloseButton", function(){ _this.onCloseButtonClick(page); });
-			if(!this.childInTabOrder){ // put the first child into the tab order
+			if(!this._currentChild){ // put the first child into the tab order
 				button.focusNode.setAttribute("tabIndex","0");
-				this.childInTabOrder = button;
+				this._currentChild = page;
 			}
 		},
 
@@ -279,7 +300,7 @@ dojo.declare(
 			if(this._currentChild === page){ this._currentChild = null; }
 			var button = this.pane2button[page];
 			if(button){
-				// TODO? if (button == this.childInTabOrder){ reassign }
+				// TODO? if current child { reassign }
 				button.destroy();
 			}
 			this.pane2button[page] = null;
@@ -320,6 +341,16 @@ dojo.declare(
 				dijit.focus(b.focusNode || b.domNode);
 			}
 		},
+		
+		// TODO: this is a bit redundant with forward, back api in StackContainer
+		adjacent: function(/*Boolean*/ forward){
+			// find currently focused button in children array
+			var children = this.getChildren();
+			var current = dojo.indexOf(children, this.pane2button[this._currentChild]);
+			// pick next button to focus on
+			var offset = forward ? 1 : children.length - 1;
+			return children[ (current + offset) % children.length ];
+		},
 
 		onkeypress: function(/*Event*/ evt){
 			// summary:
@@ -335,14 +366,8 @@ dojo.declare(
 					// fall through
 				case dojo.keys.RIGHT_ARROW:
 				case dojo.keys.DOWN_ARROW:
-					// find currently focused button in children array
-					var children = this.getChildren();
-					var current = dojo.indexOf(children, this.pane2button[this._currentChild]);
-					// pick next button to focus on
-					var offset = forward ? 1 : children.length - 1;
-					var next = children[ (current + offset) % children.length ];
+					this.adjacent(forward).onClick();
 					dojo.stopEvent(evt);
-					next.onClick();
 					break;
 				case dojo.keys.DELETE:
 					if (this._currentChild.closable){

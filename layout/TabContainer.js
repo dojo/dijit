@@ -68,18 +68,6 @@ dojo.declare(
 		}
 	},
 
-	_onKeyPress: function(e){
-		// summary
-		//	Keystroke handling for keystrokes on the tab panel itself (that were bubbled up to me)
-		//	Ctrl-w: close tab
-		if((e.keyChar == "w") && e.ctrlKey){
-			if (this.selectedChildWidget.closable){
-				this.closeChild(this.selectedChildWidget);
-				dojo.stopEvent(e);
-			}
-		}
-	},
-
 	destroy: function(){
 		this.tablist.destroy();
 		dijit.layout.TabContainer.superclass.destroy.apply(this, arguments);

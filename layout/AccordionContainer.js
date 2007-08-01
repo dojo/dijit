@@ -116,7 +116,9 @@ inside the AccordionPane??
 
 		// note: we are treating the container as controller here
 		processKey: function(/*Event*/ evt){
-			if(this.disabled || evt.altKey || evt.shiftKey || evt.ctrlKey){ return; }
+			if(this.disabled || evt.altKey || evt.shiftKey || evt.ctrlKey){
+				return 	dijit.layout.AccordionContainer.superclass._onKeyPress.apply(this, arguments);
+			}
 			var forward = true;
 			switch(evt.keyCode){				
 				case dojo.keys.LEFT_ARROW:
