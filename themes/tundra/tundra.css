@@ -109,6 +109,11 @@
 	border: 1px solid transparent;
 	background: none;
 }
+.dj_ie6 .tundra .dijitToolbar .dijitButtonNode {
+	/* workaround no transparent border support in IE6*/
+	border-color: cyan;
+	filter: chroma(color=cyan);
+}
 .tundra .dijitToolbar .dijitButtonHover .dijitButtonNode,
 .tundra .dijitToolbar .dijitToggleButtonHover .dijitButtonNode,
 .tundra .dijitToolbar .dijitDropDownButtonHover .dijitButtonNode {
