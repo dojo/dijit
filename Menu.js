@@ -69,7 +69,7 @@ dojo.declare(
 
 	_activateCurrentItem: function(/*Event*/ evt){
 		if(this._focusedItem){
-			this._focusedItem._onClick();
+			this._focusedItem._onClick(evt);
 			return true; //do not pass to parent menu
 		}
 		return false;
@@ -88,6 +88,7 @@ dojo.declare(
 				break;
 			case dojo.keys.UP_ARROW:
 				this._focusNeighborItem(-1);
+				dojo.stopEvent(evt);
 				break;
 			case dojo.keys.RIGHT_ARROW:
 				this._moveToPopup(evt);
@@ -437,8 +438,9 @@ dojo.declare(
 		this.getParent().onItemUnhover(this);
 	},
 
-	_onClick: function(focus){
+	_onClick: function(evt){
 		this.getParent().onItemClick(this);
+		dojo.stopEvent(evt);
 	},
 
 	onClick: function() {
