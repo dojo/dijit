@@ -230,6 +230,10 @@ function(params, srcNodeRef){
 						if(e.keyCode == dojo.keys.ENTER){
 							return (dojo.isString(method))? 
 								w[method](e) : method.call(w, e);
+						}else if(e.keyCode == dojo.keys.SPACE){
+							// stop space down as it causes IE to scroll
+							// the browser window
+							dojo.stopEvent(e);
 						}
 			 		}));
 				handles.push(dojo.connect(obj, "onkeyup", this,
