@@ -62,7 +62,7 @@
 				console.log("blurred widget " + (widget?widget:"nothing"));
 				animateBorderColor(widget, "#0000ff", 5, 2);
 			});
-			dojo.subscribe("focus", function(node){ console.log("focused on node " + (node?(node.id||node.tagName):"nothing"));});
+			dojo.subscribe("focusNode", function(node){ console.log("focused on node " + (node?(node.id||node.tagName):"nothing"));});
 		});
 	</script>
 	<style>

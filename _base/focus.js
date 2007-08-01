@@ -3,23 +3,17 @@ dojo.provide("dijit._base.focus");
 dojo.require("dijit._base.window");
 
 // summary:
-//		This class is used to save the current focus / selection on the screen,
-//		and restore it later.   It's typically used for popups (menus and dialogs),
-//		but can also be used for a menubar or toolbar.   (For example, in the editor
-//		the user might type Ctrl-T to focus the toolbar, and then when he/she selects
-//		a menu choice, focus is returned to the editor window.)
-dojo.addOnLoad(function(){
-	if(dojo.isIE){
-		dojo.body().attachEvent('onactivate', function(evt){ dijit._setCurrentFocus(evt.srcElement); });
-		dojo.body().attachEvent('ondeactivate', function(evt){ dijit._setCurrentFocus(null); });
-	}else{
-		dojo.body().addEventListener('focus', function(evt){ dijit._setCurrentFocus(evt.target); }, true);
-		dojo.body().addEventListener('blur', function(evt){ dijit._setCurrentFocus(null); }, true);
-	}
-});
-
-/////////////////////////////////////////////////////////////
-// Keep track of currently focused and previously focused element
+//		These functions are used to query or set the focus and selection.
+//
+//		Also, they trace when widgets become actived/deactivated,
+//		so that the widget can fire _onFocus/_onBlur events.
+//		"Active" here means something similar to "focused", but
+//		"focus" isn't quite the right word because we keep track of
+//		a whole stack of "active" widgets.  Example:  Combobutton --> Menu -->
+//		MenuItem.   The onBlur event for Combobutton doesn't fire due to focusing
+//		on the Menu or a MenuItem, since they are considered part of the
+//		Combobutton widget.  It only happens when focus is shifted
+//		somewhere completely different.
 
 dojo.mixin(dijit,
 {
@@ -30,29 +24,6 @@ dojo.mixin(dijit,
 	// _prevFocus: DomNode
 	//		Previously focused item on screen
 	_prevFocus: null,
-		
-	_setCurrentFocus: function(/*DomNode*/ node){
-		// summary: saves info on currently focused item on screen
-		if(node && node.tagName && node.tagName.toLowerCase() == "body"){
-			node = null;
-		}
-		if(node !== dijit._curFocus){
-			if(dijit._curFocus){
-				dijit._prevFocus = dijit._curFocus;
-			}
-			dijit._curFocus = node;
-			
-			// If a node has received focus, then publish topic.
-			// Note that on IE this event comes late (up to 100ms late) so it may be out of order
-			// w.r.t. other events.   Use sparingly.
-			if(node){
-				//console.log("focus on " + (node.id ? node.id : node) );
-				dojo.publish("focus", [node]);
-//			}else{
-//				console.log("nothing focused");
-			}
-		}
-	},
 
 	isCollapsed: function(){
 		// summary: tests whether the current selection is empty
@@ -136,7 +107,7 @@ dojo.mixin(dijit,
 
 		return {
 			// Node to return focus to
-			node: dojo.isDescendant(dijit._curFocus, menu.domNode) ? dijit._prevFocus : dijit._curFocus,
+			node: menu && dojo.isDescendant(dijit._curFocus, menu.domNode) ? dijit._prevFocus : dijit._curFocus,
 			
 			// Previously selected text
 			bookmark: 
@@ -173,7 +144,7 @@ dojo.mixin(dijit,
 					focusNode.focus();
 				}catch(e){/*quiet*/}
 			}			
-			dijit._setCurrentFocus(node);
+			dijit._onFocusNode(node);
 		}
 
 		// set the selection
@@ -189,29 +160,12 @@ dojo.mixin(dijit,
 				/*squelch IE internal error, see http://trac.dojotoolkit.org/ticket/1984 */
 			}
 		}
-	}
-});
-
-
-dijit.widgetFocusTracer = new function(){
-	// summary:
-	//	This utility class will trace whenever focus enters/leaves a widget so
-	//	that the widget can fire onFocus/onBlur events.
-	//
-	//	Actually, "focus" isn't quite the right word because we keep track of
-	//	a whole stack of "active" widgets.  Example:  Combobutton --> Menu -->
-	//	MenuItem.   The onBlur event for Combobutton doesn't fire due to focusing
-	//	on the Menu or a MenuItem, since they are considered part of the
-	//	Combobutton widget.  It only happens when focus is shifted
-	//	somewhere completely different.
+	},
 
 	// List of currently active widgets (focused widget and it's ancestors)
-	var stack=[];
+	_activeStack: [],
 
-	// List of everything we need to disconnect
-	var connects = [];
-
-	this.register = function(/*Window?*/targetWindow){
+	registerWin: function(/*Window?*/targetWindow){
 		// summary:
 		//		Registers listeners on the specified window (either the main
 		//		window or an iframe) to detect when the user has clicked somewhere.
@@ -223,14 +177,13 @@ dijit.widgetFocusTracer = new function(){
 			}catch(e){ return; /* squelch error for cross domain iframes and abort */ }
 		}
 
-		var self = this;
-		connects.push(dojo.connect(targetWindow.document, "onmousedown", this, function(evt){
+		dojo.connect(targetWindow.document, "onmousedown", null, function(evt){
 			// this mouse down event will probably be immediately followed by a blur event; ignore it
-			self._ignoreNextBlurEvent = true;
-			setTimeout(function(){ self.ignoreNextBlurEvent = false; }, 0);
-			self._onTouchNode(evt.target||evt.srcElement);
-		}));
-		//connects.push(dojo.connect(targetWindow, "onscroll", this, ???);4
+			dijit._ignoreNextBlurEvent = true;
+			setTimeout(function(){ dijit._ignoreNextBlurEvent = false; }, 0);
+			dijit._onTouchNode(evt.target||evt.srcElement);
+		});
+		//dojo.connect(targetWindow, "onscroll", ???);
 
 		// Listen for blur and focus events on targetWindow's body
 		var body = targetWindow.document.body || targetWindow.document.getElementsByTagName("body")[0];
@@ -238,13 +191,13 @@ dijit.widgetFocusTracer = new function(){
 			if(dojo.isIE){
 				body.attachEvent('onactivate', function(evt){
 					if(evt.srcElement.tagName.toLowerCase() != "body"){
-						self._onTouchNode(evt.srcElement);
+						dijit._onFocusNode(evt.srcElement);
 					}
 				});
-				body.attachEvent('ondeactivate', function(evt){ self._onBlurNode(); });
+				body.attachEvent('ondeactivate', function(evt){ dijit._onBlurNode(); });
 			}else{
-				body.addEventListener('focus', function(evt){ self._onTouchNode(evt.target); }, true);
-				body.addEventListener('blur', function(evt){ self._onBlurNode(); }, true);
+				body.addEventListener('focus', function(evt){ dijit._onFocusNode(evt.target); }, true);
+				body.addEventListener('blur', function(evt){ dijit._onBlurNode(); }, true);
 			}
 		}
 
@@ -253,64 +206,43 @@ dijit.widgetFocusTracer = new function(){
 				//do not remove dijit.getDocumentWindow, see comment in it
 				var win = dijit.getDocumentWindow(frame.document);
 				if(win){
-					this.register(win);
+					dijit.registerWin(win);
 				}
 			}catch(e){ /* squelch error for cross domain iframes */ }
-		}, this);
-	};
-
-	this.entered = function(/*Widget*/ widget){
-		// summary:
-		//	Dijit.util.popup.open() calls this function, to notify us that a popup
-		//	has opened.  Usually this is unnecessary, as we are tipped off by a focus
-		//	event on a node inside the popup, but safari lets us down...
-		// newStack = stack truncated at the point that matches widget
-		//console.log("entered: old stack " + stack.join(", "));
-		if(dojo.indexOf(stack, widget.id) == -1){
-			setStack( stack.concat(widget.id) );
-		}
-		//console.log("entered: new stack " + stack.join(", "));
-	};
-
-	this.exited = function(/*Widget*/ widget){
-		// summary:
-		//	Dijit.util.popup.close() calls this function, to notify us that a popup
-		//	has closed.  Usually this is unnecessary, as we are tipped off by a focus
-		//	event on another node, but sometimes *no* node gets focus, like
-		//		- if the user clicks a blank area of the screen
-		//		- when a context menu closes and there was nothing focused before the menu opened
-
-		// newStack = stack truncated at the point that matches widget
-		var i = dojo.indexOf(stack, widget.id),
-			newStack = stack.slice(0, i>=0 ? i : stack.length);
-
-		//console.log("old stack " + stack.join(", "));
-		//console.log("new stack " + newStack.join(", "));
-		setStack(newStack);
-	};
+		});
+	},
 	
-	this._onBlurNode = function(){
+	_onBlurNode: function(){
 		// summary:
 		// 		Called when focus leaves a node.
 		//		Usually ignored, _unless_ it *isn't* follwed by touching another node,
 		//		which indicates that we tabbed off the last field on the page,
 		//		in which case everything is blurred
-		var self = this;
-		if(this._ignoreNextBlurEvent){
-			this._ignoreNextBlurEvent = false;
+		if(dijit._ignoreNextBlurEvent){
+			dijit._ignoreNextBlurEvent = false;
 			return;
 		}
-		this._blurAllTimer = setTimeout(function(){ delete self._blurAllTimer; setStack([]); }, 100);
-	}
+		dijit._prevFocus = dijit._curFocus;
+		dijit._curFocus = null;
+		if(dijit._blurAllTimer){
+			clearTimeout(dijit._blurAllTimer);
+		}
+		dijit._blurAllTimer = setTimeout(function(){ 
+			delete dijit._blurAllTimer; dijit._setStack([]); }, 100);
+	},
 
-	this._onTouchNode = function(/*DomNode*/ node){
+	_onTouchNode: function(/*DomNode*/ node){
 		// summary
 		//		Callback when node is focused or mouse-downed
 
 		// ignore the recent blurNode event
-		if(this._blurAllTimer){
-			clearTimeout(this._blurAllTimer);
-			delete this._blurAllTimer;
+		if(dijit._blurAllTimer){
+			clearTimeout(dijit._blurAllTimer);
+			delete dijit._blurAllTimer;
+		}
+
+		if(node==dijit._curFocus){
+			return;
 		}
 
 		// compute stack of active widgets (ex: ComboButton --> Menu --> MenuItem)
@@ -319,6 +251,20 @@ dijit.widgetFocusTracer = new function(){
 			while(node){
 				if(node.dijitPopupParent){
 					node=dijit.byId(node.dijitPopupParent).domNode;
+				}else if(node.tagName && node.tagName.toLowerCase()=="body"){
+					// is this the root of the document or just the root of an iframe?
+					if(node===dojo.body()){
+						// node is the root of the main document
+						break;
+					}
+					// otherwise, find the iframe this node refers to (can't access it via parentNode,
+					// need to do this trick instead) and continue tracing up the document
+					dojo.query("iframe").some(function(iframe){
+						if(iframe.contentDocument.body===node){
+							node=iframe;
+							return true;
+						}
+					});
 				}else{
 					var id = node.getAttribute && node.getAttribute("widgetId");
 					if(id){
@@ -329,12 +275,27 @@ dijit.widgetFocusTracer = new function(){
 			}
 		}catch(e){ /* squelch */ }
 
-		setStack(newStack);
-	};
-	
-	function setStack(newStack){
+		dijit._setStack(newStack);
+	},
+
+	_onFocusNode: function(/*DomNode*/ node){
+		// summary
+		//		Callback when node is focused
+		if(node && node.tagName && node.tagName.toLowerCase() == "body"){
+			return;
+		}
+		if(node==dijit._curFocus){ return; }
+		dijit._prevFocus = dijit._curFocus;
+		dijit._curFocus = node;
+		dijit._onTouchNode(node);
+		dojo.publish("focusNode", [node]);
+	},
+
+	_setStack: function(newStack){
 		// summary
 		//	The stack of active widgets has changed.  Send out appropriate events and record new stack
+
+		var stack = dijit._activeStack;
 
 		// compare old stack to new stack to see how many elements they have in common
 		for(var nCommon=0; nCommon<Math.min(stack.length, newStack.length); nCommon++){
@@ -365,12 +326,9 @@ dijit.widgetFocusTracer = new function(){
 			}
 		}
 		
-		stack = newStack;
+		dijit._activeStack = newStack;
 	}
+});
 
-	// register top window
-	dojo.addOnLoad(this, "register");
-	
-	// #3531: causes errors, commenting out for now
-	//dojo.addOnUnload(this, "_disconnectHandlers");
-}();
+// register top window and all the iframes it contains
+dojo.addOnLoad(dijit.registerWin);

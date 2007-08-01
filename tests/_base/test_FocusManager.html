@@ -16,7 +16,7 @@
 		var savedFocus;
 		dojo.addOnLoad(function(){
 			fakeWidget = { domNode: dojo.byId("save") };
-			dojo.subscribe("focus", function(node){ console.log("focused on " + (node?(node.id||node.tagName):"nothing"));});
+			dojo.subscribe("focusNode", function(node){ console.log("focused on " + (node?(node.id||node.tagName):"nothing"));});
 		});
 		function save(){
 			console.debug("save function");
@@ -29,7 +29,7 @@
 </head>
 <body style="background-color: #fff; color: black; padding: 0; margin: 0" class="tundra">
 
-	<h3>Focus Manager Test</h3>
+	<h3>Focus/Selection Save/Restore Test</h3>
 	<p>This is for testing whether focus and selection are restored by the focus manager</p>
 	<form style="border: 2px solid blue;">
 		<input id=input1 value=tom><br>

@@ -21,6 +21,15 @@
 			function myHandler(id,newValue){
 				console.debug("onChange for id = " + id + ", value: " + newValue);
 			};
+			dojo.addOnLoad(function(){
+				dojo.subscribe("widgetFocus", function(widget){
+					console.log("focused on widget " + (widget?widget:"nothing"));
+				});
+				dojo.subscribe("widgetBlur", function(widget){
+					console.log("blurred widget " + (widget?widget:"nothing"));
+				});
+				dojo.subscribe("focusNode", function(node){ console.log("focused on node " + (node?(node.id||node.tagName):"nothing"));});
+			});
 		</script>
 		<style type="text/css">
 			@import "../../../dojo/resources/dojo.css";

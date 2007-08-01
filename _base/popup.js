@@ -45,7 +45,7 @@ dijit.popup = new function(){
 		//			dijit.popup.open({parent: this, popup: menuWidget, around: this.domNode, onClose: function(){...}  });
 		//
 		//	Note that whatever widget called dijit.popup.open() should also listen to it's own _onBlur callback
-		//	(fired by widgetFocusTracer) to know that focus has moved somewhere else and thus the popup should be closed.
+		//	(fired from _base/focus.js) to know that focus has moved somewhere else and thus the popup should be closed.
 
 		var widget = args.popup,
 			orient = args.orient || {'BL':'TL', 'TL':'BL'},
@@ -79,9 +79,6 @@ dijit.popup = new function(){
 			dijit.placeOnScreen(wrapper, args, orient == 'R' ? ['TR','BR','TL','BL'] : ['TL','BL','TR','BR']);
 
 		// TODO: use effects to fade in wrapper
-
-		// announce that popup has opened (and has focus)
-		dijit.widgetFocusTracer.entered(widget);
 
 		var handlers = [];
 
@@ -149,9 +146,6 @@ dijit.popup = new function(){
 		dojo.body().appendChild(widget.domNode);
 		iframe.destroy();
 		dojo._destroyElement(wrapper);
-
-		// announce that popup has closed (and no longer has focus)
-		dijit.widgetFocusTracer.exited(widget);
 
 		if(onClose){
 			onClose();
