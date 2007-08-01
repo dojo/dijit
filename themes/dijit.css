@@ -167,6 +167,15 @@
 	padding:0em .25em;
 }
 
+.dijitToolbar .dijitDropDownButton .dijitA11yDownArrow{
+	/*make the arrow smaller in toolbar*/
+	padding:0;
+	margin:0;
+}
+.dj_ie6 .dijitToolbar .dijitDropDownButton .dijitA11yDownArrow{
+	/*vertical-align: middle does not place the arrow in the middle of the toolbar in IE*/
+	vertical-align: bottom;
+}
 
 .dijitA11ySideArrow {
 	vertical-align:top;
