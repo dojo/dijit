@@ -22,6 +22,8 @@
 		dojo.require("dijit.form.Checkbox");
 		dojo.require("dijit.form.DateTextbox");
 		dojo.require("dijit.form.Button");
+		dojo.require("dijit.Editor");
+		dojo.require("dijit._editor.plugins.DefaultToolbar");
 
 		var obj;
 		function getValues(){
@@ -48,7 +50,8 @@
 							available: {from: d("2005-01-02"), to: d("2006-01-02")},
 							plop: {combo: "one"},
 							cb2: ["2", "3"],
-							r2: "2"
+							r2: "2",
+							richtext: "<h1>original</h1><p>This is the default content</p>"
 						};
 
 		// we reset the form to these values
@@ -57,18 +60,19 @@
 							available: {from: d("2005-11-02"), to: d("2006-11-02")},
 							plop: {combo: "three"},
 							cb2: ["4"],
-							r2: "1"
+							r2: "1",
+							richtext: "<h1>changed</h1><p>This is the changed content set by setValues</p>"
 						};
 
 		dojo.addOnLoad(function(){
 			doh.register("dijit.form.Form",
 				[
 					function getValues(){
-						doh.is( dojo.toJson(dijit.byId("myForm").getValues()), dojo.toJson(original) );
+						doh.is( dojo.toJson(original), dojo.toJson(dijit.byId("myForm").getValues()) );
 					},
 					function setValues(){
 						dijit.byId("myForm").setValues(changed);
-						doh.is( dojo.toJson(dijit.byId("myForm").getValues()), dojo.toJson(changed) );
+						doh.is( dojo.toJson(changed), dojo.toJson(dijit.byId("myForm").getValues()) );
 					}
 				]
 			);
@@ -128,9 +132,9 @@ so it can be submitted as a JSON string of nested objects.
 <tr><td>Combobox</td><td>plop.combo</td>
 <td>
 <select name="plop.combo" dojoType="dijit.form.ComboBox">
- <option value="1">one</option>
- <option value="2">two</option>
- <option value="3">three</option>
+ <option value="one">one</option>
+ <option value="two">two</option>
+ <option value="three">three</option>
 </select>
 </td></tr>
 
@@ -188,6 +192,13 @@ text text text """ \\\/
 <input dojoType="dijit.form.RadioButton" type="radio" name="r2" value="4" /> 4
 </td>
 </tr>
+<tr>
+<td>Editor widget</td><td>richtext</td>
+<td>
+<textarea dojoType="dijit.Editor" name="richtext" pluginsConfig="[{items:['bold','italic']}]"/><h1>original</h1><p>This is the default content</p></textarea>
+</td>
+</tr>
+
 </table>
 
 <button dojoType=dijit.form.Button onClick="getValues();">Get Values from form!</button>

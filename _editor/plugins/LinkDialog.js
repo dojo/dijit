@@ -118,13 +118,7 @@ dojo.declare("dijit._editor.plugins.LinkDialog",
 
 		updateState: function(){
 			// summary: change shading on button if we are over a link (or not)
-			if(!this._lastUpdate){
-				this._lastUpdate = new Date();
-			}else{
-				if(((new Date())-this._lastUpdate) < this.updateInterval){
-					return;
-				}
-			}
+
 			var _e = this.editor;
 			if(!_e){ return; }
 			if(!_e.isLoaded){ return; }
@@ -137,7 +131,6 @@ dojo.declare("dijit._editor.plugins.LinkDialog",
 					console.debug(e);
 				}
 			}
-			this._lastUpdate = new Date();
 		}
 	}
 );

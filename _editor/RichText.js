@@ -99,11 +99,11 @@ dojo.declare(
 		//		whether focusing into this instance of richtext when page onload
 		focusOnLoad: false,
 
-		// saveName: String
+		// name: String
 		//		If a save name is specified the content is saved and restored when the user
 		//		leave this page can come back, or if the editor is not properly closed after
 		//		editing has started.
-		saveName: "",
+		name: "",
 
 		// styleSheets: String
 		//		semicolon (";") separated list of css files for the editing area
@@ -260,17 +260,14 @@ dojo.declare(
 				// if we were created from a textarea, then we need to create a
 				// new editing harness node.
 				this.textarea = this.domNode;
+				this.name=this.textarea.name;
 				var html = this._preFilterContent(this.textarea.value);
 				this.domNode = dojo.doc.createElement("div");
+				this.domNode.setAttribute('widgetId',this.id);
+				this.textarea.removeAttribute('widgetId');
 				this.domNode.cssText = this.textarea.cssText;
 				this.domNode.className += " "+this.textarea.className;
-
-				if(!dojo.isSafari){
-					// FIXME: VERY STRANGE safari 2.0.4 behavior here caused by
-					// moving the textarea. Often crashed the browser!!! Seems
-					// fixed on webkit nightlies.
-					dojo.place(this.domNode, this.textarea, "before");
-				}
+				dojo.place(this.domNode, this.textarea, "before");
 				var tmpFunc = dojo.hitch(this, function(){
 					//some browsers refuse to submit display=none textarea, so
 					//move the textarea out of screen instead
@@ -293,14 +290,13 @@ dojo.declare(
 
 				// this.domNode.innerHTML = html;
 
-				if(this.textarea.form){
-					// FIXME: port: this used to be before advice!!!
-					dojo.connect(this.textarea.form, "onsubmit", this, function(){
-						// FIXME: should we be calling close() here instead?
-						this.textarea.value = this.getValue();
-					});
-				}
-				dojo.place(this.domNode, this.srcNodeRef, "before");
+//				if(this.textarea.form){
+//					// FIXME: port: this used to be before advice!!!
+//					dojo.connect(this.textarea.form, "onsubmit", this, function(){
+//						// FIXME: should we be calling close() here instead?
+//						this.textarea.value = this.getValue();
+//					});
+//				}
 			}else{
 				var html = this._preFilterContent(this.getNodeChildrenHtml(this.domNode));
 				this.domNode.innerHTML = '';
@@ -328,13 +324,13 @@ dojo.declare(
 			this.editingArea = dojo.doc.createElement("div");
 			this.domNode.appendChild(this.editingArea);
 
-			if(this.saveName != "" && (!djConfig["useXDomain"] || djConfig["allowXdRichTextSave"])){
+			if(this.name != "" && (!djConfig["useXDomain"] || djConfig["allowXdRichTextSave"])){
 				var saveTextarea = dojo.byId("dijit._editor.RichText.savedContent");
 				if(saveTextarea.value != ""){
 					var datas = saveTextarea.value.split(this._SEPARATOR), i=0, dat;
 					while(dat=datas[i++]){
 						var data = dat.split(":");
-						if(data[0] == this.saveName){
+						if(data[0] == this.name){
 							html = data[1];
 							datas.splice(i, 1);
 							break;
@@ -1163,12 +1159,34 @@ dojo.declare(
 			}
 		},
 
+//		_lastUpdate: 0,
+		updateInterval: 200,
+		_updateTimer: null,
 		onDisplayChanged: function(e){
 			// summary:
 			//		this event will be fired everytime the display context
-			//		changes and the result needs to be reflected in the UI
-		},
+			//		changes and the result needs to be reflected in the UI.
+			// description:
+			//		if you don't want to have update too often, 
+			//		onNormlizedDisplayChanged should be used instead
 
+//			var _t=new Date();
+			if(!this._updateTimer){
+//				this._lastUpdate=_t;
+				if(this._updateTimer){
+					clearTimeout(this._updateTimer);
+				}
+				this._updateTimer=setTimeout(dojo.hitch(this,this.onNormlizedDisplayChanged),this.updateInterval);
+			}
+		},
+		onNormlizedDisplayChanged: function(){
+			// summary:
+			//		this event is fired every updateInterval ms or more
+			// description:
+			//		if something needs to happen immidiately after a 
+			//		user change, please use onDisplayChanged instead
+			this._updateTimer=null;
+		},
 		_normalizeCommand: function(/*String*/cmd){
 			// summary:
 			//		Used as the advice function by dojo.connect to map our
@@ -1455,17 +1473,19 @@ dojo.declare(
 		getValue: function(/*Boolean?*/nonDestructive){
 			// summary:
 			//		return the current content of the editing area (post filters are applied)
-			if(this.isClosed && this.textarea){
-				return this.textarea.value;
-			}else{
-				return this._postFilterContent(null, nonDestructive);
+			if(this.textarea){
+				if(this.isClosed || !this.isLoaded){
+					return this.textarea.value;
+				}
 			}
+
+			return this._postFilterContent(null, nonDestructive);
 		},
 
 		setValue: function(/*String*/html){
 			// summary:
 			//		this function set the content. No undo history is preserved
-			if(this.isClosed && this.textarea){
+			if(this.textarea && (this.isClosed || !this.isLoaded)){
 				this.textarea.value=html;
 			}else{
 				html = this._preFilterContent(html);
@@ -1600,7 +1620,7 @@ dojo.declare(
 			// summary:
 			//		Saves the content in an onunload event if the editor has not been closed
 			var saveTextarea = dojo.byId("dijit._editor.RichText.savedContent");
-			saveTextarea.value += this._SEPARATOR + this.saveName + ":" + this.getValue();
+			saveTextarea.value += this._SEPARATOR + this.name + ":" + this.getValue();
 		},
 
 
