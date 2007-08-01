@@ -77,7 +77,7 @@ dojo.declare("dijit._editor._Plugin", null,
 					dojo.hitch(this.editor, "execCommand", this.command, this.commandArg)
 				);
 			}
-			dojo.connect(this.editor, "onNormlizedDisplayChanged", this, "updateState");
+			dojo.connect(this.editor, "onNormalizedDisplayChanged", this, "updateState");
 		},
 		setToolbar: function(/*Widget*/toolbar){
 			if(this.button){

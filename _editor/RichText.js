@@ -1158,7 +1158,7 @@ dojo.declare(
 			//		changes and the result needs to be reflected in the UI.
 			// description:
 			//		if you don't want to have update too often, 
-			//		onNormlizedDisplayChanged should be used instead
+			//		onNormalizedDisplayChanged should be used instead
 
 //			var _t=new Date();
 			if(!this._updateTimer){
@@ -1166,10 +1166,10 @@ dojo.declare(
 				if(this._updateTimer){
 					clearTimeout(this._updateTimer);
 				}
-				this._updateTimer=setTimeout(dojo.hitch(this,this.onNormlizedDisplayChanged),this.updateInterval);
+				this._updateTimer=setTimeout(dojo.hitch(this,this.onNormalizedDisplayChanged),this.updateInterval);
 			}
 		},
-		onNormlizedDisplayChanged: function(){
+		onNormalizedDisplayChanged: function(){
 			// summary:
 			//		this event is fired every updateInterval ms or more
 			// description:
