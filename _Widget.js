@@ -139,7 +139,7 @@ function(params, srcNodeRef){
 
 	destroy: function(/*Boolean*/ finalize){
 		// summary:
-		// 		Destroy this widget, but not its descendents
+		// 		Destroy this widget, but not its descendants
 		// finalize: Boolean
 		//		is this function being called part of global environment
 		//		tear-down?
@@ -203,7 +203,7 @@ function(params, srcNodeRef){
 
 	getDescendants: function(){
 		// summary:
-		//	return all the descendent widgets
+		//	return all the descendant widgets
 		var list = dojo.query('[widgetId]', this.domNode);
 		return list.map(dijit.byNode);		// Array
 	},
@@ -221,10 +221,10 @@ function(params, srcNodeRef){
 		//		Special event: "onklick" triggers on a click or enter-down or space-up
 		//		Similar to dojo.connect() but takes three arguments rather than four.
 		var handles =[];
-		if (event == "onklick"){
+		if(event == "onklick"){
 			var w = this;
 			// add key based click activation for unsupported nodes.
-			if (!this.nodesWithKeyClick[obj.nodeName]){
+			if(!this.nodesWithKeyClick[obj.nodeName]){
 				handles.push(dojo.connect(obj, "onkeydown", this,
 					function(e){
 						if(e.keyCode == dojo.keys.ENTER){
@@ -235,7 +235,7 @@ function(params, srcNodeRef){
 				handles.push(dojo.connect(obj, "onkeyup", this,
 					function(e){
 						if(e.keyCode == dojo.keys.SPACE){
-							return (dojo.isString(method))? 
+							return dojo.isString(method) ? 
 								w[method](e) : method.call(w, e);
 						}
 			 		}));
@@ -265,6 +265,10 @@ function(params, srcNodeRef){
 	isLeftToRight: function(){
 		// summary:
 		//		Checks the DOM to for the text direction for bi-directional support
+		// description:
+		//		This method cannot be used during widget construction because the widget
+		//		must first be connected to the DOM tree.  Parent nodes are searched for the
+		//		'dir' attribute until one is found, otherwise left to right mode is assumed.
 		//		See HTML spec, DIR attribute for more information.
 
 		if(typeof this._ltr == "undefined"){
