@@ -93,7 +93,7 @@ dojo.declare(
 			}
 			dojo[classFunc](this.domNode, "dijitProgressBarIndeterminate");
 			this.internalProgress.style.width = (percent * 100) + "%";
-			this.fullLabel.style.width = (this.progress ? (this.maximum / this.progress) * 100 : 0) + "%";
+			this.fullLabel.style.width = ((1*this.progress) ? (this.maximum / this.progress) * 100 : 0) + "%";
 			this.onChange();
 		},
 
