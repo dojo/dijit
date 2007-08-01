@@ -858,15 +858,9 @@ body .dijitAlignClient { position: absolute; }
 	width:1em;
 }
 
-.dijitCalendarIncrease {}
-
-.dijitCalendarDecrease {}
-
-
 .dijitCalendarDisabledDate {
 	color:gray !important;
 }
-
 
 .dijitCalendarBodyContainer tbody tr td {
 	cursor:pointer;
@@ -896,8 +890,6 @@ body .dijitAlignClient { position: absolute; }
 .dijitCalendarPreviousYear {
 	cursor:pointer;
 }
-
-.dijitCalendarMontLabel {}
 
 .dijitCalendarMonthLabelSpacer {
 	/* don't display it, but make it affect the width */
@@ -1027,8 +1019,8 @@ body .dijitAlignClient { position: absolute; }
 }
 
 .dijitTab .close {
-	display : inline-block;
-	cursor : default;
+	display: inline-block;
+	cursor: default;
 	font-size: small;
 }
 
@@ -1053,7 +1045,6 @@ body .dijitAlignClient { position: absolute; }
 .dijit_a11y .closeText:hover { 
 	border:thin solid;
 } 
-
 
 
 
@@ -1088,7 +1079,6 @@ body .dijitAlignClient { position: absolute; }
     display: inline;
     clear:both;
 }
-
 
 .TreeExpand {
     float: left;

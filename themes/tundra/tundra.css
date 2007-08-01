@@ -860,7 +860,7 @@
 
 .tundra .dijitCalendarIncrease {
 	background:url(images/arrowRight.png) no-repeat center center; 
-	margin-right:2px; 
+	margin-right:2px;
 }
 
 .tundra table.dijitCalendarContainer {
@@ -871,8 +871,6 @@
 	border: 1px solid #ccc; 
 	margin: 0;
 }
-
-
 
 .tundra .dijitCalendarMonthContainer th {
 	/* month header cell */
@@ -936,7 +934,6 @@
 	/* days that are part of this month - disabled */	
 	background-color:#bbbbbc !important;
 }
-
 
 .tundra .dijitCalendarCurrentDate {
 	/* cell for today's date */

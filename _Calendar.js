@@ -162,12 +162,6 @@ dojo.declare(
 
 			this.value = null;
 			this.setValue(new Date());
-
-			if(!this.isLeftToRight()){
-				var temp = this.decreaseArrowNode.innerHTML;
-				this.decreaseArrowNode.innerHTML = this.increaseArrowNode.innerHTML;
-				this.increaseArrowNode.innerHTML = temp;
-			}
 		},
 
 		_adjustDate: function(/*String*/part, /*int*/amount){
