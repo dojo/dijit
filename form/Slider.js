@@ -94,17 +94,17 @@ dojo.declare(
 		dojo.stopEvent(e);
 		var abspos = dojo.coords(this.sliderBarContainer, true);
 		var pixelValue = e[this._mousePixelCoord] - abspos[this._startingPixelCoord];
-		this._setPixelValue(this._upsideDown ? (abspos[this._pixelCount] - pixelValue) : pixelValue, abspos[this._pixelCount]);
+		this._setPixelValue(this._upsideDown ? (abspos[this._pixelCount] - pixelValue) : pixelValue, abspos[this._pixelCount], true);
 	},
 
-	_setPixelValue: function(/*Number*/ pixelValue, /*Number*/ maxPixels){
+	_setPixelValue: function(/*Number*/ pixelValue, /*Number*/ maxPixels, /*Boolean, optional*/ priorityChange){
 		pixelValue = pixelValue < 0 ? 0 : maxPixels < pixelValue ? maxPixels : pixelValue;
 		var count = this.discreteValues;
 		if(count > maxPixels){ count = maxPixels; }
 		count--;
 		var pixelsPerValue = maxPixels / count;
 		var wholeIncrements = Math.round(pixelValue / pixelsPerValue);
-		this.setValue((this.maximum-this.minimum)*wholeIncrements/count + this.minimum);
+		this.setValue((this.maximum-this.minimum)*wholeIncrements/count + this.minimum, priorityChange);
 	},
 
 	setValue: function(/*Number*/ value, /*Boolean, optional*/ priorityChange){
@@ -140,10 +140,19 @@ dojo.declare(
 		this._bumpValue(e.keyCode == dojo.keys.PAGE_UP?this.pageIncrement:1);
 	},
 
-	repeatString: function(str,n){
-		   var s = "", t = str.toString()
-		   while (--n >= 0){ s += t; }
-		   return s;
+	_mouseWheeled: function(/*Event*/ evt){
+		dojo.stopEvent(evt);
+		var scrollAmount = 0;
+		if(typeof evt.wheelDelta == 'number'){ // IE
+			scrollAmount = evt.wheelDelta;
+		}else if(typeof evt.detail == 'number'){ // Mozilla+Firefox
+			scrollAmount = -evt.detail;
+		}
+		if(scrollAmount > 0){
+			this.increment(evt);
+		}else if(scrollAmount < 0){
+			this.decrement(evt);
+		}
 	},
 
 	startup: function(){
@@ -165,6 +174,7 @@ dojo.declare(
 		}
 		this.sliderHandle.widget = this;
 
+		this.connect(this.domNode, dojo.isIE ? "onmousewheel" : 'DOMMouseScroll', "_mouseWheeled");
 		new dojo.dnd.Moveable(this.sliderHandle, {mover: dijit.form._slider});
 		this.inherited('postCreate', arguments);
 	}
@@ -203,6 +213,12 @@ dojo.declare("dijit.form._slider",
 		var m = this.marginBox;
 		var pixelValue = m[widget._startingPixelCount] + e[widget._mousePixelCoord];
 		dojo.hitch(widget, "_setPixelValue")(widget._upsideDown? (c[widget._pixelCount]-pixelValue) : pixelValue, c[widget._pixelCount]);
+	},
+
+	destroy: function(e){
+		var widget = this.node.widget;
+		widget.setValue(widget.value, true);
+		this.inherited('destroy', arguments);
 	}
 });
 

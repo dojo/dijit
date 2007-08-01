@@ -1162,24 +1162,14 @@ body .dijitAlignClient { position: absolute; }
 	right:0px;
 }
 
-.dijitSliderA11yHandle {
-	text-decoration:none;
-	font-style:normal;
-	font-family:monospace;
-	font-size:32px;
-	position:relative !important;
-	line-height:1.1em;
-	top:-.45em;
-	left:-0.3em;
-}
-
+.dijit_a11y div.dijitSliderImageHandle,
 .dijitSliderImageHandle {
 	margin:0px;
 	padding:0px;
-	border:0px;
 	position:absolute !important;
-	width:16px;
-	height:16px;
+	border:8px solid gray;
+	width:0px;
+	height:0px;
 }
 
 .dijitVerticalSliderImageHandle {
@@ -1189,16 +1179,8 @@ body .dijitAlignClient { position: absolute; }
 
 .dijitHorizontalSliderImageHandle {
 	left:-8px;
-	top:-4px;
+	top:-5px;
 	vertical-align:top;
-}
-
-.dijit_a11y .dijitSliderA11yHandle {
-	display: inline !important;
-}
-
-.dijit_a11y .dijitSliderHandle {
-	display: none !important;
 }
 
 .dijitSliderBar {

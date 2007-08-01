@@ -1093,6 +1093,9 @@
 }
 
 .tundra .dijitHorizontalSliderImageHandle {
+	border:0px;
+	width:16px;
+	height:16px;
 	background:url("images/preciseSliderThumb.png") no-repeat center center; 
 	cursor:pointer; 
 }
@@ -1110,6 +1113,9 @@
 }
 
 .tundra .dijitVerticalSliderImageHandle {
+	border:0px;
+	width:16px;
+	height:16px;
 	background:url("images/sliderThumb.png") no-repeat center center; 
 	cursor:pointer;
 }
