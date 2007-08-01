@@ -1457,6 +1457,7 @@ dojo.declare(
 					last = last.previousSibling;
 				}
 			}else{
+				isvalid=true;
 				dojo.withGlobal(this.window, "selectElementChildren",dijit._editor.selection, [this.editNode]);
 			}
 			if(isvalid){
