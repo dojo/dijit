@@ -859,17 +859,21 @@ dojo.declare(
 			// we need this event at the moment to get the events from control keys
 			// such as the backspace. It might be possible to add this to Dojo, so that
 			// keyPress events can be emulated by the keyDown and keyUp detection.
-			if((dojo.isIE)&&(e.keyCode == dojo.keys.TAB)){
-				e.preventDefault();
-				e.stopPropagation();
-				// FIXME: this is a poor-man's indent/outdent. It would be
-				// better if it added 4 "&nbsp;" chars in an undoable way.
-				// Unfortuantly pasteHTML does not prove to be undoable
-				this.execCommand((e.shiftKey ? "outdent" : "indent"));
-			}else if(dojo.isIE){
-				// FIXME: get this from connect() instead!
-				if(	(65 <= e.keyCode&&e.keyCode <= 90) ||
-					(e.keyCode>=37&&e.keyCode<=40)
+			if(dojo.isIE){
+				if(e.keyCode === dojo.keys.TAB){
+					dojo.stopEvent(e);
+					// FIXME: this is a poor-man's indent/outdent. It would be
+					// better if it added 4 "&nbsp;" chars in an undoable way.
+					// Unfortuantly pasteHTML does not prove to be undoable
+					this.execCommand((e.shiftKey ? "outdent" : "indent"));
+				}else if(e.keyCode === dojo.keys.BACKSPACE && this.document.selection.type === "Control"){
+					// IE has a bug where if a non-text object is selected in the editor,
+		      // hitting backspace would act as if the browser's back button was
+		      // clicked instead of deleting the object. see #1069
+					dojo.stopEvent(e);
+					this.execCommand("delete");
+				}else if(	(65 <= e.keyCode&&e.keyCode <= 90) ||
+					(e.keyCode>=37&&e.keyCode<=40) // FIXME: get this from connect() instead!
 				){ //arrow keys
 					e.charCode = e.keyCode;
 					this.onKeyPress(e);
