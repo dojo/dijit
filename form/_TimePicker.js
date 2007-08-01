@@ -6,14 +6,10 @@ dojo.require("dojo.date.locale");
 dojo.declare("dijit.form._TimePicker",
 	[dijit._Widget, dijit._Templated],
 	{
-		/*
-		How many times should it show? (10 hours for lotus)
-		What are the visible increments? (1 hours for lotus)
-		What are the clickable increments? (15 minutes for lotus)
-		What is the size of the increments?
-		Does clicking a time count as changing the value? (not for lotus; you click away to close the popup and that sets the value)
-		How should setting the height affect the widget? (lotus has a fixed pixel height, which is obviously never the case for our widgets)
-		*/
+		// summary:
+		// A graphical time picker that TimeTextbox pops up
+		// It is functionally modeled after the Java applet at http://java.arcadevillage.com/applets/timepica.htm
+		// See ticket #599
 
 		templatePath: dojo.moduleUrl("dijit.form", "templates/TimePicker.html"),
 
@@ -31,11 +27,6 @@ dojo.declare("dijit.form._TimePicker",
 		//		Set in non Zulu time, without a time zone
 		//		Example: "T01:00:00" creates text in every 1 hour increment
 		visibleIncrement: "T01:00:00",
-
-		// clickableIncrementHeight: String
-		// 		Size of clickableIncrements
-		//		Set in em so it looks right
-		clickableIncrementHeight: "0.5em",
 
 		// visibleRange: String
 		//		ISO-8601 string representing the range of this TimePicker
@@ -64,7 +55,6 @@ dojo.declare("dijit.form._TimePicker",
 		_clickableIncrement:1,
 		_totalIncrements:10,
 		constraints:{},
-		lang:this.lang,
 
 		serialize: dojo.date.stamp.toISOString,
 
@@ -112,12 +102,15 @@ dojo.declare("dijit.form._TimePicker",
 		},
 
 		postCreate:function(){
+			// instantiate constraints
 			if(this.constraints===dijit.form._TimePicker.prototype.constraints){
 				this.constraints={};
 			}
+			// dojo.date.locale needs the lang in the constraints as locale
 			if(!this.constraints.locale){
 				this.constraints.locale=this.lang;
 			}
+			// assign typematic mouse listeners to the arrow buttons
 			dijit.typematic.addMouseListener(this.upArrow,this,this._onArrowUp, 0.8, 500);
 			dijit.typematic.addMouseListener(this.downArrow,this,this._onArrowDown, 0.8, 500);
 			dijit.form._TimePicker.superclass.postCreate.apply(this, arguments);
@@ -151,10 +144,9 @@ dojo.declare("dijit.form._TimePicker",
 		},
 
 		_createOption:function(/*Number*/ index){
+			// summary:
+			// creates a clickable time option
 			var div=document.createElement("div");
-			div.style.textAlign="center";
-			div.style.borderStyle="solid";
-			div.style.borderWidth="1px";
 			div.date=new Date(this._refdate);
 			div.index=index;
 			div.date.setSeconds(div.date.getSeconds()+this._clickableIncrementDate.getSeconds()*index);
@@ -162,18 +154,21 @@ dojo.declare("dijit.form._TimePicker",
 			div.date.setHours(div.date.getHours()+this._clickableIncrementDate.getHours()*index);
 			if(index%this._visibleIncrement<1&&index%this._visibleIncrement>-1){
 				div.innerHTML=dojo.date.locale.format(div.date, this.constraints);
+				dojo.addClass(div, "dijitTimePickerItem");
 			}else if(index%this._clickableIncrement==0){
-				div.style.height=this.clickableIncrementHeight;
+				div.innerHTML="&nbsp;"
+				dojo.addClass(div, "dijitTimePickerItemSmall");
 			}
 			if(this.isDisabledDate(div.date)){
 				// set disabled
-				div.style.backgroundColor="lightgrey";
+				dojo.addClass(div, "dijitTimePickerItemDisabled");
 			}
 			return div;
 		},
 
 		_onOptionSelected:function(/*Object*/ tgt){
 			if(!tgt.target.date||this.isDisabledDate(tgt.target.date)){return;}
+			this.setValue(tgt.target.date);
 			this.onValueSelected(tgt.target.date);
 		},
 		
@@ -187,7 +182,7 @@ dojo.declare("dijit.form._TimePicker",
 		},
 
 		onmouseout:function(/*Event*/ evt){
-			if(evt.target === this.timeMenu){ return; }
+			if(evt.target === this.timeMenu||this._highlighted_option==null){ return; }
 			dojo.removeClass(this._highlighted_option, "dijitMenuItemHover");
 		},
 
