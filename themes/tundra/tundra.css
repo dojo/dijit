@@ -386,7 +386,12 @@
 	cursor: pointer;
 }
 
-.tundra .dijitClosed .dijitArrowNode  {
+.tundra .dijitArrowNode {
+	width:16px;
+	height:16px;
+}
+
+.tundra .dijitClosed .dijitArrowNode {
 	background:url('images/arrowRight.png') no-repeat center center; 
 }
 .tundra .dijitOpen .dijitArrowNode {
