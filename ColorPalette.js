@@ -109,7 +109,7 @@ dojo.declare(
 				highlightNode.color = colorValue.toHex();
 				var highlightStyle = highlightNode.style;
 				highlightStyle.color = highlightStyle.backgroundColor = highlightNode.color;
-				dojo.forEach(["MouseDown", "MouseOut", "MouseOver", "Blur", "Focus", "KeyDown"], function(handler){
+				dojo.forEach(["Klick", "MouseOut", "MouseOver", "Blur", "Focus"], function(handler){
 					this.connect(highlightNode, "on"+handler.toLowerCase(), "_onColor"+handler);
 				}, this);
 				this.divNode.appendChild(highlightNode);
@@ -167,15 +167,18 @@ dojo.declare(
 		console.debug("Color selected is: "+color);
 	},
 
-	_onColorMouseDown: function(/*Event*/ evt){
+	_onColorKlick: function(/*Event*/ evt){
 		// summary:
-		//		Handler for onMouseDown. Selects the color.
+		//		Handler for click, enter key & space key. Selects the color.
 		// evt:
-		//		The mouse event.
+		//		The event.
 		var target = evt.currentTarget;
-		this._currentFocus = target.index;
-		dijit.focus(target);
-		this._selectColor(target);	
+		if (this._currentFocus != target.index){
+			this._currentFocus = target.index;
+			dijit.focus(target);
+		}
+		this._selectColor(target);
+		dojo.stopEvent(evt);
 	},
 
 	_onColorMouseOut: function(/*Event*/ evt){
@@ -219,18 +222,6 @@ dojo.declare(
 		this._currentFocus = evt.currentTarget.index;
 		dojo.addClass(evt.currentTarget, "dijitPaletteImgHighlight");
 
-	},
-
-	_onColorKeyDown: function(/*Event*/ evt){
-		// summary:
-		//		Handler for the onKeyDown event.
-		//		Space selects the color currently highlighted.
-		// evt:
-		//		The keydown event.
-
-		if((evt.keyCode == dojo.keys.SPACE) && this._currentFocus){
-			this._selectColor(this._highlightNodes[this._currentFocus]);
-		}
 	},
 
 	_selectColor: function(selectNode){	
