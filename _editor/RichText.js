@@ -711,14 +711,15 @@ dojo.declare(
 			//		add an external stylesheet for the editing area
 			// uri:	a dojo.uri.Uri pointing to the url of the external css file
 			var url=uri.toString();
-			if(dojo.indexOf(this.editingAreaStyleSheets, url) > -1){
-				console.debug("dijit._editor.RichText.addStyleSheet: Style sheet "+url+" is already applied to the editing area!");
-				return;
-			}
 
 			//if uri is relative, then convert it to absolute so that it can be resolved correctly in iframe
 			if(url.charAt(0) == '.' || (url.charAt(0) != '/' && !uri.host)){
 				url = (new dojo._Url(dojo.global.location, url)).toString();
+			}
+
+			if(dojo.indexOf(this.editingAreaStyleSheets, url) > -1){
+				console.debug("dijit._editor.RichText.addStyleSheet: Style sheet "+url+" is already applied to the editing area!");
+				return;
 			}
 
 			this.editingAreaStyleSheets.push(url);
@@ -750,18 +751,7 @@ dojo.declare(
 				return;
 			}
 			delete this.editingAreaStyleSheets[index];
-
-			var link, i=0, links = this.document.getElementsByTagName("link");
-			while(link=links[i++]){
-				if(link.href == url){
-					if(dojo.isIE){//we need to empty the href first, to get IE to remove the rendered styles
-						link.href="";
-					}
-					// FIXME
-					dojo.html.removeNode(link);
-					break;
-				}
-			}
+			dojo.withGlobal(this.window,'query', dojo, ['link:[href="'+url+'"]']).orphan()
 		},
 
 		disabled: false,

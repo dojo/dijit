@@ -27,8 +27,9 @@
 
 	<div style="border: 1px dotted black;">
 		<h3>thud</h3>
-		<textarea dojoType="dijit._editor.RichText"
+		<textarea dojoType="dijit._editor.RichText" id="editor1"
 			styleSheets="../../dojo/resources/dojo.css">
+			<h1>header one</h1>
 			<ul>
 				<li>Right click on the client area of the page (ctrl-click for Macintosh). Menu should open.</li>
 				<li>Right click on each of the form controls above. Menu should open.</li>
@@ -36,7 +37,8 @@
 				<li>Right click near the bottom window border. Menu should open above the pointer.</li>
 			</ul>
 		</textarea>
-		<h3>..after</h3>
+		<button onclick="dijit.byId('editor1').addStyleSheet('test_richtext.css')">add stylesheet</button>
+		<button onclick="dijit.byId('editor1').removeStyleSheet('test_richtext.css')">remove stylesheet</button>
 	</div>
 
 	<div style="border: 1px dotted black;">
