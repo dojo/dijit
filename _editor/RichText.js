@@ -1754,13 +1754,15 @@ dojo.declare(
 				this.domNode = this.textarea;
 			}else{
 				if(save){
-					if(dojo.isMoz){
-						var nc = dojo.doc.createElement("span");
-						this.domNode.appendChild(nc);
-						nc.innerHTML = this.editNode.innerHTML;
-					}else{
-						this.domNode.innerHTML = this._content;
-					}
+					//why we treat moz differently? comment out to fix #1061
+//					if(dojo.isMoz){
+//						var nc = dojo.doc.createElement("span");
+//						this.domNode.appendChild(nc);
+//						nc.innerHTML = this.editNode.innerHTML;
+//					}else{
+//						this.domNode.innerHTML = this._content;
+//					}
+					this.domNode.innerHTML = this._content;
 				}else{
 					this.domNode.innerHTML = this.savedContent;
 				}
