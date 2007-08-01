@@ -173,10 +173,12 @@ dojo.declare(
 			this.iframe.focus();  // this.focus(); won't work
 			e.preventDefault();
 			e.stopPropagation();
+		}else if(e.keyCode == dojo.keys.ENTER){
+			e.stopPropagation();
 		}else{
 			this.inherited("_onKeyPress", arguments);
 		}
-		if(this.iframe){
+		if(this.iframe && e.keyCode != dojo.keys.ENTER){
 			// #3752:
 			// The key press will not make it past the iframe.
 			// If a widget is listening outside of the iframe, (like InlineEditBox)
