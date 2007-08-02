@@ -375,7 +375,7 @@ dojo.declare(
 		this.expandoNodeText.innerHTML =
 			processing ? "*" :
 				(this.isFolder ?
-					(this.isExpanded ? "&#9660;" : "&#9658;") : "-");
+					(this.isExpanded ? "-" : "+") : "*");
 	},	
 
 	setChildren: function(items){
