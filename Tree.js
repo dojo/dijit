@@ -205,16 +205,20 @@ dojo.declare(
 		var domElement = e.target;
 
 		// find node
-        var nodeWidget = this._domElement2TreeNode(domElement);	
+		var nodeWidget = this._domElement2TreeNode(domElement);	
 		if(!nodeWidget || !nodeWidget.isTreeNode){
 			return;
 		}
 
-		this._publish(
-			(domElement == nodeWidget.expandoNode ||
-			 domElement == nodeWidget.expandoNodeText) ? "toggleOpen" : "execute",
-			 { node: nodeWidget} );	
-
+		if(domElement == nodeWidget.expandoNode ||
+			 domElement == nodeWidget.expandoNodeText){
+			// expando node was clicked
+			if(nodeWidget.isFolder){
+				this._publish("toggleOpen", {node:nodeWidget});
+			}
+		}else{
+			this._publish("execute", { node: nodeWidget} );	
+		}
 		dojo.stopEvent(e);
 	},
 
