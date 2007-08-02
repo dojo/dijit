@@ -119,24 +119,6 @@ dojo.declare(
 			return store.getValue(item, this.searchAttr);
 		},
 
-		_createOption:function(/*Object*/ tr){
-			// summary: creates an option to appear on the popup menu
-
-			var td=dijit.form.ComboBoxMixin.prototype._createOption.apply(this, arguments);
-			// #3129
-			if(this.labelAttr){
-				if(this.labelType=="html"){
-					td.innerHTML=this.store.getValue(tr, this.labelAttr);
-				}else{
-					// prevent parsing of HTML
-					var textnode=document.createTextNode(this.store.getValue(tr, this.labelAttr));
-					td.innerHTML="";
-					td.appendChild(textnode);
-				}
-			}
-			return td;
-		},
-
 		onkeyup: function(/*Event*/ evt){
 			// summary: internal function
 			// FilteringSelect needs to wait for the complete label before committing to a reverse lookup
@@ -165,6 +147,15 @@ dojo.declare(
 				// set the textbox value now so that the impending warning will make sense to the user
 				this.textbox.value=label;
 				this.store.fetch({query:query, queryOptions:{ignoreCase:this.ignoreCase}, onComplete: dojo.hitch(this, this._callbackSetLabel)});
+			}
+		},
+
+		_getMenuLabelFromItem:function(/*Item*/ item){
+			// internal function to help ComboBoxMenu figure out what to display
+			if(this.labelAttr){return {html:this.labelType=="html", label:this.store.getValue(item, this.labelAttr)};}
+			else{
+				// because this function is called by ComboBoxMenu, this.inherited tries to find the superclass of ComboBoxMenu
+				return dijit.form.ComboBoxMixin.prototype._getMenuLabelFromItem.apply(this, arguments);
 			}
 		}
 	}
