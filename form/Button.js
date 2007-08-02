@@ -167,10 +167,14 @@ dojo.declare(
 			if(!dropDown.isShowingNow){
 				var oldWidth=dropDown.domNode.style.width;
 				var self = this;
+/***
+ * TODO: this doesn't work.  dropDown.domNode is hidden so offsetWidth is 0
+
 				if(this.domNode.offsetWidth > dropDown.domNode.offsetWidth){
 					// make menu at least as wide as the button
 					dojo.marginBox(dropDown.domNode, {w:this.domNode.offsetWidth});
 				}
+***/
 				dijit.popup.open({
 					parent: this,
 					popup: dropDown,
