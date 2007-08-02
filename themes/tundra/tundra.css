@@ -353,15 +353,15 @@
 	padding-right: 3px;
 }
 
-.tundra .dijitMenuRightArrow {
+.tundra .dijitMenuExpand {
 	display:none; 
 }
-.tundra .dijitMenuRightArrowEnabled {
+.tundra .dijitMenuExpandEnabled {
 	margin-top:4px; 
 	background:url('images/arrowRight.png') no-repeat bottom center;
 	display:inline;
 }
-.tundra .dijitMenuRightArrowInner {
+.tundra .dijitMenuExpandInner {
 	visibility:hidden; 
 }
 

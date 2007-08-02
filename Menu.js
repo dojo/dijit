@@ -388,15 +388,15 @@ dojo.declare(
 	//	A line item in a Menu2
 
 	// Make 3 columns
-	//   icon, label, and arrow (BiDi-dependent) indicating sub-menu
+	//   icon, label, and expand arrow (BiDi-dependent) indicating sub-menu
 	templateString:
 		 '<tr class="dijitReset dijitMenuItem"'
 		+'dojoAttachEvent="onmouseover:_onHover,onmouseout:_onUnhover,onklick:_onClick">'
 		+'<td class="dijitReset"><div class="dijitMenuItemIcon ${iconClass}"></div></td>'
 		+'<td tabIndex="-1" class="dijitReset dijitMenuItemLabel" dojoAttachPoint="containerNode" waiRole="menuitem"></td>'
 		+'<td class="dijitReset" dojoAttachPoint="arrowCell">'
-			+'<span class="dijitMenuRightArrow" dojoAttachPoint="arrow" style="display:none">'
-			+'<span class="dijit_a11y dijitMenuRightArrowInner">&#9658;</span>'
+			+'<span class="dijitMenuExpand" dojoAttachPoint="expand" style="display:none">'
+			+'<span class="dijit_a11y dijitInline dijitArrowNode dijitMenuExpandInner">+</span>'
 			+'</span>'
 		+'</td>'
 		+'</tr>',
@@ -499,8 +499,8 @@ dojo.declare(
 		dojo.body().appendChild(this.popup.domNode);
 
 		this.popup.domNode.style.display="none";
-		dojo.addClass(this.arrow, "dijitMenuRightArrowEnabled");
-		dojo.style(this.arrow, "display", "");
+		dojo.addClass(this.expand, "dijitMenuExpandEnabled");
+		dojo.style(this.expand, "display", "");
 		dijit.wai.setAttr(this.containerNode, "waiState", "haspopup", "true");
 	}
 });

@@ -20,7 +20,7 @@
 	padding-right: 0px;
 }
 
-.dijitRtl .dijitMenuItem .dijitMenuRightArrowEnabled {
+.dijitRtl .dijitMenuItem .dijitMenuExpandEnabled {
 	background:url('images/arrowLeft.png') no-repeat bottom center;
 }
 
