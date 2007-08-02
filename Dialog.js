@@ -51,6 +51,7 @@ dojo.declare(
 			if(this.bgIframe.iframe){
 				this.bgIframe.iframe.style.display = "block";
 			}
+			this._resizeHandler = this.connect(window, "onresize", "layout");
 		},
 
 		hide: function(){
@@ -59,6 +60,7 @@ dojo.declare(
 			if(this.bgIframe.iframe){
 				this.bgIframe.iframe.style.display = "none";
 			}
+			this.disconnect(this._resizeHandler);
 		},
 
 		uninitialize: function(){
