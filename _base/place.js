@@ -62,13 +62,16 @@ dijit.placeOnScreen = function(
 	return dijit._place(node, choices);
 }
 
-dijit._place = function(/*HtmlElement*/ node, /* Array */ choices){
+dijit._place = function(/*HtmlElement*/ node, /* Array */ choices, /* Function */ layoutNode){
 	// summary:
 	//		Given a list of spots to put node, put it at the first spot where it fits,
 	//		of if it doesn't fit anywhere then the place with the least overflow
 	// choices: Array
 	//		Array of elements like: {corner: 'TL', pos: {x: 10, y: 20} }
 	//		Above example says to put the top-left corner of the node at (10,20)
+	//	layoutNode: Function(node, orient)
+	//		for things like tooltip, they are displayed differently (and have different dimensions)
+	//		based on their orientation relative to the parent.   This adjusts the popup based on orientation.
 			
 	// get {x: 10, y: 10, w: 100, h:100} type obj representing position of
 	// viewport over document
@@ -81,19 +84,26 @@ dijit._place = function(/*HtmlElement*/ node, /* Array */ choices){
 		dojo.body().appendChild(node);
 	}
 
-	// get node margin box size
-	var oldDisplay = node.style.display;
-	var oldVis = node.style.visibility;
-	node.style.visibility = "hidden";
-	node.style.display = "";
-	var mb = dojo.marginBox(node);
-	node.style.display = oldDisplay;
-	node.style.visibility = oldVis;
-
 	var best=null;
 	for(var i=0; i<choices.length; i++){
 		var corner = choices[i].corner;
 		var pos = choices[i].pos;
+
+		// configure node to be displayed in given position relative to button
+		// (need to do this in order to get an accurate size for the node, because
+		// a tooltips size changes based on position, due to triangle)
+		if(layoutNode){
+			layoutNode(corner);
+		}
+
+		// get node's size
+		var oldDisplay = node.style.display;
+		var oldVis = node.style.visibility;
+		node.style.visibility = "hidden";
+		node.style.display = "";
+		var mb = dojo.marginBox(node);
+		node.style.display = oldDisplay;
+		node.style.visibility = oldVis;
 
 		// coordinates and size of node with specified corner placed at pos,
 		// and clipped by viewport
@@ -129,7 +139,8 @@ dijit._place = function(/*HtmlElement*/ node, /* Array */ choices){
 dijit.placeOnScreenAroundElement = function(
 	/* HTMLElement */	node,
 	/* HTMLElement */	aroundNode,
-	/* Object */		aroundCorners){
+	/* Object */		aroundCorners,
+	/* Function */		layoutNode){
 
 	//	summary
 	//	Like placeOnScreen, except it accepts aroundNode instead of x,y
@@ -140,6 +151,11 @@ dijit.placeOnScreenAroundElement = function(
 	//		used to place the node => which corner(s) of node to use (see the
 	//		corners parameter in dijit.placeOnScreen)
 	//		e.g. {'TL': 'BL', 'BL': 'TL'}
+	//
+	//	layoutNode: Function(node, orient)
+	//		for things like tooltip, they are displayed differently (and have different dimensions)
+	//		based on their orientation relative to the parent.   This adjusts the popup based on orientation.
+
 	
 	// get coordinates of aroundNode
 	aroundNode = dojo.byId(aroundNode);
@@ -164,5 +180,5 @@ dijit.placeOnScreenAroundElement = function(
 		});
 	}
 	
-	return dijit._place(node, choices);
+	return dijit._place(node, choices, layoutNode);
 }

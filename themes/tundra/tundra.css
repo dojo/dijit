@@ -651,6 +651,17 @@
 .tundra .dijitTooltipDialog {
 	/* the outermost dom node, holding the connector and container */
 	opacity: 0.95;
+	background: transparent;	/* make the area on the sides of the arrow transparent */
+}
+
+.dijitTooltipBelow {
+	/* leave room for arrow above content */
+	padding-top: 13px;
+}
+
+.dijitTooltipAbove {
+	/* leave room for arrow below content */
+	padding-bottom: 13px;
 }
 
 .tundra .dijitTooltipContainer {
@@ -671,7 +682,7 @@
 	-webkit-border-radius: 6px;
 }
 
-.tundra .dijitTooltipConnect {
+.tundra .dijitTooltipConnector {
 	/* the arrow piece */
 	border:0px;
 	z-index: 2;
@@ -681,27 +692,23 @@
 	left: auto !important;
 	right: 3px;
 }
-.tundra .dijitTooltipBelow {
-	margin-top: 13px;
-}
+
 .tundra .dijitTooltipBelow .dijitTooltipConnector {
 	/* the arrow piece for tooltips below an element */
-	top: -13px;
+	top: 0px;
 	left: 3px;
 	background:url("images/tooltipConnectorUp.png") no-repeat top left;
 	width:16px;
 	height:14px;
 }
+
 .dj_ie6 .tundra .dijitTooltipBelow .dijitTooltipConnector {
 	background-image: url("images/tooltipConnectorUp.gif");
 }
 
-.tundra .dijitTooltipAbove {
-	margin-bottom: 13px;
-}
 .tundra .dijitTooltipAbove .dijitTooltipConnector {
 	/* the arrow piece for tooltips above an element */
-	bottom: -12px;
+	bottom: 0px;
 	left: 3px;
 	background:url("images/tooltipConnectorDown.png") no-repeat top left;
 	width:16px;
@@ -712,11 +719,14 @@
 }
 
 .tundra .dijitTooltipLeft {
-	margin-right: 13px;
+	padding-right: 13px;
+}
+.dj_ie6 .tundra .dijitTooltipLeft {
+	padding-right: 15px;
 }
 .tundra .dijitTooltipLeft .dijitTooltipConnector {
 	/* the arrow piece for tooltips to the left of an element, bottom borders aligned */
-	right: -12px;
+	right: 0px;
 	bottom: 7px;
 	background:url("images/tooltipConnectorRight.png") no-repeat top left;
 	width:16px;
@@ -727,11 +737,11 @@
 }
 
 .tundra .dijitTooltipRight {
-	margin-left: 13px;
+	padding-left: 13px;
 }
 .tundra .dijitTooltipRight .dijitTooltipConnector {
 	/* the arrow piece for tooltips to the right of an element, bottom borders aligned */
-	left: -13px;
+	left: 0px;
 	bottom: 7px;
 	background:url("images/tooltipConnectorLeft.png") no-repeat top left;
 	width:16px;

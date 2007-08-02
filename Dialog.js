@@ -314,10 +314,15 @@ dojo.declare(
 			this.connect(this.containerNode, ev, "_findLastFocus");
 			this.containerNode.title=this.title;
 		},
- 
+
+		orient: function(/*Object*/ corner){
+			// summary: configure widget to be displayed in given position relative to the button
+			this.domNode.className="dijitTooltipDialog " +" dijitTooltipAB"+(corner.charAt(1)=='L'?"Left":"Right")+" dijitTooltip"+(corner.charAt(0)=='T' ? "Below" : "Above");
+		},
+
 		onOpen: function(/*Object*/ pos){
-			// summary: called when dialog is displayed, with info on where it's being displayed relative to the button
-			this.domNode.className="dijitTooltipDialog " +" dijitTooltipAB"+(pos.corner.charAt(1)=='L'?"Left":"Right")+" dijitTooltip"+(pos.corner.charAt(0)=='T' ? "Below" : "Above");
+			// summary: called when dialog is displayed
+			this.orient(pos.corner);
 			this._loadCheck(); // lazy load trigger
 			this.containerNode.focus();
 		},

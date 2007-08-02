@@ -25,7 +25,7 @@ dijit.popup = new function(){
 		//		around: DomNode
 		//			DOM node (typically a button); place popup relative to this node
 		//		orient: Object
-		//			structure specifying position of object relative to "around" node
+		//			structure specifying possible positions of popup relative to "around" node
 		//		onCancel: Function
 		//			callback when user has canceled the popup by 
 		//          	1. hitting ESC or
@@ -75,7 +75,7 @@ dijit.popup = new function(){
 
 		// position the wrapper node
 		var best = around ?
-			dijit.placeOnScreenAroundElement(wrapper, around, orient) :
+			dijit.placeOnScreenAroundElement(wrapper, around, orient, dojo.hitch(widget, "orient")) :
 			dijit.placeOnScreen(wrapper, args, orient == 'R' ? ['TR','BR','TL','BL'] : ['TL','BL','TR','BR']);
 
 		// TODO: use effects to fade in wrapper
