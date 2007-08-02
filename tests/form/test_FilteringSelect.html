@@ -28,6 +28,7 @@
 			return label;
 		}
 		myStore = new dojo.data.ItemFileReadStore({url:"comboBoxData.json"});
+		myStore2 = new dojo.data.ItemFileReadStore({url: 'comboBoxDataToo.json'});
 	</script>
 </head>
 
@@ -217,6 +218,20 @@
 				autocomplete="false"
 				store="myStore"
 				invalidMessage="Invalid state name."
+				hasDownArrow="false"
+		>
+		<br>
+		<hr>
+		<div >
+		<p>FilteringSelect #11: deep data, initial query of type=country:</p>
+		<input searchAttr="name"
+				dojoType="dijit.form.FilteringSelect"
+				query={type:'country'}
+				value="United States of America"
+				name="state10"
+				autocomplete="false"
+				store="myStore2"
+				invalidMessage="Choose a country from the list."
 				hasDownArrow="false"
 		>
 		<br>

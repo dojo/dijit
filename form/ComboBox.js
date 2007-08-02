@@ -392,7 +392,7 @@ dojo.declare(
 			// create a new query to prevent accidentally querying for a hidden value from FilteringSelect's keyField
 			var query=this.query;
 			this._lastQuery=query[this.searchAttr]=key+"*";
-			var dataObject=this.store.fetch({queryOptions:{ignoreCase:this.ignoreCase}, query: query, onComplete:dojo.hitch(this, "_openResultList"), start:0, count:this.pageSize});
+			var dataObject=this.store.fetch({queryOptions:{ignoreCase:this.ignoreCase, deep:true}, query: query, onComplete:dojo.hitch(this, "_openResultList"), start:0, count:this.pageSize});
 			function nextSearch(dataObject, direction){
 				dataObject.start+=dataObject.count*direction;
 				dataObject.store.fetch(dataObject);
