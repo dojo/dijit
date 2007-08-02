@@ -109,7 +109,7 @@ dojo.declare(
 				highlightNode.color = colorValue.toHex();
 				var highlightStyle = highlightNode.style;
 				highlightStyle.color = highlightStyle.backgroundColor = highlightNode.color;
-				dojo.forEach(["Klick", "MouseOut", "MouseOver", "Blur", "Focus"], function(handler){
+				dojo.forEach(["Dijitclick", "MouseOut", "MouseOver", "Blur", "Focus"], function(handler){
 					this.connect(highlightNode, "on"+handler.toLowerCase(), "_onColor"+handler);
 				}, this);
 				this.divNode.appendChild(highlightNode);
@@ -167,7 +167,7 @@ dojo.declare(
 		console.debug("Color selected is: "+color);
 	},
 
-	_onColorKlick: function(/*Event*/ evt){
+	_onColorDijitclick: function(/*Event*/ evt){
 		// summary:
 		//		Handler for click, enter key & space key. Selects the color.
 		// evt:

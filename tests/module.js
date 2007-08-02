@@ -6,7 +6,7 @@ try{
 	dojo.require("dijit.tests.widgetsInTemplate");
 	dojo.require("dijit.tests.Container");
 	dojo.require("dijit.tests.layout.ContentPane");
-	dojo.require("dijit.tests.onklick");
+	dojo.require("dijit.tests.ondijitclick");
 	dojo.require("dijit.tests.form.Form");
 }catch(e){
 	doh.debug(e);
