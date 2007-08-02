@@ -259,12 +259,7 @@ dojo.mixin(dijit,
 					}
 					// otherwise, find the iframe this node refers to (can't access it via parentNode,
 					// need to do this trick instead) and continue tracing up the document
-					dojo.query("iframe").some(function(iframe){
-						if(iframe.contentDocument.body===node){
-							node=iframe;
-							return true;
-						}
-					});
+					node=dojo.query("iframe").filter(function(iframe){ return iframe.contentDocument.body===node; })[0];
 				}else{
 					var id = node.getAttribute && node.getAttribute("widgetId");
 					if(id){
