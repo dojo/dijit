@@ -44,7 +44,7 @@ dojo.declare(
 
 		validator: function(value,constraints){
 			// summary: user replaceable function used to validate the text input against the regular expression.
-			return (new RegExp("^(" + this.regExpGen(constraints) + ")$")).test(value);
+			return (new RegExp("^(" + this.regExpGen(constraints) + ")"+(this.required?"":"?")+"$")).test(value)&&(!this.required||!this._isEmpty(value));
 		},
 
 		isValid: function(/* Boolean*/ isFocused){
@@ -52,14 +52,9 @@ dojo.declare(
 			return this.validator(this.textbox.value, this.constraints);
 		},
 
-		isEmpty: function(){
+		_isEmpty: function(value){
 			// summary: Checks for whitespace
-			return /^\s*$/.test(this.textbox.value); // Boolean
-		},
-
-		isMissing: function(/* Boolean*/ isFocused){
-			// summary: Checks to see if value is required and is whitespace
-			return this.required && this.isEmpty(); // Boolean
+			return /^\s*$/.test(value); // Boolean
 		},
 
 		getErrorMessage: function(/* Boolean*/ isFocused){
@@ -77,15 +72,16 @@ dojo.declare(
 			//		Called by oninit, onblur, and onkeypress.
 			// description:
 			//		Show missing or invalid messages if appropriate, and highlight textbox field.
-
+			var message = "";
+			var isEmpty=this._isEmpty(this.textbox.value);
 			if(!this.isValid(isFocused)){
-				this.updateClass("Error");
-				var message = this.getErrorMessage(isFocused);
+				this.updateClass(this.required && isEmpty?"Warning":"Error");
+				message = this.getErrorMessage(isFocused);
 			}else{
-				this.updateClass(this.isMissing() ? "Warning" : "Normal");
-				var message = "";
+				// valid case
+				this.updateClass("Normal");
 			}
-			if(this.isEmpty()){
+			if(isEmpty){
 				var prompt = this.getPromptMessage(isFocused);
 				if(prompt){ message = prompt; }
 			}
