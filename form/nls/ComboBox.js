@@ -1,4 +1,4 @@
 ({
 		previousMessage: "Previous choices",
-		nextMessage: "More choices",
+		nextMessage: "More choices"
 })
