@@ -422,6 +422,8 @@ dojo.declare(
 					this.value=items[this.srcNodeRef.selectedIndex!=-1?this.srcNodeRef.selectedIndex:0][this._getValueField()];
 				}
 			}
+			// instantiate query so comboboxes with different data stores and default query work together
+			if(this.query==dijit.form.ComboBoxMixin.prototype.query){query={};}
 		},
 
 		postCreate: function(){
