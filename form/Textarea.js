@@ -45,9 +45,8 @@ dojo.declare(
 		value = this.editNode.innerHTML.replace(/<(br[^>]*|\/(p|div))>$|^<(p|div)[^>]*>|\r/gi,"").replace(/<\/(p|div)>\s*<\1[^>]*>|<(br|p|div)[^>]*>/gi,"\n").replace(/<[^>]*>/g,"").replace(/&amp;/gi,"\&").replace(/&nbsp;/gi," ").replace(/&lt;/gi,"<").replace(/&gt;/gi,">");
 		this.formValueNode.value = value;
 		if(this.iframe){
-			var d = this.iframe.contentWindow.document;
-			var newHeight = d.body.firstChild.scrollHeight;
-			if(d.body.scrollWidth > d.body.clientWidth){ newHeight+=16; } // scrollbar space needed?
+			var newHeight = this.editNode.scrollHeight;
+			if(this.editNode.scrollWidth > this.editNode.clientWidth){ newHeight+=16; } // scrollbar space needed?
 			if(this.lastHeight != newHeight){ // cache size so that we don't get a resize event because of a resize event
 				if(newHeight == 0){ newHeight = 16; } // height = 0 causes the browser to not set scrollHeight
 				dojo.contentBox(this.iframe, {h: newHeight});
@@ -61,10 +60,19 @@ dojo.declare(
 		var node = this.editNode;
 		if(node){
 			node.innerHTML = ""; // wipe out old nodes
-			dojo.forEach(value.split("\n"), function(line){
-				node.appendChild(document.createTextNode(line)); // use text nodes so that imbedded tags can be edited
-				node.appendChild(document.createElement("BR")); // preserve line breaks
-			});
+			if(value.split){
+				var _this=this;
+				var isFirst = true;
+				dojo.forEach(value.split("\n"), function(line){
+					if(isFirst){ isFirst = false; }
+					else {
+						node.appendChild(document.createElement("BR")); // preserve line breaks
+					}
+					node.appendChild(document.createTextNode(line)); // use text nodes so that imbedded tags can be edited
+				});
+			}else{
+				node.appendChild(document.createTextNode(value));
+			}
 		}
 		this._setFormValue(priorityChange);
 	},
@@ -115,7 +123,8 @@ dojo.declare(
 			d.open();
 			d.write('<html><head><title>' +
 				this._nlsResources.iframeTitle1 +	// "edit area"
-				'</title></head><body style="margin:0px;padding:0px;border:0px;"><div tabIndex="1" style="padding:2px;"></div></body></html>');
+				'</title><style>body > br{display:none;}</style></head><body style="margin:0px;padding:0px;border:0px;"><div></div></body></html>');
+				// body > br style is to remove the <br> that gets added by FF
 			d.close();
 			try{ this.iframe.contentDocument.designMode="on"; }catch(e){/*squelch*/} // this can fail if display:none
 			this.editNode = d.body.firstChild;
@@ -175,17 +184,14 @@ dojo.declare(
 			e.stopPropagation();
 		}else if(e.keyCode == dojo.keys.ENTER){
 			e.stopPropagation();
-		}else{
-			this.inherited("_onKeyPress", arguments);
-		}
-		if(this.iframe && e.keyCode != dojo.keys.ENTER){
+		}else if(this.inherited("_onKeyPress", arguments) && this.iframe){
 			// #3752:
 			// The key press will not make it past the iframe.
 			// If a widget is listening outside of the iframe, (like InlineEditBox)
 			// it will not hear anything.
 			// Create an equivalent event so everyone else knows what is going on.
 			var te = document.createEvent("KeyEvents");
-			te.initKeyEvent("keypress", true, true, null, false, false, false, false, e.charCode, e.charCode);
+			te.initKeyEvent("keypress", true, true, null, e.ctrlKey, e.altKey, e.shiftKey, e.metaKey, e.keyCode, e.charCode);
 			this.iframe.dispatchEvent(te);
 		}
 		this._changing();

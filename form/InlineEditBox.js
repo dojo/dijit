@@ -143,7 +143,7 @@ dojo.declare(
 	},
 
 	_showText: function(){
-		var value = this._getEditValue();
+		var value = "" + this._getEditValue(); // "" is to make sure its a string
 		dijit.form.InlineEditBox.superclass.setValue.call(this, value);
 		// whitespace is really hard to click so show a ?
 		// TODO: show user defined message in gray

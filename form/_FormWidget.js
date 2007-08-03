@@ -201,13 +201,15 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 	},
 
 	_onKeyPress: function(e){
-		if(e.keyCode == 27 && !e.shiftKey && !e.ctrlKey && !e.altKey){
+		if(e.keyCode == dojo.keys.ESCAPE && !e.shiftKey && !e.ctrlKey && !e.altKey){
 			var v = this.getValue();
 			if(v != this._lastValueReported && this._lastValueReported != undefined){
 				this.undo();
 				dojo.stopEvent(e);
+				return false;
 			}
 		}
+		return true;
 	},
 
 	forWaiValuenow: function(){
