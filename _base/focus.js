@@ -241,10 +241,6 @@ dojo.mixin(dijit,
 			delete dijit._blurAllTimer;
 		}
 
-		if(node==dijit._curFocus){
-			return;
-		}
-
 		// compute stack of active widgets (ex: ComboButton --> Menu --> MenuItem)
 		var newStack=[];
 		try{
