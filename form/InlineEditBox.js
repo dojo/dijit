@@ -219,9 +219,11 @@ dojo.declare(
 				this.save(e);
 			}
 		}else{
-			if(e.keyCode && e.keyCode != dojo.keys.TAB){	// ignore the tab key
-				this.saveButton.setDisabled(false);
-			}
+			var _this = this;
+			setTimeout(
+				function(){
+					_this.saveButton.setDisabled(_this._getEditValue() == _this._initialText);	// ignore the tab key
+				}, 100); // the delay gives the browser a chance to update the textarea
 		}
 
 	},
