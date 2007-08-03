@@ -43,6 +43,8 @@ dojo.declare(
 			//	Sets the date on this textbox
 			this.inherited('setValue', arguments);
 			if(this._picker){
+				// #3948: fix blank date on popup only
+				if(!date){date=new Date();}
 				this._picker.setValue(date);
 			}
 		},
