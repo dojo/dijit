@@ -166,14 +166,16 @@ dojo.declare(
 					// prevent submitting form if user presses enter
 					dojo.stopEvent(evt);
 					// also prevent accepting the value if either Next or Previous are selected
-					var highlighted=this._popupWidget.getHighlightedOption();
-					if(highlighted==this._popupWidget.nextButton){
-						this._nextSearch(1);
-						break;
-					}
-					else if(highlighted==this._popupWidget.previousButton){
-						this._nextSearch(-1);
-						break;
+					if(this._isShowingNow){
+						var highlighted=this._popupWidget.getHighlightedOption();
+						if(highlighted==this._popupWidget.nextButton){
+							this._nextSearch(1);
+							break;
+						}
+						else if(highlighted==this._popupWidget.previousButton){
+							this._nextSearch(-1);
+							break;
+						}
 					}
 					// fall through
 
@@ -181,7 +183,7 @@ dojo.declare(
 					if(this._isShowingNow){
 						this._prev_key_backspace = false;
 						this._prev_key_esc = false;
-						if(this._popupWidget.getHighlightedOption()){
+						if(this._isShowingNow&&this._popupWidget.getHighlightedOption()){
 							this._popupWidget.setValue({target:this._popupWidget.getHighlightedOption()}, true);
 						}else{
 							this.setDisplayedValue(this.getDisplayedValue());
