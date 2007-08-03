@@ -45,6 +45,7 @@ dojo.declare(
 		},
 
 		setValue: function(value, /*Boolean, optional*/ priorityChange, /*String, optional*/ formattedValue){
+			if(value == null){ value = ""; }
 			value = this.filter(value);
 			if(typeof formattedValue == "undefined" ){
 				formattedValue = (typeof value == "undefined" || value == null || value == NaN) ? null : this.format(value, this.constraints);
