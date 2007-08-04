@@ -20,7 +20,8 @@ dojo.declare(
 		parse: dojo.date.locale.parse,
 		serialize: dojo.date.stamp.toISOString,
 
-		value: new Date(),
+		value: new Date(""),	// NaN
+
 		_popupClass: "dijit.form._TimePicker",
 
 		postMixInProperties: function(){
