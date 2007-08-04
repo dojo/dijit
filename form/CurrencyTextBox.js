@@ -1,12 +1,12 @@
-dojo.provide("dijit.form.CurrencyTextbox");
+dojo.provide("dijit.form.CurrencyTextBox");
 
 //FIXME: dojo.experimental throws an unreadable exception?
-//dojo.experimental("dijit.form.CurrencyTextbox");
+//dojo.experimental("dijit.form.CurrencyTextBox");
 
 dojo.require("dojo.currency");
 dojo.declare(
-	"dijit.form.CurrencyTextbox",
-	dijit.form.NumberTextbox,
+	"dijit.form.CurrencyTextBox",
+	dijit.form.NumberTextBox,
 	{
 		// code: String
 		//		the ISO4217 currency code, a three letter sequence like "USD"
@@ -18,12 +18,12 @@ dojo.declare(
 		parse: dojo.currency.parse,
 
 		postMixInProperties: function(){
-			if(this.constraints === dijit.form.ValidationTextbox.prototype.constraints){
+			if(this.constraints === dijit.form.ValidationTextBox.prototype.constraints){
 				// declare a constraints property on 'this' so we don't overwrite the shared default object in 'prototype'
 				this.constraints = {};
 			}
 			this.constraints.currency = this.currency;
-			dijit.form.CurrencyTextbox.superclass.postMixInProperties.apply(this, arguments);
+			dijit.form.CurrencyTextBox.superclass.postMixInProperties.apply(this, arguments);
 		}
 	}
 );

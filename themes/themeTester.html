@@ -29,11 +29,11 @@
 		dojo.require("dijit.Tree");
 
 		// various Form elemetns
-		dojo.require("dijit.form.Checkbox");
+		dojo.require("dijit.form.CheckBox");
 		dojo.require("dijit.form.Textarea");
 		dojo.require("dijit.form.FilteringSelect");
-		dojo.require("dijit.form.Textbox");
-		dojo.require("dijit.form.DateTextbox");	
+		dojo.require("dijit.form.TextBox");
+		dojo.require("dijit.form.DateTextBox");	
 		dojo.require("dijit.form.Button");
 		dojo.require("dijit.form.InlineEditBox");
 		dojo.require("dijit.form.NumberSpinner");
@@ -249,9 +249,9 @@
 						[plain] Text Input: <input type="text" name="textInfo" value="Lorem" size="10">
 						<br>
 	
-						<p><input type="checkbox" dojoType="dijit.form.Checkbox" checked="checked"> Standard Dijit Checkbox
-						<br><input type="checkbox" dojoType="dijit.form.Checkbox" disabled="disabled"> Disabled Dijit
-						<br><input type="checkbox" dojoType="dijit.form.Checkbox" disabled="disabled" checked="checked"> Checked and Disabled Dijit
+						<p><input type="checkbox" dojoType="dijit.form.CheckBox" checked="checked"> Standard Dijit CheckBox
+						<br><input type="checkbox" dojoType="dijit.form.CheckBox" disabled="disabled"> Disabled Dijit
+						<br><input type="checkbox" dojoType="dijit.form.CheckBox" disabled="disabled" checked="checked"> Checked and Disabled Dijit
 						<br><input type="checkbox"> Standard
 						<br><input type="checkbox" disabled="disabled"> Standard [disabled]
 						</p>
@@ -461,7 +461,7 @@
 	
 						before
 						<span id="editable" style="font-size:larger;" dojoType="dijit.form.InlineEditBox" onChange="myHandler(this.id,arguments[0])">
-							<input dojoType="dijit.form.Textbox" value="Edit me - I trigger the onChange callback">
+							<input dojoType="dijit.form.TextBox" value="Edit me - I trigger the onChange callback">
 						</span>
 						after
 	
@@ -482,7 +482,7 @@
 						<b>Date text box:</b>
 						<p id="backgroundArea" dojoType="dijit.form.InlineEditBox">
 						<input name="date" value="2005-12-30"
-							dojoType="dijit.form.DateTextbox"
+							dojoType="dijit.form.DateTextBox"
 							constraints={locale:'en-us'}
 							required="true"
 							promptMessage="mm/dd/yyyy"

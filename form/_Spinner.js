@@ -1,14 +1,14 @@
 dojo.provide("dijit.form._Spinner");
 
-dojo.require("dijit.form.ValidationTextbox");
+dojo.require("dijit.form.ValidationTextBox");
 
 dojo.declare(
 	"dijit.form._Spinner",
-	dijit.form.RangeBoundTextbox,
+	dijit.form.RangeBoundTextBox,
 	{
 
 		// summary: Mixin for validation widgets with a spinner
-		// description: This class basically (conceptually) extends dijit.form.ValidationTextbox.
+		// description: This class basically (conceptually) extends dijit.form.ValidationTextBox.
 		//	It modifies the template to have up/down arrows, and provides related handling code.
 
 		// defaultTimeout: Number

@@ -2,7 +2,7 @@ dojo.provide("dijit.form.ComboBox");
 
 dojo.require("dojo.data.ItemFileReadStore");
 dojo.require("dijit.form._DropDownTextBox");
-dojo.require("dijit.form.ValidationTextbox");
+dojo.require("dijit.form.ValidationTextBox");
 dojo.requireLocalization("dijit.form", "ComboBox");
 
 dojo.declare(
@@ -58,7 +58,7 @@ dojo.declare(
 
 		getValue:function(){
 			// don't get the textbox value but rather the previously set hidden value
-			return dijit.form.Textbox.superclass.getValue.apply(this, arguments);
+			return dijit.form.TextBox.superclass.getValue.apply(this, arguments);
 		},
 
 		setDisplayedValue:function(/*String*/ value){
@@ -318,7 +318,7 @@ dojo.declare(
 				// if the user clicks away from the textbox, set the value to the textbox value
 				this.setDisplayedValue(this.getDisplayedValue());
 			}
-			// don't call this since the Textbox setValue is asynchronous
+			// don't call this since the TextBox setValue is asynchronous
 			// if you uncomment this line, when you click away from the textbox,
 			// the value in the textbox reverts to match the hidden value
 			//this.parentClass.onblur.apply(this, arguments);
@@ -429,8 +429,8 @@ dojo.declare(
 		},
 
 		postCreate: function(){
-			// call the associated Textbox postCreate
-			// ValidationTextbox for ComboBox; MappedTextbox for FilteringSelect
+			// call the associated TextBox postCreate
+			// ValidationTextBox for ComboBox; MappedTextBox for FilteringSelect
 			this.parentClass=dojo.getObject(this.declaredClass, false).superclass;
 			this.parentClass.postCreate.apply(this, arguments);
 		},
@@ -667,6 +667,6 @@ dojo.declare(
 
 dojo.declare(
 	"dijit.form.ComboBox",
-	[dijit.form.ValidationTextbox, dijit.form.ComboBoxMixin],
+	[dijit.form.ValidationTextBox, dijit.form.ComboBoxMixin],
 	{}
 );

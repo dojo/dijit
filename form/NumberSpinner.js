@@ -1,14 +1,14 @@
 dojo.provide("dijit.form.NumberSpinner");
 
 dojo.require("dijit.form._Spinner");
-dojo.require("dijit.form.NumberTextbox");
+dojo.require("dijit.form.NumberTextBox");
 
 dojo.declare(
 "dijit.form.NumberSpinner",
-[dijit.form._Spinner, dijit.form.NumberTextboxMixin],
+[dijit.form._Spinner, dijit.form.NumberTextBoxMixin],
 {
 	// summary: Number Spinner
-	// description: This widget is the same as NumberTextbox but with up/down arrows added
+	// description: This widget is the same as NumberTextBox but with up/down arrows added
 
 	required: true,
 

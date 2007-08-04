@@ -1,9 +1,9 @@
-dojo.provide("dijit.form.Textbox");
+dojo.provide("dijit.form.TextBox");
 
 dojo.require("dijit.form._FormWidget");
 
 dojo.declare(
-	"dijit.form.Textbox",
+	"dijit.form.TextBox",
 	dijit.form._FormWidget,
 	{
 		// summary:
@@ -34,7 +34,7 @@ dojo.declare(
 		//		HTML INPUT tag maxlength declaration.
 		maxlength: "999999",
 
-		templatePath: dojo.moduleUrl("dijit.form", "templates/Textbox.html"),
+		templatePath: dojo.moduleUrl("dijit.form", "templates/TextBox.html"),
 
 		getTextValue: function(){
 			return this.filter(this.textbox.value);
@@ -55,7 +55,7 @@ dojo.declare(
 				// synchronous value set needed for InlineEditBox
 				this.textbox.value = formattedValue;
 			}
-			dijit.form.Textbox.superclass.setValue.call(this, value, priorityChange);
+			dijit.form.TextBox.superclass.setValue.call(this, value, priorityChange);
 		},
 
 		forWaiValuenow: function(){

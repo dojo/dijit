@@ -336,7 +336,7 @@ table .dijitComboButton .dijitButtonNode {
 /****
 		dijit.form.NumberSpinner  (template: form/templates/Spinner.html)
 
-		Note: works differently than other Textbox types:
+		Note: works differently than other TextBox types:
 			The outer fieldset element is the one that shows the border, etc.
 			rather than the actual INPUT element. 
 
@@ -413,7 +413,7 @@ table .dijitComboButton .dijitButtonNode {
 /****
 		dijit.form.ComboBox 
 
-		Note: these works differently than other Textbox types:
+		Note: these works differently than other TextBox types:
 			The outer fieldset element is the one that shows the border, etc.
 			rather than the actual INPUT element. 
 
@@ -480,14 +480,14 @@ table .dijitComboButton .dijitButtonNode {
 
 
 /****
-		dijit.form.Checkbox
+		dijit.form.CheckBox
  	 & 
   		dijit.form.RadioButton 
  ****/
 
-.dijitCheckbox,
+.dijitCheckBox,
 .dijitRadio,
-.dijitCheckboxInput {
+.dijitCheckBoxInput {
 	padding: 0;
 	border: 0;
 	width: 16px;
@@ -495,27 +495,27 @@ table .dijitComboButton .dijitButtonNode {
 	overflow:hidden;
 }
 
-.dijitCheckbox INPUT,
+.dijitCheckBox INPUT,
 .dijitRadio INPUT {
 	margin: 0; 
 	padding: 0;
 } 
 
-.dijitCheckboxInput {
+.dijitCheckBoxInput {
 	/* place the actual input on top, but all-but-invisible */
 	opacity: 0.01;
 }
 
-.dj_ie .dijitCheckboxInput {
+.dj_ie .dijitCheckBoxInput {
 	filter: alpha(opacity=0);
 }
 
-.dijit_a11y .dijitCheckbox,
+.dijit_a11y .dijitCheckBox,
 .dijit_a11y .dijitRadio {
 	width: auto;
 	height: auto;
 }
-.dijit_a11y .dijitCheckboxInput {
+.dijit_a11y .dijitCheckBoxInput {
 	opacity: 1;
 	filter: none;
 	width: auto;

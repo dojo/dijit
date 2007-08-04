@@ -19,7 +19,7 @@ dojo.declare(
 	//		Save and Cancel button are displayed below the edit widget.
 	//		When Save is clicked, the text is pulled from the edit
 	//		widget and redisplayed and the edit widget is again hidden.
-	//		Currently all textboxes that inherit from dijit.form.Textbox
+	//		Currently all textboxes that inherit from dijit.form.TextBox
 	//		are supported edit widgets.
 	//		An edit widget must support the following API to be used:
 	//		String getTextValue() OR String getValue()

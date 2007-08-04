@@ -5,7 +5,7 @@ dojo.require("dijit._Templated");
 dojo.require("dijit._editor._Plugin");
 dojo.require("dijit.Dialog");
 dojo.require("dijit.form.Button");
-dojo.require("dijit.form.ValidationTextbox");
+dojo.require("dijit.form.ValidationTextBox");
 
 dojo.declare("dijit._editor.plugins.DualStateDropDownButton",
 	dijit.form.DropDownButton,
@@ -16,7 +16,7 @@ dojo.declare("dijit._editor.plugins.DualStateDropDownButton",
 );
 
 dojo.declare("dijit._editor.plugins.UrlTextBox",
-	dijit.form.ValidationTextbox,
+	dijit.form.ValidationTextBox,
 	{
 		// summary: the URL input box we use in our dialog
 
@@ -62,7 +62,7 @@ dojo.declare("dijit._editor.plugins.LinkDialog",
 			"<label for='urlInput'>Url:&nbsp;</label>",
 			"<input dojoType=dijit._editor.plugins.UrlTextBox name='urlInput'><br>",
 			"<label for='textInput'>Text:&nbsp;</label>",
-			"<input dojoType=dijit.form.Textbox name='textInput'>",
+			"<input dojoType=dijit.form.TextBox name='textInput'>",
 			"<br>",
 			"<button dojoType=dijit.form.Button type='submit'>Set</button>"
 		].join(""),

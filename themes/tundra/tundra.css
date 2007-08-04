@@ -145,12 +145,12 @@
 
 
 /****
-		dijit.form.Textbox
-		dijit.form.ValidationTextbox
-		dijit.form.SerializableTextbox
-		dijit.form.RangeBoundTextbox
-		dijit.form.NumberTextbox
-		dijit.form.CurrencyTextbox
+		dijit.form.TextBox
+		dijit.form.ValidationTextBox
+		dijit.form.SerializableTextBox
+		dijit.form.RangeBoundTextBox
+		dijit.form.NumberTextBox
+		dijit.form.CurrencyTextBox
 		dijit.form.NumberSpinner
 		dijit.form.ComboBox (partial)
  ****/
@@ -224,7 +224,7 @@
 }
 
 /*
- *  Checkbox and Radio Widgets,
+ *  CheckBox and Radio Widgets,
  *	and the CSS to embed a checkbox or radio icon inside a ToggleButton.
  *
  *	Order of images in the default sprite (from L to R, checkbox and radio in same image):
@@ -243,16 +243,16 @@
  *							 - unchecked
 */
 
-.tundra .dijitToggleButton .dijitCheckbox,
+.tundra .dijitToggleButton .dijitCheckBox,
 .tundra .dijitToggleButton .dijitRadio,
-.tundra .dijitToggleButton .dijitCheckboxIcon,
+.tundra .dijitToggleButton .dijitCheckBoxIcon,
 .tundra .dijitToggleButton .dijitRadioIcon {
 	background-image: url('images/checkmarkNoBorder.gif');
 }
 
-.tundra .dijitCheckbox,
+.tundra .dijitCheckBox,
 .tundra .dijitRadio,
-.tundra .dijitCheckboxIcon,		/* inside a toggle button */
+.tundra .dijitCheckBoxIcon,		/* inside a toggle button */
 .tundra .dijitRadioIcon	{		/* inside a toggle button */
 	background-image: url('images/checkmark.png'); /* checkbox sprite image */
 	background-repeat: no-repeat; 
@@ -261,34 +261,34 @@
 	overflow:hidden;
 }
 
-.tundra .dijitCheckbox,
-.tundra .dijitToggleButton .dijitCheckboxIcon {
+.tundra .dijitCheckBox,
+.tundra .dijitToggleButton .dijitCheckBoxIcon {
 	/* unchecked */
 	background-position: -16px;
 }
  
-.tundra .dijitCheckboxChecked,
-.tundra .dijitToggleButtonChecked .dijitCheckboxIcon {
+.tundra .dijitCheckBoxChecked,
+.tundra .dijitToggleButtonChecked .dijitCheckBoxIcon {
 	/* checked */
 	background-position: 0px;
 }
 
-.tundra .dijitCheckboxDisabled {
+.tundra .dijitCheckBoxDisabled {
 	/* disabled */
 	background-position: -48px;
 }
 
-.tundra .dijitCheckboxCheckedDisabled {
+.tundra .dijitCheckBoxCheckedDisabled {
 	/* disabled but checked */
 	background-position: -32px;
 }
 
-.tundra .dijitCheckboxHover {
+.tundra .dijitCheckBoxHover {
 	/* hovering over an unchecked enabled checkbox */
 	background-position: -80px;
 }
 
-.tundra .dijitCheckboxCheckedHover {
+.tundra .dijitCheckBoxCheckedHover {
 	/* hovering over a checked enabled checkbox */
 	background-position: -64px;
 }

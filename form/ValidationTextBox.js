@@ -1,18 +1,18 @@
-dojo.provide("dijit.form.ValidationTextbox");
+dojo.provide("dijit.form.ValidationTextBox");
 
 dojo.require("dojo.i18n");
 
-dojo.require("dijit.form.Textbox");
+dojo.require("dijit.form.TextBox");
 dojo.require("dijit.Tooltip");
 
 dojo.requireLocalization("dijit.form", "validate");
 
 dojo.declare(
-	"dijit.form.ValidationTextbox",
-	dijit.form.Textbox,
+	"dijit.form.ValidationTextBox",
+	dijit.form.TextBox,
 	{
 		// summary:
-		//		A subclass of Textbox.
+		//		A subclass of TextBox.
 		//		Over-ride isValid in subclasses to perform specific kinds of validation.
 
 		// default values for new subclass properties
@@ -38,7 +38,7 @@ dojo.declare(
 		regExpGen: function(constraints){ return this.regExp; },
 
 		setValue: function(){
-			dijit.form.ValidationTextbox.superclass.setValue.apply(this, arguments);
+			dijit.form.ValidationTextBox.superclass.setValue.apply(this, arguments);
 			this.validate(false);
 		},
 
@@ -122,7 +122,7 @@ dojo.declare(
 		},
 
 		onfocus: function(evt){
-			dijit.form.ValidationTextbox.superclass.onfocus.apply(this, arguments);
+			dijit.form.ValidationTextBox.superclass.onfocus.apply(this, arguments);
 			this.validate(true);
 		},
 
@@ -131,10 +131,10 @@ dojo.declare(
 		},
 
 		postMixInProperties: function(){
-			if(this.constraints == dijit.form.ValidationTextbox.prototype.constraints){
+			if(this.constraints == dijit.form.ValidationTextBox.prototype.constraints){
 				this.constraints = {};
 			}
-			dijit.form.ValidationTextbox.superclass.postMixInProperties.apply(this, arguments);
+			dijit.form.ValidationTextBox.superclass.postMixInProperties.apply(this, arguments);
 			this.constraints.locale=this.lang;
 			this.messages = dojo.i18n.getLocalization("dijit.form", "validate", this.lang);
 			dojo.forEach(["invalidMessage", "missingMessage"], function(prop){
@@ -148,11 +148,11 @@ dojo.declare(
 );
 
 dojo.declare(
-	"dijit.form.MappedTextbox",
-	dijit.form.ValidationTextbox,
+	"dijit.form.MappedTextBox",
+	dijit.form.ValidationTextBox,
 	{
 		// summary:
-		//		A subclass of ValidationTextbox.
+		//		A subclass of ValidationTextBox.
 		//		Provides a hidden input field and a serialize method to override
 
 		serialize: function(val){
@@ -168,7 +168,7 @@ dojo.declare(
 
 		validate: function(){
 			this.valueNode.value = this.toString();
-			dijit.form.MappedTextbox.superclass.validate.apply(this, arguments);
+			dijit.form.MappedTextBox.superclass.validate.apply(this, arguments);
 		},
 
 		postCreate: function(){
@@ -182,17 +182,17 @@ dojo.declare(
 
 			dojo.place(valueNode, textbox, "after");
 
-			dijit.form.MappedTextbox.superclass.postCreate.apply(this, arguments);
+			dijit.form.MappedTextBox.superclass.postCreate.apply(this, arguments);
 		}
 	}
 );
 
 dojo.declare(
-	"dijit.form.RangeBoundTextbox",
-	dijit.form.MappedTextbox,
+	"dijit.form.RangeBoundTextBox",
+	dijit.form.MappedTextBox,
 	{
 		// summary:
-		//		A subclass of MappedTextbox.
+		//		A subclass of MappedTextBox.
 		//		Tests for a value out-of-range
 		/*===== contraints object:
 		// min: Number
@@ -228,17 +228,17 @@ dojo.declare(
 		},
 
 		isValid: function(/* Boolean*/ isFocused){
-			return dijit.form.RangeBoundTextbox.superclass.isValid.call(this, isFocused) &&
+			return dijit.form.RangeBoundTextBox.superclass.isValid.call(this, isFocused) &&
 				this.isInRange(isFocused);
 		},
 
 		getErrorMessage: function(/* Boolean*/ isFocused){
-			if(dijit.form.RangeBoundTextbox.superclass.isValid.call(this, false) && !this.isInRange(isFocused)){ return this.rangeMessage; }
-			else{ return dijit.form.RangeBoundTextbox.superclass.getErrorMessage.apply(this, arguments); }
+			if(dijit.form.RangeBoundTextBox.superclass.isValid.call(this, false) && !this.isInRange(isFocused)){ return this.rangeMessage; }
+			else{ return dijit.form.RangeBoundTextBox.superclass.getErrorMessage.apply(this, arguments); }
 		},
 
 		postMixInProperties: function(){
-			dijit.form.RangeBoundTextbox.superclass.postMixInProperties.apply(this, arguments);
+			dijit.form.RangeBoundTextBox.superclass.postMixInProperties.apply(this, arguments);
 			if(!this.rangeMessage){
 				this.messages = dojo.i18n.getLocalization("dijit.form", "validate", this.lang);
 				this.rangeMessage = this.messages.rangeMessage;
@@ -246,7 +246,7 @@ dojo.declare(
 		},
 
 		postCreate: function(){
-			dijit.form.RangeBoundTextbox.superclass.postCreate.apply(this, arguments);
+			dijit.form.RangeBoundTextBox.superclass.postCreate.apply(this, arguments);
 			if(typeof this.constraints.min != "undefined"){
 				dijit.wai.setAttr(this.domNode, "waiState", "valuemin", this.constraints.min);
 			}

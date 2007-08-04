@@ -1,10 +1,10 @@
-dojo.provide("dijit.form.NumberTextbox");
+dojo.provide("dijit.form.NumberTextBox");
 
-dojo.require("dijit.form.ValidationTextbox");
+dojo.require("dijit.form.ValidationTextBox");
 dojo.require("dojo.number");
 
 dojo.declare(
-	"dijit.form.NumberTextboxMixin",
+	"dijit.form.NumberTextBoxMixin",
 	null,
 	{
 		// summary:
@@ -17,8 +17,8 @@ dojo.declare(
 );
 
 dojo.declare(
-	"dijit.form.NumberTextbox",
-	[dijit.form.RangeBoundTextbox,dijit.form.NumberTextboxMixin],
+	"dijit.form.NumberTextBox",
+	[dijit.form.RangeBoundTextBox,dijit.form.NumberTextBoxMixin],
 	{
 		// summary:
 		//		A validating, serializable, range-bound text box.

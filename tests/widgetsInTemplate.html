@@ -7,7 +7,7 @@
 			dojo.require("doh.runner");
 
 			dojo.require("dijit.form.Button");
-			dojo.require("dijit.form.Checkbox");
+			dojo.require("dijit.form.CheckBox");
 			dojo.require("dijit.ProgressBar");
 
 			dojo.addOnLoad(function(){
@@ -21,15 +21,15 @@
 								t.t(testW.normalNode);
 								t.f(isNaN(testW.normalNode.nodeType));
 								t.t(testW.buttonWidget instanceof dijit.form.Button);
-								t.t(testW.checkboxWidget instanceof dijit.form.Checkbox);
+								t.t(testW.checkboxWidget instanceof dijit.form.CheckBox);
 								t.t(testW.progressBarWidget instanceof dijit.ProgressBar);
-//								alert((testW.buttonWidget instanceof dijit.form.Button)+(testW.checkboxWidget instanceof dijit.form.Checkbox)+(testW.progressBarWidget instanceof dijit.ProgressBar)+
+//								alert((testW.buttonWidget instanceof dijit.form.Button)+(testW.checkboxWidget instanceof dijit.form.CheckBox)+(testW.progressBarWidget instanceof dijit.ProgressBar)+
 //								(testW.buttonWidget._counter==1)+(testW.checkboxWidget._counter==1)+(testW.progressBarWidget._counter==1));
 								testW = dijit.byId("test2Widget");
 								t.t(testW.containerNode);
 								t.f(isNaN(testW.containerNode.nodeType));
 								t.is(undefined,testW.buttonWidget);
-								t.t(testW.checkboxWidget instanceof dijit.form.Checkbox);
+								t.t(testW.checkboxWidget instanceof dijit.form.CheckBox);
 							}
 						},
 						{
@@ -62,7 +62,7 @@
 			<div>
 				<div dojoAttachPoint="normalNode" >normal node</div>
 				<button dojoAttachPoint="buttonWidget" dojoAttachEvent="onClick:onClick" dojoType="dijit.form.Button">button #1</button>
-				<div dojoAttachPoint="checkboxWidget" dojoAttachEvent="onClick:onClick" dojoType="dijit.form.Checkbox"></div> checkbox #1
+				<div dojoAttachPoint="checkboxWidget" dojoAttachEvent="onClick:onClick" dojoType="dijit.form.CheckBox"></div> checkbox #1
 				<div dojoAttachPoint="progressBarWidget" dojoAttachEvent="onChange:onClick" style="width:400px" annotate="true"
 					maximum="200" progress="20" dojoType="dijit.ProgressBar"></div>
 			</div>
@@ -94,7 +94,7 @@
 
 	<xmp id="Test2Template" style="display:none;">
 		<div>
-			<div dojoAttachPoint="containerNode" ><div dojoAttachPoint="checkboxWidget" dojoType="dijit.form.Checkbox"></div> checkbox #2</div>
+			<div dojoAttachPoint="containerNode" ><div dojoAttachPoint="checkboxWidget" dojoType="dijit.form.CheckBox"></div> checkbox #2</div>
 		</div>
 	</xmp>
 		<script>

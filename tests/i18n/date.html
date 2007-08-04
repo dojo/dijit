@@ -3,17 +3,17 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-		<title>Test DateTextbox</title>
+		<title>Test DateTextBox</title>
 
 		<script type="text/javascript" src="../../../dojo/dojo.js"
 			djConfig="isDebug: true, extraLocale: ['zh-cn','fr-fr','ja-jp','ar-eg','ru-ru','hi-in','en-us']"></script>
 		<script type="text/javascript" src="../../../dojo/currency.js"></script>
 		<script type="text/javascript" src="../../../dojo/number.js"></script>
 		<script type="text/javascript">
-			dojo.require("dijit.form.NumberTextbox");
-			dojo.require("dijit.form.CurrencyTextbox");
-			dojo.require("dijit.form.DateTextbox");
-			dojo.require("dijit.form.ValidationTextbox");
+			dojo.require("dijit.form.NumberTextBox");
+			dojo.require("dijit.form.CurrencyTextBox");
+			dojo.require("dijit.form.DateTextBox");
+			dojo.require("dijit.form.ValidationTextBox");
 			dojo.require("dojo.date.locale");
 			dojo.require("dojo.date.stamp");
 			dojo.require("dojo.parser");	// scan page for widgets and instantiate them
@@ -88,7 +88,7 @@
 	</head>
 	
 	<body class="tundra">
-		<h1 class="testTitle">Dijit Textbox Globalization Test for Date</h1>
+		<h1 class="testTitle">Dijit TextBox Globalization Test for Date</h1>
 
 <!--		<h2 class="testTitle">Press the following button to start all test after this page is loaded.</h2>
 		<button id="startButton" onclick="startTest()">Start Test</button>-->
@@ -115,7 +115,7 @@
 				"31/7/2005", "", "31/07/2005", "", "31 &#x064A;&#x0648;&#x0644;&#x064A;&#x0648;&#x2C; 2005", "", "&#x0627;&#x0644;&#x0623;&#x062D;&#x062F;&#x2C; 31 &#x064A;&#x0648;&#x0644;&#x064A;&#x0648;&#x2C; 2005", "");
 			gen4DateFormat(testCases, "hi-in", "hi_IN", "2005-07-31", 
 				"३१-७-०५", "<a href='currency.html#cmt_3'>See #3 (currency.html).</a>", "३१-०७-२००५", "<a href='currency.html#cmt_3'>See #3 (currency.html).</a>", "३१ जुलाई २००५", "<a href='currency.html#cmt_3'>See #3 (currency.html).</a>", "रविवार ३१ जुलाई २००५", "<a href='currency.html#cmt_3'>See #3 (currency.html).</a>");
-			genFormatTestCases("Date Format", "dijit.form.DateTextbox", testCases);
+			genFormatTestCases("Date Format", "dijit.form.DateTextBox", testCases);
 
 			testCases = new Array();
 			gen4DateFormat(testCases, "ru-ru", "ru_RU", new Date(2005, 6, 31), 
@@ -132,7 +132,7 @@
 				"31/7/2005", "", "31/07/2005", "", "31 &#x064A;&#x0648;&#x0644;&#x064A;&#x0648;&#x2C; 2005", "", "&#x0627;&#x0644;&#x0623;&#x062D;&#x062F;&#x2C; 31 &#x064A;&#x0648;&#x0644;&#x064A;&#x0648;&#x2C; 2005", "");
 			gen4DateFormat(testCases, "hi-in", "hi_IN", new Date(2005, 6, 31), 
 				"३१-७-०५", "<a href='currency.html#cmt_3'>See #3 (currency.html).</a>", "३१-०७-२००५", "<a href='currency.html#cmt_3'>See #3 (currency.html).</a>", "३१ जुलाई २००५", "<a href='currency.html#cmt_3'>See #3 (currency.html).</a>", "रविवार ३१ जुलाई २००५", "<a href='currency.html#cmt_3'>See #3 (currency.html).</a>");
-			genValidateTestCases("Date Validate", "dijit.form.DateTextbox", testCases);
+			genValidateTestCases("Date Validate", "dijit.form.DateTextBox", testCases);
 						
 			dojo.parser.parse();
 

@@ -19,7 +19,7 @@ dojo.declare(
 			This widget is used internally by other widgets and is not accessible
 			as a standalone widget.
 			This widget can't be used in a form because it doesn't serialize the date to an
-			<input> field.  For a form element, use DateTextbox instead.
+			<input> field.  For a form element, use DateTextBox instead.
 
 			Note that the parser takes all dates attributes passed in the `RFC 3339` format:
 			http://www.faqs.org/rfcs/rfc3339.html (2005-06-30T08:05:00-07:00)

@@ -3,17 +3,17 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-		<title>Test NumberTextbox</title>
+		<title>Test NumberTextBox</title>
 
 		<script type="text/javascript" src="../../../dojo/dojo.js"
 			djConfig="isDebug: true, extraLocale: ['zh-cn','fr-fr','ar-eg','hi-in']"></script>
 		<script type="text/javascript" src="../../../dojo/currency.js"></script>
 		<script type="text/javascript" src="../../../dojo/number.js"></script>
 		<script type="text/javascript">
-			dojo.require("dijit.form.NumberTextbox");
-			dojo.require("dijit.form.CurrencyTextbox");
-			dojo.require("dijit.form.DateTextbox");
-			dojo.require("dijit.form.ValidationTextbox");
+			dojo.require("dijit.form.NumberTextBox");
+			dojo.require("dijit.form.CurrencyTextBox");
+			dojo.require("dijit.form.DateTextBox");
+			dojo.require("dijit.form.ValidationTextBox");
 			dojo.require("dojo.date.locale");
 			dojo.require("dojo.date.stamp");
 			dojo.require("dojo.parser");	// scan page for widgets and instantiate them
@@ -56,7 +56,7 @@
 	</head>
 
 	<body class="tundra">
-		<h1 class="testTitle">Dijit Textbox Globalization Test for Number</h1>
+		<h1 class="testTitle">Dijit TextBox Globalization Test for Number</h1>
 	
 <!--		<h2 class="testTitle">Press the following button to start all test after this page is loaded.</h2>
 		<button id="startButton" onclick="startTest()">Start Test</button>-->
@@ -67,7 +67,7 @@
 		<script>
 		(function() {
 		
-			genFormatTestCases("Number Format", "dijit.form.NumberTextbox", [
+			genFormatTestCases("Number Format", "dijit.form.NumberTextBox", [
 				
 				{ attrs: {lang: "zh-cn"},
 				  desc: "Locale: zh_CN",
@@ -135,7 +135,7 @@
 				}
 			]);
 						
-			genValidateTestCases("Number Validate", "dijit.form.NumberTextbox", [
+			genValidateTestCases("Number Validate", "dijit.form.NumberTextBox", [
 				
 				{ attrs: {lang: "zh-cn"},
 				  desc: "Locale: zh_CN",

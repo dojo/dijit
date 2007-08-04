@@ -1,9 +1,9 @@
-dojo.provide("dijit.form.Checkbox");
+dojo.provide("dijit.form.CheckBox");
 
 dojo.require("dijit.form.Button");
 
 dojo.declare(
-	"dijit.form.Checkbox",
+	"dijit.form.CheckBox",
 	dijit.form.ToggleButton,
 	{
 		// summary:
@@ -22,9 +22,9 @@ dojo.declare(
 		// In case 2, the regular html inputs are invisible but still used by
 		// the user. They are turned quasi-invisible and overlay the background-image.
 
-		templatePath: dojo.moduleUrl("dijit.form", "templates/Checkbox.html"),
+		templatePath: dojo.moduleUrl("dijit.form", "templates/CheckBox.html"),
 
-		baseClass: "dijitCheckbox",
+		baseClass: "dijitCheckBox",
 
 		//	Value of "type" attribute for <input>
 		_type: "checkbox",
@@ -48,14 +48,14 @@ dojo.declare(
 		setValue: function(/*String*/ value){
 			if(value == null){ value = ""; }
 			this.inputNode.value = value;
-			dijit.form.Checkbox.superclass.setValue.call(this,value);
+			dijit.form.CheckBox.superclass.setValue.call(this,value);
 		}
 	}
 );
 
 dojo.declare(
 	"dijit.form.RadioButton",
-	dijit.form.Checkbox,
+	dijit.form.CheckBox,
 	{
 		// summary:
 		// 		Same as an HTML radio, but with fancy styling.
@@ -78,7 +78,7 @@ dojo.declare(
 			// add this widget to _groups
 			(this._groups[this.name] = this._groups[this.name] || []).push(this);
 
-			dijit.form.Checkbox.prototype.postCreate.apply(this, arguments);
+			dijit.form.CheckBox.prototype.postCreate.apply(this, arguments);
 		},
 
 		uninitialize: function(){
@@ -100,7 +100,7 @@ dojo.declare(
 					}
 				}, this);
 			}
-			dijit.form.Checkbox.prototype.setChecked.apply(this, arguments);			
+			dijit.form.CheckBox.prototype.setChecked.apply(this, arguments);			
 		},
 
 		onClick: function(/*Event*/ e){

@@ -3,17 +3,17 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-		<title>Test Textbox</title>
+		<title>Test TextBox</title>
 
 		<script type="text/javascript" src="../../../dojo/dojo.js"
 			djConfig="isDebug: true"></script>
 		<script type="text/javascript" src="../../../dojo/currency.js"></script>
 		<script type="text/javascript" src="../../../dojo/number.js"></script>
 		<script type="text/javascript">
-			dojo.require("dijit.form.NumberTextbox");
-			dojo.require("dijit.form.CurrencyTextbox");
-			dojo.require("dijit.form.DateTextbox");
-			dojo.require("dijit.form.ValidationTextbox");
+			dojo.require("dijit.form.NumberTextBox");
+			dojo.require("dijit.form.CurrencyTextBox");
+			dojo.require("dijit.form.DateTextBox");
+			dojo.require("dijit.form.ValidationTextBox");
 			dojo.require("dojo.date.locale");
 			dojo.require("dojo.date.stamp");
 			dojo.require("dojo.parser");	// scan page for widgets and instantiate them
@@ -56,14 +56,14 @@
 	</head>
 
 	<body class="tundra">
-		<h1 class="testTitle">Dijit Textbox Globalization Test</h1>
+		<h1 class="testTitle">Dijit TextBox Globalization Test</h1>
 
 <!--		<h2 class="testTitle">Press the following button to start all test after this page is loaded.</h2>
 		<button id="startButton" onclick="startTest()">Start Test</button>-->
 
 		<script>
 		(function() {
-			genFormatTestCases("Natural Language Casing Mapping", "dijit.form.Textbox", [
+			genFormatTestCases("Natural Language Casing Mapping", "dijit.form.TextBox", [
 				
 				{ attrs: {uppercase: "true"},
 				  desc: "Upper casing: Basic Latin",
@@ -115,7 +115,7 @@
 				}
 			]);
 
-			genFormatTestCases("White-space Detecting", "dijit.form.Textbox", [
+			genFormatTestCases("White-space Detecting", "dijit.form.TextBox", [
 
 				{ attrs: {trim: "true"},
 				  desc: "Normal space & tab",
@@ -154,13 +154,13 @@
 		</script>
 
 		<h2 class="testTitle">Issues & Comments </h2>
-		<a name="cmt_1"><h3 class="testTitle">Issue #1 <sup style="color:red">Not fixed. Avoid using this function of Textbox.</sup></h3></a>
+		<a name="cmt_1"><h3 class="testTitle">Issue #1 <sup style="color:red">Not fixed. Avoid using this function of TextBox.</sup></h3></a>
 		<p>
 			Strictly speaking, all casing manipulation must use ICU case mapping rules (routine). However, the default JavaScript routines used by Dojo
 			do not support ICU case mapping rules in all browsers. 
 		</p>
 
-		<a name="cmt_2"><h3 class="testTitle">Issue #2 <sup style="color:red">Not fixed. Avoid using this function of Textbox.</sup></h3></a>
+		<a name="cmt_2"><h3 class="testTitle">Issue #2 <sup style="color:red">Not fixed. Avoid using this function of TextBox.</sup></h3></a>
 		<p>
 			Trimming must get rid of all Unicode characters with the white space property. However, the default JavaScript routines used by Dojo
 			do not support get character properties in some browsers like IE. Other browsers like Firefox might support trimming more white space

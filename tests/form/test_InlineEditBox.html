@@ -11,8 +11,8 @@
 			dojo.require("dojo.data.ItemFileReadStore");
 			dojo.require("dijit.form.InlineEditBox");
 			dojo.require("dijit.form.Textarea");
-			dojo.require("dijit.form.Textbox");
-			dojo.require("dijit.form.DateTextbox");
+			dojo.require("dijit.form.TextBox");
+			dojo.require("dijit.form.DateTextBox");
 			dojo.require("dijit.form.FilteringSelect");
 			dojo.require("dijit.form.NumberSpinner");
 			dojo.require("dijit.form.Slider");
@@ -43,7 +43,7 @@
 		<h1 class="testTitle">Dijit InlineEditBox Test</h1>
 		before
 		<span id="editable" style="font-size:larger;" dojoType="dijit.form.InlineEditBox" onChange="myHandler(this.id,arguments[0])">
-			<input dojoType="dijit.form.Textbox" value="Edit me - I trigger the onChange callback">
+			<input dojoType="dijit.form.TextBox" value="Edit me - I trigger the onChange callback">
 		</span>
 		after<br>
 
@@ -51,7 +51,7 @@
 
 		before
 		<span id="editableWithButtons" style="font-size:larger;" dojoType="dijit.form.InlineEditBox" onChange="myHandler(this.id,arguments[0])" autoSave="false">
-			<input dojoType="dijit.form.Textbox" value="Edit me - I trigger the onChange callback when Save button is clicked">
+			<input dojoType="dijit.form.TextBox" value="Edit me - I trigger the onChange callback when Save button is clicked">
 		</span>
 		after<br>
 
@@ -80,7 +80,7 @@
 		<b>Date text box:</b>
 		<p id="backgroundArea" dojoType="dijit.form.InlineEditBox" >
 			<input name="date" value="2005-12-30"
-					dojoType="dijit.form.DateTextbox"
+					dojoType="dijit.form.DateTextBox"
 					constraints={datePattern:'MM/dd/yy'}
 					lang="en-us"
 					required="true"
@@ -101,7 +101,7 @@
 			// See if we can make a widget in script
 			var inlineWidget = new dijit.form.InlineEditBox({renderAsHtml: true}, 'programmatic');
 
- 			var editorWidget = new dijit.form.Textbox({
+ 			var editorWidget = new dijit.form.TextBox({
 									value:"Click here to edit a programmatically created inline edit region"
 								});
 

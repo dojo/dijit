@@ -4,7 +4,7 @@ dojo.require("dijit.form.ComboBox");
 
 dojo.declare(
 	"dijit.form.FilteringSelect",
-	[dijit.form.MappedTextbox, dijit.form.ComboBoxMixin],
+	[dijit.form.MappedTextBox, dijit.form.ComboBoxMixin],
 	{
 		/*
 		 * summary

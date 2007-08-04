@@ -2,13 +2,13 @@
 	"http://www.w3.org/TR/html4/strict.dtd">
 <html>
 <head>
-	<title>Checkbox Widget Demo</title>
+	<title>CheckBox Widget Demo</title>
 
 	<script type="text/javascript" src="../testBidi.js"></script>
 	<script type="text/javascript" src="../../../dojo/dojo.js"
 		djConfig="isDebug: true, parseOnLoad: true"></script>
 	<script type="text/javascript">
-		dojo.require("dijit.form.Checkbox");
+		dojo.require("dijit.form.CheckBox");
 		dojo.require("dojo.parser");	// find widgets
 
 		function outputValues(form){
@@ -34,7 +34,7 @@
 
 		dojo.addOnLoad(function(){
 			var params = {id: "cb6", name: "cb6"};
-			var widget = new dijit.form.Checkbox(params, dojo.byId("checkboxContainer"));
+			var widget = new dijit.form.CheckBox(params, dojo.byId("checkboxContainer"));
 			widget.setChecked(true);
 		});
 	</script>
@@ -48,7 +48,7 @@
 	</style>
 </head>
 <body class="tundra">
-	<h1 class="testTitle">Dijit Checkbox Test</h1>
+	<h1 class="testTitle">Dijit CheckBox Test</h1>
 	<p>
 	Here are some checkboxes.  Try clicking, and hovering, tabbing, and using the space bar to select:
 	</p>
@@ -57,17 +57,17 @@
 		<input type="checkbox" name="cb0" id="cb0" />
 			<label for="cb0">cb0: Vanilla (non-dojo) checkbox (for comparison purposes)</label>
 		<br>
-		<input type="checkbox" name="cb1" id="cb1" value="foo" dojoType="dijit.form.Checkbox">
+		<input type="checkbox" name="cb1" id="cb1" value="foo" dojoType="dijit.form.CheckBox">
 			<label for="cb1">cb1: normal checkbox, with value=foo</label>
 		<br>
-		<input onChange="reportChecked" type="checkbox" name="cb2" id="cb2" dojoType="dijit.form.Checkbox" checked="checked"/>
+		<input onChange="reportChecked" type="checkbox" name="cb2" id="cb2" dojoType="dijit.form.CheckBox" checked="checked"/>
 			<label for="cb2">cb2: normal checkbox, initially turned on.</label>
 			<span>"onChange" handler updates: [<span id="oncheckedoutput"></span>]</span>
 		<br>
-		<input type="checkbox" name="cb3" id="cb3" dojoType="dijit.form.Checkbox" disabled="disabled">
+		<input type="checkbox" name="cb3" id="cb3" dojoType="dijit.form.CheckBox" disabled="disabled">
 			<label for="cb3">cb3: disabled checkbox</label>
 		<br>
-		<input type="checkbox" name="cb4" id="cb4" dojoType="dijit.form.Checkbox" disabled="disabled" checked="checked"/>
+		<input type="checkbox" name="cb4" id="cb4" dojoType="dijit.form.CheckBox" disabled="disabled" checked="checked"/>
 			<label for="cb4">cb4: disabled checkbox, turned on</label>
 		<br>
 		<input type="checkbox" name="cb5" id="cb5" />
@@ -76,7 +76,7 @@
 		<div id="checkboxContainer"></div>
 			<label for="cb6">cb6: instantiated from script</label>
 		<br>
-		<input onChange="reportValueChanged" type="checkbox" name="cb7" id="cb7" dojoType="dijit.form.Checkbox">
+		<input onChange="reportValueChanged" type="checkbox" name="cb7" id="cb7" dojoType="dijit.form.CheckBox">
 			<label for="cb7">cb7: normal checkbox.</label>
 			<input type="button" onclick='dijit.byId("cb7").setDisabled(true);' value="disable" />
 			<input type="button" onclick='dijit.byId("cb7").setDisabled(false);' value="enable" />

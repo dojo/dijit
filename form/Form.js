@@ -251,7 +251,7 @@ dojo.declare("dijit.form._FormMixin", null,
 		},
 
 	 	isValid: function() {
-	 		// TODO: Combobox might need time to process a recently input value.  This should be async?
+	 		// TODO: ComboBox might need time to process a recently input value.  This should be async?
 	 		// make sure that every widget that has a validator function returns true
 	 		return dojo.every(this.getDescendants(), function(widget){
 	 			return !widget.isValid || widget.isValid();

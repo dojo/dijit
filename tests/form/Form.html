@@ -19,8 +19,8 @@
 		dojo.require("dijit.layout.LayoutContainer");
 		dojo.require("dijit.layout.ContentPane");
 		dojo.require("dijit.form.ComboBox");
-		dojo.require("dijit.form.Checkbox");
-		dojo.require("dijit.form.DateTextbox");
+		dojo.require("dijit.form.CheckBox");
+		dojo.require("dijit.form.DateTextBox");
 		dojo.require("dijit.form.Button");
 		dojo.require("dijit.Editor");
 		dojo.require("dijit._editor.plugins.DefaultToolbar");
@@ -109,9 +109,9 @@ so it can be submitted as a JSON string of nested objects.
 </td></tr>
 -->
 
-<tr><td>DateTextbox inside contentpane</td><td>foo.bar.baz.quux</td><td>
+<tr><td>DateTextBox inside contentpane</td><td>foo.bar.baz.quux</td><td>
 <div dojoType="dijit.layout.ContentPane">
-<input type="text" name="foo.bar.baz.quux" dojoType="dijit.form.DateTextbox" value="2007-12-30" />
+<input type="text" name="foo.bar.baz.quux" dojoType="dijit.form.DateTextBox" value="2007-12-30" />
 </div>
 </td></tr>
 <tr><td>Layoutcontainer</td><td>
@@ -119,17 +119,17 @@ so it can be submitted as a JSON string of nested objects.
 </div>
 </td></tr>
 <tr>
-<td>DateTextbox 1</td><td>available.from</td><td>
-<input type="text" name="available.from" dojoType="dijit.form.DateTextbox" value="2005-01-02" />
+<td>DateTextBox 1</td><td>available.from</td><td>
+<input type="text" name="available.from" dojoType="dijit.form.DateTextBox" value="2005-01-02" />
 </td>
 </tr>
 <tr>
-<td>DateTextbox 2</td><td>available.to</td><td>
-<input type="text" name="available.to" dojoType="dijit.form.DateTextbox" value="2006-01-02" />
+<td>DateTextBox 2</td><td>available.to</td><td>
+<input type="text" name="available.to" dojoType="dijit.form.DateTextBox" value="2006-01-02" />
 </td>
 </tr>
 
-<tr><td>Combobox</td><td>plop.combo</td>
+<tr><td>ComboBox</td><td>plop.combo</td>
 <td>
 <select name="plop.combo" dojoType="dijit.form.ComboBox">
  <option value="one">one</option>
@@ -151,7 +151,7 @@ text text text """ \\\/
 
 <!--
 <tr>
-<td>Checkbox</td><td>cb1</td>
+<td>CheckBox</td><td>cb1</td>
 <td>
 <input type="checkbox" name="cb1" value="1" /> 1
 <input type="checkbox" name="cb1" value="2" checked="checked" /> 2
@@ -162,12 +162,12 @@ text text text """ \\\/
 -->
 
 <tr>
-<td>Checkbox widget</td><td>cb2</td>
+<td>CheckBox widget</td><td>cb2</td>
 <td>
-<input dojoType="dijit.form.Checkbox" type="checkbox" name="cb2" value="1" /> 1
-<input dojoType="dijit.form.Checkbox" type="checkbox" name="cb2" value="2" checked="checked" /> 2
-<input dojoType="dijit.form.Checkbox" type="checkbox" name="cb2" value="3" checked="checked" /> 3
-<input dojoType="dijit.form.Checkbox" type="checkbox" name="cb2" value="4" /> 4
+<input dojoType="dijit.form.CheckBox" type="checkbox" name="cb2" value="1" /> 1
+<input dojoType="dijit.form.CheckBox" type="checkbox" name="cb2" value="2" checked="checked" /> 2
+<input dojoType="dijit.form.CheckBox" type="checkbox" name="cb2" value="3" checked="checked" /> 3
+<input dojoType="dijit.form.CheckBox" type="checkbox" name="cb2" value="4" /> 4
 </td>
 </tr>
 

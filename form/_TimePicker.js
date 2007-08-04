@@ -7,7 +7,7 @@ dojo.declare("dijit.form._TimePicker",
 	[dijit._Widget, dijit._Templated],
 	{
 		// summary:
-		// A graphical time picker that TimeTextbox pops up
+		// A graphical time picker that TimeTextBox pops up
 		// It is functionally modeled after the Java applet at http://java.arcadevillage.com/applets/timepica.htm
 		// See ticket #599
 

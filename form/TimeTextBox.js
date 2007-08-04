@@ -1,14 +1,14 @@
-dojo.provide("dijit.form.TimeTextbox");
+dojo.provide("dijit.form.TimeTextBox");
 
 dojo.require("dojo.date");
 dojo.require("dojo.date.locale");
 dojo.require("dojo.date.stamp");
 dojo.require("dijit.form._TimePicker");
-dojo.require("dijit.form.ValidationTextbox");
+dojo.require("dijit.form.ValidationTextBox");
 
 dojo.declare(
-	"dijit.form.TimeTextbox",
-	dijit.form.RangeBoundTextbox,
+	"dijit.form.TimeTextBox",
+	dijit.form.RangeBoundTextBox,
 	{
 		// summary:
 		//		A validating, serializable, range-bound date text box.
@@ -24,7 +24,7 @@ dojo.declare(
 		_popupClass: "dijit.form._TimePicker",
 
 		postMixInProperties: function(){
-			dijit.form.RangeBoundTextbox.prototype.postMixInProperties.apply(this, arguments);
+			dijit.form.RangeBoundTextBox.prototype.postMixInProperties.apply(this, arguments);
 
 			var constraints = this.constraints;
 			constraints.selector = 'time';
@@ -35,7 +35,7 @@ dojo.declare(
 		onfocus: function(/*Event*/ evt){
 			// open the calendar
 			this._open();
-			dijit.form.RangeBoundTextbox.prototype.onfocus.apply(this, arguments);
+			dijit.form.RangeBoundTextBox.prototype.onfocus.apply(this, arguments);
 		},
 
 		setValue: function(/*Date*/date, /*Boolean, optional*/ priorityChange){
@@ -63,13 +63,13 @@ dojo.declare(
 						setTimeout(dijit.popup.close, 1); // allow focus time to take
 
 						// this will cause InlineEditBox and other handlers to do stuff so make sure it's last
-						dijit.form.TimeTextbox.superclass.setValue.call(self, value, true);
+						dijit.form.TimeTextBox.superclass.setValue.call(self, value, true);
 					},
 					lang: this.lang,
 					constraints:this.constraints,
 					isDisabledDate: function(/*Date*/ date){
 						// summary:
-						// 	disables dates outside of the min/max of the TimeTextbox
+						// 	disables dates outside of the min/max of the TimeTextBox
 						return self.constraints && (dojo.date.compare(self.constraints.min,date) > 0 || dojo.date.compare(self.constraints.max,date) < 0);
 					}
 				});
