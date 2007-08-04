@@ -165,46 +165,61 @@ dojo.declare(
 			var dropDown = this.dropDown;
 			if(!dropDown){ return false; }
 			if(!dropDown.isShowingNow){
-				var oldWidth=dropDown.domNode.style.width;
-				var self = this;
-/***
- * TODO: this doesn't work.  dropDown.domNode is hidden so offsetWidth is 0
-
-				if(this.domNode.offsetWidth > dropDown.domNode.offsetWidth){
-					// make menu at least as wide as the button
-					dojo.marginBox(dropDown.domNode, {w:this.domNode.offsetWidth});
-				}
-***/
-				dijit.popup.open({
-					parent: this,
-					popup: dropDown,
-					around: this.domNode,
-					orient: this.isLeftToRight() ? {'BL':'TL', 'BR':'TR', 'TL':'BL', 'TR':'BR'}
-						: {'BR':'TR', 'BL':'TL', 'TR':'BR', 'TL':'BL'},
-					onExecute: function(){
-						dijit.popup.closeAll();
-						self.focus();
-					},
-					onCancel: function(){
-						dijit.popup.closeAll();
-						self.focus();
-					},
-					onClose: function(){
-						dropDown.domNode.style.width = oldWidth;
-						self.popupStateNode.removeAttribute("popupActive");
-					}
-				});
-				this.popupStateNode.setAttribute("popupActive", "true");
-				this._opened=true;
-				if(dropDown.focus){
-					dropDown.focus();
+				// If there's an href, then load that first, so we don't get a flicker
+				if(dropDown.href && !dropDown.isLoaded){
+					var self = this;
+					var handler = dojo.connect(dropDown, "onLoad", function(){
+						dojo.disconnect(handler);
+						self._openDropDown();
+					});
+					dropDown._loadCheck(true);
+					return;
+				}else{
+					this._openDropDown();
 				}
 			}else{
 				dijit.popup.closeAll();
 				this._opened = false;
 			}
+		},
+		
+		_openDropDown: function(){
+			var dropDown = this.dropDown;
+			var oldWidth=dropDown.domNode.style.width;
+			var self = this;
+/***
+ * TODO: this doesn't work.  dropDown.domNode is hidden so offsetWidth is 0
+
+			if(this.domNode.offsetWidth > dropDown.domNode.offsetWidth){
+				// make menu at least as wide as the button
+				dojo.marginBox(dropDown.domNode, {w:this.domNode.offsetWidth});
+			}
+***/
+			dijit.popup.open({
+				parent: this,
+				popup: dropDown,
+				around: this.domNode,
+				orient: this.isLeftToRight() ? {'BL':'TL', 'BR':'TR', 'TL':'BL', 'TR':'BR'}
+					: {'BR':'TR', 'BL':'TL', 'TR':'BR', 'TL':'BL'},
+				onExecute: function(){
+					dijit.popup.closeAll();
+					self.focus();
+				},
+				onCancel: function(){
+					dijit.popup.closeAll();
+					self.focus();
+				},
+				onClose: function(){
+					dropDown.domNode.style.width = oldWidth;
+					self.popupStateNode.removeAttribute("popupActive");
+				}
+			});
+			this.popupStateNode.setAttribute("popupActive", "true");
+			this._opened=true;
+			if(dropDown.focus){
+				dropDown.focus();
+			}
 			// TODO: set this.checked and call setStateClass(), to affect button look while drop down is shown
-			return false;
 		}
 	});
 

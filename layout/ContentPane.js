@@ -85,7 +85,7 @@ dojo.declare(
 
 	startup: function(){
 		if(!this._started){
-			this._loadCheck()
+			this._loadCheck();
 			this._started = true;
 		}
 	},
