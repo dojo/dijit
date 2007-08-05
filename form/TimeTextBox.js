@@ -16,11 +16,21 @@ dojo.declare(
 		// constraints object: min, max
 		regExpGen: dojo.date.locale.regexp,
 		compare: dojo.date.compare,
-		format: dojo.date.locale.format,
+		format: function(/*Date*/ date, /*Object*/ constraints){
+			if(!date || date.toString() == this._invalid){ return null; }
+			return dojo.date.locale.format(date, constraints);
+		},
 		parse: dojo.date.locale.parse,
-		serialize: dojo.date.stamp.toISOString,
+		serialize: function(/*Date*/ date){
+			try {
+				return dojo.date.stamp.toISOString(date);
+			}catch(e){
+				return null;
+			}
+		},
 
 		value: new Date(""),	// NaN
+		_invalid: (new Date("")).toString(),	// NaN
 
 		_popupClass: "dijit.form._TimePicker",
 
@@ -45,7 +55,7 @@ dojo.declare(
 			this.inherited('setValue', arguments);
 			if(this._picker){
 				// #3948: fix blank date on popup only
-				if(!date){date=new Date();}
+				if(!date || date.toString() == this._invalid){date=new Date();}
 				this._picker.setValue(date);
 			}
 		},
