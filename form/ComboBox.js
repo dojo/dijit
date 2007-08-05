@@ -308,7 +308,7 @@ dojo.declare(
 
 		onfocus:function(){
 			dijit.form._DropDownTextBox.prototype.onfocus.apply(this, arguments);
-			this.parentClass.onfocus.apply(this, arguments);
+			this.inherited('onfocus', arguments);
 		},
 
 		onblur:function(){ /* not _onBlur! */
@@ -431,8 +431,7 @@ dojo.declare(
 		postCreate: function(){
 			// call the associated TextBox postCreate
 			// ValidationTextBox for ComboBox; MappedTextBox for FilteringSelect
-			this.parentClass=dojo.getObject(this.declaredClass, false).superclass;
-			this.parentClass.postCreate.apply(this, arguments);
+			this.inherited('postCreate', arguments);
 		},
 
 		_getMenuLabelFromItem:function(/*Item*/ item){
