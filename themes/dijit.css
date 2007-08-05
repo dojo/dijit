@@ -1083,18 +1083,18 @@ body .dijitAlignClient { position: absolute; }
 
 /* Tree */
 
-.TreeExpando {
+.dijitTreeExpando {
     float: left;
     display: inline;
     clear:both;
 }
 
-.TreeExpand {
+.dijitTreeExpand {
     float: left;
     display: inline;
 }
 
-.TreeContent {
+.dijitTreeContent {
     cursor: default;
     /* can't make inline - multiline bugs */
 }

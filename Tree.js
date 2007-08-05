@@ -163,7 +163,7 @@ dojo.declare(
 		// any nodes that have children)
 		var div = document.createElement('div');
 		div.style.display = 'none';
-		div.className="TreeContainer";	
+		div.className="dijitTreeContainer";	
 		dijit.wai.setAttr(div, "waiRole", "role", "presentation");
 		this.containerNodeTemplate = div;
 
@@ -253,7 +253,7 @@ dojo.declare(
 		var node = this.lastFocused;
 		if(!node){ return; }
 		var labelNode = node.labelNode;
-		dojo.removeClass(labelNode, "TreeLabelFocused");
+		dojo.removeClass(labelNode, "dijitTreeLabelFocused");
 		labelNode.setAttribute("tabIndex", "-1");
 		this.lastFocused = null;
 	},
@@ -269,7 +269,7 @@ dojo.declare(
 		labelNode.setAttribute("tabIndex", "0");
 
 		this.lastFocused = node;
-		dojo.addClass(labelNode, "TreeLabelFocused");
+		dojo.addClass(labelNode, "dijitTreeLabelFocused");
 
 		// set focus so that the label wil be voiced using screen readers
 		labelNode.focus();
@@ -283,7 +283,7 @@ dojo.declare(
 		//		until that time
 		if(this.lastFocused){
 			var labelNode = this.lastFocused.labelNode;
-			dojo.removeClass(labelNode, "TreeLabelFocused");	
+			dojo.removeClass(labelNode, "dijitTreeLabelFocused");	
 		}
 	},
 	
@@ -293,7 +293,7 @@ dojo.declare(
 		//		already.  Just need to set the CSS back so it looks focused.
 		if(this.lastFocused){
 			var labelNode = this.lastFocused.labelNode;
-			dojo.addClass(labelNode, "TreeLabelFocused");			
+			dojo.addClass(labelNode, "dijitTreeLabelFocused");			
 		}
 	}
 });
@@ -350,14 +350,14 @@ dojo.declare(
 	_updateLayout: function(){
 		// summary: set appropriate CSS classes for this.domNode
 
-		dojo.removeClass(this.domNode, "TreeIsRoot");
+		dojo.removeClass(this.domNode, "dijitTreeIsRoot");
 		if(this.getParent()["isTree"]){
-			dojo.addClass(this.domNode, 'TreeIsRoot');
+			dojo.addClass(this.domNode, "dijitTreeIsRoot");
 		}
 
-		dojo.removeClass(this.domNode, "TreeIsLast");
+		dojo.removeClass(this.domNode, "dijitTreeIsLast");
 		if(!this.getNextSibling()){
-			dojo.addClass(this.domNode, 'TreeIsLast');	
+			dojo.addClass(this.domNode, "dijitTreeIsLast");	
 		}
 	},
 
@@ -365,8 +365,8 @@ dojo.declare(
 		// summary: set the right image for the expando node
 
 		// apply the appropriate class to the expando node
-		var styles = ["TreeExpandoLoading", "TreeExpandoOpened",
-			"TreeExpandoClosed", "TreeExpandoLeaf"];
+		var styles = ["dijitTreeExpandoLoading", "dijitTreeExpandoOpened",
+			"dijitTreeExpandoClosed", "dijitTreeExpandoLeaf"];
 		var idx = processing ? 0 : (this.isFolder ?	(this.isExpanded ? 1 : 2) : 3);
 		dojo.forEach(styles,
 			function(s){

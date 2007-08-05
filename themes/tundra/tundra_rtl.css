@@ -30,38 +30,38 @@
 }
 
 /* Tree */
-.dijitRtl .TreeContainer .TreeNode {
+.dijitRtl .dijitTreeContainer .dijitTreeNode {
     background-image : url('images/i_rtl.gif');
     background-position : top right;
     margin-left: auto;
     margin-right: 19px;
 }
 
-.dijitRtl .TreeContainer .TreeIsRoot {
+.dijitRtl .dijitTreeContainer .dijitTreeIsRoot {
 	margin-left: auto;
     margin-right: 0;
 }
 
-.dijitRtl .TreeContainer .TreeIsLast {
+.dijitRtl .dijitTreeContainer .dijitTreeIsLast {
     background-image: url('images/i_half_rtl.gif');
 }
 
-.dijitRtl .TreeContainer .TreeContent {
+.dijitRtl .dijitTreeContainer .dijitTreeContent {
     margin-left: auto;
     margin-right: 18px;
     padding-left: auto;
     padding-right: 1px;   
 }
 
-.dijitRtl .TreeContainer .TreeExpandoOpened {
+.dijitRtl .dijitTreeContainer .dijitTreeExpandoOpened {
 	background-image: url('images/treeExpand_minus_rtl.gif');
 }
 
-.dijitRtl .TreeContainer .TreeExpandoClosed {
+.dijitRtl .dijitTreeContainer .dijitTreeExpandoClosed {
 	background-image: url('images/treeExpand_plus_rtl.gif');
 }
 
-.dijitRtl .TreeContainer .TreeExpandoLeaf {
+.dijitRtl .dijitTreeContainer .dijitTreeExpandoLeaf {
 	background-image: url('images/treeExpand_leaf_rtl.gif');
 }
 

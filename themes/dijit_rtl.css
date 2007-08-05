@@ -1,10 +1,10 @@
 /* Tree */
 
-.dijitRtl .TreeContainer .TreeExpando {
+.dijitRtl .dijitTreeContainer .dijitTreeExpando {
 	float:right;
 }
 
-.dijitRtl .TreeContainer .TreeExpand {
+.dijitRtl .dijitTreeContainer .dijitTreeExpand {
 	float:right;
 }
 
