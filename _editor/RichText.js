@@ -182,16 +182,6 @@ dojo.declare(
 		//		 capture=true
 		captureEvents: [],
 
-		_safariIsLeopard: function(){
-			var gt420 = false;
-			if(dojo.isSafari){
-				var tmp = navigator.userAgent.split("AppleWebKit/")[1];
-				var ver = parseFloat(tmp.split(" ")[0]);
-				if(ver >= 420){ gt420 = true; }
-			}
-			return gt420;
-		},
-
 		_editorCommandsLocalized: false,
 		_localizeEditorCommands: function(){
 			if(this._editorCommandsLocalized){
@@ -346,7 +336,7 @@ dojo.declare(
 			// Safari's selections go all out of whack if we do it inline,
 			// so for now IE is our only hero
 			//if (typeof document.body.contentEditable != "undefined") {
-			if(dojo.isIE || this._safariIsLeopard() || dojo.isOpera){ // contentEditable, easy
+			if(dojo.isIE || dojo.isSafari || dojo.isOpera){ // contentEditable, easy
 				var ifr = this.iframe = dojo.doc.createElement('iframe');
 				ifr.src = 'javascript:void(0)';
 				this.editorObject = ifr;
@@ -359,12 +349,14 @@ dojo.declare(
 				this.document.open();
 				this.document.write(this._getIframeDocTxt());
 				this.document.close();
-				if(this.height){
+				//Firefox/safari does not like div as editNode (see #3607 and #3736)
+				if(this.height || !dojo.isIE){
 					this.editNode = this.document.body;
 				}else{
 					this.document.body.appendChild(this.document.createElement("div"));
 					this.editNode = this.document.body.firstChild;
 				}
+
 				this.editNode.contentEditable = true;
 				if(dojo.isIE >= 7){
 					if(this.height){
@@ -756,7 +748,7 @@ dojo.declare(
 
 		disabled: false,
 		setDisabled: function(/*Boolean*/ disabled){
-			if(dojo.isIE || this._safariIsLeopard() || dojo.isOpera){
+			if(dojo.isIE || dojo.isSafari || dojo.isOpera){
 				this.editNode.contentEditable=!disabled;
 			}else{ //moz
 				this.document.execCommand('contentReadOnly', false, disabled);
@@ -776,7 +768,9 @@ dojo.declare(
 		onLoad: function(e){
 			// summary: handler after the content of the document finishes loading
 			this.isLoaded = true;
-			if(this.iframe && !dojo.isIE){
+			if(!dojo.isIE){
+				//although editNode is set in open(), the following line is still required, 
+				//otherwise FF complains
 				this.editNode = this.document.body;
 				if(!this.height){
 					this.connect(this, "onDisplayChanged", "_updateHeight");
@@ -810,7 +804,7 @@ dojo.declare(
 					}, this);
 				}
 				// FIXME: when scrollbars appear/disappear this needs to be fired
-			}else if(dojo.isIE){
+			}else{
 				// IE contentEditable
 				if(!this.height){
 					this.connect(this, "onDisplayChanged", "_updateHeight");
@@ -1210,7 +1204,7 @@ dojo.declare(
 			var opera = 1 << 3;
 			var safari420 = 1 << 4;
 
-			var gt420 = this._safariIsLeopard();
+			var gt420 = dojo.isSafari;
 
 			function isSupportedBy(browsers){
 				return {
@@ -1572,21 +1566,6 @@ dojo.declare(
 			//		Updates the height of the editor area to fit the contents.
 			if(!this.isLoaded){ return; }
 			if(this.height){ return; }
-
-			if(dojo.isSafari && (!this._safariIsLeopard())){
-				// old safari (2.0.4) is super-janky
-				if(!this.editorObject){ return; }
-				try{
-					this.editorObject.style.height = (this.editNode.offsetHeight + 10) + "px";
-					// console.debug("_updateHeight");
-				}catch(e){
-					try{
-						this.editorObject.style.height = "500px";
-					}catch(e2){}
-				}
-				// this.editorObject.style.height = (this.editNode.offsetHeight + 10) + "px";
-				return;
-			}
 
 			// var height = dojo.marginBox(this.editNode).h;
 			var height = dojo.marginBox(this.editNode).h;
