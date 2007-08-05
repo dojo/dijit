@@ -174,7 +174,7 @@ dojo.declare(
 
 		// events: Array
 		//		 events which should be connected to the underlying editing area
-		events: ["onBlur", "onFocus", "onKeyPress", "onKeyDown", "onKeyUp", "onClick"],
+		events: ["onKeyPress", "onKeyDown", "onKeyUp", "onClick"],
 
 		// events: Array
 		//		 events which should be connected to the underlying editing
@@ -796,9 +796,9 @@ dojo.declare(
 					this.editNode.style.border = "1px solid black";
 					*/
 					// this.onDisplayChanged();
-					this.connect(this.editNode, "onblur", "onBlur");
-					this.connect(this.editNode, "onfocus", "onFocus");
-					this.connect(this.editNode, "onclick", "onFocus");
+//					this.connect(this.editNode, "onblur", "onBlur");
+//					this.connect(this.editNode, "onfocus", "onFocus");
+//					this.connect(this.editNode, "onclick", "_onFocus");
 
 					this.interval = setInterval(dojo.hitch(this, "onDisplayChanged"), 750);
 					// throw new Error("onload");
@@ -807,20 +807,6 @@ dojo.declare(
 					var events=this.events.concat(this.captureEvents);
 					dojo.forEach(events, function(e){
 						var l = dojo.connect(this.document, e.toLowerCase(), dojo.hitch(this, e));
-						if(e=="onBlur"){
-							// We need to unhook the blur event listener on close as we
-							// can encounter a garunteed crash in FF if another event is
-							// also fired
-							// FIXME:
-							/*
-							var unBlur = { unBlur: function(e){
-									// FIXME
-									dojo.event.browser.removeListener(doc, "blur", l);
-							} };
-							// FIXME: need a to attach before!
-							// dojo.connect("before", this, "close", unBlur, "unBlur");
-							*/
-						}
 					}, this);
 				}
 				// FIXME: when scrollbars appear/disappear this needs to be fired
@@ -1118,9 +1104,17 @@ dojo.declare(
 //				}catch(e){}
 //			}
 			this.onDisplayChanged(e); },
-		onBlur: function(e){ },
+		_onBlur: function(e){
+			var _c=this.getValue(true);
+			if(_c!=this.savedContent){
+				this.onChange(_c);
+				this.savedContent=_c;
+			}
+//			console.log('_onBlur') 
+		},
 		_initialFocus: true,
-		onFocus: function(e){
+		_onFocus: function(e){
+//			console.log('_onFocus')
 			// summary: Fired on focus
 			if( (dojo.isMoz)&&(this._initialFocus) ){
 				this._initialFocus = false;
@@ -1180,6 +1174,13 @@ dojo.declare(
 			//		if something needs to happen immidiately after a 
 			//		user change, please use onDisplayChanged instead
 			this._updateTimer=null;
+		},
+		onChange: function(newContent){
+			// summary: 
+			//		this is fired if and only if the editor loses focus and 
+			//		the content is changed
+
+//			console.log('onChange',newContent);
 		},
 		_normalizeCommand: function(/*String*/cmd){
 			// summary:
