@@ -254,12 +254,13 @@
 .tundra .dijitRadio,
 .tundra .dijitCheckBoxIcon,		/* inside a toggle button */
 .tundra .dijitRadioIcon	{		/* inside a toggle button */
-	background-image: url('images/checkmark.png'); /* checkbox sprite image */
+	background-image: url('images/checkmark.gif'); /* checkbox sprite image */
 	background-repeat: no-repeat; 
 	width: 16px;
 	height: 16px;
 	overflow:hidden;
 }
+
 
 .tundra .dijitCheckBox,
 .tundra .dijitToggleButton .dijitCheckBoxIcon {
@@ -860,28 +861,27 @@
 
 .tundra .dijitCalendarIncrementControl {
 	/* next/prev month buttons */
-	padding:2px;
 	width:16px;
 	height:16px;
+}
+.dj_ie6 .tundra .dijitCalendarIncrementControl {
+	padding:.1em; 
 }
 
 .tundra .dijitCalendarIncreaseInner,
 .tundra .dijitCalendarDecreaseInner {
-	visibility:hidden; 
+	display:none; 
 }
 
 .tundra .dijitCalendarDecrease {
 	background:url(images/arrowLeft.png) no-repeat center center; 
-	margin-left:4px;
 }
 
 .tundra .dijitCalendarIncrease {
 	background:url(images/arrowRight.png) no-repeat center center; 
-	margin-right:2px;
 }
 
 .tundra table.dijitCalendarContainer {
-/*	border:1px solid #566f8f;*/
 	font-size: 100%;
 	border-collapse: collapse; 
 	border-spacing: 0; 
@@ -892,7 +892,12 @@
 .tundra .dijitCalendarMonthContainer th {
 	/* month header cell */
 	background:white url("images/calendarMonthLabel.png") repeat-x top;
-	padding-top:.2em;
+	padding-top:.3em;
+	padding-bottom:.1em; 
+}
+.dj_ie6 .tundra .dijitCalendarMonthContainer th {
+	padding-top:.1em; 
+	padding-bottom:0em; 
 }
 
 .tundra .dijitCalendarDayLabelTemplate {
@@ -1099,6 +1104,7 @@
 
 .tundra .dijitSliderBar {
 	border-style: solid;
+	outline:1px; 
 	/* border-color: #b4b4b4; */
 }
 

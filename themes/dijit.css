@@ -166,6 +166,9 @@
 	font-size: x-small;
 	padding:0em .25em;
 }
+.dijitCalendarIncrementControl .dijitA11ySideArrow { 
+	padding-left:.2em; 
+}
 
 .dijitToolbar .dijitDropDownButton .dijitA11yDownArrow{
 	/*make the arrow smaller in toolbar*/
@@ -179,8 +182,10 @@
 
 .dijitA11ySideArrow {
 	vertical-align:top;
-	margin-right:1em;
+	margin-right:0em; 
+	margin-left:.2em; 
 	line-height:2em;
+	text-align:center; 
 }
 
 .dj_ie .dijitA11yDownArrow,
