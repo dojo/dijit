@@ -40,3 +40,11 @@
 	margin-left:1em;
 	margin-right:0;
 }
+
+/* AccordionPane */
+
+.dijitRtl .dijitAccordionPane .dijitAccordionTitle .dijitAccordionArrow,
+.dijitRtl .dijitAccordionPane .dijitAccordionTitle .arrowTextUp,
+.dijitRtl .dijitAccordionPane .dijitAccordionTitle .arrowTextDown {
+	float: left;
+}
