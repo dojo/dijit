@@ -187,14 +187,7 @@ dojo.declare(
 			var dropDown = this.dropDown;
 			var oldWidth=dropDown.domNode.style.width;
 			var self = this;
-/***
- * TODO: this doesn't work.  dropDown.domNode is hidden so offsetWidth is 0
 
-			if(this.domNode.offsetWidth > dropDown.domNode.offsetWidth){
-				// make menu at least as wide as the button
-				dojo.marginBox(dropDown.domNode, {w:this.domNode.offsetWidth});
-			}
-***/
 			dijit.popup.open({
 				parent: this,
 				popup: dropDown,
@@ -214,6 +207,18 @@ dojo.declare(
 					self.popupStateNode.removeAttribute("popupActive");
 				}
 			});
+			if(this.domNode.offsetWidth > dropDown.domNode.offsetWidth){
+				var adjustNode = null;
+				if(!this.isLeftToRight()){
+					adjustNode = dropDown.domNode.parentNode; 
+					var oldRight = adjustNode.offsetLeft + adjustNode.offsetWidth;
+				}
+				// make menu at least as wide as the button
+				dojo.marginBox(dropDown.domNode, {w: this.domNode.offsetWidth});
+				if(adjustNode){
+					adjustNode.style.left = oldRight - this.domNode.offsetWidth + "px";
+				}
+			}
 			this.popupStateNode.setAttribute("popupActive", "true");
 			this._opened=true;
 			if(dropDown.focus){
