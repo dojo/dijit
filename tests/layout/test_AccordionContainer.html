@@ -25,7 +25,7 @@
 	<script type="text/javascript">
 		dojo.require("dijit.layout.AccordionContainer");
 		dojo.require("dijit.layout.ContentPane");
-		dojo.require("dijit.layout.SplitContainer");
+//		dojo.require("dijit.layout.SplitContainer");
 		// dojo.require("dijit.form.ComboBox");
 	 	dojo.require("dijit.form.Button");
 		dojo.require("dojo.parser");	// scan page for widgets and instantiate them
@@ -111,7 +111,7 @@
 	<p>HTML after</p>
 	<p>HTML after</p>
 	<p></p>
-	<p>Accordion with complex widgets</p>
+	<p>Accordion with widgets</p>
 	<div dojoType="dijit.layout.AccordionContainer" duration="200"
 		style="float: left; margin-right: 30px; width: 400px; height: 300px; overflow: hidden">
 		<div dojoType="dijit.layout.AccordionPane" selected="true"
@@ -156,6 +156,7 @@
 			<div dojoType="dijit.layout.ContentPane" href="tab1.html"></div>
 		</div>
 
+<!-- Support for nested complex widgets de-supported, for now
 		<div dojoType="dijit.layout.AccordionPane" title="Pane 3 (split pane)">
 			<div dojoType="dijit.layout.SplitContainer">
 				<p dojoType="dijit.layout.ContentPane">
@@ -190,6 +191,7 @@
 				</p>
 			</div>
 		</div>
+-->
 	</div>
 
 	<h2>Programatically created:</h2>
