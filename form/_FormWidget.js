@@ -203,7 +203,11 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 	_onKeyPress: function(e){
 		if(e.keyCode == dojo.keys.ESCAPE && !e.shiftKey && !e.ctrlKey && !e.altKey){
 			var v = this.getValue();
-			if(v != this._lastValueReported && this._lastValueReported != undefined){
+			var lv = this._lastValueReported;
+			// Equality comparison of objects such as dates are done by reference so 
+			// two distinct objects are != even if they have the same data. So use 
+			// toStrings in case the values are objects.
+			if(lv != undefined && v.toString() != lv.toString()){	
 				this.undo();
 				dojo.stopEvent(e);
 				return false;
