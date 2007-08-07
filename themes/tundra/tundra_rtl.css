@@ -77,6 +77,10 @@
 	margin-right: -13px;
 }
 
+.dj_ie .dijitRtl .dijitTooltipDialog {
+	zoom:1 !important;
+}
+
 /* Calendar */
 
 .dijitRtl .dijitCalendarDecrease {
