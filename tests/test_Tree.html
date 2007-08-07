@@ -20,6 +20,14 @@
 		dojo.require("dojo.data.ItemFileReadStore");
 		dojo.require("dijit.Tree");
 		dojo.require("dojo.parser");	// scan page for widgets and instantiate them
+		dojo.addOnLoad(function(){
+			dojo.subscribe("mytree", null, function(message){
+				if(message.event=="execute"){
+					alert("Execute of node " + continentStore.getLabel(message.item)
+						+", population=" + continentStore.getValue(message.item, "population"));
+				}
+			});
+		});
 	</script>
 
 </head>
@@ -30,7 +38,7 @@
 	<div dojoType="dojo.data.ItemFileReadStore" jsId="continentStore"
 		url="../tests/countries.json"></div>
 
-	<div dojoType="dijit.Tree" id=tree store="continentStore" query="{type:'continent'}"
+	<div dojoType="dijit.Tree" id="mytree" store="continentStore" query="{type:'continent'}"
 		labelAttr="name" typeAttr="type"></div>
 
 	<button onclick="dijit.byId('tree').destroyRecursive();">destroy</button>

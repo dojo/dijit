@@ -217,7 +217,7 @@ dojo.declare(
 				this._publish("toggleOpen", {node:nodeWidget});
 			}
 		}else{
-			this._publish("execute", { node: nodeWidget} );	
+			this._publish("execute", { item: nodeWidget.item, node: nodeWidget} );	
 		}
 		dojo.stopEvent(e);
 	},
