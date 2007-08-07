@@ -162,7 +162,9 @@ dojo.declare(
 			switch(e.keyCode){
 				case dojo.keys.PAGE_DOWN:
 				case dojo.keys.PAGE_UP:
-					if (e.keyCode == dojo.keys.PAGE_DOWN){
+				case dojo.keys.TAB:
+					if ((e.keyCode == dojo.keys.PAGE_DOWN) ||
+						(e.keyCode == dojo.keys.TAB && !e.shiftKey)){
 						this.forward();
 					}else{
 						this.back();
