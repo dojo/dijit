@@ -5,22 +5,6 @@
 @import url("../dijit.css");
 
 
-/*
- * IE6: can't display PNG images with gradient transparency.
- * Want to use filter property for those images, but then need to specify a path relative
- * to the main page, rather than relative to this file... using gifs for now
- */
-.dj_ie6 .tundra .dijitInputField,
-.dj_ie6 .tundra .dijitComboBoxInput, 
-.dj_ie6 .tundra .dijitSpinnerInput
- {
-	background-image: none;
-	/* TODO: won't work; path is wrong; use gif instead? */
-	/* filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src="dijitTundraGradientBg.png", sizingMethod="scale"); */
-}
-
-/** TODO: add all other PNGs here that need this */
-
 .dj_safari .tundra .dijitPopup {
 	/* -webkit-border-radius: 5px; */
 	-webkit-box-shadow: 0px 3px 7px #adadad;
@@ -46,7 +30,7 @@
 	/* enabled state - inner */
 	/* border:1px outset #a0a0a0; */
 	border:1px solid #9b9b9b;
-	padding:.3em .4em .1em .4em;
+	padding:.3em .4em .2em .4em;
 	background:#e9e9e9 url("images/buttonEnabled.png") repeat-x top;
 }
 
@@ -258,72 +242,73 @@
 	background-repeat: no-repeat; 
 	width: 16px;
 	height: 16px;
-	overflow:hidden;
+	overflow:hidden; 
+	margin:0; padding:0; 
 }
 
 
 .tundra .dijitCheckBox,
 .tundra .dijitToggleButton .dijitCheckBoxIcon {
 	/* unchecked */
-	background-position: -16px;
+	background-position: -16px 0px; 
 }
  
 .tundra .dijitCheckBoxChecked,
 .tundra .dijitToggleButtonChecked .dijitCheckBoxIcon {
 	/* checked */
-	background-position: 0px;
+	background-position: 0px 0px;
 }
 
 .tundra .dijitCheckBoxDisabled {
 	/* disabled */
-	background-position: -48px;
+	background-position: -48px 0px;
 }
 
 .tundra .dijitCheckBoxCheckedDisabled {
 	/* disabled but checked */
-	background-position: -32px;
+	background-position: -32px 0px;
 }
 
 .tundra .dijitCheckBoxHover {
 	/* hovering over an unchecked enabled checkbox */
-	background-position: -80px;
+	background-position: -80px 0px;
 }
 
 .tundra .dijitCheckBoxCheckedHover {
 	/* hovering over a checked enabled checkbox */
-	background-position: -64px;
+	background-position: -64px 0px;
 }
 
 .tundra .dijitRadio,
 .tundra .dijitToggleButton .dijitRadioIcon {
 	/* unselected */
-	background-position: -112px;
+	background-position: -112px 0px;
 }
 
 .tundra .dijitRadioChecked,
 .tundra .dijitToggleButtonChecked .dijitRadioIcon {
 	/* selected */
-	background-position: -96px;
+	background-position: -96px 0px;
 }
 
 .tundra .dijitRadioCheckedDisabled {
 	/* selected but disabled */
-	background-position: -128px;
+	background-position: -128px 0px;
 }
 
 .tundra .dijitRadioDisabled {
 	/* unselected and disabled */
-	background-position: -144px;
+	background-position: -144px 0px;
 }
 
 .tundra .dijitRadioCheckedHover {
 	/* hovering over a selected enabled radio button */
-	background-position: -160px;
+	background-position: -160px 0px;
 }
 
 .tundra .dijitRadioHover {
 	/* hovering over an unselected enabled radio button */
-	background-position: -176px;
+	background-position: -176px 0px;
 }
 
 /* Menu */
@@ -472,13 +457,18 @@
 	background:#e2e2e2 url("images/tabHover.png") repeat-x bottom;
 }
 
+.dj_ie6 .tundra .dijitTabHover,
+.dj_ie6 .tundra .dijitTabCloseButtonHover {
+	background-image: url("images/tabHover.gif"); 
+}
+
 .tundra .dijitTabChecked,
 .tundra .dijitTabCloseButtonChecked
 {
 	/* the selected tab (with or without hover) */
 	background-color:#fff;
 	border-color: #ccc;
-	background-image:none; /* url("images/tabActive.png") repeat-x bottom !important; */
+	background-image:none; 
 }
 
 /* make the active tab white on the side next to the content pane */
@@ -525,12 +515,22 @@
 	margin: 0;
 	background: url("images/tabClose.png") no-repeat right top;
 }
+.dj_ie6 .dijitTab .dijitClosable .closeImage {
+	background-image:url("images/tabClose.gif"); 
+}
 
 .tundra .dijitTabCloseButton .dijitClosable .closeImage {
 	background-image : url("images/tabClose.png");
 }
+.dj_ie6 .tundra .dijitTabCloseButton .dijitClosable .closeImage {
+	background-image : url("images/tabClose.gif");
+}
+
 .tundra .dijitTabCloseButtonHover .dijitClosable .closeImage {
 	background-image : url("images/tabCloseHover.png");
+}
+.dj_ie6 .tundra .dijitTabCloseButtonHover .dijitClosable .closeImage {
+	background-image : url("images/tabCloseHover.gif");
 }
 
 .tundra .dijitAlignLeft .dijitTab .dijitClosable {
@@ -638,6 +638,9 @@
 	height: 22px;
 	width: 22px;
 	cursor: pointer;
+}
+.dj_ie6 .tundra .dijitDialogCloseIcon {
+	background-image: url("images/tabClose.gif"); 
 }
 
 .tundra .dijitDialogContent {
@@ -778,10 +781,16 @@
 	height:15px;
 	margin-top:2px;
 }
+.dj_ie6 .tundra .dijitAccordionPane .dijitAccordionArrow {
+	background-image: url("images/arrowUp.gif"); 
+}
 
 .tundra .dijitAccordionPane-selected .dijitAccordionArrow {
 	background:url("images/arrowDown.png") no-repeat;
 	margin-top:2px;
+}
+.dj_ie6 .tundra .dijitAccordionPane-selected .dijitAccordionArrow {
+	background-image: url("images/arrowDown.gif"); 
 }
 
 .tundra .dijitAccordionPane .dijitAccordionBody {
@@ -873,11 +882,17 @@
 }
 
 .tundra .dijitCalendarDecrease {
-	background:url(images/arrowLeft.png) no-repeat center center; 
+	background:url("images/arrowLeft.png") no-repeat center center; 
+}
+.dj_ie6 .tundra .dijitCalendarDecrease {
+	background-image:url("images/arrowLeft.gif"); 
 }
 
 .tundra .dijitCalendarIncrease {
 	background:url(images/arrowRight.png) no-repeat center center; 
+}
+.dj_ie6 .tundra .dijitCalendarIncrease {
+	background-image:url("images/arrowRight.gif"); 
 }
 
 .tundra table.dijitCalendarContainer {
@@ -1114,6 +1129,9 @@
 	background:url("images/preciseSliderThumb.png") no-repeat center center; 
 	cursor:pointer; 
 }
+.dj_ie6 .dijitHorizontalSliderImageHandle {
+	background-image:url("images/preciseSliderThumb.gif"); 
+}
 
 .tundra .dijitHorizontalSliderLeftBumper {
 	border-left-width: 1px;
@@ -1232,6 +1250,23 @@
 .tundra .dijitEditorIconUnderline { background-position: -648px; }
 .tundra .dijitEditorIconUndo { background-position: -666px; }
 .tundra .dijitEditorIconWikiword { background-position: -684px; }
+
+/*
+ * IE6: can't display PNG images with gradient transparency.
+ * Want to use filter property for those images, but then need to specify a path relative
+ * to the main page, rather than relative to this file... using gifs for now
+ */
+.dj_ie6 .tundra .dijitInputField,
+.dj_ie6 .tundra .dijitComboBoxInput, 
+.dj_ie6 .tundra .dijitSpinnerInput
+ {
+	background:transparent; 
+	background-image: url("images/dijitTundraGradientBg.gif");
+	/* TODO: won't work; path is wrong; use gif instead? */
+	/* filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src="dijitTundraGradientBg.png", sizingMethod="scale"); */
+}
+
+/** TODO: add all other PNGs here that need this */
 
 /**** Disabled cursor *****/
 .tundra .dijitDisabledClickableRegion,	/* a region the user would be able to click on, but it's disabled */

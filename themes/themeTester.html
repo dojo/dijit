@@ -97,7 +97,7 @@
 		// for the colorpalette
 		function setColor(color){
 			var theSpan = dojo.byId("outputSpan");
-			theSpan.style.color = "#"+color;
+			dojo.style(theSpan,"color",color); 
 			theSpan.innerHTML = color;
 		}
 
@@ -306,8 +306,9 @@
 					<h2 class="testHeader">Dijit Color Palette(7x10)</h2>
 					<div dojoType="dijit.ColorPalette" onChange="setColor(this.value);"></div>
 					<br>
-					Test color is: <span id="outputSpan"></span>.
+					Test color is: <span id="outputSpan"></span>
 
+					<br><br>
 					<div dojoType="dijit.ColorPalette" palette="3x4"></div>
 				</div>
 
