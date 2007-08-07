@@ -117,17 +117,21 @@
 
 		dojo.addOnLoad(function() {
 
-		        var holder = dojo.byId('themeData');
-                        var tmpString='';
-                        dojo.forEach(availableThemes,function(theme){
-                                tmpString += '<a href="?theme='+theme.theme+'">'+theme.theme+'</'+'a> - by: '+theme.author+' <br>';
-                        });
-                        holder.innerHTML = tmpString;
+			var holder = dojo.byId('themeData');
+			var tmpString='';
+			dojo.forEach(availableThemes,function(theme){
+				tmpString += '<a href="?theme='+theme.theme+'">'+theme.theme+'</'+'a> - by: '+theme.author+' <br>';
+			});
+			holder.innerHTML = tmpString;
+
+			var start = new Date().getTime();
 			dojo.parser.parse(dojo.byId('container')); 
+			console.log("Total parse time: " + (new Date().getTime() - start) + "ms");
+
 			dojo.byId('loaderInner').innerHTML += " done.";
 			setTimeout("hideLoader()",250);
 			
-                });
+		});
 
 	</script>
 	<style type="text/css">
