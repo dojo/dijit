@@ -118,11 +118,6 @@
 	cursor : pointer;
 }
 
-.dijitDisabledClickableRegion {
-	/* a region the user would be able to click on, but it's disabled */
-	cursor: default;        /* makes opera happy */
-	cursor: url("no.gif"), not-allowed, default;
-}
 
 .dijitDisplayNone {
 	/* hide something.  Use this as a class rather than element.style so another class can override */
@@ -133,20 +128,6 @@
 	/* for all layout containers */
 	overflow: hidden;	/* need on IE so something can be reduced in size, and so scrollbars aren't temporarily displayed */
 }
-
-.dijitSpinnerDisabled *,
-.dijitButtonDisabled *,
-.dijitDropDownButtonDisabled *,
-.dijitComboButtonDisabled *,
-.dijitComboBoxDisabled * {
-	cursor: default;
-	cursor: not-allowed !important;
-	cursor: url("no.gif"), not-allowed, default;
-}
-
-
-
-
 
 /**** 
 		A11Y 

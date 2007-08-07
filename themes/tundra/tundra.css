@@ -1233,3 +1233,15 @@
 .tundra .dijitEditorIconUndo { background-position: -666px; }
 .tundra .dijitEditorIconWikiword { background-position: -684px; }
 
+/**** Disabled cursor *****/
+.tundra .dijitDisabledClickableRegion,	/* a region the user would be able to click on, but it's disabled */
+.tundra .dijitSpinnerDisabled *,
+.tundra .dijitButtonDisabled *,
+.tundra .dijitDropDownButtonDisabled *,
+.tundra .dijitComboButtonDisabled *,
+.tundra .dijitComboBoxDisabled *
+{
+	cursor: not-allowed !important;
+	cursor: url("no.gif"), not-allowed, default;
+}
+
