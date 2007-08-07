@@ -12,6 +12,10 @@ dojo.declare("dijit.layout._LayoutWidget",
 
 		isLayoutContainer: true,
 
+		postCreate: function(){
+			dojo.addClass(this.domNode, "dijitContainer");
+		},
+
 		startup: function(){
 			// summary:
 			//		Called after all the widgets have been instantiated and their

@@ -129,7 +129,10 @@
 	display:none !important;
 }
 
-
+.dijitContainer {
+	/* for all layout containers */
+	overflow: hidden;	/* need on IE so something can be reduced in size, and so scrollbars aren't temporarily displayed */
+}
 
 .dijitSpinnerDisabled *,
 .dijitButtonDisabled *,
