@@ -280,6 +280,19 @@ dojo.mixin(dijit,
 		dijit._curFocus = node;
 		dijit._onTouchNode(node);
 		dojo.publish("focusNode", [node]);
+
+		// handle focus/blur styling
+		var w = dijit.byId(node.id);
+		if (w && w._setStateClass){
+			w._focused = true;
+			w._setStateClass();
+			// watch for a blur on the node that received focus
+			var blurConnector = dojo.connect(node, "onblur", function(){
+				w._focused = false;
+				w._setStateClass();
+				dojo.disconnect(blurConnector);
+			});
+		}
 	},
 
 	_setStack: function(newStack){

@@ -269,12 +269,14 @@
 	background-position: -32px 0px;
 }
 
-.tundra .dijitCheckBoxHover {
+.tundra .dijitCheckBoxHover,
+.tundra .dijitCheckBoxFocused {
 	/* hovering over an unchecked enabled checkbox */
 	background-position: -80px 0px;
 }
 
-.tundra .dijitCheckBoxCheckedHover {
+.tundra .dijitCheckBoxCheckedHover,
+		.tundra .dijitCheckBoxCheckedFocused {
 	/* hovering over a checked enabled checkbox */
 	background-position: -64px 0px;
 }
@@ -301,14 +303,16 @@
 	background-position: -144px 0px;
 }
 
-.tundra .dijitRadioCheckedHover {
-	/* hovering over a selected enabled radio button */
-	background-position: -160px 0px;
-}
-
-.tundra .dijitRadioHover {
+.tundra .dijitRadioHover,
+.tundra .dijitRadioFocused {
 	/* hovering over an unselected enabled radio button */
 	background-position: -176px 0px;
+}
+
+.tundra .dijitRadioCheckedHover,
+.tundra .dijitRadioCheckedFocused {
+	/* hovering over a selected enabled radio button */
+	background-position: -160px 0px;
 }
 
 /* Menu */

@@ -100,7 +100,6 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 					this._active = true;
 					// set a global event to handle mouseup, so it fires properly
 					//	even if the cursor leaves the button
-					this._active = true;
 					var self = this;
 					// #2685: use this.connect and disconnect so destroy works properly
 					var mouseUpConnector = this.connect(dojo.body(), "onmouseup", function(){
@@ -127,7 +126,8 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 		//		<baseClass>
 		//		<baseClass> + "Disabled"	- if the widget is disabled
 		//		<baseClass> + "Active"		- if the mouse (or space/enter key?) is being pressed down
-		//		<baseClass> + "Hover"		- if the mouse is over the widget (TODO: also on focus?)
+		//		<baseClass> + "Hover"		- if the mouse is over the widget
+		//		<baseClass> + "Focused"		- if the widget has focus
 		//
 		//	Note: if you don't want to change the way the widget looks on hover, then don't call
 		//	this routine on hover.  Similarly for mousedown --> active
@@ -138,6 +138,7 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 		//		<baseClass> + "CheckedDisabled"	- if the widget is disabled
 		//		<baseClass> + "CheckedActive"		- if the mouse is being pressed down
 		//		<baseClass> + "CheckedHover"		- if the mouse is over the widget
+		//		<baseClass> + "CheckedFocused"		- if the widget has focus
 
 		// get original class (non state related) specified in template
 		var origClass = this._origClass || (this._origClass = this.domNode.className);
@@ -158,11 +159,13 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 		}
 		
 		// Only one of these three can be applied.
-		// Active trumps Hover, and Disabled trumps Active.
+		// Active trumps Focused, Focused trumps Hover, and Disabled trumps all.
 		if(this.disabled){
 			multiply("Disabled");
 		}else if(this._active){
 			multiply("Active");
+		}else if(this._focused){
+			multiply("Focused");
 		}else if(this._hovering){
 			multiply("Hover");
 		}
