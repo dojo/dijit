@@ -1292,14 +1292,14 @@ dojo.declare(
 					insertRange.pasteHTML(argument);
 					insertRange.select();
 					//insertRange.collapse(true);
-					return true;
+					returnValue=true;
 				}else if(dojo.isMoz && !argument.length){
 					//mozilla can not inserthtml an empty html to delete current selection
 					//so we delete the selection instead in this case
 					dojo.withGlobal(this.window,'remove',dijit._editor.selection); // FIXME
-					return true;
+					returnValue=true;
 				}else{
-					return this.document.execCommand(command, false, argument);
+					returnValue=this.document.execCommand(command, false, argument);
 				}
 			}else if(
 				(command == "unlink")&&
@@ -1322,7 +1322,7 @@ dojo.declare(
 				var a = dojo.withGlobal(this.window, "getAncestorElement",dijit._editor.selection, ['a']);
 				dojo.withGlobal(this.window, "selectElement", dijit._editor.selection, [a]);
 
-				return this.document.execCommand("unlink", false, null);
+				returnValue=this.document.execCommand("unlink", false, null);
 			}else if((command == "hilitecolor")&&(dojo.isMoz)){
 //				// mozilla doesn't support hilitecolor properly when useCSS is
 //				// set to false (bugzilla #279330)
