@@ -23,14 +23,14 @@ dojo.declare(
 
 	lock: function(){
 		// summary: lock this node (and it's descendants) while a delete is taking place?
-		this.locked=true;
+		this.locked = true;
 	},
 	unlock: function(){
 		if(!this.locked){
 			//dojo.debug((new Error()).stack);
 			throw new Error(this.declaredClass+" unlock: not locked");
 		}
-		this.locked=false;
+		this.locked = false;
 	},
 
 	isLocked: function(){
@@ -91,10 +91,10 @@ dojo.declare(
 			this.isFolder=false;
 		}
 		
-		if (this.isTree){
+		if(this.isTree){
 			// put first child in tab index if one exists.
 			var fc = this.getChildren()[0];
-			var tabnode = (fc) ? fc.labelNode : this.domNode; 
+			var tabnode = fc ? fc.labelNode : this.domNode; 
 			tabnode.setAttribute("tabIndex", "0");
 		}
 	}
@@ -163,7 +163,7 @@ dojo.declare(
 		// any nodes that have children)
 		var div = document.createElement('div');
 		div.style.display = 'none';
-		div.className="dijitTreeContainer";	
+		div.className = "dijitTreeContainer";	
 		dijit.wai.setAttr(div, "waiRole", "role", "presentation");
 		this.containerNodeTemplate = div;
 
@@ -189,14 +189,14 @@ dojo.declare(
 	},
 
 	toString: function(){
-		return "["+this.declaredClass+" ID:"+this.id	+"]"
+		return "["+this.declaredClass+" ID:"+this.id+"]";
 	},
 
 	_domElement2TreeNode: function(/*DomNode*/ domElement){
 		var ret;
 		do{
 			ret=dijit.byNode(domElement);
-		}while(!ret && (domElement=domElement.parentNode));
+		}while(!ret && (domElement = domElement.parentNode));
 		return ret;
 	},
 
@@ -329,7 +329,7 @@ dojo.declare(
 
 	postCreate: function(){
 		// set label, escaping special characters
-		this.labelNode.innerHTML="";
+		this.labelNode.innerHTML = "";
 		this.labelNode.appendChild(document.createTextNode(this.label));
 		
 		// set expand icon for leaf 	
@@ -386,10 +386,10 @@ dojo.declare(
 		dijit.Tree.superclass.setChildren.apply(this, arguments);
 
 		// create animations for showing/hiding the children
-		this._slideIn = dojo.fx.slideIn({node: this.containerNode, duration: 250});
-		dojo.connect(this.slideIn, "onEnd", dojo.hitch(this, "_afterExpand"));
-		this._slideOut = dojo.fx.slideOut({node: this.containerNode, duration: 250});
-		dojo.connect(this.slideOut, "onEnd", dojo.hitch(this, "_afterCollapse"));
+		this._wipeIn = dojo.fx.wipeIn({node: this.containerNode, duration: 250});
+		dojo.connect(this.wipeIn, "onEnd", dojo.hitch(this, "_afterExpand"));
+		this._wipeOut = dojo.fx.wipeOut({node: this.containerNode, duration: 250});
+		dojo.connect(this.wipeOut, "onEnd", dojo.hitch(this, "_afterCollapse"));
 	},
 
 	expand: function(){
@@ -397,8 +397,8 @@ dojo.declare(
 		if(this.isExpanded){ return; }
 
 		// cancel in progress collapse operation
-		if(this._slideOut.status() == "playing"){
-			this._slideOut.stop();
+		if(this._wipeOut.status() == "playing"){
+			this._wipeOut.stop();
 		}
 
 		this.isExpanded = true;
@@ -408,7 +408,7 @@ dojo.declare(
 		this._setExpando();
 
 		// TODO: use animation that's constant speed of movement, not constant time regardless of height
-		this._slideIn.play();
+		this._wipeIn.play();
 	},
 
 	_afterExpand: function(){
@@ -420,15 +420,15 @@ dojo.declare(
 		if(!this.isExpanded){ return; }
 
 		// cancel in progress expand operation
-		if(this._slideIn.status() == "playing"){
-			this._slideIn.stop();
+		if(this._wipeIn.status() == "playing"){
+			this._wipeIn.stop();
 		}
 
 		this.isExpanded = false;
 		dijit.wai.setAttr(this.labelNode, "waiState", "expanded", "false");
 		this._setExpando();
 
-		this._slideOut.play();
+		this._wipeOut.play();
 	},
 
 	_afterCollapse: function(){

@@ -39,14 +39,14 @@ dojo.declare(
 
 		// setup open/close animations
 		var hideNode = this.hideNode, wipeNode = this.wipeNode;
-		this._slideIn = dojo.fx.slideIn({
+		this._wipeIn = dojo.fx.wipeIn({
 			node: this.wipeNode,
 			duration: this.duration,
 			beforeBegin: function(){
 				hideNode.style.display="";
 			}
 		});
-		this._slideOut = dojo.fx.slideOut({
+		this._wipeOut = dojo.fx.wipeOut({
 			node: this.wipeNode,
 			duration: this.duration,
 			onEnd: function(){
@@ -58,12 +58,12 @@ dojo.declare(
 	setContent: function(content){
 		// summary
 		// 		Typically called when an href is loaded.  Our job is to make the animation smooth
-		if(this._slideOut.status() == "playing"){
+		if(this._wipeOut.status() == "playing"){
 			// we are currently *closing* the pane, so just let that continue
 			dijit.layout.ContentPane.prototype.setContent.apply(this, content);
 		}else{
-			if(this._slideIn.status() == "playing"){
-				this._slideIn.stop();
+			if(this._wipeIn.status() == "playing"){
+				this._wipeIn.stop();
 			}
 			
 			// freeze container at current height so that adding new content doesn't make it jump
@@ -72,21 +72,21 @@ dojo.declare(
 			// add the new content (erasing the old content, if any)
 			dijit.layout.ContentPane.prototype.setContent.apply(this, arguments);
 			
-			// call _slideIn.play() to animate from current height to new height
-			this._slideIn.play();
+			// call _wipeIn.play() to animate from current height to new height
+			this._wipeIn.play();
 		}
 	},
 
 	toggle: function(){
 		// summary: switches between opened and closed state
-		dojo.forEach([this._slideIn, this._slideOut], function(animation){
+		dojo.forEach([this._wipeIn, this._wipeOut], function(animation){
 			if(animation.status() == "playing"){
 				animation.stop();
 			}
 		});
 
-		this[this.open ? "_slideOut" : "_slideIn"].play();
-		this.open=!this.open;
+		this[this.open ? "_wipeOut" : "_wipeIn"].play();
+		this.open =! this.open;
 
 		// load content (if this is the first time we are opening the TitlePane
 		// and content is specified as an href, or we have setHref when hidden)
@@ -110,7 +110,7 @@ dojo.declare(
 		if(e.keyCode == dojo.keys.ENTER || e.charCode == dojo.keys.SPACE){
 			this._onTitleClick();
 		}
-		else if (e.keyCode == dojo.keys.DOWN_ARROW){
+		else if(e.keyCode == dojo.keys.DOWN_ARROW){
 			if(this.open){
 				this.containerNode.focus();
 				e.preventDefault();
