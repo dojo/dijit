@@ -65,7 +65,9 @@ dojo.declare(
 
 		if(this.selectedChildWidget){
 			this._showChild(this.selectedChildWidget);
-			this.selectedChildWidget.resize(this._containerContentBox);
+			if(this.doLayout && this.selectedChildWidget.resize){
+				this.selectedChildWidget.resize(this._containerContentBox);
+			}
 		}
 	},
 
