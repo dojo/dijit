@@ -42,7 +42,7 @@ dojo.declare(
 		// <P>blah</P><P>blah</P> --> blah\nblah
 		// <DIV>blah</DIV><DIV>blah</DIV> --> blah\nblah
 		// &amp;&lt;&nbsp;&gt; --> &< >
-		value = this.editNode.innerHTML.replace(/<(br[^>]*|\/(p|div))>$|^<(p|div)[^>]*>|\r/gi,"").replace(/<\/(p|div)>\s*<\1[^>]*>|<(br|p|div)[^>]*>/gi,"\n").replace(/<[^>]*>/g,"").replace(/&amp;/gi,"\&").replace(/&nbsp;/gi," ").replace(/&lt;/gi,"<").replace(/&gt;/gi,">");
+		var value = this.editNode.innerHTML.replace(/<(br[^>]*|\/(p|div))>$|^<(p|div)[^>]*>|\r/gi,"").replace(/<\/(p|div)>\s*<\1[^>]*>|<(br|p|div)[^>]*>/gi,"\n").replace(/<[^>]*>/g,"").replace(/&amp;/gi,"\&").replace(/&nbsp;/gi," ").replace(/&lt;/gi,"<").replace(/&gt;/gi,">");
 		this.formValueNode.value = value;
 		if(this.iframe){
 			var newHeight = this.editNode.scrollHeight;

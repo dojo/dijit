@@ -429,7 +429,7 @@ dojo.declare(
 				}
 			}
 			// instantiate query so comboboxes with different data stores and default query work together
-			if(this.query==dijit.form.ComboBoxMixin.prototype.query){query={};}
+			if(this.query==dijit.form.ComboBoxMixin.prototype.query){this.query={};}
 		},
 
 		postCreate: function(){
