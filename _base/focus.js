@@ -1,7 +1,5 @@
 dojo.provide("dijit._base.focus");
 
-dojo.require("dijit._base.window");
-
 // summary:
 //		These functions are used to query or set the focus and selection.
 //
@@ -171,10 +169,8 @@ dojo.mixin(dijit,
 		//		window or an iframe) to detect when the user has clicked somewhere.
 		//		Anyone that creates an iframe should call this function.
 
-		if(!targetWindow){ //see comment below
-			try{
-				targetWindow = dijit.getDocumentWindow(window.top && window.top.document || window.document);
-			}catch(e){ return; /* squelch error for cross domain iframes and abort */ }
+		if(!targetWindow){
+			targetWindow = window;
 		}
 
 		dojo.connect(targetWindow.document, "onmousedown", null, function(evt){
@@ -200,16 +196,6 @@ dojo.mixin(dijit,
 				body.addEventListener('blur', function(evt){ dijit._onBlurNode(); }, true);
 			}
 		}
-
-		dojo.forEach(targetWindow.frames, function(frame){
-			try{
-				//do not remove dijit.getDocumentWindow, see comment in it
-				var win = dijit.getDocumentWindow(frame.document);
-				if(win){
-					dijit.registerWin(win);
-				}
-			}catch(e){ /* squelch error for cross domain iframes */ }
-		});
 	},
 	
 	_onBlurNode: function(){
