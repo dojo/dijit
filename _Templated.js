@@ -99,8 +99,8 @@ dojo.declare("dijit._Templated",
 			// summary:
 			//		relocate source contents to templated container node
 			//		this.containerNode must be able to receive children, or exceptions will be thrown
-			if(source){
-				var dest = this.containerNode||this.domNode;
+			var dest = this.containerNode;
+			if(source && dest){
 				while(source.hasChildNodes()){
 					dest.appendChild(source.firstChild);
 				}
