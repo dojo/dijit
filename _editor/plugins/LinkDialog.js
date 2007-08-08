@@ -46,7 +46,6 @@ dojo.declare("dijit._editor.plugins.LinkDialog",
 	dijit._editor._Plugin,  
 	function(){
 		var _this = this;
-alert("lang="+this.lang);
 		var messages = dojo.i18n.getLocalization("dijit._editor", "LinkDialog", this.lang);
 		this.dropDown = new dijit.TooltipDialog({
 			title: messages.title,
@@ -67,9 +66,9 @@ alert("lang="+this.lang);
 		buttonClass: dijit._editor.plugins.DualStateDropDownButton,
 
 		linkDialogTemplate: [
-			"<label for='urlInput'>${url}:&nbsp;</label>",
+			"<label for='urlInput'>${url}&nbsp;</label>",
 			"<input dojoType=dijit._editor.plugins.UrlTextBox name='urlInput'><br>",
-			"<label for='textInput'>${text}:&nbsp;</label>",
+			"<label for='textInput'>${text}&nbsp;</label>",
 			"<input dojoType=dijit.form.TextBox name='textInput'>",
 			"<br>",
 			"<button dojoType=dijit.form.Button type='submit'>${set}</button>"
