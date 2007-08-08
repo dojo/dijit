@@ -1196,7 +1196,6 @@ body .dijitAlignClient { position: absolute; }
 	position:static !important;
 	height:0%;
 	vertical-align:top;
-	overflow:hidden;
 	text-align:left;
 }
 
