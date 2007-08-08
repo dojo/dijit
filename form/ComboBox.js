@@ -164,19 +164,24 @@ dojo.declare(
 
 				case dojo.keys.ENTER:
 					// prevent submitting form if user presses enter
-					dojo.stopEvent(evt);
 					// also prevent accepting the value if either Next or Previous are selected
 					if(this._isShowingNow){
+						// only stop event on prev/next
 						var highlighted=this._popupWidget.getHighlightedOption();
 						if(highlighted==this._popupWidget.nextButton){
 							this._nextSearch(1);
+							dojo.stopEvent(evt);
 							break;
 						}
 						else if(highlighted==this._popupWidget.previousButton){
 							this._nextSearch(-1);
+							dojo.stopEvent(evt);
 							break;
 						}
 					}
+					// default case:
+					// prevent submit, but allow event to bubble
+					evt.preventDefault();
 					// fall through
 
 				case dojo.keys.TAB:
@@ -362,7 +367,6 @@ dojo.declare(
 				this._setCaretPos(this.focusNode, this.store.getValue(tgt.item, this.searchAttr).length);
 			}
 			this._doSelect(tgt);
-			this.focus();
 		},
 
 		_doSelect: function(tgt){
