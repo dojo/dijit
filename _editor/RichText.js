@@ -1545,7 +1545,7 @@ dojo.declare(
 				});
 			}
 			var ec = this.getNodeChildrenHtml(dom);
-			if(ec.replace(/^\s+|\s+$/g, "") == "&nbsp;"){ ec = ""; }
+			if(!ec.replace(/^(?:\s|\xA0)+/g, "").replace(/(?:\s|\xA0)+$/g,"").length){ ec = ""; }
 
 			//	if(dojo.isIE){
 			//		//removing appended <P>&nbsp;</P> for IE
