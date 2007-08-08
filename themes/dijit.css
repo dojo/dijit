@@ -1347,3 +1347,8 @@ body .dijitAlignClient { position: absolute; }
 .dijit_a11y .dijitButtonContents .dijitButtonText {
 	display: block !important;
 }
+
+.dj_ie .dijitTextArea p {
+	margin-top:0px;
+	margin-bottom:0px;
+}
