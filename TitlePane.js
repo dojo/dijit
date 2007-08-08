@@ -98,8 +98,8 @@ dojo.declare(
 	_setCss: function(){
 		var classes = ["dijitClosed", "dijitOpen"];
 		var boolIndex = this.open;
-		dojo.removeClass(this.domNode, classes[!boolIndex+0]);
-		this.domNode.className += " " + classes[boolIndex+0];
+		dojo.removeClass(this.focusNode, classes[!boolIndex+0]);
+		this.focusNode.className += " " + classes[boolIndex+0];
 
 		// provide a character based indicator for images-off mode
 		this.arrowNodeInner.innerHTML = this.open ? "-" : "+"; 
