@@ -6,6 +6,9 @@ dojo.require("dijit._editor._Plugin");
 dojo.require("dijit.Dialog");
 dojo.require("dijit.form.Button");
 dojo.require("dijit.form.ValidationTextBox");
+dojo.require("dojo.i18n");
+dojo.require("dojo.string");
+dojo.requireLocalization("dijit._editor", "LinkDialog");
 
 dojo.declare("dijit._editor.plugins.DualStateDropDownButton",
 	dijit.form.DropDownButton,
@@ -25,8 +28,11 @@ dojo.declare("dijit._editor.plugins.UrlTextBox",
 
 		required: true,
 
-		invalidMessage: "Invalid URL.  Enter a full URL like 'http://www.dojotoolkit.org'", // FixME: i18n
-		
+		postMixInProperties: function(){
+			dijit._editor.plugins.UrlTextBox.superclass.postMixInProperties.apply(this, arguments);
+			this.invalidMessage = dojo.i18n.getLocalization("dijit._editor", "LinkDialog", this.lang).urlInvalidMessage;
+		},
+
 		getValue: function(){
 			if(!/^(https?|ftps?)/.test(this.textbox.value)){
 				this.textbox.value="http://"+this.textbox.value;
@@ -40,8 +46,10 @@ dojo.declare("dijit._editor.plugins.LinkDialog",
 	dijit._editor._Plugin,  
 	function(){
 		var _this = this;
+alert("lang="+this.lang);
+		var messages = dojo.i18n.getLocalization("dijit._editor", "LinkDialog", this.lang);
 		this.dropDown = new dijit.TooltipDialog({
-			title: "link url", // FIxmE: i18n
+			title: messages.title,
 			execute: dojo.hitch(this, "setValue"),
 			onOpen: function(){
 				dijit.TooltipDialog.prototype.onOpen.apply(this, arguments);
@@ -52,19 +60,19 @@ dojo.declare("dijit._editor.plugins.LinkDialog",
 			},
 			onClose: dojo.hitch(this, "_onCloseDialog")
 		});
-		this.dropDown.setContent(this.linkDialogTemplate);
+		this.dropDown.setContent(dojo.string.substitute(this.linkDialogTemplate, messages));
 		this.dropDown.startup();
 	},
 	{
 		buttonClass: dijit._editor.plugins.DualStateDropDownButton,
 
 		linkDialogTemplate: [
-			"<label for='urlInput'>Url:&nbsp;</label>",
+			"<label for='urlInput'>${url}:&nbsp;</label>",
 			"<input dojoType=dijit._editor.plugins.UrlTextBox name='urlInput'><br>",
-			"<label for='textInput'>Text:&nbsp;</label>",
+			"<label for='textInput'>${text}:&nbsp;</label>",
 			"<input dojoType=dijit.form.TextBox name='textInput'>",
 			"<br>",
-			"<button dojoType=dijit.form.Button type='submit'>Set</button>"
+			"<button dojoType=dijit.form.Button type='submit'>${set}</button>"
 		].join(""),
 
 		useDefaultCommand: false,
