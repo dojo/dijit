@@ -47,7 +47,13 @@
 	/*color:#b4b4b4;*/
 	background:#e4e4e4 url("images/buttonDisabled.png") top repeat-x;
 	opacity: 0.30; /* Safari, Opera and Mozilla */
-	filter: gray() alpha(opacity=30) chroma(color=white); /* IE */
+}
+.tundra .dijitButtonDisabled .dijitButtonNode *,
+.tundra .dijitToggleButtonDisabled .dijitButtonNode *,
+.tundra .dijitDropDownButtonDisabled .dijitButtonNode *,
+.tundra .dijitComboButtonDisabled .dijitButtonNode *,
+.tundra .dijitSpinnerDisabled .dijitButtonNode * {
+	filter: gray() alpha(opacity=30); /* IE */
 }
 
 .tundra .dijitButtonHover .dijitButtonNode,
