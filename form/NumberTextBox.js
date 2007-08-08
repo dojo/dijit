@@ -10,9 +10,16 @@ dojo.declare(
 		// summary:
 		//		A mixin for all number textboxes
 		regExpGen: dojo.number.regexp,
-		format: dojo.number.format,
+		format: function(/*Number*/ value, /*Object*/ constraints){
+			if(isNaN(value)){ return null; }
+			return dojo.number.format(value, constraints);
+		},
+		serialize: function(/*Number*/ value){
+			if(isNaN(value)){ return null; }
+			return this.inherited('serialize', arguments);
+		},
 		parse: dojo.number.parse,
-		value: 0
+		value: NaN
 	}
 );
 

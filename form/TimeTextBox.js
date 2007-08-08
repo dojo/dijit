@@ -16,18 +16,12 @@ dojo.declare(
 		// constraints object: min, max
 		regExpGen: dojo.date.locale.regexp,
 		compare: dojo.date.compare,
-		format: function(/*Date*/ date, /*Object*/ constraints){
-			if(!date || date.toString() == this._invalid){ return null; }
-			return dojo.date.locale.format(date, constraints);
+		format: function(/*Date*/ value, /*Object*/ constraints){
+			if(!value || value.toString() == this._invalid){ return null; }
+			return dojo.date.locale.format(value, constraints);
 		},
 		parse: dojo.date.locale.parse,
-		serialize: function(/*Date*/ date){
-			try {
-				return dojo.date.stamp.toISOString(date);
-			}catch(e){
-				return null;
-			}
-		},
+		serialize: dojo.date.stamp.toISOString,
 
 		value: new Date(""),	// NaN
 		_invalid: (new Date("")).toString(),	// NaN
@@ -49,14 +43,14 @@ dojo.declare(
 			dijit.form.RangeBoundTextBox.prototype.onfocus.apply(this, arguments);
 		},
 
-		setValue: function(/*Date*/date, /*Boolean, optional*/ priorityChange){
+		setValue: function(/*Date*/ value, /*Boolean, optional*/ priorityChange){
 			// summary:
 			//	Sets the date on this textbox
 			this.inherited('setValue', arguments);
 			if(this._picker){
 				// #3948: fix blank date on popup only
-				if(!date || date.toString() == this._invalid){date=new Date();}
-				this._picker.setValue(date);
+				if(!value || value.toString() == this._invalid){value=new Date();}
+				this._picker.setValue(value);
 			}
 		},
 

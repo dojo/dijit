@@ -163,7 +163,7 @@ dojo.declare(
 		toString: function(){
 			// summary: display the widget as a printable string using the widget's value
 			var val = this.getValue();
-			return val ? ((typeof val == "string") ? val : this.serialize(val, this.constraints)) : "";
+			return (val!=null) ? ((typeof val == "string") ? val : this.serialize(val, this.constraints)) : "";
 		},
 
 		validate: function(){
@@ -229,7 +229,7 @@ dojo.declare(
 
 		isValid: function(/* Boolean*/ isFocused){
 			return dijit.form.RangeBoundTextBox.superclass.isValid.call(this, isFocused) &&
-				this.isInRange(isFocused);
+				((this._isEmpty(this.textbox.value) && !this.required) || this.isInRange(isFocused));
 		},
 
 		getErrorMessage: function(/* Boolean*/ isFocused){

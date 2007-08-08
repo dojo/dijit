@@ -87,10 +87,10 @@
 
 			<div class="dojoTitlePaneLabel">
 				<label for="q03">Age:  </label>
-				<span class="noticeMessage"> TextBox class, <b>tabIndex=1</b>, Attributes: {trim: true, digit: true, class: 'small'}, all but digits extracted.</span>
+				<span class="noticeMessage"> TextBox class, <b>tabIndex=1</b>, Attributes: {trim: true}, no initial value specified.</span>
 			</div>
 			<div class="testExample">
-				<input id="q03" type="text" name="age" value="38" tabIndex=1
+				<input id="q03" type="text" name="age" tabIndex=1
 					dojoType="dijit.form.NumberTextBox"
 					promptMessage="(optional) Enter an age between 0 and 120"
 					size=4
@@ -132,9 +132,7 @@
 			required: "true" ,
 			invalidMessage: "Invalid elevation."
 		};
-		var refNode = document.getElementById("q05");
-
-		var w = new dijit.form.NumberTextBox(props, refNode);
+		var w = new dijit.form.NumberTextBox(props, "q05");
 	});
 </script>
 <!--
@@ -159,8 +157,7 @@
 			constraints: {signed:false, separator: ","},
 			invalidMessage: "Invalid population.  Be sure to use commas."
 		};
-		var refNode = document.getElementById("attach-here");
-		var w = new dijit.form.ValidationTextBox(props, refNode);
+		var w = new dijit.form.ValidationTextBox(props, "attach-here");
 		});
 	</script>
 
@@ -394,9 +391,7 @@
 			rangeMessage: "Enter a date in 2006.",
 			invalidMessage: "Invalid date. Use dd.mm.yy format."
 		};
-		var refNode = document.getElementById("q15");
-
-		var w = new dijit.form.DateTextBox(props, refNode);
+		var w = new dijit.form.DateTextBox(props, "q15");
 	});
 	</script>
 
@@ -490,9 +485,7 @@
                         id: "mname",
                         value: null
                 };
-                var refNode = document.getElementById("ticket1651");
-
-                var w = new dijit.form.TextBox(props, refNode);
+                var w = new dijit.form.TextBox(props, "ticket1651");
         });
 </script>
 <script>
