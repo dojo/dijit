@@ -16,7 +16,7 @@ dojo.declare(
 		mixins: [],
 		buildRendering: function(){
 			var src = this.srcNodeRef.parentNode.removeChild(this.srcNodeRef);
-			var scripts = dojo.query("> script[type='dojo/connect']", src).orphan();
+			var scripts = dojo.query("> script[type^='dojo/']", src).orphan();
 			var srcType = src.nodeName;
 
 			if(this.mixins.length){

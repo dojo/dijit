@@ -10,7 +10,7 @@ State:
 				promptMessage="Please enter a state"
 				id="datatest"
 		>
-	<script type="dojo/method" mode="connect" event="onChange">
+	<script type="dojo/connect" event="onChange">
 		// connect to editable onChange event, Note that we dont need to disconnect
 		console.log('User selected:'+this.getValue());
 	</script>
