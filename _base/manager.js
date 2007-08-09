@@ -60,8 +60,8 @@ dijit.getUniqueId = function(/*String*/widgetType){
 };
 
 
-if(dojo.isIE && dojo.isIE < 7){
-	// Only run this for IE6 because we think it's only necessary in that case,
+if(dojo.isIE){
+	// Only run this for IE because we think it's only necessary in that case,
 	// and because it causes problems on FF.  See bug #3531 for details.
 	dojo.addOnUnload(function(){
 		dijit.registry.forEach(function(widget){ widget.destroy(); });
