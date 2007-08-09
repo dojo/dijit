@@ -136,8 +136,6 @@ dojo.declare(
 		this._setEditValue(this._isEmpty ? '' : (this.renderAsHtml ? this.editable.innerHTML : this.editable.innerHTML.replace(/\s*\r?\n\s*/g,"").replace(/<br\/?>/gi, "\n").replace(/&gt;/g,">").replace(/&lt;/g,"<").replace(/&amp;/g,"&")));
 		this._initialText = this._getEditValue();
 		this._visualize();
-		// #3749: try to set focus now to fix missing caret
-		this._setEditFocus();
 		// Before changing the focus, give the browser time to render.
 		setTimeout(dojo.hitch(this, function(){	
 			this._setEditFocus();
@@ -149,6 +147,9 @@ dojo.declare(
 		// #3209: resize the textarea to match the text
 		this.editWidget.resize(dojo.contentBox(this.editable));
 		dojo.style(this.editNode, "display", this.editing ? "" : "none");
+		// #3749: try to set focus now to fix missing caret
+		// #3997: call right before this.editable disappears
+		if(this.editing){this._setEditFocus();}
 		dojo.style(this.editable, "display", this.editing ? "none" : "");
 	},
 
