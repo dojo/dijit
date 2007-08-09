@@ -37,6 +37,7 @@
 	padding-top:1px; 
 }
 
+
 .tundra .dijitButtonDisabled .dijitButtonNode,
 .tundra .dijitToggleButtonDisabled .dijitButtonNode,
 .tundra .dijitDropDownButtonDisabled .dijitButtonNode,
@@ -126,6 +127,24 @@
 .tundra .dijitToolbar .dijitToolbarSeparator {
 	background: url('images/editor.gif');
 }
+
+/* ComboBox-icon-specific */
+.tundra .dijitComboBox .dijitDownArrowButtonChar {
+	/* visibility:hidden;  */
+	display:none; 
+}
+.tundra .dijitComboBox .dijitDownArrowButtonInner {
+	width:16px; 
+	height:16px; 
+	background:url("images/arrowDown.png") no-repeat center center; 
+}
+.dj_ie6 .tundra .dijitComboBox .dijitDownArrowButtonInner {
+	background-image:url("images/arrowDown.gif"); 
+}
+.tundra .dijitComboBoxHover .dijitDownArrowButtonInner {
+	/* TODO: url("images/arrowDownHover.png") but in IE6 it flickers some? */
+}
+
 
 /*****
 		dijit.form.NumberSpinner
@@ -390,11 +409,11 @@
 	cursor: pointer;
 }
 
+/* TODO: merge these, and all other icons to a series of background-image:() and background-position: -16*n px styles */
 .tundra .dijitTitlePane .dijitArrowNode {
 	width:16px;
 	height:16px;
 }
-
 .tundra .dijitTitlePane .dijitClosed .dijitArrowNode {
 	background:url('images/arrowRight.png') no-repeat center center; 
 }
@@ -407,7 +426,6 @@
 .dj_ie6 .tundra .dijitTitlePane .dijitOpen .dijitArrowNode {
 	background-image:url('images/arrowDown.gif'); 
 }
-
 .tundra .dijitTitlePane .dijitArrowNodeInner { 
 	visibility:hidden;
 }
@@ -1285,8 +1303,6 @@
  {
 	background:transparent; 
 	background-image: url("images/dijitTundraGradientBg.gif");
-	/* TODO: won't work; path is wrong; use gif instead? */
-	/* filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src="dijitTundraGradientBg.png", sizingMethod="scale"); */
 }
 
 /** TODO: add all other PNGs here that need this */
