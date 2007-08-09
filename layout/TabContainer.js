@@ -79,8 +79,8 @@ dojo.declare(
 
 //TODO: make private?
 dojo.declare(
-    "dijit.layout.TabController",
-    dijit.layout.StackController,
+	"dijit.layout.TabController",
+	dijit.layout.StackController,
 	{
 		// summary
 		// 	Set of tabs (the things with titles and a close button, that you click to show a tab panel).

@@ -43,25 +43,7 @@ dojo.declare("dijit._editor.plugins.UrlTextBox",
 );
 
 dojo.declare("dijit._editor.plugins.LinkDialog", 
-	dijit._editor._Plugin,  
-	function(){
-		var _this = this;
-		var messages = dojo.i18n.getLocalization("dijit._editor", "LinkDialog", this.lang);
-		this.dropDown = new dijit.TooltipDialog({
-			title: messages.title,
-			execute: dojo.hitch(this, "setValue"),
-			onOpen: function(){
-				dijit.TooltipDialog.prototype.onOpen.apply(this, arguments);
-				_this._onOpenDialog();
-			},
-			onCancel: function(){
-				setTimeout(dojo.hitch(_this, "_onCloseDialog"),0);
-			},
-			onClose: dojo.hitch(this, "_onCloseDialog")
-		});
-		this.dropDown.setContent(dojo.string.substitute(this.linkDialogTemplate, messages));
-		this.dropDown.startup();
-	},
+	dijit._editor._Plugin, 
 	{
 		buttonClass: dijit._editor.plugins.DualStateDropDownButton,
 
@@ -80,6 +62,25 @@ dojo.declare("dijit._editor.plugins.LinkDialog",
 
 		dropDown: null,
 
+		constructor: function(){
+			var _this = this;
+			var messages = dojo.i18n.getLocalization("dijit._editor", "LinkDialog", this.lang);
+			this.dropDown = new dijit.TooltipDialog({
+				title: messages.title,
+				execute: dojo.hitch(this, "setValue"),
+				onOpen: function(){
+					dijit.TooltipDialog.prototype.onOpen.apply(this, arguments);
+					_this._onOpenDialog();
+				},
+				onCancel: function(){
+					setTimeout(dojo.hitch(_this, "_onCloseDialog"),0);
+				},
+				onClose: dojo.hitch(this, "_onCloseDialog")
+			});
+			this.dropDown.setContent(dojo.string.substitute(this.linkDialogTemplate, messages));
+			this.dropDown.startup();
+		},
+	
 		setValue: function(args){
 			// summary: callback from the dialog when user hits "set" button
 			//TODO: prevent closing popup if the text is empty

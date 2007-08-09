@@ -2,73 +2,10 @@ dojo.provide("dijit._Widget");
 
 dojo.require("dijit._base");
 
-dojo.declare("dijit._Widget", null,
-function(params, srcNodeRef){
-	// summary:
-	//		To understand the process by which widgets are instantiated, it
-	//		is critical to understand what other methods the constructor calls and
-	//		which of them you'll want to over-ride. Of course, adventurous
-	//		developers could over-ride the constructor entirely, but this should
-	//		only be done as a last resort.
-	//
-	//		Below is a list of the methods that are called, in the order
-	//		they are fired, along with notes about what they do and if/when
-	//		you should over-ride them in your widget:
-	//			
-	//			postMixInProperties:
-	//				a stub function that you can over-ride to modify
-	//				variables that may have been naively assigned by
-	//				mixInProperties
-	//			# widget is added to manager object here
-	//			buildRendering
-	//				Subclasses use this method to handle all UI initialization
-	//				Sets this.domNode.  Templated widgets do this automatically
-	//				and otherwise it just uses the source dom node.
-	//			postCreate
-	//				a stub function that you can over-ride to modify take
-	//				actions once the widget has been placed in the UI
-
-	// store pointer to original dom tree
-	this.srcNodeRef = dojo.byId(srcNodeRef);
-
-	// For garbage collection.  An array of handles returned by Widget.connect()
-	// Each handle returned from Widget.connect() is an array of handles from dojo.connect()
-	this._connects=[];
-
-	// _attaches: String[]
-	// 		names of all our dojoAttachPoint variables
-	this._attaches=[];
-
-	//mixin our passed parameters
-	if(this.srcNodeRef && (typeof this.srcNodeRef.id == "string")){ this.id = this.srcNodeRef.id; }
-	if(params){
-		dojo.mixin(this,params);
-	}
-	this.postMixInProperties();
-	
-	// generate an id for the widget if one wasn't specified
-	// (be sure to do this before buildRendering() because that function might
-	// expect the id to be there.
-	if(!this.id){
-		this.id=dijit.getUniqueId(this.declaredClass.replace(/\./g,"_"));
-	}
-	dijit.registry.add(this);
-
-	this.buildRendering();
-	if(this.domNode){
-		this.domNode.setAttribute("widgetId", this.id);
-		if(this.srcNodeRef && this.srcNodeRef.dir){
-			this.domNode.dir = this.srcNodeRef.dir;
-		}
-	}
-	this.postCreate();
-
-	// If srcNodeRef has been processed and removed from the DOM (e.g. TemplatedWidget) then delete it to allow GC.
-	if(this.srcNodeRef && !this.srcNodeRef.parentNode){
-		delete this.srcNodeRef;
-	}
-},
-{
+dojo.declare("dijit._Widget", null, {
+	constructor: function(params, srcNodeRef){
+		this.create(params, srcNodeRef);
+	},
 	// id: String
 	//		a unique, opaque ID string that can be assigned by users or by the
 	//		system. If the developer passes an ID which is known not to be
@@ -97,6 +34,72 @@ function(params, srcNodeRef){
 	domNode: null,
 
 	//////////// INITIALIZATION METHODS ///////////////////////////////////////
+	
+	create: function(params, srcNodeRef) {
+		// summary:
+		//		To understand the process by which widgets are instantiated, it
+		//		is critical to understand what other methods create calls and
+		//		which of them you'll want to override. Of course, adventurous
+		//		developers could override create entirely, but this should
+		//		only be done as a last resort.
+		//
+		//		Below is a list of the methods that are called, in the order
+		//		they are fired, along with notes about what they do and if/when
+		//		you should over-ride them in your widget:
+		//			
+		//			postMixInProperties:
+		//				a stub function that you can over-ride to modify
+		//				variables that may have been naively assigned by
+		//				mixInProperties
+		//			# widget is added to manager object here
+		//			buildRendering
+		//				Subclasses use this method to handle all UI initialization
+		//				Sets this.domNode.  Templated widgets do this automatically
+		//				and otherwise it just uses the source dom node.
+		//			postCreate
+		//				a stub function that you can over-ride to modify take
+		//				actions once the widget has been placed in the UI
+
+		// store pointer to original dom tree
+		this.srcNodeRef = dojo.byId(srcNodeRef);
+
+		// For garbage collection.  An array of handles returned by Widget.connect()
+		// Each handle returned from Widget.connect() is an array of handles from dojo.connect()
+		this._connects=[];
+
+		// _attaches: String[]
+		// 		names of all our dojoAttachPoint variables
+		this._attaches=[];
+	
+		//mixin our passed parameters
+		if(this.srcNodeRef && (typeof this.srcNodeRef.id == "string")){ this.id = this.srcNodeRef.id; }
+		if(params){
+			dojo.mixin(this,params);
+		}
+		this.postMixInProperties();
+		
+		// generate an id for the widget if one wasn't specified
+		// (be sure to do this before buildRendering() because that function might
+		// expect the id to be there.
+		if(!this.id){
+			this.id=dijit.getUniqueId(this.declaredClass.replace(/\./g,"_"));
+		}
+		dijit.registry.add(this);
+
+		this.buildRendering();
+		if(this.domNode){
+			this.domNode.setAttribute("widgetId", this.id);
+			if(this.srcNodeRef && this.srcNodeRef.dir){
+				this.domNode.dir = this.srcNodeRef.dir;
+			}
+		}
+		this.postCreate();
+
+		// If srcNodeRef has been processed and removed from the DOM (e.g. TemplatedWidget) then delete it to allow GC.
+		if(this.srcNodeRef && !this.srcNodeRef.parentNode){
+			delete this.srcNodeRef;
+		}
+	},
 
 	postMixInProperties: function(){
 		// summary

@@ -1,45 +1,42 @@
 dojo.provide("dijit._base.manager");
 
-dojo.declare("dijit.WidgetSet",
-	null,
-	function(){
+dojo.declare("dijit.WidgetSet", null, {
+	constructor: function(){
 		// summary:
 		//	A set of widgets indexed by id
-
 		this._hash={};
 	},
-	{
-		add: function(/*Widget*/ widget){
-			this._hash[widget.id]=widget;
-		},
-		
-		remove: function(/*String*/ id){
-			delete this._hash[id];
-		},
+	
+	add: function(/*Widget*/ widget){
+		this._hash[widget.id]=widget;
+	},
+	
+	remove: function(/*String*/ id){
+		delete this._hash[id];
+	},
 
-		forEach: function(/*Function*/ func){
-			for(var id in this._hash){
-				func(this._hash[id]);
-			}
-		},
-		
-		filter: function(/*Function*/ filter){
-			var res = new dijit.WidgetSet();
-			this.forEach(function(widget){
-				if(filter(widget)){ res.add(widget); }
-			});
-			return res;		// dijit.WidgetSet
-		},
-		
-		byId: function(/*String*/ id){
-			return this._hash[id];
-		},
-
-		byClass: function(/*String*/ cls){
-			return this.filter(function(widget){ return widget.declaredClass==cls; });	// dijit.WidgetSet
+	forEach: function(/*Function*/ func){
+		for(var id in this._hash){
+			func(this._hash[id]);
 		}
+	},
+	
+	filter: function(/*Function*/ filter){
+		var res = new dijit.WidgetSet();
+		this.forEach(function(widget){
+			if(filter(widget)){ res.add(widget); }
+		});
+		return res;		// dijit.WidgetSet
+	},
+	
+	byId: function(/*String*/ id){
+		return this._hash[id];
+	},
+
+	byClass: function(/*String*/ cls){
+		return this.filter(function(widget){ return widget.declaredClass==cls; });	// dijit.WidgetSet
 	}
-);
+	});
 
 // registry: list of all widgets on page
 dijit.registry = new dijit.WidgetSet();

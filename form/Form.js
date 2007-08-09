@@ -38,14 +38,14 @@ dojo.declare("dijit.form._FormMixin", null,
 		//	(user shouldn't override)
 		onExecute: function(){},
 
-   		templateString: "<form dojoAttachPoint='containerNode' dojoAttachEvent='onsubmit:_onSubmit' enctype='multipart/form-data'></form>",
+		templateString: "<form dojoAttachPoint='containerNode' dojoAttachEvent='onsubmit:_onSubmit' enctype='multipart/form-data'></form>",
 
- 		_onSubmit: function(/*event*/e) {
+		_onSubmit: function(/*event*/e) {
 			// summary: callback when user hits submit button
 			dojo.stopEvent(e);
 			this.onExecute();	// notify container that we are about to execute
 			this.execute(this.getValues());
-  		},
+		},
 
 		submit: function() {
 			// summary: programatically submit form
@@ -105,8 +105,8 @@ dojo.declare("dijit.form._FormMixin", null,
 							myObj[nameA[0]][nameIndex]={};
 						}
 						myObj=myObj[nameA[0]][nameIndex];
-           				continue;
-  					 }  // repeater support ends
+						continue;
+					} // repeater support ends
 
 					if(typeof(myObj[p]) == "undefined") {
 						myObj=undefined;
@@ -264,4 +264,3 @@ dojo.declare(
 	[dijit._Widget, dijit._Templated, dijit.form._FormMixin],
 	null
 );
-

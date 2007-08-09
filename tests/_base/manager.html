@@ -15,27 +15,17 @@
 		dojo.require("doh.runner");
 		dojo.require("dijit.dijit");
 
-		dojo.declare(
-			"foo",
-			dijit._Widget,
-			null,
-			{
-				name: "",
-				attr1: 0,
-				attr2: 0
-			}
-		);
+		dojo.declare("foo", dijit._Widget, {
+			name: "",
+			attr1: 0,
+			attr2: 0
+		});
 		
-		dojo.declare(
-			"bar",
-			dijit._Widget,
-			null,
-			{
-				name: "",
-				attr1: 0,
-				attr2: 0
-			}
-		);
+		dojo.declare("bar", dijit._Widget, {
+			name: "",
+			attr1: 0,
+			attr2: 0
+		});
 
 		dojo.addOnLoad(function(){
 			doh.register("dijit._base.manager",
