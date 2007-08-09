@@ -350,7 +350,7 @@
 	padding: 0px;
 }
 
-.tundra .dijitMenuItem{
+.tundra .dijitMenuItem {
 	background-color: #f7f7f7;
 	font: menu;
 	margin: 0;
@@ -368,22 +368,24 @@
 .tundra .dijitMenuItemIcon {
 	width: 16px;
 	height: 16px;
-	padding-right: 3px;
+	/* padding-right: 3px; */
 }
 
 .tundra .dijitMenuExpand {
 	display:none; 
 }
 .tundra .dijitMenuExpandEnabled {
-	margin-top:4px; 
-	background:url('images/arrowRight.png') no-repeat bottom center;
-	display:inline;
+	/* margin-top:4px;  */
+	width:16px; 
+	height:16px; 
+	background:url('images/arrowRight.png') no-repeat center center;
+	display:block;
 }
 .dj_ie6 .tundra .dijitMenuExpandEnabled {
-	background:url('images/arrowRight.gif') no-repeat bottom center; 
+	background:url('images/arrowRight.gif') no-repeat center center; 
 }
 .tundra .dijitMenuExpandInner {
-	visibility:hidden; 
+	display:none; 
 }
 
 .tundra .dijitMenuSeparator {
@@ -1288,16 +1290,19 @@
  * Want to use filter property for those images, but then need to specify a path relative
  * to the main page, rather than relative to this file... using gifs for now
  */
+
+/*
 .dj_ie6 .tundra .dijitInputField,
 .dj_ie6 .tundra .dijitComboBoxInput, 
 .dj_ie6 .tundra .dijitSpinnerInput
  {
-	background:transparent; 
-	background-image: url("images/dijitTundraGradientBg.gif");
+	background:transparent;  
+	background-image: url("images/dojoTundraGradientBg.gif");
 }
 
-/** TODO: add all other PNGs here that need this */
+*/
 
+/** TODO: add all other PNGs here that need this */
 /**** Disabled cursor *****/
 .tundra .dijitDisabledClickableRegion,	/* a region the user would be able to click on, but it's disabled */
 .tundra .dijitSpinnerDisabled *,
