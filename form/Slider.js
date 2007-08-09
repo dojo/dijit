@@ -172,11 +172,24 @@ dojo.declare(
 			this.incrementButton.domNode.style.display="";
 			this.decrementButton.domNode.style.display="";
 		}
-		this.sliderHandle.widget = this;
-
 		this.connect(this.domNode, dojo.isIE ? "onmousewheel" : 'DOMMouseScroll', "_mouseWheeled");
-		new dojo.dnd.Moveable(this.sliderHandle, {mover: dijit.form._slider});
+
+		// define a custom constructor for a SliderMover that points back to me
+		var _self = this;
+		var mover = function(node, e){
+			dijit.form._SliderMover.call(this, node, e);
+			this.widget = _self;
+		};
+		dojo.extend(mover, dijit.form._SliderMover.prototype);
+		
+
+		this._movable = new dojo.dnd.Moveable(this.sliderHandle, {mover: mover});
 		this.inherited('postCreate', arguments);
+	},
+	
+	destroy: function(){
+		this._movable.destroy();
+		dijit.form.HorizontalSlider.superclass.destroy.apply(this, arguments);	
 	}
 });
 
@@ -197,11 +210,11 @@ dojo.declare(
 	_upsideDown: true
 });
 
-dojo.declare("dijit.form._slider",
+dojo.declare("dijit.form._SliderMover",
 	dojo.dnd.Mover,
 {
 	onMouseMove: function(e){
-		var widget = this.node.widget;
+		var widget = this.widget;
 		var c = this.constraintBox;
 		if(!c){
 			var container = widget.sliderBarContainer;
@@ -216,11 +229,12 @@ dojo.declare("dijit.form._slider",
 	},
 
 	destroy: function(e){
-		var widget = this.node.widget;
+		var widget = this.widget;
 		widget.setValue(widget.value, true);
-		this.inherited('destroy', arguments);
+		dojo.dnd.Mover.prototype.destroy.call(this);
 	}
 });
+
 
 dojo.declare("dijit.form.HorizontalRule", [dijit._Widget, dijit._Templated],
 {
