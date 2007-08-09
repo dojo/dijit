@@ -35,6 +35,10 @@ function(params, srcNodeRef){
 	// Each handle returned from Widget.connect() is an array of handles from dojo.connect()
 	this._connects=[];
 
+	// _attaches: String[]
+	// 		names of all our dojoAttachPoint variables
+	this._attaches=[];
+
 	//mixin our passed parameters
 	if(this.srcNodeRef && (typeof this.srcNodeRef.id == "string")){ this.id = this.srcNodeRef.id; }
 	if(params){
@@ -146,6 +150,9 @@ function(params, srcNodeRef){
 		this.uninitialize();
 		dojo.forEach(this._connects, function(array){
 			dojo.forEach(array, dojo.disconnect);
+		});
+		dojo.forEach(this._attaches, function(name){
+			delete this[name];
 		});
 		this.destroyRendering(finalize);
 		dijit.registry.remove(this.id);

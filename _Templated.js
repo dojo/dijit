@@ -141,6 +141,7 @@ dojo.declare("dijit._Templated",
 						}else{
 							this[point]=baseNode;
 						}
+						this._attaches.push(point);
 					}
 				}
 
