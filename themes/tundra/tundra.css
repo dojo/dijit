@@ -382,10 +382,10 @@
 	display:block;
 }
 .dj_ie6 .tundra .dijitMenuExpandEnabled {
-	background:url('images/arrowRight.gif') no-repeat center center; 
+	background-image:url('images/arrowRight.gif'); 
 }
 .tundra .dijitMenuExpandInner {
-	display:none; 
+	display:none !important;
 }
 
 .tundra .dijitMenuSeparator {
