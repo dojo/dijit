@@ -134,13 +134,14 @@ dojo.declare("dijit._Templated",
 				// Process dojoAttachPoint
 				var attachPoint = getAttrFunc(baseNode, "dojoAttachPoint");
 				if(attachPoint){
-					dojo.forEach(attachPoint.split(/\s*,\s*/), function(point){
+					var point, points = attachPoint.split(/\s*,\s*/);
+					while(point=points.shift()){
 						if(dojo.isArray(this[point])){
 							this[point].push(baseNode);
 						}else{
 							this[point]=baseNode;
 						}
-					}, this);
+					}
 				}
 
 				// Process dojoAttachEvent
@@ -148,10 +149,11 @@ dojo.declare("dijit._Templated",
 				if(attachEvent){
 					// NOTE: we want to support attributes that have the form
 					// "domEvent: nativeEvent; ..."
-					dojo.forEach(attachEvent.split(/\s*,\s*/), function(event){
+					var event, events = attachEvent.split(/\s*,\s*/);
+					var trim = dojo.trim;
+					while(event=events.shift()){
 						if(event){
 							var thisFunc = null;
-							var trim = dojo.trim;
 							if(event.indexOf(":") != -1){
 								// oh, if only JS had tuple assignment
 								var funcNameArr = event.split(":");
@@ -165,16 +167,19 @@ dojo.declare("dijit._Templated",
 							}
 							this.connect(baseNode, event, thisFunc);
 						}
-					}, this);
+					}
 				}
 
 				// waiRole, waiState
-				dojo.forEach(["waiRole", "waiState"], function(name){
+				var name, names = ["waiRole", "waiState"];
+				while(name=names.shift()){
 					var wai = dijit.wai[name];
 					var values = getAttrFunc(baseNode, wai.name);
 					if(values){
 						var role = "role";
-						dojo.forEach(values.split(/\s*,\s*/), function(val){	// allow multiple states
+						var val;
+						values = values.split(/\s*,\s*/);
+						while(val=values.shift()){
 							if(val.indexOf('-') != -1){
 								// this is a state-value pair
 								var statePair = val.split('-');
@@ -182,9 +187,10 @@ dojo.declare("dijit._Templated",
 								val = statePair[1];
 							}
 							dijit.wai.setAttr(baseNode, wai.name, role, val);
-						}, this);
+						}
 					}
-				}, this);
+				}
+
 			}
 		}
 	}
