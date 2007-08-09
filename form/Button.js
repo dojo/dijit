@@ -99,7 +99,7 @@ dojo.declare(
  */
 dojo.declare(
 	"dijit.form.DropDownButton",
-	[dijit.form.Button, dijit._Container],
+	dijit.form.Button,
 	{
 		// summary
 		//		push the button and a menu shows up
