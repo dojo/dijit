@@ -154,9 +154,6 @@ dojo.declare("dijit._Widget", null, {
 		dojo.forEach(this._connects, function(array){
 			dojo.forEach(array, dojo.disconnect);
 		});
-		dojo.forEach(this._attaches, function(name){
-			delete this[name];
-		});
 		this.destroyRendering(finalize);
 		dijit.registry.remove(this.id);
 	},
