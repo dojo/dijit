@@ -77,9 +77,11 @@ dojo.declare(
 			if(!this.isValid(isFocused)){
 				this.updateClass(this.required && isEmpty?"Warning":"Error");
 				message = this.getErrorMessage(isFocused);
+				dijit.wai.setAttr(this.focusNode, "waiState", "invalid", "true");
 			}else{
 				// valid case
 				this.updateClass("Normal");
+				dijit.wai.setAttr(this.focusNode, "waiState", "invalid", "false");				
 			}
 			if(isEmpty){
 				var prompt = this.getPromptMessage(isFocused);
