@@ -562,7 +562,7 @@ dojo.declare(
 				ifrs.border = "none";
 				ifrs.lineHeight = "0"; // squash line height
 				ifrs.verticalAlign = "bottom";
-				ifrscrolling = this.height ? "auto" : "vertical";
+				ifrs.scrolling = this.height ? "auto" : "vertical";
 			}
 			// opera likes this to be outside the with block
 			//	this.iframe.src = "javascript:void(0)";//dojo.uri.dojoUri("src/widget/templates/richtextframe.html") + ((dojo.doc.domain != currentDomain) ? ("#"+dojo.doc.domain) : "");
