@@ -53,14 +53,20 @@
 			dojo.connect(dojo.byId("set"), "onclick", null, setParameters);
 			dojo.connect(dojo.byId("startTimer"), "onclick", null,
 				function(){ remoteProgress(dijit.byId("timerBar")); } );
-			dojo.connect(dojo.byId("setIndeterminateTrue"), "onclick", null,
-				function(){
-					dijit.byId("indeterminateBar").update({'indeterminate': true})
-				} );
-			dojo.connect(dojo.byId("setIndeterminateFalse"), "onclick", null,
-				function(){
-					dijit.byId("indeterminateBar").update({'indeterminate': false})
-				} );
+
+			function indeterminateSetter(id, value){
+				return function(){
+					dijit.byId(id).update({'indeterminate': value});
+				}
+			}
+			dojo.connect(dojo.byId("setIndeterminate1True"), "onclick", null,
+				indeterminateSetter("indeterminateBar1", true));
+			dojo.connect(dojo.byId("setIndeterminate1False"), "onclick", null,
+				indeterminateSetter("indeterminateBar1", false));
+			dojo.connect(dojo.byId("setIndeterminate2True"), "onclick", null,
+				indeterminateSetter("indeterminateBar2", true));
+			dojo.connect(dojo.byId("setIndeterminate2False"), "onclick", null,
+				indeterminateSetter("indeterminateBar2", false));
 		}
 
 		// An example of polling on a separate (heartbeat) server thread.  This is useful when the progress 
@@ -154,9 +160,13 @@
 		maximum="100" progress="0" dojoType="dijit.ProgressBar"></div>
 
 	<h3>Test 5 - indeterminate progess</h3>
-	<input type="button" name="setIndeterminateTrue" id="setIndeterminateTrue" value="Make Indeterminate" />
-	<input type="button" name="setIndeterminateFalse" id="setIndeterminateFalse" value="Make Determinate" />
-	<div style="width:400px" progress="50" id="indeterminateBar"
+	<input type="button" name="setIndeterminate1True" id="setIndeterminate1True" value="Make Indeterminate" />
+	<input type="button" name="setIndeterminate1False" id="setIndeterminate1False" value="Make Determinate" />
+	<div style="width:400px" indeterminate="true" id="indeterminateBar1"
+		dojoType="dijit.ProgressBar"></div>
+	<input type="button" name="setIndeterminate2True" id="setIndeterminate2True" value="Make Indeterminate" />
+	<input type="button" name="setIndeterminate2False" id="setIndeterminate2False" value="Make Determinate" />
+	<div style="width:400px" progress="50" id="indeterminateBar2"
 		dojoType="dijit.ProgressBar"></div>
 
 </body>

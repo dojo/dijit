@@ -520,13 +520,15 @@ table .dijitComboButton .dijitButtonNode {
 	/* outer container and background of the bar that's not finished yet*/
 	position:relative;overflow:hidden;
 	border:1px solid black; 	/* a11y: border necessary for high-contrast mode */
-	height:20px;
+	z-index:0;			/* establish a stacking context for this progress bar */
 }
 
 .dijitProgressBarFull {
 	/* outer container for background of bar that is finished */
 	position:absolute;
 	overflow:hidden;
+	z-index:-1;
+	top:0;
 	width:100%;
 	height:100%;
 }
@@ -567,7 +569,7 @@ table .dijitComboButton .dijitButtonNode {
 }
 
 .dijitProgressBarIndeterminate .dijitProgressBarLabel{
-	display:none;
+	visibility:hidden;
 }
 
 .dijitProgressBarIndeterminate .dijitProgressBarTile{
@@ -580,15 +582,21 @@ table .dijitComboButton .dijitButtonNode {
 
 .dijit_a11y .dijitProgressBarIndeterminate .dijitProgressBarIndeterminateHighContrastImage{
 	display:block;
+	position:absolute;
+	top:0;
+	bottom:0;
+	margin:0;
+	padding:0;
 	width:100%;
-	height:100%;
+	height:auto;
 }
 
 .dijitProgressBarLabel{
 	display:block;
-	position:absolute;
+	position:static;
 	width:100%;
 	text-align:center;
+	background-color:transparent;
 }
 
 /* progress bar in vertical mode - TODO: remove? no longer supported? */

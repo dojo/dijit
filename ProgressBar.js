@@ -12,25 +12,10 @@ dojo.declare(
 	null,
 	{
 		// summary:
-		// a progress widget, with some calculation and server polling capabilities
-		//
-		// description:
-		// (implementation) four overlapped divs:
-		// (1) lower z-index
-		// (4) higher z-index
-		// empty and full percent label have the same content: when the vertical line (*)
-		// partially hides the emptyLabel, the fullLabel becomes visible
-		//
-		//  ___________________________(1)_domNode____________________________________
-		// |__(3)_internalProgress____________                                        |
-		// |                                  | <--- (*)                              |
-		// |            (4) fullLabel        | (2) emptyLabel                         |
-		// |__________________________________|                                       |
-		// |__________________________________________________________________________|
+		// a progress widget
 		//
 		// usage:
 		// <div dojoType="ProgressBar"
-		//   duration="..."
 		//   places="0"
 		//   progress="..." maximum="..."></div>
 
@@ -88,12 +73,11 @@ dojo.declare(
 					percent = this.progress / this.maximum;
 				}
 				var text = this.report(percent);
-				this.fullLabel.firstChild.nodeValue = this.emptyLabel.firstChild.nodeValue = text;
+				this.label.firstChild.nodeValue = text;
 				dijit.wai.setAttr(this.internalProgress, "waiState", "valuenow", text);
 			}
 			dojo[classFunc](this.domNode, "dijitProgressBarIndeterminate");
 			this.internalProgress.style.width = (percent * 100) + "%";
-			this.fullLabel.style.width = ((1*this.progress) ? (this.maximum / this.progress) * 100 : 0) + "%";
 			this.onChange();
 		},
 

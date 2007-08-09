@@ -1113,18 +1113,9 @@
 	background:#cad2de url("images/progressBarFull.png") repeat-x top left;
 }
 
-.tundra .dijitProgressBarEmpty .dijitProgressBarLabel {
-	/* label for portion of the bar that's not finished yet 
-		Set to a color that contrasts with the "Empty" part.  
-	*/
+.tundra .dijitProgressBarLabel {
+	/* Set to a color that contrasts with both the "Empty" and "Full" parts. */
 	color:#293a4b;
-}
-
-.tundra .dijitProgressBarFull .dijitProgressBarLabel {
-	/* label for portion of the bar that is finished 
-		set to a color that contrasts with the "Full" part
-	*/
-	color:#2963b9;
 }
 
 
