@@ -1291,16 +1291,15 @@
  * to the main page, rather than relative to this file... using gifs for now
  */
 
-/*
 .dj_ie6 .tundra .dijitInputField,
 .dj_ie6 .tundra .dijitComboBoxInput, 
 .dj_ie6 .tundra .dijitSpinnerInput
  {
 	background:transparent;  
-	background-image: url("images/dojoTundraGradientBg.gif");
+	/* FIXME: un-comment when a pretty version of .gif is made */
+	/* background-image: url("images/dojoTundraGradientBg.gif"); */
 }
 
-*/
 
 /** TODO: add all other PNGs here that need this */
 /**** Disabled cursor *****/
