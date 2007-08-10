@@ -117,7 +117,7 @@
 	border-color: #366dba;
 }
 .dijitToolbarSeparator {
-	background: url(images/editor.gif);
+	background: url('images/editor.gif');
 	height: 18px;
 	width: 5px;
 	padding: 0px 1px 0px 1px;
@@ -1241,6 +1241,7 @@
 .tundra .dijitEditorIconUndo,
 .tundra .dijitEditorIconWikiword {
 	background-image: url('images/editor.gif'); /* editor icons sprite image */
+	background-repeat: no-repeat; 
 	width: 18px;
 	height: 18px;
 	text-align: center;

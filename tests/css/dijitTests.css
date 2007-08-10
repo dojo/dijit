@@ -14,6 +14,7 @@ h1.testTitle {
 
 .plusIcon, .plusBlockIcon {
 	background-image: url(../images/plus.gif);
+	background-repeat: no-repeat; 
 	width: 16px;
 	height: 16px;
 }
@@ -22,11 +23,13 @@ h1.testTitle {
 }
 .noteIcon {
 	background-image: url(../images/note.gif);
+	background-repeat: no-repeat; 
 	width: 20px;
 	height: 20px;
 }
 .flatScreenIcon {
 	background-image: url(../images/flatScreen.gif);
+	background-repeat: no-repeat; 
 	width: 32px;
 	height: 32px;
 }
