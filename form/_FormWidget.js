@@ -141,7 +141,7 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 		//		<baseClass> + "CheckedFocused"		- if the widget has focus
 
 		// get original class (non state related) specified in template
-		var origClass = this._origClass || (this._origClass = this.domNode.className);
+		var origClass = this._origClass || (this._origClass = (this.styleNode||this.domNode).className);
 
 		// compute list of classname representing the states of the widget
 		var base = this.baseClass || this.domNode.getAttribute("baseClass");
@@ -170,7 +170,7 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 			multiply("Hover");
 		}
 
-		this.domNode.className = origClass + " " + classes.join(" ");
+		(this.styleNode || this.domNode).className = origClass + " " + classes.join(" ");
 	},
 
 	onChange: function(newValue){

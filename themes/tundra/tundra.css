@@ -456,6 +456,7 @@
 
 /* FIXME: why is this here? */
 .tundra .dijitTextArea {
+	width:50%;
 	overflow:auto;
 	border:1px solid #7788a0;
 }
@@ -1314,4 +1315,5 @@
 	cursor: not-allowed !important;
 	cursor: url("no.gif"), not-allowed, default;
 }
+
 

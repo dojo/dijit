@@ -15,12 +15,11 @@ dojo.declare(
 	//	Rows is not supported since this widget adjusts the height.
 	// usage:
 	//	<textarea dojoType="dijit.form.TextArea">...</textarea>
-
-	templateString: (dojo.isIE || dojo.isSafari || dojo.isMozilla) ? '<fieldset id="${id}" class="dijitInlineBox dijitInputField dijitTextArea">'
-				+ ((dojo.isIE || dojo.isSafari) ? '<div dojoAttachPoint="editNode" waiRole="textarea" tabIndex="${tabIndex}" style="text-decoration:none;_padding-bottom:16px;display:block;overflow:auto;" contentEditable="true"></div>'
-					: '<iframe dojoAttachPoint="iframe" dojoAttachEvent="onblur:_onIframeBlur" src="javascript:void(0)" style="border:0px;margin:0px;padding:0px;display:block;width:100%;height:100%;overflow-x:auto;overflow-y:hidden;"></iframe>')
+	templateString: (dojo.isIE || dojo.isSafari || dojo.isMozilla) ?
+				((dojo.isIE || dojo.isSafari) ? '<fieldset id="${id}" class="dijitInlineBox dijitInputField dijitTextArea"><div dojoAttachPoint="editNode" waiRole="textarea" tabIndex="${tabIndex}" style="text-decoration:none;_padding-bottom:16px;display:block;overflow:auto;" contentEditable="true"></div>'
+					: '<span id="${id}" class="dijitReset"><iframe dojoAttachPoint="iframe, styleNode" dojoAttachEvent="onblur:_onIframeBlur" src="javascript:void(0)" class="dijitInlineBox dijitInputField dijitTextArea"></iframe>')
 				+ '<textarea name="${name}" value="${value}" dojoAttachPoint="formValueNode" style="display:none;"></textarea>'
-				+ '</fieldset>'
+				+ ((dojo.isIE || dojo.isSafari) ? '</fieldset>':'</span>')
 			: '<textarea id="${id}" name="${name}" value="${value}" dojoAttachPoint="formValueNode,editNode" class="dijitInputField dijitTextArea"></textarea>',
 
 	_nlsResources: null,	// Needed for screen readers on FF2
@@ -125,8 +124,9 @@ dojo.declare(
 			d.close();
 			try{ this.iframe.contentDocument.designMode="on"; }catch(e){/*squelch*/} // this can fail if display:none
 			this.editNode = d.body.firstChild;
-			this.domNode.style.overflowY = 'hidden';
-			this.eventNode = d;
+			this.iframe.style.overflowY = 'hidden';
+			// resize is a method of window, not document
+			this.eventNode = w;
 			this.focusNode = this.editNode;
 			this.eventNode.addEventListener("resize", dojo.hitch(this, "_changed"), false);
 		}else{
@@ -146,12 +146,12 @@ dojo.declare(
 
 	// event handlers, you can over-ride these in your own subclasses
 	_focused: function(e){
-		dojo.addClass(this.domNode, "dijitInputFieldFocused");
+		dojo.addClass(this.iframe||this.domNode, "dijitInputFieldFocused");
 		this._changed(e);
 	},
 
 	_blurred: function(e){
-		dojo.removeClass(this.domNode, "dijitInputFieldFocused");
+		dojo.removeClass(this.iframe||this.domNode, "dijitInputFieldFocused");
 		this._changed(e, true);
 	},
 
@@ -210,5 +210,6 @@ dojo.declare(
 	resize:function(/*Object*/ contentBox){
 		// summary: set content box size
 		dojo.contentBox(this.iframe || this.focusNode, {w:contentBox.w});
+		dojo.contentBox(this.domNode, {w:contentBox.w});
 	}
 });

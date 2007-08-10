@@ -75,7 +75,7 @@ dojo.declare("dijit._Templated",
 			// attachment points which should be defined on the template node.
 			this._attachTemplateNodes(node);
 			if(this.srcNodeRef){
-				dojo.style(node, "cssText", this.srcNodeRef.style.cssText);
+				dojo.style(this.styleNode || node, "cssText", this.srcNodeRef.style.cssText);
 				if(this.srcNodeRef.className){
 					node.className += " " + this.srcNodeRef.className;
 				}
