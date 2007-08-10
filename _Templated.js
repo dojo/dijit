@@ -281,7 +281,7 @@ if(dojo.isIE){
 
 		if(!tn){
 			tn = dojo.doc.createElement("div");
-			tn.style.visibility="hidden";
+			tn.style.display="none";
 		}
 		var tableType = "none";
 		var rtext = text.replace(/^\s+/, "");
