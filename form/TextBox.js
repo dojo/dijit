@@ -120,11 +120,6 @@ dojo.declare(
 			// but this messes up the cursor position if you are typing into the middle of a word, and
 			// also trimming doesn't work correctly (it prevents spaces between words too!)
 			// this.setValue(this.getValue());
-		},
-
-		resize:function(/*Object*/ contentBox){
-			// summary: set content box size
-			dojo.contentBox(this.focusNode, contentBox);
 		}
 	}
 );

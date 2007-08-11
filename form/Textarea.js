@@ -211,11 +211,5 @@ dojo.declare(
 			this.iframe.contentDocument.designMode="on"; // in case this failed on init due to being hidden
 		}
 		this.setValue(null, priorityChange);
-	},
-
-	resize:function(/*Object*/ contentBox){
-		// summary: set content box size
-		dojo.contentBox(this.iframe || this.focusNode, {w:contentBox.w});
-		dojo.contentBox(this.domNode, {w:contentBox.w});
 	}
 });

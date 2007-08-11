@@ -41,26 +41,25 @@
 	</head>
 	<body class="tundra">
 		<h1 class="testTitle">Dijit InlineEditBox Test</h1>
-		before
-		<span id="editable" style="font-size:larger;" dojoType="dijit.form.InlineEditBox" onChange="myHandler(this.id,arguments[0])">
-			<input dojoType="dijit.form.TextBox" value="Edit me - I trigger the onChange callback">
-		</span>
-		after<br>
+		before block
+		<span id="editable" style="font-size:larger;display:block;" dojoType="dijit.form.InlineEditBox" onChange="myHandler(this.id,arguments[0])">
+			<input dojoType="dijit.form.TextBox" value="Edit me - I trigger the onChange callback" style="width:300px;">
+		</span>after<br>
 
 		<hr style="width:100%;">
 
-		before
+		before inline
 		<span id="editableWithButtons" style="font-size:larger;" dojoType="dijit.form.InlineEditBox" onChange="myHandler(this.id,arguments[0])" autoSave="false">
-			<input dojoType="dijit.form.TextBox" value="Edit me - I trigger the onChange callback when Save button is clicked">
+			<input dojoType="dijit.form.TextBox" value="Edit me - I trigger the onChange callback when Save button is clicked" style="width:500px;">
 		</span>
 		after<br>
 
 		<hr style="width:100%;">
-		The following inline text area has Save/Cancel buttons when open.		
+		The following block text area has Save/Cancel buttons when open.		
 		<blockquote style="width:50%;">
-			<p><span id="areaEditable" dojoType="dijit.form.InlineEditBox" renderAsHtml="false" autoSave="false">
-				<textarea dojoType="dijit.form.Textarea">I'm one big paragraph.  Go ahead and edit me.  I dare you. The quick brown fox jumped over the lazy dog.  Blah blah blah blah blah blah blah ...</textarea>
-			</span></p>
+			before block<span id="areaEditable" dojoType="dijit.form.InlineEditBox" renderAsHtml="false" autoSave="false" style="display:block;">
+				<textarea dojoType="dijit.form.Textarea" style="width:500px">I'm one big paragraph.  Go ahead and edit me.  I dare you. The quick brown fox jumped over the lazy dog.  Blah blah blah blah blah blah blah ...</textarea>
+			</span>after
 		</blockquote>
 		These links will
 		<a href="#" onClick="dijit.byId('areaEditable').setDisabled(true)">disable</a> /
@@ -70,9 +69,9 @@
 		<hr style="width:100%;">
 		The following inline text area does not have Save/Cancel buttons when open.		
 		<blockquote style="width:50%;">
-			<p><span id="areaEditable" dojoType="dijit.form.InlineEditBox" renderAsHtml="false" autoSave="true">
-				<textarea dojoType="dijit.form.Textarea">I'm one big paragraph.  Go ahead and edit me.  I dare you. The quick brown fox jumped over the lazy dog.  Blah blah blah blah blah blah blah ...</textarea>
-			</span></p>
+			<b>before inline</b><span id="areaEditable_autosave" dojoType="dijit.form.InlineEditBox" renderAsHtml="false" autoSave="true" style="display:inline;">
+				<textarea dojoType="dijit.form.Textarea" style="width:500px">I'm one big paragraph.  Go ahead and edit me.  I dare you. The quick brown fox jumped over the lazy dog.  Blah blah blah blah blah blah blah ...</textarea>
+			</span><b>after</b>
 		</blockquote>
 		
 		<hr style="width:100%;">
@@ -96,27 +95,29 @@
 					store="stateStore" name="state1" autocomplete="true" hasDownArrow="false">
 		</span>
 		<hr style="width:100%;">
-		<div style="display:block;" id="programmatic"></div>
+		before block<div style="display:block;" id="programmatic"></div>after
 		<script type="text/javascript">
 			// See if we can make a widget in script
-			var inlineWidget = new dijit.form.InlineEditBox({renderAsHtml: true}, 'programmatic');
-
- 			var editorWidget = new dijit.form.TextBox({
-									value:"Click here to edit a programmatically created inline edit region"
-								});
-
- 			inlineWidget.addChild(editorWidget);
- 			inlineWidget.startup(); // scan for editWidget here, not on widget creation
+			// do it on load so Safari does not say display is none
+			dojo.addOnLoad(function(){
+				var inlineWidget = new dijit.form.InlineEditBox({renderAsHtml: true}, 'programmatic');
+	 			var editorWidget = new dijit.form.TextBox({
+										value:"Click here to edit a block programmatically created inline edit region"
+									});
+				editorWidget.domNode.style.width="100%";
+	 			inlineWidget.addChild(editorWidget);
+	 			inlineWidget.startup(); // scan for editWidget here, not on widget creation
+ 			});
 
 		</script>
 		<hr style="width:100%;">
 		<b>Spinner:</b>
-		<div dojoType="dijit.form.InlineEditBox">
+		<span dojoType="dijit.form.InlineEditBox">
 			<input dojoType="dijit.form.NumberSpinner"
 				name="spinner"
 				value="900"
 				constraints="{places:0}">
-		</div>
+		</span>
 <!-- InlineEditBox/Slider doesn't work on Firefox but does on IE and Safari
 		<hr style="width:100%;">
 		<b>Slider:</b>
