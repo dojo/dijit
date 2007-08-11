@@ -458,14 +458,6 @@
 	background-color : #ffc !important;
 }
 
-/* FIXME: why is this here? */
-.tundra .dijitTextArea {
-	width:50%;
-	overflow:auto;
-	border:1px solid #7788a0;
-}
-
-
 /* Tabs */
 
 .tundra .dijitTabPaneWrapper {
