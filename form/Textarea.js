@@ -37,33 +37,41 @@ dojo.declare(
 	},
 
 	setValue: function(/*String*/ value, /*Boolean, optional*/ priorityChange){
-		var node = this.editNode;
+		var editNode = this.editNode;
 		if(typeof value == "string"){
-			node.innerHTML = ""; // wipe out old nodes
+			editNode.innerHTML = ""; // wipe out old nodes
 			if(value.split){
 				var _this=this;
 				var isFirst = true;
 				dojo.forEach(value.split("\n"), function(line){
 					if(isFirst){ isFirst = false; }
 					else {
-						node.appendChild(document.createElement("BR")); // preserve line breaks
+						editNode.appendChild(document.createElement("BR")); // preserve line breaks
 					}
-					node.appendChild(document.createTextNode(line)); // use text nodes so that imbedded tags can be edited
+					editNode.appendChild(document.createTextNode(line)); // use text nodes so that imbedded tags can be edited
 				});
 			}else{
-				node.appendChild(document.createTextNode(value));
+				editNode.appendChild(document.createTextNode(value));
+			}
+			if(this.iframe){
+				this.sizeNode = document.createElement('div');
+				editNode.appendChild(this.sizeNode);
 			}
 		}else{
 			// blah<BR>blah --> blah\nblah
 			// <P>blah</P><P>blah</P> --> blah\nblah
 			// <DIV>blah</DIV><DIV>blah</DIV> --> blah\nblah
 			// &amp;&lt;&gt; -->&< >
-			value = this.editNode.innerHTML.replace(/\s*\r?\n|^\s+|\s+$|&nbsp;/g,"").replace(/>\s+</g,"><").replace(/\/(p|div)>$|^<(p|div)[^>]*>/gi,"").replace(/([^>])<div>/g,"$1\n").replace(/<\/p>\s*<p[^>]*>|<br[^>]*>/gi,"\n").replace(/<[^>]*>/g,"").replace(/&amp;/gi,"\&").replace(/&lt;/gi,"<").replace(/&gt;/gi,">");
+			value = editNode.innerHTML;
+			if(this.iframe){ // strip sizeNode
+				value = value.replace(/<div><\/div>\r?\n?$/i,"");
+			}
+			value = value.replace(/\s*\r?\n|^\s+|\s+$|&nbsp;/g,"").replace(/>\s+</g,"><").replace(/<\/(p|div)>$|^<(p|div)[^>]*>/gi,"").replace(/([^>])<div>/g,"$1\n").replace(/<\/p>\s*<p[^>]*>|<br[^>]*>/gi,"\n").replace(/<[^>]*>/g,"").replace(/&amp;/gi,"\&").replace(/&lt;/gi,"<").replace(/&gt;/gi,">");
 		}
 		this.formValueNode.value = value;
 		if(this.iframe){
-			var newHeight = this.editNode.scrollHeight;
-			if(this.editNode.scrollWidth > this.editNode.clientWidth){ newHeight+=16; } // scrollbar space needed?
+			var newHeight = this.sizeNode.offsetTop;
+			if(editNode.scrollWidth > editNode.clientWidth){ newHeight+=16; } // scrollbar space needed?
 			if(this.lastHeight != newHeight){ // cache size so that we don't get a resize event because of a resize event
 				if(newHeight == 0){ newHeight = 16; } // height = 0 causes the browser to not set scrollHeight
 				dojo.contentBox(this.iframe, {h: newHeight});
@@ -119,16 +127,15 @@ dojo.declare(
 			d.open();
 			d.write('<html><head><title>' +
 				this._nlsResources.iframeTitle1 +	// "edit area"
-				'</title><style>body > br{display:none;}</style></head><body style="margin:0px;padding:0px;border:0px;"><div></div></body></html>');
+				'</title></head><body style="margin:0px;padding:0px;border:0px;"></body></html>');
 				// body > br style is to remove the <br> that gets added by FF
 			d.close();
-			try{ this.iframe.contentDocument.designMode="on"; }catch(e){/*squelch*/} // this can fail if display:none
-			this.editNode = d.body.firstChild;
+			this.editNode = d.body;
 			this.iframe.style.overflowY = 'hidden';
 			// resize is a method of window, not document
 			this.eventNode = w;
 			this.focusNode = this.editNode;
-			this.eventNode.addEventListener("resize", dojo.hitch(this, "_changed"), false);
+			this.connect(this.eventNode, "resize", this._changed);
 		}else{
 			this.focusNode = this.domNode;
 		}
@@ -177,8 +184,7 @@ dojo.declare(
 			// dijit.focus and if that receives an iframe target it will set focus
 			// on the iframe's contentWindow.
 			this.iframe.focus();  // this.focus(); won't work
-			e.preventDefault();
-			e.stopPropagation();
+			dojo.stopEvent(e);
 		}else if(e.keyCode == dojo.keys.ENTER){
 			e.stopPropagation();
 		}else if(this.inherited("_onKeyPress", arguments) && this.iframe){
