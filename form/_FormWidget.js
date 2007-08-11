@@ -85,7 +85,7 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 				case "mouseover" :
 					this._hovering = true;
 					var baseClass, node=mouseNode;
-					while( !(baseClass=node.getAttribute("baseClass")) && node != this.domNode ){
+					while( node.nodeType===1 && !(baseClass=node.getAttribute("baseClass")) && node != this.domNode ){
 						node=node.parentNode;
 					}
 					this.baseClass= baseClass || "dijit"+this.declaredClass.replace(/.*\./g,"");
