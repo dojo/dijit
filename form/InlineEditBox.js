@@ -51,6 +51,10 @@ dojo.declare(
 
 	widgetsInTemplate: true,
 
+	// _display: String
+	//	srcNodeRef display style
+	_display:"",
+
 	startup: function(){
 		// look for the input widget as a child of the containerNode
 		if(!this._started){
@@ -93,6 +97,7 @@ dojo.declare(
 
 	postMixInProperties: function(){
 		this._srcStyle=dojo.getComputedStyle(this.srcNodeRef);
+		this._display=this._srcStyle.display;
 		dijit.form.InlineEditBox.superclass.postMixInProperties.apply(this, arguments);
 		this.messages = dojo.i18n.getLocalization("dijit", "common", this.lang);
 		dojo.forEach(["buttonSave", "buttonCancel"], function(prop){
@@ -146,11 +151,11 @@ dojo.declare(
 	_visualize: function(){
 		// #3209: resize the textarea to match the text
 		this.editWidget.resize(dojo.contentBox(this.editable));
-		dojo.style(this.editNode, "display", this.editing ? "" : "none");
+		dojo.style(this.editNode, "display", this.editing ? this._display : "none");
 		// #3749: try to set focus now to fix missing caret
 		// #3997: call right before this.editable disappears
 		if(this.editing){this._setEditFocus();}
-		dojo.style(this.editable, "display", this.editing ? "none" : "");
+		dojo.style(this.editable, "display", this.editing ? "none" : this._display);
 	},
 
 	_showText: function(){

@@ -78,7 +78,7 @@
 		<hr style="width:100%;">
 
 		<b>Date text box:</b>
-		<p id="backgroundArea" dojoType="dijit.form.InlineEditBox" >
+		<span id="backgroundArea" dojoType="dijit.form.InlineEditBox">
 			<input name="date" value="2005-12-30"
 					dojoType="dijit.form.DateTextBox"
 					constraints={datePattern:'MM/dd/yy'}
@@ -86,7 +86,7 @@
 					required="true"
 					promptMessage="mm/dd/yy"
 					invalidMessage="Invalid date. Use mm/dd/yy format.">
-		</p>
+		</span>
 		<hr style="width:100%;">
 		<b>FilteringSelect:</b>
 		<span dojoType="dojo.data.ItemFileReadStore" jsId="stateStore"
