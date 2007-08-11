@@ -45,6 +45,11 @@ dojo.declare(
 		// wire up the tablist and its tabs
 		this.tablist.startup();
 		dijit.layout.TabContainer.superclass.startup.apply(this, arguments);
+		
+		if(dojo.isSafari){
+			// sometimes safari 3.0.3 miscalculates the height of the tab labels, see #4058
+			setTimeout(dojo.hitch(this, "layout"), 0);
+		}
 	},
 
 	layout: function(){
