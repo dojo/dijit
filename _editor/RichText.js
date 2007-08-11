@@ -205,25 +205,22 @@ dojo.declare("dijit._editor.RichText", [ dijit._Widget ], {
 			}
 		}
 		//queryCommandValue returns empty if we hide editNode, so move it out of screen temporary
-		with(this.iframe.style){
-			position = "absolute";
-			left = "-2000px";
-			top = "-2000px";
-		}
-		this.editNode.innerHTML = localhtml;
-		var node = this.editNode.firstChild;
+		var div=document.createElement('div');
+		div.style.position = "absolute";
+		div.style.left = "-2000px";
+		div.style.top = "-2000px";
+		document.body.appendChild(div);
+		div.innerHTML = localhtml;
+		var node = div.firstChild;
 		while(node){
+			dijit._editor.selection.selectElement(node.firstChild);
 			dojo.withGlobal(this.window, "selectElement", dijit._editor.selection, [node.firstChild]);
 			var nativename = node.tagName.toLowerCase();
-			this._local2NativeFormatNames[nativename] = this.queryCommandValue("formatblock");
+			this._local2NativeFormatNames[nativename] = document.queryCommandValue("formatblock");//this.queryCommandValue("formatblock");
 			this._native2LocalFormatNames[this._local2NativeFormatNames[nativename]] = nativename;
 			node = node.nextSibling;
 		}
-		with(this.iframe.style){
-			position = "";
-			left = "";
-			top = "";
-		}
+		document.body.removeChild(div);
 	},
 
 	open: function(/*DomNode, optional*/element){
@@ -340,21 +337,14 @@ dojo.declare("dijit._editor.RichText", [ dijit._Widget ], {
 			ifr.style.border = "none";
 			ifr.style.width = "100%";
 			ifr.frameBorder = 0;
+//			ifr.style.scrolling = this.height ? "auto" : "vertical";
 			this.editingArea.appendChild(ifr);
 			this.window = ifr.contentWindow;
 			this.document = this.window.document;
 			this.document.open();
-			this.document.write(this._getIframeDocTxt());
+			this.document.write(this._getIframeDocTxt(html));
 			this.document.close();
-			//Firefox/safari does not like div as editNode (see #3607 and #3736)
-			if(this.height || !dojo.isIE){
-				this.editNode = this.document.body;
-			}else{
-				this.document.body.appendChild(this.document.createElement("div"));
-				this.editNode = this.document.body.firstChild;
-			}
 
-			this.editNode.contentEditable = true;
 			if(dojo.isIE >= 7){
 				if(this.height){
 					ifr.style.height = this.height;
@@ -377,18 +367,9 @@ dojo.declare("dijit._editor.RichText", [ dijit._Widget ], {
 			
 			this._localizeEditorCommands();
 			
-			this.editNode.innerHTML = html;
-			this._preDomFilterContent(this.editNode);
-			//	if(this.height){ this.document.body.style.overflowY="scroll"; }
-			var events=this.events.concat(this.captureEvents);
-			dojo.forEach(events, function(e){
-				dojo.connect(this.editNode, e.toLowerCase(), this, e);
-			}, this);
-			
 			this.onLoad();
 		}else{ // designMode in iframe
 			this._drawIframe(html);
-			this.editorObject = this.iframe;
 		}
 
 		// TODO: this is a guess at the default line-height, kinda works
@@ -493,9 +474,11 @@ dojo.declare("dijit._editor.RichText", [ dijit._Widget ], {
 		}
 	},
 
-	_getIframeDocTxt: function(){
+	_getIframeDocTxt: function(html){
 		var _cs = dojo.getComputedStyle(this.domNode);
-
+		if(!this.height){
+			html="<div>"+html+"</div>";
+		}
 		var font = [ _cs.fontWeight, _cs.fontSize, _cs.fontFamily ].join(" ");
 
 		// line height is tricky - applying a units value will mess things up.
@@ -516,7 +499,7 @@ dojo.declare("dijit._editor.RichText", [ dijit._Widget ], {
 			"	padding: 0;",
 			"	margin: 0;",
 			"}",
-			// TODO: left positioning will case contents to disappear out of view
+			// TODO: left positioning will cause contents to disappear out of view
 			//       if it gets too wide for the visible area
 			"body{",
 			"	top:0px; left:0px; right:0px;",
@@ -528,9 +511,9 @@ dojo.declare("dijit._editor.RichText", [ dijit._Widget ], {
 			"}",
 			"p{ margin: 1em 0 !important; }",
 			(this.height ?
-				"" :
-				"body > *:first-child{ padding-top:0 !important;margin-top:" + this._firstChildContributingMargin + "px !important;}" + // FIXME: test firstChild nodeType
-				"body > *:last-child {"+
+				"" : "body,html{overflow-y:hidden;/*for IE*/} body > div {overflow-x:auto;/*for FF to show vertical scrollbar*/}"+
+				"body > div > *:first-child{ padding-top:0 !important;margin-top:" + this._firstChildContributingMargin + "px !important;}" + // FIXME: test firstChild nodeType
+				"body > div > *:last-child {"+
 				"	padding-bottom:0 !important;"+
 				"	margin-bottom:" + this._lastChildContributingMargin + "px !important;"+
 				"}"
@@ -539,7 +522,7 @@ dojo.declare("dijit._editor.RichText", [ dijit._Widget ], {
 			"li{ min-height:1.2em; }",
 			"</style>",
 			this._applyEditingAreaStyleSheets(),
-			"</head><body></body></html>"
+			"</head><body>"+html+"</body></html>"
 		].join("");
 	},
 
@@ -559,7 +542,8 @@ dojo.declare("dijit._editor.RichText", [ dijit._Widget ], {
 			ifrs.border = "none";
 			ifrs.lineHeight = "0"; // squash line height
 			ifrs.verticalAlign = "bottom";
-			ifrs.scrolling = this.height ? "auto" : "vertical";
+//			ifrs.scrolling = this.height ? "auto" : "vertical";
+			this.editorObject = this.iframe;
 		}
 		// opera likes this to be outside the with block
 		//	this.iframe.src = "javascript:void(0)";//dojo.uri.dojoUri("src/widget/templates/richtextframe.html") + ((dojo.doc.domain != currentDomain) ? ("#"+dojo.doc.domain) : "");
@@ -621,7 +605,7 @@ dojo.declare("dijit._editor.RichText", [ dijit._Widget ], {
 
 		var contentDoc = this.iframe.contentDocument;
 		contentDoc.open();
-		contentDoc.write(this._getIframeDocTxt());
+		contentDoc.write(this._getIframeDocTxt(html));
 		contentDoc.close();
 
 		// now we wait for onload. Janky hack!
@@ -630,17 +614,25 @@ dojo.declare("dijit._editor.RichText", [ dijit._Widget ], {
 				_iframeInitialized = true;
 			}else{ return; }
 			if(!this.editNode){
-				if(this.iframe.contentWindow){
-					this.window = this.iframe.contentWindow;
-					this.document = this.iframe.contentWindow.document
-				}else if(this.iframe.contentDocument){
-					// for opera
-					this.window = this.iframe.contentDocument.window;
-					this.document = this.iframe.contentDocument;
+				try{
+					if(this.iframe.contentWindow){
+						this.window = this.iframe.contentWindow;
+						this.document = this.iframe.contentWindow.document
+					}else if(this.iframe.contentDocument){
+						// for opera
+						this.window = this.iframe.contentDocument.window;
+						this.document = this.iframe.contentDocument;
+					}
+					if(!this.document.body){
+						throw 'Error'; 
+					}
+				}catch(e){
+					setTimeout(ifrFunc,500);
+					_iframeInitialized = false;
+					return;
 				}
 
 				dojo._destroyElement(tmpContent);
-				dojo.query("body", this.document.documentElement)[0].innerHTML = html;
 				this.document.designMode = "on";
 				//	try{
 				//	this.document.designMode = "on";
@@ -663,14 +655,7 @@ dojo.declare("dijit._editor.RichText", [ dijit._Widget ], {
 			this._preDomFilterContent(this.editNode);
 		});
 
-		if(this.editNode){
-			ifrFunc(); // iframe already exists, just set content
-		}else if(dojo.isMoz){
-			//mozilla requires some time to make the iframe content window/document ready
-			setTimeout(ifrFunc, 250);
-		}else{ // opera, safari
-			ifrFunc();
-		}
+		ifrFunc();
 	},
 
 	_applyEditingAreaStyleSheets: function(){
@@ -765,47 +750,33 @@ dojo.declare("dijit._editor.RichText", [ dijit._Widget ], {
 	onLoad: function(e){
 		// summary: handler after the content of the document finishes loading
 		this.isLoaded = true;
-		if(!dojo.isIE){
-			//although editNode is set in open(), the following line is still required, 
-			//otherwise FF complains
-			this.editNode = this.document.body;
-			if(!this.height){
-				this.connect(this, "onDisplayChanged", "_updateHeight");
+		if(this.height){
+			this.editNode=this.document.body;
+		}else{
+			this.editNode=this.document.body.firstChild;
+		}
+		this.editNode.contentEditable = true; //should do no harm in FF
+		this._preDomFilterContent(this.editNode);
+		
+		if(!dojo.isSafari){
+			var events=this.events.concat(this.captureEvents),i=0,et;
+			while(et=events[i++]){
+				this.connect(this.document, et.toLowerCase(), et);
 			}
-
+		}else{
+			this.interval = setInterval(dojo.hitch(this, "onDisplayChanged"), 750);
+		}
+		if(!this.height){
+			this.connect(this, "onNormalizedDisplayChanged", "_updateHeight");
+		}
+		if(!dojo.isIE){
 			try{ // sanity check for Mozilla
 //					this.document.execCommand("useCSS", false, true); // old moz call
 				this.document.execCommand("styleWithCSS", false, false); // new moz call
 				//this.document.execCommand("insertBrOnReturn", false, false); // new moz call
 			}catch(e2){ }
-
-			if(dojo.isSafari){
-				/*
-				this.iframe.style.visiblity = "visible";
-				this.iframe.style.border = "1px solid black";
-				this.editNode.style.visiblity = "visible";
-				this.editNode.style.border = "1px solid black";
-				*/
-				// this.onDisplayChanged();
-//					this.connect(this.editNode, "onblur", "onBlur");
-//					this.connect(this.editNode, "onfocus", "onFocus");
-//					this.connect(this.editNode, "onclick", "_onFocus");
-
-				this.interval = setInterval(dojo.hitch(this, "onDisplayChanged"), 750);
-				// throw new Error("onload");
-			}else if(dojo.isMoz || dojo.isOpera){
-				var doc = this.document;
-				var events=this.events.concat(this.captureEvents);
-				dojo.forEach(events, function(e){
-					var l = dojo.connect(this.document, e.toLowerCase(), dojo.hitch(this, e));
-				}, this);
-			}
 			// FIXME: when scrollbars appear/disappear this needs to be fired
-		}else{
-			// IE contentEditable
-			if(!this.height){
-				this.connect(this, "onDisplayChanged", "_updateHeight");
-			}
+		}else{ // IE contentEditable
 			// give the node Layout on IE
 			this.editNode.style.zoom = 1.0;
 		}
@@ -813,6 +784,7 @@ dojo.declare("dijit._editor.RichText", [ dijit._Widget ], {
 		if(this.focusOnLoad){
 			this.focus();
 		}
+		
 		this.onDisplayChanged(e);
 		if(this.onLoadDeferred){
 			this.onLoadDeferred.callback(true);
@@ -1087,7 +1059,7 @@ dojo.declare("dijit._editor.RichText", [ dijit._Widget ], {
 		}
 	},
 	onClick: function(e){
-//			dojo.debug('onClick',this._tryDesignModeOnClick);
+//			console.debug('onClick',this._tryDesignModeOnClick);
 //			if(this._tryDesignModeOnClick){
 //				try{
 //					this.document.designMode='on';
@@ -1578,14 +1550,16 @@ dojo.declare("dijit._editor.RichText", [ dijit._Widget ], {
 		if(!height){
 			height = dojo.marginBox(this.document.body).h;
 		}
+
 		if(height == 0){
 			console.debug("Can not figure out the height of the editing area!");
 			return; //prevent setting height to 0
 		}
-		this._lastHeight = height;
-		// this.editorObject.style.height = this._lastHeight + "px";
-		dojo.marginBox(this.editorObject, { h: this._lastHeight });
-		// this.window.scrollTo(0, 0);
+		if(height != this._lastHeight){
+			this._lastHeight = height;
+			// this.editorObject.style.height = this._lastHeight + "px";
+			dojo.marginBox(this.editorObject, { h: this._lastHeight });
+		}
 	},
 
 	_saveContent: function(e){
@@ -1942,9 +1916,53 @@ dojo.declare("dijit._editor.RichText", [ dijit._Widget ], {
 
 	_fixNewLineBehaviorForIE: function(){
 		if(typeof this.document.__INSERTED_EDITIOR_NEWLINE_CSS == "undefined"){
-			var lineFixingStyles = "p{margin:0;}";
-			// FIXME:
-			// dojo.html.insertCssText(lineFixingStyles, this.document);
+			var lineFixingStyles = "p{margin:0 !important;}";
+			var insertCssText = function(
+				/*String*/ cssStr, 
+				/*Document*/ doc, 
+				/*String*/ URI)
+			{
+				//	summary:
+				//		Attempt to insert CSS rules into the document through inserting a
+				//		style element
+			
+				// DomNode Style  = insertCssText(String ".dojoMenu {color: green;}"[, DomDoc document, dojo.uri.Uri Url ])
+				if(!cssStr){ 
+					return; //	HTMLStyleElement
+				}
+				if(!doc){ doc = document; }
+//					if(URI){// fix paths in cssStr
+//						cssStr = dojo.html.fixPathsInCssText(cssStr, URI);
+//					}
+				var style = doc.createElement("style");
+				style.setAttribute("type", "text/css");
+				// IE is b0rken enough to require that we add the element to the doc
+				// before changing it's properties
+				var head = doc.getElementsByTagName("head")[0];
+				if(!head){ // must have a head tag 
+					console.debug("No head tag in document, aborting styles");
+					return;	//	HTMLStyleElement
+				}else{
+					head.appendChild(style);
+				}
+				if(style.styleSheet){// IE
+					var setFunc = function(){ 
+						try{
+							style.styleSheet.cssText = cssStr;
+						}catch(e){ dojo.debug(e); }
+					};
+					if(style.styleSheet.disabled){
+						setTimeout(setFunc, 10);
+					}else{
+						setFunc();
+					}
+				}else{ // w3c
+					var cssText = doc.createTextNode(cssStr);
+					style.appendChild(cssText);
+				}
+				return style;	//	HTMLStyleElement
+			}
+			insertCssText(lineFixingStyles, this.document);
 			this.document.__INSERTED_EDITIOR_NEWLINE_CSS = true;
 			// this.regularPsToSingleLinePs(this.editNode);
 		}
