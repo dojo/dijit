@@ -24,13 +24,9 @@ dojo.declare(
 
 			this.bgIframe = new dijit.BackgroundIframe(this.domNode);
 
-			// Setup fade-in and fade-out functions.  An IE bug prevents the arrow from showing up
-			// unless opacity==1, because it's displayed via overflow: visible on the main div.
-			var opacity = dojo.isIE ? 1 : dojo.style(this.domNode, "opacity");
-			this.fadeIn = dojo._fade({node: this.domNode, duration: this.duration, end: opacity});
-			dojo.connect(this.fadeIn, "onEnd", this, "_onShow");
-			this.fadeOut = dojo._fade({node: this.domNode, duration: this.duration, end: 0});
-			dojo.connect(this.fadeOut, "onEnd", this, "_onHide");
+			// Setup fade-in and fade-out functions.
+			this.fadeIn = dojo.fadeIn({ node: this.domNode, duration: this.duration, onEnd: dojo.hitch(this, "_onShow") }),
+			this.fadeOut = dojo.fadeOut({ node: this.domNode, duration: this.duration, onEnd: dojo.hitch(this, "_onHide") });
 
 		},
 
