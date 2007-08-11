@@ -449,7 +449,11 @@
 .tundra .dijitTitlePaneContentInner {
 	padding:10px;
 }
-
+/* force hasLayout to ensure borders etc, show up */
+.dj_ie6 .tundra .dijitTitlePaneContentOuter, 
+.dj_ie6 .tundra .dijitTitlePane .dijitTitlePaneTitle {
+	zoom: 1; 
+}
 .tundra .dijitClickableRegion {
 	background-color : #ffc !important;
 }
@@ -1315,5 +1319,6 @@
 	cursor: not-allowed !important;
 	cursor: url("no.gif"), not-allowed, default;
 }
+
 
 
