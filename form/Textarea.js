@@ -96,6 +96,7 @@ dojo.declare(
 			this.value = this.srcNodeRef.value;
 		}
 		if(!this.value){ this.value = ""; }
+		this.value = this.value.replace(/\r\n/g,"\n").replace(/&gt;/g,">").replace(/&lt;/g,"<").replace(/&amp;/g,"&");
 	},
 
 	postCreate: function(){
@@ -133,9 +134,9 @@ dojo.declare(
 			this.editNode = d.body;
 			this.iframe.style.overflowY = 'hidden';
 			// resize is a method of window, not document
-			this.eventNode = w;
+			this.eventNode = d;
 			this.focusNode = this.editNode;
-			this.connect(this.eventNode, "resize", this._changed);
+			this.connect(w, "resize", this._changed); // resize is only on the window object
 		}else{
 			this.focusNode = this.domNode;
 		}
