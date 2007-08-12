@@ -9,8 +9,14 @@
 		// if you create a custom theme, pass ?theme=String to the url
 		var themeBase = location.search.match(/theme=([a-zA-Z.]*)/);
 		var themeName = (themeBase ? themeBase[1] : "tundra");
-		document.write('<link rel="stylesheet" href="'+themeName+'/'+themeName+'.css">');
+		var docHead = document.getElementsByTagName("head")[0];
+		var thisTheme = docHead.appendChild(document.createElement('link'));
+		thisTheme.rel = "stylesheet";
+		thisTheme.href = themeName + '/' + themeName + '.css';
+		thisTheme.type = "text/css"; 
 
+		// this is just a list of 'official' dijit themes, you can use ?theme=String 
+		// for 'un-supported' themes, too. (eg: yours) 
 		var availableThemes = [
 			{ theme:"tundra", author:"Dojo", baseUri:"../themes/"},
 			// { theme:"soria", author:"dante", baseUri:"../themes/"},
