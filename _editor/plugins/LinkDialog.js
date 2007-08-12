@@ -69,8 +69,8 @@ dojo.declare("dijit._editor.plugins.LinkDialog",
 				title: messages.title,
 				execute: dojo.hitch(this, "setValue"),
 				onOpen: function(){
-					dijit.TooltipDialog.prototype.onOpen.apply(this, arguments);
 					_this._onOpenDialog();
+					dijit.TooltipDialog.prototype.onOpen.apply(this, arguments);
 				},
 				onCancel: function(){
 					setTimeout(dojo.hitch(_this, "_onCloseDialog"),0);
@@ -91,16 +91,19 @@ dojo.declare("dijit._editor.plugins.LinkDialog",
 //			this.editor.execCommand(this.command, args.urlInput);
  		},
 
-		_savedSelection: null,
+//		_savedSelection: null,
 		_onCloseDialog: function(){
-			this.editor.focus();
 			// FIXME: IE is really messed up here!!
-			if(dojo.isIE && this._savedSelection){
-//				this.editor.focus();
-				var range = this.editor.document.selection.createRange();
-				range.moveToBookmark(this._savedSelection);
-				range.select();
-				this._savedSelection = null;
+			if(dojo.isIE){
+				if(this._savedSelection){
+					var b=this._savedSelection;
+					this._savedSelection=null;
+					this.editor.focus();
+					var range = this.editor.document.selection.createRange();
+					range.moveToBookmark(b);
+					range.select();
+				}
+			}else{this.editor.focus();
 			}
 		},
 		_onOpenDialog: function(){
@@ -120,8 +123,6 @@ dojo.declare("dijit._editor.plugins.LinkDialog",
 			}
 			this.dropDown.setValues({'urlInput':url,'textInput':text});
 			//dijit.focus(this.urlInput);
-			// TODO: if there's an existing link when we click this, should suck the
-			// information about that link and prepopulate the dialog
 		},
 
 		updateState: function(){
