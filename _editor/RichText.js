@@ -730,15 +730,25 @@ dojo.declare("dijit._editor.RichText", [ dijit._Widget ], {
 	},
 
 	disabled: false,
+	_mozSettingProps: ['styleWithCSS','insertBrOnReturn'],
 	setDisabled: function(/*Boolean*/ disabled){
 		if(dojo.isIE || dojo.isSafari || dojo.isOpera){
 			this.editNode.contentEditable=!disabled;
 		}else{ //moz
-			this.document.execCommand('contentReadOnly', false, disabled);
+			if(disabled){
+				this._mozSettings=[false,this.blockNodeForEnter==='BR'];
+			}
+			this.document.designMode=(disabled?'off':'on');
+			if(!disabled){
+				dojo.forEach(this._mozSettingProps, function(s,i){
+					this.document.execCommand(s,false,this._mozSettings[i]);
+				},this);
+			}
+//			this.document.execCommand('contentReadOnly', false, disabled);
 //				if(disabled){
 //					this.blur(); //to remove the blinking caret
 //				}
-//				this.document.designMode=(disabled?'off':'on');
+//				
 		}
 		this.disabled=disabled;
 	},
@@ -1357,7 +1367,7 @@ dojo.declare("dijit._editor.RichText", [ dijit._Widget ], {
 		// summary: check the value of a given command
 		command = this._normalizeCommand(command);
 		if(dojo.isIE && command == "formatblock"){
-			return this._local2NativeFormatNames[this.document.queryCommandValue(command)] || this.document.queryCommandValue(command);
+			return this._local2NativeFormatNames[this.document.queryCommandValue(command)];
 		}
 		return this.document.queryCommandValue(command);
 	},
