@@ -15,6 +15,21 @@
 			dojo.require("dijit.form.Button");
 			dojo.require("dojo.parser");
 			logMessage = console.debug;
+
+			// being fancy theme-swithcing code
+			var match = (window.location.search+"&").match(/theme=(.*?)&/);
+			var theme = (match ? match[1] : "tundra");
+			var docHead = document.getElementsByTagName("head")[0];
+			var thisTheme = docHead.appendChild(document.createElement('link'));
+			thisTheme.rel = "stylesheet";
+			thisTheme.href = "../../themes/" + theme +"/"+ theme + ".css";
+			thisTheme.type = "text/css"; 
+			var rtlTheme = docHead.appendChild(document.createElement('link'));
+			rtlTheme.rel = "stylesheet";
+			rtlTheme.href = "../../themes/" + theme +"/"+ theme + "_rtl.css";
+			rtlTheme.type = "text/css"; 
+			// end fancy themeswitching code
+
 		</script>
 		<style type="text/css">
 			@import "../../../dojo/resources/dojo.css";
@@ -46,11 +61,7 @@
 	</head>
 	<body>
 	<script language='javascript'>
-		var match = (window.location.search+"&").match(/theme=(.*?)&/);
-		var theme = (match ? match[1] : "tundra");
 		document.getElementsByTagName("BODY")[0].className = theme;
-		document.write("<style>	@import '../../themes/"+theme+"/"+theme+".css'; </style>");
-		document.write("<style>	@import '../../themes/"+theme+"/"+theme+"_rtl.css'; </style>");
 	</script>
 		<h1 class="testTitle">Dijit Button Test</h1>
 		<h2>Simple, drop down &amp; combo buttons</h2>
