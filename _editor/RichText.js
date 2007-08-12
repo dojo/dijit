@@ -83,6 +83,7 @@ dojo.declare("dijit._editor.RichText", [ dijit._Widget ], {
 		}else if(this.blockNodeForEnter){
 			//add enter key handler
 			// FIXME: need to port to the new event code!!
+			dojo['require']('dijit._editor.range');
 			this.addKeyHandler(13, 0, this.handleEnterKey); //enter
 			this.addKeyHandler(13, 2, this.handleEnterKey); //shift+enter
 		}
@@ -853,10 +854,9 @@ dojo.declare("dijit._editor.RichText", [ dijit._Widget ], {
 		// handle the various key events
 		var modifiers = e.ctrlKey ? this.KEY_CTRL : 0 | e.shiftKey?this.KEY_SHIFT : 0;
 
-		// var key = e.key||e.keyCode;
-		var key = e.keyChar;
+		var key = e.keyChar||e.keyCode;
 		if(this._keyHandlers[key]){
-			// dojo.debug("char:", e.key);
+			 console.debug("char:", e.key);
 			var handlers = this._keyHandlers[key], i = 0, h;
 			while(h = handlers[i++]){
 				if(modifiers == h.modifiers){
@@ -898,9 +898,9 @@ dojo.declare("dijit._editor.RichText", [ dijit._Widget ], {
 						block.innerHTML=this.bogusHtmlContent;
 						if(dojo.isIE){
 							//the following won't work, it will move the caret to the last list item in the previous list
-//							var newrange = dojo.html.range.create();
+//							var newrange = dijit.range.create();
 //							newrange.setStart(block.firstChild,0);
-//							var selection = dojo.html.range.getSelection(this.editor.window)
+//							var selection = dijit.range.getSelection(this.editor.window)
 //							selection.removeAllRanges();
 //							selection.addRange(newrange);
 							//move to the start by move backward one char
@@ -937,24 +937,24 @@ dojo.declare("dijit._editor.RichText", [ dijit._Widget ], {
 			// FIXME
 			var parent = dojo.withGlobal(this.window, "getParentElement", dijit._editor.selection);
 			// FIXME
-			var header = dojo.html.range.getAncestor(parent,/^(?:H1|H2|H3|H4|H5|H6|LI)$/);
+			var header = dijit.range.getAncestor(parent,/^(?:H1|H2|H3|H4|H5|H6|LI)$/);
 			if(header){
 				if(header.tagName=='LI'){
 					return true; //let brower handle
 				}
 				// FIXME
-				var selection = dojo.html.range.getSelection(this.window);
+				var selection = dijit.range.getSelection(this.window);
 				var range = selection.getRangeAt(0);
 				if(!range.collapsed){
 					range.deleteContents();
 				}
 				// FIXME
-				if(dojo.html.range.atBeginningOfContainer(header, range.startContainer, range.startOffset)){
+				if(dijit.range.atBeginningOfContainer(header, range.startContainer, range.startOffset)){
 					dojo.place(this.document.createElement('br'), header, "before");
-				}else if(dojo.html.range.atEndOfContainer(header, range.startContainer, range.startOffset)){
+				}else if(dijit.range.atEndOfContainer(header, range.startContainer, range.startOffset)){
 					dojo.place(this.document.createElement('br'), header, "after");
 					// FIXME
-					var newrange = dojo.html.range.create();
+					var newrange = dijit.range.create();
 					newrange.setStartAfter(header);
 
 					selection.removeAllRanges();
@@ -973,14 +973,14 @@ dojo.declare("dijit._editor.RichText", [ dijit._Widget ], {
 		//blockNodeForEnter is either P or DIV
 		//first remove selection
 		// FIXME
-		var selection = dojo.html.range.getSelection(this.window);
+		var selection = dijit.range.getSelection(this.window);
 		var range = selection.getRangeAt(0);
 		if(!range.collapsed){
 			range.deleteContents();
 		}
 
 		// FIXME
-		var block = dojo.html.range.getBlockAncestor(range.endContainer, null, this.editNode);
+		var block = dijit.range.getBlockAncestor(range.endContainer, null, this.editNode);
 
 		if(block.blockNode && block.blockNode.tagName == 'LI'){
 			this._checkListLater = true;
@@ -997,20 +997,20 @@ dojo.declare("dijit._editor.RichText", [ dijit._Widget ], {
 			block = {blockNode:dojo.withGlobal(this.window, "getAncestorElement", dijit._editor.selection, [this.blockNodeForEnter]),
 					blockContainer: this.editNode};
 			if(block.blockNode){
-				if(dojo.html.textContent(block.blockNode).replace(/^\s+|\s+$/g, "").length==0){
+				if((block.blockNode.textContent||block.blockNode.innerHTML).replace(/^\s+|\s+$/g, "").length==0){
 					this.removeTrailingBr(block.blockNode);
 					return false;
 				}
 			}else{
 				block.blockNode = this.editNode;
 			}
-			selection = dojo.html.range.getSelection(this.window);
+			selection = dijit.range.getSelection(this.window);
 			range = selection.getRangeAt(0);
 		}
 		var newblock = this.document.createElement(this.blockNodeForEnter);
 		newblock.innerHTML=this.bogusHtmlContent;
 		this.removeTrailingBr(block.blockNode);
-		if(dojo.html.range.atEndOfContainer(block.blockNode, range.endContainer, range.endOffset)){
+		if(dijit.range.atEndOfContainer(block.blockNode, range.endContainer, range.endOffset)){
 			if(block.blockNode === block.blockContainer){
 				block.blockNode.appendChild(newblock);
 			}else{
@@ -1018,14 +1018,14 @@ dojo.declare("dijit._editor.RichText", [ dijit._Widget ], {
 			}
 			_letBrowserHandle = false;
 			//lets move caret to the newly created block
-			var newrange = dojo.html.range.create();
+			var newrange = dijit.range.create();
 			newrange.setStart(newblock,0);
 			selection.removeAllRanges();
 			selection.addRange(newrange);
 			if(this.height){
 				newblock.scrollIntoView(false);
 			}
-		}else if(dojo.html.range.atBeginningOfContainer(block.blockNode,
+		}else if(dijit.range.atBeginningOfContainer(block.blockNode,
 				range.startContainer, range.startOffset)){
 			if(block.blockNode === block.blockContainer){
 				dojo.html.prependChild(newblock,block.blockNode);
