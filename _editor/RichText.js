@@ -759,13 +759,9 @@ dojo.declare("dijit._editor.RichText", [ dijit._Widget ], {
 		this.editNode.contentEditable = true; //should do no harm in FF
 		this._preDomFilterContent(this.editNode);
 		
-		if(!dojo.isSafari){
-			var events=this.events.concat(this.captureEvents),i=0,et;
-			while(et=events[i++]){
-				this.connect(this.document, et.toLowerCase(), et);
-			}
-		}else{
-			this.interval = setInterval(dojo.hitch(this, "onDisplayChanged"), 750);
+		var events=this.events.concat(this.captureEvents),i=0,et;
+		while(et=events[i++]){
+			this.connect(this.document, et.toLowerCase(), et);
 		}
 		if(!this.height){
 			this.connect(this, "onNormalizedDisplayChanged", "_updateHeight");
@@ -804,7 +800,7 @@ dojo.declare("dijit._editor.RichText", [ dijit._Widget ], {
 	onKeyDown: function(e){
 		// summary: Fired on keydown
 
-		// console.debug("onkeydown:", e.keyCode);
+//		 console.info("onkeydown:", e.keyCode);
 
 		// we need this event at the moment to get the events from control keys
 		// such as the backspace. It might be possible to add this to Dojo, so that
@@ -842,7 +838,7 @@ dojo.declare("dijit._editor.RichText", [ dijit._Widget ], {
 	onKeyPress: function(e){
 		// summary: Fired on keypress
 
-		// console.debug("onkeypress:", e.keyCode);
+//		 console.info("onkeypress:", e.keyCode);
 
 		// handle the various key events
 		var modifiers = e.ctrlKey ? this.KEY_CTRL : 0 | e.shiftKey?this.KEY_SHIFT : 0;
@@ -1074,11 +1070,11 @@ dojo.declare("dijit._editor.RichText", [ dijit._Widget ], {
 			this.onChange(_c);
 			this.savedContent=_c;
 		}
-//			console.debug('_onBlur') 
+//			console.info('_onBlur') 
 	},
 	_initialFocus: true,
 	_onFocus: function(e){
-//			console.log('_onFocus')
+//			console.info('_onFocus')
 		// summary: Fired on focus
 		if( (dojo.isMoz)&&(this._initialFocus) ){
 			this._initialFocus = false;
@@ -1337,6 +1333,13 @@ dojo.declare("dijit._editor.RichText", [ dijit._Widget ], {
 			}else if (command == "inserttable"){
 				return true;
 			}
+		}
+		//see #4109
+		if(dojo.isSafari)
+			if(command == "copy"){
+				command="cut";
+			}else if(command == "paste"){
+				return true;
 		}
 
 		// return this.document.queryCommandEnabled(command);
