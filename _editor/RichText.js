@@ -364,8 +364,9 @@ dojo.declare("dijit._editor.RichText", [ dijit._Widget ], {
 			// this. Sadly _firstChildContributingMargin and
 			// _lastChildContributingMargin don't work on IE unless all
 			// elements have margins set in CSS :-(
-			
-			this._localizeEditorCommands();
+			if(dojo.isIE){
+				this._localizeEditorCommands();
+			}
 			
 			this.onLoad();
 		}else{ // designMode in iframe
@@ -1073,7 +1074,7 @@ dojo.declare("dijit._editor.RichText", [ dijit._Widget ], {
 			this.onChange(_c);
 			this.savedContent=_c;
 		}
-//			console.log('_onBlur') 
+//			console.debug('_onBlur') 
 	},
 	_initialFocus: true,
 	_onFocus: function(e){
