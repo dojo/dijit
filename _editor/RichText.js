@@ -387,15 +387,13 @@ dojo.declare("dijit._editor.RichText", [ dijit._Widget ], {
 		// summary:
 		//		check if an element has padding or borders on the given side
 		//		which would prevent it from collapsing margins
-		/*
-		if(dojo.html.getPixelValue(element, 'border-'+side+'-width', false)){
+		if(dojo.style(element, 'border-'+side+'-width')){
 			return false;
-		}else if(dojo.html.getPixelValue(element, 'padding-'+side, false)){
+		}else if(dojo.style(element, 'padding-'+side)){
 			return false;
 		}else{
 			return true;
 		}
-		*/
 	},
 
 	// FIXME: need to port this to 0.9 methods
@@ -405,9 +403,7 @@ dojo.declare("dijit._editor.RichText", [ dijit._Widget ], {
 		//		child are contributing to the total margin between this element
 		//		and the adjacent node. CSS border collapsing makes this
 		//		necessary.
-
-		return 0; // FIXME: port
-
+		
 		// FIXME: OMG. This has to be horribly inefficient.
 		if(topOrBottom == "top"){
 			var siblingAttr = "previousSibling";
@@ -423,15 +419,18 @@ dojo.declare("dijit._editor.RichText", [ dijit._Widget ], {
 			var siblingMarginProp = "margin-top";
 		}
 
-		var elementMargin = dojo.html.getPixelValue(element, marginProp, false);
+		var elementMargin = dojo.style(element, marginProp,0);
 
 		// FIXME: redef'd on every call!!
 		function isSignificantNode(element){
 			// see if an node is significant in the current context
 			// for calulating margins
-			return !(element.nodeType==3 && dojo.string.isBlank(element.data))
-				&& dojo.html.getStyle(element, "display") != "none"
-				&& !dojo.html.isPositionAbsolute(element);
+			if(element.nodeType!=3){
+				var d=dojo.style(element, "display",'');
+			}
+			
+			return !(element.nodeType==3 && dojo.trim(element.data).length===0)
+				&& d != "none" && d != 'absolute';
 		}
 
 		// walk throuh first/last children to find total collapsed margin size
@@ -443,7 +442,7 @@ dojo.declare("dijit._editor.RichText", [ dijit._Widget ], {
 				child = child[childSiblingAttr];
 			}
 
-			childMargin = Math.max(childMargin, dojo.html.getPixelValue(child, marginProp, false));
+			childMargin = Math.max(childMargin, dojo.style(child, marginProp,0));
 			// stop if we hit a bordered/padded element
 			if (!this._hasCollapseableMargin(child, topOrBottom)) break;
 			child = child[childAttr];
@@ -458,15 +457,13 @@ dojo.declare("dijit._editor.RichText", [ dijit._Widget ], {
 		var sibling = element[siblingAttr];
 		while(sibling){
 			if(isSignificantNode(sibling)){
-				contextMargin = dojo.html.getPixelValue(sibling,
-														 siblingMarginProp,
-														 false);
+				contextMargin = dojo.style(sibling, siblingMarginProp, 0);
 				break;
 			}
 			sibling = sibling[siblingAttr];
 		}
 		if(!sibling){ // no sibling, look at parent's margin instead
-			contextMargin = dojo.html.getPixelValue(element.parentNode, marginProp, false);
+			contextMargin = dojo.style(element.parentNode, marginProp, 0);
 		}
 
 		if(childMargin > elementMargin){
@@ -1014,7 +1011,7 @@ dojo.declare("dijit._editor.RichText", [ dijit._Widget ], {
 			if(block.blockNode === block.blockContainer){
 				block.blockNode.appendChild(newblock);
 			}else{
-				dojo.html.insertAfter(newblock,block.blockNode);
+				dojo.place(newblock, block.blockNode, "after");
 			}
 			_letBrowserHandle = false;
 			//lets move caret to the newly created block
@@ -1028,9 +1025,9 @@ dojo.declare("dijit._editor.RichText", [ dijit._Widget ], {
 		}else if(dijit.range.atBeginningOfContainer(block.blockNode,
 				range.startContainer, range.startOffset)){
 			if(block.blockNode === block.blockContainer){
-				dojo.html.prependChild(newblock,block.blockNode);
+				dojo.place(newblock, block.blockNode, "first");
 			}else{
-				dojo.html.insertBefore(newblock,block.blockNode);
+				dojo.place(newblock, block.blockNode, "before");
 			}
 			if(this.height){
 				//browser does not scroll the caret position into view, do it manually
