@@ -293,10 +293,6 @@ dojo.declare("dijit._editor.RichText", [ dijit._Widget ], {
 		this._oldHeight = content.h;
 		this._oldWidth = content.w;
 
-		// FIXME: port to new style APIs instead?
-		this._firstChildContributingMargin = this.height ? 0 : this._getContributingMargin(this.domNode, "top");
-		this._lastChildContributingMargin = this.height ? 0 : this._getContributingMargin(this.domNode, "bottom");
-
 		this.savedContent = html;
 
 		// If we're a list item we have to put in a blank line to force the
@@ -357,14 +353,6 @@ dojo.declare("dijit._editor.RichText", [ dijit._Widget ], {
 				ifr.style.height = this.height ? this.height : this.minHeight;
 			}
 
-			// FIXME: setting contentEditable on switches this element to
-			// IE's hasLayout mode, triggering weird margin collapsing
-			// behavior. It's particularly bad if the element you're editing
-			// contains childnodes that don't have margin: defined in local
-			// css rules. It would be nice if it was possible to hack around
-			// this. Sadly _firstChildContributingMargin and
-			// _lastChildContributingMargin don't work on IE unless all
-			// elements have margins set in CSS :-(
 			if(dojo.isIE){
 				this._localizeEditorCommands();
 			}
@@ -382,96 +370,6 @@ dojo.declare("dijit._editor.RichText", [ dijit._Widget ], {
 	//static cache variables shared among all instance of this class
 	_local2NativeFormatNames: {},
 	_native2LocalFormatNames: {},
-
-	_hasCollapseableMargin: function(/*DomNode*/element, /*String*/side){
-		// summary:
-		//		check if an element has padding or borders on the given side
-		//		which would prevent it from collapsing margins
-		if(dojo.style(element, 'border-'+side+'-width')){
-			return false;
-		}else if(dojo.style(element, 'padding-'+side)){
-			return false;
-		}else{
-			return true;
-		}
-	},
-
-	// FIXME: need to port this to 0.9 methods
-	_getContributingMargin:	function(/*DomNode*/element, /*String*/topOrBottom){
-		// summary:
-		//		calculate how much margin this element and its first or last
-		//		child are contributing to the total margin between this element
-		//		and the adjacent node. CSS border collapsing makes this
-		//		necessary.
-		
-		// FIXME: OMG. This has to be horribly inefficient.
-		if(topOrBottom == "top"){
-			var siblingAttr = "previousSibling";
-			var childSiblingAttr = "nextSibling";
-			var childAttr = "firstChild";
-			var marginProp = "margin-top";
-			var siblingMarginProp = "margin-bottom";
-		}else{
-			var siblingAttr = "nextSibling";
-			var childSiblingAttr = "previousSibling";
-			var childAttr = "lastChild";
-			var marginProp = "margin-bottom";
-			var siblingMarginProp = "margin-top";
-		}
-
-		var elementMargin = dojo.style(element, marginProp,0);
-
-		// FIXME: redef'd on every call!!
-		function isSignificantNode(element){
-			// see if an node is significant in the current context
-			// for calulating margins
-			if(element.nodeType!=3){
-				var d=dojo.style(element, "display",'');
-			}
-			
-			return !(element.nodeType==3 && dojo.trim(element.data).length===0)
-				&& d != "none" && d != 'absolute';
-		}
-
-		// walk throuh first/last children to find total collapsed margin size
-		var childMargin = 0;
-		var child = element[childAttr];
-		while(child){
-			// skip over insignificant elements (whitespace, etc)
-			while((!isSignificantNode(child)) && child[childSiblingAttr]){
-				child = child[childSiblingAttr];
-			}
-
-			childMargin = Math.max(childMargin, dojo.style(child, marginProp,0));
-			// stop if we hit a bordered/padded element
-			if (!this._hasCollapseableMargin(child, topOrBottom)) break;
-			child = child[childAttr];
-		}
-
-		// if this element has a border, return full child margin immediately
-		// as there won't be any margin collapsing
-		if (!this._hasCollapseableMargin(element, topOrBottom)){ return parseInt(childMargin); }
-
-		// find margin supplied by nearest sibling
-		var contextMargin = 0;
-		var sibling = element[siblingAttr];
-		while(sibling){
-			if(isSignificantNode(sibling)){
-				contextMargin = dojo.style(sibling, siblingMarginProp, 0);
-				break;
-			}
-			sibling = sibling[siblingAttr];
-		}
-		if(!sibling){ // no sibling, look at parent's margin instead
-			contextMargin = dojo.style(element.parentNode, marginProp, 0);
-		}
-
-		if(childMargin > elementMargin){
-			return parseInt(Math.max((childMargin-elementMargin)-contextMargin, 0));
-		}else{
-			return 0;
-		}
-	},
 
 	_getIframeDocTxt: function(html){
 		var _cs = dojo.getComputedStyle(this.domNode);
@@ -511,10 +409,10 @@ dojo.declare("dijit._editor.RichText", [ dijit._Widget ], {
 			"p{ margin: 1em 0 !important; }",
 			(this.height ?
 				"" : "body,html{overflow-y:hidden;/*for IE*/} body > div {overflow-x:auto;/*for FF to show vertical scrollbar*/}"+
-				"body > div > *:first-child{ padding-top:0 !important;margin-top:" + this._firstChildContributingMargin + "px !important;}" + // FIXME: test firstChild nodeType
+				"body > div > *:first-child{ padding-top:0 !important;margin-top: 0px !important;}" + // FIXME: test firstChild nodeType
 				"body > div > *:last-child {"+
 				"	padding-bottom:0 !important;"+
-				"	margin-bottom:" + this._lastChildContributingMargin + "px !important;"+
+				"	margin-bottom: 0px !important;"+
 				"}"
 			),
 			"li > ul:-moz-first-node, li > ol:-moz-first-node{ padding-top: 1.2em; } ",
@@ -551,14 +449,7 @@ dojo.declare("dijit._editor.RichText", [ dijit._Widget ], {
 		if(this.height){
 			this.iframe.style.height = this.height;
 		}else{
-			var height = this._oldHeight;
-			if(this._hasCollapseableMargin(this.domNode, 'top')){
-				height += this._firstChildContributingMargin;
-			}
-			if(this._hasCollapseableMargin(this.domNode, 'bottom')){
-				height += this._lastChildContributingMargin;
-			}
-			this.iframe.height = height;
+			this.iframe.height = this._oldHeight;
 		}
 
 		if(this.textarea){
@@ -581,10 +472,10 @@ dojo.declare("dijit._editor.RichText", [ dijit._Widget ], {
 			var firstChild = c[0];
 			var lastChild = c.pop();
 			if(firstChild){
-				firstChild.style.marginTop = this._firstChildContributingMargin+"px";
+				firstChild.style.marginTop = "0px";
 			}
 			if(lastChild){
-				lastChild.style.marginBottom = this._lastChildContributingMargin+"px";
+				lastChild.style.marginBottom = "0px";
 			}
 		}
 		//do we want to show the content before the editing area finish loading here?
