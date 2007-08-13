@@ -107,71 +107,75 @@ dijit.layout.marginBox2contentBox = function(/*DomNode*/ node, /*Object*/ mb){
 	};
 };
 
-dijit.layout.layoutChildren = function(/*DomNode*/ container, /*Object*/ dim, /*Object[]*/ children){
-	/**
-	 * summary
-	 *		Layout a bunch of child dom nodes within a parent dom node
-	 * container:
-	 *		parent node
-	 * dim:
-	 *		{l, t, w, h} object specifying dimensions of container into which to place children
-	 * children:
-	 *		an array like [ {domNode: foo, layoutAlign: "bottom" }, {domNode: bar, layoutAlign: "client"} ]
-	 */
+(function(){
+	var capitalize = function(word){
+		return word.substring(0,1).toUpperCase() + word.substring(1);
+	};
 
-	// copy dim because we are going to modify it
-	dim = dojo.mixin({}, dim);
+	var size = function(widget, dim){
+		// size the child
+		widget.resize ? widget.resize(dim) : dojo.marginBox(widget.domNode, dim);
+		
+		// record child's size, but favor our own numbers when we have them.
+		// the browser lies sometimes
+		dojo.mixin(widget, dojo.marginBox(widget.domNode));
+		dojo.mixin(widget, dim);
+	};
 
-	dojo.addClass(container, "dijitLayoutContainer");
+	dijit.layout.layoutChildren = function(/*DomNode*/ container, /*Object*/ dim, /*Object[]*/ children){
+		/**
+		 * summary
+		 *		Layout a bunch of child dom nodes within a parent dom node
+		 * container:
+		 *		parent node
+		 * dim:
+		 *		{l, t, w, h} object specifying dimensions of container into which to place children
+		 * children:
+		 *		an array like [ {domNode: foo, layoutAlign: "bottom" }, {domNode: bar, layoutAlign: "client"} ]
+		 */
 
-	// set positions/sizes
-	var ret=true;
-	dojo.forEach(children, function(child){
-		var elm=child.domNode,
-			pos=child.layoutAlign;
+		// copy dim because we are going to modify it
+		dim = dojo.mixin({}, dim);
 
-		// set elem to upper left corner of unused space; may move it later
-		var elmStyle = elm.style;
-		elmStyle.left = dim.l+"px";
-		elmStyle.top = dim.t+"px";
-		elmStyle.bottom = elmStyle.right = "auto";
+		dojo.addClass(container, "dijitLayoutContainer");
 
-		var capitalize = function(word){
-			return word.substring(0,1).toUpperCase() + word.substring(1);
-		};
-		var size = function(widget, dim){
-			// size the child
-			widget.resize ? widget.resize(dim) : dojo.marginBox(widget.domNode, dim);
-			
-			// record child's size, but favor our own numbers when we have them.
-			// the browser lies sometimes
-			dojo.mixin(widget, dojo.marginBox(widget.domNode));
-			dojo.mixin(widget, dim);
-		};
+		// set positions/sizes
+		var ret=true;
+		dojo.forEach(children, function(child){
+			var elm = (child["domNode"]||child),
+				pos = (child["layoutAlign"]||child.getAttribute("layoutAlign"));
 
-		dojo.addClass(elm, "dijitAlign" + capitalize(pos));
+			// set elem to upper left corner of unused space; may move it later
+			var elmStyle = elm.style;
+			elmStyle.left = dim.l+"px";
+			elmStyle.top = dim.t+"px";
+			elmStyle.bottom = elmStyle.right = "auto";
 
-		// set size && adjust record of remaining space.
-		// note that setting the width of a <div> may affect it's height.
-		if (pos=="top" || pos=="bottom"){
-			size(child, { w: dim.w });
-			dim.h -= child.h;
-			if(pos=="top"){
-				dim.t += child.h;
-			}else{
-				elmStyle.top = dim.t + dim.h + "px";
+			dojo.addClass(elm, "dijitAlign" + capitalize(pos));
+
+			// set size && adjust record of remaining space.
+			// note that setting the width of a <div> may affect it's height.
+			if(pos=="top" || pos=="bottom"){
+				size(child, { w: dim.w });
+				dim.h -= child.h;
+				if(pos=="top"){
+					dim.t += child.h;
+				}else{
+					elmStyle.top = dim.t + dim.h + "px";
+				}
+			}else if(pos=="left" || pos=="right"){
+				size(child, { h: dim.h });
+				dim.w -= child.w;
+				if(pos=="left"){
+					dim.l += child.w;
+				}else{
+					elmStyle.left = dim.l + dim.w + "px";
+				}
+			}else if(pos=="flood" || pos=="client"){
+				size(child, dim);
 			}
-		}else if(pos=="left" || pos=="right"){
-			size(child, { h: dim.h });
-			dim.w -= child.w;
-			if(pos=="left"){
-				dim.l += child.w;
-			}else{
-				elmStyle.left = dim.l + dim.w + "px";
-			}
-		}else if(pos=="flood" || pos=="client"){
-			size(child, dim);
-		}
-	});
-	return ret;
-};
+		});
+		return ret;
+	};
+
+})();
