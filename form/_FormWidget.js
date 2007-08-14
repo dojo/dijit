@@ -141,10 +141,11 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 		//		<baseClass> + "CheckedFocused"		- if the widget has focus
 
 		// get original class (non state related) specified in template
-		var origClass = this._origClass || (this._origClass = (this.styleNode||this.domNode).className);
+		var origClass = (this.styleNode||this.domNode).className;
 
 		// compute list of classname representing the states of the widget
-		var base = this.baseClass || this.domNode.getAttribute("baseClass");
+		var base = this.baseClass || this.domNode.getAttribute("baseClass") || "dijitFormWidget";
+		origClass = origClass.replace(new RegExp("\\b"+base+"(Checked)?(Selected)?(Disabled|Active|Focused|Hover)?\\b\\s*", "g"), "");
 		var classes = [ base ];
 		
 		function multiply(modifier){
@@ -178,9 +179,9 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 	},
 
 	postCreate: function(){
+		this.setValue(this.value, true);
 		this.setDisabled(this.disabled);
 		this._setStateClass();
-		this.setValue(this.value, true);
 	},
 
 	setValue: function(/*anything*/ newValue, /*Boolean, optional*/ priorityChange){

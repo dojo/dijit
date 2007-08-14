@@ -212,13 +212,6 @@
 	
 }
 
-.tundra .dijitInputFieldValidationWarning {
-	border:1px solid #f3d118;
-	background-image:none; 
-	background-color:#ff6; /* FIXME: better yellow? */
-	 
-}
-
 .tundra .dijitInputFieldValidationError {
 	border:1px solid #f3d118;
 	background-color::#f9f7ba;
