@@ -140,10 +140,9 @@ dijit.layout.marginBox2contentBox = function(/*DomNode*/ node, /*Object*/ mb){
 		dojo.addClass(container, "dijitLayoutContainer");
 
 		// set positions/sizes
-		var ret=true;
 		dojo.forEach(children, function(child){
-			var elm = (child["domNode"]||child),
-				pos = (child["layoutAlign"]||child.getAttribute("layoutAlign"));
+			var elm = child.domNode,
+				pos = child.layoutAlign;
 
 			// set elem to upper left corner of unused space; may move it later
 			var elmStyle = elm.style;
@@ -175,7 +174,6 @@ dijit.layout.marginBox2contentBox = function(/*DomNode*/ node, /*Object*/ mb){
 				size(child, dim);
 			}
 		});
-		return ret;
 	};
 
 })();
