@@ -112,7 +112,7 @@ dojo.declare("dijit._editor.plugins.LinkDialog",
 			if(a){
 				url=a.getAttribute('_djrealurl');
 				text=a.textContent||a.innerText;
-				dojo.withGlobal(this.editor.window, "selectElement",dijit._editor.selection, [a]);
+				dojo.withGlobal(this.editor.window, "selectElement",dijit._editor.selection, [a,true]);
 			}else{
 				text=dojo.withGlobal(this.editor.window, dijit._editor.selection.getSelectedText);
 			}
