@@ -421,8 +421,8 @@ if(!dijit.range._w3c){
 		}
 	}
 
-	dojo.declare("dijit.range.W3CRange",null, 
-	function(){
+dojo.declare("dijit.range.W3CRange",null, {
+	constructor: function(){
 		if(arguments.length>0){
 			this.setStart(arguments[0][0][0],arguments[0][0][1]);
 			this.setEnd(arguments[0][1][0],arguments[0][1][1],arguments[0][2]);
@@ -434,7 +434,7 @@ if(!dijit.range._w3c){
 			this.endOffset = 0;
 			this.collapsed = true;
 		}
-	},{
+	},
 	_simpleSetEndPoint: function(node, range, end){
 		var r = (this._body||node.ownerDocument.body).createTextRange();
 		if(node.nodeType!=1){
@@ -537,6 +537,6 @@ if(!dijit.range._w3c){
 		this.endContainer = null;
 		this.endOffset = 0;
 		this.collapsed = true;
-	}
+}
 });
 } //if(!dijit.range._w3c)
