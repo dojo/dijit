@@ -12,11 +12,9 @@
 	<script type="text/javascript" src="testBidi.js"></script>
 	<script type="text/javascript" src="../../dojo/dojo.js"
 		djConfig="parseOnLoad: true, isDebug: true"></script>
-	<script type="text/javascript" src="../_editor/RichText.js"></script>
-	<script type="text/javascript" src="../Editor.js"></script>
 	<script type="text/javascript">
 		dojo.require("dijit.Editor");
-		dojo.require("dijit._editor.plugins.DefaultToolbar");
+		dojo.require("dijit._editor.plugins.EnterKeyHandling");
 		dojo.require("dijit._editor.plugins.LinkDialog");
 		dojo.require("dojo.parser");	// scan page for widgets and instantiate them
 	</script>
@@ -26,7 +24,7 @@
 	<h1 class="testTitle">Editor + Plugins Test</h1>
 
 	<div style="border: 1px solid black;">
-		<div dojoType="dijit.Editor" id="editor1"></div>
+		<div dojoType="dijit.Editor" id="editor1"><p>This instance is created from a div directly with default toolbar and plugins</p></div>
 	</div>
 	<button onclick="console.log(dijit.byId('editor1').getValue().length)">getValue</button>
 	<hr/>
@@ -52,11 +50,11 @@
 	<div style="border: 1px dotted black;">
 		<h3>blah</h3>
 		<textarea dojoType="dijit.Editor" 
-			plugins="['bold','italic','|',{name:'dijit._editor.plugins.LinkDialog',command:'underline'}]"
+			plugins="['dijit._editor.plugins.EnterKeyHandling','bold','italic','|',{name:'dijit._editor.plugins.LinkDialog',command:'underline'}]"
 			styleSheets="../../dojo/resources/dojo.css">
 			This instance demos how to:
 			<ol>
-				<li>specify which plugins to load (see the plugins property);</li>
+				<li>specify which plugins to load (see the plugins property): this instance loads EnterKeyHandling plugin, among others;</li>
 				<li>specify options for a plugin (see the last item in the plugins array)</li>
 			</ol>
 		</textarea>

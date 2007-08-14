@@ -40,7 +40,15 @@ dojo.declare(
 			dojo.forEach(this.plugins, this.addPlugin, this);
 //			}catch(e){ console.debug(e); }
 		},
-
+		destroy: function(){
+			dojo.forEach(this._plugins, function(p){
+				if(p.destroy){
+					p.destroy();
+				}
+			});
+			this._plugins=[];
+			this.inherited('destroy',arguments);
+		},
 		addPlugin: function(/*String||Object*/plugin, /*Integer?*/index){
 			//	summary:
 			//		takes a plugin name as a string or a plugin instance and
