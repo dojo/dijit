@@ -9,6 +9,7 @@
 		<script type="text/javascript">
 			dojo.require("dijit.form.Form");
 			dojo.require("dijit.form.ValidationTextBox");
+			dojo.require("dijit.form.ComboBox");
 			dojo.require("dijit.form.FilteringSelect");
 			dojo.require("dijit.form.CheckBox");
 			dojo.require("dijit.form.DateTextBox");
@@ -22,6 +23,9 @@
 			dojo.require("dijit.form.Button");
 			dojo.require("dojo.data.ItemFileReadStore");
 			dojo.require("dojo.parser");	// scan page for widgets and instantiate them
+
+			// make dojo.toJson() print dates correctly (this feels a bit dirty)
+			Date.prototype.json = function(){ return dojo.date.stamp.toISOString(this, {selector: 'date'});};
 		</script>
 		<style type="text/css">
 			@import "../../../dojo/resources/dojo.css";
@@ -69,12 +73,6 @@
 				margin-left: 5em;
 				margin-right: 1em;
 			}
-			fieldset {
-				/* todo: aren't fieldsets inline by default?   why do i need this? */
-				display: inline-block;
-				#display: inline;
-				display: -moz-inline-box;
-			}
 			fieldset label {
 				margin-right: 1em;
 			}
@@ -108,10 +106,10 @@
 				<input type="text" id="name" name="name" class="medium"
 					dojoType="dijit.form.ValidationTextBox"
 					required="true" 
-					ucfirst="true"/>
+					ucfirst="true" invalidMessage=""/>
 				<br>
 
-				<label class="firstLabel" for="address">Address</label>
+				<label class="firstLabel" for="address">Address *</label>
 				<input type="text" id="address" name="address" class="long"
 					dojoType="dijit.form.ValidationTextBox"
 					required="true"
@@ -120,11 +118,18 @@
 				<br>
 
 				<label class="firstLabel" for="city">City *</label>
-				<input type="text" id="city" name="city" class="medium"
-					dojoType="dijit.form.ValidationTextBox"
-					trim="true" 
-					required="true" 
-					ucfirst="true" />
+			 	<select dojoType="dijit.form.ComboBox"
+			 			value=""
+						autocomplete="true"
+						hasDownArrow="false"
+				>
+					<option></option>
+					<option>Chicago</option>
+					<option>Los Angeles</option>
+					<option>New York</option>
+					<option>San Francisco</option>
+					<option>Seattle</option>
+				</select>
 
 				<label class="secondLabel" for="state">State</label>
 				<input dojoType="dijit.form.FilteringSelect"
@@ -150,14 +155,14 @@
 			</div>
 			<div class="formAnswer">
 				<label class="firstLabel" for="position">Position</label>
-				<fieldset id="position">
+				<fieldset id="position" class="dijitInlineBox">
 					<input type="checkBox" name="position" id="it" value="it" dojoType="dijit.form.CheckBox" /> <label for="it">IT</label>
 					<input type="checkBox" name="position" id="marketing" value="marketing" dojoType="dijit.form.CheckBox" /> <label for="marketing">Marketing</label>
 					<input type="checkBox" name="position" id="business" value="business" dojoType="dijit.form.CheckBox" /> <label for="business" style="margin-right: 7em;">Business</label>
 				</fieldset>
 
 				<label class="secondLabel" for="hours">Hours</label>
-				<fieldset id="hours">
+				<fieldset id="hours" class="dijitInlineBox">
 					<input type="radio" name="hours" id="full" value="full" dojoType="dijit.form.RadioButton" /> <label for="full">Full time</label>
 					<input type="radio" name="hours" id="part" value="part" dojoType="dijit.form.RadioButton" /> <label for="part">Part time</label>
 				</fieldset>
@@ -168,30 +173,41 @@
 				<span>Education and Experience</span>
 			</div>
 			<div class="formAnswer">
-				<label class="firstLabel" for="school">Education level</label>
-				<span dojoType="dijit.form.HorizontalSlider" id="school" name="school"
-					minimum="1"
-					value="2"
-					maximum="4"
-					discreteValues="4"
-					showButtons="false"
-					style="width:200px; height: 40px;"
-				>
-						<span dojoType="dijit.form.HorizontalRule" container="bottomDecoration" count=4 style="height:5px;"></span>
-						<ol dojoType="dijit.form.HorizontalRuleLabels" container="bottomDecoration"style="height:1em;font-size:75%;color:gray;">
-							<li>high school</li>
-							<li>college</li>
-							<li>masters</li>
-							<li>PhD</li>
-						</ol>
-				</span>
-				
-				<label class="secondLabel" for="experience">Work experience (years, 0-40)</label>
-				<input dojoType="dijit.form.NumberSpinner"
-					id="experience" name="experience"
-					value="1"
-					constraints="{min: 0, max:40, places:0}"
-					class="short">
+				<table class="dijitReset">
+					<tr>
+						<td>
+							<label class="firstLabel" for="school">Education level</label>
+						</td>
+						<td style="padding-left: 2em;">
+							<span dojoType="dijit.form.HorizontalSlider" id="school" name="school"
+								minimum="1"
+								value="2"
+								maximum="4"
+								discreteValues="4"
+								showButtons="false"
+								style="width:200px; height: 40px;"
+							>
+									<span dojoType="dijit.form.HorizontalRule" container="bottomDecoration" count=4 style="height:5px;"></span>
+									<ol dojoType="dijit.form.HorizontalRuleLabels" container="bottomDecoration"style="height:1em;font-size:75%;color:gray;">
+										<li>high school</li>
+										<li>college</li>
+										<li>masters</li>
+										<li>PhD</li>
+									</ol>
+							</span>
+						</td>
+						<td>
+							<label class="secondLabel" for="experience">Work experience (years, 0-40)</label>
+						</td>
+						<td>
+							<input dojoType="dijit.form.NumberSpinner"
+								id="experience" name="experience"
+								value="1"
+								constraints="{min: 0, max:40, places:0}"
+								size=3>
+						</td>
+					</tr>
+				</table>
 			</div>
 
 			<div class="formQuestion">
