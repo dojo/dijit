@@ -85,6 +85,12 @@ dojo.declare("dijit._editor.plugins.LinkDialog",
 			// summary: callback from the dialog when user hits "set" button
 			//TODO: prevent closing popup if the text is empty
 			this._onCloseDialog();
+			if(dojo.isIE){ //see #4151
+				var a = dojo.withGlobal(this.editor.window, "getAncestorElement",dijit._editor.selection, ['a']);
+				if(a){
+					dojo.withGlobal(this.editor.window, "selectElement",dijit._editor.selection, [a]);
+				}
+			}
 			var attstr='href="'+args.urlInput+'" _djrealurl="'+args.urlInput+'"';
 //			console.log(args,this.editor,'<a '+attstr+'>'+args.textInput+'</a>');
 			this.editor.execCommand('inserthtml', '<a '+attstr+'>'+args.textInput+'</a>');
