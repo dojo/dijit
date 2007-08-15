@@ -240,7 +240,7 @@ dojo.declare(
 			}
 		}else{  // handle non-printables (arrow keys)
 			if(this._keyTopicMap[e.keyCode]){
-				this._publish(this._keyTopicMap[e.keyCode], { node: treeNode } );	
+				this._publish(this._keyTopicMap[e.keyCode], { node: treeNode, item: treeNode.item } );	
 				dojo.stopEvent(e);
 			}
 		}
