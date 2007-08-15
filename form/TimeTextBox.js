@@ -37,10 +37,9 @@ dojo.declare(
  			if(typeof constraints.max == "string"){ constraints.max = dojo.date.stamp.fromISOString(constraints.max); }
 		},
 
-		onfocus: function(/*Event*/ evt){
+		_onFocus: function(/*Event*/ evt){
 			// open the calendar
 			this._open();
-			dijit.form.RangeBoundTextBox.prototype.onfocus.apply(this, arguments);
 		},
 
 		setValue: function(/*Date*/ value, /*Boolean, optional*/ priorityChange){
@@ -96,11 +95,6 @@ dojo.declare(
 			dijit.popup.closeAll();
 			this.inherited('_onBlur', arguments);
 			// don't focus on <input>.  the user has explicitly focused on something else.
-		},
-
-		postCreate: function(){
-			this.inherited('postCreate', arguments);
-			this.connect(this.domNode, "onclick", this._open);
 		},
 
 		getDisplayedValue:function(){
