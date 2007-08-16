@@ -98,9 +98,14 @@
 	background:#b7cdee url("images/gradientTopBg.png") repeat-x top;
 }
 
-.soria .dijitToolbar .dijitButton {
+.soria .dijitToolbar * {
 	padding: 0px;
 	margin: 0px;
+	#margin-top: -1px; /*IE*/
+}
+
+.dj_ie .soria .dijitToolbar {
+	padding-bottom: 1px;
 }
 
 .soria .dijitToolbar .dijitButtonNode {
