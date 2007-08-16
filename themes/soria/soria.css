@@ -109,6 +109,16 @@
 	border: 1px solid transparent;
 	background: none;
 }
+
+.soria .dijitToolbar .dijitToggleButtonChecked .dijitButtonNode { 
+	background-color:#C1D2EE; 
+	border:1px solid #316AC5; 
+} 
+
+.soria .dijitToolbar .dijitToggleButtonCheckedHover .dijitButtonContents { 
+	border-color: #366dba; 
+	background-color:transparent; 
+} 
 .dj_ie6 .soria .dijitToolbar .dijitButtonNode {
 	/* workaround no transparent border support in IE6*/
 	border-color: #e9e9e9;
