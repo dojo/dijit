@@ -1009,7 +1009,14 @@
 
 .tundra .dijitCalendarCurrentMonthDisabled {
 	/* days that are part of this month - disabled */	
-	background-color:#bbbbbc !important;
+	background-color:#bbbbbc !important; 
+}
+
+.tundra .dijitCalendarDisabledDate {
+	/* one or the other? */ 
+	/* background: url(images/noX.gif) no-repeat center center !important; */
+	text-decoration:line-through !important; 
+	cursor:default !important;  
 }
 
 .tundra .dijitCalendarCurrentDate {
@@ -1052,7 +1059,6 @@
 	color:black !important;
 	font-weight:normal;
 }
-
 
 
 
