@@ -105,6 +105,14 @@
 	border: 1px solid transparent;
 	background: none;
 }
+.tundra .dijitToolbar .dijitToggleButtonChecked .dijitButtonNode {
+	background-color:#C1D2EE;
+	border:1px solid #316AC5;
+}
+.tundra .dijitToolbar .dijitToggleButtonCheckedHover .dijitButtonContents {
+	border-color: #366dba;
+	background-color:transparent;
+}
 .dj_ie6 .tundra .dijitToolbar .dijitButtonNode {
 	/* workaround no transparent border support in IE6*/
 	border-color: #e9e9e9;
