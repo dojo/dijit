@@ -8,8 +8,8 @@
 	float:right;
 }
 
-/* can't specify .dijitRtl on this rule, since dijit_a11y is on the same node */
-.dijit_a11y .dijitExpandoText { 
+/* can't specify .dijitRtl and .dijit_a11y on this rule, since they are on the same node */
+.dijitRtl .dijitExpandoText { 
 	float: right; 
 	padding-left: 3px;
 	padding-right: 0; 
