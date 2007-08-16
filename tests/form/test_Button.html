@@ -19,17 +19,13 @@
 			// being fancy theme-swithcing code
 			var match = (window.location.search+"&").match(/theme=(.*?)&/);
 			var theme = (match ? match[1] : "tundra");
-			var docHead = document.getElementsByTagName("head")[0];
-			var thisTheme = docHead.appendChild(document.createElement('link'));
-			thisTheme.rel = "stylesheet";
-			thisTheme.href = "../../themes/" + theme +"/"+ theme + ".css";
-			thisTheme.type = "text/css"; 
-			var rtlTheme = docHead.appendChild(document.createElement('link'));
-			rtlTheme.rel = "stylesheet";
-			rtlTheme.href = "../../themes/" + theme +"/"+ theme + "_rtl.css";
-			rtlTheme.type = "text/css"; 
+			var t="../../themes/" + theme +"/"+ theme;
+			document.write('<link rel="stylesheet" type="text/css" href="'+t+'.css"/>');
+			document.write('<link rel="stylesheet" type="text/css" href="'+t+'_rtl.css"/>');
 			// end fancy themeswitching code
-
+dojo.addOnLoad(function(){
+	console.log(document.body.getElementsByTagName("link").length)
+});
 		</script>
 		<style type="text/css">
 			@import "../../../dojo/resources/dojo.css";
