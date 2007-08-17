@@ -25,7 +25,7 @@ dojo.declare("dijit._editor._Plugin", null, {
 	_initButton: function(){
 		if(this.command.length){
 			var label = this.editor.commands[this.command];
-			var className = this.iconClassPrefix + this.command.charAt(0).toUpperCase() + this.command.substr(1);
+			var className = "dijitEditorIcon "+this.iconClassPrefix + this.command.charAt(0).toUpperCase() + this.command.substr(1);
 			if(!this.button){
 				var props = {
 					label: label,

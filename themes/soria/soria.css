@@ -1231,45 +1231,7 @@
 
 /**** ICONS *****/
 
-.soria .dijitEditorIconSep,
-.soria .dijitEditorIconBackColor,
-.soria .dijitEditorIconBold,
-.soria .dijitEditorIconCancel,
-.soria .dijitEditorIconCopy,
-.soria .dijitEditorIconCreateLink,
-.soria .dijitEditorIconCut,
-.soria .dijitEditorIconDelete,
-.soria .dijitEditorIconForeColor,
-.soria .dijitEditorIconHiliteColor,
-.soria .dijitEditorIconIndent,
-.soria .dijitEditorIconInsertHorizontalRule,
-.soria .dijitEditorIconInsertImage,
-.soria .dijitEditorIconInsertOrderedList,
-.soria .dijitEditorIconInsertTable,
-.soria .dijitEditorIconInsertUnorderedList,
-.soria .dijitEditorIconItalic,
-.soria .dijitEditorIconJustifycenter,
-.soria .dijitEditorIconJustifyfull,
-.soria .dijitEditorIconJustifyleft,
-.soria .dijitEditorIconJustifyright,
-.soria .dijitEditorIconLeftToRight,
-.soria .dijitEditorIconListBulletIndent,
-.soria .dijitEditorIconListBulletOutdent,
-.soria .dijitEditorIconListNumIndent,
-.soria .dijitEditorIconListNumOutdent,
-.soria .dijitEditorIconOutdent,
-.soria .dijitEditorIconPaste,
-.soria .dijitEditorIconRedo,
-.soria .dijitEditorIconRemoveFormat,
-.soria .dijitEditorIconRightToLeft,
-.soria .dijitEditorIconSave,
-.soria .dijitEditorIconSpace,
-.soria .dijitEditorIconStrikethrough,
-.soria .dijitEditorIconSubscript,
-.soria .dijitEditorIconSuperscript,
-.soria .dijitEditorIconUnderline,
-.soria .dijitEditorIconUndo,
-.soria .dijitEditorIconWikiword {
+.soria .dijitEditorIcon {
 	background-image: url('images/editor.gif'); /* editor icons sprite image */
 	background-repeat: no-repeat; 
 	width: 18px;
@@ -1293,10 +1255,10 @@
 .soria .dijitEditorIconInsertTable { background-position: -252px; }
 .soria .dijitEditorIconInsertUnorderedList { background-position: -270px; }
 .soria .dijitEditorIconItalic { background-position: -288px; }
-.soria .dijitEditorIconJustifycenter { background-position: -306px; }
-.soria .dijitEditorIconJustifyfull { background-position: -324px; }
-.soria .dijitEditorIconJustifyleft { background-position: -342px; }
-.soria .dijitEditorIconJustifyright { background-position: -360px; }
+.soria .dijitEditorIconJustifyCenter { background-position: -306px; }
+.soria .dijitEditorIconJustifyFull { background-position: -324px; }
+.soria .dijitEditorIconJustifyLeft { background-position: -342px; }
+.soria .dijitEditorIconJustifyRight { background-position: -360px; }
 .soria .dijitEditorIconLeftToRight { background-position: -378px; }
 .soria .dijitEditorIconListBulletIndent { background-position: -396px; }
 .soria .dijitEditorIconListBulletOutdent { background-position: -414px; }

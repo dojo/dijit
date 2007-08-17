@@ -1209,45 +1209,7 @@
 
 /**** ICONS *****/
 
-.tundra .dijitEditorIconSep,
-.tundra .dijitEditorIconBackColor,
-.tundra .dijitEditorIconBold,
-.tundra .dijitEditorIconCancel,
-.tundra .dijitEditorIconCopy,
-.tundra .dijitEditorIconCreateLink,
-.tundra .dijitEditorIconCut,
-.tundra .dijitEditorIconDelete,
-.tundra .dijitEditorIconForeColor,
-.tundra .dijitEditorIconHiliteColor,
-.tundra .dijitEditorIconIndent,
-.tundra .dijitEditorIconInsertHorizontalRule,
-.tundra .dijitEditorIconInsertImage,
-.tundra .dijitEditorIconInsertOrderedList,
-.tundra .dijitEditorIconInsertTable,
-.tundra .dijitEditorIconInsertUnorderedList,
-.tundra .dijitEditorIconItalic,
-.tundra .dijitEditorIconJustifycenter,
-.tundra .dijitEditorIconJustifyfull,
-.tundra .dijitEditorIconJustifyleft,
-.tundra .dijitEditorIconJustifyright,
-.tundra .dijitEditorIconLeftToRight,
-.tundra .dijitEditorIconListBulletIndent,
-.tundra .dijitEditorIconListBulletOutdent,
-.tundra .dijitEditorIconListNumIndent,
-.tundra .dijitEditorIconListNumOutdent,
-.tundra .dijitEditorIconOutdent,
-.tundra .dijitEditorIconPaste,
-.tundra .dijitEditorIconRedo,
-.tundra .dijitEditorIconRemoveFormat,
-.tundra .dijitEditorIconRightToLeft,
-.tundra .dijitEditorIconSave,
-.tundra .dijitEditorIconSpace,
-.tundra .dijitEditorIconStrikethrough,
-.tundra .dijitEditorIconSubscript,
-.tundra .dijitEditorIconSuperscript,
-.tundra .dijitEditorIconUnderline,
-.tundra .dijitEditorIconUndo,
-.tundra .dijitEditorIconWikiword {
+.tundra .dijitEditorIcon {
 	background-image: url('images/editor.gif'); /* editor icons sprite image */
 	background-repeat: no-repeat; 
 	width: 18px;
@@ -1271,10 +1233,10 @@
 .tundra .dijitEditorIconInsertTable { background-position: -252px; }
 .tundra .dijitEditorIconInsertUnorderedList { background-position: -270px; }
 .tundra .dijitEditorIconItalic { background-position: -288px; }
-.tundra .dijitEditorIconJustifycenter { background-position: -306px; }
-.tundra .dijitEditorIconJustifyfull { background-position: -324px; }
-.tundra .dijitEditorIconJustifyleft { background-position: -342px; }
-.tundra .dijitEditorIconJustifyright { background-position: -360px; }
+.tundra .dijitEditorIconJustifyCenter { background-position: -306px; }
+.tundra .dijitEditorIconJustifyFull { background-position: -324px; }
+.tundra .dijitEditorIconJustifyLeft { background-position: -342px; }
+.tundra .dijitEditorIconJustifyRight { background-position: -360px; }
 .tundra .dijitEditorIconLeftToRight { background-position: -378px; }
 .tundra .dijitEditorIconListBulletIndent { background-position: -396px; }
 .tundra .dijitEditorIconListBulletOutdent { background-position: -414px; }

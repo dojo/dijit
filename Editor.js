@@ -21,7 +21,7 @@ dojo.declare(
 				this.plugins=this.plugins.slice(0);
 			}else{
 				this.plugins=["undo","redo","|","cut","copy","paste","|","bold","italic","underline","strikethrough","|",
-			"insertOrderedList","insertUnorderedList","indent","outdent"/*,"|","createlink"*/];
+			"insertOrderedList","insertUnorderedList","indent","outdent","|","justifyLeft","justifyRight","justifyCenter","justifyFull"/*"createlink"*/];
 			}
 			this._plugins=[];
 			this._editInterval = this.editActionInterval * 1000;
@@ -326,16 +326,20 @@ dojo.subscribe("dijit.Editor.getPlugin",null,function(o){
 	if(o.plugin){ return; }
 	var args=o.args, p;
 	var _p = dijit._editor._Plugin;
-	switch(args.name){
+	var name=args.name;
+	switch(name){
 		case "undo": case "redo": case "cut": case "copy": case "paste": case "insertOrderedList":
-		case "insertUnorderedList": case "indent": case "outdent":
-			p = new _p({ command: args.name });
+		case "insertUnorderedList": case "indent": case "outdent": case "justifyCenter":
+		case "justifyFull": case "justifyLeft": case "justifyRight": case "delete":
+		case "selectAll": case "removeFormat":
+			p = new _p({ command: name });
 			break;
 			
-		case "bold": case "italic": case "underline": case "strikethrough":
+		case "bold": case "italic": case "underline": case "strikethrough": 
+		case "subscript": case "superscript":
 			//shall we try to auto require here? or require user to worry about it?
 //					dojo['require']('dijit.form.Button');
-			p = new _p({ buttonClass: dijit.form.ToggleButton, command: args.name });
+			p = new _p({ buttonClass: dijit.form.ToggleButton, command: name });
 			break;
 		case "|":
 			p = new _p({ button: new dijit.ToolbarSeparator() });
@@ -345,6 +349,6 @@ dojo.subscribe("dijit.Editor.getPlugin",null,function(o){
 			p = new dijit._editor.plugins.LinkDialog();
 			break;
 	}
-//	console.log('args.name',args.name,p);
+//	console.log('name',name,p);
 	o.plugin=p;
 });
