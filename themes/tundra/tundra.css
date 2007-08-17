@@ -1285,5 +1285,13 @@
 	cursor: url("no.gif"), not-allowed, default;
 }
 
-
-
+/* DnD avatar-specific settings */
+/* For now it uses a default set of rules. Some other DnD classes can be modified as well. */
+.tundra .dojoDndAvatar			{font-size: 75%; color: black;}
+.tundra .dojoDndAvatarHeader td	{padding-left: 20px; padding-right: 4px;}
+.tundra .dojoDndAvatarHeader	{background: #ccc;}
+.tundra .dojoDndAvatarItem		{background: #eee;}
+.tundra.dojoDndMove .dojoDndAvatarHeader	{background-image: url(images/dndNoMove.png); background-repeat: no-repeat;}
+.tundra.dojoDndCopy .dojoDndAvatarHeader	{background-image: url(images/dndNoCopy.png); background-repeat: no-repeat;}
+.tundra.dojoDndMove .dojoDndAvatarCanDrop .dojoDndAvatarHeader	{background-image: url(images/dndMove.png); background-repeat: no-repeat;}
+.tundra.dojoDndCopy .dojoDndAvatarCanDrop .dojoDndAvatarHeader	{background-image: url(images/dndCopy.png); background-repeat: no-repeat;}

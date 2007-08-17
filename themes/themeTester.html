@@ -33,6 +33,7 @@
 		@import "../../dojo/resources/dojo.css";
 		@import "../../dijit/themes/dijit.css";
 		@import "../tests/css/dijitTests.css";
+		@import "../../dojo/tests/dnd/dndDefault.css";
 
 		html, body { height: 100%; width: 100%; padding: 0; border: 0; }
 		#main { height: 100%; width: 100%; padding: 0; border: 0; }
@@ -74,6 +75,9 @@
 
 		// editor:
 		dojo.require("dijit.Editor"); 
+		
+		// dnd:
+		dojo.require("dojo.dnd.source");
 
 		// various Form elemetns
 		dojo.require("dijit.form.CheckBox");
@@ -700,11 +704,32 @@
 	
 					</div><!-- end fourth upper tab -->
 	
-					<div id="tab4" dojoType="dijit.layout.ContentPane" title="Closable"
+					<!-- fourth upper tab -->
+					<div id="tab4" dojoType="dijit.layout.ContentPane" title="DnD"
+						style="padding:10px; display:none;  ">
+						<div style="float:left; margin:5px; ">
+							<h3>Source 1</h3>
+							<div dojoType="dojo.dnd.Source" class="container">
+								<div class="dojoDndItem">Item <strong>X</strong></div>
+								<div class="dojoDndItem">Item <strong>Y</strong></div>
+								<div class="dojoDndItem">Item <strong>Z</strong></div>
+							</div>
+						</div>
+						<div style="float:left; margin:5px; ">
+							<h3>Source 2</h3>
+							<div dojoType="dojo.dnd.Source" class="container">
+								<div class="dojoDndItem">Item <strong>1</strong></div>
+								<div class="dojoDndItem">Item <strong>2</strong></div>
+								<div class="dojoDndItem">Item <strong>3</strong></div>
+							</div>
+						</div>
+					</div>
+	
+					<!-- fifth upper tab -->
+					<div id="tab5" dojoType="dijit.layout.ContentPane" title="Closable"
 						style="display:none; padding:10px; " closable="true">
 						This pane is closable, just for the icon ... 
 					</div>
-	
 				</div><!-- end top part vertical split container -->
 	
 				<!-- bottom half, vertical split container -->

@@ -1298,3 +1298,14 @@
 	cursor: not-allowed !important;
 	cursor: url("no.gif"), not-allowed, default;
 }
+
+/* DnD avatar-specific settings */
+/* For now it uses a default set of rules. Some other DnD classes can be modified as well. */
+.soria .dojoDndAvatar			{font-size: 75%; color: black;}
+.soria .dojoDndAvatarHeader td	{padding-left: 20px; padding-right: 4px;}
+.soria .dojoDndAvatarHeader	{background: #ccc;}
+.soria .dojoDndAvatarItem		{background: #eee;}
+.soria.dojoDndMove .dojoDndAvatarHeader	{background-image: url(images/dndNoMove.png); background-repeat: no-repeat;}
+.soria.dojoDndCopy .dojoDndAvatarHeader	{background-image: url(images/dndNoCopy.png); background-repeat: no-repeat;}
+.soria.dojoDndMove .dojoDndAvatarCanDrop .dojoDndAvatarHeader	{background-image: url(images/dndMove.png); background-repeat: no-repeat;}
+.soria.dojoDndCopy .dojoDndAvatarCanDrop .dojoDndAvatarHeader	{background-image: url(images/dndCopy.png); background-repeat: no-repeat;}

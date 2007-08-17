@@ -187,3 +187,14 @@
 	width:34px;
 	padding:0px !important;
 }
+
+/* DnD avatar-specific settings */
+/* For now it uses a default set of rules. Some other DnD classes can be modified as well. */
+.noir .dojoDndAvatar			{font-size: 75%; color: black;}
+.noir .dojoDndAvatarHeader td	{padding-left: 20px; padding-right: 4px;}
+.noir .dojoDndAvatarHeader	{background: #ccc;}
+.noir .dojoDndAvatarItem		{background: #eee;}
+.noir.dojoDndMove .dojoDndAvatarHeader	{background-image: url(images/dndNoMove.png); background-repeat: no-repeat;}
+.noir.dojoDndCopy .dojoDndAvatarHeader	{background-image: url(images/dndNoCopy.png); background-repeat: no-repeat;}
+.noir.dojoDndMove .dojoDndAvatarCanDrop .dojoDndAvatarHeader	{background-image: url(images/dndMove.png); background-repeat: no-repeat;}
+.noir.dojoDndCopy .dojoDndAvatarCanDrop .dojoDndAvatarHeader	{background-image: url(images/dndCopy.png); background-repeat: no-repeat;}
