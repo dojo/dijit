@@ -44,6 +44,26 @@ dijit.range.getIndex=function(/*DomNode*/node, /*DomNode*/parent){
 	return {o: ret, r:retR};
 }
 
+dijit.range.getNode = function(/*Array*/index, /*DomNode*/parent){
+	if(!dojo.isArray(index) || index.length==0){
+		return parent;
+	}
+	var node = parent;
+//	if(!node)debugger
+	dojo.every(index, function(i){
+		if(i>=0&&i< node.childNodes.length){
+			node = node.childNodes[i];
+		}else{
+			node = null;
+			console.debug('Error: can not find node with index',index,'under parent node',parent );
+			return false; //terminate dojo.every
+		}
+		return true; //carry on the every loop
+	});
+
+	return node;
+}
+
 dijit.range.getCommonAncestor = function(n1,n2,root){
 	var getAncestors = function(n,root){
 		var as=[];
