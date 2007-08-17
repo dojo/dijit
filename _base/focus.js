@@ -261,10 +261,10 @@ dojo.mixin(dijit,
 		if(node && node.tagName && node.tagName.toLowerCase() == "body"){
 			return;
 		}
+		dijit._onTouchNode(node);
 		if(node==dijit._curFocus){ return; }
 		dijit._prevFocus = dijit._curFocus;
 		dijit._curFocus = node;
-		dijit._onTouchNode(node);
 		dojo.publish("focusNode", [node]);
 
 		// handle focus/blur styling
