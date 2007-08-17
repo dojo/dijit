@@ -65,6 +65,12 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 		if(this.focusNode){
 			this.focusNode.disabled = disabled;
 		}
+		if(disabled){
+			//reset those, because after the domNode is disabled, we can no longer receive
+			//mouse related events, see #4200
+			this._hovering = false;
+			this._active = false;
+		}
 		dijit.wai.setAttr(this.focusNode || this.domNode, "waiState", "disabled", disabled);
 		this._setStateClass();
 	},
@@ -159,7 +165,7 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 			multiply("Selected");
 		}
 		
-		// Only one of these three can be applied.
+		// Only one of these four can be applied.
 		// Active trumps Focused, Focused trumps Hover, and Disabled trumps all.
 		if(this.disabled){
 			multiply("Disabled");
