@@ -7,35 +7,31 @@
 
 @import url("../dijit.css");
 
-
 .dj_safari .soria .dijitPopup {
 	/* -webkit-border-radius: 5px; */
 	-webkit-box-shadow: 0px 3px 7px #adadad;
 }
 
-/*
- * Control opacity of popups
- */
+/* Control opacity of popups */
 .soria .dijitPopup div,
 .soria .dijitPopup table {
 	opacity: 0.95;
 }
 
-/*****
-		dijit.form.Button
-		dijit.form.DropDownButton
-		dijit.form.ComboButton
-		dijit.form.ComboBox (partial)
- *****/
-
-
+/*
+	dijit.form.Button
+	dijit.form.DropDownButton
+	dijit.form.ComboButton
+	dijit.form.ComboBox (partial)
+*/
 .soria .dijitButtonNode {
 	/* enabled state - inner */
 	/* border:1px outset #a0a0a0; */
-	border:1px solid #9b9b9b;
-	border-top:0; 
+	border:1px solid #4f8ce5;
+	/* border-top:0;  */
 	padding:.3em .4em .2em .4em;
-	background:#4f8ce5 url("images/gradientTopBg.png") repeat-x top;
+	background:#b7cdee url("images/gradientTopBg.png") repeat-x top;
+	background-position:0px -1px; 
 }
 .dj_ie6 .soria .dijitButtonNode {
 	position:relative; 
@@ -53,15 +49,16 @@
 	/* disabled state - inner */
 	border: 1px solid #d5d5d5;
 	/*color:#b4b4b4;*/
-	background:#e4e4e4 url("images/buttonDisabled.png") top repeat-x;
-	opacity: 0.30; /* Safari, Opera and Mozilla */
+	background:#ccc url("images/gradientTopBg.png") repeat-x top left;
+	background-position:0px -1px; 
+	opacity: 0.50; /* Safari, Opera and Mozilla */
 }
 .soria .dijitButtonDisabled .dijitButtonNode *,
 .soria .dijitToggleButtonDisabled .dijitButtonNode *,
 .soria .dijitDropDownButtonDisabled .dijitButtonNode *,
 .soria .dijitComboButtonDisabled .dijitButtonNode *,
 .soria .dijitSpinnerDisabled .dijitButtonNode * {
-	filter: gray() alpha(opacity=30); /* IE */
+	filter: gray() alpha(opacity=50); /* IE */
 }
 
 .soria .dijitButtonHover .dijitButtonNode,
@@ -74,9 +71,10 @@
 .soria .dijitSpinnerDownArrowHover .dijitDownArrowButton {
 	/* hover state - inner */
 	/* TODO: change from Hover to Selected so that button is still highlighted while drop down is being used */
-	border-color:#4f8ce5;
+	border-color:#333;
 	color:#fff;
-	background:#b7cdee url("images/gradientBottomBg.png") repeat-x bottom;
+	background:#4f8ce5 url("images/gradientTopBg.png") repeat-x top left;
+	background-position:0px -1px; 
 }
 
 .soria .dijitButtonActive .dijitButtonNode,
@@ -88,8 +86,8 @@
 	/* active state - inner (for when you are pressing a normal button, or
 	 * when a toggle button is in a depressed state
 	 */
-	border-color:#366dba;
-	background: #ededed url("images/gradientBottomBg.png") bottom repeat-x;
+	border-color:#4f8ce5;
+	background: #cbdcf7 url("images/gradientBottomBg.png") bottom repeat-x;
 }
 
 
@@ -201,15 +199,16 @@
 		For dijit.form.NumberSpinner: the outer fieldset that contains the input.
 	*/
 	font-size: inherit;
-	background:#fff url("images/validationInputBg.png") repeat-x top left;
-	border:1px solid #9b9b9b;
+	background:#fff url("images/gradientInverseTopBg.png") repeat-x top left;
+	background-position:0 -32px; 
+	border:1px solid #333;
 	line-height: normal;
 	padding: 0.2em 0.3em;
 }
 
 .soria .dijitComboBoxFocused .dijitComboBoxInput {
 	/* input field when focused (eg: typing affects it) */
-	border-color:#366dba;
+	border-color:#333;
 	border-style:inset;
 }
 
@@ -219,7 +218,7 @@
 
 .soria .dijitComboBoxHover .dijitComboBoxInput  {
 	/* input field when hovered over */
-	border-color:#366dba;
+	border-color:#4f8ce5;
 }
 
 .soria .dijitComboBoxActive .dijitComboBoxInput {
@@ -366,23 +365,24 @@
 
 /* Menu */
 .soria .dijitMenu {
-	border: 1px solid #9b9b9b;
+	border: 1px solid #333;
 	margin: 0px;
 	padding: 0px;
 }
 
 .soria .dijitMenuItem {
-	background-color: #f7f7f7;
+	background-color: #b7cdee;
 	font: menu;
 	margin: 0;
 }
 
 .soria .dijitMenuItem TD {
 	padding:2px;
+	outline:0; /* FIXME: may break a11y? */
 }
 
 .soria .dijitMenuItemHover {
-	background-color: #95a0b0; /* #555555; #aaaaaa; #646464;  #60a1ea; */
+	background-color: #4f8ce5; /* #555555; #aaaaaa; #646464;  #60a1ea; */
 	color:#fff;
 }
 
@@ -411,16 +411,16 @@
 }
 
 .soria .dijitMenuSeparator {
-	background-color: #f7f7f7;
+	background-color: #b7cdee;
 }
 
 /* separator can be two pixels -- set border of either one to 0px to have only one */
 .soria .dijitMenuSeparatorTop {
-	border-bottom: 1px solid #9b9b9b; /*97adcb; */
+	border-bottom: 1px solid #666; /*97adcb; */
 }
 
 .soria .dijitMenuSeparatorBottom {
-	border-top: 1px solid #e8e8e8;
+	border-top: 1px solid #ccc;
 }
 
 /* TitlePane */
@@ -428,7 +428,7 @@
 .soria .dijitTitlePane .dijitTitlePaneTitle {
 	background:#4f8ce5 url("images/gradientTopBg.png") repeat-x top left;
 	border:1px solid #6969FF;
-	border-top:0px; 
+	background-position:0px -1px; 
 	padding:4px 4px 2px 4px;
 	cursor: pointer;
 	color:#fff; font-weight:bold; 
@@ -467,7 +467,7 @@
 }
 
 .soria .dijitTitlePaneContentOuter {
-	background: #ffffff; /* url('images/gradientInverseTopBg.png') repeat-x top left; */
+	background: #ffffff; 
 	border:1px solid #666;
 	border-top: 1px solid #666;	/* w/out this, an <h1> on the top line causes a gap between the .content and .label */
 }
@@ -490,18 +490,16 @@
 	overflow: hidden;
 	*/
 	background:#fff; 
-	border:1px solid #6969ff;
+	border:1px solid #b7cde5;
 }
 
 .soria .dijitTab {
 	line-height:normal;
-	margin-right:5px;	/* space between one tab and the next in top/bottom mode */
+	margin-right:3px;	/* space between one tab and the next in top/bottom mode */
 	padding:0px;
-	border-left:1px solid #b7cdee;
-	border-right:1px solid #b7cdee;
-	border-bottom:1px solid #4f8ce5;
+	border:1px solid #b7cdee;
 	background:#b7cdee url("images/gradientTopBg.png") repeat-x top left;
-	outline:0;
+	background-position:0px -1px; 
 }
 
 .soria .dijitAlignLeft .dijitTab,
@@ -515,6 +513,10 @@
 	border-left:1px solid #fff;
 	border-bottom:1px solid #fff;
 }
+.soria .dijitTabInnerDiv span {
+	outline:0; 
+}
+
 
 .soria .dijitTabHover,
 .soria .dijitTabCloseButtonHover {
@@ -522,13 +524,8 @@
 	border-top-color:#4f8ce5;
 	border-left-color:#4f8ce5;
 	border-right-color:#4f8ce5;
-	/* background:#4f8ce5 url("images/tabHover.png") repeat-x bottom;*/
 	background:#4f8ce5 url("images/gradientTopBg.png") repeat-x top left;
-}
-
-.dj_ie6 .soria .dijitTabHover,
-.dj_ie6 .soria .dijitTabCloseButtonHover {
-	background-image: url("images/tabHover.gif"); 
+	background-position:0px -1px; 
 }
 
 .soria .dijitTabChecked,
@@ -537,8 +534,8 @@
 	/* the selected tab (with or without hover) */
 	background-color:#fff;
 	color:#333; 
-	border-color: #4F8CE5;
-	border-top:1px solid #4f8ce5;
+/* 	border-color: #4F8CE5; */
+/* 	border-top:1px solid #4f8ce5; */
 	background-image:none; 
 }
 
@@ -546,7 +543,7 @@
 .soria .dijitAlignTop .dijitTabChecked,
 .soria .dijitAlignTop .dijitTabCloseButtonChecked
 {
-	border-bottom-color:white;
+	border-bottom-color:transparent;
 	vertical-align:bottom;
 }
 
@@ -573,7 +570,7 @@
 /* make space for a positioned close button */
 .soria .dijitTab .dijitClosable {
 	position: relative; 
-	padding:6px 20px 4px 10px;
+	padding:6px 24px 4px 10px;
 }
 
 .soria .dijitTab .dijitClosable .closeImage {
@@ -586,22 +583,13 @@
 	margin: 0;
 	background: url("images/tabClose.png") no-repeat right top;
 }
-.dj_ie6 .dijitTab .dijitClosable .closeImage {
-	background-image:url("images/tabClose.gif"); 
-}
 
 .soria .dijitTabCloseButton .dijitClosable .closeImage {
 	background-image : url("images/tabClose.png");
 }
-.dj_ie6 .soria .dijitTabCloseButton .dijitClosable .closeImage {
-	background-image : url("images/tabClose.gif");
-}
 
 .soria .dijitTabCloseButtonHover .dijitClosable .closeImage {
 	background-image : url("images/tabCloseHover.png");
-}
-.dj_ie6 .soria .dijitTabCloseButtonHover .dijitClosable .closeImage {
-	background-image : url("images/tabCloseHover.gif");
 }
 
 .soria .dijitAlignLeft .dijitTab .dijitClosable {
@@ -638,8 +626,8 @@
 }
 
 .soria .dijitSplitContainerSizerH .thumb {
-	background:url("images/splitContainerSizerH-thumb.png") no-repeat center center; ;
-	left:1px;
+	background:url("images/splitContainerSizerH-thumb.png") no-repeat center center; 
+	left:0px;
 	width:6px;
 	height:36px;
 }
@@ -759,6 +747,9 @@
 	border-radius: 6px;
 	-moz-border-radius: 7px;
 	-webkit-border-radius: 6px;
+}
+.soria .dijitTooltipContents {
+	outline:0; /* the node that gets focus */
 }
 
 .soria .dijitTooltipConnector {
@@ -973,13 +964,14 @@
 	font-size: 100%;
 	border-collapse: collapse; 
 	border-spacing: 0; 
-	border: 1px solid #b7cdee; 
+	border: 1px solid #333; 
 	margin: 0;
 }
 
 .soria .dijitCalendarMonthContainer th {
 	/* month header cell */
-	background:white url("images/calendarMonthLabel.png") repeat-x top;
+	background:#b7cdee url("images/gradientTopBg.png") repeat-x top;
+	background-position:0 -1px;
 	padding-top:.3em;
 	padding-bottom:.1em; 
 }
@@ -990,8 +982,9 @@
 
 .soria .dijitCalendarDayLabelTemplate {
 	/* day of week labels */
-	background:white url("images/calendarDayLabel.png") repeat-x bottom;
+	background:#b7cdee url("images/gradientBottomBg.png") repeat-x bottom;
 	font-weight:normal;
+	background-position:0 -28px;
 	padding-top:.15em;
 	padding-bottom:0em;
 	border-top: 1px solid #333;
@@ -1053,15 +1046,15 @@
 
 .soria .dijitCalendarSelectedDate {
 	/* cell for the selected date */
-	background-color:#bbc4d0 !important;
-	color:black !important;
+	background-color:#4f8ce5 !important;
+	color:#fff !important;
 }
 
 
 .soria .dijitCalendarYearContainer {
 	/* footer of the table that contains the year display/selector */
-	background:white url("images/calendarYearLabel.png") repeat-x bottom;
-	border-top:1px solid #ccc;
+	background:#b7cdee url("images/gradientBottomBg.png") repeat-x bottom;
+	border-top:1px solid #333;
 }
 
 .soria .dijitCalendarYearLabel {
@@ -1073,10 +1066,10 @@
 
 .soria .dijitCalendarSelectedYear {
 	/* label for selected year */
-	color:black;
+	color:#fff;
 	padding:0.2em;
 	padding-bottom:0.1em;
-	background-color:#bbc4d0 !important;
+	background-color:#4f8ce5 !important;
 }
 
 .soria .dijitCalendarNextYear, 
@@ -1102,14 +1095,9 @@
 	/* fieldset surrounding an inlineEditor in edit mode */
 	display: inline-block;
 	display: -moz-inline-stack;
-	#display:inline;
-	/*
-	border: solid;
-	border-color: #7788a0 #344257 #344257 #7788a0;
-	border-width:1px 2px 2px 1px;
-	-moz-border-radius:0px 2px 0px 2px;	make BL and TR corners indent on Moz so it looks like we have a shadow
-	background-color:white;
-	*/
+}
+.dj_ie6 .dijitInLineEditor {
+	display:inline;
 }
 
 .dijitInlineEditor .saveButton,
@@ -1162,7 +1150,9 @@
 
 .soria .dijitHorizontalSliderProgressBar {
 	border-color: #333;
-	background: #4f8ce5 url("images/sliderFull.png") repeat-x top left;
+	background: #4f8ce5 url("images/gradientTopBg.png") repeat-x top left;
+	background-position:0 -1px; 
+	zoom:1;
 }
 
 .soria .dijitVerticalSliderProgressBar {
@@ -1177,7 +1167,8 @@
 
 .dijitHorizontalSliderRemainingBar {
 	border-color: #333;
-	background: #b7cdee url("images/sliderEmpty.png") repeat-x top left;
+	background: #b7cdee url("images/gradientTopBg.png") repeat-x top left;
+	background-position:0 -1px;
 }
 
 .soria .dijitSliderBar {
@@ -1198,12 +1189,14 @@
 }
 
 .soria .dijitHorizontalSliderLeftBumper {
+	display:none; 
 	border-left-width: 1px;
 	border-color: #333;
 	background: #4f8ce5 url("images/sliderFull.png") repeat-x top left;
 }
 
 .soria .dijitHorizontalSliderRightBumper {
+	display:none; 
 	background: #b7cdee url("images/sliderEmpty.png") repeat-x top left;
 	border-color: #333;
 	border-right-width: 1px;
@@ -1293,7 +1286,6 @@
 	/* background-image: url("images/dojoTundraGradientBg.gif"); */
 }
 
-
 /** TODO: add all other PNGs here that need this */
 /**** Disabled cursor *****/
 .soria .dijitDisabledClickableRegion,	/* a region the user would be able to click on, but it's disabled */
@@ -1306,6 +1298,3 @@
 	cursor: not-allowed !important;
 	cursor: url("no.gif"), not-allowed, default;
 }
-
-
-
