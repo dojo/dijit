@@ -1,6 +1,7 @@
 <html>
 <head>
 	<title>Dijit Theme Tester</title>
+	<script type="text/javascript" src="../tests/testBidi.js"></script>
 	<script type="text/javascript" src="../../dojo/dojo.js" 
 		djConfig="parseOnLoad: false, isDebug: true"></script>
 	<script type="text/javascript" src="../dijit.js"></script>
@@ -14,6 +15,11 @@
 		thisTheme.rel = "stylesheet";
 		thisTheme.href = themeName + '/' + themeName + '.css';
 		thisTheme.type = "text/css"; 
+
+		var thisThemeRtl = docHead.appendChild(document.createElement('link'));
+		thisThemeRtl.rel = "stylesheet";
+		thisThemeRtl.href = themeName + '/' + themeName + '_rtl.css';
+		thisThemeRtl.type = "text/css"; 
 
 		// this is just a list of 'official' dijit themes, you can use ?theme=String 
 		// for 'un-supported' themes, too. (eg: yours) 
