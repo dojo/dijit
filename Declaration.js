@@ -10,27 +10,30 @@ dojo.declare(
 		//		The Declaration widget allows a user to declare new widget
 		//		classes directly from a snippet of markup.
 
+		_noScript: true,
 		widgetClass: "",
 		replaceVars: true,
 		defaults: null,
 		mixins: [],
 		buildRendering: function(){
 			var src = this.srcNodeRef.parentNode.removeChild(this.srcNodeRef);
+			var preambles = dojo.query("> script[type='dojo/method'][event='preamble']", src).orphan();
 			var scripts = dojo.query("> script[type^='dojo/']", src).orphan();
 			var srcType = src.nodeName;
 
-			if(this.mixins.length){
-				this.mixins = dojo.map(this.mixins, dojo.getObject);
-			}else{
-				this.mixins = [ dijit._Widget, dijit._Templated ];
-			}
+
+			this.mixins = this.mixins.length ? 
+				dojo.map(this.mixins, dojo.getObject) : 
+				[ dijit._Widget, dijit._Templated ];
 			this.mixins.push(function(){
-				scripts.forEach(function(script){
-					dojo.parser._wireUpMethod(this, script);
-				}, this);
+				scripts.forEach(dojo.hitch(dojo.parser, "_wireUpMethod", this));
 			});
 
 			var propList = this.defaults||{};
+			if(preambles.length){
+				// we only support one preamble. So be it.
+				propList.preamble = dojo.parser._functionFromScript(preambles[0]);
+			}
 			propList.widgetsInTemplate = true;
 			propList.templateString = "<"+srcType+">"+src.innerHTML+"</"+srcType+">";
 
