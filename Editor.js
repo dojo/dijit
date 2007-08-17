@@ -134,11 +134,24 @@ dojo.declare(
 			if(this.customUndo && (cmd=='undo' || cmd=='redo')){
 				return cmd=='undo'?this.undo():this.redo();
 			}else{
-				this.endEditing();
-				this._beginEditing();
-				var r = this.inherited('execCommand',arguments);
-				this._endEditing();
-				return r;
+				try{
+					this.endEditing();
+					this._beginEditing();
+					var r = this.inherited('execCommand',arguments);
+					this._endEditing();
+					return r;
+				}catch(e){
+					if(dojo.isMoz){
+						if('copy'==cmd){
+							alert(this.commands['copyErrorFF']);
+						}else if('cut'==cmd){
+							alert(this.commands['cutErrorFF']);
+						}else if('paste'==cmd){
+							alert(this.commands['pasteErrorFF']);
+						}
+					}
+					return false;
+				}
 			}
 		},
 		queryCommandEnabled: function(cmd){

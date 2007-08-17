@@ -35,5 +35,9 @@
 	'plainFormatBlock': 'Paragraph Style',
 	'formatBlock': 'Paragraph Style',
 	'fontSize': 'Font Size',
-	'fontName': 'Font Name'
+	'fontName': 'Font Name',
+	/* Error messages */
+	'copyErrorFF': 'Copy action is only available in Firefox via keyboard shortcut due to its design decision: please use ctrl+c.',
+	'cutErrorFF': 'Cut action is only available in Firefox via keyboard shortcut due to its design decision: please use ctrl+x.',
+	'pasteErrorFF': 'Paste action is only available in Firefox via keyboard shortcut due to its design decision: please use ctrl+v.'
 })
