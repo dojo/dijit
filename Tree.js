@@ -59,7 +59,7 @@ dojo.declare(
 		this.destroyDescendants();
 
 		this.state = "LOADED";
-
+		var nodeMap= {};
 		if(childrenArray && childrenArray.length > 0){
 			this.isFolder = true;
 			if(!this.containerNode){ // maybe this node was unfolderized and still has container
@@ -74,19 +74,15 @@ dojo.declare(
 					label: this.tree.store.getLabel(childParams.item)
 				}, childParams));
 				this.addChild(child);
+				nodeMap[this.tree.store.getIdentity(childParams.item)] = child;
 			}, this);
 
 			// note that updateLayout() needs to be called on each child after
 			// _all_ the children exist
 			dojo.forEach(this.getChildren(), function(child, idx){
 				child._updateLayout();
-
-				var message = {
-					child: child,
-					index: idx,
-					parent: this
-				};
 			});
+
 		}else{
 			this.isFolder=false;
 		}
@@ -97,6 +93,40 @@ dojo.declare(
 			var tabnode = fc ? fc.labelNode : this.domNode; 
 			tabnode.setAttribute("tabIndex", "0");
 		}
+
+		return nodeMap;
+	},
+
+	addNode: function(/* dojo.data */ item){
+		//summary: given an item, create a treeode representing that item as a child
+		var child = new dijit._TreeNode({
+			tree: this.tree,
+			label: this.tree.store.getLabel(item),
+			item: item,
+			isFolder: false
+		});
+	
+		this.addChild(child);
+
+		dojo.forEach(this.getChildren(), function(child, idx){
+			child._updateLayout();
+		});
+	
+		return child;
+	},
+
+	deleteNode: function(/* treeNode */ node) {
+		node.destroy();
+	
+		dojo.forEach(this.getChildren(), function(child, idx){
+			child._updateLayout();
+		});
+	},
+
+	makeFolder: function() {
+		//summary: if this node wasn't already a folder, turn it into one and call _setExpando()
+		this.isFolder=true;
+		this._setExpando(false);
 	}
 });
 
@@ -184,7 +214,6 @@ dojo.declare(
 	destroy: function(){
 		// publish destruction event so that any listeners should stop listening
 		this._publish("beforeTreeDestroy");
-
 		return dijit._Widget.prototype.destroy.apply(this, arguments);
 	},
 
@@ -361,7 +390,7 @@ dojo.declare(
 		}
 	},
 
-	_setExpando: function(/*Boolean*/ processing) {
+	_setExpando: function(/*Boolean*/ processing){
 		// summary: set the right image for the expando node
 
 		// apply the appropriate class to the expando node
@@ -383,13 +412,15 @@ dojo.declare(
 	},	
 
 	setChildren: function(items){
-		dijit.Tree.superclass.setChildren.apply(this, arguments);
+		var ret = dijit.Tree.superclass.setChildren.apply(this, arguments);
 
 		// create animations for showing/hiding the children
 		this._wipeIn = dojo.fx.wipeIn({node: this.containerNode, duration: 250});
 		dojo.connect(this.wipeIn, "onEnd", dojo.hitch(this, "_afterExpand"));
 		this._wipeOut = dojo.fx.wipeOut({node: this.containerNode, duration: 250});
 		dojo.connect(this.wipeOut, "onEnd", dojo.hitch(this, "_afterCollapse"));
+
+		return ret;
 	},
 
 	expand: function(){
@@ -435,6 +466,13 @@ dojo.declare(
 		this.onHide();
 		this._publish("afterCollapse", {node: this});
 	},
+
+
+	setLabelNode: function(label) {
+		this.labelNode.innerHTML="";
+		this.labelNode.appendChild(document.createTextNode(label));
+	},
+
 
 	toString: function(){
 		return '['+this.declaredClass+', '+this.label+']';
