@@ -64,7 +64,7 @@ dojo.declare("dijit._Container",
 			if(typeof insertIndex == "undefined"){
 				insertIndex = "last";
 			}
-			dojo.place(widget.domNode, this.containerNode, insertIndex);
+			dojo.place(widget.domNode, this.containerNode || this.domNode, insertIndex);
 
 			// If I've been started but the child widget hasn't been started,
 			// start it now.  Make sure to do this after widget has been
