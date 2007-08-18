@@ -1,0 +1,174 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+	"http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+	<title>Demo Mail Application</title>
+
+	<script type="text/javascript" src="../tests/testBidi.js"></script>
+
+	<script type="text/javascript" src="../../dojo/dojo.js" 
+		djConfig="isDebug: true, parseOnLoad: true"></script>
+	<script type="text/javascript">
+		dojo.require("dojo.parser");
+		dojo.require("dojo.data.ItemFileWriteStore");
+
+		dojo.require("dijit.Declaration");
+		dojo.require("dijit.form.Button");
+		dojo.require("dijit.Menu");
+		dojo.require("dijit.Tree");
+		dojo.require("dijit.Tooltip");
+		dojo.require("dijit.Dialog");
+		dojo.require("dijit.Toolbar");
+
+		dojo.require("dijit.form.ComboBox");
+		dojo.require("dijit.form.FilteringSelect");
+
+		dojo.require("dijit.layout.LayoutContainer");
+		dojo.require("dijit.layout.SplitContainer");
+		dojo.require("dijit.layout.ContentPane");
+	</script>
+
+	<script type="text/javascript" src="mail/mail.js"></script>
+
+	<style type="text/css">
+		@import "../../dojo/resources/dojo.css";
+		@import "../themes/soria/soria.css";
+		@import "../themes/tundra/tundra.css";	/* TODO: fix tree in soria then I don't need this */
+		@import "mail/mail.css";
+	</style>
+</head>
+<body class="soria">
+	<!-- TODO: replace with a store for email -->
+	<div dojoType="dojo.data.ItemFileReadStore" jsId="stateStore"
+		url="../tests/form/comboBoxData.json"></div>
+	<div dojoType="dojo.data.ItemFileWriteStore" jsId="mailStore"
+		url="mail/mail.json"></div>
+
+	<div dojoType="dijit.layout.LayoutContainer" id="main">
+		<div dojoType="dijit.layout.ContentPane" layoutAlign="top" id="banner" align=center>
+			My Mailbox
+		</div>
+		<div dojoType="dijit.Toolbar" layoutAlign="top">
+			<div id="getMail" dojoType="dijit.form.ComboButton" onClick="alert('pretending to download new mail');"
+				iconClass="mailIconGetMail">
+				<span>Get Mail</span>
+				<ul dojoType="dijit.Menu">
+					<li dojoType="dijit.MenuItem" iconClass="mailIconGetMail">Yahoo</li>
+					<li dojoType="dijit.MenuItem" iconClass="mailIconGetMail">GMail</li>
+				</ul>
+			</div>
+			<span dojoType="dijit.Tooltip" connectId="getMail">Click to download check for new mail.</span>
+
+			<button
+				id="newMsg" dojoType="dijit.form.Button"
+				onClick='open("Mail/NewMessage.html",null,"height=500,width=600,status=yes,toolbar=no,menubar=no,location=no");'
+				iconClass="mailIconNewMessage">
+				New Message
+			</button>
+			<span dojoType="dijit.Tooltip" connectId="newMsg">Click to compose new message.</span>
+
+			<div id="options" dojoType="dijit.form.DropDownButton" iconClass="mailIconOptions">
+				<span>Options</span>
+				<div dojoType="dijit.TooltipDialog" title="Options">
+			  		<label for="option1">Transport type</label>
+			  		<select id="option1" dojoType="dijit.form.FilteringSelect">
+			  			<option value="pop3">POP3</option>
+			  			<option value="imap">IMAP</option>
+			  		</select>
+			  		<br>
+			  		<label for="option2">Server:</option> <input id="option2" dojoType="dijit.form.TextBox" type="text">
+			  		<br>
+			  		<button dojoType="dijit.form.Button" type="submit" iconClass="mailIconOk">OK</button>
+				</div>
+			</div>
+			<div dojoType="dijit.Tooltip" connectId="options">
+				Set various options.  Currently broken due to<br>
+				a bug with having a popup in a popup. :-(
+			</div>
+		</div>
+
+		<!-- main section with tree, table, and preview -->
+		<div dojoType="dijit.layout.SplitContainer"
+			orientation="horizontal"
+			sizerWidth="5"
+			activeSizing="0"
+			layoutAlign="client"
+		>
+			<div dojoType="dijit.layout.ContentPane"
+				 sizeMin="20" sizeShare="20" class="tundra">
+				<div dojoType="dijit.Tree" id="mytree" store="mailStore"
+					labelAttr="label" childrenAttr="folders" query="{type:'folder'}"></div>
+			</div>
+
+			<div dojoType="dijit.layout.SplitContainer"
+				id="rightPane"
+				orientation="vertical"
+				sizerWidth="5"
+				activeSizing="0"
+				sizeMin="50" sizeShare="85"
+			>
+				<div id="listPane" dojoType="dijit.layout.ContentPane" sizeMin="20" sizeShare="20">
+					<table dojoType="dijit.Declaration" 
+						class="demoTable"
+						widgetClass="demo.Table"
+						defaults="{ store: null, query: { query: { type: 'message' } }, columns: [ { name: 'From', attribute: 'sender' }, { name: 'Subject', attribute: 'label' }, { name: 'Sent on', attribute: 'sent' } ] }">
+						<thead dojoAttachPoint="head">
+							<tr dojoAttachPoint="headRow"></tr>
+						</thead>
+						<tbody dojoAttachPoint="body">
+							<tr dojoAttachPoint="row">
+							</tr>
+						</tbody>
+				
+						<script type="dojo/method">
+							dojo.forEach(this.columns, function(item){
+								var icn = item.className||"";
+								// add a header for each column
+								var tth = document.createElement("th");
+								tth.innerHTML = item.name;
+								tth.className = icn;
+								this.headRow.appendChild(tth);
+				
+								// and fill in the column cell in the template row
+								this.row.appendChild(document.createElement("td"));
+								this.row.lastChild.className = icn;
+							}, this);
+							this.body.removeChild(this.row);
+						</script>
+						<script type="dojo/method" event="postCreate">this.runQuery();</script>
+						<script type="dojo/method" event="runQuery">
+							this.query.onBegin = dojo.hitch(this, function(){ this.body.innerHTML = ""; });
+							this.query.onItem = dojo.hitch(this, "onItem");
+							this.query.onComplete = dojo.hitch(this, function(){
+								dojo.query("tr:nth-child(odd)", this.body).addClass("oddRow");
+								dojo.query("tr:nth-child(even)", this.body).removeClass("oddRow");
+							});
+							this.store.fetch(this.query);
+						</script>
+						<script type="dojo/method" event="onItem" args="item">
+							var tr = this.row.cloneNode(true);
+							dojo.query("td", tr).forEach(function(n, i, a){
+								n.innerHTML = this.store.getValue(item, this.columns[i].attribute)||"";
+							}, this);
+							this.body.appendChild(tr);
+						</script>
+				
+					</table>
+			
+					<span dojoType="demo.Table" store="mailStore"
+						query="{ query: { type: 'message' }, sort: [ { attribute: 'label' } ]  }" 
+						id="foo" jsId="table" style="width: 100%">
+					</span>
+				</div>
+				<div dojoType="dijit.layout.ContentPane" sizeMin="20" sizeShare="80">
+					Message pane
+				</div>
+			</div>
+		</div>
+
+		<div dojoType="dijit.layout.ContentPane" layoutAlign="bottom" id="footer" align=center>
+			...
+		</div>
+	</div>
+</body>
+</html>
