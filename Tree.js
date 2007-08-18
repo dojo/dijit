@@ -230,6 +230,10 @@ dojo.declare(
 		return "["+this.declaredClass+" ID:"+this.id+"]";
 	},
 
+	getIconClass: function(/*dojo.data.Item*/ item){
+		// summary: user overridable class to return CSS class name to display icon
+	},
+
 	_domElement2TreeNode: function(/*DomNode*/ domElement){
 		var ret;
 		do{
@@ -372,6 +376,9 @@ dojo.declare(
 		
 		// set expand icon for leaf 	
 		this._setExpando();
+		
+		// set icon based on item
+		dojo.addClass(this.iconNode, this.tree.getIconClass(this.item));
 	},
 
 	markProcessing: function(){

@@ -158,6 +158,10 @@
 							table.query.query.folder = mailStore.getValue(item, "id");
 							table.runQuery();
 						</script>
+						<script type="dojo/method" event="getIconClass" args="item">
+							var specifiedIcon = mailStore.getValue(item, "icon");
+							return specifiedIcon || "mailIconFolderDocuments";
+						</script>
 					</div>
 				</div>
 				<div dojoType="dijit.layout.AccordionPane" title="Address Book">
