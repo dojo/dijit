@@ -68,11 +68,13 @@
 				this.row.appendChild(document.createElement("td"));
 				this.row.lastChild.className = icn;
 			}, this);
-			this.body.removeChild(this.row);
+			
+			// doesn't work on IE, need special func for tables?
+			//this.body.removeChild(this.row);
 		</script>
 		<script type="dojo/method" event="postCreate">this.runQuery();</script>
 		<script type="dojo/method" event="runQuery">
-			this.query.onBegin = dojo.hitch(this, function(){ this.body.innerHTML = ""; });
+			this.query.onBegin = dojo.hitch(this, function(){ dojo.query("tr", this.body).orphan(); });
 			this.query.onItem = dojo.hitch(this, "onItem");
 			this.query.onComplete = dojo.hitch(this, function(){
 				console.log("completed", this.body);
@@ -130,7 +132,7 @@
 			  			<option value="imap">IMAP</option>
 			  		</select>
 			  		<br>
-			  		<label for="option2">Server:</option> <input id="option2" dojoType="dijit.form.TextBox" type="text">
+			  		<label for="option2">Server:</label> <input id="option2" dojoType="dijit.form.TextBox" type="text">
 			  		<br>
 			  		<button dojoType="dijit.form.Button" type="submit" iconClass="mailIconOk">OK</button>
 				</div>
@@ -155,7 +157,10 @@
 						labelAttr="label" childrenAttr="folders" query="{type:'folder'}">
 						<script type="dojo/method" event="onClick" args="item">
 							/* filter the message list to messages in this folder */
-							table.query.query.folder = mailStore.getValue(item, "id");
+							table.query.query = {
+								type: "message",
+								folder: mailStore.getValue(item, "id")
+							};
 							table.runQuery();
 						</script>
 						<script type="dojo/method" event="getIconClass" args="item">
@@ -188,6 +193,21 @@
 							</script>
 						</span>
 					-->
+					<div dojoType="dijit.Tree" id="addrTree" store="mailStore"
+						labelAttr="label" childrenAttr="folders" query="{type:'address'}">
+						<script type="dojo/method" event="onClick" args="item">
+							/* filter the message list to messages from this user */
+							table.query.query = {
+								type: "message",
+								sender: mailStore.getValue(item, "label")
+							};
+							table.runQuery();
+						</script>
+						<script type="dojo/method" event="getIconClass" args="item">
+							var specifiedIcon = mailStore.getValue(item, "icon");
+							return specifiedIcon || "mailIconFolderDocuments";
+						</script>
+					</div>
 				</div>
 				<div dojoType="dijit.layout.AccordionPane" title="Dummy">
 					<!-- todo: there's a formatting problem on FF so the bottom pane is overflowing the screen! -->
