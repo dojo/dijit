@@ -99,7 +99,11 @@ dojo.declare(
 				dojo.stopEvent(evt);
 				break;
 			case dojo.keys.LEFT_ARROW:
-				this.onCancel(false);
+				if(this.parentMenu){
+					this.onCancel(false);
+				}else{
+					dojo.stopEvent(evt);
+				}
 				break;
 			case dojo.keys.TAB:
 				dojo.stopEvent(evt);
