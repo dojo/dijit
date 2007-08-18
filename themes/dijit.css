@@ -792,6 +792,10 @@ body .dijitAlignClient { position: absolute; }
 
 /* Accordion */
 
+.dijitAccordionPane {
+	overflow: hidden !important;	/* prevent spurious scrollbars */
+}
+
 .dijitAccordionPane .dijitAccordionBody {
 	overflow: auto;
 }

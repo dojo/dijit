@@ -2,7 +2,10 @@ dojo.provide("dijit.layout.AccordionContainer");
 
 dojo.require("dojo.fx");
 
+dojo.require("dijit._Container");
+dojo.require("dijit._Templated");
 dojo.require("dijit.layout.StackContainer");
+dojo.require("dijit.layout.ContentPane");
 
 dojo.declare(
 	"dijit.layout.AccordionContainer",
@@ -79,11 +82,6 @@ inside the AccordionPane??
 				newWidget.setSelected(true);
 				var newContents = newWidget.containerNode;
 				newContents.style.display = "";
-				dojo.forEach(newWidget.getChildren(), function(widget){
-					if(widget.resize){
-						widget.resize({h: paneHeight});
-					}
-				});
 
 				animations.push(dojo.animateProperty({ 
 					node: newContents, 
@@ -143,15 +141,11 @@ inside the AccordionPane??
 
 dojo.declare(
 	"dijit.layout.AccordionPane",
-	[dijit.layout._LayoutWidget, dijit._Templated],
+	[dijit.layout.ContentPane, dijit._Templated, dijit._Contained],
 {
 	// summary
 	//		AccordionPane is a box with a title that contains another widget (often a ContentPane).
 	//		It's a widget used internally by AccordionContainer.
-
-	// selected: Boolean
-	//	if true, this is the open pane
-	selected: false,
 
 	templatePath: dojo.moduleUrl("dijit.layout", "templates/AccordionPane.html"),
 
