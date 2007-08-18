@@ -27,10 +27,9 @@
 
 		dojo.require("dijit.layout.LayoutContainer");
 		dojo.require("dijit.layout.SplitContainer");
+		dojo.require("dijit.layout.AccordionContainer");
 		dojo.require("dijit.layout.ContentPane");
 	</script>
-
-	<script type="text/javascript" src="mail/mail.js"></script>
 
 	<style type="text/css">
 		@import "../../dojo/resources/dojo.css";
@@ -43,6 +42,7 @@
 	<div dojoType="dojo.data.ItemFileWriteStore" jsId="mailStore"
 		url="mail/mail.json"></div>
 
+	<!-- Inline declaration of a table widget (thanks Alex!) -->
 	<table dojoType="dijit.Declaration" 
 		class="demoTable"
 		widgetClass="demo.Table"
@@ -76,9 +76,7 @@
 			this.query.onItem = dojo.hitch(this, "onItem");
 			this.query.onComplete = dojo.hitch(this, function(){
 				console.log("completed", this.body);
-				dojo.query("tr:nth-child(odd)", this.body).forEach( function(item){ console.log("odd item"); } );
-				dojo.query("tr:nth-child(odd)", this.body).addClass("oddRow");
-				dojo.query("tr:nth-child(even)", this.body).removeClass("oddRow");
+				dojo.query("tr", this.body).forEach(function(row, idx){ dojo.toggleClass(row, "oddRow", idx%2); });
 			});
 			this.store.fetch(this.query);
 		</script>
@@ -92,14 +90,18 @@
 			dojo.connect(tr, "onclick", this, function(){ _self.onClick(item); });
 		</script>
 		<script type="dojo/method" event="onClick" args="item">
-			console.debug("item clicked", item);
+			console.debug("clicked item", item);
 		</script>
 	</table>
 
 	<div dojoType="dijit.layout.LayoutContainer" id="main">
+
+		<!-- blue header at top of inbox -->
 		<div dojoType="dijit.layout.ContentPane" layoutAlign="top" id="banner" align=center>
 			My Mailbox
 		</div>
+
+		<!-- toolbar with new mail button, etc. -->
 		<div dojoType="dijit.Toolbar" layoutAlign="top">
 			<div id="getMail" dojoType="dijit.form.ComboButton" onClick="alert('pretending to download new mail');"
 				iconClass="mailIconGetMail">
@@ -146,10 +148,46 @@
 			activeSizing="0"
 			layoutAlign="client"
 		>
-			<div dojoType="dijit.layout.ContentPane"
-				 sizeMin="20" sizeShare="20" class="tundra">
-				<div dojoType="dijit.Tree" id="mytree" store="mailStore"
-					labelAttr="label" childrenAttr="folders" query="{type:'folder'}"></div>
+			<div dojoType="dijit.layout.AccordionContainer" sizeMin="20" sizeShare="20">
+				<div dojoType="dijit.layout.AccordionPane" title="Folders"
+					 class="tundra">
+					<div dojoType="dijit.Tree" id="mytree" store="mailStore"
+						labelAttr="label" childrenAttr="folders" query="{type:'folder'}">
+						<script type="dojo/method" event="onClick" args="item">
+							/* filter the message list to messages in this folder */
+							table.query.query.folder = mailStore.getValue(item, "id");
+							table.runQuery();
+						</script>
+					</div>
+				</div>
+				<div dojoType="dijit.layout.AccordionPane" title="Address Book">
+
+					<!--
+						TODO: want to use a table here but somehow can't have two table instances on the same page.
+						Debug later
+						<span dojoType="demo.Table" store="mailStore"
+							query="{ query: { type: 'address' }, columns: [ {name: 'User name', attribute: 'label'} ], sort: [ { attribute: 'label' } ]  }" 
+							id="addresses" style="width: 100%">
+							<script type="dojo/method" event="preamble">
+								this.query = { type: "address" };
+								this.columns = [
+									{
+										name: "Name",
+										attribute: "label"
+									}
+								];
+							</script>
+							<script type="dojo/method" event="onClick" args="item">
+								table.query.query.sender = mailStore.getValue(item, "sender");
+								delete table.query.query.folder;
+								table.runQuery();
+							</script>
+						</span>
+					-->
+				</div>
+				<div dojoType="dijit.layout.AccordionPane" title="Dummy">
+					<!-- todo: there's a formatting problem on FF so the bottom pane is overflowing the screen! -->
+				</div>
 			</div>
 
 			<div dojoType="dijit.layout.SplitContainer"

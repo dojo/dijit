@@ -255,9 +255,15 @@ dojo.declare(
 				this._publish("toggleOpen", {node:nodeWidget});
 			}
 		}else{
-			this._publish("execute", { item: nodeWidget.item, node: nodeWidget} );	
+			this._publish("execute", { item: nodeWidget.item, node: nodeWidget} );
+			this.onClick(nodeWidget.item, nodeWidget);
 		}
 		dojo.stopEvent(e);
+	},
+
+	onClick: function(/* dojo.data */ item){
+		// summary: user overridable function
+		console.log("default onclick handler", item);
 	},
 
 	_onKeyPress: function(/*Event*/ e){

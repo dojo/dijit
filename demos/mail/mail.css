@@ -11,8 +11,10 @@ html, body, #main{
 background-color: #274383; color: white;
 }
 
-/* list of messages */
-#listPane tr:hover, #listPane td:hover {
+/* list of messages
+TODO: If i add the rules below as a plain tr/td it seems to mess up accordion, tree, etc. ???
+*/
+#listPane tr:hover, #listPane td:hover, .dijitTreeContent:hover {
 	background: gray;
 	cursor: pointer;
 }
@@ -26,9 +28,8 @@ th {
 	background-color: #f2f5f9;
 }
 
-body .dojoFloatingPaneDragbar {
-	background-color: #274383; 
-}
+/* Stuff for new messages */
+
 .subject {
 	background: gray;
 	width: 100%;

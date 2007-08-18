@@ -4,16 +4,22 @@
 	items: [
 
 		// Hierarchy of folders
-
-		{ type: 'folder', id: 'inbox', label:'Inbox', icon:'mailIconFolderInbox' },
-		{ type: 'folder', id: 'deleted', label:'Trash Can', icon:'mailIconTrashcanFull' },
-		{ type: 'folder', id: 'friends', label:'Friends',  folders:[
-			{ id: 'bob', label:'Bob'},
-			{ id: 'jack', label:'Jack'},
-			{ id: 'jill', label:'Jill'}
+		{ type: 'folder', id: 'mailbox', label:'Mail Folders', folders: [
+			{ type: 'folder', id: 'inbox', label:'Inbox', icon:'mailIconFolderInbox' },
+			{ type: 'folder', id: 'deleted', label:'Trash Can', icon:'mailIconTrashcanFull' },
+			{ type: 'folder', id: 'friends', label:'Friends',  folders:[
+				{ id: 'bob', label:'Bob'},
+				{ id: 'jack', label:'Jack'},
+				{ id: 'jill', label:'Jill'}
+			]}
 		]},
 
-		// Flat list of messages where each message lists it's folder
+		// Address book (list of people that have sent me messages)
+		{ type: 'address', id: 'adamAddr', label: "Adam Arlen" },
+		{ type: 'address', id: 'bobAddr', label: "Bob Baxter" },
+		{ type: 'address', id: 'carreyAddr', label: "Carrey Crown" },
+
+		// Flat list of messages (each message lists it's folder)
 
 		{ type: 'message', id: 'node1.1', folder: 'inbox', label: "today's meeting", sender: "Adam Arlen", sent: "2005-12-19",
 			text: "Today's meeting is cancelled.<br>Let's do it tomorrow instead.<br><br>Adam" },
