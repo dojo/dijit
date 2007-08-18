@@ -16,6 +16,7 @@ TODO: If i add the rules below as a plain tr/td it seems to mess up accordion, t
 */
 #listPane tr:hover, #listPane td:hover, .dijitTreeContent:hover {
 	background: gray;
+	color: white;
 	cursor: pointer;
 }
 #listPane tr, #listPane td { cursor: pointer; }
@@ -26,6 +27,10 @@ th {
 
 .oddRow {
 	background-color: #f2f5f9;
+}
+
+#message {
+	padding: 8px;
 }
 
 /* Stuff for new messages */
