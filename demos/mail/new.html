@@ -1,0 +1,73 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title>New Message</title>
+<script type="text/javascript" src="../../../dojo/dojo.js" djConfig="isDebug: true, parseOnLoad: true">
+</script>
+<script language="JavaScript" type="text/javascript">
+	dojo.require("dijit.dijit");	
+	dojo.require("dijit.Editor");	
+	dojo.require("dijit.form.ComboBox");
+	dojo.require("dijit.layout.LayoutContainer");
+	dojo.require("dijit.form.Button");
+	dojo.require("dijit.Tooltip");
+	dojo.require("dojo.parser");	// scan page for widgets and instantiate them
+</script>
+<style type="text/css">
+	@import "../../../dojo/resources/dojo.css";
+	@import "../../themes/tundra/tundra.css";
+	@import "mail.css";
+</style>
+</head>
+<body class="tundra">
+<div dojoType="dijit.layout.LayoutContainer" id="main">
+
+<div dojoType="dijit.layout.LayoutContainer" layoutAlign="top" style="overflow: visible; z-index: 10;">
+	<table width=100%>
+		<tr>
+			<td style="padding-right: 20px;">To:</td>
+			<td width=100%>
+				<select dojoType="dijit.form.ComboBox" style="width: 100%;">
+					<option>adam@yahoo.com</option>
+					<option>barry@yahoo.com</option>
+					<option>bob@yahoo.com</option>
+					<option>cal@yahoo.com</option>
+					<option>chris@yahoo.com</option>
+					<option>courtney@yahoo.com</option>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td style="padding-right: 20px;">Subject:</td>
+			<td width=100%>
+				<select dojoType="dijit.form.ComboBox" style="width: 100%;">
+					<option>progress meeting</option>
+					<option>reports</option>
+					<option>lunch</option>
+					<option>vacation</option>
+					<option>status meeting</option>
+				</select>
+			</td>
+		</tr>
+	</table>
+</div>
+
+<div dojoType="dijit.layout.LayoutContainer" layoutAlign="client">
+	<div id="editable" dojoType="dijit.Editor" widgetId="editdiv" items="formatblock;|;insertunorderedlist;insertorderedlist;|;bold;italic;underline;strikethrough;|;createLink;">
+		Type the address above (try an address starting with a,b,c,d, to test autocompletion,
+		and then type your message here...
+		<br><br><br><br><br><br><br><br><br><br>
+	</div>
+</div>
+
+<div dojoType="dijit.layout.LayoutContainer" layoutAlign="bottom" align=center>
+	<button id="cancel" dojoType="dijit.form.Button" onclick="close();" iconClass="mailIconCancel">
+		Cancel
+	</button>
+	<button id="ok" dojoType="dijit.form.Button" onclick="close();" iconClass="mailIconOk">
+		OK
+	</button>
+</div>
+
+</body>
+</html>
