@@ -19,6 +19,8 @@
 		dojo.require("dijit.Tooltip");
 		dojo.require("dijit.Dialog");
 		dojo.require("dijit.Toolbar");
+		dojo.require("dijit._Calendar");
+		dojo.require("dijit.ColorPalette");
 
 		dojo.require("dijit.form.ComboBox");
 		dojo.require("dijit.form.FilteringSelect");
@@ -38,11 +40,61 @@
 	</style>
 </head>
 <body class="soria">
-	<!-- TODO: replace with a store for email -->
-	<div dojoType="dojo.data.ItemFileReadStore" jsId="stateStore"
-		url="../tests/form/comboBoxData.json"></div>
 	<div dojoType="dojo.data.ItemFileWriteStore" jsId="mailStore"
 		url="mail/mail.json"></div>
+
+	<table dojoType="dijit.Declaration" 
+		class="demoTable"
+		widgetClass="demo.Table"
+		defaults="{ store: null, query: { query: { type: 'message' } }, columns: [ { name: 'From', attribute: 'sender' }, { name: 'Subject', attribute: 'label' }, { name: 'Sent on', attribute: 'sent' } ] }">
+		<thead dojoAttachPoint="head">
+			<tr dojoAttachPoint="headRow"></tr>
+		</thead>
+		<tbody dojoAttachPoint="body">
+			<tr dojoAttachPoint="row">
+			</tr>
+		</tbody>
+
+		<script type="dojo/method">
+			dojo.forEach(this.columns, function(item){
+				var icn = item.className||"";
+				// add a header for each column
+				var tth = document.createElement("th");
+				tth.innerHTML = item.name;
+				tth.className = icn;
+				this.headRow.appendChild(tth);
+
+				// and fill in the column cell in the template row
+				this.row.appendChild(document.createElement("td"));
+				this.row.lastChild.className = icn;
+			}, this);
+			this.body.removeChild(this.row);
+		</script>
+		<script type="dojo/method" event="postCreate">this.runQuery();</script>
+		<script type="dojo/method" event="runQuery">
+			this.query.onBegin = dojo.hitch(this, function(){ this.body.innerHTML = ""; });
+			this.query.onItem = dojo.hitch(this, "onItem");
+			this.query.onComplete = dojo.hitch(this, function(){
+				console.log("completed", this.body);
+				dojo.query("tr:nth-child(odd)", this.body).forEach( function(item){ console.log("odd item"); } );
+				dojo.query("tr:nth-child(odd)", this.body).addClass("oddRow");
+				dojo.query("tr:nth-child(even)", this.body).removeClass("oddRow");
+			});
+			this.store.fetch(this.query);
+		</script>
+		<script type="dojo/method" event="onItem" args="item">
+			var tr = this.row.cloneNode(true);
+			dojo.query("td", tr).forEach(function(n, i, a){
+				n.innerHTML = this.store.getValue(item, this.columns[i].attribute)||"";
+			}, this);
+			this.body.appendChild(tr);
+			var _self = this;
+			dojo.connect(tr, "onclick", this, function(){ _self.onClick(item); });
+		</script>
+		<script type="dojo/method" event="onClick" args="item">
+			console.debug("item clicked", item);
+		</script>
+	</table>
 
 	<div dojoType="dijit.layout.LayoutContainer" id="main">
 		<div dojoType="dijit.layout.ContentPane" layoutAlign="top" id="banner" align=center>
@@ -108,60 +160,34 @@
 				sizeMin="50" sizeShare="85"
 			>
 				<div id="listPane" dojoType="dijit.layout.ContentPane" sizeMin="20" sizeShare="20">
-					<table dojoType="dijit.Declaration" 
-						class="demoTable"
-						widgetClass="demo.Table"
-						defaults="{ store: null, query: { query: { type: 'message' } }, columns: [ { name: 'From', attribute: 'sender' }, { name: 'Subject', attribute: 'label' }, { name: 'Sent on', attribute: 'sent' } ] }">
-						<thead dojoAttachPoint="head">
-							<tr dojoAttachPoint="headRow"></tr>
-						</thead>
-						<tbody dojoAttachPoint="body">
-							<tr dojoAttachPoint="row">
-							</tr>
-						</tbody>
-				
-						<script type="dojo/method">
-							dojo.forEach(this.columns, function(item){
-								var icn = item.className||"";
-								// add a header for each column
-								var tth = document.createElement("th");
-								tth.innerHTML = item.name;
-								tth.className = icn;
-								this.headRow.appendChild(tth);
-				
-								// and fill in the column cell in the template row
-								this.row.appendChild(document.createElement("td"));
-								this.row.lastChild.className = icn;
-							}, this);
-							this.body.removeChild(this.row);
-						</script>
-						<script type="dojo/method" event="postCreate">this.runQuery();</script>
-						<script type="dojo/method" event="runQuery">
-							this.query.onBegin = dojo.hitch(this, function(){ this.body.innerHTML = ""; });
-							this.query.onItem = dojo.hitch(this, "onItem");
-							this.query.onComplete = dojo.hitch(this, function(){
-								dojo.query("tr:nth-child(odd)", this.body).addClass("oddRow");
-								dojo.query("tr:nth-child(even)", this.body).removeClass("oddRow");
-							});
-							this.store.fetch(this.query);
-						</script>
-						<script type="dojo/method" event="onItem" args="item">
-							var tr = this.row.cloneNode(true);
-							dojo.query("td", tr).forEach(function(n, i, a){
-								n.innerHTML = this.store.getValue(item, this.columns[i].attribute)||"";
-							}, this);
-							this.body.appendChild(tr);
-						</script>
-				
-					</table>
-			
 					<span dojoType="demo.Table" store="mailStore"
 						query="{ query: { type: 'message' }, sort: [ { attribute: 'label' } ]  }" 
 						id="foo" jsId="table" style="width: 100%">
+						<script type="dojo/method" event="onClick" args="item">
+							dijit.byId("message").setContent(this.store.getValue(item, "text"));
+						</script>
 					</span>
 				</div>
-				<div dojoType="dijit.layout.ContentPane" sizeMin="20" sizeShare="80">
-					Message pane
+				<div id="message" dojoType="dijit.layout.ContentPane" sizeMin="20" sizeShare="80">
+					<p>
+					This is a simple application mockup showing some of the dojo widgets:
+					</p>
+					<ul>
+					  <li>layout widgets: SplitContainer, LayoutContainer</li>
+					  <li>TooltipDialog</li>
+					  <li>Tree</li>
+					  <li>form widgets: Button, DropDownButton, ComboButton, FilteringSelect, ComboBox</li>
+					  <li>Editor</li>
+					</ul>
+					<p>
+					Filter the message list above by clicking on items in the left Accordion.
+					Then click on the messages in the above list to display them.
+					There's no server running, so the app is just a facade and it doesn't really do anything.
+					</p>
+					<p>
+					<span style="font-family: 'Comic Sans MS',Textile,cursive; color: blue; font-style: italic;">-- Bill</span>
+					</p>
+					Message pane (click a message above to populate)
 				</div>
 			</div>
 		</div>
