@@ -61,11 +61,18 @@ dojo.declare("dijit._Container",
 			//		Process the given child widget, inserting it's dom node as
 			//		a child of our dom node
 
-			var containerNode = this.containerNode || this.domNode;
 			if(typeof insertIndex == "undefined"){
 				insertIndex = "last";
 			}
-			dojo.place(widget.domNode, containerNode, insertIndex);
+			dojo.place(widget.domNode, this.containerNode, insertIndex);
+
+			// If I've been started but the child widget hasn't been started,
+			// start it now.  Make sure to do this after widget has been
+			// inserted into the DOM tree, so it can see that it's being controlled by me,
+			// so it doesn't try to size itself.
+			if(this._started && !widget._started){
+				widget.startup();
+			}
 		},
 
 		removeChild: function(/*Widget*/ widget){

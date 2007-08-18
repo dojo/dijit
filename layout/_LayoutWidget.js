@@ -28,9 +28,7 @@ dojo.declare("dijit.layout._LayoutWidget",
 			//		startup() in subclasses shouldn't do anything
 			//		size related because the size of the widget hasn't been set yet.
 
-			if(this._started){
-				return;
-			}
+			if(this._started){ return; }
 			this._started=true;
 
 			if(this.getChildren){

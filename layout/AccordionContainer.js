@@ -33,6 +33,7 @@ dojo.declare(
 		},
 
 		startup: function(){
+			if(this._started){ return; }
 			dijit.layout.StackContainer.prototype.startup.apply(this, arguments);
 			if(this.selectedChildWidget){
 				var style = this.selectedChildWidget.containerNode.style;

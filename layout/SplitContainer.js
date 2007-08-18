@@ -78,6 +78,7 @@ dojo.declare(
 	},
 
 	startup: function(){
+		if(this._started){ return; }
 		dojo.forEach(this.getChildren(), function(child, i, children){
 			// attach the children and create the draggers
 			child.domNode.style.position = "absolute";

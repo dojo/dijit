@@ -42,6 +42,8 @@ dojo.declare(
 	},
 
 	startup: function(){
+		if(this._started){ return; }
+
 		// wire up the tablist and its tabs
 		this.tablist.startup();
 		dijit.layout.TabContainer.superclass.startup.apply(this, arguments);
