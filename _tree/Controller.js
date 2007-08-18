@@ -74,19 +74,21 @@ dojo.declare(
 			var parent = this._itemNodeMap[this.store.getIdentity(parentInfo.item)];
 		}
 
+		var childParams = {item:item};
 		if (parent){
 			if (!parent.isFolder){
 				parent.makeFolder();
 			}
 			if (parent.state=="LOADED" || parent.isExpanded){
-				var child=parent.addNode(item);
+				var childrenMap=parent.addChildren([childParams]);
 			}
 		} else {
-			var child=this.tree.addNode(item);		
+			var childrenMap=this.tree.addChildren([childParams]);		
 		}
 
-		if (child){
-			this._itemNodeMap[this.store.getIdentity(item)]=child;
+		if (childrenMap){
+			dojo.mixin(this._itemNodeMap, childrenMap);
+			//this._itemNodeMap[this.store.getIdentity(item)]=child;
 		}
 	},
 

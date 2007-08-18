@@ -53,7 +53,7 @@ dojo.declare(
 		// summary:
 		//		Sets the children of this node.
 		//		Sets this.isFolder based on whether or not there are children
-		// 		Takes array of objects like: {label: ..., type: ... }
+		// 		Takes array of objects like: {label: ...} (_TreeNode options basically)
 		//		See parameters of _TreeNode for details.
 
 		this.destroyDescendants();
@@ -97,22 +97,31 @@ dojo.declare(
 		return nodeMap;
 	},
 
-	addNode: function(/* dojo.data */ item){
-		//summary: given an item, create a treeode representing that item as a child
-		var child = new dijit._TreeNode({
-			tree: this.tree,
-			label: this.tree.store.getLabel(item),
-			item: item,
-			isFolder: false
-		});
-	
-		this.addChild(child);
+	addChildren: function(/* object[] */ childrenArray){
+		// summary:
+		//		adds the children to this node.
+		// 		Takes array of objects like: {label: ...}  (_TreeNode options basically)
 
-		dojo.forEach(this.getChildren(), function(child, idx){
-			child._updateLayout();
-		});
+		//		See parameters of _TreeNode for details.
+		var nodeMap = {};
+		if (childrenArray && childrenArray.length > 0){
+			dojo.forEach(childrenArray, function(childParams){
+				var child = new dijit._TreeNode(
+					dojo.mixin({
+						tree: this.tree,
+						label: this.tree.store.getLabel(childParams.item)
+					}, childParams)
+				);
+				this.addChild(child);
+				nodeMap[this.tree.store.getIdentity(childParams.item)] = child;
+			}, this);
 	
-		return child;
+			dojo.forEach(this.getChildren(), function(child, idx){
+				child._updateLayout();
+			});
+		}
+	
+		return nodeMap;
 	},
 
 	deleteNode: function(/* treeNode */ node) {
@@ -335,12 +344,6 @@ dojo.declare(
 	//		Single node within a tree
 
 	templatePath: dojo.moduleUrl("dijit", "_tree/Node.html"),		
-
-	// type: String
-	//		User defined identifier to differentiate nodes, and to control icon used
-	//		Example: folder, garbage, inbox, draftsFolder
-	//		TODO: set CSS string base on this type
-	nodeType: "",
 
 	// item: dojo.data.Item
 	//		the dojo.data entry this tree represents
