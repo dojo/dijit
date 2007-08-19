@@ -110,7 +110,8 @@
 					<tr>
 						<td style="padding-right: 20px;"><label for="${id}_to">To:</label></td>
 						<td width=100%>
-							<select dojoType="dijit.form.ComboBox" id="${id}_to" style="width: 100%;">
+							<select dojoType="dijit.form.ComboBox" id="${id}_to" style="width: 100%;" hasDownArrow="false">
+								<option></option>
 								<option>adam@yahoo.com</option>
 								<option>barry@yahoo.com</option>
 								<option>bob@yahoo.com</option>
@@ -124,6 +125,7 @@
 						<td style="padding-right: 20px;"><label for="${id}_subject">Subject:</label></td>
 						<td width=100%>
 							<select dojoType="dijit.form.ComboBox" id="${id}_subject" style="width: 100%;" hasDownArrow="false">
+								<option></option>
 								<option>progress meeting</option>
 								<option>reports</option>
 								<option>lunch</option>
@@ -135,6 +137,12 @@
 				</table>
 			</div>
 			
+			<div dojoType="dijit.layout.LayoutContainer" layoutAlign="bottom" align=center>
+				<button dojoType="dijit.form.Button" iconClass="mailIconOk">
+					Send
+				</button>
+			</div>
+
 			<div dojoType="dijit.layout.LayoutContainer" layoutAlign="client">
 				<!-- TODO: want to use Editor here or even Textrea, but both fail on initialization
 				<div dojoType="dijit.form.Textarea">
@@ -143,17 +151,9 @@
 					<br><br><br><br><br><br><br><br><br><br>
 				</div>
 				-->
-				<textarea style="width: 98%; height: 99%; padding: 8px;" rows=30>
-Type the address above (try an address starting with a,b,c,d, to test autocompletion,
-and then type your message here...
-				</textarea>
-			</div>
-			
-			<div dojoType="dijit.layout.LayoutContainer" layoutAlign="bottom" align=center>
-				<button dojoType="dijit.form.Button" iconClass="mailIconOk">
-					Send
-				</button>
-			</div>
+				<textarea style="width: 98%; height: 99%; padding: 8px;" rows=30>Type the address above (try an address starting with a,b,c,d, to test autocompletion,
+and then type your message here...</textarea>
+			</div>		
 		</div>
 	</div>
 	
@@ -215,6 +215,10 @@ and then type your message here...
 				Set various options.  Currently broken due to<br>
 				a bug with having a popup in a popup. :-(
 			</div>
+		</div>
+
+		<div dojoType="dijit.layout.ContentPane" layoutAlign="bottom" id="footer" align=center>
+			...
 		</div>
 
 		<div dojoType="dijit.layout.TabContainer" id="tabs" jsId="tabs" layoutAlign="client">
@@ -283,11 +287,8 @@ and then type your message here...
 							</script>
 						</div>
 					</div>
-					<div dojoType="dijit.layout.AccordionPane" title="Dummy">
-						<!-- todo: there's a formatting problem on FF so the bottom pane is overflowing the screen! -->
-					</div>
 				</div>  <!-- end of Accordion -->
-	
+
 				<div dojoType="dijit.layout.SplitContainer"
 					id="rightPane"
 					orientation="vertical"
@@ -329,9 +330,6 @@ and then type your message here...
 				</div>	<!-- end of vertical SplitContainer -->
 			</div> <!-- end of horizontal SplitContainer -->
 		</div> <!-- end of TabContainer -->
-		<div dojoType="dijit.layout.ContentPane" layoutAlign="bottom" id="footer" align=center>
-			...
-		</div>
 	</div> <!-- end of Layoutcontainer -->	
 </body>
 </html>
