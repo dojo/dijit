@@ -4,7 +4,7 @@
 	<head>
 		<title>Dojo Form Widgets Test</title>
 
-		<script type="text/javascript" src="../../../dojo/dojo.js"
+		<script type="text/javascript" src="../../dojo/dojo.js"
 			djConfig="isDebug: true, parseOnLoad: true"></script>
 		<script type="text/javascript">
 			dojo.require("dijit.form.Form");
@@ -26,10 +26,10 @@
 			Date.prototype.json = function(){ return dojo.date.stamp.toISOString(this, {selector: 'date'});};
 		</script>
 		<style type="text/css">
-			@import "../../../dojo/resources/dojo.css";
-			@import "../../themes/tundra/tundra.css";
-			@import "../../themes/tundra/tundra_rtl.css";
-			@import "../css/dijitTests.css";
+			@import "../../dojo/resources/dojo.css";
+			@import "../themes/tundra/tundra.css";
+			@import "../themes/tundra/tundra_rtl.css";
+			@import "../tests/css/dijitTests.css";
 
 			.formQuestion {
 				background-color:#d0e3f5;
@@ -86,7 +86,7 @@
 	</head>
 	<body class="tundra">
 		<div dojoType="dojo.data.ItemFileReadStore" jsId="stateStore"
-			url="comboBoxData.json"></div>
+			url="../tests/form/comboBoxData.json"></div>
 
 		<h2 class="pageSubContentTitle">Job Application Form</h2>
 		<p>This is just a little demo of dijit's form widgets</p>
