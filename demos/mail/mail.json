@@ -9,7 +9,7 @@
 			{ type: 'folder', id: 'deleted', label:'Trash Can', icon:'mailIconTrashcanFull' },
 			{ type: 'folder', id: 'save', label:'Save',  folders:[
 				{ id: 'work', label:'stuff for work'},
-				{ id: 'fun', label:'stuff for fun'},
+				{ id: 'fun', label:'stuff for fun'}
 			]}
 		]},
 
