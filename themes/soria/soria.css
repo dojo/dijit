@@ -807,15 +807,8 @@
 }
 
 /* Accordion */
-
-/* .soria .dijitAccordionPane-selected { 
-	background-color: #666;
-}
-*/
 .soria .dijitAccordionPane .dijitAccordionTitle {
 	background:#b7cdee url("images/gradientTopBg.png") repeat-x top left;
-	/* border: 1px solid #bfbfbf; */
-	/* border-top:1px solid #ccccff; */
 	border-left:1px solid #8ab2ee;
 	border-right:1px solid #8AB2EE; 
 	padding:5px 5px 2px 5px;
@@ -827,14 +820,12 @@
 	color:#fff; 
 	border-left:1px solid #4f8ce5;
 	border-right:1px solid #4f8ce5; 
-	/* border:1px solid #84a3d1; */
-	/* border: 1px solid #669; */
 	padding: 5px 5px 2px 5px;
 	font-weight: bold;
 }
 
 .soria .dijitAccordionArrow { background:url("images/arrows.png") no-repeat center center; }
-.dj_ie6 .soria .dijitAccordionArrow { background:url("images/arrows.gif") no-repeat center center; } 
+/* .dj_ie6 .soria .dijitAccordionArrow { background:url("images/arrows.gif") no-repeat center center; }  */
 .soria .dijitAccordionPane .dijitAccordionArrow {
 /*	background:url("images/arrows.png") no-repeat; */
 	background-position: -32px 0px; 
@@ -862,32 +853,30 @@
 }
 
 /* Tree */
-
 .soria .dijitTreeNode {
-    background-image : url('images/i.gif');
-    background-position : top left;
-    background-repeat : repeat-y;
     margin-left: 19px;
-    zoom: 1;	/* MOW: what the heck is this doing in here? */
+    cursor:pointer; 
+    zoom: 1;	
 }
+
 .soria .dijitTreeIsRoot {
-    margin-left: 0;
+    margin-left: 4px;
 }
  
 /* left vertical line (grid) for all nodes */
 .soria .dijitTreeIsLast {
-    background: url('images/i_half.gif') no-repeat;
-}
-
+    background: transparent; 
+} 
 .soria .dijitTreeExpando {
     width: 18px;
     height: 18px;
+    cursor:pointer;
 }
 
 .soria .dijitTreeContent {
     min-height: 18px;
     min-width: 18px;
-    margin-left:18px;
+    margin-left:16px;
     padding-top:3px;
     padding-left:1px;
 }
@@ -907,28 +896,21 @@
 
 /* don't use :focus due to opera and IE's lack of support on div's */
 .soria .dijitTreeLabelFocused {
-	outline: 1px invert dotted;
+	outline:0;
+	border-top:0;
+	border-bottom:2px solid #4f8ce5;
+	background-color:#b7cdee; 
 }
 
-.soria .dijitTreeExpandoOpened {
-	background-image: url('images/treeExpand_minus.gif');
-}
- 
-.soria .dijitTreeExpandoClosed {
-	background-image: url('images/treeExpand_plus.gif');
-}
- 
-.soria .dijitTreeExpandoLeaf {
-	background-image: url('images/treeExpand_leaf.gif');
-}
+/* FIXME: convert to sprites */
+.soria .dijitTreeExpandoOpened { background-image: url('images/treeExpand_minus.gif'); }
+.soria .dijitTreeExpandoClosed { background-image: url('images/treeExpand_plus.gif'); }
+ .soria .dijitTreeExpandoLeaf { }
+.soria .dijitTreeExpandoLoading { background-image: url('images/treeExpand_loading.gif'); }
 
-.soria .dijitTreeExpandoLoading {
-	background-image: url('images/treeExpand_loading.gif');
-}
 
 
 /* Calendar*/
-
 
 .soria .dijitCalendarIncrementControl {
 	/* next/prev month buttons */
@@ -1107,18 +1089,11 @@
 
 
 /* spinner */
-
 .soria .dijitSpinner {}
 .soria .dijitSpinner input {
 }
 
-
-
-
-/****
-		dijit.ProgressBar
- ****/
- 
+/* dijit.ProgressBar */
 .soria .dijitProgressBar {
 	margin:2px 0px 2px 0px;
 }
@@ -1144,10 +1119,7 @@
 	background:#b7cdee url("images/progressBarAnim.gif") repeat-x top left; /* FIXME: make a white/alpha animation to overlay a colored node */
 }
 
-/****
- 	SLIDER
-****/
-
+/* dijit.Slider(s) */
 .soria .dijitHorizontalSliderProgressBar {
 	border-color: #333;
 	background: #4f8ce5 url("images/gradientTopBg.png") repeat-x top left;
@@ -1222,8 +1194,7 @@
 	border-top-width: 1px;
 }
 
-/**** ICONS *****/
-
+/* ICONS */
 .soria .dijitEditorIcon {
 	background-image: url('images/editor.gif'); /* editor icons sprite image */
 	background-repeat: no-repeat; 
@@ -1302,10 +1273,10 @@
 /* DnD avatar-specific settings */
 /* For now it uses a default set of rules. Some other DnD classes can be modified as well. */
 .soria .dojoDndAvatar			{font-size: 75%; color: black;}
-.soria .dojoDndAvatarHeader td	{padding-left: 20px; padding-right: 4px;}
+.soria .dojoDndAvatarHeader td	{padding-left: 20px; padding-right: 4px; height:16px; width:16px; }
 .soria .dojoDndAvatarHeader	{background: #ccc;}
-.soria .dojoDndAvatarItem		{background: #eee;}
-.soria.dojoDndMove .dojoDndAvatarHeader	{background-image: url(images/dndNoMove.png); background-repeat: no-repeat;}
-.soria.dojoDndCopy .dojoDndAvatarHeader	{background-image: url(images/dndNoCopy.png); background-repeat: no-repeat;}
+.soria .dojoDndAvatarItem		{ background: #eee;}
+.soria.dojoDndMove .dojoDndAvatarHeader	{ background-image: url(images/dndNoMove.png); background-repeat: no-repeat;}
+.soria.dojoDndCopy .dojoDndAvatarHeader	{ background-image: url(images/dndNoCopy.png); background-repeat: no-repeat;}
 .soria.dojoDndMove .dojoDndAvatarCanDrop .dojoDndAvatarHeader	{background-image: url(images/dndMove.png); background-repeat: no-repeat;}
 .soria.dojoDndCopy .dojoDndAvatarCanDrop .dojoDndAvatarHeader	{background-image: url(images/dndCopy.png); background-repeat: no-repeat;}
