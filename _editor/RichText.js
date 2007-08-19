@@ -100,8 +100,11 @@ dojo.declare("dijit._editor.RichText", [ dijit._Widget ], {
 	_content: "",
 
 	// height: String
-	//		set height to fix the editor at a specific height, with scrolling
-	height: "",
+	//		set height to fix the editor at a specific height, with scrolling.
+	//		By default, this is 300px. If you want to have the editor always
+	//		resizes to accommodate the content, use AlwaysShowToolbar plugin
+	//		and set height=""
+	height: "300px",
 
 	// minHeight: String
 	//		The minimum height that the editor should have
@@ -396,12 +399,7 @@ dojo.declare("dijit._editor.RichText", [ dijit._Widget ], {
 			"}",
 			"p{ margin: 1em 0 !important; }",
 			(this.height ?
-				"" : "body,html{overflow-y:hidden;/*for IE*/} body > div {overflow-x:auto;/*for FF to show vertical scrollbar*/}"+
-				"body > div > *:first-child{ padding-top:0 !important;margin-top: 0px !important;}" + // FIXME: test firstChild nodeType
-				"body > div > *:last-child {"+
-				"	padding-bottom:0 !important;"+
-				"	margin-bottom: 0px !important;"+
-				"}"
+				"" : "body,html{overflow-y:hidden;/*for IE*/} body > div {overflow-x:auto;/*for FF to show vertical scrollbar*/}"
 			),
 			"li > ul:-moz-first-node, li > ol:-moz-first-node{ padding-top: 1.2em; } ",
 			"li{ min-height:1.2em; }",
@@ -451,21 +449,8 @@ dojo.declare("dijit._editor.RichText", [ dijit._Widget ], {
 			this.editingArea.appendChild(tmpContent);
 		}
 
-
 		this.editingArea.appendChild(this.iframe);
 
-		if(!this.height){
-			// fix margins on tmpContent
-			var c = dojo.query(">", tmpContent);
-			var firstChild = c[0];
-			var lastChild = c.pop();
-			if(firstChild){
-				firstChild.style.marginTop = "0px";
-			}
-			if(lastChild){
-				lastChild.style.marginBottom = "0px";
-			}
-		}
 		//do we want to show the content before the editing area finish loading here?
 		//if external style sheets are used for the editing area, the appearance now
 		//and after loading of the editing area won't be the same (and padding/margin
@@ -650,9 +635,6 @@ dojo.declare("dijit._editor.RichText", [ dijit._Widget ], {
 		while(et=events[i++]){
 			this.connect(this.document, et.toLowerCase(), et);
 		}
-		if(!this.height){
-			this.connect(this, "onNormalizedDisplayChanged", "_updateHeight");
-		}
 		if(!dojo.isIE){
 			try{ // sanity check for Mozilla
 //					this.document.execCommand("useCSS", false, true); // old moz call
@@ -769,11 +751,11 @@ dojo.declare("dijit._editor.RichText", [ dijit._Widget ], {
 			this.onChange(_c);
 			this.savedContent=_c;
 		}
-//			console.info('_onBlur') 
+			console.info('_onBlur') 
 	},
 	_initialFocus: true,
 	_onFocus: function(e){
-//			console.info('_onFocus')
+			console.info('_onFocus')
 		// summary: Fired on focus
 		if( (dojo.isMoz)&&(this._initialFocus) ){
 			this._initialFocus = false;
@@ -1232,38 +1214,6 @@ dojo.declare("dijit._editor.RichText", [ dijit._Widget ], {
 
 	//Int: stored last time height
 	_lastHeight: 0,
-
-	_updateHeight: function(){
-		// summary:
-		//		Updates the height of the editor area to fit the contents.
-		if(!this.isLoaded){ return; }
-		if(this.height){ return; }
-
-		// var height = dojo.marginBox(this.editNode).h;
-		var height = dojo.marginBox(this.editNode).h;
-		if(dojo.isOpera){
-			height = this.editNode.scrollHeight;
-		}
-
-		// console.debug(this.editNode);
-		// alert(this.editNode);
-
-		//height maybe zero in some cases even though the content is not empty,
-		//we try the height of body instead
-		if(!height){
-			height = dojo.marginBox(this.document.body).h;
-		}
-
-		if(height == 0){
-			console.debug("Can not figure out the height of the editing area!");
-			return; //prevent setting height to 0
-		}
-		if(height != this._lastHeight){
-			this._lastHeight = height;
-			// this.editorObject.style.height = this._lastHeight + "px";
-			dojo.marginBox(this.editorObject, { h: this._lastHeight });
-		}
-	},
 
 	_saveContent: function(e){
 		// summary:

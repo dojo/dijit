@@ -1345,3 +1345,10 @@ body .dijitAlignClient { position: absolute; }
 	margin-top:0px;
 	margin-bottom:0px;
 }
+
+/* Editor */
+.IEFixedToolbar {
+	position:absolute;
+	/* top:0; */
+	top: expression(eval((document.documentElement||document.body).scrollTop));
+}
