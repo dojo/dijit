@@ -12,8 +12,10 @@
 	<script type="text/javascript" src="testBidi.js"></script>
 	<script type="text/javascript" src="../../dojo/dojo.js"
 		djConfig="parseOnLoad: true, isDebug: true"></script>
+	<script type="text/javascript" src="../Editor.js"></script>
 	<script type="text/javascript">
 		dojo.require("dijit.Editor");
+		dojo.require("dijit._editor.plugins.AlwaysShowToolbar");
 		dojo.require("dijit._editor.plugins.EnterKeyHandling");
 		dojo.require("dijit._editor.plugins.LinkDialog");
 		dojo.require("dojo.parser");	// scan page for widgets and instantiate them
@@ -30,10 +32,11 @@
 	<hr/>
 	<div style="border: 1px dotted black;">
 		<h3>thud</h3>
-		<textarea dojoType="dijit.Editor" height="200"
+		<textarea dojoType="dijit.Editor" height=""
+			extraPlugins="['dijit._editor.plugins.AlwaysShowToolbar']"
 			styleSheets="../../dojo/resources/dojo.css">
 			<p>
-				This editor is created from a textarea with default plugin.
+				This editor is created from a textarea with AlwaysShowToolbar plugin (don't forget to set height="").
 			</p>
 			<p>
 				Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean
@@ -50,7 +53,7 @@
 	<div style="border: 1px dotted black;">
 		<h3>blah</h3>
 		<textarea dojoType="dijit.Editor" 
-			plugins="['dijit._editor.plugins.EnterKeyHandling','bold','italic','|',{name:'dijit._editor.plugins.LinkDialog',command:'underline'}]"
+			plugins="['bold','italic','|',{name:'dijit._editor.plugins.LinkDialog'}]"
 			styleSheets="../../dojo/resources/dojo.css">
 			This instance demos how to:
 			<ol>

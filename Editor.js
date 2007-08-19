@@ -15,16 +15,17 @@ dojo.declare(
 		//		for this widget.
 //		plugins: [ "dijit._editor.plugins.DefaultToolbar" ],
 		plugins: null,
+		extraPlugins: null,
 		preamble: function(){
 			this.inherited('preamble',arguments);
-			if(this.plugins){
-				this.plugins=this.plugins.slice(0);
-			}else{
-				this.plugins=["undo","redo","|","cut","copy","paste","|","bold","italic","underline","strikethrough","|",
+			this.plugins=["undo","redo","|","cut","copy","paste","|","bold","italic","underline","strikethrough","|",
 			"insertOrderedList","insertUnorderedList","indent","outdent","|","justifyLeft","justifyRight","justifyCenter","justifyFull"/*"createlink"*/];
-			}
+
 			this._plugins=[];
 			this._editInterval = this.editActionInterval * 1000;
+		},
+		toolbar: null,
+		postCreate: function(){
 			//for custom undo/redo
 			if(this.customUndo){
 				dojo['require']("dijit._editor.range");
@@ -33,9 +34,10 @@ dojo.declare(
 //				this.addKeyHandler('z',this.KEY_CTRL,this.undo);
 //				this.addKeyHandler('y',this.KEY_CTRL,this.redo);
 			}
-		},
-		toolbar: null,
-		postCreate: function(){
+			if(dojo.isArray(this.extraPlugins)){
+				this.plugins=this.plugins.concat(this.extraPlugins);
+			}
+
 //			try{
 			dijit.Editor.superclass.postCreate.apply(this, arguments);
 
