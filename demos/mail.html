@@ -40,7 +40,6 @@
 	<style type="text/css">
 		@import "../../dojo/resources/dojo.css";
 		@import "../themes/soria/soria.css";
-		@import "../themes/tundra/tundra.css";	/* TODO: fix tree in soria then I don't need this */
 		@import "mail/mail.css";
 	</style>
 </head>
@@ -227,8 +226,7 @@ and then type your message here...
 				title="Inbox"
 			>
 				<div dojoType="dijit.layout.AccordionContainer" sizeMin="20" sizeShare="20">
-					<div dojoType="dijit.layout.AccordionPane" title="Folders"
-						 class="tundra">
+					<div dojoType="dijit.layout.AccordionPane" title="Folders">
 						<div dojoType="dijit.Tree" id="mytree" store="mailStore"
 							labelAttr="label" childrenAttr="folders" query="{type:'folder'}">
 							<script type="dojo/method" event="onClick" args="item">
