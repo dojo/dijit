@@ -12,6 +12,7 @@
 		dojo.require("dojo.parser");
 		dojo.require("dojo.data.ItemFileWriteStore");
 
+		dojo.require("dijit.dijit");
 		dojo.require("dijit.Declaration");
 		dojo.require("dijit.form.Button");
 		dojo.require("dijit.Menu");
@@ -21,14 +22,19 @@
 		dojo.require("dijit.Toolbar");
 		dojo.require("dijit._Calendar");
 		dojo.require("dijit.ColorPalette");
+		dojo.require("dijit.Editor");
 
 		dojo.require("dijit.form.ComboBox");
 		dojo.require("dijit.form.FilteringSelect");
+		dojo.require("dijit.form.Textarea");
 
 		dojo.require("dijit.layout.LayoutContainer");
 		dojo.require("dijit.layout.SplitContainer");
 		dojo.require("dijit.layout.AccordionContainer");
+		dojo.require("dijit.layout.TabContainer");
 		dojo.require("dijit.layout.ContentPane");
+		
+		var paneId=1;
 	</script>
 
 	<style type="text/css">
@@ -96,6 +102,63 @@
 		</script>
 	</table>
 
+	<!-- Inline declaration for programmatically created "New Message" tabs -->
+	<div dojoType="dijit.Declaration" 
+		widgetClass="mail.NewMessage">
+		<div dojoType="dijit.layout.LayoutContainer" dojoAttachPoint="container" title="Composing..." closeable="true">
+			<div dojoType="dijit.layout.LayoutContainer" layoutAlign="top" style="overflow: visible; z-index: 10;">
+				<table width=100%>
+					<tr>
+						<td style="padding-right: 20px;"><label for="${id}_to">To:</label></td>
+						<td width=100%>
+							<select dojoType="dijit.form.ComboBox" id="${id}_to" style="width: 100%;">
+								<option>adam@yahoo.com</option>
+								<option>barry@yahoo.com</option>
+								<option>bob@yahoo.com</option>
+								<option>cal@yahoo.com</option>
+								<option>chris@yahoo.com</option>
+								<option>courtney@yahoo.com</option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td style="padding-right: 20px;"><label for="${id}_subject">Subject:</label></td>
+						<td width=100%>
+							<select dojoType="dijit.form.ComboBox" id="${id}_subject" style="width: 100%;" hasDownArrow="false">
+								<option>progress meeting</option>
+								<option>reports</option>
+								<option>lunch</option>
+								<option>vacation</option>
+								<option>status meeting</option>
+							</select>
+						</td>
+					</tr>
+				</table>
+			</div>
+			
+			<div dojoType="dijit.layout.LayoutContainer" layoutAlign="client">
+				<!-- TODO: want to use Editor here or even Textrea, but both fail on initialization
+				<div dojoType="dijit.form.Textarea">
+					Type the address above (try an address starting with a,b,c,d, to test autocompletion,
+					and then type your message here...
+					<br><br><br><br><br><br><br><br><br><br>
+				</div>
+				-->
+				<textarea style="width: 98%; height: 99%; padding: 8px;" rows=30>
+Type the address above (try an address starting with a,b,c,d, to test autocompletion,
+and then type your message here...
+				</textarea>
+			</div>
+			
+			<div dojoType="dijit.layout.LayoutContainer" layoutAlign="bottom" align=center>
+				<button dojoType="dijit.form.Button" iconClass="mailIconOk">
+					Send
+				</button>
+			</div>
+		</div>
+	</div>
+	
+
 	<div dojoType="dijit.layout.LayoutContainer" id="main">
 
 		<!-- blue header at top of inbox -->
@@ -117,9 +180,21 @@
 
 			<button
 				id="newMsg" dojoType="dijit.form.Button"
-				onClick='open("mail/new.html",null,"height=500,width=600,status=yes,toolbar=no,menubar=no,location=no");'
 				iconClass="mailIconNewMessage">
 				New Message
+				<script type="dojo/method" event="onClick">
+					/* make a new tab for composing the message */
+
+					var newTab = new mail.NewMessage({id: "new"+paneId}).container;
+					dojo.mixin(newTab,
+						{
+							title: "New Message #" + paneId++,
+							closable: true
+						}
+					);
+					tabs.addChild(newTab);
+					tabs.selectChild(newTab);
+				</script>
 			</button>
 			<span dojoType="dijit.Tooltip" connectId="newMsg">Click to compose new message.</span>
 
@@ -143,121 +218,122 @@
 			</div>
 		</div>
 
-		<!-- main section with tree, table, and preview -->
-		<div dojoType="dijit.layout.SplitContainer"
-			orientation="horizontal"
-			sizerWidth="5"
-			activeSizing="0"
-			layoutAlign="client"
-		>
-			<div dojoType="dijit.layout.AccordionContainer" sizeMin="20" sizeShare="20">
-				<div dojoType="dijit.layout.AccordionPane" title="Folders"
-					 class="tundra">
-					<div dojoType="dijit.Tree" id="mytree" store="mailStore"
-						labelAttr="label" childrenAttr="folders" query="{type:'folder'}">
-						<script type="dojo/method" event="onClick" args="item">
-							/* filter the message list to messages in this folder */
-							table.query.query = {
-								type: "message",
-								folder: mailStore.getValue(item, "id")
-							};
-							table.runQuery();
-						</script>
-						<script type="dojo/method" event="getIconClass" args="item">
-							var specifiedIcon = mailStore.getValue(item, "icon");
-							return specifiedIcon || "mailIconFolderDocuments";
-						</script>
-					</div>
-				</div>
-				<div dojoType="dijit.layout.AccordionPane" title="Address Book">
-
-					<!--
-						TODO: want to use a table here but somehow can't have two table instances on the same page.
-						Debug later
-						<span dojoType="demo.Table" store="mailStore"
-							query="{ query: { type: 'address' }, columns: [ {name: 'User name', attribute: 'label'} ], sort: [ { attribute: 'label' } ]  }" 
-							id="addresses" style="width: 100%">
-							<script type="dojo/method" event="preamble">
-								this.query = { type: "address" };
-								this.columns = [
-									{
-										name: "Name",
-										attribute: "label"
-									}
-								];
-							</script>
-							<script type="dojo/method" event="onClick" args="item">
-								table.query.query.sender = mailStore.getValue(item, "sender");
-								delete table.query.query.folder;
-								table.runQuery();
-							</script>
-						</span>
-					-->
-					<div dojoType="dijit.Tree" id="addrTree" store="mailStore"
-						labelAttr="label" childrenAttr="folders" query="{type:'address'}">
-						<script type="dojo/method" event="onClick" args="item">
-							/* filter the message list to messages from this user */
-							table.query.query = {
-								type: "message",
-								sender: mailStore.getValue(item, "label")
-							};
-							table.runQuery();
-						</script>
-						<script type="dojo/method" event="getIconClass" args="item">
-							var specifiedIcon = mailStore.getValue(item, "icon");
-							return specifiedIcon || "mailIconFolderDocuments";
-						</script>
-					</div>
-				</div>
-				<div dojoType="dijit.layout.AccordionPane" title="Dummy">
-					<!-- todo: there's a formatting problem on FF so the bottom pane is overflowing the screen! -->
-				</div>
-			</div>
-
+		<div dojoType="dijit.layout.TabContainer" id="tabs" jsId="tabs" layoutAlign="client">
+			<!-- main section with tree, table, and preview -->
 			<div dojoType="dijit.layout.SplitContainer"
-				id="rightPane"
-				orientation="vertical"
+				orientation="horizontal"
 				sizerWidth="5"
 				activeSizing="0"
-				sizeMin="50" sizeShare="85"
+				title="Inbox"
 			>
-				<div id="listPane" dojoType="dijit.layout.ContentPane" sizeMin="20" sizeShare="20">
-					<span dojoType="demo.Table" store="mailStore"
-						query="{ query: { type: 'message' }, sort: [ { attribute: 'label' } ]  }" 
-						id="foo" jsId="table" style="width: 100%">
-						<script type="dojo/method" event="onClick" args="item">
-							dijit.byId("message").setContent(this.store.getValue(item, "text"));
-						</script>
-					</span>
-				</div>
-				<div id="message" dojoType="dijit.layout.ContentPane" sizeMin="20" sizeShare="80">
-					<p>
-					This is a simple application mockup showing some of the dojo widgets:
-					</p>
-					<ul>
-					  <li>layout widgets: SplitContainer, LayoutContainer, AccordionContainer</li>
-					  <li>TooltipDialog, Tooltip</li>
-					  <li>Tree</li>
-					  <li>form widgets: Button, DropDownButton, ComboButton, FilteringSelect, ComboBox</li>
-					  <li>Editor</li>
-					</ul>
-					<p>
-					The message list above originally contains all the messages, but you can filter it
-					by clicking on items in the left Accordion.
-					Then click on the messages in the above list to display them.
-					There's no server running, so the app is just a facade and it doesn't really do anything.
-					<!-- TODO: delete button (we can delete since we are using ItemFileWriteStore -->
-					</p>
-					<p>
-					<span style="font-family: 'Comic Sans MS',Textile,cursive; color: blue; font-style: italic;">-- Bill</span>
-					</p>
-				</div>
-			</div>
-		</div>
-
+				<div dojoType="dijit.layout.AccordionContainer" sizeMin="20" sizeShare="20">
+					<div dojoType="dijit.layout.AccordionPane" title="Folders"
+						 class="tundra">
+						<div dojoType="dijit.Tree" id="mytree" store="mailStore"
+							labelAttr="label" childrenAttr="folders" query="{type:'folder'}">
+							<script type="dojo/method" event="onClick" args="item">
+								/* filter the message list to messages in this folder */
+								table.query.query = {
+									type: "message",
+									folder: mailStore.getValue(item, "id")
+								};
+								table.runQuery();
+							</script>
+							<script type="dojo/method" event="getIconClass" args="item">
+								var specifiedIcon = mailStore.getValue(item, "icon");
+								return specifiedIcon || "mailIconFolderDocuments";
+							</script>
+						</div>
+					</div>
+					<div dojoType="dijit.layout.AccordionPane" title="Address Book">
+	
+						<!--
+							TODO: want to use a table here but somehow can't have two table instances on the same page.
+							Debug later
+							<span dojoType="demo.Table" store="mailStore"
+								query="{ query: { type: 'address' }, columns: [ {name: 'User name', attribute: 'label'} ], sort: [ { attribute: 'label' } ]  }" 
+								id="addresses" style="width: 100%">
+								<script type="dojo/method" event="preamble">
+									this.query = { type: "address" };
+									this.columns = [
+										{
+											name: "Name",
+											attribute: "label"
+										}
+									];
+								</script>
+								<script type="dojo/method" event="onClick" args="item">
+									table.query.query.sender = mailStore.getValue(item, "sender");
+									delete table.query.query.folder;
+									table.runQuery();
+								</script>
+							</span>
+						-->
+						<div dojoType="dijit.Tree" id="addrTree" store="mailStore"
+							labelAttr="label" childrenAttr="folders" query="{type:'address'}">
+							<script type="dojo/method" event="onClick" args="item">
+								/* filter the message list to messages from this user */
+								table.query.query = {
+									type: "message",
+									sender: mailStore.getValue(item, "label")
+								};
+								table.runQuery();
+							</script>
+							<script type="dojo/method" event="getIconClass" args="item">
+								var specifiedIcon = mailStore.getValue(item, "icon");
+								return specifiedIcon || "mailIconFolderDocuments";
+							</script>
+						</div>
+					</div>
+					<div dojoType="dijit.layout.AccordionPane" title="Dummy">
+						<!-- todo: there's a formatting problem on FF so the bottom pane is overflowing the screen! -->
+					</div>
+				</div>  <!-- end of Accordion -->
+	
+				<div dojoType="dijit.layout.SplitContainer"
+					id="rightPane"
+					orientation="vertical"
+					sizerWidth="5"
+					activeSizing="0"
+					sizeMin="50" sizeShare="85"
+				>
+					<div id="listPane" dojoType="dijit.layout.ContentPane" sizeMin="20" sizeShare="20">
+						<span dojoType="demo.Table" store="mailStore"
+							query="{ query: { type: 'message' }, sort: [ { attribute: 'label' } ]  }" 
+							id="foo" jsId="table" style="width: 100%">
+							<script type="dojo/method" event="onClick" args="item">
+								dijit.byId("message").setContent(this.store.getValue(item, "text"));
+							</script>
+						</span>
+					</div>
+					<div id="message" dojoType="dijit.layout.ContentPane" sizeMin="20" sizeShare="80">
+						<p>
+						This is a simple application mockup showing some of the dojo widgets:
+						</p>
+						<ul>
+						  <li>layout widgets: SplitContainer, LayoutContainer, AccordionContainer</li>
+						  <li>TooltipDialog, Tooltip</li>
+						  <li>Tree</li>
+						  <li>form widgets: Button, DropDownButton, ComboButton, FilteringSelect, ComboBox</li>
+						  <li>Editor</li>
+						</ul>
+						<p>
+						The message list above originally contains all the messages, but you can filter it
+						by clicking on items in the left Accordion.
+						Then click on the messages in the above list to display them.
+						There's no server running, so the app is just a facade and it doesn't really do anything.
+						<!-- TODO: delete button (we can delete since we are using ItemFileWriteStore -->
+						</p>
+						<p>
+						<span style="font-family: 'Comic Sans MS',Textile,cursive; color: blue; font-style: italic;">-- Bill</span>
+						</p>
+					</div>
+				</div>	<!-- end of vertical SplitContainer -->
+			</div> <!-- end of horizontal SplitContainer -->
+		</div> <!-- end of TabContainer -->
 		<div dojoType="dijit.layout.ContentPane" layoutAlign="bottom" id="footer" align=center>
 			...
 		</div>
-	</div>
+	</div> <!-- end of Layoutcontainer -->	
 </body>
 </html>
