@@ -135,10 +135,14 @@ dojo.declare(
 				return cmd=='undo'?this.undo():this.redo();
 			}else{
 				try{
-					this.endEditing();
-					this._beginEditing();
+					if(this.customUndo){
+						this.endEditing();
+						this._beginEditing();
+					}
 					var r = this.inherited('execCommand',arguments);
-					this._endEditing();
+					if(this.customUndo){
+						this._endEditing();
+					}
 					return r;
 				}catch(e){
 					if(dojo.isMoz){
@@ -247,8 +251,12 @@ dojo.declare(
 			this._steps.push({'text':v,'bookmark':this._getBookmark()});
 		},
 		onKeyDown: function(e){
+			if(!this.customUndo){
+				this.inherited('onKeyDown',arguments);
+				return;
+			}
 			var k=e.keyCode,ks=dojo.keys;
-			if(this.customUndo && e.ctrlKey){
+			if(e.ctrlKey){
 				if(k===90||k===122){ //z
 					dojo.stopEvent(e);
 					this.undo();
