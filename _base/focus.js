@@ -285,18 +285,19 @@ dojo.mixin(dijit,
 		// summary
 		//	The stack of active widgets has changed.  Send out appropriate events and record new stack
 
-		var stack = dijit._activeStack;
+		var oldStack = dijit._activeStack;		
+		dijit._activeStack = newStack;
 
 		// compare old stack to new stack to see how many elements they have in common
-		for(var nCommon=0; nCommon<Math.min(stack.length, newStack.length); nCommon++){
-			if(stack[nCommon] != newStack[nCommon]){
+		for(var nCommon=0; nCommon<Math.min(oldStack.length, newStack.length); nCommon++){
+			if(oldStack[nCommon] != newStack[nCommon]){
 				break;
 			}
 		}
 
 		// for all elements that have gone out of focus, send blur event
-		for(var i=stack.length-1; i>=nCommon; i--){
-			var widget = dijit.byId(stack[i]);
+		for(var i=oldStack.length-1; i>=nCommon; i--){
+			var widget = dijit.byId(oldStack[i]);
 			if(widget){
 				dojo.publish("widgetBlur", [widget]);
 				if(widget._onBlur){
@@ -315,8 +316,6 @@ dojo.mixin(dijit,
 				}
 			}
 		}
-		
-		dijit._activeStack = newStack;
 	}
 });
 
