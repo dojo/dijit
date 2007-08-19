@@ -10,6 +10,7 @@ dojo.declare("dijit._editor.plugins.AlwaysShowToolbar", null,
 //		this.scrollInterval = setInterval(dojo.hitch(this, "globalOnScrollHandler"), 100);
 	},
 	enable: function(d){
+		this._updateHeight();
 		this._connects=[dojo.connect(window,'onscroll',this,"globalOnScrollHandler"),
 		dojo.connect(this.editor,'onNormalizedDisplayChanged',this,"_updateHeight")];
 		return d;

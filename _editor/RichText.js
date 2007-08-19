@@ -1212,9 +1212,6 @@ dojo.declare("dijit._editor.RichText", [ dijit._Widget ], {
 		return ec;
 	},
 
-	//Int: stored last time height
-	_lastHeight: 0,
-
 	_saveContent: function(e){
 		// summary:
 		//		Saves the content in an onunload event if the editor has not been closed
