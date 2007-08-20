@@ -47,6 +47,7 @@ dojo.declare("dijit._editor.plugins.AlwaysShowToolbar", null,
 //			this.iframe.style.height=this._lastHeight+'px';
 		}
 	},
+	_lastHeight: 0,
 	globalOnScrollHandler: function(){
 		var isIE = dojo.isIE && dojo.isIE<7;
 		if(!this._handleScroll){ return; }
@@ -56,7 +57,7 @@ dojo.declare("dijit._editor.plugins.AlwaysShowToolbar", null,
 		if(!this._scrollSetUp){
 			this._scrollSetUp = true;
 			this._scrollThreshold = dojo._abs(tdn, true).y;
-			console.log("threshold:", this._scrollThreshold);
+//			console.log("threshold:", this._scrollThreshold);
 			//what's this for?? comment out for now
 //			if((isIE)&&(db)&&(dojo.style(db, "backgroundIimage")=="none")){
 //				db.style.backgroundImage = "url(" + dojo.uri.moduleUri("dijit", "templates/blank.gif") + ")";
@@ -65,16 +66,14 @@ dojo.declare("dijit._editor.plugins.AlwaysShowToolbar", null,
 		}
 
 		var scrollPos = dojo._docScroll().y;
-//		console.log('scrollPos',scrollPos);
-		// FIXME: need to have top and bottom thresholds so toolbar doesn't keep scrolling past the bottom
-		if(scrollPos > this._scrollThreshold){
+
+		if(scrollPos > this._scrollThreshold && scrollPos < this._scrollThreshold+this._lastHeight){
 			// dojo.debug(scrollPos);
 			if(!this._fixEnabled){
 				var tdnbox = dojo.marginBox(tdn);
 				this.editor.iframe.style.marginTop = tdnbox.h+"px";
 
 				if(isIE){
-					// FIXME: should we just use setBehvior() here instead?
 					tdn.style.left = dojo._abs(tdn).x;
 					if(tdn.previousSibling){
 						this._IEOriginalPos = ['after',tdn.previousSibling];
