@@ -502,12 +502,6 @@ dojo.declare("dijit._editor.RichText", [ dijit._Widget ], {
 				// }catch(e){
 				//	this._tryDesignModeOnClick=true;
 				// }
-				try{
-					var currentDomain = (new dojo._Url(dojo.doc.location)).host;
-					if(dojo.doc.domain!=currentDomain){
-						this.document.domain = dojo.doc.domain;
-					}
-				}catch(e){}
 
 				this.onLoad();
 			}else{
