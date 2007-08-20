@@ -131,8 +131,9 @@
 	background-color:transparent !important;
 }
 
-.dijitCalendarIncrementControl .dijitA11ySideArrow { 
+.dijit_a11y .dijitCalendarIncrementControl .dijitA11ySideArrow { 
 	padding-left:.2em; 
+	visibility:visible !important; 
 }
 
 .dijitToolbar .dijitDropDownButton .dijitA11yDownArrow{

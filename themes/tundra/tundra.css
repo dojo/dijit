@@ -923,7 +923,7 @@
 
 .tundra .dijitCalendarIncreaseInner,
 .tundra .dijitCalendarDecreaseInner {
-	display:none; 
+	visibility:hidden; 
 }
 
 .tundra .dijitCalendarDecrease {
