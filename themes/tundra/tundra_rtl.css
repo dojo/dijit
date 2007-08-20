@@ -7,6 +7,9 @@
 	right: auto;
 	left: 5px;
 }
+.dj_ie6 .dijitRtl .dijitDialogTitleBar .dijitDialogCloseIcon {
+	background-image: url('images/tabClose.gif'); 
+}
 
 .dijitRtl .dijitDialogTitleBar {
 	background: #fafafa url("images/titleBarBg.gif") repeat-x bottom left;
@@ -23,10 +26,16 @@
 .dijitRtl .dijitMenuItem .dijitMenuExpandEnabled {
 	background:url('images/arrowLeft.png') no-repeat bottom center;
 }
+.dj_ie6 .dijitRtl .dijitMenuItem .dijitMenuExpandEnabled {
+	background-image:url('images/arrowLeft.gif'); 
+}
 
 /* TitlePane */
-.dijitRtl .dijitClosed .dijitTitlePaneTitle .dijitArrowNode  {
+.dijitRtl .dijitTitlePane .dijitClosed .dijitArrowNode  {
 	background:url('images/arrowLeft.png') no-repeat center center; 
+}
+.dj_ie6 .dijitRtl .dijitTitlePane .dijitClosed .dijitArrowNode {
+	background-image:url('images/arrowLeft.gif'); 
 }
 
 /* Tree */
@@ -83,14 +92,20 @@
 
 /* Calendar */
 
-.dijitRtl .dijitCalendarDecrease {
+.dijitRtl .tundra .dijitCalendarDecrease {
 	background:url(images/arrowRight.png) no-repeat center center; 
 	margin-left:0;
 	margin-right:2px;
 }
 
-.dijitRtl .dijitCalendarIncrease {
+.dijitRtl .tundra .dijitCalendarIncrease {
 	background:url(images/arrowLeft.png) no-repeat center center; 
 	margin-right:0;
 	margin-left:4px; 
+}
+.dj_ie6 .dijitRtl .dijitCalendarIncrease {
+	background-image:url(images/arrowLeft.gif); 
+}
+.dj_ie6 .dijitRtl .dijitCalendarDecrease {
+	background-image:url(images/arrowRight.gif); 
 }

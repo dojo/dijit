@@ -912,7 +912,6 @@
 
 /* Calendar*/
 
-
 .tundra .dijitCalendarIncrementControl {
 	/* next/prev month buttons */
 	width:16px;
@@ -954,6 +953,7 @@
 	background:white url("images/calendarMonthLabel.png") repeat-x top;
 	padding-top:.3em;
 	padding-bottom:.1em; 
+	text-align:center; 
 }
 .dj_ie6 .tundra .dijitCalendarMonthContainer th {
 	padding-top:.1em; 
