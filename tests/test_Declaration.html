@@ -17,6 +17,18 @@
 	</script>
 </head>
 <body class="tundra">
+	<h3>Simple macro:</h3>
+	<p>(Check to make sure that links contain employee number)
+	<div dojoType="dijit.Declaration" widgetClass="Employee" defaults="{ empid: 123, name: '' }">	
+		<span>${name}</span>
+		<a href="update.php?id=${empid}">update</a>
+		<a href="delete.php?id=${empid}">delete</a>
+	</div>
+	<div dojoType="Employee" empid="100" name="Alan Allen"></div>
+	<div dojoType="Employee" empid="101" name="Bob Brown"></div>
+	<div dojoType="Employee" empid="102" name="Cathy Cameron"></div>
+
+	<h3>Something more complicated:</h3>
 	<div dojoType="dijit.Declaration" widgetClass="foo" defaults="{ foo: 'thud', progress: 10 }">
 		<script type='dojo/connect' event='startup'>
 			this.baz.innerHTML += " (modified by dojo/connect event=startup) ";

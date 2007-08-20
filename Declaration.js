@@ -32,7 +32,7 @@ dojo.declare(
 				propList.preamble = dojo.parser._functionFromScript(preambles[0]);
 			}
 			propList.widgetsInTemplate = true;
-			propList.templateString = "<"+srcType+" class='"+src.className+"'>"+src.innerHTML+"</"+srcType+">";
+			propList.templateString = "<"+srcType+" class='"+src.className+"'>"+src.innerHTML.replace(/\%7B/g,"{").replace(/\%7D/g,"}")+"</"+srcType+">";
 
 			// strip things so we don't create stuff under us in the initial setup phase
 			dojo.query("[dojoType]", src).forEach(function(node){
