@@ -364,7 +364,7 @@ dojo.declare("dijit._editor.RichText", [ dijit._Widget ], {
 
 	_getIframeDocTxt: function(html){
 		var _cs = dojo.getComputedStyle(this.domNode);
-		if(!this.height){
+		if(!this.height && !dojo.isMoz){
 			html="<div>"+html+"</div>";
 		}
 		var font = [ _cs.fontWeight, _cs.fontSize, _cs.fontFamily ].join(" ");
@@ -617,7 +617,7 @@ dojo.declare("dijit._editor.RichText", [ dijit._Widget ], {
 	onLoad: function(e){
 		// summary: handler after the content of the document finishes loading
 		this.isLoaded = true;
-		if(this.height){
+		if(this.height || dojo.isMoz){
 			this.editNode=this.document.body;
 		}else{
 			this.editNode=this.document.body.firstChild;
@@ -745,11 +745,11 @@ dojo.declare("dijit._editor.RichText", [ dijit._Widget ], {
 			this.onChange(_c);
 			this.savedContent=_c;
 		}
-			console.info('_onBlur') 
+//			console.info('_onBlur') 
 	},
 	_initialFocus: true,
 	_onFocus: function(e){
-			console.info('_onFocus')
+//			console.info('_onFocus')
 		// summary: Fired on focus
 		if( (dojo.isMoz)&&(this._initialFocus) ){
 			this._initialFocus = false;
