@@ -25,7 +25,7 @@ dojo.declare(
 		// setup to handle events from tree
 
 		// if the store supports Notification, subscribe to the notifcation events
-		if (this.store._features['dojo.data.api.Notification']){
+		if (this.store.getFeatures()['dojo.data.api.Notification']){
 			dojo.connect(this.store, "onNew", this, "onNew");
 			dojo.connect(this.store, "onDelete", this, "onDelete");
 			dojo.connect(this.store, "onSet", this, "onSet");
