@@ -4,7 +4,7 @@ html, body, #main{
 	overflow: hidden;	/* erase window level scrollbars */
 	padding: 0 0 0 0;
 	margin: 0 0 0 0;
-	font: Arail,Myriad,Tahoma,Verdana,sans-serif;
+	font: 10pt Arial,Myriad,Tahoma,Verdana,sans-serif;
 }
 
 #banner, #footer {
