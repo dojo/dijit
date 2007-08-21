@@ -26,9 +26,7 @@
 */
 .soria .dijitButtonNode {
 	/* enabled state - inner */
-	/* border:1px outset #a0a0a0; */
 	border:1px solid #4f8ce5;
-	/* border-top:0;  */
 	padding:.3em .4em .2em .4em;
 	background:#b7cdee url("images/gradientTopBg.png") repeat-x top;
 	background-position:0px -1px; 
@@ -48,7 +46,6 @@
 .soria .dijitSpinnerDisabled .dijitButtonNode {
 	/* disabled state - inner */
 	border: 1px solid #d5d5d5;
-	/*color:#b4b4b4;*/
 	background:#ccc url("images/gradientTopBg.png") repeat-x top left;
 	background-position:0px -1px; 
 	opacity: 0.50; /* Safari, Opera and Mozilla */
@@ -99,11 +96,11 @@
 .soria .dijitToolbar * {
 	padding: 0px;
 	margin: 0px;
-	#margin-top: -1px; /*IE*/
 }
 
 .dj_ie .soria .dijitToolbar {
 	padding-bottom: 1px;
+	margin-top: -1px; 
 }
 
 .soria .dijitToolbar .dijitButtonNode {
@@ -164,17 +161,17 @@
 }
 
 
-/*****
-		dijit.form.NumberSpinner
-		override for the shorter stacked buttons
- *****/
+/*
+	dijit.form.NumberSpinner
+	override for the shorter stacked buttons
+*/
 
 .soria .dijitSpinner .dijitButtonNode {
 	padding: 0 .4em 0 .4em;
 }
 
 
-/****
+/*
 		dijit.form.TextBox
 		dijit.form.ValidationTextBox
 		dijit.form.SerializableTextBox
@@ -183,7 +180,7 @@
 		dijit.form.CurrencyTextBox
 		dijit.form.NumberSpinner
 		dijit.form.ComboBox (partial)
- ****/
+*/
 
 .soria .dijitComboBox {
 	/* put margin on the outer element of the autocompleter rather than the input */
@@ -254,25 +251,7 @@
 	background-image:none;	
 }
 
-/*
- *  CheckBox and Radio Widgets,
- *	and the CSS to embed a checkbox or radio icon inside a ToggleButton.
- *
- *	Order of images in the default sprite (from L to R, checkbox and radio in same image):
- *		checkbox	normal 	 - checked
- *							 - unchecked
- *					disabled - checked
- *							 - unchecked
- *					hover 	 - checked
- *							 - unchecked
- *
- *		radio		normal 	 - checked
- *							 - unchecked
- *					disabled - checked
- *							 - unchecked
- *					hover 	 - checked
- *							 - unchecked
-*/
+/* CheckBox and Radio Widgets, and the CSS to embed a checkbox or radio icon inside a ToggleButton. */
 
 .soria .dijitToggleButton .dijitCheckBox,
 .soria .dijitToggleButton .dijitRadio,
@@ -285,7 +264,7 @@
 .soria .dijitRadio,
 .soria .dijitCheckBoxIcon,		/* inside a toggle button */
 .soria .dijitRadioIcon	{		/* inside a toggle button */
-	background-image: url('images/checkmark.png'); /* checkbox sprite image */
+	background-image: url('images/arrows.png'); /* checkbox sprite image */
 	background-repeat: no-repeat; 
 	width: 16px;
 	height: 16px;
@@ -298,69 +277,69 @@
 .soria .dijitCheckBox,
 .soria .dijitToggleButton .dijitCheckBoxIcon {
 	/* unchecked */
-	background-position: -16px 0px; 
+	background-position: -112px 0px; 
 }
  
 .soria .dijitCheckBoxChecked,
 .soria .dijitToggleButtonChecked .dijitCheckBoxIcon {
 	/* checked */
-	background-position: 0px 0px;
+	background-position: -96px 0px;
 }
 
 .soria .dijitCheckBoxDisabled {
 	/* disabled */
-	background-position: -48px 0px;
+	background-position: -144px 0px;
 }
 
 .soria .dijitCheckBoxCheckedDisabled {
 	/* disabled but checked */
-	background-position: -32px 0px;
+	background-position: -128px 0px;
 }
 
 .soria .dijitCheckBoxHover,
 .soria .dijitCheckBoxFocused {
 	/* hovering over an unchecked enabled checkbox */
-	background-position: -80px 0px;
+	background-position: -176px 0px;
 }
 
 .soria .dijitCheckBoxCheckedHover,
 		.soria .dijitCheckBoxCheckedFocused {
 	/* hovering over a checked enabled checkbox */
-	background-position: -64px 0px;
+	background-position: -160px 0px;
 }
 
 .soria .dijitRadio,
 .soria .dijitToggleButton .dijitRadioIcon {
 	/* unselected */
-	background-position: -112px -1px;
+	background-position: -208px 0px;
 }
 
 .soria .dijitRadioChecked,
 .soria .dijitToggleButtonChecked .dijitRadioIcon {
 	/* selected */
-	background-position: -96px -1px;
+	background-position: -192px 0px;
 }
 
 .soria .dijitRadioCheckedDisabled {
 	/* selected but disabled */
-	background-position: -128px -1px;
+	background-position: -224px 0px;
 }
 
 .soria .dijitRadioDisabled {
 	/* unselected and disabled */
-	background-position: -144px -1px;
+	background-position: -240px 0px;
 }
 
 .soria .dijitRadioHover,
 .soria .dijitRadioFocused {
 	/* hovering over an unselected enabled radio button */
-	background-position: -176px -1px;
+	background-position: -272px 0px;
 }
 
 .soria .dijitRadioCheckedHover,
 .soria .dijitRadioCheckedFocused {
 	/* hovering over a selected enabled radio button */
-	background-position: -160px -1px;
+	background-position: -256px 0px;
 }
 
 /* Menu */
@@ -517,7 +496,6 @@
 	outline:0; 
 }
 
-
 .soria .dijitTabHover,
 .soria .dijitTabCloseButtonHover {
 	color: #fff;
@@ -543,7 +521,8 @@
 .soria .dijitAlignTop .dijitTabChecked,
 .soria .dijitAlignTop .dijitTabCloseButtonChecked
 {
-	border-bottom-color:transparent;
+	border-bottom-color:white;
+	
 	vertical-align:bottom;
 }
 
@@ -570,7 +549,7 @@
 /* make space for a positioned close button */
 .soria .dijitTab .dijitClosable {
 	position: relative; 
-	padding:6px 24px 4px 10px;
+	padding:6px 24px 3px 10px;
 }
 
 .soria .dijitTab .dijitClosable .closeImage {
@@ -581,15 +560,18 @@
 	width: 15px;
 	padding: 0;
 	margin: 0;
-	background: url("images/tabClose.png") no-repeat right top;
+	background: url("images/arrows.png") no-repeat;
+	background-position:-65px -1px; 
 }
 
 .soria .dijitTabCloseButton .dijitClosable .closeImage {
-	background-image : url("images/tabClose.png");
+	background-image : url("images/arrows.png");
+	background-position:-65px -1px; 
 }
 
 .soria .dijitTabCloseButtonHover .dijitClosable .closeImage {
-	background-image : url("images/tabCloseHover.png");
+	background-image : url("images/arrows.png");
+	background-position:-81px -1px; 
 }
 
 .soria .dijitAlignLeft .dijitTab .dijitClosable {
@@ -618,30 +600,31 @@
 /* SplitContainer */
 
 .soria .dijitSplitContainerSizerH {
-	background:url("images/splitContainerSizerH.png") repeat-y #fff;
+	background:#b7cdee url("images/gradientLeftBg.png") repeat-y;
 	border:0;
-	border-left:1px solid #ccccff;
-	border-right:1px solid #ccccff;
+	/* border-left:1px solid #ccccff; */
+	border-right:1px solid #cbdcf7;
 	width:7px;
 }
 
 .soria .dijitSplitContainerSizerH .thumb {
-	background:url("images/splitContainerSizerH-thumb.png") no-repeat center center; 
+	background:url("images/arrows.png") no-repeat center center; 
+	background-position:-357px 0px;
 	left:0px;
 	width:6px;
 	height:36px;
 }
 
 .soria .dijitSplitContainerSizerV {
-	background:url("images/splitContainerSizerV.png") repeat-x #fff;
+	background:#b7cdee url("images/gradientTopBg.png") repeat-x;
 	border:0;
-	border-top:1px solid #bfbfbf;
-	border-bottom:1px solid #bfbfbf;
+	border-bottom:1px solid #cbdcf7;
 	height:7px;
 }
 
 .soria .dijitSplitContainerSizerV .thumb {
-	background:url("images/splitContainerSizerV-thumb.png") no-repeat center center;
+	background:url("images/arrows.png") no-repeat center center;
+	background-position:-368px -5px;
 	top:0px;
 	width:26px;
 	height:6px;
@@ -692,27 +675,27 @@
 
 .soria .dijitDialogCloseIcon {
 	/* the default close icon for the dialog */
-	background : url("images/tabClose.png") no-repeat right top;
+	background : url("images/arrows.png") no-repeat right top;
+	background-position:-64px 0px; 
 	float: right;
 	position: absolute;
 	vertical-align: middle;
 	right: 5px;
 	top: 5px;
-	height: 22px;
-	width: 22px;
+	height: 16px;
+	width: 16px;
 	cursor: pointer;
 }
 .dj_ie6 .soria .dijitDialogCloseIcon {
-	background-image: url("images/tabClose.gif"); 
+	background-image: url("images/arrows.gif"); 
 }
 
 .soria .dijitDialogContent {
 	/* the body of the dialog */
 	padding: 8px;
-	/* border-bottom:1px solid #4f8ce5; */
 }
 
-/*Tooltip*/
+/* Tooltip */
 
 .soria .dijitTooltip,
 .soria .dijitTooltipDialog {
@@ -732,17 +715,9 @@
 }
 
 .soria .dijitTooltipContainer {
-	/*
-		The part with the text.
-
-		NOTE: 
-			FF doesn't clip images used as CSS bgs if you specify a border
-			radius. If you use a solid color, it does. Webkit gets it right.
-			Sigh.
-		background: #ffffff url("images/popupMenuBg.gif") repeat-x bottom left;
-	*/
-	background: #dedede url("images/gradientBottomBg.png") repeat-x bottom left; 
-	border:1px solid #b6c7d5;
+	background:#ffc url("images/gradientTopBg.png") repeat-x;
+	background-position:0 -30px; 
+	border:1px solid #333;
 	padding:0.45em;
 	border-radius: 6px;
 	-moz-border-radius: 7px;
@@ -756,9 +731,12 @@
 	/* the arrow piece */
 	border:0px;
 	z-index: 2;
-	background:url("images/tooltips.png") no-repeat;	
+	background:url("images/arrows.png") no-repeat;	
 	width:16px; 
 	height:14px;
+}
+.dj_ie6 .soria .dijitTooltipConnector {
+	background-image:url("images/arrows.gif"); 
 }
 
 .soria .dijitTooltipABRight .dijitTooltipConnector {
@@ -770,27 +748,27 @@
 	/* the arrow piece for tooltips below an element */
 	top: 0px;
 	left: 3px;
-	background-position:-48px 0px;
+	background-position:-336px 0px;
 }
 
 .soria .dijitTooltipAbove .dijitTooltipConnector {
 	/* the arrow piece for tooltips above an element */
 	bottom: 0px;
 	left: 3px;
-	background-position:-16px 0px;
+	background-position:-304px 0px;
 }
 
 .soria .dijitTooltipLeft {
-	padding-right: 13px;
+	padding-right: 14px;
 }
 .dj_ie6 .soria .dijitTooltipLeft {
-	padding-right: 15px;
+	padding-right: 16px;
 }
 .soria .dijitTooltipLeft .dijitTooltipConnector {
 	/* the arrow piece for tooltips to the left of an element, bottom borders aligned */
 	right: 0px;
 	bottom: 7px;
-	background-position:0px 0px;
+	background-position:-288px 0px;
 }
 
 .soria .dijitTooltipRight {
@@ -800,10 +778,7 @@
 	/* the arrow piece for tooltips to the right of an element, bottom borders aligned */
 	left: 0px;
 	bottom: 7px;
-	background-position:-32px 0px; 
-}
-.dj_ie6 .soria .dijitTooltipRight .dijitTooltipConnector {
-	background-image: url("images/tooltipConnectorLeft.gif");
+	background-position:-321px 0px; 
 }
 
 /* Accordion */
@@ -825,27 +800,25 @@
 }
 
 .soria .dijitAccordionArrow { background:url("images/arrows.png") no-repeat center center; }
-/* .dj_ie6 .soria .dijitAccordionArrow { background:url("images/arrows.gif") no-repeat center center; }  */
+.dj_ie6 .soria .dijitAccordionArrow { background:url("images/arrows.gif") no-repeat center center; }  
 .soria .dijitAccordionPane .dijitAccordionArrow {
-/*	background:url("images/arrows.png") no-repeat; */
+
 	background-position: -32px 0px; 
 	width:16px;
 	height:16px;
 	margin-top:0px;
 }
-/* .dj_ie6 .soria .dijitAccordionPane .dijitAccordionArrow {
+.dj_ie6 .soria .dijitAccordionPane .dijitAccordionArrow {
 	background-image: url("images/arrows.gif"); 
 }
-*/
+
 .soria .dijitAccordionPane-selected .dijitAccordionArrow {
-	/* background:url("images/arrowDown.png") no-repeat; */
 	background-position: 0px 0px;
 	margin-top:0px;
 }
-/* .dj_ie6 .soria .dijitAccordionPane-selected .dijitAccordionArrow { */
-/* 	background-image: url("images/arrows.gif");  
+.dj_ie6 .soria .dijitAccordionPane-selected .dijitAccordionArrow { 
+ 	background-image: url("images/arrows.gif");  
 }
- */
 
 .soria .dijitAccordionPane .dijitAccordionBody {
 	background: #fff;
@@ -956,6 +929,7 @@
 	background-position:0 -1px;
 	padding-top:.3em;
 	padding-bottom:.1em; 
+	text-align:center; 
 }
 .dj_ie6 .soria .dijitCalendarMonthContainer th {
 	padding-top:.1em; 
@@ -1129,12 +1103,12 @@
 
 .soria .dijitVerticalSliderProgressBar {
 	border-color: #333;
-	background: #4f8ce5 url("images/sliderFullVertical.png") repeat-y bottom left;
+	background: #4f8ce5 url("images/gradientLeftBg.png") repeat-y bottom left;
 }
 
 .soria .dijitVerticalSliderRemainingBar {
 	border-color: #333;
-	background: #b7cdee url("images/sliderEmptyVertical.png") repeat-y bottom left;
+	background: #b7cdee url("images/gradientLeftBg.png") repeat-y bottom left;
 }
 
 .dijitHorizontalSliderRemainingBar {
@@ -1146,7 +1120,6 @@
 .soria .dijitSliderBar {
 	border-style: solid;
 	outline:1px; 
-	/* border-color: #b4b4b4; */
 }
 
 .soria .dijitHorizontalSliderImageHandle {
@@ -1161,17 +1134,15 @@
 }
 
 .soria .dijitHorizontalSliderLeftBumper {
-	display:none; 
-	border-left-width: 1px;
-	border-color: #333;
-	background: #4f8ce5 url("images/sliderFull.png") repeat-x top left;
+	border:0;
+	border-right:1px solid #333;
+	background:transparent;
 }
 
 .soria .dijitHorizontalSliderRightBumper {
-	display:none; 
-	background: #b7cdee url("images/sliderEmpty.png") repeat-x top left;
-	border-color: #333;
-	border-right-width: 1px;
+	border:0;
+	border-left:1px solid #333;
+	background:transparent;
 }
 
 .soria .dijitVerticalSliderImageHandle {
@@ -1185,11 +1156,11 @@
 .soria .dijitVerticalSliderBottomBumper {
 	border-bottom-width: 1px;
 	border-color: #333;
-	background: #4f8ce5 url("images/sliderFullVertical.png") repeat-y bottom left;
+	background: #4f8ce5 url("images/gradientLeftBg.png") repeat-y bottom left;
 }
 
 .soria .dijitVerticalSliderTopBumper {
-	background: #b7cdee url("images/sliderEmptyVertical.png") repeat-y top left;
+	background: #b7cdee url("images/gradientLeftBg.png") repeat-y top left;
 	border-color: #333;
 	border-top-width: 1px;
 }
@@ -1272,11 +1243,27 @@
 
 /* DnD avatar-specific settings */
 /* For now it uses a default set of rules. Some other DnD classes can be modified as well. */
-.soria .dojoDndAvatar			{font-size: 75%; color: black;}
-.soria .dojoDndAvatarHeader td	{padding-left: 20px; padding-right: 4px; height:16px; width:16px; }
-.soria .dojoDndAvatarHeader	{background: #ccc;}
-.soria .dojoDndAvatarItem		{ background: #eee;}
-.soria.dojoDndMove .dojoDndAvatarHeader	{ background-image: url(images/dndNoMove.png); background-repeat: no-repeat;}
-.soria.dojoDndCopy .dojoDndAvatarHeader	{ background-image: url(images/dndNoCopy.png); background-repeat: no-repeat;}
-.soria.dojoDndMove .dojoDndAvatarCanDrop .dojoDndAvatarHeader	{background-image: url(images/dndMove.png); background-repeat: no-repeat;}
-.soria.dojoDndCopy .dojoDndAvatarCanDrop .dojoDndAvatarHeader	{background-image: url(images/dndCopy.png); background-repeat: no-repeat;}
+.soria .dojoDndAvatar {
+	font-size: 75%; color: black;
+}
+.soria .dojoDndAvatarHeader td	{
+	padding-left: 20px; padding-right: 4px; height:16px; width:16px; 
+}
+.soria .dojoDndAvatarHeader {
+	background: #ccc;
+}
+.soria .dojoDndAvatarItem		{ background: #eee; }
+.soria.dojoDndMove .dojoDndAvatarHeader	{ 
+	background-image: url(images/dndNoMove.png);
+	background-repeat: no-repeat;
+}
+.soria.dojoDndCopy .dojoDndAvatarHeader	{ 
+	background-image: url(images/dndNoCopy.png); 
+	background-repeat: no-repeat;
+}
+.soria.dojoDndMove .dojoDndAvatarCanDrop .dojoDndAvatarHeader	{
+	background-image: url(images/dndMove.png); background-repeat: no-repeat;
+}
+.soria.dojoDndCopy .dojoDndAvatarCanDrop .dojoDndAvatarHeader	{
+	background-image: url(images/dndCopy.png); background-repeat: no-repeat;
+}
