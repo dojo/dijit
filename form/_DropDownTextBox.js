@@ -202,7 +202,7 @@ dojo.declare(
 		},
 
 		uninitialize:function(){
-			if(this._popupWidget){
+			if(this._popupWidget&&!this._hasMasterPopup){
 				this._hideResultList();
 				this._popupWidget.destroy()
 			};
