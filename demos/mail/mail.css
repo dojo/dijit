@@ -33,6 +33,19 @@ th {
 	background-image:url('../../themes/soria/images/gradientTopBg.png');
 	background-position:0px -1px; 
 }
+
+th.arrowUp {
+	padding-right: 16px;
+	background: url("../../themes/tundra/images/arrowUp.png") no-repeat 98% 4px;
+	background-color: #4f8ce5; 
+}
+
+th.arrowDown {
+	padding-right: 16px;
+	background: url("../../themes/tundra/images/arrowDown.png") no-repeat 98% 4px;
+	background-color: #4f8ce5; 
+}
+
 .demoTable td { padding:3px; } 
 .demoTable {
 	border-spacing:0; 
