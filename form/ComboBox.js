@@ -561,7 +561,15 @@ dojo.declare(
 
 		onmouseover:function(/*Event*/ evt){
 			if(evt.target === this.domNode){ return; }
-			this._focusOptionNode(evt.target);
+			var tgt=evt.target;
+			if(!(tgt==this.previousButton||tgt==this.nextButton)){
+				// while the clicked node is inside the div
+				while(!tgt.item){
+					// recurse to the top
+					tgt=tgt.parentNode;
+				}
+			}
+			this._focusOptionNode(tgt);
 		},
 
 		onmouseout:function(/*Event*/ evt){
