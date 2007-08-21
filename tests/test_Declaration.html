@@ -28,6 +28,24 @@
 	<div dojoType="Employee" empid="101" name="Bob Brown"></div>
 	<div dojoType="Employee" empid="102" name="Cathy Cameron"></div>
 
+	<h3>Using dojoAttachEvent, dojoAttachPoint</h3>
+	<div dojoType="dijit.Declaration" widgetClass="HideButton">
+		XXX<button dojoAttachEvent="onclick" dojoAttachPoint="containerNode"></button>XXX
+		<script type='dojo/method' event='onclick'>
+			this.domNode.style.display="none";
+		</script>
+	</div>
+	<button dojoType="HideButton">Click to hide</button>
+	<button dojoType="HideButton">Click to hide #2</button>
+
+	<h3>Extending another widget</h3>
+	<p>HideButton2 extends HideButton (above) and changes the template (but keeps the onclick handler).</p>
+	<span dojoType="dijit.Declaration" widgetClass="HideButton2" mixins="HideButton">
+		YYY<button dojoAttachEvent="onclick" dojoAttachPoint="containerNode"></button>YYY
+	</span>
+	<button dojoType="HideButton2">Hide me extended</button>
+	<button dojoType="HideButton2">Hide me extended #2</button>
+
 	<h3>Something more complicated:</h3>
 	<div dojoType="dijit.Declaration" widgetClass="foo" defaults="{ foo: 'thud', progress: 10 }">
 		<script type='dojo/connect' event='startup'>
