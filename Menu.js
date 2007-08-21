@@ -66,17 +66,8 @@ dojo.declare(
 
 	_moveToPopup: function(/*Event*/ evt){
 		if(this._focusedItem && this._focusedItem.popup && !this._focusedItem.disabled){
-			return this._activateCurrentItem(evt);
-		}
-		return false;
-	},
-
-	_activateCurrentItem: function(/*Event*/ evt){
-		if(this._focusedItem){
 			this._focusedItem._onClick(evt);
-			return true; //do not pass to parent menu
 		}
-		return false;
 	},
 
 	_onKeyPress: function(/*Event*/ evt){
