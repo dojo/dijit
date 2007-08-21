@@ -379,6 +379,10 @@ dojo.declare(
 		
 		// set icon based on item
 		dojo.addClass(this.iconNode, this.tree.getIconClass(this.item));
+		
+		if(this.isFolder){
+			dijit.wai.setAttr(this.labelNode, "waiState", "expanded", this.isExpanded);
+		}
 	},
 
 	markProcessing: function(){
