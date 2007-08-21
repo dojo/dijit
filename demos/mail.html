@@ -23,8 +23,10 @@
 		dojo.require("dijit._Calendar");
 		dojo.require("dijit.ColorPalette");
 		dojo.require("dijit.Editor");
+		
 
 		dojo.require("dijit.form.ComboBox");
+		dojo.require("dijit.form.CheckBox"); 
 		dojo.require("dijit.form.FilteringSelect");
 		dojo.require("dijit.form.Textarea");
 
@@ -35,6 +37,23 @@
 		dojo.require("dijit.layout.ContentPane");
 		
 		var paneId=1;
+
+		// for "new message" tab closing
+		function testClose(pane,tab){
+		  return confirm("Are you sure you want to leave your changes?");
+		}
+
+		// fake mail download code:
+		var numMails = 6;
+		var updateFetchStatus = function(x){
+			dojo.byId('fetchStatus').innerHTML = x+" of "+numMails;
+			if (x == numMails){ dijit.byId('fetchDialog').hide(); } 
+		}
+		var fakeDownload = function(){
+			for (var i=1; i<=numMails; i++){
+				setTimeout("updateFetchStatus("+i+")",i*420);
+			}
+		}
 	</script>
 
 	<style type="text/css">
@@ -105,12 +124,12 @@
 	<div dojoType="dijit.Declaration" 
 		widgetClass="mail.NewMessage">
 		<div dojoType="dijit.layout.LayoutContainer" dojoAttachPoint="container" title="Composing..." closeable="true">
-			<div dojoType="dijit.layout.LayoutContainer" layoutAlign="top" style="overflow: visible; z-index: 10;">
+			<div dojoType="dijit.layout.LayoutContainer" layoutAlign="top" style="overflow: visible; z-index: 10; color:#666; ">
 				<table width=100%>
-					<tr>
-						<td style="padding-right: 20px;"><label for="${id}_to">To:</label></td>
+					<tr style="padding-top:5px;">
+						<td style="padding-left:20px; padding-right: 8px; text-align:right;"><label for="${id}_to">To:</label></td>
 						<td width=100%>
-							<select dojoType="dijit.form.ComboBox" id="${id}_to" style="width: 100%;" hasDownArrow="false">
+							<select dojoType="dijit.form.ComboBox" id="${id}_to" style="width: 100%; background-image:none; " hasDownArrow="false">
 								<option></option>
 								<option>adam@yahoo.com</option>
 								<option>barry@yahoo.com</option>
@@ -122,9 +141,9 @@
 						</td>
 					</tr>
 					<tr>
-						<td style="padding-right: 20px;"><label for="${id}_subject">Subject:</label></td>
+						<td style="padding-left: 20px; padding-right:8px; text-align:right;"><label for="${id}_subject">Subject:</label></td>
 						<td width=100%>
-							<select dojoType="dijit.form.ComboBox" id="${id}_subject" style="width: 100%;" hasDownArrow="false">
+							<select dojoType="dijit.form.ComboBox" id="${id}_subject" style="width: 200px; background-image:none;" hasDownArrow="false">
 								<option></option>
 								<option>progress meeting</option>
 								<option>reports</option>
@@ -135,24 +154,18 @@
 						</td>
 					</tr>
 				</table>
+			<hr noshade size="1">
 			</div>
 			
 			<div dojoType="dijit.layout.LayoutContainer" layoutAlign="bottom" align=center>
-				<button dojoType="dijit.form.Button" iconClass="mailIconOk">
-					Send
-				</button>
+				<button dojoType="dijit.form.Button" iconClass="mailIconOk">Send</button>
+				<button dojoType="dijit.form.Button" iconClass="mailIconCancel">Cancel</button>
 			</div>
 
+			<!-- new messase part -->
 			<div dojoType="dijit.layout.LayoutContainer" layoutAlign="client">
-				<!-- TODO: want to use Editor here or even Textrea, but both fail on initialization
-				<div dojoType="dijit.form.Textarea">
-					Type the address above (try an address starting with a,b,c,d, to test autocompletion,
-					and then type your message here...
-					<br><br><br><br><br><br><br><br><br><br>
-				</div>
-				-->
-				<textarea style="width: 98%; height: 99%; padding: 8px;" rows=30>Type the address above (try an address starting with a,b,c,d, to test autocompletion,
-and then type your message here...</textarea>
+				<!-- FIXME: editor as direct widget here doesn't init -->
+				<div dojoType="dijit.layout.ContentPane" href="mail/newMail.html"></div>
 			</div>		
 		</div>
 	</div>
@@ -162,13 +175,17 @@ and then type your message here...</textarea>
 
 		<!-- blue header at top of inbox -->
 		<div dojoType="dijit.layout.ContentPane" layoutAlign="top" id="banner" align=center>
-			My Mailbox
+			DojoMail v0.9b (demo only)
 		</div>
 
 		<!-- toolbar with new mail button, etc. -->
-		<div dojoType="dijit.Toolbar" layoutAlign="top">
-			<div id="getMail" dojoType="dijit.form.ComboButton" onClick="alert('pretending to download new mail');"
+		<div dojoType="dijit.Toolbar" layoutAlign="top" style="height:25px;">
+			<div id="getMail" dojoType="dijit.form.ComboButton"
 				iconClass="mailIconGetMail">
+				<script type="dojo/method" event="onClick">
+					dijit.byId('fetchDialog').show();
+					fakeDownload();
+				</script>
 				<span>Get Mail</span>
 				<ul dojoType="dijit.Menu">
 					<li dojoType="dijit.MenuItem" iconClass="mailIconGetMail">Yahoo</li>
@@ -184,11 +201,12 @@ and then type your message here...</textarea>
 				<script type="dojo/method" event="onClick">
 					/* make a new tab for composing the message */
 
-					var newTab = new mail.NewMessage({id: "new"+paneId}).container;
+					var newTab = new mail.NewMessage({id: "new"+paneId  }).container;
 					dojo.mixin(newTab,
 						{
 							title: "New Message #" + paneId++,
-							closable: true
+							closable: true,
+							onClose: testClose
 						}
 					);
 					tabs.addChild(newTab);
@@ -197,24 +215,13 @@ and then type your message here...</textarea>
 			</button>
 			<span dojoType="dijit.Tooltip" connectId="newMsg">Click to compose new message.</span>
 
-			<div id="options" dojoType="dijit.form.DropDownButton" iconClass="mailIconOptions">
-				<span>Options</span>
-				<div dojoType="dijit.TooltipDialog" title="Options">
-			  		<label for="option1">Transport type</label>
-			  		<select id="option1" dojoType="dijit.form.FilteringSelect">
-			  			<option value="pop3">POP3</option>
-			  			<option value="imap">IMAP</option>
-			  		</select>
-			  		<br>
-			  		<label for="option2">Server:</label> <input id="option2" dojoType="dijit.form.TextBox" type="text">
-			  		<br>
-			  		<button dojoType="dijit.form.Button" type="submit" iconClass="mailIconOk">OK</button>
-				</div>
-			</div>
-			<div dojoType="dijit.Tooltip" connectId="options">
-				Set various options.  Currently broken due to<br>
-				a bug with having a popup in a popup. :-(
-			</div>
+			<button id="options" dojoType="dijit.form.Button" iconClass="mailIconOptions">
+			Options	
+				<script type="dojo/method" event="onClick">
+					dijit.byId('optionsDialog').show(); 
+				</script>
+			</button>
+			<div dojoType="dijit.Tooltip" connectId="options">Set various options</div>
 		</div>
 
 		<div dojoType="dijit.layout.ContentPane" layoutAlign="bottom" id="footer" align=center>
@@ -301,7 +308,11 @@ and then type your message here...</textarea>
 							query="{ query: { type: 'message' }, sort: [ { attribute: 'label' } ]  }" 
 							id="foo" jsId="table" style="width: 100%">
 							<script type="dojo/method" event="onClick" args="item">
-								dijit.byId("message").setContent(this.store.getValue(item, "text"));
+								var messageInner = "<span class='messageHeader'>From: "+this.store.getValue(item,"sender")+"<br>"+
+									"Subject: "+this.store.getValue(item,"label")+"<br>"+
+									"Date: "+this.store.getValue(item,"sent")+"<br><br></span>"+
+									this.store.getValue(item,"text");
+								dijit.byId("message").setContent(messageInner);
 							</script>
 						</span>
 					</div>
@@ -330,6 +341,28 @@ and then type your message here...</textarea>
 				</div>	<!-- end of vertical SplitContainer -->
 			</div> <!-- end of horizontal SplitContainer -->
 		</div> <!-- end of TabContainer -->
-	</div> <!-- end of Layoutcontainer -->	
+	</div> <!-- end of Layoutcontainer -->
+<div dojoType="dijit.Dialog" id="fetchDialog" title="(simulated)">
+	Fetching Mail: <span id="fetchStatus"></span><div style="width:200px; height:10px; border:1px solid #333; background:url('../themes/soria/images/progressBarAnim.gif') repeat-x;"></div>
+</div>
+<div dojoType="dijit.Dialog" id="optionsDialog" title="Options:">
+	<table>	
+	<tr><td style="text-align:right;"><label for="option1">Transport type:</label></td><td>
+	<select id="option1" dojoType="dijit.form.FilteringSelect">
+		<option value="pop3">POP3</option>
+		<option value="imap">IMAP</option>
+	</select></td></tr>
+	<tr><td style="text-align:right;"><label for="option2">Server:</label></td><td><input id="option2" dojoType="dijit.form.TextBox" type="text">
+	</td></tr>
+
+	<tr><td style="text-align:right;"><input type="checkbox" id="fooCB" dojoType="dijit.form.CheckBox"></td><td><label for="fooCB">Leave messages on Server</label></td></tr>
+	<tr><td style="text-align:right;"><input type="checkbox" id="fooCB2" dojoType="dijit.form.CheckBox"></td><td><label for="fooCB2">Remember Password</label></td></tr>
+
+	<tr><td colspan="2" style="text-align:center;">
+	<button dojoType="dijit.form.Button" type="submit" iconClass="mailIconOk">OK</button>
+	<button dojoType="dijit.form.Button" type="submit" iconClass="mailIconCancel">Abort</button>
+	</td></tr>
+	</table>
+</div>	
 </body>
 </html>

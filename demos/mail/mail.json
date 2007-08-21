@@ -4,9 +4,9 @@
 	items: [
 
 		// Hierarchy of folders
-		{ type: 'folder', id: 'mailbox', label:'Mail Folders', folders: [
+		{ type: 'folder', id: 'mailbox', label:'Folders', folders: [
 			{ type: 'folder', id: 'inbox', label:'Inbox', icon:'mailIconFolderInbox' },
-			{ type: 'folder', id: 'deleted', label:'Trash Can', icon:'mailIconTrashcanFull' },
+			{ type: 'folder', id: 'deleted', label:'Trash', icon:'mailIconTrashcanFull' },
 			{ type: 'folder', id: 'save', label:'Save',  folders:[
 				{ id: 'work', label:'stuff for work'},
 				{ id: 'fun', label:'stuff for fun'}
@@ -26,8 +26,8 @@
 			text:
 				"<p>Hey, we need to talk about who's gonna do all the left over work.  Pick a day you want to meet: <div dojoType='dijit._Calendar'></div></p>"
 		},
-		{ type: 'message', id: 'node1.3', folder: 'inbox', label: "lunch", sender: "Carrey Crown", sent: "2005-12-17", text:
-				"Where do you want to go for lunch?<br><br><ul><li>McDonalds<li>Burger King<li>KFC</ul><br><br>Let me know..."
+		{ type: 'message', id: 'node1.3', folder: 'inbox', label: "Hey, look!", sender: "Carrey Crown", sent: "2005-12-17", text:
+				"This is our new simple mail app. What do you think? <br><br>You can navigate around this demo with arrows and tabs ... <br><br>Regards,<br>Carrey"
 		},
 		{ type: 'message', id: 'node1.4', folder: 'inbox', label: "paint", sender: "David Davis", sent: "2005-12-16", text:
 			"<p>what color is good for the new office?</p><div dojoType='dijit.ColorPalette'></div><p>Let me know soon</p>"
