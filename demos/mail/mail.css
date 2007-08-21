@@ -34,16 +34,20 @@ th {
 	background-position:0px -1px; 
 }
 
-th.arrowUp {
+th .arrowNode { position:relative; right:2px; 
+	width:16px;
+	height:16px;
+} 
+th.arrowUp .arrowNode {
 	padding-right: 16px;
-	background: url("../../themes/tundra/images/arrowUp.png") no-repeat 98% 4px;
-	background-color: #4f8ce5; 
+	background:transparent url("../../themes/soria/images/arrows.png") no-repeat;
+	background-position:-32px 0px; 
 }
 
-th.arrowDown {
+th.arrowDown .arrowNode {
 	padding-right: 16px;
-	background: url("../../themes/tundra/images/arrowDown.png") no-repeat 98% 4px;
-	background-color: #4f8ce5; 
+	background:transparent url("../../themes/soria/images/arrows.png") no-repeat;
+	background-position:0px 0px; 
 }
 
 .demoTable td { padding:3px; } 

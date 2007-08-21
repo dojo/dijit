@@ -23,7 +23,8 @@
 		dojo.require("dijit._Calendar");
 		dojo.require("dijit.ColorPalette");
 		dojo.require("dijit.Editor");
-		
+		dojo.require("dijit._editor.plugins.LinkDialog");
+
 
 		dojo.require("dijit.form.ComboBox");
 		dojo.require("dijit.form.CheckBox"); 
@@ -84,7 +85,7 @@
 				var icn = item.className||"";
 				// add a header for each column
 				var tth = document.createElement("th");
-				tth.innerHTML = item.name;
+				tth.innerHTML = "<span class='arrowNode'></span> "+ item.name;
 				tth.className = icn;
 				dojo.connect(tth, "onclick", dojo.hitch(this, "onSort", idx));
 				this.headRow.appendChild(tth);
@@ -144,7 +145,7 @@
 					<tr style="padding-top:5px;">
 						<td style="padding-left:20px; padding-right: 8px; text-align:right;"><label for="${id}_to">To:</label></td>
 						<td width=100%>
-							<select dojoType="dijit.form.ComboBox" id="${id}_to" style="width: 100%; background-image:none; " hasDownArrow="false">
+							<select dojoType="dijit.form.ComboBox" id="${id}_to" hasDownArrow="false">
 								<option></option>
 								<option>adam@yahoo.com</option>
 								<option>barry@yahoo.com</option>
