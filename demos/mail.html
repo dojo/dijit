@@ -67,9 +67,9 @@
 		url="mail/mail.json"></div>
 
 	<!-- Inline declaration of a table widget (thanks Alex!) -->
+
 	<table dojoType="dijit.Declaration" 
-		class="demoTable"
-		widgetClass="demo.Table"
+		widgetClass="demo.Table" class="demoTable" 
 		defaults="{ store: null, query: { query: { type: 'message' } }, columns: [ { name: 'From', attribute: 'sender' }, { name: 'Subject', attribute: 'label' }, { name: 'Sent on', attribute: 'sent' } ] }">
 		<thead dojoAttachPoint="head">
 			<tr dojoAttachPoint="headRow"></tr>
@@ -80,43 +80,58 @@
 		</tbody>
 
 		<script type="dojo/method">
-			dojo.forEach(this.columns, function(item){
+			dojo.forEach(this.columns, function(item, idx){
 				var icn = item.className||"";
 				// add a header for each column
 				var tth = document.createElement("th");
 				tth.innerHTML = item.name;
 				tth.className = icn;
+				dojo.connect(tth, "onclick", dojo.hitch(this, "onSort", idx));
 				this.headRow.appendChild(tth);
 
 				// and fill in the column cell in the template row
 				this.row.appendChild(document.createElement("td"));
 				this.row.lastChild.className = icn;
 			}, this);
-			
-			// doesn't work on IE, need special func for tables?
-			//this.body.removeChild(this.row);
+			this.body.removeChild(this.row);
 		</script>
 		<script type="dojo/method" event="postCreate">this.runQuery();</script>
+		<script type="dojo/method" event="onSort" args="index">
+			var ca = this.columns[index].attribute;
+			var qs = this.query.sort;
+			// clobber an existing sort arrow
+			dojo.query("> th", this.headRow).styles("background", "").styles("paddingRight", "");
+			if(qs && qs[0].attribute == ca){
+				qs[0].descending = !qs[0].descending;
+			}else{
+				this.query.sort = [{
+					attribute: ca,
+					descending: false
+				}];
+			}
+			var th = dojo.query("> th", this.headRow)[index];
+			th.style.paddingRight = "16px"; // space for the sort arrow
+			th.style.background = "url(\""+dojo.moduleUrl("dijit", "themes/tundra/images/arrow"+(this.query.sort[0].descending ? "Up" : "Down")+((dojo.isIE == 6) ? ".gif" : ".png")) + "\") no-repeat 98% 4px";
+			this.runQuery();
+		</script>
 		<script type="dojo/method" event="runQuery">
 			this.query.onBegin = dojo.hitch(this, function(){ dojo.query("tr", this.body).orphan(); });
 			this.query.onItem = dojo.hitch(this, "onItem");
 			this.query.onComplete = dojo.hitch(this, function(){
-				console.log("completed", this.body);
-				dojo.query("tr", this.body).forEach(function(row, idx){ dojo.toggleClass(row, "oddRow", idx%2); });
+				dojo.query("tr:nth-child(odd)", this.body).addClass("oddRow");
+				dojo.query("tr:nth-child(even)", this.body).removeClass("oddRow");
 			});
 			this.store.fetch(this.query);
 		</script>
 		<script type="dojo/method" event="onItem" args="item">
 			var tr = this.row.cloneNode(true);
 			dojo.query("td", tr).forEach(function(n, i, a){
-				n.innerHTML = this.store.getValue(item, this.columns[i].attribute)||"";
+				var tc = this.columns[i];
+				var tv = this.store.getValue(item, tc.attribute)||"";
+				if(tc.format){ tv = tc.format(tv, item, this.store); }
+				n.innerHTML = tv;
 			}, this);
 			this.body.appendChild(tr);
-			var _self = this;
-			dojo.connect(tr, "onclick", this, function(){ _self.onClick(item); });
-		</script>
-		<script type="dojo/method" event="onClick" args="item">
-			console.debug("clicked item", item);
 		</script>
 	</table>
 
@@ -154,7 +169,7 @@
 						</td>
 					</tr>
 				</table>
-			<hr noshade size="1">
+				<hr noshade size="1">
 			</div>
 			
 			<div dojoType="dijit.layout.LayoutContainer" layoutAlign="bottom" align=center>
@@ -172,11 +187,6 @@
 	
 
 	<div dojoType="dijit.layout.LayoutContainer" id="main">
-
-		<!-- blue header at top of inbox -->
-		<div dojoType="dijit.layout.ContentPane" layoutAlign="top" id="banner" align=center>
-			DojoMail v0.9b (demo only)
-		</div>
 
 		<!-- toolbar with new mail button, etc. -->
 		<div dojoType="dijit.Toolbar" layoutAlign="top" style="height:25px;">
@@ -224,10 +234,9 @@
 			<div dojoType="dijit.Tooltip" connectId="options">Set various options</div>
 		</div>
 
-		<div dojoType="dijit.layout.ContentPane" layoutAlign="bottom" id="footer" align=center>
-			...
+		<div dojoType="dijit.layout.ContentPane" layoutAlign="bottom" id="footer" align="right">
+			DojoMail v0.9b (demo only)
 		</div>
-
 		<div dojoType="dijit.layout.TabContainer" id="tabs" jsId="tabs" layoutAlign="client">
 			<!-- main section with tree, table, and preview -->
 			<div dojoType="dijit.layout.SplitContainer"
