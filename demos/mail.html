@@ -24,7 +24,7 @@
 		dojo.require("dijit.ColorPalette");
 		dojo.require("dijit.Editor");
 		dojo.require("dijit._editor.plugins.LinkDialog");
-
+		dojo.require("dijit.ProgressBar"); 
 
 		dojo.require("dijit.form.ComboBox");
 		dojo.require("dijit.form.CheckBox"); 
@@ -48,6 +48,7 @@
 		var numMails = 6;
 		var updateFetchStatus = function(x){
 			dojo.byId('fetchStatus').innerHTML = x+" of "+numMails;
+			dijit.byId('fakeFetch').update({ progress: (x/numMails)*100 });
 			if (x == numMails){ dijit.byId('fetchDialog').hide(); } 
 		}
 		var fakeDownload = function(){
@@ -159,7 +160,7 @@
 					<tr>
 						<td style="padding-left: 20px; padding-right:8px; text-align:right;"><label for="${id}_subject">Subject:</label></td>
 						<td width=100%>
-							<select dojoType="dijit.form.ComboBox" id="${id}_subject" style="width: 200px; background-image:none;" hasDownArrow="false">
+							<select dojoType="dijit.form.ComboBox" id="${id}_subject" hasDownArrow="false">
 								<option></option>
 								<option>progress meeting</option>
 								<option>reports</option>
@@ -181,7 +182,7 @@
 			<!-- new messase part -->
 			<div dojoType="dijit.layout.LayoutContainer" layoutAlign="client">
 				<!-- FIXME: editor as direct widget here doesn't init -->
-				<div dojoType="dijit.layout.ContentPane" href="mail/newMail.html"></div>
+			<!--	<div dojoType="dijit.layout.ContentPane" href="mail/newMail.html"></div> -->
 			</div>		
 		</div>
 	</div>
@@ -203,7 +204,7 @@
 					<li dojoType="dijit.MenuItem" iconClass="mailIconGetMail">GMail</li>
 				</ul>
 			</div>
-			<span dojoType="dijit.Tooltip" connectId="getMail">Click to download check for new mail.</span>
+			<span dojoType="dijit.Tooltip" connectId="getMail">Click to download new mail.</span>
 
 			<button
 				id="newMsg" dojoType="dijit.form.Button"
@@ -211,7 +212,6 @@
 				New Message
 				<script type="dojo/method" event="onClick">
 					/* make a new tab for composing the message */
-
 					var newTab = new mail.NewMessage({id: "new"+paneId  }).container;
 					dojo.mixin(newTab,
 						{
@@ -352,27 +352,30 @@
 			</div> <!-- end of horizontal SplitContainer -->
 		</div> <!-- end of TabContainer -->
 	</div> <!-- end of Layoutcontainer -->
-<div dojoType="dijit.Dialog" id="fetchDialog" title="(simulated)">
-	Fetching Mail: <span id="fetchStatus"></span><div style="width:200px; height:10px; border:1px solid #333; background:url('../themes/soria/images/progressBarAnim.gif') repeat-x;"></div>
-</div>
-<div dojoType="dijit.Dialog" id="optionsDialog" title="Options:">
-	<table>	
-	<tr><td style="text-align:right;"><label for="option1">Transport type:</label></td><td>
-	<select id="option1" dojoType="dijit.form.FilteringSelect">
-		<option value="pop3">POP3</option>
-		<option value="imap">IMAP</option>
-	</select></td></tr>
-	<tr><td style="text-align:right;"><label for="option2">Server:</label></td><td><input id="option2" dojoType="dijit.form.TextBox" type="text">
-	</td></tr>
-
-	<tr><td style="text-align:right;"><input type="checkbox" id="fooCB" dojoType="dijit.form.CheckBox"></td><td><label for="fooCB">Leave messages on Server</label></td></tr>
-	<tr><td style="text-align:right;"><input type="checkbox" id="fooCB2" dojoType="dijit.form.CheckBox"></td><td><label for="fooCB2">Remember Password</label></td></tr>
-
-	<tr><td colspan="2" style="text-align:center;">
-	<button dojoType="dijit.form.Button" type="submit" iconClass="mailIconOk">OK</button>
-	<button dojoType="dijit.form.Button" type="submit" iconClass="mailIconCancel">Abort</button>
-	</td></tr>
-	</table>
-</div>	
+		
+	
+	<div dojoType="dijit.Dialog" id="fetchDialog" title="(simulated)" style="width:300px">
+		Fetching Mail: <span id="fetchStatus"></span>
+		<div dojoType="dijit.ProgressBar" annotate="true" id="fakeFetch"></div>
+	</div>
+	<div dojoType="dijit.Dialog" id="optionsDialog" title="Options:">
+		<table>	
+		<tr><td style="text-align:right;"><label for="option1">Transport type:</label></td><td>
+		<select id="option1" dojoType="dijit.form.FilteringSelect">
+			<option value="pop3">POP3</option>
+			<option value="imap">IMAP</option>
+		</select></td></tr>
+		<tr><td style="text-align:right;"><label for="option2">Server:</label></td><td><input id="option2" dojoType="dijit.form.TextBox" type="text">
+		</td></tr>
+	
+		<tr><td style="text-align:right;"><input type="checkbox" id="fooCB" dojoType="dijit.form.CheckBox"></td><td><label for="fooCB">Leave messages on Server</label></td></tr>
+		<tr><td style="text-align:right;"><input type="checkbox" id="fooCB2" dojoType="dijit.form.CheckBox"></td><td><label for="fooCB2">Remember Password</label></td></tr>
+	
+		<tr><td colspan="2" style="text-align:center;">
+		<button dojoType="dijit.form.Button" type="submit" iconClass="mailIconOk">OK</button>
+		<button dojoType="dijit.form.Button" type="submit" iconClass="mailIconCancel">Abort</button>
+		</td></tr>
+		</table>
+	</div>	
 </body>
 </html>
