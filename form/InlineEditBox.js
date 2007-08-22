@@ -152,11 +152,11 @@ dojo.declare(
 	},
 
 	_visualize: function(){
+		dojo.style(this.editable, "display", this.editing ? "none" : this._display);
 		dojo.style(this.editNode, "display", this.editing ? this._display : "none");
 		// #3749: try to set focus now to fix missing caret
-		// #3997: call right before this.editable disappears
+		// #3997: call right after this.editNode appears
 		if(this.editing){this._setEditFocus();}
-		dojo.style(this.editable, "display", this.editing ? "none" : this._display);
 	},
 
 	_showText: function(){
