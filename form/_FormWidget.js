@@ -99,7 +99,6 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 
 				case "mouseout" :	
 					this._hovering = false;	
-					this.baseClass=null;
 					break;
 
 				case "mousedown" :
@@ -150,7 +149,7 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 		var origClass = (this.styleNode||this.domNode).className;
 
 		// compute list of classname representing the states of the widget
-		var base = this.baseClass || this.domNode.getAttribute("baseClass") || "dijitFormWidget";
+		base = base || this.baseClass || this.domNode.getAttribute("baseClass") || "dijitFormWidget";
 		origClass = origClass.replace(new RegExp("\\b"+base+"(Checked)?(Selected)?(Disabled|Active|Focused|Hover)?\\b\\s*", "g"), "");
 		var classes = [ base ];
 		
