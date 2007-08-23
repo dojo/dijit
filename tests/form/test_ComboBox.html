@@ -27,6 +27,9 @@
 		function setVal3(val){
 			dojo.byId('value3').value=val;
 		}
+		function setVal4(val){
+			dojo.byId('value4').value=val;
+		}
 		var combo;
 		function init(){
 			var store = new dojo.data.ItemFileReadStore({url: 'comboBoxData.json'});
@@ -180,6 +183,22 @@ The drop down list is filtered by the data you have already typed in.
 	<div>
 		<button id="but" onclick='toggleDisabled("but", "combo3"); return false;'>Enable</button>
 	</div>
+	<hr>
+	<p>ComboBox #4: url, autocomplete=false required=true:</p>
+	<label for="datatest">US State test 4: </label>
+	<input dojoType="dijit.form.ComboBox"
+			value=""
+			class="medium"
+			store="stateStore"
+			searchAttr="name"
+			style="width: 300px;"
+			name="state4"
+			onChange="setVal4"
+			autocomplete="false"
+			id="datatest"
+			required="true"
+	>
+	<span>Value: <input id="value4" disabled></span>
 	<hr>
 	<p>A ComboBox with no arrow</p>
  	<input dojoType="dijit.form.ComboBox"

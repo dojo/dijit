@@ -1353,3 +1353,18 @@ body .dijitAlignClient { position: absolute; }
 	/* top:0; */
 	top: expression(eval((document.documentElement||document.body).scrollTop));
 }
+
+/* ValidationTextbox A11y */
+.dijit_a11y .dijitInputFieldValidationIcon {
+	background-image: none;
+}
+
+.dijit_a11y .dijitInputFieldValidationIconNormal .dijitInputFieldValidationIconText {
+	visibility: hidden;
+}
+.dijit_a11y .dijitInputFieldValidationIconWarning .dijitInputFieldValidationIconText {
+	visibility: visible !important;
+}
+.dijit_a11y .dijitInputFieldValidationIconError .dijitInputFieldValidationIconText {
+	visibility: visible !important;
+}

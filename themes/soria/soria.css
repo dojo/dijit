@@ -250,6 +250,23 @@
 	background-color:#ff6;
 	background-image:none;	
 }
+.soria .dijitInputFieldValidationIcon {
+	width: 18px;
+	margin-left: 3px;
+	padding-bottom: 1px;
+	background-repeat: no-repeat;
+}
+.soria .dijitInputFieldValidationIconNormal {
+	background-image: none;
+}
+
+.soria .dijitInputFieldValidationIconError { 
+	background-image: url('images/warning.png');
+}
+
+.soria .dijitInputFieldValidationIconText {
+	visibility: hidden;
+}
 
 /* CheckBox and Radio Widgets, and the CSS to embed a checkbox or radio icon inside a ToggleButton. */
 

@@ -15,6 +15,8 @@ dojo.declare(
 		//		A subclass of TextBox.
 		//		Over-ride isValid in subclasses to perform specific kinds of validation.
 
+		templatePath: dojo.moduleUrl("dijit.form", "templates/ValidationTextBox.html"),
+
 		// default values for new subclass properties
 		// required: Boolean
 		//		Can be true or false, default is false.
@@ -77,7 +79,9 @@ dojo.declare(
 			var className = isValid ? "Normal" : "Error";
 			if(!dojo.hasClass(this.nodeWithBorder, "dijitInputFieldValidation"+className)){
 				dojo.removeClass(this.nodeWithBorder, "dijitInputFieldValidation"+((className=="Normal")?"Error":"Normal"));
+				dojo.removeClass(this.iconNode, "dijitInputFieldValidationIcon"+((className=="Normal")?"Error":"Normal"));
 				dojo.addClass(this.nodeWithBorder, "dijitInputFieldValidation"+className);
+				dojo.addClass(this.iconNode, "dijitInputFieldValidationIcon"+className);
 			}
 			dijit.wai.setAttr(this.focusNode, "waiState", "invalid", (isValid? "false" : "true"));
 			if(isFocused){
@@ -243,10 +247,10 @@ dojo.declare(
 		postCreate: function(){
 			this.inherited('postCreate', arguments);
 			if(typeof this.constraints.min != "undefined"){
-				dijit.wai.setAttr(this.domNode, "waiState", "valuemin", this.constraints.min);
+				dijit.wai.setAttr(this.focusNode, "waiState", "valuemin", this.constraints.min);
 			}
 			if(typeof this.constraints.max != "undefined"){
-				dijit.wai.setAttr(this.domNode, "waiState", "valuemax", this.constraints.max);
+				dijit.wai.setAttr(this.focusNode, "waiState", "valuemax", this.constraints.max);
 			}
 		}
 	}
