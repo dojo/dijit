@@ -108,7 +108,7 @@ dojo.declare(
 	_onTitleKey: function(/*Event*/ e){
 		// summary: callback when user hits a key
 		if(e.keyCode == dojo.keys.ENTER || e.charCode == dojo.keys.SPACE){
-			this._onTitleClick();
+			this.toggle();
 		}
 		else if(e.keyCode == dojo.keys.DOWN_ARROW){
 			if(this.open){
