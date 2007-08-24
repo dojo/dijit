@@ -71,7 +71,7 @@ dojo.declare(
 			dojo.forEach(childrenArray, function(childParams){
 				var child = new dijit._TreeNode(dojo.mixin({
 					tree: this.tree,
-					label: this.tree.store.getLabel(childParams.item)
+					label: this.getLabel(childParams.item)
 				}, childParams));
 				this.addChild(child);
 				nodeMap[this.tree.store.getIdentity(childParams.item)] = child;
@@ -109,7 +109,7 @@ dojo.declare(
 				var child = new dijit._TreeNode(
 					dojo.mixin({
 						tree: this.tree,
-						label: this.tree.store.getLabel(childParams.item)
+						label: this.getLabel(childParams.item)
 					}, childParams)
 				);
 				this.addChild(child);
@@ -122,6 +122,11 @@ dojo.declare(
 		}
 	
 		return nodeMap;
+	},
+
+	getLabel: function(/*Item*/ item) {
+		// summary: user overridable function to get the label for a tree node (given the item)
+		return this.tree.store.getLabel(item);
 	},
 
 	deleteNode: function(/* treeNode */ node) {
