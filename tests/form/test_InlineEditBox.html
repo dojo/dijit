@@ -41,24 +41,25 @@
 	</head>
 	<body class="tundra">
 		<h1 class="testTitle">Dijit InlineEditBox Test</h1>
-		before block
-		<span id="editable" style="font-size:larger;display:block;" dojoType="dijit.form.InlineEditBox" onChange="myHandler(this.id,arguments[0])">
+		before block (in italics)<i>
+		<span id="editable" style="display:block;" dojoType="dijit.form.InlineEditBox" onChange="myHandler(this.id,arguments[0])">
 			<input dojoType="dijit.form.TextBox" value="Edit me - I trigger the onChange callback" style="width:300px;">
-		</span>after<br>
+		</span>
+		</i>after<br>
 
 		<hr style="width:100%;">
 
-		before inline
-		<span id="editableWithButtons" style="font-size:larger;" dojoType="dijit.form.InlineEditBox" onChange="myHandler(this.id,arguments[0])" autoSave="false">
-			<input dojoType="dijit.form.TextBox" value="Edit me - I trigger the onChange callback when Save button is clicked" style="width:500px;">
+		before inline (in bold)<b>
+		<span id="editableWithButtons" style="display:inline;" dojoType="dijit.form.InlineEditBox" onChange="myHandler(this.id,arguments[0])" autoSave="false">
+			<span dojoType="dijit.form.TextBox" value="Edit me - I trigger the onChange callback when Save button is clicked" style="width:500px;display:inline;"></span>
 		</span>
-		after<br>
+		</b>after<br>
 
 		<hr style="width:100%;">
 		The following block text area has Save/Cancel buttons when open.		
-		<blockquote style="width:50%;">
+		<blockquote style="width:500px;">
 			before block<span id="areaEditable" dojoType="dijit.form.InlineEditBox" renderAsHtml="false" autoSave="false" style="display:block;">
-				<textarea dojoType="dijit.form.Textarea" style="width:500px">I'm one big paragraph.  Go ahead and edit me.  I dare you. The quick brown fox jumped over the lazy dog.  Blah blah blah blah blah blah blah ...</textarea>
+				<textarea dojoType="dijit.form.Textarea" style="width:400px">I'm one big paragraph.  Go ahead and edit me.  I dare you. The quick brown fox jumped over the lazy dog.  Blah blah blah blah blah blah blah ...</textarea>
 			</span>after
 		</blockquote>
 		These links will
@@ -69,9 +70,9 @@
 		<hr style="width:100%;">
 		The following inline text area does not have Save/Cancel buttons when open.		
 		<blockquote style="width:50%;">
-			<b>before inline</b><span id="areaEditable_autosave" dojoType="dijit.form.InlineEditBox" renderAsHtml="false" autoSave="true" style="display:inline;">
-				<textarea dojoType="dijit.form.Textarea" style="width:500px">I'm one big paragraph.  Go ahead and edit me.  I dare you. The quick brown fox jumped over the lazy dog.  Blah blah blah blah blah blah blah ...</textarea>
-			</span><b>after</b>
+			before inline (large font)<span id="areaEditable_autosave" dojoType="dijit.form.InlineEditBox" renderAsHtml="false" autoSave="true" style="display:inline;font-size:18px;">
+				<textarea dojoType="dijit.form.Textarea" style="width:400px">I'm one big paragraph.  Go ahead and edit me.  I dare you. The quick brown fox jumped over the lazy dog.  Blah blah blah blah blah blah blah ...</textarea>
+			</span>after
 		</blockquote>
 		
 		<hr style="width:100%;">

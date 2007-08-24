@@ -28,13 +28,10 @@
 	*/
 	display:-moz-inline-box;		/* gecko */
 	display:inline-block;			/* webkit */
+	#display:inline;
 	border:0px;
 	padding:0px;
 	vertical-align:middle;
-}
-.dj_ie .dijitInline {
-	display:inline;
-	zoom: 1;
 }
 
 .dijitInlineBox {
@@ -71,6 +68,12 @@
 }
 .dj_ie .dijit_a11y .dijitPopup * {
 	filter: none;
+}
+
+.dijitInputField {
+	font-family:inherit;
+	font-size:inherit;
+	font-weight:inherit;
 }
 
 .dijitPositionOnly {

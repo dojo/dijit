@@ -66,9 +66,9 @@ dojo.declare(
 			}
 			// #3209: copy the style from the source
 			// don't copy ALL properties though, just the necessary/applicable ones
-			dojo.forEach(["fontSize","fontFamily","fontWeight"], function(prop){
-				this.editWidget.focusNode.style[prop]=this._srcStyle[prop];
-				this.editable.style[prop]=this._srcStyle[prop];
+			var srcStyle=dojo.getComputedStyle(this.domNode);
+			dojo.forEach(["fontWeight","fontFamily","fontSize","fontStyle"], function(prop){
+				this.editWidget.focusNode.style[prop]=srcStyle[prop];
 			}, this);
 			this._setEditValue = dojo.hitch(this.editWidget,this.editWidget.setDisplayedValue||this.editWidget.setValue);
 			this._getEditValue = dojo.hitch(this.editWidget,this.editWidget.getDisplayedValue||this.editWidget.getValue);
@@ -89,23 +89,37 @@ dojo.declare(
 		}
 	},
 
-	postCreate: function(){
-		if(this.autoSave){
-			this.buttonSpan.style.display="none";
-		}
-	},
-
 	postMixInProperties: function(){
 		this._srcStyle=dojo.getComputedStyle(this.srcNodeRef);
 		// getComputedStyle is not good until after onLoad is called
 		var srcNodeStyle = this.srcNodeRef.style;
 		this._display="";
 		if(srcNodeStyle && srcNodeStyle.display){ this._display=srcNodeStyle.display; }
-		dijit.form.InlineEditBox.superclass.postMixInProperties.apply(this, arguments);
+		else{
+			switch(this.srcNodeRef.tagName.toLowerCase()){
+				case 'span': 
+				case 'input': 
+				case 'img': 
+				case 'button': 
+					this._display='inline';
+					break;
+				default:
+					this._display='block';
+					break;
+			}
+		}
+		this.inherited('postMixInProperties', arguments);
 		this.messages = dojo.i18n.getLocalization("dijit", "common", this.lang);
 		dojo.forEach(["buttonSave", "buttonCancel"], function(prop){
 			if(!this[prop]){ this[prop] = this.messages[prop]; }
 		}, this);
+	},
+
+	postCreate: function(){
+		// don't call setValue yet since the editing widget is not setup
+		if(this.autoSave){
+			dojo.style(this.buttonContainer, "display", "none");
+		}
 	},
 
 	_onKeyPress: function(e){
@@ -120,14 +134,14 @@ dojo.declare(
 	_onMouseOver: function(){
 		if(!this.editing){
 			var classname = this.disabled ? "dijitDisabledClickableRegion" : "dijitClickableRegion";
-			dojo.addClass(this.editable, classname);
+			dojo.addClass(this.textNode, classname);
 		}
 	},
 
 	_onMouseOut: function(){
 		if(!this.editing){
 			var classStr = this.disabled ? "dijitDisabledClickableRegion" : "dijitClickableRegion";
-			dojo.removeClass(this.editable, classStr);
+			dojo.removeClass(this.textNode, classStr);
 		}
 	},
 
@@ -141,7 +155,7 @@ dojo.declare(
 		this.editing = true;
 
 		// show the edit form and hide the read only version of the text
-		this._setEditValue(this._isEmpty ? '' : (this.renderAsHtml ? this.editable.innerHTML : this.editable.innerHTML.replace(/\s*\r?\n\s*/g,"").replace(/<br\/?>/gi, "\n").replace(/&gt;/g,">").replace(/&lt;/g,"<").replace(/&amp;/g,"&")));
+		this._setEditValue(this._isEmpty ? '' : (this.renderAsHtml ? this.textNode.innerHTML : this.textNode.innerHTML.replace(/\s*\r?\n\s*/g,"").replace(/<br\/?>/gi, "\n").replace(/&gt;/g,">").replace(/&lt;/g,"<").replace(/&amp;/g,"&")));
 		this._initialText = this._getEditValue();
 		this._visualize();
 		// Before changing the focus, give the browser time to render.
@@ -152,11 +166,11 @@ dojo.declare(
 	},
 
 	_visualize: function(){
-		dojo.style(this.editable, "display", this.editing ? "none" : this._display);
 		dojo.style(this.editNode, "display", this.editing ? this._display : "none");
 		// #3749: try to set focus now to fix missing caret
-		// #3997: call right after this.editNode appears
+		// #3997: call right after this.containerNode appears
 		if(this.editing){this._setEditFocus();}
+		dojo.style(this.textNode, "display", this.editing ? "none" : this._display);
 	},
 
 	_showText: function(){
@@ -167,21 +181,21 @@ dojo.declare(
 		if(/^\s*$/.test(value)){ value = "?"; this._isEmpty = true; }
 		else { this._isEmpty = false; }
 		if(this.renderAsHtml){
-			this.editable.innerHTML = value;
+			this.textNode.innerHTML = value;
 		}else{
-			this.editable.innerHTML = "";
+			this.textNode.innerHTML = "";
 			if(value.split){
 				var _this=this;
 				var isFirst = true;
 				dojo.forEach(value.split("\n"), function(line){
 					if(isFirst){ isFirst = false; }
 					else {
-						_this.editable.appendChild(document.createElement("BR")); // preserve line breaks
+						_this.textNode.appendChild(document.createElement("BR")); // preserve line breaks
 					}
-					_this.editable.appendChild(document.createTextNode(line)); // use text nodes so that imbedded tags can be edited
+					_this.textNode.appendChild(document.createTextNode(line)); // use text nodes so that imbedded tags can be edited
 				});
 			}else{
-				this.editable.appendChild(document.createTextNode(value));
+				this.textNode.appendChild(document.createTextNode(value));
 			}
 		}
 		this._visualize();
@@ -278,7 +292,7 @@ dojo.declare(
 	setDisabled: function(/*Boolean*/ disabled){
 		this.saveButton.setDisabled(disabled);
 		this.cancelButton.setDisabled(disabled);
-		this.editable.disabled = disabled;
+		this.textNode.disabled = disabled;
 		this.editWidget.setDisabled(disabled);
 		this.inherited('setDisabled', arguments);
 	}
