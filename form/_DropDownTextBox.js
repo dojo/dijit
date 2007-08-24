@@ -58,7 +58,6 @@ dojo.declare(
 			function _createNewPopup(){
 				// common code from makePopup
 				var node=document.createElement("div");
-				document.body.appendChild(node);
 				var popupProto=dojo.getObject(_this._popupClass, false);
 				return new popupProto(_this._popupArgs, node);
 			}
