@@ -37,47 +37,106 @@
 			@import "../css/dijitTests.css";
 
 			.inlineEdit { background-color: #CCC76A; }
+
+			/* some style rules on nodes just to test that style gets copied to the edit widget */
+			p { font-family: cursive; }
+			h3 { font-family: helvetica; font-style: italic; }
 		</style>
 	</head>
 	<body class="tundra">
 		<h1 class="testTitle">Dijit InlineEditBox Test</h1>
-		before block (in italics)<i>
-		<span id="editable" style="display:block;" dojoType="dijit.form.InlineEditBox" onChange="myHandler(this.id,arguments[0])">
-			<input dojoType="dijit.form.TextBox" value="Edit me - I trigger the onChange callback" style="width:300px;">
-		</span>
-		</i>after<br>
 
+		<div>
+			The following tests each show a plain element followed by an editable element.
+			The plain element and editable element should look the same (font, font-size, block vs. inline) etc.,
+			and clicking an editable element should bring up an editor with the same attributes 
+			(font, font-size, block vs. inline) as the editable element.
+		</div>
+		<hr>
+
+		<h2>H3</h3>
+		<div>
+			The following two h3 tags should be look the same.  They are display:block, and the editor should take up the entire
+			width of the screen.
+		</div>
+		
+		(before plain h3)
+		<h3>this is a plain h3, cannot be edited</h3>
+		(between plain and editable h3)
+		<h3 id="editable" dojoType="dijit.form.InlineEditBox" onChange="myHandler(this.id,arguments[0])">
+			<input dojoType="dijit.form.TextBox" value="this is an editable h3 - I trigger the onChange callback on save">
+		</h3>
+		(after editable h3)
 		<hr style="width:100%;">
 
-		before inline (in bold)<b>
-		<span id="editableWithButtons" style="display:inline;" dojoType="dijit.form.InlineEditBox" onChange="myHandler(this.id,arguments[0])" autoSave="false">
-			<span dojoType="dijit.form.TextBox" value="Edit me - I trigger the onChange callback when Save button is clicked" style="width:500px;display:inline;"></span>
+		<h2>Inline-block Text (of 400px width)</h2>
+		<div>
+			The following section uses inline block text of 400px.
+			When clicking the editable text it should bring up an editor which is also 400px wide.
+		</div>
+		(before plain inline) <span class="dijitInline" style="width: 400px;">hello</span> (after plain inline)
+		<br>
+		(before editable inline)
+		<span dojoType="dijit.form.InlineEditBox" onChange="myHandler(this.id,arguments[0])" class="dijitInline" style="width: 400px;">
+			<span dojoType="dijit.form.TextBox" value="hello"></span>
 		</span>
-		</b>after<br>
+		(after editable inline)
 
 		<hr style="width:100%;">
-		The following block text area has Save/Cancel buttons when open.		
-		<blockquote style="width:500px;">
-			before block<span id="areaEditable" dojoType="dijit.form.InlineEditBox" renderAsHtml="false" autoSave="false" style="display:block;">
-				<textarea dojoType="dijit.form.Textarea" style="width:400px">I'm one big paragraph.  Go ahead and edit me.  I dare you. The quick brown fox jumped over the lazy dog.  Blah blah blah blah blah blah blah ...</textarea>
-			</span>after
-		</blockquote>
+		<h2>Pararagraph</h2>
+		(before plain paragraph)
+		<p>
+		Aliquam vitae enim. Duis scelerisque metus auctor est venenatis
+imperdiet. Fusce dignissim porta augue. Nulla vestibulum. Integer lorem
+nunc, ullamcorper a, commodo ac, malesuada sed, dolor. Aenean id mi in
+massa bibendum suscipit. Integer eros. Nullam suscipit mauris. In
+pellentesque. Mauris ipsum est, pharetra semper, pharetra in, viverra
+quis, tellus. Etiam purus. Quisque egestas, tortor ac cursus lacinia,
+felis leo adipiscing nisi, et rhoncus elit dolor eget eros. Fusce ut
+quam. Suspendisse eleifend leo vitae ligula. Nulla facilisi. Nulla
+rutrum, erat vitae lacinia dictum, pede purus imperdiet lacus, ut
+semper velit ante id metus. Praesent massa dolor, porttitor sed,
+pulvinar in, consequat ut, leo. Nullam nec est. Aenean id risus blandit
+tortor pharetra congue. Suspendisse pulvinar.
+		</p>
+		(before editable paragraph.  the editable paragraph has Save/Cancel buttons when open.)		
+		<p id="areaEditable" dojoType="dijit.form.InlineEditBox" autoSave="false">
+			<textarea dojoType="dijit.form.Textarea">Aliquam vitae enim. Duis scelerisque metus auctor est venenatis
+imperdiet. Fusce dignissim porta augue. Nulla vestibulum. Integer lorem
+nunc, ullamcorper a, commodo ac, malesuada sed, dolor. Aenean id mi in
+massa bibendum suscipit. Integer eros. Nullam suscipit mauris. In
+pellentesque. Mauris ipsum est, pharetra semper, pharetra in, viverra
+quis, tellus. Etiam purus. Quisque egestas, tortor ac cursus lacinia,
+felis leo adipiscing nisi, et rhoncus elit dolor eget eros. Fusce ut
+quam. Suspendisse eleifend leo vitae ligula. Nulla facilisi. Nulla
+rutrum, erat vitae lacinia dictum, pede purus imperdiet lacus, ut
+semper velit ante id metus. Praesent massa dolor, porttitor sed,
+pulvinar in, consequat ut, leo. Nullam nec est. Aenean id risus blandit
+tortor pharetra congue. Suspendisse pulvinar.</textarea>
+		</p>
 		These links will
 		<a href="#" onClick="dijit.byId('areaEditable').setDisabled(true)">disable</a> /
 		<a href="#" onClick="dijit.byId('areaEditable').setDisabled(false)">enable</a>
-		the text area above.
-
+		the InlineEditBox above.
+		<br>
+		(The following editable paragraph does not have Save/Cancel buttons when open)
+		<p id="areaEditable_autosave" dojoType="dijit.form.InlineEditBox" autoSave="true">
+				<textarea dojoType="dijit.form.Textarea">Aliquam vitae enim. Duis scelerisque metus auctor est venenatis
+imperdiet. Fusce dignissim porta augue. Nulla vestibulum. Integer lorem
+nunc, ullamcorper a, commodo ac, malesuada sed, dolor. Aenean id mi in
+massa bibendum suscipit. Integer eros. Nullam suscipit mauris. In
+pellentesque. Mauris ipsum est, pharetra semper, pharetra in, viverra
+quis, tellus. Etiam purus. Quisque egestas, tortor ac cursus lacinia,
+felis leo adipiscing nisi, et rhoncus elit dolor eget eros. Fusce ut
+quam. Suspendisse eleifend leo vitae ligula. Nulla facilisi. Nulla
+rutrum, erat vitae lacinia dictum, pede purus imperdiet lacus, ut
+semper velit ante id metus. Praesent massa dolor, porttitor sed,
+pulvinar in, consequat ut, leo. Nullam nec est. Aenean id risus blandit
+tortor pharetra congue. Suspendisse pulvinar.</textarea>
+		</p>
 		<hr style="width:100%;">
-		The following inline text area does not have Save/Cancel buttons when open.		
-		<blockquote style="width:50%;">
-			before inline (large font)<span id="areaEditable_autosave" dojoType="dijit.form.InlineEditBox" renderAsHtml="false" autoSave="true" style="display:inline;font-size:18px;">
-				<textarea dojoType="dijit.form.Textarea" style="width:400px">I'm one big paragraph.  Go ahead and edit me.  I dare you. The quick brown fox jumped over the lazy dog.  Blah blah blah blah blah blah blah ...</textarea>
-			</span>after
-		</blockquote>
-		
-		<hr style="width:100%;">
 
-		<b>Date text box:</b>
+		<h2>Date text box:</h2>
 		<span id="backgroundArea" dojoType="dijit.form.InlineEditBox">
 			<input name="date" value="2005-12-30"
 					dojoType="dijit.form.DateTextBox"
@@ -88,7 +147,8 @@
 					invalidMessage="Invalid date. Use mm/dd/yy format.">
 		</span>
 		<hr style="width:100%;">
-		<b>FilteringSelect:</b>
+
+		<h2>FilteringSelect:</h2>
 		<span dojoType="dojo.data.ItemFileReadStore" jsId="stateStore"
 			url="comboBoxData.json"></span>
 		<span id="filteringSelect" dojoType="dijit.form.InlineEditBox" >
