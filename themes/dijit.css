@@ -170,7 +170,7 @@
 .dijit_a11y .dijitButton .dijitButtonNode,
 .dijit_a11y .dijitDropDownButton .dijitButtonNode,
 .dijit_a11y .dijitComboButton .dijitButtonNode,
-.dijit_a11y .dijitComboBox .dijitComboBoxInput,
+.dijit_a11y .dijitComboBox .dijitInputField,
 .dijit_a11y .dijitComboBox .dijitButtonNode {
 	border:1px solid black !important;
 	background:white !important;
@@ -180,10 +180,10 @@
 .dijit_a11y .dijitButtonDisabled .dijitButtonNode,
 .dijit_a11y .dijitDropDownButtonDisabled .dijitButtonNode,
 .dijit_a11y .dijitComboButtonDisabled .dijitButtonNode,
-.dijit_a11y .dijitComboBoxDisabled .dijitComboBoxInput,
+.dijit_a11y .dijitComboBoxDisabled .dijitInputField,
 .dijit_a11y .dijitComboBoxDisabled .dijitButtonNode,
 .dijit_a11y .dijitSpinnerDisabled .dijitButtonNode,
-.dijit_a11y .dijitSpinnerDisabled .dijitSpinnerInput {
+.dijit_a11y .dijitSpinnerDisabled .dijitInputField {
 	border:1px dotted #999999 !important;
 	color:#999999 !important;
 }
@@ -308,12 +308,9 @@ table .dijitComboButton .dijitButtonNode {
 
 
 /****
-		dijit.form.NumberSpinner  (template: form/templates/Spinner.html)
-
 		Note: works differently than other TextBox types:
 			The outer fieldset element is the one that shows the border, etc.
 			rather than the actual INPUT element. 
-
  ****/
 
 .dijitSpinner {
@@ -329,15 +326,6 @@ table .dijitComboButton .dijitButtonNode {
 }
 .dijitSpinner .dijitButtonNode {
 	padding: 0;
-}
-
-.dijitSpinnerInput {
-	/* container for the input element */
-	font-family:inherit;
-	font-size:inherit;
-	font-weight:inherit;
-	border:1px inset gray;
-	padding:.1em .2em .2em .2em;
 }
 
 .dijitSpinner INPUT {
@@ -405,17 +393,13 @@ table .dijitComboButton .dijitButtonNode {
 	margin:0px;
 }
 
-.dijitComboBoxInput {
+.dijitSpinner .dijitInputField,
+.dijitComboBox .dijitInputField {
 	/* container for the input element */
-	font-family:inherit;
-	font-size:inherit;
-	font-weight:inherit;
-	border:1px inset gray;
-	padding:.1em .2em .2em .2em;
 	border-right-width:0px !important;
 }
 
-.dijitComboBox INPUT {
+.dijitInputField INPUT {
 	/* turn off the border on the actual input element */
 	border:0px !important;
 	background-color:transparent;
@@ -435,16 +419,10 @@ table .dijitComboButton .dijitButtonNode {
 	background-color:transparent;
 }		 
 
-.dijitComboBoxNoArrow .dijitComboBoxInput {
+.dijitComboBoxNoArrow .dijitInputField {
 	border-right-width:1px !important;
 }
 
-/*
-.dj_safari .dijitComboBoxInput {
-	padding:0px;
-	border:0px !important;
-}
-*/
 
 .dj_safari .dijitComboBox INPUT {
 	margin:-2px -4px -3px -3px;

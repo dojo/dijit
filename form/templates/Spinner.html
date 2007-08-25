@@ -3,7 +3,7 @@
 	dojoAttachEvent="onmouseover:_onMouse,onmouseout:_onMouse,onkeypress:_onKeyPress"
 	waiRole="presentation">
 	<tr class="dijitReset">
-		<td rowspan="2" class="dijitReset dijitStretch dijitSpinnerInput">
+		<td rowspan="2" class="dijitReset dijitStretch dijitInputField" dojoAttachPoint="nodeWithBorder">
 			<input dojoAttachPoint="textbox,focusNode" type="${type}" dojoAttachEvent="onfocus,onkeyup"
 				value="${value}" name="${name}" size="${size}" maxlength="${maxlength}"
 				waiRole="spinbutton" autocomplete="off" tabIndex="${tabIndex}" id="${id}"

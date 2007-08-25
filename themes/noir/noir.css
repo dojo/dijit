@@ -141,8 +141,8 @@
 }
 
 
-.noir .dijitComboBoxInput,
-.noir .dijitSpinnerInput {
+.noir .dijitComboBox .dijitInputField,
+.noir .dijitSpinner .dijiInputField {
 	border:0px;
 	margin:0px;
 

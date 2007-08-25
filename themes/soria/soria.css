@@ -41,8 +41,8 @@
 .soria .dijitDropDownButtonDisabled .dijitButtonNode,
 .soria .dijitComboButtonDisabled .dijitButtonNode,
 .soria .dijitComboBoxDisabled .dijitDownArrowButton,
-.soria .dijitComboBoxDisabled .dijitComboBoxInput,
-.soria .dijitSpinnerDisabled .dijitSpinnerInput,
+.soria .dijitComboBoxDisabled .dijitInputField,
+.soria .dijitSpinnerDisabled .dijitInputField,
 .soria .dijitSpinnerDisabled .dijitButtonNode {
 	/* disabled state - inner */
 	border: 1px solid #d5d5d5;
@@ -189,9 +189,7 @@
 
 .soria .dijitInputField,
 .soria .dijitInlineEditor input,
-.soria .dijitTextaArea,
-.soria .dijitComboBoxInput,
-.soria .dijitSpinnerInput {
+.soria .dijitTextaArea {
 	/* 	For all except dijit.form.NumberSpinner:  the actual input element.
 		For dijit.form.NumberSpinner: the outer fieldset that contains the input.
 	*/
@@ -203,38 +201,33 @@
 	padding: 0.2em 0.3em;
 }
 
-.soria .dijitComboBoxFocused .dijitComboBoxInput {
+.soria .dijitComboBoxFocused .dijitInputField {
 	/* input field when focused (eg: typing affects it) */
 	border-color:#333;
 	border-style:inset;
 }
 
-.soria .dijitComboBoxDisabled .dijitComboBoxInput {
+.soria .dijitComboBoxDisabled .dijitInputField {
 	/* input field when disabled (also set above) */
 }
 
-.soria .dijitComboBoxHover .dijitComboBoxInput  {
+.soria .dijitComboBoxHover .dijitInputField  {
 	/* input field when hovered over */
 	border-color:#4f8ce5;
 }
 
-.soria .dijitComboBoxActive .dijitComboBoxInput {
+.soria .dijitComboBoxActive .dijitInputField {
 	/* input field when mouse is down (?) */
 }
 
 /* Dojo Input Field */
 
+HTML.dj_ie6 .soria .dijitInputFieldValidationNormal,
 .soria .dijitInputFieldValidationNormal {
 	
 }
 
-.soria .dijitInputFieldValidationWarning {
-	border:1px solid #f3d118;
-	background-image:none; 
-	background-color:#ff6; /* FIXME: better yellow? */
-	 
-}
-
+HTML.dj_ie6 .soria .dijitInputFieldValidationError,
 .soria .dijitInputFieldValidationError {
 	border:1px solid #f3d118;
 	background-color::#f9f7ba;
@@ -1236,10 +1229,8 @@
  * to the main page, rather than relative to this file... using gifs for now
  */
 
-.dj_ie6 .soria .dijitInputField,
-.dj_ie6 .soria .dijitComboBoxInput, 
-.dj_ie6 .soria .dijitSpinnerInput
- {
+.dj_ie6 .soria .dijitInputField
+{
 	background:transparent;  
 	/* FIXME: un-comment when a pretty version of .gif is made */
 	/* background-image: url("images/dojoTundraGradientBg.gif"); */

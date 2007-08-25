@@ -43,8 +43,8 @@
 .tundra .dijitDropDownButtonDisabled .dijitButtonNode,
 .tundra .dijitComboButtonDisabled .dijitButtonNode,
 .tundra .dijitComboBoxDisabled .dijitDownArrowButton,
-.tundra .dijitComboBoxDisabled .dijitComboBoxInput,
-.tundra .dijitSpinnerDisabled .dijitSpinnerInput,
+.tundra .dijitComboBoxDisabled .dijitInputField,
+.tundra .dijitSpinnerDisabled .dijitInputField,
 .tundra .dijitSpinnerDisabled .dijitButtonNode {
 	/* disabled state - inner */
 	border: 1px solid #d5d5d5;
@@ -187,9 +187,7 @@
 
 .tundra .dijitInputField,
 .tundra .dijitInlineEditor input,
-.tundra .dijitTextaArea,
-.tundra .dijitComboBoxInput,
-.tundra .dijitSpinnerInput {
+.tundra .dijitTextaArea {
 	/* 	For all except dijit.form.NumberSpinner:  the actual input element.
 		For dijit.form.NumberSpinner: the outer fieldset that contains the input.
 	*/
@@ -200,34 +198,36 @@
 	padding: 0.2em 0.3em;
 }
 
-.tundra .dijitComboBoxFocused .dijitComboBoxInput {
+.tundra .dijitComboBoxFocused .dijitInputField {
 	/* input field when focused (eg: typing affects it) */
 	border-color:#366dba;
 	border-style:inset;
 }
 
-.tundra .dijitComboBoxDisabled .dijitComboBoxInput {
+.tundra .dijitComboBoxDisabled .dijitInputField {
 	/* input field when disabled (also set above) */
 }
 
-.tundra .dijitComboBoxHover .dijitComboBoxInput  {
+.tundra .dijitComboBoxHover .dijitInputField  {
 	/* input field when hovered over */
 	border-color:#366dba;
 }
 
-.tundra .dijitComboBoxActive .dijitComboBoxInput {
+.tundra .dijitComboBoxActive .dijitInputField {
 	/* input field when mouse is down (?) */
 }
 
 /* Dojo Input Field */
 
+HTML.dj_ie6 .tundra .dijitInputFieldValidationNormal,
 .tundra .dijitInputFieldValidationNormal {
 	
 }
 
+HTML.dj_ie6 .tundra .dijitInputFieldValidationError,
 .tundra .dijitInputFieldValidationError {
 	border:1px solid #f3d118;
-	background-color::#f9f7ba;
+	background-color:#f9f7ba;
 	background-image:none; 
 }
 
@@ -1280,11 +1280,9 @@
  * to the main page, rather than relative to this file... using gifs for now
  */
 
-.dj_ie6 .tundra .dijitInputField,
-.dj_ie6 .tundra .dijitComboBoxInput, 
-.dj_ie6 .tundra .dijitSpinnerInput
- {
-	background:transparent;  
+.dj_ie6 .tundra .dijitInputField
+{
+	background:transparent;
 	/* FIXME: un-comment when a pretty version of .gif is made */
 	/* background-image: url("images/dojoTundraGradientBg.gif"); */
 }
