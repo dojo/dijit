@@ -2,7 +2,6 @@
         "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 <head>
-	<meta http-equiv="content-language" content="ar-sy">
 	<title>Dijit I18N Demo</title>
 
 	<script>
@@ -12,9 +11,9 @@
 			bidi;
 
 		// read in HREF arguments
-		if (window.location.href.indexOf("?") > -1) {
+		if(window.location.href.indexOf("?") > -1){
 			var str = window.location.href.substr(window.location.href.indexOf("?")+1);
-			var ary  = str.split(/&/);
+			var ary = str.split(/&/);
 			for(var i=0; i<ary.length; i++){
 				var split = ary[i].split(/=/),
 					key = split[0],
@@ -65,11 +64,11 @@
 	<div dojoType="dojo.data.ItemFileReadStore" jsId="store"
 		url="i18n/data.json"></div>
 
-	<h1 class="testTitle">Dijit I18N Demo (locale=<span id="locale"></span>  dir=<span id="dir"></span>   )</h1>
+	<h1 class="testTitle" dir="ltr">Dijit I18N Demo (locale=<span id="locale"></span>  dir=<span id="dir"></span>)</h1>
 
-	<table width=100%>
+	<table width="100%">
 		<tr>
-			<td width=30%>
+			<td width="30%">
 				<div dojoType="dijit.Tree" id="mytree" store="store" query="{type:'language'}" childrenAttr="countries">
 					<script type="dojo/method" event="getIconClass" args="item">
 						var icon = 
@@ -80,38 +79,40 @@
 					</script>
 					<script type="dojo/method" event="getLabel" args="item">
 						var localizedName = lang && store.getValue(item, lang);
-						return localizedName || (store.getLabel(item) + " (" + store.getIdentity(item) + ")");
+						var RLE = "\u202b";
+						var PDF = "\u202c";
+						return localizedName || (store.getLabel(item) + " " + RLE + "(" + store.getIdentity(item) + ")" + PDF);
 					</script>
 					<script type="dojo/method" event="onClick" args="item, node">
 						var type = store.getValue(item, "type"),
 							newLang = store.getIdentity((type=="country") ? node.getParent().item : item),
 							newLocale = (type=="country") ? (newLang + "-" + store.getIdentity(item)) : newLang,
-							newDir = (newLang=="ar"||newLang=="he") ? "rtl" : "ltr";
+							newDir = /ar|fa|he|ps|ur|yi/i.test(newLang) ? "rtl" : "ltr";
 						window.location.href = window.location.href.replace(/\?.*/, "") + "?locale=" + newLocale + "&dir=" + newDir;
 					</script>
 				</div>
 			</td>
 			<td style="vertical-align: top;">
-				<p>
+				<p dir="ltr">
 				Use the tree to select a language or a language/country combo; the page will reload
 				in the specified locale.  Note that tree is also rerendered using the specified language for top level tree items.
-				Arabic and Hebrew display RTL so be sure to try those.
+				Arabic and Hebrew display right-to-left so be sure to try those.
 				</p>
-				<input dojoType="dijit._Calendar">
+				<input dojoType="dijit._Calendar"/>
 
 				<p>Some form controls:</p>
 
 				<label for="date">Date:</label>
-				<input id="date" dojoType="dijit.form.DateTextBox" value="2006-07-04">
+				<input id="date" dojoType="dijit.form.DateTextBox" value="2006-07-04"/>
 				<label for="spinner">Number spinner:</label>
-				<input id="spinner" dojoType="dijit.form.NumberSpinner" value=12345>
+				<input id="spinner" dojoType="dijit.form.NumberSpinner" value="123456789"/>
 				<label for="currency">Currency:</label>
 				<input id="currency" type="text" name="income1" value="54775.53"
 					dojoType="dijit.form.CurrencyTextBox"
 					required="true"
 					constraints="{fractional:true}"
 					currency="USD"/>USD
-				<br>
+				<br/>
 
 				<label for="combo1">Simple Combo:</label>
 				<select id="combo1" dojoType="dijit.form.ComboBox">
@@ -124,13 +125,9 @@
 						value=""
 						store="store"
 						searchAttr="name"
-						name="anything"
-				>
+						name="anything"/>
 			</td>
 		</tr>
 	</table>
-
-
-
 </body>
 </html>
