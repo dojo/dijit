@@ -46,15 +46,32 @@
 		}
 
 		// fake mail download code:
-		var numMails = 6;
+		var numMails;
 		var updateFetchStatus = function(x){
-			dojo.byId('fetchStatus').innerHTML = x+" of "+numMails;
-			dijit.byId('fakeFetch').update({ progress: (x/numMails)*100 });
-			if (x == numMails){ dijit.byId('fetchDialog').hide(); } 
+			if (x == 0) {
+				dijit.byId('fakeFetch').update({ indeterminate: false });
+				return; 
+			}
+			dijit.byId('fakeFetch').update({ progress: x });
+			if (x == numMails){ 
+				dojo.fadeOut({ node: 'fetchMail', duration:800, 
+					// set progress back to indeterminate. we're cheating, because this
+					// doesn't actually have any data to "progress"
+					onEnd: function(){ dijit.byId('fakeFetch').update({ indeterminate: true }) }
+				}).play(); 
+			} 
+		}
+		var fakeReport = function(percent){
+			// FIXME: can't set a label on an indeterminate progress bar
+			// like if(this.indeterminate) { return " connecting."; } 
+			return "Fetching: "+(percent*this.maximum) + " of " + this.maximum + " messgaes."; 
 		}
 		var fakeDownload = function(){
-			for (var i=1; i<=numMails; i++){
-				setTimeout("updateFetchStatus("+i+")",i*420);
+			numMails = Math.floor(Math.random()*10)+1;
+			dijit.byId('fakeFetch').update({ maximum: numMails, progress:0 });
+			dojo.fadeIn({ node: 'fetchMail', duration:300 }).play();
+			for (var i=0; i<=numMails; i++){
+				setTimeout("updateFetchStatus("+i+")",((i+1)*(Math.floor(Math.random()*100)+400)));
 			}
 		}
 	</script>
@@ -196,7 +213,6 @@
 			<div id="getMail" dojoType="dijit.form.ComboButton"
 				iconClass="mailIconGetMail">
 				<script type="dojo/method" event="onClick">
-					dijit.byId('fetchDialog').show();
 					fakeDownload();
 				</script>
 				<span>Get Mail</span>
@@ -236,8 +252,11 @@
 			<div dojoType="dijit.Tooltip" connectId="options">Set various options</div>
 		</div>
 
-		<div dojoType="dijit.layout.ContentPane" layoutAlign="bottom" id="footer" align="right">
-			DojoMail v0.9b (demo only)
+		<div dojoType="dijit.layout.ContentPane" layoutAlign="bottom" id="footer" align="left">
+			<span style="float:right;">DojoMail v0.9b (demo only)</span>
+			<div id="fetchMail" style="opacity:0;">
+			<div annotate="true" id="fakeFetch" dojoType="dijit.ProgressBar" style="height:15px; width:275px;" indeterminate="true" report="fakeReport"></div>
+			</div>
 		</div>
 		<div dojoType="dijit.layout.TabContainer" id="tabs" jsId="tabs" layoutAlign="client">
 			<!-- main section with tree, table, and preview -->
@@ -354,11 +373,6 @@
 		</div> <!-- end of TabContainer -->
 	</div> <!-- end of Layoutcontainer -->
 		
-	
-	<div dojoType="dijit.Dialog" id="fetchDialog" title="(simulated)" style="width:300px">
-		Fetching Mail: <span id="fetchStatus"></span>
-		<div dojoType="dijit.ProgressBar" annotate="true" id="fakeFetch"></div>
-	</div>
 	<div dojoType="dijit.Dialog" id="optionsDialog" title="Options:">
 		<table>	
 		<tr><td style="text-align:right;"><label for="option1">Transport type:</label></td><td>
