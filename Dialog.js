@@ -87,6 +87,10 @@ dojo.declare(
 		//		Title of the dialog
 		title: "",
 
+		// open: Boolean
+		//		is True or False depending on state of dialog
+		open: false,
+
 		duration: 400,
 		
 		_lastFocusItem:null,
@@ -253,6 +257,7 @@ dojo.declare(
 			setTimeout(dojo.hitch(this, function(){
 				dijit.focus(this.titleBar);
 			}), 50);
+			this.open = true; 
 		},
 
 		hide: function(){
@@ -278,6 +283,7 @@ dojo.declare(
 			// TODO: this is failing on FF presumably because the DialogUnderlay hasn't disappeared yet?
 			// Attach it to fire at the end of the animation
 			dijit.focus(this._savedFocus);
+			this.open = false; 
 		},
 
 		layout: function() {
