@@ -4,10 +4,11 @@
 	<head>
 		<title>Test TextBox Validation Widgets</title>
 
-		<script type="text/javascript" src="../testBidi.js"></script>
 
 		<script type="text/javascript" src="../../../dojo/dojo.js"
 			djConfig="isDebug: true, parseOnLoad: true, extraLocale: ['de-de', 'en-us']"></script>
+		<script type="text/javascript" src="../_testCommon.js"></script>
+
 		<script type="text/javascript">
 			dojo.require("dijit.form.TextBox");
 			dojo.require("dijit.form.ValidationTextBox");
@@ -21,8 +22,6 @@
 		</script>
 		<style type="text/css">
 			@import "../../../dojo/resources/dojo.css";
-			@import "../../themes/tundra/tundra.css";
-			@import "../../themes/tundra/tundra_rtl.css";
 			@import "../css/dijitTests.css";
 
 			.testExample {
@@ -57,7 +56,7 @@
 		</style>
 	</head>
 
-	<body class="tundra">
+	<body>
 		<h1 class="testTitle">Dijit Validation Widgets</h1>
 		<!--	to test form submission, you'll need to create an action handler similar to
 			http://www.utexas.edu/teamweb/cgi-bin/generic.cgi -->

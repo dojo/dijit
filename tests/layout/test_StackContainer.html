@@ -5,12 +5,12 @@
 	<title>StackContainer Demo</title>
 	<style>
 		@import "../../../dojo/resources/dojo.css";
-		@import "../../themes/tundra/tundra.css";
 		@import "../css/dijitTests.css";
 	</style>
-	<script type="text/javascript" src="../testBidi.js"></script>
 	<script type="text/javascript" src="../../../dojo/dojo.js" 
 		djConfig="isDebug: true, parseOnLoad: true"></script>
+	<script type="text/javascript" src="../_testCommon.js"></script>
+
 	<script type="text/javascript">
 		dojo.require("dijit.layout.ContentPane");
 		dojo.require("dijit.layout.StackContainer");
@@ -29,7 +29,7 @@
 	</script>
 </head>
 
-<body class="tundra">
+<body>
 	<h1 class="testTitle">A Tale Of Two Cities</h1>
 
 	<button dojoType="dijit.form.Button" id="previous" 

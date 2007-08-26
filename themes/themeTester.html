@@ -1,26 +1,13 @@
 <html>
 <head>
 	<title>Dijit Theme Tester</title>
-	<script type="text/javascript" src="../tests/testBidi.js"></script>
 	<script type="text/javascript" src="../../dojo/dojo.js" 
 		djConfig="parseOnLoad: false, isDebug: true"></script>
+	<script type="text/javascript" src="../tests/_testCommon.js"></script>
+
 	<script type="text/javascript" src="../dijit.js"></script>
 	<script type="text/javascript" src="../dijit-all.js"></script>
 	<script type="text/javascript">
-		// if you create a custom theme, pass ?theme=String to the url
-		var themeBase = location.search.match(/theme=([a-zA-Z.]*)/);
-		var themeName = (themeBase ? themeBase[1] : "tundra");
-		var docHead = document.getElementsByTagName("head")[0];
-		var thisTheme = docHead.appendChild(document.createElement('link'));
-		thisTheme.rel = "stylesheet";
-		thisTheme.href = themeName + '/' + themeName + '.css';
-		thisTheme.type = "text/css"; 
-
-		var thisThemeRtl = docHead.appendChild(document.createElement('link'));
-		thisThemeRtl.rel = "stylesheet";
-		thisThemeRtl.href = themeName + '/' + themeName + '_rtl.css';
-		thisThemeRtl.type = "text/css"; 
-
 		// this is just a list of 'official' dijit themes, you can use ?theme=String 
 		// for 'un-supported' themes, too. (eg: yours) 
 		var availableThemes = [
@@ -192,11 +179,9 @@
 		***/
 	</script>
 </head>
-<body class="" id="container">
-	<!-- basic preloader: --><div id="loader"><div id="loaderInner">Loading themeTester ... </div></div>
-        <script type="text/javascript">
-                document.getElementById('container').className = themeName;
-        </script>
+<body>
+	<!-- basic preloader: -->
+	<div id="loader"><div id="loaderInner">Loading themeTester ... </div></div>
 
 	<!-- data for tree and combobox -->
 	<div dojoType="dojo.data.ItemFileReadStore" jsId="continentStore"

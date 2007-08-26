@@ -4,10 +4,10 @@
 <head>
 	<title>TabContainer Demo</title>
 
-	<script type="text/javascript" src="../testBidi.js"></script>
-
 	<script type="text/javascript" djConfig="isDebug: true,parseOnLoad:true"
 		src="../../../dojo/dojo.js"></script>
+	<script type="text/javascript" src="../_testCommon.js"></script>
+
 	<script type="text/javascript">
 		dojo.require("dijit.layout.ContentPane");
 		dojo.require("dijit.layout.TabContainer");
@@ -16,14 +16,10 @@
 		dojo.require("dijit.form.Button");
 		dojo.require("dojo.parser");	// scan page for widgets and instantiate them
 
-
-
 		var tabCounter;
-
 		function testClose(pane, tab){
 			// remove html from title
 			var title = dojo.trim(tab.title.replace(/<\/?[a-z][a-z0-9]*[^>]*>/ig, ""));
-
 			return confirm("Please confirm that you want tab "+title+" closed");
 		}
 
@@ -61,7 +57,6 @@
 
 	<style type="text/css">
 		@import "../../../dojo/resources/dojo.css";
-		@import "../../themes/tundra/tundra.css";
 		@import "../css/dijitTests.css";
 
 		body {
@@ -76,7 +71,7 @@
 		}
 	</style>
 </head>
-<body class="tundra">
+<body>
 
 	<h1 class="testTitle">Dijit layout.TabContainer (delayed) remote tests</h1>
 

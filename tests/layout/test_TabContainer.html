@@ -4,9 +4,10 @@
 <head>
 	<title>TabContainer Demo</title>
 
-	<script type="text/javascript" src="../testBidi.js"></script>
 	<script type="text/javascript" src="../../../dojo/dojo.js" 
 		djConfig="isDebug: true, parseOnLoad: true"></script>
+	<script type="text/javascript" src="../_testCommon.js"></script>
+
 	<script type="text/javascript">
 		dojo.require("dijit.layout.ContentPane");
 		dojo.require("dijit.layout.TabContainer");
@@ -25,13 +26,12 @@
 			var p = document.createElement("p");
 			p.appendChild(document.createTextNode("Widgets loaded in " + elapsed + "ms"));
 			document.body.appendChild(p);
+			// dojo.parser.parse(dojo.body()); 
 		});
 	</script>
 
 	<style type="text/css">
 		@import "../../../dojo/resources/dojo.css";
-		@import "../../themes/tundra/tundra.css";
-		@import "../../themes/tundra/tundra_rtl.css";
 		@import "../css/dijitTests.css";
 
 		body {
@@ -46,7 +46,7 @@
 		}
 	</style>
 </head>
-<body class="tundra">
+<body>
 
 	<h1 class="testTitle">Dijit layout.TabContainer tests</h1>
 

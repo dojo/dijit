@@ -4,9 +4,10 @@
 	<head>
 		<title>Inline Edit Box Test</title>
 
-		<script type="text/javascript" src="../testBidi.js"></script>
 		<script type="text/javascript" src="../../../dojo/dojo.js"
 			djConfig="isDebug: true, parseOnLoad: true"></script>
+		<script type="text/javascript" src="../_testCommon.js"></script>
+
 		<script type="text/javascript">
 			dojo.require("dojo.data.ItemFileReadStore");
 			dojo.require("dijit.form.InlineEditBox");
@@ -33,7 +34,6 @@
 		</script>
 		<style type="text/css">
 			@import "../../../dojo/resources/dojo.css";
-			@import "../../themes/tundra/tundra.css";
 			@import "../css/dijitTests.css";
 
 			.inlineEdit { background-color: #CCC76A; }
@@ -43,7 +43,7 @@
 			h3 { font-family: helvetica; font-style: italic; }
 		</style>
 	</head>
-	<body class="tundra">
+	<body>
 		<h1 class="testTitle">Dijit InlineEditBox Test</h1>
 
 		<div>

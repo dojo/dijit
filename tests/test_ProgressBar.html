@@ -7,14 +7,10 @@
 	<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
 	<style type="text/css">
 		@import "../../dojo/resources/dojo.css";
-		@import "../themes/tundra/tundra.css";
-		@import "../themes/tundra/tundra_rtl.css";
 		@import "css/dijitTests.css";
-
 		body {
 			margin: 1em;
 		}
-
 		.smallred .dijitProgressBarTile {
 			background:red;
 		}
@@ -23,10 +19,11 @@
 		}
 	</style>
 
-	<script type="text/javascript" src="testBidi.js"></script>
 
 	<script type="text/javascript" src="../../dojo/dojo.js" 
 		djConfig="parseOnLoad: true, isDebug: true"></script>
+	<script type="text/javascript" src="_testCommon.js"></script>
+
 	<script type="text/javascript">
 		dojo.require("dijit.ProgressBar");
 		dojo.require("dojo.parser");	// scan page for widgets 

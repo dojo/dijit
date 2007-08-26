@@ -1,13 +1,13 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
 	"http://www.w3.org/TR/html4/strict.dtd">
 <html>
-	<head>
-		<title>ContentPane Test</title>
-
-		<script type="text/javascript" src="../testBidi.js"></script>
+<head>
+	<title>ContentPane Test</title>
 
 	<script type="text/javascript" src="../../../dojo/dojo.js" 
 		djConfig="isDebug: true, parseOnLoad: true"></script>
+	<script type="text/javascript" src="../_testCommon.js"></script>
+
 		<script type="text/javascript">
 			dojo.require("dijit.layout.ContentPane");
 			dojo.require("dojo.data.ItemFileReadStore");
@@ -17,9 +17,7 @@
 		</script>
 		<style>
 			@import "../../../dojo/resources/dojo.css";
-			@import "../../themes/tundra/tundra.css";
 			@import "../css/dijitTests.css";
-
 
 			body {
 				margin: 1em;
@@ -34,9 +32,9 @@
 				margin: 4px;
 			}
 		</style>
-	</head>
-	<body class="tundra">
-		<h2>Dijit layout.ContentPane tests</h2>
+</head>
+<body>
+	<h1 class="testTitle">Dijit layout.ContentPane tests</h1>
 		<p>pre-container paragraph</p>
 
 		<div dojoType="dijit.layout.ContentPane" class="box">

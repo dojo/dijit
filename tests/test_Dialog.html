@@ -2,56 +2,49 @@
         "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 <head>
-<title>Dialog Widget Dojo Tests</title>
-<style type="text/css">
-	@import "../../dojo/resources/dojo.css";
-	@import "../themes/tundra/tundra.css";
-	@import "../themes/tundra/tundra_rtl.css";
-	@import "css/dijitTests.css";
-	table { border: none; }
-</style>		
-<script type="text/javascript" src="testBidi.js"></script>
-<script type="text/javascript"
-	djConfig="parseOnLoad: true, isDebug: true"
-	src="../../dojo/dojo.js"></script>
-<script type="text/javascript">
-	dojo.require("dijit.Dialog");
-	dojo.require("dijit.form.Button");
-	dojo.require("dijit.form.TextBox");
-	dojo.require("dojo.parser");	// scan page for widgets and instantiate them
+	<title>Dialog Widget Dojo Tests</title>
+	<style type="text/css">
+		@import "../../dojo/resources/dojo.css";
+		@import "css/dijitTests.css";
+		table { border: none; }
+	</style>		
+	<script type="text/javascript"
+		djConfig="parseOnLoad: true, isDebug: true"
+		src="../../dojo/dojo.js"></script>
+	<script type="text/javascript" src="_testCommon.js"></script>
 
-	// create a do nothing, only for test widget
-	dojo.declare("dijit.TestWidget",
-		[dijit._Widget, dijit._Templated], {
-		templateString: "<span class='dijitTestWidget'></span>"
-	});
-</script>
+	<script type="text/javascript">
+		dojo.require("dijit.Dialog");
+		dojo.require("dijit.form.Button");
+		dojo.require("dijit.form.TextBox");
+		dojo.require("dojo.parser");	// scan page for widgets and instantiate them			
 
-<script type="text/javascript">
-var thirdDlg;
-function createDialog() {
-	if(!thirdDlg){
-		var pane = dojo.byId('thirdDialog');
-		pane.style.width = "300px"; 	
-		thirdDlg = new dijit.Dialog({
-			title: "Programatic Dialog Creation"
-		},pane);
+		// create a do nothing, only for test widget
+		dojo.declare("dijit.TestWidget",
+			[dijit._Widget, dijit._Templated], {
+			templateString: "<span class='dijitTestWidget'></span>"
+		});
+	</script>
+	<script type="text/javascript">
+	var thirdDlg;
+	function createDialog() {
+		if(!thirdDlg){	
+			var pane = dojo.byId('thirdDialog');
+			pane.style.width = "300px"; 	
+			thirdDlg = new dijit.Dialog({
+				title: "Programatic Dialog Creation"
+			},pane);
+		}
+		setTimeout("thirdDlg.show()","3000");
 	}
-	setTimeout("thirdDlg.show()","3000");
-}
-
-</script>
-<style type="text/css">
-body { font-family : sans-serif; }
-
-
-form {
-	margin-bottom : 0;
-}
-</style>
+	</script>
+	<style type="text/css">
+		body { font-family : sans-serif; }
+		form { margin-bottom : 0; }
+	</style>
 </head>
-<body class="tundra">
-<h2>Dijit layout.Dialog tests</h2>
+<body>
+<h1 class="testTitle">Dijit layout.Dialog tests</h1>
 <button dojoType="dijit.form.Button" onclick="dijit.byId('dialog1').show()">Show Dialog</button> |
 
 <div dojoType="dijit.Dialog" id="dialog1" title="First Dialog"

@@ -5,12 +5,12 @@
 	<title>Dijit manager unit test</title>
 	<style type="text/css">
 		@import "../../../dojo/resources/dojo.css";
-		@import "../../themes/tundra/tundra.css";
 		@import "../css/dijitTests.css";
 	</style>
-	<script type="text/javascript" src="../testBidi.js"></script>
 	<script type="text/javascript" src="../../../dojo/dojo.js"
 		djConfig="isDebug: true, parseOnLoad: true"></script>
+	<script type="text/javascript" src="../_testCommon.js"></script>
+
 	<script type="text/javascript">
 		dojo.require("doh.runner");
 		dojo.require("dijit.dijit");
@@ -67,7 +67,7 @@
 
 	</script>
 </head>
-<body class="tundra">
+<body>
 	<h1>Dijit Manager Unit Test</h1>
 	<div dojoType="foo" id="one" name="bob" attr1="10" attr2="10"></div>
 	<div dojoType="foo" id="two" name="is" attr1="5" attr2="10"></div>

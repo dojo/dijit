@@ -4,9 +4,10 @@
 <head>
 	<title>CheckBox Widget Demo</title>
 
-	<script type="text/javascript" src="../testBidi.js"></script>
 	<script type="text/javascript" src="../../../dojo/dojo.js"
 		djConfig="isDebug: true, parseOnLoad: true"></script>
+	<script type="text/javascript" src="../_testCommon.js"></script>
+
 	<script type="text/javascript">
 		dojo.require("dijit.form.CheckBox");
 		dojo.require("dojo.parser");	// find widgets
@@ -39,15 +40,13 @@
 		});
 	</script>
 	<style type="text/css">
-	/*	@import "../../../dojo/resources/dojo.css";  */
-		@import "../../themes/tundra/tundra.css";
-		@import "../../themes/tundra/tundra_rtl.css";
+		@import "../../../dojo/resources/dojo.css";  
 		@import "../css/dijitTests.css";
 
 		label { margin-right: 0.80em; }
 	</style>
 </head>
-<body class="tundra">
+<body>
 	<h1 class="testTitle">Dijit CheckBox Test</h1>
 	<p>
 	Here are some checkboxes.  Try clicking, and hovering, tabbing, and using the space bar to select:

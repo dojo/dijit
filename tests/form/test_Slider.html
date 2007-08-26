@@ -3,17 +3,16 @@
 <html>
 	<head>
 		<title>Dojo Slider Widget Demo</title>
-		<script type="text/javascript" src="../testBidi.js"></script>
 		<script type="text/javascript" src="../../../dojo/dojo.js"
 			djConfig="isDebug: true, parseOnLoad: true, extraLocale: ['de-de', 'en-us']"></script>
+		<script type="text/javascript" src="../_testCommon.js"></script>
+
 		<script type="text/javascript">
 		        dojo.require("dijit.form.Slider");
 		        dojo.require("dojo.parser"); // scan page for widgets
 		</script>
 		<style type="text/css">
 			@import "../../../dojo/resources/dojo.css";
-			@import "../../themes/tundra/tundra.css";
-			@import "../../themes/tundra/tundra_rtl.css";
 			@import "../css/dijitTests.css";
 			#slider2 .dijitButtonNode {
 				width:12px;
@@ -25,8 +24,8 @@
 		</style>
 	</head>
 
-	<body class="tundra">
-		<h1>Slider</h1>
+	<body>
+		<h1 class="testTitle">Slider</h1>
 		Also try using the arrow keys, buttons, or clicking on the progress bar to move the slider.
 		<br>
 		<br>initial value=10, min=0, max=100, onChange event triggers input box value change immediately<br>
