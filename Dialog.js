@@ -244,7 +244,7 @@ dojo.declare(
 			
 			dojo.style(this.domNode, "opacity", 0);
 			this.domNode.style.display="block";
-
+			this.open = true; 
 			this._loadCheck(); // lazy load trigger
 
 			this._position();
@@ -257,7 +257,6 @@ dojo.declare(
 			setTimeout(dojo.hitch(this, function(){
 				dijit.focus(this.titleBar);
 			}), 50);
-			this.open = true; 
 		},
 
 		hide: function(){
