@@ -92,13 +92,13 @@
 
 /* Calendar */
 
-.dijitRtl .tundra .dijitCalendarDecrease {
+.dijitRtl .dijitCalendarDecrease {
 	background:url(images/arrowRight.png) no-repeat center center; 
 	margin-left:0;
 	margin-right:2px;
 }
 
-.dijitRtl .tundra .dijitCalendarIncrease {
+.dijitRtl .dijitCalendarIncrease {
 	background:url(images/arrowLeft.png) no-repeat center center; 
 	margin-right:0;
 	margin-left:4px; 
