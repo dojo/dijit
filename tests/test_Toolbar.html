@@ -17,7 +17,8 @@
 		dojo.require("dijit.Toolbar");
 		dojo.require("dijit.form.Button");
 		dojo.require("dijit.form.TextBox");
-		dojo.require("dojo.parser");	// find widgets
+		dojo.require("dijit.Menu");
+		dojo.require("dojo.parser");
 	</script>
 
 	<!-- programatic creation -->
@@ -51,6 +52,8 @@
 		.toolbarWithNoImages .dijitButtonContents .dijitInline {
 			display: none;
 		}
+		
+		.menuBar .dijitA11yDownArrow { display: none; }
 	</style>
 
 </head>
@@ -117,6 +120,55 @@
 				<div dojoType="dijit.ColorPalette" id="toolbar1.colorPalette2" style="display: none" palette="3x4" onChange="console.log(this.value);"></div>
 			</div
     ></div>
+
+	<h2>Toolbar that looks like MenuBar</h2>
+	<div id="menubar" dojoType="dijit.Toolbar" class="menuBar">
+		<div dojoType="dijit.form.DropDownButton">
+			<span>File</span>
+			<div dojoType="dijit.Menu">
+				<div dojoType="dijit.MenuItem">New</div>
+				<div dojoType="dijit.MenuItem">Open</div>
+				<div dojoType="dijit.MenuSeparator"></div>
+				<div dojoType="dijit.MenuItem" iconClass="dijitEditorIconSave">Save</div>
+				<div dojoType="dijit.MenuItem">Save As...</div>
+			</div>
+		</div>
+		<div dojoType="dijit.form.DropDownButton">
+			<span>Edit</span>
+			<div dojoType="dijit.Menu">
+				<div dojoType="dijit.MenuItem"  iconClass="dijitEditorIcon dijitEditorIconCut"
+					onClick="logMessage('not actually cutting anything, just a test!')">Cut</div>
+				<div dojoType="dijit.MenuItem"  iconClass="dijitEditorIcon dijitEditorIconCopy"
+					onClick="logMessage('not actually copying anything, just a test!')">Copy</div>
+				<div dojoType="dijit.MenuItem"  iconClass="dijitEditorIcon dijitEditorIconPaste"
+					onClick="logMessage('not actually pasting anything, just a test!')">Paste</div>
+			</div>
+		</div>
+		<div dojoType="dijit.form.DropDownButton">
+			<span>View</span>
+			<div dojoType="dijit.Menu">
+				<div dojoType="dijit.MenuItem">Normal</div>
+				<div dojoType="dijit.MenuItem">Outline</div>
+				<div dojoType="dijit.PopupMenuItem">
+					<span>Zoom</span>
+					<div dojoType="dijit.Menu" id="submenu2">
+						<div dojoType="dijit.MenuItem">50%</div>
+						<div dojoType="dijit.MenuItem">75%</div>
+						<div dojoType="dijit.MenuItem">100%</div>
+						<div dojoType="dijit.MenuItem">150%</div>
+						<div dojoType="dijit.MenuItem">200%</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div dojoType="dijit.form.DropDownButton">
+			<span>Help</span>
+			<div dojoType="dijit.Menu">
+				<div dojoType="dijit.MenuItem">Help Topics</div>
+				<div dojoType="dijit.MenuItem">About Dijit</div>
+			</div>
+		</div>
+	</div>	
 
     <h2>Toolbar from script</h2>
 	<div id="toolbar2"></div>
