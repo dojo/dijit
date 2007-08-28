@@ -137,7 +137,7 @@ dojo.declare(
 			this.eventNode = d;
 			this.focusNode = this.editNode;
 			// this.connect won't destroy this handler cleanly since its on the iframe's window object
-			w.addEventListener("resize", this._changed, false); // resize is only on the window object
+			w.addEventListener("resize", dojo.hitch(this, this._changed), false); // resize is only on the window object
 		}else{
 			this.focusNode = this.domNode;
 		}
