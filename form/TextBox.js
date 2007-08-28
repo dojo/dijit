@@ -37,7 +37,7 @@ dojo.declare(
 		templatePath: dojo.moduleUrl("dijit.form", "templates/TextBox.html"),
 
 		getTextValue: function(){
-			return this.filter(this.textbox.value);
+			return this.textbox.value;
 		},
 
 		getValue: function(){
@@ -45,17 +45,14 @@ dojo.declare(
 		},
 
 		setValue: function(value, /*Boolean, optional*/ priorityChange, /*String, optional*/ formattedValue){
-			if(value == null){ value = ""; }
-			value = this.filter(value);
-			if(typeof formattedValue == "undefined" ){
-				formattedValue = (typeof value == "undefined" || value == null || value == NaN) ? null : this.format(value, this.constraints);
+			var filteredValue = this.filter(value);
+			if(filteredValue != "" && (formattedValue == null || formattedValue == undefined)){
+				formattedValue = this.format(filteredValue, this.constraints);
 			}
-			if(formattedValue != null){
-				var _this = this;
-				// synchronous value set needed for InlineEditBox
+			if(formattedValue != null && formattedValue != undefined){
 				this.textbox.value = formattedValue;
 			}
-			dijit.form.TextBox.superclass.setValue.call(this, value, priorityChange);
+			dijit.form.TextBox.superclass.setValue.call(this, filteredValue, priorityChange);
 		},
 
 		forWaiValuenow: function(){
@@ -64,7 +61,7 @@ dojo.declare(
 
 		format: function(/* String */ value, /* Object */ constraints){
 			// summary: Replacable function to convert a value to a properly formatted string
-			return value;
+			return (value.toString ? value.toString() : value);
 		},
 
 		parse: function(/* String */ value, /* Object */ constraints){
@@ -85,7 +82,7 @@ dojo.declare(
 
 		filter: function(val){
 			// summary: Apply various filters to textbox value
-			if(val == null){ return null; }
+			if(val == undefined || val == null){ val = ""; }
 			if(this.trim){
 				val = dojo.trim(val);
 			}

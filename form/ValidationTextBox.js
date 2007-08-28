@@ -154,14 +154,14 @@ dojo.declare(
 		//		A subclass of ValidationTextBox.
 		//		Provides a hidden input field and a serialize method to override
 
-		serialize: function(val){
+		serialize: function(val, /*Object?*/options){
 			// summary: user replaceable function used to convert the getValue() result to a String
-			return val.toString();
+			return (val.toString ? val.toString() : "");
 		},
 
 		toString: function(){
 			// summary: display the widget as a printable string using the widget's value
-			var val = this.getValue();
+			var val = this.filter(this.getValue());
 			return (val!=null) ? ((typeof val == "string") ? val : this.serialize(val, this.constraints)) : "";
 		},
 

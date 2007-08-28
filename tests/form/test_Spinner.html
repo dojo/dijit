@@ -43,10 +43,11 @@
 	</head>
 
 	<body>
-		<h1 class="testTitle">Dijit Spinner Test</h1>
+	<h1 class="testTitle">Dijit Spinner Test</h1>
 		Try typing values, and use the up/down arrow keys and/or the arrow push
 		buttons to spin
 		<br>
+	<form id="form1" action="" name="example" method="post">
 		<h1>number spinner</h1>
 		<br>
 		initial value=900, no delta specified, no min specified, max=1550, onChange debug message<br>
@@ -56,21 +57,26 @@
 			value="900"
 			constraints="{max:1550,places:0}"
 			maxlength="20"
+			name="integerspinner1"
 			id="integerspinner1">
 		<br>
 		<br>
 		initial value=1000, delta=10, min=9 max=1550<br>
-		<label for="integerspinner2">Spinbox with custom styling: </label><input dojoType="dijit.form.NumberSpinner"
+		<label for="integerspinner2">Spinbox with custom styling: </label>
+		<input dojoType="dijit.form.NumberSpinner"
 			style="font-size:20pt;border:1px solid blue;position:relative;left:30px;"
 			value="1000"
 			smallDelta="10"
 			constraints="{min:9,max:1550,places:0}"
 			maxlength="20"
+			name="integerspinner2"
 			id="integerspinner2">
 		<br>
 		<br>
 		<label for="integertextbox3">Spinner line break test: </label>initial value not specified, delta not specified, min not specified, max not specified, signed not specified, separator not specified<br>
-		[verify no line break just after this text]<input dojoType="dijit.form.NumberSpinner" id="integertextbox3">[verify no line break just before this text]
+		[verify no line break just after this text]
+		<input dojoType="dijit.form.NumberSpinner" name="integertextbox3" id="integertextbox3">
+		[verify no line break just before this text]
 		<br>
 		<br>
 		Move the cursor left and right within the input field to see the effect on the spinner.
@@ -82,7 +88,27 @@
 			smallDelta="0.1"
 			constraints={min:-10.9,max:155,places:1,round:true}
 			maxlength="20"
+			name="realspinner1"
 			id="realspinner1">
 		<br>
+
+<script>
+        function displayData() {
+                var f = document.getElementById("form1");
+                var s = "";
+                for (var i = 0; i < f.elements.length; i++) {
+                        var elem = f.elements[i];
+                        if (elem.name == "button")  { continue; }
+                        s += elem.name + ": " + elem.value + "\n";
+                }
+                alert(s);
+        }
+</script>
+		<div>
+			<button name="button" onclick="displayData(); return false;">view data</button>
+			<input type="submit" name="submit" />
+		</div>
+
+	</form>
 	</body>
 </html>
