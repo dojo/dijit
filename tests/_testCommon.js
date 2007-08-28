@@ -63,7 +63,7 @@ dojo.addOnLoad(function(){
 	dojo.body().appendChild(node); 
 
 	_populateTestDialog(node);
-	dojo.connect(window,"onkeypress",_testNodeShow);
+	dojo.connect(document,"onkeypress","_testNodeShow");
 
 	if (djConfig._deferParsing){ dojo.parser.parse(dojo.body()); }
 
