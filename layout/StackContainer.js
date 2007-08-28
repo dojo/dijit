@@ -173,10 +173,11 @@ dojo.declare(
 					return false;
 					break;
 				default:
-					if((e.keyChar == "w") &&
-						(this.selectedChildWidget.closable)){
+					if(e.keyChar == "w"){
+						if (this.selectedChildWidget.closable){
 							this.closeChild(this.selectedChildWidget);
-							dojo.stopEvent(e);
+						}
+						dojo.stopEvent(e); // avoid browser tab closing.
 					}
 			}
 		}
@@ -376,7 +377,7 @@ dojo.declare(
 				case dojo.keys.DELETE:
 					if (this._currentChild.closable){
 						this.onCloseButtonClick(this._currentChild);
-						dojo.stopEvent(evt); // so we don't close a browser tab!
+						dojo.stopEvent(evt);
 					}
 				default:
 					return;
