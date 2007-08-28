@@ -1298,7 +1298,7 @@ HTML.dj_ie6 .tundra .dijitInputFieldValidationError,
 .tundra .dijitComboBoxDisabled *
 {
 	cursor: not-allowed !important;
-	cursor: url("no.gif"), not-allowed, default;
+	cursor: url("images/no.gif"), not-allowed, default;
 }
 
 /* DnD avatar-specific settings */
