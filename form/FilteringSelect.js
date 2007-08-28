@@ -157,6 +157,16 @@ dojo.declare(
 				// because this function is called by ComboBoxMenu, this.inherited tries to find the superclass of ComboBoxMenu
 				return dijit.form.ComboBoxMixin.prototype._getMenuLabelFromItem.apply(this, arguments);
 			}
+		},
+
+		postMixInProperties: function(){
+			dijit.form.ComboBoxMixin.prototype.postMixInProperties.apply(this, arguments);
+			dijit.form.MappedTextBox.prototype.postMixInProperties.apply(this, arguments);
+		},
+
+		postCreate: function(){
+			dijit.form.ComboBoxMixin.prototype.postCreate.apply(this, arguments);
+			dijit.form.MappedTextBox.prototype.postCreate.apply(this, arguments);
 		}
 	}
 );

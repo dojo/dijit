@@ -679,5 +679,15 @@ dojo.declare(
 dojo.declare(
 	"dijit.form.ComboBox",
 	[dijit.form.ValidationTextBox, dijit.form.ComboBoxMixin],
-	{}
+	{
+		postMixInProperties: function(){
+			dijit.form.ComboBoxMixin.prototype.postMixInProperties.apply(this, arguments);
+			dijit.form.ValidationTextBox.prototype.postMixInProperties.apply(this, arguments);
+		},
+
+		postCreate: function(){
+			dijit.form.ComboBoxMixin.prototype.postCreate.apply(this, arguments);
+			dijit.form.ValidationTextBox.prototype.postCreate.apply(this, arguments);
+		}
+	}
 );
