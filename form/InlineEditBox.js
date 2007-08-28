@@ -73,6 +73,7 @@ dojo.declare(
 			this._setEditValue = dojo.hitch(this.editWidget,this.editWidget.setDisplayedValue||this.editWidget.setValue);
 			this._getEditValue = dojo.hitch(this.editWidget,this.editWidget.getDisplayedValue||this.editWidget.getValue);
 			this._setEditFocus = dojo.hitch(this.editWidget,this.editWidget.focus);
+			this._isEditValid = dojo.hitch(this.editWidget,this.editWidget.isValid || function(){return true;});
 			this.editWidget.onChange = dojo.hitch(this, "_onChange");
 
 			if(!this.autoSave){ // take over the setValue method so we can know when the value changes
@@ -206,6 +207,7 @@ dojo.declare(
 		// e is passed in if click on save button or user presses Enter.  It's not
 		// passed in when called by _onBlur.
 		if(e){ dojo.stopEvent(e); }
+		if(!this.enableSave()){ return; }
 		this.editing = false;
 		this._showText();
 		// If save button pressed on non-autoSave widget or Enter pressed on autoSave
@@ -273,6 +275,13 @@ dojo.declare(
 		}
 	},
 
+
+	enableSave: function(){
+		// summary: User replacable function returning a Boolean to indicate
+		// if the Save button should be enabled or not - usually due to invalid conditions
+		return this._isEditValid();
+	},
+
 	_onChange: function(){
 		// summary:
 		//	This is called when the underlying widget fires an onChange event,
@@ -285,7 +294,7 @@ dojo.declare(
 			// #3752
 			// if the keypress does not bubble up to the div, (iframe in TextArea blocks it for example)
 			// make sure the save button gets enabled
-			this.saveButton.setDisabled(this._getEditValue() == this._initialText);
+			this.saveButton.setDisabled((this._getEditValue() == this._initialText) || !this.enabledSave());
 		}
 	},
 

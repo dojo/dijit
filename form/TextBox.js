@@ -109,7 +109,7 @@ dojo.declare(
 		_onBlur: function(){
 			dojo.removeClass(this.nodeWithBorder, "dijitInputFieldFocused");
 
-			this.setValue(this.getValue(), true);
+			this.setValue(this.getValue(), (this.isValid ? this.isValid() : true));
 		},
 
 		onkeyup: function(){
