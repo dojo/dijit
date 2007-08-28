@@ -34,6 +34,10 @@
 	vertical-align:middle;
 }
 
+.dj_ie .dijitInline { 
+	zoom: 1; /* set hasLayout:true to mimic inline-block */
+} 
+
 .dijitInlineBox {
 	/* To inline block elements, surround them with <fieldset class="dijitInlineBox"> */
 	display:inline-block;			/* webkit */
