@@ -254,12 +254,13 @@ dojo.declare(
 			}
 		}else{
 			var _this = this;
+			// Delay before calling _getEditValue.
+			// The delay gives the browser a chance to update the textarea. 
 			setTimeout(
 				function(){
-					_this.saveButton.setDisabled(_this._getEditValue() == _this._initialText);	// ignore the tab key
-				}, 100); // the delay gives the browser a chance to update the textarea
+					_this.saveButton.setDisabled(_this._getEditValue() == _this._initialText);
+				}, 100);
 		}
-
 	},
 
 	_onBlur: function(){

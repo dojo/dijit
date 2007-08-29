@@ -146,6 +146,7 @@ dojo.declare(
 				// so the last valid value will get the warning textbox
 				// set the textbox value now so that the impending warning will make sense to the user
 				this.textbox.value=label;
+				this._lastDisplayedValue=label;
 				this.store.fetch({query:query, queryOptions:{ignoreCase:this.ignoreCase, deep:true}, onComplete: dojo.hitch(this, this._callbackSetLabel)});
 			}
 		},

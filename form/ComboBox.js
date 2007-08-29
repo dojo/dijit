@@ -18,6 +18,10 @@ dojo.declare(
 		//
 		//		Some of the options to the ComboBox are actually arguments to the data
 		//		provider.
+		//
+		//		You can assume that all the form widgets (and thus anything that mixes
+		//		in ComboBoxMixin) will inherit from _FormWidget and thus the "this"
+		//		reference will also "be a" _FormWidget.
 
 		// pageSize: Integer
 		//		Argument to data provider.
@@ -55,6 +59,8 @@ dojo.declare(
 		_hasMasterPopup:true,
 
 		_popupClass:"dijit.form._ComboBoxMenu",
+		
+		_lastDisplayedValue: "",
 
 		getValue:function(){
 			// don't get the textbox value but rather the previously set hidden value
@@ -62,6 +68,7 @@ dojo.declare(
 		},
 
 		setDisplayedValue:function(/*String*/ value){
+			_lastDisplayedValue = value;
 			this.setValue(value, true);
 		},
 
@@ -215,7 +222,13 @@ dojo.declare(
 					this._prev_key_backspace = false;
 					this._prev_key_esc = true;
 					this._hideResultList();
-					this.setValue(this.getValue());
+					if(this._lastDisplayedValue != this.getDisplayedValue()){
+						this.setValue(this._lastValueReported);
+						this.setDisplayedValue(this._lastDisplayedValue);
+						dojo.stopEvent(evt);
+					}else{
+						this.setValue(this.getValue());
+					}
 					break;
 
 				case dojo.keys.DELETE:
