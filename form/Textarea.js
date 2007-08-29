@@ -53,10 +53,6 @@ dojo.declare(
 			}else{
 				editNode.appendChild(document.createTextNode(value));
 			}
-			if(this.iframe){
-				this.sizeNode = document.createElement('div');
-				editNode.appendChild(this.sizeNode);
-			}
 		}else{
 			// blah<BR>blah --> blah\nblah
 			// <P>blah</P><P>blah</P> --> blah\nblah
@@ -70,13 +66,16 @@ dojo.declare(
 		}
 		this.formValueNode.value = value;
 		if(this.iframe){
-			var newHeight = this.sizeNode.offsetTop;
+			var sizeNode = document.createElement('div');
+			editNode.appendChild(sizeNode);
+			var newHeight = sizeNode.offsetTop;
 			if(editNode.scrollWidth > editNode.clientWidth){ newHeight+=16; } // scrollbar space needed?
 			if(this.lastHeight != newHeight){ // cache size so that we don't get a resize event because of a resize event
 				if(newHeight == 0){ newHeight = 16; } // height = 0 causes the browser to not set scrollHeight
 				dojo.contentBox(this.iframe, {h: newHeight});
 				this.lastHeight = newHeight;
 			}
+			editNode.removeChild(sizeNode);
 		}
 		dijit.form.Textarea.superclass.setValue.call(this, value, priorityChange);
 	},
