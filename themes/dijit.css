@@ -1327,6 +1327,10 @@ body .dijitAlignClient { position: absolute; }
 	display: block !important;
 }
 
+.dijitTextArea {
+	width:100%;
+}
+
 .dj_ie .dijitTextArea p {
 	margin-top:0px;
 	margin-bottom:0px;

@@ -25,7 +25,7 @@
 			this is a plain text area
 			for comparison
 		</textarea>
-		<br><textarea id="programmatic"></textarea>
+		<br><textarea id="programmatic" style="width:400px;"></textarea>
 		<script type="text/javascript">
 			// See if we can make a widget in script
 			dojo.addOnLoad(function(){
@@ -36,9 +36,8 @@
 				w.setValue('we will create this one programatically');
 			});
 		</script>
-		<div name="simpleTextArea" dojoType="dijit.form.Textarea" style="width:33%;border:20px solid red;">
-			this is a very simple resizable text area
-		</div>
+		<div name="simpleTextArea" dojoType="dijit.form.Textarea" style="width:33%;border:20px solid red;"
+			>this is a very simple resizable text area</div>
 		<textarea dojoType="dijit.form.Textarea" name="largeTextArea">
 this is a textarea with a LOT of content
 
