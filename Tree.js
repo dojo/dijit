@@ -5,7 +5,6 @@ dojo.require("dojo.fx");
 dojo.require("dijit._Widget");
 dojo.require("dijit._Templated");
 dojo.require("dijit._Container");
-dojo.require("dijit._tree.Controller");
 
 dojo.declare(
 	"dijit._TreeBase",
@@ -49,10 +48,10 @@ dojo.declare(
 		return false;
 	},
 
-	setChildren: function(/* Object[] */ childrenArray){
+	_setChildren: function(/* Object[] */ childrenArray){
 		// summary:
 		//		Sets the children of this node.
-		//		Sets this.isFolder based on whether or not there are children
+		//		Sets this.isExpandable based on whether or not there are children
 		// 		Takes array of objects like: {label: ...} (_TreeNode options basically)
 		//		See parameters of _TreeNode for details.
 
@@ -61,7 +60,7 @@ dojo.declare(
 		this.state = "LOADED";
 		var nodeMap= {};
 		if(childrenArray && childrenArray.length > 0){
-			this.isFolder = true;
+			this.isExpandable = true;
 			if(!this.containerNode){ // maybe this node was unfolderized and still has container
 				this.containerNode = this.tree.containerNodeTemplate.cloneNode(true);
 				this.domNode.appendChild(this.containerNode);
@@ -71,7 +70,7 @@ dojo.declare(
 			dojo.forEach(childrenArray, function(childParams){
 				var child = new dijit._TreeNode(dojo.mixin({
 					tree: this.tree,
-					label: this.getLabel(childParams.item)
+					label: this.tree.getLabel(childParams.item)
 				}, childParams));
 				this.addChild(child);
 				nodeMap[this.tree.store.getIdentity(childParams.item)] = child;
@@ -84,7 +83,7 @@ dojo.declare(
 			});
 
 		}else{
-			this.isFolder=false;
+			this.isExpandable=false;
 		}
 		
 		if(this.isTree){
@@ -97,7 +96,7 @@ dojo.declare(
 		return nodeMap;
 	},
 
-	addChildren: function(/* object[] */ childrenArray){
+	_addChildren: function(/* object[] */ childrenArray){
 		// summary:
 		//		adds the children to this node.
 		// 		Takes array of objects like: {label: ...}  (_TreeNode options basically)
@@ -124,11 +123,6 @@ dojo.declare(
 		return nodeMap;
 	},
 
-	getLabel: function(/*Item*/ item) {
-		// summary: user overridable function to get the label for a tree node (given the item)
-		return this.tree.store.getLabel(item);
-	},
-
 	deleteNode: function(/* treeNode */ node) {
 		node.destroy();
 	
@@ -137,9 +131,11 @@ dojo.declare(
 		});
 	},
 
-	makeFolder: function() {
-		//summary: if this node wasn't already a folder, turn it into one and call _setExpando()
-		this.isFolder=true;
+	makeExpandable: function() {
+		//summary
+		//		if this node wasn't already showing the expando node,
+		//		turn it into one and call _setExpando()
+		this.isExpandable = true;
 		this._setExpando(false);
 	}
 });
@@ -148,19 +144,6 @@ dojo.declare(
 	"dijit.Tree",
 	dijit._TreeBase,
 {
-	// summary
-	//	Tree view does all the drawing, visual node management etc.
-	//	Throws events about clicks on it, so someone may catch them and process
-	//	Events:
-	//		afterTreeCreate,
-	//		beforeTreeDestroy,
-	//		execute				: for clicking the label, or hitting the enter key when focused on the label,
-	//		toggleOpen			: for clicking the expando key (toggles hide/collapse),
-	//		previous			: go to previous visible node,
-	//		next				: go to next visible node,
-	//		zoomIn				: go to child nodes,
-	//		zoomOut				: go to parent node
-
 	// store: String||dojo.data.Store
 	//	The store to get data to display in the tree
 	store: null,
@@ -188,16 +171,14 @@ dojo.declare(
 	postMixInProperties: function(){
 		this.tree = this;
 
-		// setup table mapping keys to events
-		var keyTopicMap = {};
-		keyTopicMap[dojo.keys.ENTER]="execute";
-		keyTopicMap[dojo.keys.LEFT_ARROW]="zoomOut";
-		keyTopicMap[dojo.keys.RIGHT_ARROW]="zoomIn";
-		keyTopicMap[dojo.keys.UP_ARROW]="previous";
-		keyTopicMap[dojo.keys.DOWN_ARROW]="next";
-		keyTopicMap[dojo.keys.HOME]="first";
-		keyTopicMap[dojo.keys.END]="last";
-		this._keyTopicMap = keyTopicMap;
+		this._itemNodeMap={};
+
+		// if the store supports Notification, subscribe to the notifcation events
+		if (this.store.getFeatures()['dojo.data.api.Notification']){
+			this.connect(this.store, "onNew", this, "_onNewItem");
+			this.connect(this.store, "onDelete", this, "_onDeleteItem");
+			this.connect(this.store, "onSet", this, "_onSetItem");
+		}
 	},
 
 	postCreate: function(){
@@ -211,40 +192,265 @@ dojo.declare(
 		dijit.wai.setAttr(div, "waiRole", "role", "presentation");
 		this.containerNodeTemplate = div;
 
-
-		// start the controller, passing in the store
-		this._controller = new dijit._tree.DataController(
-			{	
-				store: this.store,
-				treeId: this.id,
-				query: this.query,
-				childrenAttr: this.childrenAttr
-			}
-		);
-
-		this._publish("afterTreeCreate");
+		// load top level children
+		this.getItemChildren(null, dojo.hitch(this, "_onLoadAllItems", this));
 	},
 
-	destroy: function(){
-		// publish destruction event so that any listeners should stop listening
-		this._publish("beforeTreeDestroy");
-		return dijit._Widget.prototype.destroy.apply(this, arguments);
+	////////////// Data store related functions //////////////////////
+
+	mayHaveChildren: function(/*dojo.data.Item*/ item){
+		// summary
+		//		User overridable function to tell if an item has or may have children.
+		//		Controls whether or not +/- expando icon is shown.
+		//		(For efficiency reasons we may not want to check if an element has
+		//		children until user clicks the expando node)
+		return this.store.hasAttribute(item, this.childrenAttr);
 	},
 
-	toString: function(){
-		return "["+this.declaredClass+" ID:"+this.id+"]";
+	getItemChildren: function(/*dojo.data.Item*/ parentItem, /*function(items)*/ onComplete){
+		// summary
+		// 		User overridable function that return array of child items of given parent item,
+		//		or if parentItem==null then return top items in tree
+
+		var store = this.store;
+		if(parentItem == null){
+			// get top level nodes
+			store.fetch({ query: this.query, onComplete: onComplete });
+		}else{
+			// get children of specified node
+			var childItems = store.getValues(parentItem, this.childrenAttr);
+	
+			// count how many items need to be loaded
+			var _waitCount = 0;
+			dojo.forEach(childItems, function(item){ if(!store.isItemLoaded(item)){ _waitCount++; } });
+	
+	       	if(_waitCount == 0){
+	       		// all items are already loaded.  proceed..
+	       		onComplete(childItems);
+	       	}else{
+	       		// still waiting for some or all of the items to load
+				function onItem(item){
+	   				if(--_waitCount == 0){
+						// all nodes have been loaded, send them to the tree
+						onComplete(childItems);
+					}
+				}
+				dojo.forEach(childItems, function(item){
+					if(!store.isItemLoaded(item)){
+		       			store.loadItem({item: item, onItem: onItem});
+		       		}
+		       	});
+	       	}
+		}
+	},
+
+	getItemParentIdentity: function(/*dojo.data.Item*/ item, /*Object*/ parentInfo){
+		// summary
+		//		User overridable function, to return id of parent (or null if top level).
+		//		It's called with args from dojo.store.onNew
+		return this.store.getIdentity(parentInfo.item);		// String
+	},
+
+	getLabel: function(/*dojo.data.Item*/ item) {
+		// summary: user overridable function to get the label for a tree node (given the item)
+		return this.store.getLabel(item);	// String
 	},
 
 	getIconClass: function(/*dojo.data.Item*/ item){
-		// summary: user overridable class to return CSS class name to display icon
+		// summary: user overridable function to return CSS class name to display icon
 	},
 
-	_domElement2TreeNode: function(/*DomNode*/ domElement){
-		var ret;
+	_onLoadAllItems: function(/*_TreeNode*/ node, /*dojo.data.Item[]*/ items){
+		// sumary: callback when all the children of a given node have been loaded
+		var childParams=dojo.map(items, function(item){
+			return {
+				item: item,
+				isExpandable: this.mayHaveChildren(item),
+			};
+		}, this);
+
+		dojo.mixin(this._itemNodeMap,node._setChildren(childParams));
+
+		this._expandNode(node);
+	},
+
+	/////////// Keyboard and Mouse handlers ////////////////////
+
+	_onKeyPress: function(/*Event*/ e){
+		// summary: translates keypress events into commands for the controller
+		if(e.altKey){ return; }
+		var treeNode = this._domElement2TreeNode(e.target);
+		if(!treeNode){ return; }
+
+		// Note: On IE e.keyCode is not 0 for printables so check e.charCode.
+		// In dojo charCode is universally 0 for non-printables.
+		if(e.charCode){  // handle printables (letter navigation)
+			// Check for key navigation.
+			var navKey = e.charCode;
+			if(!e.altKey && !e.ctrlKey && !e.shiftKey && !e.metaKey){
+				navKey = (String.fromCharCode(navKey)).toLowerCase();
+				this._onLetterKeyNav( { node: treeNode, key: navKey } );
+				dojo.stopEvent(e);
+			}
+		}else{  // handle non-printables (arrow keys)
+			var map = this._keyHandlerMap;
+			if(!map){
+				// setup table mapping keys to events
+				map = {};
+				map[dojo.keys.ENTER]="_onEnterKey";
+				map[dojo.keys.LEFT_ARROW]="_onLeftArrow";
+				map[dojo.keys.RIGHT_ARROW]="_onRightArrow";
+				map[dojo.keys.UP_ARROW]="_onUpArrow";
+				map[dojo.keys.DOWN_ARROW]="_onDownArrow";
+				map[dojo.keys.HOME]="_onHomeKey";
+				map[dojo.keys.END]="_onEndKey";
+				this._keyHandlerMap = map;
+			}
+			if(this._keyHandlerMap[e.keyCode]){
+				this[this._keyHandlerMap[e.keyCode]]( { node: treeNode, item: treeNode.item } );	
+				dojo.stopEvent(e);
+			}
+		}
+	},
+
+	_onEnterKey: function(/*Object*/ message){
+		this._publish("execute", { item: message.item, node: message.node} );
+		this.onClick(message.item, message.node);
+	},
+
+	_onDownArrow: function(/*Object*/ message){
+		// summary: down arrow pressed; get next visible node, set focus there
+		var returnNode = this._navToNextNode(message.node);
+		if(returnNode && returnNode.isTreeNode){
+			returnNode.tree.focusNode(returnNode);
+			return returnNode;
+		}	
+	},
+
+	_onUpArrow: function(/*Object*/ message){
+		// summary: up arrow pressed; move to previous visible node
+
+		var nodeWidget = message.node;
+		var returnWidget = nodeWidget;
+
+		// if younger siblings		
+		var previousSibling = nodeWidget.getPreviousSibling();
+		if(previousSibling){
+			nodeWidget = previousSibling;
+			// if the previous nodeWidget is expanded, dive in deep
+			while(nodeWidget.isExpandable && nodeWidget.isExpanded && nodeWidget.hasChildren()){
+				returnWidget = nodeWidget;
+				// move to the last child
+				var children = nodeWidget.getChildren();
+				nodeWidget = children[children.length-1];
+			}
+		}else{
+			// if this is the first child, return the parent
+			nodeWidget = nodeWidget.getParent();
+		}
+
+		if(nodeWidget && nodeWidget.isTreeNode){
+			returnWidget = nodeWidget;
+		}
+
+		if(returnWidget && returnWidget.isTreeNode){
+			returnWidget.tree.focusNode(returnWidget);
+			return returnWidget;
+		}
+	},
+
+	_onRightArrow: function(/*Object*/ message){
+		// summary: right arrow pressed; go to child node
+		var nodeWidget = message.node;
+		var returnWidget = nodeWidget;
+
+		// if not expanded, expand, else move to 1st child
+		if(nodeWidget.isExpandable && !nodeWidget.isExpanded){
+			this._expandNode(nodeWidget);
+		}else if(nodeWidget.hasChildren()){
+			nodeWidget = nodeWidget.getChildren()[0];
+		}
+
+		if(nodeWidget && nodeWidget.isTreeNode){
+			returnWidget = nodeWidget;
+		}
+
+		if(returnWidget && returnWidget.isTreeNode){
+			returnWidget.tree.focusNode(returnWidget);
+			return returnWidget;
+		}
+	},
+
+	_onLeftArrow: function(/*Object*/ message){
+		// summary: left arrow pressed; go to parent
+
+		var node = message.node;
+		var returnWidget = node;
+
+		// if not collapsed, collapse, else move to parent
+		if(node.isExpandable && node.isExpanded){
+			this._collapseNode(node);
+		}else{
+			node = node.getParent();
+		}
+		if(node && node.isTreeNode){
+			returnWidget = node;
+		}
+
+		if(returnWidget && returnWidget.isTreeNode){
+			returnWidget.tree.focusNode(returnWidget);
+			return returnWidget;
+		}
+	},
+
+	_onHomeKey: function(/*Object*/ message){
+		// summary: home pressed; get first visible node, set focus there
+		var returnNode = this._navToFirstNode(message.tree);
+		if(returnNode){
+			returnNode.tree.focusNode(returnNode);
+			return returnNode;
+		}
+	},
+
+	_onEndKey: function(/*Object*/ message){
+		// summary: end pressed; go to last visible node
+
+		var returnWidget = message.node.tree;
+
+		var lastChild = returnWidget;
+		while(lastChild.isExpanded){
+			var c = lastChild.getChildren();
+			lastChild = c[c.length - 1];
+			if(lastChild.isTreeNode){
+				returnWidget = lastChild;
+			}
+		}
+
+		if(returnWidget && returnWidget.isTreeNode){
+			returnWidget.tree.focusNode(returnWidget);
+			return returnWidget;
+		}
+	},
+
+	_onLetterKeyNav: function(message){
+		// summary: letter key pressed; search for node starting with first char = key
+		var node = startNode = message.node;
+		var tree = message.tree;
+		var key = message.key;
 		do{
-			ret=dijit.byNode(domElement);
-		}while(!ret && (domElement = domElement.parentNode));
-		return ret;
+			node = this._navToNextNode(node);
+			//check for last node, jump to first node if necessary
+			if(!node){
+				node = this._navToFirstNode(tree);
+			}
+		}while(node !== startNode && (node.label.charAt(0).toLowerCase() != key));
+		if(node && node.isTreeNode){
+			// no need to set focus if back where we started
+			if(node !== startNode){
+				node.tree.focusNode(node);
+			}
+			return node;
+		}
 	},
 
 	_onClick: function(/*Event*/ e){
@@ -260,8 +466,8 @@ dojo.declare(
 		if(domElement == nodeWidget.expandoNode ||
 			 domElement == nodeWidget.expandoNodeText){
 			// expando node was clicked
-			if(nodeWidget.isFolder){
-				this._publish("toggleOpen", {node:nodeWidget});
+			if(nodeWidget.isExpandable){
+				this._onExpandoClick({node:nodeWidget});
 			}
 		}else{
 			this._publish("execute", { item: nodeWidget.item, node: nodeWidget} );
@@ -270,34 +476,115 @@ dojo.declare(
 		dojo.stopEvent(e);
 	},
 
-	onClick: function(/* dojo.data */ item){
-		// summary: user overridable function
-		console.log("default onclick handler", item);
+	_onExpandoClick: function(/*Object*/ message){
+		// summary: user clicked the +/- icon; expand or collapse my children.
+		var node = message.node;
+		if(node.isExpanded){
+			this._collapseNode(node);
+		}else{
+			this._expandNode(node);
+		}
 	},
 
-	_onKeyPress: function(/*Event*/ e){
-		// summary: translates keypress events into commands for the controller
-		if(e.altKey){ return; }
-		var treeNode = this._domElement2TreeNode(e.target);
-		if(!treeNode){ return; }
+	onClick: function(/* dojo.data */ item){
+		// summary: user overridable function for executing a tree item
+	},
 
-		// Note: On IE e.keyCode is not 0 for printables so check e.charCode.
-		// In dojo charCode is universally 0 for non-printables.
-		if(e.charCode){  // handle printables (letter navigation)
-			// Check for key navigation.
-			var navKey = e.charCode;
-			if(!e.altKey && !e.ctrlKey && !e.shiftKey && !e.metaKey){
-				navKey = (String.fromCharCode(navKey)).toLowerCase();
-				this._publish("letterKeyNav", { node: treeNode, key: navKey } );
-				dojo.stopEvent(e);
-			}
-		}else{  // handle non-printables (arrow keys)
-			if(this._keyTopicMap[e.keyCode]){
-				this._publish(this._keyTopicMap[e.keyCode], { node: treeNode, item: treeNode.item } );	
-				dojo.stopEvent(e);
+	_navToNextNode: function(node){
+		// summary: get next visible node
+		var returnNode;
+		// if this is an expanded node, get the first child
+		if(node.isExpandable && node.isExpanded && node.hasChildren()){
+			returnNode = node.getChildren()[0];			
+		}else{
+			// find a parent node with a sibling
+			while(node.isTreeNode){
+				returnNode = node.getNextSibling();
+				if(returnNode){
+					break;
+				}
+				node = node.getParent();
+			}	
+		}
+		return returnNode;
+	},
+
+	_navToFirstNode: function(/*Object*/ tree){
+		// summary: get first visible node
+		var returnNode;
+		if(tree){
+			returnNode = tree.getChildren()[0];
+			if(returnNode && returnNode.isTreeNode){
+				return returnNode;
 			}
 		}
 	},
+
+	_domElement2TreeNode: function(/*DomNode*/ domElement){
+		var ret;
+		do{
+			ret=dijit.byNode(domElement);
+		}while(!ret && (domElement = domElement.parentNode));
+		return ret;
+	},
+
+	_collapseNode: function(/*_TreeNode*/ node){
+		// summary: called when the user has requested to collapse the node
+
+		if(node.isExpandable){
+			if(node.state == "LOADING"){
+				// ignore clicks while we are in the process of loading data
+				return;
+			}
+			// are we collapsing a descendant that has the tab index?
+			if(dojo.query("[tabindex=0]", node.domNode).length > 0){
+				this.focusNode(node);
+			}
+			node.collapse();
+		}
+	},
+
+	_expandNode: function(/*_TreeNode*/ node){
+		// summary: called when the user has requested to expand the node
+
+		// clicking the expando node might have erased focus from the current item; restore it
+		var t = node.tree;
+		if(t.lastFocused){ t.focusNode(t.lastFocused); }
+
+		if(!node.isExpandable){
+			return;
+		}
+
+		var store = this.store;
+		var getValue = this.store.getValue;
+
+		switch(node.state){
+			case "LOADING":
+				// ignore clicks while we are in the process of loading data
+				return;
+
+			case "UNCHECKED":
+				// need to load all the children, and then expand
+
+				node.markProcessing();
+				var _this = this;
+				function onComplete(childItems){
+					node.unmarkProcessing();
+					_this._onLoadAllItems(node, childItems);
+				}
+				this.getItemChildren(node.item, onComplete);
+		       	break;
+
+			default:
+				// data is already loaded; just proceed
+				if(node.expand){	// top level Tree doesn't have expand() method
+					node.expand();
+				}
+				break;
+		}
+	},
+
+	////////////////// Miscellaneous functions ////////////////
 
 	blurNode: function(){
 		// summary
@@ -348,6 +635,56 @@ dojo.declare(
 			var labelNode = this.lastFocused.labelNode;
 			dojo.addClass(labelNode, "dijitTreeLabelFocused");			
 		}
+	},
+
+	//////////////// Events from data store //////////////////////////
+
+	
+	_onNewItem: function(/*Object*/ item, parentInfo){
+		//summary: callback when new item has been added to the store.
+
+		if (parentInfo){
+			var parent = this._itemNodeMap[this.getItemParentIdentity(item, parentInfo)];
+		}
+
+		var childParams = {item:item};
+		if (parent){
+			if (!parent.isExpandable){
+				parent.makeExpandable();
+			}
+			if (parent.state=="LOADED" || parent.isExpanded){
+				var childrenMap=parent._addChildren([childParams]);
+			}
+		}else{
+			// top level node
+			var childrenMap=this._addChildren([childParams]);		
+		}
+
+		if (childrenMap){
+			dojo.mixin(this._itemNodeMap, childrenMap);
+			//this._itemNodeMap[this.store.getIdentity(item)]=child;
+		}
+	},
+
+	_onDeleteItem: function(/*Object*/ item){
+		//summary: delete event from the store
+		//since the object has just been deleted, we need to
+		//use the name directly
+		var identity = this.store.getIdentity(item);
+		var node = this._itemNodeMap[identity];
+
+		if (node){
+			parent = node.getParent();
+			parent.deleteNode(node);
+			this._itemNodeMap[identity]=null;
+		}
+	},
+
+	_onSetItem: function(/*Object*/ item){
+		//summary: set data event  on an item in the store
+		var identity = this.store.getIdentity(item),
+			node = this._itemNodeMap[identity];
+		node.setLabelNode(this.getLabel(item));
 	}
 });
 
@@ -370,7 +707,7 @@ dojo.declare(
 	//		Text of this tree node
 	label: "",
 
-	isFolder: null, // set by widget depending on children/args
+	isExpandable: null, // show expando node
 
 	isExpanded: false,
 
@@ -385,7 +722,7 @@ dojo.declare(
 		// set icon based on item
 		dojo.addClass(this.iconNode, this.tree.getIconClass(this.item));
 		
-		if(this.isFolder){
+		if(this.isExpandable){
 			dijit.wai.setAttr(this.labelNode, "waiState", "expanded", this.isExpanded);
 		}
 	},
@@ -403,16 +740,8 @@ dojo.declare(
 	
 	_updateLayout: function(){
 		// summary: set appropriate CSS classes for this.domNode
-
-		dojo.removeClass(this.domNode, "dijitTreeIsRoot");
-		if(this.getParent()["isTree"]){
-			dojo.addClass(this.domNode, "dijitTreeIsRoot");
-		}
-
-		dojo.removeClass(this.domNode, "dijitTreeIsLast");
-		if(!this.getNextSibling()){
-			dojo.addClass(this.domNode, "dijitTreeIsLast");	
-		}
+		dojo.toggleClass(this.domNode, "dijitTreeIsRoot", "isTree" in this.getParent());
+		dojo.toggleClass(this.domNode, "dijitTreeIsLast", !this.getNextSibling());
 	},
 
 	_setExpando: function(/*Boolean*/ processing){
@@ -421,7 +750,7 @@ dojo.declare(
 		// apply the appropriate class to the expando node
 		var styles = ["dijitTreeExpandoLoading", "dijitTreeExpandoOpened",
 			"dijitTreeExpandoClosed", "dijitTreeExpandoLeaf"];
-		var idx = processing ? 0 : (this.isFolder ?	(this.isExpanded ? 1 : 2) : 3);
+		var idx = processing ? 0 : (this.isExpandable ?	(this.isExpanded ? 1 : 2) : 3);
 		dojo.forEach(styles,
 			function(s){
 				dojo.removeClass(this.expandoNode, s);
@@ -432,18 +761,16 @@ dojo.declare(
 		// provide a non-image based indicator for images-off mode
 		this.expandoNodeText.innerHTML =
 			processing ? "*" :
-				(this.isFolder ?
+				(this.isExpandable ?
 					(this.isExpanded ? "-" : "+") : "*");
 	},	
 
-	setChildren: function(items){
-		var ret = dijit.Tree.superclass.setChildren.apply(this, arguments);
+	_setChildren: function(items){
+		var ret = dijit.Tree.superclass._setChildren.apply(this, arguments);
 
 		// create animations for showing/hiding the children
 		this._wipeIn = dojo.fx.wipeIn({node: this.containerNode, duration: 250});
-		dojo.connect(this.wipeIn, "onEnd", dojo.hitch(this, "_afterExpand"));
 		this._wipeOut = dojo.fx.wipeOut({node: this.containerNode, duration: 250});
-		dojo.connect(this.wipeOut, "onEnd", dojo.hitch(this, "_afterCollapse"));
 
 		return ret;
 	},
@@ -463,13 +790,7 @@ dojo.declare(
 
 		this._setExpando();
 
-		// TODO: use animation that's constant speed of movement, not constant time regardless of height
 		this._wipeIn.play();
-	},
-
-	_afterExpand: function(){
-        this.onShow();
- 		this._publish("afterExpand", {node: this});		
 	},
 
 	collapse: function(){					
@@ -487,19 +808,8 @@ dojo.declare(
 		this._wipeOut.play();
 	},
 
-	_afterCollapse: function(){
-		this.onHide();
-		this._publish("afterCollapse", {node: this});
-	},
-
-
 	setLabelNode: function(label) {
 		this.labelNode.innerHTML="";
 		this.labelNode.appendChild(document.createTextNode(label));
-	},
-
-
-	toString: function(){
-		return '['+this.declaredClass+', '+this.label+']';
 	}
 });
