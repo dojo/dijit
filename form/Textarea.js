@@ -77,11 +77,11 @@ dojo.declare(
 			}
 			editNode.removeChild(sizeNode);
 		}
-		dijit.form.Textarea.superclass.setValue.call(this, value, priorityChange);
+		dijit.form.Textarea.superclass.setValue.call(this, this.getValue(), priorityChange);
 	},
 
 	getValue: function(){
-		return this.formValueNode.value;
+		return this.formValueNode.value.replace(/\r/g,"");
 	},
 
 	postMixInProperties: function(){
