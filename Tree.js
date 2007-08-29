@@ -265,7 +265,7 @@ dojo.declare(
 		var childParams=dojo.map(items, function(item){
 			return {
 				item: item,
-				isExpandable: this.mayHaveChildren(item),
+				isExpandable: this.mayHaveChildren(item)
 			};
 		}, this);
 
