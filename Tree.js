@@ -93,6 +93,11 @@ dojo.declare(
 			tabnode.setAttribute("tabIndex", "0");
 		}
 
+		if(this._setExpando){
+			// change expando to/form dot or + icon, as appropriate
+			this._setExpando(false);
+		}
+
 		return nodeMap;
 	},
 
@@ -211,7 +216,6 @@ dojo.declare(
 		// summary
 		// 		User overridable function that return array of child items of given parent item,
 		//		or if parentItem==null then return top items in tree
-
 		var store = this.store;
 		if(parentItem == null){
 			// get top level nodes
@@ -766,11 +770,13 @@ dojo.declare(
 	},	
 
 	_setChildren: function(items){
-		var ret = dijit.Tree.superclass._setChildren.apply(this, arguments);
+		var ret = this.inherited('_setChildren', arguments);
 
-		// create animations for showing/hiding the children
-		this._wipeIn = dojo.fx.wipeIn({node: this.containerNode, duration: 250});
-		this._wipeOut = dojo.fx.wipeOut({node: this.containerNode, duration: 250});
+		// create animations for showing/hiding the children (if children exist)
+		if(this.containerNode && !this._wipeIn){
+			this._wipeIn = dojo.fx.wipeIn({node: this.containerNode, duration: 250});
+			this._wipeOut = dojo.fx.wipeOut({node: this.containerNode, duration: 250});
+		}
 
 		return ret;
 	},
