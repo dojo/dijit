@@ -54,10 +54,12 @@ dojo.declare(
 				propList
 			);
 
+			// do the connects for each <script type="dojo/connect" event="foo"> block
 			var wcp = dojo.getObject(this.widgetClass).prototype;
 			scripts.forEach(function(s){
-				if(s.getAttribute("event")){
-					dojo.parser._wireUpMethod(wcp, s);
+				var event = s.getAttribute("event");
+				if(event){
+					dojo.connect(wcp, event, null, dojo.parser._functionFromScript(s));
 				}
 			});
 		}
