@@ -68,8 +68,28 @@
 
 	<table width="100%">
 		<tr>
-			<td width="30%">
-				<div dojoType="dijit.Tree" id="mytree" store="store" query="{type:'language'}" childrenAttr="countries">
+			<td width="30%" style="vertical-align: top;">
+				<div dojoType="dijit.Tree" id="mytree" store="store">
+					<!-- Override all the data access functions to work from the I18N data store -->
+					<script type="dojo/method" event="getItemChildren" args="item, onComplete">
+						switch(item ? store.getValue(item, "type") : "top"){
+							case "top":
+								return store.fetch({query: {type:'continent'}, onComplete: onComplete});
+							case "continent":
+								return store.fetch({query: {continent: store.getValue(item, "iso")}, onComplete: onComplete});
+							case "country":
+								console.log("getting children of country", item);
+								this.childrenAttr="languages";
+								return dijit.Tree.prototype.getItemChildren.apply(this, arguments);
+						}
+					</script>
+					<script type="dojo/method" event="mayHaveChildren" args="item">
+						if(!item){ return true; }	// top level
+						var type = store.getValue(item, "type");
+						return (type == "continent" || type == "country");
+					</script>
+					
+					<!-- override functions for display of each node -->
 					<script type="dojo/method" event="getIconClass" args="item">
 						var icon = 
 							(store.getValue(item, "type") == "country") ?
@@ -79,16 +99,20 @@
 					</script>
 					<script type="dojo/method" event="getLabel" args="item">
 						var localizedName = lang && store.getValue(item, lang);
-						var RLE = "\u202b";
-						var PDF = "\u202c";
-						return localizedName || (store.getLabel(item) + " " + RLE + "(" + store.getIdentity(item) + ")" + PDF);
+						return localizedName || (store.getLabel(item) + " \u202b" + "(" + store.getIdentity(item) + ")\u202c");
 					</script>
+					
+					<!-- clicking a node refreshes the page with new locale setting -->
 					<script type="dojo/method" event="onClick" args="item, node">
-						var type = store.getValue(item, "type"),
-							newLang = store.getIdentity((type=="country") ? node.getParent().item : item),
-							newLocale = (type=="country") ? (newLang + "-" + store.getIdentity(item)) : newLang,
-							newDir = /ar|fa|he|ps|ur|yi/i.test(newLang) ? "rtl" : "ltr";
-						window.location.href = window.location.href.replace(/\?.*/, "") + "?locale=" + newLocale + "&dir=" + newDir;
+						var type = store.getValue(item, "type");
+						if(type == "language"){
+							var lang = store.getIdentity(item),
+								locale = lang + "-" + store.getIdentity(node.getParent().item),
+							dir = /ar|fa|he|ps|ur|yi/i.test(lang) ? "rtl" : "ltr";
+							window.location.href = window.location.href.replace(/\?.*/, "") + "?locale=" + locale + "&dir=" + dir;
+						}else{
+							alert("Please click a language, not a country or continent.");
+						}
 					</script>
 				</div>
 			</td>
