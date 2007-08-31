@@ -5,6 +5,7 @@ countries: [
 {_reference: "ER"},
 {_reference: "ET"},
 ],
+name: "Qafar",
 },
 { type: "language", iso: "af",
 countries: [
@@ -1243,11 +1244,13 @@ name: "Deutsch",
 countries: [
 {_reference: "MV"},
 ],
+name: "ދިވެހިބަސް",
 },
 { type: "language", iso: "dz",
 countries: [
 {_reference: "BT"},
 ],
+name: "རྫོང་ཁ",
 },
 { type: "language", iso: "ee",
 countries: [
@@ -1938,6 +1941,7 @@ countries: [
 {_reference: "AF"},
 {_reference: "IR"},
 ],
+name: "فارسی",
 "az": "ترکی آذربایجانی",
 "bs": "بوسنیایی",
 "cu": "اسلاوی کلیسایی",
@@ -3532,6 +3536,7 @@ name: "italiano",
 { type: "language", iso: "iu",
 countries: [
 ],
+name: "ᐃᓄᒃᑎᑐᑦ ᑎᑎᕋᐅᓯᖅ",
 },
 { type: "language", iso: "ja",
 countries: [
@@ -4064,6 +4069,7 @@ countries: [
 {_reference: "SY"},
 {_reference: "TR"},
 ],
+name: "kurdî",
 },
 { type: "language", iso: "kw",
 countries: [
@@ -4076,6 +4082,7 @@ name: "kernewek",
 countries: [
 {_reference: "KG"},
 ],
+name: "Кыргыз",
 "de": "немисче",
 "en": "англисче",
 "es": "испанча",
@@ -4091,11 +4098,13 @@ countries: [
 {_reference: "CD"},
 {_reference: "CG"},
 ],
+name: "lingála",
 },
 { type: "language", iso: "lo",
 countries: [
 {_reference: "LA"},
 ],
+name: "ລາວ",
 },
 { type: "language", iso: "lt",
 countries: [
@@ -4192,11 +4201,13 @@ name: "македонски",
 countries: [
 {_reference: "IN"},
 ],
+name: "മലയാളം",
 },
 { type: "language", iso: "mn",
 countries: [
 {_reference: "MN"},
 ],
+name: "Монгол хэл",
 "de": "герман",
 "en": "англи",
 "es": "испани",
@@ -5152,6 +5163,7 @@ name: "Oromoo",
 countries: [
 {_reference: "IN"},
 ],
+name: "ଓଡ଼ିଆ",
 },
 { type: "language", iso: "pa",
 countries: [
@@ -5658,6 +5670,7 @@ countries: [
 countries: [
 {_reference: "IN"},
 ],
+name: "संस्कृत",
 },
 { type: "language", iso: "se",
 countries: [
@@ -6588,6 +6601,7 @@ countries: [
 countries: [
 {_reference: "RU"},
 ],
+name: "Татар",
 },
 { type: "language", iso: "uk",
 countries: [
@@ -6746,6 +6760,7 @@ countries: [
 {_reference: "AF"},
 {_reference: "UZ"},
 ],
+name: "Ўзбек",
 },
 { type: "language", iso: "ve",
 countries: [

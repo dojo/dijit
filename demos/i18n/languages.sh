@@ -9,7 +9,7 @@ do
 	echo '],'
 
 	# name of this language (in this language)
-	grep '<language type="'${lang}'">' ${lang}.xml |sed -e 's/.*<language type="..">/name: "/' -e 's/<\/language>/",/'
+	grep '<language type="'${lang}'"[ >]' ${lang}.xml |head -1 |sed -e 's/.*<language type=".."[^>]*>/name: "/' -e 's/<\/language>/",/'
 
 	# names of other langauges (in this language)
 	grep '<language type="..">' ${lang}.xml |sed -e 's/.*<language type=//' -e 's/<\/language>/",/' -e 's/>/: "/' -e 's/-->//'
