@@ -82,10 +82,15 @@ dijit.popup = new function(){
 
 		var handlers = [];
 
-		// provide default escape key handling 
+		// provide default escape and tab key handling
 		handlers.push(dojo.connect(wrapper, "onkeypress", this, function(evt){
-			if (evt.keyCode == dojo.keys.ESCAPE){
+			if(evt.keyCode == dojo.keys.ESCAPE){
 				args.onCancel();
+			}else if(evt.keyCode == dojo.keys.TAB){
+				dojo.stopEvent(evt);
+				if(stack[0] && stack[0].onCancel){
+					stack[0].onCancel();
+				}
 			}
 		}));
 

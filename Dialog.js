@@ -334,13 +334,17 @@ dojo.declare(
 		
 		_onKey: function(/*Event*/ evt){
 			//summary: keep keyboard focus in dialog; close dialog on escape key
-			if (evt.keyCode == dojo.keys.ESCAPE){
+			if(evt.keyCode == dojo.keys.ESCAPE){
 				this.onCancel();
-			}else if (evt.target == this.containerNode && evt.shiftKey && evt.keyCode == dojo.keys.TAB){
+			}else if(evt.target == this.containerNode && evt.shiftKey && evt.keyCode == dojo.keys.TAB){
 				if (this._lastFocusItem){
 					this._lastFocusItem.focus();
 				}
 				dojo.stopEvent(evt);
+			}else if(evt.keyCode == dojo.keys.TAB){
+				// we want the browser's default tab handling to move focus
+				// but we don't want the tab to propagate upwards
+				evt.stopPropagation();
 			}
 		},
 		

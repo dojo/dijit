@@ -96,13 +96,6 @@ dojo.declare(
 					dojo.stopEvent(evt);
 				}
 				break;
-			case dojo.keys.TAB:
-				dojo.stopEvent(evt);
-				// Hmm, there's no good infrastructure to support cancel closing the whole tree
-				// of menus, but it's close to an execute event, in the sense that focus is returned
-				// to the previously focused node (for a context menu) or to the DropDownButton
-				this.onExecute();
-				break;
 		}
 	},
 
@@ -371,7 +364,6 @@ dojo.declare(
 				self.currentPopup = null;
 			}
 		});
-			
 
 		this.currentPopup = popup;
 		
