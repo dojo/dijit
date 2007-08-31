@@ -113,7 +113,7 @@ dojo.declare(
 				var child = new dijit._TreeNode(
 					dojo.mixin({
 						tree: this.tree,
-						label: this.getLabel(childParams.item)
+						label: this.tree.getLabel(childParams.item)
 					}, childParams)
 				);
 				this.addChild(child);
@@ -180,9 +180,9 @@ dojo.declare(
 
 		// if the store supports Notification, subscribe to the notifcation events
 		if (this.store.getFeatures()['dojo.data.api.Notification']){
-			this.connect(this.store, "onNew", this, "_onNewItem");
-			this.connect(this.store, "onDelete", this, "_onDeleteItem");
-			this.connect(this.store, "onSet", this, "_onSetItem");
+			this.connect(this.store, "onNew", "_onNewItem");
+			this.connect(this.store, "onDelete", "_onDeleteItem");
+			this.connect(this.store, "onSet", "_onSetItem");
 		}
 	},
 
@@ -678,7 +678,7 @@ dojo.declare(
 		var node = this._itemNodeMap[identity];
 
 		if (node){
-			parent = node.getParent();
+			var parent = node.getParent();
 			parent.deleteNode(node);
 			this._itemNodeMap[identity]=null;
 		}
