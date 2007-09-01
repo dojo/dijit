@@ -49,8 +49,8 @@ dojo.declare(
 	},
 
 	removeChild: function(/*Widget*/ widget){
-        dijit._Container.prototype.removeChild.apply(this, arguments);
-        if(this._started){
+		dijit._Container.prototype.removeChild.apply(this, arguments);
+		if(this._started){
 			dijit.layout.layoutChildren(this.domNode, this._contentBox, this.getChildren());
 		}
 	}

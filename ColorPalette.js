@@ -14,13 +14,13 @@ dojo.declare(
 	//		Grid showing various colors, so the user can pick a certain color
 
 	// defaultTimeout: Number
-	//      number of milliseconds before a held key or button becomes typematic
+	//		number of milliseconds before a held key or button becomes typematic
 	defaultTimeout: 500,
 
 	// timeoutChangeRate: Number
-	//      fraction of time used to change the typematic timer between events
-	//      1.0 means that each typematic event fires at defaultTimeout intervals
-	//      < 1.0 means that each typematic event fires at an increasing faster rate
+	//		fraction of time used to change the typematic timer between events
+	//		1.0 means that each typematic event fires at defaultTimeout intervals
+	//		< 1.0 means that each typematic event fires at an increasing faster rate
 	timeoutChangeRate: 0.90,
 
 	// palette: String
@@ -48,7 +48,7 @@ dojo.declare(
 	//		The first level is a hashmap of the different arrays available
 	//		The next two dimensions represent the columns and rows of colors.
 	_palettes: {
-			
+
 		"7x10":	[["white", "seashell", "cornsilk", "lemonchiffon","lightyellow", "palegreen", "paleturquoise", "lightcyan",	"lavender", "plum"],
 				["lightgray", "pink", "bisque", "moccasin", "khaki", "lightgreen", "lightseagreen", "lightskyblue", "cornflowerblue", "violet"],
 				["silver", "lightcoral", "sandybrown", "orange", "palegoldenrod", "chartreuse", "mediumturquoise", 	"skyblue", "mediumslateblue","orchid"],
@@ -56,11 +56,11 @@ dojo.declare(
 				["dimgray", "crimson", 	"chocolate", "coral", "gold", "forestgreen", "seagreen", "blue", "blueviolet", "darkorchid"],
 				["darkslategray","firebrick","saddlebrown", "sienna", "olive", "green", "darkcyan", "mediumblue","darkslateblue", "darkmagenta" ],
 				["black", "darkred", "maroon", "brown", "darkolivegreen", "darkgreen", "midnightblue", "navy", "indigo", 	"purple"]],
-				
+
 		"3x4": [["white", "lime", "green", "blue"],
 			["silver", "yellow", "fuchsia", "navy"],
 			["gray", "red", "purple", "black"]]	
-			
+
 	},
 
 	// _imagePaths: Map

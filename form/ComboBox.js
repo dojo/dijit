@@ -32,9 +32,9 @@ dojo.declare(
 		//		Reference to data provider object used by this ComboBox
 		store: null,
 
-		// query: Object 
-		//		A query that can be passed to 'store' to initially filter the items, 
-		//		before doing further filtering based on searchAttr and the key. 
+		// query: Object
+		//		A query that can be passed to 'store' to initially filter the items,
+		//		before doing further filtering based on searchAttr and the key.
 		query: {},
 
 		// autoComplete: Boolean
@@ -59,7 +59,7 @@ dojo.declare(
 		_hasMasterPopup:true,
 
 		_popupClass:"dijit.form._ComboBoxMenu",
-		
+
 		_lastDisplayedValue: "",
 
 		getValue:function(){

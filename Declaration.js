@@ -26,8 +26,8 @@ dojo.declare(
 			// map array of strings like [ "dijit.form.Button" ] to array of mixin objects
 			// (note that dojo.map(this.mixins, dojo.getObject) doesn't work because it passes
 			// a bogus third argument to getObject(), confusing it)
-			this.mixins = this.mixins.length ? 
-				dojo.map(this.mixins, function(name){ return dojo.getObject(name); } ) : 
+			this.mixins = this.mixins.length ?
+				dojo.map(this.mixins, function(name){ return dojo.getObject(name); } ) :
 				[ dijit._Widget, dijit._Templated ];
 
 			if(preambles.length){

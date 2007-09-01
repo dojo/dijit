@@ -1,5 +1,5 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
-        "http://www.w3.org/TR/html4/strict.dtd">
+		"http://www.w3.org/TR/html4/strict.dtd">
 <html>
 <head>
 	<title>dijit.focus Test</title>
@@ -32,8 +32,8 @@
 				outlineStyle="solid";
 
 			}
-			animation = dojo.animateProperty({ 
-				node: widget.domNode, 
+			animation = dojo.animateProperty({
+				node: widget.domNode,
 				duration: 400,
 				properties: {
 					// depending on browser and node type, sometimes border or outline is ineffective.
@@ -85,7 +85,7 @@
 	<label for="fieldset1">a form ContentPane widget:</label><br>
 	<form dojoType="dijit.layout.ContentPane">
 		<label for="first">simple input: </label><input id=first><br>
-		
+
 		<label for="fieldset1">a fieldset ContentPane widget:</label><br>
 		<fieldset id=fieldset1 dojoType="dijit.layout.ContentPane">
 			<label for="select">a ComboBox widget:</label>
@@ -103,19 +103,19 @@
 		<fieldset id=fieldset2 dojoType="dijit.layout.ContentPane">
 			<label for="date">a DateTextBox widget:</label>
 			<input id=date dojoType="dijit.form.DateTextBox"><br>
-			
+
 			<label for="textarea">a plain textarea:</label><br>
 			<textarea id=textarea>hello there!</textarea><br>
 
 			<label for="spinner">a Spinner widget:</label>
 			<input id=spinner dojoType="dijit.form.NumberSpinner" value=100><br>
-			
+
 			<label for="editSpinner">a Spinner widget inside an inlineEditBox:</label>
 			<div id=editSpinner dojoType=dijit.form.InlineEditBox>
 				<input id=spinner2 dojoType="dijit.form.NumberSpinner" value=100>
 			</div>
 			<br>
-			
+
 			<label for="button">a Combobutton widget:</label>
 			<div id=button dojoType="dijit.form.ComboButton" tabIndex=0>
 				<span>push me</span>

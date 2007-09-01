@@ -19,7 +19,7 @@ dojo.declare("dijit.form.Button", dijit.form._FormWidget, {
 	label: "",
 
 	// showLabel: Boolean
-	// whether or not to display the text label in button 
+	//	whether or not to display the text label in button
 	showLabel: true,
 
 	// iconClass: String
@@ -176,7 +176,7 @@ dojo.declare("dijit.form.DropDownButton", [dijit.form.Button, dijit._Container],
 			this._opened = false;
 		}
 	},
-	
+
 	_openDropDown: function(){
 		var dropDown = this.dropDown;
 		var oldWidth=dropDown.domNode.style.width;
@@ -204,7 +204,7 @@ dojo.declare("dijit.form.DropDownButton", [dijit.form.Button, dijit._Container],
 		if(this.domNode.offsetWidth > dropDown.domNode.offsetWidth){
 			var adjustNode = null;
 			if(!this.isLeftToRight()){
-				adjustNode = dropDown.domNode.parentNode; 
+				adjustNode = dropDown.domNode.parentNode;
 				var oldRight = adjustNode.offsetLeft + adjustNode.offsetWidth;
 			}
 			// make menu at least as wide as the button

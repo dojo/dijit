@@ -31,7 +31,7 @@ dijit.getViewport = function(){
 		w = dojo.body().clientWidth;
 		h = dojo.body().clientHeight;
 	}
-	
+
 	// get scroll position
 	var scroll = dojo._docScroll();
 
@@ -58,9 +58,9 @@ dijit.placeOnScreen = function(
 	//		all of the specified corners, and choose the most appropriate one.
 	//		
 	//		NOTE: node is assumed to be absolutely or relatively positioned.
-	
+
 	var choices = dojo.map(corners, function(corner){ return { corner: corner, pos: pos }; });
-	
+
 	return dijit._place(node, choices);
 }
 
@@ -74,7 +74,7 @@ dijit._place = function(/*HtmlElement*/ node, /* Array */ choices, /* Function *
 	//	layoutNode: Function(node, orient)
 	//		for things like tooltip, they are displayed differently (and have different dimensions)
 	//		based on their orientation relative to the parent.   This adjusts the popup based on orientation.
-			
+
 	// get {x: 10, y: 10, w: 100, h:100} type obj representing position of
 	// viewport over document
 	var view = dijit.getViewport();
@@ -116,7 +116,7 @@ dijit._place = function(/*HtmlElement*/ node, /* Array */ choices, /* Function *
 			width = endX-startX,
 			height = endY-startY,
 			overflow = (mb.w-width) + (mb.h-height);
-			
+
 		if(best==null || overflow<best.overflow){
 			best = {
 				corner: corner,
@@ -158,7 +158,7 @@ dijit.placeOnScreenAroundElement = function(
 	//		for things like tooltip, they are displayed differently (and have different dimensions)
 	//		based on their orientation relative to the parent.   This adjusts the popup based on orientation.
 
-	
+
 	// get coordinates of aroundNode
 	aroundNode = dojo.byId(aroundNode);
 	var oldDisplay = aroundNode.style.display;
@@ -181,6 +181,6 @@ dijit.placeOnScreenAroundElement = function(
 			}
 		});
 	}
-	
+
 	return dijit._place(node, choices, layoutNode);
 }

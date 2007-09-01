@@ -14,7 +14,7 @@ dojo.declare("dijit.form._TimePicker",
 		templatePath: dojo.moduleUrl("dijit.form", "templates/TimePicker.html"),
 
 		// clickableIncrement: String
-		//		ISO-8601 string representing the amount by which 
+		//		ISO-8601 string representing the amount by which
 		//		every clickable element in the time picker increases
 		//		Set in non-Zulu time, without a time zone
 		//		Example: "T00:15:00" creates 15 minute increments
@@ -22,7 +22,7 @@ dojo.declare("dijit.form._TimePicker",
 		clickableIncrement: "T00:15:00",
 
 		// visibleIncrement: String
-		//		ISO-8601 string representing the amount by which 
+		//		ISO-8601 string representing the amount by which
 		//		every element with a visible time in the time picker increases
 		//		Set in non Zulu time, without a time zone
 		//		Example: "T01:00:00" creates text in every 1 hour increment
@@ -38,12 +38,12 @@ dojo.declare("dijit.form._TimePicker",
 		//		Date to display.
 		//		Defaults to current time and date.
 		//		Can be a Date object or an ISO-8601 string
-		//		If you specify the GMT time zone ("-01:00"), 
+		//		If you specify the GMT time zone ("-01:00"),
 		//		the time will be converted to the local time in the local time zone.
 		//		Otherwise, the time is considered to be in the local time zone.
 		//		If you specify the date and isDate is true, the date is used.
-		//		Example: if your local time zone is GMT -05:00, 
-		//		"T10:00:00" becomes "T10:00:00-05:00" (considered to be local time), 
+		//		Example: if your local time zone is GMT -05:00,
+		//		"T10:00:00" becomes "T10:00:00-05:00" (considered to be local time),
 		//		"T10:00:00-01:00" becomes "T06:00:00-05:00" (4 hour difference),
 		//		"T10:00:00Z" becomes "T05:00:00-05:00" (5 hour difference between Zulu and local time)
 		//		"yyyy-mm-ddThh:mm:ss" is the format to set the date and time
@@ -171,10 +171,10 @@ dojo.declare("dijit.form._TimePicker",
 			this.setValue(tgt.target.date);
 			this.onValueSelected(tgt.target.date);
 		},
-		
+
 		onValueSelected:function(value){
 		},
-		
+
 		onmouseover:function(/*Event*/ evt){
 			if(evt.target === this.timeMenu){ return; }
 			this._highlighted_option=evt.target;

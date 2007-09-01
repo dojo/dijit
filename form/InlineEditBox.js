@@ -34,19 +34,19 @@ dojo.declare(
 	editing: false,
 
 	// autoSave: Boolean
-	//				Changing the value automatically saves it, don't have to push save button
+	//		Changing the value automatically saves it, don't have to push save button
 	autoSave: true,
 
 	// buttonSave: String
-	//              Save button label
+	//		Save button label
 	buttonSave: "",
 
 	// buttonCancel: String
-	//              Cancel button label
+	//		Cancel button label
 	buttonCancel: "",
 
 	// renderAsHtml: Boolean
-	//              should text render as HTML(true) or plain text(false)
+	//		should text render as HTML(true) or plain text(false)
 	renderAsHtml: false,
 
 	widgetsInTemplate: true,
@@ -98,10 +98,10 @@ dojo.declare(
 		if(srcNodeStyle && srcNodeStyle.display){ this._display=srcNodeStyle.display; }
 		else{
 			switch(this.srcNodeRef.tagName.toLowerCase()){
-				case 'span': 
-				case 'input': 
-				case 'img': 
-				case 'button': 
+				case 'span':
+				case 'input':
+				case 'img':
+				case 'button':
 					this._display='inline';
 					break;
 				default:
@@ -242,7 +242,7 @@ dojo.declare(
 		// summary:
 		//		Callback when keypress in the edit box (see template).
 		//		For autoSave widgets, if Esc/Enter, call cancel/save.
-		//		For non-autoSave widgets, enable save button if the text value is 
+		//		For non-autoSave widgets, enable save button if the text value is
 		//		different than the original value.
 		if(!this.editing){ return; }
 		if(this.autoSave){
@@ -255,7 +255,7 @@ dojo.declare(
 		}else{
 			var _this = this;
 			// Delay before calling _getEditValue.
-			// The delay gives the browser a chance to update the textarea. 
+			// The delay gives the browser a chance to update the textarea.
 			setTimeout(
 				function(){
 					_this.saveButton.setDisabled(_this._getEditValue() == _this._initialText);
@@ -265,7 +265,7 @@ dojo.declare(
 
 	_onBlur: function(){
 		// summary:
-		//	Called by the focus manager in focus.js when focus moves outside of the 
+		//	Called by the focus manager in focus.js when focus moves outside of the
 		//	InlineEditBox widget (or it's descendants).
 		if(this.autoSave && this.editing){
 			if(this._getEditValue() == this._initialText){

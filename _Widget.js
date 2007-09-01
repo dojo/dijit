@@ -34,7 +34,7 @@ dojo.declare("dijit._Widget", null, {
 	domNode: null,
 
 	//////////// INITIALIZATION METHODS ///////////////////////////////////////
-	
+
 	create: function(params, srcNodeRef) {
 		// summary:
 		//		To understand the process by which widgets are instantiated, it
@@ -70,14 +70,14 @@ dojo.declare("dijit._Widget", null, {
 		// _attaches: String[]
 		// 		names of all our dojoAttachPoint variables
 		this._attaches=[];
-	
+
 		//mixin our passed parameters
 		if(this.srcNodeRef && (typeof this.srcNodeRef.id == "string")){ this.id = this.srcNodeRef.id; }
 		if(params){
 			dojo.mixin(this,params);
 		}
 		this.postMixInProperties();
-		
+
 		// generate an id for the widget if one wasn't specified
 		// (be sure to do this before buildRendering() because that function might
 		// expect the id to be there.
@@ -235,7 +235,7 @@ dojo.declare("dijit._Widget", null, {
 				handles.push(dojo.connect(obj, "onkeydown", this,
 					function(e){
 						if(e.keyCode == dojo.keys.ENTER){
-							return (dojo.isString(method))? 
+							return (dojo.isString(method))?
 								w[method](e) : method.call(w, e);
 						}else if(e.keyCode == dojo.keys.SPACE){
 							// stop space down as it causes IE to scroll
@@ -246,7 +246,7 @@ dojo.declare("dijit._Widget", null, {
 				handles.push(dojo.connect(obj, "onkeyup", this,
 					function(e){
 						if(e.keyCode == dojo.keys.SPACE){
-							return dojo.isString(method) ? 
+							return dojo.isString(method) ?
 								w[method](e) : method.call(w, e);
 						}
 			 		}));

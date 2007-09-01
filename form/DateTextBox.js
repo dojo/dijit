@@ -9,9 +9,9 @@ dojo.declare(
 	{
 		// summary:
 		//		A validating, serializable, range-bound date text box.
-		
+
 		_popupClass: "dijit._Calendar",
-		
+
 		postMixInProperties: function(){
 			this.inherited('postMixInProperties', arguments);
 			this.constraints.selector = 'date';

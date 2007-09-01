@@ -3,7 +3,7 @@
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<script type="text/javascript" src="../../../dojo/dojo.js" 
+	<script type="text/javascript" src="../../../dojo/dojo.js"
 		djConfig="isDebug: true, parseOnLoad: true"></script>
 	<script>
 		dojo.require("dijit.layout.ContentPane");
@@ -37,7 +37,7 @@
 				data = dojo.filter(data, function(item){
 					return item.name && item.countries.length;
 				});
-				
+
 				// each data item X now contains a list every language, as written in
 				// language X, but actually need to invert that for this demo
 				languages = dojo.map(data, function(l){

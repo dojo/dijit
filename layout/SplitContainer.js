@@ -146,7 +146,7 @@ dojo.declare(
 			if(children.length > 1){
 				this._addSizer();
 			}
-			
+
 			// and then reposition (ie, shrink) every pane to make room for the new guy
 			this.layout();
 		}

@@ -54,7 +54,7 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 	disabled: false,
 
 	// intermediateChanges: Boolean
-	//              Fires onChange for each value change or only on demand
+	//		Fires onChange for each value change or only on demand
 	intermediateChanges: false,
 
 	setDisabled: function(/*Boolean*/ disabled){
@@ -152,7 +152,7 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 		base = base || this.baseClass || this.domNode.getAttribute("baseClass") || "dijitFormWidget";
 		origClass = origClass.replace(new RegExp("\\b"+base+"(Checked)?(Selected)?(Disabled|Active|Focused|Hover)?\\b\\s*", "g"), "");
 		var classes = [ base ];
-		
+
 		function multiply(modifier){
 			classes=classes.concat(dojo.map(classes, function(c){ return c+modifier; }));
 		}
@@ -163,7 +163,7 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 		if(this.selected){
 			multiply("Selected");
 		}
-		
+
 		// Only one of these four can be applied.
 		// Active trumps Focused, Focused trumps Hover, and Disabled trumps all.
 		if(this.disabled){
@@ -213,8 +213,8 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 		if(e.keyCode == dojo.keys.ESCAPE && !e.shiftKey && !e.ctrlKey && !e.altKey){
 			var v = this.getValue();
 			var lv = this._lastValueReported;
-			// Equality comparison of objects such as dates are done by reference so 
-			// two distinct objects are != even if they have the same data. So use 
+			// Equality comparison of objects such as dates are done by reference so
+			// two distinct objects are != even if they have the same data. So use
 			// toStrings in case the values are objects.
 			if(lv != undefined && v.toString() != lv.toString()){	
 				this.undo();

@@ -17,7 +17,7 @@
 			dojo.require("dijit.form.FilteringSelect");
 			dojo.require("dijit.form.NumberSpinner");
 			dojo.require("dijit.form.Slider");
-			dojo.require("dojo.parser");      // scan page for widgets and instantiate them
+			dojo.require("dojo.parser");	  // scan page for widgets and instantiate them
 
 			function myHandler(id,newValue){
 				console.debug("onChange for id = " + id + ", value: " + newValue);
@@ -49,7 +49,7 @@
 		<div>
 			The following tests each show a plain element followed by an editable element.
 			The plain element and editable element should look the same (font, font-size, block vs. inline) etc.,
-			and clicking an editable element should bring up an editor with the same attributes 
+			and clicking an editable element should bring up an editor with the same attributes
 			(font, font-size, block vs. inline) as the editable element.
 		</div>
 		<hr>
@@ -59,7 +59,7 @@
 			The following two h3 tags should be look the same.  They are display:block, and the editor should take up the entire
 			width of the screen.
 		</div>
-		
+
 		(before plain h3)
 		<h3>this is a plain h3, cannot be edited</h3>
 		(between plain and editable h3)

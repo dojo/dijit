@@ -31,7 +31,7 @@
 			@import "../../../dojo/resources/dojo.css";
 			@import "../../themes/tundra/tundra.css";
 			@import "../css/dijitTests.css";
-			
+
 			.title {
 				background-color:#ddd;
 			}
@@ -39,7 +39,7 @@
 			.hint {
 				background-color:#eee;
 			}
-			
+
 			.testExample {
 				background-color:#fbfbfb;
 				padding:1em;
@@ -50,7 +50,7 @@
 			.dojoTitlePaneLabel label {
 				font-weight:bold;
 			}
-			
+
 			td {white-space:nowrap}
 		</style>
 	</head>
@@ -62,13 +62,13 @@
  		<button id="startButton" onclick="startTest()">Start Test</button> -->
 		<p>
 			Before start this test, make sure the <b>dojo/cldr/nls</b> contains the data for "zh-cn", "fr-fr", "ja-jp" and "ar-eg"
-			and currencies CNY, EGP, EUR, JPY. If not, convert these CLDR data and put them there. 
+			and currencies CNY, EGP, EUR, JPY. If not, convert these CLDR data and put them there.
 		</p>
 
 		<script>
 		(function() {
 			genFormatTestCases("Currency Format", "dijit.form.CurrencyTextBox", [
-				
+
 				{ attrs: {Currency: "CNY", lang: "zh-cn"},
 				  desc: "Locale: <b>zh_CN</b> Currency: <b>CNY</b>",
 				  value: "123456789.46",
@@ -134,9 +134,9 @@
 				  comment: "<a href='#cmt_3'>See #3.</a> Failed in Firefox. <a href='#cmt_2'>See #2.</a>"
 				}
 			]);
-			
+
 			genValidateTestCases("Currency Validate", "dijit.form.CurrencyTextBox", [
-				
+
 				{ attrs: {Currency: "CNY", lang: "zh-cn"},
 				  desc: "Locale: <b>zh_CN</b> Currency: <b>CNY</b>",
 				  value: 123456789.46,
@@ -206,14 +206,14 @@
 			dojo.parser.parse();
 
 		})();
-		
+
 		</script>
-		
+
 		<h2 class="testTitle">Issues &amp; Comments</h2>
 		<h3 class="testTitle"><a name="cmt_1">Issue #1<sup style="color:blue">Fixed</sup></a></h3>
 		<p>
-			Some browsers like FireFox have a bug on the non-breaking space character (U+00A0, <b>&amp;nbsp;</b> or <b>&amp;#160;</b> or 
-			<b>&amp;#xA0;</b> in HTML). 
+			Some browsers like FireFox have a bug on the non-breaking space character (U+00A0, <b>&amp;nbsp;</b> or <b>&amp;#160;</b> or
+			<b>&amp;#xA0;</b> in HTML).
 			They always convert the NBSP character to a normal space (U+0020, <b>&amp;#x20;</b> in HTML) automatically in the following circumstances:
 			<ul>
 				<li>Copy text from the page</li>
@@ -242,7 +242,7 @@
 			<ul>
 				<li>In Firefox, shows "-1" -- no U+200F found</li>
 				<li>In IE &amp; Opera, shows "0" -- the U+200F is found</li>
-			</ul> 
+			</ul>
 			But if the U+200F is in some escaping form, Firefox will work as well as other browsers.
 			Click <a href="javascript:alert('\u200F'.indexOf('\u200F'))"><code>alert('\u200F'.indexOf('\u+200F'))</code></a> to see the same result both in Firefox and IE:
 		</p>
@@ -251,7 +251,7 @@
 		<p>
 			Strictly speaking, the data conversion must support non-European number characters in some locales like Arabic and Hindi.
 			For example, ICU formats a number data into Indic number characters by default in the Arabic locale.
-			However, currently Dojo does not support this feature (Dojo uses the default number conversion of the browser). 
+			However, currently Dojo does not support this feature (Dojo uses the default number conversion of the browser).
 		</p>
 
 	</body>

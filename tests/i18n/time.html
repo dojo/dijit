@@ -30,7 +30,7 @@
 			@import "../../../dojo/resources/dojo.css";
 			@import "../../themes/tundra/tundra.css";
 			@import "../css/dijitTests.css";
-			
+
 			.title {
 				background-color:#ddd;
 			}
@@ -38,7 +38,7 @@
 			.hint {
 				background-color:#eee;
 			}
-			
+
 			.testExample {
 				background-color:#fbfbfb;
 				padding:1em;
@@ -49,7 +49,7 @@
 			.dojoTitlePaneLabel label {
 				font-weight:bold;
 			}
-			
+
 			td {white-space:nowrap}
 		</style>
 		<script>
@@ -63,7 +63,7 @@
 					value: new Date()
 				}
 			);
-			
+
 			var tz_s = dojo.date.getTimezoneName(new Date());
 			if (!tz_s) {
 				var offset = new Date().getTimezoneOffset();
@@ -78,25 +78,25 @@
 			}
 
 			function gen4DateFormat(testCases, language, locale, date, short, shortCmt, medium, mediumCmt, long, longCmt, full, fullCmt) {
-				var tz_l = language.indexOf("hi") == 0 && dojo.number.normalizeDigitChars ? 
+				var tz_l = language.indexOf("hi") == 0 && dojo.number.normalizeDigitChars ?
 					dojo.number.normalizeDigitChars(tz_s, language) : tz_s;
-				
+
 				short = short.replace(/UTC/, tz_l);
 				medium = medium.replace(/UTC/, tz_l);
 				long = long.replace(/UTC/g, tz_l);
 				full = full.replace(/UTC/, tz_l);
-				
+
 				var shortDate = null;
 				testCases.push({
-				  attrs: {constraints: language.indexOf("hi") == 0 ? "{formatLength:'short', selector:'time', localeDigit:true}" : "{formatLength:'short', selector:'time'}", 
+				  attrs: {constraints: language.indexOf("hi") == 0 ? "{formatLength:'short', selector:'time', localeDigit:true}" : "{formatLength:'short', selector:'time'}",
 				  		lang: language},
 				  desc: "Locale: <b>" + locale + "</b> Format: <b>Short</b>",
-				  value: typeof(date) == "string" ? date : shortDate = new Date(date.getYear(), date.getMonth(), date.getDay() - 5, date.getHours(), date.getMinutes()), 
+				  value: typeof(date) == "string" ? date : shortDate = new Date(date.getYear(), date.getMonth(), date.getDay() - 5, date.getHours(), date.getMinutes()),
 				  expValue: short,
 				  comment: shortCmt
 				});
 				testCases.push({
-				  attrs: {constraints: language.indexOf("hi") == 0 ? "{formatLength:'medium', selector:'time', localeDigit:true}" : "{formatLength:'medium', selector:'time'}", 
+				  attrs: {constraints: language.indexOf("hi") == 0 ? "{formatLength:'medium', selector:'time', localeDigit:true}" : "{formatLength:'medium', selector:'time'}",
 				  		lang: language},
 				  desc: "Locale: <b>" + locale + "</b> Format: <b>Medium</b>",
 				  value: date,
@@ -104,7 +104,7 @@
 				  comment: mediumCmt
 				});
 				testCases.push({
-				  attrs: {constraints: language.indexOf("hi") == 0 ? "{formatLength:'long', selector:'time', localeDigit:true}" : "{formatLength:'long', selector:'time'}", 
+				  attrs: {constraints: language.indexOf("hi") == 0 ? "{formatLength:'long', selector:'time', localeDigit:true}" : "{formatLength:'long', selector:'time'}",
 				  		lang: language},
 				  desc: "Locale: <b>" + locale + "</b> Format: <b>Long</b>",
 				  value: date,
@@ -112,10 +112,10 @@
 				  comment: longCmt
 				});
 				testCases.push({
-				  attrs: {constraints: language.indexOf("hi") == 0 ? "{formatLength:'full', selector:'time', localeDigit:true}" : "{formatLength:'full', selector:'time'}", 
+				  attrs: {constraints: language.indexOf("hi") == 0 ? "{formatLength:'full', selector:'time', localeDigit:true}" : "{formatLength:'full', selector:'time'}",
 				  		lang: language},
 				  desc: "Locale: <b>" + locale + "</b> Format: <b>Full</b>",
-				  value: typeof(date) == "string" || language.indexOf("fr") ? date : shortDate, 
+				  value: typeof(date) == "string" || language.indexOf("fr") ? date : shortDate,
 				  expValue: full,
 				  comment: fullCmt
 				});
@@ -129,41 +129,41 @@
 			}
 		</script>
 	</head>
-	
+
 	<body class="tundra">
 		<h1 class="testTitle">Dijit TextBox Globalization Test for Time</h1>
-	
+
 		<h2 class="testTitle">Press the following button to start all test after this page is loaded.</h2>
 		<button id="startButton" onclick="startTest()">Start Test</button>
 		<p>
-			Before start this test, make sure the <b>dojo/cldr/nls</b> contains the data for "zh-cn", "fr-fr", "ja-jp", "ru-ru", "hi-in", "en-us" and "ar-eg". If not, convert these CLDR data and put them there. 
+			Before start this test, make sure the <b>dojo/cldr/nls</b> contains the data for "zh-cn", "fr-fr", "ja-jp", "ru-ru", "hi-in", "en-us" and "ar-eg". If not, convert these CLDR data and put them there.
 		</p>
 
 		<script>
 		(function() {
 			var testCases;
-			
+
 			testCases = new Array();
 			gen4DateFormat(testCases, "ru-ru", "ru_RU", "1970-01-01T15:25:35",
 				"15:25", "", "15:25:35", "", "15:25:35 UTC", "<a href='#cmt_1'>See #1.</a>", "15:25:35 UTC", "<a href='#cmt_1'>See #1.</a>");
-			gen4DateFormat(testCases, "zh-cn", "zh_CN", "1970-01-01T15:25:35", 
+			gen4DateFormat(testCases, "zh-cn", "zh_CN", "1970-01-01T15:25:35",
 				"下午3:25", "", "下午03:25:35", "", "下午03时25分35秒", "", "下午03时25分35秒 UTC", "<a href='#cmt_1'>See #1.</a>");
-			gen4DateFormat(testCases, "en-us", "en_US", "1970-01-01T15:25:35", 
+			gen4DateFormat(testCases, "en-us", "en_US", "1970-01-01T15:25:35",
 				"3:25 PM", "", "3:25:35 PM", "", "3:25:35 PM UTC", "<a href='#cmt_1'>See #1.</a>", "3:25:35 PM UTC", "<a href='#cmt_1'>See #1.</a>");
-			gen4DateFormat(testCases, "fr-fr", "fr_FR", "1970-01-01T15:25:35", 
+			gen4DateFormat(testCases, "fr-fr", "fr_FR", "1970-01-01T15:25:35",
 				"15:25", "", "15:25:35", "", "15:25:35 UTC", "<a href='#cmt_1'>See #1.</a>", "15 h 25 UTC", "<a href='#cmt_1'>See #1.</a>");
-			gen4DateFormat(testCases, "ja-jp", "ja_JP", "1970-01-01T15:25:35", 
+			gen4DateFormat(testCases, "ja-jp", "ja_JP", "1970-01-01T15:25:35",
 				"15:25", "", "15:25:35", "", "15:25:35:UTC", "<a href='#cmt_1'>See #1.</a>", "15時25分35秒UTC", "<a href='#cmt_1'>See #1.</a>");
-			gen4DateFormat(testCases, "ar-eg", "ar_EG", "1970-01-01T15:25:35", 
+			gen4DateFormat(testCases, "ar-eg", "ar_EG", "1970-01-01T15:25:35",
 				"3:25 \u0645", "", "3:25:35 \u0645", "", "3:25:35 \u0645", "", "UTC 3:25:35 \u0645", "<a href='#cmt_1'>See #1.</a>");
-			gen4DateFormat(testCases, "hi-in", "hi_IN", "1970-01-01T15:25:35", 
+			gen4DateFormat(testCases, "hi-in", "hi_IN", "1970-01-01T15:25:35",
 				"३:२५ अपराह्न", "<a href='#cmt_2'>See #2.</a>", "३:२५:३५ अपराह्न", "<a href='#cmt_2'>See #2.</a>", "३:२५:३५ अपराह्न UTC", "<a href='#cmt_1'>See #1.</a> <a href='#cmt_2'>See #2.</a>", "३:२५:३५ अपराह्न UTC", "<a href='#cmt_1'>See #1.</a> <a href='#cmt_2'>See #2.</a>");
 			genFormatTestCases("Time Format", "dijit.form.TimeTextBox", testCases);
 
 			testCases = new Array();
-			gen4DateFormat(testCases, "ru-ru", "ru_RU", new Date(1970, 0, 1, 15, 25, 35), 
+			gen4DateFormat(testCases, "ru-ru", "ru_RU", new Date(1970, 0, 1, 15, 25, 35),
 				"15:25", "", "15:25:35", "", "15:25:35 UTC", "<a href='#cmt_1'>See #1.</a>", "15:25:35 UTC", "<a href='#cmt_1'>See #1.</a>");
-			gen4DateFormat(testCases, "zh-cn", "zh_CN", new Date(1970, 0, 1, 15, 25, 35), 
+			gen4DateFormat(testCases, "zh-cn", "zh_CN", new Date(1970, 0, 1, 15, 25, 35),
 				"下午3:25", "<a href='#cmt_3'>See #3.</a>", "下午03:25:35", "<a href='#cmt_3'>See #3.</a>", "下午03时25分35秒", "<a href='#cmt_3'>See #3.</a>", "下午03时25分35秒 UTC", "<a href='#cmt_1'>See #1.</a>");
 			gen4DateFormat(testCases, "en-us", "en_US", new Date(1970, 0, 1, 15, 25, 35),
 				"3:25 PM", "", "3:25:35 PM", "", "3:25:35 PM UTC", "<a href='#cmt_1'>See #1.</a>", "3:25:35 PM UTC", "<a href='#cmt_1'>See #1.</a>");
@@ -176,11 +176,11 @@
 			gen4DateFormat(testCases, "hi-in", "hi_IN", new Date(1970, 0, 1, 15, 25, 35),
 				"३:२५ अपराह्न", "<a href='#cmt_2'>See #2.</a>", "३:२५:३५ अपराह्न", "<a href='#cmt_2'>See #2.</a>", "३:२५:३५ अपराह्न UTC", "<a href='#cmt_1'>See #1.</a> <a href='#cmt_2'>See #2.</a>", "३:२५:३५ अपराह्न UTC", "<a href='#cmt_1'>See #1.</a> <a href='#cmt_2'>See #2.</a>");
 			genValidateTestCases("Time Validate", "dijit.form.TimeTextBox", testCases);
-						
+
 			dojo.parser.parse();
 
 		})();
-		
+
 		</script>
 
 		<h2 class="testTitle">Issues &amp; Comments</h2>

@@ -1,5 +1,5 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
-        "http://www.w3.org/TR/html4/strict.dtd">
+		"http://www.w3.org/TR/html4/strict.dtd">
 <html>
 <head>
 	<title>Test ContentPane</title>
@@ -19,7 +19,7 @@
 		}
 	</style>
 
-	<script type="text/javascript" src="../../../dojo/dojo.js" 
+	<script type="text/javascript" src="../../../dojo/dojo.js"
 		djConfig="isDebug: true"></script>
 	<script type="text/javascript">
 		dojo.require("doh.runner");
@@ -407,7 +407,7 @@
 						runTest:function(t){
 							var obj = {
 								start:function(){
-									this.start_called = 1; 
+									this.start_called = 1;
 									// check that custom message gets set
 									setTimeout(function(){
 										obj.start_msg = (pane2.domNode.innerHTML == msg);
@@ -434,7 +434,7 @@
 							setTimeout(function(){
 								try{
 									if(!obj.start_called){
-										d.errback(new doh._AssertFailure('onDownloadStart not called')); 
+										d.errback(new doh._AssertFailure('onDownloadStart not called'));
 									}
 									if(!obj.start_msg){
 										d.errback(new doh._AssertFailure('custom download message not set'));
@@ -569,7 +569,7 @@
 					}
 				]
 			);
-			
+
 			doh.run();
 		});
 	</script>
@@ -584,7 +584,7 @@
 	</div>
 	<br/><h3>Testing ContentPane</h3>
 	<div id='pane2' class='box'>
-		Even tough the entire page isn't scanned for widgets, 
+		Even tough the entire page isn't scanned for widgets,
 		any sub widgets of a ContentPane will be created when a ContentPane is created<br/>
 		<span id="zero" dojoType='dijit.TestWidget'>This should have a backgroundcolor and a border</span>
 		<div id="one" dojoType="dijit._Widget"></div>

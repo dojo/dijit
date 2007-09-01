@@ -1,5 +1,5 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
-        "http://www.w3.org/TR/html4/strict.dtd">
+		"http://www.w3.org/TR/html4/strict.dtd">
 <html>
 <head>
 	<title>Dijit I18N Demo</title>
@@ -88,10 +88,10 @@
 						var type = store.getValue(item, "type");
 						return (type == "continent" || type == "country");
 					</script>
-					
+
 					<!-- override functions for display of each node -->
 					<script type="dojo/method" event="getIconClass" args="item">
-						var icon = 
+						var icon =
 							(store.getValue(item, "type") == "country") ?
 							("countryIcon country" + store.getValue(item, "iso") + "Icon") :
 							null;
@@ -101,7 +101,7 @@
 						var localizedName = lang && store.getValue(item, lang);
 						return localizedName || (store.getLabel(item) + " \u202b" + "(" + store.getIdentity(item) + ")\u202c");
 					</script>
-					
+
 					<!-- clicking a node refreshes the page with new locale setting -->
 					<script type="dojo/method" event="onClick" args="item, node">
 						var type = store.getValue(item, "type");

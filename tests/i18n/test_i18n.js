@@ -8,7 +8,7 @@ function getElementsById(id){
 	if(!id || typeof(id) != "string"){
 		return result;
 	}
-	
+
 	var ae = document.getElementsByTagName(dojo.byId(id).tagName);
 	for(var i = 0; i < ae.length; i++){
 		if(ae[i].id == id){
@@ -64,8 +64,8 @@ function getAllTestCases(){
 }
 
 function startTestFormat(i, t){
-	var test_node = dojo.doc.getElementById("test_display_" + i); 
-	var exp = dojo.doc.getElementById("test_display_expected_" + i).value; 
+	var test_node = dojo.doc.getElementById("test_display_" + i);
+	var exp = dojo.doc.getElementById("test_display_expected_" + i).value;
 	var res_node = dojo.doc.getElementById("test_display_result_" + i);
 	res_node.innerHTML = test_node.value;
 	res_node.style.backgroundColor = (test_node.value == exp) ? "#AFA" : "#FAA";
@@ -77,12 +77,12 @@ function startTestValidate(i, t){
 	/*
 	 * The dijit.byNode has an issue: cannot handle same id.
 	 */
-	var test_node = dojo.doc.getElementById("test_validate_" + i); 
-	var inp_node = dojo.doc.getElementById("test_validate_input_" + i); 
-	var exp = dojo.doc.getElementById("test_validate_expected_" + i).innerHTML; 
-	var res_node = dojo.doc.getElementById("test_validate_result_" + i); 
+	var test_node = dojo.doc.getElementById("test_validate_" + i);
+	var inp_node = dojo.doc.getElementById("test_validate_input_" + i);
+	var exp = dojo.doc.getElementById("test_validate_expected_" + i).innerHTML;
+	var res_node = dojo.doc.getElementById("test_validate_result_" + i);
 	var val_node = dojo.doc.getElementById("test_display_value_" + i);
-	
+
 	test_node.value = inp_node.value;
 	/*
 	 * The dijit.byNode has an issue.
@@ -95,7 +95,7 @@ function startTestValidate(i, t){
 			break;
 		}
 	}
-	
+
 	if(widget){
 		widget.focus();
 
@@ -113,7 +113,7 @@ function startTestValidate(i, t){
 		res_node.style.backgroundColor = res_node.innerHTML == exp ? "#AFA" : "#FAA";
 
 		t.is(getString(expected), getString(result));
-	} 
+	}
 }
 
 function genFormatTestCase(desc, dojoType, dojoAttrs, value, expValue, comment){
@@ -149,12 +149,12 @@ function genFormatTestCases(title, dojoType, testCases){
 	dojo.doc.write("<td class=title><b>Result</b></td>");
 	dojo.doc.write("<td class=title><b>Comment</b></td>");
 	dojo.doc.write("</tr>");
-	
+
 	for(var i = 0; i < testCases.length; i++){
 		var testCase = testCases[i];
 		genFormatTestCase(testCase.desc, dojoType, testCase.attrs, testCase.value, testCase.expValue, testCase.comment);
 	}
-	
+
 	dojo.doc.write("</table>");
 }
 
@@ -196,11 +196,11 @@ function genValidateTestCases(title, dojoType, testCases){
 	dojo.doc.write("<td class=title><b>Result</b></td>");
 	dojo.doc.write("<td class=title><b>Comment</b></td>");
 	dojo.doc.write("</tr>");
-	
+
 	for(var i = 0; i < testCases.length; i++){
 		var testCase = testCases[i];
 		genValidateTestCase(testCase.desc, dojoType, testCase.attrs, testCase.expValue, testCase.value, testCase.comment, testCase.isWrong);
 	}
-	
+
 	dojo.doc.write("</table>");
 }

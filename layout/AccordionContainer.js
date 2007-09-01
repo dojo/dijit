@@ -11,7 +11,7 @@ dojo.declare(
 	"dijit.layout.AccordionContainer",
 	dijit.layout.StackContainer,
 	{
-		// summary: 
+		// summary:
 		//		Holds a set of panes where every pane's title is visible, but only one pane's content is visible at a time,
 		//		and switching between panes is visualized by sliding the other panes up/down.
 		// usage:
@@ -83,8 +83,8 @@ inside the AccordionPane??
 				var newContents = newWidget.containerNode;
 				newContents.style.display = "";
 
-				animations.push(dojo.animateProperty({ 
-					node: newContents, 
+				animations.push(dojo.animateProperty({
+					node: newContents,
 					duration: this.duration,
 					properties: {
 						height: { start: "1", end: paneHeight }
@@ -98,11 +98,11 @@ inside the AccordionPane??
 				oldWidget.setSelected(false);
 				var oldContents = oldWidget.containerNode;
 				oldContents.style.overflow = "hidden";
-				animations.push(dojo.animateProperty({ 
+				animations.push(dojo.animateProperty({
 					node: oldContents,
 					duration: this.duration,
 					properties: {
-						height: { start: paneHeight, end: "1" } 
+						height: { start: paneHeight, end: "1" }
 					},
 					onEnd: function(){
 						oldContents.style.display = "none";
@@ -171,13 +171,13 @@ dojo.declare(
 		evt._dijitWidget = this;
 		return this.getParent().processKey(evt);
 	},
-	
+
 	_setSelectedState: function(/*Boolean*/ isSelected){
 		this.selected = isSelected;
 		(isSelected ? dojo.addClass : dojo.removeClass)(this.domNode, "dijitAccordionPane-selected");
 		this.focusNode.setAttribute("tabIndex",(isSelected)? "0":"-1");
 	},
-	
+
 	setSelected: function(/*Boolean*/ isSelected){
 		// summary: change the selected state on this pane
 		this._setSelectedState(isSelected);

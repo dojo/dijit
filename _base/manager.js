@@ -6,11 +6,11 @@ dojo.declare("dijit.WidgetSet", null, {
 		//	A set of widgets indexed by id
 		this._hash={};
 	},
-	
+
 	add: function(/*Widget*/ widget){
 		this._hash[widget.id]=widget;
 	},
-	
+
 	remove: function(/*String*/ id){
 		delete this._hash[id];
 	},
@@ -20,7 +20,7 @@ dojo.declare("dijit.WidgetSet", null, {
 			func(this._hash[id]);
 		}
 	},
-	
+
 	filter: function(/*Function*/ filter){
 		var res = new dijit.WidgetSet();
 		this.forEach(function(widget){
@@ -28,7 +28,7 @@ dojo.declare("dijit.WidgetSet", null, {
 		});
 		return res;		// dijit.WidgetSet
 	},
-	
+
 	byId: function(/*String*/ id){
 		return this._hash[id];
 	},

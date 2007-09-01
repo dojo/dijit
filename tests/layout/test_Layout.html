@@ -5,7 +5,7 @@
 	<title>Layout Demo</title>
 
 
-	<script type="text/javascript" src="../../../dojo/dojo.js" 
+	<script type="text/javascript" src="../../../dojo/dojo.js"
 		djConfig="parseOnLoad: true, isDebug: true"></script>
 	<script type="text/javascript" src="../_testCommon.js"></script>
 
@@ -42,7 +42,7 @@
 				console.log(this + ": resize(" + (mb ? "{w:"+ mb.w + ", h:" + mb.h + "}" : "null") +")" );
 				origResize.apply(this, arguments);
 			};
-			
+
 			dojo.connect(dijit.layout.ContentPane.prototype, "resize", function(mb){
 				console.log(this + ": resize({w:"+ mb.w + ", h:" + mb.h + "})");
 			});

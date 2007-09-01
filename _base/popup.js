@@ -27,8 +27,8 @@ dijit.popup = new function(){
 		//		orient: Object
 		//			structure specifying possible positions of popup relative to "around" node
 		//		onCancel: Function
-		//			callback when user has canceled the popup by 
-		//          	1. hitting ESC or
+		//			callback when user has canceled the popup by
+		//				1. hitting ESC or
 		//				2. by using the popup widget's proprietary cancel mechanism (like a cancel button in a dialog);
 		//				   ie: whenever popupWidget.onCancel() is called, args.onCancel is called
 		//		onClose: Function
@@ -99,7 +99,7 @@ dijit.popup = new function(){
 		if(widget.onCancel){
 			handlers.push(dojo.connect(widget, "onCancel", null, args.onCancel));
 		}
-		
+
 		handlers.push(dojo.connect(widget, widget.onExecute ? "onExecute" : "onChange", null, function(){
 			if(stack[0] && stack[0].onExecute){
 				stack[0].onExecute();
@@ -198,7 +198,7 @@ dijit._frames = new function(){
 		}
 		return iframe;
 	};
-	
+
 	this.push = function(iframe){
 		iframe.style.display="";
 		if(dojo.isIE){

@@ -68,7 +68,7 @@ dojo.declare(
 			//		instance. The resulting plugin is added to the Editor's
 			//		plugins array. If index is passed, it's placed in the plugins
 			//		array at that index. No big magic, but a nice helper for
-			//		passing in plugin names via markup. 
+			//		passing in plugin names via markup.
 			//	plugin: String, args object or plugin instance. Required.
 			//	args: This object will be passed to the plugin constructor.
 			//	index:	
@@ -102,7 +102,7 @@ dojo.declare(
 			}
 		},
 		/* beginning of custom undo/redo support */
-		
+
 		// customUndo: Boolean
 		//		Whether we shall use custom undo/redo support instead of the native
 		//		browser support. By default, we only enable customUndo for IE, as it
@@ -111,11 +111,11 @@ dojo.declare(
 		customUndo: dojo.isIE,
 
 		//	editActionInterval: Integer
-		//		When using customUndo, not every keystroke will be saved as a step. 
-		//		Instead typing (including delete) will be grouped together: after 
-		//		a user stop typing for editActionInterval seconds, a step will be 
-		//		saved; if a user resume typing within editActionInterval seconds, 
-		//		the timeout will be restarted. By default, editActionInterval is 3 
+		//		When using customUndo, not every keystroke will be saved as a step.
+		//		Instead typing (including delete) will be grouped together: after
+		//		a user stop typing for editActionInterval seconds, a step will be
+		//		saved; if a user resume typing within editActionInterval seconds,
+		//		the timeout will be restarted. By default, editActionInterval is 3
 		//		seconds.
 		editActionInterval: 3,
 		beginEditing: function(cmd){
@@ -270,7 +270,7 @@ dojo.declare(
 				}
 			}
 			this.inherited('onKeyDown',arguments);
-			
+
 			switch(k){
 					case ks.ENTER:
 						this.beginEditing();
@@ -344,8 +344,8 @@ dojo.subscribe("dijit.Editor.getPlugin",null,function(o){
 		case "selectAll": case "removeFormat":
 			p = new _p({ command: name });
 			break;
-			
-		case "bold": case "italic": case "underline": case "strikethrough": 
+
+		case "bold": case "italic": case "underline": case "strikethrough":
 		case "subscript": case "superscript":
 			//shall we try to auto require here? or require user to worry about it?
 //					dojo['require']('dijit.form.Button');

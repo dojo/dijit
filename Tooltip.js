@@ -41,16 +41,16 @@ dojo.declare(
 				return;
 			}
 			this.containerNode.innerHTML=innerHTML;
-			
+
 			// Firefox bug. when innerHTML changes to be shorter than previous
-			// one, the node size will not be updated until it moves.  
-			this.domNode.style.top = (this.domNode.offsetTop + 1) + "px"; 
+			// one, the node size will not be updated until it moves.
+			this.domNode.style.top = (this.domNode.offsetTop + 1) + "px";
 
 			// position the element and change CSS according to position	
 			var align = this.isLeftToRight() ? {'BR': 'BL', 'BL': 'BR'} : {'BL': 'BR', 'BR': 'BL'};
 			var pos = dijit.placeOnScreenAroundElement(this.domNode, aroundNode, align);
 			this.domNode.className="dijitTooltip dijitTooltip" + (pos.corner=='BL' ? "Right" : "Left");
-			
+
 			// show it
 			dojo.style(this.domNode, "opacity", 0);
 			this.fadeIn.play();

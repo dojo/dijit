@@ -5,7 +5,7 @@
 	<title>Demo Mail Application</title>
 
 
-	<script type="text/javascript" src="../../dojo/dojo.js" 
+	<script type="text/javascript" src="../../dojo/dojo.js"
 		djConfig="isDebug: true, parseOnLoad: true, defaultTestTheme: 'soria'"></script>
 	<script type="text/javascript" src="../tests/_testCommon.js"></script>
 
@@ -25,10 +25,10 @@
 		dojo.require("dijit.ColorPalette");
 		dojo.require("dijit.Editor");
 		dojo.require("dijit._editor.plugins.LinkDialog");
-		dojo.require("dijit.ProgressBar"); 
+		dojo.require("dijit.ProgressBar");
 
 		dojo.require("dijit.form.ComboBox");
-		dojo.require("dijit.form.CheckBox"); 
+		dojo.require("dijit.form.CheckBox");
 		dojo.require("dijit.form.FilteringSelect");
 		dojo.require("dijit.form.Textarea");
 
@@ -37,7 +37,7 @@
 		dojo.require("dijit.layout.AccordionContainer");
 		dojo.require("dijit.layout.TabContainer");
 		dojo.require("dijit.layout.ContentPane");
-		
+
 		var paneId=1;
 
 		// for "new message" tab closing
@@ -50,21 +50,21 @@
 		var updateFetchStatus = function(x){
 			if (x == 0) {
 				dijit.byId('fakeFetch').update({ indeterminate: false });
-				return; 
+				return;
 			}
 			dijit.byId('fakeFetch').update({ progress: x });
-			if (x == numMails){ 
-				dojo.fadeOut({ node: 'fetchMail', duration:800, 
+			if (x == numMails){
+				dojo.fadeOut({ node: 'fetchMail', duration:800,
 					// set progress back to indeterminate. we're cheating, because this
 					// doesn't actually have any data to "progress"
 					onEnd: function(){ dijit.byId('fakeFetch').update({ indeterminate: true }) }
-				}).play(); 
-			} 
+				}).play();
+			}
 		}
 		var fakeReport = function(percent){
 			// FIXME: can't set a label on an indeterminate progress bar
-			// like if(this.indeterminate) { return " connecting."; } 
-			return "Fetching: "+(percent*this.maximum) + " of " + this.maximum + " messgaes."; 
+			// like if(this.indeterminate) { return " connecting."; }
+			return "Fetching: "+(percent*this.maximum) + " of " + this.maximum + " messgaes.";
 		}
 		var fakeDownload = function(){
 			numMails = Math.floor(Math.random()*10)+1;
@@ -88,8 +88,8 @@
 
 	<!-- Inline declaration of a table widget (thanks Alex!) -->
 
-	<table dojoType="dijit.Declaration" 
-		widgetClass="demo.Table" class="demoTable" 
+	<table dojoType="dijit.Declaration"
+		widgetClass="demo.Table" class="demoTable"
 		defaults="{ store: null, query: { query: { type: 'message' } }, columns: [ { name: 'From', attribute: 'sender' }, { name: 'Subject', attribute: 'label' }, { name: 'Sent on', attribute: 'sent' } ] }">
 		<thead dojoAttachPoint="head">
 			<tr dojoAttachPoint="headRow"></tr>
@@ -156,7 +156,7 @@
 	</table>
 
 	<!-- Inline declaration for programmatically created "New Message" tabs -->
-	<div dojoType="dijit.Declaration" 
+	<div dojoType="dijit.Declaration"
 		widgetClass="mail.NewMessage">
 		<div dojoType="dijit.layout.LayoutContainer" dojoAttachPoint="container" title="Composing..." closeable="true">
 			<div dojoType="dijit.layout.LayoutContainer" layoutAlign="top" style="overflow: visible; z-index: 10; color:#666; ">
@@ -191,7 +191,7 @@
 				</table>
 				<hr noshade size="1">
 			</div>
-			
+
 			<div dojoType="dijit.layout.LayoutContainer" layoutAlign="bottom" align=center>
 				<button dojoType="dijit.form.Button" iconClass="mailIconOk">Send</button>
 				<button dojoType="dijit.form.Button" iconClass="mailIconCancel">Cancel</button>
@@ -200,11 +200,11 @@
 			<!-- new messase part -->
 			<div dojoType="dijit.layout.LayoutContainer" layoutAlign="client">
 				<!-- FIXME: editor as direct widget here doesn't init -->
-				<div dojoType="dijit.layout.ContentPane" href="mail/newMail.html"></div> 
+				<div dojoType="dijit.layout.ContentPane" href="mail/newMail.html"></div>
 			</div>		
 		</div>
 	</div>
-	
+
 
 	<div dojoType="dijit.layout.LayoutContainer" id="main">
 
@@ -246,7 +246,7 @@
 			<button id="options" dojoType="dijit.form.Button" iconClass="mailIconOptions">
 			Options	
 				<script type="dojo/method" event="onClick">
-					dijit.byId('optionsDialog').show(); 
+					dijit.byId('optionsDialog').show();
 				</script>
 			</button>
 			<div dojoType="dijit.Tooltip" connectId="options">Set various options</div>
@@ -285,12 +285,12 @@
 						</div>
 					</div>
 					<div dojoType="dijit.layout.AccordionPane" title="Address Book">
-	
+
 						<!--
 							TODO: want to use a table here but somehow can't have two table instances on the same page.
 							Debug later
 							<span dojoType="demo.Table" store="mailStore"
-								query="{ query: { type: 'address' }, columns: [ {name: 'User name', attribute: 'label'} ], sort: [ { attribute: 'label' } ]  }" 
+								query="{ query: { type: 'address' }, columns: [ {name: 'User name', attribute: 'label'} ], sort: [ { attribute: 'label' } ]  }"
 								id="addresses" style="width: 100%">
 								<script type="dojo/method" event="preamble">
 									this.query = { type: "address" };
@@ -335,7 +335,7 @@
 				>
 					<div id="listPane" dojoType="dijit.layout.ContentPane" sizeMin="20" sizeShare="20">
 						<span dojoType="demo.Table" store="mailStore"
-							query="{ query: { type: 'message' }, sort: [ { attribute: 'label' } ]  }" 
+							query="{ query: { type: 'message' }, sort: [ { attribute: 'label' } ]  }"
 							id="foo" jsId="table" style="width: 100%">
 							<script type="dojo/method" event="onClick" args="item">
 								var messageInner = "<span class='messageHeader'>From: "+this.store.getValue(item,"sender")+"<br>"+
@@ -372,7 +372,7 @@
 			</div> <!-- end of horizontal SplitContainer -->
 		</div> <!-- end of TabContainer -->
 	</div> <!-- end of Layoutcontainer -->
-		
+
 	<div dojoType="dijit.Dialog" id="optionsDialog" title="Options:">
 		<table>	
 		<tr><td style="text-align:right;"><label for="option1">Transport type:</label></td><td>
@@ -382,10 +382,10 @@
 		</select></td></tr>
 		<tr><td style="text-align:right;"><label for="option2">Server:</label></td><td><input id="option2" dojoType="dijit.form.TextBox" type="text">
 		</td></tr>
-	
+
 		<tr><td style="text-align:right;"><input type="checkbox" id="fooCB" dojoType="dijit.form.CheckBox"></td><td><label for="fooCB">Leave messages on Server</label></td></tr>
 		<tr><td style="text-align:right;"><input type="checkbox" id="fooCB2" dojoType="dijit.form.CheckBox"></td><td><label for="fooCB2">Remember Password</label></td></tr>
-	
+
 		<tr><td colspan="2" style="text-align:center;">
 		<button dojoType="dijit.form.Button" type="submit" iconClass="mailIconOk">OK</button>
 		<button dojoType="dijit.form.Button" type="submit" iconClass="mailIconCancel">Abort</button>

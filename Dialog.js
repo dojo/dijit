@@ -13,11 +13,11 @@ dojo.declare(
 	[dijit._Widget, dijit._Templated],
 	{
 		// summary: the thing that grays out the screen behind the dialog
-		
+
 		// Template has two divs; outer div is used for fade-in/fade-out, and also to hold background iframe.
 		// Inner div has opacity specified in CSS file.
 		templateString: "<div class=dijitDialogUnderlayWrapper id='${id}_underlay'><div class=dijitDialogUnderlay dojoAttachPoint='node'></div></div>",
-		
+
 		postCreate: function(){
 			dojo.body().appendChild(this.domNode);
 			this.bgIframe = new dijit.BackgroundIframe(this.domNode);
@@ -37,7 +37,7 @@ dojo.declare(
 			os.left = viewport.l + "px";
 			is.width = viewport.w + "px";
 			is.height = viewport.h + "px";
-			
+
 			// process twice since the scroll bar may have been removed
 			// by the previous resizing
 			var viewport2 = dijit.getViewport();
@@ -70,7 +70,7 @@ dojo.declare(
 		}
 	}
 );
-	
+
 dojo.declare(
 	"dijit.Dialog",
 	[dijit.layout.ContentPane, dijit._Templated, dijit.form._FormMixin],
@@ -92,9 +92,9 @@ dojo.declare(
 		open: false,
 
 		duration: 400,
-		
+
 		_lastFocusItem:null,
-				
+
 		postCreate: function(){
 			dojo.body().appendChild(this.domNode);
 			dijit.Dialog.superclass.postCreate.apply(this, arguments);
@@ -171,15 +171,15 @@ dojo.declare(
 			style.left = (viewport.l + (viewport.w - mb.w)/2) + "px";
 			style.top = (viewport.t + (viewport.h - mb.h)/2) + "px";
 		},
-		
+
 		_findLastFocus: function(/*Event*/ evt){
-			// summary:  called from onblur of dialog container to determine the last focusable item 
+			// summary:  called from onblur of dialog container to determine the last focusable item
 			this._lastFocused = evt.target;
 		},
-		
+
 		_cycleFocus: function(/*Event*/ evt){
 			// summary: when tabEnd receives focus, advance focus around to titleBar
-			
+
 			// on first focus to tabEnd, store the last focused item in dialog
 			if(!this._lastFocusItem){
 				this._lastFocusItem = this._lastFocused;
@@ -201,7 +201,7 @@ dojo.declare(
 					while (node){
 						if(node == this.domNode){
 							if (evt.keyCode == dojo.keys.ESCAPE){
-								this.hide(); 
+								this.hide();
 							}else{
 								return; // just let it go
 							}
@@ -236,23 +236,23 @@ dojo.declare(
 
 			this._modalconnects.push(dojo.connect(window, "onscroll", this, "layout"));
 			this._modalconnects.push(dojo.connect(document.documentElement, "onkeypress", this, "_onKey"));
-			
+
 			// IE doesn't bubble onblur events - use ondeactivate instead
 			var ev = typeof(document.ondeactivate) == "object" ? "ondeactivate" : "onblur";
 			this._modalconnects.push(dojo.connect(this.containerNode, ev, this, "_findLastFocus"));
-			
-			
+
+
 			dojo.style(this.domNode, "opacity", 0);
 			this.domNode.style.display="block";
-			this.open = true; 
+			this.open = true;
 			this._loadCheck(); // lazy load trigger
 
 			this._position();
 
 			this._fadeIn.play();
-			
+
 			this._savedFocus = dijit.getFocus(this);
-			
+
 			// set timeout to allow the browser to render dialog
 			setTimeout(dojo.hitch(this, function(){
 				dijit.focus(this.titleBar);
@@ -282,7 +282,7 @@ dojo.declare(
 			// TODO: this is failing on FF presumably because the DialogUnderlay hasn't disappeared yet?
 			// Attach it to fire at the end of the animation
 			dijit.focus(this._savedFocus);
-			this.open = false; 
+			this.open = false;
 		},
 
 		layout: function() {
@@ -293,7 +293,7 @@ dojo.declare(
 		}
 	}
 );
-	
+
 dojo.declare(
 	"dijit.TooltipDialog",
 	[dijit.layout.ContentPane, dijit._Templated, dijit.form._FormMixin],
@@ -331,7 +331,7 @@ dojo.declare(
 			this._loadCheck(); // lazy load trigger
 			this.containerNode.focus();
 		},
-		
+
 		_onKey: function(/*Event*/ evt){
 			//summary: keep keyboard focus in dialog; close dialog on escape key
 			if(evt.keyCode == dojo.keys.ESCAPE){
@@ -347,15 +347,15 @@ dojo.declare(
 				evt.stopPropagation();
 			}
 		},
-		
+
 		_findLastFocus: function(/*Event*/ evt){
-			// summary:  called from onblur of dialog container to determine the last focusable item 
+			// summary:  called from onblur of dialog container to determine the last focusable item
 			this._lastFocused = evt.target;
 		},
 
 		_cycleFocus: function(/*Event*/ evt){
 			// summary: when tabEnd receives focus, advance focus around to containerNode
-			
+
 			// on first focus to tabEnd, store the last focused item in dialog
 			if(!this._lastFocusItem){
 				this._lastFocusItem = this._lastFocused;

@@ -22,19 +22,19 @@ dojo.declare(
 	// minimum:: integer
 	//	The minimum value allowed.
 	minimum: 0,
-	
+
 	// maximum: integer
 	//	The maximum allowed value.
 	maximum: 100,
-	
+
 	// discreteValues: integer
 	//	The maximum allowed values dispersed evenly between minimum and maximum (inclusive).
 	discreteValues: Infinity,
-	
+
 	// pageIncrement: integer
 	//	The amount of change with shift+arrow
 	pageIncrement: 2,
-	
+
 	// clickSelect: boolean
 	//	If clicking the progress bar changes the value or not
 	clickSelect: true,
@@ -54,7 +54,7 @@ dojo.declare(
 			this.incrementButton.disabled = disabled;
 			this.decrementButton.disabled = disabled;
 		}
-		dijit.form.HorizontalSlider.superclass.setDisabled.apply(this, arguments); 
+		dijit.form.HorizontalSlider.superclass.setDisabled.apply(this, arguments);
 	 },
 
 	_onKeyPress: function(/*Event*/ e){
@@ -181,12 +181,11 @@ dojo.declare(
 			this.widget = _self;
 		};
 		dojo.extend(mover, dijit.form._SliderMover.prototype);
-		
 
 		this._movable = new dojo.dnd.Moveable(this.sliderHandle, {mover: mover});
 		this.inherited('postCreate', arguments);
 	},
-	
+
 	destroy: function(){
 		this._movable.destroy();
 		dijit.form.HorizontalSlider.superclass.destroy.apply(this, arguments);	
@@ -243,15 +242,15 @@ dojo.declare("dijit.form.HorizontalRule", [dijit._Widget, dijit._Templated],
 	templateString: '<div class="RuleContainer HorizontalRuleContainer"></div>',
 
 	// count: Integer
-	//      Number of hash marks to generate
+	//		Number of hash marks to generate
 	count: 3,
 
 	// container: Node
-	//      If this is a child widget, connect it to this parent node 
+	//		If this is a child widget, connect it to this parent node
 	container: "containerNode",
 
 	// ruleStyle: String
-	//      CSS style to apply to individual hash marks
+	//		CSS style to apply to individual hash marks
 	ruleStyle: "",
 
 	_positionPrefix: '<div class="RuleMark HorizontalRuleMark" style="left:',
@@ -292,7 +291,7 @@ dojo.declare("dijit.form.HorizontalRuleLabels", dijit.form.HorizontalRule,
 	templateString: '<div class="RuleContainer HorizontalRuleContainer"></div>',
 
 	// labelStyle: String
-	//      CSS style to apply to individual text labels
+	//		CSS style to apply to individual text labels
 	labelStyle: "",
 
 	// labels: Array

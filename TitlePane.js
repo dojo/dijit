@@ -65,13 +65,13 @@ dojo.declare(
 			if(this._wipeIn.status() == "playing"){
 				this._wipeIn.stop();
 			}
-			
+
 			// freeze container at current height so that adding new content doesn't make it jump
 			dojo.marginBox(this.wipeNode, {h: dojo.marginBox(this.wipeNode).h});
 
 			// add the new content (erasing the old content, if any)
 			dijit.layout.ContentPane.prototype.setContent.apply(this, arguments);
-			
+
 			// call _wipeIn.play() to animate from current height to new height
 			this._wipeIn.play();
 		}
@@ -102,7 +102,7 @@ dojo.declare(
 		this.focusNode.className += " " + classes[boolIndex+0];
 
 		// provide a character based indicator for images-off mode
-		this.arrowNodeInner.innerHTML = this.open ? "-" : "+"; 
+		this.arrowNodeInner.innerHTML = this.open ? "-" : "+";
 	},
 
 	_onTitleKey: function(/*Event*/ e){

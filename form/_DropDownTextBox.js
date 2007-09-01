@@ -8,7 +8,7 @@ dojo.declare(
 		//		Mixin text box with drop down
 
 		templatePath: dojo.moduleUrl("dijit.form", "templates/ComboBox.html"),
-		
+
 		baseClass:"dijitComboBox",
 
 		// hasDownArrow: Boolean
@@ -34,7 +34,7 @@ dojo.declare(
 		// _popupArgs: Object
 		//	Object to pass to popup widget on initialization
 		_popupArgs:{},
-		
+
 		// _hasFocus: Boolean
 		// Represents focus state of the textbox
 		_hasFocus:false,

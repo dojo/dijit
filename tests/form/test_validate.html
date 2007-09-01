@@ -339,7 +339,7 @@
 		<span class="noticeMessage">DateTextBox class, no attributes</span>
 	</div>
 	<div class="testExample">
-		<input id="q14" name="noDOMvalue" type="text" dojoType="dijit.form.DateTextBox"> 
+		<input id="q14" name="noDOMvalue" type="text" dojoType="dijit.form.DateTextBox">
 	</div>
 	<div class="dojoTitlePaneLabel">
 		<label for="q14a"> Date (local format) </label>
@@ -473,19 +473,19 @@
 		<span class="noticeMessage">value: null should show up as empty</span>
 	</div>
 	<div class="testExample">
-                                <input id="ticket1651" class="medium" value="not null"/>
-                        </div>
+								<input id="ticket1651" class="medium" value="not null"/>
+						</div>
 
 <script>
-        // See if we can make a widget in script and attach it to the DOM ourselves.
-        dojo.addOnLoad(function(){
-                var props = {
-                        name: "ticket1651",
-                        id: "mname",
-                        value: null
-                };
-                var w = new dijit.form.TextBox(props, "ticket1651");
-        });
+		// See if we can make a widget in script and attach it to the DOM ourselves.
+		dojo.addOnLoad(function(){
+				var props = {
+						name: "ticket1651",
+						id: "mname",
+						value: null
+				};
+				var w = new dijit.form.TextBox(props, "ticket1651");
+		});
 </script>
 <script>
 	function displayData() {

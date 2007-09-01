@@ -5,7 +5,7 @@
 	<title>Layout Demo</title>
 
 
-	<script type="text/javascript" src="../../../dojo/dojo.js" 
+	<script type="text/javascript" src="../../../dojo/dojo.js"
 		djConfig="isDebug: true, parseOnLoad: true"></script>
 	<script type="text/javascript" src="../_testCommon.js"></script>
 
@@ -60,7 +60,7 @@
 				}
 			]
 		};
-		
+
 		// split container layout
 		var splitLayout = {
 			widgetType: "SplitContainer",
@@ -100,7 +100,7 @@
 				}
 			]
 		};
-		
+
 		// tab container layout
 		var tabLayout = {
 			widgetType: "TabContainer",
@@ -216,13 +216,13 @@
 			if(widgetJson.innerHTML){
 				node.innerHTML=widgetJson.innerHTML;
 			}
-			
+
 			// create the widget
 			var widget = new dijit.layout[widgetJson.widgetType](widgetJson.params, node);
-			
+
 			// add its children (recursively)
 			if(widgetJson.children){
-				dojo.forEach(widgetJson.children, 
+				dojo.forEach(widgetJson.children,
 					function(child){ widget.addChild(createWidgetHierarchy(child)); });
 			}
 			widget.startup(); //TODO: this is required now, right?
@@ -238,16 +238,16 @@
 			if(rootWidget){
 				rootWidget.destroyDescendants();
 			}
-			
+
 			// create new widget
 			rootWidget = createWidgetHierarchy(layout);
-			
+
 			// and display it
 			var wrapper = dojo.byId("wrapper");
 			wrapper.innerHTML="";	// just to erase the initial HTML message
 			wrapper.appendChild(rootWidget.domNode);
 	//		rootWidget.onResized();
-			
+
 			// make/update the menu of operations on each widget
 			makeOperationTable();
 		}
@@ -274,7 +274,7 @@
 				widget.parent.removeChild(widget);
 			}
 			widget.destroy();
-			
+
 			// reset the operation table so this widget is no longer shown
 			makeOperationTable();
 		}
@@ -307,7 +307,7 @@
 				},
 				node);
 			cnt++;
-			
+
 			// add it to the parent
 			widget.addChild(child);
 
@@ -315,7 +315,7 @@
 			makeOperationTable();
 		}
 		var cnt=1;
-		
+
 		// show a widget
 		function show(widget){
 			widget = dijit.byId(widget);

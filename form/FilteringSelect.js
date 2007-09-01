@@ -12,13 +12,13 @@ dojo.declare(
 		 *
 		 *	Similar features:
 		 *	  - There is a drop down list of possible values.
-		 *    - You can only enter a value from the drop down list.  (You can't enter an arbitrary value.)
-		 *    - The value submitted with the form is the hidden value (ex: CA),
-		 *      not the displayed value a.k.a. label (ex: California)
+		 *	- You can only enter a value from the drop down list.  (You can't enter an arbitrary value.)
+		 *	- The value submitted with the form is the hidden value (ex: CA),
+		 *	  not the displayed value a.k.a. label (ex: California)
 		 *
 		 *	Enhancements over plain HTML version:
-		 *    - If you type in some text then it will filter down the list of possible values in the drop down list.
-		 *    - List can be specified either as a static list or via a javascript function (that can get the list from a server)
+		 *	- If you type in some text then it will filter down the list of possible values in the drop down list.
+		 *	- List can be specified either as a static list or via a javascript function (that can get the list from a server)
 		 */
 
 		// searchAttr: String
@@ -44,7 +44,7 @@ dojo.declare(
 			//	Callback function that dynamically sets the label of the ComboBox
 
 			// setValue does a synchronous lookup,
-			// so it calls _callbackSetLabel directly, 
+			// so it calls _callbackSetLabel directly,
 			// and so does not pass dataObject
 			// dataObject==null means do not test the lastQuery, just continue
 			if(dataObject&&dataObject.query[this.searchAttr]!=this._lastQuery){return;}

@@ -18,7 +18,7 @@ dojo.mixin(dijit,
 	// _curFocus: DomNode
 	//		Currently focused item on screen
 	_curFocus: null,
-	
+
 	// _prevFocus: DomNode
 	//		Previously focused item on screen
 	_prevFocus: null,
@@ -106,13 +106,13 @@ dojo.mixin(dijit,
 		return {
 			// Node to return focus to
 			node: menu && dojo.isDescendant(dijit._curFocus, menu.domNode) ? dijit._prevFocus : dijit._curFocus,
-			
+
 			// Previously selected text
-			bookmark: 
+			bookmark:
 				!dojo.withGlobal(openedForWindow||dojo.global, dijit.isCollapsed) ?
 				dojo.withGlobal(openedForWindow||dojo.global, dijit.getBookmark) :
 				null,
-				
+
 			openedForWindow: openedForWindow
 		}; // Object
 	},
@@ -197,7 +197,7 @@ dojo.mixin(dijit,
 			}
 		}
 	},
-	
+
 	_onBlurNode: function(){
 		// summary:
 		// 		Called when focus leaves a node.
@@ -213,7 +213,7 @@ dojo.mixin(dijit,
 		if(dijit._blurAllTimer){
 			clearTimeout(dijit._blurAllTimer);
 		}
-		dijit._blurAllTimer = setTimeout(function(){ 
+		dijit._blurAllTimer = setTimeout(function(){
 			delete dijit._blurAllTimer; dijit._setStack([]); }, 100);
 	},
 

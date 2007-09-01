@@ -1,7 +1,7 @@
 /*	
 	_testCommon.js - a simple module to be included in dijit test pages to allow
 	for easy switching between the many many points of the test-matrix.
-	
+
 	in your test browser, provides a way to switch between available themes,
 	and optionally enable RTL (right to left) mode, and/or dijit_a11y (high-
 	constrast/image off emulation) ... probably not a genuine test for a11y.
@@ -9,13 +9,13 @@
 	usage: on any dijit test_* page, press ctrl-f9.
 
 	there are currently (4 themes * 4 tests) * (10 variations of supported browsers)
-	not including testing individual locale-strings 
-	
+	not including testing individual locale-strings
+
 	you should not be using this in a production enviroment. include
 	your css and set your classes manually. for test purposes only ...
 */
 
-var theme = false; var testMode; 
+var theme = false; var testMode;
 if (window.location.href.indexOf("?") > -1) {
 	var str = window.location.href.substr(window.location.href.indexOf("?")+1);
 	var ary  = str.split(/&/);
@@ -34,7 +34,7 @@ if (window.location.href.indexOf("?") > -1) {
 				break;
 			case "theme":
 				// tundra | soria | noir | squid | null
-				theme = value; 
+				theme = value;
 				break;
 			case "a11y":
 				if(value){ testMode = "dijit_a11y"; }
@@ -50,17 +50,17 @@ document.write('<link rel="stylesheet" type="text/css" href="'+themeCss+'"/>');
 document.write('<link rel="stylesheet" type="text/css" href="'+themeCssRtl+'"/>');
 
 if(djConfig.parseOnLoad){ djConfig.parseOnLoad = false; djConfig._deferParsing = true; }
-dojo.addOnLoad(function(){ 
+dojo.addOnLoad(function(){
 
 	// set the classes
-	dojo.body().className = theme; 
+	dojo.body().className = theme;
 	if(testMode){ dojo.addClass(dojo.body(),testMode); }
 
 	// test-link matrix code:
 	var node = document.createElement('div');
-	node.id = "testNodeDialog"; 
+	node.id = "testNodeDialog";
 	dojo.addClass(node,"dijitTestNodeDialog");
-	dojo.body().appendChild(node); 
+	dojo.body().appendChild(node);
 
 	_populateTestDialog(node);
 	dojo.connect(document,"onkeypress","_testNodeShow");
@@ -72,7 +72,7 @@ dojo.addOnLoad(function(){
 _testNodeShow = function(/* Event */evt){
 	var key = (evt.charCode == dojo.keys.SPACE ? dojo.keys.SPACE : evt.keyCode);
 	if(evt.ctrlKey && (key == dojo.keys.F9)){ // F9 is generic enough?
-		dojo.style(dojo.byId('testNodeDialog'),"top",(dijit.getViewport().t + 4) +"px"); 
+		dojo.style(dojo.byId('testNodeDialog'),"top",(dijit.getViewport().t + 4) +"px");
 		dojo.toggleClass(dojo.byId('testNodeDialog'),"dijitTestNodeShowing");
 	}
 }
@@ -91,5 +91,5 @@ _populateTestDialog = function(/* DomNode */node){
 			// too many potential locales to list, use &locale=[lang] to set
 			'</tr>';
 	});
-	node.innerHTML = str + "</table>"; 
+	node.innerHTML = str + "</table>";
 }

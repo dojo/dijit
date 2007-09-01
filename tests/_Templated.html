@@ -1,7 +1,7 @@
 <html>
 	<head>
 		<title>_Templated tests</title>
-		<script type="text/javascript" src="../../dojo/dojo.js" 
+		<script type="text/javascript" src="../../dojo/dojo.js"
 			djConfig="parseOnLoad: true, isDebug: true"></script>
 		<script type="text/javascript">
 			dojo.require("doh.runner");
@@ -21,23 +21,23 @@
 					id: "bar",
 					templateString: "<button><span>hello &gt; world</span></button>"
 				});
-				
+
 				// Template with variables
 				dojo.declare("VariableTemplate", [dijit._Widget, dijit._Templated], {
 					id: "foo",
 					num: 5,
 					text: "hello ><\"' world",
-					
+
 					templateString: "<button><span num=\"${num}\">${text}</span></button>"
 				});
-				
+
 				// Template that starts with special node (has to be constructed inside a <tbody>)
 				dojo.declare("TableRowTemplate", [dijit._Widget, dijit._Templated], {
 					id: "foo",
 					text: "bar",
 					templateString: "<tr><td>${text}</td></tr>"
 				});
-				
+
 				// Illegal subsitition variable name
 				dojo.declare("IllegalSubstitution", [dijit._Widget, dijit._Templated], {
 					templateString: "<tr><td>${fake}</td></tr>"
@@ -81,7 +81,7 @@
 							wrapper.appendChild(widget.domNode);
 							t.is('<button widgetid=\"foo\"><span num="5">hello &gt;&lt;"\' world</span></button>', wrapper.innerHTML.toLowerCase());
 						},
-						
+
 						function variables2(t){	
 							var widget = new VariableTemplate({id: "myid", num: -5, text: ""});
 							var wrapper=dojo.byId("variables2Wrapper");

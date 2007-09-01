@@ -103,7 +103,7 @@ dojo.declare(
 			this._message = message;
 			this.displayMessage(message);
 		},
-		
+
 		displayMessage: function(/*String*/ message){
 			// summary:
 			//		User overridable method to display validation errors/hints.
@@ -203,7 +203,7 @@ dojo.declare(
 		=====*/
 
 		// rangeMessage: String
-		//              The message to display if value is out-of-range
+		//		The message to display if value is out-of-range
 		rangeMessage: "",
 
 		compare: function(val1, val2){

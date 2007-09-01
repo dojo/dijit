@@ -181,7 +181,7 @@ dojo.declare(
 			this.iframe.contentDocument.title = this._nlsResources.iframeTitle2;
 			// Place focus on the iframe. A subsequent tab or shift tab will put focus
 			// on the correct control.
-			// Note: Can't use this.focus() because that results in a call to 
+			// Note: Can't use this.focus() because that results in a call to
 			// dijit.focus and if that receives an iframe target it will set focus
 			// on the iframe's contentWindow.
 			this.iframe.focus();  // this.focus(); won't work

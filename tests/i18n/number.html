@@ -31,7 +31,7 @@
 			@import "../../../dojo/resources/dojo.css";
 			@import "../../themes/tundra/tundra.css";
 			@import "../css/dijitTests.css";
-			
+
 			.title {
 				background-color:#ddd;
 			}
@@ -39,7 +39,7 @@
 			.hint {
 				background-color:#eee;
 			}
-			
+
 			.testExample {
 				background-color:#fbfbfb;
 				padding:1em;
@@ -50,25 +50,25 @@
 			.dojoTitlePaneLabel label {
 				font-weight:bold;
 			}
-			
+
 			td {white-space:nowrap}
 		</style>
 	</head>
 
 	<body class="tundra">
 		<h1 class="testTitle">Dijit TextBox Globalization Test for Number</h1>
-	
+
 <!--		<h2 class="testTitle">Press the following button to start all test after this page is loaded.</h2>
 		<button id="startButton" onclick="startTest()">Start Test</button>-->
 		<p>
-			Before start this test, make sure the <b>dojo/cldr/nls</b> contains the data for "zh-cn", "fr-fr", "ar-eg" and "hi-in". If not, convert these CLDR data and put them there. 
+			Before start this test, make sure the <b>dojo/cldr/nls</b> contains the data for "zh-cn", "fr-fr", "ar-eg" and "hi-in". If not, convert these CLDR data and put them there.
 		</p>
 
 		<script>
 		(function() {
-		
+
 			genFormatTestCases("Number Format", "dijit.form.NumberTextBox", [
-				
+
 				{ attrs: {lang: "zh-cn"},
 				  desc: "Locale: zh_CN",
 				  value: "12345.067",
@@ -134,9 +134,9 @@
 				  comment: "<a href='currency.html#cmt_2'>See #2 (currency.html).</a>"
 				}
 			]);
-						
+
 			genValidateTestCases("Number Validate", "dijit.form.NumberTextBox", [
-				
+
 				{ attrs: {lang: "zh-cn"},
 				  desc: "Locale: zh_CN",
 				  value: 12345.067,
@@ -175,7 +175,7 @@
 				  expValue: "12٬345٫067-",
 				  comment: ""
 				},
-				
+
 				{ attrs: {lang: "ar-eg", constraints: "{localeDigit: true}"},
 				  desc: "Locale: ar_EG",
 				  value: 12345.067,
@@ -206,7 +206,7 @@
 			dojo.parser.parse();
 
 		})();
-		
+
 		</script>
 	</body>
 </html>

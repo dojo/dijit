@@ -177,11 +177,11 @@ dojo.declare("dijit._editor.RichText", [ dijit._Widget ], {
 			return;
 		}
 		this._editorCommandsLocalized = true;
-		
+
 		//in IE, names for blockformat is locale dependent, so we cache the values here
 
 		//if the normal way fails, we try the hard way to get the list
-	
+
 		//do not use _cacheLocalBlockFormatNames here, as it will
 		//trigger security warning in IE7
 
@@ -220,17 +220,17 @@ dojo.declare("dijit._editor.RichText", [ dijit._Widget ], {
 		//		Transforms the node referenced in this.domNode into a rich text editing
 		//		node. This will result in the creation and replacement with an <iframe>
 		//		if designMode(FF)/contentEditable(IE) is used.
-		
+
 		if((!this.onLoadDeferred)||(this.onLoadDeferred.fired >= 0)){
 			this.onLoadDeferred = new dojo.Deferred();
 		}
-		
+
 		if(!this.isClosed){ this.close(); }
 		dojo.publish("dijit._editor.RichText::open", [ this ]);
-		
+
 		this._content = "";
 		if((arguments.length == 1)&&(element["nodeName"])){ this.domNode = element; } // else unchanged
-		
+
 		if(	(this.domNode["nodeName"])&&
 			(this.domNode.nodeName.toLowerCase() == "textarea")){
 			// if we were created from a textarea, then we need to create a
@@ -347,7 +347,7 @@ dojo.declare("dijit._editor.RichText", [ dijit._Widget ], {
 			if(dojo.isIE){
 				this._localizeEditorCommands();
 			}
-			
+
 			this.onLoad();
 		}else{ // designMode in iframe
 			this._drawIframe(html);
@@ -388,7 +388,7 @@ dojo.declare("dijit._editor.RichText", [ dijit._Widget ], {
 			"	margin: 0;",
 			"}",
 			// TODO: left positioning will cause contents to disappear out of view
-			//       if it gets too wide for the visible area
+			//	   if it gets too wide for the visible area
 			"body{",
 			"	top:0px; left:0px; right:0px;",
 				((this.height||dojo.isOpera) ? "" : "position: fixed;"),
@@ -487,7 +487,7 @@ dojo.declare("dijit._editor.RichText", [ dijit._Widget ], {
 						this.document = this.iframe.contentDocument;
 					}
 					if(!this.document.body){
-						throw 'Error'; 
+						throw 'Error';
 					}
 				}catch(e){
 					setTimeout(ifrFunc,500);
@@ -624,7 +624,7 @@ dojo.declare("dijit._editor.RichText", [ dijit._Widget ], {
 		}
 		this.editNode.contentEditable = true; //should do no harm in FF
 		this._preDomFilterContent(this.editNode);
-		
+
 		var events=this.events.concat(this.captureEvents),i=0,et;
 		while(et=events[i++]){
 			this.connect(this.document, et.toLowerCase(), et);
@@ -644,7 +644,7 @@ dojo.declare("dijit._editor.RichText", [ dijit._Widget ], {
 		if(this.focusOnLoad){
 			this.focus();
 		}
-		
+
 		this.onDisplayChanged(e);
 		if(this.onLoadDeferred){
 			this.onLoadDeferred.callback(true);
@@ -668,8 +668,8 @@ dojo.declare("dijit._editor.RichText", [ dijit._Widget ], {
 				this.execCommand((e.shiftKey ? "outdent" : "indent"));
 			}else if(e.keyCode === dojo.keys.BACKSPACE && this.document.selection.type === "Control"){
 				// IE has a bug where if a non-text object is selected in the editor,
-	      // hitting backspace would act as if the browser's back button was
-	      // clicked instead of deleting the object. see #1069
+		  // hitting backspace would act as if the browser's back button was
+		  // clicked instead of deleting the object. see #1069
 				dojo.stopEvent(e);
 				this.execCommand("delete");
 			}else if(	(65 <= e.keyCode&&e.keyCode <= 90) ||
@@ -745,7 +745,7 @@ dojo.declare("dijit._editor.RichText", [ dijit._Widget ], {
 			this.onChange(_c);
 			this.savedContent=_c;
 		}
-//			console.info('_onBlur') 
+//			console.info('_onBlur')
 	},
 	_initialFocus: true,
 	_onFocus: function(e){
@@ -790,7 +790,7 @@ dojo.declare("dijit._editor.RichText", [ dijit._Widget ], {
 		//		this event will be fired everytime the display context
 		//		changes and the result needs to be reflected in the UI.
 		// description:
-		//		if you don't want to have update too often, 
+		//		if you don't want to have update too often,
 		//		onNormalizedDisplayChanged should be used instead
 
 //			var _t=new Date();
@@ -806,13 +806,13 @@ dojo.declare("dijit._editor.RichText", [ dijit._Widget ], {
 		// summary:
 		//		this event is fired every updateInterval ms or more
 		// description:
-		//		if something needs to happen immidiately after a 
+		//		if something needs to happen immidiately after a
 		//		user change, please use onDisplayChanged instead
 		this._updateTimer=null;
 	},
 	onChange: function(newContent){
-		// summary: 
-		//		this is fired if and only if the editor loses focus and 
+		// summary:
+		//		this is fired if and only if the editor loses focus and
 		//		the content is changed
 
 //			console.log('onChange',newContent);

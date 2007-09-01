@@ -2,7 +2,7 @@ dojo.provide("dijit._base.typematic");
 
 dijit.typematic = {
 	// summary:
-	//              These functions are used to repetitively call a user specified callback
+	//		These functions are used to repetitively call a user specified callback
 	//		method when a specific key or mouse click over a specific DOM node is
 	//		held down for a specific amount of time.
 	//		Only 1 such event is allowed to occur on the browser page at 1 time.
@@ -16,7 +16,7 @@ dijit.typematic = {
 
 	trigger: function(/*Event*/ evt, /* Object */ _this, /*DOMNode*/ node, /* Function */ callback, /* Object */ obj, /* Number */ subsequentDelay, /* Number */ initialDelay){
 		// summary:
-		//      Start a timed, repeating callback sequence.
+		//	Start a timed, repeating callback sequence.
 		//	If already started, the function call is ignored.
 		//	This method is not normally called by the user but can be
 		//	when the normal listener code is insufficient.
@@ -42,7 +42,7 @@ dijit.typematic = {
 
 	stop: function(){
 		// summary:
-		//      Stop an ongoing timed, repeating callback sequence.
+		//	  Stop an ongoing timed, repeating callback sequence.
 		if(this._timer){
 			clearTimeout(this._timer);
 			this._timer = null;

@@ -1,5 +1,5 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
-        "http://www.w3.org/TR/html4/strict.dtd">
+		"http://www.w3.org/TR/html4/strict.dtd">
 <html>
 <head>
 	<title>Dojo ComboBox Widget Test</title>
@@ -38,7 +38,7 @@
 				store: store,
 				searchAttr:"name"
 			}, dojo.byId("progCombo"));
-			
+
 			var store2 = new dojo.data.ItemFileReadStore({url: 'comboBoxDataToo.json'});
 			combo = new dijit.form.ComboBox({
 				name:"prog2",
@@ -68,8 +68,8 @@ The drop down list is filtered by the data you have already typed in.
 </p>
 <form action="#" method="GET">
 
-    <p>ComboBox #1: inlined data, autocomplete=false, default value of CA (California)</p>
-    <label for="setvaluetest">US State test 1: </label>
+	<p>ComboBox #1: inlined data, autocomplete=false, default value of CA (California)</p>
+	<label for="setvaluetest">US State test 1: </label>
 	<select id="setvaluetest"
 			name="state1"
 			dojoType="dijit.form.ComboBox"
@@ -164,8 +164,8 @@ The drop down list is filtered by the data you have already typed in.
 	<span>Value: <input id="value2" disabled></span>
 	<hr>
 
-    <p>ComboBox #3: initially disabled, url, autocomplete=false:</p>
-    <label for="combo3">US State test 3: </label>
+	<p>ComboBox #3: initially disabled, url, autocomplete=false:</p>
+	<label for="combo3">US State test 3: </label>
  	<input id="combo3"
  			dojoType="dijit.form.ComboBox"
  			value="California"
@@ -212,9 +212,9 @@ The drop down list is filtered by the data you have already typed in.
 	<p>A combo created by createWidget</p>
 	<input id="progCombo">
 	<hr>
-	<p>A ComboBox with an initial query.  (Limits list to items with type = country.)</p> 
-	<input id="progCombo2"> 
-	<hr> 
+	<p>A ComboBox with an initial query.  (Limits list to items with type = country.)</p>
+	<input id="progCombo2">
+	<hr>
 	<input type="button" value="Create one in a window" onclick="var win=window.open(window.location);"></input>
 	<input type="submit">
 

@@ -12,20 +12,20 @@ dojo.declare(
 		//	It modifies the template to have up/down arrows, and provides related handling code.
 
 		// defaultTimeout: Number
-		//      number of milliseconds before a held key or button becomes typematic
+		//	  number of milliseconds before a held key or button becomes typematic
 		defaultTimeout: 500,
 
 		// timeoutChangeRate: Number
-		//      fraction of time used to change the typematic timer between events
-		//      1.0 means that each typematic event fires at defaultTimeout intervals
-		//      < 1.0 means that each typematic event fires at an increasing faster rate
+		//	  fraction of time used to change the typematic timer between events
+		//	  1.0 means that each typematic event fires at defaultTimeout intervals
+		//	  < 1.0 means that each typematic event fires at an increasing faster rate
 		timeoutChangeRate: 0.90,
 
 		// smallDelta: Number
-		//      adjust the value by this much when spinning using the arrow keys/buttons
+		//	  adjust the value by this much when spinning using the arrow keys/buttons
 		smallDelta: 1,
 		// largeDelta: Number
-		//      adjust the value by this much when spinning using the PgUp/Dn keys
+		//	  adjust the value by this much when spinning using the PgUp/Dn keys
 		largeDelta: 10,
 
 		templatePath: dojo.moduleUrl("dijit.form", "templates/Spinner.html"),

@@ -346,7 +346,7 @@ dojo.declare(
 				dijit.focus(b.focusNode || b.domNode);
 			}
 		},
-		
+
 		// TODO: this is a bit redundant with forward, back api in StackContainer
 		adjacent: function(/*Boolean*/ forward){
 			// find currently focused button in children array

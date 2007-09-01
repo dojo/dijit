@@ -42,8 +42,8 @@ dojo.declare("dijit._editor.plugins.UrlTextBox",
 	}
 );
 
-dojo.declare("dijit._editor.plugins.LinkDialog", 
-	dijit._editor._Plugin, 
+dojo.declare("dijit._editor.plugins.LinkDialog",
+	dijit._editor._Plugin,
 	{
 		buttonClass: dijit._editor.plugins.DualStateDropDownButton,
 
@@ -80,7 +80,7 @@ dojo.declare("dijit._editor.plugins.LinkDialog",
 			this.dropDown.setContent(dojo.string.substitute(this.linkDialogTemplate, messages));
 			this.dropDown.startup();
 		},
-	
+
 		setValue: function(args){
 			// summary: callback from the dialog when user hits "set" button
 			//TODO: prevent closing popup if the text is empty
