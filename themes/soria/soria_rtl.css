@@ -2,14 +2,15 @@
 
 /* Dialog */
 .dijitRtl .dijitDialogTitleBar .dijitDialogCloseIcon {
-	background : url("images/tabClose.png") no-repeat left top;
+	background-position:-65px -1px; 
 	float: left;
 	right: auto;
 	left: 5px;
+	width:16px; height:16px; 
 }
 
 .dijitRtl .dijitDialogTitleBar {
-	background: #fafafa url("images/titleBarBg.gif") repeat-x bottom left;
+	/* background: #fafafa url("images/titleBarBg.gif") repeat-x bottom left; */
 	padding: 4px 4px 2px 8px;
 }
 
@@ -21,12 +22,12 @@
 }
 
 .dijitRtl .dijitMenuItem .dijitMenuExpandEnabled {
-	background:url('images/arrowLeft.png') no-repeat bottom center;
+	background-position:-16px 0px;
 }
 
 /* TitlePane */
-.dijitRtl .dijitClosed .dijitTitlePaneTitle .dijitArrowNode  {
-	background:url('images/arrowLeft.png') no-repeat center center; 
+.dijitRtl .dijitTitlePane .dijitClosed .dijitArrowNode  {
+	background-position:-16px 0px;
 }
 
 /* Tree */
@@ -61,31 +62,27 @@
 }
 
 /* ToolTip */
-
 .dj_ie .dijitRtl .dijitTooltipLeft {
 	margin-right: 0px;
-	margin-left: 13px;
+	margin-left: 16px;
 }
 
 .dj_ie .dijitRtl .dijitTooltipRight {
 	margin-left: 26px;
-	margin-right: -13px;
+	margin-right: -16px;
 }
-
 .dj_ie .dijitRtl .dijitTooltipDialog {
 	zoom:1 !important;
 }
 
 /* Calendar */
-
 .dijitRtl .dijitCalendarDecrease {
-	background:url(images/arrowRight.png) no-repeat center center; 
+	background-position:-48px 0px;
 	margin-left:0;
 	margin-right:2px;
 }
-
 .dijitRtl .dijitCalendarIncrease {
-	background:url(images/arrowLeft.png) no-repeat center center; 
+	background-position:-16px 0px;
 	margin-right:0;
 	margin-left:4px; 
 }
