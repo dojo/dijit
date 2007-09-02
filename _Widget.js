@@ -3,9 +3,6 @@ dojo.provide("dijit._Widget");
 dojo.require("dijit._base");
 
 dojo.declare("dijit._Widget", null, {
-	constructor: function(params, srcNodeRef){
-		this.create(params, srcNodeRef);
-	},
 	// id: String
 	//		a unique, opaque ID string that can be assigned by users or by the
 	//		system. If the developer passes an ID which is known not to be
@@ -34,6 +31,10 @@ dojo.declare("dijit._Widget", null, {
 	domNode: null,
 
 	//////////// INITIALIZATION METHODS ///////////////////////////////////////
+
+	postscript: function(params, srcNodeRef){
+		this.create(params, srcNodeRef);
+	},
 
 	create: function(params, srcNodeRef) {
 		// summary:

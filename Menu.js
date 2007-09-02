@@ -8,7 +8,7 @@ dojo.declare(
 	"dijit.Menu",
 	[dijit._Widget, dijit._Templated, dijit._Container],
 {
-	preamble: function() {
+	constructor: function() {
 		this._bindings = [];
 	},
 

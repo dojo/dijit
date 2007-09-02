@@ -41,11 +41,6 @@ dojo.declare(
 			dojo.query("[dojoType]", src).forEach(function(node){
 				node.removeAttribute("dojoType");
 			});
-			scripts.forEach(function(s){
-				if(!s.getAttribute("event")){
-					this.mixins.push(dojo.parser._functionFromScript(s));
-				}
-			}, this);
 
 			// create the new widget class
 			dojo.declare(
@@ -54,13 +49,12 @@ dojo.declare(
 				propList
 			);
 
-			// do the connects for each <script type="dojo/connect" event="foo"> block
+			// do the connects for each <script type="dojo/connect" event="foo"> block and make
+			// all <script type="dojo/method"> tags execute right after construction
 			var wcp = dojo.getObject(this.widgetClass).prototype;
 			scripts.forEach(function(s){
 				var event = s.getAttribute("event");
-				if(event){
-					dojo.connect(wcp, event, null, dojo.parser._functionFromScript(s));
-				}
+				dojo.connect(wcp, event || "postscript", null, dojo.parser._functionFromScript(s));
 			});
 		}
 	}

@@ -31,7 +31,7 @@ if(!djConfig["useXDomain"] || djConfig["allowXdRichTextSave"]){
 	}
 }
 dojo.declare("dijit._editor.RichText", [ dijit._Widget ], {
-	preamble: function(){
+	constructor: function(){
 		// summary:
 		//		dijit._editor.RichText is the core of the WYSIWYG editor in dojo, which
 		//		provides the basic editing features. It also encapsulates the differences

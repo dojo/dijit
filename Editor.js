@@ -16,8 +16,7 @@ dojo.declare(
 //		plugins: [ "dijit._editor.plugins.DefaultToolbar" ],
 		plugins: null,
 		extraPlugins: null,
-		preamble: function(){
-			this.inherited('preamble',arguments);
+		constructor: function(){
 			this.plugins=["undo","redo","|","cut","copy","paste","|","bold","italic","underline","strikethrough","|",
 			"insertOrderedList","insertUnorderedList","indent","outdent","|","justifyLeft","justifyRight","justifyCenter","justifyFull"/*"createlink"*/];
 

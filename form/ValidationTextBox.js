@@ -129,10 +129,12 @@ dojo.declare(
 			this.onfocus(evt);
 		},
 
+		//////////// INITIALIZATION METHODS ///////////////////////////////////////
+		constructor: function(){
+			this.constraints = {};
+		},
+
 		postMixInProperties: function(){
-			if(this.constraints == dijit.form.ValidationTextBox.prototype.constraints){
-				this.constraints = {};
-			}
 			this.inherited('postMixInProperties', arguments);
 			this.constraints.locale=this.lang;
 			this.messages = dojo.i18n.getLocalization("dijit.form", "validate", this.lang);
