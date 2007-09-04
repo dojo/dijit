@@ -121,7 +121,7 @@ dojo.declare(
 
 			this._connectNode = dojo.byId(this.connectId);
 
-			dojo.forEach(["onMouseOver", "onHover", "onMouseOut", "onUnHover"], function(event){
+			dojo.forEach(["onMouseOver", "onMouseOut", "onFocus", "onBlur", "onHover", "onUnHover"], function(event){
 				this.connect(this._connectNode, event.toLowerCase(), "_"+event);
 			}, this);
 		},
@@ -135,6 +135,14 @@ dojo.declare(
 				// false event; just moved from target to target child; ignore.
 				return;
 			}
+			this._onUnHover(e);
+		},
+
+		_onFocus: function(/*Event*/ e){
+			this._onHover(e);
+		},
+		
+		_onBlur: function(/*Event*/ e){
 			this._onUnHover(e);
 		},
 
