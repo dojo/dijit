@@ -53,8 +53,10 @@ if(djConfig.parseOnLoad){ djConfig.parseOnLoad = false; djConfig._deferParsing =
 dojo.addOnLoad(function(){
 
 	// set the classes
-	dojo.body().className = theme;
+	
+	if (!dojo.hasClass(dojo.body(),theme)){ dojo.addClass(dojo.body(),theme); }
 	if(testMode){ dojo.addClass(dojo.body(),testMode); }
+		
 
 	// test-link matrix code:
 	var node = document.createElement('div');
