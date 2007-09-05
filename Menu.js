@@ -396,10 +396,6 @@ dojo.declare(
 		+'</td>'
 		+'</tr>',
 
-	// iconSrc: String
-	//	path to icon to display to the left of the menu text
-	iconSrc: '',
-
 	// label: String
 	//	menu text
 	label: '',
