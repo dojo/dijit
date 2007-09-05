@@ -2,7 +2,7 @@ dojo.provide("dijit.form.Textarea");
 
 dojo.require("dijit.form._FormWidget");
 dojo.require("dojo.i18n");
-dojo.requireLocalization("dijit.form", "Textarea");
+dojo.requireLocalization("dijit", "Textarea");
 
 dojo.declare(
 	"dijit.form.Textarea",
@@ -123,10 +123,10 @@ dojo.declare(
 			// "edit area".  This will be used as the accessible name which will replace
 			// the cryptic name and will also convey the role information to the user.
 			// Because it is read directly to the user, the string must be localized.
-			this._nlsResources = dojo.i18n.getLocalization("dijit.form", "Textarea");
+			this._nlsResources = dojo.i18n.getLocalization("dijit", "Textarea");
 			d.open();
 			d.write('<html><head><title>' +
-				this._nlsResources.iframeTitle1 +	// "edit area"
+				this._nlsResources.iframeEditTitle +	// "edit area"
 				'</title></head><body style="margin:0px;padding:0px;border:0px;"></body></html>');
 				// body > br style is to remove the <br> that gets added by FF
 			d.close();
@@ -165,7 +165,7 @@ dojo.declare(
 
 	_onIframeBlur: function(){
 		// Reset the title back to "edit area".
-		this.iframe.contentDocument.title = this._nlsResources.iframeTitle1;
+		this.iframe.contentDocument.title = this._nlsResources.iframeEditTitle;
 	},
 
 	_onKeyPress: function(e){
@@ -178,7 +178,7 @@ dojo.declare(
 			// announced twice which causes confusion.  By setting the
 			// contentDocument's title to "edit area frame" the confusion should be
 			// eliminated.
-			this.iframe.contentDocument.title = this._nlsResources.iframeTitle2;
+			this.iframe.contentDocument.title = this._nlsResources.iframeFocusTitle;
 			// Place focus on the iframe. A subsequent tab or shift tab will put focus
 			// on the correct control.
 			// Note: Can't use this.focus() because that results in a call to
