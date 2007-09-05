@@ -2,6 +2,8 @@ dojo.provide("dijit._editor.RichText");
 
 dojo.require("dijit._Widget");
 dojo.require("dijit._editor.selection");
+dojo.require("dojo.i18n");
+dojo.requireLocalization("dijit", "Textarea");
 
 // used to save content
 // but do not try doing document.write if we are using xd loading.
@@ -361,6 +363,7 @@ dojo.declare("dijit._editor.RichText", [ dijit._Widget ], {
 	//static cache variables shared among all instance of this class
 	_local2NativeFormatNames: {},
 	_native2LocalFormatNames: {},
+	_localizedIframeTitles: null,
 
 	_getIframeDocTxt: function(html){
 		var _cs = dojo.getComputedStyle(this.domNode);
@@ -381,7 +384,9 @@ dojo.declare("dijit._editor.RichText", [ dijit._Widget ], {
 			lineHeight = "1.0";
 		}
 		return [
-			"<html><head><style>",
+			"<html><head>",
+			(dojo.isMoz ? "<title>" + this._localizedIframeTitles.iframeEditTitle + "</title>" : ""),
+			"<style>",
 			"body,html {",
 			"	background:transparent;",
 			"	padding: 0;",
@@ -427,6 +432,8 @@ dojo.declare("dijit._editor.RichText", [ dijit._Widget ], {
 			ifrs.verticalAlign = "bottom";
 //			ifrs.scrolling = this.height ? "auto" : "vertical";
 			this.editorObject = this.iframe;
+			// get screen reader text for mozilla here, too
+			this._localizedIframeTitles = dojo.i18n.getLocalization("dijit", "Textarea");
 		}
 		// opera likes this to be outside the with block
 		//	this.iframe.src = "javascript:void(0)";//dojo.uri.dojoUri("src/widget/templates/richtextframe.html") + ((dojo.doc.domain != currentDomain) ? ("#"+dojo.doc.domain) : "");
@@ -629,6 +636,9 @@ dojo.declare("dijit._editor.RichText", [ dijit._Widget ], {
 		while(et=events[i++]){
 			this.connect(this.document, et.toLowerCase(), et);
 		}
+		if (dojo.isMoz && this.iframe){
+			dojo.connect(this.iframe, "blur", this, "_onIframeBlur");
+		}
 		if(!dojo.isIE){
 			try{ // sanity check for Mozilla
 //					this.document.execCommand("useCSS", false, true); // old moz call
@@ -660,13 +670,7 @@ dojo.declare("dijit._editor.RichText", [ dijit._Widget ], {
 		// such as the backspace. It might be possible to add this to Dojo, so that
 		// keyPress events can be emulated by the keyDown and keyUp detection.
 		if(dojo.isIE){
-			if(e.keyCode === dojo.keys.TAB){
-				dojo.stopEvent(e);
-				// FIXME: this is a poor-man's indent/outdent. It would be
-				// better if it added 4 "&nbsp;" chars in an undoable way.
-				// Unfortuantly pasteHTML does not prove to be undoable
-				this.execCommand((e.shiftKey ? "outdent" : "indent"));
-			}else if(e.keyCode === dojo.keys.BACKSPACE && this.document.selection.type === "Control"){
+			if(e.keyCode === dojo.keys.BACKSPACE && this.document.selection.type === "Control"){
 				// IE has a bug where if a non-text object is selected in the editor,
 		  // hitting backspace would act as if the browser's back button was
 		  // clicked instead of deleting the object. see #1069
@@ -677,6 +681,17 @@ dojo.declare("dijit._editor.RichText", [ dijit._Widget ], {
 			){ //arrow keys
 				e.charCode = e.keyCode;
 				this.onKeyPress(e);
+			}
+		}
+		else if (dojo.isMoz){
+			if(e.keyCode == dojo.keys.TAB && !e.shiftKey && !e.ctrlKey && !e.altKey && this.iframe){
+				// update iframe document title for screen reader
+				this.iframe.contentDocument.title = this._localizedIframeTitles.iframeFocusTitle;
+				
+				// Place focus on the iframe. A subsequent tab or shift tab will put focus
+				// on the correct control.
+				this.iframe.focus();  // this.focus(); won't work
+				dojo.stopEvent(e);
 			}
 		}
 	},
@@ -759,6 +774,10 @@ dojo.declare("dijit._editor.RichText", [ dijit._Widget ], {
 //					this.window.getSelection().collapseToStart();
 			}
 		}
+	},
+
+	_onIframeBlur: function(){
+		this.iframe.contentDocument.title = this._localizedIframeTitles.iframeEditTitle;
 	},
 
 	blur: function(){
