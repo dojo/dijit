@@ -41,6 +41,8 @@ dojo.declare(
 
 	widgetsInTemplate: true,
 
+	baseClass: "dijitSlider",
+
 	_mousePixelCoord: "pageX",
 	_pixelCount: "w",
 	_startingPixelCoord: "x",
@@ -54,7 +56,7 @@ dojo.declare(
 			this.incrementButton.disabled = disabled;
 			this.decrementButton.disabled = disabled;
 		}
-		dijit.form.HorizontalSlider.superclass.setDisabled.apply(this, arguments);
+		this.inherited('setDisabled', arguments);
 	 },
 
 	_onKeyPress: function(/*Event*/ e){
@@ -98,6 +100,7 @@ dojo.declare(
 	},
 
 	_setPixelValue: function(/*Number*/ pixelValue, /*Number*/ maxPixels, /*Boolean, optional*/ priorityChange){
+		if(this.disabled){ return; }
 		pixelValue = pixelValue < 0 ? 0 : maxPixels < pixelValue ? maxPixels : pixelValue;
 		var count = this.discreteValues;
 		if(count <= 1 || count == Infinity){ count = maxPixels; }
@@ -116,6 +119,7 @@ dojo.declare(
 	},
 
 	_bumpValue: function(signedChange){
+		if(this.disabled){ return; }
 		var s = dojo.getComputedStyle(this.sliderBarContainer);
 		var c = dojo._getContentBox(this.sliderBarContainer, s);
 		var count = this.discreteValues;
@@ -188,7 +192,7 @@ dojo.declare(
 
 	destroy: function(){
 		this._movable.destroy();
-		dijit.form.HorizontalSlider.superclass.destroy.apply(this, arguments);	
+		this.inherited('destroy', arguments);	
 	}
 });
 
@@ -311,7 +315,7 @@ dojo.declare("dijit.form.HorizontalRuleLabels", dijit.form.HorizontalRule,
 	},
 
 	postMixInProperties: function(){
-		dijit.form.HorizontalRuleLabels.superclass.postMixInProperties.apply(this);
+		this.inherited('postMixInProperties', arguments);
 		if(!this.labels.length){
 			// for markup creation, labels are specified as child elements
 			this.labels = dojo.query("> li", this.srcNodeRef).map(function(node){
@@ -323,7 +327,7 @@ dojo.declare("dijit.form.HorizontalRuleLabels", dijit.form.HorizontalRule,
 
 	postCreate: function(){
 		this.count = this.labels.length;
-		dijit.form.HorizontalRuleLabels.superclass.postCreate.apply(this);
+		this.inherited('postCreate', arguments);
 	}
 });
 

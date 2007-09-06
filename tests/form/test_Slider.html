@@ -9,6 +9,7 @@
 
 		<script type="text/javascript">
 				dojo.require("dijit.form.Slider");
+				dojo.require("dijit.form.Button");
 				dojo.require("dojo.parser"); // scan page for widgets
 		</script>
 		<style type="text/css">
@@ -57,6 +58,8 @@
 		</div>
 		Slider1 Value:<input readonly id=slider1input size=4>
 		<br>
+		<button id=disableButton dojotype="dijit.form.Button" onClick="dijit.byId('slider1').setDisabled( true);dijit.byId('disableButton').setDisabled( true);dijit.byId('enableButton').setDisabled(false);">Disable previous slider</button>
+		<button id=enableButton  dojotype="dijit.form.Button" onClick="dijit.byId('slider1').setDisabled(false);dijit.byId('disableButton').setDisabled(false);dijit.byId('enableButton').setDisabled( true);" disabled>Enable previous slider</button>
 		<br>
 		<br>initial value=10, min=0, max=100, onChange event triggers input box value change when you mouse up or tab away<br>
 		<div dojoType="dijit.form.VerticalSlider" name="vertical1"
@@ -84,7 +87,7 @@
 		</div>
 		Slider2 Value:<input readonly id=slider2input size=3>
 		<h1>Fancy HTML labels:</h1>
-		<div dojoType="dijit.form.HorizontalSlider" name="horizontal1"
+		<div dojoType="dijit.form.HorizontalSlider" name="horizontal2"
 			minimum="1"
 			value="2"
 			maximum="3"
@@ -92,7 +95,7 @@
 			showButtons="false"
 			intermediateChanges="true"
 			style="width:300px; height: 40px;"
-			id="slider1">
+			id="slider3">
 				<div dojoType="dijit.form.HorizontalRule" container="bottomDecoration" count=3 style="height:5px;"></div>
 				<ol dojoType="dijit.form.HorizontalRuleLabels" container="bottomDecoration"style="height:1em;font-size:75%;color:gray;">
 					<li><img width=10 height=10 src="../images/note.gif"><br><span style="font-size: small">small</span>
