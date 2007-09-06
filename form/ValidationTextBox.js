@@ -26,7 +26,7 @@ dojo.declare(
 		promptMessage: "",
 		// invalidMessage: String
 		// 		The message to display if value is invalid.
-		invalidMessage: "",
+		invalidMessage: "\x00", // read from the message file if not overridden
 		// constraints: Object
 		//		user-defined object needed to pass parameters to the validator functions
 		constraints: {},
@@ -138,9 +138,7 @@ dojo.declare(
 			this.inherited('postMixInProperties', arguments);
 			this.constraints.locale=this.lang;
 			this.messages = dojo.i18n.getLocalization("dijit.form", "validate", this.lang);
-			dojo.forEach(["invalidMessage", "missingMessage"], function(prop){
-				if(!this[prop]){ this[prop] = this.messages[prop]; }
-			}, this);
+			if(this.invalidMessage == "\x00"){ this.invalidMessage = this.messages.invalidMessage; }
 			var p = this.regExpGen(this.constraints);
 			this.regExp = p;
 			// make value a string for all types so that form reset works well
