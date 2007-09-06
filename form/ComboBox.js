@@ -53,7 +53,7 @@ dojo.declare(
 		searchAttr: "name",
 
 		// ignoreCase: Boolean
-		//		Does the ComboBox menu ignore case?
+		//		Set true if the ComboBox should ignore case when matching possible items
 		ignoreCase: true,
 
 		_hasMasterPopup:true,
