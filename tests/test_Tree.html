@@ -20,14 +20,6 @@
 		dojo.require("dijit.ColorPalette");
 		dojo.require("dijit.Menu");
 		dojo.require("dojo.parser");	// scan page for widgets and instantiate them
-		dojo.addOnLoad(function(){
-			dojo.subscribe("mytree", null, function(message){
-				if(message.event=="execute"){
-					alert("Execute of node " + continentStore.getLabel(message.item)
-						+", population=" + continentStore.getValue(message.item, "population"));
-				}
-			});
-		});
 	</script>
 
 </head>
@@ -39,7 +31,12 @@
 		url="../tests/countries.json"></div>
 
 	<div dojoType="dijit.Tree" id="mytree" store="continentStore" query="{type:'continent'}"
-		labelAttr="name" typeAttr="type"></div>
+		labelAttr="name">
+		<script type="dojo/method" event="onClick" args="item">
+			alert("Execute of node " + continentStore.getLabel(item)
+				+", population=" + continentStore.getValue(item, "population"));
+		</script>
+	</div>
 
 	<button onclick="dijit.byId('mytree').destroyRecursive();">destroy</button>
 
@@ -79,7 +76,7 @@
 
 
 	<div dojoType="dijit.Tree" id="tree2" store="continentStore" query="{type:'continent'}"
-		labelAttr="name" typeAttr="type">
+		labelAttr="name">
 		<script type="dojo/connect">
 			var menu = dijit.byId("tree_menu");
 			// when we right-click anywhere on the tree, make sure we open the menu
