@@ -636,9 +636,6 @@ dojo.declare("dijit._editor.RichText", [ dijit._Widget ], {
 		while(et=events[i++]){
 			this.connect(this.document, et.toLowerCase(), et);
 		}
-		if (dojo.isMoz && this.iframe){
-			dojo.connect(this.iframe, "blur", this, "_onIframeBlur");
-		}
 		if(!dojo.isIE){
 			try{ // sanity check for Mozilla
 //					this.document.execCommand("useCSS", false, true); // old moz call
@@ -760,6 +757,9 @@ dojo.declare("dijit._editor.RichText", [ dijit._Widget ], {
 			this.onChange(_c);
 			this.savedContent=_c;
 		}
+		if (dojo.isMoz && this.iframe){
+			this.iframe.contentDocument.title = this._localizedIframeTitles.iframeEditTitle;
+		} 
 //			console.info('_onBlur')
 	},
 	_initialFocus: true,
@@ -774,10 +774,6 @@ dojo.declare("dijit._editor.RichText", [ dijit._Widget ], {
 //					this.window.getSelection().collapseToStart();
 			}
 		}
-	},
-
-	_onIframeBlur: function(){
-		this.iframe.contentDocument.title = this._localizedIframeTitles.iframeEditTitle;
 	},
 
 	blur: function(){
