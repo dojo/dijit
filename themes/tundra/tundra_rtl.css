@@ -177,3 +177,8 @@
 	left:auto;
 	right:3px;
 }
+
+
+/* Slider: an attempt, but Slider is broken in RTL in code anyway. */
+.dijitRtl .dijitHorizontalSliderIncrementIcon { background-image:url('images/arrowLeft.png'); }
+.dijitRtl .dijitHorizontalSliderDecrementIcon { background-image:url('images/arrowRight.png');  }

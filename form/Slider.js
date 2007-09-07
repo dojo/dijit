@@ -51,14 +51,6 @@ dojo.declare(
 	_progressPixelSize: "width",
 	_upsideDown: false,
 
-	 setDisabled: function(/*Boolean*/ disabled){
-		if(this.showButtons){
-			this.incrementButton.disabled = disabled;
-			this.decrementButton.disabled = disabled;
-		}
-		this.inherited('setDisabled', arguments);
-	 },
-
 	_onKeyPress: function(/*Event*/ e){
 		if(this.disabled || e.altKey || e.ctrlKey){ return; }
 		switch(e.keyCode){
@@ -173,8 +165,8 @@ dojo.declare(
 
 	postCreate: function(){
 		if(this.showButtons){
-			this.incrementButton.domNode.style.display="";
-			this.decrementButton.domNode.style.display="";
+			this.incrementButton.style.display="";
+			this.decrementButton.style.display="";
 		}
 		this.connect(this.domNode, dojo.isIE ? "onmousewheel" : 'DOMMouseScroll', "_mouseWheeled");
 

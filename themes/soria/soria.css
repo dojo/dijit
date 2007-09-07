@@ -64,11 +64,14 @@
 .soria .dijitAccordionArrow,
 .soria .dijitCalendarDecrease,
 .soria .dijitCalendarIncrease,
-/* .soria .dijitInputFieldValidationIconError,*/
-.soria .dijitInputFieldValidationIcon,
-.soria .dijitInputFieldValidationIconNormal,
+.soria .dijitHorizontalSliderDecrementIcon,
+.soria .dijitHorizontalSliderIncrementIcon,
+.soria .dijitVerticalSliderIncrementIcon,
+.soria .dijitVerticalSliderDecrementIcon,
 .soria .dijitHorizontalSliderImageHandle,
 .soria .dijitVerticalSliderImageHandle,
+.soria .dijitInputFieldValidationIconNormal,
+.soria .dijitInputFieldValidationIcon,
 /* FIXME: need to make these spans inside the cell? */
 .soria.dojoDndMove .dojoDndAvatarCanDrop .dojoDndAvatarHeader,
 .soria.dojoDndCopy .dojoDndAvatarCanDrop .dojoDndAvatarHeader,
@@ -998,6 +1001,21 @@ HTML.dj_ie6 .soria .dijitInputFieldValidationError,
 	border-top-width: 1px;
 }
 
+.soria .dijitSliderDisabled {
+	opacity:0.5 !important;
+}
+.dj_ie6 .soria .dijitSliderDisabled {
+	filter: gray() alpha(opacity=50); 
+}
+
+.soria .dijitHorizontalSliderIncrementIcon { background-position:-48px 0px; }
+.soria .dijitHorizontalSliderDecrementIcon { background-position:-16px 0px; }
+.soria .dijitVerticalSliderIncrementIcon { background-position:-32px 0px; }
+.soria .dijitVerticalSliderDecrementIcon { background-position:0px 0px;  }
+
+.soria .dijitSliderButtonInner { visibility:hidden; }
+.dijit_a11y .dijitSliderButtonInner { visibility:visible !important; }
+
 /* ICONS */
 .soria .dijitEditorIcon {
 	background-image: url('images/editor.gif'); /* editor icons sprite image */
@@ -1055,6 +1073,7 @@ HTML.dj_ie6 .soria .dijitInputFieldValidationError,
 
 /* Disabled cursor */
 .soria .dijitDisabledClickableRegion,	/* a region the user would be able to click on, but it's disabled */
+.soria .dijitSliderDisabled *,
 .soria .dijitSpinnerDisabled *,
 .soria .dijitButtonDisabled *,
 .soria .dijitDropDownButtonDisabled *,

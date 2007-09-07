@@ -10,12 +10,10 @@
 }
 
 .dijitRtl .dijitDialogTitleBar {
-	/* background: #fafafa url("images/titleBarBg.gif") repeat-x bottom left; */
 	padding: 4px 4px 2px 8px;
 }
 
 /* Menu */
-
 .dijitRtl .dijitMenuItem .dijitMenuItemIcon {
 	padding-left: 3px;
 	padding-right: 0px;
@@ -86,3 +84,7 @@
 	margin-right:0;
 	margin-left:4px; 
 }
+
+/* Slider: an attempt, but Slider is broken in RTL in code anyway. */
+.dijitRtl .dijitHorizontalSliderIncrementIcon { background-position:-16px 0px; }
+.dijitRtl .dijitHorizontalSliderDecrementIcon { background-position:-48px 0px; }

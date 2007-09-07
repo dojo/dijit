@@ -72,7 +72,7 @@
 	/* TODO: change from Hover to Selected so that button is still highlighted while drop down is being used */
 	border-color:#366dba;
 	color:#366dba;
-	background:url("images/buttonHover.png") repeat-x bottom;
+	background:#f1f6fc url("images/buttonHover.png") repeat-x bottom;
 }
 
 .tundra .dijitButtonActive .dijitButtonNode,
@@ -88,7 +88,6 @@
 	background: #ededed url("images/buttonActive.png") bottom repeat-x;
 }
 
-
 .tundra .dijitToolbar {
 	border: 1px solid #9b9b9b;
 	background:#e9e9e9 url("images/buttonEnabled.png") repeat-x top;
@@ -99,7 +98,6 @@
 	margin: 0px;
 	#margin-top: -1px; /*IE*/
 }
-
 .dj_ie .tundra .dijitToolbar {
 	padding-bottom: 1px;
 }
@@ -1171,7 +1169,7 @@ HTML.dj_ie6 .tundra .dijitInputFieldValidationError,
 	background: #dcdcdc url("images/sliderEmptyVertical.png") repeat-y bottom left;
 }
 
-.dijitHorizontalSliderRemainingBar {
+.tundra .dijitHorizontalSliderRemainingBar {
 	border-color: #b4b4b4;
 	background: #dcdcdc url("images/sliderEmpty.png") repeat-x top left;
 }
@@ -1223,6 +1221,43 @@ HTML.dj_ie6 .tundra .dijitInputFieldValidationError,
 	background: #dcdcdc url("images/sliderEmptyVertical.png") repeat-y top left;
 	border-color: #b4b4b4;
 	border-top-width: 1px;
+}
+
+.tundra .dijitHorizontalSliderIncrementIcon,
+.tundra .dijitVerticalSliderIncrementIcon {
+	background:url('images/arrowUp.png') no-repeat center center;
+	width:16px; height:16px;
+	cursor:pointer;
+}
+.tundra .dijitHorizontalSliderIncrementIcon {
+	background-image:url('images/arrowRight.png');
+}
+
+.tundra .dijitHorizontalSliderDecrementIcon,
+.tundra .dijitVerticalSliderDecrementIcon {
+	width:16px;
+	height:16px;
+	cursor:pointer; 
+	background:url('images/arrowDown.png') no-repeat center center;
+}
+.tundra .dijitHorizontalSliderDecrementIcon { background-image:url('images/arrowLeft.png'); }
+
+.tundra .dijitSliderButtonInner {
+	visibility:hidden;
+}
+.dijit_a11y .dijitSliderButtonInner {
+	visibility:visible !important; 
+}
+
+.tundra .dijitSliderDisabled {
+	opacity:0.3 !important;
+}
+
+.dj_ie6 .dijitSliderDisabled,
+.dj_ie6 .dijitSliderDisabled .RuleContainer,
+.dj_ie6 .dijitSliderDisabled .dijitSliderRemainingBar,
+.dj_ie6 .dijitSliderDisabled .dijitSliderProgressBar {
+	filter: gray() alpha(opacity=30);
 }
 
 /**** ICONS *****/
@@ -1290,6 +1325,7 @@ HTML.dj_ie6 .tundra .dijitInputFieldValidationError,
 
 /** TODO: add all other PNGs here that need this */
 /**** Disabled cursor *****/
+.tundra .dijitSliderDisabled *,
 .tundra .dijitDisabledClickableRegion,	/* a region the user would be able to click on, but it's disabled */
 .tundra .dijitSpinnerDisabled *,
 .tundra .dijitButtonDisabled *,
