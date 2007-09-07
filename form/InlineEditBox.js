@@ -91,6 +91,7 @@ dojo.declare(
 	},
 
 	postMixInProperties: function(){
+		this._srcTag = this.srcNodeRef.tagName;
 		this._srcStyle=dojo.getComputedStyle(this.srcNodeRef);
 		// getComputedStyle is not good until after onLoad is called
 		var srcNodeStyle = this.srcNodeRef.style;

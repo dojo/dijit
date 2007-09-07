@@ -74,12 +74,12 @@
 			The following section uses inline block text of 400px.
 			When clicking the editable text it should bring up an editor which is also 400px wide.
 		</div>
-		(before plain inline) <span class="dijitInline" style="width: 400px;">hello</span> (after plain inline)
+		(before plain inline) <fieldset class="dijitInline"><div style="width: 400px;">hello ladies and gentlemen, now is the time for all good men to come to the aid of their country</div></fieldset> (after plain inline)
 		<br>
 		(before editable inline)
-		<span dojoType="dijit.form.InlineEditBox" onChange="myHandler(this.id,arguments[0])" class="dijitInline" style="width: 400px;">
-			<span dojoType="dijit.form.TextBox" value="hello"></span>
-		</span>
+		<fieldset class="dijitInline"><div dojoType="dijit.form.InlineEditBox" onChange="myHandler(this.id,arguments[0])" style="width: 400px;">
+			<span dojoType="dijit.form.TextBox" value="hello ladies and gentlemen, now is the time for all good men to come to aid of their country"></span>
+		</div></fieldset>
 		(after editable inline)
 
 		<hr style="width:100%;">
