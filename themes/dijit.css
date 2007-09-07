@@ -659,10 +659,6 @@ body .dijitAlignRight {
 
 body .dijitAlignClient { position: absolute; }
 
-.dijitAlignClient { overflow: auto; }
-
-
-
 /* SplitContainer 
 
 	'V' == container that splits vertically (up/down)
