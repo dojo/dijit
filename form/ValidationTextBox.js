@@ -111,7 +111,7 @@ dojo.declare(
 			if(message){
 				dijit.MasterTooltip.show(message, this.domNode);
 			}else{
-				dijit.MasterTooltip.hide();
+				dijit.MasterTooltip.hide(this.domNode);
 			}
 		},
 
