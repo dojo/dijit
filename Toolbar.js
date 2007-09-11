@@ -6,14 +6,26 @@ dojo.require("dijit._Templated");
 
 dojo.declare(
 	"dijit.Toolbar",
-	[dijit._Widget, dijit._Templated, dijit._Container],
+	[dijit._Widget, dijit._Templated, dijit._KeyNavContainer],
 {
 	templateString:
 		'<div class="dijit dijitToolbar" waiRole="toolbar" tabIndex="-1" dojoAttachPoint="containerNode">' +
 //			'<table style="table-layout: fixed" class="dijitReset dijitToolbarTable">' + // factor out style
 //				'<tr class="dijitReset" dojoAttachPoint="containerNode"></tr>'+
 //			'</table>' +
-		'</div>'
+		'</div>',
+
+	postCreate: function(){
+		this.connectKeyNavHandlers([dojo.keys.LEFT_ARROW], [dojo.keys.RIGHT_ARROW], true);
+	},
+
+	startup: function(){
+		this.connectKeyNavChildren();
+	},
+	
+	focus: function(){
+		this.focusFirstChild();
+	}
 }
 );
 

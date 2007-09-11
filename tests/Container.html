@@ -30,6 +30,19 @@
 							t.is("one", children[1].id);
 							t.is("two", children[2].id);
 						}
+					},
+					{
+						name: "_getSiblingOfChild",
+						runTest: function(t){
+							var c = dijit.byId("container");
+							var children = c.getChildren();
+							t.is("one", c._getSiblingOfChild(children[0], 1).id);
+							t.is("two", c._getSiblingOfChild(children[1], 1).id);
+							t.is(null, c._getSiblingOfChild(children[2], 1));
+							t.is(null, c._getSiblingOfChild(children[0], -1));
+							t.is("zero", c._getSiblingOfChild(children[1], -1).id);
+							t.is("one", c._getSiblingOfChild(children[2], -1).id);
+						}
 					}
 				]
 			);
