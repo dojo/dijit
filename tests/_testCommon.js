@@ -16,7 +16,7 @@
 */
 
 var theme = false; var testMode;
-if (window.location.href.indexOf("?") > -1) {
+if(window.location.href.indexOf("?") > -1){
 	var str = window.location.href.substr(window.location.href.indexOf("?")+1);
 	var ary  = str.split(/&/);
 	for(var i=0; i<ary.length; i++){
@@ -43,7 +43,7 @@ if (window.location.href.indexOf("?") > -1) {
 }		
 
 // always include the default theme files:
-if (!theme){ theme = djConfig.defaultTestTheme || 'tundra'; }
+if(!theme){ theme = djConfig.defaultTestTheme || 'tundra'; }
 var themeCss = dojo.moduleUrl("dijit.themes",theme+"/"+theme+".css");
 var themeCssRtl = dojo.moduleUrl("dijit.themes",theme+"/"+theme+"_rtl.css");
 document.write('<link rel="stylesheet" type="text/css" href="'+themeCss+'"/>');
@@ -54,7 +54,7 @@ dojo.addOnLoad(function(){
 
 	// set the classes
 	
-	if (!dojo.hasClass(dojo.body(),theme)){ dojo.addClass(dojo.body(),theme); }
+	if(!dojo.hasClass(dojo.body(),theme)){ dojo.addClass(dojo.body(),theme); }
 	if(testMode){ dojo.addClass(dojo.body(),testMode); }
 		
 
@@ -67,7 +67,7 @@ dojo.addOnLoad(function(){
 	_populateTestDialog(node);
 	dojo.connect(document,"onkeypress","_testNodeShow");
 
-	if (djConfig._deferParsing){ dojo.parser.parse(dojo.body()); }
+	if(djConfig._deferParsing){ dojo.parser.parse(dojo.body()); }
 
 });
 
