@@ -177,30 +177,13 @@ dojo.declare("dijit._KeyNavContainer",
 
 			var children = this.getChildren();
 			for(var i=0; i < children.length; i++){
-				if(this._manageTabIndex){
-					this._setTabIndex(children[i], -1);
-				}
-				if(dojo.isIE){
-					dojo.connect(children[i].domNode, "onactivate", this, "_onChildFocus");
-				}else{
-					dojo.connect(children[i].domNode, "onfocus", this, "_onChildFocus");
-				}
-			}
-			if(this._manageTabIndex){
-				this._setTabIndex(this._getFirstFocusableChild(), 0);
+				this._connectChild(children[i]);
 			}
 		},
 
 		addChild: function(/*Widget*/ widget, /*int?*/ insertIndex){
 			dijit._KeyNavContainer.superclass.addChild.apply(this, arguments);
-			if(this._manageTabIndex){
-				this._setTabIndex(widget, widget === this._getFirstFocusableChild() ? 0 : -1);
-			}
-			if(dojo.isIE){
-				dojo.connect(widget.domNode, "onactivate", this, "_onChildFocus");
-			}else{
-				dojo.connect(widget.domNode, "onfocus", this, "_onChildFocus");
-			}
+			this._connectChild(widget);
 		},
 
 		focusFirstChild: function(){
@@ -216,6 +199,17 @@ dojo.declare("dijit._KeyNavContainer",
 				}
 				this.focusedChild = widget;
 				widget.focus();
+			}
+		},
+
+		_connectChild: function(/*Widget*/ widget){
+			if(this._manageTabIndex){
+				this._setTabIndex(widget, widget === this._getFirstFocusableChild() ? 0 : -1);
+			}
+			if(dojo.isIE){
+				dojo.connect(widget.domNode, "onactivate", this, "_onChildFocus");
+			}else{
+				dojo.connect(widget.domNode, "onfocus", this, "_onChildFocus");
 			}
 		},
 
