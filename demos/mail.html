@@ -74,6 +74,22 @@
 				setTimeout("updateFetchStatus("+i+")",((i+1)*(Math.floor(Math.random()*100)+400)));
 			}
 		}
+		// fake sending dialog progress bar 
+		var stopSendBar = function(){
+			dijit.byId('fakeSend').update({indeterminate: false});
+			dijit.byId('sendDialog').hide();
+			tabs.selectedChildWidget.onClose = function(){return true;};  // don't want confirm message 
+			tabs.closeChild(tabs.selectedChildWidget);
+		}
+			 
+		var showSendBar = function(){
+			dijit.byId('fakeSend').update({ indeterminate: true });
+			dijit.byId('sendDialog').show();
+			setTimeout("stopSendBar()", 3000);
+		}
+		
+
+		
 	</script>
 
 	<style type="text/css">
@@ -193,8 +209,23 @@
 			</div>
 
 			<div dojoType="dijit.layout.LayoutContainer" layoutAlign="bottom" align=center>
-				<button dojoType="dijit.form.Button" iconClass="mailIconOk">Send</button>
-				<button dojoType="dijit.form.Button" iconClass="mailIconCancel">Cancel</button>
+				<button dojoType="dijit.form.Button" iconClass="mailIconOk"
+				>Send
+				<script type="dojo/method" event="onClick">
+					var toField = dojo.byId("${id}_to");
+					if (toField.value == ""){
+						alert("Please enter a recipient address");
+					}else{
+						showSendBar();
+					}
+				</script>
+				</button>
+				<button dojoType="dijit.form.Button" iconClass="mailIconCancel" 
+				>Cancel
+				<script type="dojo/method" event="onClick">
+					tabs.closeChild(tabs.selectedChildWidget);
+				</script>
+				</button>
 			</div>
 
 			<!-- new messase part -->
@@ -391,6 +422,11 @@
 		<button dojoType="dijit.form.Button" type="submit" iconClass="mailIconCancel">Abort</button>
 		</td></tr>
 		</table>
-	</div>	
+	</div>
+	<div dojoType="dijit.Dialog" id="sendDialog" title="Sending Mail">
+		<div id="sendMailBar" style="text-align:center">
+			<div  id="fakeSend" dojoType="dijit.ProgressBar" style="height:15px; width:175px;" indeterminate="true" ></div>
+		</div>
+	<div>	
 </body>
 </html>
