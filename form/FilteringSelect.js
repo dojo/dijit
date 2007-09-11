@@ -166,7 +166,6 @@ dojo.declare(
 		},
 
 		postCreate: function(){
-			dijit.form.ComboBoxMixin.prototype.postCreate.apply(this, arguments);
 			dijit.form.MappedTextBox.prototype.postCreate.apply(this, arguments);
 		}
 	}

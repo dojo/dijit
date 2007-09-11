@@ -448,12 +448,6 @@ dojo.declare(
 			}
 		},
 
-		postCreate: function(){
-			// call the associated TextBox postCreate
-			// ValidationTextBox for ComboBox; MappedTextBox for FilteringSelect
-			this.inherited('postCreate', arguments);
-		},
-
 		_getMenuLabelFromItem:function(/*Item*/ item){
 			return {html:false, label:this.store.getValue(item, this.searchAttr)};
 		},
@@ -702,7 +696,6 @@ dojo.declare(
 		},
 
 		postCreate: function(){
-			dijit.form.ComboBoxMixin.prototype.postCreate.apply(this, arguments);
 			dijit.form.ValidationTextBox.prototype.postCreate.apply(this, arguments);
 		}
 	}
