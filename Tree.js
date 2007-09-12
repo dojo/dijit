@@ -48,6 +48,7 @@ dojo.declare(
 		return false;
 	},
 
+
 	_setChildren: function(/* Object[] */ childrenArray){
 		// summary:
 		//		Sets the children of this node.
@@ -128,7 +129,7 @@ dojo.declare(
 		return nodeMap;
 	},
 
-	deleteNode: function(/* treeNode */ node) {
+	deleteNode: function(/* treeNode */ node){
 		node.destroy();
 
 		dojo.forEach(this.getChildren(), function(child, idx){
@@ -136,7 +137,7 @@ dojo.declare(
 		});
 	},
 
-	makeExpandable: function() {
+	makeExpandable: function(){
 		//summary
 		//		if this node wasn't already showing the expando node,
 		//		turn it into one and call _setExpando()
@@ -158,7 +159,7 @@ dojo.declare(
 	query: null,
 
 	// childrenAttr: String
-	//		name of attribute that holds children of a tree node
+	//		one ore more attributes that holds children of a tree node
 	childrenAttr: "children",
 
 	templatePath: dojo.moduleUrl("dijit", "_tree/Tree.html"),		
@@ -166,6 +167,20 @@ dojo.declare(
 	isExpanded: true, // consider this "root node" to be always expanded
 
 	isTree: true,
+
+	// dndController: String
+	//	class name to use as as the dnd controller
+	dndController: null,
+
+	//parameters to pull off of the tree and pass on to the dndController as its params
+	dndParams: ["onDndDrop","itemCreator","onDndCancel","checkAcceptance", "checkItemAcceptance"],
+
+	//declare the above items so they can be pulled from the tree's markup
+	onDndDrop:null,
+	itemCreator:null,
+	onDndCancel:null,
+	checkAcceptance:null,	
+	checkItemAcceptance:null,
 
 	_publish: function(/*String*/ topicName, /*Object*/ message){
 		// summary:
@@ -178,7 +193,7 @@ dojo.declare(
 
 		this._itemNodeMap={};
 
-		// if the store supports Notification, subscribe to the notifcation events
+		// if the store supports Notification, subscribe to the notification events
 		if (this.store.getFeatures()['dojo.data.api.Notification']){
 			this.connect(this.store, "onNew", "_onNewItem");
 			this.connect(this.store, "onDelete", "_onDeleteItem");
@@ -199,6 +214,19 @@ dojo.declare(
 
 		// load top level children
 		this.getItemChildren(null, dojo.hitch(this, "_onLoadAllItems", this));
+
+		if (this.dndController){
+			if (dojo.isString(this.dndController)){
+				this.dndController= dojo.getObject(this.dndController);
+			}	
+			var params={};
+			for (var i=0; i<this.dndParams.length;i++){
+				if (this[this.dndParams[i]]){
+					params[this.dndParams[i]]=this[this.dndParams[i]];
+				}
+			}
+			this.dndController= new this.dndController(this, params);
+		}
 	},
 
 	////////////// Data store related functions //////////////////////
@@ -209,7 +237,21 @@ dojo.declare(
 		//		Controls whether or not +/- expando icon is shown.
 		//		(For efficiency reasons we may not want to check if an element has
 		//		children until user clicks the expando node)
-		return this.store.hasAttribute(item, this.childrenAttr);
+
+		if (dojo.isString(this.childrenAttr)){
+			this.childrenAttr = this.childrenAttr.split(/,\s*/);
+		}
+
+		if (!dojo.isArray(this.childrenAttr)){
+			this.childrenAttr=[this.childrenAttr];
+		}
+
+		for (var i=0; i<this.childrenAttr.length; i++){	
+			if (this.store.hasAttribute(item, this.childrenAttr[i])){
+				return true;
+			}
+		}
+		return false;
 	},
 
 	getItemChildren: function(/*dojo.data.Item*/ parentItem, /*function(items)*/ onComplete){
@@ -219,11 +261,13 @@ dojo.declare(
 		var store = this.store;
 		if(parentItem == null){
 			// get top level nodes
-			store.fetch({ query: this.query, onComplete: onComplete });
+			store.fetch({ query: this.query, onComplete: onComplete});
 		}else{
 			// get children of specified node
-			var childItems = store.getValues(parentItem, this.childrenAttr);
-
+			var childItems = [];
+			for (var i=0; i<this.childrenAttr.length; i++){	
+				childItems= childItems.concat(store.getValues(parentItem, this.childrenAttr[i]));
+			}
 			// count how many items need to be loaded
 			var _waitCount = 0;
 			dojo.forEach(childItems, function(item){ if(!store.isItemLoaded(item)){ _waitCount++; } });
@@ -255,7 +299,7 @@ dojo.declare(
 		return this.store.getIdentity(parentInfo.item);		// String
 	},
 
-	getLabel: function(/*dojo.data.Item*/ item) {
+	getLabel: function(/*dojo.data.Item*/ item){
 		// summary: user overridable function to get the label for a tree node (given the item)
 		return this.store.getLabel(item);	// String
 	},
@@ -647,26 +691,38 @@ dojo.declare(
 	_onNewItem: function(/*Object*/ item, parentInfo){
 		//summary: callback when new item has been added to the store.
 
+		var loadNewItem=false;
 		if (parentInfo){
 			var parent = this._itemNodeMap[this.getItemParentIdentity(item, parentInfo)];
-		}
 
-		var childParams = {item:item};
-		if (parent){
-			if (!parent.isExpandable){
-				parent.makeExpandable();
-			}
-			if (parent.state=="LOADED" || parent.isExpanded){
-				var childrenMap=parent._addChildren([childParams]);
+			for(var i=0; i<this.childrenAttr.length;i++){
+				if (parentInfo.attribute==this.childrenAttr[i]){
+					loadNewItem=true;
+					break;
+				}
 			}
 		}else{
-			// top level node
-			var childrenMap=this._addChildren([childParams]);		
+			loadNewItem=true;
 		}
 
-		if (childrenMap){
-			dojo.mixin(this._itemNodeMap, childrenMap);
-			//this._itemNodeMap[this.store.getIdentity(item)]=child;
+		if (loadNewItem){
+			var childParams = {item:item};
+			if (parent){
+				if (!parent.isExpandable){
+					parent.makeExpandable();
+				}
+				if (parent.state=="LOADED" || parent.isExpanded){
+					var childrenMap=parent._addChildren([childParams]);
+				}
+			}else{
+				// top level node
+				var childrenMap=this._addChildren([childParams]);		
+			}
+	
+			if (childrenMap){
+				dojo.mixin(this._itemNodeMap, childrenMap);
+				//this._itemNodeMap[this.store.getIdentity(item)]=child;
+			}
 		}
 	},
 
@@ -814,7 +870,7 @@ dojo.declare(
 		this._wipeOut.play();
 	},
 
-	setLabelNode: function(label) {
+	setLabelNode: function(label){
 		this.labelNode.innerHTML="";
 		this.labelNode.appendChild(document.createTextNode(label));
 	}

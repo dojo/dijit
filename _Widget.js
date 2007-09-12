@@ -99,7 +99,7 @@ dojo.declare("dijit._Widget", null, {
 		// If srcNodeRef has been processed and removed from the DOM (e.g. TemplatedWidget) then delete it to allow GC.
 		if(this.srcNodeRef && !this.srcNodeRef.parentNode){
 			delete this.srcNodeRef;
-		}
+		}	
 	},
 
 	postMixInProperties: function(){
