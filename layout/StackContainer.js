@@ -22,6 +22,9 @@ dojo.declare(
 
 	_started: false,
 
+	// selectedChildWidget: Widget
+	//	References the currently selected child widget, if any
+
 	startup: function(){
 		if(this._started){ return; }
 
