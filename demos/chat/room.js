@@ -11,7 +11,7 @@ dojo.declare("dijit.demos.chat.Room",
 	_last: "",
 	_username: null,
 	roomId: "public",
-	private: false,
+	isPrivate: false,
 	prompt: "Name:",
 
 	templateString: '<div id="${id}" class="chatroom">'
@@ -31,7 +31,7 @@ dojo.declare("dijit.demos.chat.Room",
 		if(name == null || name.length==0){
 			alert('Please enter a username!');
 		}else{
-			if(this.private){ this.roomId = name; } 
+			if(this.isPrivate){ this.roomId = name; } 
 			this._username=name;
 			this.joining.className='hidden';
 			this.joined.className='';
