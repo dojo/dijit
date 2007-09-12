@@ -8,6 +8,9 @@ dojo.declare("dijit.WidgetSet", null, {
 	},
 
 	add: function(/*Widget*/ widget){
+		if(this._hash[widget.id]){
+			throw new Error("Tried to register widget with id==" + widget.id + " but that id is already registered");
+		}
 		this._hash[widget.id]=widget;
 	},
 

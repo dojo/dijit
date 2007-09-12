@@ -174,8 +174,7 @@ dojo.declare(
 
 		open:function(){
 			this.makePopup();
-			var self=this;
-			self._isShowingNow=true;
+			this._isShowingNow=true;
 			return dijit.popup.open({
 				popup: this._popupWidget,
 				around: this.domNode,
