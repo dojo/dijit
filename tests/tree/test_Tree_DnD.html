@@ -143,7 +143,33 @@
 			return true;
 		}
 
+		function getIcon(item) {
+			if (catStore.hasAttribute(item, "numberOfItems")) {
+				console.log("returning folder class");
+				return "myFolder";
+			} 
+			console.log("returning item class");
+			return "myItem"
+		}
+
 	</script>
+
+	<style>
+		.myFolder{
+			display: "block";
+			width: 16px;
+			height: 16px;
+			background: blue;
+		}
+
+		.myItem{
+			display: "block";
+			width: 16px;
+			height: 16px;
+			background: green;
+
+		}
+	</style>
 
 </head>
 <body class="tundra"> 
@@ -191,12 +217,12 @@
 		<td>
 			<h2>Collection Count Summary</h2>
 			<p>You can't drop items onto this tree.</p>
-			<div class="container" dojoType="dijit.Tree" id="myTree" store="catStore" labelAttr="name" getLabel="tree1CustomLabel"  childrenAttr="children" dndController="dijit._tree.dndSource" checkAcceptance="dndAccept"></div>
+			<div class="container" dojoType="dijit.Tree" id="myTree" store="catStore" labelAttr="name" getLabel="tree1CustomLabel"  childrenAttr="children" dndController="dijit._tree.dndSource" checkAcceptance="dndAccept" getIconClass="getIcon"></div>
 		</td>
 		<td>
 			<h2>Collection</h2>
 			<p>Drop items onto this tree, but only on categories, should fail to let you drop on other items.</p>
-			<div class="container" dojoType="dijit.Tree" id="myTree2" store="catStore"  labelAttr="name"  childrenAttr="children, items" dndController="dijit._tree.dndSource" onDndDrop="tree2CustomDrop" checkAcceptance="dndAccept" checkItemAcceptance="tree2CheckItemAcceptance"></div> 
+			<div class="container" dojoType="dijit.Tree" id="myTree2" store="catStore"  labelAttr="name"  childrenAttr="children, items" dndController="dijit._tree.dndSource" onDndDrop="tree2CustomDrop" checkAcceptance="dndAccept" checkItemAcceptance="tree2CheckItemAcceptance" getIconClass="getIcon"></div> 
 		</td>
 	</tr>
 	</table>

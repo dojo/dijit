@@ -80,7 +80,7 @@ dojo.declare("dijit._tree.dndSource", dijit._tree.dndSelector, {
 	},
 	destroy: function(){
 		// summary: prepares the object to be garbage-collected
-		dojo.dnd.Source.superclass.destroy.call(this);
+		this.inherited("destroy",arguments);
 		dojo.forEach(this.topics, dojo.unsubscribe);
 		this.targetAnchor = null;
 	},
@@ -96,7 +96,7 @@ dojo.declare("dijit._tree.dndSource", dijit._tree.dndSelector, {
 		// summary: event processor for onmousemove
 		// e: Event: mouse event
 		if(this.isDragging && this.targetState == "Disabled"){ return; }
-		dojo.dnd.Source.superclass.onMouseMove.call(this, e);
+		this.inherited("onMouseMove", arguments);
 		var m = dojo.dnd.manager();
 		if(this.isDragging){
 			// calculate before/after
@@ -148,7 +148,6 @@ dojo.declare("dijit._tree.dndSource", dijit._tree.dndSelector, {
 		// e: Event: mouse event
 		if(this.mouseDown){
 			this.mouseDown = false;
-			dojo.dnd.Source.superclass.onMouseUp.call(this, e);
 			this.inherited("onMouseUp",arguments);
 		}
 	},
@@ -220,6 +219,8 @@ dojo.declare("dijit._tree.dndSource", dijit._tree.dndSelector, {
 		// source: Object: the source which provides items
 		// nodes: Array: the list of transferred items
 		// copy: Boolean: copy items, if true, move items otherwise
+
+		console.log("onDndStart");
 		if(this.isSource){
 			this._changeState("Source", this == source ? (copy ? "Copied" : "Moved") : "");
 		}
@@ -228,11 +229,11 @@ dojo.declare("dijit._tree.dndSource", dijit._tree.dndSelector, {
 		this._changeState("Target", accepted ? "" : "Disabled");
 
 		if(accepted){
-			//console.log("overSource");
 			dojo.dnd.manager().overSource(this);
 		}
 
 		this.isDragging = true;
+		console.log("isDragging=true now");
 	},
 
 	itemCreator: function(nodes){
@@ -287,12 +288,12 @@ dojo.declare("dijit._tree.dndSource", dijit._tree.dndSelector, {
 
 	onOverEvent: function(){
 		// summary: this function is called once, when mouse is over our container
-		dojo.dnd.Source.superclass.onOverEvent.call(this);
+		this.inherited("onOverEvent",arguments);
 		dojo.dnd.manager().overSource(this);
 	},
 	onOutEvent: function(){
 		// summary: this function is called once, when mouse is out of our container
-		dojo.dnd.Source.superclass.onOutEvent.call(this);
+		this.inherited("onOutEvent",arguments);	
 		dojo.dnd.manager().outSource(this);
 	},
 	_markTargetAnchor: function(before){
@@ -323,7 +324,7 @@ dojo.declare("dijit._tree.dndSource", dijit._tree.dndSelector, {
 	}
 });
 
-dojo.declare("dijit._tree.target", dijit._tree.dndSource, {
+dojo.declare("dijit._tree.dndTarget", dijit._tree.dndSource, {
 	// summary: a Target object, which can be used as a DnD target
 	
 	constructor: function(node, params){
@@ -335,6 +336,6 @@ dojo.declare("dijit._tree.target", dijit._tree.dndSource, {
 	// markup methods
 	markupFactory: function(params, node){
 		params._skipStartup = true;
-		return new dijit._tree.target(node, params);
+		return new dijit._tree.dndTarget(node, params);
 	}
 });

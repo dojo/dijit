@@ -41,7 +41,7 @@ dojo.declare("dijit._tree.dndContainer",
 		// abstract access to the map
 		getItem: function(/*String*/ key){
 			// summary: returns a data item by its key (id)
-			console.log("Container getItem()", arguments,this.map, this.map[key], this.selection[key]);
+			//console.log("Container getItem()", arguments,this.map, this.map[key], this.selection[key]);
 			return this.selection[key];
 			//return this.map[key];	// Object
 		},
@@ -133,6 +133,7 @@ dojo.declare("dijit._tree.dndContainer",
 
 		onOverEvent: function(){
 			// summary: this function is called once, when mouse is over our container
+			console.log("onOverEvent parent");
 		},
 
 		onOutEvent: function(){

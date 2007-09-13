@@ -49,13 +49,22 @@ dojo.declare("dijit._tree.dndSelector",
 			this.selection = this.anchor = null;
 		},
 
-		uniqueId:0,
-
 		// mouse events
 		onMouseDown: function(e){
 			// summary: event processor for onmousedown
 			// e: Event: mouse event
 			if(!this.current){ return; }
+
+			var item = this.tree._domElement2TreeNode(this.current).item
+			var id = this.tree.store.getIdentity(item);
+
+			if (!this.current.id) {
+				this.current.id=id;
+			}
+
+			if (!this.current.type) {
+				this.current.type="data";
+			}
 
 			if(!this.singular && !dojo.dnd.getCopyKeyState(e) && !e.shiftKey && (this.current.id in this.selection)){
 				this.simpleSelection = true;
@@ -72,9 +81,6 @@ dojo.declare("dijit._tree.dndSelector",
 					this.selectNone();
 					this.anchor = this.current;
 					this._addItemClass(this.anchor, "Anchor");
-					if (!this.current.id){
-						this.current.id = this.uniqueId++;
-					}
 
 					this.selection[this.current.id] = this.current;
 				}
@@ -101,28 +107,33 @@ dojo.declare("dijit._tree.dndSelector",
 								}
 								this.anchor = this.current;
 								this._addItemClass(this.current, "Anchor");
-								if (!this.current.id){
-									this.current.id = this.uniqueId++;
-								}
 								this.selection[this.current.id] = this.current;
 							}
 						}
 					}else{
-						if(!(this.current.id in this.selection)){
+						var item = this.tree._domElement2TreeNode(this.current).item
+						var id = this.tree.store.getIdentity(item);
+						if(!(id in this.selection)){
 							this.selectNone();
 							this.anchor = this.current;
 							this._addItemClass(this.current, "Anchor");
-							if (!this.current.id){
-								this.current.id = this.uniqueId++;
-							}
-
-							this.selection[this.current.id] = this.current;
+							this.selection[id] = this.current;
 						}
 					}
 				}
 			}
+
 			dojo.stopEvent(e);
 		},
+
+		onMouseMove: function() {
+
+		},
+
+		onOverEvent: function() {
+			this.onmousemoveEvent = dojo.connect(this.node, "onmousemove", this, "onMouseMove");
+		},
+
 		onMouseUp: function(e){
 			// summary: event processor for onmouseup
 			// e: Event: mouse event
