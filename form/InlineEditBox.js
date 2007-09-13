@@ -207,7 +207,7 @@ dojo.declare(
 		// summary: Callback when user presses "Save" button or it's simulated.
 		// e is passed in if click on save button or user presses Enter.  It's not
 		// passed in when called by _onBlur.
-		if(e){ dojo.stopEvent(e); }
+		if(typeof e == "object"){ dojo.stopEvent(e); }
 		if(!this.enableSave()){ return; }
 		this.editing = false;
 		this._showText();
@@ -291,7 +291,7 @@ dojo.declare(
 		if(!this.editing){
 			this._showText(); // asynchronous update made famous by ComboBox/FilteringSelect
 		}else if(this.autoSave){
-			this.save();
+			this.save(1);
 		}else{
 			// #3752
 			// if the keypress does not bubble up to the div, (iframe in TextArea blocks it for example)
