@@ -38,6 +38,11 @@
 		dojo.require("dijit.layout.TabContainer");
 		dojo.require("dijit.layout.ContentPane");
 
+		function initWai(){
+			dijit.wai.setAttr(dojo.body(), "waiRole", "role", "application");
+		}
+		dojo.addOnLoad(initWai);
+		
 		var paneId=1;
 
 		// for "new message" tab closing
@@ -57,16 +62,20 @@
 				dojo.fadeOut({ node: 'fetchMail', duration:800,
 					// set progress back to indeterminate. we're cheating, because this
 					// doesn't actually have any data to "progress"
-					onEnd: function(){ dijit.byId('fakeFetch').update({ indeterminate: true }) }
+					onEnd: function(){ 
+						dijit.byId('fakeFetch').update({ indeterminate: true });
+						dojo.byId('fetchMail').style.visibility='hidden'; // remove progress bar from tab order
+					}
 				}).play();
 			}
 		}
 		var fakeReport = function(percent){
 			// FIXME: can't set a label on an indeterminate progress bar
 			// like if(this.indeterminate) { return " connecting."; }
-			return "Fetching: "+(percent*this.maximum) + " of " + this.maximum + " messgaes.";
+			return "Fetching: "+(percent*this.maximum) + " of " + this.maximum + " messages.";
 		}
 		var fakeDownload = function(){
+			dojo.byId('fetchMail').style.visibility='visible';
 			numMails = Math.floor(Math.random()*10)+1;
 			dijit.byId('fakeFetch').update({ maximum: numMails, progress:0 });
 			dojo.fadeIn({ node: 'fetchMail', duration:300 }).play();
@@ -87,9 +96,7 @@
 			dijit.byId('sendDialog').show();
 			setTimeout("stopSendBar()", 3000);
 		}
-		
 
-		
 	</script>
 
 	<style type="text/css">
@@ -242,7 +249,7 @@
 		<!-- toolbar with new mail button, etc. -->
 		<div dojoType="dijit.Toolbar" layoutAlign="top" style="height:25px;">
 			<div id="getMail" dojoType="dijit.form.ComboButton"
-				iconClass="mailIconGetMail">
+				iconClass="mailIconGetMail" optionsTitle="Mail Source Options">
 				<script type="dojo/method" event="onClick">
 					fakeDownload();
 				</script>
@@ -285,7 +292,7 @@
 
 		<div dojoType="dijit.layout.ContentPane" layoutAlign="bottom" id="footer" align="left">
 			<span style="float:right;">DojoMail v0.9b (demo only)</span>
-			<div id="fetchMail" style="opacity:0;">
+			<div id="fetchMail" style="opacity:0;visibility:hidden">
 			<div annotate="true" id="fakeFetch" dojoType="dijit.ProgressBar" style="height:15px; width:275px;" indeterminate="true" report="fakeReport"></div>
 			</div>
 		</div>
