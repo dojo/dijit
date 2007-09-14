@@ -196,6 +196,7 @@ dojo.mixin(dijit,
 				body.addEventListener('blur', function(evt){ dijit._onBlurNode(); }, true);
 			}
 		}
+		body = null;	// prevent memory leak (apparent circular reference via closure)
 	},
 
 	_onBlurNode: function(){
