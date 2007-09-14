@@ -36,6 +36,9 @@
 			alert("Execute of node " + continentStore.getLabel(item)
 				+", population=" + continentStore.getValue(item, "population"));
 		</script>
+		<script type="dojo/method" event="getIconClass" args="item">
+			return "noteIcon";
+		</script>
 	</div>
 
 	<button onclick="dijit.byId('mytree').destroyRecursive();">destroy</button>
@@ -95,6 +98,9 @@
 
 				// IMPLEMENT CUSTOM MENU BEHAVIOR HERE
 			});
+		</script>
+		<script type="dojo/method" event="getIconClass" args="item">
+			return "noteIcon";
 		</script>
 	</div>
 
