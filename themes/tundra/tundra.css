@@ -264,6 +264,11 @@ HTML.dj_ie6 .tundra .dijitInputFieldValidationError,
 	visibility: hidden;
 }
 
+.tundra td.dijitInputField {
+	margin: 0px;
+	padding: 0px 0px 0px 0.3em;
+}
+
 /*
  *  CheckBox and Radio Widgets,
  *	and the CSS to embed a checkbox or radio icon inside a ToggleButton.
