@@ -37,6 +37,13 @@
 	position:relative; 
 }
 
+.tundra .dijitA11yDownArrow,
+.tundra .dijitDownArrowButton,
+.tundra .dijitUpArrowButton {
+	font-size: 0.75em;
+	color: #848484;
+}
+
 
 .tundra .dijitButtonDisabled .dijitButtonNode,
 .tundra .dijitToggleButtonDisabled .dijitButtonNode,
