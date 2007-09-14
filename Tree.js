@@ -19,6 +19,7 @@ dojo.declare(
 	//		then after dojo.data query it becomes "LOADING" and, finally "LOADED"	
 	state: "UNCHECKED",
 	locked: false,
+	startExpanded: true,
 
 	lock: function(){
 		// summary: lock this node (and it's descendants) while a delete is taking place?
@@ -82,7 +83,6 @@ dojo.declare(
 			dojo.forEach(this.getChildren(), function(child, idx){
 				child._updateLayout();
 			});
-
 		}else{
 			this.isExpandable=false;
 		}
@@ -97,6 +97,15 @@ dojo.declare(
 		if(this._setExpando){
 			// change expando to/form dot or + icon, as appropriate
 			this._setExpando(false);
+		}
+
+		if (this.isTree && this.startExpanded) {
+			var children = this.getChildren();
+			for(var i=0; i<children.length;i++){
+				if (children[i].isExpandable){
+					this._expandNode(children[i]);	
+				}
+			}
 		}
 
 		return nodeMap;
@@ -830,8 +839,8 @@ dojo.declare(
 
 		// create animations for showing/hiding the children (if children exist)
 		if(this.containerNode && !this._wipeIn){
-			this._wipeIn = dojo.fx.wipeIn({node: this.containerNode, duration: 250});
-			this._wipeOut = dojo.fx.wipeOut({node: this.containerNode, duration: 250});
+			this._wipeIn = dojo.fx.wipeIn({node: this.containerNode, duration: 150});
+			this._wipeOut = dojo.fx.wipeOut({node: this.containerNode, duration: 150});
 		}
 
 		return ret;
@@ -840,7 +849,6 @@ dojo.declare(
 	expand: function(){
 		// summary: show my children
 		if(this.isExpanded){ return; }
-
 		// cancel in progress collapse operation
 		if(this._wipeOut.status() == "playing"){
 			this._wipeOut.stop();
