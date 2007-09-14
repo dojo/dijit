@@ -832,15 +832,18 @@ HTML.dj_ie6 .tundra .dijitInputFieldValidationError,
 
 .tundra .dijitAccordionPane .dijitAccordionTitle {
 	background:#fafafa url("images/titleBar.png") repeat-x bottom left;
-	border: 1px solid #bfbfbf;
+	border-left: 1px solid #bfbfbf;
+	border-top: 1px solid #bfbfbf;
+	border-right: 1px solid #bfbfbf;
 	padding:4px 4px 2px 4px;
 }
 
 .tundra .dijitAccordionPane-selected .dijitAccordionTitle {
 	background: #ededed url("images/buttonActive.png") bottom repeat-x;
 	font-weight: bold;
-	/* border:1px solid #84a3d1; */
-	border: 1px solid #aaaaaa;
+	border-left: 1px solid #aaaaaa;
+	border-top: 1px solid #aaaaaa;
+	border-right: 1px solid #aaaaaa;
 	padding: 4px 4px 2px 4px;
 }
 
@@ -864,7 +867,12 @@ HTML.dj_ie6 .tundra .dijitInputFieldValidationError,
 
 .tundra .dijitAccordionPane .dijitAccordionBody {
 	background: #fff;
+	/*
 	border:1px solid #bfbfbf;
+	*/
+	border-left: 1px solid #bfbfbf;
+	border-top: 1px solid #bfbfbf;
+	border-right: 1px solid #bfbfbf;
 }
 
 /* Tree */
