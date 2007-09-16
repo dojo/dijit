@@ -41,17 +41,19 @@ dojo.declare(
 			return child.selected;
 		}, this);
 
+		var selected = this.selectedChildWidget;
+
 		// Default to the first child
-		if(!this.selectedChildWidget && children[0]){
-			this.selectedChildWidget = children[0];
-			this.selectedChildWidget.selected = true;
+		if(!selected && children[0]){
+			selected = this.selectedChildWidget = children[0];
+			selected.selected = true;
 		}
-		if(this.selectedChildWidget){
-			this._showChild(this.selectedChildWidget);
+		if(selected){
+			this._showChild(selected);
 		}
 
 		// Now publish information about myself so any StackControllers can initialize..
-		dojo.publish(this.id+"-startup", [{children: children, selected: this.selectedChildWidget}]);
+		dojo.publish(this.id+"-startup", [{children: children, selected: selected}]);
 
 		dijit.layout._LayoutWidget.prototype.startup.apply(this, arguments);
 		this._started = true;
@@ -160,7 +162,7 @@ dojo.declare(
 		// summary
 		//	Keystroke handling for keystrokes on the tab panel itself (that were bubbled up to me)
 		//	Ctrl-w: close tab
-		if (e.ctrlKey){
+		if(e.ctrlKey){
 			switch(e.keyCode){
 				case dojo.keys.PAGE_DOWN:
 				case dojo.keys.PAGE_UP:
@@ -370,7 +372,7 @@ dojo.declare(
 			switch(evt.keyCode){				
 				case dojo.keys.LEFT_ARROW:
 				case dojo.keys.UP_ARROW:
-					forward=false;
+					forward = false;
 					// fall through
 				case dojo.keys.RIGHT_ARROW:
 				case dojo.keys.DOWN_ARROW:
@@ -382,8 +384,6 @@ dojo.declare(
 						this.onCloseButtonClick(this._currentChild);
 						dojo.stopEvent(evt);
 					}
-				default:
-					return;
 			}
 		}
 	}
