@@ -35,7 +35,8 @@ dojo.declare(
 				propList.preamble = dojo.parser._functionFromScript(preambles[0]);
 			}
 			propList.widgetsInTemplate = true;
-			propList.templateString = "<"+srcType+" class='"+src.className+"'>"+src.innerHTML.replace(/\%7B/g,"{").replace(/\%7D/g,"}")+"</"+srcType+">";
+			propList.templateString = "<"+srcType+" class='"+src.className+"' dojoAttachPoint='"+(src.getAttribute("dojoAttachPoint")||'')+"' dojoAttachEvent='"+(src.getAttribute("dojoAttachEvent")||'')+"' >"+src.innerHTML.replace(/\%7B/g,"{").replace(/\%7D/g,"}")+"</"+srcType+">";
+			// console.debug(propList.templateString);
 
 			// strip things so we don't create stuff under us in the initial setup phase
 			dojo.query("[dojoType]", src).forEach(function(node){
