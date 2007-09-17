@@ -137,13 +137,6 @@ dojo.declare(
 
 			if(childs.length){
 				var visibleCount = Math.min(childs.length,this.maxListLength);
-				with(this._popupWidget.domNode.style){
-					// trick to get the dimensions of the popup
-					// TODO: doesn't dijit.popup.open() do this automatically?
-					display="";
-					width="";
-					height="";
-				}
 				this._arrowPressed();
 				// hide the tooltip
 				this._displayMessage("");
