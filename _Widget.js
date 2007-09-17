@@ -114,7 +114,7 @@ dojo.declare("dijit._Widget", null, {
 		// cannot be processed this way as they are not mutable.
 
 //KLUDGE: skip the widgets which aren't yet working.  See #3058
-if(!/dijit\.form\.(Slider|TextArea|ComboBox|FilteringSelect)/.test(this.declaredClass))
+if(!/dijit\.form\.(Slider|Textarea|ComboBox|FilteringSelect)/.test(this.declaredClass))
 
 		for(var attr in this.attributeMap){
 			if(this.domNode){
@@ -128,35 +128,32 @@ if(!/dijit\.form\.(Slider|TextArea|ComboBox|FilteringSelect)/.test(this.declared
 						domValue = node.className;
 						break;
 					case "style":
-						if(domValue && dojo.isObject(domValue)){
-							domValue = domValue.cssText; // required for IE, doesn't work in Opera
-						}
+						domValue = domValue.cssText; // FIXME: Opera
 					}
 					if(domValue){
 						var delim = {style: ";", "class": " "}[attr];
 						// style and class attributes are special and contain lists
 						// which need to be combined
-						if(delim){
+						if(delim && value){
 							value += delim + domValue;
-							domValue = null;
+						}else{
+							value = domValue;
 						}
 					}
-					// Let template override attribute values
-					if(domValue === null){
-						// Deal with IE quirks for 'class' and 'style'
-						switch(attr){
-						case "class":
-							node.className = value;
+
+					// Deal with IE quirks for 'class' and 'style'
+					switch(attr){
+					case "class":
+						node.className = value;
+						break;
+					case "style":
+						if(node.style && dojo.isObject(node.style)){
+							node.style.cssText = value; // required for IE, doesn't work in Opera
 							break;
-						case "style":
-							if(node.style && dojo.isObject(node.style)){
-								node.style.cssText = value; // required for IE, doesn't work in Opera
-								break;
-							}
-							// fallthrough...
-						default:
-							node.setAttribute(attr, value);
 						}
+						// fallthrough...
+					default:
+						node.setAttribute(attr, value);
 					}
 				}
 			}
