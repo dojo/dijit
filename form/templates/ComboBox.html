@@ -2,11 +2,9 @@
 	id="widget_${id}" name="${name}" dojoAttachEvent="onmouseover:_onMouse,onmouseout:_onMouse" waiRole="presentation"
 	><tr
 		><td class='dijitReset dijitStretch dijitInputField' dojoAttachPoint="nodeWithBorder"
-			><input type="text" autocomplete="off" name="${name}"
+			><input type="text" autocomplete="off"
 			dojoAttachEvent="onkeypress, onkeyup, onfocus, onblur, compositionend"
-			dojoAttachPoint="textbox,focusNode" id='${id}'
-			tabIndex='${tabIndex}' size='${size}' maxlength='${maxlength}'
-			waiRole="combobox"
+			dojoAttachPoint="textbox,focusNode" waiRole="combobox"
 		/></td
 		><td class='dijitReset dijitRight dijitButtonNode dijitDownArrowButton'
 			dojoAttachPoint="downArrowNode"

@@ -83,10 +83,6 @@ dojo.declare(
 		templateString: null,
 		templatePath: dojo.moduleUrl("dijit", "templates/Dialog.html"),
 
-		// title: String
-		//		Title of the dialog
-		title: "",
-
 		// open: Boolean
 		//		is True or False depending on state of dialog
 		open: false,
@@ -94,6 +90,9 @@ dojo.declare(
 		duration: 400,
 
 		_lastFocusItem:null,
+
+		attributeMap: dojo.mixin(dojo.clone(dijit._Widget.prototype.attributeMap),
+			{title: "titleBar"}),
 
 		postCreate: function(){
 			dojo.body().appendChild(this.domNode);
@@ -192,16 +191,16 @@ dojo.declare(
 				var node = evt.target;
 				// see if we are shift-tabbing from titleBar
 				if(node == this.titleBar && evt.shiftKey && evt.keyCode == dojo.keys.TAB){
-					if (this._lastFocusItem){
+					if(this._lastFocusItem){
 						this._lastFocusItem.focus(); // send focus to last item in dialog if known
 					}
 					dojo.stopEvent(evt);
 				}else{
 					// see if the key is for the dialog
-					while (node){
+					while(node){
 						if(node == this.domNode){
-							if (evt.keyCode == dojo.keys.ESCAPE){
-								this.hide();
+							if(evt.keyCode == dojo.keys.ESCAPE){
+								this.hide(); 
 							}else{
 								return; // just let it go
 							}
@@ -209,7 +208,7 @@ dojo.declare(
 						node = node.parentNode;
 					}
 					// this key is for the disabled document window
-					if (evt.keyCode != dojo.keys.TAB){ // allow tabbing into the dialog for a11y
+					if(evt.keyCode != dojo.keys.TAB){ // allow tabbing into the dialog for a11y
 						dojo.stopEvent(evt);
 					// opera won't tab to a div
 					}else if (!dojo.isOpera){

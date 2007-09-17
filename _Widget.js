@@ -19,16 +19,34 @@ dojo.declare("dijit._Widget", null, {
 	//  Bi-directional support, as defined by the HTML DIR attribute. Either left-to-right "ltr" or right-to-left "rtl".
 	dir: "",
 
+	// class: String
+	// HTML class attribute
+	"class": "",
+
+	// style: String
+	// HTML style attribute
+	style: "",
+
+	// title: String
+	// HTML title attribute
+	title: "",
+
 	// srcNodeRef: DomNode
 	//		pointer to original dom node
 	srcNodeRef: null,
 
-	// domNode DomNode:
+	// domNode: DomNode
 	//		this is our visible representation of the widget! Other DOM
 	//		Nodes may by assigned to other properties, usually through the
 	//		template system's dojoAttachPonit syntax, but the domNode
 	//		property is the canonical "top level" node in widget UI.
 	domNode: null,
+
+	// attributeMap: Object
+	//		A map of attributes -- typically standard HTML attributes -- to transfer
+	//		from the parsed node into the new dom, at the widget's domNode, by default.
+	//		Other node references can be specified as properties of 'this'
+	attributeMap: {id:"", dir:"", lang:"", "class":"", style:"", title:""},  // TODO: add on* handlers?
 
 	//////////// INITIALIZATION METHODS ///////////////////////////////////////
 
@@ -36,7 +54,7 @@ dojo.declare("dijit._Widget", null, {
 		this.create(params, srcNodeRef);
 	},
 
-	create: function(params, srcNodeRef) {
+	create: function(params, srcNodeRef){
 		// summary:
 		//		To understand the process by which widgets are instantiated, it
 		//		is critical to understand what other methods create calls and
@@ -88,11 +106,64 @@ dojo.declare("dijit._Widget", null, {
 		dijit.registry.add(this);
 
 		this.buildRendering();
+
+		// Copy attributes listed in attributeMap into the newly created DOM for the widget
+		// The placement of these attributes is according to the property mapping in attributeMap
+		// Note special handling for 'style' and 'class' attributes which are lists and can
+		// have elements from both old and new structures, and some attributes like "type"
+		// cannot be processed this way as they are not mutable.
+
+//KLUDGE: skip the widgets which aren't yet working.  See #3058
+if(!/dijit\.form\.(Slider|TextArea|ComboBox|FilteringSelect)/.test(this.declaredClass))
+
+		for(var attr in this.attributeMap){
+			if(this.domNode){
+				var node = this[this.attributeMap[attr] || "domNode"];
+				var value = this[attr];
+				if(value !== "" || (params && params[attr])){
+					var domValue = node.getAttribute(attr);
+					// Deal with IE quirks for 'class' and 'style'
+					switch(attr){
+					case "class":
+						domValue = node.className;
+						break;
+					case "style":
+						if(domValue && dojo.isObject(domValue)){
+							domValue = domValue.cssText; // required for IE, doesn't work in Opera
+						}
+					}
+					if(domValue){
+						var delim = {style: ";", "class": " "}[attr];
+						// style and class attributes are special and contain lists
+						// which need to be combined
+						if(delim){
+							value += delim + domValue;
+							domValue = null;
+						}
+					}
+					// Let template override attribute values
+					if(domValue === null){
+						// Deal with IE quirks for 'class' and 'style'
+						switch(attr){
+						case "class":
+							node.className = value;
+							break;
+						case "style":
+							if(node.style && dojo.isObject(node.style)){
+								node.style.cssText = value; // required for IE, doesn't work in Opera
+								break;
+							}
+							// fallthrough...
+						default:
+							node.setAttribute(attr, value);
+						}
+					}
+				}
+			}
+		}
+
 		if(this.domNode){
 			this.domNode.setAttribute("widgetId", this.id);
-			if(this.srcNodeRef && this.srcNodeRef.dir){
-				this.domNode.dir = this.srcNodeRef.dir;
-			}
 		}
 		this.postCreate();
 
@@ -284,7 +355,7 @@ dojo.declare("dijit._Widget", null, {
 		//		See HTML spec, DIR attribute for more information.
 
 		if(typeof this._ltr == "undefined"){
-			this._ltr = (this.dir || dojo.getComputedStyle(this.domNode).direction) != "rtl";
+			this._ltr = dojo.getComputedStyle(this.domNode).direction != "rtl";
 		}
 		return this._ltr; //Boolean
 	}

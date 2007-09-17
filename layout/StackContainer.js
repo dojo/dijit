@@ -380,7 +380,7 @@ dojo.declare(
 					dojo.stopEvent(evt);
 					break;
 				case dojo.keys.DELETE:
-					if (this._currentChild.closable){
+					if(this._currentChild.closable){
 						this.onCloseButtonClick(this._currentChild);
 						dojo.stopEvent(evt);
 					}

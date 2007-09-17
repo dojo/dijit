@@ -28,13 +28,16 @@ dojo.declare(
 
 		// size: String
 		//		HTML INPUT tag size declaration.
-		size: "20",
+		size: "",
 
 		// maxlength: String
 		//		HTML INPUT tag maxlength declaration.
-		maxlength: "999999",
+		maxlength: "",
 
 		templatePath: dojo.moduleUrl("dijit.form", "templates/TextBox.html"),
+
+		attributeMap: dojo.mixin(dojo.clone(dijit.form._FormWidget.prototype.attributeMap),
+			{size:"focusNode", maxlength:"focusNode"}),
 
 		getTextValue: function(){
 			return this.textbox.value;

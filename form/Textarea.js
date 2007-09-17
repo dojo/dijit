@@ -104,7 +104,7 @@ dojo.declare(
 			//
 			// An additional problem is that the browser gives the document object a
 			// very cryptic accessible name, e.g.
-			// wyciwyg://13/http://archive.dojotoolkit.org/nightly/dojotoolkit/dijit/tests/form/test_InlineEditBox.html
+			// wysiwyg://13/http://archive.dojotoolkit.org/nightly/dojotoolkit/dijit/tests/form/test_InlineEditBox.html
 			// When focus is fired from the document object, the screen reader speaks
 			// the accessible name.  The cyptic accessile name is confusing.
 			//

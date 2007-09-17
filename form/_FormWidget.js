@@ -57,6 +57,12 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 	//		Fires onChange for each value change or only on demand
 	intermediateChanges: false,
 
+	// These mixins assume that the focus node is an INPUT, as many but not all _FormWidgets are.
+	// Don't attempt to mixin the 'type' attribute here programatically -- it must be declared
+	// directly in the template as read by the parser in order to function
+	attributeMap: dojo.mixin(dojo.clone(dijit._Widget.prototype.attributeMap),
+		{id:"focusNode", name:"focusNode", value:"focusNode", tabIndex:"focusNode", alt:"focusNode"}),
+
 	setDisabled: function(/*Boolean*/ disabled){
 		// summary:
 		//		Set disabled state of widget.
@@ -146,7 +152,7 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 		//		<baseClass> + "CheckedFocused"		- if the widget has focus
 
 		// get original class (non state related) specified in template
-		var origClass = (this.styleNode||this.domNode).className;
+		var origClass = (this.stateNode||this.domNode).className;
 
 		// compute list of classname representing the states of the widget
 		base = base || this.baseClass || this.domNode.getAttribute("baseClass") || "dijitFormWidget";
@@ -176,7 +182,7 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 			multiply("Hover");
 		}
 
-		(this.styleNode || this.domNode).className = origClass + " " + classes.join(" ");
+		(this.stateNode || this.domNode).className = origClass + " " + classes.join(" ");
 	},
 
 	onChange: function(newValue){
