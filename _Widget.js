@@ -118,17 +118,17 @@ if(!/dijit\.form\.(Slider|Textarea|ComboBox|FilteringSelect)/.test(this.declared
 
 		for(var attr in this.attributeMap){
 			if(this.domNode){
-				var node = this[this.attributeMap[attr] || "domNode"];
+				var mapNode = this[this.attributeMap[attr] || "domNode"];
 				var value = this[attr];
 				if(value !== "" || (params && params[attr])){
-					var domValue = node.getAttribute(attr);
+					var domValue = mapNode.getAttribute(attr);
 					// Deal with IE quirks for 'class' and 'style'
 					switch(attr){
 					case "class":
-						domValue = node.className;
+						domValue = mapNode.className;
 						break;
 					case "style":
-						domValue = node.cssText; // FIXME: Opera
+						domValue = domValue && domValue.cssText; // FIXME: Opera
 					}
 					if(domValue){
 						var delim = {style: ";", "class": " "}[attr];
@@ -144,16 +144,16 @@ if(!/dijit\.form\.(Slider|Textarea|ComboBox|FilteringSelect)/.test(this.declared
 					// Deal with IE quirks for 'class' and 'style'
 					switch(attr){
 					case "class":
-						node.className = value;
+						mapNode.className = value;
 						break;
 					case "style":
-						if(node.style && dojo.isObject(node.style)){
-							node.style.cssText = value; // required for IE, doesn't work in Opera
+						if(mapNode.style && dojo.isObject(mapNode.style)){
+							mapNode.style.cssText = value; // required for IE, doesn't work in Opera
 							break;
 						}
 						// fallthrough...
 					default:
-						node.setAttribute(attr, value);
+						mapNode.setAttribute(attr, value);
 					}
 				}
 			}
