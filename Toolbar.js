@@ -9,22 +9,20 @@ dojo.declare(
 	[dijit._Widget, dijit._Templated, dijit._KeyNavContainer],
 {
 	templateString:
-		'<div class="dijit dijitToolbar" waiRole="toolbar" tabIndex="-1" dojoAttachPoint="containerNode">' +
+		'<div class="dijit dijitToolbar" waiRole="toolbar" tabIndex="${tabIndex}" dojoAttachPoint="containerNode">' +
 //			'<table style="table-layout: fixed" class="dijitReset dijitToolbarTable">' + // factor out style
 //				'<tr class="dijitReset" dojoAttachPoint="containerNode"></tr>'+
 //			'</table>' +
 		'</div>',
 
+	tabIndex: "0",
+
 	postCreate: function(){
-		this.connectKeyNavHandlers([dojo.keys.LEFT_ARROW], [dojo.keys.RIGHT_ARROW], true);
+		this.connectKeyNavHandlers([dojo.keys.LEFT_ARROW], [dojo.keys.RIGHT_ARROW]);
 	},
 
 	startup: function(){
 		this.connectKeyNavChildren();
-	},
-	
-	focus: function(){
-		this.focusFirstChild();
 	}
 }
 );

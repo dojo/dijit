@@ -46,7 +46,7 @@ dojo.declare(
 		}else{
 			dojo.forEach(this.targetNodeIds, this.bindDomNode, this);
 		}
-		this.connectKeyNavHandlers([dojo.keys.UP_ARROW], [dojo.keys.DOWN_ARROW], false);
+		this.connectKeyNavHandlers([dojo.keys.UP_ARROW], [dojo.keys.DOWN_ARROW]);
 	},
 
 	startup: function(){
@@ -60,10 +60,6 @@ dojo.declare(
 
 	onCancel: function(/*Boolean*/ closeAll){
 		// summary: attach point for notification about when the user cancels the current menu
-	},
-
-	focus: function(){
-		this.focusFirstChild();
 	},
 
 	_moveToPopup: function(/*Event*/ evt){

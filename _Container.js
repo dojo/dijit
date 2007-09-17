@@ -140,9 +140,7 @@ dojo.declare("dijit._KeyNavContainer",
 
 		_keyNavCodes: {},
 
-		_manageTabIndex: false,
-
-		connectKeyNavHandlers: function(/*Array*/ prevKeyCodes, /*Array*/ nextKeyCodes, /*boolean*/ manageTabIndex){
+		connectKeyNavHandlers: function(/*Array*/ prevKeyCodes, /*Array*/ nextKeyCodes){
 			// summary:
 			//		Call in postCreate() to attach the keyboard handlers
 			//		to the container.
@@ -150,23 +148,17 @@ dojo.declare("dijit._KeyNavContainer",
 			//		Key codes for navigating to the previous child.
 			// nextKeyCodes: Array
 			//		Key codes for navigating to the next child.
-			// manageTabIndex: boolean
-			//		If true, set tabIndex on first child to 0, all others to -1.
-			//		If false, do not modify the tabIndex of any children.
 
-			this._keyNavCodes = {};
-			for(var i=0; i < prevKeyCodes.length; i++){
-				this._keyNavCodes[prevKeyCodes[i]] = -1;
-			}
-			for(var i=0; i < nextKeyCodes.length; i++){
-				this._keyNavCodes[nextKeyCodes[i]] = 1;
-			}
-			this._manageTabIndex = manageTabIndex;
-			dojo.connect(this.domNode, "onkeypress", this, "_onContainerKeypress");
+			var keyCodes = this._keyNavCodes = {};
+			dojo.forEach(prevKeyCodes, function(code){ keyCodes[code] = -1 });
+			dojo.forEach(nextKeyCodes, function(code){ keyCodes[code] = 1 });
+			this.connect(this.domNode, "onkeypress", "_onContainerKeypress");
 			if(dojo.isIE){
-				dojo.connect(this.domNode, "ondeactivate", this, "_onContainerBlur");
+				this.connect(this.domNode, "onactivate", "_onContainerFocus");
+				this.connect(this.domNode, "ondeactivate", "_onContainerBlur");
 			}else{
-				dojo.connect(this.domNode, "onblur", this, "_onContainerBlur");
+				this.connect(this.domNode, "onfocus", "_onContainerFocus");
+				this.connect(this.domNode, "onblur", "_onContainerBlur");
 			}
 		},
 
@@ -174,16 +166,17 @@ dojo.declare("dijit._KeyNavContainer",
 			// summary:
 			//		Call in setup() to attach focus handlers to the
 			//		container's children.
-
-			var children = this.getChildren();
-			for(var i=0; i < children.length; i++){
-				this._connectChild(children[i]);
-			}
+			dojo.forEach(this.getChildren(), dojo.hitch(this, "_connectChild"));
 		},
 
 		addChild: function(/*Widget*/ widget, /*int?*/ insertIndex){
 			dijit._KeyNavContainer.superclass.addChild.apply(this, arguments);
 			this._connectChild(widget);
+		},
+
+		focus: function(){
+			// summary: Default focus() implementation: focus the first child.
+			this.focusFirstChild();
 		},
 
 		focusFirstChild: function(){
@@ -193,8 +186,8 @@ dojo.declare("dijit._KeyNavContainer",
 
 		focusChild: function(/*Widget*/ widget){
 			// summary: Focus widget.
-			if(widget && widget !== this.focusedChild){
-				if(this.focusedChild){
+			if(widget){
+				if(this.focusedChild && widget !== this.focusedChild){
 					this._onChildBlur(this.focusedChild);
 				}
 				this.focusedChild = widget;
@@ -203,20 +196,25 @@ dojo.declare("dijit._KeyNavContainer",
 		},
 
 		_connectChild: function(/*Widget*/ widget){
-			if(this._manageTabIndex){
-				this._setTabIndex(widget, widget === this._getFirstFocusableChild() ? 0 : -1);
-			}
+			(widget.focusNode || widget.domNode).setAttribute("tabIndex", -1);
 			if(dojo.isIE){
-				dojo.connect(widget.domNode, "onactivate", this, "_onChildFocus");
+				this.connect(widget.domNode, "onactivate", "_onChildFocus");
 			}else{
-				dojo.connect(widget.domNode, "onfocus", this, "_onChildFocus");
+				this.connect(widget.domNode, "onfocus", "_onChildFocus");
 			}
 		},
 
-		_onChildBlur: function(/*Widget*/ widget){
-			// summary:
-			//		Called when focus leaves a child widget to go
-			//		to a sibling widget.
+		_onContainerFocus: function(evt){
+			this.domNode.setAttribute("tabIndex", -1);
+			if(evt.target === this.domNode){
+				this.focusFirstChild();
+			}
+		},
+
+		_onContainerBlur: function(evt){
+			if(this.tabIndex){
+				this.domNode.setAttribute("tabIndex", this.tabIndex);
+			}
 		},
 
 		_onContainerKeypress: function(evt){
@@ -230,15 +228,12 @@ dojo.declare("dijit._KeyNavContainer",
 
 		_onChildFocus: function(evt){
 			this.focusedChild = dijit.byNode(evt.currentTarget);
-			if(this._manageTabIndex){
-				this._setTabIndex(this._getFirstFocusableChild(), -1);
-			}
 		},
 
-		_onContainerBlur: function(evt){
-			if(this._manageTabIndex){
-				this._setTabIndex(this._getFirstFocusableChild(), 0);
-			}
+		_onChildBlur: function(/*Widget*/ widget){
+			// summary:
+			//		Called when focus leaves a child widget to go
+			//		to a sibling widget.
 		},
 
 		_getFirstFocusableChild: function(){
@@ -254,17 +249,10 @@ dojo.declare("dijit._KeyNavContainer",
 				if(!child){
 					child = children[(dir>0) ? 0 : (children.length-1)];
 				}
-				if(child.focus && dojo.style(child.domNode, "display") != "none"){
+				if(!child.disabled && child.focus && dojo.style(child.domNode, "display") != "none"){
 					return child;
 				}
 				child = this._getSiblingOfChild(child, dir);
-			}
-		},
-
-		_setTabIndex: function(widget, value){
-			if(widget){
-				var node = widget.focusNode || widget.domNode;
-				node.setAttribute("tabIndex", value);
 			}
 		}
 	}
