@@ -43,8 +43,8 @@ dojo.declare("dijit._Widget", null, {
 	domNode: null,
 
 	// attributeMap: Object
-	//		A map of attributes -- typically standard HTML attributes -- to transfer
-	//		from the parsed node into the new dom, at the widget's domNode, by default.
+	//		A map of attributes and attachpoints -- typically standard HTML attributes -- to set
+	//		on the widget's dom, at the "domNode" attach point, by default.
 	//		Other node references can be specified as properties of 'this'
 	attributeMap: {id:"", dir:"", lang:"", "class":"", style:"", title:""},  // TODO: add on* handlers?
 
@@ -128,7 +128,7 @@ if(!/dijit\.form\.(Slider|Textarea|ComboBox|FilteringSelect)/.test(this.declared
 						domValue = node.className;
 						break;
 					case "style":
-						domValue = domValue.cssText; // FIXME: Opera
+						domValue = node.cssText; // FIXME: Opera
 					}
 					if(domValue){
 						var delim = {style: ";", "class": " "}[attr];
