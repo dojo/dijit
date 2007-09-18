@@ -8,6 +8,9 @@ dojo.declare(
 	"dijit.form.Textarea",
 	dijit.form._FormWidget,
 {
+	// TODO: set this up to work correctly
+	attributeMap: {},
+
 	// summary
 	//	A textarea that resizes vertically to contain the data.
 	//	Takes nearly all the parameters (name, value, etc.) that a vanilla textarea takes.

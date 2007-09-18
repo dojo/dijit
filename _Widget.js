@@ -107,51 +107,23 @@ dojo.declare("dijit._Widget", null, {
 
 		this.buildRendering();
 
-		// Copy attributes listed in attributeMap into the newly created DOM for the widget
-		// The placement of these attributes is according to the property mapping in attributeMap
+		// Copy attributes listed in attributeMap into the [newly created] DOM for the widget.
+		// The placement of these attributes is according to the property mapping in attributeMap.
 		// Note special handling for 'style' and 'class' attributes which are lists and can
 		// have elements from both old and new structures, and some attributes like "type"
 		// cannot be processed this way as they are not mutable.
-
-//KLUDGE: skip the widgets which aren't yet working.  See #3058
-if(!/dijit\.form\.(Slider|Textarea|ComboBox|FilteringSelect)/.test(this.declaredClass))
-
-		for(var attr in this.attributeMap){
-			if(this.domNode){
+		if(this.domNode){
+			for(var attr in this.attributeMap){
 				var mapNode = this[this.attributeMap[attr] || "domNode"];
 				var value = this[attr];
 				if(value !== "" || (params && params[attr])){
-					var domValue = mapNode.getAttribute(attr);
-					// Deal with IE quirks for 'class' and 'style'
 					switch(attr){
 					case "class":
-						domValue = mapNode.className;
+						mapNode.className += " " + value;
 						break;
 					case "style":
-						domValue = domValue && domValue.cssText; // FIXME: Opera
-					}
-					if(domValue){
-						var delim = {style: ";", "class": " "}[attr];
-						// style and class attributes are special and contain lists
-						// which need to be combined
-						if(delim && value){
-							value += delim + domValue;
-						}else{
-							value = domValue;
-						}
-					}
-
-					// Deal with IE quirks for 'class' and 'style'
-					switch(attr){
-					case "class":
-						mapNode.className = value;
+						mapNode.style.cssText += "; " + value;// FIXME: Opera
 						break;
-					case "style":
-						if(mapNode.style && dojo.isObject(mapNode.style)){
-							mapNode.style.cssText = value; // required for IE, doesn't work in Opera
-							break;
-						}
-						// fallthrough...
 					default:
 						mapNode.setAttribute(attr, value);
 					}
