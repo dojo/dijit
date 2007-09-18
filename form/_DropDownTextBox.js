@@ -137,6 +137,12 @@ dojo.declare(
 
 			if(childs.length){
 				var visibleCount = Math.min(childs.length,this.maxListLength);
+				with(this._popupWidget.domNode.style){
+					// natural size of the list has changed, so erase old width/height settings,
+					// which were hardcoded in a previous call to this function (via dojo.marginBox() call) 
+					width="";
+					height="";
+				}
 				this._arrowPressed();
 				// hide the tooltip
 				this._displayMessage("");
