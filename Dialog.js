@@ -167,8 +167,8 @@ dojo.declare(
 			var mb = dojo.marginBox(this.domNode);
 
 			var style = this.domNode.style;
-			style.left = (viewport.l + (viewport.w - mb.w)/2) + "px";
-			style.top = (viewport.t + (viewport.h - mb.h)/2) + "px";
+			style.left = Math.foor((viewport.l + (viewport.w - mb.w)/2)) + "px";
+			style.top = Math.floor((viewport.t + (viewport.h - mb.h)/2)) + "px";
 		},
 
 		_findLastFocus: function(/*Event*/ evt){
