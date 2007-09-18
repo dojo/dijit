@@ -18,7 +18,10 @@ dojo.declare(
 	tabIndex: "0",
 
 	postCreate: function(){
-		this.connectKeyNavHandlers([dojo.keys.LEFT_ARROW], [dojo.keys.RIGHT_ARROW]);
+		this.connectKeyNavHandlers(
+			this.isLeftToRight() ? [dojo.keys.LEFT_ARROW] : [dojo.keys.RIGHT_ARROW],
+			this.isLeftToRight() ? [dojo.keys.RIGHT_ARROW] : [dojo.keys.LEFT_ARROW]
+		);
 	},
 
 	startup: function(){
