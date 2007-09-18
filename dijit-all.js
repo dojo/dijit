@@ -26,7 +26,6 @@ dojo.require("dijit.form.Slider");
 dojo.require("dijit.form.Textarea");
 dojo.require("dijit.form.TextBox");
 dojo.require("dijit.form.ValidationTextBox");
-dojo.require("dijit.form._DropDownTextBox");
 dojo.require("dijit.form._FormWidget");
 dojo.require("dijit.form._Spinner");
 

@@ -163,10 +163,6 @@ dojo.declare(
 		postMixInProperties: function(){
 			dijit.form.ComboBoxMixin.prototype.postMixInProperties.apply(this, arguments);
 			dijit.form.MappedTextBox.prototype.postMixInProperties.apply(this, arguments);
-		},
-
-		postCreate: function(){
-			dijit.form.MappedTextBox.prototype.postCreate.apply(this, arguments);
 		}
 	}
 );

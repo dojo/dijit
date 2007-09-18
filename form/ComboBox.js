@@ -1,13 +1,12 @@
 dojo.provide("dijit.form.ComboBox");
 
 dojo.require("dojo.data.ItemFileReadStore");
-dojo.require("dijit.form._DropDownTextBox");
 dojo.require("dijit.form.ValidationTextBox");
 dojo.requireLocalization("dijit.form", "ComboBox");
 
 dojo.declare(
 	"dijit.form.ComboBoxMixin",
-	dijit.form._DropDownTextBox,
+	null,
 	{
 		// summary:
 		//		Auto-completing text box, and base class for FilteringSelect widget.
@@ -56,15 +55,29 @@ dojo.declare(
 		//		Set true if the ComboBox should ignore case when matching possible items
 		ignoreCase: true,
 
-		_hasMasterPopup:true,
+		// hasDownArrow: Boolean
+		//		Set this textbox to have a down arrow button.
+		//		Defaults to true.
+		hasDownArrow:true,
 
-		_popupClass:"dijit.form._ComboBoxMenu",
+		// _hasFocus: Boolean
+		//		Represents focus state of the textbox
+		// TODO: get rid of this; it's unnecessary (but currently referenced in FilteringSelect)
+		_hasFocus:false,
+
+		templatePath: dojo.moduleUrl("dijit.form", "templates/ComboBox.html"),
+
+		baseClass:"dijitComboBox",
 
 		_lastDisplayedValue: "",
 
 		getValue:function(){
 			// don't get the textbox value but rather the previously set hidden value
 			return dijit.form.TextBox.superclass.getValue.apply(this, arguments);
+		},
+
+		getDisplayedValue:function(){
+			return this.textbox.value;
 		},
 
 		setDisplayedValue:function(/*String*/ value){
@@ -324,14 +337,64 @@ dojo.declare(
 			this._showResultList();
 		},
 
+		_showResultList: function(){
+			this._hideResultList();
+			var items = this._popupWidget.getItems(),
+				visibleCount = Math.min(items.length,this.maxListLength);
+			this._arrowPressed();
+			// hide the tooltip
+			this._displayMessage("");
+			
+			// Position the list and if it's too big to fit on the screen then
+			// size it to the maximum possible height
+			// Our dear friend IE doesnt take max-height so we need to calculate that on our own every time
+			// TODO: want to redo this, see http://trac.dojotoolkit.org/ticket/3272, http://trac.dojotoolkit.org/ticket/4108
+			with(this._popupWidget.domNode.style){
+				// natural size of the list has changed, so erase old width/height settings,
+				// which were hardcoded in a previous call to this function (via dojo.marginBox() call) 
+				width="";
+				height="";
+			}
+			var best=this.open();
+			// #3212: only set auto scroll bars if necessary
+			// prevents issues with scroll bars appearing when they shouldn't when node is made wider (fractional pixels cause this)
+			var popupbox=dojo.marginBox(this._popupWidget.domNode);
+			this._popupWidget.domNode.style.overflow=((best.h==popupbox.h)&&(best.w==popupbox.w))?"hidden":"auto";
+			// #4134: borrow TextArea scrollbar test so content isn't covered by scrollbar and horizontal scrollbar doesn't appear
+			var newwidth=best.w;
+			if(best.h<this._popupWidget.domNode.scrollHeight){newwidth+=16;}
+			dojo.marginBox(this._popupWidget.domNode, {h:best.h,w:Math.max(newwidth,this.domNode.offsetWidth)});
+		},
+
+		_hideResultList: function(){
+			if(this._isShowingNow){
+				dijit.popup.close();
+				this._arrowIdle();
+				this._isShowingNow=false;
+			}
+		},
+
+		_onBlur: function(){
+			// summary: called magically when focus has shifted away from this widget and it's dropdown
+			this._hideResultList();
+		},
+
 		onfocus:function(){
-			dijit.form._DropDownTextBox.prototype.onfocus.apply(this, arguments);
+			this._hasFocus=true;
 			this.inherited('onfocus', arguments);
 		},
 
 		onblur:function(){ /* not _onBlur! */
-			// call onblur first to avoid race conditions with _hasFocus
-			dijit.form._DropDownTextBox.prototype.onblur.apply(this, arguments);
+			this._arrowIdle();
+			this._hasFocus=false;
+
+			// TODO: this should be handled by _setStateClass
+			dojo.removeClass(this.nodeWithBorder, "dijitInputFieldFocused");
+
+			// hide the Tooltip
+			// TODO: isn't this handled by ValidationTextBox?
+			this.validate(false);
+
 			if(!this._isShowingNow){
 				// if the user clicks away from the textbox, set the value to the textbox value
 				this.setDisplayedValue(this.getDisplayedValue());
@@ -392,7 +455,6 @@ dojo.declare(
 				return;
 			}
 			this.focus();
-			this.makePopup();
 			if(this._isShowingNow){
 				this._hideResultList();
 			}else{
@@ -407,7 +469,11 @@ dojo.declare(
 		},
 
 		_startSearch: function(/*String*/ key){
-			this.makePopup();
+			if(!this._popupWidget){
+				this._popupWidget = new dijit.form._ComboBoxMenu({
+					onChange: dojo.hitch(this, this._selectOption)
+				});
+			}
 			// create a new query to prevent accidentally querying for a hidden value from FilteringSelect's keyField
 			var query=this.query;
 			this._lastQuery=query[this.searchAttr]=key+"*";
@@ -423,13 +489,33 @@ dojo.declare(
 			return this.searchAttr;
 		},
 
+		/////////////// Event handlers /////////////////////
+
+		_arrowPressed: function(){
+			if(!this.disabled&&this.hasDownArrow){
+				dojo.addClass(this.downArrowNode, "dijitArrowButtonActive");
+			}
+		},
+
+		_arrowIdle: function(){
+			if(!this.disabled&&this.hasDownArrow){
+				dojo.removeClass(this.downArrowNode, "dojoArrowButtonPushed");
+			}
+		},
+
+		compositionend: function(/*Event*/ evt){
+			// summary: When inputting characters using an input method, such as Asian
+			// languages, it will generate this event instead of onKeyDown event
+			this.onkeypress({charCode:-1});
+		},
+
 		//////////// INITIALIZATION METHODS ///////////////////////////////////////
 		constructor: function(){
 			this.query={};
 		},
 
 		postMixInProperties: function(){
-			dijit.form._DropDownTextBox.prototype.postMixInProperties.apply(this, arguments);
+			this.baseClass=this.hasDownArrow?this.baseClass:this.baseClass+"NoArrow";
 			if(!this.store){
 				// if user didn't specify store, then assume there are option tags
 				var items = dojo.query("> option", this.srcNodeRef).map(function(node){
@@ -448,15 +534,24 @@ dojo.declare(
 			}
 		},
 
+		uninitialize:function(){
+			if(this._popupWidget){
+				this._hideResultList();
+				this._popupWidget.destroy()
+			};
+		},
+
 		_getMenuLabelFromItem:function(/*Item*/ item){
 			return {html:false, label:this.store.getValue(item, this.searchAttr)};
 		},
 
 		open:function(){
-			this._popupWidget.onChange=dojo.hitch(this, this._selectOption);
-			// connect onkeypress to ComboBox
-			this._popupWidget._onkeypresshandle=this._popupWidget.connect(this._popupWidget.domNode, "onkeypress", dojo.hitch(this, this.onkeypress));
-			return dijit.form._DropDownTextBox.prototype.open.apply(this, arguments);
+			this._isShowingNow=true;
+			return dijit.popup.open({
+				popup: this._popupWidget,
+				around: this.domNode,
+				parent: this
+			});
 		}
 	}
 );
@@ -473,7 +568,6 @@ dojo.declare(
 				+"<div class='dijitMenuItem' dojoAttachPoint='previousButton'></div>"
 				+"<div class='dijitMenuItem' dojoAttachPoint='nextButton'></div>"
 			+"</div>",
-		_onkeypresshandle:null,
 		_messages:null,
 		_comboBox:null,
 
@@ -498,7 +592,6 @@ dojo.declare(
 		},
 
 		onClose:function(){
-			this.disconnect(this._onkeypresshandle);
 			this._blurOptionNode();
 		},
 
@@ -693,10 +786,6 @@ dojo.declare(
 		postMixInProperties: function(){
 			dijit.form.ComboBoxMixin.prototype.postMixInProperties.apply(this, arguments);
 			dijit.form.ValidationTextBox.prototype.postMixInProperties.apply(this, arguments);
-		},
-
-		postCreate: function(){
-			dijit.form.ValidationTextBox.prototype.postCreate.apply(this, arguments);
 		}
 	}
 );
