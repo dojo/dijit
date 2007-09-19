@@ -24,6 +24,19 @@ dojo.declare("dijit.form._FormMixin", null,
 
 		*/
 
+		// HTML <FORM> attributes
+
+		action: "",
+		method: "",
+		enctype: "",
+		name: "",
+		"accept-charset": "",
+		accept: "",
+		target: "",
+
+		attributeMap: dojo.mixin(dojo.clone(dijit._Widget.prototype.attributeMap),
+			{action: "", method: "", enctype: "", name: "", "accept-charset": "", accept: "", target: ""}),
+
 		// execute: Function
 		//	User defined function to do stuff when the user hits the submit button
 		execute: function(/*Object*/ formContents){},
