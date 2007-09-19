@@ -25,7 +25,7 @@ dojo.declare(
 			this.bgIframe = new dijit.BackgroundIframe(this.domNode);
 
 			// Setup fade-in and fade-out functions.
-			this.fadeIn = dojo.fadeIn({ node: this.domNode, duration: this.duration, onEnd: dojo.hitch(this, "_onShow") }),
+			this.fadeIn = dojo.fadeIn({ node: this.domNode, duration: this.duration, onEnd: dojo.hitch(this, "_onShow") });
 			this.fadeOut = dojo.fadeOut({ node: this.domNode, duration: this.duration, onEnd: dojo.hitch(this, "_onHide") });
 
 		},
@@ -53,7 +53,7 @@ dojo.declare(
 			// position the element and change CSS according to position	
 			var align = this.isLeftToRight() ? {'BR': 'BL', 'BL': 'BR'} : {'BL': 'BR', 'BR': 'BL'};
 			var pos = dijit.placeOnScreenAroundElement(this.domNode, aroundNode, align);
-			this.domNode.className="dijitTooltip dijitTooltip" + (pos.corner=='BL' ? "Right" : "Left");
+			this.domNode.className="dijitTooltip dijitTooltip" + (pos.corner=='BL' ? "Right" : "Left");//FIXME: might overwrite class
 
 			// show it
 			dojo.style(this.domNode, "opacity", 0);
@@ -129,6 +129,11 @@ dojo.declare(
 			this.srcNodeRef.style.display="none";
 
 			this._connectNode = dojo.byId(this.connectId);
+
+			if(dojo.isIE){
+				// BiDi workaround
+				this._connectNode.style.zoom = 1;
+			}
 
 			dojo.forEach(["onMouseOver", "onMouseOut", "onFocus", "onBlur", "onHover", "onUnHover"], function(event){
 				this.connect(this._connectNode, event.toLowerCase(), "_"+event);
