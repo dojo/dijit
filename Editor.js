@@ -316,6 +316,7 @@ dojo.declare(
 					//maybe ctrl+backspace/delete, so don't endEditing when ctrl is pressed
 					case ks.CTRL:
 					case ks.SHIFT:
+					case ks.TAB:
 						break;
 				}	
 		},
