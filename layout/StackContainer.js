@@ -338,44 +338,44 @@ dojo.declare(
 			if(this.disabled || e.altKey ){ return; }
 			var page = e._djpage;
 			var forward = true;
-			if (e.ctrlKey || !e._djpage){
+			if(e.ctrlKey || !e._djpage){
+				var k = dojo.keys;
 				switch(e.keyCode){
-					case dojo.keys.LEFT_ARROW:
-					case dojo.keys.UP_ARROW:
-					case dojo.keys.PAGE_UP:
-						forward=false;
+					case k.LEFT_ARROW:
+					case k.UP_ARROW:
+					case k.PAGE_UP:
+						forward = false;
 						// fall through
-					case dojo.keys.RIGHT_ARROW:
-					case dojo.keys.DOWN_ARROW:
-					case dojo.keys.PAGE_DOWN:
+					case k.RIGHT_ARROW:
+					case k.DOWN_ARROW:
+					case k.PAGE_DOWN:
 						this.adjacent(forward).onClick();
 						dojo.stopEvent(e);
 						break;
-					case dojo.keys.DELETE:
-						if (this._currentChild.closable){
+					case k.DELETE:
+						if(this._currentChild.closable){
 							this.onCloseButtonClick(this._currentChild);
 						}
 						dojo.stopEvent(e);
 						break;
 					default:
-						if (e.ctrlKey){
-							if (e.keyCode == dojo.keys.TAB){
+						if(e.ctrlKey){
+							if(e.keyCode == k.TAB){
 								this.adjacent(!e.shiftKey).onClick();
 								dojo.stopEvent(e);
 							}else if(e.keyChar == "w"){
-								if (this._currentChild.closable){
+								if(this._currentChild.closable){
 									this.onCloseButtonClick(this._currentChild);
 								}
 								dojo.stopEvent(e); // avoid browser tab closing.
 							}
 						}
-						break;
 				}
 			}
 		},
 
 		onContainerKeyPress: function(/*Object*/ info){
-			console.log("container key press");
+//			console.log("container key press");
 			info.e._djpage = info.page;
 			this.onkeypress(info.e);
 		}
@@ -391,7 +391,7 @@ dojo.declare(
 	
 	tabIndex: "-1", // StackContainer buttons are not in the tab order by default
 	
-	onClick: function(/*Event*/ evt) {
+	onClick: function(/*Event*/ evt){
 		// this is for TabContainer where the tabs are <span> rather than button,
 		// so need to set focus explicitly (on some browsers)
 		dijit.focus(this.focusNode);
