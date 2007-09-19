@@ -119,10 +119,14 @@ dojo.declare("dijit._Widget", null, {
 				if(value !== "" || (params && params[attr])){
 					switch(attr){
 					case "class":
-						mapNode.className += " " + value;
+						dojo.addClass(mapNode, value);
 						break;
 					case "style":
-						mapNode.style.cssText += "; " + value;// FIXME: Opera
+						if(mapNode.style.cssText){
+							mapNode.style.cssText += "; " + value;// FIXME: Opera
+						}else{
+							mapNode.style.cssText = value;
+						}
 						break;
 					default:
 						mapNode.setAttribute(attr, value);
