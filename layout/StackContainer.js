@@ -143,10 +143,48 @@ dojo.declare(
 		}
 	},
 
+	forward: function(){
+		// Summary: advance to next page
+		var children = this.getChildren();
+		var index = dojo.indexOf(children, this.selectedChildWidget);
+		this.selectChild(children[ (index + 1) % children.length ]);
+	},
+
+	back: function(){
+		// Summary: go back to previous page
+		var children = this.getChildren();
+		var index = dojo.indexOf(children, this.selectedChildWidget);
+		this.selectChild(children[ (index + children.length - 1) % children.length ]);
+	},
+
 	_onKeyPress: function(e){
-		// Alert subscribers (probably controllers) about key press event.
-		dojo.publish(this.id+"-containerKeyPress", [{ e: e, page: this}]);
-		return;
+		// summary
+		//	Keystroke handling for keystrokes on the tab panel itself (that were bubbled up to me)
+		//	Ctrl-w: close tab
+		if(e.ctrlKey){
+			switch(e.keyCode){
+				case dojo.keys.PAGE_DOWN:
+				case dojo.keys.PAGE_UP:
+				case dojo.keys.TAB:
+					if ((e.keyCode == dojo.keys.PAGE_DOWN) ||
+						(e.keyCode == dojo.keys.TAB && !e.shiftKey)){
+						this.forward();
+					}else{
+						this.back();
+					}
+					dijit.focus(this.selectedChildWidget.domNode);
+					dojo.stopEvent(e);
+					return false;
+					break;
+				default:
+					if(e.keyChar == "w"){
+						if (this.selectedChildWidget.closable){
+							this.closeChild(this.selectedChildWidget);
+						}
+						dojo.stopEvent(e); // avoid browser tab closing.
+					}
+			}
+		}
 	},
 
 	layout: function(){
@@ -225,8 +263,7 @@ dojo.declare(
 				dojo.subscribe(this.containerId+"-startup", this, "onStartup"),
 				dojo.subscribe(this.containerId+"-addChild", this, "onAddChild"),
 				dojo.subscribe(this.containerId+"-removeChild", this, "onRemoveChild"),
-				dojo.subscribe(this.containerId+"-selectChild", this, "onSelectChild"),
-				dojo.subscribe(this.containerId+"-containerKeyPress", this, "_onContainerKeyPress")
+				dojo.subscribe(this.containerId+"-selectChild", this, "onSelectChild")
 			];
 		},
 
@@ -313,7 +350,7 @@ dojo.declare(
 				dijit.focus(b.focusNode || b.domNode);
 			}
 		},
-		
+
 		// TODO: this is a bit redundant with forward, back api in StackContainer
 		adjacent: function(/*Boolean*/ forward){
 			// find currently focused button in children array
@@ -324,56 +361,32 @@ dojo.declare(
 			return children[ (current + offset) % children.length ];
 		},
 
-		onkeypress: function(/*Event*/ e){
+		onkeypress: function(/*Event*/ evt){
 			// summary:
 			//   Handle keystrokes on the page list, for advancing to next/previous button
 			//   and closing the current page.
 
-			if(this.disabled || e.altKey ){ return; }
-			var page = e._djpage;
+			if(this.disabled || evt.altKey || evt.shiftKey || evt.ctrlKey){ return; }
 			var forward = true;
-			if (e.ctrlKey || !e._djpage){
-				switch(e.keyCode){
-					case dojo.keys.LEFT_ARROW:
-					case dojo.keys.UP_ARROW:
-					case dojo.keys.PAGE_UP:
-						forward=false;
-						// fall through
-					case dojo.keys.RIGHT_ARROW:
-					case dojo.keys.DOWN_ARROW:
-					case dojo.keys.PAGE_DOWN:
-						this.adjacent(forward).onClick();
-						dojo.stopEvent(e);
-						break;
-					case dojo.keys.DELETE:
-						if (this._currentChild.closable){
-							this.onCloseButtonClick(this._currentChild);
-						}
-						dojo.stopEvent(e);
-						break;
-					default:
-						if (e.ctrlKey){
-							if (e.keyCode == dojo.keys.TAB){
-								this.adjacent(!e.shiftKey).onClick();
-								dojo.stopEvent(e);
-							}else if(e.keyChar == "w"){
-								if (this._currentChild.closable){
-									this.onCloseButtonClick(this._currentChild);
-								}
-								dojo.stopEvent(e); // avoid browser tab closing.
-							}
-						}
-						break;
-				}
+			switch(evt.keyCode){				
+				case dojo.keys.LEFT_ARROW:
+				case dojo.keys.UP_ARROW:
+					forward = false;
+					// fall through
+				case dojo.keys.RIGHT_ARROW:
+				case dojo.keys.DOWN_ARROW:
+					this.adjacent(forward).onClick();
+					dojo.stopEvent(evt);
+					break;
+				case dojo.keys.DELETE:
+					if(this._currentChild.closable){
+						this.onCloseButtonClick(this._currentChild);
+						dojo.stopEvent(evt);
+					}
 			}
-		},
-
-		_onContainerKeyPress: function(/*Object*/ info){
-			console.log("container key press");
-			info.e._djpage = info.page;
-			this.onkeypress(info.e);
 		}
-});
+	}
+);
 
 dojo.declare(
 	"dijit.layout._StackButton",
