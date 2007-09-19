@@ -167,7 +167,7 @@ dojo.declare(
 			var mb = dojo.marginBox(this.domNode);
 
 			var style = this.domNode.style;
-			style.left = Math.foor((viewport.l + (viewport.w - mb.w)/2)) + "px";
+			style.left = Math.floor((viewport.l + (viewport.w - mb.w)/2)) + "px";
 			style.top = Math.floor((viewport.t + (viewport.h - mb.h)/2)) + "px";
 		},
 
