@@ -158,40 +158,8 @@ dojo.declare(
 	},
 
 	_onKeyPress: function(e){
-		// summary
-		//	Keystroke handling for keystrokes on the tab panel itself (that were bubbled up to me)
-		//	Ctrl-w: close tab
-		if(e.ctrlKey){
-			switch(e.keyCode){
-				case dojo.keys.PAGE_DOWN:
-				case dojo.keys.PAGE_UP:
-				case dojo.keys.TAB:
-					if ((e.keyCode == dojo.keys.PAGE_DOWN) ||
-						(e.keyCode == dojo.keys.TAB && !e.shiftKey)){
-						this.forward();
-					}else{
-						this.back();
-					}
-					dijit.focus(this.selectedChildWidget.domNode);
-					dojo.stopEvent(e);
-					return false;
-					break;
-				default:
-					if(e.keyChar == "w"){
-						if (this.selectedChildWidget.closable){
-							this.closeChild(this.selectedChildWidget);
-						}
-						dojo.stopEvent(e); // avoid browser tab closing.
-					}
-			}
-		}
-	},
-
-	layout: function(){
-		// Summary: called when any page is shown, to make it fit the container correctly
-		if(this.doLayout && this.selectedChildWidget && this.selectedChildWidget.resize){
-			this.selectedChildWidget.resize(this._contentBox);
-		}
+		dojo.publish(this.id+"-containerKeyPress", [{ e: e, page: this}]);
+		return;
 	},
 
 	_showChild: function(/*Widget*/ page){
@@ -263,7 +231,8 @@ dojo.declare(
 				dojo.subscribe(this.containerId+"-startup", this, "onStartup"),
 				dojo.subscribe(this.containerId+"-addChild", this, "onAddChild"),
 				dojo.subscribe(this.containerId+"-removeChild", this, "onRemoveChild"),
-				dojo.subscribe(this.containerId+"-selectChild", this, "onSelectChild")
+				dojo.subscribe(this.containerId+"-selectChild", this, "onSelectChild"),
+				dojo.subscribe(this.containerId+"-containerKeyPress", this, "onContainerKeyPress")
 			];
 		},
 
@@ -350,7 +319,7 @@ dojo.declare(
 				dijit.focus(b.focusNode || b.domNode);
 			}
 		},
-
+		
 		// TODO: this is a bit redundant with forward, back api in StackContainer
 		adjacent: function(/*Boolean*/ forward){
 			// find currently focused button in children array
@@ -361,32 +330,56 @@ dojo.declare(
 			return children[ (current + offset) % children.length ];
 		},
 
-		onkeypress: function(/*Event*/ evt){
+		onkeypress: function(/*Event*/ e){
 			// summary:
 			//   Handle keystrokes on the page list, for advancing to next/previous button
 			//   and closing the current page.
 
-			if(this.disabled || evt.altKey || evt.shiftKey || evt.ctrlKey){ return; }
+			if(this.disabled || e.altKey ){ return; }
+			var page = e._djpage;
 			var forward = true;
-			switch(evt.keyCode){				
-				case dojo.keys.LEFT_ARROW:
-				case dojo.keys.UP_ARROW:
-					forward = false;
-					// fall through
-				case dojo.keys.RIGHT_ARROW:
-				case dojo.keys.DOWN_ARROW:
-					this.adjacent(forward).onClick();
-					dojo.stopEvent(evt);
-					break;
-				case dojo.keys.DELETE:
-					if(this._currentChild.closable){
-						this.onCloseButtonClick(this._currentChild);
-						dojo.stopEvent(evt);
-					}
+			if (e.ctrlKey || !e._djpage){
+				switch(e.keyCode){
+					case dojo.keys.LEFT_ARROW:
+					case dojo.keys.UP_ARROW:
+					case dojo.keys.PAGE_UP:
+						forward=false;
+						// fall through
+					case dojo.keys.RIGHT_ARROW:
+					case dojo.keys.DOWN_ARROW:
+					case dojo.keys.PAGE_DOWN:
+						this.adjacent(forward).onClick();
+						dojo.stopEvent(e);
+						break;
+					case dojo.keys.DELETE:
+						if (this._currentChild.closable){
+							this.onCloseButtonClick(this._currentChild);
+						}
+						dojo.stopEvent(e);
+						break;
+					default:
+						if (e.ctrlKey){
+							if (e.keyCode == dojo.keys.TAB){
+								this.adjacent(!e.shiftKey).onClick();
+								dojo.stopEvent(e);
+							}else if(e.keyChar == "w"){
+								if (this._currentChild.closable){
+									this.onCloseButtonClick(this._currentChild);
+								}
+								dojo.stopEvent(e); // avoid browser tab closing.
+							}
+						}
+						break;
+				}
 			}
+		},
+
+		onContainerKeyPress: function(/*Object*/ info){
+			console.log("container key press");
+			info.e._djpage = info.page;
+			this.onkeypress(info.e);
 		}
-	}
-);
+});
 
 dojo.declare(
 	"dijit.layout._StackButton",
