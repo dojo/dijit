@@ -23,7 +23,7 @@ dojo.declare(
 			this._plugins=[];
 			this._editInterval = this.editActionInterval * 1000;
 		},
-		toolbar: null,
+
 		postCreate: function(){
 			//for custom undo/redo
 			if(this.customUndo){

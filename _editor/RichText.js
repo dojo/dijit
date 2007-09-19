@@ -111,7 +111,7 @@ dojo.declare("dijit._editor.RichText", [ dijit._Widget ], {
 	// minHeight: String
 	//		The minimum height that the editor should have
 	minHeight: "1em",
-
+	
 	// isClosed: Boolean
 	isClosed: true,
 
@@ -688,6 +688,12 @@ dojo.declare("dijit._editor.RichText", [ dijit._Widget ], {
 				// Place focus on the iframe. A subsequent tab or shift tab will put focus
 				// on the correct control.
 				this.iframe.focus();  // this.focus(); won't work
+				dojo.stopEvent(e);
+			}else if (e.keyCode == dojo.keys.TAB && e.shiftKey){
+				// if there is a toolbar, set focus to it, otherwise ignore
+				if (this.toolbar){
+					this.toolbar.focus();
+				}
 				dojo.stopEvent(e);
 			}
 		}
