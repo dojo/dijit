@@ -388,7 +388,9 @@ dojo.declare(
 	// summary
 	//	Internal widget used by StackContainer.
 	//	The button-like or tab-like object you click to select or delete a page
-
+	
+	tabIndex: "-1", // StackContainer buttons are not in the tab order by default
+	
 	onClick: function(/*Event*/ evt) {
 		// this is for TabContainer where the tabs are <span> rather than button,
 		// so need to set focus explicitly (on some browsers)
