@@ -116,7 +116,7 @@ dojo.declare("dijit._Widget", null, {
 			for(var attr in this.attributeMap){
 				var mapNode = this[this.attributeMap[attr] || "domNode"];
 				var value = this[attr];
-				if(value !== "" || (params && params[attr])){
+				if(typeof value != "object" && (value !== "" || (params && params[attr]))){
 					switch(attr){
 					case "class":
 						dojo.addClass(mapNode, value);
