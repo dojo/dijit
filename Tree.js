@@ -317,6 +317,10 @@ dojo.declare(
 		// summary: user overridable function to return CSS class name to display icon
 	},
 
+	getLabelClass: function(/*dojo.data.Item*/ item){
+		// summary: user overridable function to return CSS class name to display label
+	},
+
 	_onLoadAllItems: function(/*_TreeNode*/ node, /*dojo.data.Item[]*/ items){
 		// sumary: callback when all the children of a given node have been loaded
 		var childParams=dojo.map(items, function(item){
@@ -752,8 +756,11 @@ dojo.declare(
 	_onSetItem: function(/*Object*/ item){
 		//summary: set data event  on an item in the store
 		var identity = this.store.getIdentity(item),
-			node = this._itemNodeMap[identity];
-		node.setLabelNode(this.getLabel(item));
+		node = this._itemNodeMap[identity];
+
+		if (node){
+			node.setLabelNode(this.getLabel(item));
+		}
 	}
 });
 
@@ -791,6 +798,10 @@ dojo.declare(
 		// set icon based on item
 		dojo.addClass(this.iconNode, this.tree.getIconClass(this.item));
 
+		// set icon based on item
+		dojo.addClass(this.labelNode, this.tree.getLabelClass(this.item));
+
+		
 		if(this.isExpandable){
 			dijit.wai.setAttr(this.labelNode, "waiState", "expanded", this.isExpanded);
 		}
