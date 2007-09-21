@@ -864,11 +864,11 @@ HTML.dj_ie6 .tundra .dijitInputFieldValidationError,
 }
 
 .tundra .dijitAccordionPane-selected .dijitAccordionArrow {
-	background:url("images/arrowDown.png") no-repeat;
+	background:url("images/circleIcon.png") no-repeat;
 	margin-top:2px;
 }
 .dj_ie6 .tundra .dijitAccordionPane-selected .dijitAccordionArrow {
-	background-image: url("images/arrowDown.gif"); 
+	background-image: url("images/circleIcon.gif"); 
 }
 
 .tundra .dijitAccordionPane .dijitAccordionBody {
