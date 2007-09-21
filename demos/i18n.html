@@ -67,7 +67,7 @@
 	<table width="100%">
 		<tr>
 			<td width="30%" style="vertical-align: top;">
-				<div dojoType="dijit.Tree" id="mytree" store="store" label="Continents">
+				<div dojoType="dijit.Tree" id="mytree" store="store" label="Continents" childrenAttr="languages">
 					<!-- Override all the data access functions to work from the I18N data store -->
 					<script type="dojo/method" event="getItemChildren" args="item, onComplete">
 						switch(item ? store.getValue(item, "type") : "top"){
@@ -76,8 +76,6 @@
 							case "continent":
 								return store.fetch({query: {continent: store.getValue(item, "iso")}, onComplete: onComplete});
 							case "country":
-								console.log("getting children of country", item);
-								this.childrenAttr="languages";
 								return dijit.Tree.prototype.getItemChildren.apply(this, arguments);
 						}
 					</script>

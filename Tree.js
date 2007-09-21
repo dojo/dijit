@@ -233,7 +233,7 @@ dojo.declare(
 
 	// childrenAttr: String
 	//		one ore more attributes that holds children of a tree node
-	childrenAttr: "children",
+	childrenAttr: ["children"],
 
 	templatePath: dojo.moduleUrl("dijit", "_tree/Tree.html"),		
 
@@ -312,20 +312,9 @@ dojo.declare(
 		//		(For efficiency reasons we may not want to check if an element has
 		//		children until user clicks the expando node)
 
-		if (dojo.isString(this.childrenAttr)){
-			this.childrenAttr = this.childrenAttr.split(/,\s*/);
-		}
-
-		if (!dojo.isArray(this.childrenAttr)){
-			this.childrenAttr=[this.childrenAttr];
-		}
-
-		for (var i=0; i<this.childrenAttr.length; i++){	
-			if (this.store.hasAttribute(item, this.childrenAttr[i])){
-				return true;
-			}
-		}
-		return false;
+		return dojo.some(this.childrenAttr, function(attr){
+			return this.store.hasAttribute(item, attr);
+		}, this);
 	},
 
 	getItemChildren: function(/*dojo.data.Item*/ parentItem, /*function(items)*/ onComplete){
@@ -769,38 +758,35 @@ dojo.declare(
 	_onNewItem: function(/*Object*/ item, parentInfo){
 		//summary: callback when new item has been added to the store.
 
-		var loadNewItem=false;
+		var loadNewItem;	// should new item be displayed in tree?
+
 		if (parentInfo){
 			var parent = this._itemNodeMap[this.getItemParentIdentity(item, parentInfo)];
-
-			for(var i=0; i<this.childrenAttr.length;i++){
-				if (parentInfo.attribute==this.childrenAttr[i]){
-					loadNewItem=true;
-					break;
-				}
+			
+			// If new item's parent item not in tree view yet, can safely ignore.
+			// Also, if a query of specified parent wouldn't return this item, then ignore.
+			if(!parent ||
+				dojo.indexOf(this.childrenAttr, parentInfo.attribute) == -1){
+				return;
 			}
-		}else{
-			loadNewItem=true;
 		}
 
-		if (loadNewItem){
-			var childParams = {item:item};
-			if (parent){
-				if (!parent.isExpandable){
-					parent.makeExpandable();
-				}
-				if (parent.state=="LOADED" || parent.isExpanded){
-					var childrenMap=parent._addChildren([childParams]);
-				}
-			}else{
-				// top level node
-				var childrenMap=this._addChildren([childParams]);		
+		var childParams = {item:item};
+		if (parent){
+			if (!parent.isExpandable){
+				parent.makeExpandable();
 			}
-	
-			if (childrenMap){
-				dojo.mixin(this._itemNodeMap, childrenMap);
-				//this._itemNodeMap[this.store.getIdentity(item)]=child;
+			if (parent.state=="LOADED" || parent.isExpanded){
+				var childrenMap=parent._addChildren([childParams]);
 			}
+		}else{
+			// top level node
+			var childrenMap=this._addChildren([childParams]);		
+		}
+
+		if (childrenMap){
+			dojo.mixin(this._itemNodeMap, childrenMap);
+			//this._itemNodeMap[this.store.getIdentity(item)]=child;
 		}
 	},
 
