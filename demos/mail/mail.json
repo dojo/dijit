@@ -4,13 +4,11 @@
 	items: [
 
 		// Hierarchy of folders
-		{ type: 'folder', id: 'mailbox', label:'Folders', folders: [
-			{ type: 'folder', id: 'inbox', label:'Inbox', icon:'mailIconFolderInbox' },
-			{ type: 'folder', id: 'deleted', label:'Trash', icon:'mailIconTrashcanFull' },
-			{ type: 'folder', id: 'save', label:'Save',  folders:[
-				{ id: 'work', label:'stuff for work'},
-				{ id: 'fun', label:'stuff for fun'}
-			]}
+		{ type: 'folder', id: 'inbox', label:'Inbox', icon:'mailIconFolderInbox' },
+		{ type: 'folder', id: 'deleted', label:'Trash', icon:'mailIconTrashcanFull' },
+		{ type: 'folder', id: 'save', label:'Save',  folders:[
+			{ id: 'work', label:'stuff for work'},
+			{ id: 'fun', label:'stuff for fun'}
 		]},
 
 		// Address book (list of people that have sent me messages)

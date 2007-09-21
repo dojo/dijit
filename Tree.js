@@ -7,48 +7,122 @@ dojo.require("dijit._Templated");
 dojo.require("dijit._Container");
 
 dojo.declare(
-	"dijit._TreeBase",
+	"dijit._TreeNode",
 	[dijit._Widget, dijit._Templated, dijit._Container, dijit._Contained],
 {
-	// summary:
-	//	Base class for Tree and _TreeNode
+	// summary
+	//		Single node within a tree
+
+	// item: dojo.data.Item
+	//		the dojo.data entry this tree represents
+	item: null,	
+
+	isTreeNode: true,
+
+	// label: String
+	//		Text of this tree node
+	label: "",
+
+	isExpandable: null, // show expando node
+	
+	isExpanded: false,
 
 	// state: String
 	//		dynamic loading-related stuff.
 	//		When an empty folder node appears, it is "UNCHECKED" first,
 	//		then after dojo.data query it becomes "LOADING" and, finally "LOADED"	
 	state: "UNCHECKED",
-	locked: false,
-	startExpanded: true,
 
-	lock: function(){
-		// summary: lock this node (and it's descendants) while a delete is taking place?
-		this.locked = true;
-	},
-	unlock: function(){
-		if(!this.locked){
-			//dojo.debug((new Error()).stack);
-			throw new Error(this.declaredClass+" unlock: not locked");
+	templatePath: dojo.moduleUrl("dijit", "_tree/Node.html"),		
+
+	postCreate: function(){
+		// set label, escaping special characters
+		this.setLabelNode(this.label);
+
+		// set expand icon for leaf 	
+		this._setExpando();
+
+		// set icon based on item
+		dojo.addClass(this.iconNode, this.tree.getIconClass(this.item));
+
+		if(this.isExpandable){
+			dijit.wai.setAttr(this.labelNode, "waiState", "expanded", this.isExpanded);
 		}
-		this.locked = false;
 	},
 
-	isLocked: function(){
-		// summary: can this node be modified?
-		// returns: false if this node or any of it's ancestors are locked
-		var node = this;
-		while(true){
-			if(node.lockLevel){
-				return true;
-			}
-			if(!node.getParent() || node.isTree){
-				break;
-			}	
-			node = node.getParent();	
+	markProcessing: function(){
+		// summary: visually denote that tree is loading data, etc.
+		this.state = "LOADING";
+		this._setExpando(true);	
+	},
+
+	unmarkProcessing: function(){
+		// summary: clear markup from markProcessing() call
+		this._setExpando(false);	
+	},
+
+	_updateLayout: function(){
+		// summary: set appropriate CSS classes for this.domNode
+		dojo.toggleClass(this.domNode, "dijitTreeIsLast", !this.getNextSibling());
+	},
+
+	_setExpando: function(/*Boolean*/ processing){
+		// summary: set the right image for the expando node
+
+		// apply the appropriate class to the expando node
+		var styles = ["dijitTreeExpandoLoading", "dijitTreeExpandoOpened",
+			"dijitTreeExpandoClosed", "dijitTreeExpandoLeaf"];
+		var idx = processing ? 0 : (this.isExpandable ?	(this.isExpanded ? 1 : 2) : 3);
+		dojo.forEach(styles,
+			function(s){
+				dojo.removeClass(this.expandoNode, s);
+			}, this
+		);
+		dojo.addClass(this.expandoNode, styles[idx]);
+
+		// provide a non-image based indicator for images-off mode
+		this.expandoNodeText.innerHTML =
+			processing ? "*" :
+				(this.isExpandable ?
+					(this.isExpanded ? "-" : "+") : "*");
+	},	
+
+	expand: function(){
+		// summary: show my children
+		if(this.isExpanded){ return; }
+		// cancel in progress collapse operation
+		if(this._wipeOut.status() == "playing"){
+			this._wipeOut.stop();
 		}
-		return false;
+
+		this.isExpanded = true;
+		dijit.wai.setAttr(this.labelNode, "waiState", "expanded", "true");
+		dijit.wai.setAttr(this.containerNode, "waiRole", "role", "group");
+
+		this._setExpando();
+
+		this._wipeIn.play();
 	},
 
+	collapse: function(){					
+		if(!this.isExpanded){ return; }
+
+		// cancel in progress expand operation
+		if(this._wipeIn.status() == "playing"){
+			this._wipeIn.stop();
+		}
+
+		this.isExpanded = false;
+		dijit.wai.setAttr(this.labelNode, "waiState", "expanded", "false");
+		this._setExpando();
+
+		this._wipeOut.play();
+	},
+
+	setLabelNode: function(label){
+		this.labelNode.innerHTML="";
+		this.labelNode.appendChild(document.createTextNode(label));
+	},
 
 	_setChildren: function(/* Object[] */ childrenArray){
 		// summary:
@@ -87,25 +161,15 @@ dojo.declare(
 			this.isExpandable=false;
 		}
 
-		if(this.isTree){
-			// put first child in tab index if one exists.
-			var fc = this.getChildren()[0];
-			var tabnode = fc ? fc.labelNode : this.domNode;
-			tabnode.setAttribute("tabIndex", "0");
-		}
-
 		if(this._setExpando){
 			// change expando to/form dot or + icon, as appropriate
 			this._setExpando(false);
 		}
 
-		if (this.isTree && this.startExpanded) {
-			var children = this.getChildren();
-			for(var i=0; i<children.length;i++){
-				if (children[i].isExpandable){
-					this._expandNode(children[i]);	
-				}
-			}
+		// create animations for showing/hiding the children (if children exist)
+		if(this.containerNode && !this._wipeIn){
+			this._wipeIn = dojo.fx.wipeIn({node: this.containerNode, duration: 150});
+			this._wipeOut = dojo.fx.wipeOut({node: this.containerNode, duration: 150});
 		}
 
 		return nodeMap;
@@ -157,7 +221,7 @@ dojo.declare(
 
 dojo.declare(
 	"dijit.Tree",
-	dijit._TreeBase,
+	dijit._TreeNode,
 {
 	// store: String||dojo.data.Store
 	//	The store to get data to display in the tree
@@ -173,7 +237,7 @@ dojo.declare(
 
 	templatePath: dojo.moduleUrl("dijit", "_tree/Tree.html"),		
 
-	isExpanded: true, // consider this "root node" to be always expanded
+	isExpandable: true,
 
 	isTree: true,
 
@@ -199,6 +263,7 @@ dojo.declare(
 
 	postMixInProperties: function(){
 		this.tree = this;
+		this.lastFocused = this.labelNode;
 
 		this._itemNodeMap={};
 
@@ -211,8 +276,6 @@ dojo.declare(
 	},
 
 	postCreate: function(){
-		this.containerNode = this.domNode;
-
 		// make template for container node (we will clone this and insert it into
 		// any nodes that have children)
 		var div = document.createElement('div');
@@ -221,8 +284,10 @@ dojo.declare(
 		dijit.wai.setAttr(div, "waiRole", "role", "presentation");
 		this.containerNodeTemplate = div;
 
+		this.inherited("postCreate", arguments);
+
 		// load top level children
-		this.getItemChildren(null, dojo.hitch(this, "_onLoadAllItems", this));
+		this._expandNode(this);
 
 		if (this.dndController){
 			if (dojo.isString(this.dndController)){
@@ -761,136 +826,5 @@ dojo.declare(
 		if (node){
 			node.setLabelNode(this.getLabel(item));
 		}
-	}
-});
-
-dojo.declare(
-	"dijit._TreeNode",
-	dijit._TreeBase,
-{
-	// summary
-	//		Single node within a tree
-
-	templatePath: dojo.moduleUrl("dijit", "_tree/Node.html"),		
-
-	// item: dojo.data.Item
-	//		the dojo.data entry this tree represents
-	item: null,	
-
-	isTreeNode: true,
-
-	// label: String
-	//		Text of this tree node
-	label: "",
-
-	isExpandable: null, // show expando node
-
-	isExpanded: false,
-
-	postCreate: function(){
-		// set label, escaping special characters
-		this.labelNode.innerHTML = "";
-		this.labelNode.appendChild(document.createTextNode(this.label));
-
-		// set expand icon for leaf 	
-		this._setExpando();
-
-		// set icon based on item
-		dojo.addClass(this.iconNode, this.tree.getIconClass(this.item));
-
-		// set icon based on item
-		dojo.addClass(this.labelNode, this.tree.getLabelClass(this.item));
-
-		
-		if(this.isExpandable){
-			dijit.wai.setAttr(this.labelNode, "waiState", "expanded", this.isExpanded);
-		}
-	},
-
-	markProcessing: function(){
-		// summary: visually denote that tree is loading data, etc.
-		this.state = "LOADING";
-		this._setExpando(true);	
-	},
-
-	unmarkProcessing: function(){
-		// summary: clear markup from markProcessing() call
-		this._setExpando(false);	
-	},
-
-	_updateLayout: function(){
-		// summary: set appropriate CSS classes for this.domNode
-		dojo.toggleClass(this.domNode, "dijitTreeIsRoot", "isTree" in this.getParent());
-		dojo.toggleClass(this.domNode, "dijitTreeIsLast", !this.getNextSibling());
-	},
-
-	_setExpando: function(/*Boolean*/ processing){
-		// summary: set the right image for the expando node
-
-		// apply the appropriate class to the expando node
-		var styles = ["dijitTreeExpandoLoading", "dijitTreeExpandoOpened",
-			"dijitTreeExpandoClosed", "dijitTreeExpandoLeaf"];
-		var idx = processing ? 0 : (this.isExpandable ?	(this.isExpanded ? 1 : 2) : 3);
-		dojo.forEach(styles,
-			function(s){
-				dojo.removeClass(this.expandoNode, s);
-			}, this
-		);
-		dojo.addClass(this.expandoNode, styles[idx]);
-
-		// provide a non-image based indicator for images-off mode
-		this.expandoNodeText.innerHTML =
-			processing ? "*" :
-				(this.isExpandable ?
-					(this.isExpanded ? "-" : "+") : "*");
-	},	
-
-	_setChildren: function(items){
-		var ret = this.inherited('_setChildren', arguments);
-
-		// create animations for showing/hiding the children (if children exist)
-		if(this.containerNode && !this._wipeIn){
-			this._wipeIn = dojo.fx.wipeIn({node: this.containerNode, duration: 150});
-			this._wipeOut = dojo.fx.wipeOut({node: this.containerNode, duration: 150});
-		}
-
-		return ret;
-	},
-
-	expand: function(){
-		// summary: show my children
-		if(this.isExpanded){ return; }
-		// cancel in progress collapse operation
-		if(this._wipeOut.status() == "playing"){
-			this._wipeOut.stop();
-		}
-
-		this.isExpanded = true;
-		dijit.wai.setAttr(this.labelNode, "waiState", "expanded", "true");
-		dijit.wai.setAttr(this.containerNode, "waiRole", "role", "group");
-
-		this._setExpando();
-
-		this._wipeIn.play();
-	},
-
-	collapse: function(){					
-		if(!this.isExpanded){ return; }
-
-		// cancel in progress expand operation
-		if(this._wipeIn.status() == "playing"){
-			this._wipeIn.stop();
-		}
-
-		this.isExpanded = false;
-		dijit.wai.setAttr(this.labelNode, "waiState", "expanded", "false");
-		this._setExpando();
-
-		this._wipeOut.play();
-	},
-
-	setLabelNode: function(label){
-		this.labelNode.innerHTML="";
-		this.labelNode.appendChild(document.createTextNode(label));
 	}
 });

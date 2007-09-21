@@ -309,8 +309,11 @@
 				<div dojoType="dijit.layout.AccordionContainer" sizeMin="20" sizeShare="20">
 					<div dojoType="dijit.layout.AccordionPane" title="Folders">
 						<div dojoType="dijit.Tree" id="mytree" store="mailStore"
-							labelAttr="label" childrenAttr="folders" query="{type:'folder'}">
+							labelAttr="label" childrenAttr="folders" query="{type:'folder'}" label="Folders">
 							<script type="dojo/method" event="onClick" args="item">
+								if(!item){
+									return;	// top level node in tree doesn't correspond to any item
+								}
 								/* filter the message list to messages in this folder */
 								table.query.query = {
 									type: "message",
@@ -319,50 +322,29 @@
 								table.runQuery();
 							</script>
 							<script type="dojo/method" event="getIconClass" args="item">
-								var specifiedIcon = mailStore.getValue(item, "icon");
-								return specifiedIcon || "mailIconFolderDocuments";
+								return (item && mailStore.getValue(item, "icon")) || "mailIconFolderDocuments";
 							</script>
 						</div>
 					</div>
 					<div dojoType="dijit.layout.AccordionPane" title="Address Book">
-
-						<!--
-							TODO: want to use a table here but somehow can't have two table instances on the same page.
-							Debug later
-							<span dojoType="demo.Table" store="mailStore"
-								query="{ query: { type: 'address' }, columns: [ {name: 'User name', attribute: 'label'} ], sort: [ { attribute: 'label' } ]  }"
-								id="addresses" style="width: 100%">
-								<script type="dojo/method" event="preamble">
-									this.query = { type: "address" };
-									this.columns = [
-										{
-											name: "Name",
-											attribute: "label"
-										}
-									];
-								</script>
-								<script type="dojo/method" event="onClick" args="item">
-									table.query.query.sender = mailStore.getValue(item, "sender");
-									delete table.query.query.folder;
-									table.runQuery();
-								</script>
-							</span>
-						-->
-						<div dojoType="dijit.Tree" id="addrTree" store="mailStore"
-							labelAttr="label" childrenAttr="folders" query="{type:'address'}">
+						<span dojoType="demo.Table" store="mailStore"
+							query="{ query: { type: 'address' }, columns: [ {name: 'User name', attribute: 'label'} ], sort: [ { attribute: 'label' } ]  }"
+							id="addresses" style="width: 100%">
+							<script type="dojo/method" event="preamble">
+								this.query = { type: "address" };
+								this.columns = [
+									{
+										name: "Name",
+										attribute: "label"
+									}
+								];
+							</script>
 							<script type="dojo/method" event="onClick" args="item">
-								/* filter the message list to messages from this user */
-								table.query.query = {
-									type: "message",
-									sender: mailStore.getValue(item, "label")
-								};
+								table.query.query.sender = mailStore.getValue(item, "sender");
+								delete table.query.query.folder;
 								table.runQuery();
 							</script>
-							<script type="dojo/method" event="getIconClass" args="item">
-								var specifiedIcon = mailStore.getValue(item, "icon");
-								return specifiedIcon || "mailIconFolderDocuments";
-							</script>
-						</div>
+						</span>
 					</div>
 				</div>  <!-- end of Accordion -->
 

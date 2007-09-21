@@ -67,7 +67,7 @@
 	<table width="100%">
 		<tr>
 			<td width="30%" style="vertical-align: top;">
-				<div dojoType="dijit.Tree" id="mytree" store="store">
+				<div dojoType="dijit.Tree" id="mytree" store="store" label="Continents">
 					<!-- Override all the data access functions to work from the I18N data store -->
 					<script type="dojo/method" event="getItemChildren" args="item, onComplete">
 						switch(item ? store.getValue(item, "type") : "top"){
@@ -90,7 +90,7 @@
 					<!-- override functions for display of each node -->
 					<script type="dojo/method" event="getIconClass" args="item">
 						var icon =
-							(store.getValue(item, "type") == "country") ?
+							(item && store.getValue(item, "type") == "country") ?
 							("countryIcon country" + store.getValue(item, "iso") + "Icon") :
 							null;
 						return icon;

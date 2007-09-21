@@ -31,7 +31,7 @@
 		url="../tests/countries.json"></div>
 
 	<div dojoType="dijit.Tree" id="mytree" store="continentStore" query="{type:'continent'}"
-		labelAttr="name">
+		labelAttr="name" label="Continents">
 		<script type="dojo/method" event="onClick" args="item">
 			alert("Execute of node " + continentStore.getLabel(item)
 				+", population=" + continentStore.getValue(item, "population"));
@@ -79,7 +79,7 @@
 
 
 	<div dojoType="dijit.Tree" id="tree2" store="continentStore" query="{type:'continent'}"
-		labelAttr="name">
+		labelAttr="name" label="Continents">
 		<script type="dojo/connect">
 			var menu = dijit.byId("tree_menu");
 			// when we right-click anywhere on the tree, make sure we open the menu

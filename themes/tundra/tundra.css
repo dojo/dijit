@@ -890,13 +890,15 @@ HTML.dj_ie6 .tundra .dijitInputFieldValidationError,
     margin-left: 19px;
     zoom: 1;	/* MOW: what the heck is this doing in here? */
 }
-.tundra .dijitTreeIsRoot {
-    margin-left: 0;
-}
  
 /* left vertical line (grid) for all nodes */
 .tundra .dijitTreeIsLast {
     background: url('images/i_half.gif') no-repeat;
+}
+
+.tundra .dijitTreeIsRoot {
+    margin-left: 0;
+    background: none;
 }
 
 .tundra .dijitTreeExpando {

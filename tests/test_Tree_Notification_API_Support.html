@@ -21,26 +21,23 @@
 		dojo.require("dijit.form.Button");
 		dojo.require("dojo.parser");	// scan page for widgets and instantiate them
 
-		function deleteNode(){
+		function deleteItem(){
 			var store = dijit.byId("myTree").store;
-			store.deleteItem(selectedNode);
+			store.deleteItem(selectedItem);
 			resetForms();
 		}
 
-		function addNodeToStore(){
+		function addItem(){
 			var store = dijit.byId("myTree").store;
-			if(selectedNode!=null){
-				var pInfo = {parent: selectedNode, attribute:"children"};
-				store.newItem({id: dojo.byId('newId').value,name:dojo.byId("label").value,someProperty:dojo.byId("someProperty")},pInfo);
-			}else{
-				store.newItem({id: dojo.byId('newId').value,name:dojo.byId("label").value,someProperty:dojo.byId("someProperty")});
-			}
+			var pInfo = selectedItem ? {parent: selectedItem, attribute:"children"} : null;
+			console.debug(pInfo);
+			store.newItem({id: dojo.byId('newId').value,name:dojo.byId("label").value,someProperty:dojo.byId("someProperty")},pInfo);
 			resetForms();
 		}
 
 		function resetForms() {
 			dojo.byId('selected').innerHTML="Tree Root"
-			selectedNode=null;
+			selectedItem=null;
 			dojo.byId("uLabel").value = "";
 			dojo.byId("uSomeProperty").value = "";
 		}
@@ -49,32 +46,30 @@
 			console.log("Updating Item");
 			var store = dijit.byId("myTree").store;
 
-			if (selectedNode!=null){
-				if (dojo.byId("uLabel").value != store.getValue(selectedNode, "name")){
-					store.setValue(selectedNode, "name", dojo.byId("uLabel").value);
+			if (selectedItem!=null){
+				if (dojo.byId("uLabel").value != store.getValue(selectedItem, "name")){
+					store.setValue(selectedItem, "name", dojo.byId("uLabel").value);
 				}
 
-				if (dojo.byId("uSomeProperty").value != store.getValue(selectedNode, "someProperty")){
-					store.setValue(selectedNode, "someProperty", dojo.byId("uSomeProperty").value);
+				if (dojo.byId("uSomeProperty").value != store.getValue(selectedItem, "someProperty")){
+					store.setValue(selectedItem, "someProperty", dojo.byId("uSomeProperty").value);
 				}
 
 			}else{
-				console.error("Cant update the tree root");
+				console.error("Can't update the tree root");
 			}
 		}
 
 		dojo.addOnLoad(function(){
 			resetForms();
-			dojo.subscribe("myTree", null, function(message){
-				if(message.event=="execute"){
-					selectedNode = message.item;
-					dojo.byId('selected').innerHTML=treeTestStore.getLabel(message.item);
-					dojo.byId('uLabel').value = treeTestStore.getLabel(message.item);
-					dojo.byId('uSomeProperty').value = treeTestStore.getValue(message.item,"someProperty");
-				}
-			});
 		});
 
+		function onClick(item){
+			selectedItem = item;
+			dojo.byId('selected').innerHTML= item ? treeTestStore.getLabel(item) : "";
+			dojo.byId('uLabel').value = item ? treeTestStore.getLabel(item) : "";
+			dojo.byId('uSomeProperty').value = item ? treeTestStore.getValue(item,"someProperty") : "";
+		}
 	</script>
 
 </head>
@@ -85,7 +80,7 @@
 	<div dojoType="dojo.data.ItemFileWriteStore" jsId="treeTestStore"
 		url="../tests/treeTest.json"></div>
 
-	<div dojoType="dijit.Tree" id="myTree" store="treeTestStore"  labelAttr="name" somePropertyAttr="someProperty"></div>
+	<div dojoType="dijit.Tree" id="myTree" label="root" store="treeTestStore" onClick="onClick" labelAttr="name" somePropertyAttr="someProperty"></div>
 
 	<br />
 	<h2>Current Selection: <span id='selected'>Tree Root</span>
@@ -101,9 +96,9 @@
 	Name:		<input id="label" width="50" value="Enter Item Name" /><br />
 	Description: <input id="someProperty" width="50" value="Enter Some Property Value" /><br /><br />
 
-	<div dojoType="dijit.form.Button" iconClass="noteIcon" onClick="addNodeToStore();">Add Item to Store</div>
+	<div dojoType="dijit.form.Button" iconClass="noteIcon" onClick="addItem();">Add Item to Store</div>
 	<br />
-	<button dojoType="dijit.form.Button" iconClass="noteIcon" onClick="deleteNode()">Delete Node (and children)</button>
+	<button dojoType="dijit.form.Button" iconClass="noteIcon" onClick="deleteItem()">Delete Node (and children)</button>
 
 
 	</body>
