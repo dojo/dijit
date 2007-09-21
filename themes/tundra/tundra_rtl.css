@@ -49,6 +49,7 @@
 .dijitRtl .dijitTreeContainer .dijitTreeIsRoot {
 	margin-left: auto;
     margin-right: 0;
+    background-image: none;
 }
 
 .dijitRtl .dijitTreeContainer .dijitTreeIsLast {

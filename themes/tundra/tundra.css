@@ -898,7 +898,7 @@ HTML.dj_ie6 .tundra .dijitInputFieldValidationError,
 
 .tundra .dijitTreeIsRoot {
     margin-left: 0;
-    background: none;
+    background-image: none;
 }
 
 .tundra .dijitTreeExpando {
