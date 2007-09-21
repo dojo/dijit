@@ -87,6 +87,8 @@ dojo.declare(
 		//		is True or False depending on state of dialog
 		open: false,
 
+		// duration: Integer
+		//		The time in milliseconds it takes the dialog to fade in and out
 		duration: 400,
 
 		_lastFocusItem:null,
@@ -96,7 +98,7 @@ dojo.declare(
 
 		postCreate: function(){
 			dojo.body().appendChild(this.domNode);
-			dijit.Dialog.superclass.postCreate.apply(this, arguments);
+			this.inherited("postCreate",arguments);
 			this.domNode.style.display="none";
 			this.connect(this, "onExecute", "hide");
 			this.connect(this, "onCancel", "hide");
@@ -106,7 +108,7 @@ dojo.declare(
 			// when href is specified we need to reposition
 			// the dialog after the data is loaded
 			this._position();
-			dijit.Dialog.superclass.onLoad.call(this);
+			this.inherited("onLoad",arguments);
 		},
 
 		_setup: function(){
@@ -162,7 +164,8 @@ dojo.declare(
 
 		_position: function(){
 			// summary: position modal dialog in center of screen
-
+			
+			if(dojo.hasClass(dojo.body(),"dojoMove")){ return; }
 			var viewport = dijit.getViewport();
 			var mb = dojo.marginBox(this.domNode);
 
@@ -240,7 +243,6 @@ dojo.declare(
 			var ev = typeof(document.ondeactivate) == "object" ? "ondeactivate" : "onblur";
 			this._modalconnects.push(dojo.connect(this.containerNode, ev, this, "_findLastFocus"));
 
-
 			dojo.style(this.domNode, "opacity", 0);
 			this.domNode.style.display="block";
 			this.open = true;
@@ -278,9 +280,9 @@ dojo.declare(
 			dojo.forEach(this._modalconnects, dojo.disconnect);
 			this._modalconnects = [];
 
-			// TODO: this is failing on FF presumably because the DialogUnderlay hasn't disappeared yet?
-			// Attach it to fire at the end of the animation
-			dijit.focus(this._savedFocus);
+			this.connect(this._fadeOut,"onEnd",dojo.hitch(this,function(){
+				dijit.focus(this._savedFocus);
+			}));
 			this.open = false;
 		},
 
@@ -310,7 +312,7 @@ dojo.declare(
 		templatePath: dojo.moduleUrl("dijit.layout", "templates/TooltipDialog.html"),
 
 		postCreate: function(){
-			dijit.TooltipDialog.superclass.postCreate.apply(this, arguments);
+			this.inherited("postCreate",arguments);
 			this.connect(this.containerNode, "onkeypress", "_onKey");
 
 			// IE doesn't bubble onblur events - use ondeactivate instead
