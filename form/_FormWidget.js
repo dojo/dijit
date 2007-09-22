@@ -94,6 +94,7 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 
 		if(!this.disabled){
 			switch(event.type){
+				case "mouseenter" :	
 				case "mouseover" :
 					this._hovering = true;
 					var baseClass, node=mouseNode;
@@ -104,6 +105,7 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 					break;
 
 				case "mouseout" :	
+				case "mouseleave" :	
 					this._hovering = false;	
 					break;
 

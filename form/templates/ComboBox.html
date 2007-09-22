@@ -1,5 +1,5 @@
 <table class="dijit dijitReset dijitInline dijitLeft" baseClass="${baseClass}" cellspacing="0" cellpadding="0"
-	id="widget_${id}" name="${name}" dojoAttachEvent="onmouseover:_onMouse,onmouseout:_onMouse" waiRole="presentation"
+	id="widget_${id}" name="${name}" dojoAttachEvent="onmouseenter:_onMouse,onmouseleave:_onMouse" waiRole="presentation"
 	><tr
 		><td class='dijitReset dijitStretch dijitInputField' dojoAttachPoint="nodeWithBorder"
 			><input type="text" autocomplete="off"
@@ -8,7 +8,7 @@
 		/></td
 		><td class='dijitReset dijitRight dijitButtonNode dijitDownArrowButton'
 			dojoAttachPoint="downArrowNode"
-			dojoAttachEvent="ondijitclick:_onArrowClick,onmousedown:_onMouse,onmouseup:_onMouse,onmouseover:_onMouse,onmouseout:_onMouse"
+			dojoAttachEvent="ondijitclick:_onArrowClick,onmousedown:_onMouse,onmouseup:_onMouse,onmouseenter:_onMouse,onmouseleave:_onMouse"
 		><div class="dijitDownArrowButtonInner" waiRole="presentation" tabIndex="-1">
 			<div class="dijit_a11y dijitDownArrowButtonChar">&#9660;</div>
 		</div>
