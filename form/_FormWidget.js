@@ -61,7 +61,7 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 	// Don't attempt to mixin the 'type' attribute here programatically -- it must be declared
 	// directly in the template as read by the parser in order to function
 	attributeMap: dojo.mixin(dojo.clone(dijit._Widget.prototype.attributeMap),
-		{id:"focusNode", name:"focusNode", value:"focusNode", tabIndex:"focusNode", alt:"focusNode"}),
+		{id:"focusNode", name:"focusNode", tabIndex:"focusNode", alt:"focusNode"}),
 
 	setDisabled: function(/*Boolean*/ disabled){
 		// summary:

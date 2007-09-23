@@ -40,7 +40,7 @@ dojo.declare(
 			{size:"focusNode", maxlength:"focusNode"}),
 
 		getTextValue: function(){
-			return this.textbox.value;
+			return this.filter(this.textbox.value);
 		},
 
 		getValue: function(){
@@ -49,8 +49,7 @@ dojo.declare(
 
 		setValue: function(value, /*Boolean, optional*/ priorityChange, /*String, optional*/ formattedValue){
 			var filteredValue = this.filter(value);
-			if(filteredValue===""){formattedValue="";}
-			else if(formattedValue == null || formattedValue == undefined){
+			if((typeof filteredValue == typeof value) && (formattedValue == null || formattedValue == undefined)){
 				formattedValue = this.format(filteredValue, this.constraints);
 			}
 			if(formattedValue != null && formattedValue != undefined){
@@ -65,7 +64,7 @@ dojo.declare(
 
 		format: function(/* String */ value, /* Object */ constraints){
 			// summary: Replacable function to convert a value to a properly formatted string
-			return (value.toString ? value.toString() : value);
+			return ((value == null || value == undefined) ? "" : (value.toString ? value.toString() : value));
 		},
 
 		parse: function(/* String */ value, /* Object */ constraints){
@@ -86,7 +85,8 @@ dojo.declare(
 
 		filter: function(val){
 			// summary: Apply various filters to textbox value
-			if(val == undefined || val == null){ val = ""; }
+			if(val == undefined || val == null){ return ""; }
+			else if(typeof val != "string"){ return val; }
 			if(this.trim){
 				val = dojo.trim(val);
 			}
