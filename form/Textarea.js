@@ -8,9 +8,6 @@ dojo.declare(
 	"dijit.form.Textarea",
 	dijit.form._FormWidget,
 {
-	// TODO: set this up to work correctly
-	attributeMap: {},
-
 	// summary
 	//	A textarea that resizes vertically to contain the data.
 	//	Takes nearly all the parameters (name, value, etc.) that a vanilla textarea takes.
@@ -18,14 +15,18 @@ dojo.declare(
 	//	Rows is not supported since this widget adjusts the height.
 	// usage:
 	//	<textarea dojoType="dijit.form.TextArea">...</textarea>
+
+	attributeMap: dojo.mixin(dojo.clone(dijit.form._FormWidget.prototype.attributeMap),
+		{style:"styleNode", 'class':"styleNode"}),
+
 	templateString: (dojo.isIE || dojo.isSafari || dojo.isMozilla) ?
-				((dojo.isIE || dojo.isSafari) ? '<fieldset id="${id}" class="dijitInlineBox dijitInputField dijitTextArea"><div dojoAttachPoint="editNode" waiRole="textarea" tabIndex="${tabIndex}" style="text-decoration:none;_padding-bottom:16px;display:block;overflow:auto;" contentEditable="true"></div>'
+				((dojo.isIE || dojo.isSafari) ? '<fieldset id="${id}" class="dijitInlineBox dijitInputField dijitTextArea" dojoAttachPoint="styleNode"><div dojoAttachPoint="editNode,focusNode,eventNode" dojoAttachEvent="onpaste:_changing,oncut:_changing" waiRole="textarea" style="text-decoration:none;_padding-bottom:16px;display:block;overflow:auto;" contentEditable="true"></div>'
 					: '<span id="${id}" class="dijitReset">'+
 						'<iframe src="javascript:<html><head><title>${_iframeEditTitle}</title></head><body><script>var _postCreate=window.frameElement.postCreate;if(_postCreate)_postCreate();</script></body></html>"'+
-							' dojoAttachPoint="iframe, styleNode" dojoAttachEvent="onblur:_onIframeBlur" class="dijitInlineBox dijitInputField dijitTextArea"></iframe>')
+							' dojoAttachPoint="iframe,styleNode" dojoAttachEvent="onblur:_onIframeBlur" class="dijitInlineBox dijitInputField dijitTextArea"></iframe>')
 				+ '<textarea name="${name}" value="${value}" dojoAttachPoint="formValueNode" style="display:none;"></textarea>'
 				+ ((dojo.isIE || dojo.isSafari) ? '</fieldset>':'</span>')
-			: '<textarea id="${id}" name="${name}" value="${value}" dojoAttachPoint="formValueNode,editNode" class="dijitInputField dijitTextArea"></textarea>',
+			: '<textarea id="${id}" name="${name}" value="${value}" dojoAttachPoint="formValueNode,editNode,focusNode,styleNode" class="dijitInputField dijitTextArea"></textarea>',
 
 	focus: function(){
 		// summary: Received focus, needed for the InlineEditBox widget
@@ -129,9 +130,6 @@ dojo.declare(
 	postCreate: function(){
 		if(dojo.isIE || dojo.isSafari){
 			this.domNode.style.overflowY = 'hidden';
-			this.eventNode = this.focusNode = this.editNode;
-			this.connect(this.eventNode, "oncut", this._changing);
-			this.connect(this.eventNode, "onpaste", this._changing);
 		}else if(dojo.isMozilla){
 			var w = this.iframe.contentWindow;
 			if(!w || !this.iframe.contentDocument.title){
