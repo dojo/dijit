@@ -335,6 +335,16 @@ dojo.declare(
 
 			// show our list (only if we have content, else nothing)
 			this._showResultList();
+
+			// #4091: tell the screen reader that the paging callback finished by shouting the next choice
+			if(dataObject.direction){
+				if(dataObject.direction==1){
+					this._popupWidget.highlightFirstOption();
+				}else if(dataObject.direction==-1){
+					this._popupWidget.highlightLastOption();
+				}
+				this._announceOption(this._popupWidget.getHighlightedOption());
+			}
 		},
 
 		_showResultList: function(){
@@ -480,6 +490,8 @@ dojo.declare(
 			var dataObject=this.store.fetch({queryOptions:{ignoreCase:this.ignoreCase, deep:true}, query: query, onComplete:dojo.hitch(this, "_openResultList"), start:0, count:this.pageSize});
 			function nextSearch(dataObject, direction){
 				dataObject.start+=dataObject.count*direction;
+				// #4091: tell callback the direction of the paging so the screen reader knows which menu option to shout
+				dataObject.direction=direction;
 				dataObject.store.fetch(dataObject);
 			}
 			this._nextSearch=this._popupWidget.onPage=dojo.hitch(this, nextSearch, dataObject);
@@ -569,7 +581,6 @@ dojo.declare(
 				+"<div class='dijitMenuItem' dojoAttachPoint='nextButton'></div>"
 			+"</div>",
 		_messages:null,
-		_comboBox:null,
 
 		postMixInProperties:function(){
 			this._messages = dojo.i18n.getLocalization("dijit.form", "ComboBox", this.lang);
@@ -708,9 +719,21 @@ dojo.declare(
 			}else if(this._highlighted_option.nextSibling&&this._highlighted_option.nextSibling.style.display!="none"){
 				this._focusOptionNode(this._highlighted_option.nextSibling);
 			}
+			// scrollIntoView is called outside of _focusOptionNode because in IE putting it inside causes the menu to scroll up on mouseover
 			dijit.scrollIntoView(this._highlighted_option);
 		},
 
+		highlightFirstOption:function(){
+			// highlight the non-Previous choices option
+			this._focusOptionNode(this.domNode.firstChild.nextSibling);
+			dijit.scrollIntoView(this._highlighted_option);
+		},
+
+		highlightLastOption:function(){
+			// highlight the noon-More choices option
+			this._focusOptionNode(this.domNode.lastChild.previousSibling);
+			dijit.scrollIntoView(this._highlighted_option);
+		},
 
 		_highlightPrevOption:function(){
 			// if nothing selected, highlight last option
