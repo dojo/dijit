@@ -25,12 +25,13 @@
 			this is a plain text area
 			for comparison
 		</textarea>
-		<br><textarea id="programmatic" style="width:400px;"></textarea>
+		<br><textarea id="programmatic"></textarea>
 		<script type="text/javascript">
 			// See if we can make a widget in script
 			dojo.addOnLoad(function(){
 				var w = new dijit.form.Textarea({
 					name: "programmaticTextArea",
+					style: "width:400px;",
 					value: "test value"
 				}, "programmatic");
 				w.setValue('we will create this one programatically');
