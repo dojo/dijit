@@ -1,3 +1,5 @@
 ({
-	buttonCancel: "Abbrechen"
+	buttonOk: "OK",
+	buttonCancel: "Abbrechen",
+	buttonSave: "Speichern"
 })
