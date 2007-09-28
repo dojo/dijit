@@ -225,40 +225,34 @@
 
 /* Dojo Input Field */
 
-HTML.dj_ie6 .tundra .dijitInputFieldValidationNormal,
-.tundra .dijitInputFieldValidationNormal {
-	
-}
-
-HTML.dj_ie6 .tundra .dijitInputFieldValidationError,
-.tundra .dijitInputFieldValidationError {
+.tundra .dijitFormWidgetError input,
+.tundra .dijitComboBoxError input,
+.tundra .dijitSpinnerError input {
 	border:1px solid #f3d118;
 	background-color:#f9f7ba;
-	background-image:none; 
+	background-image:none;
 }
 
-.tundra .dijitInputFieldFocused { 
-	border:1px solid #666; 
+.tundra .dijitFormWidgetFocused input { 
+	border:1px solid #666;
 }
 
-.tundra .dijitInputFieldValidationError:hover,
-.tundra .dijitInputFieldValidationError:focus {
+.tundra .dijitFormWidgetErrorHover input,
+.tundra .dijitFormWidgetErrorFocus input {
 	background-color:#ff6;
-	background-image:none;	
+	background-image:none;
 }
 
-.tundra .dijitInputFieldValidationIcon {
+/* Error icon (triangle with exclamation mark) */
+.tundra .dijitFormWidgetError .dijitValidationIcon,
+.tundra .dijitComboBoxError .dijitValidationIcon,
+.tundra .dijitSpinnerError .dijitValidationIcon {
 	width: 18px;
+	height: 18px;
 	margin-left: 3px;
-	padding-bottom: 1px;
 	background-repeat: no-repeat;
-}
-.tundra .dijitInputFieldValidationIconNormal {
-	background-image: none;
-}
-
-.tundra .dijitInputFieldValidationIconError { 
 	background-image: url('images/warning.png');
+	background-position: center center;
 }
 
 .tundra .dijitInputFieldValidationIconText {

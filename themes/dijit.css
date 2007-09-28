@@ -1339,17 +1339,25 @@ body .dijitAlignClient { position: absolute; }
 	top: expression(eval((document.documentElement||document.body).scrollTop));
 }
 
-/* ValidationTextbox A11y */
-.dijit_a11y .dijitInputFieldValidationIcon {
-	background-image: none;
+/* Validation Icons (representing errors in <input> type widgets) */
+
+.dijit_a11y .dijitValidationIcon {
+	/* normally the theme sets a background image, but for a11y mode we supress it */
+	background-image: none !important;
 }
 
-.dijit_a11y .dijitInputFieldValidationIconNormal .dijitInputFieldValidationIconText {
-	visibility: hidden;
+/*
+ * dijitValidationIconText
+ * This is the class on an X character, that is only used when the error icon cannot be displayed,
+ *  like "alt" text on the error icon.
+ */
+.dijitValidationIconText { display: none; }
+.dijit_a11y .dijitValidationIconText { display: inline; visibility: hidden; }
+
+.dijit_a11y .dijitFormWidgetError .dijitValidationIconText,
+.dijit_a11y .dijitComboBoxError .dijitValidationIconText,
+.dijit_a11y .dijitSpinnerError .dijitValidationIconText,
+{
+	visibility: visible;
 }
-.dijit_a11y .dijitInputFieldValidationIconWarning .dijitInputFieldValidationIconText {
-	visibility: visible !important;
-}
-.dijit_a11y .dijitInputFieldValidationIconError .dijitInputFieldValidationIconText {
-	visibility: visible !important;
-}
+

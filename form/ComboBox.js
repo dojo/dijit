@@ -389,17 +389,16 @@ dojo.declare(
 			this._hideResultList();
 		},
 
-		onfocus:function(){
+		onfocus:function(/*Event*/ evt){
 			this._hasFocus=true;
-			this.inherited('onfocus', arguments);
+			
+			// update styling to reflect that we are focused
+			this._onMouse(evt);
 		},
 
-		onblur:function(){ /* not _onBlur! */
+		onblur:function(/*Event*/ evt){ /* not _onBlur! */
 			this._arrowIdle();
 			this._hasFocus=false;
-
-			// TODO: this should be handled by _setStateClass
-			dojo.removeClass(this.nodeWithBorder, "dijitInputFieldFocused");
 
 			// hide the Tooltip
 			// TODO: isn't this handled by ValidationTextBox?
@@ -413,6 +412,9 @@ dojo.declare(
 			// if you uncomment this line, when you click away from the textbox,
 			// the value in the textbox reverts to match the hidden value
 			//this.parentClass.onblur.apply(this, arguments);
+			
+			// update styling since we are no longer focused
+			this._onMouse(evt);
 		},
 
 		_announceOption: function(/*Node*/ node){

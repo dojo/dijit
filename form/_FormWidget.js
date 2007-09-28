@@ -130,36 +130,46 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 		dijit.focus(this.focusNode);
 	},
 
-	_setStateClass: function(/*String*/ base){
-		// summary:
-		//	Update the visual state of the widget by changing the css class on the domnode
-		//	according to widget state.
+	_setStateClass: function(/*String*/ newBaseClass){
+		// summary
+		//	Update the visual state of the widget by changing the css classes on this.domNode
+		//  (or this.stateNode if defined) according to the specified baseClass
+		//	and also according to widget states.  In the case where a widget has multiple
+		//	states, it sets the class based on all possible
+		//  combinations.  For example, an invalid form widget that is being hovered
+		//	will be "dijitInput dijitInputInvalid dijitInputHover dijitInputInvalidHover".
 		//
-		//	State will be one of:
-		//		<baseClass>
-		//		<baseClass> + "Disabled"	- if the widget is disabled
-		//		<baseClass> + "Active"		- if the mouse (or space/enter key?) is being pressed down
-		//		<baseClass> + "Hover"		- if the mouse is over the widget
-		//		<baseClass> + "Focused"		- if the widget has focus
+		// TODO: redo the way dijitTabCloseButton works; it's strange to change the base class due
+		// to hovering over the close button (which is clearly state related)
 		//
-		//	Note: if you don't want to change the way the widget looks on hover, then don't call
-		//	this routine on hover.  Similarly for mousedown --> active
+		//	The baseclass should be something that doesn't change over time.
+		// 	ex: "dijitButton", "dijitComboboxNoArrow"
 		//
-		//	For widgets which can be in a checked state (like checkbox or radio),
-		//	in addition to the above classes...
-		//		<baseClass> + "Checked"
-		//		<baseClass> + "CheckedDisabled"	- if the widget is disabled
-		//		<baseClass> + "CheckedActive"		- if the mouse is being pressed down
-		//		<baseClass> + "CheckedHover"		- if the mouse is over the widget
-		//		<baseClass> + "CheckedFocused"		- if the widget has focus
+		//	The widget may have one or more of the following states, determined
+		//	by this.state, this.checked, this.valid, and this.selected:
+		//		Error - ValidationTextBox sets this.state to "Error" if the current input value is invalid
+		//		Checked - ex: a checkmark or a ToggleButton in a checked state, will have this.checked==true
+		//		Selected - ex: currently selected tab will have this.selected==true
+		//
+		//	In addition, it may have at most one of the following states,
+		//	based on flags set in _onMouse:
+		//		Disabled	- if the widget is disabled
+		//		Active		- if the mouse (or space/enter key?) is being pressed down
+		//		Hover		- if the mouse is over the widget
+		//		Focused		- if the widget has focus
+		//
+		//	(even if multiple af the above conditions are true we only pick the first matching one)
 
-		// get original class (non state related) specified in template
-		var origClass = (this.stateNode||this.domNode).className;
 
-		// compute list of classname representing the states of the widget
-		base = base || this.baseClass || this.domNode.getAttribute("baseClass") || "dijitFormWidget";
-		origClass = origClass.replace(new RegExp("\\b"+base+"(Checked)?(Selected)?(Disabled|Active|Focused|Hover)?\\b\\s*", "g"), "");
-		var classes = [ base ];
+		// Get original (non state related, non baseClass related) class specified in template
+		if(!("staticClass" in this)){
+			this.staticClass = (this.stateNode||this.domNode).className;
+		}
+		var staticClass = this.staticClass;
+
+		// Compute new set of classes
+		this.baseClass = newBaseClass || this.baseClass || this.domNode.getAttribute("baseClass") || "dijitFormWidget";
+		var classes = [ this.baseClass ];
 
 		function multiply(modifier){
 			classes=classes.concat(dojo.map(classes, function(c){ return c+modifier; }));
@@ -167,6 +177,9 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 
 		if(this.checked){
 			multiply("Checked");
+		}
+		if(this.state){
+			multiply(this.state);
 		}
 		if(this.selected){
 			multiply("Selected");
@@ -184,7 +197,7 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 			multiply("Hover");
 		}
 
-		(this.stateNode || this.domNode).className = origClass + " " + classes.join(" ");
+		(this.stateNode || this.domNode).className = staticClass + " " + classes.join(" ");
 	},
 
 	onChange: function(newValue){

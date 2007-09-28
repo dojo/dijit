@@ -38,6 +38,10 @@ dojo.declare(
 		//		user replaceable function used to generate regExp when dependent on constraints
 		//		Do not specify both regExp and regExpGen
 		regExpGen: function(constraints){ return this.regExp; },
+		
+		// state: String
+		//		Shows current state (ie, validation result) of input (Normal, Warning, or Error)
+		state: "",
 
 		setValue: function(){
 			this.inherited('setValue', arguments);
@@ -76,13 +80,8 @@ dojo.declare(
 			//		Show missing or invalid messages if appropriate, and highlight textbox field.
 			var message = "";
 			var isValid = this.isValid(isFocused);
-			var className = isValid ? "Normal" : "Error";
-			if(!dojo.hasClass(this.nodeWithBorder, "dijitInputFieldValidation"+className)){
-				dojo.removeClass(this.nodeWithBorder, "dijitInputFieldValidation"+((className=="Normal")?"Error":"Normal"));
-				dojo.removeClass(this.iconNode, "dijitInputFieldValidationIcon"+((className=="Normal")?"Error":"Normal"));
-				dojo.addClass(this.nodeWithBorder, "dijitInputFieldValidation"+className);
-				dojo.addClass(this.iconNode, "dijitInputFieldValidationIcon"+className);
-			}
+			this.state = isValid ? "" : "Error";
+			this._setStateClass();
 			dijit.wai.setAttr(this.focusNode, "waiState", "invalid", (isValid? "false" : "true"));
 			if(isFocused){
 				if(this._isEmpty(this.textbox.value)){
@@ -121,8 +120,9 @@ dojo.declare(
 		},
 
 		onfocus: function(evt){
-			this.inherited('onfocus', arguments);
+			// TODO: change to _onFocus?
 			this.validate(true);
+			this._onMouse(evt);	// update CSS classes
 		},
 
 		onkeyup: function(evt){

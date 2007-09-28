@@ -73,10 +73,6 @@ dojo.declare(
 		},
 
 		postCreate: function(){
-			// get the node for which the background color will be updated
-			if(typeof this.nodeWithBorder != "object"){
-				this.nodeWithBorder = this.textbox;
-			}
 			// setting the value here is needed since value="" in the template causes "undefined"
 			// and setting in the DOM (instead of the JS object) helps with form reset actions
 			this.textbox.setAttribute("value", this.getTextValue());
@@ -105,14 +101,7 @@ dojo.declare(
 		},
 
 		// event handlers, you can over-ride these in your own subclasses
-		// TODO: this should be _onFocus (and onfocus removed from the template)
-		onfocus: function(){
-			dojo.addClass(this.nodeWithBorder, "dijitInputFieldFocused");
-		},
-
 		_onBlur: function(){
-			dojo.removeClass(this.nodeWithBorder, "dijitInputFieldFocused");
-
 			this.setValue(this.getValue(), (this.isValid ? this.isValid() : true));
 		},
 
