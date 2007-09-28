@@ -201,7 +201,7 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 		// summary: set the value of the widget.
 		this._lastValue = newValue;
 		dijit.wai.setAttr(this.focusNode || this.domNode, "waiState", "valuenow", this.forWaiValuenow());
-		if((this.intermediateChanges || priorityChange) && newValue != this._lastValueReported){
+		if((this.intermediateChanges || priorityChange) && newValue !== this._lastValueReported){
 			this._lastValueReported = newValue;
 			this.onChange(newValue);
 		}
