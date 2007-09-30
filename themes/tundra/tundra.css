@@ -49,9 +49,8 @@
 .tundra .dijitToggleButtonDisabled .dijitButtonNode,
 .tundra .dijitDropDownButtonDisabled .dijitButtonNode,
 .tundra .dijitComboButtonDisabled .dijitButtonNode,
-.tundra .dijitComboBoxDisabled .dijitDownArrowButton,
-.tundra .dijitComboBoxDisabled .dijitInputField,
-.tundra .dijitSpinnerDisabled .dijitInputField,
+.tundra .dijitComboBoxDisabled,
+.tundra .dijitSpinnerDisabled,
 .tundra .dijitSpinnerDisabled .dijitButtonNode {
 	/* disabled state - inner */
 	border: 1px solid #d5d5d5;
@@ -186,13 +185,15 @@
  ****/
 
 .tundra .dijitComboBox {
-	/* put margin on the outer element of the autocompleter rather than the input */
+	/* put margin on the outer element of the combobox rather than the input */
 	margin: 0em 0.1em 0.2em 0.1em;
 }
 
-.tundra .dijitInputField,
+.tundra .dijitTextBox,
+.tundra .dijitComboBox,
+.tundra .dijitSpinner,
 .tundra .dijitInlineEditor input,
-.tundra .dijitTextaArea {
+.tundra .dijitTextarea {
 	/* 	For all except dijit.form.NumberSpinner:  the actual input element.
 		For dijit.form.NumberSpinner: the outer fieldset that contains the input.
 	*/
@@ -200,68 +201,53 @@
 	background:#fff url("images/validationInputBg.png") repeat-x top left;
 	border:1px solid #9b9b9b;
 	line-height: normal;
-	padding: 0.2em 0.3em;
 }
 
-.tundra .dijitComboBoxFocused .dijitInputField {
+.tundra .dijitTextBoxFocused,
+.tundra .dijitComboBoxFocused,
+.tundra .dijitSpinnerFocused {
 	/* input field when focused (eg: typing affects it) */
 	border-color:#366dba;
 	border-style:inset;
 	/* outline: auto 5px -webkit-focus-ring-color; */
 }
 
-.tundra .dijitComboBoxDisabled .dijitInputField {
-	/* input field when disabled (also set above) */
-}
-
-.tundra .dijitComboBoxHover .dijitInputField  {
-	/* input field when hovered over */
-	border-color:#366dba;
-}
-
-.tundra .dijitComboBoxActive .dijitInputField {
-	/* input field when mouse is down (?) */
-}
-
-/* Dojo Input Field */
-
-.tundra .dijitFormWidgetError input,
-.tundra .dijitComboBoxError input,
-.tundra .dijitSpinnerError input {
+.tundra .dijitTextBoxError,
+.tundra .dijitComboBoxError,
+.tundra .dijitSpinnerError {
 	border:1px solid #f3d118;
+	border-right: 0px;
 	background-color:#f9f7ba;
 	background-image:none;
 }
 
-.tundra .dijitFormWidgetFocused input { 
-	border:1px solid #666;
-}
-
-.tundra .dijitFormWidgetErrorHover input,
-.tundra .dijitFormWidgetErrorFocus input {
+.tundra .dijitFormWidgetErrorFocus,
+.tundra .dijitComboBoxErrorFocus,
+.tundra .dijitSpinnerErrorFocus {
 	background-color:#ff6;
 	background-image:none;
 }
 
-/* Error icon (triangle with exclamation mark) */
-.tundra .dijitFormWidgetError .dijitValidationIcon,
+/* Validation errors  */
+.tundra .dijitValidationIcon {
+	/* prevent height change when widget goes from valid to invalid state, and
+	 * workaround browser (FF and safari) sizing bugs when last table column is empty or display:null
+	 */
+	display: block;
+	height: 16px;
+	width: 1px;
+}
+.tundra .dijitValidationIconText {
+	display: none;
+}
+
+.tundra .dijitTextBoxError .dijitValidationIcon,
 .tundra .dijitComboBoxError .dijitValidationIcon,
 .tundra .dijitSpinnerError .dijitValidationIcon {
-	width: 18px;
-	height: 18px;
-	margin-left: 3px;
+	width: 16px;
+	height: 16px;
 	background-repeat: no-repeat;
 	background-image: url('images/warning.png');
-	background-position: center center;
-}
-
-.tundra .dijitInputFieldValidationIconText {
-	visibility: hidden;
-}
-
-.tundra td.dijitInputField {
-	margin: 0px;
-	padding: 0px 0px 0px 0.3em;
 }
 
 /*

@@ -26,18 +26,15 @@ dojo.declare(
 		//		Converts the first character of each word to uppercase if true.
 		propercase: false,
 
-		// size: String
-		//		HTML INPUT tag size declaration.
-		size: "",
-
 		// maxlength: String
 		//		HTML INPUT tag maxlength declaration.
 		maxlength: "",
 
 		templatePath: dojo.moduleUrl("dijit.form", "templates/TextBox.html"),
+		baseClass: "dijitTextBox",
 
 		attributeMap: dojo.mixin(dojo.clone(dijit.form._FormWidget.prototype.attributeMap),
-			{size:"focusNode", maxlength:"focusNode"}),
+			{maxlength:"focusNode"}),
 
 		getTextValue: function(){
 			return this.filter(this.textbox.value);
@@ -77,6 +74,18 @@ dojo.declare(
 			// and setting in the DOM (instead of the JS object) helps with form reset actions
 			this.textbox.setAttribute("value", this.getTextValue());
 			this.inherited('postCreate', arguments);
+
+			if(dojo.isFF == 2){
+				/* workaround table sizing bugs on FF2 by forcing redraw */
+				var node=this.domNode, _this = this;
+				setTimeout(function(){
+					var oldWidth = node.style.width;
+					node.style.width="30em";
+					setTimeout(function(){
+						node.style.width = oldWidth;
+					}, 0);
+				 }, 0);
+			}
 		},
 
 		filter: function(val){

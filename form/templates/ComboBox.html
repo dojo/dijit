@@ -1,20 +1,20 @@
-<table class="dijit dijitReset dijitInline dijitLeft" baseClass="${baseClass}" cellspacing="0" cellpadding="0"
-	id="widget_${id}" name="${name}" dojoAttachEvent="onmouseenter:_onMouse,onmouseleave:_onMouse" waiRole="presentation"
-	><tr
-		><td class='dijitReset dijitStretch dijitInputField'
-			><input type="text" autocomplete="off"
+<table style="display: -moz-inline-stack;" class="dijit dijitReset dijitInlineTable dijitLeft" baseClass="${baseClass}" cellspacing="0" cellpadding="0"
+	id="widget_${id}" name="${name}" dojoAttachEvent="onmouseenter:_onMouse,onmouseleave:_onMouse" waiRole="presentation">
+	<tr>
+		<td class='dijitReset dijitStretch dijitInputField' width="100%"
+			><input style="width: 100%" type="text" autocomplete="off"
 			dojoAttachEvent="onkeypress, onkeyup, onfocus, onblur, compositionend"
 			dojoAttachPoint="textbox,focusNode" waiRole="combobox"
-		/></td
-		><td class='dijitReset dijitRight dijitButtonNode dijitDownArrowButton'
+		/></td>
+		<td class="dijitReset dijitValidationIconField" width="0%"
+			><div dojoAttachPoint='iconNode' class='dijitValidationIcon'></div><div class='dijitInline dijitValidationIconText'>&Chi;</div
+		></td>
+		<td class='dijitReset dijitRight dijitButtonNode width="0%" dijitDownArrowButton'
 			dojoAttachPoint="downArrowNode"
 			dojoAttachEvent="ondijitclick:_onArrowClick,onmousedown:_onMouse,onmouseup:_onMouse,onmouseenter:_onMouse,onmouseleave:_onMouse"
-		><div class="dijitDownArrowButtonInner" waiRole="presentation" tabIndex="-1">
-			<div class="dijit_a11y dijitDownArrowButtonChar">&#9660;</div>
-		</div>
-	</td>
-	<td class="dijitReset"
-		><div dojoAttachPoint='iconNode' class='dijitInline dijitValidationIcon'></div
-		><div class='dijitInline dijitValidationIconText'>&Chi;</div
-	></td></tr>
+			><div class="dijitDownArrowButtonInner" waiRole="presentation" tabIndex="-1">
+				<div class="dijit_a11y dijitDownArrowButtonChar">&#9660;</div>
+			</div
+		></td>	
+	</tr>
 </table>

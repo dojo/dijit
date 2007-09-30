@@ -22,13 +22,12 @@
 }
 
 .dijitInline {
-	/* MOW: similar to InlineBox below, but this has fewer side-effects in Moz.  
+	/*  To inline block elements.
+		Similar to InlineBox below, but this has fewer side-effects in Moz.  
 		Also, apparently works on a DIV as well as a FIELDSET.
-		Consider abandoning inlineBox in favor of this.  ???
 	*/
-	display:-moz-inline-box;		/* gecko */
-	display:inline-block;			/* webkit */
-	#display:inline;
+	display:-moz-inline-box;		/* FF2 */
+	display:inline-block;			/* webkit and FF3 */
 	border:0px;
 	padding:0px;
 	vertical-align:middle;
@@ -36,13 +35,27 @@
 
 .dj_ie .dijitInline { 
 	zoom: 1; /* set hasLayout:true to mimic inline-block */
+	#display:inline;
 } 
 
 .dijitInlineBox {
-	/* To inline block elements, surround them with <fieldset class="dijitInlineBox"> */
+	/* Deprecated, use .dijitInline instead (todo: remove references) */
 	display:inline-block;			/* webkit */
 	display: -moz-inline-stack;		/* gecko  */
 	#display:inline;				/* MSIE   */
+	border:0px;
+	padding:0px;
+	vertical-align:middle;
+}
+
+.dijitInlineTable {
+	/* To inline tables with a given width set (otherwise, use dijitInline above)
+	 * Must also put style="-moz-inline-stack" on the node itself to workaround FF2 bugs
+	 */
+	display: -moz-inline-stack;			/* FF2 */
+	display:inline-table;
+	display:inline-block;			/* webkit and FF3 */
+	#display:inline;				/* MSIE   (TODO: is this needed???) */
 	border:0px;
 	padding:0px;
 	vertical-align:middle;
@@ -127,7 +140,7 @@
 
 .dijitContainer {
 	/* for all layout containers */
-	overflow: hidden;	/* need on IE so something can be reduced in size, and so scrollbars aren't temporarily displayed */
+	overflow: hidden;	/* need on IE so something can be reduced in size, and so scrollbars aren't temporarily displayed when resizing */
 }
 
 /**** 
@@ -310,27 +323,36 @@ table .dijitComboButton .dijitButtonNode {
 	margin-bottom:.2em;
 }
 
+/******
+	TextBox related.
+	Everything that has an <input>
+*******/
+
+.dijitTextBox,
+.dijitComboBox,
+.dijitSpinner {
+	border: solid black 1px;
+	width: 15em;	/* need to set size on outer node since inner nodes say <input style="width:100%"> and <td width=100%> */
+}
+
+/* rules for safari.  todo: add to tundra.css */
+.dijitTextBox input:focus,
+.dijitComboBox input:focus,
+.dijitSpinner input:focus {
+	outline: none;	/* blue fuzzy line looks wrong on combobox or something w/validation icon showing */
+}
+.dijitTextBoxFocused,
+.dijitComboBoxFocused,
+.dijitSpinnerFocused {
+	/* should we display focus like we do on other browsers, or use the safari standard focus indicator?? */
+	outline: auto 5px -webkit-focus-ring-color;
+}
 
 /****
 		Note: works differently than other TextBox types:
 			The outer fieldset element is the one that shows the border, etc.
 			rather than the actual INPUT element. 
  ****/
-
-.dijitSpinner {
-	/* outer element - also has .dijitInline */
-	vertical-align:middle;
-	padding:0px !important;
-	width:auto !important;
-	height:auto !important;
-}
-
-.dijitSpinner TABLE {
-	border-collapse: collapse;
-}
-.dijitSpinner .dijitButtonNode {
-	padding: 0;
-}
 
 .dijitSpinner INPUT {
 	/* The .style assigned to the spinner dijit is actually copied 
@@ -352,6 +374,7 @@ table .dijitComboButton .dijitButtonNode {
 	font-size:100% !important;
 	background-color:transparent !important;
 	background-image:none !important;
+	width: 100% !important;
 }
 
 .dijitSpinner .dijitDownArrowButton,
@@ -380,22 +403,10 @@ table .dijitComboButton .dijitButtonNode {
 		dijit.form.ComboBox 
 
 		Note: these works differently than other TextBox types:
-			The outer fieldset element is the one that shows the border, etc.
+			The border is on the table cells
 			rather than the actual INPUT element. 
 
  ****/
-.dijitComboBox {
-	/* Allow user to specify width without messing up defaults; other attributes are put on parent node */
-	width:auto !important;
-}
-
-.dijitComboBox TABLE {
-	/* each cell in a combo-table should have its own separate border */
-	border-collapse: separate;
-	border:0px;
-	padding:0px;
-	margin:0px;
-}
 
 .dijitSpinner .dijitInputField,
 .dijitComboBox .dijitInputField {
@@ -1340,24 +1351,14 @@ body .dijitAlignClient { position: absolute; }
 }
 
 /* Validation Icons (representing errors in <input> type widgets) */
+.dijitValidationIcon { display: none; }
+.dijitValidationIconText { visibility: hidden; }
+.dijit_a11y .dijitValidationIcon { display: none !important; }
+.dijit_a11y .dijitValidationIconText { display: block !important; }
 
-.dijit_a11y .dijitValidationIcon {
-	/* normally the theme sets a background image, but for a11y mode we supress it */
-	background-image: none !important;
-}
-
-/*
- * dijitValidationIconText
- * This is the class on an X character, that is only used when the error icon cannot be displayed,
- *  like "alt" text on the error icon.
- */
-.dijitValidationIconText { display: none; }
-.dijit_a11y .dijitValidationIconText { display: inline; visibility: hidden; }
-
-.dijit_a11y .dijitFormWidgetError .dijitValidationIconText,
-.dijit_a11y .dijitComboBoxError .dijitValidationIconText,
-.dijit_a11y .dijitSpinnerError .dijitValidationIconText,
-{
+.dijitTextBoxError .dijitValidationIconText,
+.dijitComboBoxError .dijitValidationIconText,
+.dijitSpinnerError .dijitValidationIconText {
 	visibility: visible;
 }
 
