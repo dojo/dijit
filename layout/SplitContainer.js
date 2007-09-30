@@ -371,8 +371,9 @@ dojo.declare(
 		//					
 		// attach mouse events
 		//
-		this.connect(document.documentElement, "onmousemove", "changeSizing");
-		this.connect(document.documentElement, "onmouseup", "endSizing");
+		this._connects = [];
+		this._connects.push(dojo.connect(document.documentElement, "onmousemove", this, "changeSizing"));
+		this._connects.push(dojo.connect(document.documentElement, "onmouseup", this, "endSizing"));
 
 		dojo.stopEvent(e);
 	},
@@ -405,6 +406,9 @@ dojo.declare(
 		if(this.persist){
 			this._saveState(this);
 		}
+
+		dojo.forEach(this._connects,dojo.disconnect); 
+
 	},
 
 	movePoint: function(){
