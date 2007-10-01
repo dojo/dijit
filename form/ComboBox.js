@@ -22,6 +22,11 @@ dojo.declare(
 		//		in ComboBoxMixin) will inherit from _FormWidget and thus the "this"
 		//		reference will also "be a" _FormWidget.
 
+		// item: Object
+		//		This is the item returned by the dojo.data.store implementation that
+		//		provides the data for this cobobox, it's the currently selected item.
+		item: null,
+
 		// pageSize: Integer
 		//		Argument to data provider.
 		//		Specifies number of search results per page (before hitting "next" button)
@@ -458,6 +463,7 @@ dojo.declare(
 		},
 
 		_doSelect: function(tgt){
+			this.item = tgt.item;
 			this.setValue(this.store.getValue(tgt.item, this.searchAttr), true);
 		},
 
