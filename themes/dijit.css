@@ -403,11 +403,10 @@ table .dijitComboButton .dijitButtonNode {
     margin: 0 auto;
 }
 
-.dijitComboBoxNoArrow .dijitDownArrowButton {
+.dijitTextBox .dijitDownArrowButton {
+	/* this is for a combo box with no arrow displayed; we set baseClass=TextBox */
 	display:none;
 }
-
-/* TODO: all dijitComboBox patterns must be duplicated for dijitComboBoxNoArrow */
 
 /****
 		dijit.form.CheckBox
