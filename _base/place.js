@@ -13,10 +13,27 @@ dijit.getViewport = function(){
 	var w = 0, h = 0;
 	if(dojo.isMozilla){
 		// mozilla
-		w = _document.body.clientWidth<=_window.innerWidth ? _document.body.clientWidth:_document.documentElement.clientWidth;;
 		// _window.innerHeight includes the height taken by the scroll bar
-		// clientHeight is ideal but does not exist for window
-		h = _document.body.clientHeight<=_window.innerHeight ? _document.body.clientHeight:_document.documentElement.clientHeight;
+		// clientHeight is ideal but has DTD issues:
+		// #4539: FF reverses the roles of body.clientHeight/Width and documentElement.clientHeight/Width based on the DTD!
+		// check DTD to see whether body or documentElement returns the viewport dimensions using this algorithm:
+		var minw, minh, maxw, maxh;
+		if(_document.body.clientWidth>_document.documentElement.clientWidth){
+			minw = _document.documentElement.clientWidth;
+			maxw = _document.body.clientWidth;
+		}else{
+			maxw = _document.documentElement.clientWidth;
+			minw = _document.body.clientWidth;
+		}
+		if(_document.body.clientHeight>_document.documentElement.clientHeight){
+			minh = _document.documentElement.clientHeight;
+			maxh = _document.body.clientHeight;
+		}else{
+			maxh = _document.documentElement.clientHeight;
+			minh = _document.body.clientHeight;
+		}
+		w = (maxw > _window.innerWidth) ? minw : maxw;
+		h = (maxh > _window.innerHeight) ? minh : maxh;
 	}else if(!dojo.isOpera && _window.innerWidth){
 		//in opera9, dojo.body().clientWidth should be used, instead
 		//of window.innerWidth/document.documentElement.clientWidth
