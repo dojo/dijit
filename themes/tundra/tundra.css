@@ -33,6 +33,11 @@
 	padding:.3em .4em .2em .4em;
 	background:#e9e9e9 url("images/buttonEnabled.png") repeat-x top;
 }
+.dijitComboBox .dijitButtonNode,
+.dijitSpinner .dijitButtonNode {
+	border: 0px;
+}
+
 .dj_ie6 .tundra .dijitButtonNode {
 	position:relative; 
 }
@@ -184,8 +189,9 @@
 		dijit.form.ComboBox (partial)
  ****/
 
-.tundra .dijitComboBox {
-	/* put margin on the outer element of the combobox rather than the input */
+.tundra .dijitTextBox,
+.tundra .dijitComboBox,
+.tundra .dijitSpinner {
 	margin: 0em 0.1em 0.2em 0.1em;
 }
 
@@ -195,12 +201,21 @@
 .tundra .dijitInlineEditor input,
 .tundra .dijitTextarea {
 	/* 	For all except dijit.form.NumberSpinner:  the actual input element.
-		For dijit.form.NumberSpinner: the outer fieldset that contains the input.
+		For TextBox, ComboBox, Spinner: the table that contains the input.
+		Otherwise the actual input element.
 	*/
 	font-size: inherit;
 	background:#fff url("images/validationInputBg.png") repeat-x top left;
 	border:1px solid #9b9b9b;
 	line-height: normal;
+}
+.tundra .dijitComboBox .dijitButtonNode,
+.tundra .dijitSpinner .dijitButtonNode {
+	/* line between the input area and the drop down button */
+	border-left:1px solid #9b9b9b;
+}
+.tundra .dijitSpinner .dijitDownArrowButton {
+	border-top:1px solid #9b9b9b;	/* line between top and bottom arrow */
 }
 
 .tundra .dijitTextBoxFocused,
@@ -209,14 +224,12 @@
 	/* input field when focused (eg: typing affects it) */
 	border-color:#366dba;
 	border-style:inset;
-	/* outline: auto 5px -webkit-focus-ring-color; */
 }
 
 .tundra .dijitTextBoxError,
 .tundra .dijitComboBoxError,
 .tundra .dijitSpinnerError {
 	border:1px solid #f3d118;
-	border-right: 0px;
 	background-color:#f9f7ba;
 	background-image:none;
 }

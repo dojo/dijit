@@ -332,10 +332,10 @@ table .dijitComboButton .dijitButtonNode {
 .dijitComboBox,
 .dijitSpinner {
 	border: solid black 1px;
-	width: 15em;	/* need to set size on outer node since inner nodes say <input style="width:100%"> and <td width=100%> */
+	width: 15em;	/* need to set default size on outer node since inner nodes say <input style="width:100%"> and <td width=100%>.  user can override */
 }
 
-/* rules for safari.  todo: add to tundra.css */
+/* rules for safari to deal with fuzzy blue focus border */
 .dijitTextBox input:focus,
 .dijitComboBox input:focus,
 .dijitSpinner input:focus {
@@ -348,33 +348,37 @@ table .dijitComboButton .dijitButtonNode {
 	outline: auto 5px -webkit-focus-ring-color;
 }
 
-/****
-		Note: works differently than other TextBox types:
-			The outer fieldset element is the one that shows the border, etc.
-			rather than the actual INPUT element. 
- ****/
-
+.dijitTextBox INPUT,
+.dijitComboBox INPUT,
 .dijitSpinner INPUT {
-	/* The .style assigned to the spinner dijit is actually copied 
-		on to the INPUT element as well as the outer element.
+	padding:0px;
+	border-left: solid black 1px;	/* TODO: for RTL mode should be border-right */
+
+	/* The .style is assigned to the INPUT element as well as the outer element.
 		The below turns off things on the input that should apply to the outer element.
 	*/
 	display:inline;
 	position:static !important;
-	/* turn off the border on the actual input element */
-	border:0px !important;
-	
-	padding:0px;
-	margin:0px;
+	border:0px !important;	
+	margin:0px !important;
 	vertical-align:middle !important;
-	padding:0px !important;
-	margin:auto !important;
-	border:0px !important;
 	visibility:visible !important;
-	font-size:100% !important;
 	background-color:transparent !important;
 	background-image:none !important;
 	width: 100% !important;
+}
+
+/* Display an "X" for invalid input. Themes will override these rules to display an icon instead.
+*/
+.dijitValidationIcon { display: none; }
+.dijitValidationIconText { visibility: hidden; }
+.dijit_a11y .dijitValidationIcon { display: none !important; }
+.dijit_a11y .dijitValidationIconText { display: block !important; }
+
+.dijitTextBoxError .dijitValidationIconText,
+.dijitComboBoxError .dijitValidationIconText,
+.dijitSpinnerError .dijitValidationIconText {
+	visibility: visible;
 }
 
 .dijitSpinner .dijitDownArrowButton,
@@ -399,52 +403,11 @@ table .dijitComboButton .dijitButtonNode {
     margin: 0 auto;
 }
 
-/****
-		dijit.form.ComboBox 
-
-		Note: these works differently than other TextBox types:
-			The border is on the table cells
-			rather than the actual INPUT element. 
-
- ****/
-
-.dijitSpinner .dijitInputField,
-.dijitComboBox .dijitInputField {
-	/* container for the input element */
-	border-right-width:0px !important;
-}
-
-.dijitInputField INPUT {
-	/* turn off the border on the actual input element */
-	border:0px !important;
-	background-color:transparent;
-}
-
 .dijitComboBoxNoArrow .dijitDownArrowButton {
 	display:none;
 }
 
-.dijitComboBoxNoArrow table {
-	padding:0px;
-	margin:0px;
-}		 
-
-.dijitComboBoxNoArrow INPUT {
-	border:0px !important;
-	background-color:transparent;
-}		 
-
-.dijitComboBoxNoArrow .dijitInputField {
-	border-right-width:1px !important;
-}
-
-
-.dj_safari .dijitComboBox INPUT {
-	margin:-2px -4px -3px -3px;
-	line-height:2em;
-	font-size:1em;
-}
-
+/* TODO: all dijitComboBox patterns must be duplicated for dijitComboBoxNoArrow */
 
 /****
 		dijit.form.CheckBox
@@ -1349,16 +1312,3 @@ body .dijitAlignClient { position: absolute; }
 	/* top:0; */
 	top: expression(eval((document.documentElement||document.body).scrollTop));
 }
-
-/* Validation Icons (representing errors in <input> type widgets) */
-.dijitValidationIcon { display: none; }
-.dijitValidationIconText { visibility: hidden; }
-.dijit_a11y .dijitValidationIcon { display: none !important; }
-.dijit_a11y .dijitValidationIconText { display: block !important; }
-
-.dijitTextBoxError .dijitValidationIconText,
-.dijitComboBoxError .dijitValidationIconText,
-.dijitSpinnerError .dijitValidationIconText {
-	visibility: visible;
-}
-

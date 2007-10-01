@@ -91,12 +91,6 @@ dojo.declare(
 		postCreate: function(){
 			this.inherited('postCreate', arguments);
 
-			// textbox and domNode get the same style but the css separates the 2 using !important
-			if(this.srcNodeRef){
-				dojo.style(this.textbox, "cssText", this.srcNodeRef.style.cssText);
-				this.textbox.className += " " + this.srcNodeRef.className;
-			}
-
 			// extra listeners
 			this.connect(this.textbox, dojo.isIE ? "onmousewheel" : 'DOMMouseScroll', "_mouseWheeled");
 			dijit.typematic.addListener(this.upArrowNode, this.textbox, {keyCode:dojo.keys.UP_ARROW,ctrlKey:false,altKey:false,shiftKey:false}, this, "_typematicCallback", this.timeoutChangeRate, this.defaultTimeout);
