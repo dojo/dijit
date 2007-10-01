@@ -149,6 +149,9 @@ The drop down list is filtered by the data you have already typed in.
 	<div dojoType="dojo.data.ItemFileReadStore" jsId="stateStore"
 		url="../_data/comboBoxData.json"></div>
 
+	<div dojoType="dojo.data.ItemFileReadStore" jsId="dijitStore"
+		url="../_data/dijits.json"></div>
+
 	<p>ComboBox #2: url, autocomplete=true:</p>
 	<label for="datatest">US State test 2: </label>
 	<input dojoType="dijit.form.ComboBox"
@@ -162,6 +165,18 @@ The drop down list is filtered by the data you have already typed in.
 			id="datatest"
 	>
 	<span>Value: <input id="value2" disabled></span>
+	<hr>
+	<label for="datatest">Dijit List test #1: </label>
+	<input dojoType="dijit.form.ComboBox"
+			value="dijit.Editor"
+			class="medium"
+			store="dijitStore"
+			searchAttr="className"
+			style="width: 300px;"
+			name="dijitList1"
+			id="datatestDijit"
+	>
+	<span>Hey look, this one is kind of useful.</span>
 	<hr>
 
 	<p>ComboBox #3: initially disabled, url, autocomplete=false:</p>
