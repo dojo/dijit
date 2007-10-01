@@ -126,7 +126,7 @@
 			<option value="WI">Wisconsin</option>
 			<option value="WY">Wyoming</option>
 		</select>
-		<span>Value: <input id="value1" disabled></span>
+		<span>Value: <input id="value1" disabled value="CA"></span>
 		<input type="button" value="Set displayed value to Kentucky (valid)" onClick="dijit.byId('setvaluetest2').setDisplayedValue('Kentucky')">
 		<input type="button" value="Set displayed value to Canada (invalid)" onClick="dijit.byId('setvaluetest2').setDisplayedValue('Canada')">
 		<hr>
@@ -145,7 +145,7 @@
 				onChange="setValue('value2', arguments[0]);"
 				invalidMessage="Invalid state name"
 		>
-		<span>Value: <input id="value2" disabled></span>
+		<span>Value: <input id="value2" disabled value="IA"></span>
 
 		<p>FilteringSelect #3: url, autocomplete=false:</p>
 		<input searchAttr="name"
@@ -157,7 +157,7 @@
 				onChange="setValue('value3', arguments[0]);"
 				invalidMessage="Invalid state name."
 		>
-		<span>Value: <input id="value3" disabled></span>
+		<span>Value: <input id="value3" disabled value="VI"></span>
 		<hr>
 		<p>FilteringSelect #5: custom labelFunc (value in textbox should be lower case when onChange is called), autocomplete=true:</p>
 		<input searchAttr="name"
@@ -204,7 +204,7 @@
 			<option value="minamiku">南区</option>
 			<option value="kitaku">北区</option>
 		</select>
-		<span>Value: <input id="value8" disabled></span>
+		<span>Value: <input id="value8" disabled value="nanboku"></span>
 		<hr>
 		<p>FilteringSelect #9: No data</p>
 		<p>This FilteringSelect has no options to choose from.  It should still load.</p>
