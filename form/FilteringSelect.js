@@ -129,7 +129,7 @@ dojo.declare(
 			// summary:
 			//	ComboBox's menu callback function
 			//	FilteringSelect overrides this to set both the visible and hidden value from the information stored in the menu
-
+			this.item = tgt.item;
 			this._setValueFromItem(tgt.item);
 		},
 
