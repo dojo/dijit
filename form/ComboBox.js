@@ -86,7 +86,7 @@ dojo.declare(
 		},
 
 		setDisplayedValue:function(/*String*/ value){
-			_lastDisplayedValue = value;
+			this._lastDisplayedValue = value;
 			this.setValue(value, true);
 		},
 
@@ -301,11 +301,13 @@ dojo.declare(
 					this.focusNode.value = text;//.substr(cpos);
 					// visually highlight the autocompleted characters
 					this._setSelectedRange(this.focusNode, cpos, this.focusNode.value.length);
+					dijit.wai.setAttr(this.focusNode, "waiState", "valuenow", text);
 				}
 			}else{
 				// text does not autoComplete; replace the whole value and highlight
 				this.focusNode.value = text;
 				this._setSelectedRange(this.focusNode, 0, this.focusNode.value.length);
+				dijit.wai.setAttr(this.focusNode, "waiState", "valuenow", text);
 			}
 		},
 
