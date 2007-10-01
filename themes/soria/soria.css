@@ -235,7 +235,7 @@
 
 .soria .dijitInputField,
 .soria .dijitInlineEditor input,
-.soria .dijitTextaArea {
+.soria .dijitTextArea {
 	/* 	For all except dijit.form.NumberSpinner:  the actual input element.
 		For dijit.form.NumberSpinner: the outer fieldset that contains the input.
 	*/
