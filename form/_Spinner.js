@@ -29,6 +29,7 @@ dojo.declare(
 		largeDelta: 10,
 
 		templatePath: dojo.moduleUrl("dijit.form", "templates/Spinner.html"),
+		baseClass: "dijitSpinner",
 
 		adjust: function(/* Object */ val, /*Number*/ delta){
 			// summary: user replaceable function used to adjust a primitive value(Number/Date/...) by the delta amount specified
