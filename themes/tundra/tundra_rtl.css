@@ -111,11 +111,49 @@
 	background-image:url(images/arrowRight.gif); 
 }
 
+/* Slider */
+
+.dijitRtl .dijitHorizontalSliderProgressBar {
+	background: #c0c2c5 url("images/sliderFull.png") repeat-x top right;
+}
+
+.dijitRtl .dijitVerticalSliderProgressBar {
+	background: #c0c2c5 url("images/sliderFullVertical.png") repeat-y bottom right;
+}
+
+.dijitRtl .dijitVerticalSliderRemainingBar {
+	background: #dcdcdc url("images/sliderEmptyVertical.png") repeat-y bottom right;
+}
+
+.dijitRtl .dijitHorizontalSliderRemainingBar {
+	background: #dcdcdc url("images/sliderEmpty.png") repeat-x top right;
+}
+
+.dijitRtl .dijitHorizontalSliderLeftBumper {
+	border-left-width: 0px;
+	border-right-width: 1px;
+	background: #c0c2c5 url("images/sliderFull.png") repeat-x top right;
+}
+
+.dijitRtl .dijitHorizontalSliderRightBumper {
+	background: #dcdcdc url("images/sliderEmpty.png") repeat-x top right;
+	border-left-width: 1px;
+	border-right-width: 0px;
+}
+
+.dijitRtl .dijitVerticalSliderBottomBumper {
+	background: #c0c2c5 url("images/sliderFullVertical.png") repeat-y bottom right;
+}
+
+.dijitRtl .dijitVerticalSliderTopBumper {
+	background: #dcdcdc url("images/sliderEmptyVertical.png") repeat-y top right;
+}
+
 /* TabContainer */
 
 .dijitRtl .dijitTab {
 	margin-right:0;
-	margin-left:5px; /* space between one tab and the next in top/bottom mode */
+	margin-left:5px;		/* space between one tab and the next in top/bottom mode */
 }
 
 .dijitRtl .dijitTab .dijitTabInnerDiv {
@@ -127,10 +165,25 @@
 	padding:6px 10px 4px 20px;
 }
 
+.dijitRtl .dijitTab .closeImage {
+	position:static;
+	padding: 0px 12px 0px 0px;
+}
+
+.dj_gecko .dijitTab .closeImage {
+	position:relative;
+	float:none;
+	padding:0;
+}
+
 .dijitRtl .dijitTab .dijitClosable .closeImage {
 	right:auto;
 	left:3px;
 	background: url("images/tabClose.png") no-repeat left top;
+}
+
+.dj_ie .dijitRtl .dijitTab .dijitClosable .closeImage {
+	width:12px !important;
 }
 
 .dijitRtl .dijitAlignLeft .dijitTab,
@@ -139,8 +192,8 @@
 }
 
 .dijitRtl .dijitAlignBottom .dijitTab .dijitClosable .closeImage {
-	right: auto;
-	left: 3px;
+	right:auto;
+	left:3px;
 }
 
 .dijitRtl .dijitAlignRight .dijitTab .dijitTabInnerDiv {
@@ -153,33 +206,12 @@
 	padding-right:10px;
 }
 
-.dijitRtl .dijitAlignLeft .dijitTab .dijitClosable .closeImage {
-	right:auto;
-	left:3px;
-}
-
-.dj_ie6 .dijitRtl .dijitTab .dijitClosable .closeImage {
-	/* neither left nor right can be used for positioning in ie6. here we only
-	 * can use margin-right. 
-	 */
-	left:auto;
-	right:auto;
-	margin-right:4px;
-}
-
-.dj_ie6 .dijitRtl .dijitAlignLeft .dijitTab .dijitClosable .closeImage {
-	/* must redefine these styles for .dijitAlignLeft here */
-	left:auto;
-	right:auto;
-	margin-right:4px;
-}
-	
 .dijitRtl .dijitAlignRight .dijitTab .dijitClosable .closeImage {
 	left:auto;
 	right:3px;
 }
 
-
-/* Slider: an attempt, but Slider is broken in RTL in code anyway. */
-.dijitRtl .dijitHorizontalSliderIncrementIcon { background-image:url('images/arrowLeft.png'); }
-.dijitRtl .dijitHorizontalSliderDecrementIcon { background-image:url('images/arrowRight.png');  }
+.dijitRtl .dijitAlignLeft .dijitTab .dijitClosable .closeImage {
+	right:auto;
+	left:3px;
+}

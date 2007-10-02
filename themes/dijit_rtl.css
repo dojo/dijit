@@ -56,6 +56,64 @@
 	float: left;
 }
 
+/* Slider */
+
+.dijitRtl .dijitVerticalSliderImageHandle {
+	left:auto;
+	right:-6px;
+}
+
+.dj_ie .dijitRtl .dijitVerticalSliderImageHandle {
+	right:-10px;
+}
+
+.dijitRtl .dijitHorizontalSliderMoveable {
+	right:auto;
+	left:0;
+}
+
+.dijitRtl .VerticalRuleContainer {
+	float:right;
+}
+
+.dj_ie .dijitRtl .VerticalRuleContainer {
+	text-align:right;
+}
+
+.dj_ie .dijitRtl .VerticalRuleLabel {
+	text-align:left;
+}
+
+.dj_ie .dijitRtl .HorizontalRuleLabel {
+	zoom:1;
+}
+
+.dj_ie .dijitRtl .dijitHorizontalSliderProgressBar {
+	right:0;
+	left:auto;
+}
+
+/* TabContainer */
+
+.dijitRtl .dijitTab {
+	float:right;
+}
+
+.dj_ie .dijitRtl .dijitTab,
+.dj_ie .dijitRtl .dijitTab .dijitTabInnerDiv,
+.dj_ie .dijitRtl .dijitTab .dijitTabInnerDiv span {
+	position:static;
+	zoom:1;
+}
+
+.dj_ie .dijitRtl .dijitTabContainer .dijitAlignLeft {
+	margin-left:1px !important;
+}
+
+.dj_ie .dijitRtl .dijitTabContainer .dijitAlignRight {
+	margin-right:1px !important;
+}
+
 /* TabContainer */
 
 .dijitRtl .dijitTab {

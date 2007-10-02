@@ -65,12 +65,12 @@ dojo.declare(
 				this.setValue(this.maximum);
 				break;
 			case dojo.keys.UP_ARROW:
-			case dojo.keys.RIGHT_ARROW:
+			case (this._isReversed() ? dojo.keys.LEFT_ARROW : dojo.keys.RIGHT_ARROW):
 			case dojo.keys.PAGE_UP:
 				this.increment(e);
 				break;
 			case dojo.keys.DOWN_ARROW:
-			case dojo.keys.LEFT_ARROW:
+			case (this._isReversed() ? dojo.keys.RIGHT_ARROW : dojo.keys.LEFT_ARROW):
 			case dojo.keys.PAGE_DOWN:
 				this.decrement(e);
 				break;
@@ -86,13 +86,17 @@ dojo.declare(
 		dijit.focus(this.sliderHandle);
 		dojo.stopEvent(e);
 	},
+	
+	_isReversed: function() {
+		return !(this._upsideDown || this.isLeftToRight());
+	},
 
 	_onBarClick: function(e){
 		if(this.disabled || !this.clickSelect){ return; }
 		dojo.stopEvent(e);
 		var abspos = dojo.coords(this.sliderBarContainer, true);
 		var pixelValue = e[this._mousePixelCoord] - abspos[this._startingPixelCoord];
-		this._setPixelValue(this._upsideDown ? (abspos[this._pixelCount] - pixelValue) : pixelValue, abspos[this._pixelCount], true);
+		this._setPixelValue(this._isReversed() || this._upsideDown ? (abspos[this._pixelCount] - pixelValue) : pixelValue, abspos[this._pixelCount], true);
 	},
 
 	_setPixelValue: function(/*Number*/ pixelValue, /*Number*/ maxPixels, /*Boolean, optional*/ priorityChange){
@@ -223,10 +227,12 @@ dojo.declare("dijit.form._SliderMover",
 			this.constraintBox = c;
 		}
 		var m = this.marginBox;
-		var pixelValue = m[widget._startingPixelCount] + e[widget._mousePixelCoord];
-		dojo.hitch(widget, "_setPixelValue")(widget._upsideDown? (c[widget._pixelCount]-pixelValue) : pixelValue, c[widget._pixelCount]);
+		var pixelValue = widget._isReversed() ?
+			e[widget._mousePixelCoord] - dojo._abs(widget.sliderBarContainer).x : 
+			m[widget._startingPixelCount] + e[widget._mousePixelCoord];
+		dojo.hitch(widget, "_setPixelValue")(widget._isReversed() || widget._upsideDown? (c[widget._pixelCount]-pixelValue) : pixelValue, c[widget._pixelCount]);
 	},
-
+	
 	destroy: function(e){
 		var widget = this.widget;
 		widget.setValue(widget.value, true);
@@ -260,17 +266,27 @@ dojo.declare("dijit.form.HorizontalRule", [dijit._Widget, dijit._Templated],
 	_genHTML: function(pos, ndx){
 		return this._positionPrefix + pos + this._positionSuffix + this.ruleStyle + this._suffix;
 	},
+	
+	_isHorizontal: true,
 
 	postCreate: function(){
 		if(this.count==1){
 			var innerHTML = this._genHTML(50, 0);
 		}else{
-			var innerHTML = this._genHTML(0, 0);
 			var interval = 100 / (this.count-1);
-			for(var i=1; i < this.count-1; i++){
-				innerHTML += this._genHTML(interval*i, i);
+			if(!this._isHorizontal || this.isLeftToRight()){
+				var innerHTML = this._genHTML(0, 0);
+				for(var i=1; i < this.count-1; i++){
+					innerHTML += this._genHTML(interval*i, i);
+				}
+				innerHTML += this._genHTML(100, this.count-1);
+			}else{
+				var innerHTML = this._genHTML(100, 0);
+				for(var i=1; i < this.count-1; i++){
+					innerHTML += this._genHTML(100-interval*i, i);
+				}
+				innerHTML += this._genHTML(0, this.count-1);
 			}
-			innerHTML += this._genHTML(100, this.count-1);
 		}
 		this.domNode.innerHTML = innerHTML;
 	}
@@ -281,7 +297,9 @@ dojo.declare("dijit.form.VerticalRule", dijit.form.HorizontalRule,
 	//	Summary:
 	//		Create hash marks for the Vertical slider
 	templateString: '<div class="RuleContainer VerticalRuleContainer"></div>',
-	_positionPrefix: '<div class="RuleMark VerticalRuleMark" style="top:'
+	_positionPrefix: '<div class="RuleMark VerticalRuleMark" style="top:',
+	
+	_isHorizontal: false
 });
 
 dojo.declare("dijit.form.HorizontalRuleLabels", dijit.form.HorizontalRule,
@@ -368,5 +386,7 @@ dojo.declare("dijit.form.VerticalRuleLabels", dijit.form.HorizontalRuleLabels,
 
 	_calcPosition: function(pos){
 		return 100-pos;
-	}
+	},
+	
+	_isHorizontal: false
 });
