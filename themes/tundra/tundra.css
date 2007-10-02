@@ -206,6 +206,7 @@
 	*/
 	font-size: inherit;
 	background:#fff url("images/validationInputBg.png") repeat-x top left;
+	#background:#fff url('images/validationInputBg.gif') repeat-x top left; 
 	border:1px solid #9b9b9b;
 	line-height: normal;
 }
@@ -1333,9 +1334,7 @@
 
 .dj_ie6 .tundra .dijitInputField
 {
-	background:transparent;
-	/* FIXME: un-comment when a pretty version of .gif is made */
-	/* background-image: url("images/dojoTundraGradientBg.gif"); */
+	background: url("images/validationInputBg.gif") repeat-x top left; 
 }
 
 
