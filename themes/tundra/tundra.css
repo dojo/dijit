@@ -61,14 +61,14 @@
 	border: 1px solid #d5d5d5;
 	/*color:#b4b4b4;*/
 	background:#e4e4e4 url("images/buttonDisabled.png") top repeat-x;
-	opacity: 0.30; /* Safari, Opera and Mozilla */
+	opacity: 0.60; /* Safari, Opera and Mozilla */
 }
 .tundra .dijitButtonDisabled .dijitButtonNode *,
 .tundra .dijitToggleButtonDisabled .dijitButtonNode *,
 .tundra .dijitDropDownButtonDisabled .dijitButtonNode *,
 .tundra .dijitComboButtonDisabled .dijitButtonNode *,
 .tundra .dijitSpinnerDisabled .dijitButtonNode * {
-	filter: gray() alpha(opacity=30); /* IE */
+	filter: gray() alpha(opacity=50); /* IE */
 }
 
 .tundra .dijitButtonHover .dijitButtonNode,
@@ -1266,14 +1266,14 @@
 }
 
 .tundra .dijitSliderDisabled {
-	opacity:0.3 !important;
+	opacity:0.6 !important;
 }
 
 .dj_ie6 .dijitSliderDisabled,
 .dj_ie6 .dijitSliderDisabled .RuleContainer,
 .dj_ie6 .dijitSliderDisabled .dijitSliderRemainingBar,
 .dj_ie6 .dijitSliderDisabled .dijitSliderProgressBar {
-	filter: gray() alpha(opacity=30);
+	filter: gray() alpha(opacity=40);
 }
 
 /**** ICONS *****/
