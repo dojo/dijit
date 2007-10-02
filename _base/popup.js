@@ -127,6 +127,10 @@ dijit.popup = new function(){
 		// summary:
 		//		Close popup on the top of the stack (the highest z-index popup)
 
+		if(!stack.length){
+			return;
+		}
+
 		// this needs to happen before the stack is popped, because menu's
 		// onClose calls closeTo(this)
 		var widget = stack[stack.length-1].widget;
@@ -134,9 +138,6 @@ dijit.popup = new function(){
 			widget.onClose();
 		}
 
-		if(!stack.length){
-			return;
-		}
 		var top = stack.pop();
 		var wrapper = top.wrapper,
 			iframe = top.iframe,
