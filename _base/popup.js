@@ -63,6 +63,7 @@ dijit.popup = new function(){
 		wrapper.id = id;
 		wrapper.className="dijitPopup";
 		wrapper.style.zIndex = beginZIndex + stack.length;
+		wrapper.style.visibility = "hidden";
 		if(args.parent){
 			wrapper.dijitPopupParent=args.parent.id;
 		}
@@ -78,6 +79,7 @@ dijit.popup = new function(){
 			dijit.placeOnScreenAroundElement(wrapper, around, orient, widget.orient ? dojo.hitch(widget, "orient") : null) :
 			dijit.placeOnScreen(wrapper, args, orient == 'R' ? ['TR','BR','TL','BL'] : ['TL','BL','TR','BR']);
 
+		wrapper.style.visibility = "visible";
 		// TODO: use effects to fade in wrapper
 
 		var handlers = [];
