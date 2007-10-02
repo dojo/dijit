@@ -19,7 +19,7 @@ dojo.declare(
 	//		Don't confuse it with an iframe, it only needs/wants document fragments.
 	//		It's useful as a child of LayoutContainer, SplitContainer, or TabContainer.
 	//		But note that those classes can contain any widget as a child.
-	// usage:
+	// examples:
 	//		Some quick samples:
 	//		To change the innerHTML use .setContent('<b>new content</b>')
 	//
@@ -57,11 +57,11 @@ dojo.declare(
 
 	// loadingMessage: String
 	//	Message that shows while downloading
-	loadingMessage: "<span class='dijitContentPaneLoading'>${loadingState}</span>", // TODO: consider a graphical representation for this state which does not require localization
+	loadingMessage: "<span class='dijitContentPaneLoading'>${loadingState}</span>", 
 
 	// errorMessage: String
 	//	Message that shows if an error occurs
-	errorMessage: "<span class='dijitContentPaneError'>${errorState}</span>", // TODO: consider a graphical representation for this state which does not require localization
+	errorMessage: "<span class='dijitContentPaneError'>${errorState}</span>", 
 
 	// isLoaded: Boolean
 	//	Tells loading status see onLoad|onUnload for event hooks
