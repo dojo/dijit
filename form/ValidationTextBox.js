@@ -16,6 +16,7 @@ dojo.declare(
 		//		Over-ride isValid in subclasses to perform specific kinds of validation.
 
 		templatePath: dojo.moduleUrl("dijit.form", "templates/ValidationTextBox.html"),
+		baseClass: "dijitTextBox",
 
 		// default values for new subclass properties
 		// required: Boolean

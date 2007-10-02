@@ -537,7 +537,9 @@ dojo.declare(
 		},
 
 		postMixInProperties: function(){
-			this.baseClass=this.hasDownArrow?this.baseClass:"dijitTextBox";
+			if(!this.hasDownArrow){
+				this.baseClass = "dijitTextBox";
+			}
 			if(!this.store){
 				// if user didn't specify store, then assume there are option tags
 				var items = dojo.query("> option", this.srcNodeRef).map(function(node){

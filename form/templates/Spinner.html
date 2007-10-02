@@ -1,4 +1,4 @@
-<table style="-moz-inline-stack;" class="dijit dijitReset dijitInlineTable dijitLeft dijitSpinner" baseClass="dijitSpinner" cellspacing="0"  cellpadding="0"
+<table style="-moz-inline-stack;" class="dijit dijitReset dijitInlineTable dijitLeft" cellspacing="0"  cellpadding="0"
 	id="widget_${id}" name="${name}"
 	dojoAttachEvent="onmouseenter:_onMouse,onmouseleave:_onMouse,onkeypress:_onKeyPress"
 	waiRole="presentation">
@@ -13,7 +13,7 @@
 		<td class="dijitReset dijitRight dijitButtonNode dijitUpArrowButton" width="0%"
 				dojoAttachPoint="upArrowNode"
 				dojoAttachEvent="onmousedown:_handleUpArrowEvent,onmouseup:_handleUpArrowEvent,onmouseover:_handleUpArrowEvent,onmouseout:_handleUpArrowEvent"
-				baseClass="dijitSpinnerUpArrow"
+				stateModifier="UpArrow"
 			><div class="dijitA11yUpArrow">&#9650;</div
 		></td>
 	</tr>
@@ -21,7 +21,7 @@
 		<td class="dijitReset dijitRight dijitButtonNode dijitDownArrowButton" width="0%"
 				dojoAttachPoint="downArrowNode"
 				dojoAttachEvent="onmousedown:_handleDownArrowEvent,onmouseup:_handleDownArrowEvent,onmouseover:_handleDownArrowEvent,onmouseout:_handleDownArrowEvent"
-				baseClass="dijitSpinnerDownArrow"
+				stateModifier="DownArrow"
 			><div class="dijitA11yDownArrow">&#9660;</div
 		></td>
 	</tr>

@@ -12,6 +12,7 @@ dojo.declare("dijit.form._TimePicker",
 		// See ticket #599
 
 		templatePath: dojo.moduleUrl("dijit.form", "templates/TimePicker.html"),
+		baseClass: "dijitTimePicker",
 
 		// clickableIncrement: String
 		//		ISO-8601 string representing the amount by which
