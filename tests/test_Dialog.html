@@ -16,6 +16,7 @@
 	<script type="text/javascript">
 		dojo.require("dijit.Dialog");
 		dojo.require("dijit.form.Button");
+		dojo.require("dijit.form.DateTextBox");
 		dojo.require("dijit.form.TextBox");
 		dojo.require("dojo.parser");	// scan page for widgets and instantiate them			
 
@@ -57,6 +58,10 @@
 		<tr>
 			<td><label for="loc">Location: </label></td>
 			<td><input dojoType=dijit.form.TextBox type="text" name="loc"></td>
+		</tr>
+		<tr>
+			<td><label for="loc">Date: </label></td>
+			<td><input dojoType=dijit.form.DateTextBox type="text" name="date"></td>
 		</tr>
 		<tr>
 			<td><label for="desc">Description: </label></td>
