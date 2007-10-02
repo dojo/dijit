@@ -36,16 +36,6 @@
 .dj_ie .dijitInline { 
 	zoom: 1; /* set hasLayout:true to mimic inline-block */
 	#display:inline;
-} 
-
-.dijitInlineBox {
-	/* Deprecated, use .dijitInline instead (todo: remove references) */
-	display:inline-block;			/* webkit */
-	display: -moz-inline-stack;		/* gecko  */
-	#display:inline;				/* MSIE   */
-	border:0px;
-	padding:0px;
-	vertical-align:middle;
 }
 
 .dijitInlineTable {
