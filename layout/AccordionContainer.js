@@ -144,8 +144,8 @@ dojo.declare(
 	[dijit.layout.ContentPane, dijit._Templated, dijit._Contained],
 {
 	// summary
-	//		AccordionPane is a box with a title that contains another widget (often a ContentPane).
-	//		It's a widget used internally by AccordionContainer.
+	//		AccordionPane is a ContentPane with a title that contains another widget.
+	//		Nested layout widgets, such as SplitContainer, are not supported at this time.
 
 	templatePath: dojo.moduleUrl("dijit.layout", "templates/AccordionPane.html"),
 
@@ -175,7 +175,7 @@ dojo.declare(
 	_setSelectedState: function(/*Boolean*/ isSelected){
 		this.selected = isSelected;
 		(isSelected ? dojo.addClass : dojo.removeClass)(this.domNode, "dijitAccordionPane-selected");
-		this.focusNode.setAttribute("tabIndex",(isSelected)? "0":"-1");
+		this.focusNode.setAttribute("tabIndex", isSelected ? "0" : "-1");
 	},
 
 	setSelected: function(/*Boolean*/ isSelected){
