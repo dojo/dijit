@@ -79,7 +79,7 @@ dojo.declare(
 			// in case the tab titles have overflowed from one line to two lines
 			this.layout();
 
-			dojo.publish(this.id+"-addChild", [child]);
+			dojo.publish(this.id+"-addChild", [child, insertIndex]);
 
 			// if this is the first child, then select it
 			if(!this.selectedChildWidget){
@@ -247,7 +247,7 @@ dojo.declare(
 			dijit.layout.StackController.superclass.destroy.apply(this, arguments);
 		},
 
-		onAddChild: function(/*Widget*/ page){
+		onAddChild: function(/*Widget*/ page, /*Integer?*/ insertIndex){
 			// summary
 			//   Called whenever a page is added to the container.
 			//   Create button corresponding to the page.
@@ -258,7 +258,7 @@ dojo.declare(
 			// create an instance of the button widget
 			var cls = dojo.getObject(this.buttonWidget);
 			var button = new cls({label: page.title, closeButton: page.closable}, refNode);
-			this.addChild(button);
+			this.addChild(button, insertIndex);
 			this.pane2button[page] = button;
 			page.controlButton = button;	// this value might be overwritten if two tabs point to same container
 

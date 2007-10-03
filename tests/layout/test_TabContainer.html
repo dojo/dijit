@@ -28,6 +28,12 @@
 			document.body.appendChild(p);
 			// dojo.parser.parse(dojo.body());
 		});
+
+		dojo.addOnLoad(function(){
+			var i = 3;
+			var tc = dijit.byId("mainTabContainer");
+			tc.addChild(new dijit.layout.ContentPane({ title: 'Tab '+ (i+1) }, document.createElement('div')), i);
+		});
 	</script>
 
 	<style type="text/css">

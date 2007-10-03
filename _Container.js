@@ -61,10 +61,17 @@ dojo.declare("dijit._Container",
 			//		Process the given child widget, inserting it's dom node as
 			//		a child of our dom node
 
-			if(typeof insertIndex == "undefined"){
+			if(insertIndex === undefined){
 				insertIndex = "last";
 			}
-			dojo.place(widget.domNode, this.containerNode || this.domNode, insertIndex);
+			var refNode = this.containerNode || this.domNode;
+			if(insertIndex && typeof insertIndex == "number"){
+				var children = dojo.query("> [widgetid]", refNode);
+				if(children && children.length >= insertIndex){
+					refNode = children[insertIndex-1]; insertIndex = "after";
+				}
+			}
+			dojo.place(widget.domNode, refNode, insertIndex);
 
 			// If I've been started but the child widget hasn't been started,
 			// start it now.  Make sure to do this after widget has been
