@@ -34,7 +34,7 @@
 			var store = new dojo.data.ItemFileReadStore({url: '../_data/comboBoxData.json'});
 			combo = new dijit.form.ComboBox({
 				name:"prog",
-				autocomplete:false,
+				autoComplete:false,
 				store: store,
 				searchAttr:"name"
 			}, dojo.byId("progCombo"));
@@ -42,7 +42,7 @@
 			var store2 = new dojo.data.ItemFileReadStore({url: '../_data/comboBoxDataToo.json'});
 			combo = new dijit.form.ComboBox({
 				name:"prog2",
-				autocomplete:false,
+				autoComplete:false,
 				store:store2,
 				query:{type:'country'},
 				searchAttr:"name"
@@ -68,7 +68,7 @@ The drop down list is filtered by the data you have already typed in.
 </p>
 <form action="#" method="GET">
 
-	<p>ComboBox #1: inlined data, autocomplete=false, default value of CA (California)</p>
+	<p>ComboBox #1: inlined data, autoComplete=false, default value of CA (California)</p>
 	<label for="setvaluetest">US State test 1: </label>
 	<select id="setvaluetest"
 			name="state1"
@@ -76,7 +76,7 @@ The drop down list is filtered by the data you have already typed in.
 			class="medium"
 			style="width: 300px;font-size:20pt;"
 			name="foo.bar1"
-			autocomplete="false"
+			autoComplete="false"
 			onChange="setVal1"
 	>
 		<option></option>
@@ -152,7 +152,7 @@ The drop down list is filtered by the data you have already typed in.
 	<div dojoType="dojo.data.ItemFileReadStore" jsId="dijitStore"
 		url="../_data/dijits.json"></div>
 
-	<p>ComboBox #2: url, autocomplete=true:</p>
+	<p>ComboBox #2: url, autoComplete=true:</p>
 	<label for="datatest">US State test 2: </label>
 	<input dojoType="dijit.form.ComboBox"
 			value="California"
@@ -179,7 +179,7 @@ The drop down list is filtered by the data you have already typed in.
 	<span>Hey look, this one is kind of useful.</span>
 	<hr>
 
-	<p>ComboBox #3: initially disabled, url, autocomplete=false:</p>
+	<p>ComboBox #3: initially disabled, url, autoComplete=false:</p>
 	<label for="combo3">US State test 3: </label>
  	<input id="combo3"
  			dojoType="dijit.form.ComboBox"
@@ -189,7 +189,7 @@ The drop down list is filtered by the data you have already typed in.
 			searchAttr="name"
 			style="width: 300px;"
 			name="state3"
-			autocomplete="false"
+			autoComplete="false"
 			onChange="setVal3"
 			disabled
 	>
@@ -198,7 +198,7 @@ The drop down list is filtered by the data you have already typed in.
 		<button id="but" onclick='toggleDisabled("but", "combo3"); return false;'>Enable</button>
 	</div>
 	<hr>
-	<p>ComboBox #4: url, autocomplete=false required=true:</p>
+	<p>ComboBox #4: url, autoComplete=false required=true:</p>
 	<label for="combobox4">US State test 4: </label>
 	<input dojoType="dijit.form.ComboBox"
 			value=""
@@ -208,7 +208,7 @@ The drop down list is filtered by the data you have already typed in.
 			style="width: 300px;"
 			name="state4"
 			onChange="setVal4"
-			autocomplete="false"
+			autoComplete="false"
 			id="combobox4"
 			required="true"
 	>
@@ -220,7 +220,7 @@ The drop down list is filtered by the data you have already typed in.
 			store="stateStore"
 			searchAttr="name"
 			name="state5"
-			autocomplete="false"
+			autoComplete="false"
 			hasDownArrow="false"
 	>
 	<hr>
@@ -235,7 +235,7 @@ The drop down list is filtered by the data you have already typed in.
 
 </form>
 <p>
-this is some text below the autocompleters. It shouldn't get pushed out of the way when search results get returned.
+This is some text below the ComboBoxes. It shouldn't get pushed out of the way when search results get returned.
 also: adding a simple combo box to test IE bleed through problem:
 </p>
 
