@@ -144,7 +144,7 @@ dojo.declare(
 	[dijit.layout.ContentPane, dijit._Templated, dijit._Contained],
 {
 	// summary
-	//		AccordionPane is a ContentPane with a title that contains another widget.
+	//		AccordionPane is a ContentPane with a title that may contain another widget.
 	//		Nested layout widgets, such as SplitContainer, are not supported at this time.
 
 	templatePath: dojo.moduleUrl("dijit.layout", "templates/AccordionPane.html"),
