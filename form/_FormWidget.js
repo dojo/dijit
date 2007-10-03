@@ -92,7 +92,9 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 		//	To get a different CSS class while mouse button is depressed, send onmousedown to this method.
 
 		var mouseNode = event.target;
-		this.stateModifier = mouseNode.getAttribute("stateModifier") || "";
+		if(mouseNode && mouseNode.getAttribute){
+			this.stateModifier = mouseNode.getAttribute("stateModifier") || "";
+		}
 
 		if(!this.disabled){
 			switch(event.type){
