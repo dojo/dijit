@@ -42,8 +42,9 @@ dojo.declare(
 		// set expand icon for leaf 	
 		this._setExpando();
 
-		// set icon based on item
+		// set icon and label class based on item
 		dojo.addClass(this.iconNode, this.tree.getIconClass(this.item));
+		dojo.addClass(this.labelNode, this.tree.getLabelClass(this.item));
 
 		if(this.isExpandable){
 			dijit.wai.setAttr(this.labelNode, "waiState", "expanded", this.isExpanded);
