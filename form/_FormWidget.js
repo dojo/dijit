@@ -125,6 +125,10 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 		}
 	},
 
+	isFocusable: function(){
+		return !this.disabled && (dojo.style(this.domNode, "display") != "none");
+	},
+
 	focus: function(){
 		dijit.focus(this.focusNode);
 	},

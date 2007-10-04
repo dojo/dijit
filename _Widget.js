@@ -331,5 +331,12 @@ dojo.declare("dijit._Widget", null, {
 			this._ltr = dojo.getComputedStyle(this.domNode).direction != "rtl";
 		}
 		return this._ltr; //Boolean
+	},
+
+	isFocusable: function(){
+		// summary:
+		//		Return true if this widget can currently be focused
+		//		and false if not
+		return this.focus && (dojo.style(this.domNode, "display") != "none");
 	}
 });

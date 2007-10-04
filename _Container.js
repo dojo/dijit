@@ -256,7 +256,7 @@ dojo.declare("dijit._KeyNavContainer",
 				if(!child){
 					child = children[(dir>0) ? 0 : (children.length-1)];
 				}
-				if(!child.disabled && child.focus && dojo.style(child.domNode, "display") != "none"){
+				if(child.isFocusable()){
 					return child;
 				}
 				child = this._getSiblingOfChild(child, dir);
