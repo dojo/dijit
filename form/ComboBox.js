@@ -393,6 +393,7 @@ dojo.declare(
 
 		_onBlur: function(){
 			// summary: called magically when focus has shifted away from this widget and it's dropdown
+			this._hasBeenBlurred = true;
 			this._hideResultList();
 		},
 

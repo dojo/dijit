@@ -81,11 +81,12 @@ dojo.declare(
 			//		Show missing or invalid messages if appropriate, and highlight textbox field.
 			var message = "";
 			var isValid = this.isValid(isFocused);
-			this.state = isValid ? "" : "Error";
+			var isEmpty = this._isEmpty(this.textbox.value);
+			this.state = (isValid || (!this._hasBeenBlurred && this.required && isEmpty)) ? "" : "Error";
 			this._setStateClass();
 			dijit.wai.setAttr(this.focusNode, "waiState", "invalid", (isValid? "false" : "true"));
 			if(isFocused){
-				if(this._isEmpty(this.textbox.value)){
+				if(isEmpty){
 					message = this.getPromptMessage(true);
 				}
 				if(!message && !isValid){
@@ -115,7 +116,10 @@ dojo.declare(
 			}
 		},
 
+		_hasBeenBlurred: false,
+
 		_onBlur: function(evt){
+			this._hasBeenBlurred = true;
 			this.validate(false);
 			this.inherited('_onBlur', arguments);
 		},
