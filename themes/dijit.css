@@ -410,19 +410,22 @@ table .dijitComboButton .dijitButtonNode {
 	padding: 0;
 	border: 0;
 	width: 16px;
-	height: 15px;
-	overflow:hidden;
+	height: 16px;
+	background-position:center center;
+	background-repeat:no-repeat;
 }
 
 .dijitCheckBox INPUT,
 .dijitRadio INPUT {
 	margin: 0; 
 	padding: 0;
+	vertical-align:middle;
 } 
 
 .dijitCheckBoxInput {
 	/* place the actual input on top, but all-but-invisible */
 	opacity: 0.01;
+	overflow:hidden;
 }
 
 .dj_ie .dijitCheckBoxInput {

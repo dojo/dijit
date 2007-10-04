@@ -47,10 +47,6 @@
 
 /* all icons are here */
 .soria .dijitComboBox .dijitDownArrowButtonInner,
-.soria .dijitCheckBox,
-.soria .dijitRadio,
-.soria .dijitCheckBoxIcon,
-.soria .dijitRadioIcon,
 .soria .dijitMenuExpandEnabled,
 .soria .dijitTitlePane .dijitClosed .dijitArrowNode,
 .soria .dijitTitlePane .dijitOpen .dijitArrowNode,
@@ -90,6 +86,16 @@
 	margin:0; padding:0; 
 	background-image: url('images/arrows.png');
 	background-repeat: none; 
+}
+
+.soria .dijitCheckBoxIcon,
+.soria .dijitRadioIcon,
+.soria .dijitCheckBox,
+.soria .dijitRadio {
+	width:16px;
+	height:16px;
+	margin:0; padding:0; 
+	background-image: url('images/arrows.png');
 }
 
 /* Control opacity of popups */
@@ -314,25 +320,25 @@ HTML.dj_ie6 .soria .dijitInputFieldValidationError,
 	background-image: url('images/checkmarkNoBorder.gif');
 }
 
-.soria .dijitCheckBox, .soria .dijitToggleButton .dijitCheckBoxIcon { background-position: -112px 0px; }/* unchecked */
+.soria .dijitCheckBox, .soria .dijitToggleButton .dijitCheckBoxIcon { background-position: -112px; }/* unchecked */
 .soria .dijitCheckBoxChecked,
-.soria .dijitToggleButtonChecked .dijitCheckBoxIcon { background-position: -96px 0px; } /* checked */
-.soria .dijitCheckBoxDisabled { /* disabled */ background-position: -144px 0px; }
-.soria .dijitCheckBoxCheckedDisabled { background-position: -128px 0px; } /* disabled but checked */
+.soria .dijitToggleButtonChecked .dijitCheckBoxIcon { background-position: -96px; } /* checked */
+.soria .dijitCheckBoxDisabled { /* disabled */ background-position: -144px; }
+.soria .dijitCheckBoxCheckedDisabled { background-position: -128px; } /* disabled but checked */
 .soria .dijitCheckBoxHover,
-.soria .dijitCheckBoxFocused { background-position: -176px 0px; } /* hovering over an unchecked enabled checkbox */
+.soria .dijitCheckBoxFocused { background-position: -176px; } /* hovering over an unchecked enabled checkbox */
 .soria .dijitCheckBoxCheckedHover,
-.soria .dijitCheckBoxCheckedFocused { background-position: -160px 0px; } /* hovering over a checked enabled checkbox */
+.soria .dijitCheckBoxCheckedFocused { background-position: -160px; } /* hovering over a checked enabled checkbox */
 .soria .dijitRadio,
-.soria .dijitToggleButton .dijitRadioIcon { background-position: -208px 0px; }  /* unselected */
+.soria .dijitToggleButton .dijitRadioIcon { background-position: -208px; }  /* unselected */
 .soria .dijitRadioChecked, 
-.soria .dijitToggleButtonChecked .dijitRadioIcon { background-position: -192px 0px; } /* selected */
-.soria .dijitRadioCheckedDisabled { background-position: -224px 0px; } /* selected but disabled */
-.soria .dijitRadioDisabled { background-position: -240px 0px; } /* unselected and disabled */
+.soria .dijitToggleButtonChecked .dijitRadioIcon { background-position: -192px; } /* selected */
+.soria .dijitRadioCheckedDisabled { background-position: -224px; } /* selected but disabled */
+.soria .dijitRadioDisabled { background-position: -240px; } /* unselected and disabled */
 .soria .dijitRadioHover,
-.soria .dijitRadioFocused { background-position: -272px 0px; } /* hovering over an unselected enabled radio button */
+.soria .dijitRadioFocused { background-position: -272px; } /* hovering over an unselected enabled radio button */
 .soria .dijitRadioCheckedHover,
-.soria .dijitRadioCheckedFocused { background-position: -256px 0px; } /* hovering over a selected enabled radio button */
+.soria .dijitRadioCheckedFocused { background-position: -256px; } /* hovering over a selected enabled radio button */
 
 /* diji.Menu */
 .soria .dijitMenu {
