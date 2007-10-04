@@ -293,6 +293,10 @@ dojo.declare(
 
 		this._hideRoot = !this.label;
 
+		if (!this.store.getFeatures()['dojo.data.api.Identity']){
+			throw new Error("dijit.tree requires access to a store supporting the dojo.data Identity api");			
+		}
+
 		// if the store supports Notification, subscribe to the notification events
 		if (this.store.getFeatures()['dojo.data.api.Notification']){
 			this.connect(this.store, "onNew", "_onNewItem");
