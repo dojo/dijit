@@ -129,7 +129,7 @@ dojo.declare(
 		if(value < 0){ value = 0; }
 		if(value > count){ value = count; }
 		value = value * (this.maximum - this.minimum) / count + this.minimum;
-		this.setValue(value);
+		this.setValue(value, true);
 	},
 
 	decrement: function(e){
