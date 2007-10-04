@@ -36,6 +36,7 @@
 .dijitComboBox .dijitButtonNode,
 .dijitSpinner .dijitButtonNode {
 	border: 0px;
+	padding: 0 .4em 0 .4em;	/* the inner node will be vertically centered automatically because it's in a <td> */
 }
 
 .dj_ie6 .tundra .dijitButtonNode {
