@@ -190,9 +190,9 @@ dojo.declare(
 				case dojo.keys.ENTER:
 					// prevent submitting form if user presses enter
 					// also prevent accepting the value if either Next or Previous are selected
-					if(this._isShowingNow){
+					var highlighted;
+					if(this._isShowingNow&&(highlighted=this._popupWidget.getHighlightedOption())){
 						// only stop event on prev/next
-						var highlighted=this._popupWidget.getHighlightedOption();
 						if(highlighted==this._popupWidget.nextButton){
 							this._nextSearch(1);
 							dojo.stopEvent(evt);
@@ -203,6 +203,8 @@ dojo.declare(
 							dojo.stopEvent(evt);
 							break;
 						}
+					}else{
+						this.setDisplayedValue(this.getDisplayedValue());
 					}
 					// default case:
 					// prevent submit, but allow event to bubble
@@ -210,18 +212,16 @@ dojo.declare(
 					// fall through
 
 				case dojo.keys.TAB:
+					var newvalue=this.getDisplayedValue();
+					// #4617: if the user had More Choices selected fall into the _onBlur handler
+					if(this._popupWidget&&(newvalue==this._popupWidget._messages["previousMessage"]||newvalue==this._popupWidget._messages["nextMessage"])){break;}
 					if(this._isShowingNow){
 						this._prev_key_backspace = false;
 						this._prev_key_esc = false;
-						if(this._isShowingNow&&this._popupWidget.getHighlightedOption()){
+						if(this._popupWidget.getHighlightedOption()){
 							this._popupWidget.setValue({target:this._popupWidget.getHighlightedOption()}, true);
-						}else{
-							this.setDisplayedValue(this.getDisplayedValue());
 						}
 						this._hideResultList();
-					}else{
-						// also allow arbitrary user input
-						this.setDisplayedValue(this.getDisplayedValue());
 					}
 					break;
 
@@ -395,6 +395,14 @@ dojo.declare(
 			// summary: called magically when focus has shifted away from this widget and it's dropdown
 			this._hasBeenBlurred = true;
 			this._hideResultList();
+			// if the user clicks away from the textbox OR tabs away, set the value to the textbox value
+			// #4617: if value is now more choices or previous choices, revert the value
+			var newvalue=this.getDisplayedValue();
+			if(this._popupWidget&&(newvalue==this._popupWidget._messages["previousMessage"]||newvalue==this._popupWidget._messages["nextMessage"])){
+				this.setValue(this._lastValueReported);
+			}else{
+				this.setDisplayedValue(newvalue);
+			}
 		},
 
 		onfocus:function(/*Event*/ evt){
@@ -412,10 +420,6 @@ dojo.declare(
 			// TODO: isn't this handled by ValidationTextBox?
 			this.validate(false);
 
-			if(!this._isShowingNow){
-				// if the user clicks away from the textbox, set the value to the textbox value
-				this.setDisplayedValue(this.getDisplayedValue());
-			}
 			// don't call this since the TextBox setValue is asynchronous
 			// if you uncomment this line, when you click away from the textbox,
 			// the value in the textbox reverts to match the hidden value
