@@ -64,7 +64,13 @@ dojo.declare(
 
 	_updateLayout: function(){
 		// summary: set appropriate CSS classes for this.domNode
-		dojo.toggleClass(this.domNode, "dijitTreeIsLast", !this.getNextSibling());
+		var parent = this.getParent();
+		if(parent && parent.isTree && parent._hideRoot){
+			/* if we are hiding the root node then make every first level child look like a root node */
+			dojo.addClass(this.domNode, "dijitTreeIsRoot");
+		}else{
+			dojo.toggleClass(this.domNode, "dijitTreeIsLast", !this.getNextSibling());
+		}
 	},
 
 	_setExpando: function(/*Boolean*/ processing){
@@ -167,6 +173,13 @@ dojo.declare(
 			this._setExpando(false);
 		}
 
+		if(this.isTree && this._hideRoot){
+			// put first child in tab index if one exists.
+			var fc = this.getChildren()[0];
+			var tabnode = fc ? fc.labelNode : this.domNode;
+			tabnode.setAttribute("tabIndex", "0");
+		}
+
 		// create animations for showing/hiding the children (if children exist)
 		if(this.containerNode && !this._wipeIn){
 			this._wipeIn = dojo.fx.wipeIn({node: this.containerNode, duration: 150});
@@ -224,6 +237,16 @@ dojo.declare(
 	"dijit.Tree",
 	dijit._TreeNode,
 {
+	// summary
+	//	This widget displays hierarchical data from a store.  A query is specified
+	//	to get the "top level children" from a data store, and then those items are
+	//	queried for their children and so on (but lazily, as the user clicks the expand node).
+	//
+	//	Thus in the default mode of operation this widget is technically a forest, not a tree,
+	//	in that there can be multiple "top level children".  However, if you specify label,
+	//	then a special top level node (not corresponding to any item in the datastore) is
+	//	created, to father all the top level children.
+
 	// store: String||dojo.data.Store
 	//	The store to get data to display in the tree
 	store: null,
@@ -268,6 +291,8 @@ dojo.declare(
 
 		this._itemNodeMap={};
 
+		this._hideRoot = !this.label;
+
 		// if the store supports Notification, subscribe to the notification events
 		if (this.store.getFeatures()['dojo.data.api.Notification']){
 			this.connect(this.store, "onNew", "_onNewItem");
@@ -284,6 +309,10 @@ dojo.declare(
 		div.className = "dijitTreeContainer";	
 		dijit.wai.setAttr(div, "waiRole", "role", "presentation");
 		this.containerNodeTemplate = div;
+
+		if(this._hideRoot){
+			this.rowNode.style.display="none";
+		}
 
 		this.inherited("postCreate", arguments);
 

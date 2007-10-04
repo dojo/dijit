@@ -30,6 +30,7 @@
 	<div dojoType="dojo.data.ItemFileReadStore" jsId="continentStore"
 		url="../tests/_data/countries.json"></div>
 
+	<h3>Tree with hardcoded root node (not corresponding to any item in the store)</h3>
 	<div dojoType="dijit.Tree" id="mytree" store="continentStore" query="{type:'continent'}"
 		labelAttr="name" label="Continents">
 		<script type="dojo/method" event="onClick" args="item">
@@ -43,7 +44,7 @@
 
 	<button onclick="dijit.byId('mytree').destroyRecursive();">destroy</button>
 
-	<h2>A tree with context menus</h2>
+	<h2>A rootless tree (no "continents" node) with context menus</h2>
 
 	<ul dojoType="dijit.Menu" id="tree_menu" style="display: none;">
 		<li dojoType="dijit.MenuItem" onClick="alert('Hello world');">Enabled Item</li>
@@ -77,9 +78,7 @@
 		</li>
 	</ul>
 
-
-	<div dojoType="dijit.Tree" id="tree2" store="continentStore" query="{type:'continent'}"
-		labelAttr="name" label="Continents">
+	<div dojoType="dijit.Tree" id="tree2" store="continentStore" query="{type:'continent'}">
 		<script type="dojo/connect">
 			var menu = dijit.byId("tree_menu");
 			// when we right-click anywhere on the tree, make sure we open the menu
