@@ -76,6 +76,8 @@ inside the AccordionPane??
 
 		_transition: function(/*Widget?*/newWidget, /*Widget?*/oldWidget){
 //TODO: should be able to replace this with calls to slideIn/slideOut
+			if(this._inTransition){return;}
+			this._inTransition = true;
 			var animations = [];
 			var paneHeight = this._verticalSpace;
 			if(newWidget){
@@ -109,6 +111,8 @@ inside the AccordionPane??
 					}
 				}));
 			}
+
+			this._inTransition = false;
 
 			dojo.fx.combine(animations).play();
 		},
@@ -163,8 +167,10 @@ dojo.declare(
 	_onTitleClick: function(){
 		// summary: callback when someone clicks my title
 		var parent = this.getParent();
-		parent.selectChild(this);
-		dijit.focus(this.focusNode);
+		if(!parent._inTransition){
+			parent.selectChild(this);
+			dijit.focus(this.focusNode);
+		}
 	},
 
 	_onKeyPress: function(/*Event*/ evt){
