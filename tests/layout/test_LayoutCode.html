@@ -236,7 +236,7 @@
 			// erase old widget hierarchy (if it exists)
 			var rootWidget = dijit.byId("rootWidget");
 			if(rootWidget){
-				rootWidget.destroyDescendants();
+				rootWidget.destroyRecursive();
 			}
 
 			// create new widget
