@@ -81,7 +81,7 @@ dojo.declare(
 				this.textbox.className += " " + this.srcNodeRef.className;
 			}
 
-			if(dojo.isFF == 2 && this.baseClass=="dijitTextBox"){
+			if(dojo.isFF == 2 && this.domNode.tagName=="TABLE"){
 				// work around table sizing bugs on FF2 by forcing redraw
 				var node=this.domNode, _this = this;
 				setTimeout(function(){
