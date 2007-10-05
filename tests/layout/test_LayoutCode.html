@@ -283,15 +283,6 @@
 		function addChild(widget){
 			widget = dijit.byId(widget);
 
-			if(/AccordionContainer/.test(widget.declaredClass)){
-				var child = new dijit.layout.AccordionPane({
-					title: "AccordionWidget " + cnt
-				});
-				// add it to the parent
-				widget.addChild(child);
-				widget = child;
-			}
-
 			// setup input node
 			var node = document.createElement("div");
 			node.style.cssText = "height: 70px; width: 150px; overflow: auto; background: #cccccc; border: dotted black 2px;";	// necessary if parent is LayoutContainer
@@ -308,6 +299,13 @@
 				node);
 			cnt++;
 
+			if(/AccordionContainer/.test(widget.declaredClass)){
+				var pane = new dijit.layout.AccordionPane({
+					title: "AccordionWidget " + cnt
+				});
+				pane.setContent(child);
+				child = pane;
+			}
 			// add it to the parent
 			widget.addChild(child);
 
