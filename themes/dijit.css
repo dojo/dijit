@@ -968,8 +968,6 @@ body .dijitAlignClient { position: absolute; }
 	display:none;
 	padding: 0px 2px;
 	margin: 0px 2px;
-	border-left:thin solid;
-	border-right:thin solid;
 }
 .dijit_a11y .dijitTab .closeImage {
 	padding: 0px !important;
