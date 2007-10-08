@@ -982,7 +982,13 @@ body .dijitAlignClient { position: absolute; }
 .dijit_a11y .closeText:hover { 
 	border:thin solid;
 } 
+.dijit_a11y .dijitTabChecked {
+	border-style:dashed !important;
+}
 
+.dijit_a11y .dijitTabInnerDiv {
+	border-left:none !important;
+ }
 
 
 .dijitInlineEditor {
