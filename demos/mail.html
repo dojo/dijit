@@ -292,13 +292,7 @@
 			</button>
 			<div dojoType="dijit.Tooltip" connectId="options">Set various options</div>
 		</div>
-
-		<div dojoType="dijit.layout.ContentPane" layoutAlign="bottom" id="footer" align="left">
-			<span style="float:right;">DojoMail v0.9b (demo only)</span>
-			<div id="fetchMail" style="opacity:0;visibility:hidden">
-			<div annotate="true" id="fakeFetch" dojoType="dijit.ProgressBar" style="height:15px; width:275px;" indeterminate="true" report="fakeReport"></div>
-			</div>
-		</div>
+		
 		<div dojoType="dijit.layout.TabContainer" id="tabs" jsId="tabs" layoutAlign="client">
 			<!-- main section with tree, table, and preview -->
 			<div dojoType="dijit.layout.SplitContainer"
@@ -400,6 +394,12 @@
 				</div>	<!-- end of vertical SplitContainer -->
 			</div> <!-- end of horizontal SplitContainer -->
 		</div> <!-- end of TabContainer -->
+		<div dojoType="dijit.layout.ContentPane" layoutAlign="bottom" id="footer" align="left">
+			<span style="float:right;">DojoMail v0.9b (demo only)</span>
+			<div id="fetchMail" style="opacity:0;visibility:hidden">
+				<div annotate="true" id="fakeFetch" dojoType="dijit.ProgressBar" style="height:15px; width:275px;" indeterminate="true" report="fakeReport"></div>
+			</div>
+		</div> 
 	</div> <!-- end of Layoutcontainer -->
 
 	<div dojoType="dijit.Dialog" id="optionsDialog" title="Options:">
