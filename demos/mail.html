@@ -113,13 +113,14 @@
 
 	<table dojoType="dijit.Declaration"
 		widgetClass="demo.Table" class="demoTable"
-		defaults="{ store: null, query: { query: { type: 'message' } }, columns: [ { name: 'From', attribute: 'sender' }, { name: 'Subject', attribute: 'label' }, { name: 'Sent on', attribute: 'sent' } ] }">
+		defaults="{ store: null, query: { query: { type: 'message' } }, columns: [ { name: 'From', attribute: 'sender' }, { name: 'Subject', attribute: 'label' }, { name: 'Sent on', attribute: 'sent',
+		format: function(v){ return dojo.date.locale.format(dojo.date.stamp.fromISOString(v), {selector: 'date'}); }
+		} ] }">
 		<thead dojoAttachPoint="head">
 			<tr dojoAttachPoint="headRow"></tr>
 		</thead>
 		<tbody dojoAttachPoint="body">
-			<tr dojoAttachPoint="row">
-			</tr>
+			<tr dojoAttachPoint="row"></tr>
 		</tbody>
 
 		<script type="dojo/method">
@@ -360,10 +361,16 @@
 							query="{ query: { type: 'message' }, sort: [ { attribute: 'label' } ]  }"
 							id="foo" jsId="table" style="width: 100%">
 							<script type="dojo/method" event="onClick" args="item">
-								var messageInner = "<span class='messageHeader'>From: "+this.store.getValue(item,"sender")+"<br>"+
-									"Subject: "+this.store.getValue(item,"label")+"<br>"+
-									"Date: "+this.store.getValue(item,"sent")+"<br><br></span>"+
-									this.store.getValue(item,"text");
+								var sender = this.store.getValue(item, "sender");
+								var subject = this.store.getValue(item, "label");
+								var sent = dojo.date.locale.format(
+									dojo.date.stamp.fromISOString(this.store.getValue(item, "sent")),
+									{formatLength: "long", selector: "date"});
+								var text = this.store.getValue(item, "text");
+								var messageInner = "<span class='messageHeader'>From: " + sender + "<br>" +
+									"Subject: "+ subject + "<br>" +
+									"Date: " + sent + "<br><br></span>" +
+									text;
 								dijit.byId("message").setContent(messageInner);
 							</script>
 						</span>
