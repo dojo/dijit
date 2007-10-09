@@ -77,8 +77,8 @@ dojo.declare(
 
 			// textbox and domNode get the same style but the css separates the 2 using !important
 			if(this.srcNodeRef){
-				dojo.style(this.textbox, "cssText", this.srcNodeRef.style.cssText);
-				this.textbox.className += " " + this.srcNodeRef.className;
+				dojo.style(this.textbox, "cssText", this.style);
+				this.textbox.className += " " + this["class"];
 			}
 
 			if(dojo.isFF == 2 && this.domNode.tagName=="TABLE"){

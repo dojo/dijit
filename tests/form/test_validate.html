@@ -40,6 +40,9 @@
 			.long {
 				width: 20em;
 			}
+			.verylong {
+				width: 700px;
+			}
 
 			.noticeMessage {
 				color:#093669;
@@ -61,10 +64,10 @@
 
 			<div class="dojoTitlePaneLabel">
 				<label for="q01">First Name:  </label>
-				<span class="noticeMessage"> TextBox class, <b>tabIndex=2</b>, Attributes: {trim: true, propercase: true, class: 'medium'}, First letter of each word is upper case.</span>
+				<span class="noticeMessage"> TextBox class, <b>tabIndex=2</b>, Attributes: {trim: true, propercase: true, style: 'width:700px'}, First letter of each word is upper case.</span>
 			</div>
 			<div class="testExample">
-				<input id="q01" type="text" name="firstname" value="testing testing" class="medium" tabIndex=2
+				<input id="q01" type="text" name="firstname" value="testing testing" style="width: 700px;" tabIndex=2
 					dojoType="dijit.form.TextBox"
 					trim="true"
 					propercase="true" />
@@ -72,10 +75,10 @@
 
 			<div class="dojoTitlePaneLabel">
 				<label for="q02">Last Name:  </label>
-				<span class="noticeMessage"> TextBox class, Attributes: {trim: true, uppercase: true, class: 'medium'}, all letters converted to upper case. </span>
+				<span class="noticeMessage"> TextBox class, Attributes: {trim: true, uppercase: true, class: 'verylong'}, all letters converted to upper case. </span>
 			</div>
 			<div class="testExample">
-				<input id="q02" type="text" name="lastname" value="testing testing" class="medium"
+				<input id="q02" type="text" name="lastname" value="testing testing" class="verylong"
 					dojoType="dijit.form.TextBox"
 					trim="true"
 					uppercase="true" />
@@ -99,10 +102,10 @@
 			<div class="dojoTitlePaneLabel">
 				<label for="q04">Occupation:  </label>
 				<span class="noticeMessage">ValidationTextBox class,
-					Attributes: {lowercase: true, required: true}. Displays a prompt message if field is missing. Custom (large-font) style. </span>
+					Attributes: {lowercase: true, required: true, class: verylong, style: font-size: 15pt;}. Displays a prompt message if field is missing.</span>
 			</div>
 			<div class="testExample">
-				<input id="q04" type="text" name="occupation" class="medium" style="font-size:15pt;"
+				<input id="q04" type="text" name="occupation" class="verylong" style="font-size:15pt;"
 					dojoType="dijit.form.ValidationTextBox"
 					lowercase="true"
 					required="true"
