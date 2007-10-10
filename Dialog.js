@@ -301,7 +301,6 @@ dojo.declare(
 	{
 		// summary:
 		//		Pops up a dialog that appears like a Tooltip
-
 		// title: String
 		// Description of tooltip dialog (required for a11Y)
 		title: "",
