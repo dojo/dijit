@@ -231,9 +231,10 @@ dijit._Templated.getCachedTemplate = function(templatePath, templateString){
 };
 
 dijit._Templated._sanitizeTemplateString = function(/*String*/tString){
-	//summary: Strips <?xml ...?> declarations so that external SVG and XML
-	//documents can be added to a document without worry. Also, if the string
-	//is an HTML document, only the part inside the body tag is returned.
+	// summary: 
+	//		Strips <?xml ...?> declarations so that external SVG and XML
+	// 		documents can be added to a document without worry. Also, if the string
+	//		is an HTML document, only the part inside the body tag is returned.
 	if(tString){
 		tString = tString.replace(/^\s*<\?xml(\s)+version=[\'\"](\d)*.(\d)*[\'\"](\s)*\?>/im, "");
 		var matches = tString.match(/<body[^>]*>\s*([\s\S]+)\s*<\/body>/im);
@@ -271,7 +272,7 @@ if(dojo.isIE){
 	var tn;
 
 	dijit._Templated._createNodesFromText = function(/*String*/text){
-		//	summary
+		// summary:
 		//	Attempts to create a set of nodes based on the structure of the passed text.
 
 		if(!tn){

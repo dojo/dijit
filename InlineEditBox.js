@@ -57,9 +57,9 @@ dojo.declare(
 	//		Set of parameters for editor, like {required: true}
 	editorParams: {},
 
-	// onChange: function
-	//		User should set this handler to be notified of changes to value
-	onChange: function(){},
+	onChange: function(){
+		// summary: User should set this handler to be notified of changes to value
+	},
 
 	postMixInProperties: function(){
 		this.inherited('postMixInProperties', arguments);

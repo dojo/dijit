@@ -11,7 +11,7 @@ dojo.declare(
 {
 	// summary
 	//		A pane with a title on top, that can be opened or collapsed.
-
+	//
 	// title: String
 	//		Title of the pane
 	title: "",

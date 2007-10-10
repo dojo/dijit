@@ -107,13 +107,13 @@ dojo.declare("dijit._Container",
 
 		getChildren: function(){
 			// summary:
-			//		returns array of children widgets
+			//		Returns array of children widgets
 			return dojo.query("> [widgetId]", this.containerNode || this.domNode).map(dijit.byNode); // Array
 		},
 
 		hasChildren: function(){
 			// summary:
-			//		returns true if widget has children
+			//		Returns true if widget has children
 			var cn = this.containerNode || this.domNode;
 			return !!this._firstElement(cn); // Boolean
 		},
@@ -177,6 +177,7 @@ dojo.declare("dijit._KeyNavContainer",
 		},
 
 		addChild: function(/*Widget*/ widget, /*int?*/ insertIndex){
+			// summary: Add a child to our _Container
 			dijit._KeyNavContainer.superclass.addChild.apply(this, arguments);
 			this._connectChild(widget);
 		},

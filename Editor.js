@@ -10,7 +10,9 @@ dojo.declare(
 	"dijit.Editor",
 	[ dijit._editor.RichText, dijit._Container ],
 	{
-		// plugins:
+	// summary: A rich-text Editing widget
+
+		// plugins: Array
 		//		a list of plugin names (as strings) or instances (as objects)
 		//		for this widget.
 //		plugins: [ "dijit._editor.plugins.DefaultToolbar" ],
