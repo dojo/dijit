@@ -47,7 +47,7 @@ dojo.declare(
 		dojo.addClass(this.labelNode, this.tree.getLabelClass(this.item));
 
 		if(this.isExpandable){
-			dijit.wai.setAttr(this.labelNode, "waiState", "expanded", this.isExpanded);
+			dijit.setWaiState(this.labelNode, "expanded", this.isExpanded);
 		}
 	},
 
@@ -103,8 +103,8 @@ dojo.declare(
 		}
 
 		this.isExpanded = true;
-		dijit.wai.setAttr(this.labelNode, "waiState", "expanded", "true");
-		dijit.wai.setAttr(this.containerNode, "waiRole", "role", "group");
+		dijit.setWaiState(this.labelNode, "expanded", "true");
+		dijit.setWaiRole(this.containerNode, "group");
 
 		this._setExpando();
 
@@ -120,7 +120,7 @@ dojo.declare(
 		}
 
 		this.isExpanded = false;
-		dijit.wai.setAttr(this.labelNode, "waiState", "expanded", "false");
+		dijit.setWaiState(this.labelNode, "expanded", "false");
 		this._setExpando();
 
 		this._wipeOut.play();
@@ -311,7 +311,7 @@ dojo.declare(
 		var div = document.createElement('div');
 		div.style.display = 'none';
 		div.className = "dijitTreeContainer";	
-		dijit.wai.setAttr(div, "waiRole", "role", "presentation");
+		dijit.setWaiRole(div, "presentation");
 		this.containerNodeTemplate = div;
 
 		if(this._hideRoot){

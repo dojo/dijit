@@ -166,24 +166,18 @@ dojo.declare("dijit._Templated",
 				}
 
 				// waiRole, waiState
-				var name, names = ["waiRole", "waiState"];
-				while(name=names.shift()){
-					var wai = dijit.wai[name];
-					var values = getAttrFunc(baseNode, wai.name);
-					if(values){
-						var role = "role";
-						var val;
-						values = values.split(/\s*,\s*/);
-						while(val=values.shift()){
-							if(val.indexOf('-') != -1){
-								// this is a state-value pair
-								var statePair = val.split('-');
-								role = statePair[0];
-								val = statePair[1];
-							}
-							dijit.wai.setAttr(baseNode, wai.name, role, val);
+				var role = getAttrFunc(baseNode, "waiRole");
+				if(role){
+					dijit.setWaiRole(baseNode, role);
+				}
+				var values = getAttrFunc(baseNode, "waiState");
+				if(values){
+					dojo.forEach(values.split(/\s*,\s*/), function(stateValue){
+						if(stateValue.indexOf('-') != -1){
+							var pair = stateValue.split('-');
+							dijit.setWaiState(baseNode, pair[0], pair[1]);
 						}
-					}
+					});
 				}
 
 			}

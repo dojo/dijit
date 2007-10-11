@@ -78,7 +78,7 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 			this._hovering = false;
 			this._active = false;
 		}
-		dijit.wai.setAttr(this.focusNode || this.domNode, "waiState", "disabled", disabled);
+		dijit.setWaiState(this.focusNode || this.domNode, "disabled", disabled);
 		this._setStateClass();
 	},
 
@@ -214,7 +214,7 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 	setValue: function(/*anything*/ newValue, /*Boolean, optional*/ priorityChange){
 		// summary: set the value of the widget.
 		this._lastValue = newValue;
-		dijit.wai.setAttr(this.focusNode || this.domNode, "waiState", "valuenow", this.forWaiValuenow());
+		dijit.setWaiState(this.focusNode || this.domNode, "valuenow", this.forWaiValuenow());
 		if(this._lastValueReported == undefined){ // don't report the initial value
 			this._lastValueReported = newValue;
 		}

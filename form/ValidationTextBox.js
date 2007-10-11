@@ -84,7 +84,7 @@ dojo.declare(
 			var isEmpty = this._isEmpty(this.textbox.value);
 			this.state = (isValid || (!this._hasBeenBlurred && this.required && isEmpty)) ? "" : "Error";
 			this._setStateClass();
-			dijit.wai.setAttr(this.focusNode, "waiState", "invalid", (isValid? "false" : "true"));
+			dijit.setWaiState(this.focusNode, "invalid", (isValid? "false" : "true"));
 			if(isFocused){
 				if(isEmpty){
 					message = this.getPromptMessage(true);
@@ -252,10 +252,10 @@ dojo.declare(
 		postCreate: function(){
 			this.inherited('postCreate', arguments);
 			if(typeof this.constraints.min != "undefined"){
-				dijit.wai.setAttr(this.focusNode, "waiState", "valuemin", this.constraints.min);
+				dijit.setWaiState(this.focusNode, "valuemin", this.constraints.min);
 			}
 			if(typeof this.constraints.max != "undefined"){
-				dijit.wai.setAttr(this.focusNode, "waiState", "valuemax", this.constraints.max);
+				dijit.setWaiState(this.focusNode, "valuemax", this.constraints.max);
 			}
 		}
 	}

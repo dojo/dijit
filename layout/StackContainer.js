@@ -224,7 +224,7 @@ dojo.declare(
 		buttonWidget: "dijit.layout._StackButton",
 
 		postCreate: function(){
-			dijit.wai.setAttr(this.domNode, "waiRole", "role", "tablist");
+			dijit.setWaiRole(this.domNode, "tablist");
 
 			this.pane2button = {};		// mapping from panes to buttons
 			this._subscriptions=[

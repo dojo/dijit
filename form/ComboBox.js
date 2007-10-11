@@ -301,13 +301,13 @@ dojo.declare(
 					this.focusNode.value = text;//.substr(cpos);
 					// visually highlight the autocompleted characters
 					this._setSelectedRange(this.focusNode, cpos, this.focusNode.value.length);
-					dijit.wai.setAttr(this.focusNode, "waiState", "valuenow", text);
+					dijit.setWaiState(this.focusNode, "valuenow", text);
 				}
 			}else{
 				// text does not autoComplete; replace the whole value and highlight
 				this.focusNode.value = text;
 				this._setSelectedRange(this.focusNode, 0, this.focusNode.value.length);
-				dijit.wai.setAttr(this.focusNode, "waiState", "valuenow", text);
+				dijit.setWaiState(this.focusNode, "valuenow", text);
 			}
 		},
 
@@ -336,7 +336,7 @@ dojo.declare(
 			(dataObject.query[this.searchAttr]!="*")){
 				this._autoCompleteText(zerothvalue);
 				// announce the autocompleted value
-				dijit.wai.setAttr(this.focusNode || this.domNode, "waiState", "valuenow", zerothvalue);
+				dijit.setWaiState(this.focusNode || this.domNode, "valuenow", zerothvalue);
 			}
 			this._popupWidget.createOptions(results, dataObject, dojo.hitch(this, this._getMenuLabelFromItem));
 

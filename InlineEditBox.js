@@ -82,7 +82,7 @@ dojo.declare(
 		for(var name in events){
 			this.connect(this.displayNode, name, events[name]);
 		}
-		dijit.wai.setAttr(this.displayNode, "waiRole", "role", "button");
+		dijit.setWaiRole(this.displayNode, "button");
 		
 		/****
 		 * TODO: compute whether to use Textarea or TextBox or dijit.Editor (if editor not specified)

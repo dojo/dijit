@@ -391,7 +391,7 @@ dojo.declare(
 		// summary: enable or disable this menu item
 		this.disabled = value;
 		dojo[value ? "addClass" : "removeClass"](this.domNode, 'dijitMenuItemDisabled');
-		dijit.wai.setAttr(this.containerNode, 'waiState', 'disabled', value ? 'true' : 'false');
+		dijit.setWaiState(this.containerNode, 'disabled', value ? 'true' : 'false');
 	}
 });
 
@@ -427,7 +427,7 @@ dojo.declare(
 		this.popup.domNode.style.display="none";
 		dojo.addClass(this.expand, "dijitMenuExpandEnabled");
 		dojo.style(this.expand, "display", "");
-		dijit.wai.setAttr(this.containerNode, "waiState", "haspopup", "true");
+		dijit.setWaiState(this.containerNode, "haspopup", "true");
 	}
 });
 

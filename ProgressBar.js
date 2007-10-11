@@ -58,7 +58,7 @@ dojo.declare("dijit.ProgressBar", [dijit._Widget, dijit._Templated], {
 		var percent = 1, classFunc;
 		if(this.indeterminate){
 			classFunc = "addClass";
-			dijit.wai.removeAttr(this.internalProgress, "waiState", "valuenow");
+			dijit.removeWaiState(this.internalProgress, "valuenow");
 		}else{
 			classFunc = "removeClass";
 			if(String(this.progress).indexOf("%") != -1){
@@ -70,7 +70,7 @@ dojo.declare("dijit.ProgressBar", [dijit._Widget, dijit._Templated], {
 			}
 			var text = this.report(percent);
 			this.label.firstChild.nodeValue = text;
-			dijit.wai.setAttr(this.internalProgress, "waiState", "valuenow", text);
+			dijit.setWaiState(this.internalProgress, "valuenow", text);
 		}
 		dojo[classFunc](this.domNode, "dijitProgressBarIndeterminate");
 		this.internalProgress.style.width = (percent * 100) + "%";
