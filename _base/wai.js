@@ -19,7 +19,7 @@ dijit.wai = {
 		div.style.cssText = 'border: 1px solid;'
 			+ 'border-color:red green;'
 			+ 'position: absolute;'
-			+ 'left: -999px;'
+			+ 'height: 5px;'
 			+ 'top: -999px;'
 			+ 'background-image: url("' + dojo.moduleUrl("dijit", "form/templates/blank.gif") + '");';
 		dojo.body().appendChild(div);
