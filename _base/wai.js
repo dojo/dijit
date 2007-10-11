@@ -70,7 +70,7 @@ dojo.mixin(dijit,
 	},
 
 	setWaiRole: function(/*Element*/ elem, /*String*/ role){
-		// Summary: Set the role on elem. On Firefox 2, "wairole:" is
+		// Summary: Set the role on elem. On Firefox 2 and below, "wairole:" is
 		//		prepended to the provided role value.
 		if(dojo.isFF && dojo.isFF < 3){
 			elem.setAttribute("role", "wairole:"+role);
@@ -87,7 +87,7 @@ dojo.mixin(dijit,
 	hasWaiState: function(/*Element*/ elem, /*String*/ state){
 		// Summary: Return true if elem has a value for the given state and
 		//		false if it does not.
-		//		On Firefox 2, we check for an attribute in namespace
+		//		On Firefox 2 and below, we check for an attribute in namespace
 		//		"http://www.w3.org/2005/07/aaa" with a name of the given state.
 		//		On all other browsers, we check for an attribute called
 		//		"aria-"+state.
@@ -105,7 +105,7 @@ dojo.mixin(dijit,
 	getWaiState: function(/*Element*/ elem, /*String*/ state){
 		// Summary: Return the value of the requested state on elem
 		//		or an empty string if elem has no value for state.
-		//		On Firefox 2, we check for an attribute in namespace
+		//		On Firefox 2 and below, we check for an attribute in namespace
 		//		"http://www.w3.org/2005/07/aaa" with a name of the given state.
 		//		On all other browsers, we check for an attribute called
 		//		"aria-"+state.
@@ -119,7 +119,7 @@ dojo.mixin(dijit,
 
 	setWaiState: function(/*Element*/ elem, /*String*/ state, /*String*/ value){
 		// Summary: Set state on elem to value.
-		//		On Firefox 2, we set an attribute in namespace
+		//		On Firefox 2 and below, we set an attribute in namespace
 		//		"http://www.w3.org/2005/07/aaa" with a name of the given state.
 		//		On all other browsers, we set an attribute called
 		//		"aria-"+state.
@@ -133,7 +133,7 @@ dojo.mixin(dijit,
 
 	removeWaiState: function(/*Element*/ elem, /*String*/ state){
 		// Summary: Removes the given state from elem.
-		//		On Firefox 2, we remove the attribute in namespace
+		//		On Firefox 2 and below, we remove the attribute in namespace
 		//		"http://www.w3.org/2005/07/aaa" with a name of the given state.
 		//		On all other browsers, we remove the attribute called
 		//		"aria-"+state.
