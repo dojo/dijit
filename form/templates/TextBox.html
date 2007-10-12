@@ -1,9 +1,4 @@
-<table style="display: -moz-inline-stack;" class="dijit dijitReset dijitInlineTable" cellspacing="0" cellpadding="0"
-	id="widget_${id}" name="${name}" dojoAttachEvent="onmouseenter:_onMouse,onmouseleave:_onMouse" waiRole="presentation">
-	<tr class="dijitReset">
-		<td class="dijitReset dijitInputField" width="100%"
-			><input dojoAttachPoint='textbox,focusNode' dojoAttachEvent='onfocus:_onMouse,onblur:_onMouse,onkeyup,onkeypress:_onKeyPress' autocomplete="off"
-			style="width: 100%;" class="dijitInputField" type='${type}'
-		/></td>
-	</tr>
-</table>
+<input class="dojoTextBox" dojoAttachPoint='textbox,focusNode'
+	dojoAttachEvent='onmouseenter:_onMouse,onmouseleave:_onMouse,onfocus:_onMouse,onblur:_onMouse,onkeyup,onkeypress:_onKeyPress'
+	autocomplete="off"
+	/>
