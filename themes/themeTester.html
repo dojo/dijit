@@ -618,7 +618,7 @@
 						<hr class="spacer">
 					
 
-						<h2 class="testTitle">dijit.form.InLineEditBox + dijit.form.TextBox</h2>
+						<h2 class="testTitle">dijit.form.InlineEditBox + dijit.form.TextBox</h2>
 	
 						This is an InLine Sentence, 
 						<span id="editable" style="font-size:larger;" dojoType="dijit.form.InlineEditBox" onChange="myHandler(this.id,arguments[0])">
@@ -653,10 +653,23 @@
 						<span id="backgroundArea" dojoType="dijit.form.InlineEditBox">
 						<input name="date" value="2005-12-30"
 							dojoType="dijit.form.DateTextBox"
-							constraints={locale:'en-us'}
 							required="true"
-							promptMessage="mm/dd/yyyy"
-							invalidMessage="Invalid date. Use mm/dd/yyyy format.">
+							promptMessage="Please enter a date."
+							invalidMessage="Invalid date.">
+						</span>
+						(HTML after)
+
+						<hr class="spacer">
+
+						<h2>dijit.form.TimeTextBox:</h2>
+		
+						(HTML inline before)
+						<span id="timePicker" dojoType="dijit.form.InlineEditBox">
+						<input name="date" value="T09:00:00"
+							dojoType="dijit.form.TimeTextBox"
+							required="true"
+							promptMessage="Please enter a time."
+							invalidMessage="Invalid time.">
 						</span>
 						(HTML after)
 
