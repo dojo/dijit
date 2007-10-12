@@ -156,6 +156,9 @@
 	/* visibility:hidden;  */
 	display:none; 
 }
+.dijit_a11y .dijitComboBox .dijitDownArrowButtonChar {
+	display:inline; 
+}
 .tundra .dijitComboBox .dijitDownArrowButtonInner {
 	width:16px; 
 	height:16px; 
@@ -460,6 +463,9 @@
 }
 .tundra .dijitTitlePane .dijitArrowNodeInner { 
 	visibility:hidden;
+}
+.dijit_a11y .dijitTitlePane .dijitArrowNodeInner { 
+	visibility:visible;
 }
 
 .tundra .dijitTitlePaneTitle .dijitOpenCloseArrowOuter {
