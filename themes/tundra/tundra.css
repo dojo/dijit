@@ -249,8 +249,11 @@
 	 * workaround browser (FF and safari) sizing bugs when last table column is empty or display:null
 	 */
 	display: block;
+	width: 16px;
 	height: 16px;
-	width: 1px;
+	background-repeat: no-repeat;
+	background-image: url('images/warning.png');
+	visibility: hidden;
 }
 .tundra .dijitValidationIconText {
 	display: none;
@@ -259,10 +262,7 @@
 .tundra .dijitTextBoxError .dijitValidationIcon,
 .tundra .dijitComboBoxError .dijitValidationIcon,
 .tundra .dijitSpinnerError .dijitValidationIcon {
-	width: 16px;
-	height: 16px;
-	background-repeat: no-repeat;
-	background-image: url('images/warning.png');
+	visibility: visible;
 }
 
 /*
