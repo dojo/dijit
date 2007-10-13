@@ -60,6 +60,7 @@ dojo.declare(
 				}
 			});
 			this._plugins=[];
+			this.toolbar.destroy(); delete this.toolbar;
 			this.inherited('destroy',arguments);
 		},
 		addPlugin: function(/*String||Object*/plugin, /*Integer?*/index){
@@ -87,7 +88,7 @@ dojo.declare(
 					}
 				}
 				if(!o.plugin){
-					console.debug('Can not find plugin',plugin);
+					console.debug('Cannot find plugin',plugin);
 					return;
 				}
 				plugin=o.plugin;
@@ -189,7 +190,7 @@ dojo.declare(
 			dojo.withGlobal(this.window,'moveToBookmark',dijit,[b]);
 		},
 		undo: function(){
-			console.log('undo');
+//			console.log('undo');
 			this.endEditing(true);
 			var s=this._steps.pop();
 			if(this._steps.length>0){
@@ -202,7 +203,7 @@ dojo.declare(
 			return false;
 		},
 		redo: function(){
-			console.log('redo');
+//			console.log('redo');
 			this.endEditing(true);
 			var s=this._undoedSteps.pop();
 			if(s && this._steps.length>0){
