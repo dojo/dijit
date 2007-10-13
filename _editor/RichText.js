@@ -11,7 +11,7 @@ dojo.requireLocalization("dijit", "Textarea");
 // file. If it is included in dojo.js and you want to allow rich text saving
 // for back/forward actions, then set djConfig.allowXdRichTextSave = true.
 if(!djConfig["useXDomain"] || djConfig["allowXdRichTextSave"]){
-	if(dojo._post_load){
+	if(dojo._postLoad){
 		(function(){
 			var savetextarea = dojo.doc.createElement('textarea');
 			savetextarea.id = "dijit._editor.RichText.savedContent";
