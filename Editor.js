@@ -150,13 +150,7 @@ dojo.declare(
 					return r;
 				}catch(e){
 					if(dojo.isMoz){
-						if('copy'==cmd){
-							alert(this.commands['copyErrorFF']);
-						}else if('cut'==cmd){
-							alert(this.commands['cutErrorFF']);
-						}else if('paste'==cmd){
-							alert(this.commands['pasteErrorFF']);
-						}
+						alert(dojo.string.substitute(this.commands['systemShortcutFF'],[cmd,this.commands['shortcutFF'+cmd]]));
 					}
 					return false;
 				}

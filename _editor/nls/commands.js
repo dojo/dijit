@@ -37,7 +37,8 @@
 	'fontSize': 'Font Size',
 	'fontName': 'Font Name',
 	/* Error messages */
-	'copyErrorFF': 'Copy action is only available in Firefox via keyboard shortcut due to its design decision: please use ctrl+c.',
-	'cutErrorFF': 'Cut action is only available in Firefox via keyboard shortcut due to its design decision: please use ctrl+x.',
-	'pasteErrorFF': 'Paste action is only available in Firefox via keyboard shortcut due to its design decision: please use ctrl+v.'
+	'systemShortcutFF': 'The "${0}" action is only available in Mozilla Firefox using a keyboard shortcut. Please use ${1}.',
+	'shortcutFFcut':'ctrl+x',
+	'shortcutFFcopy':'ctrl+c',
+	'shortcutFFpaste':'ctrl+v'
 })
