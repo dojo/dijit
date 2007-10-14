@@ -37,8 +37,11 @@
 	'fontSize': 'Font Size',
 	'fontName': 'Font Name',
 	/* Error messages */
-	'systemShortcutFF': 'The "${0}" action is only available in Mozilla Firefox using a keyboard shortcut. Please use ${1}.',
-	'shortcutFFcut':'ctrl+x',
-	'shortcutFFcopy':'ctrl+c',
-	'shortcutFFpaste':'ctrl+v'
+	/*TODO: remove deprecated *ErrorFF strings, to be replaced by systemShortcutFF */
+	'copyErrorFF': 'Copy action is only available in Mozilla Firefox using a keyboard shortcut. Please use ctrl+c.',
+	'cutErrorFF': 'Cut action is only available in Mozilla Firefox using a keyboard shortcut. Please use ctrl+x.',
+	'pasteErrorFF': 'Paste action is only available in Mozilla Firefox using a keyboard shortcut. Please use ctrl+v.',
+	'systemShortcutFF': 'The "${0}" action is only available in Mozilla Firefox using a keyboard shortcut. Use ${1}.',
+	'ctrlKey':'ctrl+${0}',
+	'appleKey':'\u2318${0}' // "command" or open-apple key on Macintosh
 })

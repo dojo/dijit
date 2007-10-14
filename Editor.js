@@ -136,7 +136,7 @@ dojo.declare(
 		_undoedSteps:[],
 		execCommand: function(cmd){
 			if(this.customUndo && (cmd=='undo' || cmd=='redo')){
-				return cmd=='undo'?this.undo():this.redo();
+				return this[cmd]();
 			}else{
 				try{
 					if(this.customUndo){
@@ -150,7 +150,16 @@ dojo.declare(
 					return r;
 				}catch(e){
 					if(dojo.isMoz){
-						alert(dojo.string.substitute(this.commands['systemShortcutFF'],[cmd,this.commands['shortcutFF'+cmd]]));
+						// Warn user of platform limitation.  Cannot programmatically access keyboard. See ticket #4136
+						var sub = dojo.string.substitute,
+							accel = {cut:'X', copy:'C', paste:'V'},
+							isMac = navigator.userAgent.indexOf("Macintosh") != -1;
+						if(/copy|cut|paste/.test(cmd)){
+							alert(this.commands[cmd + 'ErrorFF']);
+						}
+// Replace above alert with this code when systemShortcutFF is translated.  See #4575
+//						alert(sub(this.commands.systemShortcutFF,
+//							[cmd, sub(this.commands[isMac ? 'appleKey' : 'ctrlKey'], [accel[cmd]])]));
 					}
 					return false;
 				}
