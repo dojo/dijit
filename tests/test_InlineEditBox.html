@@ -76,15 +76,15 @@
 			The following section uses inline block text of 400px.
 			When clicking the editable text it should bring up an editor which is also 400px wide.
 		</div>
-		(before plain inline) <fieldset class="dijitInline"><div style="width: 400px;">hello ladies and gentlemen, now is the time for all good men to come to the aid of their country</div></fieldset> (after plain inline)
+		(before plain inline) <fieldset class="dijitInline"><div style="width: 400px;">hello world</div></fieldset> (after plain inline)
 		<br>
 		(before editable inline)
-		<fieldset class="dijitInline"><div dojoType="dijit.InlineEditBox" onChange="myHandler(this.id,arguments[0])" style="width: 400px;">
-			hello ladies and gentlemen, now is the time for all good men to come to aid of their country
+		<fieldset class="dijitInline"><div dojoType="dijit.InlineEditBox" onChange="myHandler(this.id,arguments[0])" width="400px" style="width: 400px;">
+			hello world
 		</div></fieldset>
 		(after editable inline)
-
 		<hr style="width:100%;">
+
 		<h2>Pararagraph</h2>
 		(before plain paragraph)
 		<p>
@@ -139,44 +139,63 @@ tortor pharetra congue. Suspendisse pulvinar.
 		<hr style="width:100%;">
 
 		<h2>Date text box:</h2>
-		<span id="backgroundArea" dojoType="dijit.InlineEditBox" editor="dijit.form.DateTextBox" value="2005-12-30"
+		before
+		<span id="backgroundArea" dojoType="dijit.InlineEditBox" editor="dijit.form.DateTextBox" value="2005-12-30" width="200px"
 		editorParams="{ constraints: {datePattern:'MM/dd/yy'}, lang: 'en-us', required: true, promptMessage: 'mm/dd/yy', invalidMessage: 'Invalid date. Use mm/dd/yy format.'}">
 			07/31/2007
 		</span>
+		after
 		<hr style="width:100%;">
 
-		<h2>FilteringSelect:</h2>
+		<h2>FilteringSelect (no down arrow):</h2>
+		before
 		<span dojoType="dojo.data.ItemFileReadStore" jsId="stateStore"
 			url="_data/comboBoxData.json"></span>
 		<span id="filteringSelect" dojoType="dijit.InlineEditBox" editor="dijit.form.FilteringSelect" value="IA"
-			editorParams="{searchAttr: 'name', keyAttr: 'abbreviation', store: 'stateStore', autocomplete: true, hasDownArrow: false}">
+			editorParams="{searchAttr: 'name', keyAttr: 'abbreviation', store: stateStore, autocomplete: true, hasDownArrow: false}"
+			 width="200px">
 			Indiana
 		</span>
+		after
 		<hr style="width:100%;">
+		<h2>FilteringSelect (down arrow):</h2>
+		before
+		<span id="filteringSelect2" dojoType="dijit.InlineEditBox" editor="dijit.form.FilteringSelect" value="IA"
+			editorParams="{searchAttr: 'name', keyAttr: 'abbreviation', store: stateStore, autocomplete: true, hasDownArrow: true}"
+			 width="200px">
+			Indiana
+		</span>
+		after
+		<hr style="width:100%;">
+		
+		<h2>Programmatically created:</h2>
 		before block<div style="display:block;" id="programmatic">Click here to edit a block programmatically created inline edit region</div>after
 		<script type="text/javascript">
 			// See if we can make a widget in script
 			dojo.addOnLoad(function(){
 				var inlineWidget = new dijit.InlineEditBox({renderAsHtml: true}, 'programmatic');
  			});
-
 		</script>
 		<hr style="width:100%;">
-		<b>Spinner:</b>
-		<span dojoType="dijit.InlineEditBox" editor="dijit.form.NumberSpinner" editorParams="{constraints: {places:0} }">
+
+		<h2>Spinner:</h2>
+		<span dojoType="dijit.InlineEditBox" editor="dijit.form.NumberSpinner" editorParams="{constraints: {places:0} }" width="200px">
 			900
 		</span>
-<!-- InlineEditBox/Slider doesn't work on Firefox but does on IE and Safari
 		<hr style="width:100%;">
-		<b>Slider:</b>
-		<p dojoType="dijit.InlineEditBox">
+
+<!-- InlineEditBox/Slider doesn't work on Firefox but does on IE and Safari
+		<h2>Slider:</h2>
+		before
+		<span dojoType="dijit.InlineEditBox">
 			<input dojoType="dijit.form.VerticalSlider"
 				value="10"
 				maximum="100"
 				minimum="0"
 				showButtons="false"
 				style="height:100px;width:20px;">
-		</p>
+		</span>
+		after
 -->
 	</body>
 </html>

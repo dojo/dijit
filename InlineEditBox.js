@@ -61,6 +61,10 @@ dojo.declare(
 		// summary: User should set this handler to be notified of changes to value
 	},
 
+	// width: String
+	//		Width of editor.  By default it's width=100% (ie, block mode)
+	width: "100%",
+
 	postMixInProperties: function(){
 		this.inherited('postMixInProperties', arguments);
 		this.messages = dojo.i18n.getLocalization("dijit", "common", this.lang);
@@ -142,10 +146,10 @@ dojo.declare(
 		dojo.forEach(["fontWeight","fontFamily","fontSize","fontStyle"], function(prop){
 			ew.focusNode.style[prop]=srcStyle[prop];
 		}, this);
-		dojo.forEach(["display","marginTop","marginBottom","marginLeft", "marginRight"], function(prop){
+		dojo.forEach(["marginTop","marginBottom","marginLeft", "marginRight"], function(prop){
 			ew.domNode.style[prop]=srcStyle[prop];
 		}, this);
-		ew.domNode.style.width="100%";
+		ew.domNode.style.width = this.width + (Number(this.width)==this.width ? "px" : "");
 		this._editorConnects = [
 			dojo.connect(this.editWidget.domNode, "onkeypress", this, "_onEditWidgetKeyPress")
 			];
