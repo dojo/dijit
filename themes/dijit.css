@@ -1040,8 +1040,11 @@ body .dijitAlignClient { position: absolute; }
 .dijit_a11y .dijitExpandoText { 
 	float: left; 
 	display: inline; 
-	padding-right: 3px; 
-	font: 0.75em Arial; 
+	padding-left: 10px;
+	padding-right: 10px; 
+	font-family: monospace;
+	border-style: solid;
+	border-width: thin;
 } 
 
 /* Dialog */
