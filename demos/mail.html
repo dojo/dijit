@@ -38,10 +38,9 @@
 		dojo.require("dijit.layout.TabContainer");
 		dojo.require("dijit.layout.ContentPane");
 
-		function initWai(){
-			dijit.wai.setAttr(dojo.body(), "waiRole", "role", "application");
-		}
-		dojo.addOnLoad(initWai);
+		dojo.addOnLoad(function(){
+			dijit.setWaiRole(dojo.body(), "application");
+		});
 		
 		var paneId=1;
 
