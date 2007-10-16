@@ -241,7 +241,6 @@ dojo.declare(
 					this._prev_key_esc = true;
 					this._hideResultList();
 					if(this._lastDisplayedValue != this.getDisplayedValue()){
-						this.setValue(this._lastValueReported);
 						this.setDisplayedValue(this._lastDisplayedValue);
 						dojo.stopEvent(evt);
 					}else{
