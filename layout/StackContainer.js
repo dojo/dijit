@@ -336,7 +336,6 @@ dojo.declare(
 			//   and closing the current page.
 
 			if(this.disabled || e.altKey ){ return; }
-			var page = e._djpage;
 			var forward = true;
 			if(e.ctrlKey || !e._djpage){
 				var k = dojo.keys;
