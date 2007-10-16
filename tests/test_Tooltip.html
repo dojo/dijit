@@ -22,23 +22,22 @@
 <body>
 	<h1 class="testTitle">Tooltip test</h1>
 	<p>Mouse-over or focus the items below to test tooltips. <button onclick="dijit.byId('btnTt').destroy()">Remove</button> tooltip from button.</p>
-	<p>
-		<div><span id="one" class="tt" tabindex="0"> focusable text </span>
-			<span dojoType="dijit.Tooltip" connectId="one">
-				<b>
-					<span style="color: blue;">rich formatting</span>
-					<span style="color: red; font-size: x-large;"><i>!</i></span>
-				</b>
-			</span>
-		</div>
-		<span id="oneA" class="tt"> plain text (not focusable) </span>
-		<span dojoType="dijit.Tooltip" connectId="oneA">
-			<span> keyboard users can not access this tooltip</span>
+	<p></p>
+	<div><span id="one" class="tt" tabindex="0"> focusable text </span>
+		<span dojoType="dijit.Tooltip" connectId="one">
+			<b>
+				<span style="color: blue;">rich formatting</span>
+				<span style="color: red; font-size: x-large;"><i>!</i></span>
+			</b>
 		</span>
-
-		<a id="three" href="#bogus">anchor</a>
-		<span dojoType="dijit.Tooltip" connectId="three">tooltip on a link </span>
-	</p>
+	</div>
+	<span id="oneA" class="tt"> plain text (not focusable) </span>
+	<span dojoType="dijit.Tooltip" connectId="oneA">
+		<span> keyboard users can not access this tooltip</span>
+	</span>
+    <a id="three" href="#bogus">anchor</a>
+	<span dojoType="dijit.Tooltip" connectId="three">tooltip on a link </span>
+	<p></p>
 
 	<button id="four">button</button>
 	<span id="btnTt" dojoType="dijit.Tooltip" connectId="four">tooltip on a button</span>
