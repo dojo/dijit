@@ -269,7 +269,7 @@ dojo.mixin(dijit,
 		dojo.publish("focusNode", [node]);
 
 		// handle focus/blur styling
-		var w = dijit.byId(node.id);
+		var w = dijit.getEnclosingWidget(node);
 		if (w && w._setStateClass){
 			w._focused = true;
 			w._setStateClass();
