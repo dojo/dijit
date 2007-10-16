@@ -140,6 +140,9 @@ dijit.popup = new function(){
 			widget.onClose();
 		}
 
+		if(!stack.length){
+			return; //the above onClose may have already closed the last opened popup
+		}
 		var top = stack.pop();
 		var wrapper = top.wrapper,
 			iframe = top.iframe,
