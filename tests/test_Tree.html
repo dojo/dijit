@@ -34,8 +34,12 @@
 	<div dojoType="dijit.Tree" id="mytree" store="continentStore" query="{type:'continent'}"
 		labelAttr="name" label="Continents">
 		<script type="dojo/method" event="onClick" args="item">
-			alert("Execute of node " + continentStore.getLabel(item)
-				+", population=" + continentStore.getValue(item, "population"));
+			if(item){
+				alert("Execute of node " + continentStore.getLabel(item)
+					+", population=" + continentStore.getValue(item, "population"));
+			}else{
+				alert("Execute on root node");
+			}
 		</script>
 		<script type="dojo/method" event="getIconClass" args="item">
 			return "noteIcon";
