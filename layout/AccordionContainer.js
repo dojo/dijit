@@ -118,27 +118,37 @@ inside the AccordionPane??
 			dojo.fx.combine(animations).play();
 		},
 
+		adjacent: function(/*Widget*/ w, /*Boolean*/ forward){
+			var children = this.getChildren();
+			var index = dojo.indexOf(children, w);
+			// pick next button to focus on
+			index += forward ? 1 : children.length - 1;
+			return children[ index % children.length ];
+		},
+
 		// note: we are treating the container as controller here
-		processKey: function(/*Event*/ evt){
-			if(this.disabled || evt.altKey || evt.shiftKey || evt.ctrlKey){
-				return 	dijit.layout.AccordionContainer.superclass._onKeyPress.apply(this, arguments);
-			}
-			var forward = true;
-			switch(evt.keyCode){				
-				case dojo.keys.LEFT_ARROW:
-				case dojo.keys.UP_ARROW:
-					forward = false;
-					// fallthrough
-				case dojo.keys.RIGHT_ARROW:
-				case dojo.keys.DOWN_ARROW:
-					// find currently focused button in children array
-					var children = this.getChildren();
-					var index = dojo.indexOf(children, evt._dijitWidget);
-					// pick next button to focus on
-					index += forward ? 1 : children.length - 1;
-					var next = children[ index % children.length ];
-					dojo.stopEvent(evt);
-					next._onTitleClick();
+		processKey: function(/*Event*/ e){
+			if(this.disabled || e.altKey ){ return; }
+			var k = dojo.keys;
+			switch(e.keyCode){
+				case k.LEFT_ARROW:
+				case k.UP_ARROW:
+				case k.PAGE_UP:
+					dojo.stopEvent(e);
+					this.adjacent(e._dijitWidget, false)._onTitleClick();
+					break;
+				case k.RIGHT_ARROW:
+				case k.DOWN_ARROW:
+				case k.PAGE_DOWN:
+					dojo.stopEvent(e);
+					this.adjacent(e._dijitWidget, true)._onTitleClick();
+					break;
+				default:
+					if (e.ctrlKey && e.keyCode == k.TAB){
+						dojo.stopEvent(e);
+						this.adjacent(e._dijitWidget, !e.shiftKey)._onTitleClick();
+					}
+				
 			}
 		}
 	}
