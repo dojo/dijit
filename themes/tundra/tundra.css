@@ -238,12 +238,24 @@
 	background-color:#f9f7ba;
 	background-image:none;
 }
+.dj_ie6 .tundra .dijitTextBoxError input,
+.dj_ie6 .tundra .dijitComboBoxError input,
+.dj_ie6 .tundra .dijitSpinnerError input {
+	/* background-color: transparent on an <input> doesn't work on IE6 */
+	background-color:#f9f7ba !important;
+}
 
-.tundra .dijitFormWidgetErrorFocus,
-.tundra .dijitComboBoxErrorFocus,
-.tundra .dijitSpinnerErrorFocus {
+.tundra .dijitTextBoxErrorFocused,
+.tundra .dijitComboBoxErrorFocused,
+.tundra .dijitSpinnerErrorFocused {
 	background-color:#ff6;
 	background-image:none;
+}
+.dj_ie6 .tundra .dijitTextBoxErrorFocused input,
+.dj_ie6 .tundra .dijitComboBoxErrorFocused input,
+.dj_ie6 .tundra .dijitSpinnerErrorFocused input {
+	/* background-color: transparent on an <input> doesn't work on IE6 */
+	background-color:#ff6 !important;
 }
 
 /* Validation errors  */
