@@ -51,7 +51,7 @@ dojo.declare(
 
 	startup: function(){
 		dojo.forEach(this.getChildren(), function(child){ child.startup(); });
-		this.connectKeyNavChildren();
+		this.startupKeyNavChildren();
 	},
 
 	onExecute: function(){

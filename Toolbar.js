@@ -25,7 +25,7 @@ dojo.declare(
 	},
 
 	startup: function(){
-		this.connectKeyNavChildren();
+		this.startupKeyNavChildren();
 	}
 }
 );

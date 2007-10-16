@@ -119,6 +119,17 @@
 				<span>Foreground</span>
 				<div dojoType="dijit.ColorPalette" id="toolbar1.colorPalette2" style="display: none" palette="3x4" onChange="console.log(this.value);"></div>
 			</div
+
+			><span dojoType="dijit.ToolbarSeparator"></span
+			><div dojoType="dijit.form.ComboButton" optionsTitle='save options' onClick='console.log("clicked combo save")'>
+				<span>Save</span>
+				<div dojoType="dijit.Menu" id="saveMenu" style="display: none;">
+					<div dojoType="dijit.MenuItem"  iconClass="dijitEditorIcon dijitEditorIconSave"
+						onClick="console.log('not actually saving anything, just a test!')">Save</div>
+					<div dojoType="dijit.MenuItem"
+						onClick="console.log('not actually saving anything, just a test!')">Save As</div>
+				</div>
+			</div
 	></div>
 
 	<h2>Toolbar that looks like MenuBar</h2>

@@ -241,7 +241,69 @@ dojo.declare("dijit.form.ComboButton", dijit.form.DropDownButton, {
 	//  text that describes the options menu (accessibility)
 	optionsTitle: "",
 
-	baseClass: "dijitComboButton"
+	baseClass: "dijitComboButton",
+
+	_focusedNode: null,
+
+	postCreate: function(){
+		this.inherited(arguments);
+		this._focalNodes = [this.titleNode, this.popupStateNode];
+		dojo.forEach(this._focalNodes, dojo.hitch(this, function(node){
+			if(dojo.isIE){
+				this.connect(node, "onactivate", this._onNodeFocus);
+			}else{
+				this.connect(node, "onfocus", this._onNodeFocus);
+			}
+		}));
+	},
+
+	focusFocalNode: function(node){
+		// summary: Focus the focal node node.
+		this._focusedNode = node;
+		dijit.focus(node);
+	},
+
+	hasNextFocalNode: function(){
+		// summary: Returns true if this widget has no node currently
+		//		focused or if there is a node following the focused one.
+		//		False is returned if the last node has focus.
+		return this._focusedNode !== this.getFocalNodes()[1];
+	},
+
+	focusNext: function(){
+		// summary: Focus the focal node following the current node with focus
+		//		or the first one if no node currently has focus.
+		this._focusedNode = this.getFocalNodes()[this._focusedNode ? 1 : 0];
+		dijit.focus(this._focusedNode);
+	},
+
+	hasPrevFocalNode: function(){
+		// summary: Returns true if this widget has no node currently
+		//		focused or if there is a node before the focused one.
+		//		False is returned if the first node has focus.
+		return this._focusedNode !== this.getFocalNodes()[0];
+	},
+
+	focusPrev: function(){
+		// summary: Focus the focal node before the current node with focus
+		//		or the last one if no node currently has focus.
+		this._focusedNode = this.getFocalNodes()[this._focusedNode ? 0 : 1];
+		dijit.focus(this._focusedNode);
+	},
+
+	getFocalNodes: function(){
+		// summary: Returns an array of focal nodes for this widget.
+		return this._focalNodes;
+	},
+
+	_onNodeFocus: function(evt){
+		this._focusedNode = evt.currentTarget;
+	},
+
+	_onBlur: function(evt){
+		this.inherited(arguments);
+		this._focusedNode = null;
+	}
 });
 
 dojo.declare("dijit.form.ToggleButton", dijit.form.Button, {
