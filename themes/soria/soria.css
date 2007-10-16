@@ -7,6 +7,11 @@
 
 @import url("../dijit.css");
 
+/* un-comment to endable webkit and ff2 builtin love */
+/* 
+@import url("rounded.css");
+*/
+
 .dj_safari .soria .dijitPopup {
 	-webkit-box-shadow: 0px 3px 7px #adadad;
 }
@@ -23,7 +28,8 @@
 .soria .dijitTooltipContainer,
 .soria .dijitHorizontalSliderRemainingBar {
 	background:#b7cdee url('images/gradientTopBg.png') repeat-x; 
-	background-position:0 -1px; 
+	/* background:#090 url('images/gradientTopBg.png') repeat-x; */
+	#background-image:none !important;
 }
 
 .soria .dijitButtonHover .dijitButtonNode,
@@ -41,8 +47,8 @@
 .soria .dijitAccordionPane-selected .dijitAccordionTitle,
 .soria .dijitProgressBarTile,
 .soria .dijitHorizontalSliderProgressBar {
-	background:#4f8ce5 url('images/gradientTopBg.png') repeat-x;
-	background-position:0 -1px; 
+	background:#4f8ce5 url('images/gradientTopBg.png') repeat-x; 
+
 }
 
 /* all icons are here */
@@ -129,7 +135,6 @@
 	/* disabled state - inner */
 	border: 1px solid #d5d5d5;
 	background:#ccc url("images/gradientTopBg.png") repeat-x top left;
-	background-position:0px -1px; 
 	opacity: 0.50; /* Safari, Opera and Mozilla */
 }
 .soria .dijitButtonDisabled .dijitButtonNode *,
@@ -248,7 +253,7 @@
 	font-size: inherit;
 	background:#fff url("images/gradientInverseTopBg.png") repeat-x top left;
 	background-position:0 -32px; 
-	border:1px solid #333;
+	/* border:1px solid #333; */
 	line-height: normal;
 	padding: 0.2em 0.3em;
 }
@@ -439,7 +444,7 @@ HTML.dj_ie6 .soria .dijitInputFieldValidationError,
 
 .soria .dijitTabInnerDiv {
 	padding:6px 10px 4px 10px;
-	border-left:1px solid #fff;
+	/* border-left:1px solid #fff; */
  	border-bottom:transparent; 
 }
 .dj_ie6 .soria .dijitTabInnerDiv { border-bottom:0; }
