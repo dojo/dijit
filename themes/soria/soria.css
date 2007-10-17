@@ -1092,7 +1092,6 @@ HTML.dj_ie6 .soria .dijitInputFieldValidationError,
 .soria .dijitComboBoxDisabled *
 {
 	cursor: not-allowed !important;
-	cursor: url("images/no.gif"), not-allowed, default;
 }
 
 /* DnD avatar-specific settings FIXME: need to wrap icon in a span like rest of dijits. */
