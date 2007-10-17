@@ -118,35 +118,35 @@ inside the AccordionPane??
 			dojo.fx.combine(animations).play();
 		},
 
-		adjacent: function(/*Widget*/ w, /*Boolean*/ forward){
+		adjacent: function(/*Boolean*/ forward){
 			var children = this.getChildren();
-			var index = dojo.indexOf(children, w);
+			var index = dojo.indexOf(children, this.selectedChildWidget);
 			// pick next button to focus on
 			index += forward ? 1 : children.length - 1;
 			return children[ index % children.length ];
 		},
 
 		// note: we are treating the container as controller here
-		processKey: function(/*Event*/ e){
+		_onKeyPress: function(/*Event*/ e){
 			if(this.disabled || e.altKey ){ return; }
 			var k = dojo.keys;
 			switch(e.keyCode){
 				case k.LEFT_ARROW:
 				case k.UP_ARROW:
 				case k.PAGE_UP:
+					this.adjacent(false)._onTitleClick();
 					dojo.stopEvent(e);
-					this.adjacent(e._dijitWidget, false)._onTitleClick();
 					break;
 				case k.RIGHT_ARROW:
 				case k.DOWN_ARROW:
 				case k.PAGE_DOWN:
+					this.adjacent(true)._onTitleClick();
 					dojo.stopEvent(e);
-					this.adjacent(e._dijitWidget, true)._onTitleClick();
 					break;
 				default:
 					if (e.ctrlKey && e.keyCode == k.TAB){
-						dojo.stopEvent(e);
 						this.adjacent(e._dijitWidget, !e.shiftKey)._onTitleClick();
+						dojo.stopEvent(e);
 					}
 				
 			}
@@ -184,9 +184,9 @@ dojo.declare(
 		}
 	},
 
-	_onKeyPress: function(/*Event*/ evt){
+	_onTitleKeyPress: function(/*Event*/ evt){
 		evt._dijitWidget = this;
-		return this.getParent().processKey(evt);
+		return this.getParent()._onKeyPress(evt);
 	},
 
 	_setSelectedState: function(/*Boolean*/ isSelected){
