@@ -40,7 +40,7 @@
 }
 
 .dj_ie6 .tundra .dijitButtonNode {
-	position:relative; 
+	zoom:1; 
 }
 
 .tundra .dijitA11yDownArrow,
