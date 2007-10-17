@@ -25,6 +25,10 @@ dojo.declare(
 	// selectedChildWidget: Widget
 	//	References the currently selected child widget, if any
 
+	postCreate: function(){
+		this.connect(this.domNode, "onkeypress", this._onKeyPress);
+	},
+	
 	startup: function(){
 		if(this._started){ return; }
 
