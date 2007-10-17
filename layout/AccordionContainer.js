@@ -118,14 +118,6 @@ inside the AccordionPane??
 			dojo.fx.combine(animations).play();
 		},
 
-		adjacent: function(/*Boolean*/ forward){
-			var children = this.getChildren();
-			var index = dojo.indexOf(children, this.selectedChildWidget);
-			// pick next button to focus on
-			index += forward ? 1 : children.length - 1;
-			return children[ index % children.length ];
-		},
-
 		// note: we are treating the container as controller here
 		_onKeyPress: function(/*Event*/ e){
 			if(this.disabled || e.altKey ){ return; }
@@ -134,18 +126,18 @@ inside the AccordionPane??
 				case k.LEFT_ARROW:
 				case k.UP_ARROW:
 				case k.PAGE_UP:
-					this.adjacent(false)._onTitleClick();
+					this._adjacent(false)._onTitleClick();
 					dojo.stopEvent(e);
 					break;
 				case k.RIGHT_ARROW:
 				case k.DOWN_ARROW:
 				case k.PAGE_DOWN:
-					this.adjacent(true)._onTitleClick();
+					this._adjacent(true)._onTitleClick();
 					dojo.stopEvent(e);
 					break;
 				default:
-					if (e.ctrlKey && e.keyCode == k.TAB){
-						this.adjacent(e._dijitWidget, !e.shiftKey)._onTitleClick();
+					if(e.ctrlKey && e.keyCode == k.TAB){
+						this._adjacent(e._dijitWidget, !e.shiftKey)._onTitleClick();
 						dojo.stopEvent(e);
 					}
 				

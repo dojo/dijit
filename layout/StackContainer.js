@@ -147,18 +147,22 @@ dojo.declare(
 		}
 	},
 
-	forward: function(){
-		// Summary: advance to next page
+	_adjacent: function(/*Boolean*/ forward){
+		// summary: Gets the next/previous child widget in this container from the current selection
 		var children = this.getChildren();
 		var index = dojo.indexOf(children, this.selectedChildWidget);
-		this.selectChild(children[ (index + 1) % children.length ]);
+		index += forward ? 1 : children.length - 1;
+		return children[ index % children.length ];
+	},
+
+	forward: function(){
+		// Summary: advance to next page
+		this.selectChild(this._adjacent(true));
 	},
 
 	back: function(){
 		// Summary: go back to previous page
-		var children = this.getChildren();
-		var index = dojo.indexOf(children, this.selectedChildWidget);
-		this.selectChild(children[ (index + children.length - 1) % children.length ]);
+		this.selectChild(this._adjacent(false));
 	},
 
 	_onKeyPress: function(e){
