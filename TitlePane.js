@@ -34,7 +34,7 @@ dojo.declare(
 		this._setCss();
 		dojo.setSelectable(this.titleNode, false);
 		dijit.TitlePane.superclass.postCreate.apply(this, arguments);
-		dijit.setWaiState(this.containerNode, "titleledby", this.titleNode.id);
+		dijit.setWaiState(this.containerNode, "labelledby", this.titleNode.id);
 		dijit.setWaiState(this.focusNode, "haspopup", "true");
 
 		// setup open/close animations
