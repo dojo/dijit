@@ -21,8 +21,12 @@ dojo.declare(
 	open: true,
 
 	// duration: Integer
-	//		milliseconds to fade in/fade out
+	//		Time in milliseconds to fade in/fade out
 	duration: 250,
+
+	// baseClass: String
+	//	the root className to use for the various states of this widget
+	baseClass: "dijitTitlePane",
 
 	templatePath: dojo.moduleUrl("dijit", "templates/TitlePane.html"),
 
@@ -33,7 +37,7 @@ dojo.declare(
 		}
 		this._setCss();
 		dojo.setSelectable(this.titleNode, false);
-		dijit.TitlePane.superclass.postCreate.apply(this, arguments);
+		this.inherited("postCreate",arguments);
 		dijit.setWaiState(this.containerNode, "labelledby", this.titleNode.id);
 		dijit.setWaiState(this.focusNode, "haspopup", "true");
 
@@ -60,7 +64,7 @@ dojo.declare(
 		// 		Typically called when an href is loaded.  Our job is to make the animation smooth
 		if(this._wipeOut.status() == "playing"){
 			// we are currently *closing* the pane, so just let that continue
-			dijit.layout.ContentPane.prototype.setContent.apply(this, content);
+			this.inherited("setContent",arguments);
 		}else{
 			if(this._wipeIn.status() == "playing"){
 				this._wipeIn.stop();
@@ -70,7 +74,7 @@ dojo.declare(
 			dojo.marginBox(this.wipeNode, {h: dojo.marginBox(this.wipeNode).h});
 
 			// add the new content (erasing the old content, if any)
-			dijit.layout.ContentPane.prototype.setContent.apply(this, arguments);
+			this.inherited("setContent",arguments);
 
 			// call _wipeIn.play() to animate from current height to new height
 			this._wipeIn.play();
@@ -96,6 +100,7 @@ dojo.declare(
 	},
 
 	_setCss: function(){
+		// summary: set the open/close css state for the TitlePane
 		var classes = ["dijitClosed", "dijitOpen"];
 		var boolIndex = this.open;
 		dojo.removeClass(this.focusNode, classes[!boolIndex+0]);
@@ -116,6 +121,13 @@ dojo.declare(
 				e.preventDefault();
 			}
 	 	}
+	},
+	
+	_handleFocus: function(/*Event*/ e){
+		// summary: handle blur and focus for this widget
+		
+		// add/removeClass is safe to call without hasClass in this case
+		dojo[(e.type=="focus" ? "addClass" : "removeClass")](this.focusNode,this.baseClass+"Focused");
 	},
 
 	setTitle: function(/*String*/ title){

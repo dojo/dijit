@@ -181,10 +181,17 @@ dojo.declare(
 		return this.getParent()._onKeyPress(evt);
 	},
 
+
+
 	_setSelectedState: function(/*Boolean*/ isSelected){
 		this.selected = isSelected;
 		(isSelected ? dojo.addClass : dojo.removeClass)(this.domNode, "dijitAccordionPane-selected");
 		this.focusNode.setAttribute("tabIndex", isSelected ? "0" : "-1");
+	},
+	
+	_handleFocus: function(/*Event*/e){
+		// summary: handle the blur and focus state of this widget
+		dojo[(e.type=="focus" ? "addClass" : "removeClass")](this.focusNode,"dijitAccordionPaneFocused");		
 	},
 
 	setSelected: function(/*Boolean*/ isSelected){
