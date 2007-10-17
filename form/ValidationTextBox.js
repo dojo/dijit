@@ -51,7 +51,9 @@ dojo.declare(
 
 		validator: function(value,constraints){
 			// summary: user replaceable function used to validate the text input against the regular expression.
-			return (new RegExp("^(" + this.regExpGen(constraints) + ")"+(this.required?"":"?")+"$")).test(value)&&(!this.required||!this._isEmpty(value));
+			return (new RegExp("^(" + this.regExpGen(constraints) + ")"+(this.required?"":"?")+"$")).test(value) &&
+				(!this.required || !this._isEmpty(value)) &&
+				(this._isEmpty(value) || this.parse(value, constraints) !== null);
 		},
 
 		isValid: function(/* Boolean*/ isFocused){
