@@ -419,9 +419,9 @@ table .dijitComboButton .dijitButtonNode {
 .dijitRadio INPUT {
 	margin: 0; 
 	padding: 0;
-	vertical-align:middle;
-} 
-
+	display: block;
+}
+ 
 .dijitCheckBoxInput {
 	/* place the actual input on top, but all-but-invisible */
 	opacity: 0.01;
