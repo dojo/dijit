@@ -10,6 +10,11 @@
 	<script type="text/javascript" src="../tests/_testCommon.js"></script>
 
 	<script type="text/javascript">
+		// Use profile builds, if available.  Since we use pretty much all of the widgets, just use dijit-all.
+		// A custom profile would provide some additional savings.
+		dojo.require("dijit.dijit");
+		dojo.require("dijit.dijit-all");
+
 		dojo.require("dojo.parser");
 		dojo.require("dojo.data.ItemFileWriteStore");
 
