@@ -16,6 +16,7 @@
 			dojo.require("dijit.form.DateTextBox");
 			dojo.require("dijit.form.CurrencyTextBox");
 			dojo.require("dojo.currency");
+			dojo.require("dijit.form.ComboBox");
 			dojo.require("dijit.form.FilteringSelect");
 			dojo.require("dijit.form.NumberSpinner");
 			dojo.require("dijit.form.Slider");
@@ -51,26 +52,90 @@
 	<body>
 		<h1 class="testTitle">Dijit InlineEditBox Test</h1>
 
-		<h2>Form Letter</h2>
+		<span dojoType="dojo.data.ItemFileReadStore" jsId="stateStore"
+			url="_data/comboBoxData.json"></span>
+		<span dojoType="dojo.data.ItemFileReadStore" jsId="productStore"
+			data="_data/comboBoxData.json">
+			<script type="dojo/method">
+			console.log("doing preamble");
+				this._jsonData =
+					{ identifier: 'name', 
+					  label: 'name',
+					  items: [
+						{ name: "refrigerator" },
+						{ name: "freezer" },
+						{ name: "stove" },
+						{ name: "heater" },
+					]};
+			</script>
+		</span>
+
+		<h2>Form Letter with blanks</h2>
 		<div class="letter">
 			<p>
 				Dear <span dojoType="dijit.InlineEditBox" width="200px"></span>,
 			</p>
 			<p class="letter">
 				Thank you for your recent order.
-				Please remit <span dojoType="dijit.InlineEditBox" editor="dijit.form.CurrencyTextBox" editorParams="{currency: 'USD'}" width="100px"></span>
-				for your purchase of the deluxe <span dojoType="dijit.InlineEditBox" width="400px"></span>
-				on <span dojoType="dijit.InlineEditBox" editor="dijit.form.DateTextBox" width="200px"></span>.
+				Please remit
+				<span dojoType="dijit.InlineEditBox" editor="dijit.form.CurrencyTextBox" editorParams="{currency: 'USD'}" width="100px"></span>
+				for your purchase of
+				<span dojoType="dijit.InlineEditBox" editor="dijit.form.NumberSpinner" editorParams="{constraints: {places:0} }" width="70px"></span>
+				deluxe
+				<span dojoType="dijit.InlineEditBox" editor="dijit.form.ComboBox"
+					editorParams="{searchAttr: 'name', store: productStore, autocomplete: false, hasDownArrow: false}"
+					 width="200px"></span>.
+				on
+				<span dojoType="dijit.InlineEditBox" editor="dijit.form.DateTextBox" width="200px"></span>
+				in
+				<span dojoType="dijit.InlineEditBox" editor="dijit.form.FilteringSelect"
+					editorParams="{searchAttr: 'name', keyAttr: 'abbreviation', store: stateStore, autocomplete: true, hasDownArrow: true}"
+					 width="200px"></span>.
+			</p>
+			<p dojoType="dijit.InlineEditBox" autoSave="false" editor="dijit.form.Textarea"></p>
+			<p>
+				Sincerely,
+			</p>
+			<span  style="margin-left: 2em; font-family: cursive;" dojoType="dijit.InlineEditBox" width="400px"></span>
+		</div>
+		<hr style="margin-bottom: 1em;">
+
+		<h2>Form Letter with predefined values, and no auto-save</h2>
+		<div class="letter">
+			<p>
+				Dear <span dojoType="dijit.InlineEditBox" width="200px" autoSave="false">John</span>,
+			</p>
+			<p class="letter">
+				Thank you for your recent order.
+				Please remit
+				<span dojoType="dijit.InlineEditBox" editor="dijit.form.CurrencyTextBox" editorParams="{currency: 'USD'}" width="100px" autoSave="false">$2,000</span>
+				for your purchase of
+				<span dojoType="dijit.InlineEditBox" editor="dijit.form.NumberSpinner" editorParams="{constraints: {places:0} }" width="70px" autoSave="false">3</span>
+				deluxe
+				<span dojoType="dijit.InlineEditBox" editor="dijit.form.ComboBox"
+					editorParams="{searchAttr: 'name', store: productStore, autocomplete: false, hasDownArrow: false}"
+					 width="200px">
+					 refrigerator
+				</span>.
+				on
+				<span dojoType="dijit.InlineEditBox" editor="dijit.form.DateTextBox" width="200px" autoSave="false">01/01/2007</span>
+				in
+				<span dojoType="dijit.InlineEditBox" editor="dijit.form.FilteringSelect"
+					editorParams="{searchAttr: 'name', keyAttr: 'abbreviation', store: stateStore, autocomplete: true, hasDownArrow: false}"
+					 width="200px" autoSave="false">
+					 Pennsylvania
+				</span>.
 			</p>
 			<p dojoType="dijit.InlineEditBox" autoSave="false" editor="dijit.form.Textarea">
-				(edit this whole paragraph)
+				We sincerely appreciate your business and hope we can do business again.
 			</p>
 			<p>
 				Sincerely,
 			</p>
-			<p style="margin-left: 2em; font-family: cursive;" dojoType="dijit.InlineEditBox" width="400px"></p>
+			<span  style="margin-left: 2em; font-family: cursive;" dojoType="dijit.InlineEditBox" width="400px" autoSave="false">Bob Vance</span>
 		</div>
 		<hr style="margin-bottom: 1em;">
+
 
 
 		<h2>H3</h2>
@@ -139,30 +204,10 @@ tortor pharetra congue. Suspendisse pulvinar.
 		the InlineEditBox above.
 		<hr style="width:100%;">
 
-		<h2>Date text box (inline):</h2>
-		before
-		<span id="backgroundArea" dojoType="dijit.InlineEditBox" editor="dijit.form.DateTextBox" value="2005-12-30" width="200px"
-		editorParams="{ constraints: {datePattern:'MM/dd/yy'}, lang: 'en-us', required: true, promptMessage: 'mm/dd/yy', invalidMessage: 'Invalid date. Use mm/dd/yy format.'}">
-			07/31/2007
-		</span>
-		after
-		<hr style="width:100%;">
-
-		<h2>FilteringSelect (no down arrow):</h2>
-		before
-		<span dojoType="dojo.data.ItemFileReadStore" jsId="stateStore"
-			url="_data/comboBoxData.json"></span>
-		<span id="filteringSelect" dojoType="dijit.InlineEditBox" editor="dijit.form.FilteringSelect"
-			editorParams="{searchAttr: 'name', keyAttr: 'abbreviation', store: stateStore, autocomplete: true, hasDownArrow: false}"
-			 width="200px">
-			Indiana
-		</span>
-		after
-		<hr style="width:100%;">
-		<h2>FilteringSelect (down arrow, and save/cancel buttons):</h2>
+		<h2>FilteringSelect (no down arrow, and save/cancel buttons):</h2>
 		before
 		<span id="filteringSelect2" dojoType="dijit.InlineEditBox" editor="dijit.form.FilteringSelect"
-			editorParams="{searchAttr: 'name', keyAttr: 'abbreviation', store: stateStore, autocomplete: true, hasDownArrow: true}"
+			editorParams="{searchAttr: 'name', keyAttr: 'abbreviation', store: stateStore, autocomplete: true, hasDownArrow: false}"
 			 width="200px" autoSave="false">
 			Indiana
 		</span>
@@ -177,12 +222,6 @@ tortor pharetra congue. Suspendisse pulvinar.
 				var inlineWidget = new dijit.InlineEditBox({renderAsHtml: true}, 'programmatic');
  			});
 		</script>
-		<hr style="width:100%;">
-
-		<h2>Spinner:</h2>
-		<span dojoType="dijit.InlineEditBox" editor="dijit.form.NumberSpinner" editorParams="{constraints: {places:0} }" width="200px">
-			900
-		</span>
 		<hr style="width:100%;">
 	</body>
 </html>
