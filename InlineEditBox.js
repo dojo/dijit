@@ -134,7 +134,11 @@ dojo.declare(
 			width: this.width
 		}, placeholder);
 
+		// to avoid screen jitter, we first create the editor with position:absolute, visibility:hidden,
+		// and then when it's finished rendering, we switch from display mode to editor
+		var ews = ew.domNode.style;
 		this.displayNode.style.display="none";
+		ews.cssText = "";
 
 		// Replace the display widget with edit widget, leaving them both displayed for a brief time so that
 		// focus can be shifted without incident.  (browser may needs some time to render the editor.)
@@ -147,7 +151,12 @@ dojo.declare(
 	_showText: function(/*Boolean*/ focus){
 		// summary: revert to display mode, and optionally focus on display node
 
+		// display the read-only text and then quickly hide the editor (to avoid screen jitter)
 		this.displayNode.style.display="";
+		var ews = this.editWidget.domNode.style;
+		ews.position="absolute";
+		ews.visibility="hidden";
+
 		this.domNode = this.displayNode;
 
 		// give the browser some time to render the display node and then shift focus to it
