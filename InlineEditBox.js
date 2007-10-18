@@ -271,14 +271,14 @@ dojo.declare(
 			ew.style.width = this.width + (Number(this.width)==this.width ? "px" : "");			
 		}
 
-		this.connect(this.editWidget, "onChange", "_onChange");
-
 		(this.editWidget.setDisplayedValue||this.editWidget.setValue).call(this.editWidget, this.value);
 		this._initialText = this.getValue();
 
 		if(this.autoSave){
 			this.buttonContainer.style.display="none";
 		}
+
+		this.connect(this.editWidget, "onChange", "_onChange");
 	},
 
 	destroy: function(){
@@ -372,5 +372,27 @@ dojo.declare(
 
 	focus: function(){
 		this.editWidget.focus();
+		dijit.selectInputText(this.editWidget.focusNode);
 	}
 });
+
+dijit.selectInputText = function(/*DomNode*/element){
+	// summary: select all the text in an input element (TODO: use functions in _editor/selection.js?)
+	var _window = dojo.global;
+	var _document = dojo.doc;
+	element = dojo.byId(element);
+	if(_document["selection"] && dojo.body()["createTextRange"]){ // IE
+		var range = element.createTextRange();
+		range.moveStart("character", 0);
+		range.moveEnd("character", element.value.length);
+		range.select();
+	}else if(_window["getSelection"]){
+		var selection = _window.getSelection();
+		// FIXME: does this work on Safari?
+		if(element.setSelectionRange){
+			element.setSelectionRange(0, element.value.length);
+		}
+	}
+	element.focus();
+};
+

@@ -72,6 +72,7 @@
 
 		<h2>Form Letter with blanks</h2>
 		<div class="letter">
+			<h3 id="editable" dojoType="dijit.InlineEditBox" onChange="myHandler(this.id,arguments[0])" autoSave="true"></h3>
 			<p>
 				Dear <span dojoType="dijit.InlineEditBox" width="200px"></span>,
 			</p>
@@ -84,7 +85,7 @@
 				deluxe
 				<span dojoType="dijit.InlineEditBox" editor="dijit.form.ComboBox"
 					editorParams="{searchAttr: 'name', store: productStore, autocomplete: false, hasDownArrow: false}"
-					 width="200px"></span>.
+					 width="200px"></span>
 				on
 				<span dojoType="dijit.InlineEditBox" editor="dijit.form.DateTextBox" width="200px"></span>
 				in
@@ -102,6 +103,9 @@
 
 		<h2>Form Letter with predefined values, and no auto-save</h2>
 		<div class="letter">
+			<h3 id="editable2" dojoType="dijit.InlineEditBox" onChange="myHandler(this.id,arguments[0])" autoSave="false">
+				Bob Vance Refrigeration
+			</h3>
 			<p>
 				Dear <span dojoType="dijit.InlineEditBox" width="200px" autoSave="false">John</span>,
 			</p>
@@ -114,9 +118,7 @@
 				deluxe
 				<span dojoType="dijit.InlineEditBox" editor="dijit.form.ComboBox"
 					editorParams="{searchAttr: 'name', store: productStore, autocomplete: false, hasDownArrow: false}"
-					 width="200px">
-					 refrigerator
-				</span>.
+					 width="200px">refrigerators</span>
 				on
 				<span dojoType="dijit.InlineEditBox" editor="dijit.form.DateTextBox" width="200px" autoSave="false">01/01/2007</span>
 				in
@@ -136,22 +138,6 @@
 		</div>
 		<hr style="margin-bottom: 1em;">
 
-
-
-		<h2>H3</h2>
-		<div>
-			The following two h3 tags should be look the same.  They are display:block, and the editor should take up the entire
-			width of the screen.
-		</div>
-
-		(before plain h3)
-		<h3>this is a plain h3, cannot be edited</h3>
-		(between plain and editable h3)
-		<h3 id="editable" dojoType="dijit.InlineEditBox" onChange="myHandler(this.id,arguments[0])">
-			this is an editable h3 - I trigger the onChange callback on save
-		</h3>
-		(after editable h3)
-		<hr style="width:100%;">
 
 		<h2>Inline-block Text (of 400px width)</h2>
 		<div>
