@@ -82,7 +82,7 @@ dojo.declare(
 		// connect handlers to the display node
 		var events = {
 			ondijitclick: "_onClick",
-			onmouseover: "_onMouseOver",	// TODO: use onmouseenter / onmouseleave
+			onmouseover: "_onMouseOver",
 			onmouseout: "_onMouseOut",
 			onfocus: "_onMouseOver",
 			onblur: "_onMouseOut"			
@@ -91,6 +91,9 @@ dojo.declare(
 			this.connect(this.displayNode, name, events[name]);
 		}
 		dijit.setWaiRole(this.displayNode, "button");
+		if(!this.displayNode.getAttribute("tabIndex")){
+			this.displayNode.setAttribute("tabIndex", 0);
+		}
 
 		if(!this.value){
 			this.value = this.displayNode.innerHTML;
@@ -158,7 +161,7 @@ dojo.declare(
 		this.domNode = ew.domNode;
 		setTimeout(function(){
 			ew.focus();
-		}, 0);
+		}, 100);
 	},
 
 	_showText: function(/*Boolean*/ focus){
@@ -181,7 +184,7 @@ dojo.declare(
 			}
 			_this.editWidget.destroy();
 			delete _this.editWidget;
-		}, 0);
+		}, 100);
 	},
 
 	save: function(/*Boolean*/ focus){
