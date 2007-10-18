@@ -123,8 +123,7 @@ dojo.declare(
 
 		this.editing = true;
 
-		var dn = this.displayNode,
-			editValue = 
+		var editValue = 
 				(this.renderAsHtml ?
 				this.value :
 				this.value.replace(/\s*\r?\n\s*/g,"").replace(/<br\/?>/gi, "\n").replace(/&gt;/g,">").replace(/&lt;/g,"<").replace(/&amp;/g,"&"));
@@ -268,7 +267,7 @@ dojo.declare(
 			this.domNode.style.display="block";
 		}else{
 			// inline-block mode
-			ew.style.width = this.width + (Number(this.width)==this.width ? "px" : "");			
+			ew.domNode.style.width = this.width + (Number(this.width)==this.width ? "px" : "");			
 		}
 
 		(this.editWidget.setDisplayedValue||this.editWidget.setValue).call(this.editWidget, this.value);
@@ -287,9 +286,8 @@ dojo.declare(
 	},
 
 	getValue: function(){
-		// TODO: think about value vs. display value
 		var ew = this.editWidget;
-		return ew.getDisplayedValue ? ew.getDisplayedValue() : ew.getValue();
+		return ew.getDisplayedValue ? ew.getDisplayedValue() : ( ew.getTextValue ? ew.getTextValue() : ew.getValue() );
 	},
 
 	_onKeyPress: function(e){
@@ -298,6 +296,9 @@ dojo.declare(
 		//		For autoSave widgets, if Esc/Enter, call cancel/save.
 		//		For non-autoSave widgets, enable save button if the text value is
 		//		different than the original value.
+		if(this._exitInProgress){
+			return;
+		}
 		if(this.autoSave){
 			// If Enter/Esc pressed, treat as save/cancel.
 			if(e.keyCode == dojo.keys.ESCAPE){
