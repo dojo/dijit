@@ -14,6 +14,8 @@
 			dojo.require("dijit.form.Textarea");
 			dojo.require("dijit.form.TextBox");
 			dojo.require("dijit.form.DateTextBox");
+			dojo.require("dijit.form.CurrencyTextBox");
+			dojo.require("dojo.currency");
 			dojo.require("dijit.form.FilteringSelect");
 			dojo.require("dijit.form.NumberSpinner");
 			dojo.require("dijit.form.Slider");
@@ -42,19 +44,34 @@
 
 			/* some style rules on nodes just to test that style gets copied to the edit widget */
 			p { font-family: cursive; }
+			.letter p { font-family: monospace; }
 			h3 { font-family: helvetica; font-style: italic; }
 		</style>
 	</head>
 	<body>
 		<h1 class="testTitle">Dijit InlineEditBox Test</h1>
 
-		<div>
-			The following tests each show a plain element followed by an editable element.
-			The plain element and editable element should look the same (font, font-size, block vs. inline) etc.,
-			and clicking an editable element should bring up an editor with the same attributes
-			(font, font-size, block vs. inline) as the editable element.
+		<h2>Form Letter</h2>
+		<div class="letter">
+			<p>
+				Dear <span dojoType="dijit.InlineEditBox" width="200px"></span>,
+			</p>
+			<p class="letter">
+				Thank you for your recent order.
+				Please remit <span dojoType="dijit.InlineEditBox" editor="dijit.form.CurrencyTextBox" editorParams="{currency: 'USD'}" width="100px"></span>
+				for your purchase of the deluxe <span dojoType="dijit.InlineEditBox" width="400px"></span>
+				on <span dojoType="dijit.InlineEditBox" editor="dijit.form.DateTextBox" width="200px"></span>.
+			</p>
+			<p dojoType="dijit.InlineEditBox" autoSave="false" editor="dijit.form.Textarea">
+				(edit this whole paragraph)
+			</p>
+			<p>
+				Sincerely,
+			</p>
+			<p style="margin-left: 2em; font-family: cursive;" dojoType="dijit.InlineEditBox" width="400px"></p>
 		</div>
-		<hr>
+		<hr style="margin-bottom: 1em;">
+
 
 		<h2>H3</h2>
 		<div>
@@ -135,7 +152,7 @@ tortor pharetra congue. Suspendisse pulvinar.
 		before
 		<span dojoType="dojo.data.ItemFileReadStore" jsId="stateStore"
 			url="_data/comboBoxData.json"></span>
-		<span id="filteringSelect" dojoType="dijit.InlineEditBox" editor="dijit.form.FilteringSelect" value="IA"
+		<span id="filteringSelect" dojoType="dijit.InlineEditBox" editor="dijit.form.FilteringSelect"
 			editorParams="{searchAttr: 'name', keyAttr: 'abbreviation', store: stateStore, autocomplete: true, hasDownArrow: false}"
 			 width="200px">
 			Indiana
@@ -144,7 +161,7 @@ tortor pharetra congue. Suspendisse pulvinar.
 		<hr style="width:100%;">
 		<h2>FilteringSelect (down arrow, and save/cancel buttons):</h2>
 		before
-		<span id="filteringSelect2" dojoType="dijit.InlineEditBox" editor="dijit.form.FilteringSelect" value="IA"
+		<span id="filteringSelect2" dojoType="dijit.InlineEditBox" editor="dijit.form.FilteringSelect"
 			editorParams="{searchAttr: 'name', keyAttr: 'abbreviation', store: stateStore, autocomplete: true, hasDownArrow: true}"
 			 width="200px" autoSave="false">
 			Indiana
@@ -167,19 +184,5 @@ tortor pharetra congue. Suspendisse pulvinar.
 			900
 		</span>
 		<hr style="width:100%;">
-
-<!-- InlineEditBox/Slider doesn't work on Firefox but does on IE and Safari
-		<h2>Slider:</h2>
-		before
-		<span dojoType="dijit.InlineEditBox">
-			<input dojoType="dijit.form.VerticalSlider"
-				value="10"
-				maximum="100"
-				minimum="0"
-				showButtons="false"
-				style="height:100px;width:20px;">
-		</span>
-		after
--->
 	</body>
 </html>

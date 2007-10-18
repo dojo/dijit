@@ -65,6 +65,14 @@ dojo.declare(
 	//		Width of editor.  By default it's width=100% (ie, block mode)
 	width: "100%",
 
+	// value: String
+	//		The display value of the widget in read-only mode
+	value: "",
+
+	// noValueIndicator: String
+	//		The text that gets displayed when there is no value (so that the user has a place to click to edit)
+	noValueIndicator: "<span style='font-family: wingdings; text-decoration: underline;'>&nbsp;&nbsp;&nbsp;&nbsp;&#x270d;&nbsp;&nbsp;&nbsp;&nbsp;</span>",
+
 	postMixInProperties: function(){
 		this.inherited('postMixInProperties', arguments);
 
@@ -83,6 +91,11 @@ dojo.declare(
 			this.connect(this.displayNode, name, events[name]);
 		}
 		dijit.setWaiRole(this.displayNode, "button");
+
+		if(!this.value){
+			this.value = this.displayNode.innerHTML;
+		}
+		this._setDisplayValue(this.value);	// if blank, change to icon for "input needed"
 	},
 
 	_onMouseOver: function(){
@@ -109,10 +122,9 @@ dojo.declare(
 
 		var dn = this.displayNode,
 			editValue = 
-				this._isEmpty ? '' : 
 				(this.renderAsHtml ?
-				dn.innerHTML :
-				dn.innerHTML.replace(/\s*\r?\n\s*/g,"").replace(/<br\/?>/gi, "\n").replace(/&gt;/g,">").replace(/&lt;/g,"<").replace(/&amp;/g,"&"));
+				this.value :
+				this.value.replace(/\s*\r?\n\s*/g,"").replace(/<br\/?>/gi, "\n").replace(/&gt;/g,">").replace(/&lt;/g,"<").replace(/&amp;/g,"&"));
 
 		// Placeholder for edit widget
 		// Put place holder (and eventually editWidget) before the display node so that it's positioned correctly
@@ -179,23 +191,22 @@ dojo.declare(
 		//		Focus on the display mode text
 		this.editing = false;
 
-		// Copy value from edit widget to display dom node
-		// whitespace is really hard to click so show a ?
-		// TODO: show user defined message in gray
-		var value = "" + this.editWidget.getValue(); // "" is to make sure it's a string
-		if(/^\s*$/.test(value)){ value = "?"; this._isEmpty = true; }
-		else { this._isEmpty = false; }
+		this.value = this.editWidget.getValue() + "";
 		if(this.renderAsHtml){
-			this.displayNode.innerHTML = value;
-		}else{
-			this.displayNode.innerHTML =
-				value.replace(/&/gm, "&amp;").replace(/</gm, "&lt;").replace(/>/gm, "&gt;").replace(/"/gm, "&quot;")
-					.replace("\n", "<br>");
+			this.value = this.value.replace(/&/gm, "&amp;").replace(/</gm, "&lt;").replace(/>/gm, "&gt;").replace(/"/gm, "&quot;")
+				.replace("\n", "<br>");
 		}
+		this._setDisplayValue(this.value);
 
-		this.onChange(this.editWidget.getValue()); // tell the world that we have changed
+		// tell the world that we have changed
+		this.onChange(this.value);
 
 		this._showText(focus);	
+	},
+
+	_setDisplayValue: function(/*String*/ val){
+		// summary: inserts specified HTML value into this node, or an "input needed" character if node is blank
+		this.displayNode.innerHTML = val || this.noValueIndicator;
 	},
 
 	cancel: function(/*Boolean*/ focus){
