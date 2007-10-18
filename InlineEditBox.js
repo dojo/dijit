@@ -121,7 +121,7 @@ dojo.declare(
 		dojo.place(placeholder, this.domNode, "before");
 
 		var ew = this.editWidget = new dijit._InlineEditor({
-			value: editValue,
+			value: dojo.trim(editValue),
 			autoSave: this.autoSave,
 			buttonSave: this.buttonSave,
 			buttonCancel: this.buttonCancel,
@@ -138,7 +138,8 @@ dojo.declare(
 		// and then when it's finished rendering, we switch from display mode to editor
 		var ews = ew.domNode.style;
 		this.displayNode.style.display="none";
-		ews.cssText = "";
+		ews.position = "static";
+		ews.visibility = "visible";
 
 		// Replace the display widget with edit widget, leaving them both displayed for a brief time so that
 		// focus can be shifted without incident.  (browser may needs some time to render the editor.)
@@ -161,13 +162,11 @@ dojo.declare(
 
 		// give the browser some time to render the display node and then shift focus to it
 		// and hide the edit widget
-		console.log("setting timer");
 		var _this = this;
 		setTimeout(function(){
 			if(focus){
 				dijit.focus(_this.displayNode);
 			}
-			console.log("destroying edit widget");
 			_this.editWidget.destroy();
 			delete _this.editWidget;
 		}, 0);
@@ -236,10 +235,9 @@ dojo.declare(
 	},
 
 	postCreate: function(){
-		// Create edit widget and insert into template
+		// Create edit widget in place in the template
 		var cls = dojo.getObject(this.editor);
-		var ew = this.editWidget = new cls(this.editorParams);
-		this.containerNode.appendChild(ew.domNode);
+		var ew = this.editWidget = new cls(this.editorParams, this.editorPlaceholder);
 
 		// Copy the style from the source
 		// Don't copy ALL properties though, just the necessary/applicable ones
@@ -247,11 +245,17 @@ dojo.declare(
 		dojo.forEach(["fontWeight","fontFamily","fontSize","fontStyle"], function(prop){
 			ew.focusNode.style[prop]=srcStyle[prop];
 		}, this);
-		ew.domNode.style.width = "100%";
 		dojo.forEach(["marginTop","marginBottom","marginLeft", "marginRight"], function(prop){
-			this.outerNode.style[prop]=srcStyle[prop];
+			this.domNode.style[prop]=srcStyle[prop];
 		}, this);
-		this.outerNode.style.width = this.width + (Number(this.width)==this.width ? "px" : "");
+		if(this.width=="100%"){
+			// block mode
+			ew.domNode.style.width = "100%";	// because display: block doesn't work for table widgets
+			this.domNode.style.display="block";
+		}else{
+			// inline-block mode
+			ew.style.width = this.width + (Number(this.width)==this.width ? "px" : "");			
+		}
 
 		this.connect(this.editWidget, "onChange", "_onChange");
 
@@ -289,7 +293,6 @@ dojo.declare(
 			}else if(e.keyCode == dojo.keys.ENTER){
 				dojo.stopEvent(e);
 				this._exitInProgress = true;
-				console.log("onkeypress calling save");
 				this.save(true);
 			}
 		}else{
@@ -298,7 +301,6 @@ dojo.declare(
 			// The delay gives the browser a chance to update the Textarea.
 			setTimeout(
 				function(){
-					console.log("doing 100ms setTimeout, editor is " + _this.editWidget);
 					_this.saveButton.setDisabled(_this.getValue() == _this._initialText);
 				}, 100);
 		}
@@ -310,10 +312,8 @@ dojo.declare(
 		if(this._exitInProgress){
 			// when user clicks the "save" button, focus is shifted back to display text, causing this
 			// function to be called, but in that case don't do anything
-			console.log("ignoring onBlur");
 			return;
 		}
-		console.log("processing onBlur");
 		if(this.autoSave){
 			this._exitInProgress = true;
 			if(this.getValue() == this._initialText){
@@ -337,10 +337,8 @@ dojo.declare(
 		if(this._exitInProgress){
 			// TODO: the onChange event might happen after the return key for an async widget
 			// like FilteringSelect.  Shouldn't be deleting the edit widget on end-of-edit
-			console.log("ignoring onChange");
 			return;
 		}
-		console.log("onChange");
 		if(this.autoSave){
 			this._exitInProgress = true;
 			this.save(true);

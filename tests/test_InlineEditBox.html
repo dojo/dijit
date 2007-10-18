@@ -120,25 +120,9 @@ tortor pharetra congue. Suspendisse pulvinar.
 		<a href="#" onClick="dijit.byId('areaEditable').setDisabled(true)">disable</a> /
 		<a href="#" onClick="dijit.byId('areaEditable').setDisabled(false)">enable</a>
 		the InlineEditBox above.
-		<br>
-		(The following editable paragraph does not have Save/Cancel buttons when open)
-		<p id="areaEditable_autosave" dojoType="dijit.InlineEditBox" autoSave="true" editor="dijit.form.Textarea">
-				Aliquam vitae enim. Duis scelerisque metus auctor est venenatis
-imperdiet. Fusce dignissim porta augue. Nulla vestibulum. Integer lorem
-nunc, ullamcorper a, commodo ac, malesuada sed, dolor. Aenean id mi in
-massa bibendum suscipit. Integer eros. Nullam suscipit mauris. In
-pellentesque. Mauris ipsum est, pharetra semper, pharetra in, viverra
-quis, tellus. Etiam purus. Quisque egestas, tortor ac cursus lacinia,
-felis leo adipiscing nisi, et rhoncus elit dolor eget eros. Fusce ut
-quam. Suspendisse eleifend leo vitae ligula. Nulla facilisi. Nulla
-rutrum, erat vitae lacinia dictum, pede purus imperdiet lacus, ut
-semper velit ante id metus. Praesent massa dolor, porttitor sed,
-pulvinar in, consequat ut, leo. Nullam nec est. Aenean id risus blandit
-tortor pharetra congue. Suspendisse pulvinar.
-		</p>
 		<hr style="width:100%;">
 
-		<h2>Date text box:</h2>
+		<h2>Date text box (inline):</h2>
 		before
 		<span id="backgroundArea" dojoType="dijit.InlineEditBox" editor="dijit.form.DateTextBox" value="2005-12-30" width="200px"
 		editorParams="{ constraints: {datePattern:'MM/dd/yy'}, lang: 'en-us', required: true, promptMessage: 'mm/dd/yy', invalidMessage: 'Invalid date. Use mm/dd/yy format.'}">
@@ -158,11 +142,11 @@ tortor pharetra congue. Suspendisse pulvinar.
 		</span>
 		after
 		<hr style="width:100%;">
-		<h2>FilteringSelect (down arrow):</h2>
+		<h2>FilteringSelect (down arrow, and save/cancel buttons):</h2>
 		before
 		<span id="filteringSelect2" dojoType="dijit.InlineEditBox" editor="dijit.form.FilteringSelect" value="IA"
 			editorParams="{searchAttr: 'name', keyAttr: 'abbreviation', store: stateStore, autocomplete: true, hasDownArrow: true}"
-			 width="200px">
+			 width="200px" autoSave="false">
 			Indiana
 		</span>
 		after
