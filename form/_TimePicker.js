@@ -127,14 +127,8 @@ dojo.declare("dijit.form._TimePicker",
 			var oldtime=this._toSeconds(date);
 			var newtime=oldtime-oldtime%incrementSeconds;
 			// convert back to a date
-			var newdate=new Date();
-			newdate.setYear(date.getFullYear());
-			newdate.setMonth(date.getMonth());
-			newdate.setDate(date.getDate());
-			newdate.setHours(0);
-			newdate.setMinutes(0);
-			newdate.setSeconds(newtime);
-			console.debug("Time was: "+date+". Rounding UI to: "+newdate);
+			var newdate=new Date(date.getFullYear(), date.getMonth(), date.getDate(), 0, 0, newtime, 0);
+//			console.debug("Time was: "+date+". Rounding UI to: "+newdate);
 			return newdate;
 		},
 
@@ -148,21 +142,26 @@ dojo.declare("dijit.form._TimePicker",
 			// summary:
 			// creates a clickable time option
 			var div=document.createElement("div");
-			div.date=new Date(this._refdate);
+			var date = (div.date = new Date(this._refdate));
 			div.index=index;
-			div.date.setSeconds(div.date.getSeconds()+this._clickableIncrementDate.getSeconds()*index);
-			div.date.setMinutes(div.date.getMinutes()+this._clickableIncrementDate.getMinutes()*index);
-			div.date.setHours(div.date.getHours()+this._clickableIncrementDate.getHours()*index);
-			if(index%this._visibleIncrement<1&&index%this._visibleIncrement>-1){
-				div.innerHTML=dojo.date.locale.format(div.date, this.constraints);
+			var incrementDate = this._clickableIncrementDate;
+			date.setSeconds(date.getSeconds()+incrementDate.getSeconds()*index);
+			date.setMinutes(date.getMinutes()+incrementDate.getMinutes()*index);
+			date.setHours(date.getHours()+incrementDate.getHours()*index);
+			if(index%this._visibleIncrement<1 && index%this._visibleIncrement>-1){
+				div.innerHTML=dojo.date.locale.format(date, this.constraints);
 				dojo.addClass(div, "dijitTimePickerItem");
 			}else if(index%this._clickableIncrement==0){
 				div.innerHTML="&nbsp;"
 				dojo.addClass(div, "dijitTimePickerItemSmall");
 			}
-			if(this.isDisabledDate(div.date)){
+			if(this.isDisabledDate(date)){
 				// set disabled
 				dojo.addClass(div, "dijitTimePickerItemDisabled");
+			}
+			if(dojo.date.compare(this.value, date, this.constraints.selector)==0){
+				div.selected=true;
+				dojo.addClass(div, "dijitMenuItemHover");
 			}
 			return div;
 		},
@@ -183,7 +182,7 @@ dojo.declare("dijit.form._TimePicker",
 		},
 
 		onmouseout:function(/*Event*/ evt){
-			if(evt.target === this.timeMenu||this._highlighted_option==null){ return; }
+			if(evt.target === this.timeMenu||this._highlighted_option==null||evt.target.selected){ return; }
 			dojo.removeClass(this._highlighted_option, "dijitMenuItemHover");
 		},
 
