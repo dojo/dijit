@@ -118,10 +118,13 @@
 .soria .dijitButtonNode {
 	/* enabled state - inner */
 	border:1px solid #4f8ce5;
-	padding:.3em .4em .2em .4em;
+	vertical-align: middle;
+	padding: 0.2em 0.2em;
 }
+
 .dj_ie6 .soria .dijitButtonNode {
-	position:relative; 
+	zoom: 1;
+	padding-bottom: 0.1em;
 }
 
 .soria .dijitButtonDisabled .dijitButtonNode,
@@ -171,6 +174,22 @@
 	border-color:#333;
 	background: #cbdcf7 url("images/gradientBottomBg.png") bottom repeat-x;
 }
+
+/* button inner contents - labels, icons etc. */
+.soria .dijitButtonNode * {
+	display: -moz-inline-box;
+	display: inline-block;
+	vertical-align: middle;
+}
+.dj_ie .soria .dijitButtonNode * {
+	zoom: 1;
+	display:inline;
+}
+.soria .dijitButtonText {
+	padding: 0 0.3em;
+}
+
+
 .soria .dijitToolbar {
 	border: 1px solid #333;
 }
@@ -1109,4 +1128,5 @@ HTML.dj_ie6 .soria .dijitInputFieldValidationError,
 .soria.dojoDndCopy .dojoDndAvatarHeader	{ background-position:-448px 0px; }
 .soria.dojoDndMove .dojoDndAvatarCanDrop .dojoDndAvatarHeader { background-position:-464px 0px; }
 .soria.dojoDndCopy .dojoDndAvatarCanDrop .dojoDndAvatarHeader { background-position:-480px 0px; }
+
 

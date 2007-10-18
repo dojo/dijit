@@ -25,22 +25,37 @@
 		dijit.form.ComboBox (partial)
  *****/
 
-
 .tundra .dijitButtonNode {
 	/* enabled state - inner */
 	/* border:1px outset #a0a0a0; */
 	border:1px solid #9b9b9b;
-	padding:.3em .4em .2em .4em;
+	vertical-align: middle;
+	padding: 0.2em 0.2em;
 	background:#e9e9e9 url("images/buttonEnabled.png") repeat-x top;
 }
+.dj_ie .tundra .dijitButtonNode {
+	zoom: 1;
+	padding-bottom: 0.1em;
+}
+
+/* button inner contents - labels, icons etc. */
+.tundra .dijitButtonNode * {
+	display: -moz-inline-box;
+	display: inline-block;
+	vertical-align: middle;
+}
+.dj_ie .tundra .dijitButtonNode * {
+	zoom: 1;
+	display:inline;
+}
+.tundra .dijitButtonText {
+	padding: 0 0.3em;
+}
+
 .dijitComboBox .dijitButtonNode,
 .dijitSpinner .dijitButtonNode {
 	border: 0px;
 	padding: 0 .4em 0 .4em;	/* the inner node will be vertically centered automatically because it's in a <td> */
-}
-
-.dj_ie6 .tundra .dijitButtonNode {
-	zoom:1; 
 }
 
 .tundra .dijitA11yDownArrow,

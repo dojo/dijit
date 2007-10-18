@@ -252,6 +252,8 @@
 .dijitComboBox {
 	/* outside of button */
 	margin:.2em;
+	/* normalize line-heights inside the button */
+	line-height: 1.3em;
 }
 
 .dijitButtonNode {
