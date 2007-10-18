@@ -685,9 +685,15 @@ dojo.declare(
 				// ignore clicks while we are in the process of loading data
 				return;
 			}
-			// are we collapsing a descendant that has the tab index?
-			if(dojo.query("[tabindex=0]", node.domNode).length > 0){
-				this.focusNode(node);
+			if(this.lastFocused){
+				// are we collapsing a descendant with focus?
+				if(dojo.isDescendant(this.lastFocused.domNode, node.domNode)){
+					this.focusNode(node);
+				}else{
+					// clicking the expando node might have erased focus from
+					// the current item; restore it
+					this.focusNode(this.lastFocused);
+				}
 			}
 			node.collapse();
 		}
