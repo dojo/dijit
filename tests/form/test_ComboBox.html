@@ -31,7 +31,7 @@
 		}
 		var combo;
 		function init(){
-			var store = new dojo.data.ItemFileReadStore({url: '../_data/comboBoxData.json'});
+			var store = new dojo.data.ItemFileReadStore({url: '../_data/states.json'});
 			combo = new dijit.form.ComboBox({
 				name:"prog",
 				autoComplete:false,
@@ -147,7 +147,7 @@ The drop down list is filtered by the data you have already typed in.
 	<hr>
 
 	<div dojoType="dojo.data.ItemFileReadStore" jsId="stateStore"
-		url="../_data/comboBoxData.json"></div>
+		url="../_data/states.json"></div>
 
 	<div dojoType="dojo.data.ItemFileReadStore" jsId="dijitStore"
 		url="../_data/dijits.json"></div>
