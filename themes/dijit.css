@@ -890,6 +890,9 @@ body .dijitAlignClient { position: absolute; }
 	border-width: 1px;
 	border-style: solid;
 }
+.dijit_a11y .dijitMenuItemHover {
+	border: 1px #fff dotted !important;
+}
 
 /* separator can be two pixels -- set border of either one to 0px to have only one */
 .dijitMenuSeparatorTop {
