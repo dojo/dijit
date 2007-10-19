@@ -51,7 +51,6 @@ dojo.declare("dijit.form._TimePicker",
 		//		Example: "2007-06-01T09:00:00"
 		value: new Date(),
 
-		_refdate: null,
 		_visibleIncrement:2,
 		_clickableIncrement:1,
 		_totalIncrements:10,
@@ -63,6 +62,7 @@ dojo.declare("dijit.form._TimePicker",
 			// summary:
 			//	Set the value of the TimePicker
 			//	Redraws the TimePicker around the new date
+
 			//dijit.form._TimePicker.superclass.setValue.apply(this, arguments);
 			this.value=date;
 			this._showText();
@@ -75,19 +75,23 @@ dojo.declare("dijit.form._TimePicker",
 		},
 
 		_showText:function(){
-			
 			this.timeMenu.innerHTML="";
 			var fromIso = dojo.date.stamp.fromISOString;
 			this._clickableIncrementDate=fromIso(this.clickableIncrement);
 			this._visibleIncrementDate=fromIso(this.visibleIncrement);
 			this._visibleRangeDate=fromIso(this.visibleRange);
 			// get the value of the increments and the range in seconds (since 00:00:00) to find out how many divs to create
-			var clickableIncrementSeconds=this._toSeconds(this._clickableIncrementDate);
-			var visibleIncrementSeconds=this._toSeconds(this._visibleIncrementDate);
-			var visibleRangeSeconds=this._toSeconds(this._visibleRangeDate);
+			var sinceMidnight = function(/*Date*/ date){
+				return date.getHours()*60*60+date.getMinutes()*60+date.getSeconds();
+			};
+
+			var clickableIncrementSeconds = sinceMidnight(this._clickableIncrementDate);
+			var visibleIncrementSeconds = sinceMidnight(this._visibleIncrementDate);
+			var visibleRangeSeconds = sinceMidnight(this._visibleRangeDate);
 
 			// round reference date to previous visible increment
-			this._refdate=this._roundTime(this.value, visibleIncrementSeconds);
+			var time = this.value.getTime();
+			this._refDate = new Date(time - time % (visibleIncrementSeconds*1000));
 
 			// assume clickable increment is the smallest unit
 			this._clickableIncrement=1;
@@ -125,35 +129,15 @@ dojo.declare("dijit.form._TimePicker",
 			this.setValue(this.value);
 		},
 
-		_roundTime:function(/*Date*/ date, incrementSeconds){
-			// summary:
-			//	Return a time that is nearest to the previous clickable increment, as defined by:
-			// new time=old time - oldtime%clickableincrement
-
-			// find the new time in seconds
-			var oldtime=this._toSeconds(date);
-			var newtime=oldtime-oldtime%incrementSeconds;
-			// convert back to a date
-			var newdate=new Date(date.getFullYear(), date.getMonth(), date.getDate(), 0, 0, newtime, 0);
-//			console.debug("Time was: "+date+". Rounding UI to: "+newdate);
-			return newdate;
-		},
-
-		_toSeconds:function(/*Date*/ date){
-			// summmary:
-			//	Convert a date time to the number of seconds since 00:00:00
-			return date.getHours()*60*60+date.getMinutes()*60+date.getSeconds();
-		},
-
 		_createOption:function(/*Number*/ index){
 			// summary: creates a clickable time option
 			var div=document.createElement("div");
-			var date = (div.date = new Date(this._refdate));
+			var date = (div.date = new Date(this._refDate));
 			div.index=index;
 			var incrementDate = this._clickableIncrementDate;
-			date.setSeconds(date.getSeconds()+incrementDate.getSeconds()*index);
-			date.setMinutes(date.getMinutes()+incrementDate.getMinutes()*index);
-			date.setHours(date.getHours()+incrementDate.getHours()*index);
+			date.setHours(date.getHours()+incrementDate.getHours()*index,
+				date.getMinutes()+incrementDate.getMinutes()*index,
+				date.getSeconds()+incrementDate.getSeconds()*index);
 
 			var innerDiv = document.createElement('div');
 			dojo.addClass(div,this.baseClass+"Item");
@@ -212,7 +196,7 @@ dojo.declare("dijit.form._TimePicker",
 		_onArrowUp:function(){
 			// summary: remove the bottom time and add one to the top
 			var index=this.timeMenu.childNodes[0].index-1;
-			var div=this._createOption(index); 
+			var div=this._createOption(index);
 			this.timeMenu.removeChild(this.timeMenu.childNodes[this.timeMenu.childNodes.length-1]);
 			this.timeMenu.insertBefore(div, this.timeMenu.childNodes[0]);
 		},
