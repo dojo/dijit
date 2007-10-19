@@ -6,9 +6,9 @@
 	and optionally enable RTL (right to left) mode, and/or dijit_a11y (high-
 	constrast/image off emulation) ... probably not a genuine test for a11y.
 
-	usage: on any dijit test_* page, press ctrl-f9.
+	usage: on any dijit test_* page, press ctrl-f9 to popup links.
 
-	there are currently (4 themes * 4 tests) * (10 variations of supported browsers)
+	there are currently (2 themes * 4 tests) * (10 variations of supported browsers)
 	not including testing individual locale-strings
 
 	you should not be using this in a production enviroment. include
@@ -83,7 +83,7 @@ _populateTestDialog = function(/* DomNode */node){
 	// pseudo-function to populate our test-martix-link pop-up
 	var base = window.location.pathname;
 	var str = "";
-	var themes = ["tundra","noir","soria" /* ,"squid" */ ];
+	var themes = ["tundra",/*"noir", */ "soria" /* ,"squid" */ ];
 	str += "<b>Tests:</b><br><table>";
 	dojo.forEach(themes,function(t){
 		str += 	'<tr><td><a hr'+'ef="'+base+'?theme='+t+'">'+t+'</'+'a></td>'+
@@ -93,5 +93,7 @@ _populateTestDialog = function(/* DomNode */node){
 			// too many potential locales to list, use &locale=[lang] to set
 			'</tr>';
 	});
+	str += '<tr><td colspan="4">jump to: <a hr'+'ef="'+(dojo.moduleUrl("dijit.themes","themeTester.html"))+'">themeTester</'+'a></td></tr>';
+	str += '<tr><td colspan="4">or: <a hr'+'ef="'+(dojo.moduleUrl("dijit.tests"))+'">tests folder</'+'a></td></tr>';
 	node.innerHTML = str + "</table>";
 }
