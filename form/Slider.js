@@ -93,6 +93,7 @@ dojo.declare(
 
 	_onBarClick: function(e){
 		if(this.disabled || !this.clickSelect){ return; }
+        dijit.focus(this.sliderHandle);
 		dojo.stopEvent(e);
 		var abspos = dojo.coords(this.sliderBarContainer, true);
 		var pixelValue = e[this._mousePixelCoord] - abspos[this._startingPixelCoord];
