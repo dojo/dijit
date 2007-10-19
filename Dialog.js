@@ -56,7 +56,6 @@ dojo.declare(
 
 		hide: function(){
 			this.domNode.style.display = "none";
-			this.domNode.style.width = this.domNode.style.height = "1px";
 			if(this.bgIframe.iframe){
 				this.bgIframe.iframe.style.display = "none";
 			}
