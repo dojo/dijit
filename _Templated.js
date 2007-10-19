@@ -37,6 +37,12 @@ dojo.declare("dijit._Templated",
 		//		the src dom node will be placed
 		containerNode: null,
 
+		// skipNodeCache Boolean:
+		//		if using a cached widget template node poses issues for a
+		//		particular widget class, it can set this property to ensure
+		//		that its template is always re-built from a string
+		_skipNodeCache: false,
+
 		// method over-ride
 		buildRendering: function(){
 			// summary:
@@ -45,7 +51,7 @@ dojo.declare("dijit._Templated",
 			// Lookup cached version of template, and download to cache if it
 			// isn't there already.  Returns either a DomNode or a string, depending on
 			// whether or not the template contains ${foo} replacement parameters.
-			var cached = dijit._Templated.getCachedTemplate(this.templatePath, this.templateString);
+			var cached = dijit._Templated.getCachedTemplate(this.templatePath, this.templateString, this._skipNodeCache);
 
 			var node;
 			if(dojo.isString(cached)){
@@ -55,6 +61,7 @@ dojo.declare("dijit._Templated",
 				var tstr = dojo.string.substitute(cached, this, function(value, key){
 					if(key.charAt(0) == '!'){ value = _this[key.substr(1)]; }
 					if(typeof value == "undefined"){ throw new Error(className+" template:"+key); } // a debugging aide
+					if(!value){ return ""; }
 
 					// Substitution keys beginning with ! will skip the transform step,
 					// in case a user wishes to insert unescaped markup, e.g. ${!foo}
@@ -188,7 +195,7 @@ dojo.declare("dijit._Templated",
 // key is either templatePath or templateString; object is either string or DOM tree
 dijit._Templated._templateCache = {};
 
-dijit._Templated.getCachedTemplate = function(templatePath, templateString){
+dijit._Templated.getCachedTemplate = function(templatePath, templateString, alwaysUseString){
 	// summary:
 	//		static method to get a template based on the templatePath or
 	//		templateString key
@@ -215,7 +222,7 @@ dijit._Templated.getCachedTemplate = function(templatePath, templateString){
 
 	templateString = dojo.string.trim(templateString);
 
-	if(templateString.match(/\$\{([^\}]+)\}/g)){
+	if(templateString.match(/\$\{([^\}]+)\}/g) || alwaysUseString){
 		// there are variables in the template so all we can do is cache the string
 		return (tmplts[key] = templateString); //String
 	}else{
