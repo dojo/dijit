@@ -89,10 +89,7 @@ dojo.declare(
 				this._opened=true;
 			}
 			
-			// this isn't working in IE?
-			if(this._picker.domNode.offsetWidth < this.domNode.offsetWidth){
-				dojo.marginBox(this._picker.domNode,{ w:this.domNode.offsetWidth });
-			}
+			dojo.marginBox(this._picker.domNode,{ w:this.domNode.offsetWidth });
 		},
 
 		_onBlur: function(){
