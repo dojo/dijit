@@ -815,7 +815,10 @@ dojo.declare(
 			}
 		}
 
-		var childParams = {item:item};
+		var childParams = {
+			item: item,
+			isExpandable: this.mayHaveChildren(item)
+		};
 		if (parent){
 			if (!parent.isExpandable){
 				parent.makeExpandable();
