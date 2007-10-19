@@ -218,7 +218,7 @@
 .tundra .dijitComboBox,
 .tundra .dijitSpinner,
 .tundra .dijitInlineEditor input,
-.tundra .dijitTextarea {
+.tundra .dijitTextArea {
 	/* 	For all except dijit.form.NumberSpinner:  the actual input element.
 		For TextBox, ComboBox, Spinner: the table that contains the input.
 		Otherwise the actual input element.
