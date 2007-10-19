@@ -495,7 +495,11 @@ dojo.declare(
 			}
 		}else{
 			// if this is the first child, return the parent
-			nodeWidget = nodeWidget.getParent();
+			// unless the parent is the root of a tree with a hidden root
+			var parent = nodeWidget.getParent();
+			if(!(this._hideRoot && parent === this)){
+				nodeWidget = parent;
+			}
 		}
 
 		if(nodeWidget && nodeWidget.isTreeNode){
@@ -552,9 +556,9 @@ dojo.declare(
 		}
 	},
 
-	_onHomeKey: function(/*Object*/ message){
+	_onHomeKey: function(){
 		// summary: home pressed; get first visible node, set focus there
-		var returnNode = this._navToFirstNode(message.tree);
+		var returnNode = this._navToRootOrFirstNode();
 		if(returnNode){
 			returnNode.tree.focusNode(returnNode);
 			return returnNode;
@@ -584,13 +588,12 @@ dojo.declare(
 	_onLetterKeyNav: function(message){
 		// summary: letter key pressed; search for node starting with first char = key
 		var node = startNode = message.node;
-		var tree = message.tree;
 		var key = message.key;
 		do{
 			node = this._navToNextNode(node);
 			//check for last node, jump to first node if necessary
 			if(!node){
-				node = this._navToFirstNode(tree);
+				node = this._navToRootOrFirstNode();
 			}
 		}while(node !== startNode && (node.label.charAt(0).toLowerCase() != key));
 		if(node && node.isTreeNode){
@@ -647,7 +650,7 @@ dojo.declare(
 			returnNode = node.getChildren()[0];			
 		}else{
 			// find a parent node with a sibling
-			while(node.isTreeNode){
+			while(node && node.isTreeNode){
 				returnNode = node.getNextSibling();
 				if(returnNode){
 					break;
@@ -658,11 +661,12 @@ dojo.declare(
 		return returnNode;
 	},
 
-	_navToFirstNode: function(/*Object*/ tree){
+	_navToRootOrFirstNode: function(){
 		// summary: get first visible node
-		var returnNode;
-		if(tree){
-			returnNode = tree.getChildren()[0];
+		if(!this._hideRoot){
+			return this;
+		}else{
+			var returnNode = this.getChildren()[0];
 			if(returnNode && returnNode.isTreeNode){
 				return returnNode;
 			}
