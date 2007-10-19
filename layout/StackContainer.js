@@ -167,7 +167,12 @@ dojo.declare(
 
 	_onKeyPress: function(e){
 		dojo.publish(this.id+"-containerKeyPress", [{ e: e, page: this}]);
-		return;
+	},
+
+	layout: function(){
+		if(this.doLayout && this.selectedChildWidget && this.selectedChildWidget.resize){
+			this.selectedChildWidget.resize(this._contentBox);
+		}
 	},
 
 	_showChild: function(/*Widget*/ page){
@@ -382,7 +387,6 @@ dojo.declare(
 		},
 
 		onContainerKeyPress: function(/*Object*/ info){
-//			console.log("container key press");
 			info.e._djpage = info.page;
 			this.onkeypress(info.e);
 		}
