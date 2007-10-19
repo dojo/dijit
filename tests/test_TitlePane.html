@@ -30,7 +30,7 @@
 	<h1 class="testTitle">Dijit TitlePane Test</h1>
 
 	<h1>Test #1: plain title pane, width=300px</h1>
-	<div id="test1" dojoType="dijit.TitlePane" title="Title Pane #1" style="width: 300px;">
+	<div dojoType="dijit.TitlePane" title="Title Pane #1" style="width: 300px;">
 		Lorem Ipsum Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Quisque
 		iaculis, nulla id semper faucibus, pede tellus nonummy magna, vitae adipiscing
 		orci arcu ut augue. Nunc condimentum, magna a vestibulum convallis, libero purus
@@ -43,9 +43,6 @@
 	<h1>Test #2: title pane with form, width=300px</h1>
 
 	<div dojoType="dijit.TitlePane" title="Title Pane #2" id="pane_2" style="width: 300px;">
-		<script type="dojo/connect" event="startup">
-			alert('pane_2:startup');
-		</script>
 		<form>
 			Age: <input><br>
 			Discount card <input type=checkbox><br>
