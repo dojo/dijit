@@ -415,7 +415,9 @@
 	font: menu;
 	margin: 0;
 }
-
+.tundra .dijitMenuPreviousButton, .tundra .dijitMenuNextButton {
+	font-style: italic;
+}
 .tundra .dijitMenuItem TD {
 	padding:2px;
 }

@@ -593,8 +593,8 @@ dojo.declare(
 		//	Focus-less div based menu for internal use in ComboBox
 
 		templateString:"<div class='dijitMenu' dojoAttachEvent='onclick,onmouseover,onmouseout' tabIndex='-1' style='overflow:\"auto\";'>"
-				+"<div class='dijitMenuItem' dojoAttachPoint='previousButton'></div>"
-				+"<div class='dijitMenuItem' dojoAttachPoint='nextButton'></div>"
+				+"<div class='dijitMenuItem dijitMenuPreviousButton' dojoAttachPoint='previousButton'></div>"
+				+"<div class='dijitMenuItem dijitMenuNextButton' dojoAttachPoint='nextButton'></div>"
 			+"</div>",
 		_messages:null,
 
