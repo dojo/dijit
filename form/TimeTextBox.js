@@ -56,6 +56,9 @@ dojo.declare(
 		_open: function(){
 			// summary:
 			//	opens the TimePicker, and sets the onValueSelected value
+
+			if(this.disabled){return;}
+
 			var self = this;
 
 			if(!this._picker){
