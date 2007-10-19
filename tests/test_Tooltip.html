@@ -13,6 +13,11 @@
 	<script type="text/javascript">
 		dojo.require("dijit.Tooltip");
 		dojo.require("dojo.parser");	// find widgets
+		dojo.addOnLoad(function(){
+			console.log("on load func");
+			var tt = new dijit.Tooltip({label:"programmatically created tooltip", connectId:["programmaticTest"]});
+			console.log("created", tt, tt.id);
+		});
 	</script>
 	<style type="text/css">
 		@import "../../dojo/resources/dojo.css";
@@ -38,6 +43,9 @@
     <a id="three" href="#bogus">anchor</a>
 	<span dojoType="dijit.Tooltip" connectId="three">tooltip on a link </span>
 	<p></p>
+
+	<span id="programmaticTest">this text has a programmatically created tooltip</span>
+	<br>
 
 	<button id="four">button</button>
 	<span id="btnTt" dojoType="dijit.Tooltip" connectId="four">tooltip on a button</span>

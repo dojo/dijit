@@ -126,7 +126,9 @@ dojo.declare(
 		connectId: [],
 
 		postCreate: function(){
-			this.srcNodeRef.style.display="none";
+			if(this.srcNodeRef){
+				this.srcNodeRef.style.display = "none";
+			}
 
 			this._connectNodes = [];
 			
