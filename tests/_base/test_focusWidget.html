@@ -15,7 +15,6 @@
 		dojo.require("dijit.form.DateTextBox");
 		dojo.require("dijit.form.ComboBox");
 		dojo.require("dijit.form.NumberSpinner");
-		dojo.require("dijit.form.InlineEditBox");
 		dojo.require("dijit.form.Button");
 		dojo.require("dijit.Menu");
 		dojo.require("dijit.layout.ContentPane");
@@ -109,12 +108,6 @@
 
 			<label for="spinner">a Spinner widget:</label>
 			<input id=spinner dojoType="dijit.form.NumberSpinner" value=100><br>
-
-			<label for="editSpinner">a Spinner widget inside an inlineEditBox:</label>
-			<div id=editSpinner dojoType=dijit.form.InlineEditBox>
-				<input id=spinner2 dojoType="dijit.form.NumberSpinner" value=100>
-			</div>
-			<br>
 
 			<label for="button">a Combobutton widget:</label>
 			<div id=button dojoType="dijit.form.ComboButton" tabIndex=0>

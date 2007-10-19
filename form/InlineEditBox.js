@@ -8,6 +8,8 @@ dojo.require("dijit.form.Button");
 
 dojo.requireLocalization("dijit", "common");
 
+dojo.deprecated("dijit.form.InlineEditBox is deprecated, use dijit.InlineEditBox instead", "", "1.1");
+
 dojo.declare(
 	"dijit.form.InlineEditBox",
 	[dijit.form._FormWidget, dijit._Container],

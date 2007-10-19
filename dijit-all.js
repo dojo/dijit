@@ -12,6 +12,7 @@ dojo.require("dijit.TitlePane");
 dojo.require("dijit.Toolbar");
 dojo.require("dijit.Tooltip");
 dojo.require("dijit.Tree");
+dojo.require("dijit.InlineEditBox");
 
 dojo.require("dijit.form.Button");
 dojo.require("dijit.form.CheckBox");
@@ -19,7 +20,6 @@ dojo.require("dijit.form.ComboBox");
 dojo.require("dijit.form.CurrencyTextBox");
 dojo.require("dijit.form.DateTextBox");
 dojo.require("dijit.form.FilteringSelect");
-dojo.require("dijit.form.InlineEditBox");
 dojo.require("dijit.form.NumberSpinner");
 dojo.require("dijit.form.NumberTextBox");
 dojo.require("dijit.form.Slider");

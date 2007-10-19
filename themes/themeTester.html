@@ -73,7 +73,7 @@
 		dojo.require("dijit.form.TextBox");
 		dojo.require("dijit.form.DateTextBox");	
 		dojo.require("dijit.form.Button");
-		dojo.require("dijit.form.InlineEditBox");
+		dojo.require("dijit.InlineEditBox");
 		dojo.require("dijit.form.NumberSpinner");
 		dojo.require("dijit.form.Slider"); 
 
@@ -618,24 +618,23 @@
 						<hr class="spacer">
 					
 
-						<h2 class="testTitle">dijit.form.InlineEditBox + dijit.form.TextBox</h2>
+						<h2 class="testTitle">dijit.InlineEditBox + dijit.form.TextBox</h2>
 	
-						This is an InLine Sentence, 
-						<span id="editable" style="font-size:larger;" dojoType="dijit.form.InlineEditBox" onChange="myHandler(this.id,arguments[0])">
-							<input dojoType="dijit.form.TextBox" value="Edit me - I trigger the onChange callback">
-						</span>
-						And Keep the text around me satic. 
+						This is an editable header, 
+						<h3 id="editable" style="font-size:larger;" dojoType="dijit.InlineEditBox" onChange="myHandler(this.id,arguments[0])">
+							Edit me - I trigger the onChange callback
+						</h3>
+						And keep the text around me static. 
 
 						<hr class="spacer">
 	
-						<h2>dijit.form.InlineEditBox + dijit.form.Textarea</h2>
+						<h2>dijit.InlineEditBox + dijit.form.Textarea</h2>
 
 						(HTML before)
-						<div style="width:300px;">
-							<p><span id="areaEditable" dojoType="dijit.form.InlineEditBox">
-							<textarea dojoType="dijit.form.Textarea">I'm one big paragraph.  Go ahead and <i>edit</i> me.  <b>I dare you.</b> The quick brown fox jumped over the lazy dog.  Blah blah blah blah blah blah blah ...</textarea>
-							</span></p>
-						</div>
+						<p id="areaEditable" dojoType="dijit.InlineEditBox" editor="dijit.form.Textarea">
+							I'm one big paragraph.  Go ahead and <i>edit</i> me.  <b>I dare you.</b>
+							The quick brown fox jumped over the lazy dog.  Blah blah blah blah blah blah blah ...
+						</p>
 						(HTML after)
 
 						<p>
@@ -650,13 +649,7 @@
 						<h2>dijit.form.DateTextBox:</h2>
 		
 						(HTML inline before)
-						<span id="backgroundArea" dojoType="dijit.form.InlineEditBox">
-						<input name="date" value="2005-12-30"
-							dojoType="dijit.form.DateTextBox"
-							required="true"
-							promptMessage="Please enter a date."
-							invalidMessage="Invalid date.">
-						</span>
+						<span id="backgroundArea" dojoType="dijit.InlineEditBox" editor="dijit.form.DateTextBox" width="170px">12/30/2005</span>
 						(HTML after)
 
 						<hr class="spacer">
@@ -664,26 +657,19 @@
 						<h2>dijit.form.TimeTextBox:</h2>
 		
 						(HTML inline before)
-						<span id="timePicker" dojoType="dijit.form.InlineEditBox">
-						<input name="date" value="T09:00:00"
-							dojoType="dijit.form.TimeTextBox"
-							required="true"
-							promptMessage="Please enter a time."
-							invalidMessage="Invalid time.">
-						</span>
+						<span id="timePicker" dojoType="dijit.InlineEditBox" editor="dijit.form.TimeTextBox" width="150px">9:00 AM</span>
 						(HTML after)
 
 						<hr class="spacer">
 
 						
 						<h2>dijit.form.FilteringSelect + Inline + remote data store:</h2>
-						(HTML block before)
-						<p id="backgroundArea2" dojoType="dijit.form.InlineEditBox">
-						<input searchField="name" keyField="abbreviation" id="setvaluetest"
-							dojoType="dijit.form.FilteringSelect" value="IA"
-							store="stateStore" name="state1" autoComplete="true"
-							promptMessage="Please enter a state">
-						</p>
+						(HTML inline before)
+						<span id="backgroundArea2" dojoType="dijit.InlineEditBox" editor="dijit.form.FilteringSelect"
+							editorParams="{store: stateStore, autoComplete: true, promptMessage: 'Please enter a state'}"
+							width="300px">
+							Indiana
+						</span>
 						(HTML after)
 	
 					</div><!-- end fourth upper tab -->
