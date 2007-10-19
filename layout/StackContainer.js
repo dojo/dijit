@@ -346,7 +346,7 @@ dojo.declare(
 		onkeypress: function(/*Event*/ e){
 			// summary:
 			//   Handle keystrokes on the page list, for advancing to next/previous button
-			//   and closing the current page.
+			//   and closing the current page if the page is closable.
 
 			if(this.disabled || e.altKey ){ return; }
 			var forward = true;
