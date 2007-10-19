@@ -29,8 +29,8 @@ dojo.declare(
 		_popupClass: "dijit.form._TimePicker",
 
 		postMixInProperties: function(){
-			dijit.form.RangeBoundTextBox.prototype.postMixInProperties.apply(this, arguments);
-
+			//dijit.form.RangeBoundTextBox.prototype.postMixInProperties.apply(this, arguments);
+			this.inherited("postMixInProperties",arguments);
 			var constraints = this.constraints;
 			constraints.selector = 'time';
 			if(typeof constraints.min == "string"){ constraints.min = dojo.date.stamp.fromISOString(constraints.min); }
@@ -38,7 +38,7 @@ dojo.declare(
 		},
 
 		_onFocus: function(/*Event*/ evt){
-			// open the calendar
+			// summary: open the TimePicker popup
 			this._open();
 		},
 
@@ -55,7 +55,7 @@ dojo.declare(
 
 		_open: function(){
 			// summary:
-			//	opens the Calendar, and sets the onValueSelected for the Calendar
+			//	opens the TimePicker, and sets the onValueSelected value
 			var self = this;
 
 			if(!this._picker){
@@ -87,6 +87,11 @@ dojo.declare(
 					onClose: function(){ self._opened=false; }
 				});
 				this._opened=true;
+			}
+			
+			// this isn't working in IE?
+			if(this._picker.domNode.offsetWidth < this.domNode.offsetWidth){
+				dojo.marginBox(this._picker.domNode,{ w:this.domNode.offsetWidth });
 			}
 		},
 
