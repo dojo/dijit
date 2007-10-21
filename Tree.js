@@ -61,8 +61,13 @@ dojo.declare(
 		this._setExpando(false);	
 	},
 
-	_updateItemClasses: function(item) {
+	_updateItemClasses: function(item, oldValue, newValue) {
 		// summary: set appropriate CSS classes for item (used to allow for item updates to change respective CSS)
+		dojo.forEach([this.iconNode, this.labelNode], function(n){
+			if(dojo.hasClass(n,oldValue)) {
+				dojo.removeClass(n,oldValue);
+			}
+		});
 		dojo.addClass(this.iconNode, this.tree.getIconClass(item));
 		dojo.addClass(this.labelNode, this.tree.getLabelClass(item));
 	},
@@ -856,14 +861,14 @@ dojo.declare(
 		}
 	},
 
-	_onSetItem: function(/*Object*/ item){
+	_onSetItem: function(/*Object*/ item, /*attribute-name-string*/ attribute, /*object | array*/ oldValue, /*object | array*/ newValue){
 		//summary: set data event  on an item in the store
 		var identity = this.store.getIdentity(item),
 		node = this._itemNodeMap[identity];
 
 		if (node){
 			node.setLabelNode(this.getLabel(item));
-			node._updateItemClasses(item);
+			node._updateItemClasses(item, oldValue, newValue);
 		}
 	}
 });
