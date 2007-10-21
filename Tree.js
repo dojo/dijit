@@ -32,7 +32,7 @@ dojo.declare(
 	//		When an empty folder node appears, it is "UNCHECKED" first,
 	//		then after dojo.data query it becomes "LOADING" and, finally "LOADED"	
 	state: "UNCHECKED",
-
+	
 	templatePath: dojo.moduleUrl("dijit", "_tree/Node.html"),		
 
 	postCreate: function(){
@@ -43,8 +43,7 @@ dojo.declare(
 		this._setExpando();
 
 		// set icon and label class based on item
-		dojo.addClass(this.iconNode, this.tree.getIconClass(this.item));
-		dojo.addClass(this.labelNode, this.tree.getLabelClass(this.item));
+		this._updateItemClasses(this.item);
 
 		if(this.isExpandable){
 			dijit.setWaiState(this.labelNode, "expanded", this.isExpanded);
@@ -62,6 +61,12 @@ dojo.declare(
 		this._setExpando(false);	
 	},
 
+	_updateItemClasses: function(item) {
+		// summary: set appropriate CSS classes for item (used to allow for item updates to change respective CSS)
+		dojo.addClass(this.iconNode, this.tree.getIconClass(item));
+		dojo.addClass(this.labelNode, this.tree.getLabelClass(item));
+	},
+	
 	_updateLayout: function(){
 		// summary: set appropriate CSS classes for this.domNode
 		var parent = this.getParent();
@@ -369,23 +374,23 @@ dojo.declare(
 			var _waitCount = 0;
 			dojo.forEach(childItems, function(item){ if(!store.isItemLoaded(item)){ _waitCount++; } });
 
-		   	if(_waitCount == 0){
-		   		// all items are already loaded.  proceed..
-		   		onComplete(childItems);
-		   	}else{
-		   		// still waiting for some or all of the items to load
+			if(_waitCount == 0){
+				// all items are already loaded.  proceed..
+				onComplete(childItems);
+			}else{
+				// still waiting for some or all of the items to load
 				function onItem(item){
-	   				if(--_waitCount == 0){
+					if(--_waitCount == 0){
 						// all nodes have been loaded, send them to the tree
 						onComplete(childItems);
 					}
 				}
 				dojo.forEach(childItems, function(item){
 					if(!store.isItemLoaded(item)){
-			   			store.loadItem({item: item, onItem: onItem});
-			   		}
-			   	});
-		   	}
+						store.loadItem({item: item, onItem: onItem});
+					}
+				});
+			}
 		}
 	},
 
@@ -858,6 +863,7 @@ dojo.declare(
 
 		if (node){
 			node.setLabelNode(this.getLabel(item));
+			node._updateItemClasses(item);
 		}
 	}
 });
