@@ -123,7 +123,8 @@
 .tundra .dijitToolbar * {
 	padding: 0px;
 	margin: 0px;
-	#margin-top: -1px; /*IE*/
+	/* #margin-top: -1px; */
+	/*IE*/
 }
 .dj_ie .tundra .dijitToolbar {
 	padding-bottom: 1px;
@@ -134,7 +135,11 @@
 	margin: 0px;
 	border: 1px solid transparent;
 	background: none;
+	_margin: 1px;
+	_padding: 0px 1px 0px 1px;
+	_border: 0px;
 }
+
 .tundra .dijitToolbar .dijitToggleButtonChecked .dijitButtonNode {
 	background-color:#C1D2EE;
 	border:1px solid #316AC5;
@@ -153,7 +158,12 @@
 .tundra .dijitToolbar .dijitDropDownButtonHover .dijitButtonNode {
 	/* TODO: change this from Hover to Selected so that button is still highlighted while drop down is being used */
 	border-color: #366dba;
+	/* IE hackery */
+	_border: 1px solid #366dba;
+	_margin: -1px 0px 0px 0px;
+	_padding: 0px;
 }
+
 .dijitToolbarSeparator {
 	background: url('images/editor.gif');
 	height: 18px;
