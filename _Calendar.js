@@ -126,6 +126,16 @@ dojo.declare(
 				this._setText(this[name+"YearLabelNode"],
 					dojo.date.locale.format(new Date(y++, 0), {selector:'year', locale:this.lang}));
 			}, this);
+
+			// Set up repeating mouse behavior
+			var _this = this;
+			var typematic = function(nodeProp, dateProp, adj){
+				dijit.typematic.addMouseListener(_this[nodeProp], _this, function(){ _this._adjustDisplay(dateProp, adj); }, 0.8, 500);
+			};
+			typematic("incrementMonth", "month", 1);
+			typematic("decrementMonth", "month", -1);
+			typematic("nextYearLabelNode", "year", 1);
+			typematic("previousYearLabelNode", "year", -1);
 		},
 
 		postCreate: function(){
@@ -164,33 +174,9 @@ dojo.declare(
 			this.setValue(new Date());
 		},
 
-		_adjustDate: function(/*String*/part, /*int*/amount){
+		_adjustDisplay: function(/*String*/part, /*int*/amount){
 			this.displayMonth = dojo.date.add(this.displayMonth, part, amount);
 			this._populateGrid();
-		},
-
-		_onIncrementMonth: function(/*Event*/evt){
-			// summary: handler for increment month event
-			evt.stopPropagation();
-			this._adjustDate("month", 1);
-		},
-
-		_onDecrementMonth: function(/*Event*/evt){
-			// summary: handler for increment month event
-			evt.stopPropagation();
-			this._adjustDate("month", -1);
-		},
-
-		_onIncrementYear: function(/*Event*/evt){
-			// summary: handler for increment year event
-			evt.stopPropagation();
-			this._adjustDate("year", 1);
-		},
-
-		_onDecrementYear: function(/*Event*/evt){
-			// summary: handler for increment year event
-			evt.stopPropagation();
-			this._adjustDate("year", -1);
 		},
 
 		_onDayClick: function(/*Event*/evt){
