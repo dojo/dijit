@@ -31,7 +31,7 @@
 			var store = dijit.byId("myTree").store;
 			var pInfo = selectedItem ? {parent: selectedItem, attribute:"children"} : null;
 			console.debug(pInfo);
-			store.newItem({id: dojo.byId('newId').value,name:dojo.byId("label").value,someProperty:dojo.byId("someProperty")},pInfo);
+			store.newItem({id: dojo.byId('newId').value,name:dojo.byId("label").value,someProperty:dojo.byId("someProperty").value},pInfo);
 			resetForms();
 		}
 
