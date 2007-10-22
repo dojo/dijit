@@ -277,6 +277,7 @@ dojo.mixin(dijit,
 			var blurConnector = dojo.connect(node, "onblur", function(){
 				w._focused = false;
 				w._setStateClass();
+				if(node==dijit._curFocus){ dijit._curFocus = null; } // so that node!=dijit._curFocus
 				dojo.disconnect(blurConnector);
 			});
 		}
