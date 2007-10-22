@@ -224,7 +224,7 @@ if(dojo.isIE && dojo.isIE < 7){
 }
 
 
-dijit.BackgroundIframe = function(/* HTMLElement */node){
+dijit.BackgroundIframe = function(/* DomNode */node){
 	//	summary:
 	//		For IE z-index schenanigans. id attribute is required.
 	//
