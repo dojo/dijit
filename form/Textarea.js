@@ -132,7 +132,10 @@ dojo.declare(
 			this.domNode.style.overflowY = 'hidden';
 		}else if(dojo.isMozilla){
 			var w = this.iframe.contentWindow;
-			if(!w || !this.iframe.contentDocument.title){
+			try { // #4715: peeking at the title can throw a security exception during iframe setup
+				var title = this.iframe.contentDocument.title;
+			} catch(e) { var title = ''; }
+			if(!w || !title){
 				this.iframe.postCreate = dojo.hitch(this, this.postCreate);
 				return;
 			}
