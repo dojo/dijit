@@ -251,9 +251,14 @@
 .tundra .dijitTextBoxFocused,
 .tundra .dijitComboBoxFocused,
 .tundra .dijitSpinnerFocused {
-	/* input field when focused (eg: typing affects it) */
+	/* input field when focused (ie: typing affects it) */
 	border-color:#366dba;
-	border-style:inset;
+}
+.tundra .dijitComboBoxFocused .dijitButtonNode, .tundra .dijitSpinnerFocused .dijitButtonNode {
+	border-left:1px solid #366dba;
+}
+.tundra .dijitSpinnerFocused .dijitDownArrowButton {
+	border-top:1px solid #366dba;
 }
 
 .tundra .dijitTextBoxError,
