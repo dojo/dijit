@@ -189,24 +189,29 @@ dojo.mixin(dijit,
 						dijit._onFocusNode(evt.srcElement);
 					}
 				});
-				body.attachEvent('ondeactivate', function(evt){ dijit._onBlurNode(); });
+				body.attachEvent('ondeactivate', function(evt){ dijit._onBlurNode(evt.srcElement); });
 			}else{
 				body.addEventListener('focus', function(evt){ dijit._onFocusNode(evt.target); }, true);
-				body.addEventListener('blur', function(evt){ dijit._onBlurNode(); }, true);
+				body.addEventListener('blur', function(evt){ dijit._onBlurNode(evt.target); }, true);
 			}
 		}
 		body = null;	// prevent memory leak (apparent circular reference via closure)
 	},
 
-	_onBlurNode: function(){
+	_onBlurNode: function(/*DomNode*/ node){
 		// summary:
 		// 		Called when focus leaves a node.
 		//		Usually ignored, _unless_ it *isn't* follwed by touching another node,
 		//		which indicates that we tabbed off the last field on the page,
 		//		in which case every widget is marked inactive
-
 		dijit._prevFocus = dijit._curFocus;
 		dijit._curFocus = null;
+
+		var w = dijit.getEnclosingWidget(node);
+		if (w && w._setStateClass){
+			w._focused = false;
+			w._setStateClass();
+		}
 		if(dijit._justMouseDowned){
 			// the mouse down caused a new widget to be marked as active; this blur event
 			// is coming late, so ignore it.
@@ -276,13 +281,6 @@ dojo.mixin(dijit,
 		if (w && w._setStateClass){
 			w._focused = true;
 			w._setStateClass();
-			// watch for a blur on the node that received focus
-			var blurConnector = dojo.connect(node, "onblur", function(){
-				w._focused = false;
-				w._setStateClass();
-				if(node==dijit._curFocus){ dijit._curFocus = null; } // so that node!=dijit._curFocus
-				dojo.disconnect(blurConnector);
-			});
 		}
 	},
 

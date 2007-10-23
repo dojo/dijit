@@ -83,7 +83,11 @@ dojo.declare(
 
 	_onHandleClick: function(e){
 		if(this.disabled){ return; }
-		dijit.focus(this.sliderHandle);
+		if(!dojo.isIE){
+			// make sure you get focus when dragging the handle
+			// (but don't do on IE because it causes a flicker on mouse up (due to blur then focus)
+			dijit.focus(this.sliderHandle);
+		}
 		dojo.stopEvent(e);
 	},
 	
