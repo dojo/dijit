@@ -63,8 +63,8 @@ dojo.declare(
 
 	_updateItemClasses: function(item) {
 		// summary: set appropriate CSS classes for item (used to allow for item updates to change respective CSS)
-		this.iconNode.style.className = "dijitInline dijitTreeIcon " + this.getIconClass(item);
-		this.labelNode.style.className = "dijitTreeLabel " + this.getLabelClass(item);
+		this.iconNode.style.className = "dijitInline dijitTreeIcon " + this.tree.getIconClass(item);
+		this.labelNode.style.className = "dijitTreeLabel " + this.tree.getLabelClass(item);
 	},
 	
 	_updateLayout: function(){
@@ -858,7 +858,7 @@ dojo.declare(
 
 	_onSetItem: function(/*Object*/ item){
 		//summary: set data event  on an item in the store
-		var identity = this.store.getIdentity(item),act
+		var identity = this.store.getIdentity(item);
 		node = this._itemNodeMap[identity];
 
 		if (node){
