@@ -81,10 +81,6 @@ dojo.declare(
 			return dijit.form.TextBox.superclass.getValue.apply(this, arguments);
 		},
 
-		getDisplayedValue:function(){
-			return this.textbox.value;
-		},
-
 		setDisplayedValue:function(/*String*/ value){
 			this._lastDisplayedValue = value;
 			this.setValue(value, true);

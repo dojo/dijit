@@ -24,8 +24,8 @@ dojo.declare(
 	//		Currently all textboxes that inherit from dijit.form.TextBox
 	//		are supported edit widgets.
 	//		An edit widget must support the following API to be used:
-	//		String getTextValue() OR String getValue()
-	//		void setTextValue(String) OR void setValue(String)
+	//		String getDisplayedValue() OR String getValue()
+	//		void setDisplayedValue(String) OR void setValue(String)
 	//		void focus()
 	//		It must also be able to initialize with style="display:none;" set.
 {

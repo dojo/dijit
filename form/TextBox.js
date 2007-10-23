@@ -36,12 +36,12 @@ dojo.declare(
 		attributeMap: dojo.mixin(dojo.clone(dijit.form._FormWidget.prototype.attributeMap),
 			{maxLength:"focusNode"}),
 
-		getTextValue: function(){
+		getDisplayedValue: function(){
 			return this.filter(this.textbox.value);
 		},
 
 		getValue: function(){
-			return this.parse(this.getTextValue(), this.constraints);
+			return this.parse(this.getDisplayedValue(), this.constraints);
 		},
 
 		setValue: function(value, /*Boolean, optional*/ priorityChange, /*String, optional*/ formattedValue){
@@ -55,8 +55,13 @@ dojo.declare(
 			dijit.form.TextBox.superclass.setValue.call(this, filteredValue, priorityChange);
 		},
 
+		setDisplayedValue: function(/*String*/value){
+			this.textbox.value = value;
+			this.setValue(this.getValue(), true);
+		},
+
 		forWaiValuenow: function(){
-			return this.getTextValue();
+			return this.getDisplayedValue();
 		},
 
 		format: function(/* String */ value, /* Object */ constraints){
@@ -72,7 +77,7 @@ dojo.declare(
 		postCreate: function(){
 			// setting the value here is needed since value="" in the template causes "undefined"
 			// and setting in the DOM (instead of the JS object) helps with form reset actions
-			this.textbox.setAttribute("value", this.getTextValue());
+			this.textbox.setAttribute("value", this.getDisplayedValue());
 			this.inherited('postCreate', arguments);
 
 			// textbox and domNode get the same style but the css separates the 2 using !important

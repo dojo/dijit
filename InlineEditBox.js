@@ -23,8 +23,8 @@ dojo.declare(
 	//		inline values a TextBox), but you can specify an editor such as
 	//		dijit.Editor (for editing HTML) or a Slider (for adjusting a number).
 	//		An edit widget must support the following API to be used:
-	//		String getTextValue() OR String getValue()
-	//		void setTextValue(String) OR void setValue(String)
+	//		String getDisplayedValue() OR String getValue()
+	//		void setDisplayedValue(String) OR void setValue(String)
 	//		void focus()
 
 	// editing: Boolean
@@ -287,7 +287,7 @@ dojo.declare(
 
 	getValue: function(){
 		var ew = this.editWidget;
-		return ew.getDisplayedValue ? ew.getDisplayedValue() : ( ew.getTextValue ? ew.getTextValue() : ew.getValue() );
+		return ew.getDisplayedValue ? ew.getDisplayedValue() : ew.getValue();
 	},
 
 	_onKeyPress: function(e){
