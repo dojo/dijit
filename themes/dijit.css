@@ -1231,6 +1231,10 @@ body .dijitAlignClient { position: absolute; }
 	display:block;
 }
 
+.dj_ie .RuleContainer {
+	z-index: -1; /* #4809 */
+}
+
 .RuleContainer {
 	position:relative;
 	overflow:visible;
