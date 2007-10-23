@@ -105,7 +105,12 @@ dojo.declare("dijit.form._TimePicker",
 				var div=this._createOption(i);
 				this.timeMenu.appendChild(div);
 			}
-			dijit.focus(this.timeMenu);
+			
+			// TODO:
+			// I commented this out because it
+			// causes problems for a TimeTextBox in a Dialog, or as the editor of an InlineEditBox,
+			// because the timeMenu node isn't visible yet. -- Bill (Bug #????)
+			// dijit.focus(this.timeMenu);
 		},
 
 		postCreate:function(){

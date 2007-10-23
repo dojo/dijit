@@ -67,7 +67,7 @@ dojo.declare(
 					onValueSelected: function(value){
 
 						self.focus(); // focus the textbox before the popup closes to avoid reopening the popup
-						setTimeout(dijit.popup.close, 1); // allow focus time to take
+						setTimeout(dojo.hitch(self, "_close"), 1); // allow focus time to take
 
 						// this will cause InlineEditBox and other handlers to do stuff so make sure it's last
 						dijit.form.TimeTextBox.superclass.setValue.call(self, value, true);
@@ -95,9 +95,16 @@ dojo.declare(
 			dojo.marginBox(this._picker.domNode,{ w:this.domNode.offsetWidth });
 		},
 
+		_close: function(){
+			if(this._opened){
+				dijit.popup.close(this._picker);
+				this._opened=false;
+			}			
+		},
+
 		_onBlur: function(){
 			// summary: called magically when focus has shifted away from this widget and it's dropdown
-			dijit.popup.closeAll();
+			this._close();
 			this.inherited('_onBlur', arguments);
 			// don't focus on <input>.  the user has explicitly focused on something else.
 		},

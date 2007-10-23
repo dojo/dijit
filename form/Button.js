@@ -148,7 +148,7 @@ dojo.declare("dijit.form.DropDownButton", [dijit.form.Button, dijit._Container],
 
 	_onBlur: function(){
 		// summary: called magically when focus has shifted away from this widget and it's dropdown
-		dijit.popup.closeAll();
+		this._closeDropDown();
 		// don't focus on button.  the user has explicitly focused on something else.
 	},
 
@@ -172,8 +172,7 @@ dojo.declare("dijit.form.DropDownButton", [dijit.form.Button, dijit._Container],
 				this._openDropDown();
 			}
 		}else{
-			dijit.popup.closeAll();
-			this._opened = false;
+			this._closeDropDown();
 		}
 	},
 
@@ -189,16 +188,15 @@ dojo.declare("dijit.form.DropDownButton", [dijit.form.Button, dijit._Container],
 			orient: this.isLeftToRight() ? {'BL':'TL', 'BR':'TR', 'TL':'BL', 'TR':'BR'}
 				: {'BR':'TR', 'BL':'TL', 'TR':'BR', 'TL':'BL'},
 			onExecute: function(){
-				dijit.popup.closeAll();
-				self.focus();
+				self._closeDropDown(true);
 			},
 			onCancel: function(){
-				dijit.popup.closeAll();
-				self.focus();
+				self._closeDropDown(true);
 			},
 			onClose: function(){
 				dropDown.domNode.style.width = oldWidth;
 				self.popupStateNode.removeAttribute("popupActive");
+				this._opened = false;
 			}
 		});
 		if(this.domNode.offsetWidth > dropDown.domNode.offsetWidth){
@@ -219,6 +217,14 @@ dojo.declare("dijit.form.DropDownButton", [dijit.form.Button, dijit._Container],
 			dropDown.focus();
 		}
 		// TODO: set this.checked and call setStateClass(), to affect button look while drop down is shown
+	},
+	
+	_closeDropDown: function(/*Boolean*/ focus){
+		if(this._opened){
+			dijit.popup.close(this.dropDown);
+			if(focus){ this.focus(); }
+			this._opened = false;			
+		}
 	}
 });
 

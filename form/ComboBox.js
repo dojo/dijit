@@ -384,7 +384,7 @@ dojo.declare(
 
 		_hideResultList: function(){
 			if(this._isShowingNow){
-				dijit.popup.close();
+				dijit.popup.close(this._popupWidget);
 				this._arrowIdle();
 				this._isShowingNow=false;
 			}

@@ -16,8 +16,11 @@
 	<script type="text/javascript">
 		dojo.require("dijit.Dialog");
 		dojo.require("dijit.form.Button");
-		dojo.require("dijit.form.DateTextBox");
 		dojo.require("dijit.form.TextBox");
+		dojo.require("dijit.form.DateTextBox");
+		dojo.require("dijit.form.TimeTextBox");
+		dojo.require("dijit.form.ComboBox");
+		dojo.require("dijit.Menu");
 		dojo.require("dojo.parser");	// scan page for widgets and instantiate them			
 
 		// create a do nothing, only for test widget
@@ -27,17 +30,20 @@
 		});
 	</script>
 	<script type="text/javascript">
-	var thirdDlg;
-	function createDialog() {
-		if(!thirdDlg){	
-			var pane = dojo.byId('thirdDialog');
-			pane.style.width = "300px"; 	
-			thirdDlg = new dijit.Dialog({
-				title: "Programatic Dialog Creation"
-			},pane);
+		// make dojo.toJson() print dates correctly (this feels a bit dirty)
+		Date.prototype.json = function(){ return dojo.date.stamp.toISOString(this, {selector: 'date'});};
+
+		var thirdDlg;
+		function createDialog() {
+			if(!thirdDlg){	
+				var pane = dojo.byId('thirdDialog');
+				pane.style.width = "300px"; 	
+				thirdDlg = new dijit.Dialog({
+					title: "Programatic Dialog Creation"
+				},pane);
+			}
+			setTimeout("thirdDlg.show()","3000");
 		}
-		setTimeout("thirdDlg.show()","3000");
-	}
 	</script>
 	<style type="text/css">
 		body { font-family : sans-serif; }
@@ -64,6 +70,10 @@
 			<td><input dojoType=dijit.form.DateTextBox type="text" name="date" id="date"></td>
 		</tr>
 		<tr>
+			<td><label for="date">Time: </label></td>
+			<td><input dojoType=dijit.form.TimeTextBox type="text" name="time" id="time"></td>
+		</tr>
+		<tr>
 			<td><label for="desc">Description: </label></td>
 			<td><input dojoType=dijit.form.TextBox type="text" name="desc" id="desc"></td>
 		</tr>
@@ -88,10 +98,30 @@
 				<td><input dojoType=dijit.form.TextBox type="password" name="pwd" id="pwd"></td>
 			</tr>
 			<tr>
+				<td><label for="date2">Date:</label></td>
+				<td><input dojoType=dijit.form.DateTextBox name="date" id="date2"></td>
+			</tr>
+			<tr>
+				<td><label for="time2">Time:</label></td>
+				<td><input dojoType=dijit.form.TimeTextBox name="time" id="time2"></td>
+			</tr>
+			<tr>
+				<td><label for="combo">Pizza:</label></td>
+				<td>
+					<select dojoType=dijit.form.ComboBox name="combo" id="combo">
+						<option>cheese</option>
+						<option>pepperoni</option>
+						<option>sausage</option>
+					</select>
+				</td>
+			</tr>
+			<tr>
 				<td colspan="2" align="center">
-					<button dojoType=dijit.form.Button type="submit" name="submit">Login</button>
+					<button dojoType=dijit.form.Button type="submit" name="submit">Order</button>
+				</td>
 			</tr>
 		</table>
+		<div style="width: 300px;">Note: This tooltip dialog has a bunch of nested drop downs for testing keyboard and click handling</div>
 	</div>
 </div> |
 

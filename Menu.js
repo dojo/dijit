@@ -98,7 +98,7 @@ dojo.declare(
 
 	_onChildBlur: function(item){
 		// Close all popups that are open and descendants of this menu
-		dijit.popup.closeTo(this);
+		dijit.popup.close(item.popup);
 		item._blur();
 		this._stopPopupTimer();
 	},
@@ -238,7 +238,7 @@ dojo.declare(
 		function closeAndRestoreFocus(){
 			// user has clicked on a menu or popup
 			dijit.focus(savedFocus);
-			dijit.popup.closeAll();
+			dijit.popup.close(self);
 		}
 		dijit.popup.open({
 			popup: this,
@@ -253,8 +253,8 @@ dojo.declare(
 		this._onBlur = function(){
 			// Usually the parent closes the child widget but if this is a context
 			// menu then there is no parent
-			dijit.popup.closeAll();
-			// don't try to restor focus; user has clicked another part of the screen
+			dijit.popup.close(this);
+			// don't try to restore focus; user has clicked another part of the screen
 			// and set focus there
 		}
 	},
@@ -291,15 +291,13 @@ dojo.declare(
 			popup: popup,
 			around: from_item.arrowCell,
 			orient: this.isLeftToRight() ? {'TR': 'TL', 'TL': 'TR'} : {'TL': 'TR', 'TR': 'TL'},
-			submenu: true,
 			onCancel: function(){
 				// called when the child menu is canceled
-				dijit.popup.close();
+				dijit.popup.close(popup);
 				from_item.focus();	// put focus back on my node
 				self.currentPopup = null;
 			}
 		});
-
 
 		this.currentPopup = popup;
 
