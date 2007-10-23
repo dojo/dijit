@@ -174,9 +174,8 @@ dojo.mixin(dijit,
 		}
 
 		dojo.connect(targetWindow.document, "onmousedown", null, function(evt){
-			// this mouse down event will probably be immediately followed by a blur event; ignore it
-			dijit._ignoreNextBlurEvent = true;
-			setTimeout(function(){ dijit._ignoreNextBlurEvent = false; }, 0);
+			dijit._justMouseDowned = true;
+			setTimeout(function(){ dijit._justMouseDowned = false; }, 0);
 			dijit._onTouchNode(evt.target||evt.srcElement);
 		});
 		//dojo.connect(targetWindow, "onscroll", ???);
@@ -204,18 +203,22 @@ dojo.mixin(dijit,
 		// 		Called when focus leaves a node.
 		//		Usually ignored, _unless_ it *isn't* follwed by touching another node,
 		//		which indicates that we tabbed off the last field on the page,
-		//		in which case everything is blurred
-		if(dijit._ignoreNextBlurEvent){
-			dijit._ignoreNextBlurEvent = false;
-			return;
-		}
+		//		in which case every widget is marked inactive
+
 		dijit._prevFocus = dijit._curFocus;
 		dijit._curFocus = null;
-		if(dijit._blurAllTimer){
-			clearTimeout(dijit._blurAllTimer);
+		if(dijit._justMouseDowned){
+			// the mouse down caused a new widget to be marked as active; this blur event
+			// is coming late, so ignore it.
+			return;
 		}
-		dijit._blurAllTimer = setTimeout(function(){
-			delete dijit._blurAllTimer; dijit._setStack([]); }, 100);
+
+		// if the blur event isn't followed by a focus event then mark all widgets as inactive.
+		if(dijit._clearActiveWidgetsTimer){
+			clearTimeout(dijit._clearActiveWidgetsTimer);
+		}
+		dijit._clearActiveWidgetsTimer = setTimeout(function(){
+			delete dijit._clearActiveWidgetsTimer; dijit._setStack([]); }, 100);
 	},
 
 	_onTouchNode: function(/*DomNode*/ node){
@@ -223,9 +226,9 @@ dojo.mixin(dijit,
 		//		Callback when node is focused or mouse-downed
 
 		// ignore the recent blurNode event
-		if(dijit._blurAllTimer){
-			clearTimeout(dijit._blurAllTimer);
-			delete dijit._blurAllTimer;
+		if(dijit._clearActiveWidgetsTimer){
+			clearTimeout(dijit._clearActiveWidgetsTimer);
+			delete dijit._clearActiveWidgetsTimer;
 		}
 
 		// compute stack of active widgets (ex: ComboButton --> Menu --> MenuItem)
