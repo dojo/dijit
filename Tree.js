@@ -63,8 +63,8 @@ dojo.declare(
 
 	_updateItemClasses: function(item) {
 		// summary: set appropriate CSS classes for item (used to allow for item updates to change respective CSS)
-		this.iconNode.style.className = "dijitInline dijitTreeIcon " + this.tree.getIconClass(item);
-		this.labelNode.style.className = "dijitTreeLabel " + this.tree.getLabelClass(item);
+		this.iconNode.className = "dijitInline dijitTreeIcon " + this.tree.getIconClass(item);
+		this.labelNode.className = "dijitTreeLabel " + this.tree.getLabelClass(item);
 	},
 	
 	_updateLayout: function(){
