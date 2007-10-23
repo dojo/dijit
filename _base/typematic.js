@@ -26,10 +26,10 @@ dijit.typematic = {
 		//	subsequentDelay: if > 1, the number of milliseconds until the 3->n events occur
 		//		or else the fractional time multiplier for the next event.
 		//	initialDelay: the number of milliseconds until the 2nd event occurs.
-		if (obj != this._obj){
+		if(obj != this._obj){
 			this.stop();
-			this._initialDelay = initialDelay ? initialDelay : 500;
-			this._subsequentDelay = subsequentDelay ? subsequentDelay : 0.90;
+			this._initialDelay = initialDelay || 500;
+			this._subsequentDelay = subsequentDelay || 0.90;
 			this._obj = obj;
 			this._evt = evt;
 			this._node = node;
@@ -67,13 +67,14 @@ dijit.typematic = {
 		//	See the trigger method for other parameters.
 		var ary = [];
 		ary.push(dojo.connect(node, "onkeypress", this, function(evt){
-			if(evt.keyCode == keyObject.keyCode && (!keyObject.charCode || keyObject.charCode == evt.charCode)
-			&& ((typeof keyObject.ctrlKey == "undefined") || keyObject.ctrlKey == evt.ctrlKey)
-			&& ((typeof keyObject.altKey == "undefined") || keyObject.altKey == evt.ctrlKey)
-			&& ((typeof keyObject.shiftKey == "undefined") || keyObject.shiftKey == evt.ctrlKey)){
+			if(evt.keyCode == keyObject.keyCode && (!keyObject.charCode || keyObject.charCode == evt.charCode) &&
+				(keyObject.ctrlKey === undefined || keyObject.ctrlKey == evt.ctrlKey) &&
+				(keyObject.altKey === undefined || keyObject.altKey == evt.ctrlKey) &&
+				(keyObject.shiftKey === undefined || keyObject.shiftKey == evt.ctrlKey)){
+
 				dojo.stopEvent(evt);
 				dijit.typematic.trigger(keyObject, _this, node, callback, keyObject, subsequentDelay, initialDelay);
-			}else if (dijit.typematic._obj == keyObject){
+			}else if(dijit.typematic._obj == keyObject){
 				dijit.typematic.stop();
 			}
 		}));
@@ -89,30 +90,31 @@ dijit.typematic = {
 		// summary: Start listening for a typematic mouse click.
 		//	node: the DOM node object to listen on for mouse events.
 		//	See the trigger method for other parameters.
-		var ary = [];
-		ary.push(dojo.connect(node, "mousedown", this, function(evt){
-			dojo.stopEvent(evt);
-			dijit.typematic.trigger(evt, _this, node, callback, node, subsequentDelay, initialDelay);
-		}));
-		ary.push(dojo.connect(node, "mouseup", this, function(evt){
-			dojo.stopEvent(evt);
-			dijit.typematic.stop();
-		}));
-		ary.push(dojo.connect(node, "mouseout", this, function(evt){
-			dojo.stopEvent(evt);
-			dijit.typematic.stop();
-		}));
-		ary.push(dojo.connect(node, "mousemove", this, function(evt){
-			dojo.stopEvent(evt);
-		}));
-		ary.push(dojo.connect(node, "dblclick", this, function(evt){
-			dojo.stopEvent(evt);
-			if(dojo.isIE){
+		var dc = dojo.connect;
+		return [
+			dc(node, "mousedown", this, function(evt){
+				dojo.stopEvent(evt);
 				dijit.typematic.trigger(evt, _this, node, callback, node, subsequentDelay, initialDelay);
-				setTimeout("dijit.typematic.stop()",50);
-			}
-		}));
-		return ary;
+			}),
+			dc(node, "mouseup", this, function(evt){
+				dojo.stopEvent(evt);
+				dijit.typematic.stop();
+			}),
+			dc(node, "mouseout", this, function(evt){
+				dojo.stopEvent(evt);
+				dijit.typematic.stop();
+			}),
+			dc(node, "mousemove", this, function(evt){
+				dojo.stopEvent(evt);
+			}),
+			dc(node, "dblclick", this, function(evt){
+				dojo.stopEvent(evt);
+				if(dojo.isIE){
+					dijit.typematic.trigger(evt, _this, node, callback, node, subsequentDelay, initialDelay);
+					setTimeout(dijit.typematic.stop, 50);
+				}
+			})
+		];
 	},
 
 	addListener: function(/*Node*/ mouseNode, /*Node*/ keyNode, /*Object*/ keyObject, /*Object*/ _this, /*Function*/ callback, /*Number*/ subsequentDelay, /*Number*/ initialDelay){
