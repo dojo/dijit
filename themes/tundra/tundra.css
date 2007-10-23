@@ -1283,7 +1283,7 @@
 	border:0px;
 	width:16px;
 	height:16px;
-	background:url("images/preciseSliderThumb.png") no-repeat center center; 
+	background:url("images/preciseSliderThumb.png") no-repeat center top; 
 	cursor:pointer; 
 }
 .tundra .dijitSliderFocused .dijitHorizontalSliderImageHandle {
