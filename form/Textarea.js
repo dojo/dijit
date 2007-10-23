@@ -141,6 +141,9 @@ dojo.declare(
 			}
 			var d = w.document;
 			d.getElementsByTagName('HTML')[0].replaceChild(this.editNode, d.getElementsByTagName('BODY')[0]);
+			if(!this.isLeftToRight()){
+				d.getElementsByTagName('HTML')[0].dir = "rtl";
+			}			
 			this.iframe.style.overflowY = 'hidden';
 			this.eventNode = d;
 			// this.connect won't destroy this handler cleanly since its on the iframe's window object
