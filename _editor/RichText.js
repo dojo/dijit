@@ -383,7 +383,7 @@ dojo.declare("dijit._editor.RichText", [ dijit._Widget ], {
 			lineHeight = "1.0";
 		}
 		return [
-			"<html><head>",
+			this.isLeftToRight() ? "<html><head>" : "<html dir='rtl'><head>",
 			(dojo.isMoz ? "<title>" + this._localizedIframeTitles.iframeEditTitle + "</title>" : ""),
 			"<style>",
 			"body,html {",
