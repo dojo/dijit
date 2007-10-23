@@ -26,15 +26,15 @@ dojo.declare(
 		//		Converts the first character of each word to uppercase if true.
 		propercase: false,
 
-		// maxlength: String
-		//		HTML INPUT tag maxlength declaration.
-		maxlength: "",
+		// maxLength: String
+		//		HTML INPUT tag maxLength declaration.
+		maxLength: "",
 
 		templatePath: dojo.moduleUrl("dijit.form", "templates/TextBox.html"),
 		baseClass: "dijitTextBox",
 
 		attributeMap: dojo.mixin(dojo.clone(dijit.form._FormWidget.prototype.attributeMap),
-			{maxlength:"focusNode"}),
+			{maxLength:"focusNode"}),
 
 		getTextValue: function(){
 			return this.filter(this.textbox.value);
