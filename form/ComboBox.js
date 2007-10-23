@@ -158,7 +158,9 @@ dojo.declare(
 
 		onkeypress: function(/*Event*/ evt){
 			// summary: handles keyboard events
-			if(evt.ctrlKey || evt.altKey){
+
+			//except for pasting case - ctrl + v(118)
+			if(evt.altKey || (evt.ctrlKey && evt.charCode != 118)){
 				return;
 			}
 			var doSearch = false;
@@ -265,7 +267,7 @@ dojo.declare(
 				default:// non char keys (F1-F12 etc..)  shouldn't open list
 					this._prev_key_backspace = false;
 					this._prev_key_esc = false;
-					if(evt.charCode!=0){
+					if(dojo.isIE || evt.charCode != 0){
 						doSearch=true;
 					}
 			}
@@ -532,6 +534,7 @@ dojo.declare(
 		compositionend: function(/*Event*/ evt){
 			// summary: When inputting characters using an input method, such as Asian
 			// languages, it will generate this event instead of onKeyDown event
+			// Note: this event is only triggered in FF (not in IE)
 			this.onkeypress({charCode:-1});
 		},
 
