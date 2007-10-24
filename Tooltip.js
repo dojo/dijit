@@ -136,7 +136,7 @@ dojo.declare(
 				var node = dojo.byId(id);
 				if (node) {
 					this._connectNodes.push(node);
-					dojo.forEach(["onMouseOver", "onHover", "onMouseOut", "onUnHover"], function(event){
+					dojo.forEach(["onMouseOver", "onMouseOut", "onFocus", "onBlur", "onHover", "onUnHover"], function(event){
 						this.connect(node, event.toLowerCase(), "_"+event);
 					}, this);
 					if(dojo.isIE){
