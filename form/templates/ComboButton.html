@@ -6,7 +6,7 @@
 			tabIndex="${tabIndex}"
 			dojoAttachEvent="ondijitclick:_onButtonClick"  dojoAttachPoint="titleNode"
 			waiRole="button" waiState="labelledby-${id}_label">
-			<div class="dijitInline ${iconClass}"></div>
+			<div class="dijitInline ${iconClass}" dojoAttachPoint="iconNode"></div>
 			<span class="dijitButtonText" id="${id}_label" dojoAttachPoint="containerNode">${label}</span>
 		</td>
 		<td class='dijitReset dijitRight dijitButtonNode dijitDownArrowButton'
