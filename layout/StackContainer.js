@@ -26,6 +26,7 @@ dojo.declare(
 	//	References the currently selected child widget, if any
 
 	postCreate: function(){
+		dijit.setWaiRole((this.containerNode || this.domNode), "tabpanel");
 		this.connect(this.domNode, "onkeypress", this._onKeyPress);
 	},
 	
@@ -401,6 +402,10 @@ dojo.declare(
 	//	The button-like or tab-like object you click to select or delete a page
 	
 	tabIndex: "-1", // StackContainer buttons are not in the tab order by default
+	
+	postCreate: function(/*Event*/ evt){
+		dijit.setWaiRole((this.focusNode || this.domNode), "tab");
+	},
 	
 	onClick: function(/*Event*/ evt){
 		// this is for TabContainer where the tabs are <span> rather than button,
