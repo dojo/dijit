@@ -185,8 +185,8 @@ dojo.declare(
 
 		// define a custom constructor for a SliderMover that points back to me
 		var _self = this;
-		var mover = function(node, e){
-			dijit.form._SliderMover.call(this, node, e);
+		var mover = function(){
+			dijit.form._SliderMover.apply(this, arguments);
 			this.widget = _self;
 		};
 		dojo.extend(mover, dijit.form._SliderMover.prototype);
