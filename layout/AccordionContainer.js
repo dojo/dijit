@@ -32,8 +32,8 @@ dojo.declare(
 
 		postCreate: function(){
 			this.domNode.style.overflow="hidden";
-			dijit.setWaiRole(this.domNode, "tablist");
 			dijit.layout.AccordionContainer.superclass.postCreate.apply(this, arguments);
+			dijit.setWaiRole(this.domNode, "tablist");
 		},
 
 		startup: function(){
