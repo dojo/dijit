@@ -27,7 +27,7 @@ dojo.declare(
 		baseClass: "dijitCheckBox",
 
 		//	Value of "type" attribute for <input>
-		_type: "checkbox",
+		type: "checkbox",
 
 		// value: Value
 		//	equivalent to value field on normal checkbox (if checked, the value is passed as
@@ -37,16 +37,15 @@ dojo.declare(
 		postCreate: function(){
 			dojo.setSelectable(this.inputNode, false);
 			this.setChecked(this.checked);
-			dijit.form.ToggleButton.prototype.postCreate.apply(this, arguments);
+			this.inherited(arguments);
 		},
 
 		setChecked: function(/*Boolean*/ checked){
-			this.checked = checked;
 			if(dojo.isIE){
 				if(checked){ this.inputNode.setAttribute('checked', 'checked'); }
 				else{ this.inputNode.removeAttribute('checked'); }
 			}else{ this.inputNode.checked = checked; }
-			dijit.form.ToggleButton.prototype.setChecked.apply(this, arguments);
+			this.inherited(arguments);
 		},
 
 		setValue: function(/*String*/ value){
@@ -72,7 +71,7 @@ dojo.declare(
 		// of all the siblings (the "context") in a group based on input
 		// events. We don't rely on browser radio grouping.
 
-		_type: "radio",
+		type: "radio",
 		baseClass: "dijitRadio",
 
 		// This shared object keeps track of all widgets, grouped by name
@@ -82,7 +81,7 @@ dojo.declare(
 			// add this widget to _groups
 			(this._groups[this.name] = this._groups[this.name] || []).push(this);
 
-			dijit.form.CheckBox.prototype.postCreate.apply(this, arguments);
+			this.inherited(arguments);
 		},
 
 		uninitialize: function(){
@@ -104,10 +103,10 @@ dojo.declare(
 					}
 				}, this);
 			}
-			dijit.form.CheckBox.prototype.setChecked.apply(this, arguments);			
+			this.inherited(arguments);			
 		},
 
-		onClick: function(/*Event*/ e){
+		_clicked: function(/*Event*/ e){
 			if(!this.checked){
 				this.setChecked(true);
 			}

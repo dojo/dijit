@@ -56,8 +56,8 @@
 		<input type="checkbox" name="cb0" id="cb0" />
 			<label for="cb0">cb0: Vanilla (non-dojo) checkbox (for comparison purposes)</label>
 		<br>
-		<input type="checkbox" name="cb1" id="cb1" value="foo" dojoType="dijit.form.CheckBox">
-			<label for="cb1">cb1: normal checkbox, with value=foo</label>
+		<input type="checkbox" name="cb1" id="cb1" value="foo" dojoType="dijit.form.CheckBox" onClick="console.log('clicked cb1')">
+			<label for="cb1">cb1: normal checkbox, with value=foo, clicking generates console log messages</label>
 		<br>
 		<input onChange="reportChecked" type="checkbox" name="cb2" id="cb2" dojoType="dijit.form.CheckBox" checked="checked"/>
 			<label for="cb2">cb2: normal checkbox, initially turned on.</label>

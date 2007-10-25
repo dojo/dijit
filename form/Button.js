@@ -32,11 +32,32 @@ dojo.declare("dijit.form.Button", dijit.form._FormWidget, {
 
 	// TODO: set button's title to this.containerNode.innerText
 
+	_onClick: function(/*Event*/ e){
+		// summary: internal function to handle click actions
+		if(this.disabled){ return false; }
+		this._clicked(); // widget click actions
+		return this.onClick(e); // user click actions
+	},
+
 	_onButtonClick: function(/*Event*/ e){
 		// summary: callback when the user mouse clicks the button portion
 		dojo.stopEvent(e);
-		if(this.disabled){ return; }
-		return this.onClick(e);
+		var okToSubmit = this._onClick(e) !== false; // returning nothing is same as true
+
+		// for some reason type=submit buttons don't automatically submit the form; do it manually
+		if(this.type=="submit" && okToSubmit){
+			for(var node=this.domNode; node; node=node.parentNode){
+				var widget=dijit.byNode(node);
+				if(widget && widget._onSubmit){
+					widget._onSubmit(e);
+					break;
+				}
+				if(node.tagName.toLowerCase() == "form"){
+					node.submit();
+					break;
+				}
+			}
+		}
 	},
 
 	postCreate: function(){
@@ -50,26 +71,17 @@ dojo.declare("dijit.form.Button", dijit.form._FormWidget, {
 			this.titleNode.title=labelText;
 			dojo.addClass(this.containerNode,"dijitDisplayNone");
 		}
-		dijit.form._FormWidget.prototype.postCreate.apply(this, arguments);
+		this.inherited(arguments);
 	},
 
 	onClick: function(/*Event*/ e){
-		// summary: callback for when button is clicked; user can override this function
+		// summary: user callback for when button is clicked
+		//      if type="submit", return value != false to perform submit
+		return true;
+	},
 
-		// for some reason type=submit buttons don't automatically submit the form; do it manually
-		if(this.type=="submit"){
-			for(var node=this.domNode; node; node=node.parentNode){
-				var widget=dijit.byNode(node);
-				if(widget && widget._onSubmit){
-					widget._onSubmit(e);
-					break;
-				}
-				if(node.tagName.toLowerCase() == "form"){
-					node.submit();
-					break;
-				}
-			}
-		}
+	_clicked: function(/*Event*/ e){
+		// summary: internal replaceable function for when the button is clicked
 	},
 
 	setLabel: function(/*String*/ content){
@@ -326,7 +338,7 @@ dojo.declare("dijit.form.ToggleButton", dijit.form.Button, {
 	//		or the radio button is selected, etc.
 	checked: false,
 
-	onClick: function(/*Event*/ evt){
+	_clicked: function(/*Event*/ evt){
 		this.setChecked(!this.checked);
 	},
 
