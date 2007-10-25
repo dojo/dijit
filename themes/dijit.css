@@ -251,9 +251,13 @@
 .dijitComboButton,
 .dijitComboBox {
 	/* outside of button */
-	margin:.2em;
+	margin: 0.2em;
 	/* normalize line-heights inside the button */
 	line-height: 1.3em;
+}
+
+.dj_safari .dijitToolbar .dijitDropDownButton {
+	padding-left: 0.3em;
 }
 
 .dijitButtonNode {
@@ -278,6 +282,7 @@
 	/* place AFTER dijitButtonNode so it overrides */
 	padding:0em .4em;
 	margin:0px;
+	font-size: 0.7em;
 }
 
 
