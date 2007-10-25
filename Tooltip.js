@@ -98,10 +98,19 @@ dojo.declare(
 	}
 );
 
-// Make a single tooltip markup on the page that is reused as appropriate
-dojo.addOnLoad(function(){
-	dijit.MasterTooltip = new dijit._MasterTooltip();
-});
+dijit.showTooltip = function(/*String*/ innerHTML, /*DomNode*/ aroundNode){
+	// summary:
+	//	Display tooltip w/specified contents to right specified node
+	//	(To left if there's no space on the right, or if LTR==right)
+	if(!dijit._masterTT){ dijit._masterTT = new dijit._MasterTooltip(); }
+	return dijit._masterTT.show(innerHTML, aroundNode);
+};
+
+dijit.hideTooltip = function(aroundNode){
+	// summary: hide the tooltip
+	if(!dijit._masterTT){ dijit._masterTT = new dijit._MasterTooltip(); }
+	return dijit._masterTT.hide(aroundNode);
+};
 
 dojo.declare(
 	"dijit.Tooltip",
@@ -195,15 +204,19 @@ dojo.declare(
 				clearTimeout(this._showTimer);
 				delete this._showTimer;
 			}
-			dijit.MasterTooltip.show(this.label || this.domNode.innerHTML, target);
+			dijit.showTooltip(this.label || this.domNode.innerHTML, target);
 			
 			this._connectNode = target;
 		},
 
 		close: function(){
 			// summary: hide the tooltip; usually not called directly.
-			dijit.MasterTooltip.hide(this._connectNode);
+			dijit.hideTooltip(this._connectNode);
 			delete this._connectNode;
+			if(this._showTimer){
+				clearTimeout(this._showTimer);
+				delete this._showTimer;
+			}
 		},
 
 		uninitialize: function(){

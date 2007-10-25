@@ -112,9 +112,9 @@ dojo.declare(
 			//		User overridable method to display validation errors/hints.
 			//		By default uses a tooltip.
 			if(message){
-				dijit.MasterTooltip.show(message, this.domNode);
+				dijit.showTooltip(message, this.domNode);
 			}else{
-				dijit.MasterTooltip.hide(this.domNode);
+				dijit.hideTooltip(this.domNode);
 			}
 		},
 
