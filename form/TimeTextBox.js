@@ -87,6 +87,7 @@ dojo.declare(
 					parent: this,
 					popup: this._picker,
 					around: this.domNode,
+					onCancel: dojo.hitch(this, this._close),
 					onClose: function(){ self._opened=false; }
 				});
 				this._opened=true;

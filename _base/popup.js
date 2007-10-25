@@ -88,7 +88,7 @@ dijit.popup = new function(){
 		// provide default escape and tab key handling
 		// (this will work for any widget, not just menu)
 		handlers.push(dojo.connect(wrapper, "onkeypress", this, function(evt){
-			if(evt.keyCode == dojo.keys.ESCAPE){
+			if(evt.keyCode == dojo.keys.ESCAPE && args.onCancel){
 				args.onCancel();
 			}else if(evt.keyCode == dojo.keys.TAB){
 				dojo.stopEvent(evt);
