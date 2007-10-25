@@ -160,6 +160,7 @@ dojo.declare(
 				return;
 			}
 			var doSearch = false;
+			this.item = null; // #4872
 			if(this._isShowingNow){this._popupWidget.handleKey(evt);}
 			switch(evt.keyCode){
 				case dojo.keys.PAGE_DOWN:
