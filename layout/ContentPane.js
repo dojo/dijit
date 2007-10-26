@@ -1,6 +1,8 @@
 dojo.provide("dijit.layout.ContentPane");
 
 dojo.require("dijit._Widget");
+dojo.require("dijit.layout._LayoutWidget");
+
 dojo.require("dojo.parser");
 dojo.require("dojo.string");
 dojo.requireLocalization("dijit", "loading");
@@ -90,9 +92,28 @@ dojo.declare(
 	},
 
 	startup: function(){
-		if(!this._started){
-			this._loadCheck();
-			this._started = true;
+		if(this._started){ return; }
+		this._checkIfSingleChild();
+		if(this._singleChild){
+			this._singleChild.startup();
+		}
+		this._loadCheck();
+		this._started = true;
+	},
+
+	_checkIfSingleChild: function(){
+		// summary
+		// 		Test if we have exactly one widget as a child, and if so assume that we are a container for that widget,
+		//		and should propogate startup() and resize() calls to it.
+		var childNodes = dojo.query(">", this.containerNode || this.domNode)
+			childWidgets = childNodes.filter("[widgetId]");
+
+		if(childNodes.length == 1 && childWidgets.length == 1){
+			this.isContainer = true;
+			this._singleChild = dijit.byNode(childWidgets[0]);
+		}else{
+			delete this.isContainer;
+			delete this._singleChild;
 		}
 	},
 
@@ -140,6 +161,11 @@ dojo.declare(
 			this._createSubWidgets();
 		}
 
+		this._checkIfSingleChild();
+		if(this._singleChild && this._singleChild.resize){
+			this._singleChild.resize(this._contentBox);
+		}
+
 		this._onLoadHandler();
 	},
 
@@ -166,6 +192,20 @@ dojo.declare(
 
 	resize: function(size){
 		dojo.marginBox(this.domNode, size);
+
+		// Compute content box size in case we [later] need to size child
+		// If either height or width wasn't specified by the user, then query node for it.
+		// But note that setting the margin box and then immediately querying dimensions may return
+		// inaccurate results, so try not to depend on it.
+		var node = this.containerNode || this.domNode,
+			mb = dojo.mixin(dojo.marginBox(node), size||{});
+
+		this._contentBox = dijit.layout.marginBox2contentBox(node, mb);
+
+		// If we have a single widget child then size it to fit snugly within my borders
+		if(this._singleChild && this._singleChild.resize){
+			this._singleChild.resize(this._contentBox);
+		}
 	},
 
 	_prepareLoad: function(forceLoad){
@@ -206,7 +246,6 @@ dojo.declare(
 		this._onUnloadHandler();
 
 		// display loading message
-		// TODO: maybe we should just set a css class with a loading image as background?
 		this._setContent(
 			this.onDownloadStart.call(this)
 		);

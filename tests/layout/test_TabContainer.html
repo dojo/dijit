@@ -11,6 +11,7 @@
 	<script type="text/javascript">
 		dojo.require("dijit.layout.ContentPane");
 		dojo.require("dijit.layout.TabContainer");
+		dojo.require("dijit.layout.SplitContainer");
 		dojo.require("dijit.Tooltip");
 		dojo.require("dijit.layout.LinkPane");
 		dojo.require("dijit.form.Button");
@@ -98,22 +99,14 @@
 			</p>
 		</div>
 
-		<div dojoType="dijit.layout.ContentPane" title="Another Tab">
-			<h1>I love local content</h1>
-			<p>And I'm not ashamed to admit it.</p>
-			<p>venga venga venga venga venga venga venga venga venga venga venga venga
-			venga venga venga venga venga venga venga venga venga venga venga venga
-			venga venga venga venga venga venga venga venga venga venga venga venga
-			venga venga venga venga venga venga venga venga venga venga venga venga
-			venga venga venga venga venga venga venga venga venga venga venga venga
-			venga venga venga venga venga venga venga venga venga venga venga venga
-			venga venga venga venga venga venga venga venga venga venga venga venga</p>
-		</div>
-
-		<div dojoType="dijit.layout.TabContainer" title="Sub TabContainer">	
+		<div dojoType="dijit.layout.TabContainer" title="Inlined Sub TabContainer">	
 			<a dojoType="dijit.layout.LinkPane" href="tab1.html">SubTab 1</a>		
 			<a dojoType="dijit.layout.LinkPane" href="tab2.html" selected="true">SubTab 2</a>
 		</div>
+
+		<a dojoType="dijit.layout.LinkPane" href="tab3.html">Sub TabContainer from href</a>	
+
+		<a dojoType="dijit.layout.LinkPane" href="tab4.html">SplitContainer from href</a>	
 
 	</div>
 
