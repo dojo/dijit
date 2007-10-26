@@ -3,7 +3,7 @@ dojo.provide("dijit.form.TimeTextBox");
 dojo.require("dojo.date");
 dojo.require("dojo.date.locale");
 dojo.require("dojo.date.stamp");
-dojo.require("dijit.form._TimePicker");
+dojo.require("dijit._TimePicker");
 dojo.require("dijit.form.ValidationTextBox");
 
 dojo.declare(
@@ -26,7 +26,7 @@ dojo.declare(
 		value: new Date(""),	// NaN
 		_invalid: (new Date("")).toString(),	// NaN
 
-		_popupClass: "dijit.form._TimePicker",
+		_popupClass: "dijit._TimePicker",
 
 		postMixInProperties: function(){
 			//dijit.form.RangeBoundTextBox.prototype.postMixInProperties.apply(this, arguments);

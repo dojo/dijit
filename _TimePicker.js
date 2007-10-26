@@ -1,9 +1,9 @@
-dojo.provide("dijit.form._TimePicker");
+dojo.provide("dijit._TimePicker");
 
 dojo.require("dijit.form._FormWidget");
 dojo.require("dojo.date.locale");
 
-dojo.declare("dijit.form._TimePicker",
+dojo.declare("dijit._TimePicker",
 	[dijit._Widget, dijit._Templated],
 	{
 		// summary:
@@ -63,7 +63,7 @@ dojo.declare("dijit.form._TimePicker",
 			//	Set the value of the TimePicker
 			//	Redraws the TimePicker around the new date
 
-			//dijit.form._TimePicker.superclass.setValue.apply(this, arguments);
+			//dijit._TimePicker.superclass.setValue.apply(this, arguments);
 			this.value=date;
 			this._showText();
 		},
@@ -115,7 +115,7 @@ dojo.declare("dijit.form._TimePicker",
 
 		postCreate:function(){
 			// instantiate constraints
-			if(this.constraints===dijit.form._TimePicker.prototype.constraints){
+			if(this.constraints===dijit._TimePicker.prototype.constraints){
 				this.constraints={};
 			}
 			// dojo.date.locale needs the lang in the constraints as locale
