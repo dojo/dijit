@@ -755,6 +755,12 @@ body .dijitAlignClient { position: absolute; }
 	overflow: auto;
 }
 
+
+.dijitAccordionContainer {
+	border:1px solid #b7b7b7;
+	border-top:0 !important; 
+}
+
 .dijitAccordionPane .dijitAccordionTitle:hover {
 	cursor: pointer;
 }
@@ -1118,6 +1124,11 @@ body .dijitAlignClient { position: absolute; }
 	width:0px;
 	height:0px;
 }
+.dijit_a11y .dijitSliderFocused .dijitSliderImageHandle {
+	border:4px solid #000;
+	height:8px;
+	width:8px;
+}
 
 .dijitVerticalSliderImageHandle {
 	top:-8px;
@@ -1216,6 +1227,10 @@ body .dijitAlignClient { position: absolute; }
 	margin:0px;
 	padding:0px;
 	display:block;
+}
+
+.dijit_a11y .dijitSliderButtonInner {
+	visibility:visible !important; 
 }
 
 .dijitSlider .dijitVerticalSliderTopButton {

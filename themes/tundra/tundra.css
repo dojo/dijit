@@ -889,18 +889,14 @@
 
 .tundra .dijitAccordionPane .dijitAccordionTitle {
 	background:#fafafa url("images/titleBar.png") repeat-x bottom left;
-	border-left: 1px solid #bfbfbf;
 	border-top: 1px solid #bfbfbf;
-	border-right: 1px solid #bfbfbf;
 	padding:4px 4px 2px 4px;
 }
 
 .tundra .dijitAccordionPane-selected .dijitAccordionTitle {
 	background: #ededed url("images/buttonActive.png") bottom repeat-x;
 	font-weight: bold;
-	border-left: 1px solid #aaaaaa;
 	border-top: 1px solid #aaaaaa;
-	border-right: 1px solid #aaaaaa;
 	padding: 4px 4px 2px 4px;
 }
 .tundra .dijitAccordionPaneFocused .dijitAccordionText {
@@ -930,12 +926,7 @@
 
 .tundra .dijitAccordionPane .dijitAccordionBody {
 	background: #fff;
-	/*
-	border:1px solid #bfbfbf;
-	*/
-	border-left: 1px solid #bfbfbf;
 	border-top: 1px solid #bfbfbf;
-	border-right: 1px solid #bfbfbf;
 }
 
 /* Tree */
@@ -1272,11 +1263,9 @@
 .tundra .dijitSliderFocused .dijitSliderBar {
 	border-color:#333;	
 }
-.dijit_a11y .dijitSliderFocused .dijitSliderBar {
-	outline:1px dotted #666; 
-}
+
 .dijit_a11y .dijitSliderProgressBar { 
-	background-color:#333; 
+	background-color:#333 !important; 
 }
 
 .tundra .dijitHorizontalSliderImageHandle {
@@ -1291,7 +1280,7 @@
 	#background-image:url("images/preciseSliderThumbFocus.gif");
 }
 
-.dj_ie6 .dijitHorizontalSliderImageHandle {
+.dj_ie6 .tundra .dijitHorizontalSliderImageHandle {
 	background-image:url("images/preciseSliderThumb.gif"); 
 }
 
@@ -1314,10 +1303,12 @@
 	background:url("images/sliderThumb.png") no-repeat center center; 
 	cursor:pointer;
 }
+
 .tundra .dijitSliderFocused .dijitVerticalSliderImageHandle {
 	background-image:url("images/sliderThumbFocus.png");
-	#background-image:url("images/sliderThumbFocus.gif");
-	
+}
+.dj_ie6 .tundra .dijitSliderFocused .dijitVerticalSliderImageHandle {
+	background-image:url("images/sliderThumbFocus.gif");
 }
 
 .tundra .dijitVerticalSliderBottomBumper {
@@ -1354,18 +1345,15 @@
 .tundra .dijitSliderButtonInner {
 	visibility:hidden;
 }
-.dijit_a11y .dijitSliderButtonInner {
-	visibility:visible !important; 
-}
 
 .tundra .dijitSliderDisabled {
 	opacity:0.6 !important;
 }
 
-.dj_ie6 .dijitSliderDisabled,
-.dj_ie6 .dijitSliderDisabled .RuleContainer,
-.dj_ie6 .dijitSliderDisabled .dijitSliderRemainingBar,
-.dj_ie6 .dijitSliderDisabled .dijitSliderProgressBar {
+.dj_ie6 .tundra .dijitSliderDisabled,
+.dj_ie6 .tundra .dijitSliderDisabled .RuleContainer,
+.dj_ie6 .tundra .dijitSliderDisabled .dijitSliderRemainingBar,
+.dj_ie6 .tundra .dijitSliderDisabled .dijitSliderProgressBar {
 	filter: gray() alpha(opacity=40);
 }
 

@@ -32,13 +32,14 @@ dojo.declare(
 
 		postCreate: function(){
 			this.domNode.style.overflow="hidden";
-			dijit.layout.AccordionContainer.superclass.postCreate.apply(this, arguments);
+			this.inherited("postCreate",arguments); 
 			dijit.setWaiRole(this.domNode, "tablist");
+			dojo.addClass(this.domNode,"dijitAccordionContainer");
 		},
 
 		startup: function(){
 			if(this._started){ return; }
-			dijit.layout.StackContainer.prototype.startup.apply(this, arguments);
+			this.inherited("startup",arguments);	
 			if(this.selectedChildWidget){
 				var style = this.selectedChildWidget.containerNode.style;
 				style.display = "";
@@ -77,7 +78,7 @@ inside the AccordionPane??
 
 		_transition: function(/*Widget?*/newWidget, /*Widget?*/oldWidget){
 //TODO: should be able to replace this with calls to slideIn/slideOut
-			if(this._inTransition){return;}
+			if(this._inTransition){ return; }
 			this._inTransition = true;
 			var animations = [];
 			var paneHeight = this._verticalSpace;
@@ -157,7 +158,7 @@ dojo.declare(
 	templatePath: dojo.moduleUrl("dijit.layout", "templates/AccordionPane.html"),
 
 	postCreate: function(){
-		dijit.layout.AccordionPane.superclass.postCreate.apply(this, arguments);
+		this.inherited("postCreate",arguments)
 		dojo.setSelectable(this.titleNode, false);
 		this.setSelected(this.selected);
 	},
@@ -181,11 +182,9 @@ dojo.declare(
 		return this.getParent()._onKeyPress(evt);
 	},
 
-
-
 	_setSelectedState: function(/*Boolean*/ isSelected){
 		this.selected = isSelected;
-		(isSelected ? dojo.addClass : dojo.removeClass)(this.domNode, "dijitAccordionPane-selected");
+		dojo[(isSelected ? "addClass" : "removeClass")](this.domNode,"dijitAccordionPane-selected");
 		this.focusNode.setAttribute("tabIndex", isSelected ? "0" : "-1");
 	},
 	
