@@ -405,6 +405,7 @@ dojo.declare(
 	
 	postCreate: function(/*Event*/ evt){
 		dijit.setWaiRole((this.focusNode || this.domNode), "tab");
+		this.inherited("postCreate", arguments);
 	},
 	
 	onClick: function(/*Event*/ evt){
