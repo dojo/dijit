@@ -905,6 +905,10 @@ body .dijitAlignClient { position: absolute; }
 	border: 1px #fff dotted !important;
 }
 
+.dijit_a11y .dijitMenuExpandInner { 
+	display:block !important;
+} 
+
 /* separator can be two pixels -- set border of either one to 0px to have only one */
 .dijitMenuSeparatorTop {
 	height: 50%;

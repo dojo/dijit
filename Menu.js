@@ -324,7 +324,7 @@ dojo.declare(
 		+'<td tabIndex="-1" class="dijitReset dijitMenuItemLabel" dojoAttachPoint="containerNode" waiRole="menuitem"></td>'
 		+'<td class="dijitReset" dojoAttachPoint="arrowCell">'
 			+'<div class="dijitMenuExpand" dojoAttachPoint="expand" style="display:none">'
-			+'<span class="dijit_a11y dijitInline dijitArrowNode dijitMenuExpandInner">+</span>'
+			+'<span class="dijitInline dijitArrowNode dijitMenuExpandInner">+</span>'
 			+'</div>'
 		+'</td>'
 		+'</tr>',

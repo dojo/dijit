@@ -462,7 +462,7 @@
 	background-image:url('images/arrowRight.gif'); 
 }
 .tundra .dijitMenuExpandInner {
-	display:none !important;
+	display:none;
 }
 
 .tundra .dijitMenuSeparator {
