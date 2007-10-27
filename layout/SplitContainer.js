@@ -1,34 +1,33 @@
 dojo.provide("dijit.layout.SplitContainer");
 
 //
-// TODO
-// make it prettier
-// active dragging upwards doesn't always shift other bars (direction calculation is wrong in this case)
+// FIXME: make it prettier
+// FIXME: active dragging upwards doesn't always shift other bars (direction calculation is wrong in this case)
 //
 
 dojo.require("dojo.cookie");
 dojo.require("dijit.layout._LayoutWidget");
 
-dojo.declare(
-	"dijit.layout.SplitContainer",
+dojo.declare("dijit.layout.SplitContainer",
 	dijit.layout._LayoutWidget,
-{
-	// summary
+	{
+	// summary: 
+	//	A Container widget with sizing handles in-between each child
+	// description:
 	//		Contains multiple children widgets, all of which are displayed side by side
 	//		(either horizontally or vertically); there's a bar between each of the children,
 	//		and you can adjust the relative size of each child by dragging the bars.
 	//
 	//		You must specify a size (width and height) for the SplitContainer.
-
+	//
 	// activeSizing: Boolean
 	//		If true, the children's size changes as you drag the bar;
 	//		otherwise, the sizes don't change until you drop the bar (by mouse-up)
 	activeSizing: false,
 
-	// sizerWidget: Integer
+	// sizerWidth: Integer
 	//		Size in pixels of the bar between each child
-	// TODO: this should be a CSS attribute
-	sizerWidth: 15,
+	sizerWidth: 7, // FIXME: this should be a CSS attribute (at 7 because css wants it to be 7 until we fix to css)
 
 	// orientation: String
 	//		either 'horizontal' or vertical; indicates whether the children are
@@ -40,12 +39,12 @@ dojo.declare(
 	persist: true,
 
 	postMixInProperties: function(){
-		dijit.layout.SplitContainer.superclass.postMixInProperties.apply(this, arguments);
+		this.inherited("postMixInProperties",arguments);
 		this.isHorizontal = (this.orientation == 'horizontal');
 	},
 
 	postCreate: function(){
-		dijit.layout.SplitContainer.superclass.postCreate.apply(this, arguments);
+		this.inherited("postCreate",arguments);
 		this.sizers = [];
 		dojo.addClass(this.domNode, "dijitSplitContainer");
 		// overflow has to be explicitly hidden for splitContainers using gekko (trac #1435)
@@ -58,7 +57,7 @@ dojo.declare(
 		if(typeof this.sizerWidth == "object"){
 			try{ //FIXME: do this without a try/catch
 				this.sizerWidth = parseInt(this.sizerWidth.toString());
-			}catch(e){ this.sizerWidth = 15; }
+			}catch(e){ this.sizerWidth = 7; }
 		}
 		var sizer = this.virtualSizer = document.createElement('div');
 		sizer.style.position = 'relative';
@@ -91,7 +90,7 @@ dojo.declare(
 		if(this.persist){
 			this._restoreState();
 		}
-		dijit.layout._LayoutWidget.prototype.startup.apply(this, arguments);
+		this.inherited("startup",arguments); 
 		this._started = true;
 	},
 
@@ -112,6 +111,7 @@ dojo.declare(
 		thumb.className = 'thumb';
 		sizer.appendChild(thumb);
 
+		// FIXME: are you serious? why aren't we using mover start/stop combo?
 		var self = this;
 		var handler = (function(){ var sizer_i = i; return function(e){ self.beginSizing(e, sizer_i); } })();
 		dojo.connect(sizer, "onmousedown", handler);
@@ -121,7 +121,7 @@ dojo.declare(
 	},
 
 	removeChild: function(widget){
-		// Remove sizer, but only if widget is really our child and
+		// summary: Remove sizer, but only if widget is really our child and
 		// we have at least one sizer to throw away
 		if(this.sizers.length && dojo.indexOf(this.getChildren(), widget) != -1){
 			var i = this.sizers.length - 1;
@@ -130,14 +130,18 @@ dojo.declare(
 		}
 
 		// Remove widget and repaint
-		dijit._Container.prototype.removeChild.apply(this, arguments);
+		this.inherited("removeChild",arguments); 
 		if(this._started){
 			this.layout();
 		}
-   },
+	},
 
 	addChild: function(/*Widget*/ child, /*Integer?*/ insertIndex){
-		dijit._Container.prototype.addChild.apply(this, arguments);
+		// summary: Add a child widget to the container
+		// child: a widget to add
+		// insertIndex: postion in the "stack" to add the child widget
+		
+		this.inherited("addChild",arguments); 
 
 		if(this._started){
 			// Do the stuff that startup() does for each widget
@@ -349,7 +353,7 @@ dojo.declare(
 		}
 		this.sizingSplitter.style.zIndex = 2;
 
-		// TODO: REVISIT - we want MARGIN_BOX and core hasn't exposed that yet
+		// TODO: REVISIT - we want MARGIN_BOX and core hasn't exposed that yet (but can't we use it anyway if we pay attention? we do elsewhere.)
 		this.originPos = dojo.coords(children[0].domNode, true);
 		if(this.isHorizontal){
 			var client = (e.layerX ? e.layerX : e.offsetX);
@@ -408,7 +412,6 @@ dojo.declare(
 		}
 
 		dojo.forEach(this._connects,dojo.disconnect); 
-
 	},
 
 	movePoint: function(){
@@ -484,7 +487,8 @@ dojo.declare(
 
 	_moveSizingLine: function(){
 		var pos = (this.lastPoint - this.startPoint) + this.sizingSplitter.position;
-		this.virtualSizer.style[ this.isHorizontal ? "left" : "top" ] = pos + 'px';
+		dojo.style(this.virtualSizer,(this.isHorizontal ? "left" : "top"),pos+"px");
+		// this.virtualSizer.style[ this.isHorizontal ? "left" : "top" ] = pos + 'px'; // FIXME: remove this line if the previous is better
 	},
 
 	_getCookieName: function(i){

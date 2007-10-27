@@ -21,7 +21,7 @@ dojo.declare(
 	//		Don't confuse it with an iframe, it only needs/wants document fragments.
 	//		It's useful as a child of LayoutContainer, SplitContainer, or TabContainer.
 	//		But note that those classes can contain any widget as a child.
-	// examples:
+	// example:
 	//		Some quick samples:
 	//		To change the innerHTML use .setContent('<b>new content</b>')
 	//
@@ -29,7 +29,7 @@ dojo.declare(
 	//		please note that the nodes in NodeList will copied, not moved
 	//
 	//		To do a ajax update use .setHref('url')
-
+	//
 	// href: String
 	//		The href of the content that displays now.
 	//		Set this at construction if you want to load data externally when the
@@ -102,9 +102,9 @@ dojo.declare(
 	},
 
 	_checkIfSingleChild: function(){
-		// summary
-		// 		Test if we have exactly one widget as a child, and if so assume that we are a container for that widget,
-		//		and should propogate startup() and resize() calls to it.
+		// summary:
+		// 	Test if we have exactly one widget as a child, and if so assume that we are a container for that widget,
+		//	and should propogate startup() and resize() calls to it.
 		var childNodes = dojo.query(">", this.containerNode || this.domNode)
 			childWidgets = childNodes.filter("[widgetId]");
 
@@ -119,7 +119,7 @@ dojo.declare(
 
 	refresh: function(){
 		// summary:
-		//		Force a refresh (re-download) of content, be sure to turn off cache
+		//	Force a refresh (re-download) of content, be sure to turn off cache
 
 		// we return result of _prepareLoad here to avoid code dup. in dojox.layout.ContentPane
 		return this._prepareLoad(true);
@@ -170,12 +170,11 @@ dojo.declare(
 	},
 
 	cancel: function(){
-		// summary
+		// summary:
 		//		Cancels a inflight download of content
 		if(this._xhrDfd && (this._xhrDfd.fired == -1)){
 			this._xhrDfd.cancel();
 		}
-
 		delete this._xhrDfd; // garbage collect
 	},
 
@@ -187,7 +186,7 @@ dojo.declare(
 		// make sure we call onUnload
 		this._onUnloadHandler();
 		this._beingDestroyed = true;
-		dijit.layout.ContentPane.superclass.destroy.call(this);
+		this.inherited("destroy",arguments);
 	},
 
 	resize: function(size){
