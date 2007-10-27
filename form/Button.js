@@ -346,7 +346,8 @@ dojo.declare("dijit.form.ToggleButton", dijit.form.Button, {
 		// summary
 		//	Programatically deselect the button
 		this.checked = checked;
-		this._setStateClass();
+		dijit.setWaiState(this.focusNode || this.domNode, "pressed", this.checked);
+		this._setStateClass();		
 		this.onChange(checked);
 	}
 });
