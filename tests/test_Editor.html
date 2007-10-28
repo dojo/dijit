@@ -17,6 +17,7 @@
 		dojo.require("dijit.Editor");
 		dojo.require("dijit._editor.plugins.AlwaysShowToolbar");
 		dojo.require("dijit._editor.plugins.EnterKeyHandling");
+		dojo.require("dijit._editor.plugins.TextColor");
 		dojo.require("dijit._editor.plugins.LinkDialog");
 		dojo.require("dojo.parser");	// scan page for widgets and instantiate them
 	</script>
@@ -28,6 +29,7 @@
 	<div style="border: 1px solid black;">
 		<div dojoType="dijit.Editor" id="editor1"><p>This instance is created from a div directly with default toolbar and plugins</p></div>
 	</div>
+	<button onClick="dijit.byId('editor1').destroy()">destroy</button>
 	<button onclick="console.log(dijit.byId('editor1').getValue().length)">getValue</button>
 	<hr/>
 	<div style="border: 1px dotted black;">
@@ -53,6 +55,18 @@
 	<div style="border: 1px dotted black;">
 		<h3>blah</h3>
 		<textarea dojoType="dijit.Editor"
+			plugins="['bold','italic','|','createLink','foreColor','hiliteColor']"
+			styleSheets="../../dojo/resources/dojo.css">
+			This instance includes optional toolbar buttons which pull in additional ui (dijit) code.
+			Note the dojo.require() statements required to pull in the associated editor plugins to make
+			this work. 
+		</textarea>
+		<h3>..after</h3>
+	</div>
+	<hr/>
+	<div style="border: 1px dotted black;">
+		<h3>blah</h3>
+		<textarea dojoType="dijit.Editor"
 			plugins="['bold','italic','|',{name:'dijit._editor.plugins.LinkDialog'}]"
 			styleSheets="../../dojo/resources/dojo.css">
 			This instance demos how to:
@@ -63,6 +77,5 @@
 		</textarea>
 		<h3>..after</h3>
 	</div>
-
 </body>
 </html>

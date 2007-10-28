@@ -29,7 +29,7 @@ dojo.declare("dijit._editor.plugins.UrlTextBox",
 		required: true,
 
 		postMixInProperties: function(){
-			dijit._editor.plugins.UrlTextBox.superclass.postMixInProperties.apply(this, arguments);
+			this.inherited("postMixInProperties", arguments);
 			this.invalidMessage = dojo.i18n.getLocalization("dijit._editor", "LinkDialog", this.lang).urlInvalidMessage;
 		},
 
@@ -55,12 +55,6 @@ dojo.declare("dijit._editor.plugins.LinkDialog",
 			"<br>",
 			"<button dojoType=dijit.form.Button type='submit'>${set}</button>"
 		].join(""),
-
-		useDefaultCommand: false,
-
-		command: "createLink",
-
-		dropDown: null,
 
 		constructor: function(){
 			var _this = this;
@@ -143,7 +137,7 @@ dojo.declare("dijit._editor.plugins.LinkDialog",
 					var hasA = dojo.withGlobal(this.editor.window, "hasAncestorElement",dijit._editor.selection, ['a']);
 					this.button.setChecked(hasA);
 				}catch(e){
-					console.debug(e);
+					console.debug(e); //FIXME: probably shouldn't squelch an exception here
 				}
 			}
 		}

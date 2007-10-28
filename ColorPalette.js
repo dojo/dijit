@@ -164,7 +164,7 @@ dojo.declare(
 		//		Callback when a color is selected.
 		// color: String
 		//		Hex value corresponding to color.
-		console.debug("Color selected is: "+color);
+//		console.debug("Color selected is: "+color);
 	},
 
 	_onColorDijitclick: function(/*Event*/ evt){
@@ -229,8 +229,7 @@ dojo.declare(
 		// 		This selects a color. It triggers the onChange event
 		// area:
 		//		The area node that covers the color being selected.
-		this.value = selectNode.color;
-		this.onChange(selectNode.color);
+		this.onChange(this.value = selectNode.color);
 	},
 
 	_navigateByKey: function(increment, typeCount){

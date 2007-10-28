@@ -20,7 +20,7 @@ dojo.declare(
 		extraPlugins: null,
 		constructor: function(){
 			this.plugins=["undo","redo","|","cut","copy","paste","|","bold","italic","underline","strikethrough","|",
-			"insertOrderedList","insertUnorderedList","indent","outdent","|","justifyLeft","justifyRight","justifyCenter","justifyFull"/*"createlink"*/];
+			"insertOrderedList","insertUnorderedList","indent","outdent","|","justifyLeft","justifyRight","justifyCenter","justifyFull"/*"createLink"*/];
 
 			this._plugins=[];
 			this._editInterval = this.editActionInterval * 1000;
@@ -360,10 +360,12 @@ dojo.subscribe("dijit.Editor.getPlugin",null,function(o){
 		case "|":
 			p = new _p({ button: new dijit.ToolbarSeparator() });
 			break;
-		case "createlink":
+		case "createLink":
 //					dojo['require']('dijit._editor.plugins.LinkDialog');
-			p = new dijit._editor.plugins.LinkDialog();
+			p = new dijit._editor.plugins.LinkDialog({ command: name });
 			break;
+		case "foreColor": case "hiliteColor":
+			p = new dijit._editor.plugins.TextColor({ command: name });
 	}
 //	console.log('name',name,p);
 	o.plugin=p;
