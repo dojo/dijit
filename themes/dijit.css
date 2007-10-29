@@ -200,6 +200,10 @@
 	border-left:0px !important;
 }
 
+/* In high contrast mode, display the check symbol */
+.dijit_a11y .dijitToggleButtonChecked .dijitToggleButtonIconChar { 
+	display: inline !important; 
+}
 
 
 
@@ -1344,7 +1348,7 @@ img.dijitColorPaletteUnder {
 
 /* Toolbar A11y */
 .dijit_a11y .dijitButtonContents .dijitButtonText {
-	display: block !important;
+	display: inline !important;
 }
 
 .dijitTextArea {

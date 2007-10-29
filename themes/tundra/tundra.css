@@ -418,6 +418,11 @@
 	background-position: -160px;
 }
 
+/* Disable the high contrast character */
+.tundra .dijitButton .dijitToggleButtonIconChar { 
+	display: none; 
+}
+
 /* Menu */
 .tundra .dijitMenu {
 	border: 1px solid #9b9b9b;
