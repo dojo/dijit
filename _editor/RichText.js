@@ -5,7 +5,7 @@ dojo.require("dijit._editor.selection");
 dojo.require("dojo.i18n");
 dojo.requireLocalization("dijit", "Textarea");
 
-// used to save content
+// used to restore content when user leaves this page then comes back
 // but do not try doing document.write if we are using xd loading.
 // document.write will only work if RichText.js is included in the dojo.js
 // file. If it is included in dojo.js and you want to allow rich text saving
@@ -122,8 +122,7 @@ dojo.declare("dijit._editor.RichText", [ dijit._Widget ], {
 	_SEPARATOR: "@@**%%__RICHTEXTBOUNDRY__%%**@@",
 
 	// onLoadDeferred: dojo.Deferred
-	//		deferred that can be used to connect to the onLoad function. This
-	//		will only be set if dojo.Deferred is required
+	//		deferred which is fired when the editor finishes loading
 	onLoadDeferred: null,
 
 	postCreate: function(){
@@ -310,6 +309,7 @@ dojo.declare("dijit._editor.RichText", [ dijit._Widget ], {
 					}
 				}
 			}
+
 			// FIXME: need to do something different for Opera/Safari
 			dojo.connect(window, "onbeforeunload", this, "_saveContent");
 			// dojo.connect(window, "onunload", this, "_saveContent");
@@ -988,9 +988,9 @@ dojo.declare("dijit._editor.RichText", [ dijit._Widget ], {
 //				// mozilla doesn't support hilitecolor properly when useCSS is
 //				// set to false (bugzilla #279330)
 
-//				this.document.execCommand("useCSS", false, false);
+			this.document.execCommand("styleWithCSS", false, true);
 			returnValue = this.document.execCommand(command, false, argument);
-//				this.document.execCommand("useCSS", false, true);
+			this.document.execCommand("styleWithCSS", false, false);
 
 		}else if((dojo.isIE)&&( (command == "backcolor")||(command == "forecolor") )){
 			// Tested under IE 6 XP2, no problem here, comment out
