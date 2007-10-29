@@ -257,7 +257,7 @@ dojo.declare("dijit._KeyNavContainer",
 				this.focusFirstChild();
 			}else{
 				var widget = dijit.getEnclosingWidget(evt.target);
-				if(widget){
+				if(widget && widget.isFocusable()){
 					this.focusedChild = widget;
 				}
 			}

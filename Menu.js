@@ -443,5 +443,11 @@ dojo.declare(
 
 	postCreate: function(){
 		dojo.setSelectable(this.domNode, false);
+	},
+	
+	isFocusable: function(){
+		// summary:
+		//		over ride to always return false
+		return false;
 	}
 });
