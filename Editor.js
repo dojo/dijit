@@ -369,6 +369,9 @@ dojo.subscribe("dijit.Editor.getPlugin",null,function(o){
 			break;
 		case "foreColor": case "hiliteColor":
 			p = new dijit._editor.plugins.TextColor({ command: name });
+			break;
+		case "fontName": case "fontSize":
+			p = new dijit._editor.plugins.FontChoice({ command: name });
 	}
 //	console.log('name',name,p);
 	o.plugin=p;
