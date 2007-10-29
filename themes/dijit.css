@@ -354,24 +354,36 @@ table .dijitComboButton .dijitButtonNode {
 .dijitSpinner INPUT {
 	padding:0px;
 	border-left: solid black 1px;	/* TODO: for RTL mode should be border-right */
-
-	/* The .style is assigned to the INPUT element as well as the outer element.
-		The below turns off things on the input that should apply to the outer element.
-	*/
 	display:inline;
-	position:static !important;
-	border:0px !important;	
-	margin:0px !important;
-	vertical-align:middle !important;
-	visibility:visible !important;
-	background-color:transparent !important;
-	background-image:none !important;
-	width: 100% !important;
+	position:static;
+	border:0px;	
+	margin:0px;
+	vertical-align:0em;
+	visibility:visible;
+	background-color:transparent;
+	background-image:none;
+	width:100%;
+}
+
+/* #4711: prevent IE from over-expanding 100% width input boxes */
+.dj_ie .dijitTextBox .dijitInputField,
+.dj_ie .dijitComboBox .dijitInputField,
+.dj_ie .dijitSpinner .dijitInputField {
+	position:relative;
+}
+.dj_ie .dijitTextBox .dijitInputField INPUT,
+.dj_ie .dijitComboBox .dijitInputField INPUT,
+.dj_ie .dijitSpinner .dijitInputField INPUT {
+	position:absolute !important;
+}
+
+INPUT {
+	font-size:100%;
 }
 
 /* Display an "X" for invalid input. Themes will override these rules to display an icon instead.
 */
-.dijitValidationIcon { display: none; }
+.dijitValidationIcon { display: none; vertical-align:middle; }
 .dijitValidationIconText { visibility: hidden; }
 .dijit_a11y .dijitValidationIcon { display: none !important; }
 .dijit_a11y .dijitValidationIconText { display: block !important; }

@@ -56,7 +56,6 @@
 			onChange="console.debug('onChange fired for widget id = ' + this.id + ' with value = ' + arguments[0]);"
 			value="900"
 			constraints="{max:1550,places:0}"
-			maxLength="20"
 			name="integerspinner1"
 			id="integerspinner1">
 		<br>
@@ -68,7 +67,6 @@
 			value="1000"
 			smallDelta="10"
 			constraints="{min:9,max:1550,places:0}"
-			maxLength="20"
 			name="integerspinner2"
 			id="integerspinner2">
 		<br>
@@ -81,7 +79,7 @@
 		<br>
 		Move the cursor left and right within the input field to see the effect on the spinner.
 		<br>
-		initial value=+1.0, delta=0.1, min=-10.9, max=155, places=1<br>
+		initial value=+1.0, delta=0.1, min=-10.9, max=155, places=1, maxLength=20<br>
 		<label for="realspinner1">Real Number Spinbox #1: </label><br>
 		<input dojoType="dijit.form.NumberSpinner"
 			value="1.0"

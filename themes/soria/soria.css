@@ -277,6 +277,25 @@
 	padding: 0.2em 0.3em;
 }
 
+.dj_ie .soria TD.dijitInputField,
+.dj_ie .soria .dijitInputField INPUT {
+	height: 1.65em; /* set height for IE since the INPUT is position:absolute */
+}
+
+.dj_safari .soria .dijitInputField {
+	padding: 0.08em 0.3em; /* looks better */
+}
+
+.soria INPUT.dijitTextBox {
+	padding: 0.2em 0.3em;
+}
+
+.dj_ie .soria .dijitTextBox INPUT,
+.dj_ie .soria .dijitComboBox INPUT,
+.dj_ie .soria .dijitSpinner INPUT {
+	width:95% !important; /* add a little padding-right for position:absolute INPUT */
+}
+
 .soria .dijitComboBoxFocused .dijitInputField {
 	/* input field when focused (eg: typing affects it) */
 	border-color:#333;

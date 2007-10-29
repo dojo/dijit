@@ -80,12 +80,6 @@ dojo.declare(
 			this.textbox.setAttribute("value", this.getDisplayedValue());
 			this.inherited('postCreate', arguments);
 
-			// textbox and domNode get the same style but the css separates the 2 using !important
-			if(this.srcNodeRef){
-				dojo.style(this.textbox, "cssText", this.style);
-				this.textbox.className += " " + this["class"];
-			}
-
 			if(dojo.isFF == 2 && this.domNode.tagName=="TABLE"){
 				// work around table sizing bugs on FF2 by forcing redraw
 				var node=this.domNode, _this = this;
