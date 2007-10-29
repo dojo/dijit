@@ -46,7 +46,8 @@ dojo.declare("dijit._editor.plugins.LinkDialog",
 	dijit._editor._Plugin,
 	{
 		buttonClass: dijit._editor.plugins.DualStateDropDownButton,
-
+		useDefaultCommand: false,
+		command: "createLink",
 		linkDialogTemplate: [
 			"<label for='urlInput'>${url}&nbsp;</label>",
 			"<input dojoType=dijit._editor.plugins.UrlTextBox name='urlInput'><br>",
