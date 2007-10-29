@@ -184,6 +184,7 @@ dojo.declare(
 			valueNode.setAttribute("value", this.toString());
 			dojo.style(valueNode, "display", "none");
 			valueNode.name = this.textbox.name;
+			this.textbox.name = "";
 			this.textbox.removeAttribute("name");
 
 			dojo.place(valueNode, textbox, "after");
