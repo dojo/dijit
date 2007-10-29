@@ -8,16 +8,19 @@ dojo.requireLocalization("dijit._editor", "commands");
 
 dojo.declare(
 	"dijit.Editor",
-	[ dijit._editor.RichText, dijit._Container ],
+	dijit._editor.RichText,
 	{
 	// summary: A rich-text Editing widget
 
 		// plugins: Array
 		//		a list of plugin names (as strings) or instances (as objects)
 		//		for this widget.
-//		plugins: [ "dijit._editor.plugins.DefaultToolbar" ],
 		plugins: null,
+
+		// extraPlugins: Array
+		//		a list of extra plugin names which will be appended to plugins array
 		extraPlugins: null,
+
 		constructor: function(){
 			this.plugins=["undo","redo","|","cut","copy","paste","|","bold","italic","underline","strikethrough","|",
 			"insertOrderedList","insertUnorderedList","indent","outdent","|","justifyLeft","justifyRight","justifyCenter","justifyFull"/*"createLink"*/];
@@ -51,6 +54,7 @@ dojo.declare(
 			}
 
 			dojo.forEach(this.plugins, this.addPlugin, this);
+			this.onNormalizedDisplayChanged(); //update toolbar button status
 //			}catch(e){ console.debug(e); }
 		},
 		destroy: function(){
@@ -338,6 +342,7 @@ dojo.declare(
 	}
 );
 
+/* the following code is to registered a handler to get default plugins */
 dojo.subscribe("dijit.Editor.getPlugin",null,function(o){
 	if(o.plugin){ return; }
 	var args=o.args, p;
@@ -353,8 +358,6 @@ dojo.subscribe("dijit.Editor.getPlugin",null,function(o){
 
 		case "bold": case "italic": case "underline": case "strikethrough":
 		case "subscript": case "superscript":
-			//shall we try to auto require here? or require user to worry about it?
-//					dojo['require']('dijit.form.Button');
 			p = new _p({ buttonClass: dijit.form.ToggleButton, command: name });
 			break;
 		case "|":
