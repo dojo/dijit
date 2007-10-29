@@ -74,18 +74,20 @@ dojo.declare(
 	//		This is a map that is used to calculate the coordinates of the
 	//		images that make up the palette.
 	_paletteCoords: {
-		"leftOffset": 3, "topOffset": 3,
-		"cWidth": 18, "cHeight": 16
+		"leftOffset": 4, "topOffset": 4,
+		"cWidth": 20, "cHeight": 20
+		
 	},
 
 	// templatePath: String
 	//		Path to the template of this widget.
 	templatePath: dojo.moduleUrl("dijit", "templates/ColorPalette.html"),
 
-
+	// _paletteDims: Object
+	//		Size of the supported palettes for alignment purposes.
 	_paletteDims: {
-		"7x10": {"width": "185px", "height": "117px"},
-		"3x4": {"width": "77px", "height": "53px"}
+		"7x10": {"width": "206px", "height": "145px"},
+		"3x4": {"width": "86px", "height": "64px"}
 	},
 
 
@@ -238,7 +240,7 @@ dojo.declare(
 		// 		It changes the focus and the highlighed color.
 		// increment:
 		// 		How much the key is navigated.
-		//	typeCount:
+		// typeCount:
 		//		How many times typematic has fired.
 
 		// typecount == -1 means the key is released.

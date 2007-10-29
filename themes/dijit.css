@@ -703,17 +703,33 @@ body .dijitAlignClient { position: absolute; }
 }
 
 /* Color Palette */
+
+.dijitColorPalette {
+	border:1px solid #999;
+	background:#fff;
+	-moz-border-radius:3pt; 
+}
+
+img.dijitColorPaletteUnder {
+	border-style:none;
+	position:absolute;
+	left:0;
+	top:0;
+}
+.dijitColorPaletteInner {
+	position: relative; 
+	overflow:hidden;
+	outline:0;
+}
 .dijitPaletteImg {
 	width: 16px; /*This is the width of one color in the provided palettes. */
-	height: 13px; /* Height of one color in the provided palettes. */
+	height: 14px; /* Height of one color in the provided palettes. */
 	position: absolute;
 	overflow: hidden;
 	cursor: default;
 	z-index: 10;
-	border-style: solid;
-	border-bottom-width: 1px;
-	border-right-width: 1px;
-	border-color: #000000;		
+	border:1px solid #999; 
+	/* -moz-border-radius:2pt; */
 }
 
 .dijitPaletteImgHighlight {
@@ -725,24 +741,26 @@ body .dijitAlignClient { position: absolute; }
 	z-index: 10;
 }
 
-.dijitPaletteImg:hover, 
+/* .dijitPaletteImg:hover, */
+.dijitPaletteImg:focus,
 .dijitPaletteImgHighlight {
 	width: 14px; /*This is the width of one color in the provided palettes. */
 	height: 12px; /* Height of one color in the provided palettes. */
-	border-style: solid;
-	border-width: 2px;
-	border-color: #ffffff;
+	border:2px solid #000; 
+	outline:2px solid #dedede;
+	/* -moz-border-radius:0; */	
 }
 
 
 .dijitColorPaletteCell {
 	width:16px;
-	height:16px;
+	height:14px;
 	border: 1px solid;
 }
 
 .dijitColorPaletteCell:hover {
 	border-style: solid;
+	outline:0;
 }
 
 /* Accordion */
