@@ -922,8 +922,11 @@ img.dijitColorPaletteUnder {
 	opacity:0.3;
 	cursor:default;
 }
-.dj_ie .dijitMenuItemDisabled * {
-	filter: alpha(opacity=30);
+.dj_ie .dijit_a11y .dijitMenuItemDisabled td,
+.dj_ie .dijitMenuItemDisabled *,
+.dj_ie .dijitMenuItemDisabled td {
+	color:gray !important;
+	filter: alpha(opacity=35);
 }
 
 .dijitMenuItemLabel {
