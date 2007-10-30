@@ -13,6 +13,7 @@
 	<script type="text/javascript" src="../../dojo/dojo.js"
 		djConfig="parseOnLoad: true, isDebug: true"></script>
 	<script type="text/javascript" src="_testCommon.js"></script>
+	<script type="text/javascript" src="../Tree.js"></script>
 
 	<script language="JavaScript" type="text/javascript">
 		dojo.require("dojo.data.ItemFileReadStore");
@@ -72,9 +73,9 @@
 
 	<button onclick="dijit.byId('mytree').destroyRecursive();">destroy</button>
 
-	<h2>A rootless tree (no "continents" node) with context menus and useCookies="false"</h2>
+	<h2>A rootless tree (no "continents" node) with context menus and persist="false"</h2>
 
-	<ul dojoType="dijit.Menu" id="tree_menu" style="display: none;" useCookies="false">
+	<ul dojoType="dijit.Menu" id="tree_menu" style="display: none;">
 		<li dojoType="dijit.MenuItem" onClick="alert('Hello world');">Enabled Item</li>
 		<li dojoType="dijit.MenuItem" disabled="true">Disabled Item</li>
 		<li dojoType="dijit.MenuItem" iconClass="dijitEditorIcon dijitEditorIconCut"
@@ -106,7 +107,7 @@
 		</li>
 	</ul>
 
-	<div dojoType="dijit.Tree" id="tree2" store="continentStore" query="{type:'continent'}">
+	<div dojoType="dijit.Tree" id="tree2" store="continentStore" query="{type:'continent'}" persist="false">
 		<script type="dojo/connect">
 			var menu = dijit.byId("tree_menu");
 			// when we right-click anywhere on the tree, make sure we open the menu

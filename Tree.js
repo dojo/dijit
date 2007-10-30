@@ -164,10 +164,12 @@ dojo.declare(
 				this.addChild(child);
 				var identity = this.tree.store.getIdentity(childParams.item);
 				nodeMap[identity] = child;
-				var idx = dojo.indexOf(this.tree._cacheArray, identity);
-				if(idx > -1){
-					this.tree._expandNode(child);
-					this.tree._cacheArray.splice(idx,1);
+				if(this.tree.persist){
+					var idx = dojo.indexOf(this.tree._cachedOpenedItemIds, identity);
+					if(idx > -1){
+						this.tree._expandNode(child);
+						this.tree._cachedOpenedItemIds.splice(idx,1);
+					}
 				}
 			}, this);
 
@@ -277,13 +279,13 @@ dojo.declare(
 
 	isTree: true,
 
-	// useCookies: Boolean
+	// persist: Boolean
 	//	enables/disables use of cookies for state saving.
-	useCookies: true,
+	persist: true,
 	
-	// _expandArray: Array
+	// _openedItemIds: Array
 	//	Private array used to store the value of the state saving cookie
-	_expandArray: [],
+	_openedItemIds: [],
 	
 	// dndController: String
 	//	class name to use as as the dnd controller
@@ -355,10 +357,11 @@ dojo.declare(
 			}
 			this.dndController= new this.dndController(this, params);
 		}
-		if(this.useCookies){
-			this._expandArray = dojo.cookie(this._getCookieName()).split(',');
+		if(this.persist){
+			var cookie = dojo.cookie(this._getCookieName());
+			this._openedItemIds = (cookie != null) ? cookie.split(',') : [];
 			//cache so we can still load unloaded nodes as they are loaded, despite Tree interaction that may have happened
-			this._cacheArray = this._expandArray.slice();
+			this._cachedOpenedItemIds = this._openedItemIds.slice();
 		}
 	},
 
@@ -545,9 +548,7 @@ dojo.declare(
 		// if not expanded, expand, else move to 1st child
 		if(nodeWidget.isExpandable && !nodeWidget.isExpanded){
 			this._expandNode(nodeWidget);
-			if(this.useCookies){
-				this.saveState();
-			}
+			this.saveState();
 		}else if(nodeWidget.hasChildren()){
 			nodeWidget = nodeWidget.getChildren()[0];
 		}
@@ -571,10 +572,7 @@ dojo.declare(
 		// if not collapsed, collapse, else move to parent
 		if(node.isExpandable && node.isExpanded){
 			this._collapseNode(node);
-			if(this.useCookies){
-				this.saveState();
-			}
-
+			this.saveState();
 		}else{
 			node = node.getParent();
 		}
@@ -668,9 +666,7 @@ dojo.declare(
 		}else{
 			this._expandNode(node);
 		}
-		if(this.useCookies){
-			this.saveState();
-		}
+		this.saveState();
 	},
 
 	onClick: function(/* dojo.data */ item){
@@ -907,11 +903,13 @@ dojo.declare(
 
 	restoreState: function(){
 		//summary: collapses all nodes, then restore expanded nodes
-		if(!this.useCookies){
+		if(!this.persist){
 			return;
 		}
-		this._expandArray = dojo.cookie(this._getCookieName()).split(',');
-		
+		this._openedItemIds = dojo.cookie(this._getCookieName()).split(',');
+		if(this._openedItemIds!=null){
+			this._cachedOpenedItemIds = this._openedItemIds.slice();
+		}
 		dojo.query("[aaa:expanded='true']",this.domNode).forEach(function(n){
 			var child = dijit.getEnclosingWidget(n);
 			if(child.item!=null){
@@ -919,7 +917,7 @@ dojo.declare(
 			}
 		},this);
 
-		dojo.forEach(this._expandArray, function(value){
+		dojo.forEach(this._openedItemIds, function(value){
 			var node = this._itemNodeMap[value];
 			if(typeof(node)!='undefined'){
 				this._expandNode(node);
@@ -929,17 +927,16 @@ dojo.declare(
 
 	saveState: function(){
 		//summary: create and save a cookie with the currently expanded nodes identifiers
-		if(!this.useCookies){
+		if(!this.persist){
 			return;
 		}
-		this._expandArray = [];
+		this._openedItemIds = [];
 		dojo.query("[aaa:expanded='true']",this.domNode).forEach(function(n){
 			var child = dijit.getEnclosingWidget(n);
 			if(child.item!=null){
-				this._expandArray.push(this.store.getIdentity(child.item));
+				this._openedItemIds.push(this.store.getIdentity(child.item));
 			}
 		},this);
-		dojo.cookie(this._getCookieName(), this._expandArray+'');
+		dojo.cookie(this._getCookieName(), this._openedItemIds+'');
 	}
-
 });
