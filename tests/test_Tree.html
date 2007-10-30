@@ -20,6 +20,29 @@
 		dojo.require("dijit.ColorPalette");
 		dojo.require("dijit.Menu");
 		dojo.require("dojo.parser");	// scan page for widgets and instantiate them
+		
+		function collapseMyTree(){
+			var t = dijit.byId('mytree');
+			dojo.query("[aaa:expanded='true']",t.domNode).forEach(function(n){
+				var child = dijit.getEnclosingWidget(n);
+				this._collapseNode(child);
+			},t);
+			//assuming root node is always expanded
+			t.expand();
+		}
+		
+		function expandMyTree(){
+			var t = dijit.byId('mytree');
+			dojo.query("[aaa:expanded='false']",t.domNode).forEach(function(n){
+				var child = dijit.getEnclosingWidget(n);
+				this._expandNode(child);
+			},t);
+		}
+
+		function restoreMyTree(){
+			var t = dijit.byId('mytree');
+			t.restoreState();
+		}
 	</script>
 
 </head>
@@ -31,6 +54,7 @@
 		url="../tests/_data/countries.json"></div>
 
 	<h3>Tree with hardcoded root node (not corresponding to any item in the store)</h3>
+	<button onClick="collapseMyTree()">Collapse Tree</button>&nbsp;<button onClick="restoreMyTree()">Restore Tree</button>&nbsp;<button onClick="expandMyTree()">Expand Tree</button>
 	<div dojoType="dijit.Tree" id="mytree" store="continentStore" query="{type:'continent'}"
 		labelAttr="name" label="Continents">
 		<script type="dojo/method" event="onClick" args="item">
@@ -48,9 +72,9 @@
 
 	<button onclick="dijit.byId('mytree').destroyRecursive();">destroy</button>
 
-	<h2>A rootless tree (no "continents" node) with context menus</h2>
+	<h2>A rootless tree (no "continents" node) with context menus and useCookies="false"</h2>
 
-	<ul dojoType="dijit.Menu" id="tree_menu" style="display: none;">
+	<ul dojoType="dijit.Menu" id="tree_menu" style="display: none;" useCookies="false">
 		<li dojoType="dijit.MenuItem" onClick="alert('Hello world');">Enabled Item</li>
 		<li dojoType="dijit.MenuItem" disabled="true">Disabled Item</li>
 		<li dojoType="dijit.MenuItem" iconClass="dijitEditorIcon dijitEditorIconCut"
