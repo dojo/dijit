@@ -37,7 +37,5 @@
 	'fontSize': 'Velikost písma',
 	'fontName': 'Název písma',
 	/* Error messages */
-	'copyErrorFF': 'Akce kopírování je v aplikaci Firefox kvůli jejímu návrhu k dispozici pouze pomocí klávesové zkratky: použijte klávesy Ctrl+C.',
-	'cutErrorFF': 'Akce vyjmutí je v aplikaci Firefox kvůli jejímu návrhu k dispozici pouze pomocí klávesové zkratky: použijte klávesy Ctrl+X.',
-	'pasteErrorFF': 'Akce vložení je v aplikaci Firefox kvůli jejímu návrhu k dispozici pouze pomocí klávesové zkratky: použijte klávesy Ctrl+V.'
+	'systemShortcutFF': 'Akce "${0}" je k dispozici pouze v prohlížeči Mozilla Firefox při použití klávesové zkratky. Použijte ${1}.'
 })

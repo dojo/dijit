@@ -37,7 +37,5 @@
 	'fontSize': '글꼴 크기',
 	'fontName': '글꼴 이름',
 	/* Error messages */
-	'copyErrorFF': '복사는 설계상의 이유로 Firefox에서 키보드 단축키를 통해서만 사용 가능합니다. ctrl+c를 사용하십시오. ',
-	'cutErrorFF': '잘라내기는 설계상의 이유로 Firefox에서 키보드 단축키를 통해서만 사용 가능합니다. ctrl+x를 사용하십시오. ',
-	'pasteErrorFF': '붙여넣기는 설계상의 이유로 Firefox에서 키보드 단축키를 통해서만 사용 가능합니다. ctrl+v를 사용하십시오. '
+	'systemShortcutFF': '"${0}" 조치는 키보드 바로 가기를 사용하는 Mozilla Firefox에서만 사용 가능합니다. ${1} 사용.'
 })

@@ -37,7 +37,5 @@
 	'fontSize': 'Wielkość czcionki',
 	'fontName': 'Nazwa czcionki',
 	/* Error messages */
-	'copyErrorFF': 'Z przyczyn projektowych w przeglądarce Firefox działanie Kopiuj jest dostępne wyłącznie za pomocą skrótu klawiaturowego. Używaj kombinacji klawiszy ctrl+c.',
-	'cutErrorFF': 'Z przyczyn projektowych w przeglądarce Firefox działanie Wytnij jest dostępne wyłącznie za pomocą skrótu klawiaturowego. Używaj kombinacji klawiszy ctrl+x.',
-	'pasteErrorFF': 'Z przyczyn projektowych w przeglądarce Firefox działanie Wklej jest dostępne wyłącznie za pomocą skrótu klawiaturowego. Używaj kombinacji klawiszy ctrl+v.'
+	'systemShortcutFF': 'Działanie "${0}" jest dostępne w przeglądarce Mozilla Firefox wyłącznie za pomocą skrótu klawiaturowego. Użyj ${1}.'
 })

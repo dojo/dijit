@@ -37,7 +37,6 @@
 	'fontSize': 'Schriftgröße',
 	'fontName': 'Schriftartname',
 	/* Error messages */
-	'copyErrorFF': 'Die Kopieraktion können Sie in Firefox technisch bedingt nur über die Tastatur durchführen. Verwenden Sie die Tastenkombination Strg+c.',
-	'cutErrorFF': 'Die Ausschneideaktion können Sie in Firefox technisch bedingt nur über die Tastatur durchführen. Verwenden Sie die Tastenkombination Strg+x.',
-	'pasteErrorFF': 'Die Einfügeaktion können Sie in Fireforx technisch bedingt nur über die Tastatur durchführen. Verwenden Sie die Tastenkombination Strg+v.'
+	'systemShortcutFF': 'Die Aktion "${0}" ist in Mozilla Firefox nur über einen Tastaturkurzbefehl verfügbar. Verwenden Sie ${1}.',
+	'ctrlKey':'Strg+${0}'
 })

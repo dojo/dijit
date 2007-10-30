@@ -37,7 +37,5 @@
 	'fontSize': 'Betűméret',
 	'fontName': 'Betűtípus',
 	/* Error messages */
-	'copyErrorFF': 'A másolás művelet Firefox böngészőben csak billentyűparanccsal érhető el: használja a ctrl+c billentyűkombinációt.',
-	'cutErrorFF': 'A kivágás művelet Firefox böngészőben csak billentyűparanccsal érhető el: használja a ctrl+x billentyűkombinációt.',
-	'pasteErrorFF': 'A beillesztés művelet Firefox böngészőben csak billentyűparanccsal érhető el: használja a ctrl+v billentyűkombinációt.'
+	'systemShortcutFF': 'A(z) "${0}" művelet csak Mozilla Firefox böngészőben érhető el billentyűparancs használatával. Használja a következőt: ${1}.'
 })

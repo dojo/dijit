@@ -37,7 +37,6 @@
 	'fontSize': 'Tamaño de font',
 	'fontName': 'Nombre de font',
 	/* Error messages */
-	'copyErrorFF': 'La acción Copiar sólo está disponible en Firefox mediante un atajo de teclado debido a su diseño: utilice Control+C.',
-	'cutErrorFF': 'La acción Cortar sólo está disponible en Firefox mediante un atajo de teclado debido a su diseño: utilice Control+X.',
-	'pasteErrorFF': 'La acción Pegar sólo está disponible en Firefox mediante un atajo de teclado debido a su diseño: utilice Control+V.'
+	'systemShortcutFF': 'La acción "${0}" sólo está disponible en Mozilla Firefox mediante un atajo de teclado. Utilice ${1}.',
+	'ctrlKey':'Control+${0}'
 })

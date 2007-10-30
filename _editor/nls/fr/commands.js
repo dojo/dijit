@@ -37,7 +37,5 @@
 	'fontSize': 'Taille de police',
 	'fontName': 'Nom de police',
 	/* Error messages */
-	'copyErrorFF': 'L\'action Copier est disponible uniquement dans Firefox via le raccourci-clavier en raison d\'une décision de conception : utilisez Ctrl+c. ',
-	'cutErrorFF': 'L\'action Couper est disponible uniquement dans Firefox via le raccourci-clavier en raison d\'une décision de conception : utilisez Ctrl+x. ',
-	'pasteErrorFF': 'L\'action Coller est disponible uniquement dans Firefox via le raccourci-clavier en raison d\'une décision de conception : utilisez Ctrl+v. '
+	'systemShortcutFF': 'L\'action "${0}" est disponible dans Mozilla Firefox uniquement, par le biais d\'un raccourci-clavier. Utilisez ${1}.'
 })

@@ -37,7 +37,5 @@
 	'fontSize': '字体大小',
 	'fontName': '字体名称',
 	/* Error messages */
-	'copyErrorFF': '在 Firefox 中，由于其设计决策，所以只能通过键盘快捷方式执行复制操作：请使用 ctrl+c。',
-	'cutErrorFF': '在 Firefox 中，由于其设计决策，所以只能通过键盘快捷方式执行剪切操作：请使用 ctrl+x。',
-	'pasteErrorFF': '在 Firefox 中，由于其设计决策，所以只能通过键盘快捷方式执行粘贴操作：请使用 ctrl+v。'
+	'systemShortcutFF': '只能在 Mozilla Firefox 中通过键盘快捷方式执行“${0}”操作。请使用 ${1}。'
 })

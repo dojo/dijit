@@ -37,7 +37,5 @@
 	'fontSize': 'Dimensione carattere',
 	'fontName': 'Nome carattere',
 	/* Error messages */
-	'copyErrorFF': 'A causa della particolare scelta progettuale, l\'operazione Copia è disponibile in Firefox solo tramite l\'apposito tasto di scelta rapida: utilizzare ctrl+c.',
-	'cutErrorFF': 'A causa della particolare scelta progettuale, l\'operazione Taglia è disponibile in Firefox solo tramite l\'apposito tasto di scelta rapida: utilizzare ctrl+x.',
-	'pasteErrorFF': 'A causa della particolare scelta progettuale, l\'operazione Incolla è disponibile in Firefox solo tramite l\'apposito tasto di scelta rapida: utilizzare ctrl+v.'
+	'systemShortcutFF': 'L\'azione "${0}" è disponibile solo in Mozilla Firefox tramite tasti di scelta rapida. Utilizzare ${1}.'
 })

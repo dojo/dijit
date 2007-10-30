@@ -1,5 +1,5 @@
 ({
-	'bold': '粗體\n',
+	'bold': '粗體',
 	'copy': '複製',
 	'cut': '剪下',
 	'delete': '刪除',
@@ -37,7 +37,5 @@
 	'fontSize': '字型大小',
 	'fontName': '字型名稱',
 	/* Error messages */
-	'copyErrorFF': '基於 Firefox 的設計決策，在 Firefox 中只能透過鍵盤快速鍵才能使用「複製」動作：請使用 ctrl+c。',
-	'cutErrorFF': '基於 Firefox 的設計決策，在 Firefox 中只能透過鍵盤快速鍵才能使用「剪下」動作：請使用 ctrl+x。',
-	'pasteErrorFF': '基於 Firefox 的設計決策，在 Firefox 中只能透過鍵盤快速鍵才能使用「貼上」動作：請使用 ctrl+v。'
+	'systemShortcutFF': '"${0}" 動作在 Mozilla Firefox 中，只能使用鍵盤快速鍵。使用 ${1}。'
 })
