@@ -12,8 +12,6 @@ dojo.declare("dijit._editor.plugins.FontChoice",
 	{
 		buttonClass: dijit.form.FilteringSelect,
 
-//TODO: set initial focus/selection state?
-
 		_initButton: function(){
 			this.inherited("_initButton", arguments);
 
@@ -29,11 +27,22 @@ dojo.declare("dijit._editor.plugins.FontChoice",
 				{ data: { identifier: "value",
 					items: items }
 				});
-			this.button.value = ""; //TODO: perhaps this has to be set earlier somehow?
+			this.button.setValue("");
 
 			dojo.connect(this.button, "onChange", this, function(choice){
 				this.editor.execCommand(this.command, choice);
 			});
+		},
+
+		updateState: function(){
+			this.inherited("updateState", arguments);
+			var _e = this.editor;
+			var _c = this.command;
+			if(!_e || !_e.isLoaded || !_c.length){ return; }
+			if(this.button){
+				var value = _e.queryCommandValue(_c);
+				this.button.setValue(value);
+			}
 		},
 
 		setToolbar: function(){
