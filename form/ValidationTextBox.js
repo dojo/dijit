@@ -84,7 +84,7 @@ dojo.declare(
 			var message = "";
 			var isValid = this.isValid(isFocused);
 			var isEmpty = this._isEmpty(this.textbox.value);
-			this.state = (isValid || (!this._hasBeenBlurred && this.required && isEmpty)) ? "" : "Error";
+			this.state = (isValid || (!this._hasBeenBlurred && isEmpty)) ? "" : "Error";
 			this._setStateClass();
 			dijit.setWaiState(this.focusNode, "invalid", (isValid? "false" : "true"));
 			if(isFocused){
