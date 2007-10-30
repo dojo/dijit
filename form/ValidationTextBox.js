@@ -186,7 +186,11 @@ dojo.declare(
 			valueNode.name = this.textbox.name;
 			this.textbox.name = "";
 			this.textbox.removeAttribute("name");
-
+			if(dojo.isIE){
+				textbox = document.createElement(this.textbox.outerHTML);
+				this.textbox.replaceNode(textbox);
+				this.textbox = textbox;
+			}
 			dojo.place(valueNode, textbox, "after");
 
 			this.inherited('postCreate', arguments);
