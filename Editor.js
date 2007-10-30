@@ -370,7 +370,7 @@ dojo.subscribe("dijit.Editor.getPlugin",null,function(o){
 		case "foreColor": case "hiliteColor":
 			p = new dijit._editor.plugins.TextColor({ command: name });
 			break;
-		case "fontName": case "fontSize":
+		case "fontName": case "fontSize": case "formatBlock":
 			p = new dijit._editor.plugins.FontChoice({ command: name });
 	}
 //	console.log('name',name,p);
