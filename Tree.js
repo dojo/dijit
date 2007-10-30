@@ -358,8 +358,7 @@ dojo.declare(
 		if(this.useCookies){
 			this._expandArray = dojo.cookie(this._getCookieName()).split(',');
 			//cache so we can still load unloaded nodes as they are loaded, despite Tree interaction that may have happened
-			//FIXME: is there a better way to clone an array without creating a reference? -- this is needed to support lazyloading child nodes
-			this._cacheArray = dojo.cookie(this._getCookieName()).split(',');
+			this._cacheArray = this._expandArray.slice();
 		}
 	},
 
