@@ -72,6 +72,13 @@
 					function setValues(){
 						dijit.byId("myForm").setValues(changed);
 						doh.is( dojo.toJson(changed), dojo.toJson(dijit.byId("myForm").getValues()) );
+					},
+					function nameAttributeSurvived(){  // ticket:4753
+						var radios = dojo.query(".RadioButton", dijit.byId("radio-cells")).forEach(
+							function(r) {
+								doh.is( r.inputNode.name, "r2" );
+							});
+						
 					}
 				]
 			);
@@ -184,7 +191,7 @@ text text text """ \\\/
 
 <tr>
 <td>Radio widget</td><td>r2</td>
-<td>
+<td id="radio-cells">
 <input dojoType="dijit.form.RadioButton" type="radio" name="r2" value="1" /> 1
 <input dojoType="dijit.form.RadioButton" type="radio" name="r2" value="2" checked="checked" /> 2
 <input dojoType="dijit.form.RadioButton" type="radio" name="r2" value="3"/> 3
