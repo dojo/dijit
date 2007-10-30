@@ -105,7 +105,7 @@ dojo.declare(
 		// summary:
 		// 	Test if we have exactly one widget as a child, and if so assume that we are a container for that widget,
 		//	and should propogate startup() and resize() calls to it.
-		var childNodes = dojo.query(">", this.containerNode || this.domNode)
+		var childNodes = dojo.query(">", this.containerNode || this.domNode),
 			childWidgets = childNodes.filter("[widgetId]");
 
 		if(childNodes.length == 1 && childWidgets.length == 1){
