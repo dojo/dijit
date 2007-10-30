@@ -31,9 +31,10 @@
 		});
 
 		dojo.addOnLoad(function(){
-			var i = 3;
 			var tc = dijit.byId("mainTabContainer");
-			tc.addChild(new dijit.layout.ContentPane({ title: 'Tab '+ (i+1) }, document.createElement('div')), i);
+			var cp = new dijit.layout.ContentPane({ title: 'Programmatically created tab' });
+			cp.domNode.innerHTML = "I was created programmatically!";
+			tc.addChild(cp, 3);
 		});
 	</script>
 

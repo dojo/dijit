@@ -160,7 +160,7 @@ dojo.declare("dijit._Widget", null, {
 		// summary:
 		//		Construct the UI for this widget, setting this.domNode.
 		//		Most widgets will mixin TemplatedWidget, which overrides this method.
-		this.domNode = this.srcNodeRef;
+		this.domNode = this.srcNodeRef || dojo.doc.createElement('div');
 	},
 
 	postCreate: function(){
