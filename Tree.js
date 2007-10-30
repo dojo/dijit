@@ -5,6 +5,7 @@ dojo.require("dojo.fx");
 dojo.require("dijit._Widget");
 dojo.require("dijit._Templated");
 dojo.require("dijit._Container");
+dojo.require("dojo.cookie");
 
 dojo.declare(
 	"dijit._TreeNode",
@@ -22,7 +23,7 @@ dojo.declare(
 	// label: String
 	//		Text of this tree node
 	label: "",
-
+	
 	isExpandable: null, // show expando node
 	
 	isExpanded: false,
@@ -61,7 +62,7 @@ dojo.declare(
 		this._setExpando(false);	
 	},
 
-	_updateItemClasses: function(item) {
+	_updateItemClasses: function(item){
 		// summary: set appropriate CSS classes for item (used to allow for item updates to change respective CSS)
 		this.iconNode.className = "dijitInline dijitTreeIcon " + this.tree.getIconClass(item);
 		this.labelNode.className = "dijitTreeLabel " + this.tree.getLabelClass(item);
@@ -161,7 +162,11 @@ dojo.declare(
 					label: this.tree.getLabel(childParams.item)
 				}, childParams));
 				this.addChild(child);
-				nodeMap[this.tree.store.getIdentity(childParams.item)] = child;
+				var identity = this.tree.store.getIdentity(childParams.item);
+				nodeMap[identity] = child;
+				if(dojo.indexOf(this.tree._expandArray, identity)>-1){
+					this.tree._expandNode(child);
+				}
 			}, this);
 
 			// note that updateLayout() needs to be called on each child after
@@ -201,7 +206,7 @@ dojo.declare(
 
 		//		See parameters of _TreeNode for details.
 		var nodeMap = {};
-		if (childrenArray && childrenArray.length > 0){
+		if(childrenArray && childrenArray.length > 0){
 			dojo.forEach(childrenArray, function(childParams){
 				var child = new dijit._TreeNode(
 					dojo.mixin({
@@ -270,6 +275,14 @@ dojo.declare(
 
 	isTree: true,
 
+	// useCookies: Boolean
+	//	enables/disables use of cookies for state saving.
+	useCookies: true,
+	
+	// _expandArray: Array
+	//	Private array used to store the value of the state saving cookie
+	_expandArray: [],
+	
 	// dndController: String
 	//	class name to use as as the dnd controller
 	dndController: null,
@@ -298,12 +311,12 @@ dojo.declare(
 
 		this._hideRoot = !this.label;
 
-		if (!this.store.getFeatures()['dojo.data.api.Identity']){
+		if(!this.store.getFeatures()['dojo.data.api.Identity']){
 			throw new Error("dijit.tree requires access to a store supporting the dojo.data Identity api");			
 		}
 
 		// if the store supports Notification, subscribe to the notification events
-		if (this.store.getFeatures()['dojo.data.api.Notification']){
+		if(this.store.getFeatures()['dojo.data.api.Notification']){
 			this.connect(this.store, "onNew", "_onNewItem");
 			this.connect(this.store, "onDelete", "_onDeleteItem");
 			this.connect(this.store, "onSet", "_onSetItem");
@@ -328,17 +341,20 @@ dojo.declare(
 		// load top level children
 		this._expandNode(this);
 
-		if (this.dndController){
-			if (dojo.isString(this.dndController)){
+		if(this.dndController){
+			if(dojo.isString(this.dndController)){
 				this.dndController= dojo.getObject(this.dndController);
 			}	
 			var params={};
 			for (var i=0; i<this.dndParams.length;i++){
-				if (this[this.dndParams[i]]){
+				if(this[this.dndParams[i]]){
 					params[this.dndParams[i]]=this[this.dndParams[i]];
 				}
 			}
 			this.dndController= new this.dndController(this, params);
+		}
+		if(this.useCookies){
+			this._expandArray = dojo.cookie(this._getCookieName()).split(',');
 		}
 	},
 
@@ -525,6 +541,9 @@ dojo.declare(
 		// if not expanded, expand, else move to 1st child
 		if(nodeWidget.isExpandable && !nodeWidget.isExpanded){
 			this._expandNode(nodeWidget);
+			if(this.useCookies){
+				this.saveState();
+			}
 		}else if(nodeWidget.hasChildren()){
 			nodeWidget = nodeWidget.getChildren()[0];
 		}
@@ -548,6 +567,10 @@ dojo.declare(
 		// if not collapsed, collapse, else move to parent
 		if(node.isExpandable && node.isExpanded){
 			this._collapseNode(node);
+			if(this.useCookies){
+				this.saveState();
+			}
+
 		}else{
 			node = node.getParent();
 		}
@@ -640,6 +663,9 @@ dojo.declare(
 			this._collapseNode(node);
 		}else{
 			this._expandNode(node);
+		}
+		if(this.useCookies){
+			this.saveState();
 		}
 	},
 
@@ -809,7 +835,7 @@ dojo.declare(
 
 		var loadNewItem;	// should new item be displayed in tree?
 
-		if (parentInfo){
+		if(parentInfo){
 			var parent = this._itemNodeMap[this.getItemParentIdentity(item, parentInfo)];
 			
 			// If new item's parent item not in tree view yet, can safely ignore.
@@ -824,11 +850,11 @@ dojo.declare(
 			item: item,
 			isExpandable: this.mayHaveChildren(item)
 		};
-		if (parent){
-			if (!parent.isExpandable){
+		if(parent){
+			if(!parent.isExpandable){
 				parent.makeExpandable();
 			}
-			if (parent.state=="LOADED" || parent.isExpanded){
+			if(parent.state=="LOADED" || parent.isExpanded){
 				var childrenMap=parent._addChildren([childParams]);
 			}
 		}else{
@@ -836,7 +862,7 @@ dojo.declare(
 			var childrenMap=this._addChildren([childParams]);		
 		}
 
-		if (childrenMap){
+		if(childrenMap){
 			dojo.mixin(this._itemNodeMap, childrenMap);
 			//this._itemNodeMap[this.store.getIdentity(item)]=child;
 		}
@@ -849,7 +875,7 @@ dojo.declare(
 		var identity = this.store.getIdentity(item);
 		var node = this._itemNodeMap[identity];
 
-		if (node){
+		if(node){
 			var parent = node.getParent();
 			parent.deleteNode(node);
 			this._itemNodeMap[identity]=null;
@@ -861,9 +887,55 @@ dojo.declare(
 		var identity = this.store.getIdentity(item);
 		node = this._itemNodeMap[identity];
 
-		if (node){
+		if(node){
 			node.setLabelNode(this.getLabel(item));
 			node._updateItemClasses(item);
 		}
+	},
+	
+	_getCookieName: function(){
+		//summary: allows for custom cookie name to be provided, or will auto set if none provided
+		if(!this.cookieName){
+			this.cookieName = this.id + "SaveStateCookie";
+		}
+		return this.cookieName;
+	},
+
+	restoreState: function(){
+		//summary: collapses all nodes, then restore expanded nodes
+		if(!this.useCookies){
+			return;
+		}
+		this._expandArray = dojo.cookie(this._getCookieName()).split(',');
+		
+		dojo.query("[aaa:expanded='true']",this.domNode).forEach(function(n){
+			var child = dijit.getEnclosingWidget(n);
+			if(child.item!=null){
+				this._collapseNode(child);
+			}
+		},this);
+
+		dojo.forEach(this._expandArray, function(value){
+			var node = this._itemNodeMap[value];
+			if(typeof(node)!='undefined'){
+				this._expandNode(node);
+			}
+		}, this);
+	},
+
+	saveState: function(){
+		//summary: create and save a cookie with the currently expanded nodes identifiers
+		if(!this.useCookies){
+			return;
+		}
+		this._expandArray = [];
+		dojo.query("[aaa:expanded='true']",this.domNode).forEach(function(n){
+			var child = dijit.getEnclosingWidget(n);
+			if(child.item!=null){
+				this._expandArray.push(this.store.getIdentity(child.item));
+			}
+		},this);
+		dojo.cookie(this._getCookieName(), this._expandArray+'');
 	}
+
 });
