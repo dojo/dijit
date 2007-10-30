@@ -164,8 +164,10 @@ dojo.declare(
 				this.addChild(child);
 				var identity = this.tree.store.getIdentity(childParams.item);
 				nodeMap[identity] = child;
-				if(dojo.indexOf(this.tree._expandArray, identity)>-1){
+				var idx = dojo.indexOf(this.tree._cacheArray, identity);
+				if(idx > -1){
 					this.tree._expandNode(child);
+					this.tree._cacheArray.splice(idx,1);
 				}
 			}, this);
 
@@ -355,6 +357,9 @@ dojo.declare(
 		}
 		if(this.useCookies){
 			this._expandArray = dojo.cookie(this._getCookieName()).split(',');
+			//cache so we can still load unloaded nodes as they are loaded, despite Tree interaction that may have happened
+			//FIXME: is there a better way to clone an array without creating a reference? -- this is needed to support lazyloading child nodes
+			this._cacheArray = dojo.cookie(this._getCookieName()).split(',');
 		}
 	},
 
