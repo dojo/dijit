@@ -357,6 +357,11 @@ dojo.declare(
 			}
 			this.dndController= new this.dndController(this, params);
 		}
+
+		this.connect(this.domNode,
+			dojo.isIE ? "onactivate" : "onfocus",
+			"_onTreeFocus");
+
 		if(this.persist){
 			var cookie = dojo.cookie(this._getCookieName());
 			this._openedItemIds = (cookie != null) ? cookie.split(',') : [];
@@ -654,6 +659,7 @@ dojo.declare(
 		}else{
 			this._publish("execute", { item: nodeWidget.item, node: nodeWidget} );
 			this.onClick(nodeWidget.item, nodeWidget);
+			this.focusNode(nodeWidget);
 		}
 		dojo.stopEvent(e);
 	},
@@ -792,17 +798,8 @@ dojo.declare(
 		// summary
 		//	Focus on the specified node (which must be visible)
 
-		this.blurNode();
-
-		// set tabIndex so that the tab key can find this node
-		var labelNode = node.labelNode;
-		labelNode.setAttribute("tabIndex", "0");
-
-		this.lastFocused = node;
-		dojo.addClass(labelNode, "dijitTreeLabelFocused");
-
-		// set focus so that the label wil be voiced using screen readers
-		labelNode.focus();
+		// set focus so that the label will be voiced using screen readers
+		node.labelNode.focus();
 	},
 
 	_onBlur: function(){
@@ -817,14 +814,16 @@ dojo.declare(
 		}
 	},
 
-	_onFocus: function(){
-		// summary:
-		//		If we were previously on the tree, there's a currently "focused" node
-		//		already.  Just need to set the CSS back so it looks focused.
-		if(this.lastFocused){
-			var labelNode = this.lastFocused.labelNode;
-			dojo.addClass(labelNode, "dijitTreeLabelFocused");			
+	_onTreeFocus: function(evt){
+		var node = this._domElement2TreeNode(evt.target);
+		if(node != this.lastFocused){
+			this.blurNode();
 		}
+		var labelNode = node.labelNode;
+		// set tabIndex so that the tab key can find this node
+		labelNode.setAttribute("tabIndex", "0");
+		dojo.addClass(labelNode, "dijitTreeLabelFocused");
+		this.lastFocused = node;
 	},
 
 	//////////////// Events from data store //////////////////////////
