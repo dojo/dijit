@@ -674,7 +674,7 @@ dojo.declare(
 		}
 	},
 
-	onClick: function(/* dojo.data */ item){
+	onClick: function(/* dojo.data */ item, /*TreeNode*/ node){
 		// summary: user overridable function for executing a tree item
 	},
 
