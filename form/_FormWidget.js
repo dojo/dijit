@@ -207,7 +207,7 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 	},
 
 	postCreate: function(){
-		this.setValue(this.value, false);
+		this.setValue(this.value, null); // null reserved for initial value
 		this.setDisabled(this.disabled);
 		this._setStateClass();
 	},
@@ -216,7 +216,7 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 		// summary: set the value of the widget.
 		this._lastValue = newValue;
 		dijit.setWaiState(this.focusNode || this.domNode, "valuenow", this.forWaiValuenow());
-		if(this._lastValueReported == undefined){ // don't report the initial value
+		if(this._lastValueReported == undefined && priorityChange === null){ // don't report the initial value
 			this._lastValueReported = newValue;
 		}
 		if((this.intermediateChanges || priorityChange) && newValue !== this._lastValueReported){
