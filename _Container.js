@@ -141,7 +141,7 @@ dojo.declare("dijit._KeyNavContainer",
 		// summary:
 		//		A _Container with keyboard navigation of its children.
 		//		To use this mixin, call connectKeyNavHandlers() in
-		//		postCreate() and call connectKeyNavChildren() in startup().
+		//		postCreate() and call startupKeyNavChildren() in startup().
 
 /*=====
 		// focusedChild: Widget
