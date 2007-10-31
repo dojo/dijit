@@ -383,10 +383,12 @@ dijit.selectInputText = function(/*DomNode*/element){
 	var _document = dojo.doc;
 	element = dojo.byId(element);
 	if(_document["selection"] && dojo.body()["createTextRange"]){ // IE
-		var range = element.createTextRange();
-		range.moveStart("character", 0);
-		range.moveEnd("character", element.value.length);
-		range.select();
+		if(element.createTextRange){
+			var range = element.createTextRange();
+			range.moveStart("character", 0);
+			range.moveEnd("character", element.value.length);
+			range.select();
+		}
 	}else if(_window["getSelection"]){
 		var selection = _window.getSelection();
 		// FIXME: does this work on Safari?
