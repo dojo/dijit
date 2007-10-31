@@ -120,7 +120,7 @@ dojo.declare("dijit._Container",
 
 		_getSiblingOfChild: function(/*Widget*/ child, /*int*/ dir){
 			// summary:
-			//		get the next or previous sibling of child
+			//		get the next or previous widget sibling of child
 			// dir:
 			//		if 1, get the next sibling
 			//		if -1, get the previous sibling
@@ -128,7 +128,7 @@ dojo.declare("dijit._Container",
 			var which = (dir>0 ? "nextSibling" : "previousSibling");
 			do{
 				node = node[which];
-			}while(node && node.nodeType != 1);
+			}while(node && (node.nodeType != 1 || !dijit.byNode(node)));
 			return node ? dijit.byNode(node) : null;
 		}
 	}
@@ -143,7 +143,11 @@ dojo.declare("dijit._KeyNavContainer",
 		//		To use this mixin, call connectKeyNavHandlers() in
 		//		postCreate() and call connectKeyNavChildren() in startup().
 
+/*=====
+		// focusedChild: Widget
+		//		The currently focused child widget, or null if there isn't one
 		focusedChild: null,
+=====*/
 
 		_keyNavCodes: {},
 
