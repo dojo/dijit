@@ -355,14 +355,14 @@ table .dijitComboButton .dijitButtonNode {
 	padding:0px;
 	border-left: solid black 1px;	/* TODO: for RTL mode should be border-right */
 	display:inline;
-	position:static;
-	border:0px;	
-	margin:0px;
-	vertical-align:0em;
-	visibility:visible;
-	background-color:transparent;
-	background-image:none;
-	width:100%;
+	position:static !important;
+	border:0px !important;	
+	margin:0px !important;
+	vertical-align:0em !important;
+	visibility:visible !important;
+	background-color:transparent !important;
+	background-image:none !important;
+	width:100% !important;
 }
 
 /* #4711: prevent IE from over-expanding 100% width input boxes */
@@ -375,15 +375,20 @@ table .dijitComboButton .dijitButtonNode {
 .dj_ie .dijitComboBox .dijitInputField INPUT,
 .dj_ie .dijitSpinner .dijitInputField INPUT {
 	position:absolute !important;
+	top:auto !important;
+	left:auto !important;
+	right:auto !important;
+	bottom:auto !important;
+	font-size:100%;
 }
 
-INPUT {
+.dj_ie INPUT.dijitTextBox {
 	font-size:100%;
 }
 
 /* Display an "X" for invalid input. Themes will override these rules to display an icon instead.
 */
-.dijitValidationIcon { display: none; vertical-align:middle; }
+.dijitValidationIcon { display: none; background-position-y:center; }
 .dijitValidationIconText { visibility: hidden; }
 .dijit_a11y .dijitValidationIcon { display: none !important; }
 .dijit_a11y .dijitValidationIconText { display: block !important; }
