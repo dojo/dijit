@@ -106,8 +106,7 @@ dojo.declare(
 					// There appears to be no workaround for this - googled for quite a while.
 					ntr.setEndPoint("EndToEnd", tr);
 					return String(ntr.text).replace(/\r/g,"").length;
-				}
-				catch(e){
+				}catch(e){
 					return 0; // If focus has shifted, 0 is fine for caret pos.
 				}
 			}
@@ -213,7 +212,11 @@ dojo.declare(
 				case dojo.keys.TAB:
 					var newvalue=this.getDisplayedValue();
 					// #4617: if the user had More Choices selected fall into the _onBlur handler
-					if(this._popupWidget&&(newvalue==this._popupWidget._messages["previousMessage"]||newvalue==this._popupWidget._messages["nextMessage"])){break;}
+					if(this._popupWidget &&
+						(newvalue == this._popupWidget._messages["previousMessage"] ||
+							newvalue == this._popupWidget._messages["nextMessage"])){
+						break;
+					}
 					if(this._isShowingNow){
 						this._prev_key_backspace = false;
 						this._prev_key_esc = false;
@@ -231,8 +234,9 @@ dojo.declare(
 						dojo.stopEvent(evt);
 						this._selectOption();
 						this._hideResultList();
+					}else{
+						doSearch = true;
 					}
-					else{doSearch=true;}
 					break;
 
 				case dojo.keys.ESCAPE:
@@ -251,7 +255,7 @@ dojo.declare(
 				case dojo.keys.BACKSPACE:
 					this._prev_key_esc = false;
 					this._prev_key_backspace = true;
-					doSearch=true;
+					doSearch = true;
 					break;
 
 				case dojo.keys.RIGHT_ARROW: // fall through
@@ -310,7 +314,7 @@ dojo.declare(
 		},
 
 		_openResultList: function(/*Object*/ results, /*Object*/ dataObject){
-			if(this.disabled||dataObject.query[this.searchAttr]!=this._lastQuery){
+			if(this.disabled || dataObject.query[this.searchAttr] != this._lastQuery){
 				return;
 			}
 			this._popupWidget.clearResultList();
@@ -325,13 +329,12 @@ dojo.declare(
 			// "California" and "ifornia" would be highlighted.
 
 			var zerothvalue=new String(this.store.getValue(results[0], this.searchAttr));
-			if(zerothvalue&&(this.autoComplete)&&
-			(!this._prev_key_backspace)&&
+			if(zerothvalue && this.autoComplete && !this._prev_key_backspace &&
 			// when the user clicks the arrow button to show the full list,
 			// startSearch looks for "*".
 			// it does not make sense to autocomplete
 			// if they are just previewing the options available.
-			(dataObject.query[this.searchAttr]!="*")){
+				(dataObject.query[this.searchAttr] != "*")){
 				this._autoCompleteText(zerothvalue);
 				// announce the autocompleted value
 				dijit.setWaiState(this.focusNode || this.domNode, "valuenow", zerothvalue);
@@ -546,18 +549,19 @@ dojo.declare(
 			}
 			if(!this.store){
 				// if user didn't specify store, then assume there are option tags
-				var items = dojo.query("> option", this.srcNodeRef).map(function(node){
+				var items = this.srcNodeRef ? dojo.query("> option", this.srcNodeRef).map(function(node){
 					node.style.display="none";
 					return { value: node.getAttribute("value"), name: String(node.innerHTML) };
-				});
+				}) : {};
 				this.store = new dojo.data.ItemFileReadStore({data: {identifier:this._getValueField(), items:items}});
 
 				// if there is no value set and there is an option list,
 				// set the value to the first value to be consistent with native Select
-				if(items&&items.length&&!this.value){
+				if(items && items.length && !this.value){
 					// For <select>, IE does not let you set the value attribute of the srcNodeRef (and thus dojo.mixin does not copy it).
 					// IE does understand selectedIndex though, which is automatically set by the selected attribute of an option tag
-					this.value=items[this.srcNodeRef.selectedIndex!=-1?this.srcNodeRef.selectedIndex:0][this._getValueField()];
+					this.value = items[this.srcNodeRef.selectedIndex != -1 ? this.srcNodeRef.selectedIndex : 0]
+						[this._getValueField()];
 				}
 			}
 		},
