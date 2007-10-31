@@ -71,69 +71,69 @@
 
 		<h2>Form Letter with blanks</h2>
 		<div class="letter">
-			<h3 id="editable" dojoType="dijit.InlineEditBox" onChange="myHandler(this.id,arguments[0])" autoSave="true"></h3>
+			<h3 id="editable" dojoType="dijit.InlineEditBox" onChange="myHandler(this.id,arguments[0])" autoSave="true" title="company name"></h3>
 			<p>
-				Dear <span dojoType="dijit.InlineEditBox" width="200px"></span>,
+				Dear <span dojoType="dijit.InlineEditBox" width="200px" title="recipient name"></span>,
 			</p>
 			<p class="letter">
 				Thank you for your recent order.
 				Please remit
-				<span dojoType="dijit.InlineEditBox" editor="dijit.form.CurrencyTextBox" editorParams="{currency: 'USD'}" width="100px"></span>
+				<span dojoType="dijit.InlineEditBox" editor="dijit.form.CurrencyTextBox" editorParams="{currency: 'USD'}" width="100px" title="dollar amount"></span>
 				for your purchase of
-				<span dojoType="dijit.InlineEditBox" editor="dijit.form.NumberSpinner" editorParams="{constraints: {places:0} }" width="70px"></span>
+				<span dojoType="dijit.InlineEditBox" editor="dijit.form.NumberSpinner" editorParams="{constraints: {places:0} }" width="70px" title="quantity"></span>
 				deluxe
-				<span dojoType="dijit.InlineEditBox" editor="dijit.form.ComboBox"
+				<span dojoType="dijit.InlineEditBox" editor="dijit.form.ComboBox" title="item name"
 					editorParams="{searchAttr: 'name', store: productStore, autocomplete: false, hasDownArrow: false}"
 					 width="200px"></span>
 				on
-				<span dojoType="dijit.InlineEditBox" editor="dijit.form.DateTextBox" width="200px"></span>
+				<span dojoType="dijit.InlineEditBox" editor="dijit.form.DateTextBox" width="200px" title="purchase date as mm/dd/yy"></span>
 				in
 				<span dojoType="dijit.InlineEditBox" editor="dijit.form.FilteringSelect"
 					editorParams="{searchAttr: 'name', keyAttr: 'abbreviation', store: stateStore, autocomplete: true, hasDownArrow: true}"
-					 width="200px"></span>.
+					 width="200px" title="state of purchase"></span>.
 			</p>
-			<p dojoType="dijit.InlineEditBox" autoSave="false" editor="dijit.form.Textarea"></p>
+			<p dojoType="dijit.InlineEditBox" autoSave="false" editor="dijit.form.Textarea" title="additional details"></p>
 			<p>
 				Sincerely,
 			</p>
-			<span  style="margin-left: 2em; font-family: cursive;" dojoType="dijit.InlineEditBox" width="400px"></span>
+			<span  style="margin-left: 2em; font-family: cursive;" dojoType="dijit.InlineEditBox" width="400px" title="sender name"                                                                           ></span>
 		</div>
 		<hr style="margin-bottom: 1em;">
 
 		<h2>Form Letter with predefined values, and no auto-save</h2>
 		<div class="letter">
-			<h3 id="editable2" dojoType="dijit.InlineEditBox" onChange="myHandler(this.id,arguments[0])" autoSave="false">
+			<h3 id="editable2" dojoType="dijit.InlineEditBox" onChange="myHandler(this.id,arguments[0])" autoSave="false" title="company name">
 				Bob Vance Refrigeration
 			</h3>
 			<p>
-				Dear <span dojoType="dijit.InlineEditBox" width="200px" autoSave="false">John</span>,
+				Dear <span dojoType="dijit.InlineEditBox" width="200px" autoSave="false" title="recipient name">John</span>,
 			</p>
 			<p class="letter">
 				Thank you for your recent order.
 				Please remit
-				<span dojoType="dijit.InlineEditBox" editor="dijit.form.CurrencyTextBox" editorParams="{currency: 'USD'}" width="100px" autoSave="false">$2,000</span>
+				<span dojoType="dijit.InlineEditBox" editor="dijit.form.CurrencyTextBox" editorParams="{currency: 'USD'}" width="100px" autoSave="false" title="dollar amount">$2,000</span>
 				for your purchase of
-				<span dojoType="dijit.InlineEditBox" editor="dijit.form.NumberSpinner" editorParams="{constraints: {places:0} }" width="70px" autoSave="false">3</span>
+				<span dojoType="dijit.InlineEditBox" editor="dijit.form.NumberSpinner" editorParams="{constraints: {places:0} }" width="70px" autoSave="false" title="quantity">3</span>
 				deluxe
 				<span dojoType="dijit.InlineEditBox" editor="dijit.form.ComboBox"
 					editorParams="{searchAttr: 'name', store: productStore, autocomplete: false, hasDownArrow: false}"
-					 width="200px" autoSave="false">refrigerators</span>
+					 width="200px" autoSave="false" title="item name">refrigerators</span>
 				on
-				<span dojoType="dijit.InlineEditBox" editor="dijit.form.DateTextBox" width="200px" autoSave="false">01/01/2007</span>
+				<span dojoType="dijit.InlineEditBox" editor="dijit.form.DateTextBox" width="200px" autoSave="false" title="purchase date as mm/dd/yy">01/01/2007</span>
 				in
 				<span dojoType="dijit.InlineEditBox" editor="dijit.form.FilteringSelect"
 					editorParams="{searchAttr: 'name', keyAttr: 'abbreviation', store: stateStore, autocomplete: true, hasDownArrow: false}"
-					 width="200px" autoSave="false">
+					 width="200px" autoSave="false" title="state of purchase">
 					 Pennsylvania
 				</span>.
 			</p>
-			<p dojoType="dijit.InlineEditBox" autoSave="false" editor="dijit.form.Textarea">
+			<p dojoType="dijit.InlineEditBox" autoSave="false" editor="dijit.form.Textarea" title="additional details">
 				We sincerely appreciate your business and hope we can do business again.
 			</p>
 			<p>
 				Sincerely,
 			</p>
-			<span  style="margin-left: 2em; font-family: cursive;" dojoType="dijit.InlineEditBox" width="400px" autoSave="false">Bob Vance</span>
+			<span  style="margin-left: 2em; font-family: cursive;" dojoType="dijit.InlineEditBox" width="400px" autoSave="false" title="sender name">Bob Vance</span>
 		</div>
 		<hr style="margin-bottom: 1em;">
 
