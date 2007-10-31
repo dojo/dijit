@@ -165,10 +165,8 @@ dojo.declare(
 				var identity = this.tree.store.getIdentity(childParams.item);
 				nodeMap[identity] = child;
 				if(this.tree.persist){
-					var idx = dojo.indexOf(this.tree._cachedOpenedItemIds, identity);
-					if(idx > -1){
+					if(this.tree._openedItemIds[identity]){
 						this.tree._expandNode(child);
-						this.tree._cachedOpenedItemIds.splice(idx,1);
 					}
 				}
 			}, this);
@@ -283,10 +281,6 @@ dojo.declare(
 	//	enables/disables use of cookies for state saving.
 	persist: true,
 	
-	// _openedItemIds: Array
-	//	Private array used to store the value of the state saving cookie
-	_openedItemIds: [],
-	
 	// dndController: String
 	//	class name to use as as the dnd controller
 	dndController: null,
@@ -319,6 +313,10 @@ dojo.declare(
 			throw new Error("dijit.tree requires access to a store supporting the dojo.data Identity api");			
 		}
 
+		if(!this.cookieName){
+			this.cookieName = this.id + "SaveStateCookie";
+		}
+
 		// if the store supports Notification, subscribe to the notification events
 		if(this.store.getFeatures()['dojo.data.api.Notification']){
 			this.connect(this.store, "onNew", "_onNewItem");
@@ -328,6 +326,17 @@ dojo.declare(
 	},
 
 	postCreate: function(){
+		// load in which nodes should be opened automatically
+		if(this.persist){
+			var cookie = dojo.cookie(this.cookieName);
+			this._openedItemIds = {};
+			if(cookie){
+				dojo.forEach(cookie.split(','), function(item){
+					this._openedItemIds[item] = true;
+				}, this);
+			}
+		}
+		
 		// make template for container node (we will clone this and insert it into
 		// any nodes that have children)
 		var div = document.createElement('div');
@@ -361,13 +370,6 @@ dojo.declare(
 		this.connect(this.domNode,
 			dojo.isIE ? "onactivate" : "onfocus",
 			"_onTreeFocus");
-
-		if(this.persist){
-			var cookie = dojo.cookie(this._getCookieName());
-			this._openedItemIds = (cookie != null) ? cookie.split(',') : [];
-			//cache so we can still load unloaded nodes as they are loaded, despite Tree interaction that may have happened
-			this._cachedOpenedItemIds = this._openedItemIds.slice();
-		}
 	},
 
 	////////////// Data store related functions //////////////////////
@@ -461,7 +463,7 @@ dojo.declare(
 	_onKeyPress: function(/*Event*/ e){
 		// summary: translates keypress events into commands for the controller
 		if(e.altKey){ return; }
-		var treeNode = this._domElement2TreeNode(e.target);
+		var treeNode = dijit.getEnclosingWidget(e.target);
 		if(!treeNode){ return; }
 
 		// Note: On IE e.keyCode is not 0 for printables so check e.charCode.
@@ -553,7 +555,6 @@ dojo.declare(
 		// if not expanded, expand, else move to 1st child
 		if(nodeWidget.isExpandable && !nodeWidget.isExpanded){
 			this._expandNode(nodeWidget);
-			this.saveState();
 		}else if(nodeWidget.hasChildren()){
 			nodeWidget = nodeWidget.getChildren()[0];
 		}
@@ -577,7 +578,6 @@ dojo.declare(
 		// if not collapsed, collapse, else move to parent
 		if(node.isExpandable && node.isExpanded){
 			this._collapseNode(node);
-			this.saveState();
 		}else{
 			node = node.getParent();
 		}
@@ -645,7 +645,7 @@ dojo.declare(
 		var domElement = e.target;
 
 		// find node
-		var nodeWidget = this._domElement2TreeNode(domElement);	
+		var nodeWidget = dijit.getEnclosingWidget(domElement);	
 		if(!nodeWidget || !nodeWidget.isTreeNode){
 			return;
 		}
@@ -672,7 +672,6 @@ dojo.declare(
 		}else{
 			this._expandNode(node);
 		}
-		this.saveState();
 	},
 
 	onClick: function(/* dojo.data */ item){
@@ -710,14 +709,6 @@ dojo.declare(
 		}
 	},
 
-	_domElement2TreeNode: function(/*DomNode*/ domElement){
-		var ret;
-		do{
-			ret=dijit.byNode(domElement);
-		}while(!ret && (domElement = domElement.parentNode));
-		return ret;
-	},
-
 	_collapseNode: function(/*_TreeNode*/ node){
 		// summary: called when the user has requested to collapse the node
 
@@ -737,6 +728,10 @@ dojo.declare(
 				}
 			}
 			node.collapse();
+			if(this.persist){
+				delete this._openedItemIds[this.store.getIdentity(node.item)];
+				this._saveState();
+			}
 		}
 	},
 
@@ -761,7 +756,6 @@ dojo.declare(
 
 			case "UNCHECKED":
 				// need to load all the children, and then expand
-
 				node.markProcessing();
 				var _this = this;
 				function onComplete(childItems){
@@ -775,6 +769,10 @@ dojo.declare(
 				// data is already loaded; just proceed
 				if(node.expand){	// top level Tree doesn't have expand() method
 					node.expand();
+					if(this.persist && node.item){
+						this._openedItemIds[this.store.getIdentity(node.item)] = true;
+						this._saveState();
+					}
 				}
 				break;
 		}
@@ -815,7 +813,7 @@ dojo.declare(
 	},
 
 	_onTreeFocus: function(evt){
-		var node = this._domElement2TreeNode(evt.target);
+		var node = dijit.getEnclosingWidget(evt.target);
 		if(node != this.lastFocused){
 			this.blurNode();
 		}
@@ -866,7 +864,7 @@ dojo.declare(
 			//this._itemNodeMap[this.store.getIdentity(item)]=child;
 		}
 	},
-
+	
 	_onDeleteItem: function(/*Object*/ item){
 		//summary: delete event from the store
 		//since the object has just been deleted, we need to
@@ -892,50 +890,15 @@ dojo.declare(
 		}
 	},
 	
-	_getCookieName: function(){
-		//summary: allows for custom cookie name to be provided, or will auto set if none provided
-		if(!this.cookieName){
-			this.cookieName = this.id + "SaveStateCookie";
-		}
-		return this.cookieName;
-	},
-
-	restoreState: function(){
-		//summary: collapses all nodes, then restore expanded nodes
-		if(!this.persist){
-			return;
-		}
-		this._openedItemIds = dojo.cookie(this._getCookieName()).split(',');
-		if(this._openedItemIds!=null){
-			this._cachedOpenedItemIds = this._openedItemIds.slice();
-		}
-		dojo.query("[aaa:expanded='true']",this.domNode).forEach(function(n){
-			var child = dijit.getEnclosingWidget(n);
-			if(child.item!=null){
-				this._collapseNode(child);
-			}
-		},this);
-
-		dojo.forEach(this._openedItemIds, function(value){
-			var node = this._itemNodeMap[value];
-			if(typeof(node)!='undefined'){
-				this._expandNode(node);
-			}
-		}, this);
-	},
-
-	saveState: function(){
+	_saveState: function(){
 		//summary: create and save a cookie with the currently expanded nodes identifiers
 		if(!this.persist){
 			return;
 		}
-		this._openedItemIds = [];
-		dojo.query("[aaa:expanded='true']",this.domNode).forEach(function(n){
-			var child = dijit.getEnclosingWidget(n);
-			if(child.item!=null){
-				this._openedItemIds.push(this.store.getIdentity(child.item));
-			}
-		},this);
-		dojo.cookie(this._getCookieName(), this._openedItemIds+'');
+		var ary = [];
+		for(var id in this._openedItemIds){
+			ary.push(id);
+		}
+		dojo.cookie(this.cookieName, ary.join(","));
 	}
 });
