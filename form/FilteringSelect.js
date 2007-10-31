@@ -52,6 +52,8 @@ dojo.declare(
 				//#3268: do nothing on bad input
 				//this._setValue("", "");
 				//#3285: change CSS to indicate error
+				if(!this._hasFocus){ this.valueNode.value=""; }
+				dijit.form.TextBox.superclass.setValue.call(this, undefined, !this._hasFocus);
 				this._isvalid=false;
 				this.validate(this._hasFocus);
 			}else{

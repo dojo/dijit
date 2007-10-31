@@ -394,6 +394,7 @@ dojo.declare(
 
 		_onBlur: function(){
 			// summary: called magically when focus has shifted away from this widget and it's dropdown
+			this._hasFocus=false;
 			this._hasBeenBlurred = true;
 			this._hideResultList();
 			// if the user clicks away from the textbox OR tabs away, set the value to the textbox value
@@ -415,7 +416,6 @@ dojo.declare(
 
 		onblur:function(/*Event*/ evt){ /* not _onBlur! */
 			this._arrowIdle();
-			this._hasFocus=false;
 
 			// hide the Tooltip
 			// TODO: isn't this handled by ValidationTextBox?
