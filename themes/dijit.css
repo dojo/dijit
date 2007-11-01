@@ -1438,3 +1438,19 @@ img.dijitColorPaletteUnder {
 .dijit_a11y .dijitTimePickerItem {
 	border-bottom:1px solid #333;	
 }
+
+
+/* Disable the high contrast character */
+.dijitToggleButtonIconChar {
+        display:none !important;
+}
+.dijit_a11y .dijitToggleButtonIconChar {
+	display:inline !important;
+}
+
+.dijit_a11y .dijitToggleButtonIconChar {
+	visibility:hidden; 
+}
+.dijit_a11y .dijitToggleButtonChecked .dijitToggleButtonIconChar {
+	visibility:visible !important;
+}
