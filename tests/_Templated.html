@@ -18,12 +18,14 @@
 			dojo.addOnLoad(function(){
 				// Template with no variables (should be cached as a DOM tree)
 				dojo.declare("SimpleTemplate", [dijit._Widget, dijit._Templated], {
+					attributeMap: {},
 					id: "bar",
 					templateString: "<button><span>hello &gt; world</span></button>"
 				});
 
 				// Template with variables
 				dojo.declare("VariableTemplate", [dijit._Widget, dijit._Templated], {
+					attributeMap: {},
 					id: "foo",
 					num: 5,
 					text: "hello ><\"' world",
@@ -33,6 +35,7 @@
 
 				// Template that starts with special node (has to be constructed inside a <tbody>)
 				dojo.declare("TableRowTemplate", [dijit._Widget, dijit._Templated], {
+					attributeMap: {},
 					id: "foo",
 					text: "bar",
 					templateString: "<tr><td>${text}</td></tr>"
