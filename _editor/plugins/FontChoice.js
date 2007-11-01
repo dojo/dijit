@@ -10,6 +10,8 @@ dojo.requireLocalization("dijit._editor", "FontChoice");
 dojo.declare("dijit._editor.plugins.FontChoice",
 	dijit._editor._Plugin,
 	{
+		_uniqueId: 0,
+
 		buttonClass: dijit.form.FilteringSelect,
 
 		_initButton: function(){
@@ -48,12 +50,12 @@ dojo.declare("dijit._editor.plugins.FontChoice",
 		setToolbar: function(){
 			this.inherited("setToolbar", arguments);
 
+			var forRef = this.button;
+			if(!forRef.id){ forRef.id = "dijitEditorButton-"+this.command+(this._uniqueId++); } //TODO: is this necessary?  FilteringSelects always seem to have an id?
 			var label = dojo.doc.createElement("label");
-			var forRef = "dijitEditor"+this.command; // TODO: add unique id?
-			label.setAttribute("for", forRef);
-			this.button.name = forRef;
+			label.setAttribute("for", forRef.id);
 			var strings = dojo.i18n.getLocalization("dijit._editor", "FontChoice");
-			label.appendChild(dojo.doc.createTextNode(strings[this.command]+"\xa0"));
+			label.appendChild(dojo.doc.createTextNode(strings[this.command]));
 			dojo.place(label, this.button.domNode, "before");
 		}
 	}
