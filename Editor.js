@@ -49,8 +49,9 @@ dojo.declare(
 
 			if(!this.toolbar){
 				// if we haven't been assigned a toolbar, create one
-				this.toolbar = new dijit.Toolbar();
-				dojo.place(this.toolbar.domNode, this.editingArea, "before");
+				var toolbarNode = dojo.doc.createElement("div");
+				dojo.place(toolbarNode, this.editingArea, "before");
+				this.toolbar = new dijit.Toolbar({}, toolbarNode);
 			}
 
 			dojo.forEach(this.plugins, this.addPlugin, this);
