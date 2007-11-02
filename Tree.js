@@ -728,7 +728,7 @@ dojo.declare(
 				}
 			}
 			node.collapse();
-			if(this.persist){
+			if(this.persist && node.item){
 				delete this._openedItemIds[this.store.getIdentity(node.item)];
 				this._saveState();
 			}
