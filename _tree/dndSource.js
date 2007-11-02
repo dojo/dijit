@@ -1,7 +1,7 @@
 dojo.provide("dijit._tree.dndSource");
 
 dojo.require("dijit._tree.dndSelector");
-dojo.require("dojo.dnd.manager");
+dojo.require("dojo.dnd.Manager");
 
 dojo.declare("dijit._tree.dndSource", dijit._tree.dndSelector, {
 	// summary: a Source object, which can be used as a DnD source, or a DnD target
