@@ -265,8 +265,9 @@ dojo.declare("dijit._tree.dndSource", dijit._tree.dndSelector, {
 				}
 			}else {
 				for (var i=0; i<items.length;i++){
-					pInfo={parent:this.tree._domElement2TreeNode(target).item, attribute:"children"};
-					this.tree.store.newItem(items[i],pInfo);
+					pInfo={parent:dijit.getEnclosingWidget(target).item, attribute:"children"};
+					var newItem = this.tree.store.newItem(items[i],pInfo);
+					console.log("newItem: ", newItem);
 				}
 			}
 		}

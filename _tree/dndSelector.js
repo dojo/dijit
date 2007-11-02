@@ -23,7 +23,7 @@ dojo.declare("dijit._tree.dndSelector",
 		getSelectedItems: function(){
 			var selectedItems = []
 			for (var i in this.selection){
-				selectedItems.push(this.tree._domElement2TreeNode(this.selection[i]).item);
+				selectedItems.push(dijit.getEnclosingWidget(this.selection[i]).item);
 			}
 			return selectedItems;
 		},
@@ -55,7 +55,7 @@ dojo.declare("dijit._tree.dndSelector",
 			// e: Event: mouse event
 			if(!this.current){ return; }
 
-			var item = this.tree._domElement2TreeNode(this.current).item
+			var item = dijit.getEnclosingWidget(this.current).item
 			var id = this.tree.store.getIdentity(item);
 
 			if (!this.current.id) {
@@ -111,7 +111,7 @@ dojo.declare("dijit._tree.dndSelector",
 							}
 						}
 					}else{
-						var item = this.tree._domElement2TreeNode(this.current).item
+						var item = dijit.getEnclosingWidget(this.current).item
 						var id = this.tree.store.getIdentity(item);
 						if(!(id in this.selection)){
 							this.selectNone();

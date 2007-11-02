@@ -103,7 +103,7 @@
 					}
 				}else {
 					for (var i=0; i<items.length;i++){
-						pInfo={parent:this.tree._domElement2TreeNode(target).item, attribute:"items"};
+						pInfo={parent:dijit.getEnclosingWidget(target).item, attribute:"items"};
 						this.tree.store.newItem(items[i],pInfo);
 					}
 				}
@@ -112,7 +112,7 @@
 
 		//on tree two, we only want to drop on containers, not on items in the containers
 		function tree2CheckItemAcceptance(node,source) {
-			var item = this.tree._domElement2TreeNode(node).item;
+			var item = dijit.getEnclosingWidget(node).item;
 			if (item && this.tree.store.hasAttribute(item,"numberOfItems")){
 				var numItems=this.tree.store.getValues(item, "numberOfItems");
 				return true;
@@ -141,10 +141,8 @@
 
 		function getIcon(item) {
 			if (!item || catStore.hasAttribute(item, "numberOfItems")) {
-				console.log("returning folder class");
 				return "myFolder";
 			} 
-			console.log("returning item class");
 			return "myItem"
 		}
 	</script>
