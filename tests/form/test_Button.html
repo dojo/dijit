@@ -246,13 +246,41 @@
 	<h3>Button instantiated via javacript:</h3>
 	<div id="buttonContainer"></div>
 	<script type="text/javascript">
-	// See if we can make a widget in script and attach it to the DOM ourselves.
+	// See if we can make a button in script and attach it to the DOM ourselves.
 	dojo.addOnLoad(function(){
 		var params = {
 			label: "hello!",
 			name: "programmatic"
 		};
 		var widget = new dijit.form.Button(params, document.getElementById("buttonContainer"));
+	});
+	</script>
+	<div id="dropdownButtonContainer"></div>
+	<script type="text/javascript">
+	// See if we can make a drop down button in script and attach it to the DOM ourselves.
+	dojo.addOnLoad(function(){
+		var menu = new dijit.Menu({ });
+		menu.domNode.style.display="none"; 
+		var menuItem1 = new dijit.MenuItem({
+			label: "Save",
+			iconClass:"dijitEditorIcon dijitEditorIconSave",
+			onClick: function(){ alert('save'); }
+		});
+		menu.addChild(menuItem1);      
+
+		var menuItem2 = new dijit.MenuItem({
+			label: "Cut",
+			iconClass:"dijitEditorIcon dijitEditorIconCut",
+			onClick: function(){ alert('cut'); }
+		});
+		menu.addChild(menuItem2);
+  
+		var params = {
+			label: "hello!",
+			name: "programmatic2",
+			dropDown: menu
+		};
+		var widget = new dijit.form.DropDownButton(params, document.getElementById("dropdownButtonContainer"));
 	});
 	</script>
 </body>
