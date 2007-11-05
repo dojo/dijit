@@ -586,9 +586,12 @@ table .dijitComboButton .dijitButtonNode {
 	top: -10000px;
 	overflow: visible;
 }
+/*
+See http://trac.dojotoolkit.org/ticket/5006
 .dijitTooltipDialog {
 	position: relative;
 }
+*/
 .dijitTooltipContainer {
 	border: solid black 2px;
 	background: #b8b5b5;
