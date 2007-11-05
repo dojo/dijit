@@ -124,7 +124,9 @@
 							wrapper.appendChild(widget.domNode);
 							t.is("value1", widget.domNode.getAttribute("foo"));
 							t.is("value2", widget.buttonNode.getAttribute("bar"));
-							t.is("border: 1px solid red; color: blue;", widget.domNode.style.cssText.toLowerCase());
+							// TODO: this is() check is unreliable, IE returns a string like
+							// border-right: red 1px solid; border-top: red 1px solid; border-left: red 1px solid; color: blue; border-bottom: red 1px solid
+							// t.is("border: 1px solid red; color: blue;", widget.domNode.style.cssText.toLowerCase());
 						},
 						function attachEvent(t){
 							var deferred = new doh.Deferred();
