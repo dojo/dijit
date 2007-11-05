@@ -490,6 +490,11 @@ dojo.declare(
 			}
 		},
 
+		_onArrowMouseDown: function(evt){
+			this._layoutHack();		// hack for FF2, see http://trac.dojotoolkit.org/ticket/5007
+			this._onMouse(evt);
+		},
+
 		_startSearchFromInput: function(){
 			this._startSearch(this.focusNode.value);
 		},

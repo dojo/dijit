@@ -84,18 +84,21 @@ dojo.declare(
 				dojo.style(this.textbox, "cssText", this.style);
 				this.textbox.className += " " + this["class"];
 			}
+			this._layoutHack();
+		},
 
+		_layoutHack: function(){
+			// summary: work around table sizing bugs on FF2 by forcing redraw
 			if(dojo.isFF == 2 && this.domNode.tagName=="TABLE"){
-				// work around table sizing bugs on FF2 by forcing redraw
 				var node=this.domNode, _this = this;
 				setTimeout(function(){
 					var oldWidth = node.style.width;
-					node.style.width="30em";
+					node.style.width = "0";
 					setTimeout(function(){
 						node.style.width = oldWidth;
 					}, 0);
 				 }, 0);
-			}
+			}			
 		},
 
 		filter: function(val){

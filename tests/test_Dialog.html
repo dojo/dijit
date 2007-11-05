@@ -19,7 +19,7 @@
 		dojo.require("dijit.form.TextBox");
 		dojo.require("dijit.form.DateTextBox");
 		dojo.require("dijit.form.TimeTextBox");
-		dojo.require("dijit.form.ComboBox");
+		dojo.require("dijit.form.FilteringSelect");
 		dojo.require("dijit.Menu");
 		dojo.require("dojo.parser");	// scan page for widgets and instantiate them			
 
@@ -108,10 +108,10 @@
 			<tr>
 				<td><label for="combo">Pizza:</label></td>
 				<td>
-					<select dojoType=dijit.form.ComboBox name="combo" id="combo">
-						<option>cheese</option>
-						<option>pepperoni</option>
-						<option>sausage</option>
+					<select dojoType=dijit.form.FilteringSelect name="combo" id="combo" hasDownArrow="true">
+						<option value="cheese">cheese</option>
+						<option value="pepperoni">pepperoni</option>
+						<option value="sausage">sausage</option>
 					</select>
 				</td>
 			</tr>
