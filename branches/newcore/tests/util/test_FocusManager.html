@@ -1,0 +1,40 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+        "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title>FocusManager Test</title>
+<script type="text/javascript">
+	var djConfig = {isDebug: true, debugAtAllCosts: true};
+</script>
+<script type="text/javascript" src="../../../dojo/dojo.js"></script>
+<script language="JavaScript" type="text/javascript">
+	dojo.require("dijit.util.FocusManager");
+</script>
+<script>
+	dojo.addOnLoad(function(){
+		fakeWidget = {domNode: dojo.byId("save")};
+	});
+	function save(){
+		dojo.debug("save function");
+		dijit.util.FocusManager.save(fakeWidget);
+	}
+	function restore(){
+		dijit.util.FocusManager.restore(fakeWidget);
+	}
+</script>
+</head>
+<body style="background-color: #fff; color: black; padding: 0; margin: 0">
+
+
+	<h3>Focus Manager Test</h3>
+		<p>This is for testing whether focus and selection are restored by the focus manager</p>
+		<form style="border: 2px solid blue;">
+			<input id=input1 value=tom><br>
+			<input id=input2 value=jones><br>
+			<textarea id=textarea>hello there!</textarea><br>
+			<button id=button>push me</button>
+		</form>
+
+	<button id="save" onclick="save();">Save focus/selection state</button>  <button onclick="restore();">Restore focus/selection state</button>
+</body>
+</html>

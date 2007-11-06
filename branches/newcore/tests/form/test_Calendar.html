@@ -1,0 +1,40 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+
+<title>Calendar Widget Demo</title>
+
+<link rel=stylesheet href="../../themes/tundra/tundra.css" type="text/css">
+<link rel=stylesheet href="../../form/templates/Calendar.css" type="text/css">
+<script type="text/javascript">
+//        var djConfig = {isDebug: true, debugAtAllCosts: true};
+</script>
+<script type="text/javascript" src="../../../dojo/dojo.js"></script>
+<script language="JavaScript" type="text/javascript">
+//        dojo.registerModulePath("dijit", "../dijit");
+        dojo.require("dijit.form.Calendar");
+        dojo.require("dijit.util.parser");      // scan page for widgets and instantiate them
+</script>
+
+<script type="text/javascript">
+	function myHandler(id,newValue) {
+		console.debug("onValueChanged for id = " + id + ", value: " + newValue);
+	};
+</script>
+</head>
+
+<body class="tundra">
+
+before
+<input id="calendar" dojoType="dijit.form.Calendar" onValueChanged="myHandler(this.id,arguments[0])">
+after
+<p>
+These links will
+<a href="#" onClick="dijit.byId('calendar').disable()">disable</a>
+/
+<a href="#" onClick="dijit.byId('calendar').enable()">enable</a>
+the text area above.
+
+</p>
+</body>
+</html>

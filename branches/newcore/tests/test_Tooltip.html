@@ -1,0 +1,90 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+        "http://www.w3.org/TR/html4/strict.dtd"> 
+<html>
+<head>
+	<title>Dojo Tooltip Widget Test</title>
+	<link rel=stylesheet href="../themes/tundra/tundra.css" type="text/css">
+	<script type="text/javascript">
+		var djConfig = {isDebug: true, debugAtAllCosts: true };
+	</script>
+	
+	<script type="text/javascript" src="../../dojo/dojo.js"></script>
+	<script type="text/javascript">
+		dojo.require("dijit.Tooltip");
+		dojo.require("dijit.util.parser");	// find widgets
+	</script>
+	
+	<style>
+		.tt { border-bottom: 1px dotted black; cursor: pointer; }
+		
+		/* override tooltip style for this page */
+		body .dojoTooltipContainer { color: blue; border: solid 2px blue; padding: 4px; }
+		body .dojoTooltip .dojoTooltipConnector { border-bottom-color: blue; }
+	</style>
+</head>
+
+<body>
+	<h1>Tooltip test</h1>
+	<p>Mouse-over the items below to test tooltips:</p>
+	<p>
+		<span id="one" class="tt">text</span>
+		<span dojoType="dijit.Tooltip" connectId="one" style="display:none;">
+			<b>
+				<span style="color: blue;">rich formatting</span>
+				<span style="color: red; font-size: x-large;"><i>!</i></span>
+			</b>
+		</span>
+		
+		<a id="three" href="#bogus">anchor</a>
+		<span dojoType="dijit.Tooltip" connectId="three" caption="inline caption" style="display:none;"></span>
+	</p>
+	
+	<button id="four">button</button>
+	<span dojoType="dijit.Tooltip" connectId="four" caption="tooltip on button" style="display:none;"></span>
+
+    <select id="seven">
+      <option value="alpha">Alpha</option>
+      <option value="beta">Beta</option>
+      <option value="gamma">Gamma</option>
+      <option value="delta">Delta</option>
+    </select>
+	<span dojoType="dijit.Tooltip" connectId="seven" 
+		style="display:none;">tooltip on a select<br>two line tooltip.</span>
+
+<p></p>
+
+	<form>
+		<input type="input" id="id1" value="0"/><br>
+		<input type="input" id="id2" value="1"/><br>
+		<input type="input" id="id3" value="2"/><br>
+
+		<input type="input" id="id4" value="3"/><br>
+    	<input type="input" id="id5" value="4"/><br>
+		<input type="input" id="id6" value="5"/><br>
+	</form>
+	<br>
+
+<div style="overflow: auto; height: 100px; position: relative; border: solid blue 3px; display: none;">
+	<span id="s1">text</span><br><br><br>
+	<span id="s2">text</span><br><br><br>
+	<span id="s3">text</span><br><br><br>
+	<span id="s4">text</span><br><br><br>
+	<span id="s5">text</span><br><br><br>
+</div>
+
+	<span dojoType="dijit.Tooltip" connectId="id1" style="display:none;">some text 1</span>
+	<span dojoType="dijit.Tooltip" connectId="id2" style="display:none;">some text 2</span>
+	<span dojoType="dijit.Tooltip" connectId="id3" style="display:none;">some text 3</span>
+	<span dojoType="dijit.Tooltip" connectId="id4" style="display:none;">some text 4</span>
+	<span dojoType="dijit.Tooltip" connectId="id5" style="display:none;">some text 5</span>
+	<span dojoType="dijit.Tooltip" connectId="id6" toggle="explode" style="display:none;">some text </span>
+
+	<span dojoType="dijit.Tooltip" connectId="s1" style="display:none;">some text 6</span>
+	<span dojoType="dijit.Tooltip" connectId="s2" style="display:none;">some text 7</span>
+	<span dojoType="dijit.Tooltip" connectId="s3" style="display:none;">some text 8</span>
+	<span dojoType="dijit.Tooltip" connectId="s4" style="display:none;">some text 9</span>
+	<span dojoType="dijit.Tooltip" connectId="s5" style="display:none;">some text 10</span>
+
+</body>
+</html>
+

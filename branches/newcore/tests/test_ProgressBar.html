@@ -1,0 +1,126 @@
+<html>
+	<head>
+		<title>Dojo Toolkit - ProgressBar test</title>
+
+		<meta http-equiv="content-type"
+			content="text/html; charset=ISO-8859-1">
+		<link rel=stylesheet href="../themes/tundra/tundra.css" type="text/css">
+		<style type="text/css">
+			.red .dojoProgressBarColorLayer{ background-color:red;border-color:red }
+		</style>
+		<script type="text/javascript"> djConfig = { isDebug: true }; </script>
+		<script type="text/javascript" src="../../dojo/dojo.js"></script>
+		<script type="text/javascript">
+			dojo.require("dijit.ProgressBar");
+			dojo.require("dijit.util.parser");	// scan page for widgets and instantiate them
+//			dojo.require("dojo.io.*");
+//			dojo.require("dojo.io.IframeIO");
+			dojo.require("dojo.string");
+		</script>
+		
+		<script type="text/javascript">
+			dojo.addOnLoad(go);
+			function go(){
+				//TODO: it's a little strange that id must be specified again?	
+				var theBar = new dijit.ProgressBar({id: "testBar", width: 400, annotate: true, maximum: 256, duration: 2000,
+					report:function(percent){
+						return dojo.string.substitute("${0} out of ${1} max chars", [this.progress, this.maximum]);
+					}
+				}, dojo.byId("testBar"));
+				dojo.connect(dojo.byId("start"), "onclick", null, dojo.hitch(theBar,theBar.startAnimation));
+				dojo.connect(dojo.byId("stop"), "onclick", null, dojo.hitch(theBar,theBar.stopAnimation));
+
+				dojo.byId("test").value="";
+				dojo.byId("progressValue").focus();
+				dojo.byId("progressValue").value = dijit.byId("setTestBar").progress;
+				dojo.byId("maximum").value = dijit.byId("setTestBar").maximum;
+				dojo.connect(dojo.byId("test"), "onkeyup", null, keyUpHandler);
+				dojo.connect(dojo.byId("set"), "onclick", null, setParameters);
+				dojo.connect(dojo.byId("startTimer"), "onclick", null,
+					function(){ moveBar(dijit.byId("timerBar"), 0) } );
+//				loadFile();
+			}
+/*
+			function loadFile(){
+				var bArgs = {
+					url: "http://armadillo:8080/Dojotoolkit/trunk/tests/widget/grossofile.txt",
+					mimetype: "text/plain",
+					method: "POST",
+					handle: function(type, data, evt){
+						var str="";
+//						for (var i in data){
+//							str+=i + " ---> " + data[i]+"\n";
+//						}
+						window.alert(type);
+					}
+				}
+				dojo.io.bind(bArgs);
+			}
+*/
+			function setParameters(){
+				dijit.byId("setTestBar").update({maximum: dojo.byId("maximum").value, progress: dojo.byId("progressValue").value});
+			}
+			function keyUpHandler(){
+				dijit.byId("testBar").update({progress:dojo.byId("test").value.length});
+				dijit.byId("testBarInt").update({progress:dojo.byId("test").value.length});
+				dijit.byId("testBar2").update({progress:dojo.byId("test").value.length});
+				dijit.byId("smallTestBar").update({progress:dojo.byId("test").value.length});
+			}
+			function moveBar(bar, progress){
+				bar.update({progress: progress});
+				if (progress >= 100) {
+					return;
+				} else {
+					setTimeout(function(){ moveBar(bar, progress + 10) }, 1000);
+				}
+			}
+		</script>
+	</head> 
+
+	<body>
+		<h3>Test 1</h3>
+		Progress Value <input type="text" name="progressValue" id="progressValue" />
+		<br />
+		Max Progress Value <input type="text" name="maximum" id="maximum" />
+		<br />
+		<input type="button" name="set" id="set" value="set!" />
+		<br />
+		<div style="width:400px" annotate="true"
+			maximum="200" id="setTestBar" progress="20" dojoType="dijit.ProgressBar"></div>
+		<br />
+		<br />
+		<h3>Test 2</h3>
+		Write here: <input type="text" value="" name="test" maxlength="256" id="test" style="width:300"/>
+		<br />
+		<br />
+		<div id="testBar"></div>		
+		<input type="button" name="start" id="start" value="start" />
+		<input type="button" name="stop" id="stop" value="stop" />
+		<br />
+		Small, without text and background image:
+		<br />
+		<div style="width:440px; height:10px" class="dojoProgressBarColor red" orientation="horizontal" 
+			maximum="256" id="smallTestBar" dojoType="dijit.ProgressBar"></div>		
+		<br />
+		Show decimal place:
+		<div places="1" style="width:400px" annotate="true" orientation="horizontal"
+			maximum="256" id="testBarInt" dojoType="dijit.ProgressBar"></div>
+		<br />
+		<div style="position:absolute;top:70px;left:530px">
+		Vertical:
+		<div progress="0" style="height:420px; width:50px" annotate="true" orientation="vertical" 
+				maximum="256" id="testBar2" dojoType="dijit.ProgressBar"></div>
+		</div>
+		<h3>Test 3</h3>
+		No explicit maximum (both 25%)
+		<div style="width:400px" annotate="true"
+			id="implied1" progress="25" dojoType="dijit.ProgressBar"></div>		
+		<br />
+		<div style="width:400px" annotate="true"
+			id="implied2" progress="25%" dojoType="dijit.ProgressBar"></div>
+		<h3>Test 4</h3>
+		<input type="button" name="startTimer" id="startTimer" value="Start Timer" />
+		<div style="width:400px" id="timerBar" annotate="true"
+			maximum="100" progress="0" dojoType="dijit.ProgressBar"></div>
+	</body>
+</html>
