@@ -37,26 +37,23 @@ dojo.declare(
 			return val;
 		},
 
-		_handleUpArrowEvent : function(/*Event*/ e){
-			this._onMouse(e, this.upArrowNode);
+		_arrowState: function(/*Node*/ node, /*Boolean*/ pressed){
+			this._active = pressed;
+			this.stateModifier = node.getAttribute("stateModifier") || "";
+			this._setStateClass();
 		},
-
-		_handleDownArrowEvent : function(/*Event*/ e){
-			this._onMouse(e, this.downArrowNode);
-		},
-
 
 		_arrowPressed: function(/*Node*/ nodePressed, /*Number*/ direction){
 			if(this.disabled){ return; }
-			dojo.addClass(nodePressed, "dijitSpinnerButtonActive");
+			this._arrowState(nodePressed, true);
 			this.setValue(this.adjust(this.getValue(), direction*this.smallDelta));
 		},
 
 		_arrowReleased: function(/*Node*/ node){
-			if(this.disabled){ return; }
 			this._wheelTimer = null;
+			if(this.disabled){ return; }
 			dijit.focus(this.textbox);
-			dojo.removeClass(node, "dijitSpinnerButtonActive");
+			this._arrowState(node, false);
 		},
 
 		_typematicCallback: function(/*Number*/ count, /*DOMNode*/ node, /*Event*/ evt){

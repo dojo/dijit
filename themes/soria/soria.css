@@ -162,6 +162,8 @@
 	background-position:0px -1px; 
 }
 
+.soria .dijitSpinnerUpArrowActive .dijitUpArrowButton,
+.soria .dijitSpinnerDownArrowActive .dijitDownArrowButton,
 .soria .dijitButtonActive .dijitButtonNode,
 .soria .dijitToggleButtonActive .dijitButtonNode,
 .soria .dijitDropDownButtonActive .dijitButtonNode,

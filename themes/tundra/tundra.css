@@ -94,6 +94,8 @@
 .tundra .dijitComboButtonDownArrowHover .dijitDownArrowButton,
 .tundra .dijitComboBoxHover .dijitDownArrowButton,
 .tundra .dijitSpinnerUpArrowHover .dijitUpArrowButton,
+.tundra .dijitSpinnerUpArrowHover .dijitA11yUpArrow,
+.tundra .dijitSpinnerDownArrowHover .dijitA11yDownArrow,
 .tundra .dijitSpinnerDownArrowHover .dijitDownArrowButton {
 	/* hover state - inner */
 	/* TODO: change from Hover to Selected so that button is still highlighted while drop down is being used */
@@ -102,6 +104,8 @@
 	background:#f1f6fc url("images/buttonHover.png") repeat-x bottom;
 }
 
+.tundra .dijitSpinnerUpArrowActive .dijitUpArrowButton,
+.tundra .dijitSpinnerDownArrowActive .dijitDownArrowButton,
 .tundra .dijitButtonActive .dijitButtonNode,
 .tundra .dijitToggleButtonActive .dijitButtonNode,
 .tundra .dijitDropDownButtonActive .dijitButtonNode,
