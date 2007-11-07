@@ -22,8 +22,10 @@ dojo.declare(
 		extraPlugins: null,
 
 		constructor: function(){
-			this.plugins=["undo","redo","|","cut","copy","paste","|","bold","italic","underline","strikethrough","|",
-			"insertOrderedList","insertUnorderedList","indent","outdent","|","justifyLeft","justifyRight","justifyCenter","justifyFull"/*"createLink"*/];
+			if(!dojo.isArray(this.plugins)){
+				this.plugins=["undo","redo","|","cut","copy","paste","|","bold","italic","underline","strikethrough","|",
+				"insertOrderedList","insertUnorderedList","indent","outdent","|","justifyLeft","justifyRight","justifyCenter","justifyFull"/*"createLink"*/];
+			}
 
 			this._plugins=[];
 			this._editInterval = this.editActionInterval * 1000;
@@ -279,8 +281,6 @@ dojo.declare(
 
 			switch(k){
 					case ks.ENTER:
-						this.beginEditing();
-						break;
 					case ks.BACKSPACE:
 					case ks.DELETE:
 						this.beginEditing();
