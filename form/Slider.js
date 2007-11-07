@@ -5,6 +5,7 @@ dojo.require("dijit._Container");
 dojo.require("dojo.dnd.move");
 dojo.require("dijit.form.Button");
 dojo.require("dojo.number");
+dojo.require("dojo._base.fx");
 
 dojo.declare(
 	"dijit.form.HorizontalSlider",
@@ -39,6 +40,10 @@ dojo.declare(
 	// clickSelect: boolean
 	//	If clicking the progress bar changes the value or not
 	clickSelect: true,
+
+	// slideDuration: Number
+	//	The time in ms to take to animate the slider handle from 0% to 100%
+	slideDuration: 1000,
 
 	widgetsInTemplate: true,
 
@@ -119,8 +124,23 @@ dojo.declare(
 		this.valueNode.value = this.value = value;
 		this.inherited('setValue', arguments);
 		var percent = (value - this.minimum) / (this.maximum - this.minimum);
-		this.progressBar.style[this._progressPixelSize] = (percent*100) + "%";
-		this.remainingBar.style[this._progressPixelSize] = ((1-percent)*100) + "%";
+		if(priorityChange && this.slideDuration > 0 && this.progressBar.style[this._progressPixelSize]){
+			// animate the slider
+			var _this = this;
+			var props = {};
+			var start = parseFloat(this.progressBar.style[this._progressPixelSize]);
+			var duration = this.slideDuration * (percent-start/100);
+			if(duration < 0){ duration = 0 - duration; }
+			props[this._progressPixelSize] = { start: start, end: percent*100, units:"%" };
+			dojo.animateProperty({ node: this.progressBar, duration: duration, 
+				onAnimate: function(v){_this.remainingBar.style[_this._progressPixelSize] = (100-parseFloat(v[_this._progressPixelSize])) + "%";},
+			        properties: props
+			}).play();
+		}
+		else{
+			this.progressBar.style[this._progressPixelSize] = (percent*100) + "%";
+			this.remainingBar.style[this._progressPixelSize] = ((1-percent)*100) + "%";
+		}
 	},
 
 	_bumpValue: function(signedChange){

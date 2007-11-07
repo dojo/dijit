@@ -78,7 +78,7 @@
 				<ol dojoType="dijit.form.VerticalRuleLabels" container="rightDecoration" style="width:2em;color:gray;" count="6" numericMargin="1" maximum="100" constraints={pattern:'#'}></ol>
 		</div>
 		Slider2 Value:<input readonly id="slider2input" size="3" value="10">
-		<h1>Fancy HTML labels:</h1>
+		<h1>Fancy HTML labels (no slide animation):</h1>
 		<div dojoType="dijit.form.HorizontalSlider" name="horizontal2"
 			minimum="1"
 			value="2"
@@ -86,6 +86,7 @@
 			discreteValues="3"
 			showButtons="false"
 			intermediateChanges="true"
+			slideDuration="0"
 			style="width:300px; height: 40px;"
 			id="slider3">
 				<div dojoType="dijit.form.HorizontalRule" container="bottomDecoration" count=3 style="height:5px;"></div>
