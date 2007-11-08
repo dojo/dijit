@@ -92,10 +92,10 @@ dojo.declare(
 			if(dojo.isFF == 2 && this.domNode.tagName=="TABLE"){
 				var node=this.domNode, _this = this;
 				setTimeout(function(){
-					var oldWidth = node.style.width;
-					node.style.width = "0";
+					var old = node.style.opacity;
+					node.style.opacity = "0.999";
 					setTimeout(function(){
-						node.style.width = oldWidth;
+						node.style.opacity = old;
 					}, 0);
 				 }, 0);
 			}			
