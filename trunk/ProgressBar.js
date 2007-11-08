@@ -70,6 +70,7 @@ dojo.declare("dijit.ProgressBar", [dijit._Widget, dijit._Templated], {
 			}
 			var text = this.report(percent);
 			this.label.firstChild.nodeValue = text;
+			dijit.setWaiState(this.internalProgress, "describedby", this.label.id);
 			dijit.setWaiState(this.internalProgress, "valuenow", this.progress);
 			dijit.setWaiState(this.internalProgress, "valuemin", 0);
 			dijit.setWaiState(this.internalProgress, "valuemax", this.maximum);
