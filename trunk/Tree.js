@@ -758,10 +758,10 @@ dojo.declare(
 				// need to load all the children, and then expand
 				node.markProcessing();
 				var _this = this;
-				function onComplete(childItems){
+				var onComplete = function(childItems){
 					node.unmarkProcessing();
 					_this._onLoadAllItems(node, childItems);
-				}
+				};
 				this.getItemChildren(node.item, onComplete);
 				break;
 
