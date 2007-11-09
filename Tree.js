@@ -220,7 +220,7 @@ dojo.declare(
 				nodeMap[this.tree.store.getIdentity(childParams.item)] = child;
 			}, this);
 
-			dojo.forEach(this.getChildren(), function(child, idx){
+			dojo.forEach(this.getChildren(), function(child){
 				child._updateLayout();
 			});
 		}
@@ -231,7 +231,7 @@ dojo.declare(
 	deleteNode: function(/* treeNode */ node){
 		node.destroy();
 
-		dojo.forEach(this.getChildren(), function(child, idx){
+		dojo.forEach(this.getChildren(), function(child){
 			child._updateLayout();
 		});
 	},
@@ -310,7 +310,7 @@ dojo.declare(
 		this._hideRoot = !this.label;
 
 		if(!this.store.getFeatures()['dojo.data.api.Identity']){
-			throw new Error("dijit.tree requires access to a store supporting the dojo.data Identity api");			
+			throw new Error("dijit.Tree: store must support dojo.data.Identity");			
 		}
 
 		if(!this.cookieName){
@@ -758,10 +758,10 @@ dojo.declare(
 				// need to load all the children, and then expand
 				node.markProcessing();
 				var _this = this;
-				function onComplete(childItems){
+				var onComplete = function(childItems){
 					node.unmarkProcessing();
 					_this._onLoadAllItems(node, childItems);
-				}
+				};
 				this.getItemChildren(node.item, onComplete);
 				break;
 
@@ -774,7 +774,6 @@ dojo.declare(
 						this._saveState();
 					}
 				}
-				break;
 		}
 	},
 
