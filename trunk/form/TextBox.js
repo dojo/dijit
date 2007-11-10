@@ -90,14 +90,12 @@ dojo.declare(
 		_layoutHack: function(){
 			// summary: work around table sizing bugs on FF2 by forcing redraw
 			if(dojo.isFF == 2 && this.domNode.tagName=="TABLE"){
-				var node=this.domNode, _this = this;
+				var node=this.domNode;
+				var old = node.style.opacity;
+				node.style.opacity = "0.999";
 				setTimeout(function(){
-					var old = node.style.opacity;
-					node.style.opacity = "0.999";
-					setTimeout(function(){
-						node.style.opacity = old;
-					}, 0);
-				 }, 0);
+					node.style.opacity = old;
+				}, 0);
 			}			
 		},
 

@@ -397,6 +397,7 @@ dojo.declare(
 			this._hasFocus=false;
 			this._hasBeenBlurred = true;
 			this._hideResultList();
+			this._arrowIdle();
 			// if the user clicks away from the textbox OR tabs away, set the value to the textbox value
 			// #4617: if value is now more choices or previous choices, revert the value
 			var newvalue=this.getDisplayedValue();
@@ -411,22 +412,6 @@ dojo.declare(
 			this._hasFocus=true;
 			
 			// update styling to reflect that we are focused
-			this._onMouse(evt);
-		},
-
-		onblur:function(/*Event*/ evt){ /* not _onBlur! */
-			this._arrowIdle();
-
-			// hide the Tooltip
-			// TODO: isn't this handled by ValidationTextBox?
-			this.validate(false);
-
-			// don't call this since the TextBox setValue is asynchronous
-			// if you uncomment this line, when you click away from the textbox,
-			// the value in the textbox reverts to match the hidden value
-			//this.parentClass.onblur.apply(this, arguments);
-			
-			// update styling since we are no longer focused
 			this._onMouse(evt);
 		},
 
@@ -475,11 +460,12 @@ dojo.declare(
 			this.setValue(this.store.getValue(tgt.item, this.searchAttr), true);
 		},
 
-		_onArrowClick: function(){
+		_onArrowMouseDown: function(evt){
 			// summary: callback when arrow is clicked
 			if(this.disabled){
 				return;
 			}
+			dojo.stopEvent(evt);
 			this.focus();
 			if(this._isShowingNow){
 				this._hideResultList();
@@ -488,11 +474,6 @@ dojo.declare(
 				// on the arrow it means they want to see more options
 				this._startSearch("");
 			}
-		},
-
-		_onArrowMouseDown: function(evt){
-			this._layoutHack();		// hack for FF2, see http://trac.dojotoolkit.org/ticket/5007
-			this._onMouse(evt);
 		},
 
 		_startSearchFromInput: function(){
@@ -601,7 +582,7 @@ dojo.declare(
 		// summary:
 		//	Focus-less div based menu for internal use in ComboBox
 
-		templateString:"<div class='dijitMenu' dojoAttachEvent='onclick,onmouseover,onmouseout' tabIndex='-1' style='overflow:\"auto\";'>"
+		templateString:"<div class='dijitMenu' dojoAttachEvent='onmousedown,onmouseup,onmouseover,onmouseout' tabIndex='-1' style='overflow:\"auto\";'>"
 				+"<div class='dijitMenuItem dijitMenuPreviousButton' dojoAttachPoint='previousButton'></div>"
 				+"<div class='dijitMenuItem dijitMenuNextButton' dojoAttachPoint='nextButton'></div>"
 			+"</div>",
@@ -680,7 +661,11 @@ dojo.declare(
 			return this.domNode.childNodes.length-2;
 		},
 
-		onclick:function(/*Event*/ evt){
+		onmousedown:function(/*Event*/ evt){
+			dojo.stopEvent(evt);
+		},
+
+		onmouseup:function(/*Event*/ evt){
 			if(evt.target === this.domNode){
 				return;
 			}else if(evt.target==this.previousButton){

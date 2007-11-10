@@ -52,10 +52,10 @@
 	padding: 0 0.3em;
 }
 
-.dijitComboBox .dijitButtonNode,
-.dijitSpinner .dijitButtonNode {
+.tundra .dijitComboBox .dijitButtonNode,
+.tundra .dijitSpinner .dijitButtonNode {
 	border: 0px;
-	padding: 0 .4em 0 .4em;	/* the inner node will be vertically centered automatically because it's in a <td> */
+	padding: 1px .4em;	/* the inner node will be vertically centered automatically because it's in a <td> */
 }
 
 .tundra .dijitA11yDownArrow,
