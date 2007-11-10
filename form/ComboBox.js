@@ -361,7 +361,7 @@ dojo.declare(
 				visibleCount = Math.min(items.length,this.maxListLength);
 			this._arrowPressed();
 			// hide the tooltip
-			this._displayMessage("");
+			this.displayMessage("");
 			
 			// Position the list and if it's too big to fit on the screen then
 			// size it to the maximum possible height
