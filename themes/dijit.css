@@ -49,6 +49,7 @@
 	border:0px;
 	padding:0px;
 	vertical-align:middle;
+	position:relative; /* #5034 */
 }
 
 .dijitTeeny {
