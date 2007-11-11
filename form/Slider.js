@@ -59,10 +59,10 @@ dojo.declare(
 		if(this.disabled || e.altKey || e.ctrlKey){ return; }
 		switch(e.keyCode){
 			case dojo.keys.HOME:
-				this.setValue(this.minimum);
+				this.setValue(this.minimum, false);
 				break;
 			case dojo.keys.END:
-				this.setValue(this.maximum);
+				this.setValue(this.maximum, false);
 				break;
 			case dojo.keys.UP_ARROW:
 			case (this._isReversed() ? dojo.keys.LEFT_ARROW : dojo.keys.RIGHT_ARROW):

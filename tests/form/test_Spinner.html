@@ -50,14 +50,15 @@
 	<form id="form1" action="" name="example" method="post">
 		<h1>number spinner</h1>
 		<br>
-		initial value=900, no delta specified, no min specified, max=1550, onChange debug message<br>
+		initial value=900, no delta specified, no min specified, max=1550, onChange captured<br>
 		<label for="integerspinner1">Spinbox #1: </label><br>
 		<input dojoType="dijit.form.NumberSpinner"
-			onChange="console.debug('onChange fired for widget id = ' + this.id + ' with value = ' + arguments[0]);"
+			onChange="dojo.byId('oc1').value=arguments[0]"
 			value="900"
 			constraints="{max:1550,places:0}"
 			name="integerspinner1"
 			id="integerspinner1">
+		onChange:<input id="oc1" disabled value="not fired yet!" autocomplete="off">
 		<br>
 		<br>
 		initial value=1000, delta=10, min=9 max=1550<br>

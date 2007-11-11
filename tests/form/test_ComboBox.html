@@ -77,7 +77,7 @@ The drop down list is filtered by the data you have already typed in.
 			style="width:50%;font-size:15pt;"
 			name="foo.bar1"
 			autoComplete="false"
-			onChange="setVal1"
+			onChange="dojo.byId('oc1').value=arguments[0]"
 			pageSize="30"
 	>
 		<option></option>
@@ -143,8 +143,8 @@ The drop down list is filtered by the data you have already typed in.
 		<option>Wisconsin</option>
 		<option>Wyoming</option>
 	</select>
+	onChange:<input id="oc1" disabled value="not fired yet!" autocomplete="off">
 
-	<span>Value: <input id="value1" disabled value="Iowa"></span>
 	<hr>
 
 	<div dojoType="dojo.data.ItemFileReadStore" jsId="stateStore"
