@@ -46,7 +46,7 @@ dojo.declare(
 		_arrowPressed: function(/*Node*/ nodePressed, /*Number*/ direction){
 			if(this.disabled){ return; }
 			this._arrowState(nodePressed, true);
-			this.setValue(this.adjust(this.getValue(), direction*this.smallDelta));
+			this.setValue(this.adjust(this.getValue(), direction*this.smallDelta), false);
 		},
 
 		_arrowReleased: function(/*Node*/ node){

@@ -218,10 +218,12 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 		// summary: set the value of the widget.
 		this._lastValue = newValue;
 		dijit.setWaiState(this.focusNode || this.domNode, "valuenow", this.forWaiValuenow());
+		if(priorityChange === undefined){ priorityChange = true; } // setValue with value only should fire onChange
 		if(this._lastValueReported == undefined && priorityChange === null){ // don't report the initial value
 			this._lastValueReported = newValue;
 		}
-		if((this.intermediateChanges || priorityChange) && newValue !== this._lastValueReported){
+		if((this.intermediateChanges || priorityChange) && 
+			((newValue && newValue.toString)?newValue.toString():newValue) !== ((this._lastValueReported && this._lastValueReported.toString)?this._lastValueReported.toString():this._lastValueReported)){
 			this._lastValueReported = newValue;
 			this.onChange(newValue);
 		}
