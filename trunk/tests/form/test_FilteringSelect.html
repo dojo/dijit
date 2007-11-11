@@ -64,7 +64,7 @@
 				name="state1"
 				autoComplete="false"
 				invalidMessage="Invalid state name"
-				onChange="setValue('value1', arguments[0]);"
+				onChange="dojo.byId('oc1').value=arguments[0]"
 		>
 			<option value="blank"></option>
 			<option value="AL">Alabama</option>
@@ -129,7 +129,7 @@
 			<option value="WI">Wisconsin</option>
 			<option value="WY">Wyoming</option>
 		</select>
-		<span>Value: <input id="value1" disabled value="CA"></span>
+		onChange:<input id="oc1" disabled value="not fired yet!" autocomplete="off">
 		<input type="button" value="Set displayed value to Kentucky (valid)" onClick="dijit.byId('setvaluetest2').setDisplayedValue('Kentucky')">
 		<input type="button" value="Set displayed value to Canada (invalid)" onClick="dijit.byId('setvaluetest2').setDisplayedValue('Canada')">
 		<hr>

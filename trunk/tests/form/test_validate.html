@@ -67,7 +67,9 @@
 				<input id="q01" type="text" name="firstname" value="testing testing" style="width: 700px;" tabIndex=2
 					dojoType="dijit.form.TextBox"
 					trim="true"
+				        onChange="dojo.byId('oc1').value=arguments[0]"
 					propercase="true" />
+				<br>onChange:<input id="oc1" size="34" disabled value="not fired yet!" autocomplete="off">
 			</div>
 
 			<div class="dojoTitlePaneLabel">
@@ -116,6 +118,7 @@
 			</div>
 			<div class="testExample">
 				<input id="q05" class="small"/>
+				onChange:<input id="oc5" size="10" disabled value="not fired yet!" autocomplete="off">
 			</div>
 <script>
 	// See if we can make a widget in script and attach it to the DOM ourselves.
@@ -127,6 +130,7 @@
 			promptMessage: "Enter a value between -20000 and +20000",
 			required: "true" ,
 			invalidMessage: "Invalid elevation.",
+			onChange: function(){dojo.byId('oc5').value=arguments[0]},
 			"class": "medium"
 		};
 		var w = new dijit.form.NumberTextBox(props, "q05");
@@ -199,7 +203,9 @@
 					required="true"
 					constraints="{fractional:true}"
 					currency="USD"
+				        onChange="dojo.byId('oc8').value=arguments[0]"
 					invalidMessage="Invalid amount.  Include dollar sign, commas, and cents.  Cents are mandatory." />USD
+				&nbsp;onChange:<input id="oc8" size="15" disabled value="not fired yet!" autocomplete="off">
 			</div>
 		
 			<div class="testExample">

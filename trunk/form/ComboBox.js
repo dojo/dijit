@@ -247,7 +247,7 @@ dojo.declare(
 						this.setDisplayedValue(this._lastDisplayedValue);
 						dojo.stopEvent(evt);
 					}else{
-						this.setValue(this.getValue());
+						this.setValue(this.getValue(), false);
 					}
 					break;
 
@@ -402,7 +402,7 @@ dojo.declare(
 			// #4617: if value is now more choices or previous choices, revert the value
 			var newvalue=this.getDisplayedValue();
 			if(this._popupWidget&&(newvalue==this._popupWidget._messages["previousMessage"]||newvalue==this._popupWidget._messages["nextMessage"])){
-				this.setValue(this._lastValueReported);
+				this.setValue(this._lastValueReported, true);
 			}else{
 				this.setDisplayedValue(newvalue);
 			}

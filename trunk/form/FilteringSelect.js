@@ -39,7 +39,7 @@ dojo.declare(
 			return this._isvalid;
 		},
 
-		_callbackSetLabel: function(/*Array*/ result, /*Object*/ dataObject){
+		_callbackSetLabel: function(/*Array*/ result, /*Object*/ dataObject, /*Boolean, optional*/ priorityChange){
 			// summary
 			//	Callback function that dynamically sets the label of the ComboBox
 
@@ -57,7 +57,7 @@ dojo.declare(
 				this._isvalid=false;
 				this.validate(this._hasFocus);
 			}else{
-				this._setValueFromItem(result[0]);
+				this._setValueFromItem(result[0], priorityChange);
 			}
 		},
 
@@ -79,25 +79,25 @@ dojo.declare(
 			return "value";
 		},
 
-		_setValue:function(/*String*/ value, /*String*/ displayedValue){
+		_setValue:function(/*String*/ value, /*String*/ displayedValue, /*Boolean, optional*/ priorityChange){
 			this.valueNode.value = value;
-			dijit.form.FilteringSelect.superclass.setValue.call(this, value, true, displayedValue);
+			dijit.form.FilteringSelect.superclass.setValue.call(this, value, priorityChange, displayedValue);
 			this._lastDisplayedValue = displayedValue;
 		},
 
-		setValue: function(/*String*/ value){
+		setValue: function(/*String*/ value, /*Boolean, optional*/ priorityChange){
 			// summary
 			//	Sets the value of the select.
 			//	Also sets the label to the corresponding value by reverse lookup.
 
 			//#3347: fetchItemByIdentity if no keyAttr specified
 			var self=this;
-			var handleFetchByIdentity = function(item){
+			var handleFetchByIdentity = function(item, priorityChange){
 				if(item){
 					if(self.store.isItemLoaded(item)){
-						self._callbackSetLabel([item]);
+						self._callbackSetLabel([item], undefined, priorityChange);
 					}else{
-						self.store.loadItem({item:item, onItem: self._callbackSetLabel});
+						self.store.loadItem({item:item, onItem: function(result, dataObject){self._callbackSetLabel(result, dataObject, priorityChange)}});
 					}
 				}else{
 					self._isvalid=false;
@@ -105,15 +105,15 @@ dojo.declare(
 					self.validate(false);
 				}
 			}
-			this.store.fetchItemByIdentity({identity: value, onItem: handleFetchByIdentity});
+			this.store.fetchItemByIdentity({identity: value, onItem: function(item){handleFetchByIdentity(item, priorityChange)}});
 		},
 
-		_setValueFromItem: function(/*item*/ item){
+		_setValueFromItem: function(/*item*/ item, /*Boolean, optional*/ priorityChange){
 			// summary
 			//	Set the displayed valued in the input box, based on a selected item.
 			//	Users shouldn't call this function; they should be calling setDisplayedValue() instead
 			this._isvalid=true;
-			this._setValue(this.store.getIdentity(item), this.labelFunc(item, this.store));
+			this._setValue(this.store.getIdentity(item), this.labelFunc(item, this.store), priorityChange);
 		},
 
 		labelFunc: function(/*item*/ item, /*dojo.data.store*/ store){
@@ -133,7 +133,7 @@ dojo.declare(
 			//	ComboBox's menu callback function
 			//	FilteringSelect overrides this to set both the visible and hidden value from the information stored in the menu
 			this.item = tgt.item;
-			this._setValueFromItem(tgt.item);
+			this._setValueFromItem(tgt.item, true);
 		},
 
 		setDisplayedValue:function(/*String*/ label){
