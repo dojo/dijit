@@ -103,7 +103,7 @@
 						var type = store.getValue(item, "type");
 						if(type == "language"){
 							var lang = store.getIdentity(item),
-								locale = lang + "-" + store.getIdentity(node.getParent().item),
+								locale = lang + "-" + store.getIdentity(node.getParent().item).toLowerCase(),
 							dir = /ar|fa|he|ps|ur|yi/i.test(lang) ? "rtl" : "ltr";
 							window.location.href = window.location.href.replace(/\?.*/, "") + "?locale=" + locale + "&dir=" + dir;
 						}else{
