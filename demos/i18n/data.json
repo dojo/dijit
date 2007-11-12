@@ -6337,6 +6337,7 @@
 		"type": "country", 
 		"iso": "CN", 
 		"name": "China", 
+		"continent": "Asia", 
 		"href": "http://en.wikipedia.org/wiki/People%27s_Republic_of_China", 
 		"languages": [
 			{
