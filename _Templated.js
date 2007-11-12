@@ -257,7 +257,7 @@ if(dojo.isIE){
 			if(!isNaN(value.nodeType)){ // isNode equivalent
 				dojo._destroyElement(value);
 			}
-			cache[key] = null;
+			delete cache[key];
 		}
 	});
 }
