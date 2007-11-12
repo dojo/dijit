@@ -1,21 +1,19 @@
 dojo.provide("dijit._Templated");
 
 dojo.require("dijit._Widget");
-
 dojo.require("dojo.string");
 dojo.require("dojo.parser");
 
 dojo.declare("dijit._Templated",
 	null,
 	{
-		// summary:
-		//		mixin for widgets that are instantiated from a template
+		// summary: Mixin for widgets that are instantiated from a template
 
 		// templateNode: DomNode
 		//		a node that represents the widget template. Pre-empts both templateString and templatePath.
 		templateNode: null,
 
-		// templateString String:
+		// templateString: String
 		//		a string that represents the widget template. Pre-empts the
 		//		templatePath. In builds that have their strings "interned", the
 		//		templatePath is converted to an inline templateString, thereby
@@ -26,18 +24,18 @@ dojo.declare("dijit._Templated",
 		//	Path to template (HTML file) for this widget
 		templatePath: null,
 
-		// widgetsInTemplate Boolean:
+		// widgetsInTemplate: Boolean
 		//		should we parse the template to find widgets that might be
 		//		declared in markup inside it? false by default.
 		widgetsInTemplate: false,
 
-		// containerNode DomNode:
+		// containerNode: DomNode
 		//		holds child elements. "containerNode" is generally set via a
 		//		dojoAttachPoint assignment and it designates where children of
 		//		the src dom node will be placed
 		containerNode: null,
 
-		// skipNodeCache Boolean:
+		// skipNodeCache: Boolean
 		//		if using a cached widget template node poses issues for a
 		//		particular widget class, it can set this property to ensure
 		//		that its template is always re-built from a string
@@ -110,8 +108,9 @@ dojo.declare("dijit._Templated",
 		},
 
 		_attachTemplateNodes: function(rootNode, getAttrFunc){
-			// summary:
-			//		map widget properties and functions to the handlers specified in
+			// summary: Iterate through the template and attach functions and nodes accordingly.	
+			// description:		
+			//		Map widget properties and functions to the handlers specified in
 			//		the dom node and it's descendants. This function iterates over all
 			//		nodes and looks for these properties:
 			//			* dojoAttachPoint
@@ -197,13 +196,14 @@ dijit._Templated._templateCache = {};
 
 dijit._Templated.getCachedTemplate = function(templatePath, templateString, alwaysUseString){
 	// summary:
-	//		static method to get a template based on the templatePath or
+	//		Static method to get a template based on the templatePath or
 	//		templateString key
 	// templatePath: String
-	//		the URL to get the template from. dojo.uri.Uri is often passed as well.
+	//		The URL to get the template from. dojo.uri.Uri is often passed as well.
 	// templateString: String?
-	//		a string to use in lieu of fetching the template from a URL
-	// Returns:
+	//		a string to use in lieu of fetching the template from a URL. Takes precedence
+	//		over templatePath
+	// Returns: Mixed
 	//	Either string (if there are ${} variables that need to be replaced) or just
 	//	a DOM tree (if the node can be cloned directly)
 
