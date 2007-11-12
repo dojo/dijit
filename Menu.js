@@ -4,10 +4,9 @@ dojo.require("dijit._Widget");
 dojo.require("dijit._Container");
 dojo.require("dijit._Templated");
 
-dojo.declare(
-	"dijit.Menu",
+dojo.declare("dijit.Menu",
 	[dijit._Widget, dijit._Templated, dijit._KeyNavContainer],
-{
+	{
 	constructor: function() {
 		this._bindings = [];
 	},
@@ -69,8 +68,7 @@ dojo.declare(
 	},
 
 	_onKeyPress: function(/*Event*/ evt){
-		// summary
-		//	Handle keyboard based menu navigation.
+		// summary: Handle keyboard based menu navigation.
 		if(evt.ctrlKey || evt.altKey){ return; }
 
 		switch(evt.keyCode){
@@ -89,6 +87,7 @@ dojo.declare(
 	},
 
 	onItemHover: function(/*MenuItem*/ item){
+		// summary: Called when cursor is over a MenuItem
 		this.focusChild(item);
 
 		if(this.focusedChild.popup && !this.focusedChild.disabled && !this.hover_timer){
@@ -97,13 +96,14 @@ dojo.declare(
 	},
 
 	_onChildBlur: function(item){
-		// Close all popups that are open and descendants of this menu
+		// summary: Close all popups that are open and descendants of this menu
 		dijit.popup.close(item.popup);
 		item._blur();
 		this._stopPopupTimer();
 	},
 
 	onItemUnhover: function(/*MenuItem*/ item){
+		// summary: Callback fires when mouse exits a MenuItem
 	},
 
 	_stopPopupTimer: function(){
@@ -120,7 +120,6 @@ dojo.declare(
 
 	onItemClick: function(/*Widget*/ item){
 		// summary: user defined function to handle clicks on an item
-		// summary: internal function for clicks
 		if(item.disabled){ return false; }
 
 		if(item.popup){
@@ -139,8 +138,8 @@ dojo.declare(
 
 	// thanks burstlib!
 	_iframeContentWindow: function(/* HTMLIFrameElement */iframe_el) {
-		//	summary
-		//	returns the window reference of the passed iframe
+		// summary:
+		//	Returns the window reference of the passed iframe
 		var win = dijit.getDocumentWindow(dijit.Menu._iframeContentDocument(iframe_el)) ||
 			// Moz. TODO: is this available when defaultView isn't?
 			dijit.Menu._iframeContentDocument(iframe_el)['__parent__'] ||
@@ -149,8 +148,8 @@ dojo.declare(
 	},
 
 	_iframeContentDocument: function(/* HTMLIFrameElement */iframe_el){
-		//	summary
-		//	returns a reference to the document object inside iframe_el
+		// summary:
+		//	Returns a reference to the document object inside iframe_el
 		var doc = iframe_el.contentDocument // W3
 			|| (iframe_el.contentWindow && iframe_el.contentWindow.document) // IE
 			|| (iframe_el.name && document.frames[iframe_el.name] && document.frames[iframe_el.name].document)
@@ -260,8 +259,7 @@ dojo.declare(
 	},
 
 	onOpen: function(/*Event*/ e){
-		// summary
-		//		Open menu relative to the mouse
+		// summary: Open menu relative to the mouse
 		this.isShowingNow = true;
 	},
 
@@ -308,12 +306,10 @@ dojo.declare(
 }
 );
 
-dojo.declare(
-	"dijit.MenuItem",
+dojo.declare("dijit.MenuItem",
 	[dijit._Widget, dijit._Templated, dijit._Contained],
-{
-	// summary
-	//	A line item in a Menu2
+	{
+	// summary: A line item in a Menu Widget
 
 	// Make 3 columns
 	//   icon, label, and expand arrow (BiDi-dependent) indicating sub-menu
@@ -357,6 +353,7 @@ dojo.declare(
 
 	_onUnhover: function(){
 		// summary: callback when mouse is moved off of menu item
+
 		// if we are unhovering the currently selected item
 		// then unselect it
 		this.getParent().onItemUnhover(this);
@@ -368,8 +365,7 @@ dojo.declare(
 	},
 
 	onClick: function() {
-		// summary
-		//	User defined function to handle clicks
+		// summary: User defined function to handle clicks
 	},
 
 	focus: function(){
@@ -393,17 +389,17 @@ dojo.declare(
 	}
 });
 
-dojo.declare(
-	"dijit.PopupMenuItem",
+dojo.declare("dijit.PopupMenuItem",
 	dijit.MenuItem,
-{
+	{
 	_fillContent: function(){
-		// my inner HTML contains both the menu item text and a popup widget, like
-		// <div dojoType="dijit.PopupMenuItem">
-		//		<span>pick me</span>
-		//		<popup> ... </popup>
-		// </div>
-		// the first part holds the menu item text and the second part is the popup
+		// summary: The innerHTML contains both the menu item text and a popup widget
+		// description: the first part holds the menu item text and the second part is the popup
+		// example: 
+		// |	<div dojoType="dijit.PopupMenuItem">
+		// |		<span>pick me</span>
+		// |		<popup> ... </popup>
+		// |	</div>
 		if(this.srcNodeRef){
 			var nodes = dojo.query("*", this.srcNodeRef);
 			dijit.PopupMenuItem.superclass._fillContent.call(this, nodes[0]);
@@ -429,12 +425,10 @@ dojo.declare(
 	}
 });
 
-dojo.declare(
-	"dijit.MenuSeparator",
+dojo.declare("dijit.MenuSeparator",
 	[dijit._Widget, dijit._Templated, dijit._Contained],
-{
-	// summary
-	//	A line between two menu items
+	{
+	// summary: A line between two menu items
 
 	templateString: '<tr class="dijitMenuSeparator"><td colspan=3>'
 			+'<div class="dijitMenuSeparatorTop"></div>'
@@ -446,8 +440,7 @@ dojo.declare(
 	},
 	
 	isFocusable: function(){
-		// summary:
-		//		over ride to always return false
-		return false;
+		// summary: over ride to always return false
+		return false; // Boolean
 	}
 });
