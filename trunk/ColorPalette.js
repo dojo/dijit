@@ -99,31 +99,32 @@ dojo.declare(
 		this.domNode.style.position = "relative";
 		this._highlightNodes = [];	
 		this.colorNames = dojo.i18n.getLocalization("dojo", "colors", this.lang);
-
+		var url= dojo.moduleUrl("dijit", "templates/blank.gif");
+		var colorObject = new dojo.Color(),
+		    coords = this._paletteCoords;
 		for(var row=0; row < choices.length; row++){
-			for(var col=0; col < choices[row].length; col++){
-				var highlightNode = document.createElement("img");
-				highlightNode.src = dojo.moduleUrl("dijit", "templates/blank.gif");
-				dojo.addClass(highlightNode, "dijitPaletteImg");
-				var color = choices[row][col];
-				var colorValue = new dojo.Color(dojo.Color.named[color]);
-				highlightNode.alt = this.colorNames[color];
-				highlightNode.color = colorValue.toHex();
-				var highlightStyle = highlightNode.style;
-				highlightStyle.color = highlightStyle.backgroundColor = highlightNode.color;
-				dojo.forEach(["Dijitclick", "MouseOut", "MouseOver", "Blur", "Focus"], function(handler){
-					this.connect(highlightNode, "on"+handler.toLowerCase(), "_onColor"+handler);
-				}, this);
-				this.divNode.appendChild(highlightNode);
-				var coords = this._paletteCoords;
-				highlightStyle.top = coords.topOffset + (row * coords.cHeight) + "px";
-				highlightStyle.left = coords.leftOffset + (col * coords.cWidth) + "px";
-				highlightNode.setAttribute("tabIndex","-1");
-				highlightNode.title = this.colorNames[color];
-				dijit.setWaiRole(highlightNode, "gridcell");
-				highlightNode.index = this._highlightNodes.length;
-				this._highlightNodes.push(highlightNode);
-			}
+			for(var col=0; col < choices[row].length; col++) {
+                var highlightNode = document.createElement("img");
+                highlightNode.src = url;
+                dojo.addClass(highlightNode, "dijitPaletteImg");
+                var color = choices[row][col],
+                        colorValue = colorObject.setColor(dojo.Color.named[color]);
+                highlightNode.alt = this.colorNames[color];
+                highlightNode.color = colorValue.toHex();
+                var highlightStyle = highlightNode.style;
+                highlightStyle.color = highlightStyle.backgroundColor = highlightNode.color;
+                dojo.forEach(["Dijitclick", "MouseOut", "MouseOver", "Blur", "Focus"], function(handler) {
+                    this.connect(highlightNode, "on" + handler.toLowerCase(), "_onColor" + handler);
+                }, this);
+                this.divNode.appendChild(highlightNode);
+                highlightStyle.top = coords.topOffset + (row * coords.cHeight) + "px";
+                highlightStyle.left = coords.leftOffset + (col * coords.cWidth) + "px";
+                highlightNode.setAttribute("tabIndex", "-1");
+                highlightNode.title = this.colorNames[color];
+                dijit.setWaiRole(highlightNode, "gridcell");
+                highlightNode.index = this._highlightNodes.length;
+                this._highlightNodes.push(highlightNode);
+            }
 		}
 		this._highlightNodes[this._currentFocus].tabIndex = 0;
 		this._xDim = choices[0].length;
@@ -144,14 +145,14 @@ dojo.declare(
 			LEFT_ARROW: -1
 		};
 		for(var key in keyIncrementMap){
-			dijit.typematic.addKeyListener(this.domNode,
+			this._connects.push(dijit.typematic.addKeyListener(this.domNode,
 				{keyCode:dojo.keys[key], ctrlKey:false, altKey:false, shiftKey:false},
 				this,
 				function(){
 					var increment = keyIncrementMap[key];
 					return function(count){ this._navigateByKey(increment, count); };
 				}(),
-				this.timeoutChangeRate, this.defaultTimeout);
+				this.timeoutChangeRate, this.defaultTimeout));
 		}
 	},
 

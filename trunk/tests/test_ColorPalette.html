@@ -6,7 +6,7 @@
 
 
 	<script type="text/javascript" src="../../dojo/dojo.js"
-		djConfig="isDebug: true, parseOnLoad: true, debugAtAllCosts: true"></script>
+		djConfig="isDebug: true, parseOnLoad: true"></script>
 	<script type="text/javascript" src="_testCommon.js"></script>
 
 	<script language="JavaScript" type="text/javascript">
@@ -16,8 +16,10 @@
 	<script>
 		var palette;
 		function init(){
-			palette = new dijit.ColorPalette({palette: "7x10", id: "progPalette"}, dojo.byId("programPalette"));
-		}
+            var date0 = new Date();
+            palette = new dijit.ColorPalette({palette: "7x10", id: "progPalette"}, dojo.byId("programPalette"));
+            console.log("creation time: " + (new Date() - date0) );
+        }
 
 		dojo.addOnLoad(init);
 
