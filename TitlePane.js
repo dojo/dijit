@@ -9,8 +9,26 @@ dojo.declare(
 	"dijit.TitlePane",
 	[dijit.layout.ContentPane, dijit._Templated],
 {
-	// summary
-	//		A pane with a title on top, that can be opened or collapsed.
+	// summary: A pane with a title on top, that can be opened or collapsed.
+	//
+	// description: An accessible container with a Title Heading, and a content
+	//	section that slides open and closed. TitlePane is an extension to 
+	//	ContentPane, providing all the usesful content-control aspects from.
+	//
+	// example:
+	// | 	// load a TitlePane from remote file:
+	// |	var foo = new dijit.TitlePane({ href: "foobar.html", title:"Title" });
+	// |	foo.startup();
+	//
+	// example:
+	// |	<!-- markup href example: -->
+	// |	<div dojoType="dijit.TitlePane" href="foobar.html" title="Title"></div>
+	// 
+	// example:
+	// |	<!-- markup with inline data -->
+	// | 	<div dojoType="dijit.TitlePane" title="Title">
+	// |		<p>I am content</p>
+	// |	</div>
 	//
 	// title: String
 	//		Title of the pane
@@ -25,7 +43,7 @@ dojo.declare(
 	duration: 250,
 
 	// baseClass: String
-	//	the root className to use for the various states of this widget
+	//	The root className to use for the various states of this widget
 	baseClass: "dijitTitlePane",
 
 	templatePath: dojo.moduleUrl("dijit", "templates/TitlePane.html"),
@@ -60,7 +78,7 @@ dojo.declare(
 	},
 
 	setContent: function(content){
-		// summary
+		// summary:
 		// 		Typically called when an href is loaded.  Our job is to make the animation smooth
 		if(this._wipeOut.status() == "playing"){
 			// we are currently *closing* the pane, so just let that continue
