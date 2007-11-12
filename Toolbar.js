@@ -4,15 +4,16 @@ dojo.require("dijit._Widget");
 dojo.require("dijit._Container");
 dojo.require("dijit._Templated");
 
-dojo.declare(
-	"dijit.Toolbar",
+dojo.declare("dijit.Toolbar",
 	[dijit._Widget, dijit._Templated, dijit._KeyNavContainer],
-{
+	{
+	// summary: A Toolbar widget, used to hold things like dijit.Editor buttons
+
 	templateString:
 		'<div class="dijit dijitToolbar" waiRole="toolbar" tabIndex="${tabIndex}" dojoAttachPoint="containerNode">' +
-//			'<table style="table-layout: fixed" class="dijitReset dijitToolbarTable">' + // factor out style
-//				'<tr class="dijitReset" dojoAttachPoint="containerNode"></tr>'+
-//			'</table>' +
+		//	'<table style="table-layout: fixed" class="dijitReset dijitToolbarTable">' + // factor out style
+		//		'<tr class="dijitReset" dojoAttachPoint="containerNode"></tr>'+
+		//	'</table>' +
 		'</div>',
 
 	tabIndex: "0",
@@ -31,13 +32,15 @@ dojo.declare(
 );
 
 // Combine with dijit.MenuSeparator??
-dojo.declare(
-	"dijit.ToolbarSeparator",
+dojo.declare("dijit.ToolbarSeparator",
 	[ dijit._Widget, dijit._Templated ],
-{
-	// summary
-	//	A line between two menu items
+	{
+	// summary: A spacer between two Toolbar items
 	templateString: '<div class="dijitToolbarSeparator dijitInline"></div>',
 	postCreate: function(){ dojo.setSelectable(this.domNode, false); },
-	isFocusable: function(){ return false; }
+	isFocusable: function(){ 
+		// summary: This widget isn't focusable, so pass along that fact.
+		return false; 
+	}
+
 });
