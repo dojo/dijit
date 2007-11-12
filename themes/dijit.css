@@ -70,7 +70,8 @@
 }
 .dijit_a11y .dijitPopup,
 .dijit_ally .dijitPopup div,
-.dijit_a11y .dijitPopup table {
+.dijit_a11y .dijitPopup table,
+.dijit_a11y .dijitTooltipContainer {
 	opacity: 1 !important;
 	background-color: white !important;
 }
