@@ -2,14 +2,13 @@ dojo.provide("dijit.layout.LayoutContainer");
 
 dojo.require("dijit.layout._LayoutWidget");
 
-dojo.declare(
-	"dijit.layout.LayoutContainer",
+dojo.declare("dijit.layout.LayoutContainer",
 	dijit.layout._LayoutWidget,
-{
-	// summary
+	{
+	// summary:
 	//	Provides Delphi-style panel layout semantics.
 	//
-	// details
+	// description:
 	//	A LayoutContainer is a box with a specified size (like style="width: 500px; height: 500px;"),
 	//	that contains children widgets marked with "layoutAlign" of "left", "right", "bottom", "top", and "client".
 	//	It takes it's children marked as left/top/bottom/right, and lays them out along the edges of the box,
@@ -22,19 +21,19 @@ dojo.declare(
 	//	Note that there can only be one client element, but there can be multiple left, right, top,
 	//	or bottom elements.
 	//
-	// usage
-	//	<style>
-	//		html, body{ height: 100%; width: 100%; }
-	//	</style>
-	//	<div dojoType="dijit.layout.LayoutContainer" style="width: 100%; height: 100%">
-	//		<div dojoType="dijit.layout.ContentPane" layoutAlign="top">header text</div>
-	//		<div dojoType="dijit.layout.ContentPane" layoutAlign="left" style="width: 200px;">table of contents</div>
-	//		<div dojoType="dijit.layout.ContentPane" layoutAlign="client">client area</div>
-	//	</div>
-	//
-	//	Lays out each child in the natural order the children occur in.
-	//	Basically each child is laid out into the "remaining space", where "remaining space" is initially
-	//	the content area of this widget, but is reduced to a smaller rectangle each time a child is added.
+	// example:
+	// |	<style>
+	// |		html, body{ height: 100%; width: 100%; }
+	// |	</style>
+	// |	<div dojoType="dijit.layout.LayoutContainer" style="width: 100%; height: 100%">
+	// |		<div dojoType="dijit.layout.ContentPane" layoutAlign="top">header text</div>
+	// |		<div dojoType="dijit.layout.ContentPane" layoutAlign="left" style="width: 200px;">table of contents</div>
+	// |		<div dojoType="dijit.layout.ContentPane" layoutAlign="client">client area</div>
+	// |	</div>
+	// |
+	// |	Lays out each child in the natural order the children occur in.
+	// |	Basically each child is laid out into the "remaining space", where "remaining space" is initially
+	// |	the content area of this widget, but is reduced to a smaller rectangle each time a child is added.
 	//	
 
 	layout: function(){
