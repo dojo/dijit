@@ -5,10 +5,14 @@ dojo.declare("dijit._Contained",
 	{
 		// summary
 		//		Mixin for widgets that are children of a container widget
-
+		//
+		// example:
+		// | 	// make a basic custom widget that knows about it's parents
+		// |	dojo.declare("my.customClass",[dijit._Widget,dijit._Contained],{});
+		// 
 		getParent: function(){
 			// summary:
-			//		returns the parent widget of this widget, assuming the parent
+			//		Returns the parent widget of this widget, assuming the parent
 			//		implements dijit._Container
 			for(var p=this.domNode.parentNode; p; p=p.parentNode){
 				var id = p.getAttribute && p.getAttribute("widgetId");
@@ -32,18 +36,18 @@ dojo.declare("dijit._Contained",
 
 		getPreviousSibling: function(){
 			// summary:
-			//		returns null if this is the first child of the parent,
+			//		Returns null if this is the first child of the parent,
 			//		otherwise returns the next element sibling to the "left".
 
-			return this._getSibling("previous");
+			return this._getSibling("previous"); // Mixed
 		},
 
 		getNextSibling: function(){
 			// summary:
-			//		returns null if this is the last child of the parent,
+			//		Returns null if this is the last child of the parent,
 			//		otherwise returns the next element sibling to the "right".
 
-			return this._getSibling("next");
+			return this._getSibling("next"); // Mixed
 		}
 	}
 );
@@ -51,8 +55,12 @@ dojo.declare("dijit._Contained",
 dojo.declare("dijit._Container",
 	null,
 	{
-		// summary
-		//		Mixin for widgets that contain a list of children like SplitContainer
+		// summary:
+		//		Mixin for widgets that contain a list of children.
+		// description:
+		//		Use this mixin when the widget needs to know about and
+		//		keep track of it's widget children. Widgets like SplitContainer
+		//		and TabContainer.  
 
 		isContainer: true,
 
@@ -84,7 +92,7 @@ dojo.declare("dijit._Container",
 
 		removeChild: function(/*Widget*/ widget){
 			// summary:
-			//		removes the passed widget instance from this widget but does
+			//		Removes the passed widget instance from this widget but does
 			//		not destroy it
 			var node = widget.domNode;
 			node.parentNode.removeChild(node);	// detach but don't destroy
@@ -120,7 +128,7 @@ dojo.declare("dijit._Container",
 
 		_getSiblingOfChild: function(/*Widget*/ child, /*int*/ dir){
 			// summary:
-			//		get the next or previous widget sibling of child
+			//		Get the next or previous widget sibling of child
 			// dir:
 			//		if 1, get the next sibling
 			//		if -1, get the previous sibling
@@ -138,11 +146,12 @@ dojo.declare("dijit._KeyNavContainer",
 	[dijit._Container],
 	{
 
-		// summary:
-		//		A _Container with keyboard navigation of its children.
+		// summary: A _Container with keyboard navigation of its children.
+		// decscription:
 		//		To use this mixin, call connectKeyNavHandlers() in
 		//		postCreate() and call startupKeyNavChildren() in startup().
-
+		//		It provides normalized keyboard and focusing code for Container
+		//		widgets.
 /*=====
 		// focusedChild: Widget
 		//		The currently focused child widget, or null if there isn't one

@@ -6,13 +6,21 @@ dojo.require("dojo.colors");
 dojo.require("dojo.i18n");
 dojo.requireLocalization("dojo", "colors");
 
-dojo.declare(
-		"dijit.ColorPalette",
-		[dijit._Widget, dijit._Templated],
-{
-	// summary
-	//		Grid showing various colors, so the user can pick a certain color
-
+dojo.declare("dijit.ColorPalette",
+	[dijit._Widget, dijit._Templated],
+	{
+	// summary: A keyboard accessible color-picking widget
+	// description:
+	//	Grid showing various colors, so the user can pick a certain color
+	//	Can be used standalone, or as a popup.
+	//
+	// example:
+	// |	<div dojoType="dijit.ColorPalette"></div>
+	//
+	// example:
+	// |    var picker = new dijit.ColorPalette({ },srcNode);
+	// |	picker.startup();
+	//
 	// defaultTimeout: Number
 	//		number of milliseconds before a held key or button becomes typematic
 	defaultTimeout: 500,
@@ -236,7 +244,7 @@ dojo.declare(
 	},
 
 	_navigateByKey: function(increment, typeCount){
-		// summary:we
+		// summary:
 		// 	  	This is the callback for typematic.
 		// 		It changes the focus and the highlighed color.
 		// increment:
