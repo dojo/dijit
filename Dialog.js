@@ -12,22 +12,25 @@ dojo.declare(
 	"dijit.DialogUnderlay",
 	[dijit._Widget, dijit._Templated],
 	{
-		// summary: the thing that grays out the screen behind the dialog
-
+		// summary: The component that grays out the screen behind the dialog
+	
 		// Template has two divs; outer div is used for fade-in/fade-out, and also to hold background iframe.
 		// Inner div has opacity specified in CSS file.
 		templateString: "<div class=dijitDialogUnderlayWrapper id='${id}_underlay'><div class=dijitDialogUnderlay dojoAttachPoint='node'></div></div>",
 
 		postCreate: function(){
+			// summary: Append the underlay to the body
 			dojo.body().appendChild(this.domNode);
 			this.bgIframe = new dijit.BackgroundIframe(this.domNode);
 		},
 
 		layout: function(){
-			// summary
-			//		Sets the background to the size of the viewport (rather than the size
-			//		of the document) since we need to cover the whole browser window, even
-			//		if the document is only a few lines long.
+			// summary: Sets he background to the size of the viewport
+			//
+			// description:
+			//	Sets the background to the size of the viewport (rather than the size
+			//	of the document) since we need to cover the whole browser window, even
+			//	if the document is only a few lines long.
 
 			var viewport = dijit.getViewport();
 			var is = this.node.style,
@@ -46,6 +49,7 @@ dojo.declare(
 		},
 
 		show: function(){
+			// summary: Show the dialog underlay
 			this.domNode.style.display = "block";
 			this.layout();
 			if(this.bgIframe.iframe){
@@ -55,6 +59,7 @@ dojo.declare(
 		},
 
 		hide: function(){
+			// summary: hides the dialog underlay
 			this.domNode.style.display = "none";
 			if(this.bgIframe.iframe){
 				this.bgIframe.iframe.style.display = "none";
@@ -74,11 +79,22 @@ dojo.declare(
 	"dijit.Dialog",
 	[dijit.layout.ContentPane, dijit._Templated, dijit.form._FormMixin],
 	{
-		// summary:
-		//		Pops up a modal dialog window, blocking access to the screen
-		//		and also graying out the screen Dialog is extended from
-		//		ContentPane so it supports all the same parameters (href, etc.)
-
+		// summary: A modal dialog Widget
+		//
+		// description:
+		//	Pops up a modal dialog window, blocking access to the screen
+		//	and also graying out the screen Dialog is extended from
+		//	ContentPane so it supports all the same parameters (href, etc.)
+		//
+		// example:
+		// |	<div dojoType="dijit.Dialog" href="test.html"></div>
+		//
+		// example:
+		// |	<div id="test">test content</div>
+		// |	...
+		// |	var foo = new dijit.Dialog({ title: "test dialog" },dojo.byId("test"));
+		// |	foo.startup();
+		
 		templateString: null,
 		templatePath: dojo.moduleUrl("dijit", "templates/Dialog.html"),
 
@@ -90,6 +106,8 @@ dojo.declare(
 		//		The time in milliseconds it takes the dialog to fade in and out
 		duration: 400,
 
+		// _lastFocusItem: DomNode
+		//		The pointer to which node has focus prior to our dialog
 		_lastFocusItem:null,
 
 		attributeMap: dojo.mixin(dojo.clone(dijit._Widget.prototype.attributeMap),
@@ -104,14 +122,13 @@ dojo.declare(
 		},
 
 		onLoad: function(){
-			// summary: 
-			//		when href is specified we need to reposition the dialog after the data is loaded
+			// summary: when href is specified we need to reposition the dialog after the data is loaded
 			this._position();
 			this.inherited("onLoad",arguments);
 		},
 
 		_setup: function(){
-			// summary:
+			// summary: 
 			//		stuff we need to do before showing the Dialog for the first
 			//		time (but we defer it until right beforehand, for
 			//		performance reasons)
@@ -156,6 +173,7 @@ dojo.declare(
 		},
 
 		uninitialize: function(){
+			// summary: destroy the underlay
 			if(this._underlay){
 				this._underlay.destroy();
 			}
@@ -189,6 +207,7 @@ dojo.declare(
 		},
 
 		_onKey: function(/*Event*/ evt){
+			// summary: handles the keyboard events for accessibility reasons
 			if(evt.keyCode){
 				var node = evt.target;
 				// see if we are shift-tabbing from titleBar
@@ -260,8 +279,7 @@ dojo.declare(
 		},
 
 		hide: function(){
-			// summary
-			//		Hide the dialog
+			// summary: Hide the dialog
 
 			// if we haven't been initialized yet then we aren't showing and we can just return		
 			if(!this._alreadyInitialized){
@@ -301,10 +319,13 @@ dojo.declare(
 	{
 		// summary:
 		//		Pops up a dialog that appears like a Tooltip
+		//
 		// title: String
 		// 		Description of tooltip dialog (required for a11Y)
 		title: "",
 
+		// _lastFocusItem: DomNode
+		//		The domNode that had focus before we took it.
 		_lastFocusItem: null,
 
 		templateString: null,
