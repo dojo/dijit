@@ -14,16 +14,16 @@ dojo.declare(
 		// summary:
 		//		Holds a set of panes where every pane's title is visible, but only one pane's content is visible at a time,
 		//		and switching between panes is visualized by sliding the other panes up/down.
-		// usage:
-		// 	<div dojoType="dijit.layout.AccordionContainer">
-		// 		<div dojoType="dijit.layout.AccordionPane" title="pane 1">
-		// 			<div dojoType="dijit.layout.ContentPane">...</div>
-		//  	</div>
-		// 		<div dojoType="dijit.layout.AccordionPane" title="pane 2">
-		//			<p>This is some text</p>
-		// 		...
-		// 	</div>
-
+		// example:
+		// | 	<div dojoType="dijit.layout.AccordionContainer">
+		// |		<div dojoType="dijit.layout.AccordionPane" title="pane 1">
+		// |			<div dojoType="dijit.layout.ContentPane">...</div>
+		// | 	</div>
+		// |		<div dojoType="dijit.layout.AccordionPane" title="pane 2">
+		// |			<p>This is some text</p>
+		// ||		...
+		// |	</div>
+		//
 		// duration: Integer
 		//		Amount of time (in ms) it takes to slide panes
 		duration: 250,
@@ -49,8 +49,9 @@ dojo.declare(
 		},
 
 		layout: function(){
-			// summary
+			// summary: 
 			//		Set the height of the open pane based on what room remains
+
 			// get cumulative height of all the title bars, and figure out which pane is open
 			var totalCollapsedHeight = 0;
 			var openPane = this.selectedChildWidget;
@@ -147,13 +148,14 @@ inside the AccordionPane??
 	}
 );
 
-dojo.declare(
-	"dijit.layout.AccordionPane",
+dojo.declare("dijit.layout.AccordionPane",
 	[dijit.layout.ContentPane, dijit._Templated, dijit._Contained],
-{
-	// summary
+	{
+	// summary:
 	//		AccordionPane is a ContentPane with a title that may contain another widget.
 	//		Nested layout widgets, such as SplitContainer, are not supported at this time.
+	// example: 
+	// | see dijit.layout.AccordionContainer
 
 	templatePath: dojo.moduleUrl("dijit.layout", "templates/AccordionPane.html"),
 
