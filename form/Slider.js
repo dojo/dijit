@@ -235,7 +235,31 @@ dojo.declare(
 	_startingPixelCount: "t",
 	_handleOffsetCoord: "top",
 	_progressPixelSize: "height",
-	_upsideDown: true
+	_upsideDown: true,
+
+	startup: function(){
+		dijit.form.VerticalSlider.superclass.startup.call(this);
+		if(!dojo._isBodyLtr() && dojo.isMoz){
+			if(this.leftDecoration){this._rtlRectify(this.leftDecoration);}
+			if(this.rightDecoration){this._rtlRectify(this.rightDecoration);}
+		}
+	},
+		
+	_rtlRectify:function(decorationNode/*NodeList*/){
+		// summary:
+		//      Rectify children nodes for left/right decoration in rtl case.
+		//		Simply switch the rule and label child for each decoration node.
+		var childNodes = [];
+		while(decorationNode.firstChild){
+				childNodes.push(decorationNode.firstChild);
+				decorationNode.removeChild(decorationNode.firstChild);
+		}
+		for(var i = childNodes.length-1; i >=0; i--){
+			if(childNodes[i]){
+				decorationNode.appendChild(childNodes[i]);
+			}
+		}
+	}
 });
 
 dojo.declare("dijit.form._SliderMover",

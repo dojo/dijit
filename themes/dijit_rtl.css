@@ -16,6 +16,11 @@
 } 
 
 /* ComboBox */
+.dj_gecko .dijitRtl .dijitButton,
+.dijitDropDownButton,
+.dijitComboButton {
+	float:right;
+}
 
 .dijitRtl .dijitComboBox .dijitInputField {
 	border-right-width:1px !important;
@@ -74,6 +79,10 @@
 
 .dijitRtl .VerticalRuleContainer {
 	float:right;
+}
+
+.dj_gecko .dijitRtl .VerticalRuleContainer {
+	float:left;
 }
 
 .dj_ie .dijitRtl .VerticalRuleContainer {
