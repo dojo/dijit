@@ -48,6 +48,11 @@
 
 		dojo.addOnLoad(function(){
 			dijit.setWaiRole(dojo.body(), "application");
+
+			// must wait for mail.css to load before sizing
+			setTimeout(function(){
+				dijit.byId("main").resize();
+			}, 250);
 		});
 		
 		var paneId=1;
