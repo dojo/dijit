@@ -107,7 +107,7 @@ dojo.declare("dijit.ColorPalette",
 		this.domNode.style.position = "relative";
 		this._highlightNodes = [];	
 		this.colorNames = dojo.i18n.getLocalization("dojo", "colors", this.lang);
-		var url = dojo.moduleUrl("dijit", "templates/blank.gif"),
+		var url = dojo.moduleUrl("dojo", "resources/blank.gif"),
             colorObject = new dojo.Color(),
 		    coords = this._paletteCoords;
 		for(var row=0; row < choices.length; row++){
