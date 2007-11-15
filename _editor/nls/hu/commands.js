@@ -9,7 +9,7 @@
 	'insertUnorderedList': 'Felsorolásjeles lista',
 	'italic': 'Dőlt',
 	'justifyCenter': 'Középre igazítás',
-	'justifyFull': 'Igazítás',
+	'justifyFull': 'Sorkizárás',
 	'justifyLeft': 'Balra igazítás',
 	'justifyRight': 'Jobbra igazítás',
 	'outdent': 'Negatív behúzás',
