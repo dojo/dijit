@@ -5,10 +5,10 @@
 	'delete': 'Löschen',
 	'indent': 'Einrücken',
 	'insertHorizontalRule': 'Horizontaler Strich',
-	'insertOrderedList': 'Nummerierte Liste',
-	'insertUnorderedList': 'Listenpunkte',
+	'insertOrderedList': 'Nummerierung',
+	'insertUnorderedList': 'Aufzählungszeichen',
 	'italic': 'Kursiv',
-	'justifyCenter': 'Zentrieren',
+	'justifyCenter': 'Zentriert',
 	'justifyFull': 'Blocksatz',
 	'justifyLeft': 'Linksbündig',
 	'justifyRight': 'Rechtsbündig',
@@ -38,5 +38,6 @@
 	'fontName': 'Schriftartname',
 	/* Error messages */
 	'systemShortcutFF': 'Die Aktion "${0}" ist in Mozilla Firefox nur über einen Tastaturkurzbefehl verfügbar. Verwenden Sie ${1}.',
-	'ctrlKey':'Strg+${0}'
+	'ctrlKey':'Strg+${0}',
+	'appleKey':'⌘${0} ' // "command" or open-apple key on Macintosh
 })

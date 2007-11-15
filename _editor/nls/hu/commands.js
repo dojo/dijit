@@ -9,7 +9,7 @@
 	'insertUnorderedList': 'Felsorolásjeles lista',
 	'italic': 'Dőlt',
 	'justifyCenter': 'Középre igazítás',
-	'justifyFull': 'Igazítás',
+	'justifyFull': 'Sorkizárás',
 	'justifyLeft': 'Balra igazítás',
 	'justifyRight': 'Jobbra igazítás',
 	'outdent': 'Negatív behúzás',
@@ -37,5 +37,7 @@
 	'fontSize': 'Betűméret',
 	'fontName': 'Betűtípus',
 	/* Error messages */
-	'systemShortcutFF': 'A(z) "${0}" művelet csak Mozilla Firefox böngészőben érhető el billentyűparancs használatával. Használja a következőt: ${1}.'
+	'systemShortcutFF': 'A(z) "${0}" művelet csak Mozilla Firefox böngészőben érhető el billentyűparancs használatával. Használja a következőt: ${1}.',
+	'ctrlKey':'ctrl+${0}',
+	'appleKey':'⌘${0}' // "command" or open-apple key on Macintosh
 })
