@@ -173,7 +173,12 @@ dojo.declare(
 		},
 
 		uninitialize: function(){
-			// summary: destroy the underlay
+			if(this._fadeIn.status() == "playing"){
+				this._fadeIn.stop();
+			}
+			if(this._fadeOut.status() == "playing"){
+				this._fadeOut.stop();
+			}
 			if(this._underlay){
 				this._underlay.destroy();
 			}
