@@ -37,7 +37,5 @@
 	'fontSize': 'フォント・サイズ',
 	'fontName': 'フォント名',
 	/* Error messages */
-	'systemShortcutFF': '"${0}" アクションは、キーボード・ショートカットを使用して Mozilla Firefox でのみ使用できます。${1} を使用してください。',
-	'ctrlKey':'ctrl+${0}',
-	'appleKey':'⌘${0}' // "command" or open-apple key on Macintosh
+	'systemShortcutFF': '"${0}" アクションは、キーボード・ショートカットを使用して Mozilla Firefox でのみ使用できます。${1} を使用してください。'
 })
