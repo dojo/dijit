@@ -37,7 +37,5 @@
 	'fontSize': 'Betűméret',
 	'fontName': 'Betűtípus',
 	/* Error messages */
-	'systemShortcutFF': 'A(z) "${0}" művelet csak Mozilla Firefox böngészőben érhető el billentyűparancs használatával. Használja a következőt: ${1}.',
-	'ctrlKey':'ctrl+${0}',
-	'appleKey':'⌘${0}' // "command" or open-apple key on Macintosh
+	'systemShortcutFF': 'A(z) "${0}" művelet csak Mozilla Firefox böngészőben érhető el billentyűparancs használatával. Használja a következőt: ${1}.'
 })
