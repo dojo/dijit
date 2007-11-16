@@ -34,6 +34,23 @@ dojo.declare(
 				// we only support one preamble. So be it.
 				propList.preamble = dojo.parser._functionFromScript(preambles[0]);
 			}
+
+			var parsedScripts = dojo.map(scripts, function(s){
+				var evt = s.getAttribute("event")||"postscript";
+				return {
+					event: evt,
+					func: dojo.parser._functionFromScript(s)
+				};
+			});
+
+			// do the connects for each <script type="dojo/connect" event="foo"> block and make
+			// all <script type="dojo/method"> tags execute right after construction
+			this.mixins.push(function(){
+				parsedScripts.forEach(function(s){
+					dojo.connect(this, s.event, this, s.func);
+				}, this);
+			});
+
 			propList.widgetsInTemplate = true;
 			propList._skipNodeCache = true;
 			propList.templateString = "<"+srcType+" class='"+src.className+"' dojoAttachPoint='"+(src.getAttribute("dojoAttachPoint")||'')+"' dojoAttachEvent='"+(src.getAttribute("dojoAttachEvent")||'')+"' >"+src.innerHTML.replace(/\%7B/g,"{").replace(/\%7D/g,"}")+"</"+srcType+">";
@@ -50,14 +67,6 @@ dojo.declare(
 				this.mixins,
 				propList
 			);
-
-			// do the connects for each <script type="dojo/connect" event="foo"> block and make
-			// all <script type="dojo/method"> tags execute right after construction
-			var wcp = dojo.getObject(this.widgetClass).prototype;
-			scripts.forEach(function(s){
-				var event = s.getAttribute("event");
-				dojo.connect(wcp, event || "postscript", null, dojo.parser._functionFromScript(s));
-			});
 		}
 	}
 );
