@@ -17,8 +17,8 @@
 
 /* ComboBox */
 .dj_gecko .dijitRtl .dijitButton,
-.dijitDropDownButton,
-.dijitComboButton {
+.dj_gecko .dijitRtl .dijitDropDownButton,
+.dj_gecko .dijitRtl .dijitComboButton {
 	float:right;
 }
 
