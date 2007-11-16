@@ -16,7 +16,6 @@
 } 
 
 /* ComboBox */
-.dj_gecko .dijitRtl .dijitButton,
 .dj_gecko .dijitRtl .dijitDropDownButton,
 .dj_gecko .dijitRtl .dijitComboButton {
 	float:right;
@@ -157,4 +156,12 @@
 .dj_ie6 .dijitRtl .dijitTabContainer .dijitAlignRight {
 	overflow-x:visible;
 	margin-right:2px !important;
+}
+
+.dj_ie7 .dijitRtl .dijitTab .dijitTabInnerDiv{
+	float:left;
+}
+
+.dj_ie7 .dijitRtl .dijitTab .closeImage{
+	padding: 0px 0px 0px 12px;
 }
