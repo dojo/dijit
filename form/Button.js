@@ -87,11 +87,13 @@ dojo.declare("dijit.form.Button", dijit.form._FormWidget, {
 	setLabel: function(/*String*/ content){
 		// summary: reset the label (text) of the button; takes an HTML string
 		this.containerNode.innerHTML = this.label = content;
-		if(dojo.isMozilla){ // Firefox has re-render issues with tables
-			var oldDisplay = dojo.getComputedStyle(this.domNode).display;
+		if(dojo.isMozilla && !this._realDisplay){ // Firefox has re-render issues with tables
+			this._realDisplay = dojo.getComputedStyle(this.domNode).display;
 			this.domNode.style.display="none";
-			var _this = this;
-			setTimeout(function(){_this.domNode.style.display=oldDisplay;},1);
+			setTimeout(dojo.hitch(this,function(){
+				this.domNode.style.display=this._realDisplay;
+				delete this._realDisplay
+			}),1);
 		}
 		if (this.showLabel == false){
 				this.titleNode.title=dojo.trim(this.containerNode.innerText || this.containerNode.textContent);
