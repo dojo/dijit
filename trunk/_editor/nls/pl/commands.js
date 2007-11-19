@@ -37,5 +37,5 @@
 	'fontSize': 'Wielkość czcionki',
 	'fontName': 'Nazwa czcionki',
 	/* Error messages */
-	'systemShortcutFF': 'Działanie "${0}" jest dostępne w przeglądarce Mozilla Firefox wyłącznie za pomocą skrótu klawiaturowego. Użyj ${1}.'
+	'systemShortcutFF': 'Działanie ${0} jest dostępne w przeglądarce Mozilla Firefox wyłącznie za pomocą skrótu klawiaturowego. Użyj ${1}.'
 })

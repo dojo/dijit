@@ -12,7 +12,7 @@
 	'justifyFull': 'Justificar',
 	'justifyLeft': 'Alinhar pela Esquerda',
 	'justifyRight': 'Alinhar pela Direita',
-	'outdent': 'Não-chanfrado',
+	'outdent': 'Avançar',
 	'paste': 'Colar',
 	'redo': 'Refazer',
 	'removeFormat': 'Remover Formato',
