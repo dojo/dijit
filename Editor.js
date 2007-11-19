@@ -162,7 +162,7 @@ dojo.declare(
 							accel = {cut:'X', copy:'C', paste:'V'},
 							isMac = navigator.userAgent.indexOf("Macintosh") != -1;
 						alert(sub(this.commands.systemShortcutFF,
-							[cmd, sub(this.commands[isMac ? 'appleKey' : 'ctrlKey'], [accel[cmd]])]));
+							[this.commands[cmd], sub(this.commands[isMac ? 'appleKey' : 'ctrlKey'], [accel[cmd]])]));
 					}
 					return false;
 				}
