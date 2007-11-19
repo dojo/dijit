@@ -1,5 +1,5 @@
 ({
-	title: "リンク URL",
+	title: "URL にリンク",
 	url: "URL:",
 	text: "テキスト:",
 	set: "設定",
