@@ -111,6 +111,11 @@ dojo.declare(
 					clazz = "dijitCalendarDisabledDate " + clazz;
 				}
 
+				var clazz2 = this.getClassForDate(date, this.lang);
+				if(clazz2){
+					clazz += clazz2 + " " + clazz;
+				}
+
 				template.className =  clazz + "Month dijitCalendarDateTemplate";
 				template.dijitDateValue = date.valueOf();
 				var label = dojo.query(".dijitCalendarDateLabel", template)[0];
@@ -205,7 +210,19 @@ dojo.declare(
 		isDisabledDate: function(/*Date*/dateObject, /*String?*/locale){
 			// summary:
 			//	May be overridden to disable certain dates in the calendar e.g. isDisabledDate=dojo.date.locale.isWeekend
+/*=====
 			return false; // Boolean
+=====*/
+		},
+
+		getClassForDate: function(/*Date*/dateObject, /*String?*/locale){
+			// summary:
+			//  May be overridden to return CSS classes to associate with the date entry for the given dateObject,
+			//  for example to indicate a holiday in specified locale.
+
+/*=====
+			return ""; // String
+=====*/
 		}
 	}
 );
