@@ -37,5 +37,5 @@
 	'fontSize': '字型大小',
 	'fontName': '字型名稱',
 	/* Error messages */
-	'systemShortcutFF': '"${0}" 動作在 Mozilla Firefox 中，只能使用鍵盤快速鍵。使用 ${1}。'
+	'systemShortcutFF': '"${0}" 動作在 Mozilla Firefox 中，只能使用鍵盤快速鍵。請使用 ${1}。'
 })
