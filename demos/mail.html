@@ -4,6 +4,11 @@
 <head>
 	<title>Demo Mail Application</title>
 
+	<style type="text/css">
+		@import "../../dojo/resources/dojo.css";
+		@import "../themes/soria/soria.css";
+		@import "mail/mail.css";
+	</style>
 
 	<script type="text/javascript" src="../../dojo/dojo.js"
 		djConfig="isDebug: false, parseOnLoad: true, defaultTestTheme: 'soria'"></script>
@@ -48,11 +53,6 @@
 
 		dojo.addOnLoad(function(){
 			dijit.setWaiRole(dojo.body(), "application");
-
-			// must wait for mail.css to load before sizing
-			setTimeout(function(){
-				dijit.byId("main").resize();
-			}, 250);
 		});
 		
 		var paneId=1;
@@ -110,12 +110,6 @@
 		}
 
 	</script>
-
-	<style type="text/css">
-		@import "../../dojo/resources/dojo.css";
-		@import "../themes/soria/soria.css";
-		@import "mail/mail.css";
-	</style>
 </head>
 <body class="soria">
 	<div dojoType="dojo.data.ItemFileWriteStore" jsId="mailStore"
