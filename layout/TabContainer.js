@@ -53,6 +53,22 @@ dojo.declare("dijit.layout.TabContainer",
 			// sometimes safari 3.0.3 miscalculates the height of the tab labels, see #4058
 			setTimeout(dojo.hitch(this, "layout"), 0);
 		}
+
+		if(dojo.isIE && !dojo._isBodyLtr() && this.tabPosition == "right-h" &&
+		   this.tablist && this.tablist.pane2button){
+			//need rectify non-closable tab in IE, only for "right-h" mode
+			dojo.forEach(this.tablist.pane2button, function(pane){
+				var tabButton = this.tablist.pane2button[pane];
+				if(!tabButton.closeButton){ return; }
+				tabButtonStyle = tabButton.closeButtonNode.style;
+				tabButtonStyle.position ="absolute";
+				if(dojo.isIE < 7){
+					tabButtonStyle.left = tabButton.domNode.offsetWidth + "px";
+				}else{
+					tabButtonStyle.padding = "0px";
+				}
+			}, this);
+		}
 	},
 
 	layout: function(){
