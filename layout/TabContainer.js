@@ -57,9 +57,9 @@ dojo.declare("dijit.layout.TabContainer",
 		if(dojo.isIE && !dojo._isBodyLtr() && this.tabPosition == "right-h" &&
 		   this.tablist && this.tablist.pane2button){
 			//need rectify non-closable tab in IE, only for "right-h" mode
-			dojo.forEach(this.tablist.pane2button, function(pane){
+			for(var pane in this.tablist.pane2button){
 				var tabButton = this.tablist.pane2button[pane];
-				if(!tabButton.closeButton){ return; }
+				if(!tabButton.closeButton){ continue; }
 				tabButtonStyle = tabButton.closeButtonNode.style;
 				tabButtonStyle.position ="absolute";
 				if(dojo.isIE < 7){
@@ -67,7 +67,7 @@ dojo.declare("dijit.layout.TabContainer",
 				}else{
 					tabButtonStyle.padding = "0px";
 				}
-			}, this);
+			}
 		}
 	},
 
