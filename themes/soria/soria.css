@@ -173,7 +173,7 @@
 	/* active state - inner (for when you are pressing a normal button, or
 	 * when a toggle button is in a depressed state
 	 */
-	border-color:#333;
+	border-color:#999;
 	background: #cbdcf7 url("images/gradientBottomBg.png") bottom repeat-x;
 }
 
@@ -193,7 +193,7 @@
 
 
 .soria .dijitToolbar {
-	border: 1px solid #333;
+	border: 1px solid #666;
 }
 .soria .dijitToolbar * {
 	padding: 0px;
@@ -244,7 +244,9 @@
 	/* visibility:hidden;  */
 	display:none; 
 }
-.soria .dijitComboBox .dijitDownArrowButtonInner { background-position:0px 0px; }
+.soria .dijitComboBox .dijitDownArrowButtonInner {
+	overflow:visible; 
+	background-position:0px 0px; }
 .soria .dijitComboBoxHover .dijitDownArrowButtonInner { }
 .soria .dijitSpinner .dijitButtonNode {
 	padding: 0 .4em 0 .4em;
@@ -310,7 +312,7 @@
 
 .soria .dijitComboBoxHover .dijitInputField  {
 	/* input field when hovered over */
-	border-color:#4f8ce5;
+	border-color:#000;
 }
 
 .soria .dijitComboBoxActive .dijitInputField {
@@ -387,7 +389,7 @@ HTML.dj_ie6 .soria .dijitInputFieldValidationError,
 
 /* diji.Menu */
 .soria .dijitMenu {
-	border: 1px solid #333;
+	border: 1px solid #999;
 	margin: 0px;
 	padding: 0px;
 }
@@ -417,7 +419,7 @@ HTML.dj_ie6 .soria .dijitInputFieldValidationError,
 }
 /* separator can be two pixels -- set border of either one to 0px to have only one */
 .soria .dijitMenuSeparatorTop {
-	border-bottom: 1px solid #333; 
+	border-bottom: 1px solid #666; 
 }
 
 .soria .dijitMenuSeparatorBottom {
@@ -426,7 +428,7 @@ HTML.dj_ie6 .soria .dijitInputFieldValidationError,
 
 /* TitlePane */
 .soria .dijitTitlePane .dijitTitlePaneTitle {
-	border:1px solid #333;
+	border:1px solid #999;
 	border-bottom:0;
 	background-position:0px -1px; 
 	padding:4px 4px 4px 4px;
