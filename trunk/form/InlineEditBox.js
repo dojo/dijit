@@ -299,7 +299,7 @@ dojo.declare(
 			// #3752
 			// if the keypress does not bubble up to the div, (iframe in TextArea blocks it for example)
 			// make sure the save button gets enabled
-			this.saveButton.setDisabled((this._getEditValue() == this._initialText) || !this.enabledSave());
+			this.saveButton.setDisabled((this._getEditValue() == this._initialText) || !this.enableSave());
 		}
 	},
 
