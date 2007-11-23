@@ -49,12 +49,17 @@ dojo.declare("dijit._editor.plugins.LinkDialog",
 		useDefaultCommand: false,
 		command: "createLink",
 		linkDialogTemplate: [
-			"<label for='urlInput'>${url}&nbsp;</label>",
-			"<input dojoType=dijit._editor.plugins.UrlTextBox name='urlInput'><br>",
-			"<label for='textInput'>${text}&nbsp;</label>",
+			"<table><tr><td>",
+			"<label for='urlInput'>${url}</label>",
+			"</td><td>",
+			"<input dojoType=dijit._editor.plugins.UrlTextBox name='urlInput'>",
+			"</td></tr><tr><td>",
+			"<label for='textInput'>${text}</label>",
+			"</td><td>",
 			"<input dojoType=dijit.form.TextBox name='textInput'>",
-			"<br>",
-			"<button dojoType=dijit.form.Button type='submit'>${set}</button>"
+			"</td></tr><tr><td colspan='2'>",
+			"<button dojoType=dijit.form.Button type='submit'>${set}</button>",
+			"</td></tr></table>"
 		].join(""),
 
 		constructor: function(){
@@ -104,7 +109,8 @@ dojo.declare("dijit._editor.plugins.LinkDialog",
 					range.moveToBookmark(b);
 					range.select();
 				}
-			}else{this.editor.focus();
+			}else{
+				this.editor.focus();
 			}
 		},
 		_onOpenDialog: function(){
