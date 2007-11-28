@@ -138,30 +138,19 @@
 	</script>
 	<style type="text/css">
 		/* for custom menu buttons, do not appear to have any effect */
-		.dc {
-			font-size: x-large !important;
-			padding-top: 10px !important;
-			padding-bottom: 10px !important;
+		.myCustomTheme .dijitButtonNode {
+			border:1px solid #000;
+			vertical-align: middle;
+			padding: 0.2em 0.2em;
+			background: url("themeTesterImages/blackButtonEnabled.gif") repeat-x bottom left #474747;
+			color:#fff;
+		}
+		
+		.myCustomTheme .dijitButtonHover .dijitButtonNode,
+		.myCustomTheme .dijitToggleButtonHover .dijitButtonNode {
+			background: url("themeTesterImages/blackButtonHover.gif") repeat-x bottom left #3b3b3b !important;
 		}
 	
-		.Acme *,
-		.Acme {
-			background: rgb(96,96,96) !important;
-			color: white !important;
-			padding: 10px !important;
-		}
-	
-		.Acme:hover *,
-		.Acme:hover {
-			background-color: rgb(89,94,111) !important;
-			color: cyan !important;
-		}
-	
-		.Acme:active *,
-		.Acme:active {
-				background-color: white !important;
-				color: black !important;
-		}
 	</style>
 	<script>
 		/***
@@ -462,11 +451,11 @@
 						<hr class="spacer">
 
 						<h2>ProgressBar</h2>
-						<div style="width:400px" annotate="true" maximum="200" id="setTestBar"
+						<div style="width:400px; height:20px;" annotate="true" maximum="200" id="setTestBar"
 							progress="20" dojoType="dijit.ProgressBar"></div>
 			
 						Indeterminate: 
-						<div style="width:400px" indeterminate="true" dojoType="dijit.ProgressBar"></div>
+						<div style="width:400px; height:20px" indeterminate="true" dojoType="dijit.ProgressBar"></div>
 
 						<hr class="spacer">	
 
@@ -578,18 +567,18 @@
 						<h2>Customized buttons</h2>
 						<p>Dojo users can mix in their styles.  Here's an example:</p>
 	
-						<div class="box"><!-- custom styled button tests -->
-							<button dojoType="dijit.form.Button" class="Acme"
+						<div><!-- custom styled button tests -->
+							<button dojoType="dijit.form.Button" class="myCustomTheme"
 								onclick='console.debug("short");'>
 								<div class="dc">short</div>
 							</button>
 	
-							<button dojoType="dijit.form.Button" class="Acme"
+							<button dojoType="dijit.form.Button" class="myCustomTheme"
 								onclick='console.debug("longer");'>
 								<div class="dc">bit longer</div>
 							</button>
 	
-							<button dojoType="dijit.form.Button" class="Acme"
+							<button dojoType="dijit.form.Button" class="myCustomThem"
 								onclick='console.debug("longer yet");'>
 								<div class="dc">ridiculously long</div>
 							</button>
