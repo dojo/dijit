@@ -11,6 +11,43 @@
 				dojo.require("dijit.form.Slider");
 				dojo.require("dijit.form.Button");
 				dojo.require("dojo.parser"); // scan page for widgets
+
+				// programatic vertical slider and labels
+				var programaticExample = function(){
+					
+					var node = dojo.byId("programaticSlider");
+					// or var node = dojo.body().appendChild(document.createElement('div'));
+
+					// our rules are to be children of the slider
+					var rulesNode = document.createElement('div');
+					node.appendChild(rulesNode);
+
+					// setup the rules
+					var sliderRules = new dijit.form.VerticalRule({
+						count:10,
+						style:"width:5px" 
+					},rulesNode);
+
+					// and setup the slider
+					var theSlider = new dijit.form.VerticalSlider({ 
+						value:1500,
+						onChange: function(){
+                                                    console.log(arguments);
+						},
+						style:"height:165px",
+						minimum:1000,
+						maximum:3000,
+						discreteValues:10,
+						intermediateChanges:"true",
+						showButtons:"true"
+					},node);
+
+					// and start them both
+					theSlider.startup();
+        				sliderRules.startup();
+
+				};
+				dojo.addOnLoad(programaticExample);
 	
 				dojo.addOnLoad(function(){
 					dijit.byId("sliderH2").setDisabled(true);
@@ -132,6 +169,11 @@
 					<li>highest</li>
 				</ol>
 		</div>
+
+
+		<h2>Completely Programatic VerticalSlider and VerticalRule</h2>
+
+		<div id="programaticSlider"></div>
 
 	</body>
 </html>
