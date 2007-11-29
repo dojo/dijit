@@ -19,7 +19,7 @@ if(!djConfig["useXDomain"] || djConfig["allowXdRichTextSave"]){
 			s.display='none';
 			s.position='absolute';
 			s.top="-100px";
-			s.left="-100px"
+			s.left="-100px";
 			s.height="3px";
 			s.width="3px";
 			dojo.body().appendChild(savetextarea);
@@ -502,12 +502,16 @@ dojo.declare("dijit._editor.RichText", [ dijit._Widget ], {
 				}
 
 				dojo._destroyElement(tmpContent);
-				this.document.designMode = "on";
-				//	try{
-				//	this.document.designMode = "on";
-				// }catch(e){
-				//	this._tryDesignModeOnClick=true;
-				// }
+				try{
+					this.setDisabled(false);
+				}catch(e){
+					// Firefox throws an exception if the editor is initially hidden
+					// so, if this fails, try again onClick by adding "once" advice
+					var handle = dojo.connect(this, "onClick", this, function(){
+						this.setDisabled(false);
+						dojo.disconnect(handle);
+					});
+				}
 
 				this.onLoad();
 			}else{
@@ -555,7 +559,7 @@ dojo.declare("dijit._editor.RichText", [ dijit._Widget ], {
 		}
 
 		if(dojo.indexOf(this.editingAreaStyleSheets, url) > -1){
-			console.debug("dijit._editor.RichText.addStyleSheet: Style sheet "+url+" is already applied to the editing area!");
+//			console.debug("dijit._editor.RichText.addStyleSheet: Style sheet "+url+" is already applied");
 			return;
 		}
 
@@ -584,24 +588,25 @@ dojo.declare("dijit._editor.RichText", [ dijit._Widget ], {
 		}
 		var index = dojo.indexOf(this.editingAreaStyleSheets, url);
 		if(index == -1){
-			console.debug("dijit._editor.RichText.removeStyleSheet: Style sheet "+url+" is not applied to the editing area so it can not be removed!");
+//			console.debug("dijit._editor.RichText.removeStyleSheet: Style sheet "+url+" has not been applied");
 			return;
 		}
 		delete this.editingAreaStyleSheets[index];
 		dojo.withGlobal(this.window,'query', dojo, ['link:[href="'+url+'"]']).orphan()
 	},
 
-	disabled: false,
+	disabled: true,
 	_mozSettingProps: ['styleWithCSS','insertBrOnReturn'],
 	setDisabled: function(/*Boolean*/ disabled){
 		if(dojo.isIE || dojo.isSafari || dojo.isOpera){
 			this.editNode.contentEditable=!disabled;
 		}else{ //moz
 			if(disabled){
+				//AP: why isn't this set in the constructor, or put in mozSettingProps as a hash?
 				this._mozSettings=[false,this.blockNodeForEnter==='BR'];
 			}
 			this.document.designMode=(disabled?'off':'on');
-			if(!disabled){
+			if(!disabled && this._mozSettings){
 				dojo.forEach(this._mozSettingProps, function(s,i){
 					this.document.execCommand(s,false,this._mozSettings[i]);
 				},this);
@@ -610,9 +615,8 @@ dojo.declare("dijit._editor.RichText", [ dijit._Widget ], {
 //				if(disabled){
 //					this.blur(); //to remove the blinking caret
 //				}
-//				
 		}
-		this.disabled=disabled;
+		this.disabled = disabled;
 	},
 
 /* Event handlers
@@ -748,21 +752,16 @@ dojo.declare("dijit._editor.RichText", [ dijit._Widget ], {
 	},
 
 	onClick: function(/*Event*/e){
-//			console.debug('onClick',this._tryDesignModeOnClick);
-//			if(this._tryDesignModeOnClick){
-//				try{
-//					this.document.designMode='on';
-//					this._tryDesignModeOnClick=false;
-//				}catch(e){}
-//			}
-		this.onDisplayChanged(e); },
+//		console.info('onClick',this._tryDesignModeOn);
+		this.onDisplayChanged(e);
+	},
 	_onBlur: function(e){
 		var _c=this.getValue(true);
 		if(_c!=this.savedContent){
 			this.onChange(_c);
 			this.savedContent=_c;
 		}
-		if (dojo.isMoz && this.iframe){
+		if(dojo.isMoz && this.iframe){
 			this.iframe.contentDocument.title = this._localizedIframeTitles.iframeEditTitle;
 		} 
 //			console.info('_onBlur')
@@ -771,7 +770,7 @@ dojo.declare("dijit._editor.RichText", [ dijit._Widget ], {
 	_onFocus: function(/*Event*/e){
 //			console.info('_onFocus')
 		// summary: Fired on focus
-		if( (dojo.isMoz)&&(this._initialFocus) ){
+		if(dojo.isMoz && this._initialFocus){
 			this._initialFocus = false;
 			if(this.editNode.innerHTML.replace(/^\s+|\s+$/g, "") == "&nbsp;"){
 				this.placeCursorAtStart();
@@ -797,8 +796,9 @@ dojo.declare("dijit._editor.RichText", [ dijit._Widget ], {
 		}else if(this.editNode && this.editNode.focus){
 			// editNode may be hidden in display:none div, lets just punt in this case
 			dijit.focus(this.editNode);
-		}else{
-			console.debug("Have no idea how to focus into the editor!");
+//		}else{
+// TODO: should we throw here?
+//			console.debug("Have no idea how to focus into the editor!");
 		}
 	},
 
@@ -1020,36 +1020,43 @@ dojo.declare("dijit._editor.RichText", [ dijit._Widget ], {
 
 	queryCommandEnabled: function(/*String*/command){
 		// summary: check whether a command is enabled or not
+
+		if(this.disabled){ return false; }
 		command = this._normalizeCommand(command);
 		if(dojo.isMoz || dojo.isSafari){
 			if(command == "unlink"){ // mozilla returns true always
 				// console.debug(dojo.withGlobal(this.window, "hasAncestorElement",dijit._editor.selection, ['a']));
 				return dojo.withGlobal(this.window, "hasAncestorElement",dijit._editor.selection, ['a']);
-			}else if (command == "inserttable"){
+			}else if(command == "inserttable"){
 				return true;
 			}
 		}
 		//see #4109
-		if(dojo.isSafari)
+		if(dojo.isSafari){
 			if(command == "copy"){
-				command="cut";
+				command = "cut";
 			}else if(command == "paste"){
 				return true;
+			}
 		}
 
 		// return this.document.queryCommandEnabled(command);
-		var elem = (dojo.isIE) ? this.document.selection.createRange() : this.document;
+		var elem = dojo.isIE ? this.document.selection.createRange() : this.document;
 		return elem.queryCommandEnabled(command);
 	},
 
 	queryCommandState: function(command){
 		// summary: check the state of a given command
+
+		if(this.disabled){ return false; }
 		command = this._normalizeCommand(command);
 		return this.document.queryCommandState(command);
 	},
 
 	queryCommandValue: function(command){
 		// summary: check the value of a given command
+
+		if(this.disabled){ return false; }
 		command = this._normalizeCommand(command);
 		if(dojo.isIE && command == "formatblock"){
 			return this._local2NativeFormatNames[this.document.queryCommandValue(command)];
@@ -1147,13 +1154,9 @@ dojo.declare("dijit._editor.RichText", [ dijit._Widget ], {
 			this.textarea.value=html;
 		}else{
 			html = this._preFilterContent(html);
-			if(this.isClosed){
-				this.domNode.innerHTML = html;
-				this._preDomFilterContent(this.domNode);
-			}else{
-				this.editNode.innerHTML = html;
-				this._preDomFilterContent(this.editNode);
-			}
+			var node = this.isClosed ? this.domNode : this.editNode;
+			node.innerHTML = html;
+			this._preDomFilterContent(node);
 		}
 	},
 
@@ -1421,17 +1424,15 @@ dojo.declare("dijit._editor.RichText", [ dijit._Widget ], {
 	_fixContentForMoz: function(/* String */ html){
 		// summary:
 		//		Moz can not handle strong/em tags correctly, convert them to b/i
-		html = html.replace(/<(\/)?strong([ \>])/gi, '<$1b$2' );
-		html = html.replace(/<(\/)?em([ \>])/gi, '<$1i$2' );
-		return html; // String
+		return html.replace(/<(\/)?strong([ \>])/gi, '<$1b$2')
+			.replace(/<(\/)?em([ \>])/gi, '<$1i$2' ); // String
 	},
 
 	_srcInImgRegex	: /(?:(<img(?=\s).*?\ssrc=)("|')(.*?)\2)|(?:(<img\s.*?src=)([^"'][^ >]+))/gi ,
 	_hrefInARegex	: /(?:(<a(?=\s).*?\shref=)("|')(.*?)\2)|(?:(<a\s.*?href=)([^"'][^ >]+))/gi ,
 
 	_preFixUrlAttributes: function(/* String */ html){
-		html = html.replace(this._hrefInARegex, '$1$4$2$3$5$2 _djrealurl=$2$3$5$2') ;
-		html = html.replace(this._srcInImgRegex, '$1$4$2$3$5$2 _djrealurl=$2$3$5$2') ;
-		return html; // String
+		return html.replace(this._hrefInARegex, '$1$4$2$3$5$2 _djrealurl=$2$3$5$2')
+			.replace(this._srcInImgRegex, '$1$4$2$3$5$2 _djrealurl=$2$3$5$2'); // String
 	}
 });
