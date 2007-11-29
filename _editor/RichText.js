@@ -632,7 +632,7 @@ dojo.declare("dijit._editor.RichText", [ dijit._Widget ], {
 		}else{
 			this.editNode=this.document.body.firstChild;
 		}
-		this.editNode.contentEditable = true; //should do no harm in FF
+		this.setDisabled(false);
 		this._preDomFilterContent(this.editNode);
 
 		var events=this.events.concat(this.captureEvents),i=0,et;
