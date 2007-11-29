@@ -139,25 +139,30 @@ dojo.declare("dijit._editor.RichText", [ dijit._Widget ], {
 		// 		implementation does not use Editor commands, but directly
 		//		executes the builtin commands within the underlying browser
 		//		support.
-		var ctrl = this.KEY_CTRL;
 		var exec = function(cmd, arg){
 			return arguments.length == 1 ? function(){ this.execCommand(cmd); } :
-				function(){ this.execCommand(cmd, arg); }
-		}
-		this.addKeyHandler("b", ctrl, exec("bold"));
-		this.addKeyHandler("i", ctrl, exec("italic"));
-		this.addKeyHandler("u", ctrl, exec("underline"));
-		this.addKeyHandler("a", ctrl, exec("selectall"));
-		this.addKeyHandler("s", ctrl, function () { this.save(true); });
+				function(){ this.execCommand(cmd, arg); };
+		};
 
-		this.addKeyHandler("1", ctrl, exec("formatblock", "h1"));
-		this.addKeyHandler("2", ctrl, exec("formatblock", "h2"));
-		this.addKeyHandler("3", ctrl, exec("formatblock", "h3"));
-		this.addKeyHandler("4", ctrl, exec("formatblock", "h4"));
+		var ctrlKeyHandlers = { b: exec("bold"),
+			i: exec("italic"),
+			u: exec("underline"),
+			a: exec("selectall"),
+			s: function(){ this.save(true); },
 
-		this.addKeyHandler("\\", ctrl, exec("insertunorderedlist"));
+			"1": exec("formatblock", "h1"),
+			"2": exec("formatblock", "h2"),
+			"3": exec("formatblock", "h3"),
+			"4": exec("formatblock", "h4"),
+
+			"\\": exec("insertunorderedlist") };
+
 		if(!dojo.isIE){
-			this.addKeyHandler("Z", ctrl, exec("redo"));
+			ctrlKeyHandlers.Z = exec("redo"); //FIXME: undo?
+		}
+
+		for(var key in ctrlKeyHandlers){
+			this.addKeyHandler(key, this.KEY_CTRL, ctrlKeyHandlers[key]);
 		}
 	},
 
@@ -502,17 +507,6 @@ dojo.declare("dijit._editor.RichText", [ dijit._Widget ], {
 				}
 
 				dojo._destroyElement(tmpContent);
-				try{
-					this.setDisabled(false);
-				}catch(e){
-					// Firefox throws an exception if the editor is initially hidden
-					// so, if this fails, try again onClick by adding "once" advice
-					var handle = dojo.connect(this, "onClick", this, function(){
-						this.setDisabled(false);
-						dojo.disconnect(handle);
-					});
-				}
-
 				this.onLoad();
 			}else{
 				dojo._destroyElement(tmpContent);
@@ -632,7 +626,18 @@ dojo.declare("dijit._editor.RichText", [ dijit._Widget ], {
 		}else{
 			this.editNode=this.document.body.firstChild;
 		}
-		this.setDisabled(false);
+
+		try{
+			this.setDisabled(false);
+		}catch(e){
+			// Firefox throws an exception if the editor is initially hidden
+			// so, if this fails, try again onClick by adding "once" advice
+			var handle = dojo.connect(this, "onClick", this, function(){
+				this.setDisabled(false);
+				dojo.disconnect(handle);
+			});
+		}
+
 		this._preDomFilterContent(this.editNode);
 
 		var events=this.events.concat(this.captureEvents),i=0,et;
@@ -641,6 +646,7 @@ dojo.declare("dijit._editor.RichText", [ dijit._Widget ], {
 		}
 		if(!dojo.isIE){
 			try{ // sanity check for Mozilla
+			//AP: what's the point of this?
 //					this.document.execCommand("useCSS", false, true); // old moz call
 				this.document.execCommand("styleWithCSS", false, false); // new moz call
 				//this.document.execCommand("insertBrOnReturn", false, false); // new moz call
@@ -1278,11 +1284,7 @@ dojo.declare("dijit._editor.RichText", [ dijit._Widget ], {
 									continue;
 								}
 							}
-							if(key == 'class'){
-								attrarray.push([key,node.className]);
-							}else{
-								attrarray.push([key,node.getAttribute(key)]);
-							}
+							attrarray.push([key, key == 'class' ? node.className : node.getAttribute(key)]);
 						}
 					}
 				}else{
@@ -1369,15 +1371,11 @@ dojo.declare("dijit._editor.RichText", [ dijit._Widget ], {
 					this.__overflow = null;
 				}
 			}
-			if(save){
-				this.textarea.value = this._content;
-			}else{
-				this.textarea.value = this.savedContent;
-			}
+			this.textarea.value = save ? this._content : this.savedContent;
 			dojo._destroyElement(this.domNode);
 			this.domNode = this.textarea;
 		}else{
-			if(save){
+//			if(save){
 				//why we treat moz differently? comment out to fix #1061
 //					if(dojo.isMoz){
 //						var nc = dojo.doc.createElement("span");
@@ -1386,10 +1384,8 @@ dojo.declare("dijit._editor.RichText", [ dijit._Widget ], {
 //					}else{
 //						this.domNode.innerHTML = this._content;
 //					}
-				this.domNode.innerHTML = this._content;
-			}else{
-				this.domNode.innerHTML = this.savedContent;
-			}
+//			}
+			this.domNode.innerHTML = save ? this._content : this.savedContent;
 		}
 
 		dojo.removeClass(this.domNode, "RichTextEditable");
