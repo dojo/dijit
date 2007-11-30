@@ -11,7 +11,42 @@
 	<script type="text/javascript">
 		dojo.require("dijit.layout.SplitContainer");
 		dojo.require("dijit.layout.ContentPane");
-		dojo.require("dojo.parser");	// scan page for widgets and instantiate them
+	
+		// these exist inside our href splitcontainer
+		dojo.require("dijit.form.Button"); 
+		dojo.require("dijit.form.ComboBox"); 
+		var programaticExample = function(){
+			
+			var rootNode = dojo.byId("holderNode");
+			// add two children 
+			var pane1 = rootNode.appendChild(document.createElement('div'));
+			var pane2 = rootNode.appendChild(document.createElement('div'));
+			var pane3 = rootNode.appendChild(document.createElement('div'));
+
+			// set the content. can use xhrGet, also
+			pane1.innerHTML = "Pane one test"; pane2.innerHTML = "Pane two test";
+
+			// should use css, but this works:
+			dojo.style(rootNode,"height","150px");
+			dojo.style(rootNode,"border","1px solid #333"); 			
+
+			// make them contentpanes
+			var cp1 = new dijit.layout.ContentPane({ sizeShare:20 },pane1);
+			var cp2 = new dijit.layout.ContentPane({ sizeShare:30 },pane2);
+			var cp3 = new dijit.layout.ContentPane({
+				href: "doc0.html",
+				sizeShare:30
+			},pane3).startup();
+			
+			// init the splitcontainer
+			var split = new dijit.layout.SplitContainer({
+				orientation:"horizontal",
+				sizerWidth:7
+			},rootNode).startup();
+
+		}; 
+		dojo.addOnLoad(programaticExample);
+
 	</script>
 	<style type="text/css">
 		@import "../../../dojo/resources/dojo.css";
@@ -72,6 +107,9 @@ the following splitter contains two iframes, see whether the resizer works ok in
 		<iframe style="width: 100%; height: 100%"></iframe>
 	</div>
 </div>
+
+<h3>Programatic Example:</h3>
+<div id="holderNode"></div>
 
 </body>
 </html>
