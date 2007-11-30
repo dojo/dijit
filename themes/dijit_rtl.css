@@ -158,14 +158,20 @@
 	margin-right:2px !important;
 }
 
-.dj_ie7 .dijitRtl .dijitTab .dijitTabInnerDiv{
+.dj_ie7 .dijitRtl .dijitTab .dijitTabInnerDiv {
 	float:left;
 }
 
-.dj_ie7 .dijitRtl .dijitTab .closeImage{
+.dj_ie7 .dijitRtl .dijitTab .closeImage {
 	padding: 0px 0px 0px 12px;
 }
 
-.dj_ie .dijitRtl .dijitAlignRight .dijitTab{
+.dj_ie .dijitRtl .dijitAlignRight .dijitTab {
 	position:relative;
+}
+
+/* TitlePane */
+
+.dijitRtl .dijitTitlePane .dijitArrowNode {
+	float: left;
 }
