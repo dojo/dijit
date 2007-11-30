@@ -2,11 +2,13 @@
 
 /* Dialog */
 .dijitRtl .dijitDialogTitleBar .dijitDialogCloseIcon {
-	background : url("images/tabClose.png") no-repeat left top;
+	background-position: left top;
 	float: left;
 	right: auto;
 	left: 5px;
 }
+
+/*FIXME: redundant?*/
 .dj_ie6 .dijitRtl .dijitDialogTitleBar .dijitDialogCloseIcon {
 	background-image: url('images/tabClose.gif'); 
 }
@@ -20,8 +22,9 @@
 }
 
 .dijitRtl .dijitMenuItem .dijitMenuExpandEnabled {
-	background:url('images/arrowLeft.png') no-repeat bottom center;
+	background-image:url('images/arrowLeft.png');
 }
+
 .dj_ie6 .dijitRtl .dijitMenuItem .dijitMenuExpandEnabled {
 	background-image:url('images/arrowLeft.gif'); 
 }
@@ -84,13 +87,13 @@
 /* Calendar */
 
 .dijitRtl .dijitCalendarDecrease {
-	background:url(images/arrowRight.png) no-repeat center center; 
+	background-image:url(images/arrowRight.png); 
 	margin-left:0;
 	margin-right:2px;
 }
 
 .dijitRtl .dijitCalendarIncrease {
-	background:url(images/arrowLeft.png) no-repeat center center; 
+	background-image:url(images/arrowLeft.png); 
 	margin-right:0;
 	margin-left:4px; 
 }
@@ -103,40 +106,36 @@
 
 /* Slider */
 
-.dijitRtl .dijitHorizontalSliderProgressBar {
-	background: #c0c2c5 url("images/sliderFull.png") repeat-x top right;
+.dijitRtl .dijitHorizontalSliderProgressBar,
+.dijitRtl .dijitHorizontalSliderRemainingBar,
+.dijitRtl .dijitHorizontalSliderLeftBumper,
+.dijitRtl .dijitHorizontalSliderRightBumper,
+.dijitRtl .dijitVerticalSliderTopBumper {
+	background-position: top right;
 }
 
-.dijitRtl .dijitVerticalSliderProgressBar {
-	background: #c0c2c5 url("images/sliderFullVertical.png") repeat-y bottom right;
-}
-
-.dijitRtl .dijitVerticalSliderRemainingBar {
-	background: #dcdcdc url("images/sliderEmptyVertical.png") repeat-y bottom right;
-}
-
-.dijitRtl .dijitHorizontalSliderRemainingBar {
-	background: #dcdcdc url("images/sliderEmpty.png") repeat-x top right;
+.dijitRtl .dijitVerticalSliderProgressBar,
+.dijitRtl .dijitVerticalSliderRemainingBar,
+.dijitRtl .dijitVerticalSliderBottomBumper {
+	background-position: bottom right;
 }
 
 .dijitRtl .dijitHorizontalSliderLeftBumper {
 	border-left-width: 0px;
 	border-right-width: 1px;
-	background: #c0c2c5 url("images/sliderFull.png") repeat-x top right;
 }
 
 .dijitRtl .dijitHorizontalSliderRightBumper {
-	background: #dcdcdc url("images/sliderEmpty.png") repeat-x top right;
 	border-left-width: 1px;
 	border-right-width: 0px;
 }
 
-.dijitRtl .dijitVerticalSliderBottomBumper {
-	background: #c0c2c5 url("images/sliderFullVertical.png") repeat-y bottom right;
+.dijitRtl .dijitHorizontalSliderIncrementIcon {
+	background-image:url('images/arrowLeft.png');
 }
 
-.dijitRtl .dijitVerticalSliderTopBumper {
-	background: #dcdcdc url("images/sliderEmptyVertical.png") repeat-y top right;
+.dijitRtl .dijitHorizontalSliderDecrementIcon {
+	background-image:url('images/arrowRight.png');
 }
 
 /* TabContainer */
@@ -152,7 +151,7 @@
 }
 
 .dijitRtl .dijitTab .dijitClosable {
-	padding:6px 10px 4px 20px;
+	padding: 6px 10px 4px 20px;
 }
 
 .dijitRtl .dijitTab .closeImage {
@@ -169,7 +168,7 @@
 .dijitRtl .dijitTab .dijitClosable .closeImage {
 	right:auto;
 	left:3px;
-	background: url("images/tabClose.png") no-repeat left top;
+	background-position: left top;
 }
 
 .dj_ie .dijitRtl .dijitTab .dijitClosable .closeImage {
@@ -205,3 +204,20 @@
 	right:auto;
 	left:3px;
 }
+
+/*
+* Toolbar *
+
+.dijitRtl .dijitToolbarSeparator {
+	background-image: url('images/editor_rtl.gif');
+}
+
+.dijitRtl .dijitToolbar .dijitToolbarSeparator {
+	background-image: url('images/editor_rtl.gif');
+}
+
+* Editor *
+.dijitRtl .dijitEditorIcon {
+	background-image: url('images/editor_rtl.gif'); /* editor icons sprite image */
+}
+*/
