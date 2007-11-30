@@ -7,14 +7,18 @@ dojo.requireLocalization("dijit", "Textarea");
 dojo.declare(
 	"dijit.form.Textarea",
 	dijit.form._FormWidget,
-{
-	// summary
+	{
+	// summary: A resizing textarea widget
+	//
+	// description:
 	//	A textarea that resizes vertically to contain the data.
 	//	Takes nearly all the parameters (name, value, etc.) that a vanilla textarea takes.
 	//	Cols is not supported and the width should be specified with style width.
 	//	Rows is not supported since this widget adjusts the height.
-	// usage:
-	//	<textarea dojoType="dijit.form.TextArea">...</textarea>
+	//
+	// example:
+	// |	<textarea dojoType="dijit.form.TextArea">...</textarea>
+	//
 
 	attributeMap: dojo.mixin(dojo.clone(dijit.form._FormWidget.prototype.attributeMap),
 		{style:"styleNode", 'class':"styleNode"}),
@@ -89,7 +93,7 @@ dojo.declare(
 	},
 
 	postMixInProperties: function(){
-		dijit.form.Textarea.superclass.postMixInProperties.apply(this,arguments);
+		this.inherited(arguments);
 		// don't let the source text be converted to a DOM structure since we just want raw text
 		if(this.srcNodeRef && this.srcNodeRef.innerHTML != ""){
 			this.value = this.srcNodeRef.innerHTML;

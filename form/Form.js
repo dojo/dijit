@@ -5,24 +5,25 @@ dojo.require("dijit._Templated");
 
 dojo.declare("dijit.form._FormMixin", null,
 	{
-		/*
-		summary:
-			Widget corresponding to <form> tag, for validation and serialization
+	//
+	//	summary:
+	//		Widget corresponding to HTML form tag, for validation and serialization
+	//
+	//	example:
+	//	|	<form dojoType="dijit.form.Form" id="myForm">
+	//	|		Name: <input type="text" name="name" />
+	//	|	</form>
+	//	|	myObj={name: "John Doe"};
+	//	|	dijit.byId('myForm').setValues(myObj);
+	//	|
+	//	|	myObj=dijit.byId('myForm').getValues();
 
-		usage:
-			<form dojoType="dijit.form.Form" id="myForm">
-				Name: <input type="text" name="name" />
-			</form>
-			myObj={name: "John Doe"};
-			dijit.byId('myForm').setValues(myObj);
-
-			myObj=dijit.byId('myForm').getValues();
-		TODO:
-		* Repeater
-		* better handling for arrays.  Often form elements have names with [] like
-		* people[3].sex (for a list of people [{name: Bill, sex: M}, ...])
-
-		*/
+	//	TODO:
+	//	* Repeater
+	//	* better handling for arrays.  Often form elements have names with [] like
+	//	* people[3].sex (for a list of people [{name: Bill, sex: M}, ...])
+	//
+	//	
 
 		// HTML <FORM> attributes
 
