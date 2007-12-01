@@ -8,7 +8,7 @@ html, body, #main{
 }
 
 #banner, #footer {
-background-color: #b7cdee; 
+background-color: #ededff; 
 color: #333;
 padding:3px; 
 }
@@ -18,7 +18,7 @@ padding:3px;
 TODO: If i add the rules below as a plain tr/td it seems to mess up accordion, tree, etc. ???
 */
 #listPane tr:hover, #listPane td:hover, .dijitTreeContent:hover {
-	background-color: #b7cdee;
+	background-color: #ededed;
 	color: #333;
 	cursor: pointer;
 }
@@ -26,28 +26,29 @@ TODO: If i add the rules below as a plain tr/td it seems to mess up accordion, t
 
 th {
 	background-color: #4f8ce5; 
-	color: #fff; 
+	color: #666; 
 	font-weight:: bold !important;
 	margin:0;
 	padding:3px; 
-	background-image:url('../../themes/soria/images/gradientTopBg.png');
+	background-image:url('../../themes/tundra/images/titleBar.png');
 	background-position:0px -1px; 
 }
 
-th .arrowNode { position:relative; right:2px; 
+th .arrowNode { 
+	position:relative; 
+	top:4px;
+	left:4px; 
 	width:16px;
 	height:16px;
 } 
 th.arrowUp .arrowNode {
 	padding-right: 16px;
-	background:transparent url("../../themes/soria/images/arrows.png") no-repeat;
-	background-position:-32px 0px; 
+	background:transparent url("../../themes/tundra/images/arrowUp.png") no-repeat;
 }
 
 th.arrowDown .arrowNode {
 	padding-right: 16px;
-	background:transparent url("../../themes/soria/images/arrows.png") no-repeat;
-	background-position:0px 0px; 
+	background:transparent url("../../themes/tundra/images/arrowDown.png") no-repeat;
 }
 
 .demoTable td { padding:3px; } 
