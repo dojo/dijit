@@ -89,6 +89,7 @@
 .soria .dijitCheckBox,
 .soria .dijitRadio {
 	width:16px;
+	min-height: 16px;
 	background: transparent url('images/arrows.png') no-repeat 0px center;
 }
 /* combobox needs the background centered within a bigger div */
