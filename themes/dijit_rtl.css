@@ -175,3 +175,29 @@
 .dijitRtl .dijitTitlePane .dijitArrowNode {
 	float: left;
 }
+
+.dijitRtl .dijitSpinner .dijitArrowButton {
+	right: none;
+	left: 0px;
+}
+
+.dijitRtl .dijitSpinner .dijitInputLayoutContainer {
+	padding-right: 0px;
+	padding-left: 22px;
+}
+
+.dijitRtl .dijit_a11y .dijitSpinner .dijitInputLayoutContainer {
+	padding-right: 0;
+	padding-left: 1.1em;
+}
+
+.dijitRtl .dijitArrowButton {
+	float: left;
+}
+
+.dijitRtl .dijitValidationIcon {
+	float: left;
+}
+.dijitRtl .dijitValidationIconText {
+	float: left;
+}

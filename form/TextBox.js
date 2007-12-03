@@ -89,7 +89,7 @@ dojo.declare(
 
 		_layoutHack: function(){
 			// summary: work around table sizing bugs on FF2 by forcing redraw
-			if(dojo.isFF == 2 && this.domNode.tagName=="TABLE"){
+			if(dojo.isFF == 2){
 				var node=this.domNode;
 				var old = node.style.opacity;
 				node.style.opacity = "0.999";

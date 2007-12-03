@@ -92,7 +92,7 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 		//	To get a different CSS class for hover, send onmouseover and onmouseout events to this method.
 		//	To get a different CSS class while mouse button is depressed, send onmousedown to this method.
 
-		var mouseNode = event.target;
+		var mouseNode = event.currentTarget;
 		if(mouseNode && mouseNode.getAttribute){
 			this.stateModifier = mouseNode.getAttribute("stateModifier") || "";
 		}
@@ -174,7 +174,7 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 		var classes = [ this.baseClass ];
 
 		function multiply(modifier){
-			classes=classes.concat(dojo.map(classes, function(c){ return c+modifier; }));
+			classes=classes.concat(dojo.map(classes, function(c){ return c+modifier; }), "dijit"+modifier);
 		}
 
 		if(this.checked){

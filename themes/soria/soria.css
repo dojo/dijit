@@ -8,7 +8,7 @@
 @import url("../dijit.css");
 
 /* un-comment to endable webkit and ff2 builtin love */
-/* 
+/*
 @import url("rounded.css");
 */
 
@@ -16,7 +16,7 @@
 	-webkit-box-shadow: 0px 3px 7px #adadad;
 }
 
-/* try and group similar look and feel into these main groupings, and put extra stling grouped 
+/* try and group similar look and feel into these main groupings, and put extra stling grouped
    by widget somehwere below (most already have sections) */
 .soria .dijitButtonNode,
 .soria .dijitToolbar,
@@ -27,7 +27,7 @@
 .soria .dijitProgressBarEmpty,
 .soria .dijitTooltipContainer,
 .soria .dijitHorizontalSliderRemainingBar {
-	background:#b7cdee url('images/gradientTopBg.png') repeat-x; 
+	background:#b7cdee url('images/gradientTopBg.png') repeat-x;
 	/* background:#090 url('images/gradientTopBg.png') repeat-x; */
 	#background-image:none !important;
 }
@@ -47,12 +47,12 @@
 .soria .dijitAccordionPane-selected .dijitAccordionTitle,
 .soria .dijitProgressBarTile,
 .soria .dijitHorizontalSliderProgressBar {
-	background:#4f8ce5 url('images/gradientTopBg.png') repeat-x; 
+	background:#4f8ce5 url('images/gradientTopBg.png') repeat-x;
 
 }
 
 /* all icons are here */
-.soria .dijitComboBox .dijitDownArrowButtonInner,
+.soria .dijitArrowButtonInner,
 .soria .dijitMenuExpandEnabled,
 .soria .dijitTitlePane .dijitClosed .dijitArrowNode,
 .soria .dijitTitlePane .dijitOpen .dijitArrowNode,
@@ -72,8 +72,7 @@
 .soria .dijitVerticalSliderDecrementIcon,
 .soria .dijitHorizontalSliderImageHandle,
 .soria .dijitVerticalSliderImageHandle,
-.soria .dijitInputFieldValidationIconNormal,
-.soria .dijitInputFieldValidationIcon,
+.soria .dijitValidationIcon,
 /* FIXME: need to make these spans inside the cell? */
 .soria.dojoDndMove .dojoDndAvatarCanDrop .dojoDndAvatarHeader,
 .soria.dojoDndCopy .dojoDndAvatarCanDrop .dojoDndAvatarHeader,
@@ -84,24 +83,21 @@
 .dijitRtl .dijitCalendarIncrease,
 .dijitRtl .dijitMenuItem .dijitMenuExpandEnabled,
 .dijitRtl .dijitTitlePane .dijitClosed .dijitArrowNode,
-.dijitRtl .dijitDialogTitleBar .dijitDialogCloseIcon
-{
-	width:16px;
-	height:16px;
-	overflow:hidden; 
-	margin:0; padding:0; 
-	background-image: url('images/arrows.png');
-	background-repeat: none; 
-}
-
+.dijitRtl .dijitDialogTitleBar .dijitDialogCloseIcon,
 .soria .dijitCheckBoxIcon,
 .soria .dijitRadioIcon,
 .soria .dijitCheckBox,
 .soria .dijitRadio {
 	width:16px;
-	height:16px;
-	margin:0; padding:0; 
-	background-image: url('images/arrows.png');
+	background: transparent url('images/arrows.png') no-repeat 0px center;
+}
+/* combobox needs the background centered within a bigger div */
+.soria .dijitButtonNode .dijitArrowButtonInner {
+	height: auto;
+}
+.soria .dijitValidationIconText,
+.soria .dijitValidationIcon {
+	padding: 0.2em 0;
 }
 
 /* Control opacity of popups */
@@ -109,22 +105,30 @@
 .soria .dijitPopup table {
 	opacity: 0.95;
 }
-/*
-	dijit.form.Button
-	dijit.form.DropDownButton
-	dijit.form.ComboButton
-	dijit.form.ComboBox (partial)
-*/
 .soria .dijitButtonNode {
 	/* enabled state - inner */
 	border:1px solid #4f8ce5;
 	vertical-align: middle;
-	padding: 0.2em 0.2em;
+	padding: 0.2em;
+}
+
+.soria .dijitComboBox .dijitButtonNode {
+	border: 0px;
+}
+.soria .dijitSpinner .dijitArrowButton {
+	line-height: 151%;
+}
+.soria .dijitSpinner .dijitUpArrowButton {
+	top: 0%;
+	border-width: 0 0 0 1px;
+}
+.soria .dijitSpinner .dijitDownArrowButton {
+	top: 50%;
+	border-width: 1px 0 0 1px;
 }
 
 .dj_ie6 .soria .dijitButtonNode {
 	zoom: 1;
-	padding-bottom: 0.1em;
 }
 
 .soria .dijitButtonDisabled .dijitButtonNode,
@@ -140,11 +144,11 @@
 	background:#ccc url("images/gradientTopBg.png") repeat-x top left;
 	opacity: 0.50; /* Safari, Opera and Mozilla */
 }
-.soria .dijitButtonDisabled .dijitButtonNode *,
-.soria .dijitToggleButtonDisabled .dijitButtonNode *,
-.soria .dijitDropDownButtonDisabled .dijitButtonNode *,
-.soria .dijitComboButtonDisabled .dijitButtonNode *,
-.soria .dijitSpinnerDisabled .dijitButtonNode * {
+.dj_ie .soria .dijitButtonDisabled .dijitButtonNode *,
+.dj_ie .soria .dijitToggleButtonDisabled .dijitButtonNode *,
+.dj_ie .soria .dijitDropDownButtonDisabled .dijitButtonNode *,
+.dj_ie .soria .dijitComboButtonDisabled .dijitButtonNode *,
+.dj_ie .soria .dijitSpinnerDisabled .dijitButtonNode * {
 	filter: gray() alpha(opacity=50); /* IE */
 }
 
@@ -159,7 +163,6 @@
 	/* hover state - inner */
 	border-color:#666;
 	color:#fff;
-	background-position:0px -1px; 
 }
 
 .soria .dijitSpinnerUpArrowActive .dijitUpArrowButton,
@@ -177,20 +180,9 @@
 	background: #cbdcf7 url("images/gradientBottomBg.png") bottom repeat-x;
 }
 
-/* button inner contents - labels, icons etc. */
-.soria .dijitButtonNode * {
-	display: -moz-inline-box;
-	display: inline-block;
-	vertical-align: middle;
-}
-.dj_ie .soria .dijitButtonNode * {
-	zoom: 1;
-	display:inline;
-}
 .soria .dijitButtonText {
 	padding: 0 0.3em;
 }
-
 
 .soria .dijitToolbar {
 	border: 1px solid #666;
@@ -201,7 +193,7 @@
 }
 .dj_ie .soria .dijitToolbar {
 	padding-bottom: 1px;
-	margin-top: -1px; 
+	margin-top: -1px;
 }
 .soria .dijitToolbar .dijitButtonNode {
 	padding: 0px;
@@ -209,16 +201,16 @@
 	border: 1px solid transparent;
 	background: none;
 }
-.soria .dijitToolbar .dijitToggleButtonChecked .dijitButtonNode { 
-	background-color:#C1D2EE; 
-	border:1px solid #666; 
+.soria .dijitToolbar .dijitToggleButtonChecked .dijitButtonNode {
+	background-color:#C1D2EE;
+	border:1px solid #666;
 	border-top:0;
 	border-bottom:0;
-} 
-.soria .dijitToolbar .dijitToggleButtonCheckedHover .dijitButtonContents { 
-	border-color: #000; 
-	background-color:transparent; 
-} 
+}
+.soria .dijitToolbar .dijitToggleButtonCheckedHover .dijitButtonContents {
+	border-color: #000;
+	background-color:transparent;
+}
 .dj_ie6 .soria .dijitToolbar .dijitButtonNode {
 	/* workaround no transparent border support in IE6*/
 	border-color: #e9e9e9;
@@ -239,34 +231,7 @@
 	background: url('images/editor.gif');
 }
 
-/* ComboBox-icon-specific */
-.soria .dijitComboBox .dijitDownArrowButtonChar {
-	/* visibility:hidden;  */
-	display:none; 
-}
-.soria .dijitComboBox .dijitDownArrowButtonInner {
-	overflow:visible; 
-	background-position:0px 0px; }
-.soria .dijitComboBoxHover .dijitDownArrowButtonInner { }
-.soria .dijitSpinner .dijitButtonNode {
-	padding: 0 .4em 0 .4em;
-}
-
-/*
-	dijit.form.TextBox
-	dijit.form.ValidationTextBox
-	dijit.form.SerializableTextBox
-	dijit.form.RangeBoundTextBox
-	dijit.form.NumberTextBox
-	dijit.form.CurrencyTextBox
-	dijit.form.NumberSpinner
-	dijit.form.ComboBox (partial)
-*/
-.soria .dijitComboBox {
-	/* put margin on the outer element of the autocompleter rather than the input */
-	margin:.0em .1em .2em .1em;
-}
-
+.soria INPUT.dijitTextBox,
 .soria .dijitInputField,
 .soria .dijitInlineEditor input,
 .soria .dijitTextArea {
@@ -275,29 +240,19 @@
 	*/
 	font-size: inherit;
 	background:#fff url("images/gradientInverseTopBg.png") repeat-x top left;
-	background-position:0 -32px; 
+	background-position:0 -32px;
 	/* border:1px solid #333; */
 	line-height: normal;
 	padding: 0.2em 0.3em;
 }
 
-.dj_ie .soria TD.dijitInputField,
-.dj_ie .soria .dijitInputField INPUT {
-	height: 1.65em; /* set height for IE since the INPUT is position:absolute */
-}
-
-.dj_safari .soria .dijitInputField {
-	padding: 0.08em 0.3em; /* looks better */
-}
-
 .soria INPUT.dijitTextBox {
-	padding: 0.2em 0.3em;
+	font-size: inherit;
+	line-height: normal;
 }
-
-.dj_ie .soria .dijitTextBox INPUT,
-.dj_ie .soria .dijitComboBox INPUT,
-.dj_ie .soria .dijitSpinner INPUT {
-	width:95% !important; /* add a little padding-right for position:absolute INPUT */
+.soria .dijitInputField INPUT {
+	font-size: inherit;
+	line-height: normal;
 }
 
 .soria .dijitComboBoxFocused .dijitInputField {
@@ -321,41 +276,26 @@
 
 /* Dojo Input Field */
 
-HTML.dj_ie6 .soria .dijitInputFieldValidationNormal,
-.soria .dijitInputFieldValidationNormal {
-	
-}
-
-HTML.dj_ie6 .soria .dijitInputFieldValidationError,
-.soria .dijitInputFieldValidationError {
-	border:1px solid #f3d118;
-	background-color::#f9f7ba;
+.soria .dijitError {
+	border-color:#f3d118;
+	background-color:#f9f7ba;
 	background-image:none;
 }
-
-.soria .dijitInputFieldFocused { 
-	border:1px solid #000; 
+.dj_ie6 .soria .dijitError .dijitInputField {
+	background-color:#f9f7ba;
 }
 
-.soria .dijitInputFieldValidationError:hover,
-.soria .dijitInputFieldValidationError:focus {
+.soria .dijitInputFieldFocused {
+	border:1px solid #000;
+}
+
+.soria .dijitErrorFocused,
+.soria .dijitErrorFocused .dijitInputField {
 	background-color:#ff6;
  	background-image:none;	
 }
-.soria .dijitInputFieldValidationIcon {
-	margin-left: 3px;
-	padding-bottom: 1px;
-}
-.soria .dijitInputFieldValidationIconNormal {
-	background-image: none; 
-}
-
-.soria .dijitInputFieldValidationIconError { 
-	background-position:-384px 0px; 
-}
-
-.soria .dijitInputFieldValidationIconText {
-	visibility: hidden;
+.dj_ie6 .soria .dijitErrorFocused .dijitInputField {
+	background-color:#ff6;
 }
 
 /* CheckBox and Radio Widgets, and the CSS to embed a checkbox or radio icon inside a ToggleButton. */
@@ -367,6 +307,9 @@ HTML.dj_ie6 .soria .dijitInputFieldValidationError,
 	background-image: url('images/checkmarkNoBorder.gif');
 }
 
+.soria .dijitValidationIcon { background-position:-384px; }
+.soria .dijitUpArrowButton .dijitArrowButtonInner { background-position:-32px; }
+.soria .dijitDownArrowButton .dijitArrowButtonInner { background-position:0px; }
 .soria .dijitCheckBox, .soria .dijitToggleButton .dijitCheckBoxIcon { background-position: -112px; }/* unchecked */
 .soria .dijitCheckBoxChecked,
 .soria .dijitToggleButtonChecked .dijitCheckBoxIcon { background-position: -96px; } /* checked */
@@ -378,7 +321,7 @@ HTML.dj_ie6 .soria .dijitInputFieldValidationError,
 .soria .dijitCheckBoxCheckedFocused { background-position: -160px; } /* hovering over a checked enabled checkbox */
 .soria .dijitRadio,
 .soria .dijitToggleButton .dijitRadioIcon { background-position: -208px; }  /* unselected */
-.soria .dijitRadioChecked, 
+.soria .dijitRadioChecked,
 .soria .dijitToggleButtonChecked .dijitRadioIcon { background-position: -192px; } /* selected */
 .soria .dijitRadioCheckedDisabled { background-position: -224px; } /* selected but disabled */
 .soria .dijitRadioDisabled { background-position: -240px; } /* unselected and disabled */
@@ -401,17 +344,17 @@ HTML.dj_ie6 .soria .dijitInputFieldValidationError,
 }
 .soria .dijitMenuItem TD {
 	padding:2px;
-	outline:0; 
+	outline:0;
 }
 .soria .dijitMenuItemHover {
-	background-color: #4f8ce5; 
+	background-color: #4f8ce5;
 	color:#fff;
 }
 .soria .dijitMenuExpand {
-	display:none; 
+	display:none;
 }
 .soria .dijitMenuExpandEnabled {
-	background-position: -48px 0px; 
+	background-position: -48px 0px;
 	display:block;
 }
 .soria .dijitMenuExpandInner {
@@ -419,7 +362,7 @@ HTML.dj_ie6 .soria .dijitInputFieldValidationError,
 }
 /* separator can be two pixels -- set border of either one to 0px to have only one */
 .soria .dijitMenuSeparatorTop {
-	border-bottom: 1px solid #666; 
+	border-bottom: 1px solid #666;
 }
 
 .soria .dijitMenuSeparatorBottom {
@@ -430,14 +373,14 @@ HTML.dj_ie6 .soria .dijitInputFieldValidationError,
 .soria .dijitTitlePane .dijitTitlePaneTitle {
 	border:1px solid #999;
 	border-bottom:0;
-	background-position:0px -1px; 
+	background-position:0px -1px;
 	padding:4px 4px 4px 4px;
 	cursor: pointer;
-	color:#fff; 
-	font-weight:bold; 
+	color:#fff;
+	font-weight:bold;
 }
 .soria .dijitTitlePane .dijitClosed {
-	border-bottom:1px solid #333; 
+	border-bottom:1px solid #333;
 }
 .soria .dijitTitlePane .dijitClosed .dijitArrowNode { background-position:-48px 0px; }
 .soria .dijitTitlePane .dijitOpen .dijitArrowNode { background-position:0px 0px; }
@@ -448,7 +391,7 @@ HTML.dj_ie6 .soria .dijitInputFieldValidationError,
 	top:2px;
 }
 .soria .dijitTitlePaneContentOuter {
-	background: #ffffff; 
+	background: #ffffff;
 	border:1px solid #666;
 	border-top: 1px solid #666;	/* w/out this, an <h1> on the top line causes a gap between the .content and .label */
 }
@@ -456,9 +399,9 @@ HTML.dj_ie6 .soria .dijitInputFieldValidationError,
 	padding:10px;
 }
 /* force hasLayout to ensure borders etc, show up */
-.dj_ie6 .soria .dijitTitlePaneContentOuter, 
+.dj_ie6 .soria .dijitTitlePaneContentOuter,
 .dj_ie6 .soria .dijitTitlePane .dijitTitlePaneTitle {
-	zoom: 1; 
+	zoom: 1;
 }
 .soria .dijitClickableRegion {
 	background-color : #ffc !important;
@@ -466,9 +409,9 @@ HTML.dj_ie6 .soria .dijitInputFieldValidationError,
 
 /* Tabs */
 .soria .dijitTabPaneWrapper {
-	background:#fff; 
+	background:#fff;
 	/* border:1px solid #b7cde5; */
-	border:1px solid #666; 
+	border:1px solid #666;
 }
 
 .soria .dijitTab {
@@ -487,12 +430,12 @@ HTML.dj_ie6 .soria .dijitInputFieldValidationError,
 .soria .dijitTabInnerDiv {
 	padding:6px 10px 4px 10px;
 	/* border-left:1px solid #fff; */
- 	border-bottom:transparent; 
+ 	border-bottom:transparent;
 }
 .dj_ie6 .soria .dijitTabInnerDiv { border-bottom:0; }
 
 .soria .dijitTabInnerDiv span {
-	outline:0; 
+	outline:0;
 }
 
 .soria .dijitTabHover,
@@ -500,7 +443,7 @@ HTML.dj_ie6 .soria .dijitInputFieldValidationError,
 	color: #fff;
 	border-top-color:#333;
 	border-left-color:#333;
-	border-right-color:#333; 
+	border-right-color:#333;
 }
 
 .soria .dijitTabChecked,
@@ -509,15 +452,15 @@ HTML.dj_ie6 .soria .dijitInputFieldValidationError,
 	/* the selected tab (with or without hover) */
 	background-color:#fff;
 	border-color:#666;
-	border-top:1px solid #666; 
+	border-top:1px solid #666;
 	color:#333;
 	
 /* 	border-color: #4F8CE5; */
 /* 	border-top:1px solid #4f8ce5; */
-	background-image:none; 
+	background-image:none;
 }
 .soria .dijitTabCloseButton {
-	border-bottom:1px solid #fff; 
+	border-bottom:1px solid #fff;
 }
 
 /* make the active tab white on the side next to the content pane */
@@ -549,7 +492,7 @@ HTML.dj_ie6 .soria .dijitInputFieldValidationError,
 
 /* make space for a positioned close button */
 .soria .dijitTab .dijitClosable {
-	position: relative; 
+	position: relative;
 	padding:6px 24px 3px 10px;
 	/* border-bottom:transparent; */
 }
@@ -558,7 +501,7 @@ HTML.dj_ie6 .soria .dijitInputFieldValidationError,
 	position:absolute;
 	top: 5px;
 	right: 3px;
-	background-position:-65px -1px; 
+	background-position:-65px -1px;
 }
 
 .soria .dijitTabCloseButton .dijitClosable .closeImage { background-position:-65px -1px; }
@@ -567,7 +510,7 @@ HTML.dj_ie6 .soria .dijitInputFieldValidationError,
 .soria .dijitAlignLeft .dijitTab .dijitClosable {
 	padding:6px 10px 6px 20px;
 }
-/* correct for IE6. 
+/* correct for IE6.
     We cant force hasLayout as that blows out the shrink wrapped tabs
     ..so we shim in the closeImage position properties instead
 */
@@ -589,7 +532,7 @@ HTML.dj_ie6 .soria .dijitInputFieldValidationError,
 /* SplitContainer */
 
 .soria .dijitSplitContainerSizerH {
-	background:#b7cdee url("images/gradientLeftBg.png") repeat-y; 
+	background:#b7cdee url("images/gradientLeftBg.png") repeat-y;
 	border:0;
 	border-right:1px solid #cbdcf7;
 	width:7px;
@@ -615,10 +558,10 @@ HTML.dj_ie6 .soria .dijitInputFieldValidationError,
 
 /* Dialog */
 .soria .dijitDialog {
-	margin:0; padding:0; 
+	margin:0; padding:0;
 	background: #eee;
 	border: 1px solid #666;
-	border-top:0px; 
+	border-top:0px;
 	-webkit-box-shadow: 0px 3px 7px #adadad;
 }
 
@@ -632,30 +575,30 @@ HTML.dj_ie6 .soria .dijitInputFieldValidationError,
 	background: #ffffff;
 	border:none;
 	padding:10px;
-	outline:0; 
+	outline:0;
 	opacity:1;
 }
 
 .soria .dijitDialogTitleBar {
 	/* outer container for the titlebar of the dialog */
-	border-top: 1px solid #666; 
-	border-bottom: 1px solid #666; 
+	border-top: 1px solid #666;
+	border-bottom: 1px solid #666;
 	padding: 4px 4px 4px 4px;
 	cursor: move;
-	outline:0; 
+	outline:0;
 }
 
 .soria .dijitDialogTitle {
 	/* typography and styling of the dialog title */
-	font-weight: bold; 
-	color:#fff; 
+	font-weight: bold;
+	color:#fff;
 	padding: 8px 8px 8px 8px;
 	outline:0;
 }
 
 .soria .dijitDialogCloseIcon {
 	/* the default close icon for the dialog */
-	background-position:-64px 0px; 
+	background-position:-64px 0px;
 	float: right;
 	position: absolute;
 	vertical-align: middle;
@@ -686,9 +629,9 @@ HTML.dj_ie6 .soria .dijitInputFieldValidationError,
 	padding-bottom: 13px;
 }
 
-.soria .dijitTooltipContainer { 
+.soria .dijitTooltipContainer {
 	background-color:#ffc;
-	background-position:0 -30px; 
+	background-position:0 -30px;
 	border:1px solid #333;
 	padding:0.45em;
 	border-radius: 6px;
@@ -703,7 +646,7 @@ HTML.dj_ie6 .soria .dijitInputFieldValidationError,
 	/* the arrow piece */
 	border:0px;
 	z-index: 2;
-	width:16px; 
+	width:16px;
 	height:14px;
 }
 .soria .dijitTooltipABRight .dijitTooltipConnector {
@@ -741,25 +684,25 @@ HTML.dj_ie6 .soria .dijitInputFieldValidationError,
 	/* the arrow piece for tooltips to the right of an element, bottom borders aligned */
 	left: 0px;
 	bottom: 7px;
-	background-position:-321px 0px; 
+	background-position:-321px 0px;
 }
 
 /* dijit.layout.AccordionPane */
 .soria .dijitAccordionPane .dijitAccordionTitle {
 	border:1px solid #666;
-	border-bottom:0; 
+	border-bottom:0;
 	padding:5px 5px 3px 5px;
-	color:#333; 
+	color:#333;
 }
 
 .soria .dijitAccordionPane-selected .dijitAccordionTitle {
-	color:#fff; 
+	color:#fff;
 	padding: 5px 5px 3px 5px;
 	font-weight: bold;
 }
 
 .soria .dijitAccordionPane .dijitAccordionArrow {
-	background-position: -32px 0px; 
+	background-position: -32px 0px;
 }
 .soria .dijitAccordionPane-selected .dijitAccordionArrow {
 	background-position: 0px 0px;
@@ -773,7 +716,7 @@ HTML.dj_ie6 .soria .dijitInputFieldValidationError,
 /* Tree */
 .soria .dijitTreeNode {
     margin-left: 19px;
-    cursor:pointer; 
+    cursor:pointer;
     zoom: 1;	
 }
 .soria .dijitTreeIsRoot {
@@ -781,8 +724,8 @@ HTML.dj_ie6 .soria .dijitInputFieldValidationError,
 }
 /* left vertical line (grid) for all nodes */
 .soria .dijitTreeIsLast {
-    background: transparent; 
-} 
+    background: transparent;
+}
 .soria .dijitTreeExpando {
     width: 18px;
     height: 18px;
@@ -800,7 +743,7 @@ HTML.dj_ie6 .soria .dijitInputFieldValidationError,
     height: 18px;
     background-repeat : no-repeat;
 }
- 
+
 /* same style as IE selection */
 .soria .dijitTreeNodeEmphasized {
     background-color: Highlight;
@@ -812,7 +755,7 @@ HTML.dj_ie6 .soria .dijitInputFieldValidationError,
 	outline:0;
 	border-top:0;
 	border-bottom:2px solid #4f8ce5;
-	background-color:#b7cdee; 
+	background-color:#b7cdee;
 }
 
 /* FIXME: convert to sprites */
@@ -823,7 +766,7 @@ HTML.dj_ie6 .soria .dijitInputFieldValidationError,
 
 /* Calendar*/
 .dj_ie6 .soria .dijitCalendarIncrementControl {
-	padding:.1em; 
+	padding:.1em;
 }
 
 .soria .dijitCalendarIncreaseInner,
@@ -832,21 +775,21 @@ HTML.dj_ie6 .soria .dijitInputFieldValidationError,
 .soria .dijitCalendarIncrease { background-position:-48px 0px; }
 .soria table.dijitCalendarContainer {
 	font-size: 100%;
-	border-collapse: collapse; 
-	border-spacing: 0; 
-	border: 1px solid #666; 
+	border-collapse: collapse;
+	border-spacing: 0;
+	border: 1px solid #666;
 	margin: 0;
 }
 
 .soria .dijitCalendarMonthContainer th {
 	/* month header cell */
 	padding-top:.3em;
-	padding-bottom:.1em; 
-	text-align:center; 
+	padding-bottom:.1em;
+	text-align:center;
 }
 .dj_ie6 .soria .dijitCalendarMonthContainer th {
-	padding-top:.1em; 
-	padding-bottom:0em; 
+	padding-top:.1em;
+	padding-bottom:0em;
 }
 
 .soria .dijitCalendarDayLabelTemplate {
@@ -857,7 +800,7 @@ HTML.dj_ie6 .soria .dijitInputFieldValidationError,
 	padding-top:.15em;
 	padding-bottom:0em;
 	border-top:0;
-	border-bottom:1px solid #666; 
+	border-bottom:1px solid #666;
 	color:#293a4b;
 	text-align:center;
 }
@@ -942,7 +885,7 @@ HTML.dj_ie6 .soria .dijitInputFieldValidationError,
 	background-color:#4f8ce5 !important;
 }
 
-.soria .dijitCalendarNextYear, 
+.soria .dijitCalendarNextYear,
 .soria .dijitCalendarPreviousYear {
 	/* label for next/prev years */
 	color:black !important;
@@ -997,7 +940,7 @@ HTML.dj_ie6 .soria .dijitInputFieldValidationError,
 
 .soria .dijitProgressBarIndeterminate .dijitProgressBarTile {
 	/* use an animated gif for the progress bar in 'indeterminate' mode */
-	background:#b7cdee url("images/progressBarAnim.gif") repeat-x top left; 
+	background:#b7cdee url("images/progressBarAnim.gif") repeat-x top left;
 	/* FIXME: make a white/alpha animation to overlay a colored node */
 }
 
@@ -1017,13 +960,13 @@ HTML.dj_ie6 .soria .dijitInputFieldValidationError,
 .soria .dijitHorizontalSliderRemainingBar { border-color: #333; }
 .soria .dijitSliderBar {
 	border-style: solid;
-	outline:1px; 
+	outline:1px;
 }
 
 .soria .dijitHorizontalSliderImageHandle {
 	border:0px;
 	background-position:-416px 0px;
-	cursor:pointer; 
+	cursor:pointer;
 }
 .soria .dijitHorizontalSliderLeftBumper {
 	border:0;
@@ -1058,7 +1001,7 @@ HTML.dj_ie6 .soria .dijitInputFieldValidationError,
 	opacity:0.5 !important;
 }
 .dj_ie6 .soria .dijitSliderDisabled {
-	filter: gray() alpha(opacity=50); 
+	filter: gray() alpha(opacity=50);
 }
 
 .soria .dijitHorizontalSliderIncrementIcon { background-position:-48px 0px; }
@@ -1072,7 +1015,7 @@ HTML.dj_ie6 .soria .dijitInputFieldValidationError,
 /* ICONS */
 .soria .dijitEditorIcon {
 	background-image: url('images/editor.gif'); /* editor icons sprite image */
-	background-repeat: no-repeat; 
+	background-repeat: no-repeat;
 	width: 18px;
 	height: 18px;
 	text-align: center;
@@ -1117,9 +1060,10 @@ HTML.dj_ie6 .soria .dijitInputFieldValidationError,
 .soria .dijitEditorIconUndo { background-position: -666px; }
 .soria .dijitEditorIconWikiword { background-position: -684px; }
 
+.dj_ie6 .soria INPUT.dijitTextBox,
 .dj_ie6 .soria .dijitInputField
 {
-	background:#fff;  
+	background:#fff;
 	/* FIXME: un-comment when a pretty version of .gif is made */
 	/* background-image: url("images/dojoTundraGradientBg.gif"); */
 }
@@ -1139,9 +1083,9 @@ HTML.dj_ie6 .soria .dijitInputFieldValidationError,
 /* DnD avatar-specific settings FIXME: need to wrap icon in a span like rest of dijits. */
 /* For now it uses a default set of rules. Some other DnD classes can be modified as well. */
 .soria .dojoDndAvatar { font-size: 75%; color: black; }
-.soria .dojoDndAvatarHeader td	{ 
-	padding-left: 20px; 
-	padding-right: 4px; 
+.soria .dojoDndAvatarHeader td	{
+	padding-left: 20px;
+	padding-right: 4px;
 }
 .soria .dojoDndAvatarHeader {
 	background: #ccc;
@@ -1151,5 +1095,3 @@ HTML.dj_ie6 .soria .dijitInputFieldValidationError,
 .soria.dojoDndCopy .dojoDndAvatarHeader	{ background-position:-448px 0px; }
 .soria.dojoDndMove .dojoDndAvatarCanDrop .dojoDndAvatarHeader { background-position:-464px 0px; }
 .soria.dojoDndCopy .dojoDndAvatarCanDrop .dojoDndAvatarHeader { background-position:-480px 0px; }
-
-

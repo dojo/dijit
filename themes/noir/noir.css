@@ -6,16 +6,9 @@
 	font-size:14px;
 }
 
-.noir .dijitUpArrowButton,
-.noir .dijitDownArrowButton {
+.noir .dijitArrowButton {
 	background-repeat:no-repeat;
 }
-
-.noir .dijitA11yUpArrow,
-.noir .dijitA11yDownArrow {
-	display:none;	
-}
-
 
 .noir .dijitButtonNode {
 	border:0px !important;
@@ -90,17 +83,12 @@
 	padding-right:31px;
 }
 
-.noir .dijitDropDownButton .dijitA11yDownArrow {
-	display:none;	
-}
-
-
 /* combo-specific */
 .noir .dijitComboButton TABLE {
 	margin-left:15px;
 }
 .noir .dijitComboButton .dijitRight,
-.noir .dijitComboButton .dijitDownArrowButton div {	
+.noir .dijitComboButton .dijitArrowButton div {	
 	height:30px;	
 	width:35px;
 	
@@ -129,7 +117,7 @@
 	width:32px;
 }
 
-.noir .dijitComboBox .dijitDownArrowButton {
+.noir .dijitComboBox .dijitArrowButton {
 	padding:0px !important;
 	width:32px;
 }
@@ -181,8 +169,7 @@
 	#margin-top:0px;
 }
 
-.noir .dijitSpinner .dijitUpArrowButton,
-.noir .dijitSpinner .dijitDownArrowButton{
+.noir .dijitSpinner .dijitArrowButton{
 	height:15px;
 	width:34px;
 	padding:0px !important;

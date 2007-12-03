@@ -31,27 +31,14 @@
 	border:1px solid #c0c0c0;
 	border-bottom:1px solid #9b9b9b;
 	border-right:1px solid #9b9b9b;
-	vertical-align: middle;
-	padding: 0.2em 0.2em;
+	padding: 0.2em;
 	background:#fff url("images/buttonEnabled.png") repeat-x bottom left;
-
 }
 .dj_ie .tundra .dijitButtonNode {
 	zoom: 1;
-	padding-bottom: 0.1em;
 	border-bottom-width:2px;
 }
 
-/* button inner contents - labels, icons etc. */
-.tundra .dijitButtonNode * {
-	display: -moz-inline-box;
-	display: inline-block;
-	vertical-align: middle;
-}
-.dj_ie .tundra .dijitButtonNode * {
-	zoom: 1;
-	display:inline;
-}
 .tundra .dijitButtonText {
 	padding: 0 0.3em;
 }
@@ -59,18 +46,18 @@
 .tundra .dijitComboBox .dijitButtonNode,
 .tundra .dijitSpinner .dijitButtonNode {
 	border: 0px;
-	padding: 1px .4em;	/* the inner node will be vertically centered automatically because it's in a <td> */
 }
 
-.tundra .dijitA11yDownArrow,
-.tundra .dijitDownArrowButton,
-.tundra .dijitUpArrowButton {
-	font-size: 0.75em;
+.tundra .dijitArrowButton {
 	color: #111;
 }
 
 .tundra .dijitComboButton .dijitDownArrowButton {
 	padding-right:4px;
+}
+
+.tundra .dijitSpinner .dijitArrowButton {
+	line-height: 100%;
 }
 
 .tundra .dijitButtonDisabled .dijitButtonNode,
@@ -88,11 +75,11 @@
 	background:#e4e4e4 url("images/buttonDisabled.png") top repeat-x;
 	opacity: 0.60; /* Safari, Opera and Mozilla */
 }
-.tundra .dijitButtonDisabled .dijitButtonNode *,
-.tundra .dijitToggleButtonDisabled .dijitButtonNode *,
-.tundra .dijitDropDownButtonDisabled .dijitButtonNode *,
-.tundra .dijitComboButtonDisabled .dijitButtonNode *,
-.tundra .dijitSpinnerDisabled .dijitButtonNode * {
+.dj_ie .tundra .dijitButtonDisabled .dijitButtonNode *,
+.dj_ie .tundra .dijitToggleButtonDisabled .dijitButtonNode *,
+.dj_ie .tundra .dijitDropDownButtonDisabled .dijitButtonNode *,
+.dj_ie .tundra .dijitComboButtonDisabled .dijitButtonNode *,
+.dj_ie .tundra .dijitSpinnerDisabled .dijitButtonNode * {
 	filter: gray() alpha(opacity=50); /* IE */
 }
 
@@ -103,8 +90,6 @@
 .tundra .dijitComboButtonDownArrowHover .dijitDownArrowButton,
 .tundra .dijitComboBoxHover .dijitDownArrowButton,
 .tundra .dijitSpinnerUpArrowHover .dijitUpArrowButton,
-.tundra .dijitSpinnerUpArrowHover .dijitA11yUpArrow,
-.tundra .dijitSpinnerDownArrowHover .dijitA11yDownArrow,
 .tundra .dijitSpinnerDownArrowHover .dijitDownArrowButton {
 	/* hover state - inner */
 	/* TODO: change from Hover to Selected so that button is still highlighted while drop down is being used */
@@ -183,7 +168,7 @@
 	background: url('images/editor.gif');
 	height: 18px;
 	width: 5px;
-	padding: 0px 1px 0px 1px;
+	padding: 0px 1px;
 	margin: 0px;
 }
 
@@ -191,32 +176,22 @@
 	background: url('images/editor.gif');
 }
 
-/* ComboBox-icon-specific */
-.tundra .dijitComboBox .dijitDownArrowButtonChar {
-	/* visibility:hidden;  */
-	display:none; 
+.tundra .dijitArrowButtonInner {
+	width: 16px;
+	background:url("images/arrowDown.png") no-repeat center;
 }
-.dijit_a11y .dijitComboBox .dijitDownArrowButtonChar {
-	display:inline; 
+.tundra .dijitUpArrowButton .dijitArrowButtonInner { background-image:url("images/arrowUp.png"); }
+.dj_ie6 .tundra .dijitArrowButtonInner {
+	background-image:url("images/arrowDown.gif");
 }
-.tundra .dijitComboBox .dijitDownArrowButtonInner {
-	width:16px; 
-	height:16px; 
-	background:url("images/comboArrowDown.gif") no-repeat center center
+.dj_ie6 .tundra .dijitUpArrowButton .dijitArrowButtonInner {
+	background-image:url("images/arrowUp.gif");
 }
-
-.tundra .dijitComboBoxHover .dijitDownArrowButtonInner {
+.tundra .dijitComboBox .dijitArrowButton .dijitArrowButtonInner {
+	background:url("images/comboArrowDown.gif") no-repeat center center;
+}
+.tundra .dijitComboBoxHover .dijitArrowButtonInner {
 	/* TODO: url("images/arrowDownHover.png") but in IE6 it flickers some? */
-}
-
-
-/*****
-		dijit.form.NumberSpinner
-		override for the shorter stacked buttons
- *****/
-
-.tundra .dijitSpinner .dijitButtonNode {
-	padding: 0 .4em 0 .4em;
 }
 
 
@@ -235,7 +210,8 @@
 .tundra .dijitTextBox,
 .tundra .dijitComboBox,
 .tundra .dijitSpinner {
-	margin: 0em 0.1em 0.0em 0.1em;
+	margin: 0em 0.1em;
+	font-family:inherit;
 }
 
 .tundra .dijitTextBox,
@@ -248,21 +224,14 @@
 		Otherwise the actual input element.
 	*/
 	background:#fff url("images/validationInputBg.png") repeat-x top left;
-	#background:#fff url('images/validationInputBg.gif') repeat-x top left; 
+	#background:#fff url('images/validationInputBg.gif') repeat-x top left;
 	border:1px solid #b3b3b3;
 	line-height: normal;
 }
 
-.dj_safari .tundra INPUT.dijitTextBox {
-	padding:0.15em 0em; /* make it roughly the same size as a validation input box */
+.tundra .dijitComboBox .dijitButtonNode {
+	padding: 0 0.2em;
 }
-
-.dj_ie .tundra INPUT.dijitTextBox,
-.dj_ie .tundra TD.dijitInputField,
-.dj_ie .tundra .dijitInputField INPUT {
-	height: 1.2em; /* needed since the INPUT is position:absolute */
-}
-
 .tundra .dijitComboBox .dijitButtonNode,
 .tundra .dijitSpinner .dijitButtonNode {
 	/* line between the input area and the drop down button */
@@ -285,53 +254,30 @@
 	border-top:1px solid #366dba;
 }
 
-.tundra .dijitTextBoxError,
-.tundra .dijitComboBoxError,
-.tundra .dijitSpinnerError {
-	border:1px solid #f3d118;
+.tundra .dijitError {
+	border-color:#f3d118;
 	background-color:#f9f7ba;
 	background-image:none;
 }
-.dj_ie6 .tundra .dijitTextBoxError input,
-.dj_ie6 .tundra .dijitComboBoxError input,
-.dj_ie6 .tundra .dijitSpinnerError input {
+.dj_ie6 .tundra .dijitError INPUT {
 	/* background-color: transparent on an <input> doesn't work on IE6 */
 	background-color:#f9f7ba !important;
 }
 
-.tundra .dijitTextBoxErrorFocused,
-.tundra .dijitComboBoxErrorFocused,
-.tundra .dijitSpinnerErrorFocused {
+.tundra .dijitErrorFocused {
 	background-color:#ff6;
 	background-image:none;
 }
-.dj_ie6 .tundra .dijitTextBoxErrorFocused input,
-.dj_ie6 .tundra .dijitComboBoxErrorFocused input,
-.dj_ie6 .tundra .dijitSpinnerErrorFocused input {
+.dj_ie6 .tundra .dijitErrorFocused INPUT {
 	/* background-color: transparent on an <input> doesn't work on IE6 */
 	background-color:#ff6 !important;
 }
 
 /* Validation errors  */
 .tundra .dijitValidationIcon {
-	/* prevent height change when widget goes from valid to invalid state, and
-	 * workaround browser (FF and safari) sizing bugs when last table column is empty or display:null
-	 */
-	display: block;
+	/* prevent height change when widget goes from valid to invalid state */
 	width: 16px;
-	height: 16px;
-	background-repeat: no-repeat;
-	background-image: url('images/warning.png');
-	visibility: hidden;
-}
-.tundra .dijitValidationIconText {
-	display: none;
-}
-
-.tundra .dijitTextBoxError .dijitValidationIcon,
-.tundra .dijitComboBoxError .dijitValidationIcon,
-.tundra .dijitSpinnerError .dijitValidationIcon {
-	visibility: visible;
+	background: transparent url('images/warning.png') no-repeat center center;
 }
 
 /*
@@ -369,9 +315,9 @@
 	background-repeat: no-repeat;
 	width: 16px;
 	height: 16px;
-	overflow: visible; 
+	overflow: visible;
 	margin: 0;
-	padding: 0; 
+	padding: 0;
 }
 
 .tundra .dijitCheckBox,
@@ -379,7 +325,7 @@
 	/* unchecked */
 	background-position: -16px;
 }
- 
+
 .tundra .dijitCheckBoxChecked,
 .tundra .dijitToggleButtonChecked .dijitCheckBoxIcon {
 	/* checked */
@@ -473,17 +419,17 @@
 }
 
 .tundra .dijitMenuExpand {
-	display:none; 
+	display:none;
 }
 .tundra .dijitMenuExpandEnabled {
 	/* margin-top:4px;  */
-	width:16px; 
-	height:16px; 
+	width:16px;
+	height:16px;
 	background:url('images/arrowRight.png') no-repeat center center;
 	display:block;
 }
 .dj_ie6 .tundra .dijitMenuExpandEnabled {
-	background-image:url('images/arrowRight.gif'); 
+	background-image:url('images/arrowRight.gif');
 }
 .tundra .dijitMenuExpandInner {
 	display:none;
@@ -508,7 +454,7 @@
 	background: #cccccc;
 	background:#fff url("images/titleBar.png") repeat-x bottom left;
 	border:1px solid #bfbfbf;
-	padding:6px 4px 6px 8px;
+	padding:4px 4px 2px 4px;
 	cursor: pointer;
 }
 
@@ -519,20 +465,26 @@
 	float:right;
 }
 .tundra .dijitTitlePane .dijitClosed .dijitArrowNode {
-	background:url('images/plusButton.gif') no-repeat center center; 
+	background:url('images/arrowRight.png') no-repeat center center;
 }
 
 .tundra .dijitTitlePaneFocused .dijitTitlePaneTextNode {
-	font-weight:bold;
+	text-decoration:underline;
 }
 
-.tundra .dijitTitlePane .dijitOpen .dijitArrowNode {
-	background:url('images/minusButton.gif') no-repeat center center; 
+.dj_ie6 .tundra .dijitTitlePane .dijitClosed .dijitArrowNode {
+	background-image:url('images/arrowRight.gif');
 }
-.tundra .dijitTitlePane .dijitArrowNodeInner { 
+.tundra .dijitTitlePane .dijitOpen .dijitArrowNode {
+	background:url('images/arrowDown.png') no-repeat center center;
+}
+.dj_ie6 .tundra .dijitTitlePane .dijitOpen .dijitArrowNode {
+	background-image:url('images/arrowDown.gif');
+}
+.tundra .dijitTitlePane .dijitArrowNodeInner {
 	visibility:hidden;
 }
-.dijit_a11y .dijitTitlePane .dijitArrowNodeInner { 
+.dijit_a11y .dijitTitlePane .dijitArrowNodeInner {
 	visibility:visible;
 }
 
@@ -548,17 +500,15 @@
 .tundra .dijitTitlePaneContentOuter {
 	background: #ffffff;
 	border:1px solid #bfbfbf;
-	border-top:0;
-
+	border-top: 1px solid #cddde9;	/* w/out this, an <h1> on the top line causes a gap between the .content and .label */
 }
 .tundra .dijitTitlePaneContentInner {
 	padding:10px;
-	border:3px solid #ddd;
 }
 /* force hasLayout to ensure borders etc, show up */
-.dj_ie6 .tundra .dijitTitlePaneContentOuter, 
+.dj_ie6 .tundra .dijitTitlePaneContentOuter,
 .dj_ie6 .tundra .dijitTitlePane .dijitTitlePaneTitle {
-	zoom: 1; 
+	zoom: 1;
 }
 .tundra .dijitClickableRegion {
 	background-color : #ffc !important;
@@ -566,12 +516,11 @@
 
 /* Tabs */
 
-
 .tundra .dijitTabPaneWrapper {
 	/*
 	overflow: hidden;
 	*/
-	background:#fff; 
+	background:#fff;
 	border:1px solid #ccc;
 }
 
@@ -601,9 +550,13 @@
 	border-top-color:#92a0b3;
 	border-left-color:#92a0b3;
 	border-right-color:#92a0b3;
-	background:#fff url("images/tabHover.png") repeat-x bottom;
+	background:#e2e2e2 url("images/tabHover.png") repeat-x bottom;
 }
 
+.dj_ie6 .tundra .dijitTabHover,
+.dj_ie6 .tundra .dijitTabCloseButtonHover {
+	background-image: url("images/tabHover.gif");
+}
 
 .tundra .dijitTabChecked,
 .tundra .dijitTabCloseButtonChecked
@@ -611,7 +564,7 @@
 	/* the selected tab (with or without hover) */
 	background-color:#fff;
 	border-color: #ccc;
-	background-image:none; 
+	background-image:none;
 }
 
 /* make the active tab white on the side next to the content pane */
@@ -644,7 +597,7 @@
 
 /* make space for a positioned close button */
 .tundra .dijitTab .dijitClosable {
-	position: relative; 
+	position: relative;
 	padding:6px 20px 4px 10px;
 }
 
@@ -659,7 +612,7 @@
 	background: url("images/tabClose.png") no-repeat right top;
 }
 .dj_ie6 .dijitTab .dijitClosable .closeImage {
-	background-image:url("images/tabClose.gif"); 
+	background-image:url("images/tabClose.gif");
 }
 
 .tundra .dijitTabCloseButton .dijitClosable .closeImage {
@@ -680,7 +633,7 @@
 	padding:6px 10px 4px 20px;
 }
 
-/* correct for IE6. 
+/* correct for IE6.
     We cant force hasLayout as that blows out the shrink wrapped tabs
     ..so we shim in the closeImage position properties instead
 */
@@ -702,7 +655,7 @@
 /* SplitContainer */
 
 .tundra .dijitSplitContainerSizerH {
-	background:url("images/splitContainerSizerH.png") repeat-y top right #fff;
+	background:url("images/splitContainerSizerH.png") repeat-y #fff;
 	border:0;
 	border-left:1px solid #bfbfbf;
 	border-right:1px solid #bfbfbf;
@@ -717,11 +670,11 @@
 }
 
 .tundra .dijitSplitContainerSizerV {
-	background:url("images/splitContainerSizerV.png") repeat-x #fff bottom left;
+	background:url("images/splitContainerSizerV.png") repeat-x #fff;
 	border:0;
 	border-top:1px solid #bfbfbf;
 	border-bottom:1px solid #bfbfbf;
-	height:9px;
+	height:7px;
 }
 
 .tundra .dijitSplitContainerSizerV .thumb {
@@ -748,7 +701,7 @@
 
 .tundra .dijitDialog .dijitDialogPaneContent {
 	background: #ffffff;
-	border:3px solid #dddddd;
+	border:none;
 	border-top: 1px solid #ccc; /* #cddde9;	/* w/out this, an <h1> on the top line causes a gap between the .content and .label */
 	padding:10px;
 
@@ -756,7 +709,7 @@
 
 .tundra .dijitDialogTitleBar {
 	/* outer container for the titlebar of the dialog */
-	background:#fff url("images/titleBar.png") repeat-x bottom left;
+	background: #fafafa url("images/titleBarBg.gif") repeat-x bottom left;
 	/* border: 1px solid #bfbfbf; */
 	padding: 6px 8px 6px 4px;
 	cursor: move;
@@ -783,7 +736,7 @@
 	cursor: pointer;
 }
 .dj_ie6 .tundra .dijitDialogCloseIcon {
-	background-image: url("images/tabClose.gif"); 
+	background-image: url("images/tabClose.gif");
 }
 
 .tundra .dijitDialogContent {
@@ -814,7 +767,7 @@
 	/*
 		The part with the text.
 
-		NOTE: 
+		NOTE:
 			FF doesn't clip images used as CSS bgs if you specify a border
 			radius. If you use a solid color, it does. Webkit gets it right.
 			Sigh.
@@ -915,9 +868,9 @@
 	background: #f9f9f9 url("images/accordionItemActive.gif") bottom repeat-x;
 	font-weight: bold;
 	border-top: 1px solid #aaaaaa;
-	border-bottom:1px solid #bfbfbf;
+	border-bottom: 1px solid #bfbfbf;
 	padding: 6px 4px 6px 8px;
-	cursor:default;
+	cursor: default;
 }
 .tundra .dijitAccordionPaneFocused .dijitAccordionText {
 	/*text-decoration:underline !important;*/
@@ -940,7 +893,6 @@
 
 .tundra .dijitAccordionPane .dijitAccordionBody {
 	background: #fff;
-
 }
 
 /* Tree */
@@ -952,7 +904,7 @@
     margin-left: 19px;
     zoom: 1;	/* MOW: what the heck is this doing in here? */
 }
- 
+
 /* left vertical line (grid) for all nodes */
 .tundra .dijitTreeIsLast {
     background: url('images/i_half.gif') no-repeat;
@@ -982,7 +934,7 @@
     height: 18px;
     background-repeat : no-repeat;
 }
- 
+
 /* same style as IE selection */
 .tundra .dijitTreeNodeEmphasized {
     background-color: Highlight;
@@ -998,11 +950,11 @@
 .tundra .dijitTreeExpandoOpened {
 	background-image: url('images/treeExpand_minus.gif');
 }
- 
+
 .tundra .dijitTreeExpandoClosed {
 	background-image: url('images/treeExpand_plus.gif');
 }
- 
+
 .tundra .dijitTreeExpandoLeaf {
 	background-image: url('images/treeExpand_leaf.gif');
 }
@@ -1020,33 +972,33 @@
 	height:16px;
 }
 .dj_ie6 .tundra .dijitCalendarIncrementControl {
-	padding:.1em; 
+	padding:.1em;
 }
 
 .tundra .dijitCalendarIncreaseInner,
 .tundra .dijitCalendarDecreaseInner {
-	visibility:hidden; 
+	visibility:hidden;
 }
 
 .tundra .dijitCalendarDecrease {
-	background:url("images/arrowLeft.png") no-repeat center center; 
+	background:url("images/arrowLeft.png") no-repeat center center;
 }
 .dj_ie6 .tundra .dijitCalendarDecrease {
-	background-image:url("images/arrowLeft.gif"); 
+	background-image:url("images/arrowLeft.gif");
 }
 
 .tundra .dijitCalendarIncrease {
-	background:url(images/arrowRight.png) no-repeat center center; 
+	background:url(images/arrowRight.png) no-repeat center center;
 }
 .dj_ie6 .tundra .dijitCalendarIncrease {
-	background-image:url("images/arrowRight.gif"); 
+	background-image:url("images/arrowRight.gif");
 }
 
 .tundra table.dijitCalendarContainer {
 	font-size: 100%;
-	border-collapse: collapse; 
-	border-spacing: 0; 
-	border: 1px solid #ccc; 
+	border-collapse: collapse;
+	border-spacing: 0;
+	border: 1px solid #ccc;
 	margin: 0;
 }
 
@@ -1054,12 +1006,12 @@
 	/* month header cell */
 	background:white url("images/calendarMonthLabel.png") repeat-x top;
 	padding-top:.3em;
-	padding-bottom:.1em; 
-	text-align:center; 
+	padding-bottom:.1em;
+	text-align:center;
 }
 .dj_ie6 .tundra .dijitCalendarMonthContainer th {
-	padding-top:.1em; 
-	padding-bottom:0em; 
+	padding-top:.1em;
+	padding-bottom:0em;
 }
 
 .tundra .dijitCalendarDayLabelTemplate {
@@ -1116,14 +1068,14 @@
 
 .tundra .dijitCalendarCurrentMonthDisabled {
 	/* days that are part of this month - disabled */	
-	background-color:#bbbbbc !important; 
+	background-color:#bbbbbc !important;
 }
 
 .tundra .dijitCalendarDisabledDate {
-	/* one or the other? */ 
+	/* one or the other? */
 	/* background: url(images/noX.gif) no-repeat center center !important; */
-	text-decoration:line-through !important; 
-	cursor:default !important;  
+	text-decoration:line-through !important;
+	cursor:default !important;
 }
 
 .tundra .dijitCalendarCurrentDate {
@@ -1160,7 +1112,7 @@
 	background-color:#bbc4d0 !important;
 }
 
-.tundra .dijitCalendarNextYear, 
+.tundra .dijitCalendarNextYear,
 .tundra .dijitCalendarPreviousYear {
 	/* label for next/prev years */
 	color:black !important;
@@ -1202,22 +1154,12 @@
 	border-top:0;
 }
 
-/* spinner */
-
-.tundra .dijitSpinner {}
-.tundra .dijitSpinner input {
-}
-
-
-
-
 /****
 		dijit.ProgressBar
  ****/
- 
+
 .tundra .dijitProgressBar {
 	margin:2px 0px 2px 0px;
-
 }
 
 .tundra .dijitProgressBarEmpty{
@@ -1283,23 +1225,23 @@
 
 .tundra .dijitSliderBar {
 	border-style: solid;
-	outline:1px; 
+	outline:1px;
 	/* border-color: #b4b4b4; */
 }
 .tundra .dijitSliderFocused .dijitSliderBar {
 	border-color:#333;	
 }
 
-.dijit_a11y .dijitSliderProgressBar { 
-	background-color:#333 !important; 
+.dijit_a11y .dijitSliderProgressBar {
+	background-color:#333 !important;
 }
 
 .tundra .dijitHorizontalSliderImageHandle {
 	border:0px;
 	width:16px;
 	height:16px;
-	background:url("images/preciseSliderThumb.png") no-repeat center top; 
-	cursor:pointer; 
+	background:url("images/preciseSliderThumb.png") no-repeat center top;
+	cursor:pointer;
 }
 .tundra .dijitSliderFocused .dijitHorizontalSliderImageHandle {
 	background-image:url("images/preciseSliderThumbFocus.png");
@@ -1307,7 +1249,7 @@
 }
 
 .dj_ie6 .tundra .dijitHorizontalSliderImageHandle {
-	background-image:url("images/preciseSliderThumb.gif"); 
+	background-image:url("images/preciseSliderThumb.gif");
 }
 
 .tundra .dijitHorizontalSliderLeftBumper {
@@ -1326,7 +1268,7 @@
 	border:0px;
 	width:16px;
 	height:16px;
-	background:url("images/sliderThumb.png") no-repeat center center; 
+	background:url("images/sliderThumb.png") no-repeat center center;
 	cursor:pointer;
 }
 
@@ -1363,7 +1305,7 @@
 .tundra .dijitVerticalSliderDecrementIcon {
 	width:16px;
 	height:16px;
-	cursor:pointer; 
+	cursor:pointer;
 	background:url('images/arrowDown.png') no-repeat center center;
 }
 .tundra .dijitHorizontalSliderDecrementIcon { background-image:url('images/arrowLeft.png'); }
@@ -1387,12 +1329,11 @@
 
 .tundra .dijitEditorIcon {
 	background-image: url('images/editor.gif'); /* editor icons sprite image */
-	background-repeat: no-repeat; 
+	background-repeat: no-repeat;
 	width: 18px;
 	height: 18px;
 	text-align: center;
 }
-
 .tundra .dijitEditorIconSep { background-position: 0px; }
 .tundra .dijitEditorIconBackColor { background-position: -18px; }
 .tundra .dijitEditorIconBold { background-position: -36px; }
@@ -1441,7 +1382,7 @@
 
 .dj_ie6 .tundra .dijitInputField
 {
-	background: url("images/validationInputBg.gif") repeat-x top left #fff; 
+	background: url("images/validationInputBg.gif") repeat-x top left #fff;
 }
 
 /**** Disabled cursor *****/
@@ -1473,10 +1414,10 @@
 
 .tundra .dijitContentPaneLoading {
 	background:url('images/loading.gif') no-repeat left center;
-	padding-left:25px; 
+	padding-left:25px;
 }
 
 .tundra .dijitContentPaneError {
 	background:url('images/warning.png') no-repeat left center;
-	padding-left:25px; 
+	padding-left:25px;
 }

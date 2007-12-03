@@ -1,20 +1,21 @@
 <table class='dijit dijitReset dijitInline dijitLeft'
 	cellspacing='0' cellpadding='0'
-	dojoAttachEvent="onmouseenter:_onMouse,onmouseleave:_onMouse,onmousedown:_onMouse">
-	<tr>
-		<td	class="dijitStretch dijitButtonContents dijitButtonNode"
+	><tr
+		><td	class="dijitReset dijitStretch dijitButtonContents dijitButtonNode"
 			tabIndex="${tabIndex}"
-			dojoAttachEvent="ondijitclick:_onButtonClick"  dojoAttachPoint="titleNode"
-			waiRole="button" waiState="labelledby-${id}_label">
-			<div class="dijitInline ${iconClass}" dojoAttachPoint="iconNode"></div>
-			<span class="dijitButtonText" id="${id}_label" dojoAttachPoint="containerNode">${label}</span>
-		</td>
-		<td class='dijitReset dijitRight dijitButtonNode dijitDownArrowButton'
+			dojoAttachEvent="ondijitclick:_onButtonClick,onmouseenter:_onMouse,onmouseleave:_onMouse,onmousedown:_onMouse"  dojoAttachPoint="titleNode"
+			waiRole="button" waiState="labelledby-${id}_label"
+			><div class="dijitInline ${iconClass}" dojoAttachPoint="iconNode"></div
+			><div class="dijitButtonText" id="${id}_label" dojoAttachPoint="containerNode">${label}</div
+		></td
+		><td class='dijitReset dijitStretch dijitButtonNode dijitDownArrowButton'
 			dojoAttachPoint="popupStateNode,focusNode"
-			dojoAttachEvent="ondijitclick:_onArrowClick, onkeypress:_onKey"
+			dojoAttachEvent="ondijitclick:_onArrowClick, onkeypress:_onKey,onmouseenter:_onMouse,onmouseleave:_onMouse"
 			stateModifier="DownArrow"
 			title="${optionsTitle}" name="${name}"
 			waiRole="button" waiState="haspopup-true"
-		><div waiRole="presentation">&#9660;</div>
-	</td></tr>
-</table>
+			><div class="dijitArrowButtonInner">&nbsp;</div
+			><div class="dijitArrowButtonChar">&#9660;</div
+		></td
+	></tr
+></table>
