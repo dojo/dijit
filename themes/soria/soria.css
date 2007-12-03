@@ -95,6 +95,7 @@
 /* combobox needs the background centered within a bigger div */
 .soria .dijitButtonNode .dijitArrowButtonInner {
 	height: auto;
+	min-height: 0px;
 }
 .soria .dijitValidationIconText,
 .soria .dijitValidationIcon {
