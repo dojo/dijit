@@ -9,11 +9,12 @@ dojo.require("dijit.form.TextBox");
 
 dojo.requireLocalization("dijit", "common");
 
-dojo.declare(
-	"dijit.InlineEditBox",
+dojo.declare("dijit.InlineEditBox",
 	dijit._Widget,
-{
-	// summary
+	{
+	// summary: An element with in-line edit capabilitites
+	//
+	// description:
 	//		Behavior for an existing node (<p>, <div>, <span>, etc.) so that
 	// 		when you click it, an editor shows up in place of the original
 	//		text.  Optionally, Save and Cancel button are displayed below the edit widget.
@@ -26,7 +27,7 @@ dojo.declare(
 	//		String getDisplayedValue() OR String getValue()
 	//		void setDisplayedValue(String) OR void setValue(String)
 	//		void focus()
-
+	//
 	// editing: Boolean
 	//		Is the node currently in edit mode?
 	editing: false,
@@ -187,7 +188,7 @@ dojo.declare(
 	},
 
 	save: function(/*Boolean*/ focus){
-		// summary
+		// summary:
 		//		Save the contents of the editor and revert to display mode.
 		// focus: Boolean
 		//		Focus on the display mode text
@@ -270,19 +271,23 @@ dojo.declare(
 			ew.domNode.style.width = this.width + (Number(this.width)==this.width ? "px" : "");			
 		}
 
+		this.connect(this.editWidget, "onChange", "_onChange");
+
+		// setting the value of the edit widget will cause a possibly asynchronous onChange() call.
+		// we need to ignore it, since we are only interested in when the user changes the value.
+		this._ignoreNextOnChange = true;
 		(this.editWidget.setDisplayedValue||this.editWidget.setValue).call(this.editWidget, this.value);
+
 		this._initialText = this.getValue();
 
 		if(this.autoSave){
 			this.buttonContainer.style.display="none";
 		}
-
-		this.connect(this.editWidget, "onChange", "_onChange");
 	},
 
 	destroy: function(){
 		this.editWidget.destroy();
-		this.inherited("destroy", arguments);
+		this.inherited(arguments);
 	},
 
 	getValue: function(){
@@ -291,8 +296,8 @@ dojo.declare(
 	},
 
 	_onKeyPress: function(e){
-		// summary:
-		//		Callback when keypress in the edit box (see template).
+		// summary: Callback when keypress in the edit box (see template).
+		// description:
 		//		For autoSave widgets, if Esc/Enter, call cancel/save.
 		//		For non-autoSave widgets, enable save button if the text value is
 		//		different than the original value.
@@ -341,14 +346,19 @@ dojo.declare(
 
 	enableSave: function(){
 		// summary: User replacable function returning a Boolean to indicate
-		// if the Save button should be enabled or not - usually due to invalid conditions
-		return this.editWidget.isValid ? this.editWidget.isValid() : true;
+		// 	if the Save button should be enabled or not - usually due to invalid conditions
+		return this.editWidget.isValid ? this.editWidget.isValid() : true; // Boolean
 	},
 
 	_onChange: function(){
 		// summary:
-		//	This is called when the underlying widget fires an onChange event,
+		//	Called when the underlying widget fires an onChange event,
 		//	which means that the user has finished entering the value
+		
+		if(this._ignoreNextOnChange){
+			delete this._ignoreNextOnChange;
+			return;
+		}
 		if(this._exitInProgress){
 			// TODO: the onChange event might happen after the return key for an async widget
 			// like FilteringSelect.  Shouldn't be deleting the edit widget on end-of-edit
@@ -367,7 +377,7 @@ dojo.declare(
 	
 	enableSave: function(){
 		// summary: User replacable function returning a Boolean to indicate
-		// if the Save button should be enabled or not - usually due to invalid conditions
+		// 	if the Save button should be enabled or not - usually due to invalid conditions
 		return this.editWidget.isValid ? this.editWidget.isValid() : true;
 	},
 
@@ -378,7 +388,9 @@ dojo.declare(
 });
 
 dijit.selectInputText = function(/*DomNode*/element){
-	// summary: select all the text in an input element (TODO: use functions in _editor/selection.js?)
+	// summary: select all the text in an input element 
+
+	// TODO: use functions in _editor/selection.js?
 	var _window = dojo.global;
 	var _document = dojo.doc;
 	element = dojo.byId(element);
