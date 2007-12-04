@@ -90,7 +90,7 @@
 
 			dojo.connect(menu, "_openMyself", this, function(e){
 				// get a hold of, and log out, the tree node that was the source of this open event
-				var tn = this.dijit.getEnclosingWidget(e.target);
+				var tn = dijit.getEnclosingWidget(e.target);
 				console.debug(tn);
 
 				// now inspect the data store item that backs the tree node:
