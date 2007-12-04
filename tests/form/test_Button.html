@@ -255,33 +255,47 @@
 		var widget = new dijit.form.Button(params, document.getElementById("buttonContainer"));
 	});
 	</script>
+    <h3>DropDownButton instantiated via javacript:</h3>
 	<div id="dropdownButtonContainer"></div>
 	<script type="text/javascript">
-	// See if we can make a drop down button in script and attach it to the DOM ourselves.
-	dojo.addOnLoad(function(){
-		var menu = new dijit.Menu({ });
-		menu.domNode.style.display="none"; 
-		var menuItem1 = new dijit.MenuItem({
-			label: "Save",
-			iconClass:"dijitEditorIcon dijitEditorIconSave",
-			onClick: function(){ alert('save'); }
-		});
-		menu.addChild(menuItem1);      
+	    // See if we can make a drop down button in script and attach it to the DOM ourselves.
+        function createButton(){
+            var menu = new dijit.Menu({ });
+            menu.domNode.style.display="none";
+            var menuItem1 = new dijit.MenuItem({
+                label: "Save",
+                iconClass:"dijitEditorIcon dijitEditorIconSave",
+                onClick: function(){ alert('save'); }
+            });
+            menu.addChild(menuItem1);
 
-		var menuItem2 = new dijit.MenuItem({
-			label: "Cut",
-			iconClass:"dijitEditorIcon dijitEditorIconCut",
-			onClick: function(){ alert('cut'); }
-		});
-		menu.addChild(menuItem2);
-  
-		var params = {
-			label: "hello!",
-			name: "programmatic2",
-			dropDown: menu
-		};
-		var widget = new dijit.form.DropDownButton(params, document.getElementById("dropdownButtonContainer"));
-	});
-	</script>
+            var menuItem2 = new dijit.MenuItem({
+                label: "Cut",
+                iconClass:"dijitEditorIcon dijitEditorIconCut",
+                onClick: function(){ alert('cut'); }
+            });
+            menu.addChild(menuItem2);
+
+            var params = {
+                label: "hello!",
+                name: "programmatic2",
+                dropDown: menu,
+                id: "progButton"
+            };
+            var widget = new dijit.form.DropDownButton(params);
+            dojo.byId("dropdownButtonContainer").appendChild(widget.domNode);
+            dojo.byId("createButton").disabled = true;
+            dojo.byId("destroyButton").disabled = false;
+	    }
+        function destroyButton(){
+            var button = dijit.byId("progButton");
+            button.destroyRecursive();
+            dojo.byId("createButton").disabled = false;
+            dojo.byId("destroyButton").disabled = true;
+        }
+    </script>
+    <button id="createButton" onclick="createButton();">create dropdown button</button>
+    <button id="destroyButton" onclick="destroyButton();">destroy dropdown button</button>
+
 </body>
 </html>

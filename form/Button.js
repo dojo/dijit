@@ -143,6 +143,14 @@ dojo.declare("dijit.form.DropDownButton", [dijit.form.Button, dijit._Container],
 		this.dropDown.domNode.style.display="none";
 	},
 
+	destroyDescendants: function(){
+		if(this.dropDown){
+			this.dropDown.destroyRecursive();
+			delete this.dropDown;
+		}
+		this.inherited(arguments);
+	},
+
 	_onArrowClick: function(/*Event*/ e){
 		// summary: callback when the user mouse clicks on menu popup node
 		if(this.disabled){ return; }
