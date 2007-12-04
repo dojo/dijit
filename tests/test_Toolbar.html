@@ -27,8 +27,15 @@
 			dojo.forEach(["toolbar2", "toolbar3", "toolbar4"], function(toolbarId){
 				var toolbar = new dijit.Toolbar({}, dojo.byId(toolbarId));
 				dojo.forEach(["Cut", "Copy", "Paste"], function(label){
-					var button = new dijit.form.Button({id: toolbarId+"."+label, label: label, iconClass: "dijitEditorIcon dijitEditorIcon"+label, showLabel: (toolbarId == "toolbar2" ? false : true)});
-					toolbar.addChild(button);
+					var button = new dijit.form.Button({
+                        id: toolbarId+"."+label,
+                        // note: should always specify a label, for accessibility reasons.
+                        // Just set showLabel=false if you don't want it to be displayed normally
+                        label: label,
+                        showLabel: (toolbarId == "toolbar2" ? false : true),
+                        iconClass: toolbarId == "toolbar4" ? "" : "dijitEditorIcon dijitEditorIcon"+label
+                    });
+                    toolbar.addChild(button);
 				});
 			});
 		}
@@ -43,17 +50,6 @@
 		.dijitToolbar .dijitButton, .dijitToolbar .dijitDropDownButton { margin: 0px; }
 		.dijitToolbar .dijitToggleButtonSelected BUTTON, .dijitToolbar .dijitToggleButtonSelectedHover BUTTON { border-width: 3px; }
 	</style>
-
-	<!--	To turn off display of text use showLabel=false attribute on button
-			to turn off display or icon, add your own classes and/or CSS rules -->
-	<style>
-
-		.toolbarWithNoImages .dijitButtonContents .dijitInline,
-		.toolbarWithNoImages .dijitButtonContents .dijitInline {
-			display: none;
-		}
-	</style>
-
 </head>
 <body>
 	<h1 class="testTitle">Toolbar test</h1>
@@ -179,13 +175,16 @@
 		</div>
 	</div>	
 
-	<h2>Toolbar from script</h2>
+	<h2>Toolbar from script with icons only</h2>
 	<div id="toolbar2"></div>
 
-	<h2>Toolbar with text and icons</h2>
+	<h2>Toolbar from script with text and icons</h2>
 	<div id="toolbar3"></div>
 
-	<h2>Toolbar with text only</h2>
-	<div id="toolbar4" class="toolbarWithNoImages"></div>
+	<h2>Toolbar from script with text only</h2>
+	<div id="toolbar4"></div>
+
+    <!-- leave some space before the console window -->
+    <br><br>
   </body>
 </html>
