@@ -102,6 +102,14 @@ dojo.declare("dijit.InlineEditBox",
 		this._setDisplayValue(this.value);	// if blank, change to icon for "input needed"
 	},
 
+        setDisabled: function(/*Boolean*/ disabled){
+            // summary:
+            //		Set disabled state of widget.
+
+            this.disabled = disabled;
+            dijit.setWaiState(this.focusNode || this.domNode, "disabled", disabled);
+        },
+
 	_onMouseOver: function(){
 		dojo.addClass(this.displayNode, this.disabled ? "dijitDisabledClickableRegion" : "dijitClickableRegion");
 	},
