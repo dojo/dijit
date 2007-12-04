@@ -302,6 +302,11 @@ dojo.declare("dijit.Menu",
 		if(popup.focus){
 			popup.focus();
 		}
+	},
+	
+	uninitialize: function(){
+ 		dojo.forEach(this.targetNodeIds, this.unBindDomNode, this);
+ 		this.inherited(arguments);
 	}
 }
 );
@@ -422,6 +427,14 @@ dojo.declare("dijit.PopupMenuItem",
 		dojo.addClass(this.expand, "dijitMenuExpandEnabled");
 		dojo.style(this.expand, "display", "");
 		dijit.setWaiState(this.containerNode, "haspopup", "true");
+	},
+	
+	destroyDescendants: function(){
+		if(this.popup){
+			this.popup.destroyRecursive();
+			delete this.popup;
+		}
+		this.inherited(arguments);
 	}
 });
 

@@ -23,11 +23,11 @@
 	</script>
     
     <script language="Javascript" type="text/javascript">
-        dojo.addOnLoad(function() {
+        function createMenu() {
             // create a menu programmatically
             function fClick() {alert("clicked!")};
             
-            var pMenu = new dijit.Menu({targetNodeIds:["prog_menu"], id:"progMenu"});
+            pMenu = new dijit.Menu({targetNodeIds:["prog_menu"], id:"progMenu"});
             pMenu.addChild(new dijit.MenuItem({label:"Programmatic Context Menu", disabled:true}));
             pMenu.addChild(new dijit.MenuSeparator());
             pMenu.addChild(new dijit.MenuItem({label:"Simple menu item", onClick:fClick}));
@@ -43,7 +43,18 @@
             pMenu.addChild(new dijit.PopupMenuItem({label:"Submenu", popup:pSubMenu, id:"progPopupMenuItem"}));
             
             pMenu.startup();
-        });
+            
+            dojo.byId("prog_menu").innerHTML="This div has a programmatic context menu on it that's different to the page menu."
+            dojo.byId("createButton").disabled = true;
+            dojo.byId("destroyButton").disabled = false;
+        }
+        
+        function destroyMenu(){
+        	pMenu.destroyRecursive();
+            dojo.byId("prog_menu").innerHTML="No programmatic menu on this div, should get page level menu.";
+            dojo.byId("createButton").disabled = false;
+            dojo.byId("destroyButton").disabled = true;
+        }
     </script>
 </head>
 <body>
@@ -111,18 +122,20 @@
 			<option>on IE6</option>
 		</select>
 		<button id=button>push me</button>
-
-        <div id="prog_menu" style="border:1px solid blue; padding:10px; margin:20px 0;">
-            This div has a programmatic context menu on it that's different to the page menu.
-        </div>
-
-		<div style="height:500px"></div>
-		<p>(this space intentionally left blank to aid testing with controls
-		at the bottom of the browser window)</p>
-		<div style="height:500px"></div>
-		<input id=input3 value="bottom-left">
-		<p style="text-align:right"><input id=input4 value="bottom-right"></p>
 	</form>
+
+    <div id="prog_menu" style="border:1px solid blue; padding:10px; margin:20px 0;">
+        Click button below to create special menu on this div.
+    </div>
+    <button id="createButton" onclick="createMenu();">create programmatic menu</button>
+    <button id="destroyButton" onclick="destroyMenu();" disabled>destroy programmatic menu</button>
+
+	<div style="height:500px"></div>
+	<p>(this space intentionally left blank to aid testing with controls
+	at the bottom of the browser window)</p>
+	<div style="height:500px"></div>
+	<input id=input3 value="bottom-left">
+	<p style="text-align:right"><input id=input4 value="bottom-right"></p>
 
 	<p>See also: <a href="form/test_Button.html">form/test_Button</a>
 	(PopupMenu is used with DropDownButton and ComboButton)</p>
