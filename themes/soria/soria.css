@@ -93,9 +93,12 @@
 	background: transparent url('images/arrows.png') no-repeat 0px center;
 }
 /* combobox needs the background centered within a bigger div */
-.soria .dijitButtonNode .dijitArrowButtonInner {
+.soria .dijitArrowButton .dijitArrowButtonInner {
 	height: auto;
 	min-height: 0px;
+}
+.soria .dijitSpinner .dijitArrowButton .dijitArrowButtonInner {
+	height: 100%;
 }
 .soria .dijitValidationIconText,
 .soria .dijitValidationIcon {
