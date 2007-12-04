@@ -271,14 +271,18 @@ dojo.declare(
 			ew.domNode.style.width = this.width + (Number(this.width)==this.width ? "px" : "");			
 		}
 
+		this.connect(this.editWidget, "onChange", "_onChange");
+
+		// setting the value of the edit widget will cause a possibly asynchronous onChange() call.
+		// we need to ignore it, since we are only interested in when the user changes the value.
+		this._ignoreNextOnChange = true;
 		(this.editWidget.setDisplayedValue||this.editWidget.setValue).call(this.editWidget, this.value);
+
 		this._initialText = this.getValue();
 
 		if(this.autoSave){
 			this.buttonContainer.style.display="none";
 		}
-
-		this.connect(this.editWidget, "onChange", "_onChange");
 	},
 
 	destroy: function(){
@@ -350,6 +354,11 @@ dojo.declare(
 		// summary:
 		//	Called when the underlying widget fires an onChange event,
 		//	which means that the user has finished entering the value
+		
+		if(this._ignoreNextOnChange){
+			delete this._ignoreNextOnChange;
+			return;
+		}
 		if(this._exitInProgress){
 			// TODO: the onChange event might happen after the return key for an async widget
 			// like FilteringSelect.  Shouldn't be deleting the edit widget on end-of-edit
