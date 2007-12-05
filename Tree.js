@@ -40,13 +40,15 @@ dojo.declare(
 		// set label, escaping special characters
 		this.setLabelNode(this.label);
 
-		// set expand icon for leaf 	
-		this._setExpando();
+        if(this.parent || !this._hideRoot){
+            // set expand icon for leaf
+            this._setExpando();
 
-		// set icon and label class based on item
-		this._updateItemClasses(this.item);
+            // set icon and label class based on item
+            this._updateItemClasses(this.item);
+        }
 
-		if(this.isExpandable){
+        if(this.isExpandable){
 			dijit.setWaiState(this.labelNode, "expanded", this.isExpanded);
 		}
 	},
@@ -64,8 +66,8 @@ dojo.declare(
 
 	_updateItemClasses: function(item){
 		// summary: set appropriate CSS classes for item (used to allow for item updates to change respective CSS)
-		this.iconNode.className = "dijitInline dijitTreeIcon " + this.tree.getIconClass(item);
-		this.labelNode.className = "dijitTreeLabel " + this.tree.getLabelClass(item);
+		this.iconNode.className = "dijitInline dijitTreeIcon " + this.tree.getIconClass(item, this.isExpanded);
+		this.labelNode.className = "dijitTreeLabel " + this.tree.getLabelClass(item, this.isExpanded);
 	},
 	
 	_updateLayout: function(){
@@ -111,8 +113,9 @@ dojo.declare(
 		this.isExpanded = true;
 		dijit.setWaiState(this.labelNode, "expanded", "true");
 		dijit.setWaiRole(this.containerNode, "group");
-
-		this._setExpando();
+        this.contentNode.className = "dijitTreeContent dijitTreeContentExpanded";
+        this._setExpando();
+        this._updateItemClasses(this.item);
 
 		this._wipeIn.play();
 	},
@@ -127,7 +130,9 @@ dojo.declare(
 
 		this.isExpanded = false;
 		dijit.setWaiState(this.labelNode, "expanded", "false");
+        this.contentNode.className = "dijitTreeContent";
 		this._setExpando();
+        this._updateItemClasses(this.item);
 
 		this._wipeOut.play();
 	},
@@ -436,11 +441,12 @@ dojo.declare(
 		return this.store.getLabel(item);	// String
 	},
 
-	getIconClass: function(/*dojo.data.Item*/ item){
+	getIconClass: function(/*dojo.data.Item*/ item, /*Boolean*/ opened){
 		// summary: user overridable function to return CSS class name to display icon
-	},
+        return (!item || this.mayHaveChildren(item)) ? (opened ? "dijitFolderOpened" : "dijitFolderClosed") : "dijitLeaf"
+    },
 
-	getLabelClass: function(/*dojo.data.Item*/ item){
+	getLabelClass: function(/*dojo.data.Item*/ item, /*Boolean*/ opened){
 		// summary: user overridable function to return CSS class name to display label
 	},
 

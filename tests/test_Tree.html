@@ -41,14 +41,11 @@
 				alert("Execute on root node");
 			}
 		</script>
-		<script type="dojo/method" event="getIconClass" args="item">
-			return "noteIcon";
-		</script>
 	</div>
 
 	<button onclick="dijit.byId('mytree').destroyRecursive();">destroy</button>
 
-	<h2>A rootless tree (no "continents" node) with context menus</h2>
+	<h2>A rootless tree (no "continents" node) with context menus, and custom icons</h2>
 
 	<ul dojoType="dijit.Menu" id="tree_menu" style="display: none;">
 		<li dojoType="dijit.MenuItem" onClick="alert('Hello world');">Enabled Item</li>
@@ -102,10 +99,12 @@
 				// IMPLEMENT CUSTOM MENU BEHAVIOR HERE
 			});
 		</script>
-		<script type="dojo/method" event="getIconClass" args="item">
-			return "noteIcon";
+		<script type="dojo/method" event="getIconClass" args="item, opened">
+           return (!item || continentStore.getValue(item, "type") == "continent") ?
+                   (opened ? "customFolderOpenedIcon" : "customFolderClosedIcon") :
+                    "noteIcon";
 		</script>
-	</div>
+    </div>
 
 </body>
 </html>

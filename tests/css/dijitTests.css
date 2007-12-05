@@ -54,3 +54,21 @@ h1.testTitle {
 .dijitTestNodeShowing {
 	visibility:visible; 
 }
+
+.customFolderOpenedIcon, .customFolderClosedIcon {
+	background-image: url('../../demos/mail/icons.png'); /* mail icons sprite image */
+	background-repeat: no-repeat;
+	width: 16px;
+	height: 16px;
+	text-align: center;
+	padding-right:4px;
+    background-position: -44px;
+}
+
+.dj_ie6 .customFolderOpenedIcon, .dj_ie6 .customFolderClosedIcon {
+	background-image: url('../../demos/mail/icons.gif');
+}
+
+.customFolderClosedIcon {
+    background-position: -154px;
+}
