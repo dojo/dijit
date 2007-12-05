@@ -236,8 +236,14 @@ dojo.declare(
 	deleteNode: function(/* treeNode */ node){
 		node.destroy();
 
-		dojo.forEach(this.getChildren(), function(child){
-			child._updateLayout();
+		var children = this.getChildren();		
+		if(children.length == 0){
+			this.isExpandable = false;
+			this.collapse();
+		}
+
+		dojo.forEach(children, function(child){
+				child._updateLayout();
 		});
 	},
 
