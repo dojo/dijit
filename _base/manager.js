@@ -1,9 +1,10 @@
 dojo.provide("dijit._base.manager");
 
 dojo.declare("dijit.WidgetSet", null, {
+	// summary:
+	//	A set of widgets indexed by id
+
 	constructor: function(){
-		// summary:
-		//	A set of widgets indexed by id
 		this._hash={};
 	},
 
@@ -41,7 +42,12 @@ dojo.declare("dijit.WidgetSet", null, {
 	}
 	});
 
-// registry: list of all widgets on page
+/*=====
+dijit.registry = {
+	// summary: A list of widgets on a page.
+	// description: Is an instance of dijit.WidgetSet
+};
+=====*/
 dijit.registry = new dijit.WidgetSet();
 
 dijit._widgetTypeCtr = {};

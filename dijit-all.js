@@ -1,5 +1,12 @@
 console.warn("dijit-all may include much more code than your application actually requires. We strongly recommend that you investigate a custom build or the web build tool");
 dojo.provide("dijit.dijit-all");
+
+/*=====
+dijit["dijit-all"] = { 
+	// summary: A rollup that includes every dijit. You probably don't need this.
+};
+=====*/
+
 dojo.require("dijit.dijit");
 
 dojo.require("dijit.ColorPalette");
