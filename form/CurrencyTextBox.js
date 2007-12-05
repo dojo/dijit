@@ -16,7 +16,7 @@ dojo.declare(
 		currency: "",
 
 		regExpGen: dojo.currency.regexp,
-		format: dojo.currency.format,
+		_formatter: dojo.currency.format,
 		parse: dojo.currency.parse,
 
 		postMixInProperties: function(){

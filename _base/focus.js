@@ -88,7 +88,7 @@ dojo.mixin(dijit,
 		}
 	},
 
-	getFocus: function(/*Widget*/menu, /*Window*/ openedForWindow){
+	getFocus: function(/*Widget?*/menu, /*Window?*/openedForWindow){
 		// summary:
 		//	Returns the current focus and selection.
 		//	Called when a popup appears (either a top level menu or a dialog),

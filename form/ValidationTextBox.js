@@ -22,30 +22,35 @@ dojo.declare(
 		// required: Boolean
 		//		Can be true or false, default is false.
 		required: false,
+
 		// promptMessage: String
 		//		Hint string
 		promptMessage: "",
+
 		// invalidMessage: String
 		// 		The message to display if value is invalid.
 		invalidMessage: "$_unset_$", // read from the message file if not overridden
+
 		// constraints: Object
 		//		user-defined object needed to pass parameters to the validator functions
 		constraints: {},
+
 		// regExp: String
 		//		regular expression string used to validate the input
 		//		Do not specify both regExp and regExpGen
 		regExp: ".*",
+
 		// regExpGen: Function
 		//		user replaceable function used to generate regExp when dependent on constraints
 		//		Do not specify both regExp and regExpGen
 		regExpGen: function(constraints){ return this.regExp; },
-		
+
 		// state: String
 		//		Shows current state (ie, validation result) of input (Normal, Warning, or Error)
 		state: "",
 
 		setValue: function(){
-			this.inherited('setValue', arguments);
+			this.inherited(arguments);
 			this.validate(false);
 		},
 
@@ -86,7 +91,7 @@ dojo.declare(
 			var isEmpty = this._isEmpty(this.textbox.value);
 			this.state = (isValid || (!this._hasBeenBlurred && isEmpty)) ? "" : "Error";
 			this._setStateClass();
-			dijit.setWaiState(this.focusNode, "invalid", (isValid? "false" : "true"));
+			dijit.setWaiState(this.focusNode, "invalid", isValid ? "false" : "true");
 			if(isFocused){
 				if(isEmpty){
 					message = this.getPromptMessage(true);
@@ -115,20 +120,15 @@ dojo.declare(
 
 		_hasBeenBlurred: false,
 
-		_onBlur: function(evt){
+		_onBlur: function(){
 			this._hasBeenBlurred = true;
 			this.validate(false);
-			this.inherited('_onBlur', arguments);
+			this.inherited(arguments);
 		},
 
-		onfocus: function(evt){
-			// TODO: change to _onFocus?
+		_update: function(/*Event*/e){
 			this.validate(true);
-			this._onMouse(evt);	// update CSS classes
-		},
-
-		onkeyup: function(evt){
-			this.onfocus(evt);
+			this._onMouse(e);	// update CSS classes
 		},
 
 		//////////// INITIALIZATION METHODS ///////////////////////////////////////
@@ -137,13 +137,16 @@ dojo.declare(
 		},
 
 		postMixInProperties: function(){
-			this.inherited('postMixInProperties', arguments);
+			this.inherited(arguments);
 			this.constraints.locale=this.lang;
 			this.messages = dojo.i18n.getLocalization("dijit.form", "validate", this.lang);
 			if(this.invalidMessage == "$_unset_$"){ this.invalidMessage = this.messages.invalidMessage; }
 			var p = this.regExpGen(this.constraints);
 			this.regExp = p;
 			// make value a string for all types so that form reset works well
+
+			this.connect(this, "onfocus", this._update);
+			this.connect(this, "onkeyup", this._update);
 		}
 	}
 );
@@ -158,18 +161,18 @@ dojo.declare(
 
 		serialize: function(val, /*Object?*/options){
 			// summary: user replaceable function used to convert the getValue() result to a String
-			return (val.toString ? val.toString() : "");
+			return val.toString ? val.toString() : "";
 		},
 
 		toString: function(){
 			// summary: display the widget as a printable string using the widget's value
 			var val = this.filter(this.getValue());
-			return (val!=null) ? ((typeof val == "string") ? val : this.serialize(val, this.constraints)) : "";
+			return val != null ? (typeof val == "string" ? val : this.serialize(val, this.constraints)) : "";
 		},
 
 		validate: function(){
 			this.valueNode.value = this.toString();
-			this.inherited('validate', arguments);
+			this.inherited(arguments);
 		},
 
 		postCreate: function(){
@@ -183,7 +186,7 @@ dojo.declare(
 			this.textbox.removeAttribute("name");
 			dojo.place(valueNode, textbox, "after");
 
-			this.inherited('postCreate', arguments);
+			this.inherited(arguments);
 		}
 	}
 );
@@ -215,8 +218,8 @@ dojo.declare(
 
 		rangeCheck: function(/* Number */ primitive, /* Object */ constraints){
 			// summary: user replaceable function used to validate the range of the numeric input value
-			var isMin = (typeof constraints.min != "undefined");
-			var isMax = (typeof constraints.max != "undefined");
+			var isMin = (constraints.min !== undefined);
+			var isMax = (constraints.max !== undefined);
 			if(isMin || isMax){
 				return (!isMin || this.compare(primitive,constraints.min) >= 0) &&
 					(!isMax || this.compare(primitive,constraints.max) <= 0);
@@ -229,17 +232,17 @@ dojo.declare(
 		},
 
 		isValid: function(/* Boolean*/ isFocused){
-			return this.inherited('isValid', arguments) &&
+			return this.inherited(arguments) &&
 				((this._isEmpty(this.textbox.value) && !this.required) || this.isInRange(isFocused));
 		},
 
 		getErrorMessage: function(/* Boolean*/ isFocused){
 			if(dijit.form.RangeBoundTextBox.superclass.isValid.call(this, false) && !this.isInRange(isFocused)){ return this.rangeMessage; }
-			else{ return this.inherited('getErrorMessage', arguments); }
+			else{ return this.inherited(arguments); }
 		},
 
 		postMixInProperties: function(){
-			this.inherited('postMixInProperties', arguments);
+			this.inherited(arguments);
 			if(!this.rangeMessage){
 				this.messages = dojo.i18n.getLocalization("dijit.form", "validate", this.lang);
 				this.rangeMessage = this.messages.rangeMessage;
@@ -247,11 +250,11 @@ dojo.declare(
 		},
 
 		postCreate: function(){
-			this.inherited('postCreate', arguments);
-			if(typeof this.constraints.min != "undefined"){
+			this.inherited(arguments);
+			if(this.constraints.min !== undefined){
 				dijit.setWaiState(this.focusNode, "valuemin", this.constraints.min);
 			}
-			if(typeof this.constraints.max != "undefined"){
+			if(this.constraints.max !== undefined){
 				dijit.setWaiState(this.focusNode, "valuemax", this.constraints.max);
 			}
 		}
