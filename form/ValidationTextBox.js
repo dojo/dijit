@@ -94,9 +94,6 @@ dojo.declare(
 				if(!message && !isValid){
 					message = this.getErrorMessage(true);
 				}
-				if(this.editOptions){
-					this.textbox.value = (this.format(this.getValue(), dojo.mixin(dojo.mixin({}, this.editOptions), this.constraints)));
-				}
 			}
 			this.displayMessage(message);
 		},
