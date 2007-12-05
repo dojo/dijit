@@ -40,15 +40,15 @@ dojo.declare(
 		// set label, escaping special characters
 		this.setLabelNode(this.label);
 
-        if(this.parent || !this._hideRoot){
-            // set expand icon for leaf
-            this._setExpando();
+		if(this.parent || !this._hideRoot){
+			// set expand icon for leaf
+			this._setExpando();
 
-            // set icon and label class based on item
-            this._updateItemClasses(this.item);
-        }
+			// set icon and label class based on item
+			this._updateItemClasses(this.item);
+		}
 
-        if(this.isExpandable){
+		if(this.isExpandable){
 			dijit.setWaiState(this.labelNode, "expanded", this.isExpanded);
 		}
 	},
@@ -113,9 +113,9 @@ dojo.declare(
 		this.isExpanded = true;
 		dijit.setWaiState(this.labelNode, "expanded", "true");
 		dijit.setWaiRole(this.containerNode, "group");
-        this.contentNode.className = "dijitTreeContent dijitTreeContentExpanded";
-        this._setExpando();
-        this._updateItemClasses(this.item);
+		this.contentNode.className = "dijitTreeContent dijitTreeContentExpanded";
+		this._setExpando();
+		this._updateItemClasses(this.item);
 
 		this._wipeIn.play();
 	},
@@ -130,9 +130,9 @@ dojo.declare(
 
 		this.isExpanded = false;
 		dijit.setWaiState(this.labelNode, "expanded", "false");
-        this.contentNode.className = "dijitTreeContent";
+		this.contentNode.className = "dijitTreeContent";
 		this._setExpando();
-        this._updateItemClasses(this.item);
+		this._updateItemClasses(this.item);
 
 		this._wipeOut.play();
 	},
@@ -443,8 +443,8 @@ dojo.declare(
 
 	getIconClass: function(/*dojo.data.Item*/ item, /*Boolean*/ opened){
 		// summary: user overridable function to return CSS class name to display icon
-        return (!item || this.mayHaveChildren(item)) ? (opened ? "dijitFolderOpened" : "dijitFolderClosed") : "dijitLeaf"
-    },
+		return (!item || this.mayHaveChildren(item)) ? (opened ? "dijitFolderOpened" : "dijitFolderClosed") : "dijitLeaf"
+	},
 
 	getLabelClass: function(/*dojo.data.Item*/ item, /*Boolean*/ opened){
 		// summary: user overridable function to return CSS class name to display label
