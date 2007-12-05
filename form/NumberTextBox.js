@@ -11,8 +11,6 @@ dojo.declare(
 		//		A mixin for all number textboxes
 		regExpGen: dojo.number.regexp,
 
-		editOptions: { pattern: '#.######' },
-
 		format: function(/*Number*/ value, /*Object*/ constraints){
 			if(isNaN(value)){ return ""; }
 			return dojo.number.format(value, constraints);
