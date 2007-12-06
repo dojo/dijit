@@ -282,6 +282,10 @@ dojo.declare(
 	//		one ore more attributes that holds children of a tree node
 	childrenAttr: ["children"],
 
+	// openOnClick: Boolean
+	//		If true, clicking a folder node's label will open it, rather than calling onClick()
+	openOnClick: false,
+
 	templatePath: dojo.moduleUrl("dijit", "_tree/Tree.html"),		
 
 	isExpandable: true,
@@ -389,8 +393,8 @@ dojo.declare(
 		// summary
 		//		User overridable function to tell if an item has or may have children.
 		//		Controls whether or not +/- expando icon is shown.
-		//		(For efficiency reasons we may not want to check if an element has
-		//		children until user clicks the expando node)
+		//		(For efficiency reasons we may not want to check if an element actually
+		//		has children until user clicks the expando node)
 
 		return dojo.some(this.childrenAttr, function(attr){
 			return this.store.hasAttribute(item, attr);
@@ -662,9 +666,9 @@ dojo.declare(
 			return;
 		}
 
-		if(domElement == nodeWidget.expandoNode ||
-			 domElement == nodeWidget.expandoNodeText){
-			// expando node was clicked
+		if( (this.openOnClick && nodeWidget.isExpandable) ||
+			(domElement == nodeWidget.expandoNode || domElement == nodeWidget.expandoNodeText) ){
+			// expando node was clicked, or label of a folder node was clicked; open it
 			if(nodeWidget.isExpandable){
 				this._onExpandoClick({node:nodeWidget});
 			}

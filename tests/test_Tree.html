@@ -31,15 +31,12 @@
 		url="../tests/_data/countries.json"></div>
 
 	<h3>Tree with hardcoded root node (not corresponding to any item in the store)</h3>
+	<p>Clicking a folder node will open/close it (openOnclick==true), and clicking a leaf node will popup an alert.</p>
 	<div dojoType="dijit.Tree" id="mytree" store="continentStore" query="{type:'continent'}"
-		labelAttr="name" label="Continents">
+		labelAttr="name" label="Continents" openOnClick="true">
 		<script type="dojo/method" event="onClick" args="item">
-			if(item){
-				alert("Execute of node " + continentStore.getLabel(item)
-					+", population=" + continentStore.getValue(item, "population"));
-			}else{
-				alert("Execute on root node");
-			}
+			alert("Execute of node " + continentStore.getLabel(item)
+				+", population=" + continentStore.getValue(item, "population"));
 		</script>
 	</div>
 
@@ -104,7 +101,11 @@
                    (opened ? "customFolderOpenedIcon" : "customFolderClosedIcon") :
                     "noteIcon";
 		</script>
-    </div>
+		<script type="dojo/method" event="onClick" args="item">
+			alert("Execute of node " + continentStore.getLabel(item)
+				+", population=" + continentStore.getValue(item, "population"));
+		</script>
+</div>
 
 </body>
 </html>
