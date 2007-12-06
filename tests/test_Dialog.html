@@ -7,6 +7,7 @@
 		@import "../../dojo/resources/dojo.css";
 		@import "css/dijitTests.css";
 		table { border: none; }
+		#dialog3_underlay { background-color: #027 }
 	</style>		
 	<script type="text/javascript"
 		djConfig="parseOnLoad: true, isDebug: true"
@@ -39,6 +40,7 @@
 				var pane = dojo.byId('thirdDialog');
 				pane.style.width = "300px"; 	
 				thirdDlg = new dijit.Dialog({
+					id: "dialog3",
 					title: "Programatic Dialog Creation"
 				},pane);
 			}
@@ -125,7 +127,7 @@
 	</div>
 </div> |
 
-<button dojoType="dijit.form.Button" onclick="createDialog()" title="shows after 3 second delay">Programatic Dialog (3 second delay)</button> |
+<button dojoType="dijit.form.Button" onclick="createDialog()" title="shows after 3 second delay, with blue background">Programatic Dialog (3 second delay)</button> |
 
 
 <div id="thirdDialog" style="display: none;">

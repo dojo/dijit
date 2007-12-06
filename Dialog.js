@@ -16,7 +16,9 @@ dojo.declare(
 	
 		// Template has two divs; outer div is used for fade-in/fade-out, and also to hold background iframe.
 		// Inner div has opacity specified in CSS file.
-		templateString: "<div class=dijitDialogUnderlayWrapper id='${id}_underlay'><div class=dijitDialogUnderlay dojoAttachPoint='node'></div></div>",
+		templateString: "<div class='dijitDialogUnderlayWrapper' id='${id}_wrapper'><div class='dijitDialogUnderlay ${class}' id='${id}' dojoAttachPoint='node'></div></div>",
+
+		attributeMap: {},
 
 		postCreate: function(){
 			// summary: Append the underlay to the body
@@ -139,7 +141,10 @@ dojo.declare(
 				this._moveable = new dojo.dnd.Moveable(this.domNode, { handle: this.titleBar });
 			}
 
-			this._underlay = new dijit.DialogUnderlay();
+			this._underlay = new dijit.DialogUnderlay({
+				id: this.id+"_underlay",
+				"class": dojo.map(this["class"].split(/\s/), function(s){ return s+"_underlay"; }).join(" ")
+			});
 
 			var node = this.domNode;
 			this._fadeIn = dojo.fx.combine(
