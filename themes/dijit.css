@@ -1368,6 +1368,13 @@ img.dijitColorPaletteUnder {
 	margin-bottom:0px;
 }
 
+.dijitToolbarSeparator {
+	height: 18px;
+	width: 5px;
+	padding: 0px 1px;
+	margin: 0px;
+}
+
 /* Editor */
 .IEFixedToolbar {
 	position:absolute;

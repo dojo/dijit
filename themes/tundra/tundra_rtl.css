@@ -205,19 +205,13 @@
 	left:3px;
 }
 
-/*
-* Toolbar *
-
-.dijitRtl .dijitToolbarSeparator {
-	background-image: url('images/editor_rtl.gif');
-}
+/* Toolbar */
 
 .dijitRtl .dijitToolbar .dijitToolbarSeparator {
 	background-image: url('images/editor_rtl.gif');
 }
 
-* Editor *
+/* Editor */
 .dijitRtl .dijitEditorIcon {
 	background-image: url('images/editor_rtl.gif'); /* editor icons sprite image */
 }
-*/

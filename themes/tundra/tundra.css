@@ -164,14 +164,6 @@
 	_padding: 0px;
 }
 
-.dijitToolbarSeparator {
-	background: url('images/editor.gif');
-	height: 18px;
-	width: 5px;
-	padding: 0px 1px;
-	margin: 0px;
-}
-
 .tundra .dijitToolbar .dijitToolbarSeparator {
 	background: url('images/editor.gif');
 }
