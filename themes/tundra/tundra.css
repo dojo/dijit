@@ -964,17 +964,22 @@
 }
 
 .tundra .dijitFolderOpened {
-	background-image: url('images/folderOpened.png');
+	background: url('images/folderOpened.png') no-repeat;
 	width: 18px;
 	height: 18px;
 }
 
 .tundra .dijitFolderClosed {
-	background-image: url('images/folderClosed.png');
+	background: url('images/folderClosed.png') no-repeat;
 	width: 18px;
 	height: 18px;
 }
 
+.tundra .dijitLeaf {
+	background: url('images/leaf.png') no-repeat;
+	width: 18px;
+	height: 18px;
+}
 /* Calendar*/
 
 .tundra .dijitCalendarIncrementControl {
