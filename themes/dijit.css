@@ -959,27 +959,27 @@ img.dijitColorPaletteUnder {
 /* Tab */
 
 
-.dijitTabContainer .dijitAlignTop {
+.dijitTabLabels-top {
 /* position the tab labels row down by 1 px, and on top of the dijitTabPaneWrapper
 	so the buttons can overlay the tab pane properly		*/
 	top:1px !important;
 	z-index:10;	
 }
 
-.dijitTabContainer .dijitAlignBottom {
+.dijitTabLabels-bottom {
 /* position the tab labels row up by 1 px so they overlap	*/
 	margin-top:-1px !important;
 	z-index:10;	
 }
 
-.dijitTabContainer .dijitAlignLeft {
+.dijitTabLabels-left-h {
 /* position the tab labels left by 1 px so they overlap		*/
 	margin-right:-1px !important;
 	z-index:10;	
 }
 
-.dijitTabContainer .dijitAlignRight {
-/* position the tab labels row up by 1 px, and on top of the dijitTabPaneWrapper
+.dijitTabLabels-right-h {
+/* position the tab labels right by 1 px, on top of the dijitTabPaneWrapper
 	so the buttons can overlay the tab pane properly		*/
 	margin-left:-1px !important;
 	z-index:10;	
