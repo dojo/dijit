@@ -178,10 +178,10 @@ dojo.declare(
 		},
 
 		uninitialize: function(){
-			if(this._fadeIn.status() == "playing"){
+			if(this._fadeIn && this._fadeIn.status() == "playing"){
 				this._fadeIn.stop();
 			}
-			if(this._fadeOut.status() == "playing"){
+			if(this._fadeOut && this._fadeOut.status() == "playing"){
 				this._fadeOut.stop();
 			}
 			if(this._underlay){
