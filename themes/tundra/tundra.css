@@ -963,6 +963,17 @@
 	background-image: url('images/treeExpand_loading.gif');
 }
 
+.tundra .dijitFolderOpened {
+	background-image: url('images/folderOpened.png');
+	width: 18px;
+	height: 18px;
+}
+
+.tundra .dijitFolderClosed {
+	background-image: url('images/folderClosed.png');
+	width: 18px;
+	height: 18px;
+}
 
 /* Calendar*/
 
