@@ -3,17 +3,19 @@ dojo.provide("dijit.form.Button");
 dojo.require("dijit.form._FormWidget");
 dojo.require("dijit._Container");
 
-dojo.declare("dijit.form.Button", dijit.form._FormWidget, {
-/*
- * usage
- *	<button dojoType="button" onClick="...">Hello world</button>
- *
- *  var button1 = new dijit.form.Button({label: "hello world", onClick: foo});
- *	dojo.body().appendChild(button1.domNode);
- */
-	// summary
+dojo.declare("dijit.form.Button",
+	dijit.form._FormWidget,
+	{
+	// summary:
 	//	Basically the same thing as a normal HTML button, but with special styling.
-
+	//
+	// example:
+	// |	<button dojoType="dijit.form.Button" onClick="...">Hello world</button>
+	// 
+	// example:
+	// |	var button1 = new dijit.form.Button({label: "hello world", onClick: foo});
+	// |	dojo.body().appendChild(button1.domNode);
+	//
 	// label: String
 	//	text to display in button
 	label: "",
@@ -101,17 +103,20 @@ dojo.declare("dijit.form.Button", dijit.form._FormWidget, {
 	}		
 });
 
-/*
- * usage
- *	<button dojoType="DropDownButton" label="Hello world"><div dojotype=dijit.Menu>...</div></button>
- *
- *  var button1 = new dijit.form.DropDownButton({ label: "hi", dropDown: new dijit.Menu(...) });
- *	dojo.body().appendChild(button1);
- */
-dojo.declare("dijit.form.DropDownButton", [dijit.form.Button, dijit._Container], {
-	// summary
-	//		push the button and a menu shows up
 
+dojo.declare("dijit.form.DropDownButton", [dijit.form.Button, dijit._Container], {
+	// summary: A button with a popup
+	//
+	// example:
+	// |	<button dojoType="dijit.form.DropDownButton" label="Hello world">
+	// |		<div dojotype="dijit.Menu">...</div>
+	// |	</button>
+	//
+	// example:
+	// |	var button1 = new dijit.form.DropDownButton({ label: "hi", dropDown: new dijit.Menu(...) });
+	// |	dojo.body().appendChild(button1);
+	// 	
+	
 	baseClass : "dijitDropDownButton",
 
 	templatePath: dojo.moduleUrl("dijit.form" , "templates/DropDownButton.html"),
@@ -277,16 +282,20 @@ dojo.declare("dijit.form.DropDownButton", [dijit.form.Button, dijit._Container],
 	}
 });
 
-/*
- * usage
- *	<button dojoType="ComboButton" onClick="..."><span>Hello world</span><div dojoType=dijit.Menu>...</div></button>
- *
- *  var button1 = new dijit.form.ComboButton({label: "hello world", onClick: foo, dropDown: "myMenu"});
- *	dojo.body().appendChild(button1.domNode);
- */
 dojo.declare("dijit.form.ComboButton", dijit.form.DropDownButton, {
-	// summary
-	//		left side is normal button, right side displays menu
+	// summary: A Normal Button with a DropDown
+	//
+	// example:
+	// |	<button dojoType="dijit.form.ComboButton" onClick="...">
+	// |		<span>Hello world</span>
+	// |		<div dojoType="dijit.Menu">...</div>
+	// |	</button>
+	//
+	// example:
+	// |	var button1 = new dijit.form.ComboButton({label: "hello world", onClick: foo, dropDown: "myMenu"});
+	// |	dojo.body().appendChild(button1.domNode);
+	// 
+
 	templatePath: dojo.moduleUrl("dijit.form", "templates/ComboButton.html"),
 
 	attributeMap: dojo.mixin(dojo.clone(dijit.form._FormWidget.prototype.attributeMap),
@@ -362,7 +371,7 @@ dojo.declare("dijit.form.ComboButton", dijit.form.DropDownButton, {
 });
 
 dojo.declare("dijit.form.ToggleButton", dijit.form.Button, {
-	// summary
+	// summary:
 	//	A button that can be in two states (checked or not).
 	//	Can be base class for things like tabs or checkbox or radio buttons
 
@@ -380,7 +389,7 @@ dojo.declare("dijit.form.ToggleButton", dijit.form.Button, {
 	},
 
 	setChecked: function(/*Boolean*/ checked){
-		// summary
+		// summary:
 		//	Programatically deselect the button
 		this.checked = checked;
 		dijit.setWaiState(this.focusNode || this.domNode, "pressed", this.checked);
