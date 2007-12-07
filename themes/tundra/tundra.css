@@ -955,22 +955,22 @@
 	background-image: url('images/treeExpand_loading.gif');
 }
 
+.tundra .dijitTreeIcon {
+	width: 16px;
+	height: 16px;
+	padding-right: 4px;
+}
+
 .tundra .dijitFolderOpened {
-	background: url('images/folderOpened.png') no-repeat;
-	width: 18px;
-	height: 18px;
+	background: url('images/folderOpened.gif') no-repeat;
 }
 
 .tundra .dijitFolderClosed {
-	background: url('images/folderClosed.png') no-repeat;
-	width: 18px;
-	height: 18px;
+	background: url('images/folderClosed.gif') no-repeat;
 }
 
 .tundra .dijitLeaf {
-	background: url('images/leaf.png') no-repeat;
-	width: 18px;
-	height: 18px;
+	background: url('images/leaf.gif') no-repeat;
 }
 /* Calendar*/
 
