@@ -236,7 +236,7 @@ dojo.declare("dijit._Widget", null, {
 		//		descendants.
 
 		// TODO: should I destroy in the reverse order, to go bottom up?
-		dojo.forEach(this.getDescendants(), function(widget){ widget.destroyRecursive(); });
+		dojo.forEach(this.getDescendants(), function(widget){ widget.destroy(); });
 	},
 
 	uninitialize: function(){
