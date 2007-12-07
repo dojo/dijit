@@ -96,10 +96,7 @@ dojo.declare("dijit.InlineEditBox",
 			this.displayNode.setAttribute("tabIndex", 0);
 		}
 
-		if(!this.value){
-			this.value = this.displayNode.innerHTML;
-		}
-		this._setDisplayValue(this.value);	// if blank, change to icon for "input needed"
+		this.setValue(this.value || this.displayNode.innerHTML);
 	},
 
         setDisabled: function(/*Boolean*/ disabled){
@@ -202,22 +199,27 @@ dojo.declare("dijit.InlineEditBox",
 		//		Focus on the display mode text
 		this.editing = false;
 
-		this.value = this.editWidget.getValue() + "";
+		var value = this.editWidget.getValue() + "";
 		if(this.renderAsHtml){
-			this.value = this.value.replace(/&/gm, "&amp;").replace(/</gm, "&lt;").replace(/>/gm, "&gt;").replace(/"/gm, "&quot;")
+			value = value.replace(/&/gm, "&amp;").replace(/</gm, "&lt;").replace(/>/gm, "&gt;").replace(/"/gm, "&quot;")
 				.replace("\n", "<br>");
 		}
-		this._setDisplayValue(this.value);
+		this.setValue(value);
 
 		// tell the world that we have changed
-		this.onChange(this.value);
+		this.onChange(value);
 
 		this._showText(focus);	
 	},
 
-	_setDisplayValue: function(/*String*/ val){
+	setValue: function(/*String*/ val){
 		// summary: inserts specified HTML value into this node, or an "input needed" character if node is blank
+		this.value = val;
 		this.displayNode.innerHTML = val || this.noValueIndicator;
+	},
+
+	getValue: function(){
+		return this.value;
 	},
 
 	cancel: function(/*Boolean*/ focus){
