@@ -58,38 +58,36 @@ dojo.declare(
 	_display:"",
 
 	startup: function(){
-		// look for the input widget as a child of the containerNode
-		if(!this._started){
+		if(this._started){ return; }
 
-			if(this.editWidget){
-				this.containerNode.appendChild(this.editWidget.domNode);
-			}else{
-				this.editWidget = this.getChildren()[0];
-			}
-			// #3209: copy the style from the source
-			// don't copy ALL properties though, just the necessary/applicable ones
-			var srcStyle=dojo.getComputedStyle(this.domNode);
-			dojo.forEach(["fontWeight","fontFamily","fontSize","fontStyle"], function(prop){
-				this.editWidget.focusNode.style[prop]=srcStyle[prop];
-			}, this);
-			this._setEditValue = dojo.hitch(this.editWidget,this.editWidget.setDisplayedValue||this.editWidget.setValue);
-			this._getEditValue = dojo.hitch(this.editWidget,this.editWidget.getDisplayedValue||this.editWidget.getValue);
-			this._setEditFocus = dojo.hitch(this.editWidget,this.editWidget.focus);
-			this._isEditValid = dojo.hitch(this.editWidget,this.editWidget.isValid || function(){return true;});
-			this.editWidget.onChange = dojo.hitch(this, "_onChange");
-
-			if(!this.autoSave){ // take over the setValue method so we can know when the value changes
-				this._oldSetValue = this.editWidget.setValue;
-				var _this = this;
-				this.editWidget.setValue = dojo.hitch(this, function(value){
-					_this._oldSetValue.apply(_this.editWidget, arguments);
-					_this._onEditWidgetKeyPress(null); // check the Save button
-				});
-			}
-			this._showText();
-
-			this._started = true;
+		if(this.editWidget){
+			this.containerNode.appendChild(this.editWidget.domNode);
+		}else{
+			this.editWidget = this.getChildren()[0];
 		}
+		// #3209: copy the style from the source
+		// don't copy ALL properties though, just the necessary/applicable ones
+		var srcStyle=dojo.getComputedStyle(this.domNode);
+		dojo.forEach(["fontWeight","fontFamily","fontSize","fontStyle"], function(prop){
+			this.editWidget.focusNode.style[prop]=srcStyle[prop];
+		}, this);
+		this._setEditValue = dojo.hitch(this.editWidget,this.editWidget.setDisplayedValue||this.editWidget.setValue);
+		this._getEditValue = dojo.hitch(this.editWidget,this.editWidget.getDisplayedValue||this.editWidget.getValue);
+		this._setEditFocus = dojo.hitch(this.editWidget,this.editWidget.focus);
+		this._isEditValid = dojo.hitch(this.editWidget,this.editWidget.isValid || function(){return true;});
+		this.editWidget.onChange = dojo.hitch(this, "_onChange");
+
+		if(!this.autoSave){ // take over the setValue method so we can know when the value changes
+			this._oldSetValue = this.editWidget.setValue;
+			var _this = this;
+			this.editWidget.setValue = dojo.hitch(this, function(value){
+				_this._oldSetValue.apply(_this.editWidget, arguments);
+				_this._onEditWidgetKeyPress(null); // check the Save button
+			});
+		}
+		this._showText();
+
+		this.inherited(arguments);
 	},
 
 	postMixInProperties: function(){

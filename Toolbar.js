@@ -26,7 +26,11 @@ dojo.declare("dijit.Toolbar",
 	},
 
 	startup: function(){
+		if(this._started){ return; }
+
 		this.startupKeyNavChildren();
+
+		this.inherited(arguments);
 	}
 }
 );

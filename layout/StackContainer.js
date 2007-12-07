@@ -59,8 +59,8 @@ dojo.declare(
 
 		// Now publish information about myself so any StackControllers can initialize..
 		dojo.publish(this.id+"-startup", [{children: children, selected: selected}]);
-		this.inherited("startup",arguments);
-		this._started = true;
+
+		this.inherited(arguments);
 	},
 
 	_setupChild: function(/*Widget*/ page){

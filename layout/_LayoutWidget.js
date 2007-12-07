@@ -29,7 +29,6 @@ dojo.declare("dijit.layout._LayoutWidget",
 			//		size related because the size of the widget hasn't been set yet.
 
 			if(this._started){ return; }
-			this._started=true;
 
 			if(this.getChildren){
 				dojo.forEach(this.getChildren(), function(child){ child.startup(); });
@@ -46,6 +45,8 @@ dojo.declare("dijit.layout._LayoutWidget",
 				// (passing in no argument to resize means that it has to glean the size itself)
 				this.connect(window, 'onresize', function(){this.resize();});
 			}
+			
+			this.inherited(arguments);
 		},
 
 		resize: function(args){

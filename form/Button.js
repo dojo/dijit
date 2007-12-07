@@ -132,6 +132,8 @@ dojo.declare("dijit.form.DropDownButton", [dijit.form.Button, dijit._Container],
 	},
 
 	startup: function(){
+		if(this._started){ return; }
+
 		// the child widget from srcNodeRef is the dropdown widget.  Insert it in the page DOM,
 		// make it invisible, and store a reference to pass to the popup code.
 		if(!this.dropDown){
@@ -141,6 +143,8 @@ dojo.declare("dijit.form.DropDownButton", [dijit.form.Button, dijit._Container],
 		}
 		dojo.body().appendChild(this.dropDown.domNode);
 		this.dropDown.domNode.style.display="none";
+
+		this.inherited(arguments);
 	},
 
 	destroyDescendants: function(){

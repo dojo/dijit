@@ -49,8 +49,12 @@ dojo.declare("dijit.Menu",
 	},
 
 	startup: function(){
+		if(this._started){ return; }
+
 		dojo.forEach(this.getChildren(), function(child){ child.startup(); });
 		this.startupKeyNavChildren();
+
+		this.inherited(arguments);
 	},
 
 	onExecute: function(){
@@ -415,6 +419,9 @@ dojo.declare("dijit.PopupMenuItem",
 	},
 
 	startup: function(){
+		if(this._started){ return; }
+		this.inherited(arguments);
+
 		// we didn't copy the dropdown widget from the this.srcNodeRef, so it's in no-man's
 		// land now.  move it to document.body.
 		if(!this.popup){

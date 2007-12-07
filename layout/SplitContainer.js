@@ -78,6 +78,7 @@ dojo.declare("dijit.layout.SplitContainer",
 
 	startup: function(){
 		if(this._started){ return; }
+
 		dojo.forEach(this.getChildren(), function(child, i, children){
 			// attach the children and create the draggers
 			this._injectChild(child);
@@ -90,8 +91,8 @@ dojo.declare("dijit.layout.SplitContainer",
 		if(this.persist){
 			this._restoreState();
 		}
-		this.inherited("startup",arguments); 
-		this._started = true;
+
+		this.inherited(arguments); 
 	},
 
 	_injectChild: function(child){

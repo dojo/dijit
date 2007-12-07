@@ -98,7 +98,7 @@ dojo.declare(
 			this._singleChild.startup();
 		}
 		this._loadCheck();
-		this._started = true;
+		this.inherited(arguments);
 	},
 
 	_checkIfSingleChild: function(){
