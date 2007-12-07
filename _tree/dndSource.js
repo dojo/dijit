@@ -140,6 +140,7 @@ dojo.declare("dijit._tree.dndSource", dijit._tree.dndSelector, {
 		// summary: event processor for onmousedown
 		// e: Event: mouse event
 		this.mouseDown = true;
+		this.mouseButton = e.button;
 		this.inherited("onMouseDown",arguments);
 	},
 
