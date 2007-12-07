@@ -80,8 +80,8 @@ dojo.declare(
 	setContent: function(content){
 		// summary:
 		// 		Typically called when an href is loaded.  Our job is to make the animation smooth
-		if(this._wipeOut.status() == "playing"){
-			// we are currently *closing* the pane, so just let that continue
+		if(!this.open || this._wipeOut.status() == "playing"){
+			// we are currently *closing* the pane (or the pane is closed), so just let that continue
 			this.inherited("setContent",arguments);
 		}else{
 			if(this._wipeIn.status() == "playing"){
