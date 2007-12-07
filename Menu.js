@@ -7,6 +7,9 @@ dojo.require("dijit._Templated");
 dojo.declare("dijit.Menu",
 	[dijit._Widget, dijit._Templated, dijit._KeyNavContainer],
 	{
+	// summary
+	//	A context menu you can assign to multiple elements
+
 	constructor: function() {
 		this._bindings = [];
 	},
@@ -122,7 +125,7 @@ dojo.declare("dijit.Menu",
 		return top;
 	},
 
-	onItemClick: function(/*Widget*/ item){
+	onItemClick: function(/*Widget*/ item, /*Event*/ evt){
 		// summary: user defined function to handle clicks on an item
 		if(item.disabled){ return false; }
 
@@ -136,7 +139,7 @@ dojo.declare("dijit.Menu",
 			this.onExecute();
 
 			// user defined handler for click
-			item.onClick();
+			item.onClick(evt);
 		}
 	},
 
@@ -369,11 +372,11 @@ dojo.declare("dijit.MenuItem",
 	},
 
 	_onClick: function(evt){
-		this.getParent().onItemClick(this);
+		this.getParent().onItemClick(this, evt);
 		dojo.stopEvent(evt);
 	},
 
-	onClick: function() {
+	onClick: function(/*Event*/ evt) {
 		// summary: User defined function to handle clicks
 	},
 
