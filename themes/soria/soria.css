@@ -22,7 +22,7 @@
 .soria .dijitToolbar,
 .soria .dijitTab,
 .soria .dijitSplitContainerSizerV,
-.soria .dijitAccordionPane .dijitAccordionTitle,
+.soria .dijitAccordionTitle,
 .soria .dijitCalendarMonthContainer th,
 .soria .dijitProgressBarEmpty,
 .soria .dijitTooltipContainer,
@@ -44,7 +44,7 @@
 .soria .dijitTabHover,
 .soria .dijitTabCloseButtonHover,
 .soria .dijitDialogTitleBar,
-.soria .dijitAccordionPane-selected .dijitAccordionTitle,
+.soria .dijitAccordionTitle-selected,
 .soria .dijitProgressBarTile,
 .soria .dijitHorizontalSliderProgressBar {
 	background:#4f8ce5 url('images/gradientTopBg.png') repeat-x;
@@ -693,26 +693,26 @@
 }
 
 /* dijit.layout.AccordionPane */
-.soria .dijitAccordionPane .dijitAccordionTitle {
+.soria .dijitAccordionTitle {
 	border:1px solid #666;
 	border-bottom:0;
 	padding:5px 5px 3px 5px;
 	color:#333;
 }
 
-.soria .dijitAccordionPane-selected .dijitAccordionTitle {
+.soria .dijitAccordionTitle-selected {
 	color:#fff;
 	padding: 5px 5px 3px 5px;
 	font-weight: bold;
 }
 
-.soria .dijitAccordionPane .dijitAccordionArrow {
+.soria .dijitAccordionArrow {
 	background-position: -32px 0px;
 }
-.soria .dijitAccordionPane-selected .dijitAccordionArrow {
+.soria .dijitAccordionTitle-selected .dijitAccordionArrow {
 	background-position: 0px 0px;
 }
-.soria .dijitAccordionPane .dijitAccordionBody {
+.soria .dijitAccordionBody {
 	background: #fff;
 	border:1px solid #666;
 	border-bottom:0;

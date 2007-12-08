@@ -186,13 +186,13 @@ dojo.declare("dijit.layout.AccordionPane",
 
 	_setSelectedState: function(/*Boolean*/ isSelected){
 		this.selected = isSelected;
-		dojo[(isSelected ? "addClass" : "removeClass")](this.domNode,"dijitAccordionPane-selected");
+		dojo[(isSelected ? "addClass" : "removeClass")](this.titleNode,"dijitAccordionTitle-selected");
 		this.focusNode.setAttribute("tabIndex", isSelected ? "0" : "-1");
 	},
 	
 	_handleFocus: function(/*Event*/e){
 		// summary: handle the blur and focus state of this widget
-		dojo[(e.type=="focus" ? "addClass" : "removeClass")](this.focusNode,"dijitAccordionPaneFocused");		
+		dojo[(e.type=="focus" ? "addClass" : "removeClass")](this.focusNode,"dijitAccordionFocused");		
 	},
 
 	setSelected: function(/*Boolean*/ isSelected){

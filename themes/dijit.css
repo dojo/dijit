@@ -788,11 +788,11 @@ img.dijitColorPaletteUnder {
 	border-top:0 !important;
 }
 
-.dijitAccordionPane .dijitAccordionTitle:hover {
+.dijitAccordionTitle:hover {
 	cursor: pointer;
 }
 
-.dijitAccordionPane .dijitAccordionTitle .dijitAccordionArrow {
+.dijitAccordionTitle .dijitAccordionArrow {
 	float: right;
 }
 
@@ -809,11 +809,11 @@ img.dijitColorPaletteUnder {
 	display: inline;
 }
 
-.dijit_a11y .dijitAccordionPane-selected .dijitAccordionTitle .arrowTextDown {
+.dijit_a11y .dijitAccordionTitle-selected .arrowTextDown {
 	display: inline;
 }
 
-.dijit_a11y .dijitAccordionPane-selected .dijitAccordionTitle .arrowTextUp {
+.dijit_a11y .dijitAccordionTitle-selected .arrowTextUp {
 	display: none;
 }
 

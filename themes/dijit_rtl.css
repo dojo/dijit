@@ -48,9 +48,9 @@
 
 /* AccordionPane */
 
-.dijitRtl .dijitAccordionPane .dijitAccordionTitle .dijitAccordionArrow,
-.dijitRtl .dijitAccordionPane .dijitAccordionTitle .arrowTextUp,
-.dijitRtl .dijitAccordionPane .dijitAccordionTitle .arrowTextDown {
+.dijitRtl .dijitAccordionArrow,
+.dijitRtl .dijitAccordionTitle .arrowTextUp,
+.dijitRtl .dijitAccordionTitle .arrowTextDown {
 	float: left;
 }
 

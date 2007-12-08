@@ -844,19 +844,18 @@
 
 /* Accordion */
 
-.tundra .dijitAccordionPane-selected {
-	/* background-color:#85aeec; */
+.tundra .dijitAccordionPane {
 	background-color: #e7e7e7;
 }
 
-.tundra .dijitAccordionPane .dijitAccordionTitle {
+.tundra .dijitAccordionTitle {
 	background:#fafafa url("images/titleBar.png") repeat-x bottom left;
 	border-top: 1px solid #bfbfbf;
 	padding: 6px 4px 6px 8px;
 	cursor:pointer;
 }
 
-.tundra .dijitAccordionPane-selected .dijitAccordionTitle {
+.tundra .dijitAccordionTitle-selected  {
 	background: #f9f9f9 url("images/accordionItemActive.gif") bottom repeat-x;
 	font-weight: bold;
 	border-top: 1px solid #aaaaaa;
@@ -864,26 +863,20 @@
 	padding: 6px 4px 6px 8px;
 	cursor: default;
 }
-.tundra .dijitAccordionPaneFocused .dijitAccordionText {
-	/*text-decoration:underline !important;*/
-	/*border-left:1px solid #999;
-	border-right:1px solid #999;
-	border-top:1px solid #999; */
-}
 
-.tundra .dijitAccordionPane .dijitAccordionArrow {
+.tundra .dijitAccordionArrow {
 	background:url("images/plusButton.gif") no-repeat;
 	width:15px;
 	height:15px;
 	margin-top:2px;
 }
 
-.tundra .dijitAccordionPane-selected .dijitAccordionArrow {
+.tundra .dijitAccordionTitle-selected .dijitAccordionArrow {
 	background:none;
 	margin-top:2px;
 }
 
-.tundra .dijitAccordionPane .dijitAccordionBody {
+.tundra .dijitAccordionBody {
 	background: #fff;
 }
 
