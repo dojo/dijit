@@ -159,41 +159,40 @@ dojo.declare("dijit._tree.dndSource", dijit._tree.dndSelector, {
 		var n = e.relatedTarget;
 		while(n){
 			if(n == this.node){ break; }
-				try{
-					n = n.parentNode;
-				}catch(x){
-					n = null;
+			try{
+				n = n.parentNode;
+			}catch(x){
+				n = null;
+			}
+		}
+		if(!n){
+			this._changeState("Container", "Over");
+			this.onOverEvent();
+		}
+		n = this._getChildByEvent(e);
+		if(this.current == n){ return; }
+		if(this.current){ this._removeItemClass(this.current, "Over"); }
+		if(n){ 
+			this._addItemClass(n, "Over"); 
+			if(this.isDragging){
+				var m = dojo.dnd.manager();
+				if(this.checkItemAcceptance(n,m.source)){
+					m.canDrop(this.targetState != "Disabled" && (!this.current || m.source != this || !(this.current.id in this.selection)));
+				}else{
+					m.canDrop(false);
 				}
 			}
-                        if(!n){
-                                this._changeState("Container", "Over");
-                                this.onOverEvent();
-                        }
-                        n = this._getChildByEvent(e);
-                        if(this.current == n){ return; }
-                        if(this.current){ this._removeItemClass(this.current, "Over"); }
-                        if(n){ 
-				this._addItemClass(n, "Over"); 
-				if (this.isDragging){
-					var m = dojo.dnd.manager();
-					if (this.checkItemAcceptance(n,m.source)){
-						m.canDrop(this.targetState != "Disabled" && (!this.current || m.source != this || !(this.current.id in this.selection)));
-					}else{
-						m.canDrop(false);
-					}
-				}
-
-			}else{
-				if (this.isDragging ){
-					var m = dojo.dnd.manager();
-					if (m.source && this.checkAcceptance(m.source,m.source.getSelectedNodes())){
-						m.canDrop(this.targetState != "Disabled" && (!this.current || m.source != this || !(this.current.id in this.selection)));
-					}else{
-						m.canDrop(false);
-					}
+		}else{
+			if(this.isDragging){
+				var m = dojo.dnd.manager();
+				if (m.source && this.checkAcceptance(m.source,m.source.getSelectedNodes())){
+					m.canDrop(this.targetState != "Disabled" && (!this.current || m.source != this || !(this.current.id in this.selection)));
+				}else{
+					m.canDrop(false);
 				}
 			}
-                        this.current = n;
+		}
+		this.current = n;
 	},
 
 	checkItemAcceptance: function(node, source){
@@ -221,7 +220,6 @@ dojo.declare("dijit._tree.dndSource", dijit._tree.dndSelector, {
 		// nodes: Array: the list of transferred items
 		// copy: Boolean: copy items, if true, move items otherwise
 
-		console.log("onDndStart");
 		if(this.isSource){
 			this._changeState("Source", this == source ? (copy ? "Copied" : "Moved") : "");
 		}
@@ -234,7 +232,6 @@ dojo.declare("dijit._tree.dndSource", dijit._tree.dndSelector, {
 		}
 
 		this.isDragging = true;
-		console.log("isDragging=true now");
 	},
 
 	itemCreator: function(nodes){
@@ -256,22 +253,23 @@ dojo.declare("dijit._tree.dndSource", dijit._tree.dndSelector, {
 		// nodes: Array: the list of transferred items
 		// copy: Boolean: copy items, if true, move items otherwise
 
-		if (this.containerState=="Over"){
-			this.isDragging=false;
-			var target= this.current;
+		if(this.containerState == "Over"){
+			this.isDragging = false;
+			var target = this.current;
 			var items = this.itemCreator(nodes, target);
-			if (!target || target==this.tree.domNode){
-				for (var i=0; i<items.length;i++){
-					this.tree.store.newItem(items[i],null);
+			if(!target || target == this.tree.domNode){
+				for(var i = 0; i < items.length; i++){
+					this.tree.store.newItem(items[i], null);
 				}
-			}else {
-				for (var i=0; i<items.length;i++){
-					pInfo={parent:dijit.getEnclosingWidget(target).item, attribute:"children"};
-					var newItem = this.tree.store.newItem(items[i],pInfo);
-					console.log("newItem: ", newItem);
+			}else{
+				for(var i = 0; i < items.length; i++){
+					pInfo = {parent: dijit.getEnclosingWidget(target).item, attribute: "children"};
+					var newItem = this.tree.store.newItem(items[i], pInfo);
+					console.log("newItem:", newItem);
 				}
 			}
 		}
+		this.onDndCancel();
 	},
 	onDndCancel: function(){
 		// summary: topic event processor for /dnd/cancel, called to cancel the DnD operation
@@ -282,6 +280,7 @@ dojo.declare("dijit._tree.dndSource", dijit._tree.dndSelector, {
 		this.before = true;
 		this.isDragging = false;
 		this.mouseDown = false;
+		delete this.mouseButton;
 		this._changeState("Source", "");
 		this._changeState("Target", "");
 	},
