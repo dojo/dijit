@@ -72,3 +72,7 @@ h1.testTitle {
 .customFolderClosedIcon {
     background-position: -154px;
 }
+
+body .medium {
+        font-size: larger; /* help test widget sizing */
+}

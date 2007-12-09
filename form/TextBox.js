@@ -80,10 +80,10 @@ dojo.declare(
 			this.textbox.setAttribute("value", this.getDisplayedValue());
 			this.inherited('postCreate', arguments);
 
-			if(this.srcNodeRef){
+			/*#5297:if(this.srcNodeRef){
 				dojo.style(this.textbox, "cssText", this.style);
 				this.textbox.className += " " + this["class"];
-			}
+			}*/
 			this._layoutHack();
 		},
 

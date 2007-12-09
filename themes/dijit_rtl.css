@@ -185,7 +185,7 @@
 	padding-left: 1.1em;
 }
 
-.dijitRtl .dijitArrowButton {
+.dijitRtl DIV.dijitArrowButton {
 	float: left;
 }
 

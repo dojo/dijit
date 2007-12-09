@@ -69,12 +69,12 @@ The drop down list is filtered by the data you have already typed in.
 <form action="#" method="GET">
 
 	<p>ComboBox #1: inlined data, autoComplete=false, default value of Iowa, pageSize=30</p>
-	<label for="setvaluetest">US State test 1: </label>
+	<label for="setvaluetest">US State test 1 (24px font):</label>
 	<select id="setvaluetest"
 			name="state1"
 			dojoType="dijit.form.ComboBox"
 			class="medium"
-			style="width:50%;font-size:15pt;"
+			style="width:50%;font-size:24px;"
 			name="foo.bar1"
 			autoComplete="false"
 			onChange="dojo.byId('oc1').value=arguments[0]"
@@ -154,26 +154,26 @@ The drop down list is filtered by the data you have already typed in.
 		url="../_data/dijits.json"></div>
 
 	<p>ComboBox #2: url, autoComplete=true:</p>
-	<label for="datatest">US State test 2: </label>
+	<label for="datatest">US State test 2 (8pt font): </label>
 	<input dojoType="dijit.form.ComboBox"
 			value="California"
 			class="medium"
 			store="stateStore"
 			searchAttr="name"
-			style="width: 300px;"
+			style="width: 200px; font-size: 8pt;"
 			name="state2"
 			onChange="setVal2"
 			id="datatest"
 	>
 	<span>Value: <input id="value2" disabled value="California"></span>
 	<hr>
-	<label for="datatest">Dijit List test #1: </label>
+	<label for="datatest">Dijit List test #1 (150% font): </label>
 	<input dojoType="dijit.form.ComboBox"
 			value="dijit.Editor"
 			class="medium"
 			store="dijitStore"
 			searchAttr="className"
-			style="width: 300px;"
+			style="width: 200px; font-size: 150%;"
 			name="dijitList1"
 			id="datatestDijit"
 	>

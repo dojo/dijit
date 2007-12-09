@@ -36,15 +36,13 @@
 }
 .dj_ie .tundra .dijitButtonNode {
 	zoom: 1;
-	border-bottom-width:2px;
 }
 
 .tundra .dijitButtonText {
 	padding: 0 0.3em;
 }
 
-.tundra .dijitComboBox .dijitButtonNode,
-.tundra .dijitSpinner .dijitButtonNode {
+.tundra .dijitComboBox .dijitButtonNode {
 	border: 0px;
 }
 
@@ -56,10 +54,6 @@
 	padding-right:4px;
 }
 
-.tundra .dijitSpinner .dijitArrowButton {
-	line-height: 100%;
-}
-
 .tundra .dijitButtonDisabled .dijitButtonNode,
 .tundra .dijitToggleButtonDisabled .dijitButtonNode,
 .tundra .dijitDropDownButtonDisabled .dijitButtonNode,
@@ -68,9 +62,7 @@
 .tundra .dijitSpinnerDisabled,
 .tundra .dijitSpinnerDisabled .dijitButtonNode {
 	/* disabled state - inner */
-	border: 1px solid #d5d5d5;
-	border-bottom:2px solid #bdbdbd;
-	border-right:2px solid #bdbdbd;
+	border-color: #d5d5d5 #bdbdbd #bdbdbd #d5d5d5;
 	/*color:#b4b4b4;*/
 	background:#e4e4e4 url("images/buttonDisabled.png") top repeat-x;
 	opacity: 0.60; /* Safari, Opera and Mozilla */
@@ -169,7 +161,6 @@
 }
 
 .tundra .dijitArrowButtonInner {
-	width: 16px;
 	background:url("images/arrowDown.png") no-repeat center;
 }
 .tundra .dijitUpArrowButton .dijitArrowButtonInner { background-image:url("images/arrowUp.png"); }
@@ -227,10 +218,7 @@
 .tundra .dijitComboBox .dijitButtonNode,
 .tundra .dijitSpinner .dijitButtonNode {
 	/* line between the input area and the drop down button */
-	border-left:1px solid #9b9b9b;
-}
-.tundra .dijitSpinner .dijitDownArrowButton {
-	border-top:1px solid #9b9b9b;	/* line between top and bottom arrow */
+	border-color: #9b9b9b;
 }
 
 .tundra .dijitTextBoxFocused,
@@ -240,10 +228,10 @@
 	border-color:#406b9b;
 }
 .tundra .dijitComboBoxFocused .dijitButtonNode, .tundra .dijitSpinnerFocused .dijitButtonNode {
-	border-left:1px solid #366dba;
+	border-left-color:#366dba;
 }
 .tundra .dijitSpinnerFocused .dijitDownArrowButton {
-	border-top:1px solid #366dba;
+	border-top-color:#366dba;
 }
 
 .tundra .dijitError {
@@ -1137,7 +1125,7 @@
 	display: -moz-inline-stack;
 	#display:inline;
 	/*
-	border: solid;
+	border-style: solid;
 	border-color: #7788a0 #344257 #344257 #7788a0;
 	border-width:1px 2px 2px 1px;
 	-moz-border-radius:0px 2px 0px 2px;	make BL and TR corners indent on Moz so it looks like we have a shadow
@@ -1166,9 +1154,7 @@
 .tundra .dijitProgressBarEmpty{
 	/* outer container and background of the bar that's not finished yet*/
 	background:#fff url("images/progressBarEmpty.png") repeat-x top left;
-	border-color: #b8b8b8;
-	border-top-color:#a2a2a2;
-	border-left-color:#a2a2a2;
+	border-color: #a2a2a2 #b8b8b8 #b8b8b8 #a2a2a2;
 }
 
 .tundra .dijitProgressBarTile{
