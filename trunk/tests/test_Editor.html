@@ -25,7 +25,7 @@
 </head>
 <body>
 
-	<h1 class="testTitle">Editor + Plugins Test</h1>
+	<h1 class="testTitle"><label for="editor1">Editor + Plugins Test</label></h1>
 
 	<div style="border: 1px solid black;">
 		<div dojoType="dijit.Editor" id="editor1"><p>This instance is created from a div directly with default toolbar and plugins</p></div>
@@ -34,10 +34,10 @@
 	<button onclick="console.log(dijit.byId('editor1').getValue().length)">getValue</button>
 	<hr/>
 	<div style="border: 1px dotted black;">
-		<h3>thud</h3>
+		<h3><label for="thud">thud - from textarea</label></h3>
 		<textarea dojoType="dijit.Editor" height=""
 			extraPlugins="['dijit._editor.plugins.AlwaysShowToolbar']"
-			styleSheets="../../dojo/resources/dojo.css">
+			styleSheets="../../dojo/resources/dojo.css" id="thud">
 			<p>
 				This editor is created from a textarea with AlwaysShowToolbar plugin (don't forget to set height="").
 			</p>
@@ -54,10 +54,10 @@
 	</div>
 	<hr/>
 	<div style="border: 1px dotted black;">
-		<h3>blah</h3>
+		<h3><label for="blah">blah entry</label></h3>
 		<textarea dojoType="dijit.Editor"
 			plugins="['bold','italic','|','createLink','foreColor','hiliteColor']"
-			styleSheets="../../dojo/resources/dojo.css">
+			styleSheets="../../dojo/resources/dojo.css" id="blah">
 			This instance includes optional toolbar buttons which pull in additional ui (dijit) code.
 			Note the dojo.require() statements required to pull in the associated editor plugins to make
 			this work. 
@@ -66,10 +66,10 @@
 	</div>
 	<hr/>
 	<div style="border: 1px dotted black;">
-		<h3>blah</h3>
+		<h3><label for="blah2">Another blah entry</label></h3>
 		<textarea dojoType="dijit.Editor"
 			plugins="['bold','italic','|',{name:'dijit._editor.plugins.LinkDialog'}]"
-			styleSheets="../../dojo/resources/dojo.css">
+			styleSheets="../../dojo/resources/dojo.css" id="blah2">
 			This instance demos how to:
 			<ol>
 				<li>specify which plugins to load (see the plugins property): this instance loads EnterKeyHandling plugin, among others;</li>

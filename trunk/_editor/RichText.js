@@ -433,6 +433,11 @@ dojo.declare("dijit._editor.RichText", [ dijit._Widget ], {
 			this.editorObject = this.iframe;
 			// get screen reader text for mozilla here, too
 			this._localizedIframeTitles = dojo.i18n.getLocalization("dijit", "Textarea");
+			// need to find any associated label element and update iframe document title
+			var label=dojo.query('label[for="'+this.id+'"]');
+			if(label.length){
+				this._localizedIframeTitles.iframeEditTitle = label[0].innerHTML + " " + this._localizedIframeTitles.iframeEditTitle;
+			}
 		}
 		// opera likes this to be outside the with block
 		//	this.iframe.src = "javascript:void(0)";//dojo.uri.dojoUri("src/widget/templates/richtextframe.html") + ((dojo.doc.domain != currentDomain) ? ("#"+dojo.doc.domain) : "");
