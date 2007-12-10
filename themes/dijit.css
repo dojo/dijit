@@ -694,6 +694,9 @@ body .dijitAlignClient { position: absolute; }
 	display: block;
 	overflow: hidden;
 }
+.dj_ie7 .dijitTitlePaneTextNode {
+	display:inline; 
+}
 
 /* Color Palette */
 
