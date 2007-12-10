@@ -138,7 +138,7 @@ dijit._place = function(/*DomNode*/ node, /* Array */ choices, /* Function */ la
 			best = {
 				corner: corner,
 				aroundCorner: choices[i].aroundCorner,
-				x: startX,
+				x: (!dojo._isBodyLtr() && dojo.isIE && startX < 0) ? document.body.clientWidth + startX : startX,
 				y: startY,
 				w: width,
 				h: height,

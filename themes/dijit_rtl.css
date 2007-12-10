@@ -16,6 +16,7 @@
 } 
 
 .dijitRtl .dijitComboBox .dijitInputField {
+	float:right;
 	border-right-width:1px !important;
 	border-left-width:0px !important;
 }
