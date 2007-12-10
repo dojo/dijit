@@ -1168,6 +1168,7 @@ dojo.declare("dijit._editor.RichText", [ dijit._Widget ], {
 			node.innerHTML = html;
 			this._preDomFilterContent(node);
 		}
+		this.onDisplayChanged();
 	},
 
 	replaceValue: function(/*String*/html){

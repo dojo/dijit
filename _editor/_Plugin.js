@@ -21,11 +21,10 @@ dojo.declare("dijit._editor._Plugin", null, {
 	commandArg: null,
 	useDefaultCommand: true,
 	buttonClass: dijit.form.Button,
-	updateInterval: 200, // only allow updates every two tenths of a second
 	_initButton: function(){
 		if(this.command.length){
 			var label = this.editor.commands[this.command];
-			var className = "dijitEditorIcon "+this.iconClassPrefix + this.command.charAt(0).toUpperCase() + this.command.substr(1);
+			var className = this.iconClassPrefix+" "+this.iconClassPrefix + this.command.charAt(0).toUpperCase() + this.command.substr(1);
 			if(!this.button){
 				var props = {
 					label: label,
