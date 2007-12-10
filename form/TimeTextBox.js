@@ -17,10 +17,13 @@ dojo.declare(
 		regExpGen: dojo.date.locale.regexp,
 		compare: dojo.date.compare,
 		format: function(/*Date*/ value, /*Object*/ constraints){
-			if(!value || value.toString() == this._invalid){ return null; }
+			if(!value || value.toString() == this._invalid){ return ''; }
 			return dojo.date.locale.format(value, constraints);
 		},
-		parse: dojo.date.locale.parse,
+		parse: function(/*String*/ value, /*Object*/ constraints){
+			return dojo.date.locale.parse(value, constraints) || undefined; /* can't return null to getValue since that's special */
+		},
+
 		serialize: dojo.date.stamp.toISOString,
 
 		value: new Date(""),	// NaN
