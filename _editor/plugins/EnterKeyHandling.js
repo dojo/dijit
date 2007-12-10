@@ -1,7 +1,9 @@
 dojo.provide("dijit._editor.plugins.EnterKeyHandling");
 
-
 dojo.declare("dijit._editor.plugins.EnterKeyHandling",null,{
+	// summary: this plugin trys to handle enter key events to make all 
+	//		browsers have identical behaviors.
+
 	// blockNodeForEnter: String
 	//		this property decides the behavior of Enter key. It can be either P,
 	//		DIV, BR, or empty (which means disable this feature). Anything else
@@ -49,7 +51,7 @@ dojo.declare("dijit._editor.plugins.EnterKeyHandling",null,{
 	},
 	onKeyPressed: function(e){
 		if(this._checkListLater){
-			if(dojo.withGlobal(this.editor.window, 'isCollapsed', dijit._editor.selection)){
+			if(dojo.withGlobal(this.editor.window, 'isCollapsed', dijit)){
 				if(!dojo.withGlobal(this.editor.window, 'hasAncestorElement', dijit._editor.selection, ['LI'])){
 					//circulate the undo detection code by calling RichText::execCommand directly
 					dijit._editor.RichText.prototype.execCommand.apply(this.editor, ['formatblock',this.blockNodeForEnter]);

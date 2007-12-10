@@ -621,6 +621,10 @@ dojo.declare("dijit._editor.RichText", [ dijit._Widget ], {
 	onLoad: function(/* Event */ e){
 		// summary: handler after the content of the document finishes loading
 		this.isLoaded = true;
+		if(!this.window.__registeredWindow){
+			this.window.__registeredWindow=true;
+			dijit.registerWin(this.window);
+		}
 		if(this.height || dojo.isMoz){
 			this.editNode=this.document.body;
 		}else{
