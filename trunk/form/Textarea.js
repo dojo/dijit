@@ -117,9 +117,15 @@ dojo.declare(
 			// "edit area".  This will be used as the accessible name which will replace
 			// the cryptic name and will also convey the role information to the user.
 			// Because it is read directly to the user, the string must be localized.
+			// In addition, since a <label> element can not be associated with an iframe, if 
+			// this control has a label, insert the text into the title as well.
 			var _nlsResources = dojo.i18n.getLocalization("dijit", "Textarea");
 			this._iframeEditTitle = _nlsResources.iframeEditTitle;
 			this._iframeFocusTitle = _nlsResources.iframeFocusTitle;
+			var label=dojo.query('label[for="'+this.id+'"]');
+			if(label.length){
+				this._iframeEditTitle = label[0].innerHTML + " " + this._iframeEditTitle;
+			}
 			var body = this.focusNode = this.editNode = document.createElement('BODY');
 			body.style.margin="0px";
 			body.style.padding="0px";
