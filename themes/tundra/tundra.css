@@ -498,6 +498,9 @@
 	padding:4px 4px 2px 4px;
 	cursor: pointer;
 }
+.dj_ie7 .dijitTitlePaneTextNode {
+	display:inline;
+}
 
 /* TODO: merge these, and all other icons to a series of background-image:() and background-position: -16*n px styles */
 .tundra .dijitTitlePane .dijitArrowNode {
