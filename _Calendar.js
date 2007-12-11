@@ -144,7 +144,10 @@ dojo.declare(
 			typematic("decrementMonth", "month", -1);
 			typematic("nextYearLabelNode", "year", 1);
 			typematic("previousYearLabelNode", "year", -1);
-			if(this.today){ dojo.connect(this.today, "onclick", this, function(){ this.setValue(new Date()); }); }
+		},
+
+		goToToday: function(){
+			this.setValue(new Date());
 		},
 
 		postCreate: function(){
