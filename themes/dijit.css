@@ -128,7 +128,7 @@
 
 .dijitClickableRegion {
 	/* a region we expect the user to click on */
-	cursor : pointer;
+	cursor: pointer;
 }
 
 
@@ -179,8 +179,8 @@
 .dijit_a11y .dijitSpinnerDisabled .dijitButtonNode,
 .dijit_a11y .dijitSpinnerDisabled .dijitInputField {
 	border-style: dotted !important;
-	border-color: #999999 !important;
-	color:#999999 !important;
+	border-color: #999 !important;
+	color:#999 !important;
 }
 
 /* button inner contents - labels, icons etc. */
@@ -227,17 +227,6 @@
 	background-position:right top;
 	background-repeat:no-repeat;
 }
-
-
-/****
-		Right-to-left rules
- ****/
-.dijitRTL .dijitRightArrow {
-	/* it becomes a left arrow for LTR locales */
-	/* MOW: TODO... */
-	margin-left:-2.1em;
-}
-
 
 .dijitButton,
 .dijitDropDownButton,
@@ -833,25 +822,14 @@ img.dijitColorPaletteUnder {
 	cursor:hand;
 }
 
-.dijitCalendarPreviousMonthDisabled {
-	cursor:default !important
-}
-
-.dijitCalendarCurrentMonthDisabled {
-	cursor:default !important
-}
-
+.dijitCalendarPreviousMonthDisabled,
+.dijitCalendarCurrentMonthDisabled,
 .dijitCalendarNextMonthDisabled {
-	cursor:default !important;
+	cursor:default !important
 }
 
-.dijitCalendarDateTemplate {
-	cursor:pointer;
-}
-
-.dijitCalendarSelectedYear {
-	cursor:pointer;
-}
+.dijitCalendarDateTemplate,
+.dijitCalendarSelectedYear,
 .dijitCalendarNextYear,
 .dijitCalendarPreviousYear {
 	cursor:pointer;
@@ -1102,7 +1080,7 @@ img.dijitColorPaletteUnder {
 }
 
 .dijitDialogUnderlay {
-	background: #eeeeee;
+	background: #eee;
 	opacity: 0.5;
 }
 
