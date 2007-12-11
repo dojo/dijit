@@ -2,6 +2,7 @@ dojo.provide("dijit.InlineEditBox");
 
 dojo.require("dojo.i18n");
 
+dojo.require("dojo.string");
 dojo.require("dijit._Widget");
 dojo.require("dijit._Container");
 dojo.require("dijit.form.Button");
@@ -99,13 +100,13 @@ dojo.declare("dijit.InlineEditBox",
 		this.setValue(this.value || this.displayNode.innerHTML);
 	},
 
-        setDisabled: function(/*Boolean*/ disabled){
-            // summary:
-            //		Set disabled state of widget.
+	setDisabled: function(/*Boolean*/ disabled){
+		// summary:
+		//		Set disabled state of widget.
 
-            this.disabled = disabled;
-            dijit.setWaiState(this.focusNode || this.domNode, "disabled", disabled);
-        },
+		this.disabled = disabled;
+		dijit.setWaiState(this.focusNode || this.domNode, "disabled", disabled);
+	},
 
 	_onMouseOver: function(){
 		dojo.addClass(this.displayNode, this.disabled ? "dijitDisabledClickableRegion" : "dijitClickableRegion");
@@ -215,7 +216,7 @@ dojo.declare("dijit.InlineEditBox",
 	setValue: function(/*String*/ val){
 		// summary: inserts specified HTML value into this node, or an "input needed" character if node is blank
 		this.value = val;
-		this.displayNode.innerHTML = val || this.noValueIndicator;
+		this.displayNode.innerHTML = dojo.string.trim(val) || this.noValueIndicator;
 	},
 
 	getValue: function(){
