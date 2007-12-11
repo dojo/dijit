@@ -1060,6 +1060,7 @@ img.dijitColorPaletteUnder {
 	font-family: monospace;
 	border-style: solid;
 	border-width: thin;
+	cursor: pointer;
 }
 
 /* Dialog */
