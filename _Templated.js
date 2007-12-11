@@ -21,7 +21,7 @@ dojo.declare("dijit._Templated",
 		templateString: null,
 
 		// templatePath: String
-		//	Path to template (HTML file) for this widget
+		//	Path to template (HTML file) for this widget relative to dojo.baseUrl
 		templatePath: null,
 
 		// widgetsInTemplate: Boolean

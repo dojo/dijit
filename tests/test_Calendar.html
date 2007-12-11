@@ -8,6 +8,11 @@
 			@import "css/dijitTests.css";
 		</style>
 
+		<style>
+			#calendar4 {}
+			#calendar5 {}
+		</style>
+
 		<script type="text/javascript" src="../../dojo/dojo.js"
 			djConfig="parseOnLoad: true, isDebug: true, extraLocale: ['en-us', 'ar-sy', 'es-es', 'zh-cn']"></script>
 		<script type="text/javascript" src="_testCommon.js"></script>
@@ -40,5 +45,15 @@
 					}
 				">disable weekends</a>
 		</p>
+
+		<p>Customized template with "today" button</p>
+		<style>
+			#calendar5 .dijitCalendarDateTemplate { height: 50px; width: 50px; border: 1px solid #ccc; vertical-align: top }
+			#calendar5 .dijitCalendarDateLabel { float: left }
+			#calendar5 .dijitCalendarDayLabel { font-weight: bold }
+			#calendar5 .dijitCalendarSelectedYear { font-size: 1.5em }
+			#calendar5 .dijitCalendarMonth { font-family: serif; letter-spacing: 0.2em; font-size: 2em }
+		</style>
+		<input id="calendar5" dojoType="dijit._Calendar" dayWidth="abbr" templatePath="../dijit/tests/_altCalendar.html" value="2008-03-15">
 	</body>
 </html>
