@@ -2,7 +2,6 @@ dojo.provide("dijit.InlineEditBox");
 
 dojo.require("dojo.i18n");
 
-dojo.require("dojo.string");
 dojo.require("dijit._Widget");
 dojo.require("dijit._Container");
 dojo.require("dijit.form.Button");
@@ -216,7 +215,7 @@ dojo.declare("dijit.InlineEditBox",
 	setValue: function(/*String*/ val){
 		// summary: inserts specified HTML value into this node, or an "input needed" character if node is blank
 		this.value = val;
-		this.displayNode.innerHTML = dojo.string.trim(val) || this.noValueIndicator;
+		this.displayNode.innerHTML = dojo.trim(val) || this.noValueIndicator;
 	},
 
 	getValue: function(){
