@@ -7,24 +7,31 @@ dojo.require("dijit.form.Button");
 dojo.declare(
 	"dijit.layout.StackContainer",
 	dijit.layout._LayoutWidget,
-
-	// summary
+	{
+	// summary: 
 	//	A container that has multiple children, but shows only
-	//	one child at a time (like looking at the pages in a book one by one).
+	//	one child at a time
 	//
+	// description:
+	// 	A container for widgets (ContentPanes, for example) That displays
+	//	only one Widget at a time.
+	//	
 	//	Publishes topics <widgetId>-addChild, <widgetId>-removeChild, and <widgetId>-selectChild
 	//
 	//	Can be base class for container, Wizard, Show, etc.
-{
+	// 
+	//
 	// doLayout: Boolean
 	//  if true, change the size of my currently displayed child to match my size
 	doLayout: true,
 
 	_started: false,
-
+/*=====
 	// selectedChildWidget: Widget
 	//	References the currently selected child widget, if any
-
+	//
+	selectedChildWidget: null,
+=====*/
 	postCreate: function(){
 		dijit.setWaiRole((this.containerNode || this.domNode), "tabpanel");
 		this.connect(this.domNode, "onkeypress", this._onKeyPress);
@@ -202,7 +209,7 @@ dojo.declare(
 	},
 
 	closeChild: function(/*Widget*/ page){
-		// summary
+		// summary:
 		//	callback when user clicks the [X] to remove a page
 		//	if onClose() returns true then remove and destroy the childd
 		var remove = page.onClose(this, page);
@@ -223,10 +230,10 @@ dojo.declare(
 	"dijit.layout.StackController",
 	[dijit._Widget, dijit._Templated, dijit._Container],
 	{
-		// summary:
-		//	Set of buttons to select a page in a page list.
-		//	Monitors the specified StackContainer, and whenever a page is
-		//	added, deleted, or selected, updates itself accordingly.
+	// summary:
+	//	Set of buttons to select a page in a page list.
+	//	Monitors the specified StackContainer, and whenever a page is
+	//	added, deleted, or selected, updates itself accordingly.
 
 		templateString: "<span wairole='tablist' dojoAttachEvent='onkeypress' class='dijitStackController'></span>",
 
