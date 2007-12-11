@@ -20,7 +20,7 @@ dojo.declare(
 
 		onfocus: function(evt){
 			this._editing = true;
-			this.inherited(arguments);
+//			this.inherited(arguments);
 			this.setValue(this.getValue());	
 		},
 
