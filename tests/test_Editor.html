@@ -27,12 +27,15 @@
 
 	<h1 class="testTitle"><label for="editor1">Editor + Plugins Test</label></h1>
 
+	<h2>Created from div</h2>
 	<div style="border: 1px solid black;">
 		<div dojoType="dijit.Editor" id="editor1"><p>This instance is created from a div directly with default toolbar and plugins</p></div>
 	</div>
 	<button onClick="dijit.byId('editor1').destroy()">destroy</button>
 	<button onclick="console.log(dijit.byId('editor1').getValue().length)">getValue</button>
 	<hr/>
+	
+	<h2>Created from textarea,auto-expanding</h2>
 	<div style="border: 1px dotted black;">
 		<h3><label for="thud">thud - from textarea</label></h3>
 		<textarea dojoType="dijit.Editor" height=""
@@ -53,6 +56,8 @@
 		<h3>..after</h3>
 	</div>
 	<hr/>
+	
+	<h2>Optional toolbar buttons</h2>
 	<div style="border: 1px dotted black;">
 		<h3><label for="blah">blah entry</label></h3>
 		<textarea dojoType="dijit.Editor"
@@ -65,6 +70,8 @@
 		<h3>..after</h3>
 	</div>
 	<hr/>
+	
+	<h2>Plugins specified</h2>
 	<div style="border: 1px dotted black;">
 		<h3><label for="blah2">Another blah entry</label></h3>
 		<textarea dojoType="dijit.Editor"
@@ -78,5 +85,20 @@
 		</textarea>
 		<h3>..after</h3>
 	</div>
+	<hr/>
+
+	<h2>Programmatic creation</h2>
+	<div id="programmatic">This div will become an editor.</div>
+	<button
+		id="create"
+		onclick="new dijit.Editor({}, dojo.byId('programmatic')); dojo.query('#create').orphan();">
+	create static editor
+	</button>
+	<div id="programmatic2">This div will become an auto-expanding editor.</div>
+	<button
+		id="create2"
+		onclick="new dijit.Editor({height: '', extraPlugins: ['dijit._editor.plugins.AlwaysShowToolbar']}, dojo.byId('programmatic2')); dojo.query('#create2').orphan();">
+	create expanding editor
+	</button>
 </body>
 </html>
