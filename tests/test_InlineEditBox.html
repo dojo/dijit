@@ -20,6 +20,10 @@
 			dojo.require("dijit.form.FilteringSelect");
 			dojo.require("dijit.form.NumberSpinner");
 			dojo.require("dijit.form.Slider");
+
+			dojo.require("dijit.Editor");
+			dojo.require("dijit._editor.plugins.AlwaysShowToolbar");
+
 			dojo.require("dojo.parser");	  // scan page for widgets and instantiate them
 
 			function myHandler(id,newValue){
@@ -189,6 +193,23 @@ tortor pharetra congue. Suspendisse pulvinar.
 		the InlineEditBox above.
 		<hr style="width:100%;">
 
+		<h2>Editor</h2>
+		<p id="inlineRTE" dojoType="dijit.InlineEditBox" autoSave="false" editor="dijit.Editor"
+			editorParams="{height: '', extraPlugins: ['dijit._editor.plugins.AlwaysShowToolbar']}">
+			<b>Aliquam</b> vitae enim. <i>Duis</i> scelerisque metus auctor est venenatis
+imperdiet. <u>Fusce</u> dignissim porta augue. Nulla vestibulum. Integer lorem
+nunc, ullamcorper a, commodo ac, malesuada sed, dolor. Aenean id mi in
+massa bibendum suscipit. Integer eros. Nullam suscipit mauris. In
+pellentesque. Mauris ipsum est, pharetra semper, pharetra in, viverra
+quis, tellus. Etiam purus. Quisque egestas, tortor ac cursus lacinia,
+felis leo adipiscing nisi, et rhoncus elit dolor eget eros. Fusce ut
+quam. Suspendisse eleifend leo vitae ligula. Nulla facilisi. Nulla
+rutrum, erat vitae lacinia dictum, pede purus imperdiet lacus, ut
+semper velit ante id metus. Praesent massa dolor, porttitor sed,
+pulvinar in, consequat ut, leo. Nullam nec est. Aenean id risus blandit
+tortor pharetra congue. Suspendisse pulvinar.
+		</p>
+		
 		<h2>FilteringSelect (no down arrow, and save/cancel buttons):</h2>
 		before
 		<span id="filteringSelect2" dojoType="dijit.InlineEditBox" editor="dijit.form.FilteringSelect"
