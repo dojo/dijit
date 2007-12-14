@@ -30,7 +30,7 @@ dojo.declare(
 
 		},
 
-		show: function(/*String*/ innerHTML, /*DomNode*/ aroundNode){
+		show: function(/*String*/ innerHTML, /*DomNode*/ aroundNode, /*String[]?*/ position){
 			// summary:
 			//	Display tooltip w/specified contents to right specified node
 			//	(To left if there's no space on the right, or if LTR==right)
@@ -50,10 +50,38 @@ dojo.declare(
 			// one, the node size will not be updated until it moves.
 			this.domNode.style.top = (this.domNode.offsetTop + 1) + "px";
 
-			// position the element and change CSS according to position	
-			var align = this.isLeftToRight() ? {'BR': 'BL', 'BL': 'BR'} : {'BL': 'BR', 'BR': 'BL'};
+			// position the element and change CSS according to position[] (a list of positions to try)
+			var align = {};
+			var ltr = this.isLeftToRight();
+			dojo.forEach( (position && position.length) ? position : dijit.Tooltip.defaultPosition, function(pos){
+				switch(pos){
+					case "after":				
+						align[ltr ? "BR" : "BL"] = ltr ? "BL" : "BR";
+						break;
+					case "before":
+						align[ltr ? "BL" : "BR"] = ltr ? "BR" : "BL";
+						break;
+					case "below":
+						align["BL"] = "TL";
+						break;
+					case "above":
+					default:
+						align["TL"] = "BL";
+						break;
+				}
+			});
 			var pos = dijit.placeOnScreenAroundElement(this.domNode, aroundNode, align);
-			this.domNode.className="dijitTooltip dijitTooltip" + (pos.corner=='BL' ? "Right" : "Left");//FIXME: might overwrite class
+			
+			// Figure out where it got placed, and set class name to something like "dijitTooltip dijitTooltipRight"
+			this.domNode.className="dijitTooltip dijitTooltip" +
+				function(){
+					switch(pos.aroundCorner + "-" + pos.corner){
+						case "BL-TL": return "Below";
+						case "TL-BL": return "Above";
+						case "BR-BL": return "Right";
+						case "BL-BR": return "Left";
+					}
+				}();
 
 			// show it
 			dojo.style(this.domNode, "opacity", 0);
@@ -98,12 +126,13 @@ dojo.declare(
 	}
 );
 
-dijit.showTooltip = function(/*String*/ innerHTML, /*DomNode*/ aroundNode){
+dijit.showTooltip = function(/*String*/ innerHTML, /*DomNode*/ aroundNode, /*String[]?*/ position){
 	// summary:
-	//	Display tooltip w/specified contents to right specified node
-	//	(To left if there's no space on the right, or if LTR==right)
+	//	Display tooltip w/specified contents in specified position.
+	//	See description of dijit.Tooltip.defaultPosition for details on position parameter.
+	//	If position is not specified then dijit.Tooltip.defaultPosition is used.
 	if(!dijit._masterTT){ dijit._masterTT = new dijit._MasterTooltip(); }
-	return dijit._masterTT.show(innerHTML, aroundNode);
+	return dijit._masterTT.show(innerHTML, aroundNode, position);
 };
 
 dijit.hideTooltip = function(aroundNode){
@@ -133,6 +162,10 @@ dojo.declare(
 		//		Id(s) of domNodes to attach the tooltip to.
 		//		When user hovers over any of the specified dom nodes, the tooltip will appear.
 		connectId: [],
+
+		//	position: String[]
+		//		See description of dijit.Tooltip.defaultPosition for details on position parameter.
+		position: [],
 
 		postCreate: function(){
 			if(this.srcNodeRef){
@@ -204,7 +237,7 @@ dojo.declare(
 				clearTimeout(this._showTimer);
 				delete this._showTimer;
 			}
-			dijit.showTooltip(this.label || this.domNode.innerHTML, target);
+			dijit.showTooltip(this.label || this.domNode.innerHTML, target, this.position);
 			
 			this._connectNode = target;
 		},
@@ -224,3 +257,24 @@ dojo.declare(
 		}
 	}
 );
+
+// dijit.Tooltip.defaultPosition: String[]
+//		This variable controls the position of tooltips, if the position is not specified to
+//		the Tooltip widget or *TextBox widget itself.  It's an array of strings with the following values:
+//
+//			* before: places tooltip to the left of the target node/widget, or to the right in
+//			  the case of RTL scripts like Hebrew and Arabic
+//			* after: places tooltip to the right of the target node/widget, or to the left in
+//			  the case of RTL scripts like Hebrew and Arabic
+//			* above: tooltip goes above target node
+//			* below: tooltip goes below target node
+//
+//		The list is positions is tried, in order, until a position is found where the tooltip fits
+//		within the viewport.
+//
+//		Be careful setting this parameter.  A value of "above" may work fine until the user scrolls
+//		the screen so that there's no room above the target node.   Nodes with drop downs, like
+//		DropDownButton or FilteringSelect, are especially problematic, in that you need to be sure
+//		that the drop down and tooltip don't overlap, even when the viewport is scrolled so that there
+//		is only room below (or above) the target node, but not both.
+dijit.Tooltip.defaultPosition = ["after", "before"];

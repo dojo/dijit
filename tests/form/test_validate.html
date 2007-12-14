@@ -85,7 +85,7 @@
 
 			<div class="dojoTitlePaneLabel">
 				<label for="q03">Age:  </label>
-				<span class="noticeMessage"> NumberTextBox class, <b>tabIndex=1</b>, Attributes: {trim: true}, no initial value specified.</span>
+				<span class="noticeMessage"> NumberTextBox class, <b>tabIndex=1</b>, Attributes: {trim: true}, no initial value specified, tooltipPosition=[above, below]</span>
 			</div>
 			<div class="testExample">
 				<input id="q03" type="text" name="age" tabIndex=1
@@ -95,6 +95,7 @@
 					class="small"
 					constraints="{places:0,min:0,max:120}"
 					onChange="console.debug('onChange fired for widget id = ' + this.id + ' with value = ' + arguments[0]);"
+					tooltipPosition="above, below"
 					/>
 			</div>
 
@@ -398,5 +399,13 @@
 			</div>
 
 		</form>
+		<h2>Tooltip positioning</h2>
+		<p>
+		These buttons switch the positions searched to try to place the validation error tooltips.
+		Note that setting tooltip positioning to "above" or "below" is dangerous if
+		you have a node with a dropdown, but the drop down might overlap the tooltip.
+		</p>
+		<button onclick="dijit.Tooltip.defaultPosition=['above', 'below'];">above, below</button>
+		<button onclick="dijit.Tooltip.defaultPosition=['after', 'before'];">after, before (default)</button>
 	</body>
 </html>

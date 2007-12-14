@@ -49,6 +49,10 @@ dojo.declare(
 		//		Shows current state (ie, validation result) of input (Normal, Warning, or Error)
 		state: "",
 
+		//	tooltipPosition: String[]
+		//		See description of dijit.Tooltip.defaultPosition for details on this parameter.
+		tooltipPosition: [],
+
 		setValue: function(){
 			this.inherited(arguments);
 			this.validate(false);
@@ -114,7 +118,8 @@ dojo.declare(
 			this._message = message;
 			dijit.hideTooltip(this.domNode);
 			if(message){
-				dijit.showTooltip(message, this.domNode);
+				console.log("show validation tooltip with pos of " + this.tooltipPosition);
+				dijit.showTooltip(message, this.domNode, this.tooltipPosition);
 			}
 		},
 
