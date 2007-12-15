@@ -62,7 +62,7 @@ dojo.declare(
 			// summary: user replaceable function used to validate the text input against the regular expression.
 			return (new RegExp("^(" + this.regExpGen(constraints) + ")"+(this.required?"":"?")+"$")).test(value) &&
 				(!this.required || !this._isEmpty(value)) &&
-				(this._isEmpty(value) || this.parse(value, constraints) !== null);
+				(this._isEmpty(value) || this.parse(value, constraints) !== undefined);
 		},
 
 		isValid: function(/* Boolean*/ isFocused){
