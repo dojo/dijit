@@ -40,7 +40,9 @@
 		<br><label for="simple">Inline:</label><div name="simpleTextArea" dojoType="dijit.form.Textarea" id="simple" style="width:33%;border:20px solid red;"
          		onChange="dojo.byId('ocSimple').value=arguments[0]"
 			>this is a very simple resizable text area</div>
-		onChange:<textarea id="ocSimple" disabled>not fired yet!</textarea>
+		onChange:<textarea id="ocSimple" readOnly>not fired yet!</textarea>
+		<input type="button" onclick="dijit.byId('simple').setAttribute('readOnly',false);" value="Remove readOnly">
+		<input type="button" onclick="dijit.byId('simple').setAttribute('readOnly',true);" value="Set readOnly">
 		<textarea dojoType="dijit.form.Textarea" name="largeTextArea">
 this is a textarea with a LOT of content
 

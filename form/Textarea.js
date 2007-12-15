@@ -32,6 +32,19 @@ dojo.declare(
 				+ ((dojo.isIE || dojo.isSafari) ? '</fieldset>':'</span>')
 			: '<textarea id="${id}" name="${name}" value="${value}" dojoAttachPoint="formValueNode,editNode,focusNode,styleNode" class="dijitInputField dijitTextArea"></textarea>',
 
+	setAttribute: function(/*String*/ attr, /*anything*/ value){
+		this.inherited(arguments);
+		switch(attr){
+			case "disabled":
+			case "readOnly":
+				if(dojo.isIE || dojo.isSafari){
+					this.editNode.contentEditable = (!this.disabled && !this.readOnly);
+				}else if(dojo.isMozilla){
+					this.iframe.contentDocument.designMode = (this.disabled || this.readOnly)? "off" : "on";
+				}
+		}
+	},
+
 	focus: function(){
 		// summary: Received focus, needed for the InlineEditBox widget
 		if(!this.disabled && !this.readOnly){
@@ -230,7 +243,7 @@ dojo.declare(
 
 	_changed: function(e, priorityChange){
 		// summary: event handler for when a change has already happened
-		if(this.iframe && this.iframe.contentDocument.designMode != "on"){
+		if(this.iframe && this.iframe.contentDocument.designMode != "on" && !this.disabled && !this.readOnly){
 			this.iframe.contentDocument.designMode="on"; // in case this failed on init due to being hidden
 		}
 		this.setValue(null, priorityChange);
