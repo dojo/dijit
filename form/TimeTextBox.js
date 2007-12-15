@@ -60,7 +60,7 @@ dojo.declare(
 			// summary:
 			//	opens the TimePicker, and sets the onValueSelected value
 
-			if(this.disabled){return;}
+			if(this.disabled || this.readOnly){return;}
 
 			var self = this;
 

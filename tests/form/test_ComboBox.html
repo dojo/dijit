@@ -53,7 +53,7 @@
 		function toggleDisabled(button, widget){
 			widget = dijit.byId(widget);
 			button = dojo.byId(button);
-			widget.setDisabled(!widget.disabled);
+			widget.setAttribute('disabled',!widget.disabled);
 			button.innerHTML= widget.disabled ? "Enable" : "Disable";
 		}
 	</script>

@@ -32,11 +32,6 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 	//		Name used when submitting form; same as "name" attribute or plain HTML elements
 	name: "",
 
-	// id: String
-	//		Corresponds to the native HTML <input> element's attribute.
-	//		Also becomes the id for the widget.
-	id: "",
-
 	// alt: String
 	//		Corresponds to the native HTML <input> element's attribute.
 	alt: "",
@@ -54,6 +49,12 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 	//		In markup, this is specified as "disabled='disabled'", or just "disabled".
 	disabled: false,
 
+	// readOnly: Boolean
+	//		Should this widget respond to user input?
+	//		In markup, this is specified as "readOnly".
+	//		Similar to disabled except readOnly form values are submitted
+	readOnly: false,
+
 	// intermediateChanges: Boolean
 	//		Fires onChange for each value change or only on demand
 	intermediateChanges: false,
@@ -63,24 +64,28 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 	// directly in the template as read by the parser in order to function. IE is known to specifically 
 	// require the 'name' attribute at element creation time.
 	attributeMap: dojo.mixin(dojo.clone(dijit._Widget.prototype.attributeMap),
-		{id:"focusNode", tabIndex:"focusNode", alt:"focusNode"}),
+		{disabled:"focusNode", readOnly:"focusNode", id:"focusNode", tabIndex:"focusNode", alt:"focusNode"}),
+
+	setAttribute: function(/*String*/ attr, /*anything*/ value){
+		this.inherited(arguments);
+		switch(attr){
+			case "disabled":
+				if(value){
+					//reset those, because after the domNode is disabled, we can no longer receive
+					//mouse related events, see #4200
+					this._hovering = false;
+					this._active = false;
+				}
+				dijit.setWaiState(this.focusNode || this.domNode, "disabled", value);
+				this._setStateClass();
+		}
+	},
 
 	setDisabled: function(/*Boolean*/ disabled){
 		// summary:
-		//		Set disabled state of widget.
-
-		this.domNode.disabled = this.disabled = disabled;
-		if(this.focusNode){
-			this.focusNode.disabled = disabled;
-		}
-		if(disabled){
-			//reset those, because after the domNode is disabled, we can no longer receive
-			//mouse related events, see #4200
-			this._hovering = false;
-			this._active = false;
-		}
-		dijit.setWaiState(this.focusNode || this.domNode, "disabled", disabled);
-		this._setStateClass();
+		//		Set disabled state of widget (Deprecated).
+		dojo.deprecated("setDisabled("+disabled+") is deprecated. Use setAttribute('disabled',"+disabled+") instead.", "", "1.1");
+		this.setAttribute('disabled', disabled);
 	},
 
 
@@ -127,7 +132,7 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 	},
 
 	isFocusable: function(){
-		return !this.disabled && (dojo.style(this.domNode, "display") != "none");
+		return !this.disabled && !this.readOnly && (dojo.style(this.domNode, "display") != "none");
 	},
 
 	focus: function(){
@@ -191,6 +196,8 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 		// Active trumps Focused, Focused trumps Hover, and Disabled trumps all.
 		if(this.disabled){
 			multiply("Disabled");
+		}else if(this.readOnly){
+			multiply("ReadOnly");
 		}else if(this._active){
 			multiply(this.stateModifier+"Active");
 		}else{
@@ -210,7 +217,6 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 
 	postCreate: function(){
 		this.setValue(this.value, null); // null reserved for initial value
-		this.setDisabled(this.disabled);
 		this._setStateClass();
 	},
 

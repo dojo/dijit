@@ -314,7 +314,7 @@ dojo.declare(
 		},
 
 		_openResultList: function(/*Object*/ results, /*Object*/ dataObject){
-			if(this.disabled || dataObject.query[this.searchAttr] != this._lastQuery){
+			if(this.disabled || this.readOnly || dataObject.query[this.searchAttr] != this._lastQuery){
 				return;
 			}
 			this._popupWidget.clearResultList();
@@ -462,7 +462,7 @@ dojo.declare(
 
 		_onArrowMouseDown: function(evt){
 			// summary: callback when arrow is clicked
-			if(this.disabled){
+			if(this.disabled || this.readOnly){
 				return;
 			}
 			dojo.stopEvent(evt);
@@ -506,13 +506,13 @@ dojo.declare(
 		/////////////// Event handlers /////////////////////
 
 		_arrowPressed: function(){
-			if(!this.disabled&&this.hasDownArrow){
+			if(!this.disabled && !this.readOnly && this.hasDownArrow){
 				dojo.addClass(this.downArrowNode, "dijitArrowButtonActive");
 			}
 		},
 
 		_arrowIdle: function(){
-			if(!this.disabled&&this.hasDownArrow){
+			if(!this.disabled && !this.readOnly && this.hasDownArrow){
 				dojo.removeClass(this.downArrowNode, "dojoArrowButtonPushed");
 			}
 		},

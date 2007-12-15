@@ -50,7 +50,7 @@
 				dojo.addOnLoad(programaticExample);
 	
 				dojo.addOnLoad(function(){
-					dijit.byId("sliderH2").setDisabled(true);
+					dijit.byId("sliderH2").setAttribute('disabled',true);
 				});
 		</script>
 		<style type="text/css">
@@ -94,8 +94,8 @@
 
 		Slider1 Value:<input readonly id="slider1input" size="4" value="10.0%">
 		<br>
-		<button id="disableButton" dojoType="dijit.form.Button" onClick="dijit.byId('slider1').setDisabled( true);dijit.byId('disableButton').setDisabled(true);dijit.byId('enableButton').setDisabled(false);">Disable previous slider</button>
-		<button id="enableButton"  dojoType="dijit.form.Button" onClick="dijit.byId('slider1').setDisabled(false);dijit.byId('disableButton').setDisabled(false);dijit.byId('enableButton').setDisabled( true);" disabled>Enable previous slider</button>
+		<button id="disableButton" dojoType="dijit.form.Button" onClick="dijit.byId('slider1').setAttribute('disabled', true);dijit.byId('disableButton').setAttribute('disabled',true);dijit.byId('enableButton').setAttribute('disabled',false);">Disable previous slider</button>
+		<button id="enableButton"  dojoType="dijit.form.Button" onClick="dijit.byId('slider1').setAttribute('disabled',false);dijit.byId('disableButton').setAttribute('disabled',false);dijit.byId('enableButton').setAttribute('disabled', true);" disabled>Enable previous slider</button>
 		<br>
 		<br>initial value=10, min=0, max=100, onChange event triggers input box value change when you mouse up or tab away<br>
 		<div dojoType="dijit.form.VerticalSlider" name="vertical1"

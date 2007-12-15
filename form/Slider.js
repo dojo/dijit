@@ -61,7 +61,7 @@ dojo.declare(
 	_upsideDown: false,
 
 	_onKeyPress: function(/*Event*/ e){
-		if(this.disabled || e.altKey || e.ctrlKey){ return; }
+		if(this.disabled || this.readOnly || e.altKey || e.ctrlKey){ return; }
 		switch(e.keyCode){
 			case dojo.keys.HOME:
 				this.setValue(this.minimum, false);
@@ -87,7 +87,7 @@ dojo.declare(
 	},
 
 	_onHandleClick: function(e){
-		if(this.disabled){ return; }
+		if(this.disabled || this.readOnly){ return; }
 		if(!dojo.isIE){
 			// make sure you get focus when dragging the handle
 			// (but don't do on IE because it causes a flicker on mouse up (due to blur then focus)
@@ -101,7 +101,7 @@ dojo.declare(
 	},
 
 	_onBarClick: function(e){
-		if(this.disabled || !this.clickSelect){ return; }
+		if(this.disabled || this.readOnly || !this.clickSelect){ return; }
 		dijit.focus(this.sliderHandle);
 		dojo.stopEvent(e);
 		var abspos = dojo.coords(this.sliderBarContainer, true);
@@ -110,7 +110,7 @@ dojo.declare(
 	},
 
 	_setPixelValue: function(/*Number*/ pixelValue, /*Number*/ maxPixels, /*Boolean, optional*/ priorityChange){
-		if(this.disabled){ return; }
+		if(this.disabled || this.readOnly){ return; }
 		pixelValue = pixelValue < 0 ? 0 : maxPixels < pixelValue ? maxPixels : pixelValue;
 		var count = this.discreteValues;
 		if(count <= 1 || count == Infinity){ count = maxPixels; }
@@ -144,7 +144,7 @@ dojo.declare(
 	},
 
 	_bumpValue: function(signedChange){
-		if(this.disabled){ return; }
+		if(this.disabled || this.readOnly){ return; }
 		var s = dojo.getComputedStyle(this.sliderBarContainer);
 		var c = dojo._getContentBox(this.sliderBarContainer, s);
 		var count = this.discreteValues;

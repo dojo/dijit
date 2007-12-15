@@ -117,23 +117,9 @@ dojo.declare("dijit._Widget", null, {
 		// cannot be processed this way as they are not mutable.
 		if(this.domNode){
 			for(var attr in this.attributeMap){
-				var mapNode = this[this.attributeMap[attr] || "domNode"];
 				var value = this[attr];
-				if(typeof value != "object" && (value !== "" || (params && params[attr]))){
-					switch(attr){
-					case "class":
-						dojo.addClass(mapNode, value);
-						break;
-					case "style":
-						if(mapNode.style.cssText){
-							mapNode.style.cssText += "; " + value;// FIXME: Opera
-						}else{
-							mapNode.style.cssText = value;
-						}
-						break;
-					default:
-						mapNode.setAttribute(attr, value);
-					}
+				if(typeof value != "object" && ((value !== "" && value !== false) || (params && params[attr]))){
+					this.setAttribute(attr, value);
 				}
 			}
 		}
@@ -247,6 +233,28 @@ dojo.declare("dijit._Widget", null, {
 	},
 
 	////////////////// MISCELLANEOUS METHODS ///////////////////
+
+	setAttribute: function(/*String*/ attr, /*anything*/ value){
+		// summary:
+		//              Set native HTML attributes reflected in the widget,
+		//              such as readOnly, disabled, and maxLength in TextBox widgets.
+		var mapNode = this[this.attributeMap[attr]||'domNode'];
+		this[attr] = value;
+		switch(attr){
+			case "class":
+				dojo.addClass(mapNode, value);
+				break;
+			case "style":
+				if(mapNode.style.cssText){
+					mapNode.style.cssText += "; " + value;// FIXME: Opera
+				}else{
+					mapNode.style.cssText = value;
+				}
+				break;
+			default:
+				mapNode[attr] = value; //FF2 won't set readOnly et al with node.setAttribute
+		}
+	},
 
 	toString: function(){
 		// summary:

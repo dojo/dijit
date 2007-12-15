@@ -34,7 +34,7 @@ dojo.declare(
 
 	focus: function(){
 		// summary: Received focus, needed for the InlineEditBox widget
-		if(!this.disabled){
+		if(!this.disabled && !this.readOnly){
 			this._changing(); // set initial height
 		}
 		if(dojo.isMozilla){

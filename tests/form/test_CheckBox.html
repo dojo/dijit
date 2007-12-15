@@ -77,8 +77,8 @@
 		<br>
 		<input onChange="reportValueChanged" type="checkbox" name="cb7" id="cb7" dojoType="dijit.form.CheckBox">
 			<label for="cb7">cb7: normal checkbox.</label>
-			<input type="button" onclick='dijit.byId("cb7").setDisabled(true);' value="disable" />
-			<input type="button" onclick='dijit.byId("cb7").setDisabled(false);' value="enable" />
+			<input type="button" onclick='dijit.byId("cb7").setAttribute("disabled",true);' value="disable" />
+			<input type="button" onclick='dijit.byId("cb7").setAttribute("disabled",false);' value="enable" />
 			<input type="button" onclick='dijit.byId("cb7").setValue("fish");' value='set value to "fish"' />
 			<span>"onChange" handler updates: [<span id="onvaluechangedoutput"></span>]</span>
 		<br>

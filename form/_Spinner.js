@@ -44,14 +44,14 @@ dojo.declare(
 		},
 
 		_arrowPressed: function(/*Node*/ nodePressed, /*Number*/ direction){
-			if(this.disabled){ return; }
+			if(this.disabled || this.readOnly){ return; }
 			this._arrowState(nodePressed, true);
 			this.setValue(this.adjust(this.getValue(), direction*this.smallDelta), false);
 		},
 
 		_arrowReleased: function(/*Node*/ node){
 			this._wheelTimer = null;
-			if(this.disabled){ return; }
+			if(this.disabled || this.readOnly){ return; }
 			dijit.focus(this.textbox);
 			this._arrowState(node, false);
 		},

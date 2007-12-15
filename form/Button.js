@@ -36,7 +36,10 @@ dojo.declare("dijit.form.Button",
 
 	_onClick: function(/*Event*/ e){
 		// summary: internal function to handle click actions
-		if(this.disabled){ return false; }
+		if(this.disabled || this.readOnly){
+			dojo.stopEvent(e); // needed for checkbox
+			return false;
+		}
 		this._clicked(); // widget click actions
 		return this.onClick(e); // user click actions
 	},
@@ -162,7 +165,7 @@ dojo.declare("dijit.form.DropDownButton", [dijit.form.Button, dijit._Container],
 
 	_onArrowClick: function(/*Event*/ e){
 		// summary: callback when the user mouse clicks on menu popup node
-		if(this.disabled){ return; }
+		if(this.disabled || this.readOnly){ return; }
 		this._toggleDropDown();
 	},
 
@@ -191,7 +194,7 @@ dojo.declare("dijit.form.DropDownButton", [dijit.form.Button, dijit._Container],
 
 	_onKey: function(/*Event*/ e){
 		// summary: callback when the user presses a key on menu popup node
-		if(this.disabled){ return; }
+		if(this.disabled || this.readOnly){ return; }
 		if(e.keyCode == dojo.keys.DOWN_ARROW){
 			if(!this.dropDown || this.dropDown.domNode.style.display=="none"){
 				dojo.stopEvent(e);
@@ -208,7 +211,7 @@ dojo.declare("dijit.form.DropDownButton", [dijit.form.Button, dijit._Container],
 
 	_toggleDropDown: function(){
 		// summary: toggle the drop-down widget; if it is up, close it, if not, open it
-		if(this.disabled){ return; }
+		if(this.disabled || this.readOnly){ return; }
 		dijit.focus(this.popupStateNode);
 		var dropDown = this.dropDown;
 		if(!dropDown){ return false; }
