@@ -1,8 +1,8 @@
 .dj_gecko .dijitRtl .dijitInputField {
-	direction: ltr; // Firefox needs this - probably a bug
+	direction: ltr; /* Firefox needs this - probably a bug */
 }
 .dj_gecko .dijitRtl .dijitInputField * {
-	direction: rtl; // Firefox needs dijitInputField to be ltr, so fix the contained tags
+	direction: rtl; /* Firefox needs dijitInputField to be ltr, so fix the contained tags */
 }
 
 /* Tree */
