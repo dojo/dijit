@@ -1,3 +1,10 @@
+.dj_gecko .dijitRtl .dijitInputField {
+	direction: ltr; // Firefox needs this - probably a bug
+}
+.dj_gecko .dijitRtl .dijitInputField * {
+	direction: rtl; // Firefox needs dijitInputField to be ltr, so fix the contained tags
+}
+
 /* Tree */
 
 .dijitRtl .dijitTreeContainer .dijitTreeExpando {
@@ -16,7 +23,6 @@
 } 
 
 .dijitRtl .dijitComboBox .dijitInputField {
-	float:right;
 	border-right-width:1px !important;
 	border-left-width:0px !important;
 }
@@ -115,17 +121,6 @@
 
 .dj_ie .dijitRtl .dijitTabContainer .dijitAlignRight {
 	margin-right:1px !important;
-}
-
-/* TabContainer */
-
-.dijitRtl .dijitTab {
-	float:right;
-}
-
-.dj_ie .dijitRtl .dijitTab,
-.dj_ie .dijitRtl .dijitTab .dijitTabInnerDiv {
-	zoom:1;
 }
 
 .dj_ie6 .dijitRtl .dijitTab {
