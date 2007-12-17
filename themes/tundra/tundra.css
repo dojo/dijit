@@ -795,6 +795,7 @@
 }
 .dj_ie6 .tundra .dijitTooltipAbove .dijitTooltipConnector {
 	background-image: url("images/tooltipConnectorDown.gif");
+	bottom: -3px;
 }
 
 .tundra .dijitTooltipLeft {
