@@ -122,20 +122,35 @@ inside the AccordionPane??
 
 		// note: we are treating the container as controller here
 		_onKeyPress: function(/*Event*/ e){
-			if(this.disabled || e.altKey ){ return; }
+			if(this.disabled || e.altKey || !(e._dijitWidget || e.ctrlKey)){ return; }
 			var k = dojo.keys;
+			var fromTitle = e._dijitWidget;
 			switch(e.keyCode){
 				case k.LEFT_ARROW:
 				case k.UP_ARROW:
+					if (fromTitle){
+						this._adjacent(false)._onTitleClick();
+						dojo.stopEvent(e);
+					}
+					break;
 				case k.PAGE_UP:
-					this._adjacent(false)._onTitleClick();
-					dojo.stopEvent(e);
+					if (e.ctrlKey){
+						this._adjacent(false)._onTitleClick();
+						dojo.stopEvent(e);
+					}
 					break;
 				case k.RIGHT_ARROW:
 				case k.DOWN_ARROW:
+					if (fromTitle){
+						this._adjacent(true)._onTitleClick();
+						dojo.stopEvent(e);
+					}
+					break;
 				case k.PAGE_DOWN:
-					this._adjacent(true)._onTitleClick();
-					dojo.stopEvent(e);
+					if (e.ctrlKey){
+						this._adjacent(true)._onTitleClick();
+						dojo.stopEvent(e);
+					}
 					break;
 				default:
 					if(e.ctrlKey && e.keyCode == k.TAB){

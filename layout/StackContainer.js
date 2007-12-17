@@ -358,20 +358,23 @@ dojo.declare(
 			//   and closing the current page if the page is closable.
 
 			if(this.disabled || e.altKey ){ return; }
-			var forward = true;
+			var forward = null;
 			if(e.ctrlKey || !e._djpage){
 				var k = dojo.keys;
 				switch(e.keyCode){
 					case k.LEFT_ARROW:
 					case k.UP_ARROW:
+						if(!e._djpage){ forward = false; }
+						break;
 					case k.PAGE_UP:
-						forward = false;
-						// fall through
+						if(e.ctrlKey){ forward = false; }
+						break;
 					case k.RIGHT_ARROW:
 					case k.DOWN_ARROW:
+						if(!e._djpage){ forward = true; }
+						break;
 					case k.PAGE_DOWN:
-						this.adjacent(forward).onClick();
-						dojo.stopEvent(e);
+						if(e.ctrlKey){ forward = true; }
 						break;
 					case k.DELETE:
 						if(this._currentChild.closable){
@@ -391,6 +394,11 @@ dojo.declare(
 								dojo.stopEvent(e); // avoid browser tab closing.
 							}
 						}
+				}
+				// handle page navigation
+				if(forward != null){
+					this.adjacent(forward).onClick();
+					dojo.stopEvent(e);
 				}
 			}
 		},
