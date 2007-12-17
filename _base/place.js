@@ -88,7 +88,7 @@ dijit._place = function(/*DomNode*/ node, /* Array */ choices, /* Function */ la
 	// choices: Array
 	//		Array of elements like: {corner: 'TL', pos: {x: 10, y: 20} }
 	//		Above example says to put the top-left corner of the node at (10,20)
-	//	layoutNode: Function(node, orient)
+	//	layoutNode: Function(node, aroundNodeCorner, nodeCorner)
 	//		for things like tooltip, they are displayed differently (and have different dimensions)
 	//		based on their orientation relative to the parent.   This adjusts the popup based on orientation.
 
@@ -112,7 +112,7 @@ dijit._place = function(/*DomNode*/ node, /* Array */ choices, /* Function */ la
 		// (need to do this in order to get an accurate size for the node, because
 		// a tooltips size changes based on position, due to triangle)
 		if(layoutNode){
-			layoutNode(corner);
+			layoutNode(node, choices[i].aroundCorner, corner);
 		}
 
 		// get node's size
@@ -171,7 +171,7 @@ dijit.placeOnScreenAroundElement = function(
 	//		corners parameter in dijit.placeOnScreen)
 	//		e.g. {'TL': 'BL', 'BL': 'TL'}
 	//
-	//	layoutNode: Function(node, orient)
+	//	layoutNode: Function(node, aroundNodeCorner, nodeCorner)
 	//		for things like tooltip, they are displayed differently (and have different dimensions)
 	//		based on their orientation relative to the parent.   This adjusts the popup based on orientation.
 

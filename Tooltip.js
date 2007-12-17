@@ -70,18 +70,12 @@ dojo.declare(
 						break;
 				}
 			});
-			var pos = dijit.placeOnScreenAroundElement(this.domNode, aroundNode, align);
-			
-			// Figure out where it got placed, and set class name to something like "dijitTooltip dijitTooltipRight"
-			this.domNode.className="dijitTooltip dijitTooltip" +
-				function(){
-					switch(pos.aroundCorner + "-" + pos.corner){
-						case "BL-TL": return "Below";
-						case "TL-BL": return "Above";
-						case "BR-BL": return "Right";
-						case "BL-BR": return "Left";
-					}
-				}();
+			var pos = dijit.placeOnScreenAroundElement(this.domNode, aroundNode, align,
+				function(node, aroundCorner, tooltipCorner){
+					// set CSS for node based on which position it's in
+					node.className = "dijitTooltip dijitTooltip" + 
+						{"BL-TL": "Below", "TL-BL": "Above", "BR-BL": "Right", "BL-BR": "Left"}[aroundCorner + "-" + tooltipCorner];
+				});
 
 			// show it
 			dojo.style(this.domNode, "opacity", 0);
