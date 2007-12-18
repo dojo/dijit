@@ -281,7 +281,12 @@ dojo.declare(
 			ew.domNode.style.width = this.width + (Number(this.width)==this.width ? "px" : "");			
 		}
 
-		this.connect(this.editWidget, "onChange", "_onChange");
+		this.connect(ew, "onChange", "_onChange");
+
+		// Monitor keypress on the edit widget.   Note that edit widgets do a stopEvent() on ESC key (to
+		// prevent Dialog from closing when the user just wants to revert the value in the edit widget),
+		// so this is the only way we can see the key press event.
+		this.connect(ew.focusNode || ew.domNode, "onkeypress", "_onKeyPress");
 
 		// setting the value of the edit widget will cause a possibly asynchronous onChange() call.
 		// we need to ignore it, since we are only interested in when the user changes the value.
@@ -331,7 +336,7 @@ dojo.declare(
 			// The delay gives the browser a chance to update the Textarea.
 			setTimeout(
 				function(){
-					_this.saveButton.setDisabled(_this.getValue() == _this._initialText);
+					_this.saveButton.setAttribute("disabled", _this.getValue() == _this._initialText);
 				}, 100);
 		}
 	},
@@ -364,7 +369,6 @@ dojo.declare(
 		// summary:
 		//	Called when the underlying widget fires an onChange event,
 		//	which means that the user has finished entering the value
-		
 		if(this._ignoreNextOnChange){
 			delete this._ignoreNextOnChange;
 			return;
@@ -381,7 +385,7 @@ dojo.declare(
 			// in case the keypress event didn't get through (old problem with Textarea that has been fixed
 			// in theory) or if the keypress event comes too quickly and the value inside the Textarea hasn't
 			// been updated yet)
-			this.saveButton.setDisabled((this.getValue() == this._initialText) || !this.enableSave());
+			this.saveButton.setAttribute("disabled", (this.getValue() == this._initialText) || !this.enableSave());
 		}
 	},
 	
