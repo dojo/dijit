@@ -232,16 +232,16 @@ dojo.declare(
 		},
 		_getBookmark: function(){
 			var b=dojo.withGlobal(this.window,dijit.getBookmark);
+			var tmp=[];
 			if(dojo.isIE){
 				if(dojo.isArray(b)){//CONTROL
-					var tmp=[];
 					dojo.forEach(b,function(n){
 						tmp.push(dijit.range.getIndex(n,this.editNode).o);
 					},this);
 					b=tmp;
 				}
 			}else{//w3c range
-				var tmp=dijit.range.getIndex(b.startContainer,this.editNode).o
+				tmp=dijit.range.getIndex(b.startContainer,this.editNode).o;
 				b={startContainer:tmp,
 					startOffset:b.startOffset,
 					endContainer:b.endContainer===b.startContainer?tmp:dijit.range.getIndex(b.endContainer,this.editNode).o,
@@ -369,6 +369,9 @@ dojo.subscribe("dijit.Editor.getPlugin",null,function(o){
 			break;
 		case "fontName": case "fontSize": case "formatBlock":
 			p = new dijit._editor.plugins.FontChoice({ command: name });
+			break;
+		case "toggleDir" :
+			p = new dijit._editor.plugins.ToggleDir({ command: name});
 	}
 //	console.log('name',name,p);
 	o.plugin=p;

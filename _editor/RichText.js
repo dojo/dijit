@@ -236,13 +236,14 @@ dojo.declare("dijit._editor.RichText", [ dijit._Widget ], {
 		this._content = "";
 		if((arguments.length == 1)&&(element["nodeName"])){ this.domNode = element; } // else unchanged
 
+		var html;
 		if(	(this.domNode["nodeName"])&&
 			(this.domNode.nodeName.toLowerCase() == "textarea")){
 			// if we were created from a textarea, then we need to create a
 			// new editing harness node.
 			this.textarea = this.domNode;
 			this.name=this.textarea.name;
-			var html = this._preFilterContent(this.textarea.value);
+			html = this._preFilterContent(this.textarea.value);
 			this.domNode = dojo.doc.createElement("div");
 			this.domNode.setAttribute('widgetId',this.id);
 			this.textarea.removeAttribute('widgetId');
@@ -279,7 +280,7 @@ dojo.declare("dijit._editor.RichText", [ dijit._Widget ], {
 //					});
 //				}
 		}else{
-			var html = this._preFilterContent(this.getNodeChildrenHtml(this.domNode));
+			html = this._preFilterContent(this.getNodeChildrenHtml(this.domNode));
 			this.domNode.innerHTML = '';
 		}
 		if(html == ""){ html = "&nbsp;"; }
@@ -454,10 +455,11 @@ dojo.declare("dijit._editor.RichText", [ dijit._Widget ], {
 			this.iframe.height = this._oldHeight;
 		}
 
+		var tmpContent;
 		if(this.textarea){
-			var tmpContent = this.srcNodeRef;
+			tmpContent = this.srcNodeRef;
 		}else{
-			var tmpContent = dojo.doc.createElement('div');
+			tmpContent = dojo.doc.createElement('div');
 			tmpContent.style.display="none";
 			tmpContent.innerHTML = html;
 			//append tmpContent to under the current domNode so that the margin
@@ -900,7 +902,7 @@ dojo.declare("dijit._editor.RichText", [ dijit._Widget ], {
 			case "fontname": case "fontsize":
 			case "forecolor": case "hilitecolor":
 			case "justifycenter": case "justifyfull": case "justifyleft":
-			case "justifyright": case "delete": case "selectall":
+			case "justifyright": case "delete": case "selectall": case "toggledir":
 				supportedBy = isSupportedBy(mozilla | ie | safari | opera);
 				break;
 
@@ -1265,9 +1267,10 @@ dojo.declare("dijit._editor.RichText", [ dijit._Widget ], {
 	},
 
 	getNodeHtml: function(/* DomNode */node){
+		var output;
 		switch(node.nodeType){
 			case 1: //element node
-				var output = '<'+node.tagName.toLowerCase();
+				output = '<'+node.tagName.toLowerCase();
 				if(dojo.isMoz){
 					if(node.getAttribute('type')=='_moz'){
 						node.removeAttribute('type');
@@ -1329,14 +1332,14 @@ dojo.declare("dijit._editor.RichText", [ dijit._Widget ], {
 				break;
 			case 3: //text
 				// FIXME:
-				var output = this.escapeXml(node.nodeValue,true);
+				output = this.escapeXml(node.nodeValue,true);
 				break;
 			case 8: //comment
 				// FIXME:
-				var output = '<!--'+this.escapeXml(node.nodeValue,true)+'-->';
+				output = '<!--'+this.escapeXml(node.nodeValue,true)+'-->';
 				break;
 			default:
-				var output = "Element not recognized - Type: " + node.nodeType + " Name: " + node.nodeName;
+				output = "Element not recognized - Type: " + node.nodeType + " Name: " + node.nodeName;
 		}
 		return output;
 	},

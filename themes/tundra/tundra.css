@@ -1361,6 +1361,8 @@
 .tundra .dijitEditorIconUnderline { background-position: -648px; }
 .tundra .dijitEditorIconUndo { background-position: -666px; }
 .tundra .dijitEditorIconWikiword { background-position: -684px; }
+.tundra .dijitEditorIconToggleDir { background-position: -540px; /* padding: 0; margin: 0; color:#555555;
+									font-family:verdana,arial,sans-serif; font-weight: 800; font-size: 70%; */}
 
 /*
  * IE6: can't display PNG images with gradient transparency.

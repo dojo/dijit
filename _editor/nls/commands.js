@@ -24,6 +24,7 @@
 	'undo': 'Undo',
 	'unlink': 'Remove Link',
 	'createLink': 'Create Link',
+	'toggleDir': 'Toggle Direction',
 	'insertImage': 'Insert Image',
 	'insertTable': 'Insert/Edit Table',
 	'toggleTableBorder': 'Toggle Table Border',
