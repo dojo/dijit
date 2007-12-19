@@ -2,59 +2,36 @@
 		"http://www.w3.org/TR/html4/strict.dtd">
 <html>
 <head>
-	<title>Dijit List mini-browser | The Dojo Toolkit</title>
-
+	<title>Editor Test2</title>
 	<style type="text/css">
-		@import "../../dojo/resources/dojo.css";
-		@import "css/dijitTests.css";
-		body, html { width:100%; height:100%; margin:0; padding:0; background:#fff !important; } 
+		@import "../../../dojo/resources/dojo.css";
+		@import "../css/dijitTests.css";
 	</style>
-
-	<script type="text/javascript" src="../../dojo/dojo.js"
+	<script type="text/javascript" src="../../../dojo/dojo.js"
 		djConfig="parseOnLoad: true, isDebug: true"></script>
-	<script type="text/javascript" src="_testCommon.js"></script>
+	<script type="text/javascript" src="../_testCommon.js"></script>
 
-	<script language="JavaScript" type="text/javascript">
-		dojo.require("dojo.data.ItemFileReadStore");
-		dojo.require("dijit.Tree");
-		dojo.require("dijit.layout.ContentPane");
-		dojo.require("dijit.layout.SplitContainer");
+	<script type="text/javascript">
+		dojo.require("dijit.Editor");
+		dojo.require("dijit._editor.plugins.ToggleDir");
 		dojo.require("dojo.parser");	// scan page for widgets and instantiate them
 	</script>
-
+<!--
+	<script type="text/javascript" src="../../_editor/plugins/ToggleDir.js"></script>
+	<script type="text/javascript" src="../../Editor.js"></script>
+	<script type="text/javascript" src="../../_editor/_Plugin.js"></script>
+-->
 </head>
 <body>
-	<div dojoType="dojo.data.ItemFileReadStore" jsId="theStore"
-		url="../tests/_data/dijits.json"></div>
-
-	<div dojoType="dijit.layout.SplitContainer" sizerWidth="7" style="width:100%; height:100%;">
-		<div dojoType="dijit.layout.ContentPane" layoutAlign="left">
-			<div dojoType="dijit.Tree" id="mytree" store="theStore" query="{namespace:'dijit'}"
-				labelAttr="className" label="Dijits">
-			<script type="dojo/method" event="onClick" args="item">
-		
-			var str = "<h1>"+theStore.getLabel(item)+"</h1>";
-
-			var sum = theStore.getValue(item,'summary');
-			var des = theStore.getValue(item,'description') 
-			var exp = theStore.getValue(item,'examples')
-
-			if(sum){ str += "<h2>summary:</h2><p><pre>" + sum + "</pre></p>"; }
-			if(des){ str += "<h2>details:</h2><p><pre>" + des + "</pre></code></p>"; }
-			if(exp){ str += "<h2>examples:</h2><p><pre>" + exp + "</pre></code></p>"; }
-
-			dojo.byId('detailPane').innerHTML = str; 
-
-			</script>
-			<script type="dojo/method" event="getIconClass" args="item">
-				return "noteIcon";
-			</script>
-			</div>
-		</div>
-		<div dojoType="dijit.layout.ContentPane" id="detailPane" style="padding:10px; padding-top:0;">
-	
-		</div>
+	<div style="border: 1px dotted black;">
+		<textarea dojoType="dijit.Editor" 
+			extraPlugins="['toggleDir','|','dijit._editor.plugins.ToggleDir','|',{name:'dijit._editor.plugins.ToggleDir'}]">
+			<ol>
+				<li>the toggleDir plugin provides an extra button on the toolbar to switch text direction (BiDi) of the
+					edited document.  Useful when right-to-left languages like Hebrew and Arabic are combined with
+					left-to-right languages like English.</li>
+			</ol>
+		</textarea>
 	</div>
-	
 </body>
 </html>
