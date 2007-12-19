@@ -1,4 +1,5 @@
 dojo.provide("dijit._editor.plugins.FontChoice");
+dojo.experimental("dijit._editor.plugins.FontChoice");
 
 dojo.require("dijit._editor._Plugin");
 dojo.require("dijit.form.FilteringSelect");
@@ -33,7 +34,9 @@ dojo.declare("dijit._editor.plugins.FontChoice",
 
 			dojo.connect(this.button, "onChange", this, function(choice){
 				this.editor.execCommand(this.command, choice);
+				dijit.focus(this._focusHandle);
 			});
+
 		},
 
 		updateState: function(){
@@ -45,6 +48,9 @@ dojo.declare("dijit._editor.plugins.FontChoice",
 				var value = _e.queryCommandValue(_c);
 				this.button.setValue(value);
 			}
+
+			this._focusHandle = dijit.getFocus(this.editor.iframe);
+console.log("focushandle: "+this._focusHandle);
 		},
 
 		setToolbar: function(){
