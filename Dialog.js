@@ -73,7 +73,7 @@ dojo.declare(
 			if(this.bgIframe){
 				this.bgIframe.destroy();
 			}
-		},
+		}
 	}
 );
 
