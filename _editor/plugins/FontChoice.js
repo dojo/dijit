@@ -1,4 +1,5 @@
 dojo.provide("dijit._editor.plugins.FontChoice");
+dojo.experimental("dijit._editor.plugins.FontChoice");
 
 dojo.require("dijit._editor._Plugin");
 dojo.require("dijit.form.FilteringSelect");
