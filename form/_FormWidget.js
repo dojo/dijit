@@ -70,13 +70,18 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 		this.inherited(arguments);
 		switch(attr){
 			case "disabled":
+				var tabIndexNode = this[this.attributeMap['tabIndex']||'domNode'];
 				if(value){
 					//reset those, because after the domNode is disabled, we can no longer receive
 					//mouse related events, see #4200
 					this._hovering = false;
 					this._active = false;
+					// remove the tabIndex, especially for FF
+					tabIndexNode.removeAttribute('tabIndex');
+				}else{
+					tabIndexNode.setAttribute('tabIndex', this.tabIndex);
 				}
-				dijit.setWaiState(this.focusNode || this.domNode, "disabled", value);
+				dijit.setWaiState(this[this.attributeMap['disabled']||'domNode'], "disabled", value);
 				this._setStateClass();
 		}
 	},
