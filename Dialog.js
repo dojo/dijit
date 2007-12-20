@@ -351,14 +351,14 @@ dojo.declare(
 			this.containerNode.title=this.title;
 		},
 
-		orient: function(/*Object*/ corner){
+		orient: function(/*DomNode*/ node, /*String*/ aroundCorner, /*String*/ corner){
 			// summary: configure widget to be displayed in given position relative to the button
 			this.domNode.className="dijitTooltipDialog " +" dijitTooltipAB"+(corner.charAt(1)=='L'?"Left":"Right")+" dijitTooltip"+(corner.charAt(0)=='T' ? "Below" : "Above");
 		},
 
 		onOpen: function(/*Object*/ pos){
 			// summary: called when dialog is displayed
-			this.orient(pos.corner);
+			this.orient(this.domNode,pos.aroundCorner, pos.corner);
 			this._loadCheck(); // lazy load trigger
 			this.containerNode.focus();
 		},
