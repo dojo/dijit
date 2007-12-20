@@ -165,15 +165,12 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 		//		Checked - ex: a checkmark or a ToggleButton in a checked state, will have this.checked==true
 		//		Selected - ex: currently selected tab will have this.selected==true
 		//
-		//	In addition, it may have at most one of the following states,
+		//	In addition, it may have one or more of the following states,
 		//	based on this.disabled and flags set in _onMouse (this._active, this._hovering, this._focused):
 		//		Disabled	- if the widget is disabled
 		//		Active		- if the mouse (or space/enter key?) is being pressed down
 		//		Focused		- if the widget has focus
 		//		Hover		- if the mouse is over the widget
-		//
-		//	(even if multiple af the above conditions are true we only pick the first matching one)
-
 
 		// Get original (non state related, non baseClass related) class specified in template
 		if(!("staticClass" in this)){
@@ -197,8 +194,6 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 			multiply("Selected");
 		}
 
-		// Only one of these four can be applied.
-		// Active trumps Focused, Focused trumps Hover, and Disabled trumps all.
 		if(this.disabled){
 			multiply("Disabled");
 		}else if(this.readOnly){
@@ -209,10 +204,11 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 			if(this._focused){
 				multiply("Focused");
 			}
-			if((this.stateModifier || !this._focused) && this._hovering){
+			if(this._hovering){
 				multiply(this.stateModifier+"Hover");
 			}
 		}
+
 		(this.stateNode || this.domNode).className = this.staticClass + " " + classes.join(" ");
 	},
 

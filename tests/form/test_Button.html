@@ -4,7 +4,6 @@
 	<head>
 		<title>Dojo Button Widget Test</title>
 
-
 		<script type="text/javascript" src="../../../dojo/dojo.js"
 			djConfig="isDebug: true, parseOnLoad: true"></script>
 		<script type="text/javascript" src="../_testCommon.js"></script>
@@ -25,7 +24,7 @@
 				display: block;
 				text-align: center;
 			}
-			.box .dojoButton {
+			.box * {
 				margin-right: 10px;
 			}
 			.dojoButtonContents {
@@ -102,7 +101,7 @@
 	</div>
 	<br clear=both>
 	<h2>Buttons with no text label</h2>
-		<p>Buttons have showLabel=false so text is not displayed.  Should have title attribute displayed on mouse over</p>
+	<p>Buttons have showLabel=false so text is not displayed.  Should have title attribute displayed on mouse over</p>
 	<div class="box">
 		<button id="1466" dojoType="dijit.form.Button" onClick='console.log("clicked simple button with no text label")' 
 		iconClass="plusIcon" showLabel="false">
@@ -137,7 +136,7 @@
 		</button>
 	</div>
 	<br clear=both>
-		<h2>Sizing</h2>
+	<h2>Sizing</h2>
 	<p>Short button, tall buttons, big buttons, small buttons...
 	These buttons size to their content (just like &lt;button&gt;).</p>
 	<div class="box">
@@ -159,41 +158,40 @@
 		<div style="clear: both;"></div>
 	</div>
 	<br clear=both>
-		<h2>Customized buttons</h2>
-	<p>Dojo users can mix in their styles.
-	Here's an example:</p>
+	<h2>Customized buttons</h2>
+	<p>Dojo users can customize styles.  Here's an example:</p>
 	<style>
-		.dc {
-			font-size: x-large !important;
-			padding-top: 10px !important;
-			padding-bottom: 10px !important;
-		}
-			.Acme *,
-		.Acme {
+		.acmeButton .dijitButtonNode {
 			background: rgb(96,96,96) !important;
 			color: white !important;
 			padding: 10px !important;
+			font-size: x-large !important;
+			padding-top: 10px !important;
+			padding-bottom: 10px !important;
+			border: 2px inset rgb(96,96,96);
 		}
-		.Acme:hover *,
-		.Acme:hover {
+		.acmeButtonHover .dijitButtonNode {
 			background-color: rgb(89,94,111) !important;
 			color: cyan !important;
 		}
-		.Acme:active *,
-		.Acme:active {
+		.acmeButtonFocused .dijitButtonNode {
+			border: yellow inset 2px;
+		}
+		.acmeButtonActive .dijitButtonNode {
 			background-color: white !important;
 			color: black !important;
+			border: 2px solid black !important;
 		}
 	</style>
 	<div class="box">
-		<button dojoType="dijit.form.Button" class="Acme" onclick='console.log("short");'>
-			<div class="dc">short</div>
+		<button baseClass="acmeButton" dojoType="dijit.form.Button" onclick='console.log("short");'>
+			short
 		</button>
-		<button dojoType="dijit.form.Button" class="Acme" onclick='console.log("longer");'>
-			<div class="dc">bit longer</div>
+		<button baseClass="acmeButton" dojoType="dijit.form.Button" onclick='console.log("longer");'>
+			bit longer
 		</button>
-		<button dojoType="dijit.form.Button" class="Acme" onclick='console.log("longer yet");'>
-			<div class="dc">ridiculously long</div>
+		<button baseClass="acmeButton" dojoType="dijit.form.Button" onclick='console.log("longer yet");'>
+			ridiculously long
 		</button>
 		<div style="clear: both;"></div>
 	</div>
