@@ -62,26 +62,38 @@ dojo.declare(
 						align[ltr ? "BL" : "BR"] = ltr ? "BR" : "BL";
 						break;
 					case "below":
-						align["BL"] = "TL";
+						// first try to align left borders, next try to align right borders (or reverse for RTL mode)
+						align[ltr ? "BL" : "BR"] = ltr ? "TL" : "TR";
+						align[ltr ? "BR" : "BL"] = ltr ? "TR" : "TL";
 						break;
 					case "above":
 					default:
-						align["TL"] = "BL";
+						// first try to align left borders, next try to align right borders (or reverse for RTL mode)
+						align[ltr ? "TL" : "TR"] = ltr ? "BL" : "BR";
+						align[ltr ? "TR" : "TL"] = ltr ? "BR" : "BL";
 						break;
 				}
 			});
-			var pos = dijit.placeOnScreenAroundElement(this.domNode, aroundNode, align,
-				function(node, aroundCorner, tooltipCorner){
-					// set CSS for node based on which position it's in
-					node.className = "dijitTooltip dijitTooltip" + 
-						{"BL-TL": "Below", "TL-BL": "Above", "BR-BL": "Right", "BL-BR": "Left"}[aroundCorner + "-" + tooltipCorner];
-				});
+			var pos = dijit.placeOnScreenAroundElement(this.domNode, aroundNode, align, dojo.hitch(this, "orient"));
 
 			// show it
 			dojo.style(this.domNode, "opacity", 0);
 			this.fadeIn.play();
 			this.isShowingNow = true;
 			this.aroundNode = aroundNode;
+		},
+
+		orient: function(/* DomNode */ node, /* String */ aroundCorner, /* String */ tooltipCorner){
+			// summary: private function to set CSS for tooltip node based on which position it's in
+			node.className = "dijitTooltip " +
+				{
+					"BL-TL": "dijitTooltipBelow dijitTooltipABLeft",
+					"TL-BL": "dijitTooltipAbove dijitTooltipABLeft",
+					"BR-TR": "dijitTooltipBelow dijitTooltipABRight",
+					"TR-BR": "dijitTooltipAbove dijitTooltipABRight",
+					"BR-BL": "dijitTooltipRight",
+					"BL-BR": "dijitTooltipLeft"
+				}[aroundCorner + "-" + tooltipCorner];
 		},
 
 		_onShow: function(){

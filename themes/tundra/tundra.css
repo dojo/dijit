@@ -724,7 +724,7 @@
 	padding: 8px;
 }
 
-/*Tooltip*/
+/* Tooltip and TooltipDialog */
 
 .tundra .dijitTooltip,
 .tundra .dijitTooltipDialog {
@@ -768,6 +768,8 @@
 }
 
 .tundra .dijitTooltipABRight .dijitTooltipConnector {
+	/* above or below tooltip, but the arrow appears on the right,
+		and the right edges of target and tooltip are aligned rather than the left */
 	left: auto !important;
 	right: 3px;
 }

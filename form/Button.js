@@ -198,7 +198,7 @@ dojo.declare("dijit.form.DropDownButton", [dijit.form.Button, dijit._Container],
 		if(e.keyCode == dojo.keys.DOWN_ARROW){
 			if(!this.dropDown || this.dropDown.domNode.style.display=="none"){
 				dojo.stopEvent(e);
-				return this._toggleDropDown();
+				this._toggleDropDown();
 			}
 		}
 	},
@@ -214,7 +214,7 @@ dojo.declare("dijit.form.DropDownButton", [dijit.form.Button, dijit._Container],
 		if(this.disabled || this.readOnly){ return; }
 		dijit.focus(this.popupStateNode);
 		var dropDown = this.dropDown;
-		if(!dropDown){ return false; }
+		if(!dropDown){ return; }
 		if(!dropDown.isShowingNow){
 			// If there's an href, then load that first, so we don't get a flicker
 			if(dropDown.href && !dropDown.isLoaded){
@@ -242,7 +242,9 @@ dojo.declare("dijit.form.DropDownButton", [dijit.form.Button, dijit._Container],
 			parent: this,
 			popup: dropDown,
 			around: this.domNode,
-			orient: this.isLeftToRight() ? {'BL':'TL', 'BR':'TR', 'TL':'BL', 'TR':'BR'}
+			orient:
+				// TODO: add user-defined positioning option, like in Tooltip.js
+				this.isLeftToRight() ? {'BL':'TL', 'BR':'TR', 'TL':'BL', 'TR':'BR'}
 				: {'BR':'TR', 'BL':'TL', 'TR':'BR', 'TL':'BL'},
 			onExecute: function(){
 				self._closeDropDown(true);
