@@ -47,12 +47,12 @@ dojo.declare(
 			if(this.disabled || this.readOnly){ return; }
 			this._arrowState(nodePressed, true);
 			this.setValue(this.adjust(this.getValue(), direction*this.smallDelta), false);
+			dijit.focus(this.textbox);
 		},
 
 		_arrowReleased: function(/*Node*/ node){
 			this._wheelTimer = null;
 			if(this.disabled || this.readOnly){ return; }
-			dijit.focus(this.textbox);
 			this._arrowState(node, false);
 		},
 
@@ -71,12 +71,13 @@ dojo.declare(
 			}else if(typeof evt.detail == 'number'){ // Mozilla+Firefox
 				scrollAmount = -evt.detail;
 			}
+			var node, dir;
 			if(scrollAmount > 0){
-				var node = this.upArrowNode;
-				var dir = +1;
+				node = this.upArrowNode;
+				dir = +1;
 			}else if(scrollAmount < 0){
-				var node = this.downArrowNode;
-				var dir = -1;
+				node = this.downArrowNode;
+				dir = -1;
 			}else{ return; }
 			this._arrowPressed(node, dir);
 			if(this._wheelTimer != null){

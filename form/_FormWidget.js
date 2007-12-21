@@ -130,6 +130,7 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 						self._setStateClass();
 						self.disconnect(mouseUpConnector);
 					});
+					if(this.isFocusable()){ this.focus(); }
 					break;
 			}
 			this._setStateClass();
@@ -137,11 +138,11 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 	},
 
 	isFocusable: function(){
-		return !this.disabled && !this.readOnly && (dojo.style(this.domNode, "display") != "none");
+		return !this.disabled && !this.readOnly && this.focusNode && (dojo.style(this.domNode, "display") != "none");
 	},
 
 	focus: function(){
-		dijit.focus(this.focusNode);
+		setTimeout(dojo.hitch(this, dijit.focus, this.focusNode), 0); // cannot call focus() from an event handler directly
 	},
 
 	_setStateClass: function(){
