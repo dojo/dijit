@@ -128,9 +128,11 @@ dojo.declare(
 
 			// Fill in localized prev/current/next years
 			var y = month.getFullYear() - 1;
+			var d = new Date();
 			dojo.forEach(["previous", "current", "next"], function(name){
+				d.setFullYear(y++);
 				this._setText(this[name+"YearLabelNode"],
-					dojo.date.locale.format(new Date(y++, 0), {selector:'year', locale:this.lang}));
+					dojo.date.locale.format(d, {selector:'year', locale:this.lang}));
 			}, this);
 
 			// Set up repeating mouse behavior
