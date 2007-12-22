@@ -274,7 +274,7 @@ dojo.declare("dijit.form._SliderMover",
 		if(!c){
 			var container = widget.sliderBarContainer;
 			var s = dojo.getComputedStyle(container);
-			var c = dojo._getContentBox(container, s);
+			c = dojo._getContentBox(container, s);
 			c[widget._startingPixelCount] = 0;
 			this.constraintBox = c;
 		}
@@ -286,9 +286,9 @@ dojo.declare("dijit.form._SliderMover",
 	},
 	
 	destroy: function(e){
+		dojo.dnd.Mover.prototype.destroy.apply(this, arguments);
 		var widget = this.widget;
 		widget.setValue(widget.value, true);
-		dojo.dnd.Mover.prototype.destroy.call(this);
 	}
 });
 
@@ -322,19 +322,21 @@ dojo.declare("dijit.form.HorizontalRule", [dijit._Widget, dijit._Templated],
 	_isHorizontal: true,
 
 	postCreate: function(){
+		var innerHTML;
 		if(this.count==1){
-			var innerHTML = this._genHTML(50, 0);
+			innerHTML = this._genHTML(50, 0);
 		}else{
+			var i;
 			var interval = 100 / (this.count-1);
 			if(!this._isHorizontal || this.isLeftToRight()){
-				var innerHTML = this._genHTML(0, 0);
-				for(var i=1; i < this.count-1; i++){
+				innerHTML = this._genHTML(0, 0);
+				for(i=1; i < this.count-1; i++){
 					innerHTML += this._genHTML(interval*i, i);
 				}
 				innerHTML += this._genHTML(100, this.count-1);
 			}else{
-				var innerHTML = this._genHTML(100, 0);
-				for(var i=1; i < this.count-1; i++){
+				innerHTML = this._genHTML(100, 0);
+				for(i=1; i < this.count-1; i++){
 					innerHTML += this._genHTML(100-interval*i, i);
 				}
 				innerHTML += this._genHTML(0, this.count-1);
