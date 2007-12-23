@@ -23,23 +23,23 @@ dojo.declare(
 	attributeMap: dojo.mixin(dojo.clone(dijit.form._FormWidget.prototype.attributeMap),
 		{style:"styleNode", 'class':"styleNode"}),
 
-	templateString: (dojo.isIE || dojo.isSafari || dojo.isMozilla) ?
-				((dojo.isIE || dojo.isSafari) ? '<fieldset id="${id}" class="dijitInline dijitInputField dijitTextArea" dojoAttachPoint="styleNode" waiRole="presentation"><div dojoAttachPoint="editNode,focusNode,eventNode" dojoAttachEvent="onpaste:_changing,oncut:_changing" waiRole="textarea" style="text-decoration:none;_padding-bottom:16px;display:block;overflow:auto;" contentEditable="true"></div>'
+	templateString: (dojo.isIE || dojo.isSafari || dojo.isFF) ?
+				((dojo.isIE || dojo.isSafari || dojo.isFF >= 3) ? '<fieldset id="${id}" class="dijitInline dijitInputField dijitTextArea" dojoAttachPoint="styleNode" waiRole="presentation"><div dojoAttachPoint="editNode,focusNode,eventNode" dojoAttachEvent="onpaste:_changing,oncut:_changing" waiRole="textarea" style="text-decoration:none;_padding-bottom:16px;display:block;overflow:auto;" contentEditable="true"></div>'
 					: '<span id="${id}" class="dijitReset">'+
 					'<iframe src="javascript:<html><head><title>${_iframeEditTitle}</title></head><body><script>var _postCreate=window.frameElement?window.frameElement.postCreate:null;if(_postCreate)_postCreate();</script></body></html>"'+
 							' dojoAttachPoint="iframe,styleNode" dojoAttachEvent="onblur:_onIframeBlur" class="dijitInline dijitInputField dijitTextArea"></iframe>')
 				+ '<textarea name="${name}" value="${value}" dojoAttachPoint="formValueNode" style="display:none;"></textarea>'
-				+ ((dojo.isIE || dojo.isSafari) ? '</fieldset>':'</span>')
-			: '<textarea id="${id}" name="${name}" value="${value}" dojoAttachPoint="formValueNode,editNode,focusNode,styleNode" class="dijitInputField dijitTextArea"></textarea>',
+				+ ((dojo.isIE || dojo.isSafari || dojo.isFF >= 3) ? '</fieldset>':'</span>')
+			: '<textarea id="${id}" name="${name}" value="${value}" dojoAttachPoint="formValueNode,editNode,focusNode,styleNode" class="dijitInputField dijitTextArea">'+dojo.isFF+'</textarea>',
 
 	setAttribute: function(/*String*/ attr, /*anything*/ value){
 		this.inherited(arguments);
 		switch(attr){
 			case "disabled":
 			case "readOnly":
-				if(dojo.isIE || dojo.isSafari){
+				if(dojo.isIE || dojo.isSafari || dojo.isFF >= 3){
 					this.editNode.contentEditable = (!this.disabled && !this.readOnly);
-				}else if(dojo.isMozilla){
+				}else if(dojo.isFF){
 					this.iframe.contentDocument.designMode = (this.disabled || this.readOnly)? "off" : "on";
 				}
 		}
@@ -50,7 +50,7 @@ dojo.declare(
 		if(!this.disabled && !this.readOnly){
 			this._changing(); // set initial height
 		}
-		if(dojo.isMozilla){
+		if(this.iframe){
 			dijit.focus(this.iframe);
 		}else{
 			dijit.focus(this.focusNode);
@@ -117,7 +117,7 @@ dojo.declare(
 		}
 		if(!this.value){ this.value = ""; }
 		this.value = this.value.replace(/\r\n/g,"\n").replace(/&gt;/g,">").replace(/&lt;/g,"<").replace(/&amp;/g,"&");
-		if(dojo.isMozilla){
+		if(dojo.isFF == 2){
 			// In the case of Firefox an iframe is used and when the text gets focus,
 			// focus is fired from the document object.  There isn't a way to put a
 			// waiRole on the document object and as a result screen readers don't
@@ -151,13 +151,14 @@ dojo.declare(
 	},
 
 	postCreate: function(){
-		if(dojo.isIE || dojo.isSafari){
+		if(dojo.isIE || dojo.isSafari || dojo.isFF >= 3){
 			this.domNode.style.overflowY = 'hidden';
-		}else if(dojo.isMozilla){
+		}else if(dojo.isFF){
 			var w = this.iframe.contentWindow;
+			var title = '';
 			try { // #4715: peeking at the title can throw a security exception during iframe setup
-				var title = this.iframe.contentDocument.title;
-			} catch(e) { var title = ''; }
+				title = this.iframe.contentDocument.title;
+			} catch(e) {}
 			if(!w || !title){
 				this.iframe.postCreate = dojo.hitch(this, this.postCreate);
 				return;
