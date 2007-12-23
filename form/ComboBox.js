@@ -88,9 +88,10 @@ dojo.declare(
 
 		_getCaretPos: function(/*DomNode*/ element){
 			// khtml 3.5.2 has selection* methods as does webkit nightlies from 2005-06-22
+			var pos = 0;
 			if(typeof(element.selectionStart)=="number"){
 				// FIXME: this is totally borked on Moz < 1.3. Any recourse?
-				return element.selectionStart;
+				pos = element.selectionStart;
 			}else if(dojo.isIE){
 				// in the case of a mouse click in a popup being handled,
 				// then the document.selection is not the textarea, but the popup
@@ -105,11 +106,12 @@ dojo.declare(
 					// Seems to happen on reverse-tab, but can also happen on tab (seems to be a race condition - only happens sometimes).
 					// There appears to be no workaround for this - googled for quite a while.
 					ntr.setEndPoint("EndToEnd", tr);
-					return String(ntr.text).replace(/\r/g,"").length;
+					pos = String(ntr.text).replace(/\r/g,"").length;
 				}catch(e){
-					return 0; // If focus has shifted, 0 is fine for caret pos.
+					// If focus has shifted, 0 is fine for caret pos.
 				}
 			}
+			return pos;
 		},
 
 		_setCaretPos: function(/*DomNode*/ element, /*Number*/ location){
@@ -543,9 +545,10 @@ dojo.declare(
 
 				// if there is no value set and there is an option list,
 				// set the value to the first value to be consistent with native Select
-				if(items && items.length && !this.value){
-					// For <select>, IE does not let you set the value attribute of the srcNodeRef (and thus dojo.mixin does not copy it).
-					// IE does understand selectedIndex though, which is automatically set by the selected attribute of an option tag
+				// Firefox and Safari set value
+				// IE6 and Opera set selectedIndex, which is automatically set by the selected attribute of an option tag
+				// IE6 does not set value, Opera sets value = selectedIndex
+				if(items && items.length && (!this.value || ((typeof this.srcNodeRef.selectedIndex == "number") && this.srcNodeRef.selectedIndex.toString() === this.value))){
 					this.value = items[this.srcNodeRef.selectedIndex != -1 ? this.srcNodeRef.selectedIndex : 0]
 						[this._getValueField()];
 				}
@@ -556,7 +559,7 @@ dojo.declare(
 			if(this._popupWidget){
 				this._hideResultList();
 				this._popupWidget.destroy()
-			};
+			}
 		},
 
 		_getMenuLabelFromItem:function(/*Item*/ item){
