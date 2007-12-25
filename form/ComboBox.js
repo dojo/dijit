@@ -56,6 +56,13 @@ dojo.declare(
 		//		Searches pattern match against this field
 		searchAttr: "name",
 
+		// queryExpr: String
+		//		dojo.data query expression pattern.
+		//		${0} will be substituted for the user text.
+		//		* is used for wildcards.
+		//		${0}* means "starts with", *${0}* means "contains", ${0} means "is"
+		queryExpr: "${0}*",
+
 		// ignoreCase: Boolean
 		//		Set true if the ComboBox should ignore case when matching possible items
 		ignoreCase: true,
@@ -482,6 +489,10 @@ dojo.declare(
 			this._startSearch(this.focusNode.value);
 		},
 
+		_getQueryString: function(/*String*/ text){
+			return dojo.string.substitute(this.queryExpr, [text]);
+		},
+
 		_startSearch: function(/*String*/ key){
 			if(!this._popupWidget){
 				this._popupWidget = new dijit.form._ComboBoxMenu({
@@ -490,7 +501,7 @@ dojo.declare(
 			}
 			// create a new query to prevent accidentally querying for a hidden value from FilteringSelect's keyField
 			var query=this.query;
-			this._lastQuery=query[this.searchAttr]=key+"*";
+			this._lastQuery=query[this.searchAttr] = this._getQueryString(key);
 			var dataObject=this.store.fetch({queryOptions:{ignoreCase:this.ignoreCase, deep:true}, query: query, onComplete:dojo.hitch(this, "_openResultList"), start:0, count:this.pageSize});
 			function nextSearch(dataObject, direction){
 				dataObject.start+=dataObject.count*direction;
