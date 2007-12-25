@@ -28,7 +28,9 @@ dojo.declare(
 		value: new Date(""),	// NaN
 		_invalid: (new Date("")).toString(),	// NaN
 
-		_popupClass: "",
+		// popupClass: String
+		//              Name of the popup widget class used to select a date/time
+		popupClass: "", // default is no popup = text only
 		_selector: "",
 
 		postMixInProperties: function(){
@@ -60,12 +62,12 @@ dojo.declare(
 			// summary:
 			//	opens the TimePicker, and sets the onValueSelected value
 
-			if(this.disabled || this.readOnly){return;}
+			if(this.disabled || this.readOnly || !this.popupClass){return;}
 
 			var self = this;
 
 			if(!this._picker){
-				var popupProto=dojo.getObject(this._popupClass, false);
+				var popupProto=dojo.getObject(this.popupClass, false);
 				this._picker = new popupProto({
 					onValueSelected: function(value){
 
