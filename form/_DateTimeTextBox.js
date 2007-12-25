@@ -1,17 +1,16 @@
-dojo.provide("dijit.form.TimeTextBox");
+dojo.provide("dijit.form._DateTimeTextBox");
 
 dojo.require("dojo.date");
 dojo.require("dojo.date.locale");
 dojo.require("dojo.date.stamp");
-dojo.require("dijit._TimePicker");
 dojo.require("dijit.form.ValidationTextBox");
 
 dojo.declare(
-	"dijit.form.TimeTextBox",
+	"dijit.form._DateTimeTextBox",
 	dijit.form.RangeBoundTextBox,
 	{
 		// summary:
-		//		A validating, serializable, range-bound date text box.
+		//		A validating, serializable, range-bound date or time text box.
 
 		// constraints object: min, max
 		regExpGen: dojo.date.locale.regexp,
@@ -29,13 +28,14 @@ dojo.declare(
 		value: new Date(""),	// NaN
 		_invalid: (new Date("")).toString(),	// NaN
 
-		_popupClass: "dijit._TimePicker",
+		_popupClass: "",
+		_selector: "",
 
 		postMixInProperties: function(){
 			//dijit.form.RangeBoundTextBox.prototype.postMixInProperties.apply(this, arguments);
 			this.inherited("postMixInProperties",arguments);
 			var constraints = this.constraints;
-			constraints.selector = 'time';
+			constraints.selector = this._selector;
 			if(typeof constraints.min == "string"){ constraints.min = dojo.date.stamp.fromISOString(constraints.min); }
  			if(typeof constraints.max == "string"){ constraints.max = dojo.date.stamp.fromISOString(constraints.max); }
 		},
@@ -73,13 +73,13 @@ dojo.declare(
 						setTimeout(dojo.hitch(self, "_close"), 1); // allow focus time to take
 
 						// this will cause InlineEditBox and other handlers to do stuff so make sure it's last
-						dijit.form.TimeTextBox.superclass.setValue.call(self, value, true);
+						dijit.form._DateTimeTextBox.superclass.setValue.call(self, value, true);
 					},
 					lang: this.lang,
 					constraints:this.constraints,
 					isDisabledDate: function(/*Date*/ date){
 						// summary:
-						// 	disables dates outside of the min/max of the TimeTextBox
+						// 	disables dates outside of the min/max of the _DateTimeTextBox
 						return self.constraints && (dojo.date.compare(self.constraints.min,date) > 0 || dojo.date.compare(self.constraints.max,date) < 0);
 					}
 				});
