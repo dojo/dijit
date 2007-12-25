@@ -47,7 +47,7 @@ dojo.declare(
 			this._open();
 		},
 
-		setValue: function(/*Date*/ value, /*Boolean, optional*/ priorityChange){
+		setValue: function(/*Date*/ value, /*Boolean, optional*/ priorityChange, /*String, optional*/ formattedValue){
 			// summary:
 			//	Sets the date on this textbox
 			this.inherited('setValue', arguments);
@@ -120,7 +120,7 @@ dojo.declare(
 		},
 
 		setDisplayedValue:function(/*String*/ value){
-			this.textbox.value=value;
+			this.setValue(this.parse(value, this.constraints), true, value);
 		}
 	}
 );
