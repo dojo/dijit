@@ -101,7 +101,7 @@ dojo.declare("dijit._TimePicker",
 			// divide the visible increments by the clickable increments to get how often to display the time inline
 			// example: 01:00:00/00:15:00 -> display the time every 4 divs
 			this._visibleIncrement=visibleIncrementSeconds/clickableIncrementSeconds;
-			for(var i=-this._totalIncrements/2; i<=this._totalIncrements/2; i+=this._clickableIncrement){
+			for(var i=-(this._totalIncrements >> 1); i<(this._totalIncrements >> 1); i+=this._clickableIncrement){
 				var div=this._createOption(i);
 				this.timeMenu.appendChild(div);
 			}
