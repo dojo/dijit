@@ -76,6 +76,11 @@ dojo.declare("dijit.layout.SplitContainer",
 		dojo.setSelectable(sizer, false);
 	},
 
+	destroy: function(){
+		delete this.virtualSizer;
+		dojo.forEach(this._ownconnects, dojo.disconnect);
+		this.inherited(arguments);
+	},
 	startup: function(){
 		if(this._started){ return; }
 
@@ -105,6 +110,8 @@ dojo.declare("dijit.layout.SplitContainer",
 
 		// TODO: use a template for this!!!
 		var sizer = this.sizers[i] = document.createElement('div');
+		this.domNode.appendChild(sizer);
+
 		sizer.className = this.isHorizontal ? 'dijitSplitContainerSizerH' : 'dijitSplitContainerSizerV';
 
 		// add the thumb div
@@ -115,23 +122,24 @@ dojo.declare("dijit.layout.SplitContainer",
 		// FIXME: are you serious? why aren't we using mover start/stop combo?
 		var self = this;
 		var handler = (function(){ var sizer_i = i; return function(e){ self.beginSizing(e, sizer_i); } })();
-		dojo.connect(sizer, "onmousedown", handler);
-
-		this.domNode.appendChild(sizer);
+		this.connect(sizer, "onmousedown", handler);
+		
 		dojo.setSelectable(sizer, false);
 	},
 
 	removeChild: function(widget){
 		// summary: Remove sizer, but only if widget is really our child and
 		// we have at least one sizer to throw away
-		if(this.sizers.length && dojo.indexOf(this.getChildren(), widget) != -1){
-			var i = this.sizers.length - 1;
-			dojo._destroyElement(this.sizers[i]);
-			this.sizers.length--;
+		if(this.sizers.length){
+			var i=dojo.indexOf(this.getChildren(), widget)
+			if(i != -1){
+				dojo._destroyElement(this.sizers[i]);
+				this.sizers.splice(i,1);
+			}
 		}
 
 		// Remove widget and repaint
-		this.inherited("removeChild",arguments); 
+		this.inherited(arguments); 
 		if(this._started){
 			this.layout();
 		}
@@ -376,9 +384,9 @@ dojo.declare("dijit.layout.SplitContainer",
 		//					
 		// attach mouse events
 		//
-		this._connects = [];
-		this._connects.push(dojo.connect(document.documentElement, "onmousemove", this, "changeSizing"));
-		this._connects.push(dojo.connect(document.documentElement, "onmouseup", this, "endSizing"));
+		this._ownconnects = [];
+		this._ownconnects.push(dojo.connect(document.documentElement, "onmousemove", this, "changeSizing"));
+		this._ownconnects.push(dojo.connect(document.documentElement, "onmouseup", this, "endSizing"));
 
 		dojo.stopEvent(e);
 	},
@@ -412,7 +420,7 @@ dojo.declare("dijit.layout.SplitContainer",
 			this._saveState(this);
 		}
 
-		dojo.forEach(this._connects,dojo.disconnect); 
+		dojo.forEach(this._ownconnects,dojo.disconnect); 
 	},
 
 	movePoint: function(){
