@@ -1018,11 +1018,8 @@
 }
 
 .tundra .dijitCalendarMonthLabel {
-	/* day of week labels */
 	color:#293a4b;
-	font-size: 0.75em;
 	font-weight: bold;
-	text-align:center;
 }
 
 .dj_ie7 .tundra .dijitCalendarDateTemplate,
