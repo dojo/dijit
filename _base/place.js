@@ -11,6 +11,8 @@ dijit.getViewport = function(){
 
 	// get viewport size
 	var w = 0, h = 0;
+	var de = _document.documentElement;
+	var dew = de.clientWidth, deh = de.clientHeight;
 	if(dojo.isMozilla){
 		// mozilla
 		// _window.innerHeight includes the height taken by the scroll bar
@@ -18,19 +20,21 @@ dijit.getViewport = function(){
 		// #4539: FF reverses the roles of body.clientHeight/Width and documentElement.clientHeight/Width based on the DTD!
 		// check DTD to see whether body or documentElement returns the viewport dimensions using this algorithm:
 		var minw, minh, maxw, maxh;
-		if(_document.body.clientWidth>_document.documentElement.clientWidth){
-			minw = _document.documentElement.clientWidth;
-			maxw = _document.body.clientWidth;
+		var dbw = _document.body.clientWidth;
+		if(dbw > dew){
+			minw = dew;
+			maxw = dbw;
 		}else{
-			maxw = _document.documentElement.clientWidth;
-			minw = _document.body.clientWidth;
+			maxw = dew;
+			minw = dbw;
 		}
-		if(_document.body.clientHeight>_document.documentElement.clientHeight){
-			minh = _document.documentElement.clientHeight;
-			maxh = _document.body.clientHeight;
+		var dbh = _document.body.clientHeight;
+		if(dbh > deh){
+			minh = deh;
+			maxh = dbh;
 		}else{
-			maxh = _document.documentElement.clientHeight;
-			minh = _document.body.clientHeight;
+			maxh = deh;
+			minh = dbh;
 		}
 		w = (maxw > _window.innerWidth) ? minw : maxw;
 		h = (maxh > _window.innerHeight) ? minh : maxh;
@@ -40,9 +44,9 @@ dijit.getViewport = function(){
 		//so we have to check whether it is opera
 		w = _window.innerWidth;
 		h = _window.innerHeight;
-	}else if(dojo.isIE && _document.documentElement && _document.documentElement.clientHeight){
-		w = _document.documentElement.clientWidth;
-		h = _document.documentElement.clientHeight;
+	}else if(dojo.isIE && de && deh){
+		w = dew;
+		h = deh;
 	}else if(dojo.body().clientWidth){
 		// IE5, Opera
 		w = dojo.body().clientWidth;
@@ -103,52 +107,51 @@ dijit._place = function(/*DomNode*/ node, /* Array */ choices, /* Function */ la
 		dojo.body().appendChild(node);
 	}
 
-	var best=null;
-	for(var i=0; i<choices.length; i++){
-		var corner = choices[i].corner;
-		var pos = choices[i].pos;
+	var best = null;
+	dojo.some(choices, function(choice){
+		var corner = choice.corner;
+		var pos = choice.pos;
 
 		// configure node to be displayed in given position relative to button
 		// (need to do this in order to get an accurate size for the node, because
 		// a tooltips size changes based on position, due to triangle)
 		if(layoutNode){
-			layoutNode(node, choices[i].aroundCorner, corner);
+			layoutNode(node, choice.aroundCorner, corner);
 		}
 
 		// get node's size
-		var oldDisplay = node.style.display;
-		var oldVis = node.style.visibility;
-		node.style.visibility = "hidden";
-		node.style.display = "";
+		var style = node.style;
+		var oldDisplay = style.display;
+		var oldVis = style.visibility;
+		style.visibility = "hidden";
+		style.display = "";
 		var mb = dojo.marginBox(node);
-		node.style.display = oldDisplay;
-		node.style.visibility = oldVis;
+		style.display = oldDisplay;
+		style.visibility = oldVis;
 
 		// coordinates and size of node with specified corner placed at pos,
 		// and clipped by viewport
-		var startX = (corner.charAt(1)=='L' ? pos.x : Math.max(view.l, pos.x - mb.w)),
-			startY = (corner.charAt(0)=='T' ? pos.y : Math.max(view.t, pos.y -  mb.h)),
-			endX = (corner.charAt(1)=='L' ? Math.min(view.l+view.w, startX+mb.w) : pos.x),
-			endY = (corner.charAt(0)=='T' ? Math.min(view.t+view.h, startY+mb.h) : pos.y),
-			width = endX-startX,
-			height = endY-startY,
-			overflow = (mb.w-width) + (mb.h-height);
+		var startX = (corner.charAt(1) == 'L' ? pos.x : Math.max(view.l, pos.x - mb.w)),
+			startY = (corner.charAt(0) == 'T' ? pos.y : Math.max(view.t, pos.y -  mb.h)),
+			endX = (corner.charAt(1) == 'L' ? Math.min(view.l + view.w, startX + mb.w) : pos.x),
+			endY = (corner.charAt(0) == 'T' ? Math.min(view.t + view.h, startY + mb.h) : pos.y),
+			width = endX - startX,
+			height = endY - startY,
+			overflow = (mb.w - width) + (mb.h - height);
 
-		if(best==null || overflow<best.overflow){
+		if(best == null || overflow < best.overflow){
 			best = {
 				corner: corner,
-				aroundCorner: choices[i].aroundCorner,
-				x: (!dojo._isBodyLtr() && dojo.isIE && startX < 0) ? document.body.clientWidth + startX : startX,
+				aroundCorner: choice.aroundCorner,
+				x: startX,
 				y: startY,
 				w: width,
 				h: height,
 				overflow: overflow
 			};
 		}
-		if(overflow==0){
-			break;
-		}
-	}
+		return !overflow;
+	});
 
 	node.style.left = best.x + "px";
 	node.style.top = best.y + "px";
@@ -193,8 +196,8 @@ dijit.placeOnScreenAroundElement = function(
 			aroundCorner: nodeCorner,
 			corner: aroundCorners[nodeCorner],
 			pos: {
-				x: aroundNodePos.x + (nodeCorner.charAt(1)=='L' ? 0 : aroundNodeW),
-				y: aroundNodePos.y + (nodeCorner.charAt(0)=='T' ? 0 : aroundNodeH)
+				x: aroundNodePos.x + (nodeCorner.charAt(1) == 'L' ? 0 : aroundNodeW),
+				y: aroundNodePos.y + (nodeCorner.charAt(0) == 'T' ? 0 : aroundNodeH)
 			}
 		});
 	}
