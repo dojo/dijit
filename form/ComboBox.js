@@ -1,6 +1,5 @@
 dojo.provide("dijit.form.ComboBox");
 
-dojo.require("dojo.data.ItemFileReadStore");
 dojo.require("dijit.form.ValidationTextBox");
 dojo.requireLocalization("dijit.form", "ComboBox");
 
@@ -622,21 +621,9 @@ dojo.declare(
 			}
 			if(!this.store){
 				var srcNodeRef = this.srcNodeRef;
-				// if user didn't specify store, then assume there are option tags
-				var items = srcNodeRef ? dojo.query("> option", srcNodeRef).map(function(node){
-					node.style.display="none";
-					return { 
-						value: node.getAttribute("value"), 
-						name: String(node.innerHTML) 
-					};
-				}) : {};
 
-				this.store = new dojo.data.ItemFileReadStore({
-					data: {
-						identifier: this._getValueField(), 
-						items: items
-					}
-				});
+				// if user didn't specify store, then assume there are option tags
+				this.store = new dijit.form._ComboBoxDataStore(srcNodeRef);
 
 				// if there is no value set and there is an option list, set
 				// the value to the first value to be consistent with native
@@ -646,14 +633,14 @@ dojo.declare(
 				// IE6 and Opera set selectedIndex, which is automatically set
 				// by the selected attribute of an option tag
 				// IE6 does not set value, Opera sets value = selectedIndex
-				if(	items && 
-					items.length && 
-					(!this.value || (
+				if(	!this.value || (
 						(typeof srcNodeRef.selectedIndex == "number") && 
 						srcNodeRef.selectedIndex.toString() === this.value)
-					)
 				){
-					this.value = items[Math.max(srcNodeRef.selectedIndex, 0)][this._getValueField()];
+					var item = this.store.fetchSelectedItem();
+					if(item){
+						this.value = this.store.getValue(item, this._getValueField());
+					}
 				}
 			}
 		},
@@ -954,3 +941,94 @@ dojo.declare(
 		}
 	}
 );
+
+dojo.declare("dijit.form._ComboBoxDataStore", null, {
+	//	summary:
+	//		Inefficient but small data store specialized for inlined combobox data like:
+	//		<select>
+	//			<option value="AL">Alabama</option>
+	//			...
+	//		Actually. just implements the subset of dojo.data.Read/Notification
+	//		needed for ComboBox and FilteringSelect to work.
+	//
+	//		Note that an item is just a pointer to the <option> DomNode.
+
+	constructor: function( /*DomNode*/ root){
+		this.root = root;
+/*
+		//	TODO: this was added in #3858 but unclear why/if it's needed;  doesn't seem to be.
+		//	If it is needed then can we just hide the select itself instead?
+		dojo.query("> option", root).forEach(function(node){
+			node.style.display="none";
+		});
+*/
+	},
+
+	getValue: function(	/* item */ item, 
+						/* attribute-name-string */ attribute, 
+						/* value? */ defaultValue){
+		return attribute == "value" ? item.value : item.innerHTML;
+	},
+
+	isItemLoaded: function(/* anything */ something) {
+		return true;
+	},
+
+	fetch: function(/* Object */ args){
+		//	summary:
+		//		Given a query like
+		//		{
+		// 			query: {name: "Cal*"},
+		//			start: 30,
+		//			count: 20,
+		//			ignoreCase: true,
+		//			onComplete: function(/* item[] */ items, /* Object */ args){...}
+		// 		}
+		//		will call onComplete() with the results of the query (and the argument to this method)
+
+		// convert query to regex (ex: convert "Cal*" to /^Cal.*$/i) and get matching vals
+		var query = "^" + args.query.name.replace("*", ".*") + "$",
+			matcher = new RegExp(query, args.queryOptions.ignoreCase ? "i" : ""),
+			items = dojo.query("> option", this.root).filter(function(option){
+				return option.innerHTML.match(matcher);
+			} );
+
+		var start = args.start || 0,
+			end = ("count" in args && args.count != Infinity) ? (start + args.count) : items.length ;
+		args.onComplete(items.slice(start, end), args);
+		return args;
+		// TODO: I don't need to return the length?
+	},
+
+	close: function(/*dojo.data.api.Request || args || null */ request){
+		return;
+	},
+
+	getLabel: function(/* item */ item){
+		return item.innerHTML;
+	},
+
+	getIdentity: function(/* item */ item){
+		return dojo.attr(item, "value");
+	},
+
+	fetchItemByIdentity: function(/* object */ args){
+		//	summary:
+		//		Given arguments like:
+		//			{identity: "CA", onItem: function(item){...}
+		//		Call onItem() with the DOM node <option value="CA">California</option>
+		return dojo.query("option[value='" + args.identity + "']", this.root)[0];
+	},
+	
+	fetchSelectedItem: function(){
+		// summary
+		//		Get the option marked as selected, like <option selected>.
+		//		Not part of dojo.data API.
+		var root = this.root,
+			si = root.selectedIndex;
+		return dojo.query("> option:nth-child(" +
+			(si != -1 ? si+1 : 1) + ")",
+			root)[0];	// dojo.data.Item
+	}
+});
+
