@@ -38,6 +38,7 @@ dojo.declare(
 		// query: Object
 		//		A query that can be passed to 'store' to initially filter the items,
 		//		before doing further filtering based on searchAttr and the key.
+		//		Any reference to the searchAttr is ignored.
 		query: {},
 
 		// autoComplete: Boolean
