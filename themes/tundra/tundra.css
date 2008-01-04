@@ -161,7 +161,7 @@
 }
 
 .tundra .dijitArrowButtonInner {
-	background:url("images/arrowDown.png") no-repeat center;
+	background:url("images/arrowDown.png") no-repeat center center;
 }
 .tundra .dijitUpArrowButton .dijitArrowButtonInner { background-image:url("images/arrowUp.png"); }
 .dj_ie6 .tundra .dijitArrowButtonInner {
@@ -194,7 +194,6 @@
 .tundra .dijitComboBox,
 .tundra .dijitSpinner {
 	margin: 0em 0.1em;
-	font-family:inherit;
 }
 
 .tundra .dijitTextBox,

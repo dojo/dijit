@@ -40,10 +40,16 @@
 .dj_ie INPUT.dijitTextBox,
 .dj_ie .dijitInputField INPUT {
 	font-size: 100%;
+	font-family: expression(this.parentNode.currentStyle? this.parentNode.currentStyle.fontFamily : document.documentElement.currentStyle.fontFamily);
+	font-weight: expression(this.parentNode.currentStyle? this.parentNode.currentStyle.fontWeight : document.documentElement.currentStyle.fontWeight);
+	font-style:  expression(this.parentNode.currentStyle? this.parentNode.currentStyle.fontStyle  : document.documentElement.currentStyle.fontStyle);
 }
 
 .dj_ie .dijitInputField INPUT { /* try to get rid of IE implicit margin around INPUT */
 	margin: -1px 0px !important;
+}
+.dj_iequirks .dijitInputField INPUT { /* try to get rid of IE implicit margin around INPUT */
+	margin-top: -3px !important;
 }
 
 .dijitInlineTable {
@@ -261,26 +267,28 @@ DIV.dijitArrowButton {
 }
 
 .dijitSpinner .dijitInputLayoutContainer .dijitArrowButton {
-	line-height: 100%;
 	border-style: solid;
-	border-width: 0 0 0 1px;
+	border-width: 0 0 0 1px !important;
 	padding: 0;
 	position: absolute;
 	right: 0px;
 	float: none;
-	font-size: 50%;
-	font-family: sans-serif; /* need good consistent x-height for IE */
+}
+.dijitSpinner .dijitInputLayoutContainer .dijitArrowButton {
+	position: absolute;
+	height: 50%;
+}
+.dj_ie .dijitSpinner .dijitInputLayoutContainer .dijitArrowButton {
+	height: expression(this.parentNode.offsetHeight/2);
 }
 .dijitSpinner .dijitInputLayoutContainer .dijitDownArrowButton {
-	position: absolute;
-	top: 50%;
-	height: 50%;
-	border-top-width: 1px;
+	top: none;
+	bottom: 0px;
+	border-top-width: 1px !important;
 }
 .dijitSpinner .dijitInputLayoutContainer .dijitUpArrowButton {
-	position: absolute;
-	top:0%;
-	height: 50%;
+	top: 0px;
+	bottom: none;
 }
 
 .dijitComboButton TABLE {
@@ -367,9 +375,10 @@ table .dijitComboButton .dijitButtonNode {
 	visibility: hidden;
 	display: none;
 	float:right;
+	font-family: sans-serif;
 	font-style:italic;
-	font-size:75%;
-	line-height:150%;
+	font-size: 0.45em;
+	line-height: 190%;
 }
 .dijit_a11y .dijitValidationIcon { display: none !important; }
 .dijit_a11y .dijitValidationIconText { display: block !important; }
@@ -1413,7 +1422,6 @@ img.dijitColorPaletteUnder {
 }
 
 .dijitArrowButtonChar {
-	width: 1.0em;
 	display:none !important;
 }
 .dijit_a11y .dijitArrowButtonChar {
@@ -1423,39 +1431,33 @@ img.dijitColorPaletteUnder {
 	position: relative;
 	overflow: hidden;
 }
-.dijitSpinner .dijitInputLayoutContainer {
-	padding-right: 20px;
+.dijitSpinnerButtonContainer {
+	float: right;
+	width: 18px;
+	position: relative;
+	overflow: hidden;
 }
 .dijitSpinner .dijitInputLayoutContainer .dijitArrowButton {
-	width: 18px;
-	padding: 0;
+	height: 50%;
+	width: 16px;
+	overflow: hidden;
+}
+.dj_ie .dijitSpinner .dijitInputLayoutContainer .dijitArrowButton {
+	height: expression(this.parentNode? this.parentNode.offsetHeight/2 : '16px');
 }
 .dijitSpinner .dijitInputLayoutContainer .dijitArrowButtonInner {
-	margin: 0px 1px;
-	padding: 8px 8px;
-}
-.dijitSpinner .dijitInputLayoutContainer .dijitUpArrowButton .dijitArrowButtonInner {
-	padding:1px 0 0 0;
-	#padding: 0;
-	#line-height: 1.30em;
-}
-.dijitSpinner .dijitInputLayoutContainer .dijitDownArrowButton .dijitArrowButtonInner {
-	padding:0 0 1px 0;
-	#padding: 0;
-	#line-height: 1.15em;
-}
-.dijit_a11y .dijitSpinner .dijitInputLayoutContainer {
-	padding-right: 1.1em;
+	overflow: hidden;
+	line-height: 50%;
 }
 .dijit_a11y .dijitSpinner .dijitInputLayoutContainer .dijitArrowButton {
-	width: 1.5em;
-	padding: 0 0.2em;
+	width: 100%;
 }
-.dijit_a11y .dijitSpinner .dijitArrowButtonChar {
-	font-size: 115%;
+.dijit_a11y .dijitSpinner .dijitArrowButton .dijitArrowButtonChar {
+	font-size: 0.4em;
+	vertical-align: top;
 }
-
-.dj_ie .dijitComboBox .dijitArrowButton .dijitArrowButtonInner {
-	padding: 1px 0;
-	line-height: 1.13em;
+.dijit_a11y .dijitSpinnerButtonContainer {
+	width: 0.5em;
+	margin-left: 2px;
+	overflow: visible;
 }

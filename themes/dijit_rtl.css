@@ -166,19 +166,19 @@
 	float: left;
 }
 
-.dijitRtl .dijitSpinner .dijitArrowButton {
+.dijitRtl .dijitSpinner .dijitInputLayoutContainer .dijitArrowButton {
 	right: none;
 	left: 0px;
+        border-width: 0 1px 0 0 !important;
 }
 
-.dijitRtl .dijitSpinner .dijitInputLayoutContainer {
-	padding-right: 0px;
-	padding-left: 22px;
+.dijitRtl .dijitSpinnerButtonContainer {
+        float: left;
 }
 
-.dijitRtl .dijit_a11y .dijitSpinner .dijitInputLayoutContainer {
-	padding-right: 0;
-	padding-left: 1.1em;
+.dijitRtl .dijit_a11y .dijitSpinnerButtonContainer {
+        margin-left: none;
+        margin-right: 2px;
 }
 
 .dijitRtl DIV.dijitArrowButton {
