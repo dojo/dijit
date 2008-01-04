@@ -714,7 +714,7 @@ dojo.declare(
 			//		creates an option to appear on the popup menu subclassed by
 			//		FilteringSelect
 
-			var labelObject=labelFunc(item);
+			var labelObject = labelFunc(item);
 			var menuitem = document.createElement("div");
 			if(labelObject.html){
 				menuitem.innerHTML = labelObject.label;
@@ -967,7 +967,7 @@ dojo.declare("dijit.form._ComboBoxDataStore", null, {
 	getValue: function(	/* item */ item, 
 						/* attribute-name-string */ attribute, 
 						/* value? */ defaultValue){
-		return attribute == "value" ? item.value : item.innerHTML;
+		return (attribute == "value") ? item.value : (item.innerText || item.textContent);
 	},
 
 	isItemLoaded: function(/* anything */ something) {
