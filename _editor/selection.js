@@ -175,7 +175,9 @@ dojo.mixin(dijit._editor.selection, {
 			var range = element.ownerDocument.body.createTextRange();
 			range.moveToElementText(element);
 			if(!nochangefocus){
-				range.select(); // IE throws an exception here if the widget is hidden.  See #5439
+				try{
+					range.select(); // IE throws an exception here if the widget is hidden.  See #5439
+				}catch(e){ /* squelch */}
 			}
 		}else if(_window.getSelection){
 			var selection = _window.getSelection();
