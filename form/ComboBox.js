@@ -986,11 +986,13 @@ dojo.declare("dijit.form._ComboBoxDataStore", null, {
 		// 		}
 		//		will call onComplete() with the results of the query (and the argument to this method)
 
-		// convert query to regex (ex: convert "Cal*" to /^Cal.*$/i) and get matching vals
-		var query = "^" + args.query.name.replace("*", ".*") + "$",
+		// convert query to regex (ex: convert "first\last*" to /^first\\last.*$/i) and get matching vals
+		var query = "^" + args.query.name
+				.replace(/([\\\|\(\)\[\{\^\$\+\?\.\<\>])/g, "\\$1")
+				.replace("*", ".*") + "$",
 			matcher = new RegExp(query, args.queryOptions.ignoreCase ? "i" : ""),
 			items = dojo.query("> option", this.root).filter(function(option){
-				return option.innerHTML.match(matcher);
+				return (option.innerText || option.textContent).match(matcher);
 			} );
 
 		var start = args.start || 0,
