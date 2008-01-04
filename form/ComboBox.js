@@ -1017,7 +1017,8 @@ dojo.declare("dijit.form._ComboBoxDataStore", null, {
 		//		Given arguments like:
 		//			{identity: "CA", onItem: function(item){...}
 		//		Call onItem() with the DOM node <option value="CA">California</option>
-		return dojo.query("option[value='" + args.identity + "']", this.root)[0];
+		var item = dojo.query("option[value='" + args.identity + "']", this.root)[0];
+		args.onItem(item);
 	},
 	
 	fetchSelectedItem: function(){
