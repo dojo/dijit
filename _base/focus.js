@@ -50,7 +50,7 @@ dojo.mixin(dijit,
 				bookmark = range.getBookmark();
 			}
 		}else{
-			if(dojo.global.getSelection){
+			if(window.getSelection){
 				selection = dojo.global.getSelection();
 				if(selection){
 					var range = selection.getRangeAt(0);
