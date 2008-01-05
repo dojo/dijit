@@ -408,6 +408,7 @@ table .dijitComboButton .dijitButtonNode {
 	height: 16px;
 	background-position:center center;
 	background-repeat:no-repeat;
+	overflow: hidden;
 }
 
 .dijitCheckBox INPUT,
@@ -420,7 +421,6 @@ table .dijitComboButton .dijitButtonNode {
 .dijitCheckBoxInput {
 	/* place the actual input on top, but all-but-invisible */
 	opacity: 0.01;
-	overflow:hidden;
 }
 
 .dj_ie .dijitCheckBoxInput {
