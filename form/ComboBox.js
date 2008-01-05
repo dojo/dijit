@@ -312,11 +312,8 @@ dojo.declare(
 			// IE7: clear selection so next highlight works all the time
 			this._setSelectedRange(	fn, fn.value.length, fn.value.length);
 			// does text autoComplete the value in the textbox?
-			// #3744: escape regexp so the user's input isn't treated as a regular expression.
-			// Example: If the user typed "(" then the regexp would throw "unterminated parenthetical."
-			// Also see #2558 for the autocompletion bug this regular expression fixes.
-			var re = new RegExp("^"+escape(fn.value), this.ignoreCase ? "i" : "");
-			if(re.test(escape(text))){
+			var caseFilter = this.ignoreCase? 'toLowerCase' : 'substr';
+			if(text[caseFilter](0).indexOf(this.focusNode.value[caseFilter](0)) == 0){
 				var cpos = this._getCaretPos(fn);
 				// only try to extend if we added the last character at the end of the input
 				if((cpos+1) > fn.value.length){
