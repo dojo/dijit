@@ -45,15 +45,15 @@ dojo.declare(
 			}
 
 //			try{
-			dijit.Editor.superclass.postCreate.apply(this, arguments);
+			this.inherited(arguments);
+//			dijit.Editor.superclass.postCreate.apply(this, arguments);
 
 			this.commands = dojo.i18n.getLocalization("dijit._editor", "commands", this.lang);
 
 			if(!this.toolbar){
 				// if we haven't been assigned a toolbar, create one
-				var toolbarNode = dojo.doc.createElement("div");
-				dojo.place(toolbarNode, this.editingArea, "before");
-				this.toolbar = new dijit.Toolbar({}, toolbarNode);
+				this.toolbar = new dijit.Toolbar({});
+				dojo.place(this.toolbar.domNode, this.editingArea, "before");
 			}
 
 			dojo.forEach(this.plugins, this.addPlugin, this);
@@ -62,13 +62,13 @@ dojo.declare(
 		},
 		destroy: function(){
 			dojo.forEach(this._plugins, function(p){
-				if(p.destroy){
+				if(p && p.destroy){
 					p.destroy();
 				}
 			});
 			this._plugins=[];
 			this.toolbar.destroy(); delete this.toolbar;
-			this.inherited('destroy',arguments);
+			this.inherited(arguments);
 		},
 		addPlugin: function(/*String||Object*/plugin, /*Integer?*/index){
 			//	summary:
@@ -175,25 +175,28 @@ dojo.declare(
 				return this.inherited('queryCommandEnabled',arguments);
 			}
 		},
-		_changeToStep: function(from,to){
-			this.setValue(to.text);
-			var b=to.bookmark;
-			if(!b){ return; }
+		_moveToBookmark: function(b){
+			var bookmark;
 			if(dojo.isIE){
 				if(dojo.isArray(b)){//IE CONTROL
-					var tmp=[];
+					bookmark=[];
 					dojo.forEach(b,function(n){
-						tmp.push(dijit.range.getNode(n,this.editNode));
+						bookmark.push(dijit.range.getNode(n,this.editNode));
 					},this);
-					b=tmp;
 				}
 			}else{//w3c range
 				var r=dijit.range.create();
 				r.setStart(dijit.range.getNode(b.startContainer,this.editNode),b.startOffset);
 				r.setEnd(dijit.range.getNode(b.endContainer,this.editNode),b.endOffset);
-				b=r;
+				bookmark=r;
 			}
-			dojo.withGlobal(this.window,'moveToBookmark',dijit,[b]);
+			dojo.withGlobal(this.window,'moveToBookmark',dijit,[bookmark]);
+		},
+		_changeToStep: function(from,to){
+			this.setValue(to.text);
+			var b=to.bookmark;
+			if(!b){ return; }
+			this._moveToBookmark(b);
 		},
 		undo: function(){
 //			console.log('undo');
