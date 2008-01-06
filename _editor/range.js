@@ -8,10 +8,11 @@ dijit.range.getIndex=function(/*DomNode*/node, /*DomNode*/parent){
 	var stop = parent;
 	var onode = node;
 
+	var pnode, n;
 	while(node != stop){
 		var i = 0;
-		var pnode = node.parentNode, n;
-		while(n=pnode.childNodes[i++]){
+		pnode = node.parentNode;
+		while((n=pnode.childNodes[i++])){
 			if(n===node){
 				--i;
 				break;
@@ -29,7 +30,7 @@ dijit.range.getIndex=function(/*DomNode*/node, /*DomNode*/parent){
 	//invalidating selection/range, so we have to detect
 	//here that any text nodes in a row
 	if(ret.length>0 && onode.nodeType==3){
-		var n = onode.previousSibling;
+		n = onode.previousSibling;
 		while(n && n.nodeType==3){
 			ret[ret.length-1]--;
 			n = n.previousSibling;
@@ -195,9 +196,9 @@ dijit.range.getSelection = function(win, /*Boolean?*/ignoreUpdate){
 	if(dijit.range._w3c){
 		return win.getSelection();
 	}else{//IE
-		var id=win.__W3CRange;
+		var id=win.__W3CRange,s;
 		if(!id || !dijit.range.ie.cachedSelection[id]){
-			var s = new dijit.range.ie.selection(win);
+			s = new dijit.range.ie.selection(win);
 			//use win as the key in an object is not reliable, which
 			//can leads to quite odd behaviors. thus we generate a
 			//string and use it as a key in the cache
@@ -208,7 +209,7 @@ dijit.range.getSelection = function(win, /*Boolean?*/ignoreUpdate){
 			id=String(id);
 			dijit.range.ie.cachedSelection[id] = s;
 		}else{
-			var s = dijit.range.ie.cachedSelection[id];
+			s = dijit.range.ie.cachedSelection[id];
 		}
 		if(!ignoreUpdate){
 			s._getCurrentSelection();
@@ -346,7 +347,7 @@ if(!dijit.range._w3c){
 		},
 		setEndPoint: function(range, container, offset){
 			//text node
-			var atmrange = range.duplicate();
+			var atmrange = range.duplicate(), node, len;
 			if(container.nodeType!=3){ //normal node
 				atmrange.moveToElementText(container);
 				atmrange.collapse(true);
@@ -356,8 +357,8 @@ if(!dijit.range._w3c){
 						//although moveToElementText(node) is supposed to encompass the content of the node,
 						//but when collapse to end, it is in fact after the ending tag of node (collapse to start
 						//is after the begining tag of node as expected)
-						var node = container.lastChild;
-						var len = 0;
+						node = container.lastChild;
+						len = 0;
 						while(node && node.nodeType == 3){
 							len += node.length;
 							container = node; //pass through
@@ -374,7 +375,7 @@ if(!dijit.range._w3c){
 					}
 				}else{
 					if(offset > 0){
-						var node = container.childNodes[offset-1];
+						node = container.childNodes[offset-1];
 						if(node.nodeType==3){
 							container = node;
 							offset = node.length;
@@ -388,7 +389,8 @@ if(!dijit.range._w3c){
 			}
 			if(container.nodeType==3){
 				var prevnodeobj = dijit.range.adjacentNoneTextNode(container);
-				var prevnode = prevnodeobj[0], len = prevnodeobj[1];
+				var prevnode = prevnodeobj[0];
+				len = prevnodeobj[1];
 				if(prevnode){
 					atmrange.moveToElementText(prevnode);
 					atmrange.collapse(false);
@@ -480,6 +482,7 @@ dojo.declare("dijit.range.W3CRange",null, {
 		this.collapsed = (this.startContainer === this.endContainer) && (this.startOffset == this.endOffset);
 	},
 	setStart: function(node, offset, __internal_common){
+		offset=parseInt(offset);
 		if(this.startContainer === node && this.startOffset == offset){
 			return;
 		}
@@ -494,6 +497,7 @@ dojo.declare("dijit.range.W3CRange",null, {
 		}
 	},
 	setEnd: function(node, offset, __internal_common){
+		offset=parseInt(offset);
 		if(this.endContainer === node && this.endOffset == offset){
 			return;
 		}
