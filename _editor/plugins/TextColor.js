@@ -12,7 +12,7 @@ dojo.declare("dijit._editor.plugins.TextColor",
 
 		constructor: function(){
 			this.dropDown = new dijit.ColorPalette();
-			dojo.connect(this.dropDown, "onChange", this, function(color){
+			this.connect(this.dropDown, "onChange", function(color){
 				this.editor.execCommand(this.command, color);
 			});
 		}

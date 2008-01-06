@@ -32,7 +32,7 @@ dojo.declare("dijit._editor.plugins.FontChoice",
 				});
 			this.button.setValue("");
 
-			dojo.connect(this.button, "onChange", this, function(choice){
+			this.connect(this.button, "onChange", function(choice){
 				this.editor.execCommand(this.command, choice);
 				dijit.focus(this._focusHandle);
 			});

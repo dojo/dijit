@@ -11,6 +11,7 @@ dojo.declare("dijit._editor._Plugin", null, {
 		if(args){
 			dojo.mixin(this, args);
 		}
+		this._connects=[];
 	},
 
 	editor: null,
@@ -35,6 +36,12 @@ dojo.declare("dijit._editor._Plugin", null, {
 				this.button = new this.buttonClass(props);
 			}
 		}
+	},
+	destroy: function(f){
+		dojo.forEach(this._connects,dojo.disconnect);
+	},
+	connect: function(o,f,tf){
+		this._connects.push(dojo.connect(o,f,this,tf));
 	},
 	updateState: function(){
 		var _e = this.editor;
@@ -71,11 +78,11 @@ dojo.declare("dijit._editor._Plugin", null, {
 			}
 		}
 		if(this.button && this.useDefaultCommand){
-			dojo.connect(this.button, "onClick",
+			this.connect(this.button, "onClick",
 				dojo.hitch(this.editor, "execCommand", this.command, this.commandArg)
 			);
 		}
-		dojo.connect(this.editor, "onNormalizedDisplayChanged", this, "updateState");
+		this.connect(this.editor, "onNormalizedDisplayChanged", "updateState");
 	},
 	setToolbar: function(/*Widget*/toolbar){
 		if(this.button){

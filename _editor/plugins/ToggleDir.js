@@ -14,7 +14,7 @@ dojo.declare("dijit._editor.plugins.ToggleDir",
 
 		_initButton: function(){
 			this.inherited("_initButton", arguments);
-			dojo.connect(this.button, "onClick", this, this._toggleDir);		
+			this.connect(this.button, "onClick", this._toggleDir);		
 		},
 
 		updateState: function(){},//overwrite

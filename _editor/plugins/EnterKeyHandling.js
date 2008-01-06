@@ -39,16 +39,6 @@ dojo.declare("dijit._editor.plugins.EnterKeyHandling",null,{
 			this.connect(this.editor,'onKeyPressed','onKeyPressed');
 		}
 	},
-	connect: function(o,f,tf){
-		if(!this._connects){
-			this._connects=[];
-		}
-		this._connects.push(dojo.connect(o,f,this,tf));
-	},
-	destroy: function(){
-		dojo.forEach(this._connects,dojo.disconnect);
-		this._connects=[];
-	},
 	onKeyPressed: function(e){
 		if(this._checkListLater){
 			if(dojo.withGlobal(this.editor.window, 'isCollapsed', dijit)){
@@ -89,6 +79,7 @@ dojo.declare("dijit._editor.plugins.EnterKeyHandling",null,{
 		// summary: manually handle enter key event to make the behavior consistant across
 		//	all supported browsers. See property blockNodeForEnter for available options
 		if(!this.blockNodeForEnter){ return true; } //let browser handle this
+		var selection, range, newrange;
 		if(e.shiftKey  //shift+enter always generates <br>
 			|| this.blockNodeForEnter=='BR'){
 			var parent = dojo.withGlobal(this.editor.window, "getParentElement", dijit._editor.selection);
@@ -97,8 +88,8 @@ dojo.declare("dijit._editor.plugins.EnterKeyHandling",null,{
 				if(header.tagName=='LI'){
 					return true; //let brower handle
 				}
-				var selection = dijit.range.getSelection(this.editor.window);
-				var range = selection.getRangeAt(0);
+				selection = dijit.range.getSelection(this.editor.window);
+				range = selection.getRangeAt(0);
 				if(!range.collapsed){
 					range.deleteContents();
 				}
@@ -106,7 +97,7 @@ dojo.declare("dijit._editor.plugins.EnterKeyHandling",null,{
 					dojo.place(this.editor.document.createElement('br'), header, "before");
 				}else if(dijit.range.atEndOfContainer(header, range.startContainer, range.startOffset)){
 					dojo.place(this.editor.document.createElement('br'), header, "after");
-					var newrange = dijit.range.create();
+					newrange = dijit.range.create();
 					newrange.setStartAfter(header);
 
 					selection.removeAllRanges();
@@ -124,8 +115,8 @@ dojo.declare("dijit._editor.plugins.EnterKeyHandling",null,{
 		var _letBrowserHandle = true;
 		//blockNodeForEnter is either P or DIV
 		//first remove selection
-		var selection = dijit.range.getSelection(this.editor.window);
-		var range = selection.getRangeAt(0);
+		selection = dijit.range.getSelection(this.editor.window);
+		range = selection.getRangeAt(0);
 		if(!range.collapsed){
 			range.deleteContents();
 		}
@@ -168,7 +159,7 @@ dojo.declare("dijit._editor.plugins.EnterKeyHandling",null,{
 			}
 			_letBrowserHandle = false;
 			//lets move caret to the newly created block
-			var newrange = dijit.range.create();
+			newrange = dijit.range.create();
 			newrange.setStart(newblock,0);
 			selection.removeAllRanges();
 			selection.addRange(newrange);
@@ -196,10 +187,11 @@ dojo.declare("dijit._editor.plugins.EnterKeyHandling",null,{
 		return _letBrowserHandle;
 	},
 	removeTrailingBr: function(container){
+		var para;
 		if(/P|DIV|LI/i .test(container.tagName)){
-			var para = container;
+			para = container;
 		}else{
-			var para = dijit._editor.selection.getParentOfType(container,['P','DIV','LI']);
+			para = dijit._editor.selection.getParentOfType(container,['P','DIV','LI']);
 		}
 
 		if(!para){ return; }
@@ -229,7 +221,7 @@ dojo.declare("dijit._editor.plugins.EnterKeyHandling",null,{
 
 				// DomNode Style  = insertCssText(String ".dojoMenu {color: green;}"[, DomDoc document, dojo.uri.Uri Url ])
 				if(!cssStr){
-					return; //	HTMLStyleElement
+					return null; //	HTMLStyleElement
 				}
 				if(!doc){ doc = document; }
 //					if(URI){// fix paths in cssStr
@@ -242,7 +234,7 @@ dojo.declare("dijit._editor.plugins.EnterKeyHandling",null,{
 				var head = doc.getElementsByTagName("head")[0];
 				if(!head){ // must have a head tag
 					console.debug("No head tag in document, aborting styles");
-					return;	//	HTMLStyleElement
+					return null;	//	HTMLStyleElement
 				}else{
 					head.appendChild(style);
 				}
@@ -268,6 +260,7 @@ dojo.declare("dijit._editor.plugins.EnterKeyHandling",null,{
 			// this.regularPsToSingleLinePs(this.editNode);
 			return d;
 		}
+		return null;
 	},
 	regularPsToSingleLinePs: function(element, noWhiteSpaceInEmptyP){
 		function wrapLinesInPs(el){
@@ -378,6 +371,7 @@ dojo.declare("dijit._editor.plugins.EnterKeyHandling",null,{
 				if(!node.childNodes.length || node.innerHTML=="&nbsp;"){ return true }
 				//return node.innerHTML.match(/^(<br\ ?\/?>| |\&nbsp\;)$/i);
 			}
+			return false;
 		}
 
 		var paragraphContainers = getParagraphParents(element);

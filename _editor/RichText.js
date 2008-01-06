@@ -32,7 +32,7 @@ if(!djConfig["useXDomain"] || djConfig["allowXdRichTextSave"]){
 		}catch(e){ }
 	}
 }
-dojo.declare("dijit._editor.RichText", [ dijit._Widget ], {
+dojo.declare("dijit._editor.RichText", dijit._Widget, {
 	constructor: function(){
 		// summary:
 		//		dijit._editor.RichText is the core of the WYSIWYG editor in dojo, which
@@ -317,7 +317,7 @@ dojo.declare("dijit._editor.RichText", [ dijit._Widget ], {
 			}
 
 			// FIXME: need to do something different for Opera/Safari
-			dojo.connect(window, "onbeforeunload", this, "_saveContent");
+			this.connect(window, "onbeforeunload", "_saveContent");
 			// dojo.connect(window, "onunload", this, "_saveContent");
 		}
 
@@ -327,6 +327,7 @@ dojo.declare("dijit._editor.RichText", [ dijit._Widget ], {
 		//if (typeof document.body.contentEditable != "undefined") {
 		if(dojo.isIE || dojo.isSafari || dojo.isOpera){ // contentEditable, easy
 			var ifr = this.iframe = dojo.doc.createElement('iframe');
+			ifr.id=this.id;
 			ifr.src = 'javascript:void(0)';
 			this.editorObject = ifr;
 			ifr.style.border = "none";
@@ -426,6 +427,7 @@ dojo.declare("dijit._editor.RichText", [ dijit._Widget ], {
 
 		if(!this.iframe){
 			var ifr = this.iframe = dojo.doc.createElement("iframe");
+			ifr.id=this.id;
 			// this.iframe.src = "about:blank";
 			// document.body.appendChild(this.iframe);
 			// console.debug(this.iframe.contentDocument.open());
@@ -1221,19 +1223,25 @@ dojo.declare("dijit._editor.RichText", [ dijit._Widget ], {
 		}, this);
 	},
 
-	_postFilterContent: function(/*DomNode|DomNode[]?*/dom,/*Boolean?*/nonDestructive){
+	_postFilterContent: function(/*DomNode|DomNode[]|String?*/dom,/*Boolean?*/nonDestructive){
 		// summary:
 		//		filter the output after getting the content of the editing area
-		dom = dom || this.editNode;
-		if(this.contentDomPostFilters.length){
-			if(nonDestructive && dom['cloneNode']){
-				dom = dom.cloneNode(true);
+		var ec;
+		if(!dojo.isString(dom)){
+			dom = dom || this.editNode;
+			if(this.contentDomPostFilters.length){
+				if(nonDestructive && dom['cloneNode']){
+					dom = dom.cloneNode(true);
+				}
+				dojo.forEach(this.contentDomPostFilters, function(ef){
+					dom = ef(dom);
+				});
 			}
-			dojo.forEach(this.contentDomPostFilters, function(ef){
-				dom = ef(dom);
-			});
+			ec = this.getNodeChildrenHtml(dom);
+		}else{
+			ec = dom;
 		}
-		var ec = this.getNodeChildrenHtml(dom);
+		
 		if(!ec.replace(/^(?:\s|\xA0)+/g, "").replace(/(?:\s|\xA0)+$/g,"").length){ ec = ""; }
 
 		//	if(dojo.isIE){

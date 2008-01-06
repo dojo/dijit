@@ -11,8 +11,8 @@ dojo.declare("dijit._editor.plugins.AlwaysShowToolbar", null,
 	},
 	enable: function(d){
 		this._updateHeight();
-		this._connects=[dojo.connect(window,'onscroll',this,"globalOnScrollHandler"),
-		dojo.connect(this.editor,'onNormalizedDisplayChanged',this,"_updateHeight")];
+		this.connect(window,'onscroll',"globalOnScrollHandler");
+		this.connect(this.editor,'onNormalizedDisplayChanged',"_updateHeight");
 		return d;
 	},
 	_updateHeight: function(){
