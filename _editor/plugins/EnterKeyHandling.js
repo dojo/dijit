@@ -39,6 +39,16 @@ dojo.declare("dijit._editor.plugins.EnterKeyHandling",null,{
 			this.connect(this.editor,'onKeyPressed','onKeyPressed');
 		}
 	},
+	connect: function(o,f,tf){
+		if(!this._connects){
+			this._connects=[];
+		}
+		this._connects.push(dojo.connect(o,f,this,tf));
+	},
+	destroy: function(){
+		dojo.forEach(this._connects,dojo.disconnect);
+		this._connects=[];
+	},
 	onKeyPressed: function(e){
 		if(this._checkListLater){
 			if(dojo.withGlobal(this.editor.window, 'isCollapsed', dijit)){
