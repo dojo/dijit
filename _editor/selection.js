@@ -46,6 +46,7 @@ dojo.mixin(dijit._editor.selection, {
 				return selection.toString();
 			}
 		}
+		return ''
 	},
 
 	getSelectedHtml: function(){
@@ -84,6 +85,7 @@ dojo.mixin(dijit._editor.selection, {
 				return selection.anchorNode.childNodes[ selection.anchorOffset ];
 			}
 		}
+		return null;
 	},
 
 	getParentElement: function(){
@@ -108,6 +110,7 @@ dojo.mixin(dijit._editor.selection, {
 				}
 			}
 		}
+		return null;
 	},
 
 	hasAncestorElement: function(/*String*/tagName /* ... */){
@@ -147,6 +150,27 @@ dojo.mixin(dijit._editor.selection, {
 			node = node.parentNode;
 		}
 		return null;
+	},
+
+	collapse: function(/*Boolean*/beginning) {
+		// summary: clear current selection
+	  if(window['getSelection']){
+	          var selection = dojo.global.getSelection();
+	          if(selection.removeAllRanges){ // Mozilla
+	                  if(beginning){
+	                          selection.collapseToStart();
+	                  }else{
+	                          selection.collapseToEnd();
+	                  }
+	          }else{ // Safari
+	                  // pulled from WebCore/ecma/kjs_window.cpp, line 2536
+	                   selection.collapse(beginning);
+	          }
+	  }else if(document.selection){ // IE
+	          var range = dojo.doc.selection.createRange();
+	          range.collapse(beginning);
+	          range.select();
+	  }
 	},
 
 	remove: function(){
