@@ -159,7 +159,14 @@ dojo.declare(
 				}
 			}
 		},
-
+		
+		_setAttribute: function(/*String*/ attr, /*anything*/ value){
+			// summary: additional code to set disablbed state of combobox node
+			if (attr == "disabled"){
+				dijit.setWaiState(this.comboNode, "disabled", value);
+			}
+		},	
+		
 		onkeypress: function(/*Event*/ evt){
 			// summary: handles keyboard events
 
@@ -322,12 +329,14 @@ dojo.declare(
 					fn.value = text;//.substr(cpos);
 					// visually highlight the autocompleted characters
 					this._setSelectedRange(fn, cpos, fn.value.length);
+					dijit.setWaiState(this.comboNode, "valuenow", text);
 					dijit.setWaiState(fn, "valuenow", text);
 				}
 			}else{
 				// text does not autoComplete; replace the whole value and highlight
 				fn.value = text;
 				this._setSelectedRange(fn, 0, fn.value.length);
+				dijit.setWaiState(this.comboNode, "valuenow", text);
 				dijit.setWaiState(fn, "valuenow", text);
 			}
 		},
@@ -642,6 +651,18 @@ dojo.declare(
 				}
 			}
 		},
+		
+		_postCreate:function(){
+			//find any associated label element and add to combobox node.
+			var label=dojo.query('label[for="'+this.id+'"]');
+			if(label.length){
+				label[0].id = (this.id+"_label");
+				dijit.setWaiState(this.comboNode, "labelledby", label[0].id);
+				dijit.setWaiState(this.comboNode, "valuenow", this.value);
+				dijit.setWaiState(this.comboNode, "disabled", this.disabled);
+				
+			}
+		},
 
 		uninitialize:function(){
 			if(this._popupWidget){
@@ -936,7 +957,17 @@ dojo.declare(
 			// this.inherited(arguments); // ??
 			dijit.form.ComboBoxMixin.prototype.postMixInProperties.apply(this, arguments);
 			dijit.form.ValidationTextBox.prototype.postMixInProperties.apply(this, arguments);
+		},
+
+		postCreate: function(){
+			dijit.form.ComboBoxMixin.prototype._postCreate.apply(this, arguments);
+			dijit.form.ValidationTextBox.prototype.postCreate.apply(this, arguments);
+		},
+		setAttribute: function(/*String*/ attr, /*anything*/ value){
+			dijit.form.ValidationTextBox.prototype.setAttribute.apply(this, arguments);
+			dijit.form.ComboBoxMixin.prototype._setAttribute.apply(this, arguments);
 		}
+		
 	}
 );
 

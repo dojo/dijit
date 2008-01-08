@@ -1,6 +1,6 @@
 <div class="dijit dijitReset dijitInlineTable dijitLeft"
 	id="widget_${id}"
-	dojoAttachEvent="onmouseenter:_onMouse,onmouseleave:_onMouse,onmousedown:_onMouse" waiRole="presentation"
+	dojoAttachEvent="onmouseenter:_onMouse,onmouseleave:_onMouse,onmousedown:_onMouse" dojoAttachPoint="comboNode" waiRole="combobox" tabIndex="-1"
 	><div style="overflow:hidden;"
 		><div class='dijitReset dijitRight dijitButtonNode dijitArrowButton dijitDownArrowButton'
 			dojoAttachPoint="downArrowNode" waiRole="presentation"
@@ -13,7 +13,7 @@
 		><div class="dijitReset dijitInputField"
 			><input type="text" autocomplete="off" name="${name}" class='dijitReset'
 			dojoAttachEvent="onkeypress, onkeyup, onfocus, compositionend"
-			dojoAttachPoint="textbox,focusNode" waiRole="combobox" 
+			dojoAttachPoint="textbox,focusNode" waiRole="textfield"
 		/></div
 	></div
 ></div>

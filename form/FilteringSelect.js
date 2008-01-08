@@ -211,6 +211,16 @@ dojo.declare(
 			// FIXME: shouldn't this just be a call to inherited?
 			dijit.form.ComboBoxMixin.prototype.postMixInProperties.apply(this, arguments);
 			dijit.form.MappedTextBox.prototype.postMixInProperties.apply(this, arguments);
+		},
+
+		postCreate: function(){
+			dijit.form.ComboBoxMixin.prototype._postCreate.apply(this, arguments);
+			dijit.form.MappedTextBox.prototype.postCreate.apply(this, arguments);
+		},
+		
+		setAttribute: function(/*String*/ attr, /*anything*/ value){
+			dijit.form.MappedTextBox.prototype.setAttribute.apply(this, arguments);
+			dijit.form.ComboBoxMixin.prototype._setAttribute.apply(this, arguments);
 		}
 	}
 );
