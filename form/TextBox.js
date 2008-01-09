@@ -4,7 +4,7 @@ dojo.require("dijit.form._FormWidget");
 
 dojo.declare(
 	"dijit.form.TextBox",
-	dijit.form._FormWidget,
+	dijit.form._FormValueWidget,
 	{
 		// summary:
 		//		A generic textbox field.
@@ -33,7 +33,7 @@ dojo.declare(
 		templatePath: dojo.moduleUrl("dijit.form", "templates/TextBox.html"),
 		baseClass: "dijitTextBox",
 
-		attributeMap: dojo.mixin(dojo.clone(dijit.form._FormWidget.prototype.attributeMap),
+		attributeMap: dojo.mixin(dojo.clone(dijit.form._FormValueWidget.prototype.attributeMap),
 			{maxLength:"focusNode"}),
 
 		getDisplayedValue: function(){

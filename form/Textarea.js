@@ -6,7 +6,7 @@ dojo.requireLocalization("dijit", "Textarea");
 
 dojo.declare(
 	"dijit.form.Textarea",
-	dijit.form._FormWidget,
+	dijit.form._FormValueWidget,
 	{
 	// summary: A resizing textarea widget
 	//
@@ -20,7 +20,7 @@ dojo.declare(
 	// |	<textarea dojoType="dijit.form.TextArea">...</textarea>
 	//
 
-	attributeMap: dojo.mixin(dojo.clone(dijit.form._FormWidget.prototype.attributeMap),
+	attributeMap: dojo.mixin(dojo.clone(dijit.form._FormValueWidget.prototype.attributeMap),
 		{style:"styleNode", 'class':"styleNode"}),
 
 	templateString: (dojo.isIE || dojo.isSafari || dojo.isFF) ?

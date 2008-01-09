@@ -7,13 +7,11 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 {
 	/*
 	Summary:
-		FormElement widgets correspond to native HTML elements such as <input> or <button> or <select>.
-		Each FormElement represents a single input value, and has a (possibly hidden) <input> element,
-		to which it serializes its input value, so that form submission (either normal submission or via FormBind?)
-		works as expected.
+		_FormWidget's correspond to native HTML elements such as <checkbox> or <button>.
+		Each _FormWidget represents a single HTML element.
 
 		All these widgets should have these attributes just like native HTML input elements.
-		You can set them during widget construction, but after that they are read only.
+		You can set them during widget construction.
 
 		They also share some common methods.
 	*/
@@ -24,10 +22,6 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 	//		See _setStateClass().
 	baseClass: "",
 
-	// value: String
-	//		Corresponds to the native HTML <input> element's attribute.
-	value: "",
-
 	// name: String
 	//		Name used when submitting form; same as "name" attribute or plain HTML elements
 	name: "",
@@ -35,6 +29,10 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 	// alt: String
 	//		Corresponds to the native HTML <input> element's attribute.
 	alt: "",
+
+	// value: String
+	//		Corresponds to the native HTML <input> element's attribute.
+	value: "",
 
 	// type: String
 	//		Corresponds to the native HTML <input> element's attribute.
@@ -64,7 +62,7 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 	// directly in the template as read by the parser in order to function. IE is known to specifically 
 	// require the 'name' attribute at element creation time.
 	attributeMap: dojo.mixin(dojo.clone(dijit._Widget.prototype.attributeMap),
-		{disabled:"focusNode", readOnly:"focusNode", id:"focusNode", tabIndex:"focusNode", alt:"focusNode"}),
+		{value:"focusNode", disabled:"focusNode", readOnly:"focusNode", id:"focusNode", tabIndex:"focusNode", alt:"focusNode"}),
 
 	setAttribute: function(/*String*/ attr, /*anything*/ value){
 		this.inherited(arguments);
@@ -217,26 +215,68 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 		// summary: callback when value is changed
 	},
 
-	postCreate: function(){
-		this.setValue(this.value, null); // null reserved for initial value
+	_onChangeMonitor: 'value',
+	_onChangeActive: false,
+
+	_handleOnChange: function(/*anything*/ newValue, /*Boolean, optional*/ priorityChange){
+		// summary: set the value of the widget.
+		this._lastValue = newValue;
+		if(this._lastValueReported == undefined && priorityChange === null){
+			this._lastValueReported = newValue;
+		}
+		if((this.intermediateChanges || priorityChange || priorityChange === undefined) && 
+			((newValue && newValue.toString)?newValue.toString():newValue) !== ((this._lastValueReported && this._lastValueReported.toString)?this._lastValueReported.toString():this._lastValueReported)){
+			this._lastValueReported = newValue;
+			if(this._onChangeActive){ this.onChange(newValue); }
+		}
+	},
+
+	create: function(){
+		this.inherited(arguments);
+		this._onChangeActive = true;
 		this._setStateClass();
+	},
+
+	postCreate: function(){
+		this._lastValueReported = this[this._onChangeMonitor];
+	},
+
+	setValue: function(/*String*/ value){
+		dojo.deprecated("dijit.form._FormWidget:setValue("+value+") is deprecated.  Use setAttribute('value',"+value+") instead.", "", "2.0");
+		this.setAttribute('value', value);
+	},
+
+	_getValueDeprecated: true, // Form uses this, remove when getValue is removed
+	getValue: function(){
+		dojo.deprecated("dijit.form._FormWidget:getValue() is deprecated.  Use widget.value instead.", "", "2.0");
+		return this.value;
+	}
+});
+
+dojo.declare("dijit.form._FormValueWidget", dijit.form._FormWidget,
+{
+	/*
+	Summary:
+		_FormValueWidget's correspond to native HTML elements such as <input> or <select> that have user changeable values.
+		Each _ValueWidget represents a single input value, and has a (possibly hidden) <input> element,
+		to which it serializes its input value, so that form submission (either normal submission or via FormBind?)
+		works as expected.
+	*/
+
+	attributeMap: dojo.mixin(dojo.clone(dijit.form._FormWidget.prototype.attributeMap),
+		{value:""}),
+
+	postCreate: function(){
+		this.setValue(this.value, null);
 	},
 
 	setValue: function(/*anything*/ newValue, /*Boolean, optional*/ priorityChange){
 		// summary: set the value of the widget.
-		this._lastValue = newValue;
+		this._handleOnChange(newValue, priorityChange);
 		dijit.setWaiState(this.focusNode || this.domNode, "valuenow", this.forWaiValuenow());
-		if(priorityChange === undefined){ priorityChange = true; } // setValue with value only should fire onChange
-		if(this._lastValueReported == undefined && priorityChange === null){ // don't report the initial value
-			this._lastValueReported = newValue;
-		}
-		if((this.intermediateChanges || priorityChange) && 
-			((newValue && newValue.toString)?newValue.toString():newValue) !== ((this._lastValueReported && this._lastValueReported.toString)?this._lastValueReported.toString():this._lastValueReported)){
-			this._lastValueReported = newValue;
-			this.onChange(newValue);
-		}
 	},
 
+	_getValueDeprecated: false, // remove when _FormWidget:getValue is removed
 	getValue: function(){
 		// summary: get the value of the widget.
 		return this._lastValue;

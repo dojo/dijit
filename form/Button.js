@@ -76,6 +76,7 @@ dojo.declare("dijit.form.Button",
 			this.titleNode.title=labelText;
 			dojo.addClass(this.containerNode,"dijitDisplayNone");
 		}
+		dojo.setSelectable(this.focusNode, false);
 		this.inherited(arguments);
 	},
 
@@ -389,16 +390,30 @@ dojo.declare("dijit.form.ToggleButton", dijit.form.Button, {
 	//		or the radio button is selected, etc.
 	checked: false,
 
+	_onChangeMonitor: 'checked',
+
+	attributeMap: dojo.mixin(dojo.clone(dijit.form.Button.prototype.attributeMap),
+		{checked:"focusNode"}),
+
 	_clicked: function(/*Event*/ evt){
-		this.setChecked(!this.checked);
+		this.setAttribute('checked', !this.checked);
 	},
+
+	setAttribute: function(/*String*/ attr, /*anything*/ value){
+		this.inherited(arguments);
+		switch(attr){
+			case "checked":
+				dijit.setWaiState(this.focusNode || this.domNode, "pressed", this.checked);
+				this._setStateClass();		
+				this._handleOnChange(this.checked, true);
+		}
+	},
+
 
 	setChecked: function(/*Boolean*/ checked){
 		// summary:
 		//	Programatically deselect the button
-		this.checked = checked;
-		dijit.setWaiState(this.focusNode || this.domNode, "pressed", this.checked);
-		this._setStateClass();		
-		this.onChange(checked);
+		dojo.deprecated("setChecked("+checked+") is deprecated. Use setAttribute('checked',"+checked+") instead.", "", "2.0");
+		this.setAttribute('checked', checked);
 	}
 });

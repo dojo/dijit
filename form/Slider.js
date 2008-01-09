@@ -9,7 +9,7 @@ dojo.require("dojo._base.fx");
 
 dojo.declare(
 	"dijit.form.HorizontalSlider",
-	[dijit.form._FormWidget, dijit._Container],
+	[dijit.form._FormValueWidget, dijit._Container],
 {
 	// summary
 	//	A form widget that allows one to select a value with a horizontally draggable image

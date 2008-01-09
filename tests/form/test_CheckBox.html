@@ -36,7 +36,7 @@
 		dojo.addOnLoad(function(){
 			var params = {id: "cb6", name: "cb6"};
 			var widget = new dijit.form.CheckBox(params, dojo.byId("checkboxContainer"));
-			widget.setChecked(true);
+			widget.setAttribute('checked', true);
 		});
 	</script>
 	<style type="text/css">
@@ -52,6 +52,8 @@
 	Here are some checkboxes.  Try clicking, and hovering, tabbing, and using the space bar to select:
 	</p>
 	<!--  <form onSubmit="return outputValues(this);"> -->
+	<!--    to test form submission, you'll need to create an action handler similar to
+		http://www.utexas.edu/teamweb/cgi-bin/generic.cgi -->
 	<form>
 		<input type="checkbox" name="cb0" id="cb0" />
 			<label for="cb0">cb0: Vanilla (non-dojo) checkbox (for comparison purposes)</label>

@@ -14,7 +14,8 @@ dojo.declare("dijit._editor.plugins.DualStateDropDownButton",
 	dijit.form.DropDownButton,
 	{
 		// summary: a DropDownButton but button can be displayed in two states (checked or unchecked)
-		setChecked: dijit.form.ToggleButton.prototype.setChecked
+		checked: false,
+		setAttribute: dijit.form.ToggleButton.prototype.setAttribute
 	}
 );
 
@@ -142,7 +143,7 @@ dojo.declare("dijit._editor.plugins.LinkDialog",
 				try{
 					// display button differently if there is an existing link associated with the current selection
 					var hasA = dojo.withGlobal(this.editor.window, "hasAncestorElement",dijit._editor.selection, ['a']);
-					this.button.setChecked(hasA);
+					this.button.setAttribute('checked', hasA);
 				}catch(e){
 					console.debug(e); //FIXME: probably shouldn't squelch an exception here
 				}

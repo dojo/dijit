@@ -77,17 +77,17 @@ dojo.declare("dijit.form._FormMixin", null,
 				entry.push(widget);
 			});
 
-			// call setValue() or setChecked() for each widget, according to obj
+			// call setValue() or setAttribute('checked') for each widget, according to obj
 			for(var name in map){
 				var widgets = map[name],						// array of widgets w/this name
 					values = dojo.getObject(name, false, obj);	// list of values for those widgets
 				if(!dojo.isArray(values)){
 					values = [ values ];
 				}
-				if(widgets[0].setChecked){
+				if(typeof widgets[0].checked == 'boolean'){
 					// for checkbox/radio, values is a list of which widgets should be checked
 					dojo.forEach(widgets, function(w, i){
-						w.setChecked(dojo.indexOf(values, w.value) != -1);
+						w.setAttribute('checked', (dojo.indexOf(values, w.value) != -1));
 					});
 				}else{
 					// otherwise, values is a list of values to be assigned sequentially to each widget
@@ -175,12 +175,12 @@ dojo.declare("dijit.form._FormMixin", null,
 			// get widget values
 			var obj = {};
 			dojo.forEach(this.getDescendants(), function(widget){
-				var value = widget.getValue ? widget.getValue() : widget.value;
+				var value = (widget.getValue && !widget._getValueDeprecated) ? widget.getValue() : widget.value;
 				var name = widget.name;
 				if(!name){ return; }
 
 				// Store widget's value(s) as a scalar, except for checkboxes which are automatically arrays
-				if(widget.setChecked){
+				if(typeof widget.checked == 'boolean'){
 					if(/Radio/.test(widget.declaredClass)){
 						// radio button
 						if(widget.checked){
