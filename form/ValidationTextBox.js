@@ -118,7 +118,6 @@ dojo.declare(
 			this._message = message;
 			dijit.hideTooltip(this.domNode);
 			if(message){
-				console.log("show validation tooltip with pos of " + this.tooltipPosition);
 				dijit.showTooltip(message, this.domNode, this.tooltipPosition);
 			}
 		},
@@ -180,6 +179,16 @@ dojo.declare(
 			this.inherited(arguments);
 		},
 
+		setAttribute: function(/*String*/ attr, /*anything*/ value){
+			this.inherited(arguments);
+			switch(attr){
+				case "disabled":
+					if(this.valueNode){
+						this.valueNode.disabled = this.disabled;
+					}
+			}
+		},
+
 		postCreate: function(){
 			var textbox = this.textbox;
 			var valueNode = (this.valueNode = document.createElement("input"));
@@ -187,6 +196,7 @@ dojo.declare(
 			valueNode.setAttribute("value", this.toString());
 			dojo.style(valueNode, "display", "none");
 			valueNode.name = this.textbox.name;
+			valueNode.disabled = this.textbox.disabled;
 			this.textbox.name = this.textbox.name + "_displayed_";
 			this.textbox.removeAttribute("name");
 			dojo.place(valueNode, textbox, "after");

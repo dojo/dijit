@@ -217,6 +217,8 @@
 					required="true"
 					currency="EUR"
 					invalidMessage="Invalid amount.  Include dollar sign, commas, and cents." />EUR
+				<button onclick="dijit.byId('q08eur').setAttribute('disabled',true);return false">Disable</button>
+				<button onclick="dijit.byId('q08eur').setAttribute('disabled',false);return false">Enable</button>
 			</div>
 		
 			<!--
@@ -399,7 +401,7 @@
 					for (var i = 0; i < f.elements.length; i++) {
 						var elem = f.elements[i];
 						if (elem.name == "button")  { continue; }
-						s += elem.name + ": " + elem.value + "\n";
+						s += elem.name+(elem.name && elem.disabled?' (disabled)':'') + ": " + elem.value + "\n";
 					}
 					alert(s);
 				}
