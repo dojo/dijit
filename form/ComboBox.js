@@ -570,6 +570,7 @@ dojo.declare(
 					ignoreCase: this.ignoreCase, 
 					deep: true
 				},
+				store: this.store,
 				query: query,
 				onComplete: dojo.hitch(this, "_openResultList"), 
 				start:0,
@@ -996,7 +997,7 @@ dojo.declare("dijit.form._ComboBoxDataStore", null, {
 	getValue: function(	/* item */ item, 
 						/* attribute-name-string */ attribute, 
 						/* value? */ defaultValue){
-		return (attribute == "value") ? item.value : (item.innerText || item.textContent);
+		return (attribute == "value") ? item.value : (item.innerText || item.textContent || '');
 	},
 
 	isItemLoaded: function(/* anything */ something) {
@@ -1021,7 +1022,7 @@ dojo.declare("dijit.form._ComboBoxDataStore", null, {
 				.replace("*", ".*") + "$",
 			matcher = new RegExp(query, args.queryOptions.ignoreCase ? "i" : ""),
 			items = dojo.query("> option", this.root).filter(function(option){
-				return (option.innerText || option.textContent).match(matcher);
+				return (option.innerText || option.textContent || '').match(matcher);
 			} );
 
 		var start = args.start || 0,
