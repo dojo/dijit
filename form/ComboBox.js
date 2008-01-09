@@ -329,15 +329,11 @@ dojo.declare(
 					fn.value = text;//.substr(cpos);
 					// visually highlight the autocompleted characters
 					this._setSelectedRange(fn, cpos, fn.value.length);
-					dijit.setWaiState(this.comboNode, "valuenow", text);
-					dijit.setWaiState(fn, "valuenow", text);
 				}
 			}else{
 				// text does not autoComplete; replace the whole value and highlight
 				fn.value = text;
 				this._setSelectedRange(fn, 0, fn.value.length);
-				dijit.setWaiState(this.comboNode, "valuenow", text);
-				dijit.setWaiState(fn, "valuenow", text);
 			}
 		},
 
@@ -368,8 +364,6 @@ dojo.declare(
 				// it does not make sense to autocomplete
 				// if they are just previewing the options available.
 				this._autoCompleteText(zerothvalue);
-				// announce the autocompleted value
-				dijit.setWaiState((this.focusNode || this.domNode), "valuenow", zerothvalue);
 			}
 			this._popupWidget.createOptions(
 				results, 
@@ -659,7 +653,6 @@ dojo.declare(
 			if(label.length){
 				label[0].id = (this.id+"_label");
 				dijit.setWaiState(this.comboNode, "labelledby", label[0].id);
-				dijit.setWaiState(this.comboNode, "valuenow", this.value);
 				dijit.setWaiState(this.comboNode, "disabled", this.disabled);
 				
 			}
