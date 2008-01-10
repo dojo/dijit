@@ -67,7 +67,7 @@
 
 			//since we don't have a server, we're going to connect to the store and do a few things the server/store combination would normal be taking care of for us
 			dojo.connect(catStore, "onNew", function(item, pInfo){
-				var p = pInfo.item;
+				var p = pInfo && pInfo.item;
 				if (p) {	
 					var currentTotal = catStore.getValues(p, "numberOfItems")[0];
 					catStore.setValue(p, "numberOfItems", ++currentTotal);

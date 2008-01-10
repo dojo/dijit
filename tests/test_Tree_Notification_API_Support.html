@@ -131,7 +131,7 @@
 				items[store.getIdentity(item)] = item;
 
 				var vals = {
-					id: store.getIdentity(item),
+					itemId: store.getIdentity(item),
 					label: store.getLabel(item),
 					someProperty: store.getValue(item, "someProperty"),
 					children: store.getValues(item, "children")
@@ -139,10 +139,10 @@
 
 				// add this item to children list in "new item" form
 				dojo.byId("nPotentialChildren").innerHTML +=
-					"<div class='dojoDndItem' id='" + vals.id + "'>" +
+					"<div class='dojoDndItem' id='" + vals.itemId + "'>" +
 						vals.label +
 					"</div>";
-				nPotentialChildrenDragSource.setItem(vals.id, {
+				nPotentialChildrenDragSource.setItem(vals.itemId, {
 					data: vals.label,
 					type: ["text"]
 				});
@@ -163,42 +163,44 @@
 			resetForms();
 
 			selectedItem = item;
-			
-			// Display basic attribute values
-			dojo.byId('uLabel').value = item ? store.getLabel(item) : "";
-			dojo.byId('uSomeProperty').value = item ? store.getValue(item,"someProperty") : "";
-			
-			// Fill in info about children
-			var children = store.getValues(item, "children");
-			dojo.forEach(children, function(item){
-				var id = store.getIdentity(item),
-					label = store.getLabel(item);
-				dojo.byId("uChildren").innerHTML +=
-					"<div class='dojoDndItem' id='" + id + "'>" +
-						label +
-					"</div>";
-				uChildrenDragSource.setItem(id, {
-					data: label,
-					type: ["text"]
-				});
+
+			if(item){	
+				// Display basic attribute values
+				dojo.byId('uLabel').value = item ? store.getLabel(item) : "";
+				dojo.byId('uSomeProperty').value = item ? store.getValue(item,"someProperty") : "";
 				
-				dojo.byId('nParent').value = item ? store.getLabel(item) : "";
-			});
-			
-			// and the items that could be children but aren't currently
-			// (including items that would cause cycles, because i'm lazy)
-			for(var id in items){
-				var item = items[id];
-				if(dojo.indexOf(children, item) == -1){
-					var label = store.getLabel(item);
-					dojo.byId("uPotentialChildren").innerHTML +=
+				// Fill in info about children
+				var children = store.getValues(item, "children");
+				dojo.forEach(children, function(item){
+					var id = store.getIdentity(item),
+						label = store.getLabel(item);
+					dojo.byId("uChildren").innerHTML +=
 						"<div class='dojoDndItem' id='" + id + "'>" +
 							label +
 						"</div>";
-					uPotentialChildrenDragSource.setItem(id, {
+					uChildrenDragSource.setItem(id, {
 						data: label,
 						type: ["text"]
 					});
+					
+					dojo.byId('nParent').value = item ? store.getLabel(item) : "";
+				});
+				
+				// and the items that could be children but aren't currently
+				// (including items that would cause cycles, because i'm lazy)
+				for(var id in items){
+					var item = items[id];
+					if(dojo.indexOf(children, item) == -1){
+						var label = store.getLabel(item);
+						dojo.byId("uPotentialChildren").innerHTML +=
+							"<div class='dojoDndItem' id='" + id + "'>" +
+								label +
+							"</div>";
+						uPotentialChildrenDragSource.setItem(id, {
+							data: label,
+							type: ["text"]
+						});
+					}
 				}
 			}
 		}
@@ -260,8 +262,8 @@
 		TODO: stop using nested items like in currently specified dojo.data file, and instead make
 		everything top level... then can use the table widget from the mail demo.
 	-->
-	<div dojoType="dijit.Declaration" widgetClass="ItemRow" defaults="{ item: {}, id: 'thud', name: 10, someProperty: 'foo', children: {} }">
-		Id: ${id}, Name: ${name}
+	<div dojoType="dijit.Declaration" widgetClass="ItemRow" defaults="{ item: {}, itemId: 'thud', name: 10, someProperty: 'foo', children: {} }">
+		Id: ${itemId}, Name: ${name}
 
 		Children:
 		<span class="dijitInline" dojoAttachPoint="childrenContainerNode"></span>
