@@ -24,7 +24,7 @@ dojo.declare(
 		{style:"styleNode", 'class':"styleNode"}),
 
 	templateString: (dojo.isIE || dojo.isSafari || dojo.isFF) ?
-				((dojo.isIE || dojo.isSafari || dojo.isFF >= 3) ? '<fieldset id="${id}" class="dijitInline dijitInputField dijitTextArea" dojoAttachPoint="styleNode" waiRole="presentation"><div dojoAttachPoint="editNode,focusNode,eventNode" dojoAttachEvent="onpaste:_changing,oncut:_changing" waiRole="textarea" style="text-decoration:none;_padding-bottom:16px;display:block;overflow:auto;" contentEditable="true"></div>'
+				((dojo.isIE || dojo.isSafari || dojo.isFF >= 3) ? '<fieldset id="${id}" class="dijitInline dijitInputField dijitTextArea" dojoAttachPoint="styleNode" waiRole="presentation"><div dojoAttachPoint="editNode,focusNode,eventNode" dojoAttachEvent="onpaste:_changing,oncut:_changing" waiRole="textarea" style="text-decoration:none;display:block;overflow:auto;" contentEditable="true"></div>'
 					: '<span id="${id}" class="dijitReset">'+
 					'<iframe src="javascript:<html><head><title>${_iframeEditTitle}</title></head><body><script>var _postCreate=window.frameElement?window.frameElement.postCreate:null;if(_postCreate)_postCreate();</script></body></html>"'+
 							' dojoAttachPoint="iframe,styleNode" dojoAttachEvent="onblur:_onIframeBlur" class="dijitInline dijitInputField dijitTextArea"></iframe>')
@@ -36,6 +36,7 @@ dojo.declare(
 		this.inherited(arguments);
 		switch(attr){
 			case "disabled":
+				this.formValueNode.disabled = this.disabled;
 			case "readOnly":
 				if(dojo.isIE || dojo.isSafari || dojo.isFF >= 3){
 					this.editNode.contentEditable = (!this.disabled && !this.readOnly);
@@ -50,11 +51,7 @@ dojo.declare(
 		if(!this.disabled && !this.readOnly){
 			this._changing(); // set initial height
 		}
-		if(this.iframe){
-			dijit.focus(this.iframe);
-		}else{
-			dijit.focus(this.focusNode);
-		}
+		dijit.focus(this.iframe || this.focusNode);
 	},
 
 	setValue: function(/*String*/ value, /*Boolean, optional*/ priorityChange){
@@ -66,13 +63,18 @@ dojo.declare(
 				var isFirst = true;
 				dojo.forEach(value.split("\n"), function(line){
 					if(isFirst){ isFirst = false; }
-					else {
+					else{
 						editNode.appendChild(document.createElement("BR")); // preserve line breaks
 					}
-					editNode.appendChild(document.createTextNode(line)); // use text nodes so that imbedded tags can be edited
+					if(line){
+						editNode.appendChild(document.createTextNode(line)); // use text nodes so that imbedded tags can be edited
+					}
 				});
-			}else{
+			}else if(value){
 				editNode.appendChild(document.createTextNode(value));
+			}
+			if(!dojo.isIE){
+				editNode.appendChild(document.createElement("BR")); // so that you see a cursor
 			}
 		}else{
 			// blah<BR>blah --> blah\nblah
@@ -84,6 +86,9 @@ dojo.declare(
 				value = value.replace(/<div><\/div>\r?\n?$/i,"");
 			}
 			value = value.replace(/\s*\r?\n|^\s+|\s+$|&nbsp;/g,"").replace(/>\s+</g,"><").replace(/<\/(p|div)>$|^<(p|div)[^>]*>/gi,"").replace(/([^>])<div>/g,"$1\n").replace(/<\/p>\s*<p[^>]*>|<br[^>]*>/gi,"\n").replace(/<[^>]*>/g,"").replace(/&amp;/gi,"\&").replace(/&lt;/gi,"<").replace(/&gt;/gi,">");
+			if(!dojo.isIE){
+				value = value.replace(/\n$/,""); // remove added <br>
+			}
 		}
 		this.value = this.formValueNode.value = value;
 		if(this.iframe){
@@ -247,6 +252,6 @@ dojo.declare(
 		if(this.iframe && this.iframe.contentDocument.designMode != "on" && !this.disabled && !this.readOnly){
 			this.iframe.contentDocument.designMode="on"; // in case this failed on init due to being hidden
 		}
-		this.setValue(null, priorityChange);
+		this.setValue(null, priorityChange || false);
 	}
 });

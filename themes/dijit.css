@@ -1337,6 +1337,7 @@ img.dijitColorPaletteUnder {
 .dj_ie .dijitTextArea p {
 	margin-top:0px;
 	margin-bottom:0px;
+	line-height: normal !important;
 }
 
 .dijitToolbarSeparator {
