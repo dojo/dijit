@@ -497,139 +497,111 @@ dojo.declare(
 
 	_onDownArrow: function(/*Object*/ message){
 		// summary: down arrow pressed; get next visible node, set focus there
-		var returnNode = this._navToNextNode(message.node);
-		if(returnNode && returnNode.isTreeNode){
-			returnNode.tree.focusNode(returnNode);
-			return returnNode;
+		var node = this._getNextNode(message.node);
+		if(node && node.isTreeNode){
+			this.focusNode(node);
 		}	
 	},
 
 	_onUpArrow: function(/*Object*/ message){
 		// summary: up arrow pressed; move to previous visible node
 
-		var nodeWidget = message.node;
-		var returnWidget = nodeWidget;
+		var node = message.node;
 
 		// if younger siblings		
-		var previousSibling = nodeWidget.getPreviousSibling();
+		var previousSibling = node.getPreviousSibling();
 		if(previousSibling){
-			nodeWidget = previousSibling;
-			// if the previous nodeWidget is expanded, dive in deep
-			while(nodeWidget.isExpandable && nodeWidget.isExpanded && nodeWidget.hasChildren()){
-				returnWidget = nodeWidget;
+			node = previousSibling;
+			// if the previous node is expanded, dive in deep
+			while(node.isExpandable && node.isExpanded && node.hasChildren()){
 				// move to the last child
-				var children = nodeWidget.getChildren();
-				nodeWidget = children[children.length-1];
+				var children = node.getChildren();
+				node = children[children.length-1];
 			}
 		}else{
 			// if this is the first child, return the parent
 			// unless the parent is the root of a tree with a hidden root
-			var parent = nodeWidget.getParent();
+			var parent = node.getParent();
 			if(!(this._hideRoot && parent === this)){
-				nodeWidget = parent;
+				node = parent;
 			}
 		}
 
-		if(nodeWidget && nodeWidget.isTreeNode){
-			returnWidget = nodeWidget;
-		}
-
-		if(returnWidget && returnWidget.isTreeNode){
-			returnWidget.tree.focusNode(returnWidget);
-			return returnWidget;
+		if(node && node.isTreeNode){
+			this.focusNode(node);
 		}
 	},
 
 	_onRightArrow: function(/*Object*/ message){
 		// summary: right arrow pressed; go to child node
-		var nodeWidget = message.node;
-		var returnWidget = nodeWidget;
+		var node = message.node;
 
 		// if not expanded, expand, else move to 1st child
-		if(nodeWidget.isExpandable && !nodeWidget.isExpanded){
-			this._expandNode(nodeWidget);
-		}else if(nodeWidget.hasChildren()){
-			nodeWidget = nodeWidget.getChildren()[0];
-		}
-
-		if(nodeWidget && nodeWidget.isTreeNode){
-			returnWidget = nodeWidget;
-		}
-
-		if(returnWidget && returnWidget.isTreeNode){
-			returnWidget.tree.focusNode(returnWidget);
-			return returnWidget;
+		if(node.isExpandable && !node.isExpanded){
+			this._expandNode(node);
+		}else if(node.hasChildren()){
+			node = node.getChildren()[0];
+			if(node && node.isTreeNode){
+				this.focusNode(node);
+			}
 		}
 	},
 
 	_onLeftArrow: function(/*Object*/ message){
-		// summary: left arrow pressed; go to parent
+		// summary:
+		//		Left arrow pressed.
+		//		If not collapsed, collapse, else move to parent.
 
 		var node = message.node;
-		var returnWidget = node;
 
-		// if not collapsed, collapse, else move to parent
 		if(node.isExpandable && node.isExpanded){
 			this._collapseNode(node);
 		}else{
 			node = node.getParent();
-		}
-		if(node && node.isTreeNode){
-			returnWidget = node;
-		}
-
-		if(returnWidget && returnWidget.isTreeNode){
-			returnWidget.tree.focusNode(returnWidget);
-			return returnWidget;
+			if(node && node.isTreeNode){
+				this.focusNode(node);
+			}
 		}
 	},
 
 	_onHomeKey: function(){
 		// summary: home pressed; get first visible node, set focus there
-		var returnNode = this._navToRootOrFirstNode();
-		if(returnNode){
-			returnNode.tree.focusNode(returnNode);
-			return returnNode;
+		var node = this._getRootOrFirstNode();
+		if(node){
+			this.focusNode(node);
 		}
 	},
 
 	_onEndKey: function(/*Object*/ message){
 		// summary: end pressed; go to last visible node
 
-		var returnWidget = message.node.tree;
-
-		var lastChild = returnWidget;
-		while(lastChild.isExpanded){
-			var c = lastChild.getChildren();
-			lastChild = c[c.length - 1];
-			if(lastChild.isTreeNode){
-				returnWidget = lastChild;
-			}
+		var node = this;
+		while(node.isExpanded){
+			var c = node.getChildren();
+			node = c[c.length - 1];
 		}
 
-		if(returnWidget && returnWidget.isTreeNode){
-			returnWidget.tree.focusNode(returnWidget);
-			return returnWidget;
+		if(node && node.isTreeNode){
+			this.focusNode(node);
 		}
 	},
 
 	_onLetterKeyNav: function(message){
 		// summary: letter key pressed; search for node starting with first char = key
-		var node = startNode = message.node;
-		var key = message.key;
+		var node = startNode = message.node,
+			key = message.key;
 		do{
-			node = this._navToNextNode(node);
+			node = this._getNextNode(node);
 			//check for last node, jump to first node if necessary
 			if(!node){
-				node = this._navToRootOrFirstNode();
+				node = this._getRootOrFirstNode();
 			}
 		}while(node !== startNode && (node.label.charAt(0).toLowerCase() != key));
 		if(node && node.isTreeNode){
 			// no need to set focus if back where we started
 			if(node !== startNode){
-				node.tree.focusNode(node);
+				this.focusNode(node);
 			}
-			return node;
 		}
 	},
 
@@ -671,35 +643,28 @@ dojo.declare(
 		// summary: user overridable function for executing a tree item
 	},
 
-	_navToNextNode: function(node){
+	_getNextNode: function(node){
 		// summary: get next visible node
-		var returnNode;
-		// if this is an expanded node, get the first child
+
 		if(node.isExpandable && node.isExpanded && node.hasChildren()){
-			returnNode = node.getChildren()[0];			
+			// if this is an expanded node, get the first child
+			return node.getChildren()[0];		// _TreeNode	
 		}else{
 			// find a parent node with a sibling
 			while(node && node.isTreeNode){
-				returnNode = node.getNextSibling();
+				var returnNode = node.getNextSibling();
 				if(returnNode){
-					break;
+					return returnNode;		// _TreeNode
 				}
 				node = node.getParent();
-			}	
+			}
+			return null;
 		}
-		return returnNode;
 	},
 
-	_navToRootOrFirstNode: function(){
+	_getRootOrFirstNode: function(){
 		// summary: get first visible node
-		if(!this._hideRoot){
-			return this;
-		}else{
-			var returnNode = this.getChildren()[0];
-			if(returnNode && returnNode.isTreeNode){
-				return returnNode;
-			}
-		}
+		return this._hideRoot ? this.getChildren()[0] : this;
 	},
 
 	_collapseNode: function(/*_TreeNode*/ node){
@@ -865,8 +830,8 @@ dojo.declare(
 					/* object | array */ oldValue,
 					/* object | array */ newValue){
 		//summary: set data event on an item in the store
-		var identity = this.store.getIdentity(item);
-		node = this._itemNodeMap[identity];
+		var identity = this.store.getIdentity(item),
+			node = this._itemNodeMap[identity];
 
 		if(node){
 			node.setLabelNode(this.getLabel(item));
