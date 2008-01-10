@@ -122,6 +122,7 @@ dojo.declare(
 
 	setValue: function(/*Number*/ value, /*Boolean, optional*/ priorityChange){
 		this.valueNode.value = this.value = value;
+		dijit.setWaiState(this.focusNode, "valuenow", value);
 		this.inherited('setValue', arguments);
 		var percent = (value - this.minimum) / (this.maximum - this.minimum);
 		if(priorityChange && this.slideDuration > 0 && this.progressBar.style[this._progressPixelSize]){
@@ -212,6 +213,9 @@ dojo.declare(
 		dojo.extend(mover, dijit.form._SliderMover.prototype);
 
 		this._movable = new dojo.dnd.Moveable(this.sliderHandle, {mover: mover});
+		dijit.setWaiState(this.focusNode, "valuemin", this.minimum);
+		dijit.setWaiState(this.focusNode, "valuemax", this.maximum);
+
 		this.inherited('postCreate', arguments);
 	},
 

@@ -273,7 +273,6 @@ dojo.declare("dijit.form._FormValueWidget", dijit.form._FormWidget,
 	setValue: function(/*anything*/ newValue, /*Boolean, optional*/ priorityChange){
 		// summary: set the value of the widget.
 		this._handleOnChange(newValue, priorityChange);
-		dijit.setWaiState(this.focusNode || this.domNode, "valuenow", this.forWaiValuenow());
 	},
 
 	_getValueDeprecated: false, // remove when _FormWidget:getValue is removed
@@ -301,13 +300,5 @@ dojo.declare("dijit.form._FormValueWidget", dijit.form._FormWidget,
 			}
 		}
 		return true;
-	},
-
-	forWaiValuenow: function(){
-		// summary: returns a value, reflecting the current state of the widget,
-		//		to be used for the ARIA valuenow.
-		// 		This method may be overridden by subclasses that want
-		// 		to use something other than this.getValue() for valuenow
-		return this.getValue();
 	}
 });

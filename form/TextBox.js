@@ -60,10 +60,6 @@ dojo.declare(
 			this.setValue(this.getValue(), true);
 		},
 
-		forWaiValuenow: function(){
-			return this.getDisplayedValue();
-		},
-
 		format: function(/* String */ value, /* Object */ constraints){
 			// summary: Replacable function to convert a value to a properly formatted string
 			return ((value == null || value == undefined) ? "" : (value.toString ? value.toString() : value));

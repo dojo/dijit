@@ -272,6 +272,11 @@ dojo.declare(
 			if(this.constraints.max !== undefined){
 				dijit.setWaiState(this.focusNode, "valuemax", this.constraints.max);
 			}
+		},
+		
+		setValue: function(/*Number*/ value, /*Boolean, optional*/ priorityChange){
+			dijit.setWaiState(this.focusNode, "valuenow", value);
+			this.inherited('setValue', arguments);
 		}
 	}
 );
