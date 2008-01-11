@@ -142,9 +142,10 @@ dojo.declare(
 		this.labelNode.appendChild(document.createTextNode(label));
 	},
 
-	_setChildren: function(/* Object[] */ items){
+	setChildItems: function(/* Object[] */ items){
 		// summary:
-		//		Sets the children of this node.
+		//		Sets the child items of this node, removing/adding nodes
+		//		from current children to match specified items[] array.
 
 		var tree = this.tree,
 			store = tree.store;
@@ -445,7 +446,7 @@ dojo.declare(
 
 	_onLoadAllItems: function(/*_TreeNode*/ node, /*dojo.data.Item[]*/ items, /*Boolean*/ expandOnLoad){
 		// sumary: callback when all the children of a given node have been loaded
-		node._setChildren(items);
+		node.setChildItems(items);
 		if( expandOnLoad ){
 			this._expandNode(node);
 		}
@@ -784,32 +785,42 @@ dojo.declare(
 	//////////////// Events from data store //////////////////////////
 
 
-	_onNewItem: function(/*Object*/ item, parentInfo){
+	_onNewItem: function(/* dojo.data.Item */ item, parentInfo){
 		//summary: callback when new item has been added to the store.
+		parentInfo ? this.onNewChildItem(item, parentInfo) : this.onNewTopItem(item);
+	},
+	
+	onNewChildItem: function(/* dojo.data.Item */ item, parentInfo){
+		// summary: called when store.newItem(item, parentInfo) has been called with non-null parentInfo
+		var parentNode = this._itemNodeMap[this.getItemParentIdentity(item, parentInfo)];
 
-		if(parentInfo){
-			var parent = this._itemNodeMap[this.getItemParentIdentity(item, parentInfo)];
-			
-			// If new item's parent item not in tree view yet, can safely ignore.
-			// Also, if a query of specified parent wouldn't return this item, then ignore.
-			if(!parent ||
-				dojo.indexOf(this.childrenAttr, parentInfo.attribute) == -1){
-				return;
+		if(parentNode){
+			if(!parentNode.isExpandable){
+				parentNode.makeExpandable();
 			}
-		}
-
-		if(parent){
-			if(!parent.isExpandable){
-				parent.makeExpandable();
-			}
-			if(parent.state=="LOADED" || parent.isExpanded){
-				var currentChildItems = dojo.map(parent.getChildren, function(widget){ return widget.item; });
-				parent._setChildren(currentChildItems.concat(item))
+			if(parentNode.state=="LOADED" || parentNode.isExpanded){
+				var currentChildItems = dojo.map(parentNode.getChildren(), function(widget){
+					return widget.item;
+				});
+				parentNode.setChildItems(currentChildItems.concat(item))
 			}
 		}else{
-			// top level node: ignore it; user must notify us of top level node changes via setTopLevelNodes().
-			// but what if there is no query specified?  hmmm.
+			// Parent item is not in the tree so we can ignore this notification
 		}
+	},
+	
+	onNewTopItem: function(/* dojo.data.Item */ item){
+		// summary:
+		//		Called when store.newItem(item, null) has been called with null parentInfo.
+		//		By default reruns the query for all top level items; user should override
+		//		with more efficient function.
+		this.markProcessing();
+		var _this = this;
+		var onComplete = function(childItems){
+			_this.unmarkProcessing();
+			_this._onLoadAllItems(_this, childItems, false);
+		};
+		this.getItemChildren(null, onComplete);
 	},
 	
 	_onDeleteItem: function(/*Object*/ item){
