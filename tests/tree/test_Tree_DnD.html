@@ -120,18 +120,6 @@
 			return false;
 		}
 
-		function tree2ItemCreator(nodes){
-			var items = []
-
-			for(var i=0;i<nodes.length;i++){
-				items.push({
-					"name":nodes[i].textContent,
-					"id": nodes[i].id
-				});
-			}
-			return items;
-		}
-
 		function dndAccept(source,nodes){
 			if (this.tree.id=="myTree"){
 				return false;
@@ -194,11 +182,11 @@
 				<div class="dojoDndItem" id="1007">Corn</div>
 				<div class="dojoDndItem" id="1008">Spinach</div>
 				<div class="dojoDndItem" id="1009">Cucumber</div>
-				<div class="dojoDndItem" id="1010">Carot</div>
+				<div class="dojoDndItem" id="1010">Carrot</div>
 				<div class="dojoDndItem" id="1011">Potato</div>
 				<div class="dojoDndItem" id="1012">Grape</div>
 				<div class="dojoDndItem" id="1013">Lemon</div>
-				<div class="dojoDndItem" id="1010">Letuce</div>
+				<div class="dojoDndItem" id="1010">Lettuce</div>
 				<div class="dojoDndItem" id="1010">Peanut</div>
 			</div>
 		</td>

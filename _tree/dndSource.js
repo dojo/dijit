@@ -235,16 +235,12 @@ dojo.declare("dijit._tree.dndSource", dijit._tree.dndSelector, {
 	},
 
 	itemCreator: function(nodes){
-		var items = []
-
-		for(var i=0;i<nodes.length;i++){
-			items.push({
-				"name":nodes[i].textContent,
-				"id": nodes[i].id
-			});
-		}
-
-		return items;
+		return dojo.map(nodes, function(node){
+			return {
+				"id": node.id,
+				"name": node.textContent || node.innerText || ""
+			};
+		});
 	},
 
 	onDndDrop: function(source, nodes, copy){
