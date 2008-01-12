@@ -14,7 +14,7 @@ if(!djConfig["useXDomain"] || djConfig["allowXdRichTextSave"]){
 	if(dojo._postLoad){
 		(function(){
 			var savetextarea = dojo.doc.createElement('textarea');
-			savetextarea.id = "dijit._editor.RichText.savedContent";
+			savetextarea.id = dijit._scopeName + "._editor.RichText.savedContent";
 			var s = savetextarea.style;
 			s.display='none';
 			s.position='absolute';
@@ -27,7 +27,7 @@ if(!djConfig["useXDomain"] || djConfig["allowXdRichTextSave"]){
 	}else{
 		//dojo.body() is not available before onLoad is fired
 		try {
-			dojo.doc.write('<textarea id="dijit._editor.RichText.savedContent" ' +
+			dojo.doc.write('<textarea id="' + dijit._scopeName + '._editor.RichText.savedContent" ' +
 				'style="display:none;position:absolute;top:-100px;left:-100px;height:3px;width:3px;overflow:hidden;"></textarea>');
 		}catch(e){ }
 	}
@@ -127,7 +127,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 
 	postCreate: function(){
 		// summary: init
-		dojo.publish("dijit._editor.RichText::init", [this]);
+		dojo.publish(dijit._scopeName + "._editor.RichText::init", [this]);
 		this.open();
 		this.setupDefaultShortcuts();
 	},
@@ -231,7 +231,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 		}
 
 		if(!this.isClosed){ this.close(); }
-		dojo.publish("dijit._editor.RichText::open", [ this ]);
+		dojo.publish(dijit._scopeName + "._editor.RichText::open", [ this ]);
 
 		this._content = "";
 		if((arguments.length == 1)&&(element["nodeName"])){ this.domNode = element; } // else unchanged
@@ -303,7 +303,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 		this.domNode.appendChild(this.editingArea);
 
 		if(this.name != "" && (!djConfig["useXDomain"] || djConfig["allowXdRichTextSave"])){
-			var saveTextarea = dojo.byId("dijit._editor.RichText.savedContent");
+			var saveTextarea = dojo.byId(dijit._scopeName + "._editor.RichText.savedContent");
 			if(saveTextarea.value != ""){
 				var datas = saveTextarea.value.split(this._SEPARATOR), i=0, dat;
 				while((dat=datas[i++])){
@@ -1258,7 +1258,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 	_saveContent: function(/*Event*/e){
 		// summary:
 		//		Saves the content in an onunload event if the editor has not been closed
-		var saveTextarea = dojo.byId("dijit._editor.RichText.savedContent");
+		var saveTextarea = dojo.byId(dijit._scopeName + "._editor.RichText.savedContent");
 		saveTextarea.value += this._SEPARATOR + this.name + ":" + this.getValue();
 	},
 

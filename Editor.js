@@ -87,7 +87,7 @@ dojo.declare(
 			var args=dojo.isString(plugin)?{name:plugin}:plugin;
 			if(!args.setEditor){
 				var o={"args":args,"plugin":null,"editor":this};
-				dojo.publish("dijit.Editor.getPlugin",[o]);
+				dojo.publish(dijit._scopeName + ".Editor.getPlugin",[o]);
 				if(!o.plugin){
 					var pc = dojo.getObject(args.name);
 					if(pc){
@@ -343,7 +343,7 @@ dojo.declare(
 );
 
 /* the following code is to registered a handler to get default plugins */
-dojo.subscribe("dijit.Editor.getPlugin",null,function(o){
+dojo.subscribe(dijit._scopeName + ".Editor.getPlugin",null,function(o){
 	if(o.plugin){ return; }
 	var args=o.args, p;
 	var _p = dijit._editor._Plugin;
