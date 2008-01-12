@@ -250,6 +250,20 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 	getValue: function(){
 		dojo.deprecated("dijit.form._FormWidget:getValue() is deprecated.  Use widget.value instead.", "", "2.0");
 		return this.value;
+	},
+
+	_layoutHack: function(){
+		// summary: work around table sizing bugs on FF2 by forcing redraw
+		if(dojo.isFF == 2){
+			setTimeout(dojo.hitch(this, function() {
+				var node=this.domNode;
+				var old = node.style.opacity;
+				node.style.opacity = "0.999";
+				setTimeout(function(){
+					node.style.opacity = old;
+				}, 0);
+			}), 0);
+		}
 	}
 });
 

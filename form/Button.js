@@ -71,7 +71,7 @@ dojo.declare("dijit.form.Button",
 		if (this.showLabel == false){
 			var labelText = "";
 			this.label = this.containerNode.innerHTML;
-			labelText = dojo.trim(this.containerNode.innerText || this.containerNode.textContent);
+			labelText = dojo.trim(this.containerNode.innerText || this.containerNode.textContent || '');
 			// set title attrib on iconNode
 			this.titleNode.title=labelText;
 			dojo.addClass(this.containerNode,"dijitDisplayNone");
@@ -93,16 +93,9 @@ dojo.declare("dijit.form.Button",
 	setLabel: function(/*String*/ content){
 		// summary: reset the label (text) of the button; takes an HTML string
 		this.containerNode.innerHTML = this.label = content;
-		if(dojo.isMozilla && !this._realDisplay){ // Firefox has re-render issues with tables
-			this._realDisplay = dojo.getComputedStyle(this.domNode).display;
-			this.domNode.style.display="none";
-			setTimeout(dojo.hitch(this,function(){
-				this.domNode.style.display=this._realDisplay;
-				delete this._realDisplay
-			}),1);
-		}
+		this._layoutHack();
 		if (this.showLabel == false){
-				this.titleNode.title=dojo.trim(this.containerNode.innerText || this.containerNode.textContent);
+			this.titleNode.title=dojo.trim(this.containerNode.innerText || this.containerNode.textContent || '');
 		}
 	}		
 });
