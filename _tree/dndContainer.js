@@ -18,7 +18,7 @@ dojo.declare("dijit._tree.dndContainer",
 			this.current = null;
 	
 			// states
-			this.ContainerState = "";
+			this.containerState = "";
 			dojo.addClass(this.node, "dojoDndContainer");
 			
 			// mark up children

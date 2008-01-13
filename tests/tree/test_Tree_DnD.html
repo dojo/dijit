@@ -75,7 +75,6 @@
 				
 			});
 
-
 			tree1 = dijit.byId('myTree');
 			tree2 = dijit.byId('myTree2');
 		});
@@ -87,27 +86,6 @@
 			var num = catStore.getValues(item,"numberOfItems");
 			//return the new label
 			return label + ' (' + num+ ')';
-		}
-
-
-		//custom function to handle drop for tree two.  Items dropped onto nodes here should be applied to the items attribute in this particular store.
-		function tree2CustomDrop(source,nodes,copy){
-			if (this.containerState=="Over"){
-                	        this.isDragging=false;
-				var target= this.current;
-				var items = this.itemCreator(nodes, target);
-
-				if (!target || target==this.tree.domNode){
-					for (var i=0; i<items.length;i++){
-						this.tree.store.newItem(items[i],null);
-					}
-				}else {
-					for (var i=0; i<items.length;i++){
-						pInfo={parent:dijit.getEnclosingWidget(target).item, attribute:"items"};
-						this.tree.store.newItem(items[i],pInfo);
-					}
-				}
-			}
 		}
 
 		//on tree two, we only want to drop on containers, not on items in the containers
@@ -170,9 +148,9 @@
 			</div>
 		</td>
 		<td>
-	                <h2>Items: </h2>
+			<h2>Items: </h2>
 			<p>List of Items to be categorized<p>
-	                <div dojoType="dojo.dnd.Source" jsId="c2" class="container" style="height: 100px; overflow: auto">
+				<div dojoType="dojo.dnd.Source" jsId="c2" class="container" style="height: 100px; overflow: auto">
 				<div class="dojoDndItem" id="1001">Apple</div>
 				<div class="dojoDndItem" id="1002">Orange</div>
 				<div class="dojoDndItem" id="1003">Banana</div>
@@ -201,8 +179,14 @@
 		</td>
 		<td>
 			<h2>Collection</h2>
-			<p>Drop items onto this tree, but only on categories, should fail to let you drop on other items.</p>
-			<div class="container" dojoType="dijit.Tree" id="myTree2" label="Collections" store="catStore"  labelAttr="name"  childrenAttr="children, items" dndController="dijit._tree.dndSource" onDndDrop="tree2CustomDrop" checkAcceptance="dndAccept" checkItemAcceptance="tree2CheckItemAcceptance" getIconClass="getIcon"></div> 
+			<p>
+				Drop items onto this tree, but only onto categories; should fail to let you drop on other items.
+				Can also move items within this tree.
+			</p>
+			<div class="container" dojoType="dijit.Tree" id="myTree2" label="Collections"
+				store="catStore" labelAttr="name" childrenAttr="children, items"
+				dndController="dijit._tree.dndSource" checkAcceptance="dndAccept" checkItemAcceptance="tree2CheckItemAcceptance"
+				getIconClass="getIcon"></div> 
 		</td>
 	</tr>
 	</table>

@@ -820,6 +820,11 @@ dojo.declare(
 		//		Called when store.newItem(item, null) has been called with null parentInfo.
 		//		By default reruns the query for all top level items; user should override
 		//		with more efficient function.
+		this.reload();
+	},
+
+	reload: function(){
+		// summary: reload the list of top level items in the tree
 		this.markProcessing();
 		var _this = this;
 		var onComplete = function(childItems){
@@ -828,7 +833,7 @@ dojo.declare(
 		};
 		this.getItemChildren(null, onComplete);
 	},
-	
+
 	_onDeleteItem: function(/*Object*/ item){
 		//summary: delete event from the store
 		//since the object has just been deleted, we need to

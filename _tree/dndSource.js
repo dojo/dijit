@@ -12,9 +12,9 @@ dojo.declare("dijit._tree.dndSource", dijit._tree.dndSelector, {
 	skipForm: false,
 	accept: ["text"],
 	
-	constructor: function(node, params){
+	constructor: function(tree, params){
 		// summary: a constructor of the Source
-		// node: Node: node or node's id to build the source on
+		// tree: dijit.Tree: the tree widget to build the source on
 		// params: Object: a dict of parameters, recognized parameters are:
 		//	isSource: Boolean: can be used as a DnD source, if true; assumed to be "true" if omitted
 		//	accept: Array: list of accepted types (text strings) for a target; assumed to be ["text"] if omitted
@@ -172,10 +172,10 @@ dojo.declare("dijit._tree.dndSource", dijit._tree.dndSelector, {
 		n = this._getChildByEvent(e);
 		if(this.current == n){ return; }
 		if(this.current){ this._removeItemClass(this.current, "Over"); }
+		var m = dojo.dnd.manager();
 		if(n){ 
 			this._addItemClass(n, "Over"); 
 			if(this.isDragging){
-				var m = dojo.dnd.manager();
 				if(this.checkItemAcceptance(n,m.source)){
 					m.canDrop(this.targetState != "Disabled" && (!this.current || m.source != this || !(this.current.id in this.selection)));
 				}else{
@@ -184,7 +184,6 @@ dojo.declare("dijit._tree.dndSource", dijit._tree.dndSelector, {
 			}
 		}else{
 			if(this.isDragging){
-				var m = dojo.dnd.manager();
 				if (m.source && this.checkAcceptance(m.source,m.source.getSelectedNodes())){
 					m.canDrop(this.targetState != "Disabled" && (!this.current || m.source != this || !(this.current.id in this.selection)));
 				}else{
@@ -197,7 +196,7 @@ dojo.declare("dijit._tree.dndSource", dijit._tree.dndSelector, {
 
 	checkItemAcceptance: function(node, source){
 		// summary: stub funciton to be overridden if one wants to check for the ability to drop at the node/item level 
-			return true;	
+		return true;	
 	},
 	
 	// topic event processors
@@ -244,25 +243,79 @@ dojo.declare("dijit._tree.dndSource", dijit._tree.dndSelector, {
 	},
 
 	onDndDrop: function(source, nodes, copy){
-		// summary: topic event processor for /dnd/drop, called to finish the DnD operation
+		// summary:
+		//		Topic event processor for /dnd/drop, called to finish the DnD operation..
+		//		Updates data store items according to where node was dragged from and dropped
+		//		to.   The tree will then respond to those data store updates and redraw itself.
 		// source: Object: the source which provides items
 		// nodes: Array: the list of transferred items
 		// copy: Boolean: copy items, if true, move items otherwise
 
 		if(this.containerState == "Over"){
+			var tree = this.tree,
+				store = tree.store,
+				target = this.current,
+				requeryRoot = false;	// set to true iff top level items change
+
 			this.isDragging = false;
-			var target = this.current;
-			var items = this.itemCreator(nodes, target);
-			if(!target || target == this.tree.domNode){
-				for(var i = 0; i < items.length; i++){
-					this.tree.store.newItem(items[i], null);
-				}
+
+			// Compute the new parent item (if we are *not* dropping at the top level)
+			var targetWidget = dijit.getEnclosingWidget(target),
+				newParentItem;
+			if(targetWidget && targetWidget.item){
+				// dropping onto another item
+				newParentItem = targetWidget.item;
 			}else{
-				for(var i = 0; i < items.length; i++){
-					pInfo = {parent: dijit.getEnclosingWidget(target).item, attribute: "children"};
-					var newItem = this.tree.store.newItem(items[i], pInfo);
-					console.log("newItem:", newItem);
+				// dropping onto root
+				requeryRoot = true;
+			}
+
+			// If we are dragging from another source (or at least, another source
+			// that points to a different data store), then we need to make new data
+			// store items for each element in nodes[].  This call get the parameters
+			// to pass to store.newItem()
+			var newItemsParams;
+			if(source != this){
+				newItemsParams = this.itemCreator(nodes, target);
+			}
+
+			dojo.forEach(nodes, function(node, idx){
+				var parentAttr = tree.childrenAttr[0];	// name of "children" attr in parent item
+
+				if(source == this){
+					// This is a node from my own tree, and we are moving it, not copying.
+					// Remove item from old parent's children attribute.
+					// TODO: dijit._tree.dndSelector should implement deleteSelectedNodes()
+					// and this code should go there.
+					var childTreeNode = dijit.getEnclosingWidget(node),
+						childItem = childTreeNode.item,
+						oldParentItem = childTreeNode.getParent().item;
+
+					if( oldParentItem ){
+						dojo.forEach(tree.childrenAttr, function(attr){
+							if(store.containsValue(oldParentItem, attr, childItem)){
+								var values = dojo.filter(store.getValues(oldParentItem, attr), function(x){
+									return x != childItem;
+								});
+								store.setValues(oldParentItem, attr, values);
+								parentAttr = attr;
+							}
+						});
+					}
+
+					if(newParentItem){
+						// modify target item's children attribute to include this item
+						store.setValues(newParentItem, parentAttr,
+							store.getValues(newParentItem, parentAttr).concat(childItem));
+					}
+				}else{
+					var pInfo = newParentItem ? {parent: newParentItem, attribute: parentAttr} : null;
+					store.newItem(newItemsParams[idx], pInfo);
 				}
+			}, this);
+			if(requeryRoot){
+				// The list of top level children changed, so update it.
+				tree.reload();
 			}
 		}
 		this.onDndCancel();
