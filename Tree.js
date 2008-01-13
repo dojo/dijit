@@ -151,8 +151,11 @@ dojo.declare(
 			store = tree.store;
 
 		// Orphan all my existing children.
-		// If items contains some of the same items as before then we will reattach them
-		this.getChildren().forEach(function(child){ this.removeChild(child); }, this);
+		// If items contains some of the same items as before then we will reattach them.
+		// Don't call this.removeChild() because that will collapse the tree etc.
+		this.getChildren().forEach(function(child){
+			dijit._Container.prototype.removeChild.call(this, child);
+		}, this);
 
 		this.state = "LOADED";
 
@@ -216,8 +219,8 @@ dojo.declare(
 		}
 	},
 
-	deleteNode: function(/* treeNode */ node){
-		node.destroy();
+	removeChild: function(/* treeNode */ node){
+		this.inherited(arguments);
 
 		var children = this.getChildren();		
 		if(children.length == 0){
@@ -407,7 +410,7 @@ dojo.declare(
 				onComplete(childItems);
 			}else{
 				// still waiting for some or all of the items to load
-				function onItem(item){
+				var onItem = function onItem(item){
 					if(--_waitCount == 0){
 						// all nodes have been loaded, send them to the tree
 						onComplete(childItems);
@@ -415,7 +418,10 @@ dojo.declare(
 				}
 				dojo.forEach(childItems, function(item){
 					if(!store.isItemLoaded(item)){
-						store.loadItem({item: item, onItem: onItem});
+						store.loadItem({
+							item: item,
+							onItem: onItem
+						});
 					}
 				});
 			}
@@ -832,7 +838,12 @@ dojo.declare(
 
 		if(node){
 			var parent = node.getParent();
-			parent.deleteNode(node);
+			if(parent){
+				// if node has not already been orphaned from a _onSetItem(parent, "children", ..) call...
+				parent.removeChild(node);
+			}
+			delete this._itemNodeMap[identity];
+			node.destroyRecursive();
 		}
 	},
 
