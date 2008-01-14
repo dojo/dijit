@@ -329,7 +329,7 @@ dojo.declare("dijit.MenuItem",
 		 '<tr class="dijitReset dijitMenuItem"'
 		+'dojoAttachEvent="onmouseenter:_onHover,onmouseleave:_onUnhover,ondijitclick:_onClick">'
 		+'<td class="dijitReset"><div class="dijitMenuItemIcon ${iconClass}" dojoAttachPoint="iconNode" ></div></td>'
-		+'<td tabIndex="-1" class="dijitReset dijitMenuItemLabel" dojoAttachPoint="containerNode" waiRole="menuitem"></td>'
+		+'<td tabIndex="-1" class="dijitReset dijitMenuItemLabel" dojoAttachPoint="containerNode,focusNode" waiRole="menuitem"></td>'
 		+'<td class="dijitReset" dojoAttachPoint="arrowCell">'
 			+'<div class="dijitMenuExpand" dojoAttachPoint="expand" style="display:none">'
 			+'<span class="dijitInline dijitArrowNode dijitMenuExpandInner">+</span>'
