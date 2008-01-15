@@ -564,7 +564,6 @@ dojo.declare(
 					ignoreCase: this.ignoreCase, 
 					deep: true
 				},
-				store: this.store,
 				query: query,
 				onComplete: dojo.hitch(this, "_openResultList"), 
 				start:0,
@@ -577,7 +576,7 @@ dojo.declare(
 				//		tell callback the direction of the paging so the screen
 				//		reader knows which menu option to shout
 				dataObject.direction = direction;
-				dataObject.store.fetch(dataObject);
+				this.store.fetch(dataObject);
 			}
 			this._nextSearch = this._popupWidget.onPage = dojo.hitch(this, nextSearch, dataObject);
 		},
