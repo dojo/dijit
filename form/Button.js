@@ -46,19 +46,13 @@ dojo.declare("dijit.form.Button",
 
 	_onButtonClick: function(/*Event*/ e){
 		// summary: callback when the user mouse clicks the button portion
-		dojo.stopEvent(e);
-		var okToSubmit = this._onClick(e) !== false; // returning nothing is same as true
-
-		// for some reason type=submit buttons don't automatically submit the form; do it manually
-		if(this.type=="submit" && okToSubmit){
+		if(this._onClick(e) === false){ // returning nothing is same as true
+			dojo.stopEvent(e);
+		}else if(this.type=="submit"){ // see if a nonform widget needs to be signalled
 			for(var node=this.domNode; node; node=node.parentNode){
 				var widget=dijit.byNode(node);
-				if(widget && widget._onSubmit){
+				if(widget && typeof widget._onSubmit == "function"){
 					widget._onSubmit(e);
-					break;
-				}
-				if(node.tagName.toLowerCase() == "form"){
-					if(!node.onsubmit || node.onsubmit()){ node.submit(); }
 					break;
 				}
 			}
@@ -82,7 +76,7 @@ dojo.declare("dijit.form.Button",
 
 	onClick: function(/*Event*/ e){
 		// summary: user callback for when button is clicked
-		//      if type="submit", return value != false to perform submit
+		//      if type="submit", return true to perform submit
 		return true;
 	},
 

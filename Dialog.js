@@ -77,9 +77,36 @@ dojo.declare(
 	}
 );
 
+
+dojo.declare("dijit._DialogMixin", null,
+	{
+		attributeMap: dijit._Widget.prototype.attributeMap,
+
+		// execute: Function
+		//	User defined function to do stuff when the user hits the submit button
+		execute: function(/*Object*/ formContents){},
+
+		// onCancel: Function
+		//      Callback when user has canceled dialog, to notify container
+		//      (user shouldn't override)
+		onCancel: function(){},
+
+		// onExecute: Function
+		//	Callback when user is about to execute dialog, to notify container
+		//	(user shouldn't override)
+		onExecute: function(){},
+
+		_onSubmit: function(){
+			// summary: callback when user hits submit button
+			this.onExecute();	// notify container that we are about to execute
+			this.execute(this.getValues());
+		}
+	}
+);
+
 dojo.declare(
 	"dijit.Dialog",
-	[dijit.layout.ContentPane, dijit._Templated, dijit.form._FormMixin],
+	[dijit.layout.ContentPane, dijit._Templated, dijit.form._FormMixin, dijit._DialogMixin],
 	{
 		// summary: A modal dialog Widget
 		//
@@ -325,7 +352,7 @@ dojo.declare(
 
 dojo.declare(
 	"dijit.TooltipDialog",
-	[dijit.layout.ContentPane, dijit._Templated, dijit.form._FormMixin],
+	[dijit.layout.ContentPane, dijit._Templated, dijit.form._FormMixin, dijit._DialogMixin],
 	{
 		// summary:
 		//		Pops up a dialog that appears like a Tooltip

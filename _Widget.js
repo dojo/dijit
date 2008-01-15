@@ -252,6 +252,12 @@ dojo.declare("dijit._Widget", null, {
 				}
 				break;
 			default:
+				if(/^on[A-Z]/.test(attr)){ // eg. onSubmit needs to be onsubmit
+					attr = attr.toLowerCase();
+				}
+				if(typeof value == "function"){ // functions execute in the context of the widget
+					value = dojo.hitch(this, value);
+				}
 				mapNode[attr] = value; //FF2 won't set readOnly et al with node.setAttribute
 		}
 	},

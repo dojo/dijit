@@ -90,8 +90,8 @@
 
 		<h2 class="pageSubContentTitle">Job Application Form</h2>
 		<p>This is just a little demo of dijit's form widgets</p>
-		<form dojoType="dijit.form.Form" id="myForm" action="showPost.php"
-			execute="alert('Execute form w/values:\n'+dojo.toJson(arguments[0],true));">
+		<form dojoType="dijit.form.Form" id="myForm"
+			onsubmit="alert('Execute form w/values:\n'+dojo.toJson(this.getValues(),true));return confirm('Show form values in the URL?')">
 			<div class="formQuestion">
 				<span class="noticeMessage">
 					As you type in the text below, notice how your input is auto

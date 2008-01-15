@@ -94,7 +94,9 @@ The form widget takes data in a form and serializes/deserializes it,
 so it can be submitted as a JSON string of nested objects.
 </p>
 <div style="color:red">Currently only widgets are supported, not raw elements.</div>
-<form dojoType="dijit.form.Form" id="myForm" action="showPost.php" execute="alert('Execute form w/values:\n'+dojo.toJson(arguments[0],true));">
+<!--    to test form submission, you'll need to create an action handler similar to
+        http://www.utexas.edu/teamweb/cgi-bin/generic.cgi -->
+<form dojoType="dijit.form.Form" id="myForm" onsubmit="alert('Attempting to submit form w/values:\n'+dojo.toJson(this.getValues(),true));if(this.isValid()){return confirm('Form is valid, press OK to submit');}else{alert('Form contains invalid data.  Please correct first');return false;}">
 <p>Just HTML text</p>
 <table border=2>
 <tr><th>Description</th><th>Name</th><th>Form node/widget</th></tr>
@@ -209,7 +211,7 @@ text text text """ \\\/
 
 <button dojoType=dijit.form.Button onClick="getValues();">Get Values from form!</button>
 <button dojoType=dijit.form.Button onClick="setValues();">Set Values to form!</button>
-<button dojoType=dijit.form.Button type=submit>Submit</button>
+<button dojoType=dijit.form.Button type="submit">Submit</button>
 </form>
 
 
