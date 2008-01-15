@@ -200,9 +200,9 @@ dojo.declare("dijit.InlineEditBox",
 		this.editing = false;
 
 		var value = this.editWidget.getValue() + "";
-		if(this.renderAsHtml){
+		if(!this.renderAsHtml){
 			value = value.replace(/&/gm, "&amp;").replace(/</gm, "&lt;").replace(/>/gm, "&gt;").replace(/"/gm, "&quot;")
-				.replace("\n", "<br>");
+				.replace(/\n/g, "<br>");
 		}
 		this.setValue(value);
 
