@@ -128,7 +128,7 @@ dijit.isTabNavigable = function(/*Element*/elem){
 	return false; // boolean
 };
 
-dijit._findTabs = function(/*DOMNode*/root){
+dijit._getTabNavigable = function(/*DOMNode*/root){
 	// summary:
 	//		Finds the following descendants of the specified root node:
 	//		* the first tab-navigable element in document order
@@ -161,18 +161,18 @@ dijit._findTabs = function(/*DOMNode*/root){
 	return { first: first, last: last, lowest: lowest, highest: highest };
 }
 
-dijit.findFirstTab = function(/*String|DOMNode*/root){
+dijit.getFirstInTabbingOrder = function(/*String|DOMNode*/root){
 	// summary:
 	//		Finds the descendant of the specified root node
-	//		first in the tabbing order
-	var tabs = dijit._findTabs(dojo.byId(root));
-	return tabs.lowest ? tabs.lowest : tabs.first; // Element
+	//		that is first in the tabbing order
+	var elems = dijit._getTabNavigable(dojo.byId(root));
+	return elems.lowest ? elems.lowest : elems.first; // Element
 };
 
-dijit.findLastTab = function(/*String|DOMNode*/root){
+dijit.getLastInTabbingOrder = function(/*String|DOMNode*/root){
 	// summary:
 	//		Finds the descendant of the specified root node
-	//		last in the tabbing order
-	var tabs = dijit._findTabs(dojo.byId(root));
-	return tabs.last ? tabs.last : tabs.highest; // Element
+	//		that is last in the tabbing order
+	var elems = dijit._getTabNavigable(dojo.byId(root));
+	return elems.last ? elems.last : elems.highest; // Element
 };

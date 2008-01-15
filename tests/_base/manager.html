@@ -79,60 +79,60 @@
 						t.t(dijit.isTabNavigable(dojo.byId("zero-tabindex-div")));
 					},
 					function findTabNullOnEmpty(t){
-						t.is(null, dijit.findFirstTab("empty"));
-						t.is(null, dijit.findLastTab("empty"));
+						t.is(null, dijit.getFirstInTabbingOrder("empty"));
+						t.is(null, dijit.getLastInTabbingOrder("empty"));
 					},
 					function findTabElements(t){
-						t.is(null, dijit.findFirstTab("div-container"));
-						t.is(null, dijit.findFirstTab("a-without-href-container"));
-						t.is("a-with-href", dijit.findFirstTab("a-with-href-container").id);
-						t.is("area", dijit.findFirstTab("area-map").id);
-						t.is("button", dijit.findFirstTab("button-container").id);
-						t.is("input", dijit.findFirstTab("input-container").id);
-						t.is("object", dijit.findFirstTab("object-container").id);
-						t.is("select", dijit.findFirstTab("select-container").id);
-						t.is("textarea", dijit.findFirstTab("textarea-container").id);
-						t.is(null, dijit.findLastTab("div-container"));
-						t.is(null, dijit.findLastTab("a-without-href-container"));
-						t.is("a-with-href", dijit.findLastTab("a-with-href-container").id);
-						t.is("area", dijit.findLastTab("area-map").id);
-						t.is("button", dijit.findLastTab("button-container").id);
-						t.is("input", dijit.findLastTab("input-container").id);
-						t.is("object", dijit.findLastTab("object-container").id);
-						t.is("select", dijit.findLastTab("select-container").id);
-						t.is("textarea", dijit.findLastTab("textarea-container").id);
+						t.is(null, dijit.getFirstInTabbingOrder("div-container"));
+						t.is(null, dijit.getFirstInTabbingOrder("a-without-href-container"));
+						t.is("a-with-href", dijit.getFirstInTabbingOrder("a-with-href-container").id);
+						t.is("area", dijit.getFirstInTabbingOrder("area-map").id);
+						t.is("button", dijit.getFirstInTabbingOrder("button-container").id);
+						t.is("input", dijit.getFirstInTabbingOrder("input-container").id);
+						t.is("object", dijit.getFirstInTabbingOrder("object-container").id);
+						t.is("select", dijit.getFirstInTabbingOrder("select-container").id);
+						t.is("textarea", dijit.getFirstInTabbingOrder("textarea-container").id);
+						t.is(null, dijit.getLastInTabbingOrder("div-container"));
+						t.is(null, dijit.getLastInTabbingOrder("a-without-href-container"));
+						t.is("a-with-href", dijit.getLastInTabbingOrder("a-with-href-container").id);
+						t.is("area", dijit.getLastInTabbingOrder("area-map").id);
+						t.is("button", dijit.getLastInTabbingOrder("button-container").id);
+						t.is("input", dijit.getLastInTabbingOrder("input-container").id);
+						t.is("object", dijit.getLastInTabbingOrder("object-container").id);
+						t.is("select", dijit.getLastInTabbingOrder("select-container").id);
+						t.is("textarea", dijit.getLastInTabbingOrder("textarea-container").id);
 					},
 					function findTabOnElementRatherThanString(t){
-						t.is("a-with-href", dijit.findFirstTab(dojo.byId("a-with-href-container")).id);
-						t.is("a-with-href", dijit.findLastTab(dojo.byId("a-with-href-container")).id);
+						t.is("a-with-href", dijit.getFirstInTabbingOrder(dojo.byId("a-with-href-container")).id);
+						t.is("a-with-href", dijit.getLastInTabbingOrder(dojo.byId("a-with-href-container")).id);
 					},
 					function findTabSkipDisabled(t){
-						t.is("not-disabled-input", dijit.findFirstTab("skip-disabled").id);
-						t.is("not-disabled-input", dijit.findLastTab("skip-disabled").id);
+						t.is("not-disabled-input", dijit.getFirstInTabbingOrder("skip-disabled").id);
+						t.is("not-disabled-input", dijit.getLastInTabbingOrder("skip-disabled").id);
 					},
 					function findTabZeroTabindex(t){
-						t.is("zero-tabindex-div", dijit.findFirstTab("zero-tabindex-div-container").id);
-						t.is("zero-tabindex-input", dijit.findFirstTab("zero-tabindex-input-container").id);
-						t.is("zero-tabindex-div", dijit.findLastTab("zero-tabindex-div-container").id);
-						t.is("zero-tabindex-input", dijit.findLastTab("zero-tabindex-input-container").id);
+						t.is("zero-tabindex-div", dijit.getFirstInTabbingOrder("zero-tabindex-div-container").id);
+						t.is("zero-tabindex-input", dijit.getFirstInTabbingOrder("zero-tabindex-input-container").id);
+						t.is("zero-tabindex-div", dijit.getLastInTabbingOrder("zero-tabindex-div-container").id);
+						t.is("zero-tabindex-input", dijit.getLastInTabbingOrder("zero-tabindex-input-container").id);
 					},
 					function findTabPositiveTabindex(t){
-						t.is("positive-tabindex-input1a", dijit.findFirstTab("positive-tabindex-mixed-with-no-tabindex").id);
-						t.is("positive-tabindex-input3a", dijit.findFirstTab("positive-tabindex").id);
-						t.is("no-tabindex-input2", dijit.findLastTab("positive-tabindex-mixed-with-no-tabindex").id);
-						t.is("positive-tabindex-input4b", dijit.findLastTab("positive-tabindex").id);
+						t.is("positive-tabindex-input1a", dijit.getFirstInTabbingOrder("positive-tabindex-mixed-with-no-tabindex").id);
+						t.is("positive-tabindex-input3a", dijit.getFirstInTabbingOrder("positive-tabindex").id);
+						t.is("no-tabindex-input2", dijit.getLastInTabbingOrder("positive-tabindex-mixed-with-no-tabindex").id);
+						t.is("positive-tabindex-input4b", dijit.getLastInTabbingOrder("positive-tabindex").id);
 					},
 					function findTabSkipMinusOneTabindex(t){
-						t.is("not-minus-one-input", dijit.findFirstTab("skip-minus-one").id);
-						t.is("not-minus-one-input", dijit.findLastTab("skip-minus-one").id);
+						t.is("not-minus-one-input", dijit.getFirstInTabbingOrder("skip-minus-one").id);
+						t.is("not-minus-one-input", dijit.getLastInTabbingOrder("skip-minus-one").id);
 					},
 					function findTabDescend(t){
-						t.is("child-input1", dijit.findFirstTab("descend").id);
-						t.is("child-input2", dijit.findLastTab("descend").id);
+						t.is("child-input1", dijit.getFirstInTabbingOrder("descend").id);
+						t.is("child-input2", dijit.getLastInTabbingOrder("descend").id);
 					},
 					function findTabOuterInner(t){
-						t.is("outer1", dijit.findFirstTab("outer-inner-container").id);
-						t.is("inner2", dijit.findLastTab("outer-inner-container").id);
+						t.is("outer1", dijit.getFirstInTabbingOrder("outer-inner-container").id);
+						t.is("inner2", dijit.getLastInTabbingOrder("outer-inner-container").id);
 					}
 				]
 			);
