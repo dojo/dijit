@@ -79,11 +79,12 @@ dojo.declare(
 						dijit.form._DateTimeTextBox.superclass.setValue.call(self, value, true);
 					},
 					lang: this.lang,
-					constraints:this.constraints,
+					constraints: this.constraints,
 					isDisabledDate: function(/*Date*/ date){
 						// summary:
 						// 	disables dates outside of the min/max of the _DateTimeTextBox
-						return self.constraints && (dojo.date.compare(self.constraints.min,date,"date") > 0 || dojo.date.compare(self.constraints.max,date,"date") < 0);
+						var compare = dojo.date.compare;
+						return self.constraints && (compare(self.constraints.min,date,"date") > 0 || compare(self.constraints.max,date,"date") < 0);
 					}
 				});
 				this._picker.setValue(this.getValue() || new Date());
