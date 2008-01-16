@@ -77,7 +77,7 @@ dojo.declare(
 					isDisabledDate: function(/*Date*/ date){
 						// summary:
 						// 	disables dates outside of the min/max of the TimeTextBox
-						return self.constraints && (dojo.date.compare(self.constraints.min,date) > 0 || dojo.date.compare(self.constraints.max,date) < 0);
+						return self.constraints && (dojo.date.compare(self.constraints.min,date,"date") > 0 || dojo.date.compare(self.constraints.max,date,"date") < 0);
 					}
 				});
 				this._picker.setValue(this.getValue() || new Date());
