@@ -24,20 +24,12 @@ dijit.wai = {
 		dojo.body().appendChild(div);
 
 		// test it
-		function check(){
-			if(!div){return;}
-			var cs = dojo.getComputedStyle(div);
-			if(cs){
-				var bkImg = cs.backgroundImage;
-				var needsA11y = (cs.borderTopColor==cs.borderRightColor) || (bkImg != null && (bkImg == "none" || bkImg == "url(invalid-url:)" ));
-				dojo[needsA11y ? "addClass" : "removeClass"](dojo.body(), "dijit_a11y");
-				dojo.body().removeChild(div);
-				div=null;
-			}
-		}
-		check();
-		if(dojo.isIE){
-			setInterval(check, 4000);
+		var cs = dojo.getComputedStyle(div);
+		if(cs){
+			var bkImg = cs.backgroundImage;
+			var needsA11y = (cs.borderTopColor==cs.borderRightColor) || (bkImg != null && (bkImg == "none" || bkImg == "url(invalid-url:)" ));
+			dojo[needsA11y ? "addClass" : "removeClass"](dojo.body(), "dijit_a11y");
+			dojo.body().removeChild(div);
 		}
 	}
 };
