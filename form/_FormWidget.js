@@ -268,7 +268,7 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 				setTimeout(function(){
 					node.style.opacity = old;
 				}, 0);
-			}), 0);
+			}), 250);
 		}
 	}
 });
