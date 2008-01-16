@@ -344,14 +344,14 @@
 	background-position: -96px;
 }
 
-.tundra .dijitRadioCheckedDisabled {
-	/* selected but disabled */
-	background-position: -128px;
-}
-
 .tundra .dijitRadioDisabled {
 	/* unselected and disabled */
 	background-position: -144px;
+}
+
+.tundra .dijitRadioCheckedDisabled {
+	/* selected but disabled */
+	background-position: -128px;
 }
 
 .tundra .dijitRadioHover,
