@@ -38,8 +38,9 @@ dojo.declare(
 			this.inherited("postMixInProperties",arguments);
 			var constraints = this.constraints;
 			constraints.selector = this._selector;
-			if(typeof constraints.min == "string"){ constraints.min = dojo.date.stamp.fromISOString(constraints.min); }
- 			if(typeof constraints.max == "string"){ constraints.max = dojo.date.stamp.fromISOString(constraints.max); }
+			var fromISO = dojo.date.stamp.fromISOString;
+			if(typeof constraints.min == "string"){ constraints.min = fromISO(constraints.min); }
+ 			if(typeof constraints.max == "string"){ constraints.max = fromISO(constraints.max); }
 		},
 
 		_onFocus: function(/*Event*/ evt){
@@ -82,7 +83,7 @@ dojo.declare(
 					isDisabledDate: function(/*Date*/ date){
 						// summary:
 						// 	disables dates outside of the min/max of the _DateTimeTextBox
-						return self.constraints && (dojo.date.compare(self.constraints.min,date) > 0 || dojo.date.compare(self.constraints.max,date) < 0);
+						return self.constraints && (dojo.date.compare(self.constraints.min,date,"date") > 0 || dojo.date.compare(self.constraints.max,date,"date") < 0);
 					}
 				});
 				this._picker.setValue(this.getValue() || new Date());
