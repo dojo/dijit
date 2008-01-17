@@ -148,6 +148,7 @@ dojo.declare(
 			this.domNode.style.display="none";
 			this.connect(this, "onExecute", "hide");
 			this.connect(this, "onCancel", "hide");
+			this._modalconnects = [];	
 		},
 
 		onLoad: function(){
@@ -161,8 +162,6 @@ dojo.declare(
 			//		stuff we need to do before showing the Dialog for the first
 			//		time (but we defer it until right beforehand, for
 			//		performance reasons)
-
-			this._modalconnects = [];
 
 			if(this.titleBar){
 				this._moveable = new dojo.dnd.Moveable(this.domNode, { handle: this.titleBar });
@@ -281,6 +280,8 @@ dojo.declare(
 		show: function(){
 			// summary: display the dialog
 
+			if(this.open){ return; }
+			
 			// first time we show the dialog, there's some initialization stuff to do			
 			if(!this._alreadyInitialized){
 				this._setup();
@@ -346,6 +347,15 @@ dojo.declare(
 				this._underlay.layout();
 				this._position();
 			}
+		},
+		
+		destroy: function(){
+			dojo.forEach(this._modalconnects, dojo.disconnect);
+			if(this.open){
+				var fo = this._savedFocus;
+				setTimeout(dojo.hitch(dijit,"focus",fo),25);
+			}
+			this.inherited(arguments);			
 		}
 	}
 );

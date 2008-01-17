@@ -27,7 +27,7 @@
 			var dlg = new dijit.Dialog({ title: "test input focus" }, node);
 
 			var input = document.createElement("input");
-			dojo.attr(input,"tabIndex","1");
+			dojo.attr(input,"tabIndex","0");
 			dlg.containerNode.appendChild(input);
 
 			var btn = new dijit.form.Button({ label: "Close" });
@@ -36,6 +36,7 @@
 			dojo.connect(btn, "onClick", function(){
 				console.log("destroying, while visible"); 
 				dlg.destroy();
+				
 			});
 			dlg.show();
 		}
