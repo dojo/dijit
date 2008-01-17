@@ -248,7 +248,7 @@ dojo.declare(
 		templateString: "<form dojoAttachPoint='containerNode' name='${name}'></form>",
 
 		attributeMap: dojo.mixin(dojo.clone(dijit._Widget.prototype.attributeMap),
-			{onSubmit: "domNode", action: "domNode", method: "domNode", enctype: "domNode", "accept-charset": "domNode", accept: "domNode", target: "domNode"}),
+			{onSubmit: "", action: "", method: "", enctype: "", "accept-charset": "", accept: "", target: ""}),
 
 		// execute: Function
 		//	Deprecated: use onSubmit

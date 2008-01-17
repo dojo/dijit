@@ -39,7 +39,7 @@
 	<body>
 		<h2>Tundra</h2>
 		<div id='tundra' class="box tundra">
-			<button id='foo' dojoType="dijit.form.Button" onClick='logMessage("clicked simple")'>
+			<button dojoType="dijit.form.Button" onClick='logMessage("clicked simple")'>
 				Button
 			</button>
 			<button dojoType="dijit.form.Button" iconClass="noteIcon" onClick='logMessage("clicked simple")'>
@@ -51,7 +51,7 @@
 		<br><br>
 			<button dojoType="dijit.form.DropDownButton">
 				<span>Drop Down Button</span>
-				<div dojoType="dijit.Menu" id="editMenu" style="display: none;">
+				<div dojoType="dijit.Menu" style="display: none;">
 					<div dojoType="dijit.MenuItem"  iconClass="dijitEditorIconCut"
 						onClick="logMessage('not actually cutting anything, just a test!')">Cut</div>
 					<div dojoType="dijit.MenuItem"  iconClass="dijitEditorIconCopy"
@@ -62,7 +62,7 @@
 			</button>
 			<button dojoType="dijit.form.DropDownButton" iconClass="noteIcon">
 				<span>Button w/image</span>
-				<div dojoType="dijit.Menu" id="editMenu2" style="display: none;">
+				<div dojoType="dijit.Menu" style="display: none;">
 					<div dojoType="dijit.MenuItem"  iconClass="dijitEditorIconCut"
 						onClick="logMessage('not actually cutting anything, just a test!')">Cut</div>
 					<div dojoType="dijit.MenuItem"  iconClass="dijitEditorIconCopy"
@@ -73,7 +73,7 @@
 			</button>
 			<button dojoType="dijit.form.DropDownButton" disabled='true'>
 				<span>Drop Down Disabled</span>
-				<div dojoType="dijit.Menu" id="editMenu3" style="display: none;">
+				<div dojoType="dijit.Menu" style="display: none;">
 					<div dojoType="dijit.MenuItem"  iconClass="dijitEditorIconCut"
 						onClick="logMessage('not actually cutting anything, just a test!')">Cut</div>
 					<div dojoType="dijit.MenuItem"  iconClass="dijitEditorIconCopy"
@@ -85,7 +85,7 @@
 		<br><br>
 			<button dojoType="dijit.form.ComboButton" onClick='logMessage("clicked combo save")'>
 				<span>Combo Button</span>
-				<div dojoType="dijit.Menu" id="saveMenu" style="display: none;">
+				<div dojoType="dijit.Menu" style="display: none;">
 					<div dojoType="dijit.MenuItem" iconSrc="../../templates/buttons/save.gif"
 						onClick="logMessage('not actually saving anything, just a test!')">Save</div>
 					<div dojoType="dijit.MenuItem" iconSrc="../../templates/buttons/save.gif"
@@ -94,7 +94,7 @@
 			</button>
 			<button dojoType="dijit.form.ComboButton" iconClass="noteIcon" onClick='logMessage("clicked combo save")'>
 				<span>Combo w/image</span>
-				<div dojoType="dijit.Menu" id="saveMenu" style="display: none;">
+				<div dojoType="dijit.Menu" style="display: none;">
 					<div dojoType="dijit.MenuItem"  iconClass="dijitEditorIconSave"
 						onClick="logMessage('not actually saving anything, just a test!')">Save</div>
 					<div dojoType="dijit.MenuItem"
@@ -103,7 +103,7 @@
 			</button>
 			<button dojoType="dijit.form.ComboButton" onClick='logMessage("clicked combo save")' disabled='true'>
 				<span>Combo Disabled</span>
-				<div dojoType="dijit.Menu" id="saveMenu" style="display: none;">
+				<div dojoType="dijit.Menu" style="display: none;">
 					<div dojoType="dijit.MenuItem"  iconClass="dijitEditorIconSave"
 						onClick="logMessage('not actually saving anything, just a test!')">Save</div>
 					<div dojoType="dijit.MenuItem"
@@ -121,7 +121,6 @@
 					style="width: 300px;"
 					name="state2"
 					promptMessage="Please enter a state"
-					id="datatest"
 			>
 
 			<input dojoType="dijit.form.ComboBox"
@@ -134,7 +133,6 @@
 					style="width: 300px;"
 					name="state2"
 					promptMessage="Please enter a state"
-					id="datatest"
 					disabled="true"
 			>
 
@@ -144,7 +142,7 @@
 			value="900" 
 			constraints={max:1550,places:0}
 			maxLength="10" 
-			id="integerspinner1">
+		>
 
 
 		<input dojoType="dijit.form.NumberSpinner" 
@@ -153,7 +151,7 @@
 			disabled='true'
 			constraints={max:1550,places:0}
 			maxLength="10" 
-			id="integerspinner1">
+		>
 
 		</div>
 		<br clear=both>
