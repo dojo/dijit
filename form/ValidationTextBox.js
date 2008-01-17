@@ -142,7 +142,7 @@ dojo.declare(
 
 		postMixInProperties: function(){
 			this.inherited(arguments);
-			this.constraints.locale=this.lang;
+			this.constraints.locale = this.lang;
 			this.messages = dojo.i18n.getLocalization("dijit.form", "validate", this.lang);
 			if(this.invalidMessage == "$_unset_$"){ this.invalidMessage = this.messages.invalidMessage; }
 			var p = this.regExpGen(this.constraints);
@@ -238,7 +238,8 @@ dojo.declare(
 			if(isMin || isMax){
 				return (!isMin || this.compare(primitive,constraints.min) >= 0) &&
 					(!isMax || this.compare(primitive,constraints.max) <= 0);
-			}else{ return true; }
+			}
+			return true;
 		},
 
 		isInRange: function(/* Boolean*/ isFocused){
@@ -253,7 +254,7 @@ dojo.declare(
 
 		getErrorMessage: function(/* Boolean*/ isFocused){
 			if(dijit.form.RangeBoundTextBox.superclass.isValid.call(this, false) && !this.isInRange(isFocused)){ return this.rangeMessage; }
-			else{ return this.inherited(arguments); }
+			return this.inherited(arguments);
 		},
 
 		postMixInProperties: function(){

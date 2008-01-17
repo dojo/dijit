@@ -65,26 +65,26 @@ dojo.declare(
 
 			if(this.disabled || this.readOnly || !this.popupClass){return;}
 
-			var self = this;
+			var textBox = this;
 
 			if(!this._picker){
 				var popupProto=dojo.getObject(this.popupClass, false);
 				this._picker = new popupProto({
 					onValueSelected: function(value){
 
-						self.focus(); // focus the textbox before the popup closes to avoid reopening the popup
-						setTimeout(dojo.hitch(self, "_close"), 1); // allow focus time to take
+						textBox.focus(); // focus the textbox before the popup closes to avoid reopening the popup
+						setTimeout(dojo.hitch(textBox, "_close"), 1); // allow focus time to take
 
 						// this will cause InlineEditBox and other handlers to do stuff so make sure it's last
-						dijit.form._DateTimeTextBox.superclass.setValue.call(self, value, true);
+						dijit.form._DateTimeTextBox.superclass.setValue.call(textBox, value, true);
 					},
-					lang: this.lang,
-					constraints: this.constraints,
+					lang: textBox.lang,
+					constraints: textBox.constraints,
 					isDisabledDate: function(/*Date*/ date){
 						// summary:
 						// 	disables dates outside of the min/max of the _DateTimeTextBox
 						var compare = dojo.date.compare;
-						return self.constraints && (compare(self.constraints.min,date,"date") > 0 || compare(self.constraints.max,date,"date") < 0);
+						return textBox.constraints && (compare(textBox.constraints.min,date,"date") > 0 || compare(textBox.constraints.max,date,"date") < 0);
 					}
 				});
 				this._picker.setValue(this.getValue() || new Date());
@@ -95,7 +95,7 @@ dojo.declare(
 					popup: this._picker,
 					around: this.domNode,
 					onCancel: dojo.hitch(this, this._close),
-					onClose: function(){ self._opened=false; }
+					onClose: function(){ textBox._opened=false; }
 				});
 				this._opened=true;
 			}

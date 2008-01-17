@@ -78,6 +78,7 @@
 					invalidMessage="Invalid date. Use mm/dd/yyyy format." />
  				onChange:<input id="oc2" size="34" disabled value="not fired yet!" autocomplete="off">
 				<input type="button" value="Destroy" onClick="dijit.byId('q2').destroy(); return false;">
+				<input type="button" value="set max to 2007-12-31" onClick="dijit.byId('q2').constraints.max = new Date(2007,11,31); return false;">
 			</div>
 			<div class="dojoTitlePaneLabel">
 				<label for="q3"> Date (American format) </label>
