@@ -191,3 +191,9 @@
 .dijitRtl .dijitValidationIconText {
 	float: left;
 }
+
+/* ContentPane*/
+.dijitRtl .dijitContentPaneLoading, .dijitRtl .dijitContentPaneError {
+	background-position:right;
+	padding-right:25px;
+}
