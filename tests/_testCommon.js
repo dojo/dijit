@@ -35,7 +35,7 @@
 					document.getElementsByTagName("html")[0].dir = value;
 					break;
 				case "theme":
-					// tundra | soria | noir | squid | null
+					// tundra | soria | noir | squid | nihilo | null
 					theme = value;
 					break;
 				case "a11y":
@@ -87,7 +87,7 @@
 		// pseudo-function to populate our test-martix-link pop-up
 		var base = window.location.pathname;
 		var str = "";
-		var themes = ["tundra",/*"noir", */ "soria" /* ,"squid" */ ];
+		var themes = ["tundra",/*"noir", */ "soria", "nihilo" /* ,"squid" */ ];
 		str += "<b>Tests:</b><br><table>";
 		d.forEach(themes,function(t){
 			str += 	'<tr><td><a hr'+'ef="'+base+'?theme='+t+'">'+t+'</'+'a></td>'+
