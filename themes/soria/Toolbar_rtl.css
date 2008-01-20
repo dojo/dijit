@@ -1,0 +1,6 @@
+
+/* Toolbar */
+
+.dijitRtl .dijitToolbar .dijitToolbarSeparator {
+	background-image: url('images/editor_rtl.gif');
+}
