@@ -1,0 +1,34 @@
+
+/* Slider */
+
+.dijitRtl .dijitHorizontalSliderProgressBar,
+.dijitRtl .dijitHorizontalSliderRemainingBar,
+.dijitRtl .dijitHorizontalSliderLeftBumper,
+.dijitRtl .dijitHorizontalSliderRightBumper,
+.dijitRtl .dijitVerticalSliderTopBumper {
+	background-position: top right;
+}
+
+.dijitRtl .dijitVerticalSliderProgressBar,
+.dijitRtl .dijitVerticalSliderRemainingBar,
+.dijitRtl .dijitVerticalSliderBottomBumper {
+	background-position: bottom right;
+}
+
+.dijitRtl .dijitHorizontalSliderLeftBumper {
+	border-left-width: 0px;
+	border-right-width: 1px;
+}
+
+.dijitRtl .dijitHorizontalSliderRightBumper {
+	border-left-width: 1px;
+	border-right-width: 0px;
+}
+
+.dijitRtl .dijitHorizontalSliderIncrementIcon {
+	background-image:url('images/arrowLeft.png');
+}
+
+.dijitRtl .dijitHorizontalSliderDecrementIcon {
+	background-image:url('images/arrowRight.png');
+}
