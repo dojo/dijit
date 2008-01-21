@@ -124,13 +124,11 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 					this._mouseDown = true;
 					// set a global event to handle mouseup, so it fires properly
 					//	even if the cursor leaves the button
-					var self = this;
-					// #2685: use this.connect and disconnect so destroy works properly
 					var mouseUpConnector = this.connect(dojo.body(), "onmouseup", function(){
-						self._active = false;
-						self._mouseDown = false;
-						self._setStateClass();
-						self.disconnect(mouseUpConnector);
+						this._active = false;
+						this._mouseDown = false;
+						this._setStateClass();
+						this.disconnect(mouseUpConnector);
 					});
 					if(this.isFocusable()){ this.focus(); }
 					break;
