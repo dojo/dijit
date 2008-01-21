@@ -126,14 +126,12 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 					//	even if the cursor leaves the button
 					var self = this;
 					// #2685: use this.connect and disconnect so destroy works properly
-					dojo.forEach(["onmouseup", "onmouseleave"], function(event){
-						var connector = this.connect(dojo.body(), event, function(){
-							self._active = false;
-							self._mouseDown = false;
-							self._setStateClass();
-							self.disconnect(connector);
-						});
-					}, this);
+					var mouseUpConnector = this.connect(dojo.body(), "onmouseup", function(){
+						self._active = false;
+						self._mouseDown = false;
+						self._setStateClass();
+						self.disconnect(mouseUpConnector);
+					});
 					if(this.isFocusable()){ this.focus(); }
 					break;
 			}
