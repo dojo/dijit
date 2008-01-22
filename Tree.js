@@ -863,18 +863,18 @@ dojo.declare(
 		if(node){
 			node.setLabelNode(this.getLabel(item));
 			node._updateItemClasses(item);
-		}
-		
-		// If this item's children have changed, update tree accordingly.
-		// Have to download the new nodes, which may be an async operation.
-		if( dojo.indexOf(this.childrenAttr, attribute) != -1 ){
-			node.markProcessing();
-			var _this = this;
-			var onComplete = function(childItems){
-				node.unmarkProcessing();
-				_this._onLoadAllItems(node, childItems, false);
-			};
-			this.getItemChildren(node.item, onComplete);
+
+			// If this item's children have changed, update tree accordingly.
+			// Have to download the new nodes, which may be an async operation.
+			if( dojo.indexOf(this.childrenAttr, attribute) != -1 ){
+				node.markProcessing();
+				var _this = this;
+				var onComplete = function(childItems){
+					node.unmarkProcessing();
+					_this._onLoadAllItems(node, childItems, false);
+				};
+				this.getItemChildren(node.item, onComplete);
+			}
 		}
 	},
 	
