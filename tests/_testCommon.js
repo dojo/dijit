@@ -28,7 +28,7 @@
 			switch(key){
 				case "locale":
 					// locale string | null
-					djConfig.locale = locale = value;
+					dojo.config.locale = locale = value;
 					break;
 				case "dir":
 					// rtl | null
@@ -45,15 +45,15 @@
 	}		
 
 	// always include the default theme files:
-	if(!theme){ theme = djConfig.defaultTestTheme || 'tundra'; }
+	if(!theme){ theme = dojo.config.defaultTestTheme || 'tundra'; }
 	var themeCss = d.moduleUrl("dijit.themes",theme+"/"+theme+".css");
 	var themeCssRtl = d.moduleUrl("dijit.themes",theme+"/"+theme+"_rtl.css");
 	document.write('<link rel="stylesheet" type="text/css" href="'+themeCss+'"/>');
 	document.write('<link rel="stylesheet" type="text/css" href="'+themeCssRtl+'"/>');
 
-	if(djConfig.parseOnLoad){ 
-		djConfig.parseOnLoad = false;
-		djConfig._deferParsing = true;
+	if(dojo.config.parseOnLoad){ 
+		dojo.config.parseOnLoad = false;
+		dojo.config._deferParsing = true;
 	}
 
 	d.addOnLoad(function(){
@@ -71,7 +71,7 @@
 		_populateTestDialog(node);
 		d.connect(document,"onkeypress","_testNodeShow");
 
-		if(djConfig._deferParsing){ d.parser.parse(d.body()); }
+		if(dojo.config._deferParsing){ d.parser.parse(d.body()); }
 
 	});
 

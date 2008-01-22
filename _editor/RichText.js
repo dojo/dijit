@@ -9,8 +9,8 @@ dojo.requireLocalization("dijit", "Textarea");
 // but do not try doing document.write if we are using xd loading.
 // document.write will only work if RichText.js is included in the dojo.js
 // file. If it is included in dojo.js and you want to allow rich text saving
-// for back/forward actions, then set djConfig.allowXdRichTextSave = true.
-if(!djConfig["useXDomain"] || djConfig["allowXdRichTextSave"]){
+// for back/forward actions, then set dojo.config.allowXdRichTextSave = true.
+if(!dojo.config["useXDomain"] || dojo.config["allowXdRichTextSave"]){
 	if(dojo._postLoad){
 		(function(){
 			var savetextarea = dojo.doc.createElement('textarea');
@@ -302,7 +302,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 		this.editingArea = dojo.doc.createElement("div");
 		this.domNode.appendChild(this.editingArea);
 
-		if(this.name != "" && (!djConfig["useXDomain"] || djConfig["allowXdRichTextSave"])){
+		if(this.name != "" && (!dojo.config["useXDomain"] || dojo.config["allowXdRichTextSave"])){
 			var saveTextarea = dojo.byId(dijit._scopeName + "._editor.RichText.savedContent");
 			if(saveTextarea.value != ""){
 				var datas = saveTextarea.value.split(this._SEPARATOR), i=0, dat;
