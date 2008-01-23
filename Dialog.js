@@ -135,6 +135,10 @@ dojo.declare(
 		//		The time in milliseconds it takes the dialog to fade in and out
 		duration: 400,
 
+		// _firstFocusItem: DomNode
+		//		The pointer to the first focusable node in the dialog
+		_firstFocusItem:null,
+		
 		// _lastFocusItem: DomNode
 		//		The pointer to which node has focus prior to our dialog
 		_lastFocusItem:null,
@@ -148,7 +152,7 @@ dojo.declare(
 			this.domNode.style.display="none";
 			this.connect(this, "onExecute", "hide");
 			this.connect(this, "onCancel", "hide");
-			this._modalconnects = [];	
+			this._modalconnects = [];
 		},
 
 		onLoad: function(){
@@ -171,6 +175,14 @@ dojo.declare(
 				id: this.id+"_underlay",
 				"class": dojo.map(this["class"].split(/\s/), function(s){ return s+"_underlay"; }).join(" ")
 			});
+			
+			// find and store focusable Items
+			if (!this.firstFocusItem){
+				var focusItem = dijit.getFirstInTabbingOrder(this.domNode);
+				this._firstFocusItem = focusItem ? focusItem : this.domNode;
+				focusItem = dijit.getLastInTabbingOrder(this.domNode);
+				this._lastFocusItem = focusItem ? focusItem : this._firstFocusItem;
+			}
 
 			var node = this.domNode;
 			this._fadeIn = dojo.fx.combine(
@@ -227,29 +239,20 @@ dojo.declare(
 			style.top = Math.floor((viewport.t + (viewport.h - mb.h)/2)) + "px";
 		},
 
-		_findLastFocus: function(/*Event*/ evt){
-			// summary:  called from onblur of dialog container to determine the last focusable item
-			this._lastFocused = evt.target;
-		},
-
-		_cycleFocus: function(/*Event*/ evt){
-			// summary: when tabEnd receives focus, advance focus around to titleBar
-
-			// on first focus to tabEnd, store the last focused item in dialog
-			if(!this._lastFocusItem){
-				this._lastFocusItem = this._lastFocused;
-			}
-			this.titleBar.focus();
-		},
-
 		_onKey: function(/*Event*/ evt){
 			// summary: handles the keyboard events for accessibility reasons
 			if(evt.keyCode){
 				var node = evt.target;
-				// see if we are shift-tabbing from titleBar
-				if(node == this.titleBar && evt.shiftKey && evt.keyCode == dojo.keys.TAB){
-					if(this._lastFocusItem){
-						this._lastFocusItem.focus(); // send focus to last item in dialog if known
+				var singleFocusItem = (this._firstFocusItem == this._lastFocusItem);
+				// see if we are shift-tabbing from first focusable item on dialog
+				if(node == this._firstFocusItem && evt.shiftKey && evt.keyCode == dojo.keys.TAB){
+					if(!singleFocusItem){
+						dijit.focus(this._lastFocusItem); // send focus to last item in dialog
+					}
+					dojo.stopEvent(evt);
+				}else if(node == this._lastFocusItem && evt.keyCode == dojo.keys.TAB && !evt.shiftKey){
+					if (!singleFocusItem){
+						dijit.focus(this._firstFocusItem); // send focus to first item in dialog
 					}
 					dojo.stopEvent(evt);
 				}else{
@@ -270,7 +273,7 @@ dojo.declare(
 					// opera won't tab to a div
 					}else if (!dojo.isOpera){
 						try{
-							this.titleBar.focus();
+							this._firstFocusItem.focus();
 						}catch(e){/*squelch*/}
 					}
 				}
@@ -295,10 +298,6 @@ dojo.declare(
 			this._modalconnects.push(dojo.connect(window, "onscroll", this, "layout"));
 			this._modalconnects.push(dojo.connect(document.documentElement, "onkeypress", this, "_onKey"));
 
-			// IE doesn't bubble onblur events - use ondeactivate instead
-			var ev = typeof(document.ondeactivate) == "object" ? "ondeactivate" : "onblur";
-			this._modalconnects.push(dojo.connect(this.containerNode, ev, this, "_findLastFocus"));
-
 			dojo.style(this.domNode, "opacity", 0);
 			this.domNode.style.display="block";
 			this.open = true;
@@ -312,7 +311,7 @@ dojo.declare(
 
 			// set timeout to allow the browser to render dialog
 			setTimeout(dojo.hitch(this, function(){
-				dijit.focus(this.titleBar);
+				dijit.focus(this._firstFocusItem);
 			}), 50);
 		},
 
@@ -371,6 +370,10 @@ dojo.declare(
 		// 		Description of tooltip dialog (required for a11Y)
 		title: "",
 
+		// _firstFocusItem: DomNode
+		//		The pointer to the first focusable node in the dialog
+		_firstFocusItem:null,
+		
 		// _lastFocusItem: DomNode
 		//		The domNode that had focus before we took it.
 		_lastFocusItem: null,
@@ -381,10 +384,6 @@ dojo.declare(
 		postCreate: function(){
 			this.inherited("postCreate",arguments);
 			this.connect(this.containerNode, "onkeypress", "_onKey");
-
-			// IE doesn't bubble onblur events - use ondeactivate instead
-			var ev = typeof(document.ondeactivate) == "object" ? "ondeactivate" : "onblur";
-			this.connect(this.containerNode, ev, "_findLastFocus");
 			this.containerNode.title=this.title;
 		},
 
@@ -395,18 +394,40 @@ dojo.declare(
 
 		onOpen: function(/*Object*/ pos){
 			// summary: called when dialog is displayed
+			
+			// first time we show the dialog, there's some initialization stuff to do			
+			if(!this._alreadyInitialized){
+				this._setup();
+				this._alreadyInitialized=true;
+			}
+			
 			this.orient(this.domNode,pos.aroundCorner, pos.corner);
 			this._loadCheck(); // lazy load trigger
-			this.containerNode.focus();
+			dijit.focus(this._firstFocusItem);
+		},
+		
+		_setup: function(){
+			// find and store focusable Items
+			var focusItem = dijit.getFirstInTabbingOrder(this.containerNode);
+			this._firstFocusItem = focusItem ? focusItem : this.containerNode;
+			focusItem = dijit.getLastInTabbingOrder(this.containerNode);
+			this._lastFocusItem = focusItem ? focusItem : this._firstFocusItem;
 		},
 
 		_onKey: function(/*Event*/ evt){
 			// summary: keep keyboard focus in dialog; close dialog on escape key
+			var node = evt.target;
+			var singleFocusItem = (this._firstFocusItem == this._lastFocusItem);
 			if(evt.keyCode == dojo.keys.ESCAPE){
 				this.onCancel();
-			}else if(evt.target == this.containerNode && evt.shiftKey && evt.keyCode == dojo.keys.TAB){
-				if (this._lastFocusItem){
-					this._lastFocusItem.focus();
+			}else if(node == this._firstFocusItem && evt.shiftKey && evt.keyCode == dojo.keys.TAB){
+				if(!singleFocusItem){
+					dijit.focus(this._lastFocusItem); // send focus to last item in dialog
+				}
+				dojo.stopEvent(evt);
+			}else if(node == this._lastFocusItem && evt.keyCode == dojo.keys.TAB && !evt.shiftKey){
+				if(!singleFocusItem){
+					dijit.focus(this._firstFocusItem); // send focus to first item in dialog
 				}
 				dojo.stopEvent(evt);
 			}else if(evt.keyCode == dojo.keys.TAB){
@@ -414,21 +435,6 @@ dojo.declare(
 				// but we don't want the tab to propagate upwards
 				evt.stopPropagation();
 			}
-		},
-
-		_findLastFocus: function(/*Event*/ evt){
-			// summary: called from onblur of dialog container to determine the last focusable item
-			this._lastFocused = evt.target;
-		},
-
-		_cycleFocus: function(/*Event*/ evt){
-			// summary: when tabEnd receives focus, advance focus around to containerNode
-
-			// on first focus to tabEnd, store the last focused item in dialog
-			if(!this._lastFocusItem){
-				this._lastFocusItem = this._lastFocused;
-			}
-			this.containerNode.focus();
 		}
 	}	
 );
