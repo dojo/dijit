@@ -155,6 +155,9 @@ dijit._place = function(/*DomNode*/ node, /* Array */ choices, /* Function */ la
 
 	node.style.left = best.x + "px";
 	node.style.top = best.y + "px";
+	if(best.overflow && layoutNode){
+		layoutNode(node, best.aroundCorner, best.corner);
+	}
 	return best;
 }
 
