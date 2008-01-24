@@ -559,6 +559,7 @@ dojo.declare(
 			// value from FilteringSelect's keyField
 			var query = this.query;
 			this._lastQuery = query[this.searchAttr] = this._getQueryString(key);
+			var _this = this;
 			var dataObject = this.store.fetch({
 				queryOptions: {
 					ignoreCase: this.ignoreCase, 
@@ -566,6 +567,10 @@ dojo.declare(
 				},
 				query: query,
 				onComplete: dojo.hitch(this, "_openResultList"), 
+				onError: function(errText){
+					console.error('dijit.form.ComboBox: ' + errText);
+					dojo.hitch(_this, "_hideResultList")();
+				},
 				start:0,
 				count:this.pageSize
 			});

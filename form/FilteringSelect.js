@@ -182,13 +182,18 @@ dojo.declare(
 				// sense to the user
 				this.textbox.value = label;
 				this._lastDisplayedValue = label;
+				var _this = this;
 				this.store.fetch({
 					query: query, 
 					queryOptions: {
 						ignoreCase: this.ignoreCase, 
 						deep: true
 					}, 
-					onComplete: dojo.hitch(this, "_callbackSetLabel")
+					onComplete: dojo.hitch(this, "_callbackSetLabel"),
+					onError: function(errText){
+						console.error('dijit.form.FilteringSelect: ' + errText);
+						dojo.hitch(_this, "_setValue")(undefined, label, false);
+					}
 				});
 			}
 		},
