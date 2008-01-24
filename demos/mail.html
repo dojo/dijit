@@ -9,6 +9,10 @@
 		@import "../themes/soria/soria.css";
 		@import "mail/mail.css";
 	</style>
+	<style type="text/css">
+		#inbox .dijitSplitterHorizontal { height: 5px }
+		#inbox .dijitSplitterVertical { width: 5px }
+	</style>
 
 	<script type="text/javascript" src="../../dojo/dojo.js"
 		djConfig="isDebug: false, parseOnLoad: true, defaultTestTheme: 'tundra'"></script>
@@ -45,8 +49,7 @@
 		dojo.require("dijit.form.FilteringSelect");
 		dojo.require("dijit.form.Textarea");
 
-		dojo.require("dijit.layout.LayoutContainer");
-		dojo.require("dijit.layout.SplitContainer");
+		dojo.require("dijit.layout.BorderContainer");
 		dojo.require("dijit.layout.AccordionContainer");
 		dojo.require("dijit.layout.TabContainer");
 		dojo.require("dijit.layout.ContentPane");
@@ -84,7 +87,7 @@
 		var fakeReport = function(percent){
 			// FIXME: can't set a label on an indeterminate progress bar
 			// like if(this.indeterminate) { return " connecting."; }
-			return "Fetching: "+(percent*this.maximum) + " of " + this.maximum + " messages.";
+			return dojo.string.substitute("Fetching: ${0} of ${1} messages.", [percent*this.maximum, this.maximum]);
 		}
 		var fakeDownload = function(){
 			dojo.byId('fetchMail').style.visibility='visible';
@@ -187,9 +190,9 @@
 	<!-- Inline declaration for programmatically created "New Message" tabs -->
 	<div dojoType="dijit.Declaration"
 		widgetClass="mail.NewMessage">
-		<div dojoType="dijit.layout.LayoutContainer" dojoAttachPoint="container" title="Composing..." closeable="true">
-			<div dojoType="dijit.layout.LayoutContainer" layoutAlign="top" style="overflow: visible; z-index: 10; color:#666; ">
-				<table width=100%>
+		<div dojoType="dijit.layout.BorderContainer" dojoAttachPoint="container" title="Composing..." closeable="true">
+			<div dojoType="dijit.layout.ContentPane" region="top" style="height:60px; overflow: visible; z-index: 10; color:#666;">
+				<table width="100%">
 					<tr style="padding-top:5px;">
 						<td style="padding-left:20px; padding-right: 8px; text-align:right;"><label for="${id}_to">To:</label></td>
 						<td width=100%>
@@ -222,12 +225,10 @@
 			</div>
 
 		<!-- new messase part -->
-			<div dojoType="dijit.layout.LayoutContainer" layoutAlign="client">
-				<!-- FIXME: editor as direct widget here doesn't init -->
-				<div dojoType="dijit.layout.ContentPane" href="mail/newMail.html"></div>
-			</div>	
+			<!-- FIXME: editor as direct widget here doesn't init -->
+			<div dojoType="dijit.layout.ContentPane" region="center" href="mail/newMail.html"></div>
 			
-			<div dojoType="dijit.layout.LayoutContainer" layoutAlign="bottom" align=center>
+			<div dojoType="dijit.layout.ContentPane" region="bottom" style="height:32px" align="center">
 				<button dojoType="dijit.form.Button" iconClass="mailIconOk"
 				>Send
 				<script type="dojo/method" event="onClick">
@@ -246,16 +247,14 @@
 				</script>
 				</button>
 			</div>
-
-		
 		</div>
 	</div>
 
 
-	<div dojoType="dijit.layout.LayoutContainer" id="main">
+	<div dojoType="dijit.layout.BorderContainer" id="main">
 
 		<!-- toolbar with new mail button, etc. -->
-		<div dojoType="dijit.Toolbar" layoutAlign="top" style="height:25px;">
+		<div dojoType="dijit.Toolbar" region="top" style="height:25px;">
 			<div id="getMail" dojoType="dijit.form.ComboButton"
 				iconClass="mailIconGetMail" optionsTitle="Mail Source Options">
 				<script type="dojo/method" event="onClick">
@@ -298,15 +297,10 @@
 			<div dojoType="dijit.Tooltip" connectId="options">Set various options</div>
 		</div>
 		
-		<div dojoType="dijit.layout.TabContainer" id="tabs" jsId="tabs" layoutAlign="client">
+		<div dojoType="dijit.layout.TabContainer" id="tabs" jsId="tabs" region="center">
 			<!-- main section with tree, table, and preview -->
-			<div dojoType="dijit.layout.SplitContainer"
-				orientation="horizontal"
-				sizerWidth="5"
-				activeSizing="0"
-				title="Inbox"
-			>
-				<div dojoType="dijit.layout.AccordionContainer" sizeMin="20" sizeShare="20">
+			<div dojoType="dijit.layout.BorderContainer" id="inbox" title="Inbox" design="sidebar">
+				<div dojoType="dijit.layout.AccordionContainer" region="leading" minSize="20" style="width:180px" sizeShareTODO="20" splitter="true">
 					<div dojoType="dijit.layout.AccordionPane" title="Folders">
 						<div dojoType="dijit.Tree" id="mytree" store="mailStore"
 							labelAttr="label" childrenAttr="folders" query="{type:'folder'}" label="Folders">
@@ -348,14 +342,7 @@
 					</div>
 				</div>  <!-- end of Accordion -->
 
-				<div dojoType="dijit.layout.SplitContainer"
-					id="rightPane"
-					orientation="vertical"
-					sizerWidth="5"
-					activeSizing="0"
-					sizeMin="50" sizeShare="85"
-				>
-					<div id="listPane" dojoType="dijit.layout.ContentPane" sizeMin="20" sizeShare="20">
+					<div id="listPane" dojoType="dijit.layout.ContentPane" region="top" minSize="20" style="height:134px" sizeShareTODO="20" splitter="true">
 						<span dojoType="demo.Table" store="mailStore"
 							query="{ query: { type: 'message' }, sort: [ { attribute: 'label' } ]  }"
 							id="foo" jsId="table" style="width: 100%">
@@ -374,12 +361,12 @@
 							</script>
 						</span>
 					</div>
-					<div id="message" dojoType="dijit.layout.ContentPane" sizeMin="20" sizeShare="80">
+					<div id="message" dojoType="dijit.layout.ContentPane" region="center" minSize="20" sizeShareTODO="80">
 						<p>
 						This is a simple application mockup showing some of the dojo widgets:
 						</p>
 						<ul>
-						  <li>layout widgets: SplitContainer, LayoutContainer, AccordionContainer</li>
+						  <li>layout widgets: BorderContainer, AccordionContainer</li>
 						  <li>TooltipDialog, Tooltip</li>
 						  <li>Tree</li>
 						  <li>form widgets: Button, DropDownButton, ComboButton, FilteringSelect, ComboBox</li>
@@ -396,16 +383,15 @@
 						<span style="font-family: 'Comic Sans MS',Textile,cursive; color: blue; font-style: italic;">-- Bill</span>
 						</p>
 					</div>
-				</div>	<!-- end of vertical SplitContainer -->
-			</div> <!-- end of horizontal SplitContainer -->
+			</div> <!-- end of inbox -->
 		</div> <!-- end of TabContainer -->
-		<div dojoType="dijit.layout.ContentPane" layoutAlign="bottom" id="footer" align="left">
+		<div dojoType="dijit.layout.ContentPane" region="bottom" id="footer" align="left">
 			<span style="float:right;">DojoMail v1.0 (demo only)</span>
 			<div id="fetchMail" style="opacity:0;visibility:hidden">
 				<div annotate="true" id="fakeFetch" dojoType="dijit.ProgressBar" style="height:15px; width:275px;" indeterminate="true" report="fakeReport"></div>
 			</div>
 		</div> 
-	</div> <!-- end of Layoutcontainer -->
+	</div> <!-- end of main -->
 
 	<div dojoType="dijit.Dialog" id="optionsDialog" title="Options:">
 		<table>	

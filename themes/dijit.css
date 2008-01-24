@@ -618,11 +618,42 @@ body .dijitAlignRight {
 
 body .dijitAlignClient { position: absolute; }
 
+.dijitBorderContainer {
+	overflow: hidden;
+}
+
+.dj_gecko .dijitBorderContainerPane {
+	overflow: -moz-scrollbars-none;
+}
+.dijitBorderContainerPane {
+	position: absolute;
+}
+
 /* SplitContainer
 
 	'V' == container that splits vertically (up/down)
 	'H' = horizontal (left/right)
 */
+
+.dijitSplitter {
+	background-color: #fff;
+	border-color: gray;
+	border-style: solid;
+	border-width: 0;
+	z-index: 10 !important;
+}
+.dijitSplitterHorizontal {
+	height: 7px;
+	border-top:1px;
+	border-bottom:1px;
+	cursor: ns-resize;
+}
+.dijitSplitterVertical {
+	width: 7px;
+	border-left:1px;
+	border-right:1px;
+	cursor: ew-resize;
+}
 .dijitSplitContainer{
 	position: relative;
 	overflow: hidden;
@@ -649,21 +680,21 @@ body .dijitAlignClient { position: absolute; }
 	cursor: n-resize;
 }
 
-.dijitSplitContainerSizerH .thumb {
+.dijitSplitContainerSizerH .thumb, .dijitSplitterVertical .dijitSplitterThumb {
+	overflow:hidden;
 	position:absolute;
 	top:49%;
 }
 
-.dijitSplitContainerSizerV .thumb {
+.dijitSplitContainerSizerV .thumb, .dijitSplitterHorizontal .dijitSplitterThumb {
 	position:absolute;
 	left:49%;
 }
 
+.dijitSplitterShadow,
 .dijitSplitContainerVirtualSizerH,
 .dijitSplitContainerVirtualSizerV {
 	font-size: 1px;
-	cursor: move;
-	cursor: w-resize;
 	background-color: ThreeDShadow;
 	-moz-opacity: 0.5;
 	opacity: 0.5;
@@ -671,6 +702,9 @@ body .dijitAlignClient { position: absolute; }
 	margin: 0;
 }
 
+.dijitSplitContainerVirtualSizerH {
+	cursor: w-resize;
+}
 .dijitSplitContainerVirtualSizerV {
 	cursor: n-resize;
 }

@@ -640,11 +640,12 @@
 	width:7px;
 }
 
-.tundra .dijitSplitContainerSizerH .thumb {
+.tundra .dijitSplitContainerSizerH .thumb, .tundra .dijitSplitterVertical .dijitSplitterThumb {
 	background:url("images/splitContainerSizerH-thumb.png") no-repeat #ccc;
 	left:1px;
 	width:3px;
 	height:19px;
+	overflow: hidden;
 }
 
 .tundra .dijitSplitContainerSizerV {
@@ -655,13 +656,17 @@
 	height:7px;
 }
 
-.tundra .dijitSplitContainerSizerV .thumb {
+.tundra .dijitSplitContainerSizerV .thumb, .tundra .dijitSplitterHorizontal .dijitSplitterThumb  {
 	background:url("images/splitContainerSizerV-thumb.png") no-repeat #ccc;
 	top:1px;
 	width:19px;
 	height:3px;
+	overflow: hidden;
 }
 
+.tundra .dijitSplitter {
+	border-color: #bfbfbf;
+}
 
 /* Dialog */
 
