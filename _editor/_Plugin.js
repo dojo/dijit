@@ -31,7 +31,8 @@ dojo.declare("dijit._editor._Plugin", null, {
 					label: label,
 					showLabel: false,
 					iconClass: className,
-					dropDown: this.dropDown
+					dropDown: this.dropDown,
+					tabIndex: "-1"
 				};
 				this.button = new this.buttonClass(props);
 			}
