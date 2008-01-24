@@ -80,7 +80,7 @@ dojo.declare(
 				this.decrement(e);
 				break;
 			default:
-				this.inherited("_onKeyPress", arguments);
+				this.inherited(arguments);
 				return;
 		}
 		dojo.stopEvent(e);
@@ -123,7 +123,7 @@ dojo.declare(
 	setValue: function(/*Number*/ value, /*Boolean, optional*/ priorityChange){
 		this.valueNode.value = this.value = value;
 		dijit.setWaiState(this.focusNode, "valuenow", value);
-		this.inherited('setValue', arguments);
+		this.inherited(arguments);
 		var percent = (value - this.minimum) / (this.maximum - this.minimum);
 		if(priorityChange && this.slideDuration > 0 && this.progressBar.style[this._progressPixelSize]){
 			// animate the slider
@@ -216,12 +216,12 @@ dojo.declare(
 		dijit.setWaiState(this.focusNode, "valuemin", this.minimum);
 		dijit.setWaiState(this.focusNode, "valuemax", this.maximum);
 
-		this.inherited('postCreate', arguments);
+		this.inherited(arguments);
 	},
 
 	destroy: function(){
 		this._movable.destroy();
-		this.inherited('destroy', arguments);	
+		this.inherited(arguments);	
 	}
 });
 
@@ -286,7 +286,7 @@ dojo.declare("dijit.form._SliderMover",
 		var pixelValue = widget._isReversed() ?
 			e[widget._mousePixelCoord] - dojo._abs(widget.sliderBarContainer).x : 
 			m[widget._startingPixelCount] + e[widget._mousePixelCoord];
-		dojo.hitch(widget, "_setPixelValue")(widget._isReversed() || widget._upsideDown? (c[widget._pixelCount]-pixelValue) : pixelValue, c[widget._pixelCount]);
+		dojo.hitch(widget, "_setPixelValue")(widget._isReversed() || widget._upsideDown? (c[widget._pixelCount]-pixelValue) : pixelValue, c[widget._pixelCount], false);
 	},
 	
 	destroy: function(e){
@@ -427,7 +427,7 @@ dojo.declare("dijit.form.HorizontalRuleLabels", dijit.form.HorizontalRule,
 	},
 
 	postMixInProperties: function(){
-		this.inherited('postMixInProperties', arguments);
+		this.inherited(arguments);
 		this.labels = this.getLabels();
 		this.count = this.labels.length;
 	}
