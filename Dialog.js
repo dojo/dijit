@@ -143,13 +143,20 @@ dojo.declare(
 		//		The pointer to which node has focus prior to our dialog
 		_lastFocusItem:null,
 
+		// doLayout: Boolean
+		//		Don't change this parameter from the default value.
+		//		This ContentPane parameter doesn't make sense for Dialog, since Dialog
+		//		is never a child of a layout Container, nor can you specify the size of
+		//		Dialog in order to control the size of an inner widget. 
+		doLayout: false,
+
 		attributeMap: dojo.mixin(dojo.clone(dijit._Widget.prototype.attributeMap),
 			{title: "titleBar"}),
 
 		postCreate: function(){
 			dojo.body().appendChild(this.domNode);
 			this.inherited("postCreate",arguments);
-			this.domNode.style.display="none";
+			this.domNode.style.visibility="hidden";
 			this.connect(this, "onExecute", "hide");
 			this.connect(this, "onCancel", "hide");
 			this._modalconnects = [];
@@ -203,7 +210,7 @@ dojo.declare(
 					node: node,
 					duration: this.duration,
 					onEnd: function(){
-						node.style.display="none";
+						node.style.visibility="hidden";
 					}
 				 }),
 				 dojo.fadeOut({
@@ -299,7 +306,7 @@ dojo.declare(
 			this._modalconnects.push(dojo.connect(document.documentElement, "onkeypress", this, "_onKey"));
 
 			dojo.style(this.domNode, "opacity", 0);
-			this.domNode.style.display="block";
+			this.domNode.style.visibility="";
 			this.open = true;
 			this._loadCheck(); // lazy load trigger
 
@@ -342,7 +349,7 @@ dojo.declare(
 
 		layout: function() {
 			// summary: position the Dialog and the underlay
-			if(this.domNode.style.display == "block"){
+			if(this.domNode.style.visibility != "hidden"){
 				this._underlay.layout();
 				this._position();
 			}

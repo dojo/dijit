@@ -21,6 +21,7 @@
 		dojo.require("dijit.form.DateTextBox");
 		dojo.require("dijit.form.TimeTextBox");
 		dojo.require("dijit.form.FilteringSelect");
+		dojo.require("dijit.layout.TabContainer");
 		dojo.require("dijit.Menu");
 		dojo.require("dojo.parser");	// scan page for widgets and instantiate them			
 
@@ -154,6 +155,38 @@
 	</p>
 </div>
 
+<button dojoType="dijit.form.Button" onclick="dijit.byId('tabDialog').show()">Show TabContainer Dialog</button> |
+
+<div dojoType="dijit.Dialog" id="tabDialog" title="TabContainer Dialog">
+	<div dojoType="dijit.layout.TabContainer" style="width: 400px; height: 400px;">
+		<div dojoType="dijit.layout.ContentPane" title="First tab">
+			<p>
+				This is the first tab.
+			</p>
+			<p>
+			Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean
+			semper sagittis velit. Cras in mi. Duis porta mauris ut ligula. Proin
+			porta rutrum lacus. Etiam consequat scelerisque quam. Nulla facilisi.
+			Maecenas luctus venenatis nulla. In sit amet dui non mi semper iaculis.
+			Sed molestie tortor at ipsum. Morbi dictum rutrum magna. Sed vitae
+			risus.
+			</p>
+		</div>
+		<div dojoType="dijit.layout.ContentPane" title="Second tab">
+			<p>
+				This is the second tab.
+			</p>
+			<p>
+			Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean
+			semper sagittis velit. Cras in mi. Duis porta mauris ut ligula. Proin
+			porta rutrum lacus. Etiam consequat scelerisque quam. Nulla facilisi.
+			Maecenas luctus venenatis nulla. In sit amet dui non mi semper iaculis.
+			Sed molestie tortor at ipsum. Morbi dictum rutrum magna. Sed vitae
+			risus.
+			</p>
+		</div>
+	</div>
+</div>
 
 <button dojoType="dijit.form.Button" onclick="dijit.byId('fifthDlg').show();">Test slow loading HREF Dialog</button>
 
