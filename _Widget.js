@@ -292,14 +292,13 @@ dojo.declare("dijit._Widget", null, {
 		//		Similar to dojo.connect() but takes three arguments rather than four.
 		var handles =[];
 		if(event == "ondijitclick"){
-			var w = this;
 			// add key based click activation for unsupported nodes.
 			if(!this.nodesWithKeyClick[obj.nodeName]){
 				handles.push(dojo.connect(obj, "onkeydown", this,
 					function(e){
 						if(e.keyCode == dojo.keys.ENTER){
 							return (dojo.isString(method))?
-								w[method](e) : method.call(w, e);
+								this[method](e) : method.call(this, e);
 						}else if(e.keyCode == dojo.keys.SPACE){
 							// stop space down as it causes IE to scroll
 							// the browser window
@@ -310,7 +309,7 @@ dojo.declare("dijit._Widget", null, {
 					function(e){
 						if(e.keyCode == dojo.keys.SPACE){
 							return dojo.isString(method) ?
-								w[method](e) : method.call(w, e);
+								this[method](e) : method.call(this, e);
 						}
 			 		}));
 			}
