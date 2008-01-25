@@ -264,7 +264,7 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 				setTimeout(function(){
 					node.style.opacity = old;
 				}, 0);
-			}), 250);
+			}), 50); // don't set this timeout too high or test_ComboBox.html has intermittent rendering problems
 		}
 	}
 });
@@ -309,7 +309,7 @@ dojo.declare("dijit.form._FormValueWidget", dijit.form._FormWidget,
 			// Equality comparison of objects such as dates are done by reference so
 			// two distinct objects are != even if they have the same data. So use
 			// toStrings in case the values are objects.
-			if((typeof lv != "undefined") && ((v!==null && v.toString)?v.toString():null) !== lv.toString()){	
+			if(((v !== null && (v !== undefined) && v.toString)?v.toString():null) !== ((lv !== null && (lv !== undefined) && lv.toString)?lv.toString():null)){
 				this.undo();
 				dojo.stopEvent(e);
 				return false;

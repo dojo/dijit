@@ -16,7 +16,7 @@ dojo.declare(
 		regExpGen: dojo.date.locale.regexp,
 		compare: dojo.date.compare,
 		format: function(/*Date*/ value, /*Object*/ constraints){
-			if(!value || value.toString() == this._invalid){ return ''; }
+			if(!value){ return ''; }
 			return dojo.date.locale.format(value, constraints);
 		},
 		parse: function(/*String*/ value, /*Object*/ constraints){
@@ -25,8 +25,7 @@ dojo.declare(
 
 		serialize: dojo.date.stamp.toISOString,
 
-		value: new Date(""),	// NaN
-		_invalid: (new Date("")).toString(),	// NaN
+		value: new Date(""),	// value.toString()="NaN"
 
 		// popupClass: String
 		//              Name of the popup widget class used to select a date/time
@@ -36,6 +35,9 @@ dojo.declare(
 		postMixInProperties: function(){
 			//dijit.form.RangeBoundTextBox.prototype.postMixInProperties.apply(this, arguments);
 			this.inherited("postMixInProperties",arguments);
+			if(!this.value || this.value.toString() == dijit.form._DateTimeTextBox.prototype.value.toString()){
+				this.value = undefined;
+			}
 			var constraints = this.constraints;
 			constraints.selector = this._selector;
 			var fromISO = dojo.date.stamp.fromISOString;
@@ -54,7 +56,7 @@ dojo.declare(
 			this.inherited('setValue', arguments);
 			if(this._picker){
 				// #3948: fix blank date on popup only
-				if(!value || value.toString() == this._invalid){value=new Date();}
+				if(!value){value=new Date();}
 				this._picker.setValue(value);
 			}
 		},

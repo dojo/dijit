@@ -85,7 +85,7 @@ dojo.declare(
 
 		filter: function(val){
 			// summary: Apply various filters to textbox value
-			if(val == undefined || val == null){ return ""; }
+			if(val === null){ return ""; } // undefined should return undefined
 			else if(typeof val != "string"){ return val; }
 			if(this.trim){
 				val = dojo.trim(val);
