@@ -1305,7 +1305,11 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 									continue;
 								}
 							}
-							attrarray.push([key, key == 'class' ? node.className : node.getAttribute(key)]);
+							if(key=='style'){
+								attrarray.push([key, node.style.cssText.toLowerCase()]);
+							}else{
+								attrarray.push([key, key=='class'?node.className:node.getAttribute(key)]);
+							}
 						}
 					}
 				}else{
