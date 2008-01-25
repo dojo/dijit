@@ -72,7 +72,7 @@ dojo.declare("dijit.layout._LayoutWidget",
 			// inaccurate results, so try not to depend on it.
 			var mb = dojo.mixin(dojo.marginBox(node), args||{});
 
-			console.log(this, ": setting size to ", mb);
+//			console.log(this, ": setting size to ", mb);
 
 			// Save the size of my content box.
 			this._contentBox = dijit.layout.marginBox2contentBox(node, mb);

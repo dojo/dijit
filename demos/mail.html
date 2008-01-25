@@ -300,7 +300,7 @@
 		<div dojoType="dijit.layout.TabContainer" id="tabs" jsId="tabs" region="center">
 			<!-- main section with tree, table, and preview -->
 			<div dojoType="dijit.layout.BorderContainer" id="inbox" title="Inbox" design="sidebar">
-				<div dojoType="dijit.layout.AccordionContainer" region="leading" minSize="20" style="width:180px" sizeShareTODO="20" splitter="true">
+				<div dojoType="dijit.layout.AccordionContainer" region="leading" minSize="20" style="width:20%;" splitter="true">
 					<div dojoType="dijit.layout.AccordionPane" title="Folders">
 						<div dojoType="dijit.Tree" id="mytree" store="mailStore"
 							labelAttr="label" childrenAttr="folders" query="{type:'folder'}" label="Folders">
@@ -343,7 +343,7 @@
 				</div>  <!-- end of Accordion -->
 
 				<!-- list of messages pane -->
-				<div id="listPane" dojoType="dijit.layout.ContentPane" region="top" minSize="20" style="height:134px" sizeShareTODO="20" splitter="true">
+				<div id="listPane" dojoType="dijit.layout.ContentPane" region="top" minSize="20" style="height:134px;" splitter="true">
 					<span dojoType="demo.Table" store="mailStore"
 						query="{ query: { type: 'message' }, sort: [ { attribute: 'label' } ]  }"
 						id="foo" jsId="table" style="width: 100%">
@@ -364,7 +364,7 @@
 				</div> <!-- end of listPane -->
 
 				<!-- message preview pane -->
-				<div id="message" dojoType="dijit.layout.ContentPane" region="center" minSize="20" sizeShareTODO="80">
+				<div id="message" dojoType="dijit.layout.ContentPane" region="center" minSize="20">
 					<p>
 					This is a simple application mockup showing some of the dojo widgets:
 					</p>
