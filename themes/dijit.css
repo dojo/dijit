@@ -676,10 +676,6 @@ body .dijitAlignClient { position: absolute; }
 	margin: 0;
 }
 
-.dijitSplitContainerSizerV {
-	cursor: n-resize;
-}
-
 .dijitSplitContainerSizerH .thumb, .dijitSplitterVertical .dijitSplitterThumb {
 	overflow:hidden;
 	position:absolute;
@@ -702,10 +698,10 @@ body .dijitAlignClient { position: absolute; }
 	margin: 0;
 }
 
-.dijitSplitContainerVirtualSizerH {
+.dj_ie .dijitSplitterVertical, .dijitSplitContainerVirtualSizerH {
 	cursor: w-resize;
 }
-.dijitSplitContainerVirtualSizerV {
+.dj_ie .dijitSplitterHorizontal, .dijitSplitContainerSizerV, .dijitSplitContainerVirtualSizerV {
 	cursor: n-resize;
 }
 
