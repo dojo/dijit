@@ -72,6 +72,9 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 		this.contentPreFilters.push(dojo.hitch(this, "_preFixUrlAttributes"));
 		if(dojo.isMoz){
 			this.contentPreFilters.push(this._fixContentForMoz);
+			this.contentPostFilters.push(this._removeMozBogus);
+		}else if(dojo.isSafari){
+			this.contentPostFilters.push(this._removeSafariBogus);
 		}
 		//this.contentDomPostFilters.push(this._postDomFixUrlAttributes);
 
@@ -1279,14 +1282,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 		switch(node.nodeType){
 			case 1: //element node
 				output = '<'+node.tagName.toLowerCase();
-				if(dojo.isMoz){
-					if(node.getAttribute('type')=='_moz'){
-						node.removeAttribute('type');
-					}
-					if(node.getAttribute('_moz_dirty') != undefined){
-						node.removeAttribute('_moz_dirty');
-					}
-				}
+
 				//store the list of attributes and sort it to have the
 				//attributes appear in the dictionary order
 				var attrarray = [];
@@ -1442,6 +1438,12 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 		//dijit._editor.RichText.superclass.destroy.call(this);
 	},
 
+	_removeMozBogus: function(/* String */ html){
+		return html.replace(/\stype="_moz"/gi, '').replace(/\s_moz_dirty=""/gi, ''); // String
+	},
+	_removeSafariBogus: function(/* String */ html){
+		return html.replace(/\sclass="webkit-block-placeholder"/gi, ''); // String
+	},
 	_fixContentForMoz: function(/* String */ html){
 		// summary:
 		//		Moz can not handle strong/em tags correctly, convert them to b/i
