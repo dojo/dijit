@@ -13,6 +13,27 @@ dijit.popup = new function(){
 		beginZIndex=1000,
 		idGen = 1;
 
+	this.prepare = function(/*DomNode*/ node){
+		// summary:
+		//		Prepares a node to be used as a popup
+		//
+		// description:
+		//		Attaches node to document.body, and
+		//		positions it off screen, but not display:none, so that
+		//		the widget doesn't appear in the page flow and/or cause a blank
+		//		area at the bottom of the viewport (making scrollbar longer), but
+		//		initialization of contained widgets works correctly
+	
+		dojo.body().appendChild(node);
+		var s = node.style;
+		if(s.display == "none"){
+			s.display="";
+		}
+		s.visibility = "hidden";	// not needed for hiding, but used as flag that node is off-screen
+		s.position = "absolute";
+		s.top = "-9999px";
+	};
+
 	this.open = function(/*Object*/ args){
 		// summary:
 		//		Popup the widget at the specified position
@@ -63,7 +84,10 @@ dijit.popup = new function(){
 		}
 		dojo.body().appendChild(wrapper);
 
-		widget.domNode.style.display="";
+		var s = widget.domNode.style;
+		s.display = "";
+		s.visibility = "";
+		s.position = "";
 		wrapper.appendChild(widget.domNode);
 
 		var iframe = new dijit.BackgroundIframe(wrapper);
@@ -80,8 +104,10 @@ dijit.popup = new function(){
 
 		// Compute the closest ancestor popup that's *not* a child of another popup.
 		// Ex: For a TooltipDialog with a button that spawns a tree of menus, find the popup of the button.
-		function getTopPopup(){
-			for(var pi=stack.length-1; pi > 0 && stack[pi].parent === stack[pi-1].widget; pi--);
+		var getTopPopup = function(){
+			for(var pi=stack.length-1; pi > 0 && stack[pi].parent === stack[pi-1].widget; pi--){
+				/* do nothing, just trying to get right value for pi */
+			}
 			return stack[pi];
 		}
 
@@ -147,8 +173,9 @@ dijit.popup = new function(){
 	
 			// #2685: check if the widget still has a domNode so ContentPane can change its URL without getting an error
 			if(!widget||!widget.domNode){ return; }
-			dojo.style(widget.domNode, "display", "none");
-			dojo.body().appendChild(widget.domNode);
+			
+			this.prepare(widget.domNode);
+
 			iframe.destroy();
 			dojo._destroyElement(wrapper);
 	
@@ -175,7 +202,7 @@ dijit._frames = new function(){
 					+ "z-index: -1; filter:Alpha(Opacity=\"0\");'>";
 				iframe = dojo.doc.createElement(html);
 			}else{
-			 	var iframe = dojo.doc.createElement("iframe");
+			 	iframe = dojo.doc.createElement("iframe");
 				iframe.src = 'javascript:""';
 				iframe.className = "dijitBackgroundIframe";
 			}

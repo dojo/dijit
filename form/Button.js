@@ -137,8 +137,7 @@ dojo.declare("dijit.form.DropDownButton", [dijit.form.Button, dijit._Container],
 			this.dropDown = dijit.byNode(dropDownNode);
 			delete this.dropDownContainer;
 		}
-		dojo.body().appendChild(this.dropDown.domNode);
-		this.dropDown.domNode.style.display="none";
+		dijit.popup.prepare(this.dropDown.domNode);
 
 		this.inherited(arguments);
 	},
@@ -184,7 +183,7 @@ dojo.declare("dijit.form.DropDownButton", [dijit.form.Button, dijit._Container],
 		// summary: callback when the user presses a key on menu popup node
 		if(this.disabled || this.readOnly){ return; }
 		if(e.keyCode == dojo.keys.DOWN_ARROW){
-			if(!this.dropDown || this.dropDown.domNode.style.display=="none"){
+			if(!this.dropDown || this.dropDown.domNode.style.visibility=="hidden"){
 				dojo.stopEvent(e);
 				this._toggleDropDown();
 			}

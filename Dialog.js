@@ -146,7 +146,7 @@ dojo.declare(
 		// doLayout: Boolean
 		//		Don't change this parameter from the default value.
 		//		This ContentPane parameter doesn't make sense for Dialog, since Dialog
-		//		is never a child of a layout Container, nor can you specify the size of
+		//		is never a child of a layout container, nor can you specify the size of
 		//		Dialog in order to control the size of an inner widget. 
 		doLayout: false,
 
@@ -156,7 +156,9 @@ dojo.declare(
 		postCreate: function(){
 			dojo.body().appendChild(this.domNode);
 			this.inherited("postCreate",arguments);
-			this.domNode.style.visibility="hidden";
+			this.domNode.style.visibility = "hidden";
+			this.domNode.style.position = "absolute";
+			this.domNode.style.top = "-9999px";
 			this.connect(this, "onExecute", "hide");
 			this.connect(this, "onCancel", "hide");
 			this._modalconnects = [];
@@ -376,6 +378,13 @@ dojo.declare(
 		// title: String
 		// 		Description of tooltip dialog (required for a11Y)
 		title: "",
+
+		// doLayout: Boolean
+		//		Don't change this parameter from the default value.
+		//		This ContentPane parameter doesn't make sense for TooltipDialog, since TooltipDialog
+		//		is never a child of a layout container, nor can you specify the size of
+		//		TooltipDialog in order to control the size of an inner widget. 
+		doLayout: false,
 
 		// _firstFocusItem: DomNode
 		//		The pointer to the first focusable node in the dialog

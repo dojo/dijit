@@ -177,7 +177,6 @@ dojo.declare(
 
 		if(this.doLayout != "false" && this.doLayout !== false){
 			this._checkIfSingleChild();
-			console.log("singlechild " , this._singleChild, " my content box is ", this._contentBox);
 			if(this._singleChild && this._singleChild.resize){
 				this._singleChild.startup();
 				this._singleChild.resize(this._contentBox || dojo.contentBox(this.containerNode || this.domNode));
