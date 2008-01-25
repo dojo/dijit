@@ -224,7 +224,7 @@
 				<hr noshade size="1">
 			</div>
 
-		<!-- new messase part -->
+			<!-- new message part -->
 			<!-- FIXME: editor as direct widget here doesn't init -->
 			<div dojoType="dijit.layout.ContentPane" region="center" href="mail/newMail.html"></div>
 			
@@ -342,49 +342,54 @@
 					</div>
 				</div>  <!-- end of Accordion -->
 
-					<div id="listPane" dojoType="dijit.layout.ContentPane" region="top" minSize="20" style="height:134px" sizeShareTODO="20" splitter="true">
-						<span dojoType="demo.Table" store="mailStore"
-							query="{ query: { type: 'message' }, sort: [ { attribute: 'label' } ]  }"
-							id="foo" jsId="table" style="width: 100%">
-							<script type="dojo/method" event="onClick" args="item">
-								var sender = this.store.getValue(item, "sender");
-								var subject = this.store.getValue(item, "label");
-								var sent = dojo.date.locale.format(
-									dojo.date.stamp.fromISOString(this.store.getValue(item, "sent")),
-									{formatLength: "long", selector: "date"});
-								var text = this.store.getValue(item, "text");
-								var messageInner = "<span class='messageHeader'>From: " + sender + "<br>" +
-									"Subject: "+ subject + "<br>" +
-									"Date: " + sent + "<br><br></span>" +
-									text;
-								dijit.byId("message").setContent(messageInner);
-							</script>
-						</span>
-					</div>
-					<div id="message" dojoType="dijit.layout.ContentPane" region="center" minSize="20" sizeShareTODO="80">
-						<p>
-						This is a simple application mockup showing some of the dojo widgets:
-						</p>
-						<ul>
-						  <li>layout widgets: BorderContainer, AccordionContainer</li>
-						  <li>TooltipDialog, Tooltip</li>
-						  <li>Tree</li>
-						  <li>form widgets: Button, DropDownButton, ComboButton, FilteringSelect, ComboBox</li>
-						  <li>Editor</li>
-						</ul>
-						<p>
-						The message list above originally contains all the messages, but you can filter it
-						by clicking on items in the left Accordion.
-						Then click on the messages in the above list to display them.
-						There's no server running, so the app is just a facade and it doesn't really do anything.
-						<!-- TODO: delete button (we can delete since we are using ItemFileWriteStore -->
-						</p>
-						<p>
-						<span style="font-family: 'Comic Sans MS',Textile,cursive; color: blue; font-style: italic;">-- Bill</span>
-						</p>
-					</div>
+				<!-- list of messages pane -->
+				<div id="listPane" dojoType="dijit.layout.ContentPane" region="top" minSize="20" style="height:134px" sizeShareTODO="20" splitter="true">
+					<span dojoType="demo.Table" store="mailStore"
+						query="{ query: { type: 'message' }, sort: [ { attribute: 'label' } ]  }"
+						id="foo" jsId="table" style="width: 100%">
+						<script type="dojo/method" event="onClick" args="item">
+							var sender = this.store.getValue(item, "sender");
+							var subject = this.store.getValue(item, "label");
+							var sent = dojo.date.locale.format(
+								dojo.date.stamp.fromISOString(this.store.getValue(item, "sent")),
+								{formatLength: "long", selector: "date"});
+							var text = this.store.getValue(item, "text");
+							var messageInner = "<span class='messageHeader'>From: " + sender + "<br>" +
+								"Subject: "+ subject + "<br>" +
+								"Date: " + sent + "<br><br></span>" +
+								text;
+							dijit.byId("message").setContent(messageInner);
+						</script>
+					</span>
+				</div> <!-- end of listPane -->
+
+				<!-- message preview pane -->
+				<div id="message" dojoType="dijit.layout.ContentPane" region="center" minSize="20" sizeShareTODO="80">
+					<p>
+					This is a simple application mockup showing some of the dojo widgets:
+					</p>
+					<ul>
+					  <li>layout widgets: BorderContainer, AccordionContainer</li>
+					  <li>TooltipDialog, Tooltip</li>
+					  <li>Tree</li>
+					  <li>form widgets: Button, DropDownButton, ComboButton, FilteringSelect, ComboBox</li>
+					  <li>Editor</li>
+					</ul>
+					<p>
+					The message list above originally contains all the messages, but you can filter it
+					by clicking on items in the left Accordion.
+					Then click on the messages in the above list to display them.
+					There's no server running, so the app is just a facade and it doesn't really do anything.
+					<!-- TODO: delete button (we can delete since we are using ItemFileWriteStore -->
+					</p>
+					<p>
+					<span style="font-family: 'Comic Sans MS',Textile,cursive; color: blue; font-style: italic;">-- Bill</span>
+					</p>
+				</div> <!-- end of "message" -->
+
 			</div> <!-- end of inbox -->
 		</div> <!-- end of TabContainer -->
+
 		<div dojoType="dijit.layout.ContentPane" region="bottom" id="footer" align="left">
 			<span style="float:right;">DojoMail v1.0 (demo only)</span>
 			<div id="fetchMail" style="opacity:0;visibility:hidden">
