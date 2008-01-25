@@ -71,7 +71,16 @@ dojo.declare(
 
 	// class: String
 	//	Class name to apply to ContentPane dom nodes
+	// TODO: this should be called "baseClass" like in the other widgets
 	"class": "dijitContentPane",
+
+	// layout: String/Boolean
+	//	false - don't adjust size of children
+	//	true - looks for the first sizable child widget (ie, having resize() method) and sets it's size to
+	//			however big the ContentPane is
+	//	auto - if there is a single sizable child widget (ie, having resize() method), set it's size to
+	//			however big the ContentPane is
+	doLayout: "auto",
 
 	postCreate: function(){
 		// remove the title attribute so it doesn't show up when i hover
@@ -105,6 +114,9 @@ dojo.declare(
 		// summary:
 		// 	Test if we have exactly one widget as a child, and if so assume that we are a container for that widget,
 		//	and should propogate startup() and resize() calls to it.
+
+		// TODO: if there are two child widgets (a data store and a TabContainer, for example),
+		//	should still find the TabContainer
 		var childNodes = dojo.query(">", this.containerNode || this.domNode),
 			childWidgets = childNodes.filter("[widgetId]");
 
@@ -161,10 +173,14 @@ dojo.declare(
 			this._createSubWidgets();
 		}
 
-		this._checkIfSingleChild();
-		if(this._singleChild && this._singleChild.resize){
-			this._singleChild.resize(this._contentBox);
-		}
+//		if(this.doLayout != "false" && this.doLayout !== false){
+			this._checkIfSingleChild();
+			console.log("singlechild " , this._singleChild, " my content box is ", this._contentBox);
+			if(this._singleChild && this._singleChild.resize){
+				this._singleChild.startup();
+				this._singleChild.resize(this._contentBox || dojo.contentBox(this.containerNode || this.domNode));
+			}
+//		}
 
 		this._onLoadHandler();
 	},
