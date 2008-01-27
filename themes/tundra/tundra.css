@@ -633,15 +633,15 @@
 /* SplitContainer */
 
 .tundra .dijitSplitContainerSizerH {
-	background:url("images/splitContainerSizerH.png") repeat-y #fff;
+	background:url("images/splitContainerSizerV.png") repeat-y #fff;
 	border:0;
 	border-left:1px solid #bfbfbf;
 	border-right:1px solid #bfbfbf;
 	width:7px;
 }
 
-.tundra .dijitSplitContainerSizerH .thumb, .tundra .dijitSplitterVertical .dijitSplitterThumb {
-	background:url("images/splitContainerSizerH-thumb.png") no-repeat #ccc;
+.tundra .dijitSplitContainerSizerH .thumb {
+	background:url("images/splitContainerSizerV-thumb.png") no-repeat #ccc;
 	left:1px;
 	width:3px;
 	height:19px;
@@ -649,15 +649,15 @@
 }
 
 .tundra .dijitSplitContainerSizerV {
-	background:url("images/splitContainerSizerV.png") repeat-x #fff;
+	background:url("images/splitContainerSizerH.png") repeat-x #fff;
 	border:0;
 	border-top:1px solid #bfbfbf;
 	border-bottom:1px solid #bfbfbf;
 	height:7px;
 }
 
-.tundra .dijitSplitContainerSizerV .thumb, .tundra .dijitSplitterHorizontal .dijitSplitterThumb  {
-	background:url("images/splitContainerSizerV-thumb.png") no-repeat #ccc;
+.tundra .dijitSplitContainerSizerV .thumb {
+	background:url("images/splitContainerSizerH-thumb.png") no-repeat #ccc;
 	top:1px;
 	width:19px;
 	height:3px;
@@ -666,6 +666,38 @@
 
 .tundra .dijitSplitter {
 	border-color: #bfbfbf;
+}
+
+/* BorderContainer */
+
+.tundra .dijitSplitterHorizontal {
+	background:url("images/splitContainerSizerH.png") repeat-x #fff;
+	border:0;
+	border-left:0px solid #d3d3d3;
+	border-right:0px solid #d3d3d3;
+	height:5px;
+}
+
+.tundra .dijitSplitterHorizontal .dijitSplitterThumb {
+	background:url("images/splitContainerSizerH-thumb.png") no-repeat;
+	top:1px;
+	width:19px;
+	height:2px;
+}
+
+.tundra .dijitSplitterVertical {
+	background:url("images/splitContainerSizerV.png") repeat-y #fff;
+	border:0;
+	border-top:0px solid #d3d3d3;
+	border-bottom:0px solid #d3d3d3;
+	width:5px;
+}
+
+.tundra .dijitSplitterVertical .dijitSplitterThumb {
+	background:url("images/splitContainerSizerV-thumb.png") no-repeat;
+	left:1px;
+	height:19px;
+	width:5px;
 }
 
 /* Dialog */

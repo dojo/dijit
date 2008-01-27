@@ -20,6 +20,7 @@
 @import url("layout/TabContainer.css");
 @import url("layout/AccordionContainer.css");
 @import url("layout/SplitContainer.css");
+@import url("layout/BorderContainer.css");
 @import url("form/Common.css");
 @import url("form/Button.css");
 @import url("form/ComboBox.css");
