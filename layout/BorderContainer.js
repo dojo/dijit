@@ -344,7 +344,7 @@ dojo.declare("dijit.layout._Splitter", [ dijit._Widget, dijit._Templated ],
 	live: true,
 
 	// summary: A draggable spacer between two items in a BorderContainer
-	templateString: '<div class="dijitSplitter" dojoAttachEvent="onkeypress:_onKeyPress,onmousedown:_startDrag" style="position: absolute; z-index: 9999" tabIndex="0"><div class="dijitSplitterThumb"></div></div>',
+	templateString: '<div class="dijitSplitter" dojoAttachEvent="onkeypress:_onKeyPress,onmousedown:_startDrag" tabIndex="0"><div class="dijitSplitterThumb"></div></div>',
 
 	postCreate: function(){
 		this.inherited(arguments);
@@ -367,17 +367,23 @@ dojo.declare("dijit.layout._Splitter", [ dijit._Widget, dijit._Templated ],
 	},
 
 	_startDrag: function(e){
+		if(!this.cover){
+			this.cover = dojo.doc.createElement('div');
+			dojo.addClass(this.cover, "dijitSplitterCover");
+			dojo.place(this.cover, this.child.domNode, "after");
+		}else{
+			this.cover.style.zIndex = 1;
+		}
+
 		// Safeguard in case the stop event was missed.  Shouldn't be necessary if we always get the mouse up. 
 		if(this.fake){ dojo._destroyElement(this.fake); }
-
-		if(!(this._resize = this.live)){
+		if(!(this._resize = this.live)){ //TODO: disable live for IE6?
 			// create fake splitter to display at old position while we drag
 			(this.fake = this.domNode.cloneNode(true)).removeAttribute("id");
-			dojo.place(this.fake, this.domNode, "after");
-
 			dojo.addClass(this.domNode, "dijitSplitterShadow");
+			dojo.place(this.fake, this.domNode, "after");
 		}
-		dojo.addClass(this.domNode, "dijitSplitterActive"); //TODO: cursor isn't working on IE7
+		dojo.addClass(this.domNode, "dijitSplitterActive");
 		var horizontal = this.horizontal;
 		this._pageStart = horizontal ? e.pageY : e.pageX;
 		var dim = horizontal ? 'h' : 'w';
@@ -413,6 +419,7 @@ dojo.declare("dijit.layout._Splitter", [ dijit._Widget, dijit._Templated ],
 
 	_stopDrag: function(e){
 		try{
+			if(this.cover){ this.cover.style.zIndex = -1; }
 			if(this.fake){ dojo._destroyElement(this.fake); }
 			dojo.removeClass(this.domNode, "dijitSplitterActive");
 			dojo.removeClass(this.domNode, "dijitSplitterShadow");
