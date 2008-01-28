@@ -6,7 +6,7 @@
 		<title>Test DateTextBox</title>
 
 		<script type="text/javascript" src="../../../dojo/dojo.js"
-			djConfig="isDebug: true, extraLocale: ['zh-cn','fr-fr','ja-jp','ar-eg','ru-ru','hi-in','en-us']"></script>
+			djConfig="isDebug: true, extraLocale: ['zh-cn','fr-fr','ja-jp','ar-eg','ru-ru','hi-in','en-us','de-de','es-es','it-it','pt-br','ko-kr','zh-tw']"></script>
 		<script type="text/javascript" src="../../../dojo/currency.js"></script>
 		<script type="text/javascript" src="../../../dojo/number.js"></script>
 		<script type="text/javascript">
@@ -98,26 +98,36 @@
 
 		<script>
 		(function() {
-			var testCases;
-
-			testCases = new Array();
+			var testCases = [];
 			gen4DateFormat(testCases, "ru-ru", "ru_RU", "2005-07-31",
-				"31.07.05", "", "31.07.2005", "", "31 июля 2005&nbsp;г.", "Failed in Firefox. <a href='currency.html#cmt_1'>See #1 (currency.html).</a>", "31 июля 2005&nbsp;г.", "Failed in Firefox. <a href='currency.html#cmt_1'>See #1 (currency.html).</a>");
+				"31.07.05", "", "31.07.2005", "", "31 июля 2005 г.", "Failed in Firefox. <a href='currency.html#cmt_1'>See #1 (currency.html).</a>", "31 июля 2005 г.", "Failed in Firefox. <a href='currency.html#cmt_1'>See #1 (currency.html).</a>");
 			gen4DateFormat(testCases, "zh-cn", "zh_CN", "2005-07-31",
 				"05-7-31", "", "2005-7-31", "", "2005年7月31日", "", "2005年7月31日星期日", "");
 			gen4DateFormat(testCases, "en-us", "en_US", "2005-07-31",
 				"7/31/05", "", "Jul 31, 2005", "", "July 31, 2005", "", "Sunday, July 31, 2005", "");
 			gen4DateFormat(testCases, "fr-fr", "fr_FR", "2005-07-31",
-				"31/07/05", "", "31 juil. 05", "", "31 juillet 2005", "", "dimanche 31 juillet 2005", "");
+				"31/07/05", "", "31 juil. 2005", "", "31 juillet 2005", "", "dimanche 31 juillet 2005", "");
 			gen4DateFormat(testCases, "ja-jp", "ja_JP", "2005-07-31",
 				"05/07/31", "", "2005/07/31", "", "2005年7月31日", "", "2005年7月31日日曜日", "");
+			gen4DateFormat(testCases, "de-de", "de_DE", "2005-07-31",
+				"31.07.05", "", "31.07.2005", "", "31. Juli 2005", "", "Sonntag, 31. Juli 2005", "");
+			gen4DateFormat(testCases, "es-es", "es_ES", "2005-07-31",
+				"31/07/05", "", "31/07/2005", "", "31 de julio de 2005", "", "domingo 31 de julio de 2005", "");
+			gen4DateFormat(testCases, "pt-br", "pt-BR", "2005-07-31",
+				"31/07/05", "", "31/07/2005", "", "31 de julho de 2005", "", "domingo, 31 de julho de 2005", "");
+			gen4DateFormat(testCases, "it-it", "it-IT", "2005-07-31",
+				"31/07/05", "", "31/lug/2005", "", "31 luglio 2005", "", "domenica 31 luglio 2005", "");
+			gen4DateFormat(testCases, "ko-kr", "ko-KR", "2005-07-31",
+				"05. 7. 31.", "", "2005. 7. 31.", "", "2005년 7월 31일", "", "2005년 7월 31일 일요일", "");
+			gen4DateFormat(testCases, "zh-tw", "zh-TW", "2005-07-31",
+				"2005/7/31", "", "2005/7/31", "", "2005年7月31日", "", "2005年7月31日星期日", "");
 			gen4DateFormat(testCases, "ar-eg", "ar_EG", "2005-07-31",
 				"31/7/2005", "", "31/07/2005", "", "31 &#x064A;&#x0648;&#x0644;&#x064A;&#x0648;&#x2C; 2005", "", "&#x0627;&#x0644;&#x0623;&#x062D;&#x062F;&#x2C; 31 &#x064A;&#x0648;&#x0644;&#x064A;&#x0648;&#x2C; 2005", "");
 			gen4DateFormat(testCases, "hi-in", "hi_IN", "2005-07-31",
-				"३१-७-०५", "<a href='currency.html#cmt_3'>See #3 (currency.html).</a>", "३१-०७-२००५", "<a href='currency.html#cmt_3'>See #3 (currency.html).</a>", "३१ जुलाई २००५", "<a href='currency.html#cmt_3'>See #3 (currency.html).</a>", "रविवार ३१ जुलाई २००५", "<a href='currency.html#cmt_3'>See #3 (currency.html).</a>");
+				"२००५-०७-३१", "<a href='currency.html#cmt_3'>See #3 (currency.html).</a>", "२००५ जुलाई ३१", "<a href='currency.html#cmt_3'>See #3 (currency.html).</a>", "२००५ जुलाई ३१", "<a href='currency.html#cmt_3'>See #3 (currency.html).</a>", "रविवार, २००५ जुलाई ३१", "<a href='currency.html#cmt_3'>See #3 (currency.html).</a>");
 			genFormatTestCases("Date Format", "dijit.form.DateTextBox", testCases);
 
-			testCases = new Array();
+			testCases = [];
 			gen4DateFormat(testCases, "ru-ru", "ru_RU", new Date(2005, 6, 31),
 				"31.07.05", "", "31.07.2005", "", "31 июля 2005&nbsp;г.", "Failed in Firefox. <a href='currency.html#cmt_1'>See #1 (currency.html).</a>", "31 июля 2005&nbsp;г.", "Failed in Firefox. <a href='currency.html#cmt_1'>See #1 (currency.html).</a>");
 			gen4DateFormat(testCases, "zh-cn", "zh_CN", new Date(2005, 6, 31),
@@ -125,19 +135,29 @@
 			gen4DateFormat(testCases, "en-us", "en_US", new Date(2005, 6, 31),
 				"7/31/05", "", "Jul 31, 2005", "", "July 31, 2005", "", "Sunday, July 31, 2005", "");
 			gen4DateFormat(testCases, "fr-fr", "fr_FR", new Date(2005, 6, 31),
-				"31/07/05", "", "31 juil. 05", "", "31 juillet 2005", "", "dimanche 31 juillet 2005", "");
+				"31/07/05", "", "31 juil. 2005", "", "31 juillet 2005", "", "dimanche 31 juillet 2005", "");
 			gen4DateFormat(testCases, "ja-jp", "ja_JP", new Date(2005, 6, 31),
 				"05/07/31", "", "2005/07/31", "", "2005年7月31日", "", "2005年7月31日日曜日", "");
+			gen4DateFormat(testCases, "de-de", "de_DE", new Date(2005, 6, 31),
+				"31.07.05", "", "31.07.2005", "", "31. Juli 2005", "", "Sonntag, 31. Juli 2005", "");
+			gen4DateFormat(testCases, "es-es", "es_ES", new Date(2005, 6, 31),
+				"31/07/05", "", "31/07/2005", "", "31 de julio de 2005", "", "domingo 31 de julio de 2005", "");
+			gen4DateFormat(testCases, "pt-br", "pt-BR", new Date(2005, 6, 31),
+				"31/07/05", "", "31/07/2005", "", "31 de julho de 2005", "", "domingo, 31 de julho de 2005", "");
+			gen4DateFormat(testCases, "it-it", "it-IT", new Date(2005, 6, 31),
+				"31/07/05", "", "31/lug/2005", "", "31 luglio 2005", "", "domenica 31 luglio 2005", "");
+			gen4DateFormat(testCases, "ko-kr", "ko-KR", new Date(2005, 6, 31),
+				"05. 7. 31.", "", "2005. 7. 31.", "", "2005년 7월 31일", "", "2005년 7월 31일 일요일", "");
+			gen4DateFormat(testCases, "zh-tw", "zh-TW", new Date(2005, 6, 31),
+				"2005/7/31", "", "2005/7/31", "", "2005年7月31日", "", "2005年7月31日星期日", "");
 			gen4DateFormat(testCases, "ar-eg", "ar_EG", new Date(2005, 6, 31),
 				"31/7/2005", "", "31/07/2005", "", "31 &#x064A;&#x0648;&#x0644;&#x064A;&#x0648;&#x2C; 2005", "", "&#x0627;&#x0644;&#x0623;&#x062D;&#x062F;&#x2C; 31 &#x064A;&#x0648;&#x0644;&#x064A;&#x0648;&#x2C; 2005", "");
 			gen4DateFormat(testCases, "hi-in", "hi_IN", new Date(2005, 6, 31),
-				"३१-७-०५", "<a href='currency.html#cmt_3'>See #3 (currency.html).</a>", "३१-०७-२००५", "<a href='currency.html#cmt_3'>See #3 (currency.html).</a>", "३१ जुलाई २००५", "<a href='currency.html#cmt_3'>See #3 (currency.html).</a>", "रविवार ३१ जुलाई २००५", "<a href='currency.html#cmt_3'>See #3 (currency.html).</a>");
+				"२००५-०७-३१", "<a href='currency.html#cmt_3'>See #3 (currency.html).</a>", "२००५ जुलाई ३१", "<a href='currency.html#cmt_3'>See #3 (currency.html).</a>", "२००५ जुलाई ३१", "<a href='currency.html#cmt_3'>See #3 (currency.html).</a>", "रविवार, २००५ जुलाई ३१", "<a href='currency.html#cmt_3'>See #3 (currency.html).</a>");
 			genValidateTestCases("Date Validate", "dijit.form.DateTextBox", testCases);
 
 			dojo.parser.parse();
-
 		})();
-
 		</script>
 	</body>
 </html>
