@@ -139,7 +139,7 @@ dojo.declare(
 
 	setLabelNode: function(label){
 		this.labelNode.innerHTML="";
-		this.labelNode.appendChild(document.createTextNode(label));
+		this.labelNode.appendChild(dojo.doc.createTextNode(label));
 	},
 
 	setChildItems: function(/* Object[] */ items){
@@ -340,7 +340,7 @@ dojo.declare(
 		
 		// make template for container node (we will clone this and insert it into
 		// any nodes that have children)
-		var div = document.createElement('div');
+		var div = dojo.doc.createElement('div');
 		div.style.display = 'none';
 		div.className = "dijitTreeContainer";	
 		dijit.setWaiRole(div, "presentation");

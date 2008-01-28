@@ -101,10 +101,10 @@ dojo.declare(
 				pos = element.selectionStart;
 			}else if(dojo.isIE){
 				// in the case of a mouse click in a popup being handled,
-				// then the document.selection is not the textarea, but the popup
-				// var r = document.selection.createRange();
+				// then the dojo.doc.selection is not the textarea, but the popup
+				// var r = dojo.doc.selection.createRange();
 				// hack to get IE 6 to play nice. What a POS browser.
-				var tr = document.selection.createRange().duplicate();
+				var tr = dojo.doc.selection.createRange().duplicate();
 				var ntr = element.createTextRange();
 				tr.move("character",0);
 				ntr.move("character",0);
@@ -153,7 +153,7 @@ dojo.declare(
 				var tchar = String.fromCharCode(37);
 				var tcc = tchar.charCodeAt(0);
 				for(var x = 0; x < dist; x++){
-					var te = document.createEvent("KeyEvents");
+					var te = dojo.doc.createEvent("KeyEvents");
 					te.initKeyEvent("keypress", true, true, null, false, false, false, false, tcc, tcc);
 					element.dispatchEvent(te);
 				}
@@ -732,12 +732,12 @@ dojo.declare(
 			//		FilteringSelect
 
 			var labelObject = labelFunc(item);
-			var menuitem = document.createElement("div");
+			var menuitem = dojo.doc.createElement("div");
 			if(labelObject.html){
 				menuitem.innerHTML = labelObject.label;
 			}else{
 				menuitem.appendChild(
-					document.createTextNode(labelObject.label)
+					dojo.doc.createTextNode(labelObject.label)
 				);
 			}
 			// #3250: in blank options, assign a normal height

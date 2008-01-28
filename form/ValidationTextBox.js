@@ -191,7 +191,7 @@ dojo.declare(
 
 		postCreate: function(){
 			var textbox = this.textbox;
-			var valueNode = (this.valueNode = document.createElement("input"));
+			var valueNode = (this.valueNode = dojo.doc.createElement("input"));
 			valueNode.setAttribute("type", textbox.type);
 			valueNode.setAttribute("value", this.toString());
 			dojo.style(valueNode, "display", "none");

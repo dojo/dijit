@@ -60,7 +60,7 @@ dojo.declare(
 			while(node.firstChild){
 				node.removeChild(node.firstChild);
 			}
-			node.appendChild(document.createTextNode(text));
+			node.appendChild(dojo.doc.createTextNode(text));
 		},
 
 		_populateGrid: function(){

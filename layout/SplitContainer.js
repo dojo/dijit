@@ -59,7 +59,7 @@ dojo.declare("dijit.layout.SplitContainer",
 				this.sizerWidth = parseInt(this.sizerWidth.toString());
 			}catch(e){ this.sizerWidth = 7; }
 		}
-		var sizer = this.virtualSizer = document.createElement('div');
+		var sizer = this.virtualSizer = dojo.doc.createElement('div');
 		sizer.style.position = 'relative';
 
 		// #1681: work around the dreaded 'quirky percentages in IE' layout bug
@@ -109,13 +109,13 @@ dojo.declare("dijit.layout.SplitContainer",
 		var i = this.sizers.length;
 
 		// TODO: use a template for this!!!
-		var sizer = this.sizers[i] = document.createElement('div');
+		var sizer = this.sizers[i] = dojo.doc.createElement('div');
 		this.domNode.appendChild(sizer);
 
 		sizer.className = this.isHorizontal ? 'dijitSplitContainerSizerH' : 'dijitSplitContainerSizerV';
 
 		// add the thumb div
-		var thumb = document.createElement('div');
+		var thumb = dojo.doc.createElement('div');
 		thumb.className = 'thumb';
 		sizer.appendChild(thumb);
 
@@ -385,8 +385,8 @@ dojo.declare("dijit.layout.SplitContainer",
 		// attach mouse events
 		//
 		this._ownconnects = [];
-		this._ownconnects.push(dojo.connect(document.documentElement, "onmousemove", this, "changeSizing"));
-		this._ownconnects.push(dojo.connect(document.documentElement, "onmouseup", this, "endSizing"));
+		this._ownconnects.push(dojo.connect(dojo.doc.documentElement, "onmousemove", this, "changeSizing"));
+		this._ownconnects.push(dojo.connect(dojo.doc.documentElement, "onmouseup", this, "endSizing"));
 
 		dojo.stopEvent(e);
 	},

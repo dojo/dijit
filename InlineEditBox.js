@@ -137,7 +137,7 @@ dojo.declare("dijit.InlineEditBox",
 		// Placeholder for edit widget
 		// Put place holder (and eventually editWidget) before the display node so that it's positioned correctly
 		// when Calendar dropdown appears, which happens automatically on focus.
-		var placeholder = document.createElement("span");
+		var placeholder = dojo.doc.createElement("span");
 		dojo.place(placeholder, this.domNode, "before");
 
 		var ew = this.editWidget = new dijit._InlineEditor({

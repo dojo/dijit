@@ -112,7 +112,7 @@ dojo.declare("dijit.ColorPalette",
 		    coords = this._paletteCoords;
 		for(var row=0; row < choices.length; row++){
 			for(var col=0; col < choices[row].length; col++) {
-                var highlightNode = document.createElement("img");
+                var highlightNode = dojo.doc.createElement("img");
                 highlightNode.src = url;
                 dojo.addClass(highlightNode, "dijitPaletteImg");
                 var color = choices[row][col],

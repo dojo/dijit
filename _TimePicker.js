@@ -136,7 +136,7 @@ dojo.declare("dijit._TimePicker",
 
 		_createOption:function(/*Number*/ index){
 			// summary: creates a clickable time option
-			var div=document.createElement("div");
+			var div=dojo.doc.createElement("div");
 			var date = (div.date = new Date(this._refDate));
 			div.index=index;
 			var incrementDate = this._clickableIncrementDate;
@@ -144,7 +144,7 @@ dojo.declare("dijit._TimePicker",
 				date.getMinutes()+incrementDate.getMinutes()*index,
 				date.getSeconds()+incrementDate.getSeconds()*index);
 
-			var innerDiv = document.createElement('div');
+			var innerDiv = dojo.doc.createElement('div');
 			dojo.addClass(div,this.baseClass+"Item");
 			dojo.addClass(innerDiv,this.baseClass+"ItemInner");
 			innerDiv.innerHTML=dojo.date.locale.format(date, this.constraints);				

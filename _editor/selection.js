@@ -7,7 +7,7 @@ dojo.provide("dijit._editor.selection");
 
 dojo.mixin(dijit._editor.selection, {
 	getType: function(){
-		// summary: Get the selection type (like document.select.type in IE).
+		// summary: Get the selection type (like dojo.doc.select.type in IE).
 		if(dojo.doc.selection){ //IE
 			return dojo.doc.selection.type.toLowerCase();
 		}else{
@@ -61,7 +61,7 @@ dojo.mixin(dijit._editor.selection, {
 			var selection = dojo.global.getSelection();
 			if(selection && selection.rangeCount){
 				var frag = selection.getRangeAt(0).cloneContents();
-				var div = document.createElement("div");
+				var div = dojo.doc.createElement("div");
 				div.appendChild(frag);
 				return div.innerHTML;
 			}
@@ -166,7 +166,7 @@ dojo.mixin(dijit._editor.selection, {
 	                  // pulled from WebCore/ecma/kjs_window.cpp, line 2536
 	                   selection.collapse(beginning);
 	          }
-	  }else if(document.selection){ // IE
+	  }else if(dojo.doc.selection){ // IE
 	          var range = dojo.doc.selection.createRange();
 	          range.collapse(beginning);
 	          range.select();

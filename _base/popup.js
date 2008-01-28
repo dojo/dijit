@@ -18,7 +18,7 @@ dijit.popup = new function(){
 		//		Prepares a node to be used as a popup
 		//
 		// description:
-		//		Attaches node to document.body, and
+		//		Attaches node to dojo.doc.body, and
 		//		positions it off screen, but not display:none, so that
 		//		the widget doesn't appear in the page flow and/or cause a blank
 		//		area at the bottom of the viewport (making scrollbar longer), but
@@ -245,8 +245,8 @@ dijit.BackgroundIframe = function(/* DomNode */node){
 		var iframe = dijit._frames.pop();
 		node.appendChild(iframe);
 		if(dojo.isIE){
-			iframe.style.setExpression("width", "document.getElementById('" + node.id + "').offsetWidth");
-			iframe.style.setExpression("height", "document.getElementById('" + node.id + "').offsetHeight");
+			iframe.style.setExpression("width", "dojo.doc.getElementById('" + node.id + "').offsetWidth");
+			iframe.style.setExpression("height", "dojo.doc.getElementById('" + node.id + "').offsetHeight");
 		}
 		this.iframe = iframe;
 	}

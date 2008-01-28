@@ -64,17 +64,17 @@ dojo.declare(
 				dojo.forEach(value.split("\n"), function(line){
 					if(isFirst){ isFirst = false; }
 					else{
-						editNode.appendChild(document.createElement("BR")); // preserve line breaks
+						editNode.appendChild(dojo.doc.createElement("BR")); // preserve line breaks
 					}
 					if(line){
-						editNode.appendChild(document.createTextNode(line)); // use text nodes so that imbedded tags can be edited
+						editNode.appendChild(dojo.doc.createTextNode(line)); // use text nodes so that imbedded tags can be edited
 					}
 				});
 			}else if(value){
-				editNode.appendChild(document.createTextNode(value));
+				editNode.appendChild(dojo.doc.createTextNode(value));
 			}
 			if(!dojo.isIE){
-				editNode.appendChild(document.createElement("BR")); // so that you see a cursor
+				editNode.appendChild(dojo.doc.createElement("BR")); // so that you see a cursor
 			}
 		}else{
 			// blah<BR>blah --> blah\nblah
@@ -92,7 +92,7 @@ dojo.declare(
 		}
 		this.value = this.formValueNode.value = value;
 		if(this.iframe){
-			var sizeNode = document.createElement('div');
+			var sizeNode = dojo.doc.createElement('div');
 			editNode.appendChild(sizeNode);
 			var newHeight = sizeNode.offsetTop;
 			if(editNode.scrollWidth > editNode.clientWidth){ newHeight+=16; } // scrollbar space needed?
@@ -148,7 +148,7 @@ dojo.declare(
 			if(label.length){
 				this._iframeEditTitle = label[0].innerHTML + " " + this._iframeEditTitle;
 			}
-			var body = this.focusNode = this.editNode = document.createElement('BODY');
+			var body = this.focusNode = this.editNode = dojo.doc.createElement('BODY');
 			body.style.margin="0px";
 			body.style.padding="0px";
 			body.style.border="0px";
@@ -235,7 +235,7 @@ dojo.declare(
 			// If a widget is listening outside of the iframe, (like InlineEditBox)
 			// it will not hear anything.
 			// Create an equivalent event so everyone else knows what is going on.
-			var te = document.createEvent("KeyEvents");
+			var te = dojo.doc.createEvent("KeyEvents");
 			te.initKeyEvent("keypress", true, true, null, e.ctrlKey, e.altKey, e.shiftKey, e.metaKey, e.keyCode, e.charCode);
 			this.iframe.dispatchEvent(te);
 		}

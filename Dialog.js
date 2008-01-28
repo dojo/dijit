@@ -309,7 +309,7 @@ dojo.declare(
 			}
 
 			this._modalconnects.push(dojo.connect(window, "onscroll", this, "layout"));
-			this._modalconnects.push(dojo.connect(document.documentElement, "onkeypress", this, "_onKey"));
+			this._modalconnects.push(dojo.connect(dojo.doc.documentElement, "onkeypress", this, "_onKey"));
 
 			dojo.style(this.domNode, "opacity", 0);
 			this.domNode.style.visibility="";

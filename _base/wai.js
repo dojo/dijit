@@ -13,7 +13,7 @@ dijit.wai = {
 
 		var div;
 		// create div for testing if high contrast mode is on or images are turned off
-		div = document.createElement("div");
+		div = dojo.doc.createElement("div");
 		div.id = "a11yTestNode";
 		div.style.cssText = 'border: 1px solid;'
 			+ 'border-color:red green;'

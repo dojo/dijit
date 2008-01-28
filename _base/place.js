@@ -101,7 +101,7 @@ dijit._place = function(/*DomNode*/ node, /* Array */ choices, /* Function */ la
 	var view = dijit.getViewport();
 
 	// This won't work if the node is inside a <div style="position: relative">,
-	// so reattach it to document.body.   (Otherwise, the positioning will be wrong
+	// so reattach it to dojo.doc.body.   (Otherwise, the positioning will be wrong
 	// and also it might get cutoff)
 	if(!node.parentNode || String(node.parentNode.tagName).toLowerCase() != "body"){
 		dojo.body().appendChild(node);

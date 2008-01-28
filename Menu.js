@@ -150,7 +150,7 @@ dojo.declare("dijit.Menu",
 		var win = dijit.getDocumentWindow(dijit.Menu._iframeContentDocument(iframe_el)) ||
 			// Moz. TODO: is this available when defaultView isn't?
 			dijit.Menu._iframeContentDocument(iframe_el)['__parent__'] ||
-			(iframe_el.name && document.frames[iframe_el.name]) || null;
+			(iframe_el.name && dojo.doc.frames[iframe_el.name]) || null;
 		return win;	//	Window
 	},
 
@@ -159,7 +159,7 @@ dojo.declare("dijit.Menu",
 		//	Returns a reference to the document object inside iframe_el
 		var doc = iframe_el.contentDocument // W3
 			|| (iframe_el.contentWindow && iframe_el.contentWindow.document) // IE
-			|| (iframe_el.name && document.frames[iframe_el.name] && document.frames[iframe_el.name].document)
+			|| (iframe_el.name && dojo.doc.frames[iframe_el.name] && dojo.doc.frames[iframe_el.name].document)
 			|| null;
 		return doc;	//	HTMLDocument
 	},
@@ -426,7 +426,7 @@ dojo.declare("dijit.PopupMenuItem",
 		this.inherited(arguments);
 
 		// we didn't copy the dropdown widget from the this.srcNodeRef, so it's in no-man's
-		// land now.  move it to document.body.
+		// land now.  move it to dojo.doc.body.
 		if(!this.popup){
 			var node = dojo.query("[widgetId]", this.dropDownContainer)[0];
 			this.popup = dijit.byNode(node);

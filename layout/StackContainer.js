@@ -275,7 +275,7 @@ dojo.declare(
 			//   Create button corresponding to the page.
 
 			// add a node that will be promoted to the button widget
-			var refNode = document.createElement("span");
+			var refNode = dojo.doc.createElement("span");
 			this.domNode.appendChild(refNode);
 			// create an instance of the button widget
 			var cls = dojo.getObject(this.buttonWidget);

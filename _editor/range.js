@@ -186,7 +186,7 @@ dijit.range.adjacentNoneTextNode=function(startnode, next){
 dijit.range._w3c = Boolean(window['getSelection']);
 dijit.range.create = function(){
 	if(dijit.range._w3c){
-		return document.createRange();
+		return dojo.doc.createRange();
 	}else{//IE
 		return new dijit.range.W3CRange;
 	}

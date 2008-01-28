@@ -6,8 +6,8 @@ dojo.require("dojo.i18n");
 dojo.requireLocalization("dijit", "Textarea");
 
 // used to restore content when user leaves this page then comes back
-// but do not try doing document.write if we are using xd loading.
-// document.write will only work if RichText.js is included in the dojo.js
+// but do not try doing dojo.doc.write if we are using xd loading.
+// dojo.doc.write will only work if RichText.js is included in the dojo.js
 // file. If it is included in dojo.js and you want to allow rich text saving
 // for back/forward actions, then set dojo.config.allowXdRichTextSave = true.
 if(!dojo.config["useXDomain"] || dojo.config["allowXdRichTextSave"]){
@@ -205,22 +205,22 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 			}
 		}
 		//queryCommandValue returns empty if we hide editNode, so move it out of screen temporary
-		var div=document.createElement('div');
+		var div=dojo.doc.createElement('div');
 		div.style.position = "absolute";
 		div.style.left = "-2000px";
 		div.style.top = "-2000px";
-		document.body.appendChild(div);
+		dojo.doc.body.appendChild(div);
 		div.innerHTML = localhtml;
 		var node = div.firstChild;
 		while(node){
 			dijit._editor.selection.selectElement(node.firstChild);
 			dojo.withGlobal(this.window, "selectElement", dijit._editor.selection, [node.firstChild]);
 			var nativename = node.tagName.toLowerCase();
-			this._local2NativeFormatNames[nativename] = document.queryCommandValue("formatblock");//this.queryCommandValue("formatblock");
+			this._local2NativeFormatNames[nativename] = dojo.doc.queryCommandValue("formatblock");//this.queryCommandValue("formatblock");
 			this._native2LocalFormatNames[this._local2NativeFormatNames[nativename]] = nativename;
 			node = node.nextSibling;
 		}
-		document.body.removeChild(div);
+		dojo.doc.body.removeChild(div);
 	},
 
 	open: function(/*DomNode?*/element){
@@ -327,7 +327,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 		this.isClosed = false;
 		// Safari's selections go all out of whack if we do it inline,
 		// so for now IE is our only hero
-		//if (typeof document.body.contentEditable != "undefined") {
+		//if (typeof dojo.doc.body.contentEditable != "undefined") {
 		if(dojo.isIE || dojo.isSafari || dojo.isOpera){ // contentEditable, easy
 			var ifr = this.iframe = dojo.doc.createElement('iframe');
 			ifr.id=this.id;
@@ -432,7 +432,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 			var ifr = this.iframe = dojo.doc.createElement("iframe");
 			ifr.id=this.id;
 			// this.iframe.src = "about:blank";
-			// document.body.appendChild(this.iframe);
+			// dojo.doc.body.appendChild(this.iframe);
 			// console.debug(this.iframe.contentDocument.open());
 			// dojo.body().appendChild(this.iframe);
 			var ifrs = ifr.style;

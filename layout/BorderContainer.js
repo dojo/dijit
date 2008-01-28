@@ -243,7 +243,7 @@ dojo.declare(
 			if(this._left){ borderBox(this._left, {h: sidebarHeight}); }
 			if(this._right){ borderBox(this._right, {h: sidebarHeight}); }
 
-			if(dojo.isIE && (document.compatMode == "BackCompat" || dojo.isIE < 7)){
+			if(dojo.isIE && (dojo.doc.compatMode == "BackCompat" || dojo.isIE < 7)){
 //TODO: use dojo.marginBox instead of dojo.style?
 /*
 				var containerWidth = "dojo.style("+this.id+",'width')";
