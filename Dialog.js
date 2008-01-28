@@ -156,9 +156,13 @@ dojo.declare(
 		postCreate: function(){
 			dojo.body().appendChild(this.domNode);
 			this.inherited("postCreate",arguments);
-			this.domNode.style.visibility = "hidden";
-			this.domNode.style.position = "absolute";
-			this.domNode.style.top = "-9999px";
+			
+			var s = this.domNode.style;
+			s.visibility = "hidden";
+			s.position = "absolute";
+			s.display = "";
+			s.top = "-9999px";
+
 			this.connect(this, "onExecute", "hide");
 			this.connect(this, "onCancel", "hide");
 			this._modalconnects = [];
