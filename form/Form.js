@@ -48,6 +48,9 @@ dojo.declare("dijit.form._FormMixin", null,
 					dojo.forEach(widgets, function(w, i){
 						w.setAttribute('checked', (dojo.indexOf(values, w.value) != -1));
 					});
+				}else if(widgets[0].setValues){
+					// it's a multi-select
+					widgets[0].setValues(values);
 				}else{
 					// otherwise, values is a list of values to be assigned sequentially to each widget
 					dojo.forEach(widgets, function(w, i){
@@ -134,31 +137,38 @@ dojo.declare("dijit.form._FormMixin", null,
 			// get widget values
 			var obj = { };
 			dojo.forEach(this.getDescendants(), function(widget){
-				var value = (widget.getValue && !widget._getValueDeprecated) ? widget.getValue() : widget.value;
 				var name = widget.name;
 				if(!name){ return; }
 
-				// Store widget's value(s) as a scalar, except for checkboxes which are automatically arrays
-				if(typeof widget.checked == 'boolean'){
-					if(/Radio/.test(widget.declaredClass)){
-						// radio button
-						if(widget.checked){
-							dojo.setObject(name, value, obj);
+				if(widget.getValues){
+					// A multi-value widget (ex: MultiSelect)
+					dojo.setObject(name, widget.getValues(), obj);
+				}else{
+					// Single value widget (checkbox, radio, or plain <input> type widget
+					var value = (widget.getValue && !widget._getValueDeprecated) ? widget.getValue() : widget.value;
+
+					// Store widget's value(s) as a scalar, except for checkboxes which are automatically arrays
+					if(typeof widget.checked == 'boolean'){
+						if(/Radio/.test(widget.declaredClass)){
+							// radio button
+							if(widget.checked){
+								dojo.setObject(name, value, obj);
+							}
+						}else{
+							// checkbox/toggle button
+							var ary=dojo.getObject(name, false, obj);
+							if(!ary){
+								ary=[];
+								dojo.setObject(name, ary, obj);
+							}
+							if(widget.checked){
+								ary.push(value);
+							}
 						}
 					}else{
-						// checkbox/toggle button
-						var ary=dojo.getObject(name, false, obj);
-						if(!ary){
-							ary=[];
-							dojo.setObject(name, ary, obj);
-						}
-						if(widget.checked){
-							ary.push(value);
-						}
+						// plain input
+						dojo.setObject(name, value, obj);
 					}
-				}else{
-					// plain input
-					dojo.setObject(name, value, obj);
 				}
 			});
 
