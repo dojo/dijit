@@ -86,7 +86,9 @@ dojo.declare(
 						// summary:
 						// 	disables dates outside of the min/max of the _DateTimeTextBox
 						var compare = dojo.date.compare;
-						return textBox.constraints && (compare(textBox.constraints.min,date,"date") > 0 || compare(textBox.constraints.max,date,"date") < 0);
+						var constraints = textBox.constraints;
+						return constraints && (constraints.min && (compare(constraints.min, date, "date") > 0) || 
+							(constraints.max && compare(constraints.max, date, "date") < 0));
 					}
 				});
 				this._picker.setValue(this.getValue() || new Date());
