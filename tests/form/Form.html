@@ -22,6 +22,8 @@
 		dojo.require("dijit.form.CheckBox");
 		dojo.require("dijit.form.DateTextBox");
 		dojo.require("dijit.form.Button");
+		dojo.require("dijit.form.MultiSelect");
+		dojo.require("dijit.form.Hidden");
 		dojo.require("dijit.Editor");
 
 		var obj;
@@ -50,6 +52,8 @@
 							plop: {combo: "one"},
 							cb2: ["2", "3"],
 							r2: "2",
+							ms1: ["VA", "WA"],
+							h1: "hidden",
 							richtext: "<h1>original</h1><p>This is the default content</p>"
 						};
 
@@ -60,6 +64,8 @@
 							plop: {combo: "three"},
 							cb2: ["4"],
 							r2: "1",
+							ms1: ["FL", "CA"],
+							h1: "still hidden",
 							richtext: "<h1>changed</h1><p>This is the changed content set by setValues</p>"
 						};
 
@@ -200,6 +206,30 @@ text text text """ \\\/
 <input dojoType="dijit.form.RadioButton" type="radio" name="r2" value="4" /> 4
 </td>
 </tr>
+
+<tr>
+	<td>Multi-select</td><td>ms1</td>
+	<td>
+		<select id="ms1" multiple="true" name="ms1"
+			dojoType="dijit.form.MultiSelect"
+			style="height:100px; width:175px; border:5px solid #ededed;">
+
+			<option value="TN">Tennessee</option>
+			<option value="VA" selected="true">Virginia</option>
+			<option value="WA" selected="true">Washington</option>
+			<option value="FL">Florida</option>
+			<option value="CA">California</option>
+
+		</select>
+	</td>
+</tr>
+
+<tr>
+	<td>Hidden input</td>
+	<td>h1</td>
+	<td><input id="h1" name="h1" dojoType="dijit.form.Hidden" value="hidden"></td>
+</tr>
+
 <tr>
 <td>Editor widget</td><td>richtext</td>
 <td>
