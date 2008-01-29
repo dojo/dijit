@@ -24,6 +24,8 @@
 		dojo.require("dijit.form.Button");
 		dojo.require("dijit.form.MultiSelect");
 		dojo.require("dijit.form.Hidden");
+		dojo.require("dijit.form.Textarea");
+		dojo.require("dijit.form.SimpleTextarea");
 		dojo.require("dijit.Editor");
 
 		var obj;
@@ -54,6 +56,8 @@
 							r2: "2",
 							ms1: ["VA", "WA"],
 							h1: "hidden",
+							t1: "line 1\nline 2",
+							st1: "simple line 1\nsimple line 2",
 							richtext: "<h1>original</h1><p>This is the default content</p>"
 						};
 
@@ -66,6 +70,8 @@
 							r2: "1",
 							ms1: ["FL", "CA"],
 							h1: "still hidden",
+							t1: "new line 1\nnew line 2",
+							st1: "new simple line 1\nnew simple line 2",
 							richtext: "<h1>changed</h1><p>This is the changed content set by setValues</p>"
 						};
 
@@ -228,6 +234,22 @@ text text text """ \\\/
 	<td>Hidden input</td>
 	<td>h1</td>
 	<td><input id="h1" name="h1" dojoType="dijit.form.Hidden" value="hidden"></td>
+</tr>
+
+<tr>
+	<td>Auto-sizing textarea</td>
+	<td>t1</td>
+	<td><textarea id="t1" name="t1" dojoType="dijit.form.Textarea"
+>line 1
+line 2</textarea></td>
+</tr>
+
+<tr>
+	<td>Fixed size textarea</td>
+	<td>st1</td>
+	<td><textarea id="st1" name="st1" dojoType="dijit.form.SimpleTextarea" rows=5 cols=50
+>simple line 1
+simple line 2</textarea></td>
 </tr>
 
 <tr>

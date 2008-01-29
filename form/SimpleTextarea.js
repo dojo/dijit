@@ -25,12 +25,25 @@ dojo.declare("dijit.form.SimpleTextarea",
 	//		The number of characters per line.
 	cols: "",
 
-	templateString: "<textarea dojoAttachPoint='focusNode'>",
+	templateString: "<textarea class='dijitTextArea' dojoAttachPoint='focusNode,containerNode'>",
+
+	postMixInProperties: function(){
+		this.value = this.srcNodeRef.value;
+	},
 
 	resize: function(/* Object */size){
 		if(size){
 			console.log(this, ": resizing to ", size);
 			dojo.marginBox(this.domNode, size);
 		}
+	},
+	
+	setValue: function(/*String*/ val){
+		this.domNode.value = this.value = val;
+		this.inherited(arguments);
+	},
+
+	getValue: function(){
+		return this.domNode.value;
 	}
 });
