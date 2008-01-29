@@ -9,6 +9,8 @@ dijit.getDocumentWindow = function(doc){
 		/*
 			This is a Safari specific function that fix the reference to the parent
 			window from the document object.
+			TODO: #5711: should the use of document below reference dojo.doc instead
+			in case they're not the same?
 		*/
 		var fix=function(win){
 			win.document._parentWindow=win;
@@ -19,16 +21,17 @@ dijit.getDocumentWindow = function(doc){
 		fix(window.top);
 	}
 
-	//In some IE versions (at least 6.0), dojo.doc.parentWindow does not return a
+	//In some IE versions (at least 6.0), document.parentWindow does not return a
 	//reference to the real window object (maybe a copy), so we must fix it as well
 	//We use IE specific execScript to attach the real window reference to
 	//document._parentWindow for later use
-	if(dojo.isIE && window !== dojo.doc.parentWindow && !doc._parentWindow){
+	//TODO: #5711: should the use of document below reference dojo.doc instead in case they're not the same?
+	if(dojo.isIE && window !== document.parentWindow && !doc._parentWindow){
 		/*
 		In IE 6, only the variable "window" can be used to connect events (others
 		may be only copies).
 		*/
-		doc.parentWindow.execScript("dojo.doc._parentWindow = window;", "Javascript");
+		doc.parentWindow.execScript("document._parentWindow = window;", "Javascript");
 		//to prevent memory leak, unset it after use
 		//another possibility is to add an onUnload handler which seems overkill to me (liucougar)
 		var win = doc._parentWindow;
