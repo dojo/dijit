@@ -37,7 +37,7 @@ dojo.declare("dijit._editor.plugins.FontChoice",
 		},
 
 		updateState: function(){
-			this.inherited("updateState");
+			this.inherited(arguments);
 			var _e = this.editor;
 			var _c = this.command;
 			if(!_e || !_e.isLoaded || !_c.length){ return; }
@@ -51,7 +51,7 @@ console.log("focushandle: "+this._focusHandle);
 		},
 
 		setToolbar: function(){
-			this.inherited("setToolbar");
+			this.inherited(arguments);
 
 			var forRef = this.button;
 			if(!forRef.id){ forRef.id = "dijitEditorButton-"+this.command+(this._uniqueId++); } //TODO: is this necessary?  FilteringSelects always seem to have an id?
