@@ -392,7 +392,7 @@ dojo.declare("dijit.layout._Splitter", [ dijit._Widget, dijit._Templated ],
 		var de = dojo.doc.body;
 		this._handlers = (this._handlers || []).concat([
 			dojo.connect(de, "onmousemove", this, "_drag"),
-			dojo.connect(de, "onmouseup", this, "_stopDrag") //FIXME: IE only stops drag when mouseup over the splitter node?
+			dojo.connect(de, "onmouseup", this, "_stopDrag")
 		]);
 		this._computeMaxSize();
 		dojo.stopEvent(e);

@@ -1,4 +1,5 @@
 dojo.provide("dijit.layout.LayoutContainer");
+dojo.deprecated("dijit.layout.LayoutContainer is deprecated", "use BorderContainer instead", 2.0);
 
 dojo.require("dijit.layout._LayoutWidget");
 

@@ -1,4 +1,5 @@
 dojo.provide("dijit.layout.SplitContainer");
+dojo.deprecated("dijit.layout.SplitContainer is deprecated", "use BorderContainer with splitter instead", 2.0);
 
 //
 // FIXME: make it prettier
