@@ -41,6 +41,8 @@ if(leftPanel){
 		#mondrian .dijitSplitterVertical { width: 10px }
 		#mondrian .dijitSplitterThumb { display: none }
 		#mondrian .dijitSplitterActive { background-color: blue }
+		#mondrian SPAN { display: none }
+		#mondrian:hover SPAN { display: inline }
 	</style>
 </head>
 <body class="tundra">
@@ -142,23 +144,23 @@ if(leftPanel){
 <div id="mondrian" dojoType="dijit.layout.BorderContainer" design="sidebar" style="height: 300px; width: 400px">
 	<div dojoType="dijit.layout.ContentPane" region="top" style="height: 100px" splitter="true">
 		<div dojoType="dijit.layout.BorderContainer" style="height: 100px; width: 100%">
-			<div dojoType="dijit.layout.ContentPane" region="leading" style="width: 125px" splitter="true">  top a</div>
-			<div dojoType="dijit.layout.ContentPane" region="center" style="background-color: yellow" splitter="true">top b</div>
+			<div dojoType="dijit.layout.ContentPane" region="leading" style="width: 125px" splitter="true"><span>top a</span></div>
+			<div dojoType="dijit.layout.ContentPane" region="center" style="background-color: yellow" splitter="true"><span>top b</span></div>
 		</div>
 	</div>
 	<div dojoType="dijit.layout.ContentPane" region="bottom" style="height: 100px" splitter="true">
 		<div dojoType="dijit.layout.BorderContainer" style="height: 100px; width: 100%">
-			<div dojoType="dijit.layout.ContentPane" region="top" style="height: 40px" splitter="true"> bottom c</div>
-			<div dojoType="dijit.layout.ContentPane" region="center"> bottom d</div>
+			<div dojoType="dijit.layout.ContentPane" region="top" style="height: 40px" splitter="true"><span>bottom c</span></div>
+			<div dojoType="dijit.layout.ContentPane" region="center"><span>bottom d</span></div>
 		</div>
 	</div>
 	<div dojoType="dijit.layout.ContentPane" region="leading" style="width: 100px" splitter="true">
 		<div dojoType="dijit.layout.BorderContainer" style="height: 300px; width: 100%">
-			<div dojoType="dijit.layout.ContentPane" region="center">leading e</div>
-			<div dojoType="dijit.layout.ContentPane" region="bottom" style="height: 100px; background-color: red" splitter="true">leading f</div>
+			<div dojoType="dijit.layout.ContentPane" region="center"><span>leading e</span></div>
+			<div dojoType="dijit.layout.ContentPane" region="bottom" style="height: 100px; background-color: red" splitter="true"><span>leading f</span></div>
 		</div>
 	</div>
-	<div dojoType="dijit.layout.ContentPane" region="trailing" style="width: 100px" splitter="true">trailing g</div>
+	<div dojoType="dijit.layout.ContentPane" region="trailing" style="width: 100px" splitter="true"><span>trailing g</span></div>
 </div>
 <br />
 </body>
