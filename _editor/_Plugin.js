@@ -22,27 +22,27 @@ dojo.declare("dijit._editor._Plugin", null, {
 	commandArg: null,
 	useDefaultCommand: true,
 	buttonClass: dijit.form.Button,
-	_initButton: function(){
+	_initButton: function(props){
 		if(this.command.length){
 			var label = this.editor.commands[this.command];
 			var className = this.iconClassPrefix+" "+this.iconClassPrefix + this.command.charAt(0).toUpperCase() + this.command.substr(1);
 			if(!this.button){
-				var props = {
+				props = dojo.mixin({
 					label: label,
 					showLabel: false,
 					iconClass: className,
 					dropDown: this.dropDown,
 					tabIndex: "-1"
-				};
+				}, props || {});
 				this.button = new this.buttonClass(props);
 			}
 		}
 	},
 	destroy: function(f){
-		dojo.forEach(this._connects,dojo.disconnect);
+		dojo.forEach(this._connects, dojo.disconnect);
 	},
-	connect: function(o,f,tf){
-		this._connects.push(dojo.connect(o,f,this,tf));
+	connect: function(o, f, tf){
+		this._connects.push(dojo.connect(o, f, this, tf));
 	},
 	updateState: function(){
 		var _e = this.editor;
@@ -53,7 +53,7 @@ dojo.declare("dijit._editor._Plugin", null, {
 		if(this.button){
 			try{
 				var enabled = _e.queryCommandEnabled(_c);
-				this.button.setAttribute('disabled',!enabled);
+				this.button.setAttribute('disabled', !enabled);
 				if(typeof this.button.checked == 'boolean'){
 					this.button.setAttribute('checked', _e.queryCommandState(_c));
 				}
@@ -70,8 +70,8 @@ dojo.declare("dijit._editor._Plugin", null, {
 		this._initButton();
 
 		// FIXME: wire up editor to button here!
-		if(	(this.command.length) &&
-			(!this.editor.queryCommandAvailable(this.command))
+		if(this.command.length &&
+			!this.editor.queryCommandAvailable(this.command)
 		){
 			// console.debug("hiding:", this.command);
 			if(this.button){

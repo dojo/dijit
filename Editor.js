@@ -95,7 +95,7 @@ dojo.declare(
 					}
 				}
 				if(!o.plugin){
-					console.debug('Cannot find plugin',plugin);
+					console.warn('Cannot find plugin',plugin);
 					return;
 				}
 				plugin=o.plugin;

@@ -1,7 +1,7 @@
 dojo.provide("dijit._editor.plugins.EnterKeyHandling");
 
-dojo.declare("dijit._editor.plugins.EnterKeyHandling",null,{
-	// summary: this plugin trys to handle enter key events to make all 
+dojo.declare("dijit._editor.plugins.EnterKeyHandling", dijit._editor._Plugin, {
+	// summary: this plugin tries to handle enter key events to make all 
 	//		browsers have identical behaviors.
 
 	// blockNodeForEnter: String
@@ -15,8 +15,8 @@ dojo.declare("dijit._editor.plugins.EnterKeyHandling",null,{
 		}
 	},
 	setEditor: function(editor){
-		this.editor=editor;
-		if(this.blockNodeForEnter=='BR'){
+		this.editor = editor;
+		if(this.blockNodeForEnter == 'BR'){
 			if(dojo.isIE){
 				editor.contentDomPreFilters.push(dojo.hitch(this, "regularPsToSingleLinePs"));
 				editor.contentDomPostFilters.push(dojo.hitch(this, "singleLinePsToRegularPs"));
@@ -25,7 +25,7 @@ dojo.declare("dijit._editor.plugins.EnterKeyHandling",null,{
 				editor.onLoadDeferred.addCallback(dojo.hitch(this,function(d){
 					try{
 						this.editor.document.execCommand("insertBrOnReturn", false, true);
-					}catch(e){};
+					}catch(e){}
 					return d;
 				}));
 			}
@@ -33,7 +33,7 @@ dojo.declare("dijit._editor.plugins.EnterKeyHandling",null,{
 			//add enter key handler
 			// FIXME: need to port to the new event code!!
 			dojo['require']('dijit._editor.range');
-			var h=dojo.hitch(this,this.handleEnterKey);
+			var h = dojo.hitch(this,this.handleEnterKey);
 			editor.addKeyHandler(13, 0, h); //enter
 			editor.addKeyHandler(13, 2, h); //shift+enter
 			this.connect(this.editor,'onKeyPressed','onKeyPressed');
@@ -56,7 +56,7 @@ dojo.declare("dijit._editor.plugins.EnterKeyHandling",null,{
 					//circulate the undo detection code by calling RichText::execCommand directly
 					dijit._editor.RichText.prototype.execCommand.apply(this.editor, ['formatblock',this.blockNodeForEnter]);
 					//set the innerHTML of the new block node
-					var block = dojo.withGlobal(this.editor.window, 'getAncestorElement', dijit._editor.selection, [this.blockNodeForEnter])
+					var block = dojo.withGlobal(this.editor.window, 'getAncestorElement', dijit._editor.selection, [this.blockNodeForEnter]);
 					if(block){
 						block.innerHTML=this.bogusHtmlContent;
 						if(dojo.isIE){
@@ -72,7 +72,7 @@ dojo.declare("dijit._editor.plugins.EnterKeyHandling",null,{
 							r.select();
 						}
 					}else{
-						alert('onKeyPressed: Can not find the new block node');
+						alert('onKeyPressed: Can not find the new block node'); //FIXME
 					}
 				}
 			}
@@ -133,22 +133,19 @@ dojo.declare("dijit._editor.plugins.EnterKeyHandling",null,{
 
 		var block = dijit.range.getBlockAncestor(range.endContainer, null, this.editor.editNode);
 
-		if(block.blockNode && block.blockNode.tagName == 'LI'){
-			this._checkListLater = true;
+		if((this._checkListLater = (block.blockNode && block.blockNode.tagName == 'LI'))){
 			return true;
-		}else{
-			this._checkListLater = false;
 		}
 
 		//text node directly under body, let's wrap them in a node
 		if(!block.blockNode){
-			this.editor.document.execCommand('formatblock',false, this.blockNodeForEnter);
+			this.editor.document.execCommand('formatblock', false, this.blockNodeForEnter);
 			//get the newly created block node
 			// FIXME
 			block = {blockNode:dojo.withGlobal(this.editor.window, "getAncestorElement", dijit._editor.selection, [this.blockNodeForEnter]),
 					blockContainer: this.editor.editNode};
 			if(block.blockNode){
-				if((block.blockNode.textContent||block.blockNode.innerHTML).replace(/^\s+|\s+$/g, "").length==0){
+				if(!(block.blockNode.textContent || block.blockNode.innerHTML).replace(/^\s+|\s+$/g, "").length){
 					this.removeTrailingBr(block.blockNode);
 					return false;
 				}
@@ -178,11 +175,7 @@ dojo.declare("dijit._editor.plugins.EnterKeyHandling",null,{
 			}
 		}else if(dijit.range.atBeginningOfContainer(block.blockNode,
 				range.startContainer, range.startOffset)){
-			if(block.blockNode === block.blockContainer){
-				dojo.place(newblock, block.blockNode, "first");
-			}else{
-				dojo.place(newblock, block.blockNode, "before");
-			}
+			dojo.place(newblock, block.blockNode, block.blockNode === block.blockContainer ? "first" : "before");
 			if(this.editor.height){
 				//browser does not scroll the caret position into view, do it manually
 				newblock.scrollIntoView(false);
@@ -197,28 +190,23 @@ dojo.declare("dijit._editor.plugins.EnterKeyHandling",null,{
 		return _letBrowserHandle;
 	},
 	removeTrailingBr: function(container){
-		var para;
-		if(/P|DIV|LI/i .test(container.tagName)){
-			para = container;
-		}else{
-			para = dijit._editor.selection.getParentOfType(container,['P','DIV','LI']);
-		}
+		var para = /P|DIV|LI/i.test(container.tagName) ?
+			container : dijit._editor.selection.getParentOfType(container,['P','DIV','LI']);
 
 		if(!para){ return; }
 		if(para.lastChild){
-			if(para.childNodes.length>1 && para.lastChild.nodeType==3 && /^[\s\xAD]*$/ .test(para.lastChild.nodeValue)){
-				dojo._destroyElement(para.lastChild);
-			}
-			if(para.lastChild && para.lastChild.tagName=='BR'){
+			if((para.childNodes.length > 1 && para.lastChild.nodeType == 3 && /^[\s\xAD]*$/.test(para.lastChild.nodeValue)) ||
+				(para.lastChild && para.lastChild.tagName=='BR')){
+
 				dojo._destroyElement(para.lastChild);
 			}
 		}
-		if(para.childNodes.length==0){
+		if(!para.childNodes.length){
 			para.innerHTML=this.bogusHtmlContent;
 		}
 	},
 	_fixNewLineBehaviorForIE: function(d){
-		if(typeof this.editor.document.__INSERTED_EDITIOR_NEWLINE_CSS == "undefined"){
+		if(this.editor.document.__INSERTED_EDITIOR_NEWLINE_CSS === undefined){
 			var lineFixingStyles = "p{margin:0 !important;}";
 			var insertCssText = function(
 				/*String*/ cssStr,
@@ -252,7 +240,7 @@ dojo.declare("dijit._editor.plugins.EnterKeyHandling",null,{
 					var setFunc = function(){
 						try{
 							style.styleSheet.cssText = cssStr;
-						}catch(e){ dojo.debug(e); }
+						}catch(e){ console.debug(e); }
 					};
 					if(style.styleSheet.disabled){
 						setTimeout(setFunc, 10);
@@ -279,9 +267,9 @@ dojo.declare("dijit._editor.plugins.EnterKeyHandling",null,{
 				// nodes are assumed to all be siblings
 				var newP = nodes[0].ownerDocument.createElement('p'); // FIXME: not very idiomatic
 				nodes[0].parentNode.insertBefore(newP, nodes[0]);
-				for(var i=0; i<nodes.length; i++){
-					newP.appendChild(nodes[i]);
-				}
+				dojo.forEach(nodes, function(node){
+					newP.appendChild(node);
+				});
 			}
 
 			var currentNodeIndex = 0;
@@ -376,9 +364,9 @@ dojo.declare("dijit._editor.plugins.EnterKeyHandling",null,{
 
 		function isParagraphDelimiter(node){
 			if(node.nodeType != 1 || node.tagName != 'P'){
-				return (dojo.style(node, 'display') == 'block');
+				return dojo.style(node, 'display') == 'block';
 			}else{
-				if(!node.childNodes.length || node.innerHTML=="&nbsp;"){ return true }
+				if(!node.childNodes.length || node.innerHTML=="&nbsp;"){ return true; }
 				//return node.innerHTML.match(/^(<br\ ?\/?>| |\&nbsp\;)$/i);
 			}
 			return false;

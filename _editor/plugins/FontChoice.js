@@ -16,8 +16,6 @@ dojo.declare("dijit._editor.plugins.FontChoice",
 		buttonClass: dijit.form.FilteringSelect,
 
 		_initButton: function(){
-			this.inherited("_initButton", arguments);
-
 			//TODO: do we need nls for font names?  provide css font lists? or otherwise make this more configurable?
 			var names = {
 				fontName: ["serif", "sans-serif", "monospaced", "cursive", "fantasy"],
@@ -26,21 +24,20 @@ dojo.declare("dijit._editor.plugins.FontChoice",
 			var strings = dojo.i18n.getLocalization("dijit._editor", "FontChoice");
 			var items = dojo.map(names, function(x){ return { name: strings[x], value: x }; });
 			items.push({name:"", value:""}); // FilteringSelect doesn't like unmatched blank strings
-			this.button.store = new dojo.data.ItemFileReadStore(
-				{ data: { identifier: "value",
-					items: items }
-				});
+
+			dijit._editor.plugins.FontChoice.superclass._initButton.apply(this, [{ store: new dojo.data.ItemFileReadStore(
+				{ data: { identifier: "value", items: items } })}]);
+
 			this.button.setValue("");
 
 			this.connect(this.button, "onChange", function(choice){
 				this.editor.execCommand(this.command, choice);
 				dijit.focus(this._focusHandle);
 			});
-
 		},
 
 		updateState: function(){
-			this.inherited("updateState", arguments);
+			this.inherited("updateState");
 			var _e = this.editor;
 			var _c = this.command;
 			if(!_e || !_e.isLoaded || !_c.length){ return; }
@@ -54,7 +51,7 @@ console.log("focushandle: "+this._focusHandle);
 		},
 
 		setToolbar: function(){
-			this.inherited("setToolbar", arguments);
+			this.inherited("setToolbar");
 
 			var forRef = this.button;
 			if(!forRef.id){ forRef.id = "dijitEditorButton-"+this.command+(this._uniqueId++); } //TODO: is this necessary?  FilteringSelects always seem to have an id?
