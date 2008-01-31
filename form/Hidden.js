@@ -21,8 +21,8 @@ dojo.declare("dijit.form.Hidden",
 	//		Corresponds to the native HTML <input> element's attribute.
 	value: "",
 
-	templateString: "<input type='hidden' dojoAttachEvent='onchange: onChange'>",
-	attributeMap: {value:"domNode", name:"domNode", id:"domNode"},
+	templateString: "<input type='hidden' name='${name}' dojoAttachEvent='onchange: onChange'>",
+	attributeMap: {value:"domNode", id:"domNode"},
 
 	getValue: function(){
 		// summary: Normalized getter for this input
