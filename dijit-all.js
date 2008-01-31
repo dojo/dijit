@@ -39,9 +39,9 @@ dojo.require("dijit.form._Spinner");
 dojo.require("dijit.layout.AccordionContainer");
 dojo.require("dijit.layout.ContentPane");
 dojo.require("dijit.layout.BorderContainer");
-//dojo.require("dijit.layout.LayoutContainer"); //deprecated
+dojo.require("dijit.layout.LayoutContainer"); //deprecated
 dojo.require("dijit.layout.LinkPane");
-//dojo.require("dijit.layout.SplitContainer"); //deprecated
+dojo.require("dijit.layout.SplitContainer"); //deprecated
 dojo.require("dijit.layout.StackContainer");
 dojo.require("dijit.layout.TabContainer");
 dojo.require("dijit.layout._LayoutWidget");
