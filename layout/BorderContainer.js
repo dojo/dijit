@@ -86,14 +86,14 @@ dojo.declare(
 	},
 
 	layout: function(){
-		this._layoutChildren(this.domNode, this._contentBox, this.getChildren());
+		this._layoutChildren();
 	},
 
 	addChild: function(/*Widget*/ child, /*Integer?*/ insertIndex){
 		this.inherited(arguments);
 		this._setupChild(child);
 		if(this._started){
-			this._layoutChildren(this.domNode, this._contentBox, this.getChildren());
+			this._layoutChildren();
 		}
 	},
 
@@ -107,26 +107,11 @@ dojo.declare(
 		this.inherited(arguments);
 		delete this["_"+region];
 		if(this._started){
-			this._layoutChildren(this.domNode, this._contentBox, this.getChildren());
+			this._layoutChildren();
 		}
 	},
 
-	_layoutChildren: function(/*DomNode*/ container, /*Object*/ dim, /*Object[]*/ children){
-		/**
-		 * summary
-		 *		Layout a bunch of child dom nodes within a parent dom node
-		 * container:
-		 *		parent node
-		 * dim:
-		 *		{l, t, w, h} object specifying dimensions of container into which to place children
-		 * children:
-		 *		an array like [ {domNode: foo, region: "bottom" }, {domNode: bar, region: "client"} ]
-		 */
-
-//TODO: what is dim and why doesn't it look right?
-		// copy dim because we are going to modify it
-//		dim = dojo.mixin({}, dim);
-
+	_layoutChildren: function(){
 		var sidebarLayout = (this.design == "sidebar");
 		var topHeight = 0, bottomHeight = 0, leftWidth = 0, rightWidth = 0;
 		var topStyle = {}, leftStyle = {}, rightStyle = {}, bottomStyle = {},
@@ -197,20 +182,17 @@ dojo.declare(
 		});
 
 		var bounds = {
-			top: sidebarLayout ? "0px" : centerStyle.top,
-			bottom: sidebarLayout ? "0px" : centerStyle.bottom
+			top: sidebarLayout ? "0" : centerStyle.top,
+			bottom: sidebarLayout ? "0" : centerStyle.bottom
 		};
 		dojo.mixin(leftStyle, bounds);
 		dojo.mixin(rightStyle, bounds);
-		leftStyle.left = rightStyle.right = "0px";
-
-		topStyle.top = bottomStyle.bottom = "0px";
+		leftStyle.left = rightStyle.right = topStyle.top = bottomStyle.bottom = "0";
 		if(sidebarLayout){
 			topStyle.left = bottomStyle.left = leftWidth + (dojo._isBodyLtr() ? 0 : leftSplitterSize) + "px";
 			topStyle.right = bottomStyle.right = rightWidth + (dojo._isBodyLtr() ? rightSplitterSize : 0) + "px";
 		}else{
-			topStyle.left = topStyle.right = "0px";
-			bottomStyle.left = bottomStyle.right = "0px";
+			topStyle.left = topStyle.right = bottomStyle.left = bottomStyle.right = "0";
 		}
 
 		if(dojo.isIE){
