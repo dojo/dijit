@@ -25,7 +25,7 @@ dojo.declare("dijit.form.SimpleTextarea",
 	//		The number of characters per line.
 	cols: "",
 
-	templateString: "<textarea class='dijitTextArea' dojoAttachPoint='focusNode,containerNode'>",
+	templateString: "<textarea class='dijitTextArea' name='${name}' dojoAttachPoint='focusNode,containerNode'>",
 
 	postMixInProperties: function(){
 		this.value = this.srcNodeRef.value;
