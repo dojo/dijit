@@ -150,23 +150,25 @@ dojo.declare(
 		}
 
 
+		var topSplitter = this._splitters.top;
+		var bottomSplitter = this._splitters.bottom;
+		var leftSplitter = this._splitters.left;
+		var rightSplitter = this._splitters.right;
 		var topSplitterSize = topSplitter ? dojo.marginBox(topSplitter).h : 0;
 		var leftSplitterSize = leftSplitter ? dojo.marginBox(leftSplitter).w : 0;
-		var rightSplitterSize = rightSplitter ? dojo.marginBox(rightSplitter).w : 0;
-		var bottomSplitterSize = bottomSplitter ? dojo.marginBox(bottomSplitter).h : 0;
+		var rightSplitterSize = rightSplitter ? leftSplitterSize : 0;
+		var bottomSplitterSize = bottomSplitter ? topSplitterSize : 0;
 
 		var splitterBounds = {
 			left: (sidebarLayout ? leftWidth + leftSplitterSize: "0") + "px",
 			right: (sidebarLayout ? rightWidth + rightSplitterSize: "0") + "px"
 		};
 
-		var topSplitter = this._splitters.top;
 		if(topSplitter){
 			dojo.mixin(topSplitter.style, splitterBounds);
 			topSplitter.style.top = topHeight + "px";
 		}
 
-		var bottomSplitter = this._splitters.bottom;
 		if(bottomSplitter){
 			dojo.mixin(bottomSplitter.style, splitterBounds);
 			bottomSplitter.style.bottom = bottomHeight + "px";
@@ -177,13 +179,11 @@ dojo.declare(
 			bottom: (sidebarLayout ? "0" : bottomHeight + bottomSplitterSize) + "px"
 		};
 
-		var leftSplitter = this._splitters.left;
 		if(leftSplitter){
 			dojo.mixin(leftSplitter.style, splitterBounds);
 			leftSplitter.style.left = leftWidth + "px";
 		}
 
-		var rightSplitter = this._splitters.right;
 		if(rightSplitter){
 			dojo.mixin(rightSplitter.style, splitterBounds);
 			rightSplitter.style.right = rightWidth + "px";
