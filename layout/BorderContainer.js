@@ -78,11 +78,9 @@ dojo.declare(
 			if(child.splitter){
 				var flip = {left:'right', right:'left', top:'bottom', bottom:'top'};
 				var oppNodeList = dojo.query('[region=' + flip[child.region] + ']', this.domNode);
-				if(oppNodeList){
-					var splitter = new dijit.layout._Splitter({ container: this, child: child, region: region, oppNode: oppNodeList[0], live: this.liveSplitters });
-					this._splitters[region] = splitter.domNode;
-					dojo.place(splitter.domNode, child.domNode, "after");
-				}
+				var splitter = new dijit.layout._Splitter({ container: this, child: child, region: region, oppNode: oppNodeList[0], live: this.liveSplitters });
+				this._splitters[region] = splitter.domNode;
+				dojo.place(splitter.domNode, child.domNode, "after");
 			}
 		}
 	},
@@ -151,9 +149,15 @@ dojo.declare(
 			bottomHeight = dojo.marginBox(this._bottom).h;
 		}
 
+
+		var topSplitterSize = topSplitter ? dojo.marginBox(topSplitter).h : 0;
+		var leftSplitterSize = leftSplitter ? dojo.marginBox(leftSplitter).w : 0;
+		var rightSplitterSize = rightSplitter ? dojo.marginBox(rightSplitter).w : 0;
+		var bottomSplitterSize = bottomSplitter ? dojo.marginBox(bottomSplitter).h : 0;
+
 		var splitterBounds = {
-			left: (sidebarLayout ? leftWidth : "0") + "px",
-			right: (sidebarLayout ? rightWidth : "0") + "px"
+			left: (sidebarLayout ? leftWidth + leftSplitterSize: "0") + "px",
+			right: (sidebarLayout ? rightWidth + rightSplitterSize: "0") + "px"
 		};
 
 		var topSplitter = this._splitters.top;
@@ -169,8 +173,8 @@ dojo.declare(
 		}
 
 		splitterBounds = {
-			top: (sidebarLayout ? "0" : topHeight) + "px",
-			bottom: (sidebarLayout ? "0" : bottomHeight) + "px"
+			top: (sidebarLayout ? "0" : topHeight + topSplitterSize ) + "px",
+			bottom: (sidebarLayout ? "0" : bottomHeight + bottomSplitterSize) + "px"
 		};
 
 		var leftSplitter = this._splitters.left;
@@ -184,11 +188,6 @@ dojo.declare(
 			dojo.mixin(rightSplitter.style, splitterBounds);
 			rightSplitter.style.right = rightWidth + "px";
 		}
-
-		var topSplitterSize = topSplitter ? dojo.marginBox(topSplitter).h : 0;
-		var leftSplitterSize = leftSplitter ? dojo.marginBox(leftSplitter).w : 0;
-		var rightSplitterSize = rightSplitter ? dojo.marginBox(rightSplitter).w : 0;
-		var bottomSplitterSize = bottomSplitter ? dojo.marginBox(bottomSplitter).h : 0;
 
 		dojo.mixin(centerStyle, {
 			top: topHeight + topSplitterSize + "px",
@@ -225,7 +224,8 @@ dojo.declare(
 			}
 
 //TODO: use dim passed in? and make borderBox setBorderBox?
-			var containerHeight = borderBox(this.domNode).h;
+			var thisBorderBox = borderBox(this.domNode);
+			var containerHeight = thisBorderBox.h;
 //			console.log(this.id + ": height is " + containerHeight);
 			var middleHeight = containerHeight;
 			if(this._top){ middleHeight -= dojo.marginBox(this._top).h; }
@@ -245,19 +245,7 @@ dojo.declare(
 
 			if(dojo.isIE && (dojo.doc.compatMode == "BackCompat" || dojo.isIE < 7)){
 //TODO: use dojo.marginBox instead of dojo.style?
-/*
-				var containerWidth = "dojo.style("+this.id+",'width')";
-				var middleWidth = containerWidth;
-				if(leftSplitter){ middleWidth -= leftSplitterSize; }
-				if(rightSplitter){ middleWidth -= rightSplitterSize; }
-				if(this._left){ middleWidth += "-dojo.style("+this._left.id+",'width')"; }
-				if(this._right){ middleWidth += "-dojo.style("+this._right.id+", 'width')"; }
-				if(this._center){ centerStyle.setExpression("width", middleWidth); }
-				if(this._top){ topStyle.setExpression("width", sidebarLayout ? middleWidth + "+" + this.id+".offsetWidth-"+containerWidth : this.id+".offsetWidth"); }
-				if(this._bottom){ bottomStyle.setExpression("width", sidebarLayout ? middleWidth + "+" + this.id+".offsetWidth-"+containerWidth : this.id+".offsetWidth"); }
-*/
-//TODO: use dim passed in?
-				var containerWidth = borderBox(this.domNode).w;
+				var containerWidth = thisBorderBox.w;
 				var middleWidth = containerWidth;
 				if(this._left){ middleWidth -= dojo.marginBox(this._left).w; }
 				if(this._right){ middleWidth -= dojo.marginBox(this._right).w; }
@@ -400,7 +388,7 @@ dojo.declare("dijit.layout._Splitter", [ dijit._Widget, dijit._Templated ],
 
 	_computeMaxSize: function(){
 		var dim = this.horizontal ? 'h' : 'w';
-		var available = dojo.contentBox(this.container.domNode)[dim] - (this.oppNode ? dojo.marginBox(this.oppNode)[dim] : 0);
+		var available = dojo.contentBox(this.container.domNode)[dim] - (this.oppNode ? dojo.marginBox(this.oppNode)[dim] : 0); //FIXME: what if this.oppNode is undefined?
 		this._maxSize = Math.min(this.child.maxSize, available);
 	},
 
