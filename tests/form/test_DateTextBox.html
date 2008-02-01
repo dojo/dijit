@@ -60,7 +60,7 @@
 				<span class="noticeMessage">DateTextBox class, no attributes</span>
 			</div>
 			<div class="testExample">
-				<input id="q1" name="noDOMvalue" type="text" dojoType="dijit.form.DateTextBox">
+				<input id="q1" name="noDOMvalue" type="text" dojoType="dijit.form.DateTextBox"">
 			</div>
 			<div class="dojoTitlePaneLabel">
 				<label for="q2"> Date (local format - long) </label>
@@ -73,9 +73,8 @@
 					constraints="{min:'2004-01-01',max:'2006-12-31',formatLength:'long'}"
 					required="true"
 					trim="true"
-					promptMessage="mm/dd/yyyy"
-         				onChange="dojo.byId('oc2').value=arguments[0]"
-					invalidMessage="Invalid date. Use mm/dd/yyyy format." />
+         			onChange="dojo.byId('oc2').value=arguments[0]"
+					invalidMessage="Invalid date." />
  				onChange:<input id="oc2" size="34" disabled value="not fired yet!" autocomplete="off">
 				<input type="button" value="Destroy" onClick="dijit.byId('q2').destroy(); return false;">
 				<input type="button" value="set max to 2007-12-31" onClick="dijit.byId('q2').constraints.max = new Date(2007,11,31); return false;">
@@ -102,7 +101,15 @@
 			<div class="testExample">
 				<input id="q4" class="medium"/>
 			</div>
-		
+
+			<div class="dojoTitlePaneLabel">
+				<label for="q5"> Date, overriding pattern</label>
+				<span class="noticeMessage">Date, overriding pattern with dd-MM-yyyy</span>
+			</div>
+			<div class="testExample">
+				<input id="q5" name="noDOMvalue" type="text" dojoType="dijit.form.DateTextBox" constraints="{datePattern:'dd-MM-yyyy', strict:true}">
+			</div>
+
 			<script>
 			// See if we can make a widget in script and attach it to the DOM ourselves.
 			dojo.addOnLoad(function(){
@@ -112,7 +119,7 @@
 					constraints: {min:new Date(2004,0,1),max:new Date(2006,11,31)},
 					lang: "de-de",
 					promptMessage: "dd.mm.yy",
-					rangeMessage: "Enter a date in 2006.",
+					rangeMessage: "Enter a date in the year range 2004-2006.",
 					invalidMessage: "Invalid date. Use dd.mm.yy format."
 				};
 				var w = new dijit.form.DateTextBox(props, "q4");
