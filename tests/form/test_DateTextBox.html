@@ -60,7 +60,7 @@
 				<span class="noticeMessage">DateTextBox class, no attributes</span>
 			</div>
 			<div class="testExample">
-				<input id="q1" name="noDOMvalue" type="text" dojoType="dijit.form.DateTextBox"">
+				<input id="q1" name="noDOMvalue" type="text" dojoType="dijit.form.DateTextBox">
 			</div>
 			<div class="dojoTitlePaneLabel">
 				<label for="q2"> Date (local format - long) </label>
@@ -73,7 +73,7 @@
 					constraints="{min:'2004-01-01',max:'2006-12-31',formatLength:'long'}"
 					required="true"
 					trim="true"
-         			onChange="dojo.byId('oc2').value=arguments[0]"
+					onChange="dojo.byId('oc2').value=arguments[0]"
 					invalidMessage="Invalid date." />
  				onChange:<input id="oc2" size="34" disabled value="not fired yet!" autocomplete="off">
 				<input type="button" value="Destroy" onClick="dijit.byId('q2').destroy(); return false;">
