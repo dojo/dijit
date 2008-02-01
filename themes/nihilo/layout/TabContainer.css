@@ -320,6 +320,7 @@
 /* make space for a positioned close button */
 .nihilo .dijitTab .dijitClosable {
 	position: relative;
+	padding: 0;
 	padding-left: 10px !important;
 	padding-right: 20px !important;
 }
