@@ -127,6 +127,14 @@ dojo.declare(
 
 		setDisplayedValue:function(/*String*/ value){
 			this.setValue(this.parse(value, this.constraints), true, value);
+		},
+
+		destroy: function(){
+			if(this._picker){
+				this._picker.destroy();
+				delete this._picker;
+			}
+			this.inherited(arguments);
 		}
 	}
 );
