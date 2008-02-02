@@ -207,15 +207,14 @@ dojo.declare(
 
 //TODO: use dim passed in? and make borderBox setBorderBox?
 			var thisBorderBox = borderBox(this.domNode);
+
 			var containerHeight = thisBorderBox.h;
-
 			var middleHeight = containerHeight;
-			if(this._top){ middleHeight -= dojo.marginBox(this._top).h; }
-			if(this._bottom){ middleHeight -= dojo.marginBox(this._bottom).h; }
-
+			if(this._top){ middleHeight -= topHeight; }
+			if(this._bottom){ middleHeight -= bottomHeight; }
 			if(topSplitter){ middleHeight -= topSplitterSize; }
 			if(bottomSplitter){ middleHeight -= bottomSplitterSize; }
-			if(this._center){ borderBox(this._center, { h: middleHeight }); }
+			var centerDim = { h: middleHeight };
 			var sidebarHeight = sidebarLayout ? containerHeight : middleHeight;
 			if(leftSplitter){ leftSplitter.style.height = sidebarHeight; }
 			if(rightSplitter){ rightSplitter.style.height = sidebarHeight; }
@@ -226,18 +225,18 @@ dojo.declare(
 //TODO: use dojo.marginBox instead of dojo.style?
 				var containerWidth = thisBorderBox.w;
 				var middleWidth = containerWidth;
-				if(this._left){ middleWidth -= dojo.marginBox(this._left).w; }
-				if(this._right){ middleWidth -= dojo.marginBox(this._right).w; }
-
+				if(this._left){ middleWidth -= leftWidth; }
+				if(this._right){ middleWidth -= rightWidth; }
 				if(leftSplitter){ middleWidth -= leftSplitterSize; }
 				if(rightSplitter){ middleWidth -= rightSplitterSize; }
-				if(this._center){ borderBox(this._center, { w: middleWidth }); }
+				centerDim.w = middleWidth;
 				var sidebarWidth = sidebarLayout ? middleWidth : containerWidth;
 				if(topSplitter){ topSplitter.style.width = sidebarWidth; }
 				if(bottomSplitter){ bottomSplitter.style.width = sidebarWidth; }
 				if(this._top){ borderBox(this._top, {w: sidebarWidth}); }
 				if(this._bottom){ borderBox(this._bottom, {w: sidebarWidth}); }
 			}
+			if(this._center){ borderBox(this._center, centerDim); }
 		}
 
 /*
