@@ -1,9 +1,9 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 <head>
-	<title>dijit.layout.BorderContainer Test</title>
+	<title>dijit.layout.BorderContainer Test - complex layout</title>
 
-
+	<link rel="stylesheet" href="../css/dijitTests.css" />
 	<script type="text/javascript" src="../../../dojo/dojo.js"
 		djConfig="isDebug: true, parseOnLoad: true"></script>
 	<script type="text/javascript" src="../_testCommon.js"></script>
@@ -17,16 +17,17 @@
 		dojo.require("dijit.layout.BorderContainer");
 		dojo.require("dijit.layout.ContentPane");
 		dojo.require("dijit.form.FilteringSelect");
-		dojo.require("dojo.parser");	// scan page for widgets and instantiate them
 	</script>
+
 </head>
-<body class="tundra">
-<h2>dijit.layout.BorderContainer tests</h2>
-<p>Basic layout</p>
+<body>
+
+	<h2 class="testTitle">dijit.layout.BorderContainer tests</h2>
+
+	<p>Complex layout:</p>
 
 <div dojoType="dijit.layout.BorderContainer"
-	style="border: 2px solid black; width: 90%; height: 300px; padding: 10px;"
->
+	style="border: 2px solid black; width: 90%; height: 300px; padding: 10px;">
 	<div dojoType="dijit.layout.AccordionContainer" duration="200"
 		region="left" style="background-color: #acb386; width: 400px;" splitter="true"
 		style="float: left; width: 400px; height: 300px; overflow: hidden">
