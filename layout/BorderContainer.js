@@ -160,7 +160,7 @@ dojo.declare(
 		}
 
 		splitterBounds = {
-			top: (sidebarLayout ? "0" : topHeight + topSplitterSize ) + "px",
+			top: (sidebarLayout ? "0" : topHeight + topSplitterSize) + "px",
 			bottom: (sidebarLayout ? "0" : bottomHeight + bottomSplitterSize) + "px"
 		};
 
@@ -208,20 +208,17 @@ dojo.declare(
 //TODO: use dim passed in? and make borderBox setBorderBox?
 			var thisBorderBox = borderBox(this.domNode);
 			var containerHeight = thisBorderBox.h;
-//			console.log(this.id + ": height is " + containerHeight);
+
 			var middleHeight = containerHeight;
 			if(this._top){ middleHeight -= dojo.marginBox(this._top).h; }
 			if(this._bottom){ middleHeight -= dojo.marginBox(this._bottom).h; }
-//			console.log("middle height is" + middleHeight);
-
-			var sidebarHeight = sidebarLayout ? containerHeight : middleHeight;
-			if(leftSplitter){ leftSplitter.style.height = sidebarHeight; }
-			if(rightSplitter){ rightSplitter.style.height = sidebarHeight; }
 
 			if(topSplitter){ middleHeight -= topSplitterSize; }
 			if(bottomSplitter){ middleHeight -= bottomSplitterSize; }
 			if(this._center){ borderBox(this._center, { h: middleHeight }); }
-			sidebarHeight = sidebarLayout ? containerHeight : middleHeight;
+			var sidebarHeight = sidebarLayout ? containerHeight : middleHeight;
+			if(leftSplitter){ leftSplitter.style.height = sidebarHeight; }
+			if(rightSplitter){ rightSplitter.style.height = sidebarHeight; }
 			if(this._left){ borderBox(this._left, {h: sidebarHeight}); }
 			if(this._right){ borderBox(this._right, {h: sidebarHeight}); }
 
@@ -232,14 +229,12 @@ dojo.declare(
 				if(this._left){ middleWidth -= dojo.marginBox(this._left).w; }
 				if(this._right){ middleWidth -= dojo.marginBox(this._right).w; }
 
-				var sidebarWidth = sidebarLayout ? middleWidth : containerWidth;
-				if(topSplitter){ topSplitter.style.width = sidebarWidth; }
-				if(bottomSplitter){ bottomSplitter.style.width = sidebarWidth; }
-
 				if(leftSplitter){ middleWidth -= leftSplitterSize; }
 				if(rightSplitter){ middleWidth -= rightSplitterSize; }
 				if(this._center){ borderBox(this._center, { w: middleWidth }); }
-				sidebarWidth = sidebarLayout ? middleWidth : containerWidth;
+				var sidebarWidth = sidebarLayout ? middleWidth : containerWidth;
+				if(topSplitter){ topSplitter.style.width = sidebarWidth; }
+				if(bottomSplitter){ bottomSplitter.style.width = sidebarWidth; }
 				if(this._top){ borderBox(this._top, {w: sidebarWidth}); }
 				if(this._bottom){ borderBox(this._bottom, {w: sidebarWidth}); }
 			}
