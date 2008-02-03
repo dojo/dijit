@@ -268,13 +268,20 @@ dojo.declare(
 		//	Deprecated: use onSubmit
 		onExecute: function(){},
 
+		setAttribute: function(/*String*/ attr, /*anything*/ value){
+			this.inherited(arguments);
+			switch(attr){
+				case "encType":
+					if(dojo.isIE){ this.domNode.encoding = value; }
+			}
+		},
+
 		postCreate: function(){
 			// IE tries to hide encType
 			if(dojo.isIE && this.srcNodeRef && this.srcNodeRef.attributes){
 				var item = this.srcNodeRef.attributes.getNamedItem('encType');
-				if(item && (typeof item.value == "string")){
+				if(item && !item.specified && (typeof item.value == "string")){
 					this.setAttribute('encType', item.value);
-					this.domNode.encoding = item.value;
 				}
 			}
 			this.inherited(arguments);
