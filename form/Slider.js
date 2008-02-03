@@ -158,6 +158,12 @@ dojo.declare(
 		this.setValue(value, true);
 	},
 
+	_onClkIncBumper: function(){
+		this.setValue((this.isLeftToRight() || this._upsideDown)?this.maximum:this.minimum, true);
+	},
+	_onClkDecBumper: function(){
+		this.setValue((this.isLeftToRight() || this._upsideDown)?this.minimum:this.maximum, true);
+	},
 	decrement: function(e){
 		// summary
 		//	decrement slider by 1 unit
