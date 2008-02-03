@@ -250,7 +250,7 @@ dojo.declare(
 		name: "",
 		action: "",
 		method: "",
-		enctype: "multipart/form-data",
+		encType: "",
 		"accept-charset": "",
 		accept: "",
 		target: "",
@@ -258,7 +258,7 @@ dojo.declare(
 		templateString: "<form dojoAttachPoint='containerNode' name='${name}'></form>",
 
 		attributeMap: dojo.mixin(dojo.clone(dijit._Widget.prototype.attributeMap),
-			{onSubmit: "", action: "", method: "", enctype: "", "accept-charset": "", accept: "", target: ""}),
+			{onSubmit: "", action: "", method: "", encType: "", "accept-charset": "", accept: "", target: ""}),
 
 		// execute: Function
 		//	Deprecated: use onSubmit
@@ -267,6 +267,18 @@ dojo.declare(
 		// onExecute: Function
 		//	Deprecated: use onSubmit
 		onExecute: function(){},
+
+		postCreate: function(){
+			// IE tries to hide encType
+			if(dojo.isIE && this.srcNodeRef && this.srcNodeRef.attributes){
+				var item = this.srcNodeRef.attributes.getNamedItem('encType');
+				if(item && (typeof item.value == "string")){
+					this.setAttribute('encType', item.value);
+					this.domNode.encoding = item.value;
+				}
+			}
+			this.inherited(arguments);
+		},
 
 		// TODO: remove ths function beginning with 2.0
 		_onSubmit: function(){
