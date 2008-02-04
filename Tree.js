@@ -778,14 +778,16 @@ dojo.declare(
 
 	_onTreeFocus: function(evt){
 		var node = dijit.getEnclosingWidget(evt.target);
-		if(node != this.lastFocused){
-			this.blurNode();
+		if (node){
+			if(node != this.lastFocused){
+				this.blurNode();
+			}
+			var labelNode = node.labelNode;
+			// set tabIndex so that the tab key can find this node
+			labelNode.setAttribute("tabIndex", "0");
+			dojo.addClass(labelNode, "dijitTreeLabelFocused");
+			this.lastFocused = node;
 		}
-		var labelNode = node.labelNode;
-		// set tabIndex so that the tab key can find this node
-		labelNode.setAttribute("tabIndex", "0");
-		dojo.addClass(labelNode, "dijitTreeLabelFocused");
-		this.lastFocused = node;
 	},
 
 	//////////////// Events from data store //////////////////////////
