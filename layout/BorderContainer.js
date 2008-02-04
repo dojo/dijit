@@ -308,7 +308,7 @@ dojo.declare("dijit.layout._Splitter", [ dijit._Widget, dijit._Templated ],
 	live: true,
 
 	// summary: A draggable spacer between two items in a BorderContainer
-	templateString: '<div class="dijitSplitter" dojoAttachEvent="onkeypress:_onKeyPress,onmousedown:_startDrag" tabIndex="0"><div class="dijitSplitterThumb"></div></div>',
+	templateString: '<div class="dijitSplitter" dojoAttachEvent="onkeypress:_onKeyPress,onmousedown:_startDrag" tabIndex="0" waiRole="separator"><div class="dijitSplitterThumb"></div></div>',
 
 	postCreate: function(){
 		this.inherited(arguments);
