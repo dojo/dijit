@@ -211,7 +211,7 @@ dojo.declare(
 	closeChild: function(/*Widget*/ page){
 		// summary:
 		//	callback when user clicks the [X] to remove a page
-		//	if onClose() returns true then remove and destroy the childd
+		//	if onClose() returns true then remove and destroy the child
 		var remove = page.onClose(this, page);
 		if(remove){
 			this.removeChild(page);
@@ -222,7 +222,7 @@ dojo.declare(
 
 	destroy: function(){
 		this._beingDestroyed = true;
-		this.inherited("destroy",arguments);
+		this.inherited(arguments);
 	}
 });
 
@@ -266,7 +266,7 @@ dojo.declare(
 
 		destroy: function(){
 			dojo.forEach(this._subscriptions, dojo.unsubscribe);
-			this.inherited("destroy",arguments);
+			this.inherited(arguments);
 		},
 
 		onAddChild: function(/*Widget*/ page, /*Integer?*/ insertIndex){
@@ -344,7 +344,7 @@ dojo.declare(
 		
 		// TODO: this is a bit redundant with forward, back api in StackContainer
 		adjacent: function(/*Boolean*/ forward){
-			forward = this.isLeftToRight()? forward : !forward;
+			if(!this.isLeftToRight()){ forward = !forward; }
 			// find currently focused button in children array
 			var children = this.getChildren();
 			var current = dojo.indexOf(children, this.pane2button[this._currentChild]);
@@ -421,7 +421,7 @@ dojo.declare("dijit.layout._StackButton",
 	
 	postCreate: function(/*Event*/ evt){
 		dijit.setWaiRole((this.focusNode || this.domNode), "tab");
-		this.inherited("postCreate", arguments);
+		this.inherited(arguments);
 	},
 	
 	onClick: function(/*Event*/ evt){
