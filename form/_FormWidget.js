@@ -238,6 +238,12 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 		this._onChangeActive = true;
 		this._setStateClass();
 	},
+	
+	destroy: function(){
+		if(this._layoutHackHandle)
+			clearTimeout(this._layoutHackHandle);
+		this.inherited(arguments);
+	},
 
 	postCreate: function(){
 		this._lastValueReported = this[this._onChangeMonitor];
@@ -257,14 +263,14 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 	_layoutHack: function(){
 		// summary: work around table sizing bugs on FF2 by forcing redraw
 		if(dojo.isFF == 2){
-			setTimeout(dojo.hitch(this, function() {
+			this._layoutHackHandle = setTimeout(dojo.hitch(this, function() {
 				var node=this.domNode;
 				var old = node.style.opacity;
 				node.style.opacity = "0.999";
 				setTimeout(function(){
 					node.style.opacity = old;
 				}, 0);
-			}), 50); // don't set this timeout too high or test_ComboBox.html has intermittent rendering problems
+			}), 50);
 		}
 	}
 });
