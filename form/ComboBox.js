@@ -431,6 +431,7 @@ dojo.declare(
 				h: best.h,
 				w: Math.max(newwidth, this.domNode.offsetWidth)
 			});
+			dijit.setWaiState(this.comboNode, "expanded", "true");
 		},
 
 		_hideResultList: function(){
@@ -438,6 +439,7 @@ dojo.declare(
 				dijit.popup.close(this._popupWidget);
 				this._arrowIdle();
 				this._isShowingNow=false;
+				dijit.setWaiState(this.comboNode, "expanded", "false");
 			}
 		},
 
@@ -656,8 +658,10 @@ dojo.declare(
 			var label=dojo.query('label[for="'+this.id+'"]');
 			if(label.length){
 				label[0].id = (this.id+"_label");
-				dijit.setWaiState(this.comboNode, "labelledby", label[0].id);
-				dijit.setWaiState(this.comboNode, "disabled", this.disabled);
+				var cn=this.comboNode;
+				dijit.setWaiState(cn, "labelledby", label[0].id);
+				dijit.setWaiState(cn, "autocomplete", "list"); // FYI: different meaning that autocomplete property of combobox
+				dijit.setWaiState(cn, "disabled", this.disabled);
 				
 			}
 		},
