@@ -94,6 +94,10 @@ dojo.declare(
 		var messages = dojo.i18n.getLocalization("dijit", "loading", this.lang);
 		this.loadingMessage = dojo.string.substitute(this.loadingMessage, messages);
 		this.errorMessage = dojo.string.substitute(this.errorMessage, messages);
+		var curRole = dijit.getWaiRole(this.domNode);
+		if (!curRole){
+			dijit.setWaiRole(this.domNode, "group");
+		}
 
 		// for programatically created ContentPane (with <span> tag), need to muck w/CSS
 		// or it's as though overflow:visible is set

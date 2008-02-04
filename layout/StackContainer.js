@@ -3,6 +3,8 @@ dojo.provide("dijit.layout.StackContainer");
 dojo.require("dijit._Templated");
 dojo.require("dijit.layout._LayoutWidget");
 dojo.require("dijit.form.Button");
+dojo.require("dijit.Menu");
+dojo.requireLocalization("dijit", "common");
 
 dojo.declare(
 	"dijit.layout.StackContainer",
@@ -285,8 +287,15 @@ dojo.declare(
 			page.controlButton = button;	// this value might be overwritten if two tabs point to same container
 			
 			dojo.connect(button, "onClick", dojo.hitch(this,"onButtonClick",page));
-			dojo.connect(button, "onClickCloseButton", dojo.hitch(this,"onCloseButtonClick",page));
-			
+			if(page.closable){
+				dojo.connect(button, "onClickCloseButton", dojo.hitch(this,"onCloseButtonClick",page));
+				// add context menu onto title button
+				var _nlsResources = dojo.i18n.getLocalization("dijit", "common");
+				var closeMenu = new dijit.Menu({targetNodeIds:[button.id], id:button.id+"_Menu"});
+				var mItem = new dijit.MenuItem({label:_nlsResources.itemClose});
+            	dojo.connect(mItem, "onClick", dojo.hitch(this, "onCloseButtonClick", page));
+           		closeMenu.addChild(mItem);
+			}
 			if(!this._currentChild){ // put the first child into the tab order
 				button.focusNode.setAttribute("tabIndex","0");
 				this._currentChild = page;
@@ -322,6 +331,8 @@ dojo.declare(
 			newButton.setAttribute('checked', true);
 			this._currentChild = page;
 			newButton.focusNode.setAttribute("tabIndex", "0");
+			var container = dijit.byId(this.containerId);
+			dijit.setWaiState(container.containerNode, "labelledby", newButton.id);
 		},
 
 		onButtonClick: function(/*Widget*/ page){
