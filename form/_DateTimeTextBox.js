@@ -40,6 +40,7 @@ dojo.declare(
 			}
 			var constraints = this.constraints;
 			constraints.selector = this._selector;
+			constraints.fullYear = true; // see #5465 - always format with 4-digit years
 			var fromISO = dojo.date.stamp.fromISOString;
 			if(typeof constraints.min == "string"){ constraints.min = fromISO(constraints.min); }
  			if(typeof constraints.max == "string"){ constraints.max = fromISO(constraints.max); }
