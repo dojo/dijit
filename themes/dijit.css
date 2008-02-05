@@ -1141,6 +1141,7 @@ img.dijitColorPaletteUnder {
 
 .dijitDialog .closeText {
 	display:none;
+	/* for the onhover border in high contrast on IE: */
 	position:absolute;
 }
 
