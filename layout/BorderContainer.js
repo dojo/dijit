@@ -141,8 +141,8 @@ dojo.declare(
 		var rightSplitter = this._splitters.right;
 		var topSplitterSize = topSplitter ? dojo.marginBox(topSplitter).h : 0;
 		var leftSplitterSize = leftSplitter ? dojo.marginBox(leftSplitter).w : 0;
-		var rightSplitterSize = rightSplitter ? leftSplitterSize : 0;
-		var bottomSplitterSize = bottomSplitter ? topSplitterSize : 0;
+		var rightSplitterSize = rightSplitter ? leftSplitterSize || dojo.marginBox(rightSplitter).w: 0;
+		var bottomSplitterSize = bottomSplitter ? topSplitterSize || dojo.marginBox(bottomSplitter).h: 0;
 
 		var splitterBounds = {
 			left: (sidebarLayout ? leftWidth + leftSplitterSize: "0") + "px",
@@ -189,8 +189,8 @@ dojo.declare(
 		dojo.mixin(rightStyle, bounds);
 		leftStyle.left = rightStyle.right = topStyle.top = bottomStyle.bottom = "0";
 		if(sidebarLayout){
-			topStyle.left = bottomStyle.left = leftWidth + (dojo._isBodyLtr() ? 0 : leftSplitterSize) + "px";
-			topStyle.right = bottomStyle.right = rightWidth + (dojo._isBodyLtr() ? rightSplitterSize : 0) + "px";
+			topStyle.left = bottomStyle.left = leftWidth + (dojo._isBodyLtr() ? leftSplitterSize : 0) + "px";
+			topStyle.right = bottomStyle.right = rightWidth + (dojo._isBodyLtr() ? 0 : rightSplitterSize) + "px";
 		}else{
 			topStyle.left = topStyle.right = bottomStyle.left = bottomStyle.right = "0";
 		}
