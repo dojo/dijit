@@ -28,12 +28,14 @@ dojo.declare("dijit.form.SimpleTextarea",
 	templateString: "<textarea class='dijitTextArea' name='${name}' dojoAttachPoint='focusNode,containerNode'>",
 
 	postMixInProperties: function(){
-		this.value = this.srcNodeRef.value;
+		if(this.srcNodeRef){
+			this.value = this.srcNodeRef.value;
+		}
 	},
 
 	resize: function(/* Object */size){
 		if(size){
-			console.log(this, ": resizing to ", size);
+//			console.log(this, ": resizing to ", size);
 			dojo.marginBox(this.domNode, size);
 		}
 	},
