@@ -1,7 +1,6 @@
 dojo.provide("dijit._editor.html");
 
-dijit.html={};
-dijit.html.escapeXml=function(/*String*/str, /*Boolean*/noSingleQuotes){
+dijit._editor.escapeXml=function(/*String*/str, /*Boolean*/noSingleQuotes){
 	//summary:
 	//		Adds escape sequences for special characters in XML: &<>"'
 	//		Optionally skips escapes for single quotes
@@ -12,7 +11,7 @@ dijit.html.escapeXml=function(/*String*/str, /*Boolean*/noSingleQuotes){
 	return str; // string
 };
 
-dijit.html.getNodeHtml=function(/* DomNode */node){
+dijit._editor.getNodeHtml=function(/* DomNode */node){
 	var output;
 	switch(node.nodeType){
 		case 1: //element node
@@ -68,18 +67,18 @@ dijit.html.getNodeHtml=function(/* DomNode */node){
 				output += ' '+attr[0]+'="'+attr[1]+'"';
 			}
 			if(node.childNodes.length){
-				output += '>' + dijit.html.getChildrenHtml(node)+'</'+node.nodeName.toLowerCase()+'>';
+				output += '>' + dijit._editor.getChildrenHtml(node)+'</'+node.nodeName.toLowerCase()+'>';
 			}else{
 				output += ' />';
 			}
 			break;
 		case 3: //text
 			// FIXME:
-			output = dijit.html.escapeXml(node.nodeValue,true);
+			output = dijit._editor.escapeXml(node.nodeValue,true);
 			break;
 		case 8: //comment
 			// FIXME:
-			output = '<!--'+dijit.html.escapeXml(node.nodeValue,true)+'-->';
+			output = '<!--'+dijit._editor.escapeXml(node.nodeValue,true)+'-->';
 			break;
 		default:
 			output = "Element not recognized - Type: " + node.nodeType + " Name: " + node.nodeName;
@@ -87,7 +86,7 @@ dijit.html.getNodeHtml=function(/* DomNode */node){
 	return output;
 };
 
-dijit.html.getChildrenHtml = function(/* DomNode */dom){
+dijit._editor.getChildrenHtml = function(/* DomNode */dom){
 	// summary: Returns the html content of a DomNode and children
 	var out = "";
 	if(!dom){ return out; }
@@ -95,7 +94,7 @@ dijit.html.getChildrenHtml = function(/* DomNode */dom){
 	var i=0;
 	var node;
 	while((node=nodes[i++])){
-		out += dijit.html.getNodeHtml(node);
+		out += dijit._editor.getNodeHtml(node);
 	}
 	return out; // String
 }

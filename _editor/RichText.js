@@ -284,7 +284,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 //					});
 //				}
 		}else{
-			html = this._preFilterContent(dijit.html.getChildrenHtml(this.domNode));
+			html = this._preFilterContent(dijit._editor.getChildrenHtml(this.domNode));
 			this.domNode.innerHTML = '';
 		}
 		if(html == ""){ html = "&nbsp;"; }
@@ -1241,7 +1241,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 					dom = ef(dom);
 				});
 			}
-			ec = dijit.html.getChildrenHtml(dom);
+			ec = dijit._editor.getChildrenHtml(dom);
 		}else{
 			ec = dom;
 		}
@@ -1267,18 +1267,18 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 	},
 
 	escapeXml: function(/*String*/str, /*Boolean*/noSingleQuotes){
-		dojo.deprecated('dijit.Editor::escapeXml is deprecated','use dijit.html.escapeXml instead', 2);
-		return dijit.html.escapeXml(str,noSingleQuotes);
+		dojo.deprecated('dijit.Editor::escapeXml is deprecated','use dijit._editor.escapeXml instead', 2);
+		return dijit._editor.escapeXml(str,noSingleQuotes);
 	},
 
 	getNodeHtml: function(/* DomNode */node){
-		dojo.deprecated('dijit.Editor::getNodeHtml is deprecated','use dijit.html.getNodeHtml instead', 2);
-		return dijit.html.getNodeHtml(node);
+		dojo.deprecated('dijit.Editor::getNodeHtml is deprecated','use dijit._editor.getNodeHtml instead', 2);
+		return dijit._editor.getNodeHtml(node);
 	},
 
 	getNodeChildrenHtml: function(/* DomNode */dom){
-		dojo.deprecated('dijit.Editor::getNodeChildrenHtml is deprecated','use dijit.html.getChildrenHtml instead', 2);
-		return dijit.html.getChildrenHtml(dom);
+		dojo.deprecated('dijit.Editor::getNodeChildrenHtml is deprecated','use dijit._editor.getChildrenHtml instead', 2);
+		return dijit._editor.getChildrenHtml(dom);
 	},
 
 	close: function(/*Boolean*/save, /*Boolean*/force){
