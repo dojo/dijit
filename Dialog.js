@@ -220,6 +220,7 @@ dojo.declare(
 					duration: this.duration,
 					onEnd: function(){
 						node.style.visibility="hidden";
+						node.style.top = "-9999px";
 					}
 				 }),
 				 dojo.fadeOut({
