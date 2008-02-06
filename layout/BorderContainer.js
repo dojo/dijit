@@ -48,6 +48,7 @@ dojo.declare(
 	postCreate: function(){
 		this.inherited(arguments);
 
+		this._splitters = {};
 		this.domNode.style.position = "relative";
 		dojo.addClass(this.domNode, "dijitBorderContainer");
 	},
@@ -55,7 +56,6 @@ dojo.declare(
 	startup: function(){
 		if(this._started){ return; }
 
-		this._splitters = {};
 		if(this.getChildren){
 			dojo.forEach(this.getChildren(), this._setupChild, this);
 		}
