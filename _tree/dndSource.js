@@ -259,16 +259,9 @@ dojo.declare("dijit._tree.dndSource", dijit._tree.dndSelector, {
 
 			this.isDragging = false;
 
-			// Compute the new parent item (if we are *not* dropping at the top level)
+			// Compute the new parent item
 			var targetWidget = dijit.getEnclosingWidget(target),
-				newParentItem;
-			if(targetWidget && targetWidget.item){
-				// dropping onto another item
-				newParentItem = targetWidget.item;
-			}else{
-				// dropping onto root
-				requeryRoot = true;
-			}
+				newParentItem = (targetWidget && targetWidget.item) || tree.item;
 
 			// If we are dragging from another source (or at least, another source
 			// that points to a different data store), then we need to make new data
@@ -291,32 +284,24 @@ dojo.declare("dijit._tree.dndSource", dijit._tree.dndSelector, {
 						childItem = childTreeNode.item,
 						oldParentItem = childTreeNode.getParent().item;
 
-					if( oldParentItem ){
-						dojo.forEach(tree.childrenAttr, function(attr){
-							if(store.containsValue(oldParentItem, attr, childItem)){
-								var values = dojo.filter(store.getValues(oldParentItem, attr), function(x){
-									return x != childItem;
-								});
-								store.setValues(oldParentItem, attr, values);
-								parentAttr = attr;
-							}
-						});
-					}
+					dojo.forEach(tree.childrenAttr, function(attr){
+						if(store.containsValue(oldParentItem, attr, childItem)){
+							var values = dojo.filter(store.getValues(oldParentItem, attr), function(x){
+								return x != childItem;
+							});
+							store.setValues(oldParentItem, attr, values);
+							parentAttr = attr;
+						}
+					});
 
-					if(newParentItem){
-						// modify target item's children attribute to include this item
-						store.setValues(newParentItem, parentAttr,
-							store.getValues(newParentItem, parentAttr).concat(childItem));
-					}
+					// modify target item's children attribute to include this item
+					store.setValues(newParentItem, parentAttr,
+						store.getValues(newParentItem, parentAttr).concat(childItem));
 				}else{
-					var pInfo = newParentItem ? {parent: newParentItem, attribute: parentAttr} : null;
+					var pInfo = {parent: newParentItem, attribute: parentAttr};
 					store.newItem(newItemsParams[idx], pInfo);
 				}
 			}, this);
-			if(requeryRoot){
-				// The list of top level children changed, so update it.
-				tree.reload();
-			}
 		}
 		this.onDndCancel();
 	},

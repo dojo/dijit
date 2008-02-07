@@ -7,6 +7,10 @@ dojo.require("dijit._Templated");
 dojo.require("dijit._Container");
 dojo.require("dojo.cookie");
 
+// Maps a forest of top level item into a single (fake) top level item
+// with the other items as children of the fake root.
+dojo.require("dijit._tree.ForestStoreDecorator");
+
 dojo.declare(
 	"dijit._TreeNode",
 	[dijit._Widget, dijit._Templated, dijit._Container, dijit._Contained],
@@ -40,13 +44,11 @@ dojo.declare(
 		// set label, escaping special characters
 		this.setLabelNode(this.label);
 
-		if(this.parent || !this._hideRoot){
-			// set expand icon for leaf
-			this._setExpando();
+		// set expand icon for leaf
+		this._setExpando();
 
-			// set icon and label class based on item
-			this._updateItemClasses(this.item);
-		}
+		// set icon and label class based on item
+		this._updateItemClasses(this.item);
 
 		if(this.isExpandable){
 			dijit.setWaiState(this.labelNode, "expanded", this.isExpanded);
@@ -65,15 +67,20 @@ dojo.declare(
 	},
 
 	_updateItemClasses: function(item){
-		// summary: set appropriate CSS classes for item (used to allow for item updates to change respective CSS)
-		this.iconNode.className = "dijitInline dijitTreeIcon " + this.tree.getIconClass(item, this.isExpanded);
-		this.labelNode.className = "dijitTreeLabel " + this.tree.getLabelClass(item, this.isExpanded);
+		// summary: set appropriate CSS classes for icon and label dom node (used to allow for item updates to change respective CSS)
+		var tree = this.tree, store = tree.store;
+		if(tree._v10Compat && item === store.root){
+			// For back-compat with 1.0, need to use null to specify root item (TODO: remove in 2.0)
+			item = null;
+		}
+		this.iconNode.className = "dijitInline dijitTreeIcon " + tree.getIconClass(item, this.isExpanded);
+		this.labelNode.className = "dijitTreeLabel " + tree.getLabelClass(item, this.isExpanded);
 	},
-	
+
 	_updateLayout: function(){
 		// summary: set appropriate CSS classes for this.domNode
 		var parent = this.getParent();
-		if(parent && parent.isTree && parent._hideRoot){
+		if(!parent || parent.rowNode.style.display == "none"){
 			/* if we are hiding the root node then make every first level child look like a root node */
 			dojo.addClass(this.domNode, "dijitTreeIsRoot");
 		}else{
@@ -205,10 +212,12 @@ dojo.declare(
 			this._setExpando(false);
 		}
 
-		if(this.isTree && this._hideRoot){
-			// put first child in tab index if one exists.
-			var fc = this.getChildren()[0];
-			var tabnode = fc ? fc.labelNode : this.domNode;
+		// On initial tree show, put focus on either the root node of the tree,
+		// or the first child, if the root node is hidden
+		// TODO: move to Tree.postCreate?  (but can't execute until root node and child nodes finish loading)
+		if(!this.parent){
+			var fc = this.tree.showRoot ? this : this.getChildren()[0],
+				tabnode = fc ? fc.labelNode : this.domNode;
 			tabnode.setAttribute("tabIndex", "0");
 		}
 
@@ -244,7 +253,7 @@ dojo.declare(
 
 dojo.declare(
 	"dijit.Tree",
-	dijit._TreeNode,
+	[dijit._Widget, dijit._Templated],
 {
 	// summary
 	//	This widget displays hierarchical data from a store.  A query is specified
@@ -260,9 +269,30 @@ dojo.declare(
 	//	The store to get data to display in the tree
 	store: null,
 
+	// root: String
+	//	id of item in store corresponding to root of tree
+	root: "",
+
 	// query: String
-	//	query to get top level node(s) of tree (ex: {type:'continent'})
+	//	Deprecated.  Use dijit._tree.ForestStoreDecorator directly instead.
+	//	Specifies a set of "top level" items for the tree, rather than just a single item.
+	//	If a label is also specified, the tree is given a fake root node (not corresponding to an item in
+	//	the data store), whose children are the items that match this query.
+	// 
+	// example:
+	//		{type:'continent'}
 	query: null,
+
+	// label: String
+	//	Deprecated.  Use dijit._tree.ForestStoreDecorator directly instead.
+	//	Used in conjunction with query parameter.
+	//	If a query is specified (rather than a root node id), and a label is also specified,
+	//	then a fake root node is created and displayed, with this label.
+	label: "",
+
+	// showRoot: Boolean
+	//	Should the root node be displayed, or hidden?
+	showRoot: true,
 
 	// childrenAttr: String
 	//		one ore more attributes that holds children of a tree node
@@ -304,11 +334,30 @@ dojo.declare(
 
 	postMixInProperties: function(){
 		this.tree = this;
-		this.lastFocused = this.labelNode;
 
 		this._itemNodeMap={};
 
-		this._hideRoot = !this.label;
+		if(!this.root){
+			// 1.0 compatible behavior.
+			// Provide (possibly hidden) fake root node not corresponding to any data store item,
+			// which fathers all the items returned by fetch({query: this.query})
+			dojo.deprecated("Tree: from version 2.0, must specify root item id (using root parameter) rather than query/label parameters when constructing a dijit.Tree; use dijit._tree.ForestStoreDecorator if your data store has no root item.");
+			this._v10Compat = true;
+			this.underlyingStore = this.store;
+			this.root = "$root$";
+			this.store = new dijit._tree.ForestStoreDecorator({
+				id: this.id + "_ForestStoreDecorator",
+				store: this.underlyingStore,
+				query: this.query,
+				childrenAttr: this.childrenAttr[0],
+				rootId: this.root,
+				rootLabel: this.label||"ROOT"
+			});
+
+			// For backwards compatibility, the visibility of the root node is controlled by
+			// whether or not the user has specified a label
+			this.showRoot = Boolean(this.label);
+		}
 
 		if(!this.store.getFeatures()['dojo.data.api.Identity']){
 			throw new Error("dijit.Tree: store must support dojo.data.Identity");			
@@ -346,14 +395,33 @@ dojo.declare(
 		dijit.setWaiRole(div, "presentation");
 		this.containerNodeTemplate = div;
 
-		if(this._hideRoot){
-			this.rowNode.style.display="none";
-		}
+		// load root node (possibly hidden) and it's children
+		var _this = this;
+		this.store.fetchItemByIdentity({
+			identity: this.root,
+			onItem: function(item){
+				_this.rootItem = item;
+
+				var rn = _this.rootNode = new dijit._TreeNode({
+					item: item,
+					tree: _this,
+					isExpandable: true,
+					label: _this.label || _this.getLabel(item)
+				});
+				if(!_this.showRoot){
+					rn.rowNode.style.display="none";
+				}
+				_this.domNode.appendChild(rn.domNode);
+				_this._itemNodeMap[_this.root] = rn;
+
+				rn._updateLayout();		// sets "dijitTreeIsRoot" CSS classname
+
+				// load top level children
+				_this._expandNode(rn);
+			}
+		});
 
 		this.inherited("postCreate", arguments);
-
-		// load top level children
-		this._expandNode(this);
 
 		if(this.dndController){
 			if(dojo.isString(this.dndController)){
@@ -391,40 +459,43 @@ dojo.declare(
 		// summary
 		// 		User overridable function that return array of child items of given parent item,
 		//		or if parentItem==null then return top items in tree
+		// TODO:
+		//	Remove this in 2.0 because:
+		//		- no way to override this function and support updates to the tree,
+		//		- if acceess of children is non-standard then user can write decorator store like dijit._tree.ForestStoreDecorator
 		var store = this.store;
-		if(parentItem == null){
-			// get top level nodes
-			store.fetch({ query: this.query, onComplete: onComplete});
-		}else{
-			// get children of specified node
-			var childItems = [];
-			for (var i=0; i<this.childrenAttr.length; i++){	
-				childItems= childItems.concat(store.getValues(parentItem, this.childrenAttr[i]));
-			}
-			// count how many items need to be loaded
-			var _waitCount = 0;
-			dojo.forEach(childItems, function(item){ if(!store.isItemLoaded(item)){ _waitCount++; } });
+		parentItem = parentItem || this.store.root;
 
-			if(_waitCount == 0){
-				// all items are already loaded.  proceed..
-				onComplete(childItems);
-			}else{
-				// still waiting for some or all of the items to load
-				var onItem = function onItem(item){
-					if(--_waitCount == 0){
-						// all nodes have been loaded, send them to the tree
-						onComplete(childItems);
-					}
+		// get children of specified item
+		var childItems = [];
+		for (var i=0; i<this.childrenAttr.length; i++){
+			var vals = store.getValues(parentItem, this.childrenAttr[i]);
+			childItems = childItems.concat(vals);
+		}
+
+		// count how many items need to be loaded
+		var _waitCount = 0;
+		dojo.forEach(childItems, function(item){ if(!store.isItemLoaded(item)){ _waitCount++; } });
+
+		if(_waitCount == 0){
+			// all items are already loaded.  proceed...
+			onComplete(childItems);
+		}else{
+			// still waiting for some or all of the items to load
+			var onItem = function onItem(item){
+				if(--_waitCount == 0){
+					// all nodes have been loaded, send them to the tree
+					onComplete(childItems);
 				}
-				dojo.forEach(childItems, function(item){
-					if(!store.isItemLoaded(item)){
-						store.loadItem({
-							item: item,
-							onItem: onItem
-						});
-					}
-				});
 			}
+			dojo.forEach(childItems, function(item){
+				if(!store.isItemLoaded(item)){
+					store.loadItem({
+						item: item,
+						onItem: onItem
+					});
+				}
+			});
 		}
 	},
 
@@ -433,6 +504,7 @@ dojo.declare(
 		//		User overridable function, to return id of parent that was specified
 		//		on a newItem() call to the data store (or null if no parent specified).
 		//		It's called with args from dojo.store.Notification.onNew.
+		// TODO: remove in 2.0
 		return this.store.getIdentity(parentInfo.item);		// String
 	},
 
@@ -529,7 +601,7 @@ dojo.declare(
 			// if this is the first child, return the parent
 			// unless the parent is the root of a tree with a hidden root
 			var parent = node.getParent();
-			if(!(this._hideRoot && parent === this)){
+			if(!(!this.showRoot && parent === this.rootNode)){
 				node = parent;
 			}
 		}
@@ -671,7 +743,7 @@ dojo.declare(
 
 	_getRootOrFirstNode: function(){
 		// summary: get first visible node
-		return this._hideRoot ? this.getChildren()[0] : this;
+		return this.showRoot ? this.rootNode : this.rootNode.getChildren()[0];
 	},
 
 	_collapseNode: function(/*_TreeNode*/ node){
@@ -704,15 +776,14 @@ dojo.declare(
 		// summary: called when the user has requested to expand the node
 
 		// clicking the expando node might have erased focus from the current item; restore it
-		var t = node.tree;
-		if(t.lastFocused){ t.focusNode(t.lastFocused); }
+		if(this.lastFocused){ this.focusNode(this.lastFocused); }
 
 		if(!node.isExpandable){
 			return;
 		}
 
-		var store = this.store;
-		var getValue = this.store.getValue;
+		var store = this.store,
+			item = node.item;
 
 		switch(node.state){
 			case "LOADING":
@@ -727,17 +798,15 @@ dojo.declare(
 					node.unmarkProcessing();
 					_this._onLoadAllItems(node, childItems, true);
 				};
-				this.getItemChildren(node.item, onComplete);
+				this.getItemChildren((this._v10Compat && item === store.root) ? null : item, onComplete);
 				break;
 
 			default:
 				// data is already loaded; just proceed
-				if(node.expand){	// top level Tree doesn't have expand() method
-					node.expand();
-					if(this.persist && node.item){
-						this._openedItemIds[this.store.getIdentity(node.item)] = true;
-						this._saveState();
-					}
+				node.expand();
+				if(this.persist && item){
+					this._openedItemIds[store.getIdentity(item)] = true;
+					this._saveState();
 				}
 		}
 	},
@@ -795,11 +864,11 @@ dojo.declare(
 
 	_onNewItem: function(/* dojo.data.Item */ item, parentInfo){
 		//summary: callback when new item has been added to the store.
-		parentInfo ? this.onNewChildItem(item, parentInfo) : this.onNewTopItem(item);
-	},
-	
-	onNewChildItem: function(/* dojo.data.Item */ item, parentInfo){
-		// summary: called when store.newItem(item, parentInfo) has been called with non-null parentInfo
+		
+		if(!parentInfo){
+			return;
+		}
+
 		var parentNode = this._itemNodeMap[this.getItemParentIdentity(item, parentInfo)];
 
 		if(parentNode){
@@ -817,29 +886,9 @@ dojo.declare(
 		}
 	},
 	
-	onNewTopItem: function(/* dojo.data.Item */ item){
-		// summary:
-		//		Called when store.newItem(item, null) has been called with null parentInfo.
-		//		By default reruns the query for all top level items; user should override
-		//		with more efficient function.
-		this.reload();
-	},
-
-	reload: function(){
-		// summary: reload the list of top level items in the tree
-		this.markProcessing();
-		var _this = this;
-		var onComplete = function(childItems){
-			_this.unmarkProcessing();
-			_this._onLoadAllItems(_this, childItems, false);
-		};
-		this.getItemChildren(null, onComplete);
-	},
-
 	_onDeleteItem: function(/*Object*/ item){
 		//summary: delete event from the store
-		//since the object has just been deleted, we need to
-		//use the name directly
+
 		var identity = this.store.getIdentity(item);
 		var node = this._itemNodeMap[identity];
 
@@ -859,13 +908,16 @@ dojo.declare(
 					/* object | array */ oldValue,
 					/* object | array */ newValue){
 		//summary: set data event on an item in the store
-		var identity = this.store.getIdentity(item),
+		var store = this.store,
+			identity = store.getIdentity(item),
 			node = this._itemNodeMap[identity];
 
 		if(node){
-			node.setLabelNode(this.getLabel(item));
-			node._updateItemClasses(item);
-
+			if(!(this._v10Compat && item === store.root)){
+				node.setLabelNode(this.getLabel(item));
+				node._updateItemClasses(item);
+			}
+	
 			// If this item's children have changed, update tree accordingly.
 			// Have to download the new nodes, which may be an async operation.
 			if( dojo.indexOf(this.childrenAttr, attribute) != -1 ){
@@ -875,7 +927,7 @@ dojo.declare(
 					node.unmarkProcessing();
 					_this._onLoadAllItems(node, childItems, false);
 				};
-				this.getItemChildren(node.item, onComplete);
+				this.getItemChildren((this._v10Compat && item === store.root) ? null : item, onComplete);
 			}
 		}
 	},
@@ -890,5 +942,19 @@ dojo.declare(
 			ary.push(id);
 		}
 		dojo.cookie(this.cookieName, ary.join(","));
+	},
+
+	destroy: function(){
+		if(this.rootNode){
+			this.rootNode.destroyRecursive();
+		}
+		this.rootNode = null;
+		this.inherited(arguments);
+	},
+	
+	destroyRecursive: function(){
+		// A tree is treated as a leaf, not as a node with children (like a grid),
+		// but defining destroyRecursive for back-compat.
+		this.destroy();
 	}
 });

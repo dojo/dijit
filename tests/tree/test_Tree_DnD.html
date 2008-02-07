@@ -82,17 +82,15 @@
 
 		//create a custom label for tree one consisting of the label property pluss the value of the numberOfItems Column
 		function tree1CustomLabel(item){
-			var label = catStore.getLabel(item); 
-			var num = catStore.getValues(item,"numberOfItems");
-			//return the new label
+			var label = catStore.getLabel(item);
+			var num = catStore.hasAttribute(item, "numberOfItems") ? catStore.getValues(item,"numberOfItems") : "?";
 			return label + ' (' + num+ ')';
 		}
 
-		//on tree two, we only want to drop on containers, not on items in the containers
+		//on tree two, we only want to drop on containers, or the root node itself, not on items in the containers
 		function tree2CheckItemAcceptance(node,source) {
 			var item = dijit.getEnclosingWidget(node).item;
-			if (item && this.tree.store.hasAttribute(item,"numberOfItems")){
-				var numItems=this.tree.store.getValues(item, "numberOfItems");
+			if (item && (item.root || this.tree.store.hasAttribute(item,"numberOfItems"))){
 				return true;
 			}
 			return false;
