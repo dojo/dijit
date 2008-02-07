@@ -158,8 +158,12 @@ dojo.declare(
 			dojo.body().appendChild(this.domNode);
 			this.inherited("postCreate",arguments);
 			var _nlsResources = dojo.i18n.getLocalization("dijit", "common");
-			this.closeButtonNode.setAttribute("title", _nlsResources.buttonCancel);
-			this.closeText.setAttribute("title", _nlsResources.buttonCancel);
+			if(this.closeButtonNode){
+				this.closeButtonNode.setAttribute("title", _nlsResources.buttonCancel);
+			}
+			if(this.closeText){
+				this.closeText.setAttribute("title", _nlsResources.buttonCancel);
+			}
 			var s = this.domNode.style;
 			s.visibility = "hidden";
 			s.position = "absolute";
