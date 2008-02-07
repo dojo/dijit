@@ -137,7 +137,7 @@
 			console.log("Total parse time: " + (new Date().getTime() - start) + "ms");
 
 			dojo.byId('loaderInner').innerHTML += " done.";
-			setTimeout("hideLoader()",250);
+			setTimeout(function(){hideLoader();},250);
 			
 		});
 
@@ -261,7 +261,7 @@
 
 					<h2>Dialogs:</h2>
 					<ul>
-						<li><a href="javascript:dijit.byId('dialog1').show()">show Modal Dialog</a></li>
+						<li><a href="#" onclick="dijit.byId('dialog1').show()">show Modal Dialog</a></li>
 					</ul>
 
 					<div dojoType="dijit.form.DropDownButton">

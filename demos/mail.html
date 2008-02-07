@@ -95,7 +95,7 @@
 			dijit.byId('fakeFetch').update({ maximum: numMails, progress:0 });
 			dojo.fadeIn({ node: 'fetchMail', duration:300 }).play();
 			for (var i=0; i<=numMails; i++){
-				setTimeout("updateFetchStatus("+i+")",((i+1)*(Math.floor(Math.random()*100)+400)));
+				setTimeout(function(){updateFetchStatus(i);},((i+1)*(Math.floor(Math.random()*100)+400)));
 			}
 		}
 		// fake sending dialog progress bar 
@@ -109,7 +109,7 @@
 		var showSendBar = function(){
 			dijit.byId('fakeSend').update({ indeterminate: true });
 			dijit.byId('sendDialog').show();
-			setTimeout("stopSendBar()", 3000);
+			setTimeout(function(){stopSendBar();}, 3000);
 		}
 
 	</script>

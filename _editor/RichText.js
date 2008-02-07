@@ -492,7 +492,11 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 
 		var contentDoc = this.iframe.contentDocument;
 		contentDoc.open();
-		contentDoc.write(this._getIframeDocTxt(html));
+		if(dojo.isAIR){
+			contentDoc.body.innerHTML = html;
+		}else{
+			contentDoc.write(this._getIframeDocTxt(html));
+		}
 		contentDoc.close();
 
 		// now we wait for onload. Janky hack!
