@@ -29,6 +29,10 @@ dojo.declare("dijit.Menu",
 	//	if false, must specify targetNodeIds
 	contextMenuForWindow: false,
 
+	// leftClickToOpen: Boolean
+	//	If true, menu will open on left click instead of right click, similiar to a file menu.
+	leftClickToOpen: false,
+	
 	// parentMenu: Widget
 	// pointer to menu that displayed me
 	parentMenu: null,
@@ -180,7 +184,7 @@ dojo.declare("dijit.Menu",
 		var cn = (node == dojo.body() ? dojo.doc : node);
 
 		node[this.id] = this._bindings.push([
-			dojo.connect(cn, "oncontextmenu", this, "_openMyself"),
+			dojo.connect(cn, (this.leftClickToOpen)?"onclick":"oncontextmenu", this, "_openMyself"),
 			dojo.connect(cn, "onkeydown", this, "_contextKey"),
 			dojo.connect(cn, "onmousedown", this, "_contextMouse")
 		]);
@@ -220,6 +224,9 @@ dojo.declare("dijit.Menu",
 		//		Internal function for opening myself when the user
 		//		does a right-click or something similar
 
+		if(this.leftClickToOpen&&e.button>0){
+			return;
+		}
 		dojo.stopEvent(e);
 
 		// Get coordinates.
