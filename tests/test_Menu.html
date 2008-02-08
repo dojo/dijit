@@ -97,6 +97,44 @@
 	</div>
 </div>
 
+<div dojoType="dijit.Menu" id="leftClick" leftClickToOpen="true" targetNodeIds="input2" style="display: none;">
+	<div dojoType="dijit.MenuItem" disabled="true">Left Click Menu</div>
+	<div dojoType="dijit.MenuItem" onClick="alert('Hello world');">Enabled Item</div>
+	<div dojoType="dijit.MenuItem" disabled="true">Disabled Item</div>
+	<div dojoType="dijit.MenuSeparator"></div>
+	<div dojoType="dijit.MenuItem" iconClass="dijitEditorIcon dijitEditorIconCut"
+		onClick="alert('not actually cutting anything, just a test!')">Cut</div>
+	<div dojoType="dijit.MenuItem" iconClass="dijitEditorIcon dijitEditorIconCopy"
+		onClick="alert('not actually copying anything, just a test!')">Copy</div>
+	<div dojoType="dijit.MenuItem" iconClass="dijitEditorIcon dijitEditorIconPaste"
+		onClick="alert('not actually pasting anything, just a test!')">Paste</div>
+	<div dojoType="dijit.MenuSeparator"></div>
+	<div dojoType="dijit.PopupMenuItem">
+		<span>Enabled Submenu</span>
+		<div dojoType="dijit.Menu" id="leftsubmenu2">
+			<div dojoType="dijit.MenuItem" onClick="alert('Submenu 1!')">Submenu Item One</div>
+			<div dojoType="dijit.MenuItem" onClick="alert('Submenu 2!')">Submenu Item Two</div>
+			<div dojoType="dijit.PopupMenuItem">
+				<span>Deeper Submenu</span>
+				<div dojoType="dijit.Menu" id="leftsubmenu4"">
+					<div dojoType="dijit.MenuItem" onClick="alert('Sub-submenu 1!')">Sub-sub-menu Item One</div>
+					<div dojoType="dijit.MenuItem" onClick="alert('Sub-submenu 2!')">Sub-sub-menu Item Two</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div dojoType="dijit.PopupMenuItem" disabled="true">
+		<span>Disabled Submenu</span>
+		<div dojoType="dijit.Menu" id="leftsubmenu3" style="display: none;">
+			<div dojoType="dijit.MenuItem" onClick="alert('Submenu 1!')">Submenu Item One</div>
+			<div dojoType="dijit.MenuItem" onClick="alert('Submenu 2!')">Submenu Item Two</div>
+		</div>
+	</div>
+	<div dojoType="dijit.PopupMenuItem">
+		<span>Different popup</span>
+		<div dojoType="dijit.ColorPalette"></div>
+	</div>
+</div>
 
 <!--
 <div dojoType="dijit.MenuBar">
@@ -114,7 +152,7 @@
 
 	<form>
 		<input id=input1 value="top-left">
-		<p style="text-align:right"><input id=input2 value="top-right"></p>
+		<p style="text-align:right">left click to open the menu for this input:<br/>Note: because of the window contextMenu, make sure you get<br/> the right menu by verifying the left<br/>click one starts with "Left Click Menu"<br/> at the very top. <input id=input2 value="top-right"></p>
 		<textarea id=textarea>hello there!</textarea><br>
 		<select>
 			<option>check if i</option>
