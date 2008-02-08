@@ -61,11 +61,6 @@
 	padding:8px 10px 4px 10px;
 }
 
-.dj_ie6 .soria .dijitTabHover,
-.dj_ie6 .soria .dijitTabCloseButtonHover {
-	background-image: url("../images/tabHover.gif");
-}
-
 .soria .dijitTabChecked,
 .soria .dijitTabCloseButtonChecked
 {

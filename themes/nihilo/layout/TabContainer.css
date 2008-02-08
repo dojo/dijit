@@ -61,11 +61,6 @@
 	padding:8px 10px 4px 10px;
 }
 
-.dj_ie6 .nihilo .dijitTabHover,
-.dj_ie6 .nihilo .dijitTabCloseButtonHover {
-	background-image: url("../images/tabHover.gif");
-}
-
 .nihilo .dijitTabChecked,
 .nihilo .dijitTabCloseButtonChecked
 {
