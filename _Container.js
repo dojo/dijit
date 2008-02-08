@@ -255,12 +255,17 @@ dojo.declare("dijit._KeyNavContainer",
 		},
 
 		_setTabIndexMinusOne: function(/*Widget*/ widget){
+			// summary:
+			//		set tabindex="-1" on focusable widgets so that we
+			// 		can focus them programmatically and by clicking
 			if(widget.getFocalNodes){
 				dojo.forEach(widget.getFocalNodes(), function(node){
 					node.setAttribute("tabIndex", -1);
 				});
 			}else{
-				(widget.focusNode || widget.domNode).setAttribute("tabIndex", -1);
+				if(widget.isFocusable()){
+					(widget.focusNode || widget.domNode).setAttribute("tabIndex", -1);
+				}
 			}
 		},
 
@@ -315,6 +320,8 @@ dojo.declare("dijit._KeyNavContainer",
 				}
 				child = this._getSiblingOfChild(child, dir);
 			}
+			// no focusable child found
+			return null;
 		}
 	}
 );
