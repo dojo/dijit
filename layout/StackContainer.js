@@ -218,7 +218,7 @@ dojo.declare(
 		if(remove){
 			this.removeChild(page);
 			// makes sure we can clean up executeScripts in ContentPane onUnLoad
-			page.destroy();
+			page.destroyRecursive();
 		}
 	},
 
