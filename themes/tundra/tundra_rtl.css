@@ -1,108 +1,11 @@
 @import url("../dijit_rtl.css");
+@import url("Calendar_rtl.css");
+@import url("Dialog_rtl.css");
+@import url("Editor_rtl.css");
+@import url("Menu_rtl.css");
+@import url("Toolbar_rtl.css");
+@import url("Tree_rtl.css");
 
-/* Dialog */
-.dijitRtl .dijitDialogTitleBar .dijitDialogCloseIcon {
-	background-position: left top;
-	float: left;
-	right: auto;
-	left: 5px;
-}
-
-/*FIXME: redundant?*/
-.dj_ie6 .dijitRtl .dijitDialogTitleBar .dijitDialogCloseIcon {
-	background-image: url('images/tabClose.gif'); 
-}
-
-
-/* Menu */
-
-.dijitRtl .dijitMenuItem .dijitMenuItemIcon {
-	padding-left: 3px;
-	padding-right: 0px;
-}
-
-.dijitRtl .dijitMenuItem .dijitMenuExpandEnabled {
-	background-image:url('images/arrowLeft.png');
-}
-
-.dj_ie6 .dijitRtl .dijitMenuItem .dijitMenuExpandEnabled {
-	background-image:url('images/arrowLeft.gif'); 
-}
-
-
-
-/* Tree */
-.dijitRtl .dijitTreeContainer .dijitTreeNode {
-    background-image : url('images/i_rtl.gif');
-    background-position : top right;
-    margin-left: auto;
-    margin-right: 19px;
-}
-
-.dijitRtl .dijitTreeContainer .dijitTreeIsRoot {
-	margin-left: auto;
-    margin-right: 0;
-    background-image: none;
-}
-
-.dijitRtl .dijitTreeContainer .dijitTreeIsLast {
-    background-image: url('images/i_half_rtl.gif');
-}
-
-.dijitRtl .dijitTreeContainer .dijitTreeContent {
-    margin-left: auto;
-    margin-right: 18px;
-    padding-left: auto;
-    padding-right: 1px;   
-}
-
-.dijitRtl .dijitTreeContainer .dijitTreeExpandoOpened {
-	background-image: url('images/treeExpand_minus_rtl.gif');
-}
-
-.dijitRtl .dijitTreeContainer .dijitTreeExpandoClosed {
-	background-image: url('images/treeExpand_plus_rtl.gif');
-}
-
-.dijitRtl .dijitTreeContainer .dijitTreeExpandoLeaf {
-	background-image: url('images/treeExpand_leaf_rtl.gif');
-}
-
-/* ToolTip */
-
-.dj_ie .dijitRtl .dijitTooltipLeft {
-	margin-right: 0px;
-	margin-left: 13px;
-}
-
-.dj_ie .dijitRtl .dijitTooltipRight {
-	margin-left: 26px;
-	margin-right: -13px;
-}
-
-.dj_ie .dijitRtl .dijitTooltipDialog {
-	zoom:1 !important;
-}
-
-/* Calendar */
-
-.dijitRtl .dijitCalendarDecrease {
-	background-image:url(images/arrowRight.png); 
-	margin-left:0;
-	margin-right:2px;
-}
-
-.dijitRtl .dijitCalendarIncrease {
-	background-image:url(images/arrowLeft.png); 
-	margin-right:0;
-	margin-left:4px; 
-}
-.dj_ie6 .dijitRtl .dijitCalendarIncrease {
-	background-image:url(images/arrowLeft.gif); 
-}
-.dj_ie6 .dijitRtl .dijitCalendarDecrease {
-	background-image:url(images/arrowRight.gif); 
-}
 
 /* Slider */
 
@@ -205,13 +108,4 @@
 	left:3px;
 }
 
-/* Toolbar */
 
-.dijitRtl .dijitToolbar .dijitToolbarSeparator {
-	background-image: url('images/editor_rtl.gif');
-}
-
-/* Editor */
-.dijitRtl .dijitEditorIcon {
-	background-image: url('images/editor_rtl.gif'); /* editor icons sprite image */
-}
