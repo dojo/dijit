@@ -100,7 +100,7 @@ dojo.declare(
 				if(isEmpty){
 					message = this.getPromptMessage(true);
 				}
-				if(!message && !isValid){
+				if(!message && this.state == "Error"){
 					message = this.getErrorMessage(true);
 				}
 			}
