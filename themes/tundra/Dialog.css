@@ -1,6 +1,8 @@
 
 /* Dialog */
 
+
+
 .tundra .dijitDialog {
 	background: #fff;
 	border: 1px solid #999;
@@ -160,3 +162,17 @@
 	background-image: url("images/tooltipConnectorLeft.gif");
 }
 
+
+.dj_safari .tundra .dijitPopup {
+	/* -webkit-border-radius: 5px; */
+	-webkit-box-shadow: 0px 5px 10px #adadad;
+}
+
+
+/*
+ * Control opacity of popups
+ */
+.tundra .dijitPopup div,
+.tundra .dijitPopup table {
+	opacity: 0.95;
+}
