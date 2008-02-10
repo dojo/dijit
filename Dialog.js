@@ -28,7 +28,7 @@ dojo.declare(
 		},
 
 		layout: function(){
-			// summary: Sets he background to the size of the viewport
+			// summary: Sets the background to the size of the viewport
 			//
 			// description:
 			//	Sets the background to the size of the viewport (rather than the size
@@ -156,7 +156,7 @@ dojo.declare(
 
 		postCreate: function(){
 			dojo.body().appendChild(this.domNode);
-			this.inherited("postCreate",arguments);
+			this.inherited(arguments);
 			var _nlsResources = dojo.i18n.getLocalization("dijit", "common");
 			if(this.closeButtonNode){
 				this.closeButtonNode.setAttribute("title", _nlsResources.buttonCancel);
@@ -178,7 +178,7 @@ dojo.declare(
 		onLoad: function(){
 			// summary: when href is specified we need to reposition the dialog after the data is loaded
 			this._position();
-			this.inherited("onLoad",arguments);
+			this.inherited(arguments);
 		},
 
 		_setup: function(){
@@ -292,10 +292,10 @@ dojo.declare(
 					if(evt.keyCode != dojo.keys.TAB){ // allow tabbing into the dialog for a11y
 						dojo.stopEvent(evt);
 					// opera won't tab to a div
-					}else if (!dojo.isOpera){
+					}else if(!dojo.isOpera){
 						try{
 							this._firstFocusItem.focus();
-						}catch(e){/*squelch*/}
+						}catch(e){ /*squelch*/ }
 					}
 				}
 			}
@@ -410,9 +410,9 @@ dojo.declare(
 		templatePath: dojo.moduleUrl("dijit.layout", "templates/TooltipDialog.html"),
 
 		postCreate: function(){
-			this.inherited("postCreate",arguments);
+			this.inherited(arguments);
 			this.connect(this.containerNode, "onkeypress", "_onKey");
-			this.containerNode.title=this.title;
+			this.containerNode.title = this.title;
 		},
 
 		orient: function(/*DomNode*/ node, /*String*/ aroundCorner, /*String*/ corner){
@@ -426,7 +426,7 @@ dojo.declare(
 			// first time we show the dialog, there's some initialization stuff to do			
 			if(!this._alreadyInitialized){
 				this._setup();
-				this._alreadyInitialized=true;
+				this._alreadyInitialized = true;
 			}
 			
 			this.orient(this.domNode,pos.aroundCorner, pos.corner);
