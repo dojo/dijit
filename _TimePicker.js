@@ -82,7 +82,7 @@ dojo.declare("dijit._TimePicker",
 			this._visibleRangeDate=fromIso(this.visibleRange);
 			// get the value of the increments and the range in seconds (since 00:00:00) to find out how many divs to create
 			var sinceMidnight = function(/*Date*/ date){
-				return date.getHours()*60*60+date.getMinutes()*60+date.getSeconds();
+				return date.getHours() * 60 * 60 + date.getMinutes() * 60 + date.getSeconds();
 			};
 
 			var clickableIncrementSeconds = sinceMidnight(this._clickableIncrementDate);
@@ -130,24 +130,24 @@ dojo.declare("dijit._TimePicker",
 			//dijit.typematic.addListener(this.upArrow,this.timeMenu, {keyCode:dojo.keys.UP_ARROW,ctrlKey:false,altKey:false,shiftKey:false}, this, "_onArrowUp", 0.8, 500);
 			//dijit.typematic.addListener(this.downArrow, this.timeMenu, {keyCode:dojo.keys.DOWN_ARROW,ctrlKey:false,altKey:false,shiftKey:false}, this, "_onArrowDown", 0.8,500);
 
-			this.inherited("postCreate", arguments);
+			this.inherited(arguments);
 			this.setValue(this.value);
 		},
 
 		_createOption:function(/*Number*/ index){
 			// summary: creates a clickable time option
-			var div=dojo.doc.createElement("div");
+			var div = dojo.doc.createElement("div");
 			var date = (div.date = new Date(this._refDate));
-			div.index=index;
+			div.index = index;
 			var incrementDate = this._clickableIncrementDate;
-			date.setHours(date.getHours()+incrementDate.getHours()*index,
-				date.getMinutes()+incrementDate.getMinutes()*index,
-				date.getSeconds()+incrementDate.getSeconds()*index);
+			date.setHours(date.getHours() + incrementDate.getHours() * index,
+				date.getMinutes() + incrementDate.getMinutes() * index,
+				date.getSeconds() + incrementDate.getSeconds() * index);
 
 			var innerDiv = dojo.doc.createElement('div');
 			dojo.addClass(div,this.baseClass+"Item");
 			dojo.addClass(innerDiv,this.baseClass+"ItemInner");
-			innerDiv.innerHTML=dojo.date.locale.format(date, this.constraints);				
+			innerDiv.innerHTML = dojo.date.locale.format(date, this.constraints);				
 			div.appendChild(innerDiv);
 
 			if(index%this._visibleIncrement<1 && index%this._visibleIncrement>-1){
@@ -161,7 +161,7 @@ dojo.declare("dijit._TimePicker",
 				dojo.addClass(div, this.baseClass+"ItemDisabled");
 			}
 			if(dojo.date.compare(this.value, date, this.constraints.selector)==0){
-				div.selected=true;
+				div.selected = true;
 				dojo.addClass(div, this.baseClass+"ItemSelected");
 			}
 			return div;
@@ -169,7 +169,7 @@ dojo.declare("dijit._TimePicker",
 
 		_onOptionSelected:function(/*Object*/ tgt){
 			var tdate = tgt.target.date || tgt.target.parentNode.date;			
-			if(!tdate||this.isDisabledDate(tdate)){return;}
+			if(!tdate || this.isDisabledDate(tdate)){ return; }
 			this.setValue(tdate);
 			this.onValueSelected(tdate);
 		},
@@ -200,16 +200,16 @@ dojo.declare("dijit._TimePicker",
 
 		_onArrowUp:function(){
 			// summary: remove the bottom time and add one to the top
-			var index=this.timeMenu.childNodes[0].index-1;
-			var div=this._createOption(index);
-			this.timeMenu.removeChild(this.timeMenu.childNodes[this.timeMenu.childNodes.length-1]);
+			var index = this.timeMenu.childNodes[0].index - 1;
+			var div = this._createOption(index);
+			this.timeMenu.removeChild(this.timeMenu.childNodes[this.timeMenu.childNodes.length - 1]);
 			this.timeMenu.insertBefore(div, this.timeMenu.childNodes[0]);
 		},
 
 		_onArrowDown:function(){
 			// summary: remove the top time and add one to the bottom
-			var index=this.timeMenu.childNodes[this.timeMenu.childNodes.length-1].index+1;
-			var div=this._createOption(index);
+			var index = this.timeMenu.childNodes[this.timeMenu.childNodes.length - 1].index + 1;
+			var div = this._createOption(index);
 			this.timeMenu.removeChild(this.timeMenu.childNodes[0]);
 			this.timeMenu.appendChild(div);
 		}
