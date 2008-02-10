@@ -55,7 +55,7 @@ dojo.declare(
 		}
 		this._setCss();
 		dojo.setSelectable(this.titleNode, false);
-		this.inherited("postCreate",arguments);
+		this.inherited(arguments);
 		dijit.setWaiState(this.containerNode, "labelledby", this.titleNode.id);
 		dijit.setWaiState(this.focusNode, "haspopup", "true");
 
@@ -82,17 +82,17 @@ dojo.declare(
 		// 		Typically called when an href is loaded.  Our job is to make the animation smooth
 		if(!this.open || this._wipeOut.status() == "playing"){
 			// we are currently *closing* the pane (or the pane is closed), so just let that continue
-			this.inherited("setContent",arguments);
+			this.inherited(arguments);
 		}else{
 			if(this._wipeIn.status() == "playing"){
 				this._wipeIn.stop();
 			}
 
 			// freeze container at current height so that adding new content doesn't make it jump
-			dojo.marginBox(this.wipeNode, {h: dojo.marginBox(this.wipeNode).h});
+			dojo.marginBox(this.wipeNode, { h: dojo.marginBox(this.wipeNode).h });
 
 			// add the new content (erasing the old content, if any)
-			this.inherited("setContent",arguments);
+			this.inherited(arguments);
 
 			// call _wipeIn.play() to animate from current height to new height
 			this._wipeIn.play();
@@ -132,12 +132,9 @@ dojo.declare(
 		// summary: callback when user hits a key
 		if(e.keyCode == dojo.keys.ENTER || e.charCode == dojo.keys.SPACE){
 			this.toggle();
-		}
-		else if(e.keyCode == dojo.keys.DOWN_ARROW){
-			if(this.open){
-				this.containerNode.focus();
-				e.preventDefault();
-			}
+		}else if(e.keyCode == dojo.keys.DOWN_ARROW && this.open){
+			this.containerNode.focus();
+			e.preventDefault();
 	 	}
 	},
 	
@@ -145,11 +142,11 @@ dojo.declare(
 		// summary: handle blur and focus for this widget
 		
 		// add/removeClass is safe to call without hasClass in this case
-		dojo[(e.type=="focus" ? "addClass" : "removeClass")](this.focusNode,this.baseClass+"Focused");
+		dojo[(e.type == "focus" ? "addClass" : "removeClass")](this.focusNode, this.baseClass + "Focused");
 	},
 
 	setTitle: function(/*String*/ title){
 		// summary: sets the text of the title
-		this.titleNode.innerHTML=title;
+		this.titleNode.innerHTML = title;
 	}
 });
