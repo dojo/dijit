@@ -30,9 +30,7 @@ dojo.declare("dijit.layout._LayoutWidget",
 
 			if(this._started){ return; }
 
-			if(this.getChildren){
-				dojo.forEach(this.getChildren(), function(child){ child.startup(); });
-			}
+			dojo.forEach(this.getChildren(), function(child){ child.startup(); });
 
 			// If I am a top level widget
 			if(!this.getParent || !this.getParent()){

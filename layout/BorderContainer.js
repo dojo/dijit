@@ -55,11 +55,7 @@ dojo.declare(
 
 	startup: function(){
 		if(this._started){ return; }
-
-		if(this.getChildren){
-			dojo.forEach(this.getChildren(), this._setupChild, this);
-		}
-
+		dojo.forEach(this.getChildren(), this._setupChild, this);
 		this.inherited(arguments);
 	},
 
