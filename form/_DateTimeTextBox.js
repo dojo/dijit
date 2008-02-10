@@ -136,6 +136,15 @@ dojo.declare(
 				delete this._picker;
 			}
 			this.inherited(arguments);
+		},
+
+		_onKeyPress: function(e){
+			if(dijit.form._DateTimeTextBox.superclass._onKeyPress.apply(this, arguments)){
+				if(this._opened && e.keyCode == dojo.keys.ESCAPE && !e.shiftKey && !e.ctrlKey && !e.altKey){
+					this._close();
+					dojo.stopEvent(e);
+				}
+			}
 		}
 	}
 );

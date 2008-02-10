@@ -115,6 +115,7 @@ dijit.popup = new function(){
 		// (this will work for any widget, not just menu)
 		handlers.push(dojo.connect(wrapper, "onkeypress", this, function(evt){
 			if(evt.keyCode == dojo.keys.ESCAPE && args.onCancel){
+				dojo.stopEvent(evt);
 				args.onCancel();
 			}else if(evt.keyCode == dojo.keys.TAB){
 				dojo.stopEvent(evt);
