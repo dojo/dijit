@@ -363,8 +363,7 @@ dojo.subscribe(dijit._scopeName + ".Editor.getPlugin",null,function(o){
 		case "|":
 			p = new _p({ button: new dijit.ToolbarSeparator() });
 			break;
-		case "createLink":
-//					dojo['require']('dijit._editor.plugins.LinkDialog');
+		case "createLink": case "insertImage":
 			p = new dijit._editor.plugins.LinkDialog({ command: name });
 			break;
 		case "foreColor": case "hiliteColor":
@@ -373,7 +372,7 @@ dojo.subscribe(dijit._scopeName + ".Editor.getPlugin",null,function(o){
 		case "fontName": case "fontSize": case "formatBlock":
 			p = new dijit._editor.plugins.FontChoice({ command: name });
 			break;
-		case "toggleDir" :
+		case "toggleDir":
 			p = new dijit._editor.plugins.ToggleDir({ command: name});
 	}
 //	console.log('name',name,p);
