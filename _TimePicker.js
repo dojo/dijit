@@ -123,7 +123,15 @@ dojo.declare("dijit._TimePicker",
 			if(!this.constraints.locale){
 				this.constraints.locale=this.lang;
 			}
-
+			if(this.constraints.clickableIncrement){
+				this.clickableIncrement=this.constraints.clickableIncrement;
+			}
+			if(this.constraints.visibleIncrement){
+				this.visibleIncrement=this.constraints.visibleIncrement;
+			}
+			if(this.constraints.visibleRange){
+				this.visibleRange=this.constraints.visibleRange;
+			}
 			// assign typematic mouse listeners to the arrow buttons
 			this.connect(this.timeMenu, dojo.isIE ? "onmousewheel" : 'DOMMouseScroll', "_mouseWheeled");
 			dijit.typematic.addMouseListener(this.upArrow,this,this._onArrowUp, 0.8, 500);
