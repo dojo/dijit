@@ -92,7 +92,7 @@ dojo.declare("dijit._TimePicker",
 			// round reference date to previous visible increment
 			var time = this.value.getTime();
 			this._refDate = new Date(time - time % (visibleIncrementSeconds*1000));
-			this._refDate.setFullYear(1970,0,1); // match parse defaults //FIXME: is this still necessary?
+			this._refDate.setFullYear(1970,0,1); // match parse defaults
 
 			// assume clickable increment is the smallest unit
 			this._clickableIncrement=1;
