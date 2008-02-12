@@ -15,7 +15,7 @@
 			><input dojoAttachPoint="valueNode" type="hidden" name="${name}"
 			/><div waiRole="presentation" style="position:relative;" dojoAttachPoint="sliderBarContainer"
 				><div waiRole="presentation" dojoAttachPoint="progressBar" class="dijitSliderBar dijitHorizontalSliderBar dijitSliderProgressBar dijitHorizontalSliderProgressBar" dojoAttachEvent="onclick:_onBarClick"
-					><div dojoAttachPoint="sliderHandle,focusNode" class="dijitSliderMoveable dijitHorizontalSliderMoveable" dojoAttachEvent="onkeypress:_onKeyPress,onclick:_onHandleClick" waiRole="slider" valuemin="${minimum}" valuemax="${maximum}"
+					><div dojoAttachPoint="sliderHandle,focusNode" class="dijitSliderMoveable dijitHorizontalSliderMoveable" dojoAttachEvent="onkeypress:_onKeyPress,onmousedown:_onHandleClick" waiRole="slider" valuemin="${minimum}" valuemax="${maximum}"
 						><div class="dijitSliderImageHandle dijitHorizontalSliderImageHandle"></div
 					></div
 				></div
