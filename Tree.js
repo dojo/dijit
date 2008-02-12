@@ -822,6 +822,7 @@ dojo.declare(
 		var labelNode = node.labelNode;
 		dojo.removeClass(labelNode, "dijitTreeLabelFocused");
 		labelNode.setAttribute("tabIndex", "-1");
+		dijit.setWaiState(labelNode, "selected", false);
 		this.lastFocused = null;
 	},
 
@@ -829,7 +830,8 @@ dojo.declare(
 		// summary
 		//	Focus on the specified node (which must be visible)
 
-		// set focus so that the label will be voiced using screen readers
+		// set selected and  focus so that the label will be voiced using screen readers
+		dijit.setWaiState(node.labelNode, "selected", true);
 		node.labelNode.focus();
 	},
 
