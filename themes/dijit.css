@@ -161,6 +161,10 @@
 	visibility:visible !important;
 }
 
+.dijit_a11y .dijitCalendarSelectedDate {
+	text-decoration:overline !important;
+}
+
 .dijitA11ySideArrow {
 	vertical-align:top;
 	margin-right:0em;
