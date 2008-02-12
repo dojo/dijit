@@ -33,13 +33,6 @@ dojo.declare("dijit.form.SimpleTextarea",
 		}
 	},
 
-	resize: function(/* Object */size){
-		if(size){
-//			console.log(this, ": resizing to ", size);
-			dojo.marginBox(this.domNode, size);
-		}
-	},
-	
 	setValue: function(/*String*/ val){
 		this.domNode.value = this.value = val;
 		this.inherited(arguments);

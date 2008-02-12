@@ -8,23 +8,24 @@ dojo.declare(
 //	[dijit._Widget, dijit._Container, dijit._Contained],
 	dijit.layout._LayoutWidget,
 {
-	// summary
+	// summary:
 	//	Provides layout in 5 regions, a center and borders along its 4 sides.
 	//
-	// description
+	// description:
 	//	A BorderContainer is a box with a specified size (like style="width: 500px; height: 500px;"),
-	//	that contains children widgets marked with "position" of "top", "bottom", "leading", "trailing",
-	//	"left", "right", or "center".  Children along the edge will be laid out according to the width
-	//  or height dimensions specified in CSS, with the remaining space left for the center.
-	//  The outer size must be specified on the BorderContainer node.  Width must be specified for the sides
+	//	that contains a child widget marked region="center" and optionally children widgets marked
+	//	region equal to "top", "bottom", "leading", "trailing", "left" or "right".
+	//	Children along the edges will be laid out according to width or height dimensions.  The remaining
+	//	space is designated for the center region.
+	//	The outer size must be specified on the BorderContainer node.  Width must be specified for the sides
 	//  and height for the top and bottom, respectively.  No dimensions should be specified on the center;
 	//	it will fill the remaining space.  Regions named "leading" and "trailing" may be used just like
 	//	"left" and "right" except that they will be reversed in right-to-left environments.
-	//  Optional splitters may be specified on the edge widgets to make them resizable by the user.
+	//  Optional splitters may be specified on the edge widgets only to make them resizable by the user.
 	//
-	// usage
+	// example:
 	//	<style>
-	//		html, body{ height: 100%; width: 100%; }
+	//		html, body { height: 100%; width: 100%; }
 	//	</style>
 	//	<div dojoType="BorderContainer" design="sidebar" style="width: 100%; height: 100%">
 	//		<div dojoType="ContentPane" region="top">header text</div>
@@ -130,7 +131,6 @@ dojo.declare(
 			bottomHeight = dojo.marginBox(this._bottom).h;
 		}
 
-
 		var topSplitter = this._splitters.top;
 		var bottomSplitter = this._splitters.bottom;
 		var leftSplitter = this._splitters.left;
@@ -191,7 +191,11 @@ dojo.declare(
 			topStyle.left = topStyle.right = bottomStyle.left = bottomStyle.right = "0";
 		}
 
-		if(dojo.isIE){
+		// TEXTAREA elements in Gecko don't respond to t/l/b/r
+		var janky = dojo.isMozilla && dojo.some(this.getChildren(), function(child){
+			return child.domNode.tagName == "TEXTAREA";
+		});
+		if(janky || dojo.isIE){
 			var borderBox = function(n, b){
 				n=dojo.byId(n);
 				var s = dojo.getComputedStyle(n);
@@ -217,7 +221,7 @@ dojo.declare(
 			if(this._left){ borderBox(this._left, {h: sidebarHeight}); }
 			if(this._right){ borderBox(this._right, {h: sidebarHeight}); }
 
-			if(dojo.isIE && (dojo.doc.compatMode == "BackCompat" || dojo.isIE < 7)){
+			if(janky || (dojo.isIE && (dojo.doc.compatMode == "BackCompat" || dojo.isIE < 7))){
 //TODO: use dojo.marginBox instead of dojo.style?
 				var containerWidth = thisBorderBox.w;
 				var middleWidth = containerWidth;
