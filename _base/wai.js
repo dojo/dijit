@@ -3,8 +3,7 @@ dojo.provide("dijit._base.wai");
 dijit.wai = {
 	onload: function(){
 		// summary:
-		//		Detects if we are in high-contrast mode or not,
-		//		and sets up a timer to periodically check.
+		//		Detects if we are in high-contrast mode or not
 
 		// This must be a named function and not an anonymous
 		// function, so that the widget parsing code can make sure it
