@@ -34,11 +34,11 @@ dojo.declare("dijit.form.SimpleTextarea",
 	},
 
 	setValue: function(/*String*/ val){
-		this.domNode.value = this.value = val;
+		this.domNode.value = val;
 		this.inherited(arguments);
 	},
 
 	getValue: function(){
-		return this.domNode.value;
+		return this.domNode.value.replace(/\r/g,"");
 	}
 });

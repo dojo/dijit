@@ -294,6 +294,7 @@ dojo.declare("dijit.form._FormValueWidget", dijit.form._FormWidget,
 
 	setValue: function(/*anything*/ newValue, /*Boolean, optional*/ priorityChange){
 		// summary: set the value of the widget.
+		this.value = newValue;
 		this._handleOnChange(newValue, priorityChange);
 	},
 

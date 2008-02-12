@@ -107,7 +107,7 @@ dojo.declare(
 	},
 
 	getValue: function(){
-		return this.formValueNode.value.replace(/\r/g,"");
+		return this.value.replace(/\r/g,"");
 	},
 
 	postMixInProperties: function(){

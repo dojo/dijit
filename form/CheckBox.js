@@ -32,7 +32,22 @@ dojo.declare(
 		// value: Value
 		//	equivalent to value field on normal checkbox (if checked, the value is passed as
 		//	the value when form is submitted)
-		value: "on"
+		value: "on",
+
+		setValue: function(/*String or Boolean*/ newValue){
+			// summary: set the value of the widget.
+			if(typeof newValue == "string"){
+				this.setAttribute('value', newValue);
+				newValue = true;
+			}
+			this.setAttribute('checked', newValue);
+		},
+
+		_getValueDeprecated: false, // remove when _FormWidget:getValue is removed
+		getValue: function(){
+			// summary: get the value of the widget.
+			return (this.checked ? this.value : false);
+		}
 	}
 );
 

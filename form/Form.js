@@ -46,7 +46,7 @@ dojo.declare("dijit.form._FormMixin", null,
 				if(typeof widgets[0].checked == 'boolean'){
 					// for checkbox/radio, values is a list of which widgets should be checked
 					dojo.forEach(widgets, function(w, i){
-						w.setAttribute('checked', (dojo.indexOf(values, w.value) != -1));
+						w.setValue(dojo.indexOf(values, w.value) != -1);
 					});
 				}else if(widgets[0].setValues){
 					// it's a multi-select
@@ -151,7 +151,7 @@ dojo.declare("dijit.form._FormMixin", null,
 					if(typeof widget.checked == 'boolean'){
 						if(/Radio/.test(widget.declaredClass)){
 							// radio button
-							if(widget.checked){
+							if(value !== false){
 								dojo.setObject(name, value, obj);
 							}
 						}else{
@@ -161,7 +161,7 @@ dojo.declare("dijit.form._FormMixin", null,
 								ary=[];
 								dojo.setObject(name, ary, obj);
 							}
-							if(widget.checked){
+							if(value !== false){
 								ary.push(value);
 							}
 						}
