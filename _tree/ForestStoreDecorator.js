@@ -97,7 +97,7 @@ dojo.declare("dijit._tree.ForestStoreDecorator", null, {
 					args.onItem(_this.root);
 				},
 				onError: function(err){
-					throw new Error(this.id + ": error on fetch of children of root node: " + err);
+					throw new Error(_this.id + ": error on fetch of children of root node: " + err);
 				}
 			});
 		}else{

@@ -5,18 +5,18 @@
 	<title>Dijit Tree Test</title>
 
 	<style type="text/css">
-		@import "../../dojo/resources/dojo.css";
+		@import "../../../../dojo/resources/dojo.css";
 		@import "css/dijitTests.css";
 	</style>
 
-	<script type="text/javascript" src="../../dojo/dojo.js"
+
+	<script type="text/javascript" src="../../../../dojo/dojo.js"
 		djConfig="parseOnLoad: true, isDebug: true"></script>
 	<script type="text/javascript" src="_testCommon.js"></script>
 
 	<script language="JavaScript" type="text/javascript">
 		dojo.require("dojo.data.ItemFileReadStore");
 		dojo.require("dijit.Tree");
-		dojo.require("dijit._tree.ForestStoreDecorator");
 		dojo.require("dijit.ColorPalette");
 		dojo.require("dijit.Menu");
 		dojo.require("dojo.parser");	// scan page for widgets and instantiate them
@@ -28,16 +28,12 @@
 	<h1 class="testTitle">Dijit Tree Test</h1>
 
 	<div dojoType="dojo.data.ItemFileReadStore" jsId="continentStore"
-		url="../tests/_data/countries.json"></div>
-	<div dojoType="dijit._tree.ForestStoreDecorator" jsId="continentStoreDecorated" 
-		store="continentStore" query="{type:'continent'}"
-		rootId="continentRoot" rootLabel="Continents" childrenAttr="children"></div>
+		url="../../tests/_data/countries.json"></div>
 
 	<h3>Tree with hardcoded root node (not corresponding to any item in the store)</h3>
 	<p>Clicking a folder node will open/close it (openOnclick==true), and clicking a leaf node will popup an alert.</p>
-	<div dojoType="dijit.Tree" id="mytree"
-		store="continentStoreDecorated" root="continentRoot" labelAttr="name" childrenAttr="children"
-		openOnClick="true">
+	<div dojoType="dijit.Tree" id="mytree" store="continentStore" query="{type:'continent'}"
+		labelAttr="name" label="Continents" openOnClick="true">
 		<script type="dojo/method" event="onClick" args="item">
 			alert("Execute of node " + continentStore.getLabel(item)
 				+", population=" + continentStore.getValue(item, "population"));
@@ -80,10 +76,7 @@
 		</li>
 	</ul>
 
-	<div dojoType="dijit.Tree" id="tree2"
-		store="continentStoreDecorated" root="continentRoot" labelAttr="name" childrenAttr="children"
-		showRoot="false" openOnClick="true">
-
+	<div dojoType="dijit.Tree" id="tree2" store="continentStore" query="{type:'continent'}">
 		<script type="dojo/connect">
 			var menu = dijit.byId("tree_menu");
 			// when we right-click anywhere on the tree, make sure we open the menu
@@ -104,12 +97,12 @@
 			});
 		</script>
 		<script type="dojo/method" event="getIconClass" args="item, opened">
-           return (item == this.store.root || this.store.getValue(item, "type") == "continent") ?
+           return (!item || continentStore.getValue(item, "type") == "continent") ?
                    (opened ? "customFolderOpenedIcon" : "customFolderClosedIcon") :
                     "noteIcon";
 		</script>
 		<script type="dojo/method" event="onClick" args="item">
-			alert("Execute of node " + this.store.getLabel(item)
+			alert("Execute of node " + continentStore.getLabel(item)
 				+", population=" + continentStore.getValue(item, "population"));
 		</script>
 </div>
