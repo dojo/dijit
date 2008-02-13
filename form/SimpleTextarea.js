@@ -14,6 +14,8 @@ dojo.declare("dijit.form.SimpleTextarea",
 	//	|	<textarea dojoType="dijit.form.SimpleTextarea" name="foo" value="bar" rows=30 cols=40/>
 	//
 
+	baseClass: "dijitTextArea",
+
 	attributeMap: dojo.mixin(dojo.clone(dijit.form._FormValueWidget.prototype.attributeMap),
 		{rows:"focusNode", cols: "focusNode"}),
 
@@ -25,7 +27,7 @@ dojo.declare("dijit.form.SimpleTextarea",
 	//		The number of characters per line.
 	cols: "",
 
-	templateString: "<textarea class='dijitTextArea' name='${name}' dojoAttachPoint='focusNode,containerNode'>",
+	templateString: "<textarea name='${name}' dojoAttachPoint='focusNode,containerNode'>",
 
 	postMixInProperties: function(){
 		if(this.srcNodeRef){
