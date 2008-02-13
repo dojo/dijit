@@ -191,8 +191,8 @@ dojo.declare(
 			topStyle.left = topStyle.right = bottomStyle.left = bottomStyle.right = "0";
 		}
 
-		// TEXTAREA elements in Gecko don't respond to t/l/b/r
-		var janky = dojo.isMozilla && dojo.some(this.getChildren(), function(child){
+		// TEXTAREA elements in Gecko or Safari don't respond to t/l/b/r
+		var janky = dojo.some(this.getChildren(), function(child){
 			return child.domNode.tagName == "TEXTAREA";
 		});
 		if(janky || dojo.isIE){
