@@ -96,7 +96,9 @@ dojo.declare("dijit.layout.TabContainer",
 	},
 
 	destroy: function(){
-		this.tablist.destroy();
+		if(this.tablist){
+			this.tablist.destroy();
+		}
 		this.inherited("destroy",arguments);
 	}
 });
