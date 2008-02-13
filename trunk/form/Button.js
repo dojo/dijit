@@ -66,7 +66,7 @@ dojo.declare("dijit.form.Button", dijit.form._FormWidget, {
 		if (this.showLabel == false){
 			var labelText = "";
 			this.label = this.containerNode.innerHTML;
-			labelText = dojo.trim(this.containerNode.innerText || this.containerNode.textContent);
+			labelText = dojo.trim(this.containerNode.innerText || this.containerNode.textContent || '');
 			// set title attrib on iconNode
 			this.titleNode.title=labelText;
 			dojo.addClass(this.containerNode,"dijitDisplayNone");
@@ -94,7 +94,7 @@ dojo.declare("dijit.form.Button", dijit.form._FormWidget, {
 			setTimeout(function(){_this.domNode.style.display=oldDisplay;},1);
 		}
 		if (this.showLabel == false){
-				this.titleNode.title=dojo.trim(this.containerNode.innerText || this.containerNode.textContent);
+				this.titleNode.title=dojo.trim(this.containerNode.innerText || this.containerNode.textContent || '');
 		}
 	}		
 });
