@@ -287,7 +287,7 @@ dojo.extend(dijit._Widget, {
 	// region: String
 	//		"top", "bottom", "leading", "trailing", "left", "right", "center".
 	//		See the BorderContainer description for details on this parameter.
-	region: 'none',
+	region: '',
 
 	// splitter: Boolean
 	splitter: false,
