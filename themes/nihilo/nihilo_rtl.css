@@ -25,5 +25,3 @@
 @import url("Dialog_rtl.css");
 @import url("Menu_rtl.css");
 @import url("Editor_rtl.css");
-
-:focus { -moz-outline-style: none; }
