@@ -15,9 +15,9 @@
 		- Use in all TABLE, TR and TD tags.	
 		- If there is more than one class on the tag, place this first so other classes override.
 	*/
-	margin:0px;
-	border:0px;
-	padding:0px;
+	margin:0;
+	border:0;
+	padding:0;
 	line-height:normal;
 	font: inherit;
 	color: inherit;
@@ -32,8 +32,8 @@
 	display:inline-block;			/* webkit and FF3 */
 	#zoom: 1; /* set hasLayout:true to mimic inline-block */
 	#display:inline; /* don't use .dj_ie since that increases the priority */
-	border:0px;
-	padding:0px;
+	border:0;
+	padding:0;
 	vertical-align:middle;
 }
 
@@ -46,7 +46,7 @@
 }
 
 .dj_ie .dijitInputField INPUT { /* try to get rid of IE implicit margin around INPUT */
-	margin: -1px 0px !important;
+	margin: -1px 0 !important;
 }
 .dj_iequirks .dijitInputField INPUT { /* try to get rid of IE implicit margin around INPUT */
 	margin-top: -3px !important;
@@ -62,8 +62,8 @@
 	#zoom: 1; /* set hasLayout:true to mimic inline-block */
 	#display:inline; /* don't use .dj_ie since that increases the priority */
 	box-sizing: content-box; -moz-box-sizing: content-box;
-	border:0px;
-	padding:0px;
+	border:0;
+	padding:0;
 }
 
 .dijitTeeny {
@@ -100,8 +100,8 @@
 
 .dijitPositionOnly {
 	/* Null out all position-related properties */
-	padding: 0px !important;
-	border: 0px !important;
+	padding: 0 !important;
+	border: 0 !important;
 	background-color: transparent !important;
 	background-image: none !important;
 	height: auto !important;
@@ -112,7 +112,7 @@
 	/* Null position-related properties */
 	float: none !important;
 	position: static !important;
-	margin: 0px 0px 0px 0px !important;
+	margin: 0 0 0 0 !important;
 	vertical-align: middle !important;
 }
 
@@ -122,8 +122,8 @@
 	 * being transparent
 	 */
 	position: absolute;
-	left: 0px;
-	top: 0px;
+	left: 0;
+	top: 0;
 	width: 100%;
 	height: 100%;
 	z-index: -1;
@@ -252,7 +252,7 @@
 .dijitButtonNode {
 	/* Node that is acting as a button -- may or may not be a BUTTON element */
 	border:1px solid gray;
-	margin:0px;
+	margin:0;
 	padding:.2em .2em .1em;
 	line-height:normal;
 	cursor:pointer;
@@ -275,7 +275,7 @@ DIV.dijitArrowButton {
 	border-width: 0 0 0 1px !important;
 	padding: 0;
 	position: absolute;
-	right: 0px;
+	right: 0;
 	float: none;
 }
 .dijitSpinner .dijitInputLayoutContainer .dijitArrowButton {
@@ -287,24 +287,24 @@ DIV.dijitArrowButton {
 }
 .dijitSpinner .dijitInputLayoutContainer .dijitDownArrowButton {
 	top: none;
-	bottom: 0px;
+	bottom: 0;
 	border-top-width: 1px !important;
 }
 .dijitSpinner .dijitInputLayoutContainer .dijitUpArrowButton {
-	top: 0px;
+	top: 0;
 	bottom: none;
 }
 
 .dijitComboButton TABLE {
 	/* each cell in a combo-table should have its own separate border */
 	border-collapse: separate;
-	border:0px;
-	padding:0px;
-	margin:0px;
+	border:0;
+	padding:0;
+	margin:0;
 }
 
 .dijitComboButton .dijitButtonContents {
-	border-right-width:0px !important;
+	border-right-width:0 !important;
 }
 
 
@@ -353,12 +353,12 @@ table .dijitComboButton .dijitButtonNode {
 .dijitTextBox INPUT,
 .dijitComboBox INPUT,
 .dijitSpinner INPUT {
-	padding:0px;
+	padding:0;
 	border-left: solid black 1px;	/* TODO: for RTL mode should be border-right */
 	display:inline;
 	position:static !important;
-	border:0px !important;	
-	margin:0px !important;
+	border:0 !important;	
+	margin:0 !important;
 	vertical-align:0em !important;
 	visibility:visible !important;
 	background-color:transparent !important;
@@ -469,12 +469,12 @@ table .dijitComboButton .dijitButtonNode {
 	/* inner container for finished portion */
 	position:absolute;
 	overflow:hidden;
-	top:0px;
-	left:0px;
-	bottom:0px;
-	right:0px;
-	margin:0px;
-	padding:0px;
+	top:0;
+	left:0;
+	bottom:0;
+	right:0;
+	margin:0;
+	padding:0;
 	width:auto;
 	height:auto;
 	background-color:#aaa;
@@ -533,7 +533,7 @@ table .dijitComboButton .dijitButtonNode {
 
 /* progress bar in vertical mode - TODO: remove? no longer supported? */
 .dijitProgressBarVertical .dijitProgressBarFull{
-	bottom:0px;		/* start at the bottom */
+	bottom:0;		/* start at the bottom */
 }
 
 .dj_ie6 .dijitProgressBarVertical .dijitProgressBarTile{
@@ -577,7 +577,7 @@ table .dijitComboButton .dijitButtonNode {
 /* draw an arrow with CSS only * /
 .dijitTooltipConnector {
 	/* the border on the triangle * /
-	font-size: 0px; line-height: 0%; width: 0px;
+	font-size: 0; line-height: 0%; width: 0;
 	border-top: none;
 	border-bottom: 14px solid black;
 	border-left: 7px solid transparent;
@@ -589,7 +589,7 @@ table .dijitComboButton .dijitButtonNode {
 
 .dijitTooltipConnector div {
 	/* the background of the triangle * /
-	font-size: 0px; line-height: 0%; width: 0px;
+	font-size: 0; line-height: 0%; width: 0;
 	position: absolute;
 	border-bottom: 10px solid #b8b5b5;
 	border-left: 5px solid transparent;
@@ -899,9 +899,9 @@ img.dijitColorPaletteUnder {
 	background-color:white;
 }
 .dijitMenuTable {
-	margin:1px 0px;
+	margin:1px 0;
 	border-collapse:collapse;
-	border-width:0px;
+	border-width:0;
 	background-color:white;
 }
 
@@ -951,17 +951,17 @@ img.dijitColorPaletteUnder {
 	display:block !important;
 }
 
-/* separator can be two pixels -- set border of either one to 0px to have only one */
+/* separator can be two pixels -- set border of either one to 0 to have only one */
 .dijitMenuSeparatorTop {
 	height: 50%;
-	margin: 0px;
+	margin: 0;
 	margin-top:3px;
 	font-size: 1px;
 }
 
 .dijitMenuSeparatorBottom {
 	height: 50%;
-	margin: 0px;
+	margin: 0;
 	margin-bottom:3px;
 	font-size: 1px;
 }
@@ -1028,14 +1028,14 @@ img.dijitColorPaletteUnder {
 /* images off, high-contrast mode styles */
 .dijitTab .closeText {
 	display:none;
-	padding: 0px 2px;
-	margin: 0px 2px;
+	padding: 0 2px;
+	margin: 0 2px;
 }
 .dijit_a11y .dijitTab .closeImage {
-	padding: 0px !important;
-	margin: 0px !important;
-	top: 0px !important;
-	bottom: 0px !important;
+	padding: 0 !important;
+	margin: 0 !important;
+	top: 0 !important;
+	bottom: 0 !important;
 }
 .dijit_a11y .closeText {
 	display:inline;
@@ -1069,7 +1069,7 @@ img.dijitColorPaletteUnder {
 .dijitInlineEditor .dijitButtonContainer {
 	/* div around the buttons -- makes them float below the field */
 	position:absolute;
-	right:0px;
+	right:0;
 	overflow:visible;
 }
 
@@ -1079,15 +1079,13 @@ img.dijitColorPaletteUnder {
 
 /* Tree */
 
-.dijitTreeExpando {
-    float: left;
-    display: inline;
-    clear:both;
+.dijitTreeExpando, .dijitTreeExpand {
+	float:left;
+	display:inline;
 }
 
-.dijitTreeExpand {
-    float: left;
-    display: inline;
+.dijitTreeExpando {
+	clear:both;
 }
 
 .dijitTreeContent {
@@ -1120,8 +1118,8 @@ img.dijitColorPaletteUnder {
 
 .dijitDialogUnderlayWrapper {
 	position: absolute;
-	left: 0px;
-	top: 0px;
+	left: 0;
+	top: 0;
 	z-index: 998;
 	display: none;
 	background: transparent;
@@ -1161,17 +1159,17 @@ img.dijitColorPaletteUnder {
 }
 
 .dijitHorizontalSliderMoveable {
-	right:0px;
+	right:0;
 }
 
 .dijit_a11y div.dijitSliderImageHandle,
 .dijitSliderImageHandle {
-	margin:0px;
-	padding:0px;
+	margin:0;
+	padding:0;
 	position:absolute !important;
 	border:8px solid gray;
-	width:0px;
-	height:0px;
+	width:0;
+	height:0;
 }
 .dijit_a11y .dijitSliderFocused .dijitSliderImageHandle {
 	border:4px solid #000;
@@ -1197,12 +1195,12 @@ img.dijitColorPaletteUnder {
 
 .dijitHorizontalSliderBar {
 	height:4px;
-	border-width:1px 0px;
+	border-width:1px 0;
 }
 
 .dijitVerticalSliderBar {
 	width:4px;
-	border-width:0px 1px;
+	border-width:0 1px;
 }
 
 .dijitSliderProgressBar {
@@ -1248,13 +1246,13 @@ img.dijitColorPaletteUnder {
 .dijitVerticalSliderBumper {
 	width:4px;
 	height:8px;
-	border-width:0px 1px;
+	border-width:0 1px;
 }
 
 .dijitHorizontalSliderBumper {
 	width:8px;
 	height:4px;
-	border-width:1px 0px;
+	border-width:1px 0;
 }
 
 .dijitVerticalSliderBottomBumper,
@@ -1273,8 +1271,8 @@ img.dijitColorPaletteUnder {
 
 .dijitSlider .dijitSliderButton {
 	font-family:monospace;
-	margin:0px;
-	padding:0px;
+	margin:0;
+	padding:0;
 	display:block;
 }
 
@@ -1292,11 +1290,11 @@ img.dijitColorPaletteUnder {
 
 .dijitSliderButtonContainer {
 	text-align:center;
-	height:0px;
+	height:0;
 }
 
 .dijitSlider .dijitButtonNode {
-	padding:0px;
+	padding:0;
 	display:block;
 }
 
@@ -1311,7 +1309,7 @@ img.dijitColorPaletteUnder {
 
 .VerticalRuleContainer {
 	height:100%;
-	line-height:0px;
+	line-height:0;
 	float:left;
 	text-align:left;
 }
@@ -1325,21 +1323,21 @@ img.dijitColorPaletteUnder {
 }
 
 .dj_gecko .VerticalRuleContainer {
-	margin:0px 0px 1px 0px; /* mozilla bug workaround for float:left,height:100% block elements */
+	margin:0 0 1px 0; /* mozilla bug workaround for float:left,height:100% block elements */
 }
 
 .RuleMark {
 	position:absolute;
 	border:1px solid black;
-	line-height:0px;
+	line-height:0;
 	height:100%;
 }
 
 .HorizontalRuleMark {
-	width:0px;
-	border-top-width:0px !important;
-	border-bottom-width:0px !important;
-	border-left-width:0px !important;
+	width:0;
+	border-top-width:0 !important;
+	border-bottom-width:0 !important;
+	border-left-width:0 !important;
 }
 
 .RuleLabelContainer {
@@ -1357,12 +1355,12 @@ img.dijitColorPaletteUnder {
 }
 
 .VerticalRuleMark {
-	height:0px;
-	border-right-width:0px !important;
-	border-bottom-width:0px !important;
-	border-left-width:0px !important;
+	height:0;
+	border-right-width:0 !important;
+	border-bottom-width:0 !important;
+	border-left-width:0 !important;
 	width:100%;
-	left:0px;
+	left:0;
 }
 
 .dj_ie .VerticalRuleLabelContainer {
@@ -1380,16 +1378,16 @@ img.dijitColorPaletteUnder {
 }
 
 .dj_ie .dijitTextArea p {
-	margin-top:0px;
-	margin-bottom:0px;
+	margin-top:0;
+	margin-bottom:0;
 	line-height: normal !important;
 }
 
 .dijitToolbarSeparator {
 	height: 18px;
 	width: 5px;
-	padding: 0px 1px;
-	margin: 0px;
+	padding: 0 1px;
+	margin: 0;
 }
 
 /* Editor */
