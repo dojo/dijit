@@ -640,6 +640,7 @@ body .dijitAlignClient { position: absolute; }
 
 .dijitSplitter {
 	position: absolute;
+	overflow: hidden;
 	z-index: 9999;
 	background-color: #fff;
 	border-color: gray;

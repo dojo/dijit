@@ -7,11 +7,7 @@
 
 /* Tree */
 
-.dijitRtl .dijitTreeContainer .dijitTreeExpando {
-	float:right;
-}
-
-.dijitRtl .dijitTreeContainer .dijitTreeExpand {
+.dijitRtl .dijitTreeContainer .dijitTreeExpando, .dijitRtl .dijitTreeContainer .dijitTreeExpand {
 	float:right;
 }
 
@@ -24,7 +20,7 @@
 
 .dijitRtl .dijitComboBox .dijitInputField {
 	border-right-width:1px !important;
-	border-left-width:0px !important;
+	border-left-width:0 !important;
 }
 
 /* Calendar */
@@ -38,7 +34,7 @@
 }
 
 .dijitRtl .dijitProgressBarFull .dijitProgressBarLabel {
-	right:0px; /* FF workaround */
+	right:0; /* FF workaround */
 }
 
 /* Button */
@@ -153,7 +149,7 @@
 }
 
 .dj_ie7 .dijitRtl .dijitTab .closeImage {
-	padding: 0px 0px 0px 12px;
+	padding: 0 0 0 12px;
 }
 
 .dj_ie .dijitRtl .dijitAlignRight .dijitTab {
@@ -168,27 +164,20 @@
 
 .dijitRtl .dijitSpinner .dijitInputLayoutContainer .dijitArrowButton {
 	right: none;
-	left: 0px;
-        border-width: 0 1px 0 0 !important;
+	left: 0;
+	border-width: 0 1px 0 0 !important;
 }
 
 .dijitRtl .dijitSpinnerButtonContainer {
-        float: left;
+	float: left;
 }
 
 .dijitRtl .dijit_a11y .dijitSpinnerButtonContainer {
-        margin-left: none;
-        margin-right: 2px;
+	margin-left: none;
+	margin-right: 2px;
 }
 
-.dijitRtl DIV.dijitArrowButton {
-	float: left;
-}
-
-.dijitRtl .dijitValidationIcon {
-	float: left;
-}
-.dijitRtl .dijitValidationIconText {
+.dijitRtl DIV.dijitArrowButton, .dijitRtl .dijitValidationIcon, .dijitRtl .dijitValidationIconText {
 	float: left;
 }
 
