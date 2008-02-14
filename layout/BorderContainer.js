@@ -140,6 +140,13 @@ dojo.declare(
 		var rightSplitterSize = rightSplitter ? leftSplitterSize || dojo.marginBox(rightSplitter).w: 0;
 		var bottomSplitterSize = bottomSplitter ? topSplitterSize || dojo.marginBox(bottomSplitter).h: 0;
 
+		// Check for race condition where CSS hasn't finished loading, so
+		// the splitter width == the viewport width (#5824)
+		if(leftSplitterSize > 50 || rightSplitterSize > 50){
+			setTimeout(dojo.hitch(this, "_layoutChildren"), 50);
+			return false;
+		}
+
 		var splitterBounds = {
 			left: (sidebarLayout ? leftWidth + leftSplitterSize: "0") + "px",
 			right: (sidebarLayout ? rightWidth + rightSplitterSize: "0") + "px"
