@@ -629,8 +629,11 @@ body .dijitAlignClient { position: absolute; }
 .dj_gecko .dijitBorderContainerPane {
 	overflow: -moz-scrollbars-none;
 }
-.dijitBorderContainerPane {
-	position: absolute;
+	
+.dijitBorderContainer > .dijitTextArea {
+	/* On Safari, for SimpleTextArea inside a BorderContainer,
+		don't want to display the grip to resize */
+	resize: none;
 }
 
 /* SplitContainer
@@ -1376,6 +1379,7 @@ img.dijitColorPaletteUnder {
 
 .dijitTextArea {
 	width:100%;
+	overflow: auto;	/* w/out this IE's SimpleTextArea goes to overflow: scroll */
 }
 
 .dj_ie .dijitTextArea p {
