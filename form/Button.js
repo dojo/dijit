@@ -401,5 +401,10 @@ dojo.declare("dijit.form.ToggleButton", dijit.form.Button, {
 		//	Programatically deselect the button
 		dojo.deprecated("setChecked("+checked+") is deprecated. Use setAttribute('checked',"+checked+") instead.", "", "2.0");
 		this.setAttribute('checked', checked);
+	},
+	
+	postCreate: function(){
+		this.inherited(arguments);
+		this.setAttribute('checked', this.checked); //to initially set wai pressed state 
 	}
 });
