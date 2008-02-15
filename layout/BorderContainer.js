@@ -50,6 +50,7 @@ dojo.declare(
 		this.inherited(arguments);
 
 		this._splitters = {};
+		this._splitterSize = {};
 		this.domNode.style.position = "relative";
 		dojo.addClass(this.domNode, "dijitBorderContainer");
 	},
@@ -57,6 +58,7 @@ dojo.declare(
 	startup: function(){
 		if(this._started){ return; }
 		dojo.forEach(this.getChildren(), this._setupChild, this);
+		this._computeSplitterSizes();
 		this.inherited(arguments);
 	},
 
@@ -90,7 +92,8 @@ dojo.declare(
 		this.inherited(arguments);
 		this._setupChild(child);
 		if(this._started){
-			this._layoutChildren();
+			this._computeSplitterSizes();
+			this._layoutChildren(); //OPT
 		}
 	},
 
@@ -104,41 +107,46 @@ dojo.declare(
 		this.inherited(arguments);
 		delete this["_"+region];
 		if(this._started){
-			this._layoutChildren();
+			this._layoutChildren(); //OPT
 		}
 	},
 
-	_layoutChildren: function(){
+	_layoutChildren: function(/*String?*/changedRegion){
 		var sidebarLayout = (this.design == "sidebar");
 		var topHeight = 0, bottomHeight = 0, leftWidth = 0, rightWidth = 0;
 		var topStyle = {}, leftStyle = {}, rightStyle = {}, bottomStyle = {},
 			centerStyle = (this._center && this._center.style) || {};
 
+		var changedSide = /left|right/.test(changedRegion);
+		var layoutSides = !changedRegion || (!changedSide && !sidebarLayout);
+		var layoutTopBottom = !changedRegion || (changedSide && sidebarLayout);
 		if(this._top){
-			topStyle = this._top.style;
+			topStyle = layoutTopBottom && this._top.style;
 			topHeight = dojo.marginBox(this._top).h;
 		}
 		if(this._left){
-			leftStyle = this._left.style;
+			leftStyle = layoutSides && this._left.style;
 			leftWidth = dojo.marginBox(this._left).w;
 		}
 		if(this._right){
-			rightStyle = this._right.style;
+			rightStyle = layoutSides && this._right.style;
 			rightWidth = dojo.marginBox(this._right).w;
 		}
 		if(this._bottom){
-			bottomStyle = this._bottom.style;
+			bottomStyle = layoutTopBottom && this._bottom.style;
 			bottomHeight = dojo.marginBox(this._bottom).h;
 		}
 
-		var topSplitter = this._splitters.top;
-		var bottomSplitter = this._splitters.bottom;
-		var leftSplitter = this._splitters.left;
-		var rightSplitter = this._splitters.right;
-		var topSplitterSize = topSplitter ? dojo.marginBox(topSplitter).h : 0;
-		var leftSplitterSize = leftSplitter ? dojo.marginBox(leftSplitter).w : 0;
-		var rightSplitterSize = rightSplitter ? leftSplitterSize || dojo.marginBox(rightSplitter).w: 0;
-		var bottomSplitterSize = bottomSplitter ? topSplitterSize || dojo.marginBox(bottomSplitter).h: 0;
+		var splitters = this._splitters;
+		var topSplitter = splitters.top;
+		var bottomSplitter = splitters.bottom;
+		var leftSplitter = splitters.left;
+		var rightSplitter = splitters.right;
+		var splitterSize = this._splitterSize;
+		var topSplitterSize = splitterSize.top;
+		var leftSplitterSize = splitterSize.left;
+		var rightSplitterSize = splitterSize.right;
+		var bottomSplitterSize = splitterSize.bottom;
 
 		// Check for race condition where CSS hasn't finished loading, so
 		// the splitter width == the viewport width (#5824)
@@ -222,11 +230,13 @@ dojo.declare(
 			if(topSplitter){ middleHeight -= topSplitterSize; }
 			if(bottomSplitter){ middleHeight -= bottomSplitterSize; }
 			var centerDim = { h: middleHeight };
-			var sidebarHeight = sidebarLayout ? containerHeight : middleHeight;
-			if(leftSplitter){ leftSplitter.style.height = sidebarHeight; }
-			if(rightSplitter){ rightSplitter.style.height = sidebarHeight; }
-			if(this._left){ borderBox(this._left, {h: sidebarHeight}); }
-			if(this._right){ borderBox(this._right, {h: sidebarHeight}); }
+			if(layoutSides){
+				var sidebarHeight = sidebarLayout ? containerHeight : middleHeight;
+				if(leftSplitter){ leftSplitter.style.height = sidebarHeight; }
+				if(rightSplitter){ rightSplitter.style.height = sidebarHeight; }
+				if(this._left){ borderBox(this._left, {h: sidebarHeight}); }
+				if(this._right){ borderBox(this._right, {h: sidebarHeight}); }
+			}
 
 			if(janky || (dojo.isIE && (dojo.doc.compatMode == "BackCompat" || dojo.isIE < 7))){
 //TODO: use dojo.marginBox instead of dojo.style?
@@ -237,11 +247,13 @@ dojo.declare(
 				if(leftSplitter){ middleWidth -= leftSplitterSize; }
 				if(rightSplitter){ middleWidth -= rightSplitterSize; }
 				centerDim.w = middleWidth;
-				var sidebarWidth = sidebarLayout ? middleWidth : containerWidth;
-				if(topSplitter){ topSplitter.style.width = sidebarWidth; }
-				if(bottomSplitter){ bottomSplitter.style.width = sidebarWidth; }
-				if(this._top){ borderBox(this._top, {w: sidebarWidth}); }
-				if(this._bottom){ borderBox(this._bottom, {w: sidebarWidth}); }
+				if(layoutTopBottom){
+					var sidebarWidth = sidebarLayout ? middleWidth : containerWidth;
+					if(topSplitter){ topSplitter.style.width = sidebarWidth; }
+					if(bottomSplitter){ bottomSplitter.style.width = sidebarWidth; }
+					if(this._top){ borderBox(this._top, {w: sidebarWidth}); }
+					if(this._bottom){ borderBox(this._bottom, {w: sidebarWidth}); }
+				}
 			}
 			if(this._center){ borderBox(this._center, centerDim); }
 		}
@@ -277,6 +289,15 @@ don't do that.  See #3399, #2678, #3624 and #2955, #1988
 //						);
 			}
 		}, this);
+	},
+
+	_computeSplitterSizes: function(){
+		var splitters = this._splitters;
+		var splitterSize = this._splitterSize;
+		splitterSize.top = splitters.top ? dojo.marginBox(splitters.top).h : 0;
+		splitterSize.left = splitters.left ? dojo.marginBox(splitters.left).w : 0;
+		splitterSize.right = splitters.right ? splitterSize.left || dojo.marginBox(splitters.right).w: 0;
+		splitterSize.bottom = splitters.bottom ? splitterSize.top || dojo.marginBox(splitters.bottom).h: 0;
 	}
 });
 
@@ -377,15 +398,23 @@ dojo.declare("dijit.layout._Splitter", [ dijit._Widget, dijit._Templated ],
 
 	_drag: function(e){
 		var delta = (this.horizontal ? e.pageY : e.pageX) - this._pageStart;
-		if(this._resize){
-			this._move(delta, this._childStart);
-		}else{
+		var childSize = this._factor * delta + this._childStart;
+		var boundChildSize = Math.max(Math.min(childSize, this._maxSize), this._minSize || 10);
+		if(childSize == boundChildSize){
+			if(this._resize){
+				this._move(delta, boundChildSize);
+			}
 			var splitterEdge = this._factor * delta + this._splitterStart;
-			var childSize = this._factor * delta + this._childStart;
-			splitterEdge -= this._factor * (Math.max(Math.min(childSize, this._maxSize), this._minSize) - childSize);
 			this.domNode.style[this.region] = splitterEdge + "px";
 		}
 		dojo.stopEvent(e);
+	},
+
+	_move: function(/*Number*/delta, childSize){
+		var mb = {};
+		mb[ this.horizontal ? "h" : "w"] = childSize;
+		dojo.marginBox(this.child.domNode, mb);
+		this.container._layoutChildren(this.region);
 	},
 
 	_stopDrag: function(e){
@@ -428,16 +457,10 @@ dojo.declare("dijit.layout._Splitter", [ dijit._Widget, dijit._Templated ],
 				return;
 		}
 		this._computeMaxSize();
-		this._move(tick, dojo.marginBox(this.child.domNode)[ horizontal ? 'h' : 'w' ]);
+		var childSize = dojo.marginBox(this.child.domNode)[ horizontal ? 'h' : 'w' ];
+		childSize = Math.max(Math.min(childSize, this._maxSize), this._minSize);
+		this._move(tick, childSize);
 		dojo.stopEvent(e);
-	},
-
-	_move: function(/*Number*/delta, oldChildSize){
-		var childSize = this._factor * delta + oldChildSize,
-			mb = {};
-		mb[ this.horizontal ? "h" : "w"] = Math.max(Math.min(childSize, this._maxSize), this._minSize);
-		dojo.marginBox(this.child.domNode, mb);
-		this.container.layout();
 	},
 
 	destroy: function(){
