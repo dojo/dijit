@@ -50,7 +50,7 @@ dojo.declare(
 		this.inherited(arguments);
 
 		this._splitters = {};
-		this._splitterSize = {};
+		this._splitterThickness = {};
 		this.domNode.style.position = "relative";
 		dojo.addClass(this.domNode, "dijitBorderContainer");
 	},
@@ -58,7 +58,6 @@ dojo.declare(
 	startup: function(){
 		if(this._started){ return; }
 		dojo.forEach(this.getChildren(), this._setupChild, this);
-		this._computeSplitterSizes();
 		this.inherited(arguments);
 	},
 
@@ -71,15 +70,17 @@ dojo.declare(
 			var ltr = dojo._isBodyLtr();
 			if(region == "leading"){ region = ltr ? "left" : "right"; }
 			if(region == "trailing"){ region = ltr ? "right" : "left"; }
+			child.region = region;
 
 			this["_"+region] = child.domNode;
 
 			if(child.splitter){
 				var flip = {left:'right', right:'left', top:'bottom', bottom:'top'};
-				var oppNodeList = dojo.query('[region=' + flip[child.region] + ']', this.domNode);
+				var oppNodeList = dojo.query('[region=' + flip[region] + ']', this.domNode);
 				var splitter = new dijit.layout._Splitter({ container: this, child: child, region: region, oppNode: oppNodeList[0], live: this.liveSplitters });
 				this._splitters[region] = splitter.domNode;
 				dojo.place(splitter.domNode, child.domNode, "after");
+				this._splitterThickness[region] = dojo.marginBox(this._splitters[region])[/top|bottom/.test(region) ? 'h' : 'w'];
 			}
 		}
 	},
@@ -92,7 +93,6 @@ dojo.declare(
 		this.inherited(arguments);
 		this._setupChild(child);
 		if(this._started){
-			this._computeSplitterSizes();
 			this._layoutChildren(); //OPT
 		}
 	},
@@ -103,6 +103,7 @@ dojo.declare(
 		if(splitter){
 			dijit.byNode(splitter).destroy();
 			delete this._splitters[region];
+			delete this._splitterThickness[region];
 		}
 		this.inherited(arguments);
 		delete this["_"+region];
@@ -142,22 +143,22 @@ dojo.declare(
 		var bottomSplitter = splitters.bottom;
 		var leftSplitter = splitters.left;
 		var rightSplitter = splitters.right;
-		var splitterSize = this._splitterSize;
-		var topSplitterSize = splitterSize.top;
-		var leftSplitterSize = splitterSize.left;
-		var rightSplitterSize = splitterSize.right;
-		var bottomSplitterSize = splitterSize.bottom;
+		var splitterThickness = this._splitterThickness;
+		var topSplitterThickness = splitterThickness.top || 0;
+		var leftSplitterThickness = splitterThickness.left || 0;
+		var rightSplitterThickness = splitterThickness.right || 0;
+		var bottomSplitterThickness = splitterThickness.bottom || 0;
 
 		// Check for race condition where CSS hasn't finished loading, so
 		// the splitter width == the viewport width (#5824)
-		if(leftSplitterSize > 50 || rightSplitterSize > 50){
+		if(leftSplitterThickness > 50 || rightSplitterThickness > 50){
 			setTimeout(dojo.hitch(this, "_layoutChildren"), 50);
 			return false;
 		}
 
 		var splitterBounds = {
-			left: (sidebarLayout ? leftWidth + leftSplitterSize: "0") + "px",
-			right: (sidebarLayout ? rightWidth + rightSplitterSize: "0") + "px"
+			left: (sidebarLayout ? leftWidth + leftSplitterThickness: "0") + "px",
+			right: (sidebarLayout ? rightWidth + rightSplitterThickness: "0") + "px"
 		};
 
 		if(topSplitter){
@@ -171,8 +172,8 @@ dojo.declare(
 		}
 
 		splitterBounds = {
-			top: (sidebarLayout ? "0" : topHeight + topSplitterSize) + "px",
-			bottom: (sidebarLayout ? "0" : bottomHeight + bottomSplitterSize) + "px"
+			top: (sidebarLayout ? "0" : topHeight + topSplitterThickness) + "px",
+			bottom: (sidebarLayout ? "0" : bottomHeight + bottomSplitterThickness) + "px"
 		};
 
 		if(leftSplitter){
@@ -186,10 +187,10 @@ dojo.declare(
 		}
 
 		dojo.mixin(centerStyle, {
-			top: topHeight + topSplitterSize + "px",
-			left: leftWidth + leftSplitterSize + "px",
-			right:  rightWidth + rightSplitterSize + "px",
-			bottom: bottomHeight + bottomSplitterSize + "px"
+			top: topHeight + topSplitterThickness + "px",
+			left: leftWidth + leftSplitterThickness + "px",
+			right:  rightWidth + rightSplitterThickness + "px",
+			bottom: bottomHeight + bottomSplitterThickness + "px"
 		});
 
 		var bounds = {
@@ -200,8 +201,8 @@ dojo.declare(
 		dojo.mixin(rightStyle, bounds);
 		leftStyle.left = rightStyle.right = topStyle.top = bottomStyle.bottom = "0";
 		if(sidebarLayout){
-			topStyle.left = bottomStyle.left = leftWidth + (dojo._isBodyLtr() ? leftSplitterSize : 0) + "px";
-			topStyle.right = bottomStyle.right = rightWidth + (dojo._isBodyLtr() ? 0 : rightSplitterSize) + "px";
+			topStyle.left = bottomStyle.left = leftWidth + (dojo._isBodyLtr() ? leftSplitterThickness : 0) + "px";
+			topStyle.right = bottomStyle.right = rightWidth + (dojo._isBodyLtr() ? 0 : rightSplitterThickness) + "px";
 		}else{
 			topStyle.left = topStyle.right = bottomStyle.left = bottomStyle.right = "0";
 		}
@@ -227,8 +228,8 @@ dojo.declare(
 			var middleHeight = containerHeight;
 			if(this._top){ middleHeight -= topHeight; }
 			if(this._bottom){ middleHeight -= bottomHeight; }
-			if(topSplitter){ middleHeight -= topSplitterSize; }
-			if(bottomSplitter){ middleHeight -= bottomSplitterSize; }
+			if(topSplitter){ middleHeight -= topSplitterThickness; }
+			if(bottomSplitter){ middleHeight -= bottomSplitterThickness; }
 			var centerDim = { h: middleHeight };
 			if(layoutSides){
 				var sidebarHeight = sidebarLayout ? containerHeight : middleHeight;
@@ -244,8 +245,8 @@ dojo.declare(
 				var middleWidth = containerWidth;
 				if(this._left){ middleWidth -= leftWidth; }
 				if(this._right){ middleWidth -= rightWidth; }
-				if(leftSplitter){ middleWidth -= leftSplitterSize; }
-				if(rightSplitter){ middleWidth -= rightSplitterSize; }
+				if(leftSplitter){ middleWidth -= leftSplitterThickness; }
+				if(rightSplitter){ middleWidth -= rightSplitterThickness; }
 				centerDim.w = middleWidth;
 				if(layoutTopBottom){
 					var sidebarWidth = sidebarLayout ? middleWidth : containerWidth;
@@ -289,15 +290,6 @@ don't do that.  See #3399, #2678, #3624 and #2955, #1988
 //						);
 			}
 		}, this);
-	},
-
-	_computeSplitterSizes: function(){
-		var splitters = this._splitters;
-		var splitterSize = this._splitterSize;
-		splitterSize.top = splitters.top ? dojo.marginBox(splitters.top).h : 0;
-		splitterSize.left = splitters.left ? dojo.marginBox(splitters.left).w : 0;
-		splitterSize.right = splitters.right ? splitterSize.left || dojo.marginBox(splitters.right).w: 0;
-		splitterSize.bottom = splitters.bottom ? splitterSize.top || dojo.marginBox(splitters.bottom).h: 0;
 	}
 });
 
@@ -392,7 +384,7 @@ dojo.declare("dijit.layout._Splitter", [ dijit._Widget, dijit._Templated ],
 
 	_computeMaxSize: function(){
 		var dim = this.horizontal ? 'h' : 'w';
-		var available = dojo.contentBox(this.container.domNode)[dim] - (this.oppNode ? dojo.marginBox(this.oppNode)[dim] : 0); //FIXME: what if this.oppNode is undefined?
+		var available = dojo.contentBox(this.container.domNode)[dim] - (this.oppNode ? dojo.marginBox(this.oppNode)[dim] : 0); //FIXME: this.oppNode isn't right. this[this.oppNode]?what if this.oppNode is undefined?
 		this._maxSize = Math.min(this.child.maxSize, available);
 	},
 
