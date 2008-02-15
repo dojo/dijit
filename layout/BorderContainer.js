@@ -70,18 +70,18 @@ dojo.declare(
 			var ltr = dojo._isBodyLtr();
 			if(region == "leading"){ region = ltr ? "left" : "right"; }
 			if(region == "trailing"){ region = ltr ? "right" : "left"; }
-			child.region = region;
 
 			this["_"+region] = child.domNode;
 
 			if(child.splitter){
-				var flip = {left:'right', right:'left', top:'bottom', bottom:'top'};
-				var oppNodeList = dojo.query('[region=' + flip[region] + ']', this.domNode);
+				var flip = {left:'right', right:'left', top:'bottom', bottom:'top', leading:'trailing', trailing:'leading'};
+				var oppNodeList = dojo.query('[region=' + flip[child.region] + ']', this.domNode);
 				var splitter = new dijit.layout._Splitter({ container: this, child: child, region: region, oppNode: oppNodeList[0], live: this.liveSplitters });
 				this._splitters[region] = splitter.domNode;
 				dojo.place(splitter.domNode, child.domNode, "after");
 				this._splitterThickness[region] = dojo.marginBox(this._splitters[region])[/top|bottom/.test(region) ? 'h' : 'w'];
 			}
+			child.region = region;
 		}
 	},
 
@@ -384,7 +384,7 @@ dojo.declare("dijit.layout._Splitter", [ dijit._Widget, dijit._Templated ],
 
 	_computeMaxSize: function(){
 		var dim = this.horizontal ? 'h' : 'w';
-		var available = dojo.contentBox(this.container.domNode)[dim] - (this.oppNode ? dojo.marginBox(this.oppNode)[dim] : 0); //FIXME: this.oppNode isn't right. this[this.oppNode]?what if this.oppNode is undefined?
+		var available = dojo.contentBox(this.container.domNode)[dim] - (this.oppNode ? dojo.marginBox(this.oppNode)[dim] : 0); //FIXME: what if this.oppNode is undefined?
 		this._maxSize = Math.min(this.child.maxSize, available);
 	},
 
@@ -392,13 +392,11 @@ dojo.declare("dijit.layout._Splitter", [ dijit._Widget, dijit._Templated ],
 		var delta = (this.horizontal ? e.pageY : e.pageX) - this._pageStart;
 		var childSize = this._factor * delta + this._childStart;
 		var boundChildSize = Math.max(Math.min(childSize, this._maxSize), this._minSize || 10);
-		if(childSize == boundChildSize){
-			if(this._resize){
-				this._move(delta, boundChildSize);
-			}
-			var splitterEdge = this._factor * delta + this._splitterStart;
-			this.domNode.style[this.region] = splitterEdge + "px";
+		if(this._resize){
+			this._move(delta, boundChildSize);
 		}
+		var splitterEdge = this._factor * delta + this._splitterStart + (boundChildSize - childSize);
+		this.domNode.style[this.region] = splitterEdge + "px";
 		dojo.stopEvent(e);
 	},
 
