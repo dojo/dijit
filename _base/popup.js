@@ -75,6 +75,7 @@ dijit.popup = new function(){
 		// we can't attach the iframe as a child of the widget.domNode because
 		// widget.domNode might be a <table>, <ul>, etc.
 		var wrapper = dojo.doc.createElement("div");
+		dijit.setWaiRole(wrapper, "presentation");
 		wrapper.id = id;
 		wrapper.className="dijitPopup";
 		wrapper.style.zIndex = beginZIndex + stack.length;
