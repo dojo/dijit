@@ -136,6 +136,7 @@ dojo.declare(
 		},
 
 		//////////// INITIALIZATION METHODS ///////////////////////////////////////
+
 		constructor: function(){
 			this.constraints = {};
 		},
