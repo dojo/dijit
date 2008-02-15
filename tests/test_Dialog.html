@@ -42,6 +42,7 @@
 				pane.style.width = "300px"; 	
 				thirdDlg = new dijit.Dialog({
 					id: "dialog3",
+					refocus:false,
 					title: "Programatic Dialog Creation"
 				},pane);
 			}
@@ -152,6 +153,8 @@
 
 <div dojoType="dijit.Dialog" id="fifthDlg" href="layout/getResponse.php?delay=3000&messId=3"
 	style="width: 300px" title="From HREF (slow network simulated)"></div>
+
+<p>Test refocus="false", click programatic dialog, focus input below, wait. close dialog.</p>
 
 <p><b><i>(scroll down to see more links to click, for testing positioning / scroll handling)</i></b></p>
 

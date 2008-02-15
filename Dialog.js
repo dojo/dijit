@@ -136,6 +136,12 @@ dojo.declare(
 		//		The time in milliseconds it takes the dialog to fade in and out
 		duration: 400,
 
+		// refocus: Boolean
+		// 		A Toggle to modify the default focus behavior of a Dialog, which
+		// 		is to re-focus the element which had focus before being opened.
+		//		False will disable refocusing. Default: true
+		refocus: true,
+
 		// _firstFocusItem: DomNode
 		//		The pointer to the first focusable node in the dialog
 		_firstFocusItem:null,
@@ -354,10 +360,9 @@ dojo.declare(
 			}
 			dojo.forEach(this._modalconnects, dojo.disconnect);
 			this._modalconnects = [];
-
-			this.connect(this._fadeOut,"onEnd",dojo.hitch(this,function(){
-				dijit.focus(this._savedFocus);
-			}));
+			if(this.refocus){
+				this.connect(this._fadeOut,"onEnd",dojo.hitch(dijit,"focus",this._savedFocus));
+			}
 			this.open = false;
 		},
 
@@ -371,7 +376,7 @@ dojo.declare(
 		
 		destroy: function(){
 			dojo.forEach(this._modalconnects, dojo.disconnect);
-			if(this.open){
+			if(this.refocus && this.open){
 				var fo = this._savedFocus;
 				setTimeout(dojo.hitch(dijit,"focus",fo),25);
 			}
