@@ -79,7 +79,7 @@ dojo.declare(
 				var splitter = new dijit.layout._Splitter({ container: this, child: child, region: region, oppNode: oppNodeList[0], live: this.liveSplitters });
 				this._splitters[region] = splitter.domNode;
 				dojo.place(splitter.domNode, child.domNode, "after");
-				this._splitterThickness[region] = dojo.marginBox(this._splitters[region])[/top|bottom/.test(region) ? 'h' : 'w'];
+				this._splitterThickness[region] = dojo.marginBox(this._splitters[region])[/top|bottom/.test(region) ? 'h' : 'w']; //TODO
 			}
 			child.region = region;
 		}
@@ -340,6 +340,10 @@ dojo.declare("dijit.layout._Splitter", [ dijit._Widget, dijit._Templated ],
 		this._factor = /top|left/.test(this.region) ? 1 : -1;
 		this._minSize = this.child.minSize;
 
+		var dim = this.horizontal ? 'h' : 'w';
+		var available = dojo.contentBox(this.container.domNode)[dim] - (this.oppNode ? dojo.marginBox(this.oppNode)[dim] : 0); //FIXME: what if this.oppNode is undefined?
+		this._maxSize = Math.min(this.child.maxSize, available);
+
 		this._cookieName = this.container.id + "_" + this.region;
 		if(this.container.persist){
 			// restore old size
@@ -368,43 +372,40 @@ dojo.declare("dijit.layout._Splitter", [ dijit._Widget, dijit._Templated ],
 			dojo.place(this.fake, this.domNode, "after");
 		}
 		dojo.addClass(this.domNode, "dijitSplitterActive");
-		var horizontal = this.horizontal;
-		this._pageStart = horizontal ? e.pageY : e.pageX;
-		var dim = horizontal ? 'h' : 'w';
-		this._childStart = dojo.marginBox(this.child.domNode)[dim];
-		this._splitterStart = parseInt(this.domNode.style[this.region]);
+
+		//Performance: load data info local vars for onmousevent function closure
+		var factor = this._factor,
+			max = this._maxSize,
+			min = this._minSize || 10,
+			axis = this.horizontal ? "pageY" : "pageX",
+			pageStart = e[axis],
+			splitterStyle = this.domNode.style,
+			dim = this.horizontal ? 'h' : 'w',
+			childStart = dojo.marginBox(this.child.domNode)[dim],
+			splitterStart = parseInt(this.domNode.style[this.region]),
+			resize = this._resize,
+			region = this.region,
+			mb = {},
+			childNode = this.child.domNode,
+			layoutFunc = dojo.hitch(this.container, this.container._layoutChildren);
+
 		var de = dojo.doc.body;
 		this._handlers = (this._handlers || []).concat([
-			dojo.connect(de, "onmousemove", this, "_drag"),
+			dojo.connect(de, "onmousemove", this._drag = function(e, forceResize){
+				var delta = e[axis] - pageStart;
+				var childSize = factor * delta + childStart;
+				var boundChildSize = Math.max(Math.min(childSize, max), min);
+				if(resize || forceResize){
+					mb[dim] = boundChildSize;
+					dojo.marginBox(childNode, mb);
+					layoutFunc(region);
+				}
+				splitterStyle[region] = factor * delta + splitterStart + (boundChildSize - childSize) + "px";
+				dojo.stopEvent(e);
+			}),
 			dojo.connect(de, "onmouseup", this, "_stopDrag")
 		]);
-		this._computeMaxSize();
 		dojo.stopEvent(e);
-	},
-
-	_computeMaxSize: function(){
-		var dim = this.horizontal ? 'h' : 'w';
-		var available = dojo.contentBox(this.container.domNode)[dim] - (this.oppNode ? dojo.marginBox(this.oppNode)[dim] : 0); //FIXME: what if this.oppNode is undefined?
-		this._maxSize = Math.min(this.child.maxSize, available);
-	},
-
-	_drag: function(e){
-		var delta = (this.horizontal ? e.pageY : e.pageX) - this._pageStart;
-		var childSize = this._factor * delta + this._childStart;
-		var boundChildSize = Math.max(Math.min(childSize, this._maxSize), this._minSize || 10);
-		if(this._resize){
-			this._move(delta, boundChildSize);
-		}
-		var splitterEdge = this._factor * delta + this._splitterStart + (boundChildSize - childSize);
-		this.domNode.style[this.region] = splitterEdge + "px";
-		dojo.stopEvent(e);
-	},
-
-	_move: function(/*Number*/delta, childSize){
-		var mb = {};
-		mb[ this.horizontal ? "h" : "w"] = childSize;
-		dojo.marginBox(this.child.domNode, mb);
-		this.container._layoutChildren(this.region);
 	},
 
 	_stopDrag: function(e){
@@ -413,11 +414,11 @@ dojo.declare("dijit.layout._Splitter", [ dijit._Widget, dijit._Templated ],
 			if(this.fake){ dojo._destroyElement(this.fake); }
 			dojo.removeClass(this.domNode, "dijitSplitterActive");
 			dojo.removeClass(this.domNode, "dijitSplitterShadow");
-			this._drag(e);
-			this._resize = true;
-			this._drag(e);
+			this._drag(e); //TODO: redundant with onmousemove?
+			this._drag(e, true);
 		}finally{
 			this._cleanupHandlers();
+			delete this._drag;
 		}
 
 		if(this.container.persist){
@@ -446,10 +447,11 @@ dojo.declare("dijit.layout._Splitter", [ dijit._Widget, dijit._Templated ],
 //				this.inherited(arguments);
 				return;
 		}
-		this._computeMaxSize();
-		var childSize = dojo.marginBox(this.child.domNode)[ horizontal ? 'h' : 'w' ];
-		childSize = Math.max(Math.min(childSize, this._maxSize), this._minSize);
-		this._move(tick, childSize);
+		var childSize = dojo.marginBox(this.child.domNode)[ horizontal ? 'h' : 'w' ] + this._factor * tick;
+		var mb = {};
+		mb[ this.horizontal ? "h" : "w"] = Math.max(Math.min(childSize, this._maxSize), this._minSize);
+		dojo.marginBox(this.child.domNode, mb);
+		this.container._layoutChildren(this.region);
 		dojo.stopEvent(e);
 	},
 
