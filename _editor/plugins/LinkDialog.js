@@ -101,6 +101,7 @@ dojo.declare("dijit._editor.plugins.LinkDialog",
 			if(dojo.isIE){
 				this._savedSelection = this.editor.document.selection.createRange().getBookmark();
 			}
+			this.dropDown.reset();
 			this.dropDown.setValues({urlInput: url || '', textInput: text || ''});
 			//dijit.focus(this.urlInput);
 		}/*,
