@@ -25,11 +25,11 @@ dojo.declare("dijit._tree.ForestStoreDecorator", null, {
 
 	// rootId: String
 	//	ID of root item
-	rootId: "",
+	rootId: "$root$",
 
 	// rootLabel: String
 	//	Label of root item
-	rootLabel: "",
+	rootLabel: "ROOT",
 
 	// childrenAttr: String
 	//		name of attribute of root node that holds children
@@ -56,7 +56,7 @@ dojo.declare("dijit._tree.ForestStoreDecorator", null, {
 			root: true,
 			id: params.rootId,
 			label: params.rootLabel,
-			children: []
+			children: params.rootChildren || []
 		};
 
 		// Make updates to top level elements appear as updates to this.root
@@ -233,7 +233,18 @@ dojo.declare("dijit._tree.ForestStoreDecorator", null, {
 	},
 
 	fetch: function(/* Object */ args){
-		return this.store.fetch(args);
+		if(!args.query){
+			// No query means to get the (fake) root item
+			return this.fetchItemByIdentity({
+				identity: this.rootId,
+				onItem: function(item){ args.onComplete([item]); },
+				onError: args.onError
+			});
+		}else{
+			// Not sure if another query should search the items in the underlying store
+			// or just return empty list; I think this code path will never execute anyway.
+			return this.store.fetch(args);
+		}
 	},
 
 	close: function(/*dojo.data.api.Request || keywordArgs || null */ request){

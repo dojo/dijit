@@ -214,7 +214,6 @@ dojo.declare(
 
 		// On initial tree show, put focus on either the root node of the tree,
 		// or the first child, if the root node is hidden
-		// TODO: move to Tree.postCreate?  (but can't execute until root node and child nodes finish loading)
 		if(!this.parent){
 			var fc = this.tree.showRoot ? this : this.getChildren()[0],
 				tabnode = fc ? fc.labelNode : this.domNode;
@@ -269,16 +268,19 @@ dojo.declare(
 	//	The store to get data to display in the tree
 	store: null,
 
-	// root: String
-	//	id of item in store corresponding to root of tree
-	root: "",
-
-	// query: String
-	//	Deprecated.  Use dijit._tree.ForestStoreDecorator directly instead.
-	//	Specifies a set of "top level" items for the tree, rather than just a single item.
-	//	If a label is also specified, the tree is given a fake root node (not corresponding to an item in
-	//	the data store), whose children are the items that match this query.
-	// 
+	// query: anything
+	//	Specifies datastore query to return the root item for the tree.
+	//
+	//	Deprecated functionality: if the query returns multiple items, the tree is given
+	//	a fake root node (not corresponding to any item in the data store), 
+	//	whose children are the items that match this query.
+	//
+	//	The root node is shown or hidden based on whether a label is specified.
+	//
+	//	Having a query return multiple items is deprecated.
+	//	If your store doesn't have a root item, wrap the store with
+	//	dijit._tree.ForestStoreDecorator, and specify store=myDecoratedStore query="$root$".
+	//
 	// example:
 	//		{type:'continent'}
 	query: null,
@@ -337,28 +339,6 @@ dojo.declare(
 
 		this._itemNodeMap={};
 
-		if(!this.root){
-			// 1.0 compatible behavior.
-			// Provide (possibly hidden) fake root node not corresponding to any data store item,
-			// which fathers all the items returned by fetch({query: this.query})
-			dojo.deprecated("Tree: from version 2.0, must specify root item id (using root parameter) rather than query/label parameters when constructing a dijit.Tree; use dijit._tree.ForestStoreDecorator if your data store has no root item.");
-			this._v10Compat = true;
-			this.underlyingStore = this.store;
-			this.root = "$root$";
-			this.store = new dijit._tree.ForestStoreDecorator({
-				id: this.id + "_ForestStoreDecorator",
-				store: this.underlyingStore,
-				query: this.query,
-				childrenAttr: this.childrenAttr[0],
-				rootId: this.root,
-				rootLabel: this.label||"ROOT"
-			});
-
-			// For backwards compatibility, the visibility of the root node is controlled by
-			// whether or not the user has specified a label
-			this.showRoot = Boolean(this.label);
-		}
-
 		if(!this.store.getFeatures()['dojo.data.api.Identity']){
 			throw new Error("dijit.Tree: store must support dojo.data.Identity");			
 		}
@@ -396,29 +376,51 @@ dojo.declare(
 		this.containerNodeTemplate = div;
 
 		// load root node (possibly hidden) and it's children
-		var _this = this;
-		this.store.fetchItemByIdentity({
-			identity: this.root,
-			onItem: function(item){
-				_this.rootItem = item;
+		this.store.fetch({
+			query: this.query,
+			onComplete: dojo.hitch(this, function(items){
+				if(items.length > 1){
+					// 1.0 compatible behavior.
+					// Provide (possibly hidden) fake root node not corresponding to any data store item,
+					// which fathers all the items returned by fetch({query: this.query})
+					dojo.deprecated("Tree: from version 2.0, query must return a single root item; use dijit._tree.ForestStoreDecorator if your data store has no root item.");
+					this._v10Compat = true;
+					this.underlyingStore = this.store;
+					this.root = "$root$";
+					this.store = new dijit._tree.ForestStoreDecorator({
+						id: this.id + "_ForestStoreDecorator",
+						store: this.underlyingStore,
+						childrenAttr: this.childrenAttr[0],
+						rootId: this.root,
+						rootLabel: this.label||"ROOT",
+						rootChildren: items
+					});
+					var item = this.store.root;
+		
+					// For backwards compatibility, the visibility of the root node is controlled by
+					// whether or not the user has specified a label
+					this.showRoot = Boolean(this.label);
+				}else{
+					item = items[0];
+				}
 
-				var rn = _this.rootNode = new dijit._TreeNode({
+				var rn = this.rootNode = new dijit._TreeNode({
 					item: item,
-					tree: _this,
+					tree: this,
 					isExpandable: true,
-					label: _this.label || _this.getLabel(item)
+					label: this.label || this.getLabel(item)
 				});
-				if(!_this.showRoot){
+				if(!this.showRoot){
 					rn.rowNode.style.display="none";
 				}
-				_this.domNode.appendChild(rn.domNode);
-				_this._itemNodeMap[_this.root] = rn;
+				this.domNode.appendChild(rn.domNode);
+				this._itemNodeMap[this.store.getIdentity(item)] = rn;
 
 				rn._updateLayout();		// sets "dijitTreeIsRoot" CSS classname
 
 				// load top level children
-				_this._expandNode(rn);
-			}
+				this._expandNode(rn);
+			})
 		});
 
 		this.inherited("postCreate", arguments);
