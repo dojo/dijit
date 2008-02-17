@@ -397,16 +397,16 @@ dojo.declare("dijit.layout._Splitter", [ dijit._Widget, dijit._Templated ],
 		var de = dojo.doc.body;
 		this._handlers = (this._handlers || []).concat([
 			dojo.connect(de, "onmousemove", this._drag = function(e, forceResize){
-				var delta = e[axis] - pageStart;
-				var childSize = factor * delta + childStart;
-				var boundChildSize = Math.max(Math.min(childSize, max), min);
+				var delta = e.pageX - pageStart,
+					childSize = delta + childStart;
+					boundChildSize = Math.max(Math.min(childSize, max), min);
+
 				if(resize || forceResize){
 					mb[dim] = boundChildSize;
 					dojo.marginBox(childNode, mb);
 					layoutFunc(region);
 				}
 				splitterStyle[region] = factor * delta + splitterStart + (boundChildSize - childSize) + "px";
-				dojo.stopEvent(e);
 			}),
 			dojo.connect(de, "onmouseup", this, "_stopDrag")
 		]);
