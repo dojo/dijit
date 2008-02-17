@@ -76,10 +76,12 @@ dojo.declare(
 			if(child.splitter){
 				var flip = {left:'right', right:'left', top:'bottom', bottom:'top', leading:'trailing', trailing:'leading'};
 				var oppNodeList = dojo.query('[region=' + flip[child.region] + ']', this.domNode);
-				var splitter = new dijit.layout._Splitter({ container: this, child: child, region: region, oppNode: oppNodeList[0], live: this.liveSplitters });
+				var splitter = new dijit.layout._Splitter({ container: this, child: child, region: region,
+					oppNode: oppNodeList[0], live: this.liveSplitters });
 				this._splitters[region] = splitter.domNode;
 				dojo.place(splitter.domNode, child.domNode, "after");
-				this._splitterThickness[region] = dojo.marginBox(this._splitters[region])[/top|bottom/.test(region) ? 'h' : 'w']; //TODO
+				this._splitterThickness[region] =
+					dojo.marginBox(this._splitters[region])[/top|bottom/.test(region) ? 'h' : 'w'];
 			}
 			child.region = region;
 		}
@@ -108,7 +110,7 @@ dojo.declare(
 		this.inherited(arguments);
 		delete this["_"+region];
 		if(this._started){
-			this._layoutChildren(); //OPT
+			this._layoutChildren(child.region);
 		}
 	},
 
@@ -149,12 +151,14 @@ dojo.declare(
 		var rightSplitterThickness = splitterThickness.right || 0;
 		var bottomSplitterThickness = splitterThickness.bottom || 0;
 
+/*
 		// Check for race condition where CSS hasn't finished loading, so
 		// the splitter width == the viewport width (#5824)
 		if(leftSplitterThickness > 50 || rightSplitterThickness > 50){
 			setTimeout(dojo.hitch(this, "_layoutChildren"), 50);
 			return false;
 		}
+*/
 
 		var splitterBounds = {
 			left: (sidebarLayout ? leftWidth + leftSplitterThickness: "0") + "px",
@@ -268,6 +272,7 @@ in the past.  This is a setback from the current layout widgets, which
 don't do that.  See #3399, #2678, #3624 and #2955, #1988
 */
 		dojo.forEach(this.getChildren(), function(child){
+//PERF: don't have to resize children if(changedRegion)
 			if(child.resize){
 //				console.log(this.id, ": resizing child id=" + child.id + " (region=" + child.region + "), style before resize is " +
 //									 "{ t: " + child.domNode.style.top +
@@ -341,7 +346,7 @@ dojo.declare("dijit.layout._Splitter", [ dijit._Widget, dijit._Templated ],
 		this._minSize = this.child.minSize;
 
 		var dim = this.horizontal ? 'h' : 'w';
-		var available = dojo.contentBox(this.container.domNode)[dim] - (this.oppNode ? dojo.marginBox(this.oppNode)[dim] : 0); //FIXME: what if this.oppNode is undefined?
+		var available = dojo.contentBox(this.container.domNode)[dim] - (this.oppNode ? dojo.marginBox(this.oppNode)[dim] : 0);
 		this._maxSize = Math.min(this.child.maxSize, available);
 
 		this._cookieName = this.container.id + "_" + this.region;
