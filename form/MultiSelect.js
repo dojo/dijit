@@ -37,14 +37,16 @@ dojo.declare("dijit.form.MultiSelect",dijit.form._FormWidget,{
 		});
 	},
 	
-	getValues: function(){
+	_getValueDeprecated: false, // remove when _FormWidget:_getValueDeprecated is removed in 2.0
+	getValue: function(){
 		// summary: Returns an array of the selected options' values
 		return this.getSelected().map(function(n){
 			return n.value;
 		});
 	},
 	
-	setValues: function(/* Array */values){
+	_multiValue: true, // for Form
+	setValue: function(/* Array */values){
 		// summary: Set the value(s) of this Select based on passed values
 		dojo.query("option",this.domNode).forEach(function(n){
 			n.selected = (dojo.indexOf(values,n.value) != -1);
@@ -58,11 +60,11 @@ dojo.declare("dijit.form.MultiSelect",dijit.form._FormWidget,{
 		dojo.query("option",this.domNode).forEach(function(n){
 			n.selected = !n.selected;
 		});
-		if(onChange){ this.onChange(this.getValues()); }
+		this._handleOnChange(this.getValue(), onChange==true);
 	},
 
 	_onChange: function(/*Event*/ e){
-		this.onChange(this.getValues());
+		this._handleOnChange(this.getValue(), true);
 	},
 	
 	// for layout widgets:
@@ -72,7 +74,7 @@ dojo.declare("dijit.form.MultiSelect",dijit.form._FormWidget,{
 		}
 	},
 	
-	onChange: function(/*String[] */ l){
-		// summary: a stub -- over-ride, or connect
+	postCreate: function(){
+		this._onChange();
 	}
 });

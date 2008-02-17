@@ -43,10 +43,20 @@ dojo.declare(
 			this.setAttribute('checked', newValue);
 		},
 
-		_getValueDeprecated: false, // remove when _FormWidget:getValue is removed
+		_getValueDeprecated: false, // remove when _FormWidget:_getValueDeprecated is removed
 		getValue: function(){
 			// summary: get the value of the widget.
 			return (this.checked ? this.value : false);
+		},
+
+		reset: function(){
+			this.inherited(arguments);
+			this.setAttribute('value', this._resetValueAttr);
+		},
+
+		postCreate: function(){
+			this.inherited(arguments);
+			this._resetValueAttr = this.value;
 		}
 	}
 );

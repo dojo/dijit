@@ -135,6 +135,11 @@ dojo.declare(
 			this._onMouse(e);	// update CSS classes
 		},
 
+		reset: function(){
+			this.inherited(arguments);
+			this._hasBeenBlurred = false;
+		},
+
 		//////////// INITIALIZATION METHODS ///////////////////////////////////////
 
 		constructor: function(){

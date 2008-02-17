@@ -223,13 +223,23 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 	_handleOnChange: function(/*anything*/ newValue, /*Boolean, optional*/ priorityChange){
 		// summary: set the value of the widget.
 		this._lastValue = newValue;
-		if(this._lastValueReported == undefined && priorityChange === null){
-			this._lastValueReported = newValue;
+		if(this._lastValueReported == undefined && (priorityChange === null || !this._onChangeActive)){
+			this._resetValue = this._lastValueReported = newValue;
 		}
 		if((this.intermediateChanges || priorityChange || priorityChange === undefined) && 
 			((newValue && newValue.toString)?newValue.toString():newValue) !== ((this._lastValueReported && this._lastValueReported.toString)?this._lastValueReported.toString():this._lastValueReported)){
 			this._lastValueReported = newValue;
 			if(this._onChangeActive){ this.onChange(newValue); }
+		}
+	},
+
+	reset: function(){
+		if(this._resetValue !== undefined){
+			if(this.setValue && !this._getValueDeprecated){
+				this.setValue(this._resetValue, true);
+			}else{
+				this.setAttribute(this._onChangeMonitor, this._resetValue);
+			}
 		}
 	},
 
@@ -243,10 +253,6 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 		if(this._layoutHackHandle)
 			clearTimeout(this._layoutHackHandle);
 		this.inherited(arguments);
-	},
-
-	postCreate: function(){
-		this._lastValueReported = this[this._onChangeMonitor];
 	},
 
 	setValue: function(/*String*/ value){

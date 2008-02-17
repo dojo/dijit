@@ -32,6 +32,7 @@ dojo.declare(
 		_formatter: dojo.number.format,
 
 		format: function(/*Number*/ value, /*Object*/ constraints){
+			if(typeof value == "string") { return value; }
 			if(isNaN(value)){ return ""; }
 			if(this.editOptions && this._editing){
 				constraints = dojo.mixin(dojo.mixin({}, this.editOptions), this.constraints);

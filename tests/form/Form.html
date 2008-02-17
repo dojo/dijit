@@ -61,7 +61,7 @@
 							filename: ""
 						};
 
-		// we reset the form to these values
+		// we change the form to these values
 		var changed =	{
 							foo: {bar: {baz: {quux: d("2005-01-01")} } },
 							available: {from: d("2005-11-02"), to: d("2006-11-02")},
@@ -73,6 +73,20 @@
 							t1: "new line 1\nnew line 2",
 							st1: "new simple line 1\nnew simple line 2",
 							richtext: "<h1>changed</h1><p>This is the changed content set by setValues</p>",
+							filename: ""
+						};
+		// we reset the form to these values
+		var reset =	{
+							foo: {bar: {baz: {quux: d("2007-12-30")} } },
+							available: {from: d("2005-01-02"), to: d("2006-01-02")},
+							plop: {combo: "one"},
+							cb2: ["2", "3"],
+							r2: "2",
+							ms1: ["VA", "WA"],
+							h1: "hidden",
+							t1: "line 1\nline 2",
+							st1: "simple line 1\nsimple line 2",
+							richtext: "<h1>changed</h1><p>This is the changed content set by setValues</p>", // not a form element, so not reset
 							filename: ""
 						};
 
@@ -92,6 +106,10 @@
 								doh.is( r.inputNode.name, "r2" );
 							});
 						
+					},
+					function resetTest(){
+						dijit.byId("myForm").reset();
+						doh.is( dojo.toJson(reset), dojo.toJson(dijit.byId("myForm").getValues()) );
 					}
 				]
 			);
@@ -110,7 +128,10 @@ so it can be submitted as a JSON string of nested objects.
 <!--    to test form submission, you'll need to create an action handler similar to
         http://www.utexas.edu/teamweb/cgi-bin/generic.cgi 
 	http://www.tipjar.com/cgi-bin/test -->
-<form dojoType="dijit.form.Form" id="myForm" encType="multipart/form-data" action="" method="" onsubmit="alert('Attempting to submit form w/values:\n'+dojo.toJson(this.getValues(),true));if(this.isValid()){return confirm('Form is valid, press OK to submit');}else{alert('Form contains invalid data.  Please correct first');return false;}">
+<form dojoType="dijit.form.Form" id="myForm" encType="multipart/form-data" action="" method="" 
+	onreset="return confirm('Press OK to reset widget values')"
+	onsubmit="alert('Attempting to submit form w/values:\n'+dojo.toJson(this.getValues(),true));if(this.isValid()){return confirm('Form is valid, press OK to submit');}else{alert('Form contains invalid data.  Please correct first');return false;}"
+>
 <p>Just HTML text</p>
 <table border=2>
 <tr><th>Description</th><th>Name</th><th>Form node/widget</th></tr>
@@ -272,6 +293,7 @@ simple line 2</textarea></td>
 <button dojoType=dijit.form.Button onClick="getValues();">Get Values from form!</button>
 <button dojoType=dijit.form.Button onClick="setValues();">Set Values to form!</button>
 <button dojoType=dijit.form.Button type="submit">Submit</button>
+<button dojoType=dijit.form.Button type="reset">Reset</button>
 </form>
 
 
