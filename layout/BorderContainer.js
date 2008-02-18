@@ -346,9 +346,9 @@ dojo.declare("dijit.layout._Splitter", [ dijit._Widget, dijit._Templated ],
 		this._factor = /top|left/.test(this.region) ? 1 : -1;
 		this._minSize = this.child.minSize;
 
-		var dim = this.horizontal ? 'h' : 'w';
-		var available = dojo.contentBox(this.container.domNode)[dim] - (this.oppNode ? dojo.marginBox(this.oppNode)[dim] : 0);
-		this._maxSize = Math.min(this.child.maxSize, available);
+		this._computeMaxSize();
+		//TODO: might be more accurate to recompute constraints on resize?
+		this.connect(this.container, "layout", dojo.hitch(this, this._computeMaxSize));
 
 		this._cookieName = this.container.id + "_" + this.region;
 		if(this.container.persist){
@@ -358,6 +358,12 @@ dojo.declare("dijit.layout._Splitter", [ dijit._Widget, dijit._Templated ],
 				this.child.domNode.style[this.horizontal ? "height" : "width"] = persistSize;
 			}
 		}
+	},
+
+	_computeMaxSize: function(){
+		var dim = this.horizontal ? 'h' : 'w';
+		var available = dojo.contentBox(this.container.domNode)[dim] - (this.oppNode ? dojo.marginBox(this.oppNode)[dim] : 0);
+		this._maxSize = Math.min(this.child.maxSize, available);
 	},
 
 	_startDrag: function(e){
