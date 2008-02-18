@@ -64,7 +64,6 @@ dojo.declare(
 		var region = child.region;
 		if(region){
 			dojo.addClass(child.domNode, "dijitBorderContainerPane");
-			child.domNode.style.position = "absolute"; //FIXME: for some reason, setting this in CSS isn't good enough?
 
 			var ltr = dojo._isBodyLtr();
 			if(region == "leading"){ region = ltr ? "left" : "right"; }
@@ -271,9 +270,19 @@ known to cause problems (ie, give an incorrect answer or an exception)
 in the past.  This is a setback from the current layout widgets, which
 don't do that.  See #3399, #2678, #3624 and #2955, #1988
 */
+
+		var resizeList = {};
+		if(changedRegion){
+			resizeList[changedRegion] = resizeList.center = true;
+			if(/top|bottom/.test(changedRegion) && this.design != "sidebar"){
+				resizeList.left = resizeList.right = true;
+			}else if(/left|right/.test(changedRegion) && this.design == "sidebar"){
+				resizeList.top = resizeList.bottom = true;
+			}
+		}
+
 		dojo.forEach(this.getChildren(), function(child){
-//PERF: don't have to resize children if(changedRegion)
-			if(child.resize){
+			if(child.resize && (!changedRegion || child.region in resizeList)){
 //				console.log(this.id, ": resizing child id=" + child.id + " (region=" + child.region + "), style before resize is " +
 //									 "{ t: " + child.domNode.style.top +
 //									", b: " + child.domNode.style.bottom +
