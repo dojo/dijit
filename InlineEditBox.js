@@ -320,6 +320,7 @@ dojo.declare(
 			return;
 		}
 		if(this.autoSave){
+			if(e.altKey || e.ctrlKey){ return; }
 			// If Enter/Esc pressed, treat as save/cancel.
 			if(e.keyCode == dojo.keys.ESCAPE){
 				dojo.stopEvent(e);
@@ -329,6 +330,9 @@ dojo.declare(
 				dojo.stopEvent(e);
 				this._exitInProgress = true;
 				this.save(true);
+			}else if(e.keyCode == dojo.keys.TAB){
+				this._exitInProgress = true;
+				this.save(false);
 			}
 		}else{
 			var _this = this;
