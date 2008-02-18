@@ -398,7 +398,7 @@ dojo.declare("dijit.layout._Splitter", [ dijit._Widget, dijit._Templated ],
 		this._handlers = (this._handlers || []).concat([
 			dojo.connect(de, "onmousemove", this._drag = function(e, forceResize){
 				var delta = e.pageX - pageStart,
-					childSize = delta + childStart;
+					childSize = delta + childStart,
 					boundChildSize = Math.max(Math.min(childSize, max), min);
 
 				if(resize || forceResize){
