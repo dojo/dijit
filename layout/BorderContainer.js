@@ -51,7 +51,6 @@ dojo.declare(
 
 		this._splitters = {};
 		this._splitterThickness = {};
-		this.domNode.style.position = "relative";
 		dojo.addClass(this.domNode, "dijitBorderContainer");
 	},
 
@@ -361,6 +360,7 @@ dojo.declare("dijit.layout._Splitter", [ dijit._Widget, dijit._Templated ],
 	},
 
 	_computeMaxSize: function(){
+	console.log("computemax");
 		var dim = this.horizontal ? 'h' : 'w';
 		var available = dojo.contentBox(this.container.domNode)[dim] - (this.oppNode ? dojo.marginBox(this.oppNode)[dim] : 0);
 		this._maxSize = Math.min(this.child.maxSize, available);

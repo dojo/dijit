@@ -623,9 +623,10 @@ body .dijitAlignRight {
 body .dijitAlignClient { position: absolute; }
 
 .dijitBorderContainer {
+	position:relative;
 	overflow: hidden;
 }
-	
+
 .dijitBorderContainer > .dijitTextArea {
 	/* On Safari, for SimpleTextArea inside a BorderContainer,
 		don't want to display the grip to resize */
