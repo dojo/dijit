@@ -263,6 +263,7 @@ dojo.declare(
 			if(this._center){ borderBox(this._center, centerDim); }
 		}
 
+//OPT: can this.resize() just do the following resize of children and skip the re-layout portion?
 /*
 TODO bill says: you call child.resize() without an
 argument, which means that right after the BorderContainer sets the size
@@ -397,8 +398,8 @@ dojo.declare("dijit.layout._Splitter", [ dijit._Widget, dijit._Templated ],
 		var de = dojo.doc.body;
 		this._handlers = (this._handlers || []).concat([
 			dojo.connect(de, "onmousemove", this._drag = function(e, forceResize){
-				var delta = e.pageX - pageStart,
-					childSize = delta + childStart,
+				var delta = e[axis] - pageStart,
+					childSize = factor * delta + childStart,
 					boundChildSize = Math.max(Math.min(childSize, max), min);
 
 				if(resize || forceResize){
