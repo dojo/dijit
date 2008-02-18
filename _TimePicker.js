@@ -157,7 +157,7 @@ dojo.declare("dijit._TimePicker",
 
 			if(index%this._visibleIncrement<1 && index%this._visibleIncrement>-1){
 				dojo.addClass(div, this.baseClass+"Marker");
-			}else if(!index%this._clickableIncrement){
+			}else if(!(index%this._clickableIncrement)){
 				dojo.addClass(div, this.baseClass+"Tick");
 			}
 						
