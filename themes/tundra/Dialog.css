@@ -67,7 +67,7 @@
 .tundra .dijitTooltip,
 .tundra .dijitTooltipDialog {
 	/* the outermost dom node, holding the connector and container */
-	opacity: 0.95;
+	/* opacity: 0.95; */
 	background: transparent;	/* make the area on the sides of the arrow transparent */
 }
 
@@ -163,7 +163,8 @@
 }
 
 
-.dj_safari .tundra .dijitPopup {
+.dj_safari .tundra .dijitPopup .dijitTooltipContainer,
+.dj_safari .tundra .dijitPopup .dijitMenu {
 	/* -webkit-border-radius: 5px; */
 	-webkit-box-shadow: 0px 5px 10px #adadad;
 }
@@ -172,7 +173,7 @@
 /*
  * Control opacity of popups
  */
-.tundra .dijitPopup div,
-.tundra .dijitPopup table {
+.tundra .dijitPopup > div,
+.tundra .dijitPopup > table {
 	opacity: 0.95;
 }
