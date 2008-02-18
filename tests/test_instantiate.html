@@ -1,0 +1,104 @@
+<html>
+	<head>
+		<title>_Templated tests</title>
+		<script type="text/javascript" src="../../dojo/dojo.js"
+			djConfig="parseOnLoad: true, isDebug: true"></script>
+		<script type="text/javascript" src="_testCommon.js"></script>
+		<style type="text/css">
+			@import "css/dijitTests.css";
+		</style>
+		<script type="text/javascript">
+			dojo.require("dijit._Widget");
+			dojo.require("dojo.parser");
+			dojo.require("dijit.form.Button");
+			dojo.require("dijit.layout.TabContainer");
+			dojo.require("dijit.layout.ContentPane");
+			dojo.require("dijit.layout.LinkPane");
+			
+			// declare a simple widget to use as a base test:
+			dojo.declare("test._Widget",dijit._Widget,{
+				message:"",
+				postCreate:function(){
+					this.inherited(arguments);
+					this.connect(this.domNode,"onclick","workit");
+					dojo.style(this.domNode,{
+						cursor:"pointer",
+						color:"#333"
+					});
+					this.domNode.innerHTML += this.message +" ("+this.id +")";
+					console.log('created',this.id);
+				},
+				workit:function(){
+					dojo.place(this.domNode,this.domNode.parentNode,"end");
+				}
+			});
+			
+			dojo.addOnLoad(function(){
+				// test widgeting
+				dojo.query("#testList li").instantiate(test._Widget,{}).connect("onclick",console.log);
+				
+				// make a tab container from some div, and all it's children div's
+				dojo.query("#container")
+					.forEach(function(n){
+						var idx = 0;
+						dojo.query("div",n)
+							.instantiate(dijit.layout.ContentPane,{})
+							.forEach(function(wn){
+								idx++;
+								dojo.style(wn,{ height:"200px" });
+								dojo.mixin(dijit.byNode(wn),{ title:"tab"+(idx) })
+							})
+						;
+					})
+					.instantiate(dijit.layout.TabContainer,{});
+				// should we add auto-startup calling?
+				dijit.byId("container").startup();
+				
+				// another test widget example
+				dojo.query("#altList li").instantiate(test._Widget,{ message:"woot" });
+				
+				// bunches of buttons, use you imagination on how to relate them to something
+				dojo.query("#buttonTest").forEach(function(n){
+					dojo.query("button",n).instantiate(dijit.form.Button,{
+						onClick:function(){
+							console.log('clicked:',this.domNode);	
+						}
+					});
+				});
+				
+				
+			});
+
+			
+		</script>
+	
+	</head>
+	<body>
+
+		<h1>dojo.NodeList.instantiate() tests</h1>
+			
+			<h2>Some simple widgets:</h2>
+			<ul id="testList">
+					<li>inner</li><li>inner</li><li>inner</li><li>inner</li><li>inner</li><li>inner</li><li>inner</li><li>inner</li><li>inner</li>
+			</ul>
+			<ul id="altList">
+					<li>inner</li><li>inner</li><li>inner</li><li>inner</li><li>inner</li><li>inner</li><li>inner</li><li>inner</li><li>inner</li>
+			</ul>
+
+			<h2>A TabContainer:</h2>
+			<div id="container">
+				<div>pane1</div>
+				<div>pane2</div>
+				<div>pane3</div>
+			</div>
+
+			<div id="buttonTest">
+				<button>button 1</button>
+				<button>button 2</button>
+				<button>button 3</button>
+				<button>button 4</button>
+				<button>button 5</button>
+			</div>
+
+	</body>
+</html>
