@@ -163,7 +163,7 @@
 }
 
 .dijitRtl .dijitSpinner .dijitInputLayoutContainer .dijitArrowButton {
-	right: none;
+	right: auto;
 	left: 0;
 	border-width: 0 1px 0 0 !important;
 }
