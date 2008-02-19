@@ -1,12 +1,11 @@
-
 .soria .dijitToolbar {
 	border-bottom: 1px solid #b1badf;
 	background:#fafafa url("images/titleBar.png") repeat-x top left;
 }
 
 .soria .dijitToolbar * {
-	padding: 0px;
-	margin: 0px;
+	padding: 0;
+	margin: 0;
 	/* #margin-top: -1px; */
 	/*IE*/
 }
@@ -15,13 +14,13 @@
 }
 
 .soria .dijitToolbar .dijitButtonNode {
-	padding: 0px;
+	padding: 0;
 	margin: 1px;
 	border: 1px solid transparent;
 	background: none;
 	_margin: 1px;
-	_padding: 0px 1px 0px 1px;
-	_border: 0px;
+	_padding: 0 1px 0 1px;
+	_border: 0;
 }
 
 .soria .dijitToolbar .dijitToggleButtonChecked .dijitButtonNode {
@@ -45,61 +44,6 @@
 	background-color: #9abbea !important;
 	/* IE hackery */
 	_border: 1px solid #366dba;
-	_margin: -1px 0px 0px 0px;
-	_padding: 0px;
+	_margin: -1px 0 0 0;
+	_padding: 0;
 }
-
-.soria .dijitToolbar .dijitToolbarSeparator {
-	background: url('images/editor.gif');
-}
-
-/**** ICONS *****/
-
-.soria .dijitEditorIcon {
-	background-image: url('images/editor.gif'); /* editor icons sprite image */
-	background-repeat: no-repeat;
-	width: 18px;
-	height: 18px;
-	text-align: center;
-}
-.soria .dijitEditorIconSep { background-position: 0px; }
-.soria .dijitEditorIconBackColor { background-position: -18px; }
-.soria .dijitEditorIconBold { background-position: -36px; }
-.soria .dijitEditorIconCancel { background-position: -54px; }
-.soria .dijitEditorIconCopy { background-position: -72px; }
-.soria .dijitEditorIconCreateLink { background-position: -90px; }
-.soria .dijitEditorIconCut { background-position: -108px; }
-.soria .dijitEditorIconDelete { background-position: -126px; }
-.soria .dijitEditorIconForeColor { background-position: -144px; }
-.soria .dijitEditorIconHiliteColor { background-position: -162px; }
-.soria .dijitEditorIconIndent { background-position: -180px; }
-.soria .dijitEditorIconInsertHorizontalRule { background-position: -198px; }
-.soria .dijitEditorIconInsertImage { background-position: -216px; }
-.soria .dijitEditorIconInsertOrderedList { background-position: -234px; }
-.soria .dijitEditorIconInsertTable { background-position: -252px; }
-.soria .dijitEditorIconInsertUnorderedList { background-position: -270px; }
-.soria .dijitEditorIconItalic { background-position: -288px; }
-.soria .dijitEditorIconJustifyCenter { background-position: -306px; }
-.soria .dijitEditorIconJustifyFull { background-position: -324px; }
-.soria .dijitEditorIconJustifyLeft { background-position: -342px; }
-.soria .dijitEditorIconJustifyRight { background-position: -360px; }
-.soria .dijitEditorIconLeftToRight { background-position: -378px; }
-.soria .dijitEditorIconListBulletIndent { background-position: -396px; }
-.soria .dijitEditorIconListBulletOutdent { background-position: -414px; }
-.soria .dijitEditorIconListNumIndent { background-position: -432px; }
-.soria .dijitEditorIconListNumOutdent { background-position: -450px; }
-.soria .dijitEditorIconOutdent { background-position: -468px; }
-.soria .dijitEditorIconPaste { background-position: -486px; }
-.soria .dijitEditorIconRedo { background-position: -504px; }
-.soria .dijitEditorIconRemoveFormat { background-position: -522px; }
-.soria .dijitEditorIconRightToLeft { background-position: -540px; }
-.soria .dijitEditorIconSave { background-position: -558px; }
-.soria .dijitEditorIconSpace { background-position: -576px; }
-.soria .dijitEditorIconStrikethrough { background-position: -594px; }
-.soria .dijitEditorIconSubscript { background-position: -612px; }
-.soria .dijitEditorIconSuperscript { background-position: -630px; }
-.soria .dijitEditorIconUnderline { background-position: -648px; }
-.soria .dijitEditorIconUndo { background-position: -666px; }
-.soria .dijitEditorIconWikiword { background-position: -684px; }
-.soria .dijitEditorIconToggleDir { background-position: -540px; /* padding: 0; margin: 0; color:#555555;
-									font-family:verdana,arial,sans-serif; font-weight: 800; font-size: 70%; */}
