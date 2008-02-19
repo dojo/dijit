@@ -63,7 +63,9 @@ dojo.declare(
 	_setupChild: function(/*Widget*/child){
 		var region = child.region;
 		if(region){
-			dojo.addClass(child.domNode, "dijitBorderContainerPane");
+//			dojo.addClass(child.domNode, "dijitBorderContainerPane");
+			child.domNode.style.position = "absolute"; // bill says not to set this in CSS, since we can't keep others
+				// from destroying the class list
 
 			var ltr = dojo._isBodyLtr();
 			if(region == "leading"){ region = ltr ? "left" : "right"; }

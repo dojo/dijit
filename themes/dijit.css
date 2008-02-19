@@ -633,10 +633,6 @@ body .dijitAlignClient { position: absolute; }
 	resize: none;
 }
 
-.dijitBorderContainerPane {
-	position:absolute;
-}
-
 /* SplitContainer
 
 	'V' == container that splits vertically (up/down)
