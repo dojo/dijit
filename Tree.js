@@ -53,6 +53,7 @@ dojo.declare(
 		if(this.isExpandable){
 			dijit.setWaiState(this.labelNode, "expanded", this.isExpanded);
 		}
+		this.connect(this.labelNode, "onfocus", "_onNodeFocus");
 	},
 
 	markProcessing: function(){
@@ -247,6 +248,11 @@ dojo.declare(
 		//		turn it into one and call _setExpando()
 		this.isExpandable = true;
 		this._setExpando(false);
+	},
+
+	_onNodeFocus: function(evt){
+		var node = dijit.getEnclosingWidget(evt.target);
+		this.tree._onTreeFocus(node);
 	}
 });
 
@@ -437,10 +443,6 @@ dojo.declare(
 			}
 			this.dndController= new this.dndController(this, params);
 		}
-
-		this.connect(this.domNode,
-			dojo.isIE ? "onactivate" : "onfocus",
-			"_onTreeFocus");
 	},
 
 	////////////// Data store related functions //////////////////////
@@ -832,8 +834,7 @@ dojo.declare(
 		// summary
 		//	Focus on the specified node (which must be visible)
 
-		// set selected and  focus so that the label will be voiced using screen readers
-		dijit.setWaiState(node.labelNode, "selected", true);
+		// set focus so that the label will be voiced using screen readers
 		node.labelNode.focus();
 	},
 
@@ -843,14 +844,18 @@ dojo.declare(
 		//		(see focusNode above) should remain as the lastFocused node so we can
 		//		tab back into the tree.  Just change CSS to get rid of the dotted border
 		//		until that time
+
 		if(this.lastFocused){
 			var labelNode = this.lastFocused.labelNode;
 			dojo.removeClass(labelNode, "dijitTreeLabelFocused");	
 		}
 	},
 
-	_onTreeFocus: function(evt){
-		var node = dijit.getEnclosingWidget(evt.target);
+	_onTreeFocus: function(/*Widget*/ node){
+		// summary:
+		//		called from onFocus handler of treeitem labelNode to set styles, wai state and tabindex
+		//		for currently focused treeitem.
+		
 		if (node){
 			if(node != this.lastFocused){
 				this.blurNode();
@@ -858,6 +863,7 @@ dojo.declare(
 			var labelNode = node.labelNode;
 			// set tabIndex so that the tab key can find this node
 			labelNode.setAttribute("tabIndex", "0");
+			dijit.setWaiState(labelNode, "selected", true);
 			dojo.addClass(labelNode, "dijitTreeLabelFocused");
 			this.lastFocused = node;
 		}
