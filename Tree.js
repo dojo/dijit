@@ -53,7 +53,6 @@ dojo.declare(
 		if(this.isExpandable){
 			dijit.setWaiState(this.labelNode, "expanded", this.isExpanded);
 		}
-		this.connect(this.labelNode, "onfocus", "_onNodeFocus");
 	},
 
 	markProcessing: function(){
