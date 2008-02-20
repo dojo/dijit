@@ -261,20 +261,20 @@ dojo.declare(
 			var v=this.getValue(true);
 
 			this._undoedSteps=[];//clear undoed steps
-			this._steps.push({'text':v,'bookmark':this._getBookmark()});
+			this._steps.push({text: v, bookmark: this._getBookmark()});
 		},
 		onKeyDown: function(e){
 			if(!this.customUndo){
 				this.inherited('onKeyDown',arguments);
 				return;
 			}
-			var k=e.keyCode,ks=dojo.keys;
-			if(e.ctrlKey){
-				if(k===90||k===122){ //z
+			var k = e.keyCode, ks = dojo.keys;
+			if(e.ctrlKey && !e.altKey){//undo and redo only if the special right Alt + z/y are not pressed #5892
+				if(k == 90 || k == 122){ //z
 					dojo.stopEvent(e);
 					this.undo();
 					return;
-				}else if(k===89||k===121){ //y
+				}else if(k == 89 || k == 121){ //y
 					dojo.stopEvent(e);
 					this.redo();
 					return;
