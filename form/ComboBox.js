@@ -553,9 +553,12 @@ dojo.declare(
 
 		_startSearch: function(/*String*/ key){
 			if(!this._popupWidget){
+				var popupId = dojo.attr(this.domNode, "id") + "_popup";
 				this._popupWidget = new dijit.form._ComboBoxMenu({
-					onChange: dojo.hitch(this, this._selectOption)
+					onChange: dojo.hitch(this, this._selectOption),
+					id:popupId
 				});
+				dijit.setWaiState(this.textbox,"controls",popupId); // associate popup with textbox
 			}
 			// create a new query to prevent accidentally querying for a hidden
 			// value from FilteringSelect's keyField
@@ -660,7 +663,6 @@ dojo.declare(
 				label[0].id = (this.id+"_label");
 				var cn=this.comboNode;
 				dijit.setWaiState(cn, "labelledby", label[0].id);
-				dijit.setWaiState(cn, "autocomplete", "list"); // FYI: different meaning that autocomplete property of combobox
 				dijit.setWaiState(cn, "disabled", this.disabled);
 				
 			}
@@ -699,10 +701,10 @@ dojo.declare(
 		// summary:
 		//		Focus-less div based menu for internal use in ComboBox
 
-		templateString: "<div class='dijitMenu' dojoAttachEvent='onmousedown,onmouseup,onmouseover,onmouseout' tabIndex='-1' style='overflow:\"auto\";'>"
-				+"<div class='dijitMenuItem dijitMenuPreviousButton' dojoAttachPoint='previousButton'></div>"
-				+"<div class='dijitMenuItem dijitMenuNextButton' dojoAttachPoint='nextButton'></div>"
-			+"</div>",
+		templateString: "<ul class='dijitMenu' dojoAttachEvent='onmousedown,onmouseup,onmouseover,onmouseout' tabIndex='-1' style='overflow:\"auto\";'>"
+				+"<li class='dijitMenuItem dijitMenuPreviousButton' dojoAttachPoint='previousButton'></li>"
+				+"<li class='dijitMenuItem dijitMenuNextButton' dojoAttachPoint='nextButton'></li>"
+			+"</ul>",
 		_messages: null,
 
 		postMixInProperties: function(){
@@ -736,7 +738,7 @@ dojo.declare(
 			//		FilteringSelect
 
 			var labelObject = labelFunc(item);
-			var menuitem = dojo.doc.createElement("div");
+			var menuitem = dojo.doc.createElement("li");
 			if(labelObject.html){
 				menuitem.innerHTML = labelObject.label;
 			}else{
