@@ -316,14 +316,18 @@ dojo.declare("dijit.form._FormValueWidget", dijit.form._FormWidget,
 		this.setValue(this._lastValueReported, false);
 	},
 
+	_valueChanged: function(){
+		var v = this.getValue();
+		var lv = this._lastValueReported;
+		// Equality comparison of objects such as dates are done by reference so
+		// two distinct objects are != even if they have the same data. So use
+		// toStrings in case the values are objects.
+		return ((v !== null && (v !== undefined) && v.toString)?v.toString():null) !== ((lv !== null && (lv !== undefined) && lv.toString)?lv.toString():null);
+	},
+
 	_onKeyPress: function(e){
 		if(e.keyCode == dojo.keys.ESCAPE && !e.shiftKey && !e.ctrlKey && !e.altKey){
-			var v = this.getValue();
-			var lv = this._lastValueReported;
-			// Equality comparison of objects such as dates are done by reference so
-			// two distinct objects are != even if they have the same data. So use
-			// toStrings in case the values are objects.
-			if(((v !== null && (v !== undefined) && v.toString)?v.toString():null) !== ((lv !== null && (lv !== undefined) && lv.toString)?lv.toString():null)){
+			if(this._valueChanged()){
 				this.undo();
 				dojo.stopEvent(e);
 				return false;

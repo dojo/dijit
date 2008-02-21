@@ -76,13 +76,6 @@ dojo.declare(
 
 		baseClass:"dijitComboBox",
 
-		_lastDisplayedValue: "",
-
-		setDisplayedValue:function(/*String*/ value){
-			this._lastDisplayedValue = value;
-			this.setValue(value, true);
-		},
-
 		_getCaretPos: function(/*DomNode*/ element){
 			// khtml 3.5.2 has selection* methods as does webkit nightlies from 2005-06-22
 			var pos = 0;
@@ -258,12 +251,7 @@ dojo.declare(
 					this._prev_key_backspace = false;
 					this._prev_key_esc = true;
 					this._hideResultList();
-					if(this._lastDisplayedValue != this.getDisplayedValue()){
-						this.setDisplayedValue(this._lastDisplayedValue);
-						dojo.stopEvent(evt);
-					}else{
-						this.setValue(this.getValue(), false);
-					}
+					this.inherited(arguments);
 					break;
 
 				case dk.DELETE:
@@ -1051,5 +1039,6 @@ dojo.declare("dijit.form._ComboBoxDataStore", null, {
 			root)[0];	// dojo.data.Item
 	}
 });
+
 
 

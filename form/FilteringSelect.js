@@ -38,6 +38,8 @@ dojo.declare(
 
 		_isvalid:true,
 
+		_lastDisplayedValue: "",
+
 		isValid:function(){
 			return this._isvalid;
 		},
@@ -217,6 +219,14 @@ dojo.declare(
 		setAttribute: function(/*String*/ attr, /*anything*/ value){
 			dijit.form.MappedTextBox.prototype.setAttribute.apply(this, arguments);
 			dijit.form.ComboBoxMixin.prototype._setAttribute.apply(this, arguments);
+		},
+
+		undo: function(){
+			this.setDisplayedValue(this._lastDisplayedValue);
+		},
+
+		_valueChanged: function(){
+			return this.getDisplayedValue()!=this._lastDisplayedValue;
 		}
 	}
 );
