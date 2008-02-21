@@ -361,9 +361,7 @@ dojo.declare("dijit.MenuItem",
 	postCreate: function(){
 		dojo.setSelectable(this.domNode, false);
 		this.setDisabled(this.disabled);
-		if(this.label){
-			this.containerNode.innerHTML=this.label;
-		}
+		this.setLabel(this.label);
 	},
 
 	_onHover: function(){
@@ -399,6 +397,10 @@ dojo.declare("dijit.MenuItem",
 
 	_blur: function(){
 		dojo.removeClass(this.domNode, 'dijitMenuItemHover');
+	},
+	
+	setLabel: function(/*String*/ value){
+		this.containerNode.innerHTML=this.label=value;
 	},
 
 	setDisabled: function(/*Boolean*/ value){
