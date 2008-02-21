@@ -361,7 +361,9 @@ dojo.declare("dijit.MenuItem",
 	postCreate: function(){
 		dojo.setSelectable(this.domNode, false);
 		this.setDisabled(this.disabled);
-		this.setLabel(this.label);
+		if(this.label){
+			this.setLabel(this.label);
+		}
 	},
 
 	_onHover: function(){
