@@ -2,8 +2,9 @@
 	
 .nihilo .dijitCalendarIncrementControl {
 	/* next/prev month buttons */
-	width:16px;
-	height:16px;
+	width:15px;
+	height:15px;
+	font-size: 1px;
 }
 .dj_ie6 .nihilo .dijitCalendarIncrementControl {
 	padding:.1em;
