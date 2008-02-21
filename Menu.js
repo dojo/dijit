@@ -10,7 +10,7 @@ dojo.declare("dijit.Menu",
 	// summary
 	//	A context menu you can assign to multiple elements
 
-	constructor: function() {
+	constructor: function(){
 		this._bindings = [];
 	},
 
@@ -148,7 +148,7 @@ dojo.declare("dijit.Menu",
 	},
 
 	// thanks burstlib!
-	_iframeContentWindow: function(/* HTMLIFrameElement */iframe_el) {
+	_iframeContentWindow: function(/* HTMLIFrameElement */iframe_el){
 		// summary:
 		//	Returns the window reference of the passed iframe
 		var win = dijit.getDocumentWindow(dijit.Menu._iframeContentDocument(iframe_el)) ||
@@ -200,9 +200,9 @@ dojo.declare("dijit.Menu",
 
 	_contextKey: function(e){
 		this._contextMenuWithMouse = false;
-		if (e.keyCode == dojo.keys.F10) {
+		if(e.keyCode == dojo.keys.F10){
 			dojo.stopEvent(e);
-			if (e.shiftKey && e.type=="keydown") {
+			if(e.shiftKey && e.type=="keydown"){
 				// FF: copying the wrong property from e will cause the system
 				// context menu to appear in spite of stopEvent. Don't know
 				// exactly which properties cause this effect.
@@ -334,9 +334,9 @@ dojo.declare("dijit.MenuItem",
 	// Make 3 columns
 	//   icon, label, and expand arrow (BiDi-dependent) indicating sub-menu
 	templateString:
-		 '<tr class="dijitReset dijitMenuItem"'
+		 '<tr class="dijitReset dijitMenuItem" '
 		+'dojoAttachEvent="onmouseenter:_onHover,onmouseleave:_onUnhover,ondijitclick:_onClick">'
-		+'<td class="dijitReset"><div class="dijitMenuItemIcon ${iconClass}" dojoAttachPoint="iconNode" ></div></td>'
+		+'<td class="dijitReset"><div class="dijitMenuItemIcon ${iconClass}" dojoAttachPoint="iconNode"></div></td>'
 		+'<td tabIndex="-1" class="dijitReset dijitMenuItemLabel" dojoAttachPoint="containerNode,focusNode" waiRole="menuitem"></td>'
 		+'<td class="dijitReset" dojoAttachPoint="arrowCell">'
 			+'<div class="dijitMenuExpand" dojoAttachPoint="expand" style="display:none">'
@@ -384,7 +384,7 @@ dojo.declare("dijit.MenuItem",
 		dojo.stopEvent(evt);
 	},
 
-	onClick: function(/*Event*/ evt) {
+	onClick: function(/*Event*/ evt){
 		// summary: User defined function to handle clicks
 	},
 
