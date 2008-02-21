@@ -59,6 +59,8 @@
 <button dojoType="dijit.form.Button" onclick="dijit.byId('dialog1').show()">Show Dialog</button> |
 
 <div dojoType="dijit.Dialog" id="dialog1" title="First Dialog"
+		onfocus="console.log('user focus handler')"
+		onblur="console.log('user blur handler')"
 		execute="alert('submitted w/args:\n' + dojo.toJson(arguments[0], true));">
 	<table>
 		<tr>

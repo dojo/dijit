@@ -11,7 +11,7 @@
 		@import "../../../dijit/tests/css/dijitTests.css";
 	</style>
 	
-	<script type="text/javascript" djConfig="isDebug:false, parseOnLoad: true"
+	<script type="text/javascript" djConfig="isDebug:true, parseOnLoad: true"
 		src="../../../dojo/dojo.js"></script>
 
 	<script type="text/javascript">
@@ -32,7 +32,10 @@
 		</p>
 
 		<h2>Plain textarea (rows=5, cols=50)</h2>
-		<textarea dojoType="dijit.form.SimpleTextarea" name="ta2" rows=5 cols=50>
+		<textarea dojoType="dijit.form.SimpleTextarea" name="ta2" rows=5 cols=50
+			onFocus="console.log('user focus handler')"
+			onBlur="console.log('user blur handler')"
+		>
 			shichashaw, textarea text baw.				
 		</textarea>
 

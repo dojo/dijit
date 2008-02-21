@@ -348,6 +348,7 @@ dojo.declare(
 	_onBlur: function(){
 		// summary:
 		//	Called when focus moves outside the editor
+		this.inherited(arguments);
 		if(this._exitInProgress){
 			// when user clicks the "save" button, focus is shifted back to display text, causing this
 			// function to be called, but in that case don't do anything

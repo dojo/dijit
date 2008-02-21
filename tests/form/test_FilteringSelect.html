@@ -66,6 +66,8 @@
 				autoComplete="false"
 				invalidMessage="Invalid state name"
 				onChange="dojo.byId('oc1').value=arguments[0]"
+				onFocus="console.log('user focus handler')"
+				onBlur="console.log('user blur handler')"
 		>
 			<option value="blank"></option>
 			<option value="AL">Alabama</option>

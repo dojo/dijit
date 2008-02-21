@@ -12,7 +12,7 @@
 		><div class="dijitReset dijitValidationIconText">&Chi;</div
 		><div class="dijitReset dijitInputField"
 			><input type="text" autocomplete="off" name="${name}" class='dijitReset'
-			dojoAttachEvent="onkeypress, onkeyup, onfocus, compositionend"
+			dojoAttachEvent="onkeypress:_onKeyPress, onfocus:_update, compositionend"
 			dojoAttachPoint="textbox,focusNode" waiRole="textbox" waiState="haspopup-true,autocomplete-list"
 		/></div
 	></div

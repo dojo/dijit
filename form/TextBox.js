@@ -104,16 +104,13 @@ dojo.declare(
 			return val;
 		},
 
-		// event handlers, you can over-ride these in your own subclasses
-		_onBlur: function(){
+		_setBlurValue: function(){
 			this.setValue(this.getValue(), (this.isValid ? this.isValid() : true));
 		},
 
-		onkeyup: function(){
-			// TODO: it would be nice to massage the value (ie: automatic uppercase, etc) as the user types
-			// but this messes up the cursor position if you are typing into the middle of a word, and
-			// also trimming doesn't work correctly (it prevents spaces between words too!)
-			// this.setValue(this.getValue());
+		_onBlur: function(){
+			this._setBlurValue();
+			this.inherited(arguments);
 		}
 	}
 );

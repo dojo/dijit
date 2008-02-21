@@ -844,6 +844,7 @@ dojo.declare(
 		//		tab back into the tree.  Just change CSS to get rid of the dotted border
 		//		until that time
 
+		this.inherited(arguments);
 		if(this.lastFocused){
 			var labelNode = this.lastFocused.labelNode;
 			dojo.removeClass(labelNode, "dijitTreeLabelFocused");	

@@ -16,17 +16,8 @@ dojo.declare(
 		//		properties to mix into constraints when the value is being edited
 		editOptions: { pattern: '#.######' },
 
-		_editing: false,
-
-		onfocus: function(evt){
-			this._editing = true;
-//			this.inherited(arguments);
-			this.setValue(this.getValue());	
-		},
-
-		_onBlur: function(evt){
-			this._editing = false;
-			this.inherited(arguments);
+		_refreshState: function(){
+			this.setValue(this.getValue(), false);	
 		},
 
 		_formatter: dojo.number.format,
@@ -34,7 +25,7 @@ dojo.declare(
 		format: function(/*Number*/ value, /*Object*/ constraints){
 			if(typeof value == "string") { return value; }
 			if(isNaN(value)){ return ""; }
-			if(this.editOptions && this._editing){
+			if(this.editOptions && this._focused){
 				constraints = dojo.mixin(dojo.mixin({}, this.editOptions), this.constraints);
 			}
 			return this._formatter(value, constraints);

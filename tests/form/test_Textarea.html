@@ -41,6 +41,8 @@
 		</script>
 		<br><label for="simple">Inline:</label><div name="simpleTextArea" dojoType="dijit.form.Textarea" id="simple" style="width:33%;border:20px solid red;"
          		onChange="dojo.byId('ocSimple').value=arguments[0]"
+         		onFocus="console.log('user focus handler')"
+         		onBlur="console.log('user blur handler')"
 			>this is a very simple resizable text area</div>
 		onChange:<textarea id="ocSimple" readOnly>not fired yet!</textarea>
 		<br>

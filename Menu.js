@@ -264,6 +264,7 @@ dojo.declare("dijit.Menu",
 		this.focus();
 
 		this._onBlur = function(){
+			this.inherited(arguments);
 			// Usually the parent closes the child widget but if this is a context
 			// menu then there is no parent
 			dijit.popup.close(this);

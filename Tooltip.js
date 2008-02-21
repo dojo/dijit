@@ -210,11 +210,13 @@ dojo.declare(
 		_onFocus: function(/*Event*/ e){
 			this._focus = true;
 			this._onHover(e);
+			this.inherited(arguments);
 		},
 		
 		_onBlur: function(/*Event*/ e){
 			this._focus = false;
 			this._onUnHover(e);
+			this.inherited(arguments);
 		},
 
 		_onHover: function(/*Event*/ e){

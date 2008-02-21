@@ -47,7 +47,6 @@ dojo.declare("dijit._editor.plugins.FontChoice",
 			}
 
 			this._focusHandle = dijit.getFocus(this.editor.iframe);
-console.log("focushandle: "+this._focusHandle);
 		},
 
 		setToolbar: function(){

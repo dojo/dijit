@@ -55,7 +55,7 @@ dojo.declare(
 
 		setValue: function(){
 			this.inherited(arguments);
-			this.validate(false);
+			this.validate(this._focused);
 		},
 
 		validator: function(value,constraints){
@@ -122,22 +122,13 @@ dojo.declare(
 			}
 		},
 
-		_hasBeenBlurred: false,
-
-		_onBlur: function(){
-			this._hasBeenBlurred = true;
-			this.validate(false);
-			this.inherited(arguments);
+		_refreshState: function(){
+			this.validate(this._focused);
 		},
 
 		_update: function(/*Event*/e){
-			this.validate(true);
+			this._refreshState();
 			this._onMouse(e);	// update CSS classes
-		},
-
-		reset: function(){
-			this.inherited(arguments);
-			this._hasBeenBlurred = false;
 		},
 
 		//////////// INITIALIZATION METHODS ///////////////////////////////////////
@@ -153,10 +144,6 @@ dojo.declare(
 			if(this.invalidMessage == "$_unset_$"){ this.invalidMessage = this.messages.invalidMessage; }
 			var p = this.regExpGen(this.constraints);
 			this.regExp = p;
-			// make value a string for all types so that form reset works well
-
-			this.connect(this, "onfocus", this._update);
-			this.connect(this, "onkeyup", this._update);
 		}
 	}
 );

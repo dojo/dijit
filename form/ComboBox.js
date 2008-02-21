@@ -72,21 +72,11 @@ dojo.declare(
 		//		Defaults to true.
 		hasDownArrow:true,
 
-		// _hasFocus: Boolean
-		//		Represents focus state of the textbox
-		// TODO: get rid of this; it's unnecessary (but currently referenced in FilteringSelect)
-		_hasFocus:false,
-
 		templatePath: dojo.moduleUrl("dijit.form", "templates/ComboBox.html"),
 
 		baseClass:"dijitComboBox",
 
 		_lastDisplayedValue: "",
-
-		getValue:function(){
-			// don't get the textbox value but rather the previously set hidden value
-			return dijit.form.TextBox.superclass.getValue.apply(this, arguments);
-		},
 
 		setDisplayedValue:function(/*String*/ value){
 			this._lastDisplayedValue = value;
@@ -167,7 +157,7 @@ dojo.declare(
 			}
 		},	
 		
-		onkeypress: function(/*Event*/ evt){
+		_onKeyPress: function(/*Event*/ evt){
 			// summary: handles keyboard events
 
 			//except for pasting case - ctrl + v(118)
@@ -237,8 +227,8 @@ dojo.declare(
 					//		if the user had More Choices selected fall into the
 					//		_onBlur handler
 					if(pw && (
-							newvalue == pw._messages["previousMessage"] ||
-							newvalue == pw._messages["nextMessage"])
+						newvalue == pw._messages["previousMessage"] ||
+						newvalue == pw._messages["nextMessage"])
 					){
 						break;
 					}
@@ -443,23 +433,17 @@ dojo.declare(
 			}
 		},
 
-		_onBlur: function(){
-			// summary: called magically when focus has shifted away from this widget and it's dropdown
-			this._hasFocus=false;
-			this._hasBeenBlurred = true;
-			this._hideResultList();
-			this._arrowIdle();
+		_setBlurValue: function(){
 			// if the user clicks away from the textbox OR tabs away, set the
 			// value to the textbox value
-
 			// #4617: 
 			//		if value is now more choices or previous choices, revert
 			//		the value
 			var newvalue=this.getDisplayedValue();
 			var pw = this._popupWidget;
-			if(	pw && (
-					newvalue == pw._messages["previousMessage"] ||
-					newvalue == pw._messages["nextMessage"]
+			if(pw && (
+				newvalue == pw._messages["previousMessage"] ||
+				newvalue == pw._messages["nextMessage"]
 				)
 			){
 				this.setValue(this._lastValueReported, true);
@@ -468,11 +452,11 @@ dojo.declare(
 			}
 		},
 
-		onfocus:function(/*Event*/ evt){
-			this._hasFocus=true;
-			
-			// update styling to reflect that we are focused
-			this._onMouse(evt);
+		_onBlur: function(){
+			// summary: called magically when focus has shifted away from this widget and it's dropdown
+			this._hideResultList();
+			this._arrowIdle();
+			this.inherited(arguments);
 		},
 
 		_announceOption: function(/*Node*/ node){
@@ -701,7 +685,7 @@ dojo.declare(
 		// summary:
 		//		Focus-less div based menu for internal use in ComboBox
 
-		templateString: "<ul class='dijitMenu' dojoAttachEvent='onmousedown,onmouseup,onmouseover,onmouseout' tabIndex='-1' style='overflow:\"auto\";'>"
+		templateString: "<ul class='dijitMenu' dojoAttachEvent='onmousedown:_onMouseDown,onmouseup:_onMouseUp,onmouseover:_onMouseOver,onmouseout:_onMouseOut' tabIndex='-1' style='overflow:\"auto\";'>"
 				+"<li class='dijitMenuItem dijitMenuPreviousButton' dojoAttachPoint='previousButton'></li>"
 				+"<li class='dijitMenuItem dijitMenuNextButton' dojoAttachPoint='nextButton'></li>"
 			+"</ul>",
@@ -788,11 +772,11 @@ dojo.declare(
 			return this.domNode.childNodes.length-2;
 		},
 
-		onmousedown: function(/*Event*/ evt){
+		_onMouseDown: function(/*Event*/ evt){
 			dojo.stopEvent(evt);
 		},
 
-		onmouseup: function(/*Event*/ evt){
+		_onMouseUp: function(/*Event*/ evt){
 			if(evt.target === this.domNode){
 				return;
 			}else if(evt.target==this.previousButton){
@@ -810,7 +794,7 @@ dojo.declare(
 			}
 		},
 
-		onmouseover: function(/*Event*/ evt){
+		_onMouseOver: function(/*Event*/ evt){
 			if(evt.target === this.domNode){ return; }
 			var tgt = evt.target;
 			if(!(tgt == this.previousButton || tgt == this.nextButton)){
@@ -823,7 +807,7 @@ dojo.declare(
 			this._focusOptionNode(tgt);
 		},
 
-		onmouseout:function(/*Event*/ evt){
+		_onMouseOut:function(/*Event*/ evt){
 			if(evt.target === this.domNode){ return; }
 			this._blurOptionNode();
 		},
@@ -1067,4 +1051,5 @@ dojo.declare("dijit.form._ComboBoxDataStore", null, {
 			root)[0];	// dojo.data.Item
 	}
 });
+
 

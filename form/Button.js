@@ -194,6 +194,7 @@ dojo.declare("dijit.form.DropDownButton", [dijit.form.Button, dijit._Container],
 		// summary: called magically when focus has shifted away from this widget and it's dropdown
 		this._closeDropDown();
 		// don't focus on button.  the user has explicitly focused on something else.
+		this.inherited(arguments);
 	},
 
 	_toggleDropDown: function(){
@@ -356,7 +357,7 @@ dojo.declare("dijit.form.ComboButton", dijit.form.DropDownButton, {
 		this._focusedNode = evt.currentTarget;
 	},
 
-	_onBlur: function(evt){
+	_onBlur: function(){
 		this.inherited(arguments);
 		this._focusedNode = null;
 	}

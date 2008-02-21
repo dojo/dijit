@@ -60,10 +60,10 @@ dojo.declare(
 				//#3268: do nothing on bad input
 				//this._setValue("", "");
 				//#3285: change CSS to indicate error
-				if(!this._hasFocus){ this.valueNode.value=""; }
-				dijit.form.TextBox.superclass.setValue.call(this, undefined, !this._hasFocus);
+				if(!this._focused){ this.valueNode.value=""; }
+				dijit.form.TextBox.superclass.setValue.call(this, undefined, !this._focused);
 				this._isvalid=false;
-				this.validate(this._hasFocus);
+				this.validate(this._focused);
 			}else{
 				this._setValueFromItem(result[0], priorityChange);
 			}
@@ -147,15 +147,6 @@ dojo.declare(
 			// summary: Event handler called when the label changes
 			// return: the label that the ComboBox should display
 			return store.getValue(item, this.searchAttr);
-		},
-
-		onkeyup: function(/*Event*/ evt){
-			// summary: internal function
-
-			// FilteringSelect needs to wait for the complete label before
-			// committing to a reverse lookup
-
-			//this.setDisplayedValue(this.textbox.value);
 		},
 
 		_doSelect: function(/*Event*/ tgt){

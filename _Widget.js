@@ -234,6 +234,23 @@ dojo.declare("dijit._Widget", null, {
 
 	////////////////// MISCELLANEOUS METHODS ///////////////////
 
+	onFocus: function(){
+	},
+
+	onBlur: function(){
+	},
+
+	_hasBeenBlurred: false,
+
+	_onFocus: function(e){
+		this.onFocus();
+	},
+
+	_onBlur: function(){
+		this._hasBeenBlurred = true;
+		this.onBlur();
+	},
+
 	setAttribute: function(/*String*/ attr, /*anything*/ value){
 		// summary:
 		//              Set native HTML attributes reflected in the widget,

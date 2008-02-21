@@ -118,7 +118,7 @@ dojo.declare(
 		_onBlur: function(){
 			// summary: called magically when focus has shifted away from this widget and it's dropdown
 			this._close();
-			this.inherited('_onBlur', arguments);
+			this.inherited(arguments);
 			// don't focus on <input>.  the user has explicitly focused on something else.
 		},
 

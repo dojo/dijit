@@ -199,10 +199,6 @@ dojo.declare(
 		}, this);
 	},
 
-	_onBlur: function(){
-		dijit.form.HorizontalSlider.superclass.setValue.call(this, this.value, true);
-	},
-
 	postCreate: function(){
 		if(this.showButtons){
 			this.incrementButton.style.display="";
