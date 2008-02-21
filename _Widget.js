@@ -227,7 +227,7 @@ dojo.declare("dijit._Widget", null, {
 
 	uninitialize: function(){
 		// summary:
-		//		stub function. Over-ride to implement custom widget tear-down
+		//		stub function. Override to implement custom widget tear-down
 		//		behavior.
 		return false;
 	},
@@ -235,9 +235,15 @@ dojo.declare("dijit._Widget", null, {
 	////////////////// MISCELLANEOUS METHODS ///////////////////
 
 	onFocus: function(){
+		// summary:
+		//              stub function. Override or connect to this method to receive
+		//              notifications for when the widget moves into focus.
 	},
 
 	onBlur: function(){
+		// summary:
+		//              stub function. Override or connect to this method to receive
+		//              notifications for when the widget moves out of focus.
 	},
 
 	_hasBeenBlurred: false,
