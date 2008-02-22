@@ -235,12 +235,10 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 
 	reset: function(){
 		this._hasBeenBlurred = false;
-		if(this._resetValue !== undefined){
-			if(this.setValue && !this._getValueDeprecated){
-				this.setValue(this._resetValue, true);
-			}else{
-				this.setAttribute(this._onChangeMonitor, this._resetValue);
-			}
+		if(this.setValue && !this._getValueDeprecated){
+			this.setValue(this._resetValue, true);
+		}else{
+			this.setAttribute(this._onChangeMonitor, (this._resetValue !== undefined && this._resetValue !== null)? this._resetValue : '');
 		}
 	},
 
