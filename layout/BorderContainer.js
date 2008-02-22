@@ -371,7 +371,6 @@ dojo.declare("dijit.layout._Splitter", [ dijit._Widget, dijit._Templated ],
 	},
 
 	_computeMaxSize: function(){
-	console.log("computemax");
 		var dim = this.horizontal ? 'h' : 'w';
 		var available = dojo.contentBox(this.container.domNode)[dim] - (this.oppNode ? dojo.marginBox(this.oppNode)[dim] : 0);
 		this._maxSize = Math.min(this.child.maxSize, available);
@@ -399,18 +398,18 @@ dojo.declare("dijit.layout._Splitter", [ dijit._Widget, dijit._Templated ],
 		//Performance: load data info local vars for onmousevent function closure
 		var factor = this._factor,
 			max = this._maxSize,
-			min = this._minSize || 10,
-			axis = this.horizontal ? "pageY" : "pageX",
-			pageStart = e[axis],
-			splitterStyle = this.domNode.style,
-			dim = this.horizontal ? 'h' : 'w',
-			childStart = dojo.marginBox(this.child.domNode)[dim],
-			splitterStart = parseInt(this.domNode.style[this.region]),
-			resize = this._resize,
-			region = this.region,
-			mb = {},
-			childNode = this.child.domNode,
-			layoutFunc = dojo.hitch(this.container, this.container._layoutChildren);
+			min = this._minSize || 10;
+		var axis = this.horizontal ? "pageY" : "pageX";
+		var pageStart = e[axis];
+		var splitterStyle = this.domNode.style;
+		var dim = this.horizontal ? 'h' : 'w';
+		var childStart = dojo.marginBox(this.child.domNode)[dim];
+		var splitterStart = parseInt(this.domNode.style[this.region]);
+		var resize = this._resize;
+		var region = this.region;
+		var mb = {};
+		var childNode = this.child.domNode;
+		var layoutFunc = dojo.hitch(this.container, this.container._layoutChildren);
 
 		var de = dojo.doc.body;
 		this._handlers = (this._handlers || []).concat([
