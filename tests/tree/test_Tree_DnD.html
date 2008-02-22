@@ -75,22 +75,22 @@
 				
 			});
 
-			tree1 = dijit.byId('myTree');
-			tree2 = dijit.byId('myTree2');
+			catTree = dijit.byId('myTree');
+			itemTree = dijit.byId('myTree2');
 		});
 
 
 		//create a custom label for tree one consisting of the label property pluss the value of the numberOfItems Column
-		function tree1CustomLabel(item){
+		function catTreeCustomLabel(item){
 			var label = catStore.getLabel(item);
 			var num = catStore.hasAttribute(item, "numberOfItems") ? catStore.getValues(item,"numberOfItems") : "?";
 			return label + ' (' + num+ ')';
 		}
 
-		//on tree two, we only want to drop on containers, or the root node itself, not on items in the containers
-		function tree2CheckItemAcceptance(node,source) {
+		//on item tree , we only want to drop on containers, or the root node itself, not on items in the containers
+		function itemTreeCheckItemAcceptance(node,source) {
 			var item = dijit.getEnclosingWidget(node).item;
-			if (item && (item.root || this.tree.store.hasAttribute(item,"numberOfItems"))){
+			if (item && (item.root || catStore.hasAttribute(item,"numberOfItems"))){
 				return true;
 			}
 			return false;
@@ -171,8 +171,10 @@
 		<td>
 			<h2>Collection Count Summary</h2>
 			<p>You can't drop items onto this tree.</p>
-			<div class="container" dojoType="dijit.Tree" id="myTree" store="catStore" label="Collections"
-				labelAttr="name" getLabel="tree1CustomLabel"  childrenAttr="children" dndController="dijit._tree.dndSource"
+			<div dojoType="dijit.tree.TreeStoreModel" jsId="catModel"
+				store="catStore" query="{id: '0'}"></div>
+			<div class="container" dojoType="dijit.Tree" id="collectionsTree" model="catModel"
+				getLabel="catTreeCustomLabel"  dndController="dijit._tree.dndSource"
 				checkAcceptance="dndAccept" getIconClass="getIcon"></div>
 		</td>
 		<td>
@@ -181,9 +183,11 @@
 				Drop items onto this tree, but only onto categories; should fail to let you drop on other items.
 				Can also move items within this tree.
 			</p>
-			<div class="container" dojoType="dijit.Tree" id="myTree2" label="Collections"
-				store="catStore" labelAttr="name" childrenAttr="children, items"
-				dndController="dijit._tree.dndSource" checkAcceptance="dndAccept" checkItemAcceptance="tree2CheckItemAcceptance"
+			<div dojoType="dijit.tree.TreeStoreModel" jsId="itemModel"
+				store="catStore" query="{id: '0'}" childrenAttr="items, children"></div>
+			<div class="container" dojoType="dijit.Tree" id="itemTree"
+				model="itemModel"
+				dndController="dijit._tree.dndSource" checkAcceptance="dndAccept" checkItemAcceptance="itemTreeCheckItemAcceptance"
 				getIconClass="getIcon"></div> 
 		</td>
 	</tr>
