@@ -35,7 +35,11 @@ dojo.declare(
 		value: "on",
 
 		setValue: function(/*String or Boolean*/ newValue){
-			// summary: set the value of the widget.
+			// summary:
+			//		When passed a boolean, controls whether or not the CheckBox is checked.
+			//		If passed a string, changes the value attribute of the CheckBox (the one
+			//		specified as "value" when the CheckBox was constructed (ex: <input
+			//		dojoType="dijit.CheckBox" value="chicken">)
 			if(typeof newValue == "string"){
 				this.setAttribute('value', newValue);
 				newValue = true;
@@ -45,7 +49,9 @@ dojo.declare(
 
 		_getValueDeprecated: false, // remove when _FormWidget:_getValueDeprecated is removed
 		getValue: function(){
-			// summary: get the value of the widget.
+			// summary:
+			//		If the CheckBox is checked, returns the value attribute.
+			//		Otherwise returns false.
 			return (this.checked ? this.value : false);
 		},
 

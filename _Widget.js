@@ -237,14 +237,14 @@ dojo.declare("dijit._Widget", null, {
 
 	onFocus: function(){
 		// summary:
-		//              stub function. Override or connect to this method to receive
-		//              notifications for when the widget moves into focus.
+		//		stub function. Override or connect to this method to receive
+		//		notifications for when the widget moves into focus.
 	},
 
 	onBlur: function(){
 		// summary:
-		//              stub function. Override or connect to this method to receive
-		//              notifications for when the widget moves out of focus.
+		//		stub function. Override or connect to this method to receive
+		//		notifications for when the widget moves out of focus.
 	},
 
 	_hasBeenBlurred: false,
@@ -259,9 +259,15 @@ dojo.declare("dijit._Widget", null, {
 	},
 
 	setAttribute: function(/*String*/ attr, /*anything*/ value){
-		// summary:
-		//              Set native HTML attributes reflected in the widget,
-		//              such as readOnly, disabled, and maxLength in TextBox widgets.
+		// summary
+		//		Set native HTML attributes reflected in the widget,
+		//		such as readOnly, disabled, and maxLength in TextBox widgets.
+		// description
+		//		In general, a widget's "value" is controlled via setValue()/getValue(), 
+		//		rather than this method.  The exception is for widgets where the
+		//		end user can't adjust the value, such as Button and CheckBox;
+		//		in the unusual case that you want to change the value attribute of
+		//		those widgets, use setAttribute().
 		var mapNode = this[this.attributeMap[attr]||'domNode'];
 		this[attr] = value;
 		switch(attr){
