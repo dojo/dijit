@@ -80,11 +80,15 @@ dojo.declare(
 					oppNode: oppNodeList[0], live: this.liveSplitters });
 				this._splitters[region] = splitter.domNode;
 				dojo.place(splitter.domNode, child.domNode, "after");
-				this._splitterThickness[region] =
-					dojo.marginBox(this._splitters[region])[/top|bottom/.test(region) ? 'h' : 'w'];
+				this._computeSplitterThickness(region);
 			}
 			child.region = region;
 		}
+	},
+
+	_computeSplitterThickness: function(region){
+		this._splitterThickness[region] =
+			dojo.marginBox(this._splitters[region])[/top|bottom/.test(region) ? 'h' : 'w'];
 	},
 
 	layout: function(){
@@ -151,14 +155,17 @@ dojo.declare(
 		var rightSplitterThickness = splitterThickness.right || 0;
 		var bottomSplitterThickness = splitterThickness.bottom || 0;
 
-/*
 		// Check for race condition where CSS hasn't finished loading, so
 		// the splitter width == the viewport width (#5824)
 		if(leftSplitterThickness > 50 || rightSplitterThickness > 50){
-			setTimeout(dojo.hitch(this, "_layoutChildren"), 50);
+			setTimeout(dojo.hitch(this, function(){
+				for(var region in this._splitters){
+					this._computeSplitterThickness(region);
+				}
+				this._layoutChildren();
+			}), 50);
 			return false;
 		}
-*/
 
 		var splitterBounds = {
 			left: (sidebarLayout ? leftWidth + leftSplitterThickness: "0") + "px",
@@ -223,7 +230,7 @@ dojo.declare(
 				var me = dojo._getMarginExtents(n, s);
 				dojo._setMarginBox(n, b.l, b.t, b.w + me.w, b.h + me.h, s);
 				return null;
-			}
+			};
 
 //TODO: use dim passed in? and make borderBox setBorderBox?
 			var thisBorderBox = borderBox(this.domNode);
