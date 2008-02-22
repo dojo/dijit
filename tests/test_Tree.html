@@ -16,7 +16,6 @@
 	<script language="JavaScript" type="text/javascript">
 		dojo.require("dojo.data.ItemFileReadStore");
 		dojo.require("dijit.Tree");
-		dojo.require("dijit._tree.ForestStoreDecorator");
 		dojo.require("dijit.ColorPalette");
 		dojo.require("dijit.Menu");
 		dojo.require("dojo.parser");	// scan page for widgets and instantiate them
@@ -28,15 +27,15 @@
 	<h1 class="testTitle">Dijit Tree Test</h1>
 
 	<div dojoType="dojo.data.ItemFileReadStore" jsId="continentStore"
-		url="../tests/_data/countries.json"></div>
-	<div dojoType="dijit._tree.ForestStoreDecorator" jsId="continentStoreDecorated" 
+		url="_data/countries.json"></div>
+	<div dojoType="dijit.tree.ForestStoreModel" jsId="continentModel" 
 		store="continentStore" query="{type:'continent'}"
 		rootId="continentRoot" rootLabel="Continents" childrenAttr="children"></div>
 
 	<h3>Tree with hardcoded root node (not corresponding to any item in the store)</h3>
 	<p>Clicking a folder node will open/close it (openOnclick==true), and clicking a leaf node will popup an alert.</p>
 	<div dojoType="dijit.Tree" id="mytree"
-		store="continentStoreDecorated" labelAttr="name" childrenAttr="children"
+		model="continentModel" labelAttr="name" childrenAttr="children"
 		openOnClick="true">
 		<script type="dojo/method" event="onClick" args="item">
 			alert("Execute of node " + continentStore.getLabel(item)
@@ -81,7 +80,7 @@
 	</ul>
 
 	<div dojoType="dijit.Tree" id="tree2"
-		store="continentStoreDecorated" labelAttr="name" childrenAttr="children"
+		model="continentModel" labelAttr="name" childrenAttr="children"
 		showRoot="false" openOnClick="true">
 
 		<script type="dojo/connect">
@@ -104,12 +103,12 @@
 			});
 		</script>
 		<script type="dojo/method" event="getIconClass" args="item, opened">
-           return (item == this.store.root || this.store.getValue(item, "type") == "continent") ?
+           return (item == this.model.root || continentStore.getValue(item, "type") == "continent") ?
                    (opened ? "customFolderOpenedIcon" : "customFolderClosedIcon") :
                     "noteIcon";
 		</script>
 		<script type="dojo/method" event="onClick" args="item">
-			alert("Execute of node " + this.store.getLabel(item)
+			alert("Execute of node " + this.model.getLabel(item)
 				+", population=" + continentStore.getValue(item, "population"));
 		</script>
 </div>

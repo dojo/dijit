@@ -56,7 +56,7 @@ dojo.declare("dijit._tree.dndSelector",
 			if(!this.current){ return; }
 
 			var item = dijit.getEnclosingWidget(this.current).item
-			var id = this.tree.store.getIdentity(item);
+			var id = this.tree.model.getIdentity(item);
 
 			if (!this.current.id) {
 				this.current.id=id;
@@ -112,7 +112,7 @@ dojo.declare("dijit._tree.dndSelector",
 						}
 					}else{
 						var item = dijit.getEnclosingWidget(this.current).item
-						var id = this.tree.store.getIdentity(item);
+						var id = this.tree.model.getIdentity(item);
 						if(!(id in this.selection)){
 							this.selectNone();
 							this.anchor = this.current;

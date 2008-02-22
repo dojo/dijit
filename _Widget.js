@@ -96,6 +96,7 @@ dojo.declare("dijit._Widget", null, {
 		//mixin our passed parameters
 		if(this.srcNodeRef && (typeof this.srcNodeRef.id == "string")){ this.id = this.srcNodeRef.id; }
 		if(params){
+			this.params = params;
 			dojo.mixin(this,params);
 		}
 		this.postMixInProperties();

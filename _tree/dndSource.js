@@ -253,7 +253,7 @@ dojo.declare("dijit._tree.dndSource", dijit._tree.dndSelector, {
 
 		if(this.containerState == "Over"){
 			var tree = this.tree,
-				store = tree.store,
+				model = tree.model,
 				target = this.current,
 				requeryRoot = false;	// set to true iff top level items change
 
@@ -273,8 +273,6 @@ dojo.declare("dijit._tree.dndSource", dijit._tree.dndSelector, {
 			}
 
 			dojo.forEach(nodes, function(node, idx){
-				var parentAttr = tree.childrenAttr[0];	// name of "children" attr in parent item
-
 				if(source == this){
 					// This is a node from my own tree, and we are moving it, not copying.
 					// Remove item from old parent's children attribute.
@@ -284,22 +282,9 @@ dojo.declare("dijit._tree.dndSource", dijit._tree.dndSelector, {
 						childItem = childTreeNode.item,
 						oldParentItem = childTreeNode.getParent().item;
 
-					dojo.forEach(tree.childrenAttr, function(attr){
-						if(store.containsValue(oldParentItem, attr, childItem)){
-							var values = dojo.filter(store.getValues(oldParentItem, attr), function(x){
-								return x != childItem;
-							});
-							store.setValues(oldParentItem, attr, values);
-							parentAttr = attr;
-						}
-					});
-
-					// modify target item's children attribute to include this item
-					store.setValues(newParentItem, parentAttr,
-						store.getValues(newParentItem, parentAttr).concat(childItem));
+					model.pasteItem(childItem, oldParentItem, newParentItem, copy);
 				}else{
-					var pInfo = {parent: newParentItem, attribute: parentAttr};
-					store.newItem(newItemsParams[idx], pInfo);
+					model.newItem(newItemsParams[idx], newParentItem);
 				}
 			}, this);
 		}
