@@ -26,13 +26,13 @@ dojo.declare("dijit.form.MultiSelect",dijit.form._FormWidget,{
 		// | 	dijit.byId("foo").addSelected(dijit.byId("bar"));
 		
 		select.getSelected().forEach(function(n){
-			this.domNode.appendChild(n);
+			this.containerNode.appendChild(n);
 		},this);
 	},
 					
 	getSelected: function(){
 		// summary: Access the NodeList of the selected options directly
-		return dojo.query("option",this.domNode).filter(function(n){
+		return dojo.query("option",this.containerNode).filter(function(n){
 			return n.selected; // Boolean
 		});
 	},
@@ -48,7 +48,7 @@ dojo.declare("dijit.form.MultiSelect",dijit.form._FormWidget,{
 	_multiValue: true, // for Form
 	setValue: function(/* Array */values){
 		// summary: Set the value(s) of this Select based on passed values
-		dojo.query("option",this.domNode).forEach(function(n){
+		dojo.query("option",this.containerNode).forEach(function(n){
 			n.selected = (dojo.indexOf(values,n.value) != -1);
 		});
 	},
@@ -57,7 +57,7 @@ dojo.declare("dijit.form.MultiSelect",dijit.form._FormWidget,{
 		// summary: Invert the selection
 		// onChange: Boolean
 		//		If null, onChange is not fired.
-		dojo.query("option",this.domNode).forEach(function(n){
+		dojo.query("option",this.containerNode).forEach(function(n){
 			n.selected = !n.selected;
 		});
 		this._handleOnChange(this.getValue(), onChange==true);
