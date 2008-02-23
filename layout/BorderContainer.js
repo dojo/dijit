@@ -24,15 +24,15 @@ dojo.declare(
 	//  Optional splitters may be specified on the edge widgets only to make them resizable by the user.
 	//
 	// example:
-	//	<style>
-	//		html, body { height: 100%; width: 100%; }
-	//	</style>
-	//	<div dojoType="BorderContainer" design="sidebar" style="width: 100%; height: 100%">
-	//		<div dojoType="ContentPane" region="top">header text</div>
-	//		<div dojoType="ContentPane" region="right" style="width: 200px;">table of contents</div>
-	//		<div dojoType="ContentPane" region="center">client area</div>
-	//	</div>
-
+	// |	<style>
+	// |		html, body { height: 100%; width: 100%; }
+	// |	</style>
+	// |	<div dojoType="BorderContainer" design="sidebar" style="width: 100%; height: 100%">
+	// |		<div dojoType="ContentPane" region="top">header text</div>
+	// |		<div dojoType="ContentPane" region="right" style="width: 200px;">table of contents</div>
+	// |		<div dojoType="ContentPane" region="center">client area</div>
+	// |	</div>
+	//
 	// design: String
 	//  choose which design is used for the layout: "headline" (default) where the top and bottom extend
 	//  the full width of the container, or "sidebar" where the left and right sides extend from top to bottom.
