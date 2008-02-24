@@ -7,20 +7,6 @@ dojo.declare(
 	"dijit.form.ComboBoxMixin",
 	null,
 	{
-		// summary:
-		//		Auto-completing text box, and base class for FilteringSelect widget.
-		//
-		//		The drop down box's values are populated from an class called
-		//		a data provider, which returns a list of values based on the characters
-		//		that the user has typed into the input box.
-		//
-		//		Some of the options to the ComboBox are actually arguments to the data
-		//		provider.
-		//
-		//		You can assume that all the form widgets (and thus anything that mixes
-		//		in ComboBoxMixin) will inherit from _FormWidget and thus the "this"
-		//		reference will also "be a" _FormWidget.
-
 		// item: Object
 		//		This is the item returned by the dojo.data.store implementation that
 		//		provides the data for this cobobox, it's the currently selected item.
@@ -929,6 +915,20 @@ dojo.declare(
 	"dijit.form.ComboBox",
 	[dijit.form.ValidationTextBox, dijit.form.ComboBoxMixin],
 	{
+		// summary:
+		//		Auto-completing text box, and base class for FilteringSelect widget.
+		// 
+		//		The drop down box's values are populated from an class called
+		//		a data provider, which returns a list of values based on the characters
+		//		that the user has typed into the input box.
+		// 
+		//		Some of the options to the ComboBox are actually arguments to the data
+		//		provider.
+		// 
+		//		You can assume that all the form widgets (and thus anything that mixes
+		//		in ComboBoxMixin) will inherit from _FormWidget and thus the "this"
+		//		reference will also "be a" _FormWidget.
+
 		postMixInProperties: function(){
 			// this.inherited(arguments); // ??
 			dijit.form.ComboBoxMixin.prototype.postMixInProperties.apply(this, arguments);
@@ -1039,6 +1039,3 @@ dojo.declare("dijit.form._ComboBoxDataStore", null, {
 			root)[0];	// dojo.data.Item
 	}
 });
-
-
-

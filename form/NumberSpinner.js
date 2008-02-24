@@ -7,8 +7,8 @@ dojo.declare(
 "dijit.form.NumberSpinner",
 [dijit.form._Spinner, dijit.form.NumberTextBoxMixin],
 {
-	// summary: Number Spinner
-	// description: This widget is the same as NumberTextBox but with up/down arrows added
+	// summary:
+	// extends NumberTextBox to add up/down arrows for incremental change to the value
 
 	required: true,
 

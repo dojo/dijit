@@ -10,7 +10,10 @@ dojo.declare(
 	"dijit.form.CurrencyTextBox",
 	dijit.form.NumberTextBox,
 	{
-		// code: String
+		// summary:
+		//		A validating currency textbox
+		//
+		// currency: String
 		//		the ISO4217 currency code, a three letter sequence like "USD"
 		//		See http://en.wikipedia.org/wiki/ISO_4217
 		currency: "",

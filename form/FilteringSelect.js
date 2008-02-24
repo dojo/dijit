@@ -6,27 +6,27 @@ dojo.declare(
 	"dijit.form.FilteringSelect",
 	[dijit.form.MappedTextBox, dijit.form.ComboBoxMixin],
 	{
-		/*
-		 * summary
-		 *	Enhanced version of HTML's <select> tag.
-		 *
-		 *	Similar features:
-		 *  - There is a drop down list of possible values.
-		 *	- You can only enter a value from the drop down list.  (You can't
-		 *	  enter an arbitrary value.)
-		 *	- The value submitted with the form is the hidden value (ex: CA),
-		 *	  not the displayed value a.k.a. label (ex: California)
-		 *
-		 *	Enhancements over plain HTML version:
-		 *	- If you type in some text then it will filter down the list of
-		 *	  possible values in the drop down list.
-		 *	- List can be specified either as a static list or via a javascript
-		 *	  function (that can get the list from a server)
-		 */
-
+		// summary
+		// An enhanced version of the HTML SELECT tag, but is populated dynamically. It works
+		// very nicely with very large data sets because it can load and page data as needed.
+		// It also resembles ComboBox, but does not allow values outside of the provided ones.
+		//  
+		// Similar features:
+		// - There is a drop down list of possible values.
+		//	- You can only enter a value from the drop down list.  (You can't
+		//	  enter an arbitrary value.)
+		//	- The value submitted with the form is the hidden value (ex: CA),
+		//	  not the displayed value a.k.a. label (ex: California)
+		// 
+		//	Enhancements over plain HTML version:
+		//	- If you type in some text then it will filter down the list of
+		//	  possible values in the drop down list.
+		//	- List can be specified either as a static list or via a javascript
+		//	  function (that can get the list from a server)
+		//
 		// searchAttr: String
 		//		Searches pattern match against this field
-
+		//
 		// labelAttr: String
 		//		Optional.  The text that actually appears in the drop down.
 		//		If not specified, the searchAttr text is used instead.
@@ -127,7 +127,7 @@ dojo.declare(
 			this.store.fetchItemByIdentity({
 				identity: value, 
 				onItem: function(item){
-					handleFetchByIdentity(item, priorityChange)
+					handleFetchByIdentity(item, priorityChange);
 				}
 			});
 		},

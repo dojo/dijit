@@ -236,9 +236,9 @@ dojo.declare("dijit.form._FormMixin", null,
 			return obj;
 		},
 
+		// TODO: ComboBox might need time to process a recently input value.  This should be async?
 	 	isValid: function(){
-	 		// TODO: ComboBox might need time to process a recently input value.  This should be async?
-	 		// make sure that every widget that has a validator function returns true
+	 		// summary: make sure that every widget that has a validator function returns true
 	 		return dojo.every(this.getDescendants(), function(widget){
 	 			return !widget.isValid || widget.isValid();
 	 		});
@@ -249,6 +249,9 @@ dojo.declare(
 	"dijit.form.Form",
 	[dijit._Widget, dijit._Templated, dijit.form._FormMixin],
 	{
+		// summary:
+		// Adds conveniences to regular HTML form
+
 		// HTML <FORM> attributes
 		name: "",
 		action: "",
@@ -320,8 +323,8 @@ dojo.declare(
 		onSubmit: function(){ return this.isValid(); },
 
 		submit: function(){
-			// summary: programatically submit form
-			if(this.onSubmit() !== false){ // form submit() does not call onsubmit
+			// summary: programmatically submit form
+			if(this.onSubmit() !== false){ // form submit() does not call onsubmit //FIXME: what does this mean?  and why not just check for 'truthiness'?
 				this.containerNode.submit();
 			}
 		}
