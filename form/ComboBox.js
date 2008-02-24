@@ -570,6 +570,7 @@ dojo.declare(
 		// FIXME: 
 		//		this is public so we can't remove until 2.0, but the name
 		//		SHOULD be "compositionEnd"
+
 		compositionend: function(/*Event*/ evt){
 			// summary:
 			//		When inputting characters using an input method, such as
@@ -580,6 +581,7 @@ dojo.declare(
 		},
 
 		//////////// INITIALIZATION METHODS ///////////////////////////////////////
+
 		constructor: function(){
 			this.query={};
 		},
