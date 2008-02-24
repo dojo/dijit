@@ -12,7 +12,6 @@
 		djConfig="parseOnLoad: true, isDebug: true"></script>
 	<script type="text/javascript" src="_testCommon.js"></script>
 
-	<script type="text/javascript" src="../Editor.js"></script>
 	<script type="text/javascript">
 		dojo.require("dijit.Editor");
 		dojo.require("dijit._editor.plugins.AlwaysShowToolbar");
@@ -24,9 +23,43 @@
 	</script>
 </head>
 <body>
+	<div dojoType="dijit.Editor" id="automated" height="1.5em" plugins="[]" focusOnLoad="true" style="border:0px;"
+	>Automated Test<script type='dojo/method' event='onFocus'>
+			if(!document.getElementById('onFocusFired').checked){
+				document.getElementById('onFocusFired').checked=true;
+				document.getElementById('initialValueOK').checked = (dijit.byId('automated').getValue() == 'Automated Test');
+				dijit.byId('automated').document.execCommand('selectall', false, false);
+				document.getElementById('onChangeOKnow').checked=true;
+				dijit.byId('automated').document.execCommand('underline', false, false);
+				setTimeout(function(){dijit.byId('editor1').focus();}, 0);
+			}
+		</script
+		><script type='dojo/method' event='onBlur'>
+			if(!document.getElementById('onBlurFired').checked){
+				document.getElementById('onBlurFired').checked=true;
+				dijit.byId('automated').setDisabled(true);
+				try {
+					dijit.byId('automated').document.execCommand('bold', false, false);
+					document.getElementById('disabledOK').checked = (dijit.byId('automated').document.queryCommandState('bold') == false);
+				} catch(e) { document.getElementById('disabledOK').checked = true; }
+			}
+		</script
+		><script type='dojo/method' event='onChange'>
+			if(document.getElementById('onChangeOKnow').checked && !document.getElementById('onChangeFired').checked){
+				document.getElementById('onChangeFired').checked=true;
+			}
+		</script
+	></div>
+	Focus:<input type="checkbox" id="onFocusFired" disabled autoComplete="off">
+	Value:<input type="checkbox" id="initialValueOK" disabled autoComplete="off">
+	<input type="checkbox" id="onChangeOKnow" disabled autoComplete="off" style="display:none;">
+	Change:<input type="checkbox" id="onChangeFired" disabled autoComplete="off">
+	Blur:<input type="checkbox" id="onBlurFired" disabled autoComplete="off">
+	Disabled:<input type="checkbox" id="disabledOK" disabled autoComplete="off">
+	<br>
+	<br>
 
 	<h1 class="testTitle"><label for="editor1">Editor + Plugins Test</label></h1>
-
 	<h2>Created from div</h2>
 	<div style="border: 1px solid black;">
 		<div dojoType="dijit.Editor" id="editor1"><p>This instance is created from a div directly with default toolbar and plugins</p></div>
@@ -40,11 +73,9 @@
 		<h3><label for="thud">thud - from textarea</label></h3>
 		<textarea dojoType="dijit.Editor" height=""
 			extraPlugins="['dijit._editor.plugins.AlwaysShowToolbar']"
-			onfocus="console.log('user focus handler')"
-			onblur="console.log('user blur handler')"
 			styleSheets="../../dojo/resources/dojo.css" id="thud">
 			<p>
-				This editor is created from a textarea with AlwaysShowToolbar plugin (don't forget to set height="").
+				This editor is created from a textarea with AlwaysShowToolbar plugin (do not forget to set height="").
 			</p>
 			<p>
 				Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean
@@ -72,7 +103,7 @@
 		<h3>..after</h3>
 	</div>
 	<hr/>
-	
+
 	<h2>Plugins specified</h2>
 	<div style="border: 1px dotted black;">
 		<h3><label for="blah2">Another blah entry</label></h3>
