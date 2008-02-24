@@ -29,7 +29,7 @@ dojo.mixin(dijit,
 		var _document = dojo.doc;
 		if(_document.selection){ // IE
 			return !_document.selection.createRange().text; // Boolean
-		}else if(_window.getSelection){
+		}else{
 			var selection = _window.getSelection();
 			if(dojo.isString(selection)){ // Safari
 				return !selection; // Boolean
@@ -53,7 +53,7 @@ dojo.mixin(dijit,
 			if(window.getSelection){
 				selection = dojo.global.getSelection();
 				if(selection){
-					var range = selection.getRangeAt(0);
+					range = selection.getRangeAt(0);
 					bookmark = range.cloneRange();
 				}
 			}else{
@@ -153,7 +153,7 @@ dojo.mixin(dijit,
 				openedForWindow.focus();
 			}
 			try{
-				dojo.withGlobal(openedForWindow||dojo.global, moveToBookmark, null, [bookmark]);
+				dojo.withGlobal(openedForWindow||dojo.global, dijit.moveToBookmark, null, [bookmark]);
 			}catch(e){
 				/*squelch IE internal error, see http://trac.dojotoolkit.org/ticket/1984 */
 			}
@@ -207,6 +207,7 @@ dojo.mixin(dijit,
 		dijit._prevFocus = dijit._curFocus;
 		dijit._curFocus = null;
 
+		console.log("blur: prev = ", dijit._prevFocus, ", cur = null");
 		if(dijit._justMouseDowned){
 			// the mouse down caused a new widget to be marked as active; this blur event
 			// is coming late, so ignore it.
@@ -218,10 +219,14 @@ dojo.mixin(dijit,
 			clearTimeout(dijit._clearActiveWidgetsTimer);
 		}
 		dijit._clearActiveWidgetsTimer = setTimeout(function(){
-			delete dijit._clearActiveWidgetsTimer; dijit._setStack([]); }, 100);
+			delete dijit._clearActiveWidgetsTimer;
+			dijit._setStack([]);
+			dijit._prevFocus = null;
+		}, 100);
 	},
 
 	_onTouchNode: function(/*DomNode*/ node){
+		console.log("touch ", node);
 		// summary
 		//		Callback when node is focused or mouse-downed
 
@@ -266,9 +271,13 @@ dojo.mixin(dijit,
 			return;
 		}
 		dijit._onTouchNode(node);
+
 		if(node==dijit._curFocus){ return; }
-		dijit._prevFocus = dijit._curFocus;
+		if(dijit._curFocus){
+			dijit._prevFocus = dijit._curFocus;
+		}
 		dijit._curFocus = node;
+		console.log("focus: prev = ", dijit._prevFocus, ", cur = ", dijit._curFocus);
 		dojo.publish("focusNode", [node]);
 	},
 
@@ -302,8 +311,8 @@ dojo.mixin(dijit,
 		}
 
 		// for all element that have come into focus, send focus event
-		for(var i=nCommon; i<newStack.length; i++){
-			var widget = dijit.byId(newStack[i]);
+		for(i=nCommon; i<newStack.length; i++){
+			widget = dijit.byId(newStack[i]);
 			if(widget){
 				widget._focused = true;
 				if(widget._onFocus){

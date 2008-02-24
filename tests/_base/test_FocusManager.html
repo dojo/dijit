@@ -19,8 +19,9 @@
 			dojo.subscribe("focusNode", function(node){ console.log("focused on " + (node?(node.id||node.tagName):"nothing"));});
 		});
 		function save(){
-			console.debug("save function");
 			savedFocus = dijit.getFocus(fakeWidget);
+			console.debug("saved focus: ", savedFocus);
+			
 		}
 		function restore(){
 			dijit.focus(savedFocus);
@@ -38,7 +39,7 @@
 		<button id=button>push me</button>
 	</form>
 
-	<button id="save" onclick="save();">Save focus/selection state</button>
+	<button id="save" onclick="save();" tabIndex="1">Save focus/selection state</button>
 	<button onclick="restore();">Restore focus/selection state</button>
 
 </body>
