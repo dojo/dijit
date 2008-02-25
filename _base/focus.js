@@ -57,7 +57,7 @@ dojo.mixin(dijit,
 					bookmark = range.cloneRange();
 				}
 			}else{
-				/* console.warn("No idea how to store the current selection for this browser!"); */
+				console.warn("No idea how to store the current selection for this browser!");
 			}
 		}
 		return bookmark; // Array
@@ -83,7 +83,7 @@ dojo.mixin(dijit,
 				selection.removeAllRanges();
 				selection.addRange(bookmark);
 			}else{
-				/* console.warn("No idea how to restore selection for this browser!"); */
+				console.warn("No idea how to restore selection for this browser!");
 			}
 		}
 	},
@@ -208,7 +208,6 @@ dojo.mixin(dijit,
 		dijit._prevFocus = dijit._curFocus;
 		dijit._curFocus = null;
 
-		// console.log("blur: prev = ", dijit._prevFocus, ", cur = null");
 		if(dijit._justMouseDowned){
 			// the mouse down caused a new widget to be marked as active; this blur event
 			// is coming late, so ignore it.
@@ -230,7 +229,6 @@ dojo.mixin(dijit,
 		// summary:
 		//		Callback when node is focused or mouse-downed
 
-		//console.log("touch ", node);
 		// ignore the recent blurNode event
 		if(dijit._clearActiveWidgetsTimer){
 			clearTimeout(dijit._clearActiveWidgetsTimer);
@@ -278,7 +276,6 @@ dojo.mixin(dijit,
 			dijit._prevFocus = dijit._curFocus;
 		}
 		dijit._curFocus = node;
-		//console.log("focus: prev = ", dijit._prevFocus, ", cur = ", dijit._curFocus);
 		dojo.publish("focusNode", [node]);
 	},
 
