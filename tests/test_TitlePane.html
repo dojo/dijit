@@ -19,6 +19,23 @@
 		function randomMessageId(){
 			return Math.floor(Math.random() * 3) + 3;
 		}
+
+		dojo.declare("dijit.TestTitlePane", dijit.TitlePane, {
+			templateString: '<div class="dijitTitlePane">' +
+							'    <div class="dijitTitlePaneTitle" dojoAttachPoint="titleBarNode" style="cursor: default;">' +
+							'        <div dojoAttachEvent="onclick:toggle,onkeypress: _onTitleKey,onfocus:_handleFocus,onblur:_handleFocus" tabindex="0"' +
+							'                waiRole="button" dojoAttachPoint="focusNode,arrowNode" class="dijitInline dijitArrowNode" style="cursor: pointer;"><span dojoAttachPoint="arrowNodeInner" class="dijitArrowNodeInner"></span></div>' +
+							'        <div dojoAttachPoint="titleNode" class="dijitTitlePaneTextNode"></div>' +
+							'    </div>' +
+							'    <div class="dijitTitlePaneContentOuter" dojoAttachPoint="hideNode">' +
+							'        <div class="dijitReset" dojoAttachPoint="wipeNode">' +
+							'            <div class="dijitTitlePaneContentInner" dojoAttachPoint="containerNode" waiRole="region" tabindex="-1">' +
+							'            </div>' +
+							'        </div>' +
+							'    </div>' +
+							'</div>'
+		});
+
 	</script>
 
 	<style type="text/css">
@@ -85,6 +102,17 @@ More Ipsum...
 		</div>
 
 		<p>And this is the closing line for the outer title pane.
+	</div>
+
+	<h1>Test #7: subclassed title pane (only arrow is selectable and focusable)</h1>
+	<div dojoType="dijit.TestTitlePane" title="Title Pane #7" style="width: 300px;">
+		Lorem Ipsum Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Quisque
+		iaculis, nulla id semper faucibus, pede tellus nonummy magna, vitae adipiscing
+		orci arcu ut augue. Nunc condimentum, magna a vestibulum convallis, libero purus
+		pulvinar orci, sed vestibulum urna sem ut pede. More Ipsum...
+		Sed sollicitudin suscipit risus. Nam ullamcorper. Sed nisl lectus, pellentesque
+		nec, malesuada eget, ornare a, libero. Lorem ipsum dolor sit amet,
+		consectetuer adipiscing elit.
 	</div>
 
 	<table style="border: solid blue 2px; margin-top: 1em;">
