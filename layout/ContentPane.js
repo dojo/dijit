@@ -249,7 +249,8 @@ dojo.declare(
 		// else -> load when download not in progress, if this.open !== false (undefined is ok) AND
 		//						domNode display != 'none', isLoaded must be false
 
-		var displayState = ((this.open !== false) && (this.domNode.style.display != 'none'));
+		var node = this.containerNode || this.domNode,
+			displayState = ((this.open !== false) && (node.style.display != 'none')  && (node.style.visibility != 'hidden'));
 
 		if(this.href &&	
 			(forceLoad ||

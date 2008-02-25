@@ -213,7 +213,10 @@ dojo.declare("dijit.layout.AccordionPane",
 	setSelected: function(/*Boolean*/ isSelected){
 		// summary: change the selected state on this pane
 		this._setSelectedState(isSelected);
-		if(isSelected){ this.onSelected(); }
+		if(isSelected){
+			this.onSelected();
+			this._loadCheck(true); // if href specified, trigger load
+		}
 	},
 
 	onSelected: function(){
