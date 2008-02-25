@@ -2,7 +2,7 @@
 		"http://www.w3.org/TR/html4/strict.dtd">
 <html>
 <head>
-	<title>Dialog Widget Dojo Tests</title>
+	<title>TooltipDialog Widget Tests</title>
 	<style type="text/css">
 		@import "../../dojo/resources/dojo.css";
 		@import "css/dijitTests.css";
@@ -120,8 +120,8 @@
 
 <div dojoType="dijit.form.DropDownButton">
 	<span>Test slowloading HREF Tooltip Dialog</span>
-	<div dojoType="dijit.TooltipDialog" href="layout/getResponse.php?delay=500&messId=2" title="tooltip dialog with no focusable items">
-	</div>
+	<div dojoType="dijit.TooltipDialog" id="slowLoad" href="layout/getResponse.php?delay=500&messId=2"
+		title="tooltip dialog with no focusable items"></div>
 </div> |
 
 <p><b><i>(scroll down to see more links to click, for testing positioning / scroll handling)</i></b></p>

@@ -236,7 +236,19 @@ dojo.declare(
 		this._loadCheck(forceLoad);
 	},
 
-	_loadCheck: function(forceLoad){
+	_isOpen: function(){
+		// summary: returns true if the content is currently shown
+		if("open" in this){
+			return this.open;		// for TitlePane, etc.
+		}else if("selected" in this){
+			return this.selected;	// AccordionContainer, TabContainer
+		}else{
+			var node = this.domNode;
+			return (node.style.display != 'none')  && (node.style.visibility != 'hidden');
+		}
+	},
+
+	_loadCheck: function(/*Boolean*/ forceLoad){
 		// call this when you change onShow (onSelected) status when selected in parent container
 		// it's used as a trigger for href download when this.domNode.display != 'none'
 
@@ -249,8 +261,7 @@ dojo.declare(
 		// else -> load when download not in progress, if this.open !== false (undefined is ok) AND
 		//						domNode display != 'none', isLoaded must be false
 
-		var node = this.containerNode || this.domNode,
-			displayState = ((this.open !== false) && (node.style.display != 'none')  && (node.style.visibility != 'hidden'));
+		var displayState = this._isOpen();
 
 		if(this.href &&	
 			(forceLoad ||
