@@ -247,14 +247,11 @@ dojo.declare("dijit._Widget", null, {
 		//		notifications for when the widget moves out of focus.
 	},
 
-	_hasBeenBlurred: false,
-
 	_onFocus: function(e){
 		this.onFocus();
 	},
 
 	_onBlur: function(){
-		this._hasBeenBlurred = true;
 		this.onBlur();
 	},
 

@@ -301,6 +301,7 @@ dojo.mixin(dijit,
 			var widget = dijit.byId(oldStack[i]);
 			if(widget){
 				widget._focused = false;
+				widget._hasBeenBlurred = true;
 				if(widget._onBlur){
 					widget._onBlur();
 				}
