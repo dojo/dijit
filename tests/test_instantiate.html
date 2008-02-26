@@ -37,7 +37,9 @@
 				}
 			});
 			
-			dojo.addOnLoad(function(){
+			var init = function(){
+				dojo.byId("status").innerHTML = "after.";
+				
 				// test widgeting
 				dojo.query("#testList li").instantiate(test._Widget,{}).connect("onclick",console.log);
 				
@@ -46,10 +48,11 @@
 					.forEach(function(n){
 						var idx = 0;
 						dojo.query("div",n)
+							.style("height","200px")
 							.instantiate(dijit.layout.ContentPane,{})
 							.forEach(function(wn){
+								console.log('found',wn);
 								idx++;
-								dojo.style(wn,{ height:"200px" });
 								dojo.mixin(dijit.byNode(wn),{ title:"tab"+(idx) })
 							})
 						;
@@ -57,6 +60,7 @@
 					.instantiate(dijit.layout.TabContainer,{});
 				// should we add auto-startup calling?
 				dijit.byId("container").startup();
+				dijit.byId("container").layout();
 				
 				// another test widget example
 				dojo.query("#altList li").instantiate(test._Widget,{ message:"woot" });
@@ -69,12 +73,16 @@
 						}
 					});
 				});
-			});
+			};
+			dojo.addOnLoad(init);
+			//dojo.addOnLoad(function(){
+			//	setTimeout(init,25);
+			//});
 		</script>
 	</head>
 	<body>
 
-		<h1>dojo.NodeList.instantiate() tests</h1>
+		<h1>dojo.NodeList.instantiate() tests: <span id="status">before</span></h1>
 			
 			<h2>Some simple widgets:</h2>
 			<ul id="testList">
@@ -91,6 +99,7 @@
 				<div>pane3</div>
 			</div>
 
+			<h2>Some Buttons</h2>
 			<div id="buttonTest">
 				<button>button 1</button>
 				<button>button 2</button>
