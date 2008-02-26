@@ -974,7 +974,8 @@ dojo.declare(
 					}
 					this.root = items[0];
 					onItem(this.root);
-				})
+				}),
+				onError: onError
 			});
 		}
 	},
@@ -1022,7 +1023,8 @@ dojo.declare(
 				if(!store.isItemLoaded(item)){
 					store.loadItem({
 						item: item,
-						onItem: onItem
+						onItem: onItem,
+						onError: onError
 					});
 				}
 			});
