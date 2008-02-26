@@ -13,8 +13,8 @@ dojo.declare("dijit.layout.TabContainer",
 	//	one pane at a time.  There are a set of tabs corresponding to each pane,
 	//	where each tab has the title (aka title) of the pane, and optionally a close button.
 	//
-	//	Publishes topics <widgetId>-addChild, <widgetId>-removeChild, and <widgetId>-selectChild
-	//	(where <widgetId> is the id of the TabContainer itself.
+	//	Publishes topics [widgetId]-addChild, [widgetId]-removeChild, and [widgetId]-selectChild
+	//	(where [widgetId] is the id of the TabContainer itself.
 	//
 	// tabPosition: String
 	//   Defines where tabs go relative to tab content.

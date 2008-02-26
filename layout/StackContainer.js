@@ -18,7 +18,7 @@ dojo.declare(
 	// 	A container for widgets (ContentPanes, for example) That displays
 	//	only one Widget at a time.
 	//	
-	//	Publishes topics <widgetId>-addChild, <widgetId>-removeChild, and <widgetId>-selectChild
+	//	Publishes topics [widgetId]-addChild, [widgetId]-removeChild, and [widgetId]-selectChild
 	//
 	//	Can be base class for container, Wizard, Show, etc.
 	// 

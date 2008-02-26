@@ -15,7 +15,7 @@ dojo.declare("dijit.InlineEditBox",
 	// summary: An element with in-line edit capabilitites
 	//
 	// description:
-	//		Behavior for an existing node (<p>, <div>, <span>, etc.) so that
+	//		Behavior for an existing node (`<p>`, `<div>`, `<span>`, etc.) so that
 	// 		when you click it, an editor shows up in place of the original
 	//		text.  Optionally, Save and Cancel button are displayed below the edit widget.
 	//		When Save is clicked, the text is pulled from the edit

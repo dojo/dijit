@@ -10,7 +10,7 @@ dojo.declare("dijit.layout.LinkPane",
 	//	A ContentPane that loads data remotely
 	// description:
 	//	LinkPane is just a ContentPane that loads data remotely (via the href attribute),
-	//	and has markup similar to an anchor.  The anchor's body (the words between <a> and </a>)
+	//	and has markup similar to an anchor.  The anchor's body (the words between `<a>` and `</a>`)
 	//	become the title of the widget (used for TabContainer, AccordionContainer, etc.)
 	// example:
 	//	<a href="foo.html">my title</a>
