@@ -126,8 +126,8 @@ dojo.declare(
 			return this.textbox.value;
 		},
 
-		setDisplayedValue:function(/*String*/ value){
-			this.setValue(this.parse(value, this.constraints), true, value);
+		setDisplayedValue:function(/*String*/ value, /*Boolean, optional*/ priorityChange){
+			this.setValue(this.parse(value, this.constraints), priorityChange, value);
 		},
 
 		destroy: function(){

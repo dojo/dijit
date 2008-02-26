@@ -55,9 +55,9 @@ dojo.declare(
 			dijit.form.TextBox.superclass.setValue.call(this, filteredValue, priorityChange);
 		},
 
-		setDisplayedValue: function(/*String*/value){
+		setDisplayedValue: function(/*String*/value, /*Boolean, optional*/ priorityChange){
 			this.textbox.value = value;
-			this.setValue(this.getValue(), true);
+			this.setValue(this.getValue(), priorityChange);
 		},
 
 		format: function(/* String */ value, /* Object */ constraints){

@@ -288,10 +288,8 @@ dojo.declare(
 		// so this is the only way we can see the key press event.
 		this.connect(ew.focusNode || ew.domNode, "onkeypress", "_onKeyPress");
 
-		// setting the value of the edit widget will cause a possibly asynchronous onChange() call.
-		// we need to ignore it, since we are only interested in when the user changes the value.
-		this._ignoreNextOnChange = true;
-		(this.editWidget.setDisplayedValue||this.editWidget.setValue).call(this.editWidget, this.value);
+		// priorityChange=false will prevent bogus onChange event
+		(this.editWidget.setDisplayedValue||this.editWidget.setValue).call(this.editWidget, this.value, false);
 
 		this._initialText = this.getValue();
 
@@ -374,10 +372,6 @@ dojo.declare(
 		// summary:
 		//	Called when the underlying widget fires an onChange event,
 		//	which means that the user has finished entering the value
-		if(this._ignoreNextOnChange){
-			delete this._ignoreNextOnChange;
-			return;
-		}
 		if(this._exitInProgress){
 			// TODO: the onChange event might happen after the return key for an async widget
 			// like FilteringSelect.  Shouldn't be deleting the edit widget on end-of-edit

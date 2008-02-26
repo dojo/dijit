@@ -44,9 +44,9 @@ dojo.declare(
 			return this._isvalid;
 		},
 
-		_callbackSetLabel: function(/*Array*/ result, 
-									/*Object*/ dataObject, 
-									/*Boolean?*/ priorityChange){
+		_callbackSetLabel: function(	/*Array*/ result, 
+						/*Object*/ dataObject, 
+						/*Boolean?*/ priorityChange){
 			// summary:
 			//		Callback function that dynamically sets the label of the
 			//		ComboBox
@@ -92,8 +92,8 @@ dojo.declare(
 		},
 
 		_setValue:function(	/*String*/ value, 
-							/*String*/ displayedValue, 
-							/*Boolean?*/ priorityChange){
+					/*String*/ displayedValue, 
+					/*Boolean?*/ priorityChange){
 			this.valueNode.value = value;
 			dijit.form.FilteringSelect.superclass.setValue.call(this, value, priorityChange, displayedValue);
 			this._lastDisplayedValue = displayedValue;
@@ -161,7 +161,7 @@ dojo.declare(
 			this._setValueFromItem(tgt.item, true);
 		},
 
-		setDisplayedValue:function(/*String*/ label){
+		setDisplayedValue:function(/*String*/ label, /*Boolean, optional*/ priorityChange){
 			// summary:
 			//		Set textbox to display label. Also performs reverse lookup
 			//		to set the hidden value. Used in InlineEditBox
@@ -182,7 +182,9 @@ dojo.declare(
 						ignoreCase: this.ignoreCase, 
 						deep: true
 					}, 
-					onComplete: dojo.hitch(this, "_callbackSetLabel"),
+					onComplete: function(result, dataObject){
+						        dojo.hitch(_this, "_callbackSetLabel")(result, dataObject, priorityChange);
+					},
 					onError: function(errText){
 						console.error('dijit.form.FilteringSelect: ' + errText);
 						dojo.hitch(_this, "_setValue")(undefined, label, false);
