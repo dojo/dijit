@@ -208,6 +208,11 @@ dojo.declare(
 				this._firstFocusItem = focusItem ? focusItem : this.domNode;
 				focusItem = dijit.getLastInTabbingOrder(this.domNode);
 				this._lastFocusItem = focusItem ? focusItem : this._firstFocusItem;
+				if(dojo.isMoz && this._firstFocusItem.tagName.toLowerCase() == "input" && dojo.attr(this._firstFocusItem, "type").toLowerCase() == "file"){
+					//FF doesn't behave well when first element is input type=file, set first focusable to dialog container
+					dojo.attr(this.domNode, "tabindex", "0");
+					this._firstFocusItem = this.domNode;
+					}
 			}
 
 			var node = this.domNode;
