@@ -186,10 +186,15 @@ dojo.declare("dijit._Widget", null, {
 		// finalize: Boolean
 		//		is this function being called part of global environment
 		//		tear-down?
+
 		this.uninitialize();
 		dojo.forEach(this._connects, function(array){
 			dojo.forEach(array, dojo.disconnect);
 		});
+
+		// destroy widgets created as part of template, etc.
+		dojo.forEach(this._supportingWidgets || [], function(w){ w.destroy(); });
+		
 		this.destroyRendering(finalize);
 		dijit.registry.remove(this.id);
 	},
@@ -300,9 +305,13 @@ dojo.declare("dijit._Widget", null, {
 
 	getDescendants: function(){
 		// summary:
-		//	return all the descendant widgets
-		var list = dojo.query('[widgetId]', this.domNode);
-		return list.map(dijit.byNode);		// Array
+		//	Returns all the widgets that contained by this, i.e., all widgets underneath this.containerNode.
+		if(this.containerNode){
+			var list= dojo.query('[widgetId]', this.containerNode || this.domNode);
+			return list.map(dijit.byNode);		// Array
+		}else{
+			return [];
+		}
 	},
 
 	nodesWithKeyClick : ["input", "button"],
