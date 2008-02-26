@@ -34,13 +34,24 @@ th {
 	background-position:0px -1px; 
 }
 
+.dijitRtl caption,
+.dijitRtl th {
+	text-align:right;
+}
+
 th .arrowNode { 
 	position:relative; 
+	float:left;
 	top:4px;
 	left:4px; 
 	width:16px;
 	height:16px;
-} 
+}
+
+.dijitRtl th .arrowNode{
+	float:right;	
+}
+
 th.arrowUp .arrowNode {
 	padding-right: 16px;
 	background:transparent url("../../themes/tundra/images/arrowUp.png") no-repeat;
