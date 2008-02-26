@@ -362,18 +362,6 @@ dojo.subscribe(dijit._scopeName + ".Editor.getPlugin",null,function(o){
 			break;
 		case "|":
 			p = new _p({ button: new dijit.ToolbarSeparator() });
-			break;
-		case "createLink": case "insertImage":
-			p = new dijit._editor.plugins.LinkDialog({ command: name });
-			break;
-		case "foreColor": case "hiliteColor":
-			p = new dijit._editor.plugins.TextColor({ command: name });
-			break;
-		case "fontName": case "fontSize": case "formatBlock":
-			p = new dijit._editor.plugins.FontChoice({ command: name });
-			break;
-		case "toggleDir":
-			p = new dijit._editor.plugins.ToggleDir({ command: name});
 	}
 //	console.log('name',name,p);
 	o.plugin=p;

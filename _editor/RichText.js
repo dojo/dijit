@@ -703,14 +703,14 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 		  // clicked instead of deleting the object. see #1069
 				dojo.stopEvent(e);
 				this.execCommand("delete");
-			}else if(	(65 <= e.keyCode&&e.keyCode <= 90) ||
+			}else if((65 <= e.keyCode&&e.keyCode <= 90) ||
 				(e.keyCode>=37&&e.keyCode<=40) // FIXME: get this from connect() instead!
 			){ //arrow keys
 				e.charCode = e.keyCode;
 				this.onKeyPress(e);
 			}
 		}
-		else if (dojo.isMoz){
+		else if(dojo.isMoz){
 			if(e.keyCode == dojo.keys.TAB && !e.shiftKey && !e.ctrlKey && !e.altKey && this.iframe){
 				// update iframe document title for screen reader
 				this.iframe.contentDocument.title = this._localizedIframeTitles.iframeFocusTitle;

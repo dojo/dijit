@@ -26,3 +26,11 @@ dojo.declare("dijit._editor.plugins.ToggleDir",
 		}
 	}
 );
+
+dojo.subscribe(dijit._scopeName + ".Editor.getPlugin",null,function(o){
+	if(o.plugin){ return; }
+	switch(o.args.name){
+	case "toggleDir":
+		o.plugin = new dijit._editor.plugins.ToggleDir({command: o.args.name});
+	}
+});

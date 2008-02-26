@@ -22,9 +22,12 @@ dojo.declare("dijit._editor._Plugin", null, {
 	commandArg: null,
 	useDefaultCommand: true,
 	buttonClass: dijit.form.Button,
+	getLabel: function(key){
+		return this.editor.commands[key];
+	},
 	_initButton: function(props){
 		if(this.command.length){
-			var label = this.editor.commands[this.command];
+			var label = this.getLabel(this.command);
 			var className = this.iconClassPrefix+" "+this.iconClassPrefix + this.command.charAt(0).toUpperCase() + this.command.substr(1);
 			if(!this.button){
 				props = dojo.mixin({

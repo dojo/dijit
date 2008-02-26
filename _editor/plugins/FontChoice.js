@@ -17,16 +17,30 @@ dojo.declare("dijit._editor.plugins.FontChoice",
 
 		_initButton: function(){
 			//TODO: do we need nls for font names?  provide css font lists? or otherwise make this more configurable?
+			var cmd = this.command;
 			var names = {
 				fontName: ["serif", "sans-serif", "monospaced", "cursive", "fantasy"],
 				fontSize: [1,2,3,4,5,6,7],
-				formatBlock: ["p", "h1", "h2", "h3", "pre"] }[this.command];
+				formatBlock: ["p", "h1", "h2", "h3", "pre"] }[cmd];
 			var strings = dojo.i18n.getLocalization("dijit._editor", "FontChoice");
-			var items = dojo.map(names, function(x){ return { name: strings[x], value: x }; });
-			items.push({name:"", value:""}); // FilteringSelect doesn't like unmatched blank strings
+			var items = dojo.map(names, function(value){
+				var name = strings[value];
+				var label = name;
+				switch(cmd){
+				case "fontName":
+					label = "<div style='font-family: "+value+"'>"+name+"</div>";
+					break;
+				case "fontSize":
+					// we're stuck using the deprecated FONT tag to correspond with the size measurements used by the editor
+					label = "<font size="+value+"'>"+name+"</font>";
+				}
+				return { label: label, name: name, value: value };
+			});
+			items.push({label: "", name:"", value:""}); // FilteringSelect doesn't like unmatched blank strings
 
-			dijit._editor.plugins.FontChoice.superclass._initButton.apply(this, [{ store: new dojo.data.ItemFileReadStore(
-				{ data: { identifier: "value", items: items } })}]);
+			dijit._editor.plugins.FontChoice.superclass._initButton.apply(this,
+				[{ labelType: "html", labelAttr: "label", searchAttr: "name", store: new dojo.data.ItemFileReadStore(
+					{ data: { identifier: "value", items: items } })}]);
 
 			this.button.setValue("");
 
@@ -62,3 +76,11 @@ dojo.declare("dijit._editor.plugins.FontChoice",
 		}
 	}
 );
+
+dojo.subscribe(dijit._scopeName + ".Editor.getPlugin",null,function(o){
+	if(o.plugin){ return; }
+	switch(o.args.name){
+	case "fontName": case "fontSize": case "formatBlock":
+		o.plugin = new dijit._editor.plugins.FontChoice({command: o.args.name});
+	}
+});
