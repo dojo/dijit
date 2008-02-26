@@ -2,8 +2,36 @@
 	"http://www.w3.org/TR/html4/strict.dtd">
 <html>
 <head>
-	<title>Layout Demo</title>
+	<title>Programmatic Layout Demo</title>
 
+	<style type="text/css">
+		@import "../../../dojo/resources/dojo.css";
+		@import "css/dijitTests.css";
+
+		html, body{	
+			width: 100%;	/* make the body expand to fill the visible window */
+			height: 100%;
+			overflow: hidden;	/* erase window level scrollbars */
+			padding: 0 0 0 0;
+			margin: 0 0 0 0;
+		}
+		.dijitSplitPane{
+			margin: 5px;
+		}
+		#rightPane {
+			margin: 0;
+		}
+		#creator, #current {
+			border: 3px solid blue;
+			padding: 10px;
+			margin: 10px;
+		}
+		#wrapper {
+			border: 3px solid green;
+			padding: 10px;
+			margin: 10px;
+		}
+	</style>
 
 	<script type="text/javascript" src="../../../dojo/dojo.js"
 		djConfig="isDebug: true, parseOnLoad: true"></script>
@@ -326,34 +354,6 @@
 			widget.hide();
 		}
 	</script>
-	<style type="text/css">
-		@import "../../../dojo/resources/dojo.css";
-		@import "css/dijitTests.css";
-
-		html, body{	
-			width: 100%;	/* make the body expand to fill the visible window */
-			height: 100%;
-			overflow: hidden;	/* erase window level scrollbars */
-			padding: 0 0 0 0;
-			margin: 0 0 0 0;
-		}
-		.dijitSplitPane{
-			margin: 5px;
-		}
-		#rightPane {
-			margin: 0;
-		}
-		#creator, #current {
-			border: 3px solid blue;
-			padding: 10px;
-			margin: 10px;
-		}
-		#wrapper {
-			border: 3px solid green;
-			padding: 10px;
-			margin: 10px;
-		}
-	</style>
 </head>
 <body>
 	<h1>Test of layout code programmatic creation</h1>

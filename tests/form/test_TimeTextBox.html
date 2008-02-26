@@ -4,21 +4,6 @@
 	<head>
 		<title>Test TimeTextBox Widget</title>
 
-		<script type="text/javascript" src="../../../dojo/dojo.js"
-			djConfig="isDebug: true, parseOnLoad: true, extraLocale: ['de-de', 'en-us']"></script>
-		<script type="text/javascript" src="../_testCommon.js"></script>
-
-		<script type="text/javascript">
-			dojo.require("dijit.form.TextBox");
-			dojo.require("dijit.form.ValidationTextBox");
-			dojo.require("dijit.form.NumberTextBox");
-			dojo.require("dijit.form.CurrencyTextBox");
-			dojo.require("dijit.form.DateTextBox");
-			dojo.require("dijit.form.TimeTextBox");
-			dojo.require("dojo.currency");
-			dojo.require("dojo.date.locale");
-			dojo.require("dojo.parser");	// scan page for widgets and instantiate them
-		</script>
 		<style type="text/css">
 			@import "../../../dojo/resources/dojo.css";
 			@import "../css/dijitTests.css";
@@ -53,6 +38,22 @@
 				font-weight:bold;
 			}
 		</style>
+		
+		<script type="text/javascript" src="../../../dojo/dojo.js"
+			djConfig="isDebug: true, parseOnLoad: true, extraLocale: ['de-de', 'en-us']"></script>
+		<script type="text/javascript" src="../_testCommon.js"></script>
+
+		<script type="text/javascript">
+			dojo.require("dijit.form.TextBox");
+			dojo.require("dijit.form.ValidationTextBox");
+			dojo.require("dijit.form.NumberTextBox");
+			dojo.require("dijit.form.CurrencyTextBox");
+			dojo.require("dijit.form.DateTextBox");
+			dojo.require("dijit.form.TimeTextBox");
+			dojo.require("dojo.currency");
+			dojo.require("dojo.date.locale");
+			dojo.require("dojo.parser");	// scan page for widgets and instantiate them
+		</script>
 	</head>
 
 	<body>

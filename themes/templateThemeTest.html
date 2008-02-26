@@ -4,18 +4,6 @@
 	<head>
 		<title>Test Widget Templates in Multiple Themes</title>
 
-		<script type="text/javascript" src="../../dojo/dojo.js"
-			djConfig="parseOnLoad: true, isDebug: true"></script>
-		<script type="text/javascript" src="../tests/_testCommon.js"></script>
-
-		<script type="text/javascript">
-			dojo.require("dijit.Menu");
-			dojo.require("dijit.form.Button");
-			dojo.require("dijit.form.ComboBox");
-			dojo.require("dijit.form.NumberSpinner");
-			dojo.require("dojo.parser");
-			logMessage = console.debug;
-		</script>
 		<style type="text/css">
 			@import "../../dojo/resources/dojo.css";
 			@import "noir/noir.css";
@@ -33,8 +21,20 @@
 			.box .dijitButton {
 				margin-right: 10px;
 			}
-
 		</style>
+
+		<script type="text/javascript" src="../../dojo/dojo.js"
+			djConfig="parseOnLoad: true, isDebug: true"></script>
+		<script type="text/javascript" src="../tests/_testCommon.js"></script>
+
+		<script type="text/javascript">
+			dojo.require("dijit.Menu");
+			dojo.require("dijit.form.Button");
+			dojo.require("dijit.form.ComboBox");
+			dojo.require("dijit.form.NumberSpinner");
+			dojo.require("dojo.parser");
+			logMessage = console.debug;
+		</script>
 	</head>
 	<body>
 		<h2>Tundra</h2>

@@ -53,8 +53,23 @@
 			
 		}
 
-		hr.spacer { border:0; background-color:#ededed; width:80%; height:1px; } 
+		hr.spacer { border:0; background-color:#ededed; width:80%; height:1px; }
+
+		/* for custom menu buttons, does not appear to have any effect */
+		.myCustomTheme .dijitButtonNode {
+			border:1px solid #000;
+			vertical-align: middle;
+			padding: 0.2em 0.2em;
+			background: url("themeTesterImages/blackButtonEnabled.gif") repeat-x bottom left #474747;
+			color:#fff;
+		}
+		
+		.myCustomTheme .dijitButtonHover .dijitButtonNode,
+		.myCustomTheme .dijitToggleButtonHover .dijitButtonNode {
+			background: url("themeTesterImages/blackButtonHover.gif") repeat-x bottom left #3b3b3b !important;
+		}
 	</style>
+
 	<script type="text/javascript" src="../tests/_testCommon.js"></script>
 	<script type="text/javascript"> // dojo.requires()
 
@@ -139,24 +154,6 @@
 			
 		});
 
-	</script>
-	<style type="text/css">
-		/* for custom menu buttons, do not appear to have any effect */
-		.myCustomTheme .dijitButtonNode {
-			border:1px solid #000;
-			vertical-align: middle;
-			padding: 0.2em 0.2em;
-			background: url("themeTesterImages/blackButtonEnabled.gif") repeat-x bottom left #474747;
-			color:#fff;
-		}
-		
-		.myCustomTheme .dijitButtonHover .dijitButtonNode,
-		.myCustomTheme .dijitToggleButtonHover .dijitButtonNode {
-			background: url("themeTesterImages/blackButtonHover.gif") repeat-x bottom left #3b3b3b !important;
-		}
-	
-	</style>
-	<script>
 		/***
 		dojo.addOnLoad(function(){
 			// use "before advice" to print log message each time resize is called on a layout widget

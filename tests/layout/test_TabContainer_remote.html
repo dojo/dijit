@@ -4,6 +4,22 @@
 <head>
 	<title>TabContainer Demo</title>
 
+	<style type="text/css">
+		@import "../../../dojo/resources/dojo.css";
+		@import "../css/dijitTests.css";
+
+		body {
+			font-family : sans-serif;
+			margin:20px;
+		}
+
+		/* add padding to each contentpane inside the tab container, and scrollbar if necessary */
+		.dojoTabPane {
+			padding : 10px 10px 10px 10px;
+			overflow: auto;
+		}
+	</style>
+	
 	<script type="text/javascript" djConfig="isDebug: true,parseOnLoad:true"
 		src="../../../dojo/dojo.js"></script>
 	<script type="text/javascript" src="../_testCommon.js"></script>
@@ -54,22 +70,6 @@
 			document.body.appendChild(p);
 		});
 	</script>
-
-	<style type="text/css">
-		@import "../../../dojo/resources/dojo.css";
-		@import "../css/dijitTests.css";
-
-		body {
-			font-family : sans-serif;
-			margin:20px;
-		}
-
-		/* add padding to each contentpane inside the tab container, and scrollbar if necessary */
-		.dojoTabPane {
-			padding : 10px 10px 10px 10px;
-			overflow: auto;
-		}
-	</style>
 </head>
 <body>
 

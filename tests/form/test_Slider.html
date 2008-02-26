@@ -3,6 +3,19 @@
 <html>
 	<head>
 		<title>Dojo Slider Widget Demo</title>
+
+		<style type="text/css">
+			@import "../../../dojo/resources/dojo.css";
+			@import "../css/dijitTests.css";
+			#slider2 .dijitButtonNode {
+				width:12px;
+				height:12px;
+				border: none;
+				font-size:11px;
+				padding:0px;
+			}
+		</style>
+		
 		<script type="text/javascript" src="../../../dojo/dojo.js"
 			djConfig="isDebug: true, parseOnLoad: true, extraLocale: ['de-de', 'en-us']"></script>
 		<script type="text/javascript" src="../_testCommon.js"></script>
@@ -54,17 +67,6 @@
 					dijit.byId("sliderH2").setAttribute('disabled',true);
 				});
 		</script>
-		<style type="text/css">
-			@import "../../../dojo/resources/dojo.css";
-			@import "../css/dijitTests.css";
-			#slider2 .dijitButtonNode {
-				width:12px;
-				height:12px;
-				border: none;
-				font-size:11px;
-				padding:0px;
-			}
-		</style>
 	</head>
 
 	<body>

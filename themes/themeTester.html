@@ -3,23 +3,7 @@
 <html>
 <head>
 	<title>Dijit Theme Tester</title>
-	<script type="text/javascript" src="../../dojo/dojo.js" 
-		djConfig="parseOnLoad: false, isDebug: true"></script>
-	<!--
-	<script type="text/javascript" src="http://prototypejs.org/assets/2007/10/16/prototype.js"></script>
-	-->
-	<script type="text/javascript" src="../dijit.js"></script>
-	<script type="text/javascript" src="../dijit-all.js"></script>
-	<script type="text/javascript">
-		// this is just a list of 'official' dijit themes, you can use ?theme=String 
-		// for 'un-supported' themes, too. (eg: yours) 
-		var availableThemes = [
-			{ theme:"tundra", author:"Dojo", baseUri:"../themes/" },
-			{ theme:"soria", author:"nikolai", baseUri:"../themes/" },
-			//{ theme:"noir", author:"owen", baseUri:"../themes/"},
-			{ theme:"nihilo", author:"nikolai", baseUri:"../themes/" }
-		];
-	</script>
+
 	<style type="text/css">
 		@import "../../dojo/resources/dojo.css";
 		@import "../tests/css/dijitTests.css";
@@ -56,7 +40,40 @@
 		}
 
 		hr.spacer { border:0; background-color:#ededed; width:80%; height:1px; } 
+
+		/* for custom menu buttons, do not appear to have any effect */
+		.myCustomTheme .dijitButtonNode {
+			border:1px solid #000;
+			vertical-align: middle;
+			padding: 0.2em 0.2em;
+			background: url("themeTesterImages/blackButtonEnabled.gif") repeat-x bottom left #474747;
+			color:#fff;
+		}
+		
+		.myCustomTheme .dijitButtonHover .dijitButtonNode,
+		.myCustomTheme .dijitToggleButtonHover .dijitButtonNode {
+			background: url("themeTesterImages/blackButtonHover.gif") repeat-x bottom left #3b3b3b !important;
+		}
 	</style>
+
+	<script type="text/javascript" src="../../dojo/dojo.js" 
+		djConfig="parseOnLoad: false, isDebug: true"></script>
+	<!--
+	<script type="text/javascript" src="http://prototypejs.org/assets/2007/10/16/prototype.js"></script>
+	-->
+	<script type="text/javascript" src="../dijit.js"></script>
+	<script type="text/javascript" src="../dijit-all.js"></script>
+
+	<script type="text/javascript">
+		// this is just a list of 'official' dijit themes, you can use ?theme=String 
+		// for 'un-supported' themes, too. (eg: yours) 
+		var availableThemes = [
+			{ theme:"tundra", author:"Dojo", baseUri:"../themes/" },
+			{ theme:"soria", author:"nikolai", baseUri:"../themes/" },
+			//{ theme:"noir", author:"owen", baseUri:"../themes/"},
+			{ theme:"nihilo", author:"nikolai", baseUri:"../themes/" }
+		];
+	</script>
 	<script type="text/javascript" src="../tests/_testCommon.js"></script>
 	<script type="text/javascript"> // dojo.requires()
 
@@ -141,24 +158,6 @@
 			
 		});
 
-	</script>
-	<style type="text/css">
-		/* for custom menu buttons, do not appear to have any effect */
-		.myCustomTheme .dijitButtonNode {
-			border:1px solid #000;
-			vertical-align: middle;
-			padding: 0.2em 0.2em;
-			background: url("themeTesterImages/blackButtonEnabled.gif") repeat-x bottom left #474747;
-			color:#fff;
-		}
-		
-		.myCustomTheme .dijitButtonHover .dijitButtonNode,
-		.myCustomTheme .dijitToggleButtonHover .dijitButtonNode {
-			background: url("themeTesterImages/blackButtonHover.gif") repeat-x bottom left #3b3b3b !important;
-		}
-	
-	</style>
-	<script>
 		/***
 		dojo.addOnLoad(function(){
 			// use "before advice" to print log message each time resize is called on a layout widget

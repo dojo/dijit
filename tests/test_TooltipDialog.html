@@ -3,12 +3,16 @@
 <html>
 <head>
 	<title>TooltipDialog Widget Tests</title>
+
 	<style type="text/css">
 		@import "../../dojo/resources/dojo.css";
 		@import "css/dijitTests.css";
+
+		body { font-family : sans-serif; }
+		form { margin-bottom : 0; }
 		table { border: none; }
-		#dialog3_underlay { background-color: #027 }
-	</style>		
+	</style>
+
 	<script type="text/javascript"
 		djConfig="parseOnLoad: true, isDebug: true"
 		src="../../dojo/dojo.js"></script>
@@ -30,15 +34,10 @@
 			[dijit._Widget, dijit._Templated], {
 			templateString: "<div style='margin: 10px; border: inset #700 4px; padding: 5px;' dojoAttachPoint='containerNode'></div>"
 		});
-	</script>
-	<script type="text/javascript">
+
 		// make dojo.toJson() print dates correctly (this feels a bit dirty)
 		Date.prototype.json = function(){ return dojo.date.stamp.toISOString(this, {selector: 'date'});};
 	</script>
-	<style type="text/css">
-		body { font-family : sans-serif; }
-		form { margin-bottom : 0; }
-	</style>
 </head>
 <body>
 <h1 class="testTitle">Dijit layout.TooltipDialog tests</h1>

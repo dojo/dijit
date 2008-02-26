@@ -4,6 +4,18 @@
 	<head>
 		<title>Inline Edit Box Test</title>
 
+		<style type="text/css">
+			@import "../../dojo/resources/dojo.css";
+			@import "css/dijitTests.css";
+
+			.inlineEdit { background-color: #CCC76A; }
+
+			/* some style rules on nodes just to test that style gets copied to the edit widget */
+			p { font-family: cursive; }
+			.letter p { font-family: monospace; }
+			h3 { font-family: helvetica; font-style: italic; }
+		</style>
+		
 		<script type="text/javascript" src="../../dojo/dojo.js"
 			djConfig="isDebug: true, parseOnLoad: true"></script>
 		<script type="text/javascript" src="_testCommon.js"></script>
@@ -41,17 +53,6 @@
 			});
 			*/
 		</script>
-		<style type="text/css">
-			@import "../../dojo/resources/dojo.css";
-			@import "css/dijitTests.css";
-
-			.inlineEdit { background-color: #CCC76A; }
-
-			/* some style rules on nodes just to test that style gets copied to the edit widget */
-			p { font-family: cursive; }
-			.letter p { font-family: monospace; }
-			h3 { font-family: helvetica; font-style: italic; }
-		</style>
 	</head>
 	<body>
 		<h1 class="testTitle">Dijit InlineEditBox Test</h1>

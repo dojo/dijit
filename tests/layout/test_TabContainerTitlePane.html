@@ -4,6 +4,22 @@
 <head>
 	<title>TabContainer Nested TitlePane Test</title>
 
+	<style type="text/css">
+		@import "../../../dojo/resources/dojo.css";
+		@import "../css/dijitTests.css";
+
+		body {
+			font-family : sans-serif;
+			margin:20px;
+		}
+
+		/* add padding to each contentpane inside the tab container, and scrollbar if necessary */
+		.dojoTabPane {
+			padding : 10px 10px 10px 10px;
+			overflow: auto;
+		}
+	</style>
+	
 	<script type="text/javascript" src="../../../dojo/dojo.js"
 		djConfig="isDebug: true, parseOnLoad: true"></script>
 	<script type="text/javascript" src="../_testCommon.js"></script>
@@ -23,22 +39,6 @@
 		});
 		
 	</script>
-
-	<style type="text/css">
-		@import "../../../dojo/resources/dojo.css";
-		@import "../css/dijitTests.css";
-
-		body {
-			font-family : sans-serif;
-			margin:20px;
-		}
-
-		/* add padding to each contentpane inside the tab container, and scrollbar if necessary */
-		.dojoTabPane {
-			padding : 10px 10px 10px 10px;
-			overflow: auto;
-		}
-	</style>
 </head>
 <body>
 

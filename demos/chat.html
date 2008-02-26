@@ -4,11 +4,6 @@
 <head>
 	<title>Chat Demo Starter</title>
 
-
-	<script type="text/javascript" src="../../dojo/dojo.js"
-		djConfig="isDebug: false, defaultTestTheme: 'soria'"></script>
-	<script type="text/javascript" src="../tests/_testCommon.js"></script>
-
 	<style type="text/css">
 		@import "../../dijit/tests/css/dijitTests.css";
 		@import "../themes/soria/soria.css";
@@ -39,20 +34,24 @@
 			background-color:#54f767; 
 		}
 	</style>
+
+	<script type="text/javascript" src="../../dojo/dojo.js"
+		djConfig="isDebug: false, defaultTestTheme: 'soria'"></script>
+	<script type="text/javascript" src="../tests/_testCommon.js"></script>
+
 	<script type="text/javascript">
-
-	var _pass = function(/* Event */e){
-		var href = e.target.getAttribute("href")||null;
-		if(href){ window.location.href = href; }
-	}
-
+		var _pass = function(/* Event */e){
+			var href = e.target.getAttribute("href")||null;
+			if(href){ window.location.href = href; }
+		}
 	
-	dojo.addOnLoad(function(){
-		var links = dojo.query(".box");
-		dojo.forEach(links,function(node){
-			dojo.connect(node,"onclick","_pass");
+		
+		dojo.addOnLoad(function(){
+			var links = dojo.query(".box");
+			dojo.forEach(links,function(node){
+				dojo.connect(node,"onclick","_pass");
+			});
 		});
-	});
 	</script>
 
 </head>

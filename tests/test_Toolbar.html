@@ -2,10 +2,16 @@
 		"http://www.w3.org/TR/html4/strict.dtd">
 <html>
 <head>
-
 	<title>Dojo Toolbar Widget Test</title>
 
+	<style type="text/css">
+		@import "../../dojo/resources/dojo.css";
+		@import "css/dijitTests.css";
 
+		.dijitToolbar .dijitButton, .dijitToolbar .dijitDropDownButton { margin: 0px; }
+		.dijitToolbar .dijitToggleButtonSelected BUTTON, .dijitToolbar .dijitToggleButtonSelectedHover BUTTON { border-width: 3px; }
+	</style>
+	
 	<script type="text/javascript" src="../../dojo/dojo.js"
 		djConfig="parseOnLoad: true, isDebug: true"></script>
 	<script type="text/javascript" src="_testCommon.js"></script>
@@ -19,10 +25,8 @@
 		dojo.require("dijit.form.TextBox");
 		dojo.require("dijit.Menu");
 		dojo.require("dojo.parser");
-	</script>
 
-	<!-- programatic creation -->
-	<script>
+		<!-- programatic creation -->
 		function init(){
 			dojo.forEach(["toolbar2", "toolbar3", "toolbar4"], function(toolbarId){
 				var toolbar = new dijit.Toolbar({}, dojo.byId(toolbarId));
@@ -42,14 +46,6 @@
 
 		dojo.addOnLoad(init);
 	</script>
-
-	<style type="text/css">
-		@import "../../dojo/resources/dojo.css";
-		@import "css/dijitTests.css";
-
-		.dijitToolbar .dijitButton, .dijitToolbar .dijitDropDownButton { margin: 0px; }
-		.dijitToolbar .dijitToggleButtonSelected BUTTON, .dijitToolbar .dijitToggleButtonSelectedHover BUTTON { border-width: 3px; }
-	</style>
 </head>
 <body>
 	<h1 class="testTitle">Toolbar test</h1>

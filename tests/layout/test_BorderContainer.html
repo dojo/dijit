@@ -3,6 +3,22 @@
 <head>
 	<title>dijit.layout.BorderContainer Test</title>
 
+	<style type="text/css">
+		@import "../../../dojo/resources/dojo.css";
+		@import "../css/dijitTests.css";
+
+		.dijitContentPane:focus { color: cyan; font-weight: bold }
+		body { margin-left: 20px }
+
+		#mondrian .dijitSplitter { border: 0; background: black !important }
+		#mondrian .dijitSplitterHorizontal { height: 10px }
+		#mondrian .dijitSplitterVertical { width: 10px }
+		#mondrian .dijitSplitterThumb { display: none }
+		#mondrian .dijitSplitterActive { background-color: blue }
+		#mondrian SPAN { display: none }
+		#mondrian:hover SPAN { display: inline }
+	</style>
+	
 	<script type="text/javascript" src="../../../dojo/dojo.js"
 		djConfig="isDebug: true, parseOnLoad: true"></script>
 	<script type="text/javascript" src="../_testCommon.js"></script>
@@ -11,8 +27,7 @@
 		dojo.require("dijit.layout.BorderContainer");
 		dojo.require("dijit.layout.ContentPane");
 		dojo.require("dijit.form.FilteringSelect");
-	</script>
-	<script>
+
 		function togglePanel(button, id){
 			var leftPanel = dijit.byId(id);
 			if(leftPanel){
@@ -30,19 +45,6 @@
 			}
 		}
 	</script>
-	<style type="text/css">
-		@import "../css/dijitTests.css";
-		.dijitContentPane:focus { color: cyan; font-weight: bold }
-		body { margin-left: 20px }
-
-		#mondrian .dijitSplitter { border: 0; background: black !important }
-		#mondrian .dijitSplitterHorizontal { height: 10px }
-		#mondrian .dijitSplitterVertical { width: 10px }
-		#mondrian .dijitSplitterThumb { display: none }
-		#mondrian .dijitSplitterActive { background-color: blue }
-		#mondrian SPAN { display: none }
-		#mondrian:hover SPAN { display: inline }
-	</style>
 </head>
 <body>
 

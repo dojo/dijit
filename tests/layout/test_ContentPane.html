@@ -4,34 +4,35 @@
 <head>
 	<title>ContentPane Test</title>
 
+	<style>
+		@import "../../../dojo/resources/dojo.css";
+		@import "../css/dijitTests.css";
+
+		body {
+			margin: 1em;
+			padding: 1em;
+		}
+
+		.box {
+		  position: relative;
+			background-color: white;
+			border: 2px solid black;
+			padding: 8px;
+			margin: 4px;
+		}
+	</style>
+
 	<script type="text/javascript" src="../../../dojo/dojo.js"
 		djConfig="isDebug: true, parseOnLoad: true"></script>
 	<script type="text/javascript" src="../_testCommon.js"></script>
 
-		<script type="text/javascript">
-			dojo.require("dijit.layout.ContentPane");
-			dojo.require("dojo.data.ItemFileReadStore");
-			dojo.require("dijit.form.ComboBox");
-			dojo.require("dijit.InlineEditBox");
-			dojo.require("dojo.parser");	// scan page for widgets and instantiate them
-		</script>
-		<style>
-			@import "../../../dojo/resources/dojo.css";
-			@import "../css/dijitTests.css";
-
-			body {
-				margin: 1em;
-				padding: 1em;
-			}
-
-			.box {
-			  position: relative;
-				background-color: white;
-				border: 2px solid black;
-				padding: 8px;
-				margin: 4px;
-			}
-		</style>
+	<script type="text/javascript">
+		dojo.require("dijit.layout.ContentPane");
+		dojo.require("dojo.data.ItemFileReadStore");
+		dojo.require("dijit.form.ComboBox");
+		dojo.require("dijit.InlineEditBox");
+		dojo.require("dojo.parser");	// scan page for widgets and instantiate them
+	</script>
 </head>
 <body>
 	<h1 class="testTitle">Dijit layout.ContentPane tests</h1>

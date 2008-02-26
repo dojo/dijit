@@ -4,6 +4,10 @@
 <head>
 	<title>ColorPalette Test</title>
 
+	<style type="text/css">
+		@import "../../dojo/resources/dojo.css";
+		@import "css/dijitTests.css";
+	</style>
 
 	<script type="text/javascript" src="../../dojo/dojo.js"
 		djConfig="isDebug: true, parseOnLoad: true"></script>
@@ -12,8 +16,7 @@
 	<script language="JavaScript" type="text/javascript">
 		dojo.require("dijit.ColorPalette");
 		dojo.require("dojo.parser");	// scan page for widgets and instantiate them
-	</script>
-	<script>
+
 		var palette;
 		function init(){
             var date0 = new Date();
@@ -29,10 +32,6 @@
 			theSpan.innerHTML = color;
 		}
 	</script>
-	<style type="text/css">
-		@import "../../dojo/resources/dojo.css";
-		@import "css/dijitTests.css";
-	</style>
 </head>
 
 <body>
