@@ -520,7 +520,7 @@ dojo.declare(
 			}
 			// create a new query to prevent accidentally querying for a hidden
 			// value from FilteringSelect's keyField
-			var query = this.query;
+			var query = dojo.clone(this.query); // #5970
 			this._lastQuery = query[this.searchAttr] = this._getQueryString(key);
 			var _this = this;
 			var dataObject = this.store.fetch({
