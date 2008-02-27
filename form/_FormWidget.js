@@ -237,7 +237,7 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 		this._hasBeenBlurred = false;
 		if(this.setValue && !this._getValueDeprecated){
 			this.setValue(this._resetValue, true);
-		}else{
+		}else if(this._onChangeMonitor){
 			this.setAttribute(this._onChangeMonitor, (this._resetValue !== undefined && this._resetValue !== null)? this._resetValue : '');
 		}
 	},

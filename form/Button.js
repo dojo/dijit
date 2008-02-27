@@ -32,6 +32,7 @@ dojo.declare("dijit.form.Button",
 	baseClass: "dijitButton",
 	templatePath: dojo.moduleUrl("dijit.form", "templates/Button.html"),
 
+	_onChangeMonitor: '',
 	// TODO: set button's title to this.containerNode.innerText
 
 	_onClick: function(/*Event*/ e){
