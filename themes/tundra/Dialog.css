@@ -130,10 +130,10 @@
 }
 
 .tundra .dijitTooltipLeft {
-	padding-right: 13px;
+	padding-right: 14px;
 }
 .dj_ie6 .tundra .dijitTooltipLeft {
-	padding-right: 15px;
+	padding-left: 15px;
 }
 .tundra .dijitTooltipLeft .dijitTooltipConnector {
 	/* the arrow piece for tooltips to the left of an element, bottom borders aligned */
@@ -148,7 +148,7 @@
 }
 
 .tundra .dijitTooltipRight {
-	padding-left: 13px;
+	padding-left: 14px;
 }
 .tundra .dijitTooltipRight .dijitTooltipConnector {
 	/* the arrow piece for tooltips to the right of an element, bottom borders aligned */
