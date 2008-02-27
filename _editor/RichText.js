@@ -610,7 +610,12 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 	_mozSettingProps: ['styleWithCSS','insertBrOnReturn'],
 	setDisabled: function(/*Boolean*/ disabled){
 		if(dojo.isIE || dojo.isSafari || dojo.isOpera){
-			this.editNode.contentEditable=!disabled;
+			if(dojo.isIE){ this.editNode.unselectable = "on"; } // prevent IE from setting focus
+                        this.editNode.contentEditable=!disabled;
+			if(dojo.isIE){
+				var _this = this;
+				setTimeout(function(){ _this.editNode.unselectable = "off"; }, 0);
+			}
 		}else{ //moz
 			if(disabled){
 				//AP: why isn't this set in the constructor, or put in mozSettingProps as a hash?
@@ -679,7 +684,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 		}
 
 		if(this.focusOnLoad){
-			this.focus();
+			setTimeout(dojo.hitch(this, "focus"), 0); // have to wait for IE to set unselectable=off
 		}
 
 		this.onDisplayChanged(e);

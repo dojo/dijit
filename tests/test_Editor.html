@@ -63,7 +63,9 @@
 	<h1 class="testTitle"><label for="editor1">Editor + Plugins Test</label></h1>
 	<h2>Created from div</h2>
 	<div style="border: 1px solid black;">
-		<div dojoType="dijit.Editor" id="editor1"><p>This instance is created from a div directly with default toolbar and plugins</p></div>
+		<div dojoType="dijit.Editor" id="editor1"
+			onChange="console.log('user onChange handler: ' + arguments[0])"
+		><p>This instance is created from a div directly with default toolbar and plugins</p></div>
 	</div>
 	<button onClick="dijit.byId('editor1').destroy()">destroy</button>
 	<button onclick="console.log(dijit.byId('editor1').getValue().length)">getValue</button>
