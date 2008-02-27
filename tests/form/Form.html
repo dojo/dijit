@@ -130,7 +130,7 @@ so it can be submitted as a JSON string of nested objects.
 	http://www.tipjar.com/cgi-bin/test -->
 <form dojoType="dijit.form.Form" id="myForm" encType="multipart/form-data" action="" method="" 
 	onreset="return confirm('Press OK to reset widget values')"
-	onsubmit="alert('Attempting to submit form w/values:\n'+dojo.toJson(this.getValues(),true));if(this.isValid()){return confirm('Form is valid, press OK to submit');}else{alert('Form contains invalid data.  Please correct first');return false;}"
+	onsubmit="alert('Attempting to submit form w/values:\n'+dojo.toJson(this.getValues(),true));if(this.validate()){return confirm('Form is valid, press OK to submit');}else{alert('Form contains invalid data.  Please correct first');return false;}"
 >
 <p>Just HTML text</p>
 <table border=2>

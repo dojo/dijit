@@ -105,6 +105,7 @@ dojo.declare(
 				}
 			}
 			this.displayMessage(message);
+			return isValid;
 		},
 
 		// currently displayed message
@@ -169,7 +170,7 @@ dojo.declare(
 
 		validate: function(){
 			this.valueNode.value = this.toString();
-			this.inherited(arguments);
+			return this.inherited(arguments);
 		},
 
 		setAttribute: function(/*String*/ attr, /*anything*/ value){
