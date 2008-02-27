@@ -134,6 +134,18 @@
 				}
 			</script>
 
+			<div class="dojoTitlePaneLabel">
+				<label for="fromDate"> Date pairs, to/from</label>
+			</div>
+			<div class="testExample">
+				From: <input id="fromDate" type="text" name="fromDate" dojoType="dijit.form.DateTextBox"
+					required="true"
+					onChange="dijit.byId('toDate').constraints.min = this.getValue();" />
+				To: <input id="toDate" type="text" name="toDate" dojoType="dijit.form.DateTextBox"
+					required="true"
+					onChange="dijit.byId('fromDate').constraints.max = this.getValue();" />
+			</div>
+
 			<div>
 				<button name="button" onclick="displayData(); return false;">view data</button>
 				<input type="submit" name="submit" />

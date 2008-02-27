@@ -118,6 +118,11 @@ dojo.declare(
 		_onBlur: function(){
 			// summary: called magically when focus has shifted away from this widget and it's dropdown
 			this._close();
+			// destroy our picker if we have one - addresses #6002
+			if(this._picker){
+				this._picker.destroy();
+				delete this._picker;
+			}
 			this.inherited(arguments);
 			// don't focus on <input>.  the user has explicitly focused on something else.
 		},
