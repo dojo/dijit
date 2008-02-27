@@ -89,12 +89,10 @@
 .nihilo .dijitArrowButtonInner {
 	background:url("../images/spriteArrows.png") no-repeat left top;
 	width: 11px;
-	margin: 0 auto 0 auto;
 }
 .nihilo .dijitUpArrowButton .dijitArrowButtonInner { 
 	background:url("../images/spriteArrows.png") no-repeat -22px top; 
 	width: 11px;
-	margin: 0 auto 2px auto;
 }
 .dj_ie6 .nihilo .dijitArrowButtonInner {
 	background:url("../images/spriteArrows.gif") no-repeat left top;
