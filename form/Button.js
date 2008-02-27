@@ -203,7 +203,7 @@ dojo.declare("dijit.form.DropDownButton", [dijit.form.Button, dijit._Container],
 		dijit.focus(this.popupStateNode);
 		var dropDown = this.dropDown;
 		if(!dropDown){ return; }
-		if(!dropDown.isShowingNow){
+		if(!this._opened){
 			// If there's an href, then load that first, so we don't get a flicker
 			if(dropDown.href && !dropDown.isLoaded){
 				var self = this;
