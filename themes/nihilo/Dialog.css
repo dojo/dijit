@@ -137,14 +137,14 @@
 }
 .dj_ie6 .nihilo .dijitTooltipAbove .dijitTooltipConnector {
 	background-image: url("images/tooltipConnectorDown.gif");
-	bottom: -3px;
+	bottom: -5px;
 }
 
 .nihilo .dijitTooltipLeft {
 	padding-right: 10px;
 }
 .dj_ie6 .nihilo .dijitTooltipLeft {
-	padding-right: 12px;
+	padding-left: 11px;
 }
 .nihilo .dijitTooltipLeft .dijitTooltipConnector {
 	/* the arrow piece for tooltips to the left of an element, bottom borders aligned */
