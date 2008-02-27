@@ -105,7 +105,11 @@ dojo.declare("dijit._tree.dndContainer",
 			// summary: gets a child, which is under the mouse at the moment, or null
 			// e: Event: a mouse event
 			var node = e.target;
-			if (node && dojo.hasClass(node, "dijitTreeLabel")){ return node; }
+			if(node){
+				for(var parent = node.parentNode; parent; node = parent, parent = node.parentNode){
+					if(dojo.hasClass(node, "dijitTreeContent")){ return node; }
+				}
+			}
 			return null;
 		},
 
