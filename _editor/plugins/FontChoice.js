@@ -44,6 +44,7 @@ dojo.declare("dijit._editor.plugins.FontChoice",
 			this.button.setValue("");
 
 			this.connect(this.button, "onChange", function(choice){
+				if(this.updating){ return; }
 				// FIXME: IE is really messed up here!!
 				if(dojo.isIE){
 					if("_savedSelection" in this){
@@ -67,7 +68,9 @@ dojo.declare("dijit._editor.plugins.FontChoice",
 			if(!_e || !_e.isLoaded || !_c.length){ return; }
 			if(this.button){
 				var value = _e.queryCommandValue(_c);
+				this.updating = true;
 				this.button.setValue(value);
+				delete this.updating;
 			}
 
 			// FIXME: IE is *really* b0rken
