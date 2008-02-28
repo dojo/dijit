@@ -49,6 +49,15 @@
 			#calendar5 .dijitCalendarSelectedYear { font-size: 1.5em }
 			#calendar5 .dijitCalendarMonth { font-family: serif; letter-spacing: 0.2em; font-size: 2em }
 		</style>
+		<script>
+			dojo.declare("BigCalendar", dijit._Calendar, {
+				templatePath: "../../dijit/tests/_altCalendar.html",
+				templateString: ""
+			});
+		</script>
+		<input id="calendar5" dojoType="BigCalendar" dayWidth="abbr" value="2008-03-15">
+<!-- 
 		<input id="calendar5" dojoType="dijit._Calendar" dayWidth="abbr" templatePath="../dijit/tests/_altCalendar.html" value="2008-03-15">
+ -->
 	</body>
 </html>
