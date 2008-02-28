@@ -1,5 +1,4 @@
 dojo.provide("dijit.layout.LayoutContainer");
-dojo.deprecated("dijit.layout.LayoutContainer is deprecated", "use BorderContainer instead", 2.0);
 
 dojo.require("dijit.layout._LayoutWidget");
 
@@ -36,6 +35,10 @@ dojo.declare("dijit.layout.LayoutContainer",
 	// |	Basically each child is laid out into the "remaining space", where "remaining space" is initially
 	// |	the content area of this widget, but is reduced to a smaller rectangle each time a child is added.
 	//	
+
+	constructor: function(){
+		dojo.deprecated("dijit.layout.LayoutContainer is deprecated", "use BorderContainer instead", 2.0);
+	},
 
 	layout: function(){
 		dijit.layout.layoutChildren(this.domNode, this._contentBox, this.getChildren());
