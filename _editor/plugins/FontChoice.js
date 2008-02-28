@@ -45,8 +45,19 @@ dojo.declare("dijit._editor.plugins.FontChoice",
 			this.button.setValue("");
 
 			this.connect(this.button, "onChange", function(choice){
+				// FIXME: IE is really messed up here!!
+				if(dojo.isIE){
+					if("_savedSelection" in this){
+						var b = this._savedSelection;
+						delete this._savedSelection;
+						this.editor.focus();
+						this.editor._moveToBookmark(b);
+					}
+				}else{
+//					this.editor.focus();
+					dijit.focus(this._focusHandle);
+				}
 				this.editor.execCommand(this.command, choice);
-				dijit.focus(this._focusHandle);
 			});
 		},
 
@@ -60,6 +71,10 @@ dojo.declare("dijit._editor.plugins.FontChoice",
 				this.button.setValue(value);
 			}
 
+			// FIXME: IE is *really* b0rken
+			if(dojo.isIE){
+				this._savedSelection = this.editor._getBookmark();
+			}
 			this._focusHandle = dijit.getFocus(this.editor.iframe);
 		},
 
