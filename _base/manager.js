@@ -59,7 +59,7 @@ dijit.getUniqueId = function(/*String*/widgetType){
 	var id;
 	do{
 		id = widgetType + "_" +
-			(dijit._widgetTypeCtr[widgetType] !== undefined ?
+			(widgetType in dijit._widgetTypeCtr ?
 				++dijit._widgetTypeCtr[widgetType] : dijit._widgetTypeCtr[widgetType] = 0);
 	}while(dijit.byId(id));
 	return id; // String
