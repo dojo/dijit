@@ -48,7 +48,7 @@ dojo.declare("dijit._editor.plugins.LinkDialog",
 			}));
 			messages.urlRegExp = this.urlRegExp;
 			messages.id = dijit.getUniqueId(this.editor.id);
-			this._setContent(dropDown.title + "<hr>" + dojo.string.substitute(this.linkDialogTemplate, messages));
+			this._setContent(dropDown.title + "<div style='border-bottom: 1px black solid;padding-bottom:2pt;margin-bottom:4pt'></div>" + dojo.string.substitute(this.linkDialogTemplate, messages));
 			dropDown.startup();
 
 			this.inherited(arguments);
