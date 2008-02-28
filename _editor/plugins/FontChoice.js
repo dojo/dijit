@@ -56,7 +56,6 @@ dojo.declare("dijit._editor.plugins.FontChoice",
 //					this.editor.focus();
 					dijit.focus(this._focusHandle);
 				}
-console.log("onChange");
 				this.editor.execCommand(this.command, choice);
 			});
 		},
