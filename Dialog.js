@@ -101,6 +101,19 @@ dojo.declare("dijit._DialogMixin", null,
 			// summary: callback when user hits submit button
 			this.onExecute();	// notify container that we are about to execute
 			this.execute(this.getValues());
+		},
+
+		_getFocusItems: function(/*Node*/ dialogNode){
+			// find focusable Items each time a dialog is opened
+			var focusItem = dijit.getFirstInTabbingOrder(dialogNode);
+			this._firstFocusItem = focusItem ? focusItem : dialogNode;
+			focusItem = dijit.getLastInTabbingOrder(dialogNode);
+			this._lastFocusItem = focusItem ? focusItem : this._firstFocusItem;
+			if(dojo.isMoz && this._firstFocusItem.tagName.toLowerCase() == "input" && dojo.attr(this._firstFocusItem, "type").toLowerCase() == "file"){
+					//FF doesn't behave well when first element is input type=file, set first focusable to dialog container
+					dojo.attr(dialogNode, "tabindex", "0");
+					this._firstFocusItem = dialogNode;
+			}
 		}
 	}
 );
@@ -201,19 +214,6 @@ dojo.declare(
 				id: this.id+"_underlay",
 				"class": dojo.map(this["class"].split(/\s/), function(s){ return s+"_underlay"; }).join(" ")
 			});
-			
-			// find and store focusable Items
-			if (!this.firstFocusItem){
-				var focusItem = dijit.getFirstInTabbingOrder(this.domNode);
-				this._firstFocusItem = focusItem ? focusItem : this.domNode;
-				focusItem = dijit.getLastInTabbingOrder(this.domNode);
-				this._lastFocusItem = focusItem ? focusItem : this._firstFocusItem;
-				if(dojo.isMoz && this._firstFocusItem.tagName.toLowerCase() == "input" && dojo.attr(this._firstFocusItem, "type").toLowerCase() == "file"){
-					//FF doesn't behave well when first element is input type=file, set first focusable to dialog container
-					dojo.attr(this.domNode, "tabindex", "0");
-					this._firstFocusItem = this.domNode;
-				}
-			}
 
 			var node = this.domNode;
 			this._fadeIn = dojo.fx.combine(
@@ -275,6 +275,7 @@ dojo.declare(
 			// summary: handles the keyboard events for accessibility reasons
 			if(evt.keyCode){
 				var node = evt.target;
+				this._getFocusItems(this.domNode);
 				var singleFocusItem = (this._firstFocusItem == this._lastFocusItem);
 				// see if we are shift-tabbing from first focusable item on dialog
 				if(node == this._firstFocusItem && evt.shiftKey && evt.keyCode == dojo.keys.TAB){
@@ -340,6 +341,10 @@ dojo.declare(
 			this._fadeIn.play();
 
 			this._savedFocus = dijit.getFocus(this);
+
+			// find focusable Items each time dialog is shown since if dialog contains a widget the 
+			// first focusable items can change
+			this._getFocusItems(this.domNode);
 
 			// set timeout to allow the browser to render dialog
 			setTimeout(dojo.hitch(this, function(){
@@ -432,34 +437,17 @@ dojo.declare(
 
 		onOpen: function(/*Object*/ pos){
 			// summary: called when dialog is displayed
-			
-			// first time we show the dialog, there's some initialization stuff to do			
-			if(!this._alreadyInitialized){
-				this._setup();
-				this._alreadyInitialized = true;
-			}
-			
+		
+			this._getFocusItems(this.containerNode);
 			this.orient(this.domNode,pos.aroundCorner, pos.corner);
 			this._loadCheck(); // lazy load trigger
 			dijit.focus(this._firstFocusItem);
 		},
 		
-		_setup: function(){
-			// find and store focusable Items
-			var focusItem = dijit.getFirstInTabbingOrder(this.containerNode);
-			this._firstFocusItem = focusItem ? focusItem : this.containerNode;
-			focusItem = dijit.getLastInTabbingOrder(this.containerNode);
-			this._lastFocusItem = focusItem ? focusItem : this._firstFocusItem;
-			if(dojo.isMoz && this._firstFocusItem.tagName.toLowerCase() == "input" && dojo.attr(this._firstFocusItem, "type").toLowerCase() == "file"){
-					//FF doesn't behave well when first element is input type=file, set first focusable to dialog container
-					dojo.attr(this.containerNode, "tabindex", "0");
-					this._firstFocusItem = this.containerNode;
-			}
-		},
-
 		_onKey: function(/*Event*/ evt){
 			// summary: keep keyboard focus in dialog; close dialog on escape key
 			var node = evt.target;
+			this._getFocusItems(this.containerNode);
 			var singleFocusItem = (this._firstFocusItem == this._lastFocusItem);
 			if(evt.keyCode == dojo.keys.ESCAPE){
 				this.onCancel();
