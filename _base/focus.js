@@ -45,7 +45,15 @@ dojo.mixin(dijit,
 		if(selection){ // IE
 			var range = selection.createRange();
 			if(selection.type.toUpperCase()=='CONTROL'){
-				bookmark = range.length ? dojo._toArray(range) : null;
+				if(range.length){
+					bookmark=[];
+					var i=0,len=range.length;
+					while(i<len){
+						bookmark.push(range.item(i++));
+					}
+				}else{
+					bookmark=null;
+				}
 			}else{
 				bookmark = range.getBookmark();
 			}

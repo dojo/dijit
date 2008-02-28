@@ -176,7 +176,7 @@ dojo.declare(
 			}
 		},
 		_moveToBookmark: function(b){
-			var bookmark;
+			var bookmark=b;
 			if(dojo.isIE){
 				if(dojo.isArray(b)){//IE CONTROL
 					bookmark=[];

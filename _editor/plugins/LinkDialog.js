@@ -84,9 +84,7 @@ dojo.declare("dijit._editor.plugins.LinkDialog",
 					var b = this._savedSelection;
 					delete this._savedSelection;
 					this.editor.focus();
-					var range = this.editor.document.selection.createRange();
-					range.moveToBookmark(b);
-					range.select();
+					this.editor._moveToBookmark(b);
 				}
 			}else{
 				this.editor.focus();
@@ -105,7 +103,7 @@ dojo.declare("dijit._editor.plugins.LinkDialog",
 			}
 			// FIXME: IE is *really* b0rken
 			if(dojo.isIE){
-				this._savedSelection = this.editor.document.selection.createRange().getBookmark();
+				this._savedSelection = this.editor._getBookmark();
 			}
 			this.dropDown.reset();
 			this.dropDown.setValues({urlInput: url || '', textInput: text || ''});
