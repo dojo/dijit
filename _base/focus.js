@@ -79,7 +79,11 @@ dojo.mixin(dijit,
 			var range;
 			if(dojo.isArray(bookmark)){
 				range = _document.body.createControlRange();
-				dojo.forEach(bookmark, range.addElement);
+				//range.addElement does not have call/apply method, so can not use dojo.forEach below
+				var i=0,b;
+				while((b=bookmark[i++])){
+					range.addElement(b);
+				}
 			}else{
 				range = _document.selection.createRange();
 				range.moveToBookmark(bookmark);
