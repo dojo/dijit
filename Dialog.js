@@ -275,7 +275,9 @@ dojo.declare(
 			// summary: handles the keyboard events for accessibility reasons
 			if(evt.keyCode){
 				var node = evt.target;
-				this._getFocusItems(this.domNode);
+				if (evt.keyCode == dojo.keys.TAB){
+					this._getFocusItems(this.domNode);
+				}
 				var singleFocusItem = (this._firstFocusItem == this._lastFocusItem);
 				// see if we are shift-tabbing from first focusable item on dialog
 				if(node == this._firstFocusItem && evt.shiftKey && evt.keyCode == dojo.keys.TAB){
@@ -447,7 +449,9 @@ dojo.declare(
 		_onKey: function(/*Event*/ evt){
 			// summary: keep keyboard focus in dialog; close dialog on escape key
 			var node = evt.target;
-			this._getFocusItems(this.containerNode);
+			if (evt.keyCode == dojo.keys.TAB){
+					this._getFocusItems(this.containerNode);
+			}
 			var singleFocusItem = (this._firstFocusItem == this._lastFocusItem);
 			if(evt.keyCode == dojo.keys.ESCAPE){
 				this.onCancel();
