@@ -1,5 +1,4 @@
 dojo.provide("dijit._editor.plugins.FontChoice");
-dojo.experimental("dijit._editor.plugins.FontChoice");
 
 dojo.require("dijit._editor._Plugin");
 dojo.require("dijit.form.FilteringSelect");
@@ -57,6 +56,7 @@ dojo.declare("dijit._editor.plugins.FontChoice",
 //					this.editor.focus();
 					dijit.focus(this._focusHandle);
 				}
+console.log("onChange");
 				this.editor.execCommand(this.command, choice);
 			});
 		},
