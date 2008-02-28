@@ -266,7 +266,7 @@ dojo.declare(
 			if(doSearch){
 				// need to wait a tad before start search so that the event
 				// bubbles through DOM and we have value visible
-				this.searchTimer = setTimeout(dojo.hitch(this, "_startSearchFromInput"), this.searchDelay);
+				setTimeout(dojo.hitch(this, "_startSearchFromInput"),1);
 			}
 		},
 
@@ -522,31 +522,35 @@ dojo.declare(
 			// value from FilteringSelect's keyField
 			var query = dojo.clone(this.query); // #5970
 			this._lastQuery = query[this.searchAttr] = this._getQueryString(key);
-			var _this = this;
-			var dataObject = this.store.fetch({
-				queryOptions: {
-					ignoreCase: this.ignoreCase, 
-					deep: true
-				},
-				query: query,
-				onComplete: dojo.hitch(this, "_openResultList"), 
-				onError: function(errText){
-					console.error('dijit.form.ComboBox: ' + errText);
-					dojo.hitch(_this, "_hideResultList")();
-				},
-				start:0,
-				count:this.pageSize
-			});
+			// #5970: set _lastQuery, *then* start the timeout
+			// otherwise, if the user types and the last query returns before the timeout,
+			// _lastQuery won't be set and their input gets rewritten
+			this.searchTimer=setTimeout(dojo.hitch(this, function(query, _this){
+				var dataObject = this.store.fetch({
+					queryOptions: {
+						ignoreCase: this.ignoreCase, 
+						deep: true
+					},
+					query: query,
+					onComplete: dojo.hitch(this, "_openResultList"), 
+					onError: function(errText){
+						console.error('dijit.form.ComboBox: ' + errText);
+						dojo.hitch(_this, "_hideResultList")();
+					},
+					start:0,
+					count:this.pageSize
+				});
 
-			var nextSearch = function(dataObject, direction){
-				dataObject.start += dataObject.count*direction;
-				// #4091:
-				//		tell callback the direction of the paging so the screen
-				//		reader knows which menu option to shout
-				dataObject.direction = direction;
-				this.store.fetch(dataObject);
-			}
-			this._nextSearch = this._popupWidget.onPage = dojo.hitch(this, nextSearch, dataObject);
+				var nextSearch = function(dataObject, direction){
+					dataObject.start += dataObject.count*direction;
+					// #4091:
+					//		tell callback the direction of the paging so the screen
+					//		reader knows which menu option to shout
+					dataObject.direction = direction;
+					this.store.fetch(dataObject);
+				}
+				this._nextSearch = this._popupWidget.onPage = dojo.hitch(this, nextSearch, dataObject);
+			}, query, this), this.searchDelay);
 		},
 
 		_getValueField:function(){
