@@ -150,6 +150,64 @@
 				}
 			]);
 
+			genFormatTestCases("Currency Format", "dijit.form.CurrencyTextBox", [
+
+				{ attrs: {Currency: "EGP", lang: "ar-eg"},
+				  desc: "Locale: <b>ar_EG</b> Currency: <b>EGP</b>",
+				  value: "123456789.46",
+				  expValue: "&#x062C;.&#x0645;.\u200F 123&#x066C;456&#x066C;789&#x066B;46",
+				  comment: ""
+				},
+				{ attrs: {Currency: "EGP", lang: "ar-eg"},
+				  desc: "Locale: <b>ar_EG</b> Currency: <b>EGP</b>",
+				  value: "-123456789.46",
+				  expValue: "&#x062C;.&#x0645;.\u200F 123&#x066C;456&#x066C;789&#x066B;46-",
+				  comment: ""
+				},
+
+				{ attrs: {Currency: "EGP", lang: "ar-eg", constraints: "{localeDigit: true}"},
+				  desc: "Locale: <b>ar_EG</b> Currency: <b>EGP</b>",
+				  value: "123456789.46",
+				  expValue: "&#x062C;.&#x0645;.\u200F ١٢٣\u066C٤٥٦\u066C٧٨٩\u066B٤٦",
+				  comment: "<a href='#cmt_3'>See #3.</a> Failed in Firefox. <a href='#cmt_2'>See #2.</a>"
+				},
+				{ attrs: {Currency: "EGP", lang: "ar-eg", constraints: "{localeDigit: true}"},
+				  desc: "Locale: <b>ar_EG</b> Currency: <b>EGP</b>",
+				  value: "-123456789.46",
+				  expValue: "&#x062C;.&#x0645;.\u200F ١٢٣\u066C٤٥٦\u066C٧٨٩\u066B٤٦-",
+				  comment: "<a href='#cmt_3'>See #3.</a> Failed in Firefox. <a href='#cmt_2'>See #2.</a>"
+				}
+			]);
+
+			genValidateTestCases("Currency Validate", "dijit.form.CurrencyTextBox", [
+
+				{ attrs: {Currency: "EGP", lang: "ar-eg"},
+				  desc: "Locale: <b>ar_EG</b> Currency: <b>EGP</b>",
+				  value: 123456789.46,
+				  expValue: "&#x062C;.&#x0645;.\u200F 123&#x066C;456&#x066C;789&#x066B;46",
+				  comment: "Failed in Firefox. <a href='#cmt_2'>See #2.</a>"
+				},
+				{ attrs: {Currency: "EGP", lang: "ar-eg"},
+				  desc: "Locale: <b>ar_EG</b> Currency: <b>EGP</b>",
+				  value: -123456789.46,
+				  expValue: "&#x062C;.&#x0645;.\u200F 123&#x066C;456&#x066C;789&#x066B;46-",
+				  comment: "Failed in Firefox. <a href='#cmt_2'>See #2.</a>"
+				},
+
+				{ attrs: {Currency: "EGP", lang: "ar-eg", constraints: "{localeDigit: true}"},
+				  desc: "Locale: <b>ar_EG</b> Currency: <b>EGP</b>",
+				  value: 123456789.46,
+				  expValue: "&#x062C;.&#x0645;.\u200F ١٢٣\u066C٤٥٦\u066C٧٨٩\u066B٤٦",
+				  comment: "<a href='#cmt_3'>See #3.</a> Failed in Firefox. <a href='#cmt_2'>See #2.</a>"
+				},
+				{ attrs: {Currency: "EGP", lang: "ar-eg", constraints: "{localeDigit: true}"},
+				  desc: "Locale: <b>ar_EG</b> Currency: <b>EGP</b>",
+				  value: -123456789.46,
+				  expValue: "&#x062C;.&#x0645;.\u200F ١٢٣\u066C٤٥٦\u066C٧٨٩\u066B٤٦-",
+				  comment: "<a href='#cmt_3'>See #3.</a> Failed in Firefox. <a href='#cmt_2'>See #2.</a>"
+				}
+			]);
+
 			dojo.parser.parse();
 
 		})();
