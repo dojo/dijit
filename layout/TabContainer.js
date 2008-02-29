@@ -132,6 +132,25 @@ dojo.declare("dijit.layout.TabController",
 	postMixInProperties: function(){
 		this["class"] = "dijitTabLabels-" + this.tabPosition + (this.doLayout ? "" : " dijitTabNoLayout");
 		this.inherited("postMixInProperties",arguments);
+	},
+	
+	_rectifyRtlTabList: function(){
+		//Summay: Rectify the length of all tabs in rtl, otherwise the tab lengths are different in IE
+		if(0 >= this.tabPosition.indexOf('-h')){ return; }
+		if(!this.pane2button){ return; }
+		var maxLen = 0;
+		//this.tablist.pane2button is not array, so we can't use dojo.forEach here
+		//simplily get the max length among the tabs
+		for(var pane in this.pane2button){
+			var tabButton = this.pane2button[pane];
+			var len = dojo.marginBox(tabButton.innerDiv).w;
+			maxLen = maxLen > len ? maxLen : len;
+		}
+		//unify the length of all the tabs
+		for(pane in this.pane2button){
+			var tabButton = this.pane2button[pane];
+			tabButton.innerDiv.style.width = maxLen + 'px';
+		}	
 	}
 });
 

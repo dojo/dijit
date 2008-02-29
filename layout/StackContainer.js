@@ -297,8 +297,12 @@ dojo.declare(
            		closeMenu.addChild(mItem);
 			}
 			if(!this._currentChild){ // put the first child into the tab order
-				button.focusNode.setAttribute("tabIndex","0");
+				button.focusNode.setAttribute("tabIndex", "0");
 				this._currentChild = page;
+			}
+			//make sure all tabs have the same length
+			if(!dojo._isBodyLtr() && dojo.isIE && this._rectifyRtlTabList){
+				this._rectifyRtlTabList();
 			}
 		},
 
@@ -408,7 +412,7 @@ dojo.declare(
 						}
 				}
 				// handle page navigation
-				if(forward != null){
+				if(forward !== null){
 					this.adjacent(forward).onClick();
 					dojo.stopEvent(e);
 				}
