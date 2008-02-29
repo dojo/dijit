@@ -15,7 +15,7 @@
 	</style>
 
 	<script type="text/javascript" src="../../dojo/dojo.js"
-		djConfig="isDebug: false, parseOnLoad: true, defaultTestTheme: 'tundra'"></script>
+		djConfig="isDebug: false, parseOnLoad: true, defaultTestTheme: 'soria'"></script>
 	<script type="text/javascript" src="../tests/_testCommon.js"></script>
 	<!--
 	<script type="text/javascript" src="../dijit.js"></script>
@@ -114,7 +114,7 @@
 
 	</script>
 </head>
-<body class="tundra">
+<body class="soria">
 	<div dojoType="dojo.data.ItemFileWriteStore" jsId="mailStore"
 		url="mail/mail.json"></div>
 
@@ -289,7 +289,7 @@
 			<span dojoType="dijit.Tooltip" connectId="newMsg">Click to compose new message.</span>
 
 			<button id="options" dojoType="dijit.form.Button" iconClass="mailIconOptions">
-			Options	
+			 &nbsp;Options	
 				<script type="dojo/method" event="onClick">
 					dijit.byId('optionsDialog').show();
 				</script>

@@ -24,13 +24,17 @@ TODO: If i add the rules below as a plain tr/td it seems to mess up accordion, t
 }
 #listPane tr, #listPane td { cursor: pointer; }
 
+table.demoTable {
+	border-collapse: collapse;	
+}
+
 th {
 	background-color: #4f8ce5; 
 	color: #666; 
 	font-weight:: bold !important;
 	margin:0;
 	padding:3px; 
-	background-image:url('../../themes/tundra/images/titleBar.png');
+	background-image:url('../../themes/soria/images/titleBar.png');
 	background-position:0px -1px; 
 }
 
@@ -53,13 +57,21 @@ th .arrowNode {
 }
 
 th.arrowUp .arrowNode {
-	padding-right: 16px;
-	background:transparent url("../../themes/tundra/images/arrowUp.png") no-repeat;
+	margin-right: 5px;
+	margin-top: -4px;
+	margin-bottom: 5px;
+	width: 15px;
+	height:15px;
+	background:transparent url("../../themes/soria/images/spriteRoundedIconsSmall.png") -45px top no-repeat;
 }
 
 th.arrowDown .arrowNode {
-	padding-right: 16px;
-	background:transparent url("../../themes/tundra/images/arrowDown.png") no-repeat;
+	margin-right: 5px;
+	margin-top: -4px;
+	margin-bottom: 5px;
+	width: 15px;
+	height:15px;
+	background:transparent url("../../themes/soria/images/spriteRoundedIconsSmall.png") -15px top no-repeat;
 }
 
 .demoTable td { padding:3px; } 
