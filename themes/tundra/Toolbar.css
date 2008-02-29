@@ -43,6 +43,6 @@
 	border-color: #aec6e7;
 	/* IE hackery */
 	_border: 1px solid #366dba;
-	_margin: -1px 0 0 0;
+	_margin: 0 0 0 0;
 	_padding: 0;
 }
