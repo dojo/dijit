@@ -345,14 +345,15 @@ dojo.declare(
 /* the following code is to registered a handler to get default plugins */
 dojo.subscribe(dijit._scopeName + ".Editor.getPlugin",null,function(o){
 	if(o.plugin){ return; }
-	var args=o.args, p;
+	var args = o.args, p;
 	var _p = dijit._editor._Plugin;
-	var name=args.name;
+	var name = args.name;
 	switch(name){
 		case "undo": case "redo": case "cut": case "copy": case "paste": case "insertOrderedList":
 		case "insertUnorderedList": case "indent": case "outdent": case "justifyCenter":
 		case "justifyFull": case "justifyLeft": case "justifyRight": case "delete":
 		case "selectAll": case "removeFormat":
+		case "insertHorizontalRule":
 			p = new _p({ command: name });
 			break;
 
