@@ -1,4 +1,5 @@
 .soria .dijitToolbar {
+	padding: 3px 0 1px 3px;	
 	border-bottom: 1px solid #b1badf;
 	background:#d3e3f8 url("images/titleBar.png") repeat-x top left;
 }
@@ -46,4 +47,8 @@
 	_border: 1px solid #366dba;
 	_margin: 0 0 0 0;
 	_padding: 0;
+}
+
+.soria .dijitToolbar label {	
+	padding: 3px 3px 0 6px;
 }

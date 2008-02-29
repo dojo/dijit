@@ -1,4 +1,5 @@
 .tundra .dijitToolbar {
+	padding: 3px 0 1px 3px;	
 	border-bottom: 1px solid #ccc;
 	background:#eaeaea url("images/titleBar.png") repeat-x top left;
 }
@@ -45,4 +46,8 @@
 	_border: 1px solid #366dba;
 	_margin: 0 0 0 0;
 	_padding: 0;
+}
+
+.tundra .dijitToolbar label {	
+	padding: 3px 3px 0 6px;
 }
