@@ -7,6 +7,7 @@ try{
 		doh.registerUrl("dijit.tests.i18n.number", dojo.moduleUrl("dijit", "tests/i18n/number.html"));
 		doh.registerUrl("dijit.tests.i18n.textbox", dojo.moduleUrl("dijit", "tests/i18n/textbox.html"));
 		doh.registerUrl("dijit.tests.i18n.time", dojo.moduleUrl("dijit", "tests/i18n/time.html"));
+		doh.registerUrl("dijit.tests.i18n.digit", dojo.moduleUrl("dijit", "tests/i18n/digit.html"));
 	}
 }catch(e){
 	doh.debug(e);
