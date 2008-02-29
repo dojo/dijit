@@ -1,6 +1,6 @@
 .tundra .dijitToolbar {
 	border-bottom: 1px solid #ccc;
-	background:#fafafa url("images/titleBar.png") repeat-x top left;
+	background:#eaeaea url("images/titleBar.png") repeat-x top left;
 }
 
 .tundra .dijitToolbar * {
