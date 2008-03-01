@@ -359,7 +359,7 @@ dojo.declare(
 		
 		// TODO: this is a bit redundant with forward, back api in StackContainer
 		adjacent: function(/*Boolean*/ forward){
-			if(!this.isLeftToRight()){ forward = !forward; }
+			if(!this.isLeftToRight() && (!this.tabPosition || /top|bottom/.test(this.tabPosition))){ forward = !forward; }
 			// find currently focused button in children array
 			var children = this.getChildren();
 			var current = dojo.indexOf(children, this.pane2button[this._currentChild]);

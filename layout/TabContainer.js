@@ -139,15 +139,13 @@ dojo.declare("dijit.layout.TabController",
 	},
 	
 	_rectifyRtlTabList: function(){
-		//Summay: Rectify the length of all tabs in rtl, otherwise the tab lengths are different in IE
+		//Summary: Rectify the length of all tabs in rtl, otherwise the tab lengths are different in IE
 		if(0 >= this.tabPosition.indexOf('-h')){ return; }
 		if(!this.pane2button){ return; }
+
 		var maxLen = 0;
-		//this.tablist.pane2button is not array, so we can't use dojo.forEach here
-		//simplily get the max length among the tabs
 		for(var pane in this.pane2button){
-			var len = dojo.marginBox(this.pane2button[pane].innerDiv).w;
-			maxLen = maxLen > len ? maxLen : len;
+			maxLen = Math.max(maxLen, dojo.marginBox(this.pane2button[pane].innerDiv).w);
 		}
 		//unify the length of all the tabs
 		for(pane in this.pane2button){
