@@ -600,7 +600,12 @@ dojo.declare("dijit._editor.RichText", [ dijit._Widget ], {
 	_mozSettingProps: ['styleWithCSS','insertBrOnReturn'],
 	setDisabled: function(/*Boolean*/ disabled){
 		if(dojo.isIE || dojo.isSafari || dojo.isOpera){
-			this.editNode.contentEditable=!disabled;
+			if(dojo.isIE){ this.editNode.unselectable = "on"; } // prevent IE from setting focus 
+			this.editNode.contentEditable = !disabled; 
+			if(dojo.isIE){ 
+				var _this = this; 
+				setTimeout(function(){ _this.editNode.unselectable = "off"; }, 0); 
+			} 
 		}else{ //moz
 			if(disabled){
 				this._mozSettings=[false,this.blockNodeForEnter==='BR'];
@@ -637,7 +642,16 @@ dojo.declare("dijit._editor.RichText", [ dijit._Widget ], {
 		}else{
 			this.editNode=this.document.body.firstChild;
 		}
-		this.editNode.contentEditable = true; //should do no harm in FF
+		try{
+			this.setDisabled(false);
+		}catch(e){
+			// Firefox throws an exception if the editor is initially hidden
+			// so, if this fails, try again onClick by adding "once" advice
+			var handle = dojo.connect(this, "onClick", this, function(){
+				this.setDisabled(false);
+				dojo.disconnect(handle);
+			});
+		}
 		this._preDomFilterContent(this.editNode);
 
 		var events=this.events.concat(this.captureEvents),i=0,et;
@@ -657,7 +671,7 @@ dojo.declare("dijit._editor.RichText", [ dijit._Widget ], {
 		}
 
 		if(this.focusOnLoad){
-			this.focus();
+			setTimeout(dojo.hitch(this, "focus"), 0); // have to wait for IE to set unselectable=off 
 		}
 
 		this.onDisplayChanged(e);
