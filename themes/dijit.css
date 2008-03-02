@@ -40,9 +40,19 @@
 .dj_ie INPUT.dijitTextBox,
 .dj_ie .dijitInputField INPUT {
 	font-size: 100%;
-	font-family: expression(this.parentNode.currentStyle? this.parentNode.currentStyle.fontFamily : document.documentElement.currentStyle.fontFamily);
-	font-weight: expression(this.parentNode.currentStyle? this.parentNode.currentStyle.fontWeight : document.documentElement.currentStyle.fontWeight);
-	font-style:  expression(this.parentNode.currentStyle? this.parentNode.currentStyle.fontStyle  : document.documentElement.currentStyle.fontStyle);
+	font-family: inherit; /* trigger pseudo font-family inheritance */
+	behavior: expression( /* if the font-family = inherit, then get the parent's font-family */
+		function(self){
+			var cs, e; 
+			try{
+				if(self.currentStyle.fontFamily=='inherit'){
+					cs = self.parentNode.currentStyle || document.documentElement.currentStyle;
+					self.style.fontFamily = cs.fontFamily;
+				}
+				self.style.behavior = null; /* #5562: prevent re-eval of css expression */
+			}catch(e){} /* #6024: random exceptions thrown during init */
+		}(this)
+	);
 }
 
 .dj_ie .dijitInputField INPUT { /* try to get rid of IE implicit margin around INPUT */
