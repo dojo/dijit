@@ -344,6 +344,7 @@ table .dijitComboButton .dijitButtonNode {
 .dijitComboBox,
 .dijitSpinner {
 	border: solid black 1px;
+	overflow: hidden; /* #6027 */
 	width: 15em;	/* need to set default size on outer node since inner nodes say <input style="width:100%"> and <td width=100%>.  user can override */
 }
 
