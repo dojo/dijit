@@ -307,7 +307,7 @@ dojo.declare("dijit._Widget", null, {
 		// summary:
 		//	Returns all the widgets that contained by this, i.e., all widgets underneath this.containerNode.
 		if(this.containerNode){
-			var list= dojo.query('[widgetId]', this.containerNode || this.domNode);
+			var list= dojo.query('[widgetId]', this.containerNode);
 			return list.map(dijit.byNode);		// Array
 		}else{
 			return [];

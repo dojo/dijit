@@ -87,6 +87,11 @@ dojo.declare(
 		// over a node
 		this.domNode.title = "";
 
+		if(!this.containerNode){
+			// make getDescendants() work
+			this.containerNode = this.domNode;
+		}
+
 		if(this.preload){
 			this._loadCheck();
 		}
