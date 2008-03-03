@@ -5,6 +5,7 @@
 		<style type="text/css">
 			@import "../../dojo/resources/dojo.css";
 			@import "css/dijitTests.css";
+			#container { height:200px; } 
 		</style>
 
 		<script type="text/javascript" src="../../dojo/dojo.js"
@@ -46,21 +47,19 @@
 				// make a tab container from some div, and all it's children div's
 				dojo.query("#container")
 					.forEach(function(n){
-						var idx = 0;
 						dojo.query("div",n)
-							.style("height","200px")
+							// create contentpanes from the children and style them
 							.instantiate(dijit.layout.ContentPane,{})
-							.forEach(function(wn){
-								console.log('found',wn);
-								idx++;
-								dojo.mixin(dijit.byNode(wn),{ title:"tab"+(idx) })
+							.forEach(function(wn,idx){
+								dojo.mixin(dijit.byNode(wn),{ title:"tab" + (idx + 1) })
 							})
 						;
 					})
-					.instantiate(dijit.layout.TabContainer,{});
+					.instantiate(dijit.layout.TabContainer,{})
+				;
 				// should we add auto-startup calling?
 				dijit.byId("container").startup();
-				dijit.byId("container").layout();
+				//dijit.byId("container").layout();
 				
 				// another test widget example
 				dojo.query("#altList li").instantiate(test._Widget,{ message:"woot" });
@@ -74,7 +73,7 @@
 					});
 				});
 			};
-			dojo.addOnLoad(init);
+			dojo.addOnLoad(init)
 			//dojo.addOnLoad(function(){
 			//	setTimeout(init,25);
 			//});
