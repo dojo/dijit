@@ -766,47 +766,39 @@ img.dijitColorPaletteUnder {
 	overflow:hidden;
 	outline:0;
 }
+.dijitPaletteCell {
+	width: 20px;
+	height: 20px;
+	position: absolute;
+	overflow: hidden;
+	z-index: 10;
+	outline-width: 0;
+}
 .dijitPaletteImg {
 	width: 16px; /*This is the width of one color in the provided palettes. */
 	height: 14px; /* Height of one color in the provided palettes. */
 	position: absolute;
+	top: 1px;
+	left: 1px;
 	overflow: hidden;
 	cursor: default;
-	z-index: 10;
 	border:1px solid #999;
 	/* -moz-border-radius:2pt; */
 }
 
-.dijitPaletteImgHighlight {
+.dijitPaletteCellHighlight img {
 	width: 14px; /*This is the width of one color in the provided palettes. */
 	height: 12px; /* Height of one color in the provided palettes. */
 	position: absolute;
+	top: 1px;
+	left: 1px;
 	overflow: hidden;
 	cursor: default;
-	z-index: 10;
-}
-
-/* .dijitPaletteImg:hover, */
-.dijitPaletteImg:focus,
-.dijitPaletteImgHighlight {
-	width: 14px; /*This is the width of one color in the provided palettes. */
-	height: 12px; /* Height of one color in the provided palettes. */
 	border:2px solid #000;
-	outline:2px solid #dedede;
+	outline:1px solid #dedede;
 	/* -moz-border-radius:0; */	
 }
 
-
-.dijitColorPaletteCell {
-	width:16px;
-	height:14px;
-	border: 1px solid;
-}
-
-.dijitColorPaletteCell:hover {
-	border-style: solid;
-	outline:0;
-}
 
 /* Accordion */
 
