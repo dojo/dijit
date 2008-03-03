@@ -19,7 +19,7 @@ h1.testTitle {
 	height: 16px;
 }
 .plusBlockIcon {
-	display: block;
+	display: block !important;
 }
 .noteIcon {
 	background-image: url(../images/note.gif);
