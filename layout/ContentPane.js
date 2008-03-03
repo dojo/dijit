@@ -241,12 +241,10 @@ dojo.declare(
 		this._loadCheck(forceLoad);
 	},
 
-	_isOpen: function(){
+	_isShown: function(){
 		// summary: returns true if the content is currently shown
 		if("open" in this){
 			return this.open;		// for TitlePane, etc.
-		}else if("selected" in this){
-			return this.selected;	// AccordionContainer, TabContainer
 		}else{
 			var node = this.domNode;
 			return (node.style.display != 'none')  && (node.style.visibility != 'hidden');
@@ -266,7 +264,7 @@ dojo.declare(
 		// else -> load when download not in progress, if this.open !== false (undefined is ok) AND
 		//						domNode display != 'none', isLoaded must be false
 
-		var displayState = this._isOpen();
+		var displayState = this._isShown();
 
 		if(this.href &&	
 			(forceLoad ||
