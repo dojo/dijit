@@ -110,6 +110,13 @@ dijit._tabElements = {
 	textarea: true
 };
 
+dijit._isElementShown = function(/*Element*/elem){
+	var style = dojo.style(elem);
+	return (style.visibility != "hidden")
+		&& (style.visibility != "collapsed")
+		&& (style.display != "none");
+}
+
 dijit.isTabNavigable = function(/*Element*/elem){
 	// summary:
 	//		Tests if an element is tab-navigable
@@ -133,31 +140,36 @@ dijit._getTabNavigable = function(/*DOMNode*/root){
 	//		Finds the following descendants of the specified root node:
 	//		* the first tab-navigable element in document order
 	//		  without a tabindex or with tabindex="0"
-	//		* the last tab-nagibale element in document order
+	//		* the last tab-navigable element in document order
 	//		  without a tabindex or with tabindex="0"
 	//		* the first element in document order with the lowest
 	//		  positive tabindex value
 	//		* the last element in document order with the highest
 	//		  positive tabindex value
 	var first, last, lowest, lowestTabindex, highest, highestTabindex;
-	dojo.query('*', root).forEach(function(elem){
-		if(dijit.isTabNavigable(elem)){
-			var tabindex = dojo.attr(elem, "tabindex");
-			if(!dojo.hasAttr(elem, "tabindex") || tabindex == 0){
-				if(!first){ first = elem; }
-				last = elem;
-			}else if(tabindex > 0){
-				if(!lowest || tabindex < lowestTabindex){
-					lowestTabindex = tabindex;
-					lowest = elem;
-				}
-				if(!highest || tabindex >= highestTabindex){
-					highestTabindex = tabindex;
-					highest = elem;
+	var walkTree = function(/*DOMNode*/parent){
+		dojo.query("> *", parent).forEach(function(child){
+			var isShown = dijit._isElementShown(child);
+			if(isShown && dijit.isTabNavigable(child)){
+				var tabindex = dojo.attr(child, "tabindex");
+				if(!dojo.hasAttr(child, "tabindex") || tabindex == 0){
+					if(!first){ first = child; }
+					last = child;
+				}else if(tabindex > 0){
+					if(!lowest || tabindex < lowestTabindex){
+						lowestTabindex = tabindex;
+						lowest = child;
+					}
+					if(!highest || tabindex >= highestTabindex){
+						highestTabindex = tabindex;
+						highest = child;
+					}
 				}
 			}
-		}
-	});
+			if(isShown){ walkTree(child) }
+		});
+	};
+	if(dijit._isElementShown(root)){ walkTree(root) }
 	return { first: first, last: last, lowest: lowest, highest: highest };
 }
 

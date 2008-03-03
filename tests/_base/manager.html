@@ -86,7 +86,10 @@
 						t.is(null, dijit.getFirstInTabbingOrder("div-container"));
 						t.is(null, dijit.getFirstInTabbingOrder("a-without-href-container"));
 						t.is("a-with-href", dijit.getFirstInTabbingOrder("a-with-href-container").id);
-						t.is("area", dijit.getFirstInTabbingOrder("area-map").id);
+						// Safari treats area elements differently.
+						if(!dojo.isSafari){
+							t.is("area", dijit.getFirstInTabbingOrder("area-map").id);
+						}
 						t.is("button", dijit.getFirstInTabbingOrder("button-container").id);
 						t.is("input", dijit.getFirstInTabbingOrder("input-container").id);
 						t.is("object", dijit.getFirstInTabbingOrder("object-container").id);
@@ -95,7 +98,10 @@
 						t.is(null, dijit.getLastInTabbingOrder("div-container"));
 						t.is(null, dijit.getLastInTabbingOrder("a-without-href-container"));
 						t.is("a-with-href", dijit.getLastInTabbingOrder("a-with-href-container").id);
-						t.is("area", dijit.getLastInTabbingOrder("area-map").id);
+						// Safari treats area elements differently.
+						if(!dojo.isSafari){
+							t.is("area", dijit.getLastInTabbingOrder("area-map").id);
+						}
 						t.is("button", dijit.getLastInTabbingOrder("button-container").id);
 						t.is("input", dijit.getLastInTabbingOrder("input-container").id);
 						t.is("object", dijit.getLastInTabbingOrder("object-container").id);
@@ -133,6 +139,17 @@
 					function findTabOuterInner(t){
 						t.is("outer1", dijit.getFirstInTabbingOrder("outer-inner-container").id);
 						t.is("inner2", dijit.getLastInTabbingOrder("outer-inner-container").id);
+					},
+					function skipNotShown(t){
+						t.is(null, dijit.getFirstInTabbingOrder("hidden-element-container"));
+						t.is(null, dijit.getFirstInTabbingOrder("hidden-container-tabindex-zero"));
+						t.is(null, dijit.getFirstInTabbingOrder("hidden-container-no-tabindex"));
+						t.is(null, dijit.getFirstInTabbingOrder("container-with-hidden-containers"));
+
+						t.is(null, dijit.getFirstInTabbingOrder("display-none-element-container"));
+						t.is(null, dijit.getFirstInTabbingOrder("display-none-container-tabindex-zero"));
+						t.is(null, dijit.getFirstInTabbingOrder("display-none-container-no-tabindex"));
+						t.is(null, dijit.getFirstInTabbingOrder("container-with-display-none-containers"));
 					}
 				]
 			);
@@ -164,9 +181,12 @@
 	<div id="a-with-href-container">
 		<a id="a-with-href" href="#named-link-anchor"></a>
 	</div>
-	<map id="area-map">
-		<area id="area">
+
+	<div><img src="../images/flatScreen.gif" alt="picture of a flat-screen monitor" usemap="#area-map"></div>
+	<map id="area-map" name="area-map">
+		<area id="area" href="#" alt="example area" shape="rect" coords="0,0,8,8">
 	</map>
+
 	<div id="button-container">
 		<button id="button"></button>
 	</div>
@@ -257,5 +277,38 @@
 		</div>
 	</div>
 
+	<div id="hidden-element-container">
+		<div id="hidden-element" tabindex="0" style="visibility: hidden;">
+		</div>	
+	</div>
+
+	<div id="container-with-hidden-containers">
+		<div id="hidden-container-tabindex-zero" tabindex="0" style="visibility: hidden;">
+			<div id="inside-hidden-container-tabindex-zero" tabindex="0">
+			</div>	
+		</div>
+		
+		<div id="hidden-container-no-tabindex" style="visibility: hidden;">
+			<div id="inside-hidden-container-no-tabindex" tabindex="0">
+			</div>	
+		</div>
+	</div>
+
+	<div id="display-none-element-container">
+		<div id="display-none-element" tabindex="0" style="display: none;">
+		</div>	
+	</div>
+
+	<div id="container-with-display-none-containers">
+		<div id="display-none-container-tabindex-zero" tabindex="0" style="display: none;">
+			<div id="inside-display-none-container-tabindex-zero" tabindex="0">
+			</div>	
+		</div>
+		
+		<div id="display-none-container-no-tabindex" style="display: none;">
+			<div id="inside-display-none-container-no-tabindex" tabindex="0">
+			</div>	
+		</div>
+	</div>
 </body>
 </html>
