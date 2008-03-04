@@ -69,21 +69,20 @@
 		d.body().appendChild(node);
 
 		_populateTestDialog(node);
-		d.connect(document,"onkeypress","_testNodeShow");
+
+		d.connect(document,"onkeypress", function _testNodeShow(/* Event */evt){
+			var key = (evt.charCode == d.keys.SPACE ? d.keys.SPACE : evt.keyCode);
+			if(evt.ctrlKey && (key == d.keys.F9)){ // F9 is generic enough?
+				d.style('testNodeDialog',"top",(dijit.getViewport().t + 4) +"px");
+				d.toggleClass('testNodeDialog',"dijitTestNodeShowing");
+			}
+		});
 
 		if(dojo.config._deferParsing){ d.parser.parse(d.body()); }
 
 	});
 
-	_testNodeShow = function(/* Event */evt){
-		var key = (evt.charCode == d.keys.SPACE ? d.keys.SPACE : evt.keyCode);
-		if(evt.ctrlKey && (key == d.keys.F9)){ // F9 is generic enough?
-			d.style('testNodeDialog',"top",(dijit.getViewport().t + 4) +"px");
-			d.toggleClass('testNodeDialog',"dijitTestNodeShowing");
-		}
-	}
-
-	_populateTestDialog = function(/* DomNode */node){
+	var _populateTestDialog = function(/* DomNode */node){
 		// pseudo-function to populate our test-martix-link pop-up
 		var base = window.location.pathname;
 		var str = "";
