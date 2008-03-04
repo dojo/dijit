@@ -4,27 +4,6 @@
 	<head>
 		<title>Dojo Form Widgets Test</title>
 
-		<script type="text/javascript" src="../../dojo/dojo.js"
-			djConfig="isDebug: false, parseOnLoad: true"></script>
-		<script type="text/javascript">
-			dojo.require("dijit.form.Form");
-			dojo.require("dijit.form.ValidationTextBox");
-			dojo.require("dijit.form.ComboBox");
-			dojo.require("dijit.form.FilteringSelect");
-			dojo.require("dijit.form.CheckBox");
-			dojo.require("dijit.form.DateTextBox");
-			dojo.require("dijit.form.CurrencyTextBox");
-			dojo.require("dijit.form.NumberSpinner");
-			dojo.require("dijit.form.Slider");
-			dojo.require("dijit.form.Textarea");
-			dojo.require("dijit.Editor");
-			dojo.require("dijit.form.Button");
-			dojo.require("dojo.data.ItemFileReadStore");
-			dojo.require("dojo.parser");	// scan page for widgets and instantiate them
-
-			// make dojo.toJson() print dates correctly (this feels a bit dirty)
-			Date.prototype.json = function(){ return dojo.date.stamp.toISOString(this, {selector: 'date'});};
-		</script>
 		<style type="text/css">
 			@import "../../dojo/resources/dojo.css";
 			@import "../themes/tundra/tundra.css";
@@ -51,13 +30,13 @@
 					font-family:Verdana, Arial, sans-serif;
 					margin-bottom:0.75em;
 			}
-			.small INPUT {
-				width: 2.5em;
+			body .short {
+				width: 5em;
 			}
-			.medium INPUT {
+			body .medium {
 				width: 10em;
 			}
-			.long INPUT {
+			body .long {
 				width: 20em;
 			}
 			.firstLabel {
@@ -83,6 +62,28 @@
 				font-size:0.9em;
 			}
 		</style>
+		
+		<script type="text/javascript" src="../../dojo/dojo.js"
+			djConfig="isDebug: false, parseOnLoad: true"></script>
+		<script type="text/javascript">
+			dojo.require("dijit.form.Form");
+			dojo.require("dijit.form.ValidationTextBox");
+			dojo.require("dijit.form.ComboBox");
+			dojo.require("dijit.form.FilteringSelect");
+			dojo.require("dijit.form.CheckBox");
+			dojo.require("dijit.form.DateTextBox");
+			dojo.require("dijit.form.CurrencyTextBox");
+			dojo.require("dijit.form.NumberSpinner");
+			dojo.require("dijit.form.Slider");
+			dojo.require("dijit.form.Textarea");
+			dojo.require("dijit.Editor");
+			dojo.require("dijit.form.Button");
+			dojo.require("dojo.data.ItemFileReadStore");
+			dojo.require("dojo.parser");	// scan page for widgets and instantiate them
+
+			// make dojo.toJson() print dates correctly (this feels a bit dirty)
+			Date.prototype.json = function(){ return dojo.date.stamp.toISOString(this, {selector: 'date'});};
+		</script>
 	</head>
 	<body class="tundra">
 		<div dojoType="dojo.data.ItemFileReadStore" jsId="stateStore"
@@ -131,10 +132,10 @@
 
 				<label class="secondLabel" for="state">State</label>
 				<input dojoType="dijit.form.FilteringSelect"
-					store="stateStore" class="short" id="state" name="state" />
+					store="stateStore" class="medium" id="state" name="state" />
 
 				<label class="secondLabel" for="zip">Zip *</label>
-				<input type="text" id="zip" name="zip" class="medium"
+				<input type="text" id="zip" name="zip" class="short"
 					dojoType="dijit.form.ValidationTextBox"
 					trim="true" 
 					required="true"
@@ -199,7 +200,7 @@
 						</td>
 						<td>
 							<input dojoType="dijit.form.NumberSpinner"
-								id="experience" name="experience"
+								id="experience" name="experience" class="short"
 								value="1"
 								constraints="{min: 0, max:40, places:0}"
 								size=3>
