@@ -7,8 +7,9 @@ dojo.require("dojo.parser");
 dojo.declare("dijit._Templated",
 	null,
 	{
-		// summary: Mixin for widgets that are instantiated from a template
-
+		//	summary:
+		//		Mixin for widgets that are instantiated from a template
+		// 
 		// templateNode: DomNode
 		//		a node that represents the widget template. Pre-empts both templateString and templatePath.
 		templateNode: null,

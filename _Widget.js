@@ -3,10 +3,10 @@ dojo.provide("dijit._Widget");
 dojo.require("dijit._base");
 
 dojo.declare("dijit._Widget", null, {
-	// summary:
+	//	summary:
 	//		The foundation of dijit widgets. 	
 	//
-	// id: String
+	//	id: String
 	//		a unique, opaque ID string that can be assigned by users or by the
 	//		system. If the developer passes an ID which is known not to be
 	//		unique, the specified ID is ignored and the system-generated ID is
@@ -69,18 +69,18 @@ dojo.declare("dijit._Widget", null, {
 		//		they are fired, along with notes about what they do and if/when
 		//		you should over-ride them in your widget:
 		//			
-		//			postMixInProperties:
-		//				a stub function that you can over-ride to modify
-		//				variables that may have been naively assigned by
-		//				mixInProperties
-		//			# widget is added to manager object here
-		//			buildRendering
-		//				Subclasses use this method to handle all UI initialization
-		//				Sets this.domNode.  Templated widgets do this automatically
-		//				and otherwise it just uses the source dom node.
-		//			postCreate
-		//				a stub function that you can over-ride to modify take
-		//				actions once the widget has been placed in the UI
+		//		|	* postMixInProperties
+		//		|		a stub function that you can over-ride to modify
+		//		|		variables that may have been naively assigned by
+		//		|		mixInProperties
+		//		|	# widget is added to manager object here
+		//		|	* buildRendering
+		//		|		Subclasses use this method to handle all UI initialization
+		//		|		Sets this.domNode.  Templated widgets do this automatically
+		//		|		and otherwise it just uses the source dom node.
+		//		|	* postCreate
+		//		|		a stub function that you can over-ride to modify take
+		//		|		actions once the widget has been placed in the UI
 
 		// store pointer to original dom tree
 		this.srcNodeRef = dojo.byId(srcNodeRef);
@@ -380,7 +380,7 @@ dojo.declare("dijit._Widget", null, {
 		//		'dir' attribute until one is found, otherwise left to right mode is assumed.
 		//		See HTML spec, DIR attribute for more information.
 
-		if(typeof this._ltr == "undefined"){
+		if(!("_ltr" in this)){
 			this._ltr = dojo.getComputedStyle(this.domNode).direction != "rtl";
 		}
 		return this._ltr; //Boolean

@@ -16,13 +16,14 @@ dojo.declare(
 	//		A simple GUI for choosing a date in the context of a monthly calendar.
 	//
 	//	description:
+	//		A simple GUI for choosing a date in the context of a monthly calendar.
 	//		This widget is used internally by other widgets and is not accessible
 	//		as a standalone widget.
 	//		This widget can't be used in a form because it doesn't serialize the date to an
-	//		`<input>` field.  For a form element, use DateTextBox instead.
+	//		`<input>` field.  For a form element, use dijit.form.DateTextBox instead.
 	//
-	//		Note that the parser takes all dates attributes passed in the `RFC 3339` format:
-	//		http://www.faqs.org/rfcs/rfc3339.html (2005-06-30T08:05:00-07:00)
+	//		Note that the parser takes all dates attributes passed in the
+	//		[RFC 3339 format](http://www.faqs.org/rfcs/rfc3339.html), e.g. `2005-06-30T08:05:00-07:00`
 	//		so that they are serializable and locale-independent.
 	//
 	//	example:
@@ -215,7 +216,7 @@ dojo.declare(
 
 		isDisabledDate: function(/*Date*/dateObject, /*String?*/locale){
 			// summary:
-			//	May be overridden to disable certain dates in the calendar e.g. isDisabledDate=dojo.date.locale.isWeekend
+			//	May be overridden to disable certain dates in the calendar e.g. `isDisabledDate=dojo.date.locale.isWeekend`
 /*=====
 			return false; // Boolean
 =====*/
