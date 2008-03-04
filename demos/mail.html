@@ -303,7 +303,7 @@
 				<div dojoType="dijit.layout.AccordionContainer" region="leading" minSize="20" style="width:20%;" splitter="true">
 					<div dojoType="dijit.layout.AccordionPane" title="Folders">
 						<div dojoType="dijit.Tree" id="mytree" store="mailStore"
-							labelAttr="label" childrenAttr="folders" query="{type:'folder'}" label="Folders">
+							childrenAttr="folders" query="{type:'folder'}" label="Folders">
 							<script type="dojo/method" event="onClick" args="item">
 								if(!item){
 									return;	// top level node in tree doesn't correspond to any item

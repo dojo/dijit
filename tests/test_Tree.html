@@ -35,7 +35,7 @@
 	<h3>Tree with hardcoded root node (not corresponding to any item in the store)</h3>
 	<p>Clicking a folder node will open/close it (openOnclick==true), and clicking a leaf node will popup an alert.</p>
 	<div dojoType="dijit.Tree" id="mytree"
-		model="continentModel" labelAttr="name" childrenAttr="children"
+		model="continentModel" childrenAttr="children"
 		openOnClick="true">
 		<script type="dojo/method" event="onClick" args="item">
 			alert("Execute of node " + continentStore.getLabel(item)
@@ -80,7 +80,7 @@
 	</ul>
 
 	<div dojoType="dijit.Tree" id="tree2"
-		model="continentModel" labelAttr="name" childrenAttr="children"
+		model="continentModel" childrenAttr="children"
 		showRoot="false" openOnClick="true">
 
 		<script type="dojo/connect">

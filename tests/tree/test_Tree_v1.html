@@ -33,7 +33,7 @@
 	<div dojoType="dijit.Tree" id="mytree" store="continentStore" query="{type:'continent'}"
 		onfocus="console.log('user focus handler')"
 		onblur="console.log('user blur handler')"
-		labelAttr="name" label="Continents" openOnClick="true">
+		label="Continents" openOnClick="true">
 		<script type="dojo/method" event="onClick" args="item">
 			alert("Execute of node " + continentStore.getLabel(item)
 				+", population=" + continentStore.getValue(item, "population"));
