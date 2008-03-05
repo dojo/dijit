@@ -309,8 +309,10 @@ dojo.declare("dijit.form.ComboButton", dijit.form.DropDownButton, {
 		dojo.forEach(this._focalNodes, dojo.hitch(this, function(node){
 			if(dojo.isIE){
 				this.connect(node, "onactivate", this._onNodeFocus);
+				this.connect(node, "ondeactivate", this._onNodeBlur);
 			}else{
 				this.connect(node, "onfocus", this._onNodeFocus);
+				this.connect(node, "onblur", this._onNodeBlur);
 			}
 		}));
 	},
@@ -356,6 +358,13 @@ dojo.declare("dijit.form.ComboButton", dijit.form.DropDownButton, {
 
 	_onNodeFocus: function(evt){
 		this._focusedNode = evt.currentTarget;
+		var fnc = this._focusedNode == this.focusNode ? "dijitDownArrowButtonFocused" : "dijitButtonContentsFocused";
+		dojo.addClass(this._focusedNode, fnc);
+	},
+
+	_onNodeBlur: function(evt){
+		var fnc = evt.currentTarget == this.focusNode ? "dijitDownArrowButtonFocused" : "dijitButtonContentsFocused";
+		dojo.removeClass(evt.currentTarget, fnc);
 	},
 
 	_onBlur: function(){

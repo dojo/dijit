@@ -52,3 +52,10 @@
 .nihilo .dijitToolbar label {	
 	padding: 3px 3px 0 6px;
 }
+
+.dj_ie .nihilo .dijitToolbar .dijitComboButton .dijitButtonContentsFocused,
+.dj_ie .nihilo .dijitToolbar .dijitComboButton .dijitDownArrowButtonFocused,
+.dj_ff2 .nihilo .dijitToolbar .dijitComboButton .dijitButtonContentsFocused,
+.dj_ff2 .nihilo .dijitToolbar .dijitComboButton .dijitDownArrowButtonFocused {
+	border: 1px black dotted !important;
+}

@@ -35,6 +35,11 @@
 	padding-right:4px;
 }
 
+.dj_ff2 .tundra .dijitComboButton .dijitButtonContentsFocused,
+.dj_ff2 .tundra .dijitComboButton .dijitDownArrowButtonFocused {
+	border: 1px black dotted !important;
+}
+
 .tundra .dijitButtonDisabled .dijitButtonNode,
 .tundra .dijitToggleButtonDisabled .dijitButtonNode,
 .tundra .dijitDropDownButtonDisabled .dijitButtonNode,

@@ -51,3 +51,10 @@
 .tundra .dijitToolbar label {	
 	padding: 3px 3px 0 6px;
 }
+
+.dj_ie .tundra .dijitToolbar .dijitComboButton .dijitButtonContentsFocused,
+.dj_ie .tundra .dijitToolbar .dijitComboButton .dijitDownArrowButtonFocused,
+.dj_ff2 .tundra.dijitToolbar .dijitComboButton .dijitButtonContentsFocused,
+.dj_ff2 .tundra .dijitToolbar .dijitComboButton .dijitDownArrowButtonFocused {
+	border: 1px black dotted !important;
+}

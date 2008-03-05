@@ -35,6 +35,11 @@
 	padding-right:4px;
 }
 
+.dj_ff2 .soria .dijitComboButton .dijitButtonContentsFocused,
+.dj_ff2 .soria .dijitComboButton .dijitDownArrowButtonFocused {
+	border: 1px black dotted !important;
+}
+
 .soria .dijitButtonDisabled .dijitButtonNode,
 .soria .dijitToggleButtonDisabled .dijitButtonNode,
 .soria .dijitDropDownButtonDisabled .dijitButtonNode,
