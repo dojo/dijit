@@ -46,6 +46,10 @@ dojo.declare(
 	//		Save splitter positions in a cookie.
 	persist: false,	// Boolean
 
+	// _splitterClass: String
+	// 		Optional hook to override the default Splitter widget used by BorderContainer
+	_splitterClass: "dijit.layout._Splitter",
+
 	postCreate: function(){
 		this.inherited(arguments);
 
@@ -74,9 +78,10 @@ dojo.declare(
 			this["_"+region] = child.domNode;
 
 			if(child.splitter){
+				var _Splitter = dojo.getObject(this._splitterClass);
 				var flip = {left:'right', right:'left', top:'bottom', bottom:'top', leading:'trailing', trailing:'leading'};
 				var oppNodeList = dojo.query('[region=' + flip[child.region] + ']', this.domNode);
-				var splitter = new dijit.layout._Splitter({ container: this, child: child, region: region,
+				var splitter = new _Splitter({ container: this, child: child, region: region,
 					oppNode: oppNodeList[0], live: this.liveSplitters });
 				this._splitters[region] = splitter.domNode;
 				dojo.place(splitter.domNode, child.domNode, "after");
