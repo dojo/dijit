@@ -22,6 +22,9 @@ dojo.declare(
 		//
 		// constraints: dijit.form._DateTimeTextBox.__Constraints 
 
+		/*=====
+		constraints: {},
+		======*/
 		regExpGen: dojo.date.locale.regexp,
 		compare: dojo.date.compare,
 		format: function(/*Date*/ value, /*dijit.form._DateTimeTextBox.__Constraints*/ constraints){
