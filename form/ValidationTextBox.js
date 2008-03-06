@@ -236,6 +236,10 @@ dojo.declare(
 		//
 		// rangeMessage: String
 		//		The message to display if value is out-of-range
+
+		/*=====
+		constraints: {},
+		======*/
 		rangeMessage: "",
 
 		compare: function(/*anything*/val1, /*anything*/val2){
