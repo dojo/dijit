@@ -23,8 +23,7 @@ dojo.declare(
 	dijit.form.TextBox,
 	{
 		// summary:
-		//		A subclass of TextBox.
-		//		Over-ride isValid in subclasses to perform specific kinds of validation.
+		//		A TextBox subclass with the ability to validate content of various types and provide user feedback.
 
 		templatePath: dojo.moduleUrl("dijit.form", "templates/ValidationTextBox.html"),
 		baseClass: "dijitTextBox",
@@ -73,7 +72,7 @@ dojo.declare(
 			// summary: user replaceable function used to validate the text input against the regular expression.
 			return (new RegExp("^(" + this.regExpGen(constraints) + ")"+(this.required?"":"?")+"$")).test(value) &&
 				(!this.required || !this._isEmpty(value)) &&
-				(this._isEmpty(value) || this.parse(value, constraints) !== undefined);
+				(this._isEmpty(value) || this.parse(value, constraints) !== undefined); // Boolean
 		},
 
 		isValid: function(/*Boolean*/ isFocused){
@@ -88,12 +87,12 @@ dojo.declare(
 
 		getErrorMessage: function(/*Boolean*/ isFocused){
 			// summary: return an error message to show if appropriate
-			return this.invalidMessage;
+			return this.invalidMessage; // String
 		},
 
 		getPromptMessage: function(/*Boolean*/ isFocused){
 			// summary: return a hint to show if appropriate
-			return this.promptMessage;
+			return this.promptMessage; // String
 		},
 
 		validate: function(/*Boolean*/ isFocused){
@@ -165,8 +164,12 @@ dojo.declare(
 	dijit.form.ValidationTextBox,
 	{
 		// summary:
-		//		A subclass of ValidationTextBox.
-		//		Provides a hidden input field and a serialize method to override
+		//		A dijit.form.ValidationTextBox subclass which provides a visible formatted display and a serializable
+		//		value in a hidden input field which is actually sent to the server.  The visible display may
+		//		be locale-dependent and interactive.  The value sent to the server is stored in a hidden
+		//		input field which uses the `name` attribute declared by the original widget.  That value sent
+		//		to the serveris defined by the dijit.form.MappedTextBox.serialize method and is typically
+		//		locale-neutral.
 
 		serialize: function(/*anything*/val, /*Object?*/options){
 			// summary: user replaceable function used to convert the getValue() result to a String
@@ -227,8 +230,7 @@ dojo.declare(
 	dijit.form.MappedTextBox,
 	{
 		// summary:
-		//		A subclass of MappedTextBox.
-		//		Tests for a value out-of-range
+		//		A dijit.form.MappedTextBox subclass which defines a range of valid values
 		//
 		// constraints: dijit.form.RangeBoundTextBox.__Constraints
 		//
@@ -238,13 +240,13 @@ dojo.declare(
 
 		compare: function(/*anything*/val1, /*anything*/val2){
 			// summary: compare 2 values
-			return val1 - val2;
+			return val1 - val2; // anything
 		},
 
 		rangeCheck: function(/*Number*/ primitive, /*dijit.form.RangeBoundTextBox.__Constraints*/ constraints){
 			// summary: user replaceable function used to validate the range of the numeric input value
-			var isMin = (constraints.min !== undefined);
-			var isMax = (constraints.max !== undefined);
+			var isMin = "min" in constraints;
+			var isMax = "max" in constraints;
 			if(isMin || isMax){
 				return (!isMin || this.compare(primitive,constraints.min) >= 0) &&
 					(!isMax || this.compare(primitive,constraints.max) <= 0);

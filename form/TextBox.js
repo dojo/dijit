@@ -7,8 +7,7 @@ dojo.declare(
 	dijit.form._FormValueWidget,
 	{
 		// summary:
-		//		A generic textbox field.
-		//		Serves as a base class to derive more specialized functionality in subclasses.
+		//		A base class for textbox form inputs
 
 		//	trim: Boolean
 		//		Removes leading and trailing whitespace if true.  Default is false.
@@ -47,7 +46,7 @@ dojo.declare(
 			return this.parse(this.getDisplayedValue(), this.constraints);
 		},
 
-		setValue: function(value, /*Boolean, optional*/ priorityChange, /*String, optional*/ formattedValue){
+		setValue: function(value, /*Boolean?*/ priorityChange, /*String?*/ formattedValue){
 			var filteredValue = this.filter(value);
 			if((((typeof filteredValue == typeof value) && (value !== undefined/*#5317*/)) || (value === null/*#5329*/)) && (formattedValue == null || formattedValue == undefined)){
 				formattedValue = this.format(filteredValue, this.constraints);
@@ -58,7 +57,9 @@ dojo.declare(
 			dijit.form.TextBox.superclass.setValue.call(this, filteredValue, priorityChange);
 		},
 
-		setDisplayedValue: function(/*String*/value, /*Boolean, optional*/ priorityChange){
+//TODOC: what is a priorityChange?
+//TODOC: summary
+		setDisplayedValue: function(/*String*/value, /*Boolean?*/ priorityChange){
 			this.textbox.value = value;
 			this.setValue(this.getValue(), priorityChange);
 		},
