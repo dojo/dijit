@@ -37,7 +37,7 @@ dojo.declare(
 
 		getDisplayedValue: function(){
 			//	summary:
-			//		returns the formatted value that the user sees in the textbox, which may be different
+			//		Returns the formatted value that the user sees in the textbox, which may be different
 			//		from the serialized value that's actually sent to the server (see dijit.form.ValidationTextBox.serialize)
 			return this.filter(this.textbox.value);
 		},
