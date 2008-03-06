@@ -37,6 +37,9 @@ dojo.declare(
 			{maxLength:"focusNode"}),
 
 		getDisplayedValue: function(){
+			//	summary:
+			//		returns the formatted value that the user sees in the textbox, which may be different
+			//		from the serialized value that's actually sent to the server (see dijit.form.ValidationTextBox.serialize)
 			return this.filter(this.textbox.value);
 		},
 
@@ -84,7 +87,7 @@ dojo.declare(
 		},
 
 		filter: function(val){
-			// summary: Apply various filters to textbox value
+			// summary: Apply specified filters to textbox value
 			if(val === null || val === undefined){ return ""; }
 			else if(typeof val != "string"){ return val; }
 			if(this.trim){

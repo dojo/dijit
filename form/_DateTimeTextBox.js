@@ -5,21 +5,30 @@ dojo.require("dojo.date.locale");
 dojo.require("dojo.date.stamp");
 dojo.require("dijit.form.ValidationTextBox");
 
+/*=====
+dojo.declare(
+	"dijit.form._DateTimeTextBox.__Constraints",
+	[dijit.form.RangeBoundTextBox.__Constraints, dojo.date.locale.__FormatOptions],
+	{}
+);
+=====*/
+
 dojo.declare(
 	"dijit.form._DateTimeTextBox",
 	dijit.form.RangeBoundTextBox,
 	{
 		// summary:
 		//		A validating, serializable, range-bound date or time text box.
+		//
+		// constraints: dijit.form._DateTimeTextBox.__Constraints 
 
-		// constraints object: min, max
 		regExpGen: dojo.date.locale.regexp,
 		compare: dojo.date.compare,
-		format: function(/*Date*/ value, /*Object*/ constraints){
+		format: function(/*Date*/ value, /*dijit.form._DateTimeTextBox.__Constraints*/ constraints){
 			if(!value){ return ''; }
 			return dojo.date.locale.format(value, constraints);
 		},
-		parse: function(/*String*/ value, /*Object*/ constraints){
+		parse: function(/*String*/ value, /*dijit.form._DateTimeTextBox.__Constraints*/ constraints){
 			return dojo.date.locale.parse(value, constraints) || undefined; /* can't return null to getValue since that's special */
 		},
 
@@ -71,8 +80,8 @@ dojo.declare(
 			var textBox = this;
 
 			if(!this._picker){
-				var popupProto=dojo.getObject(this.popupClass, false);
-				this._picker = new popupProto({
+				var PopupProto=dojo.getObject(this.popupClass, false);
+				this._picker = new PopupProto({
 					onValueSelected: function(value){
 
 						textBox.focus(); // focus the textbox before the popup closes to avoid reopening the popup
@@ -143,7 +152,7 @@ dojo.declare(
 			this.inherited(arguments);
 		},
 
-		_onKeyPress: function(e){
+		_onKeyPress: function(/*Event*/e){
 			if(dijit.form._DateTimeTextBox.superclass._onKeyPress.apply(this, arguments)){
 				if(this._opened && e.keyCode == dojo.keys.ESCAPE && !e.shiftKey && !e.ctrlKey && !e.altKey){
 					this._close();
