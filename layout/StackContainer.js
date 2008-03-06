@@ -301,7 +301,7 @@ dojo.declare(
 				this._currentChild = page;
 			}
 			//make sure all tabs have the same length
-			if(!dojo._isBodyLtr() && dojo.isIE && this._rectifyRtlTabList){
+			if(!this.isLeftToRight() && dojo.isIE && this._rectifyRtlTabList){
 				this._rectifyRtlTabList();
 			}
 		},

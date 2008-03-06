@@ -246,7 +246,7 @@ dojo.declare(
 	startup: function(){
 		if(this._started){ return; }
 
-		if(!dojo._isBodyLtr() && dojo.isMoz){
+		if(!this.isLeftToRight() && dojo.isMoz){
 			if(this.leftDecoration){this._rtlRectify(this.leftDecoration);}
 			if(this.rightDecoration){this._rtlRectify(this.rightDecoration);}
 		}

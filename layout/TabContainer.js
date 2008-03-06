@@ -58,7 +58,7 @@ dojo.declare("dijit.layout.TabContainer",
 			setTimeout(dojo.hitch(this, "layout"), 0);
 		}
 
-		if(dojo.isIE && !dojo._isBodyLtr() && this.tabPosition == "right-h" &&
+		if(dojo.isIE && !this.isLeftToRight() && this.tabPosition == "right-h" &&
 		   this.tablist && this.tablist.pane2button){
 			//need rectify non-closable tab in IE, only for "right-h" mode
 			for(var pane in this.tablist.pane2button){
@@ -137,7 +137,8 @@ dojo.declare("dijit.layout.TabController",
 		this["class"] = "dijitTabLabels-" + this.tabPosition + (this.doLayout ? "" : " dijitTabNoLayout");
 		this.inherited(arguments);
 	},
-	
+
+//TODO: can this be accomplished in CSS?
 	_rectifyRtlTabList: function(){
 		//Summary: Rectify the length of all tabs in rtl, otherwise the tab lengths are different in IE
 		if(0 >= this.tabPosition.indexOf('-h')){ return; }

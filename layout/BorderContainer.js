@@ -71,7 +71,7 @@ dojo.declare(
 			child.domNode.style.position = "absolute"; // bill says not to set this in CSS, since we can't keep others
 				// from destroying the class list
 
-			var ltr = dojo._isBodyLtr();
+			var ltr = this.isLeftToRight();
 			if(region == "leading"){ region = ltr ? "left" : "right"; }
 			if(region == "trailing"){ region = ltr ? "right" : "left"; }
 
@@ -217,8 +217,8 @@ dojo.declare(
 		dojo.mixin(rightStyle, bounds);
 		leftStyle.left = rightStyle.right = topStyle.top = bottomStyle.bottom = "0";
 		if(sidebarLayout){
-			topStyle.left = bottomStyle.left = leftWidth + (dojo._isBodyLtr() ? leftSplitterThickness : 0) + "px";
-			topStyle.right = bottomStyle.right = rightWidth + (dojo._isBodyLtr() ? 0 : rightSplitterThickness) + "px";
+			topStyle.left = bottomStyle.left = leftWidth + (this.isLeftToRight() ? leftSplitterThickness : 0) + "px";
+			topStyle.right = bottomStyle.right = rightWidth + (this.isLeftToRight() ? 0 : rightSplitterThickness) + "px";
 		}else{
 			topStyle.left = topStyle.right = bottomStyle.left = bottomStyle.right = "0";
 		}
