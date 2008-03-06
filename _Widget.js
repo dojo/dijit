@@ -52,12 +52,13 @@ dojo.declare("dijit._Widget", null, {
 	attributeMap: {id:"", dir:"", lang:"", "class":"", style:"", title:""},  // TODO: add on* handlers?
 
 	//////////// INITIALIZATION METHODS ///////////////////////////////////////
-
-	postscript: function(params, srcNodeRef){
+//TODOC: params and srcNodeRef need docs.  Is srcNodeRef optional?
+//TODOC: summary needed for postscript
+	postscript: function(/*Object?*/params, /*DomNode|String*/srcNodeRef){
 		this.create(params, srcNodeRef);
 	},
 
-	create: function(params, srcNodeRef){
+	create: function(/*Object?*/params, /*DomNode|String*/srcNodeRef){
 		// summary:
 		//		To understand the process by which widgets are instantiated, it
 		//		is critical to understand what other methods create calls and
@@ -314,14 +315,14 @@ dojo.declare("dijit._Widget", null, {
 		}
 	},
 
-	nodesWithKeyClick : ["input", "button"],
+//TODOC
+	nodesWithKeyClick: ["input", "button"],
 
 	connect: function(
 			/*Object|null*/ obj,
 			/*String*/ event,
 			/*String|Function*/ method){
-
-		// summary:
+		//	summary:
 		//		Connects specified obj/event to specified method of this object
 		//		and registers for disconnect() on widget destroy.
 		//		Special event: "ondijitclick" triggers on a click or enter-down or space-up
