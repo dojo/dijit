@@ -1,6 +1,8 @@
 dojo.provide("dijit._Widget");
 
-dojo.require("dijit._base");
+//>>excludeStart("dijitBaseExclude", kwArgs.customDijitBase == "true");
+dojo.require( "dijit._base" );
+//>>excludeEnd("dijitBaseExclude");
 
 dojo.declare("dijit._Widget", null, {
 	//	summary:
