@@ -15,10 +15,10 @@ dojo.declare("dijit._editor.plugins.FontChoice",
 		buttonClass: dijit.form.FilteringSelect,
 
 		_initButton: function(){
-			//TODO: do we need nls for font names?  provide css font lists? or otherwise make this more configurable?
+			//TODO: would be nice to be able to handle comma-separated font lists and search within them
 			var cmd = this.command;
 			var names = {
-				fontName: ["serif", "sans-serif", "monospaced", "cursive", "fantasy"],
+				fontName: ["serif", "sans-serif", "monospace", "cursive", "fantasy"],
 				fontSize: [1,2,3,4,5,6,7],
 				formatBlock: ["p", "h1", "h2", "h3", "pre"] }[cmd];
 			var strings = dojo.i18n.getLocalization("dijit._editor", "FontChoice");
