@@ -33,20 +33,27 @@ dojo.declare("dijit._editor.plugins.FontChoice",
 			//TODO: would be nice to be able to handle comma-separated font lists and search within them
 			var cmd = this.command;
 			var names = {
-				fontName: ["serif", "sans-serif", "monospace", "cursive", "fantasy"],
-				fontSize: [1,2,3,4,5,6,7],
+				fontName: ["serif", "sans-serif", "monospace", "cursive", "fantasy"], // CSS font-family generics
+				fontSize: [1,2,3,4,5,6,7], // sizes according to the old HTML FONT SIZE
 				formatBlock: ["p", "h1", "h2", "h3", "pre"] }[cmd];
+			var additions = dojo.config[cmd];
+			if(additions){
+				names = names.concat(additions);
+			}
 			var strings = dojo.i18n.getLocalization("dijit._editor", "FontChoice");
 			var items = dojo.map(names, function(value){
-				var name = strings[value];
+				var name = strings[value] || value;
 				var label = name;
 				switch(cmd){
 				case "fontName":
-					label = "<div style='font-family: "+value+"'>"+name+"</div>";
+					label = "<div style='font-family: "+value+"'>" + name + "</div>";
 					break;
 				case "fontSize":
 					// we're stuck using the deprecated FONT tag to correspond with the size measurements used by the editor
 					label = "<font size="+value+"'>"+name+"</font>";
+					break;
+				case "formatBlock":
+					label = "<" + value + ">" + name + "</" + value + ">";
 				}
 				return { label: label, name: name, value: value };
 			});
@@ -83,6 +90,7 @@ dojo.declare("dijit._editor.plugins.FontChoice",
 			if(!_e || !_e.isLoaded || !_c.length){ return; }
 			if(this.button){
 				var value = _e.queryCommandValue(_c);
+//console.log("cmd="+this.command+" value="+value);
 				this.updating = true;
 				this.button.setValue(value);
 				delete this.updating;

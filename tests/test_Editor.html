@@ -10,7 +10,7 @@
 	</style>
 
 	<script type="text/javascript" src="../../dojo/dojo.js"
-		djConfig="parseOnLoad: true, isDebug: true"></script>
+		djConfig="parseOnLoad: true, isDebug: true, fontName: 'Arial'"></script>
 	<script type="text/javascript" src="_testCommon.js"></script>
 
 	<script type="text/javascript">
@@ -97,7 +97,7 @@
 	<div style="border: 1px dotted black;">
 		<h3><label for="blah">blah entry</label></h3>
 		<textarea dojoType="dijit.Editor"
-			plugins="['bold','italic','|','createLink','foreColor','hiliteColor','fontName','fontSize','insertImage']"
+			plugins="['bold','italic','|','createLink','foreColor','hiliteColor','fontName','fontSize','formatBlock','insertImage']"
 			styleSheets="../../dojo/resources/dojo.css" id="blah">
 			This instance includes optional toolbar buttons which pull in additional ui (dijit) code.
 			Note the dojo.require() statements required to pull in the associated editor plugins to make
