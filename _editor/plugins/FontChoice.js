@@ -36,9 +36,9 @@ dojo.declare("dijit._editor.plugins.FontChoice",
 				fontName: ["serif", "sans-serif", "monospace", "cursive", "fantasy"], // CSS font-family generics
 				fontSize: [1,2,3,4,5,6,7], // sizes according to the old HTML FONT SIZE
 				formatBlock: ["p", "h1", "h2", "h3", "pre"] }[cmd];
-			var additions = dojo.config[cmd];
-			if(additions){
-				names = names.concat(additions);
+			this.customNames = dojo.config[cmd];
+			if(this.customNames){
+				names = this.customNames;
 			}
 			var strings = dojo.i18n.getLocalization("dijit._editor", "FontChoice");
 			var items = dojo.map(names, function(value){
@@ -89,8 +89,18 @@ dojo.declare("dijit._editor.plugins.FontChoice",
 			var _c = this.command;
 			if(!_e || !_e.isLoaded || !_c.length){ return; }
 			if(this.button){
-				var value = _e.queryCommandValue(_c);
-//console.log("cmd="+this.command+" value="+value);
+				var value = _e.queryCommandValue(_c) || "";
+				if(!this.customNames && _c == "fontName"){
+					var map = {
+						"Arial": "sans-serif",
+						"Times New Roman": "serif",
+						"Comic Sans MS": "cursive",
+						"Courier New": "monospace",
+						"????": "fantasy" //TODO: IE doesn't map fantasy font-family?
+					};
+//					console.log("selected " + value  + " mapped to " + map[value]);
+					value = map[value] || value;
+				}
 				this.updating = true;
 				this.button.setValue(value);
 				delete this.updating;
