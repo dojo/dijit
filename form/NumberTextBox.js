@@ -43,14 +43,14 @@ dojo.declare(
 			return this._formatter(value, constraints);
 		},
 
-/*=====
+		parse: dojo.number.parse,
+		/*=====
 		parse: function(value, constraints){
 			//	value: String
 			//
 			//	constraints: dojo.number.__ParseOptions
 		},
-=====*/
-		parse: dojo.number.parse,
+		=====*/
 
 		filter: function(/*Number*/ value){
 			if(typeof value == "string"){ return this.inherited('filter', arguments); }
