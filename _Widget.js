@@ -61,7 +61,9 @@ dojo.declare("dijit._Widget", null, {
 	},
 
 	create: function(/*Object?*/params, /*DomNode|String*/srcNodeRef){
-		// summary:
+		//	summary:
+		//		Kick off the life-cycle of a widget
+		//	description:
 		//		To understand the process by which widgets are instantiated, it
 		//		is critical to understand what other methods create calls and
 		//		which of them you'll want to override. Of course, adventurous
