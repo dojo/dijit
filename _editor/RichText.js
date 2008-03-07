@@ -611,7 +611,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 	setDisabled: function(/*Boolean*/ disabled){
 		if(dojo.isIE || dojo.isSafari || dojo.isOpera){
 			if(dojo.isIE){ this.editNode.unselectable = "on"; } // prevent IE from setting focus
-                        this.editNode.contentEditable=!disabled;
+				this.editNode.contentEditable=!disabled;
 			if(dojo.isIE){
 				var _this = this;
 				setTimeout(function(){ _this.editNode.unselectable = "off"; }, 0);

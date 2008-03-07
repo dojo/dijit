@@ -10,6 +10,21 @@ dojo.requireLocalization("dijit._editor", "FontChoice");
 dojo.declare("dijit._editor.plugins.FontChoice",
 	dijit._editor._Plugin,
 	{
+		//	summary:
+		//		This plugin provides three dropdowns for setting font information in the editor
+		//
+		//	description:
+		//		The commands provided by this plugin are:
+		//		* fontName
+		//	|		Provides a dropdown to select from a list of generic font names
+		//		* fontSize
+		//	|		Provides a dropdown to select from a list of pre-defined font sizes
+		//		* formatBlock
+		//	|		Provides a dropdown to select from a list of styles
+		//  |
+		//		custom additions to this list are possible by specifying a list on djConfig[x]
+		//		where x is one of the plugins above.
+
 		_uniqueId: 0,
 
 		buttonClass: dijit.form.FilteringSelect,
