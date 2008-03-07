@@ -70,6 +70,5 @@ dojo.declare(
 	{
 		// summary:
 		//		A validating, serializable, range-bound text box.
-		// constraints object: min, max, places
 	}
 );
