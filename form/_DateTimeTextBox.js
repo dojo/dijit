@@ -8,8 +8,7 @@ dojo.require("dijit.form.ValidationTextBox");
 /*=====
 dojo.declare(
 	"dijit.form._DateTimeTextBox.__Constraints",
-	[dijit.form.RangeBoundTextBox.__Constraints, dojo.date.locale.__FormatOptions],
-	{}
+	[dijit.form.RangeBoundTextBox.__Constraints, dojo.date.locale.__FormatOptions]
 );
 =====*/
 

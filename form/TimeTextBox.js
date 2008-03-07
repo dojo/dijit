@@ -3,6 +3,13 @@ dojo.provide("dijit.form.TimeTextBox");
 dojo.require("dijit._TimePicker");
 dojo.require("dijit.form._DateTimeTextBox");
 
+/*=====
+dojo.declare(
+	"dijit.form.TimeTextBox.__Constraints",
+	[dijit.form._DateTimeTextBox.__Constraints, dojo.date.locale.__FormatOptions]
+);
+=====*/
+
 dojo.declare(
 	"dijit.form.TimeTextBox",
 	dijit.form._DateTimeTextBox,
@@ -12,5 +19,10 @@ dojo.declare(
 
 		popupClass: "dijit._TimePicker",
 		_selector: "time"
+
+/*=====
+		// constraints: dijit._TimePicker.__Constraints 
+		constraints:{},
+=====*/
 	}
 );

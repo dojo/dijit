@@ -3,61 +3,84 @@ dojo.provide("dijit._TimePicker");
 dojo.require("dijit.form._FormWidget");
 dojo.require("dojo.date.locale");
 
+/*=====
+dojo.declare(
+	"dijit._TimePicker.__Constraints",
+	[dojo.date.locale.__FormatOptions],
+	{
+		// clickableIncrement: String
+		//		see dijit._TimePicker.clickableIncrement
+		clickableIncrement: "T00:15:00",
+
+		// visibleIncrement: String
+		//		see dijit._TimePicker.visibleIncrement
+		visibleIncrement: "T01:00:00",
+
+		// visibleRange: String
+		//		see dijit._TimePicker.visibleRange
+		visibleRange: "T05:00:00"
+	}
+);
+=====*/
+
 dojo.declare("dijit._TimePicker",
 	[dijit._Widget, dijit._Templated],
 	{
-		// summary:
-		// A graphical time picker that TimeTextBox pops up
-		// It is functionally modeled after the Java applet at http://java.arcadevillage.com/applets/timepica.htm
-		// See ticket #599
+		//	summary:
+		//		A graphical time picker.
+		//		This widget is used internally by other widgets and is not accessible
+		//		as a standalone widget.
 
 		templatePath: dojo.moduleUrl("dijit.form", "templates/TimePicker.html"),
 		baseClass: "dijitTimePicker",
 
 		// clickableIncrement: String
 		//		ISO-8601 string representing the amount by which
-		//		every clickable element in the time picker increases
-		//		Set in non-Zulu time, without a time zone
-		//		Example: "T00:15:00" creates 15 minute increments
-		//		Must divide visibleIncrement evenly
+		//		every clickable element in the time picker increases.
+		//		Set in local time, without a time zone.
+		//		Example: `T00:15:00` creates 15 minute increments
+		//		Must divide dijit._TimePicker.visibleIncrement evenly
 		clickableIncrement: "T00:15:00",
 
 		// visibleIncrement: String
 		//		ISO-8601 string representing the amount by which
-		//		every element with a visible time in the time picker increases
-		//		Set in non Zulu time, without a time zone
-		//		Example: "T01:00:00" creates text in every 1 hour increment
+		//		every element with a visible time in the time picker increases.
+		//		Set in local time, without a time zone.
+		//		Example: `T01:00:00` creates text in every 1 hour increment
 		visibleIncrement: "T01:00:00",
 
 		// visibleRange: String
-		//		ISO-8601 string representing the range of this TimePicker
-		//		The TimePicker will only display times in this range
-		//		Example: "T05:00:00" displays 5 hours of options
+		//		ISO-8601 string representing the range of this TimePicker.
+		//		The TimePicker will only display times in this range.
+		//		Example: `T05:00:00` displays 5 hours of options
 		visibleRange: "T05:00:00",
 
 		// value: String
 		//		Date to display.
 		//		Defaults to current time and date.
-		//		Can be a Date object or an ISO-8601 string
-		//		If you specify the GMT time zone ("-01:00"),
+		//		Can be a Date object or an ISO-8601 string.
+		//		If you specify the GMT time zone (`-01:00`),
 		//		the time will be converted to the local time in the local time zone.
 		//		Otherwise, the time is considered to be in the local time zone.
 		//		If you specify the date and isDate is true, the date is used.
-		//		Example: if your local time zone is GMT -05:00,
-		//		"T10:00:00" becomes "T10:00:00-05:00" (considered to be local time),
-		//		"T10:00:00-01:00" becomes "T06:00:00-05:00" (4 hour difference),
-		//		"T10:00:00Z" becomes "T05:00:00-05:00" (5 hour difference between Zulu and local time)
-		//		"yyyy-mm-ddThh:mm:ss" is the format to set the date and time
-		//		Example: "2007-06-01T09:00:00"
+		//		Example: if your local time zone is `GMT -05:00`,
+		//		`T10:00:00` becomes `T10:00:00-05:00` (considered to be local time),
+		//		`T10:00:00-01:00` becomes `T06:00:00-05:00` (4 hour difference),
+		//		`T10:00:00Z` becomes `T05:00:00-05:00` (5 hour difference between Zulu and local time)
+		//		`yyyy-mm-ddThh:mm:ss` is the format to set the date and time
+		//		Example: `2007-06-01T09:00:00`
 		value: new Date(),
 
 		_visibleIncrement:2,
 		_clickableIncrement:1,
 		_totalIncrements:10,
+
+		// constraints: dijit._TimePicker.__Constraints 
 		constraints:{},
 
 		serialize: dojo.date.stamp.toISOString,
 
+//TODOC: what is priority?
 		setValue:function(/*Date*/ date, /*Boolean*/ priority){
 			// summary:
 			//	Set the value of the TimePicker
@@ -70,12 +93,12 @@ dojo.declare("dijit._TimePicker",
 
 		isDisabledDate: function(/*Date*/dateObject, /*String?*/locale){
 			// summary:
-			//	May be overridden to disable certain dates in the TimePicker e.g. isDisabledDate=dojo.date.locale.isWeekend
+			//	May be overridden to disable certain dates in the TimePicker e.g. `isDisabledDate=dojo.date.locale.isWeekend`
 			return false; // Boolean
 		},
 
 		_showText:function(){
-			this.timeMenu.innerHTML="";
+			this.timeMenu.innerHTML = "";
 			var fromIso = dojo.date.stamp.fromISOString;
 			this._clickableIncrementDate=fromIso(this.clickableIncrement);
 			this._visibleIncrementDate=fromIso(this.visibleIncrement);
@@ -95,14 +118,14 @@ dojo.declare("dijit._TimePicker",
 			this._refDate.setFullYear(1970,0,1); // match parse defaults
 
 			// assume clickable increment is the smallest unit
-			this._clickableIncrement=1;
+			this._clickableIncrement = 1;
 			// divide the visible range by the clickable increment to get the number of divs to create
 			// example: 10:00:00/00:15:00 -> display 40 divs
-			this._totalIncrements=visibleRangeSeconds/clickableIncrementSeconds;
+			this._totalIncrements = visibleRangeSeconds / clickableIncrementSeconds;
 			// divide the visible increments by the clickable increments to get how often to display the time inline
 			// example: 01:00:00/00:15:00 -> display the time every 4 divs
-			this._visibleIncrement=visibleIncrementSeconds/clickableIncrementSeconds;
-			for(var i=-(this._totalIncrements >> 1); i<(this._totalIncrements >> 1); i+=this._clickableIncrement){
+			this._visibleIncrement = visibleIncrementSeconds / clickableIncrementSeconds;
+			for(var i = -(this._totalIncrements >> 1); i < (this._totalIncrements >> 1); i += this._clickableIncrement){
 				this.timeMenu.appendChild(this._createOption(i));
 			}
 			
