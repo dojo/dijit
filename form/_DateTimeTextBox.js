@@ -27,10 +27,12 @@ dojo.declare(
 		regExpGen: dojo.date.locale.regexp,
 		compare: dojo.date.compare,
 		format: function(/*Date*/ value, /*dojo.date.locale.__FormatOptions*/ constraints){
+			//	summary: formats the value as a Date, according to constraints
 			if(!value){ return ''; }
 			return dojo.date.locale.format(value, constraints);
 		},
 		parse: function(/*String*/ value, /*dojo.date.locale.__FormatOptions*/ constraints){
+			//	summary: parses the value as a Date, according to constraints
 			return dojo.date.locale.parse(value, constraints) || undefined; /* can't return null to getValue since that's special */
 		},
 

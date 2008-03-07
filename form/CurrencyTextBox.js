@@ -13,13 +13,26 @@ dojo.declare(
 		// summary:
 		//		A validating currency textbox
 		//
+		// constraints: dijit.form._DateTimeTextBox.__Constraints 
+		//
 		// currency: String
-		//		the ISO4217 currency code, a three letter sequence like "USD"
-		//		See http://en.wikipedia.org/wiki/ISO_4217
+		//		the [ISO4217](http://en.wikipedia.org/wiki/ISO_4217) currency code, a three letter sequence like "USD"
 		currency: "",
+
+		/*=====
+		constraints: {},
+		======*/
 
 		regExpGen: dojo.currency.regexp,
 		_formatter: dojo.currency.format,
+/*=====
+		parse: function(value, constraints){
+			//	summary: parses the value as a Currency, according to constraints
+			//	value: String
+			//
+			//	constraints: dojo.currency.__ParseOptions
+		},
+=====*/
 		parse: dojo.currency.parse,
 
 		postMixInProperties: function(){

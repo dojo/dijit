@@ -35,6 +35,8 @@ dojo.declare(
 		_formatter: dojo.number.format,
 
 		format: function(/*Number*/ value, /*dojo.number.__FormatOptions*/ constraints){
+			//	summary: formats the value as a Number, according to constraints
+
 			if(typeof value == "string") { return value; }
 			if(isNaN(value)){ return ""; }
 			if(this.editOptions && this._focused){
@@ -46,6 +48,7 @@ dojo.declare(
 		parse: dojo.number.parse,
 		/*=====
 		parse: function(value, constraints){
+			//	summary: parses the value as a Number, according to constraints
 			//	value: String
 			//
 			//	constraints: dojo.number.__ParseOptions
