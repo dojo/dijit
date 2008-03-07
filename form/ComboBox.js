@@ -23,14 +23,14 @@ dojo.declare(
 
 		// query: Object
 		//		A query that can be passed to 'store' to initially filter the items,
-		//		before doing further filtering based on searchAttr and the key.
-		//		Any reference to the searchAttr is ignored.
+		//		before doing further filtering based on `searchAttr` and the key.
+		//		Any reference to the `searchAttr` is ignored.
 		query: {},
 
 		// autoComplete: Boolean
-		//		If you type in a partial string, and then tab out of the <input> box,
+		//		If you type in a partial string, and then tab out of the `<input>` box,
 		//		automatically copy the first entry displayed in the drop down list to
-		//		the <input> field
+		//		the `<input>` field
 		autoComplete: true,
 
 		// searchDelay: Integer
@@ -44,9 +44,9 @@ dojo.declare(
 
 		// queryExpr: String
 		//		dojo.data query expression pattern.
-		//		${0} will be substituted for the user text.
-		//		* is used for wildcards.
-		//		${0}* means "starts with", *${0}* means "contains", ${0} means "is"
+		//		`${0}` will be substituted for the user text.
+		//		`*` is used for wildcards.
+		//		`${0}*` means "starts with", `*${0}*` means "contains", `${0}` means "is"
 		queryExpr: "${0}*",
 
 		// ignoreCase: Boolean
@@ -922,8 +922,9 @@ dojo.declare(
 	[dijit.form.ValidationTextBox, dijit.form.ComboBoxMixin],
 	{
 		// summary:
-		//		Auto-completing text box, and base class for FilteringSelect widget.
+		//		Auto-completing text box, and base class for dijit.form.FilteringSelect.
 		// 
+		// description:
 		//		The drop down box's values are populated from an class called
 		//		a data provider, which returns a list of values based on the characters
 		//		that the user has typed into the input box.
@@ -932,7 +933,7 @@ dojo.declare(
 		//		provider.
 		// 
 		//		You can assume that all the form widgets (and thus anything that mixes
-		//		in ComboBoxMixin) will inherit from _FormWidget and thus the "this"
+		//		in dijit.formComboBoxMixin) will inherit from dijit.form._FormWidget and thus the `this`
 		//		reference will also "be a" _FormWidget.
 
 		postMixInProperties: function(){
@@ -955,10 +956,15 @@ dojo.declare(
 
 dojo.declare("dijit.form._ComboBoxDataStore", null, {
 	//	summary:
-	//		Inefficient but small data store specialized for inlined combobox data like:
-	//		<select>
-	//			<option value="AL">Alabama</option>
-	//			...
+	//		Inefficient but small data store specialized for inlined ComboBox data
+	//
+	//	description:
+	//		Provides a store for inlined data like:
+	//
+	//	|	<select>
+	//	|		<option value="AL">Alabama</option>
+	//	|		...
+	//
 	//		Actually. just implements the subset of dojo.data.Read/Notification
 	//		needed for ComboBox and FilteringSelect to work.
 	//
@@ -987,15 +993,20 @@ dojo.declare("dijit.form._ComboBoxDataStore", null, {
 
 	fetch: function(/* Object */ args){
 		//	summary:
+		//		TODOC
+		//
+		//	description:
 		//		Given a query like
-		//		{
-		// 			query: {name: "Cal*"},
-		//			start: 30,
-		//			count: 20,
-		//			ignoreCase: true,
-		//			onComplete: function(/* item[] */ items, /* Object */ args){...}
-		// 		}
-		//		will call onComplete() with the results of the query (and the argument to this method)
+		//
+		//	|	{
+		// 	|		query: {name: "Cal*"},
+		//	|		start: 30,
+		//	|		count: 20,
+		//	|		ignoreCase: true,
+		//	|		onComplete: function(/* item[] */ items, /* Object */ args){...}
+		// 	|	}
+		//
+		//		will call `onComplete()` with the results of the query (and the argument to this method)
 
 		// convert query to regex (ex: convert "first\last*" to /^first\\last.*$/i) and get matching vals
 		var query = "^" + args.query.name
@@ -1027,16 +1038,21 @@ dojo.declare("dijit.form._ComboBoxDataStore", null, {
 
 	fetchItemByIdentity: function(/* object */ args){
 		//	summary:
+		//		TODOC
+		//
+		//	description:
 		//		Given arguments like:
-		//			{identity: "CA", onItem: function(item){...}
-		//		Call onItem() with the DOM node <option value="CA">California</option>
+		//
+		//	|		{identity: "CA", onItem: function(item){...}
+		//
+		//		Call `onItem()` with the DOM node `<option value="CA">California</option>`
 		var item = dojo.query("option[value='" + args.identity + "']", this.root)[0];
 		args.onItem(item);
 	},
 	
 	fetchSelectedItem: function(){
 		// summary
-		//		Get the option marked as selected, like <option selected>.
+		//		Get the option marked as selected, like `<option selected>`.
 		//		Not part of dojo.data API.
 		var root = this.root,
 			si = root.selectedIndex;
