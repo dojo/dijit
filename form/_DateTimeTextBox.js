@@ -26,11 +26,11 @@ dojo.declare(
 		======*/
 		regExpGen: dojo.date.locale.regexp,
 		compare: dojo.date.compare,
-		format: function(/*Date*/ value, /*dijit.form._DateTimeTextBox.__Constraints*/ constraints){
+		format: function(/*Date*/ value, /*dojo.date.locale.__FormatOptions*/ constraints){
 			if(!value){ return ''; }
 			return dojo.date.locale.format(value, constraints);
 		},
-		parse: function(/*String*/ value, /*dijit.form._DateTimeTextBox.__Constraints*/ constraints){
+		parse: function(/*String*/ value, /*dojo.date.locale.__FormatOptions*/ constraints){
 			return dojo.date.locale.parse(value, constraints) || undefined; /* can't return null to getValue since that's special */
 		},
 
