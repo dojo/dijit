@@ -16,13 +16,13 @@ dojo.declare(
 	{
 		// summary:
 		//		A mixin for all number textboxes
-		// constraints: dijit.form.NumberTextBox.__Constraints 
-
-		/*=====
-		constraints: {},
-		======*/
 
 		regExpGen: dojo.number.regexp,
+
+		/*=====
+		// constraints: dijit.form.NumberTextBox.__Constraints 
+		constraints: {},
+		======*/
 
 		// editOptions: Object
 		//		properties to mix into constraints when the value is being edited
