@@ -6,7 +6,7 @@ dojo.require("dijit.form._DateTimeTextBox");
 /*=====
 dojo.declare(
 	"dijit.form.TimeTextBox.__Constraints",
-	[dijit.form._DateTimeTextBox.__Constraints, dojo.date.locale.__FormatOptions]
+	[dijit.form._DateTimeTextBox.__Constraints, dijit._TimePicker.__Constraints]
 );
 =====*/
 
@@ -21,7 +21,7 @@ dojo.declare(
 		_selector: "time"
 
 /*=====
-		// constraints: dijit._TimePicker.__Constraints 
+		// constraints: dijit.form.TimeTextBox.__Constraints 
 		constraints:{},
 =====*/
 	}
