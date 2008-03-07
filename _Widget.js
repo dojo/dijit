@@ -74,18 +74,24 @@ dojo.declare("dijit._Widget", null, {
 		//		they are fired, along with notes about what they do and if/when
 		//		you should over-ride them in your widget:
 		//
-		// * postMixInProperties
+		// * postMixInProperties:
+		//
 		//		a stub function that you can over-ride to modify
 		//		variables that may have been naively assigned by
 		//		mixInProperties
-		// # widget is added to manager object here
-		// * buildRendering
+		// * widget is added to manager object here
+		// * buildRendering:
+		//
 		//		Subclasses use this method to handle all UI initialization
 		//		Sets this.domNode.  Templated widgets do this automatically
 		//		and otherwise it just uses the source dom node.
-		// * postCreate
+		// * postCreate:
+		//
 		//		a stub function that you can over-ride to modify take
 		//		actions once the widget has been placed in the UI
+
+		// Allow a mixin to save state.
+		this._saveState(params, srcNodeRef);
 
 		// store pointer to original dom tree
 		this.srcNodeRef = dojo.byId(srcNodeRef);
@@ -139,6 +145,12 @@ dojo.declare("dijit._Widget", null, {
 		if(this.srcNodeRef && !this.srcNodeRef.parentNode){
 			delete this.srcNodeRef;
 		}	
+	},
+
+	_saveState: function(params, srcNodeRef){
+		// summary
+		//	Called to allow a widget mixin to save or otherwise
+		//	utilize the initial arguments.
 	},
 
 	postMixInProperties: function(){
