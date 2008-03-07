@@ -21,8 +21,9 @@ dojo.declare(
 		_selector: "time"
 
 /*=====
+		,
 		// constraints: dijit.form.TimeTextBox.__Constraints 
-		constraints:{},
+		constraints:{}
 =====*/
 	}
 );
