@@ -75,21 +75,16 @@ dojo.declare("dijit._Widget", null, {
 		//		you should over-ride them in your widget:
 		//
 		// * postMixInProperties:
-		//
-		//		a stub function that you can over-ride to modify
+		//	|	* a stub function that you can over-ride to modify
 		//		variables that may have been naively assigned by
 		//		mixInProperties
-		//
 		// * widget is added to manager object here
 		// * buildRendering:
-		//
-		//		Subclasses use this method to handle all UI initialization
+		//	|	* Subclasses use this method to handle all UI initialization
 		//		Sets this.domNode.  Templated widgets do this automatically
 		//		and otherwise it just uses the source dom node.
-		//
 		// * postCreate:
-		//
-		//		a stub function that you can over-ride to modify take
+		//	|	* a stub function that you can over-ride to modify take
 		//		actions once the widget has been placed in the UI
 
 		// Allow a mixin to save state.
