@@ -71,19 +71,19 @@ dojo.declare("dijit._Widget", null, {
 		//		Below is a list of the methods that are called, in the order
 		//		they are fired, along with notes about what they do and if/when
 		//		you should over-ride them in your widget:
-		//			
-		//			* postMixInProperties
-		//				- a stub function that you can over-ride to modify
-		//				variables that may have been naively assigned by
-		//				mixInProperties
-		//			# widget is added to manager object here
-		//			* buildRendering
-		//				- Subclasses use this method to handle all UI initialization
-		//				Sets this.domNode.  Templated widgets do this automatically
-		//				and otherwise it just uses the source dom node.
-		//			* postCreate
-		//				- a stub function that you can over-ride to modify take
-		//				actions once the widget has been placed in the UI
+		//
+		// * postMixInProperties
+		//		a stub function that you can over-ride to modify
+		//		variables that may have been naively assigned by
+		//		mixInProperties
+		// # widget is added to manager object here
+		// * buildRendering
+		//		Subclasses use this method to handle all UI initialization
+		//		Sets this.domNode.  Templated widgets do this automatically
+		//		and otherwise it just uses the source dom node.
+		// * postCreate
+		//		a stub function that you can over-ride to modify take
+		//		actions once the widget has been placed in the UI
 
 		// store pointer to original dom tree
 		this.srcNodeRef = dojo.byId(srcNodeRef);
