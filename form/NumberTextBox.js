@@ -48,6 +48,7 @@ dojo.declare(
 			//	value: String
 			//
 			//	constraints: dojo.number.__ParseOptions
+		},
 =====*/
 		parse: dojo.number.parse,
 
