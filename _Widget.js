@@ -87,9 +87,6 @@ dojo.declare("dijit._Widget", null, {
 		//	|	* a stub function that you can over-ride to modify take
 		//		actions once the widget has been placed in the UI
 
-		// Allow a mixin to save state.
-		this._saveState(params, srcNodeRef);
-
 		// store pointer to original dom tree
 		this.srcNodeRef = dojo.byId(srcNodeRef);
 
@@ -142,12 +139,6 @@ dojo.declare("dijit._Widget", null, {
 		if(this.srcNodeRef && !this.srcNodeRef.parentNode){
 			delete this.srcNodeRef;
 		}	
-	},
-
-	_saveState: function(params, srcNodeRef){
-		// summary
-		//	Called to allow a widget mixin to save or otherwise
-		//	utilize the initial arguments.
 	},
 
 	postMixInProperties: function(){
