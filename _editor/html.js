@@ -23,7 +23,7 @@ dijit._editor.getNodeHtml=function(/* DomNode */node){
 			if(dojo.isIE && node.outerHTML){
 				var s = node.outerHTML;
 				s = s.substr(0,s.indexOf('>'));
-				s = s.replace(/(?:['"])[^"']*\1/g, '');//to make the following regexp safe
+				s = s.replace(/(['"])[^"']*\1/g, '');//to make the following regexp safe
 				var reg = /([^\s=]+)=/g;
 				var m, key;
 				while((m = reg.exec(s))){
