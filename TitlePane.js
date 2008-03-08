@@ -121,8 +121,9 @@ dojo.declare(
 		// summary: set the open/close css state for the TitlePane
 		var classes = ["dijitClosed", "dijitOpen"];
 		var boolIndex = this.open;
-		dojo.removeClass(this.titleBarNode, classes[!boolIndex+0]);
-		this.titleBarNode.className += " " + classes[boolIndex+0];
+		var node = this.titleBarNode || this.focusNode
+		dojo.removeClass(node, classes[!boolIndex+0]);
+		node.className += " " + classes[boolIndex+0];
 
 		// provide a character based indicator for images-off mode
 		this.arrowNodeInner.innerHTML = this.open ? "-" : "+";
