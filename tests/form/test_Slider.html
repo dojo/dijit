@@ -37,21 +37,23 @@
 
 					// setup the rules
 					var sliderRules = new dijit.form.VerticalRule({
-						count:10,
+						count:11,
 						style:"width:5px" 
 					},rulesNode);
 
 					// and setup the slider
 					var theSlider = new dijit.form.VerticalSlider({ 
-						value:1500,
+						value:1400,
 						onChange: function(){
                                                     console.log(arguments);
 						},
 						name:"programaticSlider",
+						slideDuration:0,
+						onChange:function(val){ dojo.byId('sliderProgInput').value=val; },
 						style:"height:165px",
 						minimum:1000,
 						maximum:3000,
-						discreteValues:10,
+						discreteValues:11,
 						intermediateChanges:"true",
 						showButtons:"true"
 					},node);
@@ -178,8 +180,10 @@
 
 
 		<h2>Completely Programatic VerticalSlider and VerticalRule</h2>
+		<h3>min:1000, max:3000, 11 discrete values, no animation</h3>
 
 		<div id="programaticSlider"></div>
+		Programmatic Value:<input readonly id="sliderProgInput" size="5" value="1400">
 
 		        <script>
                 		function displayData() {
