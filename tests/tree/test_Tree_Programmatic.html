@@ -24,11 +24,10 @@
 				query: {type:'continent'},
 				rootId: "earth",
 				rootLabel: "Earth",
-				childrenAttr: "children"
+				childrenAttrs: "children"
 			});
 			var tree = new dijit.Tree({
-				model: myModel,
-				childrenAttr: "children"
+				model: myModel
 			});
 			dojo.body().appendChild(tree.domNode);
 			tree.startup();

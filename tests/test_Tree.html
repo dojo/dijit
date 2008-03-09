@@ -30,13 +30,12 @@
 		url="_data/countries.json"></div>
 	<div dojoType="dijit.tree.ForestStoreModel" jsId="continentModel" 
 		store="continentStore" query="{type:'continent'}"
-		rootId="continentRoot" rootLabel="Continents" childrenAttr="children"></div>
+		rootId="continentRoot" rootLabel="Continents" childrenAttrs="children"></div>
 
 	<h3>Tree with hardcoded root node (not corresponding to any item in the store)</h3>
 	<p>Clicking a folder node will open/close it (openOnclick==true), and clicking a leaf node will popup an alert.</p>
 	<div dojoType="dijit.Tree" id="mytree"
-		model="continentModel" childrenAttr="children"
-		openOnClick="true">
+		model="continentModel" openOnClick="true">
 		<script type="dojo/method" event="onClick" args="item">
 			alert("Execute of node " + continentStore.getLabel(item)
 				+", population=" + continentStore.getValue(item, "population"));
@@ -80,8 +79,7 @@
 	</ul>
 
 	<div dojoType="dijit.Tree" id="tree2"
-		model="continentModel" childrenAttr="children"
-		showRoot="false" openOnClick="true">
+		model="continentModel" showRoot="false" openOnClick="true">
 
 		<script type="dojo/connect">
 			var menu = dijit.byId("tree_menu");

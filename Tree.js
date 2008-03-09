@@ -302,7 +302,7 @@ dojo.declare(
 	//	Should the root node be displayed, or hidden?
 	showRoot: true,
 
-	// childrenAttr: String
+	// childrenAttr: String[]
 	//		one ore more attributes that holds children of a tree node
 	childrenAttr: ["children"],
 
@@ -914,9 +914,9 @@ dojo.declare(
 	//		Underlying store
 	store: null,
 
-	// childrenAttr: String
+	// childrenAttrs: String[]
 	//		one ore more attributes that holds children of a tree node
-	childrenAttr: ["children"],
+	childrenAttrs: ["children"],
 	
 	// root: dojo.data.Item
 	//		Pointer to the root item (read only, not a parameter)
@@ -986,7 +986,7 @@ dojo.declare(
 		//		avoids showing +/- expando icon for nodes that we know don't have children.
 		//		(For efficiency reasons we may not want to check if an element actually
 		//		has children until user clicks the expando node)
-		return dojo.some(this.childrenAttr, function(attr){
+		return dojo.some(this.childrenAttrs, function(attr){
 			return this.store.hasAttribute(item, attr);
 		}, this);
 	},
@@ -999,8 +999,8 @@ dojo.declare(
 
 		// get children of specified item
 		var childItems = [];
-		for (var i=0; i<this.childrenAttr.length; i++){
-			var vals = store.getValues(parentItem, this.childrenAttr[i]);
+		for (var i=0; i<this.childrenAttrs.length; i++){
+			var vals = store.getValues(parentItem, this.childrenAttrs[i]);
 			childItems = childItems.concat(vals);
 		}
 
@@ -1050,7 +1050,7 @@ dojo.declare(
 		// summary
 		//		Creates a new item.   See dojo.data.api.Write for details on args.
 		//		Used in drag & drop when item from external source dropped onto tree.
-		var pInfo = {parent: parent, attribute: this.childrenAttr[0]};
+		var pInfo = {parent: parent, attribute: this.childrenAttrs[0]};
 		return this.store.newItem(args, pInfo);
 	},
 
@@ -1059,11 +1059,11 @@ dojo.declare(
 		//		Move or copy an item from one parent item to another.
 		//		Used in drag & drop
 		var store = this.store,
-			parentAttr = this.childrenAttr[0];	// name of "children" attr in parent item
+			parentAttr = this.childrenAttrs[0];	// name of "children" attr in parent item
 
 		// remove child from source item, and record the attributee that child occurred in	
 		if(oldParentItem){
-			dojo.forEach(this.childrenAttr, function(attr){
+			dojo.forEach(this.childrenAttrs, function(attr){
 				if(store.containsValue(oldParentItem, attr, childItem)){
 					if(!bCopy){
 						var values = dojo.filter(store.getValues(oldParentItem, attr), function(x){
@@ -1126,7 +1126,7 @@ dojo.declare(
 					/* object | array */ newValue){
 		//summary: set data event on an item in the store
 	
-		if(dojo.indexOf(this.childrenAttr, attribute) != -1){
+		if(dojo.indexOf(this.childrenAttrs, attribute) != -1){
 			// item's children list changed
 			this.getChildren(item, dojo.hitch(this, function(children){
 				// NOTE: maybe can be optimized since parentInfo contains the new and old attribute value

@@ -61,7 +61,7 @@
 <body class="tundra">
 	<div dojoType="dojo.data.ItemFileReadStore" jsId="store"
 		url="i18n/data.json"></div>
-	<div dojoType="dijit.tree.ForestStoreModel" jsId="model" store="store" childrenAttr="languages">
+	<div dojoType="dijit.tree.ForestStoreModel" jsId="model" store="store" childrenAttrs="languages">
 		<!-- Override all the data access functions to work from the I18N data store -->
 		<script type="dojo/method" event="getChildren" args="item, onComplete">
 			switch(item.root ?  "top" : store.getValue(item, "type")){
