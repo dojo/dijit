@@ -404,6 +404,7 @@ dojo.declare(
 				this._arrowIdle();
 				this._isShowingNow=false;
 				dijit.setWaiState(this.comboNode, "expanded", "false");
+				dijit.removeWaiState(this.focusNode,"activedescendant");
 			}
 		},
 
@@ -452,6 +453,8 @@ dojo.declare(
 			}
 			// get the text that the user manually entered (cut off autocompleted text)
 			this.focusNode.value = this.focusNode.value.substring(0, this._getCaretPos(this.focusNode));
+			//set up ARIA activedescendant
+			dijit.setWaiState(this.focusNode, "activedescendant", dojo.attr(node, "id")); 
 			// autocomplete the rest of the option to announce change
 			this._autoCompleteText(newValue);
 		},
@@ -511,12 +514,13 @@ dojo.declare(
 
 		_startSearch: function(/*String*/ key){
 			if(!this._popupWidget){
-				var popupId = dojo.attr(this.domNode, "id") + "_popup";
+				var popupId = this.id + "_popup";
 				this._popupWidget = new dijit.form._ComboBoxMenu({
 					onChange: dojo.hitch(this, this._selectOption),
 					id:popupId
 				});
-				dijit.setWaiState(this.textbox,"controls",popupId); // associate popup with textbox
+				dijit.removeWaiState(this.focusNode,"activedescendant");
+				dijit.setWaiState(this.textbox,"owns",popupId); // associate popup with textbox
 			}
 			// create a new query to prevent accidentally querying for a hidden
 			// value from FilteringSelect's keyField
@@ -703,6 +707,7 @@ dojo.declare(
 
 			var labelObject = labelFunc(item);
 			var menuitem = dojo.doc.createElement("li");
+			dijit.setWaiRole(menuitem, "option");
 			if(labelObject.html){
 				menuitem.innerHTML = labelObject.label;
 			}else{
@@ -723,17 +728,20 @@ dojo.declare(
 			//this._dataObject.onComplete=dojo.hitch(comboBox, comboBox._openResultList);
 			// display "Previous . . ." button
 			this.previousButton.style.display = (dataObject.start == 0) ? "none" : "";
+			dojo.attr(this.previousButton, "id", this.id + "_prev");
 			// create options using _createOption function defined by parent
 			// ComboBox (or FilteringSelect) class
 			// #2309:
 			//		iterate over cache nondestructively
-			dojo.forEach(results, function(item){
+			dojo.forEach(results, function(item, i){
 				var menuitem = this._createOption(item, labelFunc);
 				menuitem.className = "dijitMenuItem";
+				dojo.attr(menuitem, "id", this.id + i);
 				this.domNode.insertBefore(menuitem, this.nextButton);
 			}, this);
 			// display "Next . . ." button
 			this.nextButton.style.display = (dataObject.count == results.length) ? "" : "none";
+			dojo.attr(this.nextButton,"id", this.id + "_next")
 		},
 
 		clearResultList: function(){
