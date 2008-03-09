@@ -407,7 +407,7 @@ dojo.declare(
 			id: this.id + "_ForestStoreModel",
 			store: this.store,
 			query: this.query,
-			childrenAttr: this.childrenAttr
+			childrenAttrs: this.childrenAttr
 		};
 
 		// Only override the model's mayHaveChildren() method if the user has specified an override
