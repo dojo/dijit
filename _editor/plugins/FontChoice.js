@@ -31,15 +31,16 @@ dojo.declare("dijit._editor.plugins.FontChoice",
 
 		_initButton: function(){
 			//TODO: would be nice to be able to handle comma-separated font lists and search within them
+			//TODO: set up some switch to enable generics
+			//this.generics = true;
 			var cmd = this.command;
-			var names = {
-				fontName: ["serif", "sans-serif", "monospace", "cursive", "fantasy"], // CSS font-family generics
+			var names = dojo.config[cmd] ||
+			{
+				fontName: this.generics ? ["serif", "sans-serif", "monospace", "cursive", "fantasy"] : // CSS font-family generics
+					["Arial", "Times New Roman", "Comic Sans MS", "Courier New"],
 				fontSize: [1,2,3,4,5,6,7], // sizes according to the old HTML FONT SIZE
-				formatBlock: ["p", "h1", "h2", "h3", "pre"] }[cmd];
-			this.customNames = dojo.config[cmd];
-			if(this.customNames){
-				names = this.customNames;
-			}
+				formatBlock: ["p", "h1", "h2", "h3", "pre"]
+			}[cmd];
 			var strings = dojo.i18n.getLocalization("dijit._editor", "FontChoice");
 			var items = dojo.map(names, function(value){
 				var name = strings[value] || value;
@@ -68,18 +69,16 @@ dojo.declare("dijit._editor.plugins.FontChoice",
 			this.connect(this.button, "onChange", function(choice){
 				if(this.updating){ return; }
 				// FIXME: IE is really messed up here!!
-				if(dojo.isIE){
-					if("_savedSelection" in this){
-						var b = this._savedSelection;
-						delete this._savedSelection;
-						this.editor.focus();
-						this.editor._moveToBookmark(b);
-					}
+				if(dojo.isIE && "_savedSelection" in this){
+					var b = this._savedSelection;
+					delete this._savedSelection;
+					this.editor.focus();
+					this.editor._moveToBookmark(b);
 				}else{
 //					this.editor.focus();
 					dijit.focus(this._focusHandle);
 				}
-				this.editor.execCommand(this.command, choice);
+				this.editor.execCommand(this.command, "'" + choice + "'");
 			});
 		},
 
@@ -90,15 +89,25 @@ dojo.declare("dijit._editor.plugins.FontChoice",
 			if(!_e || !_e.isLoaded || !_c.length){ return; }
 			if(this.button){
 				var value = _e.queryCommandValue(_c) || "";
-				if(!this.customNames && _c == "fontName"){
+				// strip off single quotes, if any
+				var quoted = dojo.isString(value) && value.match(/'([^']*)'/);
+				if(quoted){ value = quoted[1]; }
+//console.log("selected " + value);
+				if(this.generics && _c == "fontName"){
 					var map = {
 						"Arial": "sans-serif",
+						"Helvetica": "sans-serif",
+						"Myriad": "sans-serif",
+						"Times": "serif",
 						"Times New Roman": "serif",
 						"Comic Sans MS": "cursive",
+						"Apple Chancery": "cursive",
+						"Courier": "monospace",
 						"Courier New": "monospace",
-						"????": "fantasy" //TODO: IE doesn't map fantasy font-family?
+						"Papyrus": "fantasy"
+// 						,"????": "fantasy" TODO: IE doesn't map fantasy font-family?
 					};
-//					console.log("selected " + value  + " mapped to " + map[value]);
+//console.log("mapped to " + map[value]);
 					value = map[value] || value;
 				}
 				this.updating = true;
