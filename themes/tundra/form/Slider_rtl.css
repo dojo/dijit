@@ -1,31 +1,31 @@
-.dijitRtl .dijitHorizontalSliderProgressBar,
-.dijitRtl .dijitHorizontalSliderRemainingBar,
-.dijitRtl .dijitHorizontalSliderLeftBumper,
-.dijitRtl .dijitHorizontalSliderRightBumper,
-.dijitRtl .dijitVerticalSliderTopBumper {
+.dijitRtl .dijitSliderProgressBarH,
+.dijitRtl .dijitSliderRemainingBarH,
+.dijitRtl .dijitSliderLeftBumper,
+.dijitRtl .dijitSliderRightBumper,
+.dijitRtl .dijitSliderTopBumper {
 	background-position: top right;
 }
 
-.dijitRtl .dijitVerticalSliderProgressBar,
-.dijitRtl .dijitVerticalSliderRemainingBar,
-.dijitRtl .dijitVerticalSliderBottomBumper {
+.dijitRtl .dijitSliderProgressBarV,
+.dijitRtl .dijitSliderRemainingBarV,
+.dijitRtl .dijitSliderBottomBumper {
 	background-position: bottom right;
 }
 
-.dijitRtl .dijitHorizontalSliderLeftBumper {
+.dijitRtl .dijitSliderLeftBumper {
 	border-left-width: 0px;
 	border-right-width: 1px;
 }
 
-.dijitRtl .dijitHorizontalSliderRightBumper {
+.dijitRtl .dijitSliderRightBumper {
 	border-left-width: 1px;
 	border-right-width: 0px;
 }
 
-.dijitRtl .dijitHorizontalSliderIncrementIcon {
+.dijitRtl .dijitSliderIncrementIconH {
 	background-image:url('../images/arrowLeft.png');
 }
 
-.dijitRtl .dijitHorizontalSliderDecrementIcon {
+.dijitRtl .dijitSliderDecrementIconH {
 	background-image:url('../images/arrowRight.png');
 }

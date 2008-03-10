@@ -540,11 +540,11 @@ table .dijitComboButton .dijitButtonNode {
 }
 
 /* progress bar in vertical mode - TODO: remove? no longer supported? */
-.dijitProgressBarVertical .dijitProgressBarFull{
+.dijitProgressBarV .dijitProgressBarFull{
 	bottom:0;		/* start at the bottom */
 }
 
-.dj_ie6 .dijitProgressBarVertical .dijitProgressBarTile{
+.dj_ie6 .dijitProgressBarV .dijitProgressBarTile{
 	position:absolute;
 	/* can't use position:static here -- need absolute positioning to place
 	   the bar at the bottom of a vertical progressbar */
@@ -665,13 +665,13 @@ body .dijitAlignClient { position: absolute; }
 	width:100%;
 	height:100%;
 }
-.dijitSplitterHorizontal {
+.dijitSplitterH {
 	height: 7px;
 	border-top:1px;
 	border-bottom:1px;
 	cursor: ns-resize;
 }
-.dijitSplitterVertical {
+.dijitSplitterV {
 	width: 7px;
 	border-left:1px;
 	border-right:1px;
@@ -699,13 +699,13 @@ body .dijitAlignClient { position: absolute; }
 	margin: 0;
 }
 
-.dijitSplitContainerSizerH .thumb, .dijitSplitterVertical .dijitSplitterThumb {
+.dijitSplitContainerSizerH .thumb, .dijitSplitterV .dijitSplitterThumb {
 	overflow:hidden;
 	position:absolute;
 	top:49%;
 }
 
-.dijitSplitContainerSizerV .thumb, .dijitSplitterHorizontal .dijitSplitterThumb {
+.dijitSplitContainerSizerV .thumb, .dijitSplitterH .dijitSplitterThumb {
 	position:absolute;
 	left:49%;
 }
@@ -721,10 +721,10 @@ body .dijitAlignClient { position: absolute; }
 	margin: 0;
 }
 
-.dj_ie .dijitSplitterVertical, .dijitSplitContainerVirtualSizerH {
+.dj_ie .dijitSplitterV, .dijitSplitContainerVirtualSizerH {
 	cursor: w-resize;
 }
-.dj_ie .dijitSplitterHorizontal, .dijitSplitContainerSizerV, .dijitSplitContainerVirtualSizerV {
+.dj_ie .dijitSplitterH, .dijitSplitContainerSizerV, .dijitSplitContainerVirtualSizerV {
 	cursor: n-resize;
 }
 
@@ -1159,7 +1159,7 @@ img.dijitColorPaletteUnder {
 	vertical-align:middle;
 }
 
-.dijitHorizontalSliderMoveable {
+.dijitSliderMoveableH {
 	right:0;
 }
 
@@ -1178,12 +1178,12 @@ img.dijitColorPaletteUnder {
 	width:8px;
 }
 
-.dijitVerticalSliderImageHandle {
+.dijitSliderImageHandleV {
 	top:-8px;
 	left:-6px;
 }
 
-.dijitHorizontalSliderImageHandle {
+.dijitSliderImageHandleH {
 	left:-8px;
 	top:-5px;
 	vertical-align:top;
@@ -1194,12 +1194,12 @@ img.dijitColorPaletteUnder {
 	border-color:black;
 }
 
-.dijitHorizontalSliderBar {
+.dijitSliderBarH {
 	height:4px;
 	border-width:1px 0;
 }
 
-.dijitVerticalSliderBar {
+.dijitSliderBarV {
 	width:4px;
 	border-width:0 1px;
 }
@@ -1209,14 +1209,14 @@ img.dijitColorPaletteUnder {
 	#z-index:0;
 }
 
-.dijitVerticalSliderProgressBar {
+.dijitSliderProgressBarV {
 	position:static !important;
 	height:0%;
 	vertical-align:top;
 	text-align:left;
 }
 
-.dijitHorizontalSliderProgressBar {
+.dijitSliderProgressBarH {
 	position:absolute !important;
 	width:0%;
 	vertical-align:middle;
@@ -1229,12 +1229,12 @@ img.dijitColorPaletteUnder {
 	#z-index:-1;
 }
 
-.dijitVerticalSliderRemainingBar {
+.dijitSliderRemainingBarV {
 	height:100%;
 	text-align:left;
 }
 
-.dijitHorizontalSliderRemainingBar {
+.dijitSliderRemainingBarH {
 	width:100% !important;
 }
 
@@ -1244,29 +1244,29 @@ img.dijitColorPaletteUnder {
 	#z-index:-1
 }
 
-.dijitVerticalSliderBumper {
+.dijitSliderBumperV {
 	width:4px;
 	height:8px;
 	border-width:0 1px;
 }
 
-.dijitHorizontalSliderBumper {
+.dijitSliderBumperH {
 	width:8px;
 	height:4px;
 	border-width:1px 0;
 }
 
-.dijitVerticalSliderBottomBumper,
-.dijitHorizontalSliderLeftBumper {
+.dijitSliderBottomBumper,
+.dijitSliderLeftBumper {
 	background-color:red;
 }
 
-.dijitVerticalSliderTopBumper,
-.dijitHorizontalSliderRightBumper {
+.dijitSliderTopBumper,
+.dijitSliderRightBumper {
 	background-color:transparent;
 }
 
-.dijitHorizontalSliderDecoration {
+.dijitSliderDecorationH {
 	text-align:center;
 }
 
@@ -1281,14 +1281,6 @@ img.dijitColorPaletteUnder {
 	visibility:visible !important;
 }
 
-.dijitSlider .dijitVerticalSliderTopButton {
-	vertical-align:bottom;
-}
-
-.dijitSlider .dijitVerticalSliderBottomButton {
-	vertical-align:top;
-}
-
 .dijitSliderButtonContainer {
 	text-align:center;
 	height:0;
@@ -1299,63 +1291,63 @@ img.dijitColorPaletteUnder {
 	display:block;
 }
 
-.dj_ie .RuleContainer {
+.dj_ie .dijitRuleContainer {
 	z-index: -1; /* #4809 */
 }
 
-.RuleContainer {
+.dijitRuleContainer {
 	position:relative;
 	overflow:visible;
 }
 
-.VerticalRuleContainer {
+.dijitRuleContainerV {
 	height:100%;
 	line-height:0;
 	float:left;
 	text-align:left;
 }
 
-.dj_opera .VerticalRuleContainer {
+.dj_opera .dijitRuleContainerV {
 	line-height:2%;
 }
 
-.dj_ie .VerticalRuleContainer {
+.dj_ie .dijitRuleContainerV {
 	line-height:normal;
 }
 
-.dj_gecko .VerticalRuleContainer {
+.dj_gecko .dijitRuleContainerV {
 	margin:0 0 1px 0; /* mozilla bug workaround for float:left,height:100% block elements */
 }
 
-.RuleMark {
+.dijitRuleMark {
 	position:absolute;
 	border:1px solid black;
 	line-height:0;
 	height:100%;
 }
 
-.HorizontalRuleMark {
+.dijitRuleMarkH {
 	width:0;
 	border-top-width:0 !important;
 	border-bottom-width:0 !important;
 	border-left-width:0 !important;
 }
 
-.RuleLabelContainer {
+.dijitRuleLabelContainer {
 	position:absolute;
 }
 
-.HorizontalRuleLabelContainer {
+.dijitRuleLabelContainerH {
 	text-align:center;
 	display:inline-block;
 }
 
-.HorizontalRuleLabel {
+.dijitRuleLabelH {
 	position:relative;
 	left:-50%;
 }
 
-.VerticalRuleMark {
+.dijitRuleMarkV {
 	height:0;
 	border-right-width:0 !important;
 	border-bottom-width:0 !important;
@@ -1364,7 +1356,7 @@ img.dijitColorPaletteUnder {
 	left:0;
 }
 
-.dj_ie .VerticalRuleLabelContainer {
+.dj_ie .dijitRuleLabelContainerV {
 	margin-top:-.55em;
 }
 
@@ -1392,7 +1384,7 @@ img.dijitColorPaletteUnder {
 }
 
 /* Editor */
-.IEFixedToolbar {
+.dijitIEFixedToolbar {
 	position:absolute;
 	/* top:0; */
 	top: expression(eval((document.documentElement||document.body).scrollTop));

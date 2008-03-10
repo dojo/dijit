@@ -1,29 +1,29 @@
-.tundra .dijitHorizontalSliderProgressBar {
+.tundra .dijitSliderProgressBarH {
 	border-color: #aab0bb;
 	background: #c0c2c5 url("../images/sliderFull.png") repeat-x top left;
 }
 
-.tundra .dijitVerticalSliderProgressBar {
+.tundra .dijitSliderProgressBarV {
 	border-color: #aab0bb;
 	background: #c0c2c5 url("../images/sliderFullVertical.png") repeat-y bottom left;
 }
 
-.tundra .dijitSliderFocused .dijitHorizontalSliderProgressBar,
-.tundra .dijitSliderFocused .dijitHorizontalSliderLeftBumper {
+.tundra .dijitSliderFocused .dijitSliderProgressBarH,
+.tundra .dijitSliderFocused .dijitSliderLeftBumper {
 	background-image:url("../images/sliderFullFocus.png");
 }
 
-.tundra .dijitSliderFocused .dijitVerticalSliderProgressBar,
-.tundra .dijitSliderFocused .dijitVerticalSliderBottomBumper {
+.tundra .dijitSliderFocused .dijitSliderProgressBarV,
+.tundra .dijitSliderFocused .dijitSliderBottomBumper {
 	background-image:url("../images/sliderFullVerticalFocus.png");
 }
 
-.tundra .dijitVerticalSliderRemainingBar {
+.tundra .dijitSliderRemainingBarV {
 	border-color: #b4b4b4;
 	background: #dcdcdc url("../images/sliderEmptyVertical.png") repeat-y bottom left;
 }
 
-.tundra .dijitHorizontalSliderRemainingBar {
+.tundra .dijitSliderRemainingBarH {
 	border-color: #b4b4b4;
 	background: #dcdcdc url("../images/sliderEmpty.png") repeat-x top left;
 }
@@ -40,35 +40,35 @@
 	background-color:#333 !important;
 }
 
-.tundra .dijitHorizontalSliderImageHandle {
+.tundra .dijitSliderImageHandleH {
 	border:0px;
 	width:16px;
 	height:16px;
 	background:url("../images/preciseSliderThumb.png") no-repeat center top;
 	cursor:pointer;
 }
-.tundra .dijitSliderFocused .dijitHorizontalSliderImageHandle {
+.tundra .dijitSliderFocused .dijitSliderImageHandleH {
 	background-image:url("../images/preciseSliderThumbFocus.png");
 	#background-image:url("../images/preciseSliderThumbFocus.gif");
 }
 
-.dj_ie6 .tundra .dijitHorizontalSliderImageHandle {
+.dj_ie6 .tundra .dijitSliderImageHandleH {
 	background-image:url("../images/preciseSliderThumb.gif");
 }
 
-.tundra .dijitHorizontalSliderLeftBumper {
+.tundra .dijitSliderLeftBumper {
 	border-left-width: 1px;
 	border-color: #aab0bb;
 	background: #c0c2c5 url("../images/sliderFull.png") repeat-x top left;
 }
 
-.tundra .dijitHorizontalSliderRightBumper {
+.tundra .dijitSliderRightBumper {
 	background: #dcdcdc url("../images/sliderEmpty.png") repeat-x top left;
 	border-color: #b4b4b4;
 	border-right-width: 1px;
 }
 
-.tundra .dijitVerticalSliderImageHandle {
+.tundra .dijitSliderImageHandleV {
 	border:0px;
 	width:16px;
 	height:16px;
@@ -76,43 +76,43 @@
 	cursor:pointer;
 }
 
-.tundra .dijitSliderFocused .dijitVerticalSliderImageHandle {
+.tundra .dijitSliderFocused .dijitSliderImageHandleV {
 	background-image:url("../images/sliderThumbFocus.png");
 }
-.dj_ie6 .tundra .dijitSliderFocused .dijitVerticalSliderImageHandle {
+.dj_ie6 .tundra .dijitSliderFocused .dijitSliderImageHandleV {
 	background-image:url("../images/sliderThumbFocus.gif");
 }
 
-.tundra .dijitVerticalSliderBottomBumper {
+.tundra .dijitSliderBottomBumper {
 	border-bottom-width: 1px;
 	border-color: #aab0bb;
 	background: #c0c2c5 url("../images/sliderFullVertical.png") repeat-y bottom left;
 }
 
-.tundra .dijitVerticalSliderTopBumper {
+.tundra .dijitSliderTopBumper {
 	background: #dcdcdc url("../images/sliderEmptyVertical.png") repeat-y top left;
 	border-color: #b4b4b4;
 	border-top-width: 1px;
 }
 
-.tundra .dijitHorizontalSliderIncrementIcon,
-.tundra .dijitVerticalSliderIncrementIcon {
+.tundra .dijitSliderIncrementIconH,
+.tundra .dijitSliderIncrementIconV {
 	background:url('../images/arrowUp.png') no-repeat center center;
 	width:16px; height:16px;
 	cursor:pointer;
 }
-.tundra .dijitHorizontalSliderIncrementIcon {
+.tundra .dijitSliderIncrementIconH {
 	background-image:url('../images/arrowRight.png');
 }
 
-.tundra .dijitHorizontalSliderDecrementIcon,
-.tundra .dijitVerticalSliderDecrementIcon {
+.tundra .dijitSliderDecrementIconH,
+.tundra .dijitSliderDecrementIconV {
 	width:16px;
 	height:16px;
 	cursor:pointer;
 	background:url('../images/arrowDown.png') no-repeat center center;
 }
-.tundra .dijitHorizontalSliderDecrementIcon { background-image:url('../images/arrowLeft.png'); }
+.tundra .dijitSliderDecrementIconH { background-image:url('../images/arrowLeft.png'); }
 
 .tundra .dijitSliderButtonInner {
 	visibility:hidden;
@@ -123,7 +123,7 @@
 }
 
 .dj_ie6 .tundra .dijitSliderDisabled,
-.dj_ie6 .tundra .dijitSliderDisabled .RuleContainer,
+.dj_ie6 .tundra .dijitSliderDisabled .dijitRuleContainer,
 .dj_ie6 .tundra .dijitSliderDisabled .dijitSliderRemainingBar,
 .dj_ie6 .tundra .dijitSliderDisabled .dijitSliderProgressBar {
 	filter: gray() alpha(opacity=40);

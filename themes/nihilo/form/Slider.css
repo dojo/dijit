@@ -3,32 +3,32 @@
  	SLIDER
 ****/
 
-.nihilo .dijitHorizontalSliderProgressBar {
+.nihilo .dijitSliderProgressBarH {
 	border-color: #aab0bb;
 	background: #c0c2c5 url("../images/sliderFull.png") repeat-x top left;
 }
 
-.nihilo .dijitVerticalSliderProgressBar {
+.nihilo .dijitSliderProgressBarV {
 	border-color: #aab0bb;
 	background: #c0c2c5 url("../images/sliderFullVertical.png") repeat-y bottom left;
 }
 
-.nihilo .dijitSliderFocused .dijitHorizontalSliderProgressBar,
-.nihilo .dijitSliderFocused .dijitHorizontalSliderLeftBumper {
+.nihilo .dijitSliderFocused .dijitSliderProgressBarH,
+.nihilo .dijitSliderFocused .dijitSliderLeftBumper {
 	background-image:url("../images/sliderFullFocus.png");
 }
 
-.nihilo .dijitSliderFocused .dijitVerticalSliderProgressBar,
-.nihilo .dijitSliderFocused .dijitVerticalSliderBottomBumper {
+.nihilo .dijitSliderFocused .dijitSliderProgressBarV,
+.nihilo .dijitSliderFocused .dijitSliderBottomBumper {
 	background-image:url("../images/sliderFullVerticalFocus.png");
 }
 
-.nihilo .dijitVerticalSliderRemainingBar {
+.nihilo .dijitSliderRemainingBarV {
 	border-color: #b4b4b4;
 	background: #dcdcdc url("../images/sliderEmptyVertical.png") repeat-y bottom left;
 }
 
-.nihilo .dijitHorizontalSliderRemainingBar {
+.nihilo .dijitSliderRemainingBarH {
 	border-color: #b4b4b4;
 	background: #dcdcdc url("../images/sliderEmpty.png") repeat-x top left;
 }
@@ -46,35 +46,35 @@
 	background-color:#333 !important;
 }
 
-.nihilo .dijitHorizontalSliderImageHandle {
+.nihilo .dijitSliderImageHandleH {
 	border:0px;
 	width:15px;
 	height:18px;
 	background:url("../images/preciseSliderThumb.png") no-repeat center top;
 	cursor:pointer;
 }
-.nihilo .dijitSliderFocused .dijitHorizontalSliderImageHandle {
+.nihilo .dijitSliderFocused .dijitSliderImageHandleH {
 	background-image:url("../images/preciseSliderThumbFocus.png");
 	#background-image:url("../images/preciseSliderThumbFocus.gif");
 }
 
-.dj_ie6 .nihilo .dijitHorizontalSliderImageHandle {
+.dj_ie6 .nihilo .dijitSliderImageHandleH {
 	background-image:url("../images/preciseSliderThumb.gif");
 }
 
-.nihilo .dijitHorizontalSliderLeftBumper {
+.nihilo .dijitSliderLeftBumper {
 	border-left-width: 1px;
 	border-color: #aab0bb;
 	background: #c0c2c5 url("../images/sliderFull.png") repeat-x top left;
 }
 
-.nihilo .dijitHorizontalSliderRightBumper {
+.nihilo .dijitSliderRightBumper {
 	background: #dcdcdc url("../images/sliderEmpty.png") repeat-x top left;
 	border-color: #b4b4b4;
 	border-right-width: 1px;
 }
 
-.nihilo .dijitVerticalSliderImageHandle {
+.nihilo .dijitSliderImageHandleV {
 	border:0px;
 	width:20px;
 	height:15px;
@@ -82,43 +82,43 @@
 	cursor:pointer;
 }
 
-.nihilo .dijitSliderFocused .dijitVerticalSliderImageHandle {
+.nihilo .dijitSliderFocused .dijitSliderImageHandleV {
 	background-image:url("../images/sliderThumbFocus.png");
 }
-.dj_ie6 .nihilo .dijitSliderFocused .dijitVerticalSliderImageHandle {
+.dj_ie6 .nihilo .dijitSliderFocused .dijitSliderImageHandleV {
 	background-image:url("../images/sliderThumbFocus.gif");
 }
 
-.nihilo .dijitVerticalSliderBottomBumper {
+.nihilo .dijitSliderBottomBumper {
 	border-bottom-width: 1px;
 	border-color: #aab0bb;
 	background: #c0c2c5 url("../images/sliderFullVertical.png") repeat-y bottom left;
 }
 
-.nihilo .dijitVerticalSliderTopBumper {
+.nihilo .dijitSliderTopBumper {
 	background: #dcdcdc url("../images/sliderEmptyVertical.png") repeat-y top left;
 	border-color: #b4b4b4;
 	border-top-width: 1px;
 }
 
-.nihilo .dijitHorizontalSliderIncrementIcon,
-.nihilo .dijitVerticalSliderIncrementIcon {
+.nihilo .dijitSliderIncrementIconH,
+.nihilo .dijitSliderIncrementIconV {
 	background:url('../images/spriteRoundedIconsSmall.png') no-repeat -45px top;
 	width:15px; height:15px;
 	cursor:pointer;
 }
-.nihilo .dijitHorizontalSliderIncrementIcon {
+.nihilo .dijitSliderIncrementIconH {
 	background:url('../images/spriteRoundedIconsSmall.png') no-repeat -30px top;
 }
 
-.nihilo .dijitHorizontalSliderDecrementIcon,
-.nihilo .dijitVerticalSliderDecrementIcon {
+.nihilo .dijitSliderDecrementIconH,
+.nihilo .dijitSliderDecrementIconV {
 	width:15px;
 	height:15px;
 	cursor:pointer;
 	background:url('../images/spriteRoundedIconsSmall.png') no-repeat -15px top;
 }
-.nihilo .dijitHorizontalSliderDecrementIcon { background:url('../images/spriteRoundedIconsSmall.png') no-repeat 0px top; }
+.nihilo .dijitSliderDecrementIconH { background:url('../images/spriteRoundedIconsSmall.png') no-repeat 0px top; }
 
 .nihilo .dijitSliderButtonInner {
 	visibility:hidden;
@@ -129,7 +129,7 @@
 }
 
 .dj_ie6 .nihilo .dijitSliderDisabled,
-.dj_ie6 .nihilo .dijitSliderDisabled .RuleContainer,
+.dj_ie6 .nihilo .dijitSliderDisabled .dijitRuleContainer,
 .dj_ie6 .nihilo .dijitSliderDisabled .dijitSliderRemainingBar,
 .dj_ie6 .nihilo .dijitSliderDisabled .dijitSliderProgressBar {
 	filter: gray() alpha(opacity=40);

@@ -3,32 +3,32 @@
  	SLIDER
 ****/
 
-.soria .dijitHorizontalSliderProgressBar {
+.soria .dijitSliderProgressBarH {
 	border-color: #b1badf;
 	background: #c0c2c5 url("../images/sliderFull.png") repeat-x top left;
 }
 
-.soria .dijitVerticalSliderProgressBar {
+.soria .dijitSliderProgressBarV {
 	border-color: #b1badf;
 	background: #c0c2c5 url("../images/sliderFullVertical.png") repeat-y bottom left;
 }
 
-.soria .dijitSliderFocused .dijitHorizontalSliderProgressBar,
-.soria .dijitSliderFocused .dijitHorizontalSliderLeftBumper {
+.soria .dijitSliderFocused .dijitSliderProgressBarH,
+.soria .dijitSliderFocused .dijitSliderLeftBumper {
 	background-image:url("../images/sliderFullFocus.png");
 }
 
-.soria .dijitSliderFocused .dijitVerticalSliderProgressBar,
-.soria .dijitSliderFocused .dijitVerticalSliderBottomBumper {
+.soria .dijitSliderFocused .dijitSliderProgressBarV,
+.soria .dijitSliderFocused .dijitSliderBottomBumper {
 	background-image:url("../images/sliderFullVerticalFocus.png");
 }
 
-.soria .dijitVerticalSliderRemainingBar {
+.soria .dijitSliderRemainingBarV {
 	border-color: #b4b4b4;
 	background: #dcdcdc url("../images/sliderEmptyVertical.png") repeat-y bottom left;
 }
 
-.soria .dijitHorizontalSliderRemainingBar {
+.soria .dijitSliderRemainingBarH {
 	border-color: #b4b4b4;
 	background: #dcdcdc url("../images/sliderEmpty.png") repeat-x top left;
 }
@@ -46,35 +46,35 @@
 	background-color:#333 !important;
 }
 
-.soria .dijitHorizontalSliderImageHandle {
+.soria .dijitSliderImageHandleH {
 	border:0px;
 	width:15px;
 	height:18px;
 	background:url("../images/preciseSliderThumb.png") no-repeat center top;
 	cursor:pointer;
 }
-.soria .dijitSliderFocused .dijitHorizontalSliderImageHandle {
+.soria .dijitSliderFocused .dijitSliderImageHandleH {
 	background-image:url("../images/preciseSliderThumbFocus.png");
 	#background-image:url("../images/preciseSliderThumbFocus.gif");
 }
 
-.dj_ie6 .soria .dijitHorizontalSliderImageHandle {
+.dj_ie6 .soria .dijitSliderImageHandleH {
 	background-image:url("../images/preciseSliderThumb.gif");
 }
 
-.soria .dijitHorizontalSliderLeftBumper {
+.soria .dijitSliderLeftBumper {
 	border-left-width: 1px;
 	border-color: #aab0bb;
 	background: #c0c2c5 url("../images/sliderFull.png") repeat-x top left;
 }
 
-.soria .dijitHorizontalSliderRightBumper {
+.soria .dijitSliderRightBumper {
 	background: #dcdcdc url("../images/sliderEmpty.png") repeat-x top left;
 	border-color: #b4b4b4;
 	border-right-width: 1px;
 }
 
-.soria .dijitVerticalSliderImageHandle {
+.soria .dijitSliderImageHandleV {
 	border:0px;
 	width:20px;
 	height:15px;
@@ -82,43 +82,43 @@
 	cursor:pointer;
 }
 
-.soria .dijitSliderFocused .dijitVerticalSliderImageHandle {
+.soria .dijitSliderFocused .dijitSliderImageHandleV {
 	background-image:url("../images/sliderThumbFocus.png");
 }
-.dj_ie6 .soria .dijitSliderFocused .dijitVerticalSliderImageHandle {
+.dj_ie6 .soria .dijitSliderFocused .dijitSliderImageHandleV {
 	background-image:url("../images/sliderThumbFocus.gif");
 }
 
-.soria .dijitVerticalSliderBottomBumper {
+.soria .dijitSliderBottomBumper {
 	border-bottom-width: 1px;
 	border-color: #aab0bb;
 	background: #c0c2c5 url("../images/sliderFullVertical.png") repeat-y bottom left;
 }
 
-.soria .dijitVerticalSliderTopBumper {
+.soria .dijitSliderTopBumper {
 	background: #dcdcdc url("../images/sliderEmptyVertical.png") repeat-y top left;
 	border-color: #b4b4b4;
 	border-top-width: 1px;
 }
 
-.soria .dijitHorizontalSliderIncrementIcon,
-.soria .dijitVerticalSliderIncrementIcon {
+.soria .dijitSliderIncrementIconH,
+.soria .dijitSliderIncrementIconV {
 	background:url('../images/spriteRoundedIconsSmall.png') no-repeat -45px top;
 	width:15px; height:15px;
 	cursor:pointer;
 }
-.soria .dijitHorizontalSliderIncrementIcon {
+.soria .dijitSliderIncrementIconH {
 	background:url('../images/spriteRoundedIconsSmall.png') no-repeat -30px top;
 }
 
-.soria .dijitHorizontalSliderDecrementIcon,
-.soria .dijitVerticalSliderDecrementIcon {
+.soria .dijitSliderDecrementIconH,
+.soria .dijitSliderDecrementIconV {
 	width:15px;
 	height:15px;
 	cursor:pointer;
 	background:url('../images/spriteRoundedIconsSmall.png') no-repeat -15px top;
 }
-.soria .dijitHorizontalSliderDecrementIcon { background:url('../images/spriteRoundedIconsSmall.png') no-repeat 0px top; }
+.soria .dijitSliderDecrementIconH { background:url('../images/spriteRoundedIconsSmall.png') no-repeat 0px top; }
 
 .soria .dijitSliderButtonInner {
 	visibility:hidden;
@@ -129,7 +129,7 @@
 }
 
 .dj_ie6 .soria .dijitSliderDisabled,
-.dj_ie6 .soria .dijitSliderDisabled .RuleContainer,
+.dj_ie6 .soria .dijitSliderDisabled .dijitRuleContainer,
 .dj_ie6 .soria .dijitSliderDisabled .dijitSliderRemainingBar,
 .dj_ie6 .soria .dijitSliderDisabled .dijitSliderProgressBar {
 	filter: gray() alpha(opacity=40);

@@ -1,4 +1,4 @@
-.IEFixedToolbar {
+.dijitIEFixedToolbar {
 	position:absolute;
 	/* top:0; */
 	top: expression(eval((document.documentElement||document.body).scrollTop));

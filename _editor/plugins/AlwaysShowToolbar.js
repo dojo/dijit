@@ -84,7 +84,7 @@ dojo.declare("dijit._editor.plugins.AlwaysShowToolbar", dijit._editor._Plugin,
 						this._IEOriginalPos = ['last',tdn.parentNode];
 					}
 					dojo.body().appendChild(tdn);
-					dojo.addClass(tdn,'IEFixedToolbar');
+					dojo.addClass(tdn,'dijitIEFixedToolbar');
 				}else{
 					s.position = "fixed";
 					s.top = "0px";
@@ -111,7 +111,7 @@ dojo.declare("dijit._editor.plugins.AlwaysShowToolbar", dijit._editor._Plugin,
 			s.display = "";
 			if(isIE){
 				s.left = "";
-				dojo.removeClass(tdn,'IEFixedToolbar');
+				dojo.removeClass(tdn,'dijitIEFixedToolbar');
 				if(this._IEOriginalPos){
 					dojo.place(tdn, this._IEOriginalPos[1], this._IEOriginalPos[0]);
 					this._IEOriginalPos = null;
@@ -130,7 +130,7 @@ dojo.declare("dijit._editor.plugins.AlwaysShowToolbar", dijit._editor._Plugin,
 //		clearInterval(this.scrollInterval);
 
 		if(dojo.isIE && dojo.isIE<7){
-			dojo.removeClass(this.editor.toolbar.domNode, 'IEFixedToolbar');
+			dojo.removeClass(this.editor.toolbar.domNode, 'dijitIEFixedToolbar');
 		}
 	}
 });

@@ -1,6 +1,6 @@
 /* BorderContainer */
 
-.tundra .dijitSplitterHorizontal {
+.tundra .dijitSplitterH {
 	background:url("../images/splitContainerSizerH.png") repeat-x #fff;
 	border:0;
 	border-left:0px solid #d3d3d3;
@@ -8,14 +8,14 @@
 	height:5px;
 }
 
-.tundra .dijitSplitterHorizontal .dijitSplitterThumb {
+.tundra .dijitSplitterH .dijitSplitterThumb {
 	background:url("../images/splitContainerSizerH-thumb.png") no-repeat;
 	top:1px;
 	width:19px;
 	height:2px;
 }
 
-.tundra .dijitSplitterVertical {
+.tundra .dijitSplitterV {
 	background:url("../images/splitContainerSizerV.png") repeat-y #fff;
 	border:0;
 	border-top:0px solid #d3d3d3;
@@ -23,7 +23,7 @@
 	width:5px;
 }
 
-.tundra .dijitSplitterVertical .dijitSplitterThumb {
+.tundra .dijitSplitterV .dijitSplitterThumb {
 	background:url("../images/splitContainerSizerV-thumb.png") no-repeat;
 	left:1px;
 	height:19px;

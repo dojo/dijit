@@ -59,46 +59,46 @@
 
 /* Slider */
 
-.dijitRtl .dijitVerticalSliderImageHandle {
+.dijitRtl .dijitSliderImageHandleV {
 	left:auto;
 	right:-6px;
 }
 
-.dj_ie .dijitRtl .dijitVerticalSliderImageHandle {
+.dj_ie .dijitRtl .dijitSliderImageHandleV {
 	right:-10px;
 }
 
-.dijitRtl .dijitHorizontalSliderMoveable {
+.dijitRtl .dijitSliderMoveableH {
 	right:auto;
 	left:0;
 }
 
-.dijitRtl .VerticalRuleContainer {
+.dijitRtl .dijitRuleContainerV {
 	float:right;
 }
 
-.dj_gecko .dijitRtl .VerticalRuleContainer {
+.dj_gecko .dijitRtl .dijitRuleContainerV {
 	float:left;
 }
 
-.dj_ie .dijitRtl .VerticalRuleContainer {
+.dj_ie .dijitRtl .dijitRuleContainerV {
 	text-align:right;
 }
 
-.dj_ie .dijitRtl .VerticalRuleLabel {
+.dj_ie .dijitRtl .dijitRuleLabelV {
 	text-align:left;
 }
 
-.dj_ie .dijitRtl .HorizontalRuleLabel {
+.dj_ie .dijitRtl .dijitRuleLabelH {
 	zoom:1;
 }
 
-.dj_ie .dijitRtl .dijitHorizontalSliderProgressBar {
+.dj_ie .dijitRtl .dijitSliderProgressBarH {
 	right:0;
 	left:auto;
 }
 
-.dj_gecko .dijitRtl .dijitHorizontalSliderProgressBar {
+.dj_gecko .dijitRtl .dijitSliderProgressBarH {
 	float:right;
 	right:0;
 	left:auto;
