@@ -292,9 +292,6 @@ DIV.dijitArrowButton {
 	position: absolute;
 	height: 50%;
 }
-.dj_ie .dijitSpinner .dijitInputLayoutContainer .dijitArrowButton {
-	height: expression(this.parentNode.offsetHeight/2);
-}
 .dijitSpinner .dijitInputLayoutContainer .dijitDownArrowButton {
 	top: none;
 	bottom: 0;
@@ -1491,7 +1488,18 @@ img.dijitColorPaletteUnder {
 	overflow: hidden;
 }
 .dj_ie .dijitSpinner .dijitInputLayoutContainer .dijitArrowButton {
-	height: expression(this.parentNode? this.parentNode.offsetHeight/2 : '16px');
+	behavior: expression(
+		function(self){
+			var e; 
+			try{
+				var h = self.parentNode.offsetHeight/2;
+				if(h > 1){
+					self.style.height = h;
+					self.style.behavior = null; /* prevent re-eval of css expression */
+				}
+			}catch(e){} /* random exceptions thrown during init */
+		}(this)
+	);
 }
 .dijitSpinner .dijitInputLayoutContainer .dijitArrowButtonInner {
 	overflow: hidden;

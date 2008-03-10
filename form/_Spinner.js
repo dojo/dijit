@@ -97,7 +97,17 @@ dojo.declare(
 			if(dojo.isIE){
 				// When spinner is moved from hidden to visible, call _setStateClass to remind IE to render it. (#6123)
 				var _this = this;
-				this.connect(this.domNode, "onresize", function(){ setTimeout(dojo.hitch(_this, "_setStateClass"), 0); });
+				this.connect(this.domNode, "onresize", 
+					function(){ setTimeout(dojo.hitch(_this,
+						function(){
+							// cause the IE expressions to rerun
+							this.upArrowNode.style.behavior = '';
+							this.downArrowNode.style.behavior = '';
+							// cause IE to rerender
+							this._setStateClass();
+						}), 0);
+					}
+				);
 			}
 		}
 });
