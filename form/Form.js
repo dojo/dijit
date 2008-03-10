@@ -289,13 +289,15 @@ dojo.declare(
 		attributeMap: dojo.mixin(dojo.clone(dijit._Widget.prototype.attributeMap),
 			{onSubmit: "", action: "", method: "", encType: "", "accept-charset": "", accept: "", target: ""}),
 
-		// execute: Function
-		//	Deprecated: use onSubmit
-		execute: function(/*Object*/ formContents){},
+		execute: function(/*Object*/ formContents){
+			//	summary:
+			//		Deprecated: use submit()
+		},
 
-		// onExecute: Function
-		//	Deprecated: use onSubmit
-		onExecute: function(){},
+		onExecute: function(){
+			// summary:
+			//		Deprecated: use onSubmit()
+		},
 
 		setAttribute: function(/*String*/ attr, /*anything*/ value){
 			this.inherited(arguments);
@@ -317,37 +319,47 @@ dojo.declare(
 			dojo.attr(this.domNode, 'onreset', dojo.hitch(this, this._onReset));
 		},
 
-		// onReset: Function
-		//	Callback when user resets the form
-		//	(user can override - return false to cancel the default action)
 		onReset: function(){ 
-			return true;
+			//	summary:
+			//		Callback when user resets the form. This method is intended
+			//		to be over-ridden. When the `reset` method is called
+			//		programmatically, the return value from `onReset` is used
+			//		to compute whether or not resetting should proceed
+			return true; // Boolean
 		},
 
 		_onReset: function(){
 			if(this.onReset()){
 				this.reset();
 			}
-			return false;
+			return false; // Boolean
 		},
 
 		// TODO: remove ths function beginning with 2.0
 		_onSubmit: function(){
-			if(this.execute != dijit.form.Form.prototype.execute || this.onExecute != dijit.form.Form.prototype.onExecute){
+			var fp = dijit.form.Form.prototype;
+			if(this.execute != fp.execute || this.onExecute != fp.onExecute){
 				dojo.deprecated("dijit.form.Form:execute()/onExecute() are deprecated. Use onSubmit() instead.", "", "2.0");
 				this.onExecute();
 				this.execute(this.getValues());
 			}
 		},
 		
-		// onSubmit: Function
-		//	Callback when user submits the form
-		//	(user can override - return false to cancel the default action)
-		onSubmit: function(){ return this.isValid(); },
+		onSubmit: function(){ 
+			//	summary:
+			//		Callback when user submits the form. This method is
+			//		intended to be over-ridden, but by default it checks and
+			//		returns the validity of form elements. When the `submit`
+			//		method is called programmatically, the return value from
+			//		`onSubmit` is used to compute whether or not submission
+			//		should proceed
+			return this.isValid(); // Boolean
+		},
 
 		submit: function(){
-			// summary: programmatically submit form
-			if(this.onSubmit() !== false){ // form submit() does not call onsubmit //FIXME: what does this mean?  and why not just check for 'truthiness'?
+			// summary:
+			//		programmatically submit form if and only if the `onSubmit` returns true
+			if(!!this.onSubmit()){
 				this.containerNode.submit();
 			}
 		}
