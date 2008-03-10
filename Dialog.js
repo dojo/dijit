@@ -1,6 +1,6 @@
 dojo.provide("dijit.Dialog");
 
-dojo.require("dojo.dnd.move");
+dojo.require("dojo.dnd.TimedMoveable");
 dojo.require("dojo.fx");
 
 dojo.require("dijit._Widget");
@@ -207,7 +207,7 @@ dojo.declare(
 			//		performance reasons)
 
 			if(this.titleBar){
-				this._moveable = new dojo.dnd.Moveable(this.domNode, { handle: this.titleBar });
+				this._moveable = new dojo.dnd.TimedMoveable(this.domNode, { handle: this.titleBar, timeout: 0 });
 			}
 
 			this._underlay = new dijit.DialogUnderlay({
