@@ -623,13 +623,13 @@
 					<hr class="spacer">
 
 
-					<h2 class="testTitle">dijit.InlineEditBox + dijit.form.TextBox</h2>
+					<h2 class="testTitle">dijit.InlineEditBox + dijit.form.TextBox on &lt;h3&gt;</h2>
 
-					This is an editable header,
+					(HTML before)
 					<h3 id="editable" style="font-size:larger;" dojoType="dijit.InlineEditBox" onChange="myHandler(this.id,arguments[0])">
 						Edit me - I trigger the onChange callback
 					</h3>
-					And keep the text around me static.
+					(HTML after)
 
 					<hr class="spacer">
 
@@ -637,7 +637,7 @@
 
 					(HTML before)
 					<p id="areaEditable" dojoType="dijit.InlineEditBox" editor="dijit.form.Textarea" autoSave="false">
-						I'm one big paragraph.  Go ahead and <i>edit</i> me.  <b>I dare you.</b>
+						I'm one big paragraph.  Go ahead and edit me.  I dare you.
 						The quick brown fox jumped over the lazy dog.  Blah blah blah blah blah blah blah ...
 					</p>
 					(HTML after)

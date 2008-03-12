@@ -1,31 +1,14 @@
 <html>
 <head>
 	<title>Dijit Theme Tester</title>
-	<script type="text/javascript" src="../../dojo/dojo.js" 
-		djConfig="parseOnLoad: false, isDebug: true"></script>
-	<!--
-	<script type="text/javascript" src="http://prototypejs.org/assets/2007/10/16/prototype.js"></script>
-	-->
-	<script type="text/javascript" src="../dijit.js"></script>
-	<script type="text/javascript" src="../dijit-all.js" charset="utf-8"></script>
-	<script type="text/javascript">
-		// this is just a list of 'official' dijit themes, you can use ?theme=String 
-		// for 'un-supported' themes, too. (eg: yours) 
-		var availableThemes = [
-			{ theme:"tundra", author:"Dojo", baseUri:"../themes/" },
-			{ theme:"soria", author:"nikolai", baseUri:"../themes/" },
-			//{ theme:"noir", author:"owen", baseUri:"../themes/"},
-			{ theme:"nihilo", author:"nikolai", baseUri:"../themes/" }
-		];
-	</script>
+
 	<style type="text/css">
 		@import "../../dojo/resources/dojo.css";
 		@import "../tests/css/dijitTests.css";
-		@import "../../dojo/tests/dnd/dndDefault.css";
 
 		html, body { height: 100%; width: 100%; padding: 0; border: 0; }
 		#main { height: 100%; width: 100%; padding: 0; border: 0; }
-		#header, #mainSplit { margin: 10px; }
+/*		#header, #mainSplit { margin: 10px; } */
 		#leftAccordion { width: 25%; }
 		#bottomTabs { height: 40%; }
 		#main .dijitSplitterH { height: 7px }
@@ -53,9 +36,9 @@
 			
 		}
 
-		hr.spacer { border:0; background-color:#ededed; width:80%; height:1px; }
+		hr.spacer { border:0; background-color:#ededed; width:80%; height:1px; } 
 
-		/* for custom menu buttons, does not appear to have any effect */
+		/* for custom menu buttons, do not appear to have any effect */
 		.myCustomTheme .dijitButtonNode {
 			border:1px solid #000;
 			vertical-align: middle;
@@ -69,6 +52,21 @@
 			background: url("themeTesterImages/blackButtonHover.gif") repeat-x bottom left #3b3b3b !important;
 		}
 	</style>
+
+	<script type="text/javascript">
+		window.__globalList = {dojo: true, dijit: true, dojox: true, djConfig: true};
+		for(var i in window){
+			window.__globalList[i] = true;
+		}
+	</script>
+
+	<script type="text/javascript" src="../../dojo/dojo.js" 
+		djConfig="parseOnLoad: false, isDebug: true"></script>
+	<!--
+	<script type="text/javascript" src="http://prototypejs.org/assets/2007/10/16/prototype.js"></script>
+	-->
+	<script type="text/javascript" src="../dijit.js"></script>
+	<script type="text/javascript" src="../dijit-all.js" charset="utf-8"></script>
 
 	<script type="text/javascript" src="../tests/_testCommon.js"></script>
 	<script type="text/javascript"> // dojo.requires()
@@ -125,18 +123,18 @@
 		// for the calendar
 		function myHandler(id,newValue){
 			console.debug("onChange for id = " + id + ", value: " + newValue);
-		};
-
-		function hideLoader(){
-			var loader = dojo.byId('loader'); 
-			dojo.fadeOut({ node: loader, duration:500,
-				onEnd: function(){ 
-					loader.style.display = "none"; 
-				}
-			}).play();
 		}
 
 		dojo.addOnLoad(function() {
+
+			// this is just a list of 'official' dijit themes, you can use ?theme=String 
+			// for 'un-supported' themes, too. (eg: yours) 
+			var availableThemes = [
+				{ theme:"tundra", author:"Dojo", baseUri:"../themes/" },
+				{ theme:"soria", author:"nikolai", baseUri:"../themes/" },
+				//{ theme:"noir", author:"owen", baseUri:"../themes/"},
+				{ theme:"nihilo", author:"nikolai", baseUri:"../themes/" }
+			];
 
 			var holder = dojo.byId('themeData');
 			var tmpString='';
@@ -147,11 +145,25 @@
 
 			var start = new Date().getTime();
 			dojo.parser.parse(dojo.byId('container')); 
-			console.log("Total parse time: " + (new Date().getTime() - start) + "ms");
+			console.info("Total parse time: " + (new Date().getTime() - start) + "ms");
 
 			dojo.byId('loaderInner').innerHTML += " done.";
-			setTimeout("hideLoader()",250);
-			
+			setTimeout(function hideLoader(){
+				var loader = dojo.byId('loader'); 
+				dojo.fadeOut({ node: loader, duration:500,
+					onEnd: function(){ 
+						loader.style.display = "none"; 
+					}
+				}).play();
+			}, 250);
+
+			var strayGlobals = [];
+			for(var i in window){
+				if(!window.__globalList[i]){ strayGlobals.push(i); }
+			}
+			if(strayGlobals.length){
+				console.warn("Stray globals: "+strayGlobals.join(", "));
+			}
 		});
 
 		/***
@@ -238,7 +250,7 @@
 
 				<div dojoType="dijit.layout.AccordionPane" title="Popups and Alerts"><div style="padding:8px">
 					<h2>Tooltips:</h2>
-					<ul>	
+					<ul>
 						<li>
 						<span id="ttRich">rich text tooltip</span>
 						<span dojoType="dijit.Tooltip" connectId="ttRich" style="display:none;">
@@ -256,7 +268,7 @@
 
 					<h2>Dialogs:</h2>
 					<ul>
-						<li><a href="javascript:dijit.byId('dialog1').show()">show Modal Dialog</a></li>
+						<li><a href="#" onclick="dijit.byId('dialog1').show()">show Modal Dialog</a></li>
 					</ul>
 
 					<div dojoType="dijit.form.DropDownButton">
@@ -609,13 +621,13 @@
 					<hr class="spacer">
 
 
-					<h2 class="testTitle">dijit.InlineEditBox + dijit.form.TextBox</h2>
+					<h2 class="testTitle">dijit.InlineEditBox + dijit.form.TextBox on &lt;h3&gt;</h2>
 
-					This is an editable header,
+					(HTML before)
 					<h3 id="editable" style="font-size:larger;" dojoType="dijit.InlineEditBox" onChange="myHandler(this.id,arguments[0])">
 						Edit me - I trigger the onChange callback
 					</h3>
-					And keep the text around me static.
+					(HTML after)
 
 					<hr class="spacer">
 
@@ -623,7 +635,7 @@
 
 					(HTML before)
 					<p id="areaEditable" dojoType="dijit.InlineEditBox" editor="dijit.form.Textarea" autoSave="false">
-						I'm one big paragraph.  Go ahead and <i>edit</i> me.  <b>I dare you.</b>
+						I'm one big paragraph.  Go ahead and edit me.  I dare you.
 						The quick brown fox jumped over the lazy dog.  Blah blah blah blah blah blah blah ...
 					</p>
 					(HTML after)
@@ -670,7 +682,7 @@
 					style="padding:10px; display:none;  ">
 					<div style="float:left; margin:5px; ">
 						<h3>Source 1</h3>
-						<div dojoType="dojo.dnd.Source" class="container">
+						<div dojoType="dojo.dnd.Source" style="border:3px solid #ccc; padding: 1em 3em; ">
 							<div class="dojoDndItem">Item <strong>X</strong></div>
 							<div class="dojoDndItem">Item <strong>Y</strong></div>
 							<div class="dojoDndItem">Item <strong>Z</strong></div>
@@ -678,7 +690,7 @@
 					</div>
 					<div style="float:left; margin:5px; ">
 						<h3>Source 2</h3>
-						<div dojoType="dojo.dnd.Source" class="container">
+						<div dojoType="dojo.dnd.Source" style="border:3px solid #ccc; padding: 1em 3em; ">
 							<div class="dojoDndItem">Item <strong>1</strong></div>
 							<div class="dojoDndItem">Item <strong>2</strong></div>
 							<div class="dojoDndItem">Item <strong>3</strong></div>
