@@ -294,8 +294,6 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 		this._oldHeight = content.h;
 		this._oldWidth = content.w;
 
-		this.savedContent = html;
-
 		// If we're a list item we have to put in a blank line to force the
 		// bullet to nicely align at the top of text
 		if(	(this.domNode["nodeName"]) &&
@@ -361,8 +359,10 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 			}
 
 			this.onLoad();
+			this.savedContent = this.getValue(true);
 		}else{ // designMode in iframe
 			this._drawIframe(html);
+			this.savedContent = this.getValue(true);
 		}
 
 		// TODO: this is a guess at the default line-height, kinda works
@@ -378,7 +378,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 	_getIframeDocTxt: function(/* String */ html){
 		var _cs = dojo.getComputedStyle(this.domNode);
 		if(dojo.isIE || (!this.height && !dojo.isMoz)){
-			html="<div>"+html+"</div>";
+			html="<div style='height:100%;'>"+html+"</div>";
 		}
 		var font = [ _cs.fontWeight, _cs.fontSize, _cs.fontFamily ].join(" ");
 
@@ -401,6 +401,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 			"	background:transparent;",
 			"	padding: 0;",
 			"	margin: 0;",
+			"	height: 100%;",
 			"}",
 			// TODO: left positioning will cause contents to disappear out of view
 			//	   if it gets too wide for the visible area
@@ -829,22 +830,23 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 		}
 	},
 
+	// TODO: why is this needed - should we deprecate this ?
 	blur: function(){
 		// summary: remove focus from this instance
-		if(this.iframe){
-			this.window.blur();
-		}else if(this.editNode){
-			this.editNode.blur();
+		if(!dojo.isIE && this.window.document.documentElement && this.window.document.documentElement.focus){
+			this.window.document.documentElement.focus();
+		}else if(dojo.doc.body.focus){
+			dojo.doc.body.focus();
 		}
 	},
 
 	focus: function(){
 		// summary: move focus to this instance
-		if(this.iframe && !dojo.isIE){
+		if(!dojo.isIE){
 			dijit.focus(this.iframe);
 		}else if(this.editNode && this.editNode.focus){
 			// editNode may be hidden in display:none div, lets just punt in this case
-			dijit.focus(this.editNode);
+			this.editNode.focus();
 //		}else{
 // TODO: should we throw here?
 //			console.debug("Have no idea how to focus into the editor!");
