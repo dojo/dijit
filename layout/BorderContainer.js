@@ -361,7 +361,7 @@ dojo.declare("dijit.layout._Splitter", [ dijit._Widget, dijit._Templated ],
 	postCreate: function(){
 		this.inherited(arguments);
 		this.horizontal = /top|bottom/.test(this.region);
-		dojo.addClass(this.domNode, "dijitSplitter" + (this.horizontal ? "Horizontal" : "Vertical"));
+		dojo.addClass(this.domNode, "dijitSplitter" + (this.horizontal ? "H" : "V"));
 //		dojo.addClass(this.child.domNode, "dijitSplitterPane");
 //		dojo.setSelectable(this.domNode, false); //TODO is this necessary?
 
