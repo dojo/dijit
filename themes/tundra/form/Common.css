@@ -124,13 +124,3 @@
 {
 	background: url("../images/validationInputBg.gif") repeat-x top left #fff;
 }
-
-.tundra .dijitContentPaneLoading {
-	background:url('../images/loading.gif') no-repeat left center;
-	padding-left:25px;
-}
-
-.tundra .dijitContentPaneError {
-	background:url('../images/warning.png') no-repeat left center;
-	padding-left:25px;
-}

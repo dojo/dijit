@@ -33,3 +33,13 @@
 .tundra.dojoDndCopy .dojoDndAvatarHeader	{background-color: #f58383; background-image: url(images/dndNoCopy.png); background-repeat: no-repeat; background-position: 2px center;}
 .tundra.dojoDndMove .dojoDndAvatarCanDrop .dojoDndAvatarHeader	{background-color: #97e68d; background-image: url(images/dndMove.png); background-repeat: no-repeat; background-position: 2px center;}
 .tundra.dojoDndCopy .dojoDndAvatarCanDrop .dojoDndAvatarHeader	{background-color: #97e68d; background-image: url(images/dndCopy.png); background-repeat: no-repeat; background-position: 2px center;}
+
+.tundra .dijitContentPaneLoading {
+	background:url('../images/loading.gif') no-repeat left center;
+	padding-left:25px;
+}
+
+.tundra .dijitContentPaneError {
+	background:url('../images/warning.png') no-repeat left center;
+	padding-left:25px;
+}
