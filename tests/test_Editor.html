@@ -25,10 +25,10 @@
 </head>
 <body>
 	<div dojoType="dijit.Editor" id="automated" height="1.5em" plugins="[]" focusOnLoad="true" style="border:0px;"
-	>Automated Test<script type='dojo/method' event='onFocus'>
+	>Automated Test - all check boxes should be checked<script type='dojo/method' event='onFocus'>
 			if(!document.getElementById('onFocusFired').checked){
 				document.getElementById('onFocusFired').checked=true;
-				document.getElementById('initialValueOK').checked = (dijit.byId('automated').getValue() == 'Automated Test');
+				document.getElementById('initialValueOK').checked = (dijit.byId('automated').getValue() == 'Automated Test - all check boxes should be checked');
 				dijit.byId('automated').document.execCommand('selectall', false, false);
 				document.getElementById('onChangeOKnow').checked=true;
 				dijit.byId('automated').document.execCommand('underline', false, false);
@@ -39,10 +39,10 @@
 			if(!document.getElementById('onBlurFired').checked){
 				document.getElementById('onBlurFired').checked=true;
 				dijit.byId('automated').setDisabled(true);
-				try {
+				setTimeout(function(){ try {
 					dijit.byId('automated').document.execCommand('bold', false, false);
 					document.getElementById('disabledOK').checked = (dijit.byId('automated').document.queryCommandState('bold') == false);
-				} catch(e) { document.getElementById('disabledOK').checked = true; }
+				} catch(e) { document.getElementById('disabledOK').checked = true; }}, 0);
 			}
 		</script
 		><script type='dojo/method' event='onChange'>
