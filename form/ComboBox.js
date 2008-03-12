@@ -236,7 +236,10 @@ dojo.declare(
 				case dk.ESCAPE:
 					this._prev_key_backspace = false;
 					this._prev_key_esc = true;
-					this._hideResultList();
+					if(this._isShowingNow){
+						dojo.stopEvent(evt);
+						this._hideResultList();
+					}
 					this.inherited(arguments);
 					break;
 

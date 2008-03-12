@@ -320,7 +320,7 @@ dojo.declare("dijit.form._FormValueWidget", dijit.form._FormWidget,
 		// Equality comparison of objects such as dates are done by reference so
 		// two distinct objects are != even if they have the same data. So use
 		// toStrings in case the values are objects.
-		return ((v !== null && (v !== undefined) && v.toString)?v.toString():null) !== ((lv !== null && (lv !== undefined) && lv.toString)?lv.toString():null);
+		return ((v !== null && (v !== undefined) && v.toString)?v.toString():'') !== ((lv !== null && (lv !== undefined) && lv.toString)?lv.toString():'');
 	},
 
 	_onKeyPress: function(e){
