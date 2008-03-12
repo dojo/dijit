@@ -251,6 +251,7 @@ dojo.declare(
 			dijit.setWaiRole(this.domNode, "tablist");
 
 			this.pane2button = {};		// mapping from panes to buttons
+			this.pane2menu = {};		// mapping from panes to close menu
 			this._subscriptions=[
 				dojo.subscribe(this.containerId+"-startup", this, "onStartup"),
 				dojo.subscribe(this.containerId+"-addChild", this, "onAddChild"),
@@ -267,6 +268,8 @@ dojo.declare(
 		},
 
 		destroy: function(){
+			var container = dijit.byId(this.containerId);
+			dojo.forEach(container.getChildren(), this.onRemoveChild, this);
 			dojo.forEach(this._subscriptions, dojo.unsubscribe);
 			this.inherited(arguments);
 		},
@@ -295,6 +298,7 @@ dojo.declare(
 				var mItem = new dijit.MenuItem({label:_nlsResources.itemClose});
             	dojo.connect(mItem, "onClick", dojo.hitch(this, "onCloseButtonClick", page));
            		closeMenu.addChild(mItem);
+           		this.pane2menu[page] = closeMenu;
 			}
 			if(!this._currentChild){ // put the first child into the tab order
 				button.focusNode.setAttribute("tabIndex", "0");
@@ -312,6 +316,10 @@ dojo.declare(
 			//   Remove the button corresponding to the page.
 			if(this._currentChild === page){ this._currentChild = null; }
 			var button = this.pane2button[page];
+			var menu = this.pane2menu[page];
+			if (menu){
+				menu.destroy();
+			}
 			if(button){
 				// TODO? if current child { reassign }
 				button.destroy();
