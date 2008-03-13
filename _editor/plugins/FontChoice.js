@@ -76,7 +76,8 @@ dojo.declare("dijit._editor.plugins.FontChoice",
 //					this.editor.focus();
 					dijit.focus(this._focusHandle);
 				}
-				this.editor.execCommand(this.command, "'" + choice + "'");
+				if(this.command == "fontName"){ choice = "'" + choice + "'"; }
+				this.editor.execCommand(this.editor._normalizeCommand(this.command), choice);
 			});
 		},
 

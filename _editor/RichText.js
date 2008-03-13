@@ -669,6 +669,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 		}catch(e){
 			// Firefox throws an exception if the editor is initially hidden
 			// so, if this fails, try again onClick by adding "once" advice
+//TODO: try mousedown instead
 			var handle = dojo.connect(this, "onClick", this, function(){
 				this.setDisabled(false);
 				dojo.disconnect(handle);
@@ -895,9 +896,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 		//		browser
 
 		var command = cmd.toLowerCase();
-		if(command == "formatblock"){
-			if(dojo.isSafari){ command = "heading"; }
-		}else if(command == "hilitecolor" && !dojo.isMoz){
+		if(command == "hilitecolor" && !dojo.isMoz){
 			command = "backcolor";
 		}
 
