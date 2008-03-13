@@ -170,7 +170,7 @@ dojo.declare(
 			//		to set the hidden value. Used in InlineEditBox
 
 			if(this.store){
-				var query = {};
+				var query = dojo.clone(this.query); // #6196: populate query with user-specifics
 				this._lastQuery = query[this.searchAttr] = label;
 				// if the label is not valid, the callback will never set it,
 				// so the last valid value will get the warning textbox set the
