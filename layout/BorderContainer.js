@@ -76,6 +76,7 @@ dojo.declare(
 			if(region == "trailing"){ region = ltr ? "right" : "left"; }
 
 			this["_"+region] = child.domNode;
+			this["_"+region+"Widget"] = child;
 
 			if(child.splitter){
 				var _Splitter = dojo.getObject(this._splitterClass);
@@ -118,6 +119,7 @@ dojo.declare(
 		}
 		this.inherited(arguments);
 		delete this["_"+region];
+		delete this["_" +region+"Widget"];
 		if(this._started){
 			this._layoutChildren(child.region);
 		}
@@ -130,6 +132,9 @@ dojo.declare(
 			centerStyle = (this._center && this._center.style) || {};
 
 		var changedSide = /left|right/.test(changedRegion);
+
+		// TODO: cache the size of each pane so we don't have to keep calling dojo.marginBox()
+
 		var layoutSides = !changedRegion || (!changedSide && !sidebarLayout);
 		var layoutTopBottom = !changedRegion || (changedSide && sidebarLayout);
 		if(this._top){
@@ -223,11 +228,14 @@ dojo.declare(
 			topStyle.left = topStyle.right = bottomStyle.left = bottomStyle.right = "0";
 		}
 
-		// TEXTAREA elements in Gecko or Safari don't respond to t/l/b/r
-		var janky = dojo.some(this.getChildren(), function(child){
+		// Nodes in IE respond to t/l/b/r, and TEXTAREA doesn't respond in any browser
+		var janky = dojo.isIE || dojo.some(this.getChildren(), function(child){
 			return child.domNode.tagName == "TEXTAREA";
 		});
-		if(janky || dojo.isIE){
+		if(janky){
+			// Set the size of the children the old fashioned way, by calling
+			// childNode.resize({h: int, w: int}) for each child node)
+
 			var borderBox = function(n, b){
 				n=dojo.byId(n);
 				var s = dojo.getComputedStyle(n);
@@ -237,7 +245,14 @@ dojo.declare(
 				return null;
 			};
 
-//TODO: use dim passed in? and make borderBox setBorderBox?
+			var resizeWidget = function(widget, dim){
+				if(widget){
+					widget.resize ? widget.resize(dim) : dojo.marginBox(widget.domNode, dim);
+				}
+			};
+
+			// TODO: use dim passed in to resize() (see _LayoutWidget.js resize())
+			// Then can make borderBox setBorderBox(), since no longer need to ever get the borderBox() size
 			var thisBorderBox = borderBox(this.domNode);
 
 			var containerHeight = thisBorderBox.h;
@@ -247,77 +262,74 @@ dojo.declare(
 			if(topSplitter){ middleHeight -= topSplitterThickness; }
 			if(bottomSplitter){ middleHeight -= bottomSplitterThickness; }
 			var centerDim = { h: middleHeight };
-			if(layoutSides){
-				var sidebarHeight = sidebarLayout ? containerHeight : middleHeight;
-				if(leftSplitter){ leftSplitter.style.height = sidebarHeight; }
-				if(rightSplitter){ rightSplitter.style.height = sidebarHeight; }
-				if(this._left){ borderBox(this._left, {h: sidebarHeight}); }
-				if(this._right){ borderBox(this._right, {h: sidebarHeight}); }
-			}
 
-			if(janky || (dojo.isIE && (dojo.doc.compatMode == "BackCompat" || dojo.isIE < 7))){
-//TODO: use dojo.marginBox instead of dojo.style?
-				var containerWidth = thisBorderBox.w;
-				var middleWidth = containerWidth;
-				if(this._left){ middleWidth -= leftWidth; }
-				if(this._right){ middleWidth -= rightWidth; }
-				if(leftSplitter){ middleWidth -= leftSplitterThickness; }
-				if(rightSplitter){ middleWidth -= rightSplitterThickness; }
-				centerDim.w = middleWidth;
-				if(layoutTopBottom){
-					var sidebarWidth = sidebarLayout ? middleWidth : containerWidth;
-					if(topSplitter){ topSplitter.style.width = sidebarWidth; }
-					if(bottomSplitter){ bottomSplitter.style.width = sidebarWidth; }
-					if(this._top){ borderBox(this._top, {w: sidebarWidth}); }
-					if(this._bottom){ borderBox(this._bottom, {w: sidebarWidth}); }
+			var sidebarHeight = sidebarLayout ? containerHeight : middleHeight;
+			if(leftSplitter){ leftSplitter.style.height = sidebarHeight; }
+			if(rightSplitter){ rightSplitter.style.height = sidebarHeight; }
+			resizeWidget(this._leftWidget, {h: sidebarHeight, w: leftWidth});
+			resizeWidget(this._rightWidget, {h: sidebarHeight, w: rightWidth});
+
+			var containerWidth = thisBorderBox.w;
+			var middleWidth = containerWidth;
+			if(this._left){ middleWidth -= leftWidth; }
+			if(this._right){ middleWidth -= rightWidth; }
+			if(leftSplitter){ middleWidth -= leftSplitterThickness; }
+			if(rightSplitter){ middleWidth -= rightSplitterThickness; }
+			centerDim.w = middleWidth;
+
+			var sidebarWidth = sidebarLayout ? middleWidth : containerWidth;
+			if(topSplitter){ topSplitter.style.width = sidebarWidth; }
+			if(bottomSplitter){ bottomSplitter.style.width = sidebarWidth; }
+			resizeWidget(this._topWidget, {h: topHeight, w: sidebarWidth});
+			resizeWidget(this._bottomWidget, {h: bottomHeight, w: sidebarWidth});
+
+			resizeWidget(this._centerWidget, centerDim);
+		}else{
+
+			// We've already sized the children by setting style.top/bottom/left/right...
+			// Now just need to call resize() on those children so they can re-layout themselves
+
+			// TODO: calling child.resize() without an argument is bad, because it forces
+			// the child to query it's own size (even though this function already knows
+			// the size), plus which querying the size of a node right after setting it
+			// is known to cause problems (incorrect answer or an exception).
+			// This is a setback from older layout widgets, which
+			// don't do that.  See #3399, #2678, #3624 and #2955, #1988
+
+			var resizeList = {};
+			if(changedRegion){
+				resizeList[changedRegion] = resizeList.center = true;
+				if(/top|bottom/.test(changedRegion) && this.design != "sidebar"){
+					resizeList.left = resizeList.right = true;
+				}else if(/left|right/.test(changedRegion) && this.design == "sidebar"){
+					resizeList.top = resizeList.bottom = true;
 				}
 			}
-			if(this._center){ borderBox(this._center, centerDim); }
+
+			dojo.forEach(this.getChildren(), function(child){
+				if(child.resize && (!changedRegion || child.region in resizeList)){
+	//				console.log(this.id, ": resizing child id=" + child.id + " (region=" + child.region + "), style before resize is " +
+	//									 "{ t: " + child.domNode.style.top +
+	//									", b: " + child.domNode.style.bottom +
+	//									", l: " + child.domNode.style.left +
+	//									 ", r: " + child.domNode.style.right +
+	//									 ", w: " + child.domNode.style.width +
+	//									 ", h: " + child.domNode.style.height +
+	//									"}"
+	//						);
+					child.resize();
+	//				console.log(this.id, ": after resize of child id=" + child.id + " (region=" + child.region + ") " +
+	//									 "{ t: " + child.domNode.style.top +
+	//									", b: " + child.domNode.style.bottom +
+	//									", l: " + child.domNode.style.left +
+	//									 ", r: " + child.domNode.style.right +
+	//									 ", w: " + child.domNode.style.width +
+	//									 ", h: " + child.domNode.style.height +
+	//									"}"
+	//						);
+				}
+			}, this);
 		}
-
-//OPT: can this.resize() just do the following resize of children and skip the re-layout portion?
-/*
-TODO bill says: you call child.resize() without an
-argument, which means that right after the BorderContainer sets the size
-of a child widget, the child will have to query it's own size, which was
-known to cause problems (ie, give an incorrect answer or an exception)
-in the past.  This is a setback from the current layout widgets, which
-don't do that.  See #3399, #2678, #3624 and #2955, #1988
-*/
-
-		var resizeList = {};
-		if(changedRegion){
-			resizeList[changedRegion] = resizeList.center = true;
-			if(/top|bottom/.test(changedRegion) && this.design != "sidebar"){
-				resizeList.left = resizeList.right = true;
-			}else if(/left|right/.test(changedRegion) && this.design == "sidebar"){
-				resizeList.top = resizeList.bottom = true;
-			}
-		}
-
-		dojo.forEach(this.getChildren(), function(child){
-			if(child.resize && (!changedRegion || child.region in resizeList)){
-//				console.log(this.id, ": resizing child id=" + child.id + " (region=" + child.region + "), style before resize is " +
-//									 "{ t: " + child.domNode.style.top +
-//									", b: " + child.domNode.style.bottom +
-//									", l: " + child.domNode.style.left +
-//									 ", r: " + child.domNode.style.right +
-//									 ", w: " + child.domNode.style.width +
-//									 ", h: " + child.domNode.style.height +
-//									"}"
-//						);
-				child.resize();
-//				console.log(this.id, ": after resize of child id=" + child.id + " (region=" + child.region + ") " +
-//									 "{ t: " + child.domNode.style.top +
-//									", b: " + child.domNode.style.bottom +
-//									", l: " + child.domNode.style.left +
-//									 ", r: " + child.domNode.style.right +
-//									 ", w: " + child.domNode.style.width +
-//									 ", h: " + child.domNode.style.height +
-//									"}"
-//						);
-			}
-		}, this);
 	}
 });
 
@@ -432,6 +444,7 @@ dojo.declare("dijit.layout._Splitter", [ dijit._Widget, dijit._Templated ],
 
 				if(resize || forceResize){
 					mb[dim] = boundChildSize;
+					// TODO: inefficient; we set the marginBox here and then immediately layoutFunc() needs to query it
 					dojo.marginBox(childNode, mb);
 					layoutFunc(region);
 				}
