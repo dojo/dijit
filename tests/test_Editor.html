@@ -10,7 +10,7 @@
 	</style>
 
 	<script type="text/javascript" src="../../dojo/dojo.js"
-		djConfig="parseOnLoad: true, isDebug: true, fontName: 'Arial'"></script>
+		djConfig="parseOnLoad: true, isDebug: true"></script>
 	<script type="text/javascript" src="_testCommon.js"></script>
 
 	<script type="text/javascript">
@@ -101,9 +101,21 @@
 			styleSheets="../../dojo/resources/dojo.css" id="blah">
 			This instance includes optional toolbar buttons which pull in additional ui (dijit) code.
 			Note the dojo.require() statements required to pull in the associated editor plugins to make
-			this work. 
+			this work.
+			<br>
+			<span style="font-family: serif">This is serif.</span>
+			<br>
+			<span style="font-family: sans-serif">This is sans-serif.</span>
+			<br>
+			<span style="font-family: monospace">This is monospace.</span>
+			<br>
+			<span style="font-family: cursive">This is cursive.</span>
+			<br>
+			<span style="font-family: fantasy">This is fantasy.</span>
+			<br>
 		</textarea>
 		<h3>..after</h3>
+		<button onclick="alert(dijit.byId('blah').getValue());">getValue()</button>
 	</div>
 	<hr/>
 
