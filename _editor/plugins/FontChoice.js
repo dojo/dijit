@@ -31,12 +31,10 @@ dojo.declare("dijit._editor.plugins.FontChoice",
 
 		_initButton: function(){
 			//TODO: would be nice to be able to handle comma-separated font lists and search within them
-			//TODO: set up some switch to enable generics
-			//this.generics = true;
 			var cmd = this.command;
-			var names = dojo.config[cmd] ||
+			var names = this.custom ||
 			{
-				fontName: this.generics ? ["serif", "sans-serif", "monospace", "cursive", "fantasy"] : // CSS font-family generics
+				fontName: this.generic ? ["serif", "sans-serif", "monospace", "cursive", "fantasy"] : // CSS font-family generics
 					["Arial", "Times New Roman", "Comic Sans MS", "Courier New"],
 				fontSize: [1,2,3,4,5,6,7], // sizes according to the old HTML FONT SIZE
 				formatBlock: ["p", "h1", "h2", "h3", "pre"]
@@ -93,7 +91,7 @@ dojo.declare("dijit._editor.plugins.FontChoice",
 				var quoted = dojo.isString(value) && value.match(/'([^']*)'/);
 				if(quoted){ value = quoted[1]; }
 //console.log("selected " + value);
-				if(this.generics && _c == "fontName"){
+				if(this.generic && _c == "fontName"){
 					var map = {
 						"Arial": "sans-serif",
 						"Helvetica": "sans-serif",
