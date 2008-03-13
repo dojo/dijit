@@ -182,7 +182,7 @@ dojo.mixin(dijit,
 			targetWindow = window;
 		}
 
-		dojo.connect(targetWindow.document, "onmousedown", null, function(evt){
+		dojo.connect(targetWindow.document, "onmousedown", function(evt){
 			dijit._justMouseDowned = true;
 			setTimeout(function(){ dijit._justMouseDowned = false; }, 0);
 			dijit._onTouchNode(evt.target||evt.srcElement);
@@ -256,8 +256,8 @@ dojo.mixin(dijit,
 						break;
 					}
 					// otherwise, find the iframe this node refers to (can't access it via parentNode,
-					// need to do this trick instead) and continue tracing up the document
-					node=dojo.query("iframe").filter(function(iframe){ return iframe.contentDocument.body===node; })[0];
+					// need to do this trick instead). window.frameElement is supported in IE/FF/Webkit
+					node=dijit.getDocumentWindow(node.ownerDocument).frameElement;
 				}else{
 					var id = node.getAttribute && node.getAttribute("widgetId");
 					if(id){
