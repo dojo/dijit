@@ -257,6 +257,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 			var tmpFunc = dojo.hitch(this, function(){
 				//some browsers refuse to submit display=none textarea, so
 				//move the textarea out of screen instead
+				dojo.attr(this.textarea, 'tabIndex', '-1');
 				with(this.textarea.style){
 					display = "block";
 					position = "absolute";
@@ -654,13 +655,9 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 			this.editNode=this.document.body.firstChild;
 			var _this = this;
 			if(dojo.isIE){ // #4996 IE wants to focus the BODY tag
-				this.editNode.parentNode.onfocus =
-					function(){
-						if(!_this.editNode.blurring){
-							_this.editNode.focus();
-						}
-						_this.editNode.blurring = false;
-					}
+				var tabStop = this.tabStop = dojo.doc.createElement('<div tabIndex=-1>');
+				this.editingArea.appendChild(tabStop);
+				this.iframe.onfocus = function(){ _this.editNode.setActive(); }
 			}
 		}
 
@@ -715,8 +712,10 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 		if(dojo.isIE){
 			if(e.keyCode == dojo.keys.TAB && e.shiftKey && !e.ctrlKey && !e.altKey){
 				// focus the BODY so the browser will tab away from it instead
-				this.editNode.blurring = true;
-				this.editNode.parentNode.focus();
+				this.iframe.focus();
+			}else if(e.keyCode == dojo.keys.TAB && !e.shiftKey && !e.ctrlKey && !e.altKey){
+				// focus the BODY so the browser will tab away from it instead
+				this.tabStop.focus();
 			}else if(e.keyCode === dojo.keys.BACKSPACE && this.document.selection.type === "Control"){
 				// IE has a bug where if a non-text object is selected in the editor,
 		  // hitting backspace would act as if the browser's back button was
