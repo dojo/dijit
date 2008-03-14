@@ -379,7 +379,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 	_getIframeDocTxt: function(/* String */ html){
 		var _cs = dojo.getComputedStyle(this.domNode);
 		if(dojo.isIE || (!this.height && !dojo.isMoz)){
-			html="<div style='height:100%;'>"+html+"</div>";
+			html="<div>"+html+"</div>";
 		}
 		var font = [ _cs.fontWeight, _cs.fontSize, _cs.fontFamily ].join(" ");
 
@@ -402,7 +402,6 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 			"	background:transparent;",
 			"	padding: 0;",
 			"	margin: 0;",
-			"	height: 100%;",
 			"}",
 			// TODO: left positioning will cause contents to disappear out of view
 			//	   if it gets too wide for the visible area
