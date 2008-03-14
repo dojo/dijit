@@ -613,7 +613,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 	setDisabled: function(/*Boolean*/ disabled){
 		if(dojo.isIE || dojo.isSafari || dojo.isOpera){
 			if(dojo.isIE){ this.editNode.unselectable = "on"; } // prevent IE from setting focus
-				this.editNode.contentEditable=!disabled;
+			this.editNode.contentEditable = !disabled;
 			if(dojo.isIE){
 				var _this = this;
 				setTimeout(function(){ _this.editNode.unselectable = "off"; }, 0);
@@ -666,7 +666,6 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 		}catch(e){
 			// Firefox throws an exception if the editor is initially hidden
 			// so, if this fails, try again onClick by adding "once" advice
-//TODO: try mousedown instead
 			var handle = dojo.connect(this, "onClick", this, function(){
 				this.setDisabled(false);
 				dojo.disconnect(handle);
@@ -759,9 +758,9 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 		// summary: Fired on keypress
 
 		// handle the various key events
-		var modifiers = e.ctrlKey ? this.KEY_CTRL : 0 | e.shiftKey?this.KEY_SHIFT : 0;
+		var modifiers = (e.ctrlKey && !e.altKey) ? this.KEY_CTRL : 0 | e.shiftKey ? this.KEY_SHIFT : 0;
 
-		var key = e.keyChar||e.keyCode;
+		var key = e.keyChar || e.keyCode;
 		if(this._keyHandlers[key]){
 			// console.debug("char:", e.key);
 			var handlers = this._keyHandlers[key], i = 0, h;
