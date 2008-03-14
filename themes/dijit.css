@@ -1001,6 +1001,7 @@ img.dijitColorPaletteUnder {
 .dijitTabPaneWrapper {
 	z-index:0;
 	overflow: hidden;
+	clear: both;	/* needed for doLayout=false mode */
 }
 
 .dijitTab {
