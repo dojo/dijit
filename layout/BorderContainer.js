@@ -133,8 +133,6 @@ dojo.declare(
 
 		var changedSide = /left|right/.test(changedRegion);
 
-		// TODO: cache the size of each pane so we don't have to keep calling dojo.marginBox()
-
 		var layoutSides = !changedRegion || (!changedSide && !sidebarLayout);
 		var layoutTopBottom = !changedRegion || (changedSide && sidebarLayout);
 		if(this._top){
@@ -266,8 +264,8 @@ dojo.declare(
 			var sidebarHeight = sidebarLayout ? containerHeight : middleHeight;
 			if(leftSplitter){ leftSplitter.style.height = sidebarHeight; }
 			if(rightSplitter){ rightSplitter.style.height = sidebarHeight; }
-			resizeWidget(this._leftWidget, {h: sidebarHeight, w: leftWidth});
-			resizeWidget(this._rightWidget, {h: sidebarHeight, w: rightWidth});
+			resizeWidget(this._leftWidget, {h: sidebarHeight});
+			resizeWidget(this._rightWidget, {h: sidebarHeight});
 
 			var containerWidth = thisBorderBox.w;
 			var middleWidth = containerWidth;
@@ -280,8 +278,8 @@ dojo.declare(
 			var sidebarWidth = sidebarLayout ? middleWidth : containerWidth;
 			if(topSplitter){ topSplitter.style.width = sidebarWidth; }
 			if(bottomSplitter){ bottomSplitter.style.width = sidebarWidth; }
-			resizeWidget(this._topWidget, {h: topHeight, w: sidebarWidth});
-			resizeWidget(this._bottomWidget, {h: bottomHeight, w: sidebarWidth});
+			resizeWidget(this._topWidget, {w: sidebarWidth});
+			resizeWidget(this._bottomWidget, {w: sidebarWidth});
 
 			resizeWidget(this._centerWidget, centerDim);
 		}else{
