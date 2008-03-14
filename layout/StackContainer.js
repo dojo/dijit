@@ -250,8 +250,10 @@ dojo.declare(
 		postCreate: function(){
 			dijit.setWaiRole(this.domNode, "tablist");
 
+			// TODO: change key from object to id, to get more separation from StackContainer
 			this.pane2button = {};		// mapping from panes to buttons
 			this.pane2menu = {};		// mapping from panes to close menu
+
 			this._subscriptions=[
 				dojo.subscribe(this.containerId+"-startup", this, "onStartup"),
 				dojo.subscribe(this.containerId+"-addChild", this, "onAddChild"),
@@ -268,9 +270,8 @@ dojo.declare(
 		},
 
 		destroy: function(){
-			var container = dijit.byId(this.containerId);
-			if (container){
-				dojo.forEach(container.getChildren(), this.onRemoveChild, this);
+			for(var pane in this.pane2button){
+				this.onRemoveChild(pane);
 			}
 			dojo.forEach(this._subscriptions, dojo.unsubscribe);
 			this.inherited(arguments);

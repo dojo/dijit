@@ -193,9 +193,11 @@ dojo.declare("dijit.Menu",
 	unBindDomNode: function(/*String|DomNode*/ nodeName){
 		// summary: detach menu from given node
 		var node = dojo.byId(nodeName);
-		var bid = node[this.id]-1, b = this._bindings[bid];
-		dojo.forEach(b, dojo.disconnect);
-		delete this._bindings[bid];
+		if(node){
+			var bid = node[this.id]-1, b = this._bindings[bid];
+			dojo.forEach(b, dojo.disconnect);
+			delete this._bindings[bid];
+		}
 	},
 
 	_contextKey: function(e){
