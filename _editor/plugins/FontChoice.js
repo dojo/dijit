@@ -109,8 +109,8 @@ dojo.declare("dijit._editor.plugins.FontChoice",
 //console.log("mapped to " + map[value]);
 					value = map[value] || value;
 				}else if(_c == "fontSize" && value.indexOf("px") != -1){
-					var points = parseInt(value);
-					value = {10:1, 13:2, 16:3, 18:4, 24:5, 32:6, 48:7}[points] || value;
+					var pixels = parseInt(value);
+					value = {10:1, 13:2, 16:3, 18:4, 24:5, 32:6, 48:7}[pixels] || value;
 				}
 				this.updating = true;
 				this.button.setValue(value);
