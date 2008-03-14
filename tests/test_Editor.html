@@ -64,7 +64,7 @@
 	<h2>Created from div</h2>
 	<div style="border: 1px solid black;">
 		<div dojoType="dijit.Editor" id="editor1"
-			onChange="console.log('user onChange handler: ' + arguments[0])"
+			onChange="console.log('editor1 onChange handler: ' + arguments[0])"
 		><p>This instance is created from a div directly with default toolbar and plugins</p></div>
 	</div>
 	<button onClick="dijit.byId('editor1').destroy()">destroy</button>
@@ -75,6 +75,7 @@
 	<div style="border: 1px dotted black;">
 		<h3><label for="thud">thud - from textarea</label></h3>
 		<textarea dojoType="dijit.Editor" height=""
+			onChange="console.log('thud onChange handler: ' + arguments[0])"
 			extraPlugins="['dijit._editor.plugins.AlwaysShowToolbar']"
 			styleSheets="../../dojo/resources/dojo.css" id="thud">
 			<p>

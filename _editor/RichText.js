@@ -400,22 +400,23 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 			"<style>",
 			"body,html {",
 			"	background:transparent;",
-			"	padding: 0;",
-			"	margin: 0;",
+			"	font:", font, ";",
+			"	padding: 1em 0 0 0;",
+			"	margin: -1em 0 0 0;", // remove extraneous vertical scrollbar on safari and firefox
+			"	height: 100%;",
 			"}",
 			// TODO: left positioning will cause contents to disappear out of view
 			//	   if it gets too wide for the visible area
 			"body{",
 			"	top:0px; left:0px; right:0px;",
 				((this.height||dojo.isOpera) ? "" : "position: fixed;"),
-			"	font:", font, ";",
 			// FIXME: IE 6 won't understand min-height?
 			"	min-height:", this.minHeight, ";",
 			"	line-height:", lineHeight,
 			"}",
 			"p{ margin: 1em 0 !important; }",
-			(this.height ?
-				"" : "body,html{overflow-y:hidden;/*for IE*/} body > div {overflow-x:auto;/*for FF to show vertical scrollbar*/}"
+			(this.height ? // height:auto undoes the height:100%
+				"" : "body,html{height:auto;overflow-y:hidden;/*for IE*/} body > div {overflow-x:auto;/*for FF to show vertical scrollbar*/}"
 			),
 			"li > ul:-moz-first-node, li > ol:-moz-first-node{ padding-top: 1.2em; } ",
 			"li{ min-height:1.2em; }",
