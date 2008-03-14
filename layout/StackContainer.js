@@ -269,7 +269,9 @@ dojo.declare(
 
 		destroy: function(){
 			var container = dijit.byId(this.containerId);
-			dojo.forEach(container.getChildren(), this.onRemoveChild, this);
+			if (container){
+				dojo.forEach(container.getChildren(), this.onRemoveChild, this);
+			}
 			dojo.forEach(this._subscriptions, dojo.unsubscribe);
 			this.inherited(arguments);
 		},
