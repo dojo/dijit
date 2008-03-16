@@ -15,6 +15,7 @@ dojo.declare("dijit._editor.plugins.FontChoice",
 		//
 		//	description:
 		//		The commands provided by this plugin are:
+		//
 		//		* fontName
 		//	|		Provides a dropdown to select from a list of generic font names
 		//		* fontSize
@@ -22,8 +23,22 @@ dojo.declare("dijit._editor.plugins.FontChoice",
 		//		* formatBlock
 		//	|		Provides a dropdown to select from a list of styles
 		//  |
-		//		custom additions to this list are possible by specifying a list on djConfig[x]
-		//		where x is one of the plugins above.
+		//
+		//		which can easily be added to an editor by including one or more of the above commands
+		//		in the `plugins` attribute as follows:
+		//
+		//	|	plugins="['fontName','fontSize',...]"
+		//
+		//		It is possible to override the default dropdown list by providing an Array for the `custom` property when
+		//		instantiating this plugin, e.g.
+		//
+		//	|	plugins="[{name:'dijit._editor.plugins.FontChoice', command:'fontName', custom:['Verdana','Myriad','Garamond']},...]"
+		//
+		//		Alternatively, for `fontName` only, `generic:true` may be specified to provide a dropdown with
+		//		[CSS generic font families](http://www.w3.org/TR/REC-CSS2/fonts.html#generic-font-families)
+		//
+		//		Note that the editor is often unable to properly handle font styling information defined outside
+		//		the context of the current editor instance, such as pre-populated HTML.
 
 		_uniqueId: 0,
 
@@ -76,7 +91,7 @@ dojo.declare("dijit._editor.plugins.FontChoice",
 //					this.editor.focus();
 					dijit.focus(this._focusHandle);
 				}
-				if(this.command == "fontName"){ choice = "'" + choice + "'"; }
+				if(this.command == "fontName" && choice.indexOf(" ") != -1){ choice = "'" + choice + "'"; }
 				this.editor.execCommand(this.editor._normalizeCommand(this.command), choice);
 			});
 		},
@@ -87,7 +102,7 @@ dojo.declare("dijit._editor.plugins.FontChoice",
 			var _c = this.command;
 			if(!_e || !_e.isLoaded || !_c.length){ return; }
 			if(this.button){
-				var value = _e.queryCommandValue(_c) || "";
+				var value = _e.queryCommandValue(this.editor._normalizeCommand(_c)) || "";
 				// strip off single quotes, if any
 				var quoted = dojo.isString(value) && value.match(/'([^']*)'/);
 				if(quoted){ value = quoted[1]; }
