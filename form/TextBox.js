@@ -116,5 +116,36 @@ dojo.declare(
 			this._setBlurValue();
 			this.inherited(arguments);
 		}
+
 	}
 );
+
+dijit.selectInputText = function(/*DomNode*/element, /*Number, optional*/ start, /*Number, optional*/ stop){
+	// summary:
+	//	Select text in the input element argument, from start (default 0), to stop (default end).
+
+	// TODO: use functions in _editor/selection.js?
+	var _window = dojo.global;
+	var _document = dojo.doc;
+	element = dojo.byId(element);
+	if(isNaN(start)){ start = 0; }
+	if(isNaN(stop)){ stop = element.value.length; }
+	element.focus();
+	if(_document["selection"] && dojo.body()["createTextRange"]){ // IE
+		if(element.createTextRange){
+			var range = element.createTextRange();
+			with(range){
+				collapse(true);
+				moveStart("character", start);
+				moveEnd("character", stop);
+				select();
+			}
+		}
+	}else if(_window["getSelection"]){
+		var selection = _window.getSelection();
+		// FIXME: does this work on Safari?
+		if(element.setSelectionRange){
+			element.setSelectionRange(start, stop);
+		}
+	}
+}

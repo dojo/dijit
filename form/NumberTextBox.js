@@ -28,8 +28,9 @@ dojo.declare(
 		//		properties to mix into constraints when the value is being edited
 		editOptions: { pattern: '#.######' },
 
-		_refreshState: function(){
+		_onFocus: function(){
 			this.setValue(this.getValue(), false);	
+			this.inherited(arguments);
 		},
 
 		_formatter: dojo.number.format,

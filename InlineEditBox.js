@@ -399,28 +399,3 @@ dojo.declare(
 		dijit.selectInputText(this.editWidget.focusNode);
 	}
 });
-
-dijit.selectInputText = function(/*DomNode*/element){
-	// summary: select all the text in an input element 
-
-	// TODO: use functions in _editor/selection.js?
-	var _window = dojo.global;
-	var _document = dojo.doc;
-	element = dojo.byId(element);
-	if(_document["selection"] && dojo.body()["createTextRange"]){ // IE
-		if(element.createTextRange){
-			var range = element.createTextRange();
-			range.moveStart("character", 0);
-			range.moveEnd("character", element.value.length);
-			range.select();
-		}
-	}else if(_window["getSelection"]){
-		var selection = _window.getSelection();
-		// FIXME: does this work on Safari?
-		if(element.setSelectionRange){
-			element.setSelectionRange(0, element.value.length);
-		}
-	}
-	element.focus();
-};
-

@@ -92,43 +92,9 @@ dojo.declare(
 
 		_setCaretPos: function(/*DomNode*/ element, /*Number*/ location){
 			location = parseInt(location);
-			this._setSelectedRange(element, location, location);
+			dijit.selectInputText(element, location, location);
 		},
 
-		_setSelectedRange: function(/*DomNode*/ element, /*Number*/ start, /*Number*/ end){
-			if(!end){
-				end = element.value.length;
-			}  // NOTE: Strange - should be able to put caret at start of text?
-			// Mozilla
-			// parts borrowed from http://www.faqts.com/knowledge_base/view.phtml/aid/13562/fid/130
-			if(element.setSelectionRange){
-				dijit.focus(element);
-				element.setSelectionRange(start, end);
-			}else if(element.createTextRange){ // IE
-				var range = element.createTextRange();
-				with(range){
-					collapse(true);
-					moveEnd('character', end);
-					moveStart('character', start);
-					select();
-				}
-			}else{ //otherwise try the event-creation hack (our own invention)
-				// do we need these?
-				element.value = element.value;
-				element.blur();
-				dijit.focus(element);
-				// figure out how far back to go
-				var dist = parseInt(element.value.length)-end;
-				var tchar = String.fromCharCode(37);
-				var tcc = tchar.charCodeAt(0);
-				for(var x = 0; x < dist; x++){
-					var te = dojo.doc.createEvent("KeyEvents");
-					te.initKeyEvent("keypress", true, true, null, false, false, false, false, tcc, tcc);
-					element.dispatchEvent(te);
-				}
-			}
-		},
-		
 		_setAttribute: function(/*String*/ attr, /*anything*/ value){
 			// summary: additional code to set disablbed state of combobox node
 			if (attr == "disabled"){
@@ -284,7 +250,7 @@ dojo.declare(
 			var fn = this.focusNode;
 
 			// IE7: clear selection so next highlight works all the time
-			this._setSelectedRange(	fn, fn.value.length, fn.value.length);
+			dijit.selectInputText(fn, fn.value.length);
 			// does text autoComplete the value in the textbox?
 			var caseFilter = this.ignoreCase? 'toLowerCase' : 'substr';
 			if(text[caseFilter](0).indexOf(this.focusNode.value[caseFilter](0)) == 0){
@@ -295,12 +261,12 @@ dojo.declare(
 					// actually, that is ok
 					fn.value = text;//.substr(cpos);
 					// visually highlight the autocompleted characters
-					this._setSelectedRange(fn, cpos, fn.value.length);
+					dijit.selectInputText(fn, cpos);
 				}
 			}else{
 				// text does not autoComplete; replace the whole value and highlight
 				fn.value = text;
-				this._setSelectedRange(fn, 0, fn.value.length);
+				dijit.selectInputText(fn);
 			}
 		},
 
@@ -478,10 +444,7 @@ dojo.declare(
 			}
 			if(!evt.noHide){
 				this._hideResultList();
-				this._setCaretPos(
-					this.focusNode, 
-					this.store.getValue(tgt.item, this.searchAttr).length
-				);
+				this._setCaretPos(this.focusNode, this.store.getValue(tgt.item, this.searchAttr).length);
 			}
 			this._doSelect(tgt);
 		},

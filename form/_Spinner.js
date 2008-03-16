@@ -47,7 +47,7 @@ dojo.declare(
 			if(this.disabled || this.readOnly){ return; }
 			this._arrowState(nodePressed, true);
 			this.setValue(this.adjust(this.getValue(), direction*this.smallDelta), false);
-			dijit.focus(this.textbox);
+			dijit.selectInputText(this.textbox, this.textbox.value.length);
 		},
 
 		_arrowReleased: function(/*Node*/ node){
