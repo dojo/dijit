@@ -330,7 +330,8 @@ dojo.declare(
 				this.save(true);
 			}else if(e.keyCode == dojo.keys.TAB){
 				this._exitInProgress = true;
-				this.save(false);
+				// allow the TAB to change focus before we mess with the DOM: #6227
+				setTimeout(dojo.hitch(this, "save", false), 0);
 			}
 		}else{
 			var _this = this;
