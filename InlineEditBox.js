@@ -174,22 +174,27 @@ dojo.declare("dijit.InlineEditBox",
 
 		// display the read-only text and then quickly hide the editor (to avoid screen jitter)
 		this.displayNode.style.display="";
-		var ews = this.editWidget.domNode.style;
+		var ew = this.editWidget;
+		var ews = ew.domNode.style;
 		ews.position="absolute";
 		ews.visibility="hidden";
 
 		this.domNode = this.displayNode;
 
+		if(focus){
+			dijit.focus(this.displayNode);
+		}
+		ews.display = "none";
 		// give the browser some time to render the display node and then shift focus to it
-		// and hide the edit widget
-		var _this = this;
+		// and hide the edit widget before garbage collecting the edit widget
 		setTimeout(function(){
-			if(focus){
-				dijit.focus(_this.displayNode);
+			ew.destroy();
+			delete ew;
+			if(dojo.isIE){
+				// messing with the DOM tab order can cause IE to focus the body - so restore
+				dijit.focus(dijit.getFocus());
 			}
-			_this.editWidget.destroy();
-			delete _this.editWidget;
-		}, 100);
+		}, 1000); // no hurry - wait for things to quiesce
 	},
 
 	save: function(/*Boolean*/ focus){
