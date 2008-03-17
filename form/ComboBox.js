@@ -110,7 +110,6 @@ dojo.declare(
 				return;
 			}
 			var doSearch = false;
-			this.item = null; // #4872
 			var pw = this._popupWidget;
 			var dk = dojo.keys;
 			if(this._isShowingNow){
@@ -490,6 +489,7 @@ dojo.declare(
 			}
 			// create a new query to prevent accidentally querying for a hidden
 			// value from FilteringSelect's keyField
+			this.item = null; // #4872
 			var query = dojo.clone(this.query); // #5970
 			this._lastQuery = query[this.searchAttr] = this._getQueryString(key);
 			// #5970: set _lastQuery, *then* start the timeout
@@ -623,7 +623,15 @@ dojo.declare(
 				around: this.domNode,
 				parent: this
 			});
+		},
+		
+		reset:function(){
+			// summary:
+			//		Additionally reset the .item (to clean up).
+			this.item = null;
+			this.inherited(arguments);
 		}
+		
 	}
 );
 
