@@ -15,25 +15,30 @@ dojo.declare("dijit._Widget", null, {
 	//		used instead.
 	id: "",
 
-	// lang: String
-	//	Language to display this widget in (like en-us).
-	//	Defaults to brower's specified preferred language (typically the language of the OS)
+	//	lang: String
+	//		Rarely used.  Overrides the default Dojo locale used to render this widget,
+	//		as defined by the [HTML LANG](http://www.w3.org/TR/html401/struct/dirlang.html#adef-lang) attribute.
+	//		Value must be among the list of locales specified during by the Dojo bootstrap,
+	//		formatted according to [RFC 3066](http://www.ietf.org/rfc/rfc3066.txt) (like en-us).
 	lang: "",
 
-	// dir: String
-	//  Bi-directional support, as defined by the HTML DIR attribute. Either left-to-right "ltr" or right-to-left "rtl".
+	//	dir: String
+	//		Unsupported by Dijit, but here for completeness.  Dijit only supports setting text direction on the
+	//		entire document.
+	//		Bi-directional support, as defined by the [HTML DIR](http://www.w3.org/TR/html401/struct/dirlang.html#adef-dir)
+	//		attribute. Either left-to-right "ltr" or right-to-left "rtl".
 	dir: "",
 
 	// class: String
-	// HTML class attribute
+	//		HTML class attribute
 	"class": "",
 
 	// style: String
-	// HTML style attribute
+	//		HTML style attribute
 	style: "",
 
 	// title: String
-	// HTML title attribute
+	//		HTML title attribute
 	title: "",
 
 	// srcNodeRef: DomNode
