@@ -21,6 +21,10 @@
 			radius: 8px;
 		}
 
+		label {
+			display: inline-block;
+			min-width: 8em;
+		}
 	</style>
 
 	<script type="text/javascript" src="../../dojo/dojo.js"
@@ -37,12 +41,9 @@
 		dojo.require("dojo.parser");	// scan page for widgets and instantiate them
 
 		// Hash of id-->item for all the items (including children) in the data store.
-		// Currently some items are hard to query (they can only  be found as children of
-		// other items, so we keep this normalized array).
 		var items = {};
 
 		function deleteItem(){
-			var store = dijit.byId("myTree").store;
 			store.deleteItem(selectedItem);
 
 			resetForms();
@@ -50,7 +51,6 @@
 		}
 
 		function newItem(){
-			var store = dijit.byId("myTree").store;
 			var pInfo = selectedItem ? {parent: selectedItem, attribute:"children"} : null;
 			console.debug(pInfo);
 
@@ -102,9 +102,6 @@
 		}
 
 		function updateItem(){
-			console.log("Updating Item");
-			var store = dijit.byId("myTree").store;
-
 			if (selectedItem!=null){
 				if (dojo.byId("uLabel").value != store.getValue(selectedItem, "name")){
 					store.setValue(selectedItem, "name", dojo.byId("uLabel").value);
@@ -159,7 +156,7 @@
 				var row = new ItemRow(vals);
 				dojo.byId("itemsTable").appendChild(row.domNode);
 				
-				dojo.forEach(vals.children, processItem);
+				//dojo.forEach(vals.children, processItem);
 			}
 
 			items = {};
@@ -221,8 +218,9 @@
 
 	<div dojoType="dojo.data.ItemFileWriteStore" jsId="store"
 		url="../tests/_data/treeTest.json"></div>
-
-	<div dojoType="dijit.Tree" id="myTree" label="root" store="store" onClick="onSelectItem" somePropertyAttr="someProperty"></div>
+	<div dojoType="dijit.tree.TreeStoreModel" jsId="model"
+		store="store" query="{id:'root'}"></div>
+	<div dojoType="dijit.Tree" id="myTree" model="model" onClick="onSelectItem"></div>
 
 	<br />
 	<h2>Selected Item:</h2>
@@ -264,11 +262,9 @@
 	<br />
 
 	<h2>Data in flat form</h2>
-
 	<!-- 
-		HTML visualization of an item in the data store
-		TODO: stop using nested items like in currently specified dojo.data file, and instead make
-		everything top level... then can use the table widget from the mail demo.
+		flat view of the items in the data store.
+		TODO: use the table widget from the mail demo, or dojox.Grid
 	-->
 	<div dojoType="dijit.Declaration" widgetClass="ItemRow" defaults="{ item: {}, itemId: 'thud', name: 10, someProperty: 'foo', children: {} }">
 		Id: ${itemId}, Name: ${name}
