@@ -13,6 +13,14 @@
 		.clear {
 			clear: both;
 		}
+
+		.box {
+			border: #ccc 3px solid;
+			padding: 1em;
+			-moz-border-radius: 8px 8px;
+			radius: 8px;
+		}
+
 	</style>
 
 	<script type="text/javascript" src="../../dojo/dojo.js"
@@ -218,15 +226,15 @@
 
 	<br />
 	<h2>Selected Item:</h2>
-	<div class="container">
-		Name:		<input id="uLabel" width="50" value="Enter Node Label" /><br />
-		Description: <input id="uSomeProperty" width="50" value="Some Test Property" /><br /><br />
+	<div class="box">
+		<label for="uLabel">Name:</label>				<input id="uLabel" width="50" value="Enter Node Label" /><br />
+		<label for="uSomeProperty">Description:</label> <input id="uSomeProperty" width="50" value="Some Test Property" /><br /><br />
 		<div style="float:left; margin-right: 2em;">
-			Children (in order):
+			<label for="uChildren">Children (in order):</label>
 			<div dojoType="dojo.dnd.Source" class="container" id="uChildren" jsId="uChildrenDragSource"></div>
 		</div>
 		<div style="float:left">
-			Potential Children:
+			<label for="uPotentialChildren">Potential Children:</label>
 			<div dojoType="dojo.dnd.Source" class="container" id="uPotentialChildren" jsId="uPotentialChildrenDragSource"></div>
 		</div>
 		<div class="clear">(drag and drop items to adjust list of children, and order of those children)</div>
@@ -236,17 +244,17 @@
 
 	<h2>New Item</h2>
 	<p>Enter an Id, Name, and optionally a description to be added as a new item to the store.  Upon successful addition, the tree will recieve notification of this event and respond accordingly.  If you select a node the item will be added to that node, otherwise the item will be added to the tree root. "Id" is the identifer here and as such must be unique for all items in the store.</p>
-	<div class="container">
-		Id:		<input id="nId" width="50" value="Enter Item Id" /><br />
-		Name:		<input id="nLabel" width="50" value="Enter Item Name" /><br />
-		Description: <input id="nSomeProperty" width="50" value="Enter Some Property Value" /><br /><br />
-		Parent: <input id="nParent" readonly /><br /><br />
+	<div class="box">
+		<label for="nId">Id:</label>					<input id="nId" width="50" value="Enter Item Id" /><br />
+		<label for="nLabel">Name:</label>				<input id="nLabel" width="50" value="Enter Item Name" /><br />
+		<label for="nSomeProperty">Description:</label> <input id="nSomeProperty" width="50" value="Enter Some Property Value" /><br /><br />
+		<label for="nParent">Parent:</label>			<input id="nParent" readonly /><br /><br />
 		<div style="float:left; margin-right: 2em;">
 			Children (in order):
 			<div dojoType="dojo.dnd.Source" class="container" id="nChildren" jsId="nChildrenDragSource"></div>
 		</div>
 		<div style="float:left">
-			Potential Children:
+			<label for="nPotentialChildren">Potential Children:</label>
 			<div dojoType="dojo.dnd.Source" class="container" id="nPotentialChildren" jsId="nPotentialChildrenDragSource"></div>
 		</div>
 		<div class="clear">(drag and drop items to adjust list of children, and order of those children)</div>
