@@ -336,6 +336,17 @@ dojo.declare(
 			}else if(e.keyCode == dojo.keys.TAB){
 				this._exitInProgress = true;
 				// allow the TAB to change focus before we mess with the DOM: #6227
+				// Expounding by request:
+				// 	The current focus is on the edit widget input field.
+				//	save() will hide and destroy this widget.
+				//	We want the focus to jump from the currently hidden
+				//	displayNode, but since it's hidden, it's impossible to
+				//	unhide it, focus it, and then have the browser focus
+				//	away from it to the next focusable element since each
+				//	of these events is asynchronous and the focus-to-next-element
+				//	is already queued.
+				//	So we allow the browser time to unqueue the move-focus event 
+				//	before we do all the hide/show stuff.
 				setTimeout(dojo.hitch(this, "save", false), 0);
 			}
 		}else{
