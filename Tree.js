@@ -669,6 +669,12 @@ dojo.declare(
 	_onExpandoClick: function(/*Object*/ message){
 		// summary: user clicked the +/- icon; expand or collapse my children.
 		var node = message.node;
+		
+		// If we are collapsing, we might be hiding the currently focused node.
+		// Also, clicking the expando node might have erased focus from the current node.
+		// For simplicity's sake just focus on the node with the expando.
+		this.focusNode(node);
+
 		if(node.isExpanded){
 			this._collapseNode(node);
 		}else{
@@ -712,16 +718,7 @@ dojo.declare(
 				// ignore clicks while we are in the process of loading data
 				return;
 			}
-			if(this.lastFocused){
-				// are we collapsing a descendant with focus?
-				if(dojo.isDescendant(this.lastFocused.domNode, node.domNode)){
-					this.focusNode(node);
-				}else{
-					// clicking the expando node might have erased focus from
-					// the current item; restore it
-					this.focusNode(this.lastFocused);
-				}
-			}
+
 			node.collapse();
 			if(this.persist && node.item){
 				delete this._openedItemIds[this.model.getIdentity(node.item)];
@@ -732,9 +729,6 @@ dojo.declare(
 
 	_expandNode: function(/*_TreeNode*/ node){
 		// summary: called when the user has requested to expand the node
-
-		// clicking the expando node might have erased focus from the current item; restore it
-		if(this.lastFocused){ this.focusNode(this.lastFocused); }
 
 		if(!node.isExpandable){
 			return;
