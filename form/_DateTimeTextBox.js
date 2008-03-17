@@ -38,10 +38,13 @@ dojo.declare(
 
 		serialize: dojo.date.stamp.toISOString,
 
+		//	value: Date
+		//		The value of this widget as a JavaScript Date object.  Use `getValue`/`setValue` to manipulate.
+		//		When pass in the parser as markup, value must be specified according to `dojo.date.stamp.fromISOString`
 		value: new Date(""),	// value.toString()="NaN"
 
-		// popupClass: String
-		//              Name of the popup widget class used to select a date/time
+		//	popupClass: String
+		//		Name of the popup widget class used to select a date/time
 		popupClass: "", // default is no popup = text only
 		_selector: "",
 
