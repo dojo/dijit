@@ -47,7 +47,7 @@ dojo.declare(
 
 		postMixInProperties: function(){
 			//dijit.form.RangeBoundTextBox.prototype.postMixInProperties.apply(this, arguments);
-			this.inherited("postMixInProperties",arguments);
+			this.inherited(arguments);
 			if(!this.value || this.value.toString() == dijit.form._DateTimeTextBox.prototype.value.toString()){
 				this.value = undefined;
 			}
@@ -64,10 +64,10 @@ dojo.declare(
 			this._open();
 		},
 
-		setValue: function(/*Date*/ value, /*Boolean, optional*/ priorityChange, /*String, optional*/ formattedValue){
+		setValue: function(/*Date*/ value, /*Boolean?*/ priorityChange, /*String?*/ formattedValue){
 			// summary:
-			//	Sets the date on this textbox
-			this.inherited('setValue', arguments);
+			//	Sets the date on this textbox.  Note that `value` must be a Javascript Date object.
+			this.inherited(arguments);
 			if(this._picker){
 				// #3948: fix blank date on popup only
 				if(!value){value=new Date();}
@@ -144,7 +144,7 @@ dojo.declare(
 			return this.textbox.value;
 		},
 
-		setDisplayedValue:function(/*String*/ value, /*Boolean, optional*/ priorityChange){
+		setDisplayedValue:function(/*String*/ value, /*Boolean?*/ priorityChange){
 			this.setValue(this.parse(value, this.constraints), priorityChange, value);
 		},
 
