@@ -42,7 +42,7 @@
 			dojo.addOnLoad(function(){ 
 				dojo.parser.parse(dojo.body());
 	
-				dojox.cometd.init("http://comet.sitepen.com:9000/cometd"); 
+				dojox.cometd.init("http://comet.sitepen.com:9190/cometd"); 
 				dojox.cometd.subscribe("/chat/demo",control,"_getAlert");
 
 			});
