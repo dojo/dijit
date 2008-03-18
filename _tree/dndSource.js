@@ -287,6 +287,10 @@ dojo.declare("dijit._tree.dndSource", dijit._tree.dndSelector, {
 					model.newItem(newItemsParams[idx], newParentItem);
 				}
 			}, this);
+
+			// Expand the target node (if it's currently collapsed) so the user can see
+			// where their node was dropped.   In particular since that node is still selected.
+			this.tree._expandNode(targetWidget);
 		}
 		this.onDndCancel();
 	},
