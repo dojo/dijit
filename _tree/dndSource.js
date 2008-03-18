@@ -156,20 +156,24 @@ dojo.declare("dijit._tree.dndSource", dijit._tree.dndSelector, {
 	onMouseOver: function(e){
 		// summary: event processor for onmouseover
 		// e: Event: mouse event
-		var n = e.relatedTarget;
-		while(n){
-			if(n == this.node){ break; }
+
+		// handle when mouse has just moved over the Tree itself (not a TreeNode, but the Tree)
+		var rt = e.relatedTarget;	// the previous location
+		while(rt){
+			if(rt == this.node){ break; }
 			try{
-				n = n.parentNode;
+				rt = rt.parentNode;
 			}catch(x){
-				n = null;
+				rt = null;
 			}
 		}
-		if(!n){
+		if(!rt){
 			this._changeState("Container", "Over");
 			this.onOverEvent();
 		}
-		n = this._getChildByEvent(e);
+
+		// code below is for handling depending on which TreeNode we are over
+		var n = this._getChildByEvent(e);	// the TreeNode
 		if(this.current == n){ return; }
 		if(this.current){ this._removeItemClass(this.current, "Over"); }
 		var m = dojo.dnd.manager();
@@ -177,7 +181,7 @@ dojo.declare("dijit._tree.dndSource", dijit._tree.dndSelector, {
 			this._addItemClass(n, "Over"); 
 			if(this.isDragging){
 				if(this.checkItemAcceptance(n,m.source)){
-					m.canDrop(this.targetState != "Disabled" && (!this.current || m.source != this || !(this.current.id in this.selection)));
+					m.canDrop(this.targetState != "Disabled" && (!this.current || m.source != this || !(n in this.selection)));
 				}else{
 					m.canDrop(false);
 				}
