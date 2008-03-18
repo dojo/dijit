@@ -56,7 +56,9 @@
 					{
 						name: "clear_content",
 						setUp: function(t){
-							pane2 = new dijit.layout.ContentPane({}, dojo.byId("pane2"));
+							pane2 = new dijit.layout.ContentPane({
+								preventCache: true
+							}, dojo.byId("pane2"));
 							pane2.setContent();// pass undefined on purpose
 						},
 						runTest: function(t){
@@ -265,34 +267,6 @@
 						}
 					},
 					{
-						name: "preventCache",
-						timeout:1800,
-						setUp: function(t){
-							pane2.setContent();
-						},
-						runTest: function(t){
-							var def = pane2.preventCache;
-							t.assertFalse(def);
-
-							pane2.preventCache = true;
-
-							pane2.setHref("getResponse.php?bounceGetStr=1&message="+encodeURI('initial'));
-							var d = new t.Deferred();
-							setTimeout(d.getTestCallback(
-								function(){
-									var getStr = dojo.byId('bouncedGetStr');
-									t.assertTrue(getStr.innerHTML.indexOf('preventCache=') > -1);
-								}
-							), 1500);
-
-							pane2.preventCache = def;
-							return d;
-						},
-						tearDown: function(t){
-							pane2.preventCache = false;
-						}
-					},
-					{
 						name: "isLoaded",
 						timeout: 1800,
 						setUp: function(t){
@@ -482,7 +456,10 @@
 							st = new dijit.layout.StackContainer({}, st);
 
 							st.addChild(new dijit.TestWidget());
-							pane3 = new dijit.layout.ContentPane({href:'getResponse.php?delay=300&message=Loaded!'}, dojo.doc.createElement('div'));
+							pane3 = new dijit.layout.ContentPane({
+								href:'getResponse.php?delay=300&message=Loaded!',
+								preventCache: true
+							}, dojo.doc.createElement('div'));
 							st.addChild(pane3);
 
 							pane3.startup(); // starts the ContentPane
@@ -553,7 +530,10 @@
 						timeout: 1800,
 						runTest: function(t){
 							var href = 'getResponse.php?message=Loaded!'
-							var pane4 = new dijit.layout.ContentPane({href:href}, dojo.doc.createElement('div'));
+							var pane4 = new dijit.layout.ContentPane({
+								href:href,
+								preventCache: true
+							}, dojo.doc.createElement('div'));
 
 							dojo.place(pane4.domNode, pane3.domNode, 'after');
 
