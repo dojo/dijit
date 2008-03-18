@@ -64,10 +64,6 @@
 		execute="alert('submitted w/args:\n' + dojo.toJson(arguments[0], true));">
 	<table>
 		<tr>
-			<td><label for="afile">ID File: </label></td>
-			<td><input dojoType=dijit.form.TextBox type="file" name="afile" id="afile"></td>
-		</tr>
-		<tr>
 			<td><label for="name">Name: </label></td>
 			<td><input dojoType=dijit.form.TextBox type="text" name="name" id="name"></td>
 		</tr>
@@ -171,10 +167,21 @@
 	</div>
 </div>
 
-<button dojoType="dijit.form.Button" onclick="dijit.byId('fifthDlg').show();">Test slow loading HREF Dialog</button>
+<button dojoType="dijit.form.Button" onclick="dijit.byId('fifthDlg').show();">Test slow loading HREF Dialog</button> |
 
 <div dojoType="dijit.Dialog" id="fifthDlg" href="layout/getResponse.php?delay=3000&messId=3"
 	style="width: 300px" title="From HREF (slow network simulated)"></div>
+
+<button dojoType="dijit.form.Button" onclick="dijit.byId('dialog6').show()">Show File Dialog</button>
+
+<div dojoType="dijit.Dialog" id="dialog6" title="File Dialog"
+		onfocus="console.log('user focus handler')"
+		onblur="console.log('user blur handler')"
+		execute="alert('submitted w/args:\n' + dojo.toJson(arguments[0], true));" style="width: 350px">
+	<!-- note: style="width: 350px" to workaround FF bug where width is too short, see http://trac.dojotoolkit.org/ticket/5976 -->
+		<label for="afile">ID File: </label>
+		<input dojoType=dijit.form.TextBox type="file" name="afile" id="afile">
+</div>
 
 <p>Test refocus="false", click programatic dialog, focus input below, wait. close dialog.</p>
 
@@ -198,6 +205,7 @@ After the dialog closes focus should be returned to the form
 	<option>amet</option>
 </select>
 </form>
+
 
 <p>Aliquam vitae enim. Duis scelerisque metus auctor est venenatis
 imperdiet. Fusce dignissim porta augue. Nulla vestibulum. Integer lorem
