@@ -40,7 +40,7 @@ dojo.declare(
 
 		//	value: Date
 		//		The value of this widget as a JavaScript Date object.  Use `getValue`/`setValue` to manipulate.
-		//		When pass in the parser as markup, value must be specified according to `dojo.date.stamp.fromISOString`
+		//		When passed to the parser in markup, must be specified according to `dojo.date.stamp.fromISOString`
 		value: new Date(""),	// value.toString()="NaN"
 
 		//	popupClass: String
@@ -134,8 +134,8 @@ dojo.declare(
 		_onBlur: function(){
 			// summary: called magically when focus has shifted away from this widget and it's dropdown
 			this._close();
-			// destroy our picker if we have one - addresses #6002
 			if(this._picker){
+				// teardown so that constraints will be rebuilt next time (redundant reference: #6002)
 				this._picker.destroy();
 				delete this._picker;
 			}
