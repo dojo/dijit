@@ -15,7 +15,9 @@ dojo.require("dijit._base.window");
 //	Ugly-ass hack to solve bug #5626 for 1.1; basically force Safari to re-layout.
 if(dojo.isSafari){
 	dojo.addOnLoad(function(){
-		window.resizeBy(1,0);
-		setTimeout(function(){ window.resizeBy(-1,0); }, 10);
+		setTimeout(function(){
+			window.resizeBy(1,0);
+			setTimeout(function(){ window.resizeBy(-1,0); }, 10);
+		}, 10);
 	});
 }
