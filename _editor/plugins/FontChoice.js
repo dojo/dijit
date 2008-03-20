@@ -123,11 +123,8 @@ dojo.declare("dijit._editor.plugins.FontChoice",
 					};
 //console.log("mapped to " + map[value]);
 					value = map[value] || value;
-				}else if(_c == "fontSize"){
-					var pixels = value;
-					if(dojo.isString(pixels) && pixels.indexOf("px") != -1){
-						pixels = parseInt(pixels);
-					}
+				}else if(_c == "fontSize" && value.indexOf && value.indexOf("px") != -1){
+					var pixels = parseInt(value);
 					value = {10:1, 13:2, 16:3, 18:4, 24:5, 32:6, 48:7}[pixels] || value;
 				}
 				this.updating = true;
