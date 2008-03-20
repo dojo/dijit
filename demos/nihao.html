@@ -11,7 +11,7 @@
 			djConfig = {locale: result && result[1] || "en-us"}; // default locale is en-us
 	 	</script>
 
-		<script type="text/javascript" src="../../dojo/dojo.js"></script>
+		<script type="text/javascript" isDebug="true" src="../../dojo/dojo.js"></script>
 	
 		<style type="text/css">
 	 		@import "../../dojo/resources/dojo.css";
@@ -59,9 +59,12 @@
 		
 			function dateChanged(){
 				if(resourceBundle){
-					dojo.byId('secondsToGo').innerHTML = dojo.string.substitute(
-						resourceBundle.dateStr,
-						[dojo.number.format((dijit.byId("dateBox").getValue() - new Date()) / 1000)]);
+					var stamp = dijit.byId("dateBox").getValue();
+					if(stamp){
+						dojo.byId('secondsToGo').innerHTML = dojo.string.substitute(
+							resourceBundle.dateStr,
+							[dojo.number.format((stamp - new Date()) / 1000)]);
+					}
 				}
 			}
 		</script>
