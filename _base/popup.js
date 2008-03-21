@@ -247,8 +247,8 @@ dijit.BackgroundIframe = function(/* DomNode */node){
 		var iframe = dijit._frames.pop();
 		node.appendChild(iframe);
 		if(dojo.isIE){
-			iframe.style.setExpression("width", "dojo.doc.getElementById('" + node.id + "').offsetWidth");
-			iframe.style.setExpression("height", "dojo.doc.getElementById('" + node.id + "').offsetHeight");
+			iframe.style.setExpression("width", dojo._scopeName + ".doc.getElementById('" + node.id + "').offsetWidth");
+			iframe.style.setExpression("height", dojo._scopeName + ".doc.getElementById('" + node.id + "').offsetHeight");
 		}
 		this.iframe = iframe;
 	}
