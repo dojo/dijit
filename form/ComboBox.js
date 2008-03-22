@@ -546,7 +546,7 @@ dojo.declare(
 		//		SHOULD be "compositionEnd"
 
 		compositionend: function(/*Event*/ evt){
-			// summary:
+			//	summary:
 			//		When inputting characters using an input method, such as
 			//		Asian languages, it will generate this event instead of
 			//		onKeyDown event Note: this event is only triggered in FF
@@ -626,7 +626,7 @@ dojo.declare(
 		},
 		
 		reset:function(){
-			// summary:
+			//	summary:
 			//		Additionally reset the .item (to clean up).
 			this.item = null;
 			this.inherited(arguments);
@@ -640,7 +640,7 @@ dojo.declare(
 	[dijit._Widget, dijit._Templated],
 
 	{
-		// summary:
+		//	summary:
 		//		Focus-less div based menu for internal use in ComboBox
 
 		templateString: "<ul class='dijitMenu' dojoAttachEvent='onmousedown:_onMouseDown,onmouseup:_onMouseUp,onmouseover:_onMouseOver,onmouseout:_onMouseOut' tabIndex='-1' style='overflow:\"auto\";'>"
@@ -675,7 +675,7 @@ dojo.declare(
 		},
 
 		_createOption:function(/*Object*/ item, labelFunc){
-			// summary: 
+			//	summary: 
 			//		creates an option to appear on the popup menu subclassed by
 			//		FilteringSelect
 
@@ -794,6 +794,10 @@ dojo.declare(
 		},
 
 		_highlightNextOption:function(){
+			//	summary:
+			// 		Highlight the item just below the current selection.
+			// 		If nothing selected, highlight first option
+
 			// because each press of a button clears the menu,
 			// the highlighted option sometimes becomes detached from the menu!
 			// test to see if the option has a parent to see if this is the case.
@@ -811,21 +815,24 @@ dojo.declare(
 		},
 
 		highlightFirstOption:function(){
-			// highlight the non-Previous choices option
+			//	summary:
+			// 		Highlight the first real item in the list (not Previous Choices).
 			this._focusOptionNode(this.domNode.firstChild.nextSibling);
 			dijit.scrollIntoView(this._highlighted_option);
 		},
 
 		highlightLastOption:function(){
-			// highlight the noon-More choices option
+			//	summary:
+			// 		Highlight the last real item in the list (not More Choices).
 			this._focusOptionNode(this.domNode.lastChild.previousSibling);
 			dijit.scrollIntoView(this._highlighted_option);
 		},
 
 		_highlightPrevOption:function(){
-			// summary:
-			// 		if nothing selected, highlight last option makes sense if
-			// 		you select Previous and try to keep scrolling up the list
+			//	summary:
+			// 		Highlight the item just above the current selection.
+			// 		If nothing selected, highlight last option (if
+			// 		you select Previous and try to keep scrolling up the list)
 			var lc = this.domNode.lastChild;
 			if(!this.getHighlightedOption()){
 				this._focusOptionNode(lc.style.display == "none" ? lc.previousSibling : lc);
@@ -874,7 +881,7 @@ dojo.declare(
 		pageDown: function(){ this._page(false); },
 
 		getHighlightedOption: function(){
-			// summary:
+			//	summary:
 			//		Returns the highlighted option.
 			var ho = this._highlighted_option;
 			return (ho && ho.parentNode) ? ho : null;
@@ -903,10 +910,10 @@ dojo.declare(
 	"dijit.form.ComboBox",
 	[dijit.form.ValidationTextBox, dijit.form.ComboBoxMixin],
 	{
-		// summary:
+		//	summary:
 		//		Auto-completing text box, and base class for dijit.form.FilteringSelect.
 		// 
-		// description:
+		//	description:
 		//		The drop down box's values are populated from an class called
 		//		a data provider, which returns a list of values based on the characters
 		//		that the user has typed into the input box.
@@ -975,7 +982,9 @@ dojo.declare("dijit.form._ComboBoxDataStore", null, {
 
 	fetch: function(/* Object */ args){
 		//	summary:
-		//		TODOC
+		//		Given a query and set of defined options, such as a start and count of items to return,
+		//		this method executes the query and makes the results available as data items.
+		//		Refer to dojo.data.api.Read:fetch() more details.
 		//
 		//	description:
 		//		Given a query like
@@ -1020,7 +1029,9 @@ dojo.declare("dijit.form._ComboBoxDataStore", null, {
 
 	fetchItemByIdentity: function(/* object */ args){
 		//	summary:
-		//		TODOC
+		//		Given the identity of an item, this method returns the item that has
+		//		that identity through the onItem callback.
+		//		Refer to dojo.data.api.Identity:fetchItemByIdentity() for more details.
 		//
 		//	description:
 		//		Given arguments like:
@@ -1033,7 +1044,7 @@ dojo.declare("dijit.form._ComboBoxDataStore", null, {
 	},
 	
 	fetchSelectedItem: function(){
-		// summary
+		//	summary:
 		//		Get the option marked as selected, like `<option selected>`.
 		//		Not part of dojo.data API.
 		var root = this.root,

@@ -6,7 +6,7 @@ dojo.declare(
 	"dijit.form.TextBox",
 	dijit.form._FormValueWidget,
 	{
-		// summary:
+		//	summary:
 		//		A base class for textbox form inputs
 
 		//	trim: Boolean
@@ -25,7 +25,7 @@ dojo.declare(
 		//		Converts the first character of each word to uppercase if true.
 		propercase: false,
 
-		// maxLength: String
+		//	maxLength: String
 		//		HTML INPUT tag maxLength declaration.
 		maxLength: "",
 
@@ -47,6 +47,17 @@ dojo.declare(
 		},
 
 		setValue: function(value, /*Boolean?*/ priorityChange, /*String?*/ formattedValue){
+			//	summary: 
+			//		Sets the value of the widget to "value" which can be of
+			//		any type as determined by the widget.
+			//		The visual element value is also set to a corresponding,
+			//		but not necessarily the same, value.
+			//		If the optional string parameter "formattedValue is specified,
+			//		then this value is used to set the visual element value,
+			//		otherwise a computed visual value is used.
+			//		If the optional boolean parmeter "priorityChange" is true,
+			//		an onChange event is fired immediately instead of waiting 
+			//		for the next blur event.
 			var filteredValue = this.filter(value);
 			if((((typeof filteredValue == typeof value) && (value !== undefined/*#5317*/)) || (value === null/*#5329*/)) && (formattedValue == null || formattedValue == undefined)){
 				formattedValue = this.format(filteredValue, this.constraints);
@@ -57,20 +68,27 @@ dojo.declare(
 			dijit.form.TextBox.superclass.setValue.call(this, filteredValue, priorityChange);
 		},
 
-//TODOC: what is a priorityChange?
-//TODOC: summary
 		setDisplayedValue: function(/*String*/value, /*Boolean?*/ priorityChange){
+			//	summary: 
+			//		Sets the value of the visual element to the string "value".
+			//		The widget value is also set to a corresponding,
+			//		but not necessarily the same, value.
+			//		If the optional boolean parmeter "priorityChange" is true,
+			//		an onChange event is fired immediately instead of waiting 
+			//		for the next blur event.
 			this.textbox.value = value;
 			this.setValue(this.getValue(), priorityChange);
 		},
 
 		format: function(/* String */ value, /* Object */ constraints){
-			// summary: Replacable function to convert a value to a properly formatted string
+			//	summary:
+			//		Replacable function to convert a value to a properly formatted string
 			return ((value == null || value == undefined) ? "" : (value.toString ? value.toString() : value));
 		},
 
 		parse: function(/* String */ value, /* Object */ constraints){
-			// summary: Replacable function to convert a formatted string to a value
+			//	summary:
+			//		Replacable function to convert a formatted string to a value
 			return value;
 		},
 
@@ -88,7 +106,8 @@ dojo.declare(
 		},
 
 		filter: function(val){
-			// summary: Apply specified filters to textbox value
+			//	summary:
+			//		Apply specified filters to textbox value
 			if(val === null || val === undefined){ return ""; }
 			else if(typeof val != "string"){ return val; }
 			if(this.trim){
@@ -121,8 +140,8 @@ dojo.declare(
 );
 
 dijit.selectInputText = function(/*DomNode*/element, /*Number, optional*/ start, /*Number, optional*/ stop){
-	// summary:
-	//	Select text in the input element argument, from start (default 0), to stop (default end).
+	//	summary:
+	//		Select text in the input element argument, from start (default 0), to stop (default end).
 
 	// TODO: use functions in _editor/selection.js?
 	var _window = dojo.global;
