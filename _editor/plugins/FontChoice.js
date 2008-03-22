@@ -143,7 +143,7 @@ dojo.declare("dijit._editor.plugins.FontChoice",
 			this.inherited(arguments);
 
 			var forRef = this.button;
-			if(!forRef.id){ forRef.id = "dijitEditorButton-"+this.command+(this._uniqueId++); } //TODO: is this necessary?  FilteringSelects always seem to have an id?
+			if(!forRef.id){ forRef.id = dijit._scopeName+"EditorButton-"+this.command+(this._uniqueId++); } //TODO: is this necessary?  FilteringSelects always seem to have an id?
 			var label = dojo.doc.createElement("label");
 			dojo.addClass(label, "dijit dijitReset dijitLeft dijitInline");
 			label.setAttribute("for", forRef.id);
