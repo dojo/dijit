@@ -984,7 +984,7 @@ dojo.declare("dijit.form._ComboBoxDataStore", null, {
 		//	summary:
 		//		Given a query and set of defined options, such as a start and count of items to return,
 		//		this method executes the query and makes the results available as data items.
-		//		Refer to dojo.data.api.Read:fetch() more details.
+		//		Refer to dojo.data.api.Read.fetch() more details.
 		//
 		//	description:
 		//		Given a query like
@@ -1011,7 +1011,7 @@ dojo.declare("dijit.form._ComboBoxDataStore", null, {
 		var start = args.start || 0,
 			end = ("count" in args && args.count != Infinity) ? (start + args.count) : items.length ;
 		args.onComplete(items.slice(start, end), args);
-		return args;
+		return args; // Object
 		// TODO: I don't need to return the length?
 	},
 
@@ -1027,11 +1027,11 @@ dojo.declare("dijit.form._ComboBoxDataStore", null, {
 		return dojo.attr(item, "value");
 	},
 
-	fetchItemByIdentity: function(/* object */ args){
+	fetchItemByIdentity: function(/* Object */ args){
 		//	summary:
 		//		Given the identity of an item, this method returns the item that has
 		//		that identity through the onItem callback.
-		//		Refer to dojo.data.api.Identity:fetchItemByIdentity() for more details.
+		//		Refer to dojo.data.api.Identity.fetchItemByIdentity() for more details.
 		//
 		//	description:
 		//		Given arguments like:

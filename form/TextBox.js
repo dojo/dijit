@@ -50,14 +50,19 @@ dojo.declare(
 			//	summary: 
 			//		Sets the value of the widget to "value" which can be of
 			//		any type as determined by the widget.
+			//
+			//	value:
 			//		The visual element value is also set to a corresponding,
 			//		but not necessarily the same, value.
-			//		If the optional string parameter "formattedValue is specified,
-			//		then this value is used to set the visual element value,
+			//
+			//	formattedValue:
+			//		If specified, used to set the visual element value,
 			//		otherwise a computed visual value is used.
-			//		If the optional boolean parmeter "priorityChange" is true,
-			//		an onChange event is fired immediately instead of waiting 
-			//		for the next blur event.
+			//
+			//	priorityChange:
+			//		If true, an onChange event is fired immediately instead of 
+			//		waiting for the next blur event.
+
 			var filteredValue = this.filter(value);
 			if((((typeof filteredValue == typeof value) && (value !== undefined/*#5317*/)) || (value === null/*#5329*/)) && (formattedValue == null || formattedValue == undefined)){
 				formattedValue = this.format(filteredValue, this.constraints);
@@ -73,9 +78,11 @@ dojo.declare(
 			//		Sets the value of the visual element to the string "value".
 			//		The widget value is also set to a corresponding,
 			//		but not necessarily the same, value.
-			//		If the optional boolean parmeter "priorityChange" is true,
-			//		an onChange event is fired immediately instead of waiting 
-			//		for the next blur event.
+			//
+			//	priorityChange:
+			//		If true, an onChange event is fired immediately instead of 
+			//		waiting for the next blur event.
+
 			this.textbox.value = value;
 			this.setValue(this.getValue(), priorityChange);
 		},
@@ -96,7 +103,7 @@ dojo.declare(
 			// setting the value here is needed since value="" in the template causes "undefined"
 			// and setting in the DOM (instead of the JS object) helps with form reset actions
 			this.textbox.setAttribute("value", this.getDisplayedValue());
-			this.inherited('postCreate', arguments);
+			this.inherited(arguments);
 
 			/*#5297:if(this.srcNodeRef){
 				dojo.style(this.textbox, "cssText", this.style);
@@ -139,7 +146,7 @@ dojo.declare(
 	}
 );
 
-dijit.selectInputText = function(/*DomNode*/element, /*Number, optional*/ start, /*Number, optional*/ stop){
+dijit.selectInputText = function(/*DomNode*/element, /*Number?*/ start, /*Number?*/ stop){
 	//	summary:
 	//		Select text in the input element argument, from start (default 0), to stop (default end).
 
