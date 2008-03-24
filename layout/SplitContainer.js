@@ -137,6 +137,9 @@ dojo.declare("dijit.layout.SplitContainer",
 		if(this.sizers.length){
 			var i=dojo.indexOf(this.getChildren(), widget)
 			if(i != -1){
+				if(i==this.sizers.length){
+					i--;
+				}
 				dojo._destroyElement(this.sizers[i]);
 				this.sizers.splice(i,1);
 			}
