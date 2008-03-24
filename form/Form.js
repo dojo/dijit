@@ -345,7 +345,7 @@ dojo.declare(
 			}
 		},
 		
-		onSubmit: function(){ 
+		onSubmit: function(/*Event?*/e){ 
 			//	summary:
 			//		Callback when user submits the form. This method is
 			//		intended to be over-ridden, but by default it checks and
@@ -353,7 +353,12 @@ dojo.declare(
 			//		method is called programmatically, the return value from
 			//		`onSubmit` is used to compute whether or not submission
 			//		should proceed
-			return this.isValid(); // Boolean
+
+			if(!this.isValid()){
+				if(e){ dojo.stopEvent(e); }
+				return false; // Boolean
+			}
+			return true; // Boolean
 		},
 
 		submit: function(){
