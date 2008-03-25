@@ -94,7 +94,13 @@
 			doh.register("dijit.form.Form",
 				[
 					function getValues(){
-						doh.is( dojo.toJson(original), dojo.toJson(dijit.byId("myForm").getValues()) );
+						var values = dijit.byId("myForm").getValues();
+						
+						// FF3 sticks in some tabs and newlines that mess up the equality check
+						// Need better way to compare two HTML trees but for now do this.
+						values.richtext = values.richtext.replace(/[\n\t]/, "", "g");
+
+						doh.is( dojo.toJson(original), dojo.toJson(values) );
 					},
 					function setValues(){
 						dijit.byId("myForm").setValues(changed);
@@ -144,6 +150,9 @@
 				return false;
 			}
 			return true;
+		</script>
+		<script type="dojo/method" event="onReset">
+			return confirm('reset Form?');
 		</script>
 		<p>Just HTML text</p>
 		<table style="border: 1px solid #9f9f9f;" cellspacing="10">
@@ -320,10 +329,7 @@ simple line 2</textarea>
 					<td>Editor widget</td>
 					<td>richtext</td>
 					<td>
-						<textarea dojoType="dijit.Editor" name="richtext" pluginsConfig="[{items:['bold','italic']}]">
-							<h1>original</h1>
-							<p>This is the default content</p>
-						</textarea>
+						<textarea dojoType="dijit.Editor" name="richtext" pluginsConfig="[{items:['bold','italic']}]"><h1>original</h1><p>This is the default content</p></textarea>
 					</td>
 				</tr>
 
