@@ -28,10 +28,11 @@
 </head>
 <body>
 	<h1>Form Widget Unit Test</h1>
-	<form dojoType="dijit.form.Form" id="myForm" 
+	<form dojoType="dijit.form.Form" id="myForm1" 
 		encType="multipart/form-data" action="" method="GET"
-		onSubmit="dojo.stopEvent(arguments[0]);">
-		<h3>This form shouldn't submit</h3>
+		onSubmit="dojo.stopEvent(arguments[0]);"
+		onReset="dojo.stopEvent(arguments[0]);">
+		<h3>This form shouldn't submit, nor reset</h3>
 		<select name="plop.combo" dojoType="dijit.form.ComboBox">
 			<option value="one">one</option>
 			<option value="two">two</option>
@@ -43,8 +44,37 @@
 
 	<form dojoType="dijit.form.Form" id="myForm2" 
 		encType="multipart/form-data" action="" method="GET"
-		onSubmit="return false;">
-		<h3>This form <em>should</em> submit</h3>
+		onSubmit="return false;"
+		onReset="return false;">
+		<h3>This form shouldn't submit, nor reset</h3>
+		<select name="plop.combo" dojoType="dijit.form.ComboBox">
+			<option value="one">one</option>
+			<option value="two">two</option>
+			<option value="three">three</option>
+		</select>
+		<button dojoType=dijit.form.Button type="submit">Submit</button>
+		<button dojoType=dijit.form.Button type="reset">Reset</button>
+	</form>
+
+	<form dojoType="dijit.form.Form" id="myForm3" 
+		encType="multipart/form-data" action="" method="GET"
+		onSubmit="return true;"
+		onReset="return true;">
+		<h3>This form <em>should</em> submit and reset</h3>
+		<select name="plop.combo" dojoType="dijit.form.ComboBox">
+			<option value="one">one</option>
+			<option value="two">two</option>
+			<option value="three">three</option>
+		</select>
+		<button dojoType=dijit.form.Button type="submit">Submit</button>
+		<button dojoType=dijit.form.Button type="reset">Reset</button>
+	</form>
+
+	<form dojoType="dijit.form.Form" id="myForm4" 
+		encType="multipart/form-data" action="" method="GET"
+		onSubmit="void(0)"
+		onReset="void(0)">
+		<h3>This form <em>should</em> submit and reset</h3>
 		<select name="plop.combo" dojoType="dijit.form.ComboBox">
 			<option value="one">one</option>
 			<option value="two">two</option>

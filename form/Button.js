@@ -49,7 +49,7 @@ dojo.declare("dijit.form.Button",
 		// summary: callback when the user mouse clicks the button portion
 		if(this._onClick(e) === false){ // returning nothing is same as true
 			dojo.stopEvent(e);
-		}else if(this.type=="submit"){ // see if a nonform widget needs to be signalled
+		}else if(this.type=="submit" && !this.focusNode.form){ // see if a nonform widget needs to be signalled
 			for(var node=this.domNode; node.parentNode/*#5935*/; node=node.parentNode){
 				var widget=dijit.byNode(node);
 				if(widget && typeof widget._onSubmit == "function"){

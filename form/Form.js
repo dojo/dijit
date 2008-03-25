@@ -284,10 +284,10 @@ dojo.declare(
 		accept: "",
 		target: "",
 
-		templateString: "<form dojoAttachPoint='containerNode' name='${name}'></form>",
+		templateString: "<form dojoAttachPoint='containerNode' dojoAttachEvent='onreset:_onReset,onsubmit:_onSubmit' name='${name}'></form>",
 
 		attributeMap: dojo.mixin(dojo.clone(dijit._Widget.prototype.attributeMap),
-			{onSubmit: "", action: "", method: "", encType: "", "accept-charset": "", accept: "", target: ""}),
+			{action: "", method: "", encType: "", "accept-charset": "", accept: "", target: ""}),
 
 		execute: function(/*Object*/ formContents){
 			//	summary:
@@ -316,10 +316,9 @@ dojo.declare(
 				}
 			}
 			this.inherited(arguments);
-			dojo.attr(this.domNode, 'onreset', dojo.hitch(this, this._onReset));
 		},
 
-		onReset: function(){ 
+		onReset: function(/*Event?*/e){ 
 			//	summary:
 			//		Callback when user resets the form. This method is intended
 			//		to be over-ridden. When the `reset` method is called
@@ -328,20 +327,33 @@ dojo.declare(
 			return true; // Boolean
 		},
 
-		_onReset: function(){
-			if(this.onReset()){
+		_onReset: function(e){
+			// create fake event so we can know if preventDefault() is called
+			var faux = {
+				returnValue: true, // the IE way
+				preventDefault: function(){  // not IE
+							this.returnValue = false;
+						},
+				stopPropagation: function(){}, currentTarget: e.currentTarget, target: e.target
+			};
+			// if return value is not exactly false, and haven't called preventDefault(), then reset
+			if(!(this.onReset(faux) === false) && faux.returnValue){
 				this.reset();
 			}
-			return false; // Boolean
+			dojo.stopEvent(e);
+			return false;
 		},
 
-		// TODO: remove ths function beginning with 2.0
-		_onSubmit: function(){
+		_onSubmit: function(e){
 			var fp = dijit.form.Form.prototype;
+			// TODO: remove ths if statement beginning with 2.0
 			if(this.execute != fp.execute || this.onExecute != fp.onExecute){
 				dojo.deprecated("dijit.form.Form:execute()/onExecute() are deprecated. Use onSubmit() instead.", "", "2.0");
 				this.onExecute();
 				this.execute(this.getValues());
+			}
+			if(this.onSubmit(e) === false){ // only exactly false stops submit
+				dojo.stopEvent(e);
 			}
 		},
 		
@@ -354,17 +366,13 @@ dojo.declare(
 			//		`onSubmit` is used to compute whether or not submission
 			//		should proceed
 
-			if(!this.isValid()){
-				if(e){ dojo.stopEvent(e); }
-				return false; // Boolean
-			}
-			return true; // Boolean
+			return this.isValid(); // Boolean
 		},
 
 		submit: function(){
 			// summary:
 			//		programmatically submit form if and only if the `onSubmit` returns true
-			if(!!this.onSubmit()){
+			if(!(this.onSubmit() === false)){
 				this.containerNode.submit();
 			}
 		}
