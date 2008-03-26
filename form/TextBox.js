@@ -155,7 +155,7 @@ dijit.selectInputText = function(/*DomNode*/element, /*Number?*/ start, /*Number
 	var _document = dojo.doc;
 	element = dojo.byId(element);
 	if(isNaN(start)){ start = 0; }
-	if(isNaN(stop)){ stop = element.value.length; }
+	if(isNaN(stop)){ stop = element.value ? element.value.length : 0; }
 	element.focus();
 	if(_document["selection"] && dojo.body()["createTextRange"]){ // IE
 		if(element.createTextRange){
