@@ -93,8 +93,9 @@ dojo.declare(
 	},
 
 	_computeSplitterThickness: function(region){
+		var re = new RegExp("top|bottom");
 		this._splitterThickness[region] =
-			dojo.marginBox(this._splitters[region])[/top|bottom/.test(region) ? 'h' : 'w'];
+			dojo.marginBox(this._splitters[region])[(re.test(region) ? 'h' : 'w')];
 	},
 
 	layout: function(){
