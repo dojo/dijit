@@ -71,7 +71,7 @@
 	<div id="closed" dojoType="dijit.TitlePane" title="Initially closed pane" open="false" width="200">
 		<form>
 			<title for="age">Age: </title><input id="age"><br>
-			<title for="discount">Discount card </title><input type=checkbox id="discount"><br>
+			<title for="discount">Discount card </title><input type="checkbox" id="discount"><br>
 			<button>Submit</button><br>
 		</form>
 	</div>
@@ -79,13 +79,13 @@
 
 	<h1>Test #4: title pane with href (initially closed)</h1>
 	<p>The pane should open to "Loading..." message and then 2 seconds later it should slide open more to show loaded data.</p>
-	<div dojoType="dijit.TitlePane" duration=1000 title="Pane from href" href="layout/getResponse.php?delay=3000&messId=3" open="false">
+	<div dojoType="dijit.TitlePane" duration="1000" title="Pane from href" href="layout/getResponse.php?delay=3000&messId=3" open="false">
 		Loading...
 	</div>
 
 	<h1>Test #5: title pane with href (initially closed)</h1>
 	<p>The pane should start to open to "Loading..." but halfway through href data will be loaded, and it should expand correctly.</p>
-	<div dojoType="dijit.TitlePane" duration=1000 title="Pane from href" href="layout/getResponse.php?delay=500&messId=3" open="false">
+	<div dojoType="dijit.TitlePane" duration="1000" title="Pane from href" href="layout/getResponse.php?delay=500&messId=3" open="false">
 		Loading...
 	</div>
 
