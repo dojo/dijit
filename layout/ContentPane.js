@@ -82,6 +82,13 @@ dojo.declare(
 	//			however big the ContentPane is
 	doLayout: "auto",
 
+	postMixInProperties: function(){
+		this.inherited('postMixInProperties', arguments);
+		var messages = dojo.i18n.getLocalization("dijit", "loading", this.lang);
+		this.loadingMessage = dojo.string.substitute(this.loadingMessage, messages);
+		this.errorMessage = dojo.string.substitute(this.errorMessage, messages);
+	},
+
 	postCreate: function(){
 		// remove the title attribute so it doesn't show up when i hover
 		// over a node
@@ -96,9 +103,6 @@ dojo.declare(
 			this._loadCheck();
 		}
 
-		var messages = dojo.i18n.getLocalization("dijit", "loading", this.lang);
-		this.loadingMessage = dojo.string.substitute(this.loadingMessage, messages);
-		this.errorMessage = dojo.string.substitute(this.errorMessage, messages);
 		var curRole = dijit.getWaiRole(this.domNode);
 		if (!curRole){
 			dijit.setWaiRole(this.domNode, "group");
