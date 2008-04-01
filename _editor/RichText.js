@@ -1418,11 +1418,10 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 			.replace(/<(\/)?em([ \>])/gi, '<$1i$2' ); // String
 	},
 
-	_srcInImgRegex	: /(?:(<img(?=\s).*?\ssrc=)("|')(.*?)\2)|(?:(<img\s.*?src=)([^"'][^ >]+))/gi ,
-	_hrefInARegex	: /(?:(<a(?=\s).*?\shref=)("|')(.*?)\2)|(?:(<a\s.*?href=)([^"'][^ >]+))/gi ,
-
 	_preFixUrlAttributes: function(/* String */ html){
-		return html.replace(this._hrefInARegex, '$1$4$2$3$5$2 _djrealurl=$2$3$5$2')
-			.replace(this._srcInImgRegex, '$1$4$2$3$5$2 _djrealurl=$2$3$5$2'); // String
+		return html.replace(/(?:(<img(?=\s).*?\ssrc=)("|')(.*?)\2)|(?:(<img\s.*?src=)([^"'][^ >]+))/gi, 
+		        '$1$4$2$3$5$2 _djrealurl=$2$3$5$2')
+			.replace(/(?:(<a(?=\s).*?\shref=)("|')(.*?)\2)|(?:(<a\s.*?href=)([^"'][^ >]+))/gi,
+			    '$1$4$2$3$5$2 _djrealurl=$2$3$5$2'); // String
 	}
 });
