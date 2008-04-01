@@ -20,8 +20,8 @@ dojo.declare("dijit.Toolbar",
 
 	postCreate: function(){
 		this.connectKeyNavHandlers(
-			this.isLeftToRight() ? [dojo.keys.LEFT_ARROW, dojo.keys.UP_ARROW] : [dojo.keys.RIGHT_ARROW, dojo.keys.UP_ARROW],
-			this.isLeftToRight() ? [dojo.keys.RIGHT_ARROW, dojo.keys.DOWN_ARROW] : [dojo.keys.LEFT_ARROW, dojo.keys.DOWN_ARROW]
+			this.isLeftToRight() ? [dojo.keys.LEFT_ARROW] : [dojo.keys.RIGHT_ARROW],
+			this.isLeftToRight() ? [dojo.keys.RIGHT_ARROW] : [dojo.keys.LEFT_ARROW]
 		);
 	},
 
