@@ -7,6 +7,11 @@ dojo.declare(
 	"dijit.form.ComboBoxMixin",
 	null,
 	{
+		// summary:
+		//		Implements the base functionality for ComboBox/FilteringSelect
+		// description:
+		//		All widgets that mix in dijit.formComboBoxMixin) must extend dijit.form._FormValueWidget
+
 		// item: Object
 		//		This is the item returned by the dojo.data.store implementation that
 		//		provides the data for this cobobox, it's the currently selected item.
@@ -920,10 +925,6 @@ dojo.declare(
 		// 
 		//		Some of the options to the ComboBox are actually arguments to the data
 		//		provider.
-		// 
-		//		You can assume that all the form widgets (and thus anything that mixes
-		//		in dijit.formComboBoxMixin) will inherit from dijit.form._FormWidget and thus the `this`
-		//		reference will also "be a" _FormWidget.
 
 		postMixInProperties: function(){
 			// this.inherited(arguments); // ??

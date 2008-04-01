@@ -15,7 +15,7 @@ dojo.declare("dijit.form.Button",
 	// example:
 	// |	var button1 = new dijit.form.Button({label: "hello world", onClick: foo});
 	// |	dojo.body().appendChild(button1.domNode);
-	//
+
 	// label: String
 	//	text to display in button
 	label: "",
