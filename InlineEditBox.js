@@ -75,7 +75,7 @@ dojo.declare("dijit.InlineEditBox",
 	noValueIndicator: "<span style='font-family: wingdings; text-decoration: underline;'>&nbsp;&nbsp;&nbsp;&nbsp;&#x270d;&nbsp;&nbsp;&nbsp;&nbsp;</span>",
 
 	postMixInProperties: function(){
-		this.inherited('postMixInProperties', arguments);
+		this.inherited(arguments);
 
 		// save pointer to original source node, since Widget nulls-out srcNodeRef
 		this.displayNode = this.srcNodeRef;
@@ -256,7 +256,7 @@ dojo.declare(
 	widgetsInTemplate: true,
 
 	postMixInProperties: function(){
-		this.inherited('postMixInProperties', arguments);
+		this.inherited(arguments);
 		this.messages = dojo.i18n.getLocalization("dijit", "common", this.lang);
 		dojo.forEach(["buttonSave", "buttonCancel"], function(prop){
 			if(!this[prop]){ this[prop] = this.messages[prop]; }

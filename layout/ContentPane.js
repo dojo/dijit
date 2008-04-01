@@ -83,7 +83,7 @@ dojo.declare(
 	doLayout: "auto",
 
 	postMixInProperties: function(){
-		this.inherited('postMixInProperties', arguments);
+		this.inherited(arguments);
 		var messages = dojo.i18n.getLocalization("dijit", "loading", this.lang);
 		this.loadingMessage = dojo.string.substitute(this.loadingMessage, messages);
 		this.errorMessage = dojo.string.substitute(this.errorMessage, messages);
@@ -216,7 +216,7 @@ dojo.declare(
 		// make sure we call onUnload
 		this._onUnloadHandler();
 		this._beingDestroyed = true;
-		this.inherited("destroy",arguments);
+		this.inherited(arguments);
 	},
 
 	resize: function(size){
