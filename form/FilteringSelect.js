@@ -143,6 +143,7 @@ dojo.declare(
 			//		Users shouldn't call this function; they should be calling
 			//		setDisplayedValue() instead
 			this._isvalid=true;
+                        this.item = item; // Fix #6381
 			this._setValue(	this.store.getIdentity(item), 
 							this.labelFunc(item, this.store), 
 							priorityChange);
@@ -160,7 +161,6 @@ dojo.declare(
 			//	description:
 			//		FilteringSelect overrides this to set both the visible and
 			//		hidden value from the information stored in the menu
-			this.item = tgt.item;
 			this._setValueFromItem(tgt.item, true);
 		},
 
