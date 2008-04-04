@@ -1401,45 +1401,35 @@ img.dijitColorPaletteUnder {
 	border:0;
 	padding:2px 8px 2px 8px;
 }
-.dijitTimePickerTick {
-	/* opacity:0.1 !important; */
-	color:#dedede;	
-	border-bottom:1px solid #dedede;
-	border-top:1px solid #dedede;
-	position:relative;
-}
-.dijitTimePickerTick .dijitTimePickerItemInner {
-	font-size:0.25em;
-}
+
+.dijitTimePickerTick,
 .dijitTimePickerMarker {
-	background-color:#ededed;
-	border-top:1px solid #999;
-	border-bottom:1px solid #999;
+	border-bottom:1px solid gray;
 }
 
-.dijitTimePickerItemHover {
-	opacity:1 !important;
-	background-color:#808080;
-	color:#fff;
-	border-top:1px solid #333;
-	border-bottom:1px solid #333;
-	cursor:pointer;
-}
-.dijitTimePickerMarker.dijitTimePickerItemHover {
-	font-size:1.3em;
+.dijitTimePicker .dijitDownArrowButton {
+	border-top: none !important;
 }
 
-.dijitTimePickerItemHover .dijitTimePickerItemInner {
-	display:block;
-	overflow:visible;
-	background-color:#808080;
-	font-size:1em;
+.dijitTimePickerTick {
+	color:#CCC;
+}
+
+.dijitTimePickerMarker {
+	color:black;
+	background-color:#CCC;
 }
 
 .dijitTimePickerItemSelected {
 	font-weight:bold;
 	color:#333;
-	background-color:#b7cdee !important;
+	background-color:#b7cdee;
+}
+
+.dijitTimePickerItemHover {
+	background-color:gray;
+	color:white;
+	cursor:pointer;
 }
 
 .dijit_a11y .dijitTimePickerItem {

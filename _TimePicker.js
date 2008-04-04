@@ -207,14 +207,23 @@ dojo.declare("dijit._TimePicker",
 
 		onmouseover:function(/*Event*/ e){
 			var tgr = (e.target.parentNode === this.timeMenu) ? e.target : e.target.parentNode;			
+			// if we aren't targeting an item, then we return
+			if(!dojo.hasClass(tgr, this.baseClass+"Item")){return;}
 			this._highlighted_option=tgr;
 			dojo.addClass(tgr, this.baseClass+"ItemHover");
+			if(dojo.hasClass(tgr, this.baseClass+"Marker")){
+				dojo.addClass(tgr, this.baseClass+"MarkerHover");
+			}else{
+				dojo.addClass(tgr, this.baseClass+"TickHover");
+			}
 		},
 
 		onmouseout:function(/*Event*/ e){
 			var tgr = (e.target.parentNode === this.timeMenu) ? e.target : e.target.parentNode;
 			if(this._highlighted_option===tgr){			
 				dojo.removeClass(tgr, this.baseClass+"ItemHover");
+				dojo.removeClass(tgr, this.baseClass+"MarkerHover");
+				dojo.removeClass(tgr, this.baseClass+"TickHover");
 			}
 		},
 
