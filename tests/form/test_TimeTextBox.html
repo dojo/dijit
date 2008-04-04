@@ -120,6 +120,19 @@
 			invalidMessage="Invalid time. Use HH:mm:ss where HH is 00 - 23 hours.">
 	</div>
 
+	<div class="dojoTitlePaneLabel">
+		<label for="q6"> Hover-based scrolling 12 Hour Time </label>
+		<span class="noticeMessage">TimeTextBox class,
+			Attributes: {hoverScroll: true, timePattern:'h:mm:ss a'}</span>
+	</div>
+	<div class="testExample">
+		<input id="q6" type="text" name="timeauto" class="medium" value="T17:45:00"
+			dojoType="dijit.form.TimeTextBox"
+			constraints="{hoverScroll: true, timePattern:'h:mm:ss a'}"
+			required="true"
+			invalidMessage="Invalid time." />
+	</div>
+
 	<script>
 	        function displayData() {
 	                var f = document.getElementById("form1");

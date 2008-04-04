@@ -19,6 +19,9 @@ dojo.declare(
 		// visibleRange: String
 		//		see dijit._TimePicker.visibleRange
 		visibleRange: "T05:00:00"
+		
+		// hoverScroll: Boolean
+		//		see dijit._TimePicker.hoverScroll
 	}
 );
 =====*/
@@ -54,6 +57,13 @@ dojo.declare("dijit._TimePicker",
 		//		The TimePicker will only display times in this range.
 		//		Example: `T05:00:00` displays 5 hours of options
 		visibleRange: "T05:00:00",
+
+		// hoverScroll: Boolean
+		//		Specifying true here will have the time picker scroll by only
+		//		hovering on the arrow buttons - rather than needing to click
+		//		them.  It is accomplished by kicking off a typematic trigger
+		//		when the buttons are hovered.
+		hoverScroll: false,
 
 		// value: String
 		//		Date to display.
@@ -157,7 +167,25 @@ dojo.declare("dijit._TimePicker",
 			typematic(this.downArrow,this,this._onArrowDown, 0.8, 500);
 			//dijit.typematic.addListener(this.upArrow,this.timeMenu, {keyCode:dojo.keys.UP_ARROW,ctrlKey:false,altKey:false,shiftKey:false}, this, "_onArrowUp", 0.8, 500);
 			//dijit.typematic.addListener(this.downArrow, this.timeMenu, {keyCode:dojo.keys.DOWN_ARROW,ctrlKey:false,altKey:false,shiftKey:false}, this, "_onArrowDown", 0.8,500);
-
+			
+			if(this.hoverScroll){
+				// Connect some callback functions to the hover event of the arrows
+				var triggerFx = function(cb){
+					return function(cnt){
+						// don't run on the first firing
+						if(cnt > 0){cb.call(this, arguments);}
+					};
+				};
+				var hoverFx = function(node, cb){
+					return function(e){
+						dojo.stopEvent(e);
+						dijit.typematic.trigger(e, this, node, triggerFx(cb), node, 0.85, 250);
+					};
+				};
+				this.connect(this.upArrow, "onmouseover", hoverFx(this.upArrow, this._onArrowUp));
+				this.connect(this.downArrow, "onmouseover", hoverFx(this.downArrow, this._onArrowDown));
+			}
+			
 			this.inherited(arguments);
 			this.setValue(this.value);
 		},
