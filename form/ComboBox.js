@@ -47,6 +47,15 @@ dojo.declare(
 		//		Searches pattern match against this field
 		searchAttr: "name",
 
+		// labelAttr: String
+		//		Optional.  The text that actually appears in the drop down.
+		//		If not specified, the searchAttr text is used instead.
+		labelAttr: "",
+
+		// labelType: String
+		//		"html" or "text"
+		labelType: "text",
+
 		// queryExpr: String
 		//		dojo.data query expression pattern.
 		//		`${0}` will be substituted for the user text.
@@ -616,8 +625,8 @@ dojo.declare(
 
 		_getMenuLabelFromItem:function(/*Item*/ item){
 			return {
-				html: false, 
-				label: this.store.getValue(item, this.searchAttr)
+				html: this.labelType=="html", 
+				label: this.store.getValue(item, this.labelAttr || this.searchAttr)
 			};
 		},
 

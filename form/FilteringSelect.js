@@ -27,18 +27,6 @@ dojo.declare(
 		//	- List can be specified either as a static list or via a javascript
 		//	  function (that can get the list from a server)
 		//
-		// searchAttr: String
-		//		Searches pattern match against this field
-		//
-		// labelAttr: String
-		//		Optional.  The text that actually appears in the drop down.
-		//		If not specified, the searchAttr text is used instead.
-		labelAttr: "",
-
-		// labelType: String
-		//		"html" or "text"
-		labelType: "text",
-
 		_isvalid:true,
 
 		_lastDisplayedValue: "",
@@ -193,20 +181,6 @@ dojo.declare(
 						dojo.hitch(_this, "_setValue")(undefined, label, false);
 					}
 				});
-			}
-		},
-
-		_getMenuLabelFromItem:function(/*Item*/ item){
-			// internal function to help ComboBoxMenu figure out what to display
-			if(this.labelAttr){
-				return {
-					html: this.labelType=="html", 
-					label: this.store.getValue(item, this.labelAttr)
-				};
-			}else{
-				// because this function is called by ComboBoxMenu,
-				// this.inherited tries to find the superclass of ComboBoxMenu
-				return dijit.form.ComboBoxMixin.prototype._getMenuLabelFromItem.apply(this, arguments);
 			}
 		},
 
