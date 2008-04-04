@@ -80,7 +80,9 @@ dojo.declare("dijit._editor.plugins.EnterKeyHandling", dijit._editor._Plugin, {
 		}
 		if(this._pressedEnterInBlock){
 			//the new created is the original current P, so we have previousSibling below
-			this.removeTrailingBr(this._pressedEnterInBlock.previousSibling);
+			if(this._pressedEnterInBlock.previousSibling){
+			    this.removeTrailingBr(this._pressedEnterInBlock.previousSibling);
+			}
 			delete this._pressedEnterInBlock;
 		}
 	},
