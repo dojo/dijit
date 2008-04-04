@@ -1113,7 +1113,21 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 				return true;
 			}
 		}
-
+        if(command == 'indent'){
+            //should not allow user to indent neither a non-list node nor list item which is the first item in its parent
+            var li=dojo.withGlobal(this.window, "getAncestorElement",dijit._editor.selection, ['li']);
+            var n=li && li.previousSibling;
+            while(n){
+                if(n.nodeType==1){
+                    return true;
+                }
+                n = n.previousSibling;
+            }
+            return false;
+        }else if(command == 'outdent'){
+            //should not allow user to outdent a non-list node
+            return dojo.withGlobal(this.window, "hasAncestorElement",dijit._editor.selection, ['li']);
+        }
 		// return this.document.queryCommandEnabled(command);
 		var elem = dojo.isIE ? this.document.selection.createRange() : this.document;
 		return elem.queryCommandEnabled(command);
