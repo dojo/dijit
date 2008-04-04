@@ -188,7 +188,9 @@
 	color:black !important;
 }
 .dijit_a11y .dijitButtonNode {
-	border:1px solid black !important;
+	border-color: black!important;
+	border-style: outset!important;
+	border-width: medium!important;
 }
 
 .dijit_a11y .dijitButtonDisabled .dijitButtonNode,
@@ -198,7 +200,8 @@
 .dijit_a11y .dijitComboBoxDisabled .dijitButtonNode,
 .dijit_a11y .dijitSpinnerDisabled .dijitButtonNode,
 .dijit_a11y .dijitSpinnerDisabled .dijitInputField {
-	border-style: dotted !important;
+	border-style: outset!important;
+	border-width: medium!important;
 	border-color: #999 !important;
 	color:#999 !important;
 }
