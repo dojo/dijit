@@ -145,8 +145,8 @@ dojo.declare("dijit._editor.plugins.EnterKeyHandling", dijit._editor._Plugin, {
 		}
 
 		//text node directly under body, let's wrap them in a node
-		if(!block.blockNode){
-			this.editor.document.execCommand('formatblock', false, this.blockNodeForEnter);
+		if(!block.blockNode || block.blockNode===this.editor.editNode){
+			dijit._editor.RichText.prototype.execCommand.call(this.editor, 'formatblock',this.blockNodeForEnter);
 			//get the newly created block node
 			// FIXME
 			block = {blockNode:dojo.withGlobal(this.editor.window, "getAncestorElement", dijit._editor.selection, [this.blockNodeForEnter]),

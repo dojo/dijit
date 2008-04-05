@@ -449,7 +449,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 
 		if(!this.iframe){
 			var ifr = this.iframe = dojo.doc.createElement("iframe");
-			ifr.id=this.id;
+			ifr.id=this.id+"_iframe";
 			// this.iframe.src = "about:blank";
 			// dojo.doc.body.appendChild(this.iframe);
 			// console.debug(this.iframe.contentDocument.open());
