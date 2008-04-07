@@ -383,17 +383,8 @@ dojo.declare("dijit._Widget", null, {
 
 	isLeftToRight: function(){
 		// summary:
-		//		Checks the DOM to for the text direction for bi-directional support
-		// description:
-		//		This method cannot be used during widget construction because the widget
-		//		must first be connected to the DOM tree.  Parent nodes are searched for the
-		//		'dir' attribute until one is found, otherwise left to right mode is assumed.
-		//		See HTML spec, DIR attribute for more information.
-
-		if(!("_ltr" in this)){
-			this._ltr = dojo.getComputedStyle(this.domNode).direction != "rtl";
-		}
-		return this._ltr; //Boolean
+		//		Checks the page for text direction
+		return dojo._isBodyLtr(); //Boolean
 	},
 
 	isFocusable: function(){
