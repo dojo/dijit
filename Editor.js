@@ -59,6 +59,8 @@ dojo.declare(
 			dojo.forEach(this.plugins, this.addPlugin, this);
 			this.onNormalizedDisplayChanged(); //update toolbar button status
 //			}catch(e){ console.debug(e); }
+
+			this.toolbar.startup();
 		},
 		destroy: function(){
 			dojo.forEach(this._plugins, function(p){
