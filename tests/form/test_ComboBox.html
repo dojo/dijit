@@ -204,7 +204,7 @@ The drop down list is filtered by the data you have already typed in.
 		<button id="but" onclick='toggleDisabled("but", "combo3"); return false;'>Enable</button>
 	</div>
 	<hr>
-	<p>ComboBox #4: url, autoComplete=false required=true:</p>
+	<p>ComboBox #4: url, autoComplete=false required=true and highlightMatch=false</p>
 	<label for="combobox4">US State test 4: </label>
 	<input dojoType="dijit.form.ComboBox"
 			value=""
@@ -217,6 +217,7 @@ The drop down list is filtered by the data you have already typed in.
 			autoComplete="false"
 			id="combobox4"
 			required="true"
+			highlightMatch="false"
 	>
 	<span>Value: <input id="value4" disabled></span>
 	<hr>

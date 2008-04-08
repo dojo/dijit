@@ -38,6 +38,13 @@ dojo.declare(
 		//		the `<input>` field
 		autoComplete: true,
 
+		// highlightMatch: Boolean
+		//		If the ComboBox opens with the serach results and the searched
+		//		string can be found it will be highlighted.
+		//		This value is not considered when labelType!="text" to not
+		//		screw up any mark up the label might contain.
+		highlightMatch: true,
+		
 		// searchDelay: Integer
 		//		Delay in milliseconds between when user types something and we start
 		//		searching based on that value
@@ -505,6 +512,7 @@ dojo.declare(
 			// value from FilteringSelect's keyField
 			this.item = null; // #4872
 			var query = dojo.clone(this.query); // #5970
+			this._lastInput = key; // Store exactly what was entered by the user.
 			this._lastQuery = query[this.searchAttr] = this._getQueryString(key);
 			// #5970: set _lastQuery, *then* start the timeout
 			// otherwise, if the user types and the last query returns before the timeout,
@@ -624,10 +632,23 @@ dojo.declare(
 		},
 
 		_getMenuLabelFromItem:function(/*Item*/ item){
-			return {
-				html: this.labelType=="html", 
-				label: this.store.getValue(item, this.labelAttr || this.searchAttr)
-			};
+			var label = this.store.getValue(item, this.labelAttr || this.searchAttr);
+			var labelType = this.labelType;
+			// If labelType is not "text" we don't want to screw any markup ot whatever.
+			if (this.highlightMatch==true && this.labelType=="text" && this._lastInput){
+				label = this.doHighlight(label);
+				labelType = "html";
+			}
+			return {html: labelType=="html", label: label};
+		},
+		
+		doHighlight:function(/*String*/label){
+			// summary:
+			//		Highlights the string entered by the user in the menu, by default this
+			//		highlights the first occurence found. Override this method
+			//		to implement your custom highlighing.
+			var rx = new RegExp("("+this._lastInput+")", "i");
+			return label.replace(rx, '<span class="dijitComboBoxHighlightMatch">$1</span>');
 		},
 
 		open:function(){
@@ -652,7 +673,6 @@ dojo.declare(
 dojo.declare(
 	"dijit.form._ComboBoxMenu",
 	[dijit._Widget, dijit._Templated],
-
 	{
 		//	summary:
 		//		Focus-less div based menu for internal use in ComboBox

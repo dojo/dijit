@@ -80,3 +80,8 @@
 	width: 16px;
 	background: transparent url('../images/warning.png') no-repeat center center;
 }
+
+/* The highlight is shown in the ComboBox menu. */
+.soria .dijitComboBoxHighlightMatch {
+	background-color:#f9f7ba;
+}
