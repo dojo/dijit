@@ -1,6 +1,7 @@
 dojo.provide("dijit.form.ComboBox");
 
 dojo.require("dijit.form.ValidationTextBox");
+dojo.require("dojo.data.util.simpleFetch");
 dojo.requireLocalization("dijit.form", "ComboBox");
 
 dojo.declare(
@@ -1010,26 +1011,18 @@ dojo.declare("dijit.form._ComboBoxDataStore", null, {
 		return true;
 	},
 
-	fetch: function(/* Object */ args){
-		//	summary:
-		//		Given a query and set of defined options, such as a start and count of items to return,
-		//		this method executes the query and makes the results available as data items.
-		//		Refer to dojo.data.api.Read.fetch() more details.
-		//
-		//	description:
-		//		Given a query like
-		//
-		//	|	{
-		// 	|		query: {name: "Cal*"},
-		//	|		start: 30,
-		//	|		count: 20,
-		//	|		ignoreCase: true,
-		//	|		onComplete: function(/* item[] */ items, /* Object */ args){...}
-		// 	|	}
-		//
-		//		will call `onComplete()` with the results of the query (and the argument to this method)
-
-		// convert query to regex (ex: convert "first\last*" to /^first\\last.*$/i) and get matching vals
+	getFeatures: function(){
+		return {"dojo.data.api.Read": true, "dojo.data.api.Identity": true};
+	},
+	
+	_fetchItems: function(	/* Object */ args,
+							/* Function */ findCallback, 
+							/* Function */ errorCallback){
+		//	summary: 
+		//		See dojo.data.util.simpleFetch.fetch()
+		if(!args.query){ args.query = {}; }
+		if(!args.query.name){ args.query.name = "*"; }
+		if(!args.queryOptions){ args.queryOptions = {}; }
 		var query = "^" + args.query.name
 				.replace(/([\\\|\(\)\[\{\^\$\+\?\.\<\>])/g, "\\$1")
 				.replace("*", ".*") + "$",
@@ -1037,12 +1030,7 @@ dojo.declare("dijit.form._ComboBoxDataStore", null, {
 			items = dojo.query("> option", this.root).filter(function(option){
 				return (option.innerText || option.textContent || '').match(matcher);
 			} );
-
-		var start = args.start || 0,
-			end = ("count" in args && args.count != Infinity) ? (start + args.count) : items.length ;
-		args.onComplete(items.slice(start, end), args);
-		return args; // Object
-		// TODO: I don't need to return the length?
+		findCallback(items, args);
 	},
 
 	close: function(/*dojo.data.api.Request || args || null */ request){
@@ -1084,3 +1072,5 @@ dojo.declare("dijit.form._ComboBoxDataStore", null, {
 			root)[0];	// dojo.data.Item
 	}
 });
+//Mix in the simple fetch implementation to this class. 
+dojo.extend(dijit.form._ComboBoxDataStore,dojo.data.util.simpleFetch);
