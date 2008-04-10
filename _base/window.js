@@ -9,8 +9,6 @@ dijit.getDocumentWindow = function(doc){
 		/*
 			This is a Safari specific function that fix the reference to the parent
 			window from the document object.
-			TODO: #5711: should the use of document below reference dojo.doc instead
-			in case they're not the same?
 		*/
 		var fix=function(win){
 			win.document._parentWindow=win;
@@ -25,7 +23,6 @@ dijit.getDocumentWindow = function(doc){
 	//reference to the real window object (maybe a copy), so we must fix it as well
 	//We use IE specific execScript to attach the real window reference to
 	//document._parentWindow for later use
-	//TODO: #5711: should the use of document below reference dojo.doc instead in case they're not the same?
 	if(dojo.isIE && window !== document.parentWindow && !doc._parentWindow){
 		/*
 		In IE 6, only the variable "window" can be used to connect events (others
