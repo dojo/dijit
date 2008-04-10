@@ -73,8 +73,7 @@ dojo.declare("dijit._editor.plugins.FontChoice",
 			});
 			items.push({label: "", name:"", value:""}); // FilteringSelect doesn't like unmatched blank strings
 
-			dijit._editor.plugins.FontChoice.superclass._initButton.apply(this,
-				[{ labelType: "html", labelAttr: "label", searchAttr: "name", store: new dojo.data.ItemFileReadStore(
+			this.inherited(arguments,[{ labelType: "html", labelAttr: "label", searchAttr: "name", store: new dojo.data.ItemFileReadStore(
 					{ data: { identifier: "value", items: items } })}]);
 
 			this.button.setValue("");
@@ -127,6 +126,7 @@ dojo.declare("dijit._editor.plugins.FontChoice",
 					var pixels = parseInt(value);
 					value = {10:1, 13:2, 16:3, 18:4, 24:5, 32:6, 48:7}[pixels] || value;
 				}
+
 				this.updating = true;
 				this.button.setValue(value);
 				delete this.updating;

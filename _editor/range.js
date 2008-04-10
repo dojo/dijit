@@ -65,12 +65,12 @@ dijit.range.getNode = function(/*Array*/index, /*DomNode*/parent){
 	return node;
 }
 
-dijit.range.getCommonAncestor = function(n1,n2,root){
-	var getAncestors = function(n,root){
+dijit.range.getCommonAncestor = function(n1,n2){
+	var getAncestors = function(n){
 		var as=[];
 		while(n){
 			as.unshift(n);
-			if(n!=root && n.tagName!='BODY'){
+			if(n.nodeName!='BODY'){
 				n = n.parentNode;
 			}else{
 				break;
@@ -78,8 +78,8 @@ dijit.range.getCommonAncestor = function(n1,n2,root){
 		}
 		return as;
 	};
-	var n1as = getAncestors(n1,root);
-	var n2as = getAncestors(n2,root);
+	var n1as = getAncestors(n1);
+	var n2as = getAncestors(n2);
 
 	var m = Math.min(n1as.length,n2as.length);
 	var com = n1as[0]; //at least, one element should be in the array: the root (BODY by default)
@@ -196,21 +196,7 @@ dijit.range.getSelection = function(win, /*Boolean?*/ignoreUpdate){
 	if(dijit.range._w3c){
 		return win.getSelection();
 	}else{//IE
-		var id=win.__W3CRange,s;
-		if(!id || !dijit.range.ie.cachedSelection[id]){
-			s = new dijit.range.ie.selection(win);
-			//use win as the key in an object is not reliable, which
-			//can leads to quite odd behaviors. thus we generate a
-			//string and use it as a key in the cache
-			id=(new Date).getTime();
-			while(id in dijit.range.ie.cachedSelection){
-				id=id+1;
-			}
-			id=String(id);
-			dijit.range.ie.cachedSelection[id] = s;
-		}else{
-			s = dijit.range.ie.cachedSelection[id];
-		}
+		var s = new dijit.range.ie.selection(win);
 		if(!ignoreUpdate){
 			s._getCurrentSelection();
 		}
@@ -428,7 +414,7 @@ if(!dijit.range._w3c){
 					endContainter = tmpary[0], endOffset = tmpary[1];
 				}
 			}
-			return [[startContainter, startOffset],[endContainter, endOffset], range.parentElement()];
+			return [[startContainter, startOffset],[endContainter, endOffset]];
 		},
 		setRange: function(range, startContainter,
 			startOffset, endContainter, endOffset, check){
@@ -447,7 +433,7 @@ dojo.declare("dijit.range.W3CRange",null, {
 	constructor: function(){
 		if(arguments.length>0){
 			this.setStart(arguments[0][0][0],arguments[0][0][1]);
-			this.setEnd(arguments[0][1][0],arguments[0][1][1],arguments[0][2]);
+			this.setEnd(arguments[0][1][0],arguments[0][1][1]);
 		}else{
 			this.commonAncestorContainer = null;
 			this.startContainer = null;
@@ -467,21 +453,15 @@ dojo.declare("dijit.range.W3CRange",null, {
 		r.collapse(true);
 		range.setEndPoint(end?'EndToEnd':'StartToStart',r);
 	},
-	_updateInternal: function(__internal_common){
+	_updateInternal: function(){
 		if(this.startContainer !== this.endContainer){
-			if(!__internal_common){
-				var r = (this._body||this.startContainer.ownerDocument.body).createTextRange();
-				this._simpleSetEndPoint(this.startContainer,r);
-				this._simpleSetEndPoint(this.endContainer,r,true);
-				__internal_common = r.parentElement();
-			}
-			this.commonAncestorContainer = dijit.range.getCommonAncestor(this.startContainer, this.endContainer, __internal_common);
+			this.commonAncestorContainer = dijit.range.getCommonAncestor(this.startContainer, this.endContainer);
 		}else{
 			this.commonAncestorContainer = this.startContainer;
 		}
 		this.collapsed = (this.startContainer === this.endContainer) && (this.startOffset == this.endOffset);
 	},
-	setStart: function(node, offset, __internal_common){
+	setStart: function(node, offset){
 		offset=parseInt(offset);
 		if(this.startContainer === node && this.startOffset == offset){
 			return;
@@ -491,12 +471,12 @@ dojo.declare("dijit.range.W3CRange",null, {
 		this.startContainer = node;
 		this.startOffset = offset;
 		if(!this.endContainer){
-			this.setEnd(node, offset, __internal_common);
+			this.setEnd(node, offset);
 		}else{
-			this._updateInternal(__internal_common);
+			this._updateInternal();
 		}
 	},
-	setEnd: function(node, offset, __internal_common){
+	setEnd: function(node, offset){
 		offset=parseInt(offset);
 		if(this.endContainer === node && this.endOffset == offset){
 			return;
@@ -506,9 +486,9 @@ dojo.declare("dijit.range.W3CRange",null, {
 		this.endContainer = node;
 		this.endOffset = offset;
 		if(!this.startContainer){
-			this.setStart(node, offset, __internal_common);
+			this.setStart(node, offset);
 		}else{
-			this._updateInternal(__internal_common);
+			this._updateInternal();
 		}
 	},
 	setStartAfter: function(node, offset){

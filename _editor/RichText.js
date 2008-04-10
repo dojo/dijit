@@ -194,15 +194,18 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 		//do not use _cacheLocalBlockFormatNames here, as it will
 		//trigger security warning in IE7
 
-		//in the array below, ul can not come directly after ol,
-		//otherwise the queryCommandValue returns Normal for it
-		var formats = ['p', 'pre', 'address', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'ol', 'div', 'ul'];
+		//put p after div, so if IE returns Normal, we show it as paragraph
+		//We can distinguish p and div if IE returns Normal, however, in order to detect that,
+		//we have to call this.document.selection.createRange().parentElement() or such, which
+		//could slow things down. Leave it as it is for now
+		var formats = ['div', 'p', 'pre', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'ol', 'ul', 'address'];
 		var localhtml = "", format, i=0;
 		while((format=formats[i++])){
+		    //append a <br> after each element to separate the elements more reliably
 			if(format.charAt(1) != 'l'){
-				localhtml += "<"+format+"><span>content</span></"+format+">";
+				localhtml += "<"+format+"><span>content</span></"+format+"><br/>";
 			}else{
-				localhtml += "<"+format+"><li>content</li></"+format+">";
+				localhtml += "<"+format+"><li>content</li></"+format+"><br/>";
 			}
 		}
 		//queryCommandValue returns empty if we hide editNode, so move it out of screen temporary
@@ -219,7 +222,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 			var nativename = node.tagName.toLowerCase();
 			this._local2NativeFormatNames[nativename] = dojo.doc.queryCommandValue("formatblock");//this.queryCommandValue("formatblock");
 			this._native2LocalFormatNames[this._local2NativeFormatNames[nativename]] = nativename;
-			node = node.nextSibling;
+			node = node.nextSibling.nextSibling;
 		}
 		dojo.doc.body.removeChild(div);
 	},
@@ -829,7 +832,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 		}
 		if(dojo.isMoz && this.iframe){
 			this.iframe.contentDocument.title = this._localizedIframeTitles.iframeEditTitle;
-		} 
+		}
 	},
 	_initialFocus: true,
 	_onFocus: function(/*Event*/e){
@@ -1147,7 +1150,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 		if(this.disabled){ return false; }
 		command = this._normalizeCommand(command);
 		if(dojo.isIE && command == "formatblock"){
-			return this._local2NativeFormatNames[this.document.queryCommandValue(command)];
+			return this._native2LocalFormatNames[this.document.queryCommandValue(command)];
 		}
 		return this.document.queryCommandValue(command);
 	},
