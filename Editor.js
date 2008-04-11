@@ -185,11 +185,9 @@ dojo.declare(
 			}
 		},
 		onBeforeDeactivate: function(){
-		    //if(!this._savedSelection){
-		        //in IE, the selection will be lost when other elements get focus,
-		        //let's save focus before the editor is deactivated
-		        this._savedSelection = this._getBookmark();
-		    //}
+	        //in IE, the selection will be lost when other elements get focus,
+	        //let's save focus before the editor is deactivated
+	        this._savedSelection = this._getBookmark();
 		},
 		focus: function(){
 		    this.inherited(arguments);
