@@ -20,7 +20,7 @@
 				dojo.declare("SimpleTemplate", [dijit._Widget, dijit._Templated], {
 					attributeMap: {},
 					id: "test1",
-					templateString: "<button><span>hello &gt; world</span></button>"
+					templateString: "<button><span>hello &lt; world</span></button>"
 				});
 
 				// Template with variables
@@ -28,7 +28,7 @@
 					attributeMap: {},
 					id: "test2",
 					num: 5,
-					text: "hello ><\"' world",
+					text: "hello <\"' world",
 
 					templateString: "<button><span num=\"${num}\">${text}</span></button>"
 				});
@@ -77,13 +77,13 @@
 							var widget=new SimpleTemplate();
 							var wrapper=dojo.byId("simpleWrapper");
 							wrapper.appendChild(widget.domNode);
-							t.is('<button widgetid=\"test1\"><span>hello &gt; world</span></button>', wrapper.innerHTML.toLowerCase());			
+							t.is('<button widgetid=\"test1\"><span>hello &lt; world</span></button>', wrapper.innerHTML.toLowerCase());			
 						},
 						function variables(t){
 							var widget=new VariableTemplate();
 							var wrapper=dojo.byId("variables1Wrapper");
 							wrapper.appendChild(widget.domNode);
-							t.is('<button widgetid=\"test2\"><span num="5">hello &gt;&lt;"\' world</span></button>', wrapper.innerHTML.toLowerCase());
+							t.is('<button widgetid=\"test2\"><span num="5">hello &lt;"\' world</span></button>', wrapper.innerHTML.toLowerCase());
 						},
 
 						function variables2(t){	
