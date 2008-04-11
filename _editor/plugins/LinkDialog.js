@@ -86,17 +86,7 @@ dojo.declare("dijit._editor.plugins.LinkDialog",
  		},
 
 		_onCloseDialog: function(){
-			// FIXME: IE is really messed up here!!
-			if(dojo.isIE){
-				if("_savedSelection" in this){
-					var b = this._savedSelection;
-					delete this._savedSelection;
-					this.editor.focus();
-					this.editor._moveToBookmark(b);
-				}
-			}else{
-				this.editor.focus();
-			}
+			this.editor.focus();
 		},
 
 		_onOpenDialog: function(){
@@ -109,10 +99,7 @@ dojo.declare("dijit._editor.plugins.LinkDialog",
 			}else{
 				text = dojo.withGlobal(this.editor.window, dijit._editor.selection.getSelectedText);
 			}
-			// FIXME: IE is *really* b0rken
-			if(dojo.isIE){
-				this._savedSelection = this.editor._getBookmark();
-			}
+
 			this.dropDown.reset();
 			this.dropDown.setValues({urlInput: url || '', textInput: text || ''});
 			//dijit.focus(this.urlInput);

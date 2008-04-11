@@ -80,12 +80,8 @@ dojo.declare("dijit._editor.plugins.FontChoice",
 
 			this.connect(this.button, "onChange", function(choice){
 				if(this.updating){ return; }
-				// FIXME: IE is really messed up here!!
-				if(dojo.isIE && "_savedSelection" in this){
-					var b = this._savedSelection;
-					delete this._savedSelection;
+				if(dojo.isIE){
 					this.editor.focus();
-					this.editor._moveToBookmark(b);
 				}else{
 //					this.editor.focus();
 					dijit.focus(this._focusHandle);
@@ -132,10 +128,6 @@ dojo.declare("dijit._editor.plugins.FontChoice",
 				delete this.updating;
 			}
 
-			// FIXME: IE is *really* b0rken
-			if(dojo.isIE){
-				this._savedSelection = this.editor._getBookmark();
-			}
 			this._focusHandle = dijit.getFocus(this.editor.iframe);
 		},
 

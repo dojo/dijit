@@ -27,6 +27,9 @@ dojo.declare(
 				"insertOrderedList","insertUnorderedList","indent","outdent","|","justifyLeft","justifyRight","justifyCenter","justifyFull"/*"createLink"*/];
 			}
 
+			if(dojo.isIE){
+				this.events.push("onBeforeDeactivate");
+			}
 			this._plugins=[];
 			this._editInterval = this.editActionInterval * 1000;
 		},
@@ -180,6 +183,21 @@ dojo.declare(
 			}else{
 				return this.inherited('queryCommandEnabled',arguments);
 			}
+		},
+		onBeforeDeactivate: function(){
+		    //if(!this._savedSelection){
+		        //in IE, the selection will be lost when other elements get focus,
+		        //let's save focus before the editor is deactivated
+		        this._savedSelection = this._getBookmark();
+		    //}
+		},
+		focus: function(){
+		    this.inherited(arguments);
+		    if(this._savedSelection){
+		        //restore the focus for IE
+		        this._moveToBookmark(this._savedSelection);
+		        delete this._savedSelection;
+		    }
 		},
 		_moveToBookmark: function(b){
 			var bookmark=b;
