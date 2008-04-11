@@ -141,6 +141,9 @@ dojo.declare("dijit._editor.plugins.EnterKeyHandling", dijit._editor._Plugin, {
 				//press enter in middle of P may leave a trailing <br/>, let's remove it later
 				this._pressedEnterInBlock = block.blockNode;
 			}
+			if(/^(?:\s|&nbsp;)$/.test(block.blockNode.innerHTML)){
+				block.blockNode.innerHTML='';
+			}
 			return true;
 		}
 
