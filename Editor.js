@@ -192,8 +192,20 @@ dojo.declare(
 		focus: function(){
 		    this.inherited(arguments);
 		    if(this._savedSelection){
-		        //restore the focus for IE
-		        this._moveToBookmark(this._savedSelection);
+		    	var s=this.document.selection;
+		    	var restore=true;
+		    	if(s.type=='Text'){
+		    		var r=s.createRange();
+		    		if(r.htmlText){
+		    			//only restore the focus for IE if the current range is collapsed
+		    			//if not collapsed, then it means the editor does not lose focus
+		    			//and there is no need to restore it
+		    			restore=false;
+		    		}
+		    	}
+		    	if(restore){
+		        	this._moveToBookmark(this._savedSelection);
+		    	}
 		        delete this._savedSelection;
 		    }
 		},
