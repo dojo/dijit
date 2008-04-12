@@ -142,6 +142,11 @@ dojo.declare(
 			this._onMouse(e);	// update CSS classes
 		},
 
+		_onkeyup: function(/*Event*/e){
+			this._update(e);
+			this.onkeyup(e);
+		},
+
 		//////////// INITIALIZATION METHODS ///////////////////////////////////////
 
 		constructor: function(){

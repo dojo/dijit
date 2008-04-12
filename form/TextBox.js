@@ -141,8 +141,12 @@ dojo.declare(
 		_onBlur: function(){
 			this._setBlurValue();
 			this.inherited(arguments);
-		}
+		},
 
+		onkeyup: function(){
+			//	summary:
+			//		User replaceable keyup event handler
+		}
 	}
 );
 
