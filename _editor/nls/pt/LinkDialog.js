@@ -1,7 +1,7 @@
 ({
-	title: "Vincular URL",
+	createLinkTitle: "Propriedades de Link",
+	insertImageTitle: "Propriedades de Imagem",
 	url: "URL:",
-	text: "Texto:\n",
-	set: "Definir\n",
-	urlInvalidMessage: "URL inválida. Digite uma URL completa, como 'http://www.dojotoolkit.org'"	
+	text: "Descrição:",
+	set: "Definir"
 })

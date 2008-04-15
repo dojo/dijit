@@ -24,6 +24,7 @@
 	'undo': '撤销',
 	'unlink': '除去链接',
 	'createLink': '创建链接',
+	'toggleDir': '固定方向',
 	'insertImage': '插入图像',
 	'insertTable': '插入/编辑表',
 	'toggleTableBorder': '切换表边框',

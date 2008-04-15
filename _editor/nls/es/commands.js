@@ -24,6 +24,7 @@
 	'undo': 'Deshacer',
 	'unlink': 'Eliminar enlace',
 	'createLink': 'Crear enlace',
+	'toggleDir': 'Conmutar dirección',
 	'insertImage': 'Insertar imagen',
 	'insertTable': 'Insertar/Editar tabla',
 	'toggleTableBorder': 'Conmutar borde de tabla',

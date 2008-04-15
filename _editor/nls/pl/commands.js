@@ -24,6 +24,7 @@
 	'undo': 'Cofnij',
 	'unlink': 'Usuń odsyłacz',
 	'createLink': 'Utwórz odsyłacz',
+	'toggleDir': 'Przełącz kierunek',
 	'insertImage': 'Wstaw obraz',
 	'insertTable': 'Wstaw/edytuj tabelę',
 	'toggleTableBorder': 'Przełącz ramkę tabeli',

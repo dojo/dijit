@@ -24,6 +24,7 @@
 	'undo': '실행 취소',
 	'unlink': '링크 제거',
 	'createLink': '링크 작성',
+	'toggleDir': '토글 방향',
 	'insertImage': '이미지 삽입',
 	'insertTable': '테이블 삽입/편집',
 	'toggleTableBorder': '토글 테이블 경계',

@@ -1,5 +1,5 @@
 ({
-	invalidMessage: "O valor digitado não é válido.",
-	missingMessage: "Esse valor é necessário.",
-	rangeMessage: "Esse valor está fora do intervalo."
+	invalidMessage: "O valor inserido não é válido.",
+	missingMessage: "Este valor é necessário.",
+	rangeMessage: "Este valor está fora dos limites."
 })

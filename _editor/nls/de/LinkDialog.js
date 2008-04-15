@@ -1,7 +1,7 @@
 ({
-	title: "Link-URL",
+	createLinkTitle: "Linkeigenschaften",
+	insertImageTitle: "Grafikeigenschaften",
 	url: "URL:",
-	text: "Text:",
-	set: "Festlegen",
-	urlInvalidMessage: "Ungültiger URL. Geben Sie einen vollständigen URL ein. Beispiel: 'http://www.dojotoolkit.org'"	
+	text: "Beschreibung:",
+	set: "Festlegen"
 })
