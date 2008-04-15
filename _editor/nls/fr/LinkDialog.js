@@ -1,7 +1,7 @@
 ({
-	title: "URL du lien",
+	createLinkTitle: "Propriétés du lien",
+	insertImageTitle: "Propriétés de l'image",
 	url: "URL :",
-	text: "Texte :",
-	set: "Définir",
-	urlInvalidMessage: "Adresse URL non valide. Entrez une adresse URL complète de type 'http://www.dojotoolkit.org'"	
+	text: "Description :",
+	set: "Définir"
 })

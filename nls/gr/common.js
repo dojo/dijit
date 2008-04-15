@@ -1,1 +1,0 @@
-({"buttonCancel": "Ακύρωση", "buttonSave": "Αποθήκευση"})

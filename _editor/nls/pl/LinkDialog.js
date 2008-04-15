@@ -1,7 +1,7 @@
 ({
-	title: "Adres URL odsyłacza",
+	createLinkTitle: "Właściwości odsyłacza",
+	insertImageTitle: "Właściwości obrazu",
 	url: "Adres URL:",
-	text: "Tekst:",
-	set: "Ustaw",
-	urlInvalidMessage: "Nieprawidłowy adres URL. Wprowadź pełny adres URL, na przykład http://www.dojotoolkit.org."	
+	text: "Opis:",
+	set: "Ustaw"
 })

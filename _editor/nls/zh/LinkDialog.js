@@ -1,7 +1,7 @@
 ({
-	title: "链接 URL",
+	createLinkTitle: "链接属性",
+	insertImageTitle: "图像属性",
 	url: "URL：",
-	text: "文本：",
-	set: "设定",
-	urlInvalidMessage: "URL 无效。请输入完整的 URL，如“http://www.dojotoolkit.org”"	
+	text: "描述：",
+	set: "集合"
 })

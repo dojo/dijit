@@ -1,5 +1,6 @@
 ({
 	buttonOk: "OK",
 	buttonCancel: "Abbrechen",
-	buttonSave: "Speichern"
+	buttonSave: "Speichern",
+	itemClose: "Schließen"
 })

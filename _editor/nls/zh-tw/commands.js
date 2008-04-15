@@ -24,6 +24,7 @@
 	'undo': '復原',
 	'unlink': '移除鏈結',
 	'createLink': '建立鏈結',
+	'toggleDir': '切換方向',
 	'insertImage': '插入影像',
 	'insertTable': '插入/編輯表格',
 	'toggleTableBorder': '切換表格邊框',

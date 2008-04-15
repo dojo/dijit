@@ -24,6 +24,7 @@
 	'undo': 'Rückgängig',
 	'unlink': 'Link entfernen',
 	'createLink': 'Link erstellen',
+	'toggleDir': 'Richtung wechseln',
 	'insertImage': 'Grafik einfügen',
 	'insertTable': 'Tabelle einfügen/bearbeiten',
 	'toggleTableBorder': 'Tabellenumrandung ein-/ausschalten',

@@ -24,6 +24,7 @@
 	'undo': 'Visszavonás',
 	'unlink': 'Hivatkozás eltávolítása',
 	'createLink': 'Hivatkozás létrehozása',
+	'toggleDir': 'Irányváltás',
 	'insertImage': 'Kép beszúrása',
 	'insertTable': 'Táblázat beszúrása/szerkesztése',
 	'toggleTableBorder': 'Táblázatszegély ki-/bekapcsolása',

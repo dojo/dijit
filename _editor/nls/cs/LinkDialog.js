@@ -1,7 +1,7 @@
 ({
-	title: "Adresa URL odkazu",
+	createLinkTitle: "Vlastnosti odkazu",
+	insertImageTitle: "Vlastnosti obrázku",
 	url: "Adresa URL:",
-	text: "Text:",
-	set: "Nastavit",
-	urlInvalidMessage: "Neplatná adresa URL. Zadejte úplnou adresu URL ve tvaru 'http://www.dojotoolkit.org'"	
+	text: "Popis:",
+	set: "Nastavit"
 })

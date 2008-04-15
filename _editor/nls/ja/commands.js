@@ -24,6 +24,7 @@
 	'undo': '元に戻す',
 	'unlink': 'リンクの除去',
 	'createLink': 'リンクの作成',
+	'toggleDir': '方向の切り替え',
 	'insertImage': 'イメージの挿入',
 	'insertTable': 'テーブルの挿入/編集',
 	'toggleTableBorder': 'テーブル・ボーダーの切り替え',

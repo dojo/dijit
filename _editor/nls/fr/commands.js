@@ -24,6 +24,7 @@
 	'undo': 'Annuler',
 	'unlink': 'Supprimer le lien',
 	'createLink': 'Créer un lien',
+	'toggleDir': 'Afficher/Masquer la direction',
 	'insertImage': 'Insérer une image',
 	'insertTable': 'Insérer/Modifier un tableau',
 	'toggleTableBorder': 'Afficher/Masquer la bordure du tableau',

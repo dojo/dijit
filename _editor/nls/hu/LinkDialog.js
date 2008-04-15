@@ -1,7 +1,7 @@
 ({
-	title: "Hivatkozás URL címe",
+	createLinkTitle: "Hivatkozás tulajdonságai",
+	insertImageTitle: "Kép tulajdonságai",
 	url: "URL:",
-	text: "Szöveg:",
-	set: "Beállítás",
-	urlInvalidMessage: "Érvénytelen URL cím. Adjon meg teljes URL címet, például: 'http://www.dojotoolkit.org'"	
+	text: "Leírás:",
+	set: "Beállítás"
 })
