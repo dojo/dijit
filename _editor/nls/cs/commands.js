@@ -38,6 +38,6 @@
 	'fontSize': 'Velikost písma',
 	'fontName': 'Název písma',
 	/* Error messages */
-	'systemShortcutFF': 'Akce "${0}" je v prohlížeči Mozilla Firefox dostupná pouze prostřednictvím klávesové zkratky. Použijte\nklávesy ${1}.',
+	'systemShortcutFF': 'Akce "${0}" je v prohlížeči Mozilla Firefox dostupná pouze prostřednictvím klávesové zkratky. Použijte klávesy ${1}.',
 	'ctrlKey':'Ctrl+${0}'
 })
