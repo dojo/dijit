@@ -2,7 +2,7 @@ dojo.provide("dijit.form.Textarea");
 
 dojo.require("dijit.form._FormWidget");
 dojo.require("dojo.i18n");
-dojo.requireLocalization("dijit", "Textarea");
+dojo.requireLocalization("dijit.form", "Textarea");
 
 dojo.declare(
 	"dijit.form.Textarea",
