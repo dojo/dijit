@@ -75,6 +75,12 @@
 							richtext: "<h1>changed</h1><p>This is the changed content set by setValues</p>",
 							filename: ""
 						};
+		var particalchanged = {
+							foo: {bar: {baz: {quux: d("2006-01-01")} } },
+							available: {from: d("2006-11-02"), to: d("2007-11-02")},
+							plop: {combo: "two"},
+							cb2: ["2"]
+		}
 		// we reset the form to these values
 		var reset =	{
 							foo: {bar: {baz: {quux: d("2007-12-30")} } },
@@ -103,8 +109,11 @@
 						doh.is( dojo.toJson(original), dojo.toJson(values) );
 					},
 					function setValues(){
-						dijit.byId("myForm").setValues(changed);
-						doh.is( dojo.toJson(changed), dojo.toJson(dijit.byId("myForm").getValues()) );
+						var f=dijit.byId("myForm");
+						f.setValues(changed);
+						doh.is( dojo.toJson(changed), dojo.toJson(f.getValues()) );
+						f.setValues(particalchanged);
+						doh.is( dojo.toJson(dojo.mixin(changed,particalchanged)), dojo.toJson(f.getValues()) );
 					},
 					function nameAttributeSurvived(){  // ticket:4753
 						var radios = dojo.query(".RadioButton", dijit.byId("radio-cells")).forEach(

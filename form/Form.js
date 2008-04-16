@@ -69,8 +69,15 @@ dojo.declare("dijit.form._FormMixin", null,
 
 			// call setValue() or setAttribute('checked') for each widget, according to obj
 			for(var name in map){
+				if(!map.hasOwnProperty(name)){
+					continue;
+				}
 				var widgets = map[name],						// array of widgets w/this name
 					values = dojo.getObject(name, false, obj);	// list of values for those widgets
+
+				if(values===undefined){
+					continue;
+				}
 				if(!dojo.isArray(values)){
 					values = [ values ];
 				}
