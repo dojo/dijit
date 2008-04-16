@@ -141,7 +141,7 @@ dojo.declare(
 			// Because it is read directly to the user, the string must be localized.
 			// In addition, since a <label> element can not be associated with an iframe, if 
 			// this control has a label, insert the label text into the title as well.
-			var _nlsResources = dojo.i18n.getLocalization("dijit", "Textarea");
+			var _nlsResources = dojo.i18n.getLocalization("dijit.form", "Textarea");
 			this._iframeEditTitle = _nlsResources.iframeEditTitle;
 			this._iframeFocusTitle = _nlsResources.iframeFocusTitle;
 			var label=dojo.query('label[for="'+this.id+'"]');

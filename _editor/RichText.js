@@ -465,7 +465,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 //			ifrs.scrolling = this.height ? "auto" : "vertical";
 			this.editorObject = this.iframe;
 			// get screen reader text for mozilla here, too
-			this._localizedIframeTitles = dojo.i18n.getLocalization("dijit", "Textarea");
+			this._localizedIframeTitles = dojo.i18n.getLocalization("dijit.form", "Textarea");
 			// need to find any associated label element and update iframe document title
 			var label=dojo.query('label[for="'+this.id+'"]');
 			if(label.length){
