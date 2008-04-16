@@ -43,7 +43,7 @@ dojo.declare(
 
 	// slideDuration: Number
 	//	The time in ms to take to animate the slider handle from 0% to 100%
-	slideDuration: 1000,
+	slideDuration: 500,
 
 	widgetsInTemplate: true,
 
