@@ -147,7 +147,7 @@ dojo.declare(
 
 		// duration: Integer
 		//		The time in milliseconds it takes the dialog to fade in and out
-		duration: 400,
+		duration: 200,
 
 		// refocus: Boolean
 		// 		A Toggle to modify the default focus behavior of a Dialog, which
@@ -216,35 +216,23 @@ dojo.declare(
 			});
 
 			var node = this.domNode;
-			this._fadeIn = dojo.fx.combine(
-				[dojo.fadeIn({
-					node: node,
-					duration: this.duration
-				 }),
-				 dojo.fadeIn({
-					node: this._underlay.domNode,
-					duration: this.duration,
-					onBegin: dojo.hitch(this._underlay, "show")
-				 })
-				]
-			);
+			var underlay = this._underlay;
 
-			this._fadeOut = dojo.fx.combine(
-				[dojo.fadeOut({
-					node: node,
-					duration: this.duration,
-					onEnd: function(){
-						node.style.visibility="hidden";
-						node.style.top = "-9999px";
-					}
-				 }),
-				 dojo.fadeOut({
-					node: this._underlay.domNode,
-					duration: this.duration,
-					onEnd: dojo.hitch(this._underlay, "hide")
-				 })
-				]
-			);
+			this._fadeIn = dojo.fadeIn({
+				node: node,
+				duration: this.duration,
+				onBegin: dojo.hitch(underlay, "show")
+			 });
+
+			this._fadeOut = dojo.fadeOut({
+				node: node,
+				duration: this.duration,
+				onEnd: function(){
+					node.style.visibility="hidden";
+					node.style.top = "-9999px";
+					underlay.hide();
+				}
+			 });
 		},
 
 		uninitialize: function(){
