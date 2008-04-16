@@ -34,14 +34,12 @@
 	background-position: -32px;
 }
 
-.tundra .dijitCheckBoxHover,
-.tundra .dijitCheckBoxFocused {
+.tundra .dijitCheckBoxHover {
 	/* hovering over an unchecked enabled checkbox */
 	background-position: -80px;
 }
 
-.tundra .dijitCheckBoxCheckedHover,
-.tundra .dijitCheckBoxCheckedFocused {
+.tundra .dijitCheckBoxCheckedHover {
 	/* hovering over a checked enabled checkbox */
 	background-position: -64px;
 }

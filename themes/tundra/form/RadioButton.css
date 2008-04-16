@@ -35,14 +35,12 @@
 	background-position: -128px;
 }
 
-.tundra .dijitRadioHover,
-.tundra .dijitRadioFocused {
+.tundra .dijitRadioHover {
 	/* hovering over an unselected enabled radio button */
 	background-position: -176px;
 }
 
-.tundra .dijitRadioCheckedHover,
-.tundra .dijitRadioCheckedFocused {
+.tundra .dijitRadioCheckedHover {
 	/* hovering over a selected enabled radio button */
 	background-position: -160px;
 }

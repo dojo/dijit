@@ -63,6 +63,18 @@ dojo.declare(
 		postCreate: function(){
 			this.inherited(arguments);
 			this._resetValueAttr = this.value;
+		},
+		
+		_onFocus: function(){
+			if(this.id){
+				dojo.query("label[for='"+this.id+"']").addClass("dijitFocusedLabel");
+			}
+		},
+
+		_onBlur: function(){
+			if(this.id){
+				dojo.query("label[for='"+this.id+"']").removeClass("dijitFocusedLabel");
+			}
 		}
 	}
 );
