@@ -14,11 +14,9 @@
 	color: #6d6d6d;
 }
 
-/* TODO: merge these, and all other icons to a series of background-image:() and background-position: -16*n px styles */
 .nihilo .dijitTitlePane .dijitArrowNode {
 	width:15px;
 	height:15px;
-	float:right;
 	margin-top: -2px;
 }
 
@@ -32,10 +30,10 @@
 }
 
 .nihilo .dijitTitlePane .dijitClosed .dijitArrowNode {
-	background: url('images/spriteRoundedIconsSmall.png') no-repeat top left;
+	background: url('images/spriteRoundedIconsSmall.png') no-repeat -30px top;
 }
 .dj_ie6 .nihilo .dijitTitlePane .dijitClosed .dijitArrowNode {
-	background:url('images/spriteRoundedIconsSmall.gif') no-repeat top left;
+	background:url('images/spriteRoundedIconsSmall.gif') no-repeat -30px top;
 }
 .nihilo .dijitTitlePane .dijitOpen .dijitArrowNode {
 	background:url('images/spriteRoundedIconsSmall.png') no-repeat -15px top;
@@ -48,15 +46,6 @@
 }
 .dijit_a11y .dijitTitlePane .dijitArrowNodeInner {
 	visibility:visible;
-}
-
-.nihilo .dijitTitlePaneTitle .dijitOpenCloseArrowOuter {
-	margin-right:5px;
-}
-
-.nihilo .dijitOpen .dijitTitlePaneTitle .dijitOpenCloseArrowOuter {
-	position:relative;
-	top:2px;
 }
 
 .nihilo .dijitTitlePaneContentOuter {
@@ -74,4 +63,9 @@
 }
 .nihilo .dijitClickableRegion {
 	background-color : #ffc !important;
+}
+
+.nihilo .dijitTitlePaneTextNode {
+	margin-left: 4px;
+	margin-right: 4px;
 }

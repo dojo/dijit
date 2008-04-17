@@ -10,7 +10,6 @@
 .tundra .dijitTitlePane .dijitArrowNode {
 	width:16px;
 	height:16px;
-	float:right;
 }
 .tundra .dijitTitlePane .dijitClosed .dijitArrowNode {
 	background:url('images/arrowRight.png') no-repeat center center;
@@ -36,15 +35,6 @@
 	visibility:visible;
 }
 
-.tundra .dijitTitlePaneTitle .dijitOpenCloseArrowOuter {
-	margin-right:5px;
-}
-
-.tundra .dijitOpen .dijitTitlePaneTitle .dijitOpenCloseArrowOuter {
-	position:relative;
-	top:2px;
-}
-
 .tundra .dijitTitlePaneContentOuter {
 	background: #ffffff;
 	border:1px solid #bfbfbf;
@@ -60,4 +50,9 @@
 }
 .tundra .dijitClickableRegion {
 	background-color : #ffc !important;
+}
+
+.tundra .dijitTitlePaneTextNode {
+	margin-left: 4px;
+	margin-right: 4px;
 }

@@ -162,12 +162,6 @@
 	position:relative;
 }
 
-/* TitlePane */
-
-.dijitRtl .dijitTitlePane .dijitArrowNode {
-	float: left;
-}
-
 .dijitRtl .dijitSpinner .dijitInputLayoutContainer .dijitArrowButton {
 	right: auto;
 	left: 0;
