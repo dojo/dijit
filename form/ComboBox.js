@@ -648,14 +648,10 @@ dojo.declare(
 			//		Highlights the string entered by the user in the menu, by default this
 			//		highlights the first occurence found. Override this method
 			//		to implement your custom highlighing.
-			var pos = label.toLowerCase().indexOf(this._lastInput.toLowerCase());
-			if (pos!=-1) {
-				var l = this._lastInput.length;
-				var e = this._escapeHtml;
-				return e(label.substr(0, pos)) + '<span class="dijitComboBoxHighlightMatch">' +
-						e(label.substr(pos, l)) + '</span>' + e(label.substr(pos+l));
-			}
-			return label;
+			return this._escapeHtml(label).replace(
+				new RegExp("("+ this._escapeHtml(this._lastInput) +")", "i"),
+				'<span class="dijitComboBoxHighlightMatch">$1</span>');
+			// returns String, (almost) valid HTML (entities encoded)
 		},
 		
 		_escapeHtml:function(/*string*/str){
