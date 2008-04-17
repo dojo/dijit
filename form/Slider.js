@@ -34,7 +34,7 @@ dojo.declare(
 	discreteValues: Infinity,
 
 	// pageIncrement: integer
-	//	The amount of change with shift+arrow
+	//	The amount of change via pageup/down
 	pageIncrement: 2,
 
 	// clickSelect: boolean
