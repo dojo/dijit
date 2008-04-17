@@ -147,7 +147,7 @@ dojo.declare(
 
 		// duration: Integer
 		//		The time in milliseconds it takes the dialog to fade in and out
-		duration: 200,
+		duration: dijit.defaultDuration,
 
 		// refocus: Boolean
 		// 		A Toggle to modify the default focus behavior of a Dialog, which

@@ -40,7 +40,7 @@ dojo.declare(
 
 	// duration: Integer
 	//		Time in milliseconds to fade in/fade out
-	duration: 250,
+	duration: dijit.defaultDuration,
 
 	// baseClass: String
 	//	The root className to use for the various states of this widget

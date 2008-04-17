@@ -15,7 +15,7 @@ dojo.declare(
 
 		// duration: Integer
 		//		Milliseconds to fade in/fade out
-		duration: 200,
+		duration: dijit.defaultDuration,
 
 		templatePath: dojo.moduleUrl("dijit", "templates/Tooltip.html"),
 

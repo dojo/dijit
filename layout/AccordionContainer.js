@@ -26,7 +26,7 @@ dojo.declare(
 		//
 		// duration: Integer
 		//		Amount of time (in ms) it takes to slide panes
-		duration: 250,
+		duration: dijit.defaultDuration,
 
 		_verticalSpace: 0,
 

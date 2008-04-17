@@ -218,8 +218,8 @@ dojo.declare(
 
 		// create animations for showing/hiding the children (if children exist)
 		if(this.containerNode && !this._wipeIn){
-			this._wipeIn = dojo.fx.wipeIn({node: this.containerNode, duration: 150});
-			this._wipeOut = dojo.fx.wipeOut({node: this.containerNode, duration: 150});
+			this._wipeIn = dojo.fx.wipeIn({node: this.containerNode, duration: dijit.defaultDuration});
+			this._wipeOut = dojo.fx.wipeOut({node: this.containerNode, duration: dijit.defaultDuration});
 		}
 	},
 

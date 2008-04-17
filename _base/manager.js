@@ -188,3 +188,7 @@ dijit.getLastInTabbingOrder = function(/*String|DOMNode*/root){
 	var elems = dijit._getTabNavigable(dojo.byId(root));
 	return elems.last ? elems.last : elems.highest; // Element
 };
+
+// dijit.defaultDuration
+//	Default duration for wipe and fade animations within dijits
+dijit.defaultDuration = dojo.config["defaultDuration"] || 200;
