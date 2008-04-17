@@ -38,7 +38,6 @@ dojo.declare("dijit.form.Button",
 	_onClick: function(/*Event*/ e){
 		// summary: internal function to handle click actions
 		if(this.disabled || this.readOnly){
-			dojo.stopEvent(e); // needed for checkbox
 			return false;
 		}
 		this._clicked(); // widget click actions
@@ -48,7 +47,7 @@ dojo.declare("dijit.form.Button",
 	_onButtonClick: function(/*Event*/ e){
 		// summary: callback when the user mouse clicks the button portion
 		if(this._onClick(e) === false){ // returning nothing is same as true
-			dojo.stopEvent(e);
+			e.preventDefault(); // needed for checkbox
 		}else if(this.type=="submit" && !this.focusNode.form){ // see if a nonform widget needs to be signalled
 			for(var node=this.domNode; node.parentNode/*#5935*/; node=node.parentNode){
 				var widget=dijit.byNode(node);
