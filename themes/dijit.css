@@ -170,6 +170,9 @@
 	padding-left:.2em;
 	visibility:visible !important;
 }
+.dj_ie6 .dijit_a11y .dijitCalendarIncrementControl {
+	font-size:.75em !important;
+}
 
 .dijit_a11y .dijitCalendarSelectedDate {
 	text-decoration:overline !important;
