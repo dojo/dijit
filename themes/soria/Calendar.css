@@ -4,10 +4,10 @@
 	/* next/prev month buttons */
 	width:15px;
 	height:15px;
-	font-size: 1px;
 }
 .dj_ie6 .soria .dijitCalendarIncrementControl {
 	padding:.1em;
+	font-size:.1em;	
 }
 
 .soria .dijitCalendarIncreaseInner,
