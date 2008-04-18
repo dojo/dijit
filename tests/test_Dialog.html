@@ -12,6 +12,7 @@
 		form { margin-bottom : 0; }
 		table { border: none; }
 		#dialog3_underlay { background-color: #027 }
+		#reallyWide { width:2222px; } 
 	</style>		
 
 	<script type="text/javascript"
@@ -183,6 +184,12 @@
 		<input dojoType=dijit.form.TextBox type="file" name="afile" id="afile">
 </div>
 
+<button dojoType="dijit.form.Button" onclick="dijit.byId('cantmove').show()">Show Unmovable</button>
+
+<div dojoType="dijit.Dialog" id="cantmove" title="unmovable" draggable="false">
+	<p>You should not be able to <br /> drag this dialog</p>
+</div>
+
 <p>Test refocus="false", click programatic dialog, focus input below, wait. close dialog.</p>
 
 <p><b><i>(scroll down to see more links to click, for testing positioning / scroll handling)</i></b></p>
@@ -253,6 +260,7 @@ tempus. Nunc euismod nisl id dolor tristique tincidunt. Nullam placerat
 turpis sed odio. Curabitur in est id nibh tempus ultrices. Aliquam
 consectetuer dapibus eros. Aliquam nisl.
 </p>
+<div id="reallyWide">[spacer]</div>
 <p>
 Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean
 semper sagittis velit. Cras in mi. Duis porta mauris ut ligula. Proin

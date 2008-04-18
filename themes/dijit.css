@@ -1124,6 +1124,10 @@ img.dijitColorPaletteUnder {
 	padding: 1px;
 }
 
+.dijitDialogFixed div.dijitDialogTitleBar {
+	cursor:default; 
+}
+
 .dijitDialogUnderlayWrapper {
 	position: absolute;
 	left: 0;
