@@ -64,27 +64,21 @@ dojo.declare(
 
 		_wheelTimer: null,
 		_mouseWheeled: function(/*Event*/ evt){
-			dojo.stopEvent(evt);
-			var scrollAmount = 0;
-			if(typeof evt.wheelDelta == 'number'){ // IE
-				scrollAmount = evt.wheelDelta;
-			}else if(typeof evt.detail == 'number'){ // Mozilla+Firefox
-				scrollAmount = -evt.detail;
+
+			dojo.stopEvent(evt);			
+			var scrollAmount = evt[(dojo.isIE ? "wheelDelta" : "detail")] * (dojo.isIE ? 1 : -1);
+			if(scrollAmount !== 0){
+				var node = this[(scrollAmount > 0 ? "upArrowNode" : "downArrowNode" )];
+				var dir = (scrollAmount > 0 ? 1 : -1);
+				
+				this._arrowPressed(node, dir);
+
+				if(!this._wheelTimer){
+					clearTimeout(this._wheelTimer);
+				}
+				this._wheelTimer = setTimeout(dojo.hitch(this,"_arrowReleased",node), 50);
 			}
-			var node, dir;
-			if(scrollAmount > 0){
-				node = this.upArrowNode;
-				dir = +1;
-			}else if(scrollAmount < 0){
-				node = this.downArrowNode;
-				dir = -1;
-			}else{ return; }
-			this._arrowPressed(node, dir);
-			if(this._wheelTimer != null){
-				clearTimeout(this._wheelTimer);
-			}
-			var _this = this;
-			this._wheelTimer = setTimeout(function(){_this._arrowReleased(node);}, 50);
+			
 		},
 
 		postCreate: function(){
