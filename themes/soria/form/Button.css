@@ -49,16 +49,8 @@
 .soria .dijitSpinnerDisabled .dijitButtonNode {
 	/* disabled state - inner */
 	border-color: #b9bbdd #b9bbdd #b9bbdd #b9bbdd;
-	/*color:#b4b4b4;*/
 	background:#c3d3e5 url("../images/buttonDisabled.png") top repeat-x;
 	opacity: 0.60; /* Safari, Opera and Mozilla */
-}
-.dj_ie .soria .dijitButtonDisabled .dijitButtonNode *,
-.dj_ie .soria .dijitToggleButtonDisabled .dijitButtonNode *,
-.dj_ie .soria .dijitDropDownButtonDisabled .dijitButtonNode *,
-.dj_ie .soria .dijitComboButtonDisabled .dijitButtonNode *,
-.dj_ie .soria .dijitSpinnerDisabled .dijitButtonNode * {
-	filter: gray() alpha(opacity=50); /* IE */
 }
 
 .soria .dijitButtonHover .dijitButtonNode,
