@@ -512,8 +512,8 @@ dojo.declare(
 				// setup table mapping keys to events
 				map = {};
 				map[dojo.keys.ENTER]="_onEnterKey";
-				map[dojo.keys.LEFT_ARROW]="_onLeftArrow";
-				map[dojo.keys.RIGHT_ARROW]="_onRightArrow";
+				map[this.isLeftToRight() ? dojo.keys.LEFT_ARROW : dojo.keys.RIGHT_ARROW]="_onLeftArrow";
+				map[this.isLeftToRight() ? dojo.keys.RIGHT_ARROW : dojo.keys.LEFT_ARROW]="_onRightArrow";
 				map[dojo.keys.UP_ARROW]="_onUpArrow";
 				map[dojo.keys.DOWN_ARROW]="_onDownArrow";
 				map[dojo.keys.HOME]="_onHomeKey";
