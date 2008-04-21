@@ -4,7 +4,7 @@ dojo.require("dijit._Widget");
 dojo.require("dijit._editor.selection");
 dojo.require("dijit._editor.html");
 dojo.require("dojo.i18n");
-dojo.requireLocalization("dijit", "Textarea");
+dojo.requireLocalization("dijit.form", "Textarea");
 
 // used to restore content when user leaves this page then comes back
 // but do not try doing dojo.doc.write if we are using xd loading.
@@ -163,7 +163,7 @@ dijit._editor.RichTextIframeMixin = {
 			//	ifrs.scrolling = this.height ? "auto" : "vertical";
 			this.editorObject = this.iframe;
 			// get screen reader text for mozilla here, too
-			this._localizedIframeTitles = dojo.i18n.getLocalization("dijit", "Textarea");
+			this._localizedIframeTitles = dojo.i18n.getLocalization("dijit.form", "Textarea");
 			// need to find any associated label element and update iframe document title
 			var label=dojo.query('label[for="'+this.id+'"]');
 			if(label.length){
@@ -526,15 +526,18 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 		//do not use _cacheLocalBlockFormatNames here, as it will
 		//trigger security warning in IE7
 
-		//in the array below, ul can not come directly after ol,
-		//otherwise the queryCommandValue returns Normal for it
-		var formats = ['p', 'pre', 'address', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'ol', 'div', 'ul'];
+		//put p after div, so if IE returns Normal, we show it as paragraph
+		//We can distinguish p and div if IE returns Normal, however, in order to detect that,
+		//we have to call this.document.selection.createRange().parentElement() or such, which
+		//could slow things down. Leave it as it is for now
+		var formats = ['div', 'p', 'pre', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'ol', 'ul', 'address'];
 		var localhtml = "", format, i=0;
 		while((format=formats[i++])){
+			//append a <br> after each element to separate the elements more reliably
 			if(format.charAt(1) != 'l'){
-				localhtml += "<"+format+"><span>content</span></"+format+">";
+				localhtml += "<"+format+"><span>content</span></"+format+"><br/>";
 			}else{
-				localhtml += "<"+format+"><li>content</li></"+format+">";
+				localhtml += "<"+format+"><li>content</li></"+format+"><br/>";
 			}
 		}
 		//queryCommandValue returns empty if we hide editNode, so move it out of screen temporary
@@ -552,7 +555,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 			this._local2NativeFormatNames[nativename] = document.queryCommandValue("formatblock");
 			//this.queryCommandValue("formatblock");
 			this._native2LocalFormatNames[this._local2NativeFormatNames[nativename]] = nativename;
-			node = node.nextSibling;
+			node = node.nextSibling.nextSibling;
 		}
 		dojo.body().removeChild(div);
 	},
@@ -703,7 +706,10 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 	
 		this.window = window;
 		this.document = dojo.doc;
-		
+
+		if(dojo.isIE){
+			this._localizeEditorCommands()
+		}
 		this.onLoad();
 	},
 
@@ -1163,6 +1169,21 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 				return true;
 			}
 		}
+		//should not allow user to indent neither a non-list node nor list item which is the first item in its parent 
+		if(command == 'indent'){
+			var li = dojo.withGlobal(this.window, "getAncestorElement",dijit._editor.selection, ['li']);
+			var n = li && li.previousSibling;
+			while(n){
+				if(n.nodeType == 1){
+				  return true;
+				}
+				n = n.previousSibling;
+			}
+			return false;
+		}else if(command == 'outdent'){
+			//should not allow user to outdent a non-list node
+			return dojo.withGlobal(this.window, "hasAncestorElement",dijit._editor.selection, ['li']);
+		}
 
 		// return this.document.queryCommandEnabled(command);
 		var elem = dojo.isIE ? this.document.selection.createRange() : this.document;
@@ -1189,7 +1210,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 		if(this.disabled){ return false; }
 		command = this._normalizeCommand(command);
 		if(dojo.isIE && command == "formatblock"){
-			return this._local2NativeFormatNames[this.document.queryCommandValue(command)];
+			return this._native2LocalFormatNames[this.document.queryCommandValue(command)];
 		}
 		return this.document.queryCommandValue(command);
 	},
@@ -1483,11 +1504,10 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 			.replace(/<(\/)?em([ \>])/gi, '<$1i$2' ); // String
 	},
 
-	_srcInImgRegex	: /(?:(<img(?=\s).*?\ssrc=)("|')(.*?)\2)|(?:(<img\s.*?src=)([^"'][^ >]+))/gi ,
-	_hrefInARegex	: /(?:(<a(?=\s).*?\shref=)("|')(.*?)\2)|(?:(<a\s.*?href=)([^"'][^ >]+))/gi ,
-
 	_preFixUrlAttributes: function(/* String */ html){
-		return html.replace(this._hrefInARegex, '$1$4$2$3$5$2 _djrealurl=$2$3$5$2')
-			.replace(this._srcInImgRegex, '$1$4$2$3$5$2 _djrealurl=$2$3$5$2'); // String
+		return html.replace(/(?:(<a(?=\s).*?\shref=)("|')(.*?)\2)|(?:(<a\s.*?href=)([^"'][^ >]+))/gi, 
+				'$1$4$2$3$5$2 _djrealurl=$2$3$5$2')
+			.replace(/(?:(<img(?=\s).*?\ssrc=)("|')(.*?)\2)|(?:(<img\s.*?src=)([^"'][^ >]+))/gi, 
+				'$1$4$2$3$5$2 _djrealurl=$2$3$5$2'); // String
 	}
 });
