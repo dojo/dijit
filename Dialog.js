@@ -178,7 +178,13 @@ dojo.declare(
 			{title: "titleBar"}),
 
 		postCreate: function(){
+			var s = this.domNode.style;
+			s.visibility = "hidden";
+			s.position = "absolute";
+			s.display = "";
+			s.top = "-9999px";
 			dojo.body().appendChild(this.domNode);
+
 			this.inherited(arguments);
 			var _nlsResources = dojo.i18n.getLocalization("dijit", "common");
 			if(this.closeButtonNode){
@@ -187,11 +193,6 @@ dojo.declare(
 			if(this.closeText){
 				this.closeText.setAttribute("title", _nlsResources.buttonCancel);
 			}
-			var s = this.domNode.style;
-			s.visibility = "hidden";
-			s.position = "absolute";
-			s.display = "";
-			s.top = "-9999px";
 
 			this.connect(this, "onExecute", "hide");
 			this.connect(this, "onCancel", "hide");
@@ -312,7 +313,7 @@ dojo.declare(
 					while(node){
 						if(node == this.domNode){
 							if(evt.keyCode == dk.ESCAPE){
-								this.hide(); 
+								this.onCancel(); 
 							}else{
 								return; // just let it go
 							}
