@@ -629,7 +629,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 				});
 			}
 		}else{
-			html = this._preFilterContent(this.getNodeChildrenHtml(this.domNode));
+			html = this._preFilterContent(dijit._editor.getChildrenHtml(this.domNode));
 			this.domNode.innerHTML = '';
 		}
 		if(html == ""){ html = "&nbsp;"; }
@@ -1371,7 +1371,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 					dom = ef(dom);
 				});
 			}
-			ec = this.getNodeChildrenHtml(dom);
+			ec = dijit._editor.getChildrenHtml(dom);
 		}else{
 			ec = dom;
 		}
