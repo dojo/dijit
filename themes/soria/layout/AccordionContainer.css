@@ -32,7 +32,7 @@
 }
 
 .soria .dijitAccordionArrow {
-	background:url("../images/spriteRoundedIconsSmallBl.gif") no-repeat;
+	background:url("../images/spriteRoundedIconsSmallBl.gif") no-repeat -30px top;
 	width:15px;
 	height:15px;
 	margin-top:-1px;
@@ -43,6 +43,10 @@
 	margin-top:-1px;
 }
 
+.soria .dijitAccordionText {
+	margin-left: 4px;
+	margin-right: 4px;
+}
 .soria .dijitAccordionBody {
 	background: #fff;
 }

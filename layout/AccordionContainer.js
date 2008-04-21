@@ -194,6 +194,16 @@ dojo.declare("dijit.layout.AccordionPane",
 		}
 	},
 
+	_onTitleEnter: function(){
+		// summary: callback when someone hovers over my title
+		dojo.addClass(this.focusNode, "dijitAccordionTitle-hover");
+	},
+
+	_onTitleLeave: function(){
+		// summary: callback when someone stops hovering over my title
+		dojo.removeClass(this.focusNode, "dijitAccordionTitle-hover");
+	},
+
 	_onTitleKeyPress: function(/*Event*/ evt){
 		evt._dijitWidget = this;
 		return this.getParent()._onKeyPress(evt);

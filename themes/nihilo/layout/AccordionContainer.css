@@ -28,7 +28,7 @@
 }
 
 .nihilo .dijitAccordionArrow {
-	background:url("../images/spriteRoundedIconsSmall.gif") no-repeat;
+	background:url("../images/spriteRoundedIconsSmall.gif") no-repeat -30px top;
 	width:15px;
 	height:15px;
 	margin-top:-1px;
@@ -37,6 +37,11 @@
 .nihilo .dijitAccordionTitle-selected .dijitAccordionArrow {
 	background:url("../images/spriteRoundedIconsSmall.gif") no-repeat -15px top;
 	margin-top:-1px;
+}
+
+.nihilo .dijitAccordionText {
+	margin-left: 4px;
+	margin-right: 4px;
 }
 
 .nihilo .dijitAccordionBody {

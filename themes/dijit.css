@@ -836,23 +836,17 @@ img.dijitColorPaletteUnder {
 	cursor: pointer;
 }
 
-.dijitAccordionTitle .dijitAccordionArrow {
-	float: right;
-}
-
 /* images off, high-contrast mode styles */
 .dijitAccordionPane .dijitAccordionTitle .arrowTextUp,
 .dijitAccordionPane .dijitAccordionTitle .arrowTextDown {
 	display: none;
-	float: right;
 	font-size: 0.65em;
 	font-weight: normal !important;
 }
 
-.dijit_a11y .dijitAccordionPane .dijitAccordionTitle .arrowTextUp {
+.dijit_a11y .dijitAccordionTitle .arrowTextUp {
 	display: inline;
 }
-
 .dijit_a11y .dijitAccordionTitle-selected .arrowTextDown {
 	display: inline;
 }

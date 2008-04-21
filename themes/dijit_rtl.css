@@ -49,14 +49,6 @@
 	margin-right:0;
 }
 
-/* AccordionPane */
-
-.dijitRtl .dijitAccordionArrow,
-.dijitRtl .dijitAccordionTitle .arrowTextUp,
-.dijitRtl .dijitAccordionTitle .arrowTextDown {
-	float: left;
-}
-
 /* Slider */
 
 .dijitRtl .dijitSliderImageHandleV {
