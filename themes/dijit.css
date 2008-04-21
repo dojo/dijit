@@ -734,6 +734,14 @@ body .dijitAlignClient { position: absolute; }
 	cursor: n-resize;
 }
 
+.dijit_a11y .dijitSplitterH {
+	border-top:1px solid #d3d3d3 !important;
+	border-bottom:1px solid #d3d3d3 !important;
+}
+.dijit_a11y .dijitSplitterV {
+	border-left:1px solid #d3d3d3 !important;
+	border-right:1px solid #d3d3d3 !important;
+}
 
 /* ContentPane */
 
