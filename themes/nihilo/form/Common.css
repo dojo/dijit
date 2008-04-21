@@ -42,9 +42,17 @@
 	border-left: 1px solid #d3d3d3;
 }
 
+.nihilo .dijitTextBoxDisabled,
+.nihilo .dijitComboBoxDisabled,
+.nihilo .dijitSpinnerDisabled,
+.nihilo .dijitTextAreaDisabled {
+	color: gray;
+}
+
 .nihilo .dijitTextBoxFocused,
 .nihilo .dijitComboBoxFocused,
-.nihilo .dijitSpinnerFocused {
+.nihilo .dijitSpinnerFocused,
+.nihilo .dijitTextAreaFocused {
 	/* input field when focused (ie: typing affects it) */
 	border-color:#b3b3b3;
 }

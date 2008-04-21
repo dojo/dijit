@@ -359,9 +359,14 @@ table .dijitComboButton .dijitButtonNode {
 }
 .dijitTextBoxFocused,
 .dijitComboBoxFocused,
-.dijitSpinnerFocused {
+.dijitSpinnerFocused,
+.dijitTextAreaFocused {
 	/* should we display focus like we do on other browsers, or use the safari standard focus indicator?? */
 	outline: auto 5px -webkit-focus-ring-color;
+}
+.dijitTextAreaFocused div {
+	/* prevent dotted border on FF3 */
+	outline: none !important;
 }
 
 .dijitTextBox INPUT,

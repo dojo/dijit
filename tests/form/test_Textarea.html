@@ -47,10 +47,15 @@
 			>this is a very simple resizable text area</div>
 		onChange:<textarea id="ocSimple" readOnly>not fired yet!</textarea>
 		<br>
-		<input type="button" onclick="dijit.byId('simple').setAttribute('readOnly',false);" value="Remove readOnly">
-		<input type="button" onclick="dijit.byId('simple').setAttribute('readOnly',true);" value="Set readOnly">
-		<input type="button" onclick="dijit.byId('simple').setAttribute('disabled',true);" value="Disable">
-		<input type="button" onclick="dijit.byId('simple').setAttribute('disabled',false);" value="Enable">
+		<script>
+			function setAttr(attr, value){
+				dijit.registry.byClass('dijit.form.Textarea').forEach(function(widget){ widget.setAttribute(attr, value);});
+			}
+		</script>
+		<input type="button" onclick="setAttr('readOnly', false);" value="Remove readOnly">
+		<input type="button" onclick="setAttr('readOnly', false);" value="Set readOnly">
+		<input type="button" onclick="setAttr('disabled', true);" value="Disable">
+		<input type="button" onclick="setAttr('disabled', false);" value="Enable">
 		<br>
 		<textarea dojoType="dijit.form.Textarea" name="largeTextArea">
 this is a textarea with a LOT of content

@@ -24,13 +24,15 @@ dojo.declare(
 		{style:"styleNode", 'class':"styleNode"}),
 
 	templateString: (dojo.isIE || dojo.isSafari || dojo.isFF) ?
-				((dojo.isIE || dojo.isSafari || dojo.isFF >= 3) ? '<fieldset id="${id}" class="dijitInline dijitInputField dijitTextArea" dojoAttachPoint="styleNode" waiRole="presentation"><div dojoAttachPoint="editNode,focusNode,eventNode" dojoAttachEvent="onpaste:_changing,oncut:_changing" waiRole="textarea" style="text-decoration:none;display:block;overflow:auto;" contentEditable="true"></div>'
+				((dojo.isIE || dojo.isSafari || dojo.isFF >= 3) ? '<fieldset id="${id}" class="dijitInline" dojoAttachPoint="styleNode" waiRole="presentation"><div dojoAttachPoint="editNode,focusNode,eventNode" dojoAttachEvent="onpaste:_changing,oncut:_changing" waiRole="textarea" style="text-decoration:none;display:block;overflow:auto;" contentEditable="true"></div>'
 					: '<span id="${id}" class="dijitReset">'+
 					'<iframe src="javascript:<html><head><title>${_iframeEditTitle}</title></head><body><script>var _postCreate=window.frameElement?window.frameElement.postCreate:null;if(_postCreate)_postCreate();</script></body></html>"'+
-							' dojoAttachPoint="iframe,styleNode" dojoAttachEvent="onblur:_onIframeBlur" class="dijitInline dijitInputField dijitTextArea"></iframe>')
+							' dojoAttachPoint="iframe,styleNode,stateNode" dojoAttachEvent="onblur:_onIframeBlur" class="dijitInline dijitInputField"></iframe>')
 				+ '<textarea name="${name}" value="${value}" dojoAttachPoint="formValueNode" style="display:none;"></textarea>'
 				+ ((dojo.isIE || dojo.isSafari || dojo.isFF >= 3) ? '</fieldset>':'</span>')
-			: '<textarea id="${id}" name="${name}" value="${value}" dojoAttachPoint="formValueNode,editNode,focusNode,styleNode" class="dijitInputField dijitTextArea">'+dojo.isFF+'</textarea>',
+			: '<textarea id="${id}" name="${name}" value="${value}" dojoAttachPoint="formValueNode,editNode,focusNode,styleNode">'+dojo.isFF+'</textarea>',
+
+	baseClass: "dijitTextArea",
 
 	setAttribute: function(/*String*/ attr, /*anything*/ value){
 		this.inherited(arguments);
@@ -184,8 +186,8 @@ dojo.declare(
 		if(this.eventNode){
 			this.connect(this.eventNode, "keypress", this._onKeyPress);
 			this.connect(this.eventNode, "mousemove", this._changed);
-			this.connect(this.eventNode, "focus", this._focused);
-			this.connect(this.eventNode, "blur", this._blurred);
+			this.connect(this.eventNode, "focus", this._focusedEventNode);
+			this.connect(this.eventNode, "blur", this._blurredEventNode);
 		}
 		if(this.editNode){
 			this.connect(this.editNode, "change", this._changed); // needed for mouse paste events per #3479
@@ -194,13 +196,17 @@ dojo.declare(
 	},
 
 	// event handlers, you can over-ride these in your own subclasses
-	_focused: function(e){
-		dojo.addClass(this.iframe||this.domNode, "dijitInputFieldFocused");
+	_focusedEventNode: function(e){
+		// note: this is needed when we have an iframe
+		this._focused = true;
+		this._setStateClass();
 		this._changed(e);
 	},
 
-	_blurred: function(e){
-		dojo.removeClass(this.iframe||this.domNode, "dijitInputFieldFocused");
+	_blurredEventNode: function(e){
+		// note: this is needed when we have an iframe
+		this._focused = false;
+		this._setStateClass();
 		this._changed(e, true);
 	},
 

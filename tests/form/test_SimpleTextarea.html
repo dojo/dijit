@@ -42,21 +42,31 @@
 		<h2>In a BorderContainer</h2>
 
 		<div id="container" dojoType="dijit.layout.BorderContainer" style="width:500px; height:400px; border: inset gray 3px;">
-			<textarea name="textAreaN3" dojoType="dijit.form.SimpleTextarea" region="top" splitter="true" style="height: 100px;">
+			<textarea name="top" dojoType="dijit.form.SimpleTextarea" region="top" splitter="true" style="height: 100px;">
 				This is just some text in the top region.
 			</textarea>
-			<textarea name="textAreaN3" dojoType="dijit.form.SimpleTextarea" region="left" splitter="true" style="width: 200px;">
+			<textarea name="left" dojoType="dijit.form.SimpleTextarea" region="left" splitter="true" style="width: 200px;">
 				This is just some text in the left region.
 			</textarea>
-			<textarea name="textAreaN3" dojoType="dijit.form.SimpleTextarea" region="center">
+			<textarea name="center" dojoType="dijit.form.SimpleTextarea" region="center">
 				This is just some text in the center region.
 			</textarea>
-			<textarea name="textAreaN3" dojoType="dijit.form.SimpleTextarea" region="right" splitter="true" style="width: 200px;">
-				This is just some text in the left region.
+			<textarea name="right" dojoType="dijit.form.SimpleTextarea" region="right" splitter="true" style="width: 200px;">
+				This is just some text in the right region.
 			</textarea>
-			<textarea name="textAreaN3" dojoType="dijit.form.SimpleTextarea" region="bottom" splitter="true" style="height: 100px;">
-				This is just some text in the left region.
+			<textarea name="bottom" dojoType="dijit.form.SimpleTextarea" region="bottom" splitter="true" style="height: 100px;">
+				This is just some text in the bottom region.
 			</textarea>
 		</div>
+		
+		<script>
+			function setAttr(attr, value){
+				dijit.registry.byClass('dijit.form.SimpleTextarea').forEach(function(widget){ widget.setAttribute(attr, value);});
+			}
+		</script>
+		<input type="button" onclick="setAttr('readOnly', false);" value="Remove readOnly">
+		<input type="button" onclick="setAttr('readOnly', false);" value="Set readOnly">
+		<input type="button" onclick="setAttr('disabled', true);" value="Disable">
+		<input type="button" onclick="setAttr('disabled', false);" value="Enable">
 </body>
 </html>
