@@ -1224,7 +1224,7 @@ img.dijitColorPaletteUnder {
 
 .dijitSliderProgressBar {
 	background-color:red;
-	#z-index:0;
+	z-index:1;
 }
 
 .dijitSliderProgressBarV {
@@ -1244,7 +1244,7 @@ img.dijitColorPaletteUnder {
 .dijitSliderRemainingBar {
 	overflow:hidden;
 	background-color:transparent;
-	#z-index:-1;
+	z-index:1;
 }
 
 .dijitSliderRemainingBarV {
@@ -1259,7 +1259,7 @@ img.dijitColorPaletteUnder {
 /* the slider bumper is the space consumed by the slider handle when it hangs over an edge */
 .dijitSliderBumper {
 	overflow:hidden;
-	#z-index:-1
+	z-index:1;
 }
 
 .dijitSliderBumperV {
@@ -1307,10 +1307,6 @@ img.dijitColorPaletteUnder {
 .dijitSlider .dijitButtonNode {
 	padding:0;
 	display:block;
-}
-
-.dj_ie .dijitRuleContainer {
-	z-index: -1; /* #4809 */
 }
 
 .dijitRuleContainer {

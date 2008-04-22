@@ -13,7 +13,7 @@
 		></td
 		><td class="dijitReset"
 			><input dojoAttachPoint="valueNode" type="hidden" name="${name}"
-			/><div waiRole="presentation" style="position:relative;" dojoAttachPoint="sliderBarContainer"
+			/><div waiRole="presentation" style="position:relative;z-index:1;" dojoAttachPoint="sliderBarContainer"
 				><div waiRole="presentation" dojoAttachPoint="progressBar" class="dijitSliderBar dijitSliderBarH dijitSliderProgressBar dijitSliderProgressBarH" dojoAttachEvent="onclick:_onBarClick"
 					><div dojoAttachPoint="sliderHandle,focusNode" class="dijitSliderMoveable dijitSliderMoveableH" dojoAttachEvent="onkeypress:_onKeyPress,onmousedown:_onHandleClick" waiRole="slider" valuemin="${minimum}" valuemax="${maximum}"
 						><div class="dijitSliderImageHandle dijitSliderImageHandleH"></div
