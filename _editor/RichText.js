@@ -686,21 +686,14 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 		var en = this.editNode = dojo.doc.createElement("div");
 		en.innerHTML = html;
 		en.contentEditable = true;
-		en.style.height = this.height ? this.height : this.minHeight;
+		if(this.height){
+			en.style.height = this.height;
+		}
 		en.style.border = "5px solid black";
 
-		if(this.height){ 
+		if(this.height){
 			this.editNode.style.overflowY = "scroll";
 		}
-
-		// FIXME: setting contentEditable on switches this element to
-		// IE's hasLayout mode, triggering weird margin collapsing
-		// behavior. It's particularly bad if the element you're editing
-		// contains childnodes that don't have margin: defined in local
-		// css rules. It would be nice if it was possible to hack around
-		// this. Sadly _firstChildContributingMargin and 
-		// _lastChildContributingMargin don't work on IE unless all
-		// elements have margins set in CSS :-(
 
 		this.domNode.appendChild(this.editNode);
 	
