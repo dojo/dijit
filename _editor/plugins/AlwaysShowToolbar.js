@@ -4,6 +4,8 @@ dojo.declare("dijit._editor.plugins.AlwaysShowToolbar", dijit._editor._Plugin,
 	{
 	_handleScroll: true,
 	setEditor: function(e){
+		console.log('Port AlwaysShowToolbar plugin to work with Editor without iframe');
+		return;
 		this.editor = e;
 //		setTimeout(dojo.hitch(this,this.enable), 10000);
 		e.onLoadDeferred.addCallback(dojo.hitch(this, this.enable));
