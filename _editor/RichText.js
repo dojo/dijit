@@ -150,7 +150,7 @@ dijit._editor.RichTextIframeMixin = {
 
 		if(!this.iframe){
 			var ifr = this.iframe = dojo.doc.createElement("iframe");
-			ifr.id=this.id;
+			ifr.id=this.id+'_iframe';
 			// this.iframe.src = "about:blank";
 			// document.body.appendChild(this.iframe);
 			// console.debug(this.iframe.contentDocument.open());
@@ -331,17 +331,20 @@ dijit._editor.RichTextIframeMixin = {
 	},
 
 	setDisabled: function(/*Boolean*/ disabled){
-		if(disabled){
-			//AP:
-			//		why isn't this set in the constructor, or put in
-			//		mozSettingProps as a hash?
-			this._mozSettings = [ false, this.blockNodeForEnter==='BR' ];
+		if(!dojo.isMoz){
+			dijit._editor.RichText.prototype.setDisabled.call(this, disabled);
+			return;
 		}
 		this.document.designMode = disabled ? 'off' : 'on';
-		if(!disabled && this._mozSettings){
-			dojo.forEach(this._mozSettingProps, function(s,i){
-				this.document.execCommand(s,false,this._mozSettings[i]);
-			},this);
+		if(!disabled && this._mozSettingProps){
+			var ps=this._mozSettingProps;
+			for(var n in ps){
+				if(ps.hasOwnProperty(n)){
+					try{
+						this.document.execCommand(n,false,ps[n]);
+					}catch(e){}
+				}
+			}
 		}
 		this.disabled = disabled;
 	},
@@ -354,7 +357,7 @@ dijit._editor.RichTextIframeMixin = {
 };
 
 dojo.declare("dijit._editor.RichText", dijit._Widget, {
-	constructor: function(){
+	constructor: function(paras){
 		// summary:
 		//		dijit._editor.RichText is the core of the WYSIWYG editor in dojo, which
 		//		provides the basic editing features. It also encapsulates the differences
@@ -402,7 +405,8 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 
 		this.onLoadDeferred = new dojo.Deferred();
 
-		this.useIframe = (dojo.isFF && (dojo.isFF < 3)) || this.useIframe || this.styleSheets.length;
+		//in this constructor, mixin properties are not yet merged, so we have to check for paras here
+		this.useIframe = (dojo.isFF && (dojo.isFF < 3)) || paras['useIframe'] || paras['styleSheets'];
 
 		if(this.useIframe){
 			dojo.mixin(this, dijit._editor.RichTextIframeMixin);
@@ -712,7 +716,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 	_localizedIframeTitles: null,
 
 	disabled: true,
-	_mozSettingProps: ['styleWithCSS','insertBrOnReturn'],
+	_mozSettingProps: {'styleWithCSS':false},
 
 	setDisabled: function(/*Boolean*/ disabled){
 		// console.debug("setDisabled:", disabled);
@@ -749,19 +753,12 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 		this._preDomFilterContent(this.editNode);
 
 		var events = this.events.concat(this.captureEvents);
-		var ap = (this.iframe) ? this.window : this.editNode;
+		var ap = (this.iframe) ? this.document : this.editNode;
 		dojo.forEach(events, function(item){
 			// dojo.connect(ap, item.toLowerCase(), console, "debug");
 			this.connect(ap, item.toLowerCase(), item);
 		}, this);
-		if(!dojo.isIE){
-			try{ // sanity check for Mozilla
-				// this.document.execCommand("useCSS", false, true); // old moz call
-				this.document.execCommand("styleWithCSS", false, false); // new moz call
-				//this.document.execCommand("insertBrOnReturn", false, false); // new moz call
-			}catch(e2){ }
-			// FIXME: when scrollbars appear/disappear this needs to be fired
-		}else{ // IE contentEditable
+		if(dojo.isIE){ // IE contentEditable
 			// give the node Layout on IE
 			this.editNode.style.zoom = 1.0;
 		}
@@ -831,7 +828,10 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 		}
 
 		// function call after the character has been inserted
-		setTimeout(dojo.hitch(this, "onKeyPressed", e), 1);
+		if(!this._onKeyHitch){
+			this._onKeyHitch=dojo.hitch(this, "onKeyPressed");
+		}
+		setTimeout(this._onKeyHitch, 1);
 		return true;
 	},
 
@@ -847,8 +847,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 		});
 	},
 
-	onKeyPressed: function(/*Event*/e){
-		return;
+	onKeyPressed: function(){
 		this.onDisplayChanged(/*e*/); // can't pass in e
 	},
 
@@ -927,10 +926,10 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 		if(this._updateTimer){
 			clearTimeout(this._updateTimer);
 		}
-		this._updateTimer = setTimeout( // really? we hitch every time?
-			dojo.hitch(this,"onNormalizedDisplayChanged"), 
-			this.updateInterval
-		);
+		if(!this._updateHandler){
+			this._updateHandler = dojo.hitch(this,"onNormalizedDisplayChanged");
+		}
+		this._updateTimer = setTimeout(this._updateHandler, this.updateInterval);
 	},
 	onNormalizedDisplayChanged: function(){
 		// summary:
@@ -938,7 +937,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 		// description:
 		//		If something needs to happen immidiately after a
 		//		user change, please use onDisplayChanged instead
-		this._updateTimer = null;
+		delete this._updateTimer;
 	},
 	onChange: function(newContent){
 		// summary:

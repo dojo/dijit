@@ -4,12 +4,14 @@ dojo.declare("dijit._editor.plugins.AlwaysShowToolbar", dijit._editor._Plugin,
 	{
 	_handleScroll: true,
 	setEditor: function(e){
-		console.log('Port AlwaysShowToolbar plugin to work with Editor without iframe');
-		return;
+		if(!e.iframe){
+			console.log('Port AlwaysShowToolbar plugin to work with Editor without iframe');
+			return;
+		}
+
 		this.editor = e;
-//		setTimeout(dojo.hitch(this,this.enable), 10000);
+
 		e.onLoadDeferred.addCallback(dojo.hitch(this, this.enable));
-//		this.scrollInterval = setInterval(dojo.hitch(this, "globalOnScrollHandler"), 100);
 	},
 	enable: function(d){
 		this._updateHeight();
@@ -45,8 +47,6 @@ dojo.declare("dijit._editor.plugins.AlwaysShowToolbar", dijit._editor._Plugin,
 			this._lastHeight = height;
 			// this.editorObject.style.height = this._lastHeight + "px";
 			dojo.marginBox(e.iframe, { h: this._lastHeight });
-//			this.iframe.height=this._lastHeight+10+'px';
-//			this.iframe.style.height=this._lastHeight+'px';
 		}
 	},
 	_lastHeight: 0,
