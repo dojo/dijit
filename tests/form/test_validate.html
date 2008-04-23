@@ -61,7 +61,7 @@
 
 			<div class="dojoTitlePaneLabel">
 				<label for="q01">First Name:  </label>
-				<span class="noticeMessage"> TextBox class, <b>tabIndex=2</b>, Attributes: {trim: true, propercase: true, style: 'width:700px'}, First letter of each word is upper case.</span>
+				<span class="noticeMessage"> TextBox class, <b>tabIndex=2</b>, Attributes: {trim: true, propercase: true, intermediateChanges: true, style: 'width:700px'}, First letter of each word is upper case.</span>
 			</div>
 			<div class="testExample">
 				<input id="q01" type="text" name="firstname" value="testing testing" style="width: 700px;" tabIndex=2
@@ -70,6 +70,7 @@
 					onfocus="console.log('user onfocus handler')"
 					onblur="console.log('user onblur handler')"
 				        onChange="dojo.byId('oc1').value=arguments[0]"
+					intermediateChanges="true"
 					propercase="true" />
 				<br>onChange:<input id="oc1" size="34" disabled value="not fired yet!" autocomplete="off">
 			</div>
