@@ -24,7 +24,11 @@
 				//markup in the body tag for BigCalendar, but instead inject it in this
 				//onload handler after BigCalendar is defined.
 				dojo.declare("BigCalendar", dijit._Calendar, {
-					templatePath: "../../dijit/tests/_altCalendar.html"
+					templatePath: "../../dijit/tests/_altCalendar.html",
+					isDisabledDate: dojo.date.locale.isWeekend,
+					getClassForDate: function(date){
+						if(!(date.getDate() % 10)){ return "blue"; } // apply special style to all days divisible by 10
+					}
 				});
 				
 				var bigCalendar = dojo.byId("calendar5");
@@ -63,12 +67,8 @@
 			#calendar5 .dijitCalendarDayLabel { font-weight: bold }
 			#calendar5 .dijitCalendarSelectedYear { font-size: 1.5em }
 			#calendar5 .dijitCalendarMonth { font-family: serif; letter-spacing: 0.2em; font-size: 2em }
+			.blue { color: blue }
 		</style>
-		<script>
-			dojo.declare("BigCalendar", dijit._Calendar, {
-				templatePath: "../../dijit/tests/_altCalendar.html"
-			});
-		</script>
 		<div>
 			<!-- Parent div used so we have a handle to use for dojo.parser.parse after BigCalendar gets defined. -->
 			<!-- The input below will be replaced by BigCalendar which is defined in a dojo.addOnLoad block. -->

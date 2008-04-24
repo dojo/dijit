@@ -114,7 +114,7 @@ dojo.declare(
 
 				var clazz2 = this.getClassForDate(date, this.lang);
 				if(clazz2){
-					clazz += clazz2 + " " + clazz;
+					clazz = clazz2 + " " + clazz;
 				}
 
 				template.className =  clazz + "Month dijitCalendarDateTemplate";
