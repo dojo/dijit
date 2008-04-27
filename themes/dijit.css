@@ -592,6 +592,9 @@ table .dijitComboButton .dijitButtonNode {
 	position: absolute;
 }
 
+.dijitTooltipData {
+	display:none;
+}
 /* MOW: using actual images at this time
 /* draw an arrow with CSS only * /
 .dijitTooltipConnector {

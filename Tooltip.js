@@ -174,9 +174,8 @@ dojo.declare(
 		position: [],
 
 		postCreate: function(){
-			if(this.srcNodeRef){
-				this.srcNodeRef.style.display = "none";
-			}
+			
+			dojo.addClass(this.domNode,"dijitTooltipData");
 
 			this._connectNodes = [];
 			
