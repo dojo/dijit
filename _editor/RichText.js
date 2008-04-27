@@ -758,12 +758,12 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 			// dojo.connect(ap, item.toLowerCase(), console, "debug");
 			this.connect(ap, item.toLowerCase(), item);
 		}, this);
+		
 		if(dojo.isIE){ // IE contentEditable
 			// give the node Layout on IE
 			this.editNode.style.zoom = 1.0;
 		}
-
-		if(this.focusOnLoad){ this.focus(); }
+		if(this.focusOnLoad){ setTimeout(dojo.hitch(this, "focus"), 0) }
 
 		this.onDisplayChanged(e);
 
@@ -785,8 +785,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 			if(	e.keyCode == dojo.keys.TAB && 
 				!e.shiftKey && 
 				!e.ctrlKey && 
-				!e.altKey && 
-				this.iframe
+				!e.altKey
 			){
 				// update iframe document title for screen reader
 				this.iframe.contentDocument.title = this._localizedIframeTitles.iframeFocusTitle;
@@ -865,6 +864,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 	_onBlur: function(e){
 		this.inherited(arguments);
 		var _c=this.getValue(true);
+		
 		if(_c!=this.savedContent){
 			this.onChange(_c);
 			this.savedContent=_c;
@@ -887,6 +887,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 				// this.window.getSelection().collapseToStart();
 			}
 		}
+		this.inherited(arguments);
 	},
 
 	blur: function(){
@@ -895,6 +896,14 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 	},
 
 	focus: function(){
+		if(!this.iframe && dojo.isSafari){
+			//when no iframe is used in Safari, no need to do hard-focus (below), just
+			//need to restore selection in order to focus into the editing area
+			//This is necessary for Safari, otherwise safari will select all content in
+			//the editing area upon this.editNode.focus()
+			this._restoreSelection();
+			return;
+		}
 		// summary: move focus to this instance
 		if(this.iframe && !dojo.isIE){
 			dijit.focus(this.iframe);
@@ -1092,7 +1101,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 			// grab selection
 			// Mozilla gets upset if we just store the range so we have to
 			// get the basic properties and recreate to save the selection
-			var selection = this.window.getSelection();
+			//  var selection = this.window.getSelection();
 
 			//	var selectionRange = selection.getRangeAt(0);
 			//	var selectionStartContainer = selectionRange.startContainer;

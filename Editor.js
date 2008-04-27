@@ -2,6 +2,7 @@ dojo.provide("dijit.Editor");
 dojo.require("dijit._editor.RichText");
 dojo.require("dijit.Toolbar");
 dojo.require("dijit._editor._Plugin");
+dojo.require("dijit._editor.range");
 dojo.require("dijit._Container");
 dojo.require("dojo.i18n");
 dojo.requireLocalization("dijit._editor", "commands");
@@ -27,9 +28,9 @@ dojo.declare(
 				"insertOrderedList","insertUnorderedList","indent","outdent","|","justifyLeft","justifyRight","justifyCenter","justifyFull"/*"createLink"*/];
 			}
 
-			if(dojo.isIE){
+			/*if(dojo.isIE){
 				this.events.push("onBeforeDeactivate");
-			}
+			}*/
 			this._plugins=[];
 			this._editInterval = this.editActionInterval * 1000;
 		},
@@ -184,7 +185,7 @@ dojo.declare(
 				return this.inherited('queryCommandEnabled',arguments);
 			}
 		},
-		onBeforeDeactivate: function(){
+		/*onBeforeDeactivate: function(){
 	        //in IE, the selection will be lost when other elements get focus,
 	        //let's save focus before the editor is deactivated
 	        this._savedSelection = this._getBookmark();
@@ -208,7 +209,7 @@ dojo.declare(
 		    	}
 		        delete this._savedSelection;
 		    }
-		},
+		},*/
 		_moveToBookmark: function(b){
 			var bookmark=b;
 			if(dojo.isIE){
@@ -365,8 +366,26 @@ dojo.declare(
 				}	
 		},
 		_onBlur: function(){
+			if(dojo.isIE || !this.useIframe){
+				this._savedSelection=this._getBookmark();
+			}
 			this.inherited('_onBlur',arguments);
 			this.endEditing(true);
+		},
+		_restoreSelection: function(){
+			if(this._savedSelection){
+				//only restore the selection if the current range is collapsed
+    			//if not collapsed, then it means the editor does not lose 
+    			//selection and there is no need to restore it
+    			if(dojo.withGlobal(this.window,'isCollapsed',dijit)){
+					this._moveToBookmark(this._savedSelection);
+				}
+				delete this._savedSelection;
+			}
+		},
+		_onFocus: function(){
+			this._restoreSelection();
+			this.inherited(arguments);
 		},
 		onClick: function(){
 			this.endEditing(true);
