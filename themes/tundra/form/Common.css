@@ -63,7 +63,6 @@
 }
 
 .tundra .dijitError {
-	border-color:#f3d118;
 	background-color:#f9f7ba;
 	background-image:none;
 }
@@ -73,12 +72,12 @@
 }
 
 .tundra .dijitErrorFocused {
-	background-color:#ff6;
+	background-color:#f9f999;
 	background-image:none;
 }
 .dj_ie6 .tundra .dijitErrorFocused INPUT {
 	/* background-color: transparent on an <input> doesn't work on IE6 */
-	background-color:#ff6 !important;
+	background-color:#f9f999 !important;
 }
 
 /* Validation errors  */
