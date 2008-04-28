@@ -90,6 +90,8 @@ dojo.declare(
 		// apply the appropriate class to the expando node
 		var styles = ["dijitTreeExpandoLoading", "dijitTreeExpandoOpened",
 			"dijitTreeExpandoClosed", "dijitTreeExpandoLeaf"];
+		var _a11yStates = ["*","-","+","*"];
+		
 		var idx = processing ? 0 : (this.isExpandable ?	(this.isExpanded ? 1 : 2) : 3);
 		dojo.forEach(styles,
 			function(s){
@@ -99,19 +101,16 @@ dojo.declare(
 		dojo.addClass(this.expandoNode, styles[idx]);
 
 		// provide a non-image based indicator for images-off mode
-		this.expandoNodeText.innerHTML =
-			processing ? "*" :
-				(this.isExpandable ?
-					(this.isExpanded ? "-" : "+") : "*");
+		this.expandoNodeText.innerHTML = _a11yStates[idx];
+
 	},	
 
 	expand: function(){
 		// summary: show my children
 		if(this.isExpanded){ return; }
 		// cancel in progress collapse operation
-		if(this._wipeOut.status() == "playing"){
-			this._wipeOut.stop();
-		}
+
+		this._wipeOut && this._wipeOut.stop();
 
 		this.isExpanded = true;
 		dijit.setWaiState(this.labelNode, "expanded", "true");
@@ -127,9 +126,7 @@ dojo.declare(
 		if(!this.isExpanded){ return; }
 
 		// cancel in progress expand operation
-		if(this._wipeIn.status() == "playing"){
-			this._wipeIn.stop();
-		}
+		this._wipeIn && this._wipeIn.stop();
 
 		this.isExpanded = false;
 		dijit.setWaiState(this.labelNode, "expanded", "false");
@@ -141,7 +138,7 @@ dojo.declare(
 	},
 
 	setLabelNode: function(label){
-		this.labelNode.innerHTML="";
+		this.labelNode.innerHTML = "";
 		this.labelNode.appendChild(dojo.doc.createTextNode(label));
 	},
 
@@ -218,8 +215,12 @@ dojo.declare(
 
 		// create animations for showing/hiding the children (if children exist)
 		if(this.containerNode && !this._wipeIn){
-			this._wipeIn = dojo.fx.wipeIn({node: this.containerNode, duration: dijit.defaultDuration});
-			this._wipeOut = dojo.fx.wipeOut({node: this.containerNode, duration: dijit.defaultDuration});
+			this._wipeIn = dojo.fx.wipeIn({
+				node: this.containerNode, duration: dijit.defaultDuration
+			});
+			this._wipeOut = dojo.fx.wipeOut({
+				node: this.containerNode, duration: dijit.defaultDuration
+			});
 		}
 	},
 
@@ -382,7 +383,7 @@ dojo.declare(
 
 		this._load();
 
-		this.inherited("postCreate", arguments);
+		this.inherited(arguments);
 
 		if(this.dndController){
 			if(dojo.isString(this.dndController)){
@@ -493,6 +494,7 @@ dojo.declare(
 	_onKeyPress: function(/*Event*/ e){
 		// summary: translates keypress events into commands for the controller
 		if(e.altKey){ return; }
+		var dk = dojo.keys;
 		var treeNode = dijit.getEnclosingWidget(e.target);
 		if(!treeNode){ return; }
 
@@ -511,13 +513,13 @@ dojo.declare(
 			if(!map){
 				// setup table mapping keys to events
 				map = {};
-				map[dojo.keys.ENTER]="_onEnterKey";
-				map[this.isLeftToRight() ? dojo.keys.LEFT_ARROW : dojo.keys.RIGHT_ARROW]="_onLeftArrow";
-				map[this.isLeftToRight() ? dojo.keys.RIGHT_ARROW : dojo.keys.LEFT_ARROW]="_onRightArrow";
-				map[dojo.keys.UP_ARROW]="_onUpArrow";
-				map[dojo.keys.DOWN_ARROW]="_onDownArrow";
-				map[dojo.keys.HOME]="_onHomeKey";
-				map[dojo.keys.END]="_onEndKey";
+				map[dk.ENTER]="_onEnterKey";
+				map[this.isLeftToRight() ? dk.LEFT_ARROW : dk.RIGHT_ARROW]="_onLeftArrow";
+				map[this.isLeftToRight() ? dk.RIGHT_ARROW : dk.LEFT_ARROW]="_onRightArrow";
+				map[dk.UP_ARROW]="_onUpArrow";
+				map[dk.DOWN_ARROW]="_onDownArrow";
+				map[dk.HOME]="_onHomeKey";
+				map[dk.END]="_onEndKey";
 				this._keyHandlerMap = map;
 			}
 			if(this._keyHandlerMap[e.keyCode]){
@@ -1290,19 +1292,18 @@ dojo.declare("dijit.tree.ForestStoreModel", dijit.tree.TreeStoreModel, {
 	_requeryTop: function(){
 		// reruns the query for the children of the root node,
 		// sending out an onSet notification if those children have changed
-		var _this = this,
-			oldChildren = this.root.children;
+		var oldChildren = this.root.children;
 		this.store.fetch({
 			query: this.query,
-			onComplete: function(newChildren){
-				_this.root.children = newChildren;
+			onComplete: dojo.hitch(this, function(newChildren){
+				this.root.children = newChildren;
 
 				// If the list of children or the order of children has changed...	
 				if(oldChildren.length != newChildren.length ||
 					dojo.some(oldChildren, function(item, idx){ return newChildren[idx] != item;})){
-					_this.onChildrenChange(_this.root, newChildren);
+					this.onChildrenChange(this.root, newChildren);
 				}
-			}
+			})
 		});
 	},
 
