@@ -67,7 +67,6 @@
 .soria .dijitTooltip,
 .soria .dijitTooltipDialog {
 	/* the outermost dom node, holding the connector and container */
-	opacity: 0.95;
 	background: transparent;	/* make the area on the sides of the arrow transparent */
 }
 
@@ -94,11 +93,6 @@
 	background-color: #fff;
 	border:1px solid #cbcbcb;
 	padding:0.45em;
-	/*
-	border-radius: 6px;
-	-moz-border-radius: 7px;
-	-webkit-border-radius: 6px;
-	*/
 }
 
 .soria .dijitTooltipConnector {

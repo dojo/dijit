@@ -67,7 +67,6 @@
 .nihilo .dijitTooltip,
 .nihilo .dijitTooltipDialog {
 	/* the outermost dom node, holding the connector and container */
-	opacity: 0.95;
 	background: transparent;	/* make the area on the sides of the arrow transparent */
 }
 
