@@ -48,9 +48,6 @@
 .dj_ie6 .tundra .dijitTitlePane .dijitTitlePaneTitle {
 	zoom: 1;
 }
-.tundra .dijitClickableRegion {
-	background-color : #ffc !important;
-}
 
 .tundra .dijitTitlePaneTextNode {
 	margin-left: 4px;
