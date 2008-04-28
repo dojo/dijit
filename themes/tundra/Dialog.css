@@ -1,4 +1,4 @@
-/* Dialog and Tooltip*/
+/* Dialog */
 
 .tundra .dijitDialog {
 	background: #fff;
@@ -69,12 +69,12 @@
 
 .dijitTooltipBelow {
 	/* leave room for arrow above content */
-	padding-top: 7px;
+	padding-top: 13px;
 }
 
 .dijitTooltipAbove {
 	/* leave room for arrow below content */
-	padding-bottom: 7px;
+	padding-bottom: 13px;
 }
 
 .tundra .dijitTooltipContainer {
@@ -82,11 +82,14 @@
 		The part with the text.
 	*/
 	background: #ffffff url("images/popupMenuBg.gif") repeat-x bottom left;
-	border:	1px solid #7eabcd;
-	padding: 0.3em 0.5em 0.3em 0.5em;	
-	-webkit-border-radius: 7px;
+	border: 1px solid #7eabcd;
+	padding: 0.45em;	
+	-webkit-border-radius: 3px;
 }
-
+.dj_ff3 .tundra .dijitTooltipContainer {
+	/* only do this for FF3, because FF2 has problems with glitches */
+	-moz-border-radius: 3px;
+}	
 .tundra .dijitTooltipConnector {
 	/* the arrow piece */
 	border:0px;
@@ -102,10 +105,10 @@
 .tundra .dijitTooltipBelow .dijitTooltipConnector {
 	/* the arrow piece for tooltips below an element */
 	top: 0px;
-	left: 7px;
+	left: 3px;
 	background:url("images/tooltipConnectorUp.png") no-repeat top left;
-	width:	11px;
-	height:	8px;
+	width:16px;
+	height:14px;
 }
 
 .dj_ie .tundra .dijitTooltipBelow .dijitTooltipConnector {
@@ -115,46 +118,46 @@
 .tundra .dijitTooltipAbove .dijitTooltipConnector {
 	/* the arrow piece for tooltips above an element */
 	bottom: 0px;
-	left: 7px;
+	left: 3px;
 	background:url("images/tooltipConnectorDown.png") no-repeat top left;
-	width:	11px;
-	height:	8px;
+	width:16px;
+	height:14px;
 }
 .dj_ie .tundra .dijitTooltipAbove .dijitTooltipConnector {
 	background-image: url("images/tooltipConnectorDown.gif");
 }
-.dj_ie .tundra .dijitTooltipAbove .dijitTooltipConnector {
+.dj_ie6 .tundra .dijitTooltipAbove .dijitTooltipConnector {
 	bottom: -3px;
 }
 
 .tundra .dijitTooltipLeft {
-	padding-right: 7px;
+	padding-right: 14px;
 }
 .dj_ie .tundra .dijitTooltipLeft {
-	padding-left: 8px;
+	padding-left: 15px;
 }
 .tundra .dijitTooltipLeft .dijitTooltipConnector {
 	/* the arrow piece for tooltips to the left of an element, bottom borders aligned */
 	right: 0px;
-	bottom: 7px;
+	bottom: 3px;
 	background:url("images/tooltipConnectorRight.png") no-repeat top left;
-	width:	9px;
-	height:	11px;
+	width:16px;
+	height:14px;
 }
 .dj_ie .tundra .dijitTooltipLeft .dijitTooltipConnector {
 	background-image: url("images/tooltipConnectorRight.gif");
 }
 
 .tundra .dijitTooltipRight {
-	padding-left: 7px;
+	padding-left: 14px;
 }
 .tundra .dijitTooltipRight .dijitTooltipConnector {
 	/* the arrow piece for tooltips to the right of an element, bottom borders aligned */
 	left: 0px;
-	bottom: 7px;
+	bottom: 3px;
 	background:url("images/tooltipConnectorLeft.png") no-repeat top left;
-	width:	9px;
-	height:	11px;
+	width:16px;
+	height:14px;
 }
 .dj_ie .tundra .dijitTooltipRight .dijitTooltipConnector {
 	background-image: url("images/tooltipConnectorLeft.gif");

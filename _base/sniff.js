@@ -25,7 +25,8 @@ dojo.provide("dijit._base.sniff");
 		dj_khtml: d.isKhtml,
 		dj_safari: d.isSafari,
 		dj_gecko: d.isMozilla,
-		dj_ff2: maj(ff) == 2
+		dj_ff2: maj(ff) == 2,
+		dj_ff3: maj(ff) == 3
 	}; // no dojo unsupported browsers
 
 	for(var p in classes){

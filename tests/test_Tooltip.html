@@ -7,6 +7,8 @@
 	<style type="text/css">
 		@import "../../dojo/resources/dojo.css";
 		@import "css/dijitTests.css";
+		
+		td { padding: 20px; }
 	</style>
 
 	<script type="text/javascript" src="../../dojo/dojo.js"
@@ -15,6 +17,7 @@
 
 	<script type="text/javascript">
 		dojo.require("dijit.Tooltip");
+		dojo.require("dijit.ColorPalette");
 		dojo.require("dojo.parser");	// find widgets
 		dojo.addOnLoad(function(){
 			console.log("on load func");
@@ -26,11 +29,28 @@
 <body>
 	<h1 class="testTitle">Tooltip test</h1>
 	<p>Mouse-over or focus the items below to test tooltips.</p>
-	<p>
-	Change tooltip positioning search list: 
-	<button onclick="dijit.Tooltip.defaultPosition=['above', 'below'];">above, below</button>
-	<button onclick="dijit.Tooltip.defaultPosition=['after', 'before'];">after, before (default)</button>
-	</p>
+	<table>
+		<tr>
+			<td>
+				Change tooltip positioning search list:
+			</td>
+			<td>
+				Set background color:
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<button onclick="dijit.Tooltip.defaultPosition=['above', 'below']; dojo.byId('current').innerHTML='Current: ' + dijit.Tooltip.defaultPosition;">above, below</button>
+				<button onclick="dijit.Tooltip.defaultPosition=['after', 'before']; dojo.byId('current').innerHTML='Current: ' + dijit.Tooltip.defaultPosition;">after, before (default)</button>
+				<div id=current>
+					Current: default (unchanged)
+				</div>
+			</td>
+			<td>
+				<div dojoType="dijit.ColorPalette" onChange="dojo.query('body').style('background', arguments[0]);"></div>
+			</td>
+		</tr>
+	</table>
 	<div><span id="one" class="tt" tabindex="0"> focusable text </span>
 		<span dojoType="dijit.Tooltip" connectId="one">
 			<b>
