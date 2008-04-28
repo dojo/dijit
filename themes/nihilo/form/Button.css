@@ -12,7 +12,7 @@
 	border:1px solid #dedede;
 	border-bottom:1px solid #dedede;
 	border-right:1px solid #dedede;
-	padding: 0.2em;
+	padding: 0px 0.2em;
 	background:#fff url("../images/buttonEnabled.png") repeat-x top left;
 }
 .dj_ie .nihilo .dijitButtonNode {

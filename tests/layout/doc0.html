@@ -1,12 +1,14 @@
 <h1>Document 0</h1>
 This document has <a href="http://www.dojotoolkit.org/">a link</a>.<br />
 (to check we're copying children around properly).<br />
-Also it's got a widget, a combo box:<br>
+Plus some widgets and native fields:<br />
+<input value="native input">
 <select dojoType="dijit.form.ComboBox">
-	<option value="1">foo</option>
-	<option value="2">bar</option>
-	<option value="3">baz</option>
+	<option value="1">dijit</option>
+	<option value="2">form</option>
+	<option value="3">ComboBox</option>
 </select>
-And a button too:
-<button dojoType="dijit.form.Button">hello!</button>
+<button>native button</button>
+<button dojoType="dijit.form.Button">dijit.Button</button><br>
+
 Here's some text that comes AFTER the button.
