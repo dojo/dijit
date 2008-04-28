@@ -96,11 +96,7 @@
 .dijit_ally .dijitPopup div,
 .dijit_a11y .dijitPopup table,
 .dijit_a11y .dijitTooltipContainer {
-	opacity: 1 !important;
 	background-color: white !important;
-}
-.dj_ie .dijit_a11y .dijitPopup * {
-	filter: none;
 }
 
 .dijitInputField {
