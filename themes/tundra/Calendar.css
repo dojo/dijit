@@ -120,6 +120,10 @@
 	font-weight:bold;
 }
 
+.tundra .dijitCalendarHoveredDate {
+	background-color: #e2ebf2 !important;
+}
+
 .tundra .dijitCalendarSelectedDate {
 	/* cell for the selected date */
 	background-color:#bbc4d0 !important;

@@ -206,6 +206,28 @@ dojo.declare(
 			}
 		},
 
+		_onDayMouseOver: function(/*Event*/evt){
+			var node = evt.target;
+			if(node && (node.dijitDateValue || node == this.previousYearLabelNode || node == this.nextYearLabelNode) ){
+				dojo.addClass(node, "dijitCalendarHoveredDate");
+				this._currentNode = node;
+			}
+		},
+
+		_onDayMouseOut: function(/*Event*/evt){
+			if(!this._currentNode){ return; }
+			for(var node = evt.relatedTarget; node;){
+				if(node == this._currentNode){ return; }
+				try{
+					node = node.parentNode;
+				}catch(x){
+					node = null;
+				}
+			}
+			dojo.removeClass(this._currentNode, "dijitCalendarHoveredDate");
+			this._currentNode = null;
+		},
+
 		onValueSelected: function(/*Date*/date){
 			// summary: a date cell was selected.  It may be the same as the previous value.
 		},
