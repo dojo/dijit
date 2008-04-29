@@ -79,7 +79,11 @@ dojo.declare("dijit._TimePicker",
 		constraints:{},
 
 		serialize: dojo.date.stamp.toISOString,
-
+		
+		// _filterString: string
+		//		The string to filter by
+		_filterString: "",
+		
 //TODOC: what is priority?
 		setValue:function(/*Date*/ date, /*Boolean*/ priority){
 			// summary:
@@ -91,10 +95,47 @@ dojo.declare("dijit._TimePicker",
 			this._showText();
 		},
 
+		onOpen: function(best){
+			if(this._beenOpened && this.domNode.parentNode){
+				// We've been opened before - so set our filter to to the
+				// currently-displayed value (or empty string if it's already
+				// valid)
+				var p = dijit.byId(this.domNode.parentNode.dijitPopupParent);
+				if(p){
+					var val = p.getDisplayedValue();
+					if(val && !p.parse(val, p.constraints)){
+						this._filterString = val;
+					}else{
+						this._filterString = "";
+					}
+					this._showText();
+				}
+			}
+			this._beenOpened = true;
+		},
+
 		isDisabledDate: function(/*Date*/dateObject, /*String?*/locale){
 			// summary:
 			//	May be overridden to disable certain dates in the TimePicker e.g. `isDisabledDate=dojo.date.locale.isWeekend`
 			return false; // Boolean
+		},
+
+		_getFilteredNodes: function(/*number*/start, /*number*/maxNum, /*Boolean*/before){
+			// summary:
+			//  Returns an array of nodes with the filter applied.  At most maxNum nodes
+			//  will be returned - but fewer may be returned as well.  If the
+			//  before parameter is set to true, then it will return the elements
+			//  before the given index
+			var nodes = [], n, i = start, max = this._maxIncrement + Math.abs(i),
+				chk = before?-1:1, dec = before?1:0, inc = before?0:1;
+			do{
+				i = i - dec;
+				n = this._createOption(i);
+				if(n){nodes.push(n);}
+				i = i + inc;
+			}while(nodes.length < maxNum && (i*chk) < max);
+			if(before){ nodes.reverse(); }
+			return nodes; 
 		},
 
 		_showText:function(){
@@ -125,9 +166,18 @@ dojo.declare("dijit._TimePicker",
 			// divide the visible increments by the clickable increments to get how often to display the time inline
 			// example: 01:00:00/00:15:00 -> display the time every 4 divs
 			this._visibleIncrement = visibleIncrementSeconds / clickableIncrementSeconds;
-			for(var i = -(this._totalIncrements >> 1); i < (this._totalIncrements >> 1); i += this._clickableIncrement){
-				this.timeMenu.appendChild(this._createOption(i));
+			// divide the number of seconds in a day by the clickable increment in seconds to get the
+			// absolute max number of increments.
+			this._maxIncrement = (60 * 60 * 24) / clickableIncrementSeconds;
+
+			// find the nodes we should display based on our filter
+			var before = this._getFilteredNodes(0, this._totalIncrements >> 1, true);
+			var after = this._getFilteredNodes(0, this._totalIncrements >> 1, false);
+			if(before.length < this._totalIncrements >> 1){
+				before = before.slice(before.length / 2);
+				after = after.slice(0, after.length / 2);
 			}
+			dojo.forEach(before.concat(after), function(n){this.timeMenu.appendChild(n);}, this);
 			
 			// TODO:
 			// I commented this out because it
@@ -155,8 +205,6 @@ dojo.declare("dijit._TimePicker",
 			var typematic = dijit.typematic.addMouseListener;
 			typematic(this.upArrow,this,this._onArrowUp, 0.8, 500);
 			typematic(this.downArrow,this,this._onArrowDown, 0.8, 500);
-			//dijit.typematic.addListener(this.upArrow,this.timeMenu, {keyCode:dojo.keys.UP_ARROW,ctrlKey:false,altKey:false,shiftKey:false}, this, "_onArrowUp", 0.8, 500);
-			//dijit.typematic.addListener(this.downArrow, this.timeMenu, {keyCode:dojo.keys.DOWN_ARROW,ctrlKey:false,altKey:false,shiftKey:false}, this, "_onArrowDown", 0.8,500);
 			
 			// Connect some callback functions to the hover event of the arrows
 			var triggerFx = function(cb){
@@ -180,18 +228,24 @@ dojo.declare("dijit._TimePicker",
 
 		_createOption:function(/*Number*/ index){
 			// summary: creates a clickable time option
-			var div = dojo.doc.createElement("div");
-			var date = (div.date = new Date(this._refDate));
-			div.index = index;
+			var date = new Date(this._refDate);
 			var incrementDate = this._clickableIncrementDate;
 			date.setHours(date.getHours() + incrementDate.getHours() * index,
 				date.getMinutes() + incrementDate.getMinutes() * index,
 				date.getSeconds() + incrementDate.getSeconds() * index);
+			var dateString = dojo.date.locale.format(date, this.constraints);
+			if(this._filterString && dateString.toLowerCase().indexOf(this._filterString) !== 0){
+				// Doesn't match the filter - return null
+				return null;
+			}
 
+			var div = dojo.doc.createElement("div");
+			div.date = date;
+			div.index = index;
 			var innerDiv = dojo.doc.createElement('div');
 			dojo.addClass(div,this.baseClass+"Item");
 			dojo.addClass(innerDiv,this.baseClass+"ItemInner");
-			innerDiv.innerHTML = dojo.date.locale.format(date, this.constraints);				
+			innerDiv.innerHTML = dateString;
 			div.appendChild(innerDiv);
 
 			if(index%this._visibleIncrement<1 && index%this._visibleIncrement>-1){
@@ -207,6 +261,11 @@ dojo.declare("dijit._TimePicker",
 			if(!dojo.date.compare(this.value, date, this.constraints.selector)){
 				div.selected = true;
 				dojo.addClass(div, this.baseClass+"ItemSelected");
+				if(dojo.hasClass(div, this.baseClass+"Marker")){
+					dojo.addClass(div, this.baseClass+"MarkerSelected");
+				}else{
+					dojo.addClass(div, this.baseClass+"TickSelected");
+				}
 			}
 			return div;
 		},
@@ -214,6 +273,7 @@ dojo.declare("dijit._TimePicker",
 		_onOptionSelected:function(/*Object*/ tgt){
 			var tdate = tgt.target.date || tgt.target.parentNode.date;			
 			if(!tdate || this.isDisabledDate(tdate)){ return; }
+			this._highlighted_option = null;
 			this.setValue(tdate);
 			this.onValueSelected(tdate);
 		},
@@ -221,26 +281,37 @@ dojo.declare("dijit._TimePicker",
 		onValueSelected:function(value){
 		},
 
+
+		_highlightOption: function(/*node*/node, /*Boolean*/ highlight){
+			if(!node){return;}
+			if(highlight){
+				if(this._highlighted_option){
+					this._highlightOption(this._highlighted_option, false);
+				}
+				this._highlighted_option = node;
+			}else if(this._highlighted_option !== node){
+				return;
+			}else{
+				this._highlighted_option = null;
+			}
+			dojo.toggleClass(node, this.baseClass+"ItemHover", highlight);
+			if(dojo.hasClass(node, this.baseClass+"Marker")){
+				dojo.toggleClass(node, this.baseClass+"MarkerHover", highlight);
+			}else{
+				dojo.toggleClass(node, this.baseClass+"TickHover", highlight);
+			}
+		},
+		
 		onmouseover:function(/*Event*/ e){
 			var tgr = (e.target.parentNode === this.timeMenu) ? e.target : e.target.parentNode;			
 			// if we aren't targeting an item, then we return
 			if(!dojo.hasClass(tgr, this.baseClass+"Item")){return;}
-			this._highlighted_option=tgr;
-			dojo.addClass(tgr, this.baseClass+"ItemHover");
-			if(dojo.hasClass(tgr, this.baseClass+"Marker")){
-				dojo.addClass(tgr, this.baseClass+"MarkerHover");
-			}else{
-				dojo.addClass(tgr, this.baseClass+"TickHover");
-			}
+			this._highlightOption(tgr, true);
 		},
 
 		onmouseout:function(/*Event*/ e){
 			var tgr = (e.target.parentNode === this.timeMenu) ? e.target : e.target.parentNode;
-			if(this._highlighted_option===tgr){			
-				dojo.removeClass(tgr, this.baseClass+"ItemHover");
-				dojo.removeClass(tgr, this.baseClass+"MarkerHover");
-				dojo.removeClass(tgr, this.baseClass+"TickHover");
-			}
+			this._highlightOption(tgr, false);
 		},
 
 		_mouseWheeled:function(/*Event*/e){
@@ -253,18 +324,62 @@ dojo.declare("dijit._TimePicker",
 
 		_onArrowUp:function(){
 			// summary: remove the bottom time and add one to the top
-			var index = this.timeMenu.childNodes[0].index - 1;
-			var div = this._createOption(index);
-			this.timeMenu.removeChild(this.timeMenu.childNodes[this.timeMenu.childNodes.length - 1]);
-			this.timeMenu.insertBefore(div, this.timeMenu.childNodes[0]);
+			var index = this.timeMenu.childNodes[0].index;
+			var divs = this._getFilteredNodes(index, 1, true);
+			if(divs.length){
+				this.timeMenu.removeChild(this.timeMenu.childNodes[this.timeMenu.childNodes.length - 1]);
+				this.timeMenu.insertBefore(divs[0], this.timeMenu.childNodes[0]);
+			}
 		},
 
 		_onArrowDown:function(){
 			// summary: remove the top time and add one to the bottom
 			var index = this.timeMenu.childNodes[this.timeMenu.childNodes.length - 1].index + 1;
-			var div = this._createOption(index);
-			this.timeMenu.removeChild(this.timeMenu.childNodes[0]);
-			this.timeMenu.appendChild(div);
+			var divs = this._getFilteredNodes(index, 1, false);
+			if(divs.length){
+				this.timeMenu.removeChild(this.timeMenu.childNodes[0]);
+				this.timeMenu.appendChild(divs[0]);
+			}
+		},
+
+		handleKey:function(/*Event*/e){
+			var dk = dojo.keys;
+			if(e.keyChar || e.keyCode == dk.BACKSPACE || e.keyCode == dk.DELETE){
+				// Set a timeout to kick off our filter
+				setTimeout(dojo.hitch(this, function(){
+					this._filterString = e.target.value.toLowerCase();
+					this._showText();
+				}),1);
+			}else if(e.keyCode == dk.DOWN_ARROW || e.keyCode == dk.UP_ARROW){
+				dojo.stopEvent(e);
+				// Figure out which option to highlight now and then highlight it
+				if(this._highlighted_option && !this._highlighted_option.parentNode){
+					this._highlighted_option = null;
+				}
+				var timeMenu = this.timeMenu, 
+					tgt = this._highlighted_option || dojo.query("." + this.baseClass + "ItemSelected", timeMenu)[0];
+				if(!tgt){
+					tgt = timeMenu.childNodes[0];
+				}else if(timeMenu.childNodes.length){
+					if(e.keyCode == dk.DOWN_ARROW && !tgt.nextSibling){
+						this._onArrowDown();
+					}else if(e.keyCode == dk.UP_ARROW && !tgt.previousSibling){
+						this._onArrowUp();
+					}
+					if(e.keyCode == dk.DOWN_ARROW){
+						tgt = tgt.nextSibling;
+					}else{
+						tgt = tgt.previousSibling;
+					}
+				}
+				this._highlightOption(tgt, true);
+			}else if(this._highlighted_option && (e.keyCode == dk.ENTER || e.keyCode == dk.TAB)){
+				// Accept the currently-highlighted option as the value
+				if(e.keyCode == dk.ENTER){dojo.stopEvent(e);}
+				setTimeout(dojo.hitch(this, function(){
+					this._onOptionSelected({target: this._highlighted_option});
+				}),1);
+			}
 		}
 	}
 );

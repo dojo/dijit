@@ -90,8 +90,11 @@ dojo.declare(
 				var PopupProto=dojo.getObject(this.popupClass, false);
 				this._picker = new PopupProto({
 					onValueSelected: function(value){
-
-						textBox.focus(); // focus the textbox before the popup closes to avoid reopening the popup
+						if(textBox._tabbingAway){
+							delete textBox._tabbingAway;
+						}else{
+							textBox.focus(); // focus the textbox before the popup closes to avoid reopening the popup
+						}
 						setTimeout(dojo.hitch(textBox, "_close"), 1); // allow focus time to take
 
 						// this will cause InlineEditBox and other handlers to do stuff so make sure it's last
@@ -160,10 +163,27 @@ dojo.declare(
 		},
 
 		_onKeyPress: function(/*Event*/e){
-			if(dijit.form._DateTimeTextBox.superclass._onKeyPress.apply(this, arguments)){
-				if(this._opened && e.keyCode == dojo.keys.ESCAPE && !e.shiftKey && !e.ctrlKey && !e.altKey){
-					this._close();
-					dojo.stopEvent(e);
+			var p = this._picker, dk = dojo.keys;
+			// Handle the key in the picker, if it has a handler.  If the handler
+			// returns false, then don't handle any other keys.
+			if(p && this._opened && p.handleKey){
+				if(p.handleKey(e) === false){ return; }
+			}
+			if(this._opened && e.keyCode == dk.ESCAPE && !e.shiftKey && !e.ctrlKey && !e.altKey){
+				this._close();
+				dojo.stopEvent(e);
+			}else if(!this._opened && e.keyCode == dk.DOWN_ARROW){
+				this._open();
+				dojo.stopEvent(e);
+			}else if(dijit.form._DateTimeTextBox.superclass._onKeyPress.apply(this, arguments)){
+				if(e.keyCode == dk.TAB){
+					this._tabbingAway = true;
+				}else if(this._opened && (e.keyChar || e.keyCode == dk.BACKSPACE || e.keyCode == dk.DELETE)){
+					// Replace the element - but do it after a delay to allow for 
+					// filtering to occur
+					setTimeout(dojo.hitch(this, function(){
+						dijit.placeOnScreenAroundElement(p.domNode.parentNode, this.domNode, {'BL':'TL', 'TL':'BL'}, p.orient ? dojo.hitch(p, "orient") : null);
+					}), 1);
 				}
 			}
 		}

@@ -24,16 +24,18 @@
 	color:white;
 }
 
-.tundra .dijitTimePickerItemHover {
+.tundra .dijitTimePickerItemHover,
+.tundra .dijitTimePickerItemSelected {
 	position: relative;
 	z-index: 10;
 }
 
 .tundra .dijitTimePickerTick .dijitTimePickerItemInner {
-	font-size:0.25em;
+	font-size:0.4em;
 }
 
-.tundra .dijitTimePickerItemHover .dijitTimePickerItemInner {
+.tundra .dijitTimePickerItemHover .dijitTimePickerItemInner,
+.tundra .dijitTimePickerItemSelected .dijitTimePickerItemInner {
 	font-size:1em;
 }
 
@@ -41,9 +43,10 @@
 	border-top: 1px solid #ccc;
 }
 
-.tundra .dijitTimePickerTickHover {
-	margin-top:-0.375em;
-	margin-bottom:-0.375em;
+.tundra .dijitTimePickerTickHover,
+.tundra .dijitTimePickerTickSelected {
+	margin-top:-0.3em;
+	margin-bottom:-0.3em;
 	border-bottom: none;
 }
 

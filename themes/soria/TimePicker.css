@@ -24,16 +24,18 @@
 	color:white;
 }
 
-.soria .dijitTimePickerItemHover {
+.soria .dijitTimePickerItemHover,
+.soria .dijitTimePickerItemSelected {
 	position: relative;
 	z-index: 10;
 }
 
 .soria .dijitTimePickerTick .dijitTimePickerItemInner {
-	font-size:0.25em;
+	font-size:0.4em;
 }
 
-.soria .dijitTimePickerItemHover .dijitTimePickerItemInner {
+.soria .dijitTimePickerItemHover .dijitTimePickerItemInner,
+.soria .dijitTimePickerItemSelected .dijitTimePickerItemInner {
 	font-size:1em;
 }
 
@@ -41,9 +43,10 @@
 	border-top: 1px solid #94b9ef;
 }
 
-.soria .dijitTimePickerTickHover {
-	margin-top:-0.375em;
-	margin-bottom:-0.375em;
+.soria .dijitTimePickerTickHover,
+.soria .dijitTimePickerTickSelected {
+	margin-top:-0.3em;
+	margin-bottom:-0.3em;
 	border-bottom: none;
 }
 

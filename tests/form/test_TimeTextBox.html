@@ -120,6 +120,21 @@
 			invalidMessage="Invalid time. Use HH:mm:ss where HH is 00 - 23 hours.">
 	</div>
 
+	<div class="dojoTitlePaneLabel">
+		<label for="q6">Initially empty time text box</label>
+		<span class="noticeMessage">TimeTextBox class,
+			Attributes: {formatLength:'medium'}</span>
+	</div>
+	<div class="testExample">
+		<input id="q6" type="text" name="time6" class="medium"
+			dojoType="dijit.form.TimeTextBox"
+			constraints="{formatLength:'medium'}"
+			required="true"
+			onChange="dojo.byId('oc6').value=arguments[0]"
+			invalidMessage="Invalid time." />
+		onChange:<input id="oc6" size="34" disabled value="not fired yet!" autocomplete="off">
+	</div>
+
 	<script>
 	        function displayData() {
 	                var f = document.getElementById("form1");
