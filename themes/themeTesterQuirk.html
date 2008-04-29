@@ -254,7 +254,7 @@
 					<h2>Tooltips:</h2>
 					<ul>
 						<li>
-						<span id="ttRich">rich text tooltip</span>
+						<span id="ttRich"><b>rich</b> <i>text</i> tooltip</span>
 						<span dojoType="dijit.Tooltip" connectId="ttRich" style="display:none;">
 							Embedded <b>bold</b> <i>RICH</i> text <span style="color:#309; font-size:x-large;">weirdness!</span>
 						</span>
@@ -263,8 +263,37 @@
 						<li><a id="ttOne" href="#bogus">anchor tooltip</a>
 						<span dojoType="dijit.Tooltip" connectId="ttOne" style="display:none;">tooltip on anchor</span>
 						</li>
-
 					</ul>
+
+					<table style="width: 100%;">
+						<tr>
+							<td></td>
+							<td>
+								<div id="ttBelow" href="#bogus">tooltip below</div>
+								<div dojoType="dijit.Tooltip" connectId="ttBelow" style="display:none; width: 100px;" position="below" >I'm <i>below</i>!</div>
+							</td>
+							<td></td>
+						</tr>
+						<tr>
+							<td>
+								<div id="ttRight" href="#bogus">tooltip after</div>
+								<div dojoType="dijit.Tooltip" connectId="ttRight" style="display:none;" position="after" >I'm on the <i>right</i>!<br>(or left on RTL systems)</div>
+							</td>
+							<td></td>
+							<td>
+								<div id="ttLeft" href="#bogus">tooltip before</div>
+								<div dojoType="dijit.Tooltip" connectId="ttLeft" style="display:none;" position="before,after" >I'm on the <i>left</i>!<br>(or right on RTL systems)</div>
+							</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td>
+								<div id="ttAbove" href="#bogus">tooltip above</div>
+								<div dojoType="dijit.Tooltip" connectId="ttAbove" style="display:none;" position="above" >I'm <i>above</i>!</div>
+							</td>
+							<td></td>
+						</tr>
+					</table>
 
 					<hr class="spacer">
 
@@ -309,14 +338,20 @@
 				</div>
 	
 				<div dojoType="dijit.layout.AccordionPane" title="Color Picker">
-					<!-- color palette picker -->
-					<h2 class="testHeader">Dijit Color Palette(7x10)</h2>
-					<div dojoType="dijit.ColorPalette" onChange="setColor(this.value);"></div>
-					<br>
-					Test color is: <span id="outputSpan"></span>
-
-					<br><br>
-					<div dojoType="dijit.ColorPalette" palette="3x4"></div>
+					<p>
+						Selecting a color will change the background color of the page.
+						Use this to test how tooltips and drop downs appear with different backgrounds.
+					</p>
+					<h2 class="testHeader">3x4</h2>
+					<script>
+						function setBackground(color){
+							dojo.query('.dijitAccordionPane').style('background', color);
+							dojo.query('.dijitTabPaneWrapper').style('background', color);
+						}
+					</script>
+					<div dojoType="dijit.ColorPalette"  palette="3x4" onChange="setBackground(arguments[0]);"></div>
+					<h2 class="testHeader">7x10</h2>
+					<div dojoType="dijit.ColorPalette" onChange="setBackground(arguments[0]);"></div>
 				</div>
 
 				
