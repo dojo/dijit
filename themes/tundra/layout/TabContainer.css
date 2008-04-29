@@ -35,7 +35,7 @@
 	border-top-color:#92a0b3;
 	border-left-color:#92a0b3;
 	border-right-color:#92a0b3;
-	background:#e2e2e2 url("../images/tabHover.png") repeat-x bottom;
+	background:#e2e2e2 url("../images/tabHover.png") repeat-x;
 }
 
 .dj_ie6 .tundra .dijitTabHover,
