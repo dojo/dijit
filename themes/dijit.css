@@ -351,6 +351,10 @@ table .dijitComboButton .dijitButtonNode {
 	#vertical-align: auto;	
 }
 
+.dijitTimeTextBox {
+	width: 8em;
+}
+
 /* rules for safari to deal with fuzzy blue focus border */
 .dijitTextBox input:focus,
 .dijitComboBox input:focus,
