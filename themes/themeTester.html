@@ -349,7 +349,7 @@
 					<h2 class="testHeader">3x4</h2>
 					<script>
 						function setBackground(color){
-							dojo.query('.dijitAccordionPane').style('background', color);
+							dojo.query('.dijitAccordionBody').style('background', color);
 							dojo.query('.dijitTabPaneWrapper').style('background', color);
 						}
 					</script>
@@ -506,7 +506,7 @@
 					<label for="date1">Enabled:</label>
 					<input id="date1" name="date1" type="text" dojoType="dijit.form.DateTextBox" value="2008-12-25">
 					<label for="date2">Disabled:</label>
-					<input id="date2" name="date2" type="text" dojoType="dijit.form.DateTextBox" value="2008-12-25" disabled>
+					<input id="date2" name="date2" type="text" dojoType="dijit.form.DateTextBox" value="2008-12-25" disabled="disabled">
 
 					<h2>dijit.form.TimeTextBox</h2>
 					<label for="time1">Enabled:</label>
