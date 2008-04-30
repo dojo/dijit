@@ -355,7 +355,7 @@ dojo.declare(
 				// No pathAdjustments, script retrieval, style clean etc
 				// some of these should be available in the dojox.layout.ContentPane
 				if(this.extractContent){
-					match = cont.match(/<body[^>]*>\s*([\s\S]+)\s*<\/body>/im);
+					var match = cont.match(/<body[^>]*>\s*([\s\S]+)\s*<\/body>/im);
 					if(match){ cont = match[1]; }
 				}
 				node.innerHTML = cont;
