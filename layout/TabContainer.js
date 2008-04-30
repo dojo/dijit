@@ -64,7 +64,7 @@ dojo.declare("dijit.layout.TabContainer",
 			for(var pane in this.tablist.pane2button){
 				var tabButton = this.tablist.pane2button[pane];
 				if(!tabButton.closeButton){ continue; }
-				tabButtonStyle = tabButton.closeButtonNode.style;
+				var tabButtonStyle = tabButton.closeButtonNode.style;
 				tabButtonStyle.position ="absolute";
 				if(dojo.isIE < 7){
 					tabButtonStyle.left = tabButton.domNode.offsetWidth + "px";
