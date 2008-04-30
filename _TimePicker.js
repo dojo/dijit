@@ -226,6 +226,10 @@ dojo.declare("dijit._TimePicker",
 			this.setValue(this.value);
 		},
 
+		_buttonMouse:function(/*Event*/ e){
+			dojo.toggleClass(e.target, "dijitButtonNodeHover", e.type == "mouseover");
+		},
+		
 		_createOption:function(/*Number*/ index){
 			// summary: creates a clickable time option
 			var date = new Date(this._refDate);

@@ -54,6 +54,7 @@
 }
 
 .tundra .dijitButtonHover .dijitButtonNode,
+.tundra .dijitButtonNodeHover,
 .tundra .dijitToggleButtonHover .dijitButtonNode,
 .tundra .dijitDropDownButtonHover .dijitButtonNode,
 .tundra .dijitComboButtonHover .dijitButtonContents,
