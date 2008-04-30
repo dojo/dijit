@@ -47,10 +47,6 @@ dojo.declare(
 		//		Name of the popup widget class used to select a date/time
 		popupClass: "", // default is no popup = text only
 		
-		//  additionalClass: String
-		//		An additional class to add to the dom node for styling
-		additionalClass: "",
-		
 		_selector: "",
 
 		postMixInProperties: function(){
@@ -67,13 +63,6 @@ dojo.declare(
  			if(typeof constraints.max == "string"){ constraints.max = fromISO(constraints.max); }
 		},
 		
-		postCreate: function(){
-			if(this.additionalClass){
-				dojo.addClass(this.domNode, this.additionalClass);
-			}
-			this.inherited(arguments);
-		},
-
 		_onFocus: function(/*Event*/ evt){
 			// summary: open the TimePicker popup
 			this._open();

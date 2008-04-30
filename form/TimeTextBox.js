@@ -17,7 +17,7 @@ dojo.declare(
 		// summary:
 		//		A validating, serializable, range-bound time text box with a popup time picker
 
-		additionalClass: "dijitTimeTextBox",
+		baseClass: "dijitTextBox dijitTimeTextBox",
 		popupClass: "dijit._TimePicker",
 		_selector: "time"
 

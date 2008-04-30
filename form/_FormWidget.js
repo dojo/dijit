@@ -179,7 +179,7 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 		}
 
 		// Compute new set of classes
-		var classes = [ this.baseClass ];
+		var classes = this.baseClass.split(" ");
 
 		function multiply(modifier){
 			classes=classes.concat(dojo.map(classes, function(c){ return c+modifier; }), "dijit"+modifier);
