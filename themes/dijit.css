@@ -161,7 +161,6 @@
  ****/
 .dijit_a11y * {
 	background-image:none !important;
-	background-color:transparent !important;
 }
 
 .dijit_a11y .dijitCalendarIncrementControl .dijitA11ySideArrow {
@@ -550,7 +549,7 @@ table .dijitComboButton .dijitButtonNode {
 	position:static;
 	width:100%;
 	text-align:center;
-	background-color:transparent;
+	background-color:transparent !important;
 }
 
 /* progress bar in vertical mode - TODO: remove? no longer supported? */
@@ -821,6 +820,12 @@ img.dijitColorPaletteUnder {
 	/* -moz-border-radius:0; */	
 }
 
+.dijit_a11y .dijitPaletteCell {
+	background-color:transparent !important;
+}
+.dijit_a11y .dijitPaletteImg {
+	background-color:transparent !important;
+}
 
 /* Accordion */
 
@@ -1147,7 +1152,7 @@ img.dijitColorPaletteUnder {
 	top: 0;
 	z-index: 998;
 	display: none;
-	background: transparent;
+	background: transparent !important;
 }
 
 .dijitDialogUnderlay {
@@ -1529,4 +1534,8 @@ img.dijitColorPaletteUnder {
 	width: 0.5em;
 	margin-left: 2px;
 	overflow: visible;
+}
+.dijit_a11y .dijitSpinnerButtonContainer .dijitButtonNode {
+	border-width: 1px 0px 0px 1px;
+	border-style: solid !important;
 }
