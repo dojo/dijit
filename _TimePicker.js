@@ -227,8 +227,7 @@ dojo.declare("dijit._TimePicker",
 		},
 
 		_buttonMouse:function(/*Event*/ e){
-			var tgt = dojo.hasClass(e.target, "dijitButtonNode") ? e.target : e.target.parentNode;
-			dojo.toggleClass(tgt, "dijitButtonNodeHover", e.type == "mouseover");
+			dojo.toggleClass(e.currentTarget, "dijitButtonNodeHover", e.type == "mouseover");
 		},
 		
 		_createOption:function(/*Number*/ index){
