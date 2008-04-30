@@ -1218,6 +1218,17 @@ img.dijitColorPaletteUnder {
 	border-color:black;
 }
 
+.dijitSliderBarContainerV {
+	position:relative;
+	height:100%;
+	z-index:1;
+}
+
+.dijitSliderBarContainerH {
+	position:relative;
+	z-index:1;
+}
+
 .dijitSliderBarH {
 	height:4px;
 	border-width:1px 0;
