@@ -25,8 +25,11 @@
 
 .tundra .dijitTabInnerDiv {
 	padding:6px 10px 4px 10px;
-	border-left:1px solid #fff;
-	border-bottom:1px solid #fff;
+}
+
+.tundra .dijitTabChecked .dijitTabInnerDiv {
+	padding: 6px 10px 3px 10px;
+	border-bottom: 1px solid #fff;
 }
 
 .tundra .dijitTabHover,
