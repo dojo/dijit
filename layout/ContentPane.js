@@ -132,7 +132,7 @@ dojo.declare(
 
 		// TODO: if there are two child widgets (a data store and a TabContainer, for example),
 		//	should still find the TabContainer
-		var childNodes = dojo.query(">", this.containerNode || this.domNode),
+		var childNodes = dojo.query(">", this.containerNode),
 			childWidgets = childNodes.filter("[widgetId]");
 
 		if(childNodes.length == 1 && childWidgets.length == 1){
@@ -192,7 +192,7 @@ dojo.declare(
 			this._checkIfSingleChild();
 			if(this._singleChild && this._singleChild.resize){
 				this._singleChild.startup();
-				this._singleChild.resize(this._contentBox || dojo.contentBox(this.containerNode || this.domNode));
+				this._singleChild.resize(this._contentBox || dojo.contentBox(this.containerNode));
 			}
 		}
 
@@ -226,7 +226,7 @@ dojo.declare(
 		// If either height or width wasn't specified by the user, then query node for it.
 		// But note that setting the margin box and then immediately querying dimensions may return
 		// inaccurate results, so try not to depend on it.
-		var node = this.containerNode || this.domNode,
+		var node = this.containerNode,
 			mb = dojo.mixin(dojo.marginBox(node), size||{});
 
 		this._contentBox = dijit.layout.marginBox2contentBox(node, mb);
@@ -343,10 +343,12 @@ dojo.declare(
 	},
 
 	_setContent: function(cont){
+		// first get rid of child widgets
 		this.destroyDescendants();
 
 		try{
-			var node = this.containerNode || this.domNode;
+			// ... and then get rid of child dom nodes
+			var node = this.containerNode;
 			while(node.firstChild){
 				dojo._destroyElement(node.firstChild);
 			}
@@ -394,9 +396,8 @@ dojo.declare(
 
 	_createSubWidgets: function(){
 		// summary: scan my contents and create subwidgets
-		var rootNode = this.containerNode || this.domNode;
 		try{
-			dojo.parser.parse(rootNode, true);
+			dojo.parser.parse(this.containerNode, true);
 		}catch(e){
 			this._onError('Content', e, "Couldn't create widgets in "+this.id
 				+(this.href ? " from "+this.href : ""));

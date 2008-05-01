@@ -46,11 +46,36 @@ dojo.declare("dijit._Widget", null, {
 	srcNodeRef: null,
 
 	// domNode: DomNode
-	//		this is our visible representation of the widget! Other DOM
+	//		This is our visible representation of the widget! Other DOM
 	//		Nodes may by assigned to other properties, usually through the
-	//		template system's dojoAttachPonit syntax, but the domNode
+	//		template system's dojoAttachPoint syntax, but the domNode
 	//		property is the canonical "top level" node in widget UI.
 	domNode: null,
+
+	// containerNode: DomNode
+	//		Designates where children of the source dom node will be placed.
+	//		"Children" in this case refers to both dom nodes and widgets.
+	//		For example, for myWidget:
+	//
+	//		|	<div dojoType=myWidget>
+	//		|		<b> here's a plain dom node
+	//		|		<span dojoType=subWidget>and a widget</span>
+	//		|		<i> and another plain dom node </i>
+	//		|	</div>
+	//
+	//		containerNode would point to:
+	//
+	//		|		<b> here's a plain dom node
+	//		|		<span dojoType=subWidget>and a widget</span>
+	//		|		<i> and another plain dom node </i>
+	//
+	//		In templated widgets, "containerNode" is set via a
+	//		dojoAttachPoint assignment.
+	//
+	//		containerNode must be defined for any widget that accepts innerHTML
+	//		(like ContentPane or BorderContainer or even Button), and conversely
+	//		is null for widgets that don't, like TextBox.
+	containerNode: null,
 
 	// attributeMap: Object
 	//		A map of attributes and attachpoints -- typically standard HTML attributes -- to set
@@ -315,7 +340,24 @@ dojo.declare("dijit._Widget", null, {
 
 	getDescendants: function(){
 		// summary:
-		//	Returns all the widgets that contained by this, i.e., all widgets underneath this.containerNode.
+		//		Returns all the widgets that contained by this, i.e., all widgets underneath this.containerNode.
+		// description:
+		//		This method is designed to *not* return widgets that are, for example,
+		//		used as part of a template, but rather to just return widgets that are defined in the
+		//		original markup as descendants of this widget, for example w/this markup:
+		//
+		//		|	<div dojoType=myWidget>
+		//		|		<b> hello world </b>
+		//		|		<div>
+		//		|			<span dojoType=subwidget>
+		//		|				<span dojoType=subwidget2>how's it going?</span>
+		//		|			</span>
+		//		|		</div>
+		//		|	</div>
+		//
+		//		getDescendants() will return subwidget, but not anything that's part of the template
+		//		of myWidget.
+
 		if(this.containerNode){
 			var list= dojo.query('[widgetId]', this.containerNode);
 			return list.map(dijit.byNode);		// Array

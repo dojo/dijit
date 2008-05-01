@@ -30,12 +30,6 @@ dojo.declare("dijit._Templated",
 		//		declared in markup inside it? false by default.
 		widgetsInTemplate: false,
 
-		// containerNode: DomNode
-		//		holds child elements. "containerNode" is generally set via a
-		//		dojoAttachPoint assignment and it designates where children of
-		//		the src dom node will be placed
-		containerNode: null,
-
 		// skipNodeCache: Boolean
 		//		if using a cached widget template node poses issues for a
 		//		particular widget class, it can set this property to ensure

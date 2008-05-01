@@ -35,7 +35,7 @@ dojo.declare(
 	selectedChildWidget: null,
 =====*/
 	postCreate: function(){
-		dijit.setWaiRole((this.containerNode || this.domNode), "tabpanel");
+		dijit.setWaiRole(this.containerNode, "tabpanel");
 		this.connect(this.domNode, "onkeypress", this._onKeyPress);
 	},
 	
@@ -347,7 +347,7 @@ dojo.declare(
 			this._currentChild = page;
 			newButton.focusNode.setAttribute("tabIndex", "0");
 			var container = dijit.byId(this.containerId);
-			dijit.setWaiState(container.containerNode || container.domNode, "labelledby", newButton.id);
+			dijit.setWaiState(container.containerNode, "labelledby", newButton.id);
 		},
 
 		onButtonClick: function(/*Widget*/ page){
