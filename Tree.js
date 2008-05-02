@@ -49,6 +49,10 @@ dojo.declare(
 		if(this.isExpandable){
 			dijit.setWaiState(this.labelNode, "expanded", this.isExpanded);
 		}
+
+		// Counteract effects from _Container.buildRendering().  We actually want to
+		// leave containerNode as null (or undefined) until when/if we get children
+		this.containerNode = null;
 	},
 
 	markProcessing: function(){
