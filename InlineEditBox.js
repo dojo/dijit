@@ -325,15 +325,15 @@ dojo.declare(
 		if(this.autoSave){
 			if(e.altKey || e.ctrlKey){ return; }
 			// If Enter/Esc pressed, treat as save/cancel.
-			if(e.keyCode == dojo.keys.ESCAPE){
+			if(e.charOrCode == dojo.keys.ESCAPE){
 				dojo.stopEvent(e);
 				this._exitInProgress = true;
 				this.cancel(true);
-			}else if(e.keyCode == dojo.keys.ENTER){
+			}else if(e.charOrCode == dojo.keys.ENTER){
 				dojo.stopEvent(e);
 				this._exitInProgress = true;
 				this.save(true);
-			}else if(e.keyCode == dojo.keys.TAB){
+			}else if(e.charOrCode == dojo.keys.TAB){
 				this._exitInProgress = true;
 				// allow the TAB to change focus before we mess with the DOM: #6227
 				// Expounding by request:

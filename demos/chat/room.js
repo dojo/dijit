@@ -44,8 +44,7 @@ dojo.declare("dijit.demos.chat.Room",
 	},
 
 	_join: function(/* Event */e){
-		var key = (e.charCode == dojo.keys.SPACE ? dojo.keys.SPACE : e.keyCode);
-		if (key == dojo.keys.ENTER || e.type=="click"){
+		if (e.charOrCode == dojo.keys.ENTER || e.type=="click"){
 			this.join(this.username.value); 
 		}
 	},
@@ -107,7 +106,7 @@ dojo.declare("dijit.demos.chat.Room",
 	},
 
 	_cleanInput: function(/* Event */e){
-		var key = (e.charCode == dojo.keys.SPACE ? dojo.keys.SPACE : e.keyCode);
+		var key = e.charOrCode;
 		if(key == dojo.keys.ENTER || key == 13){
 			this.chat(this.phrase.value);
           		this.phrase.value='';

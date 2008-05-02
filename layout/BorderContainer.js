@@ -483,7 +483,7 @@ dojo.declare("dijit.layout._Splitter", [ dijit._Widget, dijit._Templated ],
 		var horizontal = this.horizontal;
 		var tick = 1;
 		var dk = dojo.keys;
-		switch(e.keyCode){
+		switch(e.charOrCode){
 			case horizontal ? dk.UP_ARROW : dk.LEFT_ARROW:
 				tick *= -1;
 				break;

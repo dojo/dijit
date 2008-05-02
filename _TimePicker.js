@@ -348,13 +348,13 @@ dojo.declare("dijit._TimePicker",
 
 		handleKey:function(/*Event*/e){
 			var dk = dojo.keys;
-			if(e.keyChar || e.keyCode == dk.BACKSPACE || e.keyCode == dk.DELETE){
+			if(e.keyChar || e.charOrCode == dk.BACKSPACE || e.charOrCode == dk.DELETE){
 				// Set a timeout to kick off our filter
 				setTimeout(dojo.hitch(this, function(){
 					this._filterString = e.target.value.toLowerCase();
 					this._showText();
 				}),1);
-			}else if(e.keyCode == dk.DOWN_ARROW || e.keyCode == dk.UP_ARROW){
+			}else if(e.charOrCode == dk.DOWN_ARROW || e.charOrCode == dk.UP_ARROW){
 				dojo.stopEvent(e);
 				// Figure out which option to highlight now and then highlight it
 				if(this._highlighted_option && !this._highlighted_option.parentNode){
@@ -365,21 +365,21 @@ dojo.declare("dijit._TimePicker",
 				if(!tgt){
 					tgt = timeMenu.childNodes[0];
 				}else if(timeMenu.childNodes.length){
-					if(e.keyCode == dk.DOWN_ARROW && !tgt.nextSibling){
+					if(e.charOrCode == dk.DOWN_ARROW && !tgt.nextSibling){
 						this._onArrowDown();
-					}else if(e.keyCode == dk.UP_ARROW && !tgt.previousSibling){
+					}else if(e.charOrCode == dk.UP_ARROW && !tgt.previousSibling){
 						this._onArrowUp();
 					}
-					if(e.keyCode == dk.DOWN_ARROW){
+					if(e.charOrCode == dk.DOWN_ARROW){
 						tgt = tgt.nextSibling;
 					}else{
 						tgt = tgt.previousSibling;
 					}
 				}
 				this._highlightOption(tgt, true);
-			}else if(this._highlighted_option && (e.keyCode == dk.ENTER || e.keyCode == dk.TAB)){
+			}else if(this._highlighted_option && (e.charOrCode == dk.ENTER || e.charOrCode == dk.TAB)){
 				// Accept the currently-highlighted option as the value
-				if(e.keyCode == dk.ENTER){dojo.stopEvent(e);}
+				if(e.charOrCode == dk.ENTER){dojo.stopEvent(e);}
 				setTimeout(dojo.hitch(this, function(){
 					this._onOptionSelected({target: this._highlighted_option});
 				}),1);

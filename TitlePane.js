@@ -131,9 +131,9 @@ dojo.declare(
 
 	_onTitleKey: function(/*Event*/ e){
 		// summary: callback when user hits a key
-		if(e.keyCode == dojo.keys.ENTER || e.charCode == dojo.keys.SPACE){
+		if(e.charOrCode == dojo.keys.ENTER || e.charOrCode == ' '){
 			this.toggle();
-		}else if(e.keyCode == dojo.keys.DOWN_ARROW && this.open){
+		}else if(e.charOrCode == dojo.keys.DOWN_ARROW && this.open){
 			this.containerNode.focus();
 			e.preventDefault();
 	 	}

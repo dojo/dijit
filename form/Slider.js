@@ -61,7 +61,7 @@ dojo.declare(
 
 	_onKeyPress: function(/*Event*/ e){
 		if(this.disabled || this.readOnly || e.altKey || e.ctrlKey){ return; }
-		switch(e.keyCode){
+		switch(e.charOrCode){
 			case dojo.keys.HOME:
 				this.setValue(this.minimum, true);
 				break;
@@ -173,13 +173,13 @@ dojo.declare(
 	decrement: function(e){
 		// summary
 		//	decrement slider by 1 unit
-		this._bumpValue(e.keyCode == dojo.keys.PAGE_DOWN?-this.pageIncrement:-1);
+		this._bumpValue(e.charOrCode == dojo.keys.PAGE_DOWN?-this.pageIncrement:-1);
 	},
 
 	increment: function(e){
 		// summary
 		//	increment slider by 1 unit
-		this._bumpValue(e.keyCode == dojo.keys.PAGE_UP?this.pageIncrement:1);
+		this._bumpValue(e.charOrCode == dojo.keys.PAGE_UP?this.pageIncrement:1);
 	},
 
 	_mouseWheeled: function(/*Event*/ evt){

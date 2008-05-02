@@ -161,7 +161,7 @@ dojo.declare("dijit.ColorPalette",
 		};
 		for(var key in keyIncrementMap){
 			this._connects.push(dijit.typematic.addKeyListener(this.domNode,
-				{keyCode:dojo.keys[key], ctrlKey:false, altKey:false, shiftKey:false},
+				{charOrCode:dojo.keys[key], ctrlKey:false, altKey:false, shiftKey:false},
 				this,
 				function(){
 					var increment = keyIncrementMap[key];

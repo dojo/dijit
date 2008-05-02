@@ -182,7 +182,7 @@ dojo.declare("dijit.form.DropDownButton", [dijit.form.Button, dijit._Container],
 	_onKey: function(/*Event*/ e){
 		// summary: callback when the user presses a key on menu popup node
 		if(this.disabled || this.readOnly){ return; }
-		if(e.keyCode == dojo.keys.DOWN_ARROW){
+		if(e.charOrCode == dojo.keys.DOWN_ARROW){
 			if(!this.dropDown || this.dropDown.domNode.style.visibility=="hidden"){
 				dojo.stopEvent(e);
 				this._toggleDropDown();

@@ -82,7 +82,7 @@ dojo.declare("dijit.Menu",
 		// summary: Handle keyboard based menu navigation.
 		if(evt.ctrlKey || evt.altKey){ return; }
 
-		switch(evt.keyCode){
+		switch(evt.charOrCode){
 			case dojo.keys.RIGHT_ARROW:
 				this._moveToPopup(evt);
 				dojo.stopEvent(evt);

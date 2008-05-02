@@ -127,8 +127,9 @@ dojo.declare(
 		_onKeyPress: function(/*Event*/ evt){
 			// summary: handles keyboard events
 
-			//except for pasting case - ctrl + v(118)
-			if(evt.altKey || (evt.ctrlKey && evt.charCode != 118)){
+			//except for cutting/pasting case - ctrl + x/v
+			var key = evt.charOrCode;
+			if(evt.altKey || (evt.ctrlKey && (key != 'v' && key != 'x'))){
 				return;
 			}
 			var doSearch = false;
@@ -137,7 +138,7 @@ dojo.declare(
 			if(this._isShowingNow){
 				pw.handleKey(evt);
 			}
-			switch(evt.keyCode){
+			switch(evt.charOrCode){
 				case dk.PAGE_DOWN:
 				case dk.DOWN_ARROW:
 					if(!this._isShowingNow||this._prev_key_esc){
@@ -208,7 +209,7 @@ dojo.declare(
 					}
 					break;
 
-				case dk.SPACE:
+				case ' ':
 					this._prev_key_backspace = false;
 					this._prev_key_esc = false;
 					if(this._isShowingNow && pw.getHighlightedOption()){
@@ -246,9 +247,7 @@ dojo.declare(
 				default: // non char keys (F1-F12 etc..)  shouldn't open list
 					this._prev_key_backspace = false;
 					this._prev_key_esc = false;
-					if(dojo.isIE || evt.charCode != 0){
-						doSearch = true;
-					}
+					doSearch = evt.keyChar !== '';
 			}
 			if(this.searchTimer){
 				clearTimeout(this.searchTimer);
@@ -934,7 +933,7 @@ dojo.declare(
 		},
 
 		handleKey: function(evt){
-			switch(evt.keyCode){
+			switch(evt.charOrCode){
 				case dojo.keys.DOWN_ARROW:
 					this._highlightNextOption();
 					break;

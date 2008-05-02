@@ -502,14 +502,11 @@ dojo.declare(
 		var treeNode = dijit.getEnclosingWidget(e.target);
 		if(!treeNode){ return; }
 
-		// Note: On IE e.keyCode is not 0 for printables so check e.charCode.
-		// In dojo charCode is universally 0 for non-printables.
-		if(e.charCode){  // handle printables (letter navigation)
+		var key = e.charOrCode;
+		if(typeof key == "string"){  // handle printables (letter navigation)
 			// Check for key navigation.
-			var navKey = e.charCode;
 			if(!e.altKey && !e.ctrlKey && !e.shiftKey && !e.metaKey){
-				navKey = (String.fromCharCode(navKey)).toLowerCase();
-				this._onLetterKeyNav( { node: treeNode, key: navKey } );
+				this._onLetterKeyNav( { node: treeNode, key: key.toLowerCase() } );
 				dojo.stopEvent(e);
 			}
 		}else{  // handle non-printables (arrow keys)
@@ -526,8 +523,8 @@ dojo.declare(
 				map[dk.END]="_onEndKey";
 				this._keyHandlerMap = map;
 			}
-			if(this._keyHandlerMap[e.keyCode]){
-				this[this._keyHandlerMap[e.keyCode]]( { node: treeNode, item: treeNode.item } );	
+			if(this._keyHandlerMap[key]){
+				this[this._keyHandlerMap[key]]( { node: treeNode, item: treeNode.item } );	
 				dojo.stopEvent(e);
 			}
 		}

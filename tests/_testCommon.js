@@ -71,8 +71,7 @@
 		_populateTestDialog(node);
 
 		d.connect(document,"onkeypress", function _testNodeShow(/* Event */evt){
-			var key = (evt.charCode == d.keys.SPACE ? d.keys.SPACE : evt.keyCode);
-			if(evt.ctrlKey && (key == d.keys.F9)){ // F9 is generic enough?
+			if(evt.ctrlKey && (evt.charOrCode == d.keys.F9)){ // F9 is generic enough?
 				d.style('testNodeDialog',"top",(dijit.getViewport().t + 4) +"px");
 				d.toggleClass('testNodeDialog',"dijitTestNodeShowing");
 			}

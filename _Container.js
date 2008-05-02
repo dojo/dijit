@@ -301,7 +301,7 @@ dojo.declare("dijit._KeyNavContainer",
 
 		_onContainerKeypress: function(evt){
 			if(evt.ctrlKey || evt.altKey){ return; }
-			var func = this._keyNavCodes[evt.keyCode];
+			var func = this._keyNavCodes[evt.charOrCode];
 			if(func){
 				func();
 				dojo.stopEvent(evt);

@@ -170,16 +170,16 @@ dojo.declare(
 			if(p && this._opened && p.handleKey){
 				if(p.handleKey(e) === false){ return; }
 			}
-			if(this._opened && e.keyCode == dk.ESCAPE && !e.shiftKey && !e.ctrlKey && !e.altKey){
+			if(this._opened && e.charOrCode == dk.ESCAPE && !e.shiftKey && !e.ctrlKey && !e.altKey){
 				this._close();
 				dojo.stopEvent(e);
-			}else if(!this._opened && e.keyCode == dk.DOWN_ARROW){
+			}else if(!this._opened && e.charOrCode == dk.DOWN_ARROW){
 				this._open();
 				dojo.stopEvent(e);
 			}else if(dijit.form._DateTimeTextBox.superclass._onKeyPress.apply(this, arguments)){
-				if(e.keyCode == dk.TAB){
+				if(e.charOrCode == dk.TAB){
 					this._tabbingAway = true;
-				}else if(this._opened && (e.keyChar || e.keyCode == dk.BACKSPACE || e.keyCode == dk.DELETE)){
+				}else if(this._opened && (e.keyChar || e.charOrCode == dk.BACKSPACE || e.charOrCode == dk.DELETE)){
 					// Replace the element - but do it after a delay to allow for 
 					// filtering to occur
 					setTimeout(dojo.hitch(this, function(){

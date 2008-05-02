@@ -62,7 +62,9 @@ dijit.typematic = {
 	addKeyListener: function(/*DOMNode*/ node, /*Object*/ keyObject, /*Object*/ _this, /*Function*/ callback, /*Number*/ subsequentDelay, /*Number*/ initialDelay){
 		// summary: Start listening for a specific typematic key.
 		//	keyObject: an object defining the key to listen for.
-		//		key: (mandatory) the keyCode (number) or character (string) to listen for.
+		//		charOrCode: the printable character (string) or keyCode (number) to listen for.
+		//			keyCode: (deprecated - use charOrCode) the keyCode (number) to listen for (implies charCode = 0).
+		//			charCode: (deprecated - use charOrCode) the charCode (number) to listen for.
 		//		ctrlKey: desired ctrl key state to initiate the calback sequence:
 		//			pressed (true)
 		//			released (false)
@@ -71,9 +73,16 @@ dijit.typematic = {
 		//		shiftKey: same as ctrlKey but for the shift key
 		//	See the trigger method for other parameters.
 		//	Returns an array of dojo.connect handles
+		if(keyObject.keyCode){
+			keyObject.charOrCode = keyObject.keyCode;
+			dojo.deprecated("keyCode attribute parameter for dijit.typematic.addKeyListener is deprecated. Use charOrCode instead.", "", "2.0");
+		}else if(keyObject.charCode){
+			keyObject.charOrCode = String.fromCharCode(keyObject.charCode);
+			dojo.deprecated("charCode attribute parameter for dijit.typematic.addKeyListener is deprecated. Use charOrCode instead.", "", "2.0");
+		}
 		return [
 			dojo.connect(node, "onkeypress", this, function(evt){
-				if(evt.keyCode == keyObject.keyCode && (!keyObject.charCode || keyObject.charCode == evt.charCode) &&
+				if(evt.charOrCode == keyObject.charOrCode &&
 				(keyObject.ctrlKey === undefined || keyObject.ctrlKey == evt.ctrlKey) &&
 				(keyObject.altKey === undefined || keyObject.altKey == evt.ctrlKey) &&
 				(keyObject.shiftKey === undefined || keyObject.shiftKey == evt.ctrlKey)){

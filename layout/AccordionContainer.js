@@ -125,7 +125,7 @@ inside the AccordionPane??
 			if(this.disabled || e.altKey || !(e._dijitWidget || e.ctrlKey)){ return; }
 			var k = dojo.keys;
 			var fromTitle = e._dijitWidget;
-			switch(e.keyCode){
+			switch(e.charOrCode){
 				case k.LEFT_ARROW:
 				case k.UP_ARROW:
 					if (fromTitle){
@@ -153,7 +153,7 @@ inside the AccordionPane??
 					}
 					break;
 				default:
-					if(e.ctrlKey && e.keyCode == k.TAB){
+					if(e.ctrlKey && e.charOrCode == k.TAB){
 						this._adjacent(e._dijitWidget, !e.shiftKey)._onTitleClick();
 						dojo.stopEvent(e);
 					}

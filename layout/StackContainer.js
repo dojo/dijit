@@ -388,7 +388,7 @@ dojo.declare(
 			var forward = null;
 			if(e.ctrlKey || !e._djpage){
 				var k = dojo.keys;
-				switch(e.keyCode){
+				switch(e.charOrCode){
 					case k.LEFT_ARROW:
 					case k.UP_ARROW:
 						if(!e._djpage){ forward = false; }
@@ -411,10 +411,10 @@ dojo.declare(
 						break;
 					default:
 						if(e.ctrlKey){
-							if(e.keyCode == k.TAB){
+							if(e.charOrCode == k.TAB){
 								this.adjacent(!e.shiftKey).onClick();
 								dojo.stopEvent(e);
-							}else if(e.keyChar == "w"){
+							}else if(e.charOrCode == "w"){
 								if(this._currentChild.closable){
 									this.onCloseButtonClick(this._currentChild);
 								}
