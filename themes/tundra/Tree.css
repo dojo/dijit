@@ -51,6 +51,10 @@
 	background:#dde7f2;
 }
 
+.tundra .dijitTreeNodeHover {
+	background-color: #e2ebf2 !important;
+}
+
 .tundra .dijitTreeExpandoOpened {
 	background-image: url('images/treeExpand_minus.gif');
 }

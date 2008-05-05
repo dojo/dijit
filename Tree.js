@@ -255,6 +255,14 @@ dojo.declare(
 	_onNodeFocus: function(evt){
 		var node = dijit.getEnclosingWidget(evt.target);
 		this.tree._onTreeFocus(node);
+	},
+	
+	_onMouseEnter: function(evt){
+		dojo.addClass(this.contentNode, "dijitTreeNodeHover");
+	},
+
+	_onMouseLeave: function(evt){
+		dojo.removeClass(this.contentNode, "dijitTreeNodeHover");
 	}
 });
 
