@@ -118,6 +118,7 @@
 }
 
 .dj_ie .tundra .dijitTooltipBelow .dijitTooltipConnector {
+	/* use gif for IE7 too, due to png rendering problems on fade-in (see http://trac.dojotoolkit.org/ticket/6555) */
 	background-image: url("images/tooltipConnectorUp.gif");
 }
 
