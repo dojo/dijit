@@ -1239,6 +1239,14 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 			node.innerHTML = html;
 			this._preDomFilterContent(node);
 		}
+
+		if(!this.isLoaded){
+			// try again after the editor is finished loading
+			this.onLoadDeferred.addCallback(dojo.hitch(this, function(){
+				this.setValue(html);
+			}));
+		}
+
 		this.onDisplayChanged();
 	},
 
