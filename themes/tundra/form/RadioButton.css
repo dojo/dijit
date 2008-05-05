@@ -29,12 +29,6 @@
 	background-position: -112px;
 }
 
-.tundra .dijitRadioChecked,
-.tundra .dijitToggleButtonChecked .dijitRadioIcon {
-	/* selected */
-	background-position: -96px;
-}
-
 .tundra .dijitRadioDisabled {
 	/* unselected and disabled */
 	background-position: -144px;
@@ -50,8 +44,11 @@
 	background-position: -176px;
 }
 
-.tundra .dijitRadioCheckedHover {
-	/* hovering over a selected enabled radio button */
-	background-position: -160px;
+.tundra .dijitRadioChecked,
+.tundra .dijitRadioCheckedHover,
+.tundra .dijitToggleButtonChecked .dijitRadioIcon {
+	/* selected.  Since clicking a selected radio button doesn't change anything, there's
+	 * no hover effect on selected radio buttons.
+	 */
+	background-position: -96px;
 }
-
