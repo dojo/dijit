@@ -263,7 +263,6 @@
 }
 .dj_gecko .dijitToolbar .dijitButtonNode::-moz-focus-inner {
 	padding:0;
-	border:none;
 }
 
 .dijitButtonNode {
