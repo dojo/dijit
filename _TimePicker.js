@@ -31,7 +31,7 @@ dojo.declare("dijit._TimePicker",
 		//		This widget is used internally by other widgets and is not accessible
 		//		as a standalone widget.
 
-		templatePath: dojo.moduleUrl("dijit.form", "templates/TimePicker.html"),
+		templatePath: dojo.moduleUrl("dijit", "templates/TimePicker.html"),
 		baseClass: "dijitTimePicker",
 
 		// clickableIncrement: String
