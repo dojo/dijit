@@ -12,6 +12,7 @@ dojo.provide("dijit._base.sniff");
 	var opera = d.isOpera;
 	var maj = Math.floor;
 	var ff = d.isFF;
+	var boxModel = d.boxModel.replace(/-/,'');
 	var classes = {
 		dj_ie: ie,
 //		dj_ie55: ie == 5.5,
@@ -28,7 +29,8 @@ dojo.provide("dijit._base.sniff");
 		dj_ff2: maj(ff) == 2,
 		dj_ff3: maj(ff) == 3
 	}; // no dojo unsupported browsers
-
+	classes["dj_" + boxModel] = true;
+	
 	for(var p in classes){
 		if(classes[p]){
 			var html = dojo.doc.documentElement; //TODO browser-specific DOM magic needed?
