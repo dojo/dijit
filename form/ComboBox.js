@@ -648,11 +648,17 @@ dojo.declare(
 			//		Highlights the string entered by the user in the menu, by default this
 			//		highlights the first occurence found. Override this method
 			//		to implement your custom highlighing.
-			return this._escapeHtml(label).replace(
-				// Add greedy when this.highlightMatch=="all"
-				new RegExp("("+ this._escapeHtml(this._lastInput) +")", "i"+(this.highlightMatch=="all"?"g":"")),
-				'<span class="dijitComboBoxHighlightMatch">$1</span>');
-			// returns String, (almost) valid HTML (entities encoded)
+			var find = this._escapeHtml(this._lastInput);
+			// Add greedy when this.highlightMatch=="all"
+			var modifiers = "i"+(this.highlightMatch=="all"?"g":"");
+			var escapedLabel = this._escapeHtml(label);
+			ret = escapedLabel.replace(new RegExp("^("+ find +")", modifiers),
+					'<span class="dijitComboBoxHighlightMatch">$1</span>');
+			if (escapedLabel==ret){ // Nothing replaced, try to replace at word boundaries.
+				ret = escapedLabel.replace(new RegExp(" ("+ find +")", modifiers),
+					' <span class="dijitComboBoxHighlightMatch">$1</span>');
+			}
+			return ret;// returns String, (almost) valid HTML (entities encoded)
 		},
 		
 		_escapeHtml:function(/*string*/str){
