@@ -204,7 +204,7 @@ The drop down list is filtered by the data you have already typed in.
 		<button id="but" onclick='toggleDisabled("but", "combo3"); return false;'>Enable</button>
 	</div>
 	<hr>
-	<p>ComboBox #4: url, autoComplete=false required=true and highlightMatch=false</p>
+	<p>ComboBox #4: url, autoComplete=false required=true and highlightMatch="none"</p>
 	<label for="combobox4">US State test 4: </label>
 	<input dojoType="dijit.form.ComboBox"
 			value=""
@@ -217,11 +217,11 @@ The drop down list is filtered by the data you have already typed in.
 			autoComplete="false"
 			id="combobox4"
 			required="true"
-			highlightMatch="false"
+			highlightMatch="none"
 	>
 	<span>Value: <input id="value4" disabled></span>
 	<hr>
-	<p>A ComboBox with no arrow</p>
+	<p>A ComboBox with no arrow, and with highlightMatch="all", which highlights all matches (the server is not searching accordingly!)</p>
  	<input dojoType="dijit.form.ComboBox"
  			value="California"
 			store="stateStore"
@@ -229,6 +229,7 @@ The drop down list is filtered by the data you have already typed in.
 			name="state5"
 			autoComplete="false"
 			hasDownArrow="false"
+			highlightMatch="all"
 	>
 	<hr>
 	<p>A combo created by createWidget</p>

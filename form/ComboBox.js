@@ -39,12 +39,13 @@ dojo.declare(
 		//		the `<input>` field
 		autoComplete: true,
 
-		// highlightMatch: Boolean
+		// highlightMatch: String
+		// 		One of: "first", "all" or "none".
 		//		If the ComboBox opens with the serach results and the searched
 		//		string can be found it will be highlighted.
 		//		This value is not considered when labelType!="text" to not
 		//		screw up any mark up the label might contain.
-		highlightMatch: true,
+		highlightMatch: "first",
 		
 		// searchDelay: Integer
 		//		Delay in milliseconds between when user types something and we start
@@ -635,7 +636,7 @@ dojo.declare(
 			var label = this.store.getValue(item, this.labelAttr || this.searchAttr);
 			var labelType = this.labelType;
 			// If labelType is not "text" we don't want to screw any markup ot whatever.
-			if (this.highlightMatch==true && this.labelType=="text" && this._lastInput){
+			if (this.highlightMatch!="none" && this.labelType=="text" && this._lastInput){
 				label = this.doHighlight(label);
 				labelType = "html";
 			}
@@ -648,7 +649,8 @@ dojo.declare(
 			//		highlights the first occurence found. Override this method
 			//		to implement your custom highlighing.
 			return this._escapeHtml(label).replace(
-				new RegExp("("+ this._escapeHtml(this._lastInput) +")", "i"),
+				// Add greedy when this.highlightMatch=="all"
+				new RegExp("("+ this._escapeHtml(this._lastInput) +")", "i"+(this.highlightMatch=="all"?"g":"")),
 				'<span class="dijitComboBoxHighlightMatch">$1</span>');
 			// returns String, (almost) valid HTML (entities encoded)
 		},
