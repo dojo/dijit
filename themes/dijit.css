@@ -261,6 +261,10 @@
 .dj_safari .dijitToolbar .dijitDropDownButton {
 	padding-left: 0.3em;
 }
+.dj_gecko .dijitToolbar .dijitButtonNode::-moz-focus-inner {
+	padding:0;
+	border:none;
+}
 
 .dijitButtonNode {
 	/* Node that is acting as a button -- may or may not be a BUTTON element */
