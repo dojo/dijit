@@ -7,9 +7,9 @@
 }
 
 .dijitRtl .dijitMenuItem .dijitMenuExpandEnabled {
-	background-image:url('images/arrowLeft.png');
+	background:url('images/spriteRoundedIconsSmall.png') no-repeat left top;
 }
 
 .dj_ie6 .dijitRtl .dijitMenuItem .dijitMenuExpandEnabled {
-	background-image:url('images/arrowLeft.gif'); 
+	background:url('images/spriteRoundedIconsSmall.png') no-repeat left top;
 }
