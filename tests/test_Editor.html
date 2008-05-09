@@ -65,7 +65,9 @@
 	<div style="border: 1px solid black;">
 		<div dojoType="dijit.Editor" id="editor1"
 			onChange="console.log('editor1 onChange handler: ' + arguments[0])"
-		><p>This instance is created from a div directly with default toolbar and plugins</p></div>
+		><p>This instance is created from a div directly with default toolbar and plugins</p>
+		The following HTML should appear as source: &lt;INPUT TYPE="IMAGE" SRC="javascript:alert('no scripting attacks')"&gt;
+		</div>
 	</div>
 	<button onClick="dijit.byId('editor1').destroy()">destroy</button>
 	<button onclick="console.log(dijit.byId('editor1').getValue().length)">getValue</button>
@@ -89,6 +91,7 @@
 				Sed molestie tortor at ipsum. Morbi dictum rutrum magna. Sed vitae
 				risus.
 			</p>
+			The following HTML should appear as source: &lt;INPUT TYPE="IMAGE" SRC="javascript:alert('no scripting attacks')"&gt;
 		</textarea>
 		<h3>..after</h3>
 	</div>
