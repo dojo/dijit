@@ -304,7 +304,7 @@ dojo.declare("dijit.Menu",
 		dijit.popup.open({
 			parent: this,
 			popup: popup,
-			around: from_item.arrowCell,
+			around: from_item.domNode,
 			orient: this.isLeftToRight() ? {'TR': 'TL', 'TL': 'TR'} : {'TL': 'TR', 'TR': 'TL'},
 			onCancel: function(){
 				// called when the child menu is canceled
