@@ -1231,6 +1231,15 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 	setValue: function(/*String*/html){
 		// summary:
 		//		this function set the content. No undo history is preserved
+
+		if(!this.isLoaded){
+			// try again after the editor is finished loading
+			this.onLoadDeferred.addCallback(dojo.hitch(this, function(){
+				this.setValue(html);
+			}));
+			return;
+		}
+
 		if(this.textarea && (this.isClosed || !this.isLoaded)){
 			this.textarea.value=html;
 		}else{
@@ -1238,13 +1247,6 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 			var node = this.isClosed ? this.domNode : this.editNode;
 			node.innerHTML = html;
 			this._preDomFilterContent(node);
-		}
-
-		if(!this.isLoaded){
-			// try again after the editor is finished loading
-			this.onLoadDeferred.addCallback(dojo.hitch(this, function(){
-				this.setValue(html);
-			}));
 		}
 
 		this.onDisplayChanged();
