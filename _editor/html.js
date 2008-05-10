@@ -65,7 +65,8 @@ dijit._editor.getNodeHtml=function(/* DomNode */node){
 			});
 			i=0;
 			while((attr=attrarray[i++])){
-				output += ' '+attr[0]+'="'+dijit._editor.escapeXml(attr[1],true)+'"';
+				output += ' '+attr[0]+'="'+
+					(dojo.isString(attr[1]) ? dijit._editor.escapeXml(attr[1],true) : attr[1])+'"';
 			}
 			if(node.childNodes.length){
 				output += '>' + dijit._editor.getChildrenHtml(node)+'</'+node.nodeName.toLowerCase()+'>';
