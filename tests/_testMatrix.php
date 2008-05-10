@@ -3,12 +3,11 @@
 	"http://www.w3.org/TR/html4/strict.dtd">
 <html>
 <head>
-	<title>Dojo Toolkit - ProgressBar test</title>
+	<title>Dojo Toolkit - Every Dijit Test + Theme</title>
 
 	<style type="text/css">
 		@import "../../dojo/resources/dojo.css";
 		@import "css/dijitTests.css";
-
 	</style>
 
 </head>
