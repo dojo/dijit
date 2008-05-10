@@ -76,3 +76,45 @@ h1.testTitle {
 body .medium {
         font-size: larger; /* help test widget sizing */
 }
+
+#testMatrix {
+	width:100%;
+	text-align:center;
+}
+#testMatrix tr > td {
+	text-align:left;
+}
+#testMatrix tr.top {
+	background:blue;
+	color:#fff;
+}
+#testMatrix tr.top th {
+	padding:6px;
+}
+#testMatrix tr.tests {
+	background:#666;
+	padding:3px;
+	padding-left:6px;
+	padding-right:6px;
+	color:#fff;
+}
+#testMatrix tr.tests th {
+	text-align:center;
+}
+#testMatrix tr.spacer {
+	background:#dedede;
+	color:#666;
+}
+#testMatrix tr.spacer td {
+	padding:6px;
+}
+#testMatrix tr.testRow td {
+	text-align:center;
+}
+#testMatrix tr.testRow td.label {
+	text-align:left;
+	padding-left:15px;
+}
+#testMatrix tr.alt {
+	background:#ededed;
+}
