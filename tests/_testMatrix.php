@@ -8,40 +8,7 @@
 	<style type="text/css">
 		@import "../../dojo/resources/dojo.css";
 		@import "css/dijitTests.css";
-		table tr > td {
-			text-align:left;
-		}
-		tr.top {
-			background:blue;
-			color:#fff;
-		}
-		tr.top th {
-			padding:6px;
-		}
-		tr.tests {
-			background:#666;
-			color:#fff;
-		}
-		tr.tests th {
-			text-align:center;
-		}
-		tr.spacer {
-			background:#dedede;
-			color:#666;
-		}
-		tr.spacer td {
-			padding:6px;
-		}
-		tr.testRow td {
-			text-align:center;
-		}
-		tr.testRow td.label {
-			text-align:left;
-			padding-left:15px;
-		}
-		tr.alt {
-			background:#ededed;
-		}
+
 	</style>
 
 </head>
@@ -57,8 +24,8 @@
 		<tbody><?php
 
 			printLinks(".", "Base Dijit Tests");
-			printLinks("./form", "Dijit Form Tests");
-			printLinks("./layout", "Dijit Layout Widgets");
+			printLinks("./form", "Dijit Form Widget Tests");
+			printLinks("./layout", "Dijit Layout Widget Tests");
 			printLinks("./tree","Dijit Tree Tests");
 			
 		?>
