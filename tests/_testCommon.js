@@ -8,7 +8,7 @@
 
 	usage: on any dijit test_* page, press ctrl-f9 to popup links.
 
-	there are currently (2 themes * 4 tests) * (10 variations of supported browsers)
+	there are currently (3 themes * 4 tests) * (10 variations of supported browsers)
 	not including testing individual locale-strings
 
 	you should not be using this in a production enviroment. include
@@ -16,8 +16,11 @@
 */
 
 (function(){
-	var d = dojo;
-	var theme = false; var testMode;
+	var d = dojo,
+		theme = false,
+		testMode = null,
+		defTheme = "tundra";
+
 	if(window.location.href.indexOf("?") > -1){
 		var str = window.location.href.substr(window.location.href.indexOf("?")+1).split(/#/);
 		var ary  = str[0].split(/&/);
@@ -45,58 +48,38 @@
 	}		
 
 	// always include the default theme files:
-	if(!theme){ theme = dojo.config.defaultTestTheme || 'tundra'; }
-	var themeCss = d.moduleUrl("dijit.themes",theme+"/"+theme+".css");
-	var themeCssRtl = d.moduleUrl("dijit.themes",theme+"/"+theme+"_rtl.css");
-	document.write('<link rel="stylesheet" type="text/css" href="'+themeCss+'"/>');
-	document.write('<link rel="stylesheet" type="text/css" href="'+themeCssRtl+'"/>');
+	if(theme || testMode){ 
+	
+		if(theme){
+			var themeCss = d.moduleUrl("dijit.themes",theme+"/"+theme+".css");
+			var themeCssRtl = d.moduleUrl("dijit.themes",theme+"/"+theme+"_rtl.css");
+			document.write('<link rel="stylesheet" type="text/css" href="'+themeCss+'"/>');
+			document.write('<link rel="stylesheet" type="text/css" href="'+themeCssRtl+'"/>');
+		}
 
-	if(dojo.config.parseOnLoad){ 
-		dojo.config.parseOnLoad = false;
-		dojo.config._deferParsing = true;
-	}
+		if(dojo.config.parseOnLoad){ 
+			dojo.config.parseOnLoad = false;
+			dojo.config._deferParsing = true;
+		}
 
-	d.addOnLoad(function(){
+		d.addOnLoad(function(){
 
-		// set the classes
-		if(!d.hasClass(d.body(),theme)){ d.addClass(d.body(),theme); }
-		if(testMode){ d.addClass(d.body(),testMode); }
-			
-		// test-link matrix code:
-		var node = document.createElement('div');
-		node.id = "testNodeDialog";
-		d.addClass(node,"dijitTestNodeDialog");
-		d.body().appendChild(node);
-
-		_populateTestDialog(node);
-
-		d.connect(document,"onkeypress", function _testNodeShow(/* Event */evt){
-			if(evt.ctrlKey && (evt.charOrCode == d.keys.F9)){ // F9 is generic enough?
-				d.style('testNodeDialog',"top",(dijit.getViewport().t + 4) +"px");
-				d.toggleClass('testNodeDialog',"dijitTestNodeShowing");
+			// set the classes
+			var b = dojo.body();
+			if(theme){ 
+					dojo.removeClass(b, defTheme);
+					if(!d.hasClass(b, theme)){ d.addClass(b, theme); }
+					var n = d.byId("themeStyles");
+					if(n){ d._destroyElement(n); }
 			}
+			if(testMode){ d.addClass(b, testMode); }
+			if(dojo.config._deferParsing){ 
+				// attempt to elimiate race condition introduced by this 
+				// test helper file.  420ms to allow CSS to finish/process?
+				setTimeout(dojo.hitch(d.parser, "parse", b), 120);
+			}
+
 		});
-
-		if(dojo.config._deferParsing){ d.parser.parse(d.body()); }
-
-	});
-
-	var _populateTestDialog = function(/* DomNode */node){
-		// pseudo-function to populate our test-martix-link pop-up
-		var base = window.location.pathname;
-		var str = "";
-		var themes = ["tundra",/*"noir", */ "soria", "nihilo" /* ,"squid" */ ];
-		str += "<b>Tests:</b><br><table>";
-		d.forEach(themes,function(t){
-			str += 	'<tr><td><a hr'+'ef="'+base+'?theme='+t+'">'+t+'</'+'a></td>'+
-				'<td><a hr'+'ef="'+base+'?theme='+t+'&dir=rtl">rtl</'+'a></td>'+
-				'<td><a hr'+'ef="'+base+'?theme='+t+'&a11y=true">a11y</'+'a></td>'+
-				'<td><a hr'+'ef="'+base+'?theme='+t+'&a11y=true&dir=rtl">a11y+rtl</'+'a></td>'+
-				// too many potential locales to list, use &locale=[lang] to set
-				'</tr>';
-		});
-		str += '<tr><td colspan="4">jump to: <a hr'+'ef="'+(d.moduleUrl("dijit.themes","themeTester.html"))+'">themeTester</'+'a></td></tr>';
-		str += '<tr><td colspan="4">or: <a hr'+'ef="'+(d.moduleUrl("dijit.tests"))+'">tests folder</'+'a></td></tr>';
-		node.innerHTML = str + "</table>";
 	}
+
 })();

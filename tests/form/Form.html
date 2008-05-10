@@ -8,8 +8,15 @@
 		@import "../../../dojo/resources/dojo.css";
 		@import "../css/dijitTests.css";
 	</style>
+
+	<!-- required: the default dijit theme: -->
+	<link id="themeStyles" rel="stylesheet" href="../../../dijit/themes/tundra/tundra.css" />
+
+	<!-- required: dojo.js -->
 	<script type="text/javascript" src="../../../dojo/dojo.js"
 		djConfig="isDebug: true, parseOnLoad: true"></script>
+
+	<!-- only needed for alternate theme testing: -->
 	<script type="text/javascript" src="../_testCommon.js"></script>
 
 	<script type="text/javascript">
@@ -133,7 +140,7 @@
 
 	</script>
 </head>
-<body>
+<body class="tundra">
 	<h1>Form Widget Unit Test</h1>
 	<p>
 		The form widget takes data in a form and serializes/deserializes it, so

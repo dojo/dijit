@@ -3,13 +3,21 @@
 <html>
 	<head>
 		<title>Calendar Widget Test</title>
+
+		<!-- for tests -->
 		<style type="text/css">
 			@import "../../dojo/resources/dojo.css";
 			@import "css/dijitTests.css";
 		</style>
-
+		
+		<!-- required: a default dijit theme: -->
+		<link id="themeStyles" rel="stylesheet" href="../../dijit/themes/tundra/tundra.css" />
+		
+		<!-- required: dojo.js -->
 		<script type="text/javascript" src="../../dojo/dojo.js"
 			djConfig="parseOnLoad: true, isDebug: true, extraLocale: ['en-us', 'ar-sy', 'es-es', 'zh-cn']"></script>
+		
+		<!-- not needed, for testing alternate themes -->
 		<script type="text/javascript" src="_testCommon.js"></script>
 
 		<script type="text/javascript">
@@ -41,7 +49,8 @@
 			}
 		</script>
 	</head>
-	<body>
+	<body class="tundra">
+		
 		<h1 class="testTitle">Dijit Calendar Test</h1>
 
 		before

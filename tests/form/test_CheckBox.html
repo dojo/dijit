@@ -11,8 +11,15 @@
 		label { margin-right: 0.80em; }
 	</style>
 	
+
+	<!-- required: the default dijit theme: -->
+	<link id="themeStyles" rel="stylesheet" href="../../../dijit/themes/tundra/tundra.css" />
+
+	<!-- required: dojo.js -->
 	<script type="text/javascript" src="../../../dojo/dojo.js"
 		djConfig="isDebug: true, parseOnLoad: true"></script>
+
+	<!-- only needed for alternate theme testing: -->
 	<script type="text/javascript" src="../_testCommon.js"></script>
 
 	<script type="text/javascript">
@@ -47,7 +54,8 @@
 		});
 	</script>
 </head>
-<body>
+<body class="tundra">
+	
 	<h1 class="testTitle">Dijit CheckBox Test</h1>
 	<p>
 	Here are some checkboxes.  Try clicking, and hovering, tabbing, and using the space bar to select:

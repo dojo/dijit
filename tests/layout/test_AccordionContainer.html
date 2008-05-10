@@ -4,13 +4,20 @@
 <head>
 	<title>Accordion Widget Demo</title>
 
+	<!-- only needed for test files: -->
 	<style type="text/css">
 		@import "../../../dojo/resources/dojo.css";
 		@import "../css/dijitTests.css";
 	</style>
 
+	<!-- required: the default dijit theme: -->
+	<link id="themeStyles" rel="stylesheet" href="../../../dijit/themes/tundra/tundra.css" />
+
+	<!-- required: dojo.js -->
 	<script type="text/javascript" src="../../../dojo/dojo.js"
 		djConfig="isDebug: true, parseOnLoad: true"></script>
+
+	<!-- only needed for alternate theme testing: -->
 	<script type="text/javascript" src="../_testCommon.js"></script>
 
 	<!-- uncomment for profiling
@@ -58,7 +65,7 @@
 		}
 	</script>
 </head>
-<body style="padding: 50px;">
+<body class="tundra" style="padding: 50px;">
 
 	<h1 class="testTitle">AccordionContainer Tests</h1>
 

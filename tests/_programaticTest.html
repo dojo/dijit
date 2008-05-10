@@ -26,7 +26,7 @@
 		var inspectClass = function(fullClassName){
 			var newDijit, newDijitDom, newDijitParam = null;
 			var createdWidgets = [];
-			className = eval(fullClassName); // 
+			className = dojo.getObject(fullClassName); // 
 
 			// just try to make the class:
 			try{

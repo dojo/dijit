@@ -9,8 +9,14 @@
 		@import "css/dijitTests.css";
 	</style>
 	
+	<!-- required: a default dijit theme: -->
+	<link id="themeStyles" rel="stylesheet" href="../../dijit/themes/tundra/tundra.css" />
+	
+	<!-- required: dojo.js -->
 	<script type="text/javascript" src="../../dojo/dojo.js"
-		djConfig="parseOnLoad: true, isDebug: true"></script>
+		djConfig="parseOnLoad: true, isDebug: true, extraLocale: ['en-us', 'ar-sy', 'es-es', 'zh-cn']"></script>
+	
+	<!-- not needed, for testing alternate themes -->
 	<script type="text/javascript" src="_testCommon.js"></script>
 
 	<script language="JavaScript" type="text/javascript">
@@ -42,7 +48,7 @@
 		});
 	</script>
 </head>
-<body>
+<body class="tundra">
 	<h1 class="testTitle">Dijit TitlePane Test</h1>
 
 	<h1>Test #1: plain title pane, width=300px</h1>

@@ -17,8 +17,14 @@
 		}
 	</style>
 
+	<!-- required: the default dijit theme: -->
+	<link id="themeStyles" rel="stylesheet" href="../../../dijit/themes/tundra/tundra.css" />
+
+	<!-- required: dojo.js -->
 	<script type="text/javascript" src="../../../dojo/dojo.js"
 		djConfig="isDebug: true, parseOnLoad: true"></script>
+
+	<!-- only needed for alternate theme testing: do NOT use in your code! -->
 	<script type="text/javascript" src="../_testCommon.js"></script>
 
 	<script type="text/javascript">
@@ -26,8 +32,9 @@
 		dojo.require("dijit.layout.ContentPane");
 		dojo.require("dijit.form.FilteringSelect");
 	</script>
+	
 </head>
-<body>
+<body class="tundra">
 	<div dojoType="dijit.layout.BorderContainer" design="sidebar" id="main">
 		<div dojoType="dijit.layout.ContentPane" region="leading" style="background-color: #acb386; width: 100px;">
 			leading

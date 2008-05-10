@@ -11,14 +11,19 @@
 		td { padding: 20px; }
 	</style>
 
+	<!-- required: a default dijit theme: -->
+	<link id="themeStyles" rel="stylesheet" href="../../dijit/themes/tundra/tundra.css" />
+	
+	<!-- required: dojo.js -->
 	<script type="text/javascript" src="../../dojo/dojo.js"
-		djConfig="parseOnLoad: true, isDebug: true"></script>
+		djConfig="parseOnLoad: true, isDebug: true, extraLocale: ['en-us', 'ar-sy', 'es-es', 'zh-cn']"></script>
+	
+	<!-- not needed, for testing alternate themes -->
 	<script type="text/javascript" src="_testCommon.js"></script>
 
 	<script type="text/javascript">
 		dojo.require("dijit.Tooltip");
 		dojo.require("dijit.ColorPalette");
-		dojo.require("dojo.parser");	// find widgets
 		dojo.addOnLoad(function(){
 			console.log("on load func");
 			var tt = new dijit.Tooltip({label:"programmatically created tooltip", connectId:["programmaticTest"]});
@@ -26,8 +31,10 @@
 		});
 	</script>
 </head>
-<body>
+<body class="tundra">
+	
 	<h1 class="testTitle">Tooltip test</h1>
+
 	<p>Mouse-over or focus the items below to test tooltips.</p>
 	<table>
 		<tr>

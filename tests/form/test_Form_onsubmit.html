@@ -8,9 +8,17 @@
 		@import "../../../dojo/resources/dojo.css";
 		@import "../css/dijitTests.css";
 	</style>
+
+	<!-- required: the default dijit theme: -->
+	<link id="themeStyles" rel="stylesheet" href="../../../dijit/themes/tundra/tundra.css" />
+
+	<!-- required: dojo.js -->
 	<script type="text/javascript" src="../../../dojo/dojo.js"
 		djConfig="isDebug: true, parseOnLoad: true"></script>
+
+	<!-- only needed for alternate theme testing: -->
 	<script type="text/javascript" src="../_testCommon.js"></script>
+
 	<script type="text/javascript">
 		dojo.require("dojo.date");
 		dojo.require("dijit.form.Form");
@@ -25,9 +33,11 @@
 		dojo.require("dijit.form.SimpleTextarea");
 		dojo.require("dijit.Editor");
 	</script>
+
 </head>
-<body>
-	<h1>Form Widget Unit Test</h1>
+<body class="tundra">
+	
+	<h1 class="testTitle">Form Widget Unit Test</h1>
 	<form dojoType="dijit.form.Form" id="myForm1" 
 		encType="multipart/form-data" action="" method="GET"
 		onSubmit="dojo.stopEvent(arguments[0]);"

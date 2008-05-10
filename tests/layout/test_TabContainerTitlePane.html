@@ -20,14 +20,19 @@
 		}
 	</style>
 	
+	<!-- required: the default dijit theme: -->
+	<link id="themeStyles" rel="stylesheet" href="../../../dijit/themes/tundra/tundra.css" />
+
+	<!-- required: dojo.js -->
 	<script type="text/javascript" src="../../../dojo/dojo.js"
 		djConfig="isDebug: true, parseOnLoad: true"></script>
+
+	<!-- only needed for alternate theme testing: do NOT use in your code! -->
 	<script type="text/javascript" src="../_testCommon.js"></script>
 
 	<script type="text/javascript">
 		dojo.require("dijit.layout.TabContainer");
 		dojo.require("dijit.TitlePane");
-		dojo.require("dojo.parser");	// scan page for widgets and instantiate them
 
 		startTime = new Date();
 		dojo.addOnLoad(function(){
@@ -39,8 +44,9 @@
 		});
 		
 	</script>
+	
 </head>
-<body>
+<body class="tundra">
 
 	<h1 class="testTitle">Dijit layout.TabContainer nested TitlePane tests</h1>
 

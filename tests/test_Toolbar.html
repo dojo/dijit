@@ -12,8 +12,14 @@
 		.dijitToolbar .dijitToggleButtonSelected BUTTON, .dijitToolbar .dijitToggleButtonSelectedHover BUTTON { border-width: 3px; }
 	</style>
 	
+	<!-- required: a default dijit theme: -->
+	<link id="themeStyles" rel="stylesheet" href="../../dijit/themes/tundra/tundra.css" />
+	
+	<!-- required: dojo.js -->
 	<script type="text/javascript" src="../../dojo/dojo.js"
-		djConfig="parseOnLoad: true, isDebug: true"></script>
+		djConfig="parseOnLoad: true, isDebug: true, extraLocale: ['en-us', 'ar-sy', 'es-es', 'zh-cn']"></script>
+	
+	<!-- not needed, for testing alternate themes -->
 	<script type="text/javascript" src="_testCommon.js"></script>
 
 	<script type="text/javascript">
@@ -47,7 +53,7 @@
 		dojo.addOnLoad(init);
 	</script>
 </head>
-<body>
+<body class="tundra">
 	<h1 class="testTitle">Toolbar test</h1>
 
 	<h2>Toolbar from markup</h2>

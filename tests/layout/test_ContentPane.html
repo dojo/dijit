@@ -21,10 +21,17 @@
 			margin: 4px;
 		}
 	</style>
+	
+	<!-- required: the default dijit theme: -->
+	<link id="themeStyles" rel="stylesheet" href="../../../dijit/themes/tundra/tundra.css" />
 
+	<!-- required: dojo.js -->
 	<script type="text/javascript" src="../../../dojo/dojo.js"
 		djConfig="isDebug: true, parseOnLoad: true"></script>
+
+	<!-- only needed for alternate theme testing: do NOT use in your code! -->
 	<script type="text/javascript" src="../_testCommon.js"></script>
+
 
 	<script type="text/javascript">
 		dojo.require("dijit.layout.ContentPane");
@@ -33,8 +40,10 @@
 		dojo.require("dijit.InlineEditBox");
 		dojo.require("dojo.parser");	// scan page for widgets and instantiate them
 	</script>
+	
 </head>
-<body>
+<body class="tundra">
+	
 	<h1 class="testTitle">Dijit layout.ContentPane tests</h1>
 		<p>pre-container paragraph</p>
 

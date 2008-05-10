@@ -4,7 +4,7 @@
 
 		<title>BorderContainer Experiments | The Dojo Toolkit</title>
 		
-		<link rel="stylesheet" href="../../themes/tundra/tundra.css" />
+		<!-- only needed for test files: -->
 		<style type="text/css">
 			@import "../../../dojo/resources/dojo.css";
 			@import "../css/dijitTests.css";
@@ -22,9 +22,16 @@
 			.wrapper { padding:25px; }
 			.bc { margin:10px; border:2px solid #ededed; }
 		</style>
-	
+
+		<!-- required: the default dijit theme: -->
+		<link id="themeStyles" rel="stylesheet" href="../../../dijit/themes/tundra/tundra.css" />
+
+		<!-- required: dojo.js -->
 		<script type="text/javascript" src="../../../dojo/dojo.js"
-				djConfig="parseOnLoad:true, isDebug:true"></script>
+			djConfig="isDebug: true, parseOnLoad: true"></script>
+
+		<!-- only needed for alternate theme testing: -->
+		<script type="text/javascript" src="../_testCommon.js"></script>
 
 		<script type="text/javascript">
 			dojo.require("dijit.form.Button");

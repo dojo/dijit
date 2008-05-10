@@ -4,9 +4,6 @@
 <head>
 	<title>Testing MultiSelect form widget | The Dojo Toolkit</title>
 
-	<link rel="stylesheet" type="text/css" media="screen"
-		href="../../../dijit/themes/tundra/tundra.css">
-
 	<style type="text/css">
 	@import "../../../dijit/tests/css/dijitTests.css";
 	#select, #select2 {
@@ -16,8 +13,16 @@
 	}
 	</style>
 	
-	<script type="text/javascript" djConfig="isDebug:true, parseOnLoad: true"
-		src="../../../dojo/dojo.js"></script>
+
+	<!-- required: the default dijit theme: -->
+	<link id="themeStyles" rel="stylesheet" href="../../../dijit/themes/tundra/tundra.css" />
+
+	<!-- required: dojo.js -->
+	<script type="text/javascript" src="../../../dojo/dojo.js"
+		djConfig="isDebug: true, parseOnLoad: true"></script>
+
+	<!-- only needed for alternate theme testing: -->
+	<script type="text/javascript" src="../_testCommon.js"></script>
 
 	<script type="text/javascript">
 		var globalVals = null;

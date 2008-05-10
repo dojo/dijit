@@ -3,13 +3,14 @@
 <head>
 	<title>dijit.layout.BorderContainer Test</title>
 
+	<!-- only needed for test files: -->
 	<style type="text/css">
 		@import "../../../dojo/resources/dojo.css";
 		@import "../css/dijitTests.css";
 
+		/* styles for this test */
 		.dijitContentPane:focus { color: cyan; font-weight: bold }
 		body { margin-left: 20px }
-
 		#mondrian .dijitSplitter { border: 0; background: black !important }
 		#mondrian .dijitSplitterH { height: 10px }
 		#mondrian .dijitSplitterV { width: 10px }
@@ -17,10 +18,17 @@
 		#mondrian .dijitSplitterActive { background-color: blue }
 		#mondrian SPAN { display: none }
 		#mondrian:hover SPAN { display: inline }
+
 	</style>
-	
+
+	<!-- required: the default dijit theme: -->
+	<link id="themeStyles" rel="stylesheet" href="../../../dijit/themes/tundra/tundra.css" />
+
+	<!-- required: dojo.js -->
 	<script type="text/javascript" src="../../../dojo/dojo.js"
 		djConfig="isDebug: true, parseOnLoad: true"></script>
+
+	<!-- only needed for alternate theme testing: -->
 	<script type="text/javascript" src="../_testCommon.js"></script>
 
 	<script type="text/javascript">

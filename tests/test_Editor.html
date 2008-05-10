@@ -9,9 +9,16 @@
 		@import "css/dijitTests.css";
 	</style>
 
+	<!-- required: a default dijit theme: -->
+	<link id="themeStyles" rel="stylesheet" href="../../dijit/themes/tundra/tundra.css" />
+	
+	<!-- required: dojo.js -->
 	<script type="text/javascript" src="../../dojo/dojo.js"
-		djConfig="parseOnLoad: true, isDebug: true"></script>
+		djConfig="parseOnLoad: true, isDebug: true, extraLocale: ['en-us', 'ar-sy', 'es-es', 'zh-cn']"></script>
+	
+	<!-- not needed, for testing alternate themes -->
 	<script type="text/javascript" src="_testCommon.js"></script>
+
 
 	<script type="text/javascript">
 		dojo.require("dijit.Editor");
@@ -23,7 +30,8 @@
 		dojo.require("dojo.parser");	// scan page for widgets and instantiate them
 	</script>
 </head>
-<body>
+
+<body class="tundra">
 	<div dojoType="dijit.Editor" id="automated" height="1.5em" plugins="[]" focusOnLoad="true" style="border:0px;"
 	>Automated Test - all check boxes should be checked<script type='dojo/method' event='onFocus'>
 			if(!document.getElementById('onFocusFired').checked){

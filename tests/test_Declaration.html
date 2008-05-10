@@ -2,19 +2,29 @@
 	"http://www.w3.org/TR/html4/strict.dtd">
 <html>
 <head>
+	
 	<title>Dojo Toolkit - Declaration test</title>
 	<style type="text/css">
 		@import "../../dojo/resources/dojo.css";
-		@import "../themes/tundra/tundra.css";
 		@import "css/dijitTests.css";
 	</style>
+
+	<!-- required: a default dijit theme: -->
+	<link id="themeStyles" rel="stylesheet" href="../../dijit/themes/tundra/tundra.css" />
+	
+	<!-- required: dojo.js -->
 	<script type="text/javascript" src="../../dojo/dojo.js"
-		djConfig="parseOnLoad: true, isDebug: true"></script>
+		djConfig="parseOnLoad: true, isDebug: true, extraLocale: ['en-us', 'ar-sy', 'es-es', 'zh-cn']"></script>
+	
+	<!-- not needed, for testing alternate themes -->
+	<script type="text/javascript" src="_testCommon.js"></script>
+
 	<script type="text/javascript">
 		dojo.require("dijit.Declaration");
 		dojo.require("dijit.ProgressBar");
 		dojo.require("dojo.parser");	// scan page for widgets and instantiate them
 	</script>
+
 </head>
 <body class="tundra">
 	<h3>Simple macro:</h3>

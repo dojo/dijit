@@ -14,9 +14,14 @@
 		#dialog3_underlay { background-color: #027 }
 	</style>
 
-	<script type="text/javascript"
-		djConfig="parseOnLoad: true, isDebug: true"
-		src="../../dojo/dojo.js"></script>
+	<!-- required: a default dijit theme: -->
+	<link id="themeStyles" rel="stylesheet" href="../../dijit/themes/tundra/tundra.css" />
+	
+	<!-- required: dojo.js -->
+	<script type="text/javascript" src="../../dojo/dojo.js"
+		djConfig="parseOnLoad: true, isDebug: true, extraLocale: ['en-us', 'ar-sy', 'es-es', 'zh-cn']"></script>
+	
+	<!-- not needed, for testing alternate themes -->
 	<script type="text/javascript" src="_testCommon.js"></script>
 
 	<script type="text/javascript">
@@ -45,16 +50,17 @@
 		}
 	</script>
 </head>
-<body>
-<h1 class="testTitle">Dijit layout.Dialog tests</h1>
+<body class="tundra">
 
-<p>If you input this box, you can type. You should be able to type and use backspace/etc
-when you destroy the visible dialog. refs <a href="http://trac.dojotoolkit.org/ticket/5351">#5351</a>
-</p>
+	<h1 class="testTitle">Dijit layout.Dialog tests</h1>
 
-<input id="testInput" name="foo" value="bar" />
+	<p>If you input this box, you can type. You should be able to type and use backspace/etc
+	when you destroy the visible dialog. refs <a href="http://trac.dojotoolkit.org/ticket/5351">#5351</a>
+	</p>
 
-<button dojoType="dijit.form.Button" onclick="createAndShow()">Show Dialog</button>
+	<input id="testInput" name="foo" value="bar" />
+
+	<button dojoType="dijit.form.Button" onclick="createAndShow()">Show Dialog</button>
 
 </body>
 </html>
