@@ -129,7 +129,13 @@ dojo.declare("dijit._editor.plugins.FontChoice",
 			var _c = this.command;
 			if(!_e || !_e.isLoaded || !_c.length){ return; }
 			if(this.button){
-				var value = _e.queryCommandValue(this.editor._normalizeCommand(_c)) || "";
+				var value;
+				try{
+					value = _e.queryCommandValue(_c) || "";
+				}catch(e){
+					//Firefox may throw error above if the editor is just loaded, ignore it
+					value = "";
+				}
 				// strip off single quotes, if any
 				var quoted = dojo.isString(value) && value.match(/'([^']*)'/);
 				if(quoted){ value = quoted[1]; }
