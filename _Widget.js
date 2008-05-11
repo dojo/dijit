@@ -201,26 +201,27 @@ dojo.declare("dijit._Widget", null, {
 
 	//////////// DESTROY FUNCTIONS ////////////////////////////////
 
-	destroyRecursive: function(/*Boolean*/ finalize){
+	destroyRecursive: function(/*Boolean*/ preserveDom){
 		// summary:
 		// 		Destroy this widget and it's descendants. This is the generic
 		// 		"destructor" function that all widget users should call to
 		// 		cleanly discard with a widget. Once a widget is destroyed, it's
 		// 		removed from the manager object.
-		// finalize: Boolean
-		//		is this function being called part of global environment
-		//		tear-down?
-
-		this.destroyDescendants();
-		this.destroy();
+		// preserveDom: Boolean
+		//		If true, this method will leave the original Dom structure alone
+		//		of descendant Widgets. Note: This will NOT work with _Templated
+		//		widgets.
+		//
+		this.destroyDescendants(preserveDom);
+		this.destroy(preserveDom);
 	},
 
-	destroy: function(/*Boolean*/ finalize){
+	destroy: function(/*Boolean*/ preserveDom){
 		// summary:
 		// 		Destroy this widget, but not its descendants
-		// finalize: Boolean
-		//		is this function being called part of global environment
-		//		tear-down?
+		// preserveDom: Boolean
+		//		If true, this method will leave the original Dom structure alone.
+		//		Note: This will not yet work with _Templated widgets
 
 		this.uninitialize();
 		dojo.forEach(this._connects, function(array){
@@ -230,40 +231,48 @@ dojo.declare("dijit._Widget", null, {
 		// destroy widgets created as part of template, etc.
 		dojo.forEach(this._supportingWidgets || [], function(w){ w.destroy(); });
 		
-		this.destroyRendering(finalize);
+		this.destroyRendering(preserveDom);
 		dijit.registry.remove(this.id);
 	},
 
-	destroyRendering: function(/*Boolean*/ finalize){
+	destroyRendering: function(/*Boolean*/ preserveDom){
 		// summary:
 		//		Destroys the DOM nodes associated with this widget
-		// finalize: Boolean
-		//		is this function being called part of global environment
-		//		tear-down?
-
+		// preserveDom: Boolean
+		//		If true, this method will leave the original Dom structure alone
+		//		during tear-down. Note: this will not work with _Templated
+		//		widgets yet. 
+		
 		if(this.bgIframe){
-			this.bgIframe.destroy();
+			this.bgIframe.destroy(preserveDom);
 			delete this.bgIframe;
 		}
 
 		if(this.domNode){
-			dojo._destroyElement(this.domNode);
+			if(!preserveDom){
+				dojo._destroyElement(this.domNode);
+			}
 			delete this.domNode;
 		}
 
 		if(this.srcNodeRef){
-			dojo._destroyElement(this.srcNodeRef);
+			if(!preserveDom){
+				dojo._destroyElement(this.srcNodeRef);
+			}
 			delete this.srcNodeRef;
 		}
 	},
 
-	destroyDescendants: function(){
+	destroyDescendants: function(/* Boolean */ preserveDom){
 		// summary:
 		//		Recursively destroy the children of this widget and their
 		//		descendants.
-
+		// preserveDom: Boolean
+		//		If true, the preserveDom attribute is passed to all descendant
+		//		widget's .destroy() method. Not for use with _Templated widgets.
+		
 		// TODO: should I destroy in the reverse order, to go bottom up?
-		dojo.forEach(this.getDescendants(), function(widget){ widget.destroy(); });
+		dojo.forEach(this.getDescendants(), function(widget){ widget.destroy(preserveDom); });
 	},
 
 	uninitialize: function(){
