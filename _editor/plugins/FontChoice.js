@@ -71,22 +71,49 @@ dojo.declare("dijit._editor.plugins.FontChoice",
 				}
 				return { label: label, name: name, value: value };
 			});
-			items.push({label: "", name:"", value:""}); // FilteringSelect doesn't like unmatched blank strings
+			//items.push({label: "", name:"", value:""}); // FilteringSelect doesn't like unmatched blank strings
 
-			dijit._editor.plugins.FontChoice.superclass._initButton.apply(this,
-				[{ labelType: "html", labelAttr: "label", searchAttr: "name", store: new dojo.data.ItemFileReadStore(
+			this.inherited(arguments,[{ labelType: "html", labelAttr: "label", searchAttr: "name", store: new dojo.data.ItemFileReadStore(
 					{ data: { identifier: "value", items: items } })}]);
 
+			//overload isValid/setValue to not show any validate error: if invalid, just show empty in the widget
+			this.button.isValid = function(){ return true; };
+			this.button.setValue = function(/*String*/ value, /*Boolean?*/ priorityChange){
+				//copied from FilteringSelect.setValue, just added one line
+				//TODO: is there a better way to achieve this? or shall we add a hook to
+				//FilteringSelect.setValue to allow inserting a _setValue more easily?
+				var self=this;
+				var handleFetchByIdentity = function(item, priorityChange){
+					if(item){
+						if(self.store.isItemLoaded(item)){
+							self._callbackSetLabel([item], undefined, priorityChange);
+						}else{
+							self.store.loadItem({
+								item: item, 
+								onItem: function(result, dataObject){
+									self._callbackSetLabel(result, dataObject, priorityChange);
+								}
+							});
+						}
+					}else{
+						self._isvalid=false;
+						self.validate(false);
+						self._setValue('','',false); //added this line to reset the input field to empty
+					}
+				}
+				this.store.fetchItemByIdentity({
+					identity: value, 
+					onItem: function(item){
+						handleFetchByIdentity(item, priorityChange);
+					}
+				});
+			}
 			this.button.setValue("");
 
 			this.connect(this.button, "onChange", function(choice){
 				if(this.updating){ return; }
-				// FIXME: IE is really messed up here!!
-				if(dojo.isIE && "_savedSelection" in this){
-					var b = this._savedSelection;
-					delete this._savedSelection;
+				if(dojo.isIE){
 					this.editor.focus();
-					this.editor._moveToBookmark(b);
 				}else{
 //					this.editor.focus();
 					dijit.focus(this._focusHandle);
@@ -102,7 +129,13 @@ dojo.declare("dijit._editor.plugins.FontChoice",
 			var _c = this.command;
 			if(!_e || !_e.isLoaded || !_c.length){ return; }
 			if(this.button){
-				var value = _e.queryCommandValue(this.editor._normalizeCommand(_c)) || "";
+				var value;
+				try{
+					value = _e.queryCommandValue(_c) || "";
+				}catch(e){
+					//Firefox may throw error above if the editor is just loaded, ignore it
+					value = "";
+				}
 				// strip off single quotes, if any
 				var quoted = dojo.isString(value) && value.match(/'([^']*)'/);
 				if(quoted){ value = quoted[1]; }
@@ -127,15 +160,12 @@ dojo.declare("dijit._editor.plugins.FontChoice",
 					var pixels = parseInt(value);
 					value = {10:1, 13:2, 16:3, 18:4, 24:5, 32:6, 48:7}[pixels] || value;
 				}
+
 				this.updating = true;
 				this.button.setValue(value);
 				delete this.updating;
 			}
 
-			// FIXME: IE is *really* b0rken
-			if(dojo.isIE){
-				this._savedSelection = this.editor._getBookmark();
-			}
 			this._focusHandle = dijit.getFocus(this.editor.iframe);
 		},
 
