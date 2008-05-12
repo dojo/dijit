@@ -2,6 +2,9 @@
 <head>
 	<title>Dijit Theme Tester</title>
 
+	<!-- required: the themes's CSS -->
+	<link rel="stylesheet" href="../../dijit/themes/tundra/tundra.css" id="themeStyles" />
+
 	<style type="text/css">
 		@import "../../dojo/resources/dojo.css";
 		@import "../tests/css/dijitTests.css";
@@ -53,6 +56,7 @@
 		}
 	</style>
 
+	<!-- for logging stray globals, not needed -->
 	<script type="text/javascript">
 		window.__globalList = {dojo: true, dijit: true, dojox: true, djConfig: true};
 		for(var i in window){
@@ -60,15 +64,19 @@
 		}
 	</script>
 
+	<!-- required: dojo.js -->
 	<script type="text/javascript" src="../../dojo/dojo.js" 
 		djConfig="parseOnLoad: false, isDebug: true"></script>
-	<!--
+
+	<!-- not needed! used only for debugging / testing additional themes -->
+	<script type="text/javascript" src="../tests/_testCommon.js"></script>
+		
+	<!-- 
 	<script type="text/javascript" src="http://prototypejs.org/assets/2007/10/16/prototype.js"></script>
 	-->
 	<script type="text/javascript" src="../dijit.js"></script>
 	<script type="text/javascript" src="../dijit-all.js" charset="utf-8"></script>
 
-	<script type="text/javascript" src="../tests/_testCommon.js"></script>
 	<script type="text/javascript"> // dojo.requires()
 
 		dojo.require("dijit.Menu");
