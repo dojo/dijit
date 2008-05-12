@@ -53,11 +53,6 @@ dojo.declare("dijit.layout.TabContainer",
 		this.tablist.startup();
 		this.inherited(arguments);
 
-		if(dojo.isSafari){
-			// sometimes safari 3.0.3 miscalculates the height of the tab labels, see #4058
-			setTimeout(dojo.hitch(this, "layout"), 0);
-		}
-
 		if(dojo.isIE && !this.isLeftToRight() && this.tabPosition == "right-h" &&
 		   this.tablist && this.tablist.pane2button){
 			//need rectify non-closable tab in IE, only for "right-h" mode
