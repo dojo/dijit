@@ -4,5 +4,5 @@
 }
 
 .dijitRtl .dijitMenuItem .dijitMenuExpandEnabled {
-	background-image:url('images/arrowLeft.gif');
+	background-position: -21px 0px;
 }

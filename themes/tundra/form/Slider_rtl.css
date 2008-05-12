@@ -23,9 +23,9 @@
 }
 
 .dijitRtl .dijitSliderIncrementIconH {
-	background-image:url('../images/arrowLeft.png');
+	background-position: -7px 0px;
 }
 
 .dijitRtl .dijitSliderDecrementIconH {
-	background-image:url('../images/arrowRight.png');
+	background-position: -14px 0px;
 }

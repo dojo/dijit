@@ -93,7 +93,7 @@
 	background-image:url("../images/spriteArrows.png");
 	background-position: left top;
 	width: 7px;
-	height: 4px;
+	height: 7px;
 	font-size: 1px;
 	margin: 0px 4px 0px 5px;
 }
@@ -131,9 +131,8 @@
 	display: block;  /* inline just isnt going to work for us here IMO */
 	position:absolute;
 	top: 50%; 
-	margin-top: -2px; /* half its height */
+	margin-top: -4px; /* half its height */
 	left: 50%;
 	margin-left: -4px; /* half its width */
-	height: 4px;
 	line-height: 2px;
 }

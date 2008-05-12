@@ -30,10 +30,16 @@
 	display:none;
 }
 .tundra .dijitMenuExpandEnabled {
-	width:16px;
-	height:16px;
-	background:url('images/arrowRight.gif') no-repeat center center;
-	display:block;
+	width: 7px;
+	height: 7px;
+	background-image: url('images/spriteArrows.png');
+	background-repeat: no-repeat;
+	background-position: -14px 0px;
+	font-size: 1px;
+	display: block;
+}
+.dj_ie6 .tundra .dijitMenuExpandEnabled {
+	background-image: url('images/spriteArrows.gif');
 }
 
 .tundra .dijitMenuExpandInner {
