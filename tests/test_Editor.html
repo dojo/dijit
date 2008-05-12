@@ -80,16 +80,16 @@
 	<button onClick="dijit.byId('editor1').destroy()">destroy</button>
 	<button onclick="console.log(dijit.byId('editor1').getValue().length)">getValue</button>
 	<hr/>
-	
-	<h2>Created from textarea,auto-expanding</h2>
+
+	<h2>Created from div, auto-expanding</h2>
 	<div style="border: 1px dotted black;">
-		<h3><label for="thud">thud - from textarea</label></h3>
-		<textarea dojoType="dijit.Editor" height=""
+		<h3><label for="thud">thud - from div</label></h3>
+		<div dojoType="dijit.Editor" height=""
 			onChange="console.log('thud onChange handler: ' + arguments[0])"
 			extraPlugins="['dijit._editor.plugins.AlwaysShowToolbar']"
 			styleSheets="../../dojo/resources/dojo.css" id="thud">
 			<p>
-				This editor is created from a textarea with AlwaysShowToolbar plugin (do not forget to set height="").
+				This editor is created from a div with AlwaysShowToolbar plugin (do not forget to set height="").
 			</p>
 			<p>
 				Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean
@@ -100,7 +100,7 @@
 				risus.
 			</p>
 			The following HTML should appear as source: &lt;INPUT TYPE="IMAGE" SRC="javascript:alert('no scripting attacks')"&gt;
-		</textarea>
+		</div>
 		<h3>..after</h3>
 	</div>
 	<hr/>
@@ -108,7 +108,7 @@
 	<h2>Optional toolbar buttons</h2>
 	<div style="border: 1px dotted black;">
 		<h3><label for="blah">blah entry</label></h3>
-		<textarea dojoType="dijit.Editor"
+		<div dojoType="dijit.Editor"
 			plugins="['bold','italic','|','createLink','foreColor','hiliteColor',{name:'dijit._editor.plugins.FontChoice', command:'fontName', generic:true},'fontSize','formatBlock','insertImage']"
 			styleSheets="../../dojo/resources/dojo.css" id="blah">
 			This instance includes optional toolbar buttons which pull in additional ui (dijit) code.
@@ -125,7 +125,7 @@
 			<br>
 			<span style="font-family: fantasy">This is fantasy.</span>
 			<br>
-		</textarea>
+		</div>
 		<h3>..after</h3>
 		<button onclick="alert(dijit.byId('blah').getValue());">getValue</button>
 	</div>
@@ -134,7 +134,7 @@
 	<h2>Plugins specified</h2>
 	<div style="border: 1px dotted black;">
 		<h3><label for="blah2">Another blah entry</label></h3>
-		<textarea dojoType="dijit.Editor"
+		<div dojoType="dijit.Editor"
 			plugins="['bold','italic','|',{name:'dijit._editor.plugins.EnterKeyHandling'},{name:'dijit._editor.plugins.FontChoice', command:'fontName', custom:['Verdana','Myriad','Garamond','Apple Chancery','Hiragino Mincho Pro']}, {name:'dijit._editor.plugins.FontChoice', command:'fontSize', custom:[3,4,5]}]"
 			styleSheets="../../dojo/resources/dojo.css" id="blah2">
 			This instance demos how to:
@@ -142,7 +142,7 @@
 				<li>specify which plugins to load (see the plugins property): this instance loads EnterKeyHandling plugin, among others;</li>
 				<li>specify options for a plugin (see the last item in the plugins array)</li>
 			</ol>
-		</textarea>
+		</div>
 		<h3>..after</h3>
 	</div>
 	<hr/>

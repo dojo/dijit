@@ -11,7 +11,17 @@ dojo.declare(
 	"dijit.Editor",
 	dijit._editor.RichText,
 	{
-	// summary: A rich-text Editing widget
+		// summary:
+		//	A rich text Editing widget
+		//
+		// description:
+		//	This widget provides basic WYSIWYG editing features, based on the browser's
+		//	underlying rich text editing capability, accompanied by a toolbar (dijit.Toolbar).
+		//  A plugin model is available to extend the editor's capabilities as well as the
+		//	the options available in the toolbar.  Content generation may vary across
+		//	browsers, and clipboard operations may have different results, to name
+		//	a few limitations.  Note: this widget should not be used with the HTML
+		//	&lt;TEXTAREA&gt; tag -- see dijit._editor.RichText for details.
 
 		// plugins: Array
 		//		a list of plugin names (as strings) or instances (as objects)
@@ -84,10 +94,13 @@ dojo.declare(
 			//		plugins array. If index is passed, it's placed in the plugins
 			//		array at that index. No big magic, but a nice helper for
 			//		passing in plugin names via markup.
-			//	plugin: String, args object or plugin instance. Required.
-			//	args: This object will be passed to the plugin constructor.
-			//	index:	
-			//		Integer, optional. Used when creating an instance from
+			//
+			//	plugin: String, args object or plugin instance
+			//
+			//	args: This object will be passed to the plugin constructor
+			//
+			//	index: Integer
+			//		Used when creating an instance from
 			//		something already in this.plugins. Ensures that the new
 			//		instance is assigned to this.plugins at that index.
 			var args=dojo.isString(plugin)?{name:plugin}:plugin;

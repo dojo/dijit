@@ -230,7 +230,7 @@ dijit._editor.RichTextIframeMixin = {
 						this.document = this.iframe.contentDocument;
 					}
 					if(!this.document.body){
-						throw 'Error';
+						throw 'Error'; //FIXME.  A bit more info, if this code stays.
 					}
 				}catch(e){
 					setTimeout(ifrFunc,500);
@@ -357,11 +357,18 @@ dijit._editor.RichTextIframeMixin = {
 };
 
 dojo.declare("dijit._editor.RichText", dijit._Widget, {
-	constructor: function(paras){
+	constructor: function(params){
 		// summary:
-		//		dijit._editor.RichText is the core of the WYSIWYG editor in dojo, which
-		//		provides the basic editing features. It also encapsulates the differences
-		//		of different js engines for various browsers
+		//		dijit._editor.RichText is the core of dijit.Editor, which provides basic
+		//		WYSIWYG editing features.
+		//
+		// description:
+		//		dijit._editor.RichText is the core of dijit.Editor, which provides basic
+		//		WYSIWYG editing features. It also encapsulates the differences
+		//		of different js engines for various browsers.  Do not use this widget
+		//		with an HTML &lt;TEXTAREA&gt; tag, since the browser unescapes XML escape characters,
+		//		like &lt;.  This can have unexpected behavior and lead to security issues
+		//		such as scripting attacks.
 		//
 		// contentPreFilters: Array
 		//		pre content filter function register array.
@@ -405,8 +412,8 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 
 		this.onLoadDeferred = new dojo.Deferred();
 
-		//in this constructor, mixin properties are not yet merged, so we have to check for paras here
-		this.useIframe = (dojo.isFF && (dojo.isFF < 3)) || paras['useIframe'] || paras['styleSheets'];
+		//in this constructor, mixin properties are not yet merged, so we have to check for params here
+		this.useIframe = (dojo.isFF && (dojo.isFF < 3)) || params['useIframe'] || params['styleSheets'];
 
 		if(this.useIframe){
 			dojo.mixin(this, dijit._editor.RichTextIframeMixin);
@@ -463,7 +470,9 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 	onLoadDeferred: null,
 
 	postCreate: function(){
-		// summary: init
+		if("textarea" == this.domNode.tagName.toLowerCase()){
+			console.warn("RichText should not be used with the TEXTAREA tag.  See dijit._editor.RichText docs.");
+		}
 		dojo.publish(dijit._scopeName + "._editor.RichText::init", [this]);
 		this.open();
 		this.setupDefaultShortcuts();
