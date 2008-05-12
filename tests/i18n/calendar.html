@@ -6,19 +6,21 @@
 
 		<!-- for tests -->
 		<style type="text/css">
-			@import "../../dojo/resources/dojo.css";
-			@import "css/dijitTests.css";
+			@import "../../../dojo/resources/dojo.css";
+			@import "../css/dijitTests.css";
 		</style>
 		
 		<!-- required: a default dijit theme: -->
-		<link id="themeStyles" rel="stylesheet" href="../../dijit/themes/tundra/tundra.css" />
+		<link id="themeStyles" rel="stylesheet" href="../../../dijit/themes/tundra/tundra.css" />
 		
-		<!-- required: dojo.js -->
-		<script type="text/javascript" src="../../dojo/dojo.js"
-			djConfig="parseOnLoad: true, isDebug: true"></script>
+		<!-- required: dojo.js.
+			Explicitly include extra locales because this example has multiple locales
+			on the page besides the browser's default.  -->
+		<script type="text/javascript" src="../../../dojo/dojo.js"
+			djConfig="parseOnLoad: true, isDebug: true, extraLocale: ['en-us', 'ar-sy', 'es-es', 'zh-cn']"></script>
 		
 		<!-- not needed, for testing alternate themes -->
-		<script type="text/javascript" src="_testCommon.js"></script>
+		<script type="text/javascript" src="../_testCommon.js"></script>
 
 		<script type="text/javascript">
 			dojo.require("dijit._Calendar");
@@ -32,7 +34,7 @@
 				//markup in the body tag for BigCalendar, but instead inject it in this
 				//onload handler after BigCalendar is defined.
 				dojo.declare("BigCalendar", dijit._Calendar, {
-					templatePath: "../../dijit/tests/_altCalendar.html",
+					templatePath: "../../../dijit/tests/_altCalendar.html",
 					isDisabledDate: dojo.date.locale.isWeekend,
 					getClassForDate: function(date){
 						if(!(date.getDate() % 10)){ return "blue"; } // apply special style to all days divisible by 10
@@ -54,7 +56,10 @@
 		<h1 class="testTitle">Dijit Calendar Test</h1>
 
 		before
-		<input id="calendar1" dojoType="dijit._Calendar" onChange="myHandler(this.id,arguments[0])">
+		<input id="calendar1" dojoType="dijit._Calendar" onChange="myHandler(this.id,arguments[0])" lang="en-us">
+		<input id="calendar2" dojoType="dijit._Calendar" onChange="myHandler(this.id,arguments[0])" lang="es-es">
+		<input id="calendar3" dojoType="dijit._Calendar" onChange="myHandler(this.id,arguments[0])" lang="zh-cn">
+		<input id="calendar4" dojoType="dijit._Calendar" onChange="myHandler(this.id,arguments[0])" lang="ar-sy">
 		after
 		<p>
 			<a href="#"
