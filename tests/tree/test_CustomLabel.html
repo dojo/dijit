@@ -1,0 +1,75 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+		"http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+	<title>Dijit Tree Custom Label Test</title>
+
+	<style type="text/css">
+		@import "../../../dojo/resources/dojo.css";
+		@import "../css/dijitTests.css";
+	</style>
+
+	<!-- required: a default dijit theme: -->
+	<link id="themeStyles" rel="stylesheet" href="../../../dijit/themes/tundra/tundra.css" />
+	
+	<!-- required: dojo.js -->
+	<script type="text/javascript" src="../../../dojo/dojo.js"
+		djConfig="parseOnLoad: true, isDebug: true"></script>
+	
+	<!-- not needed, for testing alternate themes -->
+	<script type="text/javascript" src="../_testCommon.js"></script>
+
+	<script language="JavaScript" type="text/javascript">
+		dojo.require("dojo.data.ItemFileReadStore");
+		dojo.require("dijit.Tree");
+		dojo.require("dojo.parser");	// scan page for widgets and instantiate them
+		
+		dojo.declare("MyModel", dijit.tree.ForestStoreModel, {
+			// Override methods to work with I18N data store
+			getChildren: function(item, onComplete){
+				switch(item.root ?  "top" : store.getValue(item, "type")){
+					case "top":
+						return store.fetch({query: {type:'country', continent: 'North America'}, onComplete: onComplete});
+					case "continent":
+						return store.fetch({query: {continent: store.getValue(item, "iso")}, onComplete: onComplete});
+					case "country":
+						return dijit.tree.ForestStoreModel.prototype.getChildren.apply(this, arguments);
+				}
+			},
+			
+			mayHaveChildren: function(item){
+				if(item.root){ return true; }	// top level
+				var type = store.getValue(item, "type");
+				return (type == "continent" || type == "country");
+			}
+		});
+	</script>
+
+</head>
+<body class="tundra">
+
+	<h1 class="testTitle">Dijit Tree Custom Label Test</h1>
+
+	<div dojoType="dojo.data.ItemFileReadStore" jsId="store"
+		url="../../demos/i18n/data.json"></div>
+
+	<h2>Standard label (country names)</h2>
+	<div dojoType="MyModel" jsId="nameModel" store="store" childrenAttrs="languages" rootLabel="Continents"></div>
+	<div dojoType="dijit.Tree" id="nameTree" model="nameModel" openOnClick="true"></div>
+
+	<h2>LabelAttr (ISO codes for countries)</h2>
+	<div dojoType="MyModel" jsId="codeModel" store="store" childrenAttrs="languages" rootLabel="Continents" labelAttr="iso"></div>
+	<div dojoType="dijit.Tree" id="codeTree" model="codeModel" openOnClick="true"></div>
+
+	<h2>Custom label via callback</h2>
+	<div dojoType="MyModel" jsId="customModel" store="store" childrenAttrs="languages">
+		<script type="dojo/method" event="getLabel" args="item">
+			if(item.root){ return "Continents"; }
+			return (store.getLabel(item) + " (" + store.getIdentity(item) + ")");
+		</script>
+	</div>
+	<div dojoType="dijit.Tree" id="customTree" model="customModel" openOnClick="true"></div>
+
+
+</body>
+</html>

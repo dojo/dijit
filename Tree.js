@@ -912,7 +912,7 @@ dojo.declare(
 	"dijit.tree.TreeStoreModel",
 	null,
 {
-	// summary
+	// summary:
 	//		Implements dijit.Tree.model connecting to a store with a single
 	//		root item.  Any methods passed into the constructor will override
 	//		the ones defined here.
@@ -924,8 +924,13 @@ dojo.declare(
 	// childrenAttrs: String[]
 	//		one ore more attributes that holds children of a tree node
 	childrenAttrs: ["children"],
-	
-	// root: dojo.data.Item
+
+	// labelAttr: String
+	//		If specified, get label for tree node from this attribute, rather
+	//		than by calling store.getLabel()
+	labelAttr: "",
+ 
+ 	// root: dojo.data.Item
 	//		Pointer to the root item (read only, not a parameter)
 	root: null,
 
@@ -1047,7 +1052,11 @@ dojo.declare(
 
 	getLabel: function(/*dojo.data.Item*/ item){
 		// summary: get the label for an item
-		return this.store.getLabel(item);	// String
+		if(this.labelAttr){
+			return this.store.getValue(item,this.labelAttr);	// String
+		}else{
+			return this.store.getLabel(item);	// String
+		}
 	},
 
 	// =======================================================================
