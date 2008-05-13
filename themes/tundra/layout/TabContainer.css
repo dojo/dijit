@@ -11,7 +11,7 @@
 
 .tundra .dijitTab {
 	line-height:normal;
-	margin-right:5px;	/* space between one tab and the next in top/bottom mode */
+	margin-right:4px;	/* space between one tab and the next in top/bottom mode */
 	padding:0px;
 	border:1px solid #ccc;
 	background:#e2e2e2 url("../images/tabEnabled.png") repeat-x;
@@ -20,16 +20,25 @@
 .tundra .dijitAlignLeft .dijitTab,
 .tundra .dijitAlignRight .dijitTab {
 	margin-right:0px;
-	margin-bottom:5px;	/* space between one tab and the next in left/right mode */
+	margin-bottom:4px;	/* space between one tab and the next in left/right mode */
 }
 
 .tundra .dijitTabInnerDiv {
-	padding:6px 10px 4px 10px;
+	padding:6px 7px 4px 7px;
 }
 
 .tundra .dijitTabChecked .dijitTabInnerDiv {
-	padding: 6px 10px 3px 10px;
+	padding: 6px 7px 3px 7px;
 	border-bottom: 1px solid #fff;
+}
+
+.tundra .dijitTabChecked,
+.tundra .dijitTabCloseButtonChecked
+{
+	/* the selected tab (with or without hover) */
+	background-color:#fff;
+	border-color: #ccc;
+	background-image:none;
 }
 
 .tundra .dijitTabHover,
@@ -46,10 +55,8 @@
 	background-image: url("../images/tabHover.gif");
 }
 
-.tundra .dijitTabChecked,
-.tundra .dijitTabCloseButtonChecked
-{
-	/* the selected tab (with or without hover) */
+.dj_ie6 .tundra .dijitTabChecked .dijitTabHover,
+.dj_ie6 .tundra .dijitTabChecked .dijitTabCloseButtonHover {
 	background-color:#fff;
 	border-color: #ccc;
 	background-image:none;
@@ -86,12 +93,17 @@
 /* make space for a positioned close button */
 .tundra .dijitTab .dijitClosable {
 	position: relative;
-	padding:6px 20px 4px 10px;
+	padding:6px 20px 4px 7px;
+}
+
+.tundra .dijitTabChecked .dijitClosable {
+	padding: 6px 20px 3px 7px;
+	border-bottom: 1px solid #fff;
 }
 
 .tundra .dijitTab .dijitClosable .closeImage {
 	position:absolute;
-	top: 7px;
+	top: 5px;
 	right: 3px;
 	height: 12px;
 	width: 12px;
@@ -131,11 +143,16 @@
 
 .tundra .dijitAlignBottom .dijitTab .dijitClosable .closeImage {
 	top: auto;
-	bottom: 7px;
+	bottom: 4px;
 	right: 3px;
 }
 
 .tundra .dijitAlignLeft .dijitTab .dijitClosable .closeImage {
-	top: 7px;
+	top: 5px;
 	left: 3px;
+}
+
+.tundra .dijitAlignRight .dijitTab .dijitClosable .closeImage {
+	top: 5px;
+	right: 3px;
 }
