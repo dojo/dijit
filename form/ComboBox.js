@@ -319,6 +319,7 @@ dojo.declare(
 				// if they are just previewing the options available.
 				this._autoCompleteText(zerothvalue);
 			}
+			dataObject._maxOptions = this._maxOptions;
 			this._popupWidget.createOptions(
 				results, 
 				dataObject, 
@@ -525,6 +526,7 @@ dojo.declare(
 						deep: true
 					},
 					query: query,
+					onBegin: dojo.hitch(this, "_setMaxOptions"),
 					onComplete: dojo.hitch(this, "_openResultList"), 
 					onError: function(errText){
 						console.error('dijit.form.ComboBox: ' + errText);
@@ -544,6 +546,10 @@ dojo.declare(
 				}
 				this._nextSearch = this._popupWidget.onPage = dojo.hitch(this, nextSearch, dataObject);
 			}, query, this), this.searchDelay);
+		},
+
+		_setMaxOptions: function(size, request){
+			 this._maxOptions = size;
 		},
 
 		_getValueField:function(){
@@ -767,8 +773,27 @@ dojo.declare(
 				this.domNode.insertBefore(menuitem, this.nextButton);
 			}, this);
 			// display "Next . . ." button
-			this.nextButton.style.display = (dataObject.count == results.length) ? "" : "none";
-			dojo.attr(this.nextButton,"id", this.id + "_next")
+			var displayMore = false;
+			//Try to determine if we should show 'more'...
+			if(dataObject._maxOptions && dataObject._maxOptions != -1){
+				if((dataObject.start + dataObject.count) < dataObject._maxOptions){
+					displayMore = true;
+				}else if((dataObject.start + dataObject.length) > (dataObject._maxOptions - 1)){
+					//Weird return from a datastore, where a start + count > maxOptions
+					//implies maxOptions isn't really valid and we have to go into faking it.
+					//And more or less assume more if count == results.length
+					if(dataObject.count == results.length){
+						displayMore = true;
+					}
+				}
+			}else if(dataObject.count == results.length){
+				//Don't know the size, so we do the best we can based off count alone.
+				//So, if we have an exact match to count, assume more.
+				displayMore = true;
+			}
+
+			this.nextButton.style.display = displayMore ? "" : "none";
+			dojo.attr(this.nextButton,"id", this.id + "_next");
 		},
 
 		clearResultList: function(){
