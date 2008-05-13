@@ -114,7 +114,8 @@ dijit._isElementShown = function(/*Element*/elem){
 	var style = dojo.style(elem);
 	return (style.visibility != "hidden")
 		&& (style.visibility != "collapsed")
-		&& (style.display != "none");
+		&& (style.display != "none")
+		&& (dojo.attr(elem, "type") != "hidden");
 }
 
 dijit.isTabNavigable = function(/*Element*/elem){
