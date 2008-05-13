@@ -25,6 +25,10 @@
 	font-size: 100%;
 }
 
+.dijitTextArea {
+	padding: 3px;
+}
+
 .tundra .dijitTextBox,
 .tundra .dijitComboBox,
 .tundra .dijitSpinner,
