@@ -14,6 +14,13 @@ dojo.declare(
 
 	adjust: function(/* Object */ val, /*Number*/ delta){
 		// summary: change Number val by the given amount
+		if(isNaN(val) && delta != 0){ // blank or invalid value and they want to spin, so create defaults
+			var increasing = (delta > 0),
+				gotMax = (typeof this.constraints.max == "number"),
+				gotMin = (typeof this.constraints.min == "number");
+			val = increasing? (gotMin? this.constraints.min : (gotMax? this.constraints.max : 0)) :
+					(gotMax? this.constraints.max : (gotMin? this.constraints.min : 0));
+		}
 		var newval = val+delta;
 		if(isNaN(val) || isNaN(newval)){ return val; }
 		if((typeof this.constraints.max == "number") && (newval > this.constraints.max)){
