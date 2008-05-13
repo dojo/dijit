@@ -1,0 +1,53 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+		"http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+	<title>Scroll Unit Test</title>
+	<style type="text/css">
+		@import "../../../dojo/resources/dojo.css";
+		@import "../css/dijitTests.css";
+	</style>
+	<script type="text/javascript" src="../../../dojo/dojo.js"
+		djConfig="isDebug: true"></script>
+	<script type="text/javascript" src="../_testCommon.js"></script>
+
+	<script type="text/javascript">
+		dojo.require("doh.runner");
+		dojo.require("dijit._base.scroll");
+
+		function scrollit(){
+			dijit.scrollIntoView('q1');
+		}
+
+		dojo.addOnLoad(function(){
+		        doh.register("dijit._base.scroll",
+	                [
+	                        function scrollIntoView(){
+					dojo.global.scrollTo(0,0);
+					var s1 = dojo.byId('s1');
+					s1.scrollTop = s1.scrollLeft = 0;
+					scrollit();
+                                	doh.is(s1.scrollLeft, 85);
+                                	doh.is(s1.scrollTop, 111);
+					dojo.global.scrollTo(0,2000);
+				}
+			]);
+		        doh.run();
+		});
+	</script>
+</head>
+<body onclick="scrollit()">
+	<h1><center>scrollIntoView test: shows NO blue background.  Click document body to re-scroll</center></h1>
+	<img src="../../../dojo/resources/blank.gif" style="height:888px;width:1px;display:block;background-color:white;">
+	<div id="s1" style="width:650px;height:600px;overflow:scroll;background-color:blue;border:0px solid white;margin:0px;padding:0px;border-width:45px 35px 15px 25px;"
+		><img src="../../../dojo/resources/blank.gif" style="height:111px;width:1px;display:block;"
+		><nobr id="p1" style="display:block;border:0px;padding:0px;margin:0px;"
+			><img id="c1" src="../../../dojo/resources/blank.gif" style="height:1px;width:85px;display:inline;"
+			><img id="q1" src="../../../dojo/resources/blank.gif" style="background-color:white;width:650px;height:600px;display:inline;overflow:visible;"
+			><img id="c2" src="../../../dojo/resources/blank.gif" style="height:1px;width:85px;display:inline;"
+		></nobr
+		><img src="../../../dojo/resources/blank.gif" style="height:222px;width:1px;display:block;"
+	></div>
+	<img src="../../../dojo/resources/blank.gif" style="height:555px;width:1px;display:block;">
+</body>
+</html>

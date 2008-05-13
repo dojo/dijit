@@ -297,6 +297,7 @@ dojo.declare("dijit._Widget", null, {
 	},
 
 	_onFocus: function(e){
+		dijit.scrollIntoView(this.domNode);
 		this.onFocus();
 	},
 
