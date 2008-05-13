@@ -55,13 +55,6 @@
 	background-image: url("../images/tabHover.gif");
 }
 
-.dj_ie6 .tundra .dijitTabChecked .dijitTabHover,
-.dj_ie6 .tundra .dijitTabChecked .dijitTabCloseButtonHover {
-	background-color:#fff;
-	border-color: #ccc;
-	background-image:none;
-}
-
 /* make the active tab white on the side next to the content pane */
 .tundra .dijitAlignTop .dijitTabChecked,
 .tundra .dijitAlignTop .dijitTabCloseButtonChecked
