@@ -20,6 +20,14 @@
 .tundra .dijitTextBox,
 .tundra .dijitComboBox,
 .tundra .dijitSpinner,
+.tundra .dijitTextArea {
+	font-family: sans-serif;
+	font-size: 100%;
+}
+
+.tundra .dijitTextBox,
+.tundra .dijitComboBox,
+.tundra .dijitSpinner,
 .tundra .dijitTextArea,
 .tundra .dijitInlineEditor input {
 	/* 	For all except dijit.form.NumberSpinner:  the actual input element.
