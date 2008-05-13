@@ -24,8 +24,8 @@ h1.testTitle {
 .noteIcon {
 	background-image: url(../images/note.gif);
 	background-repeat: no-repeat; 
-	width: 20px;
-	height: 20px;
+	width: 16px;
+	height: 16px;
 }
 .flatScreenIcon {
 	background-image: url(../images/flatScreen.gif);
