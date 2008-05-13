@@ -73,10 +73,6 @@ h1.testTitle {
     background-position: -154px;
 }
 
-body .medium {
-        font-size: larger; /* help test widget sizing */
-}
-
 #testMatrix {
 	width:100%;
 	text-align:center;

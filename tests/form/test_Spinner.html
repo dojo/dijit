@@ -7,6 +7,11 @@
 		<style type="text/css">
 			@import "../../../dojo/resources/dojo.css";
 			@import "../css/dijitTests.css";
+
+			body .bigFont {
+			        font-size: larger; /* help test widget sizing */
+			}
+
 		</style>
 
 		<!-- required: the default dijit theme: -->
@@ -33,12 +38,12 @@
 		<form id="form1" action="" name="example" method="post">
 			<h1>number spinner</h1>
 			<br>
-			initial value=900, no delta specified, no min specified, max=1550, onChange captured<br>
+			initial value=900, no delta specified, no min specified, max=1550, onChange captured, big font<br>
 			<label for="integerspinner1">Spinbox #1: </label><br>
 			<input dojoType="dijit.form.NumberSpinner"
 				onChange="dojo.byId('oc1').value=arguments[0]"
 				value="900"
-				class="medium"
+				class="bigFont"
 				constraints="{max:1550,places:0}"
 				name="integerspinner1"
 				id="integerspinner1">
