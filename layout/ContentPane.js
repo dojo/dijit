@@ -192,7 +192,8 @@ dojo.declare(
 			this._checkIfSingleChild();
 			if(this._singleChild && this._singleChild.resize){
 				this._singleChild.startup();
-				this._singleChild.resize(this._contentBox || dojo.contentBox(this.containerNode));
+				var cb = this._contentBox || dojo.contentBox(this.containerNode);
+				this._singleChild.resize({w: cb.w, h: cb.h});
 			}
 		}
 
@@ -229,11 +230,13 @@ dojo.declare(
 		var node = this.containerNode,
 			mb = dojo.mixin(dojo.marginBox(node), size||{});
 
-		this._contentBox = dijit.layout.marginBox2contentBox(node, mb);
+		var cb = this._contentBox = dijit.layout.marginBox2contentBox(node, mb);
 
 		// If we have a single widget child then size it to fit snugly within my borders
 		if(this._singleChild && this._singleChild.resize){
-			this._singleChild.resize(this._contentBox);
+			// note: if widget has padding this._contentBox will have l and t set,
+			// but don't pass them to resize() or it will doubly-offset the child
+			this._singleChild.resize({w: cb.w, h: cb.h});
 		}
 	},
 
