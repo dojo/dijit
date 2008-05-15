@@ -134,6 +134,10 @@ dojo.declare(
 
 		var changedSide = /left|right/.test(changedRegion);
 
+		var cs = dojo.getComputedStyle(this.domNode);
+		var pe = dojo._getPadExtents(this.domNode, cs);
+		pe.r = parseFloat(cs.paddingRight); pe.b = parseFloat(cs.paddingBottom);
+
 		var layoutSides = !changedRegion || (!changedSide && !sidebarLayout);
 		var layoutTopBottom = !changedRegion || (changedSide && sidebarLayout);
 		if(this._top){
@@ -177,54 +181,55 @@ dojo.declare(
 		}
 
 		var splitterBounds = {
-			left: (sidebarLayout ? leftWidth + leftSplitterThickness: "0") + "px",
-			right: (sidebarLayout ? rightWidth + rightSplitterThickness: "0") + "px"
+			left: (sidebarLayout ? leftWidth + leftSplitterThickness: 0) + pe.l + "px",
+			right: (sidebarLayout ? rightWidth + rightSplitterThickness: 0) + pe.r + "px"
 		};
 
 		if(topSplitter){
 			dojo.mixin(topSplitter.style, splitterBounds);
-			topSplitter.style.top = topHeight + "px";
+			topSplitter.style.top = topHeight + pe.t + "px";
 		}
 
 		if(bottomSplitter){
 			dojo.mixin(bottomSplitter.style, splitterBounds);
-			bottomSplitter.style.bottom = bottomHeight + "px";
+			bottomSplitter.style.bottom = bottomHeight + pe.b + "px";
 		}
 
 		splitterBounds = {
-			top: (sidebarLayout ? "0" : topHeight + topSplitterThickness) + "px",
-			bottom: (sidebarLayout ? "0" : bottomHeight + bottomSplitterThickness) + "px"
+			top: (sidebarLayout ? 0 : topHeight + topSplitterThickness) + pe.t + "px",
+			bottom: (sidebarLayout ? 0 : bottomHeight + bottomSplitterThickness) + pe.b + "px"
 		};
 
 		if(leftSplitter){
 			dojo.mixin(leftSplitter.style, splitterBounds);
-			leftSplitter.style.left = leftWidth + "px";
+			leftSplitter.style.left = leftWidth + pe.l + "px";
 		}
 
 		if(rightSplitter){
 			dojo.mixin(rightSplitter.style, splitterBounds);
-			rightSplitter.style.right = rightWidth + "px";
+			rightSplitter.style.right = rightWidth + pe.r +  "px";
 		}
 
 		dojo.mixin(centerStyle, {
-			top: topHeight + topSplitterThickness + "px",
-			left: leftWidth + leftSplitterThickness + "px",
-			right:  rightWidth + rightSplitterThickness + "px",
-			bottom: bottomHeight + bottomSplitterThickness + "px"
+			top: pe.t + topHeight + topSplitterThickness + "px",
+			left: pe.l + leftWidth + leftSplitterThickness + "px",
+			right: pe.r + rightWidth + rightSplitterThickness + "px",
+			bottom: pe.b + bottomHeight + bottomSplitterThickness + "px"
 		});
 
 		var bounds = {
-			top: sidebarLayout ? "0" : centerStyle.top,
-			bottom: sidebarLayout ? "0" : centerStyle.bottom
+			top: sidebarLayout ? pe.t + "px" : centerStyle.top,
+			bottom: sidebarLayout ? pe.b + "px" : centerStyle.bottom
 		};
 		dojo.mixin(leftStyle, bounds);
 		dojo.mixin(rightStyle, bounds);
-		leftStyle.left = rightStyle.right = topStyle.top = bottomStyle.bottom = "0";
+		leftStyle.left = pe.l + "px"; rightStyle.right = pe.r + "px"; topStyle.top = pe.t + "px"; bottomStyle.bottom = pe.b + "px";
 		if(sidebarLayout){
-			topStyle.left = bottomStyle.left = leftWidth + (this.isLeftToRight() ? leftSplitterThickness : 0) + "px";
-			topStyle.right = bottomStyle.right = rightWidth + (this.isLeftToRight() ? 0 : rightSplitterThickness) + "px";
+			topStyle.left = bottomStyle.left = leftWidth + (this.isLeftToRight() ? leftSplitterThickness : 0) + pe.l + "px";
+			topStyle.right = bottomStyle.right = rightWidth + (this.isLeftToRight() ? 0 : rightSplitterThickness) + pe.r + "px";
 		}else{
-			topStyle.left = topStyle.right = bottomStyle.left = bottomStyle.right = "0";
+			topStyle.left = bottomStyle.left = pe.l + "px";
+			topStyle.right = bottomStyle.right = pe.r + "px";
 		}
 
 		// Nodes in IE respond to t/l/b/r, and TEXTAREA doesn't respond in any browser
@@ -235,9 +240,9 @@ dojo.declare(
 			// Set the size of the children the old fashioned way, by calling
 			// childNode.resize({h: int, w: int}) for each child node)
 
-			var borderBox = function(n, b){
+			var borderBox = function(n, b, s){
 				n=dojo.byId(n);
-				var s = dojo.getComputedStyle(n);
+				s = s || dojo.getComputedStyle(n);
 				if(!b){ return dojo._getBorderBox(n, s); }
 				var me = dojo._getMarginExtents(n, s);
 				dojo._setMarginBox(n, b.l, b.t, b.w + me.w, b.h + me.h, s);
@@ -246,15 +251,15 @@ dojo.declare(
 
 			var resizeWidget = function(widget, dim){
 				if(widget){
-					widget.resize ? widget.resize(dim) : dojo.marginBox(widget.domNode, dim);
+					(widget.resize ? widget.resize(dim) : dojo.marginBox(widget.domNode, dim));
 				}
 			};
 
 			// TODO: use dim passed in to resize() (see _LayoutWidget.js resize())
 			// Then can make borderBox setBorderBox(), since no longer need to ever get the borderBox() size
-			var thisBorderBox = borderBox(this.domNode);
+			var thisBorderBox = borderBox(this.domNode, null, cs);
 
-			var containerHeight = thisBorderBox.h;
+			var containerHeight = thisBorderBox.h - pe.t - pe.b;
 			var middleHeight = containerHeight;
 			if(this._top){ middleHeight -= topHeight; }
 			if(this._bottom){ middleHeight -= bottomHeight; }
@@ -268,7 +273,7 @@ dojo.declare(
 			resizeWidget(this._leftWidget, {h: sidebarHeight});
 			resizeWidget(this._rightWidget, {h: sidebarHeight});
 
-			var containerWidth = thisBorderBox.w;
+			var containerWidth = thisBorderBox.w - pe.l - pe.r;
 			var middleWidth = containerWidth;
 			if(this._left){ middleWidth -= leftWidth; }
 			if(this._right){ middleWidth -= rightWidth; }
