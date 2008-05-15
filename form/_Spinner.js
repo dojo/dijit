@@ -64,9 +64,11 @@ dojo.declare(
 
 		_wheelTimer: null,
 		_mouseWheeled: function(/*Event*/ evt){
-
-			dojo.stopEvent(evt);			
-			var scrollAmount = evt[(dojo.isIE ? "wheelDelta" : "detail")] * (dojo.isIE ? 1 : -1);
+			// summary: Mouse wheel listener where supported
+			dojo.stopEvent(evt);	
+			// FIXME: Safari bubbles
+			var janky = !dojo.isMozilla;		
+			var scrollAmount = evt[(janky ? "wheelDelta" : "detail")] * (janky ? 1 : -1);
 			if(scrollAmount !== 0){
 				var node = this[(scrollAmount > 0 ? "upArrowNode" : "downArrowNode" )];
 				var dir = (scrollAmount > 0 ? 1 : -1);
@@ -85,7 +87,7 @@ dojo.declare(
 			this.inherited('postCreate', arguments);
 
 			// extra listeners
-			this.connect(this.textbox, dojo.isIE ? "onmousewheel" : 'DOMMouseScroll', "_mouseWheeled");
+			this.connect(this.domNode, !dojo.isMozilla ? "onmousewheel" : 'DOMMouseScroll', "_mouseWheeled");
 			this._connects.push(dijit.typematic.addListener(this.upArrowNode, this.textbox, {charOrCode:dojo.keys.UP_ARROW,ctrlKey:false,altKey:false,shiftKey:false}, this, "_typematicCallback", this.timeoutChangeRate, this.defaultTimeout));
 			this._connects.push(dijit.typematic.addListener(this.downArrowNode, this.textbox, {charOrCode:dojo.keys.DOWN_ARROW,ctrlKey:false,altKey:false,shiftKey:false}, this, "_typematicCallback", this.timeoutChangeRate, this.defaultTimeout));
 			if(dojo.isIE){

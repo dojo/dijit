@@ -173,28 +173,23 @@ dojo.declare(
 	decrement: function(e){
 		// summary
 		//	decrement slider by 1 unit
-		this._bumpValue(e.charOrCode == dojo.keys.PAGE_DOWN?-this.pageIncrement:-1);
+		this._bumpValue(e.charOrCode == dojo.keys.PAGE_DOWN ? -this.pageIncrement : -1);
 	},
 
 	increment: function(e){
 		// summary
 		//	increment slider by 1 unit
-		this._bumpValue(e.charOrCode == dojo.keys.PAGE_UP?this.pageIncrement:1);
+		this._bumpValue(e.charOrCode == dojo.keys.PAGE_UP ? this.pageIncrement : 1);
 	},
 
 	_mouseWheeled: function(/*Event*/ evt){
+		// summary: Event handler for mousewheel where supported
 		dojo.stopEvent(evt);
-		var scrollAmount = 0;
-		if(typeof evt.wheelDelta == 'number'){ // IE
-			scrollAmount = evt.wheelDelta;
-		}else if(typeof evt.detail == 'number'){ // Mozilla+Firefox
-			scrollAmount = -evt.detail;
-		}
-		if(scrollAmount > 0){
-			this.increment(evt);
-		}else if(scrollAmount < 0){
-			this.decrement(evt);
-		}
+		// FIXME: this adds mouse wheel support for safari, though stopEvent doesn't prevent
+		// it from bleeding to window?!
+		var janky = !dojo.isMozilla;
+		var scroll = evt[(janky ? "wheelDelta" : "detail")] * (janky ? 1 : -1);
+		this[(scroll < 0 ? "decrement" : "increment")](evt);
 	},
 
 	startup: function(){
@@ -210,7 +205,7 @@ dojo.declare(
 			this.incrementButton.style.display="";
 			this.decrementButton.style.display="";
 		}
-		this.connect(this.domNode, dojo.isIE ? "onmousewheel" : 'DOMMouseScroll', "_mouseWheeled");
+		this.connect(this.domNode, !dojo.isMozilla ? "onmousewheel" : "DOMMouseScroll", "_mouseWheeled");
 
 		// define a custom constructor for a SliderMover that points back to me
 		var _self = this;
