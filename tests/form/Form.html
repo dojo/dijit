@@ -22,6 +22,7 @@
 	<script type="text/javascript">
 		dojo.require("doh.runner");
 		dojo.require("dojo.date");
+		dojo.require("dijit.dijit"); // optimize: load dijit layer
 		dojo.require("dijit.form.Form");
 		dojo.require("dijit.layout.LayoutContainer");
 		dojo.require("dijit.layout.ContentPane");
@@ -87,7 +88,7 @@
 							available: {from: d("2006-11-02"), to: d("2007-11-02")},
 							plop: {combo: "two"},
 							cb2: ["2"]
-		}
+		};
 		// we reset the form to these values
 		var reset =	{
 							foo: {bar: {baz: {quux: d("2007-12-30")} } },
@@ -364,7 +365,6 @@ simple line 2</textarea>
 		<button dojoType=dijit.form.Button type="submit">Submit</button>
 		<button dojoType=dijit.form.Button type="reset">Reset</button>
 	</form>
-
 
 </body>
 </html>

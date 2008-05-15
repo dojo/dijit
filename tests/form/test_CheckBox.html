@@ -23,6 +23,7 @@
 	<script type="text/javascript" src="../_testCommon.js"></script>
 
 	<script type="text/javascript">
+		dojo.require("dijit.dijit"); // optimize: load dijit layer
 		dojo.require("dijit.form.CheckBox");
 		dojo.require("dojo.parser");	// find widgets
 
@@ -30,7 +31,7 @@
 			var str = "";
 			for(var i=0;i<form.elements.length;i++){
 				var e = form.elements[i];
-				if(e.type=="submit") break;
+				if(e.type=="submit"){ break; }
 				if(e.checked){
 					str += "submit: name="+e.name+" id="+e.id+" value="+e.value+ "<br>";
 				}
