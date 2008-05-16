@@ -92,6 +92,11 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 	},
 
 
+	_onFocus: function(e){
+		dijit.scrollIntoView(this.domNode);
+		this.inherited(arguments);
+	},
+
 	_onMouse : function(/*Event*/ event){
 		// summary:
 		//	Sets _hovering, _active, and stateModifier properties depending on mouse state,
