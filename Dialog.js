@@ -267,6 +267,9 @@ dojo.declare(
 			if(this._underlay){
 				this._underlay.destroy();
 			}
+			if(this._moveable){
+				this._moveable.destroy();
+			}
 		},
 
 		_position: function(){
