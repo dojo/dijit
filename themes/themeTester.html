@@ -794,6 +794,7 @@
 				</div><!-- end:various dijits upper tab -->
 
 				<div id="InlineEditBoxTab" dojoType="dijit.layout.ContentPane" title="InlineEditBox"
+					style="padding:10px; display:none;">
 
 					<h2 class="testTitle">dijit.InlineEditBox + dijit.form.TextBox on &lt;h3&gt;</h2>
 
@@ -852,8 +853,8 @@
 				</div><!-- end InlineEditBox tab -->
 
 				<div id="dndTab" dojoType="dijit.layout.ContentPane" title="DnD"
-					style="padding:10px; display:none;  ">
-					<div style="float:left; margin:5px; ">
+					style="padding:10px; display:none;">
+					<div style="float:left; margin:5px;">
 						<h3>Source 1</h3>
 						<div dojoType="dojo.dnd.Source" style="border:3px solid #ccc; padding: 1em 3em; ">
 							<div class="dojoDndItem">Item <strong>X</strong></div>
@@ -878,7 +879,8 @@
 			</div><!-- end of region="center" TabContainer -->
 	
 			<!-- bottom right tabs -->
-			<div dojoType="dijit.layout.TabContainer" id="bottomTabs" tabPosition="bottom" selectedChild="btab1" region="bottom" splitter="true">
+			<div dojoType="dijit.layout.TabContainer" id="bottomTabs" 
+				tabPosition="bottom" selectedChild="btab1" region="bottom" splitter="true">
 
 				<!-- btab 1 -->
 				<div id="btab1" dojoType="dijit.layout.ContentPane" title="Info" style=" padding:10px; ">
@@ -909,7 +911,9 @@
 	</div><!-- end of "main" BorderContainer -->
 
 	<!-- dialog in body -->
-	<div id="dialog1" dojoType="dijit.Dialog" title="Floating Modal Dialog" style="display:none;" href="../tests/layout/doc0.html"></div>
+	<div id="dialog1" dojoType="dijit.Dialog" 
+		title="Floating Modal Dialog" style="display:none;" 
+		href="../tests/layout/doc0.html"></div>
 
 </body>
 </html>
