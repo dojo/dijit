@@ -132,7 +132,7 @@ dojo.declare("dijit.InlineEditBox",
 		var editValue = 
 				(this.renderAsHtml ?
 				this.value :
-				this.value.replace(/\s*\r?\n\s*/g,"").replace(/<br\/?>/gi, "\n").replace(/&gt;/g,">").replace(/&lt;/g,"<").replace(/&amp;/g,"&"));
+				this.value.replace(/\s*\r?\n\s*/g,"").replace(/<br\/?>/gi,"\n").replace(/&gt;/g,">").replace(/&lt;/g,"<").replace(/&amp;/g,"&").replace(/&quot;/g,"\""));
 
 		// Placeholder for edit widget
 		// Put place holder (and eventually editWidget) before the display node so that it's positioned correctly
