@@ -92,7 +92,7 @@ dojo.declare("dijit._Container",
 			}
 			var refNode = this.containerNode;
 			if(insertIndex && typeof insertIndex == "number"){
-				var children = dojo.query("> [widgetid]", refNode);
+				var children = dojo.query("> [widgetId]", refNode);
 				if(children && children.length >= insertIndex){
 					refNode = children[insertIndex-1]; insertIndex = "after";
 				}
