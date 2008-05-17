@@ -299,6 +299,9 @@ dojo.declare("dijit.form._FormValueWidget", dijit.form._FormWidget,
 		{value:""}),
 
 	postCreate: function(){
+		if(dojo.isIE || dojo.isSafari){ // IE won't stop the event with keypress and Safari won't send an ESCAPE to keypress at all
+			this.connect(this.focusNode || this.domNode, "onkeydown", this._onKeyDown);
+		}
 		this.setValue(this.value, null);
 	},
 
@@ -328,15 +331,31 @@ dojo.declare("dijit.form._FormValueWidget", dijit.form._FormWidget,
 		return ((v !== null && (v !== undefined) && v.toString)?v.toString():'') !== ((lv !== null && (lv !== undefined) && lv.toString)?lv.toString():'');
 	},
 
-	_onKeyPress: function(e){
-		if(e.charOrCode == dojo.keys.ESCAPE && !e.shiftKey && !e.ctrlKey && !e.altKey){
-			if(this._valueChanged()){
-				this.undo();
-				dojo.stopEvent(e);
-				return false;
+	_onKeyDown: function(e){
+		if(e.keyCode == dojo.keys.ESCAPE && !e.ctrlKey && !e.altKey){
+			var te;
+			if(dojo.isIE){ 
+				e.preventDefault(); // default behavior needs to be stopped here since keypress is too late
+				te = document.createEventObject();
+				te.keyCode = dojo.keys.ESCAPE;
+				te.shiftKey = e.shiftKey;
+				e.srcElement.fireEvent('onkeypress', te);
+			}else if(dojo.isSafari){ // ESCAPE needs help making it into keypress
+				te = document.createEvent('Events');
+				te.initEvent('keypress', true, true);
+				te.keyCode = dojo.keys.ESCAPE;
+				te.shiftKey = e.shiftKey;
+				e.target.dispatchEvent(te);
 			}
 		}
-		else if(this.intermediateChanges){
+	},
+
+	_onKeyPress: function(e){
+		if(e.charOrCode == dojo.keys.ESCAPE && !e.ctrlKey && !e.altKey && this._valueChanged()){
+			this.undo();
+			dojo.stopEvent(e);
+			return false;
+		}else if(this.intermediateChanges){
 			var _this = this;
 			// the setTimeout allows the key to post to the widget input box
 			setTimeout(function(){ _this._handleOnChange(_this.getValue(), false); }, 0);
