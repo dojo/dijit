@@ -9,17 +9,38 @@
 .tundra .dijitButtonNode {
 	/* enabled state - inner */
 	/* border:1px outset #a0a0a0; */
-	border:1px solid #c0c0c0;
-	border-bottom:1px solid #9b9b9b;
-	border-right:1px solid #9b9b9b;
-	padding: 0px 0.2em;
+	border: 1px solid #c0c0c0;
+	border-bottom: 1px solid #9b9b9b;
+	/*
+	border-right: 1px solid #9b9b9b;
+	*/
+	padding: 0.1em 0.2em 0.2em 0.2em;
 	background:#fff url("../images/buttonEnabled.png") repeat-x bottom left;
 }
-.dj_ie .tundra .dijitButtonNode {
+
+.dj_ie .tundra .dijitButtonNode button {
 	zoom: 1;
+	/* 
+		disgusting hack to get rid of spurious padding around button elements
+		on IE. MSIE is truly the web's boat anchor.
+	*/
+	width: 1px;
+	overflow: visible;
 }
 
+.tundra .dijitButtonNode button {
+	border: 0px;
+	background-color: transparent;
+}
+
+/*
+.dj_ie .tundra .dijitButtonNode button {
+}
+*/
+
+
 .tundra .dijitButtonText {
+	text-align: center;
 	padding: 0 0.3em;
 }
 
@@ -52,7 +73,7 @@
 .tundra .dijitSpinnerDisabled,
 .tundra .dijitSpinnerDisabled .dijitButtonNode {
 	/* disabled state - inner */
-	border-color: #d5d5d5 #bdbdbd #bdbdbd #d5d5d5;
+	border-color: #d5d5d5 #d5d5d5 #bdbdbd #d5d5d5;
 	background:#e4e4e4 url("../images/buttonDisabled.png") top repeat-x;
 }
 
@@ -67,9 +88,8 @@
 .tundra .dijitSpinnerDownArrowHover .dijitDownArrowButton {
 	/* hover state - inner */
 	/* TODO: change from Hover to Selected so that button is still highlighted while drop down is being used */
-	border-color:#a5beda;
-	border-bottom-color:#5c7590;
-	border-right-color:#5c7590;
+	border-color:			#a5beda;
+	border-bottom-color:	#5c7590;
 	color:#000;
 	background:#fcfdff url("../images/buttonHover.png") repeat-x bottom;
 }
@@ -85,7 +105,7 @@
 	/* active state - inner (for when you are pressing a normal button, or
 	 * when a toggle button is in a depressed state
 	 */
-	border-color:#366dba;
+	border-color:	#366dba;
 	background: #ededed url("../images/buttonActive.png") bottom repeat-x;
 }
 
@@ -99,6 +119,9 @@
 }
 .dj_ie6 .tundra .dijitArrowButtonInner {
 	background-image:url("../images/spriteArrows.gif");
+	/*
+	margin-right: -15px;
+	*/
 }
 .tundra .dijitDisabled .dijitArrowButtonInner {
 	background-position: -28px top;
