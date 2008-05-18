@@ -1,0 +1,46 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+	<title>dijit.layout.BorderContainer Test</title>
+
+	<!-- only needed for test files: -->
+	<style type="text/css">
+		@import "../../../dojo/resources/dojo.css";
+		@import "../css/dijitTests.css";
+	</style>
+
+	<!-- required: the default dijit theme: -->
+	<link id="themeStyles" rel="stylesheet" href="../../../dijit/themes/tundra/tundra.css" />
+
+	<!-- required: dojo.js -->
+	<script type="text/javascript" src="../../../dojo/dojo.js"
+		djConfig="isDebug: true, parseOnLoad: true"></script>
+
+	<!-- only needed for alternate theme testing: -->
+	<script type="text/javascript" src="../_testCommon.js"></script>
+
+	<script type="text/javascript">
+		dojo.require("dijit.dijit"); // optimize: load dijit layer
+		dojo.require("dijit.layout.BorderContainer");
+        dojo.require("dijit.layout.ContentPane");
+        var addPane = function(parent,kw){
+                var domnode = document.createElement('div');
+                parent.domNode.appendChild(domnode);
+                var widget = new dijit.layout.ContentPane(kw,domnode);
+                widget.startup();
+                parent.addChild(widget);
+        };
+        dojo.addOnLoad(function(){
+                var bc = new dijit.layout.BorderContainer({style:'height:400px;width:500px;border:1px solid black'}, dojo.byId('main'));
+                addPane(bc,{region:'top',style:'height:100px;background-color:red',splitter:true});
+                addPane(bc,{region:'center',style:'background-color:green'});
+                bc.startup();
+        });
+	</script>
+</head>
+<body class="tundra">
+	<h2 class="testTitle">dijit.layout.BorderContainer tests</h2>
+	<div id='main'>
+	</div>
+</body>
+</html>
