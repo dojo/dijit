@@ -31,15 +31,15 @@ dojo.declare(
 		_verticalSpace: 0,
 
 		postCreate: function(){
-			this.domNode.style.overflow="hidden";
-			this.inherited("postCreate",arguments); 
+			this.domNode.style.overflow = "hidden";
+			this.inherited(arguments); 
 			dijit.setWaiRole(this.domNode, "tablist");
-			dojo.addClass(this.domNode,"dijitAccordionContainer");
+			dojo.addClass(this.domNode, "dijitAccordionContainer");
 		},
 
 		startup: function(){
 			if(this._started){ return; }
-			this.inherited("startup",arguments);	
+			this.inherited(arguments);	
 			if(this.selectedChildWidget){
 				var style = this.selectedChildWidget.containerNode.style;
 				style.display = "";
@@ -59,7 +59,7 @@ dojo.declare(
 				totalCollapsedHeight += child.getTitleHeight();
 			});
 			var mySize = this._contentBox;
-			this._verticalSpace = (mySize.h - totalCollapsedHeight);
+			this._verticalSpace = mySize.h - totalCollapsedHeight;
 			if(openPane){
 				openPane.containerNode.style.height = this._verticalSpace + "px";
 /***
@@ -92,7 +92,7 @@ inside the AccordionPane??
 					node: newContents,
 					duration: this.duration,
 					properties: {
-						height: { start: "1", end: paneHeight }
+						height: { start: 1, end: paneHeight }
 					},
 					onEnd: function(){
 						newContents.style.overflow = "auto";
@@ -175,7 +175,7 @@ dojo.declare("dijit.layout.AccordionPane",
 	templatePath: dojo.moduleUrl("dijit.layout", "templates/AccordionPane.html"),
 
 	postCreate: function(){
-		this.inherited("postCreate",arguments)
+		this.inherited(arguments)
 		dojo.setSelectable(this.titleNode, false);
 		this.setSelected(this.selected);
 	},
@@ -225,7 +225,7 @@ dojo.declare("dijit.layout.AccordionPane",
 		this._setSelectedState(isSelected);
 		if(isSelected){
 			this.onSelected();
-			this._loadCheck(true); // if href specified, trigger load
+			this._loadCheck(); // if href specified, trigger load
 		}
 	},
 
