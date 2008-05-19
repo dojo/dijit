@@ -1385,8 +1385,8 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 		}else{
 			ec = dom;
 		}
-		
-		if(!ec.replace(/^(?:\s|\xA0)+/g, "").replace(/(?:\s|\xA0)+$/g,"").length){ ec = ""; }
+
+		if(!dojo.trim(ec.replace(/^\xA0\xA0*/, '').replace(/\xA0\xA0*$/, '')).length){ ec = ""; }
 
 		//	if(dojo.isIE){
 		//		//removing appended <P>&nbsp;</P> for IE
