@@ -60,7 +60,14 @@ dojo.declare(
 
 	startup: function(){
 		if(this._started){ return; }
-		dojo.forEach(this.getChildren(), this._setupChild, this);
+		dojo.forEach(this.getChildren(), function(child){
+			this._setupChild(child);
+			var region = child.region;
+			if(this._splitters[region]){
+				dojo.place(this._splitters[region], child.domNode, "after");
+				this._computeSplitterThickness(region); // redundant?
+			}
+		}, this);
 		this.inherited(arguments);
 	},
 
@@ -75,21 +82,17 @@ dojo.declare(
 			if(region == "leading"){ region = ltr ? "left" : "right"; }
 			if(region == "trailing"){ region = ltr ? "right" : "left"; }
 
+			//FIXME: redundant?
 			this["_"+region] = child.domNode;
 			this["_"+region+"Widget"] = child;
 
-			if(child.splitter){
-				if(!this._splitters[region]){
-					var _Splitter = dojo.getObject(this._splitterClass);
-					var flip = {left:'right', right:'left', top:'bottom', bottom:'top', leading:'trailing', trailing:'leading'};
-					var oppNodeList = dojo.query('[region=' + flip[child.region] + ']', this.domNode);
-					var splitter = new _Splitter({ container: this, child: child, region: region,
-						oppNode: oppNodeList[0], live: this.liveSplitters });
-					this._splitters[region] = splitter.domNode;
-				}else{
-					dojo.place(this._splitters[region], child.domNode, "after");
-					this._computeSplitterThickness(region);
-				}
+			if(child.splitter && !this._splitters[region]){
+				var _Splitter = dojo.getObject(this._splitterClass);
+				var flip = {left:'right', right:'left', top:'bottom', bottom:'top', leading:'trailing', trailing:'leading'};
+				var oppNodeList = dojo.query('[region=' + flip[child.region] + ']', this.domNode);
+				var splitter = new _Splitter({ container: this, child: child, region: region,
+					oppNode: oppNodeList[0], live: this.liveSplitters });
+				this._splitters[region] = splitter.domNode;
 			}
 			child.region = region;
 		}
