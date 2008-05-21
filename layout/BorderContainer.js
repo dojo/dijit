@@ -443,7 +443,12 @@ dojo.declare("dijit.layout._Splitter", [ dijit._Widget, dijit._Templated ],
 		var region = this.region;
 		var mb = {};
 		var childNode = this.child.domNode;
+		var childWidget = dijit.byNode(childNode);
+		if(!childWidget.resize){
+		    childWidget = null;
+		}
 		var layoutFunc = dojo.hitch(this.container, this.container._layoutChildren);
+		console.debug(this, max, min);
 
 		var de = dojo.doc.body;
 		this._handlers = (this._handlers || []).concat([
@@ -456,6 +461,9 @@ dojo.declare("dijit.layout._Splitter", [ dijit._Widget, dijit._Templated ],
 					mb[dim] = boundChildSize;
 					// TODO: inefficient; we set the marginBox here and then immediately layoutFunc() needs to query it
 					dojo.marginBox(childNode, mb);
+					if(childWidget){
+						childWidget.resize(mb);
+					}
 					layoutFunc(region);
 				}
 				splitterStyle[region] = factor * delta + splitterStart + (boundChildSize - childSize) + "px";
