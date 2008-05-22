@@ -448,7 +448,6 @@ dojo.declare("dijit.layout._Splitter", [ dijit._Widget, dijit._Templated ],
 		    childWidget = null;
 		}
 		var layoutFunc = dojo.hitch(this.container, this.container._layoutChildren);
-		console.debug(this, max, min);
 
 		var de = dojo.doc.body;
 		this._handlers = (this._handlers || []).concat([
