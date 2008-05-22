@@ -96,7 +96,7 @@ dojo.declare("dijit._editor.plugins.EnterKeyHandling", dijit._editor._Plugin, {
 		if(e.shiftKey  //shift+enter always generates <br>
 			|| this.blockNodeForEnter=='BR'){
 			var parent = dojo.withGlobal(this.editor.window, "getParentElement", dijit._editor.selection);
-			var header = dijit.range.getAncestor(parent,this.editor.blockNodes);
+			var header = dijit.range.getAncestor(parent,this.blockNodes);
 			if(header){
 				if(header.tagName=='LI'){
 					return true; //let brower handle
