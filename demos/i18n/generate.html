@@ -16,6 +16,8 @@
 
 		// Call this first, to load JSON data from files (have to wait for load to finish)
 		function load(){
+			dojo.byId("json").value="";
+
 			// Load list of continents
 			var d = dojo.xhrGet({url: "continents.json", handleAs: "json-comment-optional"});
 			d.addCallback(function(data){
@@ -34,21 +36,17 @@
 			// Load list of languages		
 			var d2 = dojo.xhrGet({url: "languages.json", handleAs: "json-comment-optional"});
 			d2.addCallback(function(data){
-				data = dojo.filter(data, function(item){
-					return item.name && item.countries.length;
-				});
-
 				// each data item X now contains a list every language, as written in
 				// language X, but actually need to invert that for this demo
 				languages = dojo.map(data, function(l){
 					var item = {type: "language", iso: l.iso, name: l.name, countries: l.countries};
 					dojo.forEach(data, function(fl){
 						if(fl[l.iso]){
-							if(item.iso=="en") console.log("in " + fl.name + " the language " + l.name + "/" + l.iso + " is spelled as " + fl[l.iso]);
+							//if(item.iso=="en") console.log("in " + fl.name + " the language " + l.name + "/" + l.iso + " is spelled as " + fl[l.iso]);
 							item[fl.iso]=fl[l.iso];
 						}
 					});
-					if(item.iso == "en") console.log(item);
+					if(!item.name){ item.name = item.en || "unknown"; }
 					return item;
 				});
 			});
@@ -91,23 +89,27 @@
 			// generate json for data
 			var out = dojo.byId("json");
 			console.debug(countries);
-			var json = [].concat(languages, langCountryMap, continents, dojo.map(countries, function(x){return x;}));
+			var items = [].concat(languages, langCountryMap, continents, dojo.map(countries, function(x){return x;})),
+				json = {
+					"identifier": 'iso',
+  					"label": 'name',
+  					"items": items
+  				};
 			out.value = dojo.toJson(json, true);
 		}
 	</script>
 </head>
 <body>
 <h1> Country / Language JSON Database Generator </h1>
-<p>push step #1 then wait, then step #2</p>
-<button onclick="load();">Step #1</button>
-<button onclick="generate();">Step #2</button>
+<p>Push "load" then wait, then "generate".  Save results from textarea into data.json.</p>
+<button onclick="load();">Load</button>
+<button onclick="generate();">Generate</button>
+<br>
+<textarea id="json" cols=100 rows=20 autocomplete='off'></textarea>
 
-<h1>JSON</h1>
-<textarea id="json" cols=100 rows=20></textarea>
 
-
-<h1>Country names, flags, and ISO code</h1>
-<p>data taken from <a href="http://en.wikipedia.org/wiki/ISO_3166-1">wikipedia ISO 3166-1 site</a></p>
+<h2>Country names, flags, and ISO code</h2>
+<p>Data taken from <a href="http://en.wikipedia.org/wiki/ISO_3166-1">wikipedia ISO 3166-1 site</a></p>
 <table id="source" style="height: 300px; overflow: auto;">
 <tbody>
 
@@ -2075,7 +2077,7 @@
 </table>
 
 
-<h1>Country Continent Mapping</h1>
+<h2>Country Continent Mapping</h2>
 <p>abstracted from <a href="http://en.wikipedia.org/wiki/List_of_countries_by_continent">wikipedia continent country page</a></p>
 <table id="continents">
 <!-- Africa -->

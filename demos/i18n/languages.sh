@@ -1,3 +1,10 @@
+# Script to generate langues.json, list of languages and countries that use each language
+# Steps to use:
+#   1. cd util/buildscripts/cldr/ldml
+#   2. unzip main.zip (alternately download from http://www.unicode.org/cldr)
+#   3. cd main
+#   4. run this script from there
+
 echo "["
 for lang in $(ls [a-z][a-z].xml |sed s/.xml//)
 do
