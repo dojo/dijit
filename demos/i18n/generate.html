@@ -24,12 +24,23 @@
 				continents = data;
 			});
 
+			// Load country <--> continent mapping
+			var d = dojo.xhrGet({url: "countries.txt", handleAs: "text"});
+			d.addCallback(function(text){
+				var rows = dojo.filter(text.split(/\n/), function(line){ return !line.match(/^\s*$/) && !line.match(/^#/); });
+				countries = dojo.map(rows, function(line){
+					var match = line.match(/^([A-Z]*) ([A-Z]*) ([A-Z]*) ([0-9]*) (.*)$/);
+					return { key: "country:"+match[2], type: "country", iso: match[2], name: match[5], continent: match[1] };
+				});
+			});
+
 			// Load mapping between countries and languages
 			var d = dojo.xhrGet({url: "langCountryMap.json", handleAs: "json-comment-optional"});
 			d.addCallback(function(data){
 				langCountryMap = data;
 				dojo.forEach(langCountryMap, function(entry){
 					entry.iso = entry.language + "_" + entry.country;
+					entry.key = "langCountryMap:"+entry.iso;
 				});
 			});
 
@@ -39,7 +50,7 @@
 				// each data item X now contains a list every language, as written in
 				// language X, but actually need to invert that for this demo
 				languages = dojo.map(data, function(l){
-					var item = {type: "language", iso: l.iso, name: l.name, countries: l.countries};
+					var item = {key: "language:"+l.iso, type: "language", iso: l.iso, name: l.name, countries: l.countries};
 					dojo.forEach(data, function(fl){
 						if(fl[l.iso]){
 							//if(item.iso=="en") console.log("in " + fl.name + " the language " + l.name + "/" + l.iso + " is spelled as " + fl[l.iso]);
@@ -53,48 +64,24 @@
 		}
 
 		function generate(){
-			// mapping from country to continent
-			var country2continent = {};
-			dojo.query("tr", "continents").forEach(function(row){
-				var continent = t(dojo.query("td", row)[0]);
-				var country = t(dojo.query("a", row)[1]);
-				country2continent[country] = continent;
-			});
+			var out = dojo.byId("json");
+			out.value = "Working...";
 
 			// Generate country items
-			countries = dojo.query("tr", "source").
-				filter(function(row){ return dojo.query("a", row).length && dojo.query("td", row).length; } ).
-				map(function(row){
-					var iso = dojo.query("td", row)[3];
-					iso = t(iso);
-					var a = dojo.query("td:nth-child(1) a:nth-child(2)", row)[0];
-					var name = t(a);
-					var country = {
-						type: "country",
-						iso: iso,
-						name: name,
-						href: "http://en.wikipedia.org/wiki" + a.href.replace(/.*\/wiki/, "")
-					};
-					if(country2continent[name]){
-						country.continent = country2continent[name];
-					}
-					country.languages = dojo.filter(langCountryMap, function(x){
-						return x.country==iso;
-					}).map(function(x){
-						return {_reference: x.language};
-					});
-					return country;
+			dojo.forEach(countries, function(country){
+				country.languages = dojo.filter(langCountryMap, function(x){
+					return x.country==country.iso;
+				}).map(function(x){
+					return {_reference: "language:"+x.language};
 				});
+			});
 
 			// generate json for data
-			var out = dojo.byId("json");
-			console.debug(countries);
-			var items = [].concat(languages, langCountryMap, continents, dojo.map(countries, function(x){return x;})),
-				json = {
-					"identifier": 'iso',
-  					"label": 'name',
-  					"items": items
-  				};
+			var json = {
+				"identifier": 'key',
+				"label": 'name',
+				"items": [].concat(languages, continents, countries)
+			};
 			out.value = dojo.toJson(json, true);
 		}
 	</script>

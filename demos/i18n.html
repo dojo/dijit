@@ -79,9 +79,9 @@
 		<script type="dojo/method" event="getChildren" args="item, onComplete">
 			switch(item.root ?  "top" : store.getValue(item, "type")){
 				case "top":
-					return store.fetch({query: {type:'continent'}, onComplete: onComplete});
+					return store.fetch({query: {type:'continent'}, onComplete: onComplete, onError: console.log});
 				case "continent":
-					return store.fetch({query: {continent: store.getValue(item, "iso")}, onComplete: onComplete});
+					return store.fetch({query: {continent: store.getValue(item, "iso")}, onComplete: onComplete, onError: console.log});
 				case "country":
 					return dijit.tree.ForestStoreModel.prototype.getChildren.apply(this, arguments);
 			}
