@@ -213,10 +213,11 @@ dojo.declare(
 
 		// On initial tree show, put focus on either the root node of the tree,
 		// or the first child, if the root node is hidden
-		if(!this.parent){
+		if(this == tree.rootNode){
 			var fc = this.tree.showRoot ? this : this.getChildren()[0],
 				tabnode = fc ? fc.labelNode : this.domNode;
 			tabnode.setAttribute("tabIndex", "0");
+			tree.lastFocused = fc;
 		}
 
 		// create animations for showing/hiding the children (if children exist)
