@@ -79,6 +79,7 @@ dijit.popup = new function(){
 		wrapper.id = id;
 		wrapper.className="dijitPopup";
 		wrapper.style.zIndex = beginZIndex + stack.length;
+		wrapper.style.left = wrapper.style.top = "0px";		// prevent transient scrollbar causing misalign (#5776)
 		wrapper.style.visibility = "hidden";
 		if(args.parent){
 			wrapper.dijitPopupParent=args.parent.id;
