@@ -47,6 +47,12 @@
 			alert("Execute of node " + continentStore.getLabel(item)
 				+", population=" + continentStore.getValue(item, "population"));
 		</script>
+		<script type="dojo/method" event="onOpen" args="item">
+			console.log("Open of node " + continentStore.getLabel(item));
+		</script>
+		<script type="dojo/method" event="onClose" args="item">
+			console.log("Close of node " + continentStore.getLabel(item));
+		</script>
 	</div>
 
 	<button onclick="dijit.byId('mytree').destroyRecursive();">destroy</button>

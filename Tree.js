@@ -699,6 +699,12 @@ dojo.declare(
 	onClick: function(/* dojo.data */ item, /*TreeNode*/ node){
 		// summary: user overridable function for executing a tree item
 	},
+	onOpen: function(/* dojo.data */ item, /*TreeNode*/ node){
+		// summary: callback when a node is opened
+	},
+	onClose: function(/* dojo.data */ item, /*TreeNode*/ node){
+		// summary: callback when a node is closed
+	},
 
 	_getNextNode: function(node){
 		// summary: get next visible node
@@ -734,6 +740,8 @@ dojo.declare(
 			}
 
 			node.collapse();
+			this.onClose(node.item, node);
+
 			if(this.persist && node.item){
 				delete this._openedItemIds[this.model.getIdentity(node.item)];
 				this._saveState();
@@ -773,6 +781,8 @@ dojo.declare(
 			default:
 				// data is already loaded; just proceed
 				node.expand();
+				this.onOpen(node.item, node);
+
 				if(this.persist && item){
 					this._openedItemIds[model.getIdentity(item)] = true;
 					this._saveState();
