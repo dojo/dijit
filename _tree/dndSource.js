@@ -187,13 +187,7 @@ dojo.declare("dijit._tree.dndSource", dijit._tree.dndSelector, {
 				}
 			}
 		}else{
-			if(this.isDragging){
-				if (m.source && this.checkAcceptance(m.source,m.source.getSelectedNodes())){
-					m.canDrop(this.targetState != "Disabled" && (!this.current || m.source != this || !(this.current.id in this.selection)));
-				}else{
-					m.canDrop(false);
-				}
-			}
+			m.canDrop(false);
 		}
 		this.current = n;
 	},
@@ -214,7 +208,7 @@ dojo.declare("dijit._tree.dndSource", dijit._tree.dndSelector, {
 			}
 		}else if(this.isDragging){
 			var m = dojo.dnd.manager();
-			m.canDrop(this.targetState != "Disabled" && (!this.current || m.source != this || !(this.current.id in this.selection)));
+			m.canDrop(false);
 		}
 	},
 	onDndStart: function(source, nodes, copy){
