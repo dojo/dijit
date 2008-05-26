@@ -40,12 +40,12 @@ dojo.declare("dijit._tree.dndSelector",
 		insertItems: function(item, parent){
 			// summary: inserts new data items (see Container's insertNodes method for details)
 			
-			//we actually need to add things to the store here instead of adding noes to the tree directly		
+			//we actually need to add things to the store here instead of adding nodes directly to the tree		
 		},
 
 		destroy: function(){
 			// summary: prepares the object to be garbage-collected
-			dojo.dnd.Selector.superclass.destroy.call(this);
+			dijit._tree.dndSelector.superclass.destroy.call(this);
 			this.selection = this.anchor = null;
 		},
 

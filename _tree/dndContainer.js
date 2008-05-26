@@ -46,6 +46,13 @@ dojo.declare("dijit._tree.dndContainer",
 			//return this.map[key];	// Object
 		},
 
+		destroy: function(){
+			// summary: prepares the object to be garbage-collected
+			dojo.forEach(this.events, dojo.disconnect);
+			// this.clearItems();
+			this.node = this.parent = this.current;
+		},
+
 		// mouse events
 		onMouseOver: function(e){
 			// summary: event processor for onmouseover

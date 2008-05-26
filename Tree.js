@@ -402,15 +402,15 @@ dojo.declare(
 
 		if(this.dndController){
 			if(dojo.isString(this.dndController)){
-				this.dndController= dojo.getObject(this.dndController);
+				this.dndController = dojo.getObject(this.dndController);
 			}	
 			var params={};
 			for (var i=0; i<this.dndParams.length;i++){
 				if(this[this.dndParams[i]]){
-					params[this.dndParams[i]]=this[this.dndParams[i]];
+					params[this.dndParams[i]] = this[this.dndParams[i]];
 				}
 			}
-			this.dndController= new this.dndController(this, params);
+			this.dndController = new this.dndController(this, params);
 		}
 	},
 
@@ -896,6 +896,9 @@ dojo.declare(
 	destroy: function(){
 		if(this.rootNode){
 			this.rootNode.destroyRecursive();
+		}
+		if(this.dndController && !dojo.isString(this.dndController)){
+			this.dndController.destroy();
 		}
 		this.rootNode = null;
 		this.inherited(arguments);

@@ -45,7 +45,7 @@
 				model: myModel,
 				dndController: "dijit._tree.dndSource" 
 			});
-			dojo.body().appendChild(myTree.domNode);
+			dojo.byId("container").appendChild(myTree.domNode);
 			myTree.startup();
 			dojo.byId("create").disabled = true;
 			dojo.byId("destroy").disabled = false;
@@ -62,5 +62,6 @@
         <h1 class="testTitle">Dijit Forest Store Programmatic Test</h1>
         <button id="create" onclick="createTree();">Create Tree</button>
         <button id="destroy" onclick="destroyTree();" disabled>Destroy Tree</button>
+        <div id="container"></div>
 </body>
 </html>
