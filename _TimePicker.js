@@ -202,7 +202,12 @@ dojo.declare("dijit._TimePicker",
 
 			// assign typematic mouse listeners to the arrow buttons
 			this.connect(this.timeMenu, dojo.isIE ? "onmousewheel" : 'DOMMouseScroll', "_mouseWheeled");
-			var typematic = dijit.typematic.addMouseListener;
+			var _this = this;
+			var typematic = function(){
+				_this._connects.push(
+					dijit.typematic.addMouseListener.apply(null, arguments)
+				);
+			};
 			typematic(this.upArrow,this,this._onArrowUp, 0.8, 500);
 			typematic(this.downArrow,this,this._onArrowDown, 0.8, 500);
 			

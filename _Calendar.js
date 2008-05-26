@@ -139,9 +139,11 @@ dojo.declare(
 			// Set up repeating mouse behavior
 			var _this = this;
 			var typematic = function(nodeProp, dateProp, adj){
-				dijit.typematic.addMouseListener(_this[nodeProp], _this, function(count){
-					if(count >= 0){ _this._adjustDisplay(dateProp, adj); }
-				}, 0.8, 500);
+				_this._connects.push(
+					dijit.typematic.addMouseListener(_this[nodeProp], _this, function(count){
+						if(count >= 0){ _this._adjustDisplay(dateProp, adj); }
+					}, 0.8, 500)
+				);
 			};
 			typematic("incrementMonth", "month", 1);
 			typematic("decrementMonth", "month", -1);
