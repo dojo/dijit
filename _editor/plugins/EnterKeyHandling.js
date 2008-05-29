@@ -52,7 +52,8 @@ dojo.declare("dijit._editor.plugins.EnterKeyHandling", dijit._editor._Plugin, {
 	onKeyPressed: function(e){
 		if(this._checkListLater){
 			if(dojo.withGlobal(this.editor.window, 'isCollapsed', dijit)){
-				if(!dojo.withGlobal(this.editor.window, 'hasAncestorElement', dijit._editor.selection, ['LI'])){
+				var liparent=dojo.withGlobal(this.editor.window, 'getAncestorElement', dijit._editor.selection, ['LI']);
+				if(!liparent){
 					//circulate the undo detection code by calling RichText::execCommand directly
 					dijit._editor.RichText.prototype.execCommand.call(this.editor, 'formatblock',this.blockNodeForEnter);
 					//set the innerHTML of the new block node
@@ -61,11 +62,11 @@ dojo.declare("dijit._editor.plugins.EnterKeyHandling", dijit._editor._Plugin, {
 						block.innerHTML=this.bogusHtmlContent;
 						if(dojo.isIE){
 							//the following won't work, it will move the caret to the last list item in the previous list
-//							var newrange = dijit.range.create();
-//							newrange.setStart(block.firstChild,0);
-//							var selection = dijit.range.getSelection(this.editor.window)
-//							selection.removeAllRanges();
-//							selection.addRange(newrange);
+							/*var newrange = dijit.range.create();
+							newrange.setStart(block.firstChild,0);
+							var selection = dijit.range.getSelection(this.editor.window)
+							selection.removeAllRanges();
+							selection.addRange(newrange);*/
 							//move to the start by move backward one char
 							var r = this.editor.document.selection.createRange();
 							r.move('character',-1);
@@ -73,6 +74,22 @@ dojo.declare("dijit._editor.plugins.EnterKeyHandling", dijit._editor._Plugin, {
 						}
 					}else{
 						alert('onKeyPressed: Can not find the new block node'); //FIXME
+					}
+				}else{
+					
+					if(dojo.isMoz){
+						if(liparent.parentNode.parentNode.nodeName=='LI'){
+							liparent=liparent.parentNode.parentNode;
+						}
+					}
+					var fc=liparent.firstChild;
+					if(fc && fc.nodeType==1 && (fc.nodeName=='UL' || fc.nodeName=='OL')){
+						liparent.insertBefore(fc.ownerDocument.createTextNode('\xA0'),fc);
+						var newrange = dijit.range.create();
+						newrange.setStart(liparent.firstChild,0);
+						var selection = dijit.range.getSelection(this.editor.window,true)
+						selection.removeAllRanges();
+						selection.addRange(newrange);
 					}
 				}
 			}
