@@ -104,18 +104,18 @@ dojo.declare("dijit._editor.plugins.EnterKeyHandling", dijit._editor._Plugin, {
 		}
 	},
 	bogusHtmlContent: '&nbsp;',
-	blockNodes: /^(?:H1|H2|H3|H4|H5|H6|LI)$/,
+	blockNodes: /^(?:P|H1|H2|H3|H4|H5|H6|LI)$/,
 	handleEnterKey: function(e){
 		// summary: manually handle enter key event to make the behavior consistant across
 		//	all supported browsers. See property blockNodeForEnter for available options
 		if(!this.blockNodeForEnter){ return true; } //let browser handle this
-		var selection, range, newrange;
+		var selection, range, newrange, doc=this.editor.document,br;
 		if(e.shiftKey  //shift+enter always generates <br>
 			|| this.blockNodeForEnter=='BR'){
 			var parent = dojo.withGlobal(this.editor.window, "getParentElement", dijit._editor.selection);
 			var header = dijit.range.getAncestor(parent,this.blockNodes);
 			if(header){
-				if(header.tagName=='LI'){
+				if(!e.shiftKey && header.tagName=='LI'){
 					return true; //let brower handle
 				}
 				selection = dijit.range.getSelection(this.editor.window);
@@ -124,11 +124,27 @@ dojo.declare("dijit._editor.plugins.EnterKeyHandling", dijit._editor._Plugin, {
 					range.deleteContents();
 				}
 				if(dijit.range.atBeginningOfContainer(header, range.startContainer, range.startOffset)){
-					dojo.place(this.editor.document.createElement('br'), header, "before");
+					if(e.shiftKey){
+						br=doc.createElement('br');
+						newrange = dijit.range.create();
+						header.insertBefore(br,header.firstChild);
+						newrange.setStartBefore(br.nextSibling);
+						selection.removeAllRanges();
+						selection.addRange(newrange);
+					}else{
+						dojo.place(br, header, "before");
+					}
 				}else if(dijit.range.atEndOfContainer(header, range.startContainer, range.startOffset)){
-					dojo.place(this.editor.document.createElement('br'), header, "after");
 					newrange = dijit.range.create();
-					newrange.setStartAfter(header);
+					br=doc.createElement('br');
+					if(e.shiftKey){
+						header.appendChild(br);
+						header.appendChild(doc.createTextNode('\xA0'));
+						newrange.setStart(header.lastChild,0);
+					}else{
+						dojo.place(br, header, "after");
+						newrange.setStartAfter(header);
+					}
 
 					selection.removeAllRanges();
 					selection.addRange(newrange);
@@ -183,7 +199,7 @@ dojo.declare("dijit._editor.plugins.EnterKeyHandling", dijit._editor._Plugin, {
 			range = selection.getRangeAt(0);
 		}
 
-		var newblock = this.editor.document.createElement(this.blockNodeForEnter);
+		var newblock = doc.createElement(this.blockNodeForEnter);
 		newblock.innerHTML=this.bogusHtmlContent;
 		this.removeTrailingBr(block.blockNode);
 		if(dijit.range.atEndOfContainer(block.blockNode, range.endContainer, range.endOffset)){
