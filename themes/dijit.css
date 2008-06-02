@@ -473,10 +473,12 @@ table .dijitComboButton .dijitButtonNode {
 	z-index:-1;
 	top:0;
 	width:100%;
-	height:100%;
+}
+.dj_ie6 .dijitProgressBarFull {
+	height:1.6em;
 }
 
-.dijitProgressBarTile{
+.dijitProgressBarTile {
 	/* inner container for finished portion */
 	position:absolute;
 	overflow:hidden;
@@ -499,31 +501,26 @@ table .dijitComboButton .dijitButtonNode {
 	background-color:transparent !important;
 }
 
-.dj_iequirks .dijitProgressBarTile{
-	width:100%;
-	height:100%;
-}
-
-.dj_ie6 .dijitProgressBarTile{
+.dj_ie6 .dijitProgressBarTile {
 	/* width:auto works in IE6 with position:static but not position:absolute */
 	position:static;
-	/* height:auto does not work in IE6 */
-	height:100%;
+	/* height:auto or 100% does not work in IE6 */
+	height:1.6em;
 }
 
-.dijitProgressBarIndeterminate .dijitProgressBarLabel{
+.dijitProgressBarIndeterminate .dijitProgressBarLabel {
 	visibility:hidden;
 }
 
-.dijitProgressBarIndeterminate .dijitProgressBarTile{
+.dijitProgressBarIndeterminate .dijitProgressBarTile {
 	/* animated gif for 'indeterminate' mode */
 }
 
-.dijitProgressBarIndeterminateHighContrastImage{
+.dijitProgressBarIndeterminateHighContrastImage {
 	display:none;
 }
 
-.dijit_a11y .dijitProgressBarIndeterminate .dijitProgressBarIndeterminateHighContrastImage{
+.dijit_a11y .dijitProgressBarIndeterminate .dijitProgressBarIndeterminateHighContrastImage {
 	display:block;
 	position:absolute;
 	top:0;
@@ -534,26 +531,13 @@ table .dijitComboButton .dijitButtonNode {
 	height:auto;
 }
 
-.dijitProgressBarLabel{
+.dijitProgressBarLabel {
 	display:block;
 	position:static;
 	width:100%;
 	text-align:center;
 	background-color:transparent !important;
 }
-
-/* progress bar in vertical mode - TODO: remove? no longer supported? */
-.dijitProgressBarV .dijitProgressBarFull{
-	bottom:0;		/* start at the bottom */
-}
-
-.dj_ie6 .dijitProgressBarV .dijitProgressBarTile{
-	position:absolute;
-	/* can't use position:static here -- need absolute positioning to place
-	   the bar at the bottom of a vertical progressbar */
-	width:100%;
-}
-
 
 /****
 		dijit.Tooltip
