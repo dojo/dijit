@@ -81,7 +81,7 @@ dojo.declare("dijit.ProgressBar", [dijit._Widget, dijit._Templated], {
 	},
 
 	report: function(/*float*/percent){
-		// Generates message to show; may be overridden by user
+		// summary: Generates message to show; may be overridden by user
 		return dojo.number.format(percent, {type: "percent", places: this.places, locale: this.lang});
 	},
 
