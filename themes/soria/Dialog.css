@@ -41,7 +41,6 @@
 .soria .dijitDialogCloseIcon {
 	/* the default close icon for the dialog */
 	background : url("images/spriteRoundedIconsSmallBl.png") no-repeat right top;
-	float: right;
 	position: absolute;
 	vertical-align: middle;
 	right: 6px;

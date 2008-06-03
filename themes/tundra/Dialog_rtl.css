@@ -1,6 +1,5 @@
 /* Dialog */
 .dijitRtl .dijitDialogTitleBar .dijitDialogCloseIcon {
-	float: left;
 	right: auto;
 	left: 5px;
 }

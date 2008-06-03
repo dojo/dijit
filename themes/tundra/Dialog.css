@@ -46,7 +46,6 @@
 	/* the default close icon for the dialog */
 	/* background : url("images/spriteRoundedIconsSmall.png") no-repeat right top; */
 	background: url("images/tabClose.png") no-repeat right top;
-	float: right;
 	position: absolute;
 	vertical-align: middle;
 	right: 6px;
