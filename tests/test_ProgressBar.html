@@ -40,7 +40,7 @@
 
 		function go(){
 			//TODO: it's a little strange that id must be specified again?	
-			var theBar = new dijit.ProgressBar({id: "testBar", width: 400, annotate: true, maximum: 256, duration: 2000,
+			var theBar = new dijit.ProgressBar({id: "testBar", width: 400, maximum: 256, duration: 2000,
 				report:function(percent){
 					return dojo.string.substitute("${0} out of ${1} max chars", [this.progress, this.maximum]);
 				}
@@ -127,7 +127,7 @@
 	<br>
 	<input type="button" name="set" id="set" value="set!" />
 	<br>
-	<div style="width:400px" annotate="true"
+	<div style="width:400px"
 		maximum="200" id="setTestBar" progress="20" dojoType="dijit.ProgressBar"></div>
 
 	<h3>Test 2</h3>
@@ -142,20 +142,20 @@
 		maximum="256" id="smallTestBar" dojoType="dijit.ProgressBar"></div>		
 	<br />
 	Show decimal place:
-	<div places="1" style="width:400px" annotate="true"
+	<div places="1" style="width:400px"
 		maximum="256" id="testBarInt" dojoType="dijit.ProgressBar"></div>
 
 	<h3>Test 3</h3>
 	No explicit maximum (both 50%)
-	<div style="width:400px" annotate="true"
+	<div style="width:400px"
 		id="implied1" progress="50" dojoType="dijit.ProgressBar"></div>		
 	<br />
-	<div style="width:400px" annotate="true"
+	<div style="width:400px"
 		id="implied2" progress="50%" dojoType="dijit.ProgressBar"></div>
 
 	<h3>Test 4</h3>
 	<input type="button" name="startTimer" id="startTimer" value="Start Timer" />
-	<div style="width:400px" id="timerBar" annotate="true"
+	<div style="width:400px" id="timerBar"
 		maximum="100" progress="0" dojoType="dijit.ProgressBar"></div>
 
 	<h3>Test 5 - indeterminate progess</h3>
