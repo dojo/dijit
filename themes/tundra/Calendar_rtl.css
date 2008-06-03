@@ -8,9 +8,3 @@
 .dijitRtl .dijitCalendarIncrease {
 	background-position: 0px top;
 }
-.dj_ie6 .dijitRtl .dijitCalendarIncrease {
-	background-position: 0px top;
-}
-.dj_ie6 .dijitRtl .dijitCalendarDecrease {
-	background-position: -30px top;
-}

@@ -4,10 +4,13 @@
 	/* next/prev month buttons */
 	width:15px;
 	height:15px;
+	background-image: url("images/spriteRoundedIconsSmall.png");
+	background-repeat: no-repeat
 }
 .dj_ie6 .nihilo .dijitCalendarIncrementControl {
 	padding:.1em;
 	font-size:.1em;
+	background-image: url("images/spriteRoundedIconsSmall.gif");
 }
 
 .nihilo .dijitCalendarIncreaseInner,
@@ -16,17 +19,10 @@
 }
 
 .nihilo .dijitCalendarDecrease {
-	background:url("images/spriteRoundedIconsSmall.png") no-repeat top left;
+	background-position: top left;
 }
-.dj_ie6 .nihilo .dijitCalendarDecrease {
-	background:url("images/spriteRoundedIconsSmall.gif") no-repeat top left;
-}
-
 .nihilo .dijitCalendarIncrease {
-	background:url(images/spriteRoundedIconsSmall.png) no-repeat -30px top;
-}
-.dj_ie6 .nihilo .dijitCalendarIncrease {
-	background:url("images/spriteRoundedIconsSmall.gif") no-repeat -30px top;
+	background-position: -30px top;
 }
 
 .nihilo table.dijitCalendarContainer {
