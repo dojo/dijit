@@ -32,20 +32,14 @@
 }
 
 .soria .dijitMenuExpand {
-	display:none;
-}
-.soria .dijitMenuExpandEnabled {
 	/* margin-top:4px;  */
 	width:15px;
 	height:15px;
 	background:url('images/spriteRoundedIconsSmall.png') no-repeat -30px top;
 	display:block;
 }
-.dj_ie6 .soria .dijitMenuExpandEnabled {
+.dj_ie6 .soria .dijitMenuExpand {
 	background-image:url('images/spriteRoundedIconsSmall.gif');
-}
-.soria .dijitMenuExpandInner {
-	display:none;
 }
 
 .soria .dijitMenuSeparator {

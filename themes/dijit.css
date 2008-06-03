@@ -946,8 +946,11 @@ img.dijitColorPaletteUnder {
 	border: 1px #fff dotted !important;
 }
 
-.dijit_a11y .dijitMenuExpandInner {
-	display:block !important;
+.dijitMenuExpandA11y {
+	display: none;
+}
+.dijit_a11y .dijitMenuExpandA11y {
+	display: inline;
 }
 
 /* separator can be two pixels -- set border of either one to 0 to have only one */

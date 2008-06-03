@@ -340,9 +340,10 @@ dojo.declare("dijit.MenuItem",
 		+'dojoAttachEvent="onmouseenter:_onHover,onmouseleave:_onUnhover,ondijitclick:_onClick">'
 		+'<td class="dijitReset"><div class="dijitMenuItemIcon ${iconClass}" dojoAttachPoint="iconNode"></div></td>'
 		+'<td tabIndex="-1" class="dijitReset dijitMenuItemLabel" dojoAttachPoint="containerNode,focusNode" waiRole="menuitem"></td>'
-		+'<td class="dijitReset" dojoAttachPoint="arrowCell">'
-			+'<div class="dijitMenuExpand" dojoAttachPoint="expand" style="display:none">'
-			+'<span class="dijitInline dijitArrowNode dijitMenuExpandInner">+</span>'
+		+'<td class="dijitReset dijitMenuArrowCell">'
+			+'<div dojoAttachPoint="arrowWrapper" style="display: none">'
+				+'<div class="dijitMenuExpand"></div>'
+				+'<span class="dijitMenuExpandA11y">+</span>'
 			+'</div>'
 		+'</td>'
 		+'</tr>',
@@ -448,8 +449,7 @@ dojo.declare("dijit.PopupMenuItem",
 		dojo.body().appendChild(this.popup.domNode);
 
 		this.popup.domNode.style.display="none";
-		dojo.addClass(this.expand, "dijitMenuExpandEnabled");
-		dojo.style(this.expand, "display", "");
+		dojo.style(this.arrowWrapper, "display", "");
 		dijit.setWaiState(this.containerNode, "haspopup", "true");
 	},
 	

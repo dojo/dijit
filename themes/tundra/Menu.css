@@ -27,9 +27,6 @@
 }
 
 .tundra .dijitMenuExpand {
-	display:none;
-}
-.tundra .dijitMenuExpandEnabled {
 	width: 7px;
 	height: 7px;
 	background-image: url('images/spriteArrows.png');
@@ -38,12 +35,8 @@
 	font-size: 1px;
 	display: block;
 }
-.dj_ie6 .tundra .dijitMenuExpandEnabled {
+.dj_ie6 .tundra .dijitMenuExpand {
 	background-image: url('images/spriteArrows.gif');
-}
-
-.tundra .dijitMenuExpandInner {
-	display:none;
 }
 
 .tundra .dijitMenuSeparator {

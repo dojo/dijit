@@ -32,20 +32,14 @@
 }
 
 .nihilo .dijitMenuExpand {
-	display:none;
-}
-.nihilo .dijitMenuExpandEnabled {
 	/* margin-top:4px;  */
 	width:15px;
 	height:15px;
 	background:url('images/spriteRoundedIconsSmall.png') no-repeat -30px top;
 	display:block;
 }
-.dj_ie6 .nihilo .dijitMenuExpandEnabled {
+.dj_ie6 .nihilo .dijitMenuExpand {
 	background-image:url('images/spriteRoundedIconsSmall.gif');
-}
-.nihilo .dijitMenuExpandInner {
-	display:none;
 }
 
 .nihilo .dijitMenuSeparator {

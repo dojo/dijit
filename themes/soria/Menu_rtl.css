@@ -6,10 +6,10 @@
 	padding-right: 0px;
 }
 
-.dijitRtl .dijitMenuItem .dijitMenuExpandEnabled {
+.dijitRtl .dijitMenuItem .dijitMenuExpand {
 	background:url('images/spriteRoundedIconsSmall.png') no-repeat left top;
 }
 
-.dj_ie6 .dijitRtl .dijitMenuItem .dijitMenuExpandEnabled {
+.dj_ie6 .dijitRtl .dijitMenuItem .dijitMenuExpand {
 	background:url('images/spriteRoundedIconsSmall.png') no-repeat left top;
 }
