@@ -336,11 +336,11 @@ dojo.declare("dijit.MenuItem",
 	// Make 3 columns
 	//   icon, label, and expand arrow (BiDi-dependent) indicating sub-menu
 	templateString:
-		 '<tr class="dijitReset dijitMenuItem" '
+		 '<tr class="dijitReset dijitMenuItem" dojoAttachPoint="focusNode" waiRole="menuitem" tabIndex="-1"'
 		+'dojoAttachEvent="onmouseenter:_onHover,onmouseleave:_onUnhover,ondijitclick:_onClick">'
-		+'<td class="dijitReset"><div class="dijitMenuItemIcon ${iconClass}" dojoAttachPoint="iconNode"></div></td>'
-		+'<td tabIndex="-1" class="dijitReset dijitMenuItemLabel" dojoAttachPoint="containerNode,focusNode" waiRole="menuitem"></td>'
-		+'<td class="dijitReset dijitMenuArrowCell">'
+		+'<td class="dijitReset" waiRole="presentation"><div class="dijitMenuItemIcon ${iconClass}" dojoAttachPoint="iconNode"></div></td>'
+		+'<td class="dijitReset dijitMenuItemLabel" dojoAttachPoint="containerNode"></td>'
+		+'<td class="dijitReset dijitMenuArrowCell" waiRole="presentation">'
 			+'<div dojoAttachPoint="arrowWrapper" style="display: none">'
 				+'<div class="dijitMenuExpand"></div>'
 				+'<span class="dijitMenuExpandA11y">+</span>'
@@ -367,6 +367,8 @@ dojo.declare("dijit.MenuItem",
 		if(this.label){
 			this.setLabel(this.label);
 		}
+		dojo.attr(this.containerNode, "id", (dojo.attr(this.domNode, "id")+"_text"));
+		dijit.setWaiState(this.domNode, "labelledby", dojo.attr(this.containerNode, "id"));
 	},
 
 	_onHover: function(){
@@ -394,7 +396,7 @@ dojo.declare("dijit.MenuItem",
 	focus: function(){
 		dojo.addClass(this.domNode, 'dijitMenuItemHover');
 		try{
-			dijit.focus(this.containerNode);
+			dijit.focus(this.focusNode);
 		}catch(e){
 			// this throws on IE (at least) in some scenarios
 		}
@@ -412,7 +414,7 @@ dojo.declare("dijit.MenuItem",
 		// summary: enable or disable this menu item
 		this.disabled = value;
 		dojo[value ? "addClass" : "removeClass"](this.domNode, 'dijitMenuItemDisabled');
-		dijit.setWaiState(this.containerNode, 'disabled', value ? 'true' : 'false');
+		dijit.setWaiState(this.focusNode, 'disabled', value ? 'true' : 'false');
 	}
 });
 
@@ -450,7 +452,7 @@ dojo.declare("dijit.PopupMenuItem",
 
 		this.popup.domNode.style.display="none";
 		dojo.style(this.arrowWrapper, "display", "");
-		dijit.setWaiState(this.containerNode, "haspopup", "true");
+		dijit.setWaiState(this.focusNode, "haspopup", "true");
 	},
 	
 	destroyDescendants: function(){
