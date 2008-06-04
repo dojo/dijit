@@ -6,7 +6,7 @@
 
 .tundra .dijitMenuItem {
 	background-color: #f7f7f7;
-	font-family: menu;
+	font: menu;
 	margin: 0;
 }
 .tundra .dijitMenuPreviousButton, .tundra .dijitMenuNextButton {
