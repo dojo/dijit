@@ -178,6 +178,9 @@ dojo.declare("dijit.layout.AccordionPane",
 		this.inherited(arguments)
 		dojo.setSelectable(this.titleNode, false);
 		this.setSelected(this.selected);
+		
+		// This is a temp fix and should be looked at in #6842
+		dojo.removeClass(this.domNode, "dijitContentPane");
 	},
 
 	getTitleHeight: function(){
