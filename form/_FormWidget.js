@@ -130,12 +130,16 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 					// set a global event to handle mouseup, so it fires properly
 					//	even if the cursor leaves the button
 					var mouseUpConnector = this.connect(dojo.body(), "onmouseup", function(){
+						//if user clicks on the button, even if the mouse is released outside of it,
+						//this button should get focus (which mimics native browser buttons)
+						if(this._mouseDown && this.isFocusable()){
+							this.focus();
+						}
 						this._active = false;
 						this._mouseDown = false;
 						this._setStateClass();
 						this.disconnect(mouseUpConnector);
 					});
-					if(this.isFocusable()){ this.focus(); }
 					break;
 			}
 			this._setStateClass();
@@ -147,7 +151,7 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 	},
 
 	focus: function(){
-		setTimeout(dojo.hitch(this, dijit.focus, this.focusNode), 0); // cannot call focus() from an event handler directly
+		dijit.focus(this.focusNode);
 	},
 
 	_setStateClass: function(){
