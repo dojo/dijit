@@ -26,11 +26,6 @@
 .dijitRtl .dijitTab .dijitClosable .closeImage {
 	right:auto;
 	left:3px;
-	background-position: -60px top;
-}
-
-.dj_ie .dijitRtl .dijitTab .dijitClosable .closeImage {
-	width:12px !important;
 }
 
 .dijitRtl .dijitAlignLeft .dijitTab,
