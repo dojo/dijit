@@ -30,11 +30,14 @@ dojo.declare(
 
 		_verticalSpace: 0,
 
+		// class: String
+		//	Class name to apply to this.domNode
+		"class": "dijitAccordionContainer",
+		
 		postCreate: function(){
 			this.domNode.style.overflow = "hidden";
 			this.inherited(arguments); 
 			dijit.setWaiRole(this.domNode, "tablist");
-			dojo.addClass(this.domNode, "dijitAccordionContainer");
 		},
 
 		startup: function(){

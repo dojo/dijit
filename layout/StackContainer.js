@@ -21,11 +21,14 @@ dojo.declare(
 	//	Publishes topics [widgetId]-addChild, [widgetId]-removeChild, and [widgetId]-selectChild
 	//
 	//	Can be base class for container, Wizard, Show, etc.
-	// 
-	//
+
 	// doLayout: Boolean
 	//  if true, change the size of my currently displayed child to match my size
 	doLayout: true,
+
+	// class: String
+	//	Class name to apply to this.domNode
+	"class": "dijitStackContainer",
 
 	_started: false,
 /*=====
@@ -72,23 +75,24 @@ dojo.declare(
 		this.inherited(arguments);
 	},
 
-	_setupChild: function(/*Widget*/ page){
+	_setupChild: function(/*Widget*/ child){
 		// Summary: prepare the given child
 
-		page.domNode.style.display = "none";
+		this.inherited(arguments);
+
+		child.domNode.style.display = "none";
 
 		// since we are setting the width/height of the child elements, they need
 		// to be position:relative, or IE has problems (See bug #2033)
-		page.domNode.style.position = "relative";
+		child.domNode.style.position = "relative";
 
-		return page; // dijit._Widget
+		return child; // dijit._Widget
 	},
 
 	addChild: function(/*Widget*/ child, /*Integer?*/ insertIndex){
 		// summary: Adds a widget to the stack
 		 
-		dijit._Container.prototype.addChild.apply(this, arguments);
-		child = this._setupChild(child);
+		this.inherited(arguments);
 
 		if(this._started){
 			// in case the tab titles have overflowed from one line to two lines
@@ -106,7 +110,7 @@ dojo.declare(
 	removeChild: function(/*Widget*/ page){
 		// summary: Removes the pane from the stack
 
-		dijit._Container.prototype.removeChild.apply(this, arguments);
+		this.inherited(arguments);
 
 		// If we are being destroyed than don't run the code below (to select another page), because we are deleting
 		// every page one by one

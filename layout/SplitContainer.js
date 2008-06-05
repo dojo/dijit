@@ -42,15 +42,19 @@ dojo.declare("dijit.layout.SplitContainer",
 	//		Save splitter positions in a cookie
 	persist: true,
 
+	// class: String
+	//	Class name to apply to this.domNode
+	"class": "dijitSplitContainer",
+
 	postMixInProperties: function(){
 		this.inherited("postMixInProperties",arguments);
 		this.isHorizontal = (this.orientation == 'horizontal');
 	},
 
 	postCreate: function(){
-		this.inherited("postCreate",arguments);
+		this.inherited(arguments);
 		this.sizers = [];
-		dojo.addClass(this.domNode, "dijitSplitContainer");
+
 		// overflow has to be explicitly hidden for splitContainers using gekko (trac #1435)
 		// to keep other combined css classes from inadvertantly making the overflow visible
 		if(dojo.isMozilla){
@@ -90,7 +94,7 @@ dojo.declare("dijit.layout.SplitContainer",
 
 		dojo.forEach(this.getChildren(), function(child, i, children){
 			// attach the children and create the draggers
-			this._injectChild(child);
+			this._setupChild(child);
 
 			if(i < children.length-1){
 				this._addSizer();
@@ -104,7 +108,8 @@ dojo.declare("dijit.layout.SplitContainer",
 		this.inherited(arguments); 
 	},
 
-	_injectChild: function(child){
+	_setupChild: function(/*Widget*/ child){
+		this.inherited(arguments);
 		child.domNode.style.position = "absolute";
 		dojo.addClass(child.domNode, "dijitSplitPane");
 	},
@@ -157,11 +162,10 @@ dojo.declare("dijit.layout.SplitContainer",
 		// child: a widget to add
 		// insertIndex: postion in the "stack" to add the child widget
 		
-		this.inherited("addChild",arguments); 
+		this.inherited(arguments); 
 
 		if(this._started){
 			// Do the stuff that startup() does for each widget
-			this._injectChild(child);
 			var children = this.getChildren();
 			if(children.length > 1){
 				this._addSizer();

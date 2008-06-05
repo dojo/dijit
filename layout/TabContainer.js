@@ -15,11 +15,15 @@ dojo.declare("dijit.layout.TabContainer",
 	//
 	//	Publishes topics [widgetId]-addChild, [widgetId]-removeChild, and [widgetId]-selectChild
 	//	(where [widgetId] is the id of the TabContainer itself.
-	//
+
 	// tabPosition: String
 	//   Defines where tabs go relative to tab content.
 	//   "top", "bottom", "left-h", "right-h"
 	tabPosition: "top",
+
+	// class: String
+	//	Class name to apply to this.domNode
+	"class": "dijitTabContainer",
 
 	templateString: null,	// override setting in StackContainer
 	templatePath: dojo.moduleUrl("dijit.layout", "templates/TabContainer.html"),

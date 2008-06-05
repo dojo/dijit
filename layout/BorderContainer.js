@@ -46,6 +46,10 @@ dojo.declare(
 	//		Save splitter positions in a cookie.
 	persist: false,	// Boolean
 
+	// class: String
+	//	Class name to apply to this.domNode
+	"class": "dijitBorderContainer",
+
 	// _splitterClass: String
 	// 		Optional hook to override the default Splitter widget used by BorderContainer
 	_splitterClass: "dijit.layout._Splitter",
@@ -55,7 +59,6 @@ dojo.declare(
 
 		this._splitters = {};
 		this._splitterThickness = {};
-		dojo.addClass(this.domNode, "dijitBorderContainer");
 	},
 
 	startup: function(){
@@ -74,9 +77,12 @@ dojo.declare(
 	_setupChild: function(/*Widget*/child){
 		var region = child.region;
 		if(region){
-//			dojo.addClass(child.domNode, "dijitBorderContainerPane");
-			child.domNode.style.position = "absolute"; // bill says not to set this in CSS, since we can't keep others
-				// from destroying the class list
+			this.inherited(arguments);
+
+			// set position directly; we could set a class name like dijitBorderContainerPane with
+			// position:absolute but it might be overridden by (for example) a position:relative
+			// in the dijitTabContainer class
+			child.domNode.style.position = "absolute"; 
 
 			var ltr = this.isLeftToRight();
 			if(region == "leading"){ region = ltr ? "left" : "right"; }
@@ -110,7 +116,6 @@ dojo.declare(
 
 	addChild: function(/*Widget*/ child, /*Integer?*/ insertIndex){
 		this.inherited(arguments);
-		this._setupChild(child);
 		if(this._started){
 			this._layoutChildren(); //OPT
 		}
@@ -130,6 +135,7 @@ dojo.declare(
 		if(this._started){
 			this._layoutChildren(child.region);
 		}
+		this.inherited(arguments);
 	},
 
 	_layoutChildren: function(/*String?*/changedRegion){

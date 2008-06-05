@@ -30,11 +30,14 @@ dojo.declare("dijit.layout.LayoutContainer",
 	// |		<div dojoType="dijit.layout.ContentPane" layoutAlign="left" style="width: 200px;">table of contents</div>
 	// |		<div dojoType="dijit.layout.ContentPane" layoutAlign="client">client area</div>
 	// |	</div>
-	// |
-	// |	Lays out each child in the natural order the children occur in.
-	// |	Basically each child is laid out into the "remaining space", where "remaining space" is initially
-	// |	the content area of this widget, but is reduced to a smaller rectangle each time a child is added.
-	//	
+	//
+	//	Lays out each child in the natural order the children occur in.
+	//	Basically each child is laid out into the "remaining space", where "remaining space" is initially
+	//	the content area of this widget, but is reduced to a smaller rectangle each time a child is added.
+
+	// class: String
+	//	Class name to apply to this.domNode
+	"class": "dijitLayoutContainer",
 
 	constructor: function(){
 		dojo.deprecated("dijit.layout.LayoutContainer is deprecated", "use BorderContainer instead", 2.0);
@@ -45,14 +48,14 @@ dojo.declare("dijit.layout.LayoutContainer",
 	},
 
 	addChild: function(/*Widget*/ child, /*Integer?*/ insertIndex){
-		dijit._Container.prototype.addChild.apply(this, arguments);
+		this.inherited(arguments);
 		if(this._started){
 			dijit.layout.layoutChildren(this.domNode, this._contentBox, this.getChildren());
 		}
 	},
 
 	removeChild: function(/*Widget*/ widget){
-		dijit._Container.prototype.removeChild.apply(this, arguments);
+		this.inherited(arguments);
 		if(this._started){
 			dijit.layout.layoutChildren(this.domNode, this._contentBox, this.getChildren());
 		}
