@@ -448,7 +448,8 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 	//		set height to fix the editor at a specific height, with scrolling.
 	//		By default, this is 300px. If you want to have the editor always
 	//		resizes to accommodate the content, use AlwaysShowToolbar plugin
-	//		and set height=""
+	//		and set height="". If this editor is used within a layout widget,
+	//		set height="100%".
 	height: "300px",
 
 	// minHeight: String
@@ -661,8 +662,8 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 			this.domNode.innerHTML = " <br>";
 		}
 
-		this.editingArea = this.domNode; // dojo.doc.createElement("div");
-		// this.domNode.appendChild(this.editingArea);
+		this.editingArea = this.domNode.ownerDocument.createElement("div");
+		this.domNode.appendChild(this.editingArea);
 
 		if(this.name != "" && (!dojo.config["useXDomain"] || dojo.config["allowXdRichTextSave"])){
 			var saveTextarea = dojo.byId(dijit._scopeName + "._editor.RichText.savedContent");
@@ -694,21 +695,18 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 	},
 
 	_writeOpen: function(html){
-		// resurrected from 0.3.x
-
 		var en = this.editNode = dojo.doc.createElement("div");
 		en.innerHTML = html;
 		en.contentEditable = true;
 		if(this.height){
 			en.style.height = this.height;
 		}
-		en.style.border = "5px solid black";
 
 		if(this.height){
 			this.editNode.style.overflowY = "scroll";
 		}
 
-		this.domNode.appendChild(this.editNode);
+		this.editingArea.appendChild(this.editNode);
 	
 		this.window = window;
 		this.document = dojo.doc;

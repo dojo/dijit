@@ -129,6 +129,19 @@ dojo.declare(
 				plugin.setToolbar(this.toolbar);
 			}
 		},
+		//the following 3 functions are required to make the editor play nice under a layout widget, see #4070
+		startup: function(){
+			//console.log('startup',arguments);
+		},
+		resize: function(){
+			dijit.layout._LayoutWidget.prototype.resize.apply(this,arguments);
+		},
+		layout: function(){
+			this.editingArea.style.height=(this._contentBox.h - dojo.marginBox(this.toolbar.domNode).h)+"px";
+			if(this.iframe){
+				this.iframe.style.height="100%";
+			}
+		},
 		/* beginning of custom undo/redo support */
 
 		// customUndo: Boolean
