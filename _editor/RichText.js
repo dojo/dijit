@@ -332,23 +332,11 @@ dijit._editor.RichTextIframeMixin = {
 
 	setAttribute: function(/*String*/name,value){
 		if(name == 'disabled'){
-			if(!dojo.isMoz){
-				dijit._editor.RichText.prototype.setDisabled.call(this, disabled);
-				return;
-			}
 			value = Boolean(value);
-			this.document.designMode = value ? 'off' : 'on';
-			if(!value && this._mozSettingProps){
-				var ps = this._mozSettingProps;
-				for(var n in ps){
-					if(ps.hasOwnProperty(n)){
-						try{
-							this.document.execCommand(n,false,ps[n]);
-						}catch(e){}
-					}
-				}
+			if(dojo.isMoz){
+				this.document.designMode = value ? 'off' : 'on';
 			}
-			this.disabled = value;
+			dijit._editor.RichText.prototype.setAttribute.call(this, name, value);
 		}
 	},
 
@@ -733,6 +721,16 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 			value = Boolean(value);
 			this.editNode.contentEditable = !value;
 			this.disabled = value;
+			if(!value && this._mozSettingProps){
+				var ps = this._mozSettingProps;
+				for(var n in ps){
+					if(ps.hasOwnProperty(n)){
+						try{
+							this.document.execCommand(n,false,ps[n]);
+						}catch(e){}
+					}
+				}
+			}
 		}
 	},
 	setDisabled: function(/*Boolean*/ disabled){
