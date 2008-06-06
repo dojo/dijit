@@ -330,23 +330,26 @@ dijit._editor.RichTextIframeMixin = {
 		dojo.withGlobal(this.window,'query', dojo, ['link:[href="'+url+'"]']).orphan()
 	},
 
-	setDisabled: function(/*Boolean*/ disabled){
-		if(!dojo.isMoz){
-			dijit._editor.RichText.prototype.setDisabled.call(this, disabled);
-			return;
-		}
-		this.document.designMode = disabled ? 'off' : 'on';
-		if(!disabled && this._mozSettingProps){
-			var ps=this._mozSettingProps;
-			for(var n in ps){
-				if(ps.hasOwnProperty(n)){
-					try{
-						this.document.execCommand(n,false,ps[n]);
-					}catch(e){}
+	setAttribute: function(/*String*/name,value){
+		if(name == 'disabled'){
+			if(!dojo.isMoz){
+				dijit._editor.RichText.prototype.setDisabled.call(this, disabled);
+				return;
+			}
+			value = Boolean(value);
+			this.document.designMode = value ? 'off' : 'on';
+			if(!value && this._mozSettingProps){
+				var ps = this._mozSettingProps;
+				for(var n in ps){
+					if(ps.hasOwnProperty(n)){
+						try{
+							this.document.execCommand(n,false,ps[n]);
+						}catch(e){}
+					}
 				}
 			}
+			this.disabled = value;
 		}
-		this.disabled = disabled;
 	},
 
 	blur: function(){
@@ -725,10 +728,16 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 	disabled: true,
 	_mozSettingProps: {'styleWithCSS':false},
 
+	setAttribute: function(/*String*/ name, value){
+		if(name=='disabled'){
+			value = Boolean(value);
+			this.editNode.contentEditable = !value;
+			this.disabled = value;
+		}
+	},
 	setDisabled: function(/*Boolean*/ disabled){
-		// console.debug("setDisabled:", disabled);
-		this.editNode.contentEditable = !disabled;
-		this.disabled = disabled;
+		dojo.deprecated('dijit.Editor::setDisabled is deprecated','use dijit.Editor::setAttribute("disabled",boolean) instead', 2);
+		this.setAttribute('disabled',disabled);
 	},
 
 /* Event handlers
@@ -746,13 +755,13 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 		}
 
 		try{
-			this.setDisabled(true);
-			this.setDisabled(false);
+			this.setAttribute('disabled',true);
+			this.setAttribute('disabled',false);
 		}catch(e){
 			// Firefox throws an exception if the editor is initially hidden
 			// so, if this fails, try again onClick by adding "once" advice
 			var handle = dojo.connect(this, "onClick", this, function(){
-				this.setDisabled(false);
+				this.setAttribute('disabled',false);
 				dojo.disconnect(handle);
 			});
 		}
