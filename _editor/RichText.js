@@ -706,12 +706,12 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 		}
 
 		if(this.height){
-			this.editNode.style.overflowY = "scroll";
+			en.style.overflowY = "auto";
 		}
 
-		this.editingArea.appendChild(this.editNode);
-	
-		this.window = window;
+		this.editingArea.appendChild(en);
+
+		this.window = dojo.global;
 		this.document = dojo.doc;
 
 		if(dojo.isIE){
