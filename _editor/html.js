@@ -46,7 +46,7 @@ dijit._editor.getNodeHtml=function(/* DomNode */node){
 							default:
 								val = node.getAttribute(key);
 						}
-						attrarray.push([key, val]);
+						attrarray.push([key, val.toString()]);
 					}
 				}
 			}else{
