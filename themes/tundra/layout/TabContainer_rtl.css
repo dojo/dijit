@@ -1,80 +1,80 @@
-.dijitRtl .dijitTab {
+.dijitRtl .tundra .dijitTab {
 	margin-right:0;
 	margin-left:5px;		/* space between one tab and the next in top/bottom mode */
 }
 
-.dijitRtl .dijitTab .dijitTabInnerDiv {
+.dijitRtl .tundra .dijitTab .dijitTabInnerDiv {
 	border-left:none;
 	border-right:1px solid #fff;
 }
 
-.dijitRtl .dijitTab .dijitClosable {
+.dijitRtl .tundra .dijitTab .dijitClosable {
 	padding: 6px 10px 4px 20px;
 }
 
-.dijitRtl .dijitTab .closeImage {
+.dijitRtl .tundra .dijitTab .closeImage {
 	position:static;
 	padding: 0px 12px 0px 0px;
 }
 
-.dj_gecko .dijitTab .closeImage {
+.dj_gecko .tundra .dijitTab .closeImage {
 	position:relative;
 	float:none;
 	padding:0;
 }
 
-.dijitRtl .dijitTab .dijitClosable .closeImage {
+.dijitRtl .tundra .dijitTab .dijitClosable .closeImage {
 	right:auto;
 	left:3px;
 }
 
-.dijitRtl .dijitAlignLeft .dijitTab,
-.dijitRtl .dijitAlignRight .dijitTab {
+.dijitRtl .tundra .dijitAlignLeft .dijitTab,
+.dijitRtl .tundra .dijitAlignRight .dijitTab {
 	margin-left:0px;
 }
 
-.dijitRtl .dijitAlignBottom .dijitTab .dijitClosable .closeImage {
+.dijitRtl .tundra .dijitAlignBottom .dijitTab .dijitClosable .closeImage {
 	right:auto;
 	left:3px;
 }
 
-.dijitRtl .dijitAlignRight .dijitTab .dijitTabInnerDiv {
+.dijitRtl .tundra .dijitAlignRight .dijitTab .dijitTabInnerDiv {
 	padding-left:10px;
 	padding-right:20px;
 }
 
-.dijitRtl .dijitAlignLeft .dijitTab .dijitTabInnerDiv {
+.dijitRtl .tundra .dijitAlignLeft .dijitTab .dijitTabInnerDiv {
 	padding-left:20px;
 	padding-right:10px;
 }
 
-.dj_ie-rtl .dijitAlignLeft .dijitTab .dijitTabInnerDiv {
+.dj_ie-rtl .tundra .dijitAlignLeft .dijitTab .dijitTabInnerDiv {
 	padding-left:19px;
 }
 
-.dijitRtl .dijitAlignRight .dijitTab .dijitClosable .closeImage {
+.dijitRtl .tundra .dijitAlignRight .dijitTab .dijitClosable .closeImage {
 	left:auto;
 	right:3px;
 }
 
-.dj_ie7-rtl .dijitAlignLeft .dijitTab  .dijitTabContent{
+.dj_ie7-rtl .tundra .dijitAlignLeft .dijitTab  .dijitTabContent{
 	position:relative;
 }
 
-.dj_ie7-rtl .dijitAlignLeft .dijitTab .dijitClosable .closeImage{
+.dj_ie7-rtl .tundra .dijitAlignLeft .dijitTab .dijitClosable .closeImage{
 	position:absolute;
 	top:2px;
 	left:3px;
 }
 
-.dj_ie6-rtl .dijitAlignLeft .dijitTab .dijitClosable .closeImage{
+.dj_ie6-rtl .tundra .dijitAlignLeft .dijitTab .dijitClosable .closeImage{
 	float:left;
 }
 
-.dj_ie6-rtl .dijitAlignLeft .dijitTab .dijitClosable .tabLabel{
+.dj_ie6-rtl .tundra .dijitAlignLeft .dijitTab .dijitClosable .tabLabel{
 	float:right;
 }
 
-.dj_ie .dijitTab .dijitTabInnerDiv{
+.dj_ie .tundra .dijitTab .dijitTabInnerDiv{
 	width : 1%;
 }

@@ -1,9 +1,9 @@
 /* Calendar */
 
-.dijitRtl .dijitCalendarDecrease {
+.dijitRtl .soria .dijitCalendarDecrease {
 	background-position: -30px top;
 }
 
-.dijitRtl .dijitCalendarIncrease {
+.dijitRtl .soria .dijitCalendarIncrease {
 	background-position: 0px top;
 }

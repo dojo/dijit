@@ -1,11 +1,11 @@
 /* Editor */
-.dijitRtl .dijitEditorIcon {
+.dijitRtl .nihilo .dijitEditorIcon {
 	background-image: url('images/editor_rtl.gif'); /* editor icons sprite image */
 }
 
 
 /* Toolbar */
 
-.dijitRtl .dijitToolbar .dijitToolbarSeparator {
+.dijitRtl .nihilo .dijitToolbar .dijitToolbarSeparator {
 	background-image: url('images/editor_rtl.gif');
 }

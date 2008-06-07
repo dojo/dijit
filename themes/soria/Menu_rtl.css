@@ -1,15 +1,14 @@
-
 /* Menu */
 
-.dijitRtl .dijitMenuItem .dijitMenuItemIcon {
+.dijitRtl .soria .dijitMenuItem .dijitMenuItemIcon {
 	padding-left: 3px;
 	padding-right: 0px;
 }
 
-.dijitRtl .dijitMenuItem .dijitMenuExpand {
+.dijitRtl .soria .dijitMenuItem .dijitMenuExpand {
 	background:url('images/spriteRoundedIconsSmall.png') no-repeat left top;
 }
 
-.dj_ie6-rtl .dijitMenuItem .dijitMenuExpand {
+.dj_ie6-rtl .soria .dijitMenuItem .dijitMenuExpand {
 	background:url('images/spriteRoundedIconsSmall.png') no-repeat left top;
 }
