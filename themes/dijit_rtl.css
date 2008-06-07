@@ -1,7 +1,7 @@
-.dj_gecko .dijitRtl .dijitInputField {
+.dj_gecko-rtl .dijitInputField {
 	direction: ltr; /* Firefox needs this - probably a bug */
 }
-.dj_gecko .dijitRtl .dijitInputField * {
+.dj_gecko-rtl .dijitInputField * {
 	direction: rtl; /* Firefox needs dijitInputField to be ltr, so fix the contained tags */
 }
 
@@ -56,7 +56,7 @@
 	right:-6px;
 }
 
-.dj_ie .dijitRtl .dijitSliderImageHandleV {
+.dj_ie-rtl .dijitSliderImageHandleV {
 	right:-10px;
 }
 
@@ -69,28 +69,28 @@
 	float:right;
 }
 
-.dj_gecko .dijitRtl .dijitRuleContainerV {
+.dj_gecko-rtl .dijitRuleContainerV {
 	float:left;
 }
 
-.dj_ie .dijitRtl .dijitRuleContainerV {
+.dj_ie-rtl .dijitRuleContainerV {
 	text-align:right;
 }
 
-.dj_ie .dijitRtl .dijitRuleLabelV {
+.dj_ie-rtl .dijitRuleLabelV {
 	text-align:left;
 }
 
-.dj_ie .dijitRtl .dijitRuleLabelH {
+.dj_ie-rtl .dijitRuleLabelH {
 	zoom:1;
 }
 
-.dj_ie .dijitRtl .dijitSliderProgressBarH {
+.dj_ie-rtl .dijitSliderProgressBarH {
 	right:0;
 	left:auto;
 }
 
-.dj_gecko .dijitRtl .dijitSliderProgressBarH {
+.dj_gecko-rtl .dijitSliderProgressBarH {
 	float:right;
 	right:0;
 	left:auto;
@@ -102,55 +102,55 @@
 	float:right;
 }
 
-.dj_ie .dijitRtl .dijitTab,
-.dj_ie .dijitRtl .dijitTab .dijitTabInnerDiv,
-.dj_ie .dijitRtl .dijitTab .dijitTabInnerDiv span {
+.dj_ie-rtl .dijitTab,
+.dj_ie-rtl .dijitTab .dijitTabInnerDiv,
+.dj_ie-rtl .dijitTab .dijitTabInnerDiv span {
 	position:static;
 	zoom:1;
 }
 
-.dj_ie .dijitRtl .dijitTabContainer .dijitAlignLeft {
+.dj_ie-rtl .dijitTabContainer .dijitAlignLeft {
 	margin-left:1px !important;
 }
 
-.dj_ie .dijitRtl .dijitTabContainer .dijitAlignRight {
+.dj_ie-rtl .dijitTabContainer .dijitAlignRight {
 	margin-right:1px !important;
 }
 
-.dj_ie6 .dijitRtl .dijitTab {
+.dj_ie6-rtl .dijitTab {
 	/* force ie6 to render each tab based on the tab's label */
 	width:1px;
 }
 
-.dj_ie7 .dijitRtl .dijitTabContainer .dijitAlignLeft {
+.dj_ie7-rtl .dijitTabContainer .dijitAlignLeft {
 	/* fix the offset between tabs and the pane */
 	margin-left:1px !important;
 }
 
-.dj_ie7 .dijitRtl .dijitTabContainer .dijitAlignRight {
+.dj_ie7-rtl .dijitTabContainer .dijitAlignRight {
 	/* fix the offset between tabs and the pane */
 	margin-right:1px !important;
 }
 
-.dj_ie6 .dijitRtl .dijitTabContainer .dijitAlignLeft {
+.dj_ie6-rtl .dijitTabContainer .dijitAlignLeft {
 	overflow-x:visible;
 	margin-left:2px !important;
 }
 
-.dj_ie6 .dijitRtl .dijitTabContainer .dijitAlignRight {
+.dj_ie6-rtl .dijitTabContainer .dijitAlignRight {
 	overflow-x:visible;
 	margin-right:2px !important;
 }
 
-.dj_ie7 .dijitRtl .dijitTab .dijitTabInnerDiv {
+.dj_ie7-rtl .dijitTab .dijitTabInnerDiv {
 	float:left;
 }
 
-.dj_ie7 .dijitRtl .dijitTab .closeImage {
+.dj_ie7-rtl .dijitTab .closeImage {
 	padding: 0 0 0 12px;
 }
 
-.dj_ie .dijitRtl .dijitAlignRight .dijitTab {
+.dj_ie-rtl .dijitAlignRight .dijitTab {
 	position:relative;
 }
 

@@ -1,6 +1,6 @@
 .dijitRtl .dijitTitlePane .dijitClosed .dijitArrowNode {
 	background-position: 0px top;
 }
-.dj_ie6 .dijitRtl .dijitTitlePane .dijitClosed .dijitArrowNode {
+.dj_ie6-rtl .dijitTitlePane .dijitClosed .dijitArrowNode {
 	background-position: 0px top;
 }

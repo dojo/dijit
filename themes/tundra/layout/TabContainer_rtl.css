@@ -48,7 +48,7 @@
 	padding-right:10px;
 }
 
-.dj_ie .dijitRtl .dijitAlignLeft .dijitTab .dijitTabInnerDiv {
+.dj_ie-rtl .dijitAlignLeft .dijitTab .dijitTabInnerDiv {
 	padding-left:19px;
 }
 
@@ -57,21 +57,21 @@
 	right:3px;
 }
 
-.dj_ie7 .dijitRtl .dijitAlignLeft .dijitTab  .dijitTabContent{
+.dj_ie7-rtl .dijitAlignLeft .dijitTab  .dijitTabContent{
 	position:relative;
 }
 
-.dj_ie7 .dijitRtl .dijitAlignLeft .dijitTab .dijitClosable .closeImage{
+.dj_ie7-rtl .dijitAlignLeft .dijitTab .dijitClosable .closeImage{
 	position:absolute;
 	top:2px;
 	left:3px;
 }
 
-.dj_ie6 .dijitRtl .dijitAlignLeft .dijitTab .dijitClosable .closeImage{
+.dj_ie6-rtl .dijitAlignLeft .dijitTab .dijitClosable .closeImage{
 	float:left;
 }
 
-.dj_ie6 .dijitRtl .dijitAlignLeft .dijitTab .dijitClosable .tabLabel{
+.dj_ie6-rtl .dijitAlignLeft .dijitTab .dijitClosable .tabLabel{
 	float:right;
 }
 

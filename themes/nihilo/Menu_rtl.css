@@ -10,6 +10,6 @@
 	background:url('images/spriteRoundedIconsSmall.png') no-repeat left top;
 }
 
-.dj_ie6 .dijitRtl .dijitMenuItem .dijitMenuExpand {
+.dj_ie6-rtl .dijitMenuItem .dijitMenuExpand {
 	background:url('images/spriteRoundedIconsSmall.png') no-repeat left top;
 }
