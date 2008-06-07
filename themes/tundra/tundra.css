@@ -35,3 +35,14 @@
 @import url("Menu.css");
 @import url("Editor.css");
 @import url("ColorPalette.css");
+
+/* RTL files */
+@import url("../dijit_rtl.css");
+@import url("Calendar_rtl.css");
+@import url("Dialog_rtl.css");
+@import url("Editor_rtl.css");
+@import url("Menu_rtl.css");
+@import url("Tree_rtl.css");
+@import url("TitlePane_rtl.css");
+@import url("layout/TabContainer_rtl.css");
+@import url("form/Slider_rtl.css");
