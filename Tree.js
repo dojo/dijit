@@ -11,7 +11,7 @@ dojo.declare(
 	"dijit._TreeNode",
 	[dijit._Widget, dijit._Templated, dijit._Container, dijit._Contained],
 {
-	// summary
+	// summary:
 	//		Single node within a tree
 
 	// item: dojo.data.Item
@@ -246,7 +246,7 @@ dojo.declare(
 	},
 
 	makeExpandable: function(){
-		//summary
+		//summary:
 		//		if this node wasn't already showing the expando node,
 		//		turn it into one and call _setExpando()
 		this.isExpandable = true;
@@ -271,7 +271,7 @@ dojo.declare(
 	"dijit.Tree",
 	[dijit._Widget, dijit._Templated],
 {
-	// summary
+	// summary:
 	//	This widget displays hierarchical data from a store.  A query is specified
 	//	to get the "top level children" from a data store, and then those items are
 	//	queried for their children and so on (but lazily, as the user clicks the expand node).
@@ -475,7 +475,7 @@ dojo.declare(
 	// These just get passed to the model; they are here for back-compat
 
 	mayHaveChildren: function(/*dojo.data.Item*/ item){
-		// summary
+		// summary:
 		//		User overridable function to tell if an item has or may have children.
 		//		Controls whether or not +/- expando icon is shown.
 		//		(For efficiency reasons we may not want to check if an element actually
@@ -483,7 +483,7 @@ dojo.declare(
 	},
 
 	getItemChildren: function(/*dojo.data.Item*/ parentItem, /*function(items)*/ onComplete){
-		// summary
+		// summary:
 		// 		User overridable function that return array of child items of given parent item,
 		//		or if parentItem==null then return top items in tree
 	},
@@ -793,7 +793,7 @@ dojo.declare(
 	////////////////// Miscellaneous functions ////////////////
 
 	blurNode: function(){
-		// summary
+		// summary:
 		//	Removes focus from the currently focused node (which must be visible).
 		//	Usually not called directly (just call focusNode() on another node instead)
 		var node = this.lastFocused;
@@ -806,7 +806,7 @@ dojo.declare(
 	},
 
 	focusNode: function(/* _tree.Node */ node){
-		// summary
+		// summary:
 		//	Focus on the specified node (which must be visible)
 
 		// set focus so that the label will be voiced using screen readers
@@ -1007,7 +1007,7 @@ dojo.declare(
 	},
 
 	mayHaveChildren: function(/*dojo.data.Item*/ item){
-		// summary
+		// summary:
 		//		Tells if an item has or may have children.  Implementing logic here
 		//		avoids showing +/- expando icon for nodes that we know don't have children.
 		//		(For efficiency reasons we may not want to check if an element actually
@@ -1018,7 +1018,7 @@ dojo.declare(
 	},
 
 	getChildren: function(/*dojo.data.Item*/ parentItem, /*function(items)*/ onComplete, /*function*/ onError){
-		// summary
+		// summary:
 		// 		Calls onComplete() with array of child items of given parent item, all loaded.
 
 		var store = this.store;
@@ -1077,7 +1077,7 @@ dojo.declare(
 	// Write interface
 
 	newItem: function(/* Object? */ args, /*Item*/ parent){
-		// summary
+		// summary:
 		//		Creates a new item.   See dojo.data.api.Write for details on args.
 		//		Used in drag & drop when item from external source dropped onto tree.
 		var pInfo = {parent: parent, attribute: this.childrenAttrs[0]};
@@ -1085,7 +1085,7 @@ dojo.declare(
 	},
 
 	pasteItem: function(/*Item*/ childItem, /*Item*/ oldParentItem, /*Item*/ newParentItem, /*Boolean*/ bCopy){
-		// summary
+		// summary:
 		//		Move or copy an item from one parent item to another.
 		//		Used in drag & drop
 		var store = this.store,
@@ -1117,7 +1117,7 @@ dojo.declare(
 	// Callbacks
 	
 	onChange: function(/*dojo.data.Item*/ item){
-		// summary
+		// summary:
 		//		Callback whenever an item has changed, so that Tree
 		//		can update the label, icon, etc.   Note that changes
 		//		to an item's children or parent(s) will trigger an
@@ -1125,7 +1125,7 @@ dojo.declare(
 	},
 
 	onChildrenChange: function(/*dojo.data.Item*/ parent, /*dojo.data.Item[]*/ newChildrenList){
-		// summary
+		// summary:
 		//		Callback to do notifications about new, updated, or deleted items.
 	},
 
@@ -1170,7 +1170,7 @@ dojo.declare(
 });
 
 dojo.declare("dijit.tree.ForestStoreModel", dijit.tree.TreeStoreModel, {
-	// summary
+	// summary:
 	//		Interface between Tree and a dojo.store that doesn't have a root item, ie,
 	//		has multiple "top level" items.
 	//
@@ -1213,7 +1213,7 @@ dojo.declare("dijit.tree.ForestStoreModel", dijit.tree.TreeStoreModel, {
 	// Methods for traversing hierarchy
 
 	mayHaveChildren: function(/*dojo.data.Item*/ item){
-		// summary
+		// summary:
 		//		Tells if an item has or may have children.  Implementing logic here
 		//		avoids showing +/- expando icon for nodes that we know don't have children.
 		//		(For efficiency reasons we may not want to check if an element actually
@@ -1222,7 +1222,7 @@ dojo.declare("dijit.tree.ForestStoreModel", dijit.tree.TreeStoreModel, {
 	},
 
 	getChildren: function(/*dojo.data.Item*/ parentItem, /*function(items)*/ callback, /*function*/ onError){
-		// summary
+		// summary:
 		// 		Calls onComplete() with array of child items of given parent item, all loaded.
 		if(parentItem === this.root){
 			if(this.root.children){
@@ -1258,7 +1258,7 @@ dojo.declare("dijit.tree.ForestStoreModel", dijit.tree.TreeStoreModel, {
 	// Write interface
 
 	newItem: function(/* Object? */ args, /*Item*/ parent){
-		// summary
+		// summary:
 		//		Creates a new item.   See dojo.data.api.Write for details on args.
 		//		Used in drag & drop when item from external source dropped onto tree.
 		if(parent===this.root){
@@ -1276,7 +1276,7 @@ dojo.declare("dijit.tree.ForestStoreModel", dijit.tree.TreeStoreModel, {
 	},
 
 	pasteItem: function(/*Item*/ childItem, /*Item*/ oldParentItem, /*Item*/ newParentItem, /*Boolean*/ bCopy){
-		// summary
+		// summary:
 		//		Move or copy an item from one parent item to another.
 		//		Used in drag & drop
 		if(oldParentItem === this.root){
@@ -1303,7 +1303,7 @@ dojo.declare("dijit.tree.ForestStoreModel", dijit.tree.TreeStoreModel, {
 	// Callbacks
 	
 	onAddToRoot: function(/* item */ item){
-		// summary
+		// summary:
 		//		Called when item added to root of tree; user must override
 		//		to modify the item so that it matches the query for top level items
 		// example
@@ -1312,7 +1312,7 @@ dojo.declare("dijit.tree.ForestStoreModel", dijit.tree.TreeStoreModel, {
 	},
 
 	onLeaveRoot: function(/* item */ item){
-		// summary
+		// summary:
 		//		Called when item removed from root of tree; user must override
 		//		to modify the item so it doesn't match the query for top level items
 		// example
