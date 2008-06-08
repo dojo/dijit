@@ -10,7 +10,7 @@
 }
 
 .tundra .dijitSplitterH {
-	background:url("../images/splitContainerSizerH.png") repeat-x #fff;
+	background:#fcfcfc;
 	border:0;
 	border-left:0px solid #d3d3d3;
 	border-right:0px solid #d3d3d3;
@@ -25,7 +25,7 @@
 }
 
 .tundra .dijitSplitterV {
-	background:url("../images/splitContainerSizerV.png") repeat-y #fff;
+	background:#fcfcfc;
 	border:0;
 	border-top:0px solid #d3d3d3;
 	border-bottom:0px solid #d3d3d3;
@@ -37,4 +37,15 @@
 	left:1px;
 	height:19px;
 	width:5px;
+}
+
+/* active splitter */
+.tundra .dijitSplitterActive {
+	font-size: 1px;
+	background-image: none;
+	background-color: #aaa;
+	-moz-opacity: 0.6;
+	opacity: 0.6;
+	filter: Alpha(Opacity=60);
+	margin: 0;
 }
