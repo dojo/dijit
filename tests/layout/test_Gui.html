@@ -9,27 +9,49 @@
 	<style type="text/css">
 		@import "../../../dojo/resources/dojo.css";
 
-		html, body { height: 100%; width: 100%; padding: 0px; margin: 0px; border: 0; background: #fff; }
-		#main { font-size: 0.9em; height: 100%; width: 100%; padding: 5px; margin: 0px; }
+		html, body {
+			height: 100%;
+			width: 100%;
+			padding: 0px;
+			margin: 0px;
+			border: 0;
+			background: #fff;
+		}
+		#main {
+			font-size: 0.9em;
+			height: 100%;
+			width: 100%;
+			padding: 0px;
+			margin: 0px;
+		}
 
-		#leftAccordion { width: 25%; }
-		#bottomTabs { height: 40%; }
-		#main .dijitSplitterH { height: 5px; }
-		#main .dijitSplitterV { width: 5px; }
+		/* initial sizing */
+		#leftAccordion {
+			width: 25%;
+		}
+		#bottomTabs {
+			height: 40%;
+		}
+		#main .dijitSplitterH {
+			height: 5px;
+		}
+		#main .dijitSplitterV {
+			width: 5px;
+		}
 	</style>
 
 	<!-- required: dojo.js -->
 	<script type="text/javascript" src="../../../dojo/dojo.js" 
-		djConfig="parseOnLoad: true, isDebug: true"></script>
-	<script type="text/javascript" src="../../../dijit/layout/BorderContainer.js"></script>
+		djConfig="parseOnLoad: true, isDebug: false"></script>
 
 	<!-- do not use: only for debugging / testing themes --> 
 	<script type="text/javascript" src="../../tests/_testCommon.js"></script>
 	
-	<script type="text/javascript" src="../../dijit.js"></script>
-	<script type="text/javascript" src="../../dijit-all.js" charset="utf-8"></script>
+	<script type="text/javascript">
+		// dojo.requires()
+		dojo.require("dijit.dijit");
+		dojo.require("dijit.dijit-all");
 
-	<script type="text/javascript"> // dojo.requires()
 		// layouts used in page
 		dojo.require("dijit.layout.AccordionContainer");
 		dojo.require("dijit.layout.ContentPane");
@@ -40,7 +62,6 @@
 	</script>
 </head>
 <body class="tundra">
-
 
 	<!-- "main" BorderContainer just contains page title and another BorderContainer -->
 	<div id="main" dojoType="dijit.layout.BorderContainer">
