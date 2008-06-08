@@ -35,11 +35,13 @@
 	/* margin-top:4px;  */
 	width:15px;
 	height:15px;
-	background:url('images/spriteRoundedIconsSmall.png') no-repeat -30px top;
+	background-image: url('images/spriteRoundedIconsSmall.png');
+	background-repeat: no-repeat;
+	background-position: -30px top;
 	display:block;
 }
 .dj_ie6 .soria .dijitMenuExpand {
-	background-image:url('images/spriteRoundedIconsSmall.gif');
+	background-image: url('images/spriteRoundedIconsSmall.gif');
 }
 
 .soria .dijitMenuSeparator {
