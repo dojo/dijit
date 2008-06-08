@@ -10,8 +10,7 @@
 		@import "../../../dojo/resources/dojo.css";
 
 		html, body { height: 100%; width: 100%; padding: 0px; margin: 0px; border: 0; background: #fff; }
-		/* FIXME: this seems very strange...why 90% by 90%? */
-		#main { font-size: 0.9em; height: 90%; width: 90%; padding: 5px; margin: 10px; }
+		#main { font-size: 0.9em; height: 100%; width: 100%; padding: 5px; margin: 0px; }
 
 		#leftAccordion { width: 25%; }
 		#bottomTabs { height: 40%; }
@@ -81,7 +80,7 @@
 				</div> <!-- end of basic form widgets -->
 				<div dojoType="dijit.layout.AccordionContainer" 
 					id="tabAccordion"
-					title="Accordeon in Tab"
+					title="Accordion in Tab"
 					layoutType="tab" 
 					minSize="20" 
 					style="width: 100%;">
@@ -103,7 +102,7 @@
 				<div dojoType="dijit.layout.ContentPane" 
 					id="textareaTab" 
 					layoutType="tab" 
-					title="Accordeon in Content Tab">
+					title="Accordion in Content Tab">
 
 					<div dojoType="dijit.layout.AccordionContainer"
 						minSize="20" layoutType="default" style="width: 100%;" id="tabAccordionContainer">
