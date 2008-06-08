@@ -394,7 +394,7 @@ dojo.declare(
 		// monitor changes to items
 		this.connect(this.model, "onChange", "_onItemChange");
 		this.connect(this.model, "onChildrenChange", "_onItemChildrenChange");
-		// TODO: monitor item deletes so we don't end up w/orphaned nodes?
+		this.connect(this.model, "onDelete", "_onItemDelete");
 
 		this._load();
 
@@ -867,7 +867,7 @@ dojo.declare(
 	},
 
 	_onItemChange: function(/*Item*/ item){
-		//summary: set data event on an item in the store
+		//summary: processes notification of a change to an item's scalar values like label
 		var model = this.model,
 			identity = model.getIdentity(item),
 			node = this._itemNodeMap[identity];
@@ -879,13 +879,25 @@ dojo.declare(
 	},
 
 	_onItemChildrenChange: function(/*dojo.data.Item*/ parent, /*dojo.data.Item[]*/ newChildrenList){
-		//summary: set data event on an item in the store
+		//summary: processes notification of a change to an item's children
 		var model = this.model,
 			identity = model.getIdentity(parent),
 			parentNode = this._itemNodeMap[identity];
 
 		if(parentNode){
 			parentNode.setChildItems(newChildrenList);
+		}
+	},
+
+	_onItemDelete: function(/*Item*/ item){
+		//summary: processes notification of a deletion of an item
+		var model = this.model,
+			identity = model.getIdentity(item),
+			node = this._itemNodeMap[identity];
+
+		if(node){
+			node.destroyRecursive();
+			delete this._itemNodeMap[identity];
 		}
 	},
 
@@ -1129,6 +1141,14 @@ dojo.declare(
 		//		Callback to do notifications about new, updated, or deleted items.
 	},
 
+	onDelete: function(/*dojo.data.Item*/ parent, /*dojo.data.Item[]*/ newChildrenList){
+		// summary:
+		//		Callback when an item has been deleted.
+		// description:
+		//		Note that there will also be an onChildrenChange() callback for the parent
+		//		of this item.
+	},
+
 	// =======================================================================
 	///Events from data store
 
@@ -1148,6 +1168,7 @@ dojo.declare(
 	
 	_onDeleteItem: function(/*Object*/ item){
 		// summary: handler for delete notifications from underlying store
+		this.onDelete(item);
 	},
 
 	_onSetItem: function(/* item */ item, 

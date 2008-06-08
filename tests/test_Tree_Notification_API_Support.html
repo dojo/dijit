@@ -52,6 +52,7 @@
 
 		function deleteItem(){
 			store.deleteItem(selectedItem);
+			store.save(); 
 
 			resetForms();
 			loadItemsTable();
@@ -72,6 +73,7 @@
 			console.debug("New item: ", item, ", pInfo = ", pInfo);
 
 			store.newItem(item, pInfo);
+			store.save();
 
 			resetForms();
 			loadItemsTable();
@@ -107,12 +109,14 @@
 				if (dojo.byId("uSomeProperty").value != store.getValue(selectedItem, "someProperty")){
 					store.setValue(selectedItem, "someProperty", dojo.byId("uSomeProperty").value);
 				}
-				
+	
 				var children = dojo.query("> *", "uChildren").map( function(child){
 					var id = child.id;
 					return allItems[id];
 				});
 				store.setValues(selectedItem, "children", children);
+
+				store.save();
 
 				resetForms();
 				loadItemsTable();
