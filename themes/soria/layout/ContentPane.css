@@ -1,1 +1,22 @@
 /* ContentPane */
+
+.soria .dijitContentPane {
+    border: 1px #B1BADF solid;
+    padding: 5px;
+}
+
+.soria .dijitTabContainer-dijitContentPane {
+    border: none;
+}
+
+.soria .dijitAccordionContainer-dijitContentPane {
+    border: none;
+}
+
+.soria .dijitSplitContainer-dijitContentPane {
+    border: 1px #B1BADF solid;
+}
+
+.soria .dijitBorderContainer-dijitContentPane {
+    border: 1px #B1BADF solid;
+}

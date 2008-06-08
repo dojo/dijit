@@ -1,1 +1,22 @@
 /* ContentPane */
+
+.nihilo .dijitContentPane {
+    border: 1px #ccc solid;
+    padding: 5px;
+}
+
+.nihilo .dijitTabContainer-dijitContentPane {
+    border: none;
+}
+
+.nihilo .dijitAccordionContainer-dijitContentPane {
+    border: none;
+}
+
+.nihilo .dijitSplitContainer-dijitContentPane {
+    border: 1px #ccc solid;
+}
+
+.nihilo .dijitBorderContainer-dijitContentPane {
+    border: 1px #ccc solid;
+}
