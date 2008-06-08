@@ -6,17 +6,17 @@
 
 	<!-- required: a default theme -->
 	<link id="themeStyles" rel="stylesheet" href="../../../dijit/themes/tundra/tundra.css" />
-
 	<style type="text/css">
 		@import "../../../dojo/resources/dojo.css";
 
 		html, body { height: 100%; width: 100%; padding: 0px; margin: 0px; border: 0; background: #fff; }
+		/* FIXME: this seems very strange...why 90% by 90%? */
 		#main { font-size: 0.9em; height: 90%; width: 90%; padding: 5px; margin: 10px; }
+
 		#leftAccordion { width: 25%; }
 		#bottomTabs { height: 40%; }
 		#main .dijitSplitterH { height: 5px; }
 		#main .dijitSplitterV { width: 5px; }
-
 	</style>
 
 	<!-- required: dojo.js -->
@@ -29,7 +29,6 @@
 	
 	<script type="text/javascript" src="../../dijit.js"></script>
 	<script type="text/javascript" src="../../dijit-all.js" charset="utf-8"></script>
-
 
 	<script type="text/javascript"> // dojo.requires()
 		// layouts used in page
@@ -56,21 +55,16 @@
 				minSize="20" style="width: 300px;" id="leftAccordion" region="leading" splitter="true">
 
 				<div dojoType="dijit.layout.AccordionPane" title="Popups and Alerts">
-					
 				</div>
 
 				<div dojoType="dijit.layout.AccordionPane" title="Dojo Tree from Store">
-				
 				</div>
 	
 				<div dojoType="dijit.layout.AccordionPane" title="Calendar" selected="true">
 				</div>
 	
 				<div dojoType="dijit.layout.AccordionPane" title="Color Picker">
-					
 				</div>
-
-				
 	
 			</div><!-- end AccordionContainer -->
 
@@ -78,111 +72,117 @@
 			<!-- top tabs (marked as "center" to take up the main part of the BorderContainer) -->
 			<div dojoType="dijit.layout.TabContainer" region="center" id="topTabs">
 
-				<div id="basicFormTab" dojoType="dijit.layout.ContentPane" layoutType="fit" title="Basic Form Widgets" style="padding:10px;display:none;">
-                                    Hi friends of dijit
+				<div dojoType="dijit.layout.ContentPane" 
+					id="basicFormTab" 
+					title="Basic Form Widgets" 
+					layoutType="fit" 
+					style="padding:10px;display:none;">
+					Hi friends of dijit
 				</div> <!-- end of basic form widgets -->
+				<div dojoType="dijit.layout.AccordionContainer" 
+					id="tabAccordion"
+					title="Accordeon in Tab"
+					layoutType="tab" 
+					minSize="20" 
+					style="width: 100%;">
 
+					<div dojoType="dijit.layout.AccordionPane" title="Popups and Alerts">
+					</div>
+
+					<div dojoType="dijit.layout.AccordionPane" title="Dojo Tree from Store">
+					</div>
+
+					<div dojoType="dijit.layout.AccordionPane" title="Calendar" selected="true">
+					</div>
+
+					<div dojoType="dijit.layout.AccordionPane" title="Color Picker">
+					</div>
+
+				</div><!-- end AccordionContainer -->
 				
-                                    <div dojoType="dijit.layout.AccordionContainer" title="Accordeon in Tab"
-                                            minSize="20" layoutType="tab" style="width: 100%;" id="tabAccordion">
-            
-                                            <div dojoType="dijit.layout.AccordionPane" title="Popups and Alerts">
-                                                    
-                                            </div>
-            
-                                            <div dojoType="dijit.layout.AccordionPane" title="Dojo Tree from Store">
-                                            
-                                            </div>
-                    
-                                            <div dojoType="dijit.layout.AccordionPane" title="Calendar" selected="true">
-                                            </div>
-                    
-                                            <div dojoType="dijit.layout.AccordionPane" title="Color Picker">
-                                                    
-                                            </div>
-            
-                                            
-                    
-                                    </div><!-- end AccordionContainer -->
-				
-				<div id="textareaTab" dojoType="dijit.layout.ContentPane" layoutType="tab" title="Accordeon in Content Tab">
-                                    <div dojoType="dijit.layout.AccordionContainer"
-                                            minSize="20" layoutType="default" style="width: 100%;" id="tabAccordionContainer">
-            
-                                            <div dojoType="dijit.layout.AccordionPane" title="Popups and Alerts">
-                                                    
-                                            </div>
-            
-                                            <div dojoType="dijit.layout.AccordionPane" title="Tabs in Accordeon">
-                                             <!-- bottom right tabs -->
-                                                <div dojoType="dijit.layout.BorderContainer" liveSplitters="false" design="sidebar"
-                                                    id="smainSplit" style="padding: 0px;width: 300px; height: 100px">
-                                                    <div dojoType="dijit.layout.TabContainer" id="accTabs" 
-                                                            tabPosition="top" region="center" selectedChild="btsab1">
-                            
-                                                            <!-- btab 1 -->
-                                                            <div id="btsab1" dojoType="dijit.layout.ContentPane" layoutType="tab" title="Info" style=" padding:10px; ">
-                                                                    
-                                                            </div><!-- end:info btab1 -->
-                            
-                                                            <div id="btsab2" dojoType="dijit.layout.ContentPane" layoutType="tab" title="Alternate Themes" style="padding:20px;">
-                                                                    
-                                                            </div><!-- btab2 -->
-                            
-                                                            <div id="btsab3" dojoType="dijit.layout.ContentPane" layoutType="tab" title="Bottom 3" closable="true">
-                                                                    
-                                                            </div><!-- btab3 -->
-                            
-                                                    </div><!-- end Bottom TabContainer -->
-                                                </div>
-                                            </div>
-                    
-                                            <div dojoType="dijit.layout.AccordionPane" title="Calendar" selected="true">
-                                            </div>
-                    
-                                            <div dojoType="dijit.layout.AccordionPane" title="Color Picker">
-                                                    
-                                            </div>
-            
-                                            
-                    
-                                    </div><!-- end AccordionContainer -->
+				<div dojoType="dijit.layout.ContentPane" 
+					id="textareaTab" 
+					layoutType="tab" 
+					title="Accordeon in Content Tab">
+
+					<div dojoType="dijit.layout.AccordionContainer"
+						minSize="20" layoutType="default" style="width: 100%;" id="tabAccordionContainer">
+
+						<div dojoType="dijit.layout.AccordionPane" title="Popups and Alerts">
+						</div>
+
+						<div dojoType="dijit.layout.AccordionPane" title="Tabs in Accordeon">
+							<!-- bottom right tabs -->
+							<div dojoType="dijit.layout.BorderContainer" liveSplitters="false" design="sidebar"
+								id="smainSplit" style="padding: 0px;width: 300px; height: 100px">
+
+								<div dojoType="dijit.layout.TabContainer" id="accTabs" 
+									tabPosition="top" region="center" selectedChild="btsab1">
+
+									<!-- btab 1 -->
+									<div dojoType="dijit.layout.ContentPane" id="btsab1" 
+										layoutType="tab" title="Info" style=" padding:10px;">
+									</div><!-- end:info btab1 -->
+
+									<div dojoType="dijit.layout.ContentPane" id="btsab2" 
+										layoutType="tab" title="Alternate Themes" style="padding:20px;">
+									</div><!-- btab2 -->
+
+									<div dojoType="dijit.layout.ContentPane" id="btsab3" 
+										layoutType="tab" title="Bottom 3" closable="true">
+									</div><!-- btab3 -->
+
+								</div><!-- end Bottom TabContainer -->
+							</div>
+						</div>
+
+						<div dojoType="dijit.layout.AccordionPane" title="Calendar" selected="true">
+						</div>
+
+						<div dojoType="dijit.layout.AccordionPane" title="Color Picker">
+						</div>
+
+					</div><!-- end AccordionContainer -->
+
 				</div><!-- end of Textarea/Editor tab -->
 
 
-				<div dojoType="dijit.layout.ContentPane" title="Title Pane in Content Pane" layoutType="tab" style="padding:0px;display:none;">
-                                    <div dojoType="dijit.TitlePane" title="Color Picker">
-                                         Hi friends of dijit           
-                                    </div>
+				<div dojoType="dijit.layout.ContentPane" 
+					title="Title Pane in Content Pane" 
+					layoutType="tab" 
+					style="padding:0px;display:none;">
+
+					<div dojoType="dijit.TitlePane" title="Color Picker">
+						Hi friends of dijit           
+					</div>
 
 				</div>
                         
-                        <div dojoType="dijit.TitlePane" layoutType="fit" title="Title Pane">
-                                         Wohooo, cool huh?           
-                                    </div>
+				<div dojoType="dijit.TitlePane" layoutType="fit" title="Title Pane">
+					Wohooo, cool huh?           
+				</div>
 
-				<div id="variousTab" dojoType="dijit.layout.ContentPane" layoutType="tab" title="Various Dijits"
+				<div id="variousTab" dojoType="dijit.layout.ContentPane" 
+					layoutType="tab" title="Various Dijits"
 					style="padding:10px; display:none;">
-
-
 				</div><!-- end:various dijits upper tab -->
 
-				<div id="InlineEditBoxTab" dojoType="dijit.layout.ContentPane" layoutType="tab" title="InlineEditBox"
+				<div id="InlineEditBoxTab" dojoType="dijit.layout.ContentPane" 
+					layoutType="tab" title="InlineEditBox"
 					style="padding:10px; display:none;">
-
-					
-
 				</div><!-- end InlineEditBox tab -->
 
 				<div dojoType="dijit.layout.TabContainer" title="wohoo">
-
-					<div id="bassicFormTab" dojoType="dijit.layout.ContentPane" layoutType="fit" title="Basic Form Widgets" style="padding:10px;display:none;">
+					<div id="bassicFormTab" dojoType="dijit.layout.ContentPane" 
+						layoutType="fit" title="Basic Form Widgets" 
+						style="padding:10px; display:none;">
 					    Hi friends of dijit
 					</div>
 				</div>
 
 				<div id="closableTab" dojoType="dijit.layout.ContentPane" layoutType="tab" title="Closable"
-					style="display:none; padding:10px; " closable="true">
+					style="display:none; padding:10px;" closable="true">
+
 					<div dojoType="dijit.layout.TabContainer" title="wohoo">
 	
 						<div id="bassicFdormTab" dojoType="dijit.layout.ContentPane" layoutType="fit" title="Basic Form Widgets" style="padding:10px;display:none;">
@@ -197,7 +197,7 @@
 				tabPosition="bottom" selectedChild="btab1" region="bottom" splitter="true">
 
 				<!-- btab 1 -->
-				<div id="btab1" dojoType="dijit.layout.ContentPane" layoutType="tab" title="Info" style=" padding:10px; ">
+				<div id="btab1" dojoType="dijit.layout.ContentPane" layoutType="tab" title="Info" style="padding:10px;">
 					
 				</div><!-- end:info btab1 -->
 
