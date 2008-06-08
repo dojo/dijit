@@ -181,7 +181,7 @@ dojo.declare(
 					node = 
 						( existingNode && !existingNode.getParent() ) ?
 						existingNode :
-						new dijit._TreeNode({
+						this.tree._createTreeNode({
 							item: item,
 							tree: tree,
 							isExpandable: model.mayHaveChildren(item),
@@ -448,7 +448,7 @@ dojo.declare(
 		// load root node (possibly hidden) and it's children
 		this.model.getRoot(
 			dojo.hitch(this, function(item){
-				var rn = this.rootNode = new dijit._TreeNode({
+				var rn = this.rootNode = this.tree._createTreeNode({
 					item: item,
 					tree: this,
 					isExpandable: true,
@@ -930,6 +930,17 @@ dojo.declare(
 		// A tree is treated as a leaf, not as a node with children (like a grid),
 		// but defining destroyRecursive for back-compat.
 		this.destroy();
+	},
+
+	_createTreeNode: function(/*Object*/ args){
+		// summary:
+		//		creates a TreeNode
+		// description:
+		//		Developers can override this method to define their own TreeNode class;
+		//		However it will probably be removed in a future release in favor of a way
+		//		of just specifying a widget for the label, rather than one that contains
+		//		the children too.
+		return new dijit._TreeNode(args);
 	}
 });
 
