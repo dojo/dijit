@@ -48,7 +48,7 @@
 		dojo.require("dojo.parser");	// scan page for widgets and instantiate them
 
 		// Hash of id-->item for all the items (including children) in the data store.
-		var items = {};
+		var allItems = {};
 
 		function deleteItem(){
 			store.deleteItem(selectedItem);
@@ -58,18 +58,20 @@
 		}
 
 		function newItem(){
-			var pInfo = selectedItem ? {parent: selectedItem, attribute:"children"} : null;
-			console.debug(pInfo);
+			var pInfo = selectedItem ? {parent: selectedItem, attribute:"children"} : null,
+				item = {
+					id: dojo.byId('nId').value,
+					name: dojo.byId("nLabel").value,
+					someProperty: dojo.byId("nSomeProperty").value,
+					children: dojo.query("> *", "nChildren").map( function(child){
+								var id = child.id;
+								return allItems[id];
+							})
+				};
 
-			store.newItem({
-				id: dojo.byId('nId').value,
-				name: dojo.byId("nLabel").value,
-				someProperty: dojo.byId("nSomeProperty").value,
-				children: dojo.query("> *", "nChildren").map( function(child){
-							var id = child.id;
-							return items[id];
-						})
-			},pInfo);
+			console.debug("New item: ", item, ", pInfo = ", pInfo);
+
+			store.newItem(item, pInfo);
 
 			resetForms();
 			loadItemsTable();
@@ -94,8 +96,8 @@
 
 			dojo.byId("nPotentialChildren").innerHTML = "";
 			nPotentialChildrenDragSource.clearItems();
-			for(var id in items){
-				var item = items[id],
+			for(var id in allItems){
+				var item = allItems[id],
 					label = store.getLabel(item);
 				dojo.byId("nPotentialChildren").innerHTML +=
 					"<div class='dojoDndItem' id='" + id + "'>" +
@@ -120,7 +122,7 @@
 				
 				var children = dojo.query("> *", "uChildren").map( function(child){
 					var id = child.id;
-					return items[id];
+					return allItems[id];
 				});
 				store.setValues(selectedItem, "children", children);
 
@@ -140,7 +142,7 @@
 			// summary: for each item in the datastore generate a row in the table
 			
 			function processItem(item){
-				items[store.getIdentity(item)] = item;
+				allItems[store.getIdentity(item)] = item;
 
 				var vals = {
 					itemId: store.getIdentity(item),
@@ -166,7 +168,7 @@
 				//dojo.forEach(vals.children, processItem);
 			}
 
-			items = {};
+			allItems = {};
 			dijit.registry.byClass("ItemRow").forEach(function(widget){ widget.destroy(); });
 			store.fetch({onItem: processItem});
 		}
@@ -174,6 +176,7 @@
 		function onSelectItem(item){
 			resetForms();
 
+			console.log("Selected item: ", item ? store.getLabel(item) : "none");
 			selectedItem = item;
 
 			if(item){	
@@ -193,17 +196,15 @@
 					uChildrenDragSource.setItem(id, {
 						data: label,
 						type: ["text"]
-					});
-					
-					dojo.byId('nParent').value = item ? store.getLabel(item) : "";
+					});					
 				});
 				
 				// and the items that could be children but aren't currently
 				// (including items that would cause cycles, because i'm lazy)
-				for(var id in items){
-					var item = items[id];
-					if(dojo.indexOf(children, item) == -1){
-						var label = store.getLabel(item);
+				for(var id in allItems){
+					var child = allItems[id];
+					if(dojo.indexOf(children, child) == -1){
+						var label = store.getLabel(child);
 						dojo.byId("uPotentialChildren").innerHTML +=
 							"<div class='dojoDndItem' id='" + id + "'>" +
 								label +
@@ -215,6 +216,9 @@
 					}
 				}
 			}
+			
+			// New Item section
+			dojo.byId('nParent').value = item ? store.getLabel(item) : "";
 		}
 	</script>
 
