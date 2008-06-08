@@ -16,6 +16,7 @@
 @import url("../dijit.css");
 @import url("Common.css");
 
+@import url("layout/ContentPane.css");
 @import url("layout/TabContainer.css");
 @import url("layout/AccordionContainer.css");
 @import url("layout/SplitContainer.css");
