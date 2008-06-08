@@ -1,5 +1,14 @@
 /* BorderContainer */
 
+.tundra .dijitBorderContainer {
+	background-color: #fcfcfc;
+	border: 1px solid #ccc;
+}
+
+.tundra .dijitBorderContainer-dijitBorderContainer {
+	border: none;
+}
+
 .tundra .dijitSplitterH {
 	background:url("../images/splitContainerSizerH.png") repeat-x #fff;
 	border:0;

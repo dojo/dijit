@@ -1,5 +1,32 @@
 /* Accordion */
 
+.tundra .dijitAccordionContainer {
+	border-color: #ccc;	
+}
+
+/* nested classes */
+
+.tundra .dijitTabContainer-dijitAccordionContainer {
+    border: none;
+}
+
+.tundra .dijitAccordionContainer-dijitAccordionContainer {
+    border: none;
+    background-color: #fff;
+}
+
+.tundra .dijitSplitContainer-dijitAccordionContainer {
+    border: 1px #ccc solid;
+    background-color: #fff;
+}
+
+.tundra .dijitBorderContainer-dijitAccordionContainer {
+    border: 1px #ccc solid;
+    background-color: #fff;
+}
+
+/* common */
+
 .tundra .dijitAccordionPane {
 	background-color: #e7e7e7;
 }

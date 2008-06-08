@@ -7,6 +7,29 @@
 	border-color: #b1badf;	
 }
 
+/* nested classes */
+
+.soria .dijitTabContainer-dijitAccordionContainer {
+    border: none;
+}
+
+.soria .dijitAccordionContainer-dijitAccordionContainer {
+    border: none;
+    background-color: #fff;
+}
+
+.soria .dijitSplitContainer-dijitAccordionContainer {
+    border: 1px #B1BADF solid;
+    background-color: #fff;
+}
+
+.soria .dijitBorderContainer-dijitAccordionContainer {
+    border: 1px #B1BADF solid;
+    background-color: #fff;
+}
+
+/* common */
+
 .soria .dijitAccordionPane {
 	background-color: #e7e7e7;
 	font-size: 0.9em;

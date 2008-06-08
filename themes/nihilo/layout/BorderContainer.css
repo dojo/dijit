@@ -3,6 +3,15 @@
  *
  */ 
 
+.nihilo .dijitBorderContainer {
+	background-color: #fcfcfc;
+	border: 1px solid #ccc;
+}
+
+.nihilo .dijitBorderContainer-dijitBorderContainer {
+	border: none;
+}
+
 .nihilo .dijitSplitterH {
 	background:url("../images/splitContainerSizerH.png") repeat-x #fff;
 	border:0;

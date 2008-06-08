@@ -1,7 +1,34 @@
 /** 
  * dijit.layout.Accordioncontainer 
  *
- */ 
+ */
+
+.nihilo .dijitAccordionContainer {
+	border-color: #ccc;	
+}
+
+/* nested classes */
+
+.nihilo .dijitTabContainer-dijitAccordionContainer {
+    border: none;
+}
+
+.nihilo .dijitAccordionContainer-dijitAccordionContainer {
+    border: none;
+    background-color: #fff;
+}
+
+.nihilo .dijitSplitContainer-dijitAccordionContainer {
+    border: 1px #ccc solid;
+    background-color: #fff;
+}
+
+.nihilo .dijitBorderContainer-dijitAccordionContainer {
+    border: 1px #ccc solid;
+    background-color: #fff;
+}
+
+/* common */
 
 .nihilo .dijitAccordionPane {
 	background-color: #e7e7e7;
