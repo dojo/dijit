@@ -57,7 +57,7 @@ dojo.declare("dijit.form._FormMixin", null,
 		},
 		
 		setValues: function(/*object*/obj){
-			// summary: fill in form values from a JSON structure
+			// summary: Fill in form values from according to an Object (in the format returned by getValues())
 
 			// generate map from name --> [list of widgets with that name]
 			var map = { };
@@ -170,7 +170,18 @@ dojo.declare("dijit.form._FormMixin", null,
 		},
 
 		getValues: function(){
-			// summary: generate JSON structure from form values
+			// summary:
+			// 		Returns Object representing form values.
+			// description:
+			//		Returns name/value hash for each form element.
+			//		If there are multiple elements w/the same name, value is an array,
+			//		unless they are radio buttons in which case value is a scalar since only
+			//		one can be checked at a time.
+			//
+			//		If the name is a dot separated list (like a.b.c.d), creates a nested structure.
+			//		Only works on widget form elements.
+			// example:
+			//	| { name: "John Smith", interests: ["sports", "movies"] }
 
 			// get widget values
 			var obj = { };
