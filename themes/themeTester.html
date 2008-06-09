@@ -12,12 +12,13 @@
 		@import "../tests/css/dijitTests.css";
 
 		html, body { height: 100%; width: 100%; padding: 0; border: 0; }
-		#main { height: 100%; width: 100%; padding: 0; border: 0; }
+		#main { height: 100%; width: 100%; padding: 5px; border: 0; }
 /*		#header, #mainSplit { margin: 10px; } */
+		#header { margin: 0px; }
 		#leftAccordion { width: 25%; }
 		#bottomTabs { height: 40%; }
-		#main .dijitSplitterH { height: 7px }
-		#main .dijitSplitterV { width: 7px }
+		#main .dijitSplitterH { height: 5px }
+		#main .dijitSplitterV { width: 5px }
 
 		/* pre-loader specific stuff to prevent unsightly flash of unstyled content */
 		#loader { 
@@ -253,7 +254,7 @@
 	<!-- "main" BorderContainer just contains page title and another BorderContainer -->
 	<div id="main" dojoType="dijit.layout.BorderContainer">
 
-		<h1 id="header" dojoType="dijit.layout.ContentPane" region="top">Dijit Theme Test Page</h1>
+		<h1 id="header" dojoType="dijit.layout.ContentPane" region="top" splitter="true">Dijit Theme Test Page</h1>
 
 		<!-- "mainSplit" BorderContainer has all the real content -->
 		<div dojoType="dijit.layout.BorderContainer" liveSplitters="false" design="sidebar"
