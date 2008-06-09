@@ -209,7 +209,12 @@ dijit._Templated.getCachedTemplate = function(templatePath, templateString, alwa
 	var key = templateString || templatePath;
 	var cached = tmplts[key];
 	if(cached){
-		return cached;
+		if(!cached.ownerDocument || cached.ownerDocument == dojo.doc){
+			// string or node of the same document
+			return cached;
+		}
+		// destroy the old cached node of a different document
+		dojo._destroyElement(cached);
 	}
 
 	// If necessary, load template string from template path
@@ -273,6 +278,11 @@ if(dojo.isIE){
 		// summary:
 		//	Attempts to create a set of nodes based on the structure of the passed text.
 
+		if(tn && tn.ownerDocument != dojo.doc){
+			// destroy dummy container of a different document
+			dojo._destroyElement(tn);
+			tn = undefined;
+		}
 		if(!tn){
 			tn = dojo.doc.createElement("div");
 			tn.style.display="none";
