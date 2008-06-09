@@ -145,11 +145,20 @@ dojo.declare(
 			centerStyle = (this._center && this._center.style) || {};
 
 		var changedSide = /left|right/.test(changedRegion);
-
-		var cs = dojo.getComputedStyle(this.domNode);
-		var pe = dojo._getPadExtents(this.domNode, cs);
-		pe.r = parseFloat(cs.paddingRight); pe.b = parseFloat(cs.paddingBottom);
-
+		
+		// resetting potential padding to 0px to provide support for 100% width/height + padding
+		// TODO: this hack doesn't respect the box model and is a temporary fix
+		if (!this.cs || !this.pe){
+			this.cs = dojo.getComputedStyle(this.domNode);
+			this.pe = dojo._getPadExtents(this.domNode, this.cs);
+			this.pe.r = parseFloat(this.cs.paddingRight); this.pe.b = parseFloat(this.cs.paddingBottom);
+			
+			dojo.style(this.domNode, "padding", "0px");
+		}
+	
+		var cs = this.cs;
+		var pe = this.pe;
+		
 		var layoutSides = !changedRegion || (!changedSide && !sidebarLayout);
 		var layoutTopBottom = !changedRegion || (changedSide && sidebarLayout);
 		if(this._top){
