@@ -55,7 +55,7 @@
 
 				text in the inner container (1)
 
-				<div dojoType="dijit.layout.ContentPane" class="box" href="tab2.html" hasShadow="true">
+				<div dojoType="dijit.layout.ContentPane" class="box" href="tab2.html">
 					hi
 				</div>
 
@@ -80,16 +80,16 @@
 
 		<p>mid-container paragraph</p>
 
-		<div dojoType="dijit.layout.ContentPane" class="box" hasShadow="true">
+		<div dojoType="dijit.layout.ContentPane" class="box">
 			2nd top-level container
 		</div>
 
 		<p>post-container paragraph</p>
 
-		<div id="ContentPane3" class="box" hasShadow="true">
+		<div id="ContentPane3" class="box">
 			some content pane blah blah blah
 		</div>
-		<div dojoType="dijit.layout.ContentPane" class="box" href="combotab.html" hasShadow="true" id="test">
+		<div dojoType="dijit.layout.ContentPane" class="box" href="combotab.html" id="test">
 			<p style='background-color:yellow;border:1px solid red;text-align:center;'>This text should automatically be replaced by downloaded content from combotab.html</p>
 		</div>
 		<input type="button" value="Change pane in 3 seconds" onClick='setTimeout(function(){dijit.byId("test").setHref("tab2.html");}, 3000);'>
