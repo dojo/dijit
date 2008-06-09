@@ -277,7 +277,7 @@ dijit._editor.RichTextIframeMixin = {
 		while((url=files[i++])){
 			var abstring = (new dojo._Url(dojo.global.location, url)).toString();
 			this.editingAreaStyleSheets.push(abstring);
-			text += '<link rel="stylesheet" type="text/css" href="'+abstring+'"/>'
+			text += '<link rel="stylesheet" type="text/css" href="'+abstring+'">'
 		}
 		return text;
 	},
