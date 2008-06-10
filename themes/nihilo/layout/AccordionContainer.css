@@ -18,11 +18,7 @@
     background-color: #fff;
 }
 
-.nihilo .dijitSplitContainer-dijitAccordionContainer {
-    border: 1px #ccc solid;
-    background-color: #fff;
-}
-
+.nihilo .dijitSplitContainer-dijitAccordionContainer,
 .nihilo .dijitBorderContainer-dijitAccordionContainer {
     border: 1px #ccc solid;
     background-color: #fff;

@@ -18,11 +18,7 @@
     background-color: #fff;
 }
 
-.soria .dijitSplitContainer-dijitAccordionContainer {
-    border: 1px #B1BADF solid;
-    background-color: #fff;
-}
-
+.soria .dijitSplitContainer-dijitAccordionContainer,
 .soria .dijitBorderContainer-dijitAccordionContainer {
     border: 1px #B1BADF solid;
     background-color: #fff;
