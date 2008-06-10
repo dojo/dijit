@@ -1,25 +1,29 @@
 /* ContentPane */
 
 .nihilo .dijitContentPane {
-    padding: 5px;
+    padding: 0px;
 }
 
 .nihilo .dijitTabContainer-dijitContentPane {
     border: none;
     background-color: #fff;
+    padding: 5px;
 }
 
 .nihilo .dijitAccordionContainer-dijitContentPane {
     border: none;
     background-color: #fff;
+    padding: 5px;
 }
 
 .nihilo .dijitSplitContainer-dijitContentPane {
     border: 1px #ccc solid;
     background-color: #fff;
+    padding: 5px;
 }
 
 .nihilo .dijitBorderContainer-dijitContentPane {
     border: 1px #ccc solid;
     background-color: #fff;
+    padding: 5px;
 }
