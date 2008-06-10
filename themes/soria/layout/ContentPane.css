@@ -4,24 +4,15 @@
     padding: 0px;
 }
 
-.soria .dijitTabContainer-dijitContentPane {
-    border: none;
-    background-color: #fff;
-    padding: 5px;
-}
-
+/* nested layouts */
+.soria .dijitTabContainer-dijitContentPane,
 .soria .dijitAccordionContainer-dijitContentPane {
     border: none;
     background-color: #fff;
     padding: 5px;
 }
 
-.soria .dijitSplitContainer-dijitContentPane {
-    border: 1px #B1BADF solid;
-    background-color: #fff;
-    padding: 5px;
-}
-
+.soria .dijitSplitContainer-dijitContentPane,
 .soria .dijitBorderContainer-dijitContentPane {
     border: 1px #B1BADF solid;
     background-color: #fff;

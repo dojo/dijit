@@ -4,24 +4,15 @@
     padding: 0px;
 }
 
-.tundra .dijitTabContainer-dijitContentPane {
-    border: none;
-    background-color: #fff;
-    padding: 5px;
-}
-
+/* nested layouts */
+.tundra .dijitTabContainer-dijitContentPane,
 .tundra .dijitAccordionContainer-dijitContentPane {
     border: none;
     background-color: #fff;
     padding: 5px;
 }
 
-.tundra .dijitSplitContainer-dijitContentPane {
-    border: 1px #ccc solid;
-    background-color: #fff;
-    padding: 5px;
-}
-
+.tundra .dijitSplitContainer-dijitContentPane,
 .tundra .dijitBorderContainer-dijitContentPane {
     border: 1px #ccc solid;
     background-color: #fff;
