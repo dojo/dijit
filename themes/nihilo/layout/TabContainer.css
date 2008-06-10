@@ -257,9 +257,9 @@
 .nihilo .dijitTabLabels-left-h {
 	padding-left: 2px;
 	padding-top: 3px;	
-	border-left: 1px solid #b1badf;
-	border-bottom: 1px solid #b1badf;
-	border-top: 1px solid #b1badf;
+	border-left: 1px solid #ccc;
+	border-bottom: 1px solid #ccc;
+	border-top: 1px solid #ccc;
 	background: #fafafa url("../images/tabStripeLeft.gif") repeat-y right top;
 	padding-right: 3px;
 }
@@ -272,9 +272,9 @@
 .nihilo .dijitTabLabels-right-h {
 	padding-right: 2px;
 	padding-top: 3px;	
-	border-right: 1px solid #b1badf;
-	border-bottom: 1px solid #b1badf;
-	border-top: 1px solid #b1badf;
+	border-right: 1px solid #ccc;
+	border-bottom: 1px solid #ccc;
+	border-top: 1px solid #ccc;
 	background: #fafafa url("../images/tabStripeRight.gif") repeat-y left top;
 	padding-left: 3px;
 }
