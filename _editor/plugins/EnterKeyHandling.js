@@ -34,8 +34,8 @@ dojo.declare("dijit._editor.plugins.EnterKeyHandling", dijit._editor._Plugin, {
 			// FIXME: need to port to the new event code!!
 			dojo['require']('dijit._editor.range');
 			var h = dojo.hitch(this,this.handleEnterKey);
-			editor.addKeyHandler(13, 0, h); //enter
-			editor.addKeyHandler(13, 2, h); //shift+enter
+			editor.addKeyHandler(13, 0, 0, h); //enter
+			editor.addKeyHandler(13, 0, 1, h); //shift+enter
 			this.connect(this.editor,'onKeyPressed','onKeyPressed');
 		}
 	},
@@ -168,15 +168,20 @@ dojo.declare("dijit._editor.plugins.EnterKeyHandling", dijit._editor._Plugin, {
 		}
 
 		var block = dijit.range.getBlockAncestor(range.endContainer, null, this.editor.editNode);
+		var blockNode = block.blockNode;
 
-		if((this._checkListLater = (block.blockNode && block.blockNode.tagName == 'LI'))){
+		//if this is under a LI or the parent of the blockNode is LI, just let browser to handle it
+		if((this._checkListLater = (blockNode && (blockNode.nodeName == 'LI' || blockNode.parentNode.nodeName == 'LI')))){
+			
 		    if(dojo.isMoz){
 				//press enter in middle of P may leave a trailing <br/>, let's remove it later
-				this._pressedEnterInBlock = block.blockNode;
+				this._pressedEnterInBlock = blockNode;
 			}
-			if(/^(?:\s|&nbsp;)$/.test(block.blockNode.innerHTML)){
-				block.blockNode.innerHTML='';
+			//if this li only contains spaces, set the content to empty so the browser will outdent this item
+			if(/^(?:\s|&nbsp;)$/.test(blockNode.innerHTML)){
+				blockNode.innerHTML='';
 			}
+
 			return true;
 		}
 

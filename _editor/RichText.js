@@ -686,7 +686,9 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 	},
 
 	_writeOpen: function(html){
-		var en = this.editNode = dojo.doc.createElement("div");
+		var en = this.editNode = this.editingArea;//dojo.doc.createElement("div");
+		en.id = this.id;
+		en.className = "dijitEditorArea";
 		en.innerHTML = html;
 		en.contentEditable = true;
 		if(this.height){
@@ -697,7 +699,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 			en.style.overflowY = "auto";
 		}
 
-		this.editingArea.appendChild(en);
+		//this.editingArea.appendChild(en);
 
 		this.window = dojo.global;
 		this.document = dojo.doc;
@@ -818,16 +820,16 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 		}
 		return true;
 	},
-	onKeyPress: function(e){
+	onKeyUp: function(e){
 		return true;
 	},
 
-	onKeyUp: function(e){
+	onKeyPress: function(e){
 		// handle the various key events
-		console.debug("keyup char:", e.keyChar, e.ctrlKey);
-		var c = e.keyChar;
+		//console.debug("keyup char:", e.keyChar, e.ctrlKey);
+		var c = e.keyChar || e.keyCode
 		var handlers = this._keyHandlers[c];
-		console.debug("handler:", handlers);
+		//console.debug("handler:", handlers);
 		var args = arguments;
 		if(handlers){
 			dojo.forEach(handlers, function(h){

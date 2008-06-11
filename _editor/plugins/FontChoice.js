@@ -112,10 +112,9 @@ dojo.declare("dijit._editor.plugins.FontChoice",
 
 			this.connect(this.button, "onChange", function(choice){
 				if(this.updating){ return; }
-				if(dojo.isIE){
+				if(dojo.isIE || !this._focusHandle){
 					this.editor.focus();
 				}else{
-//					this.editor.focus();
 					dijit.focus(this._focusHandle);
 				}
 				if(this.command == "fontName" && choice.indexOf(" ") != -1){ choice = "'" + choice + "'"; }
@@ -166,7 +165,9 @@ dojo.declare("dijit._editor.plugins.FontChoice",
 				delete this.updating;
 			}
 
-			this._focusHandle = dijit.getFocus(this.editor.iframe);
+			if(this.editor.iframe){
+				this._focusHandle = dijit.getFocus(this.editor.iframe);
+			}
 		},
 
 		setToolbar: function(){

@@ -38,11 +38,47 @@ dojo.declare(
 				"insertOrderedList","insertUnorderedList","indent","outdent","|","justifyLeft","justifyRight","justifyCenter","justifyFull"/*"createLink"*/];
 			}
 
-			/*if(dojo.isIE){
-				this.events.push("onBeforeDeactivate");
-			}*/
 			this._plugins=[];
 			this._editInterval = this.editActionInterval * 1000;
+
+			//IE will always lose focus when other element gets focus, while for FF and safari,
+			//when no iframe is used, focus will be lost whenever another element gets focus.
+			//For IE, we can connect to onBeforeDeactivate, which will be called right before
+			//the focus is lost, so we can obtain the selected range. For other browsers,
+			//no equivelent of onBeforeDeactivate, so we need to do two things to make sure 
+			//selection is properly saved before focus is lost: 1) when user clicks another 
+			//element in the page, in which case we listen to mousedown on the entire page and
+			//see whether user clicks out of a focus editor, if so, save selection (focus will
+			//only lost after onmousedown event is fired, so we can obtain correct caret pos.)
+			//2) when user tabs away from the editor, which is handled in onKeyDown below.
+			if(dojo.isIE){
+	            this.events.push("onBeforeDeactivate");
+	        }else if(!this.useIframe){
+	        	if(!document.__connectedglobalMouseDown){
+	        		document.__connectedglobalMouseDown=1;
+	        		//check whether user is clicking something outside of the currently focused
+	        		//editor instance
+					var onGlobalMouseDown = function(e){
+						var newfocused=e.target;
+						//only FF3 and IE supports document.activeElement, however, dijit 
+						//maintains something similar for us for all browsers, so use it
+						var focused = dijit._curFocus;
+						if(focused && focused.nodeName !='BODY' && newfocused!=focused && focused.contentEditable){
+							if(!dojo.isDescendant(newfocused,focused)){
+								//console.log('newfocused.type',focused,newfocused.contentEditable);
+								var editor = dijit.getEnclosingWidget(focused);
+								if(editor && editor instanceof dijit.Editor){
+									editor._saveSelection();
+								}
+							}
+						}
+						//console.log(e.type,e,document.activeElement,dijit._curFocus);
+					}
+					//need to use capture=true otherwise some dijit may stopEvent which would
+					//prevent onGlobalMouseDown from called properly.
+					document.body.addEventListener('mousedown',onGlobalMouseDown,true);
+				}
+			}
 		},
 
 		postCreate: function(){
@@ -142,13 +178,22 @@ dojo.declare(
 				this.iframe.style.height="100%";
 			}
 		},
+		onBeforeDeactivate: function(e){
+			if(this.customUndo){
+				this.endEditing(true);
+			}
+			//in IE, the selection will be lost when other elements get focus,
+			//let's save focus before the editor is deactivated
+			this._saveSelection();
+	        //console.log('onBeforeDeactivate',this);
+	    },
 		/* beginning of custom undo/redo support */
 
 		// customUndo: Boolean
 		//		Whether we shall use custom undo/redo support instead of the native
 		//		browser support. By default, we only enable customUndo for IE, as it
 		//		has broken native undo/redo support. Note: the implementation does
-		//		support other browsers which have W3C DOM2 Range API.
+		//		support other browsers which have W3C DOM2 Range API implemented.
 		customUndo: dojo.isIE,
 
 		//	editActionInterval: Integer
@@ -211,31 +256,18 @@ dojo.declare(
 				return this.inherited('queryCommandEnabled',arguments);
 			}
 		},
-		/*onBeforeDeactivate: function(){
-	        //in IE, the selection will be lost when other elements get focus,
-	        //let's save focus before the editor is deactivated
-	        this._savedSelection = this._getBookmark();
-		},
+
 		focus: function(){
+			var restore=0;
+			//console.log('focus',dijit._curFocus==this.editNode)
+			if(this._savedSelection && (dojo.isIE || !this.useIframe)){
+				restore = dijit._curFocus!=this.editNode;
+			}
 		    this.inherited(arguments);
-		    if(this._savedSelection){
-		    	var s=this.document.selection;
-		    	var restore=true;
-		    	if(s.type=='Text'){
-		    		var r=s.createRange();
-		    		if(r.htmlText){
-		    			//only restore the focus for IE if the current range is collapsed
-		    			//if not collapsed, then it means the editor does not lose focus
-		    			//and there is no need to restore it
-		    			restore=false;
-		    		}
-		    	}
-		    	if(restore){
-		        	this._moveToBookmark(this._savedSelection);
-		    	}
-		        delete this._savedSelection;
+		    if(restore){
+		    	this._restoreSelection();
 		    }
-		},*/
+		},
 		_moveToBookmark: function(b){
 			var bookmark=b;
 			if(dojo.isIE){
@@ -325,6 +357,11 @@ dojo.declare(
 			this._steps.push({text: v, bookmark: this._getBookmark()});
 		},
 		onKeyDown: function(e){
+			//We need to save selection if the user TAB away from this editor
+			//no need to call _saveSelection for IE, as that will be taken care of in onBeforeDeactivate
+			if(!dojo.isIE && !this.iframe && e.keyCode==dojo.keys.TAB){
+				this._saveSelection();
+			}
 			if(!this.customUndo){
 				this.inherited('onKeyDown',arguments);
 				return;
@@ -389,27 +426,31 @@ dojo.declare(
 					case ks.SHIFT:
 					case ks.TAB:
 						break;
-				}	
+				}
 		},
 		_onBlur: function(){
-			if(dojo.isIE || !this.useIframe){
-				this._savedSelection=this._getBookmark();
-			}
+			//this._saveSelection();
 			this.inherited('_onBlur',arguments);
 			this.endEditing(true);
+		},
+		_saveSelection: function(){
+			this._savedSelection=this._getBookmark();
+			//console.log('save selection',this._savedSelection,this);
 		},
 		_restoreSelection: function(){
 			if(this._savedSelection){
 				//only restore the selection if the current range is collapsed
     			//if not collapsed, then it means the editor does not lose 
     			//selection and there is no need to restore it
-    			if(dojo.withGlobal(this.window,'isCollapsed',dijit)){
+    			//if(dojo.withGlobal(this.window,'isCollapsed',dijit)){
+    				//console.log('_restoreSelection true')
 					this._moveToBookmark(this._savedSelection);
-				}
+				//}
 				delete this._savedSelection;
 			}
 		},
 		_onFocus: function(){
+			//console.log('_onFocus');
 			this._restoreSelection();
 			this.inherited(arguments);
 		},

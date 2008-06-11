@@ -1,0 +1,77 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+		"http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+	<title>Editor Test</title>
+
+	<link rel="stylesheet" href="../../themes/tundra/tundra.css" />
+
+	<script type="text/javascript" src="../../../dojo/dojo.js"
+		djConfig="parseOnLoad: true, isDebug: true"></script>
+
+	<script type="text/javascript">
+		dojo.require("dijit.Editor");
+		dojo.require("dijit._editor.plugins.FontChoice");  // 'fontName','fontSize','formatBlock'
+		dojo.require("dijit._editor.plugins.TextColor");
+		dojo.require("dijit._editor.plugins.LinkDialog");
+		dojo.require("dojo.parser");	// scan page for widgets and instantiate them
+	</script>
+</head>
+<body class="tundra">
+	This page tests editor with iframe and without iframe (For FF2, only iframe mode is supported).
+	Select something in the first editor and click header1 etc, it should affect the selected range. 
+	Select insertLink/insertImage in the toolbar, the link/image should be inserted to the correct
+	caret position.
+	<h2>no iframe</h2>
+	<div style="border: 1px dotted black;">
+		<h3><label for="blah">blah entry</label></h3>
+		<div dojoType="dijit.Editor"
+			plugins="['bold','italic','|','createLink','foreColor','hiliteColor',{name:'dijit._editor.plugins.FontChoice', command:'fontName', generic:true},'fontSize','formatBlock','insertImage']"
+			id="blah">
+			This instance includes optional toolbar buttons which pull in additional ui (dijit) code.
+			Note the dojo.require() statements required to pull in the associated editor plugins to make
+			this work.
+			<p>
+			<span style="font-family: serif">This is serif.</span></p>
+			<p>
+			<span style="font-family: sans-serif">This is sans-serif.</span></p>
+			<p>
+			<span style="font-family: monospace">This is monospace.</span></p>
+			<p>
+		<span style="font-family: cursive">This is cursive.</span></p>
+			<p>
+			<span style="font-family: fantasy">This is fantasy.</span></p>
+			<br>
+		</div>
+		<p>place caret in the above editor, tab out of it, and then shift-tab to go back, the original selection/caret position should be restored</p>
+		<input > 
+		<!--button onclick="alert(dijit.byId('blah').getValue());">getValue</button-->
+	</div>
+	<h2>iframe</h2>
+	<div style="border: 1px dotted black;">
+		<h3><label for="foo">blah entry</label></h3>
+		<div dojoType="dijit.Editor"
+			useIframe="true"
+			plugins="['bold','italic','|','createLink','foreColor','hiliteColor',{name:'dijit._editor.plugins.FontChoice', command:'fontName', generic:true},'fontSize','formatBlock','insertImage']"
+			id="foo">
+			This instance includes optional toolbar buttons which pull in additional ui (dijit) code.
+			Note the dojo.require() statements required to pull in the associated editor plugins to make
+			this work.
+			<p>
+			<span style="font-family: serif">This is serif.</span></p>
+			<p>
+			<span style="font-family: sans-serif">This is sans-serif.</span></p>
+			<p>
+			<span style="font-family: monospace">This is monospace.</span></p>
+			<p>
+		<span style="font-family: cursive">This is cursive.</span></p>
+			<p>
+			<span style="font-family: fantasy">This is fantasy.</span></p>
+			<br>
+		</div>
+		<h3>..after</h3>
+		<input > 
+		<!--button onclick="alert(dijit.byId('blah').getValue());">getValue</button-->
+	</div>
+</body>
+</html>
