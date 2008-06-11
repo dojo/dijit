@@ -643,18 +643,17 @@ dojo.declare(
 			var labelType = this.labelType;
 			// If labelType is not "text" we don't want to screw any markup ot whatever.
 			if (this.highlightMatch!="none" && this.labelType=="text" && this._lastInput){
-				label = this.doHighlight(label);
+				label = this.doHighlight(label, this._escapeHtml(this._lastInput));
 				labelType = "html";
 			}
 			return {html: labelType=="html", label: label};
 		},
 		
-		doHighlight:function(/*String*/label){
+		doHighlight:function(/*String*/label, /*String*/find){
 			// summary:
 			//		Highlights the string entered by the user in the menu, by default this
 			//		highlights the first occurence found. Override this method
 			//		to implement your custom highlighing.
-			var find = this._escapeHtml(this._lastInput);
 			// Add greedy when this.highlightMatch=="all"
 			var modifiers = "i"+(this.highlightMatch=="all"?"g":"");
 			var escapedLabel = this._escapeHtml(label);
