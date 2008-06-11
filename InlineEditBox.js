@@ -61,6 +61,10 @@ dojo.declare("dijit.InlineEditBox",
 	onChange: function(value){
 		// summary: User should set this handler to be notified of changes to value
 	},
+	
+	onCancel: function(){
+		// summary: User should set this handler to be notified when no change occured
+	},
 
 	// width: String
 	//		Width of editor.  By default it's width=100% (ie, block mode)
@@ -231,6 +235,10 @@ dojo.declare("dijit.InlineEditBox",
 		// summary:
 		//		Revert to display mode, discarding any changes made in the editor
 		this.editing = false;
+		
+		// tell the world that we have no changes
+		this.onCancel();
+		
 		this._showText(focus);
 	}
 });
