@@ -110,7 +110,7 @@
 				<input id="q03" type="text" name="age" value="38" class="small" tabIndex=1
 					dojoType="dijit.form.NumberTextBox"
 					promptMessage="(optional) Enter an age between 0 and 120"
-					constraints={places:0,min:0,max:120}
+					constraints="{places:0,min:0,max:120}"
 					onChange="console.debug('onChange fired for widget id = ' + this.id + ' with value = ' + arguments[0]);"
 					trim="true"
 					/>
@@ -170,7 +170,7 @@
 					regExpGen="dojo.regexp.currency"
 					trim="true"
 					required="true"
-					constraints={fractional:true}
+					constraints="{fractional:true}"
 					invalidMessage="Invalid amount.  Include dollar sign, commas, and cents. Example: $12,000.00" />
 			</div>
 
@@ -185,7 +185,7 @@
 					regExpGen="dojo.regexp.ipAddress"
 					trim="true"
 					required="true"
-					constraints={allowIPv6:false,allowHybrid:false}
+					constraints="{allowIPv6:false,allowHybrid:false}"
 					invalidMessage="Invalid IPv4 address." />
 			</div>
 
@@ -202,7 +202,7 @@
 					trim="true"
 					uppercase = "true"
 					required="true"
-					constraints={allowDottedDecimal:false, allowDottedHex:false, allowDottedOctal:false}
+					constraints="{allowDottedDecimal:false, allowDottedHex:false, allowDottedOctal:false}"
 					invalidMessage="Invalid IPv6 address, please enter eight groups of four hexadecimal digits. x:x:x:x:x:x:x:x" />
 			</div>
 
@@ -217,7 +217,7 @@
 					regExpGen="dojo.regexp.url"
 					trim="true"
 					required="true"
-					constraints={scheme:true}
+					constraints="{scheme:true}"
 					invalidMessage="Invalid URL.  Be sure to include the scheme, http://..." />
 			</div>
 
@@ -258,7 +258,7 @@
 			<div class="formAnswer">
 				<input id="q14" type="text" name="date1" class="medium" value="2005-12-30"
 					dojoType="dijit.form.DateTextBox"
-					constraints={locale:'en-us'}
+					constraints="{locale:'en-us'}"
 					required="true"
 					promptMessage="mm/dd/yyyy"
 					invalidMessage="Invalid date. Use mm/dd/yyyy format." />
@@ -282,7 +282,7 @@
 				<input id="q16" type="text" name="time1" class="medium" value="5:45:00 pm"
 					dojoType="dijit.form.ValidationTextBox"
 					validator="dojo.date.local.parse"
-					constraints={formatLength:'medium',selector:'time'}
+					constraints="{formatLength:'medium',selector:'time'}"
 					trim="true"
 					required="true"
 					invalidMessage="Invalid time." />
@@ -297,7 +297,7 @@
 				<input id="q17" type="text" name="time2" class="medium" value="17:45:00"
 					dojoType="dijit.form.ValidationTextBox"
 					validator="dojo.date.local.parse"
-					constraints={formatLength:'short',selector:'time',timePattern:'HH:mm:ss'}
+					constraints="{formatLength:'short',selector:'time',timePattern:'HH:mm:ss'}"
 					trim="true"
 					required="true"
 					invalidMessage="Invalid time. Use HH:mm:ss where HH is 00 - 23 hours." />
@@ -313,7 +313,7 @@
 				<input id="q18" type="text" name="state" class="small" value="CA"
 					dojoType="dijit.form.ValidationTextBox"
 					regExpGen="dojo.regexp.us.state"
-					constraints={allowTerritories:false}
+					constraints="{allowTerritories:false}"
 					trim="true"
 					uppercase="true"
 					required="true"
