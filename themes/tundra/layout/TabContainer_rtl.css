@@ -17,8 +17,8 @@
 	padding: 0px 12px 0px 0px;
 }
 
-.dj_gecko .tundra .dijitTab .closeImage {
-	position:relative;
+.dj_gecko-rtl .tundra .dijitTab .closeImage {
+	position: absolute;
 	float:none;
 	padding:0;
 }
