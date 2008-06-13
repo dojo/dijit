@@ -218,7 +218,8 @@ dojo.declare("dijit._Widget", null, {
 
 	destroy: function(/*Boolean*/ preserveDom){
 		// summary:
-		// 		Destroy this widget, but not its descendants
+		// 		Destroy this widget, but not its descendants.
+		//		Will, however, destroy internal widgets such as those used within a template.
 		// preserveDom: Boolean
 		//		If true, this method will leave the original Dom structure alone.
 		//		Note: This will not yet work with _Templated widgets
@@ -274,6 +275,7 @@ dojo.declare("dijit._Widget", null, {
 		// TODO: should I destroy in the reverse order, to go bottom up?
 		dojo.forEach(this.getDescendants(), function(widget){ widget.destroy(preserveDom); });
 	},
+
 
 	uninitialize: function(){
 		// summary:

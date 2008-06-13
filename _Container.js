@@ -145,6 +145,10 @@ dojo.declare("dijit._Container",
 			return !!this._firstElement(this.containerNode); // Boolean
 		},
 
+		destroyDescendants: function(/*Boolean*/ preserveDom){
+			dojo.forEach(this.getChildren(), function(child){ child.destroyRecursive(preserveDom); });
+		},
+	
 		_getSiblingOfChild: function(/*Widget*/ child, /*int*/ dir){
 			// summary:
 			//		Get the next or previous widget sibling of child
