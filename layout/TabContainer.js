@@ -56,22 +56,6 @@ dojo.declare("dijit.layout.TabContainer",
 		// wire up the tablist and its tabs
 		this.tablist.startup();
 		this.inherited(arguments);
-
-		if(dojo.isIE && !this.isLeftToRight() && this.tabPosition == "right-h" &&
-		   this.tablist && this.tablist.pane2button){
-			//need rectify non-closable tab in IE, only for "right-h" mode
-			for(var pane in this.tablist.pane2button){
-				var tabButton = this.tablist.pane2button[pane];
-				if(!tabButton.closeButton){ continue; }
-				var tabButtonStyle = tabButton.closeButtonNode.style;
-				tabButtonStyle.position ="absolute";
-				if(dojo.isIE < 7){
-					tabButtonStyle.left = tabButton.domNode.offsetWidth + "px";
-				}else{
-					tabButtonStyle.padding = "0px";
-				}
-			}
-		}
 	},
 
 	layout: function(){

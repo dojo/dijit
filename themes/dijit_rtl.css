@@ -154,6 +154,19 @@
 	position:relative;
 }
 
+.dj_ie-rtl .dijitAlignRight .closeImage {
+	position: absolute !important;
+}
+.dj_ie6-rtl .dijitAlignRight .closeImage {
+	width: 12px !important;
+}
+.dj_ie7-rtl .dijitAlignRight .closeImage {
+	padding: 0px !important;
+}
+
+
+/* Spinner */
+
 .dijitRtl .dijitSpinner .dijitInputLayoutContainer .dijitArrowButton {
 	right: auto;
 	left: 0;
