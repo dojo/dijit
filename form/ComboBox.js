@@ -1063,7 +1063,7 @@ dojo.declare("dijit.form._ComboBoxDataStore", null, {
 		//	summary: 
 		//		See dojo.data.util.simpleFetch.fetch()
 		if(!args.query){ args.query = {}; }
-		if(!args.query.name){ args.query.name = "*"; }
+		if(!args.query.name){ args.query.name = ""; }
 		if(!args.queryOptions){ args.queryOptions = {}; }
 		var query = "^" + args.query.name
 				.replace(/([\\\|\(\)\[\{\^\$\+\?\.\<\>])/g, "\\$1")

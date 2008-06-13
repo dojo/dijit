@@ -29,10 +29,12 @@ dojo.declare(
 		//
 		_isvalid:true,
 
+		required:true,
+
 		_lastDisplayedValue: "",
 
 		isValid:function(){
-			return this._isvalid;
+			return this._isvalid || (!this.required && this.getDisplayedValue() == ""); // #5974
 		},
 
 		_callbackSetLabel: function(	/*Array*/ result, 
@@ -45,8 +47,8 @@ dojo.declare(
 			// setValue does a synchronous lookup,
 			// so it calls _callbackSetLabel directly,
 			// and so does not pass dataObject
-			// dataObject==null means do not test the lastQuery, just continue
-			if(dataObject && dataObject.query[this.searchAttr] != this._lastQuery){
+			// still need to test against _lastQuery in case it came too late
+			if((dataObject && dataObject.query[this.searchAttr] != this._lastQuery)||(!dataObject&&this.store.getIdentity(result[0])!= this._lastQuery)){
 				return;
 			}
 			if(!result.length){
@@ -54,9 +56,10 @@ dojo.declare(
 				//this._setValue("", "");
 				//#3285: change CSS to indicate error
 				if(!this._focused){ this.valueNode.value=""; }
-				dijit.form.TextBox.superclass.setValue.call(this, undefined, !this._focused);
+				dijit.form.TextBox.superclass.setValue.call(this, "", !this._focused);
 				this._isvalid=false;
 				this.validate(this._focused);
+				this.item=null;
 			}else{
 				this._setValueFromItem(result[0], priorityChange);
 			}
@@ -94,6 +97,12 @@ dojo.declare(
 			// summary
 			//	Sets the value of the select.
 			//	Also sets the label to the corresponding value by reverse lookup.
+			this._lastQuery=value;
+
+			if(!value){
+				this.setDisplayedValue("",priorityChange);
+				return;
+			}
 
 			//#3347: fetchItemByIdentity if no keyAttr specified
 			var self=this;
@@ -178,7 +187,7 @@ dojo.declare(
 					},
 					onError: function(errText){
 						console.error('dijit.form.FilteringSelect: ' + errText);
-						dojo.hitch(_this, "_setValue")(undefined, label, false);
+						dojo.hitch(_this, "_setValue")("", label, false);
 					}
 				});
 			}

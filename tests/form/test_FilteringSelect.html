@@ -68,7 +68,7 @@
 	<hr>
 
 	<form action="#" method="GET">
-		<p>FilteringSelect #1: inlined data, autoComplete=false:</p>
+		<p>FilteringSelect #1: inlined data, autoComplete=false, required="false":</p>
 		<label for="setvaluetest2">state list 1:</label>
 		<select	dojoType="dijit.form.FilteringSelect"
 				id="setvaluetest2"
@@ -78,8 +78,8 @@
 				onChange="dojo.byId('oc1').value=arguments[0]"
 				onFocus="console.log('user focus handler')"
 				onBlur="console.log('user blur handler')"
+				required="false"
 		>
-			<option value="blank"></option>
 			<option value="AL">Alabama</option>
 			<option value="AK">Alaska</option>
 			<option value="AS">American Samoa</option>
