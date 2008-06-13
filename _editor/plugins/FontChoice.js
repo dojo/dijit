@@ -73,41 +73,9 @@ dojo.declare("dijit._editor.plugins.FontChoice",
 			});
 			//items.push({label: "", name:"", value:""}); // FilteringSelect doesn't like unmatched blank strings
 
-			this.inherited(arguments,[{ labelType: "html", labelAttr: "label", searchAttr: "name", store: new dojo.data.ItemFileReadStore(
+			this.inherited(arguments,[{required:false, labelType: "html", labelAttr: "label", searchAttr: "name", store: new dojo.data.ItemFileReadStore(
 					{ data: { identifier: "value", items: items } })}]);
 
-			//overload isValid/setValue to not show any validate error: if invalid, just show empty in the widget
-			this.button.isValid = function(){ return true; };
-			this.button.setValue = function(/*String*/ value, /*Boolean?*/ priorityChange){
-				//copied from FilteringSelect.setValue, just added one line
-				//TODO: is there a better way to achieve this? or shall we add a hook to
-				//FilteringSelect.setValue to allow inserting a _setValue more easily?
-				var self=this;
-				var handleFetchByIdentity = function(item, priorityChange){
-					if(item){
-						if(self.store.isItemLoaded(item)){
-							self._callbackSetLabel([item], undefined, priorityChange);
-						}else{
-							self.store.loadItem({
-								item: item, 
-								onItem: function(result, dataObject){
-									self._callbackSetLabel(result, dataObject, priorityChange);
-								}
-							});
-						}
-					}else{
-						self._isvalid=false;
-						self.validate(false);
-						self._setValue('','',false); //added this line to reset the input field to empty
-					}
-				}
-				this.store.fetchItemByIdentity({
-					identity: value, 
-					onItem: function(item){
-						handleFetchByIdentity(item, priorityChange);
-					}
-				});
-			}
 			this.button.setValue("");
 
 			this.connect(this.button, "onChange", function(choice){
