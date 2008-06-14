@@ -66,7 +66,8 @@
 							t1: "line 1\nline 2",
 							st1: "simple line 1\nsimple line 2",
 							richtext: "<h1>original</h1><p>This is the default content</p>",
-							filename: ""
+							filename: "",
+							"submitButton":"Submit"
 						};
 
 		// we change the form to these values
@@ -81,7 +82,8 @@
 							t1: "new line 1\nnew line 2",
 							st1: "new simple line 1\nnew simple line 2",
 							richtext: "<h1>changed</h1><p>This is the changed content set by setValues</p>",
-							filename: ""
+							filename: "",
+							"submitButton":"Submit"
 						};
 		var particalchanged = {
 							foo: {bar: {baz: {quux: d("2006-01-01")} } },
@@ -101,7 +103,8 @@
 							t1: "line 1\nline 2",
 							st1: "simple line 1\nsimple line 2",
 							richtext: "<h1>changed</h1><p>This is the changed content set by setValues</p>", // not a form element, so not reset
-							filename: ""
+							filename: "",
+							"submitButton":"Submit"
 						};
 
 		dojo.addOnLoad(function(){
