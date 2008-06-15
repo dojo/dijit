@@ -11,15 +11,17 @@
 	/* border:1px outset #a0a0a0; */
 	border:1px solid #dedede;
 	border-bottom:1px solid #dedede;
-	border-right:1px solid #dedede;
-	padding: 0px 0.2em;
-	background:#fff url("../images/buttonEnabled.png") repeat-x top left;
-}
-.dj_ie .nihilo .dijitButtonNode {
-	zoom: 1;
+	padding: 0.1em 0.2em 0.2em 0.2em; 
+	background: #fff url("../images/buttonEnabled.png") repeat-x top left;
 }
 
+.nihilo .dijitButtonNode button { 
+	border: 0px; 
+	background-color: transparent; 
+} 
+ 
 .nihilo .dijitButtonText {
+	text-align: center; 
 	padding: 0 0.3em;
 }
 

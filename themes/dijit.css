@@ -264,6 +264,26 @@
 	white-space: nowrap;
 }
 
+/*
+.dijitButtonNode button { 
+	cursor: pointer;
+} 
+*/
+
+.dj_ie .dijitButtonNode {
+	/* ensure hasLayout */
+	zoom: 1;
+}
+
+.dj_ie .dijitButtonNode button { 
+	/*  
+		disgusting hack to get rid of spurious padding around button elements 
+		on IE. MSIE is truly the web's boat anchor. 
+	*/ 
+	overflow: visible;
+	cursor: pointer;
+} 
+
 .dijitArrowButton {
 	/* Node that is acting as a arrow button -- drop down (spinner has its own treatment).  Also gets dijitButtonNode */
 	/* place AFTER dijitButtonNode so it overrides */
