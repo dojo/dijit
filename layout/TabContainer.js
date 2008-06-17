@@ -2,6 +2,7 @@ dojo.provide("dijit.layout.TabContainer");
 
 dojo.require("dijit.layout.StackContainer");
 dojo.require("dijit._Templated");
+dojo.requireLocalization("dijit", "common");
 
 dojo.declare("dijit.layout.TabContainer",
 	[dijit.layout.StackContainer, dijit._Templated],
@@ -154,6 +155,13 @@ dojo.declare("dijit.layout._TabButton",
 	postCreate: function(){
 		if(this.closeButton){
 			dojo.addClass(this.innerDiv, "dijitClosable");
+			var _nlsResources = dojo.i18n.getLocalization("dijit", "common");
+			if(this.closeButtonNode){
+				dojo.attr(this.closeButtonNode,"title", _nlsResources.itemClose);
+			}
+			if(this.closeText){
+				dojo.attr(this.closeText, "title", _nlsResources.itemClose);
+			}
 		}else{
 			this.closeButtonNode.style.display="none";
 		}
