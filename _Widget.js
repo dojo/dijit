@@ -387,7 +387,8 @@ dojo.declare("dijit._Widget", null, {
 		//	summary:
 		//		Connects specified obj/event to specified method of this object
 		//		and registers for disconnect() on widget destroy.
-		//		Special event: "ondijitclick" triggers on a click or enter-down or space-up
+		//		Special event: "ondijitclick" triggers on a click or space-up, enter-down in IE
+		//		or enter press in FF (since often can't cancel enter onkeydown in FF)
 		//		Similar to dojo.connect() but takes three arguments rather than four.
 		var handles =[];
 		if(event == "ondijitclick"){
@@ -395,7 +396,7 @@ dojo.declare("dijit._Widget", null, {
 			if(!this.nodesWithKeyClick[obj.nodeName]){
 				handles.push(dojo.connect(obj, "onkeydown", this,
 					function(e){
-						if(e.keyCode == dojo.keys.ENTER){
+						if(!dojo.isFF && e.keyCode == dojo.keys.ENTER){
 							return (dojo.isString(method))?
 								this[method](e) : method.call(this, e);
 						}else if(e.keyCode == dojo.keys.SPACE){
@@ -411,6 +412,15 @@ dojo.declare("dijit._Widget", null, {
 								this[method](e) : method.call(this, e);
 						}
 			 		}));
+			 	if (dojo.isFF){
+			 	handles.push(dojo.connect(obj, "onkeypress", this,
+					function(e){
+						if(e.keyCode == dojo.keys.ENTER){
+							return (dojo.isString(method))?
+								this[method](e) : method.call(this, e);
+						}
+			 		}));
+			 	}
 			}
 			event = "onclick";
 		}

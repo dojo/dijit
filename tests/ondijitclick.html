@@ -44,11 +44,11 @@
 								w.clickCount = 0;
 								w.domNode.dispatchEvent(e);
 								t.is(1, w.clickCount);
-							}
+							}	
 						}
 					},
 					{
-						name: "ondijitclick fires once on an enter-key-down",
+						name: "ondijitclick fires once on an enter-key-down except in FF",
 						runTest: function(t){
 							var w = dijit.byId("widget1");
 							if (dojo.isSafari){ // safari has error
@@ -63,7 +63,55 @@
 								w.domNode.focus();
 								w.clickCount = 0;
 								w.domNode.dispatchEvent(e);
-								t.is(1, w.clickCount);
+								if (!dojo.isFF){
+									t.is(1,w.clickCount);
+								}else{
+									t.is(0, w.clickCount);
+								}
+							}
+						}
+					},
+					{
+						name: "ondijitclick fires once on an enter-key-press in FF",
+						runTest: function(t){
+							var w = dijit.byId("widget1");
+							if (dojo.isSafari){ // safari has error
+								this.name += " * SKIPPED *";
+								return;
+							}
+
+							// simulate enter down
+							if (document.createEvent && !dojo.isSafari){
+								var e = document.createEvent("KeyboardEvent");
+								e.initKeyEvent("keypress",true,true,null,false,false,false,false,13,0);
+								w.domNode.focus();
+								w.clickCount = 0;
+								w.domNode.dispatchEvent(e);
+								if (dojo.isFF){
+									t.is(1, w.clickCount);
+								}else{
+									t.is(0, w.clickCount);
+								}
+							}
+						}
+					},
+					{
+						name: "ondijitclick does not fire on a space-key-down",
+						runTest: function(t){
+							var w = dijit.byId("widget1");
+							if (dojo.isSafari){ // safari has error
+								this.name += " * SKIPPED *";
+								return;
+							}
+
+							// simulate space up
+							if (document.createEvent){
+								var e = document.createEvent("KeyboardEvent");
+								e.initKeyEvent("keydown",true,true,null,false,false,false,false,32,0);
+								w.domNode.focus();
+								w.clickCount = 0;
+								w.domNode.dispatchEvent(e);
+								t.is(0, w.clickCount);
 							}
 						}
 					},
