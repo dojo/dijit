@@ -122,11 +122,11 @@ dojo.declare("dijit._Widget", null, {
 
 		// For garbage collection.  An array of handles returned by Widget.connect()
 		// Each handle returned from Widget.connect() is an array of handles from dojo.connect()
-		this._connects=[];
+		this._connects = [];
 
 		// _attaches: String[]
 		// 		names of all our dojoAttachPoint variables
-		this._attaches=[];
+		this._attaches = [];
 
 		//mixin our passed parameters
 		if(this.srcNodeRef && (typeof this.srcNodeRef.id == "string")){ this.id = this.srcNodeRef.id; }
@@ -140,7 +140,7 @@ dojo.declare("dijit._Widget", null, {
 		// (be sure to do this before buildRendering() because that function might
 		// expect the id to be there.
 		if(!this.id){
-			this.id=dijit.getUniqueId(this.declaredClass.replace(/\./g,"_"));
+			this.id = dijit.getUniqueId(this.declaredClass.replace(/\./g,"_"));
 		}
 		dijit.registry.add(this);
 
@@ -172,16 +172,18 @@ dojo.declare("dijit._Widget", null, {
 	},
 
 	postMixInProperties: function(){
-		// summary
-		//	Called after the parameters to the widget have been read-in,
-		//	but before the widget template is instantiated.
-		//	Especially useful to set properties that are referenced in the widget template.
+		// summary:
+		//		Called after the parameters to the widget have been read-in,
+		//		but before the widget template is instantiated. Especially
+		//		useful to set properties that are referenced in the widget
+		//		template.
 	},
 
 	buildRendering: function(){
 		// summary:
-		//		Construct the UI for this widget, setting this.domNode.
-		//		Most widgets will mixin TemplatedWidget, which overrides this method.
+		//		Construct the UI for this widget, setting this.domNode.  Most
+		//		widgets will mixin dijit._Templated, which implements this
+		//		method.
 		this.domNode = this.srcNodeRef || dojo.doc.createElement('div');
 	},
 
@@ -201,16 +203,16 @@ dojo.declare("dijit._Widget", null, {
 
 	//////////// DESTROY FUNCTIONS ////////////////////////////////
 
-	destroyRecursive: function(/*Boolean*/ preserveDom){
+	destroyRecursive: function(/*Boolean?*/ preserveDom){
 		// summary:
 		// 		Destroy this widget and it's descendants. This is the generic
 		// 		"destructor" function that all widget users should call to
 		// 		cleanly discard with a widget. Once a widget is destroyed, it's
 		// 		removed from the manager object.
-		// preserveDom: Boolean
-		//		If true, this method will leave the original Dom structure alone
-		//		of descendant Widgets. Note: This will NOT work with _Templated
-		//		widgets.
+		// preserveDom:
+		//		If true, this method will leave the original Dom structure
+		//		alone of descendant Widgets. Note: This will NOT work with
+		//		dijit._Templated widgets.
 		//
 		this.destroyDescendants(preserveDom);
 		this.destroy(preserveDom);
@@ -230,16 +232,20 @@ dojo.declare("dijit._Widget", null, {
 		});
 
 		// destroy widgets created as part of template, etc.
-		dojo.forEach(this._supportingWidgets || [], function(w){ w.destroy(); });
+		dojo.forEach(this._supportingWidgets||[], function(w){ 
+			if(w.destroy){
+				w.destroy();
+			}
+		});
 		
 		this.destroyRendering(preserveDom);
 		dijit.registry.remove(this.id);
 	},
 
-	destroyRendering: function(/*Boolean*/ preserveDom){
+	destroyRendering: function(/*Boolean?*/ preserveDom){
 		// summary:
 		//		Destroys the DOM nodes associated with this widget
-		// preserveDom: Boolean
+		// preserveDom:
 		//		If true, this method will leave the original Dom structure alone
 		//		during tear-down. Note: this will not work with _Templated
 		//		widgets yet. 
@@ -264,16 +270,21 @@ dojo.declare("dijit._Widget", null, {
 		}
 	},
 
-	destroyDescendants: function(/* Boolean */ preserveDom){
+	destroyDescendants: function(/*Boolean?*/ preserveDom){
 		// summary:
 		//		Recursively destroy the children of this widget and their
 		//		descendants.
-		// preserveDom: Boolean
+		// preserveDom:
 		//		If true, the preserveDom attribute is passed to all descendant
-		//		widget's .destroy() method. Not for use with _Templated widgets.
+		//		widget's .destroy() method. Not for use with _Templated
+		//		widgets.
 		
 		// TODO: should I destroy in the reverse order, to go bottom up?
-		dojo.forEach(this.getDescendants(), function(widget){ widget.destroy(preserveDom); });
+		dojo.forEach(this.getDescendants(), function(widget){ 
+			if(widget.destroy){
+				widget.destroy(preserveDom);
+			}
+		});
 	},
 
 
@@ -307,10 +318,10 @@ dojo.declare("dijit._Widget", null, {
 	},
 
 	setAttribute: function(/*String*/ attr, /*anything*/ value){
-		// summary
+		//	summary:
 		//		Set native HTML attributes reflected in the widget,
 		//		such as readOnly, disabled, and maxLength in TextBox widgets.
-		// description
+		//	description:
 		//		In general, a widget's "value" is controlled via setValue()/getValue(), 
 		//		rather than this method.  The exception is for widgets where the
 		//		end user can't adjust the value, such as Button and CheckBox;
@@ -324,7 +335,7 @@ dojo.declare("dijit._Widget", null, {
 				break;
 			case "style":
 				if(mapNode.style.cssText){
-					mapNode.style.cssText += "; " + value;// FIXME: Opera
+					mapNode.style.cssText += "; " + value; // FIXME: Opera
 				}else{
 					mapNode.style.cssText = value;
 				}
@@ -337,8 +348,23 @@ dojo.declare("dijit._Widget", null, {
 					value = dojo.hitch(this, value);
 				}
 				dojo.attr(mapNode, attr, value);
+
 		}
 	},
+
+	/*
+	attr: function(){
+		// FIXME:
+		//	this method should also:
+		//		- check for a this["set"+attr] function, and if encountered, pass value to it
+		//		- if not, check for this[attr+"Node"] and innerHTML the value in if there is one
+		//		- be wrapped in a _Widget.attr() method which can set multiple attributes at once
+		//	open questions:
+		//		- how to handle build shortcut for attributes which want to map into DOM attributes?
+		//		- can/should we try to watch for DOM changes for bi-directionality?
+		//		- what relationship should setAttribute()/attr() have to layout() calls?
+	},
+	*/
 
 	toString: function(){
 		// summary:
@@ -377,54 +403,63 @@ dojo.declare("dijit._Widget", null, {
 		}
 	},
 
-//TODOC
+	// TODOC
 	nodesWithKeyClick: ["input", "button"],
 
 	connect: function(
 			/*Object|null*/ obj,
-			/*String*/ event,
+			/*String|Function*/ event,
 			/*String|Function*/ method){
 		//	summary:
 		//		Connects specified obj/event to specified method of this object
 		//		and registers for disconnect() on widget destroy.
-		//		Special event: "ondijitclick" triggers on a click or space-up, enter-down in IE
-		//		or enter press in FF (since often can't cancel enter onkeydown in FF)
-		//		Similar to dojo.connect() but takes three arguments rather than four.
+		//	description:
+		//		provide widget-specific analog to dojo.connect, except with the
+		//		implicit use of this widget as the target object.
+		//		This version of connect also provides a special "ondijitclick"
+		//		event which triggers on a click or space-up, enter-down in IE
+		//		or enter press in FF (since often can't cancel enter onkeydown
+		//		in FF)
+		//	example:
+		//	|	var btn = new dijit.form.Button();
+		//	|	// when foo.bar() is called, call the listener we're going to
+		//	|	// provide in the scope of btn
+		//	|	btn.connect(foo, "bar", function(){ 
+		//	|		console.debug(this.toString());
+		//	|	});
+
+		var d = dojo;
+		var dco = d.hitch(d, "connect", obj);
 		var handles =[];
 		if(event == "ondijitclick"){
 			// add key based click activation for unsupported nodes.
 			if(!this.nodesWithKeyClick[obj.nodeName]){
-				handles.push(dojo.connect(obj, "onkeydown", this,
-					function(e){
-						if(!dojo.isFF && e.keyCode == dojo.keys.ENTER){
-							return (dojo.isString(method))?
-								this[method](e) : method.call(this, e);
-						}else if(e.keyCode == dojo.keys.SPACE){
+				var m = d.hitch(this, method);
+				handles.push(
+					dco("onkeydown", this, function(e){
+						if(!d.isFF && e.keyCode == d.keys.ENTER){
+							return m(e);
+						}else if(e.keyCode == d.keys.SPACE){
 							// stop space down as it causes IE to scroll
 							// the browser window
-							dojo.stopEvent(e);
+							d.stopEvent(e);
 						}
-			 		}));
-				handles.push(dojo.connect(obj, "onkeyup", this,
-					function(e){
-						if(e.keyCode == dojo.keys.SPACE){
-							return dojo.isString(method) ?
-								this[method](e) : method.call(this, e);
-						}
-			 		}));
-			 	if (dojo.isFF){
-			 	handles.push(dojo.connect(obj, "onkeypress", this,
-					function(e){
-						if(e.keyCode == dojo.keys.ENTER){
-							return (dojo.isString(method))?
-								this[method](e) : method.call(this, e);
-						}
-			 		}));
+			 		}),
+					dco("onkeyup", this, function(e){
+						if(e.keyCode == d.keys.SPACE){ return m(e); }
+					})
+				);
+			 	if(d.isFF){
+					handles.push(
+						dco("onkeypress", this, function(e){
+							if(e.keyCode == d.keys.ENTER){ return m(e); }
+						})
+					);
 			 	}
 			}
 			event = "onclick";
 		}
-		handles.push(dojo.connect(obj, event, this, method));
+		handles.push(dco(event, this, method));
 
 		// return handles for FormElement and ComboBox
 		this._connects.push(handles);
