@@ -9,9 +9,6 @@
 /* Classes for all types of tabs (top/bottom/left/right) */
 
 .soria .dijitTabPaneWrapper { /* Container for tab content */
-	/*
-	overflow: hidden;
-	*/
 	background:#fff;
 	border:1px solid #b1badf;
 }

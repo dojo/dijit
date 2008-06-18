@@ -2,9 +2,6 @@
 /* Tabs */
 
 .tundra .dijitTabPaneWrapper {
-	/*
-	overflow: hidden;
-	*/
 	background:#fff;
 	border:1px solid #ccc;
 }
