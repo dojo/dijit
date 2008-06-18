@@ -52,12 +52,12 @@
 			document.body.appendChild(p);
 		});
 
-		dojo.addOnLoad(function(){
+		function makeTab(){
 			var tc = dijit.byId("mainTabContainer");
 			var cp = new dijit.layout.ContentPane({ title: 'Programmatically created tab' });
 			cp.domNode.innerHTML = "I was created programmatically!";
 			tc.addChild(cp, 3);
-		});
+		}
 	</script>
 </head>
 <body class="tundra">
@@ -116,6 +116,8 @@
 		<a dojoType="dijit.layout.LinkPane" href="tab4.html">SplitContainer from href</a>	
 
 	</div>
+
+	<button onclick="makeTab();">Make a tab</button>
 
 	<p>
 		The next example is with closable tabs.
