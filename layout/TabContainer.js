@@ -131,7 +131,8 @@ dojo.declare("dijit.layout.TabController",
 
 		var maxWidth = 0;
 		for(var pane in this.pane2button){
-			maxWidth = Math.max(maxWidth, dojo.marginBox(this.pane2button[pane].innerDiv).w);
+			var ow = this.pane2button[pane].innerDiv.scrollWidth;
+			maxWidth = Math.max(maxWidth, ow);
 		}
 		//unify the length of all the tabs
 		for(pane in this.pane2button){

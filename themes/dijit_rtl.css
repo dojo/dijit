@@ -98,7 +98,8 @@
 
 /* TabContainer */
 
-.dijitRtl .dijitTab {
+.dijitRtl .dijitTabContainerTop-tabs .dijitTab,
+.dijitRtl .dijitTabContainerBottom-tabs .dijitTab {
 	float:right;
 }
 

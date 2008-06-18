@@ -1027,15 +1027,14 @@ img.dijitColorPaletteUnder {
 
 .dijitTab {
 	position:relative;
-	float:left;
 	cursor:pointer;
 	white-space:nowrap;
 	z-index:3;
 }
 
-.dijitTabContainer .dijitTabContainerLeft-tabs .dijitTab,
-.dijitTabContainer .dijitTabContainerRight-tabs .dijitTab {
-	float:none;
+.dijitTabContainerTop-tabs .dijitTab,
+.dijitTabContainerBottom-tabs .dijitTab {
+	float:left;
 }
 
 .dijitTabInnerDiv {
