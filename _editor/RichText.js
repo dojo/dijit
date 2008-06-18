@@ -460,6 +460,10 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 	// onLoadDeferred: dojo.Deferred
 	//		deferred which is fired when the editor finishes loading
 	onLoadDeferred: null,
+	
+	// isTabIndent: Boolean
+	//		used to allow tab key and shift-tab to indent and outdent rather than navigate
+	isTabIndent: false,
 
 	postCreate: function(){
 		if("textarea" == this.domNode.tagName.toLowerCase()){
@@ -489,6 +493,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 			u: exec("underline"),
 			a: exec("selectall"),
 			s: function(){ this.save(true); },
+			m: function(){ this.isTabIndent = !this.isTabIndent; },
 
 			"1": exec("formatblock", "h1"),
 			"2": exec("formatblock", "h2"),
@@ -797,26 +802,6 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 				dojo.stopEvent(e);
 				this.execCommand("delete");
 			}
-		}else if (dojo.isMoz && this.iframe){
-			if(	e.keyCode == dojo.keys.TAB && 
-				!e.shiftKey && 
-				!e.ctrlKey && 
-				!e.altKey
-			){
-				// update iframe document title for screen reader
-				this.iframe.contentDocument.title = this._localizedIframeTitles.iframeFocusTitle;
-				
-				// Place focus on the iframe. A subsequent tab or shift tab
-				// will put focus on the correct control.
-				this.iframe.focus();  // this.focus(); won't work
-				dojo.stopEvent(e);
-			}else if(e.keyCode == dojo.keys.TAB && e.shiftKey){
-				// if there is a toolbar, set focus to it, otherwise ignore
-				if(this.toolbar){ // FIXME: this is badly factored!!!
-					this.toolbar.focus();
-				}
-				dojo.stopEvent(e);
-			}
 		}
 		return true;
 	},
@@ -1037,7 +1022,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 			case "inserthorizontalrule": case "insertimage":
 			case "insertorderedlist": case "insertunorderedlist":
 			case "indent": case "outdent": case "formatblock":
-			case "inserthtml": case "undo": case "redo": case "strikethrough":
+			case "inserthtml": case "undo": case "redo": case "strikethrough": case "tabindent":
 				supportedBy = isSupportedBy(mozilla | ie | opera | safari420);
 				break;
 

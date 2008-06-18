@@ -37,6 +37,7 @@
 	'formatBlock': 'Paragraph Style',
 	'fontSize': 'Font Size',
 	'fontName': 'Font Name',
+	'tabIndent': 'Tab Indent',
 	/* Error messages */
 	'systemShortcutFF': 'The "${0}" action is only available in Mozilla Firefox using a keyboard shortcut. Use ${1}.',
 	'ctrlKey':'ctrl+${0}',

@@ -362,6 +362,35 @@ dojo.declare(
 			if(!dojo.isIE && !this.iframe && e.keyCode==dojo.keys.TAB){
 				this._saveSelection();
 			}
+			if (e.keyCode === dojo.keys.TAB && this.isTabIndent ){
+				dojo.stopEvent(e); //prevent tab from moving focus out of editor
+				// FIXME: this is a poor-man's indent/outdent. It would be
+				// better if it added 4 "&nbsp;" chars in an undoable way.
+				// Unfortunately pasteHTML does not prove to be undoable
+				if (this.queryCommandEnabled((e.shiftKey ? "outdent" : "indent"))){
+					this.execCommand((e.shiftKey ? "outdent" : "indent"));
+				}
+			}else if (dojo.isMoz && this.iframe && !this.isTabIndent){
+				if(	e.keyCode == dojo.keys.TAB && 
+					!e.shiftKey && 
+					!e.ctrlKey && 
+					!e.altKey
+				){
+					// update iframe document title for screen reader
+					this.iframe.contentDocument.title = this._localizedIframeTitles.iframeFocusTitle;
+				
+					// Place focus on the iframe. A subsequent tab or shift tab
+					// will put focus on the correct control.
+					this.iframe.focus();  // this.focus(); won't work
+					dojo.stopEvent(e);
+				}else if(e.keyCode == dojo.keys.TAB && e.shiftKey){
+					// if there is a toolbar, set focus to it, otherwise ignore
+					if(this.toolbar){ // FIXME: this is badly factored!!!
+						this.toolbar.focus();
+					}
+					dojo.stopEvent(e);
+				}
+			}
 			if(!this.customUndo){
 				this.inherited('onKeyDown',arguments);
 				return;
