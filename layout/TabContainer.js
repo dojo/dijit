@@ -33,6 +33,12 @@ dojo.declare("dijit.layout.TabContainer",
 	//		An optional parameter to overrider the default TabContainer controller used.
 	_controllerWidget: "dijit.layout.TabController",
 
+	postMixInProperties: function(){
+		// set class name according to tab position, ex: dijiTabContainerTop
+		this["class"] += this.tabPosition.charAt(0).toUpperCase() + this.tabPosition.substr(1).replace(/-.*/, "");
+		this.inherited(arguments);
+	},
+
 	postCreate: function(){	
 		this.inherited(arguments);
 		// create the tab list that will have a tab (a.k.a. tab button) for each tab panel
@@ -41,7 +47,8 @@ dojo.declare("dijit.layout.TabContainer",
 			id: this.id + "_tablist",
 			tabPosition: this.tabPosition,
 			doLayout: this.doLayout,
-			containerId: this.id
+			containerId: this.id,
+			"class": this["class"] + "-tabs" + (this.doLayout ? "" : " dijitTabNoLayout")
 		}, this.tablistNode);		
 	},
 
@@ -110,31 +117,25 @@ dojo.declare("dijit.layout.TabController",
 	tabPosition: "top",
 
 	// doLayout: Boolean
-	// 	TODOC: deprecate doLayout? not sure.
 	doLayout: true,
 
 	// buttonWidget: String
 	//	The name of the tab widget to create to correspond to each page
 	buttonWidget: "dijit.layout._TabButton",
 
-	postMixInProperties: function(){
-		this["class"] = "dijitTabLabels-" + this.tabPosition + (this.doLayout ? "" : " dijitTabNoLayout");
-		this.inherited(arguments);
-	},
-
 //TODO: can this be accomplished in CSS?
 	_rectifyRtlTabList: function(){
-		//Summary: Rectify the length of all tabs in rtl, otherwise the tab lengths are different in IE
+		//summary: Rectify the width of all tabs in rtl, otherwise the tab widths are different in IE
 		if(0 >= this.tabPosition.indexOf('-h')){ return; }
 		if(!this.pane2button){ return; }
 
-		var maxLen = 0;
+		var maxWidth = 0;
 		for(var pane in this.pane2button){
-			maxLen = Math.max(maxLen, dojo.marginBox(this.pane2button[pane].innerDiv).w);
+			maxWidth = Math.max(maxWidth, dojo.marginBox(this.pane2button[pane].innerDiv).w);
 		}
 		//unify the length of all the tabs
 		for(pane in this.pane2button){
-			this.pane2button[pane].innerDiv.style.width = maxLen + 'px';
+			this.pane2button[pane].innerDiv.style.width = maxWidth + 'px';
 		}	
 	}
 });

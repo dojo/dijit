@@ -82,7 +82,7 @@
 
 /* top specific classes */
 
-.soria .dijitTabLabels-top {
+.soria .dijitTabContainerTop-tabs {
 	border-left: 1px solid #b1badf;
 	border-top: 1px solid #b1badf;
 	border-right: 1px solid #b1badf;
@@ -139,7 +139,7 @@
 
 /* bottom specific classes */
 
-.soria .dijitTabLabels-bottom {
+.soria .dijitTabContainerBottom-tabs {
 	padding-bottom: 2px;
 	padding-left: 3px;	
 	background-color: #f0f4fc;	
@@ -256,7 +256,7 @@
 	border-bottom: 1px solid #b9bbdd;
 }
 
-.soria .dijitTabLabels-left-h {
+.soria .dijitTabContainerLeft-tabs {
 	padding-left: 2px;
 	padding-top: 3px;	
 	background-color: #f0f4fc;	
@@ -272,7 +272,7 @@
 }
 
 /* right specific classes */
-.soria .dijitTabLabels-right-h {
+.soria .dijitTabContainerRight-tabs {
 	padding-right: 2px;
 	padding-top: 3px;	
 	background-color: #f0f4fc;	

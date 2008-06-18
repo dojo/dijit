@@ -123,11 +123,13 @@
 }
 
 .dj_ie7-rtl .dijitTabContainer .dijitAlignLeft {
+/* TODO: can we remove?   duplicate of above rule for dj_ie-rtl */
 	/* fix the offset between tabs and the pane */
 	margin-left:1px !important;
 }
 
 .dj_ie7-rtl .dijitTabContainer .dijitAlignRight {
+/* TODO: can we remove?   duplicate of above rule for dj_ie-rtl */
 	/* fix the offset between tabs and the pane */
 	margin-right:1px !important;
 }
