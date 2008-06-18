@@ -28,37 +28,37 @@
 	left:3px;
 }
 
-.dijitRtl .soria .dijitAlignLeft .dijitTab,
-.dijitRtl .soria .dijitAlignRight .dijitTab {
+.dijitRtl .soria .dijitTabContainerLeft-tabs .dijitTab,
+.dijitRtl .soria .dijitTabContainerRight-tabs .dijitTab {
 	margin-left:0px;
 }
 
-.dijitRtl .soria .dijitAlignBottom .dijitTab { 
+.dijitRtl .soria .dijitTabContainerBottom-tabs .dijitTab { 
 	margin-right:0;
 	margin-left:3px;		/* space between one tab and the next in top/bottom mode */	
 }
 
-.dijitRtl .soria .dijitAlignBottom .dijitTab .dijitClosable .closeImage {
+.dijitRtl .soria .dijitTabContainerBottom-tabs .dijitTab .dijitClosable .closeImage {
 	right:auto;
 	left:3px;
 }
 
-.dijitRtl .soria .dijitAlignRight .dijitTab .dijitTabInnerDiv {
+.dijitRtl .soria .dijitTabContainerRight-tabs .dijitTab .dijitTabInnerDiv {
 	padding-left:10px;
 	padding-right:20px;
 }
 
-.dijitRtl .soria .dijitAlignLeft .dijitTab .dijitTabInnerDiv {
+.dijitRtl .soria .dijitTabContainerLeft-tabs .dijitTab .dijitTabInnerDiv {
 	padding-left:20px;
 	padding-right:10px;
 }
 
-.dijitRtl .soria .dijitAlignRight .dijitTab .dijitClosable .closeImage {
+.dijitRtl .soria .dijitTabContainerRight-tabs .dijitTab .dijitClosable .closeImage {
 	left:auto;
 	right:3px;
 }
 
-.dijitRtl .soria .dijitAlignLeft .dijitTab .dijitClosable .closeImage {
+.dijitRtl .soria .dijitTabContainerLeft-tabs .dijitTab .dijitClosable .closeImage {
 	right:auto;
 	left:3px;
 }

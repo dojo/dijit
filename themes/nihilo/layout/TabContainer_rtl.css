@@ -28,37 +28,37 @@
 	left:3px;
 }
 
-.dijitRtl .nihilo .dijitAlignLeft .dijitTab,
-.dijitRtl .nihilo .dijitAlignRight .dijitTab {
+.dijitRtl .nihilo .dijitTabContainerLeft-tabs .dijitTab,
+.dijitRtl .nihilo .dijitTabContainerRight-tabs .dijitTab {
 	margin-left:0px;
 }
 
-.dijitRtl .nihilo .dijitAlignBottom .dijitTab { 
+.dijitRtl .nihilo .dijitTabContainerBottom-tabs .dijitTab { 
 	margin-right:0;
 	margin-left:3px;		/* space between one tab and the next in top/bottom mode */	
 }
 
-.dijitRtl .nihilo .dijitAlignBottom .dijitTab .dijitClosable .closeImage {
+.dijitRtl .nihilo .dijitTabContainerBottom-tabs .dijitTab .dijitClosable .closeImage {
 	right:auto;
 	left:3px;
 }
 
-.dijitRtl .nihilo .dijitAlignRight .dijitTab .dijitTabInnerDiv {
+.dijitRtl .nihilo .dijitTabContainerRight-tabs .dijitTab .dijitTabInnerDiv {
 	padding-left:10px;
 	padding-right:20px;
 }
 
-.dijitRtl .nihilo .dijitAlignLeft .dijitTab .dijitTabInnerDiv {
+.dijitRtl .nihilo .dijitTabContainerLeft-tabs .dijitTab .dijitTabInnerDiv {
 	padding-left:20px;
 	padding-right:10px;
 }
 
-.dijitRtl .nihilo .dijitAlignRight .dijitTab .dijitClosable .closeImage {
+.dijitRtl .nihilo .dijitTabContainerRight-tabs .dijitTab .dijitClosable .closeImage {
 	left:auto;
 	right:3px;
 }
 
-.dijitRtl .nihilo .dijitAlignLeft .dijitTab .dijitClosable .closeImage {
+.dijitRtl .nihilo .dijitTabContainerLeft-tabs .dijitTab .dijitClosable .closeImage {
 	right:auto;
 	left:3px;
 }

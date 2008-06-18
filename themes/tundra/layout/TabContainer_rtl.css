@@ -28,50 +28,50 @@
 	left:3px;
 }
 
-.dijitRtl .tundra .dijitAlignLeft .dijitTab,
-.dijitRtl .tundra .dijitAlignRight .dijitTab {
+.dijitRtl .tundra .dijitTabContainerLeft-tabs .dijitTab,
+.dijitRtl .tundra .dijitTabContainerRight-tabs .dijitTab {
 	margin-left:0px;
 }
 
-.dijitRtl .tundra .dijitAlignBottom .dijitTab .dijitClosable .closeImage {
+.dijitRtl .tundra .dijitTabContainerBottom-tabs .dijitTab .dijitClosable .closeImage {
 	right:auto;
 	left:3px;
 }
 
-.dijitRtl .tundra .dijitAlignRight .dijitTab .dijitTabInnerDiv {
+.dijitRtl .tundra .dijitTabContainerRight-tabs .dijitTab .dijitTabInnerDiv {
 	padding-left:10px;
 	padding-right:20px;
 }
 
-.dijitRtl .tundra .dijitAlignLeft .dijitTab .dijitTabInnerDiv {
+.dijitRtl .tundra .dijitTabContainerLeft-tabs .dijitTab .dijitTabInnerDiv {
 	padding-left:20px;
 	padding-right:10px;
 }
 
-.dj_ie-rtl .tundra .dijitAlignLeft .dijitTab .dijitTabInnerDiv {
+.dj_ie-rtl .tundra .dijitTabContainerLeft-tabs .dijitTab .dijitTabInnerDiv {
 	padding-left:19px;
 }
 
-.dijitRtl .tundra .dijitAlignRight .dijitTab .dijitClosable .closeImage {
+.dijitRtl .tundra .dijitTabContainerRight-tabs .dijitTab .dijitClosable .closeImage {
 	left:auto;
 	right:3px;
 }
 
-.dj_ie7-rtl .tundra .dijitAlignLeft .dijitTab  .dijitTabContent{
+.dj_ie7-rtl .tundra .dijitTabContainerLeft-tabs .dijitTab  .dijitTabContent{
 	position:relative;
 }
 
-.dj_ie7-rtl .tundra .dijitAlignLeft .dijitTab .dijitClosable .closeImage{
+.dj_ie7-rtl .tundra .dijitTabContainerLeft-tabs .dijitTab .dijitClosable .closeImage{
 	position:absolute;
 	top:2px;
 	left:3px;
 }
 
-.dj_ie6-rtl .tundra .dijitAlignLeft .dijitTab .dijitClosable .closeImage{
+.dj_ie6-rtl .tundra .dijitTabContainerLeft-tabs .dijitTab .dijitClosable .closeImage{
 	float:left;
 }
 
-.dj_ie6-rtl .tundra .dijitAlignLeft .dijitTab .dijitClosable .tabLabel{
+.dj_ie6-rtl .tundra .dijitTabContainerLeft-tabs .dijitTab .dijitClosable .tabLabel{
 	float:right;
 }
 

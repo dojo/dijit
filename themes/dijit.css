@@ -1033,8 +1033,8 @@ img.dijitColorPaletteUnder {
 	z-index:3;
 }
 
-.dijitTabContainer .dijitAlignLeft .dijitTab,
-.dijitTabContainer .dijitAlignRight .dijitTab {
+.dijitTabContainer .dijitTabContainerLeft-tabs .dijitTab,
+.dijitTabContainer .dijitTabContainerRight-tabs .dijitTab {
 	float:none;
 }
 

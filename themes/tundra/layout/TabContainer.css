@@ -17,8 +17,8 @@
 	background:#e2e2e2 url("../images/tabEnabled.png") repeat-x;
 }
 
-.tundra .dijitAlignLeft .dijitTab,
-.tundra .dijitAlignRight .dijitTab {
+.tundra .dijitTabContainerLeft-tabs .dijitTab,
+.tundra .dijitTabContainerRight-tabs .dijitTab {
 	margin-right:0px;
 	margin-bottom:4px;	/* space between one tab and the next in left/right mode */
 }
@@ -56,28 +56,28 @@
 }
 
 /* make the active tab white on the side next to the content pane */
-.tundra .dijitAlignTop .dijitTabChecked,
-.tundra .dijitAlignTop .dijitTabCloseButtonChecked
+.tundra .dijitTabContainerTop-tabs .dijitTabChecked,
+.tundra .dijitTabContainerTop-tabs .dijitTabCloseButtonChecked
 {
 	border-bottom-color:white;
 	vertical-align:bottom;
 }
 
-.tundra .dijitAlignBottom .dijitTabChecked,
-.tundra .dijitAlignBottom .dijitTabCloseButtonChecked
+.tundra .dijitTabContainerBottom-tabs .dijitTabChecked,
+.tundra .dijitTabContainerBottom-tabs .dijitTabCloseButtonChecked
 {
 	border-top-color:white;
 	-moz-border-radius:2px 2px 0px 0px;	/* eliminate some border detritrus on moz */
 }
 
-.tundra .dijitAlignLeft .dijitTabChecked,
-.tundra .dijitAlignLeft .dijitTabCloseButtonChecked
+.tundra .dijitTabContainerLeft-tabs .dijitTabChecked,
+.tundra .dijitTabContainerLeft-tabs .dijitTabCloseButtonChecked
 {
 	border-right-color:white;
 }
 
-.tundra .dijitAlignRight .dijitTabChecked,
-.tundra .dijitAlignRight .dijitTabCloseButtonChecked
+.tundra .dijitTabContainerRight-tabs .dijitTabChecked,
+.tundra .dijitTabContainerRight-tabs .dijitTabCloseButtonChecked
 {
 	border-left-color:white;
 }
@@ -122,7 +122,7 @@
 	background-image : url("../images/tabCloseHover.gif");
 }
 
-.tundra .dijitAlignLeft .dijitTab .dijitClosable {
+.tundra .dijitTabContainerLeft-tabs .dijitTab .dijitClosable {
 	padding:6px 10px 4px 20px;
 }
 
@@ -130,22 +130,22 @@
     We cant force hasLayout as that blows out the shrink wrapped tabs
     ..so we shim in the closeImage position properties instead
 */
-.dj_ie6 .tundra .dijitAlignLeft .dijitTab .dijitClosable .closeImage {
+.dj_ie6 .tundra .dijitTabContainerLeft-tabs .dijitTab .dijitClosable .closeImage {
 	left:-20px;
 }
 
-.tundra .dijitAlignBottom .dijitTab .dijitClosable .closeImage {
+.tundra .dijitTabContainerBottom-tabs .dijitTab .dijitClosable .closeImage {
 	top: auto;
 	bottom: 4px;
 	right: 3px;
 }
 
-.tundra .dijitAlignLeft .dijitTab .dijitClosable .closeImage {
+.tundra .dijitTabContainerLeft-tabs .dijitTab .dijitClosable .closeImage {
 	top: 5px;
 	left: 3px;
 }
 
-.tundra .dijitAlignRight .dijitTab .dijitClosable .closeImage {
+.tundra .dijitTabContainerRight-tabs .dijitTab .dijitClosable .closeImage {
 	top: 5px;
 	right: 3px;
 }

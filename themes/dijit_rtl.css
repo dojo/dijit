@@ -109,11 +109,11 @@
 	zoom:1;
 }
 
-.dj_ie-rtl .dijitTabContainer .dijitAlignLeft {
+.dj_ie-rtl .dijitTabContainer .dijitTabContainerLeft-tabs {
 	margin-left:1px !important;
 }
 
-.dj_ie-rtl .dijitTabContainer .dijitAlignRight {
+.dj_ie-rtl .dijitTabContainer .dijitTabContainerRight-tabs {
 	margin-right:1px !important;
 }
 
@@ -122,24 +122,24 @@
 	width:1px;
 }
 
-.dj_ie7-rtl .dijitTabContainer .dijitAlignLeft {
+.dj_ie7-rtl .dijitTabContainer .dijitTabContainerLeft-tabs {
 /* TODO: can we remove?   duplicate of above rule for dj_ie-rtl */
 	/* fix the offset between tabs and the pane */
 	margin-left:1px !important;
 }
 
-.dj_ie7-rtl .dijitTabContainer .dijitAlignRight {
+.dj_ie7-rtl .dijitTabContainer .dijitTabContainerRight-tabs {
 /* TODO: can we remove?   duplicate of above rule for dj_ie-rtl */
 	/* fix the offset between tabs and the pane */
 	margin-right:1px !important;
 }
 
-.dj_ie6-rtl .dijitTabContainer .dijitAlignLeft {
+.dj_ie6-rtl .dijitTabContainer .dijitTabContainerLeft-tabs {
 	overflow-x:visible;
 	margin-left:2px !important;
 }
 
-.dj_ie6-rtl .dijitTabContainer .dijitAlignRight {
+.dj_ie6-rtl .dijitTabContainer .dijitTabContainerRight-tabs {
 	overflow-x:visible;
 	margin-right:2px !important;
 }
@@ -152,17 +152,17 @@
 	padding: 0 0 0 12px;
 }
 
-.dj_ie-rtl .dijitAlignRight .dijitTab {
+.dj_ie-rtl .dijitTabContainerRight-tabs .dijitTab {
 	position:relative;
 }
 
-.dj_ie-rtl .dijitAlignRight .closeImage {
+.dj_ie-rtl .dijitTabContainerRight-tabs .closeImage {
 	position: absolute !important;
 }
-.dj_ie6-rtl .dijitAlignRight .closeImage {
+.dj_ie6-rtl .dijitTabContainerRight-tabs .closeImage {
 	width: 12px !important;
 }
-.dj_ie7-rtl .dijitAlignRight .closeImage {
+.dj_ie7-rtl .dijitTabContainerRight-tabs .closeImage {
 	padding: 0px !important;
 }
 
