@@ -51,3 +51,29 @@
 .tundra .dijitMenuSeparatorBottom {
 	border-top: 1px solid #e8e8e8;
 }
+
+/* the checked menu item */
+.tundra .dijitCheckedMenuItemIconChar {
+	display: none;
+}
+
+.tundra .dijitCheckedMenuItemIcon {
+	background-image: url('images/checkmark.png');
+	background-position: -16px;
+}
+
+.dj_ie6 .tundra .dijitCheckedMenuItemIcon {
+	background-image: url('images/checkmark.gif');
+}
+
+.tundra .dijitCheckedMenuItemIconChecked {
+	background-position: 0px;
+}
+
+.tundra .dijitMenuItemHover .dijitCheckedMenuItemIcon {
+	background-position: -80px;
+}
+
+.tundra .dijitMenuItemHover .dijitCheckedMenuItemIconChecked {
+	background-position: -64px;
+}

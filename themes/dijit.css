@@ -988,6 +988,19 @@ img.dijitColorPaletteUnder {
 	font-size: 1px;
 }
 
+/* the checked menu item */
+.dijitCheckedMenuItemIconChar {
+	width: 100%;
+	text-align: center;
+	vertical-align: middle;
+	visibility:hidden;
+}
+.dijitCheckedMenuItemIconChecked .dijitCheckedMenuItemIconChar {
+	visibility:visible !important;
+}
+.dijit_a11y .dijitCheckedMenuItemIconChar {
+	display:block !important;
+}
 
 
 /* Tab */

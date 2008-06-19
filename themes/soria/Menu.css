@@ -57,3 +57,29 @@
 .soria .dijitMenuSeparatorBottom {
 	border-top: 1px solid #8ba0bd;
 }
+
+/* the checked menu item */
+.soria .dijitCheckedMenuItemIconChar {
+	display: none;
+}
+
+.soria .dijitCheckedMenuItemIcon {
+	background-image: url('images/spriteCheckBox.png');
+	background-position: -16px;
+}
+
+.dj_ie6 .soria .dijitCheckedMenuItemIcon {
+	background-image: url('images/checkmarkNoBorder.gif');
+}
+
+.soria .dijitCheckedMenuItemIconChecked {
+	background-position: 0px;
+}
+
+.soria .dijitMenuItemHover .dijitCheckedMenuItemIcon {
+	background-position: -80px;
+}
+
+.soria .dijitMenuItemHover .dijitCheckedMenuItemIconChecked {
+	background-position: -64px;
+}

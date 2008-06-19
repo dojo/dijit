@@ -57,3 +57,29 @@
 .nihilo .dijitMenuSeparatorBottom {
 	border-top: 1px solid #d3d3d3;
 }
+
+/* the checked menu item */
+.nihilo .dijitCheckedMenuItemIconChar {
+	display: none;
+}
+
+.nihilo .dijitCheckedMenuItemIcon {
+	background-image: url('images/spriteCheckBox.png');
+	background-position: -16px;
+}
+
+.dj_ie6 .nihilo .dijitCheckedMenuItemIcon {
+	background-image: url('images/checkmarkNoBorder.gif');
+}
+
+.nihilo .dijitCheckedMenuItemIconChecked {
+	background-position: 0px;
+}
+
+.nihilo .dijitMenuItemHover .dijitCheckedMenuItemIcon {
+	background-position: -80px;
+}
+
+.nihilo .dijitMenuItemHover .dijitCheckedMenuItemIconChecked {
+	background-position: -64px;
+}

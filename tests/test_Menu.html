@@ -101,6 +101,10 @@
 			<span>Different popup</span>
 			<div dojoType="dijit.ColorPalette"></div>
 		</div>
+		<div dojoType="dijit.MenuSeparator"></div>
+		<div dojoType="dijit.CheckedMenuItem" checked="true" onChange="alert('Now set to ' + arguments[0])">Checked</div>
+		<div dojoType="dijit.CheckedMenuItem">Not Checked</div>
+		<div dojoType="dijit.CheckedMenuItem" checked="true" disabled="true">Checked Disabled</div>
 	</div>
 
 	<div dojoType="dijit.Menu" id="leftClick" leftClickToOpen="true" targetNodeIds="input2" style="display: none;">

@@ -483,3 +483,63 @@ dojo.declare("dijit.MenuSeparator",
 		return false; // Boolean
 	}
 });
+
+dojo.declare("dijit.CheckedMenuItem",
+	dijit.MenuItem,
+	{
+	// summary: a checkbox-like menu item for toggling on and off
+	
+	// Modify default string to include a11y ability
+	templateString:
+		 '<tr class="dijitReset dijitMenuItem" dojoAttachPoint="focusNode" waiRole="menuitem" tabIndex="-1"'
+		+'dojoAttachEvent="onmouseenter:_onHover,onmouseleave:_onUnhover,ondijitclick:_onClick">'
+		+'<td class="dijitReset" waiRole="presentation"><div class="dijitMenuItemIcon dijitCheckedMenuItemIcon ${iconClass}" dojoAttachPoint="iconNode">'
+		+'<div class="dijitCheckedMenuItemIconChar">&#10003;</div>'
+		+'</div></td>'
+		+'<td class="dijitReset dijitMenuItemLabel" dojoAttachPoint="containerNode"></td>'
+		+'<td class="dijitReset dijitMenuArrowCell" waiRole="presentation">'
+			+'<div dojoAttachPoint="arrowWrapper" style="display: none">'
+				+'<div class="dijitMenuExpand"></div>'
+				+'<span class="dijitMenuExpandA11y">+</span>'
+			+'</div>'
+		+'</td>'
+		+'</tr>',
+
+	// checked: Boolean
+	//	our checked state
+	checked: false,
+	
+	onChange: function(/*Boolean*/ checked){
+		// summary: User defined function to handle change events
+	},
+	
+	_onClick: function(/*Event*/ e){
+		// summary: Clicking this item just toggles its state
+		this.setAttribute("checked", !this.checked);
+		this.inherited(arguments);
+	},
+	
+	_setChecked: function(/*Boolean*/ checked){
+		// summary: Sets the class and state for the check box
+		dojo.toggleClass(this.iconNode, "dijitCheckedMenuItemIconChecked", checked);
+		dijit.setWaiState(this.domNode, "checked", checked);
+		this.checked = checked;
+	},
+	
+	setAttribute: function(/*String*/ attr, /*anything*/ value){
+		// summary: overridden in order to handle setting checked state
+		if(attr == "checked" && value != this.checked){
+			this._setChecked(value);
+			this.onChange(this.checked);
+		}else if(attr != "checked"){
+			this.inherited(arguments);
+		}
+	},
+	
+	postCreate: function(){
+		this.inherited(arguments);
+		// Create a 
+		// Need to set our initial checked state
+		this._setChecked(this.checked);
+	}
+});
