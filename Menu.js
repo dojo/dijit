@@ -491,7 +491,7 @@ dojo.declare("dijit.CheckedMenuItem",
 	
 	// Modify default string to include a11y ability
 	templateString:
-		 '<tr class="dijitReset dijitMenuItem" dojoAttachPoint="focusNode" waiRole="menuitem" tabIndex="-1"'
+		 '<tr class="dijitReset dijitMenuItem" dojoAttachPoint="focusNode" waiRole="menuitemcheckbox" tabIndex="-1"'
 		+'dojoAttachEvent="onmouseenter:_onHover,onmouseleave:_onUnhover,ondijitclick:_onClick">'
 		+'<td class="dijitReset" waiRole="presentation"><div class="dijitMenuItemIcon dijitCheckedMenuItemIcon ${iconClass}" dojoAttachPoint="iconNode">'
 		+'<div class="dijitCheckedMenuItemIconChar">&#10003;</div>'
