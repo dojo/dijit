@@ -12,7 +12,7 @@
 	padding: 6px 10px 4px 20px;
 }
 
-.dijitRtl .tundra .dijitTab .closeImage {
+.dj_ie-rtl .tundra .dijitTab .closeImage {
 	position:static;
 	padding: 0px 12px 0px 0px;
 }
