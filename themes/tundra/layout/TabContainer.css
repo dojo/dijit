@@ -123,14 +123,6 @@
 	padding:6px 10px 4px 20px;
 }
 
-/* correct for IE6.
-    We cant force hasLayout as that blows out the shrink wrapped tabs
-    ..so we shim in the closeImage position properties instead
-*/
-.dj_ie6 .tundra .dijitTabContainerLeft-tabs .dijitTab .dijitClosable .closeImage {
-	left:-20px;
-}
-
 .tundra .dijitTabContainerBottom-tabs .dijitTab .dijitClosable .closeImage {
 	top: auto;
 	bottom: 4px;
