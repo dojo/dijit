@@ -74,7 +74,7 @@ dojo.mixin(dijit._editor.selection, {
 		//		Retrieves the selected element (if any), just in the case that
 		//		a single element (object like and image or a table) is
 		//		selected.
-		if(this.getType() == "control"){
+		if(dijit._editor.selection.getType() == "control"){
 			if(dojo.doc.selection){ //IE
 				var range = dojo.doc.selection.createRange();
 				if(range && range.item){
@@ -91,12 +91,14 @@ dojo.mixin(dijit._editor.selection, {
 	getParentElement: function(){
 		// summary:
 		//		Get the parent element of the current selection
-		if(this.getType() == "control"){
+		if(dijit._editor.selection.getType() == "control"){
 			var p = this.getSelectedElement();
 			if(p){ return p.parentNode; }
 		}else{
 			if(dojo.doc.selection){ //IE
-				return dojo.doc.selection.createRange().parentElement();
+				var r=dojo.doc.selection.createRange();
+				r.collapse(true);
+				return r.parentElement();
 			}else{
 				var selection = dojo.global.getSelection();
 				if(selection){
