@@ -515,7 +515,9 @@ dojo.declare("dijit.CheckedMenuItem",
 	
 	_onClick: function(/*Event*/ e){
 		// summary: Clicking this item just toggles its state
-		this.setAttribute("checked", !this.checked);
+		if(!this.disabled){
+			this.setAttribute("checked", !this.checked);
+		}
 		this.inherited(arguments);
 	},
 	
