@@ -54,6 +54,7 @@ dojo.declare("dijit._editor.plugins.FontChoice",
 				fontSize: [1,2,3,4,5,6,7], // sizes according to the old HTML FONT SIZE
 				formatBlock: ["p", "h1", "h2", "h3", "pre"]
 			}[cmd];
+			this._availableValues = names; //store all possible values
 			var strings = dojo.i18n.getLocalization("dijit._editor", "FontChoice");
 			var items = dojo.map(names, function(value){
 				var name = strings[value] || value;
@@ -106,7 +107,7 @@ dojo.declare("dijit._editor.plugins.FontChoice",
 				// strip off single quotes, if any
 				var quoted = dojo.isString(value) && value.match(/'([^']*)'/);
 				if(quoted){ value = quoted[1]; }
-//console.log("selected " + value);
+
 				if(this.generic && _c == "fontName"){
 					var map = {
 						"Arial": "sans-serif",
@@ -121,7 +122,7 @@ dojo.declare("dijit._editor.plugins.FontChoice",
 						"Papyrus": "fantasy"
 // 						,"????": "fantasy" TODO: IE doesn't map fantasy font-family?
 					};
-//console.log("mapped to " + map[value]);
+
 					value = map[value] || value;
 				}else if(_c == "fontSize" && value.indexOf && value.indexOf("px") != -1){
 					var pixels = parseInt(value);
@@ -129,7 +130,9 @@ dojo.declare("dijit._editor.plugins.FontChoice",
 				}
 
 				this.updating = true;
-				this.button.setValue(value);
+				//if the value is not a permitted value, just set empty string to prevent
+				//showing the warning icon
+				this.button.setValue(dojo.indexOf(this._availableValues,value)<0?"":value);
 				delete this.updating;
 			}
 
