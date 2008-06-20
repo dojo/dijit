@@ -6,6 +6,13 @@ dojo.provide("dijit.form.CurrencyTextBox");
 dojo.require("dojo.currency");
 dojo.require("dijit.form.NumberTextBox");
 
+/*=====
+dojo.declare(
+	"dijit.form.CurrecnyTextBox.__Constraints",
+	[dijit.form.NumberTextBox.__Constraints, dojo.currency.__FormatOptions, dojo.currency.__ParseOptions]
+);
+=====*/
+
 dojo.declare(
 	"dijit.form.CurrencyTextBox",
 	dijit.form.NumberTextBox,
@@ -13,13 +20,12 @@ dojo.declare(
 		// summary:
 		//		A validating currency textbox
 		//
-		// constraints: dijit.form._DateTimeTextBox.__Constraints 
-		//
 		// currency: String
 		//		the [ISO4217](http://en.wikipedia.org/wiki/ISO_4217) currency code, a three letter sequence like "USD"
 		currency: "",
 
 		/*=====
+		// constraints: dijit.form.CurrencyTextBox.__Constraints 
 		constraints: {},
 		======*/
 
