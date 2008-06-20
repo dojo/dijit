@@ -8,7 +8,7 @@ dojo.require("dijit.form.NumberTextBox");
 
 /*=====
 dojo.declare(
-	"dijit.form.CurrecnyTextBox.__Constraints",
+	"dijit.form.CurrencyTextBox.__Constraints",
 	[dijit.form.NumberTextBox.__Constraints, dojo.currency.__FormatOptions, dojo.currency.__ParseOptions]
 );
 =====*/
