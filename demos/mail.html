@@ -69,12 +69,12 @@
 		// fake mail download code:
 		var numMails;
 		var updateFetchStatus = function(x){
-			if (x == 0) {
+			if(x == 0){
 				dijit.byId('fakeFetch').update({ indeterminate: false });
 				return;
 			}
-			dijit.byId('fakeFetch').update({ progress: x });
-			if (x == numMails){
+			dijit.byId('fakeFetch').update({ progress: x + 1 });
+			if(x == numMails){
 				dojo.fadeOut({ node: 'fetchMail', duration:800,
 					// set progress back to indeterminate. we're cheating, because this
 					// doesn't actually have any data to "progress"
@@ -88,20 +88,23 @@
 		var fakeReport = function(percent){
 			// FIXME: can't set a label on an indeterminate progress bar
 			// like if(this.indeterminate) { return " connecting."; }
-			return dojo.string.substitute("Fetching: ${0} of ${1} messages.", [percent*this.maximum, this.maximum]);
+			return dojo.string.substitute("Fetching: ${0} of ${1} messages.", [percent * this.maximum, this.maximum]);
 		}
+		
 		var fakeDownload = function(){
 			dojo.byId('fetchMail').style.visibility='visible';
-			numMails = Math.floor(Math.random()*10)+1;
+			numMails = Math.floor(Math.random()*10) + 1;
 			dijit.byId('fakeFetch').update({ maximum: numMails, progress:0 });
 			dojo.fadeIn({ node: 'fetchMail', duration:300 }).play();
-			for (var i=0; i<=numMails; i++){
-				setTimeout(function(){updateFetchStatus(i);},((i+1)*(Math.floor(Math.random()*100)+400)));
+			for(var ii = 0; ii < numMails + 1; ++ii){
+				var func = dojo.partial(updateFetchStatus, ii);
+				setTimeout(func,  ((ii + 1) * (Math.floor(Math.random()*100) + 400)));
 			}
 		}
+		
 		// fake sending dialog progress bar 
 		var stopSendBar = function(){
-			dijit.byId('fakeSend').update({indeterminate: false});
+			dijit.byId('fakeSend').update({ indeterminate: false });
 			dijit.byId('sendDialog').hide();
 			tabs.selectedChildWidget.onClose = function(){return true;};  // don't want confirm message 
 			tabs.closeChild(tabs.selectedChildWidget);
