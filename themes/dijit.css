@@ -1127,6 +1127,7 @@ img.dijitColorPaletteUnder {
 }
 
 .dijit_a11y .dijitExpandoText {
+	display: inline;
 	padding-left: 10px;
 	padding-right: 10px;
 	font-family: monospace;
