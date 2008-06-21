@@ -10,89 +10,113 @@ dijit.scrollIntoView = function(/* DomNode */node){
 	// native scrollIntoView() causes FF3's whole window to scroll if there is no scroll bar 
 	//	on the immediate parent
 	// dont like browser sniffs implementations but sometimes you have to use it
-	// #6146: IE scrollIntoView is broken
 	// It's not enough just to scroll the menu node into view if
 	// node.scrollIntoView hides part of the parent's scrollbar,
 	// so just manage the parent scrollbar ourselves
 
-	// all the V/H object members below are to reuse code for both directions
-	function addPseudoAttrs(element){
-		// use border box for node since margin visibility is least important
-		// use content box for parents since we don't care about parent border and padding
-		// use HTML size instead of BODY size since that's where the scrollbars are defined
-		var parent = element.parentNode;
-		var nodeBox = dojo._getBorderBox(element);
-		if(element.tagName=="BODY"){
-			htmlBox = dojo._getBorderBox(parent);
-			// this varies depending on browser and DOCTYPE
-			if(htmlBox.w < nodeBox.w){ nodeBox.w = htmlBox.w; }
-			if(htmlBox.h < nodeBox.h){ nodeBox.h = htmlBox.h; }
-		}
-		size = { H: nodeBox.w, V: nodeBox.h };
-		var start = { H:element.offsetLeft, V:element.offsetTop };
-		// check if this node and its parent share the same offsetParent
-		element._startIsRelative = !(parent && parent.tagName && parent.offsetParent == element.offsetParent);
-		var bp = dojo._getBorderExtents(element);
-		if(element != node){ // parent = skip border
-			start.H += bp.l;
-			start.V += bp.t;
-		}else{ // original node = add border to size
-			size.H += bp.w;
-			size.V += bp.h;
-		}
-		// FIXME: _getBorderBox/FF2 workaround
-		var fudgeStart = { H:0, V:0 };
-		if(dojo.isFF == 2){
-			var parent = element.parentNode;
-			if(parent && parent.tagName){
-				var bp = dojo._getBorderExtents(parent);
-				fudgeStart.H += bp.l;
-				fudgeStart.V += bp.t;
-			}
-		}
-		element._size = size;
-		element._start = start;
-		element._fudgeStart = fudgeStart;
+	node = dojo.byId(node);
+	var body = dojo.body();
+	var html = body.parentNode;
+	var rtl = !dojo._isBodyLtr();
+	var strict = dojo.doc.compatMode != 'BackCompat'; // not the same as !dojo.isQuirks
+	var scrollRoot = (strict && !dojo.isSafari)? html : body;
+	if(dojo.isFF == 2 || node == body || (dojo.isFF >= 3 && scrollRoot.scrollTop == 0)){ // FF2 is perfect, too bad FF3 is not
+		node.scrollIntoView(false); // short-circuit to native if possible
+		return;
 	}
 
-	var r2l = !dojo._isBodyLtr();
-	node = dojo.byId(node);
-	var parent = node.parentNode;
-	addPseudoAttrs(node);
-	var xy = { V: null, H: null };
-	while(parent && parent.tagName){ // tagName check needed for IE since HTML node has a tag-less parent
-		addPseudoAttrs(parent);
-		// for both x and y directions
-		for (var dir in xy){
-			var scrollAttr = (dir=="H")? "scrollLeft" : "scrollTop";
-			var oldScroll = parent[scrollAttr];
-			nodeRelativeOffset = node._start[dir] + node._fudgeStart[dir] - (node._startIsRelative? 0 : parent._start[dir]) - oldScroll;
-			if(parent._size[dir] < node._size[dir]){ // see if the node will be clipped
-				node._size[dir] = parent._size[dir]; // simplify calculations
-			}
-			var overflow = nodeRelativeOffset + node._size[dir] - parent._size[dir];
-			var underflow = nodeRelativeOffset;
-			var scrollAmount;
-			// see if we should scroll forward or backward
-			if(underflow <= 0){
-				scrollAmount = underflow;
-			}else if(overflow <= 0){
-				scrollAmount = 0;
-			}else if(underflow < overflow){
-				scrollAmount = underflow;
-			}else{
-				scrollAmount = overflow;
-			}
-			var newScroll = scrollAmount + oldScroll;
-			if(newScroll < 0 && r2l && dir=="H"){ // safari and IE need an adjustment since inline nodes return the wrong offsetLeft in right-to-left mode
-				newScroll += parent.scrollWidth - parent.clientWidth;
-			}
-			parent[scrollAttr] = newScroll; // actually perform the scroll
-			nodeRelativeOffset -= parent[scrollAttr] - oldScroll;
-			parent._size[dir] = node._size[dir]; // now we only want to show this portion of the parent
-			parent._start[dir] += nodeRelativeOffset; // the new visible portion of the parent may have tweaked coordinates
+	function addPseudoAttrs(element){
+		var parent = element.parentNode;
+		var offsetParent = element.offsetParent;
+		if(offsetParent == null){ // process only 1 of BODY/HTML
+			element = scrollRoot;
+			offsetParent = html;
+			parent = null;
 		}
-		node = parent; // now see if the parent needs to be scrolled as well
-		parent = parent.parentNode;
+		// all the V/H object members below are to reuse code for both directions
+		element._offsetParent = (offsetParent == body)? scrollRoot : offsetParent;
+		element._parent = (parent == body)? scrollRoot : parent;
+		element._start = { H:element.offsetLeft, V:element.offsetTop };
+		element._scroll = { H:element.scrollLeft, V:element.scrollTop };
+		element._renderedSize = { H: element.offsetWidth, V: element.offsetHeight };
+		var bp = dojo._getBorderExtents(element);
+		element._borderStart = { H:bp.l, V:bp.t };
+		element._borderSize = { H:bp.w, V:bp.h };
+		element._clientSize = (element._offsetParent == html && dojo.isSafari && strict)? { H:html.clientWidth, V:html.clientHeight } : { H:element.clientWidth, V:element.clientHeight };
+		element._scrollBarSize = { V: null, H: null };
+		for(var dir in element._scrollBarSize){ // for both x and y directions
+			var scrollBar = element._renderedSize[dir] - element._clientSize[dir] - element._borderSize[dir];
+			element._scrollBarSize[dir] = (element._clientSize[dir] > 0 && scrollBar >= 15 && scrollBar <= 17)? scrollBar : 0; // sanity check
+		}
+		element._isScrollable = { V: null, H: null };
+		for(dir in element._isScrollable){ // for both x and y directions
+			var otherDir = dir=="H"? "V" : "H";
+			element._isScrollable[dir] = element == scrollRoot || element._scroll[dir] || element._scrollBarSize[otherDir];
+		}
+	}
+
+	var parent = node;
+	while(parent != null){
+		addPseudoAttrs(parent);
+		parent = parent._parent;
+	}
+	for(var dir in scrollRoot._renderedSize){ scrollRoot._renderedSize[dir] = Math.min(scrollRoot._clientSize[dir], scrollRoot._renderedSize[dir]); }
+	var element = node;
+	while(element != scrollRoot){
+		parent = element._parent;
+		// check if this node and its parent share the same offsetParent
+		var startIsRelative = element == scrollRoot || (parent._offsetParent != element._offsetParent);
+
+		for(dir in element._start){ // for both x and y directions
+			var otherDir = dir=="H"? "V" : "H";
+			if(rtl && dir=="H" && (dojo.isSafari || dojo.isIE) && parent._clientSize.H > 0){ // scroll starts on the right
+				var delta = parent.scrollWidth - parent._clientSize.H;
+				if(delta > 0){ parent._scroll.H -= delta; } // match FF3 which has cool negative scrollLeft values
+			}
+			if(dojo.isIE && parent._offsetParent.tagName == "TABLE"){ // make it consistent with Safari and FF3 and exclude the starting TABLE border of TABLE children
+				parent._start[dir] -= parent._offsetParent._borderStart[dir];
+				parent._borderStart[dir] = parent._borderSize[dir] = 0;
+			}
+			if(parent._clientSize[dir] == 0){ // TABLE on Safari3/FF3, and TBODY on IE6/7
+				parent._renderedSize[dir] = parent._clientSize[dir] = element._clientSize[dir];
+				if(rtl && dir=="H"){ parent._start[dir] -= parent._renderedSize[dir]; }
+			}else{
+				parent._renderedSize[dir] -= parent._borderSize[dir] + parent._scrollBarSize[dir];
+			}
+			parent._start[dir] += parent._borderStart[dir];
+
+			// underflow = visible gap between parent and this node taking scrolling into account
+			// if negative, part of the node is obscured by the parent's beginning and should be scrolled to become visible
+			var underflow = element._start[dir] - (startIsRelative? 0 : parent._start[dir]) - parent._scroll[dir];
+			// if positive, number of pixels obscured by the parent's end
+			var overflow = underflow + element._renderedSize[dir] - parent._renderedSize[dir];
+			var scrollAmount, scrollAttr = (dir=="H")? "scrollLeft" : "scrollTop";
+			// see if we should scroll forward or backward
+			var reverse = (dir=="H" && rtl); // flip everything
+			var underflowScroll = reverse? -overflow : underflow;
+			var overflowScroll = reverse? -underflow : overflow;
+			if(underflowScroll <= 0){
+				scrollAmount = underflowScroll;
+			}else if(overflowScroll <= 0){
+				scrollAmount = 0;
+			}else if(underflowScroll < overflowScroll){
+				scrollAmount = underflowScroll;
+			}else{
+				scrollAmount = overflowScroll;
+			}
+			var scrolledAmount = 0;
+			if(scrollAmount != 0){
+				var oldScroll = parent[scrollAttr];
+				parent[scrollAttr] += reverse? -scrollAmount : scrollAmount; // actually perform the scroll
+				scrolledAmount = parent[scrollAttr] - oldScroll; // in case the scroll failed
+				underflow -= scrolledAmount;
+				overflowScroll -= reverse? -scrolledAmount : scrolledAmount;
+			}
+			parent._renderedSize[dir] = element._renderedSize[dir] + parent._scrollBarSize[dir] - 
+				// check for isScrollable since a nonscrolling parent could be smaller than the child but the child is fully visible
+				((parent._isScrollable[dir] && overflowScroll > 0)? overflowScroll : 0); // only show portion of the parent
+			parent._start[dir] += (underflow >= 0 || !parent._isScrollable[dir])? underflow : 0;
+		}
+		element = parent; // now see if the parent needs to be scrolled as well
 	}
 };
