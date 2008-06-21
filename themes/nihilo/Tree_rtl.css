@@ -19,8 +19,6 @@
 }
 
 .dijitRtl .nihilo .dijitTreeContainer .dijitTreeContent {
-    margin-left: auto;
-    margin-right: 18px;
     padding-left: auto;
     padding-right: 1px;   
 }

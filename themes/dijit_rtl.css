@@ -7,13 +7,8 @@
 
 /* Tree */
 
-.dijitRtl .dijitTreeContainer .dijitTreeExpando, .dijitRtl .dijitTreeContainer .dijitTreeExpand {
-	float:right;
-}
-
 /* can't specify .dijitRtl and .dijit_a11y on this rule, since they are on the same node */
 .dijitRtl .dijitExpandoText { 
-	float: right; 
 	padding-left: 3px;
 	padding-right: 0; 
 } 

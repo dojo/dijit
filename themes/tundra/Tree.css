@@ -27,9 +27,7 @@
 .tundra .dijitTreeContent {
     min-height: 18px;
     min-width: 18px;
-    margin-left:18px;
     padding-top:3px;
-    padding-left:1px;
 }
 
 
@@ -74,7 +72,6 @@
 .tundra .dijitTreeIcon {
 	width: 16px;
 	height: 16px;
-	padding-right: 4px;
 }
 
 .tundra .dijitFolderOpened {

@@ -119,7 +119,7 @@ dojo.declare(
 		this.isExpanded = true;
 		dijit.setWaiState(this.labelNode, "expanded", "true");
 		dijit.setWaiRole(this.containerNode, "group");
-		this.contentNode.className = "dijitTreeContent dijitTreeContentExpanded";
+		this.contentNode.className = "dijitInline dijitTreeContent dijitTreeContentExpanded";
 		this._setExpando();
 		this._updateItemClasses(this.item);
 
@@ -134,7 +134,7 @@ dojo.declare(
 
 		this.isExpanded = false;
 		dijit.setWaiState(this.labelNode, "expanded", "false");
-		this.contentNode.className = "dijitTreeContent";
+		this.contentNode.className = "dijitInline dijitTreeContent";
 		this._setExpando();
 		this._updateItemClasses(this.item);
 

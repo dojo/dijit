@@ -1114,18 +1114,12 @@ img.dijitColorPaletteUnder {
 
 /* Tree */
 
-.dijitTreeExpando, .dijitTreeExpand {
-	float:left;
-	display:inline;
-}
-
-.dijitTreeExpando {
-	clear:both;
+.dijitTreeRow, .dijitTreeContent {
+	white-space: nowrap;
 }
 
 .dijitTreeContent {
     cursor: default;
-    /* can't make inline - multiline bugs */
 }
 
 .dijitExpandoText {
@@ -1133,14 +1127,16 @@ img.dijitColorPaletteUnder {
 }
 
 .dijit_a11y .dijitExpandoText {
-	float: left;
-	display: inline;
 	padding-left: 10px;
 	padding-right: 10px;
 	font-family: monospace;
 	border-style: solid;
 	border-width: thin;
 	cursor: pointer;
+}
+
+.dijitTreeLabel {
+	margin: 0px 4px;
 }
 
 /* Dialog */

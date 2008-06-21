@@ -17,13 +17,6 @@
     background-image: url('images/i_half_rtl.gif');
 }
 
-.dijitRtl .tundra .dijitTreeContainer .dijitTreeContent {
-    margin-left: auto;
-    margin-right: 18px;
-    padding-left: auto;
-    padding-right: 1px;   
-}
-
 .dijitRtl .tundra .dijitTreeContainer .dijitTreeExpandoOpened {
 	background-image: url('images/treeExpand_minus_rtl.gif');
 }
