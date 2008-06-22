@@ -501,7 +501,7 @@ dojo.subscribe(dijit._scopeName + ".Editor.getPlugin",null,function(o){
 		case "undo": case "redo": case "cut": case "copy": case "paste": case "insertOrderedList":
 		case "insertUnorderedList": case "indent": case "outdent": case "justifyCenter":
 		case "justifyFull": case "justifyLeft": case "justifyRight": case "delete":
-		case "selectAll": case "removeFormat":
+		case "selectAll": case "removeFormat": case "unlink":
 		case "insertHorizontalRule":
 			p = new _p({ command: name });
 			break;
