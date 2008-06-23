@@ -82,7 +82,7 @@ dojo.declare(
 			// set position directly; we could set a class name like dijitBorderContainerPane with
 			// position:absolute but it might be overridden by (for example) a position:relative
 			// in the dijitTabContainer class
-			child.domNode.style.position = "absolute"; 
+			child.domNode.style.position = "absolute";
 
 			var ltr = this.isLeftToRight();
 			if(region == "leading"){ region = ltr ? "left" : "right"; }
@@ -145,20 +145,20 @@ dojo.declare(
 			centerStyle = (this._center && this._center.style) || {};
 
 		var changedSide = /left|right/.test(changedRegion);
-		
+
 		// resetting potential padding to 0px to provide support for 100% width/height + padding
 		// TODO: this hack doesn't respect the box model and is a temporary fix
 		if (!this.cs || !this.pe){
 			this.cs = dojo.getComputedStyle(this.domNode);
 			this.pe = dojo._getPadExtents(this.domNode, this.cs);
 			this.pe.r = parseFloat(this.cs.paddingRight); this.pe.b = parseFloat(this.cs.paddingBottom);
-			
+
 			dojo.style(this.domNode, "padding", "0px");
 		}
-	
+
 		var cs = this.cs;
 		var pe = this.pe;
-		
+
 		var layoutSides = !changedRegion || (!changedSide && !sidebarLayout);
 		var layoutTopBottom = !changedRegion || (changedSide && sidebarLayout);
 		if(this._top){
@@ -412,7 +412,7 @@ dojo.declare("dijit.layout._Splitter", [ dijit._Widget, dijit._Templated ],
 		this._cookieName = this.container.id + "_" + this.region;
 		if(this.container.persist){
 			// restore old size
-			var persistSize = dojo.cookie(this._cookieName);
+			var persistSize = parseInt(dojo.cookie(this._cookieName));
 			if(persistSize){
 				this.child.domNode.style[this.horizontal ? "height" : "width"] = persistSize;
 			}
@@ -434,7 +434,7 @@ dojo.declare("dijit.layout._Splitter", [ dijit._Widget, dijit._Templated ],
 			this.cover.style.zIndex = 1;
 		}
 
-		// Safeguard in case the stop event was missed.  Shouldn't be necessary if we always get the mouse up. 
+		// Safeguard in case the stop event was missed.  Shouldn't be necessary if we always get the mouse up.
 		if(this.fake){ dojo._destroyElement(this.fake); }
 		if(!(this._resize = this.live)){ //TODO: disable live for IE6?
 			// create fake splitter to display at old position while we drag
