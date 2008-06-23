@@ -52,6 +52,13 @@
 	background-image: url("../images/tabHover.gif");
 }
 
+.tundra .dijitTabCheckedHover,
+.dj_ie6 .tundra .dijitTabCheckedHover {
+	color: inherit;
+	border:1px solid #ccc;
+	background:#fff;
+}
+
 /* make the active tab white on the side next to the content pane */
 .tundra .dijitTabContainerTop-tabs .dijitTabChecked,
 .tundra .dijitTabContainerTop-tabs .dijitTabCloseButtonChecked
