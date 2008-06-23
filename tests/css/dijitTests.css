@@ -55,13 +55,11 @@ h1.testTitle {
 	visibility:visible; 
 }
 
-.customFolderOpenedIcon, .customFolderClosedIcon {
+body .customFolderOpenedIcon, body .customFolderClosedIcon {
 	background-image: url('../../demos/mail/icons.png'); /* mail icons sprite image */
 	background-repeat: no-repeat;
-	width: 16px;
-	height: 16px;
-	text-align: center;
-	padding-right:4px;
+	width: 18px;
+	height: 18px;
     background-position: -44px;
 }
 

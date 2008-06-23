@@ -83,6 +83,9 @@ dojo.declare("dijit._Widget", null, {
 	//		Other node references can be specified as properties of 'this'
 	attributeMap: {id:"", dir:"", lang:"", "class":"", style:"", title:""},  // TODO: add on* handlers?
 
+	// Constants used in templates
+	_blankGif: dojo.moduleUrl("dojo", "resources/blank.gif"),
+
 	//////////// INITIALIZATION METHODS ///////////////////////////////////////
 //TODOC: params and srcNodeRef need docs.  Is srcNodeRef optional?
 //TODOC: summary needed for postscript

@@ -1118,6 +1118,11 @@ img.dijitColorPaletteUnder {
 	white-space: nowrap;
 }
 
+.dijitTreeRow img {
+	/* make the expando and folder icons line up with the label */
+	vertical-align: middle;
+}
+
 .dijitTreeContent {
     cursor: default;
 }

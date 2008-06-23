@@ -73,7 +73,7 @@ dojo.declare(
 			// For back-compat with 1.0, need to use null to specify root item (TODO: remove in 2.0)
 			item = null;
 		}
-		this.iconNode.className = "dijitInline dijitTreeIcon " + tree.getIconClass(item, this.isExpanded);
+		this.iconNode.className = "dijitTreeIcon " + tree.getIconClass(item, this.isExpanded);
 		this.labelNode.className = "dijitTreeLabel " + tree.getLabelClass(item, this.isExpanded);
 	},
 
@@ -119,7 +119,7 @@ dojo.declare(
 		this.isExpanded = true;
 		dijit.setWaiState(this.labelNode, "expanded", "true");
 		dijit.setWaiRole(this.containerNode, "group");
-		this.contentNode.className = "dijitInline dijitTreeContent dijitTreeContentExpanded";
+		this.contentNode.className = "dijitTreeContent dijitTreeContentExpanded";
 		this._setExpando();
 		this._updateItemClasses(this.item);
 
@@ -134,7 +134,7 @@ dojo.declare(
 
 		this.isExpanded = false;
 		dijit.setWaiState(this.labelNode, "expanded", "false");
-		this.contentNode.className = "dijitInline dijitTreeContent";
+		this.contentNode.className = "dijitTreeContent";
 		this._setExpando();
 		this._updateItemClasses(this.item);
 
