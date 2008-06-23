@@ -48,6 +48,10 @@
 			console.log("Object is: " + dojo.toJson(obj, true));
 			dijit.byId('myForm').setValues(obj);
 		}
+		
+		function validate(){
+			console.log(dijit.byId('myForm').validate());
+		}
 
 		// make dojo.toJson() print dates correctly (this feels a bit dirty)
 		Date.prototype.json = function(){ return dojo.date.stamp.toISOString(this, {selector: 'date'});};
@@ -67,6 +71,7 @@
 							st1: "simple line 1\nsimple line 2",
 							richtext: "<h1>original</h1><p>This is the default content</p>",
 							filename: "",
+							readOnlyWidget: "Should be returned",
 							"submitButton":"Submit"
 						};
 
@@ -83,6 +88,7 @@
 							st1: "new simple line 1\nnew simple line 2",
 							richtext: "<h1>changed</h1><p>This is the changed content set by setValues</p>",
 							filename: "",
+							readOnlyWidget: "Should be returned",
 							"submitButton":"Submit"
 						};
 		var particalchanged = {
@@ -104,6 +110,7 @@
 							st1: "simple line 1\nsimple line 2",
 							richtext: "<h1>changed</h1><p>This is the changed content set by setValues</p>", // not a form element, so not reset
 							filename: "",
+							readOnlyWidget: "Should be returned",
 							"submitButton":"Submit"
 						};
 
@@ -136,6 +143,9 @@
 					function resetTest(){
 						dijit.byId("myForm").reset();
 						doh.is( dojo.toJson(reset), dojo.toJson(dijit.byId("myForm").getValues()) );
+					},
+					function testValidate(){
+						doh.is(dijit.byId("myForm").validate(), true);
 					}
 				]
 			);
@@ -360,11 +370,33 @@ simple line 2</textarea>
 						<input dojoType="dijit.form.TextBox" name="filename" type="file">
 					</td>
 				</tr>
+				<tr>
+					<td>Disabled Widget</td>
+					<td>Disabled</td>
+					<td>
+						<input dojoType="dijit.form.TextBox" name="disabledWidget" disabled="disabled" value="Should not be returned">
+					</td>
+				</tr>
+				<tr>
+					<td>Disabled Required Widget</td>
+					<td>Disabled Required</td>
+					<td>
+						<input dojoType="dijit.form.ValidationTextBox" name="disabledRequiredWidget" disabled="disabled" required="true" value="">
+					</td>
+				</tr>
+				<tr>
+					<td>Read-only Widget</td>
+					<td>Read Only</td>
+					<td>
+						<input dojoType="dijit.form.TextBox" name="readOnlyWidget" readOnly value="Should be returned">
+					</td>
+				</tr>
 			</tbody>
 		</table>
 
 		<button dojoType="dijit.form.Button" onClick="getValues();">Get Values from form!</button>
 		<button dojoType="dijit.form.Button" onClick="setValues();">Set Values to form!</button>
+		<button dojoType="dijit.form.Button" onClick="validate();">Validate form!</button>
 		<button dojoType="dijit.form.Button" type="submit" name="submitButton" value="Submit">Submit</button>
 		<button dojoType="dijit.form.Button" type="reset">Reset</button>
 	</form>

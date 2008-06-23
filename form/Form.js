@@ -45,7 +45,7 @@ dojo.declare("dijit.form._FormMixin", null,
 				// Need to set this so that "required" widgets get their 
 				// state set.
 				widget._hasBeenBlurred = true;
-				var valid = !widget.validate || widget.validate();
+				var valid = widget.disabled || !widget.validate || widget.validate();
 				if (!valid && !didFocus) {
 					// Set focus of the first non-valid widget
 					dijit.scrollIntoView(widget.containerNode||widget.domNode);
@@ -187,7 +187,7 @@ dojo.declare("dijit.form._FormMixin", null,
 			var obj = { };
 			dojo.forEach(this.getDescendants(), function(widget){
 				var name = widget.name;
-				if(!name){ return; }
+				if(!name||widget.disabled){ return; }
 
 				// Single value widget (checkbox, radio, or plain <input> type widget
 				var value = (widget.getValue && !widget._getValueDeprecated) ? widget.getValue() : widget.value;
@@ -281,7 +281,7 @@ dojo.declare("dijit.form._FormMixin", null,
 	 	isValid: function(){
 	 		// summary: make sure that every widget that has a validator function returns true
 	 		return dojo.every(this.getDescendants(), function(widget){
-	 			return !widget.isValid || widget.isValid();
+				return widget.disabled || !widget.isValid || widget.isValid();
 	 		});
 		}
 	});
