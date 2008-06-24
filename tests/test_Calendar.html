@@ -34,6 +34,7 @@
 				//onload handler after BigCalendar is defined.
 				dojo.declare("BigCalendar", dijit._Calendar, {
 					templatePath: "../../dijit/tests/_altCalendar.html",
+					templateString: null,  /* need this for builds */
 					isDisabledDate: dojo.date.locale.isWeekend,
 					getClassForDate: function(date){
 						if(!(date.getDate() % 10)){ return "blue"; } // apply special style to all days divisible by 10
@@ -81,8 +82,5 @@
 			<!-- The input below will be replaced by BigCalendar which is defined in a dojo.addOnLoad block. -->
 			<input id="calendar5" dayWidth="abbr" value="2008-03-15">
 		</div>
-<!-- 
-		<input id="calendar5" dojoType="dijit._Calendar" dayWidth="abbr" templatePath="../dijit/tests/_altCalendar.html" value="2008-03-15">
- -->
 	</body>
 </html>
