@@ -451,7 +451,7 @@ dojo.declare(
 		_lastFocusItem: null,
 
 		templateString: null,
-		templatePath: dojo.moduleUrl("dijit.layout", "templates/TooltipDialog.html"),
+		templatePath: dojo.moduleUrl("dijit", "templates/TooltipDialog.html"),
 
 		postCreate: function(){
 			this.inherited(arguments);
