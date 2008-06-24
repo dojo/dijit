@@ -182,12 +182,12 @@ dojo.declare("dijit._tree.dndSource", dijit._tree.dndSelector, {
 			if(this.isDragging){
 				if(this.checkItemAcceptance(n,m.source)){
 					m.canDrop(this.targetState != "Disabled" && (!this.current || m.source != this || !(n in this.selection)));
-				}else{
-					m.canDrop(false);
 				}
 			}
 		}else{
-			m.canDrop(false);
+			if(this.isDragging){
+				m.canDrop(false);
+			}
 		}
 		this.current = n;
 	},
