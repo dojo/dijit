@@ -20,7 +20,7 @@
 		        doh.register("dijit._base.scroll",
 	                [
 	                        function scrollIntoView(){
-					dojo.global.scrollTo(100,100); // to keep from triggering FF3 short-circuit to native
+					dojo.global.scrollTo(100,100);
 					var s2 = dojo.byId('s2');
 					s2.scrollTop = s2.scrollLeft = 10;
 					dijit.scrollIntoView('q2');
@@ -40,6 +40,13 @@
 	<br>
 	<table style="display:block;margin:200px;border:0 solid white;border-width:0 300px 0 200px;"><tr><td><div style="background-color:white;border:2px solid black;width:400px;" onclick="dijit.scrollIntoView(this)">&nbsp;</div></td></tr>
 	<tr><td><div style="width:1000px;background-color:white;border:1px solid black;" onclick="dijit.scrollIntoView(this)">&nbsp;</div></td></tr></table>
+	<div style="height:70px;width:200px;overflow-y:scroll;position:absolute;top:50%;left:50%;">
+		<p>&nbsp;</p>
+		<p style="padding:5px;border:2px solid black;" onclick="dijit.scrollIntoView(this)">&nbsp;</p>
+		<p>&nbsp;</p>
+		<p>&nbsp;</p>
+	</div>
+	<div style="height:70px;width:70px;position:absolute;top:600px;left:100px;padding:20px;border:10px solid black;" onclick="dijit.scrollIntoView(this)">&nbsp;</div>
 	<div style="border:0px solid red;border:50px solid white;">
 		<img src="../../../dojo/resources/blank.gif" style="height:300px;width:1px;display:block;background-color:white;">
 		<div id="s1" style="width:600px;height:500px;overflow:scroll;background-color:white;border:0px solid white;margin:0px;padding:30px;"

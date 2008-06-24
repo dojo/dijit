@@ -17,13 +17,13 @@ dijit.scrollIntoView = function(/* DomNode */node){
 	node = dojo.byId(node);
 	var body = dojo.body();
 	var html = body.parentNode;
-	var rtl = !dojo._isBodyLtr();
-	var strict = dojo.doc.compatMode != 'BackCompat'; // not the same as !dojo.isQuirks
-	var scrollRoot = (strict && !dojo.isSafari)? html : body;
-	if(dojo.isFF == 2 || node == body || (dojo.isFF >= 3 && scrollRoot.scrollTop == 0)){ // FF2 is perfect, too bad FF3 is not
+	if(dojo.isFF == 2 || node == body || node == html){ // FF2 is perfect, too bad FF3 is not
 		node.scrollIntoView(false); // short-circuit to native if possible
 		return;
 	}
+	var rtl = !dojo._isBodyLtr();
+	var strict = dojo.doc.compatMode != 'BackCompat'; // not the same as !dojo.isQuirks
+	var scrollRoot = (strict && !dojo.isSafari)? html : body;
 
 	function addPseudoAttrs(element){
 		var parent = element.parentNode;
