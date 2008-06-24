@@ -440,6 +440,8 @@ dojo.declare(
 		//		TooltipDialog in order to control the size of an inner widget. 
 		doLayout: false,
 
+		"class": "dijitTooltipDialog",
+
 		// _firstFocusItem: DomNode
 		//		The pointer to the first focusable node in the dialog
 		_firstFocusItem:null,
@@ -459,7 +461,7 @@ dojo.declare(
 
 		orient: function(/*DomNode*/ node, /*String*/ aroundCorner, /*String*/ corner){
 			// summary: configure widget to be displayed in given position relative to the button
-			this.domNode.className="dijitTooltipDialog " +" dijitTooltipAB"+(corner.charAt(1)=='L'?"Left":"Right")+" dijitTooltip"+(corner.charAt(0)=='T' ? "Below" : "Above");
+			this.domNode.className = this["class"] +" dijitTooltipAB"+(corner.charAt(1)=='L'?"Left":"Right")+" dijitTooltip"+(corner.charAt(0)=='T' ? "Below" : "Above");
 		},
 
 		onOpen: function(/*Object*/ pos){
