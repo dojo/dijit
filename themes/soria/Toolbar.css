@@ -14,7 +14,9 @@
 
 .soria .dijitToolbar .dijitButton,
 .soria .dijitToolbar .dijitToggleButton,
-.soria .dijitToolbar .dijitDropDownButton {
+.soria .dijitToolbar .dijitDropDownButton,
+.soria .dijitToolbar .dijitComboButton .dijitButtonContents,
+.soria .dijitToolbar .dijitComboButton .dijitDownArrowButton {
 	background: none;
 	margin: 1px;
 	padding: 0px;	
@@ -40,7 +42,9 @@
 
 .soria .dijitToolbar .dijitButtonHover,
 .soria .dijitToolbar .dijitToggleButtonHover,
-.soria .dijitToolbar .dijitDropDownButtonHover {
+.soria .dijitToolbar .dijitDropDownButtonHover,
+.soria .dijitToolbar .dijitComboButtonHover .dijitButtonContents,
+.soria .dijitToolbar .dijitComboButtonDownArrowHover .dijitDownArrowButton {
 	/* TODO: change this from Hover to Selected so that button is still highlighted while drop down is being used */
 	border: 1px solid #316ac5;
 	background-color:#9abbea;
