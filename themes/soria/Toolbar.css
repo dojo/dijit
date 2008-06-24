@@ -1,25 +1,24 @@
 .soria .dijitToolbar {
-	padding: 3px 0 1px 3px;	
 	border-bottom: 1px solid #ccc;
 	background:#eaeaea url("images/titleBar.png") repeat-x top left;
 }
 
 .soria .dijitToolbar .dijitButtonNode {
 	background: none;
-	margin: 0px !important;
-	padding: 0px !important;	
+	margin: 0px;
+	padding: 0px;
 	border: none;
 	font-size: 12px;
 }
-
+.dj_khtml .soria .dijitToolbar .dijitButtonNode {
+	padding: 0px 2px;	/* most browsers add implicit padding to buttons but safari doesn't */
+}
 .soria .dijitToolbar .dijitButton,
 .soria .dijitToolbar .dijitToggleButton,
 .soria .dijitToolbar .dijitDropDownButton,
 .soria .dijitToolbar .dijitComboButton .dijitButtonContents,
 .soria .dijitToolbar .dijitComboButton .dijitDownArrowButton {
 	background: none;
-	margin: 1px;
-	padding: 0px;	
 	border: 1px solid transparent;
 }
 
@@ -27,8 +26,6 @@
 .soria .dijitToolbar .dijitToggleButtonChecked {
 	background-color:#d8e5f8;
 	border:1px solid #316ac5;
-	margin: 1px !important;
-	padding: 0px !important;
 }
 
 .soria .dijitToolbar .dijitButtonCheckedHover,
@@ -36,8 +33,6 @@
  {
 	background-color:#9abbea;
 	border:1px solid #316ac5;
-	margin: 1px !important;
-	padding: 0px !important;
 }
 
 .soria .dijitToolbar .dijitButtonHover,
@@ -58,15 +53,18 @@
 .dj_ie .soria .dijitToolbar .dijitComboButton .dijitDownArrowButtonFocused,
 .dj_ff2 .soria.dijitToolbar .dijitComboButton .dijitButtonContentsFocused,
 .dj_ff2 .soria .dijitToolbar .dijitComboButton .dijitDownArrowButtonFocused {
+	/* focus border doesn't appear on <td> for FF2 or IE, so need to add it manually */
 	border: 1px black dotted !important;	
 }
 
 /* IE6 specific rules */
 .dj_ie6 .soria .dijitToolbar .dijitButton,
 .dj_ie6 .soria .dijitToolbar .dijitToggleButton,
-.dj_ie6 .soria .dijitToolbar .dijitDropDownButton {
+.dj_ie6 .soria .dijitToolbar .dijitDropDownButton,
+.dj_ie6 .soria .dijitToolbar .dijitComboButton .dijitButtonContents,
+.dj_ie6 .soria .dijitToolbar .dijitComboButton .dijitDownArrowButton {
 	/* workaround no transparent border support in IE6 */
-	margin: 2px;
+	margin: 1px;
 	padding: 0px 2px;
 	border: 0px;
 }
@@ -76,8 +74,8 @@
 .dj_ie6 .soria .dijitToolbar .dijitDropDownButtonChecked {
 	background-color:#d8e5f8;
 	border:1px solid #316ac5;
-	margin: 1px !important;
-	padding: 0px 2px !important;
+	margin: 0px;
+	padding: 0px 2px;
 }
 
 .dj_ie6 .soria .dijitToolbar .dijitButtonCheckedHover,
@@ -85,15 +83,17 @@
 .dj_ie6 .soria .dijitToolbar .dijitDropDownButtonCheckedHover {
 	background-color:#9abbea;
 	border:1px solid #316ac5;
-	margin: 1px !important;
-	padding: 0px 2px !important;
+	margin: 0px;
+	padding: 0px 2px;
 }
 
 .dj_ie6 .soria .dijitToolbar .dijitButtonHover,
 .dj_ie6 .soria .dijitToolbar .dijitToggleButtonHover,
-.dj_ie6 .soria .dijitToolbar .dijitDropDownButtonHover  {
+.dj_ie6 .soria .dijitToolbar .dijitDropDownButtonHover,
+.dj_ie6 .soria .dijitToolbar .dijitComboButtonHover .dijitButtonContents,
+.dj_ie6 .soria .dijitToolbar .dijitComboButtonDownArrowHover .dijitDownArrowButton {
 	background-color:#9abbea;
 	border:1px solid #316ac5;
-	margin: 1px !important;
-	padding: 0px 2px !important;
+	margin: 0px;
+	padding: 0px 2px;
 }

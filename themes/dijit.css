@@ -245,6 +245,17 @@
 	margin: 0.2em;
 }
 
+.dijitToolbar .dijitButton,
+.dijitToolbar .dijitDropDownButton,
+.dijitToolbar .dijitComboButton {
+	margin: 0;
+}
+
+.dj_ie .dijitComboButton {
+	/* hack to get inline-table to vertically align w/other buttons */
+	margin-bottom: -2px;
+}
+
 .dj_safari .dijitToolbar .dijitDropDownButton {
 	padding-left: 0.3em;
 }
@@ -342,7 +353,7 @@ table .dijitComboButton .dijitButtonNode {
 .dijitButtonNode IMG {
 	/* make text and images line up cleanly */
 	vertical-align:middle;
-	margin-bottom:.2em;
+	/*margin-bottom:.2em;*/
 }
 
 /******
