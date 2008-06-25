@@ -18,7 +18,7 @@ dijit.wai = {
 			+ 'position: absolute;'
 			+ 'height: 5px;'
 			+ 'top: -999px;'
-			+ 'background-image: url("' + dojo.moduleUrl("dojo", "resources/blank.gif") + '");';
+			+ 'background-image: url("' + (dojo.config.blankGif || dojo.moduleUrl("dojo", "resources/blank.gif")) + '");';
 		dojo.body().appendChild(div);
 
 		// test it

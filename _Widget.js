@@ -84,7 +84,7 @@ dojo.declare("dijit._Widget", null, {
 	attributeMap: {id:"", dir:"", lang:"", "class":"", style:"", title:""},  // TODO: add on* handlers?
 
 	// Constants used in templates
-	_blankGif: dojo.moduleUrl("dojo", "resources/blank.gif"),
+	_blankGif: (dojo.config.blankGif || dojo.moduleUrl("dojo", "resources/blank.gif")),
 
 	//////////// INITIALIZATION METHODS ///////////////////////////////////////
 //TODOC: params and srcNodeRef need docs.  Is srcNodeRef optional?
