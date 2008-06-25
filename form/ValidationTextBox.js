@@ -75,6 +75,12 @@ dojo.declare(
 				(this._isEmpty(value) || this.parse(value, constraints) !== undefined); // Boolean
 		},
 
+		_isValidSubset: function(){
+			// summary:
+			//	Returns true if the value is either already valid or could be made valid by appending characters.
+			return this.textbox.value.search(this._partialre) == 0;
+		},
+
 		isValid: function(/*Boolean*/ isFocused){
 			// summary: Need to over-ride with your own validation code in subclasses
 			return this.validator(this.textbox.value, this.constraints);
@@ -95,6 +101,7 @@ dojo.declare(
 			return this.promptMessage; // String
 		},
 
+		_maskValidSubsetError: false,
 		validate: function(/*Boolean*/ isFocused){
 			// summary:
 			//		Called by oninit, onblur, and onkeypress.
@@ -102,15 +109,18 @@ dojo.declare(
 			//		Show missing or invalid messages if appropriate, and highlight textbox field.
 			var message = "";
 			var isValid = this.isValid(isFocused);
+			if(isValid){ this._maskValidSubsetError = true; }
+			var isValidSubset = !isValid && isFocused && this._isValidSubset();
 			var isEmpty = this._isEmpty(this.textbox.value);
-			this.state = (isValid || (!this._hasBeenBlurred && isEmpty)) ? "" : "Error";
+			this.state = (isValid || (!this._hasBeenBlurred && isEmpty) || isValidSubset) ? "" : "Error";
+			if(this.state == "Error"){ this._maskValidSubsetError = false; }
 			this._setStateClass();
 			dijit.setWaiState(this.focusNode, "invalid", isValid ? "false" : "true");
 			if(isFocused){
 				if(isEmpty){
 					message = this.getPromptMessage(true);
 				}
-				if(!message && this.state == "Error"){
+				if(!message && (this.state == "Error" || (isValidSubset && !this._maskValidSubsetError))){
 					message = this.getErrorMessage(true);
 				}
 			}
@@ -155,6 +165,32 @@ dojo.declare(
 			if(this.invalidMessage == "$_unset_$"){ this.invalidMessage = this.messages.invalidMessage; }
 			var p = this.regExpGen(this.constraints);
 			this.regExp = p;
+			var partialre = "";
+			// parse the regexp and produce a new regexp that matches valid subsets
+			// if the regexp is .* then there's no use in matching subsets since everything is valid
+			if(p != ".*"){ this.regExp.replace(/\\.|\[\]|\[.*?[^\\]{1}\]|\{.*?\}|\(\?[=:!]|./g,
+				function (re){
+					switch(re.charAt(0)){
+						case '{':
+						case '+':
+						case '?':
+						case '*':
+						case '^':
+						case '$':
+						case '|':
+						case '(': partialre += re; break;
+						case ")": partialre += "|$)"; break;
+						 default: partialre += "(?:"+re+"|$)"; break;
+					}
+				}
+			);}
+			try{ // this is needed for now since the above regexp parsing needs more test verification
+				"".search(partialre);
+			}catch(e){ // should never be here unless the original RE is bad or the parsing is bad
+				partialre = this.regExp;
+				console.debug('RegExp error in ' + this.declaredClass + ': ' + this.regExp);
+			} // should never be here unless the original RE is bad or the parsing is bad
+			this._partialre = "^(?:" + partialre + ")$";
 		}
 	}
 );
@@ -261,6 +297,30 @@ dojo.declare(
 		isInRange: function(/*Boolean*/ isFocused){
 			// summary: Need to over-ride with your own validation code in subclasses
 			return this.rangeCheck(this.getValue(), this.constraints);
+		},
+
+		_isDefinitelyOutOfRange: function(){
+			// summary:
+			//	Returns true if the value is out of range and will remain
+			//	out of range even if the user types more characters
+			var val = this.getValue();
+			var isTooLittle = false;
+			var isTooMuch = false;
+			if("min" in this.constraints){
+				var min = this.constraints.min;
+				val = this.compare(val, ((typeof min == "number") && min >= 0)? 0 : min);
+				isTooLittle = (typeof val == "number") && val < 0;
+			}
+			if("max" in this.constraints){
+				var max = this.constraints.max;
+				val = this.compare(val, ((typeof max != "number") || max > 0)? max : 0);
+				isTooMuch = (typeof val == "number") && val > 0;
+			}
+			return isTooLittle || isTooMuch;
+		},
+
+		_isValidSubset: function(){
+			return this.inherited(arguments) && !this._isDefinitelyOutOfRange();
 		},
 
 		isValid: function(/*Boolean*/ isFocused){
