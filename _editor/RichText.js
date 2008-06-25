@@ -40,7 +40,14 @@ dijit._editor.RichTextIframeMixin = {
 		//		the guts of the open() method for use when in an iframe environment
 
 		if(dojo.isIE || dojo.isSafari || dojo.isOpera){ // contentEditable, easy
-			var burl = dojo.moduleUrl("dojo", "resources/blank.html")+"";
+		
+			if(dojo.config["useXDomain"] && !dojo.config["dojoBlankHtmlUrl"]){
+				console.debug("dijit._editor.RichText: When using cross-domain Dojo builds,"
+				+ " please save dojo/resources/blank.html to your domain and set djConfig.dojoBlankHtmlUrl"
+				+ " to the path on your domain to blank.html");
+			}
+
+			var burl = dojo.config["dojoBlankHtmlUrl"] || (dojo.moduleUrl("dojo", "resources/blank.html")+"");
 			var ifr = this.editorObject = this.iframe = dojo.doc.createElement('iframe');
 			ifr.id = this.id+"_iframe";
 			ifr.src = burl;
