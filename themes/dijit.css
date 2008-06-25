@@ -253,7 +253,7 @@
 
 .dj_ie .dijitComboButton {
 	/* hack to get inline-table to vertically align w/other buttons */
-	margin-bottom: -2px;
+	margin-bottom: -3px;
 }
 
 .dj_safari .dijitToolbar .dijitDropDownButton {
