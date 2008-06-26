@@ -401,7 +401,7 @@ table .dijitComboButton .dijitButtonNode {
 	position:static !important;
 	border:0 !important;	
 	margin:0 !important;
-	vertical-align:0em !important;
+	vertical-align:top !important;
 	visibility:visible !important;
 	background-color:transparent !important;
 	background-image:none !important;
@@ -1524,20 +1524,6 @@ img.dijitColorPaletteUnder {
 	height: 50%;
 	width: 16px;
 	overflow: hidden;
-}
-.dj_ie .dijitSpinner .dijitInputLayoutContainer .dijitArrowButton {
-	behavior: expression(
-		function(self){
-			var e; 
-			try{
-				var h = self.parentNode.offsetHeight/2;
-				if(h > 1){
-					self.style.height = h;
-					self.style.behavior = null; /* prevent re-eval of css expression */
-				}
-			}catch(e){} /* random exceptions thrown during init */
-		}(this)
-	);
 }
 .dijitSpinner .dijitInputLayoutContainer .dijitArrowButtonInner {
 	overflow: hidden;

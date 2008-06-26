@@ -91,15 +91,17 @@ dojo.declare(
 			this._connects.push(dijit.typematic.addListener(this.upArrowNode, this.textbox, {charOrCode:dojo.keys.UP_ARROW,ctrlKey:false,altKey:false,shiftKey:false}, this, "_typematicCallback", this.timeoutChangeRate, this.defaultTimeout));
 			this._connects.push(dijit.typematic.addListener(this.downArrowNode, this.textbox, {charOrCode:dojo.keys.DOWN_ARROW,ctrlKey:false,altKey:false,shiftKey:false}, this, "_typematicCallback", this.timeoutChangeRate, this.defaultTimeout));
 			if(dojo.isIE){
-				// When spinner is moved from hidden to visible, call _setStateClass to remind IE to render it. (#6123)
 				var _this = this;
-				this.connect(this.domNode, "onresize", 
+				this.connect(this.domNode, "onresize",
 					function(){ setTimeout(dojo.hitch(_this,
 						function(){
-							// cause the IE expressions to rerun
-							this.upArrowNode.style.behavior = '';
-							this.downArrowNode.style.behavior = '';
-							// cause IE to rerender
+				        		var sz = this.upArrowNode.parentNode.offsetHeight;
+							if(sz){
+								this.upArrowNode.style.height = sz >> 1;
+								this.downArrowNode.style.height = sz - (sz >> 1);
+								this.focusNode.parentNode.style.height = sz;
+							}
+							// cause IE to rerender when spinner is moved from hidden to visible
 							this._setStateClass();
 						}), 0);
 					}
