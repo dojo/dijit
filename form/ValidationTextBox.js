@@ -191,6 +191,19 @@ dojo.declare(
 				console.debug('RegExp error in ' + this.declaredClass + ': ' + this.regExp);
 			} // should never be here unless the original RE is bad or the parsing is bad
 			this._partialre = "^(?:" + partialre + ")$";
+		},
+
+		postCreate: function(){
+			if(dojo.isIE){ // IE INPUT tag fontFamily has to be set directly using STYLE
+				var s = dojo.getComputedStyle(this.focusNode);
+				if(s){
+					var ff = s.fontFamily;
+					if(ff){
+						this.focusNode.style.fontFamily = ff;
+					}
+				}
+			}
+			this.inherited(arguments);
 		}
 	}
 );
