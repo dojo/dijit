@@ -283,6 +283,54 @@ dojo.declare("dijit.form._FormMixin", null,
 	 		return dojo.every(this.getDescendants(), function(widget){
 				return widget.disabled || !widget.isValid || widget.isValid();
 	 		});
+		},
+		
+		
+		onValidStateChange: function(isValid){
+			// summary: stub function to connect to if you want to do something
+			//			(like disable/enable a submit button) when the valid 
+			//			state changes on the form as a whole.
+		},
+		
+		_widgetChange: function(){
+			// summary: connected to a widgets onChange function - update our 
+			//			valid state, if needed.
+			var isValid = this.isValid();
+			if (isValid !== this._lastValidState){
+				this._lastValidState = isValid;
+				this.onValidStateChange(isValid);
+			}
+		},
+		
+		connectChildren: function(){
+			// summary: connects to the onChange function of all children to
+			//			track valid state changes.  You can call this function
+			//			directly, ie. in the event that you programmatically
+			//			add a widget to the form *after* the form has been
+			//			initialized
+			dojo.forEach(this._changeConnections, dojo.hitch(this, "disconnect"));
+			var _this = this;
+			
+			// we connect to validate - so that it better reflects the states
+			// of the widgets - also, we only connect if it has a validate
+			// function (to avoid too many unneeded connections)
+			this._changeConnections = dojo.filter(this.getDescendants(), "return item.validate").map(
+					function(widget){
+							return _this.connect(widget, "validate", "_widgetChange");
+			});
+			// Call the widget change function to update the valid state, in 
+			// case something is different now.
+			this._widgetChange();
+		},
+		
+		startup: function(){
+			this.inherited(arguments);
+			// Initialize our valid state tracking.  Needs to be done in startup
+			//  because it's not guaranteed that our children are initialized 
+			//  yet.
+			this._changeConnections = [];
+			this.connectChildren();
+			this._lastValidState = this.isValid();
 		}
 	});
 
