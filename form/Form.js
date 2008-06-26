@@ -314,10 +314,15 @@ dojo.declare("dijit.form._FormMixin", null,
 			// we connect to validate - so that it better reflects the states
 			// of the widgets - also, we only connect if it has a validate
 			// function (to avoid too many unneeded connections)
-			this._changeConnections = dojo.filter(this.getDescendants(), "return item.validate").map(
-					function(widget){
-							return _this.connect(widget, "validate", "_widgetChange");
-			});
+			this._changeConnections = dojo.map(
+				dojo.filter(this.getDescendants(),
+					function(item){ return item.validate; }
+				),
+				function(widget){
+					return _this.connect(widget, "validate", "_widgetChange");
+				}
+			);
+
 			// Call the widget change function to update the valid state, in 
 			// case something is different now.
 			this._widgetChange();
