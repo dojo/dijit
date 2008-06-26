@@ -48,6 +48,19 @@ dojo.declare("dijit._Contained",
 			//		otherwise returns the next element sibling to the "right".
 
 			return this._getSibling("next"); // Mixed
+		},
+		
+		getIndexInParent: function(){
+			// summary:
+			//		Returns the index of this widget within its container parent.
+			//		It returns -1 if the parent does not exist, or if the parent
+			//		is not a dijit._Container
+			
+			var p = this.getParent();
+			if(!p || !p.getIndexOfChild){
+				return -1; // int
+			}
+			return p.getIndexOfChild(this); // int
 		}
 	}
 );
@@ -108,10 +121,17 @@ dojo.declare("dijit._Container",
 			}
 		},
 
-		removeChild: function(/*Widget*/ widget){
+		removeChild: function(/*Widget or int*/ widget){
 			// summary:
 			//		Removes the passed widget instance from this widget but does
-			//		not destroy it.
+			//		not destroy it.  You can also pass in an integer indicating
+			//		the index within the container to remove
+			if(typeof widget == "number" && widget > 0){
+				widget = this.getChildren()[widget];
+			}
+			// If we cannot find the widget, just return
+			if(!widget || !widget.domNode){ return; }
+			
 			var node = widget.domNode;
 			node.parentNode.removeChild(node);	// detach but don't destroy
 		},
@@ -161,6 +181,18 @@ dojo.declare("dijit._Container",
 				node = node[which];
 			}while(node && (node.nodeType != 1 || !dijit.byNode(node)));
 			return node ? dijit.byNode(node) : null;
+		},
+		
+		getIndexOfChild: function(/*Widget*/ child){
+			// summary:
+			//		Gets the index of the child in this container or -1 if not found
+			var children = this.getChildren();
+			for(var i=0, c; c=children[i]; i++){
+				if(c == child){ 
+					return i; // int
+				}
+			}
+			return -1; // int
 		}
 	}
 );
