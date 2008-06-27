@@ -48,6 +48,12 @@
 .nihilo .dijitTextAreaDisabled {
 	color: gray;
 }
+.dj_safari .nihilo .dijitTextBoxDisabled,
+.dj_safari .nihilo .dijitComboBoxDisabled,
+.dj_safari .nihilo .dijitSpinnerDisabled,
+.dj_safari .nihilo .dijitTextareaDisabled {
+	color: #eee;
+}
 
 .nihilo .dijitTextBoxFocused,
 .nihilo .dijitComboBoxFocused,

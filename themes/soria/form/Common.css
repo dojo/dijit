@@ -38,6 +38,12 @@
 .soria .dijitTextAreaDisabled {
 	color: gray;
 }
+.dj_safari .soria .dijitTextBoxDisabled,
+.dj_safari .soria .dijitComboBoxDisabled,
+.dj_safari .soria .dijitSpinnerDisabled,
+.dj_safari .soria .dijitTextareaDisabled {
+	color: #eee;
+}
 
 .soria .dijitComboBox .dijitButtonNode {
 	padding: 0 0.2em;
