@@ -26,13 +26,6 @@
 	right:0; /* FF workaround */
 }
 
-/* Button */
-
-.dijitRtl .dijitComboButton .dijitButtonContents {
-	border-right-width:1px !important;
-}
-
-/* A11y */
 .dijitRtl .dijitA11ySideArrow {
 	margin-left:1em;
 	margin-right:0;

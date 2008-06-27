@@ -251,6 +251,14 @@
 	margin: 0;
 }
 
+.dj_ie .dijitToolbar button,
+.dj_safari .dijitToolbar button {
+	/* FF adds implicit padding to buttons so make other browsers follow suit,
+	 * to avoid a bunch of browse specific rules in theme files
+	 */
+	padding: 1px 2px;
+}
+
 .dj_ie .dijitComboButton {
 	/* hack to get inline-table to vertically align w/other buttons */
 	margin-bottom: -3px;
@@ -326,18 +334,17 @@ DIV.dijitArrowButton {
 	bottom: none;
 }
 
-.dijitComboButton TABLE {
-	/* each cell in a combo-table should have its own separate border */
-	border-collapse: separate;
+TABLE.dijitComboButton {
+	/* In ComboButton, borders are on each cell rather than on <table> itself */
+	border-collapse: collapse;
 	border:0;
 	padding:0;
 	margin:0;
 }
-
-.dijitComboButton .dijitButtonContents {
-	border-right-width:0 !important;
+.dijitToolbar .dijitComboButton {
+	/* because Toolbar only draws a border around the hovered thing */
+	border-collapse: separate;
 }
-
 
 .dj_ie BUTTON.dijitButtonNode {
 	overflow: visible; /* eliminates arbitrary left and right padding on buttons */
@@ -678,7 +685,6 @@ body .dijitAlignClient { position: absolute; }
 	border-width: 0;
 	z-index: 10 !important;
 }
-
 .dijitSplitterCover{
 	position:absolute;
 	z-index:1;
