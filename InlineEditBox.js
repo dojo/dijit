@@ -274,6 +274,7 @@ dojo.declare(
 	postCreate: function(){
 		// Create edit widget in place in the template
 		var cls = dojo.getObject(this.editor);
+		this.editorParams.value = this.value;
 		var ew = this.editWidget = new cls(this.editorParams, this.editorPlaceholder);
 
 		// Copy the style from the source
