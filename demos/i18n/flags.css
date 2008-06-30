@@ -1,1224 +1,747 @@
 .countryIcon {
 	background-image: url('flags.png');
+	height: 13px !important;
+	width: 18px !important;
 }
 
-.countryAFIcon {
-	background-position: 0px 0px;
-	width: 22px;
-	height: 15px;
-}
-.countryAXIcon {
-	background-position: -22px -1px;
-	width: 22px;
-	height: 14px;
-}
-.countryALIcon {
-	background-position: -44px 0px;
-	width: 22px;
-	height: 15px;
-}
-.countryDZIcon {
-	background-position: -66px 0px;
-	width: 22px;
-	height: 15px;
-}
-.countryASIcon {
-	background-position: -88px -4px;
-	width: 22px;
-	height: 11px;
-}
 .countryADIcon {
-	background-position: -110px 0px;
-	width: 22px;
-	height: 15px;
-}
-.countryAOIcon {
-	background-position: -132px 0px;
-	width: 22px;
-	height: 15px;
-}
-.countryAIIcon {
-	background-position: -154px -4px;
-	width: 22px;
-	height: 11px;
-}
-.countryAQIcon {
-	background-position: -176px 0px;
-	width: 22px;
-	height: 15px;
-}
-.countryAGIcon {
-	background-position: -198px 0px;
-	width: 22px;
-	height: 15px;
-}
-.countryARIcon {
-	background-position: -220px -1px;
-	width: 22px;
-	height: 14px;
-}
-.countryAMIcon {
-	background-position: -242px -4px;
-	width: 22px;
-	height: 11px;
-}
-.countryAWIcon {
-	background-position: -264px 0px;
-	width: 22px;
-	height: 15px;
-}
-.countryAUIcon {
-	background-position: -286px -4px;
-	width: 22px;
-	height: 11px;
-}
-.countryATIcon {
-	background-position: -308px 0px;
-	width: 22px;
-	height: 15px;
-}
-.countryAZIcon {
-	background-position: -330px -4px;
-	width: 22px;
-	height: 11px;
-}
-.countryBSIcon {
-	background-position: -352px -4px;
-	width: 22px;
-	height: 11px;
-}
-.countryBHIcon {
-	background-position: -374px -2px;
-	width: 22px;
-	height: 13px;
-}
-.countryBDIcon {
-	background-position: -396px -2px;
-	width: 22px;
-	height: 13px;
-}
-.countryBBIcon {
-	background-position: -418px 0px;
-	width: 22px;
-	height: 15px;
-}
-.countryBYIcon {
-	background-position: 0px -24px;
-	width: 22px;
-	height: 11px;
-}
-.countryBEIcon {
-	background-position: -22px -20px;
-	width: 22px;
-	height: 15px;
-}
-.countryBZIcon {
-	background-position: -44px -20px;
-	width: 22px;
-	height: 15px;
-}
-.countryBJIcon {
-	background-position: -66px -20px;
-	width: 22px;
-	height: 15px;
-}
-.countryBMIcon {
-	background-position: -88px -24px;
-	width: 22px;
-	height: 11px;
-}
-.countryBTIcon {
-	background-position: -110px -20px;
-	width: 22px;
-	height: 15px;
-}
-.countryBOIcon {
-	background-position: -132px -20px;
-	width: 22px;
-	height: 15px;
-}
-.countryBAIcon {
-	background-position: -154px -24px;
-	width: 22px;
-	height: 11px;
-}
-.countryBWIcon {
-	background-position: -176px -20px;
-	width: 22px;
-	height: 15px;
-}
-.countryBVIcon {
-	background-position: -198px -19px;
-	width: 22px;
-	height: 16px;
-}
-.countryBRIcon {
-	background-position: -220px -20px;
-	width: 22px;
-	height: 15px;
-}
-.countryIOIcon {
-	background-position: -242px -24px;
-	width: 22px;
-	height: 11px;
-}
-.countryBNIcon {
-	background-position: -264px -24px;
-	width: 22px;
-	height: 11px;
-}
-.countryBGIcon {
-	background-position: -286px -22px;
-	width: 22px;
-	height: 13px;
-}
-.countryBFIcon {
-	background-position: -308px -20px;
-	width: 22px;
-	height: 15px;
-}
-.countryBIIcon {
-	background-position: -330px -22px;
-	width: 22px;
-	height: 13px;
-}
-.countryKHIcon {
-	background-position: -352px -20px;
-	width: 22px;
-	height: 15px;
-}
-.countryCMIcon {
-	background-position: -374px -20px;
-	width: 22px;
-	height: 15px;
-}
-.countryCAIcon {
-	background-position: -396px -24px;
-	width: 22px;
-	height: 11px;
-}
-.countryCVIcon {
-	background-position: -418px -22px;
-	width: 22px;
-	height: 13px;
-}
-.countryKYIcon {
-	background-position: 0px -45px;
-	width: 22px;
-	height: 11px;
-}
-.countryCFIcon {
-	background-position: -22px -41px;
-	width: 22px;
-	height: 15px;
-}
-.countryTDIcon {
-	background-position: -44px -41px;
-	width: 22px;
-	height: 15px;
-}
-.countryCLIcon {
-	background-position: -66px -41px;
-	width: 22px;
-	height: 15px;
-}
-.countryCNIcon {
-	background-position: -88px -41px;
-	width: 22px;
-	height: 15px;
-}
-.countryCXIcon {
-	background-position: -110px -45px;
-	width: 22px;
-	height: 11px;
-}
-.countryCCIcon {
-	background-position: -132px -45px;
-	width: 22px;
-	height: 11px;
-}
-.countryCOIcon {
-	background-position: -154px -41px;
-	width: 22px;
-	height: 15px;
-}
-.countryKMIcon {
-	background-position: -176px -43px;
-	width: 22px;
-	height: 13px;
-}
-.countryCGIcon {
-	background-position: -198px -41px;
-	width: 22px;
-	height: 15px;
-}
-.countryCDIcon {
-	background-position: -220px -41px;
-	width: 22px;
-	height: 15px;
-}
-.countryCKIcon {
-	background-position: -242px -45px;
-	width: 22px;
-	height: 11px;
-}
-.countryCRIcon {
-	background-position: -264px -43px;
-	width: 22px;
-	height: 13px;
-}
-.countryCIIcon {
-	background-position: -286px -41px;
-	width: 22px;
-	height: 15px;
-}
-.countryHRIcon {
-	background-position: -308px -45px;
-	width: 22px;
-	height: 11px;
-}
-.countryCUIcon {
-	background-position: -330px -45px;
-	width: 22px;
-	height: 11px;
-}
-.countryCYIcon {
-	background-position: -352px -43px;
-	width: 22px;
-	height: 13px;
-}
-.countryCZIcon {
-	background-position: -374px -41px;
-	width: 22px;
-	height: 15px;
-}
-.countryDKIcon {
-	background-position: -396px -39px;
-	width: 22px;
-	height: 17px;
-}
-.countryDJIcon {
-	background-position: -418px -41px;
-	width: 22px;
-	height: 15px;
-}
-.countryDMIcon {
-	background-position: 0px -66px;
-	width: 22px;
-	height: 11px;
-}
-.countryDOIcon {
-	background-position: -22px -63px;
-	width: 22px;
-	height: 14px;
-}
-.countryECIcon {
-	background-position: -44px -66px;
-	width: 22px;
-	height: 11px;
-}
-.countryEGIcon {
-	background-position: -66px -62px;
-	width: 22px;
-	height: 15px;
-}
-.countrySVIcon {
-	background-position: -88px -65px;
-	width: 22px;
-	height: 12px;
-}
-.countryGQIcon {
-	background-position: -110px -62px;
-	width: 22px;
-	height: 15px;
-}
-.countryERIcon {
-	background-position: -132px -66px;
-	width: 22px;
-	height: 11px;
-}
-.countryEEIcon {
-	background-position: -154px -63px;
-	width: 22px;
-	height: 14px;
-}
-.countryETIcon {
-	background-position: -176px -66px;
-	width: 22px;
-	height: 11px;
-}
-.countryFKIcon {
-	background-position: -198px -66px;
-	width: 22px;
-	height: 11px;
-}
-.countryFOIcon {
-	background-position: -220px -61px;
-	width: 22px;
-	height: 16px;
-}
-.countryFJIcon {
-	background-position: -242px -66px;
-	width: 22px;
-	height: 11px;
-}
-.countryFIIcon {
-	background-position: -264px -64px;
-	width: 22px;
-	height: 13px;
-}
-.countryFRIcon {
-	background-position: -286px -62px;
-	width: 22px;
-	height: 15px;
-}
-.countryGFIcon {
-	background-position: -308px -62px;
-	width: 22px;
-	height: 15px;
-}
-.countryPFIcon {
-	background-position: -330px -62px;
-	width: 22px;
-	height: 15px;
-}
-.countryTFIcon {
-	background-position: -352px -62px;
-	width: 22px;
-	height: 15px;
-}
-.countryGAIcon {
-	background-position: -374px -60px;
-	width: 22px;
-	height: 17px;
-}
-.countryGMIcon {
-	background-position: -396px -62px;
-	width: 22px;
-	height: 15px;
-}
-.countryGEIcon {
-	background-position: -418px -62px;
-	width: 22px;
-	height: 15px;
-}
-.countryDEIcon {
-	background-position: 0px -88px;
-	width: 22px;
-	height: 13px;
-}
-.countryGHIcon {
-	background-position: -22px -86px;
-	width: 22px;
-	height: 15px;
-}
-.countryGIIcon {
-	background-position: -44px -90px;
-	width: 22px;
-	height: 11px;
-}
-.countryGRIcon {
-	background-position: -66px -86px;
-	width: 22px;
-	height: 15px;
-}
-.countryGLIcon {
-	background-position: -88px -86px;
-	width: 22px;
-	height: 15px;
-}
-.countryGDIcon {
-	background-position: -110px -88px;
-	width: 22px;
-	height: 13px;
-}
-.countryGPIcon {
-	background-position: -132px -86px;
-	width: 22px;
-	height: 15px;
-}
-.countryGUIcon {
-	background-position: -154px -88px;
-	width: 22px;
-	height: 13px;
-}
-.countryGTIcon {
-	background-position: -176px -87px;
-	width: 22px;
-	height: 14px;
-}
-.countryGGIcon {
-	background-position: -198px -86px;
-	width: 22px;
-	height: 15px;
-}
-.countryGNIcon {
-	background-position: -220px -86px;
-	width: 22px;
-	height: 15px;
-}
-.countryGWIcon {
-	background-position: -242px -90px;
-	width: 22px;
-	height: 11px;
-}
-.countryGYIcon {
-	background-position: -264px -88px;
-	width: 22px;
-	height: 13px;
-}
-.countryHTIcon {
-	background-position: -286px -88px;
-	width: 22px;
-	height: 13px;
-}
-.countryHMIcon {
-	background-position: -308px -90px;
-	width: 22px;
-	height: 11px;
-}
-.countryVAIcon {
-	background-position: -330px -81px;
-	width: 20px;
-	height: 20px;
-}
-.countryHNIcon {
-	background-position: -350px -90px;
-	width: 22px;
-	height: 11px;
-}
-.countryHKIcon {
-	background-position: -372px -86px;
-	width: 22px;
-	height: 15px;
-}
-.countryHUIcon {
-	background-position: -394px -90px;
-	width: 22px;
-	height: 11px;
-}
-.countryISIcon {
-	background-position: -416px -85px;
-	width: 22px;
-	height: 16px;
-}
-.countryINIcon {
-	background-position: 0px -106px;
-	width: 22px;
-	height: 15px;
-}
-.countryIDIcon {
-	background-position: -22px -106px;
-	width: 22px;
-	height: 15px;
-}
-.countryIRIcon {
-	background-position: -44px -108px;
-	width: 22px;
-	height: 13px;
-}
-.countryIQIcon {
-	background-position: -66px -106px;
-	width: 22px;
-	height: 15px;
-}
-.countryIEIcon {
-	background-position: -88px -110px;
-	width: 22px;
-	height: 11px;
-}
-.countryIMIcon {
-	background-position: -110px -110px;
-	width: 22px;
-	height: 11px;
-}
-.countryILIcon {
-	background-position: -132px -105px;
-	width: 22px;
-	height: 16px;
-}
-.countryITIcon {
-	background-position: -154px -106px;
-	width: 22px;
-	height: 15px;
-}
-.countryJMIcon {
-	background-position: -176px -110px;
-	width: 22px;
-	height: 11px;
-}
-.countryJPIcon {
-	background-position: -198px -106px;
-	width: 22px;
-	height: 15px;
-}
-.countryJEIcon {
-	background-position: -220px -108px;
-	width: 22px;
-	height: 13px;
-}
-.countryJOIcon {
-	background-position: -242px -110px;
-	width: 22px;
-	height: 11px;
-}
-.countryKZIcon {
-	background-position: -264px -110px;
-	width: 22px;
-	height: 11px;
-}
-.countryKEIcon {
-	background-position: -286px -106px;
-	width: 22px;
-	height: 15px;
-}
-.countryKIIcon {
-	background-position: -308px -110px;
-	width: 22px;
-	height: 11px;
-}
-.countryKPIcon {
-	background-position: -330px -110px;
-	width: 22px;
-	height: 11px;
-}
-.countryKRIcon {
-	background-position: -352px -106px;
-	width: 22px;
-	height: 15px;
-}
-.countryKWIcon {
-	background-position: -374px -110px;
-	width: 22px;
-	height: 11px;
-}
-.countryKGIcon {
-	background-position: -396px -108px;
-	width: 22px;
-	height: 13px;
-}
-.countryLAIcon {
-	background-position: -418px -106px;
-	width: 22px;
-	height: 15px;
-}
-.countryLVIcon {
-	background-position: 0px -129px;
-	width: 22px;
-	height: 11px;
-}
-.countryLBIcon {
-	background-position: -22px -125px;
-	width: 22px;
-	height: 15px;
-}
-.countryLSIcon {
-	background-position: -44px -125px;
-	width: 22px;
-	height: 15px;
-}
-.countryLRIcon {
-	background-position: -66px -128px;
-	width: 22px;
-	height: 12px;
-}
-.countryLYIcon {
-	background-position: -88px -129px;
-	width: 22px;
-	height: 11px;
-}
-.countryLIIcon {
-	background-position: -110px -127px;
-	width: 22px;
-	height: 13px;
-}
-.countryLTIcon {
-	background-position: -132px -127px;
-	width: 22px;
-	height: 13px;
-}
-.countryLUIcon {
-	background-position: -154px -127px;
-	width: 22px;
-	height: 13px;
-}
-.countryMOIcon {
-	background-position: -176px -125px;
-	width: 22px;
-	height: 15px;
-}
-.countryMKIcon {
-	background-position: -198px -129px;
-	width: 22px;
-	height: 11px;
-}
-.countryMGIcon {
-	background-position: -220px -125px;
-	width: 22px;
-	height: 15px;
-}
-.countryMWIcon {
-	background-position: -242px -125px;
-	width: 22px;
-	height: 15px;
-}
-.countryMYIcon {
-	background-position: -264px -129px;
-	width: 22px;
-	height: 11px;
-}
-.countryMVIcon {
-	background-position: -286px -125px;
-	width: 22px;
-	height: 15px;
-}
-.countryMLIcon {
-	background-position: -308px -125px;
-	width: 22px;
-	height: 15px;
-}
-.countryMTIcon {
-	background-position: -330px -125px;
-	width: 22px;
-	height: 15px;
-}
-.countryMHIcon {
-	background-position: -352px -128px;
-	width: 22px;
-	height: 12px;
-}
-.countryMQIcon {
-	background-position: -374px -125px;
-	width: 22px;
-	height: 15px;
-}
-.countryMRIcon {
-	background-position: -396px -125px;
-	width: 22px;
-	height: 15px;
-}
-.countryMUIcon {
-	background-position: -418px -125px;
-	width: 22px;
-	height: 15px;
-}
-.countryYTIcon {
-	background-position: 0px -149px;
-	width: 22px;
-	height: 15px;
-}
-.countryMXIcon {
-	background-position: -22px -151px;
-	width: 22px;
-	height: 13px;
-}
-.countryFMIcon {
-	background-position: -44px -152px;
-	width: 22px;
-	height: 12px;
-}
-.countryMDIcon {
-	background-position: -66px -153px;
-	width: 22px;
-	height: 11px;
-}
-.countryMCIcon {
-	background-position: -88px -146px;
-	width: 22px;
-	height: 18px;
-}
-.countryMNIcon {
-	background-position: -110px -153px;
-	width: 22px;
-	height: 11px;
-}
-.countryMEIcon {
-	background-position: -132px -153px;
-	width: 22px;
-	height: 11px;
-}
-.countryMSIcon {
-	background-position: -154px -153px;
-	width: 22px;
-	height: 11px;
-}
-.countryMAIcon {
-	background-position: -176px -149px;
-	width: 22px;
-	height: 15px;
-}
-.countryMZIcon {
-	background-position: -198px -149px;
-	width: 22px;
-	height: 15px;
-}
-.countryMMIcon {
-	background-position: -220px -152px;
-	width: 22px;
-	height: 12px;
-}
-.countryNAIcon {
-	background-position: -242px -149px;
-	width: 22px;
-	height: 15px;
-}
-.countryNRIcon {
-	background-position: -264px -153px;
-	width: 22px;
-	height: 11px;
-}
-.countryNPIcon {
-	background-position: -286px -144px;
-	width: 16px;
-	height: 20px;
-}
-.countryNLIcon {
-	background-position: -302px -149px;
-	width: 22px;
-	height: 15px;
-}
-.countryANIcon {
-	background-position: -324px -149px;
-	width: 22px;
-	height: 15px;
-}
-.countryNCIcon {
-	background-position: -346px -149px;
-	width: 22px;
-	height: 15px;
-}
-.countryNZIcon {
-	background-position: -368px -153px;
-	width: 22px;
-	height: 11px;
-}
-.countryNIIcon {
-	background-position: -390px -151px;
-	width: 22px;
-	height: 13px;
-}
-.countryNEIcon {
-	background-position: -412px -145px;
-	width: 22px;
-	height: 19px;
-}
-.countryNGIcon {
-	background-position: 0px -174px;
-	width: 22px;
-	height: 11px;
-}
-.countryNUIcon {
-	background-position: -22px -174px;
-	width: 22px;
-	height: 11px;
-}
-.countryNFIcon {
-	background-position: -44px -174px;
-	width: 22px;
-	height: 11px;
-}
-.countryMPIcon {
-	background-position: -66px -174px;
-	width: 22px;
-	height: 11px;
-}
-.countryNOIcon {
-	background-position: -88px -169px;
-	width: 22px;
-	height: 16px;
-}
-.countryOMIcon {
-	background-position: -110px -174px;
-	width: 22px;
-	height: 11px;
-}
-.countryPKIcon {
-	background-position: -132px -170px;
-	width: 22px;
-	height: 15px;
-}
-.countryPWIcon {
-	background-position: -154px -171px;
-	width: 22px;
-	height: 14px;
-}
-.countryPSIcon {
-	background-position: -176px -174px;
-	width: 22px;
-	height: 11px;
-}
-.countryPAIcon {
-	background-position: -198px -170px;
-	width: 22px;
-	height: 15px;
-}
-.countryPGIcon {
-	background-position: -220px -168px;
-	width: 22px;
-	height: 17px;
-}
-.countryPYIcon {
-	background-position: -242px -172px;
-	width: 22px;
-	height: 13px;
-}
-.countryPEIcon {
-	background-position: -264px -170px;
-	width: 22px;
-	height: 15px;
-}
-.countryPHIcon {
-	background-position: -286px -174px;
-	width: 22px;
-	height: 11px;
-}
-.countryPNIcon {
-	background-position: -308px -174px;
-	width: 22px;
-	height: 11px;
-}
-.countryPLIcon {
-	background-position: -330px -171px;
-	width: 22px;
-	height: 14px;
-}
-.countryPTIcon {
-	background-position: -352px -170px;
-	width: 22px;
-	height: 15px;
-}
-.countryPRIcon {
-	background-position: -374px -170px;
-	width: 22px;
-	height: 15px;
-}
-.countryQAIcon {
-	background-position: -396px -176px;
-	width: 22px;
-	height: 9px;
-}
-.countryREIcon {
-	background-position: -418px -170px;
-	width: 22px;
-	height: 15px;
-}
-.countryROIcon {
-	background-position: 0px -191px;
-	width: 22px;
-	height: 15px;
-}
-.countryRUIcon {
-	background-position: -22px -191px;
-	width: 22px;
-	height: 15px;
-}
-.countryRWIcon {
-	background-position: -44px -191px;
-	width: 22px;
-	height: 15px;
-}
-.countrySHIcon {
-	background-position: -66px -195px;
-	width: 22px;
-	height: 11px;
-}
-.countryKNIcon {
-	background-position: -88px -191px;
-	width: 22px;
-	height: 15px;
-}
-.countryLCIcon {
-	background-position: -110px -195px;
-	width: 22px;
-	height: 11px;
-}
-.countryPMIcon {
-	background-position: -132px -191px;
-	width: 22px;
-	height: 15px;
-}
-.countryVCIcon {
-	background-position: -154px -191px;
-	width: 22px;
-	height: 15px;
-}
-.countryWSIcon {
-	background-position: -176px -195px;
-	width: 22px;
-	height: 11px;
-}
-.countrySMIcon {
-	background-position: -198px -189px;
-	width: 22px;
-	height: 17px;
-}
-.countrySTIcon {
-	background-position: -220px -195px;
-	width: 22px;
-	height: 11px;
-}
-.countrySAIcon {
-	background-position: -242px -191px;
-	width: 22px;
-	height: 15px;
-}
-.countrySNIcon {
-	background-position: -264px -191px;
-	width: 22px;
-	height: 15px;
-}
-.countryRSIcon {
-	background-position: -286px -191px;
-	width: 22px;
-	height: 15px;
-}
-.countrySCIcon {
-	background-position: -308px -195px;
-	width: 22px;
-	height: 11px;
-}
-.countrySLIcon {
-	background-position: -330px -191px;
-	width: 22px;
-	height: 15px;
-}
-.countrySGIcon {
-	background-position: -352px -191px;
-	width: 22px;
-	height: 15px;
-}
-.countrySKIcon {
-	background-position: -374px -191px;
-	width: 22px;
-	height: 15px;
-}
-.countrySIIcon {
-	background-position: -396px -195px;
-	width: 22px;
-	height: 11px;
-}
-.countrySBIcon {
-	background-position: -418px -195px;
-	width: 22px;
-	height: 11px;
-}
-.countrySOIcon {
-	background-position: 0px -215px;
-	width: 22px;
-	height: 15px;
-}
-.countryZAIcon {
-	background-position: -22px -215px;
-	width: 22px;
-	height: 15px;
-}
-.countryGSIcon {
-	background-position: -44px -219px;
-	width: 22px;
-	height: 11px;
-}
-.countryESIcon {
-	background-position: -66px -215px;
-	width: 22px;
-	height: 15px;
-}
-.countryLKIcon {
-	background-position: -88px -219px;
-	width: 22px;
-	height: 11px;
-}
-.countrySDIcon {
-	background-position: -110px -219px;
-	width: 22px;
-	height: 11px;
-}
-.countrySRIcon {
-	background-position: -132px -215px;
-	width: 22px;
-	height: 15px;
-}
-.countrySJIcon {
-	background-position: -154px -214px;
-	width: 22px;
-	height: 16px;
-}
-.countrySZIcon {
-	background-position: -176px -215px;
-	width: 22px;
-	height: 15px;
-}
-.countrySEIcon {
-	background-position: -198px -216px;
-	width: 22px;
-	height: 14px;
-}
-.countryCHIcon {
-	background-position: -220px -210px;
-	width: 20px;
-	height: 20px;
-}
-.countrySYIcon {
-	background-position: -240px -215px;
-	width: 22px;
-	height: 15px;
-}
-.countryTWIcon {
-	background-position: -262px -215px;
-	width: 22px;
-	height: 15px;
-}
-.countryTJIcon {
-	background-position: -284px -219px;
-	width: 22px;
-	height: 11px;
-}
-.countryTZIcon {
-	background-position: -306px -215px;
-	width: 22px;
-	height: 15px;
-}
-.countryTHIcon {
-	background-position: -328px -215px;
-	width: 22px;
-	height: 15px;
-}
-.countryTLIcon {
-	background-position: -350px -219px;
-	width: 22px;
-	height: 11px;
-}
-.countryTGIcon {
-	background-position: -372px -216px;
-	width: 22px;
-	height: 14px;
-}
-.countryTKIcon {
-	background-position: -394px -219px;
-	width: 22px;
-	height: 11px;
-}
-.countryTOIcon {
-	background-position: -416px -219px;
-	width: 22px;
-	height: 11px;
-}
-.countryTTIcon {
-	background-position: 0px -236px;
-	width: 22px;
-	height: 13px;
-}
-.countryTNIcon {
-	background-position: -22px -234px;
-	width: 22px;
-	height: 15px;
-}
-.countryTRIcon {
-	background-position: -44px -234px;
-	width: 22px;
-	height: 15px;
-}
-.countryTMIcon {
-	background-position: -66px -234px;
-	width: 22px;
-	height: 15px;
-}
-.countryTCIcon {
-	background-position: -88px -238px;
-	width: 22px;
-	height: 11px;
-}
-.countryTVIcon {
-	background-position: -110px -238px;
-	width: 22px;
-	height: 11px;
-}
-.countryUGIcon {
-	background-position: -132px -234px;
-	width: 22px;
-	height: 15px;
-}
-.countryUAIcon {
-	background-position: -154px -234px;
-	width: 22px;
-	height: 15px;
+	background-position: 0px 0px;
 }
 .countryAEIcon {
-	background-position: -176px -238px;
-	width: 22px;
-	height: 11px;
+	background-position: -24px 0px;
 }
-.countryGBIcon {
-	background-position: -198px -238px;
-	width: 22px;
-	height: 11px;
+.countryAFIcon {
+	background-position: -48px 0px;
 }
-.countryUSIcon {
-	background-position: -220px -237px;
-	width: 22px;
-	height: 12px;
+.countryAGIcon {
+	background-position: -72px 0px;
 }
-.countryUMIcon {
-	background-position: -242px -237px;
-	width: 22px;
-	height: 12px;
+.countryAIIcon {
+	background-position: -96px 0px;
 }
-.countryUYIcon {
-	background-position: -264px -234px;
-	width: 22px;
-	height: 15px;
+.countryALIcon {
+	background-position: -120px 0px;
 }
-.countryUZIcon {
-	background-position: -286px -238px;
-	width: 22px;
-	height: 11px;
+.countryAMIcon {
+	background-position: -144px 0px;
 }
-.countryVUIcon {
-	background-position: -308px -236px;
-	width: 22px;
-	height: 13px;
+.countryANIcon {
+	background-position: -168px 0px;
 }
-.countryVEIcon {
-	background-position: -330px -234px;
-	width: 22px;
-	height: 15px;
+.countryAOIcon {
+	background-position: -192px 0px;
 }
-.countryVNIcon {
-	background-position: -352px -234px;
-	width: 22px;
-	height: 15px;
+.countryARIcon {
+	background-position: -216px 0px;
 }
-.countryVGIcon {
-	background-position: -374px -238px;
-	width: 22px;
-	height: 11px;
+.countryASIcon {
+	background-position: -240px 0px;
 }
-.countryVIIcon {
-	background-position: -396px -234px;
-	width: 22px;
-	height: 15px;
+.countryATIcon {
+	background-position: -264px 0px;
 }
-.countryWFIcon {
-	background-position: -418px -234px;
-	width: 22px;
-	height: 15px;
+.countryAUIcon {
+	background-position: -288px 0px;
+}
+.countryAWIcon {
+	background-position: -312px 0px;
+}
+.countryAXIcon {
+	background-position: -336px 0px;
+}
+.countryAZIcon {
+	background-position: -360px 0px;
+}
+.countryBAIcon {
+	background-position: -384px 0px;
+}
+.countryBBIcon {
+	background-position: -408px 0px;
+}
+.countryBDIcon {
+	background-position: -432px 0px;
+}
+.countryBEIcon {
+	background-position: -456px 0px;
+}
+.countryBFIcon {
+	background-position: 0px -23px;
+}
+.countryBGIcon {
+	background-position: -24px -23px;
+}
+.countryBHIcon {
+	background-position: -48px -23px;
+}
+.countryBIIcon {
+	background-position: -72px -23px;
+}
+.countryBJIcon {
+	background-position: -96px -23px;
+}
+.countryBMIcon {
+	background-position: -120px -23px;
+}
+.countryBNIcon {
+	background-position: -144px -23px;
+}
+.countryBOIcon {
+	background-position: -168px -23px;
+}
+.countryBRIcon {
+	background-position: -192px -23px;
+}
+.countryBSIcon {
+	background-position: -216px -23px;
+}
+.countryBTIcon {
+	background-position: -240px -23px;
+}
+.countryBVIcon {
+	background-position: -264px -23px;
+}
+.countryBWIcon {
+	background-position: -288px -23px;
+}
+.countryBYIcon {
+	background-position: -312px -23px;
+}
+.countryBZIcon {
+	background-position: -336px -23px;
+}
+.countryCAIcon {
+	background-position: -360px -23px;
+}
+.countryCATALONIAIcon {
+	background-position: -384px -23px;
+}
+.countryCCIcon {
+	background-position: -408px -23px;
+}
+.countryCDIcon {
+	background-position: -432px -23px;
+}
+.countryCFIcon {
+	background-position: -456px -23px;
+}
+.countryCGIcon {
+	background-position: 0px -46px;
+}
+.countryCHIcon {
+	background-position: -24px -46px;
+}
+.countryCIIcon {
+	background-position: -43px -46px;
+}
+.countryCKIcon {
+	background-position: -67px -46px;
+}
+.countryCLIcon {
+	background-position: -91px -46px;
+}
+.countryCMIcon {
+	background-position: -115px -46px;
+}
+.countryCNIcon {
+	background-position: -139px -46px;
+}
+.countryCOIcon {
+	background-position: -163px -46px;
+}
+.countryCRIcon {
+	background-position: -187px -46px;
+}
+.countryCSIcon {
+	background-position: -211px -46px;
+}
+.countryCUIcon {
+	background-position: -235px -46px;
+}
+.countryCVIcon {
+	background-position: -259px -46px;
+}
+.countryCXIcon {
+	background-position: -283px -46px;
+}
+.countryCYIcon {
+	background-position: -307px -46px;
+}
+.countryCZIcon {
+	background-position: -331px -46px;
+}
+.countryDEIcon {
+	background-position: -355px -46px;
+}
+.countryDJIcon {
+	background-position: -379px -46px;
+}
+.countryDKIcon {
+	background-position: -403px -46px;
+}
+.countryDMIcon {
+	background-position: -427px -46px;
+}
+.countryDOIcon {
+	background-position: -451px -46px;
+}
+.countryDZIcon {
+	background-position: 0px -69px;
+}
+.countryECIcon {
+	background-position: -24px -69px;
+}
+.countryEEIcon {
+	background-position: -48px -69px;
+}
+.countryEGIcon {
+	background-position: -72px -69px;
 }
 .countryEHIcon {
-	background-position: 0px -257px;
-	width: 22px;
-	height: 11px;
+	background-position: -96px -69px;
+}
+.countryENGLANDIcon {
+	background-position: -120px -69px;
+}
+.countryERIcon {
+	background-position: -144px -69px;
+}
+.countryESIcon {
+	background-position: -168px -69px;
+}
+.countryETIcon {
+	background-position: -192px -69px;
+}
+.countryEUROPEANUNIONIcon {
+	background-position: -216px -69px;
+}
+.countryFAMIcon {
+	background-position: -240px -69px;
+}
+.countryFIIcon {
+	background-position: -264px -69px;
+}
+.countryFJIcon {
+	background-position: -288px -69px;
+}
+.countryFKIcon {
+	background-position: -312px -69px;
+}
+.countryFMIcon {
+	background-position: -336px -69px;
+}
+.countryFOIcon {
+	background-position: -360px -69px;
+}
+.countryFRIcon {
+	background-position: -384px -69px;
+}
+.countryGAIcon {
+	background-position: -408px -69px;
+}
+.countryGBIcon {
+	background-position: -432px -69px;
+}
+.countryGDIcon {
+	background-position: -456px -69px;
+}
+.countryGEIcon {
+	background-position: 0px -92px;
+}
+.countryGFIcon {
+	background-position: -24px -92px;
+}
+.countryGHIcon {
+	background-position: -48px -92px;
+}
+.countryGIIcon {
+	background-position: -72px -92px;
+}
+.countryGLIcon {
+	background-position: -96px -92px;
+}
+.countryGMIcon {
+	background-position: -120px -92px;
+}
+.countryGNIcon {
+	background-position: -144px -92px;
+}
+.countryGPIcon {
+	background-position: -168px -92px;
+}
+.countryGQIcon {
+	background-position: -192px -92px;
+}
+.countryGRIcon {
+	background-position: -216px -92px;
+}
+.countryGSIcon {
+	background-position: -240px -92px;
+}
+.countryGTIcon {
+	background-position: -264px -92px;
+}
+.countryGUIcon {
+	background-position: -288px -92px;
+}
+.countryGWIcon {
+	background-position: -312px -92px;
+}
+.countryGYIcon {
+	background-position: -336px -92px;
+}
+.countryHKIcon {
+	background-position: -360px -92px;
+}
+.countryHMIcon {
+	background-position: -384px -92px;
+}
+.countryHNIcon {
+	background-position: -408px -92px;
+}
+.countryHRIcon {
+	background-position: -432px -92px;
+}
+.countryHTIcon {
+	background-position: -456px -92px;
+}
+.countryHUIcon {
+	background-position: 0px -115px;
+}
+.countryIDIcon {
+	background-position: -24px -115px;
+}
+.countryIEIcon {
+	background-position: -48px -115px;
+}
+.countryILIcon {
+	background-position: -72px -115px;
+}
+.countryINIcon {
+	background-position: -96px -115px;
+}
+.countryIOIcon {
+	background-position: -120px -115px;
+}
+.countryIQIcon {
+	background-position: -144px -115px;
+}
+.countryIRIcon {
+	background-position: -168px -115px;
+}
+.countryISIcon {
+	background-position: -192px -115px;
+}
+.countryITIcon {
+	background-position: -216px -115px;
+}
+.countryJMIcon {
+	background-position: -240px -115px;
+}
+.countryJOIcon {
+	background-position: -264px -115px;
+}
+.countryJPIcon {
+	background-position: -288px -115px;
+}
+.countryKEIcon {
+	background-position: -312px -115px;
+}
+.countryKGIcon {
+	background-position: -336px -115px;
+}
+.countryKHIcon {
+	background-position: -360px -115px;
+}
+.countryKIIcon {
+	background-position: -384px -115px;
+}
+.countryKMIcon {
+	background-position: -408px -115px;
+}
+.countryKNIcon {
+	background-position: -432px -115px;
+}
+.countryKPIcon {
+	background-position: -456px -115px;
+}
+.countryKRIcon {
+	background-position: 0px -138px;
+}
+.countryKWIcon {
+	background-position: -24px -138px;
+}
+.countryKYIcon {
+	background-position: -48px -138px;
+}
+.countryKZIcon {
+	background-position: -72px -138px;
+}
+.countryLAIcon {
+	background-position: -96px -138px;
+}
+.countryLBIcon {
+	background-position: -120px -138px;
+}
+.countryLCIcon {
+	background-position: -144px -138px;
+}
+.countryLIIcon {
+	background-position: -168px -138px;
+}
+.countryLKIcon {
+	background-position: -192px -138px;
+}
+.countryLRIcon {
+	background-position: -216px -138px;
+}
+.countryLSIcon {
+	background-position: -240px -138px;
+}
+.countryLTIcon {
+	background-position: -264px -138px;
+}
+.countryLUIcon {
+	background-position: -288px -138px;
+}
+.countryLVIcon {
+	background-position: -312px -138px;
+}
+.countryLYIcon {
+	background-position: -336px -138px;
+}
+.countryMAIcon {
+	background-position: -360px -138px;
+}
+.countryMCIcon {
+	background-position: -384px -138px;
+}
+.countryMDIcon {
+	background-position: -408px -138px;
+}
+.countryMEIcon {
+	background-position: -432px -138px;
+}
+.countryMGIcon {
+	background-position: -456px -139px;
+}
+.countryMHIcon {
+	background-position: 0px -162px;
+}
+.countryMKIcon {
+	background-position: -24px -162px;
+}
+.countryMLIcon {
+	background-position: -48px -162px;
+}
+.countryMMIcon {
+	background-position: -72px -162px;
+}
+.countryMNIcon {
+	background-position: -96px -162px;
+}
+.countryMOIcon {
+	background-position: -120px -162px;
+}
+.countryMPIcon {
+	background-position: -144px -162px;
+}
+.countryMQIcon {
+	background-position: -168px -162px;
+}
+.countryMRIcon {
+	background-position: -192px -162px;
+}
+.countryMSIcon {
+	background-position: -216px -162px;
+}
+.countryMTIcon {
+	background-position: -240px -162px;
+}
+.countryMUIcon {
+	background-position: -264px -162px;
+}
+.countryMVIcon {
+	background-position: -288px -162px;
+}
+.countryMWIcon {
+	background-position: -312px -162px;
+}
+.countryMXIcon {
+	background-position: -336px -162px;
+}
+.countryMYIcon {
+	background-position: -360px -162px;
+}
+.countryMZIcon {
+	background-position: -384px -162px;
+}
+.countryNAIcon {
+	background-position: -408px -162px;
+}
+.countryNCIcon {
+	background-position: -432px -162px;
+}
+.countryNEIcon {
+	background-position: -456px -162px;
+}
+.countryNFIcon {
+	background-position: 0px -185px;
+}
+.countryNGIcon {
+	background-position: -24px -185px;
+}
+.countryNIIcon {
+	background-position: -48px -185px;
+}
+.countryNLIcon {
+	background-position: -72px -185px;
+}
+.countryNOIcon {
+	background-position: -96px -185px;
+}
+.countryNPIcon {
+	background-position: -120px -185px;
+}
+.countryNRIcon {
+	background-position: -137px -185px;
+}
+.countryNUIcon {
+	background-position: -161px -185px;
+}
+.countryNZIcon {
+	background-position: -185px -185px;
+}
+.countryOMIcon {
+	background-position: -209px -185px;
+}
+.countryPAIcon {
+	background-position: -233px -185px;
+}
+.countryPEIcon {
+	background-position: -257px -185px;
+}
+.countryPFIcon {
+	background-position: -281px -185px;
+}
+.countryPGIcon {
+	background-position: -305px -185px;
+}
+.countryPHIcon {
+	background-position: -329px -185px;
+}
+.countryPKIcon {
+	background-position: -353px -185px;
+}
+.countryPLIcon {
+	background-position: -377px -185px;
+}
+.countryPMIcon {
+	background-position: -401px -185px;
+}
+.countryPNIcon {
+	background-position: -425px -185px;
+}
+.countryPRIcon {
+	background-position: -449px -185px;
+}
+.countryPSIcon {
+	background-position: 0px -208px;
+}
+.countryPTIcon {
+	background-position: -24px -208px;
+}
+.countryPWIcon {
+	background-position: -48px -208px;
+}
+.countryPYIcon {
+	background-position: -72px -208px;
+}
+.countryQAIcon {
+	background-position: -96px -208px;
+}
+.countryREIcon {
+	background-position: -120px -208px;
+}
+.countryROIcon {
+	background-position: -144px -208px;
+}
+.countryRSIcon {
+	background-position: -168px -208px;
+}
+.countryRUIcon {
+	background-position: -192px -208px;
+}
+.countryRWIcon {
+	background-position: -216px -208px;
+}
+.countrySAIcon {
+	background-position: -240px -208px;
+}
+.countrySBIcon {
+	background-position: -264px -208px;
+}
+.countrySCIcon {
+	background-position: -288px -208px;
+}
+.countrySCOTLANDIcon {
+	background-position: -312px -208px;
+}
+.countrySDIcon {
+	background-position: -336px -208px;
+}
+.countrySEIcon {
+	background-position: -360px -208px;
+}
+.countrySGIcon {
+	background-position: -384px -208px;
+}
+.countrySHIcon {
+	background-position: -408px -208px;
+}
+.countrySIIcon {
+	background-position: -432px -208px;
+}
+.countrySJIcon {
+	background-position: -456px -208px;
+}
+.countrySKIcon {
+	background-position: 0px -231px;
+}
+.countrySLIcon {
+	background-position: -24px -231px;
+}
+.countrySMIcon {
+	background-position: -48px -231px;
+}
+.countrySNIcon {
+	background-position: -72px -231px;
+}
+.countrySOIcon {
+	background-position: -96px -231px;
+}
+.countrySRIcon {
+	background-position: -120px -231px;
+}
+.countrySTIcon {
+	background-position: -144px -231px;
+}
+.countrySVIcon {
+	background-position: -168px -231px;
+}
+.countrySYIcon {
+	background-position: -192px -231px;
+}
+.countrySZIcon {
+	background-position: -216px -231px;
+}
+.countryTCIcon {
+	background-position: -240px -231px;
+}
+.countryTDIcon {
+	background-position: -264px -231px;
+}
+.countryTFIcon {
+	background-position: -288px -231px;
+}
+.countryTGIcon {
+	background-position: -312px -231px;
+}
+.countryTHIcon {
+	background-position: -336px -231px;
+}
+.countryTJIcon {
+	background-position: -360px -231px;
+}
+.countryTKIcon {
+	background-position: -384px -231px;
+}
+.countryTLIcon {
+	background-position: -408px -231px;
+}
+.countryTMIcon {
+	background-position: -432px -231px;
+}
+.countryTNIcon {
+	background-position: -456px -231px;
+}
+.countryTOIcon {
+	background-position: 0px -254px;
+}
+.countryTRIcon {
+	background-position: -24px -254px;
+}
+.countryTTIcon {
+	background-position: -48px -254px;
+}
+.countryTVIcon {
+	background-position: -72px -254px;
+}
+.countryTWIcon {
+	background-position: -96px -254px;
+}
+.countryTZIcon {
+	background-position: -120px -254px;
+}
+.countryUAIcon {
+	background-position: -144px -254px;
+}
+.countryUGIcon {
+	background-position: -168px -254px;
+}
+.countryUMIcon {
+	background-position: -192px -254px;
+}
+.countryUSIcon {
+	background-position: -216px -254px;
+}
+.countryUYIcon {
+	background-position: -240px -254px;
+}
+.countryUZIcon {
+	background-position: -264px -254px;
+}
+.countryVAIcon {
+	background-position: -288px -254px;
+}
+.countryVCIcon {
+	background-position: -312px -254px;
+}
+.countryVEIcon {
+	background-position: -336px -254px;
+}
+.countryVGIcon {
+	background-position: -360px -254px;
+}
+.countryVIIcon {
+	background-position: -384px -254px;
+}
+.countryVNIcon {
+	background-position: -408px -254px;
+}
+.countryVUIcon {
+	background-position: -432px -254px;
+}
+.countryWALESIcon {
+	background-position: -456px -254px;
+}
+.countryWFIcon {
+	background-position: 0px -277px;
+}
+.countryWSIcon {
+	background-position: -24px -277px;
 }
 .countryYEIcon {
-	background-position: -22px -253px;
-	width: 22px;
-	height: 15px;
+	background-position: -48px -277px;
+}
+.countryYTIcon {
+	background-position: -72px -277px;
+}
+.countryZAIcon {
+	background-position: -96px -277px;
 }
 .countryZMIcon {
-	background-position: -44px -253px;
-	width: 22px;
-	height: 15px;
+	background-position: -120px -277px;
 }
 .countryZWIcon {
-	background-position: -66px -257px;
-	width: 22px;
-	height: 11px;
+	background-position: -144px -277px;
 }
