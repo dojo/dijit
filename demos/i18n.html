@@ -52,7 +52,10 @@
 	<script type="text/javascript" src="../../dojo/dojo.js"></script>
 
 	<script language="JavaScript" type="text/javascript">
-		dojo.require("dojo.data.ItemFileReadStore");
+		// For accessing Geonames service
+		dojo.require("dojo.io.script");
+		dojo.require("dojox.rpc.Service");
+
 		dojo.require("dijit.Tree");
 		dojo.require("dijit._Calendar");
 		dojo.require("dijit.layout.BorderContainer");
@@ -69,30 +72,13 @@
 			dojo.byId("dir").innerHTML = bidi || "default";
 		});
 	</script>
+	<script type="text/javascript" src="i18n/model.js"></script>
+	<script>
+		model = new i18nTreeModel({lang: lang});
+	</script>
 
 </head>
 <body class="tundra">
-	<div dojoType="dojo.data.ItemFileReadStore" jsId="store"
-		url="i18n/data.json"></div>
-	<div dojoType="dijit.tree.ForestStoreModel" jsId="model" store="store" childrenAttrs="languages">
-		<!-- Override all the data access functions to work from the I18N data store -->
-		<script type="dojo/method" event="getChildren" args="item, onComplete">
-			switch(item.root ?  "top" : store.getValue(item, "type")){
-				case "top":
-					return store.fetch({query: {type:'continent'}, onComplete: onComplete, onError: console.log});
-				case "continent":
-					return store.fetch({query: {continent: store.getValue(item, "iso")}, onComplete: onComplete, onError: console.log});
-				case "country":
-					return dijit.tree.ForestStoreModel.prototype.getChildren.apply(this, arguments);
-			}
-		</script>
-		<script type="dojo/method" event="mayHaveChildren" args="item">
-			if(item.root){ return true; }	// top level
-			var type = store.getValue(item, "type");
-			return (type == "continent" || type == "country");
-		</script>
-	</div>
-
 	<div id="main" style="width: 100%; height: 100%" dojoType="dijit.layout.BorderContainer">
 		<div dojoType="dijit.layout.ContentPane" region="top">
 			<h1 class="testTitle" dir="ltr">
@@ -107,6 +93,9 @@
 				This won't work perfectly unless you've done a full build of dojo.cldr,
 				see <a href="../../util/buildscripts/cldr/README">the CLDR readme</a>.
 			</p>
+			<p dir="ltr">
+				Country data courtesy of <a href="http://ws.geonames.org/">Geonames</a>.
+			</p>
 		</div>
 	
 		<div dojoType="dijit.layout.ContentPane" region="leading" style="width: 30%" splitter="true">
@@ -114,23 +103,20 @@
 				<!-- override functions for display of each node -->
 				<script type="dojo/method" event="getIconClass" args="item">
 					var icon =
-						(!item.root && store.getValue(item, "type") == "country") ?
-						("countryIcon country" + store.getValue(item, "iso") + "Icon") :
+						item.countryName ?
+						("countryIcon country" + item.countryCode + "Icon") :
 						dijit.Tree.prototype.getIconClass.apply(this, arguments);
 					return icon;
 				</script>
 				<script type="dojo/method" event="getLabel" args="item">
 					if(item.root){ return "Continents"; }
-					var localizedName = lang && store.getValue(item, lang);
-					return localizedName || (store.getLabel(item) + " \u202b" + "(" + store.getIdentity(item) + ")\u202c");
+					return item.name || item.countryName || item;  // language items are just strings... change?
 				</script>
 	
 				<!-- clicking a node refreshes the page with new locale setting -->
 				<script type="dojo/method" event="onClick" args="item, node">
-					var type = store.getValue(item, "type");
-					if(type == "language"){
-						var lang = store.getIdentity(item),
-							locale = lang + "-" + store.getIdentity(node.getParent().item).toLowerCase(),
+					if(item.type=="locale") {	// language
+						var locale = item.iso, lang = locale.replace(/-.*/, "");
 						dir = /ar|fa|he|ps|ur|yi/i.test(lang) ? "rtl" : "ltr";
 						window.location.href = window.location.href.replace(/\?.*/, "") + "?locale=" + locale + "&dir=" + dir;
 					}
@@ -196,6 +182,7 @@
 						</select>
 					</td>
 				</tr>
+		<!--
 				<tr>
 					<td><label for="combo2" dir="ltr">Combo on languages and countries:</label></td>
 					<td>
@@ -206,6 +193,7 @@
 							name="anything"/>
 					</td>
 				</tr>
+		-->
 			</table>
 		</div>
 	</div>

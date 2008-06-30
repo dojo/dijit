@@ -3,4 +3,9 @@ Flag images taken from http://www.famfamfam.com/lab/icons/flags/, according to l
    “Flags” are 247 icons — in GIF and PNG formats — representing most countries in the world as small pixel icons.
    These flag icons are available for free use for any purpose with no requirement for attribution.
    
+Country data is pulled from
+ http://ws.geonames.org/countryInfoJSON?formatted=true
+under creative commons attribution license
+
+   
  
