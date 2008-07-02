@@ -231,11 +231,12 @@
 		>
 		<span>Value: <input id="value4" disabled></span>
 		<hr>
-		<p>A ComboBox with no arrow, and with highlightMatch="all", which highlights all matches (the server is not searching accordingly!)</p>
+		<p>A ComboBox with no arrow, which searches and highlights matches anywhere in the string</p>
 	 	<input dojoType="dijit.form.ComboBox"
 	 			value="California"
 				store="stateStore"
 				searchAttr="name"
+				queryExpr="*${0}*"
 				name="state5"
 				autoComplete="false"
 				hasDownArrow="false"

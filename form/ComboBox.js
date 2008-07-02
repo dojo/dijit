@@ -2,6 +2,8 @@ dojo.provide("dijit.form.ComboBox");
 
 dojo.require("dijit.form.ValidationTextBox");
 dojo.require("dojo.data.util.simpleFetch");
+dojo.require("dojo.data.util.filter");
+
 dojo.requireLocalization("dijit.form", "ComboBox");
 
 dojo.declare(
@@ -1074,10 +1076,7 @@ dojo.declare("dijit.form._ComboBoxDataStore", null, {
 		if(!args.query){ args.query = {}; }
 		if(!args.query.name){ args.query.name = ""; }
 		if(!args.queryOptions){ args.queryOptions = {}; }
-		var query = "^" + args.query.name
-				.replace(/([\\\|\(\)\[\{\^\$\+\?\.\<\>])/g, "\\$1")
-				.replace("*", ".*") + "$",
-			matcher = new RegExp(query, args.queryOptions.ignoreCase ? "i" : ""),
+		var matcher = dojo.data.util.filter.patternToRegExp(args.query.name, args.queryOptions.ignoreCase),
 			items = dojo.query("> option", this.root).filter(function(option){
 				return (option.innerText || option.textContent || '').match(matcher);
 			} );
