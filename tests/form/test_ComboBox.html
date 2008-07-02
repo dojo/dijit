@@ -48,7 +48,7 @@
 				searchAttr:"name"
 			}, dojo.byId("progCombo"));
 
-			var store2 = new dojo.data.ItemFileReadStore({url: '../../demos/i18n/data.json'});
+			var store2 = new dojo.data.ItemFileReadStore({url: '../_data/countries.json'});
 			combo = new dijit.form.ComboBox({
 				name:"prog2",
 				autoComplete:false,
@@ -56,6 +56,15 @@
 				query:{type:'country'},
 				searchAttr:"name"
 			}, dojo.byId("progCombo2"));
+
+			new dijit.form.ComboBox({
+				name:"prog3",
+				autoComplete:false,
+				store:store2,
+				query:{type:'country'},
+				searchAttr:"name",
+				fetchProperties: {sort:[{attribute: 'name', descending: true}]}
+			}, dojo.byId("progCombo3"));
 		}
 		dojo.addOnLoad(init);
 
@@ -89,7 +98,6 @@
 				onChange="dojo.byId('oc1').value=arguments[0]"
 				pageSize="30"
 		>
-			<option></option>
 			<option>Alabama</option>
 			<option>Alaska</option>
 			<option>American Samoa</option>
@@ -239,6 +247,82 @@
 		<hr>
 		<p>A ComboBox with an initial query.  (Limits list to items with type = country.)</p>
 		<input id="progCombo2">
+		<hr>
+		<p>A ComboBox with an ItemFileReadStore and a descending sort.  (Limits list to items with type = country.)</p>
+		<input id="progCombo3">
+		<hr>
+		<p>A ComboBox with a option tags, autoComplete=true, pageSize=30, and a descending sort.</p>
+		<select
+				name="state6"
+				dojoType="dijit.form.ComboBox"
+				style="width:50%;font-size:200%;font-family:Courier;"
+				name="foo.bar1"
+				autoComplete="true"
+				onChange="dojo.byId('oc1').value=arguments[0]"
+				pageSize="30"
+				fetchProperties="{sort:[{attribute: 'name', descending: true}]}"
+		>
+			<option>Alabama</option>
+			<option>Alaska</option>
+			<option>American Samoa</option>
+			<option>Arizona</option>
+			<option>Arkansas</option>
+			<option>Armed Forces Europe</option>
+			<option>Armed Forces Pacific</option>
+			<option>Armed Forces the Americas</option>
+			<option>California</option>
+			<option>Colorado</option>
+			<option>Connecticut</option>
+			<option>Delaware</option>
+			<option>District of Columbia</option>
+			<option>Federated States of Micronesia</option>
+			<option>Florida</option>
+			<option>Georgia</option>
+			<option>Guam</option>
+			<option>Hawaii</option>
+			<option>Idaho</option>
+			<option>Illinois</option>
+			<option>Indiana</option>
+			<option selected>Iowa</option>
+			<option>Kansas</option>
+			<option>Kentucky</option>
+			<option>Louisiana</option>
+			<option>Maine</option>
+			<option>Marshall Islands</option>
+			<option>Maryland</option>
+			<option>Massachusetts</option>
+			<option>Michigan</option>
+			<option>Minnesota</option>
+			<option>Mississippi</option>
+			<option>Missouri</option>
+			<option>Montana</option>
+			<option>Nebraska</option>
+			<option>Nevada</option>
+			<option>New Hampshire</option>
+			<option>New Jersey</option>
+			<option>New Mexico</option>
+			<option>New York</option>
+			<option>North Carolina</option>
+			<option>North Dakota</option>
+			<option>Northern Mariana Islands</option>
+			<option>Ohio</option>
+			<option>Oklahoma</option>
+			<option>Oregon</option>
+			<option>Pennsylvania</option>
+			<option>Puerto Rico</option>
+			<option>Rhode Island</option>
+			<option>South Carolina</option>
+			<option>South Dakota</option>
+			<option>Tennessee</option>
+			<option>Texas</option>
+			<option>Utah</option>
+			<option>Vermont</option>
+			<option>Virgin Islands, U.S.</option>
+			<option>Virginia</option>
+			<option>Washington</option>
+			<option>West Virginia</option>
+			<option>Wisconsin</option>
+			<option>Wyoming</option>
 		<hr>
 		<input type="button" value="Create one in a window" onclick="var win=window.open(window.location);"></input>
 		<input type="submit">

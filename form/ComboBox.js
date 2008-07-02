@@ -27,6 +27,12 @@ dojo.declare(
 		//		Reference to data provider object used by this ComboBox
 		store: null,
 
+		// fetchProperties: Object
+		//		Mixin to the dojo.data store's fetch.
+		//		For example, to set the sort order of the ComboBox menu, pass:
+		//		{sort:{attribute:"name",descending:true}}
+		fetchProperties:{},
+
 		// query: Object
 		//		A query that can be passed to 'store' to initially filter the items,
 		//		before doing further filtering based on `searchAttr` and the key.
@@ -520,7 +526,7 @@ dojo.declare(
 			// otherwise, if the user types and the last query returns before the timeout,
 			// _lastQuery won't be set and their input gets rewritten
 			this.searchTimer=setTimeout(dojo.hitch(this, function(query, _this){
-				var dataObject = this.store.fetch({
+				var fetch = {
 					queryOptions: {
 						ignoreCase: this.ignoreCase, 
 						deep: true
@@ -534,7 +540,9 @@ dojo.declare(
 					},
 					start:0,
 					count:this.pageSize
-				});
+				};
+				dojo.mixin(fetch, _this.fetchProperties);
+				var dataObject = _this.store.fetch(fetch);
 
 				var nextSearch = function(dataObject, direction){
 					dataObject.start += dataObject.count*direction;
@@ -587,6 +595,7 @@ dojo.declare(
 
 		constructor: function(){
 			this.query={};
+			this.fetchProperties={};
 		},
 
 		postMixInProperties: function(){
@@ -1072,6 +1081,9 @@ dojo.declare("dijit.form._ComboBoxDataStore", null, {
 			items = dojo.query("> option", this.root).filter(function(option){
 				return (option.innerText || option.textContent || '').match(matcher);
 			} );
+		if(args.sort){
+			items.sort(dojo.data.util.sorter.createSortFunction(args.sort, this));
+		}
 		findCallback(items, args);
 	},
 
