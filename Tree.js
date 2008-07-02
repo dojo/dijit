@@ -1018,7 +1018,7 @@ dojo.declare(
 				query: this.query,
 				onComplete: dojo.hitch(this, function(items){
 					if(items.length != 1){
-						throw new Error(this.declaredClass + ": query " + this.query + " returned " + items.length +
+						throw new Error(this.declaredClass + ": query " + dojo.toJson(this.query) + " returned " + items.length +
 						 	" items, but must return exactly one item");
 					}
 					this.root = items[0];
