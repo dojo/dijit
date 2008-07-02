@@ -115,6 +115,7 @@
 						};
 
 		dojo.addOnLoad(function(){
+			var resetready=false;
 			doh.register("dijit.form.Form",
 				[
 					function getValues(){
@@ -127,11 +128,28 @@
 						doh.is( dojo.toJson(original), dojo.toJson(values) );
 					},
 					function setValues(){
+						// Textarea is firing postCreate in FF2/Mac AFTER this test runs!
+						// Slow down the test!
+						var d=new doh.Deferred();
 						var f=dijit.byId("myForm");
-						f.setValues(changed);
-						doh.is( dojo.toJson(changed), dojo.toJson(f.getValues()) );
-						f.setValues(particalchanged);
-						doh.is( dojo.toJson(dojo.mixin(changed,particalchanged)), dojo.toJson(f.getValues()) );
+
+						var defer=function(){
+							if(dijit.byId('t1')._resetValue!==undefined){
+								f.setValues(changed);
+								try{ // in a Deferred setTimeout so doh won't hear doh.is exceptions
+									doh.is( dojo.toJson(changed), dojo.toJson(f.getValues()) );
+									f.setValues(particalchanged);
+									resetready=true;
+									d.callback(doh.is( dojo.toJson(dojo.mixin(changed,particalchanged)), dojo.toJson(f.getValues()) ));
+								}catch(e){
+									d.errback(e);
+								}
+							}else{
+								setTimeout(defer,1);
+							}
+						};
+						setTimeout(defer,1);
+						return d;
 					},
 					function nameAttributeSurvived(){  // ticket:4753
 						var radios = dojo.query(".RadioButton", dijit.byId("radio-cells")).forEach(
@@ -141,8 +159,22 @@
 						
 					},
 					function resetTest(){
-						dijit.byId("myForm").reset();
-						doh.is( dojo.toJson(reset), dojo.toJson(dijit.byId("myForm").getValues()) );
+						// we have to wait for setValues to finish
+						var d=new doh.Deferred();
+						var defer=function(){
+							if(resetready){
+								dijit.byId("myForm").reset();
+								try{ // in a Deferred setTimeout so doh won't hear doh.is exceptions
+									d.callback(doh.is( dojo.toJson(reset), dojo.toJson(dijit.byId("myForm").getValues()) ));
+								}catch(e){
+									d.errback(e);
+								}
+							}else{
+								setTimeout(defer,1);
+							}
+						};
+						setTimeout(defer,1);
+						return d;
 					},
 					function testValidate(){
 						doh.is(dijit.byId("myForm").validate(), true);
