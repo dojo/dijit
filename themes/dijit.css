@@ -856,6 +856,10 @@ img.dijitColorPaletteUnder {
 	overflow: auto;
 }
 
+/* #7104 - workaround IE jankyness with overflows */
+.dj_ie .dijitAccordionBody {
+	position:relative;
+}
 
 .dijitAccordionContainer {
 	border:1px solid #b7b7b7;
