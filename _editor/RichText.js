@@ -42,7 +42,7 @@ dijit._editor.RichTextIframeMixin = {
 		if(dojo.isIE || dojo.isSafari || dojo.isOpera){ // contentEditable, easy
 		
 			if(dojo.config["useXDomain"] && !dojo.config["dojoBlankHtmlUrl"]){
-				console.debug("dijit._editor.RichText: When using cross-domain Dojo builds,"
+				console.warn("dijit._editor.RichText: When using cross-domain Dojo builds,"
 				+ " please save dojo/resources/blank.html to your domain and set djConfig.dojoBlankHtmlUrl"
 				+ " to the path on your domain to blank.html");
 			}
