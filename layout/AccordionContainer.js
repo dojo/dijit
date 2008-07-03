@@ -183,6 +183,8 @@ dojo.declare("dijit.layout.AccordionPane",
 		this.inherited(arguments)
 		dojo.setSelectable(this.titleNode, false);
 		this.setSelected(this.selected);
+		dojo.attr(this.titleTextNode, "id", this.domNode.id+"_title");
+		dijit.setWaiState(this.focusNode, "labelledby", dojo.attr(this.titleTextNode, "id"));
 	},
 
 	getTitleHeight: function(){
@@ -217,6 +219,7 @@ dojo.declare("dijit.layout.AccordionPane",
 	_setSelectedState: function(/*Boolean*/ isSelected){
 		this.selected = isSelected;
 		dojo[(isSelected ? "addClass" : "removeClass")](this.titleNode,"dijitAccordionTitle-selected");
+		dijit.setWaiState(this.focusNode, "expanded", isSelected);
 		this.focusNode.setAttribute("tabIndex", isSelected ? "0" : "-1");
 	},
 
