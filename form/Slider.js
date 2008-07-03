@@ -216,6 +216,12 @@ dojo.declare(
 		dojo.extend(mover, dijit.form._SliderMover.prototype);
 
 		this._movable = new dojo.dnd.Moveable(this.sliderHandle, {mover: mover});
+		//find any associated label element and add to slider focusnode.
+		var label=dojo.query('label[for="'+this.id+'"]');
+		if(label.length){
+			label[0].id = (this.id+"_label");
+			dijit.setWaiState(this.focusNode, "labelledby", label[0].id);
+		}
 		dijit.setWaiState(this.focusNode, "valuemin", this.minimum);
 		dijit.setWaiState(this.focusNode, "valuemax", this.maximum);
 
