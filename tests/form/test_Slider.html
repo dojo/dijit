@@ -86,7 +86,7 @@
 			http://www.utexas.edu/teamweb/cgi-bin/generic.cgi -->
 		<form id="form1" action="" name="example" method="post">
 		<br>initial value=10, min=0, max=100, pageIncrement=100, onChange event triggers input box value change immediately<br>
-
+<label for="slider1"><strong>Horizontal Slider Example</strong></label>
 		<div dojoType="dijit.form.HorizontalSlider" name="horizontal1"
 			onChange="dojo.byId('slider1input').value=dojo.number.format(arguments[0]/100,{places:1,pattern:'#%'});"
 			value="10"
@@ -113,6 +113,7 @@
 		<button id="enableButton"  dojoType="dijit.form.Button" onClick="dijit.byId('slider1').setAttribute('disabled',false);dijit.byId('disableButton').setAttribute('disabled',false);dijit.byId('enableButton').setAttribute('disabled', true);" disabled>Enable previous slider</button>
 		<br>
 		<br>initial value=10, min=0, max=100, onChange event triggers input box value change when you mouse up or tab away<br>
+		<label for="slider2"><strong>Vertical Slider Example</strong></label>
 		<div dojoType="dijit.form.VerticalSlider" name="vertical1"
 			onChange="dojo.byId('slider2input').value=arguments[0];"
 			value="10"
