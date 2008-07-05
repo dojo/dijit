@@ -12,7 +12,7 @@
 		form { margin-bottom : 0; }
 		table { border: none; }
 		#dialog3_underlay { background-color: #027 }
-		#reallyWide { width:2222px; } 
+	/*	#reallyWide { width:2222px; }  */
 	</style>		
 
 	<!-- required: a default dijit theme: -->
@@ -46,7 +46,15 @@
 
 		// make dojo.toJson() print dates correctly (this feels a bit dirty)
 		Date.prototype.json = function(){ return dojo.date.stamp.toISOString(this, {selector: 'date'});};
-
+		
+		dojo.addOnLoad(function(){
+			dojo.connect(dojo.byId("shower"), "onclick", function(e){
+				e.preventDefault();
+				var d = dijit.byId("dialog1");
+				d && d.show();
+			});
+		});
+		
 		var thirdDlg;
 		function createDialog() {
 			if(!thirdDlg){	
@@ -58,7 +66,7 @@
 					title: "Programatic Dialog Creation"
 				},pane);
 			}
-			setTimeout(function(){thirdDlg.show();},"3000");
+			setTimeout(function(){ thirdDlg.show(); },"3000");
 		}
 	</script>
 </head>
@@ -324,7 +332,11 @@
 	consectetuer dapibus eros. Aliquam nisl.
 	</p>
 
-	<a href="javascript:dijit.byId('dialog1').show()">Show Dialog</a>
+	<p>
+	<button dojoType="dijit.form.Button" onClick="dijit.byId('dialog1').show()">Show Dialog</button>
+	<a href="javascript:;" id="shower">Show Dialog1</a>
+	</p>
+	
 	<p>
 	Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean
 	semper sagittis velit. Cras in mi. Duis porta mauris ut ligula. Proin
