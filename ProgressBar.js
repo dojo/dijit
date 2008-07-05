@@ -41,7 +41,7 @@ dojo.declare("dijit.ProgressBar", [dijit._Widget, dijit._Templated], {
 
 	// public functions
 	postCreate: function(){
-		this.inherited("postCreate",arguments);
+		this.inherited(arguments);
 		this.inteterminateHighContrastImage.setAttribute("src",
 			this._indeterminateHighContrastImagePath);
 		this.update();
@@ -52,13 +52,14 @@ dojo.declare("dijit.ProgressBar", [dijit._Widget, dijit._Templated], {
 		//
 		// attributes: may provide progress and/or maximum properties on this parameter,
 		//	see attribute specs for details.
-		dojo.mixin(this, attributes||{});
+		dojo.mixin(this, attributes || {});
+		var tip = this.internalProgress;
 		var percent = 1, classFunc;
 		if(this.indeterminate){
 			classFunc = "addClass";
-			dijit.removeWaiState(this.internalProgress, "valuenow");
-			dijit.removeWaiState(this.internalProgress, "valuemin");
-			dijit.removeWaiState(this.internalProgress, "valuemax");
+			dijit.removeWaiState(tip, "valuenow");
+			dijit.removeWaiState(tip, "valuemin");
+			dijit.removeWaiState(tip, "valuemax");
 		}else{
 			classFunc = "removeClass";
 			if(String(this.progress).indexOf("%") != -1){
@@ -70,19 +71,19 @@ dojo.declare("dijit.ProgressBar", [dijit._Widget, dijit._Templated], {
 			}
 			var text = this.report(percent);
 			this.label.firstChild.nodeValue = text;
-			dijit.setWaiState(this.internalProgress, "describedby", this.label.id);
-			dijit.setWaiState(this.internalProgress, "valuenow", this.progress);
-			dijit.setWaiState(this.internalProgress, "valuemin", 0);
-			dijit.setWaiState(this.internalProgress, "valuemax", this.maximum);
+			dijit.setWaiState(tip, "describedby", this.label.id);
+			dijit.setWaiState(tip, "valuenow", this.progress);
+			dijit.setWaiState(tip, "valuemin", 0);
+			dijit.setWaiState(tip, "valuemax", this.maximum);
 		}
 		dojo[classFunc](this.domNode, "dijitProgressBarIndeterminate");
-		this.internalProgress.style.width = (percent * 100) + "%";
+		tip.style.width = (percent * 100) + "%";
 		this.onChange();
 	},
 
 	report: function(/*float*/percent){
 		// summary: Generates message to show; may be overridden by user
-		return dojo.number.format(percent, {type: "percent", places: this.places, locale: this.lang});
+		return dojo.number.format(percent, { type: "percent", places: this.places, locale: this.lang });
 	},
 
 	onChange: function(){
