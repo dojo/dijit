@@ -47,14 +47,6 @@
 		// make dojo.toJson() print dates correctly (this feels a bit dirty)
 		Date.prototype.json = function(){ return dojo.date.stamp.toISOString(this, {selector: 'date'});};
 		
-		dojo.addOnLoad(function(){
-			dojo.connect(dojo.byId("shower"), "onclick", function(e){
-				e.preventDefault();
-				var d = dijit.byId("dialog1");
-				d && d.show();
-			});
-		});
-		
 		var thirdDlg;
 		function createDialog() {
 			if(!thirdDlg){	
@@ -333,8 +325,13 @@
 	</p>
 
 	<p>
-	<button dojoType="dijit.form.Button" onClick="dijit.byId('dialog1').show()">Show Dialog</button>
-	<a href="javascript:;" id="shower">Show Dialog1</a>
+	<button dojoType="dijit.form.Button" onClick="dijit.byId('dialog1').show()">Show Dialog</button> |
+	<!-- showing a dialog from an anchor with inline onclick="" is a solution to page onUnLoad firing 
+		but you must return false; alternatively, you can dojo.connect() to the anchor links, and
+		e.preventDefault() on the event object passed. using href="javascript:" inline causes onUnLoad 
+		to destroy all widgets in IE6
+	-->
+	<a href="http://dojotoolkit.org" onclick="dijit.byId('dialog1').show(); return false; ">Show Dialog</a>
 	</p>
 	
 	<p>
