@@ -259,11 +259,7 @@ dijit._editor.RichTextIframeMixin = {
 	},
 
 	onLoad: function(/* Event */ e){
-		if(this.height || dojo.isMoz){
-			this.editNode = this.document.body;
-		}else{
-			this.editNode = this.document.body.firstChild;
-		}
+		this.focusNode = this.editNode = (this.height || dojo.isMoz)? this.document.body : this.document.body.firstChild;
 		dijit._editor.RichText.prototype.onLoad.call(this, e);
 	},
 
@@ -698,7 +694,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 	},
 
 	_writeOpen: function(html){
-		var en = this.editNode = this.editingArea;//dojo.doc.createElement("div");
+		var en = this.focusNode = this.editNode = this.editingArea;//dojo.doc.createElement("div");
 		en.id = this.id;
 		en.className = "dijitEditorArea";
 		en.innerHTML = html;
