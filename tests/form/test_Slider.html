@@ -86,15 +86,16 @@
 			http://www.utexas.edu/teamweb/cgi-bin/generic.cgi -->
 		<form id="form1" action="" name="example" method="post">
 		<br>initial value=10, min=0, max=100, pageIncrement=100, onChange event triggers input box value change immediately<br>
-<label for="slider1"><strong>Horizontal Slider Example</strong></label>
+		<label for="slider1"><strong>Horizontal Slider Example</strong></label>
 		<div dojoType="dijit.form.HorizontalSlider" name="horizontal1"
 			onChange="dojo.byId('slider1input').value=dojo.number.format(arguments[0]/100,{places:1,pattern:'#%'});"
 			value="10"
 			maximum="100"
 			minimum="0"
 			pageIncrement="100"
-			showButtons="false"
+			showButtons="true"
 			intermediateChanges="true"
+			slideDuration="500"
 			style="width:50%; height: 20px;"
 			id="slider1">
 				<ol dojoType="dijit.form.HorizontalRuleLabels" container="topDecoration" style="height:1.2em;font-size:75%;" count="6" numericMargin="1"></ol>

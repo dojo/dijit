@@ -200,10 +200,19 @@ dojo.declare(
 		}, this);
 	},
 
+	_typematicCallback: function(/*Number*/ count, /*Object*/ button, /*Event*/ e){
+		if(count == -1){ return; }
+		this[(button == (this._descending? this.incrementButton : this.decrementButton))? "decrement" : "increment"](e);
+	},
+
 	postCreate: function(){
 		if(this.showButtons){
 			this.incrementButton.style.display="";
 			this.decrementButton.style.display="";
+			this._connects.push(dijit.typematic.addMouseListener(
+				this.decrementButton, this, "_typematicCallback", 25, 500));
+			this._connects.push(dijit.typematic.addMouseListener(
+				this.incrementButton, this, "_typematicCallback", 25, 500));
 		}
 		this.connect(this.domNode, !dojo.isMozilla ? "onmousewheel" : "DOMMouseScroll", "_mouseWheeled");
 
@@ -267,22 +276,6 @@ dojo.declare(
 		
 	_isReversed: function(){
 		return this._descending;
-	},
-
-	_topButtonClicked: function(e){
-		if(this._descending){
-			this.increment(e);
-		}else{
-			this.decrement(e);
-		}
-	},
-
-	_bottomButtonClicked: function(e){
-		if(this._descending){
-			this.decrement(e);
-		}else{
-			this.increment(e);
-		}
 	},
 
 	_rtlRectify: function(decorationNode/*NodeList*/){
