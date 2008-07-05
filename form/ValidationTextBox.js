@@ -108,7 +108,7 @@ dojo.declare(
 			// description:
 			//		Show missing or invalid messages if appropriate, and highlight textbox field.
 			var message = "";
-			var isValid = this.isValid(isFocused);
+			var isValid = this.disabled || this.isValid(isFocused);
 			if(isValid){ this._maskValidSubsetError = true; }
 			var isValidSubset = !isValid && isFocused && this._isValidSubset();
 			var isEmpty = this._isEmpty(this.textbox.value);
@@ -193,6 +193,17 @@ dojo.declare(
 			this._partialre = "^(?:" + partialre + ")$";
 		},
 
+		setAttribute: function(/*String*/ attr, /*anything*/ value){
+			this.inherited(arguments);
+			switch(attr){
+				case "disabled":
+					if(this.valueNode){
+						this.valueNode.disabled = this.disabled;
+					}
+					this._refreshState();
+			}
+		},
+
 		postCreate: function(){
 			if(dojo.isIE){ // IE INPUT tag fontFamily has to be set directly using STYLE
 				var s = dojo.getComputedStyle(this.focusNode);
@@ -234,16 +245,6 @@ dojo.declare(
 		validate: function(){
 			this.valueNode.value = this.toString();
 			return this.inherited(arguments);
-		},
-
-		setAttribute: function(/*String*/ attr, /*anything*/ value){
-			this.inherited(arguments);
-			switch(attr){
-				case "disabled":
-					if(this.valueNode){
-						this.valueNode.disabled = this.disabled;
-					}
-			}
 		},
 
 		postCreate: function(){
