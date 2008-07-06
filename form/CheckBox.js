@@ -55,6 +55,13 @@ dojo.declare(
 			return (this.checked ? this.value : false);
 		},
 
+		postMixInProperties: function(){
+			if(this.value == ""){
+				this.value = "on";
+			}
+			this.inherited(arguments);
+		},
+
 		reset: function(){
 			this.inherited(arguments);
 			this.setAttribute('value', this._resetValueAttr);
