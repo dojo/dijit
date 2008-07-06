@@ -232,6 +232,7 @@ dojo.declare("dijit.ColorPalette",
 		// evt:
 		//		The mouse event.
 		var target = evt.currentTarget;
+		this._setCurrent(target);	// redundant, but needed per safari bug where onCellFocus never called
 		window.setTimeout(function(){dijit.focus(target)}, 0);
 	},
 
@@ -242,9 +243,18 @@ dojo.declare("dijit.ColorPalette",
 		//		the new color.
 		// evt:
 		//		The focus event.
+		this._setCurrent(evt.currentTarget);
+	},
+
+	_setCurrent: function(/*Node*/ node){
+		// summary:
+		//		Called when color is hovered or focused.
+		// description:
+		//		Removes highlight of the old color, and highlights
+		//		the new color.
 		this._removeCellHighlight(this._currentFocus);
-		this._currentFocus = evt.currentTarget.index;
-		dojo.addClass(evt.currentTarget, "dijitPaletteCellHighlight");
+		this._currentFocus = node.index;
+		dojo.addClass(node, "dijitPaletteCellHighlight");		
 	},
 
 	_onCellBlur: function(/*Event*/ evt){
