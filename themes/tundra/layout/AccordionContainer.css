@@ -30,7 +30,7 @@
 .tundra .dijitAccordionTitle {
 	background:#fafafa url("../images/titleBar.png") repeat-x bottom left;
 	border-top: 1px solid #bfbfbf;
-	padding: 6px 4px 6px 8px;
+	padding: 4px 4px 4px 8px;
 	cursor:pointer;
 }
 
@@ -43,7 +43,7 @@
 	font-weight: bold;
 	border-top: 1px solid #aaaaaa;
 	border-bottom: 1px solid #bfbfbf;
-	padding: 6px 4px 6px 8px;
+	padding: 4px 4px 4px 8px;
 	cursor: default;
 }
 
