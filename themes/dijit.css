@@ -1034,29 +1034,10 @@ img.dijitColorPaletteUnder {
 /* Tab */
 
 
-.dijitTabContainerTop-tabs {
-/* position the tab labels row down by 1 px, and on top of the dijitTabPaneWrapper
-	so the buttons can overlay the tab pane properly		*/
-	top:1px !important;
-	z-index:10;	
-}
-
-.dijitTabContainerBottom-tabs {
-/* position the tab labels row up by 1 px so they overlap	*/
-	margin-top:-1px !important;
-	z-index:10;	
-}
-
-.dijitTabContainerLeft-tabs {
-/* position the tab labels left by 1 px so they overlap		*/
-	margin-right:-1px !important;
-	z-index:10;	
-}
-
+.dijitTabContainerBottom-tabs,
+.dijitTabContainerTop-tabs,
+.dijitTabContainerLeft-tabs,
 .dijitTabContainerRight-tabs {
-/* position the tab labels right by 1 px, on top of the dijitTabPaneWrapper
-	so the buttons can overlay the tab pane properly		*/
-	margin-left:-1px !important;
 	z-index:10;	
 }
 

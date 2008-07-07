@@ -13,6 +13,22 @@
 	border:1px solid #b1badf;
 }
 
+.soria .dijitTabContainerTop-container {
+	margin-top: -1px;
+}
+
+.soria .dijitTabContainerLeft-container {
+	margin-left: -1px;
+}
+
+.soria .dijitTabContainerBottom-container {
+	margin-bottom: -1px;
+}
+
+.soria .dijitTabContainerRight-container {
+	margin-right: -1px;
+}
+
 .soria .dijitTab { 
 	line-height:normal;
 	margin-right:3px;	/* space between one tab and the next in top/bottom mode */

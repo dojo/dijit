@@ -5,6 +5,22 @@
 	border:1px solid #ccc;
 }
 
+.tundra .dijitTabContainerTop-container {
+	margin-top: -1px;
+}
+
+.tundra .dijitTabContainerLeft-container {
+	margin-left: -1px;
+}
+
+.tundra .dijitTabContainerBottom-container {
+	margin-bottom: -1px;
+}
+
+.tundra .dijitTabContainerRight-container {
+	margin-right: -1px;
+}
+	
 .tundra .dijitTab {
 	line-height:normal;
 	margin-right:4px;	/* space between one tab and the next in top/bottom mode */

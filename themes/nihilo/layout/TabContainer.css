@@ -13,6 +13,22 @@
 	border:1px solid #ccc;
 }
 
+.nihilo .dijitTabContainerTop-container {
+	margin-top: -1px;
+}
+
+.nihilo .dijitTabContainerLeft-container {
+	margin-left: -1px;
+}
+
+.nihilo .dijitTabContainerBottom-container {
+	margin-bottom: -1px;
+}
+
+.nihilo .dijitTabContainerRight-container {
+	margin-right: -1px;
+}
+
 .nihilo .dijitTab { 
 	line-height:normal;
 	margin-right:3px;	/* space between one tab and the next in top/bottom mode */
