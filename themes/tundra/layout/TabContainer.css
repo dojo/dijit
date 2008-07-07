@@ -1,6 +1,5 @@
 
 /* Tabs */
-
 .tundra .dijitTabPaneWrapper {
 	background:#fff;
 	border:1px solid #ccc;
@@ -144,4 +143,46 @@
 .tundra .dijitTabContainerRight-tabs .dijitTab .dijitClosable .closeImage {
 	top: 5px;
 	right: 3px;
+}
+
+/* Nested tabs in BorderContainers need border around tabs */
+.tundra .dijitBorderContainer-dijitTabContainerTop .dijitTabContainerTop-tabs {
+	border-left: 1px solid #ccc;
+	border-top: 1px solid #ccc;
+	border-right: 1px solid #ccc;
+	padding-top: 2px;
+	padding-left: 3px;	
+}
+
+.tundra .dijitBorderContainer-dijitTabContainerBottom .dijitTabContainerBottom-tabs {
+	padding-bottom: 2px;
+	padding-left: 3px;	
+	border-left: 1px solid #ccc;
+	border-bottom: 1px solid #ccc;
+	border-right: 1px solid #ccc;
+}
+
+.tundra .dijitBorderContainer-dijitTabContainerLeft .dijitTabContainerLeft-tabs {
+	padding-left: 2px;
+	padding-top: 3px;	
+	border-left: 1px solid #ccc;
+	border-bottom: 1px solid #ccc;
+	border-top: 1px solid #ccc;
+}
+
+.tundra .dijitBorderContainer-dijitTabContainerRight .dijitTabContainerRight-tabs {
+	padding-right: 2px;
+	padding-top: 3px;	
+	border-right: 1px solid #ccc;
+	border-bottom: 1px solid #ccc;
+	border-top: 1px solid #ccc;
+}
+
+/* this resets the tabcontainer stripe when within a contentpane */
+.tundra .dijitTabContainerTop-dijitContentPane .dijitTabContainerTop-tabs {
+	border-left: 0px solid #ccc;
+	border-top: 0px solid #ccc;
+	border-right: 0px solid #ccc;
+	padding-top: 0px;
+	padding-left: 0px;	
 }
