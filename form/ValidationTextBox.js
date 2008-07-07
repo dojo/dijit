@@ -243,7 +243,7 @@ dojo.declare(
 		},
 
 		validate: function(){
-			this.valueNode.value = this.toString();
+			if(this.valueNode){ this.valueNode.value = this.toString(); } // test valueNode in case this is called before postCreate runs
 			return this.inherited(arguments);
 		},
 
