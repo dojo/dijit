@@ -43,10 +43,10 @@ dojo.declare(
 			this._setStateClass();
 		},
 
-		_arrowPressed: function(/*Node*/ nodePressed, /*Number*/ direction){
+		_arrowPressed: function(/*Node*/ nodePressed, /*Number*/ direction, /*Number*/ increment){
 			if(this.disabled || this.readOnly){ return; }
 			this._arrowState(nodePressed, true);
-			this.setValue(this.adjust(this.getValue(), direction*this.smallDelta), false);
+			this.setValue(this.adjust(this.getValue(), direction*increment), false);
 			dijit.selectInputText(this.textbox, this.textbox.value.length);
 		},
 
@@ -57,9 +57,15 @@ dojo.declare(
 		},
 
 		_typematicCallback: function(/*Number*/ count, /*DOMNode*/ node, /*Event*/ evt){
-			if(node == this.textbox){ node = (evt.charOrCode == dojo.keys.UP_ARROW) ? this.upArrowNode : this.downArrowNode; }
+			var inc=this.smallDelta;
+			if(node == this.textbox){
+				k=dojo.keys;
+				var key = evt.charOrCode; 
+				inc = (key == k.PAGE_UP || key == k.PAGE_DOWN) ? this.largeDelta : this.smallDelta;
+				node = (key == k.UP_ARROW ||key == k.PAGE_UP) ? this.upArrowNode : this.downArrowNode;
+			}
 			if(count == -1){ this._arrowReleased(node); }
-			else{ this._arrowPressed(node, (node == this.upArrowNode) ? 1 : -1); }
+			else{ this._arrowPressed(node, (node == this.upArrowNode) ? 1 : -1, inc); }
 		},
 
 		_wheelTimer: null,
@@ -73,7 +79,7 @@ dojo.declare(
 				var node = this[(scrollAmount > 0 ? "upArrowNode" : "downArrowNode" )];
 				var dir = (scrollAmount > 0 ? 1 : -1);
 				
-				this._arrowPressed(node, dir);
+				this._arrowPressed(node, dir, this.smallDelta);
 
 				if(!this._wheelTimer){
 					clearTimeout(this._wheelTimer);
@@ -90,6 +96,8 @@ dojo.declare(
 			this.connect(this.domNode, !dojo.isMozilla ? "onmousewheel" : 'DOMMouseScroll', "_mouseWheeled");
 			this._connects.push(dijit.typematic.addListener(this.upArrowNode, this.textbox, {charOrCode:dojo.keys.UP_ARROW,ctrlKey:false,altKey:false,shiftKey:false}, this, "_typematicCallback", this.timeoutChangeRate, this.defaultTimeout));
 			this._connects.push(dijit.typematic.addListener(this.downArrowNode, this.textbox, {charOrCode:dojo.keys.DOWN_ARROW,ctrlKey:false,altKey:false,shiftKey:false}, this, "_typematicCallback", this.timeoutChangeRate, this.defaultTimeout));
+			this._connects.push(dijit.typematic.addListener(this.upArrowNode, this.textbox, {charOrCode:dojo.keys.PAGE_UP,ctrlKey:false,altKey:false,shiftKey:false}, this, "_typematicCallback", this.timeoutChangeRate, this.defaultTimeout));
+			this._connects.push(dijit.typematic.addListener(this.downArrowNode, this.textbox, {charOrCode:dojo.keys.PAGE_DOWN,ctrlKey:false,altKey:false,shiftKey:false}, this, "_typematicCallback", this.timeoutChangeRate, this.defaultTimeout));
 			if(dojo.isIE){
 				var _this = this;
 				this.connect(this.domNode, "onresize",

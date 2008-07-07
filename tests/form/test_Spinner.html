@@ -70,11 +70,12 @@
 			<br>
 			Move the cursor left and right within the input field to see the effect on the spinner.
 			<br>
-			initial value=+1.0, delta=0.1, min=-10.9, max=155, places=1, maxLength=20<br>
+			initial value=+1.0, smalldelta=0.1, largedelta=1.0, min=-10.9, max=155, places=1, maxLength=20<br>
 			<label for="realspinner1">Real Number Spinbox #1: </label><br>
 			<input dojoType="dijit.form.NumberSpinner"
 				value="1.0"
 				smallDelta="0.1"
+				largeDelta="1.0"
 				constraints="{min:-10.9,max:155,places:1,round:true}"
 				maxLength="20"
 				name="realspinner1"
