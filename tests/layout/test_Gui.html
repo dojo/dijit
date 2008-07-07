@@ -65,7 +65,7 @@
 
 	<!-- "main" BorderContainer just contains page title and another BorderContainer -->
 	<div id="main" dojoType="dijit.layout.BorderContainer">
-		<div dojoType="dijit.layout.ContentPane" region="top" splitter="true" liveSplitters="false">Hi </div>
+		<div dojoType="dijit.layout.ContentPane" region="top" splitter="true" liveSplitters="false">This test is to make sure nested layout elements work fine in regards to double borders etc. You need a screen with a very high resolution to not get cramped tabs and other weird visual effects </div>
 		
 		<!-- "mainSplit" BorderContainer has all the real content -->
 		<div dojoType="dijit.layout.BorderContainer" liveSplitters="false" design="sidebar"
@@ -242,14 +242,24 @@
 					tabPosition="bottom" selectedChild="btab1" region="bottom" splitter="true">
 	
 					<!-- btab 1 -->
-					<div id="btab1" dojoType="dijit.layout.ContentPane" layoutType="tab" title="Info" style="padding:10px;">
+					<div dojoType="dijit.layout.BorderContainer" liveSplitters="false" design="sidebar"
+						region="center" id="bottomSplit" title="BorderContainer in Tabs" style="padding: 5px; width: 100%">
+						<div dojoType="dijit.layout.ContentPane" region="top" splitter="true" liveSplitters="false">This test is to make sure nested layout elements work fine in regards to double borders etc. You need a screen with a very high resolution to not get cramped tabs and other weird visual effects </div>
+						<div dojoType="dijit.layout.TabContainer" id="bottomTabs22" 
+							tabPosition="top" selectedChild="btabAA" region="center" splitter="true">
+
+							<!-- btab 1 -->
+							<div id="btabAA" dojoType="dijit.layout.ContentPane" layoutType="tab" title="Info" style="padding:10px;">Hi</div>
+						</div>
+					
+						<div dojoType="dijit.layout.ContentPane" region="bottom" splitter="true" liveSplitters="false">This test is to make sure nested layout elements work fine in regards to double borders etc. You need a screen with a very high resolution to not get cramped tabs and other weird visual effects </div>
 						
-					</div><!-- end:info btab1 -->
+					</div>	
 	
 					<div id="btab2" dojoType="dijit.layout.ContentPane" layoutType="tab" title="Alternate Themes" style="padding:20px;">
 						
 					</div><!-- btab2 -->
-	
+		
 					<div id="btab3" dojoType="dijit.layout.ContentPane" layoutType="tab" title="Bottom 3" closable="true">
 						
 					</div><!-- btab3 -->
