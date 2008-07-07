@@ -954,6 +954,7 @@ img.dijitColorPaletteUnder {
 }
 
 .dijitMenuItem{
+	text-align: left;
 	white-space: nowrap;
 	padding:.1em .2em;
 }

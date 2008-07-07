@@ -5,6 +5,11 @@
 	direction: rtl; /* Firefox needs dijitInputField to be ltr, so fix the contained tags */
 }
 
+/* ComboBox */
+.dijitRtl .dijitMenuItem {
+	text-align: right;
+}
+
 /* Tree */
 
 .dijitRtl .dijitComboBox .dijitInputField {
