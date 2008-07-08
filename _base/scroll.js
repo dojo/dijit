@@ -15,7 +15,7 @@ dijit.scrollIntoView = function(/* DomNode */node){
 	// so just manage the parent scrollbar ourselves
 
 	node = dojo.byId(node);
-	var body = dojo.body();
+	var body = node.ownerDocument.body;
 	var html = body.parentNode;
 	if(dojo.isFF == 2 || node == body || node == html){ // FF2 is perfect, too bad FF3 is not
 		node.scrollIntoView(false); // short-circuit to native if possible
