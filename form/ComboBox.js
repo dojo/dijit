@@ -1051,7 +1051,7 @@ dojo.declare("dijit.form._ComboBoxDataStore", null, {
 			//	TODO: this was added in #3858 but unclear why/if it's needed;  doesn't seem to be.
 			//	If it is needed then can we just hide the select itself instead?
 			//node.style.display="none";
-			node.innerHTML=node.innerHTML.replace(/\n/gm, "");
+			node.innerHTML = dojo.trim(node.innerHTML);
 		});
 
 	},
