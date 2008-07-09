@@ -696,6 +696,11 @@ body .dijitAlignClient { position: absolute; }
 	border-width: 0;
 	z-index: 10 !important;
 }
+
+.dijitSplitterActive {
+	z-index: 11 !important;
+}
+
 .dijitSplitterCover{
 	position:absolute;
 	z-index:1;
