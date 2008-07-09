@@ -63,9 +63,14 @@ dojo.declare(
 			//		If true, an onChange event is fired immediately instead of 
 			//		waiting for the next blur event.
 
-			var filteredValue = this.filter(value);
-			if((((typeof filteredValue == typeof value) && (value !== undefined/*#5317*/)) || (value === null/*#5329*/)) && (formattedValue == null || formattedValue == undefined)){
-				formattedValue = this.format(filteredValue, this.constraints);
+			var filteredValue;
+			if(value !== undefined){
+				filteredValue = this.filter(value);
+				if(filteredValue !== null && ((typeof filteredValue != "number") || !isNaN(filteredValue))){
+					if(typeof formattedValue != "string"){
+						formattedValue = this.format(filteredValue, this.constraints);
+					}
+				}else{ formattedValue = ''; }
 			}
 			if(formattedValue != null && formattedValue != undefined){
 				this.textbox.value = formattedValue;
@@ -115,8 +120,7 @@ dojo.declare(
 		filter: function(val){
 			//	summary:
 			//		Apply specified filters to textbox value
-			if(val === null || val === undefined){ return ""; }
-			else if(typeof val != "string"){ return val; }
+			if(typeof val != "string"){ return val; }
 			if(this.trim){
 				val = dojo.trim(val);
 			}

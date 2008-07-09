@@ -222,6 +222,15 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 		(this.stateNode || this.domNode).className = this.staticClass + " " + classes.join(" ");
 	},
 
+	compare: function(/*anything*/val1, /*anything*/val2){
+		// summary: compare 2 values
+		if((typeof val1 == "number") && (typeof val2 == "number")){
+			return (isNaN(val1) && isNaN(val2))? 0 : (val1-val2);
+		}else if(val1 > val2){ return 1; }
+		else if(val1 < val2){ return -1; }
+		else { return 0; }
+	},
+
 	onChange: function(newValue){
 		// summary: callback when value is changed
 	},
@@ -236,7 +245,8 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 			this._resetValue = this._lastValueReported = newValue;
 		}
 		if((this.intermediateChanges || priorityChange || priorityChange === undefined) && 
-			((newValue && newValue.toString)?newValue.toString():newValue) !== ((this._lastValueReported && this._lastValueReported.toString)?this._lastValueReported.toString():this._lastValueReported)){
+			((typeof newValue != typeof this._lastValueReported) ||
+				this.compare(newValue, this._lastValueReported) != 0)){
 			this._lastValueReported = newValue;
 			if(this._onChangeActive){ this.onChange(newValue); }
 		}

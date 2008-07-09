@@ -56,10 +56,15 @@
 				<span class="noticeMessage">DateTextBox class, no attributes</span>
 			</div>
 			<div class="testExample">
-				<input id="q1" name="noDOMvalue" type="text" dojoType="dijit.form.DateTextBox"
-				         onChange="dojo.byId('oc1').value=arguments[0]"
+				<input id="q1" name="noDOMvalue" value="2008-12-31" type="text" dojoType="dijit.form.DateTextBox"
+				         onChange="dojo.byId('oc1').value=''+arguments[0]"
 				>
 				onChange:<input id="oc1" size="34" disabled value="not fired yet!" autocomplete="off">
+				<nobr>
+				<button onclick="dijit.byId('q1').setValue(null);return false">setValue(null)</button>
+				<button onclick="dojo.byId('gv1').value=''+dijit.byId('q1').getValue();return false">getValue:</button>
+				<input id="gv1" size="34" disabled value="no getValue() yet!" autocomplete="off">
+				</nobr>
 			</div>
 			<div class="dojoTitlePaneLabel">
 				<label for="q2"> Date (local format - long) </label>
@@ -76,7 +81,7 @@
 					invalidMessage="Invalid date." />
  				onChange:<input id="oc2" size="34" disabled value="not fired yet!" autocomplete="off">
 				<input type="button" value="Destroy" onClick="dijit.byId('q2').destroy(); return false;">
-				<input type="button" value="set max to 2007-12-31" onClick="dijit.byId('q2').constraints.max = new Date(2007,11,31); return false;">
+				<input type="button" value="set max to 2007-12-31" onClick="dijit.byId('q2').constraints.max = new Date(2007,11,31); dijit.byId('q2').validate(false); return false;">
 			</div>
 			<div class="dojoTitlePaneLabel">
 				<label for="q3"> Date (American format) </label>

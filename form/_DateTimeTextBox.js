@@ -33,7 +33,7 @@ dojo.declare(
 		},
 		parse: function(/*String*/ value, /*dojo.date.locale.__FormatOptions*/ constraints){
 			//	summary: parses the value as a Date, according to constraints
-			return dojo.date.locale.parse(value, constraints) || undefined; /* can't return null to getValue since that's special */
+			return dojo.date.locale.parse(value, constraints) || (this._isEmpty(value)? null : undefined);
 		},
 
 		serialize: dojo.date.stamp.toISOString,

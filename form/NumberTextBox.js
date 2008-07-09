@@ -57,8 +57,13 @@ dojo.declare(
 		=====*/
 
 		filter: function(/*Number*/ value){
-			if(typeof value == "string"){ return this.inherited('filter', arguments); }
-			return isNaN(value) ? '' : value;
+			return (value === null)? NaN : this.inherited(arguments); // setValue(null) should fire onChange(NaN)
+		},
+
+		getValue: function(){
+			var v = this.inherited(arguments);
+			if(isNaN(v) && this.textbox.value !== ''){ return undefined; }
+			return v;
 		},
 
 		value: NaN

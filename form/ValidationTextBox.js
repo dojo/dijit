@@ -292,11 +292,6 @@ dojo.declare(
 		======*/
 		rangeMessage: "",
 
-		compare: function(/*anything*/val1, /*anything*/val2){
-			// summary: compare 2 values
-			return val1 - val2; // anything
-		},
-
 		rangeCheck: function(/*Number*/ primitive, /*dijit.form.RangeBoundTextBox.__Constraints*/ constraints){
 			// summary: user replaceable function used to validate the range of the numeric input value
 			var isMin = "min" in constraints;
