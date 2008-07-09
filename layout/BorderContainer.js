@@ -42,7 +42,6 @@ dojo.declare(
 	//	Give each pane a border and margin.
 	//	Margin determined by domNode.paddingLeft.
 	//	When false, only resizable panes have a gutter (i.e. draggable splitter) for resizing.
-	//  TODO: update code to add unmovable splitter for non-resizable panes (#6768)
 	gutters: true,
 
 	// liveSplitters: Boolean
@@ -117,7 +116,6 @@ dojo.declare(
 					child: child,
 					region: region,
 					oppNode: oppNodeList[0],
-					draggable: child.splitter,
 					live: this.liveSplitters
 				});
 				this._splitters[region] = splitter.domNode;
