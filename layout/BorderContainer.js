@@ -160,14 +160,7 @@ dojo.declare(
 		this.inherited(arguments);
 	},
 
-	_layoutChildren: function(/*String?*/changedRegion){
-		var sidebarLayout = (this.design == "sidebar");
-		var topHeight = 0, bottomHeight = 0, leftWidth = 0, rightWidth = 0;
-		var topStyle = {}, leftStyle = {}, rightStyle = {}, bottomStyle = {},
-			centerStyle = (this._center && this._center.style) || {};
-
-		var changedSide = /left|right/.test(changedRegion);
-
+	resize: function(args){
 		// resetting potential padding to 0px to provide support for 100% width/height + padding
 		// TODO: this hack doesn't respect the box model and is a temporary fix
 		if (!this.cs || !this.pe){
@@ -177,6 +170,17 @@ dojo.declare(
 
 			dojo.style(this.domNode, "padding", "0px");
 		}
+
+		this.inherited(arguments);
+	},
+
+	_layoutChildren: function(/*String?*/changedRegion){
+		var sidebarLayout = (this.design == "sidebar");
+		var topHeight = 0, bottomHeight = 0, leftWidth = 0, rightWidth = 0;
+		var topStyle = {}, leftStyle = {}, rightStyle = {}, bottomStyle = {},
+			centerStyle = (this._center && this._center.style) || {};
+
+		var changedSide = /left|right/.test(changedRegion);
 
 		var cs = this.cs;
 		var pe = this.pe;
@@ -559,7 +563,6 @@ dojo.declare("dijit.layout._Gutter", [dijit._Widget, dijit._Templated ],
 	templateString: '<div class="dijitGutter" waiRole="presentation"></div>',
 
 	postCreate: function(){
-		console.log("creating");
 		this.horizontal = /top|bottom/.test(this.region);
 		dojo.addClass(this.domNode, "dijitGutter" + (this.horizontal ? "H" : "V"));
 	}
