@@ -252,7 +252,7 @@ dijit._Templated._sanitizeTemplateString = function(/*String*/tString){
 
 
 if(dojo.isIE){
-	dojo.addOnUnload(function(){
+	dojo.addOnWindowUnload(function(){
 		var cache = dijit._Templated._templateCache;
 		for(var key in cache){
 			var value = cache[key];
