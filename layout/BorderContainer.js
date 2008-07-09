@@ -160,7 +160,7 @@ dojo.declare(
 		this.inherited(arguments);
 	},
 
-	resize: function(args){
+	resize: function(newSize, currentSize){
 		// resetting potential padding to 0px to provide support for 100% width/height + padding
 		// TODO: this hack doesn't respect the box model and is a temporary fix
 		if (!this.cs || !this.pe){
@@ -171,7 +171,7 @@ dojo.declare(
 			dojo.style(this.domNode, "padding", "0px");
 		}
 
-		this.inherited(arguments);
+		this.inherited(arguments);		
 	},
 
 	_layoutChildren: function(/*String?*/changedRegion){
@@ -187,6 +187,11 @@ dojo.declare(
 
 		var layoutSides = !changedRegion || (!changedSide && !sidebarLayout);
 		var layoutTopBottom = !changedRegion || (changedSide && sidebarLayout);
+		
+		// Ask browser for width/height of side panes.
+		// Would be nice to cache this but height can change according to width
+		// (because words wrap around).  I don't think width will ever change though
+		// (except when the user drags a splitter). 
 		if(this._top){
 			topStyle = layoutTopBottom && this._top.style;
 			topHeight = dojo.marginBox(this._top).h;
@@ -279,6 +284,25 @@ dojo.declare(
 			topStyle.right = bottomStyle.right = pe.r + "px";
 		}
 
+		// More calculations about sizes of panes
+		var containerHeight = this._borderBox.h - pe.t - pe.b;
+		var middleHeight = containerHeight - ( topHeight + topSplitterThickness + bottomHeight + bottomSplitterThickness);
+		var sidebarHeight = sidebarLayout ? containerHeight : middleHeight;
+
+		var containerWidth = this._borderBox.w - pe.l - pe.r;
+		var middleWidth = containerWidth - (leftWidth  + leftSplitterThickness + rightWidth + rightSplitterThickness);
+
+		var sidebarWidth = sidebarLayout ? middleWidth : containerWidth;
+
+		// New margin-box size of each pane
+		var dim = {
+			top:	{ w: sidebarWidth, h: topHeight },
+			bottom: { w: sidebarWidth, h: bottomHeight },
+			left:	{ w: leftWidth, h: sidebarHeight },
+			right:	{ w: rightWidth, h: sidebarHeight },
+			center:	{ h: middleHeight, w: middleWidth }
+		};
+
 		// Nodes in IE don't respond to t/l/b/r, and TEXTAREA doesn't respond in any browser
 		var janky = dojo.isIE || dojo.some(this.getChildren(), function(child){
 			return child.domNode.tagName == "TEXTAREA";
@@ -287,58 +311,29 @@ dojo.declare(
 			// Set the size of the children the old fashioned way, by calling
 			// childNode.resize({h: int, w: int}) for each child node)
 
-			var borderBox = function(n, b, s){
-				n=dojo.byId(n);
-				s = s || dojo.getComputedStyle(n);
-				if(!b){ return dojo._getBorderBox(n, s); }
-				var me = dojo._getMarginExtents(n, s);
-				dojo._setMarginBox(n, b.l, b.t, b.w + me.w, b.h + me.h, s);
-				return null;
-			};
-
 			var resizeWidget = function(widget, dim){
 				if(widget){
 					(widget.resize ? widget.resize(dim) : dojo.marginBox(widget.domNode, dim));
 				}
 			};
 
-			// TODO: use dim passed in to resize() (see _LayoutWidget.js resize())
-			// Then can make borderBox setBorderBox(), since no longer need to ever get the borderBox() size
-			var thisBorderBox = borderBox(this.domNode, null, cs);
-
-			var containerHeight = thisBorderBox.h - pe.t - pe.b;
-			var middleHeight = containerHeight - ( topHeight + topSplitterThickness + bottomHeight + bottomSplitterThickness);
-			var centerDim = { h: middleHeight };
-
-			var sidebarHeight = sidebarLayout ? containerHeight : middleHeight;
 			if(leftSplitter){ leftSplitter.style.height = sidebarHeight; }
 			if(rightSplitter){ rightSplitter.style.height = sidebarHeight; }
-			resizeWidget(this._leftWidget, {h: sidebarHeight});
-			resizeWidget(this._rightWidget, {h: sidebarHeight});
+			resizeWidget(this._leftWidget, {h: sidebarHeight}, dim.left);
+			resizeWidget(this._rightWidget, {h: sidebarHeight}, dim.right);
 
-			var containerWidth = thisBorderBox.w - pe.l - pe.r;
-			var middleWidth = containerWidth - (leftWidth  + leftSplitterThickness + rightWidth + rightSplitterThickness);
-			centerDim.w = middleWidth;
-
-			var sidebarWidth = sidebarLayout ? middleWidth : containerWidth;
 			if(topSplitter){ topSplitter.style.width = sidebarWidth; }
 			if(bottomSplitter){ bottomSplitter.style.width = sidebarWidth; }
-			resizeWidget(this._topWidget, {w: sidebarWidth});
-			resizeWidget(this._bottomWidget, {w: sidebarWidth});
+			resizeWidget(this._topWidget, {w: sidebarWidth}, dim.top);
+			resizeWidget(this._bottomWidget, {w: sidebarWidth}, dim.bottom);
 
-			resizeWidget(this._centerWidget, centerDim);
+			resizeWidget(this._centerWidget, dim.center);
 		}else{
-
 			// We've already sized the children by setting style.top/bottom/left/right...
-			// Now just need to call resize() on those children so they can re-layout themselves
+			// Now just need to call resize() on those children telling them their new size,
+			// so they can re-layout themselves
 
-			// TODO: calling child.resize() without an argument is bad, because it forces
-			// the child to query it's own size (even though this function already knows
-			// the size), plus which querying the size of a node right after setting it
-			// is known to cause problems (incorrect answer or an exception).
-			// This is a setback from older layout widgets, which
-			// don't do that.  See #3399, #2678, #3624 and #2955, #1988
-
+			// Calculate which panes need a notification
 			var resizeList = {};
 			if(changedRegion){
 				resizeList[changedRegion] = resizeList.center = true;
@@ -351,25 +346,7 @@ dojo.declare(
 
 			dojo.forEach(this.getChildren(), function(child){
 				if(child.resize && (!changedRegion || child.region in resizeList)){
-	//				console.log(this.id, ": resizing child id=" + child.id + " (region=" + child.region + "), style before resize is " +
-	//									 "{ t: " + child.domNode.style.top +
-	//									", b: " + child.domNode.style.bottom +
-	//									", l: " + child.domNode.style.left +
-	//									 ", r: " + child.domNode.style.right +
-	//									 ", w: " + child.domNode.style.width +
-	//									 ", h: " + child.domNode.style.height +
-	//									"}"
-	//						);
-					child.resize();
-	//				console.log(this.id, ": after resize of child id=" + child.id + " (region=" + child.region + ") " +
-	//									 "{ t: " + child.domNode.style.top +
-	//									", b: " + child.domNode.style.bottom +
-	//									", l: " + child.domNode.style.left +
-	//									 ", r: " + child.domNode.style.right +
-	//									 ", w: " + child.domNode.style.width +
-	//									 ", h: " + child.domNode.style.height +
-	//									"}"
-	//						);
+					child.resize(null, dim[child.region]);
 				}
 			}, this);
 		}

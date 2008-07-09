@@ -52,33 +52,61 @@ dojo.declare("dijit.layout._LayoutWidget",
 			this.inherited(arguments);
 		},
 
-		resize: function(args){
+		resize: function(newSize, currentSize){
 			// summary:
-			//		Explicitly set this widget's size (in pixels),
-			//		and then call layout() to resize contents (and maybe adjust child widgets)
-			//	
-			// args: Object?
+			//		Call this to resize a widget, or after it's size has changed.
+			// description:
+			//		1. If newSize is specified, sets this widget's margin box size.
+			//		2. Sets this._borderBox and this._contentBox (to either the new size,
+			//			or the current size if no size was specified).  Queries the
+			//			current domNode size if it wasn't passed in.
+			//		3. Calls layout() to resize contents (and maybe adjust child widgets).	
+
+			// newSize: Object?
+			//		New margin-box size and position for this widget (sets widget to this size)
 			//		{w: int, h: int, l: int, t: int}
+
+			// currentSize: Object?
+			//		The current margin-box size of this widget.  (If caller knows this size and
+			//		passes it in, we don't need to query the browser to get the size.)
+			//		{w: int, h: int}
 
 			var node = this.domNode;
 
 			// set margin box size, unless it wasn't specified, in which case use current size
-			if(args){
-				dojo.marginBox(node, args);
+			if(newSize){
+				dojo.marginBox(node, newSize);
 
 				// set offset of the node
-				if(args.t){ node.style.top = args.t + "px"; }
-				if(args.l){ node.style.left = args.l + "px"; }
+				if(newSize.t){ node.style.top = newSize.t + "px"; }
+				if(newSize.l){ node.style.left = newSize.l + "px"; }
 			}
+
 			// If either height or width wasn't specified by the user, then query node for it.
 			// But note that setting the margin box and then immediately querying dimensions may return
 			// inaccurate results, so try not to depend on it.
-			var mb = dojo.mixin(dojo.marginBox(node), args||{});
+			var mb = currentSize || {};
+			dojo.mixin(mb, newSize || {});	// newSize overrides currentSize
+			if ( !("h" in mb) || !("w" in mb) ){
+				mb = dojo.mixin(dojo.marginBox(node), mb);	// just use dojo.marginBox() to fill in missing values
+			}
 
-//			console.log(this, ": setting size to ", mb);
-
-			// Save the size of my content box.
-			this._contentBox = dijit.layout.marginBox2contentBox(node, mb);
+			// Compute and save the size of my border box and content box
+			// (w/out calling dojo.contentBox() since that may fail if size was recently set)
+			var cs = dojo.getComputedStyle(node);
+			var me = dojo._getMarginExtents(node, cs);
+			var be = dojo._getBorderExtents(node, cs);
+			var bb = this._borderBox = {
+				w: mb.w - (me.w + be.w),
+				h: mb.h - (me.h + be.h)
+			};
+			var pe = dojo._getPadExtents(node, cs);
+			this._contentBox = {
+				l: dojo._toPixelValue(node, cs.paddingLeft),
+				t: dojo._toPixelValue(node, cs.paddingTop),
+				w: bb.w - pe.w,
+				h: bb.h - pe.h
+			};
 
 			// Callback for widget to adjust size of it's children
 			this.layout();
