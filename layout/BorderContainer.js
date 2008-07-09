@@ -120,6 +120,7 @@ dojo.declare(
 					oppNode: oppNodeList[0],
 					live: this.liveSplitters
 				});
+				splitter.isSplitter = true;
 				this._splitters[region] = splitter.domNode;
 			}
 			child.region = region;
@@ -158,6 +159,12 @@ dojo.declare(
 			this._layoutChildren(child.region);
 		}
 		this.inherited(arguments);
+	},
+
+	getChildren: function(){
+		return this.inherited(arguments).filter(function(widget){
+			return !widget.isSplitter;
+		});
 	},
 
 	resize: function(newSize, currentSize){
@@ -538,7 +545,7 @@ dojo.declare("dijit.layout._Gutter", [dijit._Widget, dijit._Templated ],
 	//		Basically a trick to lookup the gutter/splitter width from the theme.
 
 	templateString: '<div class="dijitGutter" waiRole="presentation"></div>',
-
+	
 	postCreate: function(){
 		this.horizontal = /top|bottom/.test(this.region);
 		dojo.addClass(this.domNode, "dijitGutter" + (this.horizontal ? "H" : "V"));
