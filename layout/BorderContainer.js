@@ -206,6 +206,7 @@ dojo.declare(
 		var splitterThickness = this._splitterThickness;
 		var topSplitterThickness = splitterThickness.top || (this.gutters ? pe.t : 0);
 		var leftSplitterThickness = splitterThickness.left || (this.gutters ? pe.l : 0);
+		
 		var rightSplitterThickness = splitterThickness.right || (this.gutters ? pe.r : 0);
 		var bottomSplitterThickness = splitterThickness.bottom || (this.gutters ? pe.b : 0);
 
@@ -301,11 +302,7 @@ dojo.declare(
 			var thisBorderBox = borderBox(this.domNode, null, cs);
 
 			var containerHeight = thisBorderBox.h - pe.t - pe.b;
-			var middleHeight = containerHeight;
-			if(this._top){ middleHeight -= topHeight; }
-			if(this._bottom){ middleHeight -= bottomHeight; }
-			if(topSplitter){ middleHeight -= topSplitterThickness; }
-			if(bottomSplitter){ middleHeight -= bottomSplitterThickness; }
+			var middleHeight = containerHeight - ( topHeight + topSplitterThickness + bottomHeight + bottomSplitterThickness);
 			var centerDim = { h: middleHeight };
 
 			var sidebarHeight = sidebarLayout ? containerHeight : middleHeight;
@@ -315,11 +312,7 @@ dojo.declare(
 			resizeWidget(this._rightWidget, {h: sidebarHeight});
 
 			var containerWidth = thisBorderBox.w - pe.l - pe.r;
-			var middleWidth = containerWidth;
-			if(this._left){ middleWidth -= leftWidth; }
-			if(this._right){ middleWidth -= rightWidth; }
-			if(leftSplitter){ middleWidth -= leftSplitterThickness; }
-			if(rightSplitter){ middleWidth -= rightSplitterThickness; }
+			var middleWidth = containerWidth - (leftWidth  + leftSplitterThickness + rightWidth + rightSplitterThickness);
 			centerDim.w = middleWidth;
 
 			var sidebarWidth = sidebarLayout ? middleWidth : containerWidth;
