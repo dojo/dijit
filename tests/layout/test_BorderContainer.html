@@ -48,7 +48,7 @@
 				var div = dojo.doc.createElement('div');
 				div.innerHTML='left';
 				container.domNode.appendChild(div);
-				leftPanel = new dijit.layout.ContentPane({id: id, region:'left', style:'background-color: #acb386; width:100px', splitter:true, minSize:50, maxSize:150}, div);
+				leftPanel = new dijit.layout.ContentPane({id: id, region:'left', style:'background-color: #acb386; width:200px', splitter:true, minSize:150, maxSize:250}, div);
 				dijit.byId('border1').addChild(leftPanel);
 				button.innerHTML='Remove left panel';
 			}
@@ -58,15 +58,15 @@
 <body class="tundra">
 
 	<h2 class="testTitle">dijit.layout.BorderContainer tests</h2>
-	<p>Headline layout (default), left is constrained - min:50, max:150</p>
+	<p>Headline layout (default), left is constrained - min:150, max:250</p>
 
 	<div id="border1" dojoType="dijit.layout.BorderContainer"
-		style="padding: 5px; border: 2px solid blue; width: 90%; height: 300px; padding: 10px;">
-		<div dojoType="dijit.layout.ContentPane" region="top" style="background-color: #b39b86; border: 15px black solid; height: 100px;" splitter="true">
-			top bar
+		style="width: 90%; height: 300px; border: 2px solid blue; ">
+		<div dojoType="dijit.layout.ContentPane" region="top" style="background-color: #b39b86; border: 15px black solid; height: 50px;" splitter="true">
+			top bar (resizable)
 		</div>
 		<div id="border1-left" dojoType="dijit.layout.ContentPane" region="left" style="background-color: #acb386; border: 10px green solid; width: 100px;" splitter="true" minSize="50" maxSize="150">
-			left
+			left (resizable b/w 150 &rarr; 250)
 		</div>
 		<div dojoType="dijit.layout.ContentPane" region="center" style="background-color: #f5ffbf; padding: 30px;">
 			main panel with <a href="http://www.dojotoolkit.org/">a link</a>.<br />
@@ -79,10 +79,10 @@
 			Here's some text that comes AFTER the combo box.
 		</div>
 		<div dojoType="dijit.layout.ContentPane" region="right" style="background-color: #acb386; width: 100px;">
-			right
+			right (fixed size)
 		</div>
-		<div dojoType="dijit.layout.ContentPane" region="bottom" style="background-color: #b39b86; height: 100px;" splitter="true">
-			bottom bar
+		<div dojoType="dijit.layout.ContentPane" region="bottom" style="background-color: #b39b86; height: 50px;" splitter="true">
+			bottom bar (resizable)
 		</div>
 	</div>
 
@@ -92,11 +92,39 @@
 	<p>Sidebar layout, BiDi sensitive, liveSplitters: false</p>
 
 	<div dojoType="dijit.layout.BorderContainer" design="sidebar" liveSplitters="false"
-		style="border: 20px solid black; width: 90%; height: 300px; padding: 10px;">
+		style="border: 20px solid black; width: 90%; height: 300px;">
+		<div dojoType="dijit.layout.ContentPane" region="leading" style="background-color: #acb386; width: 100px;">
+			leading (fixed size)
+		</div>
+		<div dojoType="dijit.layout.ContentPane" region="top" style="background-color: #b39b86; height: 80px;">
+			top bar (fixed size)
+		</div>
+		<div dojoType="dijit.layout.ContentPane" region="center" style="background-color: #f5ffbf; padding: 10px;">
+			main panel with <a href="http://www.dojotoolkit.org/">a link</a>.<br />
+			(to check we're copying children around properly).<br />
+			<select dojoType="dijit.form.FilteringSelect">
+				<option value="1">foo</option>
+				<option value="2">bar</option>
+				<option value="3">baz</option>
+			</select>
+			Here's some text that comes AFTER the combo box.
+		</div>
+		<div dojoType="dijit.layout.ContentPane" region="bottom" style="background-color: #b39b86; height: 80px;" splitter="true">
+			bottom bar (resizable)
+		</div>
+		<div dojoType="dijit.layout.ContentPane" region="trailing" style="background-color: #acb386; width: 100px;" splitter="true">
+			trailing (resizable)
+		</div>
+	</div>
+	
+	<p>gutters=false layout</p>
+
+	<div dojoType="dijit.layout.BorderContainer" design="sidebar" gutters="false"
+		style="border: 20px solid black; width: 90%; height: 300px;">
 		<div dojoType="dijit.layout.ContentPane" region="leading" style="background-color: #acb386; width: 100px;">
 			leading
 		</div>
-		<div dojoType="dijit.layout.ContentPane" region="top" style="background-color: #b39b86; height: 100px;">
+		<div dojoType="dijit.layout.ContentPane" region="top" style="background-color: #b39b86; height: 80px;">
 			top bar
 		</div>
 		<div dojoType="dijit.layout.ContentPane" region="center" style="background-color: #f5ffbf; padding: 10px;">
@@ -109,20 +137,19 @@
 			</select>
 			Here's some text that comes AFTER the combo box.
 		</div>
-		<div dojoType="dijit.layout.ContentPane" region="bottom" style="background-color: #b39b86; height: 100px;" splitter="true">
+		<div dojoType="dijit.layout.ContentPane" region="bottom" style="background-color: #b39b86; height: 80px;">
 			bottom bar
 		</div>
-		<div dojoType="dijit.layout.ContentPane" region="trailing" style="background-color: #acb386; width: 100px;" splitter="true">
+		<div dojoType="dijit.layout.ContentPane" region="trailing" style="background-color: #acb386; width: 100px;">
 			trailing
 		</div>
 	</div>
 	
-	<br />
 	<p>Vertical panels only with splitters</p>
 	
 	<div dojoType="dijit.layout.BorderContainer" design="sidebar"
 		style="border: 2px solid black; width: 90%; height: 300px; padding: 10px;">
-		<div dojoType="dijit.layout.ContentPane" region="top" style="background-color: #b39b86; height: 100px;" splitter="true">
+		<div dojoType="dijit.layout.ContentPane" region="top" style="background-color: #b39b86; height: 80px;" splitter="true">
 			top bar
 		</div>
 		
@@ -136,7 +163,7 @@
 			</select>
 			Here's some text that comes AFTER the combo box.
 		</div>
-		<div dojoType="dijit.layout.ContentPane" region="bottom" style="background-color: #b39b86; height: 100px;" splitter="true">
+		<div dojoType="dijit.layout.ContentPane" region="bottom" style="background-color: #b39b86; height: 80px;" splitter="true">
 			bottom bar
 		</div>
 	</div>
@@ -144,7 +171,7 @@
 	<br />
 	<p>More fun with layouts</p>
 	
-	<div id="mondrian" dojoType="dijit.layout.BorderContainer" design="sidebar" persist="true" style="height: 300px; width: 400px">
+	<div id="mondrian" dojoType="dijit.layout.BorderContainer" design="sidebar" persist="true" style="height: 300px; width: 400px;">
 		<div dojoType="dijit.layout.ContentPane" region="top" style="height: 100px" splitter="true">
 			<div dojoType="dijit.layout.BorderContainer" persist="true" style="height: 100px; width: 100%">
 				<div dojoType="dijit.layout.ContentPane" region="leading" style="width: 125px" splitter="true"><span>top a</span></div>

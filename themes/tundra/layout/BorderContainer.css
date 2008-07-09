@@ -2,6 +2,7 @@
 
 .tundra .dijitBorderContainer {
 	background-color: #fcfcfc;
+	padding: 5px;
 }
 
 .tundra .dijitBorderContainer-dijitBorderContainer {
