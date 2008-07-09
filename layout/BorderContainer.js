@@ -204,11 +204,11 @@ dojo.declare(
 		var leftSplitter = splitters.left;
 		var rightSplitter = splitters.right;
 		var splitterThickness = this._splitterThickness;
-		var topSplitterThickness = splitterThickness.top || (this.gutters ? pe.t : 0);
-		var leftSplitterThickness = splitterThickness.left || (this.gutters ? pe.l : 0);
+		var topSplitterThickness = splitterThickness.top || (this._top && this.gutters ? pe.t : 0);
+		var leftSplitterThickness = splitterThickness.left || (this._left && this.gutters ? pe.l : 0);
 		
-		var rightSplitterThickness = splitterThickness.right || (this.gutters ? pe.r : 0);
-		var bottomSplitterThickness = splitterThickness.bottom || (this.gutters ? pe.b : 0);
+		var rightSplitterThickness = splitterThickness.right || (this._right && this.gutters ? pe.r : 0);
+		var bottomSplitterThickness = splitterThickness.bottom || (this._bottom && this.gutters ? pe.b : 0);
 
 		// Check for race condition where CSS hasn't finished loading, so
 		// the splitter width == the viewport width (#5824)
