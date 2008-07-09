@@ -64,12 +64,12 @@
 <body class="tundra">
 
 	<!-- "main" BorderContainer just contains page title and another BorderContainer -->
-	<div id="main" dojoType="dijit.layout.BorderContainer">
-		<div dojoType="dijit.layout.ContentPane" region="top" splitter="true" liveSplitters="false">This test is to make sure nested layout elements work fine in regards to double borders etc. You need a screen with a very high resolution to not get cramped tabs and other weird visual effects </div>
+	<div id="main" dojoType="dijit.layout.BorderContainer" gutters=true>
+		<div dojoType="dijit.layout.ContentPane" region="top" splitter="false">This test is to make sure nested layout elements work fine in regards to double borders etc. You need a screen with a very high resolution to not get cramped tabs and other weird visual effects </div>
 		
 		<!-- "mainSplit" BorderContainer has all the real content -->
 		<div dojoType="dijit.layout.BorderContainer" liveSplitters="false" design="sidebar"
-			region="center" id="mainSplit" style="padding: 0px;">
+			region="center" id="mainSplit">
 			
 			<div dojoType="dijit.layout.AccordionContainer"
 				minSize="20" style="width: 300px;" id="leftAccordion" region="leading" splitter="true">

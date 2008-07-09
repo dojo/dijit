@@ -106,9 +106,11 @@ dojo.declare(
 			this["_"+region] = child.domNode;
 			this["_"+region+"Widget"] = child;
 
-			// Create draggable splitter for resizing pane.
-			if(child.splitter && !this._splitters[region]){
-				var _Splitter = dojo.getObject(this._splitterClass);
+			// Create draggable splitter for resizing pane,
+			// or alternately if splitter=false but BorderContainer.gutters=true then
+			// insert dummy div just for spacing
+			if((child.splitter || this.gutters) && !this._splitters[region]){
+				var _Splitter = dojo.getObject(child.splitter ? this._splitterClass : "dijit.layout._Gutter");
 				var flip = {left:'right', right:'left', top:'bottom', bottom:'top', leading:'trailing', trailing:'leading'};
 				var oppNodeList = dojo.query('[region=' + flip[child.region] + ']', this.domNode);
 				var splitter = new _Splitter({
@@ -204,11 +206,10 @@ dojo.declare(
 		var leftSplitter = splitters.left;
 		var rightSplitter = splitters.right;
 		var splitterThickness = this._splitterThickness;
-		var topSplitterThickness = splitterThickness.top || (this._top && this.gutters ? pe.t : 0);
-		var leftSplitterThickness = splitterThickness.left || (this._left && this.gutters ? pe.l : 0);
-		
-		var rightSplitterThickness = splitterThickness.right || (this._right && this.gutters ? pe.r : 0);
-		var bottomSplitterThickness = splitterThickness.bottom || (this._bottom && this.gutters ? pe.b : 0);
+		var topSplitterThickness = splitterThickness.top || 0;
+		var leftSplitterThickness = splitterThickness.left || 0;
+		var rightSplitterThickness = splitterThickness.right || 0;
+		var bottomSplitterThickness = splitterThickness.bottom || 0;
 
 		// Check for race condition where CSS hasn't finished loading, so
 		// the splitter width == the viewport width (#5824)
@@ -548,4 +549,20 @@ dojo.declare("dijit.layout._Splitter", [ dijit._Widget, dijit._Templated ],
 		this.inherited(arguments);
 	}
 });
+
+dojo.declare("dijit.layout._Gutter", [dijit._Widget, dijit._Templated ],
+{
+	// summary:
+	// 		Just a spacer div to separate side pane from center pane.
+	//		Basically a trick to lookup the gutter/splitter width from the theme.
+
+	templateString: '<div class="dijitGutter" waiRole="presentation"></div>',
+
+	postCreate: function(){
+		console.log("creating");
+		this.horizontal = /top|bottom/.test(this.region);
+		dojo.addClass(this.domNode, "dijitGutter" + (this.horizontal ? "H" : "V"));
+	}
+});
+
 

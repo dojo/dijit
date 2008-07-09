@@ -675,6 +675,11 @@ body .dijitAlignClient { position: absolute; }
 	resize: none;
 }
 
+.dijitGutter {
+	/* gutter is just a place holder for empty space between panes in BorderContainer */
+	position: absolute;
+}
+
 /* SplitContainer
 
 	'V' == container that splits vertically (up/down)
