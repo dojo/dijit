@@ -300,7 +300,11 @@ dojo.declare(
 		// Monitor keypress on the edit widget.   Note that edit widgets do a stopEvent() on ESC key (to
 		// prevent Dialog from closing when the user just wants to revert the value in the edit widget),
 		// so this is the only way we can see the key press event.
-		this.connect(ew.focusNode || ew.domNode, "onkeypress", "_onKeyPress");
+		if(dojo.isFunction(ew.onKeyPress)){
+			this.connect(ew, "onKeyPress", "_onKeyPress");
+		}else{
+			this.connect(ew.focusNode || ew.domNode, "onkeypress", "_onKeyPress");
+		}
 
 		// priorityChange=false will prevent bogus onChange event
 		(this.editWidget.setDisplayedValue||this.editWidget.setValue).call(this.editWidget, this.value, false);
@@ -386,12 +390,6 @@ dojo.declare(
 				this.save(false);
 			}
 		}
-	},
-
-	enableSave: function(){
-		// summary: User replacable function returning a Boolean to indicate
-		// 	if the Save button should be enabled or not - usually due to invalid conditions
-		return this.editWidget.isValid ? this.editWidget.isValid() : true; // Boolean
 	},
 
 	_onChange: function(){
