@@ -177,6 +177,11 @@ dojo.declare(
 		attributeMap: dojo.mixin(dojo.clone(dijit._Widget.prototype.attributeMap),
 			{title: "titleBar"}),
 
+		postMixInProperties: function(){
+			var _nlsResources = dojo.i18n.getLocalization("dijit", "common");
+			dojo.mixin(this, _nlsResources);
+		},
+
 		postCreate: function(){
 			var s = this.domNode.style;
 			s.visibility = "hidden";
@@ -186,13 +191,6 @@ dojo.declare(
 			dojo.body().appendChild(this.domNode);
 
 			this.inherited(arguments);
-			var _nlsResources = dojo.i18n.getLocalization("dijit", "common");
-			if(this.closeButtonNode){
-				this.closeButtonNode.setAttribute("title", _nlsResources.buttonCancel);
-			}
-			if(this.closeText){
-				this.closeText.setAttribute("title", _nlsResources.buttonCancel);
-			}
 
 			this.connect(this, "onExecute", "hide");
 			this.connect(this, "onCancel", "hide");
