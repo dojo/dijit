@@ -193,6 +193,11 @@
 	color:#999 !important;
 }
 
+.dj_ff2 .dijit_a11y .dijitComboButton .dijitButtonContentsFocused,
+.dj_ff2 .dijit_a11y .dijitComboButton .dijitDownArrowButtonFocused {
+	border: 1px dotted black !important;
+}
+
 /* button inner contents - labels, icons etc. */
 .dijitButtonNode * {
 	vertical-align: middle;
