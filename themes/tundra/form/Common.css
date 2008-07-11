@@ -57,13 +57,21 @@
 	color: #eee;
 }
 
+/* ComboBox */
+
+.tundra .dijitComboBox .dijitInputField {
+	padding: 1px 0;
+}
+
 .tundra .dijitComboBox .dijitButtonNode {
-	padding: 0 0.2em;
+	padding: 1px 0.2em;
 }
 .tundra .dijitComboBox .dijitButtonNode,
 .tundra .dijitSpinner .dijitButtonNode {
 	/* line between the input area and the drop down button */
 	border-color: #9b9b9b;
+	border-width: 0px 0px 0px 1px;
+	border-style: solid;
 }
 
 .tundra .dijitTextBoxFocused,
