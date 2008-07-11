@@ -64,7 +64,7 @@ dojo.declare(
 		// change class name to indicate that BorderContainer is being used purely for
 		// layout (like LayoutContainer) rather than for pretty formatting.
 		if(!this.gutters && !("class" in this.params)){
-			this["class"] += "NoGutter";
+			this["class"] += "NoGutter"; //FIXME: addClass?
 		}
 	},
 
@@ -158,7 +158,6 @@ dojo.declare(
 		if(this._started){
 			this._layoutChildren(child.region);
 		}
-		this.inherited(arguments);
 	},
 
 	getChildren: function(){
@@ -178,7 +177,7 @@ dojo.declare(
 			dojo.style(this.domNode, "padding", "0px");
 		}
 
-		this.inherited(arguments);		
+		this.inherited(arguments);
 	},
 
 	_layoutChildren: function(/*String?*/changedRegion){
@@ -357,6 +356,17 @@ dojo.declare(
 				}
 			}, this);
 		}
+	},
+
+	destroy: function(){
+		for(region in this._splitters){
+			var splitter = this._splitters[region];
+			dijit.byNode(splitter).destroy();
+			dojo._destroyElement(splitter);
+		}
+		delete this._splitters;
+		delete this._splitterThickness;
+		this.inherited(arguments);
 	}
 });
 
@@ -545,7 +555,7 @@ dojo.declare("dijit.layout._Gutter", [dijit._Widget, dijit._Templated ],
 	//		Basically a trick to lookup the gutter/splitter width from the theme.
 
 	templateString: '<div class="dijitGutter" waiRole="presentation"></div>',
-	
+
 	postCreate: function(){
 		this.horizontal = /top|bottom/.test(this.region);
 		dojo.addClass(this.domNode, "dijitGutter" + (this.horizontal ? "H" : "V"));
