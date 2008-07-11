@@ -485,9 +485,9 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 		//		executes the builtin commands within the underlying browser
 		//		support.
 		var exec = dojo.hitch(this, function(cmd, arg){
-			var a = [ this, "execCommand", cmd ];
-			if(arg){ a.push(arg); }
-			return dojo.hitch.apply(dojo, a);
+			return dojo.hitch(this, function(){
+				return !this.execCommand(cmd,arg);
+			});
 		});
 
 		var ctrlKeyHandlers = { 
