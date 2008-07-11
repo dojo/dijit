@@ -57,8 +57,7 @@
 	color: #eee;
 }
 
-/* ComboBox */
-
+/* ComboBox specifix rules*/
 .tundra .dijitComboBox .dijitInputField {
 	padding: 1px 0;
 }
@@ -153,11 +152,6 @@
  * Want to use filter property for those images, but then need to specify a path relative
  * to the main page, rather than relative to this file... using gifs for now
  */
-
-.dj_ie6 .tundra .dijitInputField
-{
-	background: url("../images/validationInputBg.gif") repeat-x top left #fff;
-}
 
 /* The highlight is shown in the ComboBox menu. */
 .tundra .dijitComboBoxHighlightMatch {
