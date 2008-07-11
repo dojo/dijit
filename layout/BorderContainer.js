@@ -64,7 +64,7 @@ dojo.declare(
 		// change class name to indicate that BorderContainer is being used purely for
 		// layout (like LayoutContainer) rather than for pretty formatting.
 		if(!this.gutters && !("class" in this.params)){
-			this["class"] += "NoGutter"; //FIXME: addClass?
+			this["class"] += "NoGutter";
 		}
 	},
 
@@ -93,10 +93,7 @@ dojo.declare(
 		if(region){
 			this.inherited(arguments);
 
-			// set position directly; we could set a class name like dijitBorderContainerPane with
-			// position:absolute but it might be overridden by (for example) a position:relative
-			// in the dijitTabContainer class
-			child.domNode.style.position = "absolute";
+			dojo.addClass(child.domNode, this["class"]+"Pane");
 
 			var ltr = this.isLeftToRight();
 			if(region == "leading"){ region = ltr ? "left" : "right"; }
@@ -158,6 +155,7 @@ dojo.declare(
 		if(this._started){
 			this._layoutChildren(child.region);
 		}
+		dojo.removeClass(child.domNode, this["class"]+"Pane");
 	},
 
 	getChildren: function(){
@@ -561,5 +559,3 @@ dojo.declare("dijit.layout._Gutter", [dijit._Widget, dijit._Templated ],
 		dojo.addClass(this.domNode, "dijitGutter" + (this.horizontal ? "H" : "V"));
 	}
 });
-
-

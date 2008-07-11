@@ -674,6 +674,11 @@ body .dijitAlignClient { position: absolute; }
 	overflow: hidden;
 }
 
+.dijitBorderContainerPane {
+	position: absolute !important;	/* !important to override position:relative in dijitTabContainer etc. */
+	z-index: 2;		/* above the splitters so that off-by-one browser errors don't cover up border of pane */
+}
+
 .dijitBorderContainer > .dijitTextArea {
 	/* On Safari, for SimpleTextArea inside a BorderContainer,
 		don't want to display the grip to resize */
@@ -694,12 +699,11 @@ body .dijitAlignClient { position: absolute; }
 .dijitSplitter {
 	position: absolute;
 	overflow: hidden;
-	z-index: 9999;
+	z-index: 1;		/* behind the panes */
 	background-color: #fff;
 	border-color: gray;
 	border-style: solid;
 	border-width: 0;
-	z-index: 10 !important;
 }
 
 .dijitSplitterActive {
