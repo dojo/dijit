@@ -6,19 +6,35 @@
 }
 
 .tundra .dijitTabContainerTop-container {
-	margin-top: -1px;
+	border-top: none;
 }
 
 .tundra .dijitTabContainerLeft-container {
-	margin-left: -1px;
+	border-left: none;
 }
 
 .tundra .dijitTabContainerBottom-container {
-	margin-bottom: -1px;
+	border-bottom: none;
 }
 
 .tundra .dijitTabContainerRight-container {
-	margin-right: -1px;
+	border-right: none;
+}
+
+.tundra .dijitTabContainerTop-tabs {
+	background: url("../images/tabStripe.gif") repeat-x bottom left;
+}
+
+.tundra .dijitTabContainerLeft-tabs {
+	background: url("../images/tabStripe.gif") repeat-y top right;
+}
+
+.tundra .dijitTabContainerBottom-tabs {
+	background: url("../images/tabStripe.gif") repeat-x top left;
+}
+
+.tundra .dijitTabContainerRight-tabs {
+	background: url("../images/tabStripe.gif") repeat-y top left;
 }
 	
 .tundra .dijitTab {
@@ -167,7 +183,8 @@
 	border-top: 1px solid #ccc;
 	border-right: 1px solid #ccc;
 	padding-top: 2px;
-	padding-left: 3px;	
+	padding-left: 3px;
+	background: #f2f2f2 url("../images/tabStripe.gif") repeat-x bottom left;
 }
 
 .tundra .dijitBorderContainer-dijitTabContainerBottom .dijitTabContainerBottom-tabs {
@@ -176,6 +193,7 @@
 	border-left: 1px solid #ccc;
 	border-bottom: 1px solid #ccc;
 	border-right: 1px solid #ccc;
+	background: #f2f2f2 url("../images/tabStripe.gif") repeat-x top left;
 }
 
 .tundra .dijitBorderContainer-dijitTabContainerLeft .dijitTabContainerLeft-tabs {
@@ -184,6 +202,7 @@
 	border-left: 1px solid #ccc;
 	border-bottom: 1px solid #ccc;
 	border-top: 1px solid #ccc;
+	background: #f2f2f2 url("../images/tabStripe.gif") repeat-y top right;
 }
 
 .tundra .dijitBorderContainer-dijitTabContainerRight .dijitTabContainerRight-tabs {
@@ -192,6 +211,7 @@
 	border-right: 1px solid #ccc;
 	border-bottom: 1px solid #ccc;
 	border-top: 1px solid #ccc;
+	background: #f2f2f2 url("../images/tabStripe.gif") repeat-y top left;
 }
 
 /* this resets the tabcontainer stripe when within a contentpane */
