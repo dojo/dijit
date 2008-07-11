@@ -485,9 +485,9 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 		//		executes the builtin commands within the underlying browser
 		//		support.
 		var exec = dojo.hitch(this, function(cmd, arg){
-			return dojo.hitch(this, function(){
+			return function(){
 				return !this.execCommand(cmd,arg);
-			});
+			};
 		});
 
 		var ctrlKeyHandlers = { 
@@ -815,7 +815,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 	onKeyPress: function(e){
 		// handle the various key events
 		//console.debug("keyup char:", e.keyChar, e.ctrlKey);
-		var c = e.keyChar || e.keyCode
+		var c = e.keyChar.toLowerCase() || e.keyCode
 		var handlers = this._keyHandlers[c];
 		//console.debug("handler:", handlers);
 		var args = arguments;
@@ -840,6 +840,8 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 
 	addKeyHandler: function(/*String*/key, /*Boolean*/ctrl, /*Boolean*/shift, /*Function*/handler){
 		// summary: add a handler for a keyboard shortcut
+		// description:
+		//	The key argument should be in lowercase if it is a letter charater
 		if(!dojo.isArray(this._keyHandlers[key])){
 			this._keyHandlers[key] = [];
 		}
