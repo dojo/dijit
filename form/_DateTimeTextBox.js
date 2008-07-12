@@ -53,7 +53,7 @@ dojo.declare(
 			//dijit.form.RangeBoundTextBox.prototype.postMixInProperties.apply(this, arguments);
 			this.inherited(arguments);
 			if(!this.value || this.value.toString() == dijit.form._DateTimeTextBox.prototype.value.toString()){
-				this.value = undefined;
+				this.value = null;
 			}
 			var constraints = this.constraints;
 			constraints.selector = this._selector;
