@@ -56,9 +56,16 @@ dojo.declare("dijit._editor._Plugin", null, {
 		if(this.button){
 			try{
 				var enabled = _e.queryCommandEnabled(_c);
-				this.button.setAttribute('disabled', !enabled);
+				if(this.enabled!==enabled){
+					this.enabled=enabled;
+					this.button.setAttribute('disabled', !enabled);
+				}
 				if(typeof this.button.checked == 'boolean'){
-					this.button.setAttribute('checked', _e.queryCommandState(_c));
+					var checked=_e.queryCommandState(_c);
+					if(this.checked!==checked){
+						this.checked=checked;
+						this.button.setAttribute('checked', _e.queryCommandState(_c));
+					}
 				}
 			}catch(e){
 				console.debug(e);
