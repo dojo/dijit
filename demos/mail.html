@@ -229,8 +229,7 @@
 			</div>
 
 			<!-- new message part -->
-			<!-- FIXME: editor as direct widget here doesn't init -->
-			<div dojoType="dijit.layout.ContentPane" region="center" href="mail/newMail.html"></div>
+			<!-- : editor will be created programmically to avoid init issues -->
 			
 			<div dojoType="dijit.layout.ContentPane" region="bottom" style="height:32px" align="center">
 				<button dojoType="dijit.form.Button" iconClass="mailIconOk"
@@ -288,6 +287,21 @@
 					);
 					tabs.addChild(newTab);
 					tabs.selectChild(newTab);
+					newTab.containerNode.appendChild(document.createElement('div'));
+					newTab.containerNode.lastChild.innerHTML='<i> This is just a sample message. There is email-address auto-complete in the to: field.<br><br> give it a whirl.</i>';
+					var editor = new dijit.Editor({
+						 extraPlugins: ['createLink','insertImage',{name:'dijit._editor.plugins.FontChoice', command: 'fontName', generic: true},'fontSize'],
+						 region:'center',
+						 height:'100%'
+						 },newTab.containerNode.lastChild);
+					if(editor.iframe){
+						//if iframe is used, don't use addChild otherwise the editor is not working properly because
+						//addChild will re-attach the editor to the document DOM, instead use this hack
+						newTab._setupChild(editor);
+						setTimeout(dojo.hitch(newTab,'layout'),0)
+					}else{
+						newTab.addChild(editor);
+					}
 				</script>
 			</button>
 			<span dojoType="dijit.Tooltip" connectId="newMsg">Click to compose new message.</span>
