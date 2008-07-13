@@ -674,7 +674,8 @@ body .dijitAlignClient { position: absolute; }
 	overflow: hidden;
 }
 
-.dijitBorderContainerPane {
+.dijitBorderContainerPane,
+.dijitBorderContainerNoGutterPane {
 	position: absolute !important;	/* !important to override position:relative in dijitTabContainer etc. */
 	z-index: 2;		/* above the splitters so that off-by-one browser errors don't cover up border of pane */
 }
@@ -1241,7 +1242,7 @@ img.dijitColorPaletteUnder {
 .dijitSliderImageHandle {
 	margin:0;
 	padding:0;
-	position:absolute !important;
+	position:relative !important;
 	border:8px solid gray;
 	width:0;
 	height:0;
