@@ -101,7 +101,7 @@ dojo.declare(
 			return this.promptMessage; // String
 		},
 
-		_maskValidSubsetError: false,
+		_maskValidSubsetError: true,
 		validate: function(/*Boolean*/ isFocused){
 			// summary:
 			//		Called by oninit, onblur, and onkeypress.
