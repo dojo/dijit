@@ -126,6 +126,8 @@
 					constraints="{places:0,min:1,max:100}"
 					dojo.regExpGen="dojo.regexp.integer"
 					required="true">
+					<button onclick="dijit.byId('fav').setAttribute('required', true);return false">setAttribute(required, true)</button>
+					<button onclick="dijit.byId('fav').setAttribute('required', false);return false">setAttribute(required, false)</button>
 			</div>
 
 			<div class="dojoTitlePaneLabel">

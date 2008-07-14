@@ -201,6 +201,10 @@ dojo.declare(
 						this.valueNode.disabled = this.disabled;
 					}
 					this._refreshState();
+					break;
+				case "required":
+					dijit.setWaiState(this.focusNode,"required", this.required);
+					this._refreshState();				
 			}
 		},
 
@@ -214,6 +218,7 @@ dojo.declare(
 					}
 				}
 			}
+			dijit.setWaiState(this.focusNode,"required", this.required);
 			this.inherited(arguments);
 		}
 	}
