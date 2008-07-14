@@ -168,12 +168,13 @@ dojo.declare(
 		// resetting potential padding to 0px to provide support for 100% width/height + padding
 		// TODO: this hack doesn't respect the box model and is a temporary fix
 		if (!this.cs || !this.pe){
-			this.cs = dojo.getComputedStyle(this.domNode);
-			this.pe = dojo._getPadExtents(this.domNode, this.cs);
-			this.pe.r = dojo._toPixelValue(this.cs.paddingRight);
-			this.pe.b = dojo._toPixelValue(this.cs.paddingBottom);
+			var node = this.domNode;
+			this.cs = dojo.getComputedStyle(node);
+			this.pe = dojo._getPadExtents(node, this.cs);
+			this.pe.r = dojo._toPixelValue(node, this.cs.paddingRight);
+			this.pe.b = dojo._toPixelValue(node, this.cs.paddingBottom);
 
-			dojo.style(this.domNode, "padding", "0px");
+			dojo.style(node, "padding", "0px");
 		}
 
 		this.inherited(arguments);
