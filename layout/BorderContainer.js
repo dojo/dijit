@@ -170,7 +170,8 @@ dojo.declare(
 		if (!this.cs || !this.pe){
 			this.cs = dojo.getComputedStyle(this.domNode);
 			this.pe = dojo._getPadExtents(this.domNode, this.cs);
-			this.pe.r = parseFloat(this.cs.paddingRight); this.pe.b = parseFloat(this.cs.paddingBottom);
+			this.pe.r = dojo._toPixelValue(this.cs.paddingRight);
+			this.pe.b = dojo._toPixelValue(this.cs.paddingBottom);
 
 			dojo.style(this.domNode, "padding", "0px");
 		}
@@ -290,7 +291,7 @@ dojo.declare(
 
 		// More calculations about sizes of panes
 		var containerHeight = this._borderBox.h - pe.t - pe.b;
-		var middleHeight = containerHeight - ( topHeight + topSplitterThickness + bottomHeight + bottomSplitterThickness);
+		var middleHeight = containerHeight - ( topHeight + topSplitterThickness + bottomHeight + bottomSplitterThickness);			
 		var sidebarHeight = sidebarLayout ? containerHeight : middleHeight;
 
 		var containerWidth = this._borderBox.w - pe.l - pe.r;
@@ -559,3 +560,5 @@ dojo.declare("dijit.layout._Gutter", [dijit._Widget, dijit._Templated ],
 		dojo.addClass(this.domNode, "dijitGutter" + (this.horizontal ? "H" : "V"));
 	}
 });
+
+
