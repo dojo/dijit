@@ -213,13 +213,6 @@ dijit._editor.RichTextIframeMixin = {
 		// var contentDoc = this.iframe.contentWindow.document;
 
 
-		// note that on Safari lower than 420+, we have to get the iframe
-		// by ID in order to get something w/ a contentDocument property
-
-		var contentDoc = this.iframe.contentDocument;
-		contentDoc.open();
-		contentDoc.write(this._getIframeDocTxt(html));
-		contentDoc.close();
 
 		// now we wait for onload. Janky hack!
 		var ifrFunc = dojo.hitch(this, function(){
@@ -233,6 +226,7 @@ dijit._editor.RichTextIframeMixin = {
 						this.document = this.iframe.contentWindow.document
 					}else if(this.iframe.contentDocument){
 						// for opera
+						// TODO: this method is only being called for FF2; can we remove this?
 						this.window = this.iframe.contentDocument.window;
 						this.document = this.iframe.contentDocument;
 					}
@@ -244,6 +238,13 @@ dijit._editor.RichTextIframeMixin = {
 					_iframeInitialized = false;
 					return;
 				}
+
+				// note that on Safari lower than 420+, we have to get the iframe
+				// by ID in order to get something w/ a contentDocument property
+				var contentDoc = this.document;
+				contentDoc.open();
+				contentDoc.write(this._getIframeDocTxt(html));
+				contentDoc.close();
 
 				dojo._destroyElement(tmpContent);
 				this.onLoad();
