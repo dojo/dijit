@@ -590,7 +590,7 @@ dojo.declare(
 		// if not expanded, expand, else move to 1st child
 		if(node.isExpandable && !node.isExpanded){
 			this._expandNode(node);
-		}else if(node.hasChildren()){
+		}else if(node.containerNode && node.hasChildren()){
 			node = node.getChildren()[0];
 			if(node && node.isTreeNode){
 				this.focusNode(node);
