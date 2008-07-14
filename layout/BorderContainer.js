@@ -63,7 +63,7 @@ dojo.declare(
 	postMixInProperties: function(){
 		// change class name to indicate that BorderContainer is being used purely for
 		// layout (like LayoutContainer) rather than for pretty formatting.
-		if(!this.gutters && !("class" in this.params)){
+		if(!this.gutters && !(this.params && this.params["class"])){
 			this["class"] += "NoGutter";
 		}
 	},
