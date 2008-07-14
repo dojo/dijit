@@ -51,7 +51,7 @@ dojo.declare("dijit._editor.plugins.AlwaysShowToolbar", dijit._editor._Plugin,
 	},
 	_lastHeight: 0,
 	globalOnScrollHandler: function(){
-		var isIE = dojo.isIE && dojo.isIE<7;
+		var isIE6 = dojo.isIE < 7;
 		if(!this._handleScroll){ return; }
 		var tdn = this.editor.toolbar.domNode;
 		var db = dojo.body;
@@ -61,7 +61,7 @@ dojo.declare("dijit._editor.plugins.AlwaysShowToolbar", dijit._editor._Plugin,
 			this._scrollThreshold = dojo._abs(tdn, true).y;
 //			console.log("threshold:", this._scrollThreshold);
 			//what's this for?? comment out for now
-//			if((isIE)&&(db)&&(dojo.style(db, "backgroundIimage")=="none")){
+//			if((isIE6)&&(db)&&(dojo.style(db, "backgroundIimage")=="none")){
 //				db.style.backgroundImage = "url(" + dojo.uri.moduleUri("dijit", "templates/blank.gif") + ")";
 //				db.style.backgroundAttachment = "fixed";
 //			}
@@ -76,7 +76,7 @@ dojo.declare("dijit._editor.plugins.AlwaysShowToolbar", dijit._editor._Plugin,
 				var tdnbox = dojo.marginBox(tdn);
 				this.editor.iframe.style.marginTop = tdnbox.h+"px";
 
-				if(isIE){
+				if(isIE6){
 					s.left = dojo._abs(tdn).x;
 					if(tdn.previousSibling){
 						this._IEOriginalPos = ['after',tdn.previousSibling];
@@ -111,7 +111,7 @@ dojo.declare("dijit._editor.plugins.AlwaysShowToolbar", dijit._editor._Plugin,
 			s.top = "";
 			s.zIndex = "";
 			s.display = "";
-			if(isIE){
+			if(isIE6){
 				s.left = "";
 				dojo.removeClass(tdn,'dijitIEFixedToolbar');
 				if(this._IEOriginalPos){
@@ -131,7 +131,7 @@ dojo.declare("dijit._editor.plugins.AlwaysShowToolbar", dijit._editor._Plugin,
 		dojo.forEach(this._connects, dojo.disconnect);
 //		clearInterval(this.scrollInterval);
 
-		if(dojo.isIE && dojo.isIE<7){
+		if(dojo.isIE < 7){
 			dojo.removeClass(this.editor.toolbar.domNode, 'dijitIEFixedToolbar');
 		}
 	}
