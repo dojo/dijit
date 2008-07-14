@@ -114,6 +114,19 @@
 				<input id="gv3" size="10" disabled value="" autocomplete="off">
 				</nobr>
 			</div>
+			
+			<div class="dojoTitlePaneLabel">
+				<label for="fav">Favorite Number (1-100):  </label>
+				<span class="noticeMessage"> NumberTextBox class, Attributes: required=true, must be integer, no messages provided,  no initial value specified, maxlength=3</span>
+			</div>
+			<div class="testExample">
+				<input id="fav" type="text" name="fav" class="small"
+					dojoType="dijit.form.NumberTextBox"
+					maxLength="3"
+					constraints="{places:0,min:1,max:100}"
+					dojo.regExpGen="dojo.regexp.integer"
+					required="true">
+			</div>
 
 			<div class="dojoTitlePaneLabel">
 				<label for="q04">Occupation:  </label>
