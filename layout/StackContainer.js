@@ -86,6 +86,10 @@ dojo.declare(
 		// to be position:relative, or IE has problems (See bug #2033)
 		child.domNode.style.position = "relative";
 
+		// remove the title attribute so it doesn't show up when i hover
+		// over a node
+		child.domNode.title = "";
+
 		return child; // dijit._Widget
 	},
 
