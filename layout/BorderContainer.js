@@ -66,6 +66,7 @@ dojo.declare(
 		if(!this.gutters && !(this.params && this.params["class"])){
 			this["class"] += "NoGutter";
 		}
+		this.inherited(arguments);
 	},
 
 	postCreate: function(){
