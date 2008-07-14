@@ -226,7 +226,7 @@ dijit._frames = new function(){
 }();
 
 // fill the queue
-if(dojo.isIE && dojo.isIE < 7){
+if(dojo.isIE < 7){
 	dojo.addOnLoad(function(){
 		var f = dijit._frames;
 		dojo.forEach([f.pop()], f.push);

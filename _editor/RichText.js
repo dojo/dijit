@@ -83,7 +83,7 @@ dijit._editor.RichTextIframeMixin = {
 				this.onLoad();
 				this.savedContent = this.getValue(true);
 			});
-			if(dojo.isIE && dojo.isIE < 7){ // IE 6 is a steaming pile...
+			if(dojo.isIE < 7){ // IE 6 is a steaming pile...
 				var t = setInterval(function(){
 					if(ifr.contentWindow.isLoaded){
 						clearInterval(t);
