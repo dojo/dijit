@@ -591,7 +591,7 @@ dojo.declare(
 			//		Asian languages, it will generate this event instead of
 			//		onKeyDown event Note: this event is only triggered in FF
 			//		(not in IE)
-			this.onkeypress({charCode:-1});
+			this._onKeyPress({charCode:-1});
 		},
 
 		//////////// INITIALIZATION METHODS ///////////////////////////////////////
