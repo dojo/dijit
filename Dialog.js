@@ -180,6 +180,7 @@ dojo.declare(
 		postMixInProperties: function(){
 			var _nlsResources = dojo.i18n.getLocalization("dijit", "common");
 			dojo.mixin(this, _nlsResources);
+			this.inherited(arguments);
 		},
 
 		postCreate: function(){
