@@ -689,6 +689,7 @@ body .dijitAlignClient { position: absolute; }
 .dijitGutter {
 	/* gutter is just a place holder for empty space between panes in BorderContainer */
 	position: absolute;
+	font-size: 1px;		/* needed by IE6 even though div is empty, otherwise goes to 15px */
 }
 
 /* SplitContainer
