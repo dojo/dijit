@@ -128,6 +128,9 @@ dojo.declare(
 		var percent = (value - this.minimum) / (this.maximum - this.minimum);
 		var progressBar = (this._descending === false) ? this.remainingBar : this.progressBar;
 		var remainingBar = (this._descending === false) ? this.progressBar : this.remainingBar;
+		if(this._inProgressAnim && this._inProgressAnim.status != "stopped"){
+			this._inProgressAnim.stop(true);
+		}
 		if(priorityChange && this.slideDuration > 0 && progressBar.style[this._progressPixelSize]){
 			// animate the slider
 			var _this = this;
@@ -137,10 +140,12 @@ dojo.declare(
 			if(duration == 0){ return; }
 			if(duration < 0){ duration = 0 - duration; }
 			props[this._progressPixelSize] = { start: start, end: percent*100, units:"%" };
-			dojo.animateProperty({ node: progressBar, duration: duration, 
+			this._inProgressAnim = dojo.animateProperty({ node: progressBar, duration: duration, 
 				onAnimate: function(v){ remainingBar.style[_this._progressPixelSize] = (100-parseFloat(v[_this._progressPixelSize])) + "%"; },
-			        properties: props
-			}).play();
+				onEnd: function(){ delete _this._inProgressAnim; },
+				properties: props
+			})
+			this._inProgressAnim.play();
 		}
 		else{
 			progressBar.style[this._progressPixelSize] = (percent*100) + "%";
