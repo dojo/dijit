@@ -198,6 +198,13 @@
 		<p>You should not be able to <br /> drag this dialog</p>
 	</div>
 
+	<button dojoType="dijit.form.Button" onclick="dijit.byId('preventer').show()">Show Close prevention</button>
+	
+	<div dojoType="dijit.Dialog" id="preventer" title="Confirm Close">
+		I am done entering data: 
+		<button dojoType="dijit.form.Button" type="submit" onClick="return confirm('Are you sure?')">OK</button>
+	</div>
+
 	<p>Test refocus="false", click programatic dialog, focus input below, wait. close dialog.</p>
 
 	<p><b><i>(scroll down to see more links to click, for testing positioning / scroll handling)</i></b></p>
