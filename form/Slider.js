@@ -244,6 +244,9 @@ dojo.declare(
 
 	destroy: function(){
 		this._movable.destroy();
+		if(this._inProgressAnim && this._inProgressAnim.status != "stopped"){
+			this._inProgressAnim.stop(true);
+		}
 		this.inherited(arguments);	
 	}
 });
