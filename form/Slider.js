@@ -390,7 +390,7 @@ dojo.declare("dijit.form.HorizontalRuleLabels", dijit.form.HorizontalRule,
 {
 	//	Summary:
 	//		Create labels for the Horizontal slider
-	templateString: '<div class="dijitRuleContainer dijitRuleContainerH"></div>',
+	templateString: '<div class="dijitRuleContainer dijitRuleContainerH dijitRuleLabelContainer dijitRuleLabelContainerH"></div>',
 
 	// labelStyle: String
 	//		CSS style to apply to individual text labels
@@ -463,7 +463,7 @@ dojo.declare("dijit.form.VerticalRuleLabels", dijit.form.HorizontalRuleLabels,
 {
 	//	Summary:
 	//		Create labels for the Vertical slider
-	templateString: '<div class="dijitRuleContainer dijitRuleContainerV"></div>',
+	templateString: '<div class="dijitRuleContainer dijitRuleContainerV dijitRuleLabelContainer dijitRuleLabelContainerV"></div>',
 
 	_positionPrefix: '<div class="dijitRuleLabelContainer dijitRuleLabelContainerV" style="top:',
 	_labelPrefix: '"><span class="dijitRuleLabel dijitRuleLabelV">',
