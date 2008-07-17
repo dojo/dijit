@@ -44,21 +44,35 @@ if(dojo.isIE || dojo.isMoz){	// NOTE: checking in Safari messes things up
 
 dojo.mixin(dijit,
 {
-	hasWaiRole: function(/*Element*/ elem){
-		// summary: Determines if an element has a role.
-		// returns: true if elem has a role attribute and false if not.
-		return elem.hasAttribute ? elem.hasAttribute("role") : !!elem.getAttribute("role");
+	_XhtmlRoles: /banner|contentinfo|definition|main|navigation|search|note|secondary|seealso/,
+
+	hasWaiRole: function(/*Element*/ elem, /*String*/ role){
+		// summary: Determines if an element has a particular role.
+		// returns: true if elem has the specific role attribute and false if not.
+		// 		for backwards compatibility if role parameter not provided, 
+		// 		returns true if has non XHTML role 
+		var roleValue = dojo.attr(elem,"role");
+		if (!roleValue){
+			return false;
+		}
+		if (role){
+			return ((" "+ roleValue.replace("wairole:", "") +" ").indexOf(" "+ role +" ") >= 0);  // Boolean
+		}else{
+			return (dojo.trim(roleValue.replace(this._XhtmlRoles, "")).length > 0);
+		}
 	},
 
 	getWaiRole: function(/*Element*/ elem){
-		// summary: Gets the role for an element.
+		// summary: Gets the first role attribute for an element (deprecated).
 		// returns:
-		//		The role of elem or an empty string if elem
+		//		The first role of elem or an empty string if elem
 		//		does not have a role.
-		var value = elem.getAttribute("role");
+		dojo.deprecated("getWaiRole("+elem+") is deprecated. Use hasWaiRole("+elem+",roleName) instead.", "", "2.0");
+		var value = dojo.attr(elem, "role");
 		if(value){
-			var prefixEnd = value.indexOf(":");
-			return prefixEnd == -1 ? value : value.substring(prefixEnd+1);
+			var roleArray = value.split(" ");
+			var prefixEnd = roleArray[0].indexOf(":");
+			return prefixEnd == -1 ? roleArray[0] : roleArray[0].substring(prefixEnd+1);
 		}else{
 			return "";
 		}
@@ -67,14 +81,38 @@ dojo.mixin(dijit,
 	setWaiRole: function(/*Element*/ elem, /*String*/ role){
 		// summary: Sets the role on an element.
 		// description:
+		//  	in other than FF2 replace existing role attribute with new role
+		//		FF3 supports XHTML and ARIA roles so    
+		//		If elem already has an XHTML role, append this role to XHTML role 
+		//		and remove other ARIA roles
 		//		On Firefox 2 and below, "wairole:" is
 		//		prepended to the provided role value.
-		elem.setAttribute("role", (dojo.isFF && dojo.isFF < 3) ? "wairole:" + role : role);
+
+		var curRole = (theRole = dojo.attr(elem, "role")) ? theRole : "";
+		if (dojo.isFF<3 || !this._XhtmlRoles.test(curRole)){
+			dojo.attr(elem, "role", dojo.isFF<3 ? "wairole:" + role : role);
+		}else{
+			if((" "+ curRole +" ").indexOf(" " + role + " ") < 0){
+				var clearXhtml = dojo.trim(curRole.replace(this._XhtmlRoles, ""));
+				var cleanRole = dojo.trim(curRole.replace(clearXhtml, ""));	 
+         		dojo.attr(elem, "role", cleanRole + (cleanRole ? ' ' : '') + role);
+			}
+		}
 	},
 
-	removeWaiRole: function(/*Element*/ elem){
-		// summary: Removes the role from an element.
-		elem.removeAttribute("role");
+	removeWaiRole: function(/*Element*/ elem, /*String*/ role){
+		// summary: Removes the specified role from an element.
+		// 		removes role attribute if no specific role provided
+		
+		var roleValue = dojo.attr(elem, "role"); 
+		if (!roleValue || !this.hasWaiRole(elem, role)){ return; }
+		if(role){
+			var searchRole = dojo.isFF < 3 ? "wairole:" + role : role;
+			var t = dojo.trim((" " + roleValue + " ").replace(" " + searchRole + " ", " "));
+			dojo.attr(elem, "role", t);
+		}else{
+			elem.removeAttribute("role");	
+		}
 	},
 
 	hasWaiState: function(/*Element*/ elem, /*String*/ state){
@@ -87,7 +125,7 @@ dojo.mixin(dijit,
 		// returns:
 		//		true if elem has a value for the given state and
 		//		false if it does not.
-		if(dojo.isFF && dojo.isFF < 3){
+		if(dojo.isFF < 3){
 			return elem.hasAttributeNS("http://www.w3.org/2005/07/aaa", state);
 		}else{
 			return elem.hasAttribute ? elem.hasAttribute("aria-"+state) : !!elem.getAttribute("aria-"+state);
@@ -104,7 +142,7 @@ dojo.mixin(dijit,
 		// returns:
 		//		The value of the requested state on elem
 		//		or an empty string if elem has no value for state.
-		if(dojo.isFF && dojo.isFF < 3){
+		if(dojo.isFF < 3){
 			return elem.getAttributeNS("http://www.w3.org/2005/07/aaa", state);
 		}else{
 			var value = elem.getAttribute("aria-"+state);
@@ -119,7 +157,7 @@ dojo.mixin(dijit,
 		//		"http://www.w3.org/2005/07/aaa" with a name of the given state.
 		//		On all other browsers, we set an attribute called
 		//		"aria-"+state.
-		if(dojo.isFF && dojo.isFF < 3){
+		if(dojo.isFF < 3){
 			elem.setAttributeNS("http://www.w3.org/2005/07/aaa",
 				"aaa:"+state, value);
 		}else{
@@ -134,7 +172,7 @@ dojo.mixin(dijit,
 		//		"http://www.w3.org/2005/07/aaa" with a name of the given state.
 		//		On all other browsers, we remove the attribute called
 		//		"aria-"+state.
-		if(dojo.isFF && dojo.isFF < 3){
+		if(dojo.isFF < 3){
 			elem.removeAttributeNS("http://www.w3.org/2005/07/aaa", state);
 		}else{
 			elem.removeAttribute("aria-"+state);

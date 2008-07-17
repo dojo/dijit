@@ -33,22 +33,98 @@
 						doh.assertTrue(dijit.hasWaiRole(elem));
 						doh.assertEqual("menuitem", dijit.getWaiRole(elem));
 					},
+					
+					function getOnlyXHTMLRole(){
+						var elem=dojo.byId("navigation-role");
+						doh.assertTrue(dijit.hasWaiRole(elem, "contentinfo"));
+						doh.assertEqual("contentinfo", dijit.getWaiRole(elem));
+					},
+			
+					function getWaiRoleFromMultiple(){
+						// deprecated in 1.2, always returns first role
+						var elem=dojo.byId("multiple-role-wairole");
+						doh.assertTrue(dijit.hasWaiRole(elem, "menuitem"));
+						doh.assertEqual("contentinfo", dijit.getWaiRole(elem));
+					},
+					
+					function getUnprefixedFromMultiple(){
+						// deprecated in 1.2, always returns first role
+						var elem=dojo.byId("multiple-role");
+						doh.assertTrue(dijit.hasWaiRole(elem, "menuitem"));
+						doh.assertEqual("contentinfo", dijit.getWaiRole(elem));
+					},
+				
+					function getReverseWairoleFromMultiple(){
+						var elem=dojo.byId("reverse-order-wairole");
+						doh.assertTrue(dijit.hasWaiRole(elem, "menuitem"));
+						doh.assertEqual("menuitem", dijit.getWaiRole(elem));
+					},
+					
+					function getReverseUnprefixedFromMultiple(){
+						var elem=dojo.byId("reverse-order-noprefix");
+						doh.assertTrue(dijit.hasWaiRole(elem, "menuitem"));
+						doh.assertEqual("menuitem", dijit.getWaiRole(elem));
+					},
+					
+					function hasWaiRoleMixedRole(){
+						var elem=dojo.byId("multiple-role");
+						doh.assertTrue(dijit.hasWaiRole(elem, "menuitem"));
+					},
+					
+					function hasWaiRoleXHTMLRole(){
+						var elem=dojo.byId("navigation-role");
+						doh.assertFalse(dijit.hasWaiRole(elem));
+					},
+					
 
 					function setWaiRole(){
 						var div = document.createElement("div");
 						dijit.setWaiRole(div, "menuitem");
 						if(dojo.isFF && dojo.isFF < 3){
-							doh.assertEqual("wairole:menuitem",
-								div.getAttribute("role"));
+							doh.assertEqual("wairole:menuitem", div.getAttribute("role"));
 						}else{
-							doh.assertEqual("menuitem",
-								div.getAttribute("role"));
+							doh.assertEqual("menuitem", div.getAttribute("role"));
 						}
 					},
-
-					function removeWaiRole(){
+			
+					function setWaiRoleToExistingXHTML() {
+						var elem=dojo.byId("navigation-role");
+						dijit.setWaiRole(elem, "treeitem");
+						if(dojo.isFF < 3){/* FF2 does not support multiple roles */
+							doh.assertEqual("wairole:treeitem", elem.getAttribute("role"));
+						}else{
+							doh.assertEqual("contentinfo treeitem", elem.getAttribute("role"));
+						}
+					},
+					
+					function setWaiRoleToExistingWaiRole() {
+						var div= document.createElement("div");
+						dijit.setWaiRole(div, "menuitem");
+						doh.assertTrue(dijit.hasWaiRole(div, "menuitem"));
+						dijit.setWaiRole(div, "treeitem");
+						if(dojo.isFF < 3){
+							doh.assertEqual("wairole:treeitem", div.getAttribute("role"));
+						}else{
+							doh.assertEqual("treeitem", div.getAttribute("role"));
+						}
+					},
+					
+					function setWaiRoleToExistingWaiAndXHTMLRole() {
+						var div= dojo.byId("navigation-role");
+						dijit.setWaiRole(div, "menuitem");
+						doh.assertTrue(dijit.hasWaiRole(div, "menuitem"));
+						dijit.setWaiRole(div, "treeitem");
+						if(dojo.isFF < 3){/* FF2 does not support multiple roles */
+							doh.assertEqual("wairole:treeitem", div.getAttribute("role"));
+						}else{
+							doh.assertEqual("contentinfo treeitem", div.getAttribute("role"));
+						}
+					},
+			
+					function removeAllWaiRole(){
 						var div = document.createElement("div");
 						dijit.setWaiRole(div, "menuitem");
+						doh.assertTrue(dijit.hasWaiRole(div, "menuitem"));
 						dijit.removeWaiRole(div);
 						if(div.hasAttribute){
 							doh.assertFalse(div.hasAttribute("role"));
@@ -57,7 +133,40 @@
 								|| div.getAttribute("role") == "");
 						}
 					},
-
+					
+					function removeAllRoleMultiple(){
+						var elem=dojo.byId("multiple-role");
+						dijit.removeWaiRole(elem);
+						if(elem.hasAttribute){
+							doh.assertFalse(elem.hasAttribute("role"));
+						}else{
+							doh.assertTrue(elem.getAttribute("role") == null
+								|| elem.getAttribute("role") == "");
+						}
+					},
+					
+					function removeSingleRoleMultiple(){
+						var div= dojo.byId("navigation-role");
+						dijit.setWaiRole(div, "menuitem");
+						doh.assertTrue(dijit.hasWaiRole(div, "menuitem"));
+						dijit.removeWaiRole(div, "menuitem");
+						doh.assertFalse(dijit.hasWaiRole(div, "menuitem"));
+						if(dojo.isFF < 3){/* FF2 does not support multiple roles */
+							doh.assertEqual("", div.getAttribute("role"));
+						}else{
+							doh.assertEqual("contentinfo", div.getAttribute("role"));
+						}
+					},
+					
+					function removeSingleReversedRoleMultiple(){
+						var div= document.createElement("div");
+						dijit.setWaiRole(div, "menuitem");
+						var curRole = dojo.attr(div, "role");
+						dojo.attr(div, "role", curRole += " contentinfo");
+						dijit.removeWaiRole(div, "menuitem");
+						doh.assertEqual("contentinfo", div.getAttribute("role"));
+					},
+									
 					function getWaiStateOnElementWithNoState(){
 						var elem = dojo.byId("no-role-or-states");
 						doh.assertFalse(dijit.hasWaiState(elem, "checked"));
@@ -65,7 +174,7 @@
 					},
 
 					function getWaiState(){
-						if(dojo.isFF && dojo.isFF < 3){
+						if(dojo.isFF < 3){
 							var div = document.createElement("div");
 							div.setAttributeNS("http://www.w3.org/2005/07/aaa",
 								"aaa:checked", "true");
@@ -83,7 +192,7 @@
 					function setWaiState(){
 						var div = document.createElement("div");
 						dijit.setWaiState(div, "checked", "true");
-						if(dojo.isFF && dojo.isFF < 3){
+						if(dojo.isFF < 3){
 							doh.assertEqual("true",
 								div.getAttributeNS("http://www.w3.org/2005/07/aaa",
 								"checked"));
@@ -110,6 +219,13 @@
 	<div id="empty-wairole" role="wairole:"></div>
 	<div id="wairole" role="wairole:menuitem"></div>
 	<div id="unprefixed-role" role="menuitem"></div>
+	<div id="navigation-role" role="contentinfo"></div>
+	<div id="single-role" role="contentinfo"></div>
+	<div id="multiple-role-wairole" role="contentinfo wairole:menuitem"></div>
+	<div id="multiple-role" role="contentinfo menuitem"></div>
+	<div id="reverse-order-wairole" role="wairole:menuitem contentinfo"></div>
+	<div id="reverse-order-noprefix" role="menuitem contentinfo"></div>
 	<div id="checked" aria-checked="true"></div>
+
 </body>
 </html>

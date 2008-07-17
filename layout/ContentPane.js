@@ -103,8 +103,7 @@ dojo.declare(
 			this._loadCheck();
 		}
 
-		var curRole = dijit.getWaiRole(this.domNode);
-		if (!curRole){
+		if (!dijit.hasWaiRole(this.domNode)){
 			dijit.setWaiRole(this.domNode, "group");
 		}
 
