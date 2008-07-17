@@ -4,6 +4,15 @@ dojo.provide("dijit._Widget");
 dojo.require( "dijit._base" );
 //>>excludeEnd("dijitBaseExclude");
 
+dojo.connect(dojo, "connect", 
+	function(/*Widget*/ widget, /*String*/ event){
+		if(widget && dojo.isFunction(widget._onConnect)){
+			widget._onConnect.apply(widget, arguments);
+		}
+	});
+
+dijit._connectOnUseEventHandler = function(/*Event*/ event){};
+
 dojo.declare("dijit._Widget", null, {
 	//	summary:
 	//		The foundation of dijit widgets. 	
@@ -81,7 +90,116 @@ dojo.declare("dijit._Widget", null, {
 	//		A map of attributes and attachpoints -- typically standard HTML attributes -- to set
 	//		on the widget's dom, at the "domNode" attach point, by default.
 	//		Other node references can be specified as properties of 'this'
-	attributeMap: {id:"", dir:"", lang:"", "class":"", style:"", title:""},  // TODO: add on* handlers?
+	attributeMap: {id:"", dir:"", lang:"", "class":"", style:"", title:"",
+		onClick: "",
+		onDblClick: "",
+		onKeyDown: "",
+		onKeyPress: "",
+		onKeyUp: "",
+		onMouseMove: "",
+		onMouseDown: "",
+		onMouseOut: "",
+		onMouseOver: "",
+		onMouseLeave: "",
+		onMouseEnter: "",
+		onMouseUp: ""},
+
+	onClick: dijit._connectOnUseEventHandler,
+	/*=====
+	onClick: function(event){
+		// summary: 
+		//	Connect to this function to receive notifications of mouse click events.
+		//	event: mouse Event
+	},
+	=====*/
+	onDblClick: dijit._connectOnUseEventHandler,
+	/*=====
+	onDblClick: function(event){
+		// summary: 
+		//	Connect to this function to receive notifications of mouse double click events.
+		//	event: mouse Event
+	},
+	=====*/
+	onKeyDown: dijit._connectOnUseEventHandler,
+	/*=====
+	onKeyDown: function(event){
+		// summary: 
+		//	Connect to this function to receive notifications of keys being pressed down.
+		//	event: key Event
+	},
+	=====*/
+	onKeyPress: dijit._connectOnUseEventHandler,
+	/*=====
+	onKeyPress: function(event){
+		// summary: 
+		//	Connect to this function to receive notifications of printable keys being typed.
+		//	event: key Event
+	},
+	=====*/
+	onKeyUp: dijit._connectOnUseEventHandler,
+	/*=====
+	onKeyUp: function(event){
+		// summary: 
+		//	Connect to this function to receive notifications of keys being released.
+		//	event: key Event
+	},
+	=====*/
+	onMouseDown: dijit._connectOnUseEventHandler,
+	/*=====
+	onMouseDown: function(event){
+		// summary: 
+		//	Connect to this function to receive notifications of when the mouse button is pressed down.
+		//	event: mouse Event
+	},
+	=====*/
+	onMouseMove: dijit._connectOnUseEventHandler,
+	/*=====
+	onMouseMove: function(event){
+		// summary: 
+		//	Connect to this function to receive notifications of when the mouse moves over nodes contained within this widget.
+		//	event: mouse Event
+	},
+	=====*/
+	onMouseOut: dijit._connectOnUseEventHandler,
+	/*=====
+	onMouseOut: function(event){
+		// summary: 
+		//	Connect to this function to receive notifications of when the mouse moves off of nodes contained within this widget.
+		//	event: mouse Event
+	},
+	=====*/
+	onMouseOver: dijit._connectOnUseEventHandler,
+	/*=====
+	onMouseOver: function(event){
+		// summary: 
+		//	Connect to this function to receive notifications of when the mouse moves onto nodes contained within this widget.
+		//	event: mouse Event
+	},
+	=====*/
+	onMouseLeave: dijit._connectOnUseEventHandler,
+	/*=====
+	onMouseLeave: function(event){
+		// summary: 
+		//	Connect to this function to receive notifications of when the mouse moves off of this widget.
+		//	event: mouse Event
+	},
+	=====*/
+	onMouseEnter: dijit._connectOnUseEventHandler,
+	/*=====
+	onMouseEnter: function(event){
+		// summary: 
+		//	Connect to this function to receive notifications of when the mouse moves onto this widget.
+		//	event: mouse Event
+	},
+	=====*/
+	onMouseUp: dijit._connectOnUseEventHandler,
+	/*=====
+	onMouseUp: function(event){
+		// summary: 
+		//	Connect to this function to receive notifications of when the mouse button is released.
+		//	event: mouse Event
+	},
+	=====*/
 
 	// Constants used in templates
 	_blankGif: (dojo.config.blankGif || dojo.moduleUrl("dojo", "resources/blank.gif")),
@@ -91,6 +209,15 @@ dojo.declare("dijit._Widget", null, {
 //TODOC: summary needed for postscript
 	postscript: function(/*Object?*/params, /*DomNode|String*/srcNodeRef){
 		this.create(params, srcNodeRef);
+	},
+
+	constructor: function(){
+		this._onUseEvents = []; // list of events that needs to be connected on first use
+		for(var attr in this.attributeMap){
+			if(this[attr] === dijit._connectOnUseEventHandler){
+				this._onUseEvents[attr] = true;
+			}
+		}
 	},
 
 	create: function(/*Object?*/params, /*DomNode|String*/srcNodeRef){
@@ -157,7 +284,7 @@ dojo.declare("dijit._Widget", null, {
 		if(this.domNode){
 			for(var attr in this.attributeMap){
 				var value = this[attr];
-				if(typeof value != "object" && ((value !== "" && value !== false) || (params && params[attr]))){
+				if(value !== dijit._connectOnUseEventHandler && (typeof value != "undefined") && (typeof value != "object") && ((value !== "" && value !== false) || (params && params[attr]))){
 					this.setAttribute(attr, value);
 				}
 			}
@@ -320,6 +447,12 @@ dojo.declare("dijit._Widget", null, {
 		this.onBlur();
 	},
 
+	_onConnect: function(/*Widget*/ widget, /*String*/ event){
+		if(widget && (typeof widget == "object") && widget._onUseEvents && widget._onUseEvents[event]){
+			widget.setAttribute(event, widget[event]);
+		}
+	},
+
 	setAttribute: function(/*String*/ attr, /*anything*/ value){
 		//	summary:
 		//		Set native HTML attributes reflected in the widget,
@@ -344,11 +477,14 @@ dojo.declare("dijit._Widget", null, {
 				}
 				break;
 			default:
-				if(/^on[A-Z]/.test(attr)){ // eg. onSubmit needs to be onsubmit
-					attr = attr.toLowerCase();
-				}
-				if(typeof value == "function"){ // functions execute in the context of the widget
+				if(dojo.isFunction(value)){ // functions execute in the context of the widget
 					value = dojo.hitch(this, value);
+				}
+				if(/^on[A-Z][a-zA-Z]*$/.test(attr)){ // eg. onSubmit needs to be onsubmit
+					if(this._onUseEvents[attr]){
+						delete this._onUseEvents[attr];
+					}
+					attr = attr.toLowerCase();
 				}
 				dojo.attr(mapNode, attr, value);
 
