@@ -477,11 +477,12 @@ dojo.declare(
 			var node = evt.target;
 			var dk = dojo.keys;
 			if (evt.charOrCode == dk.TAB){
-					this._getFocusItems(this.containerNode);
+				this._getFocusItems(this.containerNode);
 			}
 			var singleFocusItem = (this._firstFocusItem == this._lastFocusItem);
 			if(evt.charOrCode == dk.ESCAPE){
 				this.onCancel();
+				dojo.stopEvent(evt);
 			}else if(node == this._firstFocusItem && evt.shiftKey && evt.charOrCode == dk.TAB){
 				if(!singleFocusItem){
 					dijit.focus(this._lastFocusItem); // send focus to last item in dialog
