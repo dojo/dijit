@@ -81,7 +81,12 @@ dojo.declare("dijit.form._FormMixin", null,
 				if(!dojo.isArray(values)){
 					values = [ values ];
 				}
-				if(typeof widgets[0].checked == 'boolean'){
+				if(typeof widgets[0].checked == 'boolean' && typeof values[0] == 'boolean'){
+					// for checkbox/radio with boolean values passed in
+					dojo.forEach(widgets, function(w, i){
+						w.setValue(values[i]);
+					});
+				}else if(typeof widgets[0].checked == 'boolean'){
 					// for checkbox/radio, values is a list of which widgets should be checked
 					dojo.forEach(widgets, function(w, i){
 						w.setValue(dojo.indexOf(values, w.value) != -1);
