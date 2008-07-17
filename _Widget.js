@@ -90,7 +90,11 @@ dojo.declare("dijit._Widget", null, {
 	//		A map of attributes and attachpoints -- typically standard HTML attributes -- to set
 	//		on the widget's dom, at the "domNode" attach point, by default.
 	//		Other node references can be specified as properties of 'this'
-	attributeMap: {id:"", dir:"", lang:"", "class":"", style:"", title:"",
+	attributeMap: {id:"", dir:"", lang:"", "class":"", style:"", title:""},
+
+	// _deferredConnects: Object
+	//		attributeMap addendum for event handlers that should be connected only on first use
+	_deferredConnects: {
 		onClick: "",
 		onDblClick: "",
 		onKeyDown: "",
@@ -212,10 +216,13 @@ dojo.declare("dijit._Widget", null, {
 	},
 
 	constructor: function(){
-		this._onUseEvents = []; // list of events that needs to be connected on first use
+		this._deferredConnects = dojo.clone(this._deferredConnects);
 		for(var attr in this.attributeMap){
-			if(this[attr] === dijit._connectOnUseEventHandler){
-				this._onUseEvents[attr] = true;
+			delete this._deferredConnects[attr]; // can't be in both attributeMap and _deferredConnects
+		}
+		for(var attr in this._deferredConnects){
+			if(this[attr] !== dijit._connectOnUseEventHandler){
+				delete this._deferredConnects[attr];
 			}
 		}
 	},
@@ -284,8 +291,14 @@ dojo.declare("dijit._Widget", null, {
 		if(this.domNode){
 			for(var attr in this.attributeMap){
 				var value = this[attr];
-				if(value !== dijit._connectOnUseEventHandler && (typeof value != "undefined") && (typeof value != "object") && ((value !== "" && value !== false) || (params && params[attr]))){
+				if((typeof value != "undefined") && (typeof value != "object") && ((value !== "" && value !== false) || (params && params[attr]))){
 					this.setAttribute(attr, value);
+				}
+			}
+			for(var attr in this._deferredConnects){
+				var value = this[attr];
+				if(value !== dijit._connectOnUseEventHandler){
+					this._onConnect(this, attr);
 				}
 			}
 		}
@@ -447,9 +460,11 @@ dojo.declare("dijit._Widget", null, {
 		this.onBlur();
 	},
 
-	_onConnect: function(/*Widget*/ widget, /*String*/ event){
-		if(widget && (typeof widget == "object") && widget._onUseEvents && widget._onUseEvents[event]){
-			widget.setAttribute(event, widget[event]);
+	_onConnect: function(/*Widget*/ _this, /*String*/ event){
+		if(typeof this._deferredConnects[event] != "undefined"){
+			delete this._deferredConnects[event];
+			var mapNode = this[this._deferredConnects[event]||'domNode'];
+			this.connect(mapNode, event.toLowerCase(), this[event]);
 		}
 	},
 
@@ -481,13 +496,9 @@ dojo.declare("dijit._Widget", null, {
 					value = dojo.hitch(this, value);
 				}
 				if(/^on[A-Z][a-zA-Z]*$/.test(attr)){ // eg. onSubmit needs to be onsubmit
-					if(this._onUseEvents[attr]){
-						delete this._onUseEvents[attr];
-					}
 					attr = attr.toLowerCase();
 				}
 				dojo.attr(mapNode, attr, value);
-
 		}
 	},
 
