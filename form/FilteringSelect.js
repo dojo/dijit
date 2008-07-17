@@ -168,7 +168,8 @@ dojo.declare(
 
 			if(this.store){
 				var query = dojo.clone(this.query); // #6196: populate query with user-specifics
-				this._lastQuery = query[this.searchAttr] = label;
+				// escape meta characters of dojo.data.util.filter.patternToRegExp().
+				this._lastQuery = query[this.searchAttr] = label.replace(/([\\\*\?])/g, "\\$1");
 				// if the label is not valid, the callback will never set it,
 				// so the last valid value will get the warning textbox set the
 				// textbox value now so that the impending warning will make
