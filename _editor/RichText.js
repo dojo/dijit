@@ -79,7 +79,7 @@ dijit._editor.RichTextIframeMixin = {
 				if(dojo.isIE){
 					this._localizeEditorCommands();
 				}
-
+				
 				this.onLoad();
 				this.savedContent = this.getValue(true);
 			});
@@ -208,47 +208,54 @@ dijit._editor.RichTextIframeMixin = {
 		//	tmpContent.style.display = "none";
 		//	this.editingArea.appendChild(this.iframe);
 
-		var _iframeInitialized = false;
-		// console.debug(this.iframe);
-		// var contentDoc = this.iframe.contentWindow.document;
 
-
-
-		// now we wait for onload. Janky hack!
+		// now we wait for the iframe to load. Janky hack!
 		var ifrFunc = dojo.hitch(this, function(){
-			if(!_iframeInitialized){
-				_iframeInitialized = true;
-			}else{ return; }
 			if(!this.editNode){
-				try{
-					if(this.iframe.contentWindow){
-						this.window = this.iframe.contentWindow;
-						this.document = this.iframe.contentWindow.document
-					}else if(this.iframe.contentDocument){
-						// for opera
-						// TODO: this method is only being called for FF2; can we remove this?
-						this.window = this.iframe.contentDocument.window;
-						this.document = this.iframe.contentDocument;
+				// Iframe hasn't been loaded yet.
+				// First deal w/the document to be available (may have to wait for it)
+				if(!this.document){
+					try{
+						if(this.iframe.contentWindow){
+							this.window = this.iframe.contentWindow;
+							this.document = this.iframe.contentWindow.document
+						}else if(this.iframe.contentDocument){
+							// for opera
+							// TODO: this method is only being called for FF2; can we remove this?
+							this.window = this.iframe.contentDocument.window;
+							this.document = this.iframe.contentDocument;
+						}
+					}catch(e){
+						//console.debug("waiting for iframe document to appear...");
+						setTimeout(ifrFunc,50);
+						return;
 					}
-					if(!this.document.body){
-						throw 'Error'; //FIXME.  A bit more info, if this code stays.
+					if(!this.document){
+						setTimeout(ifrFunc,50);
+						return;
 					}
-				}catch(e){
-					setTimeout(ifrFunc,500);
-					_iframeInitialized = false;
+
+					// note that on Safari lower than 420+, we have to get the iframe
+					// by ID in order to get something w/ a contentDocument property
+					var contentDoc = this.document;
+					contentDoc.open();
+					contentDoc.write(this._getIframeDocTxt(html));
+					contentDoc.close();
+					
+					dojo._destroyElement(tmpContent);
+				}
+
+				// Wait for body to be available
+				// Writing into contentDoc (above) can make <body> temporarily unavailable, may have to delay again
+				if(!this.document.body){
+					//console.debug("waiting for iframe body...");
+					setTimeout(ifrFunc,50);
 					return;
 				}
 
-				// note that on Safari lower than 420+, we have to get the iframe
-				// by ID in order to get something w/ a contentDocument property
-				var contentDoc = this.document;
-				contentDoc.open();
-				contentDoc.write(this._getIframeDocTxt(html));
-				contentDoc.close();
-
-				dojo._destroyElement(tmpContent);
 				this.onLoad();
 			}else{
+				// Iframe is already loaded, we are just switching the content
 				dojo._destroyElement(tmpContent);
 				this.editNode.innerHTML = html;
 				this.onDisplayChanged();
