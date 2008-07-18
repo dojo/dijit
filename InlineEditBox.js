@@ -125,12 +125,14 @@ dojo.declare("dijit.InlineEditBox",
 		this._onMouseOut();
 
 		// Since FF gets upset if you move a node while in an event handler for that node...
-		setTimeout(dojo.hitch(this, "_edit"), 0);
+		setTimeout(dojo.hitch(this, "edit"), 0);
 	},
 
-	_edit: function(){
-		// summary: display the editor widget in place of the original (read only) markup
+	edit: function(){
+		// summary:
+		//		Display the editor widget in place of the original (read only) markup.
 
+		if(this.disabled || this.editing){ return; }
 		this.editing = true;
 
 		var editValue = 
@@ -206,6 +208,7 @@ dojo.declare("dijit.InlineEditBox",
 		//		Save the contents of the editor and revert to display mode.
 		// focus: Boolean
 		//		Focus on the display mode text
+		if(this.disabled || !this.editing){ return; }
 		this.editing = false;
 
 		var value = this.editWidget.getValue() + "";
