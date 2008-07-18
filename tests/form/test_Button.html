@@ -97,9 +97,9 @@
 	</div>
 	<br clear="all">
 	<h2>Buttons with no text label</h2>
-	<p>Buttons have showLabel=false so text is not displayed.  Should have title attribute displayed on mouse over</p>
+	<p>Buttons have showLabel=false so text is not displayed.  If no title attribute supplied, Should have label as title attribute displayed on mouse over</p>
 	<div class="box">
-		<button id="1466" dojoType="dijit.form.Button" onClick='console.log("clicked simple button with no text label")' 
+		<button id="1466" dojoType="dijit.form.Button" title="title attrib rather than label" onClick='console.log("clicked simple button with no text label")' 
 		iconClass="plusIcon" showLabel="false">
 		<span><b>Rich</b><i> Text</i> Test!</span>
 		</button>

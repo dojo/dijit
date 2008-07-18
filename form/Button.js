@@ -67,11 +67,11 @@ dojo.declare("dijit.form.Button",
 		// summary:
 		//	get label and set as title on button icon if necessary
 		if (this.showLabel == false){
-			var labelText = "";
 			this.label = this.containerNode.innerHTML;
-			labelText = dojo.trim(this.containerNode.innerText || this.containerNode.textContent || '');
-			// set title attrib on iconNode
-			this.titleNode.title=labelText;
+			// if no title provided, set title attrib on iconNode
+			if(!dojo.attr(this.domNode, "title")){
+				this.titleNode.title=dojo.trim(this.containerNode.innerText || this.containerNode.textContent || '');
+			}
 			dojo.addClass(this.containerNode,"dijitDisplayNone");
 		}
 		dojo.setSelectable(this.focusNode, false);
@@ -92,7 +92,7 @@ dojo.declare("dijit.form.Button",
 		// summary: reset the label (text) of the button; takes an HTML string
 		this.containerNode.innerHTML = this.label = content;
 		this._layoutHack();
-		if (this.showLabel == false){
+		if (this.showLabel == false && !(dojo.attr(this.domNode, "title"))){
 			this.titleNode.title=dojo.trim(this.containerNode.innerText || this.containerNode.textContent || '');
 		}
 	}		
