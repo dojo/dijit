@@ -49,10 +49,6 @@ dojo.declare(
 		if(this.isExpandable){
 			dijit.setWaiState(this.labelNode, "expanded", this.isExpanded);
 		}
-
-		// Counteract effects from _Container.buildRendering().  We actually want to
-		// leave containerNode as null (or undefined) until when/if we get children
-		this.containerNode = null;
 	},
 
 	markProcessing: function(){
@@ -123,6 +119,11 @@ dojo.declare(
 		this._setExpando();
 		this._updateItemClasses(this.item);
 
+		if(!this._wipeIn){
+			this._wipeIn = dojo.fx.wipeIn({
+				node: this.containerNode, duration: dijit.defaultDuration
+			});
+		}
 		this._wipeIn.play();
 	},
 
@@ -138,6 +139,11 @@ dojo.declare(
 		this._setExpando();
 		this._updateItemClasses(this.item);
 
+		if(!this._wipeOut){
+			this._wipeOut = dojo.fx.wipeOut({
+				node: this.containerNode, duration: dijit.defaultDuration
+			});
+		}
 		this._wipeOut.play();
 	},
 
@@ -157,20 +163,14 @@ dojo.declare(
 		// Orphan all my existing children.
 		// If items contains some of the same items as before then we will reattach them.
 		// Don't call this.removeChild() because that will collapse the tree etc.
-		if(this.containerNode){
-			this.getChildren().forEach(function(child){
-				dijit._Container.prototype.removeChild.call(this, child);
-			}, this);
-		}
+		this.getChildren().forEach(function(child){
+			dijit._Container.prototype.removeChild.call(this, child);
+		}, this);
 
 		this.state = "LOADED";
 
 		if(items && items.length > 0){
 			this.isExpandable = true;
-			if(!this.containerNode){ // maybe this node was unfolderized and still has container
-				this.containerNode = this.tree.containerNodeTemplate.cloneNode(true);
-				this.domNode.appendChild(this.containerNode);
-			}
 
 			// Create _TreeNode widget for each specified tree node, unless one already
 			// exists and isn't being used (presumably it's from a DnD move and was recently
@@ -218,16 +218,6 @@ dojo.declare(
 				tabnode = fc ? fc.labelNode : this.domNode;
 			tabnode.setAttribute("tabIndex", "0");
 			tree.lastFocused = fc;
-		}
-
-		// create animations for showing/hiding the children (if children exist)
-		if(this.containerNode && !this._wipeIn){
-			this._wipeIn = dojo.fx.wipeIn({
-				node: this.containerNode, duration: dijit.defaultDuration
-			});
-			this._wipeOut = dojo.fx.wipeOut({
-				node: this.containerNode, duration: dijit.defaultDuration
-			});
 		}
 	},
 
@@ -378,14 +368,6 @@ dojo.declare(
 			}
 		}
 		
-		// make template for container node (we will clone this and insert it into
-		// any nodes that have children)
-		var div = dojo.doc.createElement('div');
-		div.style.display = 'none';
-		div.className = "dijitTreeContainer";	
-		dijit.setWaiRole(div, "presentation");
-		this.containerNodeTemplate = div;
-
 		// Create glue between store and Tree, if not specified directly by user
 		if(!this.model){
 			this._store2model();
@@ -590,7 +572,7 @@ dojo.declare(
 		// if not expanded, expand, else move to 1st child
 		if(node.isExpandable && !node.isExpanded){
 			this._expandNode(node);
-		}else if(node.containerNode && node.hasChildren()){
+		}else if(node.hasChildren()){
 			node = node.getChildren()[0];
 			if(node && node.isTreeNode){
 				this.focusNode(node);
