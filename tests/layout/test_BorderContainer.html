@@ -171,21 +171,21 @@
 	<br />
 	<p>More fun with layouts</p>
 	
-	<div id="mondrian" dojoType="dijit.layout.BorderContainer" design="sidebar" persist="true" style="height: 300px; width: 400px;">
+	<div id="mondrian" dojoType="dijit.layout.BorderContainer" design="sidebar" gutters="false" persist="true" style="height: 300px; width: 400px;">
 		<div dojoType="dijit.layout.ContentPane" region="top" style="height: 100px" splitter="true">
-			<div dojoType="dijit.layout.BorderContainer" persist="true" style="height: 100px; width: 100%">
+			<div dojoType="dijit.layout.BorderContainer" persist="true" gutters="false" style="height: 100px; width: 100%">
 				<div dojoType="dijit.layout.ContentPane" region="leading" style="width: 125px" splitter="true"><span>top a</span></div>
 				<div dojoType="dijit.layout.ContentPane" region="center" style="background-color: yellow" splitter="true"><span>top b</span></div>
 			</div>
 		</div>
 		<div dojoType="dijit.layout.ContentPane" region="bottom" style="height: 100px" splitter="true">
-			<div dojoType="dijit.layout.BorderContainer" persist="true" style="height: 100px; width: 100%">
+			<div dojoType="dijit.layout.BorderContainer" persist="true" gutters="false" style="height: 100px; width: 100%">
 				<div dojoType="dijit.layout.ContentPane" region="top" style="height: 40px" splitter="true"><span>bottom c</span></div>
 				<div dojoType="dijit.layout.ContentPane" region="center"><span>bottom d</span></div>
 			</div>
 		</div>
 		<div dojoType="dijit.layout.ContentPane" region="leading" style="width: 100px" splitter="true">
-			<div dojoType="dijit.layout.BorderContainer" persist="true" style="height: 300px; width: 100%">
+			<div dojoType="dijit.layout.BorderContainer" persist="true" gutters="false" style="height: 300px; width: 100%">
 				<div dojoType="dijit.layout.ContentPane" region="center"><span>leading e</span></div>
 				<div dojoType="dijit.layout.ContentPane" region="bottom" style="height: 100px; background-color: red" splitter="true"><span>leading f</span></div>
 			</div>
