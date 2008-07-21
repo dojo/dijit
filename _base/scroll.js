@@ -58,12 +58,22 @@ dijit.scrollIntoView = function(/* DomNode */node){
 	var parent = node;
 	while(parent != null){
 		addPseudoAttrs(parent);
-		parent = parent._parent;
+		var next = parent._parent;
+		if(next){
+			next._child = parent;
+		}
+		parent = next;
 	}
 	for(var dir in scrollRoot._renderedSize){ scrollRoot._renderedSize[dir] = Math.min(scrollRoot._clientSize[dir], scrollRoot._renderedSize[dir]); }
 	var element = node;
 	while(element != scrollRoot){
 		parent = element._parent;
+		if(parent.tagName == "TD"){
+			var table = parent._parent._parent._parent; // point to TABLE
+			if(table._offsetParent == element._offsetParent && parent._offsetParent != element._offsetParent){
+				parent = table; // child of TD has the same offsetParent as TABLE, so skip TD, TR, and TBODY (ie. verticalslider)
+			}
+		}
 		// check if this node and its parent share the same offsetParent
 		var startIsRelative = element == scrollRoot || (parent._offsetParent != element._offsetParent);
 
@@ -78,7 +88,7 @@ dijit.scrollIntoView = function(/* DomNode */node){
 				parent._borderStart[dir] = parent._borderSize[dir] = 0;
 			}
 			if(parent._clientSize[dir] == 0){ // TABLE on Safari3/FF3, and TBODY on IE6/7
-				parent._renderedSize[dir] = parent._clientSize[dir] = element._clientSize[dir];
+				parent._renderedSize[dir] = parent._clientSize[dir] = parent._child._clientSize[dir];
 				if(rtl && dir=="H"){ parent._start[dir] -= parent._renderedSize[dir]; }
 			}else{
 				parent._renderedSize[dir] -= parent._borderSize[dir] + parent._scrollBarSize[dir];
