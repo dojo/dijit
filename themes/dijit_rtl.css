@@ -85,25 +85,10 @@
 
 /* TabContainer */
 
-.dijitRtl .dijitTabContainerTop-tabs .dijitTab,
-.dijitRtl .dijitTabContainerBottom-tabs .dijitTab {
-	float:right;
-}
-
-
-.dj_ie-rtl .dijitTab,
 .dj_ie-rtl .dijitTab .dijitTabInnerDiv,
 .dj_ie-rtl .dijitTab .dijitTabInnerDiv span {
 	position:static;
 	zoom:1;
-}
-
-.dj_ie-rtl .dijitTabContainerLeft-tabs {
-	margin-left:1px !important;
-}
-
-.dj_ie-rtl .dijitTabContainerRight-tabs {
-	margin-right:1px !important;
 }
 
 .dj_ie6-rtl .dijitTab {

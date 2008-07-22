@@ -1,40 +1,16 @@
 
 /* Tabs */
-.tundra .dijitTabPaneWrapper {
-	background:#fff;
-	border:1px solid #ccc;
-}
 
-.tundra .dijitTabContainerTop-container {
-	border-top: none;
-}
-
-.tundra .dijitTabContainerLeft-container {
-	border-left: none;
-}
-
-.tundra .dijitTabContainerBottom-container {
-	border-bottom: none;
-}
-
-.tundra .dijitTabContainerRight-container {
-	border-right: none;
-}
-
-.tundra .dijitTabContainerTop-tabs {
-	background: url("../images/tabStripe.gif") repeat-x bottom left;
-}
-
-.tundra .dijitTabContainerLeft-tabs {
-	background: url("../images/tabStripe.gif") repeat-y top right;
-}
-
-.tundra .dijitTabContainerBottom-tabs {
-	background: url("../images/tabStripe.gif") repeat-x top left;
-}
-
+.tundra .dijitTabContainerBottom-tabs,
+.tundra .dijitTabContainerTop-tabs,
+.tundra .dijitTabContainerLeft-tabs,
 .tundra .dijitTabContainerRight-tabs {
-	background: url("../images/tabStripe.gif") repeat-y top left;
+	border-color: #ccc;
+}
+
+.tundra .dijitTabPaneWrapper {
+	background: #fff;
+	border-color: #ccc;
 }
 	
 .tundra .dijitTab {
@@ -183,8 +159,7 @@
 	border-top: 1px solid #ccc;
 	border-right: 1px solid #ccc;
 	padding-top: 2px;
-	padding-left: 3px;
-	background: #f2f2f2 url("../images/tabStripe.gif") repeat-x bottom left;
+	padding-left: 3px;	
 }
 
 .tundra .dijitBorderContainer-dijitTabContainerBottom .dijitTabContainerBottom-tabs {
@@ -193,7 +168,6 @@
 	border-left: 1px solid #ccc;
 	border-bottom: 1px solid #ccc;
 	border-right: 1px solid #ccc;
-	background: #f2f2f2 url("../images/tabStripe.gif") repeat-x top left;
 }
 
 .tundra .dijitBorderContainer-dijitTabContainerLeft .dijitTabContainerLeft-tabs {
@@ -202,7 +176,6 @@
 	border-left: 1px solid #ccc;
 	border-bottom: 1px solid #ccc;
 	border-top: 1px solid #ccc;
-	background: #f2f2f2 url("../images/tabStripe.gif") repeat-y top right;
 }
 
 .tundra .dijitBorderContainer-dijitTabContainerRight .dijitTabContainerRight-tabs {
@@ -211,7 +184,6 @@
 	border-right: 1px solid #ccc;
 	border-bottom: 1px solid #ccc;
 	border-top: 1px solid #ccc;
-	background: #f2f2f2 url("../images/tabStripe.gif") repeat-y top left;
 }
 
 /* this resets the tabcontainer stripe when within a contentpane */
