@@ -209,15 +209,26 @@ dojo.declare("dijit._Widget", null, {
 	_blankGif: (dojo.config.blankGif || dojo.moduleUrl("dojo", "resources/blank.gif")),
 
 	//////////// INITIALIZATION METHODS ///////////////////////////////////////
-//TODOC: params and srcNodeRef need docs.  Is srcNodeRef optional?
-//TODOC: summary needed for postscript
+
 	postscript: function(/*Object?*/params, /*DomNode|String*/srcNodeRef){
+		// summary: kicks off widget instantiation, see create() for details.
 		this.create(params, srcNodeRef);
 	},
 
-	create: function(/*Object?*/params, /*DomNode|String*/srcNodeRef){
+	create: function(/*Object?*/params, /*DomNode|String?*/srcNodeRef){
 		//	summary:
 		//		Kick off the life-cycle of a widget
+		//	params:
+		//		Hash of initialization parameters for widget, including
+		//		scalar values (like title, duration etc.) and functions,
+		//		typically callbacks like onClick.
+		//	srcNodeRef:
+		//		If a srcNodeRef (dom node) is specified:
+		//			- use srcNodeRef.innerHTML as my contents
+		//			- if this is a behavioral widget then apply behavior
+		//			  to that srcNodeRef 
+		//			- otherwise, replace srcNodeRef with my generated DOM
+		//			  tree
 		//	description:
 		//		To understand the process by which widgets are instantiated, it
 		//		is critical to understand what other methods create calls and
@@ -248,10 +259,6 @@ dojo.declare("dijit._Widget", null, {
 		// For garbage collection.  An array of handles returned by Widget.connect()
 		// Each handle returned from Widget.connect() is an array of handles from dojo.connect()
 		this._connects = [];
-
-		// _attaches: String[]
-		// 		names of all our dojoAttachPoint variables
-		this._attaches = [];
 
 		// To avoid double-connects, remove entries from _deferredConnects
 		// that have been setup manually by a subclass (ex, by dojoAttachEvent).
