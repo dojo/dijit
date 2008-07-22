@@ -220,6 +220,9 @@ dojo.declare("dijit._Widget", null, {
 		for(var attr in this.attributeMap){
 			delete this._deferredConnects[attr]; // can't be in both attributeMap and _deferredConnects
 		}
+		// If a subclass has redefined a callback (ex: onClick) then assume it's being
+		// attached to explicitly, via dojoAttachEvent="" (or attributeMap, but that was handled
+		// above) and ignore the entry in _deferredConnects
 		for(var attr in this._deferredConnects){
 			if(this[attr] !== dijit._connectOnUseEventHandler){
 				delete this._deferredConnects[attr];
@@ -283,23 +286,20 @@ dojo.declare("dijit._Widget", null, {
 
 		this.buildRendering();
 
-		// Copy attributes listed in attributeMap into the [newly created] DOM for the widget.
-		// The placement of these attributes is according to the property mapping in attributeMap.
-		// Note special handling for 'style' and 'class' attributes which are lists and can
-		// have elements from both old and new structures, and some attributes like "type"
-		// cannot be processed this way as they are not mutable.
 		if(this.domNode){
+			// Copy attributes listed in attributeMap into the [newly created] DOM for the widget.
 			for(var attr in this.attributeMap){
 				var value = this[attr];
 				if((typeof value != "undefined") && (typeof value != "object") && ((value !== "" && value !== false) || (params && params[attr]))){
 					this.setAttribute(attr, value);
 				}
 			}
-			for(var attr in this._deferredConnects){
-				var value = this[attr];
-				if(value !== dijit._connectOnUseEventHandler){
-					this._onConnect(attr);
-				}
+
+			// If the developer has specified a handler as a widget parameter
+			// (ex: new Button({onClick: ...})
+			// then naturally need to connect from dom node to that handler immediately, 
+			for(var attr in this.params){
+				this._onConnect(attr);
 			}
 		}
 
@@ -475,8 +475,14 @@ dojo.declare("dijit._Widget", null, {
 		//	summary:
 		//		Set native HTML attributes reflected in the widget,
 		//		such as readOnly, disabled, and maxLength in TextBox widgets.
+		//		The placement of these attributes is according to the property mapping in attributeMap.
+		//
 		//	description:
-		//		In general, a widget's "value" is controlled via setValue()/getValue(), 
+		//		Note special handling for 'style' and 'class' attributes which are lists and can
+		//		have elements from both old and new structures, and some attributes like "type"
+		//		cannot be processed this way as they are not mutable.
+		//
+		//		Also, in general, a widget's "value" is controlled via setValue()/getValue(), 
 		//		rather than this method.  The exception is for widgets where the
 		//		end user can't adjust the value, such as Button and CheckBox;
 		//		in the unusual case that you want to change the value attribute of
