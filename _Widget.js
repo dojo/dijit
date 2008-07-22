@@ -215,21 +215,6 @@ dojo.declare("dijit._Widget", null, {
 		this.create(params, srcNodeRef);
 	},
 
-	constructor: function(){
-		this._deferredConnects = dojo.clone(this._deferredConnects);
-		for(var attr in this.attributeMap){
-			delete this._deferredConnects[attr]; // can't be in both attributeMap and _deferredConnects
-		}
-		// If a subclass has redefined a callback (ex: onClick) then assume it's being
-		// attached to explicitly, via dojoAttachEvent="" (or attributeMap, but that was handled
-		// above) and ignore the entry in _deferredConnects
-		for(var attr in this._deferredConnects){
-			if(this[attr] !== dijit._connectOnUseEventHandler){
-				delete this._deferredConnects[attr];
-			}
-		}
-	},
-
 	create: function(/*Object?*/params, /*DomNode|String*/srcNodeRef){
 		//	summary:
 		//		Kick off the life-cycle of a widget
@@ -268,6 +253,20 @@ dojo.declare("dijit._Widget", null, {
 		// 		names of all our dojoAttachPoint variables
 		this._attaches = [];
 
+		// To avoid double-connects, remove entries from _deferredConnects
+		// that have been setup manually by a subclass (ex, by dojoAttachEvent).
+		// If a subclass has redefined a callback (ex: onClick) then assume it's being
+		// connected to manually.
+		this._deferredConnects = dojo.clone(this._deferredConnects);
+		for(var attr in this.attributeMap){
+			delete this._deferredConnects[attr]; // can't be in both attributeMap and _deferredConnects
+		}
+		for(var attr in this._deferredConnects){
+			if(this[attr] !== dijit._connectOnUseEventHandler){
+				delete this._deferredConnects[attr];	// redefined, probably dojoAttachEvent exists
+			}
+		}
+
 		//mixin our passed parameters
 		if(this.srcNodeRef && (typeof this.srcNodeRef.id == "string")){ this.id = this.srcNodeRef.id; }
 		if(params){
@@ -278,7 +277,7 @@ dojo.declare("dijit._Widget", null, {
 
 		// generate an id for the widget if one wasn't specified
 		// (be sure to do this before buildRendering() because that function might
-		// expect the id to be there.
+		// expect the id to be there.)
 		if(!this.id){
 			this.id = dijit.getUniqueId(this.declaredClass.replace(/\./g,"_"));
 		}
