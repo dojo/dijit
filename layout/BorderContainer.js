@@ -425,7 +425,7 @@ dojo.declare("dijit.layout._Splitter", [ dijit._Widget, dijit._Templated ],
 		this._cookieName = this.container.id + "_" + this.region;
 		if(this.container.persist){
 			// restore old size
-			var persistSize = parseInt(dojo.cookie(this._cookieName));
+			var persistSize = dojo.cookie(this._cookieName);
 			if(persistSize){
 				this.child.domNode.style[this.horizontal ? "height" : "width"] = persistSize;
 			}
