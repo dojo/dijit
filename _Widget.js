@@ -7,7 +7,7 @@ dojo.require( "dijit._base" );
 dojo.connect(dojo, "connect", 
 	function(/*Widget*/ widget, /*String*/ event){
 		if(widget && dojo.isFunction(widget._onConnect)){
-			widget._onConnect.apply(widget, arguments);
+			widget._onConnect(event);
 		}
 	});
 
@@ -298,7 +298,7 @@ dojo.declare("dijit._Widget", null, {
 			for(var attr in this._deferredConnects){
 				var value = this[attr];
 				if(value !== dijit._connectOnUseEventHandler){
-					this._onConnect(this, attr);
+					this._onConnect(attr);
 				}
 			}
 		}
@@ -460,11 +460,14 @@ dojo.declare("dijit._Widget", null, {
 		this.onBlur();
 	},
 
-	_onConnect: function(/*Widget*/ _this, /*String*/ event){
-		if(typeof this._deferredConnects[event] != "undefined"){
-			delete this._deferredConnects[event];
+	_onConnect: function(/*String*/ event){
+		// summary:
+		//		Called when someone connects to one of my handlers.
+		//		"Turn on" that handler if it isn't active yet.
+		if(event in this._deferredConnects){
 			var mapNode = this[this._deferredConnects[event]||'domNode'];
 			this.connect(mapNode, event.toLowerCase(), this[event]);
+			delete this._deferredConnects[event];
 		}
 	},
 
