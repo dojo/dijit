@@ -83,52 +83,6 @@
 	left:auto;
 }
 
-/* TabContainer */
-
-.dj_ie-rtl .dijitTab .dijitTabInnerDiv,
-.dj_ie-rtl .dijitTab .dijitTabInnerDiv span {
-	position:static;
-	zoom:1;
-}
-
-.dj_ie6-rtl .dijitTab {
-	/* force ie6 to render each tab based on the tab's label */
-	width:1px;
-}
-
-.dj_ie6-rtl .dijitTabContainerLeft-tabs {
-	overflow-x:visible;
-	margin-left:2px !important;
-}
-
-.dj_ie6-rtl .dijitTabContainerRight-tabs {
-	overflow-x:visible;
-	margin-right:2px !important;
-}
-
-.dj_ie7-rtl .dijitTab .dijitTabInnerDiv {
-	float:left;
-}
-
-.dj_ie7-rtl .dijitTab .closeImage {
-	padding: 0 0 0 12px;
-}
-
-.dj_ie-rtl .dijitTabContainerRight-tabs .dijitTab {
-	position:relative;
-}
-
-.dj_ie-rtl .dijitTabContainerRight-tabs .closeImage {
-	position: absolute !important;
-}
-.dj_ie6-rtl .dijitTabContainerRight-tabs .closeImage {
-	width: 12px !important;
-}
-.dj_ie7-rtl .dijitTabContainerRight-tabs .closeImage {
-	padding: 0px !important;
-}
-
-
 /* Spinner */
 
 .dijitRtl .dijitSpinner .dijitInputLayoutContainer .dijitArrowButton {
