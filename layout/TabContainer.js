@@ -25,6 +25,10 @@ dojo.declare("dijit.layout.TabContainer",
 	// class: String
 	//	Class name to apply to this.domNode
 	"class": "dijitTabContainer",
+	
+	// tabStrip: bool
+	//   Defines whether the tablist gets an extra class for layouting
+	tabStrip: false,
 
 	templateString: null,	// override setting in StackContainer
 	templatePath: dojo.moduleUrl("dijit.layout", "templates/TabContainer.html"),
@@ -41,6 +45,7 @@ dojo.declare("dijit.layout.TabContainer",
 
 	postCreate: function(){	
 		this.inherited(arguments);
+											
 		// create the tab list that will have a tab (a.k.a. tab button) for each tab panel
 		var TabController = dojo.getObject(this._controllerWidget);
 		this.tablist = new TabController({
@@ -49,7 +54,10 @@ dojo.declare("dijit.layout.TabContainer",
 			doLayout: this.doLayout,
 			containerId: this.id,
 			"class": this["class"] + "-tabs" + (this.doLayout ? "" : " dijitTabNoLayout")
-		}, this.tablistNode);		
+		}, this.tablistNode);
+		
+		// add Class for tabstrip
+		if (this.tabStrip){	dojo.addClass(this.tablist.domNode, this["class"]+"Strip"); }			
 	},
 
 	_setupChild: function(/* Widget */tab){
@@ -74,13 +82,14 @@ dojo.declare("dijit.layout.TabContainer",
 		var titleAlign = this.tabPosition.replace(/-h/,"");
 		var children = [
 			{ domNode: this.tablist.domNode, layoutAlign: titleAlign },
+			{ domNode: this.tablistSpacer, layoutAlign: titleAlign },
 			{ domNode: this.containerNode, layoutAlign: "client" }
 		];
 		dijit.layout.layoutChildren(this.domNode, this._contentBox, children);
 
 		// Compute size to make each of my children.
-		// children[1] is the margin-box size of this.containerNode, set by layoutChildren() call above
-		this._containerContentBox = dijit.layout.marginBox2contentBox(this.containerNode, children[1]);
+		// children[2] is the margin-box size of this.containerNode, set by layoutChildren() call above
+		this._containerContentBox = dijit.layout.marginBox2contentBox(this.containerNode, children[2]);
 
 		if(this.selectedChildWidget){
 			this._showChild(this.selectedChildWidget);
@@ -153,6 +162,7 @@ dojo.declare("dijit.layout._TabButton",
 	baseClass: "dijitTab",
 
 	templatePath: dojo.moduleUrl("dijit.layout","templates/_TabButton.html"),
+	spacer: dojo.moduleUrl("dijit.templates","blank.gif"),
 
 	postCreate: function(){
 		if(this.closeButton){
