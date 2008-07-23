@@ -1,78 +1,36 @@
 .dijitRtl .tundra .dijitTab {
-	margin-right:0;
-	margin-left:5px;		/* space between one tab and the next in top/bottom mode */
+	margin-right:auto;
+	margin-left:4px;		/* space between one tab and the next in top/bottom mode */
+	-moz-box-orient:horizontal;
+	text-align: right;
 }
 
-.dijitRtl .tundra .dijitTab .dijitTabInnerDiv {
-	border-left:none;
-	border-right:1px solid #fff;
+/* tab strips */
+.dijitRtl .tundra .dijitTabContainerTopStrip,
+.dijitRtl .tundra .dijitTabContainerBottomStrip {
+	padding-right: 3px;
+	padding-left: 0px;
 }
 
-.dijitRtl .tundra .dijitTab .dijitClosable {
-	padding: 6px 10px 4px 20px;
+.dijitRtl .tundra .dijitTabInnerDiv {
+	padding:6px 9px 5px 8px;
 }
 
-.dj_ie-rtl .tundra .dijitTab .closeImage {
-	position:static;
-	padding: 0px 12px 0px 0px;
+.dijitRtl .tundra .dijitTabPaneWrapper {
+	#zoom: 1;
 }
 
-.dj_gecko-rtl .tundra .dijitTab .closeImage {
-	position: absolute;
-	float:none;
-	padding:0;
+.dj_ie-rtl .tundra .dijitTabContainerLeft-tabs {
+	margin-left: 1px !important;
 }
 
-.dijitRtl .tundra .dijitTab .dijitClosable .closeImage {
-	right:auto;
-	left:3px;
+.dj_ie-rtl .tundra .dijitTabContainerRight-tabs {
+	margin-right: 1px !important;
 }
 
 .dijitRtl .tundra .dijitTabContainerLeft-tabs .dijitTab,
 .dijitRtl .tundra .dijitTabContainerRight-tabs .dijitTab {
 	margin-left:0px;
-}
-
-.dijitRtl .tundra .dijitTabContainerBottom-tabs .dijitTab .dijitClosable .closeImage {
-	right:auto;
-	left:3px;
-}
-
-.dijitRtl .tundra .dijitTabContainerRight-tabs .dijitTab .dijitTabInnerDiv {
-	padding-left:10px;
-	padding-right:20px;
-}
-
-.dijitRtl .tundra .dijitTabContainerLeft-tabs .dijitTab .dijitTabInnerDiv {
-	padding-left:20px;
-	padding-right:10px;
-}
-
-.dj_ie-rtl .tundra .dijitTabContainerLeft-tabs .dijitTab .dijitTabInnerDiv {
-	padding-left:19px;
-}
-
-.dijitRtl .tundra .dijitTabContainerRight-tabs .dijitTab .dijitClosable .closeImage {
-	left:auto;
-	right:3px;
-}
-
-.dj_ie7-rtl .tundra .dijitTabContainerLeft-tabs .dijitTab  .dijitTabContent{
-	position:relative;
-}
-
-.dj_ie7-rtl .tundra .dijitTabContainerLeft-tabs .dijitTab .dijitClosable .closeImage{
-	position:absolute;
-	top:2px;
-	left:3px;
-}
-
-.dj_ie6-rtl .tundra .dijitTabContainerLeft-tabs .dijitTab .dijitClosable .closeImage{
-	float:left;
-}
-
-.dj_ie6-rtl .tundra .dijitTabContainerLeft-tabs .dijitTab .dijitClosable .tabLabel{
-	float:right;
 }
 
 .dj_ie .tundra .dijitTab .dijitTabInnerDiv{

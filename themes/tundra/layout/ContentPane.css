@@ -5,7 +5,10 @@
 }
 
 /* nested layouts */
-.tundra .dijitTabContainer-dijitContentPane,
+.tundra .dijitTabContainerTop-dijitContentPane,
+.tundra .dijitTabContainerLeft-dijitContentPane,
+.tundra .dijitTabContainerBottom-dijitContentPane,
+.tundra .dijitTabContainerRight-dijitContentPane,
 .tundra .dijitAccordionContainer-dijitContentPane {
     border: none;
     background-color: #fff;
