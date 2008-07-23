@@ -38,12 +38,20 @@
 		</p>
 
 		<h2>Plain textarea (rows=5, cols=50)</h2>
-		<textarea dojoType="dijit.form.SimpleTextarea" name="ta2" rows=5 cols=50
+		<textarea id="q1" dojoType="dijit.form.SimpleTextarea" name="ta2" rows=5 cols=50
 			onFocus="console.log('user focus handler')"
 			onBlur="console.log('user blur handler')"
+		        onChange="dojo.byId('oc1').value=''+arguments[0]"
 		>
 			shichashaw, textarea text baw.				
 		</textarea>
+		onChange:<textarea id="oc1" rows="6" cols="50" disabled autocomplete="off">not fired yet!</textarea>
+		<nobr>
+		<button onclick="dijit.byId('q1').reset();return false">reset</button>
+		<button onclick="dijit.byId('q1').setValue(null);return false">setValue(null)</button>
+		<button onclick="dojo.byId('gv1').value=''+dijit.byId('q1').getValue();return false">getValue:</button>
+		<textarea id="gv1" rows="6" cols="50" disabled autocomplete="off">no getValue() yet!</textarea>
+		</nobr>
 
 		<h2>In a BorderContainer</h2>
 
