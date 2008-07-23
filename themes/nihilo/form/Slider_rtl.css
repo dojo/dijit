@@ -27,8 +27,10 @@
 
 .dijitRtl .nihilo .dijitSliderIncrementIconH {
 	background:url('../images/spriteRoundedIconsSmall.png') no-repeat left top;
+	#background:url('../images/spriteRoundedIconsSmall.gif') no-repeat left top;
 }
 
 .dijitRtl .nihilo .dijitSliderDecrementIconH {
 	background:url('../images/spriteRoundedIconsSmall.png') no-repeat -30px top;
+	#background:url('../images/spriteRoundedIconsSmall.gif') no-repeat -30px top;
 }
