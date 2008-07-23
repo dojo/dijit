@@ -47,35 +47,24 @@ dojo.mixin(dijit,
 	_XhtmlRoles: /banner|contentinfo|definition|main|navigation|search|note|secondary|seealso/,
 
 	hasWaiRole: function(/*Element*/ elem, /*String*/ role){
-		// summary: Determines if an element has a particular role.
-		// returns: true if elem has the specific role attribute and false if not.
+		// summary: Determines if an element has a particular non-XHTML role.
+		// returns: true if elem has the specific non-XHTML role attribute and false if not.
 		// 		for backwards compatibility if role parameter not provided, 
 		// 		returns true if has non XHTML role 
-		var roleValue = dojo.attr(elem,"role");
-		if (!roleValue){
-			return false;
-		}
+		var waiRole = this.getWaiRole(elem);		
 		if (role){
-			return ((" "+ roleValue.replace("wairole:", "") +" ").indexOf(" "+ role +" ") >= 0);  // Boolean
+			return (waiRole.indexOf(role) > -1);
 		}else{
-			return (dojo.trim(roleValue.replace(this._XhtmlRoles, "")).length > 0);
+			return (waiRole.length >0);
 		}
 	},
 
 	getWaiRole: function(/*Element*/ elem){
-		// summary: Gets the first role attribute for an element (deprecated).
+		// summary: Gets the non-XHTML role for an element (which should be a wai role).
 		// returns:
-		//		The first role of elem or an empty string if elem
+		//		The non-XHTML role of elem or an empty string if elem
 		//		does not have a role.
-		dojo.deprecated("getWaiRole("+elem+") is deprecated. Use hasWaiRole("+elem+",roleName) instead.", "", "2.0");
-		var value = dojo.attr(elem, "role");
-		if(value){
-			var roleArray = value.split(" ");
-			var prefixEnd = roleArray[0].indexOf(":");
-			return prefixEnd == -1 ? roleArray[0] : roleArray[0].substring(prefixEnd+1);
-		}else{
-			return "";
-		}
+		 return dojo.trim((dojo.attr(elem, "role") || "").replace(this._XhtmlRoles,"").replace("wairole:",""));
 	},
 
 	setWaiRole: function(/*Element*/ elem, /*String*/ role){
@@ -101,11 +90,11 @@ dojo.mixin(dijit,
 	},
 
 	removeWaiRole: function(/*Element*/ elem, /*String*/ role){
-		// summary: Removes the specified role from an element.
-		// 		removes role attribute if no specific role provided
+		// summary: Removes the specified non-XHTML role from an element.
+		// 		removes role attribute if no specific role provided (for backwards compat.)
 		
 		var roleValue = dojo.attr(elem, "role"); 
-		if (!roleValue || !this.hasWaiRole(elem, role)){ return; }
+		if (!roleValue){ return; }
 		if(role){
 			var searchRole = dojo.isFF < 3 ? "wairole:" + role : role;
 			var t = dojo.trim((" " + roleValue + " ").replace(" " + searchRole + " ", " "));

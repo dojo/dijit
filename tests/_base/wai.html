@@ -18,7 +18,7 @@
 
 					function getEmptyWairoleRole(){
 						var elem = dojo.byId("empty-wairole");
-						doh.assertTrue(dijit.hasWaiRole(elem));
+						doh.assertFalse(dijit.hasWaiRole(elem));
 						doh.assertEqual("", dijit.getWaiRole(elem));
 					},
 
@@ -36,22 +36,20 @@
 					
 					function getOnlyXHTMLRole(){
 						var elem=dojo.byId("navigation-role");
-						doh.assertTrue(dijit.hasWaiRole(elem, "contentinfo"));
-						doh.assertEqual("contentinfo", dijit.getWaiRole(elem));
+						doh.assertFalse(dijit.hasWaiRole(elem, "contentinfo"));
+						doh.assertEqual("", dijit.getWaiRole(elem));
 					},
 			
 					function getWaiRoleFromMultiple(){
-						// deprecated in 1.2, always returns first role
 						var elem=dojo.byId("multiple-role-wairole");
 						doh.assertTrue(dijit.hasWaiRole(elem, "menuitem"));
-						doh.assertEqual("contentinfo", dijit.getWaiRole(elem));
+						doh.assertEqual("menuitem", dijit.getWaiRole(elem));
 					},
 					
 					function getUnprefixedFromMultiple(){
-						// deprecated in 1.2, always returns first role
 						var elem=dojo.byId("multiple-role");
 						doh.assertTrue(dijit.hasWaiRole(elem, "menuitem"));
-						doh.assertEqual("contentinfo", dijit.getWaiRole(elem));
+						doh.assertEqual("menuitem", dijit.getWaiRole(elem));
 					},
 				
 					function getReverseWairoleFromMultiple(){
