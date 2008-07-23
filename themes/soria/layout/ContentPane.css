@@ -5,7 +5,10 @@
 }
 
 /* nested layouts */
-.soria .dijitTabContainer-dijitContentPane,
+.soria .dijitTabContainerTop-dijitContentPane,
+.soria .dijitTabContainerLeft-dijitContentPane,
+.soria .dijitTabContainerBottom-dijitContentPane,
+.soria .dijitTabContainerRight-dijitContentPane,
 .soria .dijitAccordionContainer-dijitContentPane {
     border: none;
     background-color: #fff;
