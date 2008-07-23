@@ -1,31 +1,40 @@
-/* TabContainer */
-
 .dijitRtl .soria .dijitTab {
 	margin-right:0;
-	margin-left:3px;		/* space between one tab and the next in top/bottom mode */
+	margin-left:2px;		/* space between one tab and the next in top/bottom mode */
 }
 
-.dijitRtl .soria .dijitTab .dijitTabInnerDiv {
-	border-left:none;
+/* tab strips */
+.dijitRtl .soria .dijitTabContainerTopStrip,
+.dijitRtl .soria .dijitTabContainerBottomStrip {
+	padding-right: 3px;
+	padding-left: 0px;
 }
 
-.dijitRtl .soria .dijitTab .dijitClosable {
-	padding: 0 10px 0 20px;
+.dijitRtl .soria .dijitTabContainerTop-tabs {
+	padding-left: auto;
+	padding-right: 3px;
 }
 
-.dijitRtl .soria .dijitTab .closeImage {
-	position:static;
+.dijitRtl .soria .dijitTabContainerBottom-tabs {
+	padding-left: auto;
+	padding-right: 3px;
 }
 
-.dj_gecko .soria .dijitTab .closeImage {
-	position:relative;
-	float:none;
-	padding:0;
+.dijitRtl .soria .dijitTabInnerDiv {
+	padding-left: 3px;
+	padding-right: 4px;
 }
 
-.dijitRtl .soria .dijitTab .dijitClosable .closeImage {
-	right:auto;
-	left:3px;
+.dijitRtl .soria .dijitTabPaneWrapper {
+	#zoom: 1;
+}
+
+.dj_ie-rtl .soria .dijitTabContainerLeft-tabs {
+	margin-left: 0px !important;
+}
+
+.dj_ie-rtl .soria .dijitTabContainerRight-tabs {
+	margin-right: 0px !important;
 }
 
 .dijitRtl .soria .dijitTabContainerLeft-tabs .dijitTab,
@@ -33,32 +42,6 @@
 	margin-left:0px;
 }
 
-.dijitRtl .soria .dijitTabContainerBottom-tabs .dijitTab { 
-	margin-right:0;
-	margin-left:3px;		/* space between one tab and the next in top/bottom mode */	
-}
-
-.dijitRtl .soria .dijitTabContainerBottom-tabs .dijitTab .dijitClosable .closeImage {
-	right:auto;
-	left:3px;
-}
-
-.dijitRtl .soria .dijitTabContainerRight-tabs .dijitTab .dijitTabInnerDiv {
-	padding-left:10px;
-	padding-right:20px;
-}
-
-.dijitRtl .soria .dijitTabContainerLeft-tabs .dijitTab .dijitTabInnerDiv {
-	padding-left:20px;
-	padding-right:10px;
-}
-
-.dijitRtl .soria .dijitTabContainerRight-tabs .dijitTab .dijitClosable .closeImage {
-	left:auto;
-	right:3px;
-}
-
-.dijitRtl .soria .dijitTabContainerLeft-tabs .dijitTab .dijitClosable .closeImage {
-	right:auto;
-	left:3px;
+.dj_ie .soria .dijitTab .dijitTabInnerDiv{
+	width : 1%;
 }
