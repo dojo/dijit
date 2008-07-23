@@ -5,7 +5,10 @@
 }
 
 /* nested layouts */
-.nihilo .dijitTabContainer-dijitContentPane,
+.nihilo .dijitTabContainerTop-dijitContentPane,
+.nihilo .dijitTabContainerLeft-dijitContentPane,
+.nihilo .dijitTabContainerRight-dijitContentPane,
+.nihilo .dijitTabContainerBottom-dijitContentPane,
 .nihilo .dijitAccordionContainer-dijitContentPane {
     border: none;
     background-color: #fff;

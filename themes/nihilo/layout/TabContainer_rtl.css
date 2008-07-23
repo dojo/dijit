@@ -1,31 +1,40 @@
-/* TabContainer */
-
 .dijitRtl .nihilo .dijitTab {
 	margin-right:0;
-	margin-left:3px;		/* space between one tab and the next in top/bottom mode */
+	margin-left:2px;		/* space between one tab and the next in top/bottom mode */
 }
 
-.dijitRtl .nihilo .dijitTab .dijitTabInnerDiv {
-	border-left:none;
+/* tab strips */
+.dijitRtl .nihilo .dijitTabContainerTopStrip,
+.dijitRtl .nihilo .dijitTabContainerBottomStrip {
+	padding-right: 3px;
+	padding-left: 0px;
 }
 
-.dijitRtl .nihilo .dijitTab .dijitClosable {
-	padding: 0 10px 0 20px;
+.dijitRtl .nihilo .dijitTabContainerTop-tabs {
+	padding-left: auto;
+	padding-right: 3px;
 }
 
-.dijitRtl .nihilo .dijitTab .closeImage {
-	position:static;
+.dijitRtl .nihilo .dijitTabContainerBottom-tabs {
+	padding-left: auto;
+	padding-right: 3px;
 }
 
-.dj_gecko .nihilo .dijitTab .closeImage {
-	position:relative;
-	float:none;
-	padding:0;
+.dijitRtl .nihilo .dijitTabInnerDiv {
+	padding-left: 3px;
+	padding-right: 4px;
 }
 
-.dijitRtl .nihilo .dijitTab .dijitClosable .closeImage {
-	right:auto;
-	left:3px;
+.dijitRtl .nihilo .dijitTabPaneWrapper {
+	#zoom: 1;
+}
+
+.dj_ie-rtl .nihilo .dijitTabContainerLeft-tabs {
+	margin-left: 0px !important;
+}
+
+.dj_ie-rtl .nihilo .dijitTabContainerRight-tabs {
+	margin-right: 0px !important;
 }
 
 .dijitRtl .nihilo .dijitTabContainerLeft-tabs .dijitTab,
@@ -33,32 +42,6 @@
 	margin-left:0px;
 }
 
-.dijitRtl .nihilo .dijitTabContainerBottom-tabs .dijitTab { 
-	margin-right:0;
-	margin-left:3px;		/* space between one tab and the next in top/bottom mode */	
-}
-
-.dijitRtl .nihilo .dijitTabContainerBottom-tabs .dijitTab .dijitClosable .closeImage {
-	right:auto;
-	left:3px;
-}
-
-.dijitRtl .nihilo .dijitTabContainerRight-tabs .dijitTab .dijitTabInnerDiv {
-	padding-left:10px;
-	padding-right:20px;
-}
-
-.dijitRtl .nihilo .dijitTabContainerLeft-tabs .dijitTab .dijitTabInnerDiv {
-	padding-left:20px;
-	padding-right:10px;
-}
-
-.dijitRtl .nihilo .dijitTabContainerRight-tabs .dijitTab .dijitClosable .closeImage {
-	left:auto;
-	right:3px;
-}
-
-.dijitRtl .nihilo .dijitTabContainerLeft-tabs .dijitTab .dijitClosable .closeImage {
-	right:auto;
-	left:3px;
+.dj_ie .nihilo .dijitTab .dijitTabInnerDiv{
+	width : 1%;
 }
