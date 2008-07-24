@@ -162,7 +162,7 @@ dojo.declare("dijit.layout._TabButton",
 	baseClass: "dijitTab",
 
 	templatePath: dojo.moduleUrl("dijit.layout","templates/_TabButton.html"),
-	spacer: dojo.moduleUrl("dijit.templates","blank.gif"),
+	spacer: dojo.moduleUrl("dojo.resources","blank.gif"),
 
 	postCreate: function(){
 		if(this.closeButton){

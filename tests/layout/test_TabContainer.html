@@ -39,7 +39,7 @@
 		dojo.require("dijit.layout.LinkPane");
 		dojo.require("dijit.form.Button");
 		dojo.require("dojo.parser");	// scan page for widgets and instantiate them
-
+	
 		function testClose(pane,tab){
 		  return confirm("Please confirm that you want tab "+tab.title+" closed");
 		}
@@ -66,10 +66,10 @@
 
 	<p>These tabs are made up of local and external content. Tab 1 and Tab 2 are loading
 	files tab1.html and tab2.html. Tab 3 and Another Tab are using content that is already
-	part of this page.   Tab2 is initially selected.
+	part of this page.   Tab2 is initially selected. Attribute tabStrip is set to true
 	</p>
 
-	<div id="mainTabContainer" dojoType="dijit.layout.TabContainer" style="width: 100%; height: 20em;">
+	<div id="mainTabContainer" dojoType="dijit.layout.TabContainer" tabStrip="true" style="width: 100%; height: 20em;">
 
 		<div id="tab1" dojoType="dijit.layout.ContentPane" href="tab1.html" title="Tab 1"></div>
 
@@ -168,9 +168,9 @@
 		</div>
 	</div>
 
-	<p>Tabs with titles on the right:</p>
+	<p>Tabs with titles on the right and tabStrip=true:</p>
 
-	<div dojoType="dijit.layout.TabContainer" style="width:500px;height:100px" tabPosition="right-h">
+	<div dojoType="dijit.layout.TabContainer" tabStrip="true" style="width:500px;height:100px" tabPosition="right-h">
 		<div id="LittleRed2" dojoType="dijit.layout.ContentPane" title="Little Red Cap">
 			Once upon a time there was a dear little girl who was loved by
 			every one who looked at her, but most of all by her grandmother,
