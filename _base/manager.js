@@ -167,13 +167,12 @@ dijit._getTabNavigable = function(/*DOMNode*/root){
 					}
 				}
 			}
-			if(isShown){ walkTree(child) }
+			if(isShown && child.nodeName.toUpperCase() != 'SELECT'){ walkTree(child) }
 		});
 	};
 	if(dijit._isElementShown(root)){ walkTree(root) }
 	return { first: first, last: last, lowest: lowest, highest: highest };
 }
-
 dijit.getFirstInTabbingOrder = function(/*String|DOMNode*/root){
 	// summary:
 	//		Finds the descendant of the specified root node

@@ -103,10 +103,10 @@ dojo.declare("dijit._DialogMixin", null,
 
 		_getFocusItems: function(/*Node*/ dialogNode){
 			// find focusable Items each time a dialog is opened
-			var focusItem = dijit.getFirstInTabbingOrder(dialogNode);
-			this._firstFocusItem = focusItem ? focusItem : dialogNode;
-			focusItem = dijit.getLastInTabbingOrder(dialogNode);
-			this._lastFocusItem = focusItem ? focusItem : this._firstFocusItem;
+			
+			var elems = dijit._getTabNavigable(dojo.byId(dialogNode));
+			this._firstFocusItem = elems.lowest || elems.first || dialogNode;
+			this._lastFocusItem = elems.last || elems.highest || this._firstFocusItem;
 			if(dojo.isMoz && this._firstFocusItem.tagName.toLowerCase() == "input" && dojo.attr(this._firstFocusItem, "type").toLowerCase() == "file"){
 					//FF doesn't behave well when first element is input type=file, set first focusable to dialog container
 					dojo.attr(dialogNode, "tabindex", "0");
