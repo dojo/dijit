@@ -710,8 +710,7 @@ dojo.declare("dijit._Widget", null, {
 		if(reference["declaredClass"] && reference["addChild"]){
 			reference.addChild(this, position);
 		}else{
-			var n = dojo.byId(reference);
-			dojo.place(this.domNode, n, position || "last");
+			dojo.place(this.domNode, reference, position);
 		}
 		return this;
 	}
