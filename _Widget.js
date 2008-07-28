@@ -561,7 +561,7 @@ dojo.declare("dijit._Widget", null, {
 		//		of myWidget.
 
 		if(this.containerNode){
-			var list= dojo.query('[widgetId]', this.containerNode);
+			var list = dojo.query('[widgetId]', this.containerNode);
 			return list.map(dijit.byNode);		// Array
 		}else{
 			return [];
@@ -579,7 +579,7 @@ dojo.declare("dijit._Widget", null, {
 		//		Connects specified obj/event to specified method of this object
 		//		and registers for disconnect() on widget destroy.
 		//	description:
-		//		provide widget-specific analog to dojo.connect, except with the
+		//		Provide widget-specific analog to dojo.connect, except with the
 		//		implicit use of this widget as the target object.
 		//		This version of connect also provides a special "ondijitclick"
 		//		event which triggers on a click or space-up, enter-down in IE
@@ -655,5 +655,65 @@ dojo.declare("dijit._Widget", null, {
 		//		Return true if this widget can currently be focused
 		//		and false if not
 		return this.focus && (dojo.style(this.domNode, "display") != "none");
+	},
+	
+	placeAt: function(/* String|DomNode|_Widget */reference, /* String?|Int? */position){
+		// summary: Place this widget's domNode reference somewhere in the DOM based
+		//		on standard dojo.place conventions, or passing a Widget reference that
+		//		contains and addChild member.
+		//
+		// description:
+		//		A convenience function provided in all _Widgets, providing a simple
+		//		shorthand mechanism to put an existing (or newly created) Widget
+		//		somewhere in the dom, and allow chaining.
+		//
+		//	reference: 
+		//		The String id of a domNode, a domNode reference, or a reference to a Widget posessing 
+		//		an addChild method.
+		//
+		//	position: 
+		//		If passed a string or domNode reference, the position argument
+		//		accepts a string just as dojo.place does, one of: "first", "last", 
+		//		"before", or "after". 
+		//
+		//		If passed a _Widget reference, and that widget reference has an ".addChild" method, 
+		//		it will be called passing this widget instance into that method, supplying the optional
+		//		position index passed.
+		//
+		// example:
+		// | 	// create a Button with no srcNodeRef, and place it in the body:
+		// | 	var button = new dijit.form.Button({ label:"click" }).placeAt(dojo.body());
+		// | 	// now, 'button' is still the widget reference to the newly created button
+		// | 	dojo.connect(button, "onClick", function(e){ console.log('click'); });
+		//
+		// example:
+		// |	// create a button out of a node with id="src" and append it to id="wrapper":
+		// | 	var button = new dijit.form.Button({},"src").placeAt("wrapper");
+		//
+		// example:
+		// |	// place a new button as the first element of some div
+		// |	var button = new dijit.form.Button({ label:"click" }).placeAt("wrapper","first");
+		//
+		// example: 
+		// |	// create a contentpane and add it to a TabContainer
+		// |	var tc = dijit.byId("myTabs");
+		// |	new dijit.layout.ContentPane({ href:"foo.html", title:"Wow!" }).placeAt(tc)
+		//
+		// example: 
+		// |	// add a new pane to a BorderContainer and set the content in one pass.	
+		// |	var bc = dijit.byId("bc1");
+		// |	new dijit.layout.ContentPane({
+		// |		region:"left",
+		// |		style:"width:100px"
+		// |	}).placeAt(bc).setContent("<p>wowzers</p>");
+		//
+		if(reference["declaredClass"] && reference["addChild"]){
+			reference.addChild(this, position);
+		}else{
+			var n = dojo.byId(reference);
+			dojo.place(this.domNode, n, position || "last");
+		}
+		return this;
 	}
+
 });
