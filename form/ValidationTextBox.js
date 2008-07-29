@@ -322,7 +322,7 @@ dojo.declare(
 			var isTooMuch = false;
 			if("min" in this.constraints){
 				var min = this.constraints.min;
-				val = this.compare(val, ((typeof min == "number") && min >= 0)? 0 : min);
+				val = this.compare(val, ((typeof min == "number") && min >= 0 && val !=0)? 0 : min);
 				isTooLittle = (typeof val == "number") && val < 0;
 			}
 			if("max" in this.constraints){
