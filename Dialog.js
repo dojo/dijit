@@ -1,5 +1,6 @@
 dojo.provide("dijit.Dialog");
 
+dojo.require("dojo.dnd.move");
 dojo.require("dojo.dnd.TimedMoveable");
 dojo.require("dojo.fx");
 
@@ -226,7 +227,9 @@ dojo.declare(
 			var node = this.domNode;
 
 			if(this.titleBar && this.draggable){
-				this._moveable = new dojo.dnd.TimedMoveable(node, { handle: this.titleBar, timeout: 0 });
+				this._moveable = (dojo.isIE == 6) ?
+					new dojo.dnd.TimedMoveable(node, { handle: this.titleBar }) :	// prevent overload, see #5285
+					new dojo.dnd.Moveable(node, { handle: this.titleBar, timeout: 0 });
 				dojo.subscribe("/dnd/move/stop",this,"_endDrag");
 			}else{
 				dojo.addClass(node,"dijitDialogFixed"); 

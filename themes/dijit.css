@@ -1237,6 +1237,7 @@ img.dijitColorPaletteUnder {
 	position: absolute;
 	z-index: 999;
 	padding: 1px;
+	overflow: hidden;	/* override overflow: auto; from ContentPane to make dragging smoother */
 }
 
 .dijitDialogFixed div.dijitDialogTitleBar {
