@@ -10,15 +10,17 @@ dojo.declare("dijit.layout._LayoutWidget",
 		//		Mixin for widgets that contain a list of children like SplitContainer.
 		//		Widgets which mixin this code must define layout() to lay out the children
 
-		// class: String
-		//	Class name to apply to this.domNode
-		"class": "dijitLayoutContainer",
+		// baseClass: String
+		//		This class name is applied to the widget's domNode
+		//		and also may be used to generate names for sub nodes,
+		//		like for example dijitTabContainer-content.
+		baseClass: "dijitLayoutContainer",
 
 		isLayoutContainer: true,
 
 		postCreate: function(){
 			dojo.addClass(this.domNode, "dijitContainer");
-			dojo.addClass(this.domNode, this["class"]);
+			dojo.addClass(this.domNode, this.baseClass);
 		},
 
 		startup: function(){
@@ -123,8 +125,8 @@ dojo.declare("dijit.layout._LayoutWidget",
 
 		_setupChild: function(/*Widget*/child){
 			// summary: common setup for initial children or children which are added after startup
-			if(child["class"]){
-				dojo.addClass(child.domNode, this["class"]+"-"+child["class"]);
+			if(child.baseClass){
+				dojo.addClass(child.domNode, this.baseClass+"-"+child.baseClass);
 			}
 		},
 		
@@ -134,8 +136,8 @@ dojo.declare("dijit.layout._LayoutWidget",
 		},
 
 		removeChild: function(/*Widget*/ child){
-			if(child["class"]){
-				dojo.removeClass(child.domNode, this["class"]+"-"+child["class"]);
+			if(child.baseClass){
+				dojo.removeClass(child.domNode, this.baseClass+"-"+child.baseClass);
 			}
 			this.inherited(arguments);
 		}

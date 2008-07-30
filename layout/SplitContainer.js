@@ -44,7 +44,7 @@ dojo.declare("dijit.layout.SplitContainer",
 
 	// class: String
 	//	Class name to apply to this.domNode
-	"class": "dijitSplitContainer",
+	baseClass: "dijitSplitContainer",
 
 	postMixInProperties: function(){
 		this.inherited("postMixInProperties",arguments);

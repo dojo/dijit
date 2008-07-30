@@ -37,7 +37,7 @@ dojo.declare("dijit.layout.LayoutContainer",
 
 	// class: String
 	//	Class name to apply to this.domNode
-	"class": "dijitLayoutContainer",
+	baseClass: "dijitLayoutContainer",
 
 	constructor: function(){
 		dojo.deprecated("dijit.layout.LayoutContainer is deprecated", "use BorderContainer instead", 2.0);

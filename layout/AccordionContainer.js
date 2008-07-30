@@ -32,7 +32,7 @@ dojo.declare(
 
 		// class: String
 		//	Class name to apply to this.domNode
-		"class": "dijitAccordionContainer",
+		baseClass: "dijitAccordionContainer",
 		
 		postCreate: function(){
 			this.domNode.style.overflow = "hidden";
@@ -177,7 +177,7 @@ dojo.declare("dijit.layout.AccordionPane",
 
 	templatePath: dojo.moduleUrl("dijit.layout", "templates/AccordionPane.html"),
 
-	"class": "dijitAccordionPane",
+	baseClass: "dijitAccordionPane",
 	
 	postCreate: function(){
 		this.inherited(arguments)

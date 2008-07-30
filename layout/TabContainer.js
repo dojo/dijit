@@ -24,7 +24,7 @@ dojo.declare("dijit.layout.TabContainer",
 
 	// class: String
 	//	Class name to apply to this.domNode
-	"class": "dijitTabContainer",
+	baseClass: "dijitTabContainer",
 	
 	// tabStrip: bool
 	//   Defines whether the tablist gets an extra class for layouting
@@ -39,13 +39,13 @@ dojo.declare("dijit.layout.TabContainer",
 
 	postMixInProperties: function(){
 		// set class name according to tab position, ex: dijiTabContainerTop
-		this["class"] += this.tabPosition.charAt(0).toUpperCase() + this.tabPosition.substr(1).replace(/-.*/, "");
+		this.baseClass += this.tabPosition.charAt(0).toUpperCase() + this.tabPosition.substr(1).replace(/-.*/, "");
 		this.inherited(arguments);
 	},
 
-	postCreate: function(){	
+	postCreate: function(){
 		this.inherited(arguments);
-											
+
 		// create the tab list that will have a tab (a.k.a. tab button) for each tab panel
 		var TabController = dojo.getObject(this._controllerWidget);
 		this.tablist = new TabController({
@@ -53,11 +53,11 @@ dojo.declare("dijit.layout.TabContainer",
 			tabPosition: this.tabPosition,
 			doLayout: this.doLayout,
 			containerId: this.id,
-			"class": this["class"] + "-tabs" + (this.doLayout ? "" : " dijitTabNoLayout")
+			"class": this.baseClass + "-tabs" + (this.doLayout ? "" : " dijitTabNoLayout")
 		}, this.tablistNode);
 		
 		// add Class for tabstrip
-		if (this.tabStrip){	dojo.addClass(this.tablist.domNode, this["class"]+"Strip"); }			
+		if (this.tabStrip){	dojo.addClass(this.tablist.domNode, this.baseClass+"Strip"); }			
 	},
 
 	_setupChild: function(/* Widget */tab){
@@ -132,7 +132,6 @@ dojo.declare("dijit.layout.TabController",
 	//	The name of the tab widget to create to correspond to each page
 	buttonWidget: "dijit.layout._TabButton",
 
-//TODO: can this be accomplished in CSS?
 	_rectifyRtlTabList: function(){
 		//summary: Rectify the width of all tabs in rtl, otherwise the tab widths are different in IE
 		if(0 >= this.tabPosition.indexOf('-h')){ return; }

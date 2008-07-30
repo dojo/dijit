@@ -69,10 +69,7 @@ dojo.declare(
 	//	Tells loading status see onLoad|onUnload for event hooks
 	isLoaded: false,
 
-	// class: String
-	//	Class name to apply to ContentPane dom nodes
-	// TODO: this should be called "baseClass" like in the other widgets
-	"class": "dijitContentPane",
+	baseClass: "dijitContentPane",
 
 	// doLayout: String/Boolean
 	//	false - don't adjust size of children
@@ -107,9 +104,7 @@ dojo.declare(
 			dijit.setWaiRole(this.domNode, "group");
 		}
 
-		// for programatically created ContentPane (with <span> tag), need to muck w/CSS
-		// or it's as though overflow:visible is set
-		dojo.addClass(this.domNode, this["class"]);
+		dojo.addClass(this.domNode, this.baseClass);
 	},
 
 	startup: function(){

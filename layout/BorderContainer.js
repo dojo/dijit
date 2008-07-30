@@ -54,7 +54,7 @@ dojo.declare(
 
 	// class: String
 	//	Class name to apply to this.domNode
-	"class": "dijitBorderContainer",
+	baseClass: "dijitBorderContainer",
 
 	// _splitterClass: String
 	// 		Optional hook to override the default Splitter widget used by BorderContainer
@@ -63,8 +63,8 @@ dojo.declare(
 	postMixInProperties: function(){
 		// change class name to indicate that BorderContainer is being used purely for
 		// layout (like LayoutContainer) rather than for pretty formatting.
-		if(!this.gutters && !(this.params && this.params["class"])){
-			this["class"] += "NoGutter";
+		if(!this.gutters){
+			this.baseClass += "NoGutter";
 		}
 		this.inherited(arguments);
 	},
@@ -94,7 +94,7 @@ dojo.declare(
 		if(region){
 			this.inherited(arguments);
 
-			dojo.addClass(child.domNode, this["class"]+"Pane");
+			dojo.addClass(child.domNode, this.baseClass+"Pane");
 
 			var ltr = this.isLeftToRight();
 			if(region == "leading"){ region = ltr ? "left" : "right"; }
@@ -156,7 +156,7 @@ dojo.declare(
 		if(this._started){
 			this._layoutChildren(child.region);
 		}
-		dojo.removeClass(child.domNode, this["class"]+"Pane");
+		dojo.removeClass(child.domNode, this.baseClass+"Pane");
 	},
 
 	getChildren: function(){
