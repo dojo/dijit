@@ -26,8 +26,6 @@ dojo.declare(
 	//  if true, change the size of my currently displayed child to match my size
 	doLayout: true,
 
-	// class: String
-	//	Class name to apply to this.domNode
 	baseClass: "dijitStackContainer",
 
 	_started: false,

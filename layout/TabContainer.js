@@ -22,8 +22,6 @@ dojo.declare("dijit.layout.TabContainer",
 	//   "top", "bottom", "left-h", "right-h"
 	tabPosition: "top",
 
-	// class: String
-	//	Class name to apply to this.domNode
 	baseClass: "dijitTabContainer",
 	
 	// tabStrip: bool

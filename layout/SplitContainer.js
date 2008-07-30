@@ -42,8 +42,6 @@ dojo.declare("dijit.layout.SplitContainer",
 	//		Save splitter positions in a cookie
 	persist: true,
 
-	// class: String
-	//	Class name to apply to this.domNode
 	baseClass: "dijitSplitContainer",
 
 	postMixInProperties: function(){

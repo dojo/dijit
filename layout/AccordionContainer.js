@@ -30,8 +30,6 @@ dojo.declare(
 
 		_verticalSpace: 0,
 
-		// class: String
-		//	Class name to apply to this.domNode
 		baseClass: "dijitAccordionContainer",
 		
 		postCreate: function(){
