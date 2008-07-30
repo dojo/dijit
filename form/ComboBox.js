@@ -369,13 +369,12 @@ dojo.declare(
 			//	and
 			//		http://trac.dojotoolkit.org/ticket/4108
 
-			with(this._popupWidget.domNode.style){
-				// natural size of the list has changed, so erase old
-				// width/height settings, which were hardcoded in a previous
-				// call to this function (via dojo.marginBox() call) 
-				width = "";
-				height = "";
-			}
+
+			// natural size of the list has changed, so erase old
+			// width/height settings, which were hardcoded in a previous
+			// call to this function (via dojo.marginBox() call)
+			dojo.style(this._popupWidget.domNode, {width: "", height: ""});
+
 			var best = this.open();
 			// #3212:
 			//		only set auto scroll bars if necessary prevents issues with
@@ -554,7 +553,7 @@ dojo.declare(
 					//		reader knows which menu option to shout
 					dataObject.direction = direction;
 					this.store.fetch(dataObject);
-				}
+				};
 				this._nextSearch = this._popupWidget.onPage = dojo.hitch(this, nextSearch, dataObject);
 			}, query, this), this.searchDelay);
 		},
@@ -646,7 +645,7 @@ dojo.declare(
 		uninitialize:function(){
 			if(this._popupWidget){
 				this._hideResultList();
-				this._popupWidget.destroy()
+				this._popupWidget.destroy();
 			}
 		},
 
@@ -669,7 +668,7 @@ dojo.declare(
 			// Add greedy when this.highlightMatch=="all"
 			var modifiers = "i"+(this.highlightMatch=="all"?"g":"");
 			var escapedLabel = this._escapeHtml(label);
-			ret = escapedLabel.replace(new RegExp("^("+ find +")", modifiers),
+			var ret = escapedLabel.replace(new RegExp("^("+ find +")", modifiers),
 					'<span class="dijitComboBoxHighlightMatch">$1</span>');
 			if (escapedLabel==ret){ // Nothing replaced, try to replace at word boundaries.
 				ret = escapedLabel.replace(new RegExp(" ("+ find +")", modifiers),
