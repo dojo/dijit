@@ -1,0 +1,103 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+		"http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+	<title>Widget.attr() unit test</title>
+	<style type="text/css">
+		@import "../../dojo/resources/dojo.css";
+		@import "css/dijitTests.css";
+	</style>
+	<script type="text/javascript" src="../../dojo/dojo.js"
+		djConfig="isDebug: true, parseOnLoad: true"></script>
+	<script type="text/javascript" src="_testCommon.js"></script>
+
+	<script type="text/javascript">
+		dojo.require("doh.runner");
+		dojo.require("dijit.dijit");
+
+		dojo.declare("baz", 
+			[ dijit._Widget, dijit._Templated ], 
+			{
+				constructor: function(){
+					this.fooNode = [];
+				},
+				injectAttributes: true,
+				templateString: "<div><div dojoAttachPoint='nameNode'></div><div dojoAttachPoint='fooNode'></div><div dojoAttachPoint='fooNode'></div><span>${attr1}</span></div>",
+
+				name: "howdy!",
+				nameNode: null,
+
+				foo: "bar baz",
+				fooNode: [],
+
+				attr1: 0,
+				setAttr1: function(value){
+					this.domNode.lastChild.innerHTML = value;
+					this.attr1 = value;
+				},
+
+				attr2: 0,
+				getAttr2: function(){
+				}
+			}
+		);
+		dojo.declare("textbox", 
+			[ dijit._Widget, dijit._Templated ], 
+			{
+				attributeMap: {id:"", dir:"", lang:"", "class":"", style:"", title:"", disabled: "", readonly: ""},
+				templateString: "<input>"
+			}
+		);
+
+		dojo.declare("thud", baz, {
+			get: function(name){
+				// default getter
+			},
+			set: function(name, value){
+				// default setter
+			}
+		});
+
+		dojo.addOnLoad(function(){
+			doh.register("dijit.attr",
+				[
+					function attr(){
+
+						var b = new baz();
+						dojo.body().appendChild(b.domNode);
+						doh.is("howdy!", b.attr("name"));
+						doh.is("howdy!", b.nameNode.innerHTML);
+						b.attr("name", "thinger");
+						doh.is(b.attr("name"), "thinger");
+						doh.is(b.nameNode.innerHTML, "thinger");
+
+						var b2 = new baz({
+							foo: "blah",
+							name: "whatever"
+						});
+						doh.is("whatever", b2.attr("name"));
+						doh.is("whatever", b2.nameNode.innerHTML);
+
+						// make sure the setter works when nodes are attached as a arrays
+						dojo.forEach(b2.fooNode, function(node){
+							doh.is("blah", node.innerHTML);
+						});
+						
+						// DOM node attributes
+						var t = new textbox();
+						doh.assertFalse(t.attr("disabled"));
+						t.attr("disabled", true);
+						doh.assertTrue(dojo.attr(t.domNode, "disabled"));
+						doh.assertTrue(t.attr("disabled"));
+					}
+				]
+			);
+			doh.run();
+		});
+
+	</script>
+</head>
+<body>
+	<h1>Dijit Widget.attr() and _Templated.injectAttributes Unit Test</h1>
+</body>
+</html>

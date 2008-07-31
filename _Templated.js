@@ -104,6 +104,13 @@ dojo.declare("dijit._Templated",
 			}
 		},
 
+		// injectAttributes: Boolean
+		//		Allows you to specify a template like this:
+		//	|	<div dojoAttachPoint="fooNode"></div>
+		//		Which automatically populates that node with the contents of the property with the name "foo".
+		//		It also avoids the regex/replace cost of using ${foo} inside a template.
+		injectAttributes: false,
+
 		_attachTemplateNodes: function(rootNode, getAttrFunc){
 			// summary: Iterate through the template and attach functions and nodes accordingly.	
 			// description:		
@@ -123,15 +130,19 @@ dojo.declare("dijit._Templated",
 			getAttrFunc = getAttrFunc || function(n,p){ return n.getAttribute(p); };
 
 			var nodes = dojo.isArray(rootNode) ? rootNode : (rootNode.all || rootNode.getElementsByTagName("*"));
-			var x=dojo.isArray(rootNode)?0:-1;
+			var x = dojo.isArray(rootNode) ? 0 : -1;
+			var attrs = {};
 			for(; x<nodes.length; x++){
 				var baseNode = (x == -1) ? rootNode : nodes[x];
-				if(this.widgetsInTemplate && getAttrFunc(baseNode,'dojoType')){
+				if(this.widgetsInTemplate && getAttrFunc(baseNode, "dojoType")){
 					continue;
 				}
 				// Process dojoAttachPoint
 				var attachPoint = getAttrFunc(baseNode, "dojoAttachPoint");
 				if(attachPoint){
+					if(this.injectAttributes){
+						attrs[attachPoint] = true;
+					}
 					var point, points = attachPoint.split(/\s*,\s*/);
 					while((point = points.shift())){
 						if(dojo.isArray(this[point])){
@@ -182,7 +193,14 @@ dojo.declare("dijit._Templated",
 						}
 					});
 				}
-
+			}
+			if(this.injectAttributes){
+				for(var x in attrs){
+					if(attrs[x] === true){
+						var valueName = (x.indexOf("Node") == x.length-4) ? x.substr(0, x.length-4) : x;
+						this.attr(valueName, this[valueName]);
+					}
+				}
 			}
 		}
 	}

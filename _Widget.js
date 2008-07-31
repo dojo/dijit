@@ -517,19 +517,105 @@ dojo.declare("dijit._Widget", null, {
 		}
 	},
 
-	/*
-	attr: function(){
-		// FIXME:
-		//	this method should also:
-		//		- check for a this["set"+attr] function, and if encountered, pass value to it
-		//		- if not, check for this[attr+"Node"] and innerHTML the value in if there is one
-		//		- be wrapped in a _Widget.attr() method which can set multiple attributes at once
+	attr: function(/*String|Object*/name, /*Object?*/value){
+		//	summary:
+		//		Set or get properties on a widget instance. Unlike setAttribute(),
+		//		attr() operates on the widget object itself instead of on DOM
+		//		nodes which the widget may manage.
+		//	name:
+		//		The property to get or set. If an object is passed here and not
+		//		a string, its keys are used as names of attributes to be set
+		//		and the value of the object as values to set in the widget.
+		//	value:
+		//		Optional. If provided, attr() operates as a setter. If omitted,
+		//		the current value of the named property is returned.
+		//	description:
+		//		Get or set named properties on a widget. If no value is
+		//		provided, the current value of the attribute is returned,
+		//		potentially via a getter method. If a value is provided, then
+		//		the method acts as a setter, assigning the value to the name,
+		//		potentially calling any explicitly provided setters to handle
+		//		the operation. For instance, if the widget has properties "foo"
+		//		and "bar" and a method named "setFoo", calling:
+		//	|	myWidget.attr("foo", "Howdy!");
+		//		would be equivalent to calling:
+		//	|	widget.setFoo("Howdy!");
+		//		while calling:
+		//	|	myWidget.attr("bar", "Howdy!");
+		//		would be the same as writing:
+		//	|	widget.bar = "Howdy!";
+		//		if the widget also contained a "barNode" property, the default
+		//		setter behavior also attempts to change the content of that
+		//		node if the passed value is a string. Therefore, these are
+		//		equivalent:
+		//	|	widget.attr("bar", "Howdy!");
+		//		and:
+		//	|	widget.bar = "Howdy!";
+		//	|	widget.barNode.innerHTML = "Howdy!";
+		//		It works for dom node attributes too.  Calling
+		//	|	widget.attr("disabled", true)
+		//		is equivalent to calling
+		//	|	widget.setAttribute("disabled", true)
+
 		//	open questions:
-		//		- how to handle build shortcut for attributes which want to map into DOM attributes?
-		//		- can/should we try to watch for DOM changes for bi-directionality?
-		//		- what relationship should setAttribute()/attr() have to layout() calls?
+		//		- how to handle build shortcut for attributes which want to map
+		//		into DOM attributes?
+		//		- what relationship should setAttribute()/attr() have to
+		//		layout() calls?
+		var args = arguments.length;
+		if(args == 2 && !dojo.isString(name)){
+			for(var x in name){ dijit.attr(widget, x, name[x]); }
+			return;
+		}
+		names = this._getAttrNames(name);
+		if(args == 2){ // setter
+			if(this[names.s]){
+				// use the explicit setter
+				this[names.s](value);
+			}else if(this.set){
+				// default setter
+				this.set(name, value);
+			}else if(name in this.attributeMap){
+				this.setAttribute(name, value);
+			}else{
+				// else try to innerHTML on node values
+
+				// assign directly first
+				// FIXME: what about function assignments? Any way to connect() here?
+				this[name] = value;
+				var node = this[names.n];
+				if(node && dojo.isString(value)){
+					if(dojo.isArray(node)){
+						dojo.forEach(node, function(i){ i.innerHTML = value; });
+					}else{
+						node.innerHTML = value;
+					}
+				}
+			}
+			// FIXME: what to return?
+		}else{ // getter
+			if(this[names.g]){
+				return this[names.g]();
+			}else if(this.get){
+				return this.get(name);
+			}
+			return this[name];
+		}
 	},
-	*/
+
+	_attrPairNames: {},		// shared between all widgets
+	_getAttrNames: function(name){
+		// summary: helper function for Widget.attr()
+		// cache attribute name values so we don't do the string ops every time
+		var apn = this._attrPairNames;
+		if(apn[name]){ return apn[name]; }
+		var uc = name.charAt(0).toUpperCase() + name.substr(1);
+		return apn[name] = {
+			n: name+"Node",
+			s: "set"+uc,
+			g: "get"+uc
+		};
+	},
 
 	toString: function(){
 		// summary:
