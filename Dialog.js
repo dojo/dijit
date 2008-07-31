@@ -154,6 +154,12 @@ dojo.declare(
 		//		False will disable refocusing. Default: true
 		refocus: true,
 		
+		// autofocus: Boolean
+		// 		A Toggle to modify the default focus behavior of a Dialog, which
+		// 		is to focus on the first dialog element after opening the dialog.
+		//		False will disable autofocusing. Default: true
+		autofocus: true,
+
 		// _firstFocusItem: DomNode
 		//		The pointer to the first focusable node in the dialog
 		_firstFocusItem:null,
@@ -371,12 +377,14 @@ dojo.declare(
 
 			this._savedFocus = dijit.getFocus(this);
 
-			// find focusable Items each time dialog is shown since if dialog contains a widget the 
-			// first focusable items can change
-			this._getFocusItems(this.domNode);
-
-			// set timeout to allow the browser to render dialog
-			setTimeout(dojo.hitch(dijit,"focus",this._firstFocusItem), 50);
+			if(this.autofocus){
+				// find focusable Items each time dialog is shown since if dialog contains a widget the 
+				// first focusable items can change
+				this._getFocusItems(this.domNode);
+	
+				// set timeout to allow the browser to render dialog
+				setTimeout(dojo.hitch(dijit,"focus",this._firstFocusItem), 50);
+			}
 		},
 
 		hide: function(){
@@ -442,6 +450,12 @@ dojo.declare(
 		//		TooltipDialog in order to control the size of an inner widget. 
 		doLayout: false,
 
+		// autofocus: Boolean
+		// 		A Toggle to modify the default focus behavior of a Dialog, which
+		// 		is to focus on the first dialog element after opening the dialog.
+		//		False will disable autofocusing. Default: true
+		autofocus: true,
+
 		"class": "dijitTooltipDialog",
 
 		// _firstFocusItem: DomNode
@@ -469,10 +483,13 @@ dojo.declare(
 		onOpen: function(/*Object*/ pos){
 			// summary: called when dialog is displayed
 		
-			this._getFocusItems(this.containerNode);
 			this.orient(this.domNode,pos.aroundCorner, pos.corner);
 			this._loadCheck(); // lazy load trigger
-			dijit.focus(this._firstFocusItem);
+			
+			if(this.autofocus){
+				this._getFocusItems(this.containerNode);
+				dijit.focus(this._firstFocusItem);
+			}
 		},
 		
 		_onKey: function(/*Event*/ evt){
