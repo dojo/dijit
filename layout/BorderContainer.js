@@ -52,8 +52,6 @@ dojo.declare(
 	//		Save splitter positions in a cookie.
 	persist: false,	// Boolean
 
-	// class: String
-	//	Class name to apply to this.domNode
 	baseClass: "dijitBorderContainer",
 
 	// _splitterClass: String
