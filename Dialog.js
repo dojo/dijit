@@ -280,6 +280,22 @@ dojo.declare(
 			}
 		},
 
+		_size: function(){
+			// summary:
+			// 		Make sure the dialog is small enough to fit in viewport.
+
+			var mb = dojo.marginBox(this.domNode);
+			var viewport = dijit.getViewport();
+			if(mb.w >= viewport.w || mb.h >= viewport.h){
+				dojo.style(this.containerNode, {
+					width: Math.min(mb.w, Math.floor(viewport.w * 0.75))+"px",
+					height: Math.min(mb.h, Math.floor(viewport.h * 0.75))+"px",
+					overflow: "auto",
+					position: "relative"	// workaround IE bug moving scrollbar or dragging dialog
+				});
+			}
+		},
+
 		_position: function(){
 			// summary: Position modal dialog in the viewport. If no relative offset
 			//		in the viewport has been determined (by dragging, for instance),
@@ -371,6 +387,7 @@ dojo.declare(
 			this.open = true;
 			this._loadCheck(); // lazy load trigger
 
+			this._size();
 			this._position();
 
 			this._fadeIn.play();
