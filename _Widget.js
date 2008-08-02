@@ -268,7 +268,7 @@ dojo.declare("dijit._Widget", null, {
 		for(var attr in this.attributeMap){
 			delete this._deferredConnects[attr]; // can't be in both attributeMap and _deferredConnects
 		}
-		for(var attr in this._deferredConnects){
+		for(attr in this._deferredConnects){
 			if(this[attr] !== dijit._connectOnUseEventHandler){
 				delete this._deferredConnects[attr];	// redefined, probably dojoAttachEvent exists
 			}
@@ -294,7 +294,7 @@ dojo.declare("dijit._Widget", null, {
 
 		if(this.domNode){
 			// Copy attributes listed in attributeMap into the [newly created] DOM for the widget.
-			for(var attr in this.attributeMap){
+			for(attr in this.attributeMap){
 				var value = this[attr];
 				if((typeof value != "undefined") && (typeof value != "object") && ((value !== "" && value !== false) || (params && params[attr]))){
 					this.setAttribute(attr, value);
@@ -304,7 +304,7 @@ dojo.declare("dijit._Widget", null, {
 			// If the developer has specified a handler as a widget parameter
 			// (ex: new Button({onClick: ...})
 			// then naturally need to connect from dom node to that handler immediately, 
-			for(var attr in this.params){
+			for(attr in this.params){
 				this._onConnect(attr);
 			}
 		}
@@ -563,9 +563,9 @@ dojo.declare("dijit._Widget", null, {
 		//		- what relationship should setAttribute()/attr() have to
 		//		layout() calls?
 		var args = arguments.length;
-		if(args == 2 && !dojo.isString(name)){
-			for(var x in name){ dijit.attr(widget, x, name[x]); }
-			return;
+		if(args == 1 && !dojo.isString(name)){
+			for(var x in name){ this.attr(x, name[x]); }
+			return this;
 		}
 		names = this._getAttrNames(name);
 		if(args == 2){ // setter
@@ -592,7 +592,7 @@ dojo.declare("dijit._Widget", null, {
 					}
 				}
 			}
-			// FIXME: what to return?
+			return this;
 		}else{ // getter
 			if(this[names.g]){
 				return this[names.g]();
