@@ -13,7 +13,6 @@
 	/* Use this style to null out padding, margin, border in your template elements
 		so that page specific styles don't break them.
 		- Use in all TABLE, TR and TD tags.	
-		- If there is more than one class on the tag, place this first so other classes override.
 	*/
 	margin:0;
 	border:0;
