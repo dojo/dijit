@@ -132,6 +132,19 @@
 		<input type="submit" />
 	</form>
 
+	<div style='border:1px solid gray;'>
+	These 4 radio buttons have the name but are in 2 separate forms so they can be selected independently.
+	<form>
+		1:
+		<input dojoType="dijit.form.RadioButton" type=radio name='a1' id='b1' value="1"/>b1
+		<input dojoType="dijit.form.RadioButton" type=radio name='a1' id='b2' value="2"/>b2
+	</form>
+	<form>
+		2:
+		<input dojoType="dijit.form.RadioButton" type=radio name='a1' id='c1' value="1"/>c1
+		<input dojoType="dijit.form.RadioButton" type=radio name='a1' id='c2' value="2"/>c2
+	</form>
+	</div>
 	<!-- <p>Submitted data:</p>
 	<div id="result"></div>
 	 -->
