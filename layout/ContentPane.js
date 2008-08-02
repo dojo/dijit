@@ -358,6 +358,9 @@ dojo.declare(
 					if(match){ cont = match[1]; }
 				}
 				node.innerHTML = cont;
+			}else if(cont.domNode){
+				// single widget child
+				node.appendChild(cont.domNode);
 			}else{
 				// domNode or NodeList
 				if(cont.nodeType){ // domNode (htmlNode 1 or textNode 3)
