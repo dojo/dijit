@@ -180,6 +180,7 @@ dojo.declare(
 			// this.connect won't destroy this handler cleanly since its on the iframe's window object
 			// resize is a method of window, not document
 			w.addEventListener("resize", dojo.hitch(this, this._changed), false); // resize is only on the window object
+			dijit.registerWin(w);
 		}else{
 			this.focusNode = this.domNode;
 		}
