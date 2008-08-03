@@ -96,15 +96,27 @@ dojo.declare(
 		type: "radio",
 		baseClass: "dijitRadio",
 
+		startup: function(){ // avoid dojo.query calls until after initialization
+			this._inited = true;
+		},
+
 		setAttribute: function(/*String*/ attr, /*anything*/ value){
 			// If I am being checked then have to deselect currently checked radio button
 			this.inherited(arguments);
+			if(!this._inited){ return; }
 			switch(attr){
 				case "checked":
 					if(this.checked){
-						dojo.query('[widgetId]:not([widgetId='+this.id+']) INPUT:checked[type=radio][name='+this.name+']', this.focusNode.form||dojo.doc).forEach(
+						var _this = this;
+						// search for radio buttons with the same name that need to be unchecked
+						dojo.query('INPUT[type=radio][name='+this.name+']', this.focusNode.form||dojo.doc).forEach(
 							function(inputNode){
-								dijit.getEnclosingWidget(inputNode).setAttribute('checked', false);
+								if(inputNode != _this.focusNode && inputNode.form == _this.focusNode.form){
+									var widget = dijit.getEnclosingWidget(inputNode);
+									if(widget && widget.checked){
+										widget.setAttribute('checked', false);
+									}
+								}
 							}
 						);
 					}
