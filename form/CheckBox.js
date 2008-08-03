@@ -96,14 +96,15 @@ dojo.declare(
 		type: "radio",
 		baseClass: "dijitRadio",
 
-		startup: function(){ // avoid dojo.query calls until after initialization
-			this._inited = true;
+		postCreate: function(){ // avoid dojo.query calls until after initialization
+			this.inherited(arguments);
+			this._created = true;
 		},
 
 		setAttribute: function(/*String*/ attr, /*anything*/ value){
 			// If I am being checked then have to deselect currently checked radio button
 			this.inherited(arguments);
-			if(!this._inited){ return; }
+			if(!this._created){ return; }
 			switch(attr){
 				case "checked":
 					if(this.checked){
