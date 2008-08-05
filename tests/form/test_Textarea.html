@@ -58,7 +58,7 @@
 		<br>
 		<script>
 			function setAttr(attr, value){
-				dijit.registry.byClass('dijit.form.Textarea').forEach(function(widget){ widget.setAttribute(attr, value);});
+				dijit.registry.byClass('dijit.form.Textarea').forEach(function(widget){ widget.attr(attr, value);});
 			}
 		</script>
 		<input type="button" onclick="setAttr('readOnly', false);" value="Remove readOnly">

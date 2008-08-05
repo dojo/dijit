@@ -36,10 +36,10 @@
 		function selected(page){
 			console.debug("page selected " + page.id);
 			var widget=dijit.byId("myStackContainer");
-			dijit.byId("previous").setAttribute("disabled", page.isFirstChild);
-			dijit.byId("next").setAttribute("disabled", page.isLastChild);
-			dijit.byId("previous2").setAttribute("disabled", page.isFirstChild);
-			dijit.byId("next2").setAttribute("disabled", page.isLastChild);
+			dijit.byId("previous").attr("disabled", page.isFirstChild);
+			dijit.byId("next").attr("disabled", page.isLastChild);
+			dijit.byId("previous2").attr("disabled", page.isFirstChild);
+			dijit.byId("next2").attr("disabled", page.isLastChild);
 		}
 		dojo.subscribe("myStackContainer-selectChild", selected);
 	</script>

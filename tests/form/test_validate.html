@@ -126,8 +126,8 @@
 					constraints="{places:0,min:1,max:100}"
 					dojo.regExpGen="dojo.regexp.integer"
 					required="true">
-					<button onclick="dijit.byId('fav').setAttribute('required', true);return false">setAttribute(required, true)</button>
-					<button onclick="dijit.byId('fav').setAttribute('required', false);return false">setAttribute(required, false)</button>
+					<button onclick="dijit.byId('fav').attr('required', true);return false">attr(required, true)</button>
+					<button onclick="dijit.byId('fav').attr('required', false);return false">attr(required, false)</button>
 			</div>
 
 			<div class="dojoTitlePaneLabel">
@@ -248,8 +248,8 @@
 					required="true"
 					currency="EUR"
 					invalidMessage="Invalid amount.  Include dollar sign, commas, and cents." />EUR
-				<button onclick="dijit.byId('q08eur').setAttribute('disabled',true);return false">Disable</button>
-				<button onclick="dijit.byId('q08eur').setAttribute('disabled',false);return false">Enable</button>
+				<button onclick="dijit.byId('q08eur').attr('disabled',true);return false">Disable</button>
+				<button onclick="dijit.byId('q08eur').attr('disabled',false);return false">Enable</button>
 				<button onclick="dijit.byId('q08eur').reset();return false">Reset</button>
 			</div>
 		
@@ -422,8 +422,8 @@
 			<div class="testExample">
 				<input id="q24" type="text" name="readOnly" class="medium" readOnly value="cannot type here"
 					dojoType="dijit.form.TextBox">
-				<input type="button" onclick="dijit.byId('q24').setAttribute('readOnly',false);" value="Remove readOnly">
-				<input type="button" onclick="dijit.byId('q24').setAttribute('readOnly',true);" value="Set readOnly">
+				<input type="button" onclick="dijit.byId('q24').attr('readOnly',false);" value="Remove readOnly">
+				<input type="button" onclick="dijit.byId('q24').attr('readOnly',true);" value="Set readOnly">
 			</div>
 
 			<script>
