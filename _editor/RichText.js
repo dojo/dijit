@@ -752,7 +752,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 		}
 	},
 	setDisabled: function(/*Boolean*/ disabled){
-		dojo.deprecated('dijit.Editor::setDisabled is deprecated','use dijit.Editor::setAttribute("disabled",boolean) instead', 2);
+		dojo.deprecated('dijit.Editor::setDisabled is deprecated','use dijit.Editor::attr("disabled",boolean) instead', 2);
 		this.setAttribute('disabled',disabled);
 	},
 
@@ -1317,7 +1317,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 
 	setValue: function(/*String*/html){
 		// summary:
-		//		this function set the content. No undo history is preserved
+		//		This function sets the content. No undo history is preserved.
 		if(this.textarea && (this.isClosed || !this.isLoaded)){
 			this.textarea.value=html;
 		}else{

@@ -67,7 +67,6 @@ dojo.declare("dijit.form._FormMixin", null,
 				entry.push(widget);
 			});
 
-			// call setValue() or setAttribute('checked') for each widget, according to obj
 			for(var name in map){
 				if(!map.hasOwnProperty(name)){
 					continue;

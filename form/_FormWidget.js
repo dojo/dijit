@@ -87,7 +87,7 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 	setDisabled: function(/*Boolean*/ disabled){
 		// summary:
 		//		Set disabled state of widget (Deprecated).
-		dojo.deprecated("setDisabled("+disabled+") is deprecated. Use setAttribute('disabled',"+disabled+") instead.", "", "2.0");
+		dojo.deprecated("setDisabled("+disabled+") is deprecated. Use attr('disabled',"+disabled+") instead.", "", "2.0");
 		this.setAttribute('disabled', disabled);
 	},
 
@@ -275,7 +275,7 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 	},
 
 	setValue: function(/*String*/ value){
-		dojo.deprecated("dijit.form._FormWidget:setValue("+value+") is deprecated.  Use setAttribute('value',"+value+") instead.", "", "2.0");
+		dojo.deprecated("dijit.form._FormWidget:setValue("+value+") is deprecated.  Use attr('value',"+value+") instead.", "", "2.0");
 		this.setAttribute('value', value);
 	},
 
