@@ -413,7 +413,7 @@ dojo.declare("dijit.form.ToggleButton", dijit.form.Button, {
 	setChecked: function(/*Boolean*/ checked){
 		// summary:
 		//	Programatically deselect the button
-		dojo.deprecated("setChecked("+checked+") is deprecated. Use setAttribute('checked',"+checked+") instead.", "", "2.0");
+		dojo.deprecated("setChecked("+checked+") is deprecated. Use attr('checked',"+checked+") instead.", "", "2.0");
 		this.setAttribute('checked', checked);
 	},
 	
