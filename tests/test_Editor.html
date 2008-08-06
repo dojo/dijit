@@ -47,7 +47,7 @@
 		><script type='dojo/method' event='onBlur'>
 			if(!document.getElementById('onBlurFired').checked){
 				document.getElementById('onBlurFired').checked=true;
-				dijit.byId('automated').setDisabled(true);
+				dijit.byId('automated').attr('disabled', true);
 				setTimeout(function(){ try {
 					dijit.byId('automated').document.execCommand('bold', false, false);
 					document.getElementById('disabledOK').checked = (dijit.byId('automated').document.queryCommandState('bold') == false);

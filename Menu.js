@@ -363,7 +363,7 @@ dojo.declare("dijit.MenuItem",
 
 	postCreate: function(){
 		dojo.setSelectable(this.domNode, false);
-		this.setDisabled(this.disabled);
+		this.attr('disabled', this.disabled);
 		if(this.label){
 			this.setLabel(this.label);
 		}
@@ -410,8 +410,14 @@ dojo.declare("dijit.MenuItem",
 		this.containerNode.innerHTML=this.label=value;
 	},
 
-	setDisabled: function(/*Boolean*/ value){
-		// summary: enable or disable this menu item
+	setDisabled: function(/*Boolean*/ disabled){
+		dojo.deprecated("dijit.Menu.setDisabled() is deprecated.  Use attr('disabled', bool) instead.", "", "2.0");
+		this.attr('disabled', disabled);
+	},
+	_attrSetDisabled: function(/*Boolean*/ value){
+		// summary:
+		//		Hook for attr('disabled', ...) to work.
+		//		Enable or disable this menu item.
 		this.disabled = value;
 		dojo[value ? "addClass" : "removeClass"](this.domNode, 'dijitMenuItemDisabled');
 		dijit.setWaiState(this.focusNode, 'disabled', value ? 'true' : 'false');

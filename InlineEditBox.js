@@ -105,7 +105,7 @@ dojo.declare("dijit.InlineEditBox",
 	},
 
 	setDisabled: function(/*Boolean*/ disabled){
-		dojo.deprecated("dijit.layout.InlineEditBox.setDisabled() is deprecated.  Use attr('disabled', bool) instead.", "", "2.0");
+		dojo.deprecated("dijit.InlineEditBox.setDisabled() is deprecated.  Use attr('disabled', bool) instead.", "", "2.0");
 		this.attr('disabled', disabled);
 	},
 	_attrSetDisabled: function(/*Boolean*/ disabled){
