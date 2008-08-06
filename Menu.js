@@ -339,7 +339,7 @@ dojo.declare("dijit.MenuItem",
 		 '<tr class="dijitReset dijitMenuItem" dojoAttachPoint="focusNode" waiRole="menuitem" tabIndex="-1"'
 		+'dojoAttachEvent="onmouseenter:_onHover,onmouseleave:_onUnhover,ondijitclick:_onClick">'
 		+'<td class="dijitReset" waiRole="presentation"><div class="dijitMenuItemIcon ${iconClass}" dojoAttachPoint="iconNode"></div></td>'
-		+'<td class="dijitReset dijitMenuItemLabel" dojoAttachPoint="containerNode"></td>'
+		+'<td class="dijitReset dijitMenuItemLabel" dojoAttachPoint="containerNode,labelNode"></td>'
 		+'<td class="dijitReset dijitMenuArrowCell" waiRole="presentation">'
 			+'<div dojoAttachPoint="arrowWrapper" style="display: none">'
 				+'<div class="dijitMenuExpand"></div>'
@@ -361,14 +361,13 @@ dojo.declare("dijit.MenuItem",
 	//  if false, the menu item is enabled
 	disabled: false,
 
+	injectAttributes: true,
+
 	postCreate: function(){
 		dojo.setSelectable(this.domNode, false);
 		this.attr('disabled', this.disabled);
-		if(this.label){
-			this.setLabel(this.label);
-		}
-		dojo.attr(this.containerNode, "id", (dojo.attr(this.domNode, "id")+"_text"));
-		dijit.setWaiState(this.domNode, "labelledby", dojo.attr(this.containerNode, "id"));
+		dojo.attr(this.containerNode, "id", this.id+"_text");
+		dijit.setWaiState(this.domNode, "labelledby", this.id+"_text");
 	},
 
 	_onHover: function(){
@@ -405,9 +404,10 @@ dojo.declare("dijit.MenuItem",
 	_blur: function(){
 		dojo.removeClass(this.domNode, 'dijitMenuItemHover');
 	},
-	
-	setLabel: function(/*String*/ value){
-		this.containerNode.innerHTML=this.label=value;
+
+	setLabel: function(/*String*/ content){
+		dojo.deprecated("dijit.MenuItem.setLabel() is deprecated.  Use attr('label', ...) instead.", "", "2.0");
+		this.attr("label", content);
 	},
 
 	setDisabled: function(/*Boolean*/ disabled){

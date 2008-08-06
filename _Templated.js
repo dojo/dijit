@@ -141,11 +141,11 @@ dojo.declare("dijit._Templated",
 				// Process dojoAttachPoint
 				var attachPoint = getAttrFunc(baseNode, "dojoAttachPoint");
 				if(attachPoint){
-					if(this.injectAttributes){
-						attrs[attachPoint] = true;
-					}
 					var point, points = attachPoint.split(/\s*,\s*/);
 					while((point = points.shift())){
+						if(this.injectAttributes){
+							attrs[point] = true;
+						}
 						if(dojo.isArray(this[point])){
 							this[point].push(baseNode);
 						}else{

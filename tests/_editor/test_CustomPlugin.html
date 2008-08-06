@@ -75,7 +75,7 @@
 					}
 
 					this.editor.attr('disabled', this.source); // conditionally disable toolbar -- FIXME. Doesn't work.
-					this.button.setLabel(this.source ? "View WYSIWYG" : this.editor.commands[this.command]); // note: should be localized
+					this.button.attr('label', this.source ? "View WYSIWYG" : this.editor.commands[this.command]); // note: should be localized
 				}
 			}
 		);
