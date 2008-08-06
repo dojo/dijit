@@ -63,15 +63,15 @@ dojo.declare(
 		},
 
 		reset: function(){
-			this.inherited(arguments);
-			this.setAttribute('value', this._resetValueAttr);
+			this._hasBeenBlurred = false;
+
+			// set checked state to original setting
+			this.setAttribute('checked', this._resetValue);
+			
+			// resets <input type=checkbox> node's "value" attribute, in the unlikely event that it has been changed
+			this.setAttribute('value', this.params.value || "on");
 		},
 
-		postCreate: function(){
-			this.inherited(arguments);
-			this._resetValueAttr = this.value;
-		},
-		
 		_onFocus: function(){
 			if(this.id){
 				dojo.query("label[for='"+this.id+"']").addClass("dijitFocusedLabel");

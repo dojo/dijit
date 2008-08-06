@@ -8,7 +8,7 @@ dojo.declare(
 	{
 		//	summary:
 		//		A base class for textbox form inputs
-		//
+
 		//	trim: Boolean
 		//		Removes leading and trailing whitespace if true.  Default is false.
 		trim: false,

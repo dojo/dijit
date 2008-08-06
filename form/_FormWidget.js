@@ -235,13 +235,14 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 		// summary: callback when value is changed
 	},
 
-	_onChangeMonitor: 'value',
 	_onChangeActive: false,
 
 	_handleOnChange: function(/*anything*/ newValue, /*Boolean, optional*/ priorityChange){
 		// summary: set the value of the widget.
 		this._lastValue = newValue;
 		if(this._lastValueReported == undefined && (priorityChange === null || !this._onChangeActive)){
+			// this block executes not for a change, but during initialization,
+			// and is used to store away the original value (or for ToggleButton, the original checked state)
 			this._resetValue = this._lastValueReported = newValue;
 		}
 		if((this.intermediateChanges || priorityChange || priorityChange === undefined) && 
@@ -249,15 +250,6 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 				this.compare(newValue, this._lastValueReported) != 0)){
 			this._lastValueReported = newValue;
 			if(this._onChangeActive){ this.onChange(newValue); }
-		}
-	},
-
-	reset: function(){
-		this._hasBeenBlurred = false;
-		if(this.setValue && !this._getValueDeprecated){
-			this.setValue(this._resetValue, true);
-		}else if(this._onChangeMonitor){
-			this.setAttribute(this._onChangeMonitor, (this._resetValue !== undefined && this._resetValue !== null)? this._resetValue : '');
 		}
 	},
 
@@ -309,6 +301,10 @@ dojo.declare("dijit.form._FormValueWidget", dijit.form._FormWidget,
 		works as expected.
 	*/
 
+	// TODO: unclear what that {value: ""} is for; FormWidget.attributeMap copies value to focusNode,
+	// so maybe {value: ""} is so the value *doesn't* get copied to focusNode?
+	// Seems like we really want value removed from attributeMap altogether
+	// (although there's no easy way to do that now)
 	attributeMap: dojo.mixin(dojo.clone(dijit.form._FormWidget.prototype.attributeMap),
 		{value:""}),
 
@@ -334,6 +330,11 @@ dojo.declare("dijit.form._FormValueWidget", dijit.form._FormWidget,
 	undo: function(){
 		// summary: restore the value to the last value passed to onChange
 		this.setValue(this._lastValueReported, false);
+	},
+
+	reset: function(){
+		this._hasBeenBlurred = false;
+		this.setValue(this._resetValue, true);
 	},
 
 	_valueChanged: function(){

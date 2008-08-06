@@ -32,9 +32,6 @@ dojo.declare("dijit.form.Button",
 	baseClass: "dijitButton",
 	templatePath: dojo.moduleUrl("dijit.form", "templates/Button.html"),
 
-	_onChangeMonitor: '',
-	// TODO: set button's title to this.containerNode.innerText
-
 	_onClick: function(/*Event*/ e){
 		// summary: internal function to handle click actions
 		if(this.disabled || this.readOnly){
@@ -396,8 +393,6 @@ dojo.declare("dijit.form.ToggleButton", dijit.form.Button, {
 	//		or the radio button is selected, etc.
 	checked: false,
 
-	_onChangeMonitor: 'checked',
-
 	attributeMap: dojo.mixin(dojo.clone(dijit.form.Button.prototype.attributeMap),
 		{checked:"focusNode"}),
 
@@ -415,12 +410,18 @@ dojo.declare("dijit.form.ToggleButton", dijit.form.Button, {
 		}
 	},
 
-
 	setChecked: function(/*Boolean*/ checked){
 		// summary:
 		//	Programatically deselect the button
 		dojo.deprecated("setChecked("+checked+") is deprecated. Use attr('checked',"+checked+") instead.", "", "2.0");
 		this.setAttribute('checked', checked);
+	},
+	
+	reset: function(){
+		this._hasBeenBlurred = false;
+
+		// set checked state to original setting
+		this.setAttribute('checked', this._resetValue);
 	},
 	
 	postCreate: function(){

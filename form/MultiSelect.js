@@ -17,6 +17,12 @@ dojo.declare("dijit.form.MultiSelect",dijit.form._FormWidget,{
 	attributeMap: dojo.mixin(dojo.clone(dijit.form._FormWidget.prototype.attributeMap),
 		{size:"focusNode"}),
 
+	reset: function(){
+		// TODO: once we inherit from FormValueWidget this won't be needed
+		this._hasBeenBlurred = false;
+		this.setValue(this._resetValue, true);
+	},
+
 	addSelected: function(/* dijit.form.MultiSelect */select){
 		// summary: Move the selected nodes af an passed Select widget
 		//			instance to this Select widget.
