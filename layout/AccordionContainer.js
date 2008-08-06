@@ -62,7 +62,7 @@ dojo.declare(
 			var mySize = this._contentBox;
 			this._verticalSpace = mySize.h - totalCollapsedHeight;
 			if(openPane){
-				openPane.containerNode.style.height = this._verticalSpace + "px";
+				dojo.marginBox(openPane.containerNode, {h: this._verticalSpace});
 /***
 TODO: this is wrong.  probably you wanted to call resize on the SplitContainer
 inside the AccordionPane??
