@@ -138,7 +138,7 @@ dojo.declare(
 
 			//except for cutting/pasting case - ctrl + x/v
 			var key = evt.charOrCode;
-			if(evt.altKey || (evt.ctrlKey && (key != 'v' && key != 'x'))){
+			if(evt.altKey || (evt.ctrlKey && (key != 'v' && key != 'x')) || evt.keyCode == dojo.keys.SHIFT){
 				return;
 			}
 			var doSearch = false;

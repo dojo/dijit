@@ -73,13 +73,13 @@ dojo.declare(
 			// summary: Mouse wheel listener where supported
 			dojo.stopEvent(evt);	
 			// FIXME: Safari bubbles
-			var janky = !dojo.isMozilla;		
-			var scrollAmount = evt[(janky ? "wheelDelta" : "detail")] * (janky ? 1 : -1);
+
+			// be nice to DOH and scroll as much as the event says to
+			var scrollAmount = evt.detail ? (evt.detail * -1) : (evt.wheelDelta / 120);
 			if(scrollAmount !== 0){
 				var node = this[(scrollAmount > 0 ? "upArrowNode" : "downArrowNode" )];
-				var dir = (scrollAmount > 0 ? 1 : -1);
 				
-				this._arrowPressed(node, dir, this.smallDelta);
+				this._arrowPressed(node, scrollAmount, this.smallDelta);
 
 				if(!this._wheelTimer){
 					clearTimeout(this._wheelTimer);

@@ -27,6 +27,7 @@
 		<script type="text/javascript" src="../_testCommon.js"></script>
 
 		<script type="text/javascript">
+				dojo.require("dijit.robot");
 				dojo.require("dijit.dijit"); // optimize: load dijit layer
 				dojo.require("dijit.form.Slider");
 				dojo.require("dijit.form.Button");
@@ -74,6 +75,89 @@
 	
 				dojo.addOnLoad(function(){
 					dijit.byId("sliderH2").attr('disabled',true);
+				});
+
+				dojo.addOnLoad(function(){
+					var sec=new Function("return window");
+					doh.register("dijit.form.Slider",
+						{
+							name:"slider1",
+							timeout:1500, // this is the animated slider so there is a 500ms delay
+							runTest:function(){
+								var d = new doh.Deferred();
+								var slider=dijit.byId("slider1");
+								dijit.scrollIntoView(slider.domNode);
+								doh.robot.mouseMoveAt(sec, slider.focusNode);
+								doh.robot.mousePress(sec, {left:true});
+								// drag to 20% marker
+								doh.robot.mouseMoveAt(sec, dojo.query("div[style*='20%']", dojo.byId('dijit_form_HorizontalRule_0'))[0]);
+								doh.robot.mouseRelease(sec, {left:true});
+								var value=slider.getValue();
+								setTimeout(function(){
+									var value=slider.getValue();
+									if(value>=19&&value<=21){
+										d.callback(true);
+									}else{
+										d.errback("slider1 failed. Expected ~20, got "+value);
+									}
+								}, 1400);
+								return d;
+							}
+						}
+					);
+					doh.register("dijit.form.Slider",
+						{
+							name:"slider2",
+							runTest:function(){
+								var d = new doh.Deferred();
+								var slider=dijit.byId("slider2");
+								dijit.scrollIntoView(slider.domNode);
+								doh.robot.mouseMoveAt(sec, slider.focusNode);
+								doh.robot.mousePress(sec, {left:true});
+								// drag to 20% marker (Slider is in descending order so it's 100-20=80%)
+								var marker=dojo.query("div[style*='80%']", dojo.byId('dijit_form_VerticalRule_1'))[0];
+								doh.robot.mouseMoveAt(sec, marker,0,0,0);
+								doh.robot.mouseRelease(sec, {left:true});
+								var value=slider.getValue();
+								setTimeout(function(){
+									var value=slider.getValue();
+									if(value==20){
+										d.callback(true);
+									}else{
+										d.errback("slider2 failed. Expected 20, got "+value);
+									}
+								}, 900);
+								return d;
+							}
+						}
+					);
+
+					doh.register("dijit.form.Slider",
+						{
+							name:"slider3",
+							runTest:function(){
+								var d = new doh.Deferred();
+								var slider=dijit.byId("programaticSlider");
+								dijit.scrollIntoView(slider.domNode);
+								doh.robot.mouseMoveAt(sec, slider.focusNode);
+								doh.robot.mousePress(sec, {left:true});
+								// drag to the top
+								doh.robot.mouseMoveAt(sec, dojo.query("div[style*='0%']", dojo.byId('dijit_form_VerticalRule_2'))[0],0,0,0);
+								doh.robot.mouseRelease(sec, {left:true});
+								setTimeout(function(){
+									var value=slider.getValue();
+									if(value==3000){
+										d.callback(true);
+									}else{
+										d.errback("slider3 failed. Expected 3000, got "+value);
+									}
+								}, 900);
+								return d;
+							}
+						}
+					);
+
+					doh.run();
 				});
 		</script>
 	</head>

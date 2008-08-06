@@ -21,6 +21,7 @@
 
 	<script type="text/javascript">
 		dojo.require("dojo.data.ItemFileReadStore");
+		dojo.require("dijit.robot");
 		dojo.require("dijit.dijit"); // optimize: load dijit layer
 		dojo.require("dijit.form.ComboBox");
 		dojo.require("dojo.parser");	// scan page for widgets and instantiate them
@@ -74,6 +75,125 @@
 			widget.attr('disabled',!widget.disabled);
 			button.innerHTML= widget.disabled ? "Enable" : "Disable";
 		}
+
+		dojo.addOnLoad(function(){
+			var start=dijit.byId('setvaluetest');
+			var textbox=dijit.byId('datatest').focusNode;
+			var datatestDijit=dijit.byId('datatestDijit').focusNode;
+			var sec=new Function("return window");
+
+			doh.register("dijit.form.ComboBox",
+				{
+					timeout:10000,
+					name:"Tab",
+					setUp:function(){
+						dijit.byId('datatestDijit').setValue("");
+					},
+					runTest: function(){
+						var d = new doh.Deferred();
+						doh.robot.mouseMoveAt(sec, start.focusNode);
+						doh.robot.mouseClick(sec, {left:true});
+						doh.robot.keyPress(sec, dojo.keys.TAB,500);
+						doh.robot.keyPress(sec, dojo.keys.TAB,500);
+						// tabbed to datatestDijit; type dijit.Ed
+
+						doh.robot.typeKeys(sec,'dijit.Ed',440,532);
+
+						function testDijits(){
+							if(/dijit\.Ed.+/.test(datatestDijit.value)){
+								if(datatestDijit.value=="dijit.Editor"){
+									d.callback(true);
+								}else{
+									d.errback(new Error("we got a failure"));
+								}
+							}else{
+								d.errback(new Error("we got a failure"));
+							}
+						}
+						setTimeout(testDijits,9000);
+						return d;
+					}
+				}
+			);
+			doh.register("dijit.form.ComboBox",
+				{
+					timeout:8000,
+					name:"SimpleClick",
+					setUp:function(){
+						dijit.byId('datatest').setValue("");
+					},
+					runTest: function(){
+						var d = new doh.Deferred();
+						doh.robot.keyPress(sec, dojo.keys.ENTER);
+						// let's try mouse click
+						doh.robot.mouseMoveAt(sec, textbox);
+						doh.robot.mouseClick(sec, {left:true});
+						doh.robot.typeKeys(sec,'Col',601,596);
+						function testStates(){
+							if(/Col.+/.test(textbox.value)){
+								if(textbox.value=="Colorado"&&datatestDijit.value=="dijit.Editor"){
+									// close ComboBox menu
+									doh.robot.keyPress(sec, dojo.keys.ENTER);
+									d.callback(true);
+
+								}else{
+									d.errback(new Error("we got a failure"));
+								}
+							}else{
+								d.errback(new Error("we got a failure"));
+							}
+						}
+						setTimeout(testStates,7000);
+						return d;
+					}
+				}
+			);
+
+			doh.register("dijit.form.ComboBox",
+				{
+					timeout:6000,
+					name:"MenuClick",
+					runTest: function(){
+						var d = new doh.Deferred();
+						doh.robot.mouseMoveAt(sec, start.downArrowNode);
+						doh.robot.mouseClick(sec, {left:true});
+						var tries=0;
+						function testMenu(){
+							if(start.getValue()=="Mississippi"){
+								// base case: value selected
+								d.callback(true);
+								return;
+							}else if(dojo.byId("setvaluetest_popup")&&dojo.byId("setvaluetest_popup_next")&&dojo.byId("setvaluetest_popup").style.visibility!="hidden"){
+								// popup open
+								var coords=dojo.coords(dojo.byId("setvaluetest_popup_next"));
+								if(coords.y>0){
+									if(dojo.byId("setvaluetest_popup_prev").style.display=="none"){
+										// first menu: click More Choices
+										doh.robot.mouseMoveAt(sec, dojo.byId("setvaluetest_popup_next"));
+										doh.robot.mouseClick(sec, {left:true});
+									}else{
+										// second menu: click Minnesota
+										doh.robot.mouseMoveAt(sec, dojo.byId("setvaluetest_popup1"));
+										doh.robot.mouseClick(sec, {left:true});
+									}
+								}
+								setTimeout(testMenu, 1000);
+							}else{
+								tries++;
+								if(tries<5){
+									setTimeout(testMenu,1000);
+								}else{
+									d.errback(new Error("we got a failure"));
+								}
+							}
+						}
+						setTimeout(testMenu, 1000);
+						return d;
+					}
+				}
+			);
+			doh.run();
+		});
 	</script>
 </head>
 
@@ -93,7 +213,6 @@
 				name="state1"
 				dojoType="dijit.form.ComboBox"
 				style="width:50%;font-size:200%;font-family:Courier;"
-				name="foo.bar1"
 				autoComplete="false"
 				onChange="dojo.byId('oc1').value=arguments[0]"
 				pageSize="30"
@@ -161,8 +280,8 @@
 			<option>Wyoming</option>
 		</select>
 		<br>onChange:<input id="oc1" disabled value="not fired yet!" autocomplete="off">
-		<input type="button" value="Set displayed value to Kentucky" onClick="dijit.byId('setvaluetest').setDisplayedValue('Kentucky')">
-	        <input type="button" value="Set displayed value to Canada" onClick="dijit.byId('setvaluetest').setDisplayedValue('Canada')">
+		<input type="button" value="Set displayed value to Kentucky" onClick="dijit.byId('setvaluetest').setDisplayedValue('Kentucky')" tabIndex="-1">
+	        <input type="button" value="Set displayed value to Canada" onClick="dijit.byId('setvaluetest').setDisplayedValue('Canada')" tabIndex="-1">
 
 		<hr>
 
@@ -257,7 +376,6 @@
 				name="state6"
 				dojoType="dijit.form.ComboBox"
 				style="width:50%;font-size:200%;font-family:Courier;"
-				name="foo.bar1"
 				autoComplete="true"
 				onChange="dojo.byId('oc1').value=arguments[0]"
 				pageSize="30"
