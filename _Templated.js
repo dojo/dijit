@@ -72,8 +72,10 @@ dojo.declare("dijit._Templated",
 				node = cached.cloneNode(true);
 			}
 
+			this.domNode = node;
+
 			// recurse through the node, looking for, and attaching to, our
-			// attachment points which should be defined on the template node.
+			// attachment points and events, which should be defined on the template node.
 			this._attachTemplateNodes(node);
 
 			var source = this.srcNodeRef;
@@ -81,7 +83,6 @@ dojo.declare("dijit._Templated",
 				source.parentNode.replaceChild(node, source);
 			}
 
-			this.domNode = node;
 			if(this.widgetsInTemplate){
 				var cw = this._supportingWidgets  = dojo.parser.parse(node);
 				this._attachTemplateNodes(cw, function(n,p){

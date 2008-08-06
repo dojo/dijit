@@ -53,7 +53,7 @@
 	<h1 class="testTitle">Dijit TitlePane Test</h1>
 
 	<h1>Test #1: plain title pane, width=300px</h1>
-	<div dojoType="dijit.TitlePane" title="Title Pane #1" style="width: 300px;">
+	<div dojoType="dijit.TitlePane" title="Title Pane #1" style="width: 300px;" jsId="pane1">
 		Lorem Ipsum Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Quisque
 		iaculis, nulla id semper faucibus, pede tellus nonummy magna, vitae adipiscing
 		orci arcu ut augue. Nunc condimentum, magna a vestibulum convallis, libero purus
@@ -62,6 +62,7 @@
 		nec, malesuada eget, ornare a, libero. Lorem ipsum dolor sit amet,
 		consectetuer adipiscing elit.
 	</div>
+	<button onclick="pane1.attr('title', 'New Title')">change title</button>
 
 	<h1>Test #2: title pane with form, width=300px</h1>
 
@@ -82,7 +83,7 @@
 			<button>Submit</button><br>
 		</form>
 	</div>
-	<button onclick="dijit.byId('closed').setContent('hello world! (' + new Date() + ')');">reset content</button>
+	<button onclick="dijit.byId('closed').attr('content', 'hello world! (' + new Date() + ')');">reset content</button>
 
 	<h1>Test #4: title pane with href (initially closed)</h1>
 	<p>The pane should open to "Loading..." message and then 2 seconds later it should slide open more to show loaded data.</p>

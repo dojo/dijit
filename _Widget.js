@@ -575,14 +575,17 @@ dojo.declare("dijit._Widget", null, {
 			}else if(this.set){
 				// default setter
 				return this.set(name, value) || this;
-			}else if(name in this.attributeMap){
-				this.setAttribute(name, value);
 			}else{
-				// else try to innerHTML on node values
+				// if param is specified as DOM node attribute, copy it
+				if(name in this.attributeMap){
+					this.setAttribute(name, value);
+				}
 
 				// assign directly first
 				// FIXME: what about function assignments? Any way to connect() here?
 				this[name] = value;
+
+				// if attribute corresponds to some node's innerHTML, copy it
 				var node = this[names.n];
 				if(node && dojo.isString(value)){
 					if(dojo.isArray(node)){

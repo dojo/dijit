@@ -46,6 +46,8 @@ dojo.declare(
 	//	The root className to use for the various states of this widget
 	baseClass: "dijitTitlePane",
 
+	injectAttributes: true,
+
 	templatePath: dojo.moduleUrl("dijit", "templates/TitlePane.html"),
 
 	postCreate: function(){
@@ -77,9 +79,11 @@ dojo.declare(
 		});
 	},
 
-	setContent: function(content){
+	_attrSetContent: function(content){
 		// summary:
+		//		Hook to make attr("content", ...) work.
 		// 		Typically called when an href is loaded.  Our job is to make the animation smooth
+
 		if(!this.open || this._wipeOut.status() == "playing"){
 			// we are currently *closing* the pane (or the pane is closed), so just let that continue
 			this.inherited(arguments);
@@ -111,7 +115,7 @@ dojo.declare(
 		this.open =! this.open;
 
 		// load content (if this is the first time we are opening the TitlePane
-		// and content is specified as an href, or we have setHref when hidden)
+		// and content is specified as an href, or href was set when hidden)
 		this._loadCheck();
 
 		this._setCss();
@@ -121,7 +125,7 @@ dojo.declare(
 		// summary: set the open/close css state for the TitlePane
 		var classes = ["dijitClosed", "dijitOpen"];
 		var boolIndex = this.open;
-		var node = this.titleBarNode || this.focusNode
+		var node = this.titleNode || this.focusNode
 		dojo.removeClass(node, classes[!boolIndex+0]);
 		node.className += " " + classes[boolIndex+0];
 
@@ -148,6 +152,7 @@ dojo.declare(
 
 	setTitle: function(/*String*/ title){
 		// summary: sets the text of the title
+		dojo.deprecated("dijit.TitlePane.setTitle() is deprecated.  Use attr('title', ...) instead.", "", "2.0");
 		this.titleNode.innerHTML = title;
 	}
 });
