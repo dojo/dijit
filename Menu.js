@@ -502,7 +502,7 @@ dojo.declare("dijit.CheckedMenuItem",
 		+'<td class="dijitReset" waiRole="presentation"><div class="dijitMenuItemIcon dijitCheckedMenuItemIcon ${iconClass}" dojoAttachPoint="iconNode">'
 		+'<div class="dijitCheckedMenuItemIconChar">&#10003;</div>'
 		+'</div></td>'
-		+'<td class="dijitReset dijitMenuItemLabel" dojoAttachPoint="containerNode"></td>'
+		+'<td class="dijitReset dijitMenuItemLabel" dojoAttachPoint="containerNode,labelNode"></td>'
 		+'<td class="dijitReset dijitMenuArrowCell" waiRole="presentation">'
 			+'<div dojoAttachPoint="arrowWrapper" style="display: none">'
 				+'<div class="dijitMenuExpand"></div>'
