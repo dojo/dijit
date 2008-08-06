@@ -2,6 +2,7 @@ dojo.provide("dijit._editor.RichText");
 
 dojo.require("dijit._Widget");
 dojo.require("dijit._editor.selection");
+dojo.require("dijit._editor.range");
 dojo.require("dijit._editor.html");
 dojo.require("dojo.i18n");
 dojo.requireLocalization("dijit.form", "Textarea");
@@ -563,9 +564,11 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 		}
 		//queryCommandValue returns empty if we hide editNode, so move it out of screen temporary
 		var div = dojo.doc.createElement('div');
-		div.style.position = "absolute";
-		div.style.left = "-2000px";
-		div.style.top = "-2000px";
+		dojo.style(div, {
+			position: "absolute",
+			left: "-2000px",
+			top: "-2000px"
+		});
 		dojo.doc.body.appendChild(div);
 		div.innerHTML = localhtml;
 		var node = div.firstChild;
@@ -605,26 +608,30 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 		dojo.publish(dijit._scopeName + "._editor.RichText::open", [ this ]);
 
 		this._content = "";
-		if((arguments.length == 1)&&(element["nodeName"])){ this.domNode = element; } // else unchanged
+		if((arguments.length == 1)&&(element["nodeName"])){ // else unchanged
+			this.domNode = element; 
+		} 
+
+		var dn = this.domNode;
 
 		var html;
-		if(	(this.domNode["nodeName"])&&
-			(this.domNode.nodeName.toLowerCase() == "textarea")){
+		if(	(dn["nodeName"])&&
+			(dn.nodeName.toLowerCase() == "textarea")){
 			// if we were created from a textarea, then we need to create a
 			// new editing harness node.
-			this.textarea = this.domNode;
-			this.name=this.textarea.name;
-			html = this._preFilterContent(this.textarea.value);
-			this.domNode = dojo.doc.createElement("div");
-			this.domNode.setAttribute('widgetId',this.id);
-			this.textarea.removeAttribute('widgetId');
-			this.domNode.cssText = this.textarea.cssText;
-			this.domNode.className += " "+this.textarea.className;
-			dojo.place(this.domNode, this.textarea, "before");
+			var ta = this.textarea = dn;
+			this.name = ta.name;
+			html = this._preFilterContent(ta.value);
+			dn = this.domNode = dojo.doc.createElement("div");
+			dn.setAttribute('widgetId', this.id);
+			ta.removeAttribute('widgetId');
+			dn.cssText = ta.cssText;
+			dn.className += " "+ta.className;
+			dojo.place(dn, ta, "before");
 			var tmpFunc = dojo.hitch(this, function(){
 				//some browsers refuse to submit display=none textarea, so
 				//move the textarea out of screen instead
-				with(this.textarea.style){
+				with(ta.style){
 					display = "block";
 					position = "absolute";
 					left = top = "-1000px";
@@ -643,19 +650,19 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 
 			// this.domNode.innerHTML = html;
 
-			if(this.textarea.form){
-				dojo.connect(this.textarea.form, "onsubmit", this, function(){
+			if(ta.form){
+				dojo.connect(ta.form, "onsubmit", this, function(){
 					// FIXME: should we be calling close() here instead?
-					this.textarea.value = this.getValue();
+					ta.value = this.getValue();
 				});
 			}
 		}else{
-			html = this._preFilterContent(dijit._editor.getChildrenHtml(this.domNode));
-			this.domNode.innerHTML = '';
+			html = this._preFilterContent(dijit._editor.getChildrenHtml(dn));
+			dn.innerHTML = "";
 		}
 		if(html == ""){ html = "&nbsp;"; }
 
-		var content = dojo.contentBox(this.domNode);
+		var content = dojo.contentBox(dn);
 		// var content = dojo.contentBox(this.srcNodeRef);
 		this._oldHeight = content.h;
 		this._oldWidth = content.w;
@@ -664,13 +671,13 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 
 		// If we're a list item we have to put in a blank line to force the
 		// bullet to nicely align at the top of text
-		if(	(this.domNode["nodeName"]) &&
-			(this.domNode.nodeName == "LI") ){
-			this.domNode.innerHTML = " <br>";
+		if(	(dn["nodeName"]) &&
+			(dn.nodeName == "LI") ){
+			dn.innerHTML = " <br>";
 		}
 
-		this.editingArea = this.domNode.ownerDocument.createElement("div");
-		this.domNode.appendChild(this.editingArea);
+		this.editingArea = dn.ownerDocument.createElement("div");
+		dn.appendChild(this.editingArea);
 
 		if(this.name != "" && (!dojo.config["useXDomain"] || dojo.config["allowXdRichTextSave"])){
 			var saveTextarea = dojo.byId(dijit._scopeName + "._editor.RichText.savedContent");
@@ -697,6 +704,9 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 		this._writeOpen(html);
 
 		// TODO: this is a guess at the default line-height, kinda works
+		if(dn.nodeName == "LI"){
+			dn.lastChild.style.marginTop = "-1.2em";
+		}
 		if(this.domNode.nodeName == "LI"){ this.domNode.lastChild.style.marginTop = "-1.2em"; }
 		dojo.addClass(this.domNode, "RichTextEditable");
 	},
@@ -840,7 +850,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 
 		// function call after the character has been inserted
 		if(!this._onKeyHitch){
-			this._onKeyHitch=dojo.hitch(this, "onKeyPressed");
+			this._onKeyHitch = dojo.hitch(this, "onKeyPressed");
 		}
 		setTimeout(this._onKeyHitch, 1);
 		return true;
@@ -875,9 +885,13 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 		}
 	},
 
+	_savedSelection: null,
 	_onBlur: function(e){
+		// console.info('_onBlur')
+		this._savedSelection = dijit.range.getSelection(this.window);
+
 		this.inherited(arguments);
-		var _c=this.getValue(true);
+		var _c = this.getValue(true);
 		
 		if(_c!=this.savedContent){
 			this.onChange(_c);
@@ -886,11 +900,13 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 		if(dojo.isMoz && this.iframe){
 			this.iframe.contentDocument.title = this._localizedIframeTitles.iframeEditTitle;
 		} 
-		// console.info('_onBlur')
+
 	},
 	_initialFocus: true,
 	_onFocus: function(/*Event*/e){
 		// summary: Fired on focus
+
+		this._savedSelection = null;
 
 		// console.info('_onFocus')
 		if(dojo.isMoz && this._initialFocus){
@@ -1100,8 +1116,8 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 			}else if(dojo.isMoz && !argument.length){
 				//mozilla can not inserthtml an empty html to delete current selection
 				//so we delete the selection instead in this case
-				dojo.withGlobal(this.window, 'remove', dijit._editor.selection); // FIXME
-				returnValue=true;
+				this._sCall("remove"); // FIXME
+				returnValue = true;
 			}else{
 				returnValue = this.document.execCommand(command, false, argument);
 			}
@@ -1124,8 +1140,8 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 			//	var selectionEndOffset = selectionRange.endOffset;
 
 			// select our link and unlink
-			var a = dojo.withGlobal(this.window, "getAncestorElement",dijit._editor.selection, ['a']);
-			dojo.withGlobal(this.window, "selectElement", dijit._editor.selection, [a]);
+			var a = this._sCall("getAncestorElement", [ "a" ]);
+			this._sCall("selectElement", [ a ]);
 
 			returnValue = this.document.execCommand("unlink", false, null);
 		}else if((command == "hilitecolor")&&(dojo.isMoz)){
@@ -1170,8 +1186,8 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 		command = this._normalizeCommand(command);
 		if(dojo.isMoz || dojo.isSafari){
 			if(command == "unlink"){ // mozilla returns true always
-				// console.debug(dojo.withGlobal(this.window, "hasAncestorElement",dijit._editor.selection, ['a']));
-				return dojo.withGlobal(this.window, "hasAncestorElement",dijit._editor.selection, ['a']);
+				// console.debug(this._sCall("hasAncestorElement", ['a']));
+				this._sCall("hasAncestorElement", ["a"]);
 			}else if(command == "inserttable"){
 				return true;
 			}
@@ -1186,7 +1202,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 		}
 		//should not allow user to indent neither a non-list node nor list item which is the first item in its parent 
 		if(command == 'indent'){
-			var li = dojo.withGlobal(this.window, "getAncestorElement",dijit._editor.selection, ['li']);
+			var li = this._sCall("getAncestorElement", ["li"]);
 			var n = li && li.previousSibling;
 			while(n){
 				if(n.nodeType == 1){
@@ -1197,7 +1213,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 			return false;
 		}else if(command == 'outdent'){
 			//should not allow user to outdent a non-list node
-			return dojo.withGlobal(this.window, "hasAncestorElement",dijit._editor.selection, ['li']);
+			return this._sCall("hasAncestorElement", ["li"]);
 		}
 
 		// return this.document.queryCommandEnabled(command);
@@ -1206,7 +1222,8 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 	},
 
 	queryCommandState: function(command){
-		// summary: check the state of a given command
+		// summary:
+		//		check the state of a given command and returns true or false
 
 		if(this.disabled){ return false; }
 		command = this._normalizeCommand(command);
@@ -1220,17 +1237,31 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 	},
 
 	queryCommandValue: function(command){
-		// summary: check the value of a given command
+		// summary:
+		//		check the value of a given command. This matters most for
+		//		custom selections and complex values like font value setting
 
 		if(this.disabled){ return false; }
+		var r;
 		command = this._normalizeCommand(command);
 		if(dojo.isIE && command == "formatblock"){
-			return this._native2LocalFormatNames[this.document.queryCommandValue(command)];
+			r = this._native2LocalFormatNames[this.document.queryCommandValue(command)];
+		}else{
+			r = this.document.queryCommandValue(command);
 		}
 		return this.document.queryCommandValue(command);
 	},
 
 	// Misc.
+
+	_sCall: function(name, args){
+		// summary:
+		//		run the named method of dijit._editor.selection over the
+		//		current editor instance's window, with the passed args
+		dojo.withGlobal(this.window, name, dijit._editor.selection, args);
+	},
+
+	// FIXME: this is a TON of code duplication. Why?
 
 	placeCursorAtStart: function(){
 		// summary:
@@ -1238,29 +1269,29 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 		this.focus();
 
 		//see comments in placeCursorAtEnd
-		var isvalid=false;
+		var isvalid = false;
 		if(dojo.isMoz){
 			var first=this.editNode.firstChild;
 			while(first){
 				if(first.nodeType == 3){
 					if(first.nodeValue.replace(/^\s+|\s+$/g, "").length>0){
-						isvalid=true;
-						dojo.withGlobal(this.window, "selectElement", dijit._editor.selection, [first]);
+						isvalid = true;
+						this._sCall("selectElement", [ first ]);
 						break;
 					}
 				}else if(first.nodeType == 1){
-					isvalid=true;
-					dojo.withGlobal(this.window, "selectElementChildren",dijit._editor.selection, [first]);
+					isvalid = true;
+					this._sCall("selectElementChildren", [ first ]);
 					break;
 				}
 				first = first.nextSibling;
 			}
 		}else{
-			isvalid=true;
-			dojo.withGlobal(this.window, "selectElementChildren",dijit._editor.selection, [this.editNode]);
+			isvalid = true;
+			this._sCall("selectElementChildren", [ this.editNode ]);
 		}
 		if(isvalid){
-			dojo.withGlobal(this.window, "collapse", dijit._editor.selection, [true]);
+			this._sCall("collapse", [ true ]);
 		}
 	},
 
@@ -1269,43 +1300,49 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 		//		place the cursor at the end of the editing area
 		this.focus();
 
-		//In mozilla, if last child is not a text node, we have to use
-		//selectElementChildren on this.editNode.lastChild otherwise the cursor
-		//would be placed at the end of the closing tag of
-		//this.editNode.lastChild
-		var isvalid=false;
+		// In mozilla, if last child is not a text node, we have to use
+		// selectElementChildren on this.editNode.lastChild otherwise the
+		// cursor would be placed at the end of the closing tag of
+		// this.editNode.lastChild
+		var isvalid = false;
 		if(dojo.isMoz){
 			var last=this.editNode.lastChild;
 			while(last){
 				if(last.nodeType == 3){
 					if(last.nodeValue.replace(/^\s+|\s+$/g, "").length>0){
 						isvalid=true;
-						dojo.withGlobal(this.window, "selectElement",dijit._editor.selection, [last]);
+						this._sCall("selectElement", [ last ]);
 						break;
 					}
 				}else if(last.nodeType == 1){
 					isvalid=true;
 					if(last.lastChild){
-						dojo.withGlobal(this.window, "selectElement",dijit._editor.selection, [last.lastChild]);
+						this._sCall("selectElement", [ last.lastChild ]);
 					}else{
-						dojo.withGlobal(this.window, "selectElement",dijit._editor.selection, [last]);
+						this._sCall("selectElement", [ last ]);
 					}
 					break;
 				}
 				last = last.previousSibling;
 			}
 		}else{
-			isvalid=true;
-			dojo.withGlobal(this.window, "selectElementChildren",dijit._editor.selection, [this.editNode]);
+			isvalid = true;
+			this._sCall("selectElementChildren", [ this.editNode ]);
 		}
 		if(isvalid){
-			dojo.withGlobal(this.window, "collapse", dijit._editor.selection, [false]);
+			this._sCall("collapse", [ false ]);
 		}
 	},
 
 	getValue: function(/*Boolean?*/nonDestructive){
-		// summary:
-		//		return the current content of the editing area (post filters are applied)
+		//	summary:
+		//		return the current content of the editing area (post filters
+		//		are applied)
+		//	nonDestructive:
+		//		defaults to false. Should the post-filtering be run over a copy
+		//		of the live DOM? Most users should pass "true" here unless they
+		//		*really* know that none of the installed filters are going to
+		//		mess up the editing session.
 		if(this.textarea){
 			if(this.isClosed || !this.isLoaded){
 				return this.textarea.value;
@@ -1319,7 +1356,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 		// summary:
 		//		This function sets the content. No undo history is preserved.
 		if(this.textarea && (this.isClosed || !this.isLoaded)){
-			this.textarea.value=html;
+			this.textarea.value = html;
 		}else{
 			html = this._preFilterContent(html);
 			var node = this.isClosed ? this.domNode : this.editNode;
@@ -1356,14 +1393,19 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 
 	_preFilterContent: function(/*String*/html){
 		// summary:
-		//		filter the input before setting the content of the editing area
+		//		filter the input before setting the content of the editing
+		//		area. DOM pre-filtering may happen after this
+		//		string-based filtering takes place but as of 1.2, this is not
+		//		gauranteed for operations such as the inserthtml command.
 		var ec = html;
 		dojo.forEach(this.contentPreFilters, function(ef){ if(ef){ ec = ef(ec); } });
 		return ec;
 	},
 	_preDomFilterContent: function(/*DomNode*/dom){
 		// summary:
-		//		filter the input
+		//		filter the input's live DOM. All filter operations should be
+		//		considered to be "live" and operating on the DOM that the user
+		//		will be interacting with in their editing session.
 		dom = dom || this.editNode;
 		dojo.forEach(this.contentDomPreFilters, function(ef){
 			if(ef && dojo.isFunction(ef)){
@@ -1372,15 +1414,49 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 		}, this);
 	},
 
-	_postFilterContent: function(/*DomNode|DomNode[]|String?*/dom,/*Boolean?*/nonDestructive){
-		// summary:
+	_postFilterContent: function(
+		/*DomNode|DomNode[]|String?*/ dom,
+		/*Boolean?*/ nonDestructive){
+		//	summary:
 		//		filter the output after getting the content of the editing area
+		//
+		//	description:
+		//		post-filtering allows plug-ins and users to specify any number
+		//		of transforms over the editor's content, enabling many common
+		//		use-cases such as transforming absolute to relative URLs (and
+		//		vice-versa), ensuring conformance with a particular DTD, etc.
+		//		The filters are registered in the contentDomPostFilters and
+		//		contentPostFilters arrays. Each item in the
+		//		contentDomPostFilters array is a function which takes a DOM
+		//		Node or array of nodes as its only argument and returns the
+		//		same. It is then passed down the chain for further filtering.
+		//		The contentPostFilters array behaves the same way, except each
+		//		member operates on strings. Together, the DOM and string-based
+		//		filtering allow the full range of post-processing that should
+		//		be necessaray to enable even the most agressive of post-editing
+		//		conversions to take place.
+		//
+		//		If nonDestructive is set to "true", the nodes are cloned before
+		//		filtering proceeds to avoid potentially destructive transforms
+		//		to the content which may still needed to be edited further.
+		//		Once DOM filtering has taken place, the serialized version of
+		//		the DOM which is passed is run through each of the
+		//		contentPostFilters functions.
+		//
+		//	dom:
+		//		a node, set of nodes, which to filter using each of the current
+		//		members of the contentDomPostFilters and contentPostFilters arrays. 
+		//
+		//	nonDestructive:
+		//		defaults to "false". If true, ensures that filtering happens on
+		//		a clone of the passed-in content and not the actual node
+		//		itself.
 		var ec;
 		if(!dojo.isString(dom)){
 			dom = dom || this.editNode;
 			if(this.contentDomPostFilters.length){
-				if(nonDestructive && dom['cloneNode']){
-					dom = dom.cloneNode(true);
+				if(nonDestructive){
+					dom = dojo.clone(dom);
 				}
 				dojo.forEach(this.contentDomPostFilters, function(ef){
 					dom = ef(dom);
@@ -1391,7 +1467,9 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 			ec = dom;
 		}
 
-		if(!dojo.trim(ec.replace(/^\xA0\xA0*/, '').replace(/\xA0\xA0*$/, '')).length){ ec = ""; }
+		if(!dojo.trim(ec.replace(/^\xA0\xA0*/, '').replace(/\xA0\xA0*$/, '')).length){
+			ec = "";
+		}
 
 		//	if(dojo.isIE){
 		//		//removing appended <P>&nbsp;</P> for IE
