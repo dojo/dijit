@@ -48,7 +48,16 @@ dojo.declare(
 				this.selectedChildWidget._setSelectedState(true);
 			}
 		},
-
+		
+		_getTargetHeight: function(/* Node */ node){
+			// summary:
+			//		For the given node, returns the height that should be
+			//		set to achieve our vertical space (subtract any padding
+			//		we may have)
+			var cs = dojo.getComputedStyle(node);
+			return this._verticalSpace - dojo._getPadBorderExtents(node, cs).h;
+		},
+		
 		layout: function(){
 			// summary: 
 			//		Set the height of the open pane based on what room remains
@@ -62,7 +71,7 @@ dojo.declare(
 			var mySize = this._contentBox;
 			this._verticalSpace = mySize.h - totalCollapsedHeight;
 			if(openPane){
-				dojo.marginBox(openPane.containerNode, {h: this._verticalSpace});
+				openPane.containerNode.style.height = this._getTargetHeight(openPane.containerNode) + "px";
 /***
 TODO: this is wrong.  probably you wanted to call resize on the SplitContainer
 inside the AccordionPane??
@@ -88,7 +97,7 @@ inside the AccordionPane??
 				newWidget.setSelected(true);
 				var newContents = newWidget.containerNode;
 				newContents.style.display = "";
-
+				paneHeight = this._getTargetHeight(newWidget.containerNode)
 				animations.push(dojo.animateProperty({
 					node: newContents,
 					duration: this.duration,
@@ -104,6 +113,7 @@ inside the AccordionPane??
 				oldWidget.setSelected(false);
 				var oldContents = oldWidget.containerNode;
 				oldContents.style.overflow = "hidden";
+				paneHeight = this._getTargetHeight(oldWidget.containerNode);
 				animations.push(dojo.animateProperty({
 					node: oldContents,
 					duration: this.duration,

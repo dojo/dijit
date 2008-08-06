@@ -36,6 +36,15 @@
 	 	dojo.require("dijit.form.Button");
 		dojo.require("dojo.parser");	// scan page for widgets and instantiate them
 	</script>
+	
+	<style type="text/css">
+		.somePadding .dijitAccordionBody {
+			padding: 5px;
+		}
+		.extremePadding .dijitAccordionBody {
+			padding: 50px;
+		}
+	</style>
 </head>
 <body class="tundra" style="padding: 50px;">
 
@@ -162,5 +171,92 @@
 			</div>
 		</div>
 	</div>
+	<p></p>
+	<p>Accordion with padding</p>	
+	<div dojoType="dijit.layout.AccordionContainer"
+		style="width: 400px; height: 300px; overflow: hidden">
+		<div dojoType="dijit.layout.AccordionPane" class="somePadding" title="Some Padding">
+			<p>
+				Nunc consequat nisi vitae quam. Suspendisse sed nunc. Proin
+				suscipit porta magna. Duis accumsan nunc in velit. Nam et nibh.
+				Nulla facilisi. Cras venenatis urna et magna. Aenean magna mauris,
+				bibendum sit amet, semper quis, aliquet nec, sapien.  Aliquam
+				aliquam odio quis erat. Etiam est nisi, condimentum non, lacinia
+				ac, vehicula laoreet, elit. Sed interdum augue sit amet quam
+				dapibus semper. Nulla facilisi. Pellentesque lobortis erat nec
+				quam.
+			</p>
+			<p>
+				Sed arcu magna, molestie at, <input value="fringilla in, sodales"/> eu, elit.
+				Curabitur mattis lorem et est. Quisque et tortor. Integer bibendum
+				vulputate odio. Nam nec ipsum. Vestibulum mollis eros feugiat
+				augue. Integer fermentum odio lobortis odio. Nullam mollis nisl non
+				metus. Maecenas nec nunc eget pede ultrices blandit. Ut non purus
+				ut elit convallis eleifend. Fusce tincidunt, justo quis tempus
+				euismod, magna nulla viverra libero, sit amet lacinia odio diam id
+				risus. Ut varius viverra turpis. Morbi urna elit, imperdiet eu,
+				porta ac, pharetra sed, nisi. Etiam ante libero, ultrices ac,
+				faucibus ac, cursus sodales, nisl. Praesent nisl sem, fermentum eu,
+				consequat quis, varius interdum, nulla. Donec neque tortor,
+				sollicitudin sed, consequat nec, facilisis sit amet, orci. Aenean
+				ut eros sit amet ante pharetra interdum.
+			</p>
+		</div>
+		<div dojoType="dijit.layout.AccordionPane" title="No Padding">
+			<p>
+				Nunc consequat nisi vitae quam. Suspendisse sed nunc. Proin
+				suscipit porta magna. Duis accumsan nunc in velit. Nam et nibh.
+				Nulla facilisi. Cras venenatis urna et magna. Aenean magna mauris,
+				bibendum sit amet, semper quis, aliquet nec, sapien.  Aliquam
+				aliquam odio quis erat. Etiam est nisi, condimentum non, lacinia
+				ac, vehicula laoreet, elit. Sed interdum augue sit amet quam
+				dapibus semper. Nulla facilisi. Pellentesque lobortis erat nec
+				quam.
+			</p>
+			<p>
+				Sed arcu magna, molestie at, <input value="fringilla in, sodales"/> eu, elit.
+				Curabitur mattis lorem et est. Quisque et tortor. Integer bibendum
+				vulputate odio. Nam nec ipsum. Vestibulum mollis eros feugiat
+				augue. Integer fermentum odio lobortis odio. Nullam mollis nisl non
+				metus. Maecenas nec nunc eget pede ultrices blandit. Ut non purus
+				ut elit convallis eleifend. Fusce tincidunt, justo quis tempus
+				euismod, magna nulla viverra libero, sit amet lacinia odio diam id
+				risus. Ut varius viverra turpis. Morbi urna elit, imperdiet eu,
+				porta ac, pharetra sed, nisi. Etiam ante libero, ultrices ac,
+				faucibus ac, cursus sodales, nisl. Praesent nisl sem, fermentum eu,
+				consequat quis, varius interdum, nulla. Donec neque tortor,
+				sollicitudin sed, consequat nec, facilisis sit amet, orci. Aenean
+				ut eros sit amet ante pharetra interdum.
+			</p>
+		</div>
+		<div dojoType="dijit.layout.AccordionPane" class="extremePadding" title="Extreme Padding">
+			<p>
+				Nunc consequat nisi vitae quam. Suspendisse sed nunc. Proin
+				suscipit porta magna. Duis accumsan nunc in velit. Nam et nibh.
+				Nulla facilisi. Cras venenatis urna et magna. Aenean magna mauris,
+				bibendum sit amet, semper quis, aliquet nec, sapien.  Aliquam
+				aliquam odio quis erat. Etiam est nisi, condimentum non, lacinia
+				ac, vehicula laoreet, elit. Sed interdum augue sit amet quam
+				dapibus semper. Nulla facilisi. Pellentesque lobortis erat nec
+				quam.
+			</p>
+			<p>
+				Sed arcu magna, molestie at, <input value="fringilla in, sodales"/> eu, elit.
+				Curabitur mattis lorem et est. Quisque et tortor. Integer bibendum
+				vulputate odio. Nam nec ipsum. Vestibulum mollis eros feugiat
+				augue. Integer fermentum odio lobortis odio. Nullam mollis nisl non
+				metus. Maecenas nec nunc eget pede ultrices blandit. Ut non purus
+				ut elit convallis eleifend. Fusce tincidunt, justo quis tempus
+				euismod, magna nulla viverra libero, sit amet lacinia odio diam id
+				risus. Ut varius viverra turpis. Morbi urna elit, imperdiet eu,
+				porta ac, pharetra sed, nisi. Etiam ante libero, ultrices ac,
+				faucibus ac, cursus sodales, nisl. Praesent nisl sem, fermentum eu,
+				consequat quis, varius interdum, nulla. Donec neque tortor,
+				sollicitudin sed, consequat nec, facilisis sit amet, orci. Aenean
+				ut eros sit amet ante pharetra interdum.
+			</p>
+		</div>
+	</div>
+	
 </body>
 </html>
