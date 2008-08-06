@@ -125,7 +125,7 @@ dojo.declare(
 		// summary: set the open/close css state for the TitlePane
 		var classes = ["dijitClosed", "dijitOpen"];
 		var boolIndex = this.open;
-		var node = this.titleNode || this.focusNode
+		var node = this.titleBarNode || this.focusNode;
 		dojo.removeClass(node, classes[!boolIndex+0]);
 		node.className += " " + classes[boolIndex+0];
 
