@@ -571,10 +571,10 @@ dojo.declare("dijit._Widget", null, {
 		if(args == 2){ // setter
 			if(this[names.s]){
 				// use the explicit setter
-				this[names.s](value);
+				return this[names.s](value) || this;
 			}else if(this.set){
 				// default setter
-				this.set(name, value);
+				return this.set(name, value) || this;
 			}else if(name in this.attributeMap){
 				this.setAttribute(name, value);
 			}else{
@@ -784,15 +784,7 @@ dojo.declare("dijit._Widget", null, {
 		// |	// create a contentpane and add it to a TabContainer
 		// |	var tc = dijit.byId("myTabs");
 		// |	new dijit.layout.ContentPane({ href:"foo.html", title:"Wow!" }).placeAt(tc)
-		//
-		// example: 
-		// |	// add a new pane to a BorderContainer and set the content in one pass.	
-		// |	var bc = dijit.byId("bc1");
-		// |	new dijit.layout.ContentPane({
-		// |		region:"left",
-		// |		style:"width:100px"
-		// |	}).placeAt(bc).setContent("<p>wowzers</p>");
-		//
+
 		if(reference["declaredClass"] && reference["addChild"]){
 			reference.addChild(this, position);
 		}else{

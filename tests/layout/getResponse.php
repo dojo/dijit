@@ -24,10 +24,10 @@
 				$delay = 2;
 				break;
 			case 1:
-				echo "<div dojotype='dijit.TestWidget'>Testing setHref</div>";
+				echo "<div dojotype='dijit.TestWidget'>Testing attr('href', ...)</div>";
 				break;
 			case 2:
-				echo "<div dojotype='dijit.TestWidget'>Delayed setHref test</div>
+				echo "<div dojotype='dijit.TestWidget'>Delayed attr('href', ...) test</div>
 					  <div dojotype='dijit.TestWidget'>Delayed by " . ($delay/1000000) . " sec.</div>";
 				break;
 			case 3:

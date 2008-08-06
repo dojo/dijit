@@ -23,19 +23,27 @@ dojo.declare(
 	//		But note that those classes can contain any widget as a child.
 	// example:
 	//		Some quick samples:
-	//		To change the innerHTML use .setContent('<b>new content</b>')
+	//		To change the innerHTML use .attr('content', '<b>new content</b>')
 	//
-	//		Or you can send it a NodeList, .setContent(dojo.query('div [class=selected]', userSelection))
+	//		Or you can send it a NodeList, .attr('content', dojo.query('div [class=selected]', userSelection))
 	//		please note that the nodes in NodeList will copied, not moved
 	//
-	//		To do a ajax update use .setHref('url')
-	//
+	//		To do a ajax update use .attr('href', url)
+
 	// href: String
 	//		The href of the content that displays now.
 	//		Set this at construction if you want to load data externally when the
 	//		pane is shown.  (Set preload=true to load it immediately.)
-	//		Changing href after creation doesn't have any effect; see setHref();
+	//		Changing href after creation doesn't have any effect; use attr('href', ...);
 	href: "",
+
+/*=====
+	// content: String
+	//		The innerHTML of the ContentPane.
+	//		Note that the initialization parameter / argument to attr("content", ...)
+	//		can be a String, DomNode, Nodelist, or widget.
+	content: "",
+=====*/
 
 	// extractContent: Boolean
 	//	Extract visible content from inside of <body> .... </body>
@@ -100,6 +108,10 @@ dojo.declare(
 			this._loadCheck();
 		}
 
+		if(this.content){
+			this.attr("content", this.content);
+		}
+
 		if (!dijit.hasWaiRole(this.domNode)){
 			dijit.setWaiRole(this.domNode, "group");
 		}
@@ -147,9 +159,15 @@ dojo.declare(
 	},
 
 	setHref: function(/*String|Uri*/ href){
+		dojo.deprecated("dijit.layout.ContentPane.setHref() is deprecated.  Use attr('href', ...) instead.", "", "2.0");
+		return this.attr("href", data);
+	},
+	_attrSetHref: function(/*String|Uri*/ href){
 		// summary:
+		//		Hook so attr("href", ...) works.
+		// description:
 		//		Reset the (external defined) content of this pane and replace with new url
-		//		Note: It delays the download until widget is shown if preload is false
+		//		Note: It delays the download until widget is shown if preload is false.
 		//	href:
 		//		url to the page you want to get, must be within the same domain as your mainpage
 		this.href = href;
@@ -159,7 +177,12 @@ dojo.declare(
 	},
 
 	setContent: function(/*String|DomNode|Nodelist*/data){
+		dojo.deprecated("dijit.layout.ContentPane.setContent() is deprecated.  Use attr('content', ...) instead.", "", "2.0");
+		this.attr("content", data);
+	},
+	_attrSetContent: function(/*String|DomNode|Nodelist*/data){
 		// summary:
+		// 		Hook to make attr("content", ...) work.
 		//		Replaces old content with data content, include style classes from old content
 		//	data:
 		//		the new Content may be String, DomNode or NodeList
@@ -192,6 +215,10 @@ dojo.declare(
 		}
 
 		this._onLoadHandler();
+	},
+	_attrGetContent: function(){
+		// summary: hook to make attr("content") work
+		return this.containerNode.innerHTML;
 	},
 
 	cancel: function(){
@@ -302,7 +329,7 @@ dojo.declare(
 			try{
 				self.onDownloadEnd.call(self);
 				self._isDownloaded = true;
-				self.setContent.call(self, html); // onload event is called from here
+				self.attr.call(self, 'content', html); // onload event is called from here
 			}catch(err){
 				self._onError.call(self, 'Content', err); // onContentError
 			}
