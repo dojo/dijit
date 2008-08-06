@@ -105,9 +105,13 @@ dojo.declare("dijit.InlineEditBox",
 	},
 
 	setDisabled: function(/*Boolean*/ disabled){
-		// summary:
+		dojo.deprecated("dijit.layout.InlineEditBox.setDisabled() is deprecated.  Use attr('disabled', bool) instead.", "", "2.0");
+		this.attr('disabled', disabled);
+	},
+	_attrSetDisabled: function(/*Boolean*/ disabled){
+		// summary: 
+		//		Hook to make attr("disabled", ...) work.
 		//		Set disabled state of widget.
-
 		this.disabled = disabled;
 		dijit.setWaiState(this.domNode, "disabled", disabled);
 	},
@@ -217,7 +221,7 @@ dojo.declare("dijit.InlineEditBox",
 			value = value.replace(/&/gm, "&amp;").replace(/</gm, "&lt;").replace(/>/gm, "&gt;").replace(/"/gm, "&quot;")
 				.replace(/\n/g, "<br>");
 		}
-		this.setValue(value);
+		this.attr('value', value);
 
 		// tell the world that we have changed
 		this.onChange(value);
@@ -226,13 +230,20 @@ dojo.declare("dijit.InlineEditBox",
 	},
 
 	setValue: function(/*String*/ val){
-		// summary: inserts specified HTML value into this node, or an "input needed" character if node is blank
+		dojo.deprecated("dijit.InlineEditBox.setValue() is deprecated.  Use attr('value', ...) instead.", "", "2.0");
+		return this.attr("value", val);
+	},
+	_attrSetValue: function(/*String*/ val){
+		// summary:
+		// 		Hook to make attr("value", ...) work.
+		//		Inserts specified HTML value into this node, or an "input needed" character if node is blank.
 		this.value = val;
 		this.displayNode.innerHTML = dojo.trim(val) || this.noValueIndicator;
 	},
 
 	getValue: function(){
-		return this.value;
+		dojo.deprecated("dijit.InlineEditBox.getValue() is deprecated.  Use attr('value') instead.", "", "2.0");
+		return this.attr("value");
 	},
 
 	cancel: function(/*Boolean*/ focus){
