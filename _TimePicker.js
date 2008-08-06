@@ -83,15 +83,19 @@ dojo.declare("dijit._TimePicker",
 		// _filterString: string
 		//		The string to filter by
 		_filterString: "",
-		
-//TODOC: what is priority?
-		setValue:function(/*Date*/ date, /*Boolean*/ priority){
-			// summary:
-			//	Set the value of the TimePicker
-			//	Redraws the TimePicker around the new date
 
-			//dijit._TimePicker.superclass.setValue.apply(this, arguments);
-			this.value=date;
+		setValue: function(/*Date*/ value){
+			dojo.deprecated("dijit._TimePicker:setValue() is deprecated.  Use attr('value') instead.", "", "2.0");
+			this.attr('value', value);
+		},
+		_attrSetValue: function(/*Date*/ date){
+			// summary:
+			//		Hook so attr('value', ...) works.
+			// description:
+			//		Set the value of the TimePicker.
+			//		Redraws the TimePicker around the new date.
+
+			this.value = date;
 			this._showText();
 		},
 

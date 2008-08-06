@@ -39,7 +39,7 @@ dojo.declare(
 		serialize: dojo.date.stamp.toISOString,
 
 		//	value: Date
-		//		The value of this widget as a JavaScript Date object.  Use `getValue`/`setValue` to manipulate.
+		//		The value of this widget as a JavaScript Date object.  Use attr("value") / attr("value", val) to manipulate.
 		//		When passed to the parser in markup, must be specified according to `dojo.date.stamp.fromISOString`
 		value: new Date(""),	// value.toString()="NaN"
 
@@ -75,7 +75,7 @@ dojo.declare(
 			if(this._picker){
 				// #3948: fix blank date on popup only
 				if(!value){value=new Date();}
-				this._picker.setValue(value);
+				this._picker.attr('value', value);
 			}
 		},
 
@@ -112,7 +112,7 @@ dojo.declare(
 							(constraints.max && compare(constraints.max, date, "date") < 0));
 					}
 				});
-				this._picker.setValue(this.getValue() || new Date());
+				this._picker.attr('value', this.getValue() || new Date());
 			}
 			if(!this._opened){
 				dijit.popup.open({

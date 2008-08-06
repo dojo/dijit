@@ -60,12 +60,10 @@
 		after
 		<p>
 			<a href="#"
-			   onClick="for(var i=1; i!=5; i++){
-						var c = dijit.byId('calendar'+i);
-						c.isDisabledDate=dojo.date.locale.isWeekend;
-						c._populateGrid();
-					}
-				">disable weekends</a>
+			   onClick="dijit.registry.forEach(function(c){
+					c.isDisabledDate = dojo.date.locale.isWeekend;
+					c._populateGrid();
+				});">disable weekends</a>
 		</p>
 
 		<p>Customized template with "today" button</p>

@@ -43,8 +43,15 @@ dojo.declare(
 		dayWidth: "narrow",
 
 		setValue: function(/*Date*/ value){
-			// summary: set the current date and update the UI.  If the date is disabled, the selection will
-			//	not change, but the display will change to the corresponding month.
+			dojo.deprecated("dijit.Calendar:setValue() is deprecated.  Use attr('value', ...) instead.", "", "2.0");
+			this.attr('value', value);
+		},
+		_attrSetValue: function(/*Date*/ value){
+			// summary:
+			//		Hook to make attr("value", ...) work.
+			// description:
+			// 		Set the current date and update the UI.  If the date is disabled, the selection will
+			//		not change, but the display will change to the corresponding month.
 			if(!this.value || dojo.date.compare(value, this.value)){
 				value = new Date(value);
 				this.displayMonth = new Date(value);
@@ -152,7 +159,7 @@ dojo.declare(
 		},
 
 		goToToday: function(){
-			this.setValue(new Date());
+			this.attr('value', new Date());
 		},
 
 		postCreate: function(){
@@ -188,7 +195,7 @@ dojo.declare(
 			}, this);
 
 			this.value = null;
-			this.setValue(new Date());
+			this.attr('value', new Date());
 		},
 
 		_adjustDisplay: function(/*String*/part, /*int*/amount){
@@ -203,7 +210,7 @@ dojo.declare(
 				node = node.parentNode;
 			}
 			if(!dojo.hasClass(node, "dijitCalendarDisabledDate")){
-				this.setValue(node.dijitDateValue);
+				this.attr('value', node.dijitDateValue);
 				this.onValueSelected(this.value);
 			}
 		},
