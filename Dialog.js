@@ -132,13 +132,13 @@ dojo.declare(
 		// |	<div dojoType="dijit.Dialog" href="test.html"></div>
 		//
 		// example:
-		// |	<div id="test">test content</div>
-		// |	...
-		// |	var foo = new dijit.Dialog({ title: "test dialog" },dojo.byId("test"));
+		// |	var foo = new dijit.Dialog({ title: "test dialog", content: "test content" };
+		// |	dojo.body().appendChild(foo.domNode);
 		// |	foo.startup();
 		
 		templateString: null,
 		templatePath: dojo.moduleUrl("dijit", "templates/Dialog.html"),
+		injectAttributes: true,
 
 		// open: Boolean
 		//		is True or False depending on state of dialog
