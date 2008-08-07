@@ -37,12 +37,11 @@ dojo.declare(
 
 		getDisplayedValue: function(){
 			//	summary:
-			//		Returns the formatted value that the user sees in the textbox, which may be different
-			//		from the serialized value that's actually sent to the server (see dijit.form.ValidationTextBox.serialize)
+			//		Returns the displayed value (what the user sees on the screen),
+			// 		after filtering (ie, trimming spaces etc.).
+			//		The displayed value may be different from the serialized value that's actually 
+			//		sent to the server (see dijit.form.ValidationTextBox.serialize)
 			
-			// TODO: why is filter() called here? - BILL
-			// getDisplayedValue() is doing something more/different than returning the currently
-			// displayed value, and it's confusing.  Esp. code like this.setDisplayedValue(this.getDisplayedValue());
 			return this.filter(this.textbox.value);
 		},
 

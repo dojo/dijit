@@ -70,12 +70,12 @@
 		<br>
 		<input name="cb1" id="cb1" value="foo" dojoType="dijit.form.CheckBox" onClick="console.log('clicked cb1')">
 			<label for="cb1">cb1: normal checkbox, with value=foo, clicking generates console log messages</label>
-			<button onclick="alert(dijit.byId('cb1').getValue());return false">getValue()</button>
+			<button onclick="alert(dijit.byId('cb1').attr('value'));">attr('value')</button>
 		<br>
 		<input onChange="reportChecked" name="cb2" id="cb2" dojoType="dijit.form.CheckBox" checked="checked"/>
 			<label for="cb2">cb2: normal checkbox, with default value, initially turned on.</label>
 			<span>"onChange" handler updates: [<span id="oncheckedoutput"></span>]</span>
-			<button onclick="alert(dijit.byId('cb2').getValue());return false">getValue()</button>
+			<button onclick="alert(dijit.byId('cb2').attr('value'));">attr('value')</button>
 		<br>
 		<input name="cb3" id="cb3" dojoType="dijit.form.CheckBox" disabled="disabled">
 			<label for="cb3">cb3: disabled checkbox</label>
@@ -85,7 +85,7 @@
 		<br>
 		<input name="cb5" id="cb5" type="checkbox" value="" dojoType="dijit.form.CheckBox" onClick="console.log('clicked cb5')">
 			<label for="cb5">cb5: normal checkbox, with specified value="", clicking generates console log messages</label>
-			<button onclick="alert(dijit.byId('cb5').getValue());return false">getValue()</button>
+			<button onclick="alert(dijit.byId('cb5').attr('value'));">attr('value')</button>
 		<br>
 		<div id="checkboxContainer"></div>
 			<label for="cb6">cb6: instantiated from script</label>

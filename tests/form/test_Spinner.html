@@ -56,10 +56,10 @@
 						doh.robot.keyDown(s,dojo.keys.DOWN_ARROW,30);
 						doh.robot.keyUp(s,dojo.keys.DOWN_ARROW,11000);
 						setTimeout(function(){
-							if(spin1.getValue()<=800){
+							if(spin1.attr('value')<=800){
 								d.callback(true);
 							}else{
-								d.errback(new Error('Error in typematic test. Expected <=800, got '+spin1.getValue()));
+								d.errback(new Error('Error in typematic test. Expected <=800, got '+spin1.attr('value')));
 							}
 						}, 14000);
 						return d;
@@ -83,11 +83,11 @@
 						// takes 100ms/click
 						doh.robot.mouseWheel(sec,-10);
 						setTimeout(function(){
-							var v=spin1.getValue();
+							var v=spin1.attr('value');
 							if(v==(900+10*delta)){
 								d.callback(true);
 							}else{
-								d.errback(new Error("spinner 1: wrong value, expected "+(900+10*delta)+", got "+spin1.getValue()));							}
+								d.errback(new Error("spinner 1: wrong value, expected "+(900+10*delta)+", got "+spin1.attr('value')));							}
 						},900);
 						return d;
 					}
@@ -109,10 +109,10 @@
 						// takes 100ms/click
 						doh.robot.mouseWheel(sec,9);
 						setTimeout(function(){
-							if(spin2.getValue()==(1000-90*delta)){
+							if(spin2.attr('value')==(1000-90*delta)){
 								d.callback(true);
 							}else{
-								d.errback(new Error("spinner 2: wrong value, expected "+(1000-90*delta)+", got "+spin2.getValue()));
+								d.errback(new Error("spinner 2: wrong value, expected "+(1000-90*delta)+", got "+spin2.attr('value')));
 							}
 						},900);
 						return d;
@@ -135,10 +135,10 @@
 						// takes 100ms/click
 						doh.robot.mouseWheel(sec,-10); 
 						setTimeout(function(){
-							if(spin3.getValue()==(1.0+1.0*delta)){
+							if(spin3.attr('value')==(1.0+1.0*delta)){
 								d.callback(true);
 							}else{
-								d.errback(new Error("spinner 3: wrong value, expected "+(1.0+1.0*delta)+", got "+spin3.getValue()));
+								d.errback(new Error("spinner 3: wrong value, expected "+(1.0+1.0*delta)+", got "+spin3.attr('value')));
 							}
 						},900);
 						return d;

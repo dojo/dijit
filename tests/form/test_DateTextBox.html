@@ -72,7 +72,7 @@
 				<nobr>
 				<button onclick="dijit.byId('q1').setValue(null);return false">setValue(null)</button>
 				<button onclick="dojo.byId('gv1').value=''+dijit.byId('q1').attr('value');return false">get value</button>
-				<input id="gv1" size="34" disabled value="no getValue() yet!" autocomplete="off">
+				<input id="gv1" size="34" disabled value="not called yet!" autocomplete="off">
 				</nobr>
 			</div>
 			<div class="dojoTitlePaneLabel">
@@ -173,10 +173,10 @@
 			<div class="testExample">
 				From: <input id="fromDate" type="text" name="fromDate" dojoType="dijit.form.DateTextBox"
 					required="true"
-					onChange="dijit.byId('toDate').constraints.min = this.getValue();" />
+					onChange="dijit.byId('toDate').constraints.min = this.attr('value');" />
 				To: <input id="toDate" type="text" name="toDate" dojoType="dijit.form.DateTextBox"
 					required="true"
-					onChange="dijit.byId('fromDate').constraints.max = this.getValue();" />
+					onChange="dijit.byId('fromDate').constraints.max = this.attr('value');" />
 			</div>
 
 			<div>

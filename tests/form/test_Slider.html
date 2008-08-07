@@ -92,9 +92,9 @@
 								// drag to 20% marker
 								doh.robot.mouseMoveAt(sec, dojo.query("div[style*='20%']", dojo.byId('dijit_form_HorizontalRule_0'))[0]);
 								doh.robot.mouseRelease(sec, {left:true});
-								var value=slider.getValue();
+								var value=slider.attr('value');
 								setTimeout(function(){
-									var value=slider.getValue();
+									var value=slider.attr('value');
 									if(value>=19&&value<=21){
 										d.callback(true);
 									}else{
@@ -118,9 +118,9 @@
 								var marker=dojo.query("div[style*='80%']", dojo.byId('dijit_form_VerticalRule_1'))[0];
 								doh.robot.mouseMoveAt(sec, marker,0,0,0);
 								doh.robot.mouseRelease(sec, {left:true});
-								var value=slider.getValue();
+								var value=slider.attr('value');
 								setTimeout(function(){
-									var value=slider.getValue();
+									var value=slider.attr('value');
 									if(value==20){
 										d.callback(true);
 									}else{
@@ -145,7 +145,7 @@
 								doh.robot.mouseMoveAt(sec, dojo.query("div[style*='0%']", dojo.byId('dijit_form_VerticalRule_2'))[0],0,0,0);
 								doh.robot.mouseRelease(sec, {left:true});
 								setTimeout(function(){
-									var value=slider.getValue();
+									var value=slider.attr('value');
 									if(value==3000){
 										d.callback(true);
 									}else{
