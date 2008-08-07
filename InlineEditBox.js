@@ -101,7 +101,7 @@ dojo.declare("dijit.InlineEditBox",
 			this.displayNode.setAttribute("tabIndex", 0);
 		}
 
-		this.setValue(this.value || this.displayNode.innerHTML);
+		this.attr('value', this.value || this.displayNode.innerHTML);
 	},
 
 	setDisabled: function(/*Boolean*/ disabled){
@@ -217,11 +217,9 @@ dojo.declare("dijit.InlineEditBox",
 		this.editing = false;
 
 		var value = this.editWidget.getValue() + "";
-		if(!this.renderAsHtml){
-			value = value.replace(/&/gm, "&amp;").replace(/</gm, "&lt;").replace(/>/gm, "&gt;").replace(/"/gm, "&quot;")
-				.replace(/\n/g, "<br>");
-		}
-		this.attr('value', value);
+		this.attr('value', this.renderAsHtml? value
+			: value.replace(/&/gm, "&amp;").replace(/</gm, "&lt;").replace(/>/gm, "&gt;").replace(/"/gm, "&quot;").replace(/\n/g, "<br>")
+		);
 
 		// tell the world that we have changed
 		this.onChange(value);
