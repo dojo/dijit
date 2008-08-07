@@ -75,8 +75,13 @@ dojo.declare(
 			dijit.form.ComboBoxMixin.prototype._openResultList.apply(this, arguments);
 		},
 
-		getValue:function(){
+		_attrGetValue: function(){
+			// summary:
+			//		Hook for attr('value') to work.
+
 			// don't get the textbox value but rather the previously set hidden value
+			// TODO: seems suspicious that we need this; how is FilteringSelect different
+			// than another MappedTextBox widget?
 			return this.valueNode.value;
 		},
 

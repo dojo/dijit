@@ -59,9 +59,11 @@ dojo.declare("dijit.form.MultiSelect",dijit.form._FormWidget,{
 		});
 	},
 	
-	_getValueDeprecated: false, // remove when _FormWidget:_getValueDeprecated is removed in 2.0
-	getValue: function(){
-		// summary: Returns an array of the selected options' values
+	_attrGetValue: function(){
+		// summary:
+		//		Hook so attr('value') works.
+		// description:
+		//		Returns an array of the selected options' values.
 		return this.getSelected().map(function(n){
 			return n.value;
 		});
@@ -82,11 +84,11 @@ dojo.declare("dijit.form.MultiSelect",dijit.form._FormWidget,{
 		dojo.query("option",this.containerNode).forEach(function(n){
 			n.selected = !n.selected;
 		});
-		this._handleOnChange(this.getValue(), onChange==true);
+		this._handleOnChange(this.attr('value'), onChange==true);
 	},
 
 	_onChange: function(/*Event*/ e){
-		this._handleOnChange(this.getValue(), true);
+		this._handleOnChange(this.attr('value'), true);
 	},
 	
 	// for layout widgets:

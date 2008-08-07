@@ -237,13 +237,15 @@ dojo.declare(
 		//		locale-neutral.
 
 		serialize: function(/*anything*/val, /*Object?*/options){
-			// summary: user replaceable function used to convert the getValue() result to a String
+			// summary: user replaceable function used to convert the attr('value') result to a String
 			return val.toString ? val.toString() : ""; // String
 		},
 
 		toString: function(){
 			// summary: display the widget as a printable string using the widget's value
-			var val = this.filter(this.getValue());
+			
+			// TODO: seems like the filter() call here is unnecessary as attr('value') should do that
+			var val = this.filter(this.attr('value'));
 			return val != null ? (typeof val == "string" ? val : this.serialize(val, this.constraints)) : ""; // String
 		},
 
@@ -310,14 +312,14 @@ dojo.declare(
 
 		isInRange: function(/*Boolean*/ isFocused){
 			// summary: Need to over-ride with your own validation code in subclasses
-			return this.rangeCheck(this.getValue(), this.constraints);
+			return this.rangeCheck(this.attr('value'), this.constraints);
 		},
 
 		_isDefinitelyOutOfRange: function(){
 			// summary:
 			//	Returns true if the value is out of range and will remain
 			//	out of range even if the user types more characters
-			var val = this.getValue();
+			var val = this.attr('value');
 			var isTooLittle = false;
 			var isTooMuch = false;
 			if("min" in this.constraints){

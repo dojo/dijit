@@ -47,9 +47,10 @@ dojo.declare(
 			this.setAttribute('checked', newValue);
 		},
 
-		_getValueDeprecated: false, // remove when _FormWidget:_getValueDeprecated is removed
-		getValue: function(){
+		_attrGetValue: function(){
 			// summary:
+			//		Hook so attr('value') works.
+			// description:
 			//		If the CheckBox is checked, returns the value attribute.
 			//		Otherwise returns false.
 			return (this.checked ? this.value : false);
@@ -71,7 +72,7 @@ dojo.declare(
 			// resets <input type=checkbox> node's "value" attribute, in the unlikely event that it has been changed
 			this.setAttribute('value', this.params.value || "on");
 		},
-
+		
 		_onFocus: function(){
 			if(this.id){
 				dojo.query("label[for='"+this.id+"']").addClass("dijitFocusedLabel");

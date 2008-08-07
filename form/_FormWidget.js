@@ -271,10 +271,9 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 		this.setAttribute('value', value);
 	},
 
-	_getValueDeprecated: true, // Form uses this, remove when getValue is removed
 	getValue: function(){
-		dojo.deprecated("dijit.form._FormWidget:getValue() is deprecated.  Use widget.value instead.", "", "2.0");
-		return this.value;
+		dojo.deprecated(this.declaredClass+"::getValue() is deprecated. Use attr('value') instead.", "", "2.0");
+		return this.attr('value');
 	},
 
 	_layoutHack: function(){
@@ -321,9 +320,9 @@ dojo.declare("dijit.form._FormValueWidget", dijit.form._FormWidget,
 		this._handleOnChange(newValue, priorityChange);
 	},
 
-	_getValueDeprecated: false, // remove when _FormWidget:getValue is removed
-	getValue: function(){
-		// summary: get the value of the widget.
+	_attrGetValue: function(/*String*/ value){
+		// summary:
+		//		Hook so attr('value') works.
 		return this._lastValue;
 	},
 
@@ -338,7 +337,7 @@ dojo.declare("dijit.form._FormValueWidget", dijit.form._FormWidget,
 	},
 
 	_valueChanged: function(){
-		var v = this.getValue();
+		var v = this.attr('value');
 		var lv = this._lastValueReported;
 		// Equality comparison of objects such as dates are done by reference so
 		// two distinct objects are != even if they have the same data. So use
@@ -373,7 +372,7 @@ dojo.declare("dijit.form._FormValueWidget", dijit.form._FormWidget,
 		}else if(this.intermediateChanges){
 			var _this = this;
 			// the setTimeout allows the key to post to the widget input box
-			setTimeout(function(){ _this._handleOnChange(_this.getValue(), false); }, 0);
+			setTimeout(function(){ _this._handleOnChange(_this.attr('value'), false); }, 0);
 		}
 		return true;
 	}

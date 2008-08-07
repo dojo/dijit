@@ -110,7 +110,7 @@
 				onChange:<input id="oc3" size="14" disabled value="not fired yet!" autocomplete="off">
 				<nobr>
 				<button onclick="dijit.byId('q03').setValue(null);return false">setValue(null)</button>
-				<button onclick="dojo.byId('gv3').value=''+dijit.byId('q03').getValue();return false">getValue:</button>
+				<button onclick="dojo.byId('gv3').value=''+dijit.byId('q03').attr('value');return false">get value</button>
 				<input id="gv3" size="10" disabled value="" autocomplete="off">
 				</nobr>
 			</div>

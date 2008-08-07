@@ -105,10 +105,12 @@ dojo.declare(
 			}
 			editNode.removeChild(sizeNode);
 		}
-		dijit.form.Textarea.superclass.setValue.call(this, this.getValue(), priorityChange);
+		dijit.form.Textarea.superclass.setValue.call(this, this.attr('value'), priorityChange);
 	},
 
-	getValue: function(){
+	_attrGetValue: function(){
+		// summary:
+		//		Hook so attr('value') works.
 		return this.value.replace(/\r/g,"");
 	},
 

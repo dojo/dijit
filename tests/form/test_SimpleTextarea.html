@@ -49,8 +49,8 @@
 		<nobr>
 		<button onclick="dijit.byId('q1').reset();return false">reset</button>
 		<button onclick="dijit.byId('q1').setValue(null);return false">setValue(null)</button>
-		<button onclick="dojo.byId('gv1').value=''+dijit.byId('q1').getValue();return false">getValue:</button>
-		<textarea id="gv1" rows="6" cols="50" disabled autocomplete="off">no getValue() yet!</textarea>
+		<button onclick="dojo.byId('gv1').value=''+dijit.byId('q1').attr('value');return false">get value</button>
+		<textarea id="gv1" rows="6" cols="50" disabled autocomplete="off">no value yet!</textarea>
 		</nobr>
 
 		<h2>In a BorderContainer</h2>

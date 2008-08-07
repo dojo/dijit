@@ -112,7 +112,7 @@ dojo.declare(
 							(constraints.max && compare(constraints.max, date, "date") < 0));
 					}
 				});
-				this._picker.attr('value', this.getValue() || new Date());
+				this._picker.attr('value', this.attr('value') || new Date());
 			}
 			if(!this._opened){
 				dijit.popup.open({

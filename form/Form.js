@@ -189,7 +189,7 @@ dojo.declare("dijit.form._FormMixin", null,
 				if(!name||widget.disabled){ return; }
 
 				// Single value widget (checkbox, radio, or plain <input> type widget
-				var value = (widget.getValue && !widget._getValueDeprecated) ? widget.getValue() : widget.value;
+				var value = widget.attr('value');
 
 				// Store widget's value(s) as a scalar, except for checkboxes which are automatically arrays
 				if(typeof widget.checked == 'boolean'){
