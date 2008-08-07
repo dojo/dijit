@@ -280,8 +280,8 @@
 			<option>Wyoming</option>
 		</select>
 		<br>onChange:<input id="oc1" disabled value="not fired yet!" autocomplete="off">
-		<input type="button" value="Set displayed value to Kentucky" onClick="dijit.byId('setvaluetest').setDisplayedValue('Kentucky')" tabIndex="-1">
-	        <input type="button" value="Set displayed value to Canada" onClick="dijit.byId('setvaluetest').setDisplayedValue('Canada')" tabIndex="-1">
+		<input type="button" value="Set displayed value to Kentucky" onClick="dijit.byId('setvaluetest').attr('displayedValue', 'Kentucky')" tabIndex="-1">
+	        <input type="button" value="Set displayed value to Canada" onClick="dijit.byId('setvaluetest').attr('displayedValue', 'Canada')" tabIndex="-1">
 
 		<hr>
 

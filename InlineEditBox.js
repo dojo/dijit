@@ -24,8 +24,7 @@ dojo.declare("dijit.InlineEditBox",
 	//		inline values a TextBox), but you can specify an editor such as
 	//		dijit.Editor (for editing HTML) or a Slider (for adjusting a number).
 	//		An edit widget must support the following API to be used:
-	//			String getDisplayedValue() OR String getValue()
-	//			void setDisplayedValue(String) OR void setValue(String)
+	//			String attr('displayedValue', ...) OR String attr('value')
 	//			void focus()
 	//			DOM-node focusNode = node containing editable text
 	//
@@ -289,7 +288,7 @@ dojo.declare(
 	postCreate: function(){
 		// Create edit widget in place in the template
 		var cls = dojo.getObject(this.editor);
-		this.editorParams.value = this.value;
+		this.editorParams[ "displayedValue" in cls.prototype ? "displayedValue" : "value"]= this.value;
 		var ew = this.editWidget = new cls(this.editorParams, this.editorPlaceholder);
 
 		// Copy the style from the source
@@ -317,9 +316,6 @@ dojo.declare(
 		// so this is the only way we can see the key press event.
 		this.connect(ew, "onKeyPress", "_onKeyPress");
 
-		// priorityChange=false will prevent bogus onChange event
-		(this.editWidget.setDisplayedValue||this.editWidget.setValue).call(this.editWidget, this.value, false);
-
 		this._initialText = this.getValue();
 
 		if(this.autoSave){
@@ -334,7 +330,7 @@ dojo.declare(
 
 	getValue: function(){
 		var ew = this.editWidget;
-		return ew.getDisplayedValue ? ew.getDisplayedValue() : ew.getValue();
+		return ew.getDisplayedValue ? ew.getDisplayedValue() : ew.attr('value');
 	},
 
 	_onKeyPress: function(e){

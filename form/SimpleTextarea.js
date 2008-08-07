@@ -36,8 +36,8 @@ dojo.declare("dijit.form.SimpleTextarea",
 		}
 	},
 
-	getDisplayedValue: function(){
-		// TODO: shouldn't we be overriding filter() rather than getDisplayedValue()? - BILL
-		return this.filter(this.textbox.value.replace(/\r/g,""));
+	filter: function(/*String*/ value){
+		value = value.replace(/\r/g,"");
+		return this.inherited(arguments);
 	}
 });

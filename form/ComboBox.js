@@ -13,7 +13,7 @@ dojo.declare(
 		// summary:
 		//		Implements the base functionality for ComboBox/FilteringSelect
 		// description:
-		//		All widgets that mix in dijit.formComboBoxMixin) must extend dijit.form._FormValueWidget
+		//		All widgets that mix in dijit.form.ComboBoxMixin must extend dijit.form._FormValueWidget
 
 		// item: Object
 		//		This is the item returned by the dojo.data.store implementation that
@@ -190,7 +190,8 @@ dojo.declare(
 							break;
 						}
 					}else{
-						this.setDisplayedValue(this.getDisplayedValue());
+						// Update 'value' (ex: KY) according to currently displayed text
+						this.attr('displayedValue', this.attr('displayedValue'));
 					}
 					// default case:
 					// prevent submit, but allow event to bubble
@@ -198,7 +199,7 @@ dojo.declare(
 					// fall through
 
 				case dk.TAB:
-					var newvalue = this.getDisplayedValue();
+					var newvalue = this.attr('displayedValue');
 					// #4617: 
 					//		if the user had More Choices selected fall into the
 					//		_onBlur handler
@@ -413,7 +414,7 @@ dojo.declare(
 			// #4617: 
 			//		if value is now more choices or previous choices, revert
 			//		the value
-			var newvalue=this.getDisplayedValue();
+			var newvalue=this.attr('displayedValue');
 			var pw = this._popupWidget;
 			if(pw && (
 				newvalue == pw._messages["previousMessage"] ||
@@ -422,7 +423,8 @@ dojo.declare(
 			){
 				this.setValue(this._lastValueReported, true);
 			}else{
-				this.setDisplayedValue(newvalue);
+				// Update 'value' (ex: KY) according to currently displayed text
+				this.attr('displayedValue', newvalue);
 			}
 		},
 
@@ -466,7 +468,7 @@ dojo.declare(
 				// what if nothing is highlighted yet?
 			if(!evt.target){
 				// handle autocompletion where the the user has hit ENTER or TAB
-				this.setDisplayedValue(this.getDisplayedValue());
+				this.attr('displayedValue', this.attr('displayedValue'));
 				return;
 			// otherwise the user has accepted the autocompleted value
 			}else{

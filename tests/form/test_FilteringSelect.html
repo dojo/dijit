@@ -143,8 +143,8 @@
 			<option value="WY">Wyoming</option>
 		</select>
 		onChange:<input id="oc1" disabled value="not fired yet!" autocomplete="off">
-		<input type="button" value="Set displayed value to Kentucky (valid)" onClick="dijit.byId('setvaluetest2').setDisplayedValue('Kentucky')">
-		<input type="button" value="Set displayed value to Canada (invalid)" onClick="dijit.byId('setvaluetest2').setDisplayedValue('Canada')">
+		<input type="button" value="Set displayed value to Kentucky (valid)" onClick="dijit.byId('setvaluetest2').attr('displayedValue', 'Kentucky')">
+		<input type="button" value="Set displayed value to Canada (invalid)" onClick="dijit.byId('setvaluetest2').attr('displayedValue', 'Canada')">
 		<hr>
 
 		<div dojoType="dojo.data.ItemFileReadStore" jsId="stateStore"

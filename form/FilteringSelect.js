@@ -34,7 +34,7 @@ dojo.declare(
 		_lastDisplayedValue: "",
 
 		isValid:function(){
-			return this._isvalid || (!this.required && this.getDisplayedValue() == ""); // #5974
+			return this._isvalid || (!this.required && this.attr('displayedValue') == ""); // #5974
 		},
 
 		_callbackSetLabel: function(	/*Array*/ result, 
@@ -105,7 +105,7 @@ dojo.declare(
 			this._lastQuery=value;
 
 			if(!value){
-				this.setDisplayedValue("",priorityChange);
+				this.attr('displayedValue', '');	// TODO: do we need to pass priorityChange like in 1.1?  - BILL
 				return;
 			}
 
@@ -143,7 +143,7 @@ dojo.declare(
 			//		selected item.
 			//	description:
 			//		Users shouldn't call this function; they should be calling
-			//		setDisplayedValue() instead
+			//		attr('displayedValue', value) instead
 			this._isvalid=true;
                         this.item = item; // Fix #6381
 			this._setValue(	this.store.getIdentity(item), 
@@ -166,10 +166,12 @@ dojo.declare(
 			this._setValueFromItem(tgt.item, true);
 		},
 
-		setDisplayedValue:function(/*String*/ label, /*Boolean?*/ priorityChange){
+		_attrSetDisplayedValue: function(/*String*/ label, /*Boolean?*/ priorityChange){
 			// summary:
+			//		Hook so attr('displayedValue', label) works.
+			// description:
 			//		Set textbox to display label. Also performs reverse lookup
-			//		to set the hidden value. Used in InlineEditBox
+			//		to set the hidden value.
 
 			if(this.store){
 				var query = dojo.clone(this.query); // #6196: populate query with user-specifics
@@ -216,11 +218,11 @@ dojo.declare(
 		},
 
 		undo: function(){
-			this.setDisplayedValue(this._lastDisplayedValue);
+			this.attr('displayedValue', this._lastDisplayedValue);
 		},
 
 		_valueChanged: function(){
-			return this.getDisplayedValue()!=this._lastDisplayedValue;
+			return this.attr('displayedValue')!=this._lastDisplayedValue;
 		}
 	}
 );

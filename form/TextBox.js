@@ -35,16 +35,6 @@ dojo.declare(
 		attributeMap: dojo.mixin(dojo.clone(dijit.form._FormValueWidget.prototype.attributeMap),
 			{maxLength:"focusNode"}),
 
-		getDisplayedValue: function(){
-			//	summary:
-			//		Returns the displayed value (what the user sees on the screen),
-			// 		after filtering (ie, trimming spaces etc.).
-			//		The displayed value may be different from the serialized value that's actually 
-			//		sent to the server (see dijit.form.ValidationTextBox.serialize)
-			
-			return this.filter(this.textbox.value);
-		},
-
 		_attrGetValue: function(){
 			// summary:
 			//		Hook so attr('value') works as we like.
@@ -52,7 +42,7 @@ dojo.declare(
 			//		For TextBox this simply returns the value of the <input>,
 			//		but the parse() call is so subclasses can change this
 			//		behavior w/out overriding this method.
-			return this.parse(this.getDisplayedValue(), this.constraints);
+			return this.parse(this.attr('displayedValue'), this.constraints);
 		},
 
 		setValue: function(value, /*Boolean?*/ priorityChange, /*String?*/ formattedValue){
@@ -87,19 +77,54 @@ dojo.declare(
 			dijit.form.TextBox.superclass.setValue.call(this, filteredValue, priorityChange);
 		},
 
-		setDisplayedValue: function(/*String*/value, /*Boolean?*/ priorityChange){
-			//	summary: 
+		// displayedValue: String
+		//		For subclasses like ComboBox where the displayed value
+		//		(ex: Kentucky) and the serialized value (ex: KY) are different,
+		//		this represents the displayed value.
+		//
+		//		Setting 'displayedValue' through attr('displayedValue', ...)
+		//		updates 'value', and vice-versa.  Othewise 'value' is updated
+		//		from 'displayedValue' periodically, like onBlur etc.
+		//
+		//		TODO: move declaration to MappedTextBox?
+		//		Problem is that ComboBox references displayedValue,
+		//		for benefit of FilteringSelect.
+		displayedValue: "",
+
+		getDisplayedValue: function(){
+			dojo.deprecated(this.declaredClass+"::getDisplayedValue() is deprecated. Use attr('displayedValue') instead.", "", "2.0");
+			return this.attr('displayedValue');
+		},
+
+		_attrGetDisplayedValue: function(){
+			//	summary:
+			//		Hook so attr('displayedValue') works.
+			//	description:
+			//		Returns the displayed value (what the user sees on the screen),
+			// 		after filtering (ie, trimming spaces etc.).
+			//
+			//		For some subclasses of TextBox (like ComboBox), the displayed value
+			//		is different from the serialized value that's actually 
+			//		sent to the server (see dijit.form.ValidationTextBox.serialize)
+			
+			return this.filter(this.textbox.value);
+		},
+
+		setDisplayedValue: function(/*String*/value){
+			dojo.deprecated(this.declaredClass+"::setDisplayedValue() is deprecated. Use attr('displayedValue', ...) instead.", "", "2.0");
+			this.attr('displayedValue', value);
+		},
+			
+		_attrSetDisplayedValue: function(/*String*/value){
+			// summary:
+			//		Hook so attr('displayedValue', ...) works.
+			//	description: 
 			//		Sets the value of the visual element to the string "value".
 			//		The widget value is also set to a corresponding,
 			//		but not necessarily the same, value.
-			//
-			//	priorityChange:
-			// 		If true, an onChange event is fired immediately instead of 
-			//		waiting for the next blur event.
-			//		Only used internally, users should not set this flag.
 
 			this.textbox.value = value;
-			this.setValue(this.attr('value'), priorityChange);
+			this.setValue(this.attr('value'));
 		},
 
 		format: function(/* String */ value, /* Object */ constraints){
@@ -117,7 +142,7 @@ dojo.declare(
 		postCreate: function(){
 			// setting the value here is needed since value="" in the template causes "undefined"
 			// and setting in the DOM (instead of the JS object) helps with form reset actions
-			this.textbox.setAttribute("value", this.getDisplayedValue());
+			this.textbox.setAttribute("value", this.attr('displayedValue'));
 			this.inherited(arguments);
 
 			/*#5297:if(this.srcNodeRef){
