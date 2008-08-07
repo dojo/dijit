@@ -306,9 +306,9 @@ dojo.declare(
 				var _nlsResources = dojo.i18n.getLocalization("dijit", "common");
 				var closeMenu = new dijit.Menu({targetNodeIds:[button.id], id:button.id+"_Menu"});
 				var mItem = new dijit.MenuItem({label:_nlsResources.itemClose});
-            	dojo.connect(mItem, "onClick", dojo.hitch(this, "onCloseButtonClick", page));
-           		closeMenu.addChild(mItem);
-           		this.pane2menu[page] = closeMenu;
+				dojo.connect(mItem, "onClick", dojo.hitch(this, "onCloseButtonClick", page));
+				closeMenu.addChild(mItem);
+				this.pane2menu[page] = closeMenu;
 			}
 			if(!this._currentChild){ // put the first child into the tab order
 				button.focusNode.setAttribute("tabIndex", "0");
@@ -327,7 +327,7 @@ dojo.declare(
 			if(this._currentChild === page){ this._currentChild = null; }
 			var button = this.pane2button[page];
 			var menu = this.pane2menu[page];
-			if (menu){
+			if(menu){
 				menu.destroy();
 			}
 			if(button){
@@ -344,7 +344,7 @@ dojo.declare(
 			if(!page){ return; }
 
 			if(this._currentChild){
-				var oldButton=this.pane2button[this._currentChild];
+				var oldButton = this.pane2button[this._currentChild];
 				oldButton.setAttribute('checked', false);
 				oldButton.focusNode.setAttribute("tabIndex", "-1");
 			}

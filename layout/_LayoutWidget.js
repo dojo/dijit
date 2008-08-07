@@ -150,8 +150,8 @@ dijit.layout.marginBox2contentBox = function(/*DomNode*/ node, /*Object*/ mb){
 	//		Functions like dojo.contentBox() but is more reliable since it doesn't have
 	//		to wait for the browser to compute sizes.
 	var cs = dojo.getComputedStyle(node);
-	var me=dojo._getMarginExtents(node, cs);
-	var pb=dojo._getPadBorderExtents(node, cs);
+	var me = dojo._getMarginExtents(node, cs);
+	var pb = dojo._getPadBorderExtents(node, cs);
 	return {
 		l: dojo._toPixelValue(node, cs.paddingLeft),
 		t: dojo._toPixelValue(node, cs.paddingTop),
@@ -213,7 +213,7 @@ dijit.layout.marginBox2contentBox = function(/*DomNode*/ node, /*Object*/ mb){
 
 			// set size && adjust record of remaining space.
 			// note that setting the width of a <div> may affect it's height.
-			if(pos=="top" || pos=="bottom"){
+			if(pos == "top" || pos == "bottom"){
 				size(child, { w: dim.w });
 				dim.h -= child.h;
 				if(pos=="top"){
@@ -221,15 +221,15 @@ dijit.layout.marginBox2contentBox = function(/*DomNode*/ node, /*Object*/ mb){
 				}else{
 					elmStyle.top = dim.t + dim.h + "px";
 				}
-			}else if(pos=="left" || pos=="right"){
+			}else if(pos == "left" || pos == "right"){
 				size(child, { h: dim.h });
 				dim.w -= child.w;
-				if(pos=="left"){
+				if(pos == "left"){
 					dim.l += child.w;
 				}else{
 					elmStyle.left = dim.l + dim.w + "px";
 				}
-			}else if(pos=="client"){
+			}else if(pos == "client"){
 				size(child, dim);
 			}
 		});
