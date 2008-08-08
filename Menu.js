@@ -512,42 +512,34 @@ dojo.declare("dijit.CheckedMenuItem",
 		+'</tr>',
 
 	// checked: Boolean
-	//	our checked state
+	//		Our checked state
 	checked: false,
-	
-	onChange: function(/*Boolean*/ checked){
-		// summary: User defined function to handle change events
-	},
-	
-	_onClick: function(/*Event*/ e){
-		// summary: Clicking this item just toggles its state
-		if(!this.disabled){
-			this.setAttribute("checked", !this.checked);
-		}
-		this.inherited(arguments);
-	},
-	
-	_setChecked: function(/*Boolean*/ checked){
-		// summary: Sets the class and state for the check box
+	_attrSetChecked: function(/*Boolean*/ checked){
+		// summary:
+		//		Hook so attr('checked', bool) works.
+		//		Sets the class and state for the check box.
 		dojo.toggleClass(this.iconNode, "dijitCheckedMenuItemIconChecked", checked);
 		dijit.setWaiState(this.domNode, "checked", checked);
 		this.checked = checked;
 	},
-	
-	setAttribute: function(/*String*/ attr, /*anything*/ value){
-		// summary: overridden in order to handle setting checked state
-		if(attr == "checked" && value != this.checked){
-			this._setChecked(value);
-			this.onChange(this.checked);
-		}else if(attr != "checked"){
-			this.inherited(arguments);
-		}
+
+	onChange: function(/*Boolean*/ checked){
+		// summary: User defined function to handle change events
 	},
-	
+
+	_onClick: function(/*Event*/ e){
+		// summary: Clicking this item just toggles its state
+		if(!this.disabled){
+			this.attr("checked", !this.checked);
+			this.onChange(this.checked);
+		}
+		this.inherited(arguments);
+	},
+
 	postCreate: function(){
 		this.inherited(arguments);
-		// Create a 
+
 		// Need to set our initial checked state
-		this._setChecked(this.checked);
+		this.attr('checked', this.checked);
 	}
 });
