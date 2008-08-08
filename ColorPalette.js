@@ -74,8 +74,8 @@ dojo.declare("dijit.ColorPalette",
 	// _imagePaths: Map
 	//		This is stores the path to the palette images
 	_imagePaths: {
-		"7x10": dojo.moduleUrl("dijit", "templates/colors7x10.png"),
-		"3x4": dojo.moduleUrl("dijit", "templates/colors3x4.png")
+		"7x10": dojo.moduleUrl("dijit.themes", "a11y/colors7x10.png"),
+		"3x4": dojo.moduleUrl("dijit.themes", "a11y/colors3x4.png")
 	},
 
 	// _paletteCoords: Map
