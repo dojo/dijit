@@ -37,7 +37,9 @@ dojo.declare("dijit.form.SimpleTextarea",
 	},
 
 	filter: function(/*String*/ value){
-		value = value.replace(/\r/g,"");
+		if(value){
+			value = value.replace(/\r/g,"");
+		}
 		return this.inherited(arguments);
 	}
 });

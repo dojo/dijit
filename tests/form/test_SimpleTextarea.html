@@ -47,9 +47,9 @@
 		</textarea>
 		onChange:<textarea id="oc1" rows="6" cols="50" disabled autocomplete="off">not fired yet!</textarea>
 		<nobr>
-		<button onclick="dijit.byId('q1').reset();return false">reset</button>
-		<button onclick="dijit.byId('q1').setValue(null);return false">setValue(null)</button>
-		<button onclick="dojo.byId('gv1').value=''+dijit.byId('q1').attr('value');return false">get value</button>
+		<button onclick="dijit.byId('q1').reset();">reset</button>
+		<button onclick="dijit.byId('q1').attr('value', null);">set value to null</button>
+		<button onclick="dojo.byId('gv1').value=''+dijit.byId('q1').attr('value');">get value</button>
 		<textarea id="gv1" rows="6" cols="50" disabled autocomplete="off">no value yet!</textarea>
 		</nobr>
 

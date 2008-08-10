@@ -88,7 +88,7 @@
 					timeout:10000,
 					name:"Tab",
 					setUp:function(){
-						dijit.byId('datatestDijit').setValue("");
+						dijit.byId('datatestDijit').attr("value", "");
 					},
 					runTest: function(){
 						var d = new doh.Deferred();
@@ -121,7 +121,7 @@
 					timeout:8000,
 					name:"SimpleClick",
 					setUp:function(){
-						dijit.byId('datatest').setValue("");
+						dijit.byId('datatest').attr("value", "");
 					},
 					runTest: function(){
 						var d = new doh.Deferred();

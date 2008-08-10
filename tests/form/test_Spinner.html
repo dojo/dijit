@@ -44,7 +44,7 @@
 					name: "spinner0",
 					timeout: 15000,
 					setUp:function(){
-						spin1.setValue(900);
+						spin1.attr('value', 900);
 					},
 					runTest: function(){
 						// test typematic
@@ -71,7 +71,7 @@
 				{
 					name:"spinner1",
 					setUp:function(){
-						spin1.setValue(900);
+						spin1.attr('value', 900);
 					},
 					runTest:function(){
 						// get the mouse's delta
@@ -98,7 +98,7 @@
 				{
 					name:"spinner2",
 					setUp:function(){
-						spin2.setValue(1000);
+						spin2.attr('value', 1000);
 					},
 					runTest:function(){
 						// test custom delta with mouse wheel
@@ -124,7 +124,7 @@
 				{
 					name:"spinner3",
 					setUp:function(){
-						spin3.setValue(1.0);
+						spin3.attr('value', 1.0);
 					},
 					runTest:function(){
 						// test real number spinner with mouse wheel
