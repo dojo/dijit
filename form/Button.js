@@ -7,8 +7,11 @@ dojo.declare("dijit.form.Button",
 	dijit.form._FormWidget,
 	{
 	// summary:
-	//	Basically the same thing as a normal HTML button, but with special styling.
-	//
+	//		Basically the same thing as a normal HTML button, but with special styling.
+	// description:
+	//		Buttons can display a label, an icon, or both.
+	//		A label should always be specified (through innerHTML) or the label
+	//		attribute.  It can be hidden via showLabel=false.
 	// example:
 	// |	<button dojoType="dijit.form.Button" onClick="...">Hello world</button>
 	// 
@@ -16,12 +19,20 @@ dojo.declare("dijit.form.Button",
 	// |	var button1 = new dijit.form.Button({label: "hello world", onClick: foo});
 	// |	dojo.body().appendChild(button1.domNode);
 
-	// label: String
-	//	text to display in button
+	// label: HTML String
+	//		Text to display in button.
+	//		If the label is hidden (showLabel=false) then and no title has
+	//		been specified, then label is also set as title attribute of icon.
 	label: "",
 
 	// showLabel: Boolean
-	//	whether or not to display the text label in button
+	//		Set this to true to hide the label text and display only the icon.
+	//		(If showLabel=false then iconClass must be specified.)
+	//		Especially useful for toolbars.  
+	//		If showLabel=true, the label will become the title (a.k.a. tooltip/hint) of the icon.
+	//
+	//		The exception case is for computers in high-contrast mode, where the label
+	//		will still be displayed, since the icon doesn't appear.
 	showLabel: true,
 
 	// iconClass: String
@@ -60,15 +71,22 @@ dojo.declare("dijit.form.Button",
 		}
 	},
 
+	_fillContent: function(/*DomNode*/ source){
+		// summary:
+		//		If button label is specified as srcNodeRef.innerHTML rather than
+		//		this.params.label, handle it here.
+		if(source && !("label" in this.params)){
+			this.attr('label', source.innerHTML);
+		}
+	},
+
 	postCreate: function(){
 		// summary:
 		//	get label and set as title on button icon if necessary
+		if(this.params.label){
+			this.attr('label', this.params.label);
+		}
 		if (this.showLabel == false){
-			this.label = this.containerNode.innerHTML;
-			// if no title provided, set title attrib on iconNode
-			if(!dojo.attr(this.domNode, "title")){
-				this.titleNode.title=dojo.trim(this.containerNode.innerText || this.containerNode.textContent || '');
-			}
 			dojo.addClass(this.containerNode,"dijitDisplayNone");
 		}
 		dojo.setSelectable(this.focusNode, false);
@@ -92,11 +110,12 @@ dojo.declare("dijit.form.Button",
 	_attrSetLabel: function(/*String*/ content){
 		// summary:
 		//		Hook for attr('label', ...) to work.
-		//		Reset the label (text) of the button; takes an HTML string.
+		// description:
+		//		Set the label (text) of the button; takes an HTML string.
 		this.containerNode.innerHTML = this.label = content;
 		this._layoutHack();
-		if (this.showLabel == false && !(dojo.attr(this.domNode, "title"))){
-			this.titleNode.title=dojo.trim(this.containerNode.innerText || this.containerNode.textContent || '');
+		if (this.showLabel == false && !this.params.title){
+			this.titleNode.title = dojo.trim(this.containerNode.innerText || this.containerNode.textContent || '');
 		}
 	}		
 });
