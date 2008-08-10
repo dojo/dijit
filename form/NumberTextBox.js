@@ -29,7 +29,7 @@ dojo.declare(
 		editOptions: { pattern: '#.######' },
 
 		_onFocus: function(){
-			this.setValue(this.attr('value'), false);	
+			this._setValueAttr(this.attr('value'), false);	
 			this.inherited(arguments);
 		},
 
@@ -57,7 +57,7 @@ dojo.declare(
 		=====*/
 
 		filter: function(/*Number*/ value){
-			return (value === null)? NaN : this.inherited(arguments); // setValue(null) should fire onChange(NaN)
+			return (value === null)? NaN : this.inherited(arguments); // attr('value', null) should fire onChange(NaN)
 		},
 
 		_getValueAttr: function(){

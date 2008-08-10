@@ -46,7 +46,7 @@ dojo.declare(
 		_arrowPressed: function(/*Node*/ nodePressed, /*Number*/ direction, /*Number*/ increment){
 			if(this.disabled || this.readOnly){ return; }
 			this._arrowState(nodePressed, true);
-			this.setValue(this.adjust(this.attr('value'), direction*increment), false);
+			this._setValueAttr(this.adjust(this.attr('value'), direction*increment), false);
 			dijit.selectInputText(this.textbox, this.textbox.value.length);
 		},
 

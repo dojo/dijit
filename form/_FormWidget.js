@@ -268,7 +268,7 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 
 	setValue: function(/*String*/ value){
 		dojo.deprecated("dijit.form._FormWidget:setValue("+value+") is deprecated.  Use attr('value',"+value+") instead.", "", "2.0");
-		this.setAttribute('value', value);
+		this.attr('value', value);
 	},
 
 	getValue: function(){
@@ -314,11 +314,11 @@ dojo.declare("dijit.form._FormValueWidget", dijit.form._FormWidget,
 		if("displayedValue" in this.params){
 			this.attr('displayedValue', this.params.displayedValue);
 		}else{
-			this.setValue(this.value, null);
+			this._setValueAttr(this.value, null);
 		}
 	},
 
-	setValue: function(/*anything*/ newValue, /*Boolean, optional*/ priorityChange){
+	_setValueAttr: function(/*anything*/ newValue, /*Boolean, optional*/ priorityChange){
 		// summary: set the value of the widget.
 		this.value = newValue;
 		this._handleOnChange(newValue, priorityChange);
@@ -337,7 +337,7 @@ dojo.declare("dijit.form._FormValueWidget", dijit.form._FormWidget,
 
 	reset: function(){
 		this._hasBeenBlurred = false;
-		this.setValue(this._resetValue, true);
+		this._setValueAttr(this._resetValue, true);
 	},
 
 	_valueChanged: function(){

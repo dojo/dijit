@@ -20,7 +20,7 @@ dojo.declare("dijit.form.MultiSelect",dijit.form._FormWidget,{
 	reset: function(){
 		// TODO: once we inherit from FormValueWidget this won't be needed
 		this._hasBeenBlurred = false;
-		this.setValue(this._resetValue, true);
+		this._setValueAttr(this._resetValue, true);
 	},
 
 	addSelected: function(/* dijit.form.MultiSelect */select){
@@ -70,7 +70,8 @@ dojo.declare("dijit.form.MultiSelect",dijit.form._FormWidget,{
 	},
 	
 	_multiValue: true, // for Form
-	setValue: function(/* Array */values){
+
+	_setValueAttr: function(/* Array */values){
 		// summary: Set the value(s) of this Select based on passed values
 		dojo.query("option",this.containerNode).forEach(function(n){
 			n.selected = (dojo.indexOf(values,n.value) != -1);

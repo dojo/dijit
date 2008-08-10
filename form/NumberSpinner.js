@@ -35,7 +35,7 @@ dojo.declare(
 		if((e.charOrCode == dojo.keys.HOME || e.charOrCode == dojo.keys.END) && !e.ctrlKey && !e.altKey){
 			var value = e.charOrCode == dojo.keys.HOME ? this.constraints["min"] : this.constraints["max"];
 			if (value){
-				this.setValue(value,true);
+				this._setValueAttr(value,true);
 			}
 			// eat home or end key whether we change the value or not
 			dojo.stopEvent(e);

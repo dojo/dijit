@@ -68,7 +68,7 @@ dojo.declare(
 			this._open();
 		},
 
-		setValue: function(/*Date*/ value, /*Boolean?*/ priorityChange, /*String?*/ formattedValue){
+		_setValueAttr: function(/*Date*/ value, /*Boolean?*/ priorityChange, /*String?*/ formattedValue){
 			// summary:
 			//	Sets the date on this textbox.  Note that `value` must be a Javascript Date object.
 			this.inherited(arguments);
@@ -99,7 +99,7 @@ dojo.declare(
 						setTimeout(dojo.hitch(textBox, "_close"), 1); // allow focus time to take
 
 						// this will cause InlineEditBox and other handlers to do stuff so make sure it's last
-						dijit.form._DateTimeTextBox.superclass.setValue.call(textBox, value, true);
+						dijit.form._DateTimeTextBox.superclass._setValueAttr.call(textBox, value, true);
 					},
 					lang: textBox.lang,
 					constraints: textBox.constraints,
@@ -152,7 +152,7 @@ dojo.declare(
 		},
 
 		_setDisplayedValueAttr: function(/*String*/ value, /*Boolean?*/ priorityChange){
-			this.setValue(this.parse(value, this.constraints), priorityChange, value);
+			this._setValueAttr(this.parse(value, this.constraints), priorityChange, value);
 		},
 
 		destroy: function(){

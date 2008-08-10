@@ -83,15 +83,15 @@ dojo.declare("dijit.form._FormMixin", null,
 				if(typeof widgets[0].checked == 'boolean'){
 					// for checkbox/radio, values is a list of which widgets should be checked
 					dojo.forEach(widgets, function(w, i){
-						w.setValue(dojo.indexOf(values, w.value) != -1);
+						w.attr('value', dojo.indexOf(values, w.value) != -1);
 					});
 				}else if(widgets[0]._multiValue){
 					// it takes an array (e.g. multi-select)
-					widgets[0].setValue(values);
+					widgets[0].attr('value', values);
 				}else{
 					// otherwise, values is a list of values to be assigned sequentially to each widget
 					dojo.forEach(widgets, function(w, i){
-						w.setValue(values[i]);
+						w.attr('value', values[i]);
 					});					
 				}
 			}
@@ -135,7 +135,7 @@ dojo.declare("dijit.form._FormMixin", null,
 					return;		// like "continue"
 				}
 
-				// TODO: widget values (just call setValue() on the widget)
+				// TODO: widget values (just call attr('value', ...) on the widget)
 
 				switch(element.type){
 					case "checkbox":

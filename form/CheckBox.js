@@ -34,7 +34,7 @@ dojo.declare(
 		//	the value when form is submitted)
 		value: "on",
 
-		setValue: function(/*String or Boolean*/ newValue){
+		_setValueAttr: function(/*String or Boolean*/ newValue){
 			// summary:
 			//		When passed a boolean, controls whether or not the CheckBox is checked.
 			//		If passed a string, changes the value attribute of the CheckBox (the one

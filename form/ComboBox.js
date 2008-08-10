@@ -213,7 +213,7 @@ dojo.declare(
 						this._prev_key_backspace = false;
 						this._prev_key_esc = false;
 						if(pw.getHighlightedOption()){
-							pw.setValue({ target: pw.getHighlightedOption() }, true);
+							pw.attr('value', { target: pw.getHighlightedOption() }, true);
 						}
 						this._hideResultList();
 					}
@@ -421,7 +421,7 @@ dojo.declare(
 				newvalue == pw._messages["nextMessage"]
 				)
 			){
-				this.setValue(this._lastValueReported, true);
+				this._setValueAttr(this._lastValueReported, true);
 			}else{
 				// Update 'value' (ex: KY) according to currently displayed text
 				this.attr('displayedValue', newvalue);
@@ -483,7 +483,7 @@ dojo.declare(
 
 		_doSelect: function(tgt){
 			this.item = tgt.item;
-			this.setValue(this.store.getValue(tgt.item, this.searchAttr), true);
+			this._setValueAttr(this.store.getValue(tgt.item, this.searchAttr), true);
 		},
 
 		_onArrowMouseDown: function(evt){
@@ -725,7 +725,7 @@ dojo.declare(
 			this.inherited("postMixInProperties", arguments);
 		},
 
-		setValue: function(/*Object*/ value){
+		_setValueAttr: function(/*Object*/ value){
 			this.value = value;
 			this.onChange(value);
 		},
@@ -842,7 +842,7 @@ dojo.declare(
 					// recurse to the top
 					tgt = tgt.parentNode;
 				}
-				this.setValue({ target: tgt }, true);
+				this._setValueAttr({ target: tgt }, true);
 			}
 		},
 

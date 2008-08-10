@@ -63,10 +63,10 @@ dojo.declare(
 		if(this.disabled || this.readOnly || e.altKey || e.ctrlKey){ return; }
 		switch(e.charOrCode){
 			case dojo.keys.HOME:
-				this.setValue(this.minimum, true);
+				this._setValueAttr(this.minimum, true);
 				break;
 			case dojo.keys.END:
-				this.setValue(this.maximum, true);
+				this._setValueAttr(this.maximum, true);
 				break;
 			// this._descending === false: if ascending vertical (min on top)
 			// (this._descending || this.isLeftToRight()): if left-to-right horizontal or descending vertical
@@ -118,10 +118,10 @@ dojo.declare(
 		count--;
 		var pixelsPerValue = maxPixels / count;
 		var wholeIncrements = Math.round(pixelValue / pixelsPerValue);
-		this.setValue((this.maximum-this.minimum)*wholeIncrements/count + this.minimum, priorityChange);
+		this._setValueAttr((this.maximum-this.minimum)*wholeIncrements/count + this.minimum, priorityChange);
 	},
 
-	setValue: function(/*Number*/ value, /*Boolean, optional*/ priorityChange){
+	_setValueAttr: function(/*Number*/ value, /*Boolean, optional*/ priorityChange){
 		this.valueNode.value = this.value = value;
 		dijit.setWaiState(this.focusNode, "valuenow", value);
 		this.inherited(arguments);
@@ -164,15 +164,15 @@ dojo.declare(
 		if(value < 0){ value = 0; }
 		if(value > count){ value = count; }
 		value = value * (this.maximum - this.minimum) / count + this.minimum;
-		this.setValue(value, true);
+		this._setValueAttr(value, true);
 	},
 
 	_onClkIncBumper: function(){
-		this.setValue(this._descending === false ? this.minimum : this.maximum, true);
+		this._setValueAttr(this._descending === false ? this.minimum : this.maximum, true);
 	},
 
 	_onClkDecBumper: function(){
-		this.setValue(this._descending === false ? this.maximum : this.minimum, true);
+		this._setValueAttr(this._descending === false ? this.maximum : this.minimum, true);
 	},
 
 	decrement: function(e){
@@ -322,7 +322,7 @@ dojo.declare("dijit.form._SliderMover",
 		dojo.dnd.Mover.prototype.destroy.apply(this, arguments);
 		var widget = this.widget;
 		widget._abspos = null;
-		widget.setValue(widget.value, true);
+		widget._setValueAttr(widget.value, true);
 	}
 });
 

@@ -63,7 +63,7 @@ dojo.declare(
 		//		See description of dijit.Tooltip.defaultPosition for details on this parameter.
 		tooltipPosition: [],
 
-		setValue: function(){
+		_setValueAttr: function(){
 			this.inherited(arguments);
 			this.validate(this._focused);
 		},
@@ -367,9 +367,9 @@ dojo.declare(
 			}
 		},
 		
-		setValue: function(/*Number*/ value, /*Boolean?*/ priorityChange){
+		_setValueAttr: function(/*Number*/ value, /*Boolean?*/ priorityChange){
 			dijit.setWaiState(this.focusNode, "valuenow", value);
-			this.inherited('setValue', arguments);
+			this.inherited(arguments);
 		}
 	}
 );
