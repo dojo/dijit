@@ -88,7 +88,7 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 		// summary:
 		//		Set disabled state of widget (Deprecated).
 		dojo.deprecated("setDisabled("+disabled+") is deprecated. Use attr('disabled',"+disabled+") instead.", "", "2.0");
-		this.setAttribute('disabled', disabled);
+		this.attr('disabled', disabled);
 	},
 
 

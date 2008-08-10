@@ -345,12 +345,12 @@ dojo.declare(
 
 			if(this._currentChild){
 				var oldButton = this.pane2button[this._currentChild];
-				oldButton.setAttribute('checked', false);
+				oldButton.attr('checked', false);
 				oldButton.focusNode.setAttribute("tabIndex", "-1");
 			}
 
 			var newButton=this.pane2button[page];
-			newButton.setAttribute('checked', true);
+			newButton.attr('checked', true);
 			this._currentChild = page;
 			newButton.focusNode.setAttribute("tabIndex", "0");
 			var container = dijit.byId(this.containerId);

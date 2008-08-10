@@ -121,7 +121,7 @@ dojo.declare(
 								if(inputNode != _this.focusNode && inputNode.form == _this.focusNode.form){
 									var widget = dijit.getEnclosingWidget(inputNode);
 									if(widget && widget.checked){
-										widget.setAttribute('checked', false);
+										widget.attr('checked', false);
 									}
 								}
 							}
@@ -132,7 +132,7 @@ dojo.declare(
 
 		_clicked: function(/*Event*/ e){
 			if(!this.checked){
-				this.setAttribute('checked', true);
+				this.attr('checked', true);
 			}
 		}
 	}

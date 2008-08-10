@@ -382,7 +382,7 @@ dojo.declare(
 			if(dojo.isIE && this.srcNodeRef && this.srcNodeRef.attributes){
 				var item = this.srcNodeRef.attributes.getNamedItem('encType');
 				if(item && !item.specified && (typeof item.value == "string")){
-					this.setAttribute('encType', item.value);
+					this.attr('encType', item.value);
 				}
 			}
 			this.inherited(arguments);

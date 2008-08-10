@@ -29,7 +29,7 @@ dojo.declare("dijit._editor.plugins.TabIndent",
 				try{
 					var enabled = _e.isTabIndent;
 					if(typeof this.button.checked == 'boolean'){ 
-						this.button.setAttribute('checked', enabled);
+						this.button.attr('checked', enabled);
 					}
 				}catch(e){
 					console.debug(e);

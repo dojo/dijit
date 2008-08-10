@@ -297,7 +297,7 @@ dojo.declare("dijit._Widget", null, {
 			for(attr in this.attributeMap){
 				var value = this[attr];
 				if((typeof value != "undefined") && (typeof value != "object") && ((value !== "" && value !== false) || (params && params[attr]))){
-					this.setAttribute(attr, value);
+					this.attr(attr, value);
 				}
 			}
 
@@ -487,12 +487,7 @@ dojo.declare("dijit._Widget", null, {
 		//		Note special handling for 'style' and 'class' attributes which are lists and can
 		//		have elements from both old and new structures, and some attributes like "type"
 		//		cannot be processed this way as they are not mutable.
-		//
-		//		Also, in general, a widget's "value" is controlled via setValue()/getValue(), 
-		//		rather than this method.  The exception is for widgets where the
-		//		end user can't adjust the value, such as Button and CheckBox;
-		//		in the unusual case that you want to change the value attribute of
-		//		those widgets, use setAttribute().
+
 		var mapNode = this[this.attributeMap[attr]||'domNode'];
 		this[attr] = value;
 		switch(attr){

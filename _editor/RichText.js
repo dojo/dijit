@@ -763,7 +763,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 	},
 	setDisabled: function(/*Boolean*/ disabled){
 		dojo.deprecated('dijit.Editor::setDisabled is deprecated','use dijit.Editor::attr("disabled",boolean) instead', 2);
-		this.setAttribute('disabled',disabled);
+		this.attr('disabled',disabled);
 	},
 
 /* Event handlers
@@ -781,13 +781,13 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 		}
 
 		try{
-			this.setAttribute('disabled',true);
-			this.setAttribute('disabled',false);
+			this.attr('disabled',true);
+			this.attr('disabled',false);
 		}catch(e){
 			// Firefox throws an exception if the editor is initially hidden
 			// so, if this fails, try again onClick by adding "once" advice
 			var handle = dojo.connect(this, "onClick", this, function(){
-				this.setAttribute('disabled',false);
+				this.attr('disabled',false);
 				dojo.disconnect(handle);
 			});
 		}

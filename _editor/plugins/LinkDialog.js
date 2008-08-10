@@ -114,7 +114,7 @@ dojo.declare("dijit._editor.plugins.LinkDialog",
 			if(this.button){
 				// display button differently if there is an existing link associated with the current selection
 				var hasA = dojo.withGlobal(this.editor.window, "hasAncestorElement", dijit._editor.selection, [this.tag]);
-				this.button.setAttribute('checked', hasA);
+				this.button.attr('checked', hasA);
 			}
 		}
 */

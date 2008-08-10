@@ -416,7 +416,7 @@ dojo.declare("dijit.form.ToggleButton", dijit.form.Button, {
 		{checked:"focusNode"}),
 
 	_clicked: function(/*Event*/ evt){
-		this.setAttribute('checked', !this.checked);
+		this.attr('checked', !this.checked);
 	},
 
 	setAttribute: function(/*String*/ attr, /*anything*/ value){
@@ -433,18 +433,18 @@ dojo.declare("dijit.form.ToggleButton", dijit.form.Button, {
 		// summary:
 		//	Programatically deselect the button
 		dojo.deprecated("setChecked("+checked+") is deprecated. Use attr('checked',"+checked+") instead.", "", "2.0");
-		this.setAttribute('checked', checked);
+		this.attr('checked', checked);
 	},
 	
 	reset: function(){
 		this._hasBeenBlurred = false;
 
 		// set checked state to original setting
-		this.setAttribute('checked', this._resetValue);
+		this.attr('checked', this._resetValue);
 	},
 	
 	postCreate: function(){
 		this.inherited(arguments);
-		this.setAttribute('checked', this.checked); //to initially set wai pressed state 
+		this.attr('checked', this.checked); //to initially set wai pressed state 
 	}
 });
