@@ -63,6 +63,11 @@ dojo.declare(
 			this.inherited(arguments);
 		},
 
+		 _fillContent: function(/*DomNode*/ source){
+			// Override handler in Button.js since it doesn't make sense here,
+			// since CheckBox doesn't even have a container
+		},
+
 		reset: function(){
 			this._hasBeenBlurred = false;
 
