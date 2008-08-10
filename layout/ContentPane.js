@@ -162,7 +162,7 @@ dojo.declare(
 		dojo.deprecated("dijit.layout.ContentPane.setHref() is deprecated.  Use attr('href', ...) instead.", "", "2.0");
 		return this.attr("href", data);
 	},
-	_attrSetHref: function(/*String|Uri*/ href){
+	_setHrefAttr: function(/*String|Uri*/ href){
 		// summary:
 		//		Hook so attr("href", ...) works.
 		// description:
@@ -180,7 +180,7 @@ dojo.declare(
 		dojo.deprecated("dijit.layout.ContentPane.setContent() is deprecated.  Use attr('content', ...) instead.", "", "2.0");
 		this.attr("content", data);
 	},
-	_attrSetContent: function(/*String|DomNode|Nodelist*/data){
+	_setContentAttr: function(/*String|DomNode|Nodelist*/data){
 		// summary:
 		// 		Hook to make attr("content", ...) work.
 		//		Replaces old content with data content, include style classes from old content
@@ -216,7 +216,7 @@ dojo.declare(
 
 		this._onLoadHandler();
 	},
-	_attrGetContent: function(){
+	_getContentAttr: function(){
 		// summary: hook to make attr("content") work
 		return this.containerNode.innerHTML;
 	},

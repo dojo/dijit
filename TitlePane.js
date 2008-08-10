@@ -79,7 +79,7 @@ dojo.declare(
 		});
 	},
 
-	_attrSetContent: function(content){
+	_setContentAttr: function(content){
 		// summary:
 		//		Hook to make attr("content", ...) work.
 		// 		Typically called when an href is loaded.  Our job is to make the animation smooth

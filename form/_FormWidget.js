@@ -324,7 +324,7 @@ dojo.declare("dijit.form._FormValueWidget", dijit.form._FormWidget,
 		this._handleOnChange(newValue, priorityChange);
 	},
 
-	_attrGetValue: function(/*String*/ value){
+	_getValueAttr: function(/*String*/ value){
 		// summary:
 		//		Hook so attr('value') works.
 		return this._lastValue;

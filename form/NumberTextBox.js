@@ -60,7 +60,7 @@ dojo.declare(
 			return (value === null)? NaN : this.inherited(arguments); // setValue(null) should fire onChange(NaN)
 		},
 
-		_attrGetValue: function(){
+		_getValueAttr: function(){
 			// summary:
 			//		Hook so attr('value') works.
 			var v = this.inherited(arguments);

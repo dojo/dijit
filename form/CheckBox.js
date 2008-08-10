@@ -47,7 +47,7 @@ dojo.declare(
 			this.setAttribute('checked', newValue);
 		},
 
-		_attrGetValue: function(){
+		_getValueAttr: function(){
 			// summary:
 			//		Hook so attr('value') works.
 			// description:

@@ -75,7 +75,7 @@ dojo.declare(
 			dijit.form.ComboBoxMixin.prototype._openResultList.apply(this, arguments);
 		},
 
-		_attrGetValue: function(){
+		_getValueAttr: function(){
 			// summary:
 			//		Hook for attr('value') to work.
 
@@ -166,7 +166,7 @@ dojo.declare(
 			this._setValueFromItem(tgt.item, true);
 		},
 
-		_attrSetDisplayedValue: function(/*String*/ label, /*Boolean?*/ priorityChange){
+		_setDisplayedValueAttr: function(/*String*/ label, /*Boolean?*/ priorityChange){
 			// summary:
 			//		Hook so attr('displayedValue', label) works.
 			// description:

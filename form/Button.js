@@ -107,7 +107,7 @@ dojo.declare("dijit.form.Button",
 		dojo.deprecated("dijit.form.Button.setLabel() is deprecated.  Use attr('label', ...) instead.", "", "2.0");
 		this.attr("label", content);
 	},
-	_attrSetLabel: function(/*String*/ content){
+	_setLabelAttr: function(/*String*/ content){
 		// summary:
 		//		Hook for attr('label', ...) to work.
 		// description:

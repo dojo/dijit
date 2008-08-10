@@ -59,7 +59,7 @@ dojo.declare("dijit.form.MultiSelect",dijit.form._FormWidget,{
 		});
 	},
 	
-	_attrGetValue: function(){
+	_getValueAttr: function(){
 		// summary:
 		//		Hook so attr('value') works.
 		// description:

@@ -108,7 +108,7 @@ dojo.declare(
 		dijit.form.Textarea.superclass.setValue.call(this, this.attr('value'), priorityChange);
 	},
 
-	_attrGetValue: function(){
+	_getValueAttr: function(){
 		// summary:
 		//		Hook so attr('value') works.
 		return this.value.replace(/\r/g,"");

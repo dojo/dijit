@@ -615,8 +615,8 @@ dojo.declare("dijit._Widget", null, {
 		var uc = name.charAt(0).toUpperCase() + name.substr(1);
 		return apn[name] = {
 			n: name+"Node",
-			s: "_attrSet"+uc,
-			g: "_attrGet"+uc
+			s: "_set"+uc+"Attr",
+			g: "_get"+uc+"Attr"
 		};
 	},
 

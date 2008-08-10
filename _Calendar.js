@@ -46,7 +46,7 @@ dojo.declare(
 			dojo.deprecated("dijit.Calendar:setValue() is deprecated.  Use attr('value', ...) instead.", "", "2.0");
 			this.attr('value', value);
 		},
-		_attrSetValue: function(/*Date*/ value){
+		_setValueAttr: function(/*Date*/ value){
 			// summary:
 			//		Hook to make attr("value", ...) work.
 			// description:

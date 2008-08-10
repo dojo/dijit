@@ -35,7 +35,7 @@ dojo.declare(
 		attributeMap: dojo.mixin(dojo.clone(dijit.form._FormValueWidget.prototype.attributeMap),
 			{maxLength:"focusNode"}),
 
-		_attrGetValue: function(){
+		_getValueAttr: function(){
 			// summary:
 			//		Hook so attr('value') works as we like.
 			// description:
@@ -96,7 +96,7 @@ dojo.declare(
 			return this.attr('displayedValue');
 		},
 
-		_attrGetDisplayedValue: function(){
+		_getDisplayedValueAttr: function(){
 			//	summary:
 			//		Hook so attr('displayedValue') works.
 			//	description:
@@ -115,7 +115,7 @@ dojo.declare(
 			this.attr('displayedValue', value);
 		},
 			
-		_attrSetDisplayedValue: function(/*String*/value){
+		_setDisplayedValueAttr: function(/*String*/value){
 			// summary:
 			//		Hook so attr('displayedValue', ...) works.
 			//	description: 

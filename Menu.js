@@ -414,7 +414,7 @@ dojo.declare("dijit.MenuItem",
 		dojo.deprecated("dijit.Menu.setDisabled() is deprecated.  Use attr('disabled', bool) instead.", "", "2.0");
 		this.attr('disabled', disabled);
 	},
-	_attrSetDisabled: function(/*Boolean*/ value){
+	_setDisabledAttr: function(/*Boolean*/ value){
 		// summary:
 		//		Hook for attr('disabled', ...) to work.
 		//		Enable or disable this menu item.
@@ -514,7 +514,7 @@ dojo.declare("dijit.CheckedMenuItem",
 	// checked: Boolean
 	//		Our checked state
 	checked: false,
-	_attrSetChecked: function(/*Boolean*/ checked){
+	_setCheckedAttr: function(/*Boolean*/ checked){
 		// summary:
 		//		Hook so attr('checked', bool) works.
 		//		Sets the class and state for the check box.

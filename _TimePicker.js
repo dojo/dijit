@@ -88,7 +88,7 @@ dojo.declare("dijit._TimePicker",
 			dojo.deprecated("dijit._TimePicker:setValue() is deprecated.  Use attr('value') instead.", "", "2.0");
 			this.attr('value', value);
 		},
-		_attrSetValue: function(/*Date*/ date){
+		_setValueAttr: function(/*Date*/ date){
 			// summary:
 			//		Hook so attr('value', ...) works.
 			// description:

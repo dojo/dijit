@@ -147,11 +147,11 @@ dojo.declare(
 			// don't focus on <input>.  the user has explicitly focused on something else.
 		},
 
-		_attrGetDisplayedValue: function(){
+		_getDisplayedValueAttr: function(){
 			return this.textbox.value;
 		},
 
-		_attrSetDisplayedValue: function(/*String*/ value, /*Boolean?*/ priorityChange){
+		_setDisplayedValueAttr: function(/*String*/ value, /*Boolean?*/ priorityChange){
 			this.setValue(this.parse(value, this.constraints), priorityChange, value);
 		},
 
