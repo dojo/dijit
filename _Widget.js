@@ -294,12 +294,7 @@ dojo.declare("dijit._Widget", null, {
 
 		if(this.domNode){
 			// Copy attributes listed in attributeMap into the [newly created] DOM for the widget.
-			for(attr in this.attributeMap){
-				var value = this[attr];
-				if((typeof value != "undefined") && (typeof value != "object") && ((value !== "" && value !== false) || (params && params[attr]))){
-					this.attr(attr, value);
-				}
-			}
+			this._applyAttributes();
 
 			// If the developer has specified a handler as a widget parameter
 			// (ex: new Button({onClick: ...})
@@ -308,7 +303,7 @@ dojo.declare("dijit._Widget", null, {
 				this._onConnect(attr);
 			}
 		}
-
+		
 		if(this.domNode){
 			this.domNode.setAttribute("widgetId", this.id);
 		}
@@ -318,6 +313,19 @@ dojo.declare("dijit._Widget", null, {
 		if(this.srcNodeRef && !this.srcNodeRef.parentNode){
 			delete this.srcNodeRef;
 		}	
+	},
+
+	_applyAttributes: function(){
+		// summary:
+		//		Step during widget creation to copy all widget attributes to the
+		//		DOM as per attributeMap
+		var params = this.params;
+		for(attr in this.attributeMap){
+			var value = this[attr];
+			if((typeof value != "undefined") && (typeof value != "object") && ((value !== "" && value !== false) || (params && params[attr]))){
+				this.attr(attr, value);
+			}
+		}
 	},
 
 	postMixInProperties: function(){

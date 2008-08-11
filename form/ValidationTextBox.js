@@ -254,19 +254,22 @@ dojo.declare(
 			return this.inherited(arguments);
 		},
 
-		postCreate: function(){
+		buildRendering: function(){
+			this.inherited(arguments);
+
+			// Create a hidden <input> node with the serialized value used for submit
+			// (as opposed to the displayed value)
 			var textbox = this.textbox;
 			var valueNode = (this.valueNode = dojo.doc.createElement("input"));
 			valueNode.setAttribute("type", textbox.type);
-			valueNode.setAttribute("value", this.toString());
 			dojo.style(valueNode, "display", "none");
-			valueNode.name = this.textbox.name;
-			valueNode.disabled = this.textbox.disabled;
-			this.textbox.name = this.textbox.name + "_displayed_";
-			this.textbox.removeAttribute("name");
+			this.valueNode.name = this.textbox.name;
 			dojo.place(valueNode, textbox, "after");
 
-			this.inherited(arguments);
+			// try to give the displayed node a different name, or ideally
+			// remove that attribute altogether
+			this.textbox.name = this.textbox.name + "_displayed_";
+			this.textbox.removeAttribute("name");
 		}
 	}
 );
