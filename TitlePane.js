@@ -84,11 +84,11 @@ dojo.declare(
 		//		Hook to make attr("content", ...) work.
 		// 		Typically called when an href is loaded.  Our job is to make the animation smooth
 
-		if(!this.open || this._wipeOut.status() == "playing"){
+		if(!this.open || (this._wipeOut && this._wipeOut.status() == "playing")){
 			// we are currently *closing* the pane (or the pane is closed), so just let that continue
 			this.inherited(arguments);
 		}else{
-			if(this._wipeIn.status() == "playing"){
+			if(this._wipeIn && this._wipeIn.status() == "playing"){
 				this._wipeIn.stop();
 			}
 
@@ -99,7 +99,9 @@ dojo.declare(
 			this.inherited(arguments);
 
 			// call _wipeIn.play() to animate from current height to new height
-			this._wipeIn.play();
+			if(this._wipeIn){
+				this._wipeIn.play();
+			}
 		}
 	},
 
