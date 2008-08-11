@@ -61,14 +61,12 @@ dojo.declare(
 			if(this.value == ""){
 				this.value = "on";
 			}
-			// Save our defined checked state
-			this._savedChecked = this.checked;
 			this.inherited(arguments);
 		},
 		
 		postCreate: function(){
 			// Restore our saved checked state
-			this.attr("checked", this._savedChecked);
+			this.attr("checked", this.params.checked||false);
 			this.inherited(arguments);
 		},
 
@@ -80,13 +78,9 @@ dojo.declare(
 		reset: function(){
 			this._hasBeenBlurred = false;
 
-			// set checked state to original setting
-			this.checked = this._resetValue;
-			dojo.attr(this.focusNode, 'checked', this._resetValue);
-			
-			// resets <input type=checkbox> node's "value" attribute, in the unlikely event that it has been changed
-			this.value = this.params.value || "on";
-			dojo.attr(this.focusNode, 'value', this.value);
+			// set value and checked state to original setting
+			this.attr('value', this.params.value || "on");
+			this.attr('checked', this.params.checked || false);
 		},
 		
 		_onFocus: function(){
