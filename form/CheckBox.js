@@ -61,6 +61,14 @@ dojo.declare(
 			if(this.value == ""){
 				this.value = "on";
 			}
+			// Save our defined checked state
+			this._savedChecked = this.checked;
+			this.inherited(arguments);
+		},
+		
+		postCreate: function(){
+			// Restore our saved checked state
+			this.attr("checked", this._savedChecked);
 			this.inherited(arguments);
 		},
 
