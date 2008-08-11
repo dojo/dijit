@@ -51,7 +51,7 @@ dojo.declare(
 	templatePath: dojo.moduleUrl("dijit", "templates/TitlePane.html"),
 
 	postCreate: function(){
-		this.setTitle(this.title);
+		this.attr("title", this.title);
 		if(!this.open){
 			this.hideNode.style.display = this.wipeNode.style.display = "none";
 		}
