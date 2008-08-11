@@ -477,46 +477,54 @@ dojo.declare("dijit._Widget", null, {
 		}
 	},
 
+	_setClassAttr: function(/*String*/ value){
+		var mapNode = this[this.attributeMap["class"]||'domNode'];
+		dojo.removeClass(mapNode, this["class"])
+		this["class"] = value;
+		dojo.addClass(mapNode, value);
+	},
+
+	_setStyleAttr: function(/*String*/ value){
+		var mapNode = this[this.attributeMap["style"]||'domNode'];
+		if(mapNode.style.cssText){
+			// TODO: remove old value
+			mapNode.style.cssText += "; " + value; // FIXME: Opera
+		}else{
+			mapNode.style.cssText = value;
+		}
+		this["style"] = value;
+	},
+
 	setAttribute: function(/*String*/ attr, /*anything*/ value){
+		dojo.deprecated(this.declaredClass+"::setAttribute() is deprecated. Use attr() instead.", "", "2.0");
+		this.attr(attr, value);
+	},
+	
+	_attrToDom: function(/*String*/ attr, /*String*/ value){
 		//	summary:
-		//		Set native HTML attributes reflected in the widget,
-		//		such as readOnly, disabled, and maxLength in TextBox widgets.
-		//		The placement of these attributes is according to the property mapping in attributeMap.
+		//		Reflect a widget attribute (title, tabIndex, duration etc.) to
+		//		the widget DOM, as specified in attributeMap.
 		//
 		//	description:
-		//		Note special handling for 'style' and 'class' attributes which are lists and can
-		//		have elements from both old and new structures, and some attributes like "type"
+		//		Also sets this["attr"] to the new value.
+		//		Note some attributes like "type"
 		//		cannot be processed this way as they are not mutable.
 
 		var mapNode = this[this.attributeMap[attr]||'domNode'];
 		this[attr] = value;
-		switch(attr){
-			case "class":
-				dojo.addClass(mapNode, value);
-				break;
-			case "style":
-				if(mapNode.style.cssText){
-					mapNode.style.cssText += "; " + value; // FIXME: Opera
-				}else{
-					mapNode.style.cssText = value;
-				}
-				break;
-			default:
-				if(dojo.isFunction(value)){ // functions execute in the context of the widget
-					value = dojo.hitch(this, value);
-				}
-				if(/^on[A-Z][a-zA-Z]*$/.test(attr)){ // eg. onSubmit needs to be onsubmit
-					attr = attr.toLowerCase();
-				}
-				dojo.attr(mapNode, attr, value);
+
+		if(dojo.isFunction(value)){ // functions execute in the context of the widget
+			value = dojo.hitch(this, value);
 		}
+		if(/^on[A-Z][a-zA-Z]*$/.test(attr)){ // eg. onSubmit needs to be onsubmit
+			attr = attr.toLowerCase();
+		}
+		dojo.attr(mapNode, attr, value);
 	},
 
 	attr: function(/*String|Object*/name, /*Object?*/value){
 		//	summary:
-		//		Set or get properties on a widget instance. Unlike setAttribute(),
-		//		attr() operates on the widget object itself instead of on DOM
-		//		nodes which the widget may manage.
+		//		Set or get properties on a widget instance.
 		//	name:
 		//		The property to get or set. If an object is passed here and not
 		//		a string, its keys are used as names of attributes to be set
@@ -531,26 +539,26 @@ dojo.declare("dijit._Widget", null, {
 		//		the method acts as a setter, assigning the value to the name,
 		//		potentially calling any explicitly provided setters to handle
 		//		the operation. For instance, if the widget has properties "foo"
-		//		and "bar" and a method named "setFoo", calling:
+		//		and "bar" and a method named "_setFooAttr", calling:
 		//	|	myWidget.attr("foo", "Howdy!");
 		//		would be equivalent to calling:
-		//	|	widget.setFoo("Howdy!");
+		//	|	widget._setFooAttr("Howdy!");
 		//		while calling:
 		//	|	myWidget.attr("bar", "Howdy!");
 		//		would be the same as writing:
 		//	|	widget.bar = "Howdy!";
-		//		if the widget also contained a "barNode" property, the default
-		//		setter behavior also attempts to change the content of that
-		//		node if the passed value is a string. Therefore, these are
-		//		equivalent:
-		//	|	widget.attr("bar", "Howdy!");
-		//		and:
-		//	|	widget.bar = "Howdy!";
-		//	|	widget.barNode.innerHTML = "Howdy!";
+		//		It also tries to copy the changes to the widget's DOM according
+		//		to settings in attributeMap (see description of attributeMap
+		//		for details)
+		//		For example, calling:
+		//	|	myTitlePane.attr("title", "Howdy!");
+		//		will do
+		//	|	myTitlePane.title = "Howdy!";
+		//	|	myTitlePane.title.innerHTML = "Howdy!";
 		//		It works for dom node attributes too.  Calling
 		//	|	widget.attr("disabled", true)
-		//		is equivalent to calling
-		//	|	widget.setAttribute("disabled", true)
+		//		will set the disabled attribute on the widget's focusNode,
+		//		among other housekeeping for a change in disabled state.
 
 		//	open questions:
 		//		- how to handle build shortcut for attributes which want to map
@@ -573,7 +581,7 @@ dojo.declare("dijit._Widget", null, {
 			}else{
 				// if param is specified as DOM node attribute, copy it
 				if(name in this.attributeMap){
-					this.setAttribute(name, value);
+					this._attrToDom(name, value);
 				}
 
 				// assign directly first

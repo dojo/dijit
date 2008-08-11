@@ -193,19 +193,19 @@ dojo.declare(
 			this._partialre = "^(?:" + partialre + ")$";
 		},
 
-		setAttribute: function(/*String*/ attr, /*anything*/ value){
-			this.inherited(arguments);
-			switch(attr){
-				case "disabled":
-					if(this.valueNode){
-						this.valueNode.disabled = this.disabled;
-					}
-					this._refreshState();
-					break;
-				case "required":
-					dijit.setWaiState(this.focusNode,"required", this.required);
-					this._refreshState();				
+		_setDisabledAttr: function(/*Boolean*/ value){
+			this.inherited(arguments);	// call FormValueWidget._setDisabledAttr()
+			if(this.valueNode){
+				this.valueNode.disabled = value;
 			}
+			this._refreshState();
+		},
+		
+		_setRequiredAttr: function(/*Boolean*/ value){
+			this.required = value;
+			dojo.attr(this.focusNode, "required", value);
+			dijit.setWaiState(this.focusNode,"required", value);
+			this._refreshState();
 		},
 
 		postCreate: function(){
@@ -218,7 +218,7 @@ dojo.declare(
 					}
 				}
 			}
-			dijit.setWaiState(this.focusNode,"required", this.required);
+			dijit.setWaiState(this.focusNode,"required", this.required);	// TODO: just call attr('required', ...)
 			this.inherited(arguments);
 		}
 	}

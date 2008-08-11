@@ -212,9 +212,9 @@ dojo.declare(
 			dijit.form.MappedTextBox.prototype.postCreate.apply(this, arguments);
 		},
 		
-		setAttribute: function(/*String*/ attr, /*anything*/ value){
-			dijit.form.MappedTextBox.prototype.setAttribute.apply(this, arguments);
-			dijit.form.ComboBoxMixin.prototype._setAttribute.apply(this, arguments);
+		_setDisabledAttr: function(/*String*/ attr, /*anything*/ value){
+			dijit.form.MappedTextBox.prototype._setDisabledAttr.apply(this, arguments);
+			dijit.form.ComboBoxMixin.prototype._setDisabledAttr.apply(this, arguments);
 		},
 
 		undo: function(){

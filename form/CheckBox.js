@@ -41,10 +41,11 @@ dojo.declare(
 			//		specified as "value" when the CheckBox was constructed (ex: <input
 			//		dojoType="dijit.CheckBox" value="chicken">)
 			if(typeof newValue == "string"){
-				this.setAttribute('value', newValue);
+				this.value = newValue;
+				dojo.attr(this.focusNode, 'value', newValue);
 				newValue = true;
 			}
-			this.setAttribute('checked', newValue);
+			this.attr('checked', newValue);
 		},
 
 		_getValueAttr: function(){
@@ -72,10 +73,12 @@ dojo.declare(
 			this._hasBeenBlurred = false;
 
 			// set checked state to original setting
-			this.setAttribute('checked', this._resetValue);
+			this.checked = this._resetValue;
+			dojo.attr(this.focusNode, 'checked', this._resetValue);
 			
 			// resets <input type=checkbox> node's "value" attribute, in the unlikely event that it has been changed
-			this.setAttribute('value', this.params.value || "on");
+			this.value = this.params.value || "on";
+			dojo.attr(this.focusNode, 'value', this.value);
 		},
 		
 		_onFocus: function(){
@@ -107,26 +110,23 @@ dojo.declare(
 			this._created = true;
 		},
 
-		setAttribute: function(/*String*/ attr, /*anything*/ value){
+		_setCheckedAttr: function(/*Boolean*/ value){
 			// If I am being checked then have to deselect currently checked radio button
 			this.inherited(arguments);
 			if(!this._created){ return; }
-			switch(attr){
-				case "checked":
-					if(this.checked){
-						var _this = this;
-						// search for radio buttons with the same name that need to be unchecked
-						dojo.query('INPUT[type=radio][name='+this.name+']', this.focusNode.form||dojo.doc).forEach(
-							function(inputNode){
-								if(inputNode != _this.focusNode && inputNode.form == _this.focusNode.form){
-									var widget = dijit.getEnclosingWidget(inputNode);
-									if(widget && widget.checked){
-										widget.attr('checked', false);
-									}
-								}
+			if(value){
+				var _this = this;
+				// search for radio buttons with the same name that need to be unchecked
+				dojo.query('INPUT[type=radio][name='+this.name+']', this.focusNode.form||dojo.doc).forEach(
+					function(inputNode){
+						if(inputNode != _this.focusNode && inputNode.form == _this.focusNode.form){
+							var widget = dijit.getEnclosingWidget(inputNode);
+							if(widget && widget.checked){
+								widget.attr('checked', false);
 							}
-						);
+						}
 					}
+				);
 			}
 		},
 

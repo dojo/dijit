@@ -419,14 +419,12 @@ dojo.declare("dijit.form.ToggleButton", dijit.form.Button, {
 		this.attr('checked', !this.checked);
 	},
 
-	setAttribute: function(/*String*/ attr, /*anything*/ value){
-		this.inherited(arguments);
-		switch(attr){
-			case "checked":
-				dijit.setWaiState(this.focusNode || this.domNode, "pressed", this.checked);
-				this._setStateClass();		
-				this._handleOnChange(this.checked, true);
-		}
+	_setCheckedAttr: function(/*Boolean*/ value){
+		this.checked = value;
+		dojo.attr(this.focusNode || this.domNode, "checked", value);
+		dijit.setWaiState(this.focusNode || this.domNode, "pressed", value);
+		this._setStateClass();		
+		this._handleOnChange(value, true);
 	},
 
 	setChecked: function(/*Boolean*/ checked){

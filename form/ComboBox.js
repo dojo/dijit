@@ -126,11 +126,13 @@ dojo.declare(
 			dijit.selectInputText(element, location, location);
 		},
 
-		_setAttribute: function(/*String*/ attr, /*anything*/ value){
-			// summary: additional code to set disablbed state of combobox node
-			if (attr == "disabled"){
-				dijit.setWaiState(this.comboNode, "disabled", value);
-			}
+		_setDisabledAttr: function(/*Boolean*/ value){
+			// summary:
+			//		Call this from superclass as part of _setDisabledAttr() method.
+			//		Superclass _must_ define _setDisabledAttr().
+			// description:
+			//		Additional code to set disabled state of combobox node
+			dijit.setWaiState(this.comboNode, "disabled", value);
 		},	
 		
 		_onKeyPress: function(/*Event*/ evt){
@@ -1021,11 +1023,10 @@ dojo.declare(
 			dijit.form.ComboBoxMixin.prototype._postCreate.apply(this, arguments);
 			dijit.form.ValidationTextBox.prototype.postCreate.apply(this, arguments);
 		},
-		setAttribute: function(/*String*/ attr, /*anything*/ value){
-			dijit.form.ValidationTextBox.prototype.setAttribute.apply(this, arguments);
-			dijit.form.ComboBoxMixin.prototype._setAttribute.apply(this, arguments);
+		_setDisabledAttr: function(/*Boolean*/ value){
+			dijit.form.ValidationTextBox.prototype._setDisabledAttr.apply(this, arguments);
+			dijit.form.ComboBoxMixin.prototype._setDisabledAttr.apply(this, arguments);
 		}
-		
 	}
 );
 

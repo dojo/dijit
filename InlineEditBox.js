@@ -374,7 +374,7 @@ dojo.declare(
 			// The delay gives the browser a chance to update the Textarea.
 			setTimeout(
 				function(){
-					_this.saveButton.setAttribute("disabled", _this.getValue() == _this._initialText);
+					_this.saveButton.attr("disabled", _this.getValue() == _this._initialText);
 				}, 100);
 		}
 	},
@@ -414,7 +414,7 @@ dojo.declare(
 			// in case the keypress event didn't get through (old problem with Textarea that has been fixed
 			// in theory) or if the keypress event comes too quickly and the value inside the Textarea hasn't
 			// been updated yet)
-			this.saveButton.setAttribute("disabled", (this.getValue() == this._initialText) || !this.enableSave());
+			this.saveButton.attr("disabled", (this.getValue() == this._initialText) || !this.enableSave());
 		}
 	},
 	

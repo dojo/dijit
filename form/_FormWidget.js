@@ -64,24 +64,22 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 	attributeMap: dojo.mixin(dojo.clone(dijit._Widget.prototype.attributeMap),
 		{value:"focusNode", disabled:"focusNode", readOnly:"focusNode", id:"focusNode", tabIndex:"focusNode", alt:"focusNode"}),
 
-	setAttribute: function(/*String*/ attr, /*anything*/ value){
-		this.inherited(arguments);
-		switch(attr){
-			case "disabled":
-				var tabIndexNode = this[this.attributeMap['tabIndex']||'domNode'];
-				if(value){
-					//reset those, because after the domNode is disabled, we can no longer receive
-					//mouse related events, see #4200
-					this._hovering = false;
-					this._active = false;
-					// remove the tabIndex, especially for FF
-					tabIndexNode.removeAttribute('tabIndex');
-				}else{
-					tabIndexNode.setAttribute('tabIndex', this.tabIndex);
-				}
-				dijit.setWaiState(this[this.attributeMap['disabled']||'domNode'], "disabled", value);
-				this._setStateClass();
+	_setDisabledAttr: function(/*Boolean*/ value){
+		this.disabled = value;
+		dojo.attr(this.focusNode, 'disabled', value);
+		dijit.setWaiState(this.focusNode, "disabled", value);
+
+		if(value){
+			//reset those, because after the domNode is disabled, we can no longer receive
+			//mouse related events, see #4200
+			this._hovering = false;
+			this._active = false;
+			// remove the tabIndex, especially for FF
+			this.focusNode.removeAttribute('tabIndex');
+		}else{
+			this.focusNode.setAttribute('tabIndex', this.tabIndex);
 		}
+		this._setStateClass();
 	},
 
 	setDisabled: function(/*Boolean*/ disabled){

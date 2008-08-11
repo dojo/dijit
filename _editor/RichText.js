@@ -342,14 +342,12 @@ dijit._editor.RichTextIframeMixin = {
 		dojo.withGlobal(this.window,'query', dojo, ['link:[href="'+url+'"]']).orphan()
 	},
 
-	setAttribute: function(/*String*/name,value){
-		if(name == 'disabled'){
-			value = Boolean(value);
-			if(dojo.isMoz){
-				this.document.designMode = value ? 'off' : 'on';
-			}
-			dijit._editor.RichText.prototype.setAttribute.call(this, name, value);
+	_setDisabledAttr: function(/*Boolean*/ value){
+		value = Boolean(value);
+		if(dojo.isMoz){
+			this.document.designMode = value ? 'off' : 'on';
 		}
+		dijit._editor.RichText.prototype._setDisabledAttr.call(this, value);
 	},
 
 	blur: function(){
@@ -744,19 +742,17 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 	disabled: true,
 	_mozSettingProps: {'styleWithCSS':false},
 
-	setAttribute: function(/*String*/ name, value){
-		if(name=='disabled'){
-			value = Boolean(value);
-			this.editNode.contentEditable = !value;
-			this.disabled = value;
-			if(!value && this._mozSettingProps){
-				var ps = this._mozSettingProps;
-				for(var n in ps){
-					if(ps.hasOwnProperty(n)){
-						try{
-							this.document.execCommand(n,false,ps[n]);
-						}catch(e){}
-					}
+	_setDisabledAttr: function(/*Boolean*/ value){
+		value = Boolean(value);
+		this.editNode.contentEditable = !value;
+		this.disabled = value;
+		if(!value && this._mozSettingProps){
+			var ps = this._mozSettingProps;
+			for(var n in ps){
+				if(ps.hasOwnProperty(n)){
+					try{
+						this.document.execCommand(n,false,ps[n]);
+					}catch(e){}
 				}
 			}
 		}

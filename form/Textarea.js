@@ -34,17 +34,21 @@ dojo.declare(
 
 	baseClass: "dijitTextArea",
 
-	setAttribute: function(/*String*/ attr, /*anything*/ value){
+	_setDisabledAttr: function(/*Boolean*/ value){
 		this.inherited(arguments);
-		switch(attr){
-			case "disabled":
-				this.formValueNode.disabled = this.disabled;
-			case "readOnly":
-				if(dojo.isIE || dojo.isSafari || dojo.isFF >= 3){
-					this.editNode.contentEditable = (!this.disabled && !this.readOnly);
-				}else if(dojo.isFF){
-					this.iframe.contentDocument.designMode = (this.disabled || this.readOnly)? "off" : "on";
-				}
+		this.formValueNode.disabled = this.disabled;
+		this._adjustWritable();
+	},
+	_setReadOnlyAttr: function(/*Boolean*/ value){
+		this.readOnly = value;
+		this._adjustWritable();
+	},
+	_adjustWritable: function(){
+		// summary: set whether user can write into textbox, based on this.disabled and this.readOnly
+		if(dojo.isIE || dojo.isSafari || dojo.isFF >= 3){
+			this.editNode.contentEditable = (!this.disabled && !this.readOnly);
+		}else if(dojo.isFF){
+			this.iframe.contentDocument.designMode = (this.disabled || this.readOnly)? "off" : "on";
 		}
 	},
 

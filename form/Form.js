@@ -369,12 +369,10 @@ dojo.declare(
 			//		Deprecated: use onSubmit()
 		},
 
-		setAttribute: function(/*String*/ attr, /*anything*/ value){
-			this.inherited(arguments);
-			switch(attr){
-				case "encType":
-					if(dojo.isIE){ this.domNode.encoding = value; }
-			}
+		_setEncTypeAttr: function(/*String*/ value){
+			this.encType = value;
+			dojo.attr(this.domNode, "encType", value);
+			if(dojo.isIE){ this.domNode.encoding = value; }
 		},
 
 		postCreate: function(){
