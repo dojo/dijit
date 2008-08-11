@@ -250,7 +250,7 @@ dojo.declare(
 		},
 
 		validate: function(){
-			if(this.valueNode){ this.valueNode.value = this.toString(); } // test valueNode in case this is called before postCreate runs
+			this.valueNode.value = this.toString();
 			return this.inherited(arguments);
 		},
 
@@ -270,6 +270,11 @@ dojo.declare(
 			// remove that attribute altogether
 			this.textbox.name = this.textbox.name + "_displayed_";
 			this.textbox.removeAttribute("name");
+		},
+		
+		_setDisabledAttr: function(/*Boolean*/ value){
+			this.inherited(arguments);
+			dojo.attr(this.valueNode, 'disabled', value);
 		}
 	}
 );
