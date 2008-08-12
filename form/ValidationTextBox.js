@@ -203,7 +203,6 @@ dojo.declare(
 		
 		_setRequiredAttr: function(/*Boolean*/ value){
 			this.required = value;
-			dojo.attr(this.focusNode, "required", value);
 			dijit.setWaiState(this.focusNode,"required", value);
 			this._refreshState();
 		},
@@ -218,7 +217,7 @@ dojo.declare(
 					}
 				}
 			}
-			dijit.setWaiState(this.focusNode,"required", this.required);	// TODO: just call attr('required', ...)
+			this.attr('required', this.required);
 			this.inherited(arguments);
 		}
 	}
