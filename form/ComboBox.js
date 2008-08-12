@@ -641,7 +641,6 @@ dojo.declare(
 				label[0].id = (this.id+"_label");
 				var cn=this.comboNode;
 				dijit.setWaiState(cn, "labelledby", label[0].id);
-				dijit.setWaiState(cn, "disabled", this.disabled);
 				
 			}
 		},
@@ -740,7 +739,7 @@ dojo.declare(
 			// fill in template with i18n messages
 			this.previousButton.innerHTML = this._messages["previousMessage"];
 			this.nextButton.innerHTML = this._messages["nextMessage"];
-			this.inherited("postCreate", arguments);
+			this.inherited(arguments);
 		},
 
 		onClose:function(){
