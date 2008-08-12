@@ -313,6 +313,8 @@ dojo.declare("dijit._Widget", null, {
 		if(this.srcNodeRef && !this.srcNodeRef.parentNode){
 			delete this.srcNodeRef;
 		}	
+
+		this._created = true;
 	},
 
 	_applyAttributes: function(){

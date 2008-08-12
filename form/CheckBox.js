@@ -29,14 +29,28 @@ dojo.declare(
 		//	Value of "type" attribute for <input>
 		type: "checkbox",
 
-		// value: Value
-		//	equivalent to value field on normal checkbox (if checked, the value is passed as
-		//	the value when form is submitted)
+		// value: String
+		//		As an initialization parameter, equivalent to value field on normal checkbox
+		//		(if checked, the value is passed as the value when form is submitted).
+		//
+		//		However, attr('value') will return either the string or false depending on
+		//		whether or not the checkbox is checked.
+		//
+		//		attr('value', string) will check the checkbox and change the value to the
+		//		specified string
+		//
+		//		attr('value', boolean) will change the checked state.
 		value: "on",
 
 		_setValueAttr: function(/*String or Boolean*/ newValue){
 			// summary:
-			//		When passed a boolean, controls whether or not the CheckBox is checked.
+			//		Handler for value= attribute to constructor, and also calls to
+			//		attr('value', val).
+			// description:
+			//		During initialization, just saves as attribute to the <input type=checkbox>.
+			//		
+			//		After initialization,
+			//		when passed a boolean, controls whether or not the CheckBox is checked.
 			//		If passed a string, changes the value attribute of the CheckBox (the one
 			//		specified as "value" when the CheckBox was constructed (ex: <input
 			//		dojoType="dijit.CheckBox" value="chicken">)
@@ -45,7 +59,9 @@ dojo.declare(
 				dojo.attr(this.focusNode, 'value', newValue);
 				newValue = true;
 			}
-			this.attr('checked', newValue);
+			if(this._created){
+				this.attr('checked', newValue);
+			}
 		},
 
 		_getValueAttr: function(){
@@ -64,23 +80,19 @@ dojo.declare(
 			this.inherited(arguments);
 		},
 		
-		postCreate: function(){
-			// Restore our saved checked state
-			this.attr("checked", this.params.checked||false);
-			this.inherited(arguments);
-		},
-
 		 _fillContent: function(/*DomNode*/ source){
-			// Override handler in Button.js since it doesn't make sense here,
+			// Override Button::_fillContent() since it doesn't make sense for CheckBox,
 			// since CheckBox doesn't even have a container
 		},
 
 		reset: function(){
 			this._hasBeenBlurred = false;
 
-			// set value and checked state to original setting
-			this.attr('value', this.params.value || "on");
 			this.attr('checked', this.params.checked || false);
+
+			// Handle unlikely event that the <input type=checkbox> value attribute has changed
+			this.value = this.params.value || "on";
+			dojo.attr(this.focusNode, 'value', this.value);
 		},
 		
 		_onFocus: function(){
@@ -106,11 +118,6 @@ dojo.declare(
 
 		type: "radio",
 		baseClass: "dijitRadio",
-
-		postCreate: function(){ // avoid dojo.query calls until after initialization
-			this.inherited(arguments);
-			this._created = true;
-		},
 
 		_setCheckedAttr: function(/*Boolean*/ value){
 			// If I am being checked then have to deselect currently checked radio button
