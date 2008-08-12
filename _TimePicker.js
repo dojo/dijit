@@ -232,7 +232,7 @@ dojo.declare("dijit._TimePicker",
 			this.connect(this.downArrow, "onmouseover", hoverFx(this.downArrow, this._onArrowDown));
 			
 			this.inherited(arguments);
-			this.setValue(this.value);
+			this.attr('value', this.value);
 		},
 
 		_buttonMouse:function(/*Event*/ e){
@@ -287,7 +287,7 @@ dojo.declare("dijit._TimePicker",
 			var tdate = tgt.target.date || tgt.target.parentNode.date;			
 			if(!tdate || this.isDisabledDate(tdate)){ return; }
 			this._highlighted_option = null;
-			this.setValue(tdate);
+			this.attr('value', tdate);
 			this.onValueSelected(tdate);
 		},
 
