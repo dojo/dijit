@@ -339,7 +339,7 @@ dojo.declare("dijit.MenuItem",
 		 '<tr class="dijitReset dijitMenuItem" dojoAttachPoint="focusNode" waiRole="menuitem" tabIndex="-1"'
 		+'dojoAttachEvent="onmouseenter:_onHover,onmouseleave:_onUnhover,ondijitclick:_onClick">'
 		+'<td class="dijitReset" waiRole="presentation"><div class="dijitMenuItemIcon ${iconClass}" dojoAttachPoint="iconNode"></div></td>'
-		+'<td class="dijitReset dijitMenuItemLabel" dojoAttachPoint="containerNode,labelNode"></td>'
+		+'<td class="dijitReset dijitMenuItemLabel" dojoAttachPoint="containerNode"></td>'
 		+'<td class="dijitReset dijitMenuArrowCell" waiRole="presentation">'
 			+'<div dojoAttachPoint="arrowWrapper" style="display: none">'
 				+'<div class="dijitMenuExpand"></div>'
@@ -347,6 +347,10 @@ dojo.declare("dijit.MenuItem",
 			+'</div>'
 		+'</td>'
 		+'</tr>',
+
+	attributeMap: dojo.mixin(dojo.clone(dijit._Widget.prototype.attributeMap), {
+		label: {node: "containerNode", type: "innerHTML"}
+	}),
 
 	// label: String
 	//	menu text
@@ -361,13 +365,11 @@ dojo.declare("dijit.MenuItem",
 	//  if false, the menu item is enabled
 	disabled: false,
 
-	injectAttributes: true,
-
 	postCreate: function(){
 		dojo.setSelectable(this.domNode, false);
-		this.attr('disabled', this.disabled);
 		dojo.attr(this.containerNode, "id", this.id+"_text");
 		dijit.setWaiState(this.domNode, "labelledby", this.id+"_text");
+		this.attr('disabled', this.disabled);
 	},
 
 	_onHover: function(){

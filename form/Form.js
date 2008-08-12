@@ -377,6 +377,7 @@ dojo.declare(
 
 		postCreate: function(){
 			// IE tries to hide encType
+			// TODO: this code should be in parser, not here.
 			if(dojo.isIE && this.srcNodeRef && this.srcNodeRef.attributes){
 				var item = this.srcNodeRef.attributes.getNamedItem('encType');
 				if(item && !item.specified && (typeof item.value == "string")){

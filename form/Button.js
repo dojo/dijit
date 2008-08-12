@@ -43,7 +43,12 @@ dojo.declare("dijit.form.Button",
 	baseClass: "dijitButton",
 	templatePath: dojo.moduleUrl("dijit.form", "templates/Button.html"),
 
-	_onClick: function(/*Event*/ e){
+	attributeMap: dojo.mixin(dojo.clone(dijit.form._FormWidget.prototype.attributeMap), {
+		label: {node: "containerNode", type: "innerHTML" }
+	}),
+		
+
+			_onClick: function(/*Event*/ e){
 		// summary: internal function to handle click actions
 		if(this.disabled || this.readOnly){
 			return false;
@@ -312,7 +317,7 @@ dojo.declare("dijit.form.ComboButton", dijit.form.DropDownButton, {
 
 	templatePath: dojo.moduleUrl("dijit.form", "templates/ComboButton.html"),
 
-	attributeMap: dojo.mixin(dojo.clone(dijit.form._FormWidget.prototype.attributeMap),
+	attributeMap: dojo.mixin(dojo.clone(dijit.form.Button.prototype.attributeMap),
 		{id:"", name:""}),
 
 	// optionsTitle: String

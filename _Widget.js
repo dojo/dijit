@@ -87,9 +87,37 @@ dojo.declare("dijit._Widget", null, {
 	containerNode: null,
 
 	// attributeMap: Object
-	//		A map of attributes and attachpoints -- typically standard HTML attributes -- to set
-	//		on the widget's dom, at the "domNode" attach point, by default.
-	//		Other node references can be specified as properties of 'this'
+	//		attributeMap sets up a "binding" between attributes (aka properties)
+	//		of the widget and the widget's DOM.
+	//		Changes to widget attributes listed in attributeMap will be 
+	//		reflected into the DOM.
+	//
+	//		For example, calling attr('title', 'hello')
+	//		on a TitlePane will automatically cause the TitlePane's DOM to update
+	//		with the new title.
+	//
+	//		attributeMap is a hash where the key is an attribute of the widget,
+	//		and the value reflects a binding to a:
+	//
+	//		- DOM node attribute
+	// |		focus: {node: "focusNode", type: "attribute"}
+	// 		Maps this.focus to this.focusNode.focus
+	//
+	//		- DOM node innerHTML
+	//	|		title: { node: "titleNode", type: "innerHTML" }
+	//		Maps this.title to this.titleNode.innerHTML
+	//
+	//		- DOM node CSS class
+	// |		myClass: { node: "domNode", type: "class" }
+	//		Maps this.myClass to this.domNode.className
+	//
+	//		If the value is an array, then each element in the array matches one of the
+	//		formats of the above list.
+	//
+	//		There are also some shorthands for backwards compatibility:
+	//		- string --> { node: string, type: "attribute" }, for example:
+	//	|	"focusNode" ---> { node: "focusNode", type: "attribute" }
+	//		- "" --> { node: "domNode", type: "attribute" }
 	attributeMap: {id:"", dir:"", lang:"", "class":"", style:"", title:""},
 
 	// _deferredConnects: Object
@@ -320,12 +348,15 @@ dojo.declare("dijit._Widget", null, {
 	_applyAttributes: function(){
 		// summary:
 		//		Step during widget creation to copy all widget attributes to the
-		//		DOM as per attributeMap
-		var params = this.params;
+		//		DOM as per attributeMap.
+		//		Well, actually, it only copies the attributes in attributeMap.
+		// description:
+		//		Skips over blank/false attribute values, unless they were explicitly specified
+		//		as parameters to the widget, since those are the default anyway,
+		//		and setting tabIndex="" is different than not setting tabIndex at all.
 		for(attr in this.attributeMap){
-			var value = this[attr];
-			if((typeof value != "undefined") && (typeof value != "object") && ((value !== "" && value !== false) || (params && params[attr]))){
-				this.attr(attr, value);
+			if( (this.params && attr in this.params) || this[attr]){
+				this.attr(attr, this[attr]);
 			}
 		}
 	},
@@ -520,16 +551,33 @@ dojo.declare("dijit._Widget", null, {
 		//		Note some attributes like "type"
 		//		cannot be processed this way as they are not mutable.
 
-		var mapNode = this[this.attributeMap[attr]||'domNode'];
-		this[attr] = value;
+		var commands = this.attributeMap[attr];
+		dojo.forEach( dojo.isArray(commands) ? commands : [commands], function(command){
 
-		if(dojo.isFunction(value)){ // functions execute in the context of the widget
-			value = dojo.hitch(this, value);
-		}
-		if(/^on[A-Z][a-zA-Z]*$/.test(attr)){ // eg. onSubmit needs to be onsubmit
-			attr = attr.toLowerCase();
-		}
-		dojo.attr(mapNode, attr, value);
+			// Get target node and what we are doing to that node
+			var mapNode = this[command.node || command || "domNode"];	// DOM node
+			var type = command.type || "attribute";	// class, innerHTML, or attribute
+	
+			switch(type){
+				case "attribute":
+					if(dojo.isFunction(value)){ // functions execute in the context of the widget
+						value = dojo.hitch(this, value);
+					}
+					if(/^on[A-Z][a-zA-Z]*$/.test(attr)){ // eg. onSubmit needs to be onsubmit
+						attr = attr.toLowerCase();
+					}
+					dojo.attr(mapNode, attr, value);
+					break;
+				case "innerHTML":
+					mapNode.innerHTML = value;
+					break;
+				case "class":
+					dojo.removeClass(mapNode, this[attr]);
+					dojo.addClass(mapNode, value);
+					break;
+			}
+		}, this);
+		this[attr] = value;
 	},
 
 	attr: function(/*String|Object*/name, /*Object?*/value){
@@ -594,19 +642,8 @@ dojo.declare("dijit._Widget", null, {
 					this._attrToDom(name, value);
 				}
 
-				// assign directly first
 				// FIXME: what about function assignments? Any way to connect() here?
 				this[name] = value;
-
-				// if attribute corresponds to some node's innerHTML, copy it
-				var node = this[names.n];
-				if(node && dojo.isString(value)){
-					if(dojo.isArray(node)){
-						dojo.forEach(node, function(i){ i.innerHTML = value; });
-					}else{
-						node.innerHTML = value;
-					}
-				}
 			}
 			return this;
 		}else{ // getter

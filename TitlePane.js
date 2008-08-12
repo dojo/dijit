@@ -29,7 +29,7 @@ dojo.declare(
 	// | 	<div dojoType="dijit.TitlePane" title="Title">
 	// |		<p>I am content</p>
 	// |	</div>
-	//
+
 	// title: String
 	//		Title of the pane
 	title: "",
@@ -46,12 +46,13 @@ dojo.declare(
 	//	The root className to use for the various states of this widget
 	baseClass: "dijitTitlePane",
 
-	injectAttributes: true,
-
 	templatePath: dojo.moduleUrl("dijit", "templates/TitlePane.html"),
 
+	attributeMap: dojo.mixin(dojo.clone(dijit.layout.ContentPane.prototype.attributeMap), {
+		title: {node: "titleNode", type: "innerHTML" }
+	}),
+
 	postCreate: function(){
-		this.attr("title", this.title);
 		if(!this.open){
 			this.hideNode.style.display = this.wipeNode.style.display = "none";
 		}

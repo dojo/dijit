@@ -105,13 +105,6 @@ dojo.declare("dijit._Templated",
 			}
 		},
 
-		// injectAttributes: Boolean
-		//		Allows you to specify a template like this:
-		//	|	<div dojoAttachPoint="fooNode"></div>
-		//		Which automatically populates that node with the contents of the property with the name "foo".
-		//		It also avoids the regex/replace cost of using ${foo} inside a template.
-		injectAttributes: false,
-
 		_attachTemplateNodes: function(rootNode, getAttrFunc){
 			// summary: Iterate through the template and attach functions and nodes accordingly.	
 			// description:		
@@ -143,9 +136,6 @@ dojo.declare("dijit._Templated",
 				if(attachPoint){
 					var point, points = attachPoint.split(/\s*,\s*/);
 					while((point = points.shift())){
-						if(this.injectAttributes){
-							attrs[point] = true;
-						}
 						if(dojo.isArray(this[point])){
 							this[point].push(baseNode);
 						}else{
@@ -193,14 +183,6 @@ dojo.declare("dijit._Templated",
 							dijit.setWaiState(baseNode, pair[0], pair[1]);
 						}
 					});
-				}
-			}
-			if(this.injectAttributes){
-				for(var x in attrs){
-					if(attrs[x] === true){
-						var valueName = (x.indexOf("Node") == x.length-4) ? x.substr(0, x.length-4) : x;
-						this.attr(valueName, this[valueName]);
-					}
 				}
 			}
 		}

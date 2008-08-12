@@ -138,7 +138,9 @@ dojo.declare(
 		
 		templateString: null,
 		templatePath: dojo.moduleUrl("dijit", "templates/Dialog.html"),
-		injectAttributes: true,
+		attributeMap: dojo.mixin(dojo.clone(dijit._Widget.prototype.attributeMap), {
+			title: [{node: "titleNode", type: "innerHTML"}, {node: "titleBar", type: "attribute"}]
+		}),
 
 		// open: Boolean
 		//		is True or False depending on state of dialog
@@ -180,9 +182,6 @@ dojo.declare(
 		//		can be moved by it's title. If false it will remain centered
 		//		in the viewport.
 		draggable: true,
-
-		attributeMap: dojo.mixin(dojo.clone(dijit._Widget.prototype.attributeMap),
-			{title: "titleBar"}),
 
 		postMixInProperties: function(){
 			var _nlsResources = dojo.i18n.getLocalization("dijit", "common");
