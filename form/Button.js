@@ -81,11 +81,6 @@ dojo.declare("dijit.form.Button",
 	},
 
 	postCreate: function(){
-		// summary:
-		//	get label and set as title on button icon if necessary
-		if(this.params.label){
-			this.attr('label', this.params.label);
-		}
 		if (this.showLabel == false){
 			dojo.addClass(this.containerNode,"dijitDisplayNone");
 		}
@@ -438,11 +433,6 @@ dojo.declare("dijit.form.ToggleButton", dijit.form.Button, {
 		this._hasBeenBlurred = false;
 
 		// set checked state to original setting
-		this.attr('checked', this._resetValue);
-	},
-	
-	postCreate: function(){
-		this.inherited(arguments);
-		this.attr('checked', this.checked); //to initially set wai pressed state 
+		this.attr('checked', this.params.checked || false);
 	}
 });
