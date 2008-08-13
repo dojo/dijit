@@ -158,11 +158,16 @@ dojo.declare(
 	},
 
 	getChildren: function(){
-		return this.inherited(arguments).filter(function(widget){
+		return dojo.filter(this.inherited(arguments), function(widget){
 			return !widget.isSplitter;
 		});
 	},
-
+	
+	getSplitter: function(/*String*/region) {
+		var splitter = this._splitters[region];
+		return dijit.byNode(splitter);
+	},
+	
 	resize: function(newSize, currentSize){
 		// resetting potential padding to 0px to provide support for 100% width/height + padding
 		// TODO: this hack doesn't respect the box model and is a temporary fix
@@ -459,19 +464,21 @@ dojo.declare("dijit.layout._Splitter", [ dijit._Widget, dijit._Templated ],
 		var factor = this._factor,
 			max = this._maxSize,
 			min = this._minSize || 10;
-		var axis = this.horizontal ? "pageY" : "pageX";
+		var isHorizontal = this.horizontal; 
+		var axis = isHorizontal ? "pageY" : "pageX";
 		var pageStart = e[axis];
 		var splitterStyle = this.domNode.style;
-		var dim = this.horizontal ? 'h' : 'w';
+		var dim = isHorizontal ? 'h' : 'w';
 		var childStart = dojo.marginBox(this.child.domNode)[dim];
-		var splitterStart = parseInt(this.domNode.style[this.region]);
-		var resize = this._resize;
 		var region = this.region;
+		var splitterStart = parseInt(this.domNode.style[region], 10);
+		var resize = this._resize;
 		var mb = {};
 		var childNode = this.child.domNode;
 		var layoutFunc = dojo.hitch(this.container, this.container._layoutChildren);
 
 		var de = dojo.doc.body;
+
 		this._handlers = (this._handlers || []).concat([
 			dojo.connect(de, "onmousemove", this._drag = function(e, forceResize){
 				var delta = e[axis] - pageStart,
