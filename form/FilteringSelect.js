@@ -90,8 +90,8 @@ dojo.declare(
 			return "value";
 		},
 
-		_setValue:function(	/*String*/ value, 
-					/*String*/ displayedValue, 
+		_setValue: function(	/*String*/ value, 
+					/*String*/ displayedValue,
 					/*Boolean?*/ priorityChange){
 			this.valueNode.value = value;
 			dijit.form.FilteringSelect.superclass._setValueAttr.call(this, value, priorityChange, displayedValue);
@@ -99,9 +99,11 @@ dojo.declare(
 		},
 
 		_setValueAttr: function(/*String*/ value, /*Boolean?*/ priorityChange){
-			// summary
-			//	Sets the value of the select.
-			//	Also sets the label to the corresponding value by reverse lookup.
+			// summary:
+			//		Hook so attr('value', value) works.
+			// description:
+			//		Sets the value of the select.
+			//		Also sets the label to the corresponding value by reverse lookup.
 			this._lastQuery=value;
 
 			if(!value){
@@ -145,7 +147,7 @@ dojo.declare(
 			//		Users shouldn't call this function; they should be calling
 			//		attr('displayedValue', value) instead
 			this._isvalid=true;
-                        this.item = item; // Fix #6381
+			this.item = item; // Fix #6381
 			this._setValue(	this.store.getIdentity(item), 
 							this.labelFunc(item, this.store), 
 							priorityChange);

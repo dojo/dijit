@@ -64,6 +64,8 @@ dojo.declare(
 		tooltipPosition: [],
 
 		_setValueAttr: function(){
+			// summary:
+			//		Hook so attr('value', ...) works.
 			this.inherited(arguments);
 			this.validate(this._focused);
 		},
@@ -195,16 +197,16 @@ dojo.declare(
 
 		_setDisabledAttr: function(/*Boolean*/ value){
 			this.inherited(arguments);	// call FormValueWidget._setDisabledAttr()
-			if(this.valueNode){
+					if(this.valueNode){
 				this.valueNode.disabled = value;
-			}
-			this._refreshState();
+					}
+					this._refreshState();
 		},
 		
 		_setRequiredAttr: function(/*Boolean*/ value){
 			this.required = value;
 			dijit.setWaiState(this.focusNode,"required", value);
-			this._refreshState();
+					this._refreshState();				
 		},
 
 		postCreate: function(){
@@ -270,7 +272,7 @@ dojo.declare(
 			this.textbox.name = this.textbox.name + "_displayed_";
 			this.textbox.removeAttribute("name");
 		},
-		
+
 		_setDisabledAttr: function(/*Boolean*/ value){
 			this.inherited(arguments);
 			dojo.attr(this.valueNode, 'disabled', value);
@@ -375,6 +377,8 @@ dojo.declare(
 		},
 		
 		_setValueAttr: function(/*Number*/ value, /*Boolean?*/ priorityChange){
+			// summary:
+			//		Hook so attr('value', ...) works.
 			dijit.setWaiState(this.focusNode, "valuenow", value);
 			this.inherited(arguments);
 		}

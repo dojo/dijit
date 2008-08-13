@@ -72,7 +72,10 @@ dojo.declare("dijit.form.MultiSelect",dijit.form._FormWidget,{
 	_multiValue: true, // for Form
 
 	_setValueAttr: function(/* Array */values){
-		// summary: Set the value(s) of this Select based on passed values
+		// summary:
+		//		Hook so attr('value', values) works.
+		// description:
+		//		Set the value(s) of this Select based on passed values
 		dojo.query("option",this.containerNode).forEach(function(n){
 			n.selected = (dojo.indexOf(values,n.value) != -1);
 		});

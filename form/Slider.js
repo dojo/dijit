@@ -122,6 +122,8 @@ dojo.declare(
 	},
 
 	_setValueAttr: function(/*Number*/ value, /*Boolean, optional*/ priorityChange){
+		// summary:
+		//		Hook so attr('value', value) works.
 		this.valueNode.value = this.value = value;
 		dijit.setWaiState(this.focusNode, "valuenow", value);
 		this.inherited(arguments);

@@ -132,7 +132,7 @@ dojo.declare(
 			//		Superclass _must_ define _setDisabledAttr().
 			// description:
 			//		Additional code to set disabled state of combobox node
-			dijit.setWaiState(this.comboNode, "disabled", value);
+				dijit.setWaiState(this.comboNode, "disabled", value);
 		},	
 		
 		_onKeyPress: function(/*Event*/ evt){
@@ -215,7 +215,7 @@ dojo.declare(
 						this._prev_key_backspace = false;
 						this._prev_key_esc = false;
 						if(pw.getHighlightedOption()){
-							pw.attr('value', { target: pw.getHighlightedOption() }, true);
+							pw.attr('value', { target: pw.getHighlightedOption() });
 						}
 						this._hideResultList();
 					}
@@ -485,7 +485,7 @@ dojo.declare(
 
 		_doSelect: function(tgt){
 			this.item = tgt.item;
-			this._setValueAttr(this.store.getValue(tgt.item, this.searchAttr), true);
+			this.attr('value', this.store.getValue(tgt.item, this.searchAttr));
 		},
 
 		_onArrowMouseDown: function(evt){
@@ -1026,6 +1026,7 @@ dojo.declare(
 			dijit.form.ValidationTextBox.prototype._setDisabledAttr.apply(this, arguments);
 			dijit.form.ComboBoxMixin.prototype._setDisabledAttr.apply(this, arguments);
 		}
+		
 	}
 );
 

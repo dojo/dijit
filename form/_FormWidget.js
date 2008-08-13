@@ -69,17 +69,17 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 		dojo.attr(this.focusNode, 'disabled', value);
 		dijit.setWaiState(this.focusNode, "disabled", value);
 
-		if(value){
-			//reset those, because after the domNode is disabled, we can no longer receive
-			//mouse related events, see #4200
-			this._hovering = false;
-			this._active = false;
-			// remove the tabIndex, especially for FF
+				if(value){
+					//reset those, because after the domNode is disabled, we can no longer receive
+					//mouse related events, see #4200
+					this._hovering = false;
+					this._active = false;
+					// remove the tabIndex, especially for FF
 			this.focusNode.removeAttribute('tabIndex');
-		}else{
+				}else{
 			this.focusNode.setAttribute('tabIndex', this.tabIndex);
-		}
-		this._setStateClass();
+				}
+				this._setStateClass();
 	},
 
 	setDisabled: function(/*Boolean*/ disabled){
@@ -317,7 +317,12 @@ dojo.declare("dijit.form._FormValueWidget", dijit.form._FormWidget,
 	},
 
 	_setValueAttr: function(/*anything*/ newValue, /*Boolean, optional*/ priorityChange){
-		// summary: set the value of the widget.
+		// summary:
+		//		Hook so attr('value', value) works.
+		// description:
+		//		Sets the value of the widget.
+		//		If the value has changed, then fire onChange event, unless priorityChange
+		//		is specified as null (or false?)
 		this.value = newValue;
 		this._handleOnChange(newValue, priorityChange);
 	},
@@ -330,7 +335,7 @@ dojo.declare("dijit.form._FormValueWidget", dijit.form._FormWidget,
 
 	undo: function(){
 		// summary: restore the value to the last value passed to onChange
-		this.setValue(this._lastValueReported, false);
+		this._setValueAttr(this._lastValueReported, false);
 	},
 
 	reset: function(){

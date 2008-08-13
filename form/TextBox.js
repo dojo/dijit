@@ -46,7 +46,10 @@ dojo.declare(
 		},
 
 		_setValueAttr: function(value, /*Boolean?*/ priorityChange, /*String?*/ formattedValue){
-			//	summary: 
+			//	summary:
+			//		Hook so attr('value', ...) works.
+			//
+			//	description: 
 			//		Sets the value of the widget to "value" which can be of
 			//		any type as determined by the widget.
 			//
