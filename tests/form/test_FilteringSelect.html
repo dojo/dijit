@@ -36,6 +36,14 @@
 			label = label.toLowerCase();
 			return label;
 		}
+		
+		var programaticTest = function(){
+			
+			var fs = new dijit.form.FilteringSelect({
+				store: myStore,
+				
+			})
+		}
 	</script>
 </head>
 
@@ -284,6 +292,30 @@
 		<br>
 		<hr>
 		<input type="submit">
+		
+		<hr>
+		<p>FilteringSelect #13 - Programatic</p>
+		<script type="text/javascript">
+			dojo.addOnLoad(function(){
+				var data = {
+					identifier:"label",
+					items:[
+						{ label:"ugh<b>bar</b>" },
+						{ label:"<em>emphasis</em>" }
+					]
+				};
+				var store = new dojo.data.ItemFileReadStore({ data: data });
+				var foo = new dijit.form.FilteringSelect({
+					store: store,
+					searchAttr:"label",
+					labelType:"html",
+					labelAttr:"label"
+				});
+				dojo.byId("programatic").appendChild(foo.domNode);
+			});
+		</script>
+		<div id="programatic"></div>
+		
 	</form>
 	<p>
 		this is some text below the combo boxes. It shouldn't get pushed out of
@@ -293,7 +325,7 @@
 
 	<select>
 	  <option>test for</option>
-	  <option">IE bleed through</option>
+	  <option>IE bleed through</option>
 	  <option>problem</option>
 	</select>
 
