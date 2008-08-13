@@ -343,10 +343,10 @@ dijit._editor.RichTextIframeMixin = {
 	},
 
 	_setDisabledAttr: function(/*Boolean*/ value){
-		value = Boolean(value);
-		if(dojo.isMoz){
-			this.document.designMode = value ? 'off' : 'on';
-		}
+			value = Boolean(value);
+			if(dojo.isMoz){
+				this.document.designMode = value ? 'off' : 'on';
+			}
 		dijit._editor.RichText.prototype._setDisabledAttr.call(this, value);
 	},
 
@@ -743,23 +743,27 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 	_mozSettingProps: {'styleWithCSS':false},
 
 	_setDisabledAttr: function(/*Boolean*/ value){
-		value = Boolean(value);
-		this.editNode.contentEditable = !value;
-		this.disabled = value;
-		if(!value && this._mozSettingProps){
-			var ps = this._mozSettingProps;
-			for(var n in ps){
-				if(ps.hasOwnProperty(n)){
-					try{
-						this.document.execCommand(n,false,ps[n]);
-					}catch(e){}
+			value = Boolean(value);
+			this.editNode.contentEditable = !value;
+			this.disabled = value;
+			if(!value && this._mozSettingProps){
+				var ps = this._mozSettingProps;
+				for(var n in ps){
+					if(ps.hasOwnProperty(n)){
+						try{
+							this.document.execCommand(n,false,ps[n]);
+						}catch(e){}
+					}
 				}
 			}
-		}
 	},
 	setDisabled: function(/*Boolean*/ disabled){
 		dojo.deprecated('dijit.Editor::setDisabled is deprecated','use dijit.Editor::attr("disabled",boolean) instead', 2);
 		this.attr('disabled',disabled);
+	},
+	_setValueAttr: function(/*String*/ value){
+		// summary: registers that attr("value", foo) should call setValue(foo)
+		this.setValue(value);
 	},
 
 /* Event handlers
@@ -846,7 +850,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 
 		// function call after the character has been inserted
 		if(!this._onKeyHitch){
-			this._onKeyHitch = dojo.hitch(this, "onKeyPressed");
+			this._onKeyHitch=dojo.hitch(this, "onKeyPressed");
 		}
 		setTimeout(this._onKeyHitch, 1);
 		return true;
@@ -887,7 +891,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 		this._savedSelection = dijit.range.getSelection(this.window);
 
 		this.inherited(arguments);
-		var _c = this.getValue(true);
+		var _c=this.getValue(true);
 		
 		if(_c!=this.savedContent){
 			this.onChange(_c);
@@ -1113,7 +1117,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 				//mozilla can not inserthtml an empty html to delete current selection
 				//so we delete the selection instead in this case
 				this._sCall("remove"); // FIXME
-				returnValue = true;
+				returnValue=true;
 			}else{
 				returnValue = this.document.execCommand(command, false, argument);
 			}
@@ -1265,25 +1269,25 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 		this.focus();
 
 		//see comments in placeCursorAtEnd
-		var isvalid = false;
+		var isvalid=false;
 		if(dojo.isMoz){
 			var first=this.editNode.firstChild;
 			while(first){
 				if(first.nodeType == 3){
 					if(first.nodeValue.replace(/^\s+|\s+$/g, "").length>0){
-						isvalid = true;
+						isvalid=true;
 						this._sCall("selectElement", [ first ]);
 						break;
 					}
 				}else if(first.nodeType == 1){
-					isvalid = true;
+					isvalid=true;
 					this._sCall("selectElementChildren", [ first ]);
 					break;
 				}
 				first = first.nextSibling;
 			}
 		}else{
-			isvalid = true;
+			isvalid=true;
 			this._sCall("selectElementChildren", [ this.editNode ]);
 		}
 		if(isvalid){
@@ -1296,11 +1300,11 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 		//		place the cursor at the end of the editing area
 		this.focus();
 
-		// In mozilla, if last child is not a text node, we have to use
+		//In mozilla, if last child is not a text node, we have to use
 		// selectElementChildren on this.editNode.lastChild otherwise the
 		// cursor would be placed at the end of the closing tag of
-		// this.editNode.lastChild
-		var isvalid = false;
+		//this.editNode.lastChild
+		var isvalid=false;
 		if(dojo.isMoz){
 			var last=this.editNode.lastChild;
 			while(last){
@@ -1322,7 +1326,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 				last = last.previousSibling;
 			}
 		}else{
-			isvalid = true;
+			isvalid=true;
 			this._sCall("selectElementChildren", [ this.editNode ]);
 		}
 		if(isvalid){
@@ -1331,7 +1335,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 	},
 
 	getValue: function(/*Boolean?*/nonDestructive){
-		//	summary:
+		// summary:
 		//		return the current content of the editing area (post filters
 		//		are applied)
 		//	nonDestructive:
@@ -1347,12 +1351,16 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 
 		return this._postFilterContent(null, nonDestructive);
 	},
+	_getValueAttr: function(){
+		// summary: hook to make attr("value") work
+		return this.getValue();
+	},
 
 	setValue: function(/*String*/html){
 		// summary:
 		//		This function sets the content. No undo history is preserved.
 		if(this.textarea && (this.isClosed || !this.isLoaded)){
-			this.textarea.value = html;
+			this.textarea.value=html;
 		}else{
 			html = this._preFilterContent(html);
 			var node = this.isClosed ? this.domNode : this.editNode;
@@ -1413,7 +1421,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 	_postFilterContent: function(
 		/*DomNode|DomNode[]|String?*/ dom,
 		/*Boolean?*/ nonDestructive){
-		//	summary:
+		// summary:
 		//		filter the output after getting the content of the editing area
 		//
 		//	description:
