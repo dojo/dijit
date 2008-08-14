@@ -29,6 +29,7 @@
 			dojo.require("dijit.robot");
 			dojo.require("dijit.dijit"); // optimize: load dijit layer
 			dojo.require("dijit.form.NumberSpinner");
+			dojo.require("dojox.robot.recorder");
 			dojo.require("dojo.parser"); // scan page for widgets
 		</script>
 
@@ -37,7 +38,6 @@
 				var spin1=dijit.byId('integerspinner1');
 				var spin2=dijit.byId('integerspinner2');
 				var spin3=dijit.byId('realspinner1');
-				var sec=new Function('return window');
 				var delta=1; // redefine with doh.robot.mouseWheelSize when it is available
 
 				doh.register("dijit.form.Spinner",{
@@ -49,20 +49,18 @@
 					runTest: function(){
 						// test typematic
 						var d=new doh.Deferred();
-						var s=new Function('return window');
-						doh.robot.mouseMove(s,80,175,1083,true);
-						doh.robot._scrollIntoView(spin1.domNode);
-						doh.robot.mouseMoveAt(s,spin1.domNode,663,54,3);
-						doh.robot.mouseClick(s,{left:true, middle:false, right:false},3);
-						doh.robot.keyDown(s,dojo.keys.DOWN_ARROW,30);
-						doh.robot.keyUp(s,dojo.keys.DOWN_ARROW,11000);
-						setTimeout(function(){
+						doh.robot.mouseMove(80, 175, 1083, true);
+						doh.robot.mouseMoveAt(spin1.domNode, 663, 54, 3);
+						doh.robot.mouseClick({left:true,  middle:false,  right:false}, 3);
+						doh.robot.keyDown(dojo.keys.DOWN_ARROW, 30);
+						doh.robot.keyUp(dojo.keys.DOWN_ARROW, 11000);
+						doh.robot.sequence(function(){
 							if(spin1.attr('value')<=800){
 								d.callback(true);
 							}else{
 								d.errback(new Error('Error in typematic test. Expected <=800, got '+spin1.attr('value')));
 							}
-						}, 14000);
+						}, 1000);
 						return d;
 					}
 				});
@@ -70,6 +68,7 @@
 				doh.register("dijit.form.Spinner",
 				{
 					name:"spinner1",
+					timeout:5500,
 					setUp:function(){
 						spin1.attr('value', 900);
 					},
@@ -78,18 +77,19 @@
 						// note that Spinner spins backwards!
 						delta=-doh.robot.mouseWheelSize;
 						var d=new doh.Deferred();
-						doh.robot.mouseMoveAt(sec,spin1.domNode);
+						doh.robot.mouseMoveAt(spin1.domNode, 1000);
+						doh.robot.mouseClick({left:true}, 500);
 						// wheel up 10 times
 						// this should increase the value by 10
 						// takes 100ms/click
-						doh.robot.mouseWheel(sec,-10);
-						setTimeout(function(){
+						doh.robot.mouseWheel(-10, 1000, 1000);
+						doh.robot.sequence(function(){
 							var v=spin1.attr('value');
 							if(v==(900+10*delta)){
 								d.callback(true);
 							}else{
 								d.errback(new Error("spinner 1: wrong value, expected "+(900+10*delta)+", got "+spin1.attr('value')));							}
-						},900);
+						}, 1000);
 						return d;
 					}
 				});
@@ -97,6 +97,7 @@
 				doh.register("dijit.form.Spinner",
 				{
 					name:"spinner2",
+					timeout:5500,
 					setUp:function(){
 						spin2.attr('value', 1000);
 					},
@@ -104,18 +105,19 @@
 						// test custom delta with mouse wheel
 						// it should increment 10 per mouse wheel
 						var d=new doh.Deferred();
-						doh.robot.mouseMoveAt(sec,spin2.domNode);
+						doh.robot.mouseMoveAt(spin2.domNode, 1000);
+						doh.robot.mouseClick({left:true}, 500);
 						// wheel down 9 times
 						// this should decrease the value by 90
 						// takes 100ms/click
-						doh.robot.mouseWheel(sec,9);
-						setTimeout(function(){
+						doh.robot.mouseWheel(9, 1000, 1000);
+						doh.robot.sequence(function(){
 							if(spin2.attr('value')==(1000-90*delta)){
 								d.callback(true);
 							}else{
 								d.errback(new Error("spinner 2: wrong value, expected "+(1000-90*delta)+", got "+spin2.attr('value')));
 							}
-						},900);
+						}, 1000);
 						return d;
 					}
 				});
@@ -123,6 +125,7 @@
 				doh.register("dijit.form.Spinner",
 				{
 					name:"spinner3",
+					timeout:5500,
 					setUp:function(){
 						spin3.attr('value', 1.0);
 					},
@@ -130,18 +133,19 @@
 						// test real number spinner with mouse wheel
 						// it should increment 0.1 per mouse wheel
 						var d=new doh.Deferred();
-						doh.robot.mouseMoveAt(sec,spin3.domNode);
+						doh.robot.mouseMoveAt(spin3.domNode, 1000);
+						doh.robot.mouseClick({left:true}, 500);
 						// wheel up 10
 						// this should increase the value by 1.0
 						// takes 100ms/click
-						doh.robot.mouseWheel(sec,-10); 
-						setTimeout(function(){
+						doh.robot.mouseWheel(-10, 1000, 1000); 
+						doh.robot.sequence(function(){
 							if(spin3.attr('value')==(1.0+1.0*delta)){
 								d.callback(true);
 							}else{
 								d.errback(new Error("spinner 3: wrong value, expected "+(1.0+1.0*delta)+", got "+spin3.attr('value')));
 							}
-						},900);
+						}, 1000);
 						return d;
 					}
 				});

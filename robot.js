@@ -8,5 +8,14 @@ dojo.mixin(doh.robot,{
 	// automatically firing when they try to move the mouse to an element
 
 	// TODO: remove post 1.2 when scrollIntoView moves into Dojo core
-	_scrollIntoView : dijit.scrollIntoView
+	_scrollIntoView : function(/*String||DOMNode||Function*/ node){
+		// summary:
+		//		Scroll the passed node into view, if it is not.
+		//
+		if(typeof node == "function"){
+			// if the user passed a function returning a node, evaluate it
+			node = node();
+		}
+		dijit.scrollIntoView(node);
+	}
 });
