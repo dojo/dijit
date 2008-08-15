@@ -633,9 +633,6 @@ dojo.declare("dijit._Widget", null, {
 			if(this[names.s]){
 				// use the explicit setter
 				return this[names.s](value) || this;
-			}else if(this.set){
-				// default setter
-				return this.set(name, value) || this;
 			}else{
 				// if param is specified as DOM node attribute, copy it
 				if(name in this.attributeMap){
@@ -649,10 +646,9 @@ dojo.declare("dijit._Widget", null, {
 		}else{ // getter
 			if(this[names.g]){
 				return this[names.g]();
-			}else if(this.get){
-				return this.get(name);
+			}else{
+				return this[name];
 			}
-			return this[name];
 		}
 	},
 
