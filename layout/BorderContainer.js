@@ -76,12 +76,16 @@ dojo.declare(
 
 	startup: function(){
 		if(this._started){ return; }
+
 		dojo.forEach(this.getChildren(), function(child){
 			this._setupChild(child);
 			var region = child.region;
-			if(this._splitters[region]){
-				dojo.place(this._splitters[region], child.domNode, "after");
+			var splitter = this.getSplitter(region);
+			if(splitter){ 
+				dojo.place(splitter.domNode, child.domNode, "after");
 				this._computeSplitterThickness(region); // redundant?
+				// Splitters arent added as Contained children, so we need to call startup explicitly
+				splitter.startup();
 			}
 		}, this);
 		this.inherited(arguments);
@@ -89,6 +93,7 @@ dojo.declare(
 
 	_setupChild: function(/*Widget*/child){
 		var region = child.region;
+
 		if(region){
 			this.inherited(arguments);
 
@@ -165,7 +170,7 @@ dojo.declare(
 	
 	getSplitter: function(/*String*/region) {
 		var splitter = this._splitters[region];
-		return dijit.byNode(splitter);
+		return (splitter) ? dijit.byNode(splitter) : null;
 	},
 	
 	resize: function(newSize, currentSize){
