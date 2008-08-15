@@ -76,24 +76,12 @@ dojo.declare(
 
 	startup: function(){
 		if(this._started){ return; }
-
-		dojo.forEach(this.getChildren(), function(child){
-			this._setupChild(child);
-			var region = child.region;
-			var splitter = this.getSplitter(region);
-			if(splitter){ 
-				dojo.place(splitter.domNode, child.domNode, "after");
-				this._computeSplitterThickness(region); // redundant?
-				// Splitters arent added as Contained children, so we need to call startup explicitly
-				splitter.startup();
-			}
-		}, this);
+		dojo.forEach(this.getChildren(), this._setupChild, this);
 		this.inherited(arguments);
 	},
 
 	_setupChild: function(/*Widget*/child){
 		var region = child.region;
-
 		if(region){
 			this.inherited(arguments);
 
@@ -123,6 +111,11 @@ dojo.declare(
 				});
 				splitter.isSplitter = true;
 				this._splitters[region] = splitter.domNode;
+				dojo.place(this._splitters[region], child.domNode, "after");
+				this._computeSplitterThickness(region); // redundant?
+
+				// Splitters arent added as Contained children, so we need to call startup explicitly
+				splitter.startup();
 			}
 			child.region = region;
 		}
@@ -202,7 +195,7 @@ dojo.declare(
 
 		var layoutSides = !changedRegion || (!changedSide && !sidebarLayout);
 		var layoutTopBottom = !changedRegion || (changedSide && sidebarLayout);
-		
+
 		// Ask browser for width/height of side panes.
 		// Would be nice to cache this but height can change according to width
 		// (because words wrap around).  I don't think width will ever change though
@@ -572,5 +565,3 @@ dojo.declare("dijit.layout._Gutter", [dijit._Widget, dijit._Templated ],
 		dojo.addClass(this.domNode, "dijitGutter" + (this.horizontal ? "H" : "V"));
 	}
 });
-
-
