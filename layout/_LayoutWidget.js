@@ -129,10 +129,12 @@ dojo.declare("dijit.layout._LayoutWidget",
 				dojo.addClass(child.domNode, this.baseClass+"-"+child.baseClass);
 			}
 		},
-		
+
 		addChild: function(/*Widget*/ child, /*Integer?*/ insertIndex){
 			this.inherited(arguments);
-			this._setupChild(child);
+			if(this._started){
+				this._setupChild(child);
+			}
 		},
 
 		removeChild: function(/*Widget*/ child){
