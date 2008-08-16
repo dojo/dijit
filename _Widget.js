@@ -354,18 +354,23 @@ dojo.declare("dijit._Widget", null, {
 		//		as parameters to the widget, since those are the default anyway,
 		//		and setting tabIndex="" is different than not setting tabIndex at all.
 		//
-		//		It copies the attributes in the attribute map, and then goes through
-		//		and then it goes through and calls any _setXXXAttr functions that
-		//		exist for passed-in parameters
-		for(var attr in this.attributeMap){
-			if( (this.params && attr in this.params) || this[attr]){
-				this.attr(attr, this[attr]);
+		//		It processes the attributes in the attribute map first, ant then
+		//		it goes through and processes the attributes for the _setXXXAttr
+		//		functions that have been specified
+		var condAttrApply = function(attr, scope){
+			if( (scope.params && attr in scope.params) || scope[attr]){
+				scope.attr(attr, scope[attr]);
 			}
+		};
+		
+		for(var attr in this.attributeMap){
+			condAttrApply(attr, this);
 		}
-		for(attr in this.params){
-			var setter = this._getAttrNames(attr).s;
-			if(this[setter]){
-				this[setter](this.params[attr]);
+		var attrs;
+		for(var fxName in this){
+			if(dojo.isFunction(this[fxName]) && (attrs = fxName.match(/^_set([a-zA-Z]*)Attr$/)) && attrs[1]){
+				attr = attrs[1].charAt(0).toLowerCase() + attrs[1].substr(1);
+				condAttrApply(attr, this);
 			}
 		}
 	},
