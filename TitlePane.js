@@ -80,10 +80,12 @@ dojo.declare(
 		this.inherited(arguments);
 	},
 
-	_setOpenAttr: function(open){
+	_setOpenAttr: function(/* Boolean */ open){
 		// summary:
-		//		Hook to make attr("open", ...) work.
-		if(this.open != open){ this.toggle(); }
+		//		Hook to make attr("open", boolean) control the open/closed state of the pane.
+		// open: Boolean
+		//		True if you want to open the pane, false if you want to close it.
+		if(this.open !== open){ this.toggle(); }
 	},
 
 	_setContentAttr: function(content){
