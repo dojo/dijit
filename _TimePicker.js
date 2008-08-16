@@ -232,7 +232,6 @@ dojo.declare("dijit._TimePicker",
 			this.connect(this.downArrow, "onmouseover", hoverFx(this.downArrow, this._onArrowDown));
 			
 			this.inherited(arguments);
-			this.attr('value', this.value);
 		},
 
 		_buttonMouse:function(/*Event*/ e){

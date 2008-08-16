@@ -369,7 +369,6 @@ dojo.declare("dijit.MenuItem",
 		dojo.setSelectable(this.domNode, false);
 		dojo.attr(this.containerNode, "id", this.id+"_text");
 		dijit.setWaiState(this.domNode, "labelledby", this.id+"_text");
-		this.attr('disabled', this.disabled);
 	},
 
 	_onHover: function(){
@@ -536,12 +535,5 @@ dojo.declare("dijit.CheckedMenuItem",
 			this.onChange(this.checked);
 		}
 		this.inherited(arguments);
-	},
-
-	postCreate: function(){
-		this.inherited(arguments);
-
-		// Need to set our initial checked state
-		this.attr('checked', this.checked);
 	}
 });

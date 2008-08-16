@@ -348,15 +348,24 @@ dojo.declare("dijit._Widget", null, {
 	_applyAttributes: function(){
 		// summary:
 		//		Step during widget creation to copy all widget attributes to the
-		//		DOM as per attributeMap.
-		//		Well, actually, it only copies the attributes in attributeMap.
+		//		DOM as per attributeMap and _setXXXAttr functions.
 		// description:
 		//		Skips over blank/false attribute values, unless they were explicitly specified
 		//		as parameters to the widget, since those are the default anyway,
 		//		and setting tabIndex="" is different than not setting tabIndex at all.
-		for(attr in this.attributeMap){
+		//
+		//		It copies the attributes in the attribute map, and then goes through
+		//		and then it goes through and calls any _setXXXAttr functions that
+		//		exist for passed-in parameters
+		for(var attr in this.attributeMap){
 			if( (this.params && attr in this.params) || this[attr]){
 				this.attr(attr, this[attr]);
+			}
+		}
+		for(attr in this.params){
+			var setter = this._getAttrNames(attr).s;
+			if(this[setter]){
+				this[setter](this.params[attr]);
 			}
 		}
 	},

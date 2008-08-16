@@ -219,7 +219,6 @@ dojo.declare(
 					}
 				}
 			}
-			this.attr('required', this.required);
 			this.inherited(arguments);
 		}
 	}

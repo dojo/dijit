@@ -108,10 +108,6 @@ dojo.declare(
 			this._loadCheck();
 		}
 
-		if(this.content){
-			this.attr("content", this.content);
-		}
-
 		if (!dijit.hasWaiRole(this.domNode)){
 			dijit.setWaiRole(this.domNode, "group");
 		}
