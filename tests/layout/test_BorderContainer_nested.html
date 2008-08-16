@@ -45,32 +45,30 @@
 		<div dojoType="dijit.layout.ContentPane" region="bottom" style="background-color: #b39b86; height: 100px;">
 			bottom bar
 		</div>
-		<div dojoType="dijit.layout.ContentPane" region="center" style="background-color: #f5ffbf; padding: 0px;">
-	
-			<div dojoType="dijit.layout.BorderContainer" design="sidebar"
-				style="border: 2px solid black; height: 300px;">
-				<div dojoType="dijit.layout.ContentPane" region="left" style="background-color: #acb386; width: 100px;">
-					left
-				</div>
-				<div dojoType="dijit.layout.ContentPane" region="right" style="background-color: #acb386; width: 100px;">
-					right
-				</div>
-				<div dojoType="dijit.layout.ContentPane" region="top" style="background-color: #b39b86; height: 100px;">
-					top bar
-				</div>
-				<div dojoType="dijit.layout.ContentPane" region="bottom" style="background-color: #b39b86; height: 100px;">
-					bottom bar
-				</div>
-				<div dojoType="dijit.layout.ContentPane" region="center" style="background-color: #f5ffbf; padding: 10px;">
-					main panel with <a href="http://www.dojotoolkit.org/">a link</a>.<br />
-					(to check we're copying children around properly).<br />
-					<select dojoType="dijit.form.FilteringSelect">
-						<option value="1">foo</option>
-						<option value="2">bar</option>
-						<option value="3">baz</option>
-					</select>
-					Here's some text that comes AFTER the combo box.
-				</div>
+
+		<div dojoType="dijit.layout.BorderContainer" region="center" design="sidebar"
+			style="border: 2px solid black; padding: 0px;">
+			<div dojoType="dijit.layout.ContentPane" region="left" style="background-color: #acb386; width: 100px;">
+				left
+			</div>
+			<div dojoType="dijit.layout.ContentPane" region="right" style="background-color: #acb386; width: 100px;">
+				right
+			</div>
+			<div dojoType="dijit.layout.ContentPane" region="top" style="background-color: #b39b86; height: 100px;">
+				top bar
+			</div>
+			<div dojoType="dijit.layout.ContentPane" region="bottom" style="background-color: #b39b86; height: 100px;">
+				bottom bar
+			</div>
+			<div dojoType="dijit.layout.ContentPane" region="center" style="background-color: #f5ffbf; padding: 10px;">
+				main panel with <a href="http://www.dojotoolkit.org/">a link</a>.<br />
+				(to check we're copying children around properly).<br />
+				<select dojoType="dijit.form.FilteringSelect">
+					<option value="1">foo</option>
+					<option value="2">bar</option>
+					<option value="3">baz</option>
+				</select>
+				Here's some text that comes AFTER the combo box.
 			</div>
 		</div>
 	</div>
