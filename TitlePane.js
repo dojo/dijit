@@ -80,6 +80,12 @@ dojo.declare(
 		this.inherited(arguments);
 	},
 
+	_setOpenAttr: function(open){
+		// summary:
+		//		Hook to make attr("open", ...) work.
+		if(this.open != open){ this.toggle(); }
+	},
+
 	_setContentAttr: function(content){
 		// summary:
 		//		Hook to make attr("content", ...) work.
