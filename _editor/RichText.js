@@ -343,10 +343,14 @@ dijit._editor.RichTextIframeMixin = {
 	},
 
 	_setDisabledAttr: function(/*Boolean*/ value){
-			value = Boolean(value);
-			if(dojo.isMoz){
-				this.document.designMode = value ? 'off' : 'on';
-			}
+		if(!this.document || !this.editNode){ 
+			this._delayedDisabled = value;
+			return; 
+		}
+		value = Boolean(value);
+		if(dojo.isMoz){
+			this.document.designMode = value ? 'off' : 'on';
+		}
 		dijit._editor.RichText.prototype._setDisabledAttr.call(this, value);
 	},
 
@@ -743,19 +747,23 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 	_mozSettingProps: {'styleWithCSS':false},
 
 	_setDisabledAttr: function(/*Boolean*/ value){
-			value = Boolean(value);
-			this.editNode.contentEditable = !value;
-			this.disabled = value;
-			if(!value && this._mozSettingProps){
-				var ps = this._mozSettingProps;
-				for(var n in ps){
-					if(ps.hasOwnProperty(n)){
-						try{
-							this.document.execCommand(n,false,ps[n]);
-						}catch(e){}
-					}
+		if(!this.editNode){ 
+			this._delayedDisabled = value;
+			return; 
+		}
+		value = Boolean(value);
+		this.editNode.contentEditable = !value;
+		this.disabled = value;
+		if(!value && this._mozSettingProps){
+			var ps = this._mozSettingProps;
+			for(var n in ps){
+				if(ps.hasOwnProperty(n)){
+					try{
+						this.document.execCommand(n,false,ps[n]);
+					}catch(e){}
 				}
 			}
+		}
 	},
 	setDisabled: function(/*Boolean*/ disabled){
 		dojo.deprecated('dijit.Editor::setDisabled is deprecated','use dijit.Editor::attr("disabled",boolean) instead', 2);
@@ -811,6 +819,13 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 
 		if(this.onLoadDeferred){
 			this.onLoadDeferred.callback(true);
+		}
+		if("_delayedDisabled" in this){
+			// We tried to set the disabled attribute previously - but we didn't
+			// have everything set up.  Set it up now that we have our nodes
+			// created
+			this.attr("disabled", this._delayedDisabled);
+			delete this._delayedDisabled;
 		}
 	},
 	onKeyDown: function(e){
