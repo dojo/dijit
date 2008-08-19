@@ -331,7 +331,7 @@ dojo.declare(
 	dndController: null,
 
 	//parameters to pull off of the tree and pass on to the dndController as its params
-	dndParams: ["onDndDrop","itemCreator","onDndCancel","checkAcceptance", "checkItemAcceptance"],
+	dndParams: ["onDndDrop","itemCreator","onDndCancel","checkAcceptance", "checkItemAcceptance", "dragThreshold"],
 
 	//declare the above items so they can be pulled from the tree's markup
 	onDndDrop:null,
@@ -339,6 +339,7 @@ dojo.declare(
 	onDndCancel:null,
 	checkAcceptance:null,	
 	checkItemAcceptance:null,
+	dragThreshold:0,
 
 	_publish: function(/*String*/ topicName, /*Object*/ message){
 		// summary:

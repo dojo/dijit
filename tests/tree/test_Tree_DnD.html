@@ -179,13 +179,15 @@
 			<h2>Collection</h2>
 			<p>
 				Drop items onto this tree, but only onto categories; should fail to let you drop on other items.
-				Can also move items within this tree.
+				Can also move items within this tree. The drag threshold is set to 8, so you have a few pixels
+				of buffer before drag operations start.
 			</p>
 			<div dojoType="dijit.tree.TreeStoreModel" jsId="itemModel"
 				store="catStore" query="{id: '0'}" childrenAttrs="items, children"></div>
 			<div class="container" dojoType="dijit.Tree" id="itemTree"
 				model="itemModel"
 				dndController="dijit._tree.dndSource" checkAcceptance="dndAccept" checkItemAcceptance="itemTreeCheckItemAcceptance"
+				dragThreshold="8"
 				getIconClass="getIcon"></div> 
 		</td>
 	</tr>

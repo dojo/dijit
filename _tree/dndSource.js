@@ -10,6 +10,7 @@ dojo.declare("dijit._tree.dndSource", dijit._tree.dndSelector, {
 	isSource: true,
 	copyOnly: false,
 	skipForm: false,
+	dragThreshold: 0,
 	accept: ["text"],
 	
 	constructor: function(tree, params){
@@ -40,6 +41,8 @@ dojo.declare("dijit._tree.dndSource", dijit._tree.dndSelector, {
 		this.targetAnchor = null;
 		this.targetBox = null;
 		this.before = true;
+		this._lastX = 0;
+		this._lastY = 0;
 
 		// states
 		this.sourceState  = "";
@@ -123,7 +126,8 @@ dojo.declare("dijit._tree.dndSource", dijit._tree.dndSelector, {
 				}
 			}
 		}else{
-			if(this.mouseDown && this.isSource){
+			if(this.mouseDown && this.isSource &&
+			   (Math.abs(e.pageX-this._lastX)>=this.dragThreshold || Math.abs(e.pageY-this._lastY)>=this.dragThreshold)){
 				var n = this.getSelectedNodes();
 				var nodes=[];
 				for (var i in n){
@@ -141,6 +145,8 @@ dojo.declare("dijit._tree.dndSource", dijit._tree.dndSelector, {
 		// e: Event: mouse event
 		this.mouseDown = true;
 		this.mouseButton = e.button;
+		this._lastX = e.pageX;
+		this._lastY = e.pageY;
 		this.inherited("onMouseDown",arguments);
 	},
 
