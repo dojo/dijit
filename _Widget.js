@@ -13,6 +13,25 @@ dojo.connect(dojo, "connect",
 
 dijit._connectOnUseEventHandler = function(/*Event*/ event){};
 
+(function(){
+
+var _attrReg = {};
+getAttrReg = function(dc){
+	if(!_attrReg[dc]){
+		var r = [];
+		var attrs;
+		var proto = dojo.getObject(dc).prototype;
+		for(var fxName in proto){
+			if(dojo.isFunction(proto[fxName]) && (attrs = fxName.match(/^_set([a-zA-Z]*)Attr$/)) && attrs[1]){
+				attr = attrs[1].charAt(0).toLowerCase() + attrs[1].substr(1);
+				r.push(attr);
+			}
+		}
+		_attrReg[dc] = r;
+	}
+	return _attrReg[dc]||[];
+}
+
 dojo.declare("dijit._Widget", null, {
 	//	summary:
 	//		The foundation of dijit widgets. 	
@@ -362,17 +381,9 @@ dojo.declare("dijit._Widget", null, {
 				scope.attr(attr, scope[attr]);
 			}
 		};
-		
-		for(var attr in this.attributeMap){
-			condAttrApply(attr, this);
-		}
-		var attrs;
-		for(var fxName in this){
-			if(dojo.isFunction(this[fxName]) && (attrs = fxName.match(/^_set([a-zA-Z]*)Attr$/)) && attrs[1]){
-				attr = attrs[1].charAt(0).toLowerCase() + attrs[1].substr(1);
-				condAttrApply(attr, this);
-			}
-		}
+		dojo.forEach(getAttrReg(this.declaredClass), function(a){
+			condAttrApply(a, this);
+		}, this);
 	},
 
 	postMixInProperties: function(){
@@ -857,3 +868,5 @@ dojo.declare("dijit._Widget", null, {
 	}
 
 });
+
+})();
