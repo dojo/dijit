@@ -381,6 +381,9 @@ dojo.declare("dijit._Widget", null, {
 				scope.attr(attr, scope[attr]);
 			}
 		};
+		for(var attr in this.attributeMap){
+			condAttrApply(attr, this);
+		}
 		dojo.forEach(getAttrReg(this.declaredClass), function(a){
 			condAttrApply(a, this);
 		}, this);
