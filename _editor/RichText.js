@@ -343,7 +343,7 @@ dijit._editor.RichTextIframeMixin = {
 	},
 
 	_setDisabledAttr: function(/*Boolean*/ value){
-		if(!this.document || !this.editNode){ 
+		if(!this.document || !this.editNode || "_delayedDisabled" in this){ 
 			this._delayedDisabled = value;
 			return; 
 		}
@@ -747,7 +747,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 	_mozSettingProps: {'styleWithCSS':false},
 
 	_setDisabledAttr: function(/*Boolean*/ value){
-		if(!this.editNode){ 
+		if(!this.editNode || "_delayedDisabled" in this){ 
 			this._delayedDisabled = value;
 			return; 
 		}
@@ -824,8 +824,9 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 			// We tried to set the disabled attribute previously - but we didn't
 			// have everything set up.  Set it up now that we have our nodes
 			// created
-			this.attr("disabled", this._delayedDisabled);
+			var d = this._delayedDisabled;
 			delete this._delayedDisabled;
+			this.attr("disabled", d);
 		}
 	},
 	onKeyDown: function(e){
