@@ -73,7 +73,7 @@
 	/* TODO: change from Hover to Selected so that button is still highlighted while drop down is being used */
 	border-color:		#a5beda; 
 	border-bottom-color:#5c7590; 
-	color:#000;
+	color:#243C5F;
 	background:#fcfdff url("../images/buttonHover.png") repeat-x bottom;
 }
 
