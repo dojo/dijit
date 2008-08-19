@@ -18,7 +18,7 @@ dojo.declare("dijit.layout.LinkPane",
 	// I'm using a template because the user may specify the input as
 	// <a href="foo.html">title</a>, in which case we need to get rid of the
 	// <a> because we don't want a link.
-	templateString: '<div class="dijitLinkPane"></div>',
+	templateString: '<div class="dijitLinkPane" dojoAttachPoint="containerNode"></div>',
 
 	postCreate: function(){
 

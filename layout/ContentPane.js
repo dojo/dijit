@@ -94,15 +94,18 @@ dojo.declare(
 		this.errorMessage = dojo.string.substitute(this.errorMessage, messages);
 	},
 
-	postCreate: function(){
-		// remove the title attribute so it doesn't show up when i hover
-		// over a node
-		this.domNode.title = "";
-
+	buildRendering: function(){
+		this.inherited(arguments);
 		if(!this.containerNode){
 			// make getDescendants() work
 			this.containerNode = this.domNode;
 		}
+	},
+
+	postCreate: function(){
+		// remove the title attribute so it doesn't show up when i hover
+		// over a node
+		this.domNode.title = "";
 
 		if(this.preload){
 			this._loadCheck();
