@@ -338,7 +338,7 @@ dojo.declare("dijit.MenuItem",
 	templateString:
 		 '<tr class="dijitReset dijitMenuItem" dojoAttachPoint="focusNode" waiRole="menuitem" tabIndex="-1"'
 		+'dojoAttachEvent="onmouseenter:_onHover,onmouseleave:_onUnhover,ondijitclick:_onClick">'
-		+'<td class="dijitReset" waiRole="presentation"><div class="dijitMenuItemIcon ${iconClass}" dojoAttachPoint="iconNode"></div></td>'
+		+'<td class="dijitReset" waiRole="presentation"><div class="dijitMenuItemIcon" dojoAttachPoint="iconNode"></div></td>'
 		+'<td class="dijitReset dijitMenuItemLabel" dojoAttachPoint="containerNode"></td>'
 		+'<td class="dijitReset dijitMenuArrowCell" waiRole="presentation">'
 			+'<div dojoAttachPoint="arrowWrapper" style="display: none">'
@@ -349,7 +349,8 @@ dojo.declare("dijit.MenuItem",
 		+'</tr>',
 
 	attributeMap: dojo.mixin(dojo.clone(dijit._Widget.prototype.attributeMap), {
-		label: {node: "containerNode", type: "innerHTML"}
+		label: {node: "containerNode", type: "innerHTML"},
+		iconClass: {node: "iconNode", type: "class" }
 	}),
 
 	// label: String
@@ -357,7 +358,7 @@ dojo.declare("dijit.MenuItem",
 	label: '',
 
 	// iconClass: String
-	//	class to apply to div in button to make it display an icon
+	//		Class to apply to div in button to make it display an icon
 	iconClass: "",
 
 	// disabled: Boolean
@@ -496,11 +497,10 @@ dojo.declare("dijit.CheckedMenuItem",
 	{
 	// summary: a checkbox-like menu item for toggling on and off
 	
-	// Modify default string to include a11y ability
 	templateString:
 		 '<tr class="dijitReset dijitMenuItem" dojoAttachPoint="focusNode" waiRole="menuitemcheckbox" tabIndex="-1"'
 		+'dojoAttachEvent="onmouseenter:_onHover,onmouseleave:_onUnhover,ondijitclick:_onClick">'
-		+'<td class="dijitReset" waiRole="presentation"><div class="dijitMenuItemIcon dijitCheckedMenuItemIcon ${iconClass}" dojoAttachPoint="iconNode">'
+		+'<td class="dijitReset" waiRole="presentation"><div class="dijitMenuItemIcon dijitCheckedMenuItemIcon" dojoAttachPoint="iconNode">'
 		+'<div class="dijitCheckedMenuItemIconChar">&#10003;</div>'
 		+'</div></td>'
 		+'<td class="dijitReset dijitMenuItemLabel" dojoAttachPoint="containerNode,labelNode"></td>'
