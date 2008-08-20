@@ -184,6 +184,9 @@ dojo.declare("dijit.layout.AccordionPane",
 	// | see dijit.layout.AccordionContainer
 
 	templatePath: dojo.moduleUrl("dijit.layout", "templates/AccordionPane.html"),
+	attributeMap: dojo.mixin(dojo.clone(dijit.layout.ContentPane.prototype.attributeMap), {
+		title: {node: "titleTextNode", type: "innerHTML" }
+	}),
 
 	baseClass: "dijitAccordionPane",
 	
