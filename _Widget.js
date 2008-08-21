@@ -23,8 +23,7 @@ var getAttrReg = function(dc){
 		var proto = dojo.getObject(dc).prototype;
 		for(var fxName in proto){
 			if(dojo.isFunction(proto[fxName]) && (attrs = fxName.match(/^_set([a-zA-Z]*)Attr$/)) && attrs[1]){
-				attr = attrs[1].charAt(0).toLowerCase() + attrs[1].substr(1);
-				r.push(attr);
+				r.push(attrs[1].charAt(0).toLowerCase() + attrs[1].substr(1));
 			}
 		}
 		_attrReg[dc] = r;
@@ -658,7 +657,7 @@ dojo.declare("dijit._Widget", null, {
 			for(var x in name){ this.attr(x, name[x]); }
 			return this;
 		}
-		names = this._getAttrNames(name);
+		var names = this._getAttrNames(name);
 		if(args == 2){ // setter
 			if(this[names.s]){
 				// use the explicit setter
