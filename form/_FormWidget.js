@@ -311,8 +311,6 @@ dojo.declare("dijit.form._FormValueWidget", dijit.form._FormWidget,
 		}
 		if("displayedValue" in this.params){
 			this.attr('displayedValue', this.params.displayedValue);
-		}else{
-			this._setValueAttr(this.value, null);
 		}
 	},
 

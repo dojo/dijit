@@ -385,7 +385,9 @@ dojo.declare("dijit._Widget", null, {
 			condAttrApply(attr, this);
 		}
 		dojo.forEach(getAttrReg(this.declaredClass), function(a){
-			condAttrApply(a, this);
+			if(!(a in this.attributeMap)){
+				condAttrApply(a, this);
+			}
 		}, this);
 	},
 
