@@ -16,7 +16,7 @@ dijit._connectOnUseEventHandler = function(/*Event*/ event){};
 (function(){
 
 var _attrReg = {};
-getAttrReg = function(dc){
+var getAttrReg = function(dc){
 	if(!_attrReg[dc]){
 		var r = [];
 		var attrs;
