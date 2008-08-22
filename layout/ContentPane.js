@@ -155,7 +155,7 @@ dojo.declare(
 
 	setHref: function(/*String|Uri*/ href){
 		dojo.deprecated("dijit.layout.ContentPane.setHref() is deprecated.  Use attr('href', ...) instead.", "", "2.0");
-		return this.attr("href", data);
+		return this.attr("href", href);
 	},
 	_setHrefAttr: function(/*String|Uri*/ href){
 		// summary:
