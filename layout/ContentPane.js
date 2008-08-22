@@ -126,7 +126,7 @@ dojo.declare(
 				this._singleChild.startup();
 			}
 		}
-		this._loadCheck();
+		this._loadCheck();	// TODO: why is _loadCheck() called here and in postCreate()?
 		this.inherited(arguments);
 	},
 
@@ -294,8 +294,9 @@ dojo.declare(
 		var displayState = this._isShown();
 
 		if(this.href &&	
-			(forceLoad ||
-				(this.preload && !this._xhrDfd) ||
+			(
+				forceLoad ||
+				(this.preload && !this.isLoaded && !this._xhrDfd) ||
 				(this.refreshOnShow && displayState && !this._xhrDfd) ||
 				(!this.isLoaded && displayState && !this._xhrDfd)
 			)
