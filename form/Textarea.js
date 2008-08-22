@@ -24,7 +24,7 @@ dojo.declare(
 		{style:"styleNode", 'class':"styleNode"}),
 
 	templateString: (dojo.isIE || dojo.isSafari || dojo.isFF) ?
-				((dojo.isIE || dojo.isSafari || dojo.isFF >= 3) ? '<fieldset id="${id}" class="dijitInline" dojoAttachPoint="styleNode" waiRole="presentation"><div dojoAttachPoint="editNode,focusNode,eventNode" dojoAttachEvent="onpaste:_changing,oncut:_changing" waiRole="textarea" style="text-decoration:none;display:block;overflow:auto;" contentEditable="true"></div>'
+				((dojo.isIE || dojo.isSafari || dojo.isFF >= 3) ? '<fieldset id="${id}" class="dijitInline" dojoAttachPoint="styleNode" waiRole="presentation"><div dojoAttachPoint="editNode,focusNode,eventNode" dojoAttachEvent="onpaste:_changing,oncut:_changing" waiRole="textbox" waiState="multiline-true" style="text-decoration:none;display:block;overflow:auto;" contentEditable="true"></div>'
 					: '<span id="${id}" class="dijitReset">'+
 					'<iframe src="javascript:<html><head><title>${_iframeEditTitle}</title></head><body><script>var _postCreate=window.frameElement?window.frameElement.postCreate:null;if(_postCreate)_postCreate();</script></body></html>"'+
 							' dojoAttachPoint="iframe,styleNode,stateNode" dojoAttachEvent="onblur:_onIframeBlur" class="dijitInline dijitInputField"></iframe>')
@@ -133,7 +133,7 @@ dojo.declare(
 		if(!this.value){ this.value = ""; }
 		this.value = this.value.replace(/\r\n/g,"\n").replace(/&gt;/g,">").replace(/&lt;/g,"<").replace(/&amp;/g,"&");
 		if(dojo.isFF == 2){
-			// In the case of Firefox an iframe is used and when the text gets focus,
+			// In the case of Firefox < 3 an iframe is used and when the text gets focus,
 			// focus is fired from the document object.  There isn't a way to put a
 			// waiRole on the document object and as a result screen readers don't
 			// announce the role.  As a result screen reader users are lost.
