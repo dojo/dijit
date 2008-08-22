@@ -451,18 +451,24 @@
 						//		We actually dont need to test anything here, just setUp
 						name: "setUp_StackContainer",
 						setUp:function(t){
+							// create a StackContainer
 							st = dojo.byId('stackcontainer');
 							dojo.addClass(st, 'box');
 							st = new dijit.layout.StackContainer({}, st);
 
+							// the first child (by default) is the one that will
+							// be shown
 							st.addChild(new dijit.TestWidget());
+							
+							// the second child *won't* be shown until selected
 							pane3 = new dijit.layout.ContentPane({
 								href:'getResponse.php?delay=300&message=Loaded!',
 								preventCache: true
 							}, dojo.doc.createElement('div'));
 							st.addChild(pane3);
 
-							pane3.startup(); // starts the ContentPane
+							// start the StackContainer; shouldn't cause ContentPane to load.
+							st.startup();
 						},
 						runTest:function(t){
 							t.assertTrue(st);

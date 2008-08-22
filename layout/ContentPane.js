@@ -107,10 +107,6 @@ dojo.declare(
 		// over a node
 		this.domNode.title = "";
 
-		if(this.preload){
-			this._loadCheck();
-		}
-
 		if (!dijit.hasWaiRole(this.domNode)){
 			dijit.setWaiRole(this.domNode, "group");
 		}
@@ -126,7 +122,7 @@ dojo.declare(
 				this._singleChild.startup();
 			}
 		}
-		this._loadCheck();	// TODO: why is _loadCheck() called here and in postCreate()?
+		this._loadCheck();
 		this.inherited(arguments);
 	},
 
@@ -171,8 +167,12 @@ dojo.declare(
 		//		url to the page you want to get, must be within the same domain as your mainpage
 		this.href = href;
 
-		// we return result of _prepareLoad here to avoid code dup. in dojox.layout.ContentPane
-		return this._prepareLoad();
+		// _setHrefAttr() is called during creation and by the user, after creation.
+		// only in the second case do we actually load the URL; otherwise it's done in startup()
+		if(this._created){
+			// we return result of _prepareLoad here to avoid code dup. in dojox.layout.ContentPane
+			return this._prepareLoad();
+		}
 	},
 
 	setContent: function(/*String|DomNode|Nodelist*/data){
