@@ -1,28 +1,13 @@
 dojo.provide("dijit._base.window");
 
 dijit.getDocumentWindow = function(doc){
-	//	summary
-	// 	Get window object associated with document doc
+	// summary:
+	// 		Get window object associated with document doc
 
-	// With Safari, there is not way to retrieve the window from the document, so we must fix it.
-	if(dojo.isSafari && !doc._parentWindow){
-		/*
-			This is a Safari specific function that fix the reference to the parent
-			window from the document object.
-		*/
-		var fix=function(win){
-			win.document._parentWindow=win;
-			for(var i=0; i<win.frames.length; i++){
-				fix(win.frames[i]);
-			}
-		}
-		fix(window.top);
-	}
-
-	//In some IE versions (at least 6.0), document.parentWindow does not return a
-	//reference to the real window object (maybe a copy), so we must fix it as well
-	//We use IE specific execScript to attach the real window reference to
-	//document._parentWindow for later use
+	// In some IE versions (at least 6.0), document.parentWindow does not return a
+	// reference to the real window object (maybe a copy), so we must fix it as well
+	// We use IE specific execScript to attach the real window reference to
+	// document._parentWindow for later use
 	if(dojo.isIE && window !== document.parentWindow && !doc._parentWindow){
 		/*
 		In IE 6, only the variable "window" can be used to connect events (others
