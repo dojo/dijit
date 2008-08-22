@@ -5,7 +5,7 @@
 
 	serif: "新細明體",
 	"sans-serif": "新細明體",
-	monospaced: "單距",
+	monospace: "單距",
 	cursive: "Cursive",
 	fantasy: "Fantasy",
 

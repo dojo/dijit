@@ -5,7 +5,7 @@
 
 	serif: "με πατούρες (serif)",
 	"sans-serif": "χωρίς πατούρες (sans-serif)",
-	monospaced: "σταθερού πλάτους",
+	monospace: "σταθερού πλάτους",
 	cursive: "πλάγιοι",
 	fantasy: "φαντασίας",
 
