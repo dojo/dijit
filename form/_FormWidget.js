@@ -309,6 +309,11 @@ dojo.declare("dijit.form._FormValueWidget", dijit.form._FormWidget,
 		if(dojo.isIE || dojo.isSafari){ // IE won't stop the event with keypress and Safari won't send an ESCAPE to keypress at all
 			this.connect(this.focusNode || this.domNode, "onkeydown", this._onKeyDown);
 		}
+		// Update our reset value if it hasn't yet been set (because this.attr
+		// is only called when there *is* a value
+		if(this._resetValue === undefined){
+			this._resetValue = this.value;
+		}
 	},
 
 	_setValueAttr: function(/*anything*/ newValue, /*Boolean, optional*/ priorityChange){
