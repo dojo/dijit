@@ -309,9 +309,6 @@ dojo.declare("dijit.form._FormValueWidget", dijit.form._FormWidget,
 		if(dojo.isIE || dojo.isSafari){ // IE won't stop the event with keypress and Safari won't send an ESCAPE to keypress at all
 			this.connect(this.focusNode || this.domNode, "onkeydown", this._onKeyDown);
 		}
-		if("displayedValue" in this.params){
-			this.attr('displayedValue', this.params.displayedValue);
-		}
 	},
 
 	_setValueAttr: function(/*anything*/ newValue, /*Boolean, optional*/ priorityChange){
