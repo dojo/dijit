@@ -112,7 +112,6 @@ dojo.declare(
 				splitter.isSplitter = true;
 				this._splitters[region] = splitter.domNode;
 				dojo.place(this._splitters[region], child.domNode, "after");
-				this._computeSplitterThickness(region); // redundant?
 
 				// Splitters arent added as Contained children, so we need to call startup explicitly
 				splitter.startup();
@@ -122,12 +121,12 @@ dojo.declare(
 	},
 
 	_computeSplitterThickness: function(region){
-		var re = new RegExp("top|bottom");
-		this._splitterThickness[region] =
-			dojo.marginBox(this._splitters[region])[(re.test(region) ? 'h' : 'w')];
+		this._splitterThickness[region] = this._splitterThickness[region] ||
+			dojo.marginBox(this._splitters[region])[(/top|bottom/.test(region) ? 'h' : 'w')];
 	},
 
 	layout: function(){
+		for(var region in this._splitters){ this._computeSplitterThickness(region); }
 		this._layoutChildren();
 	},
 
@@ -190,9 +189,6 @@ dojo.declare(
 
 		var changedSide = /left|right/.test(changedRegion);
 
-		var cs = this.cs;
-		var pe = this.pe;
-
 		var layoutSides = !changedRegion || (!changedSide && !sidebarLayout);
 		var layoutTopBottom = !changedRegion || (changedSide && sidebarLayout);
 
@@ -218,15 +214,13 @@ dojo.declare(
 		}
 
 		var splitters = this._splitters;
-		var topSplitter = splitters.top;
-		var bottomSplitter = splitters.bottom;
-		var leftSplitter = splitters.left;
-		var rightSplitter = splitters.right;
+		var topSplitter = splitters.top, bottomSplitter = splitters.bottom,
+			leftSplitter = splitters.left, rightSplitter = splitters.right;
 		var splitterThickness = this._splitterThickness;
-		var topSplitterThickness = splitterThickness.top || 0;
-		var leftSplitterThickness = splitterThickness.left || 0;
-		var rightSplitterThickness = splitterThickness.right || 0;
-		var bottomSplitterThickness = splitterThickness.bottom || 0;
+		var topSplitterThickness = splitterThickness.top || 0,
+			leftSplitterThickness = splitterThickness.left || 0,
+			rightSplitterThickness = splitterThickness.right || 0,
+			bottomSplitterThickness = splitterThickness.bottom || 0;
 
 		// Check for race condition where CSS hasn't finished loading, so
 		// the splitter width == the viewport width (#5824)
@@ -239,6 +233,8 @@ dojo.declare(
 			}), 50);
 			return false;
 		}
+
+		var pe = this.pe;
 
 		var splitterBounds = {
 			left: (sidebarLayout ? leftWidth + leftSplitterThickness: 0) + pe.l + "px",
