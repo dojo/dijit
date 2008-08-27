@@ -49,7 +49,7 @@ dojo.declare("dijit.form.Button",
 	}),
 		
 
-			_onClick: function(/*Event*/ e){
+	_onClick: function(/*Event*/ e){
 		// summary: internal function to handle click actions
 		if(this.disabled || this.readOnly){
 			return false;
