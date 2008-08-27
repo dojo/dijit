@@ -12,7 +12,7 @@ dojo.declare("dijit.form.MultiSelect",dijit.form._FormWidget,{
 	//		set the size via style="..." or CSS class names instead.
 	size: 7,
 	
-	templateString: "<select multiple='true' dojoAttachPoint='containerNode,focusNode' dojoAttachEvent='onchange: _onChange'></select>",
+	templateString: "<select multiple='true' name='${name}' dojoAttachPoint='containerNode,focusNode' dojoAttachEvent='onchange: _onChange'></select>",
 
 	attributeMap: dojo.mixin(dojo.clone(dijit.form._FormWidget.prototype.attributeMap),
 		{size:"focusNode"}),
