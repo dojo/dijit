@@ -52,32 +52,7 @@ dojo.declare(
 			//only lost after onmousedown event is fired, so we can obtain correct caret pos.)
 			//2) when user tabs away from the editor, which is handled in onKeyDown below.
 			if(dojo.isIE){
-	            this.events.push("onBeforeDeactivate");
-	        }else if(!this.useIframe){
-	        	if(!document.__connectedglobalMouseDown){
-	        		document.__connectedglobalMouseDown=1;
-	        		//check whether user is clicking something outside of the currently focused
-	        		//editor instance
-					var onGlobalMouseDown = function(e){
-						var newfocused=e.target;
-						//only FF3 and IE supports document.activeElement, however, dijit 
-						//maintains something similar for us for all browsers, so use it
-						var focused = dijit._curFocus;
-						if(focused && focused.nodeName !='BODY' && newfocused!=focused && focused.contentEditable){
-							if(!dojo.isDescendant(newfocused,focused)){
-								//console.log('newfocused.type',focused,newfocused.contentEditable);
-								var editor = dijit.getEnclosingWidget(focused);
-								if(editor && editor instanceof dijit.Editor){
-									editor._saveSelection();
-								}
-							}
-						}
-						//console.log(e.type,e,document.activeElement,dijit._curFocus);
-					}
-					//need to use capture=true otherwise some dijit may stopEvent which would
-					//prevent onGlobalMouseDown from called properly.
-					document.body.addEventListener('mousedown',onGlobalMouseDown,true);
-				}
+				this.events.push("onBeforeDeactivate");
 			}
 		},
 
@@ -260,13 +235,13 @@ dojo.declare(
 		focus: function(){
 			var restore=0;
 			//console.log('focus',dijit._curFocus==this.editNode)
-			if(this._savedSelection && (dojo.isIE || !this.useIframe)){
+			if(this._savedSelection && dojo.isIE){
 				restore = dijit._curFocus!=this.editNode;
 			}
-		    this.inherited(arguments);
-		    if(restore){
-		    	this._restoreSelection();
-		    }
+			this.inherited(arguments);
+			if(restore){
+				this._restoreSelection();
+			}
 		},
 		_moveToBookmark: function(b){
 			var bookmark=b;

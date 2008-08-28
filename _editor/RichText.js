@@ -35,332 +35,6 @@ if(!dojo.config["useXDomain"] || dojo.config["allowXdRichTextSave"]){
 	}
 }
 
-dijit._editor.RichTextIframeMixin = {
-	_writeOpen: function(html){
-		// summary: 
-		//		the guts of the open() method for use when in an iframe environment
-
-		if(dojo.isIE || dojo.isSafari || dojo.isOpera){ // contentEditable, easy
-		
-			if(dojo.config["useXDomain"] && !dojo.config["dojoBlankHtmlUrl"]){
-				console.warn("dijit._editor.RichText: When using cross-domain Dojo builds,"
-				+ " please save dojo/resources/blank.html to your domain and set djConfig.dojoBlankHtmlUrl"
-				+ " to the path on your domain to blank.html");
-			}
-
-			var burl = dojo.config["dojoBlankHtmlUrl"] || (dojo.moduleUrl("dojo", "resources/blank.html")+"");
-			var ifr = this.editorObject = this.iframe = dojo.doc.createElement('iframe');
-			ifr.id = this.id+"_iframe";
-			ifr.src = burl;
-			ifr.style.border = "none";
-			ifr.style.width = "100%";
-			ifr.frameBorder = 0;
-			// ifr.style.scrolling = this.height ? "auto" : "vertical";
-			this.editingArea.appendChild(ifr);
-			var h = null; // set later in non-ie6 branch
-			var loadFunc = dojo.hitch( this, function(){
-				if(h){ dojo.disconnect(h); h = null; }
-				this.window = ifr.contentWindow;
-				var d = this.document = this.window.document;
-				d.open();
-				d.write(this._getIframeDocTxt(html));
-				d.close();
-
-				if(dojo.isIE >= 7){
-					if(this.height){
-						ifr.style.height = this.height;
-					}
-					if(this.minHeight){
-						ifr.style.minHeight = this.minHeight;
-					}
-				}else{
-					ifr.style.height = this.height ? this.height : this.minHeight;
-				}
-
-				if(dojo.isIE){
-					this._localizeEditorCommands();
-				}
-				
-				this.onLoad();
-				this.savedContent = this.getValue(true);
-			});
-			if(dojo.isIE < 7){ // IE 6 is a steaming pile...
-				var t = setInterval(function(){
-					if(ifr.contentWindow.isLoaded){
-						clearInterval(t);
-						loadFunc();
-					}
-				}, 100);
-			}else{ // blissful sanity!
-				h = dojo.connect(
-					((dojo.isIE) ? ifr.contentWindow : ifr), "onload", loadFunc
-				);
-			}
-		}else{ // designMode in iframe
-			this._drawIframe(html);
-			this.savedContent = this.getValue(true);
-		}
-	},
-
-	_getIframeDocTxt: function(/* String */ html){
-		var _cs = dojo.getComputedStyle(this.domNode);
-		if(!this.height && !dojo.isMoz){
-			html="<div>"+html+"</div>";
-		}
-		var font = [ _cs.fontWeight, _cs.fontSize, _cs.fontFamily ].join(" ");
-
-		// line height is tricky - applying a units value will mess things up.
-		// if we can't get a non-units value, bail out.
-		var lineHeight = _cs.lineHeight;
-		if(lineHeight.indexOf("px") >= 0){
-			lineHeight = parseFloat(lineHeight)/parseFloat(_cs.fontSize);
-			// console.debug(lineHeight);
-		}else if(lineHeight.indexOf("em")>=0){
-			lineHeight = parseFloat(lineHeight);
-		}else{
-			lineHeight = "1.0";
-		}
-		return [
-			this.isLeftToRight() ? "<html><head>" : "<html dir='rtl'><head>",
-			(dojo.isMoz ? "<title>" + this._localizedIframeTitles.iframeEditTitle + "</title>" : ""),
-			"<style>",
-			"body,html {",
-			"	background:transparent;",
-			"	padding: 0;",
-			"	margin: 0;",
-			"}",
-			// TODO: left positioning will cause contents to disappear out of view
-			//	   if it gets too wide for the visible area
-			"body{",
-			"	top:0px; left:0px; right:0px;",
-				((this.height||dojo.isOpera) ? "" : "position: fixed;"),
-			"	font:", font, ";",
-			// FIXME: IE 6 won't understand min-height?
-			"	min-height:", this.minHeight, ";",
-			"	line-height:", lineHeight,
-			"}",
-			"p{ margin: 1em 0 !important; }",
-			(this.height ?
-				"" : "body,html{overflow-y:hidden;/*for IE*/} body > div {overflow-x:auto;/*for FF to show vertical scrollbar*/}"
-			),
-			"li > ul:-moz-first-node, li > ol:-moz-first-node{ padding-top: 1.2em; } ",
-			"li{ min-height:1.2em; }",
-			"</style>",
-			this._applyEditingAreaStyleSheets(),
-			"</head><body>"+html+"</body></html>"
-		].join(""); // String
-	},
-
-	_drawIframe: function(/*String*/html){
-		// summary:
-		//		Draws an iFrame using the existing one if one exists.
-		//		Used by Mozilla, Safari, and Opera if we're in useIframe mode.
-
-		if(!this.iframe){
-			var ifr = this.iframe = dojo.doc.createElement("iframe");
-			ifr.id=this.id+'_iframe';
-			// this.iframe.src = "about:blank";
-			// document.body.appendChild(this.iframe);
-			// console.debug(this.iframe.contentDocument.open());
-			// dojo.body().appendChild(this.iframe);
-			var ifrs = ifr.style;
-			// ifrs.border = "1px solid black";
-			ifrs.border = "none";
-			ifrs.lineHeight = "0"; // squash line height
-			ifrs.verticalAlign = "bottom";
-			//	ifrs.scrolling = this.height ? "auto" : "vertical";
-			this.editorObject = this.iframe;
-			// get screen reader text for mozilla here, too
-			this._localizedIframeTitles = dojo.i18n.getLocalization("dijit.form", "Textarea");
-			// need to find any associated label element and update iframe document title
-			var label=dojo.query('label[for="'+this.id+'"]');
-			if(label.length){
-				this._localizedIframeTitles.iframeEditTitle = label[0].innerHTML + " " + this._localizedIframeTitles.iframeEditTitle;
-			}
-		}
-		// opera likes this to be outside the with block
-		//	this.iframe.src = "javascript:void(0)";//dojo.uri.dojoUri("src/widget/templates/richtextframe.html") + ((dojo.doc.domain != currentDomain) ? ("#"+dojo.doc.domain) : "");
-		this.iframe.style.width = this.inheritWidth ? this._oldWidth : "100%";
-
-		if(this.height){
-			this.iframe.style.height = this.height;
-		}else{
-			this.iframe.height = this._oldHeight;
-		}
-
-		var tmpContent;
-		if(this.textarea){
-			tmpContent = this.srcNodeRef;
-		}else{
-			tmpContent = dojo.doc.createElement('div');
-			tmpContent.style.display="none";
-			tmpContent.innerHTML = html;
-			//append tmpContent to under the current domNode so that the margin
-			//calculation below is correct
-			this.editingArea.appendChild(tmpContent);
-		}
-
-		this.editingArea.appendChild(this.iframe);
-
-		//do we want to show the content before the editing area finish loading here?
-		//if external style sheets are used for the editing area, the appearance now
-		//and after loading of the editing area won't be the same (and padding/margin
-		//calculation above may not be accurate)
-		//	tmpContent.style.display = "none";
-		//	this.editingArea.appendChild(this.iframe);
-
-
-		// now we wait for the iframe to load. Janky hack!
-		var ifrFunc = dojo.hitch(this, function(){
-			if(!this.editNode){
-				// Iframe hasn't been loaded yet.
-				// First deal w/the document to be available (may have to wait for it)
-				if(!this.document){
-					try{
-						if(this.iframe.contentWindow){
-							this.window = this.iframe.contentWindow;
-							this.document = this.iframe.contentWindow.document
-						}else if(this.iframe.contentDocument){
-							// for opera
-							// TODO: this method is only being called for FF2; can we remove this?
-							this.window = this.iframe.contentDocument.window;
-							this.document = this.iframe.contentDocument;
-						}
-					}catch(e){
-						//console.debug("waiting for iframe document to appear...");
-						setTimeout(ifrFunc,50);
-						return;
-					}
-					if(!this.document){
-						setTimeout(ifrFunc,50);
-						return;
-					}
-
-					// note that on Safari lower than 420+, we have to get the iframe
-					// by ID in order to get something w/ a contentDocument property
-					var contentDoc = this.document;
-					contentDoc.open();
-					contentDoc.write(this._getIframeDocTxt(html));
-					contentDoc.close();
-					
-					dojo._destroyElement(tmpContent);
-				}
-
-				// Wait for body to be available
-				// Writing into contentDoc (above) can make <body> temporarily unavailable, may have to delay again
-				if(!this.document.body){
-					//console.debug("waiting for iframe body...");
-					setTimeout(ifrFunc,50);
-					return;
-				}
-
-				this.onLoad();
-			}else{
-				// Iframe is already loaded, we are just switching the content
-				dojo._destroyElement(tmpContent);
-				this.editNode.innerHTML = html;
-				this.onDisplayChanged();
-			}
-			this._preDomFilterContent(this.editNode);
-		});
-
-		ifrFunc();
-	},
-
-	onLoad: function(/* Event */ e){
-		this.focusNode = this.editNode = (this.height || dojo.isMoz)? this.document.body : this.document.body.firstChild;
-		dijit._editor.RichText.prototype.onLoad.call(this, e);
-	},
-
-	_applyEditingAreaStyleSheets: function(){
-		// summary:
-		//		apply the specified css files in styleSheets
-		var files = [];
-		if(this.styleSheets){
-			files = this.styleSheets.split(';');
-			this.styleSheets = '';
-		}
-
-		//empty this.editingAreaStyleSheets here, as it will be filled in addStyleSheet
-		files = files.concat(this.editingAreaStyleSheets);
-		this.editingAreaStyleSheets = [];
-
-		var text='', i=0, url;
-		while((url=files[i++])){
-			var abstring = (new dojo._Url(dojo.global.location, url)).toString();
-			this.editingAreaStyleSheets.push(abstring);
-			text += '<link rel="stylesheet" type="text/css" href="'+abstring+'">'
-		}
-		return text;
-	},
-
-	addStyleSheet: function(/*dojo._Url*/uri){
-		// summary:
-		//		add an external stylesheet for the editing area
-		// uri:	a dojo.uri.Uri pointing to the url of the external css file
-		var url=uri.toString();
-
-		//if uri is relative, then convert it to absolute so that it can be resolved correctly in iframe
-		if(url.charAt(0) == '.' || (url.charAt(0) != '/' && !uri.host)){
-			url = (new dojo._Url(dojo.global.location, url)).toString();
-		}
-
-		if(dojo.indexOf(this.editingAreaStyleSheets, url) > -1){
-			// console.debug("dijit._editor.RichText.addStyleSheet: Style sheet "+url+" is already applied");
-			return;
-		}
-
-		this.editingAreaStyleSheets.push(url);
-		if(this.document.createStyleSheet){ //IE
-			this.document.createStyleSheet(url);
-		}else{ //other browser
-			var head = this.document.getElementsByTagName("head")[0];
-			var stylesheet = this.document.createElement("link");
-			with(stylesheet){
-				rel="stylesheet";
-				type="text/css";
-				href=url;
-			}
-			head.appendChild(stylesheet);
-		}
-	},
-
-	removeStyleSheet: function(/*dojo._Url*/uri){
-		// summary:
-		//		remove an external stylesheet for the editing area
-		var url=uri.toString();
-		//if uri is relative, then convert it to absolute so that it can be resolved correctly in iframe
-		if(url.charAt(0) == '.' || (url.charAt(0) != '/' && !uri.host)){
-			url = (new dojo._Url(dojo.global.location, url)).toString();
-		}
-		var index = dojo.indexOf(this.editingAreaStyleSheets, url);
-		if(index == -1){
-			// console.debug("dijit._editor.RichText.removeStyleSheet: Style sheet "+url+" has not been applied");
-			return;
-		}
-		delete this.editingAreaStyleSheets[index];
-		dojo.withGlobal(this.window,'query', dojo, ['link:[href="'+url+'"]']).orphan()
-	},
-
-	_setDisabledAttr: function(/*Boolean*/ value){
-		if(!this.document || !this.editNode || "_delayedDisabled" in this){ 
-			this._delayedDisabled = value;
-			return; 
-		}
-		value = Boolean(value);
-		if(dojo.isMoz){
-			this.document.designMode = value ? 'off' : 'on';
-		}
-		dijit._editor.RichText.prototype._setDisabledAttr.call(this, value);
-	},
-
-	blur: function(){
-		// summary: remove focus from this instance
-		this.window.blur();
-	}
-
-};
-
 dojo.declare("dijit._editor.RichText", dijit._Widget, {
 	constructor: function(params){
 		// summary:
@@ -416,13 +90,6 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 		//this.contentDomPostFilters.push(this._postDomFixUrlAttributes);
 
 		this.onLoadDeferred = new dojo.Deferred();
-
-		//in this constructor, mixin properties are not yet merged, so we have to check for params here
-		this.useIframe = (dojo.isFF && (dojo.isFF < 3)) || params['useIframe'] || params['styleSheets'];
-
-		if(this.useIframe){
-			dojo.mixin(this, dijit._editor.RichTextIframeMixin);
-		}
 	},
 
 	// inheritWidth: Boolean
@@ -442,8 +109,6 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 	// styleSheets: String
 	//		semicolon (";") separated list of css files for the editing area
 	styleSheets: "",
-
-	useIframe: false,
 
 	// _content: String
 	//		temporary content storage
@@ -595,8 +260,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 		//		the creation and replacement with an <iframe> if
 		//		designMode(FF)/contentEditable(IE) is used and stylesheets are
 		//		specified, if we're in a browser that doesn't support
-		//		contentEditable, or if the useIframe flag is specified on the
-		//		RichText object.
+		//		contentEditable.
 		//
 		//		A dojo.Deferred object is created at this.onLoadDeferred, and
 		//		users may attach to it to be informed when the rich-text area
@@ -702,40 +366,70 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 
 		this.isClosed = false;
 
-		// FIXME: FIXME FIXME
-		this._writeOpen(html);
+		// Safari's selections go all out of whack if we do it inline,
+		// so for now IE is our only hero
+		//if(typeof dojo.doc.body.contentEditable != "undefined")
+		if(dojo.isIE || dojo.isSafari || dojo.isOpera){ // contentEditable, easy
+			var burl = dojo.moduleUrl("dojo", "resources/blank.html")+"";
+			var ifr = this.editorObject = this.iframe = dojo.doc.createElement('iframe');
+			ifr.id = this.id+"_iframe";
+			ifr.src = burl;
+			ifr.style.border = "none";
+			ifr.style.width = "100%";
+			ifr.frameBorder = 0;
+			// ifr.style.scrolling = this.height ? "auto" : "vertical";
+			this.editingArea.appendChild(ifr);
+			var h = null; // set later in non-ie6 branch
+			var loadFunc = dojo.hitch( this, function(){
+				if(h){ dojo.disconnect(h); h = null; }
+				this.window = ifr.contentWindow;
+				var d = this.document = this.window.document;
+				d.open();
+				d.write(this._getIframeDocTxt(html));
+				d.close();
 
+				if(dojo.isIE >= 7){
+					if(this.height){
+						ifr.style.height = this.height;
+					}
+					if(this.minHeight){
+						ifr.style.minHeight = this.minHeight;
+					}
+				}else{
+					ifr.style.height = this.height ? this.height : this.minHeight;
+				}
+
+				if(dojo.isIE){
+					this._localizeEditorCommands();
+				}
+
+				this.onLoad();
+				this.savedContent = this.getValue(true);
+			});
+			if(dojo.isIE && dojo.isIE < 7){ // IE 6 is a steaming pile...
+				var t = setInterval(function(){
+					if(ifr.contentWindow.isLoaded){
+						clearInterval(t);
+						loadFunc();
+					}
+				}, 100);
+			}else{ // blissful sanity!
+				h = dojo.connect(
+					((dojo.isIE) ? ifr.contentWindow : ifr), "onload", loadFunc
+				);
+			}
+		}else{ // designMode in iframe
+			this._drawIframe(html);
+			this.savedContent = this.getValue(true);
+		}
+		
 		// TODO: this is a guess at the default line-height, kinda works
 		if(dn.nodeName == "LI"){
 			dn.lastChild.style.marginTop = "-1.2em";
 		}
+
 		if(this.domNode.nodeName == "LI"){ this.domNode.lastChild.style.marginTop = "-1.2em"; }
 		dojo.addClass(this.domNode, "RichTextEditable");
-	},
-
-	_writeOpen: function(html){
-		var en = this.focusNode = this.editNode = this.editingArea;//dojo.doc.createElement("div");
-		en.id = this.id;
-		en.className = "dijitEditorArea";
-		en.innerHTML = html;
-		en.contentEditable = true;
-		if(this.height){
-			en.style.height = this.height;
-		}
-
-		if(this.height){
-			en.style.overflowY = "auto";
-		}
-
-		//this.editingArea.appendChild(en);
-
-		this.window = dojo.global;
-		this.document = dojo.doc;
-
-		if(dojo.isIE){
-			this._localizeEditorCommands()
-		}
-		this.onLoad();
 	},
 
 	//static cache variables shared among all instance of this class
@@ -743,35 +437,276 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 	_native2LocalFormatNames: {},
 	_localizedIframeTitles: null,
 
-	disabled: true,
-	_mozSettingProps: {'styleWithCSS':false},
+	_getIframeDocTxt: function(/* String */ html){
+		var _cs = dojo.getComputedStyle(this.domNode);
+		if(dojo.isIE || (!this.height && !dojo.isMoz)){
+			html="<div>"+html+"</div>";
+		}
+		var font = [ _cs.fontWeight, _cs.fontSize, _cs.fontFamily ].join(" ");
 
+		// line height is tricky - applying a units value will mess things up.
+		// if we can't get a non-units value, bail out.
+		var lineHeight = _cs.lineHeight;
+		if(lineHeight.indexOf("px") >= 0){
+			lineHeight = parseFloat(lineHeight)/parseFloat(_cs.fontSize);
+			// console.debug(lineHeight);
+		}else if(lineHeight.indexOf("em")>=0){
+			lineHeight = parseFloat(lineHeight);
+		}else{
+			lineHeight = "1.0";
+		}
+		return [
+			this.isLeftToRight() ? "<html><head>" : "<html dir='rtl'><head>",
+			(dojo.isMoz ? "<title>" + this._localizedIframeTitles.iframeEditTitle + "</title>" : ""),
+			"<style>",
+			"body,html {",
+			"	background:transparent;",
+			"	font:", font, ";",
+			"	padding: 1em 0 0 0;",
+			"	margin: -1em 0 0 0;", // remove extraneous vertical scrollbar on safari and firefox
+			"	height: 100%;",
+			"}",
+			// TODO: left positioning will cause contents to disappear out of view
+			//	   if it gets too wide for the visible area
+			"body{",
+			"	top:0px; left:0px; right:0px;",
+				((this.height||dojo.isOpera) ? "" : "position: fixed;"),
+			// FIXME: IE 6 won't understand min-height?
+			"	min-height:", this.minHeight, ";",
+			"	line-height:", lineHeight,
+			"}",
+			"p{ margin: 1em 0 !important; }",
+			(this.height ? // height:auto undoes the height:100%
+				"" : "body,html{height:auto;overflow-y:hidden;/*for IE*/} body > div {overflow-x:auto;/*for FF to show vertical scrollbar*/}"
+			),
+			"li > ul:-moz-first-node, li > ol:-moz-first-node{ padding-top: 1.2em; } ",
+			"li{ min-height:1.2em; }",
+			"</style>",
+			this._applyEditingAreaStyleSheets(),
+			"</head><body>"+html+"</body></html>"
+		].join(""); // String
+	},
+
+	_drawIframe: function(/*String*/html){
+		// summary:
+		//		Draws an iFrame using the existing one if one exists.
+		//		Used by Mozilla, Safari, and Opera
+
+		if(!this.iframe){
+			var ifr = this.iframe = dojo.doc.createElement("iframe");
+			ifr.id=this.id+"_iframe";
+			// this.iframe.src = "about:blank";
+			// dojo.doc.body.appendChild(this.iframe);
+			// console.debug(this.iframe.contentDocument.open());
+			// dojo.body().appendChild(this.iframe);
+			var ifrs = ifr.style;
+			// ifrs.border = "1px solid black";
+			ifrs.border = "none";
+			ifrs.lineHeight = "0"; // squash line height
+			ifrs.verticalAlign = "bottom";
+			// ifrs.scrolling = this.height ? "auto" : "vertical";
+			this.editorObject = this.iframe;
+			// get screen reader text for mozilla here, too
+			this._localizedIframeTitles = dojo.i18n.getLocalization("dijit.form", "Textarea");
+			// need to find any associated label element and update iframe document title
+			var label=dojo.query('label[for="'+this.id+'"]');
+			if(label.length){
+				this._localizedIframeTitles.iframeEditTitle = label[0].innerHTML + " " + this._localizedIframeTitles.iframeEditTitle;
+			}
+		}
+		// opera likes this to be outside the with block
+		//	this.iframe.src = "javascript:void(0)";//dojo.uri.dojoUri("src/widget/templates/richtextframe.html") + ((dojo.doc.domain != currentDomain) ? ("#"+dojo.doc.domain) : "");
+		this.iframe.style.width = this.inheritWidth ? this._oldWidth : "100%";
+
+		if(this.height){
+			this.iframe.style.height = this.height;
+		}else{
+			this.iframe.height = this._oldHeight;
+		}
+
+		var tmpContent;
+		if(this.textarea){
+			tmpContent = this.srcNodeRef;
+		}else{
+			tmpContent = dojo.doc.createElement('div');
+			tmpContent.style.display="none";
+			tmpContent.innerHTML = html;
+			//append tmpContent to under the current domNode so that the margin
+			//calculation below is correct
+			this.editingArea.appendChild(tmpContent);
+		}
+
+		this.editingArea.appendChild(this.iframe);
+
+		//do we want to show the content before the editing area finish loading here?
+		//if external style sheets are used for the editing area, the appearance now
+		//and after loading of the editing area won't be the same (and padding/margin
+		//calculation above may not be accurate)
+		//	tmpContent.style.display = "none";
+		//	this.editingArea.appendChild(this.iframe);
+
+		var _iframeInitialized = false;
+		// console.debug(this.iframe);
+		// var contentDoc = this.iframe.contentWindow.document;
+
+
+		// note that on Safari lower than 420+, we have to get the iframe
+		// by ID in order to get something w/ a contentDocument property
+
+		var contentDoc = this.iframe.contentDocument;
+		contentDoc.open();
+		if(dojo.isAIR){
+			contentDoc.body.innerHTML = html;
+		}else{
+			contentDoc.write(this._getIframeDocTxt(html));
+		}
+		contentDoc.close();
+
+		// now we wait for onload. Janky hack!
+		var ifrFunc = dojo.hitch(this, function(){
+			if(!_iframeInitialized){
+				_iframeInitialized = true;
+			}else{ return; }
+			if(!this.editNode){
+				try{
+					if(this.iframe.contentWindow){
+						this.window = this.iframe.contentWindow;
+						this.document = this.iframe.contentWindow.document
+					}else if(this.iframe.contentDocument){
+						// for opera
+						this.window = this.iframe.contentDocument.window;
+						this.document = this.iframe.contentDocument;
+					}
+					if(!this.document.body){
+						throw 'Error';
+					}
+				}catch(e){
+					setTimeout(ifrFunc,500);
+					_iframeInitialized = false;
+					return;
+				}
+
+				dojo._destroyElement(tmpContent);
+				this.onLoad();
+			}else{
+				dojo._destroyElement(tmpContent);
+				this.editNode.innerHTML = html;
+				this.onDisplayChanged();
+			}
+			this._preDomFilterContent(this.editNode);
+		});
+
+		ifrFunc();
+	},
+
+	_applyEditingAreaStyleSheets: function(){
+		// summary:
+		//		apply the specified css files in styleSheets
+		var files = [];
+		if(this.styleSheets){
+			files = this.styleSheets.split(';');
+			this.styleSheets = '';
+		}
+
+		//empty this.editingAreaStyleSheets here, as it will be filled in addStyleSheet
+		files = files.concat(this.editingAreaStyleSheets);
+		this.editingAreaStyleSheets = [];
+
+		var text='', i=0, url;
+		while((url=files[i++])){
+			var abstring = (new dojo._Url(dojo.global.location, url)).toString();
+			this.editingAreaStyleSheets.push(abstring);
+			text += '<link rel="stylesheet" type="text/css" href="'+abstring+'"/>'
+		}
+		return text;
+	},
+
+	addStyleSheet: function(/*dojo._Url*/uri){
+		// summary:
+		//		add an external stylesheet for the editing area
+		// uri:	a dojo.uri.Uri pointing to the url of the external css file
+		var url=uri.toString();
+
+		//if uri is relative, then convert it to absolute so that it can be resolved correctly in iframe
+		if(url.charAt(0) == '.' || (url.charAt(0) != '/' && !uri.host)){
+			url = (new dojo._Url(dojo.global.location, url)).toString();
+		}
+
+		if(dojo.indexOf(this.editingAreaStyleSheets, url) > -1){
+//			console.debug("dijit._editor.RichText.addStyleSheet: Style sheet "+url+" is already applied");
+			return;
+		}
+
+		this.editingAreaStyleSheets.push(url);
+		if(this.document.createStyleSheet){ //IE
+			this.document.createStyleSheet(url);
+		}else{ //other browser
+			var head = this.document.getElementsByTagName("head")[0];
+			var stylesheet = this.document.createElement("link");
+			with(stylesheet){
+				rel="stylesheet";
+				type="text/css";
+				href=url;
+			}
+			head.appendChild(stylesheet);
+		}
+	},
+
+	removeStyleSheet: function(/*dojo._Url*/uri){
+		// summary:
+		//		remove an external stylesheet for the editing area
+		var url=uri.toString();
+		//if uri is relative, then convert it to absolute so that it can be resolved correctly in iframe
+		if(url.charAt(0) == '.' || (url.charAt(0) != '/' && !uri.host)){
+			url = (new dojo._Url(dojo.global.location, url)).toString();
+		}
+		var index = dojo.indexOf(this.editingAreaStyleSheets, url);
+		if(index == -1){
+//			console.debug("dijit._editor.RichText.removeStyleSheet: Style sheet "+url+" has not been applied");
+			return;
+		}
+		delete this.editingAreaStyleSheets[index];
+		dojo.withGlobal(this.window,'query', dojo, ['link:[href="'+url+'"]']).orphan()
+	},
+
+	disabled: true,
+	_mozSettingProps: ['styleWithCSS','insertBrOnReturn'],
 	_setDisabledAttr: function(/*Boolean*/ value){
 		if(!this.editNode || "_delayedDisabled" in this){ 
 			this._delayedDisabled = value;
 			return; 
 		}
 		value = Boolean(value);
-		this.editNode.contentEditable = !value;
-		this.disabled = value;
-		if(!value && this._mozSettingProps){
-			var ps = this._mozSettingProps;
-			for(var n in ps){
-				if(ps.hasOwnProperty(n)){
-					try{
-						this.document.execCommand(n,false,ps[n]);
-					}catch(e){}
+		if(dojo.isIE || dojo.isSafari || dojo.isOpera){
+			var preventIEfocus = dojo.isIE && (this.isLoaded || !this.focusOnLoad);
+			if(preventIEfocus){ this.editNode.unselectable = "on"; }
+			this.editNode.contentEditable = !value;
+			if(preventIEfocus){
+				var _this = this;
+				setTimeout(function(){ _this.editNode.unselectable = "off"; }, 0);
+			}
+		}else{ //moz
+			if(value){
+				//AP: why isn't this set in the constructor, or put in mozSettingProps as a hash?
+				this._mozSettings=[false,this.blockNodeForEnter==='BR'];
+			}
+			this.document.designMode=(value?'off':'on');
+			if(!value && this._mozSettingProps){
+				var ps = this._mozSettingProps;
+				for(var n in ps){
+					if(ps.hasOwnProperty(n)){
+						try{
+							this.document.execCommand(n,false,ps[n]);
+						}catch(e){}
+					}
 				}
 			}
+//			this.document.execCommand('contentReadOnly', false, value);
+//				if(value){
+//					this.blur(); //to remove the blinking caret
+//				}
 		}
-	},
-	setDisabled: function(/*Boolean*/ disabled){
-		dojo.deprecated('dijit.Editor::setDisabled is deprecated','use dijit.Editor::attr("disabled",boolean) instead', 2);
-		this.attr('disabled',disabled);
-	},
-	_setValueAttr: function(/*String*/ value){
-		// summary: registers that attr("value", foo) should call setValue(foo)
-		this.setValue(value);
+		this.disabled = value;
 	},
 
 /* Event handlers
@@ -782,14 +717,23 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 	onLoad: function(/* Event */ e){
 		// summary:
 		//		handler after the content of the document finishes loading
-		this.isLoaded = true;
 		if(!this.window.__registeredWindow){
 			this.window.__registeredWindow = true;
 			dijit.registerWin(this.window);
 		}
+		if(!dojo.isIE && (this.height || dojo.isMoz)){
+			this.editNode=this.document.body;
+		}else{
+			this.editNode=this.document.body.firstChild;
+			var _this = this;
+			if(dojo.isIE){ // #4996 IE wants to focus the BODY tag
+				var tabStop = this.tabStop = dojo.doc.createElement('<div tabIndex=-1>');
+				this.editingArea.appendChild(tabStop);
+				this.iframe.onfocus = function(){ _this.editNode.setActive(); }
+			}
+		}
 
 		try{
-			this.attr('disabled',true);
 			this.attr('disabled',false);
 		}catch(e){
 			// Firefox throws an exception if the editor is initially hidden
@@ -811,9 +755,12 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 		
 		if(dojo.isIE){ // IE contentEditable
 			// give the node Layout on IE
+			this.connect(this.document, "onmousedown", "_onMouseDown"); // #4996 fix focus
 			this.editNode.style.zoom = 1.0;
 		}
-		if(this.focusOnLoad){ setTimeout(dojo.hitch(this, "focus"), 0) }
+		if(this.focusOnLoad){
+			dojo.addOnLoad(dojo.hitch(this, "focus"));
+		}
 
 		this.onDisplayChanged(e);
 
@@ -828,22 +775,66 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 			delete this._delayedDisabled;
 			this.attr("disabled", d);
 		}
+		this.isLoaded = true;
 	},
-	onKeyDown: function(e){
-		// console.debug("keydown:", e);
+
+	onKeyDown: function(/* Event */ e){
+		// summary: Fired on keydown
+
+		// we need this event at the moment to get the events from control keys
+		// such as the backspace. It might be possible to add this to Dojo, so that
+		// keyPress events can be emulated by the keyDown and keyUp detection.
 		if(dojo.isIE){
-			if(e.keyCode === dojo.keys.BACKSPACE && this.document.selection.type === "Control"){
+			if(e.keyCode == dojo.keys.TAB && e.shiftKey && !e.ctrlKey && !e.altKey){
+				// focus the BODY so the browser will tab away from it instead
+				this.iframe.focus();
+			}else if(e.keyCode == dojo.keys.TAB && !e.shiftKey && !e.ctrlKey && !e.altKey){
+				// focus the BODY so the browser will tab away from it instead
+				this.tabStop.focus();
+			}else if(e.keyCode === dojo.keys.BACKSPACE && this.document.selection.type === "Control"){
 				// IE has a bug where if a non-text object is selected in the editor,
 				// hitting backspace would act as if the browser's back button was
 				// clicked instead of deleting the object. see #1069
 				dojo.stopEvent(e);
 				this.execCommand("delete");
+			}else if((65 <= e.keyCode&&e.keyCode <= 90) ||
+				(e.keyCode>=37&&e.keyCode<=40) // FIXME: get this from connect() instead!
+			){ //arrow keys
+				e.charCode = e.keyCode;
+				this.onKeyPress(e);
+			}
+		}else if(dojo.isMoz){
+			if(e.keyCode == dojo.keys.TAB && !e.shiftKey && !e.ctrlKey && !e.altKey && this.iframe){
+				// update iframe document title for screen reader
+				this.iframe.contentDocument.title = this._localizedIframeTitles.iframeFocusTitle;
+				
+				// Place focus on the iframe. A subsequent tab or shift tab will put focus
+				// on the correct control.
+				this.iframe.focus();  // this.focus(); won't work
+				dojo.stopEvent(e);
+			}else if(e.keyCode == dojo.keys.TAB && e.shiftKey){
+				// if there is a toolbar, set focus to it, otherwise ignore
+				if(this.toolbar){
+					this.toolbar.focus();
+				}
+				dojo.stopEvent(e);
 			}
 		}
 		return true;
 	},
+
 	onKeyUp: function(e){
-		return true;
+		// summary: Fired on keyup
+		return;
+	},
+
+	setDisabled: function(/*Boolean*/ disabled){
+		dojo.deprecated('dijit.Editor::setDisabled is deprecated','use dijit.Editor::attr("disabled",boolean) instead', 2);
+		this.attr('disabled',disabled);
+	},
+	_setValueAttr: function(/*String*/ value){
+		// summary: registers that attr("value", foo) should call setValue(foo)
+		this.setValue(value);
 	},
 
 	onKeyPress: function(e){
@@ -936,30 +927,26 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 		this.inherited(arguments);
 	},
 
+	// TODO: why is this needed - should we deprecate this ?
 	blur: function(){
 		// summary: remove focus from this instance
-		this.editNode.blur();
+		if(!dojo.isIE && this.window.document.documentElement && this.window.document.documentElement.focus){
+			this.window.document.documentElement.focus();
+		}else if(dojo.doc.body.focus){
+			dojo.doc.body.focus();
+		}
 	},
 
 	focus: function(){
-		if(!this.iframe && dojo.isSafari){
-			//when no iframe is used in Safari, no need to do hard-focus (below), just
-			//need to restore selection in order to focus into the editing area
-			//This is necessary for Safari, otherwise safari will select all content in
-			//the editing area upon this.editNode.focus()
-			this._restoreSelection();
-			return;
-		}
 		// summary: move focus to this instance
-		if(this.iframe && !dojo.isIE){
+		if(!dojo.isIE){
 			dijit.focus(this.iframe);
 		}else if(this.editNode && this.editNode.focus){
 			// editNode may be hidden in display:none div, lets just punt in this case
 			//this.editNode.focus(); -> causes IE to scroll always (strict and quirks mode) to the top the Iframe 
 			// if we fire the event manually and let the browser handle the focusing, the latest  
 			// cursor position is focused like in FF                         
-			this.editNode.focus();
-			// this.iframe.fireEvent('onfocus', document.createEventObject()); // createEventObject only in IE 
+			this.iframe.fireEvent('onfocus', document.createEventObject()); // createEventObject only in IE 
 		//	}else{
 		// 	// TODO: should we throw here?
 		//	console.debug("Have no idea how to focus into the editor!");
@@ -998,8 +985,6 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 		// summary:
 		//		this is fired if and only if the editor loses focus and
 		//		the content is changed
-
-		// console.log('onChange',newContent);
 	},
 	_normalizeCommand: function(/*String*/cmd){
 		// summary:
@@ -1126,14 +1111,21 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 			returnValue = true;
 			if(dojo.isIE){
 				var insertRange = this.document.selection.createRange();
-				insertRange.pasteHTML(argument);
+				if(this.document.selection.type.toUpperCase()=='CONTROL'){
+					var n=insertRange.item(0);
+					while(insertRange.length){
+						insertRange.remove(insertRange.item(0));
+					}
+					n.outerHTML=argument;
+				}else{
+					insertRange.pasteHTML(argument);
+				}
 				insertRange.select();
 				//insertRange.collapse(true);
 			}else if(dojo.isMoz && !argument.length){
 				//mozilla can not inserthtml an empty html to delete current selection
 				//so we delete the selection instead in this case
 				this._sCall("remove"); // FIXME
-				returnValue=true;
 			}else{
 				returnValue = this.document.execCommand(command, false, argument);
 			}
@@ -1244,7 +1236,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 		if(this.disabled){ return false; }
 		command = this._normalizeCommand(command);
 		// try{
-			this.editNode.contentEditable = true;
+			//this.editNode.contentEditable = true;
 			return this.document.queryCommandState(command);
 		// }catch(e){
 		// 	console.debug(e);
