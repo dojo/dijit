@@ -175,6 +175,14 @@ dojo.declare(
 			//		Set textbox to display label. Also performs reverse lookup
 			//		to set the hidden value.
 
+			// When this is called during initialization it'll ping the datastore
+			// for reverse lookup, and when that completes (after an XHR request)
+			// will call setValueAttr()... but that shouldn't trigger an onChange()
+			//  event, even when it happens after creation has finished
+			if(!this._created){
+				priorityChange = false;
+			}
+
 			if(this.store){
 				var query = dojo.clone(this.query); // #6196: populate query with user-specifics
 				// escape meta characters of dojo.data.util.filter.patternToRegExp().
