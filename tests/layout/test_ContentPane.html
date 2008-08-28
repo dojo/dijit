@@ -38,6 +38,12 @@
 		dojo.require("dijit.InlineEditBox");
 		dojo.require("dojo.parser");	// scan page for widgets and instantiate them
 
+		// create a do nothing, only for test widget
+		dojo.declare("dijit.TestWidget",
+			[dijit._Widget, dijit._Templated], {
+			templateString: "<span class='dojoxTestWidget'></span>"
+		});
+
 		dojo.addOnLoad(function(){
 
 			var pane1 = dijit.byId('parsedPane');
@@ -54,7 +60,15 @@
 				}
 			}, 
 			{
-				name: 'parseContent',
+				name: 'parseInitialContent',
+				runTest: function(t){
+					console.log("basicChecks: " + this.name);
+					var parserTest = dijit.byId("parserTest");
+					t.assertTrue(parserTest);
+				}
+			},
+			{
+				name: 'parseNewContent',
 				runTest: function(t){
 					console.log("basicChecks: " + this.name);
 					dialogCtrPane.attr(
@@ -63,7 +77,9 @@
 						+'	<p>This dialog should be cleanly destroyed when the unit tests run</p>'
 						+'</div>'
 					);
+
 					t.assertTrue(dijit.byId("sacrificialDlg"));
+					t.assertFalse(dijit.byId("parserTest"));
 				}
 			},
 			{
@@ -173,7 +189,7 @@
 			Some Content Here
 		</div>
 		<div class='box' dojoType="dijit.layout.ContentPane" id='dialogContainer'>
-			Nothing here yet
+			<div dojoType="dijit.TestWidget" id="parserTest"></div>
 		</div>
 	</body>
 </html>
