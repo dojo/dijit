@@ -4,18 +4,18 @@ dojo.require("dijit._Widget");
 dojo.require("dijit._Templated");
 
 dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
-{
-	/*
-	Summary:
-		_FormWidget's correspond to native HTML elements such as <checkbox> or <button>.
-		Each _FormWidget represents a single HTML element.
-
-		All these widgets should have these attributes just like native HTML input elements.
-		You can set them during widget construction.
-
-		They also share some common methods.
-	*/
-
+	{
+	//
+	// summary:
+	//	_FormWidget's correspond to native HTML elements such as <checkbox> or <button>.
+	//
+	// description:
+	//		Each _FormWidget represents a single HTML element.
+	//		All these widgets should have these attributes just like native HTML input elements.
+	//		You can set them during widget construction.
+	//
+	//	They also share some common methods.
+	//
 	// baseClass: String
 	//		Root CSS class of the widget (ex: dijitTextBox), used to add CSS classes of widget
 	//		(ex: "dijitTextBox dijitTextBoxInvalid dijitTextBoxFocused dijitTextBoxInvalidFocused")
@@ -75,9 +75,9 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 					this._hovering = false;
 					this._active = false;
 					// remove the tabIndex, especially for FF
-			this.focusNode.removeAttribute('tabIndex');
+					this.focusNode.removeAttribute('tabIndex');
 				}else{
-			this.focusNode.setAttribute('tabIndex', this.tabIndex);
+					this.focusNode.setAttribute('tabIndex', this.tabIndex);
 				}
 				this._setStateClass();
 	},
