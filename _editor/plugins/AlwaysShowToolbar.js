@@ -2,6 +2,18 @@ dojo.provide("dijit._editor.plugins.AlwaysShowToolbar");
 
 dojo.declare("dijit._editor.plugins.AlwaysShowToolbar", dijit._editor._Plugin,
 	{
+	// summary:
+	//		For auto-expanding editors, this plugin will keep the
+	//		editor's toolbar visible even when the top of the editor
+	//		has scrolled off the top of the viewport (usually when editing a long
+	//		document).
+	// description:
+	//		Specify this in extraPlugins (or plugins) parameter and also set
+	//		height to "".
+	// example:
+	//	|	<div dojoType="dijit.Editor" height=""
+	//	|	extraPlugins="['dijit._editor.plugins.AlwaysShowToolbar']">
+
 	_handleScroll: true,
 	setEditor: function(e){
 		if(!e.iframe){
