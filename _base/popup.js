@@ -200,7 +200,8 @@ dijit._frames = new function(){
 			iframe.style.display="";
 		}else{
 			if(dojo.isIE){
-				var html="<iframe src='javascript:\"\"'"
+				var burl = dojo.config["dojoBlankHtmlUrl"] || (dojo.moduleUrl("dojo", "resources/blank.html")+"") || "javascript:\"\"";
+				var html="<iframe src='" + burl + "'"
 					+ " style='position: absolute; left: 0px; top: 0px;"
 					+ "z-index: -1; filter:Alpha(Opacity=\"0\");'>";
 				iframe = dojo.doc.createElement(html);
