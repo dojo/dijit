@@ -194,7 +194,7 @@ dojo.declare(
 				this.textbox.value = label;
 				this._lastDisplayedValue = label;
 				var _this = this;
-				this.store.fetch({
+				var fetch = {
 					query: query, 
 					queryOptions: {
 						ignoreCase: this.ignoreCase, 
@@ -207,7 +207,9 @@ dojo.declare(
 						console.error('dijit.form.FilteringSelect: ' + errText);
 						dojo.hitch(_this, "_setValue")("", label, false);
 					}
-				});
+				};
+				dojo.mixin(fetch, this.fetchProperties);
+				this.store.fetch(fetch);
 			}
 		},
 
