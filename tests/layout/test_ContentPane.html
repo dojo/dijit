@@ -29,12 +29,94 @@
 
 
 	<script type="text/javascript">
+		dojo.require('doh.runner');
 		dojo.require("dijit.dijit"); // optimize: load dijit layer
 		dojo.require("dijit.layout.ContentPane");
+		dojo.require("dijit.Dialog");
 		dojo.require("dojo.data.ItemFileReadStore");
 		dojo.require("dijit.form.ComboBox");
 		dojo.require("dijit.InlineEditBox");
 		dojo.require("dojo.parser");	// scan page for widgets and instantiate them
+
+		dojo.addOnLoad(function(){
+
+			var pane1 = dijit.byId('parsedPane');
+			var dialogCtrPane = dijit.byId("dialogContainer");
+
+			doh.register("basicChecks", [
+			{
+				name: 'setContent',
+				runTest: function(t){
+					console.log("basicChecks: " + this.name);
+					var msg = "Simple Test";
+					pane1.attr('content', msg);
+					t.assertEqual(msg, pane1.domNode.innerHTML);
+				}
+			}, 
+			{
+				name: 'parseContent',
+				runTest: function(t){
+					console.log("basicChecks: " + this.name);
+					dialogCtrPane.attr(
+						"content", 
+						'<div dojoType="dijit.Dialog" id="sacrificialDlg" title="Life is short for this fellow">'
+						+'	<p>This dialog should be cleanly destroyed when the unit tests run</p>'
+						+'</div>'
+					);
+					t.assertTrue(dijit.byId("sacrificialDlg"));
+				}
+			},
+			{
+				name: 'empty',
+				runTest: function(t){
+					console.log("basicChecks: " + this.name);
+					t.assertTrue(dijit.byId("sacrificialDlg"));
+
+					var dialog = dijit.byId("sacrificialDlg");
+					// dialog is supposed to move its domNode to the body.. 
+					// we need to check it gets cleanly removed when we set content on the CP
+					t.assertTrue(dialog);
+					t.assertTrue(dialog.domNode.parentNode == dojo.body());
+
+					dialogCtrPane.attr('content', "new content, no more dialog");
+					t.assertFalse(dijit.byId("sacrificialDlg"));
+					t.assertFalse(dojo.byId("sacrificialDlg"));
+				}
+			},
+			{
+				name: 'reuse', 
+				runTest: function(t) {
+					console.log("basicChecks: " + this.name);
+					// do the same thing over again - we should be error free
+					dialogCtrPane.attr(
+						"content", 
+						'<div dojoType="dijit.Dialog" id="sacrificialDlg" title="Life is short for this fellow">'
+						+'	<p>This dialog should be cleanly destroyed when the unit tests run</p>'
+						+'</div>'
+					);
+					var dialog = dijit.byId("sacrificialDlg");
+					// dialog is supposed to move its domNode to the body.. 
+					// we need to check it gets cleanly removed when we set content on the CP
+					t.assertTrue(dialog);
+					t.assertTrue(dialog.domNode.parentNode == dojo.body());
+				}
+			},
+			{
+				name: 'destroy', 
+				runTest: function(t) {
+					console.log("basicChecks: " + this.name);
+					// when we kill the CP, it should also destroy any widgets created when we set content
+					dialogCtrPane.destroy();
+					
+					t.assertFalse(dijit.byId("dialogContainer"));
+					t.assertFalse(dijit.byId("sacrificialDlg"));
+					t.assertFalse(dojo.byId("sacrificialDlg"));
+				}
+			}
+			]);
+			doh.run();
+			
+		});
 	</script>
 	
 </head>
@@ -83,6 +165,15 @@
 
 		<div dojoType="dijit.layout.ContentPane" class="box" href="combotab.html" id="test">
 			<p style='background-color:yellow;border:1px solid red;text-align:center;'>This text should automatically be replaced by downloaded content from combotab.html</p>
+		</div>
+		
+		<hr/>
+		<p>ContentPanes used by the unit tests to verify functionality
+		<div class='box' dojoType="dijit.layout.ContentPane" id='parsedPane'>
+			Some Content Here
+		</div>
+		<div class='box' dojoType="dijit.layout.ContentPane" id='dialogContainer'>
+			Nothing here yet
 		</div>
 	</body>
 </html>

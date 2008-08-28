@@ -5,6 +5,7 @@ dojo.require("dijit.layout._LayoutWidget");
 
 dojo.require("dojo.parser");
 dojo.require("dojo.string");
+dojo.require("dojo.html");
 dojo.requireLocalization("dijit", "loading");
 
 dojo.declare(
@@ -33,7 +34,7 @@ dojo.declare(
 	// href: String
 	//		The href of the content that displays now.
 	//		Set this at construction if you want to load data externally when the
-	//		pane is shown.  (Set preload=true to load it immediately.)
+	//		pane is shown.	(Set preload=true to load it immediately.)
 	//		Changing href after creation doesn't have any effect; use attr('href', ...);
 	href: "",
 
@@ -128,7 +129,7 @@ dojo.declare(
 
 	_checkIfSingleChild: function(){
 		// summary:
-		// 	Test if we have exactly one widget as a child, and if so assume that we are a container for that widget,
+		//	Test if we have exactly one widget as a child, and if so assume that we are a container for that widget,
 		//	and should propogate startup() and resize() calls to it.
 
 		// TODO: if there are two child widgets (a data store and a TabContainer, for example),
@@ -154,7 +155,7 @@ dojo.declare(
 	},
 
 	setHref: function(/*String|Uri*/ href){
-		dojo.deprecated("dijit.layout.ContentPane.setHref() is deprecated.  Use attr('href', ...) instead.", "", "2.0");
+		dojo.deprecated("dijit.layout.ContentPane.setHref() is deprecated.	Use attr('href', ...) instead.", "", "2.0");
 		return this.attr("href", href);
 	},
 	_setHrefAttr: function(/*String|Uri*/ href){
@@ -181,7 +182,7 @@ dojo.declare(
 	},
 	_setContentAttr: function(/*String|DomNode|Nodelist*/data){
 		// summary:
-		// 		Hook to make attr("content", ...) work.
+		//		Hook to make attr("content", ...) work.
 		//		Replaces old content with data content, include style classes from old content
 		//	data:
 		//		the new Content may be String, DomNode or NodeList
@@ -199,10 +200,6 @@ dojo.declare(
 		this._setContent(data || "");
 
 		this._isDownloaded = false; // must be set after _setContent(..), pathadjust in dojox.layout.ContentPane
-
-		if(this.parseOnLoad){
-			this._createSubWidgets();
-		}
 
 		if(this.doLayout != "false" && this.doLayout !== false){
 			this._checkIfSingleChild();
@@ -293,7 +290,7 @@ dojo.declare(
 
 		var displayState = this._isShown();
 
-		if(this.href &&	
+		if(this.href && 
 			(
 				forceLoad ||
 				(this.preload && !this.isLoaded && !this._xhrDfd) ||
@@ -359,6 +356,11 @@ dojo.declare(
 	_onUnloadHandler: function(){
 		this.isLoaded = false;
 		this.cancel();
+		
+		if(this._contentSetter) {
+			// calling empty destroys all child widgets as well as emptying the containerNode
+			this._contentSetter.empty(); 
+		}
 		try{
 			this.onUnload.call(this);
 		}catch(e){
@@ -367,47 +369,48 @@ dojo.declare(
 	},
 
 	_setContent: function(cont){
+		// summary: 
+		//	insert the content into the container node, 
+
 		// first get rid of child widgets
 		this.destroyDescendants();
+		
+		// dojo.html.set will take care of the rest of the details
+		// we provide an overide for the error handling to ensure the widget gets the errors 
+		// configure the setter instance with only the relevant widget instance properties
+		// NOTE: unless we hook into attr, or provide property setters for each property, 
+		// we need to re-configure the ContentSetter with each use
+		var setter = this._contentSetter; 
+		if(! (setter && setter instanceof dojo.html._ContentSetter)) {
+			setter = this._contentSetter = new dojo.html._ContentSetter({
+				node: this.containerNode,
+				_onError: dojo.hitch(this, this._onError),
+				onContentError: dojo.hitch(this, function(e){
+					// fires if a domfault occurs when we are appending this.errorMessage
+					// like for instance if domNode is a UL and we try append a DIV
+					var errMess = this.onContentError(e);
+					try{
+						this.containerNode.innerHTML = errMess;
+					}catch(e){
+						console.error('Fatal '+this.id+' could not change content due to '+e.message, e);
+					}
+				})/*,
+				_onError */
+			});
+		};
 
-		try{
-			// ... and then get rid of child dom nodes
-			var node = this.containerNode;
-			while(node.firstChild){
-				dojo._destroyElement(node.firstChild);
-			}
-			if(typeof cont == "string"){
-				// dijit.ContentPane does only minimal fixes,
-				// No pathAdjustments, script retrieval, style clean etc
-				// some of these should be available in the dojox.layout.ContentPane
-				if(this.extractContent){
-					var match = cont.match(/<body[^>]*>\s*([\s\S]+)\s*<\/body>/im);
-					if(match){ cont = match[1]; }
-				}
-				node.innerHTML = cont;
-			}else if(cont.domNode){
-				// single widget child
-				node.appendChild(cont.domNode);
-			}else{
-				// domNode or NodeList
-				if(cont.nodeType){ // domNode (htmlNode 1 or textNode 3)
-					node.appendChild(cont);
-				}else{// nodelist or array such as dojo.Nodelist
-					dojo.forEach(cont, function(n){
-						node.appendChild(n.cloneNode(true));
-					});
-				}
-			}
-		}catch(e){
-			// check if a domfault occurs when we are appending this.errorMessage
-			// like for instance if domNode is a UL and we try append a DIV
-			var errMess = this.onContentError(e);
-			try{
-				node.innerHTML = errMess;
-			}catch(e){
-				console.error('Fatal '+this.id+' could not change content due to '+e.message, e);
-			}
-		}
+		var setterParams = dojo.mixin({
+			cleanContent: this.cleanContent, 
+			extractContent: this.extractContent, 
+			parseContent: this.parseOnLoad 
+		}, this._contentSetterParams || {});
+		
+		dojo.mixin(setter, setterParams); 
+		
+		setter.set( (dojo.isObject(cont) && cont.domNode) ? cont.domNode : cont );
+
+		// setter params must be pulled afresh from the ContentPane each time
+		delete this._contentSetterParams
 	},
 
 	_onError: function(type, err, consoleText){
@@ -430,6 +433,7 @@ dojo.declare(
 				+(this.href ? " from "+this.href : ""));
 		}
 	},
+
 
 	// EVENT's, should be overide-able
 	onLoad: function(e){
