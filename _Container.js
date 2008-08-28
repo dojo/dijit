@@ -100,14 +100,12 @@ dojo.declare("dijit._Container",
 			//		Inserts specified child widget's dom node as a child of this widget's
 			//		container node, and possibly does otherprocessing (such as layout).
 
-			if(insertIndex === undefined){
-				insertIndex = "last";
-			}
 			var refNode = this.containerNode;
 			if(insertIndex && typeof insertIndex == "number"){
 				var children = dojo.query("> [widgetId]", refNode);
 				if(children && children.length >= insertIndex){
-					refNode = children[insertIndex-1]; insertIndex = "after";
+					refNode = children[insertIndex-1];
+					insertIndex = "after";
 				}
 			}
 			dojo.place(widget.domNode, refNode, insertIndex);
