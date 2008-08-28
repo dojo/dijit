@@ -93,11 +93,11 @@ dojo.declare(
 		//		Hook to make attr("content", ...) work.
 		// 		Typically called when an href is loaded.  Our job is to make the animation smooth
 
-		if(!this.open || this._wipeOut.status() == "playing"){
+		if(!this.open || !this._wipeOut || this._wipeOut.status() == "playing"){
 			// we are currently *closing* the pane (or the pane is closed), so just let that continue
 			this.inherited(arguments);
 		}else{
-			if(this._wipeIn.status() == "playing"){
+			if(this._wipeIn && this._wipeIn.status() == "playing"){
 				this._wipeIn.stop();
 			}
 
@@ -108,19 +108,28 @@ dojo.declare(
 			this.inherited(arguments);
 
 			// call _wipeIn.play() to animate from current height to new height
-			this._wipeIn.play();
+			if(this._wipeIn){
+				this._wipeIn.play();
+			}else{
+				this.hideNode.style.display = "";
+			}
 		}
 	},
 
 	toggle: function(){
 		// summary: switches between opened and closed state
 		dojo.forEach([this._wipeIn, this._wipeOut], function(animation){
-			if(animation.status() == "playing"){
+			if(animation && animation.status() == "playing"){
 				animation.stop();
 			}
 		});
 
-		this[this.open ? "_wipeOut" : "_wipeIn"].play();
+		var anim = this[this.open ? "_wipeOut" : "_wipeIn"]
+		if(anim){
+			anim.play();
+		}else{
+			this._hideNode.style.display = this.open ? "" : "none";
+		}
 		this.open =! this.open;
 
 		// load content (if this is the first time we are opening the TitlePane
