@@ -413,9 +413,8 @@ dojo.declare("dijit.layout._Splitter", [ dijit._Widget, dijit._Templated ],
 		this._factor = /top|left/.test(this.region) ? 1 : -1;
 		this._minSize = this.child.minSize;
 
-		this._computeMaxSize();
-		//TODO: might be more accurate to recompute constraints on resize?
-		this.connect(this.container, "layout", dojo.hitch(this, this._computeMaxSize));
+		// trigger constraints calculations
+		this.child.domNode._recalc = true;
 
 		this._cookieName = this.container.id + "_" + this.region;
 		if(this.container.persist){
@@ -434,9 +433,9 @@ dojo.declare("dijit.layout._Splitter", [ dijit._Widget, dijit._Templated ],
 	},
 
 	_startDrag: function(e){
-		if(this.oppNode && this.oppNode._moved){
+		if(this.child.domNode._recalc){
 			this._computeMaxSize();
-			delete this.oppNode._moved;
+			delete this.child.domNode._recalc;
 		}
 
 		if(!this.cover){
@@ -504,7 +503,7 @@ dojo.declare("dijit.layout._Splitter", [ dijit._Widget, dijit._Templated ],
 			this._drag(e, true);
 		}finally{
 			this._cleanupHandlers();
-			this.child.domNode._moved = true;
+			if(this.oppNode){ this.oppNode._recalc = true; }
 			delete this._drag;
 		}
 
@@ -519,9 +518,9 @@ dojo.declare("dijit.layout._Splitter", [ dijit._Widget, dijit._Templated ],
 	},
 
 	_onKeyPress: function(/*Event*/ e){
-		if(this.oppNode && this.oppNode._moved){
+		if(this.child.domNode._recalc){
 			_computeMaxSize();
-			delete this.oppNode._moved;
+			delete this.child.domNode._recalc;
 		}
 
 		// should we apply typematic to this?
@@ -543,7 +542,7 @@ dojo.declare("dijit.layout._Splitter", [ dijit._Widget, dijit._Templated ],
 		var mb = {};
 		mb[ this.horizontal ? "h" : "w"] = Math.max(Math.min(childSize, this._maxSize), this._minSize);
 		dojo.marginBox(this.child.domNode, mb);
-		this.child.domNode._moved = true;
+		if(this.oppNode){ this.oppNode._recalc = true; }
 		this.container._layoutChildren(this.region);
 		dojo.stopEvent(e);
 	},
