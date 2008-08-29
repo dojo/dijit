@@ -504,7 +504,7 @@ dojo.declare("dijit.layout._Splitter", [ dijit._Widget, dijit._Templated ],
 		}
 
 		if(this.container.persist){
-			dojo.cookie(this._cookieName, this.child.domNode.style[this.horizontal ? "height" : "width"]);
+			dojo.cookie(this._cookieName, this.child.domNode.style[this.horizontal ? "height" : "width"], {expires:365});
 		}
 	},
 

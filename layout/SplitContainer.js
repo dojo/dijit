@@ -527,8 +527,11 @@ dojo.declare("dijit.layout.SplitContainer",
 	},
 
 	_saveState: function(){
+		if(!this.persist){
+			return;
+		}
 		dojo.forEach(this.getChildren(), function(child, i){
-			dojo.cookie(this._getCookieName(i), child.sizeShare);
+			dojo.cookie(this._getCookieName(i), child.sizeShare, {expires:365});
 		}, this);
 	}
 });

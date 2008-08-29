@@ -895,7 +895,7 @@ dojo.declare(
 		for(var id in this._openedItemIds){
 			ary.push(id);
 		}
-		dojo.cookie(this.cookieName, ary.join(","));
+		dojo.cookie(this.cookieName, ary.join(","), {expires:365});
 	},
 
 	destroy: function(){
