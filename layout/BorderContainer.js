@@ -101,12 +101,11 @@ dojo.declare(
 			if((child.splitter || this.gutters) && !this._splitters[region]){
 				var _Splitter = dojo.getObject(child.splitter ? this._splitterClass : "dijit.layout._Gutter");
 				var flip = {left:'right', right:'left', top:'bottom', bottom:'top', leading:'trailing', trailing:'leading'};
-				var oppNodeList = dojo.query('[region=' + flip[child.region] + ']', this.domNode);
 				var splitter = new _Splitter({
 					container: this,
 					child: child,
 					region: region,
-					oppNode: oppNodeList[0],
+					oppNode: dojo.query('[region=' + flip[child.region] + ']', this.domNode)[0],
 					live: this.liveSplitters
 				});
 				splitter.isSplitter = true;
@@ -435,6 +434,11 @@ dojo.declare("dijit.layout._Splitter", [ dijit._Widget, dijit._Templated ],
 	},
 
 	_startDrag: function(e){
+		if(this.oppNode && this.oppNode._moved){
+			this._computeMaxSize();
+			delete this.oppNode._moved;
+		}
+
 		if(!this.cover){
 			this.cover = dojo.doc.createElement('div');
 			dojo.addClass(this.cover, "dijitSplitterCover");
@@ -500,6 +504,7 @@ dojo.declare("dijit.layout._Splitter", [ dijit._Widget, dijit._Templated ],
 			this._drag(e, true);
 		}finally{
 			this._cleanupHandlers();
+			this.child.domNode._moved = true;
 			delete this._drag;
 		}
 
@@ -514,6 +519,11 @@ dojo.declare("dijit.layout._Splitter", [ dijit._Widget, dijit._Templated ],
 	},
 
 	_onKeyPress: function(/*Event*/ e){
+		if(this.oppNode && this.oppNode._moved){
+			_computeMaxSize();
+			delete this.oppNode._moved;
+		}
+
 		// should we apply typematic to this?
 		this._resize = true;
 		var horizontal = this.horizontal;
@@ -522,7 +532,7 @@ dojo.declare("dijit.layout._Splitter", [ dijit._Widget, dijit._Templated ],
 		switch(e.charOrCode){
 			case horizontal ? dk.UP_ARROW : dk.LEFT_ARROW:
 				tick *= -1;
-				break;
+//				break;
 			case horizontal ? dk.DOWN_ARROW : dk.RIGHT_ARROW:
 				break;
 			default:
@@ -533,6 +543,7 @@ dojo.declare("dijit.layout._Splitter", [ dijit._Widget, dijit._Templated ],
 		var mb = {};
 		mb[ this.horizontal ? "h" : "w"] = Math.max(Math.min(childSize, this._maxSize), this._minSize);
 		dojo.marginBox(this.child.domNode, mb);
+		this.child.domNode._moved = true;
 		this.container._layoutChildren(this.region);
 		dojo.stopEvent(e);
 	},
