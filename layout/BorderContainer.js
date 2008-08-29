@@ -415,6 +415,7 @@ dojo.declare("dijit.layout._Splitter", [ dijit._Widget, dijit._Templated ],
 
 		// trigger constraints calculations
 		this.child.domNode._recalc = true;
+		this.connect(this.container, "resize", dojo.hitch(this, this._computeMaxSize));
 
 		this._cookieName = this.container.id + "_" + this.region;
 		if(this.container.persist){
