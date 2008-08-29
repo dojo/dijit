@@ -43,6 +43,7 @@ dojo.declare("dijit._editor.plugins.FontChoice",
 		_uniqueId: 0,
 
 		buttonClass: dijit.form.FilteringSelect,
+		useDefaultCommand: false,
 
 		_initButton: function(){
 			//TODO: would be nice to be able to handle comma-separated font lists and search within them

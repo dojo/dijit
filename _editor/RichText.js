@@ -755,7 +755,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 		
 		if(dojo.isIE){ // IE contentEditable
 			// give the node Layout on IE
-			this.connect(this.document, "onmousedown", "_onMouseDown"); // #4996 fix focus
+			this.connect(this.document, "onmousedown", "_onIEMouseDown"); // #4996 fix focus
 			this.editNode.style.zoom = 1.0;
 		}
 		if(this.focusOnLoad){
@@ -764,9 +764,6 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 
 		this.onDisplayChanged(e);
 
-		if(this.onLoadDeferred){
-			this.onLoadDeferred.callback(true);
-		}
 		if("_delayedDisabled" in this){
 			// We tried to set the disabled attribute previously - but we didn't
 			// have everything set up.  Set it up now that we have our nodes
@@ -776,6 +773,10 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 			this.attr("disabled", d);
 		}
 		this.isLoaded = true;
+
+		if(this.onLoadDeferred){
+			this.onLoadDeferred.callback(true);
+		}
 	},
 
 	onKeyDown: function(/* Event */ e){
@@ -886,7 +887,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 		this.onDisplayChanged(e);
 	},
 
-	_onMouseDown: function(/*Event*/e){ // IE only to prevent 2 clicks to focus
+	_onIEMouseDown: function(/*Event*/e){ // IE only to prevent 2 clicks to focus
 		if(!this._focused && !this.disabled){
 			this.focus();
 		}
@@ -1367,6 +1368,13 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 	setValue: function(/*String*/html){
 		// summary:
 		//		This function sets the content. No undo history is preserved.
+		if(!this.isLoaded){ 
+			// try again after the editor is finished loading 
+			this.onLoadDeferred.addCallback(dojo.hitch(this, function(){ 
+				this.setValue(html); 
+			})); 
+			return;
+		} 
 		if(this.textarea && (this.isClosed || !this.isLoaded)){
 			this.textarea.value=html;
 		}else{
