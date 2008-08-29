@@ -3,6 +3,11 @@
 	background:#eaeaea url("images/titleBar.png") repeat-x top left;
 }
 
+/* setting a min-height on ditor toolbar */
+.dj_ie6 .soria .dijitToolbar {
+	height: 10px;
+}
+
 .soria .dijitToolbar .dijitButtonNode,
 .soria .dijitToolbar .dijitComboButton .dijitButtonContents,
 .soria .dijitToolbar .dijitComboButton .dijitDownArrowButton {
