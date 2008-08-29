@@ -8,7 +8,6 @@
 	background-repeat: no-repeat;
 }
 .dj_ie6 .soria .dijitCalendarIncrementControl {
-	padding:.1em;
 	font-size:.1em;	
 	background-image: url("images/spriteRoundedIconsSmall.gif");
 }
@@ -41,8 +40,8 @@
 	text-align:center;
 }
 .dj_ie6 .soria .dijitCalendarMonthContainer th {
-	padding-top:.1em;
-	padding-bottom:0em;
+	padding-top:.2em;
+	padding-bottom:.1em;
 }
 
 .soria .dijitCalendarDayLabelTemplate {
@@ -65,22 +64,20 @@
 	font-weight: bold;
 }
 
-.dj_ie7 .soria .dijitCalendarDateTemplate,
-.dj_ie6 .soria .dijitCalendarDateTemplate {
-	font-size: 0.8em;
-}
-
 .soria .dijitCalendarDateTemplate {
 	/* style for each day cell */
 	font-size: 0.9em;
 	font-weight: bold;
 	text-align: center;
-	padding: 0.3em 0.3em 0.1em 0.3em;
+	padding: 0.3em 0.3em 0.05em 0.3em;
 	letter-spacing: 1px;
 	background-color: #fff;
 	border:#fff solid 1px !important;
 }
 
+.dj_ie .soria .dijitCalendarDateTemplate {
+	padding: 0.1em .33em 0.02em .33em;
+}
 
 .soria .dijitCalendarPreviousMonth,
 .soria .dijitCalendarNextMonth 		{
