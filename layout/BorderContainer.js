@@ -281,22 +281,21 @@ dojo.declare(
 		dojo.mixin(rightStyle, bounds);
 		leftStyle.left = pe.l + "px"; rightStyle.right = pe.r + "px"; topStyle.top = pe.t + "px"; bottomStyle.bottom = pe.b + "px";
 		if(sidebarLayout){
-			topStyle.left = bottomStyle.left = leftWidth + (this.isLeftToRight() ? leftSplitterThickness : 0) + pe.l + "px";
-			topStyle.right = bottomStyle.right = rightWidth + (this.isLeftToRight() ? 0 : rightSplitterThickness) + pe.r + "px";
+			topStyle.left = bottomStyle.left = leftWidth + leftSplitterThickness + pe.l + "px";
+			topStyle.right = bottomStyle.right = rightWidth + rightSplitterThickness + pe.r + "px";
 		}else{
 			topStyle.left = bottomStyle.left = pe.l + "px";
 			topStyle.right = bottomStyle.right = pe.r + "px";
 		}
 
 		// More calculations about sizes of panes
-		var containerHeight = this._borderBox.h - pe.t - pe.b;
-		var middleHeight = containerHeight - ( topHeight + topSplitterThickness + bottomHeight + bottomSplitterThickness);			
-		var sidebarHeight = sidebarLayout ? containerHeight : middleHeight;
+		var containerHeight = this._borderBox.h - pe.t - pe.b,
+			middleHeight = containerHeight - ( topHeight + topSplitterThickness + bottomHeight + bottomSplitterThickness),
+			sidebarHeight = sidebarLayout ? containerHeight : middleHeight;
 
-		var containerWidth = this._borderBox.w - pe.l - pe.r;
-		var middleWidth = containerWidth - (leftWidth  + leftSplitterThickness + rightWidth + rightSplitterThickness);
-
-		var sidebarWidth = sidebarLayout ? middleWidth : containerWidth;
+		var containerWidth = this._borderBox.w - pe.l - pe.r,
+			middleWidth = containerWidth - (leftWidth  + leftSplitterThickness + rightWidth + rightSplitterThickness),
+			sidebarWidth = sidebarLayout ? middleWidth : containerWidth;
 
 		// New margin-box size of each pane
 		var dim = {
@@ -457,21 +456,20 @@ dojo.declare("dijit.layout._Splitter", [ dijit._Widget, dijit._Templated ],
 		//Performance: load data info local vars for onmousevent function closure
 		var factor = this._factor,
 			max = this._maxSize,
-			min = this._minSize || 10;
-		var isHorizontal = this.horizontal; 
-		var axis = isHorizontal ? "pageY" : "pageX";
-		var pageStart = e[axis];
-		var splitterStyle = this.domNode.style;
-		var dim = isHorizontal ? 'h' : 'w';
-		var childStart = dojo.marginBox(this.child.domNode)[dim];
-		var region = this.region;
-		var splitterStart = parseInt(this.domNode.style[region], 10);
-		var resize = this._resize;
-		var mb = {};
-		var childNode = this.child.domNode;
-		var layoutFunc = dojo.hitch(this.container, this.container._layoutChildren);
-
-		var de = dojo.doc.body;
+			min = this._minSize || 10,
+			isHorizontal = this.horizontal,
+			axis = isHorizontal ? "pageY" : "pageX",
+			pageStart = e[axis],
+			splitterStyle = this.domNode.style,
+			dim = isHorizontal ? 'h' : 'w',
+			childStart = dojo.marginBox(this.child.domNode)[dim],
+			region = this.region,
+			splitterStart = parseInt(this.domNode.style[region], 10),
+			resize = this._resize,
+			mb = {},
+			childNode = this.child.domNode,
+			layoutFunc = dojo.hitch(this.container, this.container._layoutChildren),
+			de = dojo.doc.body;
 
 		this._handlers = (this._handlers || []).concat([
 			dojo.connect(de, "onmousemove", this._drag = function(e, forceResize){
