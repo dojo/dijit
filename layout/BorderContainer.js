@@ -158,12 +158,13 @@ dojo.declare(
 			return !widget.isSplitter;
 		});
 	},
-	
-	getSplitter: function(/*String*/region) {
+
+	getSplitter: function(/*String*/region){
+		// summary: returns the widget responsible for rendering the splitter associated with region 
 		var splitter = this._splitters[region];
-		return (splitter) ? dijit.byNode(splitter) : null;
+		return splitter ? dijit.byNode(splitter) : null;
 	},
-	
+
 	resize: function(newSize, currentSize){
 		// resetting potential padding to 0px to provide support for 100% width/height + padding
 		// TODO: this hack doesn't respect the box model and is a temporary fix
