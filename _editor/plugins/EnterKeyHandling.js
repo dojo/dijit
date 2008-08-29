@@ -1,14 +1,17 @@
 dojo.provide("dijit._editor.plugins.EnterKeyHandling");
 
 dojo.declare("dijit._editor.plugins.EnterKeyHandling", dijit._editor._Plugin, {
-	// summary: this plugin tries to handle enter key events to make all 
-	//		browsers have identical behaviors.
+	// summary:
+	//		This plugin tries to handle enter key events to make all 
+	//		browsers have identical behaviors.  Specifically, it fixes
+	//		the "line spacing problem" on IE.
 
 	// blockNodeForEnter: String
 	//		this property decides the behavior of Enter key. It can be either P,
 	//		DIV, BR, or empty (which means disable this feature). Anything else
 	//		will trigger errors.
-	blockNodeForEnter: 'P',
+	blockNodeForEnter: 'BR',
+
 	constructor: function(args){
 		if(args){
 			dojo.mixin(this,args);

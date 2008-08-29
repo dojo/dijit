@@ -2,6 +2,7 @@ dojo.provide("dijit.Editor");
 dojo.require("dijit._editor.RichText");
 dojo.require("dijit.Toolbar");
 dojo.require("dijit._editor._Plugin");
+dojo.require("dijit._editor.plugins.EnterKeyHandling");
 dojo.require("dijit._editor.range");
 dojo.require("dijit._Container");
 dojo.require("dojo.i18n");
@@ -35,7 +36,8 @@ dojo.declare(
 		constructor: function(){
 			if(!dojo.isArray(this.plugins)){
 				this.plugins=["undo","redo","|","cut","copy","paste","|","bold","italic","underline","strikethrough","|",
-				"insertOrderedList","insertUnorderedList","indent","outdent","|","justifyLeft","justifyRight","justifyCenter","justifyFull"/*"createLink"*/];
+				"insertOrderedList","insertUnorderedList","indent","outdent","|","justifyLeft","justifyRight","justifyCenter","justifyFull",
+				"dijit._editor.plugins.EnterKeyHandling" /*, "createLink"*/];
 			}
 
 			this._plugins=[];
@@ -52,8 +54,8 @@ dojo.declare(
 			//only lost after onmousedown event is fired, so we can obtain correct caret pos.)
 			//2) when user tabs away from the editor, which is handled in onKeyDown below.
 			if(dojo.isIE){
-				this.events.push("onBeforeDeactivate");
-			}
+	            this.events.push("onBeforeDeactivate");
+							}
 		},
 
 		postCreate: function(){
@@ -238,10 +240,10 @@ dojo.declare(
 			if(this._savedSelection && dojo.isIE){
 				restore = dijit._curFocus!=this.editNode;
 			}
-			this.inherited(arguments);
-			if(restore){
-				this._restoreSelection();
-			}
+		    this.inherited(arguments);
+		    if(restore){
+		    	this._restoreSelection();
+		    }
 		},
 		_moveToBookmark: function(b){
 			var bookmark=b;

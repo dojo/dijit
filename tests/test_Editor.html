@@ -24,7 +24,6 @@
 		dojo.require("dijit.dijit"); // optimize: load dijit layer
 		dojo.require("dijit.Editor");
 		dojo.require("dijit._editor.plugins.AlwaysShowToolbar");
-		dojo.require("dijit._editor.plugins.EnterKeyHandling");
 		dojo.require("dijit._editor.plugins.FontChoice");  // 'fontName','fontSize','formatBlock'
 		dojo.require("dijit._editor.plugins.TextColor");
 		dojo.require("dijit._editor.plugins.LinkDialog");
@@ -136,11 +135,11 @@
 	<div style="border: 1px dotted black;">
 		<h3><label for="blah2">Another blah entry</label></h3>
 		<div dojoType="dijit.Editor"
-			plugins="['bold','italic','|',{name:'dijit._editor.plugins.EnterKeyHandling'},{name:'dijit._editor.plugins.FontChoice', command:'fontName', custom:['Verdana','Myriad','Garamond','Apple Chancery','Hiragino Mincho Pro']}, {name:'dijit._editor.plugins.FontChoice', command:'fontSize', custom:[3,4,5]}]"
+			plugins="['bold','italic','|',{name:'dijit._editor.plugins.FontChoice', command:'fontName', custom:['Verdana','Myriad','Garamond','Apple Chancery','Hiragino Mincho Pro']}, {name:'dijit._editor.plugins.FontChoice', command:'fontSize', custom:[3,4,5]}]"
 			styleSheets="../../dojo/resources/dojo.css" id="blah2">
 			This instance demos how to:
 			<ol>
-				<li>specify which plugins to load (see the plugins property): this instance loads EnterKeyHandling plugin, among others;</li>
+				<li>specify which plugins to load (see the plugins property): this instance loads FontChoice plugin, among others;</li>
 				<li>specify options for a plugin (see the last item in the plugins array)</li>
 			</ol>
 		</div>
