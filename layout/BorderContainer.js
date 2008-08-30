@@ -416,7 +416,7 @@ dojo.declare("dijit.layout._Splitter", [ dijit._Widget, dijit._Templated ],
 
 		// trigger constraints calculations
 		this.child.domNode._recalc = true;
-		this.connect(this.container, "resize", dojo.hitch(this, this._computeMaxSize));
+		this._resizeHandler = this.connect(this.container, "resize", dojo.hitch(this, this._computeMaxSize));
 
 		this._cookieName = this.container.id + "_" + this.region;
 		if(this.container.persist){
@@ -429,8 +429,11 @@ dojo.declare("dijit.layout._Splitter", [ dijit._Widget, dijit._Templated ],
 	},
 
 	_computeMaxSize: function(){
-		var dim = this.horizontal ? 'h' : 'w';
-		var available = dojo.contentBox(this.container.domNode)[dim] - (this.oppNode ? dojo.marginBox(this.oppNode)[dim] : 0);
+		var dim = this.horizontal ? 'h' : 'w',
+			thickness = this.container._splitterThickness[this.region];
+		var available = dojo.contentBox(this.container.domNode)[dim] -
+			(this.oppNode ? dojo.marginBox(this.oppNode)[dim] : 0) -
+			20 - thickness * 2;
 		this._maxSize = Math.min(this.child.maxSize, available);
 	},
 
@@ -461,7 +464,7 @@ dojo.declare("dijit.layout._Splitter", [ dijit._Widget, dijit._Templated ],
 		//Performance: load data info local vars for onmousevent function closure
 		var factor = this._factor,
 			max = this._maxSize,
-			min = this._minSize || 10,
+			min = this._minSize || 20,
 			isHorizontal = this.horizontal,
 			axis = isHorizontal ? "pageY" : "pageX",
 			pageStart = e[axis],
@@ -551,6 +554,7 @@ dojo.declare("dijit.layout._Splitter", [ dijit._Widget, dijit._Templated ],
 
 	destroy: function(){
 		this._cleanupHandlers();
+		dojo.disconnect(this._resizeHandler);
 		delete this.child;
 		delete this.container;
 		delete this.fake;
