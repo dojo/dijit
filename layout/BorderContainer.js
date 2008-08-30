@@ -416,7 +416,7 @@ dojo.declare("dijit.layout._Splitter", [ dijit._Widget, dijit._Templated ],
 
 		// trigger constraints calculations
 		this.child.domNode._recalc = true;
-		this.connect(this.container, "resize", this, function(){ this.child.domNode._recalc = true; });
+		this.connect(this.container, "resize", function(){ this.child.domNode._recalc = true; });
 
 		this._cookieName = this.container.id + "_" + this.region;
 		if(this.container.persist){
