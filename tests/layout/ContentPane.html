@@ -533,6 +533,8 @@
 						}
 					},
 					{
+						// Test if a plain ContentPane downloads it's contents when startup() is called.
+						// Nothing in particular to do with StackContainer.
 						name: "downloadTriggeredOnStartup",
 						timeout: 1800,
 						runTest: function(t){
@@ -540,9 +542,8 @@
 							var pane4 = new dijit.layout.ContentPane({
 								href:href,
 								preventCache: true
-							}, dojo.doc.createElement('div'));
-
-							dojo.place(pane4.domNode, pane3.domNode, 'after');
+							});
+							pane4.placeAt(st.domNode, "after");
 
 							pane4.startup(); // parser should call startup when djConfig.parseOnLoad=true
 
@@ -557,6 +558,9 @@
 				]
 			);
 
+			// Tests for doLayout parameter.
+			// When this parameter is true, the single ContentPane child is resized
+			// to match the size of the ContentPane.
 			var pane5;
 			doh.registerGroup("doLayout",
 				[
