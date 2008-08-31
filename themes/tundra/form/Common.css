@@ -47,7 +47,7 @@
 .tundra .dijitTextBoxDisabled,
 .tundra .dijitComboBoxDisabled,
 .tundra .dijitSpinnerDisabled,
-.tundra .dijitTextareaDisabled {
+.tundra .dijitTextAreaDisabled {
 	color: gray;
 }
 .dj_safari .tundra .dijitTextBoxDisabled,

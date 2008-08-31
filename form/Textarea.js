@@ -18,7 +18,6 @@ dojo.declare(
 	//
 	// example:
 	// |	<textarea dojoType="dijit.form.TextArea">...</textarea>
-	//
 
 	attributeMap: dojo.mixin(dojo.clone(dijit.form._FormValueWidget.prototype.attributeMap),
 		{style:"styleNode", 'class':"styleNode"}),
@@ -36,7 +35,7 @@ dojo.declare(
 
 	_setDisabledAttr: function(/*Boolean*/ value){
 		this.inherited(arguments);
-				this.formValueNode.disabled = this.disabled;
+		this.formValueNode.disabled = this.disabled;
 		this._adjustWritable();
 	},
 	_setReadOnlyAttr: function(/*Boolean*/ value){
@@ -45,11 +44,11 @@ dojo.declare(
 	},
 	_adjustWritable: function(){
 		// summary: set whether user can write into textbox, based on this.disabled and this.readOnly
-				if(dojo.isIE || dojo.isSafari || dojo.isFF >= 3){
-					this.editNode.contentEditable = (!this.disabled && !this.readOnly);
-				}else if(dojo.isFF){
-					this.iframe.contentDocument.designMode = (this.disabled || this.readOnly)? "off" : "on";
-				}
+		if(dojo.isIE || dojo.isSafari || dojo.isFF >= 3){
+			this.editNode.contentEditable = (!this.disabled && !this.readOnly);
+		}else if(dojo.isFF){
+			this.iframe.contentDocument.designMode = (this.disabled || this.readOnly)? "off" : "on";
+		}
 	},
 
 	focus: function(){
