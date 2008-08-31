@@ -80,13 +80,11 @@ dojo.declare(
 
 	baseClass: "dijitContentPane",
 
-	// doLayout: String/Boolean
-	//	false - don't adjust size of children
-	//	true - looks for the first sizable child widget (ie, having resize() method) and sets it's size to
-	//			however big the ContentPane is (TODO: implement)
-	//	auto - if there is a single sizable child widget (ie, having resize() method), set it's size to
-	//			however big the ContentPane is
-	doLayout: "auto",
+	// doLayout: Boolean
+	//		- false - don't adjust size of children
+	//		- true - if there is a single visible child widget, set it's size to
+	//				however big the ContentPane is
+	doLayout: true,
 
 	postMixInProperties: function(){
 		this.inherited(arguments);
@@ -129,17 +127,26 @@ dojo.declare(
 
 	_checkIfSingleChild: function(){
 		// summary:
-		//	Test if we have exactly one widget as a child, and if so assume that we are a container for that widget,
-		//	and should propogate startup() and resize() calls to it.
+		//		Test if we have exactly one visible widget as a child,
+		//		and if so assume that we are a container for that widget,
+		//		and should propogate startup() and resize() calls to it.
+		//		Skips over things like data stores since they aren't visible.
 
-		// TODO: if there are two child widgets (a data store and a TabContainer, for example),
-		//	should still find the TabContainer
 		var childNodes = dojo.query(">", this.containerNode),
-			childWidgets = childNodes.filter("[widgetId]");
+			childWidgetNodes = childNodes.filter("[dojoType]"),
+			candidateWidgets = dojo.filter(childWidgetNodes.map(dijit.byNode), function(widget){
+				return widget && widget.domNode && widget.resize;
+			});
 
-		if(childNodes.length == 1 && childWidgets.length == 1){
+		if(
+			// all child nodes are widgets
+			childNodes.length == childWidgetNodes.length &&
+
+			// all but one are invisible (like dojo.data)
+			candidateWidgets.length == 1
+		){
 			this.isContainer = true;
-			this._singleChild = dijit.byNode(childWidgets[0]);
+			this._singleChild = candidateWidgets[0];
 		}else{
 			delete this.isContainer;
 			delete this._singleChild;

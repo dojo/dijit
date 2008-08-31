@@ -24,6 +24,7 @@
 	<script type="text/javascript">
 		dojo.require("doh.runner");
 		dojo.require("dijit.layout.ContentPane");
+		dojo.require("dojo.data.ItemFileReadStore");
 		dojo.require("dijit._Container");
 		dojo.require("dijit._Templated");
 		dojo.require("dijit.layout.StackContainer");
@@ -556,6 +557,102 @@
 				]
 			);
 
+			var pane5;
+			doh.registerGroup("doLayout",
+				[
+					{
+						name: "simple",
+						setUp: function(t){
+							pane5 = new dijit.layout.ContentPane({
+								content:"<div dojoType='dijit.layout.StackContainer'></div>"
+							}, dojo.byId("pane5"));
+							console.log(pane5);
+						},
+						runTest: function(t){
+							// since there's just a single child it should be marked
+							// for layout/resize along w/the ContentPane
+							t.assertTrue(pane5._singleChild);
+						},
+						tearDown: function(t){
+							pane5.destroyRecursive();
+						}
+					},
+					{
+						name: "false",
+						setUp: function(t){
+							pane5 = new dijit.layout.ContentPane({
+								content:
+									"<div dojoType='dijit.layout.StackContainer'></div>",
+								doLayout: false
+							}, dojo.byId("pane5"));
+						},
+						runTest: function(t){
+							// since doLayout=false shouldn't try to resize child
+							t.assertFalse(pane5._singleChild);
+						},
+						tearDown: function(t){
+							pane5.destroyRecursive();
+						}
+					},
+					{
+						name: "mixed",
+						setUp: function(t){
+							pane5 = new dijit.layout.ContentPane({
+								content:
+									"<span>hello world</span>" +
+									"<div dojoType='dijit.layout.StackContainer'></div>"
+							}, dojo.byId("pane5"));
+						},
+						runTest: function(t){
+							// since there's plain HTML along with the widget, ContentPane shouldn't try to adjust
+							// this size of the widget (since that would cover up the other HTML)
+							t.assertFalse(pane5._singleChild);
+						},
+						tearDown: function(t){
+							pane5.destroyRecursive();
+						}
+					},
+					{
+						name: "two widgets",
+						setUp: function(t){
+							pane5 = new dijit.layout.ContentPane({
+								content:
+									"<div dojoType='dijit.layout.StackContainer'></div>" +
+									"<div dojoType='dijit.layout.StackContainer'></div>"
+							}, dojo.byId("pane5"));
+						},
+						runTest: function(t){
+							// since there are multiple children, neither should be marked
+							// for layout/resize along w/the ContentPane
+							t.assertFalse(pane5._singleChild);
+						},
+						tearDown: function(t){
+							pane5.destroyRecursive();
+						}
+					},
+					{
+						name: "dojo.data",
+						setUp: function(t){
+							pane5 = new dijit.layout.ContentPane({
+								content:
+									"<div dojoType='dojo.data.ItemFileReadStore' jsId='dd'></div>" +
+									"<div dojoType='dijit.layout.StackContainer' id='sc'></div>"
+							}, dojo.byId("pane5"));
+						},
+						runTest: function(t){
+							// there are two children but one is invisible, so the other should be marked
+							// for layout/resize along w/the ContentPane
+							t.assertTrue(dd);
+							t.assertTrue(dijit.byId("sc"));
+							t.assertEqual(pane5._singleChild, dijit.byId("sc"));
+						},
+						tearDown: function(t){
+							pane5.destroyRecursive();
+						}
+					},
+				]
+			);
+
 			doh.run();
 		});
 	</script>
@@ -579,5 +676,6 @@
 	</div>
 	<br/><br/>
 	<div id='stackcontainer'></div>
+	<div id="pane5"></div>
 </body>
 </html>
