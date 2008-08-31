@@ -259,6 +259,7 @@ dojo.declare(
 
 			// TODO: change key from object to id, to get more separation from StackContainer
 			this.pane2button = {};		// mapping from panes to buttons
+			this.pane2handles = {};		// mapping from panes to dojo.connect() handles
 			this.pane2menu = {};		// mapping from panes to close menu
 
 			this._subscriptions=[
@@ -298,18 +299,20 @@ dojo.declare(
 			this.addChild(button, insertIndex);
 			this.pane2button[page] = button;
 			page.controlButton = button;	// this value might be overwritten if two tabs point to same container
-			
-			dojo.connect(button, "onClick", dojo.hitch(this,"onButtonClick",page));
+
+			var handles = [];
+			handles.push(dojo.connect(button, "onClick", dojo.hitch(this,"onButtonClick",page)));
 			if(page.closable){
-				dojo.connect(button, "onClickCloseButton", dojo.hitch(this,"onCloseButtonClick",page));
+				handles.push(dojo.connect(button, "onClickCloseButton", dojo.hitch(this,"onCloseButtonClick",page)));
 				// add context menu onto title button
 				var _nlsResources = dojo.i18n.getLocalization("dijit", "common");
 				var closeMenu = new dijit.Menu({targetNodeIds:[button.id], id:button.id+"_Menu"});
 				var mItem = new dijit.MenuItem({label:_nlsResources.itemClose});
-				dojo.connect(mItem, "onClick", dojo.hitch(this, "onCloseButtonClick", page));
+				handles.push(dojo.connect(mItem, "onClick", dojo.hitch(this, "onCloseButtonClick", page)));
 				closeMenu.addChild(mItem);
 				this.pane2menu[page] = closeMenu;
 			}
+			this.pane2handles[page] = handles;
 			if(!this._currentChild){ // put the first child into the tab order
 				button.focusNode.setAttribute("tabIndex", "0");
 				this._currentChild = page;
@@ -325,16 +328,19 @@ dojo.declare(
 			//   Called whenever a page is removed from the container.
 			//   Remove the button corresponding to the page.
 			if(this._currentChild === page){ this._currentChild = null; }
-			var button = this.pane2button[page];
+			dojo.forEach(this.pane2handles[page], dojo.disconnect);
+			delete this.pane2handles[page];
 			var menu = this.pane2menu[page];
-			if(menu){
-				menu.destroy();
+			if (menu){
+				menu.destroyRecursive();
+				delete this.pane2menu[page];
 			}
+			var button = this.pane2button[page];
 			if(button){
 				// TODO? if current child { reassign }
 				button.destroy();
+				delete this.pane2button[page];
 			}
-			this.pane2button[page] = null;
 		},
 
 		onSelectChild: function(/*Widget*/ page){
@@ -344,7 +350,7 @@ dojo.declare(
 			if(!page){ return; }
 
 			if(this._currentChild){
-				var oldButton = this.pane2button[this._currentChild];
+				var oldButton=this.pane2button[this._currentChild];
 				oldButton.attr('checked', false);
 				oldButton.focusNode.setAttribute("tabIndex", "-1");
 			}
