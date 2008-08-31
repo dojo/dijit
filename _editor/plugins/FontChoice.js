@@ -78,7 +78,7 @@ dojo.declare("dijit._editor.plugins.FontChoice",
 			this.inherited(arguments,[{required:false, labelType: "html", labelAttr: "label", searchAttr: "name", store: new dojo.data.ItemFileReadStore(
 					{ data: { identifier: "value", items: items } })}]);
 
-			this.button.setValue("");
+			this.button.attr("value", "");
 
 			this.connect(this.button, "onChange", function(choice){
 				if(this.updating){ return; }
@@ -133,7 +133,7 @@ dojo.declare("dijit._editor.plugins.FontChoice",
 				this.updating = true;
 				//if the value is not a permitted value, just set empty string to prevent
 				//showing the warning icon
-				this.button.setValue(dojo.indexOf(this._availableValues,value)<0?"":value);
+				this.button.attr('value', dojo.indexOf(this._availableValues,value)<0?"":value);
 				delete this.updating;
 			}
 
