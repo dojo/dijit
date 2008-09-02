@@ -440,7 +440,7 @@ dojo.declare("dijit.layout._Splitter", [ dijit._Widget, dijit._Templated ],
 	_startDrag: function(e){
 		if(this.child.domNode._recalc){
 			this._computeMaxSize();
-			delete this.child.domNode._recalc;
+			this.child.domNode._recalc = false;
 		}
 
 		if(!this.cover){
@@ -525,7 +525,7 @@ dojo.declare("dijit.layout._Splitter", [ dijit._Widget, dijit._Templated ],
 	_onKeyPress: function(/*Event*/ e){
 		if(this.child.domNode._recalc){
 			_computeMaxSize();
-			delete this.child.domNode._recalc;
+			this.child.domNode._recalc = false;
 		}
 
 		// should we apply typematic to this?
