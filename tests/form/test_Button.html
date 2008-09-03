@@ -53,10 +53,8 @@
 		<button id="1467" dojoType="dijit.form.Button" onClick='console.log("clicked simple")'>
 			View
 		</button>
-	</p>
-	<div class="box">
 		<span dojoType="dijit.Tooltip" connectId="1466">tooltip on button</span>
-		<div dojoType="dijit.form.ComboButton" optionsTitle='save options' onClick='console.log("clicked combo save")'
+		<button dojoType="dijit.form.ComboButton" optionsTitle='save options' onClick='console.log("clicked combo save")'
 				iconClass="plusIcon">
 			<span>Create</span>
 			<div dojoType="dijit.Menu" id="createMenu" style="display: none;">
@@ -65,8 +63,8 @@
 				<div dojoType="dijit.MenuItem"
 					onClick="console.log('not actually saving anything, just a test!')">Create from template</div>
 			</div>
-		</div>
-		<div dojoType="dijit.form.DropDownButton" iconClass="noteIcon">
+		</button>
+		<button dojoType="dijit.form.DropDownButton" iconClass="noteIcon">
 			<span>Edit<b>!</b></span>
 			<div dojoType="dijit.Menu">
 				<div dojoType="dijit.MenuItem"  iconClass="dijitEditorIcon dijitEditorIconCut"
@@ -91,13 +89,13 @@
 					</div>
 				</div>
 			</div>
-		</div>
-		<div dojoType="dijit.form.DropDownButton" iconClass="noteIcon">
+		</button>
+		<button dojoType="dijit.form.DropDownButton" iconClass="noteIcon">
 			<span>Color</span>
 			<div dojoType="dijit.ColorPalette" id="colorPalette" style="display: none" palette="3x4"
 				onChange="console.log(this.value);"></div>
-		</div>
-		<div dojoType="dijit.form.ComboButton" optionsTitle='save options' onClick='console.log("clicked combo save")'
+		</button>
+		<button dojoType="dijit.form.ComboButton" optionsTitle='save options' onClick='console.log("clicked combo save")'
 				iconClass="plusBlockIcon">
 			<span>Save</span>
 			<div dojoType="dijit.Menu" id="saveMenu" style="display: none;">
@@ -106,11 +104,11 @@
 				<div dojoType="dijit.MenuItem"
 					onClick="console.log('not actually saving anything, just a test!')">Save As</div>
 			</div>
-		</div>
+		</button>
 		<button dojoType="dijit.form.Button" onClick='console.log("clicked simple")' disabled='true' iconClass="plusIcon">
 			Disabled
 		</button>
-	</div>
+	</p>
 	<br clear="all">
 	<h2>Buttons with no text label</h2>
 	<p>Buttons have showLabel=false so text is not displayed.  If no title attribute supplied, Should have label as title attribute displayed on mouse over</p>
