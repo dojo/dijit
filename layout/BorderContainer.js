@@ -524,7 +524,7 @@ dojo.declare("dijit.layout._Splitter", [ dijit._Widget, dijit._Templated ],
 
 	_onKeyPress: function(/*Event*/ e){
 		if(this.child.domNode._recalc){
-			_computeMaxSize();
+			this._computeMaxSize();
 			this.child.domNode._recalc = false;
 		}
 
