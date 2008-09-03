@@ -807,8 +807,8 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 		}else if(dojo.isMoz){
 			if(e.keyCode == dojo.keys.TAB && !e.shiftKey && !e.ctrlKey && !e.altKey && this.iframe){
 				// update iframe document title for screen reader
-				this.iframe.contentDocument.title = this._localizedIframeTitles.iframeFocusTitle;
-				
+				var titleObj = dojo.isFF<3 ? this.iframe.contentDocument : this.iframe;
+			 	titleObj.title = this._localizedIframeTitles.iframeFocusTitle;
 				// Place focus on the iframe. A subsequent tab or shift tab will put focus
 				// on the correct control.
 				this.iframe.focus();  // this.focus(); won't work
@@ -906,7 +906,8 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 			this.savedContent=_c;
 		}
 		if(dojo.isMoz && this.iframe){
-			this.iframe.contentDocument.title = this._localizedIframeTitles.iframeEditTitle;
+			var titleObj = dojo.isFF<3 ? this.iframe.contentDocument : this.iframe;
+			 titleObj.title = this._localizedIframeTitles.iframeEditTitle;
 		} 
 
 	},
