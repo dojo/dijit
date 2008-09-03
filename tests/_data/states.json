@@ -1,5 +1,7 @@
-{identifier:"abbreviation",
-items: [
+{
+  identifier:"abbreviation",
+  label: "name",
+  items: [
 	{name:"Alabama", label:"<img width='97px' height='127px' src='images/Alabama.jpg'/>Alabama",abbreviation:"AL"},
 	{name:"Alaska", label:"Alaska",abbreviation:"AK"},
 	{name:"American Samoa", label:"American Samoa",abbreviation:"AS"},
@@ -61,4 +63,5 @@ items: [
 	{name:"West Virginia", label:"West Virginia",abbreviation:"WV"},
 	{name:"Wisconsin", label:"Wisconsin",abbreviation:"WI"},
 	{name:"Wyoming", label:"Wyoming",abbreviation:"WY"}
-]}
+  ]
+}
