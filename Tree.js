@@ -591,9 +591,9 @@ dojo.declare(
 		if(node.isExpandable && node.isExpanded){
 			this._collapseNode(node);
 		}else{
-			node = node.getParent();
-			if(node && node.isTreeNode){
-				this.focusNode(node);
+			var parent = node.getParent();
+			if(parent && parent.isTreeNode && !(!this.showRoot && parent === this.rootNode)){
+				this.focusNode(parent);
 			}
 		}
 	},
