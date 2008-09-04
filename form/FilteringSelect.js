@@ -48,7 +48,7 @@ dojo.declare(
 			// so it calls _callbackSetLabel directly,
 			// and so does not pass dataObject
 			// still need to test against _lastQuery in case it came too late
-			if((dataObject && dataObject.query[this.searchAttr] != this._lastQuery)||(!dataObject&&this.store.getIdentity(result[0])!= this._lastQuery)){
+			if((dataObject && dataObject.query[this.searchAttr] != this._lastQuery)||(!dataObject && result.length && this.store.getIdentity(result[0])!= this._lastQuery)){
 				return;
 			}
 			if(!result.length){
@@ -181,6 +181,12 @@ dojo.declare(
 			//  event, even when it happens after creation has finished
 			if(!this._created){
 				priorityChange = false;
+			}
+
+			// 	If user clears input box then value is also cleared; don't query the data store
+			if(!label){
+				this._callbackSetLabel([]);
+				return;
 			}
 
 			if(this.store){
