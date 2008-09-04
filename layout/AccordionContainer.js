@@ -55,7 +55,7 @@ dojo.declare(
 			//		set to achieve our vertical space (subtract any padding
 			//		we may have)
 			var cs = dojo.getComputedStyle(node);
-			return this._verticalSpace - dojo._getPadBorderExtents(node, cs).h;
+			return Math.max(this._verticalSpace - dojo._getPadBorderExtents(node, cs).h, 0);
 		},
 		
 		layout: function(){
