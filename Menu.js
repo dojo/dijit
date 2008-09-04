@@ -366,6 +366,14 @@ dojo.declare("dijit.MenuItem",
 	//  if false, the menu item is enabled
 	disabled: false,
 
+	_fillContent: function(/*DomNode*/ source){
+		// If button label is specified as srcNodeRef.innerHTML rather than
+		// this.params.label, handle it here.
+		if(source && !("label" in this.params)){
+			this.attr('label', source.innerHTML);
+		}
+	},
+
 	postCreate: function(){
 		dojo.setSelectable(this.domNode, false);
 		dojo.attr(this.containerNode, "id", this.id+"_text");
