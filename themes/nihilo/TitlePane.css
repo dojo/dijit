@@ -42,10 +42,18 @@
 	background:url('images/spriteRoundedIconsSmall.gif') no-repeat -15px top;
 }
 .nihilo .dijitTitlePane .dijitArrowNodeInner {
-	visibility:hidden;
+	display:none;
 }
+
 .dijit_a11y .dijitTitlePane .dijitArrowNodeInner {
-	visibility:visible;
+	display:inline !important;
+	font-family:monospace;
+	cursor: pointer;
+	padding-bottom:.2em;
+}
+
+.dijit_a11y .dijitTitlePane .dijitArrowNode {
+	display:none;
 }
 
 .nihilo .dijitTitlePaneContentOuter {
