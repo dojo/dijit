@@ -732,6 +732,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 				this.iframe.onfocus = function(){ _this.editNode.setActive(); }
 			}
 		}
+		this.focusNode = this.editNode; // for InlineEditBox
 
 		try{
 			this.attr('disabled',false);
