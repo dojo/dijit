@@ -245,22 +245,35 @@
 				widget.attr('label', labels[idx++ % labels.length]);
 			});
 		}
+		function getLabels(){
+			forEachButton(function(widget){
+				console.log(widget.attr('label'));
+			});
+		}
 	</script>
 	<div>
 		<button id="toggle" onclick='toggleDisabled()'>Disable all</button>
 		<button onclick='changeLabels()'>Change labels</button>
+		<button onclick='getLabels()'>Get labels</button>
 		<button onclick='location.reload()'>Revert</button>
 	</div>
 	<h3>Button instantiated via javacript:</h3>
-	<div id="buttonContainer"></div>
+	<p id="buttonContainer" style="display: none;"></p>
 	<script type="text/javascript">
 		// See if we can make a button in script and attach it to the DOM ourselves.
 		dojo.addOnLoad(function(){
-			var params = {
+			var widget = new dijit.form.Button({
 				label: "hello!",
 				name: "programmatic"
-			};
-			var widget = new dijit.form.Button(params, "buttonContainer");
+			});
+			widget.placeAt("buttonContainer");	// place in page
+
+			var widget2 = new dijit.form.Button({
+				label: "hello!",
+				name: "programmatic"
+			});
+			widget2.attr("label", "i'm programmatic too");	// change label (for testing)
+			widget2.placeAt("buttonContainer");	// place in page
 		});
 	</script>
     <h3>DropDownButton instantiated via javacript:</h3>
