@@ -98,10 +98,11 @@ dojo.declare(
 		this.inherited(arguments);
 
 		if(this._started){
-			// in case the tab titles have overflowed from one line to two lines
-			this.layout();
-
 			dojo.publish(this.id+"-addChild", [child, insertIndex]);
+
+			// in case the tab titles have overflowed from one line to two lines
+			// (or, if this if first child, from zero lines to one line)
+			this.layout();
 
 			// if this is the first child, then select it
 			if(!this.selectedChildWidget){
@@ -128,6 +129,7 @@ dojo.declare(
 		}
 
 		if(this.selectedChildWidget === page){
+			console.log("deleting selected child widget");
 			this.selectedChildWidget = undefined;
 			if(this._started){
 				var children = this.getChildren();
