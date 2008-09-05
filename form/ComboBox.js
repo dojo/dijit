@@ -770,6 +770,7 @@ dojo.declare(
 		},
 
 		createOptions: function(results, dataObject, labelFunc){
+			// TODOC: needs summary. What does this do and what are the params supposed to mean? 
 			//this._dataObject=dataObject;
 			//this._dataObject.onComplete=dojo.hitch(comboBox, comboBox._openResultList);
 			// display "Previous . . ." button
