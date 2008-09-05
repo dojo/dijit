@@ -129,7 +129,6 @@ dojo.declare(
 		}
 
 		if(this.selectedChildWidget === page){
-			console.log("deleting selected child widget");
 			this.selectedChildWidget = undefined;
 			if(this._started){
 				var children = this.getChildren();
