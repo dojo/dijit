@@ -791,7 +791,7 @@ dojo.declare(
 			if(dataObject._maxOptions && dataObject._maxOptions != -1){
 				if((dataObject.start + dataObject.count) < dataObject._maxOptions){
 					displayMore = true;
-				}else if((dataObject.start + dataObject.length) > (dataObject._maxOptions - 1)){
+				}else if((dataObject.start + dataObject.count) > (dataObject._maxOptions - 1)){
 					//Weird return from a datastore, where a start + count > maxOptions
 					//implies maxOptions isn't really valid and we have to go into faking it.
 					//And more or less assume more if count == results.length
