@@ -7,23 +7,25 @@
 	background: #cccccc;
 	background:#fff url("images/titleBar.png") repeat-x top left;
 	border:1px solid #bfbfbf;
-	padding:4px 4px 2px 4px;
+	padding:3px 4px;
 	cursor: pointer;
 	font-size: 0.9em;
 	font-weight: bold;
 	color: #6d6d6d;
 }
 
+.nihilo .dijitTitlePaneTitle * {
+	vertical-align: middle;
+}
+
 .nihilo .dijitTitlePane .dijitArrowNode {
 	width:15px;
 	height:15px;
-	margin-top: -2px;
 }
 
 .nihilo .dijitTitlePaneFocused .dijitTitlePaneTextNode {
 	color: #243C5F;
 }
-
 
 .nihilo .dijitOpen .dijitTitlePaneTextNode {
 	color: #243C5F;

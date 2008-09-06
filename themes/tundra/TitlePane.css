@@ -2,21 +2,23 @@
 	background: #cccccc;
 	background:#fff url("images/titleBar.png") repeat-x bottom left;
 	border:1px solid #bfbfbf;
-	padding:4px 4px 2px 4px;
+	padding:3px 4px;
 	cursor: pointer;
+}
+
+.tundra .dijitTitlePaneTitle * {
+	vertical-align: middle;
 }
 
 .tundra .dijitTitlePane .dijitArrowNode {
 	cursor: pointer;
 	background-image: url('images/spriteArrows.png');
 	background-repeat: no-repeat;
-	font-size: 1px;
 	height: 7px;
 	width: 7px;
 }
 .dj_ie6 .tundra .dijitTitlePane .dijitArrowNode {
 	background-image: url('images/spriteArrows.gif');
-	vertical-align: middle;
 }
 
 .tundra .dijitTitlePane .dijitOpen .dijitArrowNode {
