@@ -329,9 +329,8 @@ dojo.declare("dijit._editor.plugins.EnterKeyHandling", dijit._editor._Plugin, {
 			var currentNode;
 			while(currentNodeIndex < el.childNodes.length){
 				currentNode = el.childNodes[currentNodeIndex];
-				if( (currentNode.nodeName!='BR') &&
-					(currentNode.nodeType==1) &&
-					(dojo.style(currentNode, "display")!="block")
+				if( currentNode.nodeType==3 ||	// text node
+					(currentNode.nodeType==1 && currentNode.nodeName!='BR' && dojo.style(currentNode, "display")!="block")
 				){
 					nodesInLine.push(currentNode);
 				}else{
