@@ -180,6 +180,9 @@ dojo.declare("dijit.InlineEditBox",
 		// focus can be shifted without incident.  (browser may needs some time to render the editor.)
 		this.domNode = ew.domNode;
 		setTimeout(function(){
+			if(ew.editWidget._resetValue === undefined){
+				ew.editWidget._resetValue = ew.getValue();
+			}
 			ew.focus();
 		}, 100);
 	},
@@ -291,26 +294,28 @@ dojo.declare(
 	postCreate: function(){
 		// Create edit widget in place in the template
 		var cls = dojo.getObject(this.editor);
-		this.editorParams[ "displayedValue" in cls.prototype ? "displayedValue" : "value"]= this.value;
-		var ew = this.editWidget = new cls(this.editorParams, this.editorPlaceholder);
 
 		// Copy the style from the source
 		// Don't copy ALL properties though, just the necessary/applicable ones
 		var srcStyle = this.style;
-		dojo.forEach(["fontWeight","fontFamily","fontSize","fontStyle"], function(prop){
-			ew.focusNode.style[prop]=srcStyle[prop];
+		var editStyle = "line-height:" + srcStyle.lineHeight + ";";
+		dojo.forEach(["Weight","Family","Size","Style"], function(prop){
+			editStyle += "font-"+prop+":"+srcStyle["font"+prop]+";";
 		}, this);
 		dojo.forEach(["marginTop","marginBottom","marginLeft", "marginRight"], function(prop){
-			this.domNode.style[prop]=srcStyle[prop];
+			this.domNode.style[prop] = srcStyle[prop];
 		}, this);
 		if(this.width=="100%"){
 			// block mode
-			ew.domNode.style.width = "100%";	// because display: block doesn't work for table widgets
-			this.domNode.style.display="block";
+			editStyle += "width:100%;";
+			this.domNode.style.display = "block";
 		}else{
 			// inline-block mode
-			ew.domNode.style.width = this.width + (Number(this.width)==this.width ? "px" : "");			
+			editStyle += "width:" + (this.width + (Number(this.width)==this.width ? "px" : "")) + ";";
 		}
+		this.editorParams.style = editStyle;
+		this.editorParams[ "displayedValue" in cls.prototype ? "displayedValue" : "value"]= this.value;
+		var ew = this.editWidget = new cls(this.editorParams, this.editorPlaceholder);
 
 		this.connect(ew, "onChange", "_onChange");
 
@@ -318,8 +323,6 @@ dojo.declare(
 		// prevent Dialog from closing when the user just wants to revert the value in the edit widget),
 		// so this is the only way we can see the key press event.
 		this.connect(ew, "onKeyPress", "_onKeyPress");
-
-		this._initialText = this.getValue();
 
 		if(this.autoSave){
 			this.buttonContainer.style.display="none";
@@ -378,7 +381,7 @@ dojo.declare(
 			// The delay gives the browser a chance to update the Textarea.
 			setTimeout(
 				function(){
-					_this.saveButton.attr("disabled", _this.getValue() == _this._initialText);
+					_this.saveButton.attr("disabled", _this.getValue() == _this.editWidget._resetValue);
 				}, 100);
 		}
 	},
@@ -394,7 +397,7 @@ dojo.declare(
 		}
 		if(this.autoSave){
 			this._exitInProgress = true;
-			if(this.getValue() == this._initialText){
+			if(this.getValue() == this.editWidget._resetValue){
 				this.cancel(false);
 			}else{
 				this.save(false);
@@ -418,7 +421,7 @@ dojo.declare(
 			// in case the keypress event didn't get through (old problem with Textarea that has been fixed
 			// in theory) or if the keypress event comes too quickly and the value inside the Textarea hasn't
 			// been updated yet)
-			this.saveButton.attr("disabled", (this.getValue() == this._initialText) || !this.enableSave());
+			this.saveButton.attr("disabled", (this.getValue() == this.editWidget._resetValue) || !this.enableSave());
 		}
 	},
 	

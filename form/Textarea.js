@@ -157,14 +157,12 @@ dojo.declare(
 			if(label.length){
 				this._iframeEditTitle = label[0].innerHTML + " " + this._iframeEditTitle;
 			}
-			var body = this.focusNode = this.editNode = dojo.doc.createElement('BODY');
-			body.style.margin="0px";
-			body.style.padding="0px";
-			body.style.border="0px";
+			this.focusNode = this.editNode = dojo.doc.createElement('BODY');
 		}
 	},
 
 	postCreate: function(){
+		var userStyle = "";
 		if(dojo.isIE || dojo.isSafari || dojo.isFF >= 3){
 			this.domNode.style.overflowY = 'hidden';
 		}else if(dojo.isFF){
@@ -188,9 +186,12 @@ dojo.declare(
 			// resize is a method of window, not document
 			w.addEventListener("resize", dojo.hitch(this, this._changed), false); // resize is only on the window object
 			dijit.registerWin(w);
+			userStyle="margin:0px;padding:0px;border:0px;";
 		}else{
 			this.focusNode = this.domNode;
 		}
+		this.style.replace(/(^|;)(line-|font-?)[^;]+/g, function(match){ userStyle += match.replace(/^;/g,"") + ';' });
+		dojo.attr(this.focusNode, 'style', userStyle);
 		if(this.eventNode){
 			this.connect(this.eventNode, "keypress", this._onKeyPress);
 			this.connect(this.eventNode, "mousemove", this._changed);
