@@ -53,7 +53,7 @@ dojo.declare("dijit.form._FormMixin", null,
 					didFocus = true;
 				}
 	 			return valid;
-	 		}), "return item;");
+	 		}), function(item) { return item; });
 		},
 		
 		setValues: function(/*object*/obj){
