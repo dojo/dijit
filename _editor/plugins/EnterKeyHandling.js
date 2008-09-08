@@ -394,7 +394,37 @@ dojo.declare("dijit._editor.plugins.EnterKeyHandling", dijit._editor._Plugin, {
 	},
 
 	singleLinePsToRegularPs: function(element){
+		// summary:
+		//		Called as post-filter.
+		//		Apparently collapses adjacent <p> nodes into a single <p>
+		//		nodes with <br> separating each line.
+		//
+		//	example:
+		//		Given this input:
+		//	|	<p>line 1</p>
+		//	|	<p>line 2</p>
+		//	|	<ol>
+		//	|		<li>item 1
+		//	|		<li>item 2
+		//	|	</ol>
+		//	|	<p>line 3</p>
+		//	|	<p>line 4</p>
+		//
+		//		Will convert to:
+		//	|	<p>line 1<br>line 2</p>
+		//	|	<ol>
+		//	|		<li>item 1
+		//	|		<li>item 2
+		//	|	</ol>
+		//	|	<p>line 3<br>line 4</p>
+		//
+		// Not sure why this situation would even come up after the pre-filter and
+		// the enter-key-handling code.
+	
 		function getParagraphParents(node){
+			// summary:
+			//		Used to get list of all nodes that contain paragraphs.
+			//		Seems like that would just be the very top node itself, but apparently not.
 			var ps = node.getElementsByTagName('p');
 			var parents = [];
 			for(var i=0; i<ps.length; i++){
