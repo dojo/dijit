@@ -1341,7 +1341,7 @@ dojo.declare("dijit.tree.ForestStoreModel", dijit.tree.TreeStoreModel, {
 	_requeryTop: function(){
 		// reruns the query for the children of the root node,
 		// sending out an onSet notification if those children have changed
-		var oldChildren = this.root.children;
+		var oldChildren = this.root.children || [];
 		this.store.fetch({
 			query: this.query,
 			onComplete: dojo.hitch(this, function(newChildren){
