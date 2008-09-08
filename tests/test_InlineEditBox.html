@@ -199,7 +199,7 @@ tortor pharetra congue. Suspendisse pulvinar.
 		<hr style="width:100%;">
 
 		<h2>Editor</h2>
-		<p id="inlineRTE" dojoType="dijit.InlineEditBox" editor="dijit.Editor"
+		<div id="inlineRTE" dojoType="dijit.InlineEditBox" editor="dijit.Editor"
 			autoSave="false" renderAsHtml="true"
 			editorParams="{height: '', extraPlugins: ['dijit._editor.plugins.AlwaysShowToolbar']}">
 			<b>Aliquam</b> vitae enim. <i>Duis</i> scelerisque metus auctor est venenatis
@@ -214,6 +214,11 @@ rutrum, erat vitae lacinia dictum, pede purus imperdiet lacus, ut
 semper velit ante id metus. Praesent massa dolor, porttitor sed,
 pulvinar in, consequat ut, leo. Nullam nec est. Aenean id risus blandit
 tortor pharetra congue. Suspendisse pulvinar.
+		</div>
+		<p>
+			Note: since the Editor may return a result containing one or more &lt;p&gt; nodes,
+			don't make the InlineEditBox itself a &lt;p&gt; because that would cause nested
+			&lt;p&gt;s, which is illegal, and messes up IE
 		</p>
 		
 		<h2>FilteringSelect (no down arrow, and save/cancel buttons):</h2>
