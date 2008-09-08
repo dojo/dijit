@@ -43,7 +43,7 @@ dojo.declare("dijit._Templated",
 			return dojo.string.substitute(tmpl, this, function(value, key){
 				if(key.charAt(0) == '!'){ value = _this[key.substr(1)]; }
 				if(typeof value == "undefined"){ throw new Error(className+" template:"+key); } // a debugging aide
-				if(!value){ return ""; }
+				if(value == null){ return ""; }
 
 				// Substitution keys beginning with ! will skip the transform step,
 				// in case a user wishes to insert unescaped markup, e.g. ${!foo}
@@ -84,7 +84,7 @@ dojo.declare("dijit._Templated",
 			}
 
 			if(this.widgetsInTemplate){
-				var cw = this._supportingWidgets  = dojo.parser.parse(node);
+				var cw = (this._supportingWidgets = dojo.parser.parse(node));
 				this._attachTemplateNodes(cw, function(n,p){
 					return n[p];
 				});
