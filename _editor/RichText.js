@@ -455,6 +455,8 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 		}else{
 			lineHeight = "1.0";
 		}
+		var userStyle = "";
+		this.style.replace(/(^|;)(line-|font-?)[^;]+/g, function(match){ userStyle += match.replace(/^;/g,"") + ';' });
 		return [
 			this.isLeftToRight() ? "<html><head>" : "<html dir='rtl'><head>",
 			(dojo.isMoz ? "<title>" + this._localizedIframeTitles.iframeEditTitle + "</title>" : ""),
@@ -483,7 +485,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 			"li{ min-height:1.2em; }",
 			"</style>",
 			this._applyEditingAreaStyleSheets(),
-			"</head><body>"+html+"</body></html>"
+			"</head><body style='"+userStyle+"'>"+html+"</body></html>"
 		].join(""); // String
 	},
 
