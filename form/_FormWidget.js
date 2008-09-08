@@ -180,16 +180,11 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 		//		Focused		- if the widget has focus
 		//		Hover		- if the mouse is over the widget
 
-		// Get original (non state related, non baseClass related) class specified in template
-		if(!("staticClass" in this)){
-			this.staticClass = (this.stateNode||this.domNode).className;
-		}
-
 		// Compute new set of classes
-		var classes = this.baseClass.split(" ");
+		var newStateClasses = this.baseClass.split(" ");
 
 		function multiply(modifier){
-			classes=classes.concat(dojo.map(classes, function(c){ return c+modifier; }), "dijit"+modifier);
+			newStateClasses = newStateClasses.concat(dojo.map(newStateClasses, function(c){ return c+modifier; }), "dijit"+modifier);
 		}
 
 		if(this.checked){
@@ -217,7 +212,26 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 			}
 		}
 
-		(this.stateNode || this.domNode).className = this.staticClass + " " + classes.join(" ");
+		// Remove old state classes and add new ones.
+		// For performance concerns we only write into domNode.className once.
+		var tn = this.stateNode || this.domNode,
+			classHash = {};	// set of all classes (state and otherwise) for node
+
+		dojo.forEach(tn.className.split(" "), function(c){ classHash[c] = true; });
+
+		if("_stateClasses" in this){
+			dojo.forEach(this._stateClasses, function(c){ delete classHash[c]; });
+		}
+
+		dojo.forEach(newStateClasses, function(c){ classHash[c] = true; });
+
+		var newClasses = [];
+		for(var c in classHash){
+			newClasses.push(c);
+		}
+		tn.className = newClasses.join(" ");
+
+		this._stateClasses = newStateClasses;
 	},
 
 	compare: function(/*anything*/val1, /*anything*/val2){

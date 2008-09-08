@@ -308,7 +308,7 @@ dojo.declare(
 
 		// Nodes in IE don't respond to t/l/b/r, and TEXTAREA doesn't respond in any browser
 		var janky = dojo.isIE || dojo.some(this.getChildren(), function(child){
-			return child.domNode.tagName == "TEXTAREA";
+			return child.domNode.tagName == "TEXTAREA" || child.domNode.tagName == "INPUT";
 		});
 		if(janky){
 			// Set the size of the children the old fashioned way, by calling
