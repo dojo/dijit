@@ -183,12 +183,6 @@ dojo.declare(
 				priorityChange = false;
 			}
 
-			// 	If user clears input box then value is also cleared; don't query the data store
-			if(!label){
-				this._callbackSetLabel([]);
-				return;
-			}
-
 			if(this.store){
 				var query = dojo.clone(this.query); // #6196: populate query with user-specifics
 				// escape meta characters of dojo.data.util.filter.patternToRegExp().
