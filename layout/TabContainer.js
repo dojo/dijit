@@ -164,14 +164,13 @@ dojo.declare("dijit.layout._TabButton",
 		if(this.closeButton){
 			dojo.addClass(this.innerDiv, "dijitClosable");
 			var _nlsResources = dojo.i18n.getLocalization("dijit", "common");
-			if(this.closeButtonNode){
+			if(this.closeNode){
+				dojo.attr(this.closeNode,"title", _nlsResources.itemClose);
+				// IE needs title set directly on image
 				dojo.attr(this.closeButtonNode,"title", _nlsResources.itemClose);
 			}
-			if(this.closeText){
-				dojo.attr(this.closeText, "title", _nlsResources.itemClose);
-			}
 		}else{
-			this.closeButtonNode.style.display="none";
+			this.closeNode.style.display="none";		
 		}
 		this.inherited(arguments); 
 		dojo.setSelectable(this.containerNode, false);

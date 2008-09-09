@@ -1151,16 +1151,16 @@ img.dijitColorPaletteUnder {
 	padding: 0 2px;
 	margin: 0 2px;
 }
-.dijit_a11y .dijitTab .closeImage {
-	padding: 0 !important;
-	margin: 0 !important;
-	top: 0 !important;
-	bottom: 0 !important;
-}
+
 .dijit_a11y .closeText {
 	display:inline;
 	margin-left:6px;
 }
+
+.dijit_a11y .dijitTab .dijitClosable .closeImage {
+	display:none;
+}
+
 .dijit_a11y .closeText:hover {
 	border:thin solid;
 }
