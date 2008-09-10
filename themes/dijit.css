@@ -1501,6 +1501,11 @@ img.dijitColorPaletteUnder {
 	width:100%;
 	overflow: auto;	/* w/out this IE's SimpleTextArea goes to overflow: scroll */
 }
+.dijitTextArea > DIV {
+	text-decoration:none;
+	overflow:auto;
+	min-height: 1.40em;
+}
 
 .dj_ie .dijitTextArea p {
 	margin-top:0;
