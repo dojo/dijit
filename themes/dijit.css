@@ -705,6 +705,7 @@ body .dijitAlignClient { position: absolute; }
 	border-color: gray;
 	border-style: solid;
 	border-width: 0;
+	z-index: 11;
 }
 
 .dijitSplitterActive {
