@@ -314,10 +314,10 @@ dojo.declare(
 			// Set the size of the children the old fashioned way, by calling
 			// childNode.resize({h: int, w: int}) for each child node)
 
-			var resizeWidget = function(widget, newSize, currentSize){
+			var resizeWidget = function(widget, newSize){
 				if(widget){
 					if(widget.resize){
-						widget.resize(newSize, currentSize);
+						widget.resize(newSize);
 					}else{
 						dojo.marginBox(widget.domNode, newSize);
 					}
