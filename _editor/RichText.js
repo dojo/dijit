@@ -406,7 +406,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 				this.onLoad();
 				this.savedContent = this.getValue(true);
 			});
-			if(dojo.isIE && dojo.isIE < 7){ // IE 6 is a steaming pile...
+			if(dojo.isIE && dojo.isIE <= 7){ // IE 6/7 is a steaming pile...
 				var t = setInterval(function(){
 					if(ifr.contentWindow.isLoaded){
 						clearInterval(t);
