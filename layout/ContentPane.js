@@ -133,7 +133,9 @@ dojo.declare(
 		//		Skips over things like data stores since they aren't visible.
 
 		var childNodes = dojo.query(">", this.containerNode),
-			childWidgetNodes = childNodes.filter("[dojoType]"),
+			childWidgetNodes = childNodes.filter(function(node){
+				return dojo.hasAttr(node, "dojoType") || dojo.hasAttr(node, "widgetId");
+			}),
 			candidateWidgets = dojo.filter(childWidgetNodes.map(dijit.byNode), function(widget){
 				return widget && widget.domNode && widget.resize;
 			});
