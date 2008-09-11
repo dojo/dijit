@@ -27,12 +27,16 @@ dojo.declare("dijit._editor.plugins.EnterKeyHandling", dijit._editor._Plugin, {
 	//		update the editor's content on the fly so that the ENTER key will
 	//		either create a new <div>, or a new <p>.
 	//
-	//		The handleEnterKey() code seems to mainly have been written for the IE double-spacing
-	//		issue which is now handled in the pre/post filters.  Unclear if this
-	//		code is still needed.  On IE setting blockNodeForEnter to P or BR
+	//		This is useful because in some cases, you need the editor content to be
+	//		consistent with the serialized html even while the user is editing
+	//		(such as in a collaboration mode extension to the editor).
+	//
+	//		The handleEnterKey() code was mainly written for the IE double-spacing
+	//		issue that is now handled in the pre/post filters.  And it has some
+	//		issues... on IE setting blockNodeForEnter to P or BR
 	//		causes screen jumps as you type (making it unusable), and on safari
 	//		it just has no effect (safari creates a <div> every time the user
-	//		hits the enter key).
+	//		hits the enter key).  But apparently useful for case mentioned above.
 	//
 	//		(Note: originally based on http://bugs.dojotoolkit.org/ticket/1331)
 
