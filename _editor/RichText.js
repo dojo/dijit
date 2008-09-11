@@ -443,7 +443,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 			html="<div>"+html+"</div>";
 		}
 		var font = [ _cs.fontWeight, _cs.fontSize, _cs.fontFamily ].join(" ");
-
+		
 		// line height is tricky - applying a units value will mess things up.
 		// if we can't get a non-units value, bail out.
 		var lineHeight = _cs.lineHeight;
@@ -463,7 +463,6 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 			"<style>",
 			"body,html {",
 			"	background:transparent;",
-			"	font:", font, ";",
 			"	padding: 1em 0 0 0;",
 			"	margin: -1em 0 0 0;", // remove extraneous vertical scrollbar on safari and firefox
 			"	height: 100%;",
@@ -472,6 +471,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 			//	   if it gets too wide for the visible area
 			"body{",
 			"	top:0px; left:0px; right:0px;",
+			"	font:", font, ";",
 				((this.height||dojo.isOpera) ? "" : "position: fixed;"),
 			// FIXME: IE 6 won't understand min-height?
 			"	min-height:", this.minHeight, ";",
