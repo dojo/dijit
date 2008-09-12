@@ -57,7 +57,25 @@
 	<button dojoType="HideButton2">Hide me extended</button>
 	<button dojoType="HideButton2">Hide me extended #2</button>
 
-	<h3>Something more complicated:</h3>
+	<h3>Using dojo/method:</h3>
+	<div dojoType="dijit.Declaration" widgetClass="m" defaults="{ foo: 'thud', progress: 10 }">
+		<script type='dojo/method' event='postCreate'>
+			console.log("in postCreate ", this, arguments);
+			this.inherited(arguments);
+			this.baz.innerHTML += " (created via custom postCreate) ";
+		</script>
+
+		<p>thinger blah stuff ${foo}</p>
+
+		<div style="width:400px" maximum="200"
+			progress="${progress}" dojoType="dijit.ProgressBar"></div>
+		<p dojoAttachPoint='baz'>baz thud</p>
+	</div>
+
+	<div dojoType="m" foo="blah" progress="50"></div>
+	<div dojoType="m" foo="thinger" progress="73"></div>
+
+	<h3>Using dojo/connect:</h3>
 	<div dojoType="dijit.Declaration" widgetClass="foo" defaults="{ foo: 'thud', progress: 10 }">
 		<script type='dojo/connect' event='startup'>
 			this.baz.innerHTML += " (modified by dojo/connect event=startup) ";

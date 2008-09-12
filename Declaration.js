@@ -16,12 +16,22 @@ dojo.declare(
 		defaults: null,
 		mixins: [],
 		buildRendering: function(){
-			var src = this.srcNodeRef.parentNode.removeChild(this.srcNodeRef);
-			var preambles = dojo.query("> script[type='dojo/method'][event='preamble']", src).orphan();
-			var scripts = dojo.query("> script[type^='dojo/']", src).orphan();
-			var srcType = src.nodeName;
+			var src = this.srcNodeRef.parentNode.removeChild(this.srcNodeRef),
+				preambles = dojo.query("> script[type='dojo/method'][event='preamble']", src).orphan(),
+				methods = dojo.query("> script[type^='dojo/method'][event]", src).orphan(),
+				postscriptConnects = dojo.query("> script[type^='dojo/method']", src).orphan(),
+				regularConnects = dojo.query("> script[type^='dojo/connect']", src).orphan(),
+				srcType = src.nodeName;
 
 			var propList = this.defaults||{};
+
+			// For all methods defined like <script type="dojo/method" event="foo">,
+			// add that method to prototype
+			dojo.forEach(methods, function(s){
+				var evt = s.getAttribute("event"),
+					func = dojo.parser._functionFromScript(s);
+				propList[evt] = func;
+			});
 
 			// map array of strings like [ "dijit.form.Button" ] to array of mixin objects
 			// (note that dojo.map(this.mixins, dojo.getObject) doesn't work because it passes
@@ -30,31 +40,9 @@ dojo.declare(
 				dojo.map(this.mixins, function(name){ return dojo.getObject(name); } ) :
 				[ dijit._Widget, dijit._Templated ];
 
-			if(preambles.length){
-				// we only support one preamble. So be it.
-				propList.preamble = dojo.parser._functionFromScript(preambles[0]);
-			}
-
-			var parsedScripts = dojo.map(scripts, function(s){
-				var evt = s.getAttribute("event")||"postscript";
-				return {
-					event: evt,
-					func: dojo.parser._functionFromScript(s)
-				};
-			});
-
-			// do the connects for each <script type="dojo/connect" event="foo"> block and make
-			// all <script type="dojo/method"> tags execute right after construction
-			this.mixins.push(function(){
-				dojo.forEach(parsedScripts, function(s){
-					dojo.connect(this, s.event, this, s.func);
-				}, this);
-			});
-
 			propList.widgetsInTemplate = true;
 			propList._skipNodeCache = true;
 			propList.templateString = "<"+srcType+" class='"+src.className+"' dojoAttachPoint='"+(src.getAttribute("dojoAttachPoint")||'')+"' dojoAttachEvent='"+(src.getAttribute("dojoAttachEvent")||'')+"' >"+src.innerHTML.replace(/\%7B/g,"{").replace(/\%7D/g,"}")+"</"+srcType+">";
-			// console.debug(propList.templateString);
 
 			// strip things so we don't create stuff under us in the initial setup phase
 			dojo.query("[dojoType]", src).forEach(function(node){
@@ -62,11 +50,25 @@ dojo.declare(
 			});
 
 			// create the new widget class
-			dojo.declare(
+			var wc = dojo.declare(
 				this.widgetClass,
 				this.mixins,
 				propList
 			);
+
+			// Handle <script> blocks of form:
+			//		<script type="dojo/connect" event="foo">
+			// and
+			//		<script type="dojo/method">
+			// (Note that the second one is just shorthand for a dojo/connect to postscript)
+			// Since this is a connect in the declaration, we are actually connection to the method
+			// in the _prototype_.
+			var connects = regularConnects.concat(postscriptConnects);
+			dojo.forEach(connects, function(s){
+				var evt = s.getAttribute("event")||"postscript",
+					func = dojo.parser._functionFromScript(s);
+				dojo.connect(wc.prototype, evt, func);
+			});
 		}
 	}
 );
