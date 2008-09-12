@@ -1275,7 +1275,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 		// summary:
 		//		run the named method of dijit._editor.selection over the
 		//		current editor instance's window, with the passed args
-		dojo.withGlobal(this.window, name, dijit._editor.selection, args);
+		return dojo.withGlobal(this.window, name, dijit._editor.selection, args);
 	},
 
 	// FIXME: this is a TON of code duplication. Why?
