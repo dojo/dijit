@@ -311,28 +311,24 @@ dojo.declare(
 			return child.domNode.tagName == "TEXTAREA" || child.domNode.tagName == "INPUT";
 		});
 		if(janky){
-			// Set the size of the children the old fashioned way, by calling
-			// childNode.resize({h: int, w: int}) for each child node)
+			// Set the size of the children the old fashioned way, by setting
+			// CSS width and height
 
-			var resizeWidget = function(widget, newSize){
+			var resizeWidget = function(widget, changes, result){
 				if(widget){
-					if(widget.resize){
-						widget.resize(newSize);
-					}else{
-						dojo.marginBox(widget.domNode, newSize);
-					}
+					(widget.resize ? widget.resize(changes, result) : dojo.marginBox(widget.domNode, changes));
 				}
 			};
 
 			if(leftSplitter){ leftSplitter.style.height = sidebarHeight; }
 			if(rightSplitter){ rightSplitter.style.height = sidebarHeight; }
-			resizeWidget(this._leftWidget, dim.left);
-			resizeWidget(this._rightWidget, dim.right);
+			resizeWidget(this._leftWidget, {h: sidebarHeight}, dim.left);
+			resizeWidget(this._rightWidget, {h: sidebarHeight}, dim.right);
 
 			if(topSplitter){ topSplitter.style.width = sidebarWidth; }
 			if(bottomSplitter){ bottomSplitter.style.width = sidebarWidth; }
-			resizeWidget(this._topWidget, dim.top);
-			resizeWidget(this._bottomWidget, dim.bottom);
+			resizeWidget(this._topWidget, {w: sidebarWidth}, dim.top);
+			resizeWidget(this._bottomWidget, {w: sidebarWidth}, dim.bottom);
 
 			resizeWidget(this._centerWidget, dim.center);
 		}else{

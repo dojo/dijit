@@ -54,41 +54,58 @@ dojo.declare("dijit.layout._LayoutWidget",
 			this.inherited(arguments);
 		},
 
-		resize: function(newSize, currentSize){
+		resize: function(changeSize, resultSize){
 			// summary:
 			//		Call this to resize a widget, or after it's size has changed.
 			// description:
-			//		1. If newSize is specified, sets this widget's margin box size.
-			//		2. Sets this._borderBox and this._contentBox (to either the new size,
-			//			or the current size if no size was specified).  Queries the
-			//			current domNode size if it wasn't passed in.
-			//		3. Calls layout() to resize contents (and maybe adjust child widgets).	
-
-			// newSize: Object?
-			//		New margin-box size and position for this widget (sets widget to this size)
-			//		{w: int, h: int, l: int, t: int}
-
-			// currentSize: Object?
-			//		The current margin-box size of this widget.  (If caller knows this size and
-			//		passes it in, we don't need to query the browser to get the size.)
-			//		{w: int, h: int}
+			//		Change size mode:
+			//			When changeSize is specified, changes the marginBox of this widget
+			//			 and forces it to relayout it's contents accordingly.
+			//			changeSize may specify height, width, or both.
+			//
+			//			If resultSize is specified it indicates the size the widget will
+			//			become after changeSize has been applied.
+			//
+			//		Notification mode:
+			//			When changeSize is null, indicates that the caller has already changed
+			//			the size of the widget, or perhaps it changed because the browser
+			//			window was resized.  Tells widget to relayout it's contents accordingly.
+			//
+			//			If resultSize is also specified it indicates the size the widget has
+			//			become.
+			//
+			//		In either mode, this method also:
+			//			1. Sets this._borderBox and this._contentBox to the new size of
+			//				the widget.  Queries the current domNode size if necessary.
+			//			2. Calls layout() to resize contents (and maybe adjust child widgets).	
+			//
+			// changeSize: Object?
+			//		Sets the widget to this margin-box size and position.
+			//		May include any/all of the following properties:
+			//	|	{w: int, h: int, l: int, t: int}
+			//
+			// resultSize: Object?
+			//		The margin-box size of this widget after applying changeSize (if 
+			//		changeSize is specified).  If caller knows this size and
+			//		passes it in, we don't need to query the browser to get the size.
+			//	|	{w: int, h: int}
 
 			var node = this.domNode;
 
 			// set margin box size, unless it wasn't specified, in which case use current size
-			if(newSize){
-				dojo.marginBox(node, newSize);
+			if(changeSize){
+				dojo.marginBox(node, changeSize);
 
 				// set offset of the node
-				if(newSize.t){ node.style.top = newSize.t + "px"; }
-				if(newSize.l){ node.style.left = newSize.l + "px"; }
+				if(changeSize.t){ node.style.top = changeSize.t + "px"; }
+				if(changeSize.l){ node.style.left = changeSize.l + "px"; }
 			}
 
 			// If either height or width wasn't specified by the user, then query node for it.
 			// But note that setting the margin box and then immediately querying dimensions may return
 			// inaccurate results, so try not to depend on it.
-			var mb = currentSize || {};
-			dojo.mixin(mb, newSize || {});	// newSize overrides currentSize
+			var mb = resultSize || {};
+			dojo.mixin(mb, changeSize || {});	// changeSize overrides resultSize
 			if ( !("h" in mb) || !("w" in mb) ){
 				mb = dojo.mixin(dojo.marginBox(node), mb);	// just use dojo.marginBox() to fill in missing values
 			}
