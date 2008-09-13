@@ -60,7 +60,7 @@
 		</tr>
 	</table>
 	<div><span id="one" class="tt" tabindex="0"> focusable text </span>
-		<span dojoType="dijit.Tooltip" connectId="one">
+		<span dojoType="dijit.Tooltip" connectId="one" id="one_tooltip">
 			<b>
 				<span style="color: blue;">rich formatting</span>
 				<span style="color: red; font-size: x-large;"><i>!</i></span>
@@ -68,18 +68,18 @@
 		</span>
 	</div>
 	<span id="oneA" class="tt"> plain text (not focusable) </span>
-	<span dojoType="dijit.Tooltip" connectId="oneA">
+	<span dojoType="dijit.Tooltip" connectId="oneA" id="oneA_tooltip">
 		<span> keyboard users can not access this tooltip</span>
 	</span>
     <a id="three" href="#bogus">anchor</a>
-	<span dojoType="dijit.Tooltip" connectId="three">tooltip on a link </span>
+	<span dojoType="dijit.Tooltip" connectId="three" id="three_tooltip">tooltip on a link </span>
 	<p></p>
 
 	<span id="programmaticTest">this text has a programmatically created tooltip</span>
 	<br>
 
 	<button id="four">button w/tooltip</button>
-	<span id="btnTt" dojoType="dijit.Tooltip" connectId="four">tooltip on a button</span>
+	<span id="btnTt" dojoType="dijit.Tooltip" connectId="four" id="four_tooltip">tooltip on a button</span>
 	<button onclick="dijit.byId('btnTt').destroy()">Remove</button> tooltip from "button w/tooltip".
 
 	<span style="float: right">
@@ -91,7 +91,7 @@
 			<option value="delta">Delta</option>
 		</select>
 
-		<span dojoType="dijit.Tooltip" connectId="seven">
+		<span dojoType="dijit.Tooltip" connectId="seven" id="seven_tooltip">
 			tooltip on a select<br>
 			two line tooltip.
 		</span>
@@ -117,27 +117,27 @@
 		<span id="s5">s5 text</span><br><br><br>
 	</div>
 
-	<span dojoType="dijit.Tooltip" connectId="id1">
+	<span dojoType="dijit.Tooltip" connectId="id1" id="id1_tooltip">
 
 	tooltip for #1<br>
 	long&nbsp;long&nbsp;long&nbsp;long&nbsp;long&nbsp;long&nbsp;long&nbsp;long&nbsp;long&nbsp;long&nbsp;long&nbsp;text<br>
 	make sure that this works properly with a really narrow window
 	</span>
 
-	<span dojoType="dijit.Tooltip" connectId="id2">tooltip for #2</span>
-	<span dojoType="dijit.Tooltip" connectId="id3">tooltip for #3</span>
-	<span dojoType="dijit.Tooltip" connectId="id4">tooltip for #4</span>
-	<span dojoType="dijit.Tooltip" connectId="id5">tooltip for #5</span>
-	<span dojoType="dijit.Tooltip" connectId="id6">tooltip for #6</span>
+	<span dojoType="dijit.Tooltip" connectId="id2" id="id2_tooltip">tooltip for #2</span>
+	<span dojoType="dijit.Tooltip" connectId="id3" id="id3_tooltip">tooltip for #3</span>
+	<span dojoType="dijit.Tooltip" connectId="id4" id="id4_tooltip">tooltip for #4</span>
+	<span dojoType="dijit.Tooltip" connectId="id5" id="id5_tooltip">tooltip for #5</span>
+	<span dojoType="dijit.Tooltip" connectId="id6" id="id6_tooltip">tooltip for #6</span>
 
-	<span dojoType="dijit.Tooltip" connectId="s1">s1 tooltip</span>
-	<span dojoType="dijit.Tooltip" connectId="s2">s2 tooltip</span>
-	<span dojoType="dijit.Tooltip" connectId="s3">s3 tooltip</span>
-	<span dojoType="dijit.Tooltip" connectId="s4">s4 tooltip</span>
-	<span dojoType="dijit.Tooltip" connectId="s5">s5 tooltip</span>
+	<span dojoType="dijit.Tooltip" connectId="s1" id="s1_tooltip">s1 tooltip</span>
+	<span dojoType="dijit.Tooltip" connectId="s2" id="s2_tooltip">s2 tooltip</span>
+	<span dojoType="dijit.Tooltip" connectId="s3" id="s3_tooltip">s3 tooltip</span>
+	<span dojoType="dijit.Tooltip" connectId="s4" id="s4_tooltip">s4 tooltip</span>
+	<span dojoType="dijit.Tooltip" connectId="s5" id="s5_tooltip">s5 tooltip</span>
 
 	<h3>One Tooltip for multiple connect nodes</h3>
-	<span dojoType="dijit.Tooltip" connectId="multi1,multi2" style="display:none;">multi tooltip</span>
+	<span dojoType="dijit.Tooltip" connectId="multi1,multi2" id="multi1,multi2_tooltip" style="display:none;">multi tooltip</span>
 	<a id="multi1" href="#bogus">multi1</a><br><a id="multi2" href="#bogus">multi2</a>
 
 </body>
