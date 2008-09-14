@@ -105,19 +105,19 @@ dojo.declare(
 
 		hide: function(aroundNode){
 			// summary: hide the tooltip
-			if(!this.aroundNode || this.aroundNode !== aroundNode){
-				return;
-			}
-			if(this._onDeck){
+			if(this._onDeck && this._onDeck[1] == aroundNode){
 				// this hide request is for a show() that hasn't even started yet;
 				// just cancel the pending show()
 				this._onDeck=null;
-				return;
+			}else if(this.aroundNode === aroundNode){
+				// this hide request is for the currently displayed tooltip
+				this.fadeIn.stop();
+				this.isShowingNow = false;
+				this.aroundNode = null;
+				this.fadeOut.play();
+			}else{
+				// just ignore the call, it's for a tooltip that has already been erased
 			}
-			this.fadeIn.stop();
-			this.isShowingNow = false;
-			this.aroundNode = null;
-			this.fadeOut.play();
 		},
 
 		_onHide: function(){
@@ -246,10 +246,14 @@ dojo.declare(
 		},
 
 		close: function(){
-			// summary: hide the tooltip; usually not called directly.
-			dijit.hideTooltip(this._connectNode);
-			delete this._connectNode;
+			// summary: hide the tooltip or cancel timer for show of tooltip
+			if(this._connectNode){
+				// if tooltip is currently shown
+				dijit.hideTooltip(this._connectNode);
+				delete this._connectNode;
+			}
 			if(this._showTimer){
+				// if tooltip is scheduled to be shown (after a brief delay)
 				clearTimeout(this._showTimer);
 				delete this._showTimer;
 			}
