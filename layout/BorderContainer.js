@@ -22,6 +22,7 @@ dojo.declare(
 	//	it will fill the remaining space.  Regions named "leading" and "trailing" may be used just like
 	//	"left" and "right" except that they will be reversed in right-to-left environments.
 	//  Optional splitters may be specified on the edge widgets only to make them resizable by the user.
+	//  NOTE: Splitters must not be more than 50 pixels in width.
 	//
 	// example:
 	// |	<style>
@@ -226,6 +227,9 @@ dojo.declare(
 		// the splitter width == the viewport width (#5824)
 		if(leftSplitterThickness > 50 || rightSplitterThickness > 50){
 			setTimeout(dojo.hitch(this, function(){
+				// Results are invalid.  Clear them out.
+				this._splitterThickness = {};
+
 				for(var region in this._splitters){
 					this._computeSplitterThickness(region);
 				}
