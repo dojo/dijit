@@ -52,8 +52,7 @@
 			// turn any non-dojoType selects into widgets programatically:
 			dojo.query("select").forEach(function(n){
 				if(!dijit.byNode(n)){
-						var foo = new dijit.form.MultiSelect({
-						},n);
+					var foo = new dijit.form.MultiSelect({ name: n.name }, n);
 				}
 			});
 			
