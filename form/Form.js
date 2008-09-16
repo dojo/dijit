@@ -14,10 +14,23 @@ dojo.declare("dijit.form._FormMixin", null,
 	//	|		Name: <input type="text" name="name" />
 	//	|	</form>
 	//	|	myObj = {name: "John Doe"};
-	//	|	dijit.byId('myForm').setValues(myObj);
+	//	|	dijit.byId('myForm').attr('value', myObj);
 	//	|
-	//	|	myObj=dijit.byId('myForm').getValues();
+	//	|	myObj=dijit.byId('myForm').attr('value');
 
+/*=====
+    // value: Object
+	//		Name/value hash for each form element.
+	//		If there are multiple elements w/the same name, value is an array,
+	//		unless they are radio buttons in which case value is a scalar since only
+	//		one can be checked at a time.
+	//
+	//		If the name is a dot separated list (like a.b.c.d), it's a nested structure.
+	//		Only works on widget form elements.
+	// example:
+	//	| { name: "John Smith", interests: ["sports", "movies"] }
+=====*/
+	
 	//	TODO:
 	//	* Repeater
 	//	* better handling for arrays.  Often form elements have names with [] like
@@ -55,9 +68,13 @@ dojo.declare("dijit.form._FormMixin", null,
 	 			return valid;
 	 		}), function(item) { return item; });
 		},
-		
-		setValues: function(/*object*/obj){
-			// summary: Fill in form values from according to an Object (in the format returned by getValues())
+	
+		setValues: function(val){
+			dojo.deprecated(this.declaredClass+"::setValues() is deprecated. Use attr('value', val) instead.", "", "2.0");
+			return this.attr('value', val);
+		},
+		_setValueAttr: function(/*object*/obj){
+			// summary: Fill in form values from according to an Object (in the format returned by attr('value'))
 
 			// generate map from name --> [list of widgets with that name]
 			var map = { };
@@ -169,6 +186,10 @@ dojo.declare("dijit.form._FormMixin", null,
 		},
 
 		getValues: function(){
+			dojo.deprecated(this.declaredClass+"::getValues() is deprecated. Use attr('value') instead.", "", "2.0");
+			return this.attr('value');
+		},
+		_getValueAttr: function(){
 			// summary:
 			// 		Returns Object representing form values.
 			// description:

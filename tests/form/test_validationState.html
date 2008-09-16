@@ -67,7 +67,7 @@
 			</table>
 			<button dojoType="dijit.form.Button">
 				<script type="dojo/method" event="onClick">
-					console.dir(dijit.byId("form1").getValues());
+					console.dir(dijit.byId("form1").attr('value'));
 				</script>
 				<script type="dojo/method" event="startup">
 					var form = dijit.byId("form1");

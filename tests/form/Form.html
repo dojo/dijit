@@ -37,7 +37,7 @@
 
 		var obj;
 		function getValues(){
-			obj = dijit.byId('myForm').getValues();
+			obj = dijit.byId('myForm').attr('value');
 			console.log("Object is: " + dojo.toJson(obj, true));
 		}
 		
@@ -46,7 +46,7 @@
 		 		obj = {testF: 'testi'};
 			}
 			console.log("Object is: " + dojo.toJson(obj, true));
-			dijit.byId('myForm').setValues(obj);
+			dijit.byId('myForm').attr('value', obj);
 		}
 		
 		function validate(){
@@ -86,7 +86,7 @@
 							h1: "still hidden",
 							t1: "new line 1\nnew line 2",
 							st1: "new simple line 1\nnew simple line 2",
-							richtext: "<h1>changed</h1><p>This is the changed content set by setValues</p>",
+							richtext: "<h1>changed</h1><p>This is the changed content set by attr('value', ...')</p>",
 							filename: "",
 							readOnlyWidget: "Should be returned",
 							"submitButton":"Submit"
@@ -108,7 +108,7 @@
 							h1: "hidden",
 							t1: "line 1\nline 2",
 							st1: "simple line 1\nsimple line 2",
-							richtext: "<h1>changed</h1><p>This is the changed content set by setValues</p>", // not a form element, so not reset
+							richtext: "<h1>changed</h1><p>This is the changed content set by attr('value', ...')</p>", // not a form element, so not reset
 							filename: "",
 							readOnlyWidget: "Should be returned",
 							"submitButton":"Submit"
@@ -119,7 +119,7 @@
 			doh.register("dijit.form.Form",
 				[
 					function getValues(){
-						var values = dijit.byId("myForm").getValues();
+						var values = dijit.byId("myForm").attr('value');
 						
 						// FF3 sticks in some tabs and newlines that mess up the equality check
 						// Need better way to compare two HTML trees but for now do this.
@@ -135,12 +135,12 @@
 
 						var defer=function(){
 							if(dijit.byId('t1')._resetValue!==undefined){
-								f.setValues(changed);
+								f.attr('value', changed);
 								try{ // in a Deferred setTimeout so doh won't hear doh.is exceptions
-									doh.is( dojo.toJson(changed), dojo.toJson(f.getValues()) );
-									f.setValues(particalchanged);
+									doh.is( dojo.toJson(changed), dojo.toJson(f.attr('value')) );
+									f.attr('value', particalchanged);
 									resetready=true;
-									d.callback(doh.is( dojo.toJson(dojo.mixin(changed,particalchanged)), dojo.toJson(f.getValues()) ));
+									d.callback(doh.is( dojo.toJson(dojo.mixin(changed,particalchanged)), dojo.toJson(f.attr('value')) ));
 								}catch(e){
 									d.errback(e);
 								}
@@ -159,13 +159,13 @@
 						
 					},
 					function resetTest(){
-						// we have to wait for setValues to finish
+						// we have to wait for setValues() to finish
 						var d=new doh.Deferred();
 						var defer=function(){
 							if(resetready){
 								dijit.byId("myForm").reset();
 								try{ // in a Deferred setTimeout so doh won't hear doh.is exceptions
-									d.callback(doh.is( dojo.toJson(reset), dojo.toJson(dijit.byId("myForm").getValues()) ));
+									d.callback(doh.is( dojo.toJson(reset), dojo.toJson(dijit.byId("myForm").attr('value')) ));
 								}catch(e){
 									d.errback(e);
 								}
@@ -203,7 +203,7 @@
 		</script>
 		<script type="dojo/method" event="onSubmit">
 			console.debug('Attempting to submit form w/values:\n',
-				dojo.toJson(this.getValues(),true)
+				dojo.toJson(this.attr('value'),true)
 			);
 			if(this.validate()){
 				return confirm('Form is valid, press OK to submit');
