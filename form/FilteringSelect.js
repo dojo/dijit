@@ -55,8 +55,8 @@ dojo.declare(
 				//#3268: do nothing on bad input
 				//this._setValue("", "");
 				//#3285: change CSS to indicate error
-				if(!this._focused){ this.valueNode.value=""; }
-				dijit.form.TextBox.superclass._setValueAttr.call(this, "", !this._focused);
+				if(priorityChange || !this._focused){ this.valueNode.value=""; }
+				dijit.form.TextBox.superclass._setValueAttr.call(this, "", priorityChange || !this._focused);
 				this._isvalid=false;
 				this.validate(this._focused);
 				this.item=null;
@@ -104,10 +104,11 @@ dojo.declare(
 			// description:
 			//		Sets the value of the select.
 			//		Also sets the label to the corresponding value by reverse lookup.
+			if(!this._onChangeActive){ priorityChange = null; }
 			this._lastQuery=value;
 
-			if(!value){
-				this.attr('displayedValue', '');	// TODO: do we need to pass priorityChange like in 1.1?  - BILL
+			if(value === null){
+				this._setDisplayedValueAttr('', priorityChange);
 				return;
 			}
 

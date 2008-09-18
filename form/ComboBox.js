@@ -137,19 +137,18 @@ dojo.declare(
 		
 		_onKeyPress: function(/*Event*/ evt){
 			// summary: handles keyboard events
-
-			//except for cutting/pasting case - ctrl + x/v
 			var key = evt.charOrCode;
-			if(evt.altKey || (evt.ctrlKey && (key != 'v' && key != 'x')) || evt.keyCode == dojo.keys.SHIFT){
-				return;
+			//except for cutting/pasting case - ctrl + x/v
+			if(evt.altKey || (evt.ctrlKey && (key != 'x' && key != 'v')) || evt.key == dojo.keys.SHIFT){
+				return; // throw out weird key combinations and spurious events
 			}
 			var doSearch = false;
 			var pw = this._popupWidget;
 			var dk = dojo.keys;
 			if(this._isShowingNow){
-				pw.handleKey(evt);
+				pw.handleKey(key);
 			}
-			switch(evt.charOrCode){
+			switch(key){
 				case dk.PAGE_DOWN:
 				case dk.DOWN_ARROW:
 					if(!this._isShowingNow||this._prev_key_esc){
@@ -178,7 +177,7 @@ dojo.declare(
 					// prevent accepting the value if either Next or Previous
 					// are selected
 					var highlighted;
-					if(	this._isShowingNow && 
+					if(this._isShowingNow && 
 						(highlighted = pw.getHighlightedOption())
 					){
 						// only stop event on prev/next
@@ -193,7 +192,7 @@ dojo.declare(
 						}
 					}else{
 						// Update 'value' (ex: KY) according to currently displayed text
-						this.attr('displayedValue', this.attr('displayedValue'));
+						this._setDisplayedValueAttr(this.attr('displayedValue'), true);
 					}
 					// default case:
 					// prevent submit, but allow event to bubble
@@ -217,6 +216,7 @@ dojo.declare(
 						if(pw.getHighlightedOption()){
 							pw.attr('value', { target: pw.getHighlightedOption() });
 						}
+						this._lastQuery = null; // in case results come back later
 						this._hideResultList();
 					}
 					break;
@@ -260,7 +260,7 @@ dojo.declare(
 				default: // non char keys (F1-F12 etc..)  shouldn't open list
 					this._prev_key_backspace = false;
 					this._prev_key_esc = false;
-					doSearch = evt.keyChar !== '';
+					doSearch = typeof key == 'string';
 			}
 			if(this.searchTimer){
 				clearTimeout(this.searchTimer);
@@ -715,7 +715,7 @@ dojo.declare(
 		//	summary:
 		//		Focus-less div based menu for internal use in ComboBox
 
-		templateString: "<ul class='dijitReset dijitMenu' dojoAttachEvent='onmousedown:_onMouseDown,onmouseup:_onMouseUp,onmouseover:_onMouseOver,onmouseout:_onMouseOut' tabIndex='-1' style='overflow:\"auto\";'>"
+		templateString: "<ul class='dijitReset dijitMenu' dojoAttachEvent='onmousedown:_onMouseDown,onmouseup:_onMouseUp,onmouseover:_onMouseOver,onmouseout:_onMouseOut' tabIndex='-1' style='overflow: \"auto\"; overflow-x: \"hidden\";'>"
 				+"<li class='dijitMenuItem dijitMenuPreviousButton' dojoAttachPoint='previousButton'></li>"
 				+"<li class='dijitMenuItem dijitMenuNextButton' dojoAttachPoint='nextButton'></li>"
 			+"</ul>",
@@ -979,8 +979,8 @@ dojo.declare(
 			return (ho && ho.parentNode) ? ho : null;
 		},
 
-		handleKey: function(evt){
-			switch(evt.charOrCode){
+		handleKey: function(key){
+			switch(key){
 				case dojo.keys.DOWN_ARROW:
 					this._highlightNextOption();
 					break;
@@ -1023,11 +1023,20 @@ dojo.declare(
 			dijit.form.ComboBoxMixin.prototype._postCreate.apply(this, arguments);
 			dijit.form.ValidationTextBox.prototype.postCreate.apply(this, arguments);
 		},
+
 		_setDisabledAttr: function(/*Boolean*/ value){
 			dijit.form.ValidationTextBox.prototype._setDisabledAttr.apply(this, arguments);
 			dijit.form.ComboBoxMixin.prototype._setDisabledAttr.apply(this, arguments);
+		},
+
+		_setValueAttr: function(/*String*/ value, /*Boolean?*/ priorityChange){
+			// summary:
+			//              Hook so attr('value', value) works.
+			// description:
+			//              Sets the value of the select.
+			if(!value){ value = ''; } // null translates to blank
+			dijit.form.ValidationTextBox.prototype._setValueAttr.call(this, value, priorityChange);
 		}
-		
 	}
 );
 
