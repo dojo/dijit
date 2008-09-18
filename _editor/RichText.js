@@ -792,13 +792,26 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 		// we need this event at the moment to get the events from control keys
 		// such as the backspace. It might be possible to add this to Dojo, so that
 		// keyPress events can be emulated by the keyDown and keyUp detection.
+		
+		if (e.keyCode === dojo.keys.TAB && this.isTabIndent ){
+				dojo.stopEvent(e); //prevent tab from moving focus out of editor
+
+				// FIXME: this is a poor-man's indent/outdent. It would be
+				// better if it added 4 "&nbsp;" chars in an undoable way.
+				// Unfortunately pasteHTML does not prove to be undoable
+				if (this.queryCommandEnabled((e.shiftKey ? "outdent" : "indent"))){
+					this.execCommand((e.shiftKey ? "outdent" : "indent"));
+				}			
+		}
 		if(dojo.isIE){
-			if(e.keyCode == dojo.keys.TAB && e.shiftKey && !e.ctrlKey && !e.altKey){
-				// focus the BODY so the browser will tab away from it instead
-				this.iframe.focus();
-			}else if(e.keyCode == dojo.keys.TAB && !e.shiftKey && !e.ctrlKey && !e.altKey){
-				// focus the BODY so the browser will tab away from it instead
-				this.tabStop.focus();
+			if (e.keyCode == dojo.keys.TAB && !this.isTabIndent){
+				if(e.shiftKey && !e.ctrlKey && !e.altKey){
+					// focus the BODY so the browser will tab away from it instead
+					this.iframe.focus();
+				}else if(!e.shiftKey && !e.ctrlKey && !e.altKey){
+					// focus the BODY so the browser will tab away from it instead
+					this.tabStop.focus();
+				}
 			}else if(e.keyCode === dojo.keys.BACKSPACE && this.document.selection.type === "Control"){
 				// IE has a bug where if a non-text object is selected in the editor,
 				// hitting backspace would act as if the browser's back button was
@@ -811,7 +824,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 				e.charCode = e.keyCode;
 				this.onKeyPress(e);
 			}
-		}else if(dojo.isMoz){
+		}else if(dojo.isMoz  && !this.isTabIndent){
 			if(e.keyCode == dojo.keys.TAB && !e.shiftKey && !e.ctrlKey && !e.altKey && this.iframe){
 				// update iframe document title for screen reader
 				var titleObj = dojo.isFF<3 ? this.iframe.contentDocument : this.iframe;
@@ -900,10 +913,9 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 		}
 	},
 
-	_savedSelection: null,
+
 	_onBlur: function(e){
 		// console.info('_onBlur')
-		this._savedSelection = dijit.range.getSelection(this.window);
 
 		this.inherited(arguments);
 		var _c=this.getValue(true);
@@ -921,8 +933,6 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 	_initialFocus: true,
 	_onFocus: function(/*Event*/e){
 		// summary: Fired on focus
-
-		this._savedSelection = null;
 
 		// console.info('_onFocus')
 		if(dojo.isMoz && this._initialFocus){
@@ -1266,7 +1276,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 		}else{
 			r = this.document.queryCommandValue(command);
 		}
-		return this.document.queryCommandValue(command);
+		return r;
 	},
 
 	// Misc.
