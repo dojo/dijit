@@ -17,6 +17,10 @@
 	height: 18px;
 	text-align: center;
 }
+.soria .dijitDisabled .dijitEditorIcon {
+	background-image: url('images/editorDisabled.gif'); /* editor icons sprite image */
+}
+
 .soria .dijitEditorIconSep { background-position: 0px; }
 .soria .dijitEditorIconBackColor { background-position: -18px; }
 .soria .dijitEditorIconBold { background-position: -36px; }

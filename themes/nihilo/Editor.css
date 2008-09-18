@@ -17,6 +17,10 @@
 	height: 18px;
 	text-align: center;
 }
+.nihilo .dijitDisabled .dijitEditorIcon {
+	background-image: url('images/editorDisabled.gif'); /* editor icons sprite image */
+}
+
 .nihilo .dijitEditorIconSep { background-position: 0px; }
 .nihilo .dijitEditorIconBackColor { background-position: -18px; }
 .nihilo .dijitEditorIconBold { background-position: -36px; }

@@ -15,6 +15,10 @@
 	height: 18px;
 	text-align: center;
 }
+.tundra .dijitDisabled .dijitEditorIcon {
+	background-image: url('images/editorDisabled.gif'); /* editor icons sprite image */
+}
+
 .tundra .dijitEditorIconSep { background-position: 0px; }
 .tundra .dijitEditorIconBackColor { background-position: -18px; }
 .tundra .dijitEditorIconBold { background-position: -36px; }
