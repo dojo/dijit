@@ -119,16 +119,6 @@
 							t.is(widget.focusNode.tagName.toLowerCase(), "button");
 							t.is(widget.inputNode.tagName.toLowerCase(), "input");
 						},
-						function attributeMap(t){
-							var widget=new AttachPoint({foo:"value1", bar:"value2", style:"color: blue"});
-							var wrapper = dojo.byId("attributeMapWrapper");
-							wrapper.appendChild(widget.domNode);
-							t.is("value1", widget.domNode.getAttribute("foo"));
-							t.is("value2", widget.buttonNode.getAttribute("bar"));
-							// TODO: this is() check is unreliable, IE returns a string like
-							// border-right: red 1px solid; border-top: red 1px solid; border-left: red 1px solid; color: blue; border-bottom: red 1px solid
-							// t.is("border: 1px solid red; color: blue;", widget.domNode.style.cssText.toLowerCase());
-						},
 						function attachEvent(t){
 							var deferred = new doh.Deferred();
 							var widget=new AttachEvent();
@@ -159,7 +149,6 @@
 		<div id="variables2Wrapper"></div>
 		<table><tbody id="trWrapper"></tbody></table>
 		<div id="attachPointWrapper"></div>
-		<div id="attributeMapWrapper"></div>
 		<div id="attachEventWrapper"></div>
 	</body>
 </html>
