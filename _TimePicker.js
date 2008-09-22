@@ -356,7 +356,7 @@ dojo.declare("dijit._TimePicker",
 
 		handleKey:function(/*Event*/e){
 			var dk = dojo.keys;
-			if(e.keyChar || e.charOrCode == dk.BACKSPACE || e.charOrCode == dk.DELETE){
+			if(e.keyChar || e.charOrCode === dk.BACKSPACE || e.charOrCode == dk.DELETE){
 				// Set a timeout to kick off our filter
 				setTimeout(dojo.hitch(this, function(){
 					this._filterString = e.target.value.toLowerCase();
@@ -385,7 +385,7 @@ dojo.declare("dijit._TimePicker",
 					}
 				}
 				this._highlightOption(tgt, true);
-			}else if(this._highlighted_option && (e.charOrCode == dk.ENTER || e.charOrCode == dk.TAB)){
+			}else if(this._highlighted_option && (e.charOrCode == dk.ENTER || e.charOrCode === dk.TAB)){
 				// Accept the currently-highlighted option as the value
 				if(e.charOrCode == dk.ENTER){dojo.stopEvent(e);}
 				setTimeout(dojo.hitch(this, function(){

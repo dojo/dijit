@@ -425,7 +425,7 @@ dojo.declare(
 						break;
 					default:
 						if(e.ctrlKey){
-							if(e.charOrCode == k.TAB){
+							if(e.charOrCode === k.TAB){
 								this.adjacent(!e.shiftKey).onClick();
 								dojo.stopEvent(e);
 							}else if(e.charOrCode == "w"){

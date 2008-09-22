@@ -225,7 +225,7 @@ dojo.declare(
 	},
 
 	_onKeyPress: function(e){
-		if(e.charOrCode == dojo.keys.TAB && !e.shiftKey && !e.ctrlKey && !e.altKey && this.iframe){
+		if(e.charOrCode === dojo.keys.TAB && !e.shiftKey && !e.ctrlKey && !e.altKey && this.iframe){
 			// Pressing the tab key in the iframe (with designMode on) will cause the
 			// entry of a tab character so we have to trap that here.  Since we don't
 			// know the next focusable object we put focus on the iframe and then the

@@ -359,7 +359,7 @@ dojo.declare(
 				dojo.stopEvent(e);
 				this._exitInProgress = true;
 				this.save(true);
-			}else if(e.charOrCode == dojo.keys.TAB){
+			}else if(e.charOrCode === dojo.keys.TAB){
 				this._exitInProgress = true;
 				// allow the TAB to change focus before we mess with the DOM: #6227
 				// Expounding by request:

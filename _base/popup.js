@@ -119,7 +119,7 @@ dijit.popup = new function(){
 			if(evt.charOrCode == dojo.keys.ESCAPE && args.onCancel){
 				dojo.stopEvent(evt);
 				args.onCancel();
-			}else if(evt.charOrCode == dojo.keys.TAB){
+			}else if(evt.charOrCode === dojo.keys.TAB){
 				dojo.stopEvent(evt);
 				var topPopup = getTopPopup();
 				if(topPopup && topPopup.onCancel){

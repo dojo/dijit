@@ -164,7 +164,7 @@ inside the AccordionPane??
 					}
 					break;
 				default:
-					if(e.ctrlKey && e.charOrCode == k.TAB){
+					if(e.ctrlKey && e.charOrCode === k.TAB){
 						this._adjacent(e._dijitWidget, !e.shiftKey)._onTitleClick();
 						dojo.stopEvent(e);
 					}

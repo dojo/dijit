@@ -319,17 +319,17 @@ dojo.declare(
 			if(evt.charOrCode){
 				var dk = dojo.keys;
 				var node = evt.target;
-				if (evt.charOrCode == dk.TAB){
+				if (evt.charOrCode === dk.TAB){
 					this._getFocusItems(this.domNode);
 				}
 				var singleFocusItem = (this._firstFocusItem == this._lastFocusItem);
 				// see if we are shift-tabbing from first focusable item on dialog
-				if(node == this._firstFocusItem && evt.shiftKey && evt.charOrCode == dk.TAB){
+				if(node == this._firstFocusItem && evt.shiftKey && evt.charOrCode === dk.TAB){
 					if(!singleFocusItem){
 						dijit.focus(this._lastFocusItem); // send focus to last item in dialog
 					}
 					dojo.stopEvent(evt);
-				}else if(node == this._lastFocusItem && evt.charOrCode == dk.TAB && !evt.shiftKey){
+				}else if(node == this._lastFocusItem && evt.charOrCode === dk.TAB && !evt.shiftKey){
 					if (!singleFocusItem){
 						dijit.focus(this._firstFocusItem); // send focus to first item in dialog
 					}
@@ -347,7 +347,7 @@ dojo.declare(
 						node = node.parentNode;
 					}
 					// this key is for the disabled document window
-					if(evt.charOrCode != dk.TAB){ // allow tabbing into the dialog for a11y
+					if(evt.charOrCode !== dk.TAB){ // allow tabbing into the dialog for a11y
 						dojo.stopEvent(evt);
 					// opera won't tab to a div
 					}else if(!dojo.isOpera){
@@ -512,24 +512,24 @@ dojo.declare(
 			// summary: keep keyboard focus in dialog; close dialog on escape key
 			var node = evt.target;
 			var dk = dojo.keys;
-			if (evt.charOrCode == dk.TAB){
+			if (evt.charOrCode === dk.TAB){
 				this._getFocusItems(this.containerNode);
 			}
 			var singleFocusItem = (this._firstFocusItem == this._lastFocusItem);
 			if(evt.charOrCode == dk.ESCAPE){
 				this.onCancel();
 				dojo.stopEvent(evt);
-			}else if(node == this._firstFocusItem && evt.shiftKey && evt.charOrCode == dk.TAB){
+			}else if(node == this._firstFocusItem && evt.shiftKey && evt.charOrCode === dk.TAB){
 				if(!singleFocusItem){
 					dijit.focus(this._lastFocusItem); // send focus to last item in dialog
 				}
 				dojo.stopEvent(evt);
-			}else if(node == this._lastFocusItem && evt.charOrCode == dk.TAB && !evt.shiftKey){
+			}else if(node == this._lastFocusItem && evt.charOrCode === dk.TAB && !evt.shiftKey){
 				if(!singleFocusItem){
 					dijit.focus(this._firstFocusItem); // send focus to first item in dialog
 				}
 				dojo.stopEvent(evt);
-			}else if(evt.charOrCode == dk.TAB){
+			}else if(evt.charOrCode === dk.TAB){
 				// we want the browser's default tab handling to move focus
 				// but we don't want the tab to propagate upwards
 				evt.stopPropagation();
