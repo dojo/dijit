@@ -82,16 +82,20 @@
 						},
 						function variables(t){
 							var widget=new VariableTemplate();
-							var wrapper=dojo.byId("variables1Wrapper");
-							wrapper.appendChild(widget.domNode);
-							t.is('<button widgetid=\"test2\"><span num="5" value="false">hello &lt;"\' world</span></button>', wrapper.innerHTML.toLowerCase());
+							var span = widget.domNode.getElementsByTagName("span")[0];
+							var text = span.innerHTML;
+							t.is("5", span.getAttribute("num"));
+							t.is("false", span.getAttribute("value"));
+							t.is("hello &lt;\"' world", text);
 						},
 
 						function variables2(t){
 							var widget = new VariableTemplate({id: "myid", num: -5, bool: true, text: ""});
-							var wrapper=dojo.byId("variables2Wrapper");
-							wrapper.appendChild(widget.domNode);
-							t.is('<button widgetid=\"myid\"><span num="-5" value="true"></span></button>', wrapper.innerHTML.toLowerCase());
+							var span = widget.domNode.getElementsByTagName("span")[0];
+							var text = span.innerHTML;
+							t.is("-5", span.getAttribute("num"));
+							t.is("true", span.getAttribute("value"));
+							t.is("", text);
 						},
 						function table(t){
 							var widget=new TableRowTemplate({text: "hello"});
@@ -145,8 +149,6 @@
 	<body>
 		<h1>_Templated test</h1>
 		<div id="simpleWrapper"></div>
-		<div id="variables1Wrapper"></div>
-		<div id="variables2Wrapper"></div>
 		<table><tbody id="trWrapper"></tbody></table>
 		<div id="attachPointWrapper"></div>
 		<div id="attachEventWrapper"></div>
