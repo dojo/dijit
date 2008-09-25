@@ -118,6 +118,23 @@
 			var resetready=false;
 			doh.register("dijit.form.Form",
 				[
+				
+					function setUp(){
+						var d=new doh.Deferred();
+
+						var defer=function(){
+							if(dijit.byId('t1')._resetValue!==undefined &&
+								!dijit.byId('editor').disabled){
+								doh.t(true);
+								d.callback(true);
+							}else{
+								setTimeout(defer,100);
+							}
+						};
+						setTimeout(defer,100);
+						return d;
+					},
+
 					function getValues(){
 						var values = dijit.byId("myForm").attr('value');
 						
@@ -127,29 +144,15 @@
 
 						doh.is( dojo.toJson(original), dojo.toJson(values) );
 					},
+
 					function setValues(){
-						// Textarea is firing postCreate in FF2/Mac AFTER this test runs!
-						// Slow down the test!
-						var d=new doh.Deferred();
 						var f=dijit.byId("myForm");
 
-						var defer=function(){
-							if(dijit.byId('t1')._resetValue!==undefined){
-								f.attr('value', changed);
-								try{ // in a Deferred setTimeout so doh won't hear doh.is exceptions
-									doh.is( dojo.toJson(changed), dojo.toJson(f.attr('value')) );
-									f.attr('value', particalchanged);
-									resetready=true;
-									d.callback(doh.is( dojo.toJson(dojo.mixin(changed,particalchanged)), dojo.toJson(f.attr('value')) ));
-								}catch(e){
-									d.errback(e);
-								}
-							}else{
-								setTimeout(defer,1);
-							}
-						};
-						setTimeout(defer,1);
-						return d;
+						f.attr('value', changed);
+						doh.is( dojo.toJson(changed), dojo.toJson(f.attr('value')) );
+
+						f.attr('value', particalchanged);
+						doh.is( dojo.toJson(dojo.mixin(changed,particalchanged)), dojo.toJson(f.attr('value')) );
 					},
 					function nameAttributeSurvived(){  // ticket:4753
 						var radios = dojo.query(".RadioButton", dijit.byId("radio-cells")).forEach(
@@ -159,22 +162,8 @@
 						
 					},
 					function resetTest(){
-						// we have to wait for setValues() to finish
-						var d=new doh.Deferred();
-						var defer=function(){
-							if(resetready){
-								dijit.byId("myForm").reset();
-								try{ // in a Deferred setTimeout so doh won't hear doh.is exceptions
-									d.callback(doh.is( dojo.toJson(reset), dojo.toJson(dijit.byId("myForm").attr('value')) ));
-								}catch(e){
-									d.errback(e);
-								}
-							}else{
-								setTimeout(defer,1);
-							}
-						};
-						setTimeout(defer,1);
-						return d;
+						dijit.byId("myForm").reset();
+						doh.is( dojo.toJson(reset), dojo.toJson(dijit.byId("myForm").attr('value')) );
 					},
 					function testValidate(){
 						doh.is(dijit.byId("myForm").validate(), true);
@@ -391,7 +380,7 @@ simple line 2</textarea>
 					<td>Editor widget</td>
 					<td>richtext</td>
 					<td>
-						<textarea dojoType="dijit.Editor" name="richtext" pluginsConfig="[{items:['bold','italic']}]"><h1>original</h1><p>This is the default content</p></textarea>
+						<textarea dojoType="dijit.Editor" name="richtext" id="editor" pluginsConfig="[{items:['bold','italic']}]"><h1>original</h1><p>This is the default content</p></textarea>
 					</td>
 				</tr>
 
