@@ -388,15 +388,21 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 				d.write(this._getIframeDocTxt(html));
 				d.close();
 
-				if(dojo.isIE >= 7){
-					if(this.height){
-						ifr.style.height = this.height;
-					}
-					if(this.minHeight){
-						ifr.style.minHeight = this.minHeight;
-					}
+				if(this._layoutMode){
+					// iframe should be 100% height, thus getting it's height from surrounding
+					// <div> (which has the correct height set by Editor
+					ifr.style.height = "100%";
 				}else{
-					ifr.style.height = this.height ? this.height : this.minHeight;
+					if(dojo.isIE >= 7){
+						if(this.height){
+							ifr.style.height = this.height;
+						}
+						if(this.minHeight){
+							ifr.style.minHeight = this.minHeight;
+						}
+					}else{
+						ifr.style.height = this.height ? this.height : this.minHeight;
+					}
 				}
 
 				if(dojo.isIE){
@@ -520,10 +526,16 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 		//	this.iframe.src = "javascript:void(0)";//dojo.uri.dojoUri("src/widget/templates/richtextframe.html") + ((dojo.doc.domain != currentDomain) ? ("#"+dojo.doc.domain) : "");
 		this.iframe.style.width = this.inheritWidth ? this._oldWidth : "100%";
 
-		if(this.height){
-			this.iframe.style.height = this.height;
+		if(this._layoutMode){
+			// iframe should be 100% height, thus getting it's height from surrounding
+			// <div> (which has the correct height set by Editor
+			this.iframe.style.height = "100%";
 		}else{
-			this.iframe.height = this._oldHeight;
+			if(this.height){
+				this.iframe.style.height = this.height;
+			}else{
+				this.iframe.height = this._oldHeight;
+			}
 		}
 
 		var tmpContent;

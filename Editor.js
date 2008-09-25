@@ -154,6 +154,7 @@ dojo.declare(
 			if(this.iframe){
 				this.iframe.style.height="100%";
 			}
+			this._layoutMode = true;
 		},
 		onBeforeDeactivate: function(e){
 			if(this.customUndo){
