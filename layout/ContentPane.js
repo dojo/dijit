@@ -377,9 +377,32 @@ dojo.declare(
 		}
 	},
 
+	destroyDescendants: function(){
+		// summary:
+		//		Destroy all the widgets inside the ContentPane
+
+		// dojo.html._ContentSetter keeps track of child widgets, so we should use it to
+		// destroy them.
+		//
+		// Only exception is when those child widgets were specified in original page markup
+		// and created by the parser (in which case _ContentSetter doesn't know what the widgets
+		// are).  Then we need to call Widget.destroyDescendants().
+		//
+		// Note that calling Widget.destroyDescendants() has various issues, namely that
+		// popup widgets aren't destroyed (#2056, #4980)
+		// and the widgets in templates are destroyed twice (#7706)
+		var setter = this._contentSetter; 
+		if(setter){
+			setter.empty();
+		}else{
+			this.inherited(arguments);
+		}
+	},
+
 	_setContent: function(cont){
 		// summary: 
-		//	insert the content into the container node, 
+		//		Insert the content into the container node
+
 
 		// first get rid of child widgets
 		this.destroyDescendants();
