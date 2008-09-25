@@ -25,17 +25,17 @@
 		
 		function addText(){
 			dojo.byId("results").innerHTML += "Adding text...<br><br>";
-			var text="";
+			var text=[];
 			for(var i=0;i<100;i++){
-				text += "<span style='white-space: nowrap'>";
-				for(var j=0;j<3;j++){ text += "Now is the time for all good men to come to the aid of their country."; }
-				text += "</span><br>";
+				text.push("<span style='white-space: nowrap'>");
+				for(var j=0;j<3;j++){ text.push("Now is the time for all good men to come to the aid of their country."); }
+				text.push("</span><br>");
 			}
-			dojo.byId("documentBorder").innerHTML += text;
+			dojo.byId("documentBorder").innerHTML += text.join("\n");
 		}
 
 		dojo.addOnLoad(function(){
-			doh.register("dijit._base.manager",
+			doh.register("dijit._base.viewport",
 				[
 					function initial(t){
 						console.log("calling compute");
@@ -44,14 +44,17 @@
 						var d = dojo.marginBox(dojo.byId("documentBorder")),
 							v = dijit.getViewport();
 						doh.t(v.h > d.h);
+						console.log("v.h is " + v.h + " and d.h is " + d.h);
 					},
 					function expand(t){
 						var v = dijit.getViewport();
+						console.log("calling addText");
 						addText();
 						compute();
 						var v2 = dijit.getViewport();
 						doh.t(v2.h <= v.h);
 						doh.t(v2.h+20 >= v.h);
+						console.log("end");
 					}
 				]
 			);
