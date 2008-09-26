@@ -203,7 +203,6 @@ dojo.declare(
 		// refresh should only work if we downloaded the content
 		if(!this._isDownloaded){
 			this.href = "";
-			this._onUnloadHandler();
 		}
 
 		this._setContent(data || "");
@@ -235,13 +234,14 @@ dojo.declare(
 		delete this._xhrDfd; // garbage collect
 	},
 
-	destroy: function(){
+	destroyRecursive: function(/*Boolean*/ preserveDom){
+		// summary:
+		//		Destroy the ContentPane and it's contents
+
 		// if we have multiple controllers destroying us, bail after the first
 		if(this._beingDestroyed){
 			return;
 		}
-		// make sure we call onUnload
-		this._onUnloadHandler();
 		this._beingDestroyed = true;
 		this.inherited(arguments);
 	},
@@ -312,8 +312,6 @@ dojo.declare(
 	},
 
 	_downloadExternalContent: function(){
-		this._onUnloadHandler();
-
 		// display loading message
 		this._setContent(
 			this.onDownloadStart.call(this)
@@ -354,6 +352,8 @@ dojo.declare(
 	},
 
 	_onLoadHandler: function(){
+		// summary:
+		//		This is called whenever new content is being loaded
 		this.isLoaded = true;
 		try{
 			this.onLoad.call(this);
@@ -363,13 +363,11 @@ dojo.declare(
 	},
 
 	_onUnloadHandler: function(){
+		// summary:
+		//		This is called whenever the content is being unloaded
 		this.isLoaded = false;
 		this.cancel();
-		
-		if(this._contentSetter) {
-			// calling empty destroys all child widgets as well as emptying the containerNode
-			this._contentSetter.empty(); 
-		}
+
 		try{
 			this.onUnload.call(this);
 		}catch(e){
@@ -379,7 +377,11 @@ dojo.declare(
 
 	destroyDescendants: function(){
 		// summary:
-		//		Destroy all the widgets inside the ContentPane
+		//		Destroy all the widgets inside the ContentPane and empty containerNode
+
+		// Make sure we call onUnload
+		// TODO: this shouldn't be called when we are simply destroying a "Loading..." message
+		this._onUnloadHandler();
 
 		// dojo.html._ContentSetter keeps track of child widgets, so we should use it to
 		// destroy them.
@@ -388,21 +390,22 @@ dojo.declare(
 		// and created by the parser (in which case _ContentSetter doesn't know what the widgets
 		// are).  Then we need to call Widget.destroyDescendants().
 		//
-		// Note that calling Widget.destroyDescendants() has various issues, namely that
-		// popup widgets aren't destroyed (#2056, #4980)
+		// Note that calling Widget.destroyDescendants() has various issues (#6954),
+		//  namely that popup widgets aren't destroyed (#2056, #4980)
 		// and the widgets in templates are destroyed twice (#7706)
 		var setter = this._contentSetter; 
 		if(setter){
+			// calling empty destroys all child widgets as well as emptying the containerNode
 			setter.empty();
 		}else{
 			this.inherited(arguments);
+			dojo.html._emptyNode(this.containerNode);
 		}
 	},
 
 	_setContent: function(cont){
 		// summary: 
 		//		Insert the content into the container node
-
 
 		// first get rid of child widgets
 		this.destroyDescendants();
@@ -438,11 +441,11 @@ dojo.declare(
 		}, this._contentSetterParams || {});
 		
 		dojo.mixin(setter, setterParams); 
-		
+
 		setter.set( (dojo.isObject(cont) && cont.domNode) ? cont.domNode : cont );
 
 		// setter params must be pulled afresh from the ContentPane each time
-		delete this._contentSetterParams
+		delete this._contentSetterParams;
 	},
 
 	_onError: function(type, err, consoleText){
