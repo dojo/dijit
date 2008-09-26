@@ -27,7 +27,7 @@
 			width:100%; height:100%;  
 			background:#ededed; 
 			z-index:999;
-			vertical-align:center; 
+			vertical-align:middle; 
 		}
 		#loaderInner {
 			padding:5px;
@@ -37,7 +37,6 @@
 			width:175px; 
 			background:#3c3; 
 			color:#fff; 			
-			
 		}
 
 		hr.spacer { border:0; background-color:#ededed; width:80%; height:1px; } 
@@ -177,6 +176,14 @@
 			if(strayGlobals.length){
 				console.warn("Stray globals: "+strayGlobals.join(", "));
 			}
+		});
+
+
+		dojo.addOnLoad(function(){
+			dojo.byId("backgroundArea").innerHTML = dojo.date.locale.format(new Date(2005, 11, 30), { selector: 'date' });
+			var nineAm = new Date(0);
+			nineAm.setHours(9);
+			dojo.byId("timePicker").innerHTML = dojo.date.locale.format(nineAm, { selector: 'time' });
 		});
 
 		/***
@@ -792,7 +799,7 @@
 
 				</div><!-- end:various dijits upper tab -->
 
-				<div id="InlineEditBoxTab" dojoType="dijit.layout.ContentPane" title="InlineEditBox"
+				<div id="InlineEditBoxTab" dojoType="dijit.layout.ContentPane" title="InlineEditBox"><!-- TODO: out of synch? missing style= -->
 
 					<h2 class="testTitle">dijit.InlineEditBox + dijit.form.TextBox on &lt;h3&gt;</h2>
 
@@ -825,7 +832,7 @@
 					<h2>dijit.form.DateTextBox</h2>
 
 					(HTML inline before)
-					<span id="backgroundArea" dojoType="dijit.InlineEditBox" editor="dijit.form.DateTextBox" width="170px">12/30/2005</span>
+					<span id="backgroundArea" dojoType="dijit.InlineEditBox" editor="dijit.form.DateTextBox" width="170px"></span>
 					(HTML after)
 
 					<hr class="spacer">
@@ -833,7 +840,7 @@
 					<h2>dijit.form.TimeTextBox</h2>
 
 					(HTML inline before)
-					<span id="timePicker" dojoType="dijit.InlineEditBox" editor="dijit.form.TimeTextBox" width="150px">9:00 AM</span>
+					<span id="timePicker" dojoType="dijit.InlineEditBox" editor="dijit.form.TimeTextBox" width="150px"></span>
 					(HTML after)
 
 					<hr class="spacer">
