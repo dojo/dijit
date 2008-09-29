@@ -144,7 +144,6 @@
 
 						doh.is( dojo.toJson(original), dojo.toJson(values) );
 					},
-
 					function setValues(){
 						var f=dijit.byId("myForm");
 
@@ -162,7 +161,7 @@
 						
 					},
 					function resetTest(){
-						dijit.byId("myForm").reset();
+								dijit.byId("myForm").reset();
 						doh.is( dojo.toJson(reset), dojo.toJson(dijit.byId("myForm").attr('value')) );
 					},
 					function testValidate(){
@@ -380,7 +379,7 @@ simple line 2</textarea>
 					<td>Editor widget</td>
 					<td>richtext</td>
 					<td>
-						<textarea dojoType="dijit.Editor" name="richtext" id="editor" pluginsConfig="[{items:['bold','italic']}]"><h1>original</h1><p>This is the default content</p></textarea>
+						<div dojoType="dijit.Editor" name="richtext" pluginsConfig="[{items:['bold','italic']}]"><h1>original</h1><p>This is the default content</p></div>
 					</td>
 				</tr>
 
