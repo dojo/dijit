@@ -331,9 +331,9 @@ dojo.declare(
 
 		hand.addCallback(function(html){
 			try{
-				self.onDownloadEnd.call(self);
 				self._isDownloaded = true;
 				self.attr.call(self, 'content', html); // onload event is called from here
+				self.onDownloadEnd.call(self);
 			}catch(err){
 				self._onError.call(self, 'Content', err); // onContentError
 			}
