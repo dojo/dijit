@@ -99,7 +99,7 @@ dojo.declare("dijit._DialogMixin", null,
 		_onSubmit: function(){
 			// summary: callback when user hits submit button
 			this.onExecute();	// notify container that we are about to execute
-			this.execute(this.getValues());
+			this.execute(this.attr('value'));
 		},
 
 		_getFocusItems: function(/*Node*/ dialogNode){
