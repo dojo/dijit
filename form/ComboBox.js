@@ -505,7 +505,7 @@ dojo.declare(
 		},
 
 		_startSearchFromInput: function(){
-			this._startSearch(this.focusNode.value);
+			this._startSearch(this.focusNode.value.replace(/([\\\*\?])/g, "\\$1"));
 		},
 
 		_getQueryString: function(/*String*/ text){
