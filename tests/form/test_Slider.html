@@ -196,20 +196,21 @@
 		Programmatic Value:<input readonly id="sliderProgInput" size="5" value="1400">
 
 		        <script>
-                		function displayData() {
-        		                var f = document.getElementById("form1");
-		                        var s = "";
-                        		for (var i = 0; i < f.elements.length; i++) {
-                		                var elem = f.elements[i];
-        		                        if (elem.name == "button")  { continue; }
-		                                s += elem.name + ": " + elem.value + "\n";
-                        		}
-                		        alert(s);
-        		        }
+				// so robot can get to it easily
+				document.displayData=function() {
+					var f = document.getElementById("form1");
+					var s = "";
+					for (var i = 0; i < f.elements.length; i++) {
+						var elem = f.elements[i];
+						if (elem.nodeName.toLowerCase() == "button" || elem.type=="submit" || elem.type=="button")  { continue; }
+						s += elem.name + ": " + elem.value + "\n";
+					}
+					return s;
+				}
 		        </script>
 
 		        <div>
-                		<button name="button" onclick="displayData(); return false;">view data</button>
+                		<button name="button" onclick="alert(displayData()); return false;">view data</button>
         		        <input type="submit" name="submit" />
 		        </div>
 

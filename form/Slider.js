@@ -170,12 +170,17 @@ dojo.declare(
 		this._setValueAttr(value, true);
 	},
 
+	_onClkBumper: function(val){
+		if(this.disabled || this.readOnly || !this.clickSelect){ return; }
+		this._setValueAttr(val, true);
+	},
+
 	_onClkIncBumper: function(){
-		this._setValueAttr(this._descending === false ? this.minimum : this.maximum, true);
+		this._onClkBumper(this._descending === false ? this.minimum : this.maximum);
 	},
 
 	_onClkDecBumper: function(){
-		this._setValueAttr(this._descending === false ? this.maximum : this.minimum, true);
+		this._onClkBumper(this._descending === false ? this.maximum : this.minimum);
 	},
 
 	decrement: function(e){
