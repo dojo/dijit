@@ -9,21 +9,21 @@
 			><div class="dijitSliderDecrementIconH" tabIndex="-1" style="display:none" dojoAttachPoint="decrementButton"><span class="dijitSliderButtonInner">-</span></div
 		></td
 		><td class="dijitReset"
-			><div class="dijitSliderBar dijitSliderBumper dijitSliderBumperH dijitSliderLeftBumper dijitSliderLeftBumper" dojoAttachEvent="onclick:_onClkDecBumper"></div
+			><div class="dijitSliderBar dijitSliderBumper dijitSliderBumperH dijitSliderLeftBumper dijitSliderLeftBumper" dojoAttachEvent="onmousedown:_onClkDecBumper"></div
 		></td
 		><td class="dijitReset"
 			><input dojoAttachPoint="valueNode" type="hidden" name="${name}"
 			/><div class="dijitReset dijitSliderBarContainerH" waiRole="presentation" dojoAttachPoint="sliderBarContainer"
-				><div waiRole="presentation" dojoAttachPoint="progressBar" class="dijitSliderBar dijitSliderBarH dijitSliderProgressBar dijitSliderProgressBarH" dojoAttachEvent="onclick:_onBarClick"
+				><div waiRole="presentation" dojoAttachPoint="progressBar" class="dijitSliderBar dijitSliderBarH dijitSliderProgressBar dijitSliderProgressBarH" dojoAttachEvent="onmousedown:_onBarClick"
 					><div class="dijitSliderMoveable dijitSliderMoveableH" 
 						><div dojoAttachPoint="sliderHandle,focusNode" class="dijitSliderImageHandle dijitSliderImageHandleH" dojoAttachEvent="onmousedown:_onHandleClick" waiRole="slider" valuemin="${minimum}" valuemax="${maximum}"></div
 					></div
 				></div
-				><div waiRole="presentation" dojoAttachPoint="remainingBar" class="dijitSliderBar dijitSliderBarH dijitSliderRemainingBar dijitSliderRemainingBarH" dojoAttachEvent="onclick:_onBarClick"></div
+				><div waiRole="presentation" dojoAttachPoint="remainingBar" class="dijitSliderBar dijitSliderBarH dijitSliderRemainingBar dijitSliderRemainingBarH" dojoAttachEvent="onmousedown:_onBarClick"></div
 			></div
 		></td
 		><td class="dijitReset"
-			><div class="dijitSliderBar dijitSliderBumper dijitSliderBumperH dijitSliderRightBumper dijitSliderRightBumper" dojoAttachEvent="onclick:_onClkIncBumper"></div
+			><div class="dijitSliderBar dijitSliderBumper dijitSliderBumperH dijitSliderRightBumper dijitSliderRightBumper" dojoAttachEvent="onmousedown:_onClkIncBumper"></div
 		></td
 		><td class="dijitReset dijitSliderButtonContainer dijitSliderButtonContainerH" style="right:0px;"
 			><div class="dijitSliderIncrementIconH" tabIndex="-1" style="display:none" dojoAttachPoint="incrementButton"><span class="dijitSliderButtonInner">+</span></div
