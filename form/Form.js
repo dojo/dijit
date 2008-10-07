@@ -300,9 +300,14 @@ dojo.declare("dijit.form._FormMixin", null,
 		// TODO: ComboBox might need time to process a recently input value.  This should be async?
 	 	isValid: function(){
 	 		// summary: make sure that every widget that has a validator function returns true
+			this._invalidWidgets = [];
 	 		return dojo.every(this.getDescendants(), function(widget){
-				return widget.disabled || !widget.isValid || widget.isValid();
-	 		});
+				var isValid = widget.disabled || !widget.isValid || widget.isValid();
+				if(!isValid){
+					this._invalidWidgets.push(widget);
+				}
+				return isValid;
+	 		}, this);
 		},
 		
 		
@@ -312,10 +317,19 @@ dojo.declare("dijit.form._FormMixin", null,
 			//			state changes on the form as a whole.
 		},
 		
-		_widgetChange: function(){
+		_widgetChange: function(widget){
 			// summary: connected to a widgets onChange function - update our 
 			//			valid state, if needed.
-			var isValid = this.isValid();
+			var isValid = this._lastValidState;
+			if(widget && !widget.disabled && widget.isValid){
+				this._invalidWidgets = dojo.filter(this._invalidWidgets||[], function(w){
+					return (w != widget);
+				}, this);
+				if(!widget.isValid()){
+					this._invalidWidgets.push(widget);
+				}
+				isValid = (this._invalidWidgets.length === 0);
+			}
 			if (isValid !== this._lastValidState){
 				this._lastValidState = isValid;
 				this.onValidStateChange(isValid);
@@ -339,13 +353,13 @@ dojo.declare("dijit.form._FormMixin", null,
 					function(item){ return item.validate; }
 				),
 				function(widget){
-					return _this.connect(widget, "validate", "_widgetChange");
+					return _this.connect(widget, "validate", dojo.hitch(_this, "_widgetChange", widget));
 				}
 			);
 
 			// Call the widget change function to update the valid state, in 
 			// case something is different now.
-			this._widgetChange();
+			this._widgetChange(null);
 		},
 		
 		startup: function(){
@@ -354,8 +368,8 @@ dojo.declare("dijit.form._FormMixin", null,
 			//  because it's not guaranteed that our children are initialized 
 			//  yet.
 			this._changeConnections = [];
-			this.connectChildren();
 			this._lastValidState = this.isValid();
+			this.connectChildren();
 		}
 	});
 
