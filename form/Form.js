@@ -321,7 +321,17 @@ dojo.declare("dijit.form._FormMixin", null,
 			// summary: connected to a widgets onChange function - update our 
 			//			valid state, if needed.
 			var isValid = this._lastValidState;
-			if(widget && !widget.disabled && widget.isValid){
+			if(!widget || this._lastValidState===undefined){
+				// We have passed a null widget, or we haven't been validated
+				// yet - let's re-check all our children
+				// This happens when we connect (or reconnect) our children
+				isValid = this.isValid();
+				if(this._lastValidState===undefined){
+					// Set this so that we don't fire an onValidStateChange 
+					// the first time
+					this._lastValidState = isValid;
+				}
+			}else if(!widget.disabled && widget.isValid){
 				this._invalidWidgets = dojo.filter(this._invalidWidgets||[], function(w){
 					return (w != widget);
 				}, this);
@@ -368,7 +378,6 @@ dojo.declare("dijit.form._FormMixin", null,
 			//  because it's not guaranteed that our children are initialized 
 			//  yet.
 			this._changeConnections = [];
-			this._lastValidState = this.isValid();
 			this.connectChildren();
 		}
 	});
