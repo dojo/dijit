@@ -370,7 +370,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 		// so for now IE is our only hero
 		//if(typeof dojo.doc.body.contentEditable != "undefined")
 		if(dojo.isIE || dojo.isSafari || dojo.isOpera){ // contentEditable, easy
-			var burl = dojo.moduleUrl("dojo", "resources/blank.html")+"";
+			var burl = dojo.config["dojoBlankHtmlUrl"] || (dojo.moduleUrl("dojo", "resources/blank.html")+"");
 			var ifr = this.editorObject = this.iframe = dojo.doc.createElement('iframe');
 			ifr.id = this.id+"_iframe";
 			ifr.src = burl;
