@@ -212,7 +212,7 @@ dojo.declare(
 				}catch(e){
 					//TODO: when else might we get an exception?  Do we need the Mozilla test below?
 					if(e.code == 1011 /* Mozilla: service denied */ && /copy|cut|paste/.test(cmd)){
-						// Warn user of platform limitation.  Cannot programmatically access keyboard. See ticket #4136
+						// Warn user of platform limitation.  Cannot programmatically access clipboard. See ticket #4136
 						var sub = dojo.string.substitute,
 							accel = {cut:'X', copy:'C', paste:'V'},
 							isMac = navigator.userAgent.indexOf("Macintosh") != -1;
