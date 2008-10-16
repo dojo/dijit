@@ -1208,7 +1208,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 			//		this.document = this.iframe.contentWindow.document
 			//	}
 
-			console.debug("execCommand:", command, argument);
+//			console.debug("execCommand:", command, argument);
 			if(argument || command!="createlink"){
 				returnValue = this.document.execCommand(command, false, argument);
 			}

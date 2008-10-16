@@ -208,7 +208,7 @@ dojo.declare(
 					var r = this.inherited('execCommand',arguments);
                     if(dojo.isSafari && cmd=='paste' && !r){ //see #4598: safari does not support invoking paste from js
                         var su = dojo.string.substitute, _isM = navigator.userAgent.indexOf("Macintosh") != -1;
-                        alert(su(this.commands.pasteShortcutSafari,[su(this.commands[_isM ? 'appleKey' : 'ctrlKey'], ['V'])]));
+                        alert(su(this.commands.systemShortcut, [su(this.commands[_isM ? 'appleKey' : 'ctrlKey'], ['V'])]));
                     }
 				}catch(e){
 					if(dojo.isMoz && /copy|cut|paste/.test(cmd)){
