@@ -285,7 +285,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 			(dn.nodeName.toLowerCase() == "textarea")){
 			// if we were created from a textarea, then we need to create a
 			// new editing harness node.
-			var ta = this.textarea = dn;
+			var ta = (this.textarea = dn);
 			this.name = ta.name;
 			html = this._preFilterContent(ta.value);
 			dn = this.domNode = dojo.doc.createElement("div");
@@ -297,15 +297,14 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 			var tmpFunc = dojo.hitch(this, function(){
 				//some browsers refuse to submit display=none textarea, so
 				//move the textarea out of screen instead
-				with(ta.style){
-					display = "block";
-					position = "absolute";
-					left = top = "-1000px";
+				var s = ta.style;
+				s.display = "block";
+				s.position = "absolute";
+				s.top = "-1000px";
 
-					if(dojo.isIE){ //nasty IE bug: abnormal formatting if overflow is not hidden
-						this.__overflow = overflow;
-						overflow = "hidden";
-					}
+				if(dojo.isIE){ //nasty IE bug: abnormal formatting if overflow is not hidden
+					this.__overflow = s.overflow;
+					s.overflow = "hidden";
 				}
 			});
 			if(dojo.isIE){
@@ -371,7 +370,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 		//if(typeof dojo.doc.body.contentEditable != "undefined")
 		if(dojo.isIE || dojo.isSafari || dojo.isOpera){ // contentEditable, easy
 			var burl = dojo.config["dojoBlankHtmlUrl"] || (dojo.moduleUrl("dojo", "resources/blank.html")+"");
-			var ifr = this.editorObject = this.iframe = dojo.doc.createElement('iframe');
+			var ifr = (this.editorObject = this.iframe = dojo.doc.createElement('iframe'));
 			ifr.id = this.id+"_iframe";
 			ifr.src = burl;
 			ifr.style.border = "none";
@@ -383,7 +382,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 			var loadFunc = dojo.hitch( this, function(){
 				if(h){ dojo.disconnect(h); h = null; }
 				this.window = ifr.contentWindow;
-				var d = this.document = this.window.document;
+				var d = (this.document = this.window.document);
 				d.open();
 				d.write(this._getIframeDocTxt(html));
 				d.close();
@@ -1208,7 +1207,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 			//		this.document = this.iframe.contentWindow.document
 			//	}
 
-			console.debug("execCommand:", command, argument);
+//			console.debug("execCommand:", command, argument);
 			if(argument || command!="createlink"){
 				returnValue = this.document.execCommand(command, false, argument);
 			}
