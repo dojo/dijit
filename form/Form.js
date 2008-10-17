@@ -300,9 +300,14 @@ dojo.declare("dijit.form._FormMixin", null,
 		// TODO: ComboBox might need time to process a recently input value.  This should be async?
 	 	isValid: function(){
 	 		// summary: make sure that every widget that has a validator function returns true
+			this._invalidWidgets = [];
 	 		return dojo.every(this.getDescendants(), function(widget){
-				return widget.disabled || !widget.isValid || widget.isValid();
-	 		});
+				var isValid = widget.disabled || !widget.isValid || widget.isValid();
+				if(!isValid){
+					this._invalidWidgets.push(widget);
+				}
+				return isValid;
+	 		}, this);
 		},
 		
 		
@@ -312,10 +317,29 @@ dojo.declare("dijit.form._FormMixin", null,
 			//			state changes on the form as a whole.
 		},
 		
-		_widgetChange: function(){
+		_widgetChange: function(widget){
 			// summary: connected to a widgets onChange function - update our 
 			//			valid state, if needed.
-			var isValid = this.isValid();
+			var isValid = this._lastValidState;
+			if(!widget || this._lastValidState===undefined){
+				// We have passed a null widget, or we haven't been validated
+				// yet - let's re-check all our children
+				// This happens when we connect (or reconnect) our children
+				isValid = this.isValid();
+				if(this._lastValidState===undefined){
+					// Set this so that we don't fire an onValidStateChange 
+					// the first time
+					this._lastValidState = isValid;
+				}
+			}else if(widget.isValid){
+				this._invalidWidgets = dojo.filter(this._invalidWidgets||[], function(w){
+					return (w != widget);
+				}, this);
+				if(!widget.isValid() && !widget.attr("disabled")){
+					this._invalidWidgets.push(widget);
+				}
+				isValid = (this._invalidWidgets.length === 0);
+			}
 			if (isValid !== this._lastValidState){
 				this._lastValidState = isValid;
 				this.onValidStateChange(isValid);
@@ -334,18 +358,22 @@ dojo.declare("dijit.form._FormMixin", null,
 			// we connect to validate - so that it better reflects the states
 			// of the widgets - also, we only connect if it has a validate
 			// function (to avoid too many unneeded connections)
-			this._changeConnections = dojo.map(
-				dojo.filter(this.getDescendants(),
-					function(item){ return item.validate; }
-				),
-				function(widget){
-					return _this.connect(widget, "validate", "_widgetChange");
-				}
-			);
+			var conns = this._changeConnections = [];
+			dojo.forEach(dojo.filter(this.getDescendants(),
+				function(item){ return item.validate; }
+			),
+			function(widget){
+				// We are interested in whenever the widget is validated - or
+				// whenever the disabled attribute on that widget is changed
+				conns.push(_this.connect(widget, "validate", 
+									dojo.hitch(_this, "_widgetChange", widget)));
+				conns.push(_this.connect(widget, "_setDisabledAttr", 
+									dojo.hitch(_this, "_widgetChange", widget)));
+			});
 
 			// Call the widget change function to update the valid state, in 
 			// case something is different now.
-			this._widgetChange();
+			this._widgetChange(null);
 		},
 		
 		startup: function(){
@@ -355,7 +383,6 @@ dojo.declare("dijit.form._FormMixin", null,
 			//  yet.
 			this._changeConnections = [];
 			this.connectChildren();
-			this._lastValidState = this.isValid();
 		}
 	});
 
