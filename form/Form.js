@@ -331,11 +331,11 @@ dojo.declare("dijit.form._FormMixin", null,
 					// the first time
 					this._lastValidState = isValid;
 				}
-			}else if(!widget.disabled && widget.isValid){
+			}else if(widget.isValid){
 				this._invalidWidgets = dojo.filter(this._invalidWidgets||[], function(w){
 					return (w != widget);
 				}, this);
-				if(!widget.isValid()){
+				if(!widget.isValid() && !widget.attr("disabled")){
 					this._invalidWidgets.push(widget);
 				}
 				isValid = (this._invalidWidgets.length === 0);
@@ -358,14 +358,18 @@ dojo.declare("dijit.form._FormMixin", null,
 			// we connect to validate - so that it better reflects the states
 			// of the widgets - also, we only connect if it has a validate
 			// function (to avoid too many unneeded connections)
-			this._changeConnections = dojo.map(
-				dojo.filter(this.getDescendants(),
-					function(item){ return item.validate; }
-				),
-				function(widget){
-					return _this.connect(widget, "validate", dojo.hitch(_this, "_widgetChange", widget));
-				}
-			);
+			var conns = this._changeConnections = [];
+			dojo.forEach(dojo.filter(this.getDescendants(),
+				function(item){ return item.validate; }
+			),
+			function(widget){
+				// We are interested in whenever the widget is validated - or
+				// whenever the disabled attribute on that widget is changed
+				conns.push(_this.connect(widget, "validate", 
+									dojo.hitch(_this, "_widgetChange", widget)));
+				conns.push(_this.connect(widget, "_setDisabledAttr", 
+									dojo.hitch(_this, "_widgetChange", widget)));
+			});
 
 			// Call the widget change function to update the valid state, in 
 			// case something is different now.
