@@ -52,11 +52,7 @@ dojo.mixin(dijit,
 		// 		for backwards compatibility if role parameter not provided, 
 		// 		returns true if has non XHTML role 
 		var waiRole = this.getWaiRole(elem);		
-		if (role){
-			return (waiRole.indexOf(role) > -1);
-		}else{
-			return (waiRole.length >0);
-		}
+		return role ? (waiRole.indexOf(role) > -1) : (waiRole.length > 0);
 	},
 
 	getWaiRole: function(/*Element*/ elem){
@@ -77,9 +73,9 @@ dojo.mixin(dijit,
 		//		On Firefox 2 and below, "wairole:" is
 		//		prepended to the provided role value.
 
-		var curRole = (theRole = dojo.attr(elem, "role")) ? theRole : "";
-		if (dojo.isFF<3 || !this._XhtmlRoles.test(curRole)){
-			dojo.attr(elem, "role", dojo.isFF<3 ? "wairole:" + role : role);
+		var curRole = dojo.attr(elem, "role") || "";
+		if(dojo.isFF < 3 || !this._XhtmlRoles.test(curRole)){
+			dojo.attr(elem, "role", dojo.isFF < 3 ? "wairole:" + role : role);
 		}else{
 			if((" "+ curRole +" ").indexOf(" " + role + " ") < 0){
 				var clearXhtml = dojo.trim(curRole.replace(this._XhtmlRoles, ""));
@@ -92,9 +88,9 @@ dojo.mixin(dijit,
 	removeWaiRole: function(/*Element*/ elem, /*String*/ role){
 		// summary: Removes the specified non-XHTML role from an element.
 		// 		removes role attribute if no specific role provided (for backwards compat.)
-		
+
 		var roleValue = dojo.attr(elem, "role"); 
-		if (!roleValue){ return; }
+		if(!roleValue){ return; }
 		if(role){
 			var searchRole = dojo.isFF < 3 ? "wairole:" + role : role;
 			var t = dojo.trim((" " + roleValue + " ").replace(" " + searchRole + " ", " "));
@@ -116,9 +112,8 @@ dojo.mixin(dijit,
 		//		false if it does not.
 		if(dojo.isFF < 3){
 			return elem.hasAttributeNS("http://www.w3.org/2005/07/aaa", state);
-		}else{
-			return elem.hasAttribute ? elem.hasAttribute("aria-"+state) : !!elem.getAttribute("aria-"+state);
 		}
+		return elem.hasAttribute ? elem.hasAttribute("aria-"+state) : !!elem.getAttribute("aria-"+state);
 	},
 
 	getWaiState: function(/*Element*/ elem, /*String*/ state){
@@ -133,10 +128,8 @@ dojo.mixin(dijit,
 		//		or an empty string if elem has no value for state.
 		if(dojo.isFF < 3){
 			return elem.getAttributeNS("http://www.w3.org/2005/07/aaa", state);
-		}else{
-			var value = elem.getAttribute("aria-"+state);
-			return value ? value : "";
 		}
+		return elem.getAttribute("aria-"+state) || "";
 	},
 
 	setWaiState: function(/*Element*/ elem, /*String*/ state, /*String*/ value){
