@@ -77,7 +77,7 @@ dojo.mixin(dijit,
 		//		On Firefox 2 and below, "wairole:" is
 		//		prepended to the provided role value.
 
-		var curRole = (theRole = dojo.attr(elem, "role")) ? theRole : "";
+		var curRole = dojo.attr(elem, "role") || "";
 		if (dojo.isFF<3 || !this._XhtmlRoles.test(curRole)){
 			dojo.attr(elem, "role", dojo.isFF<3 ? "wairole:" + role : role);
 		}else{
