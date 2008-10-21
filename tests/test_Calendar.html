@@ -9,7 +9,16 @@
 			@import "../../dojo/resources/dojo.css";
 			@import "css/dijitTests.css";
 		</style>
-		
+
+		<style>
+			#calendar5 .dijitCalendarDateTemplate { height: 50px; width: 50px; border: 1px solid #ccc; vertical-align: top }
+			#calendar5 .dijitCalendarDateLabel, #calendar5 .dijitCalendarDateTemplate { text-align: inherit }
+			#calendar5 .dijitCalendarDayLabel { font-weight: bold }
+			#calendar5 .dijitCalendarSelectedYear { font-size: 1.5em }
+			#calendar5 .dijitCalendarMonth { font-family: serif; letter-spacing: 0.2em; font-size: 2em }
+			.blue { color: blue }
+		</style>
+
 		<!-- required: a default dijit theme: -->
 		<link id="themeStyles" rel="stylesheet" href="../../dijit/themes/tundra/tundra.css">
 		
@@ -67,14 +76,6 @@
 		</p>
 
 		<p>Customized template with "today" button</p>
-		<style>
-			#calendar5 .dijitCalendarDateTemplate { height: 50px; width: 50px; border: 1px solid #ccc; vertical-align: top }
-			#calendar5 .dijitCalendarDateLabel, #calendar5 .dijitCalendarDateTemplate { text-align: inherit }
-			#calendar5 .dijitCalendarDayLabel { font-weight: bold }
-			#calendar5 .dijitCalendarSelectedYear { font-size: 1.5em }
-			#calendar5 .dijitCalendarMonth { font-family: serif; letter-spacing: 0.2em; font-size: 2em }
-			.blue { color: blue }
-		</style>
 		<div>
 			<!-- Parent div used so we have a handle to use for dojo.parser.parse after BigCalendar gets defined. -->
 			<!-- The input below will be replaced by BigCalendar which is defined in a dojo.addOnLoad block. -->
