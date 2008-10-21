@@ -160,6 +160,8 @@ dojo.declare("dijit.layout._TabButton",
 
 	templatePath: dojo.moduleUrl("dijit.layout","templates/_TabButton.html"),
 
+	_scroll: false, // don't scroll the whole tab container into view when the button is focused
+
 	postCreate: function(){
 		if(this.closeButton){
 			dojo.addClass(this.innerDiv, "dijitClosable");

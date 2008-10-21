@@ -90,8 +90,11 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 	},
 
 
+	_scroll: true,
 	_onFocus: function(e){
-		dijit.scrollIntoView(this.domNode);
+		if(this._scroll){
+			dijit.scrollIntoView(this.domNode);
+		}
 		this.inherited(arguments);
 	},
 
