@@ -57,6 +57,10 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 	//		Fires onChange for each value change or only on demand
 	intermediateChanges: false,
 
+	// scrollOnFocus: Boolean
+	//              On focus, should this widget scroll into view?
+	scrollOnFocus: true,
+
 	// These mixins assume that the focus node is an INPUT, as many but not all _FormWidgets are.
 	// Don't attempt to mixin the 'type', 'name' attributes here programatically -- they must be declared
 	// directly in the template as read by the parser in order to function. IE is known to specifically 
@@ -89,9 +93,10 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 		this.attr('disabled', disabled);
 	},
 
-
 	_onFocus: function(e){
-		dijit.scrollIntoView(this.domNode);
+		if(this.scrollOnFocus){
+			dijit.scrollIntoView(this.domNode);
+		}
 		this.inherited(arguments);
 	},
 
