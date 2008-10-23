@@ -197,16 +197,16 @@ dojo.declare(
 
 		_setDisabledAttr: function(/*Boolean*/ value){
 			this.inherited(arguments);	// call FormValueWidget._setDisabledAttr()
-					if(this.valueNode){
+			if(this.valueNode){
 				this.valueNode.disabled = value;
-					}
-					this._refreshState();
+			}
+			this._refreshState();
 		},
 		
 		_setRequiredAttr: function(/*Boolean*/ value){
 			this.required = value;
 			dijit.setWaiState(this.focusNode,"required", value);
-					this._refreshState();				
+			this._refreshState();				
 		},
 
 		postCreate: function(){
@@ -243,9 +243,7 @@ dojo.declare(
 
 		toString: function(){
 			// summary: display the widget as a printable string using the widget's value
-			
-			// TODO: seems like the filter() call here is unnecessary as attr('value') should do that
-			var val = this.filter(this.attr('value'));
+			var val = this.filter(this.attr('value')); // call filter in case value is nonstring and filter has been customized
 			return val != null ? (typeof val == "string" ? val : this.serialize(val, this.constraints)) : ""; // String
 		},
 

@@ -70,7 +70,7 @@ dojo.declare(
 				filteredValue = this.filter(value);
 				if(filteredValue !== null && ((typeof filteredValue != "number") || !isNaN(filteredValue))){
 					if(typeof formattedValue != "string"){
-						formattedValue = this.format(filteredValue, this.constraints);
+						formattedValue = this.filter(this.format(filteredValue, this.constraints));
 					}
 				}else{ formattedValue = ''; }
 			}
@@ -126,8 +126,8 @@ dojo.declare(
 			//		The widget value is also set to a corresponding,
 			//		but not necessarily the same, value.
 
-			this.textbox.value = value;
-			this._setValueAttr(this.attr('value'));
+			this.textbox.value = value = this.filter(value);
+			this._setValueAttr(this.attr('value'), undefined, value);
 		},
 
 		format: function(/* String */ value, /* Object */ constraints){

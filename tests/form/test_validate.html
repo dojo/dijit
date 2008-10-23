@@ -109,7 +109,10 @@
                                 >
 				onChange:<input id="oc3" size="14" disabled value="not fired yet!" autocomplete="off">
 				<nobr>
-				<button type=button onclick="dijit.byId('q03').attr('value', null);">set value to null</button>
+				<button id="q03_valid" type=button onclick="dijit.byId('q03').attr('value', 120);">set value to 120</button>
+				<button id="q03_outofrange" type=button onclick="dijit.byId('q03').attr('value', 121);">set value to 121</button>
+				<button id="q03_invalid" type=button onclick="dijit.byId('q03').attr('value', 'two');">set value to two</button>
+				<button id="q03_null" type=button onclick="dijit.byId('q03').attr('value', null);">set value to null</button>
 				<button type=button onclick="dojo.byId('gv3').value=''+dijit.byId('q03').attr('value');">get value</button>
 				<input id="gv3" size="10" disabled value="" autocomplete="off">
 				</nobr>
@@ -124,7 +127,7 @@
 					dojoType="dijit.form.NumberTextBox"
 					maxLength="3"
 					constraints="{places:0,min:1,max:100}"
-					dojo.regExpGen="dojo.regexp.integer"
+					regExpGen="return '\\d+'"
 					required="true">
 					<button onclick="dijit.byId('fav').attr('required', true);return false">attr(required, true)</button>
 					<button onclick="dijit.byId('fav').attr('required', false);return false">attr(required, false)</button>
@@ -160,7 +163,7 @@
 			value: 3000,
 			constraints: {min:-20000,max:20000,places:0},
 			promptMessage: "Enter a value between -20000 and +20000",
-			required: "true" ,
+			required: true ,
 			invalidMessage: "Invalid elevation.",
 			onChange: function(){dojo.byId('oc5').value=arguments[0]},
 			"class": "medium"
@@ -271,7 +274,7 @@
 						name: "income3",
 						value: 54775.53,
 						lang: 'de-de',
-						required: "true",
+						required: true,
 						currency: "EUR",
 						invalidMessage: "Invalid amount.  Example: " + example
 					};
@@ -422,25 +425,26 @@
 			<div class="testExample">
 				<input id="q24" type="text" name="readOnly" class="medium" readOnly value="cannot type here"
 					dojoType="dijit.form.TextBox">
-				<input type="button" onclick="dijit.byId('q24').attr('readOnly',false);" value="Remove readOnly">
+				<input type="button" id="removereadonly" onclick="dijit.byId('q24').attr('readOnly',false);" value="Remove readOnly">
 				<input type="button" onclick="dijit.byId('q24').attr('readOnly',true);" value="Set readOnly">
 			</div>
 
-			<script>
-				function displayData() {
+		        <script>
+				// so robot can get to it easily
+				document.displayData=function() {
 					var f = document.getElementById("form1");
 					var s = "";
 					for (var i = 0; i < f.elements.length; i++) {
 						var elem = f.elements[i];
-						if (elem.name == "button")  { continue; }
-						s += elem.name+(elem.name && elem.disabled?' (disabled)':'') + ": " + elem.value + "\n";
+						if (elem.nodeName.toLowerCase() == "button" || elem.type=="submit" || elem.type=="button")  { continue; }
+						s += elem.name + ": " + elem.value + "\n";
 					}
-					alert(s);
+					return s;
 				}
-			</script>
+		        </script>
 
 			<div>
-				<button name="button" onclick="displayData(); return false;">view data</button>
+				<button name="button" onclick="alert(document.displayData()); return false;">view data</button>
 				<input type="submit" name="submit" />
 			</div>
 
