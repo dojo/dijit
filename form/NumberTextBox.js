@@ -57,7 +57,11 @@ dojo.declare(
 		=====*/
 
 		filter: function(/*Number*/ value){
-			return (value === null)? NaN : this.inherited(arguments); // attr('value', null) should fire onChange(NaN)
+			return (value === null || value === '' || value === undefined)? NaN : this.inherited(arguments); // attr('value', null||''||undefined) should fire onChange(NaN)
+		},
+
+		serialize: function(/*Number*/ value, /*Object?*/options){
+			return (typeof value != "number" || isNaN(value))? '' : this.inherited(arguments);
 		},
 
 		_getValueAttr: function(){
