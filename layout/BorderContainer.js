@@ -73,6 +73,12 @@ dojo.declare(
 
 		this._splitters = {};
 		this._splitterThickness = {};
+		this._regions = {};
+		dojo.forEach(this.getChildren(), function(child){
+			if(child.region){
+				this._regions[child.region] = child;
+			}
+		}, this);
 	},
 
 	startup: function(){
@@ -106,7 +112,8 @@ dojo.declare(
 					container: this,
 					child: child,
 					region: region,
-					oppNode: dojo.query('[region=' + flip[child.region] + ']', this.domNode)[0],
+//					oppNode: dojo.query('[region=' + flip[child.region] + ']', this.domNode)[0],
+					oppNode: this._regions[flip[child.region]],
 					live: this.liveSplitters
 				});
 				splitter.isSplitter = true;
@@ -142,6 +149,7 @@ dojo.declare(
 		var splitter = this._splitters[region];
 		if(splitter){
 			dijit.byNode(splitter).destroy();
+			delete this._regions[region];
 			delete this._splitters[region];
 			delete this._splitterThickness[region];
 		}
@@ -310,8 +318,8 @@ dojo.declare(
 			center:	{ h: middleHeight, w: middleWidth }
 		};
 
-		// Nodes in IE don't respond to t/l/b/r, and TEXTAREA doesn't respond in any browser
-		var janky = dojo.isIE || dojo.some(this.getChildren(), function(child){
+		// Nodes in IE<8 don't respond to t/l/b/r, and TEXTAREA doesn't respond in any browser
+		var janky = dojo.isIE < 8 || dojo.some(this.getChildren(), function(child){
 			return child.domNode.tagName == "TEXTAREA" || child.domNode.tagName == "INPUT";
 		});
 		if(janky){
@@ -365,6 +373,7 @@ dojo.declare(
 			dijit.byNode(splitter).destroy();
 			dojo._destroyElement(splitter);
 		}
+		delete this._regions;
 		delete this._splitters;
 		delete this._splitterThickness;
 		this.inherited(arguments);
