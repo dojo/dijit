@@ -74,7 +74,7 @@ dojo.declare(
 					}
 				}else{ formattedValue = ''; }
 			}
-			if(formattedValue != null && formattedValue != undefined){
+			if(formattedValue != null && formattedValue != undefined && this.textbox.value != formattedValue){
 				this.textbox.value = formattedValue;
 			}
 			dijit.form.TextBox.superclass._setValueAttr.call(this, filteredValue, priorityChange);
