@@ -1,7 +1,7 @@
 ({
 	fontSize: "Velikost",
 	fontName: "Pisava",
-	formatBlock: "Format",
+	formatBlock: "Oblika",
 
 	serif: "serif",
 	"sans-serif": "sans-serif",
@@ -10,17 +10,17 @@
 	fantasy: "fantasy",
 
 	p: "Odstavek",
-	h1: "Naslovni slog",
-	h2: "Podnaslovni slog",
-	h3: "Pod-podnaslovni slog",
-	pre: "Vnaprej oblikovan",
+	h1: "Naslov",
+	h2: "Podnaslov",
+	h3: "Pod podnaslov",
+	pre: "Vnaprej oblikovano",
 
-	1: "xx-small",
-	2: "x-small",
-	3: "small",
-	4: "medium",
-	5: "large",
-	6: "x-large",
-	7: "xx-large"
+	1: "xx-majhno",
+	2: "x-majhno",
+	3: "majhno",
+	4: "srednje",
+	5: "veliko",
+	6: "x-veliko",
+	7: "xx-veliko"
 })
 

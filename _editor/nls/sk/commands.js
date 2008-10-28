@@ -12,7 +12,7 @@
 	'justifyFull': 'Zarovnať k okrajom',
 	'justifyLeft': 'Zarovnať vľavo',
 	'justifyRight': 'Zarovnať vpravo',
-	'outdent': 'Odsek',
+	'outdent': 'Zrušiť odsadenie',
 	'paste': 'Prilepiť',
 	'redo': 'Opakovať',
 	'removeFormat': 'Odstrániť formátovanie',
