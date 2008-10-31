@@ -147,6 +147,21 @@
 			}
 		};
 
+		// machinery for testing keyboard manipulation of sliders
+		var eaVals = [];
+		var strokeIndex = 0;
+		var noteChanges;
+		
+		var keyStrokeSetup = function(inSliderId){
+			var slider=dijit.byId(inSliderId);
+			eaVals = populateExpected(slider);
+			strokeIndex = 0;
+			noteChanges = dojo.connect(slider, "onChange", function(){
+				eaVals[strokeIndex].actual = slider.attr('value');
+				strokeIndex++;
+			});
+		}
+		
 		var populateExpected = function(/*Slider Widget*/inSlider){
 			var initVal = inSlider.attr('value');
 			var eVals = [];
@@ -230,12 +245,6 @@
 			var d = new doh.Deferred();
 			var slider=dijit.byId(inSliderId);
 			var initVal = slider.attr('value');
-			var results = populateExpected(slider);
-			var strokeIndex = 0;
-			var noteChanges = dojo.connect(slider, "onChange", function(){
-				results[strokeIndex].actual = slider.attr('value');
-				strokeIndex++;
-			});
 			// get focus on slider thumb before pressing keys.
 			doh.robot.mouseMoveAt(slider.focusNode, 500);
 			doh.robot.mouseClick({left: true}, 100);
@@ -254,11 +263,11 @@
 			doh.robot.keyPress(dojo.keys.LEFT_ARROW, 100);
 			doh.robot.keyPress(dojo.keys.END, 100);
 			var testPresses = function(){
-				for (var aResult in results) {
-					doh.assertEqual(aResult.expected, aResult.actuals, aResult.stroke);
-				}
 				dojo.disconnect(noteChanges);
 				slider.attr('value', initVal);
+				for(var i = 0; i < eaVals.length; i++){
+					doh.assertEqual(eaVals[i].expected, eaVals[i].actual, eaVals[i].stroke + " (" + slider.id + ")");
+				}
 			};
 			doh.robot.sequence(d.getTestCallback(testPresses), 1600);
 			return d;
@@ -607,6 +616,9 @@
 				{
 					name:"slider1Keystrokes",
 					timeout:4000,
+					setUp:function(){
+						keyStrokeSetup("slider1");
+					},
 					runTest:function(){
 						return a11yKeystrokeTest("slider1");
 					}
@@ -614,20 +626,19 @@
 				{
 					name:"slider2Keystrokes",
 					timeout:4000,
+					setUp:function(){
+						keyStrokeSetup("slider2");
+					},
 					runTest:function(){
 						return a11yKeystrokeTest("slider2");
 					}
 				},
 				{
-					name:"slider3Keystrokes",
-					timeout:4000,
-					runTest:function(){
-						return a11yKeystrokeTest("slider3");
-					}
-				},
-				{
 					name:"programaticSliderKeystrokes",
 					timeout:4000,
+					setUp:function(){
+						keyStrokeSetup("programaticSlider");
+					},
 					runTest:function(){
 						return a11yKeystrokeTest("programaticSlider");
 					}
