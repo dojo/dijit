@@ -20,9 +20,156 @@
 				var spin1;
 				var spin2;
 				var spin3;
+				var spinnerIds = ["integerspinner1", "integerspinner2", "integertextbox3", "realspinner1"];
 				var safeClick;
 				var delta=1; // redefine with doh.robot.mouseWheelSize when it is available
 				doh.robot.initRobot('../test_Spinner.html');
+				
+				// focus handlers for noticing tab/shift+tab navigation
+				var focusCountZ = 0;
+				var blurCountZ = 0;
+				var countFocus = function(){
+					focusCountZ++;
+				}
+				var countBlur = function(){
+					blurCountZ++;
+				}
+				var focusConnect;
+				var blurConnect;
+				var tabFocusSetup = function(inSpinnerId){
+					var spinner = dijit.byId(inSpinnerId);
+					focusCountZ = 0;
+					blurCountZ = 0;
+					focusConnect = spinner.connect(spinner.focusNode, "onfocus", countFocus);
+					blurConnect = spinner.connect(spinner.focusNode, "onblur", countBlur);
+				}
+				
+				// setup to test manipulation of spinner via keystrokes.
+				var results;
+				var strokeIndex = 0;
+				var noteConnect;
+				function noteChanges(){
+					results[strokeIndex].actual = spinner.attr('value');
+					strokeIndex++;
+				}
+				function keyStrokeSetup(inSpinnerId){
+					var spinner = dijit.byId(inSpinnerId);
+					results = populateExpected(spinner);
+					strokeIndex = 0;
+					noteConnect = spinner.connect(spinner.focusNode, "onkeypress", function(){
+						results[strokeIndex].actual = spinner.attr('value');
+						strokeIndex++;
+					});
+				}
+
+				// use spinner api to calculate values for a set of keystrokes.
+				var populateExpected = function(/*Spinner Widget*/inSpinner){
+					var initVal = inSpinner.attr('value');
+					var eVals = [];
+					var newVal;
+					
+					// The values expected by pressing HOME, right arrow five times,
+					// PgUp twice, PgDn, up arrow twice, down arrow once,
+					// left arrow once, and END.
+					if(inSpinner.constraints.min){
+						inSpinner.attr('value', inSpinner.constraints.min);
+						newVal = inSpinner.attr('value');
+					}else{
+						newVal = inSpinner.attr('value');
+					}
+					eVals.push({stroke: "HOME", expected: newVal});
+					// UP 5 times
+					for(var i = 0; i < 5; i++){
+						newVal = inSpinner.adjust(newVal, inSpinner.smallDelta);
+						inSpinner.attr('value', newVal);
+						newVal = inSpinner.attr('value');
+						eVals.push({stroke: "UP", expected: newVal});					
+					}
+					// PgUp twice
+					for(var i = 0; i < 2; i++){
+						newVal = inSpinner.adjust(newVal, inSpinner.largeDelta);
+						inSpinner.attr('value', newVal);
+						newVal = inSpinner.attr('value');
+						eVals.push({stroke: "PgUp", expected: newVal});					
+					}
+					// PgDn once.
+					newVal = inSpinner.adjust(newVal, -inSpinner.largeDelta);
+					inSpinner.attr('value', newVal);
+					newVal = inSpinner.attr('value');
+					eVals.push({stroke: "PgDn", expected: newVal});					
+					// DOWN
+					newVal = inSpinner.adjust(newVal, -inSpinner.smallDelta);
+					inSpinner.attr('value', newVal);
+					newVal = inSpinner.attr('value');
+					eVals.push({stroke: "DOWN", expected: newVal});					
+					// END
+					if(inSpinner.constraints.max){
+						inSpinner.attr('value', inSpinner.constraints.max);
+						newVal = inSpinner.attr('value');
+					}else{
+						newVal = inSpinner.attr('value');
+					}
+					eVals.push({stroke: "END", expected: newVal});
+					
+					// reset <inSpinner> back to its initial value, and return
+					inSpinner.attr('value', initVal);
+					return eVals;
+				}
+				
+				// common robot TAB-focus test function.
+				var a11yTabFocus = function(inSpinnerId){
+					var d = new doh.Deferred();
+					var spinner = dijit.byId(inSpinnerId);
+					// insure a known focus starting point within document before key presses.
+					doh.robot.mouseMoveAt(spinner.focusNode, 500);
+					doh.robot.mouseClick({left:true}, 100);
+					// Shift-tab away, tab to, tab away, shift-tab back.
+					doh.robot.keyPress(dojo.keys.TAB, 100, {shift:true});
+					doh.robot.keyPress(dojo.keys.TAB, 100);
+					doh.robot.keyPress(dojo.keys.TAB, 100);
+					doh.robot.keyPress(dojo.keys.TAB, 100, {shift:true});
+					var checkGotFocus = function(){
+						spinner.disconnect(focusConnect);
+						spinner.disconnect(blurConnect);
+						doh.assertEqual(3, focusCountZ, "# of times focussed (" + spinner.id + ")");
+						doh.assertEqual(2, blurCountZ, "# of times lost focus (" + spinner.id + ")");
+					};
+					doh.robot.sequence(d.getTestCallback(checkGotFocus), 1100);
+					return d;
+				}
+				
+				// common robot keystroek test function.
+				var a11yKeystrokeTest = function(inSpinnerId){
+					var d = new doh.Deferred();
+					var spinner = dijit.byId(inSpinnerId);
+					var initVal = spinner.attr('value');
+
+					doh.robot.mouseMoveAt(spinner.focusNode, 500);
+					doh.robot.mouseClick({left:true}, 100);
+					doh.robot.keyPress(dojo.keys.HOME, 100);
+					doh.robot.keyPress(dojo.keys.UP_ARROW, 100);
+					doh.robot.keyPress(dojo.keys.UP_ARROW, 100);
+					doh.robot.keyPress(dojo.keys.UP_ARROW, 100);
+					doh.robot.keyPress(dojo.keys.UP_ARROW, 100);
+					doh.robot.keyPress(dojo.keys.UP_ARROW, 100);
+					doh.robot.keyPress(dojo.keys.PAGE_UP, 100);
+					doh.robot.keyPress(dojo.keys.PAGE_UP, 100);
+					doh.robot.keyPress(dojo.keys.PAGE_DOWN, 100);
+					doh.robot.keyPress(dojo.keys.DOWN_ARROW, 100);
+					doh.robot.keyPress(dojo.keys.END, 100);
+					var testPresses = function(){
+						spinner.disconnect(noteConnect);
+						spinner.attr('value', initVal);
+						for(var i = 0; i < results.length; i++){
+							var aResult = results[i];
+							if(!(isNaN(aResult.expected) && isNaN(aResult.actual))) {
+								doh.is(aResult.expected, aResult.actual, aResult.stroke);
+							}
+						}
+					};
+					doh.robot.sequence(d.getTestCallback(testPresses), 1600);
+					return d;
+				}
 
 				doh.register("setUp",{
 					name: "setUp",
@@ -552,6 +699,7 @@
 						spin3.attr('value',1);
 					}
 				});
+
 				doh.register("tearDown",{
 					name:"tearDown",
 					runTest:function(){
@@ -568,6 +716,149 @@
 						doh.is(s, dojo.doc.displayData().replace(/[a-zA-Z0-9_]*_displayed_/g, ""));
 					}
 				});
+				
+				// aria role and properties tests.
+				doh.register("a11yAria",
+				[
+					function ariaRole(){
+						for(i=0; i<spinnerIds.length; i++){
+							var spinner = dijit.byId(spinnerIds[i]);
+							doh.is(dijit.getWaiRole(spinner.focusNode), "spinbutton", spinner.id + ": aria role (spinbutton)");
+						}
+					},
+					
+					// test aria valuemin, valuemax, valuenow.
+					function ariaValue(){
+						for(var i=0; i<spinnerIds.length; i++){
+							var spinner = dijit.byId(spinnerIds[i]);
+							var min = -9999;
+							var max = 9999;
+							if(spinner.constraints.min){
+								min = spinner.constraints.min;
+								doh.is(dijit.getWaiState(spinner.focusNode, "valuemin"), min, spinner.id + ": aria-valuemin");
+							}
+							if(spinner.constraints.max){
+								max = spinner.constraints.max;
+								doh.is(dijit.getWaiState(spinner.focusNode, "valuemax"), max, spinner.id + ": aria-valuemax");
+							}
+							// set spinner to some random value in its range.
+							var setVal = Math.floor((Math.random() * (max - min)) + min);
+							spinner.attr('value', setVal);
+							doh.is(dijit.getWaiState(spinner.focusNode, "valuenow"), spinner.attr('value'), spinner.id + ": aria-valuenow");
+						}
+					},
+					
+					// test "null" aria-valuenow
+/* Remove null aria-valuenow test until #7866 is resolved
+					function nullAriaValueNow(){
+						for(var i=0; i<spinnerIds.length; i++){
+							var spinner = dijit.byId(spinnerIds[i]);
+							var initVal = spinner.attr('value');
+							spinner.attr('value', null);
+							var spinnerVal = spinner.attr('value');
+							var nowVal = dijit.getWaiState(spinner.focusNode, "valuenow");
+							var invalid = dijit.getWaiState(spinner.focusNode, "invalid");
+							spinner.attr('value', initVal);
+							doh.t(invalid, spinner.id + ": aria-invalid");
+							if(!(isNaN(spinnerVal) && isNaN(nowVal))){
+								doh.is(spinnerVal, nowVal, spinner.id + ": null aria-valuenow");
+							}
+						}
+					} 
+*/
+				]);
+	
+				// a11y tab focus tests (robot)
+				doh.register("a11yTabFocus",
+				[
+					{
+						name:"integerspinner1TabFocus",
+						timeout:4000,
+						setUp:function(){
+							tabFocusSetup("integerspinner1");
+						},
+						runTest:function(){
+							return a11yTabFocus("integerspinner1");
+						}
+					},
+					{
+						name:"integerspinner2TabFocus",
+						timeout:4000,
+						setUp:function(){
+							tabFocusSetup("integerspinner2");
+						},
+						runTest:function(){
+							return a11yTabFocus("integerspinner2");
+						}
+					},
+					{
+						name:"integertextbox3TabFocus",
+						timeout:4000,
+						setUp:function(){
+							tabFocusSetup("integertextbox3");
+						},
+						runTest:function(){
+							return a11yTabFocus("integertextbox3");
+						}
+					}/*,
+					// this test fails for since there is nothing to focus on below 'realspinner1'
+					{
+						name:"realspinner1TabFocus",
+						timeout:4000,
+						setUp:function(){
+							tabFocusSetup("realspinner1");
+						},
+						runTest:function(){
+							return a11yTabFocus("realspinner1");
+						}
+					}*/
+				]);
+				
+				// a11y keystroke tests
+				doh.register("a11yKeystrokes",
+				[
+					{
+						name:"integerspinner1Keystrokes",
+						timeout:4000,
+						setUp:function(){
+							keyStrokeSetup("integerspinner1");
+						},
+						runTest:function(){
+							return a11yKeystrokeTest("integerspinner1");
+						}
+					},
+					{
+						name:"integerspinner2Keystrokes",
+						timeout:4000,
+						setUp:function(){
+							keyStrokeSetup("integerspinner2");
+						},
+						runTest:function(){
+							return a11yKeystrokeTest("integerspinner2");
+						}
+					},
+					{
+						name:"integertextbox3Keystrokes",
+						timeout:4000,
+						setUp:function(){
+							keyStrokeSetup("integertextbox3");
+						},
+						runTest:function(){
+							return a11yKeystrokeTest("integertextbox3");
+						}
+					},
+					{
+						name:"realspinner1Keystrokes",
+						timeout:4000,
+						setUp:function(){
+							keyStrokeSetup("realspinner1");
+						},
+						runTest:function(){
+							return a11yKeystrokeTest("realspinner1");
+						}
+					}
+				]);
+				
 				doh.run();
 			});
 		</script>
