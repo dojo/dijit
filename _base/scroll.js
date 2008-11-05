@@ -28,8 +28,13 @@ dijit.scrollIntoView = function(/* DomNode */node){
 	function addPseudoAttrs(element){
 		var parent = element.parentNode;
 		var offsetParent = element.offsetParent;
-		if(offsetParent == null){ // process only 1 of BODY/HTML
-			element = scrollRoot;
+		if(offsetParent == null ||
+			(element.style && element.style.position == "fixed")){ // position:fixed has no real offsetParent
+			if(element == body || element == html){ // process only 1 of BODY/HTML
+				element = scrollRoot;
+			}else{ // position:fixed elements can have an offsetparent = null on IE7
+				scrollRoot = element; // position:fixed is the last node that needs to be viewed
+			}
 			offsetParent = html;
 			parent = null;
 		}
