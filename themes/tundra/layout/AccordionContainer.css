@@ -23,10 +23,6 @@
 
 /* common */
 
-.tundra .dijitAccordionPane {
-	background-color: #e7e7e7;
-}
-
 .tundra .dijitAccordionTitle {
 	background:#fafafa url("../images/titleBar.png") repeat-x bottom left;
 	border-top: 1px solid #bfbfbf;
