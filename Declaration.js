@@ -17,7 +17,6 @@ dojo.declare(
 		mixins: [],
 		buildRendering: function(){
 			var src = this.srcNodeRef.parentNode.removeChild(this.srcNodeRef),
-				preambles = dojo.query("> script[type='dojo/method'][event='preamble']", src).orphan(),
 				methods = dojo.query("> script[type^='dojo/method'][event]", src).orphan(),
 				postscriptConnects = dojo.query("> script[type^='dojo/method']", src).orphan(),
 				regularConnects = dojo.query("> script[type^='dojo/connect']", src).orphan(),
