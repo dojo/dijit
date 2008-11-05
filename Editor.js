@@ -96,7 +96,8 @@ dojo.declare(
 				}
 			});
 			this._plugins=[];
-			this.toolbar.destroy(); delete this.toolbar;
+			this.toolbar.destroyRecursive();
+			delete this.toolbar;
 			this.inherited(arguments);
 		},
 		addPlugin: function(/*String||Object*/plugin, /*Integer?*/index){
