@@ -9,6 +9,7 @@
 			dojo.require("dijit.form.Button");
 			dojo.require("dijit.form.CheckBox");
 			dojo.require("dijit.ProgressBar");
+			dojo.require("dijit.layout.ContentPane");
 
 			dojo.addOnLoad(function(){
 				var testW;
@@ -45,6 +46,33 @@
 								t.is(1,testW.buttonWidget._counter);
 								t.is(1,testW.checkboxWidget._counter);
 								t.is(1,testW.progressBarWidget._counter);
+							}
+						},
+						{
+							// Test that getDescendants ()
+							// finds direct descendants but skips widgetsInTemplates
+							// and also nested widgets (if direct==true)
+							name: "destruction",
+							runTest: function(t){
+								var testW = dijit.byId("test3Widget");
+
+								var desc = testW.getDescendants(true);
+								t.is(5, desc.length, "number of direct descendants");
+								t.is(desc[0].id, "3.1");
+								t.is(desc[1].id, "3.2");
+								t.is(desc[2].id, "3.3");
+								t.is(desc[3].id, "3.4");
+								t.is(desc[4].id, "3.5");
+
+								var desc = testW.getDescendants();
+								t.is(7, desc.length, "number of descendants (including nested ones)");
+								t.is(desc[0].id, "3.1");
+								t.is(desc[1].id, "3.2");
+								t.is(desc[2].id, "3.3");
+								t.is(desc[3].id, "3.nested");
+								t.is(desc[4].id, "3.nested2");
+								t.is(desc[5].id, "3.4");
+								t.is(desc[6].id, "3.5");
 							}
 						}
 					]
@@ -91,10 +119,13 @@
 	<!-- can use widget immediately in markup - no parsing occurs until document loaded and scripts run -->
 	<div dojoType="Test1Widget" id="test1Widget" ></div>
 
-
+	<!-- TODO: this is a strange test; the containerNode shouldn't have any contents as they will be overwritten -->
 	<xmp id="Test2Template" style="display:none;">
 		<div>
-			<div dojoAttachPoint="containerNode" ><div dojoAttachPoint="checkboxWidget" dojoType="dijit.form.CheckBox"></div> checkbox #2</div>
+			<div dojoAttachPoint="containerNode" >
+				<div dojoAttachPoint="checkboxWidget" dojoType="dijit.form.CheckBox"></div>
+				checkbox #2
+			</div>
 		</div>
 	</xmp>
 		<script>
@@ -107,6 +138,40 @@
 			});
 		</script>
 	<div dojoType="Test2Widget" id="test2Widget" ><button dojoAttachPoint="buttonWidget" dojoType="dijit.form.Button">button #2</button></div>
+
+
+	<xmp id="Test3Template" style="display:none;">
+		<div>
+			<div dojoAttachPoint="checkboxWidget" dojoType="dijit.form.CheckBox"></div> checkbox #3
+			<div dojoAttachPoint="containerNode" ></div>
+		</div>
+	</xmp>
+		<script>
+			dojo.declare('Test3Widget',
+				[dijit._Widget, dijit._Templated],
+			{
+				widgetsInTemplate: true,
+
+				templateString: dojo.byId('Test3Template').textContent || dojo.byId('Test3Template').innerText
+			});
+		</script>
+	<div dojoType="Test3Widget" id="test3Widget" >
+		<span>hello world</span>
+		<b style="border: 1px solid blue;">this is my
+			<button dojoType="dijit.form.Button" id="3.1">first button</button>
+		</b>
+		<button dojoType="dijit.form.Button" id="3.2">another button</button>
+		<i>and some more</i>
+		<div style="border: 1px solid red;">
+			<div dojoType="dijit.layout.ContentPane" style="border: 1px solid gray;" id="3.3">
+				<button dojoType="dijit.form.Button" id="3.nested">a nested button</button>
+				<button dojoType="dijit.form.Button" id="3.nested2">another nested button</button>
+			</div>	
+			<button dojoType="dijit.form.Button" id="3.4">yet another button</button>
+			<button dojoType="dijit.form.Button" id="3.5">yet yet another button</button>
+		</div>
+	</div>
+
 	</body>
 </html>
 

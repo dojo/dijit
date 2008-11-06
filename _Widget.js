@@ -497,11 +497,11 @@ dojo.declare("dijit._Widget", null, {
 		//		If true, the preserveDom attribute is passed to all descendant
 		//		widget's .destroy() method. Not for use with _Templated
 		//		widgets.
-		
-		// TODO: should I destroy in the reverse order, to go bottom up?
-		dojo.forEach(this.getDescendants(), function(widget){ 
-			if(widget.destroy){
-				widget.destroy(preserveDom);
+
+		// get all direct descendants and destroy them recursively
+		dojo.forEach(this.getDescendants(true), function(widget){ 
+			if(widget.destroyRecursive){
+				widget.destroyRecursive(preserveDom);
 			}
 		});
 	},
@@ -704,13 +704,11 @@ dojo.declare("dijit._Widget", null, {
 		return '[Widget ' + this.declaredClass + ', ' + (this.id || 'NO ID') + ']'; // String
 	},
 
-	getDescendants: function(){
+	getDescendants: function(/*Boolean*/ directOnly){
 		// summary:
-		//		Returns all the widgets that contained by this, i.e., all widgets underneath this.containerNode.
+		//		Returns all the widgets contained by this, i.e., all widgets underneath this.containerNode.
 		// description:
-		//		This method is designed to *not* return widgets that are, for example,
-		//		used as part of a template, but rather to just return widgets that are defined in the
-		//		original markup as descendants of this widget, for example w/this markup:
+		//		For example w/this markup:
 		//
 		//		|	<div dojoType=myWidget>
 		//		|		<b> hello world </b>
@@ -721,15 +719,32 @@ dojo.declare("dijit._Widget", null, {
 		//		|		</div>
 		//		|	</div>
 		//
-		//		getDescendants() will return subwidget, but not anything that's part of the template
-		//		of myWidget.
+		//		myWidget.getDescendants() will return subwidget and subwidget2.
+		//
+		//		This method is designed to *not* return widgets that are
+		//		part of a widget's template, but rather to just return widgets that are defined in the
+		//		original markup as descendants of this widget.
+		// directOnly:
+		//		If directOnly is true then won't find nested widgets (subwidget2 in above example)
 
+		var outAry = [];
 		if(this.containerNode){
-			var list = dojo.query('[widgetId]', this.containerNode);
-			return list.map(dijit.byNode);		// Array
-		}else{
-			return [];
+			// array based DFS
+			var searchNodes = dojo.query(">", this.containerNode);
+			while(searchNodes.length){
+				var node = searchNodes.shift();
+				if(dojo.hasAttr(node, "widgetId")){
+					var widget = dijit.byNode(node);
+					outAry.push(widget);
+					if(!directOnly){
+						outAry = outAry.concat(widget.getDescendants());
+					}
+				}else{
+					searchNodes = dojo.query(">", node).concat(searchNodes);
+				}
+			}
 		}
+		return outAry;
 	},
 
 	// TODOC
