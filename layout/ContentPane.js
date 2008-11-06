@@ -384,21 +384,21 @@ dojo.declare(
 		}
 
 		// For historical reasons we need to delete all widgets under this.containerNode,
-		// even ones that the user has created manually.   These can be found via
-		// getDescendants().    If possible we also want to delete things like Menus where
-		// their domNode has been moved under <body>... thus setter.parseResults is useful too.
-		//
-		// Be careful to only destroy each widget once, even if it appears in both
-		// getDescendants(true) and setter.parseResults.
+		// even ones that the user has created manually.
 		var setter = this._contentSetter;
-		var children = this.getDescendants(true).concat(setter ? setter.parseResults : []);
-		dojo.forEach(children, function(widget){
-			if(widget.destroyRecursive && !widget._destroyed){
+		dojo.forEach(this.getDescendants(true), function(widget){
+			if(widget.destroyRecursive){
 				widget.destroyRecursive();
-				widget._destroyed = true;
 			}
 		});
 		if(setter){
+			// Most of the widgets in setter.parseResults have already been destroyed, but
+			// things like Menu that have been moved to <body> haven't yet
+			dojo.forEach(setter.parseResults, function(widget){
+				if(widget.destroyRecursive && widget.domNode && widget.domNode.parentNode == dojo.body()){
+					widget.destroyRecursive();
+				}
+			});
 			delete setter.parseResults;
 		}
 		
