@@ -121,11 +121,24 @@
 				name: 'destroy', 
 				runTest: function(t) {
 					console.log("basicChecks: " + this.name);
-					// when we kill the CP, it should also destroy any widgets created when we set content
-					dialogCtrPane.destroy();
-					
+
+					// manually stick a widget into the ContentPane
+					var manualWidget = new dijit.TestWidget({id: "destroyTestWidget"});
+					dojo.place(manualWidget.domNode, dialogCtrPane.domNode, "last");
+
+					// make sure widget created via attr('content') and also the above widget are there
+					t.assertTrue(dijit.byId("sacrificialDlg"), "dialog in dialogContainer still there");
+					t.assertTrue(dijit.byId("destroyTestWidget"), "test widget in dialogContainer still there");
+
+					// when we kill the CP, it should also destroy any widgets created when we set content,
+					// and for backwards-compatibility reasons, any widgets that user stuck in there
+					// manually too
+					dialogCtrPane.destroyRecursive();
+
+					// make sure everything got deleted		
 					t.assertFalse(dijit.byId("dialogContainer"));
-					t.assertFalse(dijit.byId("sacrificialDlg"));
+					t.assertFalse(dijit.byId("sacrificialDlg"), "dialog in dialogContainer was destroyed");
+					t.assertFalse(dijit.byId("destroyTestWidget"), "test widget in dialogContainer was destroyed");
 					t.assertFalse(dojo.byId("sacrificialDlg"));
 				}
 			}

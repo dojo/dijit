@@ -383,24 +383,27 @@ dojo.declare(
 			this._onUnloadHandler();
 		}
 
-		// dojo.html._ContentSetter keeps track of child widgets, so we should use it to
-		// destroy them.
+		// For historical reasons we need to delete all widgets under this.containerNode,
+		// even ones that the user has created manually.   These can be found via
+		// getDescendants().    If possible we also want to delete things like Menus where
+		// their domNode has been moved under <body>... thus setter.parseResults is useful too.
 		//
-		// Only exception is when those child widgets were specified in original page markup
-		// and created by the parser (in which case _ContentSetter doesn't know what the widgets
-		// are).  Then we need to call Widget.destroyDescendants().
-		//
-		// Note that calling Widget.destroyDescendants() has various issues (#6954),
-		//  namely that popup widgets aren't destroyed (#2056, #4980)
-		// and the widgets in templates are destroyed twice (#7706)
-		var setter = this._contentSetter; 
+		// Be careful to only destroy each widget once, even if it appears in both
+		// getDescendants(true) and setter.parseResults.
+		var setter = this._contentSetter;
+		var children = this.getDescendants(true).concat(setter ? setter.parseResults : []);
+		dojo.forEach(children, function(widget){
+			if(widget.destroyRecursive && !widget._destroyed){
+				widget.destroyRecursive();
+				widget._destroyed = true;
+			}
+		});
 		if(setter){
-			// calling empty destroys all child widgets as well as emptying the containerNode
-			setter.empty();
-		}else{
-			this.inherited(arguments);
-			dojo.html._emptyNode(this.containerNode);
+			delete setter.parseResults;
 		}
+		
+		// And then clear away all the DOM nodes
+		dojo.html._emptyNode(this.containerNode);
 	},
 
 	_setContent: function(cont, isFakeContent){
