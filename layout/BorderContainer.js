@@ -25,10 +25,7 @@ dojo.declare(
 	//  NOTE: Splitters must not be more than 50 pixels in width.
 	//
 	// example:
-	// |	<style>
-	// |		html, body { height: 100%; width: 100%; }
-	// |	</style>
-	// |	<div dojoType="BorderContainer" design="sidebar" style="width: 100%; height: 100%">
+	// |	<div dojoType="dijit.layout.BorderContainer" design="sidebar" style="width: 400px; height: 300px;">
 	// |		<div dojoType="ContentPane" region="top">header text</div>
 	// |		<div dojoType="ContentPane" region="right" style="width: 200px;">table of contents</div>
 	// |		<div dojoType="ContentPane" region="center">client area</div>
