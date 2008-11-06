@@ -227,13 +227,19 @@
 							pane2.attr("content", "");
 						},
 						runTest: function(t){
+							dojo.connect(pane2, "onUnload", function(){
+								console.log("pane2 unload of: " + pane2.attr('content'));
+							});
+							dojo.connect(pane2, "onLoad", function(){
+								console.log("pane2 load of: " + pane2.attr('content'));
+							});
 							var msgCanceled = "This message be canceled";
 							pane2.attr('href', "getResponse.php?delay=1000&message="+encodeURI(msgCanceled));
 
-							var msg = "This message should win over the inflight one";
+							var msg = "This message should win over (ie, cancel) the inflight one";
 							setTimeout(function(){
 								pane2.attr("content", msg);
-							}, 900);
+							}, 500);
 
 							var d = new t.Deferred();
 							setTimeout(d.getTestCallback(
@@ -268,7 +274,10 @@
 						}
 					},
 					{
+						// Test isLoaded attribute lifecycle and that onLoad/onUnload callbacks
+						// are called at the right times
 						name: "isLoaded",
+
 						timeout: 1800,
 						setUp: function(t){
 							pane2.attr("content", "");
@@ -276,9 +285,18 @@
 						runTest: function(t){
 							t.assertTrue(pane2.isLoaded);
 
+							// Setup handlers to track when onUnload and onLoad are called,
+							// including tracking if they get called repeatedly (they shouldn't)
+							var history = "";
+							var handles = [
+								dojo.connect(pane2, "onUnload", function(){ history += "unloaded"}),
+								dojo.connect(pane2, "onLoad", function(){ history += " and reloaded"})
+							];
+
 							pane2.attr('href', "getResponse.php?delay=300&message=test");
 
 							t.assertFalse(pane2.isLoaded);
+							t.assertEqual("unloaded", history);
 
 							var ilObj = {}; // a object to get a reference instead of copy
 
@@ -292,6 +310,10 @@
 								function(){
 									t.assertTrue(pane2.isLoaded);
 									t.assertFalse(ilObj.probed);
+									t.assertEqual("unloaded and reloaded", history);
+									console.log("history in callback is ", history);
+									
+									dojo.forEach(handles, dojo.disconnect);
 								}
 							), 1500);
 							return d;

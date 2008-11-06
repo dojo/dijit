@@ -86,6 +86,9 @@ dojo.declare(
 	//				however big the ContentPane is
 	doLayout: true,
 
+	// whether current content is something the user specified, or just a "Loading..." message
+	_isRealContent: true,
+
 	postMixInProperties: function(){
 		this.inherited(arguments);
 		var messages = dojo.i18n.getLocalization("dijit", "loading", this.lang);
@@ -218,7 +221,7 @@ dojo.declare(
 			}
 		}
 
-		this._onLoadHandler();
+		this._onLoadHandler(data);
 	},
 	_getContentAttr: function(){
 		// summary: hook to make attr("content") work
@@ -313,9 +316,7 @@ dojo.declare(
 
 	_downloadExternalContent: function(){
 		// display loading message
-		this._setContent(
-			this.onDownloadStart.call(this)
-		);
+		this._setContent(this.onDownloadStart(), true);
 
 		var self = this;
 		var getArgs = {
@@ -332,10 +333,10 @@ dojo.declare(
 		hand.addCallback(function(html){
 			try{
 				self._isDownloaded = true;
-				self.attr.call(self, 'content', html); // onload event is called from here
-				self.onDownloadEnd.call(self);
+				self.attr('content', html); // onload event is called from here
+				self.onDownloadEnd();
 			}catch(err){
-				self._onError.call(self, 'Content', err); // onContentError
+				self._onError('Content', err); // onContentError
 			}
 			delete self._xhrDfd;
 			return html;
@@ -344,19 +345,19 @@ dojo.declare(
 		hand.addErrback(function(err){
 			if(!hand.cancelled){
 				// show error message in the pane
-				self._onError.call(self, 'Download', err); // onDownloadError
+				self._onError('Download', err); // onDownloadError
 			}
 			delete self._xhrDfd;
 			return err;
 		});
 	},
 
-	_onLoadHandler: function(){
+	_onLoadHandler: function(data){
 		// summary:
 		//		This is called whenever new content is being loaded
 		this.isLoaded = true;
 		try{
-			this.onLoad.call(this);
+			this.onLoad(data);
 		}catch(e){
 			console.error('Error '+this.widgetId+' running custom onLoad code');
 		}
@@ -366,10 +367,8 @@ dojo.declare(
 		// summary:
 		//		This is called whenever the content is being unloaded
 		this.isLoaded = false;
-		this.cancel();
-
 		try{
-			this.onUnload.call(this);
+			this.onUnload();
 		}catch(e){
 			console.error('Error '+this.widgetId+' running custom onUnload code');
 		}
@@ -379,9 +378,10 @@ dojo.declare(
 		// summary:
 		//		Destroy all the widgets inside the ContentPane and empty containerNode
 
-		// Make sure we call onUnload
-		// TODO: this shouldn't be called when we are simply destroying a "Loading..." message
-		this._onUnloadHandler();
+		// Make sure we call onUnload (but only when the ContentPane has real content)
+		if(this._isRealContent){
+			this._onUnloadHandler();
+		}
 
 		// dojo.html._ContentSetter keeps track of child widgets, so we should use it to
 		// destroy them.
@@ -403,12 +403,19 @@ dojo.declare(
 		}
 	},
 
-	_setContent: function(cont){
+	_setContent: function(cont, isFakeContent){
 		// summary: 
 		//		Insert the content into the container node
 
+		// Cancel any in-flight requests (an attr('content') will cancel any in-flight attr('href', ...)
+		this.cancel();
+
 		// first get rid of child widgets
 		this.destroyDescendants();
+
+		// mark whether this should be calling the unloadHandler
+		// for the content we are about to set
+		this._isRealContent = !isFakeContent;
 		
 		// dojo.html.set will take care of the rest of the details
 		// we provide an overide for the error handling to ensure the widget gets the errors 
@@ -455,7 +462,7 @@ dojo.declare(
 		if(consoleText){
 			console.error(consoleText, err);
 		}else if(errText){// a empty string won't change current content
-			this._setContent.call(this, errText);
+			this._setContent(errText, true);
 		}
 	},
 
@@ -471,12 +478,12 @@ dojo.declare(
 
 
 	// EVENT's, should be overide-able
-	onLoad: function(e){
+	onLoad: function(data){
 		// summary:
 		//		Event hook, is called after everything is loaded and widgetified
 	},
 
-	onUnload: function(e){
+	onUnload: function(){
 		// summary:
 		//		Event hook, is called before old content is cleared
 	},
