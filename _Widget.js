@@ -704,7 +704,7 @@ dojo.declare("dijit._Widget", null, {
 		return '[Widget ' + this.declaredClass + ', ' + (this.id || 'NO ID') + ']'; // String
 	},
 
-	getDescendants: function(/*Boolean*/ directOnly){
+	getDescendants: function(/*Boolean*/ directOnly, /*DomNode[]?*/ outAry){
 		// summary:
 		//		Returns all the widgets contained by this, i.e., all widgets underneath this.containerNode.
 		// description:
@@ -726,25 +726,33 @@ dojo.declare("dijit._Widget", null, {
 		//		original markup as descendants of this widget.
 		// directOnly:
 		//		If directOnly is true then won't find nested widgets (subwidget2 in above example)
-
-		var outAry = [];
+		// outAry:
+		//		If specified, put results in here
+		outAry = outAry || [];
 		if(this.containerNode){
-			// array based DFS
-			var searchNodes = dojo.query(">", this.containerNode);
-			while(searchNodes.length){
-				var node = searchNodes.shift();
-				if(dojo.hasAttr(node, "widgetId")){
-					var widget = dijit.byNode(node);
-					outAry.push(widget);
-					if(!directOnly){
-						outAry = outAry.concat(widget.getDescendants());
-					}
-				}else{
-					searchNodes = dojo.query(">", node).concat(searchNodes);
-				}
-			}
+			this._getDescendantsHelper(directOnly, outAry, this.containerNode);
 		}
 		return outAry;
+	},
+	_getDescendantsHelper: function(/*Boolean*/ directOnly, /* DomNode[] */ outAry, /*DomNode*/ root){
+		// summary:
+		//		Search subtree under root, putting found widgets in outAry
+		// directOnly:
+		//		If false, return widgets nested inside other widgets
+		var list = dojo.isIE ? root.children : root.childNodes, i = 0, node;
+		while(node = list[i++]){
+			if(node.nodeType != 1){ continue; }
+			var widgetId = node.getAttribute("widgetId");
+			if(widgetId){
+				var widget = dijit.byId(widgetId);
+				outAry.push(widget);
+				if(!directOnly){
+					widget.getDescendants(directOnly, outAry);
+				}
+			}else{
+				this._getDescendantsHelper(directOnly, outAry, node);
+			}
+		}
 	},
 
 	// TODOC

@@ -56,6 +56,17 @@
 							runTest: function(t){
 								var testW = dijit.byId("test3Widget");
 
+
+/*** performance tests
+								var start = new Date();
+								for(var i=0; i<1000; i++)
+									testW.getDescendants(true);
+								console.log("*** time for getDescendants(true): " + (new Date()-start));
+								var start = new Date();
+								for(var i=0; i<1000; i++)
+									testW.getDescendants();
+								console.log("*** time for getDescendants(false): " + (new Date()-start));
+***/
 								var desc = testW.getDescendants(true);
 								t.is(5, desc.length, "number of direct descendants");
 								t.is(desc[0].id, "3.1");
