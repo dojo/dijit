@@ -404,8 +404,14 @@ dojo.declare(
 
 		templateString: "<form dojoAttachPoint='containerNode' dojoAttachEvent='onreset:_onReset,onsubmit:_onSubmit' name='${name}'></form>",
 
-		attributeMap: dojo.mixin(dojo.clone(dijit._Widget.prototype.attributeMap),
-			{action: "", method: "", encType: "", "accept-charset": "", accept: "", target: ""}),
+		attributeMap: dojo.delegate(dijit._Widget.prototype.attributeMap, {
+			action: "", 
+			method: "", 
+			encType: "", 
+			"accept-charset": "", 
+			accept: "", 
+			target: ""
+		}),
 
 		execute: function(/*Object*/ formContents){
 			//	summary:

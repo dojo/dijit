@@ -32,8 +32,9 @@ dojo.declare(
 		templatePath: dojo.moduleUrl("dijit.form", "templates/TextBox.html"),
 		baseClass: "dijitTextBox",
 
-		attributeMap: dojo.mixin(dojo.clone(dijit.form._FormValueWidget.prototype.attributeMap),
-			{maxLength:"focusNode"}),
+		attributeMap: dojo.delegate(dijit.form._FormValueWidget.prototype.attributeMap, {
+			maxLength: "focusNode" 
+		}),
 
 		_getValueAttr: function(){
 			// summary:

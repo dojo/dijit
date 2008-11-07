@@ -48,8 +48,8 @@ dojo.declare(
 
 	templatePath: dojo.moduleUrl("dijit", "templates/TitlePane.html"),
 
-	attributeMap: dojo.mixin(dojo.clone(dijit.layout.ContentPane.prototype.attributeMap), {
-		title: {node: "titleNode", type: "innerHTML" }
+	attributeMap: dojo.delegate(dijit.layout.ContentPane.prototype.attributeMap, {
+		title: { node: "titleNode", type: "innerHTML" }
 	}),
 
 	postCreate: function(){

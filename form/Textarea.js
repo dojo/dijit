@@ -19,8 +19,9 @@ dojo.declare(
 	// example:
 	// |	<textarea dojoType="dijit.form.TextArea">...</textarea>
 
-	attributeMap: dojo.mixin(dojo.clone(dijit.form._FormValueWidget.prototype.attributeMap),
-		{style:"styleNode", 'class':"styleNode"}),
+	attributeMap: dojo.delegate(dijit.form._FormValueWidget.prototype.attributeMap, {
+		style: "styleNode", "class": "styleNode"
+	}),
 
 	templateString: (dojo.isIE || dojo.isSafari || dojo.isFF) ?
 				((dojo.isIE || dojo.isSafari || dojo.isFF >= 3) ? '<fieldset id="${id}" class="dijitInline" dojoAttachPoint="styleNode" waiRole="presentation"><div dojoAttachPoint="editNode,focusNode,eventNode" dojoAttachEvent="onpaste:_changing,oncut:_changing" waiRole="textbox" waiState="multiline-true" contentEditable="true"></div>'

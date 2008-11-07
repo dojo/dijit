@@ -348,9 +348,9 @@ dojo.declare("dijit.MenuItem",
 		+'</td>'
 		+'</tr>',
 
-	attributeMap: dojo.mixin(dojo.clone(dijit._Widget.prototype.attributeMap), {
-		label: {node: "containerNode", type: "innerHTML"},
-		iconClass: {node: "iconNode", type: "class" }
+	attributeMap: dojo.delegate(dijit._Widget.prototype.attributeMap, {
+		label: { node: "containerNode", type: "innerHTML" },
+		iconClass: { node: "iconNode", type: "class" }
 	}),
 
 	// label: String

@@ -14,8 +14,9 @@ dojo.declare("dijit.form.MultiSelect",dijit.form._FormWidget,{
 	
 	templateString: "<select multiple='true' name='${name}' dojoAttachPoint='containerNode,focusNode' dojoAttachEvent='onchange: _onChange'></select>",
 
-	attributeMap: dojo.mixin(dojo.clone(dijit.form._FormWidget.prototype.attributeMap),
-		{size:"focusNode"}),
+	attributeMap: dojo.delegate(dijit.form._FormWidget.prototype.attributeMap, {
+		size: "focusNode"
+	}),
 
 	reset: function(){
 		// TODO: once we inherit from FormValueWidget this won't be needed

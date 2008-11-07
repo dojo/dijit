@@ -16,8 +16,9 @@ dojo.declare("dijit.form.SimpleTextarea",
 
 	baseClass: "dijitTextArea",
 
-	attributeMap: dojo.mixin(dojo.clone(dijit.form._FormValueWidget.prototype.attributeMap),
-		{rows:"textbox", cols: "textbox"}),
+	attributeMap: dojo.delegate(dijit.form._FormValueWidget.prototype.attributeMap, {
+		rows:"textbox", cols: "textbox"
+	}),
 
 	// rows: Number
 	//		The number of rows of text.

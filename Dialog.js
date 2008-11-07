@@ -138,8 +138,11 @@ dojo.declare(
 		
 		templateString: null,
 		templatePath: dojo.moduleUrl("dijit", "templates/Dialog.html"),
-		attributeMap: dojo.mixin(dojo.clone(dijit._Widget.prototype.attributeMap), {
-			title: [{node: "titleNode", type: "innerHTML"}, {node: "titleBar", type: "attribute"}]
+		attributeMap: dojo.delegate(dijit._Widget.prototype.attributeMap, {
+			title: [
+				{ node: "titleNode", type: "innerHTML" }, 
+				{ node: "titleBar", type: "attribute" }
+			]
 		}),
 
 		// open: Boolean

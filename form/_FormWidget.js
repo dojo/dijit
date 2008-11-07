@@ -65,8 +65,14 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 	// Don't attempt to mixin the 'type', 'name' attributes here programatically -- they must be declared
 	// directly in the template as read by the parser in order to function. IE is known to specifically 
 	// require the 'name' attribute at element creation time.
-	attributeMap: dojo.mixin(dojo.clone(dijit._Widget.prototype.attributeMap),
-		{value:"focusNode", disabled:"focusNode", readOnly:"focusNode", id:"focusNode", tabIndex:"focusNode", alt:"focusNode"}),
+	attributeMap: dojo.delegate(dijit._Widget.prototype.attributeMap, {
+		value: "focusNode", 
+		disabled: "focusNode", 
+		readOnly: "focusNode", 
+		id: "focusNode", 
+		tabIndex: "focusNode", 
+		alt: "focusNode"
+	}),
 
 	_setDisabledAttr: function(/*Boolean*/ value){
 		this.disabled = value;
@@ -321,8 +327,7 @@ dojo.declare("dijit.form._FormValueWidget", dijit.form._FormWidget,
 	// so maybe {value: ""} is so the value *doesn't* get copied to focusNode?
 	// Seems like we really want value removed from attributeMap altogether
 	// (although there's no easy way to do that now)
-	attributeMap: dojo.mixin(dojo.clone(dijit.form._FormWidget.prototype.attributeMap),
-		{value:""}),
+	attributeMap: dojo.delegate(dijit.form._FormWidget.prototype.attributeMap, { value: "" }),
 
 	postCreate: function(){
 		if(dojo.isIE || dojo.isSafari){ // IE won't stop the event with keypress and Safari won't send an ESCAPE to keypress at all
