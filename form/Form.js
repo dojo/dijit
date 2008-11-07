@@ -218,6 +218,12 @@ dojo.declare("dijit.form._FormMixin", null,
 						// radio button
 						if(value !== false){
 							dojo.setObject(name, value, obj);
+						}else{
+							// give radio widgets a default of null
+							value = dojo.getObject(name, false, obj);
+							if(value === undefined){
+								dojo.setObject(name, null, obj);
+							}
 						}
 					}else{
 						// checkbox/toggle button

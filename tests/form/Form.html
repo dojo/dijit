@@ -154,11 +154,10 @@
 						doh.is( dojo.toJson(dojo.mixin(changed,particalchanged)), dojo.toJson(f.attr('value')) );
 					},
 					function nameAttributeSurvived(){  // ticket:4753
-						var radios = dojo.query(".RadioButton", dijit.byId("radio-cells")).forEach(
+						var radios = dojo.query("INPUT[type=radio]", "radio-cells").forEach(
 							function(r) {
-								doh.is( r.inputNode.name, "r2" );
+								doh.is( r.name, "r2" );
 							});
-						
 					},
 					function resetTest(){
 								dijit.byId("myForm").reset();
@@ -327,6 +326,7 @@
 				<input dojoType="dijit.form.RadioButton" type="radio" name="r2" value="2" checked="checked" /> 2
 				<input dojoType="dijit.form.RadioButton" type="radio" name="r2" value="3"/> 3
 				<input dojoType="dijit.form.RadioButton" type="radio" name="r2" value="4" /> 4
+				<input type="button" onclick="dojo.query('INPUT[type=radio]','radio-cells').forEach(function(n){dijit.getEnclosingWidget(n).attr('checked',false);});return true;" value="Unset all radio buttons"/>
 				</td>
 				</tr>
 
