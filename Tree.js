@@ -618,7 +618,7 @@ dojo.declare(
 	_onEndKey: function(/*Object*/ message){
 		// summary: end pressed; go to last visible node
 
-		var node = this;
+		var node = this.rootNode;
 		while(node.isExpanded){
 			var c = node.getChildren();
 			node = c[c.length - 1];
