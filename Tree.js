@@ -48,6 +48,9 @@ dojo.declare(
 
 		if(this.isExpandable){
 			dijit.setWaiState(this.labelNode, "expanded", this.isExpanded);
+			if(this == this.tree.rootNode){
+				dijit.setWaitState(this.tree.domNode, "expanded", this.isExpanded);
+			}
 		}
 	},
 
@@ -118,6 +121,9 @@ dojo.declare(
 		this.contentNode.className = "dijitTreeContent dijitTreeContentExpanded";
 		this._setExpando();
 		this._updateItemClasses(this.item);
+		if(this == this.tree.rootNode){
+			dijit.setWaiState(this.tree.domNode, "expanded", "true");
+		}
 
 		if(!this._wipeIn){
 			this._wipeIn = dojo.fx.wipeIn({
@@ -135,6 +141,9 @@ dojo.declare(
 
 		this.isExpanded = false;
 		dijit.setWaiState(this.labelNode, "expanded", "false");
+		if(this == this.tree.rootNode){
+			dijit.setWaiState(this.tree.domNode, "expanded", "false");
+		}
 		this.contentNode.className = "dijitTreeContent";
 		this._setExpando();
 		this._updateItemClasses(this.item);
