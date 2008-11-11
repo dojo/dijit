@@ -37,6 +37,8 @@
 	'formatBlock': 'Estilo de Parágrafo',
 	'fontSize': 'Tamanho da Fonte',
 	'fontName': 'Nome da Fonte',
+	'tabIndent': 'Recuo da Tabulação',
 	/* Error messages */
-	'systemShortcutFF': 'A ação "${0}" está disponível apenas no Mozilla Firefox utilizando um atalho do teclado. Utilize ${1}.'
+	'systemShortcutFF': 'A ação "${0}" está disponível apenas no Mozilla Firefox utilizando um atalho do teclado. Utilize ${1}.',
+	'systemShortcut': 'A ação "${0}" está apenas disponível em seu navegador utilizando um atalho de teclado. Utilize ${1}.'
 })
