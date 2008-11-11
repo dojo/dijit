@@ -33,6 +33,6 @@
 	margin-left:0px;
 }
 
-.dj_ie .tundra .dijitTab .dijitTabInnerDiv{
-	width : 1%;
+.dj_ie-rtl .tundra .dijitTab .dijitTabInnerDiv {
+	width : 1% !important;
 }
