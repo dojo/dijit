@@ -77,19 +77,15 @@ dojo.declare("dijit.form.Button",
 		}
 	},
 
-	attr: function(/*String*/name, /*String*/ value){
+	_setValueAttr: function(/*String*/ value){
 		// Verify that value cannot be set for BUTTON elements.
-		if(arguments.length == 2 && name == "value"){
-			var attr = this.attributeMap.value || '';
-			if(this[attr.node||attr||'domNode'].tagName == 'BUTTON'){
-				// On IE, setting value actually overrides innerHTML, so disallow for everyone for consistency
-				if(value != this.value){
-					console.debug('Cannot change the value attribute on a Button widget.');
-				}
-				return;
+		var attr = this.attributeMap.value || '';
+		if(this[attr.node||attr||'domNode'].tagName == 'BUTTON'){
+			// On IE, setting value actually overrides innerHTML, so disallow for everyone for consistency
+			if(value != this.value){
+				console.debug('Cannot change the value attribute on a Button widget.');
 			}
 		}
-		this.inherited(arguments);
 	},
 
 	_fillContent: function(/*DomNode*/ source){
