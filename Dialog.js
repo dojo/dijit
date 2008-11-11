@@ -253,7 +253,16 @@ dojo.declare(
 			this._fadeIn = dojo.fadeIn({
 				node: node,
 				duration: this.duration,
-				onBegin: dojo.hitch(underlay, "show")
+				onBegin: dojo.hitch(underlay, "show"),
+				onEnd:	dojo.hitch(this, function(){
+					if(this.autofocus){
+						// find focusable Items each time dialog is shown since if dialog contains a widget the 
+						// first focusable items can change
+						this._getFocusItems(this.domNode);
+						console.log("focusing");
+						dijit.focus(this._firstFocusItem);
+					}
+				})
 			 });
 
 			this._fadeOut = dojo.fadeOut({
@@ -395,15 +404,6 @@ dojo.declare(
 			this._fadeIn.play();
 
 			this._savedFocus = dijit.getFocus(this);
-
-			if(this.autofocus){
-				// find focusable Items each time dialog is shown since if dialog contains a widget the 
-				// first focusable items can change
-				this._getFocusItems(this.domNode);
-	
-				// set timeout to allow the browser to render dialog
-				setTimeout(dojo.hitch(dijit,"focus",this._firstFocusItem), 50);
-			}
 		},
 
 		hide: function(){
