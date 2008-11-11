@@ -15,7 +15,7 @@ dijit.getViewport = function(){
 	var w = 0, h = 0;
 	var de = _document.documentElement;
 	var dew = de.clientWidth, deh = de.clientHeight;
-	if(dojo.isMozilla){
+	if(dojo.isMozilla || dojo.isSafari){
 		// mozilla
 		// _window.innerHeight includes the height taken by the scroll bar
 		// clientHeight is ideal but has DTD issues:
@@ -40,7 +40,7 @@ dijit.getViewport = function(){
 		}
 		w = (maxw > _window.innerWidth) ? minw : maxw;
 		h = (maxh > _window.innerHeight) ? minh : maxh;
-	}else if(!dojo.isOpera && _window.innerWidth){
+	}else if(!dojo.isOpera &&  _window.innerWidth){
 		//in opera9, dojo.body().clientWidth should be used, instead
 		//of window.innerWidth/document.documentElement.clientWidth
 		//so we have to check whether it is opera
@@ -57,7 +57,6 @@ dijit.getViewport = function(){
 
 	// get scroll position
 	var scroll = dojo._docScroll();
-
 	return { w: w, h: h, l: scroll.x, t: scroll.y };	//	object
 };
 
