@@ -359,7 +359,7 @@ dojo.declare(
 		try{
 			this.onLoad(data);
 		}catch(e){
-			console.error('Error '+this.widgetId+' running custom onLoad code');
+			console.error('Error '+this.widgetId+' running custom onLoad code: ' + e.message);
 		}
 	},
 
@@ -370,7 +370,7 @@ dojo.declare(
 		try{
 			this.onUnload();
 		}catch(e){
-			console.error('Error '+this.widgetId+' running custom onUnload code');
+			console.error('Error '+this.widgetId+' running custom onUnload code: ' + e.message);
 		}
 	},
 
