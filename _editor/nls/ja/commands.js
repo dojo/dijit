@@ -37,6 +37,9 @@
 	'formatBlock': '段落スタイル',
 	'fontSize': 'フォント・サイズ',
 	'fontName': 'フォント名',
+	'tabIndent': 'タブ・インデント',
 	/* Error messages */
-	'systemShortcutFF': '"${0}" アクションは、キーボード・ショートカットを使用して Mozilla Firefox でのみ使用できます。${1} を使用してください。'
+	'systemShortcutFF': '"${0}" アクションは、Mozilla Firefox でキーボード・ショートカットを使用する場合のみ使用可能です。${1} を使用してください。',
+	'systemShortcut': '"${0}" アクションは、ご使用のブラウザーでキーボード・ショートカットを使用する場合のみ使用可能です。${1} を使用してください。'
 })
+
