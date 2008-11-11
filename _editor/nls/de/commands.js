@@ -37,7 +37,8 @@
 	'formatBlock': 'Absatzstil',
 	'fontSize': 'Schriftgröße',
 	'fontName': 'Schriftartname',
+	'tabIndent': 'Tabulatoreinrückung',
 	/* Error messages */
-	'systemShortcutFF': 'Die Aktion "${0}" ist in Mozilla Firefox nur über einen Tastaturkurzbefehl verfügbar. Verwenden Sie ${1}.',
+	'systemShortcut': 'Die Aktion "${0}" ist in Ihrem Browser über einen Tastaturkurzbefehl verfügbar. Verwenden Sie ${1}.',
 	'ctrlKey':'Strg+${0}'
 })
