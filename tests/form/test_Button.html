@@ -46,7 +46,7 @@
 	<p class="box">
 		<button>&lt;button&gt;</button>
 		<input type="button" value="&lt;input type='button'&gt;">
-		<button id="1465" dojoType="dijit.form.Button" onClick='console.log("clicked simple")' iconClass="plusIcon">
+		<button id="1465" dojoType="dijit.form.Button" onClick='console.log("clicked simple")' iconClass="plusIcon" value="Create">
 			Create
 		</button>
 		<span dojoType="dijit.Tooltip" connectId="1465">tooltip on button</span>
@@ -64,7 +64,7 @@
 					onClick="console.log('not actually saving anything, just a test!')">Create from template</div>
 			</div>
 		</button>
-		<button dojoType="dijit.form.DropDownButton" iconClass="noteIcon">
+		<button dojoType="dijit.form.DropDownButton" iconClass="noteIcon" value="Edit">
 			<span>Edit<b>!</b></span>
 			<div dojoType="dijit.Menu">
 				<div dojoType="dijit.MenuItem"  iconClass="dijitEditorIcon dijitEditorIconCut"
@@ -90,7 +90,7 @@
 				</div>
 			</div>
 		</button>
-		<button dojoType="dijit.form.DropDownButton" iconClass="noteIcon">
+		<button dojoType="dijit.form.DropDownButton" iconClass="noteIcon" value="color">
 			<span>Color</span>
 			<div dojoType="dijit.ColorPalette" id="colorPalette" style="display: none" palette="3x4"
 				onChange="console.log(this.value);"></div>
