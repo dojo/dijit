@@ -106,12 +106,6 @@
 	font-weight:bold;
 }
 
-.tundra .dijitCalendarCurrentDate {
-	/* cell for today's date */
-	text-decoration:underline;
-	font-weight:bold;
-}
-
 .tundra .dijitCalendarHoveredDate {
 	background-color: #e2ebf2 !important;
 }
