@@ -259,7 +259,6 @@ dojo.declare(
 						// find focusable Items each time dialog is shown since if dialog contains a widget the 
 						// first focusable items can change
 						this._getFocusItems(this.domNode);
-						console.log("focusing");
 						dijit.focus(this._firstFocusItem);
 					}
 				})
