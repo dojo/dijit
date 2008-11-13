@@ -130,9 +130,10 @@
 	opacity:0.6 !important;
 }
 
-.dj_ie6 .nihilo .dijitSliderDisabled,
-.dj_ie6 .nihilo .dijitSliderDisabled .dijitRuleContainer,
-.dj_ie6 .nihilo .dijitSliderDisabled .dijitSliderRemainingBar,
-.dj_ie6 .nihilo .dijitSliderDisabled .dijitSliderProgressBar {
+.dj_ie .nihilo .dijitSliderDisabled,
+.dj_ie .nihilo .dijitSliderDisabled .dijitRuleContainer,
+.dj_ie .nihilo .dijitSliderDisabled .dijitSliderRemainingBar,
+.dj_ie .nihilo .dijitSliderDisabled .dijitSliderProgressBar {
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=40)";
 	filter: gray() alpha(opacity=40);
 }

@@ -481,6 +481,7 @@ table .dijitComboButton .dijitButtonNode {
 }
 
 .dj_ie .dijitCheckBoxInput {
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
 	filter: alpha(opacity=0);
 }
 
@@ -724,6 +725,7 @@ body .dijitAlignClient { position: absolute; }
 /* #6945: stop mouse events */
 .dj_ie .dijitSplitterCover{
 	background: white;
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
 	filter: alpha(opacity=0)
 }
 
@@ -1008,6 +1010,7 @@ img.dijitColorPaletteUnder {
 .dj_ie .dijitMenuItemDisabled *,
 .dj_ie .dijitMenuItemDisabled td {
 	color:gray !important;
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=35)";
 	filter: alpha(opacity=35);
 }
 
