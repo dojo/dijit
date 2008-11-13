@@ -780,6 +780,7 @@ body .dijitAlignClient { position: absolute; }
 	-moz-opacity: 0.5;
 	opacity: 0.5;
 	filter: Alpha(Opacity=50);
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
 	margin: 0;
 }
 
@@ -1259,6 +1260,7 @@ img.dijitColorPaletteUnder {
 
 .dj_ie .dijitDialogUnderlay {
 	filter: alpha(opacity=50);
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
 }
 
 /* images off, high-contrast mode styles */
