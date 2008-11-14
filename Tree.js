@@ -72,8 +72,12 @@ dojo.declare(
 			// For back-compat with 1.0, need to use null to specify root item (TODO: remove in 2.0)
 			item = null;
 		}
+
 		this.iconNode.className = "dijitTreeIcon " + tree.getIconClass(item, this.isExpanded);
+		dojo.style(this.iconNode, tree.getIconStyle(item, this.isExpanded) || {});
+
 		this.labelNode.className = "dijitTreeLabel " + tree.getLabelClass(item, this.isExpanded);
+		dojo.style(this.labelNode, tree.getLabelStyle(item, this.isExpanded) || {});
 	},
 
 	_updateLayout: function(){
@@ -324,6 +328,10 @@ dojo.declare(
 	// openOnClick: Boolean
 	//		If true, clicking a folder node's label will open it, rather than calling onClick()
 	openOnClick: false,
+	
+	// openOnClick: Boolean
+	//		If true, double-clicking a folder node's label will open it, rather than calling onDblClick()
+	openOnDblClick: false,
 
 	templatePath: dojo.moduleUrl("dijit", "_tree/Tree.html"),		
 
@@ -494,6 +502,20 @@ dojo.declare(
 
 	getLabelClass: function(/*dojo.data.Item*/ item, /*Boolean*/ opened){
 		// summary: user overridable function to return CSS class name to display label
+	},
+	
+	getIconStyle: function(/*dojo.data.Item*/ item, /*Boolean*/ opened){
+		// summary:
+		//		User overridable function to return CSS styles to display icon
+		// returns:
+		//		Object suitable for input to dojo.style() like {backgroundImage: "url(...)"}
+	},
+
+	getLabelStyle: function(/*dojo.data.Item*/ item, /*Boolean*/ opened){
+		// summary:
+		//		User overridable function to return CSS styles to display label
+		// returns:
+		//		Object suitable for input to dojo.style() like {color: "red", background: "green"}
 	},
 
 	/////////// Keyboard and Mouse handlers ////////////////////
@@ -671,6 +693,29 @@ dojo.declare(
 		}
 		dojo.stopEvent(e);
 	},
+	_onDblClick: function(/*Event*/ e){
+		// summary: translates click events into commands for the controller to process
+		var domElement = e.target;
+
+		// find node
+		var nodeWidget = dijit.getEnclosingWidget(domElement);	
+		if(!nodeWidget || !nodeWidget.isTreeNode){
+			return;
+		}
+
+		if( (this.openOnDblClick && nodeWidget.isExpandable) ||
+			(domElement == nodeWidget.expandoNode || domElement == nodeWidget.expandoNodeText) ){
+			// expando node was clicked, or label of a folder node was clicked; open it
+			if(nodeWidget.isExpandable){
+				this._onExpandoClick({node:nodeWidget});
+			}
+		}else{
+			this._publish("execute", { item: nodeWidget.item, node: nodeWidget} );
+			this.onDblClick(nodeWidget.item, nodeWidget);
+			this.focusNode(nodeWidget);
+		}
+		dojo.stopEvent(e);
+	},
 
 	_onExpandoClick: function(/*Object*/ message){
 		// summary: user clicked the +/- icon; expand or collapse my children.
@@ -689,6 +734,9 @@ dojo.declare(
 	},
 
 	onClick: function(/* dojo.data */ item, /*TreeNode*/ node){
+		// summary: user overridable function for executing a tree item
+	},
+	onDblClick: function(/* dojo.data */ item, /*TreeNode*/ node){
 		// summary: user overridable function for executing a tree item
 	},
 	onOpen: function(/* dojo.data */ item, /*TreeNode*/ node){
