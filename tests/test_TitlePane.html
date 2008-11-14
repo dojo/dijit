@@ -35,9 +35,12 @@
 		dojo.declare("dijit.TestTitlePane", dijit.TitlePane, {
 			templateString: '<div class="dijitTitlePane">' +
 							'    <div class="dijitTitlePaneTitle" dojoAttachPoint="titleBarNode" style="cursor: default;">' +
-							'        <div dojoAttachEvent="onclick:toggle,onkeypress: _onTitleKey,onfocus:_handleFocus,onblur:_handleFocus" tabindex="0"' +
-							'                waiRole="button" dojoAttachPoint="focusNode,arrowNode" class="dijitInline dijitArrowNode" style="cursor: pointer;"><span dojoAttachPoint="arrowNodeInner" class="dijitArrowNodeInner"></span></div>' +
-							'        <div dojoAttachPoint="titleNode" class="dijitTitlePaneTextNode"></div>' +
+							'        <span dojoAttachEvent="onclick:toggle,onkeypress: _onTitleKey,onfocus:_handleFocus,onblur:_handleFocus" tabindex="0"' +
+							'                waiRole="button" dojoAttachPoint="focusNode,arrowNode" style="cursor: pointer;">' +
+							'			<img src="${_blankGif}" alt="" class="dijitArrowNode" waiRole="presentation">' +
+							'			<span dojoAttachPoint="arrowNodeInner" class="dijitArrowNodeInner"></span>' +
+							'		 </span>' +
+							'        <span dojoAttachPoint="titleNode" class="dijitTitlePaneTextNode"></span>' +
 							'    </div>' +
 							'    <div class="dijitTitlePaneContentOuter" dojoAttachPoint="hideNode">' +
 							'        <div class="dijitReset" dojoAttachPoint="wipeNode">' +
