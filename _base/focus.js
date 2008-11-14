@@ -294,10 +294,10 @@ dojo.mixin(dijit,
 			return;
 		}
 
-		if(node.nodeName && node.nodeName.toLowerCase() == "body"){
-			// Ignore focus events on main document <body>.  This is specifically here
-			// so that clicking the up/down arrows of a spinner (which don't get focus)
-			// won't cause that widget to blur.  (IIRC, IE issue)
+		if(node.nodeType == 9){
+			// Ignore focus events on the document itself.  This is here so that
+			// (for example) clicking the up/down arrows of a spinner
+			//  (which don't get focus) won't cause that widget to blur. (FF issue)
 			return;
 		}
 
