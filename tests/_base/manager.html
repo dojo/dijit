@@ -87,10 +87,10 @@
 						t.is(null, dijit.getFirstInTabbingOrder("a-without-href-container"));
 						t.is("a-with-href", dijit.getFirstInTabbingOrder("a-with-href-container").id);
 
-						// in Safari area elements are not in the tab order
+						// in WebKit area elements are not in the tab order
 						// and their display style property is "none";
 						// therefore it is expected that this test will fail
-						if(!dojo.isSafari){
+						if(!dojo.isWebKit){
 							t.is("area", dijit.getFirstInTabbingOrder("area-map").id);
 						}
 
@@ -103,10 +103,10 @@
 						t.is(null, dijit.getLastInTabbingOrder("a-without-href-container"));
 						t.is("a-with-href", dijit.getLastInTabbingOrder("a-with-href-container").id);
 
-						// in Safari area elements are not in the tab order
+						// in WebKit area elements are not in the tab order
 						// and their display style property is "none";
 						// therefore it is expected that this test will fail
-						if(!dojo.isSafari){
+						if(!dojo.isWebKit){
 							t.is("area", dijit.getLastInTabbingOrder("area-map").id);
 						}
 
