@@ -671,12 +671,9 @@ dojo.declare(
 			// Add greedy when this.highlightMatch=="all"
 			var modifiers = "i"+(this.highlightMatch=="all"?"g":"");
 			var escapedLabel = this._escapeHtml(label);
-			var ret = escapedLabel.replace(new RegExp("^("+ find +")", modifiers),
+			find = find.replace(/([().*?+${}|\[\]\^])/g,"\\$1"); // escape regexp special chars
+			var ret = escapedLabel.replace(new RegExp("(?:^|\s)("+ find +")", modifiers),
 					'<span class="dijitComboBoxHighlightMatch">$1</span>');
-			if (escapedLabel==ret){ // Nothing replaced, try to replace at word boundaries.
-				ret = escapedLabel.replace(new RegExp(" ("+ find +")", modifiers),
-					' <span class="dijitComboBoxHighlightMatch">$1</span>');
-			}
 			return ret;// returns String, (almost) valid HTML (entities encoded)
 		},
 		

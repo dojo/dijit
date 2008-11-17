@@ -189,7 +189,7 @@
 								+'prog3: \n'
 								+'descending: California\n'
 								+'specialchars: sticks & stones\n'
-								+'japanese: \u5357\u5317\n'
+								+'japanese: \u5357\u5317 (Nanboku)\n'
 								+'labelFunc: Oregon\n';
 						}
 						else{
@@ -220,7 +220,7 @@
 								+'descending: CA\n'
 								+': sticks & stones\n'
 								+'specialchars: sticks\n'
-								+': \u5357\u5317\n'
+								+': \u5357\u5317 (Nanboku)\n'
 								+'japanese: nanboku\n'
 								+': oregon\n'
 								+'labelFunc: OR\n';
@@ -619,7 +619,6 @@
 				);
 			}
 
-
 			for(var i=0; i<arrowlessComboBoxes.length; i++){
 				doh.register("arrowless",
 					{
@@ -684,10 +683,10 @@
 						name:"japanese_a11y",
 						combo:"japanese",
 						runTest:function(){
-							return robot_a11ySelectValue((this.combo = dijit.byId(this.combo)), "\u6771\u533A", "higashiku");
+							return robot_a11ySelectValue((this.combo = dijit.byId(this.combo)), "\u6771\u533A (East)", "higashiku");
 						},
 						tearDown:function(){
-							this.combo.attr("value", isComboBox?"\u6771\u533A":"higashiku");
+							this.combo.attr("value", isComboBox?"\u6771\u533A (East)":"higashiku");
 						}
 					}
 				);
@@ -705,13 +704,20 @@
 							doh.robot.mouseClick({left:true}, 500);
 							doh.robot.keyPress(dojo.keys.END, 500);
 							doh.robot.keyPress(dojo.keys.BACKSPACE, 500);
+							doh.robot.keyPress(dojo.keys.BACKSPACE, 500);
+							doh.robot.keyPress(dojo.keys.BACKSPACE, 500);
+							doh.robot.keyPress(dojo.keys.BACKSPACE, 500);
+							doh.robot.keyPress(dojo.keys.BACKSPACE, 500);
+							doh.robot.keyPress(dojo.keys.BACKSPACE, 500);
+							doh.robot.keyPress(dojo.keys.BACKSPACE, 500);
+							doh.robot.keyPress(dojo.keys.BACKSPACE, 500);
 							doh.robot.keyPress('x', 500, {ctrl:true});
 							doh.robot.keyPress(dojo.keys.ENTER, 500);
 							doh.robot.sequence(dojo.hitch(this, function(){
-								if(this.combo.attr('value') == (isComboBox?"\u6771\u897F":"touzai") && this.combo.focusNode.value=="\u6771\u897F"){
+								if(this.combo.attr('value') == (isComboBox?"\u6771\u897F (Touzai)":"touzai") && this.combo.focusNode.value=="\u6771\u897F (Touzai)"){
 									d.callback(true);
 								}else{
-									d.errback(this.combo.id+" was supposed to have a value of "+(isComboBox?"\u6771\u897F":"touzai")+". Text is "+this.combo.focusNode.value+", value is "+this.combo.attr('value'));
+									d.errback(this.combo.id+" was supposed to have a value of "+(isComboBox?"\u6771\u897F (Touzai)":"touzai")+". Text is "+this.combo.focusNode.value+", value is "+this.combo.attr('value'));
 								}
 							}), 500);
 							return d;
@@ -768,7 +774,7 @@
 							'prog3: Egypt\n'+
 							'descending: Alaska\n'+
 							'specialchars: more\\less\n'+
-							'japanese: \u6771\u897F\n'+
+							'japanese: \u6771\u897F (Touzai)\n'+
 							'labelFunc: Alabama\n';
 						}else{
 							s=': Alaska\n'+
@@ -798,7 +804,7 @@
 							'descending: AK\n'+
 							': more\\less\n'+
 							'specialchars: more\n'+
-							': \u6771\u897F\n'+
+							': \u6771\u897F (Touzai)\n'+
 							'japanese: touzai\n'+
 							': alabama\n'+
 							'labelFunc: AL\n';
