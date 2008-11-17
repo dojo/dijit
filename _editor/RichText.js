@@ -368,7 +368,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 		// Safari's selections go all out of whack if we do it inline,
 		// so for now IE is our only hero
 		//if(typeof dojo.doc.body.contentEditable != "undefined")
-		if(dojo.isIE || dojo.isSafari || dojo.isOpera){ // contentEditable, easy
+		if(dojo.isIE || dojo.isWebKit || dojo.isOpera){ // contentEditable, easy
 			var burl = dojo.config["dojoBlankHtmlUrl"] || (dojo.moduleUrl("dojo", "resources/blank.html")+"");
 			var ifr = (this.editorObject = this.iframe = dojo.doc.createElement('iframe'));
 			ifr.id = this.id+"_iframe";
@@ -694,7 +694,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 			return; 
 		}
 		value = Boolean(value);
-		if(dojo.isIE || dojo.isSafari || dojo.isOpera){
+		if(dojo.isIE || dojo.isWebKit || dojo.isOpera){
 			var preventIEfocus = dojo.isIE && (this.isLoaded || !this.focusOnLoad);
 			if(preventIEfocus){ this.editNode.unselectable = "on"; }
 			this.editNode.contentEditable = !value;
@@ -1050,18 +1050,18 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 
 		var ie = 1;
 		var mozilla = 1 << 1;
-		var safari = 1 << 2;
+		var webkit = 1 << 2;
 		var opera = 1 << 3;
-		var safari420 = 1 << 4;
+		var webkit420 = 1 << 4;
 
-		var gt420 = dojo.isSafari;
+		var gt420 = dojo.isWebKit;
 
 		function isSupportedBy(browsers){
 			return {
 				ie: Boolean(browsers & ie),
 				mozilla: Boolean(browsers & mozilla),
-				safari: Boolean(browsers & safari),
-				safari420: Boolean(browsers & safari420),
+				webkit: Boolean(browsers & webkit),
+				webkit420: Boolean(browsers & webkit420),
 				opera: Boolean(browsers & opera)
 			}
 		}
@@ -1075,7 +1075,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 			case "forecolor": case "hilitecolor":
 			case "justifycenter": case "justifyfull": case "justifyleft":
 			case "justifyright": case "delete": case "selectall": case "toggledir":
-				supportedBy = isSupportedBy(mozilla | ie | safari | opera);
+				supportedBy = isSupportedBy(mozilla | ie | webkit | opera);
 				break;
 
 			case "createlink": case "unlink": case "removeformat":
@@ -1083,7 +1083,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 			case "insertorderedlist": case "insertunorderedlist":
 			case "indent": case "outdent": case "formatblock":
 			case "inserthtml": case "undo": case "redo": case "strikethrough": case "tabindent":
-				supportedBy = isSupportedBy(mozilla | ie | opera | safari420);
+				supportedBy = isSupportedBy(mozilla | ie | opera | webkit420);
 				break;
 
 			case "blockdirltr": case "blockdirrtl":
@@ -1092,7 +1092,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 				supportedBy = isSupportedBy(ie);
 				break;
 			case "cut": case "copy": case "paste":
-				supportedBy = isSupportedBy( ie | mozilla | safari420);
+				supportedBy = isSupportedBy( ie | mozilla | webkit420);
 				break;
 
 			case "inserttable":
@@ -1110,8 +1110,8 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 
 		return (dojo.isIE && supportedBy.ie) ||
 			(dojo.isMoz && supportedBy.mozilla) ||
-			(dojo.isSafari && supportedBy.safari) ||
-			(gt420 && supportedBy.safari420) ||
+			(dojo.isWebKit && supportedBy.webkit) ||
+			(dojo.isWebKit > 420 && supportedBy.webkit420) ||
 			(dojo.isOpera && supportedBy.opera);  // Boolean return true if the command is supported, false otherwise
 	},
 
@@ -1162,7 +1162,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 		}else if(
 			(command == "unlink")&&
 			(this.queryCommandEnabled("unlink"))&&
-			(dojo.isMoz || dojo.isSafari)
+			(dojo.isMoz || dojo.isWebKit)
 		){
 			// fix up unlink in Mozilla to unlink the link and not just the selection
 
@@ -1222,7 +1222,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 
 		if(this.disabled){ return false; }
 		command = this._normalizeCommand(command);
-		if(dojo.isMoz || dojo.isSafari){
+		if(dojo.isMoz || dojo.isWebKit){
 			if(command == "unlink"){ // mozilla returns true always
 				// console.debug(this._sCall("hasAncestorElement", ['a']));
 				this._sCall("hasAncestorElement", ["a"]);
@@ -1231,7 +1231,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 			}
 		}
 		//see #4109
-		if(dojo.isSafari){
+		if(dojo.isWebKit){
 			if(command == "copy"){
 				command = "cut";
 			}else if(command == "paste"){
