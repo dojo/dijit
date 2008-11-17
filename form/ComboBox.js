@@ -811,7 +811,7 @@ dojo.declare(
 		},
 
 		clearResultList: function(){
-			// keep the previous and next buttons of course
+			// summary: keep the previous and next buttons of course
 			while(this.domNode.childNodes.length>2){
 				this.domNode.removeChild(this.domNode.childNodes[this.domNode.childNodes.length-2]);
 			}
