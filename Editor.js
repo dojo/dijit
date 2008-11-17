@@ -207,7 +207,7 @@ dojo.declare(
 				}
 				try{
 					var r = this.inherited('execCommand', arguments);
-                    if(dojo.isSafari /*TODO isWebKit?*/&& cmd=='paste' && !r){ //see #4598: safari does not support invoking paste from js
+                    if(dojo.isWebKit && cmd=='paste' && !r){ //see #4598: safari does not support invoking paste from js
 						throw { code: 1011 }; // throw an object like Mozilla's error
                     }
 				}catch(e){
