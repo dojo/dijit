@@ -23,13 +23,13 @@ dojo.declare(
 		style: "styleNode", "class": "styleNode"
 	}),
 
-	templateString: (dojo.isIE || dojo.isSafari || dojo.isFF) ?
-				((dojo.isIE || dojo.isSafari || dojo.isFF >= 3) ? '<fieldset id="${id}" class="dijitInline" dojoAttachPoint="styleNode" waiRole="presentation"><div dojoAttachPoint="editNode,focusNode,eventNode" dojoAttachEvent="onpaste:_changing,oncut:_changing" waiRole="textbox" waiState="multiline-true" contentEditable="true"></div>'
+	templateString: (dojo.isIE || dojo.isWebKit || dojo.isFF) ?
+				((dojo.isIE || dojo.isWebKit || dojo.isFF >= 3) ? '<fieldset id="${id}" class="dijitInline" dojoAttachPoint="styleNode" waiRole="presentation"><div dojoAttachPoint="editNode,focusNode,eventNode" dojoAttachEvent="onpaste:_changing,oncut:_changing" waiRole="textbox" waiState="multiline-true" contentEditable="true"></div>'
 					: '<span id="${id}" class="dijitReset">'+
 					'<iframe src="javascript:<html><head><title>${_iframeEditTitle}</title></head><body><script>var _postCreate=window.frameElement?window.frameElement.postCreate:null;if(_postCreate)_postCreate();</script></body></html>"'+
 							' dojoAttachPoint="iframe,styleNode,stateNode" dojoAttachEvent="onblur:_onIframeBlur" class="dijitInline dijitInputField"></iframe>')
 				+ '<textarea name="${name}" value="${value}" dojoAttachPoint="formValueNode" style="display:none;" autocomplete="off"></textarea>'
-				+ ((dojo.isIE || dojo.isSafari || dojo.isFF >= 3) ? '</fieldset>':'</span>')
+				+ ((dojo.isIE || dojo.isWebKit || dojo.isFF >= 3) ? '</fieldset>':'</span>')
 			: '<textarea id="${id}" name="${name}" value="${value}" dojoAttachPoint="formValueNode,editNode,focusNode,styleNode">'+dojo.isFF+'</textarea>',
 
 	baseClass: "dijitTextArea",
@@ -45,9 +45,9 @@ dojo.declare(
 	},
 	_adjustWritable: function(){
 		// summary: set whether user can write into textbox, based on this.disabled and this.readOnly
-		if(dojo.isIE || dojo.isSafari || dojo.isFF >= 3){
+		if(dojo.isIE || dojo.isWebKit || dojo.isFF >= 3){
 			this.editNode.contentEditable = (!this.disabled && !this.readOnly);
-		}else if(dojo.isFF){
+		}else if(dojo.isMoz){
 			this.iframe.contentDocument.designMode = (this.disabled || this.readOnly)? "off" : "on";
 		}
 	},
@@ -164,7 +164,7 @@ dojo.declare(
 
 	postCreate: function(){
 		var userStyle = "";
-		if(dojo.isIE || dojo.isSafari || dojo.isFF >= 3){
+		if(dojo.isIE || dojo.isWebKit || dojo.isFF >= 3){
 			this.domNode.style.overflowY = 'hidden';
 		}else if(dojo.isFF){
 			var w = this.iframe.contentWindow;
