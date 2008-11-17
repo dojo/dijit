@@ -45,10 +45,10 @@
 .soria .dijitTextAreaDisabled {
 	color: gray;
 }
-.dj_safari .soria .dijitTextBoxDisabled,
-.dj_safari .soria .dijitComboBoxDisabled,
-.dj_safari .soria .dijitSpinnerDisabled,
-.dj_safari .soria .dijitTextareaDisabled {
+.dj_webkit .soria .dijitTextBoxDisabled,
+.dj_webkit .soria .dijitComboBoxDisabled,
+.dj_webkit .soria .dijitSpinnerDisabled,
+.dj_webkit .soria .dijitTextareaDisabled {
 	color: #eee;
 }
 

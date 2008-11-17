@@ -55,10 +55,10 @@
 .nihilo .dijitTextAreaDisabled {
 	color: gray;
 }
-.dj_safari .nihilo .dijitTextBoxDisabled,
-.dj_safari .nihilo .dijitComboBoxDisabled,
-.dj_safari .nihilo .dijitSpinnerDisabled,
-.dj_safari .nihilo .dijitTextareaDisabled {
+.dj_webkit .nihilo .dijitTextBoxDisabled,
+.dj_webkit .nihilo .dijitComboBoxDisabled,
+.dj_webkit .nihilo .dijitSpinnerDisabled,
+.dj_webkit .nihilo .dijitTextareaDisabled {
 	color: #eee;
 }
 

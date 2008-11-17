@@ -169,8 +169,8 @@
 	background-image: url("images/tooltipConnectorLeft.gif");
 }
 
-.dj_safari .tundra .dijitPopup .dijitTooltipContainer,
-.dj_safari .tundra .dijitPopup .dijitMenu {
+.dj_webkit .tundra .dijitPopup .dijitTooltipContainer,
+.dj_webkit .tundra .dijitPopup .dijitMenu {
 	/* -webkit-border-radius: 5px; */
 	-webkit-box-shadow: 0px 5px 10px #adadad;
 }

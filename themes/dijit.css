@@ -256,7 +256,7 @@
 }
 
 .dj_ie .dijitToolbar button,
-.dj_safari .dijitToolbar button {
+.dj_webkit .dijitToolbar button {
 	/* FF adds implicit padding to buttons so make other browsers follow suit,
 	 * to avoid a bunch of browse specific rules in theme files
 	 */
@@ -268,7 +268,7 @@
 	margin-bottom: -3px;
 }
 
-.dj_safari .dijitToolbar .dijitDropDownButton {
+.dj_webkit .dijitToolbar .dijitDropDownButton {
 	padding-left: 0.3em;
 }
 .dj_gecko .dijitToolbar .dijitButtonNode::-moz-focus-inner {

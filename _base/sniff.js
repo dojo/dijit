@@ -31,6 +31,7 @@ dojo.provide("dijit._base.sniff");
 		dj_opera8: maj(opera) == 8,
 		dj_opera9: maj(opera) == 9,
 		dj_khtml: d.isKhtml,
+		dj_webkit: d.isWebKit,
 		dj_safari: d.isSafari,
 		dj_gecko: d.isMozilla,
 		dj_ff2: maj(ff) == 2,

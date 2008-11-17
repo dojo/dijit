@@ -50,10 +50,10 @@
 .tundra .dijitTextAreaDisabled {
 	color: gray;
 }
-.dj_safari .tundra .dijitTextBoxDisabled,
-.dj_safari .tundra .dijitComboBoxDisabled,
-.dj_safari .tundra .dijitSpinnerDisabled,
-.dj_safari .tundra .dijitTextAreaDisabled {
+.dj_webkit .tundra .dijitTextBoxDisabled,
+.dj_webkit .tundra .dijitComboBoxDisabled,
+.dj_webkit .tundra .dijitSpinnerDisabled,
+.dj_webkit .tundra .dijitTextAreaDisabled {
 	color: #eee;
 }
 
