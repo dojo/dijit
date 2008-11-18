@@ -330,7 +330,7 @@ dojo.declare("dijit.form._FormValueWidget", dijit.form._FormWidget,
 	attributeMap: dojo.delegate(dijit.form._FormWidget.prototype.attributeMap, { value: "" }),
 
 	postCreate: function(){
-		if(dojo.isIE || dojo.isSafari){ // IE won't stop the event with keypress and Safari won't send an ESCAPE to keypress at all
+		if(dojo.isIE || dojo.isWebKit){ // IE won't stop the event with keypress and Safari won't send an ESCAPE to keypress at all
 			this.connect(this.focusNode || this.domNode, "onkeydown", this._onKeyDown);
 		}
 		// Update our reset value if it hasn't yet been set (because this.attr
@@ -385,7 +385,7 @@ dojo.declare("dijit.form._FormValueWidget", dijit.form._FormWidget,
 				te.keyCode = dojo.keys.ESCAPE;
 				te.shiftKey = e.shiftKey;
 				e.srcElement.fireEvent('onkeypress', te);
-			}else if(dojo.isSafari){ // ESCAPE needs help making it into keypress
+			}else if(dojo.isWebKit){ // ESCAPE needs help making it into keypress
 				te = document.createEvent('Events');
 				te.initEvent('keypress', true, true);
 				te.keyCode = dojo.keys.ESCAPE;
