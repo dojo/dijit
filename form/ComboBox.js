@@ -3,6 +3,7 @@ dojo.provide("dijit.form.ComboBox");
 dojo.require("dijit.form.ValidationTextBox");
 dojo.require("dojo.data.util.simpleFetch");
 dojo.require("dojo.data.util.filter");
+dojo.require("dojo.regexp");
 
 dojo.requireLocalization("dijit.form", "ComboBox");
 
@@ -671,7 +672,7 @@ dojo.declare(
 			// Add greedy when this.highlightMatch=="all"
 			var modifiers = "i"+(this.highlightMatch=="all"?"g":"");
 			var escapedLabel = this._escapeHtml(label);
-			find = find.replace(/([().*?+${}|\[\]\^])/g,"\\$1"); // escape regexp special chars
+			find = dojo.regexp.escapeString(find); // escape regexp special chars
 			var ret = escapedLabel.replace(new RegExp("(?:^|\s)("+ find +")", modifiers),
 					'<span class="dijitComboBoxHighlightMatch">$1</span>');
 			return ret;// returns String, (almost) valid HTML (entities encoded)
