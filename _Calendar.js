@@ -164,7 +164,8 @@ dojo.declare(
 
 		postCreate: function(){
 			this.inherited(arguments);
-			
+			dojo.setSelectable(this.domNode, false);
+
 			var cloneClass = dojo.hitch(this, function(clazz, n){
 				var template = dojo.query(clazz, this.domNode)[0];
 	 			for(var i=0; i<n; i++){
