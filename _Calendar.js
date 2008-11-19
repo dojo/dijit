@@ -204,12 +204,9 @@ dojo.declare(
 		},
 
 		_onDayClick: function(/*Event*/evt){
-			var node = evt.target;
 			dojo.stopEvent(evt);
-			while(!node.dijitDateValue){
-				node = node.parentNode;
-			}
-			if(!dojo.hasClass(node, "dijitCalendarDisabledDate")){
+			for(var node = evt.target; node && !node.dijitDateValue; node = node.parentNode);
+			if(node && !dojo.hasClass(node, "dijitCalendarDisabledDate")){
 				this.attr('value', node.dijitDateValue);
 				this.onValueSelected(this.value);
 			}
