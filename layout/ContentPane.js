@@ -332,7 +332,7 @@ dojo.declare(
 		hand.addCallback(function(html){
 			try{
 				self._isDownloaded = true;
-				self.attr('content', html); // onload event is called from here
+				self._setContent(html, false); // onload event is called from here
 				self.onDownloadEnd();
 			}catch(err){
 				self._onError('Content', err); // onContentError
