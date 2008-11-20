@@ -204,13 +204,14 @@ dojo.declare(
 
 		// clear href so we cant run refresh and clear content
 		// refresh should only work if we downloaded the content
-		if(!this._isDownloaded){
-			this.href = "";
-		}
+		this.href = "";
+
+		// Cancel any in-flight requests (an attr('content') will cancel any in-flight attr('href', ...))
+		this.cancel();
 
 		this._setContent(data || "");
 
-		this._isDownloaded = false; // must be set after _setContent(..), pathadjust in dojox.layout.ContentPane
+		this._isDownloaded = false; // mark that content is from a attr('content') not an attr('href')
 
 		if(this.doLayout != "false" && this.doLayout !== false){
 			this._checkIfSingleChild();
@@ -220,8 +221,6 @@ dojo.declare(
 				this._singleChild.resize({w: cb.w, h: cb.h});
 			}
 		}
-
-		this._onLoadHandler(data);
 	},
 	_getContentAttr: function(){
 		// summary: hook to make attr("content") work
@@ -333,7 +332,7 @@ dojo.declare(
 		hand.addCallback(function(html){
 			try{
 				self._isDownloaded = true;
-				self.attr('content', html); // onload event is called from here
+				self._setContent(html, false);
 				self.onDownloadEnd();
 			}catch(err){
 				self._onError('Content', err); // onContentError
@@ -410,9 +409,6 @@ dojo.declare(
 		// summary: 
 		//		Insert the content into the container node
 
-		// Cancel any in-flight requests (an attr('content') will cancel any in-flight attr('href', ...)
-		this.cancel();
-
 		// first get rid of child widgets
 		this.destroyDescendants();
 
@@ -456,6 +452,10 @@ dojo.declare(
 
 		// setter params must be pulled afresh from the ContentPane each time
 		delete this._contentSetterParams;
+		
+		if(!isFakeContent){
+			this._onLoadHandler(cont);
+		}
 	},
 
 	_onError: function(type, err, consoleText){
