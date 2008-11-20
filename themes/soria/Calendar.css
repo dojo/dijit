@@ -12,9 +12,8 @@
 	background-image: url("images/spriteRoundedIconsSmall.gif");
 }
 
-.soria .dijitCalendarIncreaseInner,
-.soria .dijitCalendarDecreaseInner {
-	visibility:hidden;
+.soria .dijitA11ySideArrow {
+	display: none;
 }
 
 .soria .dijitCalendarDecrease {

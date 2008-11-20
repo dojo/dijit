@@ -12,9 +12,8 @@
 	background-image: url("images/spriteRoundedIconsSmall.gif");
 }
 
-.tundra .dijitCalendarIncreaseInner,
-.tundra .dijitCalendarDecreaseInner {
-	visibility:hidden;
+.tundra .dijitA11ySideArrow {
+	display: none;
 }
 
 .tundra .dijitCalendarDecrease {

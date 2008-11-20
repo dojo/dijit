@@ -149,24 +149,17 @@
 	background-image:none !important;
 }
 
-.dijit_a11y .dijitCalendarIncrementControl .dijitA11ySideArrow {
-	padding-left:.2em;
-	visibility:visible !important;
+.dijit_a11y .dijitCalendarIncrementControl {
+	display: none;	/* don't display icon */
 }
-.dj_ie6 .dijit_a11y .dijitCalendarIncrementControl {
-	font-size:.75em !important;
+.dijit_a11y .dijitA11ySideArrow {
+	display: inline !important; /* display text instead */
+	cursor: pointer;
+	cursor: hand;
 }
 
 .dijit_a11y .dijitCalendarSelectedDate {
 	text-decoration:overline !important;
-}
-
-.dijitA11ySideArrow {
-	vertical-align:top;
-	margin-right:0em;
-	margin-left:.2em;
-	line-height:2em;
-	text-align:center;
 }
 
 .dijit_a11y .dijit * {
@@ -933,7 +926,7 @@ img.dijitColorPaletteUnder {
 .dijitCalendarIncrementControl {
 	cursor:pointer;
 	cursor:hand;
-	width:1em;
+	vertical-align: middle;
 }
 
 .dijitCalendarDisabledDate {

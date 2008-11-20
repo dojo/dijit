@@ -31,11 +31,6 @@
 	right:0; /* FF workaround */
 }
 
-.dijitRtl .dijitA11ySideArrow {
-	margin-left:1em;
-	margin-right:0;
-}
-
 /* Slider */
 
 .dijitRtl .dijitSliderImageHandleV {

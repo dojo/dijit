@@ -12,9 +12,8 @@
 	background-image: url("images/spriteRoundedIconsSmall.gif");
 }
 
-.nihilo .dijitCalendarIncreaseInner,
-.nihilo .dijitCalendarDecreaseInner {
-	visibility:hidden;
+.nihilo .dijitA11ySideArrow {
+	display: none;
 }
 
 .nihilo .dijitCalendarDecrease {

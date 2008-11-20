@@ -2,11 +2,13 @@
 	<thead>
 		<tr class="dijitReset dijitCalendarMonthContainer" valign="top">
 			<th><span class='dijitReset' dojoAttachPoint="decrementMonth">
-				<span class="dijitInline dijitCalendarIncrementControl dijitCalendarDecrease"><span dojoAttachPoint="decreaseArrowNode" class="dijitA11ySideArrow dijitCalendarIncrementControl dijitCalendarDecreaseInner">-</span></span>
+				<img src="${_blankGif}" alt="" class="dijitCalendarIncrementControl dijitCalendarDecrease" waiRole="presentation">
+				<span dojoAttachPoint="decreaseArrowNode" class="dijitA11ySideArrow">-</span>
 			</span>
-			<span class='dijitReset' dojoAttachEvent="onclick:goToToday">&#9642;</span>
+			<span class='dijitReset' dojoAttachEvent="onclick:goToToday" style="cursor: pointer; cursor: hand;">&#9632;</span>
 			<span class='dijitReset' dojoAttachPoint="incrementMonth">
-				<div class="dijitInline dijitCalendarIncrementControl dijitCalendarIncrease"><span dojoAttachPoint="increaseArrowNode" class="dijitA11ySideArrow dijitCalendarIncrementControl dijitCalendarIncreaseInner">+</span></div>
+				<img src="${_blankGif}" alt="" class="dijitCalendarIncrementControl dijitCalendarIncrease" waiRole="presentation">
+				<span dojoAttachPoint="increaseArrowNode" class="dijitA11ySideArrow">+</span>
 			</span></th>
 			<th class='dijitReset' colspan="6">
 				<div dojoAttachPoint="monthLabelSpacer" class="dijitCalendarMonthLabelSpacer"></div>
