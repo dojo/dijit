@@ -127,7 +127,7 @@ dojo.declare(
 			//		The widget value is also set to a corresponding,
 			//		but not necessarily the same, value.
 
-			this.textbox.value = value = this.filter(value);
+			this.textbox.value = value;
 			this._setValueAttr(this.attr('value'), undefined, value);
 		},
 

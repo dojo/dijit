@@ -320,7 +320,7 @@
 							try{
 								doh.is('', this.textbox.attr('state'));
 								doh.is(false, this.textbox.isValid());
-								doh.robot.typeKeys('a',500,100);
+								doh.robot.typeKeys('a',500,600);
 								doh.robot.sequence(dojo.hitch(this, function(){
 									try{
 										doh.is('a', this.textbox.attr('value'));

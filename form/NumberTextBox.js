@@ -56,6 +56,11 @@ dojo.declare(
 		},
 		=====*/
 
+		_getDisplayedValueAttr: function(){
+			var v = this.inherited(arguments); 
+			return isNaN(v) ? this.textbox.value : v;
+		},
+
 		filter: function(/*Number*/ value){
 			return (value === null || value === '' || value === undefined)? NaN : this.inherited(arguments); // attr('value', null||''||undefined) should fire onChange(NaN)
 		},
