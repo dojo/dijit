@@ -243,8 +243,6 @@ dojo.declare(
 			// on the iframe's contentWindow.
 			this.iframe.focus();  // this.focus(); won't work
 			dojo.stopEvent(e);
-		}else if(e.charOrCode == dojo.keys.ENTER){
-			e.stopPropagation();
 		}else if(this.inherited("_onKeyPress", arguments) && this.iframe){
 			// #3752:
 			// The key press will not make it past the iframe.

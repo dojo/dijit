@@ -355,7 +355,7 @@ dojo.declare(
 				dojo.stopEvent(e);
 				this._exitInProgress = true;
 				this.cancel(true);
-			}else if(e.charOrCode == dojo.keys.ENTER){
+			}else if(e.charOrCode == dojo.keys.ENTER && this.editWidget.focusNode.tagName == "INPUT"){
 				dojo.stopEvent(e);
 				this._exitInProgress = true;
 				this.save(true);
