@@ -40,17 +40,14 @@ dijit.getViewport = function(){
 		}
 		w = (maxw > _window.innerWidth) ? minw : maxw;
 		h = (maxh > _window.innerHeight) ? minh : maxh;
-	}else if(!dojo.isOpera &&  _window.innerWidth){
-		//in opera9, dojo.body().clientWidth should be used, instead
-		//of window.innerWidth/document.documentElement.clientWidth
-		//so we have to check whether it is opera
+	}else if(_window.innerWidth){
 		w = _window.innerWidth;
 		h = _window.innerHeight;
 	}else if(dojo.isIE && de && deh){
 		w = dew;
 		h = deh;
 	}else if(dojo.body().clientWidth){
-		// IE5, Opera
+		// IE6?  If this isn't here then viewport.html fails
 		w = dojo.body().clientWidth;
 		h = dojo.body().clientHeight;
 	}
