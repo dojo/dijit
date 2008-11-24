@@ -673,8 +673,8 @@ dojo.declare(
 			var modifiers = "i"+(this.highlightMatch=="all"?"g":"");
 			var escapedLabel = this._escapeHtml(label);
 			find = dojo.regexp.escapeString(find); // escape regexp special chars
-			var ret = escapedLabel.replace(new RegExp("(?:^|\s)("+ find +")", modifiers),
-					'<span class="dijitComboBoxHighlightMatch">$1</span>');
+			var ret = escapedLabel.replace(new RegExp("(^|\\s)("+ find +")", modifiers),
+					'$1<span class="dijitComboBoxHighlightMatch">$2</span>');
 			return ret;// returns String, (almost) valid HTML (entities encoded)
 		},
 		
