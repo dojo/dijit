@@ -7,7 +7,6 @@ dojo.require("dijit._base.window");
 dijit.popup = new function(){
 	// summary:
 	//		This class is used to show/hide widgets as popups.
-	//
 
 	var stack = [],
 		beginZIndex=1000,
@@ -34,36 +33,47 @@ dijit.popup = new function(){
 		s.top = "-9999px";
 	};
 
-	this.open = function(/*Object*/ args){
+/*=====
+dijit.popup.__OpenArgs = function(){
+	//		popup: Widget
+	//			widget to display
+	//		parent: Widget
+	//			the button etc. that is displaying this popup
+	//		around: DomNode
+	//			DOM node (typically a button); place popup relative to this node
+	//		orient: Object
+	//			structure specifying possible positions of popup relative to "around" node
+	//		onCancel: Function
+	//			callback when user has canceled the popup by
+	//				1. hitting ESC or
+	//				2. by using the popup widget's proprietary cancel mechanism (like a cancel button in a dialog);
+	//				   ie: whenever popupWidget.onCancel() is called, args.onCancel is called
+	//		onClose: Function
+	//			callback whenever this popup is closed
+	//		onExecute: Function
+	//			callback when user "executed" on the popup/sub-popup by selecting a menu choice, etc. (top menu only)
+	this.popup = popup;
+	this.parent = parent;
+	this.around = around;
+	this.orient = orient;
+	this.onCancel = onCancel;
+	this.onClose = onClose;
+	this.onExecute = onExecute;
+}
+=====*/
+	this.open = function(/*dijit.popup.__OpenArgs*/ args){
 		// summary:
 		//		Popup the widget at the specified position
 		//
-		// args: Object
-		//		popup: Widget
-		//			widget to display,
-		//		parent: Widget
-		//			the button etc. that is displaying this popup
-		//		around: DomNode
-		//			DOM node (typically a button); place popup relative to this node
-		//		orient: Object
-		//			structure specifying possible positions of popup relative to "around" node
-		//		onCancel: Function
-		//			callback when user has canceled the popup by
-		//				1. hitting ESC or
-		//				2. by using the popup widget's proprietary cancel mechanism (like a cancel button in a dialog);
-		//				   ie: whenever popupWidget.onCancel() is called, args.onCancel is called
-		//		onClose: Function
-		//			callback whenever this popup is closed
-		//		onExecute: Function
-		//			callback when user "executed" on the popup/sub-popup by selecting a menu choice, etc. (top menu only)
+		// example:
+		//	opening at the mouse position
+		//	|		dijit.popup.open({popup: menuWidget, x: evt.pageX, y: evt.pageY});
 		//
-		// examples:
-		//		1. opening at the mouse position
-		//			dijit.popup.open({popup: menuWidget, x: evt.pageX, y: evt.pageY});
-		//		2. opening the widget as a dropdown
-		//			dijit.popup.open({parent: this, popup: menuWidget, around: this.domNode, onClose: function(){...}  });
+		// example:
+		//	opening the widget as a dropdown
+		//	|		dijit.popup.open({parent: this, popup: menuWidget, around: this.domNode, onClose: function(){...}  });
 		//
-		//	Note that whatever widget called dijit.popup.open() should also listen to it's own _onBlur callback
+		//	Note that whatever widget called dijit.popup.open() should also listen to its own _onBlur callback
 		//	(fired from _base/focus.js) to know that focus has moved somewhere else and thus the popup should be closed.
 
 		var widget = args.popup,
