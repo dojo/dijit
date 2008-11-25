@@ -61,9 +61,10 @@ dijit.scrollIntoView = function(/* DomNode */node){
 	}
 
 	var parent = node;
+	var next;
 	while(parent != null){
 		addPseudoAttrs(parent);
-		var next = parent._parent;
+		next = parent._parent;
 		if(next){
 			next._child = parent;
 		}
@@ -133,5 +134,13 @@ dijit.scrollIntoView = function(/* DomNode */node){
 			parent._start[dir] += (underflow >= 0 || !parent._isScrollable[dir])? underflow : 0;
 		}
 		element = parent; // now see if the parent needs to be scrolled as well
+	}
+	parent = node;
+	while(parent){
+		next = parent._parent;
+		parent._offsetParent = null;
+		parent._parent = null;
+		parent._child = null;
+		parent = next;
 	}
 };
