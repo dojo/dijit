@@ -39,7 +39,7 @@
 			var pane2 = new dijit.layout.ContentPane({ title:"first" }).placeAt(tc, 0);
 
 			tc.startup();
-			pane2.setContent("button should appear BEFORE this text");
+			pane2.attr("content","button should appear BEFORE this text");
 			tc.selectChild(pane2);
 		
 			// create a button, and add it to pane2 created obove
@@ -88,13 +88,14 @@
 					new dijit.layout.ContentPane({
 						region:"left",
 						style:"width:100px"
-					}).placeAt(bc).setContent("<p>wowzers</p>");
+					}).placeAt(bc).attr("content","<p>wowzers</p>");
 					
 					// add a top pane, and add content
 					new dijit.layout.ContentPane({
 						region:"top",
 						style:"height:100px"
-					}).placeAt(bc).setContent("<div>some HTML text</div>");
+					}).placeAt(bc).attr("content","<div>some HTML text</div>");
+					
 				</script>
 			</button>
 		</div>
