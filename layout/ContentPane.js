@@ -217,15 +217,6 @@ dojo.declare(
 		this._setContent(data || "");
 
 		this._isDownloaded = false; // mark that content is from a attr('content') not an attr('href')
-
-		if(this.doLayout != "false" && this.doLayout !== false){
-			this._checkIfSingleChild();
-			if(this._singleChild && this._singleChild.resize){
-				this._singleChild.startup();
-				var cb = this._contentBox || dojo.contentBox(this.containerNode);
-				this._singleChild.resize({w: cb.w, h: cb.h});
-			}
-		}
 	},
 	_getContentAttr: function(){
 		// summary: hook to make attr("content") work
@@ -465,6 +456,15 @@ dojo.declare(
 		delete this._contentSetterParams;
 		
 		if(!isFakeContent){
+			if(this.doLayout != "false" && this.doLayout !== false){
+				this._checkIfSingleChild();
+				if(this._singleChild && this._singleChild.resize){
+					this._singleChild.startup();
+					var cb = this._contentBox || dojo.contentBox(this.containerNode);
+					this._singleChild.resize({w: cb.w, h: cb.h});
+				}
+			}
+			
 			this._onLoadHandler(cont);
 		}
 	},
