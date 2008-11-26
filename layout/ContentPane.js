@@ -162,8 +162,8 @@ dojo.declare(
 		// summary:
 		//	Force a refresh (re-download) of content, be sure to turn off cache
 
-		// we return result of _prepareLoad here to avoid code dup. in dojox.layout.ContentPane
-		return this._prepareLoad(true);
+		// we return result of _loadCheck here to avoid code dup. in dojox.layout.ContentPane
+		return this._loadCheck(true);
 	},
 
 	setHref: function(/*String|Uri*/ href){
@@ -178,13 +178,18 @@ dojo.declare(
 		//		Note: It delays the download until widget is shown if preload is false.
 		//	href:
 		//		url to the page you want to get, must be within the same domain as your mainpage
+
+		// Cancel any in-flight requests (an attr('href') will cancel any in-flight attr('href', ...))
+		this.cancel();
+
 		this.href = href;
+		this.isLoaded = false;
 
 		// _setHrefAttr() is called during creation and by the user, after creation.
 		// only in the second case do we actually load the URL; otherwise it's done in startup()
 		if(this._created){
-			// we return result of _prepareLoad here to avoid code dup. in dojox.layout.ContentPane
-			return this._prepareLoad();
+			// we return result of _loadCheck here to avoid code dup. in dojox.layout.ContentPane
+			return this._loadCheck();
 		}
 	},
 
@@ -268,14 +273,6 @@ dojo.declare(
 		}
 	},
 
-	_prepareLoad: function(forceLoad){
-		// sets up for a xhrLoad, load is deferred until widget onShow
-		// cancels a inflight download
-		this.cancel();
-		this.isLoaded = false;
-		this._loadCheck(forceLoad);
-	},
-
 	_isShown: function(){
 		// summary: returns true if the content is currently shown
 		if("open" in this){
@@ -287,8 +284,11 @@ dojo.declare(
 	},
 
 	_loadCheck: function(/*Boolean*/ forceLoad){
-		// call this when you change onShow (onSelected) status when selected in parent container
-		// it's used as a trigger for href download when this.domNode.display != 'none'
+		// summary:
+		//		Call this when !ContentPane has been made visible [from prior hidden state],
+		//		in order to load href contents.
+		// description:
+		// 		Can also be called with forceLoad=true in order to force reload
 
 		// sequence:
 		// if no href -> bail
@@ -314,6 +314,17 @@ dojo.declare(
 	},
 
 	_downloadExternalContent: function(){
+		// summary:
+		//		Download contents of href and displays it
+		// description:
+		//		1. cancels any currently in-flight requests
+		//		2. posts "loading..." message
+		//		3. sends XHR to download new data
+
+		// cancel possible prior inflight request
+		this.cancel();
+		this.isLoaded = false;
+
 		// display loading message
 		this._setContent(this.onDownloadStart(), true);
 

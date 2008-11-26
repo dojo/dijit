@@ -51,10 +51,10 @@ dojo.declare(
 
 		var children = this.getChildren();
 
-		// Setup each page panel
+		// Setup each page panel to be initially hidden
 		dojo.forEach(children, this._setupChild, this);
 
-		// Figure out which child to initially display
+		// Figure out which child to initially display, defaulting to first one
 		if(this.persist){
 			this.selectedChildWidget = dijit.byId(dojo.cookie(this.id + "_selectedChild"));
 		}else{
@@ -65,22 +65,24 @@ dojo.declare(
 				return child.selected;
 			}, this);
 		}
-
 		var selected = this.selectedChildWidget;
-
-		// Default to the first child
 		if(!selected && children[0]){
 			selected = this.selectedChildWidget = children[0];
 			selected.selected = true;
 		}
+
+		// Publish information about myself so any StackControllers can initialize.
+		// This needs to happen before this.inherited(arguments) so that for
+		// TabContainer, this._contentBox doesn't include the space for the tab labels.
+		dojo.publish(this.id+"-startup", [{children: children, selected: selected}]);
+
+		// Startup each child widget, and do initial layout like setting this._contentBox
+		this.inherited(arguments);
+
+		// Size and show the initially selected child
 		if(selected){
 			this._showChild(selected);
 		}
-
-		// Now publish information about myself so any StackControllers can initialize..
-		dojo.publish(this.id+"-startup", [{children: children, selected: selected}]);
-
-		this.inherited(arguments);
 	},
 
 	_setupChild: function(/*Widget*/ child){
@@ -171,13 +173,6 @@ dojo.declare(
 			this._hideChild(oldWidget);
 		}
 		this._showChild(newWidget);
-
-		// Size the new widget, in case this is the first time it's being shown,
-		// or I have been resized since the last time it was shown.
-		// page must be visible for resizing to work
-		if(this.doLayout && newWidget.resize){
-			newWidget.resize(this._containerContentBox || this._contentBox);
-		}
 	},
 
 	_adjacent: function(/*Boolean*/ forward){
@@ -220,6 +215,13 @@ dojo.declare(
 		}
 		if(page.onShow){
 			page.onShow();
+		}
+
+		// Size the new widget, in case this is the first time it's being shown,
+		// or I have been resized since the last time it was shown.
+		// page must be visible for resizing to work
+		if(this.doLayout && page.resize){
+			page.resize(this._containerContentBox || this._contentBox);
 		}
 	},
 
