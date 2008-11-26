@@ -72,7 +72,7 @@ dijit.scrollIntoView = function(/* DomNode */node){
 	}
 	for(var dir in scrollRoot._renderedSize){ scrollRoot._renderedSize[dir] = Math.min(scrollRoot._clientSize[dir], scrollRoot._renderedSize[dir]); }
 	var element = node;
-	while(element != scrollRoot){
+	while(element && element != scrollRoot){
 		parent = element._parent;
 		if(parent){
 			if(parent.tagName == "TD"){
