@@ -508,6 +508,7 @@
 			</div> <!-- end of basic form widgets -->
 
 			<div id="textboxTab" dojoType="dijit.layout.ContentPane" title="Text Input Widgets" style="padding:10px;display:none;">
+			<div style="position:relative;"> <!-- workaround for #7733: IE7 strict DOCTYPE bug when using absolute positioning (eg Spinner) inside a scrollable div -->
 
 				<h2>dijit.form.DateTextBox</h2>
 				<label for="date1">Enabled:</label>
@@ -564,6 +565,7 @@
 				<label for="spinner">Disabled: </label>
 				<input dojoType="dijit.form.NumberSpinner" constraints="{max:100,places:0}" id="spinner2" value="10" disabled>
 
+			</div>
 			</div>
 
 			<div id="textareaTab" dojoType="dijit.layout.ContentPane" title="TextArea/Editor" style="padding:10px;">
