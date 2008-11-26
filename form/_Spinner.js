@@ -59,7 +59,7 @@ dojo.declare(
 		_typematicCallback: function(/*Number*/ count, /*DOMNode*/ node, /*Event*/ evt){
 			var inc=this.smallDelta;
 			if(node == this.textbox){
-				k=dojo.keys;
+				var k=dojo.keys;
 				var key = evt.charOrCode; 
 				inc = (key == k.PAGE_UP || key == k.PAGE_DOWN) ? this.largeDelta : this.smallDelta;
 				node = (key == k.UP_ARROW ||key == k.PAGE_UP) ? this.upArrowNode : this.downArrowNode;

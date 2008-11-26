@@ -358,7 +358,7 @@ dojo.declare(
 	},
 
 	destroy: function(){
-		for(region in this._splitters){
+		for(var region in this._splitters){
 			var splitter = this._splitters[region];
 			dijit.byNode(splitter).destroy();
 			dojo._destroyElement(splitter);
