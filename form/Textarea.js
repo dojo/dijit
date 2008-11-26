@@ -24,13 +24,13 @@ dojo.declare(
 	}),
 
 	templateString: (dojo.isIE || dojo.isWebKit || dojo.isFF) ?
-				((dojo.isIE || dojo.isWebKit || dojo.isFF >= 3) ? '<fieldset id="${id}" class="dijitInline" dojoAttachPoint="styleNode" waiRole="presentation"><div dojoAttachPoint="editNode,focusNode,eventNode" dojoAttachEvent="onpaste:_changing,oncut:_changing" waiRole="textbox" waiState="multiline-true" contentEditable="true"></div>'
-					: '<span id="${id}" class="dijitReset">'+
+				((dojo.isIE || dojo.isWebKit || dojo.isFF >= 3) ? '<fieldset id="widget_${id}" class="dijitInline" dojoAttachPoint="styleNode" waiRole="presentation"><div dojoAttachPoint="editNode,focusNode,eventNode" dojoAttachEvent="onpaste:_changing,oncut:_changing" waiRole="textbox" waiState="multiline-true" contentEditable="true"></div>'
+					: '<span id="widget_${id}" class="dijitReset">'+
 					'<iframe src="javascript:<html><head><title>${_iframeEditTitle}</title></head><body><script>var _postCreate=window.frameElement?window.frameElement.postCreate:null;if(_postCreate)_postCreate();</script></body></html>"'+
 							' dojoAttachPoint="iframe,styleNode,stateNode" dojoAttachEvent="onblur:_onIframeBlur" class="dijitInline dijitInputField"></iframe>')
 				+ '<textarea name="${name}" value="${value}" dojoAttachPoint="formValueNode" style="display:none;" autocomplete="off"></textarea>'
 				+ ((dojo.isIE || dojo.isWebKit || dojo.isFF >= 3) ? '</fieldset>':'</span>')
-			: '<textarea id="${id}" name="${name}" value="${value}" dojoAttachPoint="formValueNode,editNode,focusNode,styleNode">'+dojo.isFF+'</textarea>',
+			: '<textarea name="${name}" value="${value}" dojoAttachPoint="formValueNode,editNode,focusNode,styleNode">'+dojo.isFF+'</textarea>',
 
 	baseClass: "dijitTextArea",
 
