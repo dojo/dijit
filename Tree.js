@@ -34,7 +34,7 @@ dojo.declare(
 	//		then after dojo.data query it becomes "LOADING" and, finally "LOADED"	
 	state: "UNCHECKED",
 	
-	templatePath: dojo.moduleUrl("dijit", "_tree/Node.html"),		
+	templatePath: dojo.moduleUrl("dijit", "templates/TreeNode.html"),
 
 	postCreate: function(){
 		// set label, escaping special characters
@@ -333,7 +333,7 @@ dojo.declare(
 	//		If true, double-clicking a folder node's label will open it, rather than calling onDblClick()
 	openOnDblClick: false,
 
-	templatePath: dojo.moduleUrl("dijit", "_tree/Tree.html"),		
+	templatePath: dojo.moduleUrl("dijit", "templates/Tree.html"),
 
 	isExpandable: true,
 
@@ -1027,7 +1027,7 @@ dojo.declare(
 
 		var store = this.store;
 		if(!store.getFeatures()['dojo.data.api.Identity']){
-			throw new Error("dijit.Tree: store must support dojo.data.Identity");			
+			throw new Error("dijit.Tree: store must support dojo.data.Identity");
 		}
 
 		// if the store supports Notification, subscribe to the notification events
