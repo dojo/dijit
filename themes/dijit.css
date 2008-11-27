@@ -866,21 +866,6 @@ img.dijitColorPaletteUnder {
 	background-color:transparent !important;
 }
 
-/* Accordion */
-
-.dijitAccordionPane {
-	overflow: hidden !important;	/* prevent spurious scrollbars */
-}
-
-.dijitAccordionPane .dijitAccordionBody {
-	overflow: auto;
-}
-
-/* #7104 - workaround IE jankyness with overflows */
-.dj_ie .dijitAccordionBody {
-	position:relative;
-}
-
 .dijitAccordionContainer {
 	border:1px solid #b7b7b7;
 	border-top:0 !important;
@@ -891,8 +876,8 @@ img.dijitColorPaletteUnder {
 }
 
 /* images off, high-contrast mode styles */
-.dijitAccordionPane .dijitAccordionTitle .arrowTextUp,
-.dijitAccordionPane .dijitAccordionTitle .arrowTextDown {
+.dijitAccordionTitle .arrowTextUp,
+.dijitAccordionTitle .arrowTextDown {
 	display: none;
 	font-size: 0.65em;
 	font-weight: normal !important;
