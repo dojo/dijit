@@ -25,7 +25,7 @@ dojo.declare(
 		// |			<p>This is some text</p>
 		// ||		...
 		// |	</div>
-		//
+
 		// duration: Integer
 		//		Amount of time (in ms) it takes to slide panes
 		duration: dijit.defaultDuration,
@@ -110,6 +110,13 @@ dojo.declare(
 			});
 		},
 
+		destroy: function(){
+			dojo.forEach(this.getChildren(), function(child){
+				child._buttonWidget.destroy();
+			});
+			this.inherited(arguments);
+		},
+		
 		_transition: function(/*Widget?*/newWidget, /*Widget?*/oldWidget){
 //TODO: should be able to replace this with calls to slideIn/slideOut
 			if(this._inTransition){ return; }
