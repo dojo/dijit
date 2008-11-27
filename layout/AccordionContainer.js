@@ -62,23 +62,24 @@ dojo.declare(
 			// summary: 
 			//		Set the height of the open pane based on what room remains
 
-			// get cumulative height of all the title bars, and figure out which pane is open
-			var totalCollapsedHeight = 0;
 			var openPane = this.selectedChildWidget;
+
+			// get cumulative height of all the title bars
+			var totalCollapsedHeight = 0;
 			dojo.forEach(this.getChildren(), function(child){
 				totalCollapsedHeight += child.getTitleHeight();
 			});
 			var mySize = this._contentBox;
 			this._verticalSpace = mySize.h - totalCollapsedHeight;
+
+			// Memo size to make displayed child, including content and title pane
+			this._containerContentBox = {
+				h: this._verticalSpace + openPane.getTitleHeight(),
+				w: mySize.w
+			};
+
 			if(openPane){
-				openPane.containerNode.style.height = this._getTargetHeight(openPane.containerNode) + "px";
-/***
-TODO: this is wrong.  probably you wanted to call resize on the SplitContainer
-inside the AccordionPane??
-				if(openPane.resize){
-					openPane.resize({h: this._verticalSpace});
-				}
-***/
+				openPane.resize(this._containerContentBox);
 			}
 		},
 
@@ -250,5 +251,20 @@ dojo.declare("dijit.layout.AccordionPane",
 
 	onSelected: function(){
 		// summary: called when this pane is selected
+	},
+	
+	resize: function(size){
+		// summary:
+		//		Resize AccordionPane to the specified size
+
+		// rather than setting the size of the outer domNode, we just set the
+		// size of our container
+
+		var cb = this._contentBox = {
+			h: size.h - this.getTitleHeight(),
+			w: size.w
+		};
+
+		dojo.marginBox(this.containerNode, {h: cb.h});
 	}
 });
