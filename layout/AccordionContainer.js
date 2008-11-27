@@ -7,6 +7,8 @@ dojo.require("dijit._Templated");
 dojo.require("dijit.layout.StackContainer");
 dojo.require("dijit.layout.ContentPane");
 
+dojo.require("dijit.layout.AccordionPane");	// for back compat
+
 dojo.declare(
 	"dijit.layout.AccordionContainer",
 	dijit.layout.StackContainer,
@@ -45,7 +47,7 @@ dojo.declare(
 				var style = this.selectedChildWidget.containerNode.style;
 				style.display = "";
 				style.overflow = "auto";
-				this.selectedChildWidget._setSelectedState(true);
+				this.selectedChildWidget._buttonWidget._setSelectedState(true);
 			}
 		},
 		
@@ -57,7 +59,7 @@ dojo.declare(
 			var cs = dojo.getComputedStyle(node);
 			return Math.max(this._verticalSpace - dojo._getPadBorderExtents(node, cs).h, 0);
 		},
-		
+
 		layout: function(){
 			// summary: 
 			//		Set the height of the open pane based on what room remains
@@ -67,14 +69,14 @@ dojo.declare(
 			// get cumulative height of all the title bars
 			var totalCollapsedHeight = 0;
 			dojo.forEach(this.getChildren(), function(child){
-				totalCollapsedHeight += child.getTitleHeight();
+				totalCollapsedHeight += child._buttonWidget.getTitleHeight();
 			});
 			var mySize = this._contentBox;
 			this._verticalSpace = mySize.h - totalCollapsedHeight;
 
-			// Memo size to make displayed child, including content and title pane
+			// Memo size to make displayed child
 			this._containerContentBox = {
-				h: this._verticalSpace + openPane.getTitleHeight(),
+				h: this._verticalSpace,
 				w: mySize.w
 			};
 
@@ -83,9 +85,29 @@ dojo.declare(
 			}
 		},
 
-		_setupChild: function(/*Widget*/ page){
-			// Summary: prepare the given child
-			return page;
+		_setupChild: function(child){
+			// Setup clickable title to sit above the child widget,
+			//  and stash pointer to it inside the widget itself
+			child._buttonWidget = new dijit.layout._AccordionButton({
+				contentWidget: child,
+				title: child.title,
+				id: child.id + "_button",
+				parent: this
+			});
+			dojo.place(child._buttonWidget.domNode, child.domNode, "before");
+
+			this.inherited(arguments);
+		},
+
+		removeChild: function(child){
+			child._buttonWidget.destroy();
+			this.inherited(arguments);
+		},
+
+		getChildren: function(){
+			return dojo.filter(this.inherited(arguments), function(child){
+				return child.declaredClass != "dijit.layout._AccordionButton";
+			});
 		},
 
 		_transition: function(/*Widget?*/newWidget, /*Widget?*/oldWidget){
@@ -95,34 +117,37 @@ dojo.declare(
 			var animations = [];
 			var paneHeight = this._verticalSpace;
 			if(newWidget){
-				newWidget.setSelected(true);
-				var newContents = newWidget.containerNode;
+				newWidget._buttonWidget.setSelected(true);
+				this._showChild(newWidget);	// prepare widget to be slid in
+				var newContents = newWidget.domNode;
 				newContents.style.display = "";
-				paneHeight = this._getTargetHeight(newWidget.containerNode)
+				var newContentsOverflow = newContents.style.overflow;
+				newContents.style.overflow = "hidden";
 				animations.push(dojo.animateProperty({
 					node: newContents,
 					duration: this.duration,
 					properties: {
-						height: { start: 1, end: paneHeight }
+						height: { start: 1, end: this._getTargetHeight(newContents) }
 					},
 					onEnd: function(){
-						newContents.style.overflow = "auto";
+						newContents.style.overflow = newContentsOverflow;
 					}
 				}));
 			}
 			if(oldWidget){
-				oldWidget.setSelected(false);
-				var oldContents = oldWidget.containerNode;
+				oldWidget._buttonWidget.setSelected(false);
+				var oldContents = oldWidget.domNode;
+				var oldContentsOverflow = newContents.style.overflow;
 				oldContents.style.overflow = "hidden";
-				paneHeight = this._getTargetHeight(oldWidget.containerNode);
 				animations.push(dojo.animateProperty({
 					node: oldContents,
 					duration: this.duration,
 					properties: {
-						height: { start: paneHeight, end: "1" }
+						height: { start: this._getTargetHeight(oldContents), end: 1 }
 					},
 					onEnd: function(){
 						oldContents.style.display = "none";
+						oldContents.style.overflow = oldContentsOverflow;
 					}
 				}));
 			}
@@ -175,25 +200,26 @@ dojo.declare(
 	}
 );
 
-dojo.declare("dijit.layout.AccordionPane",
-	[dijit.layout.ContentPane, dijit._Templated, dijit._Contained],
+dojo.declare("dijit.layout._AccordionButton",
+	[dijit._Widget, dijit._Templated],
 	{
 	// summary:
-	//		AccordionPane is a ContentPane with a title that may contain another widget.
-	//		Nested layout widgets, such as SplitContainer, are not supported at this time.
-	// example: 
-	// | see dijit.layout.AccordionContainer
+	//		The title bar to click to open up an accordion pane
 
-	templatePath: dojo.moduleUrl("dijit.layout", "templates/AccordionPane.html"),
+	templatePath: dojo.moduleUrl("dijit.layout", "templates/AccordionButton.html"),
 	attributeMap: dojo.mixin(dojo.clone(dijit.layout.ContentPane.prototype.attributeMap), {
 		title: {node: "titleTextNode", type: "innerHTML" }
 	}),
 
-	baseClass: "dijitAccordionPane",
-	
+	baseClass: "dijitAccordionTitle",
+
+	getParent: function(){
+		return this.parent;
+	},
+
 	postCreate: function(){
 		this.inherited(arguments)
-		dojo.setSelectable(this.titleNode, false);
+		dojo.setSelectable(this.domNode, false);
 		this.setSelected(this.selected);
 		dojo.attr(this.titleTextNode, "id", this.domNode.id+"_title");
 		dijit.setWaiState(this.focusNode, "labelledby", dojo.attr(this.titleTextNode, "id"));
@@ -208,7 +234,7 @@ dojo.declare("dijit.layout.AccordionPane",
 		// summary: callback when someone clicks my title
 		var parent = this.getParent();
 		if(!parent._inTransition){
-			parent.selectChild(this);
+			parent.selectChild(this.contentWidget);
 			dijit.focus(this.focusNode);
 		}
 	},
@@ -244,27 +270,8 @@ dojo.declare("dijit.layout.AccordionPane",
 		// summary: change the selected state on this pane
 		this._setSelectedState(isSelected);
 		if(isSelected){
-			this.onSelected();
-			this._loadCheck(); // if href specified, trigger load
+			this.contentWidget.onSelected();
+			this.contentWidget._loadCheck(); // if href specified, trigger load
 		}
-	},
-
-	onSelected: function(){
-		// summary: called when this pane is selected
-	},
-	
-	resize: function(size){
-		// summary:
-		//		Resize AccordionPane to the specified size
-
-		// rather than setting the size of the outer domNode, we just set the
-		// size of our container
-
-		var cb = this._contentBox = {
-			h: size.h - this.getTitleHeight(),
-			w: size.w
-		};
-
-		dojo.marginBox(this.containerNode, {h: cb.h});
 	}
 });
