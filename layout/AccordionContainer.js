@@ -165,43 +165,29 @@ dojo.declare(
 		},
 
 		// note: we are treating the container as controller here
-		_onKeyPress: function(/*Event*/ e){
-			if(this.disabled || e.altKey || !(e._dijitWidget || e.ctrlKey)){ return; }
-			var k = dojo.keys;
-			var fromTitle = e._dijitWidget;
-			switch(e.charOrCode){
-				case k.LEFT_ARROW:
-				case k.UP_ARROW:
-					if (fromTitle){
-						this._adjacent(false)._onTitleClick();
-						dojo.stopEvent(e);
-					}
-					break;
-				case k.PAGE_UP:
-					if (e.ctrlKey){
-						this._adjacent(false)._onTitleClick();
-						dojo.stopEvent(e);
-					}
-					break;
-				case k.RIGHT_ARROW:
-				case k.DOWN_ARROW:
-					if (fromTitle){
-						this._adjacent(true)._onTitleClick();
-						dojo.stopEvent(e);
-					}
-					break;
-				case k.PAGE_DOWN:
-					if (e.ctrlKey){
-						this._adjacent(true)._onTitleClick();
-						dojo.stopEvent(e);
-					}
-					break;
-				default:
-					if(e.ctrlKey && e.charOrCode === k.TAB){
-						this._adjacent(e._dijitWidget, !e.shiftKey)._onTitleClick();
-						dojo.stopEvent(e);
-					}
-				
+		_onKeyPress: function(/*Event*/ e, /*Widget*/ fromTitle){
+			// summary:
+			//		Handle keypress events
+			// description:
+			//		This is called from a handler on AccordionContainer.domNode
+			//		(setup in StackContainer), and is also called directly from
+			//		the click handler for accordion labels
+			if(this.disabled || e.altKey || !(fromTitle || e.ctrlKey)){ return; }
+			var k = dojo.keys,
+				c = e.charOrCode;
+			if(
+					(fromTitle && (c == k.LEFT_ARROW || c == k.UP_ARROW)) ||
+					(e.ctrlKey && c == k.PAGE_UP)
+			){
+				this._adjacent(false)._buttonWidget._onTitleClick();
+				dojo.stopEvent(e);
+			}
+			else if(
+					(fromTitle && (c == k.RIGHT_ARROW || c == k.DOWN_ARROW)) ||
+					(e.ctrlKey && (c == k.PAGE_DOWN || c == k.TAB))
+			){
+				this._adjacent(true)._buttonWidget._onTitleClick();
+				dojo.stopEvent(e);
 			}
 		}
 	}
@@ -257,8 +243,7 @@ dojo.declare("dijit.layout._AccordionButton",
 	},
 
 	_onTitleKeyPress: function(/*Event*/ evt){
-		evt._dijitWidget = this;
-		return this.getParent()._onKeyPress(evt);
+		return this.getParent()._onKeyPress(evt, this.contentWidget);
 	},
 
 	_setSelectedState: function(/*Boolean*/ isSelected){
