@@ -262,8 +262,9 @@ dojo.declare("dijit.layout._AccordionButton",
 		// summary: change the selected state on this pane
 		this._setSelectedState(isSelected);
 		if(isSelected){
-			this.contentWidget.onSelected();
-			this.contentWidget._loadCheck(); // if href specified, trigger load
+			var cw = this.contentWidget;
+			if(cw.onSelected){ cw.onSelected(); }
+			if(cw._loadCheck){ cw._loadCheck(); }	// if href specified, trigger load
 		}
 	}
 });
