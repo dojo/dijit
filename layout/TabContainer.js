@@ -55,7 +55,9 @@ dojo.declare("dijit.layout.TabContainer",
 		}, this.tablistNode);
 		
 		// add Class for tabstrip
-		if (this.tabStrip){	dojo.addClass(this.tablist.domNode, this.baseClass+"Strip"); }			
+		if (this.tabStrip){	dojo.addClass(this.tablist.domNode, this.baseClass+"Strip"); }		
+		
+		if(!this.doLayout){ dojo.addClass(this.domNode, "dijitTabContainerNoLayout"); }
 	},
 
 	_setupChild: function(/* Widget */tab){

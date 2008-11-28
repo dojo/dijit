@@ -127,7 +127,8 @@ dojo.declare(
 				newWidget._buttonWidget.setSelected(true);
 				this._showChild(newWidget);	// prepare widget to be slid in
 				var newContents = newWidget.domNode;
-				newContents.style.display = "";
+				dojo.addClass(newContents, "dijitVisible");
+				dojo.removeClass(newContents, "dijitHidden");
 				var newContentsOverflow = newContents.style.overflow;
 				newContents.style.overflow = "hidden";
 				animations.push(dojo.animateProperty({
@@ -153,7 +154,8 @@ dojo.declare(
 						height: { start: this._getTargetHeight(oldContents), end: 1 }
 					},
 					onEnd: function(){
-						oldContents.style.display = "none";
+						dojo.addClass(oldContents, "dijitHidden");
+						dojo.removeClass(oldContents, "dijitVisible");
 						oldContents.style.overflow = oldContentsOverflow;
 					}
 				}));

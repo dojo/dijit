@@ -30,7 +30,7 @@ dojo.declare(
 	// persist: Boolean
 	//	remembers the selected child across sessions
 	persist: false,	// Boolean
-
+	
 	baseClass: "dijitStackContainer",
 
 	_started: false,
@@ -42,6 +42,7 @@ dojo.declare(
 =====*/
 	postCreate: function(){
 		this.inherited(arguments);
+		dojo.addClass(this.domNode, "dijitLayoutContainer");
 		dijit.setWaiRole(this.containerNode, "tabpanel");
 		this.connect(this.domNode, "onkeypress", this._onKeyPress);
 	},
@@ -90,11 +91,7 @@ dojo.declare(
 
 		this.inherited(arguments);
 
-		child.domNode.style.display = "none";
-
-		// since we are setting the width/height of the child elements, they need
-		// to be position:relative, or IE has problems (See bug #2033)
-		child.domNode.style.position = "relative";
+		dojo.addClass(child.domNode, "dijitHidden");
 
 		// remove the title attribute so it doesn't show up when i hover
 		// over a node
@@ -209,7 +206,9 @@ dojo.declare(
 		page.isLastChild = (page == children[children.length-1]);
 		page.selected = true;
 
-		page.domNode.style.display="";
+		dojo.removeClass(page.domNode, "dijitHidden");
+		dojo.addClass(page.domNode, "dijitVisible");
+
 		if(page._loadCheck){
 			page._loadCheck(); // trigger load in ContentPane
 		}
@@ -227,7 +226,9 @@ dojo.declare(
 
 	_hideChild: function(/*Widget*/ page){
 		page.selected=false;
-		page.domNode.style.display="none";
+		dojo.removeClass(page.domNode, "dijitVisible");
+		dojo.addClass(page.domNode, "dijitHidden");
+
 		if(page.onHide){
 			page.onHide();
 		}

@@ -35,6 +35,7 @@
 		dojo.require("dijit.layout.ContentPane");
 		dojo.require("dijit.layout.TabContainer");
 		dojo.require("dijit.layout.SplitContainer");
+		dojo.require("dijit.layout.BorderContainer");
 		dojo.require("dijit.Tooltip");
 		dojo.require("dijit.layout.LinkPane");
 		dojo.require("dijit.form.Button");
@@ -115,9 +116,86 @@
 
 		<a dojoType="dijit.layout.LinkPane" href="tab4.html">SplitContainer from href</a>	
 
+		<div dojoType="dijit.layout.ContentPane" title="Embedded layout widgets">
+			<p>
+				The tab has some text, plus two embedded layout widgets, which should
+				appear correctly even though the tab is initially hidden.
+			</p>
+			<p>
+				Here's a BorderContainer:
+			</p>
+			<div dojoType="dijit.layout.BorderContainer" style="height:200px; width:300px">
+				<div dojoType="dijit.layout.ContentPane" region="left" style="width:100px" splitter="true">
+					1Sed arcu magna, molestie at, fringilla in, sodales eu, elit.
+					Curabitur mattis lorem et est. Quisque et tortor. Integer bibendum
+					vulputate odio. Nam nec ipsum. Vestibulum mollis eros feugiat
+					augue. Integer fermentum odio lobortis odio. Nullam mollis nisl non
+					metus. Maecenas nec nunc eget pede ultrices blandit. Ut non purus
+					ut elit convallis eleifend. Fusce tincidunt, justo quis tempus
+					euismod, magna nulla viverra libero, sit amet lacinia odio diam id
+					risus. Ut varius viverra turpis. Morbi urna elit, imperdiet eu,
+					porta ac, pharetra sed, nisi. Etiam ante libero, ultrices ac,
+					faucibus ac, cursus sodales, nisl. Praesent nisl sem, fermentum eu,
+					consequat quis, varius interdum, nulla. Donec neque tortor,
+					sollicitudin sed, consequat nec, facilisis sit amet, orci. Aenean
+					ut eros sit amet ante pharetra interdum.
+				</div>
+				<div dojoType="dijit.layout.ContentPane" region="center">
+					2Sed arcu magna, molestie at, fringilla in, sodales eu, elit.
+					Curabitur mattis lorem et est. Quisque et tortor. Integer bibendum
+					vulputate odio. Nam nec ipsum. Vestibulum mollis eros feugiat
+					augue. Integer fermentum odio lobortis odio. Nullam mollis nisl non
+					metus. Maecenas nec nunc eget pede ultrices blandit. Ut non purus
+					ut elit convallis eleifend. Fusce tincidunt, justo quis tempus
+					euismod, magna nulla viverra libero, sit amet lacinia odio diam id
+					risus. Ut varius viverra turpis. Morbi urna elit, imperdiet eu,
+					porta ac, pharetra sed, nisi. Etiam ante libero, ultrices ac,
+					faucibus ac, cursus sodales, nisl. Praesent nisl sem, fermentum eu,
+					consequat quis, varius interdum, nulla. Donec neque tortor,
+					sollicitudin sed, consequat nec, facilisis sit amet, orci. Aenean
+					ut eros sit amet ante pharetra interdum.
+				</div>
+			</div>
+			<p>
+				And a TabContainer:
+			</p>
+			<div dojoType="dijit.layout.TabContainer" style="height:200px; width:300px">	
+				<div dojoType="dijit.layout.ContentPane" title="Tab 1">
+					1Sed arcu magna, molestie at, fringilla in, sodales eu, elit.
+					Curabitur mattis lorem et est. Quisque et tortor. Integer bibendum
+					vulputate odio. Nam nec ipsum. Vestibulum mollis eros feugiat
+					augue. Integer fermentum odio lobortis odio. Nullam mollis nisl non
+					metus. Maecenas nec nunc eget pede ultrices blandit. Ut non purus
+					ut elit convallis eleifend. Fusce tincidunt, justo quis tempus
+					euismod, magna nulla viverra libero, sit amet lacinia odio diam id
+					risus. Ut varius viverra turpis. Morbi urna elit, imperdiet eu,
+					porta ac, pharetra sed, nisi. Etiam ante libero, ultrices ac,
+					faucibus ac, cursus sodales, nisl. Praesent nisl sem, fermentum eu,
+					consequat quis, varius interdum, nulla. Donec neque tortor,
+					sollicitudin sed, consequat nec, facilisis sit amet, orci. Aenean
+					ut eros sit amet ante pharetra interdum.
+				</div>
+				<div dojoType="dijit.layout.ContentPane" title="Tab 2">
+					2Sed arcu magna, molestie at, fringilla in, sodales eu, elit.
+					Curabitur mattis lorem et est. Quisque et tortor. Integer bibendum
+					vulputate odio. Nam nec ipsum. Vestibulum mollis eros feugiat
+					augue. Integer fermentum odio lobortis odio. Nullam mollis nisl non
+					metus. Maecenas nec nunc eget pede ultrices blandit. Ut non purus
+					ut elit convallis eleifend. Fusce tincidunt, justo quis tempus
+					euismod, magna nulla viverra libero, sit amet lacinia odio diam id
+					risus. Ut varius viverra turpis. Morbi urna elit, imperdiet eu,
+					porta ac, pharetra sed, nisi. Etiam ante libero, ultrices ac,
+					faucibus ac, cursus sodales, nisl. Praesent nisl sem, fermentum eu,
+					consequat quis, varius interdum, nulla. Donec neque tortor,
+					sollicitudin sed, consequat nec, facilisis sit amet, orci. Aenean
+					ut eros sit amet ante pharetra interdum.
+				</div>
+			</div>
+			<p>
+				Text after the widgets.
+			</p>
+		</div>
 	</div>
-
-	<button onclick="makeTab();">Make a tab</button>
 
 	<p>
 		The next example is with closable tabs.

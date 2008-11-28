@@ -37,6 +37,28 @@
 	#vertical-align: auto;	/* makes TextBox,Button line up w/native counterparts on IE6 */
 }
 
+.dijitHidden {
+	/* Hide contents of StackContainer etc. but don't set display:none,
+	   so that nested layout widgets can still render
+	 */
+	 /*visibility: hidden;  setting visibility:hidden is unnecessary? and messes up labels on nested tabs*/
+	 position: absolute !important;
+	 top: -9999px !important;	/* override dijit.layout.layoutChildren setting node.style.top = 0 */
+}
+
+.dijitVisible {
+	/* To show selected pane in StackContainer etc. */
+	display: block !important;	/* override style="display:none" on node */
+	position: relative;			/* to support setting width/height, see #2033 */
+	top: 0px;
+}
+
+.dj_ie6 .dijitTabContainerNoLayout .dijitHidden {
+	/* work around IE6 bugs in test_TabContainer_noLayout.html page, otherwise nested tab container is hidden */
+	display: none;
+	position: relative !important;
+}
+
 .dj_ie INPUT.dijitTextBox,
 .dj_ie .dijitInputField INPUT {
 	font-size: 100%;
