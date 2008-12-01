@@ -8,6 +8,7 @@ if(dojo.isBrowser){
 	doh.registerUrl("dijit/tests/form/robot/test_Slider.html", dojo.moduleUrl("dijit","tests/form/robot/test_Slider.html"+userArgs), 99999999);
 	doh.registerUrl("dijit/tests/form/robot/test_Spinner.html", dojo.moduleUrl("dijit","tests/form/robot/test_Spinner.html"+userArgs), 99999999);
 	doh.registerUrl("dijit/tests/form/robot/test_validate.html", dojo.moduleUrl("dijit","tests/form/robot/test_validate.html"+userArgs), 99999999);
+	doh.registerUrl("dijit/tests/robot/test_Tree.html", dojo.moduleUrl("dijit","tests/robot/test_Tree.html"+userArgs), 99999999);
 }
 }catch(e){
 	doh.debug(e);
