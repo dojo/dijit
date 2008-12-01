@@ -249,7 +249,7 @@ dojo.declare("dijit.form.DropDownButton", [dijit.form.Button, dijit._Container],
 					dojo.disconnect(handler);
 					self._openDropDown();
 				});
-				dropDown._loadCheck(true);
+				dropDown.refresh();
 				return;
 			}else{
 				this._openDropDown();

@@ -158,14 +158,6 @@ dojo.declare(
 		}
 	},
 
-	refresh: function(){
-		// summary:
-		//	Force a refresh (re-download) of content, be sure to turn off cache
-
-		// we return result of _loadCheck here to avoid code dup. in dojox.layout.ContentPane
-		return this._loadCheck(true);
-	},
-
 	setHref: function(/*String|Uri*/ href){
 		dojo.deprecated("dijit.layout.ContentPane.setHref() is deprecated.	Use attr('href', ...) instead.", "", "2.0");
 		return this.attr("href", href);
@@ -274,39 +266,35 @@ dojo.declare(
 		}
 	},
 
-	_loadCheck: function(/*Boolean*/ forceLoad){
+	_loadCheck: function(){
 		// summary:
 		//		Call this when !ContentPane has been made visible [from prior hidden state],
-		//		in order to load href contents.
-		// description:
-		// 		Can also be called with forceLoad=true in order to force reload
+		//		in order to load href contents if necessary.
 
 		// sequence:
 		// if no href -> bail
-		// forceLoad -> always load
 		// this.preload -> load when download not in progress, domNode display doesn't matter
 		// this.refreshOnShow -> load when download in progress bails, domNode display !='none' AND
 		//						this.open !== false (undefined is ok), isLoaded doesn't matter
 		// else -> load when download not in progress, if this.open !== false (undefined is ok) AND
 		//						domNode display != 'none', isLoaded must be false
 
-		var displayState = this._isShown();
 
-		if(this.href && 
-			(
-				forceLoad ||
-				(this.preload && !this.isLoaded && !this._xhrDfd) ||
-				(this.refreshOnShow && displayState && !this._xhrDfd) ||
-				(!this.isLoaded && displayState && !this._xhrDfd)
-			)
-		){
-			this._downloadExternalContent();
+		if(this.href && !this._xhrDfd){
+			var displayState = this._isShown();
+			if(
+				(this.preload) || 
+				(this.refreshOnShow && displayState) ||
+				(!this.isLoaded && displayState)
+			){
+				this.refresh();
+			}
 		}
 	},
 
-	_downloadExternalContent: function(){
+	refresh: function(){
 		// summary:
-		//		Download contents of href and displays it
+		//		[Re]download contents of href and display
 		// description:
 		//		1. cancels any currently in-flight requests
 		//		2. posts "loading..." message
