@@ -270,7 +270,7 @@ dojo.declare(
 			return this.open;		// for TitlePane, etc.
 		}else{
 			var node = this.domNode;
-			return (node.style.display != 'none')  && (node.style.visibility != 'hidden');
+			return (node.style.display != 'none')  && (node.style.visibility != 'hidden') && !dojo.hasClass(node, "dijitHidden");
 		}
 	},
 
