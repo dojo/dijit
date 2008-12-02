@@ -125,7 +125,16 @@ dojo.declare(
 			var paneHeight = this._verticalSpace;
 			if(newWidget){
 				newWidget._buttonWidget.setSelected(true);
+
 				this._showChild(newWidget);	// prepare widget to be slid in
+
+				// Size the new widget, in case this is the first time it's being shown,
+				// or I have been resized since the last time it was shown.
+				// Note that page must be visible for resizing to work. 
+				if(this.doLayout && newWidget.resize){
+					newWidget.resize(this._containerContentBox);
+				}
+				
 				var newContents = newWidget.domNode;
 				dojo.addClass(newContents, "dijitVisible");
 				dojo.removeClass(newContents, "dijitHidden");
