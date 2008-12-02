@@ -170,6 +170,13 @@ dojo.declare(
 			this._hideChild(oldWidget);
 		}
 		this._showChild(newWidget);
+
+		// Size the new widget, in case this is the first time it's being shown,
+		// or I have been resized since the last time it was shown.
+		// Note that page must be visible for resizing to work. 
+		if(this.doLayout && newWidget.resize){
+			newWidget.resize(this._containerContentBox || this._contentBox);
+		}
 	},
 
 	_adjacent: function(/*Boolean*/ forward){
@@ -214,13 +221,6 @@ dojo.declare(
 		}
 		if(page.onShow){
 			page.onShow();
-		}
-
-		// Size the new widget, in case this is the first time it's being shown,
-		// or I have been resized since the last time it was shown.
-		// page must be visible for resizing to work
-		if(this.doLayout && page.resize){
-			page.resize(this._containerContentBox || this._contentBox);
 		}
 	},
 
