@@ -145,7 +145,7 @@ dojo.declare(
 			if(oldWidget){
 				oldWidget._buttonWidget.setSelected(false);
 				var oldContents = oldWidget.domNode;
-				var oldContentsOverflow = newContents.style.overflow;
+				var oldContentsOverflow = oldContents.style.overflow;
 				oldContents.style.overflow = "hidden";
 				animations.push(dojo.animateProperty({
 					node: oldContents,
