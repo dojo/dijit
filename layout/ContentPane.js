@@ -91,6 +91,11 @@ dojo.declare(
 	//				however big the ContentPane is
 	doLayout: true,
 
+	// ioArgs: Object
+	//		Parameters to pass to xhrGet() request, for example:
+	// |	<div dojoType="dijit.layout.ContentPane" href="./bar" ioArgs="{timeout: 500}">
+	ioArgs: {},
+
 	postMixInProperties: function(){
 		this.inherited(arguments);
 		var messages = dojo.i18n.getLocalization("dijit", "loading", this.lang);
