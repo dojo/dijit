@@ -465,13 +465,15 @@
 				]
 			);
 
-			var pane3, st, tmp;
+			var st,		// stack container
+				pane3, pane3UnloadCnt=0, pane3LoadCnt=0,	// second child of stack container (initially hidden)
+				tmp;
 
 			doh.registerGroup("child_to_StackContainer",
 				[
 					{
-						// TODO: this test should be moved to registerGroup setUp when #3504 is fixed
-						//		We actually dont need to test anything here, just setUp
+						// TODO: this test should be moved to registerGroup setUp now that #3504 is fixed
+						//		We actually don't need to test anything here, just setUp
 						name: "setUp_StackContainer",
 						setUp:function(t){
 							// create a StackContainer
@@ -486,7 +488,9 @@
 							// the second child *won't* be shown until selected
 							pane3 = new dijit.layout.ContentPane({
 								href:'getResponse.php?delay=300&message=Loaded!',
-								preventCache: true
+								preventCache: true,
+								onLoad: function(){ pane3LoadCnt++; },
+								onUnload: function(){ pane3UnloadCnt++; }
 							}, dojo.doc.createElement('div'));
 							st.addChild(pane3);
 
@@ -506,16 +510,28 @@
 						}
 					},
 					{
-						name: "startLoad when selected",
+						name: "unload event not called initially",
+						runTest: function(t){
+							t.assertEqual(0, pane3UnloadCnt);
+						}
+					},
+					{
+						name: "load event fired when pane is shown",
 						timeout: 2100,
 						runTest: function(t){
+							t.assertEqual(0, pane3LoadCnt, "onload hasn't been called yet");
 							st.selectChild(pane3);
+							t.assertEqual(0, pane3UnloadCnt,
+								"unload shouldn't have been called b/c no initial contents (#1)");
 
 							var d = new t.Deferred();
 							setTimeout(d.getTestCallback(
 								function(){
 									t.assertTrue(pane3.isLoaded);
+									t.assertEqual(1, pane3LoadCnt, "onload was called");
 									t.assertEqual('Loaded!', pane3.domNode.innerHTML);
+									t.assertEqual(0, pane3UnloadCnt,
+										"unload shouldn't have been called b/c no initial contents (#2)");
 								}
 							), 1800);
 
@@ -523,34 +539,34 @@
 						}
 					},
 					{
-						name: "refreshOnShow",
+						name: "refreshOnShow parameter works",
 						timeout: 2100,
 						setUp: function(t){
 							tmp = {
 								onUnload: function(){ this._unload_fired = 1; },
 								onLoad: function(){ this._load_fired = 1; }
 							};
-							tmp.unload = dojo.connect(pane3, 'onUnload', tmp, 'onUnload');
-							tmp.load = dojo.connect(pane3, 'onLoad', tmp, 'onLoad');
+							tmp.unloadHandle = dojo.connect(pane3, 'onUnload', tmp, 'onUnload');
+							tmp.loadHandle = dojo.connect(pane3, 'onLoad', tmp, 'onLoad');
 
 							pane3.refreshOnShow = true;
 						},
 						runTest: function(t){
 							var d = new t.Deferred();
 							st.back();
-							st.forward();
+							st.forward();	// show pane #3
 
 							setTimeout(d.getTestCallback(function(){
-								t.assertTrue(tmp._unload_fired);
-								t.assertTrue(tmp._load_fired);
+								t.assertTrue(tmp._unload_fired, "unload was fired");
+								t.assertTrue(tmp._load_fired, "load was fired");
 								t.assertEqual('Loaded!', pane3.domNode.innerHTML);
 							}), 1800);
 
 							return d;
 						},
 						tearDown: function(){
-							dojo.disconnect(tmp.unload);
-							dojo.disconnect(tmp.load);
+							dojo.disconnect(tmp.unloadHandle);
+							dojo.disconnect(tmp.loadHandle);
 							pane3.refreshOnShow = pane3.constructor.prototype.refreshOnShow;
 						}
 					},

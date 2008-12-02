@@ -75,7 +75,12 @@ dojo.declare(
 	errorMessage: "<span class='dijitContentPaneError'>${errorState}</span>", 
 
 	// isLoaded: Boolean
-	//	Tells loading status see onLoad|onUnload for event hooks
+	//		True if the ContentPane has data in it, either specified
+	//		during initialization (via href or inline content), or set
+	//		via attr('content', ...) / attr('href', ...)
+	//
+	//		False if it doesn't have any content, or if ContentPane is
+	//		still in the process of downloading href.
 	isLoaded: false,
 
 	baseClass: "dijitContentPane",
@@ -85,9 +90,6 @@ dojo.declare(
 	//		- true - if there is a single visible child widget, set it's size to
 	//				however big the ContentPane is
 	doLayout: true,
-
-	// whether current content is something the user specified, or just a "Loading..." message
-	_isRealContent: true,
 
 	postMixInProperties: function(){
 		this.inherited(arguments);
@@ -114,6 +116,11 @@ dojo.declare(
 		}
 
 		dojo.addClass(this.domNode, this.baseClass);
+		
+		// Detect if we were initialized with data
+		if(!this.href && this.srcNodeRef && this.srcNodeRef.innerHTML){
+			this.isLoaded = true;
+		}
 	},
 
 	startup: function(){
@@ -175,13 +182,16 @@ dojo.declare(
 		this.cancel();
 
 		this.href = href;
-		this.isLoaded = false;
 
 		// _setHrefAttr() is called during creation and by the user, after creation.
 		// only in the second case do we actually load the URL; otherwise it's done in startup()
-		if(this._created){
-			// we return result of _loadCheck here to avoid code dup. in dojox.layout.ContentPane
-			return this._loadCheck();
+		if(this._created && (this.preload || this._isShown())){
+			// we return result of refresh() here to avoid code dup. in dojox.layout.ContentPane
+			return this.refresh();
+		}else{
+			// Set flag to indicate that href needs to be loaded the next time the
+			// ContentPane is made visible
+			this._hrefChanged = true;
 		}
 	},
 
@@ -199,7 +209,7 @@ dojo.declare(
 		//		if data is a NodeList (or an array of nodes) nodes are copied
 		//		so you can import nodes from another document implicitly
 
-		// clear href so we cant run refresh and clear content
+		// clear href so we can't run refresh and clear content
 		// refresh should only work if we downloaded the content
 		this.href = "";
 
@@ -268,27 +278,18 @@ dojo.declare(
 
 	_loadCheck: function(){
 		// summary:
-		//		Call this when !ContentPane has been made visible [from prior hidden state],
-		//		in order to load href contents if necessary.
+		//		Call this to load href contents if necessary.
+		// description:
+		//		Call when !ContentPane has been made visible [from prior hidden state],
+		//		or href has been changed, or on startup, etc.
 
-		// sequence:
-		// if no href -> bail
-		// this.preload -> load when download not in progress, domNode display doesn't matter
-		// this.refreshOnShow -> load when download in progress bails, domNode display !='none' AND
-		//						this.open !== false (undefined is ok), isLoaded doesn't matter
-		// else -> load when download not in progress, if this.open !== false (undefined is ok) AND
-		//						domNode display != 'none', isLoaded must be false
-
-
-		if(this.href && !this._xhrDfd){
-			var displayState = this._isShown();
-			if(
-				(this.preload) || 
-				(this.refreshOnShow && displayState) ||
-				(!this.isLoaded && displayState)
-			){
-				this.refresh();
-			}
+		if(
+			(this.href && !this._xhrDfd) &&		// if there's an href that isn't already being loaded
+			(!this.isLoaded || this._hrefChanged || this.refreshOnShow) && 	// and we need a [re]load
+			(this.preload || this._isShown())	// and now is the time to [re]load
+		){
+			delete this._hrefChanged;
+			this.refresh();
 		}
 	},
 
@@ -302,7 +303,6 @@ dojo.declare(
 
 		// cancel possible prior inflight request
 		this.cancel();
-		this.isLoaded = false;
 
 		// display loading message
 		this._setContent(this.onDownloadStart(), true);
@@ -368,9 +368,12 @@ dojo.declare(
 		//		Destroy all the widgets inside the ContentPane and empty containerNode
 
 		// Make sure we call onUnload (but only when the ContentPane has real content)
-		if(this._isRealContent){
+		if(this.isLoaded){
 			this._onUnloadHandler();
 		}
+
+		// Even if this.isLoaded == false there might still be a "Loading..." message
+		// to erase, so continue...
 
 		// For historical reasons we need to delete all widgets under this.containerNode,
 		// even ones that the user has created manually.
@@ -402,10 +405,6 @@ dojo.declare(
 		// first get rid of child widgets
 		this.destroyDescendants();
 
-		// mark whether this should be calling the unloadHandler
-		// for the content we are about to set
-		this._isRealContent = !isFakeContent;
-		
 		// dojo.html.set will take care of the rest of the details
 		// we provide an overide for the error handling to ensure the widget gets the errors 
 		// configure the setter instance with only the relevant widget instance properties
