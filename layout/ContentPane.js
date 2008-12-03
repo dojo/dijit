@@ -296,6 +296,17 @@ dojo.declare(
 			delete this._hrefChanged;
 			this.refresh();
 		}
+
+		// When I am made visible, I should notify any children layout widgets that they are
+		// now visible, so that they can lay out.
+		// Since layout widgets don't have an _onShow() method (yet), just call resize.
+		if(this._isShown()){
+			dojo.forEach(this.getDescendants(true), function(widget){
+				if(widget.resize){
+					widget.resize();
+				}
+			});
+		}
 	},
 
 	refresh: function(){
@@ -351,7 +362,7 @@ dojo.declare(
 		//		This is called whenever new content is being loaded
 		this.isLoaded = true;
 		try{
-			this.onLoad(data);
+			this.onLoad(data);			
 		}catch(e){
 			console.error('Error '+this.widgetId+' running custom onLoad code: ' + e.message);
 		}
@@ -481,7 +492,6 @@ dojo.declare(
 				+(this.href ? " from "+this.href : ""));
 		}
 	},
-
 
 	// EVENT's, should be overide-able
 	onLoad: function(data){

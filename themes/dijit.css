@@ -38,26 +38,16 @@
 }
 
 .dijitHidden {
-	/* Hide contents of StackContainer etc. but don't set display:none,
-	   so that nested layout widgets can still render
-	 */
-	 /*visibility: hidden;  setting visibility:hidden is unnecessary? and messes up labels on nested tabs*/
-	 position: absolute !important;
-	 top: -9999px !important;	/* override dijit.layout.layoutChildren setting node.style.top = 0 */
+	/* To hide unselected panes in StackContainer etc. */
+	display: none !important;
 }
 
 .dijitVisible {
 	/* To show selected pane in StackContainer etc. */
-	display: block !important;	/* override style="display:none" on node */
+	display: block !important;	/* override user's display:none setting via style setting or indirectly via class */
 	position: relative;			/* to support setting width/height, see #2033 */
-	top: 0px;
 }
 
-.dj_ie6 .dijitTabContainerNoLayout .dijitHidden {
-	/* work around IE6 bugs in test_TabContainer_noLayout.html page, otherwise nested tab container is hidden */
-	display: none;
-	position: relative !important;
-}
 
 .dj_ie INPUT.dijitTextBox,
 .dj_ie .dijitInputField INPUT {
