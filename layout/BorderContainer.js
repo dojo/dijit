@@ -181,6 +181,13 @@ dojo.declare(
 	},
 
 	_layoutChildren: function(/*String?*/changedRegion){
+		
+		if(!this._borderBox.h){
+			// We are currently hidden.  Abort.
+			// Someone will resize us later.
+			return;
+		}
+
 		var sidebarLayout = (this.design == "sidebar");
 		var topHeight = 0, bottomHeight = 0, leftWidth = 0, rightWidth = 0;
 		var topStyle = {}, leftStyle = {}, rightStyle = {}, bottomStyle = {},
