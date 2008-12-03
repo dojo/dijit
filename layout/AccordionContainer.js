@@ -275,7 +275,6 @@ dojo.declare("dijit.layout._AccordionButton",
 		if(isSelected){
 			var cw = this.contentWidget;
 			if(cw.onSelected){ cw.onSelected(); }
-			if(cw._loadCheck){ cw._loadCheck(); }	// if href specified, trigger load
 		}
 	}
 });

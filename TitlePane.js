@@ -134,7 +134,7 @@ dojo.declare(
 
 		// load content (if this is the first time we are opening the TitlePane
 		// and content is specified as an href, or href was set when hidden)
-		this._loadCheck();
+		this._onShow();
 
 		this._setCss();
 	},

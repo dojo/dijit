@@ -395,7 +395,7 @@ dojo.declare(
 			});
 			
 			this.open = true;
-			this._loadCheck(); // lazy load trigger
+			this._onShow(); // lazy load trigger
 
 			this._size();
 			this._position();
@@ -502,7 +502,7 @@ dojo.declare(
 			// summary: called when dialog is displayed
 		
 			this.orient(this.domNode,pos.aroundCorner, pos.corner);
-			this._loadCheck(); // lazy load trigger
+			this._onShow(); // lazy load trigger
 			
 			if(this.autofocus){
 				this._getFocusItems(this.containerNode);

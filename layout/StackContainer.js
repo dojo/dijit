@@ -216,10 +216,9 @@ dojo.declare(
 		dojo.removeClass(page.domNode, "dijitHidden");
 		dojo.addClass(page.domNode, "dijitVisible");
 
-		if(page._loadCheck){
-			page._loadCheck(); // trigger load in ContentPane
-		}
-		if(page.onShow){
+		if(page._onShow){
+			page._onShow(); // trigger load in ContentPane
+		}else if(page.onShow){
 			page.onShow();
 		}
 	},

@@ -10,10 +10,10 @@ dojo.requireLocalization("dijit", "loading");
 
 dojo.declare(
 	"dijit.layout.ContentPane",
-	dijit._Widget,
+	[dijit._Widget, dijit._Container, dijit._Contained],
 {
 	// summary:
-	//		A widget that acts as a Container for other widgets, and includes a ajax interface
+	//		A widget that acts as a container for mixed HTML and widgets, and includes a ajax interface
 	// description:
 	//		A widget that can be used as a standalone widget
 	//		or as a baseclass for other widgets
@@ -130,13 +130,27 @@ dojo.declare(
 
 	startup: function(){
 		if(this._started){ return; }
-		if(this.doLayout != "false" && this.doLayout !== false){
-			this._checkIfSingleChild();
-			if(this._singleChild){
-				this._singleChild.startup();
+
+		if(this.isLoaded){
+			dojo.forEach(this.getChildren(), function(child){
+				child.startup();
+			});
+
+			// If we have static content in the content pane (specified during
+			// initialization) then we need to do layout now... unless we are
+			// a child of a TabContainer etc. in which case wait until the TabContainer
+			// calls resize() on us.
+			if(this.doLayout){
+				this._checkIfSingleChild();
+			}
+			if(!this._singleChild || !this.getParent()){
+				this._scheduleLayout();
 			}
 		}
+		
+		// If we have an href then check if we should load it now
 		this._loadCheck();
+
 		this.inherited(arguments);
 	},
 
@@ -162,10 +176,8 @@ dojo.declare(
 			// all but one are invisible (like dojo.data)
 			candidateWidgets.length == 1
 		){
-			this.isContainer = true;
 			this._singleChild = candidateWidgets[0];
 		}else{
-			delete this.isContainer;
 			delete this._singleChild;
 		}
 	},
@@ -281,6 +293,26 @@ dojo.declare(
 		}
 	},
 
+	_onShow: function(){
+		// summary:
+		//		Called when the ContentPane is made visible
+		// description:
+		//		For a plain ContentPane, this is called on initialization, from startup().
+		//		If the ContentPane is a hidden pane of a TabContainer etc., then it's
+		//		called whever the pane is made visible.
+		//
+		//		Does processing necessary, including href download and layout/resize of
+		//		child widget(s)
+
+		if(this._needLayout){
+			// If a layout has been scheduled for when we become visible, do it now
+			this._layoutChildren();
+		}
+
+		// Do lazy-load of URL
+		this._loadCheck();
+	},
+
 	_loadCheck: function(){
 		// summary:
 		//		Call this to load href contents if necessary.
@@ -295,17 +327,6 @@ dojo.declare(
 		){
 			delete this._hrefChanged;
 			this.refresh();
-		}
-
-		// When I am made visible, I should notify any children layout widgets that they are
-		// now visible, so that they can lay out.
-		// Since layout widgets don't have an _onShow() method (yet), just call resize.
-		if(this._isShown()){
-			dojo.forEach(this.getDescendants(true), function(widget){
-				if(widget.resize){
-					widget.resize();
-				}
-			});
 		}
 	},
 
@@ -457,16 +478,21 @@ dojo.declare(
 
 		// setter params must be pulled afresh from the ContentPane each time
 		delete this._contentSetterParams;
-		
+
 		if(!isFakeContent){
-			if(this.doLayout != "false" && this.doLayout !== false){
+			dojo.forEach(this.getChildren(), function(child){
+				child.startup();
+			});
+
+			if(this.doLayout){
 				this._checkIfSingleChild();
-				if(this._singleChild && this._singleChild.resize){
-					this._singleChild.startup();
-					var cb = this._contentBox || dojo.contentBox(this.containerNode);
-					this._singleChild.resize({w: cb.w, h: cb.h});
-				}
 			}
+
+			// Call resize() on each of my child layout widgets,
+			// or resize() on my single child layout widget...
+			// either now (if I'm currently visible)
+			// or when I become visible
+			this._scheduleLayout();
 			
 			this._onLoadHandler(cont);
 		}
@@ -482,15 +508,50 @@ dojo.declare(
 			this._setContent(errText, true);
 		}
 	},
+	
+	// Implement _Container API as well as we can
+	// Note that methods like addChild() don't mean much if our contents are free form HTML
 
-	_createSubWidgets: function(){
-		// summary: scan my contents and create subwidgets
-		try{
-			dojo.parser.parse(this.containerNode, true);
-		}catch(e){
-			this._onError('Content', e, "Couldn't create widgets in "+this.id
-				+(this.href ? " from "+this.href : ""));
+	getChildren: function(){
+		// Normally the children's dom nodes are direct children of this.containerNode,
+		// but not so with ContentPane... they could be many levels deep.   So we can't
+		// use the getChildren() in _Container.
+		return this.getDescendants(true);
+	},
+
+	_scheduleLayout: function(){
+		// summary:
+		//		Call resize() on each of my child layout widgets, either now
+		//		(if I'm currently visible) or when I become visible
+		if(this._isShown()){
+			this._layoutChildren();
+		}else{
+			this._needLayout = true;
 		}
+	},
+
+	_layoutChildren: function(){
+		// summary:
+		//		Since I am a Container widget, each of my children expects me to
+		//		call resize() or layout() on them.
+		// description:
+		//		Should be called on initialization and also whenever we get new content
+		//		(from an href, or from attr('content', ...))... but deferred until
+		//		the ContentPane is visible
+
+		if(this._singleChild && this._singleChild.resize){
+			var cb = this._contentBox || dojo.contentBox(this.containerNode);
+			this._singleChild.resize({w: cb.w, h: cb.h});
+		}else{
+			// All my child widgets are independently sized (rather than matching my size),
+			// but I still need to call resize() on each child to make it layout.
+			dojo.forEach(this.getChildren(), function(widget){
+				if(widget.resize){
+					widget.resize();
+				}
+			});
+		}
+		delete this._needLayout;
 	},
 
 	// EVENT's, should be overide-able
