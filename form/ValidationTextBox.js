@@ -273,6 +273,13 @@ dojo.declare(
 		_setDisabledAttr: function(/*Boolean*/ value){
 			this.inherited(arguments);
 			dojo.attr(this.valueNode, 'disabled', value);
+		},
+
+		reset:function(){
+			//      summary:
+			//              Additionally reset the hidden textbox value to ''
+			this.valueNode.value = '';
+			this.inherited(arguments);
 		}
 	}
 );

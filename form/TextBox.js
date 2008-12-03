@@ -185,8 +185,14 @@ dojo.declare(
 		_onBlur: function(){
 			this._setBlurValue();
 			this.inherited(arguments);
-		}
+		},
 
+		reset:function(){
+			//      summary:
+			//              Additionally reset the displayed textbox value to ''
+			this.textbox.value = '';
+			this.inherited(arguments);
+		}
 	}
 );
 
