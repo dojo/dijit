@@ -65,14 +65,18 @@
 .tundra .dijitToggleButtonHover .dijitButtonNode,
 .tundra .dijitDropDownButtonHover .dijitButtonNode,
 .tundra .dijitComboButtonHover .dijitButtonContents,
-.tundra .dijitComboButtonDownArrowHover .dijitDownArrowButton,
-.tundra .dijitComboBoxHover .dijitDownArrowButton,
-.tundra .dijitSpinnerUpArrowHover .dijitUpArrowButton,
-.tundra .dijitSpinnerDownArrowHover .dijitDownArrowButton {
+.tundra .dijitComboButtonDownArrowHover .dijitDownArrowButton {
 	/* hover state - inner */
 	/* TODO: change from Hover to Selected so that button is still highlighted while drop down is being used */
 	border-color:		#a5beda; 
 	border-bottom-color:#5c7590; 
+	color:#243C5F;
+	background:#fcfdff url("../images/buttonHover.png") repeat-x bottom;
+}
+.tundra .dijitComboBoxHover .dijitDownArrowButton,
+.tundra .dijitSpinnerUpArrowHover .dijitUpArrowButton,
+.tundra .dijitSpinnerDownArrowHover .dijitDownArrowButton {
+	/* same as above except don't adjust border color (it's controlled by the containing Spinner/ComboBox) */
 	color:#243C5F;
 	background:#fcfdff url("../images/buttonHover.png") repeat-x bottom;
 }

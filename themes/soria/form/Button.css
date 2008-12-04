@@ -70,18 +70,20 @@
 	background:#acc5e2 url("../images/buttonHover.png") repeat-x top left;
 }
 
-.soria .dijitSpinnerUpArrowActive .dijitUpArrowButton,
-.soria .dijitSpinnerDownArrowActive .dijitDownArrowButton,
 .soria .dijitButtonActive .dijitButtonNode,
 .soria .dijitToggleButtonActive .dijitButtonNode,
 .soria .dijitDropDownButtonActive .dijitButtonNode,
-.soria .dijitComboButtonActive .dijitButtonContents,
-.soria .dijitDownArrowActive .dijitDownArrowButton,
-.soria .dijitComboBoxActive .dijitDownArrowButton {
+.soria .dijitComboButtonActive .dijitButtonContents {
 	/* active state - inner (for when you are pressing a normal button, or
 	 * when a toggle button is in a depressed state
 	 */
 	border-color:#657c9c;
+	background: #91b4e5 url("../images/buttonActive.png") top left repeat-x;
+}
+.soria .dijitSpinnerUpArrowActive .dijitUpArrowButton,
+.soria .dijitSpinnerDownArrowActive .dijitDownArrowButton,
+.soria .dijitComboBoxActive .dijitDownArrowButton {
+	/* same as above except don't adjust border color (it's controlled by the containing Spinner/ComboBox) */
 	background: #91b4e5 url("../images/buttonActive.png") top left repeat-x;
 }
 
