@@ -3,7 +3,7 @@
  *
  */ 
  
-.soria .dijitTitlePane .dijitTitlePaneTitle {
+.soria .dijitTitlePaneTitle {
 	background: #cccccc;
 	background:#fff url("images/titleBar.png") repeat-x top left;
 	border:1px solid #bfbfbf;
@@ -12,6 +12,9 @@
 	font-size: 0.9em;
 	font-weight: bold;
 	color: #6d6d6d;
+}
+.soria .dijitTitlePaneTitle-hover {
+	background: #f9f9f9 url("images/accordionItemActive.png") top repeat-x;
 }
 
 .soria .dijitTitlePaneTitle * {

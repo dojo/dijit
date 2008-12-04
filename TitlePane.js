@@ -161,6 +161,16 @@ dojo.declare(
 	 	}
 	},
 	
+	_onTitleEnter: function(){
+		// summary: callback when someone hovers over my title
+		dojo.addClass(this.focusNode, "dijitTitlePaneTitle-hover");
+	},
+
+	_onTitleLeave: function(){
+		// summary: callback when someone stops hovering over my title
+		dojo.removeClass(this.focusNode, "dijitTitlePaneTitle-hover");
+	},
+
 	_handleFocus: function(/*Event*/ e){
 		// summary: handle blur and focus for this widget
 		

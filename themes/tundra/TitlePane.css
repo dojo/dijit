@@ -1,9 +1,12 @@
-.tundra .dijitTitlePane .dijitTitlePaneTitle {
+.tundra .dijitTitlePaneTitle {
 	background: #cccccc;
 	background:#fff url("images/titleBar.png") repeat-x bottom left;
 	border:1px solid #bfbfbf;
 	padding:3px 4px;
 	cursor: pointer;
+}
+.tundra .dijitTitlePaneTitle-hover  {
+	background: #f8fafd url("images/accordionItemHover.gif") bottom repeat-x;
 }
 
 .tundra .dijitTitlePaneTitle * {
