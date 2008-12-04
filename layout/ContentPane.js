@@ -101,6 +101,11 @@ dojo.declare(
 		var messages = dojo.i18n.getLocalization("dijit", "loading", this.lang);
 		this.loadingMessage = dojo.string.substitute(this.loadingMessage, messages);
 		this.errorMessage = dojo.string.substitute(this.errorMessage, messages);
+		
+		// Detect if we were initialized with data
+		if(!this.href && this.srcNodeRef && this.srcNodeRef.innerHTML){
+			this.isLoaded = true;
+		}
 	},
 
 	buildRendering: function(){
@@ -121,11 +126,6 @@ dojo.declare(
 		}
 
 		dojo.addClass(this.domNode, this.baseClass);
-		
-		// Detect if we were initialized with data
-		if(!this.href && this.srcNodeRef && this.srcNodeRef.innerHTML){
-			this.isLoaded = true;
-		}
 	},
 
 	startup: function(){

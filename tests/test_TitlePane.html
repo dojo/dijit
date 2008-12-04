@@ -27,6 +27,8 @@
 		// widgets used inside subpage loaded via href=
 		dojo.require("dijit.form.Button");
 		dojo.require("dijit.form.ComboBox");
+		dojo.require("dijit.layout.TabContainer");
+		dojo.require("dijit.layout.LinkPane");
 
 		function randomMessageId(){
 			return Math.floor(Math.random() * 3) + 3;
@@ -85,6 +87,12 @@
 			<label for="discount">Discount card </label><input type="checkbox" id="discount"><br>
 			<button>Submit</button><br>
 		</form>
+		
+		<p>And a TabContainer, to make sure it lays out correctly:</p>
+		<div dojoType="dijit.layout.TabContainer" style="width: 400px; height: 250px;">	
+			<a dojoType="dijit.layout.LinkPane" href="layout/tab1.html" onLoad="console.log('load of SubTab 1');">SubTab 1</a>		
+			<a dojoType="dijit.layout.LinkPane" href="layout/tab2.html"  onLoad="console.log('load of SubTab 2');" selected="true">SubTab 2</a>
+		</div>
 	</div>
 	<button onclick="dijit.byId('closed').attr('content', 'hello world! (' + new Date() + ')');">reset content</button>
 
