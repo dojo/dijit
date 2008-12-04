@@ -108,8 +108,8 @@
 		</div>
 
 		<div dojoType="dijit.layout.TabContainer" title="Inlined Sub TabContainer">	
-			<a dojoType="dijit.layout.LinkPane" href="tab1.html">SubTab 1</a>		
-			<a dojoType="dijit.layout.LinkPane" href="tab2.html" selected="true">SubTab 2</a>
+			<a dojoType="dijit.layout.LinkPane" href="tab1.html" onLoad="console.log('load of SubTab 1');">SubTab 1</a>		
+			<a dojoType="dijit.layout.LinkPane" href="tab2.html"  onLoad="console.log('load of SubTab 2');" selected="true">SubTab 2</a>
 		</div>
 
 		<a dojoType="dijit.layout.LinkPane" href="tab3.html">Sub TabContainer from href</a>	
