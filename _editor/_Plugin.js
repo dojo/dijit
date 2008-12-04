@@ -43,6 +43,9 @@ dojo.declare("dijit._editor._Plugin", null, {
 	},
 	destroy: function(f){
 		dojo.forEach(this._connects, dojo.disconnect);
+		if(this.dropDown){
+			this.dropDown.destroyRecursive();
+		}
 	},
 	connect: function(o, f, tf){
 		this._connects.push(dojo.connect(o, f, this, tf));
