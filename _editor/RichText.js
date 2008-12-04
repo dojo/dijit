@@ -17,13 +17,13 @@ if(!dojo.config["useXDomain"] || dojo.config["allowXdRichTextSave"]){
 		(function(){
 			var savetextarea = dojo.doc.createElement('textarea');
 			savetextarea.id = dijit._scopeName + "._editor.RichText.savedContent";
-			var s = savetextarea.style;
-			s.display='none';
-			s.position='absolute';
-			s.top="-100px";
-			s.left="-100px";
-			s.height="3px";
-			s.width="3px";
+			dojo.style(savetextarea, {
+				display:'none',
+				position:'absolute',
+				top:"-100px",
+				height:"3px",
+				width:"3px"
+			});
 			dojo.body().appendChild(savetextarea);
 		})();
 	}else{
@@ -233,7 +233,6 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 		var div = dojo.doc.createElement('div');
 		dojo.style(div, {
 			position: "absolute",
-			left: "-2000px",
 			top: "-2000px"
 		});
 		dojo.doc.body.appendChild(div);
@@ -297,10 +296,11 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 			var tmpFunc = dojo.hitch(this, function(){
 				//some browsers refuse to submit display=none textarea, so
 				//move the textarea out of screen instead
-				var s = ta.style;
-				s.display = "block";
-				s.position = "absolute";
-				s.top = "-1000px";
+				dojo.style(ta, {
+					display: "block",
+					position: "absolute",
+					top: "-1000px"
+				});
 
 				if(dojo.isIE){ //nasty IE bug: abnormal formatting if overflow is not hidden
 					this.__overflow = s.overflow;
@@ -411,7 +411,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 				this.onLoad();
 				this.savedContent = this.getValue(true);
 			});
-			if(dojo.isIE && dojo.isIE <= 7){ // IE 6/7 is a steaming pile...
+			if(dojo.isIE <= 7){
 				var t = setInterval(function(){
 					if(ifr.contentWindow.isLoaded){
 						clearInterval(t);
@@ -419,9 +419,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 					}
 				}, 100);
 			}else{ // blissful sanity!
-				h = dojo.connect(
-					((dojo.isIE) ? ifr.contentWindow : ifr), "onload", loadFunc
-				);
+				h = dojo.connect(dojo.isIE ? ifr.contentWindow : ifr, "onload", loadFunc);
 			}
 		}else{ // designMode in iframe
 			this._drawIframe(html);
@@ -467,20 +465,20 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 			(dojo.isMoz ? "<title>" + this._localizedIframeTitles.iframeEditTitle + "</title>" : ""),
 			"<style>",
 			"body,html {",
-			"	background:transparent;",
-			"	padding: 1em 0 0 0;",
-			"	margin: -1em 0 0 0;", // remove extraneous vertical scrollbar on safari and firefox
-			"	height: 100%;",
+			"\tbackground:transparent;",
+			"\tpadding: 1em 0 0 0;",
+			"\tmargin: -1em 0 0 0;", // remove extraneous vertical scrollbar on safari and firefox
+			"\theight: 100%;",
 			"}",
 			// TODO: left positioning will cause contents to disappear out of view
 			//	   if it gets too wide for the visible area
 			"body{",
-			"	top:0px; left:0px; right:0px;",
-			"	font:", font, ";",
+			"\ttop:0px; left:0px; right:0px;",
+			"\tfont:", font, ";",
 				((this.height||dojo.isOpera) ? "" : "position: fixed;"),
 			// FIXME: IE 6 won't understand min-height?
-			"	min-height:", this.minHeight, ";",
-			"	line-height:", lineHeight,
+			"\tmin-height:", this.minHeight, ";",
+			"\tline-height:", lineHeight,
 			"}",
 			"p{ margin: 1em 0 !important; }",
 			(this.height ? // height:auto undoes the height:100%
@@ -500,7 +498,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 		//		Used by Mozilla, Safari, and Opera
 
 		if(!this.iframe){
-			var ifr = this.iframe = dojo.doc.createElement("iframe");
+			var ifr = (this.iframe = dojo.doc.createElement("iframe"));
 			ifr.id=this.id+"_iframe";
 			// this.iframe.src = "about:blank";
 			// dojo.doc.body.appendChild(this.iframe);
@@ -804,18 +802,18 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 		// such as the backspace. It might be possible to add this to Dojo, so that
 		// keyPress events can be emulated by the keyDown and keyUp detection.
 		
-		if (e.keyCode === dojo.keys.TAB && this.isTabIndent ){
+		if(e.keyCode === dojo.keys.TAB && this.isTabIndent ){
 				dojo.stopEvent(e); //prevent tab from moving focus out of editor
 
 				// FIXME: this is a poor-man's indent/outdent. It would be
 				// better if it added 4 "&nbsp;" chars in an undoable way.
 				// Unfortunately pasteHTML does not prove to be undoable
-				if (this.queryCommandEnabled((e.shiftKey ? "outdent" : "indent"))){
+				if(this.queryCommandEnabled((e.shiftKey ? "outdent" : "indent"))){
 					this.execCommand((e.shiftKey ? "outdent" : "indent"));
 				}			
 		}
 		if(dojo.isIE){
-			if (e.keyCode == dojo.keys.TAB && !this.isTabIndent){
+			if(e.keyCode == dojo.keys.TAB && !this.isTabIndent){
 				if(e.shiftKey && !e.ctrlKey && !e.altKey){
 					// focus the BODY so the browser will tab away from it instead
 					this.iframe.focus();
