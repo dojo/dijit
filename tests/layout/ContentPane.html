@@ -26,6 +26,7 @@
 		dojo.require("dijit.layout.ContentPane");
 		dojo.require("dojo.data.ItemFileReadStore");
 		dojo.require("dijit._Container");
+		dojo.require("dijit.layout._LayoutWidget");
 		dojo.require("dijit._Templated");
 		dojo.require("dijit.layout.StackContainer");
 
@@ -695,6 +696,99 @@
 				]
 			);
 
+			dojo.declare("dijit.TestContained",
+				[dijit.layout._LayoutWidget], {
+					startup: function(){
+						this.inherited(arguments);
+						this._started = true;
+					},
+					resize: function(){
+						this.inherited(arguments);
+						this._resized = true;
+					}
+				}
+			);
+
+			var container;
+			doh.register("ContentPane as _Container",
+				[
+					{
+						name: "creation",
+						runTest: function(t){
+							container = new dijit.layout.ContentPane();
+							container.placeAt(dojo.body(), "last");
+							container.startup();
+							t.is(0, container.getChildren().length);
+							container.attr('content',
+								'<span>plain non-widget content</span>' +
+								'<div><span>' +
+									'<div id="zero" dojoType="dijit.TestContained"></div>' +
+									'<div id="one" dojoType="dijit.TestContained"></div>' +
+								'</span></div>' +
+								'<div id="two" dojoType="dijit.TestContained"></div>' +
+								'<div id="three" dojoType="dijit._Widget"></div>'
+							);
+
+							// Since ContentPane is a container it should call startup
+							// on it's children
+							t.t(dijit.byId('two')._started, "started");
+
+							// Also, Layout widgets expect resize() to be
+							// called by their parent
+							t.t(dijit.byId('two')._resized, "resized");
+						}
+					},
+					{
+						name: "getChildren",
+						runTest: function(t){
+							var children = container.getChildren();
+							t.is(4, children.length);
+							t.is("zero", children[0].id);
+							t.is("one", children[1].id);
+							t.is("two", children[2].id);
+							t.is("three", children[3].id);
+						}
+					},
+					{
+						name: "addChild",
+						runTest: function(t){
+							var afterTwo = new dijit.TestContained({id: "twoPointFive"});
+							container.addChild(afterTwo, 3);
+
+							// Make sure child was added and is in order
+							var children = container.getChildren();
+							t.is(5, children.length);
+							t.is("zero", children[0].id);
+							t.is("one", children[1].id);
+							t.is("two", children[2].id);
+							t.is("twoPointFive", children[3].id);
+							t.is("three", children[4].id);
+
+							// Since ContentPane is a container it should call startup
+							// on it's children
+							t.t(afterTwo._started, "started");
+
+							// Also, Layout widgets expect resize() to be
+							// called by their parent
+							t.t(afterTwo._resized, "resized");
+						}
+					},
+					{
+						name: "removeChild",
+						runTest: function(t){
+							var children = container.getChildren();
+							t.is(5, children.length);
+							container.removeChild(dijit.byId("zero"));
+							container.removeChild(1); // should remove "two" - because zero is already removed
+							children = container.getChildren();
+							t.is(3, children.length);
+							t.is("one", children[0].id);
+							t.is("three", children[2].id);						
+						}
+					}
+				]
+			);
+
 			doh.run();
 		});
 	</script>
@@ -719,5 +813,16 @@
 	<br/><br/>
 	<div id='stackcontainer'></div>
 	<div id="pane5"></div>
+
+	<!-- for container tests -->
+	<div id="container" dojoType="dijit.layout.ContentPane">
+		<div id="zero" dojoType="dijit.TestContained"></div>
+		<div id="one" dojoType="dijit.TestContained"></div>
+		<div id="two" dojoType="dijit.TestContained"></div>
+		<div id="three" dojoType="dijit._Widget"></div>		
+	</div>
+	<div id="outside" dojoType="dijit._Widget"></div>
+	<div id="outsideCont" dojoType="dijit.TestContained"></div>
+
 </body>
 </html>

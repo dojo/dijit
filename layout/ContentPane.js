@@ -519,6 +519,14 @@ dojo.declare(
 		return this.getDescendants(true);
 	},
 
+	addChild: function(/*Widget*/ child, /*Integer?*/ insertIndex){
+		this.inherited(arguments);
+		if(this._started && child.resize){
+			// Layout widgets expect their parent to call resize() on them
+			child.resize();
+		}
+	},
+
 	_scheduleLayout: function(){
 		// summary:
 		//		Call resize() on each of my child layout widgets, either now

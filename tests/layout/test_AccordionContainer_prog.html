@@ -23,14 +23,17 @@
 	<script type="text/javascript">
 		dojo.require("dijit.dijit"); // optimize: load dijit layer
 		dojo.require("dijit.layout.AccordionContainer");
+		dojo.require("dijit.layout.ContentPane");
 
 		var accordion, pane4;
+
+		var x = 1;
 
 		dojo.addOnLoad(function(){
 			accordion = new dijit.layout.AccordionContainer({style: "width: 400px; height: 400px;"}, dojo.byId("accordionShell"));
 			
 			dojo.forEach([ "pane 1", "pane 2", "pane 3" ], function(title, i){
-				var content = new dijit.layout.AccordionPane({id: title, title: title, selected: i==1});
+				var content = new dijit.layout.ContentPane({id: title, title: title, selected: i==1});
 				content.containerNode.innerHTML = "this is " + title;
 				accordion.addChild(content);
 			});
@@ -52,6 +55,8 @@
 
 	<button onclick="accordion.selectChild(pane4);">select pane 4</button>
 	<button onclick="accordion.removeChild(dijit.byId('pane 3'));">remove pane 3</button>
+	<button onclick="accordion.addChild(new dijit.layout.ContentPane({title: 'New pane ' + x++, content: 'Hello world!'}), 2);">Add pane as third child</button>
+	<button onclick="accordion.addChild(new dijit.layout.ContentPane({title: 'New pane ' + x++, content: 'Hello world!'}));">Add pane at end</button>
 
 </body>
 </html>

@@ -98,13 +98,13 @@ dojo.declare("dijit._Container",
 			//		Makes the given widget a child of this widget.
 			// description:
 			//		Inserts specified child widget's dom node as a child of this widget's
-			//		container node, and possibly does otherprocessing (such as layout).
+			//		container node, and possibly does other processing (such as layout).
 
 			var refNode = this.containerNode;
 			if(insertIndex && typeof insertIndex == "number"){
-				var children = dojo.query("> [widgetId]", refNode);
+				var children = this.getChildren();
 				if(children && children.length >= insertIndex){
-					refNode = children[insertIndex-1];
+					refNode = children[insertIndex-1].domNode;
 					insertIndex = "after";
 				}
 			}
