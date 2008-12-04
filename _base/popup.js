@@ -42,12 +42,13 @@ dijit.popup.__OpenArgs = function(){
 	//		around: DomNode
 	//			DOM node (typically a button); place popup relative to this node
 	//		orient: Object
-	//			structure specifying possible positions of popup relative to "around" node
+	//			provides mappings to layout by matching a corner of the popup relative to the "around" node, by default
+	//			tries to match the top-left of the popup to the bottom-left of the base node {BL:'TL', TL:'BL'}
 	//		onCancel: Function
 	//			callback when user has canceled the popup by
 	//				1. hitting ESC or
 	//				2. by using the popup widget's proprietary cancel mechanism (like a cancel button in a dialog);
-	//				   ie: whenever popupWidget.onCancel() is called, args.onCancel is called
+	//				   i.e. whenever popupWidget.onCancel() is called, args.onCancel is called
 	//		onClose: Function
 	//			callback whenever this popup is closed
 	//		onExecute: Function
@@ -240,7 +241,7 @@ dijit._frames = new function(){
 if(dojo.isIE < 7){
 	dojo.addOnLoad(function(){
 		var f = dijit._frames;
-		dojo.forEach([f.pop()], f.push);
+		dojo.forEach([f.pop()], f.push); //TODO can eliminate forEach
 	});
 }
 
@@ -255,7 +256,7 @@ dijit.BackgroundIframe = function(/* DomNode */node){
 	//			area (and position) of node
 
 	if(!node.id){ throw new Error("no id"); }
-	if((dojo.isIE && dojo.isIE < 7) || (dojo.isFF && dojo.isFF < 3 && dojo.hasClass(dojo.body(), "dijit_a11y"))){
+	if(dojo.isIE < 7 || (dojo.isFF < 3 && dojo.hasClass(dojo.body(), "dijit_a11y"))){
 		var iframe = dijit._frames.pop();
 		node.appendChild(iframe);
 		if(dojo.isIE){
