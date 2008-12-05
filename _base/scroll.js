@@ -140,9 +140,9 @@ dijit.scrollIntoView = function(/* DomNode */node){
 	parent = node;
 	while(parent){
 		next = parent._parent;
-		parent._offsetParent = null;
-		parent._parent = null;
-		parent._child = null;
+		parent.removeAttribute('_offsetParent');
+		parent.removeAttribute('_parent');
+		parent.removeAttribute('_child');
 		parent = next;
 	}
 };

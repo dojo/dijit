@@ -26,6 +26,9 @@
 					dijit.scrollIntoView('q2');
                                 	doh.is((dojo.isFF >= 3 && !dojo._isBodyLtr())? -87 : 87, s2.scrollLeft);
                                 	doh.is(113, s2.scrollTop);
+                                	doh.f(dojo.hasAttr(s2,'_offsetParent'));
+                                	doh.f(dojo.hasAttr(s2,'_parent'));
+                                	doh.f(dojo.hasAttr(s2,'_child'));
 					dojo.global.scrollTo((!dojo._isBodyLtr() && dojo.isFF != 2)? 4000 : 0, 4000);
 				}
 			]);
