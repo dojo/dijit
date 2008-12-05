@@ -144,6 +144,11 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 	//		used to allow tab key and shift-tab to indent and outdent rather than navigate
 	isTabIndent: false,
 
+	// disableSpellCheck: Boolean
+	//		when true, disables the browser's native spell checking, if supported.
+	//		Works only in Firefox.
+	disableSpellCheck: false,
+
 	postCreate: function(){
 		if("textarea" == this.domNode.tagName.toLowerCase()){
 			console.warn("RichText should not be used with the TEXTAREA tag.  See dijit._editor.RichText docs.");
@@ -658,11 +663,9 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 		}else{ //other browser
 			var head = this.document.getElementsByTagName("head")[0];
 			var stylesheet = this.document.createElement("link");
-			with(stylesheet){
-				rel="stylesheet";
-				type="text/css";
-				href=url;
-			}
+			stylesheet.rel="stylesheet";
+			stylesheet.type="text/css";
+			stylesheet.href=url;
 			head.appendChild(stylesheet);
 		}
 	},
@@ -691,7 +694,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 			this._delayedDisabled = value;
 			return; 
 		}
-		value = Boolean(value);
+		value = !!value;
 		if(dojo.isIE || dojo.isWebKit || dojo.isOpera){
 			var preventIEfocus = dojo.isIE && (this.isLoaded || !this.focusOnLoad);
 			if(preventIEfocus){ this.editNode.unselectable = "on"; }
@@ -742,7 +745,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 			this.editNode=this.document.body.firstChild;
 			var _this = this;
 			if(dojo.isIE){ // #4996 IE wants to focus the BODY tag
-				var tabStop = this.tabStop = dojo.doc.createElement('<div tabIndex=-1>');
+				var tabStop = (this.tabStop = dojo.doc.createElement('<div tabIndex=-1>'));
 				this.editingArea.appendChild(tabStop);
 				this.iframe.onfocus = function(){ _this.editNode.setActive(); }
 			}
@@ -763,7 +766,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 		this._preDomFilterContent(this.editNode);
 
 		var events = this.events.concat(this.captureEvents);
-		var ap = (this.iframe) ? this.document : this.editNode;
+		var ap = this.iframe ? this.document : this.editNode;
 		dojo.forEach(events, function(item){
 			// dojo.connect(ap, item.toLowerCase(), console, "debug");
 			this.connect(ap, item.toLowerCase(), item);
@@ -803,14 +806,14 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 		// keyPress events can be emulated by the keyDown and keyUp detection.
 		
 		if(e.keyCode === dojo.keys.TAB && this.isTabIndent ){
-				dojo.stopEvent(e); //prevent tab from moving focus out of editor
+			dojo.stopEvent(e); //prevent tab from moving focus out of editor
 
-				// FIXME: this is a poor-man's indent/outdent. It would be
-				// better if it added 4 "&nbsp;" chars in an undoable way.
-				// Unfortunately pasteHTML does not prove to be undoable
-				if(this.queryCommandEnabled((e.shiftKey ? "outdent" : "indent"))){
-					this.execCommand((e.shiftKey ? "outdent" : "indent"));
-				}			
+			// FIXME: this is a poor-man's indent/outdent. It would be
+			// better if it added 4 "&nbsp;" chars in an undoable way.
+			// Unfortunately pasteHTML does not prove to be undoable
+			if(this.queryCommandEnabled((e.shiftKey ? "outdent" : "indent"))){
+				this.execCommand((e.shiftKey ? "outdent" : "indent"));
+			}			
 		}
 		if(dojo.isIE){
 			if(e.keyCode == dojo.keys.TAB && !this.isTabIndent){
@@ -865,6 +868,19 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 	_setValueAttr: function(/*String*/ value){
 		// summary: registers that attr("value", foo) should call setValue(foo)
 		this.setValue(value);
+	},
+	_getDisableSpellCheckAttr: function(){
+		return !dojo.attr(this.document.body, "spellcheck");
+	},
+	_setDisableSpellCheckAttr: function(/*Boolean*/ disabled){
+		if(this.document){
+			dojo.attr(this.document.body, "spellcheck", !disabled);
+		}else{
+			// try again after the editor is finished loading 
+			this.onLoadDeferred.addCallback(dojo.hitch(this, function(){
+				dojo.attr(this.document.body, "spellcheck", !disabled);
+			}));
+		}
 	},
 
 	onKeyPress: function(e){
@@ -1041,7 +1057,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 		// memoizing version. See _queryCommandAvailable for computing version
 		var ca = this._qcaCache[command];
 		if(ca != undefined){ return ca; }
-		return this._qcaCache[command] = this._queryCommandAvailable(command);
+		return (this._qcaCache[command] = this._queryCommandAvailable(command));
 	},
 	
 	_queryCommandAvailable: function(/*String*/command){
@@ -1577,13 +1593,12 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 		if(this.interval){ clearInterval(this.interval); }
 
 		if(this.textarea){
-			with(this.textarea.style){
-				position = "";
-				left = top = "";
-				if(dojo.isIE){
-					overflow = this.__overflow;
-					this.__overflow = null;
-				}
+			var s = this.textarea.style;
+			s.position = "";
+			s.left = s.top = "";
+			if(dojo.isIE){
+				s.overflow = this.__overflow;
+				this.__overflow = null;
 			}
 			this.textarea.value = save ? this._content : this.savedContent;
 			dojo._destroyElement(this.domNode);
@@ -1627,8 +1642,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 	destroy: function(){
 		this.destroyRendering();
 		if(!this.isClosed){ this.close(false); }
-		this.inherited("destroy",arguments);
-		//dijit._editor.RichText.superclass.destroy.call(this);
+		this.inherited(arguments);
 	},
 
 	_removeMozBogus: function(/* String */ html){

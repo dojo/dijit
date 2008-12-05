@@ -55,7 +55,7 @@ dojo.declare(
 			//2) when user tabs away from the editor, which is handled in onKeyDown below.
 			if(dojo.isIE){
 	            this.events.push("onBeforeDeactivate");
-							}
+			}
 		},
 
 		postCreate: function(){
