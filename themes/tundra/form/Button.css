@@ -88,9 +88,10 @@
 .tundra .dijitDropDownButtonActive .dijitButtonNode,
 .tundra .dijitComboButtonActive .dijitButtonContents,
 .tundra .dijitDownArrowActive .dijitDownArrowButton,
-.tundra .dijitComboBoxActive .dijitDownArrowButton {
+.tundra .dijitComboBoxActive .dijitDownArrowButton,
+.tundra .dijitStackController .dijitToggleButtonChecked .dijitButtonNode {
 	/* active state - inner (for when you are pressing a normal button, or
-	 * when a toggle button is in a depressed state
+	 * when a radio-type button is in a depressed state
 	 */
 	border-color:#366dba;
 	background: #ededed url("../images/buttonActive.png") bottom repeat-x;

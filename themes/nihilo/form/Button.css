@@ -78,8 +78,9 @@
 .nihilo .dijitComboButtonActive .dijitButtonContents,
 .nihilo .dijitDownArrowActive .dijitDownArrowButton,
 .nihilo .dijitComboBoxActive .dijitDownArrowButton {
+.nihilo .dijitStackController .dijitToggleButtonChecked .dijitButtonNode {
 	/* active state - inner (for when you are pressing a normal button, or
-	 * when a toggle button is in a depressed state
+	 * when a radio-type button is in a depressed state
 	 */
 	border-color:#dedede;
 	background: #f5f5f5 url("../images/buttonActive.png") top left repeat-x;

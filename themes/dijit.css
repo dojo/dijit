@@ -1047,6 +1047,12 @@ img.dijitColorPaletteUnder {
 }
 
 
+/* Stack */
+
+.dijitStackController .dijitToggleButtonChecked * {
+	cursor: default;	/* because pressing it has no effect */
+}
+
 /* Tab */
 
 .dijitTabContainerBottom-tabs,

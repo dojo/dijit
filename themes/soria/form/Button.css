@@ -73,9 +73,10 @@
 .soria .dijitButtonActive .dijitButtonNode,
 .soria .dijitToggleButtonActive .dijitButtonNode,
 .soria .dijitDropDownButtonActive .dijitButtonNode,
-.soria .dijitComboButtonActive .dijitButtonContents {
+.soria .dijitComboButtonActive .dijitButtonContents,
+.soria .dijitStackController .dijitToggleButtonChecked .dijitButtonNode {
 	/* active state - inner (for when you are pressing a normal button, or
-	 * when a toggle button is in a depressed state
+	 * when a radio-type button is in a depressed state
 	 */
 	border-color:#657c9c;
 	background: #91b4e5 url("../images/buttonActive.png") top left repeat-x;
