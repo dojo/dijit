@@ -1,16 +1,3 @@
-
-/**** Disabled cursor *****/
-.soria .dijitSliderDisabled *,
-.soria .dijitDisabledClickableRegion,	/* a region the user would be able to click on, but it's disabled */
-.soria .dijitSpinnerDisabled *,
-.soria .dijitButtonDisabled *,
-.soria .dijitDropDownButtonDisabled *,
-.soria .dijitComboButtonDisabled *,
-.soria .dijitComboBoxDisabled *
-{
-	cursor: not-allowed !important;
-}
-
 /* DnD avatar-specific settings */
 /* For now it uses a default set of rules. Some other DnD classes can be modified as well. */
 .soria .dojoDndItemBefore {

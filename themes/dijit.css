@@ -167,7 +167,6 @@
 .dijit_a11y .dijitA11ySideArrow {
 	display: inline !important; /* display text instead */
 	cursor: pointer;
-	cursor: hand;
 }
 
 .dijit_a11y .dijitCalendarSelectedDate {
@@ -285,18 +284,21 @@
 	border:1px solid gray;
 	margin:0;
 	line-height:normal;
-	cursor:pointer;
 	vertical-align: middle;
 	#vertical-align: auto;
 	text-align:center;
 	white-space: nowrap;
 }
 
-/*
-.dijitButtonNode button { 
-	cursor: pointer;
-} 
-*/
+.dijitButtonNode, .dijitButtonNode * {
+	cursor:pointer;
+}
+
+/**** Disabled cursor *****/
+.dijitDisabled *,
+.dijitDisabledClickableRegion {	/* a region the user would be able to click on, but it's disabled */
+	cursor: not-allowed !important;
+}
 
 .dj_ie .dijitButtonNode {
 	/* ensure hasLayout */
@@ -309,7 +311,6 @@
 		on IE. MSIE is truly the web's boat anchor. 
 	*/ 
 	overflow: visible;
-	cursor: pointer;
 } 
 
 .dijitArrowButton {
@@ -883,7 +884,7 @@ img.dijitColorPaletteUnder {
 	border-top:0 !important;
 }
 
-.dijitAccordionTitle:hover {
+.dijitAccordionTitle {
 	cursor: pointer;
 }
 
@@ -922,7 +923,6 @@ img.dijitColorPaletteUnder {
 
 .dijitCalendarIncrementControl {
 	cursor:pointer;
-	cursor:hand;
 	vertical-align: middle;
 }
 
@@ -932,7 +932,6 @@ img.dijitColorPaletteUnder {
 
 .dijitCalendarBodyContainer tbody tr td {
 	cursor:pointer;
-	cursor:hand;
 }
 
 .dijitCalendarPreviousMonthDisabled,
@@ -970,15 +969,14 @@ img.dijitColorPaletteUnder {
 	background-color:white;
 }
 
-.dijitMenuItem{
+.dijitMenuItem {
 	text-align: left;
 	white-space: nowrap;
 	padding:.1em .2em;
+	cursor:pointer;
 }
 
 .dijitMenuItemHover {
-	cursor:pointer;
-	cursor:hand;
 	background-color:black;
 	color:white;
 }
