@@ -1101,6 +1101,9 @@ img.dijitColorPaletteUnder {
 	white-space:nowrap;
 	z-index:3;
 }
+.dijitTabChecked {
+	cursor: default;	/* because clicking will have no effect */
+}
 
 .dijitTabContainerTop-tabs .dijitTab {
 	top: 1px;	/* to overlap border on .dijitTabContainerTop-tabs */
