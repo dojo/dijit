@@ -361,15 +361,15 @@ dojo.declare("dijit.layout.SplitContainer",
 			this.domNode.appendChild(this.cover);
 			var s = this.cover.style;
 			s.position = 'absolute';
-			s.zIndex = 1;
+			s.zIndex = 5;
 			s.top = 0;
 			s.left = 0;
 			s.width = "100%";
 			s.height = "100%";
 		}else{
-			this.cover.style.zIndex = 1;
+			this.cover.style.zIndex = 5;
 		}
-		this.sizingSplitter.style.zIndex = 2;
+		this.sizingSplitter.style.zIndex = 6;
 
 		// TODO: REVISIT - we want MARGIN_BOX and core hasn't exposed that yet (but can't we use it anyway if we pay attention? we do elsewhere.)
 		this.originPos = dojo.coords(children[0].domNode, true);
