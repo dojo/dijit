@@ -77,19 +77,6 @@
 	color: #243C5F !important;
 }
 
-.soria .dijitTab .dijitClosable .closeNode {
-	/* Inline-block */
-	display:-moz-inline-box;		/* FF2 */
-	display:inline-block;			/* webkit and FF3 */
-	#zoom: 1; /* set hasLayout:true to mimic inline-block */
-	#display:inline; /* don't use .dj_ie since that increases the priority */
-	vertical-align:top;
-	width: 1.25em;
-	height: 1.25em;
-	padding: 0;
-	margin: 0;
-}
-
 .soria .dijitTab .dijitClosable .closeImage {
 	width: 15px;
 	height: 15px;
@@ -108,10 +95,10 @@
 }
 
 .soria .dijitTabCloseButtonHover .dijitClosable .closeImage {
-	background: url("../images/spriteRoundedIconsSmall.png") no-repeat -60px top;
+	background: url("../images/spriteRoundedIconsSmall.png") no-repeat -60px -15px;
 }
 .dj_ie6 .soria .dijitTabCloseButtonHover .dijitClosable .closeImage {
-	background: url("../images/spriteRoundedIconsSmall.gif") no-repeat -60px top;
+	background: url("../images/spriteRoundedIconsSmall.gif") no-repeat -60px -15px;
 }
 
 .soria .dijitTab .dijitTabButtonSpacer {

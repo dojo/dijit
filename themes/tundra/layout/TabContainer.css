@@ -45,19 +45,6 @@
 	background:#fff;
 }
 
-.tundra .dijitTab .dijitClosable .closeNode {
-	/* Inline-block */
-	display:-moz-inline-box;		/* FF2 */
-	display:inline-block;			/* webkit and FF3 */
-	#zoom: 1; /* set hasLayout:true to mimic inline-block */
-	#display:inline; /* don't use .dj_ie since that increases the priority */
-	vertical-align:top;
-	width: 1em;
-	height: 1em;
-	padding: 0;
-	margin: 0;
-}
-
 .tundra .dijitTab .dijitClosable .closeImage {
 	background: url("../images/tabClose.png") no-repeat right top;
 	width: 12px;
@@ -65,6 +52,7 @@
 }
 
 .tundra .dijitTab .dijitTabButtonSpacer {
+	/* The horizontal bar between the tabs and the content */
 	height: 12px;
 	width: 1px;
 }
