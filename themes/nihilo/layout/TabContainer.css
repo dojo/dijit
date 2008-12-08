@@ -77,27 +77,19 @@
 	color: #243C5F !important;
 }
 
-.nihilo .dijitTab .dijitClosable .closeImage {
+.nihilo .dijitTab .closeImage {
 	background: url("../images/spriteRoundedIconsSmall.png") no-repeat -60px top;
 	width: 15px;
 	height: 15px;
 }
 
-.dj_ie6 .dijitTab .dijitClosable .closeImage {
+.dj_ie6 .dijitTab .closeImage {
 	background: url("../images/spriteRoundedIconsSmall.gif") no-repeat -60px top;
 }
-
-.nihilo .dijitTabCloseButton .dijitClosable .closeImage {
-	background: url("../images/spriteRoundedIconsSmall.png") no-repeat -60px top;
-}
-.dj_ie6 .nihilo .dijitTabCloseButton .dijitClosable .closeImage {
-	background: url("../images/spriteRoundedIconsSmall.gif") no-repeat -60px top;
-}
-
-.nihilo .dijitTabCloseButtonHover .dijitClosable .closeImage {
+.nihilo .dijitTab .closeButton-hover .closeImage {
 	background: url("../images/spriteRoundedIconsSmall.png") no-repeat -60px -15px;
 }
-.dj_ie6 .nihilo .dijitTabCloseButtonHover .dijitClosable .closeImage {
+.dj_ie6 .nihilo .dijitTab .closeButton-hover .closeImage {
 	background: url("../images/spriteRoundedIconsSmall.gif") no-repeat -60px -15px;
 }
 

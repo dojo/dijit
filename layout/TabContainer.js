@@ -171,12 +171,24 @@ dojo.declare("dijit.layout._TabButton",
 			if(this.closeNode){
 				dojo.attr(this.closeNode,"title", _nlsResources.itemClose);
 				// IE needs title set directly on image
-				dojo.attr(this.closeButtonNode,"title", _nlsResources.itemClose);
+				dojo.attr(this.closeIcon,"title", _nlsResources.itemClose);
 			}
 		}else{
 			this.closeNode.style.display="none";		
 		}
 		this.inherited(arguments); 
 		dojo.setSelectable(this.containerNode, false);
+	},
+
+	_onCloseButtonEnter: function(){
+		// summary:
+		//		When mouse is moved over the close icon (the X)
+		dojo.addClass(this.closeNode, "closeButton-hover");
+	},
+
+	_onCloseButtonLeave: function(){
+		// summary:
+		//		When mouse is moved off the close icon (the X)
+		dojo.removeClass(this.closeNode, "closeButton-hover");
 	}
 });

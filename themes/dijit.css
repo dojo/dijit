@@ -291,8 +291,8 @@
 }
 
 .dijitButtonNode, .dijitButtonNode * {
-	cursor:pointer;
-}
+	cursor: pointer;
+} 
 
 /**** Disabled cursor *****/
 .dijitDisabled *,
@@ -969,7 +969,7 @@ img.dijitColorPaletteUnder {
 	background-color:white;
 }
 
-.dijitMenuItem {
+.dijitMenuItem{
 	text-align: left;
 	white-space: nowrap;
 	padding:.1em .2em;
@@ -1138,29 +1138,21 @@ img.dijitColorPaletteUnder {
 	position:relative;
 }
 
-.dijitTab .close {
-	display: inline-block;
-	cursor: default;
-	font-size: small;
-}
-
 /* images off, high-contrast mode styles */
 .dijitTab .closeText {
 	display:none;
-	padding: 0 2px;
-	margin: 0 2px;
 }
 
 .dijit_a11y .closeText {
 	display:inline;
-	margin-left:6px;
+	margin: 0px 6px;
 }
 
-.dijit_a11y .dijitTab .dijitClosable .closeImage {
+.dijit_a11y .dijitTab .closeImage {
 	display:none;
 }
 
-.dijit_a11y .closeText:hover {
+.dijit_a11y .closeButton-hover .closeText {
 	border:thin solid;
 }
 .dijit_a11y .dijitTabChecked {

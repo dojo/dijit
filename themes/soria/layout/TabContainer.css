@@ -77,27 +77,19 @@
 	color: #243C5F !important;
 }
 
-.soria .dijitTab .dijitClosable .closeImage {
+.soria .dijitTab .closeImage {
 	width: 15px;
 	height: 15px;
 	background: url("../images/spriteRoundedIconsSmall.png") no-repeat -60px top;
 }
-
 .dj_ie6 .dijitTab .dijitClosable .closeImage {
 	background: url("../images/spriteRoundedIconsSmall.gif") no-repeat -60px top;
 }
 
-.soria .dijitTabCloseButton .dijitClosable .closeImage {
-	background: url("../images/spriteRoundedIconsSmall.png") no-repeat -60px top;
-}
-.dj_ie6 .soria .dijitTabCloseButton .dijitClosable .closeImage {
-	background: url("../images/spriteRoundedIconsSmall.gif") no-repeat -60px top;
-}
-
-.soria .dijitTabCloseButtonHover .dijitClosable .closeImage {
+.soria .dijitTab .closeButton-hover .closeImage {
 	background: url("../images/spriteRoundedIconsSmall.png") no-repeat -60px -15px;
 }
-.dj_ie6 .soria .dijitTabCloseButtonHover .dijitClosable .closeImage {
+.dj_ie6 .soria .dijitTab .closeButton-hover .closeImage {
 	background: url("../images/spriteRoundedIconsSmall.gif") no-repeat -60px -15px;
 }
 

@@ -52,26 +52,22 @@
 }
 
 .tundra .dijitTab .dijitTabButtonSpacer {
-	/* The horizontal bar between the tabs and the content */
+	/* To separate the label from the close button (TODO: try to use padding instead) */
 	height: 12px;
 	width: 1px;
 }
 
-.dj_ie6 .dijitTab .dijitClosable .closeImage {
-	background-image:url("../images/tabClose.gif");
-}
-
-.tundra .dijitTabCloseButton .dijitClosable .closeImage {
+.tundra .dijitTab .closeImage {
 	background-image : url("../images/tabClose.png");
 }
-.dj_ie6 .tundra .dijitTabCloseButton .dijitClosable .closeImage {
+.dj_ie6 .tundra .dijitTab .closeImage {
 	background-image : url("../images/tabClose.gif");
 }
 
-.tundra .dijitTabCloseButtonHover .dijitClosable .closeImage {
+.tundra .dijitTab .closeButton-hover .closeImage {
 	background-image : url("../images/tabCloseHover.png");
 }
-.dj_ie6 .tundra .dijitTabCloseButtonHover .dijitClosable .closeImage {
+.dj_ie6 .tundra .dijitTab .closeButton-hover .closeImage {
 	background-image : url("../images/tabCloseHover.gif");
 }
 
