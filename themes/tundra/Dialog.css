@@ -58,6 +58,13 @@
 	background : url("images/tabClose.gif") no-repeat right top;
 }
 
+.tundra .dijitDialogCloseIcon-hover {
+	background: url("images/tabCloseHover.png") no-repeat right top;
+}
+.dj_ie6 .tundra .dijitDialogCloseIcon-hover {
+	background : url("images/tabCloseHover.gif") no-repeat right top;
+}
+
 .tundra .dijitDialogContent {
 	/* the body of the dialog */
 	padding: 8px;

@@ -40,7 +40,9 @@
 
 .soria .dijitDialogCloseIcon {
 	/* the default close icon for the dialog */
-	background : url("images/spriteRoundedIconsSmallBl.png") no-repeat right top;
+	background-image: url("images/spriteRoundedIconsSmallBl.png");
+	background-repeat: no-repeat;
+	background-position: -60px 0px;
 	position: absolute;
 	vertical-align: middle;
 	right: 6px;
@@ -50,8 +52,12 @@
 	cursor: pointer;
 }
 .dj_ie6 .soria .dijitDialogCloseIcon {
-	background : url("images/spriteRoundedIconsSmallBl.gif") no-repeat right top;
+	background-image: url("images/spriteRoundedIconsSmallBl.gif");
 }
+.soria .dijitDialogCloseIcon-hover {
+	background-position: -60px -15px;
+}
+
 
 .soria .dijitDialogContent {
 	/* the body of the dialog */

@@ -40,7 +40,9 @@
 
 .nihilo .dijitDialogCloseIcon {
 	/* the default close icon for the dialog */
-	background : url("images/spriteRoundedIconsSmall.png") no-repeat right top;
+	background-image: url("images/spriteRoundedIconsSmall.png");
+	background-repeat: no-repeat;
+	background-position: -60px 0px;
 	position: absolute;
 	vertical-align: middle;
 	right: 6px;
@@ -50,8 +52,13 @@
 	cursor: pointer;
 }
 .dj_ie6 .nihilo .dijitDialogCloseIcon {
-	background : url("images/spriteRoundedIconsSmall.gif") no-repeat right top;
+	background-image: url("images/spriteRoundedIconsSmall.gif");
 }
+.nihilo .dijitDialogCloseIcon-hover {
+	background-position: -60px -15px;
+}
+
+
 
 .nihilo .dijitDialogContent {
 	/* the body of the dialog */
