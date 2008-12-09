@@ -44,19 +44,16 @@
 }
 
 /* hovered tab */
-.nihilo .dijitTabHover,
-.nihilo .dijitTabCloseButtonHover {
+.nihilo .dijitTabHover {
 	color: #243C5F;
 	background: url("../images/tabContainerSprite.gif") no-repeat 0px -150px;
 }
 
-.nihilo .dijitTabHover .dijitTabInnerDiv,
-.nihilo .dijitTabCloseButtonHover .dijitTabInnerDiv {
+.nihilo .dijitTabHover .dijitTabInnerDiv {
 	background: url("../images/tabContainerSprite.gif") no-repeat right -250px;
 }
 
-.nihilo .dijitTabHover .dijitTabInnerDiv .dijitTabContent,
-.nihilo .dijitTabCloseButtonHover .dijitTabInnerDiv .dijitTabContent {
+.nihilo .dijitTabHover .dijitTabInnerDiv .dijitTabContent {
 	background: url("../images/tabContainerSprite.gif") repeat-x 0 -200px;
 }
 
@@ -195,19 +192,16 @@
 	background: url("../images/tabBottomEnabledSpriteLR.gif") no-repeat bottom right;
 }
 
-.nihilo .dijitTabContainerBottom-tabs .dijitTabHover,
-.nihilo .dijitTabContainerBottom-tabs .dijitTabCloseButtonHover {
+.nihilo .dijitTabContainerBottom-tabs .dijitTabHover {
 	color: #243C5F;
 	background: url("../images/tabBottomHoverSpriteLR.gif") no-repeat bottom left;
 }
 
-.nihilo .dijitTabContainerBottom-tabs .dijitTabHover .dijitTabInnerDiv,
-.nihilo .dijitTabContainerBottom-tabs .dijitTabCloseButtonHover .dijitTabInnerDiv {
+.nihilo .dijitTabContainerBottom-tabs .dijitTabHover .dijitTabInnerDiv {
 	background: url("../images/tabBottomHoverSpriteLR.gif") no-repeat bottom right;
 }
 
-.nihilo .dijitTabContainerBottom-tabs .dijitTabHover .dijitTabInnerDiv .dijitTabContent,
-.nihilo .dijitTabContainerBottom-tabs .dijitTabCloseButtonHover .dijitTabInnerDiv .dijitTabContent {
+.nihilo .dijitTabContainerBottom-tabs .dijitTabHover .dijitTabInnerDiv .dijitTabContent {
 	background: url("../images/tabBottomHoverC.gif") repeat-x bottom left;
 }
 
