@@ -77,6 +77,39 @@
 	color: #243C5F !important;
 }
 
+/* Nested Tabs */
+.nihilo .dijitTabContainer .dijitTabContainer .dijitTabContainerTop-tabs {
+	background: #FDFDFD;
+	border: none;
+	margin-bottom: 0px;		/* override margin: -1px; */
+}
+.nihilo .dijitTabContainer .dijitTabContainer .dijitTab {
+	background: none;
+	border: none;
+	top: 0px;	/* override top:1px setting of top-level tabs */
+}
+.nihilo .dijitTabContainer .dijitTabContainer .dijitTab .dijitTabInnerDiv,
+.nihilo .dijitTabContainer .dijitTabContainer .dijitTab .dijitTabContent {
+	background: none;
+}
+.nihilo .dijitTabContainer .dijitTabContainer .dijitTabHover .dijitTabContent {
+	text-decoration: underline;
+}
+.nihilo .dijitTabContainer .dijitTabContainer .dijitTabChecked {
+	text-decoration: underline;
+	font-weight: bold;
+}
+.nihilo .dijitTabContainer .dijitTabContainer .dijitTabSpacer {
+	/* thinner line between tab (labels) and content */
+	height: 0px;
+	border-bottom: 0px;
+}
+.nihilo .dijitTabContainer .dijitTabContainer .dijitTabPaneWrapper {
+	border: none;	/* prevent double border */
+}
+
+
+/* Close button */
 .nihilo .dijitTab .closeImage {
 	background: url("../images/spriteRoundedIconsSmall.png") no-repeat -60px top;
 	width: 15px;

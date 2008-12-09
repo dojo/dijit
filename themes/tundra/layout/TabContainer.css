@@ -52,10 +52,32 @@
 }
 
 .tundra .dijitTab .dijitTabButtonSpacer {
-	/* To separate the label from the close button (TODO: try to use padding instead) */
+	/* for vertical height of the tabs? (TODO: try to use padding instead) */
 	height: 12px;
 	width: 1px;
 }
+
+/* Nested Tabs */
+.tundra .dijitTabContainer .dijitTabContainer .dijitTab {
+	background: none;
+	border: none;
+	top: 0px;		/* to override top: 1px/-1px for normal tabs */ 
+}
+.tundra .dijitTabContainer .dijitTabContainer .dijitTab .dijitTabContent {
+}
+.tundra .dijitTabContainer .dijitTabContainer .dijitTabHover .dijitTabContent {
+	text-decoration: underline;
+}
+.tundra .dijitTabContainer .dijitTabContainer .dijitTabChecked .dijitTabContent {
+	text-decoration: underline;
+	font-weight: bold;
+	/*background:#f3f3f3;*/
+}
+.tundra .dijitTabContainer .dijitTabContainer .dijitTabPaneWrapper {
+	border: none;	/* prevent double border */
+}
+
+/* Close button */
 
 .tundra .dijitTab .closeImage {
 	background-image : url("../images/tabClose.png");
