@@ -251,6 +251,12 @@ dojo.declare(
 		delete this._xhrDfd; // garbage collect
 	},
 
+	uninitialize: function(){
+		if(this._beingDestroyed){
+			this.cancel();
+		}
+	},
+
 	destroyRecursive: function(/*Boolean*/ preserveDom){
 		// summary:
 		//		Destroy the ContentPane and it's contents
