@@ -89,10 +89,10 @@
 .nihilo .dijitTabContainer .dijitTabContainer .dijitTab .dijitTabContent {
 	background: none;
 }
-.nihilo .dijitTabContainer .dijitTabContainer .dijitTabHover .dijitTabContent {
+.nihilo .dijitTabContainer .dijitTabContainer .dijitTabHover .dijitTabContent .tabLabel {
 	text-decoration: underline;
 }
-.nihilo .dijitTabContainer .dijitTabContainer .dijitTabChecked {
+.nihilo .dijitTabContainer .dijitTabContainer .dijitTabChecked .tabLabel {
 	text-decoration: underline;
 	font-weight: bold;
 }

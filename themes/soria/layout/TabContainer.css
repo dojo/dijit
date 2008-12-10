@@ -89,10 +89,10 @@
 .soria .dijitTabContainer .dijitTabContainer .dijitTab .dijitTabContent {
 	background: none;
 }
-.soria .dijitTabContainer .dijitTabContainer .dijitTabHover .dijitTabContent {
+.soria .dijitTabContainer .dijitTabContainer .dijitTabHover .dijitTabContent .tabLabel {
 	text-decoration: underline;
 }
-.soria .dijitTabContainer .dijitTabContainer .dijitTabChecked {
+.soria .dijitTabContainer .dijitTabContainer .dijitTabChecked .tabLabel {
 	text-decoration: underline;
 	font-weight: bold;
 }

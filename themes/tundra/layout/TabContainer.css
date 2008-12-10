@@ -52,7 +52,7 @@
 }
 
 .tundra .dijitTab .dijitTabButtonSpacer {
-	/* for vertical height of the tabs? (TODO: try to use padding instead) */
+	/* make sure tabs w/close button and w/out close button are same height, even w/small (<12px) font */
 	height: 12px;
 	width: 1px;
 }
@@ -65,10 +65,10 @@
 }
 .tundra .dijitTabContainer .dijitTabContainer .dijitTab .dijitTabContent {
 }
-.tundra .dijitTabContainer .dijitTabContainer .dijitTabHover .dijitTabContent {
+.tundra .dijitTabContainer .dijitTabContainer .dijitTabHover .dijitTabContent .tabLabel {
 	text-decoration: underline;
 }
-.tundra .dijitTabContainer .dijitTabContainer .dijitTabChecked .dijitTabContent {
+.tundra .dijitTabContainer .dijitTabContainer .dijitTabChecked .dijitTabContent .tabLabel {
 	text-decoration: underline;
 	font-weight: bold;
 	/*background:#f3f3f3;*/
