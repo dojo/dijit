@@ -18,9 +18,21 @@ dojo.declare(
 	
 		// Template has two divs; outer div is used for fade-in/fade-out, and also to hold background iframe.
 		// Inner div has opacity specified in CSS file.
-		templateString: "<div class='dijitDialogUnderlayWrapper' id='${id}_wrapper'><div class='dijitDialogUnderlay ${class}' id='${id}' dojoAttachPoint='node'></div></div>",
+		templateString: "<div class='dijitDialogUnderlayWrapper'><div class='dijitDialogUnderlay' dojoAttachPoint='node'></div></div>",
 
-		attributeMap: {},
+		// Parameters on creation or updatable later
+		dialogId: "",
+		"class": "",
+
+		attributeMap: {id: "domNode"},
+
+		_setDialogIdAttr: function(id){
+			dojo.attr(this.node, "id", id + "_underlay");
+		},
+
+		_setClassAttr: function(clazz){
+			this.node.className = "dijitDialogUnderlay " + clazz;
+		},
 
 		postCreate: function(){
 			// summary: Append the underlay to the body
@@ -36,20 +48,21 @@ dojo.declare(
 			//	of the document) since we need to cover the whole browser window, even
 			//	if the document is only a few lines long.
 
-			var viewport = dijit.getViewport();
 			var is = this.node.style,
 				os = this.domNode.style;
 
+			// hide the background temporarily, so that the background itself isn't
+			// causing scrollbars to appear (might happen when user shrinks browser
+			// window and then we are called to resize)
+			os.display = "none";
+
+			// then resize and show
+			var viewport = dijit.getViewport();
 			os.top = viewport.t + "px";
 			os.left = viewport.l + "px";
 			is.width = viewport.w + "px";
 			is.height = viewport.h + "px";
-
-			// process twice since the scroll bar may have been removed
-			// by the previous resizing
-			var viewport2 = dijit.getViewport();
-			if(viewport.w != viewport2.w){ is.width = viewport2.w + "px"; }
-			if(viewport.h != viewport2.h){ is.height = viewport2.h + "px"; }
+			os.display = "block";
 		},
 
 		show: function(){
@@ -242,18 +255,24 @@ dojo.declare(
 			}else{
 				dojo.addClass(node,"dijitDialogFixed"); 
 			}
-
-			this._underlay = new dijit.DialogUnderlay({
-				id: this.id+"_underlay",
+			
+			var underlayAttrs = {
+				dialogId: this.id,
 				"class": dojo.map(this["class"].split(/\s/), function(s){ return s+"_underlay"; }).join(" ")
-			});
-
-			var underlay = this._underlay;
+			};
 
 			this._fadeIn = dojo.fadeIn({
 				node: node,
 				duration: this.duration,
-				onBegin: dojo.hitch(underlay, "show"),
+				onBegin: function(){
+					var underlay = dijit._underlay
+					if(underlay){
+						underlay.attr(underlayAttrs);
+					}else{
+						underlay = dijit._underlay = new dijit.DialogUnderlay(underlayAttrs);
+					}
+					underlay.show();
+				},
 				onEnd:	dojo.hitch(this, function(){
 					if(this.autofocus){
 						// find focusable Items each time dialog is shown since if dialog contains a widget the 
@@ -270,7 +289,7 @@ dojo.declare(
 				onEnd: function(){
 					node.style.visibility="hidden";
 					node.style.top = "-9999px";
-					underlay.hide();
+					dijit._underlay.hide();
 				}
 			 });
 		},
@@ -372,7 +391,6 @@ dojo.declare(
 
 		show: function(){
 			// summary: display the dialog
-
 			if(this.open){ return; }
 			
 			// first time we show the dialog, there's some initialization stuff to do			
