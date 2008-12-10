@@ -375,7 +375,7 @@ dojo.declare(
 		});
 
 		hand.addErrback(function(err){
-			if(!hand.cancelled){
+			if(!hand.canceled){
 				// show error message in the pane
 				self._onError('Download', err); // onDownloadError
 			}
