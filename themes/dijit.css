@@ -707,12 +707,14 @@ body .dijitAlignClient { position: absolute; }
 .dijitSplitter {
 	position: absolute;
 	overflow: hidden;
-	z-index: 1;		/* behind the panes */
+	z-index: 10;		/* above the panes so that splitter focus is visible on FF, see #7583*/
 	background-color: #fff;
 	border-color: gray;
 	border-style: solid;
 	border-width: 0;
-	z-index: 11;
+}
+.dj_ie .dijitSplitter {
+	z-index: 1;	/* behind the panes so that pane borders aren't obscured see test_Gui.html/[14392] */
 }
 
 .dijitSplitterActive {
