@@ -28,6 +28,12 @@ dojo.declare("dijit.layout.TabContainer",
 	//   Defines whether the tablist gets an extra class for layouting
 	tabStrip: false,
 
+	// nested: Boolean
+	//		If true, use styling for a TabContainer nested inside another TabContainer.
+	//		For tundra etc., makes look like links, and hides the outer
+	//		border since the outer TabContainer already has a border.
+	nested: false,
+
 	templateString: null,	// override setting in StackContainer
 	templatePath: dojo.moduleUrl("dijit.layout", "templates/TabContainer.html"),
 
@@ -58,6 +64,16 @@ dojo.declare("dijit.layout.TabContainer",
 		if (this.tabStrip){	dojo.addClass(this.tablist.domNode, this.baseClass+"Strip"); }		
 		
 		if(!this.doLayout){ dojo.addClass(this.domNode, "dijitTabContainerNoLayout"); }
+		
+		if(this.nested){
+			/* workaround IE's lack of support for "a > b" selectors by
+			 * tagging each node in the template.
+			 */
+			dojo.addClass(this.domNode, "dijitTabContainerNested");
+			dojo.addClass(this.tablist.domNode, "dijitTabContainerTabListNested");
+			dojo.addClass(this.tablistSpacer, "dijitTabContainerSpacerNested");
+			dojo.addClass(this.containerNode, "dijitTabPaneWrapperNested");
+		}
 	},
 
 	_setupChild: function(/* Widget */tab){

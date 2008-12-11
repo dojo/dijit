@@ -75,33 +75,33 @@
 }
 
 /* Nested Tabs */
-.nihilo .dijitTabContainer .dijitTabContainer .dijitTabContainerTop-tabs {
+.nihilo .dijitTabContainerTabListNested {
 	background: #FDFDFD;
 	border: none;
 	margin-bottom: 0px;		/* override margin: -1px; */
 }
-.nihilo .dijitTabContainer .dijitTabContainer .dijitTab {
+.nihilo .dijitTabContainerTabListNested .dijitTab {
 	background: none;
 	border: none;
 	top: 0px;	/* override top:1px setting of top-level tabs */
 }
-.nihilo .dijitTabContainer .dijitTabContainer .dijitTab .dijitTabInnerDiv,
-.nihilo .dijitTabContainer .dijitTabContainer .dijitTab .dijitTabContent {
+.nihilo .dijitTabContainerTabListNested .dijitTab .dijitTabInnerDiv,
+.nihilo .dijitTabContainerTabListNested .dijitTab .dijitTabContent {
 	background: none;
 }
-.nihilo .dijitTabContainer .dijitTabContainer .dijitTabHover .dijitTabContent .tabLabel {
+.nihilo .dijitTabContainerTabListNested .dijitTabHover .dijitTabContent .tabLabel {
 	text-decoration: underline;
 }
-.nihilo .dijitTabContainer .dijitTabContainer .dijitTabChecked .tabLabel {
+.nihilo .dijitTabContainerTabListNested .dijitTabChecked .tabLabel {
 	text-decoration: underline;
 	font-weight: bold;
 }
-.nihilo .dijitTabContainer .dijitTabContainer .dijitTabSpacer {
+.nihilo .dijitTabContainerSpacerNested {
 	/* thinner line between tab (labels) and content */
 	height: 0px;
 	border-bottom: 0px;
 }
-.nihilo .dijitTabContainer .dijitTabContainer .dijitTabPaneWrapper {
+.nihilo .dijitTabPaneWrapperNested {
 	border: none;	/* prevent double border */
 }
 

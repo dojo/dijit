@@ -75,32 +75,32 @@
 }
 
 /* Nested Tabs */
-.soria .dijitTabContainer .dijitTabContainer .dijitTabContainerTop-tabs {
+.soria .dijitTabContainerTabListNested {
 	background: #F0F4FC;
 	background: #D9E9F9;
 	border: none;
 }
-.soria .dijitTabContainer .dijitTabContainer .dijitTab {
+.soria .dijitTabContainerTabListNested .dijitTab {
 	background: none;
 	border: none;
 	top: 0px;	/* override top:1px setting of top-level tabs */
 }
-.soria .dijitTabContainer .dijitTabContainer .dijitTab .dijitTabInnerDiv,
-.soria .dijitTabContainer .dijitTabContainer .dijitTab .dijitTabContent {
+.soria .dijitTabContainerTabListNested .dijitTab .dijitTabInnerDiv,
+.soria .dijitTabContainerTabListNested .dijitTab .dijitTabContent {
 	background: none;
 }
-.soria .dijitTabContainer .dijitTabContainer .dijitTabHover .dijitTabContent .tabLabel {
+.soria .dijitTabContainerTabListNested .dijitTabHover .dijitTabContent .tabLabel {
 	text-decoration: underline;
 }
-.soria .dijitTabContainer .dijitTabContainer .dijitTabChecked .tabLabel {
+.soria .dijitTabContainerTabListNested .dijitTabChecked .tabLabel {
 	text-decoration: underline;
 	font-weight: bold;
 }
-.soria .dijitTabContainer .dijitTabContainer .dijitTabSpacer {
+.soria .dijitTabContainerSpacerNested .dijitTabSpacer {
 	/* thinner line between tab (labels) and content */
 	height: 0px;
 }
-.soria .dijitTabContainer .dijitTabContainer .dijitTabPaneWrapper {
+.soria .dijitTabPaneWrapperNested {
 	border: none;	/* prevent double border */
 }
 

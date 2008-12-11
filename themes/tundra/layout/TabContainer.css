@@ -58,22 +58,22 @@
 }
 
 /* Nested Tabs */
-.tundra .dijitTabContainer .dijitTabContainer .dijitTab {
+.tundra .dijitTabContainerTabListNested .dijitTab {
 	background: none;
 	border: none;
 	top: 0px;		/* to override top: 1px/-1px for normal tabs */ 
 }
-.tundra .dijitTabContainer .dijitTabContainer .dijitTab .dijitTabContent {
+.tundra .dijitTabContainerTabListNested .dijitTab .dijitTabContent {
 }
-.tundra .dijitTabContainer .dijitTabContainer .dijitTabHover .dijitTabContent .tabLabel {
+.tundra .dijitTabContainerTabListNested .dijitTabHover .dijitTabContent .tabLabel {
 	text-decoration: underline;
 }
-.tundra .dijitTabContainer .dijitTabContainer .dijitTabChecked .dijitTabContent .tabLabel {
+.tundra .dijitTabContainerTabListNested .dijitTabChecked .dijitTabContent .tabLabel {
 	text-decoration: underline;
 	font-weight: bold;
 	/*background:#f3f3f3;*/
 }
-.tundra .dijitTabContainer .dijitTabContainer .dijitTabPaneWrapper {
+.tundra .dijitTabContainer .dijitTabPaneWrapperNested {
 	border: none;	/* prevent double border */
 }
 
