@@ -301,9 +301,6 @@ dojo.declare(
 			if(this._fadeOut && this._fadeOut.status() == "playing"){
 				this._fadeOut.stop();
 			}
-			if(this._underlay){
-				this._underlay.destroy();
-			}
 			if(this._moveable){
 				this._moveable.destroy();
 			}
@@ -453,7 +450,7 @@ dojo.declare(
 		layout: function() {
 			// summary: Position the Dialog and the underlay
 			if(this.domNode.style.visibility != "hidden"){
-				this._underlay.layout();
+				dijit._underlay.layout();
 				this._position(); 
 			}
 		},
