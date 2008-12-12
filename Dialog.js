@@ -10,12 +10,34 @@ dojo.require("dijit.layout.ContentPane");
 dojo.require("dijit.form.Form");
 dojo.requireLocalization("dijit", "common");
 
+/*=====
+dijit._underlay = function(kwArgs){
+	//	summary: A shared instance of a `dijit.DialogUnderlay`
+	//
+	//	description: 
+	//		A shared instance of a `dijit.DialogUnderlay` created and
+	//		used by `dijit.Dialog`, though never created until some Dialog
+	//		or subclass thereof is shown.
+};
+=====*/
+
 dojo.declare(
 	"dijit.DialogUnderlay",
 	[dijit._Widget, dijit._Templated],
 	{
-		// summary: The component that grays out the screen behind the dialog
-	
+		// summary: The component that blocks the screen behind a `dijit.Dialog`
+		//
+		// description:
+		// 		A component used to block input behind a `dijit.Dialog`. Only a single
+		//		instance of this widget is created by `dijit.Dialog`, and saved as 
+		//		a reference to be shared between all Dialogs as `dijit._underlay`
+		//	
+		//		The underlay itself can be styled based on and id:
+		//	|	#myDialog_underlay { background-color:red; }
+		//
+		//		In the case of `dijit.Dialog`, this id is based on the id of the Dialog,
+		//		suffixed with _underlay. 
+		
 		// Template has two divs; outer div is used for fade-in/fade-out, and also to hold background iframe.
 		// Inner div has opacity specified in CSS file.
 		templateString: "<div class='dijitDialogUnderlayWrapper'><div class='dijitDialogUnderlay' dojoAttachPoint='node'></div></div>",
@@ -24,7 +46,7 @@ dojo.declare(
 		dialogId: "",
 		"class": "",
 
-		attributeMap: {id: "domNode"},
+		attributeMap: { id: "domNode" },
 
 		_setDialogIdAttr: function(id){
 			dojo.attr(this.node, "id", id + "_underlay");
@@ -206,11 +228,13 @@ dojo.declare(
 		},
 
 		postCreate: function(){
-			var s = this.domNode.style;
-			s.visibility = "hidden";
-			s.position = "absolute";
-			s.display = "";
-			s.top = "-9999px";
+			
+			dojo.style(this.domNode, {
+				visibility:"hidden",
+				position:"absolute",
+				display:"",
+				top:"-9999px"
+			});
 			dojo.body().appendChild(this.domNode);
 
 			this.inherited(arguments);
@@ -260,17 +284,17 @@ dojo.declare(
 				dialogId: this.id,
 				"class": dojo.map(this["class"].split(/\s/), function(s){ return s+"_underlay"; }).join(" ")
 			};
-
+			
+			var underlay = dijit._underlay;
+			if(!underlay){ 
+				underlay = dijit._underlay = new dijit.DialogUnderlay(underlayAttrs); 
+			}
+			
 			this._fadeIn = dojo.fadeIn({
 				node: node,
 				duration: this.duration,
-				onBegin: function(){
-					var underlay = dijit._underlay
-					if(underlay){
-						underlay.attr(underlayAttrs);
-					}else{
-						underlay = dijit._underlay = new dijit.DialogUnderlay(underlayAttrs);
-					}
+				beforeBegin: function(){
+					underlay.attr(underlayAttrs);
 					underlay.show();
 				},
 				onEnd:	dojo.hitch(this, function(){
@@ -301,6 +325,7 @@ dojo.declare(
 			if(this._fadeOut && this._fadeOut.status() == "playing"){
 				this._fadeOut.stop();
 			}
+			
 			if(this._moveable){
 				this._moveable.destroy();
 			}
