@@ -270,7 +270,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 		//		users may attach to it to be informed when the rich-text area
 		//		initialization is finalized.
 
-		if((!this.onLoadDeferred)||(this.onLoadDeferred.fired >= 0)){
+		if(!this.onLoadDeferred || this.onLoadDeferred.fired >= 0){
 			this.onLoadDeferred = new dojo.Deferred();
 		}
 
@@ -278,15 +278,14 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 		dojo.publish(dijit._scopeName + "._editor.RichText::open", [ this ]);
 
 		this._content = "";
-		if((arguments.length == 1)&&(element["nodeName"])){ // else unchanged
+		if(arguments.length == 1 && element.nodeName){ // else unchanged
 			this.domNode = element; 
 		} 
 
 		var dn = this.domNode;
 
 		var html;
-		if(	(dn["nodeName"])&&
-			(dn.nodeName.toLowerCase() == "textarea")){
+		if(dn.nodeName && dn.nodeName.toLowerCase() == "textarea"){
 			// if we were created from a textarea, then we need to create a
 			// new editing harness node.
 			var ta = (this.textarea = dn);
@@ -296,7 +295,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 			dn.setAttribute('widgetId', this.id);
 			ta.removeAttribute('widgetId');
 			dn.cssText = ta.cssText;
-			dn.className += " "+ta.className;
+			dn.className += " " + ta.className;
 			dojo.place(dn, ta, "before");
 			var tmpFunc = dojo.hitch(this, function(){
 				//some browsers refuse to submit display=none textarea, so
@@ -308,6 +307,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 				});
 
 				if(dojo.isIE){ //nasty IE bug: abnormal formatting if overflow is not hidden
+					var s = ta.style;
 					this.__overflow = s.overflow;
 					s.overflow = "hidden";
 				}
@@ -341,8 +341,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 
 		// If we're a list item we have to put in a blank line to force the
 		// bullet to nicely align at the top of text
-		if(	(dn["nodeName"]) &&
-			(dn.nodeName == "LI") ){
+		if(dn.nodeName && dn.nodeName == "LI"){
 			dn.innerHTML = " <br>";
 		}
 
