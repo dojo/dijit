@@ -115,7 +115,7 @@
 					</div><!-- end AccordionContainer -->
 					
 					<div dojoType="dijit.layout.ContentPane" 
-						id="textdareaTab" 
+						id="textareaTab" 
 						layoutType="tab" 
 						title="Accordion in Content Tab">
 	
@@ -166,30 +166,35 @@
 						layoutType="tab" 
 						style="display:none;">
 	
+						Here's some text, then a TitlePane:
 						<div dojoType="dijit.TitlePane" title="Color Picker">
 							Hi friends of dijit           
 						</div>
-	
+						... and some more text.
 					</div>
 				
-					<div dojoType="dijit.TitlePane" layoutType="fit" title="Title Pane">
-						Wohooo, cool huh?           
-					</div>
-	
-					<div dojoType="dijit.layout.TabContainer" title="TabContainer in Tab">
-						<div id="bassicFormTab" dojoType="dijit.layout.ContentPane" 
-							layoutType="fit" title="Basic Form Widgets" 
+					<div dojoType="dijit.layout.TabContainer" title="TabContainer in Tab" nested="true" closable="true">
+						<div id="basicFormTab1" dojoType="dijit.layout.ContentPane" 
+							layoutType="fit" title="Basic Form Widgets 1" 
+							style="padding:10px; display:none;">
+						    Hi friends of dijit
+						</div>
+						<div id="basicFormTab2" dojoType="dijit.layout.ContentPane" 
+							layoutType="fit" title="Basic Form Widgets 2" 
 							style="padding:10px; display:none;">
 						    Hi friends of dijit
 						</div>
 					</div>
+
+					<div id="closableTab" dojoType="dijit.layout.ContentPane" layoutType="tab" title="Closable ContentPane w/TabContainer"
+						style="display:none; padding:0px;" closable="true">
 	
-					<div id="closableTab" dojoType="dijit.layout.ContentPane" layoutType="tab" title="Closable"
-						style="display:none; padding:10px;" closable="true">
-	
-						<div dojoType="dijit.layout.TabContainer" title="Tab in Tab">
+						<div dojoType="dijit.layout.TabContainer" title="Tab in Tab" nested="true">
 		
-							<div id="bassicFdormTab" dojoType="dijit.layout.ContentPane" layoutType="fit" title="Basic Form Widgets" style="padding:10px;display:none;">
+							<div id="basicFormTab3" dojoType="dijit.layout.ContentPane" layoutType="fit" title="Basic Form Widgets 3" style="padding:10px;display:none;">
+							    Hi friends of dijit
+							</div>
+							<div id="basicFormTab4" dojoType="dijit.layout.ContentPane" layoutType="fit" title="Basic Form Widgets 4" style="padding:10px;display:none;">
 							    Hi friends of dijit
 							</div>
 						</div>
