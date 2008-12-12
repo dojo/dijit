@@ -17,7 +17,6 @@
 
 .tundra .dijitSplitContainer-dijitContentPane,
 .tundra .dijitBorderContainer-dijitContentPane {
-    border: 1px #ccc solid;
-    background-color: #fff;
-    padding: 5px;
+	background-color: #fff;		/* override background-color setting on parent .dijitBorderContainer */
+	padding: 5px;
 }

@@ -8,7 +8,26 @@
 	padding: 5px;
 }
 
+.nihilo .dijitSplitContainer-child,
+.nihilo .dijitBorderContainer-child {
+	/* By default, put borders on all children of BorderContainer,
+	 *  to give illusion of borders on the splitters themselves.
+	 */
+    border: 1px #ccc solid;
+}
+
+.nihilo .dijitBorderContainer-dijitTabContainerTop,
+.nihilo .dijitBorderContainer-dijitTabContainerBottom,
+.nihilo .dijitBorderContainer-dijitTabContainerLeft,
+.nihilo .dijitBorderContainer-dijitTabContainerRight {
+	/* except that TabContainer defines borders on it's sub-nodes (tablist and dijitTabPaneWrapper),
+	 * so override rule setting border on domNode
+	 */
+	 border: none;
+}
+
 .nihilo .dijitBorderContainer-dijitBorderContainer {
+	/* also, make nested BorderContainers look like a single big widget with lots of splitters */
 	border: none;
 	padding: 0px;
 }

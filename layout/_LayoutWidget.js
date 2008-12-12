@@ -142,6 +142,7 @@ dojo.declare("dijit.layout._LayoutWidget",
 
 		_setupChild: function(/*Widget*/child){
 			// summary: common setup for initial children or children which are added after startup
+			dojo.addClass(child.domNode, this.baseClass+"-child");
 			if(child.baseClass){
 				dojo.addClass(child.domNode, this.baseClass+"-"+child.baseClass);
 			}
@@ -155,6 +156,7 @@ dojo.declare("dijit.layout._LayoutWidget",
 		},
 
 		removeChild: function(/*Widget*/ child){
+			dojo.removeClass(child.domNode, this.baseClass+"-child");
 			if(child.baseClass){
 				dojo.removeClass(child.domNode, this.baseClass+"-"+child.baseClass);
 			}

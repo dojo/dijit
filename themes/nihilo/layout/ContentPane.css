@@ -17,7 +17,6 @@
 
 .nihilo .dijitSplitContainer-dijitContentPane,
 .nihilo .dijitBorderContainer-dijitContentPane {
-    border: 1px #ccc solid;
-    background-color: #fff;
+    background-color: #fff;		/* override background-color setting on parent .dijitBorderContainer */
     padding: 5px;
 }

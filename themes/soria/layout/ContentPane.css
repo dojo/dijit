@@ -10,6 +10,7 @@
 .soria .dijitTabContainerBottom-dijitContentPane,
 .soria .dijitTabContainerRight-dijitContentPane,
 .soria .dijitAccordionContainer-dijitContentPane {
+	/* TODO: move the border: none to TabContainer.css as a dijitTabContainer-top-child etc. pattern */
     border: none;
     background-color: #fff;
     padding: 5px;
@@ -17,7 +18,6 @@
 
 .soria .dijitSplitContainer-dijitContentPane,
 .soria .dijitBorderContainer-dijitContentPane {
-    border: 1px #B1BADF solid;
-    background-color: #fff;
+    background-color: #fff;		/* override background-color setting on parent .dijitBorderContainer */
     padding: 5px;
 }
