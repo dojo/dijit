@@ -1165,6 +1165,14 @@ img.dijitColorPaletteUnder {
 	border-left:none !important;
  }
 
+.dijitTabPane,
+.dijitStackContainer-child,
+.dijitAccordionContainer-child {
+	/* children of TabContainer, StackContainer, and AccordionContainer shouldn't have borders
+	 * b/c a border is already there from the TabContainer/StackContainer/AccordionContainer itself.
+	 */
+    border: none !important;
+}
 
 .dijitInlineEditor {
 	/* span around an inline-editable value when in edit mode */

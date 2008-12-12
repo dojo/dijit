@@ -4,23 +4,8 @@
  */
 
 .nihilo .dijitAccordionContainer {
-	border-color: #ccc;	
-}
-
-/* nested classes */
-
-.nihilo .dijitTabContainer-dijitAccordionContainer {
-    border: none;
-}
-
-.nihilo .dijitAccordionContainer-dijitAccordionContainer {
-    border: none;
-    background-color: #fff;
-}
-
-.nihilo .dijitSplitContainer-dijitAccordionContainer,
-.nihilo .dijitBorderContainer-dijitAccordionContainer {
-    background-color: #fff;
+	border-color: #ccc;
+	background-color: #fff;
 }
 
 /* common */

@@ -4,23 +4,8 @@
  */ 
  
 .soria .dijitAccordionContainer {
-	border-color: #b1badf;	
-}
-
-/* nested classes */
-
-.soria .dijitTabContainer-dijitAccordionContainer {
-    border: none;
-}
-
-.soria .dijitAccordionContainer-dijitAccordionContainer {
-    border: none;
-    background-color: #fff;
-}
-
-.soria .dijitSplitContainer-dijitAccordionContainer,
-.soria .dijitBorderContainer-dijitAccordionContainer {
-    background-color: #fff;
+	border-color: #b1badf;
+	background-color: #fff;
 }
 
 /* common */
