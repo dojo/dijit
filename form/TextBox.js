@@ -143,11 +143,27 @@ dojo.declare(
 			return value;
 		},
 
+		_onInput: function(){
+			if(this.intermediateChanges){
+				var _this = this;
+				// the setTimeout allows the key to post to the widget input box
+				setTimeout(function(){ _this._handleOnChange(_this.attr('value'), false); }, 0);
+			}
+		},
+
 		postCreate: function(){
 			// setting the value here is needed since value="" in the template causes "undefined"
 			// and setting in the DOM (instead of the JS object) helps with form reset actions
 			this.textbox.setAttribute("value", this.textbox.value); // DOM and JS values shuld be the same
 			this.inherited(arguments);
+			if(dojo.isMoz || dojo.isOpera){
+				this.connect(this.textbox, "oninput", this._onInput);
+			}else{
+				this.connect(this.textbox, "onkeydown", this._onInput);
+				this.connect(this.textbox, "onkeyup", this._onInput);
+				this.connect(this.textbox, "onpaste", this._onInput);
+				this.connect(this.textbox, "oncut", this._onInput);
+			}
 
 			/*#5297:if(this.srcNodeRef){
 				dojo.style(this.textbox, "cssText", this.style);
