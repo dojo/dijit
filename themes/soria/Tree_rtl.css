@@ -2,20 +2,7 @@
 
 /* Tree */
 .dijitRtl .soria .dijitTreeContainer .dijitTreeNode {
-    background-image : url('images/treeI_rtl.gif');
-    background-position : top right;
-    margin-left: auto;
-    margin-right: 19px;
-}
-
-.dijitRtl .soria .dijitTreeContainer .dijitTreeIsRoot {
-	margin-left: auto;
-    margin-right: 0;
-    background-image: none;
-}
-
-.dijitRtl .soria .dijitTreeContainer .dijitTreeIsLast {
-    background-image: url('images/treeI_half_rtl.gif');
+    background-image : none;
 }
 
 .dijitRtl .soria .dijitTreeContainer .dijitTreeContent {
@@ -32,5 +19,5 @@
 }
 
 .dijitRtl .soria .dijitTreeContainer .dijitTreeExpandoLeaf {
-	background: url('images/spriteTree_rtl.gif') no-repeat -36px top;
+	background: none;
 }

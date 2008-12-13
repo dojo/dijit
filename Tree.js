@@ -51,7 +51,21 @@ dojo.declare(
 			if(this == this.tree.rootNode){
 				dijit.setWaitState(this.tree.domNode, "expanded", this.isExpanded);
 			}
-		}
+		}		
+	},
+
+	_setIndentAttr: function(indent){
+		// summary:
+		//		Tell this node how many levels it should be indented
+		// description:
+		//		0 for top level nodes, 1 for their children, 2 for their
+		//		grandchildren, etc.
+		this.indent = indent;
+
+		var pixels = (indent*19) + "px";	// TODO: use width of expandoIcon instead of hardcoding value
+
+		dojo.style(this.domNode, "backgroundPosition",  pixels + " 0px");
+		dojo.style(this.rowNode, dojo._isBodyLtr() ? "paddingLeft" : "paddingRight", pixels);
 	},
 
 	markProcessing: function(){
@@ -173,6 +187,10 @@ dojo.declare(
 		this.labelNode.appendChild(dojo.doc.createTextNode(label));
 	},
 
+	// indent: Integer
+	//		Levels from this node to the root node
+	indent: 0,
+
 	setChildItems: function(/* Object[] */ items){
 		// summary:
 		//		Sets the child items of this node, removing/adding nodes
@@ -206,8 +224,12 @@ dojo.declare(
 							item: item,
 							tree: tree,
 							isExpandable: model.mayHaveChildren(item),
-							label: tree.getLabel(item)
+							label: tree.getLabel(item),
+							indent: this.indent + 1
 						});
+				if(existingNode){
+					existingNode.attr('indent', this.indent+1);
+				}
 				this.addChild(node);
 				// note: this won't work if there are two nodes for one item (multi-parented items); will be fixed later
 				tree._itemNodeMap[id] = node;
@@ -270,11 +292,11 @@ dojo.declare(
 	},
 	
 	_onMouseEnter: function(evt){
-		dojo.addClass(this.contentNode, "dijitTreeNodeHover");
+		dojo.addClass(this.rowNode, "dijitTreeNodeHover");
 	},
 
 	_onMouseLeave: function(evt){
-		dojo.removeClass(this.contentNode, "dijitTreeNodeHover");
+		dojo.removeClass(this.rowNode, "dijitTreeNodeHover");
 	}
 });
 
@@ -461,7 +483,8 @@ dojo.declare(
 					item: item,
 					tree: this,
 					isExpandable: true,
-					label: this.label || this.getLabel(item)
+					label: this.label || this.getLabel(item),
+					indent: this.showRoot ? 1 : 0
 				});
 				if(!this.showRoot){
 					rn.rowNode.style.display="none";
@@ -1185,9 +1208,9 @@ dojo.declare(
 				childItems.splice(insertIndex, 0, childItem);
 				store.setValues(newParentItem, parentAttr, childItems);
 			}else{
-				store.setValues(newParentItem, parentAttr,
-						store.getValues(newParentItem, parentAttr).concat(childItem));
-			}
+			store.setValues(newParentItem, parentAttr,
+				store.getValues(newParentItem, parentAttr).concat(childItem));
+		}
 		}
 	},
 

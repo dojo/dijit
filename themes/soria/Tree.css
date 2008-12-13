@@ -1,13 +1,16 @@
-
 /* Tree */
 
 .soria .dijitTreeNode {
     background : url('images/treeI.gif') no-repeat;
     background-position : top left;
     background-repeat : repeat-y;
-    margin-left: 19px;
     zoom: 1;	/* MOW: what the heck is this doing in here? */
 }
+
+.soria .dijitTreeNodeHover {
+	background-color: #e2ebf2 !important;
+}
+
 
 /* left vertical line (grid) for all nodes */
 .soria .dijitTreeIsLast {

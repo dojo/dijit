@@ -1,17 +1,19 @@
-
 /* Tree */
 
 .nihilo .dijitTreeNode {
     background : url('images/treeI.gif') no-repeat;
     background-position : top left;
     background-repeat : repeat-y;
-    margin-left: 19px;
     zoom: 1;	/* MOW: what the heck is this doing in here? */
 }
 
 /* left vertical line (grid) for all nodes */
 .nihilo .dijitTreeIsLast {
     background: url('images/treeI_half.gif') no-repeat;
+}
+
+.nihilo .dijitTreeNodeHover {
+	background-color: #e2ebf2 !important;
 }
 
 .nihilo .dijitTreeLabel {

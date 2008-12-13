@@ -3,10 +3,8 @@
 
 .tundra .dijitTreeNode {
     background-image : url('images/i.gif');
-    background-position : top left;
     background-repeat : repeat-y;
-    margin-left: 19px;
-    zoom: 1;	/* MOW: what the heck is this doing in here? */
+    zoom: 1;	/* force layout on IE (TODO: may not be needed anymore) */
 }
 
 /* left vertical line (grid) for all nodes */
