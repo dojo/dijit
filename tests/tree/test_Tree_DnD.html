@@ -168,11 +168,14 @@
 	<tr>
 		<td>
 			<h2>Collection Count Summary</h2>
-			<p>You can't drop items onto this tree.</p>
+			<p>
+				You can't drop items onto this tree, but you can reorder categories. The between threshold
+				is set to 5, so if you are near the top or bottom of a node the drop will be above or below it.
+			</p>
 			<div dojoType="dijit.tree.TreeStoreModel" jsId="catModel"
 				store="catStore" query="{id: '0'}"></div>
 			<div class="container" dojoType="dijit.Tree" id="collectionsTree" model="catModel"
-				getLabel="catTreeCustomLabel"  dndController="dijit._tree.dndSource"
+				getLabel="catTreeCustomLabel"  dndController="dijit._tree.dndSource" betweenThreshold="5"
 				checkAcceptance="dndAccept" getIconClass="getIcon"></div>
 		</td>
 		<td>

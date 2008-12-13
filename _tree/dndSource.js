@@ -12,6 +12,7 @@ dojo.declare("dijit._tree.dndSource", dijit._tree.dndSelector, {
 	skipForm: false,
 	dragThreshold: 0,
 	accept: ["text"],
+	betweenThreshold: 0,
 	
 	constructor: function(tree, params){
 		// summary: a constructor of the Source
@@ -22,6 +23,7 @@ dojo.declare("dijit._tree.dndSource", dijit._tree.dndSelector, {
 		//	horizontal: Boolean: a horizontal container, if true, vertical otherwise or when omitted
 		//	copyOnly: Boolean: always copy items, if true, use a state of Ctrl key otherwise
 		//	skipForm: Boolean: don't start the drag operation, if clicked on form elements
+		//  betweenThreshold: Integer: distance from upper/lower edge of node to allow drop to reorder nodes
 		//	the rest of parameters are passed to the selector
 		if(!params){ params = {}; }
 		dojo.mixin(this, params);
@@ -40,7 +42,7 @@ dojo.declare("dijit._tree.dndSource", dijit._tree.dndSelector, {
 		this.mouseDown = false;
 		this.targetAnchor = null;
 		this.targetBox = null;
-		this.before = true;
+		this.dropPosition = "Over";
 		this._lastX = 0;
 		this._lastY = 0;
 
@@ -102,10 +104,9 @@ dojo.declare("dijit._tree.dndSource", dijit._tree.dndSelector, {
 		this.inherited("onMouseMove", arguments);
 		var m = dojo.dnd.manager();
 		if(this.isDragging){
-			// calculate before/after
-
-			if (this.allowBetween){ // not implemented yet for tree since it has no concept of order
-				var before = false;
+			if(this.betweenThreshold > 0){
+				// calculate before/after/over
+				var dropPosition = "Over";
 				if(this.current){
 					if(!this.targetBox || this.targetAnchor != this.current){
 						this.targetBox = {
@@ -115,14 +116,25 @@ dojo.declare("dijit._tree.dndSource", dijit._tree.dndSelector, {
 						};
 					}
 					if(this.horizontal){
-						before = (e.pageX - this.targetBox.xy.x) < (this.targetBox.w / 2);
+						if((e.pageX - this.targetBox.xy.x) <= this.betweenThreshold){
+							dropPosition = "Before";
+						}else if((e.pageX - this.targetBox.xy.x) >= (this.targetBox.w - this.betweenThreshold)){
+							dropPosition = "After";
+						}
 					}else{
-						before = (e.pageY - this.targetBox.xy.y) < (this.targetBox.h / 2);
+						if((e.pageY - this.targetBox.xy.y) <= this.betweenThreshold){
+							dropPosition = "Before";
+						}else if((e.pageY - this.targetBox.xy.y) >= (this.targetBox.h - this.betweenThreshold)){
+							dropPosition = "After";
+						}
 					}
 				}
-				if(this.current != this.targetAnchor || before != this.before){
-					this._markTargetAnchor(before);
-					m.canDrop(!this.current || m.source != this || !(this.current.id in this.selection));
+				if(this.current != this.targetAnchor || dropPosition != this.dropPosition){
+					this._markTargetAnchor(dropPosition);
+					var n = this._getChildByEvent(e);	// the TreeNode
+					if(n && this.checkItemAcceptance(n,m.source)){
+						m.canDrop(!this.current || m.source != this || !(this.current.id in this.selection));
+					}
 				}
 			}
 		}else{
@@ -264,8 +276,20 @@ dojo.declare("dijit._tree.dndSource", dijit._tree.dndSelector, {
 			this.isDragging = false;
 
 			// Compute the new parent item
-			var targetWidget = dijit.getEnclosingWidget(target),
+			var targetWidget = dijit.getEnclosingWidget(target);
+			var newParentItem;
+			var insertIndex;
+			newParentItem = (targetWidget && targetWidget.item) || tree.item;
+			if(this.dropPosition == "Before" || this.dropPosition == "After"){
+				newParentItem = (targetWidget.getParent() && targetWidget.getParent().item) || tree.item;
+				// Compute the insert index for reordering
+				insertIndex = targetWidget.getIndexInParent();
+				if(this.dropPosition == "After"){
+					insertIndex = targetWidget.getIndexInParent() + 1;
+				}
+			}else{
 				newParentItem = (targetWidget && targetWidget.item) || tree.item;
+			}
 
 			// If we are dragging from another source (or at least, another source
 			// that points to a different data store), then we need to make new data
@@ -286,7 +310,12 @@ dojo.declare("dijit._tree.dndSource", dijit._tree.dndSelector, {
 						childItem = childTreeNode.item,
 						oldParentItem = childTreeNode.getParent().item;
 
-					model.pasteItem(childItem, oldParentItem, newParentItem, copy);
+					if(typeof insertIndex == "number"){
+						if(newParentItem == oldParentItem && childTreeNode.getIndexInParent() < insertIndex){
+							insertIndex -= 1;
+						}
+					}
+					model.pasteItem(childItem, oldParentItem, newParentItem, copy, insertIndex);
 				}else{
 					model.newItem(newItemsParams[idx], newParentItem);
 				}
@@ -304,7 +333,7 @@ dojo.declare("dijit._tree.dndSource", dijit._tree.dndSelector, {
 			this._unmarkTargetAnchor();
 			this.targetAnchor = null;
 		}
-		this.before = true;
+		this.dropPosition = "Over";
 		this.isDragging = false;
 		this.mouseDown = false;
 		delete this.mouseButton;
@@ -324,27 +353,27 @@ dojo.declare("dijit._tree.dndSource", dijit._tree.dndSelector, {
 		this.inherited("onOutEvent",arguments);	
 		dojo.dnd.manager().outSource(this);
 	},
-	_markTargetAnchor: function(before){
-		// summary: assigns a class to the current target anchor based on "before" status
-		// before: Boolean: insert before, if true, after otherwise
-		if(this.current == this.targetAnchor && this.before == before){ return; }
+	_markTargetAnchor: function(dropPosition){
+		// summary: assigns a class to the current target anchor based on "dropPosition" status
+		// dropPosition: String: the class to assign based on the drop target action
+		if(this.current == this.targetAnchor && this.dropPosition == dropPosition){ return; }
 		if(this.targetAnchor){
-			this._removeItemClass(this.targetAnchor, this.before ? "Before" : "After");
+			this._removeItemClass(this.targetAnchor, this.dropPosition);
 		}
 		this.targetAnchor = this.current;
 		this.targetBox = null;
-		this.before = before;
+		this.dropPosition = dropPosition;
 		if(this.targetAnchor){
-			this._addItemClass(this.targetAnchor, this.before ? "Before" : "After");
+			this._addItemClass(this.targetAnchor, this.dropPosition);
 		}
 	},
 	_unmarkTargetAnchor: function(){
-		// summary: removes a class of the current target anchor based on "before" status
+		// summary: removes a class of the current target anchor based on "dropPosition" status
 		if(!this.targetAnchor){ return; }
-		this._removeItemClass(this.targetAnchor, this.before ? "Before" : "After");
+		this._removeItemClass(this.targetAnchor, this.dropPosition);
 		this.targetAnchor = null;
 		this.targetBox = null;
-		this.before = true;
+		this.dropPosition = "Over";
 	},
 	_markDndStatus: function(copy){
 		// summary: changes source's state based on "copy" status

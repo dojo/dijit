@@ -356,7 +356,7 @@ dojo.declare(
 	dndController: null,
 
 	//parameters to pull off of the tree and pass on to the dndController as its params
-	dndParams: ["onDndDrop","itemCreator","onDndCancel","checkAcceptance", "checkItemAcceptance", "dragThreshold"],
+	dndParams: ["onDndDrop","itemCreator","onDndCancel","checkAcceptance", "checkItemAcceptance", "dragThreshold", "betweenThreshold"],
 
 	//declare the above items so they can be pulled from the tree's markup
 	onDndDrop:null,
@@ -365,6 +365,7 @@ dojo.declare(
 	checkAcceptance:null,	
 	checkItemAcceptance:null,
 	dragThreshold:0,
+	betweenThreshold:0,
 
 	_publish: function(/*String*/ topicName, /*Object*/ message){
 		// summary:
@@ -1155,7 +1156,7 @@ dojo.declare(
 		return this.store.newItem(args, pInfo);
 	},
 
-	pasteItem: function(/*Item*/ childItem, /*Item*/ oldParentItem, /*Item*/ newParentItem, /*Boolean*/ bCopy){
+	pasteItem: function(/*Item*/ childItem, /*Item*/ oldParentItem, /*Item*/ newParentItem, /*Boolean*/ bCopy, /*int?*/ insertIndex){
 		// summary:
 		//		Move or copy an item from one parent item to another.
 		//		Used in drag & drop
@@ -1179,8 +1180,14 @@ dojo.declare(
 
 		// modify target item's children attribute to include this item
 		if(newParentItem){
-			store.setValues(newParentItem, parentAttr,
-				store.getValues(newParentItem, parentAttr).concat(childItem));
+			if(typeof insertIndex == "number"){
+				var childItems = store.getValues(newParentItem, parentAttr);
+				childItems.splice(insertIndex, 0, childItem);
+				store.setValues(newParentItem, parentAttr, childItems);
+			}else{
+				store.setValues(newParentItem, parentAttr,
+						store.getValues(newParentItem, parentAttr).concat(childItem));
+			}
 		}
 	},
 
@@ -1355,7 +1362,7 @@ dojo.declare("dijit.tree.ForestStoreModel", dijit.tree.TreeStoreModel, {
 		//		added to the root of the tree, for example to add a flag like root=true
 	},
 
-	pasteItem: function(/*Item*/ childItem, /*Item*/ oldParentItem, /*Item*/ newParentItem, /*Boolean*/ bCopy){
+	pasteItem: function(/*Item*/ childItem, /*Item*/ oldParentItem, /*Item*/ newParentItem, /*Boolean*/ bCopy, /*int?*/ insertIndex){
 		// summary:
 		//		Move or copy an item from one parent item to another.
 		//		Used in drag & drop
@@ -1369,7 +1376,8 @@ dojo.declare("dijit.tree.ForestStoreModel", dijit.tree.TreeStoreModel, {
 		}
 		dijit.tree.TreeStoreModel.prototype.pasteItem.call(this, childItem,
 			oldParentItem === this.root ? null : oldParentItem,
-			newParentItem === this.root ? null : newParentItem
+			newParentItem === this.root ? null : newParentItem,
+			insertIndex
 		);
 		if(newParentItem === this.root){
 			// It's onAddToRoot()'s responsibility to modify the item so it matches
