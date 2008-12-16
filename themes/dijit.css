@@ -335,13 +335,13 @@ DIV.dijitArrowButton {
 	height: 50%;
 }
 .dijitSpinner .dijitInputLayoutContainer .dijitDownArrowButton {
-	top: none;
+	top: 0;
 	bottom: 0;
 	border-top-width: 1px !important;
 }
 .dijitSpinner .dijitInputLayoutContainer .dijitUpArrowButton {
 	top: 0;
-	bottom: none;
+	bottom: 0;
 }
 
 TABLE.dijitComboButton {
@@ -723,18 +723,22 @@ body .dijitAlignClient { position: absolute; }
 
 .dijitSplitterCover{
 	position:absolute;
-	z-index:1;
+	z-index:-1;
 	top:0;
 	left:0;
 	width:100%;
 	height:100%;
 }
 
+.dijitSplitterCoverActive{
+	z-index:3 !important;
+}
+
 /* #6945: stop mouse events */
 .dj_ie .dijitSplitterCover{
 	background: white;
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
-	filter: alpha(opacity=0)
+	filter: alpha(opacity=0);
 }
 
 .dijitSplitterH {

@@ -456,9 +456,8 @@ dojo.declare("dijit.layout._Splitter", [ dijit._Widget, dijit._Templated ],
 			this.cover = dojo.doc.createElement('div');
 			dojo.addClass(this.cover, "dijitSplitterCover");
 			dojo.place(this.cover, this.child.domNode, "after");
-		}else{
-			this.cover.style.zIndex = 1;
 		}
+		dojo.addClass(this.cover, "dijitSplitterCoverActive");
 
 		// Safeguard in case the stop event was missed.  Shouldn't be necessary if we always get the mouse up.
 		if(this.fake){ dojo._destroyElement(this.fake); }
@@ -511,7 +510,9 @@ dojo.declare("dijit.layout._Splitter", [ dijit._Widget, dijit._Templated ],
 
 	_stopDrag: function(e){
 		try{
-			if(this.cover){ this.cover.style.zIndex = -1; }
+			if(this.cover){
+				dojo.removeClass(this.cover, "dijitSplitterCoverActive");
+			}
 			if(this.fake){ dojo._destroyElement(this.fake); }
 			dojo.removeClass(this.domNode, "dijitSplitterActive");
 			dojo.removeClass(this.domNode, "dijitSplitterShadow");
@@ -567,6 +568,7 @@ dojo.declare("dijit.layout._Splitter", [ dijit._Widget, dijit._Templated ],
 		this._cleanupHandlers();
 		delete this.child;
 		delete this.container;
+		delete this.cover;
 		delete this.fake;
 		this.inherited(arguments);
 	}
