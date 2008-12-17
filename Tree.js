@@ -386,7 +386,21 @@ dojo.declare(
 	onDndCancel:null,
 	checkAcceptance:null,	
 	checkItemAcceptance:null,
+	
+	// dragThreshold: Integer
+	//		Number of pixels mouse moves before it's considered the start of a drag operation
 	dragThreshold:0,
+	
+	// betweenThreshold: Integer
+	//		Set to a positive value to allow drag and drop "between" nodes.
+	//
+	//		If during DnD mouse is over a (target) node but less than betweenThreshold
+	//		pixels from the bottom edge, dropping the the dragged node will make it
+	//		the next sibling of the target node, rather than the child.
+	//
+	//		Similarly, if mouse is over a target node but less that betweenThreshold
+	//		pixels from the top edge, dropping the dragged node will make it
+	//		the target node's previous sibling rather than the target node's child.
 	betweenThreshold:0,
 
 	_publish: function(/*String*/ topicName, /*Object*/ message){

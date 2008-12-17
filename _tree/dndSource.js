@@ -20,7 +20,6 @@ dojo.declare("dijit._tree.dndSource", dijit._tree.dndSelector, {
 		// params: Object: a dict of parameters, recognized parameters are:
 		//	isSource: Boolean: can be used as a DnD source, if true; assumed to be "true" if omitted
 		//	accept: Array: list of accepted types (text strings) for a target; assumed to be ["text"] if omitted
-		//	horizontal: Boolean: a horizontal container, if true, vertical otherwise or when omitted
 		//	copyOnly: Boolean: always copy items, if true, use a state of Ctrl key otherwise
 		//	skipForm: Boolean: don't start the drag operation, if clicked on form elements
 		//  betweenThreshold: Integer: distance from upper/lower edge of node to allow drop to reorder nodes
@@ -54,9 +53,6 @@ dojo.declare("dijit._tree.dndSource", dijit._tree.dndSelector, {
 		this.targetState  = "";
 		if(this.accept){
 			dojo.addClass(this.node, "dojoDndTarget");
-		}
-		if(this.horizontal){
-			dojo.addClass(this.node, "dojoDndHorizontal");
 		}
 		// set up events
 		this.topics = [
@@ -115,23 +111,21 @@ dojo.declare("dijit._tree.dndSource", dijit._tree.dndSelector, {
 							h: this.current.offsetHeight
 						};
 					}
-					if(this.horizontal){
-						if((e.pageX - this.targetBox.xy.x) <= this.betweenThreshold){
-							dropPosition = "Before";
-						}else if((e.pageX - this.targetBox.xy.x) >= (this.targetBox.w - this.betweenThreshold)){
-							dropPosition = "After";
-						}
-					}else{
-						if((e.pageY - this.targetBox.xy.y) <= this.betweenThreshold){
-							dropPosition = "Before";
-						}else if((e.pageY - this.targetBox.xy.y) >= (this.targetBox.h - this.betweenThreshold)){
-							dropPosition = "After";
-						}
+					if((e.pageY - this.targetBox.xy.y) <= this.betweenThreshold){
+						dropPosition = "Before";
+						var targetWidget = dijit.getEnclosingWidget(this.current);
+						// TODO: change style on node, shouldn't have hover effect since we are theoretically between nodes, not over one
+					}else if((e.pageY - this.targetBox.xy.y) >= (this.targetBox.h - this.betweenThreshold)){
+						dropPosition = "After";
+						// TODO: change style on node, shouldn't have hover effect since we are theoretically between nodes, not over one
 					}
 				}
 				if(this.current != this.targetAnchor || dropPosition != this.dropPosition){
 					this._markTargetAnchor(dropPosition);
-					var n = this._getChildByEvent(e);	// the TreeNode
+					var n = this._getChildByEvent(e);	// the target TreeNode
+
+					// Check if it's ok to drop the dragged node on/before/after n.
+					// TODO: for after/before that node should be calling checkItemAcceptance w/n's parent
 					if(n && this.checkItemAcceptance(n,m.source)){
 						m.canDrop(!this.current || m.source != this || !(this.current.id in this.selection));
 					}
@@ -210,8 +204,11 @@ dojo.declare("dijit._tree.dndSource", dijit._tree.dndSelector, {
 		this.current = n;
 	},
 
-	checkItemAcceptance: function(node, source){
-		// summary: stub funciton to be overridden if one wants to check for the ability to drop at the node/item level 
+	checkItemAcceptance: function(target, source){
+		// summary:
+		//		Stub function to be overridden if one wants to check for the ability to drop at the node/item level
+		// description:
+		//		Return true if source can be child of target
 		return true;	
 	},
 	
