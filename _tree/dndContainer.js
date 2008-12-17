@@ -113,12 +113,15 @@ dojo.declare("dijit._tree.dndContainer",
 		},
 
 		_getChildByEvent: function(e){
-			// summary: gets a child, which is under the mouse at the moment, or null
-			// e: Event: a mouse event
+			// summary:
+			//		Essentially returns the TreeNode associated with given mouse over / mouse move event.
+			//		Although, actually it returns the dijitTreeRow DOM node.
+			// e: Event
+			//		An onmouseover or onmousemove event
 			var node = e.target;
 			if(node){
 				for(var parent = node.parentNode; parent; node = parent, parent = node.parentNode){
-					if(dojo.hasClass(node, "dijitTreeContent")){ return node; }
+					if(dojo.hasClass(node, "dijitTreeRow")){ return node; }
 				}
 			}
 			return null;
