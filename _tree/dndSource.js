@@ -101,7 +101,8 @@ dojo.declare("dijit._tree.dndSource", dijit._tree.dndSelector, {
 		var m = dojo.dnd.manager();
 		if(this.isDragging){
 			if(this.betweenThreshold > 0){
-				// calculate before/after/over
+				// calculate if user is indicating to drop the dragged node before, after, or over
+				// (i.e., to become a child of) the target node
 				var dropPosition = "Over";
 				if(this.current){
 					if(!this.targetBox || this.targetAnchor != this.current){
@@ -124,9 +125,10 @@ dojo.declare("dijit._tree.dndSource", dijit._tree.dndSelector, {
 					this._markTargetAnchor(dropPosition);
 					var n = this._getChildByEvent(e);	// the target TreeNode
 
-					// Check if it's ok to drop the dragged node on/before/after n.
-					// TODO: for after/before that node should be calling checkItemAcceptance w/n's parent
-					if(n && this.checkItemAcceptance(n,m.source)){
+					// Check if it's ok to drop the dragged node on/before/after n, the target node.
+					// TODO:  for dropping before/after a target node, if the target node has no parent
+					// then call m.canDrop(false)
+					if(n && this.checkItemAcceptance(n, m.source, dropPosition.toLowerCase())){
 						m.canDrop(!this.current || m.source != this || !(this.current.id in this.selection));
 					}
 				}
@@ -166,8 +168,18 @@ dojo.declare("dijit._tree.dndSource", dijit._tree.dndSelector, {
 	},
 
 	onMouseOver: function(e){
-		// summary: event processor for onmouseover
-		// e: Event: mouse event
+		// summary:
+		//		Event processor for onmouseover
+		// description:
+		//		This is called on the onmouseover events for any node inside the tree,
+		//		including TreeNode.domNode and nodes inside of TreeNode (dijitTreeContent, etc.)
+		// e: Event
+		//		mouse event
+
+		// TODO:
+		//		Since this method sets the "Over" CSS class for items,
+		//		and also since it calls checkItemAcceptance(),
+		//		it needs to test for over/after/before state just like the onMouseMove handler.
 
 		// handle when mouse has just moved over the Tree itself (not a TreeNode, but the Tree)
 		var rt = e.relatedTarget;	// the previous location
@@ -185,14 +197,14 @@ dojo.declare("dijit._tree.dndSource", dijit._tree.dndSelector, {
 		}
 
 		// code below is for handling depending on which TreeNode we are over
-		var n = this._getChildByEvent(e);	// the TreeNode
-		if(this.current == n){ return; }
+		var n = this._getChildByEvent(e);	// the target TreeNode
+		if(this.current == n){ return; }	// we just touched a node inside of the current TreeNode.  Ignore.
 		if(this.current){ this._removeItemClass(this.current, "Over"); }
 		var m = dojo.dnd.manager();
 		if(n){ 
-			this._addItemClass(n, "Over"); 
+			this._addItemClass(n, "Over");
 			if(this.isDragging){
-				if(this.checkItemAcceptance(n,m.source)){
+				if(this.checkItemAcceptance(n, m.source, "over")){
 					m.canDrop(this.targetState != "Disabled" && (!this.current || m.source != this || !(n in this.selection)));
 				}
 			}
@@ -204,11 +216,20 @@ dojo.declare("dijit._tree.dndSource", dijit._tree.dndSelector, {
 		this.current = n;
 	},
 
-	checkItemAcceptance: function(target, source){
+	checkItemAcceptance: function(target, source, position){
 		// summary:
 		//		Stub function to be overridden if one wants to check for the ability to drop at the node/item level
 		// description:
-		//		Return true if source can be child of target
+		//		In the base case, this is called to check if target can become a child of source.
+		//		When betweenThreshold is set, position="before" or "after" means that we
+		//		are asking if the source node can be dropped before/after the target node.
+		// target: DOMNode
+		//		The dijitTreeRoot DOM node inside of the TreeNode that we are dropping on to
+		//		Use dijit.getEnclosingWidget(target) to get the TreeNode.
+		// source: dijit._tree.dndSource
+		//		The (set of) nodes we are dropping
+		// position: String
+		//		"over", "before", or "after"
 		return true;	
 	},
 	
@@ -278,6 +299,8 @@ dojo.declare("dijit._tree.dndSource", dijit._tree.dndSelector, {
 			var insertIndex;
 			newParentItem = (targetWidget && targetWidget.item) || tree.item;
 			if(this.dropPosition == "Before" || this.dropPosition == "After"){
+				// TODO: if there is no parent item then disallow the drop.
+				// Actually this should be checked during onMouseMove too, to make the drag icon red.
 				newParentItem = (targetWidget.getParent() && targetWidget.getParent().item) || tree.item;
 				// Compute the insert index for reordering
 				insertIndex = targetWidget.getIndexInParent();
