@@ -114,7 +114,6 @@ dojo.declare("dijit._tree.dndSource", dijit._tree.dndSelector, {
 					}
 					if((e.pageY - this.targetBox.xy.y) <= this.betweenThreshold){
 						dropPosition = "Before";
-						var targetWidget = dijit.getEnclosingWidget(this.current);
 						// TODO: change style on node, shouldn't have hover effect since we are theoretically between nodes, not over one
 					}else if((e.pageY - this.targetBox.xy.y) >= (this.targetBox.h - this.betweenThreshold)){
 						dropPosition = "After";
@@ -124,12 +123,14 @@ dojo.declare("dijit._tree.dndSource", dijit._tree.dndSelector, {
 				if(this.current != this.targetAnchor || dropPosition != this.dropPosition){
 					this._markTargetAnchor(dropPosition);
 					var n = this._getChildByEvent(e);	// the target TreeNode
-
+					var targetWidget = dijit.getEnclosingWidget(this.current);
 					// Check if it's ok to drop the dragged node on/before/after n, the target node.
-					// TODO:  for dropping before/after a target node, if the target node has no parent
-					// then call m.canDrop(false)
-					if(n && this.checkItemAcceptance(n, m.source, dropPosition.toLowerCase())){
+					if(n && targetWidget == targetWidget.tree.rootNode && this.dropPosition != "Over"){
+						m.canDrop(false);
+					}else if(n && this.checkItemAcceptance(n, m.source, dropPosition.toLowerCase())){
 						m.canDrop(!this.current || m.source != this || !(this.current.id in this.selection));
+					}else{
+						m.canDrop(false);
 					}
 				}
 			}

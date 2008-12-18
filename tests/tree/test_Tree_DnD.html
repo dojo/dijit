@@ -94,6 +94,14 @@
 			return false;
 		}
 
+		//on collection tree, only accept itself as the source tree
+		function collectionTreeCheckItemAcceptance(node,source,position) {
+			if(source.tree && source.tree.id == "collectionsTree"){
+				return true;
+			}
+			return false;
+		}
+
 		function dndAccept(source,nodes){
 			if (this.tree.id=="myTree"){
 				return false;
@@ -176,7 +184,7 @@
 				store="catStore" query="{id: '0'}"></div>
 			<div class="container" dojoType="dijit.Tree" id="collectionsTree" model="catModel"
 				getLabel="catTreeCustomLabel"  dndController="dijit._tree.dndSource" betweenThreshold="5"
-				checkAcceptance="dndAccept" getIconClass="getIcon"></div>
+				checkAcceptance="dndAccept" checkItemAcceptance="collectionTreeCheckItemAcceptance" getIconClass="getIcon"></div>
 		</td>
 		<td>
 			<h2>Collection</h2>
