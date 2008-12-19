@@ -3,8 +3,33 @@ dojo.provide("dijit._tree.dndSource");
 dojo.require("dijit._tree.dndSelector");
 dojo.require("dojo.dnd.Manager");
 
+/*=====
+dijit._tree.__SourceArgs = function(){
+	//	summary:
+	//		A dict of parameters for Tree source configuration.
+	//	isSource: Boolean?
+	//		can be used as a DnD source. Defaults to true.
+	//	accept: Array?
+	//		list of accepted types (text strings) for a target; defaults to
+	//		["text"]
+	//	copyOnly: Boolean?
+	//		copy items, if true, use a state of Ctrl key otherwise,
+	//	dragThreshold: Number
+	//		the move delay in pixels before detecting a drag; 0 by default
+	//  betweenThreshold: Integer
+	//		distance from upper/lower edge of node to allow drop to reorder nodes
+	this.isSource = isSource;
+	this.accept = accept;
+	this.autoSync = autoSync;
+	this.copyOnly = copyOnly;
+	this.dragThreshold = dragThreshold;
+	this.betweenThreshold = betweenThreshold;
+}
+=====*/
+
 dojo.declare("dijit._tree.dndSource", dijit._tree.dndSelector, {
-	// summary: a Source object, which can be used as a DnD source, or a DnD target
+	// summary:
+	//		A Source object, which can be used as a DnD source, or a DnD target
 	
 	// object attributes (for markup)
 	isSource: true,
@@ -14,16 +39,9 @@ dojo.declare("dijit._tree.dndSource", dijit._tree.dndSelector, {
 	accept: ["text"],
 	betweenThreshold: 0,
 	
-	constructor: function(tree, params){
-		// summary: a constructor of the Source
-		// tree: dijit.Tree: the tree widget to build the source on
-		// params: Object: a dict of parameters, recognized parameters are:
-		//	isSource: Boolean: can be used as a DnD source, if true; assumed to be "true" if omitted
-		//	accept: Array: list of accepted types (text strings) for a target; assumed to be ["text"] if omitted
-		//	copyOnly: Boolean: always copy items, if true, use a state of Ctrl key otherwise
-		//	skipForm: Boolean: don't start the drag operation, if clicked on form elements
-		//  betweenThreshold: Integer: distance from upper/lower edge of node to allow drop to reorder nodes
-		//	the rest of parameters are passed to the selector
+	constructor: function(/*dijit.Tree*/ tree, /*dijit._tree.__SourceArgs*/ params){
+		// summary:
+		//		a constructor of the Tree DnD Source
 		if(!params){ params = {}; }
 		dojo.mixin(this, params);
 		this.isSource = typeof params.isSource == "undefined" ? true : params.isSource;
@@ -68,34 +86,38 @@ dojo.declare("dijit._tree.dndSource", dijit._tree.dndSelector, {
 	
 	// methods
 	checkAcceptance: function(source, nodes){
-		// summary: checks, if the target can accept nodes from this source
-		// source: Object: the source which provides items
-		// nodes: Array: the list of transferred items
+		// summary:
+		//		Checks if the target can accept nodes from this source
+		// source: dijit.tree._dndSource
+		//		The source which provides items
+		// nodes: DOMNode[]
+		//		Array of DOM nodes corresponding to nodes being dropped, dijitTreeRow nodes if
+		//		source is a dijit.Tree.
 		return true;	// Boolean
 	},
+
 	copyState: function(keyPressed){
-		// summary: Returns true, if we need to copy items, false to move.
+		// summary:
+		//		Returns true, if we need to copy items, false to move.
 		//		It is separated to be overwritten dynamically, if needed.
-		// keyPressed: Boolean: the "copy" was pressed
+		// keyPressed: Boolean
+		//		The "copy" control key was pressed
 		return this.copyOnly || keyPressed;	// Boolean
 	},
 	destroy: function(){
-		// summary: prepares the object to be garbage-collected
+		// summary:
+		//		Prepares the object to be garbage-collected.
 		this.inherited("destroy",arguments);
 		dojo.forEach(this.topics, dojo.unsubscribe);
 		this.targetAnchor = null;
 	},
 
-	// markup methods
-	markupFactory: function(params, node){
-		params._skipStartup = true;
-		return new dijit._tree.dndSource(node, params);
-	},
-
 	// mouse event processors
 	onMouseMove: function(e){
-		// summary: event processor for onmousemove
-		// e: Event: mouse event
+		// summary:
+		//		Called for any onmousemove events over the Tree
+		// e: Event
+		//		onmousemouse event
 		if(this.isDragging && this.targetState == "Disabled"){ return; }
 		this.inherited("onMouseMove", arguments);
 		var m = dojo.dnd.manager();
@@ -150,8 +172,10 @@ dojo.declare("dijit._tree.dndSource", dijit._tree.dndSelector, {
 	},
 
 	onMouseDown: function(e){
-		// summary: event processor for onmousedown
-		// e: Event: mouse event
+		// summary:
+		//		Event processor for onmousedown
+		// e: Event
+		//		onmousedown event
 		this.mouseDown = true;
 		this.mouseButton = e.button;
 		this._lastX = e.pageX;
@@ -160,8 +184,10 @@ dojo.declare("dijit._tree.dndSource", dijit._tree.dndSelector, {
 	},
 
 	onMouseUp: function(e){
-		// summary: event processor for onmouseup
-		// e: Event: mouse event
+		// summary:
+		//		Event processor for onmouseup
+		// e: Event
+		//		onmouseup event
 		if(this.mouseDown){
 			this.mouseDown = false;
 			this.inherited("onMouseUp",arguments);
@@ -236,8 +262,10 @@ dojo.declare("dijit._tree.dndSource", dijit._tree.dndSelector, {
 	
 	// topic event processors
 	onDndSourceOver: function(source){
-		// summary: topic event processor for /dnd/source/over, called when detected a current source
-		// source: Object: the source which has the mouse over it
+		// summary:
+		//		Topic event processor for /dnd/source/over, called when detected a current source.
+		// source: Object
+		//		The dijit.tree._dndSource / dojo.dnd.Source which has the mouse over it
 		if(this != source){
 			this.mouseDown = false;
 			if(this.targetAnchor){
@@ -249,10 +277,14 @@ dojo.declare("dijit._tree.dndSource", dijit._tree.dndSelector, {
 		}
 	},
 	onDndStart: function(source, nodes, copy){
-		// summary: topic event processor for /dnd/start, called to initiate the DnD operation
-		// source: Object: the source which provides items
-		// nodes: Array: the list of transferred items
-		// copy: Boolean: copy items, if true, move items otherwise
+		// summary:
+		//		Topic event processor for /dnd/start, called to initiate the DnD operation
+		// source: Object
+		//		The dijit.tree._dndSource / dojo.dnd.Source which is providing the items
+		// nodes: DomNode[]
+		//		The list of transferred items, dndTreeNode nodes if dragging from a Tree
+		// copy: Boolean
+		//		Copy items, if true, move items otherwise
 
 		if(this.isSource){
 			this._changeState("Source", this == source ? (copy ? "Copied" : "Moved") : "");
@@ -279,12 +311,16 @@ dojo.declare("dijit._tree.dndSource", dijit._tree.dndSelector, {
 
 	onDndDrop: function(source, nodes, copy){
 		// summary:
-		//		Topic event processor for /dnd/drop, called to finish the DnD operation..
+		//		Topic event processor for /dnd/drop, called to finish the DnD operation.
+		// description:
 		//		Updates data store items according to where node was dragged from and dropped
 		//		to.   The tree will then respond to those data store updates and redraw itself.
-		// source: Object: the source which provides items
-		// nodes: Array: the list of transferred items
-		// copy: Boolean: copy items, if true, move items otherwise
+		// source: Object
+		//		The dijit.tree._dndSource / dojo.dnd.Source which is providing the items
+		// nodes: DomNode[]
+		//		The list of transferred items, dndTreeNode nodes if dragging from a Tree
+		// copy: Boolean
+		//		Copy items, if true, move items otherwise
 
 		if(this.containerState == "Over"){
 			var tree = this.tree,
@@ -349,7 +385,8 @@ dojo.declare("dijit._tree.dndSource", dijit._tree.dndSelector, {
 		this.onDndCancel();
 	},
 	onDndCancel: function(){
-		// summary: topic event processor for /dnd/cancel, called to cancel the DnD operation
+		// summary:
+		//		Topic event processor for /dnd/cancel, called to cancel the DnD operation
 		if(this.targetAnchor){
 			this._unmarkTargetAnchor();
 			this.targetAnchor = null;
@@ -365,18 +402,22 @@ dojo.declare("dijit._tree.dndSource", dijit._tree.dndSelector, {
 	// utilities
 
 	onOverEvent: function(){
-		// summary: this function is called once, when mouse is over our container
+		// summary:
+		//		This method is called when mouse is moved over our container (like onmouseenter)
 		this.inherited("onOverEvent",arguments);
 		dojo.dnd.manager().overSource(this);
 	},
 	onOutEvent: function(){
-		// summary: this function is called once, when mouse is out of our container
+		// summary:
+		//		This method is called when mouse is moved out of our container (like onmouseleave)
 		this.inherited("onOutEvent",arguments);	
 		dojo.dnd.manager().outSource(this);
 	},
 	_markTargetAnchor: function(dropPosition){
-		// summary: assigns a class to the current target anchor based on "dropPosition" status
-		// dropPosition: String: the class to assign based on the drop target action
+		// summary:
+		//		Assigns a class to the current target anchor based on "dropPosition" status
+		// dropPosition: String
+		//		Where the dragged nodes are being dropped: Over, After, or Before
 		if(this.current == this.targetAnchor && this.dropPosition == dropPosition){ return; }
 		if(this.targetAnchor){
 			this._removeItemClass(this.targetAnchor, this.dropPosition);
@@ -389,7 +430,8 @@ dojo.declare("dijit._tree.dndSource", dijit._tree.dndSelector, {
 		}
 	},
 	_unmarkTargetAnchor: function(){
-		// summary: removes a class of the current target anchor based on "dropPosition" status
+		// summary:
+		//		Removes a class of the current target anchor based on "dropPosition" status
 		if(!this.targetAnchor){ return; }
 		this._removeItemClass(this.targetAnchor, this.dropPosition);
 		this.targetAnchor = null;
@@ -397,23 +439,21 @@ dojo.declare("dijit._tree.dndSource", dijit._tree.dndSelector, {
 		this.dropPosition = "Over";
 	},
 	_markDndStatus: function(copy){
-		// summary: changes source's state based on "copy" status
+		// summary:
+		//		Changes source's state based on "copy" status
 		this._changeState("Source", copy ? "Copied" : "Moved");
 	}
 });
-
 dojo.declare("dijit._tree.dndTarget", dijit._tree.dndSource, {
-	// summary: a Target object, which can be used as a DnD target
+	// summary:
+	//		A Target object, which can be used as a DnD target
+	// TODO: dijit._tree.dndSource can also be used as a DnD target,
+	// so this class doesn't seem useful.
 	
 	constructor: function(node, params){
-		// summary: a constructor of the Target --- see the Source constructor for details
+		// summary:
+		//		A constructor of the Target --- see the Source constructor for details
 		this.isSource = false;
 		dojo.removeClass(this.node, "dojoDndSource");
-	},
-
-	// markup methods
-	markupFactory: function(params, node){
-		params._skipStartup = true;
-		return new dijit._tree.dndTarget(node, params);
 	}
 });
