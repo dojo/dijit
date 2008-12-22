@@ -945,25 +945,6 @@ dojo.declare(
 
 	//////////////// Events from the model //////////////////////////
 	
-	_onItemDelete: function(/*Object*/ item){
-		//summary: delete event from the store
-		// TODO: currently this isn't called, and technically doesn't need to be,
-		// but it would help with garbage collection
-
-		var identity = this.model.getIdentity(item);
-		var node = this._itemNodeMap[identity];
-
-		if(node){
-			var parent = node.getParent();
-			if(parent){
-				// if node has not already been orphaned from a _onSetItem(parent, "children", ..) call...
-				parent.removeChild(node);
-			}
-			delete this._itemNodeMap[identity];
-			node.destroyRecursive();
-		}
-	},
-
 	_onItemChange: function(/*Item*/ item){
 		//summary: processes notification of a change to an item's scalar values like label
 		var model = this.model,
@@ -994,6 +975,11 @@ dojo.declare(
 			node = this._itemNodeMap[identity];
 
 		if(node){
+			var parent = node.getParent();
+			if(parent){
+				// if node has not already been orphaned from a _onSetItem(parent, "children", ..) call...
+				parent.removeChild(node);
+			}
 			node.destroyRecursive();
 			delete this._itemNodeMap[identity];
 		}
