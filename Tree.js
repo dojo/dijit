@@ -254,13 +254,17 @@ dojo.declare(
 			this._setExpando(false);
 		}
 
-		// On initial tree show, put focus on either the root node of the tree,
+		// On initial tree show, make the selected TreeNode as either the root node of the tree,
 		// or the first child, if the root node is hidden
 		if(this == tree.rootNode){
-			var fc = this.tree.showRoot ? this : this.getChildren()[0],
-				tabnode = fc ? fc.labelNode : this.domNode;
-			tabnode.setAttribute("tabIndex", "0");
-			tree.lastFocused = fc;
+			var fc = this.tree.showRoot ? this : this.getChildren()[0];
+			if(fc){
+				fc.setSelected(true);
+				tree.lastFocused = fc;
+			}else{
+				// fallback: no nodes in tree so focus on Tree <div> itself
+				tree.domNode.setAttribute("tabIndex", "0");
+			}
 		}
 	},
 
@@ -286,11 +290,36 @@ dojo.declare(
 		this._setExpando(false);
 	},
 
-	_onNodeFocus: function(evt){
-		var node = dijit.getEnclosingWidget(evt.target);
-		this.tree._onNodeFocus(node);
+	_onLabelFocus: function(evt){
+		// summary:
+		//		Called when this node is focused (possibly programatically)
+		console.log("onFocus called for " + this.label);
+		dojo.addClass(this.labelNode, "dijitTreeLabelFocused");
+		this.tree._onNodeFocus(this);
 	},
-	
+
+	_onLabelBlur: function(evt){
+		// summary:
+		//		Called when focus was moved away from this node, either to
+		//		another TreeNode or away from the Tree entirely.
+		//		Note that we aren't using _onFocus/_onBlur builtin to dijit
+		//		because _onBlur() isn't called when focus is moved to my child TreeNode.
+		console.log("onBlur called for " + this.label);
+		dojo.removeClass(this.labelNode, "dijitTreeLabelFocused");
+	},
+
+	setSelected: function(selected){
+		// summary:
+		//		A Tree has a (single) currently selected node.
+		//		Mark that this node is/isn't that currently selected node.
+		// description:
+		//		In particular, setting a node as selected involves setting tabIndex 
+		//		so that when user tabs to the tree, focus will go to that node (only).
+		var labelNode = this.labelNode;
+		labelNode.setAttribute("tabIndex", selected ? "0" : "-1");
+		dijit.setWaiState(labelNode, "selected", selected);
+	},
+
 	_onMouseEnter: function(evt){
 		dojo.addClass(this.rowNode, "dijitTreeNodeHover");
 		this.tree._onNodeMouseEnter(this, evt);
@@ -880,19 +909,6 @@ dojo.declare(
 
 	////////////////// Miscellaneous functions ////////////////
 
-	blurNode: function(){
-		// summary:
-		//	Removes focus from the currently focused node (which must be visible).
-		//	Usually not called directly (just call focusNode() on another node instead)
-		var node = this.lastFocused;
-		if(!node){ return; }
-		var labelNode = node.labelNode;
-		dojo.removeClass(labelNode, "dijitTreeLabelFocused");
-		labelNode.setAttribute("tabIndex", "-1");
-		dijit.setWaiState(labelNode, "selected", false);
-		this.lastFocused = null;
-	},
-
 	focusNode: function(/* _tree.Node */ node){
 		// summary:
 		//	Focus on the specified node (which must be visible)
@@ -901,34 +917,22 @@ dojo.declare(
 		node.labelNode.focus();
 	},
 
-	_onBlur: function(){
-		// summary:
-		// 		We've moved away from the whole tree.  The currently "focused" node
-		//		(see focusNode above) should remain as the lastFocused node so we can
-		//		tab back into the tree.  Just change CSS to get rid of the dotted border
-		//		until that time
-
-		this.inherited(arguments);
-		if(this.lastFocused){
-			var labelNode = this.lastFocused.labelNode;
-			dojo.removeClass(labelNode, "dijitTreeLabelFocused");	
-		}
-	},
-
 	_onNodeFocus: function(/*Widget*/ node){
 		// summary:
-		//		called from onFocus handler of treeitem labelNode to set styles, wai state and tabindex
-		//		for currently focused treeitem.
-		
+		//		Called when a TreeNode gets focus, either by user clicking
+		//		it, or programatically by arrow key handling code.
+		// description:
+		//		It marks that the current node is the selected one, and the previously
+		//		selected node no longer is.
+
 		if (node){
 			if(node != this.lastFocused){
-				this.blurNode();
+				// mark that the previously selected node is no longer the selected one
+				this.lastFocused.setSelected(false);
 			}
-			var labelNode = node.labelNode;
-			// set tabIndex so that the tab key can find this node
-			labelNode.setAttribute("tabIndex", "0");
-			dijit.setWaiState(labelNode, "selected", true);
-			dojo.addClass(labelNode, "dijitTreeLabelFocused");
+
+			// mark that the new node is the currently selected one
+			node.setSelected(true);
 			this.lastFocused = node;
 		}
 	},
