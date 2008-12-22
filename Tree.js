@@ -293,7 +293,6 @@ dojo.declare(
 	_onLabelFocus: function(evt){
 		// summary:
 		//		Called when this node is focused (possibly programatically)
-		console.log("onFocus called for " + this.label);
 		dojo.addClass(this.labelNode, "dijitTreeLabelFocused");
 		this.tree._onNodeFocus(this);
 	},
@@ -304,7 +303,6 @@ dojo.declare(
 		//		another TreeNode or away from the Tree entirely.
 		//		Note that we aren't using _onFocus/_onBlur builtin to dijit
 		//		because _onBlur() isn't called when focus is moved to my child TreeNode.
-		console.log("onBlur called for " + this.label);
 		dojo.removeClass(this.labelNode, "dijitTreeLabelFocused");
 	},
 
@@ -318,6 +316,7 @@ dojo.declare(
 		var labelNode = this.labelNode;
 		labelNode.setAttribute("tabIndex", selected ? "0" : "-1");
 		dijit.setWaiState(labelNode, "selected", selected);
+		dojo.toggleClass(this.rowNode, "dijitTreeNodeSelected", selected);
 	},
 
 	_onMouseEnter: function(evt){

@@ -47,12 +47,14 @@
 /* don't use :focus due to opera and IE's lack of support on div's */
 .tundra .dijitTreeLabelFocused {
 	outline: 1px invert dotted;
-	background:#dde7f2;
+}
+.tundra .dijitTreeNodeSelected .dijitTreeLabel {
+	background:#e2ebfe;
+}
+.tundra .dijitTreeNodeHover {
+	background-color: #f6f9fa !important;
 }
 
-.tundra .dijitTreeNodeHover {
-	background-color: #e2ebf2 !important;
-}
 
 .tundra .dijitTreeExpandoOpened {
 	background-image: url('images/treeExpand_minus.gif');

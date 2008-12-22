@@ -13,7 +13,7 @@
 }
 
 .nihilo .dijitTreeNodeHover {
-	background-color: #e2ebf2 !important;
+	background-color: #f6f9fa !important;
 }
 
 .nihilo .dijitTreeLabel {
@@ -58,7 +58,6 @@
 /* don't use :focus due to opera and IE's lack of support on div's */
 .nihilo .dijitTreeLabelFocused {
 	outline: 1px invert dotted;
-	background:#dde7f2;
 }
 
 .nihilo .dijitTreeExpandoOpened {
