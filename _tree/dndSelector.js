@@ -71,7 +71,6 @@ dojo.declare("dijit._tree.dndSelector",
 				dojo.stopEvent(e);
 				return;
 			}
-
 			if(this.singular){
 				if(this.anchor == this.current){
 					if(dojo.dnd.getCopyKeyState(e)){
@@ -124,14 +123,6 @@ dojo.declare("dijit._tree.dndSelector",
 			}
 
 			dojo.stopEvent(e);
-		},
-
-		onMouseMove: function() {
-
-		},
-
-		onOverEvent: function() {
-			this.onmousemoveEvent = dojo.connect(this.node, "onmousemove", this, "onMouseMove");
 		},
 
 		onMouseUp: function(e){

@@ -15,7 +15,7 @@ dojo.declare("dijit._tree.dndContainer",
 	
 			// class-specific variables
 			this.map = {};
-			this.current = null;	// current TreeNode
+			this.current = null;	// current TreeNode's DOM node
 	
 			// states
 			this.containerState = "";
@@ -28,8 +28,13 @@ dojo.declare("dijit._tree.dndContainer",
 
 			// set up events
 			this.events = [
-				dojo.connect(this.node, "onmouseover", this, "onMouseOver"),
-				dojo.connect(this.node, "onmouseout",  this, "onMouseOut"),
+			    // container level events
+				dojo.connect(this.node, "onmouseenter", this, "onOverEvent"),
+				dojo.connect(this.node, "onmouseleave",  this, "onOutEvent"),
+
+				// switching between TreeNodes
+				dojo.connect(this.tree, "_onNodeMouseEnter", this, "onMouseOver"),
+				dojo.connect(this.tree, "_onNodeMouseLeave",  this, "onMouseOut"),
 
 				// cancel text selection and text dragging
 				dojo.connect(this.node, "ondragstart",   dojo, "stopEvent"),
@@ -50,54 +55,23 @@ dojo.declare("dijit._tree.dndContainer",
 			// summary: prepares the object to be garbage-collected
 			dojo.forEach(this.events, dojo.disconnect);
 			// this.clearItems();
-			this.node = this.parent = this.current;
+			this.node = this.parent = null;
 		},
 
 		// mouse events
-		onMouseOver: function(e){
-			// summary: event processor for onmouseover
-			// e: Event: mouse event
-
-			// handle when mouse has just moved over the Tree itself (not a TreeNode, but the Tree)
-			var rt = e.relatedTarget;	// the previous location
-			while(rt){
-				if(rt == this.node){ break; }
-				try{
-					rt = rt.parentNode;
-				}catch(x){
-					rt = null;
-				}
-			}
-			if(!rt){
-				this._changeState("Container", "Over");
-				this.onOverEvent();
-			}
-
-			// code below is for handling depending on which TreeNode we are over
-			var n = this._getChildByEvent(e);	// the TreeNode
-			if(this.current == n){ return; }
-			if(this.current){ this._removeItemClass(this.current, "Over"); }
-			if(n){ this._addItemClass(n, "Over"); }
-			this.current = n;
+		onMouseOver: function(/*TreeNode*/ widget, /*Event*/ evt){
+			// summary:
+			//		Called when mouse is moved over a TreeNode
+			this.current = widget.rowNode;
+			this.currentWidget = widget;
 		},
 
-		onMouseOut: function(e){
-			// summary: event processor for onmouseout
-			// e: Event: mouse event
-			for(var n = e.relatedTarget; n;){
-				if(n == this.node){ return; }
-				try{
-					n = n.parentNode;
-				}catch(x){
-					n = null;
-				}
-			}
-			if(this.current){
-				this._removeItemClass(this.current, "Over");
-				this.current = null;
-			}
-			this._changeState("Container", "");
-			this.onOutEvent();
+		onMouseOut: function(/*TreeNode*/ widget, /*Event*/ evt){
+			// summary:
+			//		Called when mouse is moved away from a TreeNode
+			
+			this.current = null;
+			this.currentWidget = null;
 		},
 
 		_changeState: function(type, newState){
@@ -110,26 +84,6 @@ dojo.declare("dijit._tree.dndContainer",
 			dojo.removeClass(this.node, prefix + this[state]);
 			dojo.addClass(this.node, prefix + newState);
 			this[state] = newState;
-		},
-
-		_getChildByEvent: function(e){
-			// summary:
-			//		Essentially returns the TreeNode associated with given mouse over / mouse move event.
-			//		Although, actually it returns the dijitTreeRow DOM node.
-			// e: Event
-			//		An onmouseover or onmousemove event
-			var node = e.target;
-			if(node){
-				for(var parent = node.parentNode; parent; node = parent, parent = node.parentNode){
-					if(dojo.hasClass(node, "dijitTreeRow")){ return node; }
-				}
-			}
-			return null;
-		},
-
-		markupFactory: function(tree, params){
-			params._skipStartup = true;
-			return new dijit._tree.dndContainer(tree, params);
 		},
 
 		_addItemClass: function(node, type){
@@ -148,9 +102,11 @@ dojo.declare("dijit._tree.dndContainer",
 
 		onOverEvent: function(){
 			// summary: this function is called once, when mouse is over our container
+			this._changeState("Container", "Over");
 		},
 
 		onOutEvent: function(){
 			// summary: this function is called once, when mouse is out of our container
+			this._changeState("Container", "");
 		}
 });

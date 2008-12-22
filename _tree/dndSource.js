@@ -57,9 +57,9 @@ dojo.declare("dijit._tree.dndSource", dijit._tree.dndSelector, {
 		// class-specific variables
 		this.isDragging = false;
 		this.mouseDown = false;
-		this.targetAnchor = null;
-		this.targetBox = null;
-		this.dropPosition = "Over";
+		this.targetAnchor = null;	// DOMNode corresponding to the currently moused over TreeNode
+		this.targetBox = null;	// coordinates of this.targetAnchor
+		this.dropPosition = "";	// whether mouse is over/after/before this.targetAnchor
 		this._lastX = 0;
 		this._lastY = 0;
 
@@ -72,6 +72,7 @@ dojo.declare("dijit._tree.dndSource", dijit._tree.dndSelector, {
 		if(this.accept){
 			dojo.addClass(this.node, "dojoDndTarget");
 		}
+
 		// set up events
 		this.topics = [
 			dojo.subscribe("/dnd/source/over", this, "onDndSourceOver"),
@@ -79,6 +80,11 @@ dojo.declare("dijit._tree.dndSource", dijit._tree.dndSelector, {
 			dojo.subscribe("/dnd/drop",   this, "onDndDrop"),
 			dojo.subscribe("/dnd/cancel", this, "onDndCancel")
 		];
+		this.events.push(
+			// monitor mouse movements to tell when drag starts etc.
+			dojo.connect(this.node, "onmousemove", this, "onMouseMove")
+		);
+
 	},
 
 	startup: function(){
@@ -112,49 +118,74 @@ dojo.declare("dijit._tree.dndSource", dijit._tree.dndSelector, {
 		this.targetAnchor = null;
 	},
 
-	// mouse event processors
+	_onDragMouse: function(e){
+		// summary:
+		//		Helper method for processing onmousemove/onmouseover events while drag is in progress.
+		//		Keeps track of current drop target
+
+		var m = dojo.dnd.manager(),
+			oldTarget = this.targetAnchor,			// the DOMNode corresponding to TreeNode mouse was previously over
+			newTarget = this.current,				// DOMNode corresponding to TreeNode mouse is currently over
+			newTargetWidget = this.currentWidget,	// the TreeNode itself
+			oldDropPosition = this.dropPosition;	// the previous drop position (over/before/after)
+
+		// calculate if user is indicating to drop the dragged node before, after, or over
+		// (i.e., to become a child of) the target node
+		var newDropPosition = "Over";
+		if(newTarget && this.betweenThreshold > 0){
+			// If mouse is over a new TreeNode, then get new TreeNode's position and size
+			if(!this.targetBox || oldTarget != newTarget){
+				this.targetBox = {
+					xy: dojo.coords(newTarget, true),
+					w: newTarget.offsetWidth,
+					h: newTarget.offsetHeight
+				};
+			}
+			if((e.pageY - this.targetBox.xy.y) <= this.betweenThreshold){
+				newDropPosition = "Before";
+			}else if((e.pageY - this.targetBox.xy.y) >= (this.targetBox.h - this.betweenThreshold)){
+				newDropPosition = "After";
+			}
+		}
+		
+		if(newTarget != oldTarget || newDropPosition != oldDropPosition){
+			if(oldTarget){
+				this._removeItemClass(oldTarget, oldDropPosition);
+			}
+			if(newTarget){
+				this._addItemClass(newTarget, newDropPosition);
+			}
+
+			// Check if it's ok to drop the dragged node on/before/after the target node.
+			if(!newTarget){
+				m.canDrop(false);
+			}else if(newTargetWidget == this.tree.rootNode && newDropPosition != "Over"){
+				// Can't drop before or after tree's root node; the dropped node would just disappear (at least visually)
+				m.canDrop(false);
+			}else if(m.source == this && (newTarget.id in this.selection)){
+				// Guard against dropping onto yourself (TODO: guard against dropping onto your descendant, #7140)
+				m.canDrop(false);
+			}else if(this.checkItemAcceptance(newTarget, m.source, newDropPosition.toLowerCase())){
+				m.canDrop(true);
+			}else{
+				m.canDrop(false);
+			}
+
+			this.targetAnchor = newTarget;
+			this.dropPosition = newDropPosition;
+		}
+	},
+
 	onMouseMove: function(e){
 		// summary:
 		//		Called for any onmousemove events over the Tree
 		// e: Event
 		//		onmousemouse event
 		if(this.isDragging && this.targetState == "Disabled"){ return; }
-		this.inherited("onMouseMove", arguments);
 		var m = dojo.dnd.manager();
 		if(this.isDragging){
 			if(this.betweenThreshold > 0){
-				// calculate if user is indicating to drop the dragged node before, after, or over
-				// (i.e., to become a child of) the target node
-				var dropPosition = "Over";
-				if(this.current){
-					if(!this.targetBox || this.targetAnchor != this.current){
-						this.targetBox = {
-							xy: dojo.coords(this.current, true),
-							w: this.current.offsetWidth,
-							h: this.current.offsetHeight
-						};
-					}
-					if((e.pageY - this.targetBox.xy.y) <= this.betweenThreshold){
-						dropPosition = "Before";
-						// TODO: change style on node, shouldn't have hover effect since we are theoretically between nodes, not over one
-					}else if((e.pageY - this.targetBox.xy.y) >= (this.targetBox.h - this.betweenThreshold)){
-						dropPosition = "After";
-						// TODO: change style on node, shouldn't have hover effect since we are theoretically between nodes, not over one
-					}
-				}
-				if(this.current != this.targetAnchor || dropPosition != this.dropPosition){
-					this._markTargetAnchor(dropPosition);
-					var n = this._getChildByEvent(e);	// the target TreeNode
-					var targetWidget = dijit.getEnclosingWidget(this.current);
-					// Check if it's ok to drop the dragged node on/before/after n, the target node.
-					if(n && targetWidget == targetWidget.tree.rootNode && this.dropPosition != "Over"){
-						m.canDrop(false);
-					}else if(n && this.checkItemAcceptance(n, m.source, dropPosition.toLowerCase())){
-						m.canDrop(!this.current || m.source != this || !(this.current.id in this.selection));
-					}else{
-						m.canDrop(false);
-					}
-				}
+				this._onDragMouse(e);
 			}
 		}else{
 			if(this.mouseDown && this.isSource &&
@@ -194,53 +225,22 @@ dojo.declare("dijit._tree.dndSource", dijit._tree.dndSelector, {
 		}
 	},
 
-	onMouseOver: function(e){
+	onMouseOver: function(/*TreeNode*/ widget, /*Event*/ e){
 		// summary:
-		//		Event processor for onmouseover
-		// description:
-		//		This is called on the onmouseover events for any node inside the tree,
-		//		including TreeNode.domNode and nodes inside of TreeNode (dijitTreeContent, etc.)
-		// e: Event
-		//		mouse event
+		//		Event processor for when mouse is moved over a TreeNode
 
-		// TODO:
-		//		Since this method sets the "Over" CSS class for items,
-		//		and also since it calls checkItemAcceptance(),
-		//		it needs to test for over/after/before state just like the onMouseMove handler.
+		this.inherited(arguments);
 
-		// handle when mouse has just moved over the Tree itself (not a TreeNode, but the Tree)
-		var rt = e.relatedTarget;	// the previous location
-		while(rt){
-			if(rt == this.node){ break; }
-			try{
-				rt = rt.parentNode;
-			}catch(x){
-				rt = null;
-			}
+		if(this.isDragging){
+			this._onDragMouse(e);
 		}
-		if(!rt){
-			this._changeState("Container", "Over");
-			this.onOverEvent();
-		}
+	},
 
-		// code below is for handling depending on which TreeNode we are over
-		var n = this._getChildByEvent(e);	// the target TreeNode
-		if(this.current == n){ return; }	// we just touched a node inside of the current TreeNode.  Ignore.
-		if(this.current){ this._removeItemClass(this.current, "Over"); }
-		var m = dojo.dnd.manager();
-		if(n){ 
-			this._addItemClass(n, "Over");
-			if(this.isDragging){
-				if(this.checkItemAcceptance(n, m.source, "over")){
-					m.canDrop(this.targetState != "Disabled" && (!this.current || m.source != this || !(n in this.selection)));
-				}
-			}
-		}else{
-			if(this.isDragging){
-				m.canDrop(false);
-			}
-		}
-		this.current = n;
+	onMouseOut: function(){
+		// summary:
+		//		Event processor for when mouse is moved away from a TreeNode
+		this.inherited(arguments);
+		this._unmarkTargetAnchor();
 	},
 
 	checkItemAcceptance: function(target, source, position){
@@ -268,9 +268,7 @@ dojo.declare("dijit._tree.dndSource", dijit._tree.dndSelector, {
 		//		The dijit.tree._dndSource / dojo.dnd.Source which has the mouse over it
 		if(this != source){
 			this.mouseDown = false;
-			if(this.targetAnchor){
-				this._unmarkTargetAnchor();
-			}
+			this._unmarkTargetAnchor();
 		}else if(this.isDragging){
 			var m = dojo.dnd.manager();
 			m.canDrop(false);
@@ -321,11 +319,10 @@ dojo.declare("dijit._tree.dndSource", dijit._tree.dndSelector, {
 		//		The list of transferred items, dndTreeNode nodes if dragging from a Tree
 		// copy: Boolean
 		//		Copy items, if true, move items otherwise
-
 		if(this.containerState == "Over"){
 			var tree = this.tree,
 				model = tree.model,
-				target = this.current,
+				target = this.targetAnchor,
 				requeryRoot = false;	// set to true iff top level items change
 
 			this.isDragging = false;
@@ -387,11 +384,7 @@ dojo.declare("dijit._tree.dndSource", dijit._tree.dndSelector, {
 	onDndCancel: function(){
 		// summary:
 		//		Topic event processor for /dnd/cancel, called to cancel the DnD operation
-		if(this.targetAnchor){
-			this._unmarkTargetAnchor();
-			this.targetAnchor = null;
-		}
-		this.dropPosition = "Over";
+		this._unmarkTargetAnchor();
 		this.isDragging = false;
 		this.mouseDown = false;
 		delete this.mouseButton;
@@ -399,51 +392,41 @@ dojo.declare("dijit._tree.dndSource", dijit._tree.dndSelector, {
 		this._changeState("Target", "");
 	},
 	
-	// utilities
-
+	// When focus moves in/out of the entire Tree
 	onOverEvent: function(){
 		// summary:
 		//		This method is called when mouse is moved over our container (like onmouseenter)
-		this.inherited("onOverEvent",arguments);
+		this.inherited(arguments);
 		dojo.dnd.manager().overSource(this);
 	},
 	onOutEvent: function(){
 		// summary:
 		//		This method is called when mouse is moved out of our container (like onmouseleave)
-		this.inherited("onOutEvent",arguments);	
-		dojo.dnd.manager().outSource(this);
+		this._unmarkTargetAnchor();
+		var m = dojo.dnd.manager();
+		m.canDrop(false);
+		m.outSource(this);
+
+		this.inherited(arguments);
 	},
-	_markTargetAnchor: function(dropPosition){
-		// summary:
-		//		Assigns a class to the current target anchor based on "dropPosition" status
-		// dropPosition: String
-		//		Where the dragged nodes are being dropped: Over, After, or Before
-		if(this.current == this.targetAnchor && this.dropPosition == dropPosition){ return; }
-		if(this.targetAnchor){
-			this._removeItemClass(this.targetAnchor, this.dropPosition);
-		}
-		this.targetAnchor = this.current;
-		this.targetBox = null;
-		this.dropPosition = dropPosition;
-		if(this.targetAnchor){
-			this._addItemClass(this.targetAnchor, this.dropPosition);
-		}
-	},
+
 	_unmarkTargetAnchor: function(){
 		// summary:
-		//		Removes a class of the current target anchor based on "dropPosition" status
+		//		Removes hover class of the current target anchor
 		if(!this.targetAnchor){ return; }
 		this._removeItemClass(this.targetAnchor, this.dropPosition);
 		this.targetAnchor = null;
 		this.targetBox = null;
-		this.dropPosition = "Over";
+		this.dropPosition = null;
 	},
+
 	_markDndStatus: function(copy){
 		// summary:
 		//		Changes source's state based on "copy" status
 		this._changeState("Source", copy ? "Copied" : "Moved");
 	}
 });
+
 dojo.declare("dijit._tree.dndTarget", dijit._tree.dndSource, {
 	// summary:
 	//		A Target object, which can be used as a DnD target

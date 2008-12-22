@@ -288,15 +288,17 @@ dojo.declare(
 
 	_onNodeFocus: function(evt){
 		var node = dijit.getEnclosingWidget(evt.target);
-		this.tree._onTreeFocus(node);
+		this.tree._onNodeFocus(node);
 	},
 	
 	_onMouseEnter: function(evt){
 		dojo.addClass(this.rowNode, "dijitTreeNodeHover");
+		this.tree._onNodeMouseEnter(this, evt);
 	},
 
 	_onMouseLeave: function(evt){
 		dojo.removeClass(this.rowNode, "dijitTreeNodeHover");
+		this.tree._onNodeMouseLeave(this, evt);
 	}
 });
 
@@ -913,7 +915,7 @@ dojo.declare(
 		}
 	},
 
-	_onTreeFocus: function(/*Widget*/ node){
+	_onNodeFocus: function(/*Widget*/ node){
 		// summary:
 		//		called from onFocus handler of treeitem labelNode to set styles, wai state and tabindex
 		//		for currently focused treeitem.
@@ -929,6 +931,16 @@ dojo.declare(
 			dojo.addClass(labelNode, "dijitTreeLabelFocused");
 			this.lastFocused = node;
 		}
+	},
+
+	_onNodeMouseEnter: function(/*Widget*/ node){
+		// summary:
+		//		Called when mouse is over a node (onmouseenter event)
+	},
+
+	_onNodeMouseLeave: function(/*Widget*/ node){
+		// summary:
+		//		Called when mouse is over a node (onmouseenter event)
 	},
 
 	//////////////// Events from the model //////////////////////////
