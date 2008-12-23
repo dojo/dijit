@@ -77,7 +77,7 @@
 .nihilo .dijitDropDownButtonActive .dijitButtonNode,
 .nihilo .dijitComboButtonActive .dijitButtonContents,
 .nihilo .dijitDownArrowActive .dijitDownArrowButton,
-.nihilo .dijitComboBoxActive .dijitDownArrowButton {
+.nihilo .dijitComboBoxActive .dijitDownArrowButton,
 .nihilo .dijitStackController .dijitToggleButtonChecked .dijitButtonNode {
 	/* active state - inner (for when you are pressing a normal button, or
 	 * when a radio-type button is in a depressed state
