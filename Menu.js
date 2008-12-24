@@ -117,6 +117,23 @@ dojo.declare("dijit._MenuBase",
 		if(popup.focus){
 			popup.focus();
 		}
+	},
+
+	onOpen: function(/*Event*/ e){
+		// summary: callback when this menu is opened
+		this.isShowingNow = true;
+	},
+
+	onClose: function(){
+		// summary: callback when this menu is closed
+		this._stopPopupTimer();
+		this.parentMenu = null;
+		this.isShowingNow = false;
+		this.currentPopup = null;
+		if(this.focusedChild){
+			this._onChildBlur(this.focusedChild);
+			this.focusedChild = null;
+		}
 	}
 });
 
@@ -314,23 +331,6 @@ dojo.declare("dijit.Menu",
 		}
 	},
 
-	onOpen: function(/*Event*/ e){
-		// summary: callback when this menu is opened
-		this.isShowingNow = true;
-	},
-
-	onClose: function(){
-		// summary: callback when this menu is closed
-		this._stopPopupTimer();
-		this.parentMenu = null;
-		this.isShowingNow = false;
-		this.currentPopup = null;
-		if(this.focusedChild){
-			this._onChildBlur(this.focusedChild);
-			this.focusedChild = null;
-		}
-	},
-	
 	uninitialize: function(){
  		dojo.forEach(this.targetNodeIds, this.unBindDomNode, this);
  		this.inherited(arguments);
