@@ -46,10 +46,6 @@
 	background-image: url('images/spriteArrows.gif');
 }
 
-.tundra .dijitMenuSeparator {
-	background-color: #f7f7f7;
-}
-
 /* separator can be two pixels -- set border of either one to 0px to have only one */
 .tundra .dijitMenuSeparatorTop {
 	border-bottom: 1px solid #9b9b9b;

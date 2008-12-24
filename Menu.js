@@ -137,8 +137,15 @@ dojo.declare("dijit._MenuBase",
 		}
 	},
 	
+	_onBlur: function(){
+		// If user blurs/clicks away from a MenuBar (or always visible Menu), then close all popped up submenus etc.
+		this.onClose();
+	},
+
 	_onDescendantExecute: function(){
-		// summary: hook for MenuBar to close all open menus when a submenu is clicked
+		// summary:
+		//		Called when submenu is clicked; close hierarchy of menus
+		this.onClose();
 	}
 });
 
