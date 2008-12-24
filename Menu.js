@@ -109,7 +109,8 @@ dojo.declare("dijit._MenuBase",
 				dijit.popup.close(popup);
 				from_item.focus();	// put focus back on my node
 				self.currentPopup = null;
-			}
+			},
+			onExecute: dojo.hitch(this, "_onDescendantExecute")
 		});
 
 		this.currentPopup = popup;
@@ -134,6 +135,10 @@ dojo.declare("dijit._MenuBase",
 			this._onChildBlur(this.focusedChild);
 			this.focusedChild = null;
 		}
+	},
+	
+	_onDescendantExecute: function(){
+		// summary: hook for MenuBar to close all open menus when a submenu is clicked
 	}
 });
 

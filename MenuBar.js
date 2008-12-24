@@ -38,6 +38,12 @@ dojo.declare(
 	_onBlur: function(){
 		// Blurring/clicking away from a MenuBar is equivalent to closing a context menu...
 		this.onClose();
+	},
+
+	_onDescendantExecute: function(){
+		// summary:
+		//		Called when submenu is clicked; close hierarchy of menus
+		this.onClose();
 	}
 });
 
