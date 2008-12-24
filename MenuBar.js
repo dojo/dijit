@@ -33,6 +33,11 @@ dojo.declare(
 				this._moveToPopup(evt);
 				dojo.stopEvent(evt);
 		}
+	},
+
+	_onBlur: function(){
+		// Blurring/clicking away from a MenuBar is equivalent to closing a context menu...
+		this.onClose();
 	}
 });
 
