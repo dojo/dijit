@@ -1,0 +1,90 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+		"http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+	<title>Dojo MenuBar Widget Test</title>
+
+	<style type="text/css">
+		@import "../../dojo/resources/dojo.css";
+		@import "css/dijitTests.css";
+	</style>
+	
+	<!-- required: a default dijit theme: -->
+	<link id="themeStyles" rel="stylesheet" href="../../dijit/themes/tundra/tundra.css">
+	
+	<!-- required: dojo.js -->
+	<script type="text/javascript" src="../../dojo/dojo.js"
+		djConfig="parseOnLoad: true, isDebug: true"></script>
+	
+	<!-- not needed, for testing alternate themes -->
+	<script type="text/javascript" src="_testCommon.js"></script>
+
+	<script type="text/javascript">
+		dojo.require("dijit.dijit"); // optimize: load dijit layer
+		dojo.require("dijit.MenuBar");
+		/* TODO: dojo.require("dijit.MenuBarItem"); */
+		dojo.require("dijit.form.Button");
+		dojo.require("dijit.ColorPalette");
+		dojo.require("dijit.Dialog");
+		dojo.require("dijit.Toolbar");
+		dojo.require("dijit.form.Button");
+		dojo.require("dijit.form.TextBox");
+		dojo.require("dijit.Menu");
+		dojo.require("dojo.parser");
+	</script>
+</head>
+<body class="tundra">
+	<h1 class="testTitle">MenuBar test</h1>
+
+	<div id="menubar" dojoType="dijit.MenuBar">
+		<div dojoType="dijit.MenuBarItem">
+			<span>File</span>
+			<div dojoType="dijit.Menu">
+				<div dojoType="dijit.MenuItem">New</div>
+				<div dojoType="dijit.MenuItem">Open</div>
+				<div dojoType="dijit.MenuSeparator"></div>
+				<div dojoType="dijit.MenuItem" iconClass="dijitEditorIconSave">Save</div>
+				<div dojoType="dijit.MenuItem">Save As...</div>
+			</div>
+		</div>
+		<div dojoType="dijit.MenuBarItem">
+			<span>Edit</span>
+			<div dojoType="dijit.Menu">
+				<div dojoType="dijit.MenuItem"  iconClass="dijitEditorIcon dijitEditorIconCut"
+					onClick="console.log('not actually cutting anything, just a test!')">Cut</div>
+				<div dojoType="dijit.MenuItem"  iconClass="dijitEditorIcon dijitEditorIconCopy"
+					onClick="console.log('not actually copying anything, just a test!')">Copy</div>
+				<div dojoType="dijit.MenuItem"  iconClass="dijitEditorIcon dijitEditorIconPaste"
+					onClick="console.log('not actually pasting anything, just a test!')">Paste</div>
+			</div>
+		</div>
+		<div dojoType="dijit.MenuBarItem">
+			<span>View</span>
+			<div dojoType="dijit.Menu">
+				<div dojoType="dijit.MenuItem">Normal</div>
+				<div dojoType="dijit.MenuItem">Outline</div>
+				<div dojoType="dijit.PopupMenuItem">
+					<span>Zoom</span>
+					<div dojoType="dijit.Menu" id="submenu2">
+						<div dojoType="dijit.MenuItem">50%</div>
+						<div dojoType="dijit.MenuItem">75%</div>
+						<div dojoType="dijit.MenuItem">100%</div>
+						<div dojoType="dijit.MenuItem">150%</div>
+						<div dojoType="dijit.MenuItem">200%</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div dojoType="dijit.MenuBarItem">
+			<span>Help</span>
+			<div dojoType="dijit.Menu">
+				<div dojoType="dijit.MenuItem">Help Topics</div>
+				<div dojoType="dijit.MenuItem">About Dijit</div>
+			</div>
+		</div>
+	</div>	
+
+    <!-- leave some space before the console window -->
+    <br><br>
+  </body>
+</html>
