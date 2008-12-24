@@ -4,35 +4,11 @@ dojo.require("dijit._Widget");
 dojo.require("dijit._Container");
 dojo.require("dijit._Templated");
 
-dojo.declare("dijit.Menu",
+dojo.declare("dijit._MenuBase",
 	[dijit._Widget, dijit._Templated, dijit._KeyNavContainer],
-	{
-	// summary
-	//	A context menu you can assign to multiple elements
+{
+	// summary: base class for Menu and MenuBar
 
-	constructor: function(){
-		this._bindings = [];
-	},
-
-	templateString:
-			'<table class="dijit dijitMenu dijitReset dijitMenuTable" waiRole="menu" dojoAttachEvent="onkeypress:_onKeyPress">' +
-				'<tbody class="dijitReset" dojoAttachPoint="containerNode"></tbody>'+
-			'</table>',
-
-	// targetNodeIds: String[]
-	//	Array of dom node ids of nodes to attach to.
-	//	Fill this with nodeIds upon widget creation and it becomes context menu for those nodes.
-	targetNodeIds: [],
-
-	// contextMenuForWindow: Boolean
-	//	if true, right clicking anywhere on the window will cause this context menu to open;
-	//	if false, must specify targetNodeIds
-	contextMenuForWindow: false,
-
-	// leftClickToOpen: Boolean
-	//	If true, menu will open on left click instead of right click, similiar to a file menu.
-	leftClickToOpen: false,
-	
 	// parentMenu: Widget
 	// pointer to menu that displayed me
 	parentMenu: null,
@@ -40,20 +16,6 @@ dojo.declare("dijit.Menu",
 	// popupDelay: Integer
 	//	number of milliseconds before hovering (without clicking) causes the popup to automatically open
 	popupDelay: 500,
-
-	// _contextMenuWithMouse: Boolean
-	//	used to record mouse and keyboard events to determine if a context
-	//	menu is being opened with the keyboard or the mouse
-	_contextMenuWithMouse: false,
-
-	postCreate: function(){
-		if(this.contextMenuForWindow){
-			this.bindDomNode(dojo.body());
-		}else{
-			dojo.forEach(this.targetNodeIds, this.bindDomNode, this);
-		}
-		this.connectKeyNavHandlers([dojo.keys.UP_ARROW], [dojo.keys.DOWN_ARROW]);
-	},
 
 	startup: function(){
 		if(this._started){ return; }
@@ -75,25 +37,6 @@ dojo.declare("dijit.Menu",
 	_moveToPopup: function(/*Event*/ evt){
 		if(this.focusedChild && this.focusedChild.popup && !this.focusedChild.disabled){
 			this.focusedChild._onClick(evt);
-		}
-	},
-
-	_onKeyPress: function(/*Event*/ evt){
-		// summary: Handle keyboard based menu navigation.
-		if(evt.ctrlKey || evt.altKey){ return; }
-
-		switch(evt.charOrCode){
-			case dojo.keys.RIGHT_ARROW:
-				this._moveToPopup(evt);
-				dojo.stopEvent(evt);
-				break;
-			case dojo.keys.LEFT_ARROW:
-				if(this.parentMenu){
-					this.onCancel(false);
-				}else{
-					dojo.stopEvent(evt);
-				}
-				break;
 		}
 	},
 
@@ -144,6 +87,102 @@ dojo.declare("dijit.Menu",
 
 			// user defined handler for click
 			item.onClick(evt);
+		}
+	},
+
+	_openPopup: function(){
+		// summary: open the popup to the side of/underneath the current menu item
+		this._stopPopupTimer();
+		var from_item = this.focusedChild;
+		var popup = from_item.popup;
+
+		if(popup.isShowingNow){ return; }
+		popup.parentMenu = this;
+		var self = this;
+		dijit.popup.open({
+			parent: this,
+			popup: popup,
+			around: from_item.domNode,
+			orient: this._orient || (this.isLeftToRight() ? {'TR': 'TL', 'TL': 'TR'} : {'TL': 'TR', 'TR': 'TL'}),
+			onCancel: function(){
+				// called when the child menu is canceled
+				dijit.popup.close(popup);
+				from_item.focus();	// put focus back on my node
+				self.currentPopup = null;
+			}
+		});
+
+		this.currentPopup = popup;
+
+		if(popup.focus){
+			popup.focus();
+		}
+	}
+});
+
+dojo.declare("dijit.Menu",
+	dijit._MenuBase,
+	{
+	// summary
+	//		A context menu you can assign to multiple elements
+
+	// TODO: most of the code in here is just for context menu (right-click menu)
+	// support.  In retrospect that should have been a separate class (dijit.ContextMenu).
+	// Split them for 2.0
+
+	constructor: function(){
+		this._bindings = [];
+	},
+
+	templateString:
+			'<table class="dijit dijitMenu dijitReset dijitMenuTable" waiRole="menu" dojoAttachEvent="onkeypress:_onKeyPress">' +
+				'<tbody class="dijitReset" dojoAttachPoint="containerNode"></tbody>'+
+			'</table>',
+
+	// targetNodeIds: String[]
+	//	Array of dom node ids of nodes to attach to.
+	//	Fill this with nodeIds upon widget creation and it becomes context menu for those nodes.
+	targetNodeIds: [],
+
+	// contextMenuForWindow: Boolean
+	//	if true, right clicking anywhere on the window will cause this context menu to open;
+	//	if false, must specify targetNodeIds
+	contextMenuForWindow: false,
+
+	// leftClickToOpen: Boolean
+	//	If true, menu will open on left click instead of right click, similiar to a file menu.
+	leftClickToOpen: false,
+	
+	// _contextMenuWithMouse: Boolean
+	//	used to record mouse and keyboard events to determine if a context
+	//	menu is being opened with the keyboard or the mouse
+	_contextMenuWithMouse: false,
+
+	postCreate: function(){
+		if(this.contextMenuForWindow){
+			this.bindDomNode(dojo.body());
+		}else{
+			dojo.forEach(this.targetNodeIds, this.bindDomNode, this);
+		}
+		this.connectKeyNavHandlers([dojo.keys.UP_ARROW], [dojo.keys.DOWN_ARROW]);
+	},
+
+	_onKeyPress: function(/*Event*/ evt){
+		// summary: Handle keyboard based menu navigation.
+		if(evt.ctrlKey || evt.altKey){ return; }
+
+		switch(evt.charOrCode){
+			case dojo.keys.RIGHT_ARROW:
+				this._moveToPopup(evt);
+				dojo.stopEvent(evt);
+				break;
+			case dojo.keys.LEFT_ARROW:
+				if(this.parentMenu){
+					this.onCancel(false);
+				}else{
+					dojo.stopEvent(evt);
+				}
+				break;
 		}
 	},
 
@@ -276,7 +315,7 @@ dojo.declare("dijit.Menu",
 	},
 
 	onOpen: function(/*Event*/ e){
-		// summary: Open menu relative to the mouse
+		// summary: callback when this menu is opened
 		this.isShowingNow = true;
 	},
 
@@ -289,35 +328,6 @@ dojo.declare("dijit.Menu",
 		if(this.focusedChild){
 			this._onChildBlur(this.focusedChild);
 			this.focusedChild = null;
-		}
-	},
-
-	_openPopup: function(){
-		// summary: open the popup to the side of the current menu item
-		this._stopPopupTimer();
-		var from_item = this.focusedChild;
-		var popup = from_item.popup;
-
-		if(popup.isShowingNow){ return; }
-		popup.parentMenu = this;
-		var self = this;
-		dijit.popup.open({
-			parent: this,
-			popup: popup,
-			around: from_item.domNode,
-			orient: this._orient || (this.isLeftToRight() ? {'TR': 'TL', 'TL': 'TR'} : {'TL': 'TR', 'TR': 'TL'}),
-			onCancel: function(){
-				// called when the child menu is canceled
-				dijit.popup.close(popup);
-				from_item.focus();	// put focus back on my node
-				self.currentPopup = null;
-			}
-		});
-
-		this.currentPopup = popup;
-
-		if(popup.focus){
-			popup.focus();
 		}
 	},
 	

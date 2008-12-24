@@ -4,7 +4,7 @@ dojo.require("dijit.Menu");
 
 dojo.declare(
 	"dijit.MenuBar",
-	dijit.Menu,
+	dijit._MenuBase,
 {
 	// summary
 	//		A menu bar, listing menu choices horizontally, like the "File" menu in most desktop applications
@@ -18,8 +18,6 @@ dojo.declare(
 	},
 
 	postCreate: function(){
-		// Note: not calling this.inherited() because we don't want the code in Menu.postCreate().
-		// Need to extract shared code in Menu into a _MenuBase class
 		this.connectKeyNavHandlers(
 			this.isLeftToRight() ? [dojo.keys.LEFT_ARROW] : [dojo.keys.RIGHT_ARROW],
 			this.isLeftToRight() ? [dojo.keys.RIGHT_ARROW] : [dojo.keys.LEFT_ARROW]
