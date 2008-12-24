@@ -1,6 +1,7 @@
 
 /* Menu */
-.soria .dijitMenu {
+.soria .dijitMenu,
+.soria .dijitMenuBar {
 	border: 1px solid #cbcbcb;
 	margin: 0px;
 	padding: 0px;
@@ -8,11 +9,14 @@
 }
 
 .soria .dijitMenuItem {
-	background-color: #fff;
 	font-family: sans-serif;
 	margin: 0px;
 	color: #243C5F;
 }
+.soria .dijitMenuBar .dijitMenuItem {
+	padding: 4px 5px;
+}
+
 .soria .dijitMenuPreviousButton, .soria .dijitMenuNextButton {
 	font-style: italic;
 }

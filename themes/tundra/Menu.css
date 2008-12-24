@@ -1,19 +1,26 @@
-.tundra .dijitMenu {
+.tundra .dijitMenu,
+.tundra .dijitMenuBar {
 	border: 1px solid #7eabcd;
 	margin: 0px;
 	padding: 0px;
+	background-color: #f7f7f7;
+	/* background:#eaeaea url("images/titleBar.png") repeat-x top left; */
 }
 
 .tundra .dijitMenuItem {
-	background-color: #f7f7f7;
 	font-family: sans-serif;
 	margin: 0;
 }
+
+.tundra .dijitMenuBar .dijitMenuItem {
+	padding: 4px 5px;
+}
+
 .tundra .dijitMenuPreviousButton, .tundra .dijitMenuNextButton {
 	font-style: italic;
 }
 .tundra .dijitMenuItem td {
-	padding:2px;
+	padding: 2px;
 }
 
 .tundra .dijitMenuItemHover {

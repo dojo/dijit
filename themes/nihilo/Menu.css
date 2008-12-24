@@ -1,6 +1,7 @@
 
 /* Menu */
-.nihilo .dijitMenu {
+.nihilo .dijitMenu,
+.nihilo .dijitMenuBar {
 	border: 1px solid #d3d3d3;
 	margin: 0px;
 	padding: 0px;
@@ -8,11 +9,14 @@
 }
 
 .nihilo .dijitMenuItem {
-	background-color: #fff;
 	font-family: sans-serif;
 	margin: 0px;
 	color: #243C5F;
 }
+.nihilo .dijitMenuBar .dijitMenuItem {
+	padding: 4px 5px;
+}
+
 .nihilo .dijitMenuPreviousButton, .nihilo .dijitMenuNextButton {
 	font-style: italic;
 }

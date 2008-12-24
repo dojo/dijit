@@ -305,7 +305,7 @@ dojo.declare("dijit.Menu",
 			parent: this,
 			popup: popup,
 			around: from_item.domNode,
-			orient: this.isLeftToRight() ? {'TR': 'TL', 'TL': 'TR'} : {'TL': 'TR', 'TR': 'TL'},
+			orient: this._orient || (this.isLeftToRight() ? {'TR': 'TL', 'TL': 'TR'} : {'TL': 'TR', 'TR': 'TL'}),
 			onCancel: function(){
 				// called when the child menu is canceled
 				dijit.popup.close(popup);
@@ -467,7 +467,9 @@ dojo.declare("dijit.PopupMenuItem",
 		dojo.body().appendChild(this.popup.domNode);
 
 		this.popup.domNode.style.display="none";
-		dojo.style(this.arrowWrapper, "display", "");
+		if(this.arrowWrapper){
+			dojo.style(this.arrowWrapper, "display", "");
+		}
 		dijit.setWaiState(this.focusNode, "haspopup", "true");
 	},
 	
