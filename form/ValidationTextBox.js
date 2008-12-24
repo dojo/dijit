@@ -34,7 +34,9 @@ dojo.declare(
 		required: false,
 
 		// promptMessage: String
-		//		Hint string
+		//		If defined, display this hint string immediately on focus to the textbox.
+		//		Think of this like a tooltip that tells the user what to do, not an error message
+		//		that tells the user what they've done wrong.
 		promptMessage: "",
 
 		// invalidMessage: String
