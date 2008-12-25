@@ -16,8 +16,6 @@ dojo.declare("dijit.Toolbar",
 		//	'</table>' +
 		'</div>',
 
-	tabIndex: "0",
-
 	postCreate: function(){
 		this.connectKeyNavHandlers(
 			this.isLeftToRight() ? [dojo.keys.LEFT_ARROW] : [dojo.keys.RIGHT_ARROW],

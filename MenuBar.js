@@ -9,8 +9,7 @@ dojo.declare(
 	// summary
 	//		A menu bar, listing menu choices horizontally, like the "File" menu in most desktop applications
 
-	templateString: '<div class="dijitMenuBar" dojoAttachPoint="containerNode" tabIndex="0" dojoAttachEvent="onkeypress: _onKeyPress"></div>',
-
+	templateString: '<div class="dijitMenuBar" dojoAttachPoint="containerNode"  tabIndex="${tabIndex}" dojoAttachEvent="onkeypress: _onKeyPress"></div>',
 
 	constructor: function(){
 		//	parameter to dijit.popup.open() about where to put popup (relative to this.domNode)

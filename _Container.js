@@ -211,6 +211,13 @@ dojo.declare("dijit._KeyNavContainer",
 		focusedChild: null,
 =====*/
 
+		// tabIndex: Integer
+		//		Tab index of the container; same as HTML tabindex attribute.
+		//		Note then when user tabs into the container, focus is immediately
+		//		moved to the first item in the container.
+		tabIndex: "0",
+
+
 		_keyNavCodes: {},
 
 		connectKeyNavHandlers: function(/*Array*/ prevKeyCodes, /*Array*/ nextKeyCodes){
@@ -228,7 +235,6 @@ dojo.declare("dijit._KeyNavContainer",
 			dojo.forEach(prevKeyCodes, function(code){ keyCodes[code] = prev });
 			dojo.forEach(nextKeyCodes, function(code){ keyCodes[code] = next });
 			this.connect(this.domNode, "onkeypress", "_onContainerKeypress");
-			this.connect(this.domNode, "onfocus", "_onContainerFocus");
 		},
 
 		startupKeyNavChildren: function(){
@@ -325,11 +331,22 @@ dojo.declare("dijit._KeyNavContainer",
 			this.connect(node, "onblur", "_onNodeBlur");
 		},
 
-		_onContainerFocus: function(evt){
-			// focus bubbles on Firefox,
-			// so just make sure that focus has really gone to the container
-			if(evt.target === this.domNode){
-				this.focusFirstChild();
+		_onFocus: function(evt){
+			// Initially the container itself has a tabIndex, but when it gets
+			// focus, switch focus to first child...
+			this.focusFirstChild();
+			
+			// and then remove the container's tabIndex,
+			// so that tab or shift-tab will go to the fields after/before
+			// the container, rather than the container itself
+			dojo.removeAttr(this.domNode, "tabIndex");
+		},
+
+		_onBlur: function(evt){
+			// When focus is moved away the container, and it's descendant (popup) widgets,
+			// then restore the container's tabIndex so that user can tab to it again.
+			if(this.tabIndex){
+				dojo.attr(this.domNode, "tabindex", this.tabIndex);
 			}
 		},
 
@@ -343,10 +360,6 @@ dojo.declare("dijit._KeyNavContainer",
 		},
 
 		_onNodeFocus: function(evt){
-			// while focus is on a child,
-			// take the container out of the tab order so that
-			// we can shift-tab to the element before the container
-			dojo.attr(this.domNode, "tabindex", -1);
 			// record the child that has been focused
 			var widget = dijit.getEnclosingWidget(evt.target);
 			if(widget && widget.isFocusable()){
@@ -356,11 +369,6 @@ dojo.declare("dijit._KeyNavContainer",
 		},
 
 		_onNodeBlur: function(evt){
-			// when focus leaves a child,
-			// reinstate the container's tabindex
-			if(this.tabIndex){
-				dojo.attr(this.domNode, "tabindex", this.tabIndex);
-			}
 			dojo.stopEvent(evt);
 		},
 

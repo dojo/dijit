@@ -136,10 +136,11 @@ dojo.declare("dijit._MenuBase",
 			this.focusedChild = null;
 		}
 	},
-	
+
 	_onBlur: function(){
 		// If user blurs/clicks away from a MenuBar (or always visible Menu), then close all popped up submenus etc.
 		this.onClose();
+		this.inherited(arguments);
 	},
 
 	_onDescendantExecute: function(){
@@ -164,7 +165,7 @@ dojo.declare("dijit.Menu",
 	},
 
 	templateString:
-			'<table class="dijit dijitMenu dijitReset dijitMenuTable" waiRole="menu" dojoAttachEvent="onkeypress:_onKeyPress">' +
+			'<table class="dijit dijitMenu dijitReset dijitMenuTable" waiRole="menu" tabIndex="${tabIndex}" dojoAttachEvent="onkeypress:_onKeyPress">' +
 				'<tbody class="dijitReset" dojoAttachPoint="containerNode"></tbody>'+
 			'</table>',
 
