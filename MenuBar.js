@@ -11,6 +11,8 @@ dojo.declare(
 
 	templateString: '<div class="dijitMenuBar" dojoAttachPoint="containerNode"  tabIndex="${tabIndex}" dojoAttachEvent="onkeypress: _onKeyPress"></div>',
 
+	_isMenuBar: true,
+
 	constructor: function(){
 		//	parameter to dijit.popup.open() about where to put popup (relative to this.domNode)
 		this._orient = this.isLeftToRight() ? {BL: 'TL'} : {BR: 'TR'};

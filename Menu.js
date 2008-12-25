@@ -35,8 +35,17 @@ dojo.declare("dijit._MenuBase",
 	},
 
 	_moveToPopup: function(/*Event*/ evt){
+		// summary:
+		//		This handles the right arrow key (left arrow key on RTL systems),
+		//		which will either open a submenu, or move to the next item in the
+		//		ancestor MenuBar
 		if(this.focusedChild && this.focusedChild.popup && !this.focusedChild.disabled){
 			this.focusedChild._onClick(evt);
+		}else{
+			var topMenu = this._getTopMenu();
+			if(topMenu && topMenu._isMenuBar){
+				topMenu.focusNext();
+			}
 		}
 	},
 
