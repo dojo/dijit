@@ -41,6 +41,7 @@
 	<script language="JavaScript" type="text/javascript">
 		dojo.require("dijit.dijit"); // optimize: load dijit layer
 		dojo.require("dijit.Menu");
+		dojo.require("dijit.MenuBar");
 		dojo.require("dijit.ColorPalette");
 		dojo.require("dijit._Calendar");
 		dojo.require("dojo.parser");	// scan page for widgets and instantiate them
@@ -86,7 +87,7 @@
 </head>
 <body class="tundra">
 
-	<div dojoType="dijit.Menu" id="contextMenu" contextMenuForWindow="true" style="display: none;">
+	<div dojoType="dijit.Menu" id="windowContextMenu" contextMenuForWindow="true" style="display: none;">
 		<div dojoType="dijit.MenuItem" onClick="alert('Hello world');">Context Menu</div>
 		<div dojoType="dijit.MenuSeparator"></div>
 		<div dojoType="dijit.MenuItem" disabled="true">Disabled Item</div>
@@ -128,7 +129,7 @@
 		<div dojoType="dijit.CheckedMenuItem" checked="true" disabled="true">Checked Disabled</div>
 	</div>
 
-	<div dojoType="dijit.Menu" id="leftClick" leftClickToOpen="true" targetNodeIds="input2" style="display: none;">
+	<div dojoType="dijit.Menu" id="leftClickContextMenu" leftClickToOpen="true" targetNodeIds="input2" style="display: none;">
 		<div dojoType="dijit.MenuItem" disabled="true">Left Click Menu</div>
 		<div dojoType="dijit.MenuItem" onClick="alert('Hello world');">Enabled Item</div>
 		<div dojoType="dijit.MenuItem" disabled="true">Disabled Item</div>
@@ -167,9 +168,62 @@
 		</div>
 	</div>
 
-				<h1 class="testTitle">Dijit Menu System Test</h1>
-		
 	<table id="formattingTable">
+		<tr>
+			<td width="0%">
+				<!-- this is here for tabIndex testing -->
+				<a id="link" href="#">random link</a>
+			</td>
+			<td id="menuBarContainer" width="100%">
+				<div id="menubar" dojoType="dijit.MenuBar">
+					<div dojoType="dijit.MenuBarItem">
+						<span>File</span>
+						<div dojoType="dijit.Menu">
+							<div dojoType="dijit.MenuItem">New</div>
+							<div dojoType="dijit.MenuItem">Open</div>
+							<div dojoType="dijit.MenuSeparator"></div>
+							<div dojoType="dijit.MenuItem" iconClass="dijitEditorIconSave">Save</div>
+							<div dojoType="dijit.MenuItem">Save As...</div>
+						</div>
+					</div>
+					<div dojoType="dijit.MenuBarItem">
+						<span>Edit</span>
+						<div dojoType="dijit.Menu">
+							<div dojoType="dijit.MenuItem"  iconClass="dijitEditorIcon dijitEditorIconCut"
+								onClick="console.log('not actually cutting anything, just a test!')">Cut</div>
+							<div dojoType="dijit.MenuItem"  iconClass="dijitEditorIcon dijitEditorIconCopy"
+								onClick="console.log('not actually copying anything, just a test!')">Copy</div>
+							<div dojoType="dijit.MenuItem"  iconClass="dijitEditorIcon dijitEditorIconPaste"
+								onClick="console.log('not actually pasting anything, just a test!')">Paste</div>
+						</div>
+					</div>
+					<div dojoType="dijit.MenuBarItem">
+						<span>View</span>
+						<div dojoType="dijit.Menu">
+							<div dojoType="dijit.MenuItem">Normal</div>
+							<div dojoType="dijit.MenuItem">Outline</div>
+							<div dojoType="dijit.PopupMenuItem">
+								<span>Zoom</span>
+								<div dojoType="dijit.Menu" id="menuBarSub1">
+									<div dojoType="dijit.MenuItem">50%</div>
+									<div dojoType="dijit.MenuItem">75%</div>
+									<div dojoType="dijit.MenuItem">100%</div>
+									<div dojoType="dijit.MenuItem">150%</div>
+									<div dojoType="dijit.MenuItem">200%</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div dojoType="dijit.MenuBarItem">
+						<span>Help</span>
+						<div dojoType="dijit.Menu">
+							<div dojoType="dijit.MenuItem">Help Topics</div>
+							<div dojoType="dijit.MenuItem">About Dijit</div>
+						</div>
+					</div>
+				</div>	
+			</td>
+		</tr>
 		<tr>
 			<td id="navMenuContainer" valign=top width="0%">
 			
@@ -218,11 +272,29 @@
 
 			<td style="padding: 1em" id="contentContainer">
 		
+				<h1 class="testTitle">Dijit Menu System Test</h1>
+				
+				<p>This page contains:</p>
+				<ul>
+					<li>"Navigation bar" Menu widget on left, a.k.a vertical MenuBar
+					<li>MenuBar on top
+					<li>page level context menu (right-click anywhere on page)
+					<li>left click context menu (left click on input on far right)
+					<li>Example of programatically created menu
+				</ul>
+		
 				<h3>Form</h3>
 		
 				<form>
+					<p style="float:right; text-align: right;">
+						left click to open the menu for this input:<br/>
+						Note: because of the window contextMenu, make sure you get<br/>
+						the right menu by verifying the left<br/>
+						click one starts with "Left Click Menu"<br/>
+						at the very top.
+						<input id=input2 value="top-right">
+					</p>
 					<input id=input1 value="top-left">
-					<p style="text-align:right">left click to open the menu for this input:<br/>Note: because of the window contextMenu, make sure you get<br/> the right menu by verifying the left<br/>click one starts with "Left Click Menu"<br/> at the very top. <input id=input2 value="top-right"></p>
 					<textarea id=textarea>hello there!</textarea><br>
 					<select>
 						<option>check if i</option>
@@ -232,7 +304,7 @@
 					<button id=button>push me</button>
 				</form>
 		
-			    <div id="prog_menu" style="border:1px solid blue; padding:10px; margin:20px 0;">
+			    <div id="prog_menu" style="clear: both; border:1px solid blue; padding:10px; margin:20px 0;">
 			        Click button below to create special menu on this div.
 			    </div>
 			    <button id="createButton" onclick="createMenu();">create programmatic menu</button>
