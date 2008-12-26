@@ -40,10 +40,30 @@ dijit.popup.__OpenArgs = function(){
 	//		parent: Widget
 	//			the button etc. that is displaying this popup
 	//		around: DomNode
-	//			DOM node (typically a button); place popup relative to this node
-	//		orient: Object
-	//			provides mappings to layout by matching a corner of the popup relative to the "around" node, by default
-	//			tries to match the top-left of the popup to the bottom-left of the base node {BL:'TL', TL:'BL'}
+	//			DOM node (typically a button); place popup relative to this node.  (Specify this *or* "x" and "y" parameters.)
+	//		x: Integer
+	//			Absolute horizontal position (in pixels) to place node at.  (Specify this *or* "around" parameter.)
+	//		y: Integer
+	//			Absolute vertical position (in pixels) to place node at.  (Specity this *or* "around" parameter.)
+	//		orient: Object || String
+	//			When the around parameter is specified, orients hould be an 
+	//			ordered list of tuples of the form (around-node-corner, popup-node-corner).
+	//			dijit.popup.open() tries to position the popup according to each tuple in the list, in order,
+	//			until the popup appears fully within the viewport.
+	//
+	//			The default value is {BL:'TL', TL:'BL'}, which represents a list of two tuples:
+	//				1. (BL, TL)
+	//				2. (TL, BL)
+	//			where BL means "bottom left" and "TL" means "top left".
+	//			So by default, it first tries putting the popup below the around node, left-aligning them,
+	//			and then tries to put it above the around node, still left-aligning them.   Note that the
+	//			default is horizontally reversed when in RTL mode.
+	//
+	//			When an (x,y) position is specified rather than an around node, orient is either
+	//			"R" or "L".  R (for right) means that it tries to put the popup to the right of the mouse,
+	//			specifically positioning the popup's top-right corner at the mouse position, and if that doesn't
+	//			fit in the viewport, then it tries, in order, the bottom-right corner, the top left corner,
+	//			and the top-right corner.
 	//		onCancel: Function
 	//			callback when user has canceled the popup by
 	//				1. hitting ESC or
@@ -56,6 +76,8 @@ dijit.popup.__OpenArgs = function(){
 	this.popup = popup;
 	this.parent = parent;
 	this.around = around;
+	this.x = x;
+	this.y = y;
 	this.orient = orient;
 	this.onCancel = onCancel;
 	this.onClose = onClose;
