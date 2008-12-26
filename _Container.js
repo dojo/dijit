@@ -235,6 +235,7 @@ dojo.declare("dijit._KeyNavContainer",
 			dojo.forEach(prevKeyCodes, function(code){ keyCodes[code] = prev });
 			dojo.forEach(nextKeyCodes, function(code){ keyCodes[code] = next });
 			this.connect(this.domNode, "onkeypress", "_onContainerKeypress");
+			this.connect(this.domNode, "onfocus", "_onContainerFocus");
 		},
 
 		startupKeyNavChildren: function(){
@@ -331,9 +332,17 @@ dojo.declare("dijit._KeyNavContainer",
 			this.connect(node, "onblur", "_onNodeBlur");
 		},
 
-		_onFocus: function(evt){
+		_onContainerFocus: function(evt){
 			// Initially the container itself has a tabIndex, but when it gets
 			// focus, switch focus to first child...
+			// Note that we can't use _onFocus() because switching focus from the
+			// _onFocus() handler confuses the focus.js code
+			// (because it causes _onFocusNode() to be called recursively)
+
+			// focus bubbles on Firefox,
+			// so just make sure that focus has really gone to the container
+			if(evt.target !== this.domNode){ return; }
+
 			this.focusFirstChild();
 			
 			// and then remove the container's tabIndex,
@@ -345,6 +354,8 @@ dojo.declare("dijit._KeyNavContainer",
 		_onBlur: function(evt){
 			// When focus is moved away the container, and it's descendant (popup) widgets,
 			// then restore the container's tabIndex so that user can tab to it again.
+			// Note that using _onBlur() so that this doesn't happen when focus is shifted
+			// to one of my child widgets (typically a popup)
 			if(this.tabIndex){
 				dojo.attr(this.domNode, "tabindex", this.tabIndex);
 			}
