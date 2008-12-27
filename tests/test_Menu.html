@@ -55,10 +55,10 @@
             pMenu = new dijit.Menu({targetNodeIds:["prog_menu"], id:"progMenu"});
             pMenu.addChild(new dijit.MenuItem({label:"Programmatic Context Menu", disabled:true}));
             pMenu.addChild(new dijit.MenuSeparator());
-            pMenu.addChild(new dijit.MenuItem({label:"Simple menu item", onClick:fClick}));
-            pMenu.addChild(new dijit.MenuItem({label:"Another menu item", onClick:fClick}));
+            pMenu.addChild(new dijit.MenuItem({label:"Simple menu item", onClick:fClick, accelKey:"Shift+S"}));
+            pMenu.addChild(new dijit.MenuItem({label:"Another menu item", onClick:fClick, accelKey:"Ctrl+A"}));
             pMenu.addChild(new dijit.MenuItem({label:"With an icon", iconClass:"dijitEditorIcon dijitEditorIconCut", onClick:fClick}));
-            var mItem = new dijit.MenuItem({label:"dojo.event clicking"});
+            var mItem = new dijit.MenuItem({label:"dojo.event clicking", accelKey: "Alt+D"});
             dojo.connect(mItem, "onClick", function(){alert("click! handler created via dojo.connect()")});
             pMenu.addChild(mItem);
 
@@ -72,17 +72,30 @@
             
             pMenu.startup();
             
-            dojo.byId("prog_menu").innerHTML="This div has a programmatic context menu on it that's different to the page menu."
+	    updateButtons(true);
+            dojo.byId("prog_menu").innerHTML="This div has a programmatic context menu on it that's different to the page menu.";
+
             dojo.byId("createButton").disabled = true;
             dojo.byId("destroyButton").disabled = false;
         }
         
         function destroyMenu(){
         	pMenu.destroyRecursive();
-            dojo.byId("prog_menu").innerHTML="No programmatic menu on this div, should get page level menu.";
-            dojo.byId("createButton").disabled = false;
-            dojo.byId("destroyButton").disabled = true;
+            updateButtons(false);
         }
+	
+	function updateButtons(created){
+            dojo.byId("prog_menu").innerHTML=created?"This div has a programmatic context menu on it that's different to the page menu.":"No programmatic menu on this div, should get page level menu.";
+            dojo.byId("createButton").disabled = created;
+            dojo.byId("destroyButton").disabled = !created;
+	}
+	dojo.addOnLoad(function(){
+            // need to explicitly update our buttons states, otherwise the 
+	    // browser will remember the last states of them before reloading 
+	    // (so a programmatic menu is created, reload, and "the create 
+	    // programmatic menu" button is still in disabled state)
+            updateButtons(false);
+	});
     </script>
 </head>
 <body class="tundra">
@@ -92,11 +105,11 @@
 		<div dojoType="dijit.MenuSeparator"></div>
 		<div dojoType="dijit.MenuItem" disabled="true">Disabled Item</div>
 		<div dojoType="dijit.MenuItem" iconClass="dijitEditorIcon dijitEditorIconCut"
-			onClick="alert('not actually cutting anything, just a test!')">Cut</div>
+			onClick="alert('not actually cutting anything, just a test!')" accelKey="Ctrl+X">Cut</div>
 		<div dojoType="dijit.MenuItem" iconClass="dijitEditorIcon dijitEditorIconCopy"
-			onClick="alert('not actually copying anything, just a test!')">Copy</div>
+			onClick="alert('not actually copying anything, just a test!')" accelKey="Ctrl+C">Copy</div>
 		<div dojoType="dijit.MenuItem" iconClass="dijitEditorIcon dijitEditorIconPaste"
-			onClick="alert('not actually pasting anything, just a test!')">Paste</div>
+			onClick="alert('not actually pasting anything, just a test!')" accelKey="Ctrl+V">Paste</div>
 		<div dojoType="dijit.MenuSeparator"></div>
 		<div dojoType="dijit.PopupMenuItem">
 			<span>Enabled Submenu</span>
@@ -281,6 +294,7 @@
 					<li>page level context menu (right-click anywhere on page)
 					<li>left click context menu (left click on input on far right)
 					<li>Example of programatically created menu
+					<li>Note: while some accelerator (shortcut) keys are displayed in the context menu, they are not actually hooked up to the corresponding actions (if any), they need to be setup explicitly by the user explicitly
 				</ul>
 		
 				<h3>Form</h3>

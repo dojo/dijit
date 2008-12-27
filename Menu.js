@@ -371,9 +371,10 @@ dojo.declare("dijit.MenuItem",
 		 '<tr class="dijitReset dijitMenuItem" dojoAttachPoint="focusNode" waiRole="menuitem" tabIndex="-1"'
 		+'dojoAttachEvent="onmouseenter:_onHover,onmouseleave:_onUnhover,ondijitclick:_onClick">'
 		+'<td class="dijitReset" waiRole="presentation"><div class="dijitMenuItemIcon" dojoAttachPoint="iconNode"></div></td>'
-		+'<td class="dijitReset dijitMenuItemLabel" dojoAttachPoint="containerNode"></td>'
+		+'<td class="dijitReset dijitMenuItemLabel" colspan="2" dojoAttachPoint="containerNode"></td>'
+		+'<td class="dijitReset dijitMenuItemAccelKey" style="display: none" dojoAttachPoint="accelKeyNode"></td>'
 		+'<td class="dijitReset dijitMenuArrowCell" waiRole="presentation">'
-			+'<div dojoAttachPoint="arrowWrapper" style="display: none">'
+			+'<div dojoAttachPoint="arrowWrapper" style="visibility: hidden">'
 				+'<div class="dijitMenuExpand"></div>'
 				+'<span class="dijitMenuExpandA11y">+</span>'
 			+'</div>'
@@ -393,6 +394,10 @@ dojo.declare("dijit.MenuItem",
 	//		Class to apply to div in button to make it display an icon
 	iconClass: "",
 
+	// accelKey: String
+	//		Text for the accelerator (shortcut) key combination
+	accelKey: "",
+
 	// disabled: Boolean
 	//  if true, the menu item is disabled
 	//  if false, the menu item is enabled
@@ -409,6 +414,9 @@ dojo.declare("dijit.MenuItem",
 	postCreate: function(){
 		dojo.setSelectable(this.domNode, false);
 		dojo.attr(this.containerNode, "id", this.id+"_text");
+		if(this.accelKey){
+			this.attr("accelKey", this.accelKey);
+		}
 		dijit.setWaiState(this.domNode, "labelledby", this.id+"_text");
 	},
 
@@ -463,6 +471,16 @@ dojo.declare("dijit.MenuItem",
 		this.disabled = value;
 		dojo[value ? "addClass" : "removeClass"](this.domNode, 'dijitMenuItemDisabled');
 		dijit.setWaiState(this.focusNode, 'disabled', value ? 'true' : 'false');
+	},
+	_setAccelKeyAttr: function(/*String*/ value){
+		// summary:
+		//		Hook for attr('accelKey', ...) to work.
+		//		Set accelKey on this menu item.
+		this.accelKey=value;
+
+		this.accelKeyNode.style.display=value?"":"none";
+		this.accelKeyNode.innerHTML=value;
+		dojo.attr(this.containerNode,'colspan',value?"1":"2");
 	}
 });
 
@@ -500,7 +518,7 @@ dojo.declare("dijit.PopupMenuItem",
 
 		this.popup.domNode.style.display="none";
 		if(this.arrowWrapper){
-			dojo.style(this.arrowWrapper, "display", "");
+			dojo.style(this.arrowWrapper, "visibility", "");
 		}
 		dijit.setWaiState(this.focusNode, "haspopup", "true");
 	},
@@ -519,7 +537,7 @@ dojo.declare("dijit.MenuSeparator",
 	{
 	// summary: A line between two menu items
 
-	templateString: '<tr class="dijitMenuSeparator"><td colspan=3>'
+	templateString: '<tr class="dijitMenuSeparator"><td colspan="4">'
 			+'<div class="dijitMenuSeparatorTop"></div>'
 			+'<div class="dijitMenuSeparatorBottom"></div>'
 			+'</td></tr>',
@@ -545,9 +563,10 @@ dojo.declare("dijit.CheckedMenuItem",
 		+'<td class="dijitReset" waiRole="presentation"><div class="dijitMenuItemIcon dijitCheckedMenuItemIcon" dojoAttachPoint="iconNode">'
 		+'<div class="dijitCheckedMenuItemIconChar">&#10003;</div>'
 		+'</div></td>'
-		+'<td class="dijitReset dijitMenuItemLabel" dojoAttachPoint="containerNode,labelNode"></td>'
+		+'<td class="dijitReset dijitMenuItemLabel" colspan="2" dojoAttachPoint="containerNode,labelNode"></td>'
+		+'<td class="dijitReset dijitMenuItemAccelKey" style="display: none" dojoAttachPoint="accelKeyNode"></td>'
 		+'<td class="dijitReset dijitMenuArrowCell" waiRole="presentation">'
-			+'<div dojoAttachPoint="arrowWrapper" style="display: none">'
+			+'<div dojoAttachPoint="arrowWrapper" style="visibility: hidden">'
 				+'<div class="dijitMenuExpand"></div>'
 				+'<span class="dijitMenuExpandA11y">+</span>'
 			+'</div>'
