@@ -143,7 +143,7 @@ dojo.declare("dijit.layout.SplitContainer",
 				if(i==this.sizers.length){
 					i--;
 				}
-				dojo._destroyElement(this.sizers[i]);
+				dojo.destroy(this.sizers[i]);
 				this.sizers.splice(i,1);
 			}
 		}

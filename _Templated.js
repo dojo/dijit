@@ -212,7 +212,7 @@ dijit._Templated.getCachedTemplate = function(templatePath, templateString, alwa
 			return cached;
 		}
 		// destroy the old cached node of a different document
-		dojo._destroyElement(cached);
+		dojo.destroy(cached);
 	}
 
 	// If necessary, load template string from template path
@@ -255,7 +255,7 @@ if(dojo.isIE){
 		for(var key in cache){
 			var value = cache[key];
 			if(!isNaN(value.nodeType)){ // isNode equivalent
-				dojo._destroyElement(value);
+				dojo.destroy(value);
 			}
 			delete cache[key];
 		}
@@ -278,7 +278,7 @@ if(dojo.isIE){
 
 		if(tn && tn.ownerDocument != dojo.doc){
 			// destroy dummy container of a different document
-			dojo._destroyElement(tn);
+			dojo.destroy(tn);
 			tn = undefined;
 		}
 		if(!tn){

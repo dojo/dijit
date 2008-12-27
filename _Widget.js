@@ -476,14 +476,14 @@ dojo.declare("dijit._Widget", null, {
 
 		if(this.domNode){
 			if(!preserveDom){
-				dojo._destroyElement(this.domNode);
+				dojo.destroy(this.domNode);
 			}
 			delete this.domNode;
 		}
 
 		if(this.srcNodeRef){
 			if(!preserveDom){
-				dojo._destroyElement(this.srcNodeRef);
+				dojo.destroy(this.srcNodeRef);
 			}
 			delete this.srcNodeRef;
 		}

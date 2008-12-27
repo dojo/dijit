@@ -11,7 +11,7 @@
 	there are currently (3 themes * 4 tests) * (10 variations of supported browsers)
 	not including testing individual locale-strings
 
-	you should not be using this in a production enviroment. include
+	you should NOT be using this in a production enviroment. include
 	your css and set your classes manually. for test purposes only ...
 */
 
@@ -70,12 +70,12 @@
 					dojo.removeClass(b, defTheme);
 					if(!d.hasClass(b, theme)){ d.addClass(b, theme); }
 					var n = d.byId("themeStyles");
-					if(n){ d._destroyElement(n); }
+					if(n){ d.destroy(n); }
 			}
 			if(testMode){ d.addClass(b, testMode); }
 			if(dojo.config._deferParsing){ 
 				// attempt to elimiate race condition introduced by this 
-				// test helper file.  420ms to allow CSS to finish/process?
+				// test helper file.  120ms to allow CSS to finish/process?
 				setTimeout(dojo.hitch(d.parser, "parse", b), 120);
 			}
 

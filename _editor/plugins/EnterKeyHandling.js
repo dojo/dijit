@@ -292,7 +292,7 @@ dojo.declare("dijit._editor.plugins.EnterKeyHandling", dijit._editor._Plugin, {
 			if((para.childNodes.length > 1 && para.lastChild.nodeType == 3 && /^[\s\xAD]*$/.test(para.lastChild.nodeValue)) ||
 				(para.lastChild && para.lastChild.tagName=='BR')){
 
-				dojo._destroyElement(para.lastChild);
+				dojo.destroy(para.lastChild);
 			}
 		}
 		if(!para.childNodes.length){
@@ -392,7 +392,7 @@ dojo.declare("dijit._editor.plugins.EnterKeyHandling", dijit._editor._Plugin, {
 						wrapNodes(nodesInLine);
 						currentNodeIndex = (currentNodeIndex+1)-nodesInLine.length;
 						if(currentNode.nodeName=="BR"){
-							dojo._destroyElement(currentNode);
+							dojo.destroy(currentNode);
 						}
 					}
 					nodesInLine = [];
@@ -418,7 +418,7 @@ dojo.declare("dijit._editor.plugins.EnterKeyHandling", dijit._editor._Plugin, {
 					dojo.forEach(trailingNodes, function(node){
 						newP.appendChild(node);
 					});
-					dojo._destroyElement(currentNode);
+					dojo.destroy(currentNode);
 					trailingNodes = [];
 				}else{
 					trailingNodes.unshift(currentNode);
@@ -535,7 +535,7 @@ dojo.declare("dijit._editor.plugins.EnterKeyHandling", dijit._editor._Plugin, {
 				}
 				node = node.nextSibling;
 				if(deleteNode){
-					dojo._destroyElement(deleteNode);
+					dojo.destroy(deleteNode);
 					deleteNode = null;
 				}
 			}

@@ -41,7 +41,7 @@
 		});
 		
 		function dumpRegistry(){
-			dojo.query("#reglist li").forEach(dojo._destroyElement);
+			dojo.query("#reglist li").forEach(dojo.destroy);
 			dijit.registry.forEach(function(w){
 				var li = dojo.doc.createElement('li');
 				li.innerHTML = w.toString();

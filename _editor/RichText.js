@@ -594,7 +594,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 					}
 					contentDoc.close();
 					
-					dojo._destroyElement(tmpContent);
+					dojo.destroy(tmpContent);
 				}
 
 				// Wait for body to be available
@@ -608,7 +608,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 				this.onLoad();
 			}else{
 				// Iframe is already loaded, we are just switching the content
-				dojo._destroyElement(tmpContent);
+				dojo.destroy(tmpContent);
 				this.editNode.innerHTML = html;
 				this.onDisplayChanged();
 			}
@@ -1600,7 +1600,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 				this.__overflow = null;
 			}
 			this.textarea.value = save ? this._content : this.savedContent;
-			dojo._destroyElement(this.domNode);
+			dojo.destroy(this.domNode);
 			this.domNode = this.textarea;
 		}else{
 			// if(save){

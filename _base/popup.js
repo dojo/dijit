@@ -213,7 +213,7 @@ dijit.popup.__OpenArgs = function(){
 			this.prepare(widget.domNode);
 
 			iframe.destroy();
-			dojo._destroyElement(wrapper);
+			dojo.destroy(wrapper);
 	
 			if(onClose){
 				onClose();

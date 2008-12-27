@@ -368,7 +368,7 @@ dojo.declare(
 		for(var region in this._splitters){
 			var splitter = this._splitters[region];
 			dijit.byNode(splitter).destroy();
-			dojo._destroyElement(splitter);
+			dojo.destroy(splitter);
 		}
 		delete this._splitters;
 		delete this._splitterThickness;
@@ -460,7 +460,7 @@ dojo.declare("dijit.layout._Splitter", [ dijit._Widget, dijit._Templated ],
 		dojo.addClass(this.cover, "dijitSplitterCoverActive");
 
 		// Safeguard in case the stop event was missed.  Shouldn't be necessary if we always get the mouse up.
-		if(this.fake){ dojo._destroyElement(this.fake); }
+		if(this.fake){ dojo.destroy(this.fake); }
 		if(!(this._resize = this.live)){ //TODO: disable live for IE6?
 			// create fake splitter to display at old position while we drag
 			(this.fake = this.domNode.cloneNode(true)).removeAttribute("id");
@@ -513,7 +513,7 @@ dojo.declare("dijit.layout._Splitter", [ dijit._Widget, dijit._Templated ],
 			if(this.cover){
 				dojo.removeClass(this.cover, "dijitSplitterCoverActive");
 			}
-			if(this.fake){ dojo._destroyElement(this.fake); }
+			if(this.fake){ dojo.destroy(this.fake); }
 			dojo.removeClass(this.domNode, "dijitSplitterActive");
 			dojo.removeClass(this.domNode, "dijitSplitterShadow");
 			this._drag(e); //TODO: redundant with onmousemove?

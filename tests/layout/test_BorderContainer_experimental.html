@@ -75,9 +75,7 @@
 					dojo.query(".dijitSplitter",this.domNode).forEach(function(n){
 						dijit.byNode(n).destroy();
 					});
-					dojo.query(".dijitSplitterCover").forEach(function(n){
-						dojo._destroyElement(n);
-					})
+					dojo.query(".dijitSplitterCover").forEach(dojo.destroy);
 					delete this._splitters;
 					this._splitters = {};
 				},

@@ -56,7 +56,7 @@
 
 				destroy: function(f){
 					this.inherited(arguments);
-					if(this.sourceArea){ dojo._destroyElement(this.sourceArea); }
+					if(this.sourceArea){ dojo.destroy(this.sourceArea); }
 				},
 
 				_toggleSource: function(){
