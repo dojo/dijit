@@ -46,7 +46,7 @@ dijit.popup.__OpenArgs = function(){
 	//		y: Integer
 	//			Absolute vertical position (in pixels) to place node at.  (Specity this *or* "around" parameter.)
 	//		orient: Object || String
-	//			When the around parameter is specified, orients hould be an 
+	//			When the around parameter is specified, orient should be an 
 	//			ordered list of tuples of the form (around-node-corner, popup-node-corner).
 	//			dijit.popup.open() tries to position the popup according to each tuple in the list, in order,
 	//			until the popup appears fully within the viewport.
@@ -73,6 +73,8 @@ dijit.popup.__OpenArgs = function(){
 	//			callback whenever this popup is closed
 	//		onExecute: Function
 	//			callback when user "executed" on the popup/sub-popup by selecting a menu choice, etc. (top menu only)
+	//		padding: dijit.__Position
+	//			adding a buffer around the opening position. This is only useful when around is not set.
 	this.popup = popup;
 	this.parent = parent;
 	this.around = around;
@@ -82,6 +84,7 @@ dijit.popup.__OpenArgs = function(){
 	this.onCancel = onCancel;
 	this.onClose = onClose;
 	this.onExecute = onExecute;
+	this.padding = padding;
 }
 =====*/
 	this.open = function(/*dijit.popup.__OpenArgs*/ args){
@@ -130,7 +133,7 @@ dijit.popup.__OpenArgs = function(){
 		// position the wrapper node
 		var best = around ?
 			dijit.placeOnScreenAroundElement(wrapper, around, orient, widget.orient ? dojo.hitch(widget, "orient") : null) :
-			dijit.placeOnScreen(wrapper, args, orient == 'R' ? ['TR','BR','TL','BL'] : ['TL','BL','TR','BR']);
+			dijit.placeOnScreen(wrapper, args, orient == 'R' ? ['TR','BR','TL','BL'] : ['TL','BL','TR','BR'], args.padding);
 
 		wrapper.style.visibility = "visible";
 		// TODO: use effects to fade in wrapper

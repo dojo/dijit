@@ -74,7 +74,7 @@ dijit.placeOnScreen = function(
 	/* DomNode */			node,
 	/* dijit.__Position */	pos,
 	/* String[] */			corners,
-	/* boolean? */			tryOnly){
+	/* dijit.__Position? */	padding){
 	//	summary:
 	//		Positions one of the node's corners at specified position
 	//		such that node is fully visible in viewport.
@@ -89,13 +89,22 @@ dijit.placeOnScreen = function(
 	//			* "BR" - bottom right
 	//			* "TL" - top left
 	//			* "TR" - top right
+	//	padding:
+	//		set padding to put some buffer around the element you want to position.
 	//	example:	
 	//		Try to place node's top right corner at (10,20).
 	//		If that makes node go (partially) off screen, then try placing
 	//		bottom left corner at (10,20).
 	//	|	placeOnScreen(node, {x: 10, y: 20}, ["TR", "BL"])
 
-	var choices = dojo.map(corners, function(corner){ return { corner: corner, pos: pos }; });
+	var choices = dojo.map(corners, function(corner){
+		var c = { corner: corner, pos: {x:pos.x,y:pos.y} };
+		if(padding){
+			c.pos.x += corner.charAt(1) == 'L' ? padding.x : -padding.x;
+			c.pos.y += corner.charAt(0) == 'T' ? padding.y : -padding.y;
+		}
+		return c; 
+	});
 
 	return dijit._place(node, choices);
 }
