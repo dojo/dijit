@@ -414,9 +414,6 @@ dojo.declare("dijit.MenuItem",
 	postCreate: function(){
 		dojo.setSelectable(this.domNode, false);
 		dojo.attr(this.containerNode, "id", this.id+"_text");
-		if(this.accelKey){
-			this.attr("accelKey", this.accelKey);
-		}
 		dijit.setWaiState(this.domNode, "labelledby", this.id+"_text");
 	},
 
