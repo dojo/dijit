@@ -65,6 +65,9 @@ dojo.declare(
 		},
 
 		_setText: function(node, text){
+			// summary:
+			//		This just sets the content of node to the specified text.
+			//		Can't do "node.innerHTML=text" because of an IE bug w/tables, see #3434.
 			while(node.firstChild){
 				node.removeChild(node.firstChild);
 			}
