@@ -2,11 +2,8 @@ dojo.provide("dijit.MenuBar");
 
 dojo.require("dijit.Menu");
 
-dojo.declare(
-	"dijit.MenuBar",
-	dijit._MenuBase,
-{
-	// summary
+dojo.declare("dijit.MenuBar", dijit._MenuBase, {
+	// summary:
 	//		A menu bar, listing menu choices horizontally, like the "File" menu in most desktop applications
 
 	templateString: '<div class="dijitMenuBar" dojoAttachPoint="containerNode"  tabIndex="${tabIndex}" dojoAttachEvent="onkeypress: _onKeyPress"></div>',
@@ -19,9 +16,10 @@ dojo.declare(
 	},
 
 	postCreate: function(){
+		var k = dojo.keys, l = this.isLeftToRight();
 		this.connectKeyNavHandlers(
-			this.isLeftToRight() ? [dojo.keys.LEFT_ARROW] : [dojo.keys.RIGHT_ARROW],
-			this.isLeftToRight() ? [dojo.keys.RIGHT_ARROW] : [dojo.keys.LEFT_ARROW]
+			l ? [k.LEFT_ARROW] : [k.RIGHT_ARROW],
+			l ? [k.RIGHT_ARROW] : [k.LEFT_ARROW]
 		);
 	},
 
@@ -29,8 +27,8 @@ dojo.declare(
 		//	overload focusChild so that whenever the focus is moved to a new item,
 		//	check the previous focused whether it has its popup open, if so, after 
 		//	focusing the new item, open its submenu immediately
-		var from_item = this.focusedChild;
-		var showpopup=from_item && from_item.popup && from_item.popup.isShowingNow;
+		var from_item = this.focusedChild,
+			showpopup = from_item && from_item.popup && from_item.popup.isShowingNow;
 		this.inherited(arguments);
 		if(showpopup){
 			this._openPopup();
@@ -49,10 +47,7 @@ dojo.declare(
 	}
 });
 
-dojo.declare(
-	"dijit.MenuBarItem",
-	dijit.PopupMenuItem,
-{
+dojo.declare("dijit.MenuBarItem", dijit.PopupMenuItem, {
 	// summary:
 	//		Item in a MenuBar like "File" or "Edit", that spawns a submenu when pressed (or hovered)
 		
@@ -64,4 +59,5 @@ dojo.declare(
 	attributeMap: dojo.delegate(dijit._Widget.prototype.attributeMap, {
 		label: { node: "containerNode", type: "innerHTML" }
 	})
+	
 });

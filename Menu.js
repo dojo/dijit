@@ -204,9 +204,10 @@ dojo.declare("dijit.Menu",
 		}else{
 			dojo.forEach(this.targetNodeIds, this.bindDomNode, this);
 		}
-		this._openSubMenuKey=this.isLeftToRight()?dojo.keys.RIGHT_ARROW:dojo.keys.LEFT_ARROW;
-		this._closeSubMenuKey=this.isLeftToRight()?dojo.keys.LEFT_ARROW:dojo.keys.RIGHT_ARROW;
-		this.connectKeyNavHandlers([dojo.keys.UP_ARROW], [dojo.keys.DOWN_ARROW]);
+		var k = dojo.keys, l = this.isLeftToRight();
+		this._openSubMenuKey = l ? k.RIGHT_ARROW : k.LEFT_ARROW;
+		this._closeSubMenuKey = l ? k.LEFT_ARROW : k.RIGHT_ARROW;
+		this.connectKeyNavHandlers([k.UP_ARROW], [k.DOWN_ARROW]);
 	},
 
 	_onKeyPress: function(/*Event*/ evt){
