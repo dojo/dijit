@@ -28,7 +28,7 @@ dijit.popup = new function(){
 		if(s.display == "none"){
 			s.display="";
 		}
-		s.visibility = "hidden";	// not needed for hiding, but used as flag that node is off-screen
+		s.visibility = "hidden";	// so TAB key doesn't navigate to hidden popup
 		s.position = "absolute";
 		s.top = "-9999px";
 	};
