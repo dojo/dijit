@@ -8,7 +8,10 @@
 }
 
 .soria .dijitTreeNodeHover {
-	background-color: #e7edf8 !important;
+	/* using a transparent png so that we can still see grid lines, which are (unfortunately) behind the dijitRowNode that we are hovering over */
+	background-image: url(images/treeHover.png);
+	background-repeat: repeat;
+	background-color: none !important;
 }
 
 
