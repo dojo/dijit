@@ -25,6 +25,18 @@ dojo.declare(
 		);
 	},
 
+	focusChild: function(item){
+		//	overload focusChild so that whenever the focus is moved to a new item,
+		//	check the previous focused whether it has its popup open, if so, after 
+		//	focusing the new item, open its submenu immediately
+		var from_item = this.focusedChild;
+		var showpopup=from_item && from_item.popup && from_item.popup.isShowingNow;
+		this.inherited(arguments);
+		if(showpopup){
+			this._openPopup();
+		}
+	},
+	
 	_onKeyPress: function(/*Event*/ evt){
 		// summary: Handle keyboard based menu navigation.
 		if(evt.ctrlKey || evt.altKey){ return; }

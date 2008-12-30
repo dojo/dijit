@@ -14,7 +14,8 @@ dojo.declare("dijit._MenuBase",
 	parentMenu: null,
 
 	// popupDelay: Integer
-	//	number of milliseconds before hovering (without clicking) causes the popup to automatically open
+	//	number of milliseconds before hovering (without clicking) causes the popup to automatically open.
+	//	set this to -1 to disable automatically opening of submenus.
 	popupDelay: 500,
 
 	startup: function(){
@@ -53,7 +54,7 @@ dojo.declare("dijit._MenuBase",
 		// summary: Called when cursor is over a MenuItem
 		this.focusChild(item);
 
-		if(this.focusedChild.popup && !this.focusedChild.disabled && !this.hover_timer){
+		if(this.focusedChild.popup && !this.focusedChild.disabled && !this.hover_timer && this.popupDelay>=0){
 			this.hover_timer = setTimeout(dojo.hitch(this, "_openPopup"), this.popupDelay);
 		}
 	},
@@ -203,6 +204,8 @@ dojo.declare("dijit.Menu",
 		}else{
 			dojo.forEach(this.targetNodeIds, this.bindDomNode, this);
 		}
+		this._openSubMenuKey=this.isLeftToRight()?dojo.keys.RIGHT_ARROW:dojo.keys.LEFT_ARROW;
+		this._closeSubMenuKey=this.isLeftToRight()?dojo.keys.LEFT_ARROW:dojo.keys.RIGHT_ARROW;
 		this.connectKeyNavHandlers([dojo.keys.UP_ARROW], [dojo.keys.DOWN_ARROW]);
 	},
 
@@ -211,13 +214,17 @@ dojo.declare("dijit.Menu",
 		if(evt.ctrlKey || evt.altKey){ return; }
 
 		switch(evt.charOrCode){
-			case dojo.keys.RIGHT_ARROW:
+			case this._openSubMenuKey:
 				this._moveToPopup(evt);
 				dojo.stopEvent(evt);
 				break;
-			case dojo.keys.LEFT_ARROW:
+			case this._closeSubMenuKey:
 				if(this.parentMenu){
-					this.onCancel(false);
+					if(this.parentMenu._isMenuBar){
+						this.parentMenu.focusPrev();
+					}else{
+						this.onCancel(false);
+					}
 				}else{
 					dojo.stopEvent(evt);
 				}
