@@ -697,7 +697,7 @@ dojo.declare("dijit._Widget", null, {
 
 	toString: function(){
 		// summary:
-		//		returns a string that represents the widget. When a widget is
+		//		Returns a string that represents the widget. When a widget is
 		//		cast to a string, this method will be used to generate the
 		//		output. Currently, it does not implement any sort of reversable
 		//		serialization.
