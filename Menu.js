@@ -68,6 +68,7 @@ dojo.declare("dijit._MenuBase",
 
 	onItemUnhover: function(/*MenuItem*/ item){
 		// summary: Callback fires when mouse exits a MenuItem
+		this._stopPopupTimer();
 	},
 
 	_stopPopupTimer: function(){
