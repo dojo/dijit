@@ -528,7 +528,7 @@ dojo.declare(
 					tree: this,
 					isExpandable: true,
 					label: this.label || this.getLabel(item),
-					indent: this.showRoot ? 1 : 0
+					indent: this.showRoot ? 0 : -1
 				});
 				if(!this.showRoot){
 					rn.rowNode.style.display="none";
