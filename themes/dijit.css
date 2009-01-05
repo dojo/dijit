@@ -206,7 +206,7 @@
 	vertical-align: middle;
 }
 .dijit_a11y .dijitArrowButtonInner {
-	width: 1.0em;
+	width: 1em;
 	display: none !important;
 }
 .dijitButtonNode .dijitArrowButtonInner {
@@ -335,13 +335,13 @@ DIV.dijitArrowButton {
 	height: 50%;
 }
 .dijitSpinner .dijitInputLayoutContainer .dijitDownArrowButton {
-	top: 0;
+	top: none;
 	bottom: 0;
 	border-top-width: 1px !important;
 }
 .dijitSpinner .dijitInputLayoutContainer .dijitUpArrowButton {
 	top: 0;
-	bottom: 0;
+	bottom: none;
 }
 
 TABLE.dijitComboButton {
