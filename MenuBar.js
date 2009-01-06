@@ -30,7 +30,7 @@ dojo.declare("dijit.MenuBar", dijit._MenuBase, {
 		var from_item = this.focusedChild,
 			showpopup = from_item && from_item.popup && from_item.popup.isShowingNow;
 		this.inherited(arguments);
-		if(showpopup){
+		if(showpopup && !item.disabled){
 			this._openPopup();
 		}
 	},
@@ -52,8 +52,8 @@ dojo.declare("dijit.MenuBarItem", dijit.PopupMenuItem, {
 	//		Item in a MenuBar like "File" or "Edit", that spawns a submenu when pressed (or hovered)
 		
 	templateString:
-		 '<div class="dijitReset dijitInline dijitMenuItem dijitMenuItemLabel" dojoAttachPoint="focusNode,containerNode" waiRole="menuitem" tabIndex="-1"'
-					+'dojoAttachEvent="onmouseenter:_onHover,onmouseleave:_onUnhover,ondijitclick:_onClick"></div>',
+		 '<div class="dijitReset dijitInline dijitMenuItem dijitMenuItemLabel" dojoAttachPoint="focusNode" waiRole="menuitem" tabIndex="-1"'
+					+'dojoAttachEvent="onmouseenter:_onHover,onmouseleave:_onUnhover,ondijitclick:_onClick"><span dojoAttachPoint="containerNode"></span></div>',
 
 	// overriding attributeMap because we don't have icon
 	attributeMap: dojo.delegate(dijit._Widget.prototype.attributeMap, {
