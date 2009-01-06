@@ -15,7 +15,6 @@ dojo.declare("dijit._MenuBase",
 
 	// popupDelay: Integer
 	//	number of milliseconds before hovering (without clicking) causes the popup to automatically open.
-	//	set this to -1 to disable automatically opening of submenus.
 	popupDelay: 500,
 
 	startup: function(){
@@ -51,24 +50,39 @@ dojo.declare("dijit._MenuBase",
 	},
 
 	onItemHover: function(/*MenuItem*/ item){
-		// summary: Called when cursor is over a MenuItem
-		this.focusChild(item);
+		// summary:
+		//		Called when cursor is over a MenuItem.
 
-		if(this.focusedChild.popup && !this.focusedChild.disabled && !this.hover_timer && this.popupDelay>=0){
-			this.hover_timer = setTimeout(dojo.hitch(this, "_openPopup"), this.popupDelay);
+		// Don't do anything unless user has "activated" the menu by:
+		//		1) clicking it
+		//		2) tabbing into it
+		//		3) opening it from a parent menu (which automatically focuses it)
+		if(this.isActive){
+			this.focusChild(item);
+	
+			if(this.focusedChild.popup && !this.focusedChild.disabled && !this.hover_timer){
+				this.hover_timer = setTimeout(dojo.hitch(this, "_openPopup"), this.popupDelay);
+			}
 		}
 	},
 
 	_onChildBlur: function(item){
-		// summary: Close all popups that are open and descendants of this menu
+		// summary:
+		//		Called when a child MenuItem becomes inactive because focus
+		//		has been removed from the MenuItem *and* it's descendant menus.
+
+		item._setSelected(false);
+
+		// Close all popups that are open and descendants of this menu
 		dijit.popup.close(item.popup);
-		item._blur();
 		this._stopPopupTimer();
 	},
 
 	onItemUnhover: function(/*MenuItem*/ item){
 		// summary: Callback fires when mouse exits a MenuItem
-		this._stopPopupTimer();
+		if(this.isActive){
+			this._stopPopupTimer();
+		}
 	},
 
 	_stopPopupTimer: function(){
@@ -86,6 +100,8 @@ dojo.declare("dijit._MenuBase",
 	onItemClick: function(/*Widget*/ item, /*Event*/ evt){
 		// summary: user defined function to handle clicks on an item
 		if(item.disabled){ return false; }
+
+		this.focusChild(item);
 
 		if(item.popup){
 			if(!this.is_open){
@@ -148,9 +164,29 @@ dojo.declare("dijit._MenuBase",
 		}
 	},
 
+	_onFocus: function(){
+		// summary:
+		//		Called when this Menu gets focus from:
+		//			1) clicking it
+		//			2) tabbing into it
+		//			3) being opened by a parent menu.
+		//		This is not called just from mouse hover.
+		this.isActive = true;
+		dojo.addClass(this.domNode, "dijitMenuActive");
+		dojo.removeClass(this.domNode, "dijitMenuPassive");
+		this.inherited(arguments);
+	},
+	
 	_onBlur: function(){
+		// summary:
+		//		Called when focus is moved away from this Menu and it's submenus
+		this.isActive = false;
+		dojo.removeClass(this.domNode, "dijitMenuActive");
+		dojo.addClass(this.domNode, "dijitMenuPassive");
+
 		// If user blurs/clicks away from a MenuBar (or always visible Menu), then close all popped up submenus etc.
 		this.onClose();
+
 		this.inherited(arguments);
 	},
 
@@ -176,7 +212,7 @@ dojo.declare("dijit.Menu",
 	},
 
 	templateString:
-			'<table class="dijit dijitMenu dijitReset dijitMenuTable" waiRole="menu" tabIndex="${tabIndex}" dojoAttachEvent="onkeypress:_onKeyPress">' +
+			'<table class="dijit dijitMenu dijitMenuPassive dijitReset dijitMenuTable" waiRole="menu" tabIndex="${tabIndex}" dojoAttachEvent="onkeypress:_onKeyPress">' +
 				'<tbody class="dijitReset" dojoAttachPoint="containerNode"></tbody>'+
 			'</table>',
 
@@ -428,14 +464,19 @@ dojo.declare("dijit.MenuItem",
 
 	_onHover: function(){
 		// summary: callback when mouse is moved onto menu item
+		dojo.addClass(this.domNode, 'dijitMenuItemHover');
 		this.getParent().onItemHover(this);
 	},
 
 	_onUnhover: function(){
-		// summary: callback when mouse is moved off of menu item
+		// summary:
+		//		Callback when mouse is moved off of menu item,
+		//		possibly to a child menu, or maybe to a sibling
+		//		menuitem or somewhere else entirely.
 
 		// if we are unhovering the currently selected item
 		// then unselect it
+		dojo.removeClass(this.domNode, 'dijitMenuItemHover');
 		this.getParent().onItemUnhover(this);
 	},
 
@@ -449,7 +490,8 @@ dojo.declare("dijit.MenuItem",
 	},
 
 	focus: function(){
-		dojo.addClass(this.domNode, 'dijitMenuItemHover');
+		// summary:
+		//		Focus on this MenuItem
 		try{
 			dijit.focus(this.focusNode);
 		}catch(e){
@@ -457,8 +499,25 @@ dojo.declare("dijit.MenuItem",
 		}
 	},
 
-	_blur: function(){
-		dojo.removeClass(this.domNode, 'dijitMenuItemHover');
+	_onFocus: function(){
+		this._setSelected(true);
+	},
+
+	_setSelected: function(selected){
+		// summary:
+		//		Indicate that this node is the currently selected one
+
+		/***
+		 * TODO: remove this method and calls to it, when _onBlur() is working for MenuItem.
+		 * Currently _onBlur() gets called when focus is moved from the MenuItem to a child menu.
+		 * That's not supposed to happen, but the problem is:
+		 * In order to allow dijit.popup's getTopPopup()  work,a sub menu's popupParent
+		 * points to the parent Menu, bypassing the parent MenuItem... thus the
+		 * MenuItem is not in the chain of active widgets and gets a premature call to
+		 * _onBlur()
+		 */
+		
+		dojo.toggleClass(this.domNode, "dijitMenuItemSelected", selected);
 	},
 
 	setLabel: function(/*String*/ content){

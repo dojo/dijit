@@ -6,7 +6,7 @@ dojo.declare("dijit.MenuBar", dijit._MenuBase, {
 	// summary:
 	//		A menu bar, listing menu choices horizontally, like the "File" menu in most desktop applications
 
-	templateString: '<div class="dijitMenuBar" dojoAttachPoint="containerNode"  tabIndex="${tabIndex}" dojoAttachEvent="onkeypress: _onKeyPress"></div>',
+	templateString: '<div class="dijitMenuBar dijitMenuPassive" dojoAttachPoint="containerNode"  tabIndex="${tabIndex}" dojoAttachEvent="onkeypress: _onKeyPress"></div>',
 
 	_isMenuBar: true,
 

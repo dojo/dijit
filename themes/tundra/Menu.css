@@ -23,7 +23,8 @@
 	padding: 2px;
 }
 
-.tundra .dijitMenuItemHover {
+.tundra .dijitMenuPassive .dijitMenuItemHover,
+.tundra .dijitMenuItemSelected {
 	background-color: #3559ac;
 	color:#fff;
 }
@@ -62,7 +63,7 @@
 
 .tundra .dijitCheckedMenuItemIcon {
 	background-image: url('images/checkmark.png');
-	background-position: -16px;
+	background-position: -80px;
 }
 
 .dj_ie6 .tundra .dijitCheckedMenuItemIcon {
@@ -73,10 +74,6 @@
 	background-position: 0px;
 }
 
-.tundra .dijitMenuItemHover .dijitCheckedMenuItemIcon {
-	background-position: -80px;
-}
-
-.tundra .dijitMenuItemHover .dijitCheckedMenuItemIconChecked {
+.tundra .dijitCheckedMenuItemIconChecked {
 	background-position: -64px;
 }

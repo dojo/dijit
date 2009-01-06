@@ -90,11 +90,11 @@
             dojo.byId("destroyButton").disabled = !created;
 	}
 	dojo.addOnLoad(function(){
-            // need to explicitly update our buttons states, otherwise the 
-	    // browser will remember the last states of them before reloading 
-	    // (so a programmatic menu is created, reload, and "the create 
-	    // programmatic menu" button is still in disabled state)
-            updateButtons(false);
+		// need to explicitly update our buttons states, otherwise the 
+		// browser will remember the last states of them before reloading 
+		// (so a programmatic menu is created, reload, and "the create 
+		// programmatic menu" button is still in disabled state)
+		updateButtons(false);
 	});
     </script>
 </head>
@@ -191,7 +191,7 @@
 				<div id="menubar" dojoType="dijit.MenuBar">
 					<div dojoType="dijit.MenuBarItem">
 						<span>File</span>
-						<div dojoType="dijit.Menu">
+						<div dojoType="dijit.Menu" id="fileMenu">
 							<div dojoType="dijit.MenuItem">New</div>
 							<div dojoType="dijit.MenuItem">Open</div>
 							<div dojoType="dijit.MenuSeparator"></div>
@@ -201,7 +201,7 @@
 					</div>
 					<div dojoType="dijit.MenuBarItem">
 						<span>Edit</span>
-						<div dojoType="dijit.Menu">
+						<div dojoType="dijit.Menu" id="editMenu">
 							<div dojoType="dijit.MenuItem"  iconClass="dijitEditorIcon dijitEditorIconCut"
 								onClick="console.log('not actually cutting anything, just a test!')">Cut</div>
 							<div dojoType="dijit.MenuItem"  iconClass="dijitEditorIcon dijitEditorIconCopy"
@@ -212,12 +212,12 @@
 					</div>
 					<div dojoType="dijit.MenuBarItem">
 						<span>View</span>
-						<div dojoType="dijit.Menu">
+						<div dojoType="dijit.Menu" id="viewMenu">
 							<div dojoType="dijit.MenuItem">Normal</div>
 							<div dojoType="dijit.MenuItem">Outline</div>
 							<div dojoType="dijit.PopupMenuItem">
 								<span>Zoom</span>
-								<div dojoType="dijit.Menu" id="menuBarSub1">
+								<div dojoType="dijit.Menu" id="zoomMenu">
 									<div dojoType="dijit.MenuItem">50%</div>
 									<div dojoType="dijit.MenuItem">75%</div>
 									<div dojoType="dijit.MenuItem">100%</div>
@@ -229,7 +229,7 @@
 					</div>
 					<div dojoType="dijit.MenuBarItem">
 						<span>Help</span>
-						<div dojoType="dijit.Menu">
+						<div dojoType="dijit.Menu" id="helpMenu">
 							<div dojoType="dijit.MenuItem">Help Topics</div>
 							<div dojoType="dijit.MenuItem">About Dijit</div>
 						</div>
@@ -294,7 +294,7 @@
 					<li>page level context menu (right-click anywhere on page)
 					<li>left click context menu (left click on input on far right)
 					<li>Example of programatically created menu
-					<li>Note: while some accelerator (shortcut) keys are displayed in the context menu, they are not actually hooked up to the corresponding actions (if any), they need to be setup explicitly by the user explicitly
+					<li>Note: while some accelerator (shortcut) keys are displayed in the context menu, they are not actually hooked up to the corresponding actions (if any), they need to be setup explicitly by the user
 				</ul>
 		
 				<h3>Form</h3>

@@ -982,7 +982,15 @@ img.dijitColorPaletteUnder {
 	cursor:pointer;
 }
 
-.dijitMenuItemHover {
+.dijitMenuPassive .dijitMenuItemHover,
+.dijitMenuItemSelected {
+	/*
+	 * dijitMenuItemHover refers to actual mouse over
+	 * dijitMenuItemSelected is used after a menu has been "activated" by
+	 * clicking it, tabbing into it, or being opened from a parent menu,
+	 * and denotes that the menu item has focus or that focus is on a child
+	 * menu
+	 */
 	background-color:black;
 	color:white;
 }
@@ -1010,11 +1018,11 @@ img.dijitColorPaletteUnder {
 	vertical-align: middle;
 }
 
-.dijit_a11y .dijitMenuItemHover .dijitMenuItemLabel {
+.dijit_a11y .dijitMenuItemSelected .dijitMenuItemLabel {
 	border-width: 1px;
 	border-style: solid;
 }
-.dijit_a11y .dijitMenuItemHover {
+.dijit_a11y .dijitMenuItemSelected {
 	border: 1px #fff dotted !important;
 }
 
