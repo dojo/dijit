@@ -335,13 +335,13 @@ DIV.dijitArrowButton {
 	height: 50%;
 }
 .dijitSpinner .dijitInputLayoutContainer .dijitDownArrowButton {
-	top: none;
+	top: auto;
 	bottom: 0;
 	border-top-width: 1px !important;
 }
 .dijitSpinner .dijitInputLayoutContainer .dijitUpArrowButton {
 	top: 0;
-	bottom: none;
+	bottom: auto;
 }
 
 TABLE.dijitComboButton {
