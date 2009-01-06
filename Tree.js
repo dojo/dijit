@@ -1417,6 +1417,7 @@ dojo.declare("dijit.tree.ForestStoreModel", dijit.tree.TreeStoreModel, {
 		dijit.tree.TreeStoreModel.prototype.pasteItem.call(this, childItem,
 			oldParentItem === this.root ? null : oldParentItem,
 			newParentItem === this.root ? null : newParentItem,
+			bCopy,
 			insertIndex
 		);
 		if(newParentItem === this.root){
