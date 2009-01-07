@@ -41,7 +41,11 @@
 	<script language="JavaScript" type="text/javascript">
 		dojo.require("dijit.dijit"); // optimize: load dijit layer
 		dojo.require("dijit.Menu");
+		dojo.require("dijit.MenuItem");
+		dojo.require("dijit.PopupMenuItem");
 		dojo.require("dijit.MenuBar");
+		dojo.require("dijit.MenuBarItem");
+		dojo.require("dijit.PopupMenuBarItem");
 		dojo.require("dijit.ColorPalette");
 		dojo.require("dijit._Calendar");
 		dojo.require("dojo.parser");	// scan page for widgets and instantiate them
@@ -189,7 +193,7 @@
 			</td>
 			<td id="menuBarContainer" width="100%">
 				<div id="menubar" dojoType="dijit.MenuBar">
-					<div dojoType="dijit.MenuBarItem">
+					<div dojoType="dijit.PopupMenuBarItem">
 						<span>File</span>
 						<div dojoType="dijit.Menu" id="fileMenu">
 							<div dojoType="dijit.MenuItem">New</div>
@@ -199,7 +203,7 @@
 							<div dojoType="dijit.MenuItem">Save As...</div>
 						</div>
 					</div>
-					<div dojoType="dijit.MenuBarItem">
+					<div dojoType="dijit.PopupMenuBarItem">
 						<span>Edit</span>
 						<div dojoType="dijit.Menu" id="editMenu">
 							<div dojoType="dijit.MenuItem"  iconClass="dijitEditorIcon dijitEditorIconCut"
@@ -210,7 +214,7 @@
 								onClick="console.log('not actually pasting anything, just a test!')">Paste</div>
 						</div>
 					</div>
-					<div dojoType="dijit.MenuBarItem">
+					<div dojoType="dijit.PopupMenuBarItem">
 						<span>View</span>
 						<div dojoType="dijit.Menu" id="viewMenu">
 							<div dojoType="dijit.MenuItem">Normal</div>
@@ -227,18 +231,21 @@
 							</div>
 						</div>
 					</div>
-					<div dojoType="dijit.MenuBarItem">
+					<div dojoType="dijit.PopupMenuBarItem">
 						<span>Help</span>
 						<div dojoType="dijit.Menu" id="helpMenu">
 							<div dojoType="dijit.MenuItem">Help Topics</div>
 							<div dojoType="dijit.MenuItem">About Dijit</div>
 						</div>
 					</div>
-					<div dojoType="dijit.MenuBarItem" disabled="true">
+					<div dojoType="dijit.PopupMenuBarItem" disabled="true">
 						<span>Disabled</span>
 						<div dojoType="dijit.Menu">
 							<div dojoType="dijit.MenuItem">You should not see this</div>
 						</div>
+					</div>
+					<div dojoType="dijit.MenuBarItem" onclick="alert('no submenu, just a clickable MenuItem');">
+						Click me!
 					</div>
 				</div>	
 			</td>
