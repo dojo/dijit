@@ -5,7 +5,6 @@ dojo.require("dojo.cookie");
 
 dojo.declare(
 	"dijit.layout.BorderContainer",
-//	[dijit._Widget, dijit._Container, dijit._Contained],
 	dijit.layout._LayoutWidget,
 {
 	// summary:

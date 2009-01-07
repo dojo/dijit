@@ -1,7 +1,8 @@
 dojo.provide("dijit.layout.ContentPane");
 
 dojo.require("dijit._Widget");
-dojo.require("dijit.layout._LayoutWidget");
+dojo.require("dijit._Container");
+dojo.require("dijit._Contained");
 
 dojo.require("dojo.parser");
 dojo.require("dojo.string");

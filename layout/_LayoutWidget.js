@@ -2,6 +2,7 @@ dojo.provide("dijit.layout._LayoutWidget");
 
 dojo.require("dijit._Widget");
 dojo.require("dijit._Container");
+dojo.require("dijit._Contained");
 
 dojo.declare("dijit.layout._LayoutWidget",
 	[dijit._Widget, dijit._Container, dijit._Contained],

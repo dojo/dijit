@@ -1,7 +1,7 @@
 dojo.provide("dijit.Menu");
 
 dojo.require("dijit._Widget");
-dojo.require("dijit._Container");
+dojo.require("dijit._KeyNavContainer");
 dojo.require("dijit._Templated");
 
 dojo.declare("dijit._MenuBase",
