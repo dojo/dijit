@@ -587,10 +587,7 @@ dojo.declare("dijit.MenuSeparator",
 	{
 	// summary: A line between two menu items
 
-	templateString: '<tr class="dijitMenuSeparator"><td colspan="4">'
-			+'<div class="dijitMenuSeparatorTop"></div>'
-			+'<div class="dijitMenuSeparatorBottom"></div>'
-			+'</td></tr>',
+	templatePath: dojo.moduleUrl("dijit", "templates/MenuSeparator.html"),
 
 	postCreate: function(){
 		dojo.setSelectable(this.domNode, false);
@@ -607,21 +604,7 @@ dojo.declare("dijit.CheckedMenuItem",
 	{
 	// summary: a checkbox-like menu item for toggling on and off
 	
-	templateString:
-		 '<tr class="dijitReset dijitMenuItem" dojoAttachPoint="focusNode" waiRole="menuitemcheckbox" tabIndex="-1"'
-		+'dojoAttachEvent="onmouseenter:_onHover,onmouseleave:_onUnhover,ondijitclick:_onClick">'
-		+'<td class="dijitReset" waiRole="presentation"><div class="dijitMenuItemIcon dijitCheckedMenuItemIcon" dojoAttachPoint="iconNode">'
-		+'<div class="dijitCheckedMenuItemIconChar">&#10003;</div>'
-		+'</div></td>'
-		+'<td class="dijitReset dijitMenuItemLabel" colspan="2" dojoAttachPoint="containerNode,labelNode"></td>'
-		+'<td class="dijitReset dijitMenuItemAccelKey" style="display: none" dojoAttachPoint="accelKeyNode"></td>'
-		+'<td class="dijitReset dijitMenuArrowCell" waiRole="presentation">'
-			+'<div dojoAttachPoint="arrowWrapper" style="visibility: hidden">'
-				+'<div class="dijitMenuExpand"></div>'
-				+'<span class="dijitMenuExpandA11y">+</span>'
-			+'</div>'
-		+'</td>'
-		+'</tr>',
+	templatePath: dojo.moduleUrl("dijit", "templates/CheckedMenuItem.html"),
 
 	// checked: Boolean
 	//		Our checked state
