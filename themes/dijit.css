@@ -995,8 +995,7 @@ img.dijitColorPaletteUnder {
 	color:white;
 }
 
-.dijitMenuItemIcon {
-	position: relative;
+.dijitMenuItemIcon, .dijitMenuExpand {
 	background-repeat: no-repeat;
 }
 

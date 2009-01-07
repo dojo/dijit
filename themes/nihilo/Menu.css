@@ -33,17 +33,13 @@
 .nihilo .dijitMenuItemIcon {
 	width: 15px;
 	height: 15px;
-	/* padding-right: 3px; */
 }
 
 .nihilo .dijitMenuExpand {
-	/* margin-top:4px;  */
 	width:15px;
 	height:15px;
 	background-image: url('images/spriteRoundedIconsSmall.png');
-	background-repeat: no-repeat;
 	background-position: -30px top;
-	display:block;
 }
 .dj_ie6 .nihilo .dijitMenuExpand {
 	background-image:url('images/spriteRoundedIconsSmall.gif');

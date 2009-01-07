@@ -33,17 +33,13 @@
 .soria .dijitMenuItemIcon {
 	width: 15px;
 	height: 15px;
-	/* padding-right: 3px; */
 }
 
 .soria .dijitMenuExpand {
-	/* margin-top:4px;  */
 	width:15px;
 	height:15px;
 	background-image: url('images/spriteRoundedIconsSmall.png');
-	background-repeat: no-repeat;
 	background-position: -30px top;
-	display:block;
 }
 .dj_ie6 .soria .dijitMenuExpand {
 	background-image: url('images/spriteRoundedIconsSmall.gif');
