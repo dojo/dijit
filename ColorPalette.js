@@ -115,27 +115,38 @@ dojo.declare("dijit.ColorPalette",
 		    coords = this._paletteCoords;
 		for(var row=0; row < choices.length; row++){
 			for(var col=0; col < choices[row].length; col++) {
-                var imgNode = dojo.doc.createElement("img");
-                imgNode.src = url;
-                dojo.addClass(imgNode, "dijitPaletteImg");
+
                 var color = choices[row][col],
-                        colorValue = colorObject.setColor(dojo.Color.named[color]);
-                imgNode.alt = this.colorNames[color];
-                imgNode.color = colorValue.toHex();
-                var imgStyle = imgNode.style;
-                imgStyle.color = imgStyle.backgroundColor = imgNode.color;
-                var cellNode = dojo.doc.createElement("span");
-                cellNode.appendChild(imgNode);
+                        colorValue = colorObject.setColor(dojo.Color.named[color])
+				;
+
+                var cellNode = dojo.create("span", {
+					"class":"dijitPaletteCell",
+					"tabindex":"-1",
+					title: this.colorNames[color],
+					style:{
+						top: coords.topOffset + (row * coords.cHeight) + "px",
+						left: coords.leftOffset + (col * coords.cWidth) + "px"
+					}
+				});
+				
+				var imgNode = dojo.create("img",{
+					src: url, 
+					"class":"dijitPaletteImg",
+					alt: this.colorNames[color]
+				}, cellNode);
+				
+				// FIXME: color is an attribute of img?
+				imgNode.color = colorValue.toHex();
+				var imgStyle = imgNode.style;
+				imgStyle.color = imgStyle.backgroundColor = imgNode.color;
+
                 dojo.forEach(["Dijitclick", "MouseEnter", "Focus", "Blur"], function(handler) {
                     this.connect(cellNode, "on" + handler.toLowerCase(), "_onCell" + handler);
                 }, this);
-                this.divNode.appendChild(cellNode);
-                var cellStyle = cellNode.style;
-                cellStyle.top = coords.topOffset + (row * coords.cHeight) + "px";
-                cellStyle.left = coords.leftOffset + (col * coords.cWidth) + "px";
-                dojo.attr(cellNode, "tabindex", "-1");
-                cellNode.title = this.colorNames[color];
-                dojo.addClass(cellNode, "dijitPaletteCell");
+
+				dojo.place(cellNode, this.divNode);
+
                 dijit.setWaiRole(cellNode, "gridcell");
                 cellNode.index = this._cellNodes.length;
                 this._cellNodes.push(cellNode);

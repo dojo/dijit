@@ -282,9 +282,9 @@ if(dojo.isIE){
 			tn = undefined;
 		}
 		if(!tn){
-			tn = dojo.doc.createElement("div");
-			tn.style.display="none";
-			dojo.body().appendChild(tn);
+			tn = dojo.create("div", {
+				style:{ display:"none" }
+			}, dojo.body());
 		}
 		var tableType = "none";
 		var rtext = text.replace(/^\s+/, "");

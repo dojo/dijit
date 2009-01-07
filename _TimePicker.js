@@ -251,14 +251,14 @@ dojo.declare("dijit._TimePicker",
 				return null;
 			}
 
-			var div = dojo.doc.createElement("div");
+			var div = dojo.create("div");
 			div.date = date;
 			div.index = index;
-			var innerDiv = dojo.doc.createElement('div');
+			var innerDiv = dojo.create('div',{
+				"class":this.baseClass + "ItemInner",
+				innerHTML: dateString
+			}, div);
 			dojo.addClass(div,this.baseClass+"Item");
-			dojo.addClass(innerDiv,this.baseClass+"ItemInner");
-			innerDiv.innerHTML = dateString;
-			div.appendChild(innerDiv);
 
 			if(index%this._visibleIncrement<1 && index%this._visibleIncrement>-1){
 				dojo.addClass(div, this.baseClass+"Marker");

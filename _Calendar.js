@@ -193,9 +193,8 @@ dojo.declare(
 			// Fill in spacer element with all the month names (invisible) so that the maximum width will affect layout
 			var monthNames = dojo.date.locale.getNames('months', 'wide', 'standAlone', this.lang);
 			dojo.forEach(monthNames, function(name){
-				var monthSpacer = dojo.doc.createElement("div");
+				var monthSpacer = dojo.create("div", null, this.monthLabelSpacer);
 				this._setText(monthSpacer, name);
-				this.monthLabelSpacer.appendChild(monthSpacer);
 			}, this);
 
 			this.value = null;

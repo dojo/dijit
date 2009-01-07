@@ -11,15 +11,17 @@ dijit.wai = {
 		// DO NOT USE "this" within this function.
 
 		// create div for testing if high contrast mode is on or images are turned off
-		var div = dojo.doc.createElement("div");
-		div.id = "a11yTestNode";
-		div.style.cssText = 'border: 1px solid;'
-			+ 'border-color:red green;'
-			+ 'position: absolute;'
-			+ 'height: 5px;'
-			+ 'top: -999px;'
-			+ 'background-image: url("' + (dojo.config.blankGif || dojo.moduleUrl("dojo", "resources/blank.gif")) + '");';
-		dojo.body().appendChild(div);
+		var div = dojo.create("div",{
+			id: "a11yTestNode",
+			style:{
+				cssText:'border: 1px solid;'
+					+ 'border-color:red green;'
+					+ 'position: absolute;'
+					+ 'height: 5px;'
+					+ 'top: -999px;'
+					+ 'background-image: url("' + (dojo.config.blankGif || dojo.moduleUrl("dojo", "resources/blank.gif")) + '");'
+			}
+		}, dojo.body());
 
 		// test it
 		var cs = dojo.getComputedStyle(div);

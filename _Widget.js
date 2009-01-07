@@ -403,7 +403,7 @@ dojo.declare("dijit._Widget", null, {
 		//		Construct the UI for this widget, setting this.domNode.  Most
 		//		widgets will mixin dijit._Templated, which implements this
 		//		method.
-		this.domNode = this.srcNodeRef || dojo.doc.createElement('div');
+		this.domNode = this.srcNodeRef || dojo.create('div');
 	},
 
 	postCreate: function(){

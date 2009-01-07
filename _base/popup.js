@@ -110,17 +110,22 @@ dijit.popup.__OpenArgs = function(){
 		// make wrapper div to hold widget and possibly hold iframe behind it.
 		// we can't attach the iframe as a child of the widget.domNode because
 		// widget.domNode might be a <table>, <ul>, etc.
-		var wrapper = dojo.doc.createElement("div");
+		var wrapper = dojo.create("div",{
+			id: id, 
+			"class":"dijitPopup",
+			style:{
+				zIndex: beginZIndex + stack.length,
+				visibility:"hidden"
+			}
+		}, dojo.body());
 		dijit.setWaiRole(wrapper, "presentation");
-		wrapper.id = id;
-		wrapper.className="dijitPopup";
-		wrapper.style.zIndex = beginZIndex + stack.length;
-		wrapper.style.left = wrapper.style.top = "0px";		// prevent transient scrollbar causing misalign (#5776)
-		wrapper.style.visibility = "hidden";
+		
+		// prevent transient scrollbar causing misalign (#5776)
+		wrapper.style.left = wrapper.style.top = "0px";		
+
 		if(args.parent){
 			wrapper.dijitPopupParent=args.parent.id;
 		}
-		dojo.body().appendChild(wrapper);
 
 		var s = widget.domNode.style;
 		s.display = "";
@@ -242,7 +247,7 @@ dijit._frames = new function(){
 					+ "z-index: -1; filter:Alpha(Opacity=\"0\");'>";
 				iframe = dojo.doc.createElement(html);
 			}else{
-			 	iframe = dojo.doc.createElement("iframe");
+			 	iframe = dojo.create("iframe");
 				iframe.src = 'javascript:""';
 				iframe.className = "dijitBackgroundIframe";
 			}
