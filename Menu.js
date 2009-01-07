@@ -211,10 +211,7 @@ dojo.declare("dijit.Menu",
 		this._bindings = [];
 	},
 
-	templateString:
-			'<table class="dijit dijitMenu dijitMenuPassive dijitReset dijitMenuTable" waiRole="menu" tabIndex="${tabIndex}" dojoAttachEvent="onkeypress:_onKeyPress">' +
-				'<tbody class="dijitReset" dojoAttachPoint="containerNode"></tbody>'+
-			'</table>',
+	templatePath: dojo.moduleUrl("dijit", "templates/Menu.html"),
 
 	// targetNodeIds: String[]
 	//	Array of dom node ids of nodes to attach to.
@@ -412,19 +409,7 @@ dojo.declare("dijit.MenuItem",
 
 	// Make 3 columns
 	//   icon, label, and expand arrow (BiDi-dependent) indicating sub-menu
-	templateString:
-		 '<tr class="dijitReset dijitMenuItem" dojoAttachPoint="focusNode" waiRole="menuitem" tabIndex="-1"'
-		+'dojoAttachEvent="onmouseenter:_onHover,onmouseleave:_onUnhover,ondijitclick:_onClick">'
-		+'<td class="dijitReset" waiRole="presentation"><div class="dijitMenuItemIcon" dojoAttachPoint="iconNode"></div></td>'
-		+'<td class="dijitReset dijitMenuItemLabel" colspan="2" dojoAttachPoint="containerNode"></td>'
-		+'<td class="dijitReset dijitMenuItemAccelKey" style="display: none" dojoAttachPoint="accelKeyNode"></td>'
-		+'<td class="dijitReset dijitMenuArrowCell" waiRole="presentation">'
-			+'<div dojoAttachPoint="arrowWrapper" style="visibility: hidden">'
-				+'<div class="dijitMenuExpand"></div>'
-				+'<span class="dijitMenuExpandA11y">+</span>'
-			+'</div>'
-		+'</td>'
-		+'</tr>',
+	templatePath: dojo.moduleUrl("dijit", "templates/MenuItem.html"),
 
 	attributeMap: dojo.delegate(dijit._Widget.prototype.attributeMap, {
 		label: { node: "containerNode", type: "innerHTML" },

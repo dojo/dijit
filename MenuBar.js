@@ -6,7 +6,7 @@ dojo.declare("dijit.MenuBar", dijit._MenuBase, {
 	// summary:
 	//		A menu bar, listing menu choices horizontally, like the "File" menu in most desktop applications
 
-	templateString: '<div class="dijitMenuBar dijitMenuPassive" dojoAttachPoint="containerNode"  tabIndex="${tabIndex}" dojoAttachEvent="onkeypress: _onKeyPress"></div>',
+	templatePath: dojo.moduleUrl("dijit", "templates/MenuBar.html"),
 
 	_isMenuBar: true,
 
@@ -51,9 +51,7 @@ dojo.declare("dijit.MenuBarItem", dijit.PopupMenuItem, {
 	// summary:
 	//		Item in a MenuBar like "File" or "Edit", that spawns a submenu when pressed (or hovered)
 		
-	templateString:
-		 '<div class="dijitReset dijitInline dijitMenuItem dijitMenuItemLabel" dojoAttachPoint="focusNode" waiRole="menuitem" tabIndex="-1"'
-					+'dojoAttachEvent="onmouseenter:_onHover,onmouseleave:_onUnhover,ondijitclick:_onClick"><span dojoAttachPoint="containerNode"></span></div>',
+	templatePath: dojo.moduleUrl("dijit", "templates/MenuBarItem.html"),
 
 	// overriding attributeMap because we don't have icon
 	attributeMap: dojo.delegate(dijit._Widget.prototype.attributeMap, {
