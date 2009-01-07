@@ -46,6 +46,7 @@
 		dojo.require("dijit.MenuBar");
 		dojo.require("dijit.MenuBarItem");
 		dojo.require("dijit.PopupMenuBarItem");
+		dojo.require("dijit.MenuSeparator");
 		dojo.require("dijit.ColorPalette");
 		dojo.require("dijit._Calendar");
 		dojo.require("dojo.parser");	// scan page for widgets and instantiate them
@@ -256,13 +257,13 @@
 				<h3 style="margin-bottom: 2em;">Navigation menu:</h3>
 				<div dojoType="dijit.Menu" id="navMenu">
 					<div dojoType="dijit.MenuItem" iconClass="dijitEditorIcon dijitEditorIconPaste"
-						onClick="alert('Hello world');">Drama</div>
+						onClick="alert('drama!');">Drama</div>
 					<div dojoType="dijit.MenuItem" iconClass="dijitEditorIcon dijitEditorIconCut"
-						onClick="alert('not actually cutting anything, just a test!')">Comedy</div>
+						onClick="alert('comedy!')">Comedy</div>
 					<div dojoType="dijit.MenuItem" iconClass="dijitEditorIcon dijitEditorIconCopy"
-						onClick="alert('not actually copying anything, just a test!')">Romance</div>
+						onClick="alert('romance!')">Romance</div>
 					<div dojoType="dijit.MenuItem" iconClass="dijitEditorIcon dijitEditorIconPaste"
-						onClick="alert('not actually pasting anything, just a test!')">Documentary</div>
+						onClick="alert('documentary!')">Documentary</div>
 					<div dojoType="dijit.MenuSeparator"></div>
 					<div dojoType="dijit.PopupMenuItem">
 						<span>Enabled Submenu</span>
