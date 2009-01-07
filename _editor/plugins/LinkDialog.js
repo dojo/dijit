@@ -3,7 +3,7 @@ dojo.provide("dijit._editor.plugins.LinkDialog");
 dojo.require("dijit._Widget");
 dojo.require("dijit._Templated");
 dojo.require("dijit._editor._Plugin");
-dojo.require("dijit.Dialog");
+dojo.require("dijit.TooltipDialog");
 dojo.require("dijit.form.Button");
 dojo.require("dijit.form.ValidationTextBox");
 dojo.require("dojo.i18n");
