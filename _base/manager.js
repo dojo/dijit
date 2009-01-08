@@ -2,13 +2,30 @@ dojo.provide("dijit._base.manager");
 
 dojo.declare("dijit.WidgetSet", null, {
 	// summary:
-	//	A set of widgets indexed by id
-
+	//	A set of widgets indexed by id. A default instance of this Class is 
+	//	available as `dijit.registry`
+	//
+	// example:
+	//	Create a small list of widgets:
+	//	|	var ws = new dijit.WidgetSet();
+	//	|	ws.add(dijit.byId("one"));
+	//	| 	ws.add(dijit.byId("two"));
+	//	|	// destroy both:
+	//	|	ws.forEach(function(w){ w.destroy(); });
+	//
+	// example:
+	//	Using dijit.registry:
+	//	|	dijit.registry.forEach(function(w){ /* do something */ });
+	
 	constructor: function(){
-		this._hash={};
+		this._hash = {};
 	},
 
 	add: function(/*Widget*/ widget){
+		// summary: Add a widget to this list. If a duplicate ID is detected, a warning is issued.
+		//
+		// Widget: dijit._Widget
+		//		Any dijit._Widget derrivitave.
 		if(this._hash[widget.id]){
 			throw new Error("Tried to register widget with id==" + widget.id + " but that id is already registered");
 		}
@@ -16,31 +33,77 @@ dojo.declare("dijit.WidgetSet", null, {
 	},
 
 	remove: function(/*String*/ id){
+		// summary: Remove a widget byID from this WidgetSet. Does not destry widget, simply
+		//	removes the rerence in this list.
 		delete this._hash[id];
 	},
 
 	forEach: function(/*Function*/ func){
+		// summary: Iterate over this widgetSet, calling a function for each of the 
+		//	items. 
+		//
+		// func:
+		//		A callback function to run forEach item. Is passed a unique widget.
+		//
+		// exmample:
+		// Using the default `dijit.registry` instance:
+		// |	dijit.registry.forEach(function(widget){
+		// |		console.log(widget.declaredClass);	
+		// |	});
 		for(var id in this._hash){
 			func(this._hash[id]);
 		}
 	},
 
 	filter: function(/*Function*/ filter){
+		// summary: Filter down this WidgetSet to a smaller new WidgetSet
+		//		Works the same as `dojo.filter` and `dojo.NodeList.filter`
+		//		
+		// filter:
+		//		Callback function to test truthiness.
+		//
+		// example:
+		//	Arbitrary: select the odd widgets in this list
+		// |	var i = 0;
+		// |	dijit.registry.filter(function(w){
+		// |		return ++i % 2 == 0;
+		// |	}).forEach(function(w){ /* odd ones */ });
+
 		var res = new dijit.WidgetSet();
 		this.forEach(function(widget){
 			if(filter(widget)){ res.add(widget); }
 		});
-		return res;		// dijit.WidgetSet
+		return res; // dijit.WidgetSet
 	},
 
 	byId: function(/*String*/ id){
+		// summary: Find a widget in this list byId. 
+		//
+		// example:
+		//	As a synonym for `dijit.byId`:
+		// | dijit.registry.byId("foo"); 
+		//
+		// example:
+		//	Test if an id is in a particular WidgetSet
+		//	| var ws = new dijit.WidgetSet();
+		//	| ws.add(dijit.byId("bar"));
+		//	| var t = ws.byId("bar") // returns a widget
+		//	| var x = ws.byId("foo"); // returns undefined
+		
 		return this._hash[id];
 	},
 
 	byClass: function(/*String*/ cls){
+		// summary: Reduce this widgetset to a new WidgetSet of a particular declaredClass
+		// 
+		// example:
+		// Find all titlePane's in a page:
+		// |	dijit.registry.byClass("dijit.TitlePane").forEach(function(tp){ tp.close(); });
+		
 		return this.filter(function(widget){ return widget.declaredClass==cls; });	// dijit.WidgetSet
 	}
-	});
+	
+});
 
 /*=====
 dijit.registry = {
@@ -53,8 +116,7 @@ dijit.registry = new dijit.WidgetSet();
 dijit._widgetTypeCtr = {};
 
 dijit.getUniqueId = function(/*String*/widgetType){
-	// summary
-	//	Generates a unique id for a given widgetType
+	// summary: Generates a unique id for a given widgetType
 
 	var id;
 	do{
@@ -138,6 +200,9 @@ dijit.isTabNavigable = function(/*Element*/elem){
 
 dijit._getTabNavigable = function(/*DOMNode*/root){
 	// summary:
+	//		Finds descendants of the specified root node.
+	//
+	// description:
 	//		Finds the following descendants of the specified root node:
 	//		* the first tab-navigable element in document order
 	//		  without a tabindex or with tabindex="0"
