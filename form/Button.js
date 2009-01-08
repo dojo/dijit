@@ -60,8 +60,8 @@ dojo.declare("dijit.form.Button",
 
 	_onButtonClick: function(/*Event*/ e){
 		// summary: callback when the user activates the button portion
-		// if is activated via a keystroke, stop the event 
-		if(e.type!='click'){
+		// if is activated via a keystroke, stop the event unless is submit or reset
+		if(e.type!='click' && !(this.type=="submit" || this.type=="reset")){
 			dojo.stopEvent(e);
 		}
 		if(this._onClick(e) === false){ // returning nothing is same as true
