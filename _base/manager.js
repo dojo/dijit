@@ -108,7 +108,7 @@ dojo.declare("dijit.WidgetSet", null, {
 /*=====
 dijit.registry = {
 	// summary: A list of widgets on a page.
-	// description: Is an instance of dijit.WidgetSet
+	// description: Is an instance of `dijit.WidgetSet`
 };
 =====*/
 dijit.registry = new dijit.WidgetSet();
