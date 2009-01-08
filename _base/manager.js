@@ -243,7 +243,7 @@ dijit.getFirstInTabbingOrder = function(/*String|DOMNode*/root){
 	//		Finds the descendant of the specified root node
 	//		that is first in the tabbing order
 	var elems = dijit._getTabNavigable(dojo.byId(root));
-	return elems.lowest ? elems.lowest : elems.first; // Element
+	return elems.lowest ? elems.lowest : elems.first; // DomNode
 };
 
 dijit.getLastInTabbingOrder = function(/*String|DOMNode*/root){
@@ -251,9 +251,18 @@ dijit.getLastInTabbingOrder = function(/*String|DOMNode*/root){
 	//		Finds the descendant of the specified root node
 	//		that is last in the tabbing order
 	var elems = dijit._getTabNavigable(dojo.byId(root));
-	return elems.last ? elems.last : elems.highest; // Element
+	return elems.last ? elems.last : elems.highest; // DomNode
 };
 
-// dijit.defaultDuration
-//	Default duration for wipe and fade animations within dijits
+/*=====
+dojo.mixin(dijit, {
+	// defaultDuration: Integer
+	//		The default animation speed (in ms) to use for all Dijit
+	//		transitional animations, unless otherwise specified 
+	//		on a per-instance basis. Defaults to 200, overrided by 
+	//		`djConfig.defaultDuration`
+	defaultDuration: 300
+});
+=====*/
+
 dijit.defaultDuration = dojo.config["defaultDuration"] || 200;
