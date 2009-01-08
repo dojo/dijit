@@ -11,9 +11,21 @@ dojo.require("dijit.dijit");
 
 dojo.require("dijit.ColorPalette");
 dojo.require("dijit.Declaration");
+
 dojo.require("dijit.Dialog");
+dojo.require("dijit.DialogUnderlay");
+dojo.require("dijit.TooltipDialog");
+
 dojo.require("dijit.Editor");
+
 dojo.require("dijit.Menu");
+dojo.require("dijit.MenuItem");
+dojo.require("dijit.PopupMenuItem");
+dojo.require("dijit.MenuBar");
+dojo.require("dijit.MenuBarItem");
+dojo.require("dijit.PopupMenuBarItem");
+dojo.require("dijit.MenuSeparator");
+
 dojo.require("dijit.ProgressBar");
 dojo.require("dijit.TitlePane");
 dojo.require("dijit.Toolbar");
@@ -29,7 +41,16 @@ dojo.require("dijit.form.DateTextBox");
 dojo.require("dijit.form.FilteringSelect");
 dojo.require("dijit.form.NumberSpinner");
 dojo.require("dijit.form.NumberTextBox");
-dojo.require("dijit.form.Slider");
+
+// slider files
+dojo.require("dijit.form.HorizontalSlider");
+dojo.require("dijit.form.VerticalSlider");
+dojo.require("dijit.form.HorizontalRule");
+dojo.require("dijit.form.VerticalRule");
+dojo.require("dijit.form.HorizontalRuleLabels");
+dojo.require("dijit.form.VerticalRuleLabels");
+
+dojo.require("dijit.form.SimpleTextarea");
 dojo.require("dijit.form.Textarea");
 dojo.require("dijit.form.TextBox");
 dojo.require("dijit.form.ValidationTextBox");
