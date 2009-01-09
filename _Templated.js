@@ -63,7 +63,7 @@ dojo.declare("dijit._Templated",
 
 			var node;
 			if(dojo.isString(cached)){
-				node = dijit._Templated._createNodesFromText(this._stringRepl(cached))[0];
+				node = dojo._toDom(this._stringRepl(cached));
 			}else{
 				// if it's a node, all we have to do is clone it
 				node = cached.cloneNode(true);
@@ -227,7 +227,7 @@ dijit._Templated.getCachedTemplate = function(templatePath, templateString, alwa
 		return (tmplts[key] = templateString); //String
 	}else{
 		// there are no variables in the template so we can cache the DOM tree
-		return (tmplts[key] = dijit._Templated._createNodesFromText(templateString)[0]); //Node
+		return (tmplts[key] = dojo._toDom(templateString)); //Node
 	}
 };
 
@@ -261,60 +261,6 @@ if(dojo.isIE){
 		}
 	});
 }
-
-(function(){
-	var tagMap = {
-		cell: {re: /^<t[dh][\s\r\n>]/i, pre: "<table><tbody><tr>", post: "</tr></tbody></table>"},
-		row: {re: /^<tr[\s\r\n>]/i, pre: "<table><tbody>", post: "</tbody></table>"},
-		section: {re: /^<(thead|tbody|tfoot)[\s\r\n>]/i, pre: "<table>", post: "</table>"}
-	};
-
-	// dummy container node used temporarily to hold nodes being created
-	var tn;
-
-	dijit._Templated._createNodesFromText = function(/*String*/text){
-		// summary:
-		//	Attempts to create a set of nodes based on the structure of the passed text.
-
-		if(tn && tn.ownerDocument != dojo.doc){
-			// destroy dummy container of a different document
-			dojo.destroy(tn);
-			tn = undefined;
-		}
-		if(!tn){
-			tn = dojo.create("div", {
-				style:{ display:"none" }
-			}, dojo.body());
-		}
-		var tableType = "none";
-		var rtext = text.replace(/^\s+/, "");
-		for(var type in tagMap){
-			var map = tagMap[type];
-			if(map.re.test(rtext)){
-				tableType = type;
-				text = map.pre + text + map.post;
-				break;
-			}
-		}
-
-		tn.innerHTML = text;
-		if(tn.normalize){
-			tn.normalize();
-		}
-
-		var tag = { cell: "tr", row: "tbody", section: "table" }[tableType];
-		var _parent = (typeof tag != "undefined") ?
-						tn.getElementsByTagName(tag)[0] :
-						tn;
-
-		var nodes = [];
-		while(_parent.firstChild){
-			nodes.push(_parent.removeChild(_parent.firstChild));
-		}
-		tn.innerHTML="";
-		return nodes;	//	Array
-	}
-})();
 
 // These arguments can be specified for widgets which are used in templates.
 // Since any widget can be specified as sub widgets in template, mix it
