@@ -870,7 +870,7 @@ dojo.declare(
 			if(this._highlighted_option != node){
 				this._blurOptionNode();
 				this._highlighted_option = node;
-				dojo.addClass(this._highlighted_option, "dijitMenuItemHover");
+				dojo.addClass(this._highlighted_option, "dijitMenuItemSelected");
 			}
 		},
 
@@ -878,7 +878,7 @@ dojo.declare(
 			// summary:
 			//	removes highlight on highlighted option
 			if(this._highlighted_option){
-				dojo.removeClass(this._highlighted_option, "dijitMenuItemHover");
+				dojo.removeClass(this._highlighted_option, "dijitMenuItemSelected");
 				this._highlighted_option = null;
 			}
 		},
