@@ -147,7 +147,7 @@ dojo.declare(
 		this.isExpanded = true;
 		dijit.setWaiState(this.labelNode, "expanded", "true");
 		dijit.setWaiRole(this.containerNode, "group");
-		this.contentNode.className = "dijitTreeContent dijitTreeContentExpanded";
+		dojo.addClass(this.contentNode,'dijitTreeContentExpanded');
 		this._setExpando();
 		this._updateItemClasses(this.item);
 		if(this == this.tree.rootNode){
@@ -173,7 +173,7 @@ dojo.declare(
 		if(this == this.tree.rootNode){
 			dijit.setWaiState(this.tree.domNode, "expanded", "false");
 		}
-		this.contentNode.className = "dijitTreeContent";
+		dojo.removeClass(this.contentNode,'dijitTreeContentExpanded');
 		this._setExpando();
 		this._updateItemClasses(this.item);
 
@@ -236,10 +236,8 @@ dojo.declare(
 				this.addChild(node);
 				// note: this won't work if there are two nodes for one item (multi-parented items); will be fixed later
 				tree._itemNodeMap[id] = node;
-				if(this.tree.persist){
-					if(tree._openedItemIds[id]){
-						tree._expandNode(node);
-					}
+				if(this.tree._state(item)){
+					tree._expandNode(node);
 				}
 			}, this);
 
@@ -392,7 +390,7 @@ dojo.declare(
 	//		If true, clicking a folder node's label will open it, rather than calling onClick()
 	openOnClick: false,
 	
-	// openOnClick: Boolean
+	// openOnDblClick: Boolean
 	//		If true, double-clicking a folder node's label will open it, rather than calling onDblClick()
 	openOnDblClick: false,
 
@@ -453,16 +451,7 @@ dojo.declare(
 	},
 
 	postCreate: function(){
-		// load in which nodes should be opened automatically
-		if(this.persist){
-			var cookie = dojo.cookie(this.cookieName);
-			this._openedItemIds = {};
-			if(cookie){
-				dojo.forEach(cookie.split(','), function(item){
-					this._openedItemIds[item] = true;
-				}, this);
-			}
-		}
+		this._initState();
 		
 		// Create glue between store and Tree, if not specified directly by user
 		if(!this.model){
@@ -861,8 +850,8 @@ dojo.declare(
 			node.collapse();
 			this.onClose(node.item, node);
 
-			if(this.persist && node.item){
-				delete this._openedItemIds[this.model.getIdentity(node.item)];
+			if(node.item){
+				this._state(node.item,false);
 				this._saveState();
 			}
 		}
@@ -902,8 +891,8 @@ dojo.declare(
 				node.expand();
 				this.onOpen(node.item, node);
 
-				if(this.persist && item){
-					this._openedItemIds[model.getIdentity(item)] = true;
+				if(item){
+					this._state(item,true);
 					this._saveState();
 				}
 		}
@@ -993,6 +982,33 @@ dojo.declare(
 
 	/////////////// Miscellaneous funcs
 	
+	_initState: function(){
+		//summary:  load in which nodes should be opened automatically
+		if(this.persist){
+			var cookie = dojo.cookie(this.cookieName);
+			this._openedItemIds = {};
+			if(cookie){
+				dojo.forEach(cookie.split(','), function(item){
+					this._openedItemIds[item] = true;
+				}, this);
+			}
+		}
+	},
+	_state: function(item,expanded){
+		//summary: query or set expanded state for an item
+		if(!this.persist){
+			return false;
+		}
+		var id=this.model.getIdentity(item);
+		if(arguments.length===1){
+			return this._openedItemIds[id];
+		}
+		if(expended){
+			this._openedItemIds[id] = true;
+		}else{
+			delete this._openedItemIds[id];
+		}
+	},
 	_saveState: function(){
 		//summary: create and save a cookie with the currently expanded nodes identifiers
 		if(!this.persist){
