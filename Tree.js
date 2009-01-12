@@ -1003,7 +1003,7 @@ dojo.declare(
 		if(arguments.length===1){
 			return this._openedItemIds[id];
 		}
-		if(expended){
+		if(expanded){
 			this._openedItemIds[id] = true;
 		}else{
 			delete this._openedItemIds[id];
