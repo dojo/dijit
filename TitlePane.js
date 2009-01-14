@@ -128,7 +128,7 @@ dojo.declare(
 		if(anim){
 			anim.play();
 		}else{
-			this._hideNode.style.display = this.open ? "" : "none";
+			this.hideNode.style.display = this.open ? "" : "none";
 		}
 		this.open =! this.open;
 
