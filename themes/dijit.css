@@ -1032,6 +1032,11 @@ img.dijitColorPaletteUnder {
 	display: inline;
 }
 
+.dijitMenuSeparator td {
+	border: 0;
+	padding: 0;
+}
+
 /* separator can be two pixels -- set border of either one to 0 to have only one */
 .dijitMenuSeparatorTop {
 	height: 50%;
