@@ -100,9 +100,23 @@ dijit._editor.getChildrenHtml = function(/* DomNode */dom){
 	var out = "";
 	if(!dom){ return out; }
 	var nodes = dom["childNodes"] || dom;
+
+	//IE issue.
+	//If we have an actual node we can check parent relationships on for IE, 
+	//We should check, as IE sometimes builds invalid DOMS.  If no parent, we can't check
+	//And should just process it and hope for the best.
+	var checkParent = !dojo.isIE || nodes !== dom;
+
 	var node, i = 0;
 	while((node = nodes[i++])){
-		out += dijit._editor.getNodeHtml(node);
+		//IE is broken.  DOMs are supposed to be a tree.  But in the case of malformed HTML, IE generates a graph
+		//meaning one node ends up with multiple references (multiple parents).  This is totally wrong and invalid, but
+		//such is what it is.  We have to keep track and check for this because otherise the source output HTML will have dups.
+		//No other browser generates a graph.  Leave it to IE to break a fundamental DOM rule.  So, we check the parent if we can
+		//If we can't, nothing more we can do other than walk it.
+		if(!checkParent || node.parentNode == dom){
+			out += dijit._editor.getNodeHtml(node);
+		}
 	}
 	return out; // String
-}
+};
