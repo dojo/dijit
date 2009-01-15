@@ -4,15 +4,17 @@ dojo.require("dijit.form.TextBox");
 
 dojo.declare("dijit.form.SimpleTextarea",
 	dijit.form.TextBox,
-{
+	{
 	// summary:
 	//		A simple textarea that degrades, and responds to
 	// 		minimal LayoutContainer usage, and works with dijit.form.Form.
 	//		Doesn't automatically size according to input, like Textarea.
 	//
 	// example:
-	//	|	<textarea dojoType="dijit.form.SimpleTextarea" name="foo" value="bar" rows=30 cols=40/>
+	//	|	<textarea dojoType="dijit.form.SimpleTextarea" name="foo" value="bar" rows=30 cols=40></textarea>
 	//
+	// example:
+	//	|	new dijit.form.SimpleTextarea({ rows:20, cols:30 }, "foo");
 
 	baseClass: "dijitTextArea",
 

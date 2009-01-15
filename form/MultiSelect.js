@@ -2,10 +2,10 @@ dojo.provide("dijit.form.MultiSelect");
 
 dojo.require("dijit.form._FormWidget");
 
-dojo.declare("dijit.form.MultiSelect",dijit.form._FormWidget,{
+dojo.declare("dijit.form.MultiSelect", dijit.form._FormWidget, {
 	// summary: Wrapper for a native select multiple="true" element to
 	//		interact with dijit.form.Form
-
+	//
 	// size: Number
 	//		Number of elements to display on a page
 	//		NOTE: may be removed in version 2.0, since elements may have variable height;
@@ -49,7 +49,7 @@ dojo.declare("dijit.form.MultiSelect",dijit.form._FormWidget,{
 		// summary: Access the NodeList of the selected options directly
 		return dojo.query("option",this.containerNode).filter(function(n){
 			return n.selected; // Boolean
-		});
+		}); // dojo.NodeList
 	},
 	
 	_getValueAttr: function(){

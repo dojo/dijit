@@ -10,13 +10,13 @@ dojo.declare(
 );
 =====*/
 
-dojo.declare(
-	"dijit.form.NumberTextBoxMixin",
+dojo.declare("dijit.form.NumberTextBoxMixin",
 	null,
 	{
 		// summary:
 		//		A mixin for all number textboxes
 
+		// TODOC: no inherited. ValidationTextBox describes this, but why is this here:
 		regExpGen: dojo.number.regexp,
 
 		/*=====
@@ -62,7 +62,7 @@ dojo.declare(
 		},
 
 		filter: function(/*Number*/ value){
-			return (value === null || value === '' || value === undefined)? NaN : this.inherited(arguments); // attr('value', null||''||undefined) should fire onChange(NaN)
+			return (value === null || value === '' || value === undefined) ? NaN : this.inherited(arguments); // attr('value', null||''||undefined) should fire onChange(NaN)
 		},
 
 		serialize: function(/*Number*/ value, /*Object?*/options){
@@ -81,8 +81,7 @@ dojo.declare(
 	}
 );
 
-dojo.declare(
-	"dijit.form.NumberTextBox",
+dojo.declare("dijit.form.NumberTextBox",
 	[dijit.form.RangeBoundTextBox,dijit.form.NumberTextBoxMixin],
 	{
 		// summary:

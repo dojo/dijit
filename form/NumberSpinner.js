@@ -3,46 +3,59 @@ dojo.provide("dijit.form.NumberSpinner");
 dojo.require("dijit.form._Spinner");
 dojo.require("dijit.form.NumberTextBox");
 
-dojo.declare(
-"dijit.form.NumberSpinner",
-[dijit.form._Spinner, dijit.form.NumberTextBoxMixin],
-{
+dojo.declare("dijit.form.NumberSpinner",
+	[dijit.form._Spinner, dijit.form.NumberTextBoxMixin],
+	{
 	// summary:
-	// extends NumberTextBox to add up/down arrows and pageup/pagedown for incremental change to the value
-
+	// 	Extends NumberTextBox to add up/down arrows and pageup/pagedown for incremental change to the value
+	//
+	// description:
+	//		A `dijit.form.NumberTextBox` extension to provide keyboard accessible value selection
+	//		as well as icons for spinning direction. When using the keyboard, the typematic rules
+	//		apply, meaning holding the key will gradually increarease or decrease the value and
+	// 		accelerate.
+	//		
+	// example:
+	//	| new dijit.form.NumberSpinner({ constraints:{ max:300, min:100 }}, "someInput");
+	
 	required: true,
 
-	adjust: function(/* Object */ val, /*Number*/ delta){
+	adjust: function(/* Object */val, /* Number*/delta){
 		// summary: change Number val by the given amount
-		if(isNaN(val) && delta != 0){ // blank or invalid value and they want to spin, so create defaults
-			var increasing = (delta > 0),
-				gotMax = (typeof this.constraints.max == "number"),
-				gotMin = (typeof this.constraints.min == "number");
-			val = increasing? (gotMin? this.constraints.min : (gotMax? this.constraints.max : 0)) :
-					(gotMax? this.constraints.max : (gotMin? this.constraints.min : 0));
+		var tc = this.contraints, 
+			v = isNaN(val), 
+			gotMax = !isNaN(tc.max), 
+			gotMin = !isNaN(tc.min)
+		;
+		if(v && delta != 0){ // blank or invalid value and they want to spin, so create defaults
+			val = (delta > 0) ? 
+				gotMin ? tc.min : gotMax ? tc.max : 0 :
+				gotMax ? this.constraints.max : gotMin ? tc.min : 0
+			;
 		}
-		var newval = val+delta;
-		if(isNaN(val) || isNaN(newval)){ return val; }
-		if((typeof this.constraints.max == "number") && (newval > this.constraints.max)){
-			newval = this.constraints.max;
+		var newval = val + delta;
+		if(v || isNaN(newval)){ return val; }
+		if(gotMax && (newval > tc.max)){
+			newval = tc.max;
 		}
-		if((typeof this.constraints.min == "number") && (newval < this.constraints.min)){
-			newval = this.constraints.min;
+		if(gotMin && (newval < tc.min)){
+			newval = tc.min;
 		}
 		return newval;
 	},
+	
 	_onKeyPress: function(e){
 		if((e.charOrCode == dojo.keys.HOME || e.charOrCode == dojo.keys.END) && !e.ctrlKey && !e.altKey){
-			var value = e.charOrCode == dojo.keys.HOME ? this.constraints["min"] : this.constraints["max"];
-			if (value){
+			var value = this.constraints[(e.charOrCode == dojo.keys.HOME ? "min" : "max")];
+			if(value){
 				this._setValueAttr(value,true);
 			}
 			// eat home or end key whether we change the value or not
 			dojo.stopEvent(e);
 			return false;
-		}
-		else{
+		}else{
 			return this.inherited(arguments);
 		}
 	}
+	
 });

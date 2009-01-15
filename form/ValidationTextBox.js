@@ -194,7 +194,7 @@ dojo.declare(
 				"".search(partialre);
 			}catch(e){ // should never be here unless the original RE is bad or the parsing is bad
 				partialre = this.regExp;
-				console.debug('RegExp error in ' + this.declaredClass + ': ' + this.regExp);
+				console.warn('RegExp error in ' + this.declaredClass + ': ' + this.regExp);
 			} // should never be here unless the original RE is bad or the parsing is bad
 			this._partialre = "^(?:" + partialre + ")$";
 		},
@@ -262,11 +262,11 @@ dojo.declare(
 			// Create a hidden <input> node with the serialized value used for submit
 			// (as opposed to the displayed value)
 			var textbox = this.textbox;
-			var valueNode = (this.valueNode = dojo.doc.createElement("input"));
-			valueNode.setAttribute("type", textbox.type);
-			dojo.style(valueNode, "display", "none");
-			this.valueNode.name = this.textbox.name;
-			dojo.place(valueNode, textbox, "after");
+			this.valueNode = dojo.create("input", {
+				style:{ display:"none" },
+				type: textbox.type,
+				name: textbox.name
+			}, textbox, "after");
 
 			// try to give the displayed node a different name, or ideally
 			// remove that attribute altogether
