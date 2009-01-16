@@ -132,6 +132,7 @@ dojo.declare("dijit.MenuItem",
 
 			this.accelKeyNode.style.display=value?"":"none";
 			this.accelKeyNode.innerHTML=value;
-			dojo.attr(this.containerNode,'colspan',value?"1":"2");
+			//have to use colSpan to make it work in IE
+			dojo.attr(this.containerNode,'colSpan',value?"1":"2");
 		}
 	});
