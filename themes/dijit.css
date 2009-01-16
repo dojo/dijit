@@ -440,8 +440,9 @@ table .dijitComboButton .dijitButtonNode {
 	float:right;
 	font-family: sans-serif;
 	font-style:italic;
-	font-size: 0.45em;
-	line-height: 190%;
+	font-size: 0.75em;
+	padding-right: 0.15em;
+	line-height: 160%;
 }
 .dijit_a11y .dijitValidationIcon { display: none !important; }
 .dijit_a11y .dijitValidationIconText { display: block !important; }
