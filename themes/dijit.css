@@ -976,6 +976,11 @@ img.dijitColorPaletteUnder {
 	background-color:white;
 }
 
+/* workaround for webkit bug #8427, remove this when it is fixed upstream */
+.dj_webkit .dijitMenuTable td[colspan=2]{
+	border-right:hidden;
+}
+
 .dijitMenuItem{
 	text-align: left;
 	white-space: nowrap;
