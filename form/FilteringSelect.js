@@ -225,6 +225,7 @@ dojo.declare(
 			// FIXME: shouldn't this just be a call to inherited?
 			dijit.form.ComboBoxMixin.prototype.postMixInProperties.apply(this, arguments);
 			dijit.form.MappedTextBox.prototype.postMixInProperties.apply(this, arguments);
+			this._isvalid = !this.required;
 		},
 
 		postCreate: function(){
