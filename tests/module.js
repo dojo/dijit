@@ -7,8 +7,7 @@ try{
 	doh.registerUrl("dijit.tests._base.sniffStandards", dojo.moduleUrl("dijit", "tests/_base/sniffStandards.html"));
 	doh.registerUrl("dijit.tests._base.viewport", dojo.moduleUrl("dijit", "tests/_base/viewport.html"));
 	doh.registerUrl("dijit.tests._base.viewportStrict", dojo.moduleUrl("dijit", "tests/_base/viewportStrict.html"));
-	doh.registerUrl("dijit.tests._base.scrollNoDTD", dojo.moduleUrl("dijit", "tests/_base/test_scrollNoDTD.html"));
-	doh.registerUrl("dijit.tests._base.scrollStrictDTD", dojo.moduleUrl("dijit", "tests/_base/test_scrollStrictDTD.html"));
+	doh.registerUrl("dijit.tests._base.scroll", dojo.moduleUrl("dijit", "tests/_base/test_scroll.html"));
 	doh.registerUrl("dijit.tests._base.wai", dojo.moduleUrl("dijit", "tests/_base/wai.html"));
 
 	// other infrastructure tests

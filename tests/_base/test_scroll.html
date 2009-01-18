@@ -1,0 +1,602 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+                "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+        <title>dijit.scrollIntoView Test</title>
+
+	<style type="text/css">
+		@import "../../../dojo/resources/dojo.css";
+		@import "../css/dijitTests.css";
+		FIELDSET { border:2px groove black; display:inline; padding:2px; }
+		FIELDSET IFRAME { width:100px; height:100px; }
+	</style>
+	<script type="text/javascript" src="../../../dojo/dojo.js"
+		djConfig="isDebug: true"></script>
+	<script type="text/javascript" src="../_testCommon.js"></script>
+
+	<script type="text/javascript">
+		dojo.require("doh.runner");
+		dojo.require("dijit._base.scroll");
+
+		dojo.addOnLoad(function(){
+		        doh.register("dijit._base.scroll",
+	                [
+				function checkAttrs(){
+					var body = dojo.body();
+					dijit.scrollIntoView(body);
+					doh.f(dojo.hasAttr(body,'_offsetParent'));
+					doh.f(dojo.hasAttr(body,'_parent'));
+				},
+				function test_8249_strict(){
+					generateTest('8249_strict');
+				},
+				function test_8249_none(){
+					generateTest('8249_none');
+				},
+				function test_8249_loose_rtl(){
+					generateTest('8249_loose_rtl');
+				},
+				function test_8284_strict(){
+					generateTest('8284_strict', "(0,-1)", "(0,+1)");
+				},
+				function test_8284_none(){
+					generateTest('8284_none', "(0,-1)", "(0,+1)");
+				},
+				function test_8284_loose_rtl(){
+					generateTest('8284_loose_rtl', "(0,-1)", "(0,+1)");
+				},
+				function test_absContent_strict(){
+					var minScroll = -5;
+					if(dojo.isIE < 7){
+						minScroll = "+13";
+					}else if(dojo.isIE == 7){
+						minScroll = "+16";
+					}
+					generateTest('absContent_strict', "(+10,-1)", "(+1,"+minScroll+")");
+				},
+				function test_absContent_none(){
+					var minScroll = -5;
+					if(dojo.isIE < 7){
+						minScroll = "+13";
+					}else if(dojo.isIE){
+						minScroll = "+12";
+					}
+					generateTest('absContent_none', "(+10,-1)", "(+1,"+minScroll+")");
+				},
+				function test_absContent_loose_rtl(){
+					var minScroll = "(+1,-5)";
+					if(dojo.isIE < 7){
+						minScroll = "(+1,+13)";
+					}else if(dojo.isIE == 7){
+						minScroll = "(+33,+16)";
+					}
+					var maxScroll = "+10";
+					if(dojo.isIE >= 7 || dojo.isFF >= 3){
+						maxScroll = -1;
+					}else if(dojo.isIE == 6){
+						maxScroll = -8;
+					}
+					generateTest('absContent_loose_rtl', "("+maxScroll+",-1)", minScroll);
+				},
+				/* // position:fixed is handled natively for now
+				function test_fixedNode_strict(){
+					var supported = !(dojo.isIE <= 6);
+					generateTest('fixedNode_strict', supported? "(-1,-1)" : "(+0,-0)", supported? "(+1,+1)" : "(+0,-0)");
+				},
+				function test_fixedNode_none(){
+					var supported = !dojo.isIE;
+					generateTest('fixedNode_none', supported? "(-1,-1)" : "(+0,-0)", supported? "(+1,+1)" : "(+0,-0)");
+				},
+				function test_fixedNode_loose_rtl(){
+					var supported = !(dojo.isIE <= 6);
+					generateTest('fixedNode_loose_rtl', supported? "(-1,-1)" : "(-0,-0)", supported? "(+1,+1)" : "(-0,-0)");
+				},
+				*/
+				function test_7036_strict(){
+					var maxScroll = '';
+					var minScroll = '';
+					if(dojo.isFF || dojo.isWebKit || dojo.isIE >= 8){
+						maxScroll = 39;
+						minScroll = 38;
+					}else if(dojo.isIE){
+						maxScroll = 54;
+						minScroll = 39;
+					}
+					generateTest('7036_strict', "(0,-"+maxScroll+")", "(0,+"+minScroll+")");
+				},
+				function test_7036_none(){
+					var maxScroll = '';
+					var minScroll = '';
+					if(dojo.isFF){
+						maxScroll = 31;
+						minScroll = 30;
+					}else if(dojo.isWebKit){
+						maxScroll = 39;
+						minScroll = 38;
+					}else if(dojo.isIE){
+						maxScroll = 46;
+						minScroll = 31;
+					}
+					generateTest('7036_none', "(0,-"+maxScroll+")", "(0,+"+minScroll+")");
+				},
+				function test_7036_loose_rtl(){
+					var maxScroll = '';
+					var minScroll = '';
+					if(dojo.isFF){
+						maxScroll = 31;
+						minScroll = 30;
+					}else if(dojo.isWebKit || dojo.isIE >= 8){
+						maxScroll = 39;
+						minScroll = 38;
+					}else if(dojo.isIE){
+						maxScroll = 54;
+						minScroll = 39;
+					}
+					generateTest('7036_loose_rtl', "(0,-"+maxScroll+")", "(0,+"+minScroll+")");
+				},
+				function test_innerNoScrollBars_strict(){
+					var scroll = '';
+					if(dojo.isFF || dojo.isIE >= 8){
+						scroll = '(-30,-10)';
+					}else if(dojo.isIE){
+						scroll = '(+20,-12)';
+					}
+					generateTest('innerNoScrollBars_strict', scroll, scroll);
+				},
+				function test_innerNoScrollBars_none(){
+					var scroll = '';
+					if(dojo.isIE){
+						scroll = '(+35,-30)';
+					}else if(dojo.isFF){
+						scroll = '(-30,-10)';
+					}
+					generateTest('innerNoScrollBars_none', scroll, scroll);
+				},
+				function test_innerNoScrollBars_loose_rtl(){
+					var scroll = '';
+					if(dojo.isFF >= 3){
+						scroll = '(+30,-10)';
+					}else if(dojo.isIE >= 8){
+						scroll = '(-30,-10)';
+					}else if(dojo.isFF){
+						scroll = '(+15,-10)';
+					}else if(dojo.isIE){
+						scroll = '(-20,-12)';
+					}
+					generateTest('innerNoScrollBars_loose_rtl', scroll, scroll);
+				},
+				function test_noScrollBars_strict(){
+					generateTest('noScrollBars_strict', "(0,0)", "(0,0)");
+				},
+				function test_noScrollBars_none(){
+					generateTest('noScrollBars_none', "(0,0)", "(0,0)");
+				},
+				function test_noScrollBars_loose_rtl(){
+					generateTest('noScrollBars_loose_rtl', "(0,0)", "(0,0)");
+				},
+				function test_floatRight_strict(){
+					generateTest('floatRight_strict', "(-1,0)", "(+1,0)");
+				},
+				function test_floatRight_none(){
+					generateTest('floatRight_none', "(-1,0)", "(+1,0)");
+				},
+				function test_floatRight_loose_rtl(){
+					generateTest('floatRight_loose_rtl', "("+(dojo.isIE >= 8 ? "+" : "-")+((dojo.isWebKit || dojo.isFF < 3)?"1":"0")+",0)", "("+((dojo.isIE < 8 || dojo.isFF >= 3)?"-":"+")+((dojo.isWebKit || dojo.isFF < 3)?"1":"0")+",0)");
+				},
+				function test_bottomNonFloat_strict(){
+					generateTest('bottomNonFloat_strict', "(+0,-0)", "(+0,-0)");
+				},
+				function test_bottomNonFloat_none(){
+					generateTest('bottomNonFloat_none', "(+0,-0)", "(+0,-0)");
+				},
+				function test_bottomNonFloat_loose_rtl(){
+					generateTest('bottomNonFloat_loose_rtl', "("+(dojo.isIE >= 8 ? "+" : "-")+((dojo.isWebKit || dojo.isFF < 3)?"1":"0")+",-0)", "("+((dojo.isIE < 8 || dojo.isFF >= 3)?"-":"+")+((dojo.isWebKit || dojo.isFF < 3)?"1":"0")+",-0)");
+				},
+				function test_table_strict(){
+					var minScroll, maxScroll;
+					if(dojo.isIE <= 6){
+						minScroll = "(+1,+34)";
+						maxScroll = "(+5,-47)";
+					}else if(dojo.isIE == 7){
+						minScroll = "(0,+20)";
+						maxScroll = "(0,-33)";
+					}else if(dojo.isIE >= 8){
+						minScroll = "(0,+19)";
+						maxScroll = "(0,-19)";
+					}else{
+						minScroll = "(0,+15)";
+						maxScroll = "(0,-15)";
+					}
+					generateTest('table_strict', maxScroll, minScroll);
+				},
+				function test_table_none(){
+					var minScroll, maxScroll;
+					if(dojo.isIE){
+						minScroll = "(0,+16)";
+						maxScroll = "(0,-29)";
+					}else{
+						minScroll = "(0,+15)";
+						maxScroll = "(0,-15)";
+					}
+					generateTest('table_none', maxScroll, minScroll);
+				},
+				function test_table_loose_rtl(){
+					var minScroll, maxScroll;
+					if(dojo.isIE <= 6){
+						minScroll = "(-5,+34)";
+						maxScroll = "(-1,-47)";
+					}else if(dojo.isIE == 7){
+						minScroll = "(0,+20)";
+						maxScroll = "(0,-33)";
+					}else if(dojo.isIE >= 8){
+						minScroll = "(0,+19)";
+						maxScroll = "(0,-19)";
+					}else{
+						minScroll = "(0,+15)";
+						maxScroll = "(0,-15)";
+					}
+					generateTest('table_loose_rtl', maxScroll, minScroll);
+				},
+				function test_innerScrollbars_strict(){
+					var minScroll, maxScroll;
+					if(dojo.isIE <= 6){
+						minScroll = "(+32,+11)";
+						maxScroll = "(-32,+21)";
+					}else if(dojo.isIE == 7){
+						minScroll = "(+31,+10)";
+						maxScroll = "(-31,+21)";
+					}else if(dojo.isIE){
+						minScroll = "(-20,+25)";
+						maxScroll = "(-9,-29)";
+					}else if(dojo.isFF < 3){
+						minScroll = "(-20,+25)";
+						maxScroll = "(-10,-32)";
+					}else if(dojo.isFF){
+						minScroll = "(-20,+27)";
+						maxScroll = "(-9,-29)";
+					}else if(dojo.isWebKit){
+						minScroll = "(-20,+9)";
+						maxScroll = "(-7,+22)";
+					}
+					generateTest('innerScrollbars_strict', maxScroll, minScroll);
+				},
+				function test_innerScrollbars_none(){
+					var minScroll, maxScroll;
+					if(dojo.isIE <= 6){
+						minScroll = "(+40,+19)";
+						maxScroll = "(-40,+21)";
+					}else if(dojo.isIE == 7){
+						minScroll = "(+39,+18)";
+						maxScroll = "(-39,+21)";
+					}else if(dojo.isIE){
+						minScroll = "(+39,+18)";
+						maxScroll = "(-39,+21)";
+					}else if(dojo.isFF < 3){
+						minScroll = "(-20,+12)";
+						maxScroll = "(-10,+22)";
+					}else if(dojo.isFF){
+						minScroll = "(-20,+11)";
+						maxScroll = "(-9,+22)";
+					}else if(dojo.isWebKit){
+						minScroll = "(-20,+9)";
+						maxScroll = "(-7,+22)";
+					}
+					generateTest('innerScrollbars_none', maxScroll, minScroll);
+				},
+				function test_innerScrollbars_loose_rtl(){
+					var minScroll, maxScroll;
+					if(dojo.isIE <= 6){
+						minScroll = "(+32,+11)";
+						maxScroll = "(-32,+21)";
+					}else if(dojo.isIE == 7){
+						minScroll = "(+31,+10)";
+						maxScroll = "(-31,+21)";
+					}else if(dojo.isIE){
+						minScroll = "(-20,+25)";
+						maxScroll = "(-9,-29)";
+					}else if(dojo.isFF < 3){
+						minScroll = "(-20,+12)";
+						maxScroll = "(-10,+22)";
+					}else if(dojo.isFF){
+						minScroll = "(+9,+11)";
+						maxScroll = "(+20,+22)";
+					}else if(dojo.isWebKit){
+						minScroll = "(+7,+9)";
+						maxScroll = "(+20,+22)";
+					}
+					generateTest('innerScrollbars_loose_rtl', maxScroll, minScroll);
+				}
+			]);
+		        doh.run();
+		});
+		function generateTest(id, maxVal, minVal){
+			with(dojo.byId(id)){
+				scrollMin();
+				scrollMax();
+				scrollIntoView();
+				var actualScroll = getScroll();
+				var expectedScroll = maxVal || getExpectedMaxScroll();
+                                doh.is(expectedScroll, actualScroll);
+				scrollIntoView(); // make sure the value sticks
+				var actualScroll = getScroll();
+                                doh.is(expectedScroll, actualScroll);
+				scrollMin();
+				scrollIntoView();
+				var actualScroll = getScroll();
+				var expectedScroll = minVal || getExpectedMinScroll();
+                                doh.is(expectedScroll, actualScroll);
+			}
+		}
+	</script>
+</head>
+<body>
+<h1>Automated scrollIntoView tests testing 3 different DOCTYPEs as well as right-to-left</h1>
+<!--	The test templates are below -->
+<fieldset>
+<label for="8249">Scrollable parent != offsetParent:</label>
+<div type="testIframe" id="8249">
+	<div style="margin:13px;"
+		><ul style="height:70px;"
+			><li><input style="background-color:white;"></li
+			><li><input style="background-color:white;"></li
+			><li><input style="background-color:white;"></li
+			><li><input style="background-color:red  ;"></li
+			><li><input style="background-color:white;"></li
+			><li><input style="background-color:white;"></li
+			><li><input style="background-color:white;"></li
+		></ul
+	></div>
+	<script type="iframe/javascript">
+		function addOnLoad(win){
+			function getYscroll(win, pos){
+				return Math.round((win.document.getElementsByTagName("UL")[0].scrollHeight-140)*pos/7+10);
+			}
+			win.frameElement.getExpectedMinScroll = function(){ var h = getYscroll(win, 4); return "(0,+"+h+")" };
+			win.frameElement.getExpectedMaxScroll = function(){ var h = getYscroll(win, 3); return "(0,-"+h+")" };
+		}
+	</script>
+</div>
+</fieldset>
+<fieldset>
+<label for="8284">Absolute positioned overflow container:</label>
+<div type="testIframe" id="8284">
+	<div style="position:absolute;">
+		<input style="margin:50px 0px;">
+	</div>
+</div>
+</fieldset>
+<fieldset>
+<label for="absContent">Absolute-positioned content:</label>
+<div type="testIframe" id="absContent">
+	<hr style="height:50px;float:left;"/>
+	<hr style="height:50px;float:right;"/>
+	<input style="position:absolute;top:75px;left:10px">
+</div>
+</fieldset>
+<!-- position:fixed is poorly supported in IE and is actually hard to get right (scrolling inside a fixed element) so its handled natively for now
+<fieldset>
+<label for="fixedNode">Fixed-positioned node:</label>
+<div type="testIframe" id="fixedNode">
+	<hr style="height:50px;float:left;"/>
+	<hr style="height:50px;float:right;"/>
+	<input style="position:fixed;top:75px;left:-5px;">
+</div>
+</fieldset>
+<fieldset>
+<label for="fixedScrollable">Fixed-positioned scrollable content:</label>
+<div type="testIframe" id="fixedScrollable">
+	<div style="height:120px;width:70px;overflow-y:scroll;position:fixed;top:-20px;left:10px;">
+		<input style="margin:120px 0px;border:1px solid red;padding:3px;">
+		<hr style="width:10px;">
+	</div>
+</div>
+</fieldset>
+-->
+<fieldset>
+<label for="7036">Absolute positioned inner scrollable content:</label>
+<div type="testIframe" id="7036">
+	<div style="height:70px;width:70px;overflow-y:scroll;position:absolute;top:10px;left:10px;">
+		<input style="margin:80px 0px 80px 0px;border:1px solid red;padding:3px;">
+		<hr style="width:10px;">
+	</div>
+</div>
+</fieldset>
+<fieldset>
+<label for="innerNoScrollBars">Complex scrollable inner content, no scrollbars:</label>
+<div type="testIframe" id="innerNoScrollBars">
+	<div style="width:20px; height:20px; overflow:hidden; margin:10px; border:1px solid red; border-width:1px 2px 3px 4px;"
+		><input style="background-color:green;height:15px;"
+		><nobr style="margin:7px;padding:3px;border:5px solid pink;float:none;width:80px;overflow:visible;display:inline;"
+			><input style="background-color:black;display:inline;width:20px;"
+			><input style="background-color:red;display:inline;"
+			><input style="background-color:blue;display:inline;width:15px;"
+		></nobr
+		><input style="background-color:cyan;height:10px;"
+	></div>
+</div>
+</fieldset>
+<fieldset>
+<label for="noScrollBars">Nothing to do:</label>
+<div type="testIframe" id="noScrollBars">
+	<input style="margin:25px;">
+</div>
+</fieldset>
+<fieldset>
+<label for="floatRight">Float right:</label>
+<div type="testIframe" id="floatRight">
+	<hr style="float:left;"/>
+	<hr style="float:right;"/>
+	<input style="float:right;">
+</div>
+</fieldset>
+<fieldset>
+<label for="bottomNonFloat">Bottom, not floated:</label>
+<div type="testIframe" id="bottomNonFloat">
+	<hr style="height:50px;float:left;"/>
+	<hr style="height:50px;float:right;"/>
+	<input style="clear:both;">
+</div>
+</fieldset>
+<fieldset>
+<label for="table">Table:</label>
+<div type="testIframe" id="table">
+	<table style="display:block;overflow:hidden;max-height:40px;table-layout:fixed;border:5px white solid;margin:70px 0px 0px;" cellspacing="0" cellpadding="0">
+		<tr><td><input style="height:40px;width:40px;"></td></tr>
+	</table>
+	<hr style="height:70px;width:50px;overflow:hidden;"/>
+</div>
+</fieldset>
+<fieldset>
+<label for="innerScrollbars">Inner scrollable content with scrollbars:</label>
+<div type="testIframe" id="innerScrollbars">
+	<div style="width:74px;height:74px;overflow:scroll;background-color:white;margin:1px;padding:2px;border:2px solid white;"
+		><nobr style="display:block;margin:20px;"
+			><input style="width:20px;height:50px;background-color:white;display:inline;"
+			><input style="width:50px;height:50px;margin:0px;display:inline;"
+			><input style="width:20px;height:50px;background-color:white;display:inline;"
+		></nobr
+		><input style="height:20px;width:60px;background-color:white;"
+	></div>
+</div>
+</fieldset>
+<br>
+<!--	Below is the magic code that creates the iframes from the given template.
+	This should be generalized for other files to include. -->
+<script>
+	function _findInput(win){
+		var inputs = win.document.getElementsByTagName('INPUT');
+		if(inputs.length == 1){ return inputs[0]; }
+		for(var i=0; i<inputs.length; i++){
+			var n = inputs[i];
+			if(/red|255, 0, 0|ff0000/i.test(dojo.style(n, "backgroundColor"))){
+				return n;
+				break;
+			}
+		}
+	}
+	function _scrollMin(win){
+		var n = _findInput(win);
+		while(n && n.tagName){
+			n.scrollTop = -n.scrollHeight;
+			n.scrollLeft = -n.scrollWidth;
+			n._scrollMinY = n.scrollTop;
+			n._scrollMinX = n.scrollLeft;
+			n.scrollTop += 1;
+			n.scrollLeft += 1;
+			n = n.parentNode;
+		}
+	}
+	function _scrollMax(win){
+		var n = _findInput(win);
+		while(n && n.tagName){
+			n.scrollTop = n.scrollHeight;
+			n.scrollLeft = n.scrollWidth;
+			n._scrollMaxY = n.scrollTop;
+			n._scrollMaxX = n.scrollLeft;
+			n.scrollTop -= 1;
+			n.scrollLeft -= 1;
+			n = n.parentNode;
+		}
+	}
+	function _getScroll(win){
+		var n = _findInput(win), scroll = '';
+		while(n && n.tagName){
+			var left = n.scrollLeft-n._scrollMinX, top = n.scrollTop-n._scrollMinY;
+			var right = n._scrollMaxX-n.scrollLeft, bottom = n._scrollMaxY-n.scrollTop;
+			if(left || top || n._scrollMinX || n._scrollMaxX || n._scrollMinY || n._scrollMaxY){
+				scroll += '('+(left<=right?((left==right?'':'+')+left):('-'+right))+','+(top<=bottom?((top==bottom?'':'+')+top):('-'+bottom))+')';
+			}
+			n = n.parentNode;
+		}
+		return scroll || '(0,0)';
+	}
+	function _scrollIntoView(win){
+		var n = _findInput(win);
+		dojo.withGlobal(win, 'scrollIntoView', dijit, [n]);
+	}
+	function _onClick(win){
+		_scrollIntoView(win);
+		alert(_getScroll(win));
+	}
+	function initIframeMethods(iframeWin, parentWin){
+		iframeWin.frameElement.findInput = function(){ return parentWin._findInput(iframeWin) };
+		iframeWin.frameElement.scrollMin = function(){ parentWin._scrollMin(iframeWin) };
+		iframeWin.frameElement.scrollMax = function(){ parentWin._scrollMax(iframeWin) };
+		iframeWin.frameElement.getScroll = function(){ return parentWin._getScroll(iframeWin) };
+		iframeWin.frameElement.scrollIntoView = function(){ parentWin._scrollIntoView(iframeWin) };
+		iframeWin.frameElement.onClick = function(){ parentWin._onClick(iframeWin) };
+		iframeWin.frameElement.getExpectedMaxScroll = function(){ var node = parentWin._findInput(iframeWin); node.scrollIntoView(false); return parentWin._getScroll(iframeWin) };
+		iframeWin.frameElement.getExpectedMinScroll = function(){ var node = parentWin._findInput(iframeWin); node.scrollIntoView(true); return parentWin._getScroll(iframeWin) };
+	}
+	function getIframeSrc(content, strict, rtl){
+		var iframeSrc = 'javascript:"';
+		if(strict){
+			iframeSrc += "<!DOCTYPE HTML PUBLIC '-//W3C//DTD HTML 4.01//EN' 'http://www.w3.org/TR/html4/strict.dtd'>\n";
+		}else if(rtl){
+			iframeSrc += "<!DOCTYPE HTML PUBLIC '-//W3C//DTD HTML 4.0 Transitional//EN' 'http://www.w3.org/TR/html4/loose.dtd'>\n";
+		}
+		iframeSrc += 
+		'<HTML dir='+(rtl?'rtl':'ltr')+'>'+
+		'<HEAD>'+
+			'<STYLE>'+
+				'* { border:0px solid black;padding:0px;margin:0px; }\n'+
+				'INPUT { display:block; background-color:#ff0000; border:0px solid black; padding:0px; margin:0px; #margin-bottom:-1px; font-size:0px; line-height:0px; overflow:hidden; width:20px; height: 20px; }\n'+
+				'UL { border:0px solid black; padding:0px; margin:0px; line-height:0px; width:45px; overflow:auto; }\n'+
+				'LI { list-style-type: none; border:0px solid black; padding:0px; margin:0px; line-height:20px; overflow:visible; max-width:20px; max-height:20px; height:20px; width:20px; }\n'+
+				'HR { margin:0px; width:120px; height: 1px; visibility:hidden; display:block; }\n'+
+			'<\/STYLE>'+
+			'<SCRIPT type=text/javascript>'+
+				'var win = frameElement.ownerDocument.defaultView||frameElement.document.parentWindow;'+
+				'win.initIframeMethods(window, win);'+
+				'function addOnLoad(){}'+
+			'<\/SCRIPT>'+
+		'<\/HEAD>'+
+		'<BODY onclick=\'frameElement.onClick()\'>'+
+			content.replace(/"/g/*balance"*/,"'").replace(/iframe.javascript/g,"text/javascript").replace(/<input\b/ig,"<INPUT readOnly ")+
+			'<SCRIPT type=text/javascript>addOnLoad(window)<\/SCRIPT>'+
+		'<\/BODY>'+
+		'<\/HTML>"';
+		return iframeSrc;
+	}
+
+	function makeIframe(strict, rtl){
+		var iframeSrc = getIframeSrc(content, strict, rtl);
+		var container = document.createElement('fieldset');
+		var text = strict? 'strict': (rtl? 'loose RTL' : 'none');
+		var color = (rtl? 'medium': '') + (strict? 'SpringGreen': 'Turquoise');
+		var idSuffix = strict? '_strict': (rtl? '_loose_rtl': '_none');
+		dojo.style(container, "cssText", "display:inline;border:1px ridge gray;padding:0px;margin:0px;background-color:"+color+";text-align:"+(rtl?"right;":"left;"));
+		container.appendChild(document.createTextNode(text));
+		var iframe = document.createElement('iframe');
+		if(dojo.isOpera){ iframe.setAttribute('src', iframeSrc); }
+		container.appendChild(iframe);
+		iframe.setAttribute('scrolling', "auto");
+		iframe.setAttribute('id', id + idSuffix);
+		iframe.setAttribute('name', id + idSuffix);
+		iframe.className = className;
+		dojo.style(iframe, "cssText", style);
+		srcNode.appendChild(container);
+		if(!dojo.isOpera){ iframe.setAttribute('src', iframeSrc); }
+	}
+	var testIframes = dojo.query('DIV[type="testIframe"]');
+	for(var i=0; i < testIframes.length; i++){
+		var srcNode = testIframes[i];
+		var content = srcNode.innerHTML || '';
+		var id = srcNode.id || "";
+		var style = srcNode.getAttribute('style') || "";
+		var className = srcNode.getAttribute('class') || srcNode.className || "";
+		if(typeof style == "object"){
+			style = style.cssText || "";
+		}
+		style="display:block;border:0px solid gray;background-color:white;margin:0px;padding:0px;"+style;
+		srcNode.innerHTML = "";
+		srcNode.removeAttribute('style');
+		srcNode.className = "";
+		
+		makeIframe(true, false);
+		makeIframe(false, false);
+		makeIframe(false, true);
+	}
+</script>
+</body>
+</html>
