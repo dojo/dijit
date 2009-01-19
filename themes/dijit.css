@@ -1528,7 +1528,7 @@ img.dijitColorPaletteUnder {
 
 .dijitTextArea {
 	width:100%;
-	overflow: auto;	/* w/out this IE's SimpleTextArea goes to overflow: scroll */
+	overflow-y: auto;	/* w/out this IE's SimpleTextArea goes to overflow: scroll */
 }
 .dijitTextArea[cols] {
 	width:auto; /* SimpleTextArea cols */
