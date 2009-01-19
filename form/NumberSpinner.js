@@ -22,7 +22,7 @@ dojo.declare("dijit.form.NumberSpinner",
 
 	adjust: function(/* Object */val, /* Number*/delta){
 		// summary: change Number val by the given amount
-		var tc = this.contraints, 
+		var tc = this.constraints, 
 			v = isNaN(val), 
 			gotMax = !isNaN(tc.max), 
 			gotMin = !isNaN(tc.min)
