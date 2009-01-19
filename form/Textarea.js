@@ -25,7 +25,6 @@ dojo.declare(
 	_getHeight: function(textarea){
 		var newH = textarea.scrollHeight;
 		if(dojo.isIE){
-			if(dojo.isIE >= 8 && this._strictMode){ return -1; } // IE8 beta 2 scrollHeight doesn't change
 			newH += textarea.offsetHeight - textarea.clientHeight - ((dojo.isIE < 8 && this._strictMode)? dojo._getPadBorderExtents(textarea).h : 0);
 		}else if(dojo.isMoz){
 			newH += textarea.offsetHeight - textarea.clientHeight; // creates room for horizontal scrollbar
@@ -100,7 +99,7 @@ dojo.declare(
 	postCreate: function(){
 		this.inherited(arguments);
 		// tweak textarea style to reduce browser differences
-		dojo.style(this.domNode, { hhheight: 'auto', overflowY: (dojo.isIE >=8 && this._strictMode)? 'auto' : 'hidden', overflowX: 'auto', boxSizing: 'border-box', MsBoxSizing: 'border-box', WebkitBoxSizing: 'border-box', MozBoxSizing: 'border-box' });
+		dojo.style(this.domNode, { overflowY: 'hidden', overflowX: 'auto', boxSizing: 'border-box', MsBoxSizing: 'border-box', WebkitBoxSizing: 'border-box', MozBoxSizing: 'border-box' });
 		this.connect(this.domNode, "onscroll", this._onInput);
 		this.connect(this.domNode, "onresize", this._onInput);
 		setTimeout(dojo.hitch(this, "resize"), 0);
