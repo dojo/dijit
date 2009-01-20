@@ -151,11 +151,7 @@ dojo.declare(
 
 		_refreshState: function(){
 			this.validate(this._focused);
-		},
-
-		_update: function(/*Event*/e){
-			this._refreshState();
-			this._onMouse(e);	// update CSS classes
+			this.inherited(arguments);
 		},
 
 		//////////// INITIALIZATION METHODS ///////////////////////////////////////

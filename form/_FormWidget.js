@@ -400,10 +400,6 @@ dojo.declare("dijit.form._FormValueWidget", dijit.form._FormWidget,
 			this.undo();
 			dojo.stopEvent(e);
 			return false;
-		}else if(this.intermediateChanges){
-			var _this = this;
-			// the setTimeout allows the key to post to the widget input box
-			setTimeout(function(){ _this._handleOnChange(_this.attr('value'), false); }, 0);
 		}
 		return true;
 	}

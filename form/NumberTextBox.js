@@ -28,11 +28,6 @@ dojo.declare("dijit.form.NumberTextBoxMixin",
 		//		properties to mix into constraints when the value is being edited
 		editOptions: { pattern: '#.######' },
 
-		_onFocus: function(){
-			this._setValueAttr(this.attr('value'), false);	
-			this.inherited(arguments);
-		},
-
 		_formatter: dojo.number.format,
 
 		format: function(/*Number*/ value, /*dojo.number.__FormatOptions*/ constraints){

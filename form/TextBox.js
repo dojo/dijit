@@ -143,12 +143,25 @@ dojo.declare(
 			return value;
 		},
 
-		_onInput: function(){
+		_refreshState: function(){
+		},
+
+		_onInput: function(e){
+			if(/key/i.test(e.type) && e.keyCode){
+				switch(e.keyCode){
+					case dojo.keys.SHIFT:
+					case dojo.keys.ALT:
+					case dojo.keys.CTRL:
+					case dojo.keys.TAB:
+						return;
+				}
+			}
 			if(this.intermediateChanges){
 				var _this = this;
 				// the setTimeout allows the key to post to the widget input box
 				setTimeout(function(){ _this._handleOnChange(_this.attr('value'), false); }, 0);
 			}
+			this._refreshState();
 		},
 
 		postCreate: function(){
@@ -195,15 +208,20 @@ dojo.declare(
 		},
 
 		_setBlurValue: function(){
-			this._setValueAttr(this.attr('value'), (this.isValid ? this.isValid() : true));
+			this._setValueAttr(this.attr('value'), true);
 		},
 
-		_onBlur: function(){
+		_onBlur: function(e){
 			this._setBlurValue();
 			this.inherited(arguments);
 		},
 
-		reset:function(){
+		_onFocus: function(e){
+			this._refreshState();
+			this.inherited(arguments);
+		},
+
+		reset: function(){
 			//      summary:
 			//              Additionally reset the displayed textbox value to ''
 			this.textbox.value = '';
