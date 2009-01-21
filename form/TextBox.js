@@ -212,11 +212,13 @@ dojo.declare(
 		},
 
 		_onBlur: function(e){
+			if(this.disabled){ return; }
 			this._setBlurValue();
 			this.inherited(arguments);
 		},
 
 		_onFocus: function(e){
+			if(this.disabled){ return; }
 			this._refreshState();
 			this.inherited(arguments);
 		},
