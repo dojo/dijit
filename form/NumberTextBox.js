@@ -30,6 +30,14 @@ dojo.declare("dijit.form.NumberTextBoxMixin",
 
 		_formatter: dojo.number.format,
 
+		_onFocus: function(){
+			var val = this.attr('value');
+			if(typeof val == "number" && !isNaN(val)){
+				this.textbox.value = this.format(val, this.constraints);
+			}
+			this.inherited(arguments);
+		},
+
 		format: function(/*Number*/ value, /*dojo.number.__FormatOptions*/ constraints){
 			//	summary: formats the value as a Number, according to constraints
 
