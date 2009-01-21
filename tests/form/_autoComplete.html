@@ -43,7 +43,9 @@
 		}
 		function setVal2(val){
 			dojo.byId('value2').value=val;
-			console.debug("Value changed to ["+val+"] in second box (#1652)");
+			var w = dijit.byId('datatest');
+			var item = w.item;
+			console.debug("Value changed to ["+val+"] in second box (#1652): datastore item label = " + (item?w.store.getLabel(item):'no item'));
 		}
 		function setVal3(val){
 			dojo.byId('value3').value=val;

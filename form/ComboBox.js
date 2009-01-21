@@ -146,8 +146,10 @@ dojo.declare(
 			var doSearch = false;
 			var pw = this._popupWidget;
 			var dk = dojo.keys;
+			var highlighted = null;
 			if(this._isShowingNow){
 				pw.handleKey(key);
+				highlighted = pw.getHighlightedOption();
 			}
 			switch(key){
 				case dk.PAGE_DOWN:
@@ -155,8 +157,8 @@ dojo.declare(
 					if(!this._isShowingNow||this._prev_key_esc){
 						this._arrowPressed();
 						doSearch=true;
-					}else{
-						this._announceOption(pw.getHighlightedOption());
+					}else if(highlighted){
+						this._announceOption(highlighted);
 					}
 					dojo.stopEvent(evt);
 					this._prev_key_backspace = false;
@@ -166,7 +168,7 @@ dojo.declare(
 				case dk.PAGE_UP:
 				case dk.UP_ARROW:
 					if(this._isShowingNow){
-						this._announceOption(pw.getHighlightedOption());
+						this._announceOption(highlighted);
 					}
 					dojo.stopEvent(evt);
 					this._prev_key_backspace = false;
@@ -177,10 +179,7 @@ dojo.declare(
 					// prevent submitting form if user presses enter. Also
 					// prevent accepting the value if either Next or Previous
 					// are selected
-					var highlighted;
-					if(this._isShowingNow && 
-						(highlighted = pw.getHighlightedOption())
-					){
+					if(highlighted){
 						// only stop event on prev/next
 						if(highlighted == pw.nextButton){
 							this._nextSearch(1);
@@ -214,8 +213,8 @@ dojo.declare(
 					if(this._isShowingNow){
 						this._prev_key_backspace = false;
 						this._prev_key_esc = false;
-						if(pw.getHighlightedOption()){
-							pw.attr('value', { target: pw.getHighlightedOption() });
+						if(highlighted){
+							pw.attr('value', { target: highlighted });
 						}
 						this._lastQuery = null; // in case results come back later
 						this._hideResultList();
@@ -225,7 +224,7 @@ dojo.declare(
 				case ' ':
 					this._prev_key_backspace = false;
 					this._prev_key_esc = false;
-					if(this._isShowingNow && pw.getHighlightedOption()){
+					if(highlighted){
 						dojo.stopEvent(evt);
 						this._selectOption();
 						this._hideResultList();
@@ -323,6 +322,7 @@ dojo.declare(
 			// textbox would be changed to "California" and "ifornia" would be
 			// highlighted.
 
+			this.item = null;
 			var zerothvalue = new String(this.store.getValue(results[0], this.searchAttr));
 			if(zerothvalue && this.autoComplete && !this._prev_key_backspace &&
 				(dataObject.query[this.searchAttr] != "*")){
@@ -330,6 +330,7 @@ dojo.declare(
 				// startSearch looks for "*".
 				// it does not make sense to autocomplete
 				// if they are just previewing the options available.
+				this.item = results[0];
 				this._autoCompleteText(zerothvalue);
 			}
 			dataObject._maxOptions = this._maxOptions;
@@ -721,7 +722,7 @@ dojo.declare(
 
 		postMixInProperties: function(){
 			this._messages = dojo.i18n.getLocalization("dijit.form", "ComboBox", this.lang);
-			this.inherited("postMixInProperties", arguments);
+			this.inherited(arguments);
 		},
 
 		_setValueAttr: function(/*Object*/ value){
