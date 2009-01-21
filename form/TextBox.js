@@ -147,7 +147,7 @@ dojo.declare(
 		},
 
 		_onInput: function(e){
-			if(/key/i.test(e.type) && e.keyCode){
+			if(e && e.type && /key/i.test(e.type) && e.keyCode){
 				switch(e.keyCode){
 					case dojo.keys.SHIFT:
 					case dojo.keys.ALT:
