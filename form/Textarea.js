@@ -61,6 +61,11 @@ dojo.declare(
 		if((dojo.isMoz || dojo.isWebKit) && !this._busyResizing){
 			this._busyResizing = true;
 			var textarea = this.domNode;
+			var empty = false;
+			if(textarea.value == ''){
+				textarea.value = ' '; // prevent collapse all the way back to 0
+				empty = true;
+			}
 			var newH = this._getHeight(textarea);
 			if(newH > 0){
 				var newScrollHeight = textarea.scrollHeight;
@@ -79,6 +84,9 @@ dojo.declare(
 				}
 				textarea.style.paddingBottom = oldPadding;
 				textarea.style.maxHeight = textarea.style.height = newH + "px";
+			}
+			if(empty){
+				textarea.value = '';
 			}
 			this._busyResizing = false;
 		}

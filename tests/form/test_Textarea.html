@@ -66,7 +66,13 @@
 		<input type="button" onclick="setAttr('disabled', true);" value="Disable">
 		<input type="button" onclick="setAttr('disabled', false);" value="Enable">
 		<br>
-		<textarea dojoType="dijit.form.Textarea" name="largeTextArea">
+		<br>
+		<label for="blank">Blank:</label>
+		<textarea dojoType="dijit.form.Textarea" id="blank"></textarea>
+		<br>
+		<br>
+		<label for="largeTextArea">Large textarea:</label>
+		<textarea dojoType="dijit.form.Textarea" name="largeTextArea" id="largeTextArea">
 this is a textarea with a LOT of content
 
 
