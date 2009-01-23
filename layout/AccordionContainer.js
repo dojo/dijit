@@ -225,7 +225,8 @@ dojo.declare("dijit.layout._AccordionButton",
 		this.inherited(arguments)
 		dojo.setSelectable(this.domNode, false);
 		this.setSelected(this.selected);
-		dojo.attr(this.titleTextNode, "id", this.domNode.id+"_title");
+		var titleTextNodeId = dojo.attr(this.domNode,'id').replace(' ','_');
+		dojo.attr(this.titleTextNode, "id", titleTextNodeId+"_title");
 		dijit.setWaiState(this.focusNode, "labelledby", dojo.attr(this.titleTextNode, "id"));
 	},
 
@@ -261,6 +262,7 @@ dojo.declare("dijit.layout._AccordionButton",
 		this.selected = isSelected;
 		dojo[(isSelected ? "addClass" : "removeClass")](this.titleNode,"dijitAccordionTitle-selected");
 		dijit.setWaiState(this.focusNode, "expanded", isSelected);
+		dijit.setWaiState(this.focusNode, "selected", isSelected);
 		this.focusNode.setAttribute("tabIndex", isSelected ? "0" : "-1");
 	},
 
