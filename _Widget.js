@@ -789,7 +789,8 @@ dojo.declare("dijit._Widget", null, {
 				var m = d.hitch(this, method);
 				handles.push(
 					dco("onkeydown", this, function(e){
-						if(!d.isFF && e.keyCode == d.keys.ENTER){
+						if(!d.isFF && e.keyCode == d.keys.ENTER &&
+							!e.ctrlKey && !e.shiftKey && !e.altKey && !e.metaKey){
 							return m(e);
 						}else if(e.keyCode == d.keys.SPACE){
 							// stop space down as it causes IE to scroll
@@ -798,13 +799,15 @@ dojo.declare("dijit._Widget", null, {
 						}
 			 		}),
 					dco("onkeyup", this, function(e){
-						if(e.keyCode == d.keys.SPACE){ return m(e); }
+						if(e.keyCode == d.keys.SPACE && 
+							!e.ctrlKey && !e.shiftKey && !e.altKey && !e.metaKey){ return m(e); }
 					})
 				);
 			 	if(d.isFF){
 					handles.push(
 						dco("onkeypress", this, function(e){
-							if(e.keyCode == d.keys.ENTER){ return m(e); }
+							if(e.keyCode == d.keys.ENTER &&
+								!e.ctrlKey && !e.shiftKey && !e.altKey && !e.metaKey){ return m(e); }
 						})
 					);
 			 	}

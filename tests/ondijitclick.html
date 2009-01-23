@@ -48,6 +48,86 @@
 						}
 					},
 					{
+						name: "ondijitclick does not fire with CONTROL+SPACE-up",
+						runTest: function(t){
+							var w = dijit.byId("widget1");
+							if (dojo.isSafari){ // safari has error
+								this.name += " * SKIPPED *";
+								return;
+							}
+
+							// simulate control+space up
+							if (document.createEvent){
+								var e = document.createEvent("KeyboardEvent");
+								e.initKeyEvent("keyup",true,true,null,true,false,false,false,32,0);
+								w.domNode.focus();
+								w.clickCount = 0;
+								w.domNode.dispatchEvent(e);
+								t.is(0, w.clickCount);
+							}	
+						}
+					},
+					{
+						name: "ondijitclick does not fire with ALT+SPACE-up",
+						runTest: function(t){
+							var w = dijit.byId("widget1");
+							if (dojo.isSafari){ // safari has error
+								this.name += " * SKIPPED *";
+								return;
+							}
+
+							// simulate alt+space up
+							if (document.createEvent){
+								var e = document.createEvent("KeyboardEvent");
+								e.initKeyEvent("keyup",true,true,null,false,true,false,false,32,0);
+								w.domNode.focus();
+								w.clickCount = 0;
+								w.domNode.dispatchEvent(e);
+								t.is(0, w.clickCount);
+							}	
+						}
+					},
+					{
+						name: "ondijitclick does not fire with SHIFT+SPACE-up",
+						runTest: function(t){
+							var w = dijit.byId("widget1");
+							if (dojo.isSafari){ // safari has error
+								this.name += " * SKIPPED *";
+								return;
+							}
+
+							// simulate shift+space up
+							if (document.createEvent){
+								var e = document.createEvent("KeyboardEvent");
+								e.initKeyEvent("keyup",true,true,null,false,false,true,false,32,0);
+								w.domNode.focus();
+								w.clickCount = 0;
+								w.domNode.dispatchEvent(e);
+								t.is(0, w.clickCount);
+							}	
+						}
+					},
+					{
+						name: "ondijitclick does not fire with META+SPACE-up",
+						runTest: function(t){
+							var w = dijit.byId("widget1");
+							if (dojo.isSafari){ // safari has error
+								this.name += " * SKIPPED *";
+								return;
+							}
+
+							// simulate meta+space up
+							if (document.createEvent){
+								var e = document.createEvent("KeyboardEvent");
+								e.initKeyEvent("keyup",true,true,null,false,false,false,true,32,0);
+								w.domNode.focus();
+								w.clickCount = 0;
+								w.domNode.dispatchEvent(e);
+								t.is(0, w.clickCount);
+							}	
+						}
+					},
+					{
 						name: "ondijitclick fires once on an enter-key-down except in FF",
 						runTest: function(t){
 							var w = dijit.byId("widget1");
@@ -72,6 +152,86 @@
 						}
 					},
 					{
+						name: "ondijitclick does not fire with CONTROL+ENTER-key-down",
+						runTest: function(t){
+							var w = dijit.byId("widget1");
+							if (dojo.isSafari){ // safari has error
+								this.name += " * SKIPPED *";
+								return;
+							}
+
+							// simulate control+enter down
+							if (document.createEvent && !dojo.isSafari){
+								var e = document.createEvent("KeyboardEvent");
+								e.initKeyEvent("keydown",true,true,null,true,false,false,false,13,0);
+								w.domNode.focus();
+								w.clickCount = 0;
+								w.domNode.dispatchEvent(e);
+								t.is(0,w.clickCount);
+							}
+						}
+					},
+					{
+						name: "ondijitclick does not fire with ALT+ENTER-key-down",
+						runTest: function(t){
+							var w = dijit.byId("widget1");
+							if (dojo.isSafari){ // safari has error
+								this.name += " * SKIPPED *";
+								return;
+							}
+
+							// simulate alt+enter down
+							if (document.createEvent && !dojo.isSafari){
+								var e = document.createEvent("KeyboardEvent");
+								e.initKeyEvent("keydown",true,true,null,false,true,false,false,13,0);
+								w.domNode.focus();
+								w.clickCount = 0;
+								w.domNode.dispatchEvent(e);
+								t.is(0, w.clickCount);
+							}
+						}
+					},
+					{
+						name: "ondijitclick does not fire with SHIFT+ENTER-key-down",
+						runTest: function(t){
+							var w = dijit.byId("widget1");
+							if (dojo.isSafari){ // safari has error
+								this.name += " * SKIPPED *";
+								return;
+							}
+
+							// simulate shift+enter down
+							if (document.createEvent && !dojo.isSafari){
+								var e = document.createEvent("KeyboardEvent");
+								e.initKeyEvent("keydown",true,true,null,false,false,true,false,13,0);
+								w.domNode.focus();
+								w.clickCount = 0;
+								w.domNode.dispatchEvent(e);
+								t.is(0, w.clickCount);
+							}
+						}
+					},
+					{
+						name: "ondijitclick does not fire with META+ENTER-key-down",
+						runTest: function(t){
+							var w = dijit.byId("widget1");
+							if (dojo.isSafari){ // safari has error
+								this.name += " * SKIPPED *";
+								return;
+							}
+
+							// simulate shift+enter down
+							if (document.createEvent && !dojo.isSafari){
+								var e = document.createEvent("KeyboardEvent");
+								e.initKeyEvent("keydown",true,true,null,false,false,false,true,13,0);
+								w.domNode.focus();
+								w.clickCount = 0;
+								w.domNode.dispatchEvent(e);
+								t.is(0, w.clickCount);
+							}
+						}
+					},
+					{
 						name: "ondijitclick fires once on an enter-key-press in FF",
 						runTest: function(t){
 							var w = dijit.byId("widget1");
@@ -92,6 +252,86 @@
 								}else{
 									t.is(0, w.clickCount);
 								}
+							}
+						}
+					},
+					{
+						name: "ondijitclick does not fire with CONTROL+ENTER-key-press",
+						runTest: function(t){
+							var w = dijit.byId("widget1");
+							if (dojo.isSafari){ // safari has error
+								this.name += " * SKIPPED *";
+								return;
+							}
+
+							// simulate control+enter down
+							if (document.createEvent && !dojo.isSafari){
+								var e = document.createEvent("KeyboardEvent");
+								e.initKeyEvent("keypress",true,true,null,true,false,false,false,13,0);
+								w.domNode.focus();
+								w.clickCount = 0;
+								w.domNode.dispatchEvent(e);
+								t.is(0, w.clickCount);
+							}
+						}
+					},
+					{
+						name: "ondijitclick does not fire with ALT+ENTER-key-press",
+						runTest: function(t){
+							var w = dijit.byId("widget1");
+							if (dojo.isSafari){ // safari has error
+								this.name += " * SKIPPED *";
+								return;
+							}
+
+							// simulate alt+enter down
+							if (document.createEvent && !dojo.isSafari){
+								var e = document.createEvent("KeyboardEvent");
+								e.initKeyEvent("keypress",true,true,null,false,true,false,false,13,0);
+								w.domNode.focus();
+								w.clickCount = 0;
+								w.domNode.dispatchEvent(e);
+								t.is(0, w.clickCount);
+							}
+						}
+					},
+					{
+						name: "ondijitclick does not fire with SHIFT+ENTER-key-press",
+						runTest: function(t){
+							var w = dijit.byId("widget1");
+							if (dojo.isSafari){ // safari has error
+								this.name += " * SKIPPED *";
+								return;
+							}
+
+							// simulate shift+enter down
+							if (document.createEvent && !dojo.isSafari){
+								var e = document.createEvent("KeyboardEvent");
+								e.initKeyEvent("keypress",true,true,null,false,false,true,false,13,0);
+								w.domNode.focus();
+								w.clickCount = 0;
+								w.domNode.dispatchEvent(e);
+								t.is(0, w.clickCount);
+							}
+						}
+					},
+					{
+						name: "ondijitclick does not fire with META+ENTER-key-press",
+						runTest: function(t){
+							var w = dijit.byId("widget1");
+							if (dojo.isSafari){ // safari has error
+								this.name += " * SKIPPED *";
+								return;
+							}
+
+							// simulate meta+enter down
+							if (document.createEvent && !dojo.isSafari){
+								var e = document.createEvent("KeyboardEvent");
+								e.initKeyEvent("keypress",true,true,null,false,false,false,true,13,0);
+								w.domNode.focus();
+								w.clickCount = 0;
+								w.domNode.dispatchEvent(e);
+								t.is(0, w.clickCount);
 							}
 						}
 					},
