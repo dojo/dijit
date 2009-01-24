@@ -250,7 +250,7 @@ if(!dijit.range._w3c){
 			var startContainer = firstnode.parentNode, endContainer = lastnode.parentNode;
 			var startOffset = dijit.range.getIndex(firstnode, startContainer).o;
 			var endOffset = dijit.range.getIndex(lastnode, endContainer).o+1;
-			return [[startContainer, startOffset],[endContainer, endOffset]];
+			return [startContainer, startOffset,endContainer, endOffset];
 		},
 		getEndPoint: function(range, end){
 			var atmrange = range.duplicate();
@@ -331,7 +331,7 @@ if(!dijit.range._w3c){
 			}
 			return [startnode, startOffset];
 		},
-		setEndPoint: function(range, container, offset, boundary){
+		setEndPoint: function(range, container, offset){
 			//text node
 			var atmrange = range.duplicate(), node, len;
 			if(container.nodeType!=3){ //normal node
@@ -383,10 +383,6 @@ if(!dijit.range._w3c){
 				}
 			}
 
-			range.setEndPoint(boundary, atmrange);
-			/*if(tempnode){
-				tempnode.parentNode.removeChild(tempnode);
-			}*/
 			return atmrange;
 		},
 		decomposeTextRange: function(range){
@@ -402,17 +398,17 @@ if(!dijit.range._w3c){
 					endContainter = tmpary[0], endOffset = tmpary[1];
 				}
 			}
-			return [[startContainter, startOffset],[endContainter, endOffset]];
+			return [startContainter, startOffset,endContainter, endOffset];
 		},
 		setRange: function(range, startContainter,
 			startOffset, endContainter, endOffset, collapsed){
-			dijit.range.ie.setEndPoint(range, startContainter, startOffset,'StartToStart');
+			var start=dijit.range.ie.setEndPoint(range, startContainter, startOffset);
 
+			range.setEndPoint('StartToStart',start);
 			if(!collapsed){
-				endrange = dijit.range.ie.setEndPoint(range, endContainter, endOffset,'EndToEnd');
-			}else{
-				range.collapse(true);
+				var end=dijit.range.ie.setEndPoint(range, endContainter, endOffset);	
 			}
+			range.setEndPoint('EndToEnd',end||start);
 
 			return range;
 		}
@@ -421,8 +417,8 @@ if(!dijit.range._w3c){
 dojo.declare("dijit.range.W3CRange",null, {
 	constructor: function(){
 		if(arguments.length>0){
-			this.setStart(arguments[0][0][0],arguments[0][0][1]);
-			this.setEnd(arguments[0][1][0],arguments[0][1][1]);
+			this.setStart(arguments[0][0],arguments[0][1]);
+			this.setEnd(arguments[0][2],arguments[0][3]);
 		}else{
 			this.commonAncestorContainer = null;
 			this.startContainer = null;
@@ -507,8 +503,8 @@ dojo.declare("dijit.range.W3CRange",null, {
 		this.collapsed = true;
 	},
 	cloneRange: function(){
-		var r = new dijit.range.W3CRange([[this.startContainer,this.startOffset],
-			[this.endContainer,this.endOffset]]);
+		var r = new dijit.range.W3CRange([this.startContainer,this.startOffset,
+			this.endContainer,this.endOffset]);
 		r._body = this._body;
 		return r;
 	},
