@@ -16,7 +16,7 @@ dojo.provide("dijit._base.sniff");
 (function(){
 	
 	var d = dojo,
-		html = d.doc.documentElement
+		html = d.doc.documentElement,
 		ie = d.isIE,
 		opera = d.isOpera,
 		maj = Math.floor,
