@@ -342,6 +342,11 @@ dojo.declare("dijit._Widget", null, {
 			// Copy attributes listed in attributeMap into the [newly created] DOM for the widget.
 			this._applyAttributes();
 
+			var source = this.srcNodeRef;
+			if(source && source.parentNode){
+				source.parentNode.replaceChild(this.domNode, source);
+			}
+
 			// If the developer has specified a handler as a widget parameter
 			// (ex: new Button({onClick: ...})
 			// then naturally need to connect from dom node to that handler immediately, 

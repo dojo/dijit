@@ -71,8 +71,7 @@
 							st1: "simple line 1\nsimple line 2",
 							richtext: "<h1>original</h1><p>This is the default content</p>",
 							filename: "",
-							readOnlyWidget: "Should be returned",
-							"submitButton":"Submit"
+							readOnlyWidget: "Should be returned"
 						};
 
 		// we change the form to these values
@@ -88,8 +87,7 @@
 							st1: "new simple line 1\nnew simple line 2",
 							richtext: "<h1>changed</h1><p>This is the changed content set by attr('value', ...')</p>",
 							filename: "",
-							readOnlyWidget: "Should be returned",
-							"submitButton":"Submit"
+							readOnlyWidget: "Should be returned"
 						};
 		var particalchanged = {
 							foo: {bar: {baz: {quux: d("2006-01-01")} } },
@@ -110,8 +108,7 @@
 							st1: "simple line 1\nsimple line 2",
 							richtext: "<h1>changed</h1><p>This is the changed content set by attr('value', ...')</p>", // not a form element, so not reset
 							filename: "",
-							readOnlyWidget: "Should be returned",
-							"submitButton":"Submit"
+							readOnlyWidget: "Should be returned"
 						};
 
 		dojo.addOnLoad(function(){
@@ -417,7 +414,7 @@ simple line 2</textarea>
 		<button dojoType="dijit.form.Button" onClick="getValues();">Get Values from form!</button>
 		<button dojoType="dijit.form.Button" onClick="setValues();">Set Values to form!</button>
 		<button dojoType="dijit.form.Button" onClick="validate();">Validate form!</button>
-		<button dojoType="dijit.form.Button" type="submit" name="submitButton" value="Submit">Submit</button>
+		<button dojoType="dijit.form.Button" type="submit" value="Submit">Submit</button>
 		<button dojoType="dijit.form.Button" type="reset">Reset</button>
 	</form>
 

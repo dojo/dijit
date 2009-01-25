@@ -257,17 +257,10 @@ dojo.declare(
 
 			// Create a hidden <input> node with the serialized value used for submit
 			// (as opposed to the displayed value)
-			var textbox = this.textbox;
 			this.valueNode = dojo.create("input", {
 				style:{ display:"none" },
-				type: textbox.type,
-				name: textbox.name
-			}, textbox, "after");
-
-			// try to give the displayed node a different name, or ideally
-			// remove that attribute altogether
-			this.textbox.name = this.textbox.name + "_displayed_";
-			this.textbox.removeAttribute("name");
+				type: this.type
+			}, this.textbox, "after");
 		},
 
 		_setDisabledAttr: function(/*Boolean*/ value){

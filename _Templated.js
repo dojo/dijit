@@ -75,11 +75,6 @@ dojo.declare("dijit._Templated",
 			// attachment points and events, which should be defined on the template node.
 			this._attachTemplateNodes(node);
 
-			var source = this.srcNodeRef;
-			if(source && source.parentNode){
-				source.parentNode.replaceChild(node, source);
-			}
-
 			if(this.widgetsInTemplate){
 				var cw = (this._supportingWidgets = dojo.parser.parse(node));
 				this._attachTemplateNodes(cw, function(n,p){
@@ -87,7 +82,7 @@ dojo.declare("dijit._Templated",
 				});
 			}
 
-			this._fillContent(source);
+			this._fillContent(this.srcNodeRef);
 		},
 
 		_fillContent: function(/*DomNode*/ source){

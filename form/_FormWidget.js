@@ -66,13 +66,19 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 	// directly in the template as read by the parser in order to function. IE is known to specifically 
 	// require the 'name' attribute at element creation time.
 	attributeMap: dojo.delegate(dijit._Widget.prototype.attributeMap, {
-		value: "focusNode", 
+		value: "focusNode",
 		disabled: "focusNode", 
 		readOnly: "focusNode", 
 		id: "focusNode", 
 		tabIndex: "focusNode", 
 		alt: "focusNode"
 	}),
+
+	_setNameAttr: function(/*String*/ value){
+		this.name = value;
+		var node = this.valueNode || this.focusNode || this.domNode;
+		dojo.attr(node, 'name', value);
+	},
 
 	_setDisabledAttr: function(/*Boolean*/ value){
 		this.disabled = value;
