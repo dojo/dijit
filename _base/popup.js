@@ -131,6 +131,7 @@ dijit.popup.__OpenArgs = function(){
 		s.display = "";
 		s.visibility = "";
 		s.position = "";
+		s.top = "0px";
 		wrapper.appendChild(widget.domNode);
 
 		var iframe = new dijit.BackgroundIframe(wrapper);
