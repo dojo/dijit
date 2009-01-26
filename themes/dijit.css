@@ -259,9 +259,9 @@
 	margin: 0;
 }
 
-.dj_ie .dijitToolbar button,
+.dj_ie8 .dijitToolbar button,
 .dj_webkit .dijitToolbar button {
-	/* FF adds implicit padding to buttons so make other browsers follow suit,
+	/* FF and IE<8 adds implicit padding to buttons, so make other browsers follow suit,
 	 * to avoid a bunch of browse specific rules in theme files
 	 */
 	padding: 1px 2px;
