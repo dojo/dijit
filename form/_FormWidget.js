@@ -62,9 +62,6 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 	scrollOnFocus: true,
 
 	// These mixins assume that the focus node is an INPUT, as many but not all _FormWidgets are.
-	// Don't attempt to mixin the 'type', 'name' attributes here programatically -- they must be declared
-	// directly in the template as read by the parser in order to function. IE is known to specifically 
-	// require the 'name' attribute at element creation time.
 	attributeMap: dojo.delegate(dijit._Widget.prototype.attributeMap, {
 		value: "focusNode",
 		disabled: "focusNode", 
