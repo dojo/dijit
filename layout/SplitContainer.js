@@ -112,11 +112,25 @@ dojo.declare("dijit.layout.SplitContainer",
 		dojo.addClass(child.domNode, "dijitSplitPane");
 	},
 
-	_addSizer: function(){
-		var i = this.sizers.length;
+	_onSizerMouseDown: function(e){
+		if(e.target.id){
+			for(var i=0;i<this.sizers.length;i++){
+				if(this.sizers[i].id==e.target.id){
+					break;
+				}
+			}
+			if(i<this.sizers.length){
+				this.beginSizing(e,i);
+			}
+		}
+	},
+	_addSizer: function(index){
+		index = index===undefined?this.sizers.length:index;
 
 		// TODO: use a template for this!!!
-		var sizer = this.sizers[i] = dojo.doc.createElement('div');
+		var sizer = dojo.doc.createElement('div');
+		sizer.id=dijit.getUniqueId('dijit_layout_SplitterContainer_Splitter');
+		this.sizers.splice(index,0,sizer);
 		this.domNode.appendChild(sizer);
 
 		sizer.className = this.isHorizontal ? 'dijitSplitContainerSizerH' : 'dijitSplitContainerSizerV';
@@ -124,12 +138,11 @@ dojo.declare("dijit.layout.SplitContainer",
 		// add the thumb div
 		var thumb = dojo.doc.createElement('div');
 		thumb.className = 'thumb';
+		thumb.id = sizer.id;
 		sizer.appendChild(thumb);
 
 		// FIXME: are you serious? why aren't we using mover start/stop combo?
-		var self = this;
-		var handler = (function(){ var sizer_i = i; return function(e){ self.beginSizing(e, sizer_i); } })();
-		this.connect(sizer, "onmousedown", handler);
+		this.connect(sizer, "onmousedown", '_onSizerMouseDown');
 		
 		dojo.setSelectable(sizer, false);
 	},
@@ -166,7 +179,7 @@ dojo.declare("dijit.layout.SplitContainer",
 			// Do the stuff that startup() does for each widget
 			var children = this.getChildren();
 			if(children.length > 1){
-				this._addSizer();
+				this._addSizer(insertIndex);
 			}
 
 			// and then reposition (ie, shrink) every pane to make room for the new guy
@@ -357,15 +370,16 @@ dojo.declare("dijit.layout.SplitContainer",
 		this.sizingSplitter = this.sizers[i];
 
 		if(!this.cover){
-			this.cover = dojo.doc.createElement('div');
-			this.domNode.appendChild(this.cover);
-			var s = this.cover.style;
-			s.position = 'absolute';
-			s.zIndex = 5;
-			s.top = 0;
-			s.left = 0;
-			s.width = "100%";
-			s.height = "100%";
+			this.cover = dojo.create('div', {
+					style: {
+						position:'absolute',
+						zIndex:5,
+						top: 0,
+						left: 0,
+						width: "100%",
+						height: "100%",
+					}
+				}, this.domNode);
 		}else{
 			this.cover.style.zIndex = 5;
 		}
