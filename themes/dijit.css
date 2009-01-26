@@ -487,7 +487,6 @@ table .dijitComboButton .dijitButtonNode {
 }
 
 .dj_ie .dijitCheckBoxInput {
-	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
 	filter: alpha(opacity=0);
 }
 
@@ -737,7 +736,6 @@ body .dijitAlignClient { position: absolute; }
 /* #6945: stop mouse events */
 .dj_ie .dijitSplitterCover{
 	background: white;
-	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
 	filter: alpha(opacity=0);
 }
 
@@ -794,7 +792,6 @@ body .dijitAlignClient { position: absolute; }
 	-moz-opacity: 0.5;
 	opacity: 0.5;
 	filter: Alpha(Opacity=50);
-	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
 	margin: 0;
 }
 
@@ -1013,7 +1010,6 @@ img.dijitColorPaletteUnder {
 .dj_ie .dijitMenuItemDisabled *,
 .dj_ie .dijitMenuItemDisabled td {
 	color:gray !important;
-	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=35)";
 	filter: alpha(opacity=35);
 }
 
@@ -1285,7 +1281,6 @@ img.dijitColorPaletteUnder {
 
 .dj_ie .dijitDialogUnderlay {
 	filter: alpha(opacity=50);
-	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
 }
 
 /* images off, high-contrast mode styles */

@@ -139,7 +139,6 @@
 .dj_ie .tundra .dijitSliderDisabled .dijitRuleContainer,
 .dj_ie .tundra .dijitSliderDisabled .dijitSliderRemainingBar,
 .dj_ie .tundra .dijitSliderDisabled .dijitSliderProgressBar {
-	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=40)";
 	filter: gray() alpha(opacity=40);
 }
 

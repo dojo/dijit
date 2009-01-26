@@ -137,6 +137,5 @@
 .dj_ie .soria .dijitSliderDisabled .dijitRuleContainer,
 .dj_ie .soria .dijitSliderDisabled .dijitSliderRemainingBar,
 .dj_ie .soria .dijitSliderDisabled .dijitSliderProgressBar {
-	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=40)";
 	filter: gray() alpha(opacity=40);
 }
