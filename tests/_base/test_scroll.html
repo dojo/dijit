@@ -136,8 +136,10 @@
 				},
 				function test_innerNoScrollBars_strict(){
 					var scroll = '';
-					if(dojo.isFF || dojo.isIE >= 8){
+					if(dojo.isFF){
 						scroll = '(-30,-10)';
+					}else if(dojo.isIE >= 8){
+						scroll = '(-15,-10)';
 					}else if(dojo.isIE){
 						scroll = '(+20,-12)';
 					}
@@ -157,7 +159,7 @@
 					if(dojo.isFF >= 3){
 						scroll = '(+30,-10)';
 					}else if(dojo.isIE >= 8){
-						scroll = '(-30,-10)';
+						scroll = '(-15,-10)';
 					}else if(dojo.isFF){
 						scroll = '(+15,-10)';
 					}else if(dojo.isIE){
@@ -292,8 +294,8 @@
 						minScroll = "(+31,+10)";
 						maxScroll = "(-31,+21)";
 					}else if(dojo.isIE){
-						minScroll = "(-20,+25)";
-						maxScroll = "(-9,-29)";
+						minScroll = "(-20,+11)";
+						maxScroll = "(-9,+22)";
 					}else if(dojo.isFF < 3){
 						minScroll = "(-20,+12)";
 						maxScroll = "(-10,+22)";

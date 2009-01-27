@@ -168,7 +168,8 @@ dijit.scrollIntoView = function(/* DomNode */node){
 					} // match FF3 which has cool negative scrollLeft values
 				}
 				if(parent._offsetParent.tagName == "TABLE"){ // make it consistent
-					if(dojo.isIE){ // make it consistent with Safari and FF3 and exclude the starting TABLE border of TABLE children
+					if(dojo.isIE >= 8 && !compatMode){}
+					else if(dojo.isIE){ // make it consistent with Safari and FF3 and exclude the starting TABLE border of TABLE children
 						parent._offsetStart[dir] -= parent._offsetParent._borderStart[dir];
 						parent._borderStart[dir] = parent._borderSize[dir] = 0;
 					}
