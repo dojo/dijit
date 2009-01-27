@@ -65,7 +65,8 @@ dojo.declare("dijit.layout.SplitContainer",
 				this.sizerWidth = parseInt(this.sizerWidth.toString());
 			}catch(e){ this.sizerWidth = 7; }
 		}
-		var sizer = this.virtualSizer = dojo.doc.createElement('div');
+		var sizer = dojo.doc.createElement('div');
+		this.virtualSizer = sizer;
 		sizer.style.position = 'relative';
 
 		// #1681: work around the dreaded 'quirky percentages in IE' layout bug
@@ -377,7 +378,7 @@ dojo.declare("dijit.layout.SplitContainer",
 						top: 0,
 						left: 0,
 						width: "100%",
-						height: "100%",
+						height: "100%"
 					}
 				}, this.domNode);
 		}else{
