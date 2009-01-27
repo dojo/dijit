@@ -212,7 +212,7 @@ dijit._Templated.getCachedTemplate = function(templatePath, templateString, alwa
 
 	// If necessary, load template string from template path
 	if(!templateString){
-		templateString = dijit._Templated._sanitizeTemplateString(dojo._getText(templatePath));
+		templateString = dijit._Templated._sanitizeTemplateString(dojo.trim(dojo._getText(templatePath)));
 	}
 
 	templateString = dojo.string.trim(templateString);
