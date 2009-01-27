@@ -46,10 +46,10 @@ dojo.declare("dijit.layout._LayoutWidget",
 				// (passing in no argument to resize means that it has to glean the size itself)
 				this.resize();
 
-				// since my parent isn't a layout container, and my style is width=height=100% (or something similar),
-				// then I need to watch when the window resizes, and size myself accordingly
-				// (passing in no argument to resize means that it has to glean the size itself)
-				this.connect(dojo.global, 'onresize', 'resize');
+				// Since my parent isn't a layout container, and my style is width=height=100% (or something similar),
+				// then I need to watch when the window resizes, and size myself accordingly.
+				// (Passing in no arguments to resize means that it has to glean the size itself.)
+				this.connect(dojo.global, 'onresize', dojo.hitch(this, 'resize'));
 			}
 			
 			this.inherited(arguments);
