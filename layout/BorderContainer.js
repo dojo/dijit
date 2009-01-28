@@ -181,9 +181,9 @@ dojo.declare(
 
 	_layoutChildren: function(/*String?*/changedRegion){
 		
-		if(!this._borderBox.h){
-			// We are currently hidden.  Abort.
-			// Someone will resize us later.
+		if(!this._borderBox || !this._borderBox.h){
+			// We are currently hidden, or we haven't been sized by our parent yet.
+			// Abort.   Someone will resize us later.
 			return;
 		}
 
