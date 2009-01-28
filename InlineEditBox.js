@@ -179,10 +179,8 @@ dojo.declare("dijit.InlineEditBox",
 		// focus can be shifted without incident.  (browser may needs some time to render the editor.)
 		this.domNode = ew.domNode;
 		setTimeout(function(){
-			if(ew.editWidget._resetValue === undefined){
-				ew.editWidget._resetValue = ew.getValue();
-			}
 			ew.focus();
+			ew._resetValue = ew.getValue();
 		}, 100);
 	},
 
@@ -313,7 +311,7 @@ dojo.declare(
 			editStyle += "width:" + (this.width + (Number(this.width)==this.width ? "px" : "")) + ";";
 		}
 		this.editorParams.style = editStyle;
-		this.editorParams[ "displayedValue" in cls.prototype ? "displayedValue" : "value"]= this.value;
+		this.editorParams[ "displayedValue" in cls.prototype ? "displayedValue" : "value"] = this.value;
 		var ew = this.editWidget = new cls(this.editorParams, this.editorPlaceholder);
 
 		this.connect(ew, "onChange", "_onChange");
@@ -322,6 +320,7 @@ dojo.declare(
 		// prevent Dialog from closing when the user just wants to revert the value in the edit widget),
 		// so this is the only way we can see the key press event.
 		this.connect(ew, "onKeyPress", "_onKeyPress");
+		this.connect(ew, "onKeyUp", "_onKeyPress"); // in case ESC was eaten but changed value
 
 		if(this.autoSave){
 			this.buttonContainer.style.display="none";
@@ -380,7 +379,7 @@ dojo.declare(
 			// The delay gives the browser a chance to update the Textarea.
 			setTimeout(
 				function(){
-					_this.saveButton.attr("disabled", _this.getValue() == _this.editWidget._resetValue);
+					_this.saveButton.attr("disabled", _this.getValue() == _this._resetValue);
 				}, 100);
 		}
 	},
@@ -396,7 +395,7 @@ dojo.declare(
 		}
 		if(this.autoSave){
 			this._exitInProgress = true;
-			if(this.getValue() == this.editWidget._resetValue){
+			if(this.getValue() == this._resetValue){
 				this.cancel(false);
 			}else{
 				this.save(false);
@@ -420,7 +419,7 @@ dojo.declare(
 			// in case the keypress event didn't get through (old problem with Textarea that has been fixed
 			// in theory) or if the keypress event comes too quickly and the value inside the Textarea hasn't
 			// been updated yet)
-			this.saveButton.attr("disabled", (this.getValue() == this.editWidget._resetValue) || !this.enableSave());
+			this.saveButton.attr("disabled", (this.getValue() == this._resetValue) || !this.enableSave());
 		}
 	},
 	
