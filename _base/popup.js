@@ -22,15 +22,15 @@ dijit.popup = new function(){
 		//		the widget doesn't appear in the page flow and/or cause a blank
 		//		area at the bottom of the viewport (making scrollbar longer), but
 		//		initialization of contained widgets works correctly
-	
-		dojo.body().appendChild(node);
+
 		var s = node.style;
-		if(s.display == "none"){
-			s.display="";
-		}
 		s.visibility = "hidden";	// so TAB key doesn't navigate to hidden popup
 		s.position = "absolute";
 		s.top = "-9999px";
+		if(s.display == "none"){
+			s.display="";
+		}
+		dojo.body().appendChild(node);
 	};
 
 /*=====
