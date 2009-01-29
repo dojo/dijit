@@ -98,14 +98,18 @@ dojo.declare(
 			dojo.removeClass(this.iconNode, this._iconClass);
 		}
 		this._iconClass = tree.getIconClass(item, this.isExpanded);
-		dojo.addClass(this.iconNode, this._iconClass);
+		if(this._iconClass){
+			dojo.addClass(this.iconNode, this._iconClass);
+		}
 		dojo.style(this.iconNode, tree.getIconStyle(item, this.isExpanded) || {});
 
 		if(this._labelClass){
 			dojo.removeClass(this.labelNode, this._labelClass);
 		}
 		this._labelClass = tree.getLabelClass(item, this.isExpanded);
-		dojo.addClass(this.labelNode, this._labelClass);
+		if(this._labelClass){
+			dojo.addClass(this.labelNode, this._labelClass);
+		}
 		dojo.style(this.labelNode, tree.getLabelStyle(item, this.isExpanded) || {});
 	},
 
