@@ -69,6 +69,10 @@ dojo.declare(
 
 		dojo.style(this.domNode, "backgroundPosition",  pixels + " 0px");
 		dojo.style(this.rowNode, dojo._isBodyLtr() ? "paddingLeft" : "paddingRight", pixels);
+ 
+		dojo.forEach(this.getChildren(), function(child){
+        	child.attr("indent", indent+1);
+        });
 	},
 
 	markProcessing: function(){
