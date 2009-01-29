@@ -404,7 +404,9 @@ dojo.declare("dijit._tree.dndSource", dijit._tree.dndSelector, {
 		//		This method is called when mouse is moved out of our container (like onmouseleave)
 		this._unmarkTargetAnchor();
 		var m = dojo.dnd.manager();
-		m.canDrop(false);
+		if(this.isDragging){
+			m.canDrop(false);
+		}
 		m.outSource(this);
 
 		this.inherited(arguments);
