@@ -376,10 +376,10 @@ dojo.declare(
 		}else{
 			var _this = this;
 			// Delay before calling getValue().
-			// The delay gives the browser a chance to update the Textarea.
+			// The delay gives the browser a chance to update the native value.
 			setTimeout(
 				function(){
-					_this.saveButton.attr("disabled", _this.getValue() == _this._resetValue);
+					_this._onChange(); // handle save button
 				}, 100);
 		}
 	},
