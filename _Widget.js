@@ -862,11 +862,11 @@ dojo.declare("dijit._Widget", null, {
 		//		shorthand mechanism to put an existing (or newly created) Widget
 		//		somewhere in the dom, and allow chaining.
 		//
-		//	reference: 
+		// reference: 
 		//		The String id of a domNode, a domNode reference, or a reference to a Widget posessing 
 		//		an addChild method.
 		//
-		//	position: 
+		// position: 
 		//		If passed a string or domNode reference, the position argument
 		//		accepts a string just as dojo.place does, one of: "first", "last", 
 		//		"before", or "after". 
@@ -874,6 +874,11 @@ dojo.declare("dijit._Widget", null, {
 		//		If passed a _Widget reference, and that widget reference has an ".addChild" method, 
 		//		it will be called passing this widget instance into that method, supplying the optional
 		//		position index passed.
+		//
+		// returns: dijit._Widget
+		//		Provides a useful return of the newly created dijit._Widget instance so you 
+		//		can "chain" this function by instantiating, placing, then saving the return value
+		//		to a variable. 
 		//
 		// example:
 		// | 	// create a Button with no srcNodeRef, and place it in the body:
