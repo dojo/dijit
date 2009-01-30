@@ -8,25 +8,26 @@ dojo.declare(
 	dijit.layout._LayoutWidget,
 {
 	// summary:
-	//	Provides layout in 5 regions, a center and borders along its 4 sides.
+	//	Provides layout in up to 5 regions, a mandatory center with optional borders along its 4 sides.
 	//
 	// description:
-	//	A BorderContainer is a box with a specified size (like style="width: 500px; height: 500px;"),
+	//	A BorderContainer is a box with a specified size, such as style="width: 500px; height: 500px;",
 	//	that contains a child widget marked region="center" and optionally children widgets marked
 	//	region equal to "top", "bottom", "leading", "trailing", "left" or "right".
-	//	Children along the edges will be laid out according to width or height dimensions.  The remaining
-	//	space is designated for the center region.
+	//	Children along the edges will be laid out according to width or height dimensions and may
+	//  include optional splitters (splitter="true") to make them resizable by the user.  The remaining
+	//  space is designated for the center region.
+	//  NOTE: Splitters must not be more than 50 pixels in width.
 	//	The outer size must be specified on the BorderContainer node.  Width must be specified for the sides
 	//  and height for the top and bottom, respectively.  No dimensions should be specified on the center;
 	//	it will fill the remaining space.  Regions named "leading" and "trailing" may be used just like
 	//	"left" and "right" except that they will be reversed in right-to-left environments.
-	//  Optional splitters may be specified on the edge widgets only to make them resizable by the user.
-	//  NOTE: Splitters must not be more than 50 pixels in width.
 	//
 	// example:
-	// |	<div dojoType="dijit.layout.BorderContainer" design="sidebar" style="width: 400px; height: 300px;">
+	// |	<div dojoType="dijit.layout.BorderContainer" design="sidebar" gutters="false"
+	// |            style="width: 400px; height: 300px;">
 	// |		<div dojoType="ContentPane" region="top">header text</div>
-	// |		<div dojoType="ContentPane" region="right" style="width: 200px;">table of contents</div>
+	// |		<div dojoType="ContentPane" region="right" splitter="true" style="width: 200px;">table of contents</div>
 	// |		<div dojoType="ContentPane" region="center">client area</div>
 	// |	</div>
 
@@ -385,12 +386,16 @@ dojo.extend(dijit._Widget, {
 	region: '',
 
 	// splitter: Boolean
+	//		If true, puts a draggable splitter on this widget to resize when used
+	//		inside a border container edge region.
 	splitter: false,
 
 	// minSize: Number
+	//		Specifies a minimum size for this widget when resized by a splitter
 	minSize: 0,
 
 	// maxSize: Number
+	//		Specifies a maximum size for this widget when resized by a splitter
 	maxSize: Infinity
 });
 
