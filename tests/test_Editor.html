@@ -79,7 +79,7 @@
 	</div>
 	<button onClick="dijit.byId('editor1').destroy()">destroy</button>
 	<button onClick="dijit.byId('editor1').attr('disableSpellCheck', !dijit.byId('editor1').attr('disableSpellCheck'))">toggle spell check</button>
-	<button onclick="console.log(dijit.byId('editor1').getValue().length)">getValue</button>
+	<button onclick="console.log(dijit.byId('editor1').attr('value'))">getValue</button>
 	<hr/>
 
 	<h2>Created from div, auto-expanding</h2>
@@ -128,7 +128,7 @@
 			<br>
 		</div>
 		<h3>..after</h3>
-		<button onclick="alert(dijit.byId('blah').getValue());">getValue</button>
+		<button onclick="alert(dijit.byId('blah').attr('value'));">getValue</button>
 	</div>
 	<hr/>
 
