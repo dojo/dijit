@@ -267,6 +267,11 @@
 	padding: 1px 2px;
 }
 
+.dj_ie .dijitToolbar .dijitComboBox{
+	/* make combobox buttons align porperly with other buttons in a toolbar */
+	vertical-align: middle;
+}
+
 .dj_ie .dijitComboButton {
 	/* hack to get inline-table to vertically align w/other buttons */
 	margin-bottom: -3px;
