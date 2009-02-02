@@ -33,6 +33,7 @@
 		dojo.require("dijit.form.TimeTextBox");
 		dojo.require("dijit.form.FilteringSelect");
 		dojo.require("dijit.layout.TabContainer");
+		dojo.require("dijit.InlineEditBox");
 		dojo.require("dijit.Menu");
 		dojo.require("dojo.parser");	// scan page for widgets and instantiate them			
 
@@ -84,7 +85,7 @@
 			</tr>
 			<tr>
 				<td><label for="time">Time: </label></td>
-				<td><input dojoType=dijit.form.TimeTextBox type="text" name="time" id="time"></td>
+				<td><div dojoType="dijit.InlineEditBox" editor=dijit.form.TimeTextBox type="text" name="time" id="time" width="100px" style="width:100px;"></div></td>
 			</tr>
 			<tr>
 				<td><label for="desc">Description: </label></td>
@@ -436,4 +437,5 @@
 
 </body>
 </html>
+
 

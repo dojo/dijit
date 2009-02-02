@@ -82,7 +82,6 @@ dojo.declare(
 				this.decrement(e);
 				break;
 			default:
-				this.inherited(arguments);
 				return;
 		}
 		dojo.stopEvent(e);
@@ -282,4 +281,5 @@ dojo.declare("dijit.form._SliderMover",
 		widget._setValueAttr(widget.value, true);
 	}
 });
+
 

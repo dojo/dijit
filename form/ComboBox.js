@@ -239,8 +239,6 @@ dojo.declare(
 					if(this._isShowingNow){
 						dojo.stopEvent(evt);
 						this._hideResultList();
-					}else{
-						this.inherited(arguments);
 					}
 					break;
 

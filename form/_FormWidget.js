@@ -396,14 +396,5 @@ dojo.declare("dijit.form._FormValueWidget", dijit.form._FormWidget,
 				e.target.dispatchEvent(te);
 			}
 		}
-	},
-
-	_onKeyPress: function(e){
-		if(e.charOrCode == dojo.keys.ESCAPE && !e.ctrlKey && !e.altKey && this._valueChanged()){
-			this.undo();
-			dojo.stopEvent(e);
-			return false;
-		}
-		return true;
 	}
 });

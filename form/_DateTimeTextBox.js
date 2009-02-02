@@ -163,6 +163,11 @@ dojo.declare(
 			this.inherited(arguments);
 		},
 
+		postCreate: function(){
+			this.inherited(arguments);
+			this.connect(this.focusNode, 'onkeypress', this._onKeyPress);
+		},
+
 		_onKeyPress: function(/*Event*/e){
 			var p = this._picker, dk = dojo.keys;
 			// Handle the key in the picker, if it has a handler.  If the handler
@@ -176,16 +181,14 @@ dojo.declare(
 			}else if(!this._opened && e.charOrCode == dk.DOWN_ARROW){
 				this._open();
 				dojo.stopEvent(e);
-			}else if(dijit.form._DateTimeTextBox.superclass._onKeyPress.apply(this, arguments)){
-				if(e.charOrCode === dk.TAB){
-					this._tabbingAway = true;
-				}else if(this._opened && (e.keyChar || e.charOrCode === dk.BACKSPACE || e.charOrCode == dk.DELETE)){
-					// Replace the element - but do it after a delay to allow for 
-					// filtering to occur
-					setTimeout(dojo.hitch(this, function(){
-						dijit.placeOnScreenAroundElement(p.domNode.parentNode, this.domNode, {'BL':'TL', 'TL':'BL'}, p.orient ? dojo.hitch(p, "orient") : null);
-					}), 1);
-				}
+			}else if(e.charOrCode === dk.TAB){
+				this._tabbingAway = true;
+			}else if(this._opened && (e.keyChar || e.charOrCode === dk.BACKSPACE || e.charOrCode == dk.DELETE)){
+				// Replace the element - but do it after a delay to allow for 
+				// filtering to occur
+				setTimeout(dojo.hitch(this, function(){
+					dijit.placeOnScreenAroundElement(p.domNode.parentNode, this.domNode, {'BL':'TL', 'TL':'BL'}, p.orient ? dojo.hitch(p, "orient") : null);
+				}), 1);
 			}
 		}
 	}

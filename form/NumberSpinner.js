@@ -52,9 +52,6 @@ dojo.declare("dijit.form.NumberSpinner",
 			}
 			// eat home or end key whether we change the value or not
 			dojo.stopEvent(e);
-			return false;
-		}else{
-			return this.inherited(arguments);
 		}
 	}
 	
