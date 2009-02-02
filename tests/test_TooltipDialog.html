@@ -11,6 +11,23 @@
 		body { font-family : sans-serif; }
 		form { margin-bottom : 0; }
 		table { border: none; }
+		.tundra .tooltipLink .dijitButtonNode,
+		.tundra .tooltipLink .dijitButtonNode .dijitDropDownButtonHover,
+		.tundra .buttonLink .dijitButtonNode,
+		.tundra .buttonLink .dijitButtonHover .dijitButtonNode {
+				background: none !important;
+				border:none;
+		}
+		.tundra .tooltipLink .dijitArrowButtonInner {
+			display:none;
+		}
+		.tundra .tooltipLink button,
+		.tundra .tooltipLink button .dijitButtonText,
+		.tundra .buttonLink button .dijitButtonText {
+				text-decoration:underline !important;
+				color:blue;
+				display:inline;
+		}
 	</style>
 
 	<!-- required: a default dijit theme: -->
@@ -129,6 +146,27 @@
 		<div dojoType="dijit.TooltipDialog" id="slowLoad" href="layout/getResponse.php?delay=500&messId=2"
 			title="tooltip dialog with no focusable items"></div>
 	</div> |
+
+<div dojoType="dijit.form.DropDownButton" class="tooltipLink">
+	<span>What is this?</span>
+	<div dojoType="dijit.TooltipDialog" id="tooltipHelpDlg" title="Test Dialog tooltip" style="width:350px" >
+		<div class="buttonLink" style="float:right;font-size:x-small" title="close" tabindex="0" dojoType="dijit.form.Button">[close]
+			<script type="dojo/method" event="onClick">
+					dijit.byId('tooltipHelpDlg').onCancel();
+			</script>
+		</div>
+		<div role="alert" style="margin-top:1em">
+			<strong>Important!</strong> This is a tooltip dialog with just text! It could be used
+			to provide help. It will stay open until the user explicitly closes it via pressing escape, clicking [close] or by
+			clicking somewhere else on the page.  To make certain a screen reader will speak this text (at least in Firefox 3),
+			the div containing the text was given an 
+			<a href="http://www.w3.org/WAI/PF/aria/">ARIA</a> role of alert. In the future the tooltip
+			dialog may be given a role of alertdialog.			
+		</div>
+		
+	</div>
+</div>
+
 
 	<p><b><i>(scroll down to see more links to click, for testing positioning / scroll handling)</i></b></p>
 
