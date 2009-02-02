@@ -3,6 +3,7 @@ dojo.provide("dijit.layout.ContentPane");
 dojo.require("dijit._Widget");
 dojo.require("dijit._Container");
 dojo.require("dijit._Contained");
+dojo.require("dijit.layout._LayoutWidget");	// for dijit.layout.marginBox2contentBox()
 
 dojo.require("dojo.parser");
 dojo.require("dojo.string");
