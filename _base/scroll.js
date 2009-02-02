@@ -87,8 +87,8 @@ dijit.scrollIntoView = function(/* DomNode */node){
 		// all the V/H object members below are to reuse code for both directions
 		element._offsetParent = offsetParent; //(offsetParent == body)? scrollRoot : offsetParent;
 		element._parent = parent; //(parent == body)? parent/*scrollRoot*/ : parent;
-		//element._parentTag = element._parent?element._parent.tagName:'NULL'; //debug
-		//element._offsetParentTag = element._offsetParent.tagName; //debug
+		//console.debug('parent = ' + (element._parentTag = element._parent?element._parent.tagName:'NULL'));
+		//console.debug('offsetParent = ' + (element._offsetParentTag = element._offsetParent.tagName));
 		var bp = dojo._getBorderExtents(element);
 		element._borderStart = { H:(dojo.isIE >= 8 && !ltr && !compatMode)?(bp.w-bp.l):bp.l, V:bp.t };
 		element._borderSize = { H:bp.w, V:bp.h };
@@ -142,13 +142,12 @@ dijit.scrollIntoView = function(/* DomNode */node){
 		var parent = element._parent;
 		if(!parent){ break; }
 			//console.debug('element = ' + element.tagName + ', parent = ' + parent.tagName + ', parent ' + testdir + ' offsetSize = ' + parent._offsetSize[testdir]);
-			/*if(parent.tagName == "TD"){ //I could not recreate a scenario that exercised this IF statement
+			if(parent.tagName == "TD"){
 				var table = parent._parent._parent._parent; // point to TABLE
-				if(table._offsetParent == element._offsetParent && parent._offsetParent != element._offsetParent){
-					alert('in TD');
+				if(parent != element._offsetParent && parent._offsetParent != element._offsetParent){
 					parent = table; // child of TD has the same offsetParent as TABLE, so skip TD, TR, and TBODY (ie. verticalslider)
 				}
-			}*/
+			}
 			// check if this node and its parent share the same offsetParent
 			var relative = element._offsetParent == parent;
 			//console.debug('element = ' + element.tagName + ', offsetParent = ' + element._offsetParent.tagName + ', parent = ' + parent.tagName + ', relative = ' + relative);

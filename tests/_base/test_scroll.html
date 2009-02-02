@@ -307,6 +307,17 @@
 						maxScroll = "(+20,+22)";
 					}
 					generateTest('innerScrollbars_loose_rtl', maxScroll, minScroll);
+				},
+				function test_8542_strict(){
+					var delta = dojo.isIE >= 7 ? 4 : 0;
+					generateTest('8542_strict', "(0,-"+(10+delta)+")", "(0,+"+(20+delta)+")");
+				},
+				function test_8542_none(){
+					generateTest('8542_none', "(0,-10)", "(0,+20)");
+				},
+				function test_8542_loose_rtl(){
+					var delta = dojo.isIE >= 7 ? 4 : 0;
+					generateTest('8542_loose_rtl', "(0,-"+(10+delta)+")", "(0,+"+(20+delta)+")");
 				}
 			]);
 		        doh.run();
@@ -459,6 +470,16 @@
 		></nobr
 		><input style="height:20px;width:60px;background-color:white;"
 	></div>
+</div>
+</fieldset>
+<fieldset>
+<label for="8542">position:absolute TD content:</label>
+<div type="testIframe" id="8542">
+	<div style="position:absolute;padding:100px 20px;">
+		<table style="width:10px;height:10px;max-height:10px;table-layout:fixed;" cellspacing="0" cellpadding="0">
+			<tr><td><div style="position:relative;height:10px;width:10px;"><input style="position:absolute;"></div></td></tr>
+		</table>
+	</div>
 </div>
 </fieldset>
 <br>
