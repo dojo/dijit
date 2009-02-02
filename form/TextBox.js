@@ -189,6 +189,7 @@ dojo.declare(
 			//	summary:
 			//		Auto-corrections (such as trimming) that are applied to textbox
 			//		value on blur or form submit
+			if(val === null){ return ''; }
 			if(typeof val != "string"){ return val; }
 			if(this.trim){
 				val = dojo.trim(val);
