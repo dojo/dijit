@@ -16,7 +16,7 @@ dojo.declare("dijit.CheckedMenuItem",
 			// summary:
 			//		Hook so attr('checked', bool) works.
 			//		Sets the class and state for the check box.
-			dojo.toggleClass(this.iconNode, "dijitCheckedMenuItemIconChecked", checked);
+			dojo.toggleClass(this.domNode, "dijitCheckedMenuItemChecked", checked);
 			dijit.setWaiState(this.domNode, "checked", checked);
 			this.checked = checked;
 		},

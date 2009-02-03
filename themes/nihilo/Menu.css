@@ -68,6 +68,6 @@
 	background-position: -80px;
 }
 
-.nihilo .dijitCheckedMenuItemIconChecked {
+.nihilo .dijitCheckedMenuItemChecked .dijitCheckedMenuItemIcon {
 	background-position: -64px;
 }

@@ -1063,11 +1063,14 @@ img.dijitColorPaletteUnder {
 	vertical-align: middle;
 	visibility:hidden;
 }
-.dijitCheckedMenuItemIconChecked .dijitCheckedMenuItemIconChar {
-	visibility:visible !important;
+.dijitCheckedMenuItemChecked .dijitCheckedMenuItemIconChar {
+	visibility: visible;
 }
 .dijit_a11y .dijitCheckedMenuItemIconChar {
-	display:block !important;
+	display:inline !important;
+}
+.dijit_a11y .dijitCheckedMenuItemIcon {
+	display: none;
 }
 
 

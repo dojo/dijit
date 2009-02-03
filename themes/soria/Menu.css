@@ -68,6 +68,6 @@
 	background-position: -80px;
 }
 
-.soria .dijitCheckedMenuItemIconChecked {
+.soria .dijitCheckedMenuItemChecked .dijitCheckedMenuItemIcon {
 	background-position: -64px;
 }
