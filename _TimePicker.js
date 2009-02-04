@@ -336,6 +336,7 @@ dojo.declare("dijit._TimePicker",
 
 		_onArrowUp:function(){
 			// summary: remove the bottom time and add one to the top
+			if(!this.timeMenu.childNodes.length){ return; }
 			var index = this.timeMenu.childNodes[0].index;
 			var divs = this._getFilteredNodes(index, 1, true);
 			if(divs.length){
@@ -346,6 +347,7 @@ dojo.declare("dijit._TimePicker",
 
 		_onArrowDown:function(){
 			// summary: remove the top time and add one to the bottom
+			if(!this.timeMenu.childNodes.length){ return; }
 			var index = this.timeMenu.childNodes[this.timeMenu.childNodes.length - 1].index + 1;
 			var divs = this._getFilteredNodes(index, 1, false);
 			if(divs.length){
