@@ -406,7 +406,7 @@ dojo.declare("dijit._Widget", null, {
 	buildRendering: function(){
 		// summary:
 		//		Construct the UI for this widget, setting this.domNode.  Most
-		//		widgets will mixin dijit._Templated, which implements this
+		//		widgets will mixin `dijit._Templated`, which implements this
 		//		method.
 		this.domNode = this.srcNodeRef || dojo.create('div');
 	},
@@ -640,7 +640,7 @@ dojo.declare("dijit._Widget", null, {
 		//		would be the same as writing:
 		//	|	widget.bar = "Howdy!";
 		//		It also tries to copy the changes to the widget's DOM according
-		//		to settings in attributeMap (see description of attributeMap
+		//		to settings in attributeMap (see description of `dijit._Widget.attributeMap`
 		//		for details)
 		//		For example, calling:
 		//	|	myTitlePane.attr("title", "Howdy!");
