@@ -259,7 +259,7 @@ dijit._frames = new function(){
 	};
 
 	this.push = function(iframe){
-		iframe.style.display="";
+		iframe.style.display="none";
 		if(dojo.isIE){
 			iframe.style.removeExpression("width");
 			iframe.style.removeExpression("height");
@@ -267,14 +267,6 @@ dijit._frames = new function(){
 		queue.push(iframe);
 	}
 }();
-
-// fill the queue
-if(dojo.isIE < 7){
-	dojo.addOnLoad(function(){
-		var f = dijit._frames;
-		dojo.forEach([f.pop()], f.push); //TODO can eliminate forEach
-	});
-}
 
 
 dijit.BackgroundIframe = function(/* DomNode */node){
