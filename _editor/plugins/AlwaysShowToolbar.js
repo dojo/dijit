@@ -55,6 +55,10 @@ dojo.declare("dijit._editor.plugins.AlwaysShowToolbar", dijit._editor._Plugin,
 			console.debug("Can not figure out the height of the editing area!");
 			return; //prevent setting height to 0
 		}
+		if(dojo.isIE <= 7 && this.editor.minHeight){
+			var min = parseInt(this.editor.minHeight);
+			if(height < min){ height = min; }
+		}
 		if(height != this._lastHeight){
 			this._lastHeight = height;
 			// this.editorObject.style.height = this._lastHeight + "px";
