@@ -19,6 +19,7 @@
 		dojo.require("dijit.form.Button");
 		dojo.require("dijit.Menu");
 		dojo.require("dijit.layout.ContentPane");
+		dojo.require("dijit.Editor");
 
 		var queue=[];
 		var animation;
@@ -98,6 +99,9 @@
 			<label for="plain">a plain input:</label>
 			<input id=plain value=plain>
 		</fieldset>
+		<div dojoType="dijit.Editor">
+			Hello world, this is an <i>editor</i>
+		</div>
 		<br>
 		<label for="fieldset1">another fieldset ContentPane:</label><br>
 		<fieldset id=fieldset2 dojoType="dijit.layout.ContentPane">

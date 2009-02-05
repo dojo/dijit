@@ -181,41 +181,63 @@ dojo.mixin(dijit,
 	//		List of currently active widgets (focused widget and it's ancestors)
 	_activeStack: [],
 
-	registerWin: function(/*Window?*/targetWindow){
+	registerIframe: function(/*DomNode*/ iframe){
+		// summary:
+		//		Registers listeners on the specified iframe so that any click
+		//		or focus event on that iframe (or anything in it) is reported
+		//		as a focus/click event on the <iframe> itself.
+		// description:
+		//		Currently only used by editor.
+		dijit.registerWin(iframe.contentWindow, iframe);
+	},
+		
+
+	registerWin: function(/*Window?*/targetWindow, /*DomNode?*/ effectiveNode){
 		// summary:
 		//		Registers listeners on the specified window (either the main
-		//		window or an iframe) to detect when the user has clicked somewhere.
-		//		Anyone that creates an iframe should call this function.
+		//		window or an iframe's window) to detect when the user has clicked somewhere
+		//		or focused somewhere.
+		// description:
+		//		Users should call registerIframe() instead of this method.
+		// targetWindow:
+		//		If specified this is the window associated with the iframe,
+		//		i.e. iframe.contentWindow.
+		// effectiveNode:
+		//		If specified, report any focus events inside targetWindow as
+		//		an event on effectiveNode, rather than on evt.target.
 
-		if(!targetWindow){
-			targetWindow = window;
-		}
+		// TODO: make this function private in 2.0; Editor/users should call registerIframe(),
+		// or if Editor stops using <iframe> altogether than we can probably just drop
+		// the whole public API.
 
 		dojo.connect(targetWindow.document, "onmousedown", function(evt){
 			dijit._justMouseDowned = true;
 			setTimeout(function(){ dijit._justMouseDowned = false; }, 0);
-			dijit._onTouchNode(evt.target||evt.srcElement);
+			dijit._onTouchNode(effectiveNode||evt.target||evt.srcElement);
 		});
 		//dojo.connect(targetWindow, "onscroll", ???);
 
-		// Listen for blur and focus events on targetWindow's body
+		// Listen for blur and focus events on targetWindow's document.
+		// IIRC, I'm using attachEvent() rather than dojo.connect() because focus/blur events don't bubble
+		// through dojo.connect(), and also maybe to catch the focus events early, before onfocus handlers
+		// fire.
 		var doc = targetWindow.document;
 		if(doc){
 			if(dojo.isIE){
 				doc.attachEvent('onactivate', function(evt){
 					if(evt.srcElement.tagName.toLowerCase() != "#document"){
-						dijit._onFocusNode(evt.srcElement);
+						dijit._onFocusNode(effectiveNode||evt.srcElement);
 					}
 				});
 				doc.attachEvent('ondeactivate', function(evt){
-					dijit._onBlurNode(evt.srcElement);
+					dijit._onBlurNode(effectiveNode||evt.srcElement);
 				});
 			}else{
 				doc.addEventListener('focus', function(evt){
-					dijit._onFocusNode(evt.target);
+					dijit._onFocusNode(effectiveNode||evt.target);
 				}, true);
 				doc.addEventListener('blur', function(evt){
-					dijit._onBlurNode(evt.target);
+					dijit._onBlurNode(effectiveNode||evt.target);
 				}, true);
 			}
 		}
@@ -301,20 +323,6 @@ dojo.mixin(dijit,
 			return;
 		}
 
-		if(node.nodeType == 9){
-			// We focused on (the body of) the document itself, either the main document
-			// or an iframe
-			var iframe = dijit.getDocumentWindow(node).frameElement;
-			if(!iframe){
-				// Ignore focus events on main document.  This is specifically here
-				// so that clicking the up/down arrows of a spinner (which don't get focus)
-				// won't cause that widget to blur.
-				return;
-			}
-
-			node = iframe;
-		}
-
 		dijit._onTouchNode(node);
 
 		if(node==dijit._curFocus){ return; }
@@ -373,4 +381,4 @@ dojo.mixin(dijit,
 });
 
 // register top window and all the iframes it contains
-dojo.addOnLoad(dijit.registerWin);
+dojo.addOnLoad(function(){dijit.registerWin(window); });

@@ -1,5 +1,7 @@
 dojo.provide("dijit._base.window");
 
+// TODO: remove this in 2.0, it's not used anymore, or at least not internally
+
 dijit.getDocumentWindow = function(doc){
 	// summary:
 	// 		Get window object associated with document doc

@@ -372,7 +372,9 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 		// Safari's selections go all out of whack if we do it inline,
 		// so for now IE is our only hero
 		//if(typeof dojo.doc.body.contentEditable != "undefined")
-		if(dojo.isIE || dojo.isWebKit || dojo.isOpera){ // contentEditable, easy
+		if(dojo.isIE || dojo.isWebKit || dojo.isOpera){
+			// In 0.4, this was the contentEditable code path, but now it creates an iframe, same as for Firefox.
+			// However, firefox's iframe is handled by _drawIframe() rather than this code for some reason :-(
 			var burl = dojo.config["dojoBlankHtmlUrl"] || (dojo.moduleUrl("dojo", "resources/blank.html")+"");
 			var ifr = (this.editorObject = this.iframe = dojo.doc.createElement('iframe'));
 			ifr.id = this.id+"_iframe";
@@ -425,7 +427,8 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 			}else{ // blissful sanity!
 				h = dojo.connect(dojo.isIE ? ifr.contentWindow : ifr, "onload", loadFunc);
 			}
-		}else{ // designMode in iframe
+		}else{
+			// Firefox code path
 			this._drawIframe(html);
 			this.savedContent = this.getValue(true);
 		}
@@ -499,7 +502,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 	_drawIframe: function(/*String*/html){
 		// summary:
 		//		Draws an iFrame using the existing one if one exists.
-		//		Used by Mozilla, Safari, and Opera
+		//		Used by Firefox only.  See open() for code for other browsers.
 
 		if(!this.iframe){
 			var ifr = (this.iframe = dojo.doc.createElement("iframe"));
@@ -736,7 +739,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 		//		handler after the content of the document finishes loading
 		if(!this.window.__registeredWindow){
 			this.window.__registeredWindow = true;
-			dijit.registerWin(this.window);
+			dijit.registerIframe(this.iframe);
 		}
 		if(!dojo.isIE && (this.height || dojo.isMoz)){
 			this.editNode=this.document.body;
