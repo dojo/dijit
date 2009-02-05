@@ -55,7 +55,7 @@ dojo.declare(
 			//only lost after onmousedown event is fired, so we can obtain correct caret pos.)
 			//2) when user tabs away from the editor, which is handled in onKeyDown below.
 			if(dojo.isIE){
-	            this.events.push("onBeforeDeactivate");
+				this.events.push("onBeforeDeactivate");
 			}
 		},
 
@@ -158,6 +158,13 @@ dojo.declare(
 			}
 			this._layoutMode = true;
 		},
+		_onIEMouseDown: function(/*Event*/e){ // IE only to prevent 2 clicks to focus
+			delete this._savedSelection; // new mouse position overrides old selection
+			if(e.target.tagName == "BODY"){
+				setTimeout(dojo.hitch(this, "placeCursorAtEnd"), 0);
+			}
+			this.inherited(arguments);
+		},
 		onBeforeDeactivate: function(e){
 			if(this.customUndo){
 				this.endEditing(true);
@@ -166,7 +173,7 @@ dojo.declare(
 			//let's save focus before the editor is deactivated
 			this._saveSelection();
 	        //console.log('onBeforeDeactivate',this);
-	    },
+		},
 		/* beginning of custom undo/redo support */
 
 		// customUndo: Boolean
@@ -343,7 +350,7 @@ dojo.declare(
 				this._saveSelection();
 			}
 			if(!this.customUndo){
-				this.inherited('onKeyDown',arguments);
+				this.inherited(arguments);
 				return;
 			}
 			var k = e.keyCode, ks = dojo.keys;
@@ -358,7 +365,7 @@ dojo.declare(
 					return;
 				}
 			}
-			this.inherited('onKeyDown',arguments);
+			this.inherited(arguments);
 
 			switch(k){
 					case ks.ENTER:
@@ -431,12 +438,12 @@ dojo.declare(
 		},
 		_onFocus: function(){
 			//console.log('_onFocus');
-			this._restoreSelection();
+			setTimeout(dojo.hitch(this, "_restoreSelection"), 0); // needs input caret first
 			this.inherited(arguments);
 		},
 		onClick: function(){
 			this.endEditing(true);
-			this.inherited('onClick',arguments);
+			this.inherited(arguments);
 		}
 		/* end of custom undo/redo support */
 	}
