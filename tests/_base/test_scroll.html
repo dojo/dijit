@@ -146,13 +146,14 @@
 					generateTest('innerNoScrollBars_strict', scroll, scroll);
 				},
 				function test_innerNoScrollBars_none(){
-					var scroll = '';
+					var minScroll = '', maxScroll = '';
 					if(dojo.isIE){
-						scroll = '(+35,-30)';
+						minScroll = '(+35,-30)';
+						maxScroll = '(-39,-26)';
 					}else if(dojo.isFF){
-						scroll = '(-30,-10)';
+						minScroll = maxScroll = '(-30,-10)';
 					}
-					generateTest('innerNoScrollBars_none', scroll, scroll);
+					generateTest('innerNoScrollBars_none', maxScroll, minScroll);
 				},
 				function test_innerNoScrollBars_loose_rtl(){
 					var scroll = '';

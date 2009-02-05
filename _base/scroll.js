@@ -188,36 +188,28 @@ dijit.scrollIntoView = function(/* DomNode */node){
 				// if overflow is positive, number of pixels obscured by the parent's end
 				var overflow = underflow + element._offsetSize[dir] - parent._offsetSize[dir] + parent._borderSize[dir];
 				//if(dir==testdir)console.debug('element = ' + element.tagName + ', offsetStart = ' + element._offsetStart[dir] + ', relative = ' + relative + ', parent offsetStart = ' + parent._offsetStart[dir] + ', scroll = ' + parent._scrolledAmount[dir] + ', parent border start = ' + parent._borderStart[dir] + ', parent border size = ' + parent._borderSize[dir] + ', underflow = ' + underflow + ', overflow = ' + overflow + ', element offsetSize = ' + element._offsetSize[dir] + ', parent offsetSize = ' + parent._offsetSize[dir]);
-				var scrollAmount, scrollAttr = (dir=="H")? "scrollLeft" : "scrollTop";
+				var scrollAttr = (dir=="H")? "scrollLeft" : "scrollTop";
 				// see if we should scroll forward or backward
 				var reverse = dir=="H" && rtl; // flip everything
 				var underflowScroll = reverse? -overflow : underflow;
 				var overflowScroll = reverse? -underflow : overflow;
-				if(underflowScroll <= 0){
-					scrollAmount = underflowScroll;
-				}else if(overflowScroll <= 0){
-					scrollAmount = 0;
-				}else if(underflowScroll < overflowScroll){
-					scrollAmount = underflowScroll;
-				}else{
-					scrollAmount = overflowScroll;
-				}
+				// don't scroll if the over/underflow signs are opposite since that means that
+				// the node extends beyond parent's boundary in both/neither directions
+				var scrollAmount = (underflowScroll*overflowScroll <= 0)? 0 : Math[(underflowScroll < 0)? "max" : "min"](underflowScroll, overflowScroll);
 				//if(dir==testdir)console.debug('element = ' + element.tagName + ' dir = ' + dir + ', scrollAmount = ' + scrollAmount);
-				var scrolledAmount = 0;
 				if(scrollAmount != 0){
 					var oldScroll = parent[scrollAttr];
 					parent[scrollAttr] += (reverse)? -scrollAmount : scrollAmount; // actually perform the scroll
-					scrolledAmount = parent[scrollAttr] - oldScroll; // in case the scroll failed
+					var scrolledAmount = parent[scrollAttr] - oldScroll; // in case the scroll failed
 					//if(dir==testdir)console.debug('scrolledAmount = ' + scrolledAmount);
 					element._offsetStart[dir] -= scrolledAmount;
+				}
+				if(relative){
+					element._offsetStart[dir] += parent._offsetStart[dir];
 				}
 			}
 			element._parent = parent._parent;
 			element._offsetParent = parent._offsetParent;
-			if(relative){
-				element._offsetStart.H += parent._offsetStart.H; // RTL can cause negative offsetLeft values
-				element._offsetStart.V += parent._offsetStart.V;
-			}
 	}
 	parent = node;
 	while(parent && parent.removeAttribute){
