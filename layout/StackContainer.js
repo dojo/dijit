@@ -89,6 +89,7 @@ dojo.declare(
 
 		this.inherited(arguments);
 
+		dojo.removeClass(child.domNode, "dijitVisible");
 		dojo.addClass(child.domNode, "dijitHidden");
 
 		// remove the title attribute so it doesn't show up when i hover
