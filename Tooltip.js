@@ -165,19 +165,26 @@ dojo.declare(
 		showDelay: 400,
 
 		// connectId: String[]
-		//		Id(s) of domNodes to attach the tooltip to.
+		//		Id's of domNodes to attach the tooltip to.
 		//		When user hovers over any of the specified dom nodes, the tooltip will appear.
+		//
+		//		Note: Currently connectId can only be specified on initialization, it cannot
+		//		be changed via attr('connectId', ...)
+		//
+		//		Note: in 2.0 this will be renamed to connectIds for less confusion.
 		connectId: [],
 
 		//	position: String[]
 		//		See description of dijit.Tooltip.defaultPosition for details on position parameter.
 		position: [],
 
-		postCreate: function(){
-			
-			dojo.addClass(this.domNode,"dijitTooltipData");
+		_setConnectIdAttr: function(ids){
+			// TODO: erase old conections
 
 			this._connectNodes = [];
+
+			// TODO: rename connectId to connectIds for 2.0, and remove this code converting from string to array
+			this.connectId = dojo.isArrayLike(ids) ? ids : [ids];
 			
 			dojo.forEach(this.connectId, function(id) {
 				var node = dojo.byId(id);
@@ -192,6 +199,10 @@ dojo.declare(
 					}
 				}
 			}, this);
+		},
+
+		postCreate: function(){	
+			dojo.addClass(this.domNode,"dijitTooltipData");
 		},
 
 		_onMouseEnter: function(/*Event*/ e){
