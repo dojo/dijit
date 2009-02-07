@@ -178,10 +178,10 @@
 		});
 
 		dojo.addOnLoad(function(){
-			dojo.byId("backgroundArea").innerHTML = dojo.date.locale.format(new Date(2005, 11, 30), { selector: 'date' });
+			dijit.byId("backgroundArea").attr('value', dojo.date.locale.format(new Date(2005, 11, 30), { selector: 'date' }));
 			var nineAm = new Date(0);
 			nineAm.setHours(9);
-			dojo.byId("timePicker").innerHTML = dojo.date.locale.format(nineAm, { selector: 'time' });
+			dijit.byId("timePicker").attr('value', dojo.date.locale.format(nineAm, { selector: 'time' }));
 		});
 
 		/***
