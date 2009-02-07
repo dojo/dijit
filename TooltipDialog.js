@@ -29,7 +29,7 @@ dojo.declare(
 			//		False will disable autofocusing. Default: true
 			autofocus: true,
 
-			"class": "dijitTooltipDialog",
+			baseClass: "dijitTooltipDialog",
 
 			// _firstFocusItem: DomNode
 			//		The pointer to the first focusable node in the dialog
@@ -50,7 +50,13 @@ dojo.declare(
 
 			orient: function(/*DomNode*/ node, /*String*/ aroundCorner, /*String*/ corner){
 				// summary: configure widget to be displayed in given position relative to the button
-				this.domNode.className = this["class"] +" dijitTooltipAB"+(corner.charAt(1)=='L'?"Left":"Right")+" dijitTooltip"+(corner.charAt(0)=='T' ? "Below" : "Above");
+				var c = this._currentOrientClass;
+				if(c){
+					dojo.removeClass(this.domNode, c);
+				}
+				c = "dijitTooltipAB"+(corner.charAt(1)=='L'?"Left":"Right")+" dijitTooltip"+(corner.charAt(0)=='T' ? "Below" : "Above");
+				dojo.addClass(this.domNode, c);
+				this._currentOrientClass = c;
 			},
 
 			onOpen: function(/*Object*/ pos){
