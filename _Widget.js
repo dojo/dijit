@@ -60,8 +60,8 @@ dojo.declare("dijit._Widget", null, {
 	//		HTML class attribute
 	"class": "",
 
-	// style: String
-	//		HTML style attribute
+	// style: String||Object
+	//		HTML style attributes as cssText string or name/value hash
 	style: "",
 
 	// title: String
@@ -559,14 +559,30 @@ dojo.declare("dijit._Widget", null, {
 		dojo.addClass(mapNode, value);
 	},
 
-	_setStyleAttr: function(/*String*/ value){
+	_setStyleAttr: function(/*String||Object*/ value){
+		// summary:
+		//		Sets the style attribut of the widget according to value,
+		//		which is either a hash like {height: "5px", width: "3px"}
+		//		or a plain string
+		// description:
+		//		Determines which node to set the style on based on style setting
+		//		in attributeMap.
+
 		var mapNode = this[this.attributeMap["style"]||'domNode'];
-		if(mapNode.style.cssText){
-			// TODO: remove old value
-			mapNode.style.cssText += "; " + value; // FIXME: Opera
+		
+		// Note: technically we should revert any style setting made in a previous call
+		// to his method, but that's difficult to keep track of.
+
+		if(dojo.isObject(value)){
+			dojo.style(mapNode, value);
 		}else{
-			mapNode.style.cssText = value;
+			if(mapNode.style.cssText){
+				mapNode.style.cssText += "; " + value;
+			}else{
+				mapNode.style.cssText = value;
+			}
 		}
+
 		this["style"] = value;
 	},
 
