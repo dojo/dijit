@@ -220,6 +220,13 @@ dojo.declare(
 				}
 			}
 			this.inherited(arguments);
+		},
+
+		reset:function(){
+			//      summary:
+			//              Additionally hide errors on partial matches
+			this._maskValidSubsetError = true;
+			this.inherited(arguments);
 		}
 	}
 );
