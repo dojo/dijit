@@ -8,53 +8,11 @@ dijit.getViewport = function(){
 	//	summary
 	//	Returns the dimensions and scroll position of the viewable area of a browser window
 
-	var _window = dojo.global;
-	var _document = dojo.doc;
-
-	// get viewport size
-	var w = 0, h = 0;
-	var de = _document.documentElement;
-	var dew = de.clientWidth, deh = de.clientHeight;
-	if(dojo.isMozilla || dojo.isSafari){
-		// mozilla
-		// _window.innerHeight includes the height taken by the scroll bar
-		// clientHeight is ideal but has DTD issues:
-		// #4539: FF reverses the roles of body.clientHeight/Width and documentElement.clientHeight/Width based on the DTD!
-		// check DTD to see whether body or documentElement returns the viewport dimensions using this algorithm:
-		var minw, minh, maxw, maxh;
-		var dbw = _document.body.clientWidth;
-		if(dbw > dew){
-			minw = dew;
-			maxw = dbw;
-		}else{
-			maxw = dew;
-			minw = dbw;
-		}
-		var dbh = _document.body.clientHeight;
-		if(dbh > deh){
-			minh = deh;
-			maxh = dbh;
-		}else{
-			maxh = deh;
-			minh = dbh;
-		}
-		w = (maxw > _window.innerWidth) ? minw : maxw;
-		h = (maxh > _window.innerHeight) ? minh : maxh;
-	}else if(_window.innerWidth){
-		w = _window.innerWidth;
-		h = _window.innerHeight;
-	}else if(dojo.isIE && de && deh){
-		w = dew;
-		h = deh;
-	}else if(dojo.body().clientWidth){
-		// IE6?  If this isn't here then viewport.html fails
-		w = dojo.body().clientWidth;
-		h = dojo.body().clientHeight;
-	}
+	var scrollRoot = (dojo.doc.compatMode == 'BackCompat')? dojo.body() : dojo.doc.documentElement;
 
 	// get scroll position
-	var scroll = dojo._docScroll();
-	return { w: w, h: h, l: scroll.x, t: scroll.y };	//	object
+	var scroll = dojo._docScroll(); // scrollRoot.scrollTop/Left should work
+	return { w: scrollRoot.clientWidth, h: scrollRoot.clientHeight, l: scroll.x, t: scroll.y };
 };
 
 /*=====
