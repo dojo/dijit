@@ -54,11 +54,10 @@ dojo.declare(
 			//		not change, but the display will change to the corresponding month.
 			if(!this.value || dojo.date.compare(value, this.value)){
 				value = new Date(value);
+				value.setHours(1); // to avoid DST issues in Brazil see #8521
 				this.displayMonth = new Date(value);
 				if(!this.isDisabledDate(value, this.lang)){
-					this.value = value;
-					this.value.setHours(0,0,0,0);
-					this.onChange(this.value);
+					this.onChange(this.value = value);
 				}
 				this._populateGrid();
 			}
