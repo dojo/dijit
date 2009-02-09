@@ -163,7 +163,7 @@ dojo.declare("dijit.InlineEditBox",
 			renderAsHtml: this.renderAsHtml,
 			editor: this.editor,
 			editorParams: this.editorParams,
-			style: dojo.getComputedStyle(this.displayNode),
+			sourceStyle: dojo.getComputedStyle(this.displayNode),
 			save: dojo.hitch(this, "save"),
 			cancel: dojo.hitch(this, "cancel"),
 			width: this.width
@@ -296,7 +296,7 @@ dojo.declare(
 
 		// Copy the style from the source
 		// Don't copy ALL properties though, just the necessary/applicable ones
-		var srcStyle = this.style;
+		var srcStyle = this.sourceStyle;
 		var editStyle = "line-height:" + srcStyle.lineHeight + ";";
 		dojo.forEach(["Weight","Family","Size","Style"], function(prop){
 			editStyle += "font-"+prop+":"+srcStyle["font"+prop]+";";
