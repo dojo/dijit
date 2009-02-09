@@ -64,13 +64,14 @@ dojo.declare(
 		},
 		
 		_onFocus: function(/*Event*/ evt){
-			// summary: open the TimePicker popup
+			// summary:
+			//		open the TimePicker popup
 			this._open();
 		},
 
 		_setValueAttr: function(/*Date*/ value, /*Boolean?*/ priorityChange, /*String?*/ formattedValue){
 			// summary:
-			//	Sets the date on this textbox.  Note that `value` must be a Javascript Date object.
+			//		Sets the date on this textbox.  Note that `value` must be a Javascript Date object.
 			this.inherited(arguments);
 			if(this._picker){
 				// #3948: fix blank date on popup only
@@ -81,7 +82,7 @@ dojo.declare(
 
 		_open: function(){
 			// summary:
-			//	opens the TimePicker, and sets the onValueSelected value
+			//		opens the TimePicker, and sets the onValueSelected value
 
 			if(this.disabled || this.readOnly || !this.popupClass){return;}
 
@@ -136,7 +137,8 @@ dojo.declare(
 		},
 
 		_onBlur: function(){
-			// summary: called magically when focus has shifted away from this widget and it's dropdown
+			// summary:
+			//		Called magically when focus has shifted away from this widget and it's dropdown
 			this._close();
 			if(this._picker){
 				// teardown so that constraints will be rebuilt next time (redundant reference: #6002)

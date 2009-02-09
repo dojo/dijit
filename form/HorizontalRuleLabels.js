@@ -5,7 +5,7 @@ dojo.require("dijit.form.HorizontalRule");
 dojo.declare("dijit.form.HorizontalRuleLabels", dijit.form.HorizontalRule,
 {
 	// summary:
-	//		Labels for the HorizontalSlider
+	//		Labels for `dijit.form.HorizontalSlider`
 
 	templateString: '<div class="dijitRuleContainer dijitRuleContainerH dijitRuleLabelsContainer dijitRuleLabelsContainerH"></div>',
 
@@ -46,7 +46,8 @@ dojo.declare("dijit.form.HorizontalRuleLabels", dijit.form.HorizontalRule,
 	},
 
 	getLabels: function(){
-		// summary: user replaceable function to return the labels array
+		// summary:
+		//		User overridable function to return the labels array
 
 		// if the labels array was not specified directly, then see if <li> children were
 		var labels = this.labels;

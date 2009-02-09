@@ -97,7 +97,7 @@ dojo.declare(
 
 	resize: function(){
 		// summary:
-		//              Resizes the textarea vertically (should be called after a style/value change)
+		//		Resizes the textarea vertically (should be called after a style/value change)
 		this._onInput();
 		this._shrink();
 	},

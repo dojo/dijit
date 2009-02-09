@@ -54,7 +54,7 @@ dojo.declare(
 		regExp: ".*",
 
 		// regExpGen: Function
-		//		user replaceable function used to generate regExp when dependent on constraints
+		//		user overridable function used to generate regExp when dependent on constraints
 		//		Do not specify both regExp and regExpGen
 		regExpGen: function(/*dijit.form.ValidationTextBox.__Constraints*/constraints){ return this.regExp; },
 
@@ -62,7 +62,7 @@ dojo.declare(
 		//		Shows current state (ie, validation result) of input (Normal, Warning, or Error)
 		state: "",
 
-		//	tooltipPosition: String[]
+		// tooltipPosition: String[]
 		//		See description of dijit.Tooltip.defaultPosition for details on this parameter.
 		tooltipPosition: [],
 
@@ -74,7 +74,8 @@ dojo.declare(
 		},
 
 		validator: function(/*anything*/value, /*dijit.form.ValidationTextBox.__Constraints*/constraints){
-			// summary: user replaceable function used to validate the text input against the regular expression.
+			// summary:
+			//		User overridable function used to validate the text input against the regular expression.
 			return (new RegExp("^(?:" + this.regExpGen(constraints) + ")"+(this.required?"":"?")+"$")).test(value) &&
 				(!this.required || !this._isEmpty(value)) &&
 				(this._isEmpty(value) || this.parse(value, constraints) !== undefined); // Boolean
@@ -82,27 +83,31 @@ dojo.declare(
 
 		_isValidSubset: function(){
 			// summary:
-			//	Returns true if the value is either already valid or could be made valid by appending characters.
+			//		Returns true if the value is either already valid or could be made valid by appending characters.
 			return this.textbox.value.search(this._partialre) == 0;
 		},
 
 		isValid: function(/*Boolean*/ isFocused){
-			// summary: Need to over-ride with your own validation code in subclasses
+			// summary:
+			//		Need to over-ride with your own validation code in subclasses
 			return this.validator(this.textbox.value, this.constraints);
 		},
 
 		_isEmpty: function(value){
-			// summary: Checks for whitespace
+			// summary:
+			//		Checks for whitespace
 			return /^\s*$/.test(value); // Boolean
 		},
 
 		getErrorMessage: function(/*Boolean*/ isFocused){
-			// summary: return an error message to show if appropriate
+			// summary:
+			//		Return an error message to show if appropriate
 			return this.invalidMessage; // String
 		},
 
 		getPromptMessage: function(/*Boolean*/ isFocused){
-			// summary: return a hint to show if appropriate
+			// summary:
+			//		Return a hint message to show when widget is first focused
 			return this.promptMessage; // String
 		},
 
@@ -222,8 +227,8 @@ dojo.declare(
 		},
 
 		reset:function(){
-			//      summary:
-			//              Additionally hide errors on partial matches
+			// summary:
+			//		Additionally hide errors on partial matches
 			this._maskValidSubsetError = true;
 			this.inherited(arguments);
 		}
@@ -243,12 +248,14 @@ dojo.declare(
 		//		locale-neutral.
 
 		serialize: function(/*anything*/val, /*Object?*/options){
-			// summary: user replaceable function used to convert the attr('value') result to a String
+			// summary:
+			//		User overridable function used to convert the attr('value') result to a String
 			return val.toString ? val.toString() : ""; // String
 		},
 
 		toString: function(){
-			// summary: display the widget as a printable string using the widget's value
+			// summary:
+			//		Returns widget as a printable string using the widget's value
 			var val = this.filter(this.attr('value')); // call filter in case value is nonstring and filter has been customized
 			return val != null ? (typeof val == "string" ? val : this.serialize(val, this.constraints)) : ""; // String
 		},
@@ -275,8 +282,8 @@ dojo.declare(
 		},
 
 		reset:function(){
-			//      summary:
-			//              Additionally reset the hidden textbox value to ''
+			// summary:
+			//		Additionally reset the hidden textbox value to ''
 			this.valueNode.value = '';
 			this.inherited(arguments);
 		}
@@ -312,7 +319,8 @@ dojo.declare(
 		rangeMessage: "",
 
 		rangeCheck: function(/*Number*/ primitive, /*dijit.form.RangeBoundTextBox.__Constraints*/ constraints){
-			// summary: user replaceable function used to validate the range of the numeric input value
+			// summary:
+			//		User overridable function used to validate the range of the numeric input value.
 			var isMin = "min" in constraints;
 			var isMax = "max" in constraints;
 			if(isMin || isMax){
@@ -323,7 +331,8 @@ dojo.declare(
 		},
 
 		isInRange: function(/*Boolean*/ isFocused){
-			// summary: Need to over-ride with your own validation code in subclasses
+			// summary:
+			//		Need to over-ride with your own validation code in subclasses
 			return this.rangeCheck(this.attr('value'), this.constraints);
 		},
 

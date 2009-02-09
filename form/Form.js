@@ -8,10 +8,10 @@ dojo.declare(
 	"dijit.form.Form",
 	[dijit._Widget, dijit._Templated, dijit.form._FormMixin],
 	{
-		//	summary:
+		// summary:
 		//		Widget corresponding to HTML form tag, for validation and serialization
 		//
-		//	example:
+		// example:
 		//	|	<form dojoType="dijit.form.Form" id="myForm">
 		//	|		Name: <input type="text" name="name" />
 		//	|	</form>
@@ -41,7 +41,7 @@ dojo.declare(
 		}),
 
 		execute: function(/*Object*/ formContents){
-			//	summary:
+			// summary:
 			//		Deprecated: use submit()
 		},
 
@@ -69,7 +69,7 @@ dojo.declare(
 		},
 
 		onReset: function(/*Event?*/e){ 
-			//	summary:
+			// summary:
 			//		Callback when user resets the form. This method is intended
 			//		to be over-ridden. When the `reset` method is called
 			//		programmatically, the return value from `onReset` is used
@@ -108,7 +108,7 @@ dojo.declare(
 		},
 		
 		onSubmit: function(/*Event?*/e){ 
-			//	summary:
+			// summary:
 			//		Callback when user submits the form. This method is
 			//		intended to be over-ridden, but by default it checks and
 			//		returns the validity of form elements. When the `submit`

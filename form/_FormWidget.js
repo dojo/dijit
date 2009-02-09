@@ -8,8 +8,7 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 	//
 	// summary:
 	//		Base class for widgets corresponding to native HTML elements such as <checkbox> or <button>,
-	//		which represent a single value and can be children of a <form> node or a
-	//		`dijit.form.Form` widget.
+	//		which can be children of a <form> node or a `dijit.form.Form` widget.
 	//
 	// description:
 	//		Represents a single HTML element.
@@ -169,32 +168,33 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 	},
 
 	_setStateClass: function(){
-		// summary
-		//	Update the visual state of the widget by setting the css classes on this.domNode
-		//  (or this.stateNode if defined) by combining this.baseClass with
-		//	various suffixes that represent the current widget state(s).
+		// summary:
+		//		Update the visual state of the widget by setting the css classes on this.domNode
+		//		(or this.stateNode if defined) by combining this.baseClass with
+		//		various suffixes that represent the current widget state(s).
 		//
-		//	In the case where a widget has multiple
-		//	states, it sets the class based on all possible
-		//  combinations.  For example, an invalid form widget that is being hovered
-		//	will be "dijitInput dijitInputInvalid dijitInputHover dijitInputInvalidHover".
-		//
-		//	For complex widgets with multiple regions, there can be various hover/active states,
-		//	such as "Hover" or "CloseButtonHover" (for tab buttons).
-		//	This is controlled by a stateModifier="CloseButton" attribute on the close button node.
-		//
-		//	The widget may have one or more of the following states, determined
-		//	by this.state, this.checked, this.valid, and this.selected:
-		//		Error - ValidationTextBox sets this.state to "Error" if the current input value is invalid
-		//		Checked - ex: a checkmark or a ToggleButton in a checked state, will have this.checked==true
-		//		Selected - ex: currently selected tab will have this.selected==true
-		//
-		//	In addition, it may have one or more of the following states,
-		//	based on this.disabled and flags set in _onMouse (this._active, this._hovering, this._focused):
-		//		Disabled	- if the widget is disabled
-		//		Active		- if the mouse (or space/enter key?) is being pressed down
-		//		Focused		- if the widget has focus
-		//		Hover		- if the mouse is over the widget
+		// description:
+		//		In the case where a widget has multiple
+		//		states, it sets the class based on all possible
+		//	 	combinations.  For example, an invalid form widget that is being hovered
+		//		will be "dijitInput dijitInputInvalid dijitInputHover dijitInputInvalidHover".
+		//	
+		//		For complex widgets with multiple regions, there can be various hover/active states,
+		//		such as "Hover" or "CloseButtonHover" (for tab buttons).
+		//		This is controlled by a stateModifier="CloseButton" attribute on the close button node.
+		//	
+		//		The widget may have one or more of the following states, determined
+		//		by this.state, this.checked, this.valid, and this.selected:
+		//			- Error - ValidationTextBox sets this.state to "Error" if the current input value is invalid
+		//			- Checked - ex: a checkmark or a ToggleButton in a checked state, will have this.checked==true
+		//			- Selected - ex: currently selected tab will have this.selected==true
+		//	
+		//		In addition, it may have one or more of the following states,
+		//		based on this.disabled and flags set in _onMouse (this._active, this._hovering, this._focused):
+		//			- Disabled	- if the widget is disabled
+		//			- Active		- if the mouse (or space/enter key?) is being pressed down
+		//			- Focused		- if the widget has focus
+		//			- Hover		- if the mouse is over the widget
 
 		// Compute new set of classes
 		var newStateClasses = this.baseClass.split(" ");
@@ -251,7 +251,8 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 	},
 
 	compare: function(/*anything*/val1, /*anything*/val2){
-		// summary: compare 2 values
+		// summary:
+		//		Compare 2 values (as returned by attr('value') for this widget).
 		if((typeof val1 == "number") && (typeof val2 == "number")){
 			return (isNaN(val1) && isNaN(val2))? 0 : (val1-val2);
 		}else if(val1 > val2){ return 1; }
@@ -260,13 +261,15 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 	},
 
 	onChange: function(newValue){
-		// summary: callback when value is changed
+		// summary:
+		//		Callback when this widget's value is changed.
 	},
 
 	_onChangeActive: false,
 
 	_handleOnChange: function(/*anything*/ newValue, /*Boolean, optional*/ priorityChange){
-		// summary: set the value of the widget.
+		// summary:
+		//		Set the value of the widget.
 		this._lastValue = newValue;
 		if(this._lastValueReported == undefined && (priorityChange === null || !this._onChangeActive)){
 			// this block executes not for a change, but during initialization,
@@ -295,11 +298,15 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 	},
 
 	setValue: function(/*String*/ value){
+		// summary:
+		//		Deprecated.   Use attr('value', ...) instead.
 		dojo.deprecated("dijit.form._FormWidget:setValue("+value+") is deprecated.  Use attr('value',"+value+") instead.", "", "2.0");
 		this.attr('value', value);
 	},
 
 	getValue: function(){
+		// summary:
+		//		Deprecated.   Use attr('value') instead.
 		dojo.deprecated(this.declaredClass+"::getValue() is deprecated. Use attr('value') instead.", "", "2.0");
 		return this.attr('value');
 	},
@@ -320,13 +327,12 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 
 dojo.declare("dijit.form._FormValueWidget", dijit.form._FormWidget,
 {
-	/*
-	Summary:
-		_FormValueWidget's correspond to native HTML elements such as <input> or <select> that have user changeable values.
-		Each _ValueWidget represents a single input value, and has a (possibly hidden) <input> element,
-		to which it serializes its input value, so that form submission (either normal submission or via FormBind?)
-		works as expected.
-	*/
+	// summary:
+	//		Base class for widgets corresponding to native HTML elements such as <input> or <select> that have user changeable values.
+	// description:
+	//		Each _FormValueWidget represents a single input value, and has a (possibly hidden) <input> element,
+	//		to which it serializes it's input value, so that form submission (either normal submission or via FormBind?)
+	//		works as expected.
 
 	// TODO: unclear what that {value: ""} is for; FormWidget.attributeMap copies value to focusNode,
 	// so maybe {value: ""} is so the value *doesn't* get copied to focusNode?
@@ -363,7 +369,8 @@ dojo.declare("dijit.form._FormValueWidget", dijit.form._FormWidget,
 	},
 
 	undo: function(){
-		// summary: restore the value to the last value passed to onChange
+		// summary:
+		//		Restore the value to the last value passed to onChange
 		this._setValueAttr(this._lastValueReported, false);
 	},
 

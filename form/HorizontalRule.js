@@ -6,7 +6,7 @@ dojo.require("dijit._Templated");
 dojo.declare("dijit.form.HorizontalRule", [dijit._Widget, dijit._Templated],
 {
 	// summary:
-	//		Hash marks for the HorizontalSlider
+	//		Hash marks for `dijit.form.HorizontalSlider`
 
 	templateString: '<div class="dijitRuleContainer dijitRuleContainerH"></div>',
 

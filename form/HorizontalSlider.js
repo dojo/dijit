@@ -17,32 +17,32 @@ dojo.declare(
 	templatePath: dojo.moduleUrl('dijit.form','templates/HorizontalSlider.html'),
 	value: 0,
 
-	// showButtons: boolean
-	//	Show increment/decrement buttons at the ends of the slider?
+	// showButtons: Boolean
+	//		Show increment/decrement buttons at the ends of the slider?
 	showButtons: true,
 
-	// minimum:: integer
-	//	The minimum value allowed.
+	// minimum:: Integer
+	//		The minimum value allowed.
 	minimum: 0,
 
-	// maximum: integer
-	//	The maximum allowed value.
+	// maximum: Integer
+	//		The maximum allowed value.
 	maximum: 100,
 
-	// discreteValues: integer
-	//	The maximum allowed values dispersed evenly between minimum and maximum (inclusive).
+	// discreteValues: Integer
+	//		The maximum allowed values dispersed evenly between minimum and maximum (inclusive).
 	discreteValues: Infinity,
 
-	// pageIncrement: integer
-	//	The amount of change via pageup/down
+	// pageIncrement: Integer
+	//		The amount of change via pageup/down
 	pageIncrement: 2,
 
-	// clickSelect: boolean
-	//	If clicking the progress bar changes the value or not
+	// clickSelect: Boolean
+	//		If clicking the progress bar changes the value or not
 	clickSelect: true,
 
 	// slideDuration: Number
-	//	The time in ms to take to animate the slider handle from 0% to 100%
+	//		The time in ms to take to animate the slider handle from 0% to 100%
 	slideDuration: dijit.defaultDuration,
 
 	widgetsInTemplate: true,
@@ -184,19 +184,20 @@ dojo.declare(
 	},
 
 	decrement: function(e){
-		// summary
-		//	decrement slider by 1 unit
+		// summary:
+		//		Decrement slider by 1 unit
 		this._bumpValue(e.charOrCode == dojo.keys.PAGE_DOWN ? -this.pageIncrement : -1);
 	},
 
 	increment: function(e){
-		// summary
-		//	increment slider by 1 unit
+		// summary:
+		//		Increment slider by 1 unit
 		this._bumpValue(e.charOrCode == dojo.keys.PAGE_UP ? this.pageIncrement : 1);
 	},
 
 	_mouseWheeled: function(/*Event*/ evt){
-		// summary: Event handler for mousewheel where supported
+		// summary:
+		//		Event handler for mousewheel where supported
 		dojo.stopEvent(evt);
 		// FIXME: this adds mouse wheel support for safari, though stopEvent doesn't prevent
 		// it from bleeding to window?!

@@ -40,7 +40,8 @@ dojo.declare("dijit.form.NumberTextBoxMixin",
 		},
 
 		format: function(/*Number*/ value, /*dojo.number.__FormatOptions*/ constraints){
-			//	summary: formats the value as a Number, according to constraints
+			// summary:
+			//		Formats the value as a Number, according to constraints
 
 			if(typeof value == "string") { return value; }
 			if(isNaN(value)){ return ""; }
@@ -53,7 +54,8 @@ dojo.declare("dijit.form.NumberTextBoxMixin",
 		parse: dojo.number.parse,
 		/*=====
 		parse: function(value, constraints){
-			//	summary: parses the value as a Number, according to constraints
+			//	summary:
+			//		Parses the value as a Number, according to constraints.
 			//	value: String
 			//
 			//	constraints: dojo.number.__ParseOptions

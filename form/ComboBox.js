@@ -137,7 +137,8 @@ dojo.declare(
 		},	
 		
 		_onKeyPress: function(/*Event*/ evt){
-			// summary: handles keyboard events
+			// summary:
+			//		Handles keyboard events
 			var key = evt.charOrCode;
 			//except for cutting/pasting case - ctrl + x/v
 			if(evt.altKey || (evt.ctrlKey && (key != 'x' && key != 'v')) || evt.key == dojo.keys.SHIFT){
@@ -431,7 +432,8 @@ dojo.declare(
 		},
 
 		_onBlur: function(){
-			// summary: called magically when focus has shifted away from this widget and it's dropdown
+			// summary:
+			//		Called magically when focus has shifted away from this widget and it's drop down
 			this._hideResultList();
 			this._arrowIdle();
 			this.inherited(arguments);
@@ -439,9 +441,9 @@ dojo.declare(
 
 		_announceOption: function(/*Node*/ node){
 			// summary:
-			//		a11y code that puts the highlighted option in the textbox
+			//		a11y code that puts the highlighted option in the textbox.
 			//		This way screen readers will know what is happening in the
-			//		menu
+			//		menu.
 
 			if(node == null){
 				return;
@@ -489,7 +491,8 @@ dojo.declare(
 		},
 
 		_onArrowMouseDown: function(evt){
-			// summary: callback when arrow is clicked
+			// summary:
+			//		Callback when arrow is clicked
 			if(this.disabled || this.readOnly){
 				return;
 			}
@@ -592,8 +595,8 @@ dojo.declare(
 			//	summary:
 			//		When inputting characters using an input method, such as
 			//		Asian languages, it will generate this event instead of
-			//		onKeyDown event Note: this event is only triggered in FF
-			//		(not in IE)
+			//		onKeyDown event.
+			//		Note: this event is only triggered in FF (not in IE)
 			this._onKeyPress({charCode:-1});
 		},
 
@@ -665,9 +668,10 @@ dojo.declare(
 		
 		doHighlight:function(/*String*/label, /*String*/find){
 			// summary:
-			//		Highlights the string entered by the user in the menu, by default this
+			//		Highlights the string entered by the user in the menu.  By default this
 			//		highlights the first occurence found. Override this method
 			//		to implement your custom highlighing.
+
 			// Add greedy when this.highlightMatch=="all"
 			var modifiers = "i"+(this.highlightMatch=="all"?"g":"");
 			var escapedLabel = this._escapeHtml(label);
@@ -710,7 +714,7 @@ dojo.declare(
 	[dijit._Widget, dijit._Templated],
 	{
 		//	summary:
-		//		Focus-less div based menu for internal use in ComboBox
+		//		Focus-less menu for internal use in `dijit.form.ComboBox`
 
 		templateString: "<ul class='dijitReset dijitMenu' dojoAttachEvent='onmousedown:_onMouseDown,onmouseup:_onMouseUp,onmouseover:_onMouseOver,onmouseout:_onMouseOut' tabIndex='-1' style='overflow: \"auto\"; overflow-x: \"hidden\";'>"
 				+"<li class='dijitMenuItem dijitMenuPreviousButton' dojoAttachPoint='previousButton' waiRole='option'></li>"
@@ -745,8 +749,8 @@ dojo.declare(
 
 		_createOption:function(/*Object*/ item, labelFunc){
 			//	summary: 
-			//		creates an option to appear on the popup menu subclassed by
-			//		FilteringSelect
+			//		Creates an option to appear on the popup menu subclassed by
+			//		`dijit.form.FilteringSelect`.
 
 			var labelObject = labelFunc(item);
 			var menuitem = dojo.doc.createElement("li");
@@ -808,7 +812,8 @@ dojo.declare(
 		},
 
 		clearResultList: function(){
-			// summary: keep the previous and next buttons of course
+			// summary:
+			//		Clears the result list, but of course keeps the previous and next buttons.
 			while(this.domNode.childNodes.length>2){
 				this.domNode.removeChild(this.domNode.childNodes[this.domNode.childNodes.length-2]);
 			}
@@ -865,7 +870,7 @@ dojo.declare(
 
 		_focusOptionNode:function(/*DomNode*/ node){
 			// summary:
-			//	does the actual highlight
+			//		Does the actual highlight.
 			if(this._highlighted_option != node){
 				this._blurOptionNode();
 				this._highlighted_option = node;
@@ -875,7 +880,7 @@ dojo.declare(
 
 		_blurOptionNode:function(){
 			// summary:
-			//	removes highlight on highlighted option
+			//		Removes highlight on highlighted option.
 			if(this._highlighted_option){
 				dojo.removeClass(this._highlighted_option, "dijitMenuItemSelected");
 				this._highlighted_option = null;
@@ -885,7 +890,7 @@ dojo.declare(
 		_highlightNextOption:function(){
 			//	summary:
 			// 		Highlight the item just below the current selection.
-			// 		If nothing selected, highlight first option
+			// 		If nothing selected, highlight first option.
 
 			// because each press of a button clears the menu,
 			// the highlighted option sometimes becomes detached from the menu!
@@ -921,7 +926,7 @@ dojo.declare(
 			//	summary:
 			// 		Highlight the item just above the current selection.
 			// 		If nothing selected, highlight last option (if
-			// 		you select Previous and try to keep scrolling up the list)
+			// 		you select Previous and try to keep scrolling up the list).
 			var lc = this.domNode.lastChild;
 			if(!this.getHighlightedOption()){
 				this._focusOptionNode(lc.style.display == "none" ? lc.previousSibling : lc);
@@ -1033,9 +1038,9 @@ dojo.declare(
 
 		_setValueAttr: function(/*String*/ value, /*Boolean?*/ priorityChange){
 			// summary:
-			//              Hook so attr('value', value) works.
+			//		Hook so attr('value', value) works.
 			// description:
-			//              Sets the value of the select.
+			//		Sets the value of the select.
 			if(!value){ value = ''; } // null translates to blank
 			dijit.form.ValidationTextBox.prototype._setValueAttr.call(this, value, priorityChange);
 		}
@@ -1044,7 +1049,7 @@ dojo.declare(
 
 dojo.declare("dijit.form._ComboBoxDataStore", null, {
 	//	summary:
-	//		Inefficient but small data store specialized for inlined ComboBox data
+	//		Inefficient but small data store specialized for inlined `dijit.form.ComboBox` data
 	//
 	//	description:
 	//		Provides a store for inlined data like:

@@ -2,10 +2,10 @@ dojo.provide("dijit.form._FormMixin");
 
 dojo.declare("dijit.form._FormMixin", null,
 	{
-	//	summary:
+	// summary:
 	//		Mixin for containers of form widgets (i.e. widgets that represent a single value
 	//		and can be children of a <form> node or dijit.form.Form widget)
-	//	description:
+	// description:
 	//		Can extract all the form widgets
 	//		values and combine them into a single javascript object, or alternately
 	//		take such an object and set the values for all the contained
@@ -194,7 +194,7 @@ dojo.declare("dijit.form._FormMixin", null,
 			//		If the name is a dot separated list (like a.b.c.d), creates a nested structure.
 			//		Only works on widget form elements.
 			// example:
-			//	| { name: "John Smith", interests: ["sports", "movies"] }
+			//		| { name: "John Smith", interests: ["sports", "movies"] }
 
 			// get widget values
 			var obj = { };
@@ -298,7 +298,8 @@ dojo.declare("dijit.form._FormMixin", null,
 
 		// TODO: ComboBox might need time to process a recently input value.  This should be async?
 	 	isValid: function(){
-	 		// summary: make sure that every widget that has a validator function returns true
+	 		// summary:
+			//		Make sure that every widget that has a validator function returns true
 			this._invalidWidgets = [];
 	 		return dojo.every(this.getDescendants(), function(widget){
 				var isValid = widget.disabled || !widget.isValid || widget.isValid();
@@ -311,14 +312,16 @@ dojo.declare("dijit.form._FormMixin", null,
 		
 		
 		onValidStateChange: function(isValid){
-			// summary: stub function to connect to if you want to do something
-			//			(like disable/enable a submit button) when the valid 
-			//			state changes on the form as a whole.
+			// summary:
+			//		Stub function to connect to if you want to do something
+			//		(like disable/enable a submit button) when the valid 
+			//		state changes on the form as a whole.
 		},
 		
 		_widgetChange: function(widget){
-			// summary: connected to a widgets onChange function - update our 
-			//			valid state, if needed.
+			// summary:
+			//		Connected to a widget's onChange function - update our 
+			//		valid state, if needed.
 			var isValid = this._lastValidState;
 			if(!widget || this._lastValidState===undefined){
 				// We have passed a null widget, or we haven't been validated
@@ -346,11 +349,12 @@ dojo.declare("dijit.form._FormMixin", null,
 		},
 		
 		connectChildren: function(){
-			// summary: connects to the onChange function of all children to
-			//			track valid state changes.  You can call this function
-			//			directly, ie. in the event that you programmatically
-			//			add a widget to the form *after* the form has been
-			//			initialized
+			// summary:
+			//		Connects to the onChange function of all children to
+			//		track valid state changes.  You can call this function
+			//		directly, ex. in the event that you programmatically
+			//		add a widget to the form *after* the form has been
+			//		initialized.
 			dojo.forEach(this._changeConnections, dojo.hitch(this, "disconnect"));
 			var _this = this;
 			

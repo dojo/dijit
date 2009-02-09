@@ -47,22 +47,22 @@ dojo.declare(
 		},
 
 		_setValueAttr: function(value, /*Boolean?*/ priorityChange, /*String?*/ formattedValue){
-			//	summary:
+			// summary:
 			//		Hook so attr('value', ...) works.
 			//
-			//	description: 
+			// description: 
 			//		Sets the value of the widget to "value" which can be of
 			//		any type as determined by the widget.
 			//
-			//	value:
+			// value:
 			//		The visual element value is also set to a corresponding,
 			//		but not necessarily the same, value.
 			//
-			//	formattedValue:
+			// formattedValue:
 			//		If specified, used to set the visual element value,
 			//		otherwise a computed visual value is used.
 			//
-			//	priorityChange:
+			// priorityChange:
 			//		If true, an onChange event is fired immediately instead of 
 			//		waiting for the next blur event.
 
@@ -101,9 +101,9 @@ dojo.declare(
 		},
 
 		_getDisplayedValueAttr: function(){
-			//	summary:
+			// summary:
 			//		Hook so attr('displayedValue') works.
-			//	description:
+			// description:
 			//		Returns the displayed value (what the user sees on the screen),
 			// 		after filtering (ie, trimming spaces etc.).
 			//
@@ -132,13 +132,13 @@ dojo.declare(
 		},
 
 		format: function(/* String */ value, /* Object */ constraints){
-			//	summary:
+			// summary:
 			//		Replacable function to convert a value to a properly formatted string
 			return ((value == null || value == undefined) ? "" : (value.toString ? value.toString() : value));
 		},
 
 		parse: function(/* String */ value, /* Object */ constraints){
-			//	summary:
+			// summary:
 			//		Replacable function to convert a formatted string to a value
 			return value;
 		},
@@ -186,7 +186,7 @@ dojo.declare(
 		},
 
 		filter: function(val){
-			//	summary:
+			// summary:
 			//		Auto-corrections (such as trimming) that are applied to textbox
 			//		value on blur or form submit
 			if(val === null){ return ''; }
@@ -225,8 +225,8 @@ dojo.declare(
 		},
 
 		reset: function(){
-			//      summary:
-			//              Additionally reset the displayed textbox value to ''
+			// summary:
+			//		Additionally reset the displayed textbox value to ''
 			this.textbox.value = '';
 			this.inherited(arguments);
 		}
@@ -234,7 +234,7 @@ dojo.declare(
 );
 
 dijit.selectInputText = function(/*DomNode*/element, /*Number?*/ start, /*Number?*/ stop){
-	//	summary:
+	// summary:
 	//		Select text in the input element argument, from start (default 0), to stop (default end).
 
 	// TODO: use functions in _editor/selection.js?

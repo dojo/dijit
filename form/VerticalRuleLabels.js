@@ -5,7 +5,7 @@ dojo.require("dijit.form.HorizontalRuleLabels");
 dojo.declare("dijit.form.VerticalRuleLabels", dijit.form.HorizontalRuleLabels,
 {
 	// summary:
-	//		Labels for the VerticalSlider
+	//		Labels for the `dijit.form.VerticalSlider`
 
 	templateString: '<div class="dijitRuleContainer dijitRuleContainerV dijitRuleLabelsContainer dijitRuleLabelsContainerV"></div>',
 

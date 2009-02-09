@@ -35,7 +35,7 @@ dojo.declare(
 		_isvalid:true,
 
 		// required: Boolean
-		//              Can be true or false, default is true.
+		//		True if user is required to enter a value into this field.
 		required:true,
 
 		_lastDisplayedValue: "",
@@ -162,8 +162,10 @@ dojo.declare(
 		},
 
 		labelFunc: function(/*item*/ item, /*dojo.data.store*/ store){
-			// summary: Event handler called when the label changes
-			// return: the label that the ComboBox should display
+			// summary:
+			//		Event handler called when the label changes
+			// returns:
+			//		the label that the ComboBox should display
 			return store.getValue(item, this.searchAttr);
 		},
 

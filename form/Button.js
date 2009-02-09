@@ -50,7 +50,8 @@ dojo.declare("dijit.form.Button",
 		
 
 	_onClick: function(/*Event*/ e){
-		// summary: internal function to handle click actions
+		// summary:
+		//		Internal function to handle click actions
 		if(this.disabled || this.readOnly){
 			return false;
 		}
@@ -59,8 +60,9 @@ dojo.declare("dijit.form.Button",
 	},
 
 	_onButtonClick: function(/*Event*/ e){
-		// summary: callback when the user activates the button portion
-		// if is activated via a keystroke, stop the event unless is submit or reset
+		// summary:
+		//		Callback when the user activates the button portion.
+		//		If is activated via a keystroke, stop the event unless is submit or reset.
 		if(e.type!='click' && !(this.type=="submit" || this.type=="reset")){
 			dojo.stopEvent(e);
 		}
@@ -106,13 +108,15 @@ dojo.declare("dijit.form.Button",
 	},
 
 	onClick: function(/*Event*/ e){
-		// summary: user callback for when button is clicked
-		//      if type="submit", return true to perform submit
+		// summary:
+		//		User callback for when button is clicked.
+		//      If type="submit", returns true to perform submit.
 		return true;
 	},
 
 	_clicked: function(/*Event*/ e){
-		// summary: internal replaceable function for when the button is clicked
+		// summary:
+		//		Internal overridable function for when the button is clicked
 	},
 
 	setLabel: function(/*String*/ content){
@@ -136,7 +140,8 @@ dojo.declare("dijit.form.Button",
 
 
 dojo.declare("dijit.form.DropDownButton", [dijit.form.Button, dijit._Container], {
-	// summary: A button with a popup
+	// summary:
+	//		A button with a drop down
 	//
 	// example:
 	// |	<button dojoType="dijit.form.DropDownButton" label="Hello world">
@@ -191,7 +196,8 @@ dojo.declare("dijit.form.DropDownButton", [dijit.form.Button, dijit._Container],
 	},
 
 	_onArrowClick: function(/*Event*/ e){
-		// summary: callback when the user mouse clicks on menu popup node
+		// summary:
+		//		Callback when the user mouse clicks on menu popup node
 		if(this.disabled || this.readOnly){ return; }
 		this._toggleDropDown();
 	},
@@ -220,7 +226,8 @@ dojo.declare("dijit.form.DropDownButton", [dijit.form.Button, dijit._Container],
 	},
 
 	_onKey: function(/*Event*/ e){
-		// summary: callback when the user presses a key on menu popup node
+		// summary:
+		//		Callback when the user presses a key on drop down widget
 		if(this.disabled || this.readOnly){ return; }
 		if(e.charOrCode == dojo.keys.DOWN_ARROW){
 			if(!this.dropDown || this.dropDown.domNode.style.visibility=="hidden"){
@@ -231,14 +238,16 @@ dojo.declare("dijit.form.DropDownButton", [dijit.form.Button, dijit._Container],
 	},
 
 	_onBlur: function(){
-		// summary: called magically when focus has shifted away from this widget and it's dropdown
+		// summary:
+		//		Called magically when focus has shifted away from this widget and it's dropdown
 		this._closeDropDown();
 		// don't focus on button.  the user has explicitly focused on something else.
 		this.inherited(arguments);
 	},
 
 	_toggleDropDown: function(){
-		// summary: toggle the drop-down widget; if it is up, close it, if not, open it
+		// summary:
+		//		Toggle the drop-down widget; if it is up, close it; if not, open it.
 		if(this.disabled || this.readOnly){ return; }
 		dijit.focus(this.popupStateNode);
 		var dropDown = this.dropDown;
@@ -316,7 +325,10 @@ dojo.declare("dijit.form.DropDownButton", [dijit.form.Button, dijit._Container],
 });
 
 dojo.declare("dijit.form.ComboButton", dijit.form.DropDownButton, {
-	// summary: A Normal Button with a DropDown
+	// summary:
+	//		A combination button and drop-down button.
+	//		Users can click one side to "press" the button, or click an arrow
+	//		icon to display the drop down.
 	//
 	// example:
 	// |	<button dojoType="dijit.form.ComboButton" onClick="...">
@@ -337,7 +349,7 @@ dojo.declare("dijit.form.ComboButton", dijit.form.DropDownButton, {
 	}),
 
 	// optionsTitle: String
-	//  text that describes the options menu (accessibility)
+	//		Text that describes the options menu (accessibility)
 	optionsTitle: "",
 
 	baseClass: "dijitComboButton",
@@ -359,41 +371,47 @@ dojo.declare("dijit.form.ComboButton", dijit.form.DropDownButton, {
 	},
 
 	focusFocalNode: function(node){
-		// summary: Focus the focal node node.
+		// summary:
+		//		Focus the focal node node.
 		this._focusedNode = node;
 		dijit.focus(node);
 	},
 
 	hasNextFocalNode: function(){
-		// summary: Returns true if this widget has no node currently
+		// summary:
+		//		Returns true if this widget has no node currently
 		//		focused or if there is a node following the focused one.
 		//		False is returned if the last node has focus.
 		return this._focusedNode !== this.getFocalNodes()[1];
 	},
 
 	focusNext: function(){
-		// summary: Focus the focal node following the current node with focus
+		// summary:
+		//		Focus the focal node following the current node with focus,
 		//		or the first one if no node currently has focus.
 		this._focusedNode = this.getFocalNodes()[this._focusedNode ? 1 : 0];
 		dijit.focus(this._focusedNode);
 	},
 
 	hasPrevFocalNode: function(){
-		// summary: Returns true if this widget has no node currently
+		// summary:
+		//		Returns true if this widget has no node currently
 		//		focused or if there is a node before the focused one.
 		//		False is returned if the first node has focus.
 		return this._focusedNode !== this.getFocalNodes()[0];
 	},
 
 	focusPrev: function(){
-		// summary: Focus the focal node before the current node with focus
+		// summary:
+		//		Focus the focal node before the current node with focus
 		//		or the last one if no node currently has focus.
 		this._focusedNode = this.getFocalNodes()[this._focusedNode ? 0 : 1];
 		dijit.focus(this._focusedNode);
 	},
 
 	getFocalNodes: function(){
-		// summary: Returns an array of focal nodes for this widget.
+		// summary:
+		//		Returns an array of focal nodes for this widget.
 		return this._focalNodes;
 	},
 

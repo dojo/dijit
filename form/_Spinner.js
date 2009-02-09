@@ -6,11 +6,10 @@ dojo.declare(
 	"dijit.form._Spinner",
 	dijit.form.RangeBoundTextBox,
 	{
-
 		// summary:
 		//		Mixin for validation widgets with a spinner.
 		// description:
-		//		This class basically (conceptually) extends dijit.form.ValidationTextBox.
+		//		This class basically (conceptually) extends `dijit.form.ValidationTextBox`.
 		//		It modifies the template to have up/down arrows, and provides related handling code.
 
 		// defaultTimeout: Number
@@ -35,8 +34,9 @@ dojo.declare(
 		baseClass: "dijitSpinner",
 
 		adjust: function(/* Object */ val, /*Number*/ delta){
-			// summary: user replaceable function used to adjust a primitive value(Number/Date/...) by the delta amount specified
-			// the val is adjusted in a way that makes sense to the object type
+			// summary:
+			//		User overridable function used to adjust a primitive value(Number/Date/...) by the delta amount specified
+			// 		the val is adjusted in a way that makes sense to the object type
 			return val;
 		},
 
@@ -73,7 +73,9 @@ dojo.declare(
 
 		_wheelTimer: null,
 		_mouseWheeled: function(/*Event*/ evt){
-			// summary: Mouse wheel listener where supported
+			// summary:
+			//		Mouse wheel listener where supported
+
 			dojo.stopEvent(evt);	
 			// FIXME: Safari bubbles
 

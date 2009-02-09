@@ -17,7 +17,7 @@ dojo.declare(
 	_handleOffsetCoord: "top",
 	_progressPixelSize: "height",
 
-	// _descending: boolean
+	// _descending: Boolean
 	//      Specifies if the slider values go from high-on-top (true), or low-on-top (false)
 	//	TODO: expose this in 1.2 - the css progress/remaining bar classes need to be reversed
 	_descending: true,

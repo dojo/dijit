@@ -26,8 +26,9 @@ dojo.declare("dijit.form.MultiSelect", dijit.form._FormWidget, {
 	},
 
 	addSelected: function(/* dijit.form.MultiSelect */select){
-		// summary: Move the selected nodes af an passed Select widget
-		//			instance to this Select widget.
+		// summary:
+		//		Move the selected nodes af an passed Select widget
+		//		instance to this Select widget.
 		//
 		// example:
 		// |	// move all the selected values from "bar" to "foo"
@@ -47,7 +48,8 @@ dojo.declare("dijit.form.MultiSelect", dijit.form._FormWidget, {
 	},
 					
 	getSelected: function(){
-		// summary: Access the NodeList of the selected options directly
+		// summary:
+		//		Access the NodeList of the selected options directly
 		return dojo.query("option",this.containerNode).filter(function(n){
 			return n.selected; // Boolean
 		}); // dojo.NodeList
@@ -76,7 +78,8 @@ dojo.declare("dijit.form.MultiSelect", dijit.form._FormWidget, {
 	},
 		
 	invertSelection: function(onChange){
-		// summary: Invert the selection
+		// summary:
+		//		Invert the selection
 		// onChange: Boolean
 		//		If null, onChange is not fired.
 		dojo.query("option",this.containerNode).forEach(function(n){
