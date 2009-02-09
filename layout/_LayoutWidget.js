@@ -8,7 +8,7 @@ dojo.declare("dijit.layout._LayoutWidget",
 	[dijit._Widget, dijit._Container, dijit._Contained],
 	{
 		// summary
-		//		Mixin for widgets that contain a list of children like SplitContainer.
+		//		Base class for widgets that contain a list of children like SplitContainer.
 		//		Widgets which mixin this code must define layout() to lay out the children
 
 		// baseClass: String
