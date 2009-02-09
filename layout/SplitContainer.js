@@ -171,9 +171,12 @@ dojo.declare("dijit.layout.SplitContainer",
 	},
 
 	addChild: function(/*Widget*/ child, /*Integer?*/ insertIndex){
-		// summary: Add a child widget to the container
-		// child: a widget to add
-		// insertIndex: postion in the "stack" to add the child widget
+		// summary:
+		//		Add a child widget to the container
+		// child:
+		//		a widget to add
+		// insertIndex:
+		//		postion in the "stack" to add the child widget
 		
 		this.inherited(arguments); 
 
@@ -557,14 +560,14 @@ dojo.declare("dijit.layout.SplitContainer",
 // into the base widget class.  (This is a hack, but it's effective.)
 dojo.extend(dijit._Widget, {
 	// sizeMin: Integer
-	//	Minimum size (width or height) of a child of a SplitContainer.
-	//	The value is relative to other children's sizeShare properties.
+	//		Minimum size (width or height) of a child of a SplitContainer.
+	//		The value is relative to other children's sizeShare properties.
 	sizeMin: 10,
 
 	// sizeShare: Integer
-	//	Size (width or height) of a child of a SplitContainer.
-	//	The value is relative to other children's sizeShare properties.
-	//	For example, if there are two children and each has sizeShare=10, then
-	//	each takes up 50% of the available space.
+	//		Size (width or height) of a child of a SplitContainer.
+	//		The value is relative to other children's sizeShare properties.
+	//		For example, if there are two children and each has sizeShare=10, then
+	//		each takes up 50% of the available space.
 	sizeShare: 10
 });

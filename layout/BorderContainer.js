@@ -8,20 +8,22 @@ dojo.declare(
 	dijit.layout._LayoutWidget,
 {
 	// summary:
-	//	Provides layout in up to 5 regions, a mandatory center with optional borders along its 4 sides.
+	//		Provides layout in up to 5 regions, a mandatory center with optional borders along its 4 sides.
 	//
 	// description:
-	//	A BorderContainer is a box with a specified size, such as style="width: 500px; height: 500px;",
-	//	that contains a child widget marked region="center" and optionally children widgets marked
-	//	region equal to "top", "bottom", "leading", "trailing", "left" or "right".
-	//	Children along the edges will be laid out according to width or height dimensions and may
-	//  include optional splitters (splitter="true") to make them resizable by the user.  The remaining
-	//  space is designated for the center region.
-	//  NOTE: Splitters must not be more than 50 pixels in width.
-	//	The outer size must be specified on the BorderContainer node.  Width must be specified for the sides
-	//  and height for the top and bottom, respectively.  No dimensions should be specified on the center;
-	//	it will fill the remaining space.  Regions named "leading" and "trailing" may be used just like
-	//	"left" and "right" except that they will be reversed in right-to-left environments.
+	//		A BorderContainer is a box with a specified size, such as style="width: 500px; height: 500px;",
+	//		that contains a child widget marked region="center" and optionally children widgets marked
+	//		region equal to "top", "bottom", "leading", "trailing", "left" or "right".
+	//		Children along the edges will be laid out according to width or height dimensions and may
+	//		include optional splitters (splitter="true") to make them resizable by the user.  The remaining
+	//		space is designated for the center region.
+	//
+	//		NOTE: Splitters must not be more than 50 pixels in width.
+	//
+	//		The outer size must be specified on the BorderContainer node.  Width must be specified for the sides
+	//		and height for the top and bottom, respectively.  No dimensions should be specified on the center;
+	//		it will fill the remaining space.  Regions named "leading" and "trailing" may be used just like
+	//		"left" and "right" except that they will be reversed in right-to-left environments.
 	//
 	// example:
 	// |	<div dojoType="dijit.layout.BorderContainer" design="sidebar" gutters="false"
@@ -32,18 +34,20 @@ dojo.declare(
 	// |	</div>
 
 	// design: String
-	//  choose which design is used for the layout: "headline" (default) where the top and bottom extend
-	//  the full width of the container, or "sidebar" where the left and right sides extend from top to bottom.
+	//		Which design is used for the layout:
+	//			- "headline" (default) where the top and bottom extend
+	//				the full width of the container
+	//			- "sidebar" where the left and right sides extend from top to bottom.
 	design: "headline",
 
 	// gutters: Boolean
-	//	Give each pane a border and margin.
-	//	Margin determined by domNode.paddingLeft.
-	//	When false, only resizable panes have a gutter (i.e. draggable splitter) for resizing.
+	//		Give each pane a border and margin.
+	//		Margin determined by domNode.paddingLeft.
+	//		When false, only resizable panes have a gutter (i.e. draggable splitter) for resizing.
 	gutters: true,
 
 	// liveSplitters: Boolean
-	//  specifies whether splitters resize as you drag (true) or only upon mouseup (false)
+	//		Specifies whether splitters resize as you drag (true) or only upon mouseup (false)
 	liveSplitters: true,
 
 	// persist: Boolean
@@ -159,7 +163,8 @@ dojo.declare(
 	},
 
 	getSplitter: function(/*String*/region){
-		// summary: returns the widget responsible for rendering the splitter associated with region 
+		// summary:
+		//		Returns the widget responsible for rendering the splitter associated with region 
 		var splitter = this._splitters[region];
 		return splitter ? dijit.byNode(splitter) : null;
 	},
@@ -403,6 +408,9 @@ dojo.require("dijit._Templated");
 
 dojo.declare("dijit.layout._Splitter", [ dijit._Widget, dijit._Templated ],
 {
+	// summary:
+	//		A draggable spacer between two items in a BorderContainer
+
 /*=====
 	container: null,
 	child: null,
@@ -414,7 +422,6 @@ dojo.declare("dijit.layout._Splitter", [ dijit._Widget, dijit._Templated ],
 	//		otherwise, the size doesn't change until you drop the splitter (by mouse-up)
 	live: true,
 
-	// summary: A draggable spacer between two items in a BorderContainer
 	templateString: '<div class="dijitSplitter" dojoAttachEvent="onkeypress:_onKeyPress,onmousedown:_startDrag" tabIndex="0" waiRole="separator"><div class="dijitSplitterThumb"></div></div>',
 
 	postCreate: function(){

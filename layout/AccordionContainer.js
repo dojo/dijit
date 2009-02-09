@@ -87,7 +87,7 @@ dojo.declare(
 
 		_setupChild: function(child){
 			// Setup clickable title to sit above the child widget,
-			//  and stash pointer to it inside the widget itself
+			// and stash pointer to it inside the widget itself
 			child._buttonWidget = new dijit.layout._AccordionButton({
 				contentWidget: child,
 				title: child.title,

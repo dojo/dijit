@@ -8,24 +8,24 @@ dojo.declare("dijit.layout.TabContainer",
 	[dijit.layout.StackContainer, dijit._Templated],
 	{	
 	// summary: 
-	//	A Container with tabs to select each child (only one of which is displayed at a time).
+	//		A Container with tabs to select each child (only one of which is displayed at a time).
 	// description:
-	//	A TabContainer is a container that has multiple panes, but shows only
-	//	one pane at a time.  There are a set of tabs corresponding to each pane,
-	//	where each tab has the title (aka title) of the pane, and optionally a close button.
+	//		A TabContainer is a container that has multiple panes, but shows only
+	//		one pane at a time.  There are a set of tabs corresponding to each pane,
+	//		where each tab has the title (aka title) of the pane, and optionally a close button.
 	//
-	//	Publishes topics [widgetId]-addChild, [widgetId]-removeChild, and [widgetId]-selectChild
-	//	(where [widgetId] is the id of the TabContainer itself.
+	//		Publishes topics [widgetId]-addChild, [widgetId]-removeChild, and [widgetId]-selectChild
+	//		(where [widgetId] is the id of the TabContainer itself.
 
 	// tabPosition: String
-	//   Defines where tabs go relative to tab content.
-	//   "top", "bottom", "left-h", "right-h"
+	//		Defines where tabs go relative to tab content.
+	//		"top", "bottom", "left-h", "right-h"
 	tabPosition: "top",
 
 	baseClass: "dijitTabContainer",
 	
 	// tabStrip: Boolean
-	//   Defines whether the tablist gets an extra class for layouting
+	//		Defines whether the tablist gets an extra class for layouting
 	tabStrip: false,
 
 	// nested: Boolean
@@ -91,7 +91,8 @@ dojo.declare("dijit.layout.TabContainer",
 	},
 
 	layout: function(){
-		// Summary: Configure the content pane to take up all the space except for where the tabs are
+		// summary:
+		//		Configure the content pane to take up all the space except for where the tabs are
 		if(!this.doLayout){ return; }
 
 		// position and size the titles and the container node

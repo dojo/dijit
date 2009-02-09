@@ -7,9 +7,9 @@ dojo.require("dijit._Contained");
 dojo.declare("dijit.layout._LayoutWidget",
 	[dijit._Widget, dijit._Container, dijit._Contained],
 	{
-		// summary
+		// summary:
 		//		Base class for widgets that contain a list of children like SplitContainer.
-		//		Widgets which mixin this code must define layout() to lay out the children
+		//		Widgets which mixin this code must define layout() to lay out the children.
 
 		// baseClass: String
 		//		This class name is applied to the widget's domNode
@@ -133,7 +133,7 @@ dojo.declare("dijit.layout._LayoutWidget",
 		},
 
 		layout: function(){
-			//	summary
+			//	summary:
 			//		Widgets override this method to size & position their contents/children.
 			//		When this is called this._contentBox is guaranteed to be set (see resize()).
 			//
@@ -142,7 +142,8 @@ dojo.declare("dijit.layout._LayoutWidget",
 		},
 
 		_setupChild: function(/*Widget*/child){
-			// summary: common setup for initial children or children which are added after startup
+			// summary:
+			//		Common setup for initial children or children which are added after startup
 			dojo.addClass(child.domNode, this.baseClass+"-child");
 			if(child.baseClass){
 				dojo.addClass(child.domNode, this.baseClass+"-"+child.baseClass);
@@ -198,16 +199,14 @@ dijit.layout.marginBox2contentBox = function(/*DomNode*/ node, /*Object*/ mb){
 	};
 
 	dijit.layout.layoutChildren = function(/*DomNode*/ container, /*Object*/ dim, /*Object[]*/ children){
-		/**
-		 * summary
-		 *		Layout a bunch of child dom nodes within a parent dom node
-		 * container:
-		 *		parent node
-		 * dim:
-		 *		{l, t, w, h} object specifying dimensions of container into which to place children
-		 * children:
-		 *		an array like [ {domNode: foo, layoutAlign: "bottom" }, {domNode: bar, layoutAlign: "client"} ]
-		 */
+		// summary
+		//		Layout a bunch of child dom nodes within a parent dom node
+		// container:
+		//		parent node
+		// dim:
+		//		{l, t, w, h} object specifying dimensions of container into which to place children
+		// children:
+		//		an array like [ {domNode: foo, layoutAlign: "bottom" }, {domNode: bar, layoutAlign: "client"} ]
 
 		// copy dim because we are going to modify it
 		dim = dojo.mixin({}, dim);

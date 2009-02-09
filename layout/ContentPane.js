@@ -185,6 +185,8 @@ dojo.declare(
 	},
 
 	setHref: function(/*String|Uri*/ href){
+		// summary:
+		//		Deprecated.   Use attr('href', ...) instead.
 		dojo.deprecated("dijit.layout.ContentPane.setHref() is deprecated.	Use attr('href', ...) instead.", "", "2.0");
 		return this.attr("href", href);
 	},
@@ -215,6 +217,8 @@ dojo.declare(
 	},
 
 	setContent: function(/*String|DomNode|Nodelist*/data){
+		// summary:
+		//		Deprecated.   Use attr('content', ...) instead.
 		dojo.deprecated("dijit.layout.ContentPane.setContent() is deprecated.  Use attr('content', ...) instead.", "", "2.0");
 		this.attr("content", data);
 	},
@@ -240,7 +244,8 @@ dojo.declare(
 		this._isDownloaded = false; // mark that content is from a attr('content') not an attr('href')
 	},
 	_getContentAttr: function(){
-		// summary: hook to make attr("content") work
+		// summary:
+		//		Hook to make attr("content") work
 		return this.containerNode.innerHTML;
 	},
 
@@ -292,7 +297,8 @@ dojo.declare(
 	},
 
 	_isShown: function(){
-		// summary: returns true if the content is currently shown
+		// summary:
+		//		Returns true if the content is currently shown
 		if("open" in this){
 			return this.open;		// for TitlePane, etc.
 		}else{
@@ -583,22 +589,22 @@ dojo.declare(
 
 	onDownloadStart: function(){
 		// summary:
-		//		called before download starts
-		//		the string returned by this function will be the html
-		//		that tells the user we are loading something
-		//		override with your own function if you want to change text
+		//		Called before download starts.
+		//		The string returned by this function will be the html
+		//		that tells the user we are loading something.
+		//		Override with your own function if you want to change text.
 		return this.loadingMessage;
 	},
 
 	onContentError: function(/*Error*/ error){
 		// summary:
-		//		called on DOM faults, require fault etc in content
-		//		default is to display errormessage inside pane
+		//		Called on DOM faults, require faults etc. in content.
+		//		Default is to display errormessage inside pane.
 	},
 
 	onDownloadError: function(/*Error*/ error){
 		// summary:
-		//		Called when download error occurs, default is to display
+		//		Called when download error occurs.  Default is to display
 		//		errormessage inside pane. Overide function to change that.
 		//		The string returned by this function will be the html
 		//		that tells the user a error happend
@@ -607,6 +613,6 @@ dojo.declare(
 
 	onDownloadEnd: function(){
 		// summary:
-		//		called when download is finished
+		//		Called when download is finished.
 	}
 });

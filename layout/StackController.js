@@ -20,11 +20,11 @@ dojo.declare(
 			templateString: "<span wairole='tablist' dojoAttachEvent='onkeypress' class='dijitStackController'></span>",
 
 			// containerId: String
-			//	the id of the page container that I point to
+			//		The id of the page container that I point to
 			containerId: "",
 
 			// buttonWidget: String
-			//	the name of the button widget to create to correspond to each page
+			//		The name of the button widget to create to correspond to each page
 			buttonWidget: "dijit.layout._StackButton",
 
 			postCreate: function(){
@@ -45,7 +45,8 @@ dojo.declare(
 			},
 
 			onStartup: function(/*Object*/ info){
-				// summary: called after StackContainer has finished initializing
+				// summary:
+				//		called after StackContainer has finished initializing
 				dojo.forEach(info.children, this.onAddChild, this);
 				this.onSelectChild(info.selected);
 			},
@@ -60,8 +61,8 @@ dojo.declare(
 
 			onAddChild: function(/*Widget*/ page, /*Integer?*/ insertIndex){
 				// summary:
-				//   Called whenever a page is added to the container.
-				//   Create button corresponding to the page.
+				//		Called whenever a page is added to the container.
+				//		Create button corresponding to the page.
 
 				// add a node that will be promoted to the button widget
 				var refNode = dojo.doc.createElement("span");
@@ -98,8 +99,8 @@ dojo.declare(
 
 			onRemoveChild: function(/*Widget*/ page){
 				// summary:
-				//   Called whenever a page is removed from the container.
-				//   Remove the button corresponding to the page.
+				//		Called whenever a page is removed from the container.
+				//		Remove the button corresponding to the page.
 				if(this._currentChild === page){ this._currentChild = null; }
 				dojo.forEach(this.pane2handles[page], dojo.disconnect);
 				delete this.pane2handles[page];
@@ -118,7 +119,7 @@ dojo.declare(
 
 			onSelectChild: function(/*Widget*/ page){
 				// summary:
-				//	Called when a page has been selected in the StackContainer, either by me or by another StackController
+				//		Called when a page has been selected in the StackContainer, either by me or by another StackController
 
 				if(!page){ return; }
 
@@ -138,14 +139,14 @@ dojo.declare(
 
 			onButtonClick: function(/*Widget*/ page){
 				// summary:
-				//   Called whenever one of my child buttons is pressed in an attempt to select a page
+				//		Called whenever one of my child buttons is pressed in an attempt to select a page
 				var container = dijit.byId(this.containerId);	// TODO: do this via topics?
 				container.selectChild(page); 
 			},
 
 			onCloseButtonClick: function(/*Widget*/ page){
 				// summary:
-				//   Called whenever one of my child buttons [X] is pressed in an attempt to close a page
+				//		Called whenever one of my child buttons [X] is pressed in an attempt to close a page
 				var container = dijit.byId(this.containerId);
 				container.closeChild(page);
 				var b = this.pane2button[this._currentChild];
@@ -167,8 +168,8 @@ dojo.declare(
 
 			onkeypress: function(/*Event*/ e){
 				// summary:
-				//   Handle keystrokes on the page list, for advancing to next/previous button
-				//   and closing the current page if the page is closable.
+				//		Handle keystrokes on the page list, for advancing to next/previous button
+				//		and closing the current page if the page is closable.
 
 				if(this.disabled || e.altKey ){ return; }
 				var forward = null;
@@ -239,17 +240,18 @@ dojo.declare("dijit.layout._StackButton",
 		},
 		
 		onClick: function(/*Event*/ evt){
-			// summary: This is for TabContainer where the tabs are <span> rather than button,
-			// 	so need to set focus explicitly (on some browsers)
+			// summary:
+			//		This is for TabContainer where the tabs are <span> rather than button,
+			//		so need to set focus explicitly (on some browsers)
 			dijit.focus(this.focusNode);
 
 			// ... now let StackController catch the event and tell me what to do
 		},
 
 		onClickCloseButton: function(/*Event*/ evt){
-			// summary
-			//	StackContainer connects to this function; if your widget contains a close button
-			//	then clicking it should call this function.
+			// summary:
+			//		StackContainer connects to this function; if your widget contains a close button
+			//		then clicking it should call this function.
 			evt.stopPropagation();
 		}
 	});

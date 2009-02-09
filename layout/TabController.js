@@ -8,24 +8,24 @@ dojo.declare("dijit.layout.TabController",
 	dijit.layout.StackController,
 	{
 	// summary:
-	// 	Set of tabs (the things with titles and a close button, that you click to show a tab panel).
+	// 		Set of tabs (the things with titles and a close button, that you click to show a tab panel).
 	// description:
-	//	Lets the user select the currently shown pane in a TabContainer or StackContainer.
-	//	TabController also monitors the TabContainer, and whenever a pane is
-	//	added or deleted updates itself accordingly.
+	//		Lets the user select the currently shown pane in a TabContainer or StackContainer.
+	//		TabController also monitors the TabContainer, and whenever a pane is
+	//		added or deleted updates itself accordingly.
 
 	templateString: "<div wairole='tablist' dojoAttachEvent='onkeypress:onkeypress'></div>",
 
 	// tabPosition: String
-	//   Defines where tabs go relative to the content.
-	//   "top", "bottom", "left-h", "right-h"
+	//		Defines where tabs go relative to the content.
+	//		"top", "bottom", "left-h", "right-h"
 	tabPosition: "top",
 
 	// doLayout: Boolean
 	doLayout: true,
 
 	// buttonWidget: String
-	//	The name of the tab widget to create to correspond to each page
+	//		The name of the tab widget to create to correspond to each page
 	buttonWidget: "dijit.layout._TabButton",
 
 	_rectifyRtlTabList: function(){
@@ -49,10 +49,10 @@ dojo.declare("dijit.layout._TabButton",
 	dijit.layout._StackButton,
 	{
 	// summary:
-	//	A tab (the thing you click to select a pane).
+	//		A tab (the thing you click to select a pane).
 	// description:
-	//	Contains the title of the pane, and optionally a close-button to destroy the pane.
-	//	This is an internal widget and should not be instantiated directly.
+	//		Contains the title of the pane, and optionally a close-button to destroy the pane.
+	//		This is an internal widget and should not be instantiated directly.
 
 	baseClass: "dijitTab",
 

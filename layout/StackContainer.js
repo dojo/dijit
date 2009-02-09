@@ -10,23 +10,23 @@ dojo.declare(
 	dijit.layout._LayoutWidget,
 	{
 	// summary: 
-	//	A container that has multiple children, but shows only
-	//	one child at a time
+	//		A container that has multiple children, but shows only
+	//		one child at a time
 	//
 	// description:
-	// 	A container for widgets (ContentPanes, for example) That displays
-	//	only one Widget at a time.
+	//		A container for widgets (ContentPanes, for example) That displays
+	//		only one Widget at a time.
 	//	
-	//	Publishes topics [widgetId]-addChild, [widgetId]-removeChild, and [widgetId]-selectChild
+	//		Publishes topics [widgetId]-addChild, [widgetId]-removeChild, and [widgetId]-selectChild
 	//
-	//	Can be base class for container, Wizard, Show, etc.
+	//		Can be base class for container, Wizard, Show, etc.
 
 	// doLayout: Boolean
-	//  if true, change the size of my currently displayed child to match my size
+	//		If true, change the size of my currently displayed child to match my size
 	doLayout: true,
 
 	// persist: Boolean
-	//	remembers the selected child across sessions
+	//		Remembers the selected child across sessions
 	persist: false,	// Boolean
 	
 	baseClass: "dijitStackContainer",
@@ -34,7 +34,7 @@ dojo.declare(
 	_started: false,
 /*=====
 	// selectedChildWidget: Widget
-	//	References the currently selected child widget, if any
+	//		References the currently selected child widget, if any
 	//
 	selectedChildWidget: null,
 =====*/
@@ -119,7 +119,8 @@ dojo.declare(
 	},
 
 	removeChild: function(/*Widget*/ page){
-		// summary: Removes the pane from the stack
+		// summary:
+		//		Removes the pane from the stack
 
 		this.inherited(arguments);
 
@@ -148,7 +149,7 @@ dojo.declare(
 
 	selectChild: function(/*Widget*/ page){
 		// summary:
-		//	Show the given widget (which must be one of my children)
+		//		Show the given widget (which must be one of my children)
 
 		page = dijit.byId(page);
 
@@ -187,12 +188,14 @@ dojo.declare(
 	},
 
 	forward: function(){
-		// Summary: advance to next page
+		// summary:
+		//		advance to next page
 		this.selectChild(this._adjacent(true));
 	},
 
 	back: function(){
-		// Summary: go back to previous page
+		// summary:
+		//		go back to previous page
 		this.selectChild(this._adjacent(false));
 	},
 
@@ -234,8 +237,8 @@ dojo.declare(
 
 	closeChild: function(/*Widget*/ page){
 		// summary:
-		//	callback when user clicks the [X] to remove a page
-		//	if onClose() returns true then remove and destroy the child
+		//		Callback when user clicks the [X] to remove a page.
+		//		If onClose() returns true then remove and destroy the child.
 		var remove = page.onClose(this, page);
 		if(remove){
 			this.removeChild(page);
@@ -271,7 +274,8 @@ dojo.extend(dijit._Widget, {
 	closable: false,	// true if user can close this tab pane
 
 	onClose: function(){
-		// summary: Callback if someone tries to close the child, child will be closed if func returns true
+		// summary:
+		//		Callback if someone tries to close the child, child will be closed if func returns true
 		return true;
 	}
 });
