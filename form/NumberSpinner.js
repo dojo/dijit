@@ -7,7 +7,7 @@ dojo.declare("dijit.form.NumberSpinner",
 	[dijit.form._Spinner, dijit.form.NumberTextBoxMixin],
 	{
 	// summary:
-	// 	Extends NumberTextBox to add up/down arrows and pageup/pagedown for incremental change to the value
+	//		Extends NumberTextBox to add up/down arrows and pageup/pagedown for incremental change to the value
 	//
 	// description:
 	//		A `dijit.form.NumberTextBox` extension to provide keyboard accessible value selection

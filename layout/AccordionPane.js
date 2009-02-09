@@ -3,6 +3,9 @@ dojo.provide("dijit.layout.AccordionPane");
 dojo.require("dijit.layout.ContentPane");
 
 dojo.declare("dijit.layout.AccordionPane", dijit.layout.ContentPane, {
+	// summary:
+	//		Deprecated widget.   Use `dijit.layout.ContentPane` instead,
+
 	constructor: function(){
 		dojo.deprecated("dijit.layout.AccordionPane deprecated, use ContentPane instead", "", "2.0");
 	},

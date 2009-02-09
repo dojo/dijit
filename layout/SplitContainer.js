@@ -12,8 +12,9 @@ dojo.declare("dijit.layout.SplitContainer",
 	dijit.layout._LayoutWidget,
 	{
 	// summary: 
-	//	A Container widget with sizing handles in-between each child
+	//		Deprecated.  Use `dijit.layout.BorderContainer` instead.
 	// description:
+	//		A Container widget with sizing handles in-between each child.
 	//		Contains multiple children widgets, all of which are displayed side by side
 	//		(either horizontally or vertically); there's a bar between each of the children,
 	//		and you can adjust the relative size of each child by dragging the bars.

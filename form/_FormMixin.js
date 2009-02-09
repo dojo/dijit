@@ -3,7 +3,10 @@ dojo.provide("dijit.form._FormMixin");
 dojo.declare("dijit.form._FormMixin", null,
 	{
 	//	summary:
-	//		Container for form widgets.  Can extract all the form widgets
+	//		Mixin for containers of form widgets (i.e. widgets that represent a single value
+	//		and can be children of a <form> node or dijit.form.Form widget)
+	//	description:
+	//		Can extract all the form widgets
 	//		values and combine them into a single javascript object, or alternately
 	//		take such an object and set the values for all the contained
 	//		form widgets

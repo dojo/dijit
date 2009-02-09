@@ -33,8 +33,8 @@ var getAttrReg = function(dc){
 
 dojo.declare("dijit._Widget", null, {
 	//	summary:
-	//		The foundation of dijit widgets. 	
-	//
+	//		Base class for all dijit widgets. 	
+
 	//	id: String
 	//		a unique, opaque ID string that can be assigned by users or by the
 	//		system. If the developer passes an ID which is known not to be

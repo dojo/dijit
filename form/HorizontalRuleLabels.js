@@ -4,32 +4,33 @@ dojo.require("dijit.form.HorizontalRule");
 
 dojo.declare("dijit.form.HorizontalRuleLabels", dijit.form.HorizontalRule,
 {
-	//	Summary:
-	//		Create labels for the Horizontal slider
+	// summary:
+	//		Labels for the HorizontalSlider
+
 	templateString: '<div class="dijitRuleContainer dijitRuleContainerH dijitRuleLabelsContainer dijitRuleLabelsContainerH"></div>',
 
 	// labelStyle: String
 	//		CSS style to apply to individual text labels
 	labelStyle: "",
 
-	// labels: Array
-	//	Array of text labels to render - evenly spaced from left-to-right or bottom-to-top
+	// labels: String[]
+	//		Array of text labels to render - evenly spaced from left-to-right or bottom-to-top
 	labels: [],
 
 	// numericMargin: Integer
-	//	Number of generated numeric labels that should be rendered as '' on the ends when labels[] are not specified
+	//		Number of generated numeric labels that should be rendered as '' on the ends when labels[] are not specified
 	numericMargin: 0,
 
 	// numericMinimum: Integer
-	//	Leftmost label value for generated numeric labels when labels[] are not specified
+	//		Leftmost label value for generated numeric labels when labels[] are not specified
 	minimum: 0,
 
 	// numericMaximum: Integer
-	//	Rightmost label value for generated numeric labels when labels[] are not specified
+	//		Rightmost label value for generated numeric labels when labels[] are not specified
 	maximum: 1,
 
-	// constraints: object
-	//	pattern, places, lang, et al (see dojo.number) for generated numeric labels when labels[] are not specified
+	// constraints: Object
+	//		pattern, places, lang, et al (see dojo.number) for generated numeric labels when labels[] are not specified
 	constraints: {pattern:"#%"},
 
 	_positionPrefix: '<div class="dijitRuleLabelContainer dijitRuleLabelContainerH" style="left:',

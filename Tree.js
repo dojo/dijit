@@ -344,39 +344,21 @@ dojo.declare(
 	[dijit._Widget, dijit._Templated],
 {
 	// summary:
-	//	This widget displays hierarchical data from a store.  A query is specified
-	//	to get the "top level children" from a data store, and then those items are
-	//	queried for their children and so on (but lazily, as the user clicks the expand node).
-	//
-	//	Thus in the default mode of operation this widget is technically a forest, not a tree,
-	//	in that there can be multiple "top level children".  However, if you specify label,
-	//	then a special top level node (not corresponding to any item in the datastore) is
-	//	created, to father all the top level children.
+	//	This widget displays hierarchical data from a store.
 
 	// store: String||dojo.data.Store
-	//	The store to get data to display in the tree.
-	//	May remove for 2.0 in favor of "model".
+	//	Deprecated.  Use "model" parameter instead.
+	//  The store to get data to display in the tree.
 	store: null,
 
 	// model: dijit.Tree.model
-	//	Alternate interface from store to access data (and changes to data) in the tree
+	//	Interface to read tree data, get notifications of changes to tree data,
+	//	and for handling drop operations (i.e drag and drop onto the tree)
 	model: null,
 
 	// query: anything
-	//	Specifies datastore query to return the root item for the tree.
-	//
-	//	Deprecated functionality: if the query returns multiple items, the tree is given
-	//	a fake root node (not corresponding to any item in the data store), 
-	//	whose children are the items that match this query.
-	//
-	//	The root node is shown or hidden based on whether a label is specified.
-	//
-	//	Having a query return multiple items is deprecated.
-	//	If your store doesn't have a root item, wrap the store with
-	//	dijit.tree.ForestStoreModel, and specify model=myModel
-	//
-	// example:
-	//		{type:'continent'}
+	//	Deprecated.  User should specify query to the model directly instead.
+	//	Specifies datastore query to return the root item or top items for the tree.
 	query: null,
 
 	// label: String

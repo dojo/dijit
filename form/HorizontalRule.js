@@ -5,8 +5,9 @@ dojo.require("dijit._Templated");
 
 dojo.declare("dijit.form.HorizontalRule", [dijit._Widget, dijit._Templated],
 {
-	//	Summary:
-	//		Create hash marks for the Horizontal slider
+	// summary:
+	//		Hash marks for the HorizontalSlider
+
 	templateString: '<div class="dijitRuleContainer dijitRuleContainerH"></div>',
 
 	// count: Integer

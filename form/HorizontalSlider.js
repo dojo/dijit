@@ -11,8 +11,8 @@ dojo.declare(
 	"dijit.form.HorizontalSlider",
 	[dijit.form._FormValueWidget, dijit._Container],
 {
-	// summary
-	//	A form widget that allows one to select a value with a horizontally draggable image
+	// summary:
+	//		A form widget that allows one to select a value with a horizontally draggable handle
 
 	templatePath: dojo.moduleUrl('dijit.form','templates/HorizontalSlider.html'),
 	value: 0,

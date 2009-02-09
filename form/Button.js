@@ -116,6 +116,8 @@ dojo.declare("dijit.form.Button",
 	},
 
 	setLabel: function(/*String*/ content){
+		// summary:
+		//		Deprecated.  Use attr('label', ...) instead.
 		dojo.deprecated("dijit.form.Button.setLabel() is deprecated.  Use attr('label', ...) instead.", "", "2.0");
 		this.attr("label", content);
 	},
@@ -414,8 +416,8 @@ dojo.declare("dijit.form.ComboButton", dijit.form.DropDownButton, {
 
 dojo.declare("dijit.form.ToggleButton", dijit.form.Button, {
 	// summary:
-	//	A button that can be in two states (checked or not).
-	//	Can be base class for things like tabs or checkbox or radio buttons
+	//		A button that can be in two states (checked or not).
+	//		Can be base class for things like tabs or checkbox or radio buttons
 
 	baseClass: "dijitToggleButton",
 
@@ -443,7 +445,7 @@ dojo.declare("dijit.form.ToggleButton", dijit.form.Button, {
 
 	setChecked: function(/*Boolean*/ checked){
 		// summary:
-		//	Programatically deselect the button
+		//		Deprecated.   Use attr('checked', true/false) instead.
 		dojo.deprecated("setChecked("+checked+") is deprecated. Use attr('checked',"+checked+") instead.", "", "2.0");
 		this.attr('checked', checked);
 	},

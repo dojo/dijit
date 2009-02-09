@@ -6,32 +6,32 @@ dojo.declare(
 	"dijit.form.FilteringSelect",
 	[dijit.form.MappedTextBox, dijit.form.ComboBoxMixin],
 	{
-		// summary
-		// An enhanced version of the HTML SELECT tag, populated dynamically
+		// summary:
+		//		An enhanced version of the HTML SELECT tag, populated dynamically
 		//
-		// description
-		// An enhanced version of the HTML SELECT tag, populated dynamically. It works
-		// very nicely with very large data sets because it can load and page data as needed.
-		// It also resembles ComboBox, but does not allow values outside of the provided ones.
-		// If OPTION tags are used as the data provider via markup, then the
-		// OPTION tag's child text node is used as the displayed value when selected
-		// while the OPTION tag's value attribute is used as the widget value on form submit.
-		// To set the default value when using OPTION tags, specify the selected
-		// attribute on 1 of the child OPTION tags.
+		// description:
+		//		An enhanced version of the HTML SELECT tag, populated dynamically. It works
+		//		very nicely with very large data sets because it can load and page data as needed.
+		//		It also resembles ComboBox, but does not allow values outside of the provided ones.
+		//		If OPTION tags are used as the data provider via markup, then the
+		//		OPTION tag's child text node is used as the displayed value when selected
+		//		while the OPTION tag's value attribute is used as the widget value on form submit.
+		//		To set the default value when using OPTION tags, specify the selected
+		//		attribute on 1 of the child OPTION tags.
 		//  
-		// Similar features:
-		//  - There is a drop down list of possible values.
-		//	- You can only enter a value from the drop down list.  (You can't
-		//	  enter an arbitrary value.)
-		//	- The value submitted with the form is the hidden value (ex: CA),
-		//	  not the displayed value a.k.a. label (ex: California)
+		//		Similar features:
+		//			- There is a drop down list of possible values.
+		//			- You can only enter a value from the drop down list.  (You can't
+		//				enter an arbitrary value.)
+		//			- The value submitted with the form is the hidden value (ex: CA),
+		//				not the displayed value a.k.a. label (ex: California)
 		// 
-		//	Enhancements over plain HTML version:
-		//	- If you type in some text then it will filter down the list of
-		//	  possible values in the drop down list.
-		//	- List can be specified either as a static list or via a javascript
-		//	  function (that can get the list from a server)
-		//
+		//		Enhancements over plain HTML version:
+		//			- If you type in some text then it will filter down the list of
+		//				possible values in the drop down list.
+		//			- List can be specified either as a static list or via a javascript
+		//				function (that can get the list from a server)
+
 		_isvalid:true,
 
 		// required: Boolean

@@ -6,9 +6,11 @@ dojo.declare("dijit.layout.LayoutContainer",
 	dijit.layout._LayoutWidget,
 	{
 	// summary:
-	//	Provides Delphi-style panel layout semantics.
+	//		Deprecated.  Use `dijit.layout.BorderContainer` instead.
 	//
 	// description:
+	//	Provides Delphi-style panel layout semantics.
+	//
 	//	A LayoutContainer is a box with a specified size (like style="width: 500px; height: 500px;"),
 	//	that contains children widgets marked with "layoutAlign" of "left", "right", "bottom", "top", and "client".
 	//	It takes it's children marked as left/top/bottom/right, and lays them out along the edges of the box,

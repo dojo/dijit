@@ -57,6 +57,7 @@ dojo.declare(
 
 		destroy: function(){
 			dojo.forEach(this.connects, dojo.disconnect);
+			// TODO: should cancel any in-progress processing of getRoot(), getChildren()
 		},
 
 		// =======================================================================

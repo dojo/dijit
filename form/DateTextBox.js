@@ -8,7 +8,7 @@ dojo.declare(
 	dijit.form._DateTimeTextBox,
 	{
 		// summary:
-		//		A validating, serializable, range-bound date text box with a popup calendar
+		//		A validating, serializable, range-bound date text box with a drop down calendar
 
 		baseClass: "dijitTextBox dijitDateTextBox",
 		popupClass: "dijit._Calendar",

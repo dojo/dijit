@@ -17,13 +17,13 @@ dojo.declare(
 	dijit.form.RangeBoundTextBox,
 	{
 		// summary:
-		//		A validating, serializable, range-bound date or time text box.
-		//
-		// constraints: dijit.form._DateTimeTextBox.__Constraints 
+		//		Base class for validating, serializable, range-bound date or time text box.
 
 		/*=====
+		// constraints: dijit.form._DateTimeTextBox.__Constraints 
 		constraints: {},
 		======*/
+
 		regExpGen: dojo.date.locale.regexp,
 		compare: dojo.date.compare,
 		format: function(/*Date*/ value, /*dojo.date.locale.__FormatOptions*/ constraints){

@@ -14,7 +14,7 @@ dojo.declare("dijit.ProgressBar", [dijit._Widget, dijit._Templated], {
 	// |		 places="0"
 	// |		 progress="..." maximum="...">
 	// |	</div>
-	//
+
 	// progress: String (Percentage or Number)
 	// 	initial progress value.
 	// 	with "%": percentage value, 0% <= progress <= 100%

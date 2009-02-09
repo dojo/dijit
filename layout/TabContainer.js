@@ -8,7 +8,7 @@ dojo.declare("dijit.layout.TabContainer",
 	[dijit.layout.StackContainer, dijit._Templated],
 	{	
 	// summary: 
-	//	A Container with Title Tabs, each one pointing at a pane in the container.
+	//	A Container with tabs to select each child (only one of which is displayed at a time).
 	// description:
 	//	A TabContainer is a container that has multiple panes, but shows only
 	//	one pane at a time.  There are a set of tabs corresponding to each pane,
@@ -24,7 +24,7 @@ dojo.declare("dijit.layout.TabContainer",
 
 	baseClass: "dijitTabContainer",
 	
-	// tabStrip: bool
+	// tabStrip: Boolean
 	//   Defines whether the tablist gets an extra class for layouting
 	tabStrip: false,
 

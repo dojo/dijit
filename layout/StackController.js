@@ -12,9 +12,10 @@ dojo.declare(
 		[dijit._Widget, dijit._Templated, dijit._Container],
 		{
 		// summary:
-		//	Set of buttons to select a page in a page list.
-		//	Monitors the specified StackContainer, and whenever a page is
-		//	added, deleted, or selected, updates itself accordingly.
+		//		Set of buttons to select a page in a page list.
+		// description:
+		//		Monitors the specified StackContainer, and whenever a page is
+		//		added, deleted, or selected, updates itself accordingly.
 
 			templateString: "<span wairole='tablist' dojoAttachEvent='onkeypress' class='dijitStackController'></span>",
 
@@ -225,9 +226,10 @@ dojo.declare(
 dojo.declare("dijit.layout._StackButton",
 		dijit.form.ToggleButton,
 		{
-		// summary
-		//	Internal widget used by StackContainer.
-		//	The button-like or tab-like object you click to select or delete a page
+		// summary:
+		//		Internal widget used by StackContainer.
+		// description:
+		//		The button-like or tab-like object you click to select or delete a page
 		
 		tabIndex: "-1", // StackContainer buttons are not in the tab order by default
 		

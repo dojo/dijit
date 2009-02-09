@@ -4,8 +4,8 @@ dojo.require("dijit.tree.TreeStoreModel");
 
 dojo.declare("dijit.tree.ForestStoreModel", dijit.tree.TreeStoreModel, {
 	// summary:
-	//		Interface between Tree and a dojo.store that doesn't have a root item, ie,
-	//		has multiple "top level" items.
+	//		Interface between Tree and a dojo.store that doesn't have a root item,
+	//		i.e. has multiple "top level" items.
 	//
 	// description
 	//		Use this class to wrap a dojo.store, making all the items matching the specified query

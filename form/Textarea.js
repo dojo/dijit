@@ -6,12 +6,15 @@ dojo.declare(
 	"dijit.form.Textarea",
 	dijit.form.SimpleTextarea,
 	{
-	// summary: A resizing textarea widget
+	// summary:
+	//		A textarea widget that adjusts it's height according to the amount of data.
 	//
 	// description:
-	//	A textarea that resizes vertically to contain the data.
-	//	Takes nearly all the parameters (name, value, etc.) that a vanilla textarea takes.
-	//	Rows is not supported since this widget adjusts the height.
+	//		A textarea that dynamically expands/contracts (changing it's height) as
+	//		the user types, to display all the text without requiring a scroll bar.
+	//
+	//		Takes nearly all the parameters (name, value, etc.) that a vanilla textarea takes.
+	//		Rows is not supported since this widget adjusts the height.
 	//
 	// example:
 	// |	<textarea dojoType="dijit.form.TextArea">...</textarea>

@@ -20,7 +20,7 @@ dojo.declare("dijit.ColorPalette",
 	// example:
 	// |    var picker = new dijit.ColorPalette({ },srcNode);
 	// |	picker.startup();
-	//
+
 	// defaultTimeout: Number
 	//		number of milliseconds before a held key or button becomes typematic
 	defaultTimeout: 500,

@@ -23,12 +23,11 @@ dojo.declare(
 	dijit.form.TextBox,
 	{
 		// summary:
-		//		A TextBox subclass with the ability to validate content of various types and provide user feedback.
+		//		Base class for textbox widgets with the ability to validate content of various types and provide user feedback.
 
 		templatePath: dojo.moduleUrl("dijit.form", "templates/ValidationTextBox.html"),
 		baseClass: "dijitTextBox",
 
-		// default values for new subclass properties
 		// required: Boolean
 		//		Can be true or false, default is false.
 		required: false,
@@ -300,16 +299,16 @@ dojo.declare(
 	dijit.form.MappedTextBox,
 	{
 		// summary:
-		//		A dijit.form.MappedTextBox subclass which defines a range of valid values
-		//
-		// constraints: dijit.form.RangeBoundTextBox.__Constraints
-		//
+		//		Base class for textbox form widgets which defines a range of valid values.
+
 		// rangeMessage: String
 		//		The message to display if value is out-of-range
 
 		/*=====
+		// constraints: dijit.form.RangeBoundTextBox.__Constraints
 		constraints: {},
 		======*/
+
 		rangeMessage: "",
 
 		rangeCheck: function(/*Number*/ primitive, /*dijit.form.RangeBoundTextBox.__Constraints*/ constraints){
@@ -330,8 +329,8 @@ dojo.declare(
 
 		_isDefinitelyOutOfRange: function(){
 			// summary:
-			//	Returns true if the value is out of range and will remain
-			//	out of range even if the user types more characters
+			//		Returns true if the value is out of range and will remain
+			//		out of range even if the user types more characters
 			var val = this.attr('value');
 			var isTooLittle = false;
 			var isTooMuch = false;

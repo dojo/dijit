@@ -3,9 +3,10 @@ dojo.provide("dijit.form.MultiSelect");
 dojo.require("dijit.form._FormWidget");
 
 dojo.declare("dijit.form.MultiSelect", dijit.form._FormWidget, {
-	// summary: Wrapper for a native select multiple="true" element to
-	//		interact with dijit.form.Form
-	//
+	// summary:
+	//		Widget version of a <select multiple=true> element,
+	//		for selecting multiple options.
+
 	// size: Number
 	//		Number of elements to display on a page
 	//		NOTE: may be removed in version 2.0, since elements may have variable height;
