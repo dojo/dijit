@@ -53,7 +53,10 @@ dojo.declare("dijit._tree.dndSelector",
 		onMouseDown: function(e){
 			// summary: event processor for onmousedown
 			// e: Event: mouse event
+			
 			if(!this.current){ return; }
+
+			if(e.button == 2){ return; }	// ignore right-click
 
 			var item = dijit.getEnclosingWidget(this.current).item
 			var id = this.tree.model.getIdentity(item);
