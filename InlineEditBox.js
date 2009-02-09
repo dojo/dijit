@@ -12,7 +12,8 @@ dojo.requireLocalization("dijit", "common");
 dojo.declare("dijit.InlineEditBox",
 	dijit._Widget,
 	{
-	// summary: An element with in-line edit capabilitites
+	// summary:
+	//		An element with in-line edit capabilitites
 	//
 	// description:
 	//		Behavior for an existing node (`<p>`, `<div>`, `<span>`, etc.) so that
@@ -185,7 +186,8 @@ dojo.declare("dijit.InlineEditBox",
 	},
 
 	_showText: function(/*Boolean*/ focus){
-		// summary: revert to display mode, and optionally focus on display node
+		// summary:
+		//		Revert to display mode, and optionally focus on display node
 
 		// display the read-only text and then quickly hide the editor (to avoid screen jitter)
 		this.displayNode.style.display="";
@@ -338,7 +340,8 @@ dojo.declare(
 	},
 
 	_onKeyPress: function(e){
-		// summary: Callback when keypress in the edit box (see template).
+		// summary:
+		//		Callback when keypress in the edit box (see template).
 		// description:
 		//		For autoSave widgets, if Esc/Enter, call cancel/save.
 		//		For non-autoSave widgets, enable save button if the text value is
@@ -386,7 +389,7 @@ dojo.declare(
 
 	_onBlur: function(){
 		// summary:
-		//	Called when focus moves outside the editor
+		//		Called when focus moves outside the editor
 		this.inherited(arguments);
 		if(this._exitInProgress){
 			// when user clicks the "save" button, focus is shifted back to display text, causing this
@@ -405,8 +408,8 @@ dojo.declare(
 
 	_onChange: function(){
 		// summary:
-		//	Called when the underlying widget fires an onChange event,
-		//	which means that the user has finished entering the value
+		//		Called when the underlying widget fires an onChange event,
+		//		which means that the user has finished entering the value
 		if(this._exitInProgress){
 			// TODO: the onChange event might happen after the return key for an async widget
 			// like FilteringSelect.  Shouldn't be deleting the edit widget on end-of-edit
@@ -424,8 +427,9 @@ dojo.declare(
 	},
 	
 	enableSave: function(){
-		// summary: User replacable function returning a Boolean to indicate
-		// 	if the Save button should be enabled or not - usually due to invalid conditions
+		// summary:
+		//		User overridable function returning a Boolean to indicate
+		// 		if the Save button should be enabled or not - usually due to invalid conditions
 		return this.editWidget.isValid ? this.editWidget.isValid() : true;
 	},
 

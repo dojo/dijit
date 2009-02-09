@@ -8,17 +8,17 @@ dojo.declare("dijit._DialogMixin", null,
 		attributeMap: dijit._Widget.prototype.attributeMap,
 
 		// execute: Function
-		//	User defined function to do stuff when the user hits the submit button
+		//		User defined function to do stuff when the user hits the submit button
 		execute: function(/*Object*/ formContents){},
 
 		// onCancel: Function
-		//      Callback when user has canceled dialog, to notify container
-		//      (user shouldn't override)
+		//	    Callback when user has canceled dialog, to notify container
+		//	    (user shouldn't override)
 		onCancel: function(){},
 
 		// onExecute: Function
-		//	Callback when user is about to execute dialog, to notify container
-		//	(user shouldn't override)
+		//		Callback when user is about to execute dialog, to notify container
+		//		(user shouldn't override)
 		onExecute: function(){},
 
 		_onSubmit: function(){

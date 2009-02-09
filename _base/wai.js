@@ -72,7 +72,7 @@ dojo.mixin(dijit,
 		// summary:
 		//		Sets the role on an element.
 		// description:
-		//  	In other than FF2 replace existing role attribute with new role.
+		//		In other than FF2 replace existing role attribute with new role.
 		//		FF3 supports XHTML and ARIA roles so    
 		//		if elem already has an XHTML role, append this role to XHTML role 
 		//		and remove other ARIA roles.

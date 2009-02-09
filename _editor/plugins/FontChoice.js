@@ -22,7 +22,7 @@ dojo.declare("dijit._editor.plugins.FontChoice",
 		//	|		Provides a dropdown to select from a list of pre-defined font sizes
 		//		* formatBlock
 		//	|		Provides a dropdown to select from a list of styles
-		//  |
+		//	|
 		//
 		//		which can easily be added to an editor by including one or more of the above commands
 		//		in the `plugins` attribute as follows:

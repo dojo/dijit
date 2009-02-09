@@ -45,12 +45,13 @@ dojo.declare(
 		},
 
 		layout: function(){
-			// summary: Sets the background to the size of the viewport
+			// summary:
+			//		Sets the background to the size of the viewport
 			//
 			// description:
-			//	Sets the background to the size of the viewport (rather than the size
-			//	of the document) since we need to cover the whole browser window, even
-			//	if the document is only a few lines long.
+			//		Sets the background to the size of the viewport (rather than the size
+			//		of the document) since we need to cover the whole browser window, even
+			//		if the document is only a few lines long.
 
 			var is = this.node.style,
 				os = this.domNode.style;
@@ -70,7 +71,8 @@ dojo.declare(
 		},
 
 		show: function(){
-			// summary: Show the dialog underlay
+			// summary:
+			//		Show the dialog underlay
 			this.domNode.style.display = "block";
 			this.layout();
 			if(this.bgIframe.iframe){
@@ -79,7 +81,8 @@ dojo.declare(
 		},
 
 		hide: function(){
-			// summary: hides the dialog underlay
+			// summary:
+			//		Hides the dialog underlay
 			this.domNode.style.display = "none";
 			if(this.bgIframe.iframe){
 				this.bgIframe.iframe.style.display = "none";

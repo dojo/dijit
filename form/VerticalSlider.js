@@ -18,7 +18,7 @@ dojo.declare(
 	_progressPixelSize: "height",
 
 	// _descending: Boolean
-	//      Specifies if the slider values go from high-on-top (true), or low-on-top (false)
+	//	   Specifies if the slider values go from high-on-top (true), or low-on-top (false)
 	//	TODO: expose this in 1.2 - the css progress/remaining bar classes need to be reversed
 	_descending: true,
 
@@ -39,7 +39,7 @@ dojo.declare(
 
 	_rtlRectify: function(decorationNode/*NodeList*/){
 		// summary:
-		//      Rectify children nodes for left/right decoration in rtl case.
+		//	    Rectify children nodes for left/right decoration in rtl case.
 		//		Simply switch the rule and label child for each decoration node.
 		var childNodes = [];
 		while(decorationNode.firstChild){

@@ -32,8 +32,8 @@ dojo.declare(
 
 		show: function(/*String*/ innerHTML, /*DomNode*/ aroundNode, /*String[]?*/ position){
 			// summary:
-			//	Display tooltip w/specified contents to right specified node
-			//	(To left if there's no space on the right, or if LTR==right)
+			//		Display tooltip w/specified contents to right specified node
+			//		(To left if there's no space on the right, or if LTR==right)
 
 			if(this.aroundNode && this.aroundNode === aroundNode){
 				return;
@@ -84,7 +84,8 @@ dojo.declare(
 		},
 
 		orient: function(/* DomNode */ node, /* String */ aroundCorner, /* String */ tooltipCorner){
-			// summary: private function to set CSS for tooltip node based on which position it's in
+			// summary:
+			//		Private function to set CSS for tooltip node based on which position it's in
 			node.className = "dijitTooltip " +
 				{
 					"BL-TL": "dijitTooltipBelow dijitTooltipABLeft",
@@ -104,7 +105,8 @@ dojo.declare(
 		},
 
 		hide: function(aroundNode){
-			// summary: hide the tooltip
+			// summary:
+			//		Hide the tooltip
 			if(this._onDeck && this._onDeck[1] == aroundNode){
 				// this hide request is for a show() that hasn't even started yet;
 				// just cancel the pending show()
@@ -134,15 +136,16 @@ dojo.declare(
 
 dijit.showTooltip = function(/*String*/ innerHTML, /*DomNode*/ aroundNode, /*String[]?*/ position){
 	// summary:
-	//	Display tooltip w/specified contents in specified position.
-	//	See description of dijit.Tooltip.defaultPosition for details on position parameter.
-	//	If position is not specified then dijit.Tooltip.defaultPosition is used.
+	//		Display tooltip w/specified contents in specified position.
+	//		See description of dijit.Tooltip.defaultPosition for details on position parameter.
+	//		If position is not specified then dijit.Tooltip.defaultPosition is used.
 	if(!dijit._masterTT){ dijit._masterTT = new dijit._MasterTooltip(); }
 	return dijit._masterTT.show(innerHTML, aroundNode, position);
 };
 
 dijit.hideTooltip = function(aroundNode){
-	// summary: hide the tooltip
+	// summary:
+	//		Hide the tooltip
 	if(!dijit._masterTT){ dijit._masterTT = new dijit._MasterTooltip(); }
 	return dijit._masterTT.hide(aroundNode);
 };
@@ -174,7 +177,7 @@ dojo.declare(
 		//		Note: in 2.0 this will be renamed to connectIds for less confusion.
 		connectId: [],
 
-		//	position: String[]
+		// position: String[]
 		//		See description of dijit.Tooltip.defaultPosition for details on position parameter.
 		position: [],
 
@@ -243,7 +246,8 @@ dojo.declare(
 		},
 
 		open: function(/*DomNode*/ target){
- 			// summary: display the tooltip; usually not called directly.
+ 			// summary:
+			//		Display the tooltip; usually not called directly.
 			target = target || this._connectNodes[0];
 			if(!target){ return; }
 
@@ -257,7 +261,8 @@ dojo.declare(
 		},
 
 		close: function(){
-			// summary: hide the tooltip or cancel timer for show of tooltip
+			// summary:
+			//		Hide the tooltip or cancel timer for show of tooltip
 			if(this._connectNode){
 				// if tooltip is currently shown
 				dijit.hideTooltip(this._connectNode);

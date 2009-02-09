@@ -9,11 +9,13 @@ dojo.declare(
 	"dijit.TitlePane",
 	[dijit.layout.ContentPane, dijit._Templated],
 {
-	// summary: A pane with a title on top, that can be opened or collapsed.
+	// summary:
+	//		A pane with a title on top, that can be expanded or collapsed.
 	//
-	// description: An accessible container with a Title Heading, and a content
-	//	section that slides open and closed. TitlePane is an extension to 
-	//	ContentPane, providing all the usesful content-control aspects from.
+	// description:
+	//		An accessible container with a Title Heading, and a content
+	//		section that slides open and closed. TitlePane is an extension to 
+	//		`dijit.layout.ContentPane`, providing all the usesful content-control aspects from it.
 	//
 	// example:
 	// | 	// load a TitlePane from remote file:
@@ -43,7 +45,7 @@ dojo.declare(
 	duration: dijit.defaultDuration,
 
 	// baseClass: String
-	//	The root className to use for the various states of this widget
+	//		The root className to use for the various states of this widget
 	baseClass: "dijitTitlePane",
 
 	templatePath: dojo.moduleUrl("dijit", "templates/TitlePane.html"),
@@ -91,7 +93,7 @@ dojo.declare(
 	_setContentAttr: function(content){
 		// summary:
 		//		Hook to make attr("content", ...) work.
-		// 		Typically called when an href is loaded.  Our job is to make the animation smooth
+		// 		Typically called when an href is loaded.  Our job is to make the animation smooth.
 
 		if(!this.open || !this._wipeOut || this._wipeOut.status() == "playing"){
 			// we are currently *closing* the pane (or the pane is closed), so just let that continue
@@ -117,7 +119,8 @@ dojo.declare(
 	},
 
 	toggle: function(){
-		// summary: switches between opened and closed state
+		// summary:
+		//		Switches between opened and closed state
 		dojo.forEach([this._wipeIn, this._wipeOut], function(animation){
 			if(animation && animation.status() == "playing"){
 				animation.stop();
@@ -140,7 +143,8 @@ dojo.declare(
 	},
 
 	_setCss: function(){
-		// summary: set the open/close css state for the TitlePane
+		// summary:
+		//		Set the open/close css state for the TitlePane
 		var classes = ["dijitClosed", "dijitOpen"];
 		var boolIndex = this.open;
 		var node = this.titleBarNode || this.focusNode;
@@ -152,7 +156,8 @@ dojo.declare(
 	},
 
 	_onTitleKey: function(/*Event*/ e){
-		// summary: callback when user hits a key
+		// summary:
+		//		Callback when user hits a key
 		if(e.charOrCode == dojo.keys.ENTER || e.charOrCode == ' '){
 			this.toggle();
 		}else if(e.charOrCode == dojo.keys.DOWN_ARROW && this.open){
@@ -162,24 +167,28 @@ dojo.declare(
 	},
 	
 	_onTitleEnter: function(){
-		// summary: callback when someone hovers over my title
+		// summary:
+		//		Callback when someone hovers over my title
 		dojo.addClass(this.focusNode, "dijitTitlePaneTitle-hover");
 	},
 
 	_onTitleLeave: function(){
-		// summary: callback when someone stops hovering over my title
+		// summary:
+		//		Callback when someone stops hovering over my title
 		dojo.removeClass(this.focusNode, "dijitTitlePaneTitle-hover");
 	},
 
 	_handleFocus: function(/*Event*/ e){
-		// summary: handle blur and focus for this widget
+		// summary:
+		//		Handle blur and focus for this widget
 		
 		// add/removeClass is safe to call without hasClass in this case
 		dojo[(e.type == "focus" ? "addClass" : "removeClass")](this.focusNode, this.baseClass + "Focused");
 	},
 
 	setTitle: function(/*String*/ title){
-		// summary: sets the text of the title
+		// summary:
+		//		Deprecated.  Use attr('title', ...) instead.
 		dojo.deprecated("dijit.TitlePane.setTitle() is deprecated.  Use attr('title', ...) instead.", "", "2.0");
 		this.titleNode.innerHTML = title;
 	}

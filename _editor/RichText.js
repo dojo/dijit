@@ -1172,7 +1172,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 			// grab selection
 			// Mozilla gets upset if we just store the range so we have to
 			// get the basic properties and recreate to save the selection
-			//  var selection = this.window.getSelection();
+			//	var selection = this.window.getSelection();
 
 			//	var selectionRange = selection.getRangeAt(0);
 			//	var selectionStartContainer = selectionRange.startContainer;

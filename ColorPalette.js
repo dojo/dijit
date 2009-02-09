@@ -9,10 +9,11 @@ dojo.requireLocalization("dojo", "colors");
 dojo.declare("dijit.ColorPalette",
 	[dijit._Widget, dijit._Templated],
 	{
-	// summary: A keyboard accessible color-picking widget
+	// summary:
+	//		A keyboard accessible color-picking widget
 	// description:
-	//	Grid showing various colors, so the user can pick a certain color
-	//	Can be used standalone, or as a popup.
+	//		Grid showing various colors, so the user can pick a certain color
+	//		Can be used standalone, or as a popup.
 	//
 	// example:
 	// |	<div dojoType="dijit.ColorPalette"></div>
@@ -22,11 +23,11 @@ dojo.declare("dijit.ColorPalette",
 	// |	picker.startup();
 
 	// defaultTimeout: Number
-	//		number of milliseconds before a held key or button becomes typematic
+	//		Number of milliseconds before a held key or button becomes typematic
 	defaultTimeout: 500,
 
 	// timeoutChangeRate: Number
-	//		fraction of time used to change the typematic timer between events
+	//		Fraction of time used to change the typematic timer between events
 	//		1.0 means that each typematic event fires at defaultTimeout intervals
 	//		< 1.0 means that each typematic event fires at an increasing faster rate
 	timeoutChangeRate: 0.90,
@@ -35,11 +36,11 @@ dojo.declare("dijit.ColorPalette",
 	//		Size of grid, either "7x10" or "3x4".
 	palette: "7x10",
 
-	//_value: String
+	// _value: String
 	//		The value of the selected color.
 	value: null,
 
-	//_currentFocus: Integer
+	// _currentFocus: Integer
 	//		Index of the currently focused color.
 	_currentFocus: 0,
 

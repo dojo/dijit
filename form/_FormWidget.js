@@ -59,7 +59,7 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 	intermediateChanges: false,
 
 	// scrollOnFocus: Boolean
-	//              On focus, should this widget scroll into view?
+	//		On focus, should this widget scroll into view?
 	scrollOnFocus: true,
 
 	// These mixins assume that the focus node is an INPUT, as many but not all _FormWidgets are.

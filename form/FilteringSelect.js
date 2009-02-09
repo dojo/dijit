@@ -18,7 +18,7 @@ dojo.declare(
 		//		while the OPTION tag's value attribute is used as the widget value on form submit.
 		//		To set the default value when using OPTION tags, specify the selected
 		//		attribute on 1 of the child OPTION tags.
-		//  
+		//
 		//		Similar features:
 		//			- There is a drop down list of possible values.
 		//			- You can only enter a value from the drop down list.  (You can't
@@ -188,7 +188,7 @@ dojo.declare(
 			// When this is called during initialization it'll ping the datastore
 			// for reverse lookup, and when that completes (after an XHR request)
 			// will call setValueAttr()... but that shouldn't trigger an onChange()
-			//  event, even when it happens after creation has finished
+			// event, even when it happens after creation has finished
 			if(!this._created){
 				priorityChange = false;
 			}

@@ -16,7 +16,7 @@ dijit._tree.__SourceArgs = function(){
 	//		copy items, if true, use a state of Ctrl key otherwise,
 	//	dragThreshold: Number
 	//		the move delay in pixels before detecting a drag; 0 by default
-	//  betweenThreshold: Integer
+	//	betweenThreshold: Integer
 	//		distance from upper/lower edge of node to allow drop to reorder nodes
 	this.isSource = isSource;
 	this.accept = accept;

@@ -35,11 +35,11 @@ dojo.declare(
 		templatePath: dojo.moduleUrl("dijit", "templates/Calendar.html"),
 
 		// value: Date
-		// 	the currently selected Date
+		//		The currently selected Date
 		value: new Date(),
 
 		// dayWidth: String
-		// 	How to represent the days of the week in the calendar header. See dojo.date.locale
+		//		How to represent the days of the week in the calendar header. See dojo.date.locale
 		dayWidth: "narrow",
 
 		setValue: function(/*Date*/ value){
@@ -237,16 +237,18 @@ dojo.declare(
 		},
 
 		onValueSelected: function(/*Date*/date){
-			// summary: a date cell was selected.  It may be the same as the previous value.
+			// summary:
+			//		A date cell was selected.  It may be the same as the previous value.
 		},
 
 		onChange: function(/*Date*/date){
-			// summary: called only when the selected date has changed
+			// summary:
+			//		Called only when the selected date has changed
 		},
 
 		isDisabledDate: function(/*Date*/dateObject, /*String?*/locale){
 			// summary:
-			//	May be overridden to disable certain dates in the calendar e.g. `isDisabledDate=dojo.date.locale.isWeekend`
+			//		May be overridden to disable certain dates in the calendar e.g. `isDisabledDate=dojo.date.locale.isWeekend`
 /*=====
 			return false; // Boolean
 =====*/
@@ -254,8 +256,8 @@ dojo.declare(
 
 		getClassForDate: function(/*Date*/dateObject, /*String?*/locale){
 			// summary:
-			//  May be overridden to return CSS classes to associate with the date entry for the given dateObject,
-			//  for example to indicate a holiday in specified locale.
+			//		May be overridden to return CSS classes to associate with the date entry for the given dateObject,
+			//		for example to indicate a holiday in specified locale.
 
 /*=====
 			return ""; // String

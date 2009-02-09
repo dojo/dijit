@@ -7,14 +7,15 @@ dojo.require("dijit._Templated");
 dojo.declare("dijit._MenuBase",
 	[dijit._Widget, dijit._Templated, dijit._KeyNavContainer],
 {
-	// summary: base class for Menu and MenuBar
+	// summary:
+	//		Base class for Menu and MenuBar
 
 	// parentMenu: Widget
-	// pointer to menu that displayed me
+	//		pointer to menu that displayed me
 	parentMenu: null,
 
 	// popupDelay: Integer
-	//	number of milliseconds before hovering (without clicking) causes the popup to automatically open.
+	//		number of milliseconds before hovering (without clicking) causes the popup to automatically open.
 	popupDelay: 500,
 
 	startup: function(){
@@ -27,11 +28,13 @@ dojo.declare("dijit._MenuBase",
 	},
 
 	onExecute: function(){
-		// summary: attach point for notification about when a menu item has been executed
+		// summary:
+		//		Attach point for notification about when a menu item has been executed
 	},
 
 	onCancel: function(/*Boolean*/ closeAll){
-		// summary: attach point for notification about when the user cancels the current menu
+		// summary:
+		//		Attach point for notification about when the user cancels the current menu
 	},
 
 	_moveToPopup: function(/*Event*/ evt){
@@ -79,7 +82,8 @@ dojo.declare("dijit._MenuBase",
 	},
 
 	onItemUnhover: function(/*MenuItem*/ item){
-		// summary: Callback fires when mouse exits a MenuItem
+		// summary:
+		//		Callback fires when mouse exits a MenuItem
 		if(this.isActive){
 			this._stopPopupTimer();
 		}
@@ -98,7 +102,8 @@ dojo.declare("dijit._MenuBase",
 	},
 
 	onItemClick: function(/*Widget*/ item, /*Event*/ evt){
-		// summary: user defined function to handle clicks on an item
+		// summary:
+		//		User defined function to handle clicks on an item
 		if(item.disabled){ return false; }
 
 		this.focusChild(item);
@@ -118,7 +123,8 @@ dojo.declare("dijit._MenuBase",
 	},
 
 	_openPopup: function(){
-		// summary: open the popup to the side of/underneath the current menu item
+		// summary:
+		//		Open the popup to the side of/underneath the current menu item
 		this._stopPopupTimer();
 		var from_item = this.focusedChild;
 		var popup = from_item.popup;
@@ -148,12 +154,14 @@ dojo.declare("dijit._MenuBase",
 	},
 
 	onOpen: function(/*Event*/ e){
-		// summary: callback when this menu is opened
+		// summary:
+		//		Callback when this menu is opened
 		this.isShowingNow = true;
 	},
 
 	onClose: function(){
-		// summary: callback when this menu is closed
+		// summary:
+		//		Callback when this menu is closed
 		this._stopPopupTimer();
 		this.parentMenu = null;
 		this.isShowingNow = false;
@@ -192,7 +200,7 @@ dojo.declare("dijit._MenuBase",
 
 	_onDescendantExecute: function(){
 		// summary:
-		//		Called when submenu is clicked; close hierarchy of menus
+		//		Called when submenu is clicked.  Close hierarchy of menus.
 		this.onClose();
 	}
 });
@@ -214,22 +222,22 @@ dojo.declare("dijit.Menu",
 	templatePath: dojo.moduleUrl("dijit", "templates/Menu.html"),
 
 	// targetNodeIds: String[]
-	//	Array of dom node ids of nodes to attach to.
-	//	Fill this with nodeIds upon widget creation and it becomes context menu for those nodes.
+	//		Array of dom node ids of nodes to attach to.
+	//		Fill this with nodeIds upon widget creation and it becomes context menu for those nodes.
 	targetNodeIds: [],
 
 	// contextMenuForWindow: Boolean
-	//	if true, right clicking anywhere on the window will cause this context menu to open;
-	//	if false, must specify targetNodeIds
+	//		If true, right clicking anywhere on the window will cause this context menu to open.
+	//		If false, must specify targetNodeIds.
 	contextMenuForWindow: false,
 
 	// leftClickToOpen: Boolean
-	//	If true, menu will open on left click instead of right click, similiar to a file menu.
+	//		If true, menu will open on left click instead of right click, similiar to a file menu.
 	leftClickToOpen: false,
 	
 	// _contextMenuWithMouse: Boolean
-	//	used to record mouse and keyboard events to determine if a context
-	//	menu is being opened with the keyboard or the mouse
+	//		Used to record mouse and keyboard events to determine if a context
+	//		menu is being opened with the keyboard or the mouse.
 	_contextMenuWithMouse: false,
 
 	postCreate: function(){
@@ -245,7 +253,8 @@ dojo.declare("dijit.Menu",
 	},
 
 	_onKeyPress: function(/*Event*/ evt){
-		// summary: Handle keyboard based menu navigation.
+		// summary:
+		//		Handle keyboard based menu navigation.
 		if(evt.ctrlKey || evt.altKey){ return; }
 
 		switch(evt.charOrCode){
@@ -270,7 +279,7 @@ dojo.declare("dijit.Menu",
 	// thanks burstlib!
 	_iframeContentWindow: function(/* HTMLIFrameElement */iframe_el){
 		// summary:
-		//	Returns the window reference of the passed iframe
+		//		Returns the window reference of the passed iframe
 		var win = dijit.getDocumentWindow(dijit.Menu._iframeContentDocument(iframe_el)) ||
 			// Moz. TODO: is this available when defaultView isn't?
 			dijit.Menu._iframeContentDocument(iframe_el)['__parent__'] ||
@@ -289,7 +298,8 @@ dojo.declare("dijit.Menu",
 	},
 
 	bindDomNode: function(/*String|DomNode*/ node){
-		// summary: attach menu to given node
+		// summary:
+		//		Attach menu to given node
 		node = dojo.byId(node);
 
 		//TODO: this is to support context popups in Editor.  Maybe this shouldn't be in dijit.Menu
@@ -311,7 +321,8 @@ dojo.declare("dijit.Menu",
 	},
 
 	unBindDomNode: function(/*String|DomNode*/ nodeName){
-		// summary: detach menu from given node
+		// summary:
+		//		Detach menu from given node
 		var node = dojo.byId(nodeName);
 		if(node){
 			var bid = node[this.id]-1, b = this._bindings[bid];

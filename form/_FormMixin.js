@@ -382,8 +382,8 @@ dojo.declare("dijit.form._FormMixin", null,
 		startup: function(){
 			this.inherited(arguments);
 			// Initialize our valid state tracking.  Needs to be done in startup
-			//  because it's not guaranteed that our children are initialized 
-			//  yet.
+			// because it's not guaranteed that our children are initialized 
+			// yet.
 			this._changeConnections = [];
 			this.connectChildren();
 		}

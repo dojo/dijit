@@ -14,9 +14,10 @@ dojo.requireLocalization("dijit", "common");
 
 /*=====
 dijit._underlay = function(kwArgs){
-	//	summary: A shared instance of a `dijit.DialogUnderlay`
+	// summary:
+	//		A shared instance of a `dijit.DialogUnderlay`
 	//
-	//	description: 
+	// description: 
 	//		A shared instance of a `dijit.DialogUnderlay` created and
 	//		used by `dijit.Dialog`, though never created until some Dialog
 	//		or subclass thereof is shown.
@@ -27,12 +28,13 @@ dojo.declare(
 	"dijit.Dialog",
 	[dijit.layout.ContentPane, dijit._Templated, dijit.form._FormMixin, dijit._DialogMixin],
 	{
-		// summary: A modal dialog Widget
+		// summary:
+		//		A modal dialog Widget
 		//
 		// description:
-		//	Pops up a modal dialog window, blocking access to the screen
-		//	and also graying out the screen Dialog is extended from
-		//	ContentPane so it supports all the same parameters (href, etc.)
+		//		Pops up a modal dialog window, blocking access to the screen
+		//		and also graying out the screen Dialog is extended from
+		//		ContentPane so it supports all the same parameters (href, etc.)
 		//
 		// example:
 		// |	<div dojoType="dijit.Dialog" href="test.html"></div>
@@ -52,7 +54,7 @@ dojo.declare(
 		}),
 
 		// open: Boolean
-		//		is True or False depending on state of dialog
+		//		True if Dialog is currently displayed on screen.
 		open: false,
 
 		// duration: Integer
@@ -116,13 +118,17 @@ dojo.declare(
 		},
 
 		onLoad: function(){
-			// summary: when href is specified we need to reposition the dialog after the data is loaded
+			// summary:
+			//		Called when data has been loaded from an href
+			
+			// when href is specified we need to reposition the dialog after the data is loaded
 			this._position();
 			this.inherited(arguments);
 		},
 
 		_endDrag: function(e){
-			// summary: Called after dragging the Dialog. Calculates the relative offset
+			// summary:
+			//		Called after dragging the Dialog. Calculates the relative offset
 			//		of the Dialog in relation to the viewport. 
 			if(e && e.node && e.node === this.domNode){
 				var vp = dijit.getViewport(); 
@@ -136,9 +142,9 @@ dojo.declare(
 		
 		_setup: function(){
 			// summary: 
-			//		stuff we need to do before showing the Dialog for the first
+			//		Stuff we need to do before showing the Dialog for the first
 			//		time (but we defer it until right beforehand, for
-			//		performance reasons)
+			//		performance reasons).
 
 			var node = this.domNode;
 
@@ -219,7 +225,8 @@ dojo.declare(
 		},
 
 		_position: function(){
-			// summary: Position modal dialog in the viewport. If no relative offset
+			// summary:
+			//		Position modal dialog in the viewport. If no relative offset
 			//		in the viewport has been determined (by dragging, for instance),
 			//		center the node. Otherwise, use the Dialog's stored relative offset,
 			//		and position the node to top: left: values based on the viewport.
@@ -238,7 +245,8 @@ dojo.declare(
 		},
 
 		_onKey: function(/*Event*/ evt){
-			// summary: handles the keyboard events for accessibility reasons
+			// summary:
+			//		Handles the keyboard events for accessibility reasons
 			if(evt.charOrCode){
 				var dk = dojo.keys;
 				var node = evt.target;
@@ -283,7 +291,8 @@ dojo.declare(
 		},
 
 		show: function(){
-			// summary: display the dialog
+			// summary:
+			//		Display the dialog
 			if(this.open){ return; }
 			
 			// first time we show the dialog, there's some initialization stuff to do			
@@ -317,7 +326,8 @@ dojo.declare(
 		},
 
 		hide: function(){
-			// summary: Hide the dialog
+			// summary:
+			//		Hide the dialog
 
 			// if we haven't been initialized yet then we aren't showing and we can just return		
 			if(!this._alreadyInitialized){
@@ -344,7 +354,8 @@ dojo.declare(
 		},
 
 		layout: function() {
-			// summary: Position the Dialog and the underlay
+			// summary:
+			//		Position the Dialog and the underlay
 			if(this.domNode.style.visibility != "hidden"){
 				dijit._underlay.layout();
 				this._position(); 

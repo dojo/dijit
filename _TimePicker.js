@@ -9,15 +9,15 @@ dojo.declare(
 	[dojo.date.locale.__FormatOptions],
 	{
 		// clickableIncrement: String
-		//		see dijit._TimePicker.clickableIncrement
+		//		See dijit._TimePicker.clickableIncrement
 		clickableIncrement: "T00:15:00",
 
 		// visibleIncrement: String
-		//		see dijit._TimePicker.visibleIncrement
+		//		See dijit._TimePicker.visibleIncrement
 		visibleIncrement: "T01:00:00",
 
 		// visibleRange: String
-		//		see dijit._TimePicker.visibleRange
+		//		See dijit._TimePicker.visibleRange
 		visibleRange: "T05:00:00"
 	}
 );
@@ -120,16 +120,16 @@ dojo.declare("dijit._TimePicker",
 
 		isDisabledDate: function(/*Date*/dateObject, /*String?*/locale){
 			// summary:
-			//	May be overridden to disable certain dates in the TimePicker e.g. `isDisabledDate=dojo.date.locale.isWeekend`
+			//		May be overridden to disable certain dates in the TimePicker e.g. `isDisabledDate=dojo.date.locale.isWeekend`
 			return false; // Boolean
 		},
 
 		_getFilteredNodes: function(/*number*/start, /*number*/maxNum, /*Boolean*/before){
 			// summary:
-			//  Returns an array of nodes with the filter applied.  At most maxNum nodes
-			//  will be returned - but fewer may be returned as well.  If the
-			//  before parameter is set to true, then it will return the elements
-			//  before the given index
+			//		Returns an array of nodes with the filter applied.  At most maxNum nodes
+			//		will be returned - but fewer may be returned as well.  If the
+			//		before parameter is set to true, then it will return the elements
+			//		before the given index
 			var nodes = [], n, i = start, max = this._maxIncrement + Math.abs(i),
 				chk = before?-1:1, dec = before?1:0, inc = before?0:1;
 			do{
@@ -239,7 +239,8 @@ dojo.declare("dijit._TimePicker",
 		},
 		
 		_createOption:function(/*Number*/ index){
-			// summary: creates a clickable time option
+			// summary:
+			//		Creates a clickable time option
 			var date = new Date(this._refDate);
 			var incrementDate = this._clickableIncrementDate;
 			date.setHours(date.getHours() + incrementDate.getHours() * index,
@@ -327,7 +328,8 @@ dojo.declare("dijit._TimePicker",
 		},
 
 		_mouseWheeled:function(/*Event*/e){
-			// summary: handle the mouse wheel listener
+			// summary:
+			//		Handle the mouse wheel events
 			dojo.stopEvent(e);
 			// we're not _measuring_ the scroll amount, just direction
 			var scrollAmount = (dojo.isIE ? e.wheelDelta : -e.detail);
@@ -335,7 +337,8 @@ dojo.declare("dijit._TimePicker",
 		},
 
 		_onArrowUp:function(){
-			// summary: remove the bottom time and add one to the top
+			// summary:
+			//		Remove the bottom time and add one to the top
 			if(!this.timeMenu.childNodes.length){ return; }
 			var index = this.timeMenu.childNodes[0].index;
 			var divs = this._getFilteredNodes(index, 1, true);
@@ -346,7 +349,8 @@ dojo.declare("dijit._TimePicker",
 		},
 
 		_onArrowDown:function(){
-			// summary: remove the top time and add one to the bottom
+			// summary:
+			//		Remove the top time and add one to the bottom
 			if(!this.timeMenu.childNodes.length){ return; }
 			var index = this.timeMenu.childNodes[this.timeMenu.childNodes.length - 1].index + 1;
 			var divs = this._getFilteredNodes(index, 1, false);

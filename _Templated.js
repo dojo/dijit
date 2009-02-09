@@ -12,23 +12,23 @@ dojo.declare("dijit._Templated",
 		// 
 
 		// templateString: String
-		//		a string that represents the widget template. Pre-empts the
+		//		A string that represents the widget template. Pre-empts the
 		//		templatePath. In builds that have their strings "interned", the
 		//		templatePath is converted to an inline templateString, thereby
 		//		preventing a synchronous network call.
 		templateString: null,
 
 		// templatePath: String
-		//	Path to template (HTML file) for this widget relative to dojo.baseUrl
+		//		Path to template (HTML file) for this widget relative to dojo.baseUrl
 		templatePath: null,
 
 		// widgetsInTemplate: Boolean
-		//		should we parse the template to find widgets that might be
-		//		declared in markup inside it? false by default.
+		//		Should we parse the template to find widgets that might be
+		//		declared in markup inside it?  False by default.
 		widgetsInTemplate: false,
 
 		// skipNodeCache: Boolean
-		//		if using a cached widget template node poses issues for a
+		//		If using a cached widget template node poses issues for a
 		//		particular widget class, it can set this property to ensure
 		//		that its template is always re-built from a string
 		_skipNodeCache: false,
@@ -87,8 +87,8 @@ dojo.declare("dijit._Templated",
 
 		_fillContent: function(/*DomNode*/ source){
 			// summary:
-			//		relocate source contents to templated container node
-			//		this.containerNode must be able to receive children, or exceptions will be thrown
+			//		Relocate source contents to templated container node.
+			//		this.containerNode must be able to receive children, or exceptions will be thrown.
 			var dest = this.containerNode;
 			if(source && dest){
 				while(source.hasChildNodes()){
@@ -98,7 +98,8 @@ dojo.declare("dijit._Templated",
 		},
 
 		_attachTemplateNodes: function(rootNode, getAttrFunc){
-			// summary: Iterate through the template and attach functions and nodes accordingly.	
+			// summary:
+			//		Iterate through the template and attach functions and nodes accordingly.	
 			// description:		
 			//		Map widget properties and functions to the handlers specified in
 			//		the dom node and it's descendants. This function iterates over all
@@ -109,7 +110,7 @@ dojo.declare("dijit._Templated",
 			//			* waiState
 			// rootNode: DomNode|Array[Widgets]
 			//		the node to search for properties. All children will be searched.
-			// getAttrFunc: function?
+			// getAttrFunc: Function?
 			//		a function which will be used to obtain property for a given
 			//		DomNode/Widget
 
@@ -193,9 +194,9 @@ dijit._Templated.getCachedTemplate = function(templatePath, templateString, alwa
 	// templateString: String?
 	//		a string to use in lieu of fetching the template from a URL. Takes precedence
 	//		over templatePath
-	// Returns: Mixed
-	//	Either string (if there are ${} variables that need to be replaced) or just
-	//	a DOM tree (if the node can be cloned directly)
+	// returns: Mixed
+	//		Either string (if there are ${} variables that need to be replaced) or just
+	//		a DOM tree (if the node can be cloned directly)
 
 	// is it already cached?
 	var tmplts = dijit._Templated._templateCache;

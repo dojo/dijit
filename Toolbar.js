@@ -7,7 +7,8 @@ dojo.require("dijit._Templated");
 dojo.declare("dijit.Toolbar",
 	[dijit._Widget, dijit._Templated, dijit._KeyNavContainer],
 	{
-	// summary: A Toolbar widget, used to hold things like dijit.Editor buttons
+	// summary:
+	//		A Toolbar widget, used to hold things like `dijit.Editor` buttons
 
 	templateString:
 		'<div class="dijit dijitToolbar" waiRole="toolbar" tabIndex="${tabIndex}" dojoAttachPoint="containerNode">' +

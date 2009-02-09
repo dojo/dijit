@@ -11,7 +11,7 @@ dojo.declare(
 		{
 			// summary:
 			//		Pops up a dialog that appears like a Tooltip
-			//
+
 			// title: String
 			// 		Description of tooltip dialog (required for a11Y)
 			title: "",
@@ -49,7 +49,8 @@ dojo.declare(
 			},
 
 			orient: function(/*DomNode*/ node, /*String*/ aroundCorner, /*String*/ corner){
-				// summary: configure widget to be displayed in given position relative to the button
+				// summary:
+				//		Configure widget to be displayed in given position relative to the button
 				var c = this._currentOrientClass;
 				if(c){
 					dojo.removeClass(this.domNode, c);
@@ -60,7 +61,8 @@ dojo.declare(
 			},
 
 			onOpen: function(/*Object*/ pos){
-				// summary: called when dialog is displayed
+				// summary:
+				//		Called when dialog is displayed
 			
 				this.orient(this.domNode,pos.aroundCorner, pos.corner);
 				this._onShow(); // lazy load trigger
@@ -72,7 +74,8 @@ dojo.declare(
 			},
 			
 			_onKey: function(/*Event*/ evt){
-				// summary: keep keyboard focus in dialog; close dialog on escape key
+				// summary:
+				//		Keep keyboard focus in dialog; close dialog on escape key
 				var node = evt.target;
 				var dk = dojo.keys;
 				if (evt.charOrCode === dk.TAB){

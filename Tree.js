@@ -76,18 +76,21 @@ dojo.declare(
 	},
 
 	markProcessing: function(){
-		// summary: visually denote that tree is loading data, etc.
+		// summary:
+		//		Visually denote that tree is loading data, etc.
 		this.state = "LOADING";
 		this._setExpando(true);	
 	},
 
 	unmarkProcessing: function(){
-		// summary: clear markup from markProcessing() call
+		// summary:
+		//		Clear markup from markProcessing() call
 		this._setExpando(false);	
 	},
 
 	_updateItemClasses: function(item){
-		// summary: set appropriate CSS classes for icon and label dom node (used to allow for item updates to change respective CSS)
+		// summary:
+		//		Set appropriate CSS classes for icon and label dom node (used to allow for item updates to change respective CSS)
 		var tree = this.tree, model = tree.model;
 		if(tree._v10Compat && item === model.root){
 			// For back-compat with 1.0, need to use null to specify root item (TODO: remove in 2.0)
@@ -114,7 +117,8 @@ dojo.declare(
 	},
 
 	_updateLayout: function(){
-		// summary: set appropriate CSS classes for this.domNode
+		// summary:
+		//		Set appropriate CSS classes for this.domNode
 		var parent = this.getParent();
 		if(!parent || parent.rowNode.style.display == "none"){
 			/* if we are hiding the root node then make every first level child look like a root node */
@@ -125,7 +129,8 @@ dojo.declare(
 	},
 
 	_setExpando: function(/*Boolean*/ processing){
-		// summary: set the right image for the expando node
+		// summary:
+		//		Set the right image for the expando node
 
 		// apply the appropriate class to the expando node
 		var styles = ["dijitTreeExpandoLoading", "dijitTreeExpandoOpened",
@@ -146,7 +151,8 @@ dojo.declare(
 	},	
 
 	expand: function(){
-		// summary: show my children
+		// summary:
+		//		Show my children
 		if(this.isExpanded){ return; }
 		// cancel in progress collapse operation
 
@@ -344,32 +350,32 @@ dojo.declare(
 	[dijit._Widget, dijit._Templated],
 {
 	// summary:
-	//	This widget displays hierarchical data from a store.
+	//		This widget displays hierarchical data from a store.
 
 	// store: String||dojo.data.Store
-	//	Deprecated.  Use "model" parameter instead.
-	//  The store to get data to display in the tree.
+	//		Deprecated.  Use "model" parameter instead.
+	//		The store to get data to display in the tree.
 	store: null,
 
 	// model: dijit.Tree.model
-	//	Interface to read tree data, get notifications of changes to tree data,
-	//	and for handling drop operations (i.e drag and drop onto the tree)
+	//		Interface to read tree data, get notifications of changes to tree data,
+	//		and for handling drop operations (i.e drag and drop onto the tree)
 	model: null,
 
 	// query: anything
-	//	Deprecated.  User should specify query to the model directly instead.
-	//	Specifies datastore query to return the root item or top items for the tree.
+	//		Deprecated.  User should specify query to the model directly instead.
+	//		Specifies datastore query to return the root item or top items for the tree.
 	query: null,
 
 	// label: String
-	//	Deprecated.  Use dijit.tree.ForestStoreModel directly instead.
-	//	Used in conjunction with query parameter.
-	//	If a query is specified (rather than a root node id), and a label is also specified,
-	//	then a fake root node is created and displayed, with this label.
+	//		Deprecated.  Use dijit.tree.ForestStoreModel directly instead.
+	//		Used in conjunction with query parameter.
+	//		If a query is specified (rather than a root node id), and a label is also specified,
+	//		then a fake root node is created and displayed, with this label.
 	label: "",
 
 	// showRoot: Boolean
-	//	Should the root node be displayed, or hidden?
+	//		Should the root node be displayed, or hidden?
 	showRoot: true,
 
 	// childrenAttr: String[]
@@ -391,11 +397,11 @@ dojo.declare(
 	isTree: true,
 
 	// persist: Boolean
-	//	enables/disables use of cookies for state saving.
+	//		Enables/disables use of cookies for state saving.
 	persist: true,
 	
 	// dndController: String
-	//	class name to use as as the dnd controller
+	//		Class name to use as as the dnd controller.
 	dndController: null,
 
 	//parameters to pull off of the tree and pass on to the dndController as its params
@@ -472,7 +478,8 @@ dojo.declare(
 	},
 
 	_store2model: function(){
-		// summary: user specified a store&query rather than model, so create model from store/query
+		// summary:
+		//		User specified a store&query rather than model, so create model from store/query
 		this._v10Compat = true;
 		dojo.deprecated("Tree: from version 2.0, should specify a model object rather than a store/query");
 
@@ -501,8 +508,9 @@ dojo.declare(
 	},
 
 	_load: function(){
-		// summary: initial load of the tree
-		// load root node (possibly hidden) and it's children
+		// summary:
+		//		Initial load of the tree.
+		//		Load root node (possibly hidden) and it's children.
 		this.model.getRoot(
 			dojo.hitch(this, function(item){
 				var rn = this.rootNode = this.tree._createTreeNode({
@@ -534,7 +542,7 @@ dojo.declare(
 
 	mayHaveChildren: function(/*dojo.data.Item*/ item){
 		// summary:
-		//		User overridable function to tell if an item has or may have children.
+		//		Overridable function to tell if an item has or may have children.
 		//		Controls whether or not +/- expando icon is shown.
 		//		(For efficiency reasons we may not want to check if an element actually
 		//		has children until user clicks the expando node)
@@ -542,36 +550,39 @@ dojo.declare(
 
 	getItemChildren: function(/*dojo.data.Item*/ parentItem, /*function(items)*/ onComplete){
 		// summary:
-		// 		User overridable function that return array of child items of given parent item,
+		// 		Overridable function that return array of child items of given parent item,
 		//		or if parentItem==null then return top items in tree
 	},
 
 	///////////////////////////////////////////////////////
 	// Functions for converting an item to a TreeNode
 	getLabel: function(/*dojo.data.Item*/ item){
-		// summary: user overridable function to get the label for a tree node (given the item)
+		// summary:
+		//		Overridable function to get the label for a tree node (given the item)
 		return this.model.getLabel(item);	// String
 	},
 
 	getIconClass: function(/*dojo.data.Item*/ item, /*Boolean*/ opened){
-		// summary: user overridable function to return CSS class name to display icon
+		// summary:
+		//		Overridable function to return CSS class name to display icon
 		return (!item || this.model.mayHaveChildren(item)) ? (opened ? "dijitFolderOpened" : "dijitFolderClosed") : "dijitLeaf"
 	},
 
 	getLabelClass: function(/*dojo.data.Item*/ item, /*Boolean*/ opened){
-		// summary: user overridable function to return CSS class name to display label
+		// summary:
+		//		Overridable function to return CSS class name to display label
 	},
 	
 	getIconStyle: function(/*dojo.data.Item*/ item, /*Boolean*/ opened){
 		// summary:
-		//		User overridable function to return CSS styles to display icon
+		//		Overridable function to return CSS styles to display icon
 		// returns:
 		//		Object suitable for input to dojo.style() like {backgroundImage: "url(...)"}
 	},
 
 	getLabelStyle: function(/*dojo.data.Item*/ item, /*Boolean*/ opened){
 		// summary:
-		//		User overridable function to return CSS styles to display label
+		//		Overridable function to return CSS styles to display label
 		// returns:
 		//		Object suitable for input to dojo.style() like {color: "red", background: "green"}
 	},
@@ -579,7 +590,8 @@ dojo.declare(
 	/////////// Keyboard and Mouse handlers ////////////////////
 
 	_onKeyPress: function(/*Event*/ e){
-		// summary: translates keypress events into commands for the controller
+		// summary:
+		//		Translates keypress events into commands for the controller
 		if(e.altKey){ return; }
 		var dk = dojo.keys;
 		var treeNode = dijit.getEnclosingWidget(e.target);
@@ -627,7 +639,8 @@ dojo.declare(
 	},
 
 	_onUpArrow: function(/*Object*/ message){
-		// summary: up arrow pressed; move to previous visible node
+		// summary:
+		//		Up arrow pressed; move to previous visible node
 
 		var node = message.node;
 
@@ -656,7 +669,8 @@ dojo.declare(
 	},
 
 	_onRightArrow: function(/*Object*/ message){
-		// summary: right arrow pressed; go to child node
+		// summary:
+		//		Right arrow pressed; go to child node
 		var node = message.node;
 
 		// if not expanded, expand, else move to 1st child
@@ -688,7 +702,8 @@ dojo.declare(
 	},
 
 	_onHomeKey: function(){
-		// summary: home pressed; get first visible node, set focus there
+		// summary:
+		//		Home key pressed; get first visible node, and set focus there
 		var node = this._getRootOrFirstNode();
 		if(node){
 			this.focusNode(node);
@@ -696,7 +711,8 @@ dojo.declare(
 	},
 
 	_onEndKey: function(/*Object*/ message){
-		// summary: end pressed; go to last visible node
+		// summary:
+		//		End key pressed; go to last visible node.
 
 		var node = this.rootNode;
 		while(node.isExpanded){
@@ -710,7 +726,8 @@ dojo.declare(
 	},
 
 	_onLetterKeyNav: function(message){
-		// summary: letter key pressed; search for node starting with first char = key
+		// summary:
+		//		Letter key pressed; search for node starting with first char = key
 		var node = message.node, startNode = node, 
 			key = message.key;
 		do{
@@ -729,7 +746,8 @@ dojo.declare(
 	},
 
 	_onClick: function(/*Event*/ e){
-		// summary: translates click events into commands for the controller to process
+		// summary:
+		//		Translates click events into commands for the controller to process
 		var domElement = e.target;
 
 		// find node
@@ -752,7 +770,8 @@ dojo.declare(
 		dojo.stopEvent(e);
 	},
 	_onDblClick: function(/*Event*/ e){
-		// summary: translates click events into commands for the controller to process
+		// summary:
+		//		Translates double-click events into commands for the controller to process
 		var domElement = e.target;
 
 		// find node
@@ -776,7 +795,8 @@ dojo.declare(
 	},
 
 	_onExpandoClick: function(/*Object*/ message){
-		// summary: user clicked the +/- icon; expand or collapse my children.
+		// summary:
+		//		User clicked the +/- icon; expand or collapse my children.
 		var node = message.node;
 		
 		// If we are collapsing, we might be hiding the currently focused node.
@@ -792,20 +812,25 @@ dojo.declare(
 	},
 
 	onClick: function(/* dojo.data */ item, /*TreeNode*/ node){
-		// summary: user overridable function for executing a tree item
+		// summary:
+		//		Overridable function for executing a tree item on click.
 	},
 	onDblClick: function(/* dojo.data */ item, /*TreeNode*/ node){
-		// summary: user overridable function for executing a tree item
+		// summary:
+		//		Overridable function for executing a tree item on double-click.
 	},
 	onOpen: function(/* dojo.data */ item, /*TreeNode*/ node){
-		// summary: callback when a node is opened
+		// summary:
+		//		Callback when a node is opened
 	},
 	onClose: function(/* dojo.data */ item, /*TreeNode*/ node){
-		// summary: callback when a node is closed
+		// summary:
+		//		Callback when a node is closed
 	},
 
 	_getNextNode: function(node){
-		// summary: get next visible node
+		// summary:
+		//		Get next visible node
 
 		if(node.isExpandable && node.isExpanded && node.hasChildren()){
 			// if this is an expanded node, get the first child
@@ -824,12 +849,14 @@ dojo.declare(
 	},
 
 	_getRootOrFirstNode: function(){
-		// summary: get first visible node
+		// summary:
+		//		Get first visible node
 		return this.showRoot ? this.rootNode : this.rootNode.getChildren()[0];
 	},
 
 	_collapseNode: function(/*_TreeNode*/ node){
-		// summary: called when the user has requested to collapse the node
+		// summary:
+		//		Called when the user has requested to collapse the node
 
 		if(node.isExpandable){
 			if(node.state == "LOADING"){
@@ -848,7 +875,8 @@ dojo.declare(
 	},
 
 	_expandNode: function(/*_TreeNode*/ node){
-		// summary: called when the user has requested to expand the node
+		// summary:
+		//		Called when the user has requested to expand the node
 
 		if(!node.isExpandable){
 			return;
@@ -892,7 +920,7 @@ dojo.declare(
 
 	focusNode: function(/* _tree.Node */ node){
 		// summary:
-		//	Focus on the specified node (which must be visible)
+		//		Focus on the specified node (which must be visible)
 
 		// set focus so that the label will be voiced using screen readers
 		node.labelNode.focus();
@@ -931,7 +959,8 @@ dojo.declare(
 	//////////////// Events from the model //////////////////////////
 	
 	_onItemChange: function(/*Item*/ item){
-		//summary: processes notification of a change to an item's scalar values like label
+		// summary:
+		//		Processes notification of a change to an item's scalar values like label
 		var model = this.model,
 			identity = model.getIdentity(item),
 			node = this._itemNodeMap[identity];
@@ -943,7 +972,8 @@ dojo.declare(
 	},
 
 	_onItemChildrenChange: function(/*dojo.data.Item*/ parent, /*dojo.data.Item[]*/ newChildrenList){
-		//summary: processes notification of a change to an item's children
+		// summary:
+		//		Processes notification of a change to an item's children
 		var model = this.model,
 			identity = model.getIdentity(parent),
 			parentNode = this._itemNodeMap[identity];
@@ -954,7 +984,8 @@ dojo.declare(
 	},
 
 	_onItemDelete: function(/*Item*/ item){
-		//summary: processes notification of a deletion of an item
+		// summary:
+		//		Processes notification of a deletion of an item
 		var model = this.model,
 			identity = model.getIdentity(item),
 			node = this._itemNodeMap[identity];
@@ -973,7 +1004,8 @@ dojo.declare(
 	/////////////// Miscellaneous funcs
 	
 	_initState: function(){
-		//summary:  load in which nodes should be opened automatically
+		// summary:
+		//		Load in which nodes should be opened automatically
 		if(this.persist){
 			var cookie = dojo.cookie(this.cookieName);
 			this._openedItemIds = {};
@@ -985,7 +1017,8 @@ dojo.declare(
 		}
 	},
 	_state: function(item,expanded){
-		//summary: query or set expanded state for an item
+		// summary:
+		//		Query or set expanded state for an item,
 		if(!this.persist){
 			return false;
 		}
@@ -1000,7 +1033,8 @@ dojo.declare(
 		}
 	},
 	_saveState: function(){
-		//summary: create and save a cookie with the currently expanded nodes identifiers
+		// summary:
+		//		Create and save a cookie with the currently expanded nodes identifiers
 		if(!this.persist){
 			return;
 		}

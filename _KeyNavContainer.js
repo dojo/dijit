@@ -5,8 +5,9 @@ dojo.declare("dijit._KeyNavContainer",
 	[dijit._Container],
 	{
 
-		// summary: A _Container with keyboard navigation of its children.
-		// decscription:
+		// summary:
+		//		A _Container with keyboard navigation of its children.
+		// description:
 		//		To use this mixin, call connectKeyNavHandlers() in
 		//		postCreate() and call startupKeyNavChildren() in startup().
 		//		It provides normalized keyboard and focusing code for Container
@@ -26,13 +27,13 @@ dojo.declare("dijit._KeyNavContainer",
 
 		_keyNavCodes: {},
 
-		connectKeyNavHandlers: function(/*Array*/ prevKeyCodes, /*Array*/ nextKeyCodes){
+		connectKeyNavHandlers: function(/*dojo.keys[]*/ prevKeyCodes, /*dojo.keys[]*/ nextKeyCodes){
 			// summary:
 			//		Call in postCreate() to attach the keyboard handlers
 			//		to the container.
-			// preKeyCodes: Array
+			// preKeyCodes: dojo.keys[]
 			//		Key codes for navigating to the previous child.
-			// nextKeyCodes: Array
+			// nextKeyCodes: dojo.keys[]
 			//		Key codes for navigating to the next child.
 
 			var keyCodes = this._keyNavCodes = {};
@@ -51,23 +52,27 @@ dojo.declare("dijit._KeyNavContainer",
 		},
 
 		addChild: function(/*Widget*/ widget, /*int?*/ insertIndex){
-			// summary: Add a child to our _Container
+			// summary:
+			//		Add a child to our _Container
 			dijit._KeyNavContainer.superclass.addChild.apply(this, arguments);
 			this._startupChild(widget);
 		},
 
 		focus: function(){
-			// summary: Default focus() implementation: focus the first child.
+			// summary:
+			//		Default focus() implementation: focus the first child.
 			this.focusFirstChild();
 		},
 
 		focusFirstChild: function(){
-			// summary: Focus the first focusable child in the container.
+			// summary:
+			//		Focus the first focusable child in the container.
 			this.focusChild(this._getFirstFocusableChild());
 		},
 
 		focusNext: function(){
-			// summary: Focus the next widget or focal node (for widgets
+			// summary:
+			//		Focus the next widget or focal node (for widgets
 			//		with multiple focal nodes) within this container.
 			if(this.focusedChild && this.focusedChild.hasNextFocalNode
 					&& this.focusedChild.hasNextFocalNode()){
@@ -83,7 +88,8 @@ dojo.declare("dijit._KeyNavContainer",
 		},
 
 		focusPrev: function(){
-			// summary: Focus the previous widget or focal node (for widgets
+			// summary:
+			//		Focus the previous widget or focal node (for widgets
 			//		with multiple focal nodes) within this container.
 			if(this.focusedChild && this.focusedChild.hasPrevFocalNode
 					&& this.focusedChild.hasPrevFocalNode()){
@@ -100,7 +106,8 @@ dojo.declare("dijit._KeyNavContainer",
 		},
 
 		focusChild: function(/*Widget*/ widget, /*Node?*/ node){
-			// summary: Focus widget. Optionally focus 'node' within widget.
+			// summary:
+			//		Focus widget. Optionally focus 'node' within widget.
 			if(widget){
 				if(this.focusedChild && widget !== this.focusedChild){
 					this._onChildBlur(this.focusedChild);

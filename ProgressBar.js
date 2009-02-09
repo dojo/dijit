@@ -7,7 +7,9 @@ dojo.require("dijit._Widget");
 dojo.require("dijit._Templated");
 
 dojo.declare("dijit.ProgressBar", [dijit._Widget, dijit._Templated], {
-	// summary: A progress indication widget
+	// summary:
+	//		A progress indication widget, showing the amount completed
+	//		(often the percentage completed) of a task.
 	//
 	// example:
 	// |	<div dojoType="ProgressBar"
@@ -16,22 +18,22 @@ dojo.declare("dijit.ProgressBar", [dijit._Widget, dijit._Templated], {
 	// |	</div>
 
 	// progress: String (Percentage or Number)
-	// 	initial progress value.
-	// 	with "%": percentage value, 0% <= progress <= 100%
-	// 	or without "%": absolute value, 0 <= progress <= maximum
+	//		Number or percentage indicating amount of task completed.
+	// 		With "%": percentage value, 0% <= progress <= 100%, or
+	// 		without "%": absolute value, 0 <= progress <= maximum
 	progress: "0",
 
 	// maximum: Float
-	// 	max sample number
+	//		Max sample number
 	maximum: 100,
 
 	// places: Number
-	// 	number of places to show in values; 0 by default
+	//		Mumber of places to show in values; 0 by default
 	places: 0,
 
 	// indeterminate: Boolean
-	// 	If false: show progress.
-	// 	If true: show that a process is underway but that the progress is unknown
+	// 		If false: show progress value (number or percentage).
+	// 		If true: show that a process is underway but that the amount completed is unknown.
 	indeterminate: false,
 
 	templatePath: dojo.moduleUrl("dijit", "templates/ProgressBar.html"),
@@ -48,10 +50,12 @@ dojo.declare("dijit.ProgressBar", [dijit._Widget, dijit._Templated], {
 	},
 
 	update: function(/*Object?*/attributes){
-		// summary: update progress information
+		// summary:
+		//		Update progress information
 		//
-		// attributes: may provide progress and/or maximum properties on this parameter,
-		//	see attribute specs for details.
+		// attributes:
+		//		May provide progress and/or maximum properties on this parameter;
+		//		see attribute specs for details.
 		dojo.mixin(this, attributes || {});
 		var tip = this.internalProgress;
 		var percent = 1, classFunc;
@@ -82,11 +86,14 @@ dojo.declare("dijit.ProgressBar", [dijit._Widget, dijit._Templated], {
 	},
 
 	report: function(/*float*/percent){
-		// summary: Generates message to show; may be overridden by user
+		// summary:
+		//		Generates message to show inside progress bar (normally indicating amount of task completed).
+		//		May be overridden by user.
 		return dojo.number.format(percent, { type: "percent", places: this.places, locale: this.lang });
 	},
 
 	onChange: function(){
-		// summary: User definable function fired when progress updates.
+		// summary:
+		//		User definable function fired when progress updates.
 	}
 });

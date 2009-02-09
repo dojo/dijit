@@ -6,8 +6,12 @@ dojo.declare("dijit.PopupMenuItem",
 		dijit.MenuItem,
 		{
 		_fillContent: function(){
-			// summary: The innerHTML contains both the menu item text and a popup widget
-			// description: the first part holds the menu item text and the second part is the popup
+			// summary: 
+			//		When Menu is declared in markup, this code gets the menu label and
+			//		the popup widget from the srcNodeRef.
+			// description:
+			//		srcNodeRefinnerHTML contains both the menu item text and a popup widget
+			//		The first part holds the menu item text and the second part is the popup
 			// example: 
 			// |	<div dojoType="dijit.PopupMenuItem">
 			// |		<span>pick me</span>

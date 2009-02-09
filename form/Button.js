@@ -110,7 +110,7 @@ dojo.declare("dijit.form.Button",
 	onClick: function(/*Event*/ e){
 		// summary:
 		//		User callback for when button is clicked.
-		//      If type="submit", returns true to perform submit.
+		//		If type="submit", returns true to perform submit.
 		return true;
 	},
 

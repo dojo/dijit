@@ -7,10 +7,11 @@ dojo.require("dijit._Contained");
 dojo.declare("dijit.MenuItem",
 		[dijit._Widget, dijit._Templated, dijit._Contained],
 		{
-		// summary: A line item in a Menu Widget
+		// summary:
+		//		A line item in a Menu Widget
 
 		// Make 3 columns
-		//   icon, label, and expand arrow (BiDi-dependent) indicating sub-menu
+		// icon, label, and expand arrow (BiDi-dependent) indicating sub-menu
 		templatePath: dojo.moduleUrl("dijit", "templates/MenuItem.html"),
 
 		attributeMap: dojo.delegate(dijit._Widget.prototype.attributeMap, {
@@ -19,7 +20,7 @@ dojo.declare("dijit.MenuItem",
 		}),
 
 		// label: String
-		//	menu text
+		//		Menu text
 		label: '',
 
 		// iconClass: String
@@ -31,8 +32,8 @@ dojo.declare("dijit.MenuItem",
 		accelKey: "",
 
 		// disabled: Boolean
-		//  if true, the menu item is disabled
-		//  if false, the menu item is enabled
+		//		If true, the menu item is disabled.
+		//		If false, the menu item is enabled.
 		disabled: false,
 
 		_fillContent: function(/*DomNode*/ source){
@@ -50,7 +51,8 @@ dojo.declare("dijit.MenuItem",
 		},
 
 		_onHover: function(){
-			// summary: callback when mouse is moved onto menu item
+			// summary:
+			//		Callback when mouse is moved onto menu item
 			dojo.addClass(this.domNode, 'dijitMenuItemHover');
 			this.getParent().onItemHover(this);
 		},
@@ -73,7 +75,8 @@ dojo.declare("dijit.MenuItem",
 		},
 
 		onClick: function(/*Event*/ evt){
-			// summary: User defined function to handle clicks
+			// summary:
+			//		User defined function to handle clicks
 		},
 
 		focus: function(){
@@ -108,11 +111,15 @@ dojo.declare("dijit.MenuItem",
 		},
 
 		setLabel: function(/*String*/ content){
+			// summary:
+			//		Deprecated.   Use attr('label', ...) instead.
 			dojo.deprecated("dijit.MenuItem.setLabel() is deprecated.  Use attr('label', ...) instead.", "", "2.0");
 			this.attr("label", content);
 		},
 
 		setDisabled: function(/*Boolean*/ disabled){
+			// summary:
+			//		Deprecated.   Use attr('disabled', bool) instead.
 			dojo.deprecated("dijit.Menu.setDisabled() is deprecated.  Use attr('disabled', bool) instead.", "", "2.0");
 			this.attr('disabled', disabled);
 		},
