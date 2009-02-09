@@ -1,4 +1,4 @@
-//	summary:
+// summary:
 //		Applies pre-set CSS classes to the top-level HTML node, based on:
 // 			- browser (ex: dj_ie)
 //			- browser version (ex: dj_ie6)

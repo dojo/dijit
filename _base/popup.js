@@ -35,46 +35,46 @@ dijit.popup = new function(){
 
 /*=====
 dijit.popup.__OpenArgs = function(){
-	//		popup: Widget
-	//			widget to display
-	//		parent: Widget
-	//			the button etc. that is displaying this popup
-	//		around: DomNode
-	//			DOM node (typically a button); place popup relative to this node.  (Specify this *or* "x" and "y" parameters.)
-	//		x: Integer
-	//			Absolute horizontal position (in pixels) to place node at.  (Specify this *or* "around" parameter.)
-	//		y: Integer
-	//			Absolute vertical position (in pixels) to place node at.  (Specity this *or* "around" parameter.)
-	//		orient: Object || String
-	//			When the around parameter is specified, orient should be an 
-	//			ordered list of tuples of the form (around-node-corner, popup-node-corner).
-	//			dijit.popup.open() tries to position the popup according to each tuple in the list, in order,
-	//			until the popup appears fully within the viewport.
+	// popup: Widget
+	//		widget to display
+	// parent: Widget
+	//		the button etc. that is displaying this popup
+	// around: DomNode
+	//		DOM node (typically a button); place popup relative to this node.  (Specify this *or* "x" and "y" parameters.)
+	// x: Integer
+	//		Absolute horizontal position (in pixels) to place node at.  (Specify this *or* "around" parameter.)
+	// y: Integer
+	//		Absolute vertical position (in pixels) to place node at.  (Specity this *or* "around" parameter.)
+	// orient: Object || String
+	//		When the around parameter is specified, orient should be an 
+	//		ordered list of tuples of the form (around-node-corner, popup-node-corner).
+	//		dijit.popup.open() tries to position the popup according to each tuple in the list, in order,
+	//		until the popup appears fully within the viewport.
 	//
-	//			The default value is {BL:'TL', TL:'BL'}, which represents a list of two tuples:
-	//				1. (BL, TL)
-	//				2. (TL, BL)
-	//			where BL means "bottom left" and "TL" means "top left".
-	//			So by default, it first tries putting the popup below the around node, left-aligning them,
-	//			and then tries to put it above the around node, still left-aligning them.   Note that the
-	//			default is horizontally reversed when in RTL mode.
+	//		The default value is {BL:'TL', TL:'BL'}, which represents a list of two tuples:
+	//			1. (BL, TL)
+	//			2. (TL, BL)
+	//		where BL means "bottom left" and "TL" means "top left".
+	//		So by default, it first tries putting the popup below the around node, left-aligning them,
+	//		and then tries to put it above the around node, still left-aligning them.   Note that the
+	//		default is horizontally reversed when in RTL mode.
 	//
-	//			When an (x,y) position is specified rather than an around node, orient is either
-	//			"R" or "L".  R (for right) means that it tries to put the popup to the right of the mouse,
-	//			specifically positioning the popup's top-right corner at the mouse position, and if that doesn't
-	//			fit in the viewport, then it tries, in order, the bottom-right corner, the top left corner,
-	//			and the top-right corner.
-	//		onCancel: Function
-	//			callback when user has canceled the popup by
-	//				1. hitting ESC or
-	//				2. by using the popup widget's proprietary cancel mechanism (like a cancel button in a dialog);
-	//				   i.e. whenever popupWidget.onCancel() is called, args.onCancel is called
-	//		onClose: Function
-	//			callback whenever this popup is closed
-	//		onExecute: Function
-	//			callback when user "executed" on the popup/sub-popup by selecting a menu choice, etc. (top menu only)
-	//		padding: dijit.__Position
-	//			adding a buffer around the opening position. This is only useful when around is not set.
+	//		When an (x,y) position is specified rather than an around node, orient is either
+	//		"R" or "L".  R (for right) means that it tries to put the popup to the right of the mouse,
+	//		specifically positioning the popup's top-right corner at the mouse position, and if that doesn't
+	//		fit in the viewport, then it tries, in order, the bottom-right corner, the top left corner,
+	//		and the top-right corner.
+	// onCancel: Function
+	//		callback when user has canceled the popup by
+	//			1. hitting ESC or
+	//			2. by using the popup widget's proprietary cancel mechanism (like a cancel button in a dialog);
+	//			   i.e. whenever popupWidget.onCancel() is called, args.onCancel is called
+	// onClose: Function
+	//		callback whenever this popup is closed
+	// onExecute: Function
+	//		callback when user "executed" on the popup/sub-popup by selecting a menu choice, etc. (top menu only)
+	// padding: dijit.__Position
+	//		adding a buffer around the opening position. This is only useful when around is not set.
 	this.popup = popup;
 	this.parent = parent;
 	this.around = around;
@@ -92,15 +92,15 @@ dijit.popup.__OpenArgs = function(){
 		//		Popup the widget at the specified position
 		//
 		// example:
-		//	opening at the mouse position
-		//	|		dijit.popup.open({popup: menuWidget, x: evt.pageX, y: evt.pageY});
+		//		opening at the mouse position
+		//		|		dijit.popup.open({popup: menuWidget, x: evt.pageX, y: evt.pageY});
 		//
 		// example:
-		//	opening the widget as a dropdown
-		//	|		dijit.popup.open({parent: this, popup: menuWidget, around: this.domNode, onClose: function(){...}  });
+		//		opening the widget as a dropdown
+		//		|		dijit.popup.open({parent: this, popup: menuWidget, around: this.domNode, onClose: function(){...}  });
 		//
-		//	Note that whatever widget called dijit.popup.open() should also listen to its own _onBlur callback
-		//	(fired from _base/focus.js) to know that focus has moved somewhere else and thus the popup should be closed.
+		//		Note that whatever widget called dijit.popup.open() should also listen to its own _onBlur callback
+		//		(fired from _base/focus.js) to know that focus has moved somewhere else and thus the popup should be closed.
 
 		var widget = args.popup,
 			orient = args.orient || {'BL':'TL', 'TL':'BL'},
@@ -270,10 +270,10 @@ dijit._frames = new function(){
 
 
 dijit.BackgroundIframe = function(/* DomNode */node){
-	//	summary:
+	// summary:
 	//		For IE z-index schenanigans. id attribute is required.
 	//
-	//	description:
+	// description:
 	//		new dijit.BackgroundIframe(node)
 	//			Makes a background iframe as a child of node, that fills
 	//			area (and position) of node

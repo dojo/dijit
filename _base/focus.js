@@ -24,7 +24,8 @@ dojo.mixin(dijit,
 	_prevFocus: null,
 
 	isCollapsed: function(){
-		// summary: tests whether the current selection is empty
+		// summary:
+		//		Tests whether the current selection is empty
 		var _document = dojo.doc;
 		if(_document.selection){ // IE
 			var s=_document.selection;
@@ -45,7 +46,8 @@ dojo.mixin(dijit,
 	},
 
 	getBookmark: function(){
-		// summary: Retrieves a bookmark that can be used with moveToBookmark to return to the same range
+		// summary:
+		//		Retrieves a bookmark that can be used with moveToBookmark to return to the same range
 		var bookmark, selection = dojo.doc.selection;
 		if(selection){ // IE
 			var range = selection.createRange();
@@ -77,8 +79,10 @@ dojo.mixin(dijit,
 	},
 
 	moveToBookmark: function(/*Object*/bookmark){
-		// summary: Moves current selection to a bookmark
-		// bookmark: This should be a returned object from dojo.html.selection.getBookmark()
+		// summary:
+		//		Moves current selection to a bookmark
+		// bookmark:
+		//		This should be a returned object from dojo.html.selection.getBookmark()
 		var _document = dojo.doc;
 		if(_document.selection){ // IE
 			var range;
@@ -107,18 +111,18 @@ dojo.mixin(dijit,
 
 	getFocus: function(/*Widget?*/menu, /*Window?*/openedForWindow){
 		// summary:
-		//	Returns the current focus and selection.
-		//	Called when a popup appears (either a top level menu or a dialog),
-		//	or when a toolbar/menubar receives focus
+		//		Returns the current focus and selection.
+		//		Called when a popup appears (either a top level menu or a dialog),
+		//		or when a toolbar/menubar receives focus
 		//
 		// menu:
-		//	The menu that's being opened
+		//		The menu that's being opened
 		//
 		// openedForWindow:
-		//	iframe in which menu was opened
+		//		iframe in which menu was opened
 		//
 		// returns:
-		//	A handle to restore focus/selection
+		//		A handle to restore focus/selection
 
 		return {
 			// Node to return focus to
@@ -309,7 +313,7 @@ dojo.mixin(dijit,
 	},
 
 	_onFocusNode: function(/*DomNode*/ node){
-		// summary
+		// summary:
 		//		Callback when node is focused
 
 		if(!node){
@@ -334,8 +338,8 @@ dojo.mixin(dijit,
 	},
 
 	_setStack: function(newStack){
-		// summary
-		//	The stack of active widgets has changed.  Send out appropriate events and record new stack
+		// summary:
+		//		The stack of active widgets has changed.  Send out appropriate events and records new stack.
 
 		var oldStack = dijit._activeStack;
 		dijit._activeStack = newStack;

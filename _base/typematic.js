@@ -2,10 +2,10 @@ dojo.provide("dijit._base.typematic");
 
 dijit.typematic = {
 	// summary:
-	//	These functions are used to repetitively call a user specified callback
-	//	method when a specific key or mouse click over a specific DOM node is
-	//	held down for a specific amount of time.
-	//	Only 1 such event is allowed to occur on the browser page at 1 time.
+	//		These functions are used to repetitively call a user specified callback
+	//		method when a specific key or mouse click over a specific DOM node is
+	//		held down for a specific amount of time.
+	//		Only 1 such event is allowed to occur on the browser page at 1 time.
 
 	_fireEventAndReload: function(){
 		this._timer = null;
@@ -20,18 +20,27 @@ dijit.typematic = {
 		//      If already started, the function call is ignored.
 		//      This method is not normally called by the user but can be
 		//      when the normal listener code is insufficient.
-		//	Parameters:
-		//	evt: key or mouse event object to pass to the user callback
-		//	_this: pointer to the user's widget space.
-		//	node: the DOM node object to pass the the callback function
-		//	callback: function to call until the sequence is stopped called with 3 parameters:
-		//		count: integer representing number of repeated calls (0..n) with -1 indicating the iteration has stopped
-		//		node: the DOM node object passed in
-		//		evt: key or mouse event object
-		//	obj: user space object used to uniquely identify each typematic sequence
-		//	subsequentDelay: if > 1, the number of milliseconds until the 3->n events occur
+		// evt:
+		//		key or mouse event object to pass to the user callback
+		// _this:
+		//		pointer to the user's widget space.
+		// node:
+		//		the DOM node object to pass the the callback function
+		// callback:
+		//		function to call until the sequence is stopped called with 3 parameters:
+		// count:
+		//		integer representing number of repeated calls (0..n) with -1 indicating the iteration has stopped
+		// node:
+		//		the DOM node object passed in
+		// evt:
+		//		key or mouse event object
+		// obj:
+		//		user space object used to uniquely identify each typematic sequence
+		// subsequentDelay:
+		//		if > 1, the number of milliseconds until the 3->n events occur
 		//		or else the fractional time multiplier for the next event's delay, default=0.9
-		//	initialDelay: the number of milliseconds until the 2nd event occurs, default=500ms
+		// initialDelay:
+		//		the number of milliseconds until the 2nd event occurs, default=500ms
 		if(obj != this._obj){
 			this.stop();
 			this._initialDelay = initialDelay || 500;
@@ -60,19 +69,28 @@ dijit.typematic = {
 	},
 
 	addKeyListener: function(/*DOMNode*/ node, /*Object*/ keyObject, /*Object*/ _this, /*Function*/ callback, /*Number*/ subsequentDelay, /*Number*/ initialDelay){
-		// summary: Start listening for a specific typematic key.
-		//	keyObject: an object defining the key to listen for.
-		//		charOrCode: the printable character (string) or keyCode (number) to listen for.
-		//			keyCode: (deprecated - use charOrCode) the keyCode (number) to listen for (implies charCode = 0).
-		//			charCode: (deprecated - use charOrCode) the charCode (number) to listen for.
-		//		ctrlKey: desired ctrl key state to initiate the calback sequence:
-		//			pressed (true)
-		//			released (false)
-		//			either (unspecified)
-		//		altKey: same as ctrlKey but for the alt key
-		//		shiftKey: same as ctrlKey but for the shift key
-		//	See the trigger method for other parameters.
-		//	Returns an array of dojo.connect handles
+		// summary:
+		//		Start listening for a specific typematic key.
+		//		See also the trigger method for other parameters.
+		// keyObject:
+		//		an object defining the key to listen for.
+		// charOrCode:
+		//		the printable character (string) or keyCode (number) to listen for.
+		// keyCode:
+		//		(deprecated - use charOrCode) the keyCode (number) to listen for (implies charCode = 0).
+		// charCode:
+		//		(deprecated - use charOrCode) the charCode (number) to listen for.
+		// ctrlKey:
+		//		desired ctrl key state to initiate the calback sequence:
+		//			- pressed (true)
+		//			- released (false)
+		//			- either (unspecified)
+		// altKey:
+		//		same as ctrlKey but for the alt key
+		// shiftKey:
+		//		same as ctrlKey but for the shift key
+		// returns:
+		//		an array of dojo.connect handles
 		if(keyObject.keyCode){
 			keyObject.charOrCode = keyObject.keyCode;
 			dojo.deprecated("keyCode attribute parameter for dijit.typematic.addKeyListener is deprecated. Use charOrCode instead.", "", "2.0");
@@ -101,9 +119,11 @@ dijit.typematic = {
 	},
 
 	addMouseListener: function(/*DOMNode*/ node, /*Object*/ _this, /*Function*/ callback, /*Number*/ subsequentDelay, /*Number*/ initialDelay){
-		// summary: Start listening for a typematic mouse click.
-		//	See the trigger method for other parameters.
-		//	Returns an array of dojo.connect handles
+		// summary:
+		//		Start listening for a typematic mouse click.
+		//		See the trigger method for other parameters.
+		// returns:
+		//		an array of dojo.connect handles
 		var dc = dojo.connect;
 		return [
 			dc(node, "mousedown", this, function(evt){
@@ -132,12 +152,16 @@ dijit.typematic = {
 	},
 
 	addListener: function(/*Node*/ mouseNode, /*Node*/ keyNode, /*Object*/ keyObject, /*Object*/ _this, /*Function*/ callback, /*Number*/ subsequentDelay, /*Number*/ initialDelay){
-		// summary: Start listening for a specific typematic key and mouseclick.
-		//	This is a thin wrapper to addKeyListener and addMouseListener.
-		//	mouseNode: the DOM node object to listen on for mouse events.
-		//	keyNode: the DOM node object to listen on for key events.
-		//	See the addMouseListener and addKeyListener methods for other parameters.
-		//	Returns an array of dojo.connect handles
+		// summary:
+		//		Start listening for a specific typematic key and mouseclick.
+		//		This is a thin wrapper to addKeyListener and addMouseListener.
+		//		See the addMouseListener and addKeyListener methods for other parameters.
+		// mouseNode:
+		//		the DOM node object to listen on for mouse events.
+		// keyNode:
+		//		the DOM node object to listen on for key events.
+		// returns:
+		//		an array of dojo.connect handles
 		return this.addKeyListener(keyNode, keyObject, _this, callback, subsequentDelay, initialDelay).concat(
 			this.addMouseListener(mouseNode, _this, callback, subsequentDelay, initialDelay));
 	}

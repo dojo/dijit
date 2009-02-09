@@ -1,8 +1,8 @@
 dojo.provide("dijit._base.scroll");
 
 dijit.scrollIntoView = function(/* DomNode */node){
-	//	summary
-	//	Scroll the passed node into view, if it is not.
+	// summary:
+	//		Scroll the passed node into view, if it is not.
 
 	// don't rely on that node.scrollIntoView works just because the function is there
 	// it doesnt work in Konqueror or Opera even though the function is there and probably
