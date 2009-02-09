@@ -16,15 +16,15 @@ dojo.declare("dijit.tree.ForestStoreModel", dijit.tree.TreeStoreModel, {
 	// Parameters to constructor
 
 	// rootId: String
-	//	ID of fabricated root item
+	//		ID of fabricated root item
 	rootId: "$root$",
 
 	// rootLabel: String
-	//	Label of fabricated root item
+	//		Label of fabricated root item
 	rootLabel: "ROOT",
 
 	// query: String
-	//	Specifies the set of children of the root item.
+	//		Specifies the set of children of the root item.
 	// example:
 	//		{type:'continent'}
 	query: null,
@@ -177,7 +177,8 @@ dojo.declare("dijit.tree.ForestStoreModel", dijit.tree.TreeStoreModel, {
 	},
 
 	_onNewItem: function(/* dojo.data.Item */ item, /* Object */ parentInfo){
-		// summary: handler for when new items appear in the store.
+		// summary:
+		//		Handler for when new items appear in the store.
 
 		//		In theory, any new item could be a top level item.
 		//		Do the safe but inefficient thing by requerying the top
@@ -189,7 +190,8 @@ dojo.declare("dijit.tree.ForestStoreModel", dijit.tree.TreeStoreModel, {
 	},
 
 	_onDeleteItem: function(/*Object*/ item){
-		// summary: handler for delete notifications from underlying store
+		// summary:
+		//		Handler for delete notifications from underlying store
 
 		// check if this was a child of root, and if so send notification that root's children
 		// have changed

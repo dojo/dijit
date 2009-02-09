@@ -35,7 +35,8 @@ dojo.declare(
 		query: null,
 
 		constructor: function(/* Object */ args){
-			// summary: passed the arguments listed above (store, etc)
+			// summary:
+			//		Passed the arguments listed above (store, etc)
 			dojo.mixin(this, args);
 
 			this.connects = [];
@@ -144,7 +145,8 @@ dojo.declare(
 		},
 
 		getLabel: function(/*dojo.data.Item*/ item){
-			// summary: get the label for an item
+			// summary:
+			//		Get the label for an item
 			if(this.labelAttr){
 				return this.store.getValue(item,this.labelAttr);	// String
 			}else{
@@ -226,7 +228,8 @@ dojo.declare(
 		///Events from data store
 
 		_onNewItem: function(/* dojo.data.Item */ item, /* Object */ parentInfo){
-			// summary: handler for when new items appear in the store.
+			// summary:
+			//		Handler for when new items appear in the store.
 
 			//	In this case there's no correspond onSet() call on the parent of this
 			//	item, so need to get the new children list of the parent manually somehow.
@@ -240,7 +243,8 @@ dojo.declare(
 		},
 		
 		_onDeleteItem: function(/*Object*/ item){
-			// summary: handler for delete notifications from underlying store
+			// summary:
+			//		Handler for delete notifications from underlying store
 			this.onDelete(item);
 		},
 
@@ -248,7 +252,8 @@ dojo.declare(
 						/* attribute-name-string */ attribute, 
 						/* object | array */ oldValue,
 						/* object | array */ newValue){
-			//summary: set data event on an item in the store
+			// summary:
+			//		Set data event on an item in the store
 		
 			if(dojo.indexOf(this.childrenAttrs, attribute) != -1){
 				// item's children list changed

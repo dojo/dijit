@@ -4,15 +4,17 @@ dojo.declare(
 	null,
 {
 	// summary
-	//		Contract for any data provider object for the tree.  Tree 
-	//		passes in values to the constructor to specify the callbacks.
+	//		Contract for any data provider object for the tree.
+	// description:
+	//		Tree passes in values to the constructor to specify the callbacks.
 	//		"item" is typically a dojo.data.Item but it's just a black box so
 	//		it could be anything.
 	//
-	//		This (like dojo.data.api.Read) is just documentation, and not meant to be used.
+	//		This (like `dojo.data.api.Read`) is just documentation, and not meant to be used.
 	
 	destroy: function(){
-		// summary: destroys this object, releasing connections to the store
+		// summary:
+		//		Destroys this object, releasing connections to the store
 	},
 	
 	// =======================================================================
@@ -25,7 +27,7 @@ dojo.declare(
 	},
 	
 	mayHaveChildren: function(/*dojo.data.Item*/ item){
-		// summary
+		// summary:
 		//		Tells if an item has or may have children.  Implementing logic here
 		//		avoids showing +/- expando icon for nodes that we know don't have children.
 		//		(For efficiency reasons we may not want to check if an element actually
@@ -33,7 +35,7 @@ dojo.declare(
 	},
 	
 	getChildren: function(/*dojo.data.Item*/ parentItem, /*function(items)*/ onComplete){
-		// summary
+		// summary:
 		// 		Calls onComplete() with array of child items of given parent item, all loaded.
 		//		Throws exception on error.
 	},
@@ -42,23 +44,25 @@ dojo.declare(
 	// Inspecting items
 	
 	getIdentity: function(/* item */ item){
-		// summary: returns identity for an item
+		// summary:
+		//		Returns identity for an item
 	},
 	
 	getLabel: function(/*dojo.data.Item*/ item){
-		// summary: get the label for an item
+		// summary:
+		//		Get the label for an item
 	},
 	
 	// =======================================================================
 	// Write interface
 	
 	newItem: function(/* Object? */ args, /*Item?*/ parent){
-		// summary
+		// summary:
 		//		Creates a new item.   See dojo.data.api.Write for details on args.
 	},
 	
 	pasteItem: function(/*Item*/ childItem, /*Item*/ oldParentItem, /*Item*/ newParentItem, /*Boolean*/ bCopy){
-		// summary
+		// summary:
 		//		Move or copy an item from one parent item to another.
 		//		Used in drag & drop.
 		//		If oldParentItem is specified and bCopy is false, childItem is removed from oldParentItem.
@@ -69,7 +73,7 @@ dojo.declare(
 	// Callbacks
 	
 	onChange: function(/*dojo.data.Item*/ item){
-		// summary
+		// summary:
 		//		Callback whenever an item has changed, so that Tree
 		//		can update the label, icon, etc.   Note that changes
 		//		to an item's children or parent(s) will trigger an
@@ -77,7 +81,7 @@ dojo.declare(
 	},
 	
 	onChildrenChange: function(/*dojo.data.Item*/ parent, /*dojo.data.Item[]*/ newChildrenList){
-		// summary
+		// summary:
 		//		Callback to do notifications about new, updated, or deleted items.
 	}
 });
