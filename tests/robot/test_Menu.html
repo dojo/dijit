@@ -1,0 +1,121 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+		"http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<title>doh.robot Validation Test</title>
+
+		<style>
+			@import "../../../util/doh/robot/robot.css";
+		</style>
+
+		<!-- required: dojo.js -->
+		<script type="text/javascript" src="../../../dojo/dojo.js"
+			djConfig="isDebug: true, parseOnLoad: true"></script>
+
+		<script type="text/javascript">
+			dojo.require("dijit.dijit"); // optimize: load dijit layer
+			dojo.require("dijit.robotx");
+
+			dojo.addOnLoad(function(){
+				doh.robot.initRobot('../test_Menu.html');
+
+				doh.register("dijit.Menu", [
+					{
+						name: "mouse over file MenuBarItem",
+						timeout: 2000,
+						runTest: function(){
+							var d = new doh.Deferred();
+	
+							// Check initial conditions
+							doh.f(dojo.hasClass("file", "dijitMenuItemHover"), "File MenuBarItem doesn't have hover effect");
+							doh.is("none", dojo.style("fileMenu", "display"), "File menu is hidden");						
+							
+							// Move over the File MenuBarItem
+							doh.robot.mouseMoveAt("file", 500);
+	
+							doh.robot.sequence(d.getTestCallback(function(){
+								// The "File" MenuBarItem should be highlighted
+								doh.t(dojo.hasClass("file", "dijitMenuItemHover"),
+									"File MenuBarItem should have hover effect, actual class is: " + dojo.byId("fileMenu").className);
+	
+								// However, just moving over the MenuBarItem shouldn't have opened the menu
+								doh.is("none", dojo.style("fileMenu", "display"), "File menu is hidden");					
+							}), 500);
+	
+							return d;
+						}
+					},
+
+					{
+						name: "click on file MenuBarItem",
+						timeout: 2000,
+						runTest: function(){
+							var d = new doh.Deferred();
+	
+							doh.robot.mouseClick({left: true}, 500);
+							
+							doh.robot.sequence(d.getTestCallback(function(){
+								// now of course the file menu should be visible
+								doh.is("table", dojo.style("fileMenu", "display"), "File menu is visible");
+							}), 500);
+	
+							return d;
+						}
+					},
+
+					{
+						name: "hover edit menu item",
+						timeout: 2000,
+						runTest: function(){
+							var d = new doh.Deferred();
+	
+							doh.robot.mouseMoveAt("edit", 500);
+							
+							doh.robot.sequence(d.getTestCallback(function(){
+								// since we've already activate the MenuBar by clicking file,
+								// hovering over edit should automatically show the menu
+								doh.is("table", dojo.style("editMenu", "display"), "Edit menu is visible");
+								
+								// And also, the file menu should have disappeared
+								doh.is("table", dojo.style("fileMenu", "display"), "File menu is hidden again");
+							}), 500);
+	
+							return d;
+						}
+					}
+				]);
+
+/****
+				doh.register("tab in and out",{
+					name: "tab in and out",
+					runTest:function(){
+						// starting at the link
+						console.log("focus() on link");
+						dojo.byId("link").focus();
+						var win = (dojo.doc.parentWindow || dojo.doc.defaultView);
+						console.log(win);
+						console.log(win.dijit);
+						console.log("curfocus is ", win.dijit._curFocus);
+
+						//doh.is("random link", win.dijit._curFocus.innerHTML, "check that focus is on the link");
+
+						// tab to the MenuBar... then focus should automatically shift to "File" menu,
+						// TODO: need a delay before testing that?
+						console.log("tab to MenuBar");
+						doh.robot.keyPress(dojo.keys.TAB, 2000, {});
+						console.log("tabbed to MenuBar");
+						doh.is("File", win.dijit._curFocus.innerHTML, "check that focus is on File menu");
+
+						// shift-tab back to link
+						console.log("shift tab back");
+						doh.robot.keyPress(dojo.keys.TAB, 2000, {shift:true});
+						doh.is("random link", win.dijit._curFocus.innerHTML, "check that focus is back on the link");
+					}
+				});
+***/
+				doh.run();
+			});
+		</script>
+	</head>
+</html>
+<html><body></body></html>

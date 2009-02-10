@@ -194,7 +194,7 @@
 			</td>
 			<td id="menuBarContainer" width="100%">
 				<div id="menubar" dojoType="dijit.MenuBar">
-					<div dojoType="dijit.PopupMenuBarItem">
+					<div dojoType="dijit.PopupMenuBarItem" id="file">
 						<span>File</span>
 						<div dojoType="dijit.Menu" id="fileMenu">
 							<div dojoType="dijit.MenuItem">New</div>
@@ -204,7 +204,7 @@
 							<div dojoType="dijit.MenuItem">Save As...</div>
 						</div>
 					</div>
-					<div dojoType="dijit.PopupMenuBarItem">
+					<div dojoType="dijit.PopupMenuBarItem" id="edit">
 						<span>Edit</span>
 						<div dojoType="dijit.Menu" id="editMenu">
 							<div dojoType="dijit.MenuItem"  iconClass="dijitEditorIcon dijitEditorIconCut"
@@ -215,7 +215,7 @@
 								onClick="console.log('not actually pasting anything, just a test!')">Paste</div>
 						</div>
 					</div>
-					<div dojoType="dijit.PopupMenuBarItem">
+					<div dojoType="dijit.PopupMenuBarItem" id="view">
 						<span>View</span>
 						<div dojoType="dijit.Menu" id="viewMenu">
 							<div dojoType="dijit.MenuItem">Normal</div>
@@ -232,7 +232,7 @@
 							</div>
 						</div>
 					</div>
-					<div dojoType="dijit.PopupMenuBarItem">
+					<div dojoType="dijit.PopupMenuBarItem" id="help">
 						<span>Help</span>
 						<div dojoType="dijit.Menu" id="helpMenu">
 							<div dojoType="dijit.MenuItem">Help Topics</div>
