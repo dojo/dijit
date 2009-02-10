@@ -330,7 +330,6 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 			html = this._preFilterContent(dijit._editor.getChildrenHtml(dn));
 			dn.innerHTML = "";
 		}
-		if(html == ""){ html = "&nbsp;"; }
 
 		var content = dojo.contentBox(dn);
 		// var content = dojo.contentBox(this.srcNodeRef);
