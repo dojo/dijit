@@ -1564,6 +1564,10 @@ img.dijitColorPaletteUnder {
 	top: expression(eval((document.documentElement||document.body).scrollTop));
 }
 
+.RichTextEditable {
+	display: block;	/* prevents glitch on FF with InlineEditBox, see #8404 */
+}
+
 /* TimePicker */
 
 .dijitTimePickerItemInner {
