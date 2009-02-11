@@ -27,7 +27,7 @@ dojo.declare("dijit._Templated",
 		//		declared in markup inside it?  False by default.
 		widgetsInTemplate: false,
 
-		// skipNodeCache: Boolean
+		// _skipNodeCache: Boolean
 		//		If using a cached widget template node poses issues for a
 		//		particular widget class, it can set this property to ensure
 		//		that its template is always re-built from a string
