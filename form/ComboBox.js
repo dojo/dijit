@@ -15,7 +15,7 @@ dojo.declare(
 		//		Implements the base functionality for ComboBox/FilteringSelect
 		// description:
 		//		All widgets that mix in dijit.form.ComboBoxMixin must extend dijit.form._FormValueWidget
-
+		//
 		// item: Object
 		//		This is the item returned by the dojo.data.store implementation that
 		//		provides the data for this cobobox, it's the currently selected item.
