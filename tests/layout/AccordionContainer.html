@@ -124,8 +124,10 @@
 					},
 					{
 						name: "select new pane",
-						timeout: 500,
+						timeout: 3000,
 						setUp: function(t){
+							// Note that this kicks off an animation so it might be a while before the
+							// bottom setTimeout() fires, likely longer than the 300ms specified
 							accordion.selectChild(dijit.byId('pane 3'));
 						},
 						runTest: function(t){
