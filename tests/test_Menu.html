@@ -197,21 +197,21 @@
 					<div dojoType="dijit.PopupMenuBarItem" id="file">
 						<span>File</span>
 						<div dojoType="dijit.Menu" id="fileMenu">
-							<div dojoType="dijit.MenuItem">New</div>
-							<div dojoType="dijit.MenuItem">Open</div>
-							<div dojoType="dijit.MenuSeparator"></div>
-							<div dojoType="dijit.MenuItem" iconClass="dijitEditorIconSave">Save</div>
-							<div dojoType="dijit.MenuItem">Save As...</div>
+							<div dojoType="dijit.MenuItem" id="new">New</div>
+							<div dojoType="dijit.MenuItem" id="open">Open</div>
+							<div dojoType="dijit.MenuSeparator" id="separator"></div>
+							<div dojoType="dijit.MenuItem" id="save" iconClass="dijitEditorIconSave">Save</div>
+							<div dojoType="dijit.MenuItem" id="saveas">Save As...</div>
 						</div>
 					</div>
 					<div dojoType="dijit.PopupMenuBarItem" id="edit">
 						<span>Edit</span>
 						<div dojoType="dijit.Menu" id="editMenu">
-							<div dojoType="dijit.MenuItem"  iconClass="dijitEditorIcon dijitEditorIconCut"
+							<div dojoType="dijit.MenuItem" id="cut" iconClass="dijitEditorIcon dijitEditorIconCut"
 								onClick="console.log('not actually cutting anything, just a test!')">Cut</div>
-							<div dojoType="dijit.MenuItem"  iconClass="dijitEditorIcon dijitEditorIconCopy"
+							<div dojoType="dijit.MenuItem" id="copy" iconClass="dijitEditorIcon dijitEditorIconCopy"
 								onClick="console.log('not actually copying anything, just a test!')">Copy</div>
-							<div dojoType="dijit.MenuItem"  iconClass="dijitEditorIcon dijitEditorIconPaste"
+							<div dojoType="dijit.MenuItem" id="paste" iconClass="dijitEditorIcon dijitEditorIconPaste"
 								onClick="console.log('not actually pasting anything, just a test!')">Paste</div>
 						</div>
 					</div>
