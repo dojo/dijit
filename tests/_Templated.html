@@ -125,16 +125,15 @@
 						},
 						function attachEvent(t){
 							var deferred = new doh.Deferred();
-							var widget=new AttachEvent();
+							var widget = new AttachEvent();
 							var wrapper = dojo.byId("attachEventWrapper");
 							wrapper.appendChild(widget.domNode);
 							widget.left.focus();
 							widget.right.focus();
-							setTimeout(function(){
+							setTimeout(deferred.getTestCallback(function(){
 								t.t(widget.focusCalled);
 								t.t(widget.focus2Called);
-								deferred.callback(true);
-							}, 0);
+							}), 0);
 							return deferred;
 						}
 					]
