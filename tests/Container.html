@@ -10,6 +10,7 @@
 		dojo.require("doh.runner");
 		dojo.require("dijit._Widget");
 		dojo.require("dijit._Container");
+		dojo.require("dijit._Contained");
 
 		dojo.declare("dijit.TestContainer",
 			[dijit._Widget, dijit._Container], { }
@@ -22,11 +23,12 @@
 		dojo.require("dojo.parser");
 
 		dojo.addOnLoad(function(){
-			doh.register("t",
+			doh.register("dijit._Container",
 				[
 					{
 						name: "getChildren",
 						runTest: function(t){
+							console.log("getChildren test");
 							var c = dijit.byId("container");
 							var children = c.getChildren();
 							t.is(4, children.length);
