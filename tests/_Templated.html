@@ -131,9 +131,9 @@
 							widget.left.focus();
 							widget.right.focus();
 							setTimeout(deferred.getTestCallback(function(){
-								t.t(widget.focusCalled);
-								t.t(widget.focus2Called);
-							}), 0);
+								t.t(widget.focusCalled, "left focused");
+								t.t(widget.focus2Called, "right focused");
+							}), 50);
 							return deferred;
 						}
 					]
