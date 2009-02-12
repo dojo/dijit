@@ -131,7 +131,7 @@
 					var checkGotFocus = function(){
 						spinner.disconnect(focusConnect);
 						spinner.disconnect(blurConnect);
-						doh.assertEqual(3, focusCountZ, "# of times focussed (" + spinner.id + ")");
+						doh.assertEqual(3, focusCountZ, "# of times focused (" + spinner.id + ")");
 						doh.assertEqual(2, blurCountZ, "# of times lost focus (" + spinner.id + ")");
 					};
 					doh.robot.sequence(d.getTestCallback(checkGotFocus), 1100);
@@ -190,7 +190,7 @@
 						+": 1,000\n"
 						+"integerspinner2: 1000\n"
 						+": \n"
-						+"integertextbox3: NaN\n"
+						+"integertextbox3: \n"
 						+": 1.0\n"
 						+"realspinner1: 1\n";
 						doh.is(s, dojo.doc.displayData().replace(/[a-zA-Z0-9_]*_displayed_/g, ""));
@@ -269,32 +269,23 @@
 						doh.robot.mouseClick({left:true,  middle:false,  right:false}, 3);
 						doh.robot.mouseMoveAt(safeClick, 500, 100, 0, 0);
 						doh.robot.mouseClick({left:true,  middle:false,  right:false}, 3);
-						doh.robot.sequence(function(){
-							try{
+						doh.robot.sequence(d.getTestErrback(function(){
+							doh.is(1550,spin1.attr('value'));
+							doh.is("1,550",spin1.focusNode.value);
+							doh.is("1550",dojo.byId('oc1').value);
+							doh.is(true,spin1.isValid());
+							// press again: shouldn't move
+							doh.robot.mouseMoveAt(spin1.upArrowNode, 500);
+							doh.robot.mouseClick({left:true,  middle:false,  right:false}, 3);
+							doh.robot.mouseMoveAt(safeClick, 500, 100, 0, 0);
+							doh.robot.mouseClick({left:true,  middle:false,  right:false}, 3);
+							doh.robot.sequence(d.getTestCallback(function(){
 								doh.is(1550,spin1.attr('value'));
 								doh.is("1,550",spin1.focusNode.value);
 								doh.is("1550",dojo.byId('oc1').value);
 								doh.is(true,spin1.isValid());
-								// press again: shouldn't move
-								doh.robot.mouseMoveAt(spin1.upArrowNode, 500);
-								doh.robot.mouseClick({left:true,  middle:false,  right:false}, 3);
-								doh.robot.mouseMoveAt(safeClick, 500, 100, 0, 0);
-								doh.robot.mouseClick({left:true,  middle:false,  right:false}, 3);
-								doh.robot.sequence(function(){
-									try{
-										doh.is(1550,spin1.attr('value'));
-										doh.is("1,550",spin1.focusNode.value);
-										doh.is("1550",dojo.byId('oc1').value);
-										doh.is(true,spin1.isValid());
-										d.callback(true);
-									}catch(e){
-										d.errback(e);
-									}
-								},500);
-							}catch(e){
-								d.errback(e);
-							}
-						},500);
+							}),500);
+						}),500);
 
 						return d;
 					}
@@ -313,32 +304,23 @@
 						doh.robot.mouseClick({left:true,  middle:false,  right:false}, 3);
 						doh.robot.mouseMoveAt(safeClick, 500, 100, 0, 0);
 						doh.robot.mouseClick({left:true,  middle:false,  right:false}, 3);
-						doh.robot.sequence(function(){
-							try{
-								doh.is(0,spin1.attr('value'));
-								doh.is("0",spin1.focusNode.value);
-								doh.is("0",dojo.byId('oc1').value);
+						doh.robot.sequence(d.getTestErrback(function(){
+							doh.is(0,spin1.attr('value'));
+							doh.is("0",spin1.focusNode.value);
+							doh.is("0",dojo.byId('oc1').value);
+							doh.is(true,spin1.isValid());
+							// press again: can move since no min
+							doh.robot.mouseMoveAt(spin1.downArrowNode, 500);
+							doh.robot.mouseClick({left:true,  middle:false,  right:false}, 3);
+							doh.robot.mouseMoveAt(safeClick, 500, 100, 0, 0);
+							doh.robot.mouseClick({left:true,  middle:false,  right:false}, 3);
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.is(-1,spin1.attr('value'));
+								doh.is("-1",spin1.focusNode.value);
+								doh.is("-1",dojo.byId('oc1').value);
 								doh.is(true,spin1.isValid());
-								// press again: can move since no min
-								doh.robot.mouseMoveAt(spin1.downArrowNode, 500);
-								doh.robot.mouseClick({left:true,  middle:false,  right:false}, 3);
-								doh.robot.mouseMoveAt(safeClick, 500, 100, 0, 0);
-								doh.robot.mouseClick({left:true,  middle:false,  right:false}, 3);
-								doh.robot.sequence(function(){
-									try{
-										doh.is(-1,spin1.attr('value'));
-										doh.is("-1",spin1.focusNode.value);
-										doh.is("-1",dojo.byId('oc1').value);
-										doh.is(true,spin1.isValid());
-										d.callback(true);
-									}catch(e){
-										d.errback(e);
-									}
-								},500);
-							}catch(e){
-								d.errback(e);
-							}
-						},500);
+							}),500);
+						}),500);
 
 						return d;
 					}
@@ -355,14 +337,9 @@
 							spin1.focusNode.value="";
 						},500);
 						doh.robot.typeKeys("0.5",500,300);
-						doh.robot.sequence(function(){
-							try{
-								doh.is(false,spin1.isValid());
-								d.callback(true);
-							}catch(e){
-								d.errback(e);
-							}
-						},500);
+						doh.robot.sequence(d.getTestCallback(function(){
+							doh.is(false,spin1.isValid());
+						}),500);
 						return d;
 					},
 					tearDown:function(){
@@ -464,29 +441,20 @@
 						doh.robot.mouseMoveAt(spin2.focusNode, 500);
 						doh.robot.mouseClick({left:true,  middle:false,  right:false}, 3);
 						doh.robot.keyPress(dojo.keys.UP_ARROW,500);
-						doh.robot.sequence(function(){
-							try{
+						doh.robot.sequence(d.getTestErrback(function(){
+							doh.is(1550,spin2.attr('value'));
+							doh.is("1550",spin2.focusNode.value);
+							doh.is(true,spin2.isValid());
+							// press again: shouldn't move
+							doh.robot.mouseMoveAt(spin2.focusNode, 500);
+							doh.robot.mouseClick({left:true,  middle:false,  right:false}, 3);
+							doh.robot.keyPress(dojo.keys.UP_ARROW,500);
+							doh.robot.sequence(d.getTestCallback(function(){
 								doh.is(1550,spin2.attr('value'));
 								doh.is("1550",spin2.focusNode.value);
 								doh.is(true,spin2.isValid());
-								// press again: shouldn't move
-								doh.robot.mouseMoveAt(spin2.focusNode, 500);
-								doh.robot.mouseClick({left:true,  middle:false,  right:false}, 3);
-								doh.robot.keyPress(dojo.keys.UP_ARROW,500);
-								doh.robot.sequence(function(){
-									try{
-										doh.is(1550,spin2.attr('value'));
-										doh.is("1550",spin2.focusNode.value);
-										doh.is(true,spin2.isValid());
-										d.callback(true);
-									}catch(e){
-										d.errback(e);
-									}
-								},500);
-							}catch(e){
-								d.errback(e);
-							}
-						},500);
+							}),500);
+						}),500);
 
 						return d;
 					}
@@ -505,29 +473,20 @@
 						doh.robot.mouseMoveAt(spin2.focusNode, 500);
 						doh.robot.mouseClick({left:true,  middle:false,  right:false}, 3);
 						doh.robot.keyPress(dojo.keys.DOWN_ARROW,500);
-						doh.robot.sequence(function(){
-							try{
+						doh.robot.sequence(d.getTestErrback(function(){
+							doh.is(9,spin2.attr('value'));
+							doh.is("9",spin2.focusNode.value);
+							doh.is(true,spin2.isValid());
+							// press again: shouldn't move
+							doh.robot.mouseMoveAt(spin2.focusNode, 500);
+							doh.robot.mouseClick({left:true,  middle:false,  right:false}, 3);
+							doh.robot.keyPress(dojo.keys.DOWN_ARROW,500);
+							doh.robot.sequence(d.getTestCallback(function(){
 								doh.is(9,spin2.attr('value'));
 								doh.is("9",spin2.focusNode.value);
 								doh.is(true,spin2.isValid());
-								// press again: shouldn't move
-								doh.robot.mouseMoveAt(spin2.focusNode, 500);
-								doh.robot.mouseClick({left:true,  middle:false,  right:false}, 3);
-								doh.robot.keyPress(dojo.keys.DOWN_ARROW,500);
-								doh.robot.sequence(function(){
-									try{
-										doh.is(9,spin2.attr('value'));
-										doh.is("9",spin2.focusNode.value);
-										doh.is(true,spin2.isValid());
-										d.callback(true);
-									}catch(e){
-										d.errback(e);
-									}
-								},500);
-							}catch(e){
-								d.errback(e);
-							}
-						},500);
+							}),500);
+						}),500);
 
 						return d;
 					}
@@ -545,14 +504,9 @@
 							spin2.focusNode.value="";
 						},500);
 						doh.robot.typeKeys("0.5",500,300);
-						doh.robot.sequence(function(){
-							try{
-								doh.is(false,spin2.isValid());
-								d.callback(true);
-							}catch(e){
-								d.errback(e);
-							}
-						},500);
+						doh.robot.sequence(d.getTestCallback(function(){
+							doh.is(false,spin2.isValid());
+						}),500);
 						return d;
 					},
 					tearDown:function(){
@@ -602,30 +556,21 @@
 						doh.robot.mouseClick({left:true,  middle:false,  right:false}, 3);
 						// wheel up 1; this will increase the value by delta
 						doh.robot.mouseWheel(-1, 500, 1);
-						doh.robot.sequence(function(){
-							try{
+						doh.robot.sequence(d.getTestErrback(function(){
+							doh.is(155.0,spin3.attr('value'));
+							doh.is("155.0",spin3.focusNode.value);
+							doh.is(true,spin3.isValid());
+							// press again: shouldn't move
+							doh.robot.mouseMoveAt(spin3.focusNode, 500);
+							doh.robot.mouseClick({left:true,  middle:false,  right:false}, 3);
+							// wheel up 1; this will increase the value by delta
+							doh.robot.mouseWheel(-1, 500, 1);
+							doh.robot.sequence(d.getTestCallback(function(){
 								doh.is(155.0,spin3.attr('value'));
 								doh.is("155.0",spin3.focusNode.value);
 								doh.is(true,spin3.isValid());
-								// press again: shouldn't move
-								doh.robot.mouseMoveAt(spin3.focusNode, 500);
-								doh.robot.mouseClick({left:true,  middle:false,  right:false}, 3);
-								// wheel up 1; this will increase the value by delta
-								doh.robot.mouseWheel(-1, 500, 1);
-								doh.robot.sequence(function(){
-									try{
-										doh.is(155.0,spin3.attr('value'));
-										doh.is("155.0",spin3.focusNode.value);
-										doh.is(true,spin3.isValid());
-										d.callback(true);
-									}catch(e){
-										d.errback(e);
-									}
-								},500);
-							}catch(e){
-								d.errback(e);
-							}
-						},500);
+							}),500);
+						}),500);
 
 						return d;
 					}
@@ -645,29 +590,20 @@
 						doh.robot.mouseClick({left:true,  middle:false,  right:false}, 3);
 						doh.robot.keyPress(dojo.keys.DOWN_ARROW,500);
 						doh.robot.mouseWheel(1, 500, 1);
-						doh.robot.sequence(function(){
-							try{
+						doh.robot.sequence(d.getTestErrback(function(){
+							doh.is(-10.9,spin3.attr('value'));
+							doh.is("-10.9",spin3.focusNode.value);
+							doh.is(true,spin3.isValid());
+							// press again: shouldn't move
+							doh.robot.mouseMoveAt(spin3.focusNode, 500);
+							doh.robot.mouseClick({left:true,  middle:false,  right:false}, 3);
+							doh.robot.mouseWheel(1, 500, 1);
+							doh.robot.sequence(d.getTestCallback(function(){
 								doh.is(-10.9,spin3.attr('value'));
 								doh.is("-10.9",spin3.focusNode.value);
 								doh.is(true,spin3.isValid());
-								// press again: shouldn't move
-								doh.robot.mouseMoveAt(spin3.focusNode, 500);
-								doh.robot.mouseClick({left:true,  middle:false,  right:false}, 3);
-								doh.robot.mouseWheel(1, 500, 1);
-								doh.robot.sequence(function(){
-									try{
-										doh.is(-10.9,spin3.attr('value'));
-										doh.is("-10.9",spin3.focusNode.value);
-										doh.is(true,spin3.isValid());
-										d.callback(true);
-									}catch(e){
-										d.errback(e);
-									}
-								},500);
-							}catch(e){
-								d.errback(e);
-							}
-						},500);
+							}),500);
+						}),500);
 
 						return d;
 					}
@@ -685,14 +621,9 @@
 							spin3.focusNode.value="";
 						},500);
 						doh.robot.typeKeys("0.a",500,300);
-						doh.robot.sequence(function(){
-							try{
-								doh.is(false,spin3.isValid());
-								d.callback(true);
-							}catch(e){
-								d.errback(e);
-							}
-						},500);
+						doh.robot.sequence(d.getTestCallback(function(){
+							doh.is(false,spin3.isValid());
+						}),500);
 						return d;
 					},
 					tearDown:function(){
@@ -710,7 +641,7 @@
 						+": 1\n"
 						+"integerspinner2: 1\n"
 						+": \n"
-						+"integertextbox3: NaN\n"
+						+"integertextbox3: \n"
 						+": 1.0\n"
 						+"realspinner1: 1\n";
 						doh.is(s, dojo.doc.displayData().replace(/[a-zA-Z0-9_]*_displayed_/g, ""));
@@ -746,7 +677,9 @@
 							spinner.attr('value', setVal);
 							doh.is(dijit.getWaiState(spinner.focusNode, "valuenow"), spinner.attr('value'), spinner.id + ": aria-valuenow");
 						}
-					},
+					}
+				]);
+
 					
 					// test "null" aria-valuenow
 /* Remove null aria-valuenow test until #7866 is resolved
@@ -766,7 +699,6 @@
 						}
 					} 
 */
-				]);
 	
 				// a11y tab focus tests (robot)
 				doh.register("a11yTabFocus",

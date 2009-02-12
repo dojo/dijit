@@ -79,8 +79,7 @@ dojo.declare("dijit.form.NumberTextBoxMixin",
 			// summary:
 			//		Hook so attr('value') works.
 			var v = this.inherited(arguments);
-			if(isNaN(v) && this.textbox.value !== ''){ return undefined; }
-			return v;
+			return (isNaN(v) && this.textbox.value !== '')? undefined : v;
 		},
 
 		value: NaN
