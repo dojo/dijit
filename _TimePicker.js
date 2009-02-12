@@ -212,8 +212,8 @@ dojo.declare("dijit._TimePicker",
 					dijit.typematic.addMouseListener.apply(null, arguments)
 				);
 			};
-			typematic(this.upArrow,this,this._onArrowUp, 0.8, 500);
-			typematic(this.downArrow,this,this._onArrowDown, 0.8, 500);
+			typematic(this.upArrow,this,this._onArrowUp, 1.0, 50);
+			typematic(this.downArrow,this,this._onArrowDown, 1.0, 50);
 			
 			// Connect some callback functions to the hover event of the arrows
 			var triggerFx = function(cb){
@@ -225,7 +225,7 @@ dojo.declare("dijit._TimePicker",
 			var hoverFx = function(node, cb){
 				return function(e){
 					dojo.stopEvent(e);
-					dijit.typematic.trigger(e, this, node, triggerFx(cb), node, 0.85, 250);
+					dijit.typematic.trigger(e, this, node, triggerFx(cb), node, 1.0, 50);
 				};
 			};
 			this.connect(this.upArrow, "onmouseover", hoverFx(this.upArrow, this._onArrowUp));
@@ -336,9 +336,10 @@ dojo.declare("dijit._TimePicker",
 			this[(scrollAmount>0 ? "_onArrowUp" : "_onArrowDown")](); // yes, we're making a new dom node every time you mousewheel, or click
 		},
 
-		_onArrowUp:function(){
+		_onArrowUp:function(count){
 			// summary:
 			//		Remove the bottom time and add one to the top
+			if(typeof count == "number" && count == -1){ return; } // typematic end
 			if(!this.timeMenu.childNodes.length){ return; }
 			var index = this.timeMenu.childNodes[0].index;
 			var divs = this._getFilteredNodes(index, 1, true);
@@ -348,9 +349,10 @@ dojo.declare("dijit._TimePicker",
 			}
 		},
 
-		_onArrowDown:function(){
+		_onArrowDown:function(count){
 			// summary:
 			//		Remove the top time and add one to the bottom
+			if(typeof count == "number" && count == -1){ return; } // typematic end
 			if(!this.timeMenu.childNodes.length){ return; }
 			var index = this.timeMenu.childNodes[this.timeMenu.childNodes.length - 1].index + 1;
 			var divs = this._getFilteredNodes(index, 1, false);
