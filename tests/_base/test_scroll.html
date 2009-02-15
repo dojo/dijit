@@ -18,6 +18,7 @@
 		dojo.require("doh.runner");
 		dojo.require("dijit._base.scroll");
 
+		var usingNative = !(dojo.isFF >= 3 || dojo.isIE || dojo.isWebKit);
 		dojo.addOnLoad(function(){
 		        doh.register("dijit._base.scroll",
 	                [
@@ -71,7 +72,7 @@
 						minScroll = "(+33,+16)";
 					}
 					var maxScroll = "+10";
-					if(dojo.isIE >= 7 || dojo.isFF >= 3){
+					if(dojo.isIE >= 7 || dojo.isFF){
 						maxScroll = -1;
 					}else if(dojo.isIE == 6){
 						maxScroll = -8;
@@ -137,9 +138,9 @@
 				function test_innerNoScrollBars_strict(){
 					var scroll = '';
 					if(dojo.isFF){
-						scroll = '(-30,-10)';
+						scroll = '(-30,+15)';
 					}else if(dojo.isIE >= 8){
-						scroll = '(-15,-10)';
+						scroll = '(-15,15)';
 					}else if(dojo.isIE){
 						scroll = '(+20,-12)';
 					}
@@ -151,18 +152,16 @@
 						minScroll = '(+35,-30)';
 						maxScroll = '(-39,-26)';
 					}else if(dojo.isFF){
-						minScroll = maxScroll = '(-30,-10)';
+						minScroll = maxScroll = '(-30,+15)';
 					}
 					generateTest('innerNoScrollBars_none', maxScroll, minScroll);
 				},
 				function test_innerNoScrollBars_loose_rtl(){
 					var scroll = '';
-					if(dojo.isFF >= 3){
-						scroll = '(+30,-10)';
+					if(dojo.isFF){
+						scroll = '(+30,+15)';
 					}else if(dojo.isIE >= 8){
-						scroll = '(-15,-10)';
-					}else if(dojo.isFF){
-						scroll = '(+15,-10)';
+						scroll = '(-15,15)';
 					}else if(dojo.isIE){
 						scroll = '(-20,-12)';
 					}
@@ -184,7 +183,7 @@
 					generateTest('floatRight_none', "(-1,0)", "(+1,0)");
 				},
 				function test_floatRight_loose_rtl(){
-					generateTest('floatRight_loose_rtl', "("+(dojo.isIE >= 8 ? "+" : "-")+((dojo.isWebKit || dojo.isFF < 3)?"1":"0")+",0)", "("+((dojo.isIE < 8 || dojo.isFF >= 3)?"-":"+")+((dojo.isWebKit || dojo.isFF < 3)?"1":"0")+",0)");
+					generateTest('floatRight_loose_rtl', "("+(dojo.isIE >= 8 ? "+" : "-")+(dojo.isWebKit?"1":"0")+",0)", "("+((dojo.isIE < 8 || dojo.isFF)?"-":"+")+(dojo.isWebKit?"1":"0")+",0)");
 				},
 				function test_bottomNonFloat_strict(){
 					generateTest('bottomNonFloat_strict', "(+0,-0)", "(+0,-0)");
@@ -193,7 +192,7 @@
 					generateTest('bottomNonFloat_none', "(+0,-0)", "(+0,-0)");
 				},
 				function test_bottomNonFloat_loose_rtl(){
-					generateTest('bottomNonFloat_loose_rtl', "("+(dojo.isIE >= 8 ? "+" : "-")+((dojo.isWebKit || dojo.isFF < 3)?"1":"0")+",-0)", "("+((dojo.isIE < 8 || dojo.isFF >= 3)?"-":"+")+((dojo.isWebKit || dojo.isFF < 3)?"1":"0")+",-0)");
+					generateTest('bottomNonFloat_loose_rtl', "("+(dojo.isIE >= 8 ? "+" : "-")+(dojo.isWebKit?"1":"0")+",-0)", "("+((dojo.isIE < 8 || dojo.isFF)?"-":"+")+(dojo.isWebKit?"1":"0")+",-0)");
 				},
 				function test_table_strict(){
 					var minScroll, maxScroll;
@@ -242,69 +241,42 @@
 				},
 				function test_innerScrollbars_strict(){
 					var minScroll, maxScroll;
-					if(dojo.isIE <= 6){
-						minScroll = "(+32,+11)";
-						maxScroll = "(-32,+21)";
-					}else if(dojo.isIE == 7){
-						minScroll = "(+31,+10)";
-						maxScroll = "(-31,+21)";
+					if(dojo.isIE <= 7){
+						minScroll = "(+"+(sb+14)+",+"+(sb-7)+")";
+						maxScroll = "(-"+(sb+14)+",+21)";
 					}else if(dojo.isIE){
-						minScroll = "(-20,+25)";
-						maxScroll = "(-9,-29)";
-					}else if(dojo.isFF < 3){
-						minScroll = "(-20,+25)";
-						maxScroll = "(-10,-32)";
-					}else if(dojo.isFF){
-						minScroll = "(-20,+27)";
-						maxScroll = "(-9,-29)";
-					}else if(dojo.isWebKit){
-						minScroll = "(-20,+9)";
-						maxScroll = "(-7,+22)";
+						minScroll = "(-20,+13)";
+						maxScroll = "(-9,+23)";
+					}else if(dojo.isFF || dojo.isWebKit){
+						minScroll = "(-20,+"+(sb-6)+")";
+						maxScroll = "(-"+(sb-8)+",+22)";
 					}
 					generateTest('innerScrollbars_strict', maxScroll, minScroll);
 				},
 				function test_innerScrollbars_none(){
 					var minScroll, maxScroll;
-					if(dojo.isIE <= 6){
-						minScroll = "(+40,+19)";
-						maxScroll = "(-40,+21)";
-					}else if(dojo.isIE == 7){
-						minScroll = "(+39,+18)";
-						maxScroll = "(-39,+21)";
+					if(dojo.isIE <= 7){
+						minScroll = "(+"+(sb+22)+",+"+(sb+1)+")";
+						maxScroll = "(-"+(sb+22)+",+21)";
 					}else if(dojo.isIE){
 						minScroll = "(+39,+18)";
 						maxScroll = "(-39,+21)";
-					}else if(dojo.isFF < 3){
-						minScroll = "(-20,+12)";
-						maxScroll = "(-10,+22)";
-					}else if(dojo.isFF){
-						minScroll = "(-20,+11)";
-						maxScroll = "(-9,+22)";
-					}else if(dojo.isWebKit){
-						minScroll = "(-20,+9)";
-						maxScroll = "(-7,+22)";
+					}else if(dojo.isFF || dojo.isWebKit){
+						minScroll = "(-20,+"+(sb-6)+")";
+						maxScroll = "(-"+(sb-8)+",+22)";
 					}
 					generateTest('innerScrollbars_none', maxScroll, minScroll);
 				},
 				function test_innerScrollbars_loose_rtl(){
 					var minScroll, maxScroll;
-					if(dojo.isIE <= 6){
-						minScroll = "(+32,+11)";
-						maxScroll = "(-32,+21)";
-					}else if(dojo.isIE == 7){
-						minScroll = "(+31,+10)";
-						maxScroll = "(-31,+21)";
+					if(dojo.isIE <= 7){
+						minScroll = "(+"+(sb+14)+",+"+(sb-7)+")";
+						maxScroll = "(-"+(sb+14)+",+21)";
 					}else if(dojo.isIE){
 						minScroll = "(-20,+11)";
 						maxScroll = "(-9,+22)";
-					}else if(dojo.isFF < 3){
-						minScroll = "(-20,+12)";
-						maxScroll = "(-10,+22)";
-					}else if(dojo.isFF){
-						minScroll = "(+9,+11)";
-						maxScroll = "(+20,+22)";
-					}else if(dojo.isWebKit){
-						minScroll = "(+7,+9)";
+					}else if(dojo.isFF || dojo.isWebKit){
+						minScroll = "(+"+(sb-8)+",+"+(sb-6)+")";
 						maxScroll = "(+20,+22)";
 					}
 					generateTest('innerScrollbars_loose_rtl', maxScroll, minScroll);
@@ -324,27 +296,36 @@
 		        doh.run();
 		});
 		function generateTest(id, maxVal, minVal){
+			var expectedScroll, actualScroll, compare = usingNative? "isNot" : "is";
 			with(dojo.byId(id)){
 				scrollMin();
 				scrollMax();
 				scrollIntoView();
-				var actualScroll = getScroll();
-				var expectedScroll = maxVal || getExpectedMaxScroll();
-                                doh.is(expectedScroll, actualScroll);
+				actualScroll = getScroll();
+				expectedScroll = usingNative? "(-1,-1)" : (maxVal || getExpectedMaxScroll());
+				doh[compare](expectedScroll, actualScroll);
 				scrollIntoView(); // make sure the value sticks
-				var actualScroll = getScroll();
-                                doh.is(expectedScroll, actualScroll);
+				actualScroll = getScroll();
+				doh[compare](expectedScroll, actualScroll);
 				scrollMin();
 				scrollIntoView();
-				var actualScroll = getScroll();
-				var expectedScroll = minVal || getExpectedMinScroll();
-                                doh.is(expectedScroll, actualScroll);
+				actualScroll = getScroll();
+				expectedScroll = usingNative? "(+1,+1)" : (minVal || getExpectedMinScroll());
+				doh[compare](expectedScroll, actualScroll);
 			}
 		}
 	</script>
 </head>
 <body>
 <h1>Automated scrollIntoView tests testing 3 different DOCTYPEs as well as right-to-left</h1>
+<!-- compute scrollbar size for test result computations -->
+<table style="visibility:hidden;table-layout:fixed;">
+<tr><td><div id="nonscroll"  style="width:100px;overflow:hidden;border:1px solid blue;">&nbsp;</div></td></tr>
+<tr><td><div id="withscroll" style="width:100px;overflow-x:hidden;overflow-y:scroll;border:1px solid red;">&nbsp;</div></td></tr>
+</table>
+<script type="text/javascript">
+sb = dojo.byId("nonscroll").clientWidth - dojo.byId("withscroll").clientWidth;
+</script>
 <!--	The test templates are below -->
 <fieldset>
 <label for="8249">Scrollable parent != offsetParent:</label>
@@ -422,7 +403,7 @@
 		><input style="background-color:green;height:15px;"
 		><nobr style="margin:7px;padding:3px;border:5px solid pink;float:none;width:80px;overflow:visible;display:inline;"
 			><input style="background-color:black;display:inline;width:20px;"
-			><input style="background-color:red;display:inline;"
+			><input style="background-color:red;display:inline;font-size:16px;"
 			><input style="background-color:blue;display:inline;width:15px;"
 		></nobr
 		><input style="background-color:cyan;height:10px;"
@@ -466,7 +447,7 @@
 	<div style="width:74px;height:74px;overflow:scroll;background-color:white;margin:1px;padding:2px;border:2px solid white;"
 		><nobr style="display:block;margin:20px;"
 			><input style="width:20px;height:50px;background-color:white;display:inline;"
-			><input style="width:50px;height:50px;margin:0px;display:inline;"
+			><input style="width:50px;height:50px;margin:0px;display:inline;background-color:red;"
 			><input style="width:20px;height:50px;background-color:white;display:inline;"
 		></nobr
 		><input style="height:20px;width:60px;background-color:white;"
@@ -563,7 +544,7 @@
 		'<HTML dir='+(rtl?'rtl':'ltr')+'>'+
 		'<HEAD>'+
 			'<STYLE>'+
-				'* { border:0px solid black;padding:0px;margin:0px; }\n'+
+				'* { border:0px solid black;padding:0px;margin:0px;font-style:normal;font-family:monospace;font-size:0px;line-height:normal; }\n'+
 				'INPUT { display:block; background-color:#ff0000; border:0px solid black; padding:0px; margin:0px; #margin-bottom:-1px; font-size:0px; line-height:0px; overflow:hidden; width:20px; height: 20px; }\n'+
 				'UL { border:0px solid black; padding:0px; margin:0px; line-height:0px; width:45px; overflow:auto; }\n'+
 				'LI { list-style-type: none; border:0px solid black; padding:0px; margin:0px; line-height:20px; overflow:visible; max-width:20px; max-height:20px; height:20px; width:20px; }\n'+

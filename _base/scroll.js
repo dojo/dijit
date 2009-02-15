@@ -14,7 +14,7 @@ dijit.scrollIntoView = function(/* DomNode */node){
 	// node.scrollIntoView hides part of the parent's scrollbar,
 	// so just manage the parent scrollbar ourselves
 
-	//var testdir="H"; //debug
+	//var testdir="V"; //debug
 	try{ // catch unexpected/unrecreatable errors (#7808) since we can recover using a semi-acceptable native method
 	node = dojo.byId(node);
 	var doc = dojo.doc;
@@ -22,7 +22,7 @@ dijit.scrollIntoView = function(/* DomNode */node){
 	var html = body.parentNode;
 	// if FF2 (which is perfect) or an untested browser, then use the native method
 
-	if(dojo.isFF < 3 || node == body || node == html || ((typeof node.scrollIntoView == "function") && !(dojo.isMoz || dojo.isIE || dojo.isWebKit))){ // FF2 is perfect, too bad FF3 is not
+	if((!(dojo.isFF >= 3 || dojo.isIE || dojo.isWebKit) || node == body || node == html) && (typeof node.scrollIntoView == "function")){ // FF2 is perfect, too bad FF3 is not
 		node.scrollIntoView(false); // short-circuit to native if possible
 		return;
 	}
@@ -68,10 +68,6 @@ dijit.scrollIntoView = function(/* DomNode */node){
 		html._offsetWidth  = html.clientWidth;
 	}
 
-	var scrollBarSize = 17;
-	if(dojo.isIE == 6){ scrollBarSize = 18; }
-	else if(dojo.isWebKit){ scrollBarSize = 15; }
-
 	function isFixedPosition(element){
 		var ie = dojo.isIE;
 		return ((ie <= 6 || (ie >= 7 && compatMode))? false : (dojo.style(element, 'position').toLowerCase() == "fixed"));
@@ -85,8 +81,8 @@ dijit.scrollIntoView = function(/* DomNode */node){
 			parent = (element == body)? html : null;
 		}
 		// all the V/H object members below are to reuse code for both directions
-		element._offsetParent = offsetParent; //(offsetParent == body)? scrollRoot : offsetParent;
-		element._parent = parent; //(parent == body)? parent/*scrollRoot*/ : parent;
+		element._offsetParent = offsetParent;
+		element._parent = parent;
 		//console.debug('parent = ' + (element._parentTag = element._parent?element._parent.tagName:'NULL'));
 		//console.debug('offsetParent = ' + (element._offsetParentTag = element._offsetParent.tagName));
 		var bp = dojo._getBorderExtents(element);
@@ -96,12 +92,14 @@ dijit.scrollIntoView = function(/* DomNode */node){
 		//console.debug('element = ' + element.tagName + ', initial _relativeOffset = ' + element._offsetStart[testdir]);
 		element._scrolledAmount = { H:element.scrollLeft, V:element.scrollTop };
 		element._offsetSize = { H: element._offsetWidth||element.offsetWidth, V: element._offsetHeight||element.offsetHeight };
-		//console.debug('element = ' + element.tagName + ', H size = ' + element.offsetWidth + ', parent = ' + element._parentTag);
+		//console.debug('element = ' + element.tagName + ', '+testdir+' size = ' + element[testdir=='H'?"offsetWidth":"offsetHeight"] + ', parent = ' + element._parentTag);
 		element._clientSize = { H:element._clientWidth||element.clientWidth, V:element._clientHeight||element.clientHeight };
 		if(element != body && element != html && element != node){
 			for(var dir in element._offsetSize){ // for both x and y directions
-				var delta = element._offsetSize[dir] - element._clientSize[dir] - element._borderSize[dir];
-				var hasScrollBar = element._clientSize[dir] > 0 && delta == scrollBarSize;
+				var scrollBarSize = element._offsetSize[dir] - element._clientSize[dir] - element._borderSize[dir];
+				//if(dir==testdir)console.log('element = ' + element.tagName + ', scrollBarSize = ' + scrollBarSize + ', clientSize = ' + element._clientSize[dir] + ', offsetSize = ' + element._offsetSize[dir] + ', border size = ' + element._borderSize[dir]);
+				var hasScrollBar = element._clientSize[dir] > 0 && scrollBarSize > 0; // can't check for a specific scrollbar size since it changes dramatically as you zoom
+				//if(dir==testdir)console.log('element = ' + element.tagName + ', hasScrollBar = ' + hasScrollBar);
 				if(hasScrollBar){
 					element._offsetSize[dir] -= scrollBarSize;
 					if(dojo.isIE && rtl && dir=="H"){ element._offsetStart[dir] += scrollBarSize; }
@@ -141,7 +139,7 @@ dijit.scrollIntoView = function(/* DomNode */node){
 	while(element){
 		var parent = element._parent;
 		if(!parent){ break; }
-			//console.debug('element = ' + element.tagName + ', parent = ' + parent.tagName + ', parent ' + testdir + ' offsetSize = ' + parent._offsetSize[testdir]);
+			//console.debug('element = ' + element.tagName + ', parent = ' + parent.tagName + ', parent offsetSize = ' + parent._offsetSize[testdir] + ' clientSize = ' + parent._clientSize[testdir]);
 			if(parent.tagName == "TD"){
 				var table = parent._parent._parent._parent; // point to TABLE
 				if(parent != element._offsetParent && parent._offsetParent != element._offsetParent){
@@ -219,7 +217,7 @@ dijit.scrollIntoView = function(/* DomNode */node){
 		parent = next;
 	}
 	}catch(error){
-		console.debug('scrollIntoView: ' + error);
+		console.error('scrollIntoView: ' + error);
 		node.scrollIntoView(false);
 	}
 };
