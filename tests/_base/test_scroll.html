@@ -93,7 +93,7 @@
 					generateTest('fixedNode_loose_rtl', supported? "(-1,-1)" : "(-0,-0)", supported? "(+1,+1)" : "(-0,-0)");
 				},
 				*/
-				function test_7036_strict(){
+				function test_7036_8665_strict(){
 					var maxScroll = '';
 					var minScroll = '';
 					if(dojo.isFF || dojo.isWebKit || dojo.isIE >= 8){
@@ -103,9 +103,9 @@
 						maxScroll = 54;
 						minScroll = 39;
 					}
-					generateTest('7036_strict', "(0,-"+maxScroll+")", "(0,+"+minScroll+")");
+					generateTest('7036_8665_strict', "(0,-"+maxScroll+")(0,-1)", "(0,+"+minScroll+")(0,+1)");
 				},
-				function test_7036_none(){
+				function test_7036_8665_none(){
 					var maxScroll = '';
 					var minScroll = '';
 					if(dojo.isFF){
@@ -118,9 +118,9 @@
 						maxScroll = 46;
 						minScroll = 31;
 					}
-					generateTest('7036_none', "(0,-"+maxScroll+")", "(0,+"+minScroll+")");
+					generateTest('7036_8665_none', "(0,-"+maxScroll+")(0,-1)", "(0,+"+minScroll+")(0,+1)");
 				},
-				function test_7036_loose_rtl(){
+				function test_7036_8665_loose_rtl(){
 					var maxScroll = '';
 					var minScroll = '';
 					if(dojo.isFF){
@@ -133,7 +133,7 @@
 						maxScroll = 54;
 						minScroll = 39;
 					}
-					generateTest('7036_loose_rtl', "(0,-"+maxScroll+")", "(0,+"+minScroll+")");
+					generateTest('7036_8665_loose_rtl', "(0,-"+maxScroll+")(0,-1)", "(0,+"+minScroll+")(0,+1)");
 				},
 				function test_innerNoScrollBars_strict(){
 					var scroll = '';
@@ -388,12 +388,13 @@ sb = dojo.byId("nonscroll").clientWidth - dojo.byId("withscroll").clientWidth;
 </fieldset>
 -->
 <fieldset>
-<label for="7036">Absolute positioned inner scrollable content:</label>
-<div type="testIframe" id="7036">
-	<div style="height:70px;width:70px;overflow-y:scroll;position:absolute;top:10px;left:10px;">
+<label for="7036_8665">Double scrollbars with absolute positioned content:</label>
+<div type="testIframe" id="7036_8665">
+	<div style="height:70px;width:70px;overflow-y:scroll;position:absolute;top:26px;left:5px;">
 		<input style="margin:80px 0px 80px 0px;border:1px solid red;padding:3px;">
 		<hr style="width:10px;">
 	</div>
+	<div style="height:26px;width:10px;position:absolute;top:96px;left:10px;"></div>
 </div>
 </fieldset>
 <fieldset>

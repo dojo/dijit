@@ -127,6 +127,10 @@ dijit.scrollIntoView = function(/* DomNode */node){
 			body._offsetStart.H = -scroll;
 		}
 	}
+	if(dojo.isIE <= 6 && !compatMode){
+		html._offsetSize.H += html._borderSize.H;
+		html._offsetSize.V += html._borderSize.V;
+	}
 	// eliminate offsetLeft/Top oddities by tweaking scroll for ease of computation
 	if(rtl && body._offsetStart && scrollRoot == html && html._scrolledAmount){
 		var ofs = body._offsetStart.H;
@@ -176,7 +180,7 @@ dijit.scrollIntoView = function(/* DomNode */node){
 				}
 				//if(dir==testdir)console.debug('border start = ' + parent._borderStart[dir] + ',  border size = ' + parent._borderSize[dir]);
 				if(dojo.isIE){
-				//if(dir==testdir)console.debug('changing parent offsetStart from ' + parent._offsetStart[dir] + ' by adding offsetParent ' + parent._offsetParent.tagName + ' border start = ' + parent._offsetParent._borderStart[dir]);
+					//if(dir==testdir)console.debug('changing parent offsetStart from ' + parent._offsetStart[dir] + ' by adding offsetParent ' + parent._offsetParent.tagName + ' border start = ' + parent._offsetParent._borderStart[dir]);
 					parent._offsetStart[dir] += parent._offsetParent._borderStart[dir];
 				}
 				//if(dir==testdir)console.debug('subtracting border start = ' + parent._borderStart[dir]);
@@ -200,11 +204,11 @@ dijit.scrollIntoView = function(/* DomNode */node){
 					parent[scrollAttr] += (reverse)? -scrollAmount : scrollAmount; // actually perform the scroll
 					var scrolledAmount = parent[scrollAttr] - oldScroll; // in case the scroll failed
 					//if(dir==testdir)console.debug('scrolledAmount = ' + scrolledAmount);
-					element._offsetStart[dir] -= scrolledAmount;
 				}
 				if(relative){
 					element._offsetStart[dir] += parent._offsetStart[dir];
 				}
+				element._offsetStart[dir] -= parent[scrollAttr];
 			}
 			element._parent = parent._parent;
 			element._offsetParent = parent._offsetParent;
