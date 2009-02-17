@@ -25,7 +25,13 @@ dojo.declare(
 		templateString: "<div class='dijitDialogUnderlayWrapper'><div class='dijitDialogUnderlay' dojoAttachPoint='node'></div></div>",
 
 		// Parameters on creation or updatable later
+
+		// dialogId: String
+		//		Id of the dialog.... DialogUnderlay's id is based on this id
 		dialogId: "",
+
+		// class: String
+		//		This class name is used on the DialogUnderlay node, in addition to dijitDialogUnderlay
 		"class": "",
 
 		attributeMap: { id: "domNode" },
@@ -39,7 +45,8 @@ dojo.declare(
 		},
 
 		postCreate: function(){
-			// summary: Append the underlay to the body
+			// summary:
+			//		Append the underlay to the body
 			dojo.body().appendChild(this.domNode);
 			this.bgIframe = new dijit.BackgroundIframe(this.domNode);
 		},
@@ -52,6 +59,8 @@ dojo.declare(
 			//		Sets the background to the size of the viewport (rather than the size
 			//		of the document) since we need to cover the whole browser window, even
 			//		if the document is only a few lines long.
+			// tags:
+			//		private
 
 			var is = this.node.style,
 				os = this.domNode.style;

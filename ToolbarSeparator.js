@@ -13,6 +13,8 @@ dojo.declare("dijit.ToolbarSeparator",
 		isFocusable: function(){ 
 			// summary:
 			//		This widget isn't focusable, so pass along that fact.
+			// tags:
+			//		protected
 			return false; 
 		}
 

@@ -39,7 +39,7 @@
 		dojo.addOnLoad(go);
 
 		function go(){
-			//TODO: it's a little strange that id must be specified again?	
+			// note that programmatic instantiation doesn't pull any parameters from the srcNodeRef, not even id
 			var theBar = new dijit.ProgressBar({id: "testBar", width: 400, maximum: 256, duration: 2000,
 				report:function(percent){
 					return dojo.string.substitute("${0} out of ${1} max chars", [this.progress, this.maximum]);

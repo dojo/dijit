@@ -24,12 +24,16 @@ dojo.declare("dijit.CheckedMenuItem",
 
 		onChange: function(/*Boolean*/ checked){
 			// summary:
-			//		User defined function to handle change events
+			//		User defined function to handle check/uncheck events
+			// tags:
+			//		callback
 		},
 
 		_onClick: function(/*Event*/ e){
 			// summary:
 			//		Clicking this item just toggles its state
+			// tags:
+			//		private
 			if(!this.disabled){
 				this.attr("checked", !this.checked);
 				this.onChange(this.checked);

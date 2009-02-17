@@ -36,23 +36,23 @@ dojo.declare("dijit.ColorPalette",
 	//		Size of grid, either "7x10" or "3x4".
 	palette: "7x10",
 
-	// _value: String
+	// value: String
 	//		The value of the selected color.
 	value: null,
 
-	// _currentFocus: Integer
+	// _currentFocus: [private] Integer
 	//		Index of the currently focused color.
 	_currentFocus: 0,
 
-	// _xDim: Integer
+	// _xDim: [protected] Integer
 	//		This is the number of colors horizontally across.
 	_xDim: null,
 
-	// _yDim: Integer
+	// _yDim: [protected] Integer
 	///		This is the number of colors vertically down.
 	_yDim: null,
 
-	// _palettes: Map
+	// _palettes: [protected] Map
 	// 		This represents the value of the colors.
 	//		The first level is a hashmap of the different arrays available
 	//		The next two dimensions represent the columns and rows of colors.
@@ -72,14 +72,14 @@ dojo.declare("dijit.ColorPalette",
 
 	},
 
-	// _imagePaths: Map
+	// _imagePaths: [protected] Map
 	//		This is stores the path to the palette images
 	_imagePaths: {
 		"7x10": dojo.moduleUrl("dijit.themes", "a11y/colors7x10.png"),
 		"3x4": dojo.moduleUrl("dijit.themes", "a11y/colors3x4.png")
 	},
 
-	// _paletteCoords: Map
+	// _paletteCoords: [protected] Map
 	//		This is a map that is used to calculate the coordinates of the
 	//		images that make up the palette.
 	_paletteCoords: {
@@ -92,7 +92,7 @@ dojo.declare("dijit.ColorPalette",
 	//		Path to the template of this widget.
 	templatePath: dojo.moduleUrl("dijit", "templates/ColorPalette.html"),
 
-	// _paletteDims: Object
+	// _paletteDims: [protected] Object
 	//		Size of the supported palettes for alignment purposes.
 	_paletteDims: {
 		"7x10": {"width": "206px", "height": "145px"},
@@ -100,7 +100,7 @@ dojo.declare("dijit.ColorPalette",
 	},
 
 	// tabIndex: String
-	//		Widget tabindex.
+	//		Widget tab index.
 	tabIndex: "0",
 
 	postCreate: function(){
@@ -198,12 +198,24 @@ dojo.declare("dijit.ColorPalette",
 	},
 
 	_focusFirst: function(){
+		// summary:
+		//		Focus the first cell in the color picker,
+		//		or the previously selected cell, if there is one
+		// tags:
+		//		private
 		this._currentFocus = 0;
 		var cellNode = this._cellNodes[this._currentFocus];
 		window.setTimeout(function(){dijit.focus(cellNode)}, 0);
 	},
 
 	_onDivNodeFocus: function(evt){
+		// summary:
+		//		Handler for when focus goes to the ColorPalette itself.
+		//		Shifts focus to the first color or the previously selected
+		//		color.
+		// tags:
+		//		private
+
 		// focus bubbles on Firefox 2, so just make sure that focus has really
 		// gone to the container
 		if(evt.target === this.divNode){
@@ -212,13 +224,24 @@ dojo.declare("dijit.ColorPalette",
 	},
 
 	_onFocus: function(){
-		// while focus is on the palette, set its tabindex to -1 so that on a
+		// summary:
+		//		Handler for when the ColorPalette or a color cell inside of it get focus
+		// tags:
+		//		protected
+
+		// While focus is on the palette, set its tabindex to -1 so that on a
 		// shift-tab from a cell, the container is not in the tab order
 		dojo.attr(this.divNode, "tabindex", "-1");
 	},
 
 	_onBlur: function(){
+		// summary:
+		//		Handler for when the ColorPalette and the color cell inside of it lose focus
+		// tags:
+		//		protected
+
 		this._removeCellHighlight(this._currentFocus);
+
 		// when focus leaves the palette, restore its tabindex, since it was
 		// modified by _onFocus().
 		dojo.attr(this.divNode, "tabindex", this.tabIndex);
@@ -229,6 +252,9 @@ dojo.declare("dijit.ColorPalette",
 		//		Handler for click, enter key & space key. Selects the color.
 		// evt:
 		//		The event.
+		// tags:
+		//		private
+
 		var target = evt.currentTarget;
 		if (this._currentFocus != target.index){
 			this._currentFocus = target.index;
@@ -243,6 +269,9 @@ dojo.declare("dijit.ColorPalette",
 		//		Handler for onMouseOver. Put focus on the color under the mouse.
 		// evt:
 		//		The mouse event.
+		// tags:
+		//		private
+
 		var target = evt.currentTarget;
 		this._setCurrent(target);	// redundant, but needed per safari bug where onCellFocus never called
 		window.setTimeout(function(){dijit.focus(target)}, 0);
@@ -250,20 +279,25 @@ dojo.declare("dijit.ColorPalette",
 
 	_onCellFocus: function(/*Event*/ evt){
 		// summary:
-		//		Handler for onFocus. Removes highlight of
+		//		Handler for onFocus of a cell. Removes highlight of
 		//		the color that just lost focus, and highlights
 		//		the new color.
 		// evt:
 		//		The focus event.
+		// tags:
+		//		private
+
 		this._setCurrent(evt.currentTarget);
 	},
 
 	_setCurrent: function(/*Node*/ node){
 		// summary:
-		//		Called when color is hovered or focused.
+		//		Called when a color is hovered or focused.
 		// description:
 		//		Removes highlight of the old color, and highlights
 		//		the new color.
+		// tags:
+		//		protected
 		this._removeCellHighlight(this._currentFocus);
 		this._currentFocus = node.index;
 		dojo.addClass(node, "dijitPaletteCellHighlight");		
@@ -272,10 +306,16 @@ dojo.declare("dijit.ColorPalette",
 	_onCellBlur: function(/*Event*/ evt){
 		// summary:
 		//		needed for Firefox 2 on Mac OS X
+		// tags:
+		//		private
 		this._removeCellHighlight(this._currentFocus);
 	},
 
 	_removeCellHighlight: function(index){
+		// summary:
+		//		Removes the hover CSS class for the specified cell
+		// tags:
+		//		private
 		dojo.removeClass(this._cellNodes[index], "dijitPaletteCellHighlight");
 	},
 
@@ -284,6 +324,8 @@ dojo.declare("dijit.ColorPalette",
 		// 		This selects a color. It triggers the onChange event
 		// area:
 		//		The area node that covers the color being selected.
+		// tags:
+		//		private
 		var img = selectNode.getElementsByTagName("img")[0];
 		this.onChange(this.value = img.color);
 	},
@@ -296,6 +338,8 @@ dojo.declare("dijit.ColorPalette",
 		// 		How much the key is navigated.
 		// typeCount:
 		//		How many times typematic has fired.
+		// tags:
+		//		private
 
 		// typecount == -1 means the key is released.
 		if(typeCount == -1){ return; }

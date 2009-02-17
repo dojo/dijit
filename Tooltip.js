@@ -7,11 +7,13 @@ dojo.declare(
 	"dijit._MasterTooltip",
 	[dijit._Widget, dijit._Templated],
 	{
-		// summary
+		// summary:
 		//		Internal widget that holds the actual tooltip markup,
 		//		which occurs once per page.
 		//		Called by Tooltip widgets which are just containers to hold
 		//		the markup
+		// tags:
+		//		protected
 
 		// duration: Integer
 		//		Milliseconds to fade in/fade out
@@ -32,7 +34,7 @@ dojo.declare(
 
 		show: function(/*String*/ innerHTML, /*DomNode*/ aroundNode, /*String[]?*/ position){
 			// summary:
-			//		Display tooltip w/specified contents to right specified node
+			//		Display tooltip w/specified contents to right of specified node
 			//		(To left if there's no space on the right, or if LTR==right)
 
 			if(this.aroundNode && this.aroundNode === aroundNode){
@@ -85,7 +87,11 @@ dojo.declare(
 
 		orient: function(/* DomNode */ node, /* String */ aroundCorner, /* String */ tooltipCorner){
 			// summary:
-			//		Private function to set CSS for tooltip node based on which position it's in
+			//		Private function to set CSS for tooltip node based on which position it's in.
+			//		This is called by the dijit popup code.
+			// tags:
+			//		protected
+
 			node.className = "dijitTooltip " +
 				{
 					"BL-TL": "dijitTooltipBelow dijitTooltipABLeft",
@@ -98,6 +104,10 @@ dojo.declare(
 		},
 
 		_onShow: function(){
+			// summary:
+			//		Called at end of fade-in operation
+			// tags:
+			//		protected
 			if(dojo.isIE){
 				// the arrow won't show up on a node w/an opacity filter
 				this.domNode.style.filter="";
@@ -123,6 +133,11 @@ dojo.declare(
 		},
 
 		_onHide: function(){
+			// summary:
+			//		Called at end of fade-out operation
+			// tags:
+			//		protected
+
 			this.domNode.style.cssText="";	// to position offscreen again
 			if(this._onDeck){
 				// a show request has been queued up; do it now
@@ -167,7 +182,7 @@ dojo.declare(
 		//		the tooltip is displayed.
 		showDelay: 400,
 
-		// connectId: String[]
+		// connectId: [const] String[]
 		//		Id's of domNodes to attach the tooltip to.
 		//		When user hovers over any of the specified dom nodes, the tooltip will appear.
 		//
@@ -178,7 +193,7 @@ dojo.declare(
 		connectId: [],
 
 		// position: String[]
-		//		See description of dijit.Tooltip.defaultPosition for details on position parameter.
+		//		See description of `dijit.Tooltip.defaultPosition` for details on position parameter.
 		position: [],
 
 		_setConnectIdAttr: function(ids){
@@ -209,26 +224,55 @@ dojo.declare(
 		},
 
 		_onMouseEnter: function(/*Event*/ e){
+			// summary:
+			//		Handler for mouseenter event on the target node
+			// tags:
+			//		private
 			this._onHover(e);
 		},
 
 		_onMouseLeave: function(/*Event*/ e){
+			// summary:
+			//		Handler for mouseleave event on the target node
+			// tags:
+			//		private
 			this._onUnHover(e);
 		},
 
 		_onFocus: function(/*Event*/ e){
+			// summary:
+			//		Handler for focus event on the target node
+			// tags:
+			//		private
+
+			// TODO: this is dangerously named, as the dijit focus manager calls
+			// _onFocus() on any widget that gets focus (whereas in this class we
+			// are connecting onfocus on the *target* DOM node to this method
+
 			this._focus = true;
 			this._onHover(e);
 			this.inherited(arguments);
 		},
 		
 		_onBlur: function(/*Event*/ e){
+			// summary:
+			//		Handler for blur event on the target node
+			// tags:
+			//		private
+
+			// TODO: rename; see above comment
+
 			this._focus = false;
 			this._onUnHover(e);
 			this.inherited(arguments);
 		},
 
 		_onHover: function(/*Event*/ e){
+			// summary:
+			//		Despite the name of this method, it actually handles both hover and focus
+			//		events on the target node, setting a timer to show the tooltip.
+			// tags:
+			//		private
 			if(!this._showTimer){
 				var target = e.target;
 				this._showTimer = setTimeout(dojo.hitch(this, function(){this.open(target)}), this.showDelay);
@@ -236,8 +280,16 @@ dojo.declare(
 		},
 
 		_onUnHover: function(/*Event*/ e){
-			// keep a tooltip open if the associated element has focus
+			// summary:
+			//		Despite the name of this method, it actually handles both mouseleave and blur
+			//		events on the target node, hiding the tooltip.
+			// tags:
+			//		private
+
+			// keep a tooltip open if the associated element still has focus (even though the
+			// mouse moved away)
 			if(this._focus){ return; }
+
 			if(this._showTimer){
 				clearTimeout(this._showTimer);
 				delete this._showTimer;
@@ -248,6 +300,9 @@ dojo.declare(
 		open: function(/*DomNode*/ target){
  			// summary:
 			//		Display the tooltip; usually not called directly.
+			// tags:
+			//		private
+
 			target = target || this._connectNodes[0];
 			if(!target){ return; }
 
@@ -263,6 +318,9 @@ dojo.declare(
 		close: function(){
 			// summary:
 			//		Hide the tooltip or cancel timer for show of tooltip
+			// tags:
+			//		private
+
 			if(this._connectNode){
 				// if tooltip is currently shown
 				dijit.hideTooltip(this._connectNode);

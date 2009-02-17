@@ -16,28 +16,35 @@ dojo.declare("dijit.ProgressBar", [dijit._Widget, dijit._Templated], {
 	// |		 places="0"
 	// |		 progress="..." maximum="...">
 	// |	</div>
+	//
+	// description:
+	//		Note that the progress bar is updated via (a non-standard)
+	//		update() method, rather than via attr() like other widgets.
 
-	// progress: String (Percentage or Number)
+	// progress: [const] String (Percentage or Number)
 	//		Number or percentage indicating amount of task completed.
 	// 		With "%": percentage value, 0% <= progress <= 100%, or
 	// 		without "%": absolute value, 0 <= progress <= maximum
+	// TODO: rename to value for 2.0
 	progress: "0",
 
-	// maximum: Float
+	// maximum: [const] Float
 	//		Max sample number
 	maximum: 100,
 
-	// places: Number
-	//		Mumber of places to show in values; 0 by default
+	// places: [const] Number
+	//		Number of places to show in values; 0 by default
 	places: 0,
 
-	// indeterminate: Boolean
+	// indeterminate: [const] Boolean
 	// 		If false: show progress value (number or percentage).
 	// 		If true: show that a process is underway but that the amount completed is unknown.
 	indeterminate: false,
 
 	templatePath: dojo.moduleUrl("dijit", "templates/ProgressBar.html"),
 
+	// _indeterminateHighContrastImagePath: [private] dojo._URL
+	//		URL to image to use for indeterminate progress bar when display is in high contrast mode
 	_indeterminateHighContrastImagePath:
 		dojo.moduleUrl("dijit", "themes/a11y/indeterminate_progress.gif"),
 
@@ -51,11 +58,18 @@ dojo.declare("dijit.ProgressBar", [dijit._Widget, dijit._Templated], {
 
 	update: function(/*Object?*/attributes){
 		// summary:
-		//		Update progress information
+		//		Change attributes of ProgressBar, similar to attr(hash).
 		//
 		// attributes:
 		//		May provide progress and/or maximum properties on this parameter;
 		//		see attribute specs for details.
+		//
+		// example:
+		//	|	myProgressBar.update({'indeterminate': true});
+		//	|	myProgressBar.update({'progress': 80});
+
+		// TODO: deprecate this method and use attr() instead
+
 		dojo.mixin(this, attributes || {});
 		var tip = this.internalProgress;
 		var percent = 1, classFunc;
@@ -88,12 +102,17 @@ dojo.declare("dijit.ProgressBar", [dijit._Widget, dijit._Templated], {
 	report: function(/*float*/percent){
 		// summary:
 		//		Generates message to show inside progress bar (normally indicating amount of task completed).
-		//		May be overridden by user.
+		//		May be overridden.
+		// tags:
+		//		extension
+
 		return dojo.number.format(percent, { type: "percent", places: this.places, locale: this.lang });
 	},
 
 	onChange: function(){
 		// summary:
-		//		User definable function fired when progress updates.
+		//		Callback fired when progress updates.
+		// tags:
+		//		progress
 	}
 });

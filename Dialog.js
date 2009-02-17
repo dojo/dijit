@@ -73,15 +73,17 @@ dojo.declare(
 		//		False will disable autofocusing. Default: true
 		autofocus: true,
 
-		// _firstFocusItem: DomNode
-		//		The pointer to the first focusable node in the dialog
-		_firstFocusItem:null,
+		// _firstFocusItem: [private] [readonly] DomNode
+		//		The pointer to the first focusable node in the dialog.
+		//		Set by `dijit._DialogMixin._getFocusItems`.
+		_firstFocusItem: null,
 		
-		// _lastFocusItem: DomNode
-		//		The pointer to which node has focus prior to our dialog
-		_lastFocusItem:null,
+		// _lastFocusItem: [private] [readonly] DomNode
+		//		The pointer to which node has focus prior to our dialog.
+		//		Set by `dijit._DialogMixin._getFocusItems`.
+		_lastFocusItem: null,
 
-		// doLayout: Boolean
+		// doLayout: [protected] Boolean
 		//		Don't change this parameter from the default value.
 		//		This ContentPane parameter doesn't make sense for Dialog, since Dialog
 		//		is never a child of a layout container, nor can you specify the size of
@@ -90,7 +92,7 @@ dojo.declare(
 
 		// draggable: Boolean
 		//		Toggles the moveable aspect of the Dialog. If true, Dialog
-		//		can be moved by it's title. If false it will remain centered
+		//		can be dragged by it's title. If false it will remain centered
 		//		in the viewport.
 		draggable: true,
 
@@ -101,7 +103,6 @@ dojo.declare(
 		},
 
 		postCreate: function(){
-			
 			dojo.style(this.domNode, {
 				visibility:"hidden",
 				position:"absolute",
@@ -119,7 +120,11 @@ dojo.declare(
 
 		onLoad: function(){
 			// summary:
-			//		Called when data has been loaded from an href
+			//		Called when data has been loaded from an href.
+			//		Unlike most other callbacks, this function can be connected to (via `dojo.connect`)
+			//		but should *not* be overriden.
+			// tags:
+			//		callback
 			
 			// when href is specified we need to reposition the dialog after the data is loaded
 			this._position();
@@ -129,7 +134,9 @@ dojo.declare(
 		_endDrag: function(e){
 			// summary:
 			//		Called after dragging the Dialog. Calculates the relative offset
-			//		of the Dialog in relation to the viewport. 
+			//		of the Dialog in relation to the viewport.
+			// tags:
+			//		private
 			if(e && e.node && e.node === this.domNode){
 				var vp = dijit.getViewport(); 
 				var p = e._leftTop || dojo.coords(e.node,true);
@@ -145,6 +152,8 @@ dojo.declare(
 			//		Stuff we need to do before showing the Dialog for the first
 			//		time (but we defer it until right beforehand, for
 			//		performance reasons).
+			// tags:
+			//		private
 
 			var node = this.domNode;
 
@@ -211,6 +220,8 @@ dojo.declare(
 		_size: function(){
 			// summary:
 			// 		Make sure the dialog is small enough to fit in viewport.
+			// tags:
+			//		private
 
 			var mb = dojo.marginBox(this.domNode);
 			var viewport = dijit.getViewport();
@@ -230,6 +241,8 @@ dojo.declare(
 			//		in the viewport has been determined (by dragging, for instance),
 			//		center the node. Otherwise, use the Dialog's stored relative offset,
 			//		and position the node to top: left: values based on the viewport.
+			// tags:
+			//		private
 			if(!dojo.hasClass(dojo.body(),"dojoMove")){
 				
 				var node = this.domNode;
@@ -247,6 +260,8 @@ dojo.declare(
 		_onKey: function(/*Event*/ evt){
 			// summary:
 			//		Handles the keyboard events for accessibility reasons
+			// tags:
+			//		private
 			if(evt.charOrCode){
 				var dk = dojo.keys;
 				var node = evt.target;
@@ -356,6 +371,8 @@ dojo.declare(
 		layout: function() {
 			// summary:
 			//		Position the Dialog and the underlay
+			// tags:
+			//		private
 			if(this.domNode.style.visibility != "hidden"){
 				dijit._underlay.layout();
 				this._position(); 
@@ -373,12 +390,16 @@ dojo.declare(
 		_onCloseEnter: function(){
 			// summary:
 			//		Called when user hovers over close icon
+			// tags:
+			//		private
 			dojo.addClass(this.closeButtonNode, "dijitDialogCloseIcon-hover");
 		},
 
 		_onCloseLeave: function(){
 			// summary:
 			//		Called when user stops hovering over close icon
+			// tags:
+			//		private
 			dojo.removeClass(this.closeButtonNode, "dijitDialogCloseIcon-hover");
 		}
 	}

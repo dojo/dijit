@@ -13,10 +13,10 @@ dojo.declare(
 			//		Pops up a dialog that appears like a Tooltip
 
 			// title: String
-			// 		Description of tooltip dialog (required for a11Y)
+			// 		Description of tooltip dialog (required for a11y)
 			title: "",
 
-			// doLayout: Boolean
+			// doLayout: [protected] Boolean
 			//		Don't change this parameter from the default value.
 			//		This ContentPane parameter doesn't make sense for TooltipDialog, since TooltipDialog
 			//		is never a child of a layout container, nor can you specify the size of
@@ -29,14 +29,18 @@ dojo.declare(
 			//		False will disable autofocusing. Default: true
 			autofocus: true,
 
+			// baseClass: [protected] String
+			//		The root className to use for the various states of this widget
 			baseClass: "dijitTooltipDialog",
 
-			// _firstFocusItem: DomNode
-			//		The pointer to the first focusable node in the dialog
-			_firstFocusItem:null,
-			
-			// _lastFocusItem: DomNode
-			//		The domNode that had focus before we took it.
+			// _firstFocusItem: [private] [readonly] DomNode
+			//		The pointer to the first focusable node in the dialog.
+			//		Set by `dijit._DialogMixin._getFocusItems`.
+			_firstFocusItem: null,
+
+			// _lastFocusItem: [private] [readonly] DomNode
+			//		The pointer to which node has focus prior to our dialog.
+			//		Set by `dijit._DialogMixin._getFocusItems`.
 			_lastFocusItem: null,
 
 			templateString: null,
@@ -50,7 +54,11 @@ dojo.declare(
 
 			orient: function(/*DomNode*/ node, /*String*/ aroundCorner, /*String*/ corner){
 				// summary:
-				//		Configure widget to be displayed in given position relative to the button
+				//		Configure widget to be displayed in given position relative to the button.
+				//		This is called from the dijit.popup code, and should not be called
+				//		directly.
+				// tags:
+				//		protected
 				var c = this._currentOrientClass;
 				if(c){
 					dojo.removeClass(this.domNode, c);
@@ -62,7 +70,10 @@ dojo.declare(
 
 			onOpen: function(/*Object*/ pos){
 				// summary:
-				//		Called when dialog is displayed
+				//		Called when dialog is displayed.
+				//		This is called from the dijit.popup code, and should not be called directly.
+				// tags:
+				//		protected
 			
 				this.orient(this.domNode,pos.aroundCorner, pos.corner);
 				this._onShow(); // lazy load trigger
@@ -75,7 +86,12 @@ dojo.declare(
 			
 			_onKey: function(/*Event*/ evt){
 				// summary:
+				//		Handler for keyboard events
+				// description:
 				//		Keep keyboard focus in dialog; close dialog on escape key
+				// tags:
+				//		private
+
 				var node = evt.target;
 				var dk = dojo.keys;
 				if (evt.charOrCode === dk.TAB){
@@ -103,4 +119,3 @@ dojo.declare(
 			}
 		}	
 	);
-

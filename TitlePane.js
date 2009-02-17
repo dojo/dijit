@@ -44,7 +44,7 @@ dojo.declare(
 	//		Time in milliseconds to fade in/fade out
 	duration: dijit.defaultDuration,
 
-	// baseClass: String
+	// baseClass: [protected] String
 	//		The root className to use for the various states of this widget
 	baseClass: "dijitTitlePane",
 
@@ -121,6 +121,9 @@ dojo.declare(
 	toggle: function(){
 		// summary:
 		//		Switches between opened and closed state
+		// tags:
+		//		private
+
 		dojo.forEach([this._wipeIn, this._wipeOut], function(animation){
 			if(animation && animation.status() == "playing"){
 				animation.stop();
@@ -145,6 +148,9 @@ dojo.declare(
 	_setCss: function(){
 		// summary:
 		//		Set the open/close css state for the TitlePane
+		// tags:
+		//		private
+
 		var classes = ["dijitClosed", "dijitOpen"];
 		var boolIndex = this.open;
 		var node = this.titleBarNode || this.focusNode;
@@ -157,7 +163,10 @@ dojo.declare(
 
 	_onTitleKey: function(/*Event*/ e){
 		// summary:
-		//		Callback when user hits a key
+		//		Handler for when user hits a key
+		// tags:
+		//		private
+
 		if(e.charOrCode == dojo.keys.ENTER || e.charOrCode == ' '){
 			this.toggle();
 		}else if(e.charOrCode == dojo.keys.DOWN_ARROW && this.open){
@@ -168,19 +177,25 @@ dojo.declare(
 	
 	_onTitleEnter: function(){
 		// summary:
-		//		Callback when someone hovers over my title
+		//		Handler for when someone hovers over my title
+		// tags:
+		//		private
 		dojo.addClass(this.focusNode, "dijitTitlePaneTitle-hover");
 	},
 
 	_onTitleLeave: function(){
 		// summary:
-		//		Callback when someone stops hovering over my title
+		//		Handler when someone stops hovering over my title
+		// tags:
+		//		private
 		dojo.removeClass(this.focusNode, "dijitTitlePaneTitle-hover");
 	},
 
 	_handleFocus: function(/*Event*/ e){
 		// summary:
 		//		Handle blur and focus for this widget
+		// tags:
+		//		private
 		
 		// add/removeClass is safe to call without hasClass in this case
 		dojo[(e.type == "focus" ? "addClass" : "removeClass")](this.focusNode, this.baseClass + "Focused");
@@ -189,6 +204,8 @@ dojo.declare(
 	setTitle: function(/*String*/ title){
 		// summary:
 		//		Deprecated.  Use attr('title', ...) instead.
+		// tags:
+		//		deprecated
 		dojo.deprecated("dijit.TitlePane.setTitle() is deprecated.  Use attr('title', ...) instead.", "", "2.0");
 		this.titleNode.innerHTML = title;
 	}
