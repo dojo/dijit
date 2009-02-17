@@ -41,8 +41,8 @@ dojo.declare("dijit._KeyNavContainer",
 			var keyCodes = this._keyNavCodes = {};
 			var prev = dojo.hitch(this, this.focusPrev);
 			var next = dojo.hitch(this, this.focusNext);
-			dojo.forEach(prevKeyCodes, function(code){ keyCodes[code] = prev });
-			dojo.forEach(nextKeyCodes, function(code){ keyCodes[code] = next });
+			dojo.forEach(prevKeyCodes, function(code){ keyCodes[code] = prev; });
+			dojo.forEach(nextKeyCodes, function(code){ keyCodes[code] = next; });
 			this.connect(this.domNode, "onkeypress", "_onContainerKeypress");
 			this.connect(this.domNode, "onfocus", "_onContainerFocus");
 		},
