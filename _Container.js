@@ -16,7 +16,7 @@ dojo.declare("dijit._Container",
 		//		this.containerNode.   In that case calls like addChild(node, position)
 		//		wouldn't make sense.
 
-		// isContainer: Boolean
+		// isContainer: [protected] Boolean
 		//		Just a flag indicating that this widget descends from dijit._Container
 		isContainer: true,
 
@@ -70,6 +70,10 @@ dojo.declare("dijit._Container",
 		},
 
 		_nextElement: function(node){
+			// summary:
+			//      Find the next (non-text, non-comment etc) node
+			// tags:
+			//      private
 			do{
 				node = node.nextSibling;
 			}while(node && node.nodeType != 1);
@@ -77,6 +81,10 @@ dojo.declare("dijit._Container",
 		},
 
 		_firstElement: function(node){
+			// summary:
+			//      Find the first (non-text, non-comment etc) node
+			// tags:
+			//      private
 			node = node.firstChild;
 			if(node && node.nodeType != 1){
 				node = this._nextElement(node);
@@ -99,6 +107,9 @@ dojo.declare("dijit._Container",
 		},
 
 		destroyDescendants: function(/*Boolean*/ preserveDom){
+			// summary:
+			//      Destroys all the widgets inside this.containerNode,
+			//      but not this widget itself
 			dojo.forEach(this.getChildren(), function(child){ child.destroyRecursive(preserveDom); });
 		},
 	
@@ -108,6 +119,8 @@ dojo.declare("dijit._Container",
 			// dir:
 			//		if 1, get the next sibling
 			//		if -1, get the previous sibling
+			// tags:
+			//      private
 			var node = child.domNode;
 			var which = (dir>0 ? "nextSibling" : "previousSibling");
 			do{

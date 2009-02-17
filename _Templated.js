@@ -11,29 +11,33 @@ dojo.declare("dijit._Templated",
 		//		Mixin for widgets that are instantiated from a template
 		// 
 
-		// templateString: String
+		// templateString: [protected] String
 		//		A string that represents the widget template. Pre-empts the
 		//		templatePath. In builds that have their strings "interned", the
 		//		templatePath is converted to an inline templateString, thereby
 		//		preventing a synchronous network call.
 		templateString: null,
 
-		// templatePath: String
+		// templatePath: [protected] String
 		//		Path to template (HTML file) for this widget relative to dojo.baseUrl
 		templatePath: null,
 
-		// widgetsInTemplate: Boolean
+		// widgetsInTemplate: [protected] Boolean
 		//		Should we parse the template to find widgets that might be
 		//		declared in markup inside it?  False by default.
 		widgetsInTemplate: false,
 
-		// _skipNodeCache: Boolean
+		// skipNodeCache: [protected] Boolean
 		//		If using a cached widget template node poses issues for a
 		//		particular widget class, it can set this property to ensure
 		//		that its template is always re-built from a string
 		_skipNodeCache: false,
 
 		_stringRepl: function(tmpl){
+			// summary:
+			//		Does substitution of ${foo} type properties in template string
+			// tags:
+			//		private
 			var className = this.declaredClass, _this = this;
 			// Cache contains a string because we need to do property replacement
 			// do the property replacement
@@ -55,6 +59,8 @@ dojo.declare("dijit._Templated",
 		buildRendering: function(){
 			// summary:
 			//		Construct the UI for this widget from a template, setting this.domNode.
+			// tags:
+			//		protected
 
 			// Lookup cached version of template, and download to cache if it
 			// isn't there already.  Returns either a DomNode or a string, depending on
@@ -89,6 +95,8 @@ dojo.declare("dijit._Templated",
 			// summary:
 			//		Relocate source contents to templated container node.
 			//		this.containerNode must be able to receive children, or exceptions will be thrown.
+			// tags:
+			//		protected
 			var dest = this.containerNode;
 			if(source && dest){
 				while(source.hasChildNodes()){
@@ -113,6 +121,8 @@ dojo.declare("dijit._Templated",
 			// getAttrFunc: Function?
 			//		a function which will be used to obtain property for a given
 			//		DomNode/Widget
+			// tags:
+			//		private
 
 			getAttrFunc = getAttrFunc || function(n,p){ return n.getAttribute(p); };
 
@@ -266,4 +276,4 @@ dojo.extend(dijit._Widget,{
 	dojoAttachPoint: "",
 	waiRole: "",
 	waiState:""
-})
+});

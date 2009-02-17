@@ -11,11 +11,10 @@ dojo.declare(
 	"dijit._Calendar",
 	[dijit._Widget, dijit._Templated],
 	{
-	//	
-	//	summary:
+	// summary:
 	//		A simple GUI for choosing a date in the context of a monthly calendar.
 	//
-	//	description:
+	// description:
 	//		A simple GUI for choosing a date in the context of a monthly calendar.
 	//		This widget is used internally by other widgets and is not accessible
 	//		as a standalone widget.
@@ -26,12 +25,12 @@ dojo.declare(
 	//		[RFC 3339 format](http://www.faqs.org/rfcs/rfc3339.html), e.g. `2005-06-30T08:05:00-07:00`
 	//		so that they are serializable and locale-independent.
 	//
-	//	example:
+	// example:
 	//	|	var calendar = new dijit._Calendar({}, dojo.byId("calendarNode"));
 	//
 	//	example:
 	//	|	<div dojoType="dijit._Calendar"></div>
-	//	
+
 		templatePath: dojo.moduleUrl("dijit", "templates/Calendar.html"),
 
 		// value: Date
@@ -43,6 +42,10 @@ dojo.declare(
 		dayWidth: "narrow",
 
 		setValue: function(/*Date*/ value){
+			// summary:
+			//      Deprecated.   Used attr('value', ...) instead.
+			// tags:
+			//      deprecated
 			dojo.deprecated("dijit.Calendar:setValue() is deprecated.  Use attr('value', ...) instead.", "", "2.0");
 			this.attr('value', value);
 		},
@@ -52,6 +55,8 @@ dojo.declare(
 			// description:
 			// 		Set the current date and update the UI.  If the date is disabled, the selection will
 			//		not change, but the display will change to the corresponding month.
+			// tags:
+			//      protected
 			if(!this.value || dojo.date.compare(value, this.value)){
 				value = new Date(value);
 				value.setHours(1); // to avoid DST issues in Brazil see #8521
@@ -67,6 +72,8 @@ dojo.declare(
 			// summary:
 			//		This just sets the content of node to the specified text.
 			//		Can't do "node.innerHTML=text" because of an IE bug w/tables, see #3434.
+			// tags:
+			//      private
 			while(node.firstChild){
 				node.removeChild(node.firstChild);
 			}
@@ -74,6 +81,10 @@ dojo.declare(
 		},
 
 		_populateGrid: function(){
+			// summary:
+			//      Fills in the calendar grid with each day (1-31)
+			// tags:
+			//      private
 			var month = this.displayMonth;
 			month.setDate(1);
 			var firstDay = month.getDay();
@@ -161,6 +172,8 @@ dojo.declare(
 		},
 
 		goToToday: function(){
+			// summary:
+			//      Sets calendar's value to today's date
 			this.attr('value', new Date());
 		},
 
@@ -200,12 +213,24 @@ dojo.declare(
 			this.attr('value', new Date());
 		},
 
-		_adjustDisplay: function(/*String*/part, /*int*/amount){
+		_adjustDisplay: function(/*String*/ part, /*int*/ amount){
+			// summary:
+			//      Moves calendar forwards or backwards by months or years
+			// part:
+			//      "month" or "year"
+			// amount:
+			//      Number of months or years
+			// tags:
+			//      private
 			this.displayMonth = dojo.date.add(this.displayMonth, part, amount);
 			this._populateGrid();
 		},
 
-		_onDayClick: function(/*Event*/evt){
+		_onDayClick: function(/*Event*/ evt){
+			// summary:
+			//      Handler for when user clicks a day
+			// tags:
+			//      protected
 			dojo.stopEvent(evt);
 			for(var node = evt.target; node && !node.dijitDateValue; node = node.parentNode);
 			if(node && !dojo.hasClass(node, "dijitCalendarDisabledDate")){
@@ -214,7 +239,11 @@ dojo.declare(
 			}
 		},
 
-		_onDayMouseOver: function(/*Event*/evt){
+		_onDayMouseOver: function(/*Event*/ evt){
+			// summary:
+			//      Handler for when user clicks a day
+			// tags:
+			//      protected
 			var node = evt.target;
 			if(node && (node.dijitDateValue || node == this.previousYearLabelNode || node == this.nextYearLabelNode) ){
 				dojo.addClass(node, "dijitCalendarHoveredDate");
@@ -222,7 +251,11 @@ dojo.declare(
 			}
 		},
 
-		_onDayMouseOut: function(/*Event*/evt){
+		_onDayMouseOut: function(/*Event*/ evt){
+			// summary:
+			//      Handler for when user clicks a day
+			// tags:
+			//      protected
 			if(!this._currentNode){ return; }
 			for(var node = evt.relatedTarget; node;){
 				if(node == this._currentNode){ return; }
@@ -236,28 +269,37 @@ dojo.declare(
 			this._currentNode = null;
 		},
 
-		onValueSelected: function(/*Date*/date){
+		onValueSelected: function(/*Date*/ date){
 			// summary:
-			//		A date cell was selected.  It may be the same as the previous value.
+			//		Notification that a date cell was selected.  It may be the same as the previous value.
+			// description:
+			//      Used by `dijit.form._DateTimeTextBox` (and thus `dijit.form.DateTextBox`)
+			//      to get notification when the user has clicked a date.
+			// tags:
+			//      protected
 		},
 
-		onChange: function(/*Date*/date){
+		onChange: function(/*Date*/ date){
 			// summary:
 			//		Called only when the selected date has changed
 		},
 
-		isDisabledDate: function(/*Date*/dateObject, /*String?*/locale){
+		isDisabledDate: function(/*Date*/ dateObject, /*String?*/ locale){
 			// summary:
 			//		May be overridden to disable certain dates in the calendar e.g. `isDisabledDate=dojo.date.locale.isWeekend`
+			// tags:
+			//      extension
 /*=====
 			return false; // Boolean
 =====*/
 		},
 
-		getClassForDate: function(/*Date*/dateObject, /*String?*/locale){
+		getClassForDate: function(/*Date*/ dateObject, /*String?*/ locale){
 			// summary:
 			//		May be overridden to return CSS classes to associate with the date entry for the given dateObject,
 			//		for example to indicate a holiday in specified locale.
+			// tags:
+			//      extension
 
 /*=====
 			return ""; // String

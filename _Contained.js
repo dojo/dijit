@@ -25,6 +25,12 @@ dojo.declare("dijit._Contained",
 			},
 
 			_getSibling: function(which){
+				// summary:
+				//      Returns next or previous sibling
+				// which:
+				//      Either "next" or "previous"
+				// tags:
+				//      private
 				var node = this.domNode;
 				do{
 					node = node[which+"Sibling"];
