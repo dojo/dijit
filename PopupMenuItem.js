@@ -17,6 +17,9 @@ dojo.declare("dijit.PopupMenuItem",
 			// |		<span>pick me</span>
 			// |		<popup> ... </popup>
 			// |	</div>
+			// tags:
+			//		protected
+
 			if(this.srcNodeRef){
 				var nodes = dojo.query("*", this.srcNodeRef);
 				dijit.PopupMenuItem.superclass._fillContent.call(this, nodes[0]);

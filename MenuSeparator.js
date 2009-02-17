@@ -17,7 +17,11 @@ dojo.declare("dijit.MenuSeparator",
 		},
 		
 		isFocusable: function(){
-			// summary: over ride to always return false
+			// summary:
+			//		Override to always return false
+			// tags:
+			//		protected
+
 			return false; // Boolean
 		}
 	});

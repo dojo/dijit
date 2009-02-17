@@ -8,9 +8,16 @@ dojo.declare("dijit.MenuBar", dijit._MenuBase, {
 
 	templatePath: dojo.moduleUrl("dijit", "templates/MenuBar.html"),
 
+	// _isMenuBar: [protected] Boolean
+	//		This is a MenuBar widget, not a (vertical) Menu widget.
 	_isMenuBar: true,
 
 	constructor: function(){
+		// summary:
+		//		Sets up local variables etc.
+		// tags:
+		//		private
+
 		// parameter to dijit.popup.open() about where to put popup (relative to this.domNode)
 		this._orient = this.isLeftToRight() ? {BL: 'TL'} : {BR: 'TR'};
 	},
@@ -38,6 +45,9 @@ dojo.declare("dijit.MenuBar", dijit._MenuBase, {
 	_onKeyPress: function(/*Event*/ evt){
 		// summary:
 		//		Handle keyboard based menu navigation.
+		// tags:
+		//		protected
+
 		if(evt.ctrlKey || evt.altKey){ return; }
 
 		switch(evt.charOrCode){

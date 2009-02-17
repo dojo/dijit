@@ -10,7 +10,7 @@ dojo.declare("dijit._MenuBase",
 	// summary:
 	//		Base class for Menu and MenuBar
 
-	// parentMenu: Widget
+	// parentMenu: [readonly] Widget
 	//		pointer to menu that displayed me
 	parentMenu: null,
 
@@ -29,12 +29,21 @@ dojo.declare("dijit._MenuBase",
 
 	onExecute: function(){
 		// summary:
-		//		Attach point for notification about when a menu item has been executed
+		//		Attach point for notification about when a menu item has been executed.
+		//		This is an internal mechanism used for Menus to signal to their parent to
+		//		close them, because they are about to execute the onClick handler.   In
+		//		general developers should not attach to or override this method.
+		// tags:
+		//		protected
 	},
 
 	onCancel: function(/*Boolean*/ closeAll){
 		// summary:
 		//		Attach point for notification about when the user cancels the current menu
+		//		This is an internal mechanism used for Menus to signal to their parent to
+		//		close them.  In general developers should not attach to or override this method.
+		// tags:
+		//		protected
 	},
 
 	_moveToPopup: function(/*Event*/ evt){
@@ -42,6 +51,9 @@ dojo.declare("dijit._MenuBase",
 		//		This handles the right arrow key (left arrow key on RTL systems),
 		//		which will either open a submenu, or move to the next item in the
 		//		ancestor MenuBar
+		// tags:
+		//		private
+
 		if(this.focusedChild && this.focusedChild.popup && !this.focusedChild.disabled){
 			this.focusedChild._onClick(evt);
 		}else{
@@ -55,6 +67,8 @@ dojo.declare("dijit._MenuBase",
 	onItemHover: function(/*MenuItem*/ item){
 		// summary:
 		//		Called when cursor is over a MenuItem.
+		// tags:
+		//		protected
 
 		// Don't do anything unless user has "activated" the menu by:
 		//		1) clicking it
@@ -73,6 +87,8 @@ dojo.declare("dijit._MenuBase",
 		// summary:
 		//		Called when a child MenuItem becomes inactive because focus
 		//		has been removed from the MenuItem *and* it's descendant menus.
+		// tags:
+		//		private
 
 		item._setSelected(false);
 
@@ -84,12 +100,19 @@ dojo.declare("dijit._MenuBase",
 	onItemUnhover: function(/*MenuItem*/ item){
 		// summary:
 		//		Callback fires when mouse exits a MenuItem
+		// tags:
+		//		protected
 		if(this.isActive){
 			this._stopPopupTimer();
 		}
 	},
 
 	_stopPopupTimer: function(){
+		// summary:
+		//		Cancels the popup timer because the user has stop hovering
+		//		on the MenuItem, etc.
+		// tags:
+		//		private
 		if(this.hover_timer){
 			clearTimeout(this.hover_timer);
 			this.hover_timer = null;
@@ -97,13 +120,19 @@ dojo.declare("dijit._MenuBase",
 	},
 
 	_getTopMenu: function(){
+		// summary:
+		//		Returns the top menu in this chain of Menus
+		// tags:
+		//		private
 		for(var top=this; top.parentMenu; top=top.parentMenu);
 		return top;
 	},
 
 	onItemClick: function(/*Widget*/ item, /*Event*/ evt){
 		// summary:
-		//		User defined function to handle clicks on an item
+		//		Handle clicks on an item.
+		// tags:
+		//		private
 		if(item.disabled){ return false; }
 
 		this.focusChild(item);
@@ -125,6 +154,9 @@ dojo.declare("dijit._MenuBase",
 	_openPopup: function(){
 		// summary:
 		//		Open the popup to the side of/underneath the current menu item
+		// tags:
+		//		protected
+
 		this._stopPopupTimer();
 		var from_item = this.focusedChild;
 		var popup = from_item.popup;
@@ -155,13 +187,23 @@ dojo.declare("dijit._MenuBase",
 
 	onOpen: function(/*Event*/ e){
 		// summary:
-		//		Callback when this menu is opened
+		//		Callback when this menu is opened.
+		//		This is called by the popup manager as notification that the menu
+		//		was opened.
+		// tags:
+		//		private
+
 		this.isShowingNow = true;
 	},
 
 	onClose: function(){
 		// summary:
-		//		Callback when this menu is closed
+		//		Callback when this menu is closed.
+		//		This is called by the popup manager as notification that the menu
+		//		was closed.
+		// tags:
+		//		private
+
 		this._stopPopupTimer();
 		this.parentMenu = null;
 		this.isShowingNow = false;
@@ -179,6 +221,8 @@ dojo.declare("dijit._MenuBase",
 		//			2) tabbing into it
 		//			3) being opened by a parent menu.
 		//		This is not called just from mouse hover.
+		// tags:
+		//		protected
 		this.isActive = true;
 		dojo.addClass(this.domNode, "dijitMenuActive");
 		dojo.removeClass(this.domNode, "dijitMenuPassive");
@@ -187,7 +231,9 @@ dojo.declare("dijit._MenuBase",
 	
 	_onBlur: function(){
 		// summary:
-		//		Called when focus is moved away from this Menu and it's submenus
+		//		Called when focus is moved away from this Menu and it's submenus.
+		// tags:
+		//		protected
 		this.isActive = false;
 		dojo.removeClass(this.domNode, "dijitMenuActive");
 		dojo.addClass(this.domNode, "dijitMenuPassive");
@@ -201,6 +247,8 @@ dojo.declare("dijit._MenuBase",
 	_onDescendantExecute: function(){
 		// summary:
 		//		Called when submenu is clicked.  Close hierarchy of menus.
+		// tags:
+		//		private
 		this.onClose();
 	}
 });
@@ -221,21 +269,21 @@ dojo.declare("dijit.Menu",
 
 	templatePath: dojo.moduleUrl("dijit", "templates/Menu.html"),
 
-	// targetNodeIds: String[]
+	// targetNodeIds: [const] String[]
 	//		Array of dom node ids of nodes to attach to.
 	//		Fill this with nodeIds upon widget creation and it becomes context menu for those nodes.
 	targetNodeIds: [],
 
-	// contextMenuForWindow: Boolean
+	// contextMenuForWindow: [const] Boolean
 	//		If true, right clicking anywhere on the window will cause this context menu to open.
 	//		If false, must specify targetNodeIds.
 	contextMenuForWindow: false,
 
-	// leftClickToOpen: Boolean
+	// leftClickToOpen: [const] Boolean
 	//		If true, menu will open on left click instead of right click, similiar to a file menu.
 	leftClickToOpen: false,
 	
-	// _contextMenuWithMouse: Boolean
+	// _contextMenuWithMouse: [private] Boolean
 	//		Used to record mouse and keyboard events to determine if a context
 	//		menu is being opened with the keyboard or the mouse.
 	_contextMenuWithMouse: false,
@@ -255,6 +303,9 @@ dojo.declare("dijit.Menu",
 	_onKeyPress: function(/*Event*/ evt){
 		// summary:
 		//		Handle keyboard based menu navigation.
+		// tags:
+		//		protected
+
 		if(evt.ctrlKey || evt.altKey){ return; }
 
 		switch(evt.charOrCode){
@@ -280,6 +331,8 @@ dojo.declare("dijit.Menu",
 	_iframeContentWindow: function(/* HTMLIFrameElement */iframe_el){
 		// summary:
 		//		Returns the window reference of the passed iframe
+		// tags:
+		//		private
 		var win = dijit.getDocumentWindow(dijit.Menu._iframeContentDocument(iframe_el)) ||
 			// Moz. TODO: is this available when defaultView isn't?
 			dijit.Menu._iframeContentDocument(iframe_el)['__parent__'] ||
@@ -289,7 +342,9 @@ dojo.declare("dijit.Menu",
 
 	_iframeContentDocument: function(/* HTMLIFrameElement */iframe_el){
 		// summary:
-		//	Returns a reference to the document object inside iframe_el
+		//		Returns a reference to the document object inside iframe_el
+		// tags:
+		//		protected
 		var doc = iframe_el.contentDocument // W3
 			|| (iframe_el.contentWindow && iframe_el.contentWindow.document) // IE
 			|| (iframe_el.name && dojo.doc.frames[iframe_el.name] && dojo.doc.frames[iframe_el.name].document)
@@ -332,6 +387,10 @@ dojo.declare("dijit.Menu",
 	},
 
 	_contextKey: function(e){
+		// summary:
+		//		Code to handle popping up editor using F10 key rather than mouse
+		// tags:
+		//		private
 		this._contextMenuWithMouse = false;
 		if(e.keyCode == dojo.keys.F10){
 			dojo.stopEvent(e);
@@ -349,6 +408,11 @@ dojo.declare("dijit.Menu",
 	},
 
 	_contextMouse: function(e){
+		// summary:
+		//		Helper to remember when we opened the context menu with the mouse instead
+		//		of with the keyboard
+		// tags:
+		//		private
 		this._contextMenuWithMouse = true;
 	},
 
@@ -356,6 +420,8 @@ dojo.declare("dijit.Menu",
 		// summary:
 		//		Internal function for opening myself when the user
 		//		does a right-click or something similar
+		// tags:
+		//		private
 
 		if(this.leftClickToOpen&&e.button>0){
 			return;
@@ -403,7 +469,7 @@ dojo.declare("dijit.Menu",
 			dijit.popup.close(this);
 			// don't try to restore focus; user has clicked another part of the screen
 			// and set focus there
-		}
+		};
 	},
 
 	uninitialize: function(){

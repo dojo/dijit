@@ -24,11 +24,14 @@ dojo.declare("dijit.MenuItem",
 		label: '',
 
 		// iconClass: String
-		//		Class to apply to div in button to make it display an icon
+		//		Class to apply to DOMNode to make it display an icon.
 		iconClass: "",
 
 		// accelKey: String
-		//		Text for the accelerator (shortcut) key combination
+		//		Text for the accelerator (shortcut) key combination.
+		//		Note that although Menu can display accelerator keys there
+		//		is no infrastructure to actually catch and execute these
+		//		accelerators.
 		accelKey: "",
 
 		// disabled: Boolean
@@ -52,16 +55,20 @@ dojo.declare("dijit.MenuItem",
 
 		_onHover: function(){
 			// summary:
-			//		Callback when mouse is moved onto menu item
+			//		Handler when mouse is moved onto menu item
+			// tags:
+			//		protected
 			dojo.addClass(this.domNode, 'dijitMenuItemHover');
 			this.getParent().onItemHover(this);
 		},
 
 		_onUnhover: function(){
 			// summary:
-			//		Callback when mouse is moved off of menu item,
+			//		Handler when mouse is moved off of menu item,
 			//		possibly to a child menu, or maybe to a sibling
 			//		menuitem or somewhere else entirely.
+			// tags:
+			//		protected
 
 			// if we are unhovering the currently selected item
 			// then unselect it
@@ -70,6 +77,10 @@ dojo.declare("dijit.MenuItem",
 		},
 
 		_onClick: function(evt){
+			// summary:
+			//		Internal handler for click events on MenuItem.
+			// tags:
+			//		private
 			this.getParent().onItemClick(this, evt);
 			dojo.stopEvent(evt);
 		},
@@ -77,6 +88,8 @@ dojo.declare("dijit.MenuItem",
 		onClick: function(/*Event*/ evt){
 			// summary:
 			//		User defined function to handle clicks
+			// tags:
+			//		callback
 		},
 
 		focus: function(){
@@ -90,12 +103,21 @@ dojo.declare("dijit.MenuItem",
 		},
 
 		_onFocus: function(){
+			// summary:
+			//		This is called by the focus manager when focus
+			//		goes to this MenuItem or a child menu.
+			// tags:
+			//		protected
 			this._setSelected(true);
+
+			// TODO: this.inherited(arguments);
 		},
 
 		_setSelected: function(selected){
 			// summary:
 			//		Indicate that this node is the currently selected one
+			// tags:
+			//		private
 
 			/***
 			 * TODO: remove this method and calls to it, when _onBlur() is working for MenuItem.
@@ -113,6 +135,8 @@ dojo.declare("dijit.MenuItem",
 		setLabel: function(/*String*/ content){
 			// summary:
 			//		Deprecated.   Use attr('label', ...) instead.
+			// tags:
+			//		deprecated
 			dojo.deprecated("dijit.MenuItem.setLabel() is deprecated.  Use attr('label', ...) instead.", "", "2.0");
 			this.attr("label", content);
 		},
@@ -120,6 +144,8 @@ dojo.declare("dijit.MenuItem",
 		setDisabled: function(/*Boolean*/ disabled){
 			// summary:
 			//		Deprecated.   Use attr('disabled', bool) instead.
+			// tags:
+			//		deprecated
 			dojo.deprecated("dijit.Menu.setDisabled() is deprecated.  Use attr('disabled', bool) instead.", "", "2.0");
 			this.attr('disabled', disabled);
 		},
