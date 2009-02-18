@@ -34,7 +34,7 @@ dojo.declare("dijit.form.SimpleTextarea",
 	templateString: "<textarea ${nameAttrSetting} dojoAttachPoint='focusNode,containerNode,textbox' autocomplete='off'></textarea>",
 
 	postMixInProperties: function(){
-		if(this.srcNodeRef){
+		if(!this.value && this.srcNodeRef){
 			this.value = this.srcNodeRef.value;
 		}
 		this.inherited(arguments);

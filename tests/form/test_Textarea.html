@@ -41,14 +41,15 @@
 		<script type="text/javascript">
 			// See if we can make a widget in script
 			dojo.addOnLoad(function(){
-				var w = new dijit.form.Textarea({
+				programmaticTextarea = new dijit.form.Textarea({
+					id: "programmatic",
 					name: "programmaticTextArea",
 					cols: "60",
-					value: "test value"
+					value: "we created this one programatically"
 				}, "programmatic");
-				w.attr('value', 'we created this one programatically');
 			});
 		</script>
+		<input type="button" onclick="programmaticTextarea.attr('value', 'new value for programmatic textarea');" value="change value">
 		<br><label for="simple">Inline with maxLength=50:</label><div name="simpleTextArea" maxLength="50" dojoType="dijit.form.Textarea" id="simple" style="width:33%;border:20px solid red;padding:10px;"
          		onChange="dojo.byId('ocSimple').value=arguments[0]"
          		onFocus="console.log('user focus handler')"
