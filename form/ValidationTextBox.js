@@ -247,6 +247,14 @@ dojo.declare(
 		//		to the serveris defined by the dijit.form.MappedTextBox.serialize method and is typically
 		//		locale-neutral.
 
+		postMixInProperties: function(){
+			this.inherited(arguments);
+			
+			// we want the name attribute to go to the hidden <input>, not the displayed <input>,
+			// so override _FormWidget.postMixInProperties() setting of nameAttrSetting
+			this.nameAttrSetting = "";
+		},
+
 		serialize: function(/*anything*/val, /*Object?*/options){
 			// summary:
 			//		User overridable function used to convert the attr('value') result to a String
@@ -271,8 +279,9 @@ dojo.declare(
 			// Create a hidden <input> node with the serialized value used for submit
 			// (as opposed to the displayed value)
 			this.valueNode = dojo.create("input", {
-				style:{ display:"none" },
-				type: this.type
+				style: { display: "none" },
+				type: this.type,
+				name: this.name
 			}, this.textbox, "after");
 		},
 

@@ -31,12 +31,13 @@ dojo.declare("dijit.form.SimpleTextarea",
 	cols: "20",
 
 	templatePath: null,
-	templateString: "<textarea name='${name}' dojoAttachPoint='focusNode,containerNode,textbox' autocomplete='off'></textarea>",
+	templateString: "<textarea ${nameAttrSetting} dojoAttachPoint='focusNode,containerNode,textbox' autocomplete='off'></textarea>",
 
 	postMixInProperties: function(){
 		if(this.srcNodeRef){
 			this.value = this.srcNodeRef.value;
 		}
+		this.inherited(arguments);
 	},
 
 	filter: function(/*String*/ value){

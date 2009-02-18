@@ -197,9 +197,6 @@
 			}
 			return true;
 		</script>
-		<script type="dojo/method" event="onReset">
-			return confirm('reset Form?');
-		</script>
 		<p>Just HTML text</p>
 		<table style="border: 1px solid #9f9f9f;" cellspacing="10">
 			<thead>
@@ -417,6 +414,8 @@ simple line 2</textarea>
 		<button dojoType="dijit.form.Button" type="submit" value="Submit">Submit</button>
 		<button dojoType="dijit.form.Button" type="reset">Reset</button>
 	</form>
+<button dojoType="dijit.form.Button" type="button" 
+onclick="dijit.byId('myForm').submit()">Submit programmatically</button>
 
 </body>
 </html>

@@ -72,10 +72,11 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 		alt: "focusNode"
 	}),
 
-	_setNameAttr: function(/*String*/ value){
-		this.name = value;
-		var node = this.valueNode || this.focusNode || this.domNode;
-		dojo.attr(node, 'name', value);
+	postMixInProperties: function(){
+		// Setup name=foo string to be referenced from the template (but only if a name has been specified)
+		// Unfortunately we can't use attributeMap to set the name due to IE limitations, see #8660
+		this.nameAttrSetting = this.name ? ("name='" + this.name + "'") : "";
+		this.inherited(arguments);
 	},
 
 	_setDisabledAttr: function(/*Boolean*/ value){
@@ -334,6 +335,9 @@ dojo.declare("dijit.form._FormValueWidget", dijit.form._FormWidget,
 	//		to which it serializes it's input value, so that form submission (either normal submission or via FormBind?)
 	//		works as expected.
 
+	// Don't attempt to mixin the 'type', 'name' attributes here programatically -- they must be declared 
+	// directly in the template as read by the parser in order to function. IE is known to specifically  
+	// require the 'name' attribute at element creation time.   See #8484, #8660.
 	// TODO: unclear what that {value: ""} is for; FormWidget.attributeMap copies value to focusNode,
 	// so maybe {value: ""} is so the value *doesn't* get copied to focusNode?
 	// Seems like we really want value removed from attributeMap altogether
