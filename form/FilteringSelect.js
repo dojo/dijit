@@ -242,10 +242,6 @@ dojo.declare(
 
 		undo: function(){
 			this.attr('displayedValue', this._lastDisplayedValue);
-		},
-
-		_valueChanged: function(){
-			return this.attr('displayedValue')!=this._lastDisplayedValue;
 		}
 	}
 );
