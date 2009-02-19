@@ -26,12 +26,17 @@ dojo.declare("dijit.tree.ForestStoreModel", dijit.tree.TreeStoreModel, {
 	// query: String
 	//		Specifies the set of children of the root item.
 	// example:
-	//		{type:'continent'}
+	//	|	{type:'continent'}
 	query: null,
 
 	// End of parameters to constructor
 
 	constructor: function(params){
+		// summary:
+		//		Sets up variables, etc.
+		// tags:
+		//		private
+
 		// Make dummy root item
 		this.root = {
 			store: this,
@@ -51,6 +56,8 @@ dojo.declare("dijit.tree.ForestStoreModel", dijit.tree.TreeStoreModel, {
 		//		avoids showing +/- expando icon for nodes that we know don't have children.
 		//		(For efficiency reasons we may not want to check if an element actually
 		//		has children until user clicks the expando node)
+		// tags:
+		//		extension
 		return item === this.root || this.inherited(arguments);
 	},
 
@@ -135,23 +142,27 @@ dojo.declare("dijit.tree.ForestStoreModel", dijit.tree.TreeStoreModel, {
 	},
 
 	// =======================================================================
-	// Callbacks
+	// Handling for top level children
 	
 	onAddToRoot: function(/* item */ item){
 		// summary:
-		//		Called when item added to root of tree; user must override
+		//		Called when item added to root of tree; user must override this method
 		//		to modify the item so that it matches the query for top level items
-		// example
+		// example:
 		//	|	store.setValue(item, "root", true);
+		// tags:
+		//		extension
 		console.log(this, ": item ", item, " added to root");
 	},
 
 	onLeaveRoot: function(/* item */ item){
 		// summary:
-		//		Called when item removed from root of tree; user must override
+		//		Called when item removed from root of tree; user must override this method
 		//		to modify the item so it doesn't match the query for top level items
-		// example
+		// example:
 		// 	|	store.unsetAttribute(item, "root");
+		// tags:
+		//		extension
 		console.log(this, ": item ", item, " removed from root");
 	},
 	

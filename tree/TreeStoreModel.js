@@ -14,7 +14,7 @@ dojo.declare(
 		store: null,
 
 		// childrenAttrs: String[]
-		//		one ore more attributes that holds children of a tree node
+		//		One or more attribute names (attributes in the dojo.data item) that specify that item's children
 		childrenAttrs: ["children"],
 
 		// labelAttr: String
@@ -22,7 +22,7 @@ dojo.declare(
 		//		than by calling store.getLabel()
 		labelAttr: "",
 	 
-	 	// root: dojo.data.Item
+	 	// root: [readonly] dojo.data.Item
 		//		Pointer to the root item (read only, not a parameter)
 		root: null,
 
@@ -31,12 +31,15 @@ dojo.declare(
 		//		Must only return a single item.   Alternately can just pass in pointer
 		//		to root item.
 		// example:
-		//		{id:'ROOT'}
+		//	|	{id:'ROOT'}
 		query: null,
 
 		constructor: function(/* Object */ args){
 			// summary:
 			//		Passed the arguments listed above (store, etc)
+			// tags:
+			//		private
+
 			dojo.mixin(this, args);
 
 			this.connects = [];
@@ -159,7 +162,7 @@ dojo.declare(
 
 		newItem: function(/* Object? */ args, /*Item*/ parent){
 			// summary:
-			//		Creates a new item.   See dojo.data.api.Write for details on args.
+			//		Creates a new item.   See `dojo.data.api.Write` for details on args.
 			//		Used in drag & drop when item from external source dropped onto tree.
 			var pInfo = {parent: parent, attribute: this.childrenAttrs[0]};
 			return this.store.newItem(args, pInfo);
@@ -209,11 +212,15 @@ dojo.declare(
 			//		can update the label, icon, etc.   Note that changes
 			//		to an item's children or parent(s) will trigger an
 			//		onChildrenChange() so you can ignore those changes here.
+			// tags:
+			//		callback
 		},
 
 		onChildrenChange: function(/*dojo.data.Item*/ parent, /*dojo.data.Item[]*/ newChildrenList){
 			// summary:
 			//		Callback to do notifications about new, updated, or deleted items.
+			// tags:
+			//		callback
 		},
 
 		onDelete: function(/*dojo.data.Item*/ parent, /*dojo.data.Item[]*/ newChildrenList){
@@ -222,6 +229,8 @@ dojo.declare(
 			// description:
 			//		Note that there will also be an onChildrenChange() callback for the parent
 			//		of this item.
+			// tags:
+			//		callback
 		},
 
 		// =======================================================================

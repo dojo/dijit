@@ -13,24 +13,34 @@ dojo.declare(
 	[dijit._Widget, dijit._Templated, dijit._Container, dijit._Contained],
 {
 	// summary:
-	//		Single node within a tree
+	//		Single node within a tree.   This class is used internally
+	//		by Tree and should not be accessed directly.
+	// tags:
+	//		private
 
 	// item: dojo.data.Item
 	//		the dojo.data entry this tree represents
 	item: null,	
 
+	// isTreeNode: [protected] Boolean
+	//		Indicates that this is a TreeNode.   Used by `dijit.Tree` only,
+	//		should not be accessed directly.
 	isTreeNode: true,
 
 	// label: String
 	//		Text of this tree node
 	label: "",
-	
-	isExpandable: null, // show expando node
-	
+
+	// isExpandable: [private] Boolean
+	//		This node has children, so show the expando node (+ sign)
+	isExpandable: null,
+
+	// isExpanded: [readonly] Boolean
+	//		This node is currently expanded (ie, opened)
 	isExpanded: false,
 
-	// state: String
-	//		dynamic loading-related stuff.
+	// state: [private] String
+	//		Dynamic loading-related stuff.
 	//		When an empty folder node appears, it is "UNCHECKED" first,
 	//		then after dojo.data query it becomes "LOADING" and, finally "LOADED"	
 	state: "UNCHECKED",
@@ -78,6 +88,8 @@ dojo.declare(
 	markProcessing: function(){
 		// summary:
 		//		Visually denote that tree is loading data, etc.
+		// tags:
+		//		private
 		this.state = "LOADING";
 		this._setExpando(true);	
 	},
@@ -85,12 +97,17 @@ dojo.declare(
 	unmarkProcessing: function(){
 		// summary:
 		//		Clear markup from markProcessing() call
+		// tags:
+		//		private
 		this._setExpando(false);	
 	},
 
 	_updateItemClasses: function(item){
 		// summary:
-		//		Set appropriate CSS classes for icon and label dom node (used to allow for item updates to change respective CSS)
+		//		Set appropriate CSS classes for icon and label dom node
+		//		(used to allow for item updates to change respective CSS)
+		// tags:
+		//		private
 		var tree = this.tree, model = tree.model;
 		if(tree._v10Compat && item === model.root){
 			// For back-compat with 1.0, need to use null to specify root item (TODO: remove in 2.0)
@@ -119,6 +136,8 @@ dojo.declare(
 	_updateLayout: function(){
 		// summary:
 		//		Set appropriate CSS classes for this.domNode
+		// tags:
+		//		private
 		var parent = this.getParent();
 		if(!parent || parent.rowNode.style.display == "none"){
 			/* if we are hiding the root node then make every first level child look like a root node */
@@ -131,6 +150,8 @@ dojo.declare(
 	_setExpando: function(/*Boolean*/ processing){
 		// summary:
 		//		Set the right image for the expando node
+		// tags:
+		//		private
 
 		// apply the appropriate class to the expando node
 		var styles = ["dijitTreeExpandoLoading", "dijitTreeExpandoOpened",
@@ -176,7 +197,10 @@ dojo.declare(
 		this._wipeIn.play();
 	},
 
-	collapse: function(){					
+	collapse: function(){
+		// summary:
+		//		Collapse this node (if it's expanded)
+
 		if(!this.isExpanded){ return; }
 
 		// cancel in progress expand operation
@@ -200,6 +224,8 @@ dojo.declare(
 	},
 
 	setLabelNode: function(label){
+		// summary:
+		//		Sets the label
 		this.labelNode.innerHTML = "";
 		this.labelNode.appendChild(dojo.doc.createTextNode(label));
 	},
@@ -301,6 +327,9 @@ dojo.declare(
 		//summary:
 		//		if this node wasn't already showing the expando node,
 		//		turn it into one and call _setExpando()
+
+		// TODO: hmm this isn't called from anywhere, maybe should remove it for 2.0
+
 		this.isExpandable = true;
 		this._setExpando(false);
 	},
@@ -308,6 +337,8 @@ dojo.declare(
 	_onLabelFocus: function(evt){
 		// summary:
 		//		Called when this node is focused (possibly programatically)
+		// tags:
+		//		private
 		dojo.addClass(this.labelNode, "dijitTreeLabelFocused");
 		this.tree._onNodeFocus(this);
 	},
@@ -318,10 +349,12 @@ dojo.declare(
 		//		another TreeNode or away from the Tree entirely.
 		//		Note that we aren't using _onFocus/_onBlur builtin to dijit
 		//		because _onBlur() isn't called when focus is moved to my child TreeNode.
+		// tags:
+		//		private
 		dojo.removeClass(this.labelNode, "dijitTreeLabelFocused");
 	},
 
-	setSelected: function(selected){
+	setSelected: function(/*Boolean*/ selected){
 		// summary:
 		//		A Tree has a (single) currently selected node.
 		//		Mark that this node is/isn't that currently selected node.
@@ -335,11 +368,19 @@ dojo.declare(
 	},
 
 	_onMouseEnter: function(evt){
+		// summary:
+		//		Handler for onmouseenter event on a node
+		// tags:
+		//		private
 		dojo.addClass(this.rowNode, "dijitTreeNodeHover");
 		this.tree._onNodeMouseEnter(this, evt);
 	},
 
 	_onMouseLeave: function(evt){
+		// summary:
+		//		Handler for onmouseenter event on a node
+		// tags:
+		//		private
 		dojo.removeClass(this.rowNode, "dijitTreeNodeHover");
 		this.tree._onNodeMouseLeave(this, evt);
 	}
@@ -352,7 +393,7 @@ dojo.declare(
 	// summary:
 	//		This widget displays hierarchical data from a store.
 
-	// store: String||dojo.data.Store
+	// store: [deprecated] String||dojo.data.Store
 	//		Deprecated.  Use "model" parameter instead.
 	//		The store to get data to display in the tree.
 	store: null,
@@ -362,24 +403,25 @@ dojo.declare(
 	//		and for handling drop operations (i.e drag and drop onto the tree)
 	model: null,
 
-	// query: anything
+	// query: [deprecated] anything
 	//		Deprecated.  User should specify query to the model directly instead.
 	//		Specifies datastore query to return the root item or top items for the tree.
 	query: null,
 
-	// label: String
+	// label: [deprecated] String
 	//		Deprecated.  Use dijit.tree.ForestStoreModel directly instead.
 	//		Used in conjunction with query parameter.
 	//		If a query is specified (rather than a root node id), and a label is also specified,
 	//		then a fake root node is created and displayed, with this label.
 	label: "",
 
-	// showRoot: Boolean
+	// showRoot: [const] Boolean
 	//		Should the root node be displayed, or hidden?
 	showRoot: true,
 
-	// childrenAttr: String[]
-	//		one ore more attributes that holds children of a tree node
+	// childrenAttr: [deprecated] String[]
+	//		Deprecated.   This information should be specified in the model.
+	//		One ore more attributes that holds children of a tree node
 	childrenAttr: ["children"],
 
 	// openOnClick: Boolean
@@ -392,31 +434,81 @@ dojo.declare(
 
 	templatePath: dojo.moduleUrl("dijit", "templates/Tree.html"),
 
+	// isExpandable: [private deprecated] Boolean
+	//		TODO: this appears to be vestigal, back from when Tree extended TreeNode.  Remove.
 	isExpandable: true,
 
+	// isTree: [private deprecated] Boolean
+	//		TODO: this appears to be vestigal.  Remove.
 	isTree: true,
 
 	// persist: Boolean
 	//		Enables/disables use of cookies for state saving.
 	persist: true,
 	
-	// dndController: String
-	//		Class name to use as as the dnd controller.
+	// dndController: [protected] String
+	//		Class name to use as as the dnd controller.  Specifying this class enables DnD.
+	//		Generally you should specify this as "dijit._tree.dndSource".
 	dndController: null,
 
-	//parameters to pull off of the tree and pass on to the dndController as its params
+	// parameters to pull off of the tree and pass on to the dndController as its params
 	dndParams: ["onDndDrop","itemCreator","onDndCancel","checkAcceptance", "checkItemAcceptance", "dragThreshold", "betweenThreshold"],
 
 	//declare the above items so they can be pulled from the tree's markup
-	onDndDrop:null,
-	itemCreator:null,
-	onDndCancel:null,
-	checkAcceptance:null,	
-	checkItemAcceptance:null,
+
+	// onDndDrop: [protected] Function
+	//		Parameter to dndController, see `dijit._tree.dndSource.onDndDrop`.
+	//		Generally this doesn't need to be set.
+	onDndDrop: null,
+
+	// itemCreator: [protected] Function
+	//		Parameter to dndController, see `dijit._tree.dndSource.itemCreator`.
+	//		Generally this doesn't need to be set.
+	itemCreator: null,
+
+	// onDndCancel: [protected] Function
+	//		Parameter to dndController, see `dijit._tree.dndSource.onDndCancel`.
+	//		Generally this doesn't need to be set.
+	onDndCancel: null,
+
+/*=====
+	checkAcceptance: function(source, nodes){
+		// summary:
+		//		Checks if the Tree itself can accept nodes from this source
+		// source: dijit.tree._dndSource
+		//		The source which provides items
+		// nodes: DOMNode[]
+		//		Array of DOM nodes corresponding to nodes being dropped, dijitTreeRow nodes if
+		//		source is a dijit.Tree.
+		// tags:
+		//		extension
+	},
+=====*/
+	checkAcceptance: null,
+
+/*=====
+	checkItemAcceptance: function(target, source, position){
+		// summary:
+		//		Stub function to be overridden if one wants to check for the ability to drop at the node/item level
+		// description:
+		//		In the base case, this is called to check if target can become a child of source.
+		//		When betweenThreshold is set, position="before" or "after" means that we
+		//		are asking if the source node can be dropped before/after the target node.
+		// target: DOMNode
+		//		The dijitTreeRoot DOM node inside of the TreeNode that we are dropping on to
+		//		Use dijit.getEnclosingWidget(target) to get the TreeNode.
+		// source: dijit._tree.dndSource
+		//		The (set of) nodes we are dropping
+		// position: String
+		//		"over", "before", or "after"
+		// tags:
+		//		extension
+=====*/
+	checkItemAcceptance: null,
 	
 	// dragThreshold: Integer
 	//		Number of pixels mouse moves before it's considered the start of a drag operation
-	dragThreshold:0,
+	dragThreshold: 0,
 	
 	// betweenThreshold: Integer
 	//		Set to a positive value to allow drag and drop "between" nodes.
@@ -428,7 +520,7 @@ dojo.declare(
 	//		Similarly, if mouse is over a target node but less that betweenThreshold
 	//		pixels from the top edge, dropping the dragged node will make it
 	//		the target node's previous sibling rather than the target node's child.
-	betweenThreshold:0,
+	betweenThreshold: 0,
 
 	_publish: function(/*String*/ topicName, /*Object*/ message){
 		// summary:
@@ -444,6 +536,8 @@ dojo.declare(
 		if(!this.cookieName){
 			this.cookieName = this.id + "SaveStateCookie";
 		}
+
+		// TODO: this.inherited(arguments)
 	},
 
 	postCreate: function(){
@@ -542,16 +636,24 @@ dojo.declare(
 
 	mayHaveChildren: function(/*dojo.data.Item*/ item){
 		// summary:
+		//		Deprecated.   This should be specified on the model itself.
+		//
 		//		Overridable function to tell if an item has or may have children.
 		//		Controls whether or not +/- expando icon is shown.
 		//		(For efficiency reasons we may not want to check if an element actually
 		//		has children until user clicks the expando node)
+		// tags:
+		//		deprecated
 	},
 
 	getItemChildren: function(/*dojo.data.Item*/ parentItem, /*function(items)*/ onComplete){
 		// summary:
+		//		Deprecated.   This should be specified on the model itself.
+		//
 		// 		Overridable function that return array of child items of given parent item,
 		//		or if parentItem==null then return top items in tree
+		// tags:
+		//		deprecated
 	},
 
 	///////////////////////////////////////////////////////
@@ -559,18 +661,24 @@ dojo.declare(
 	getLabel: function(/*dojo.data.Item*/ item){
 		// summary:
 		//		Overridable function to get the label for a tree node (given the item)
+		// tags:
+		//		extension
 		return this.model.getLabel(item);	// String
 	},
 
 	getIconClass: function(/*dojo.data.Item*/ item, /*Boolean*/ opened){
 		// summary:
 		//		Overridable function to return CSS class name to display icon
+		// tags:
+		//		extension
 		return (!item || this.model.mayHaveChildren(item)) ? (opened ? "dijitFolderOpened" : "dijitFolderClosed") : "dijitLeaf"
 	},
 
 	getLabelClass: function(/*dojo.data.Item*/ item, /*Boolean*/ opened){
 		// summary:
 		//		Overridable function to return CSS class name to display label
+		// tags:
+		//		extension
 	},
 	
 	getIconStyle: function(/*dojo.data.Item*/ item, /*Boolean*/ opened){
@@ -578,6 +686,8 @@ dojo.declare(
 		//		Overridable function to return CSS styles to display icon
 		// returns:
 		//		Object suitable for input to dojo.style() like {backgroundImage: "url(...)"}
+		// tags:
+		//		extension
 	},
 
 	getLabelStyle: function(/*dojo.data.Item*/ item, /*Boolean*/ opened){
@@ -585,6 +695,8 @@ dojo.declare(
 		//		Overridable function to return CSS styles to display label
 		// returns:
 		//		Object suitable for input to dojo.style() like {color: "red", background: "green"}
+		// tags:
+		//		extension
 	},
 
 	/////////// Keyboard and Mouse handlers ////////////////////
@@ -813,19 +925,27 @@ dojo.declare(
 
 	onClick: function(/* dojo.data */ item, /*TreeNode*/ node){
 		// summary:
-		//		Overridable function for executing a tree item on click.
+		//		Callback when a tree node is clicked
+		// tags:
+		//		callback
 	},
 	onDblClick: function(/* dojo.data */ item, /*TreeNode*/ node){
 		// summary:
-		//		Overridable function for executing a tree item on double-click.
+		//		Callback when a tree node is double-clicked
+		// tags:
+		//		callback
 	},
 	onOpen: function(/* dojo.data */ item, /*TreeNode*/ node){
 		// summary:
 		//		Callback when a node is opened
+		// tags:
+		//		callback
 	},
 	onClose: function(/* dojo.data */ item, /*TreeNode*/ node){
 		// summary:
 		//		Callback when a node is closed
+		// tags:
+		//		callback
 	},
 
 	_getNextNode: function(node){
@@ -921,6 +1041,8 @@ dojo.declare(
 	focusNode: function(/* _tree.Node */ node){
 		// summary:
 		//		Focus on the specified node (which must be visible)
+		// tags:
+		//		protected
 
 		// set focus so that the label will be voiced using screen readers
 		node.labelNode.focus();
