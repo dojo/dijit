@@ -482,6 +482,7 @@ dojo.declare(
 		//		source is a dijit.Tree.
 		// tags:
 		//		extension
+		return true;	// Boolean
 	},
 =====*/
 	checkAcceptance: null,
@@ -503,6 +504,8 @@ dojo.declare(
 		//		"over", "before", or "after"
 		// tags:
 		//		extension
+		return true;	// Boolean
+	},
 =====*/
 	checkItemAcceptance: null,
 	
