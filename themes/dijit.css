@@ -300,7 +300,10 @@
 } 
 
 /**** Disabled cursor *****/
+.dijitReadOnly *,
 .dijitDisabled *,
+.dijitReadOnly,
+.dijitDisabled,
 .dijitDisabledClickableRegion {	/* a region the user would be able to click on, but it's disabled */
 	cursor: not-allowed !important;
 }
