@@ -45,13 +45,13 @@
 	background-position: 0px;
 }
 
-.nihilo .dijitRadioCheckedDisabled {
-	/* selected but disabled */
+.nihilo .dijitRadioDisabled {
+	/* unselected and disabled */
 	background-position: -48px;
 }
 
-.nihilo .dijitRadioDisabled {
-	/* unselected and disabled */
+.nihilo .dijitRadioCheckedDisabled {
+	/* selected but disabled */
 	background-position: -32px;
 }
 

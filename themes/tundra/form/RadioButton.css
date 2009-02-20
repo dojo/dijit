@@ -34,11 +34,6 @@
 	background-position: -144px;
 }
 
-.tundra .dijitRadioCheckedDisabled {
-	/* selected but disabled */
-	background-position: -128px;
-}
-
 .tundra .dijitRadioHover {
 	/* hovering over an unselected enabled radio button */
 	background-position: -176px;
@@ -51,4 +46,9 @@
 	 * no hover effect on selected radio buttons.
 	 */
 	background-position: -96px;
+}
+
+.tundra .dijitRadioCheckedDisabled {
+	/* selected but disabled */
+	background-position: -128px;
 }

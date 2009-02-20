@@ -45,13 +45,13 @@
 	background-position: 0px;
 }
 
-.soria .dijitRadioCheckedDisabled {
-	/* selected but disabled */
+.soria .dijitRadioDisabled {
+	/* unselected and disabled */
 	background-position: -48px;
 }
 
-.soria .dijitRadioDisabled {
-	/* unselected and disabled */
+.soria .dijitRadioCheckedDisabled {
+	/* selected but disabled */
 	background-position: -32px;
 }
 

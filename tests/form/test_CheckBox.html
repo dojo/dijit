@@ -109,6 +109,8 @@
 			<label for="g1rb2">talk</label>
 			<input type="radio" name="g[1]" id="g1rb3" value="weather" dojoType="dijit.form.RadioButton" disabled="disabled"/>
 			<label for="g1rb3">weather</label>
+			<input type="button" onclick='dijit.byId("g1rb3").attr("disabled",false);' value="enable weather" />
+			<input type="button" onclick='dijit.byId("g1rb3").attr("disabled",true);' value="disable weather" />
 		</p>
 		<p>
 			<span>Radio group #2: (no default value, and has breaks)</span><br>
