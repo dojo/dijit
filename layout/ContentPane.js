@@ -325,6 +325,11 @@ dojo.declare(
 
 		// Do lazy-load of URL
 		this._loadCheck();
+
+		// call onShow, if we have one
+		if(this.onShow){
+			this.onShow();
+		}
 	},
 
 	_loadCheck: function(){
