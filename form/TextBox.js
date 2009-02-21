@@ -68,6 +68,8 @@ dojo.declare(
 
 			var filteredValue;
 			if(value !== undefined){
+				// TODO: this is calling filter() on both the display value and the actual value.
+				// I added a comment to the filter() definition about this, but it should be changed.
 				filteredValue = this.filter(value);
 				if(filteredValue !== null && ((typeof filteredValue != "number") || !isNaN(filteredValue))){
 					if(typeof formattedValue != "string"){
@@ -96,6 +98,10 @@ dojo.declare(
 		displayedValue: "",
 
 		getDisplayedValue: function(){
+			// summary:
+			//		Deprecated.   Use attr('displayedValue') instead.
+			// tags:
+			//		deprecated
 			dojo.deprecated(this.declaredClass+"::getDisplayedValue() is deprecated. Use attr('displayedValue') instead.", "", "2.0");
 			return this.attr('displayedValue');
 		},
@@ -115,6 +121,10 @@ dojo.declare(
 		},
 
 		setDisplayedValue: function(/*String*/value){
+			// summary:
+			//		Deprecated.   Use attr('displayedValue', ...) instead.
+			// tags:
+			//		deprecated
 			dojo.deprecated(this.declaredClass+"::setDisplayedValue() is deprecated. Use attr('displayedValue', ...) instead.", "", "2.0");
 			this.attr('displayedValue', value);
 		},
@@ -133,17 +143,28 @@ dojo.declare(
 
 		format: function(/* String */ value, /* Object */ constraints){
 			// summary:
-			//		Replacable function to convert a value to a properly formatted string
+			//		Replacable function to convert a value to a properly formatted string.
+			// tags:
+			//		protected extension
 			return ((value == null || value == undefined) ? "" : (value.toString ? value.toString() : value));
 		},
 
 		parse: function(/* String */ value, /* Object */ constraints){
 			// summary:
 			//		Replacable function to convert a formatted string to a value
-			return value;
+			// tags:
+			//		protected extension
+
+			return value;	// String
 		},
 
 		_refreshState: function(){
+			// summary:
+			//		After the user types some characters, etc., this method is
+			//		called to check the field for validity etc.  The base method
+			//		in `dijit.form.TextBox` does nothing, but subclasses override.
+			// tags:
+			//		protected
 		},
 
 		_onInput: function(e){
@@ -188,7 +209,21 @@ dojo.declare(
 		filter: function(val){
 			// summary:
 			//		Auto-corrections (such as trimming) that are applied to textbox
-			//		value on blur or form submit
+			//		value on blur or form submit.
+			// description:
+			//		For MappedTextBox subclasses, this is called twice
+			// 			- once with the display value
+			//			- once the value as set/returned by attr('value', ...)
+			//		and attr('value'), ex: a Number for NumberTextBox.
+			//
+			//		In the latter case it does corrections like converting null to NaN.  In
+			//		the former case the NumberTextBox.filter() method calls this.inherited()
+			//		to execute standard trimming code in TextBox.filter().
+			//
+			//		TODO: break this into two methods in 2.0
+			//
+			// tags:
+			//		protected extension
 			if(val === null){ return ''; }
 			if(typeof val != "string"){ return val; }
 			if(this.trim){
@@ -225,8 +260,8 @@ dojo.declare(
 		},
 
 		reset: function(){
-			// summary:
-			//		Additionally reset the displayed textbox value to ''
+			// Overrides dijit._FormWidget.reset().
+			// Additionally resets the displayed textbox value to ''
 			this.textbox.value = '';
 			this.inherited(arguments);
 		}
@@ -255,10 +290,10 @@ dijit.selectInputText = function(/*DomNode*/element, /*Number?*/ start, /*Number
 			}
 		}
 	}else if(_window["getSelection"]){
-		var selection = _window.getSelection();
+		var selection = _window.getSelection();	// TODO: unused, remove
 		// FIXME: does this work on Safari?
 		if(element.setSelectionRange){
 			element.setSelectionRange(start, stop);
 		}
 	}
-}
+};

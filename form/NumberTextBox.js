@@ -15,19 +15,40 @@ dojo.declare("dijit.form.NumberTextBoxMixin",
 	{
 		// summary:
 		//		A mixin for all number textboxes
+		// tags:
+		//		protected
 
-		// TODOC: no inherited. ValidationTextBox describes this, but why is this here:
+		// Override ValidationTextBox.regExpGen().... we use a reg-ex generating function rather
+		// than a straight regexp to deal with locale (plus formatting options too?)
 		regExpGen: dojo.number.regexp,
 
 		/*=====
-		// constraints: dijit.form.NumberTextBox.__Constraints 
+		// constraints: dijit.form.NumberTextBox.__Constraints
+		//		Minimum/maximum allowed values.
 		constraints: {},
 		======*/
 
-		// editOptions: Object
-		//		properties to mix into constraints when the value is being edited
+		// editOptions: [protected] Object
+		//		Properties to mix into constraints when the value is being edited.
+		//		This is here because we edit the number in the format "12345", which is
+		//		different than the display value (ex: "12,345")
 		editOptions: { pattern: '#.######' },
 
+		/*=====
+		_formatter: function(value, options){
+			// summary:
+			//		_formatter() is called by format().   It's the base routine for formatting a number,
+			//		as a string, for example converting 12345 into "12,345".
+			// value: Number
+			//		The number to be converted into a string.
+			// options: dojo.number.__FormatOptions?
+			//		Formatting options
+			// tags:
+			//		protected extension
+
+			return "12345";		// String
+		},
+		 =====*/
 		_formatter: dojo.number.format,
 
 		_onFocus: function(){
@@ -41,7 +62,9 @@ dojo.declare("dijit.form.NumberTextBoxMixin",
 
 		format: function(/*Number*/ value, /*dojo.number.__FormatOptions*/ constraints){
 			// summary:
-			//		Formats the value as a Number, according to constraints
+			//		Formats the value as a Number, according to constraints.
+			// tags:
+			//		protected
 
 			if(typeof value == "string") { return value; }
 			if(isNaN(value)){ return ""; }
@@ -51,16 +74,21 @@ dojo.declare("dijit.form.NumberTextBoxMixin",
 			return this._formatter(value, constraints);
 		},
 
-		parse: dojo.number.parse,
 		/*=====
 		parse: function(value, constraints){
-			//	summary:
-			//		Parses the value as a Number, according to constraints.
-			//	value: String
-			//
-			//	constraints: dojo.number.__ParseOptions
+			// summary:
+			//		Parses the string value as a Number, according to constraints.
+			// value: String
+			//		String representing a number
+			// constraints: dojo.number.__ParseOptions
+			//		Formatting options
+			// tags:
+			//		protected
+
+			return 123.45;		// Number
 		},
 		=====*/
+		parse: dojo.number.parse,
 
 		_getDisplayedValueAttr: function(){
 			var v = this.inherited(arguments); 
@@ -68,10 +96,20 @@ dojo.declare("dijit.form.NumberTextBoxMixin",
 		},
 
 		filter: function(/*Number*/ value){
+			// summary:
+			//		This is called with both the display value (string), and the actual value (a number).
+			//		When called with the actual value it does corrections so that '' etc. are represented as NaN.
+			//		Otherwise it dispatches to the superclass's filter() method.
+			//
+			//		See `dijit.form.TextBox.filter` for more details.
 			return (value === null || value === '' || value === undefined) ? NaN : this.inherited(arguments); // attr('value', null||''||undefined) should fire onChange(NaN)
 		},
 
 		serialize: function(/*Number*/ value, /*Object?*/options){
+			// summary:
+			//		Convert value (a Number) into a canonical string (ie, how the number literal is written in javascript/java/C/etc.)
+			// tags:
+			//		protected
 			return (typeof value != "number" || isNaN(value))? '' : this.inherited(arguments);
 		},
 

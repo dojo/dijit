@@ -34,6 +34,7 @@ dojo.declare("dijit.form.SimpleTextarea",
 	templateString: "<textarea ${nameAttrSetting} dojoAttachPoint='focusNode,containerNode,textbox' autocomplete='off'></textarea>",
 
 	postMixInProperties: function(){
+		// Copy value from srcNodeRef, unless user specified a value explicitly (or there is no srcNodeRef)
 		if(!this.value && this.srcNodeRef){
 			this.value = this.srcNodeRef.value;
 		}
@@ -41,6 +42,8 @@ dojo.declare("dijit.form.SimpleTextarea",
 	},
 
 	filter: function(/*String*/ value){
+		// Override TextBox.filter to deal with newlines... specifically (IIRC) this is for IE which writes newlines
+		// as \r\n instead of just \n
 		if(value){
 			value = value.replace(/\r/g,"");
 		}
@@ -56,6 +59,7 @@ dojo.declare("dijit.form.SimpleTextarea",
 
 	_previousValue: "",
 	_onInput: function(e){
+		// Override TextBox._onInput() to enforce maxLength restriction
 		if(this.maxLength){
 			var maxLength = parseInt(this.maxLength);
 			var value = this.textbox.value.replace(/\r/g,'');

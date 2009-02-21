@@ -25,18 +25,29 @@ dojo.declare(
 		currency: "",
 
 		/*=====
-		// constraints: dijit.form.CurrencyTextBox.__Constraints 
+		// constraints: dijit.form.CurrencyTextBox.__Constraints
+		//		Minimum/maximum amount allowed.
 		constraints: {},
 		======*/
 
+		// Override regExpGen ValidationTextBox.regExpGen().... we use a reg-ex generating function rather
+		// than a straight regexp to deal with locale  (plus formatting options too?)
 		regExpGen: dojo.currency.regexp,
+
+		// Override NumberTextBox._formatter to deal with currencies, ex: converts "123.45" to "$123.45"
 		_formatter: dojo.currency.format,
+
 /*=====
 		parse: function(value, constraints){
-			//	summary: parses the value as a Currency, according to constraints
-			//	value: String
-			//
-			//	constraints: dojo.currency.__ParseOptions
+			// summary:
+			//		Parses string as a Currency, according to constraints
+			// value: String
+			//		The currency represented as a string
+			// constraints: dojo.currency.__ParseOptions
+			// tags:
+			//		protected
+
+			return 123.45;		// Number
 		},
 =====*/
 		parse: dojo.currency.parse,

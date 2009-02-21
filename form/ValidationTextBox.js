@@ -24,16 +24,18 @@ dojo.declare(
 	{
 		// summary:
 		//		Base class for textbox widgets with the ability to validate content of various types and provide user feedback.
+		// tags:
+		//		protected
 
 		templatePath: dojo.moduleUrl("dijit.form", "templates/ValidationTextBox.html"),
 		baseClass: "dijitTextBox",
 
 		// required: Boolean
-		//		Can be true or false, default is false.
+		//		User is required to enter data into this field.
 		required: false,
 
 		// promptMessage: String
-		//		If defined, display this hint string immediately on focus to the an empty textbox.
+		//		If defined, display this hint string immediately on focus to the textbox, if empty.
 		//		Think of this like a tooltip that tells the user what to do, not an error message
 		//		that tells the user what they've done wrong.
 		//
@@ -48,22 +50,26 @@ dojo.declare(
 		//		user-defined object needed to pass parameters to the validator functions
 		constraints: {},
 
-		// regExp: String
+		// regExp: [extension protected] String
 		//		regular expression string used to validate the input
 		//		Do not specify both regExp and regExpGen
 		regExp: ".*",
 
-		// regExpGen: Function
-		//		user overridable function used to generate regExp when dependent on constraints
-		//		Do not specify both regExp and regExpGen
-		regExpGen: function(/*dijit.form.ValidationTextBox.__Constraints*/constraints){ return this.regExp; },
+		regExpGen: function(/*dijit.form.ValidationTextBox.__Constraints*/constraints){
+			// summary:
+			//		Overridable function used to generate regExp when dependent on constraints.
+			//		Do not specify both regExp and regExpGen.
+			// tags:
+			//		extension protected
+			return this.regExp;     // String
+		},
 
-		// state: String
+		// state: [readonly] String
 		//		Shows current state (ie, validation result) of input (Normal, Warning, or Error)
 		state: "",
 
 		// tooltipPosition: String[]
-		//		See description of dijit.Tooltip.defaultPosition for details on this parameter.
+		//		See description of `dijit.Tooltip.defaultPosition` for details on this parameter.
 		tooltipPosition: [],
 
 		_setValueAttr: function(){
@@ -75,7 +81,9 @@ dojo.declare(
 
 		validator: function(/*anything*/value, /*dijit.form.ValidationTextBox.__Constraints*/constraints){
 			// summary:
-			//		User overridable function used to validate the text input against the regular expression.
+			//		Overridable function used to validate the text input against the regular expression.
+			// tags:
+			//		protected
 			return (new RegExp("^(?:" + this.regExpGen(constraints) + ")"+(this.required?"":"?")+"$")).test(value) &&
 				(!this.required || !this._isEmpty(value)) &&
 				(this._isEmpty(value) || this.parse(value, constraints) !== undefined); // Boolean
@@ -84,12 +92,16 @@ dojo.declare(
 		_isValidSubset: function(){
 			// summary:
 			//		Returns true if the value is either already valid or could be made valid by appending characters.
+			//		This is used for validation while the user [may be] still typing.
 			return this.textbox.value.search(this._partialre) == 0;
 		},
 
 		isValid: function(/*Boolean*/ isFocused){
 			// summary:
-			//		Need to over-ride with your own validation code in subclasses
+			//		Tests if value is valid.
+			//		Can override with your own routine in a subclass.
+			// tags:
+			//		protected
 			return this.validator(this.textbox.value, this.constraints);
 		},
 
@@ -102,12 +114,16 @@ dojo.declare(
 		getErrorMessage: function(/*Boolean*/ isFocused){
 			// summary:
 			//		Return an error message to show if appropriate
+			// tags:
+			//		protected
 			return this.invalidMessage; // String
 		},
 
 		getPromptMessage: function(/*Boolean*/ isFocused){
 			// summary:
 			//		Return a hint message to show when widget is first focused
+			// tags:
+			//		protected
 			return this.promptMessage; // String
 		},
 
@@ -117,6 +133,8 @@ dojo.declare(
 			//		Called by oninit, onblur, and onkeypress.
 			// description:
 			//		Show missing or invalid messages if appropriate, and highlight textbox field.
+			// tags:
+			//		protected
 			var message = "";
 			var isValid = this.disabled || this.isValid(isFocused);
 			if(isValid){ this._maskValidSubsetError = true; }
@@ -138,13 +156,16 @@ dojo.declare(
 			return isValid;
 		},
 
-		// currently displayed message
+		// _message: String
+		//		Currently displayed message
 		_message: "",
 
 		displayMessage: function(/*String*/ message){
 			// summary:
-			//		User overridable method to display validation errors/hints.
+			//		Overridable method to display validation errors/hints.
 			//		By default uses a tooltip.
+			// tags:
+			//		extension
 			if(this._message == message){ return; }
 			this._message = message;
 			dijit.hideTooltip(this.domNode);
@@ -154,6 +175,7 @@ dojo.declare(
 		},
 
 		_refreshState: function(){
+			// Overrides TextBox._refreshState()
 			this.validate(this._focused);
 			this.inherited(arguments);
 		},
@@ -227,8 +249,8 @@ dojo.declare(
 		},
 
 		reset:function(){
-			// summary:
-			//		Additionally hide errors on partial matches
+			// Overrides dijit.form.TextBox.reset() by also
+			// hiding errors about partial matches
 			this._maskValidSubsetError = true;
 			this.inherited(arguments);
 		}
@@ -240,12 +262,17 @@ dojo.declare(
 	dijit.form.ValidationTextBox,
 	{
 		// summary:
-		//		A dijit.form.ValidationTextBox subclass which provides a visible formatted display and a serializable
-		//		value in a hidden input field which is actually sent to the server.  The visible display may
+		//		A dijit.form.ValidationTextBox subclass which provides a base class for widgets that have
+		//		a visible formatted display value, and a serializable
+		//		value in a hidden input field which is actually sent to the server.
+		// description:
+		//		The visible display may
 		//		be locale-dependent and interactive.  The value sent to the server is stored in a hidden
 		//		input field which uses the `name` attribute declared by the original widget.  That value sent
-		//		to the serveris defined by the dijit.form.MappedTextBox.serialize method and is typically
+		//		to the server is defined by the dijit.form.MappedTextBox.serialize method and is typically
 		//		locale-neutral.
+		// tags:
+		//		protected
 
 		postMixInProperties: function(){
 			this.inherited(arguments);
@@ -257,23 +284,32 @@ dojo.declare(
 
 		serialize: function(/*anything*/val, /*Object?*/options){
 			// summary:
-			//		User overridable function used to convert the attr('value') result to a String
+			//		Overridable function used to convert the attr('value') result to a canonical
+			//		(non-localized) string.  For example, will print dates in ISO format, and
+			//		numbers the same way as they are represented in javascript.
+			// tags:
+			//		protected extension
 			return val.toString ? val.toString() : ""; // String
 		},
 
 		toString: function(){
 			// summary:
 			//		Returns widget as a printable string using the widget's value
+			// tags:
+			//		protected
 			var val = this.filter(this.attr('value')); // call filter in case value is nonstring and filter has been customized
 			return val != null ? (typeof val == "string" ? val : this.serialize(val, this.constraints)) : ""; // String
 		},
 
 		validate: function(){
+			// Overrides `dijit.form.TextBox.validate`
 			this.valueNode.value = this.toString();
 			return this.inherited(arguments);
 		},
 
 		buildRendering: function(){
+			// Overrides `dijit._Templated.buildRendering`
+
 			this.inherited(arguments);
 
 			// Create a hidden <input> node with the serialized value used for submit
@@ -291,8 +327,8 @@ dojo.declare(
 		},
 
 		reset:function(){
-			// summary:
-			//		Additionally reset the hidden textbox value to ''
+			// Overrides `dijit.form.ValidationTextBox.reset` to
+			// reset the hidden textbox value to ''
 			this.valueNode.value = '';
 			this.inherited(arguments);
 		}
@@ -319,17 +355,18 @@ dojo.declare(
 
 		// rangeMessage: String
 		//		The message to display if value is out-of-range
+		rangeMessage: "",
 
 		/*=====
 		// constraints: dijit.form.RangeBoundTextBox.__Constraints
 		constraints: {},
 		======*/
 
-		rangeMessage: "",
-
 		rangeCheck: function(/*Number*/ primitive, /*dijit.form.RangeBoundTextBox.__Constraints*/ constraints){
 			// summary:
-			//		User overridable function used to validate the range of the numeric input value.
+			//		Overridable function used to validate the range of the numeric input value.
+			// tags:
+			//		protected
 			var isMin = "min" in constraints;
 			var isMax = "max" in constraints;
 			if(isMin || isMax){
@@ -341,7 +378,9 @@ dojo.declare(
 
 		isInRange: function(/*Boolean*/ isFocused){
 			// summary:
-			//		Need to over-ride with your own validation code in subclasses
+			//		Tests if the value is in the min/max range specified in constraints
+			// tags:
+			//		protected
 			return this.rangeCheck(this.attr('value'), this.constraints);
 		},
 
@@ -366,15 +405,21 @@ dojo.declare(
 		},
 
 		_isValidSubset: function(){
+			// summary:
+			//		Overrides `dijit.form.ValidationTextBox._isValidSubset`.
+			//		Returns true if the input is syntactically valid, and either within
+			//		range or could be made in range by more typing.
 			return this.inherited(arguments) && !this._isDefinitelyOutOfRange();
 		},
 
 		isValid: function(/*Boolean*/ isFocused){
+			// Overrides dijit.form.ValidationTextBox.isValid to check that the value is also in range.
 			return this.inherited(arguments) &&
 				((this._isEmpty(this.textbox.value) && !this.required) || this.isInRange(isFocused)); // Boolean
 		},
 
 		getErrorMessage: function(/*Boolean*/ isFocused){
+			// Overrides dijit.form.ValidationTextBox.getErrorMessage to print "out of range" message if appropriate
 			if(dijit.form.RangeBoundTextBox.superclass.isValid.call(this, false) && !this.isInRange(isFocused)){ return this.rangeMessage; } // String
 			return this.inherited(arguments);
 		},
@@ -400,6 +445,7 @@ dojo.declare(
 		_setValueAttr: function(/*Number*/ value, /*Boolean?*/ priorityChange){
 			// summary:
 			//		Hook so attr('value', ...) works.
+
 			dijit.setWaiState(this.focusNode, "valuenow", value);
 			this.inherited(arguments);
 		}

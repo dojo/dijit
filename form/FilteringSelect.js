@@ -32,15 +32,16 @@ dojo.declare(
 		//			- List can be specified either as a static list or via a javascript
 		//				function (that can get the list from a server)
 
-		_isvalid:true,
+		_isvalid: true,
 
 		// required: Boolean
 		//		True if user is required to enter a value into this field.
-		required:true,
+		required: true,
 
 		_lastDisplayedValue: "",
 
-		isValid:function(){
+		isValid: function(){
+			// Overrides ValidationTextBox.isValid()
 			return this._isvalid || (!this.required && this.attr('displayedValue') == ""); // #5974
 		},
 
@@ -62,17 +63,19 @@ dojo.declare(
 				//#3268: do nothing on bad input
 				//this._setValue("", "");
 				//#3285: change CSS to indicate error
-				if(priorityChange || !this._focused){ this.valueNode.value=""; }
+				if(priorityChange || !this._focused){ this.valueNode.value = ""; }
 				dijit.form.TextBox.superclass._setValueAttr.call(this, "", priorityChange || !this._focused);
-				this._isvalid=false;
+				this._isvalid = false;
 				this.validate(this._focused);
-				this.item=null;
+				this.item = null;
 			}else{
 				this._setValueFromItem(result[0], priorityChange);
 			}
 		},
 
 		_openResultList: function(/*Object*/ results, /*Object*/ dataObject){
+			// Overrides ComboBox._openResultList()
+
 			// #3285: tap into search callback to see if user's query resembles a match
 			if(dataObject.query[this.searchAttr] != this._lastQuery){
 				return;
@@ -92,14 +95,20 @@ dojo.declare(
 			return this.valueNode.value;
 		},
 
-		_getValueField:function(){
-			// used for option tag selects
+		_getValueField: function(){
+			// Overrides ComboBox._getValueField()
 			return "value";
 		},
 
 		_setValue: function(	/*String*/ value, 
 					/*String*/ displayedValue,
 					/*Boolean?*/ priorityChange){
+			// summary:
+			//		Internal function for setting the displayed value and hidden value.
+			//		Differs from _setValueAttr() in that _setValueAttr() only takes a single
+			//		value argument, and has to look up the displayed value from that.
+			// tags:
+			//		private
 			this.valueNode.value = value;
 			dijit.form.FilteringSelect.superclass._setValueAttr.call(this, value, priorityChange, displayedValue);
 			this._lastDisplayedValue = displayedValue;
@@ -112,7 +121,7 @@ dojo.declare(
 			//		Sets the value of the select.
 			//		Also sets the label to the corresponding value by reverse lookup.
 			if(!this._onChangeActive){ priorityChange = null; }
-			this._lastQuery=value;
+			this._lastQuery = value;
 
 			if(value === null){
 				this._setDisplayedValueAttr('', priorityChange);
@@ -120,7 +129,7 @@ dojo.declare(
 			}
 
 			//#3347: fetchItemByIdentity if no keyAttr specified
-			var self=this;
+			var self = this;
 			var handleFetchByIdentity = function(item, priorityChange){
 				if(item){
 					if(self.store.isItemLoaded(item)){
@@ -134,11 +143,11 @@ dojo.declare(
 						});
 					}
 				}else{
-					self._isvalid=false;
+					self._isvalid = false;
 					// prevent errors from Tooltip not being created yet
 					self.validate(false);
 				}
-			}
+			};
 			this.store.fetchItemByIdentity({
 				identity: value, 
 				onItem: function(item){
@@ -149,12 +158,14 @@ dojo.declare(
 
 		_setValueFromItem: function(/*item*/ item, /*Boolean?*/ priorityChange){
 			//	summary:
-			//		Set the displayed valued in the input box, based on a
-			//		selected item.
+			//		Set the displayed valued in the input box, and the hidden value
+			//		that gets submitted, based on a dojo.data store item.
 			//	description:
 			//		Users shouldn't call this function; they should be calling
-			//		attr('displayedValue', value) instead
-			this._isvalid=true;
+			//		attr('displayedValue', value) or attr('value', ...) instead
+			// tags:
+			//		private
+			this._isvalid = true;
 			this.item = item; // Fix #6381
 			this._setValue(	this.store.getIdentity(item), 
 							this.labelFunc(item, this.store), 
@@ -163,18 +174,20 @@ dojo.declare(
 
 		labelFunc: function(/*item*/ item, /*dojo.data.store*/ store){
 			// summary:
-			//		Event handler called when the label changes
+			//		Computes the label to display based on the dojo.data store item.
 			// returns:
-			//		the label that the ComboBox should display
+			//		The label that the ComboBox should display
+			// tags:
+			//		private
 			return store.getValue(item, this.searchAttr);
 		},
 
 		_doSelect: function(/*Event*/ tgt){
 			// summary:
-			//		ComboBox's menu callback function
+			//		Overrides ComboBox._doSelect(), the method called when an item in the menu is selected.
 			//	description:
 			//		FilteringSelect overrides this to set both the visible and
-			//		hidden value from the information stored in the menu
+			//		hidden value from the information stored in the menu.
 			this._setValueFromItem(tgt.item, true);
 		},
 
@@ -182,7 +195,7 @@ dojo.declare(
 			// summary:
 			//		Hook so attr('displayedValue', label) works.
 			// description:
-			//		Set textbox to display label. Also performs reverse lookup
+			//		Sets textbox to display label. Also performs reverse lookup
 			//		to set the hidden value.
 
 			// When this is called during initialization it'll ping the datastore
@@ -224,18 +237,23 @@ dojo.declare(
 		},
 
 		postMixInProperties: function(){
-			// FIXME: shouldn't this just be a call to inherited?
+			// FIXME: shouldn't this just be a call to inherited?  dojo.declare() makes
+			// this.inherited() call every postMixInProperties() in every superclass + every mixin.
 			dijit.form.ComboBoxMixin.prototype.postMixInProperties.apply(this, arguments);
 			dijit.form.MappedTextBox.prototype.postMixInProperties.apply(this, arguments);
 			this._isvalid = !this.required;
 		},
 
 		postCreate: function(){
+			// FIXME: shouldn't this just be a call to inherited?  dojo.declare() makes
+			// this.inherited() call every postCreate() in every superclass + every mixin.
 			dijit.form.ComboBoxMixin.prototype._postCreate.apply(this, arguments);
 			dijit.form.MappedTextBox.prototype.postCreate.apply(this, arguments);
 		},
 		
 		_setDisabledAttr: function(/*String*/ attr, /*anything*/ value){
+			// FIXME: shouldn't this just be a call to inherited?  dojo.declare() makes
+			// this.inherited() call every _setDisabledAttr() in every superclass + every mixin.
 			dijit.form.MappedTextBox.prototype._setDisabledAttr.apply(this, arguments);
 			dijit.form.ComboBoxMixin.prototype._setDisabledAttr.apply(this, arguments);
 		},

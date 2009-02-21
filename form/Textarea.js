@@ -20,7 +20,8 @@ dojo.declare(
 	// |	<textarea dojoType="dijit.form.TextArea">...</textarea>
 
 
-	cols: "", // default to width:100% for backward compatibility
+	// Override SimpleTextArea.cols to default to width:100%, for backward compatibility
+	cols: "",
 
 	_previousNewlines: 0,
 	_strictMode: (dojo.doc.compatMode != 'BackCompat'), // not the same as !dojo.isQuirks
@@ -38,12 +39,13 @@ dojo.declare(
 	},
 
 	_onInput: function(){
+		// Override SimpleTextArea._onInput() to deal with height adjustment
 		this.inherited(arguments);
 		if(this._busyResizing){ return; }
 		this._busyResizing = true;
 		var textarea = this.domNode;
 		textarea.scrollTop = 0;
-		var oldH = parseFloat(dojo.getComputedStyle(textarea).height);
+		var oldH = parseFloat(dojo.getComputedStyle(textarea).height);  // TODO: unused, remove
 		var newH = this._getHeight(textarea);
 		if(newH > 0 && textarea.style.height != newH){
 			textarea.style.maxHeight = textarea.style.height = newH + "px";

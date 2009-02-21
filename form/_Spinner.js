@@ -13,7 +13,7 @@ dojo.declare(
 		//		It modifies the template to have up/down arrows, and provides related handling code.
 
 		// defaultTimeout: Number
-		//		Number of milliseconds before a held key or button becomes typematic
+		//		Number of milliseconds before a held arrow key or up/down button becomes typematic
 		defaultTimeout: 500,
 
 		// timeoutChangeRate: Number
@@ -35,18 +35,24 @@ dojo.declare(
 
 		adjust: function(/* Object */ val, /*Number*/ delta){
 			// summary:
-			//		User overridable function used to adjust a primitive value(Number/Date/...) by the delta amount specified
-			// 		the val is adjusted in a way that makes sense to the object type
+			//		Overridable function used to adjust a primitive value(Number/Date/...) by the delta amount specified.
+			// 		The val is adjusted in a way that makes sense to the object type.
+			// tags:
+			//		protected extension
 			return val;
 		},
 
 		_arrowState: function(/*Node*/ node, /*Boolean*/ pressed){
+			// summary:
+			//		Called when an arrow key is pressed to update the relevant CSS classes
 			this._active = pressed;
 			this.stateModifier = node.getAttribute("stateModifier") || "";
 			this._setStateClass();
 		},
 
 		_arrowPressed: function(/*Node*/ nodePressed, /*Number*/ direction, /*Number*/ increment){
+			// summary:
+			//		Handler for arrow button or arrow key being pressed
 			if(this.disabled || this.readOnly){ return; }
 			this._arrowState(nodePressed, true);
 			this._setValueAttr(this.adjust(this.attr('value'), direction*increment), false);
@@ -54,6 +60,8 @@ dojo.declare(
 		},
 
 		_arrowReleased: function(/*Node*/ node){
+			// summary:
+			//		Handler for arrow button or arrow key being released
 			this._wheelTimer = null;
 			if(this.disabled || this.readOnly){ return; }
 			this._arrowState(node, false);
@@ -95,7 +103,7 @@ dojo.declare(
 		},
 
 		postCreate: function(){
-			this.inherited('postCreate', arguments);
+			this.inherited(arguments);
 
 			// extra listeners
 			this.connect(this.domNode, !dojo.isMozilla ? "onmousewheel" : 'DOMMouseScroll', "_mouseWheeled");

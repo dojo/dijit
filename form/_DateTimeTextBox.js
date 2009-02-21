@@ -20,22 +20,37 @@ dojo.declare(
 		//		Base class for validating, serializable, range-bound date or time text box.
 
 		/*=====
-		// constraints: dijit.form._DateTimeTextBox.__Constraints 
+		// constraints: dijit.form._DateTimeTextBox.__Constraints
+		//		Starting / ending dates or times allowed
 		constraints: {},
 		======*/
 
+		// Override ValidationTextBox.regExpGen().... we use a reg-ex generating function rather
+		// than a straight regexp to deal with locale  (plus formatting options too?)
 		regExpGen: dojo.date.locale.regexp,
+
+		// Override _FormWidget.compare() to work for dates/times
 		compare: dojo.date.compare,
+
 		format: function(/*Date*/ value, /*dojo.date.locale.__FormatOptions*/ constraints){
-			//	summary: formats the value as a Date, according to constraints
+			// summary:
+			//		Formats the value as a Date, according to specified locale (second argument)
+			// tags:
+			//		protected
 			if(!value){ return ''; }
 			return dojo.date.locale.format(value, constraints);
 		},
+
 		parse: function(/*String*/ value, /*dojo.date.locale.__FormatOptions*/ constraints){
-			//	summary: parses the value as a Date, according to constraints
-			return dojo.date.locale.parse(value, constraints) || (this._isEmpty(value)? null : undefined);
+			// summary:
+			//		Parses as string as a Date, according to constraints
+			// tags:
+			//		protected
+
+			return dojo.date.locale.parse(value, constraints) || (this._isEmpty(value)? null : undefined);	 // Date
 		},
 
+		// Overrides ValidationTextBox.serialize() to serialize a date in canonical ISO format.
 		serialize: dojo.date.stamp.toISOString,
 
 		//	value: Date
@@ -43,10 +58,16 @@ dojo.declare(
 		//		When passed to the parser in markup, must be specified according to `dojo.date.stamp.fromISOString`
 		value: new Date(""),	// value.toString()="NaN"
 
-		//	popupClass: String
-		//		Name of the popup widget class used to select a date/time
+		//	popupClass: [protected extension] String
+		//		Name of the popup widget class used to select a date/time.
+		//		Subclasses should specify this.
 		popupClass: "", // default is no popup = text only
-		
+
+
+		// _selector: [protected extension] String
+		//		Specifies constraints.selector passed to dojo.date functions, should be either
+		//		"date" or "time".
+		//		Subclass must specify this.
 		_selector: "",
 
 		postMixInProperties: function(){
@@ -170,7 +191,10 @@ dojo.declare(
 			this.connect(this.focusNode, 'onkeypress', this._onKeyPress);
 		},
 
-		_onKeyPress: function(/*Event*/e){
+		_onKeyPress: function(/*Event*/ e){
+			// summary:
+			//		Handler for keypress events
+
 			var p = this._picker, dk = dojo.keys;
 			// Handle the key in the picker, if it has a handler.  If the handler
 			// returns false, then don't handle any other keys.

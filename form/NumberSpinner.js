@@ -17,12 +17,16 @@ dojo.declare("dijit.form.NumberSpinner",
 	//		
 	// example:
 	//	| new dijit.form.NumberSpinner({ constraints:{ max:300, min:100 }}, "someInput");
-	
+
+	// Override required=false from ValidationTextBox
 	required: true,
 
 	adjust: function(/* Object */val, /* Number*/delta){
 		// summary:
 		//		Change Number val by the given amount
+		// tags:
+		//		protected
+
 		var tc = this.constraints, 
 			v = isNaN(val), 
 			gotMax = !isNaN(tc.max), 
