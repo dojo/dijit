@@ -20,14 +20,17 @@ dojo.declare("dijit.form.MultiSelect", dijit.form._FormWidget, {
 	}),
 
 	reset: function(){
+		// summary:
+		//		Reset the widget's value to what it was at initialization time
+
 		// TODO: once we inherit from FormValueWidget this won't be needed
 		this._hasBeenBlurred = false;
 		this._setValueAttr(this._resetValue, true);
 	},
 
-	addSelected: function(/* dijit.form.MultiSelect */select){
+	addSelected: function(/* dijit.form.MultiSelect */ select){
 		// summary:
-		//		Move the selected nodes af an passed Select widget
+		//		Move the selected nodes of a passed Select widget
 		//		instance to this Select widget.
 		//
 		// example:

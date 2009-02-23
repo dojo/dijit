@@ -34,13 +34,19 @@ dojo.declare(
 	},
 		
 	_isReversed: function(){
+		// summary:
+		//		Overrides HorizontalSlider._isReversed.
+		//		Indicates if values are high on top (with low numbers on the bottom).
 		return this._descending;
 	},
 
 	_rtlRectify: function(decorationNode/*NodeList*/){
 		// summary:
-		//	    Rectify children nodes for left/right decoration in rtl case.
+		//	    Helper function on gecko.
+		//		Rectify children nodes for left/right decoration in rtl case.
 		//		Simply switch the rule and label child for each decoration node.
+		// tags:
+		//		private
 		var childNodes = [];
 		while(decorationNode.firstChild){
 				childNodes.push(decorationNode.firstChild);

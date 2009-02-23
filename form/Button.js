@@ -39,8 +39,12 @@ dojo.declare("dijit.form.Button",
 	//		Class to apply to div in button to make it display an icon
 	iconClass: "",
 
+	// type: String
+	//		Defines the type of button.  "button", "submit", or "reset".
 	type: "button",
+
 	baseClass: "dijitButton",
+
 	templatePath: dojo.moduleUrl("dijit.form", "templates/Button.html"),
 
 	attributeMap: dojo.delegate(dijit.form._FormWidget.prototype.attributeMap, {
@@ -61,7 +65,7 @@ dojo.declare("dijit.form.Button",
 
 	_onButtonClick: function(/*Event*/ e){
 		// summary:
-		//		Callback when the user activates the button portion.
+		//		Handler when the user activates the button portion.
 		//		If is activated via a keystroke, stop the event unless is submit or reset.
 		if(e.type!='click' && !(this.type=="submit" || this.type=="reset")){
 			dojo.stopEvent(e);
@@ -91,9 +95,9 @@ dojo.declare("dijit.form.Button",
 	},
 
 	_fillContent: function(/*DomNode*/ source){
-		// summary:
-		//		If button label is specified as srcNodeRef.innerHTML rather than
-		//		this.params.label, handle it here.
+		// Overrides _Templated._fillcContent().
+		// If button label is specified as srcNodeRef.innerHTML rather than
+		// this.params.label, handle it here.
 		if(source && !("label" in this.params)){
 			this.attr('label', source.innerHTML);
 		}
@@ -109,9 +113,11 @@ dojo.declare("dijit.form.Button",
 
 	onClick: function(/*Event*/ e){
 		// summary:
-		//		User callback for when button is clicked.
-		//		If type="submit", returns true to perform submit.
-		return true;
+		//		Callback for when button is clicked.
+		//		If type="submit", return true to perform submit, or false to cancel it.
+		// type:
+		//		callback
+		return true;		// Boolean
 	},
 
 	_clicked: function(/*Event*/ e){
@@ -158,9 +164,12 @@ dojo.declare("dijit.form.DropDownButton", [dijit.form.Button, dijit._Container],
 	templatePath: dojo.moduleUrl("dijit.form" , "templates/DropDownButton.html"),
 
 	_fillContent: function(){
-		// my inner HTML contains both the button contents and a drop down widget, like
+		// Overrides Button._fillContent().
+		//
+		// My inner HTML contains both the button contents and a drop down widget, like
 		// <DropDownButton>  <span>push me</span>  <Menu> ... </Menu> </DropDownButton>
 		// The first node is assumed to be the button content. The widget is the popup.
+
 		if(this.srcNodeRef){ // programatically created buttons might not define srcNodeRef
 			//FIXME: figure out how to filter out the widget and use all remaining nodes as button
 			//	content, not just nodes[0]
@@ -197,7 +206,7 @@ dojo.declare("dijit.form.DropDownButton", [dijit.form.Button, dijit._Container],
 
 	_onArrowClick: function(/*Event*/ e){
 		// summary:
-		//		Callback when the user mouse clicks on menu popup node
+		//		Handler for when the user mouse clicks on menu popup node
 		if(this.disabled || this.readOnly){ return; }
 		this._toggleDropDown();
 	},
@@ -227,7 +236,7 @@ dojo.declare("dijit.form.DropDownButton", [dijit.form.Button, dijit._Container],
 
 	_onKey: function(/*Event*/ e){
 		// summary:
-		//		Callback when the user presses a key on drop down widget
+		//		Handler when the user presses a key on drop down widget
 		if(this.disabled || this.readOnly){ return; }
 		if(e.charOrCode == dojo.keys.DOWN_ARROW){
 			if(!this.dropDown || this.dropDown.domNode.style.visibility=="hidden"){
@@ -373,6 +382,10 @@ dojo.declare("dijit.form.ComboButton", dijit.form.DropDownButton, {
 	focusFocalNode: function(node){
 		// summary:
 		//		Focus the focal node node.
+		// description:
+		//		Called by _KeyNavContainer for (when example) this button is in a toolbar.
+		// tags:
+		//		protected
 		this._focusedNode = node;
 		dijit.focus(node);
 	},
@@ -382,6 +395,10 @@ dojo.declare("dijit.form.ComboButton", dijit.form.DropDownButton, {
 		//		Returns true if this widget has no node currently
 		//		focused or if there is a node following the focused one.
 		//		False is returned if the last node has focus.
+		// description:
+		//		Called by _KeyNavContainer for (when example) this button is in a toolbar.
+		// tags:
+		//		protected
 		return this._focusedNode !== this.getFocalNodes()[1];
 	},
 
@@ -389,6 +406,10 @@ dojo.declare("dijit.form.ComboButton", dijit.form.DropDownButton, {
 		// summary:
 		//		Focus the focal node following the current node with focus,
 		//		or the first one if no node currently has focus.
+		// description:
+		//		Called by _KeyNavContainer for (when example) this button is in a toolbar.
+		// tags:
+		//		protected
 		this._focusedNode = this.getFocalNodes()[this._focusedNode ? 1 : 0];
 		dijit.focus(this._focusedNode);
 	},
@@ -398,6 +419,10 @@ dojo.declare("dijit.form.ComboButton", dijit.form.DropDownButton, {
 		//		Returns true if this widget has no node currently
 		//		focused or if there is a node before the focused one.
 		//		False is returned if the first node has focus.
+		// description:
+		//		Called by _KeyNavContainer for (when example) this button is in a toolbar.
+		// tags:
+		//		protected
 		return this._focusedNode !== this.getFocalNodes()[0];
 	},
 
@@ -405,6 +430,10 @@ dojo.declare("dijit.form.ComboButton", dijit.form.DropDownButton, {
 		// summary:
 		//		Focus the focal node before the current node with focus
 		//		or the last one if no node currently has focus.
+		// description:
+		//		Called by _KeyNavContainer for (when example) this button is in a toolbar.
+		// tags:
+		//		protected
 		this._focusedNode = this.getFocalNodes()[this._focusedNode ? 0 : 1];
 		dijit.focus(this._focusedNode);
 	},
@@ -412,6 +441,10 @@ dojo.declare("dijit.form.ComboButton", dijit.form.DropDownButton, {
 	getFocalNodes: function(){
 		// summary:
 		//		Returns an array of focal nodes for this widget.
+		// description:
+		//		Called by _KeyNavContainer for (when example) this button is in a toolbar.
+		// tags:
+		//		protected
 		return this._focalNodes;
 	},
 
@@ -469,6 +502,9 @@ dojo.declare("dijit.form.ToggleButton", dijit.form.Button, {
 	},
 	
 	reset: function(){
+		// summary:
+		//		Reset the widget's value to what it was at initialization time
+
 		this._hasBeenBlurred = false;
 
 		// set checked state to original setting

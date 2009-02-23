@@ -26,7 +26,9 @@ dojo.declare(
 
 		baseClass: "dijitCheckBox",
 
-		//	Value of "type" attribute for <input>
+		// type: [private] String
+		//		type attribute on <input> node.
+		//		Overrides `dijit.form.Button.type`.   Users should not change this value.
 		type: "checkbox",
 
 		// value: String
@@ -63,7 +65,6 @@ dojo.declare(
 				this.attr('checked', newValue);
 			}
 		},
-
 		_getValueAttr: function(){
 			// summary:
 			//		Hook so attr('value') works.
@@ -92,6 +93,8 @@ dojo.declare(
 		},
 
 		reset: function(){
+			// Override ToggleButton.reset()
+
 			this._hasBeenBlurred = false;
 
 			this.attr('checked', this.params.checked || false);

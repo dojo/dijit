@@ -13,8 +13,9 @@ dojo.declare("dijit.form.HorizontalRuleLabels", dijit.form.HorizontalRule,
 	//		CSS style to apply to individual text labels
 	labelStyle: "",
 
-	// labels: String[]
-	//		Array of text labels to render - evenly spaced from left-to-right or bottom-to-top
+	// labels: String[]?
+	//		Array of text labels to render - evenly spaced from left-to-right or bottom-to-top.
+	//		Alternately, minimum and maximum can be specified, to get numeric labels.
 	labels: [],
 
 	// numericMargin: Integer
@@ -38,6 +39,10 @@ dojo.declare("dijit.form.HorizontalRuleLabels", dijit.form.HorizontalRule,
 	_suffix: '</span></div>',
 
 	_calcPosition: function(pos){
+		// summary:
+		//		Returns the value to be used in HTML for the label as part of the left: attribute
+		// tags:
+		//		protected extension
 		return pos;
 	},
 
@@ -47,7 +52,10 @@ dojo.declare("dijit.form.HorizontalRuleLabels", dijit.form.HorizontalRule,
 
 	getLabels: function(){
 		// summary:
-		//		User overridable function to return the labels array
+		//		Overridable function to return array of labels to use for this slider.
+		//		Can specify a getLabels() method instead of a labels[] array, or min/max attributes.
+		// tags:
+		//		protected extension
 
 		// if the labels array was not specified directly, then see if <li> children were
 		var labels = this.labels;

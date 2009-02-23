@@ -14,8 +14,9 @@ dojo.declare("dijit.form.HorizontalRule", [dijit._Widget, dijit._Templated],
 	//		Number of hash marks to generate
 	count: 3,
 
-	// container: Node
-	//		If this is a child widget, connect it to this parent node
+	// container: String
+	//		For HorizontalSlider, this is either "topDecoration" or "bottomDecoration",
+	//		and indicates whether this rule goes above or below the slider.
 	container: "containerNode",
 
 	// ruleStyle: String
@@ -29,7 +30,9 @@ dojo.declare("dijit.form.HorizontalRule", [dijit._Widget, dijit._Templated],
 	_genHTML: function(pos, ndx){
 		return this._positionPrefix + pos + this._positionSuffix + this.ruleStyle + this._suffix;
 	},
-	
+
+	// _isHorizontal: [protected extension] Boolean
+	//		VerticalRule will override this...
 	_isHorizontal: true,
 
 	postCreate: function(){

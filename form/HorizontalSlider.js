@@ -15,6 +15,8 @@ dojo.declare(
 	//		A form widget that allows one to select a value with a horizontally draggable handle
 
 	templatePath: dojo.moduleUrl('dijit.form','templates/HorizontalSlider.html'),
+
+	// Overrides FormValueWidget.value to indicate numeric value
 	value: 0,
 
 	// showButtons: Boolean
@@ -22,29 +24,43 @@ dojo.declare(
 	showButtons: true,
 
 	// minimum:: Integer
-	//		The minimum value allowed.
+	//		The minimum value the slider can be set to.
 	minimum: 0,
 
 	// maximum: Integer
-	//		The maximum allowed value.
+	//		The maximum value the slider can be set to.
 	maximum: 100,
 
 	// discreteValues: Integer
-	//		The maximum allowed values dispersed evenly between minimum and maximum (inclusive).
+	//		If specified, indicates that the slider handle has only 'discreteValues' possible positions,
+	//      and that after dragging the handle, it will snap to the nearest possible position.
+	//      Thus, the slider has only 'discreteValues' possible values.
+	//
+	//		For example, if minimum=10, maxiumum=30, and discreteValues=3, then the slider handle has
+	//		three possible positions, representing values 10, 20, or 30.
+	//
+	//		If discreteValues is not specified or if it's value is higher than the number of pixels
+	//		in the slider bar, then the slider handle can be moved freely, and the slider's value will be
+	//		computed/reported based on pixel position (in this case it will likely be fractional,
+	//      such as 123.456789).
 	discreteValues: Infinity,
 
 	// pageIncrement: Integer
-	//		The amount of change via pageup/down
+	//		If discreteValues is also specified, this indicates the amount of clicks (ie, snap positions)
+	//      that the slider handle is moved via pageup/pagedown keys.
+    //      If discreteValues is not specified, it indicates the number of pixels.
 	pageIncrement: 2,
 
 	// clickSelect: Boolean
-	//		If clicking the progress bar changes the value or not
+	//		If clicking the slider bar changes the value or not
 	clickSelect: true,
 
 	// slideDuration: Number
-	//		The time in ms to take to animate the slider handle from 0% to 100%
+	//		The time in ms to take to animate the slider handle from 0% to 100%,
+	//		when clicking the slider bar to make the handle move.
 	slideDuration: dijit.defaultDuration,
 
+	// Flag to _Templated
 	widgetsInTemplate: true,
 
 	attributeMap: dojo.delegate(dijit.form._FormWidget.prototype.attributeMap, {
@@ -98,6 +114,10 @@ dojo.declare(
 	},
 	
 	_isReversed: function(){
+		// summary:
+		//		Returns true if direction is from right to left
+		// tags:
+		//		protected extension
 		return !this.isLeftToRight();
 	},
 
@@ -186,12 +206,16 @@ dojo.declare(
 	decrement: function(e){
 		// summary:
 		//		Decrement slider by 1 unit
+		// tags:
+		//		private
 		this._bumpValue(e.charOrCode == dojo.keys.PAGE_DOWN ? -this.pageIncrement : -1);
 	},
 
 	increment: function(e){
 		// summary:
 		//		Increment slider by 1 unit
+		// tags:
+		//		private
 		this._bumpValue(e.charOrCode == dojo.keys.PAGE_UP ? this.pageIncrement : 1);
 	},
 

@@ -21,12 +21,33 @@ dojo.declare(
 		//	|	myObj=dijit.byId('myForm').attr('value');
 
 		// HTML <FORM> attributes
+
+		// name: String?
+		//		Name of form for scripting.
 		name: "",
+
+		// action: String?
+		//		Server-side form handler.
 		action: "",
+
+		// method: String?
+		//		HTTP method used to submit the form, either "GET" or "POST".
 		method: "",
+
+		// encType: String?
+		//		Encoding type for the form, ex: application/x-www-form-urlencoded.
 		encType: "",
+
+		// accept-charset: String?
+		//		List of supported charsets.
 		"accept-charset": "",
+
+		// accept: String?
+		//		List of MIME types for file upload.
 		accept: "",
+
+		// target: String?
+		//		Target frame for the document to be opened in.
 		target: "",
 
 		templateString: "<form dojoAttachPoint='containerNode' dojoAttachEvent='onreset:_onReset,onsubmit:_onSubmit' ${nameAttrSetting}></form>",
@@ -50,11 +71,15 @@ dojo.declare(
 		execute: function(/*Object*/ formContents){
 			// summary:
 			//		Deprecated: use submit()
+			// tags:
+			//		deprecated
 		},
 
 		onExecute: function(){
 			// summary:
 			//		Deprecated: use onSubmit()
+			// tags:
+			//		deprecated
 		},
 
 		_setEncTypeAttr: function(/*String*/ value){
@@ -75,12 +100,14 @@ dojo.declare(
 			this.inherited(arguments);
 		},
 
-		onReset: function(/*Event?*/e){ 
+		onReset: function(/*Event?*/ e){
 			// summary:
 			//		Callback when user resets the form. This method is intended
 			//		to be over-ridden. When the `reset` method is called
 			//		programmatically, the return value from `onReset` is used
 			//		to compute whether or not resetting should proceed
+			// tags:
+			//		callback
 			return true; // Boolean
 		},
 
@@ -103,7 +130,7 @@ dojo.declare(
 
 		_onSubmit: function(e){
 			var fp = dijit.form.Form.prototype;
-			// TODO: remove ths if statement beginning with 2.0
+			// TODO: remove this if statement beginning with 2.0
 			if(this.execute != fp.execute || this.onExecute != fp.onExecute){
 				dojo.deprecated("dijit.form.Form:execute()/onExecute() are deprecated. Use onSubmit() instead.", "", "2.0");
 				this.onExecute();
@@ -116,12 +143,15 @@ dojo.declare(
 		
 		onSubmit: function(/*Event?*/e){ 
 			// summary:
-			//		Callback when user submits the form. This method is
-			//		intended to be over-ridden, but by default it checks and
+			//		Callback when user submits the form.
+			// description:
+			//		This method is intended to be over-ridden, but by default it checks and
 			//		returns the validity of form elements. When the `submit`
 			//		method is called programmatically, the return value from
 			//		`onSubmit` is used to compute whether or not submission
 			//		should proceed
+			// tags:
+			//		extension
 
 			return this.isValid(); // Boolean
 		},
