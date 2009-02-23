@@ -123,7 +123,7 @@ dojo.declare(
 			if(!this._onChangeActive){ priorityChange = null; }
 			this._lastQuery = value;
 
-			if(value === null){
+			if(value === null || value === ''){
 				this._setDisplayedValueAttr('', priorityChange);
 				return;
 			}
