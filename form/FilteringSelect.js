@@ -237,25 +237,8 @@ dojo.declare(
 		},
 
 		postMixInProperties: function(){
-			// FIXME: shouldn't this just be a call to inherited?  dojo.declare() makes
-			// this.inherited() call every postMixInProperties() in every superclass + every mixin.
-			dijit.form.ComboBoxMixin.prototype.postMixInProperties.apply(this, arguments);
-			dijit.form.MappedTextBox.prototype.postMixInProperties.apply(this, arguments);
+			this.inherited(arguments);
 			this._isvalid = !this.required;
-		},
-
-		postCreate: function(){
-			// FIXME: shouldn't this just be a call to inherited?  dojo.declare() makes
-			// this.inherited() call every postCreate() in every superclass + every mixin.
-			dijit.form.ComboBoxMixin.prototype._postCreate.apply(this, arguments);
-			dijit.form.MappedTextBox.prototype.postCreate.apply(this, arguments);
-		},
-		
-		_setDisabledAttr: function(/*String*/ attr, /*anything*/ value){
-			// FIXME: shouldn't this just be a call to inherited?  dojo.declare() makes
-			// this.inherited() call every _setDisabledAttr() in every superclass + every mixin.
-			dijit.form.MappedTextBox.prototype._setDisabledAttr.apply(this, arguments);
-			dijit.form.ComboBoxMixin.prototype._setDisabledAttr.apply(this, arguments);
 		},
 
 		undo: function(){
