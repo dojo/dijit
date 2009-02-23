@@ -140,11 +140,8 @@ dojo.declare(
 		},
 
 		_setDisabledAttr: function(/*Boolean*/ value){
-			// summary:
-			//		Call this from superclass as part of _setDisabledAttr() method.
-			//		Superclass _must_ define _setDisabledAttr().
-			// description:
-			//		Additional code to set disabled state of combobox node
+			// Additional code to set disabled state of combobox node.
+			// Overrides _FormValueWidget._setDisabledAttr() or ValidationTextBox._setDisabledAttr().
 			this.inherited(arguments);
 			dijit.setWaiState(this.comboNode, "disabled", value);
 		},	
@@ -659,9 +656,6 @@ dojo.declare(
 			// summary:
 			//		Subclasses must call this method from their postCreate() methods
 			// tags: protected
-
-			// TODO: can't we just call this postCreate() and do this.inherited() everywhere?
-			// dojo.declare() with this.inherited() calls postCreate() in the superclass and mixins
 
 			//find any associated label element and add to combobox node.
 			var label=dojo.query('label[for="'+this.id+'"]');
