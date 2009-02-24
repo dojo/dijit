@@ -8,20 +8,24 @@ dojo.declare("dijit.layout._LayoutWidget",
 	[dijit._Widget, dijit._Container, dijit._Contained],
 	{
 		// summary:
-		//		Base class for widgets that contain a list of children like SplitContainer.
+		//		Base class for widgets that contain a list of children like BorderContainer.
 		//		Widgets which mixin this code must define layout() to lay out the children.
 
-		// baseClass: String
+		// baseClass: [protected extension] String
 		//		This class name is applied to the widget's domNode
 		//		and also may be used to generate names for sub nodes,
 		//		like for example dijitTabContainer-content.
 		baseClass: "dijitLayoutContainer",
 
+		// isLayoutContainer: [private deprecated] Boolean
+		//		TODO: unused, remove
 		isLayoutContainer: true,
 
 		postCreate: function(){
 			dojo.addClass(this.domNode, "dijitContainer");
 			dojo.addClass(this.domNode, this.baseClass);
+			
+			// TODO: this.inherited()
 		},
 
 		startup: function(){
@@ -133,17 +137,22 @@ dojo.declare("dijit.layout._LayoutWidget",
 		},
 
 		layout: function(){
-			//	summary:
+			// summary:
 			//		Widgets override this method to size & position their contents/children.
 			//		When this is called this._contentBox is guaranteed to be set (see resize()).
 			//
 			//		This is called after startup(), and also when the widget's size has been
 			//		changed.
+			// tags:
+			//		protected extension
 		},
 
 		_setupChild: function(/*Widget*/child){
 			// summary:
-			//		Common setup for initial children or children which are added after startup
+			//		Common setup for initial children and children which are added after startup
+			// tags:
+			//		protected extension
+
 			dojo.addClass(child.domNode, this.baseClass+"-child");
 			if(child.baseClass){
 				dojo.addClass(child.domNode, this.baseClass+"-"+child.baseClass);
@@ -151,6 +160,7 @@ dojo.declare("dijit.layout._LayoutWidget",
 		},
 
 		addChild: function(/*Widget*/ child, /*Integer?*/ insertIndex){
+			// Overrides _Container.addChild() to call _setupChild()
 			this.inherited(arguments);
 			if(this._started){
 				this._setupChild(child);
@@ -158,6 +168,7 @@ dojo.declare("dijit.layout._LayoutWidget",
 		},
 
 		removeChild: function(/*Widget*/ child){
+			// Overrides _Container.removeChild() to remove class added by _setupChild()
 			dojo.removeClass(child.domNode, this.baseClass+"-child");
 			if(child.baseClass){
 				dojo.removeClass(child.domNode, this.baseClass+"-"+child.baseClass);

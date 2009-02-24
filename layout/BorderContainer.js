@@ -52,7 +52,7 @@ dojo.declare(
 
 	// persist: Boolean
 	//		Save splitter positions in a cookie.
-	persist: false,	// Boolean
+	persist: false,
 
 	baseClass: "dijitBorderContainer",
 
@@ -83,6 +83,8 @@ dojo.declare(
 	},
 
 	_setupChild: function(/*Widget*/child){
+		// Override _LayoutWidget._setupChild().
+
 		var region = child.region;
 		if(region){
 			this.inherited(arguments);
@@ -128,11 +130,13 @@ dojo.declare(
 	},
 
 	layout: function(){
+		// Implement _LayoutWidget.layout() virtual method.
 		for(var region in this._splitters){ this._computeSplitterThickness(region); }
 		this._layoutChildren();
 	},
 
 	addChild: function(/*Widget*/ child, /*Integer?*/ insertIndex){
+		// Override _LayoutWidget.addChild().
 		this.inherited(arguments);
 		if(this._started){
 			this._layoutChildren(); //OPT
@@ -140,6 +144,7 @@ dojo.declare(
 	},
 
 	removeChild: function(/*Widget*/ child){
+		// Override _LayoutWidget.removeChild().
 		var region = child.region;
 		var splitter = this._splitters[region];
 		if(splitter){
@@ -157,6 +162,7 @@ dojo.declare(
 	},
 
 	getChildren: function(){
+		// Override _LayoutWidget.getChildren() to only return real children, not the splitters.
 		return dojo.filter(this.inherited(arguments), function(widget){
 			return !widget.isSplitter;
 		});
@@ -170,6 +176,8 @@ dojo.declare(
 	},
 
 	resize: function(newSize, currentSize){
+		// Overrides _LayoutWidget.resize().
+
 		// resetting potential padding to 0px to provide support for 100% width/height + padding
 		// TODO: this hack doesn't respect the box model and is a temporary fix
 		if (!this.cs || !this.pe){
@@ -186,7 +194,9 @@ dojo.declare(
 	},
 
 	_layoutChildren: function(/*String?*/changedRegion){
-		
+		// summary:
+		//		This is the main routine for setting size/position of each child
+
 		if(!this._borderBox || !this._borderBox.h){
 			// We are currently hidden, or we haven't been sized by our parent yet.
 			// Abort.   Someone will resize us later.
@@ -409,15 +419,29 @@ dojo.require("dijit._Templated");
 dojo.declare("dijit.layout._Splitter", [ dijit._Widget, dijit._Templated ],
 {
 	// summary:
-	//		A draggable spacer between two items in a BorderContainer
+	//		A draggable spacer between two items in a `dijit.layout.BorderContainer`.
+	// description:
+	//		This is instantiated by `dijit.layout.BorderContainer`.  Users should not
+	//		create it directly.
+	// tags:
+	//		private
 
 /*=====
+ 	// container: [const] dijit.layout.BorderContainer
+ 	//		Pointer to the parent BorderContainer
 	container: null,
+
+	// child: [const] dijit.layout._LayoutWidget
+	//		Pointer to the pane associated with this splitter
 	child: null,
+
+	// region: String
+	//		Region of pane associated with this splitter.
+	//		"top", "bottom", "left", "right".
 	region: null,
 =====*/
 
-	// live: Boolean
+	// live: [const] Boolean
 	//		If true, the child's size changes and the child widget is redrawn as you drag the splitter;
 	//		otherwise, the size doesn't change until you drop the splitter (by mouse-up)
 	live: true,
@@ -590,6 +614,11 @@ dojo.declare("dijit.layout._Gutter", [dijit._Widget, dijit._Templated ],
 	// summary:
 	// 		Just a spacer div to separate side pane from center pane.
 	//		Basically a trick to lookup the gutter/splitter width from the theme.
+	// description:
+	//		Instantiated by `dijit.layout.BorderContainer`.  Users should not
+	//		create directly.
+	// tags:
+	//		private
 
 	templateString: '<div class="dijitGutter" waiRole="presentation"></div>',
 

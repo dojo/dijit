@@ -31,7 +31,9 @@ dojo.declare("dijit.layout.LinkPane",
 	},
 
 	_fillContent: function(/*DomNode*/ source){
-		// This method relocates srcNodeRef innerHTML to templated container node,
+		// Overrides _Templated._fillContent().
+
+		// _Templated._fillContent() relocates srcNodeRef innerHTML to templated container node,
 		// but in our case the srcNodeRef innerHTML is the title, so shouldn't be
 		// copied
 	}

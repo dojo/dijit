@@ -20,6 +20,8 @@ dojo.declare("dijit.layout.SplitContainer",
 	//		and you can adjust the relative size of each child by dragging the bars.
 	//
 	//		You must specify a size (width and height) for the SplitContainer.
+	// tags:
+	//		deprecated
 
 	constructor: function(){
 		dojo.deprecated("dijit.layout.SplitContainer is deprecated", "use BorderContainer with splitter instead", 2.0);

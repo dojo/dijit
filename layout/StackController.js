@@ -19,11 +19,11 @@ dojo.declare(
 
 			templateString: "<span wairole='tablist' dojoAttachEvent='onkeypress' class='dijitStackController'></span>",
 
-			// containerId: String
+			// containerId: [const] String
 			//		The id of the page container that I point to
 			containerId: "",
 
-			// buttonWidget: String
+			// buttonWidget: [const] String
 			//		The name of the button widget to create to correspond to each page
 			buttonWidget: "dijit.layout._StackButton",
 
@@ -46,7 +46,9 @@ dojo.declare(
 
 			onStartup: function(/*Object*/ info){
 				// summary:
-				//		called after StackContainer has finished initializing
+				//		Called after StackContainer has finished initializing
+				// tags:
+				//		private
 				dojo.forEach(info.children, this.onAddChild, this);
 				this.onSelectChild(info.selected);
 			},
@@ -63,6 +65,8 @@ dojo.declare(
 				// summary:
 				//		Called whenever a page is added to the container.
 				//		Create button corresponding to the page.
+				// tags:
+				//		private
 
 				// add a node that will be promoted to the button widget
 				var refNode = dojo.doc.createElement("span");
@@ -101,6 +105,9 @@ dojo.declare(
 				// summary:
 				//		Called whenever a page is removed from the container.
 				//		Remove the button corresponding to the page.
+				// tags:
+				//		private
+
 				if(this._currentChild === page){ this._currentChild = null; }
 				dojo.forEach(this.pane2handles[page], dojo.disconnect);
 				delete this.pane2handles[page];
@@ -120,6 +127,8 @@ dojo.declare(
 			onSelectChild: function(/*Widget*/ page){
 				// summary:
 				//		Called when a page has been selected in the StackContainer, either by me or by another StackController
+				// tags:
+				//		private
 
 				if(!page){ return; }
 
@@ -140,6 +149,9 @@ dojo.declare(
 			onButtonClick: function(/*Widget*/ page){
 				// summary:
 				//		Called whenever one of my child buttons is pressed in an attempt to select a page
+				// tags:
+				//		private
+
 				var container = dijit.byId(this.containerId);	// TODO: do this via topics?
 				container.selectChild(page); 
 			},
@@ -147,6 +159,9 @@ dojo.declare(
 			onCloseButtonClick: function(/*Widget*/ page){
 				// summary:
 				//		Called whenever one of my child buttons [X] is pressed in an attempt to close a page
+				// tags:
+				//		private
+
 				var container = dijit.byId(this.containerId);
 				container.closeChild(page);
 				var b = this.pane2button[this._currentChild];
@@ -157,6 +172,11 @@ dojo.declare(
 			
 			// TODO: this is a bit redundant with forward, back api in StackContainer
 			adjacent: function(/*Boolean*/ forward){
+				// summary:
+				//		Helper for onkeypress to find next/previous button
+				// tags:
+				//		private
+
 				if(!this.isLeftToRight() && (!this.tabPosition || /top|bottom/.test(this.tabPosition))){ forward = !forward; }
 				// find currently focused button in children array
 				var children = this.getChildren();
@@ -170,6 +190,8 @@ dojo.declare(
 				// summary:
 				//		Handle keystrokes on the page list, for advancing to next/previous button
 				//		and closing the current page if the page is closable.
+				// tags:
+				//		private
 
 				if(this.disabled || e.altKey ){ return; }
 				var forward = null;
@@ -218,6 +240,10 @@ dojo.declare(
 			},
 
 			onContainerKeyPress: function(/*Object*/ info){
+				// summary:
+				//		Called when there was a keypress on the container
+				// tags:
+				//		private
 				info.e._djpage = info.page;
 				this.onkeypress(info.e);
 			}
@@ -231,8 +257,13 @@ dojo.declare("dijit.layout._StackButton",
 		//		Internal widget used by StackContainer.
 		// description:
 		//		The button-like or tab-like object you click to select or delete a page
-		
-		tabIndex: "-1", // StackContainer buttons are not in the tab order by default
+		// tags:
+		//		private
+
+		// Override _FormWidget.tabIndex.
+		// StackContainer buttons are not in the tab order by default.
+		// TODO: unclear if we need this; doesn't _KeyNavContainer (superclass of StackController) do it for us?
+		tabIndex: "-1",
 		
 		postCreate: function(/*Event*/ evt){
 			dijit.setWaiRole((this.focusNode || this.domNode), "tab");
@@ -243,6 +274,7 @@ dojo.declare("dijit.layout._StackButton",
 			// summary:
 			//		This is for TabContainer where the tabs are <span> rather than button,
 			//		so need to set focus explicitly (on some browsers)
+			//		Note that you shouldn't override this method, but you can connect to it.
 			dijit.focus(this.focusNode);
 
 			// ... now let StackController catch the event and tell me what to do
@@ -252,6 +284,7 @@ dojo.declare("dijit.layout._StackButton",
 			// summary:
 			//		StackContainer connects to this function; if your widget contains a close button
 			//		then clicking it should call this function.
+			//		Note that you shouldn't override this method, but you can connect to it.
 			evt.stopPropagation();
 		}
 	});

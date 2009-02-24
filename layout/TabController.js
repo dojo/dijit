@@ -9,10 +9,13 @@ dojo.declare("dijit.layout.TabController",
 	{
 	// summary:
 	// 		Set of tabs (the things with titles and a close button, that you click to show a tab panel).
+	//		Used internally by `dijit.layout.TabContainer`.
 	// description:
 	//		Lets the user select the currently shown pane in a TabContainer or StackContainer.
 	//		TabController also monitors the TabContainer, and whenever a pane is
 	//		added or deleted updates itself accordingly.
+	// tags:
+	//		private
 
 	templateString: "<div wairole='tablist' dojoAttachEvent='onkeypress:onkeypress'></div>",
 
@@ -22,6 +25,7 @@ dojo.declare("dijit.layout.TabController",
 	tabPosition: "top",
 
 	// doLayout: Boolean
+	//		TODO: unused, remove
 	doLayout: true,
 
 	// buttonWidget: String
@@ -53,12 +57,16 @@ dojo.declare("dijit.layout._TabButton",
 	// description:
 	//		Contains the title of the pane, and optionally a close-button to destroy the pane.
 	//		This is an internal widget and should not be instantiated directly.
+	// tags:
+	//		private
 
 	baseClass: "dijitTab",
 
 	templatePath: dojo.moduleUrl("dijit.layout","templates/_TabButton.html"),
 
-	scrollOnFocus: false, // don't scroll the whole tab container into view when the button is focused
+	// Override _FormWidget.scrollOnFocus.
+	// Don't scroll the whole tab container into view when the button is focused.
+	scrollOnFocus: false,
 
 	postCreate: function(){
 		if(this.closeButton){
@@ -78,13 +86,13 @@ dojo.declare("dijit.layout._TabButton",
 
 	_onCloseButtonEnter: function(){
 		// summary:
-		//		When mouse is moved over the close icon (the X)
+		//		Handler when mouse is moved over the close icon (the X)
 		dojo.addClass(this.closeNode, "closeButton-hover");
 	},
 
 	_onCloseButtonLeave: function(){
 		// summary:
-		//		When mouse is moved off the close icon (the X)
+		//		Handler when mouse is moved off the close icon (the X)
 		dojo.removeClass(this.closeNode, "closeButton-hover");
 	}
 });

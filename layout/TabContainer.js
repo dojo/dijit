@@ -25,12 +25,13 @@ dojo.declare("dijit.layout.TabContainer",
 	baseClass: "dijitTabContainer",
 	
 	// tabStrip: Boolean
-	//		Defines whether the tablist gets an extra class for layouting
+	//		Defines whether the tablist gets an extra class for layouting, putting a border/shading
+	//		around the set of tabs.
 	tabStrip: false,
 
 	// nested: Boolean
 	//		If true, use styling for a TabContainer nested inside another TabContainer.
-	//		For tundra etc., makes look like links, and hides the outer
+	//		For tundra etc., makes tabs look like links, and hides the outer
 	//		border since the outer TabContainer already has a border.
 	nested: false,
 
@@ -77,9 +78,10 @@ dojo.declare("dijit.layout.TabContainer",
 	},
 
 	_setupChild: function(/* Widget */tab){
+		// Overrides StackContainer._setupChild().
 		dojo.addClass(tab.domNode, "dijitTabPane");
 		this.inherited(arguments);
-		return tab; // Widget
+		return tab; // Widget		(TODO: remove this, return code is unused)
 	},
 
 	startup: function(){
@@ -91,8 +93,8 @@ dojo.declare("dijit.layout.TabContainer",
 	},
 
 	layout: function(){
-		// summary:
-		//		Configure the content pane to take up all the space except for where the tabs are
+		// Overrides StackContainer.layout().
+		// Configure the content pane to take up all the space except for where the tabs are
 		if(!this.doLayout){ return; }
 
 		// position and size the titles and the container node

@@ -41,27 +41,28 @@ dojo.declare(
 	href: "",
 
 /*=====
-	// content: String
+	// content: String || DomNode || NodeList || dijit._Widget
 	//		The innerHTML of the ContentPane.
 	//		Note that the initialization parameter / argument to attr("content", ...)
-	//		can be a String, DomNode, Nodelist, or widget.
+	//		can be a String, DomNode, Nodelist, or _Widget.
 	content: "",
 =====*/
 
 	// extractContent: Boolean
-	//	Extract visible content from inside of <body> .... </body>
+	//		Extract visible content from inside of <body> .... </body>.
+	//		I.e., strip <html> and <head> (and it's contents) from the href
 	extractContent: false,
 
 	// parseOnLoad: Boolean
-	//	parse content and create the widgets, if any
+	//		Parse content and create the widgets, if any.
 	parseOnLoad:	true,
 
 	// preventCache: Boolean
-	//		Cache content retreived externally
+	//		Prevent caching of data from href's by appending a timestamp to the href.
 	preventCache:	false,
 
 	// preload: Boolean
-	//	Force load of data even if pane is hidden.
+	//		Force load of data on initialization even if pane is hidden.
 	preload: false,
 
 	// refreshOnShow: Boolean
@@ -69,14 +70,14 @@ dojo.declare(
 	refreshOnShow: false,
 
 	// loadingMessage: String
-	//	Message that shows while downloading
+	//		Message that shows while downloading
 	loadingMessage: "<span class='dijitContentPaneLoading'>${loadingState}</span>", 
 
 	// errorMessage: String
-	//	Message that shows if an error occurs
+	//		Message that shows if an error occurs
 	errorMessage: "<span class='dijitContentPaneError'>${errorState}</span>", 
 
-	// isLoaded: Boolean
+	// isLoaded: [readonly] Boolean
 	//		True if the ContentPane has data in it, either specified
 	//		during initialization (via href or inline content), or set
 	//		via attr('content', ...) / attr('href', ...)
@@ -111,6 +112,9 @@ dojo.declare(
 	},
 
 	buildRendering: function(){
+		// Overrides Widget.buildRendering().
+		// Since we have no template we need to set this.containerNode ourselves.
+		// For subclasses of ContentPane do have a template, does nothing.
 		this.inherited(arguments);
 		if(!this.containerNode){
 			// make getDescendants() work
@@ -131,6 +135,10 @@ dojo.declare(
 	},
 
 	startup: function(){
+		// summary:
+		//		See `dijit.layout._LayoutWidget.startup` for description.
+		//		Although ContentPane doesn't extend _LayoutWidget, it does implement
+		//		the same API.
 		if(this._started){ return; }
 
 		if(this.isLoaded){
@@ -277,6 +285,11 @@ dojo.declare(
 	},
 
 	resize: function(size){
+		// summary:
+		//		See `dijit.layout._LayoutWidget.resize` for description.
+		//		Although ContentPane doesn't extend _LayoutWidget, it does implement
+		//		the same API.
+
 		dojo.marginBox(this.domNode, size);
 
 		// Compute content box size in case we [later] need to size child
@@ -532,6 +545,7 @@ dojo.declare(
 	// Note that methods like addChild() don't mean much if our contents are free form HTML
 
 	getChildren: function(){
+		// Override _Container.getChildren().
 		// Normally the children's dom nodes are direct children of this.containerNode,
 		// but not so with ContentPane... they could be many levels deep.   So we can't
 		// use the getChildren() in _Container.
@@ -539,6 +553,8 @@ dojo.declare(
 	},
 
 	addChild: function(/*Widget*/ child, /*Integer?*/ insertIndex){
+		// Override _Container.addChild().   Following in the contract of _LayoutWidget,
+		// we need to call resize() on each of our child widgets.
 		this.inherited(arguments);
 		if(this._started && child.resize){
 			// Layout widgets expect their parent to call resize() on them
@@ -585,39 +601,60 @@ dojo.declare(
 	onLoad: function(data){
 		// summary:
 		//		Event hook, is called after everything is loaded and widgetified
+		// tags:
+		//		callback
 	},
 
 	onUnload: function(){
 		// summary:
 		//		Event hook, is called before old content is cleared
+		// tags:
+		//		callback
 	},
 
 	onDownloadStart: function(){
 		// summary:
 		//		Called before download starts.
+		// description:
 		//		The string returned by this function will be the html
 		//		that tells the user we are loading something.
 		//		Override with your own function if you want to change text.
+		// tags:
+		//		extension
 		return this.loadingMessage;
 	},
 
 	onContentError: function(/*Error*/ error){
 		// summary:
 		//		Called on DOM faults, require faults etc. in content.
-		//		Default is to display errormessage inside pane.
+		//
+		//		In order to display an error message in the pane, return
+		//		the error message from this method, as an HTML string.
+		//
+		//		By default (if this method is not overriden), it returns
+		//		nothing, so the error message is just printed to the console.
+		// tags:
+		//		extension
 	},
 
 	onDownloadError: function(/*Error*/ error){
 		// summary:
-		//		Called when download error occurs.  Default is to display
-		//		errormessage inside pane. Overide function to change that.
-		//		The string returned by this function will be the html
-		//		that tells the user a error happend
+		//		Called when download error occurs.
+		//
+		//		In order to display an error message in the pane, return
+		//		the error message from this method, as an HTML string.
+		//
+		//		Default behavior (if this method is not overriden) is to display
+		//		the error message inside the pane.
+		// tags:
+		//		extension
 		return this.errorMessage;
 	},
 
 	onDownloadEnd: function(){
 		// summary:
 		//		Called when download is finished.
+		// tags:
+		//		callback
 	}
 });

@@ -30,6 +30,9 @@ dojo.declare(
 		//		Amount of time (in ms) it takes to slide panes
 		duration: dijit.defaultDuration,
 
+		// _verticalSpace: Number
+		//		Pixels of space available for the open pane
+		//		(my content box size minus the cumulative size of all the title bars)
 		_verticalSpace: 0,
 
 		baseClass: "dijitAccordionContainer",
@@ -55,14 +58,19 @@ dojo.declare(
 			// summary:
 			//		For the given node, returns the height that should be
 			//		set to achieve our vertical space (subtract any padding
-			//		we may have)
+			//		we may have).
+			//
+			//		This is used by the animations.
+			//
+			//		TODO: I don't think this works correctly in IE quirks when an elements
+			//		style.height including padding and borders
 			var cs = dojo.getComputedStyle(node);
 			return Math.max(this._verticalSpace - dojo._getPadBorderExtents(node, cs).h, 0);
 		},
 
 		layout: function(){
-			// summary: 
-			//		Set the height of the open pane based on what room remains
+			// Implement _LayoutWidget.layout() virtual method.
+			// Set the height of the open pane based on what room remains.
 
 			var openPane = this.selectedChildWidget;
 
@@ -86,8 +94,10 @@ dojo.declare(
 		},
 
 		_setupChild: function(child){
+			// Overrides _LayoutWidget._setupChild().
 			// Setup clickable title to sit above the child widget,
-			// and stash pointer to it inside the widget itself
+			// and stash pointer to it inside the widget itself.
+
 			child._buttonWidget = new dijit.layout._AccordionButton({
 				contentWidget: child,
 				title: child.title,
@@ -100,11 +110,13 @@ dojo.declare(
 		},
 
 		removeChild: function(child){
+			// Overrides _LayoutWidget.removeChild().
 			child._buttonWidget.destroy();
 			this.inherited(arguments);
 		},
 
 		getChildren: function(){
+			// Overrides _Container.getChildren() to ignore titles and only look at panes.
 			return dojo.filter(this.inherited(arguments), function(child){
 				return child.declaredClass != "dijit.layout._AccordionButton";
 			});
@@ -118,6 +130,8 @@ dojo.declare(
 		},
 		
 		_transition: function(/*Widget?*/newWidget, /*Widget?*/oldWidget){
+			// Overrides StackContainer._transition() to provide sliding of title bars etc.
+
 //TODO: should be able to replace this with calls to slideIn/slideOut
 			if(this._inTransition){ return; }
 			this._inTransition = true;
@@ -208,7 +222,10 @@ dojo.declare("dijit.layout._AccordionButton",
 	[dijit._Widget, dijit._Templated],
 	{
 	// summary:
-	//		The title bar to click to open up an accordion pane
+	//		The title bar to click to open up an accordion pane.
+	//		Internal widget used by AccordionContainer.
+	// tags:
+	//		private
 
 	templatePath: dojo.moduleUrl("dijit.layout", "templates/AccordionButton.html"),
 	attributeMap: dojo.mixin(dojo.clone(dijit.layout.ContentPane.prototype.attributeMap), {
@@ -218,6 +235,10 @@ dojo.declare("dijit.layout._AccordionButton",
 	baseClass: "dijitAccordionTitle",
 
 	getParent: function(){
+		// summary:
+		//		Returns the parent.
+		// tags:
+		//		private
 		return this.parent;
 	},
 
@@ -231,12 +252,14 @@ dojo.declare("dijit.layout._AccordionButton",
 	},
 
 	getTitleHeight: function(){
-		// summary: returns the height of the title dom node
+		// summary:
+		//		Returns the height of the title dom node.
 		return dojo.marginBox(this.titleNode).h;	// Integer
 	},
 
 	_onTitleClick: function(){
-		// summary: callback when someone clicks my title
+		// summary:
+		//		Callback when someone clicks my title.
 		var parent = this.getParent();
 		if(!parent._inTransition){
 			parent.selectChild(this.contentWidget);
@@ -245,12 +268,14 @@ dojo.declare("dijit.layout._AccordionButton",
 	},
 
 	_onTitleEnter: function(){
-		// summary: callback when someone hovers over my title
+		// summary:
+		//		Callback when someone hovers over my title.
 		dojo.addClass(this.focusNode, "dijitAccordionTitle-hover");
 	},
 
 	_onTitleLeave: function(){
-		// summary: callback when someone stops hovering over my title
+		// summary:
+		//		Callback when someone stops hovering over my title.
 		dojo.removeClass(this.focusNode, "dijitAccordionTitle-hover");
 	},
 
@@ -267,12 +292,14 @@ dojo.declare("dijit.layout._AccordionButton",
 	},
 
 	_handleFocus: function(/*Event*/e){
-		// summary: handle the blur and focus state of this widget
+		// summary:
+		//		Handle the blur and focus state of this widget.
 		dojo[(e.type=="focus" ? "addClass" : "removeClass")](this.focusNode,"dijitAccordionFocused");		
 	},
 
 	setSelected: function(/*Boolean*/ isSelected){
-		// summary: change the selected state on this pane
+		// summary:
+		//		Change the selected state on this pane.
 		this._setSelectedState(isSelected);
 		if(isSelected){
 			var cw = this.contentWidget;

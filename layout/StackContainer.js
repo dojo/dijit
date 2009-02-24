@@ -31,13 +31,19 @@ dojo.declare(
 	
 	baseClass: "dijitStackContainer",
 
+	// _started: Boolean
+	//		startup() has completed.
+	//	TODO: comment this section out, it's just needed for documentation.
+	//	Plus, move it to _Widget
 	_started: false,
+
 /*=====
 	// selectedChildWidget: Widget
 	//		References the currently selected child widget, if any
 	//
 	selectedChildWidget: null,
 =====*/
+
 	postCreate: function(){
 		this.inherited(arguments);
 		dojo.addClass(this.domNode, "dijitLayoutContainer");
@@ -85,7 +91,7 @@ dojo.declare(
 	},
 
 	_setupChild: function(/*Widget*/ child){
-		// Summary: prepare the given child
+		// Overrides _LayoutWidget._setupChild()
 
 		this.inherited(arguments);
 
@@ -96,11 +102,11 @@ dojo.declare(
 		// over a node
 		child.domNode.title = "";
 
-		return child; // dijit._Widget
+		return child; // dijit._Widget		(TODO: remove this, return code is unused)
 	},
 
 	addChild: function(/*Widget*/ child, /*Integer?*/ insertIndex){
-		// summary: Adds a widget to the stack
+		// Overrides _Container.addChild() to do layout and publish events
 		 
 		this.inherited(arguments);
 
@@ -119,8 +125,7 @@ dojo.declare(
 	},
 
 	removeChild: function(/*Widget*/ page){
-		// summary:
-		//		Removes the pane from the stack
+		// Overrides _Container.removeChild() to do layout and publish events
 
 		this.inherited(arguments);
 
@@ -166,6 +171,11 @@ dojo.declare(
 	},
 
 	_transition: function(/*Widget*/newWidget, /*Widget*/oldWidget){
+		// summary:
+		//		Hide the old widget and display the new widget.
+		//		Subclasses should override this.
+		// tags:
+		//		protected extension
 		if(oldWidget){
 			this._hideChild(oldWidget);
 		}
@@ -180,7 +190,8 @@ dojo.declare(
 	},
 
 	_adjacent: function(/*Boolean*/ forward){
-		// summary: Gets the next/previous child widget in this container from the current selection
+		// summary:
+		//		Gets the next/previous child widget in this container from the current selection.
 		var children = this.getChildren();
 		var index = dojo.indexOf(children, this.selectedChildWidget);
 		index += forward ? 1 : children.length - 1;
@@ -189,13 +200,13 @@ dojo.declare(
 
 	forward: function(){
 		// summary:
-		//		advance to next page
+		//		Advance to next page.
 		this.selectChild(this._adjacent(true));
 	},
 
 	back: function(){
 		// summary:
-		//		go back to previous page
+		//		Go back to previous page.
 		this.selectChild(this._adjacent(false));
 	},
 
@@ -204,12 +215,16 @@ dojo.declare(
 	},
 
 	layout: function(){
+		// Implement _LayoutWidget.layout() virtual method.
 		if(this.doLayout && this.selectedChildWidget && this.selectedChildWidget.resize){
 			this.selectedChildWidget.resize(this._contentBox);
 		}
 	},
 
 	_showChild: function(/*Widget*/ page){
+		// summary:
+		//		Show the specified child by changing it's CSS, and call _onShow()/onShow() so
+		//		it can do any updates it needs regarding loading href's etc.
 		var children = this.getChildren();
 		page.isFirstChild = (page == children[0]);
 		page.isLastChild = (page == children[children.length-1]);
@@ -226,6 +241,9 @@ dojo.declare(
 	},
 
 	_hideChild: function(/*Widget*/ page){
+		// summary:
+		//		Hide the specified child by changing it's CSS, and call _onHide() so
+		//		it's notified.
 		page.selected=false;
 		dojo.removeClass(page.domNode, "dijitVisible");
 		dojo.addClass(page.domNode, "dijitHidden");
@@ -239,6 +257,8 @@ dojo.declare(
 		// summary:
 		//		Callback when user clicks the [X] to remove a page.
 		//		If onClose() returns true then remove and destroy the child.
+		// tags:
+		//		private
 		var remove = page.onClose(this, page);
 		if(remove){
 			this.removeChild(page);
@@ -263,6 +283,7 @@ dojo.require("dijit.layout.StackController");
 dojo.extend(dijit._Widget, {
 	// title: String
 	//		Title of this widget.  Used by TabContainer to the name the tab, etc.
+	// TODO: remove this, it's in _Widget already.
 	title: "",
 
 	// selected: Boolean
@@ -276,6 +297,9 @@ dojo.extend(dijit._Widget, {
 	onClose: function(){
 		// summary:
 		//		Callback if someone tries to close the child, child will be closed if func returns true
-		return true;
+		// tags:
+		//		extension
+
+		return true;		// Boolean
 	}
 });
