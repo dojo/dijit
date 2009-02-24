@@ -51,7 +51,9 @@ dojo.declare("dijit._editor.plugins.EnterKeyHandling", dijit._editor._Plugin, {
 			dojo.mixin(this,args);
 		}
 	},
+
 	setEditor: function(editor){
+		// Overrides _Plugin.setEditor().
 		this.editor = editor;
 		if(this.blockNodeForEnter == 'BR'){
 			if(dojo.isIE){
@@ -77,16 +79,24 @@ dojo.declare("dijit._editor.plugins.EnterKeyHandling", dijit._editor._Plugin, {
 		}
 	},
 	connect: function(o,f,tf){
+		// Overrides _Plugin.connect().
+		// TODO: Remove.  Method in _Plugin does the same thing.
 		if(!this._connects){
 			this._connects=[];
 		}
 		this._connects.push(dojo.connect(o,f,this,tf));
 	},
 	destroy: function(){
+		// Overrides _Plugin.destroy().
+		// TODO: Remove.  Method in _Plugin does the same thing.
 		dojo.forEach(this._connects,dojo.disconnect);
 		this._connects=[];
 	},
 	onKeyPressed: function(e){
+		// summary:
+		//		Handler for keypress events.
+		// tags:
+		//		private
 		if(this._checkListLater){
 			if(dojo.withGlobal(this.editor.window, 'isCollapsed', dijit)){
 				var liparent=dojo.withGlobal(this.editor.window, 'getAncestorElement', dijit._editor.selection, ['LI']);
@@ -140,12 +150,23 @@ dojo.declare("dijit._editor.plugins.EnterKeyHandling", dijit._editor._Plugin, {
 			delete this._pressedEnterInBlock;
 		}
 	},
+
+	// bogusHtmlContent: [private] String
+	//		HTML to stick into a new empty block
 	bogusHtmlContent: '&nbsp;',
+
+	// blockNodes: [private] Regex
+	//		Regex for testing if a given tag is a block level (display:block) tag
 	blockNodes: /^(?:P|H1|H2|H3|H4|H5|H6|LI)$/,
+
 	handleEnterKey: function(e){
 		// summary:
-		//		Manually handle enter key event to make the behavior consistant across
+		//		Handler for enter key events.
+		// description:
+		//		Manually handle enter key event to make the behavior consistent across
 		//		all supported browsers. See property blockNodeForEnter for available options
+		// tags:
+		//		private
 		
 		 // let browser handle this
 		// TODO: delete.  this code will never fire because 
@@ -283,7 +304,12 @@ dojo.declare("dijit._editor.plugins.EnterKeyHandling", dijit._editor._Plugin, {
 		}
 		return _letBrowserHandle;
 	},
+
 	removeTrailingBr: function(container){
+		// summary:
+		//		If last child of container is a <br>, then remove it.
+		// tags:
+		//		private
 		var para = /P|DIV|LI/i.test(container.tagName) ?
 			container : dijit._editor.selection.getParentOfType(container,['P','DIV','LI']);
 
@@ -365,6 +391,8 @@ dojo.declare("dijit._editor.plugins.EnterKeyHandling", dijit._editor._Plugin, {
 		//		See singleLinePsToRegularPs().   This method does the
 		//		opposite thing, and is used as a pre-filter when loading the
 		//		editor, to mirror the effects of the post-filter at end of edit.
+		// tags:
+		//		private
 		function wrapLinesInPs(el){
 		  // move "lines" of top-level text nodes into ps
 			function wrapNodes(nodes){
@@ -470,8 +498,11 @@ dojo.declare("dijit._editor.plugins.EnterKeyHandling", dijit._editor._Plugin, {
 		//	|	</ol>
 		//	|	<p>line 3<br>line 4</p>
 		//
-		// Not sure why this situation would even come up after the pre-filter and
-		// the enter-key-handling code.
+		//		Not sure why this situation would even come up after the pre-filter and
+		//		the enter-key-handling code.
+		//
+		// tags:
+		//		private
 	
 		function getParagraphParents(node){
 			// summary:

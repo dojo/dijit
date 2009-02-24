@@ -21,9 +21,19 @@ dojo.declare("dijit._editor.plugins.LinkDialog",
 		//		* createLink
 		//		* insertImage
 
+		// Override _Plugin.buttonClass.   This plugin is controlled by a DropDownButton
+		// (which triggers a TooltipDialog).
 		buttonClass: dijit.form.DropDownButton,
+
+		// Override _Plugin.useDefaultCommand... processing is handled by this plugin, not by dijit.Editor.
 		useDefaultCommand: false,
+
+		// urlRegExp: [protected] String
+		//		Used for validating input as correct URL
 		urlRegExp: "((https?|ftps?)\\://|)(((?:(?:[\\da-zA-Z](?:[-\\da-zA-Z]{0,61}[\\da-zA-Z])?)\\.)*(?:[a-zA-Z](?:[-\\da-zA-Z]{0,6}[\\da-zA-Z])?)\\.?)|(((\\d|[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(\\d|[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])|(0[xX]0*[\\da-fA-F]?[\\da-fA-F]\\.){3}0[xX]0*[\\da-fA-F]?[\\da-fA-F]|(0+[0-3][0-7][0-7]\\.){3}0+[0-3][0-7][0-7]|(0|[1-9]\\d{0,8}|[1-3]\\d{9}|4[01]\\d{8}|42[0-8]\\d{7}|429[0-3]\\d{6}|4294[0-8]\\d{5}|42949[0-5]\\d{4}|429496[0-6]\\d{3}|4294967[01]\\d{2}|42949672[0-8]\\d|429496729[0-5])|0[xX]0*[\\da-fA-F]{1,8}|([\\da-fA-F]{1,4}\\:){7}[\\da-fA-F]{1,4}|([\\da-fA-F]{1,4}\\:){6}((\\d|[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(\\d|[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])))(\\:\\d+)?(/(?:[^?#\\s/]+/)*(?:[^?#\\s/]+(?:\\?[^?#\\s/]*)?(?:#[A-Za-z][\\w.:-]*)?)?)?",
+
+		// linkDialogTemplate: [protected] String
+		//		Template for contents of TooltipDialog to pick URL
 		linkDialogTemplate: [
 			"<table><tr><td>",
 			"<label for='${id}_urlInput'>${url}</label>",
@@ -39,6 +49,7 @@ dojo.declare("dijit._editor.plugins.LinkDialog",
 		].join(""),
 
 		_initButton: function(){
+			// Override _Plugin._initButton() to initialize DropDownButton and TooltipDialog.
 			var _this = this;
 			this.tag = this.command == 'insertImage' ? 'img' : 'a';
 			var messages = dojo.i18n.getLocalization("dijit._editor", "LinkDialog", this.lang);
@@ -63,11 +74,17 @@ dojo.declare("dijit._editor.plugins.LinkDialog",
 		},
 
 		_setContent: function(staticPanel){
+			// summary:
+			//		Helper for _initButton above.   Not sure why it's a separate method.
 			this.dropDown.attr('content', staticPanel);
 		},
 
 		setValue: function(args){
-			// summary: callback from the dialog when user hits "set" button
+			// summary:
+			//		Callback from the dialog when user presses "set" button.
+			// tags:
+			//		private
+
 			//TODO: prevent closing popup if the text is empty
 			this._onCloseDialog();
 			if(dojo.isIE){ //see #4151
@@ -86,10 +103,16 @@ dojo.declare("dijit._editor.plugins.LinkDialog",
  		},
 
 		_onCloseDialog: function(){
+			// summary:
+			//		Handler for close event on the dialog
 			this.editor.focus();
 		},
 
 		_onOpenDialog: function(){
+			// summary:
+			//		Handler for when the dialog is opened.
+			//		If the caret is currently in a URL then populate the URL's info into the dialog.
+
 			var a = dojo.withGlobal(this.editor.window, "getAncestorElement", dijit._editor.selection, [this.tag]);
 			var url, text;
 			if(a){
@@ -121,6 +144,7 @@ dojo.declare("dijit._editor.plugins.LinkDialog",
 	}
 );
 
+// Register this plugin.
 dojo.subscribe(dijit._scopeName + ".Editor.getPlugin",null,function(o){
 	if(o.plugin){ return; }
 	switch(o.args.name){

@@ -42,10 +42,15 @@ dojo.declare("dijit._editor.plugins.FontChoice",
 
 		_uniqueId: 0,
 
+		// Override _Plugin.buttonClass because the control for this plugin is a FilteringSelect, not a button.
 		buttonClass: dijit.form.FilteringSelect,
+
+		// Override _Plugin.useDefaultCommand... processing is handled by this plugin, not by dijit.Editor.
 		useDefaultCommand: false,
 
 		_initButton: function(){
+			// Overrides _Plugin._initButton(), to initialize the FilteringSelect
+
 			//TODO: would be nice to be able to handle comma-separated font lists and search within them
 			var cmd = this.command;
 			var names = this.custom ||
@@ -93,6 +98,9 @@ dojo.declare("dijit._editor.plugins.FontChoice",
 		},
 
 		updateState: function(){
+			// Overrides _Plugin.updateState().
+			// Set FilteringSelect to reflect font of text at current caret position.
+
 			this.inherited(arguments);
 			var _e = this.editor;
 			var _c = this.command;
@@ -143,6 +151,8 @@ dojo.declare("dijit._editor.plugins.FontChoice",
 		},
 
 		setToolbar: function(){
+			// Overrides _Plugin.setToolbar().
+			// Called during initialization.  Adds FilteringSelect plus a label node (like "Font:") to Toolbar.
 			this.inherited(arguments);
 
 			var forRef = this.button;
@@ -157,6 +167,7 @@ dojo.declare("dijit._editor.plugins.FontChoice",
 	}
 );
 
+// Register this plugin.
 dojo.subscribe(dijit._scopeName + ".Editor.getPlugin",null,function(o){
 	if(o.plugin){ return; }
 	switch(o.args.name){

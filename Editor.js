@@ -35,6 +35,11 @@ dojo.declare(
 		extraPlugins: null,
 
 		constructor: function(){
+			// summary:
+			//		Runs on widget initialization to setup arrays etc.
+			// tags:
+			//		private
+
 			if(!dojo.isArray(this.plugins)){
 				this.plugins=["undo","redo","|","cut","copy","paste","|","bold","italic","underline","strikethrough","|",
 				"insertOrderedList","insertUnorderedList","indent","outdent","|","justifyLeft","justifyRight","justifyCenter","justifyFull",
@@ -147,19 +152,34 @@ dojo.declare(
 		},
 		//the following 3 functions are required to make the editor play nice under a layout widget, see #4070
 		startup: function(){
+			// summary:
+			//		Exists to make Editor work as a child of a layout widget.
+			//		Developers don't need to call this method.
+			// tags:
+			//		protected
 			//console.log('startup',arguments);
 		},
-		resize: function(){
+		resize: function(size){
+			// summary:
+			//		Resize the editor to the specified size, see `dijit.layout._LayoutWidget.resize`
 			dijit.layout._LayoutWidget.prototype.resize.apply(this,arguments);
 		},
 		layout: function(){
+			// summary:
+			//		Called from `dijit.layout._LayoutWidget.resize`.  This shouldn't be called directly
+			// tags:
+			//		protected
 			this.editingArea.style.height=(this._contentBox.h - dojo.marginBox(this.toolbar.domNode).h)+"px";
 			if(this.iframe){
 				this.iframe.style.height="100%";
 			}
 			this._layoutMode = true;
 		},
-		_onIEMouseDown: function(/*Event*/e){ // IE only to prevent 2 clicks to focus
+		_onIEMouseDown: function(/*Event*/ e){
+			// summary:
+			//		IE only to prevent 2 clicks to focus
+			// tags:
+			//		private
 			delete this._savedSelection; // new mouse position overrides old selection
 			if(e.target.tagName == "BODY"){
 				setTimeout(dojo.hitch(this, "placeCursorAtEnd"), 0);
@@ -167,6 +187,10 @@ dojo.declare(
 			this.inherited(arguments);
 		},
 		onBeforeDeactivate: function(e){
+			// summary:
+			//		Called on IE right before focus is lost.   Saves the selected range.
+			// tags:
+			//		private
 			if(this.customUndo){
 				this.endEditing(true);
 			}
@@ -175,6 +199,7 @@ dojo.declare(
 			this._saveSelection();
 	        //console.log('onBeforeDeactivate',this);
 		},
+
 		/* beginning of custom undo/redo support */
 
 		// customUndo: Boolean
@@ -187,12 +212,18 @@ dojo.declare(
 		// editActionInterval: Integer
 		//		When using customUndo, not every keystroke will be saved as a step.
 		//		Instead typing (including delete) will be grouped together: after
-		//		a user stop typing for editActionInterval seconds, a step will be
+		//		a user stops typing for editActionInterval seconds, a step will be
 		//		saved; if a user resume typing within editActionInterval seconds,
 		//		the timeout will be restarted. By default, editActionInterval is 3
 		//		seconds.
 		editActionInterval: 3,
+
 		beginEditing: function(cmd){
+			// summary:
+			//		Called to note that the user has started typing alphanumeric characters, if it's not already noted.
+			//		Deals with saving undo; see editActionInterval parameter.
+			// tags:
+			//		private
 			if(!this._inEditing){
 				this._inEditing=true;
 				this._beginEditing(cmd);
@@ -207,6 +238,11 @@ dojo.declare(
 		_steps:[],
 		_undoedSteps:[],
 		execCommand: function(cmd){
+			// summary:
+			//		Main handler for executing any commands to the editor, like paste, bold, etc.
+			//      Called by plugins, but not meant to be called by end users.
+			// tags:
+			//		protected
 			if(this.customUndo && (cmd=='undo' || cmd=='redo')){
 				return this[cmd]();
 			}else{
@@ -238,6 +274,11 @@ dojo.declare(
 			}
 		},
 		queryCommandEnabled: function(cmd){
+			// summary:
+			//		Returns true if specified editor command is enabled.
+			//      Used by the plugins to know when to highlight/not highlight buttons.
+			// tags:
+			//		protected
 			if(this.customUndo && (cmd=='undo' || cmd=='redo')){
 				return cmd=='undo'?(this._steps.length>1):(this._undoedSteps.length>0);
 			}else{
@@ -246,6 +287,8 @@ dojo.declare(
 		},
 
 		focus: function(){
+			// summary:
+			//		Set focus inside the editor
 			var restore=0;
 			//console.log('focus',dijit._curFocus==this.editNode)
 			if(this._savedSelection && dojo.isIE){
@@ -257,6 +300,10 @@ dojo.declare(
 		    }
 		},
 		_moveToBookmark: function(b){
+			// summary:
+			//		Selects the text specified in bookmark b
+			// tags:
+			//		private
 			var bookmark=b;
 			if(dojo.isIE){
 				if(dojo.isArray(b)){//IE CONTROL
@@ -273,13 +320,21 @@ dojo.declare(
 			}
 			dojo.withGlobal(this.window,'moveToBookmark',dijit,[bookmark]);
 		},
-		_changeToStep: function(from,to){
+		_changeToStep: function(from, to){
+			// summary:
+			//		Reverts editor to "to" setting, from the undo stack.
+			// tags:
+			//		private
 			this.setValue(to.text);
 			var b=to.bookmark;
 			if(!b){ return; }
 			this._moveToBookmark(b);
 		},
 		undo: function(){
+			// summary:
+			//		Handler for editor undo (ex: ctrl-z) operation
+			// tags:
+			//		private
 //			console.log('undo');
 			this.endEditing(true);
 			var s=this._steps.pop();
@@ -293,6 +348,11 @@ dojo.declare(
 			return false;
 		},
 		redo: function(){
+			// summary:
+			//		Handler for editor redo (ex: ctrl-y) operation
+			// tags:
+			//		private
+
 //			console.log('redo');
 			this.endEditing(true);
 			var s=this._undoedSteps.pop();
@@ -306,6 +366,11 @@ dojo.declare(
 			return false;
 		},
 		endEditing: function(ignore_caret){
+			// summary:
+			//		Called to note that the user has stopped typing alphanumeric characters, if it's not already noted.
+			//		Deals with saving undo; see editActionInterval parameter.
+			// tags:
+			//		private
 			if(this._editTimer){
 				clearTimeout(this._editTimer);
 			}
@@ -315,6 +380,10 @@ dojo.declare(
 			}
 		},
 		_getBookmark: function(){
+			// summary:
+			//		Get the currently selected text
+			// tags:
+			//		protected
 			var b=dojo.withGlobal(this.window,dijit.getBookmark);
 			var tmp=[];
 			if(dojo.isIE){
@@ -334,17 +403,32 @@ dojo.declare(
 			return b;
 		},
 		_beginEditing: function(cmd){
+			// summary:
+			//		Called when the user starts typing alphanumeric characters.
+			//		Deals with saving undo; see editActionInterval parameter.
+			// tags:
+			//		private
 			if(this._steps.length===0){
 				this._steps.push({'text':this.savedContent,'bookmark':this._getBookmark()});
 			}
 		},
 		_endEditing: function(ignore_caret){
+			// summary:
+			//		Called when the user stops typing alphanumeric characters.
+			//		Deals with saving undo; see editActionInterval parameter.
+			// tags:
+			//		private
 			var v=this.getValue(true);
 
 			this._undoedSteps=[];//clear undoed steps
 			this._steps.push({text: v, bookmark: this._getBookmark()});
 		},
 		onKeyDown: function(e){
+			// summary:
+			//		Handler for onkeydown event.
+			// tags:
+			//		private
+
 			//We need to save selection if the user TAB away from this editor
 			//no need to call _saveSelection for IE, as that will be taken care of in onBeforeDeactivate
 			if(!dojo.isIE && !this.iframe && e.keyCode==dojo.keys.TAB && !this.tabIndent){
@@ -417,15 +501,29 @@ dojo.declare(
 				}
 		},
 		_onBlur: function(){
+			// summary:
+			//		Called from focus manager when focus has moved away from this editor
+			// tags:
+			//		protected
+
 			//this._saveSelection();
 			this.inherited('_onBlur',arguments);
 			this.endEditing(true);
 		},
 		_saveSelection: function(){
+			// summary:
+			//		Save the currently selected text in _savedSelection attribute
+			// tags:
+			//		private
 			this._savedSelection=this._getBookmark();
 			//console.log('save selection',this._savedSelection,this);
 		},
 		_restoreSelection: function(){
+			// summary:
+			//		Re-select the text specified in _savedSelection attribute;
+			//		see _saveSelection().
+			// tags:
+			//		private
 			if(this._savedSelection){
 				//only restore the selection if the current range is collapsed
     			//if not collapsed, then it means the editor does not lose 
@@ -438,11 +536,21 @@ dojo.declare(
 			}
 		},
 		_onFocus: function(){
+			// summary:
+			//		Called from focus manager when focus has moved into this editor
+			// tags:
+			//		protected
+
 			//console.log('_onFocus');
 			setTimeout(dojo.hitch(this, "_restoreSelection"), 0); // needs input caret first
 			this.inherited(arguments);
 		},
+
 		onClick: function(){
+			// summary:
+			//		Handler for when editor is clicked
+			// tags:
+			//		protected
 			this.endEditing(true);
 			this.inherited(arguments);
 		}
@@ -450,7 +558,7 @@ dojo.declare(
 	}
 );
 
-/* the following code is to registered a handler to get default plugins */
+// Register the "default plugins", ie, the built-in editor commands
 dojo.subscribe(dijit._scopeName + ".Editor.getPlugin",null,function(o){
 	if(o.plugin){ return; }
 	var args = o.args, p;

@@ -14,6 +14,7 @@ dojo.declare("dijit._editor.plugins.TextColor",
 		//		* foreColor - sets the text color
 		//		* hiliteColor - sets the background color
 
+		// Override _Plugin.buttonClass to use DropDownButton (with ColorPalette) to control this plugin
 		buttonClass: dijit.form.DropDownButton,
 
 //TODO: set initial focus/selection state?
@@ -27,6 +28,7 @@ dojo.declare("dijit._editor.plugins.TextColor",
 	}
 );
 
+// Register this plugin.
 dojo.subscribe(dijit._scopeName + ".Editor.getPlugin",null,function(o){
 	if(o.plugin){ return; }
 	switch(o.args.name){
