@@ -116,12 +116,12 @@
 		<div dojoType="dijit.MenuItem" iconClass="dijitEditorIcon dijitEditorIconPaste"
 			onClick="alert('not actually pasting anything, just a test!')" accelKey="Ctrl+V">Paste</div>
 		<div dojoType="dijit.MenuSeparator"></div>
-		<div dojoType="dijit.PopupMenuItem">
+		<div dojoType="dijit.PopupMenuItem" id="enabledSubmenu">
 			<span>Enabled Submenu</span>
 			<div dojoType="dijit.Menu" id="submenu2">
-				<div dojoType="dijit.MenuItem" onClick="alert('Submenu 1!')">Submenu Item One</div>
-				<div dojoType="dijit.MenuItem" onClick="alert('Submenu 2!')">Submenu Item Two</div>
-				<div dojoType="dijit.PopupMenuItem">
+				<div dojoType="dijit.MenuItem" id="submenu2_item1" onClick="alert('Submenu 1!')">Submenu Item One</div>
+				<div dojoType="dijit.MenuItem" id="submenu2_item2" onClick="alert('Submenu 2!')">Submenu Item Two</div>
+				<div dojoType="dijit.PopupMenuItem" id="deeperSubmenu">
 					<span>Deeper Submenu</span>
 					<div dojoType="dijit.Menu" id="submenu4">
 						<div dojoType="dijit.MenuItem" onClick="alert('Sub-submenu 1!')">Sub-sub-menu Item One</div>
@@ -265,11 +265,11 @@
 					<div dojoType="dijit.MenuItem" iconClass="dijitEditorIcon dijitEditorIconPaste"
 						onClick="alert('documentary!')">Documentary</div>
 					<div dojoType="dijit.MenuSeparator"></div>
-					<div dojoType="dijit.PopupMenuItem">
+					<div dojoType="dijit.PopupMenuItem" id="navMenuPopupItem1">
 						<span>Enabled Submenu</span>
 						<div dojoType="dijit.Menu" id="navMenuSub1">
-							<div dojoType="dijit.MenuItem" onClick="alert('Submenu 1!')">Submenu Item One</div>
-							<div dojoType="dijit.MenuItem" onClick="alert('Submenu 2!')">Submenu Item Two</div>
+							<div dojoType="dijit.MenuItem" id="navMenuSub1_item1" onClick="alert('Submenu 1!')">Submenu Item One</div>
+							<div dojoType="dijit.MenuItem" id="navMenuSub1_item2" onClick="alert('Submenu 2!')">Submenu Item Two</div>
 							<div dojoType="dijit.PopupMenuItem">
 								<span>Deeper Submenu</span>
 								<div dojoType="dijit.Menu" id="navMenuSub2">
@@ -292,7 +292,7 @@
 					</div>
 					<div dojoType="dijit.MenuSeparator"></div>
 					<div dojoType="dijit.CheckedMenuItem" checked="true" onChange="alert('Now set to ' + arguments[0])">Checked</div>
-					<div dojoType="dijit.CheckedMenuItem">Not Checked</div>
+					<div dojoType="dijit.CheckedMenuItem" id="checked2" >Not Checked</div>
 					<div dojoType="dijit.CheckedMenuItem" checked="true" disabled="true">Checked Disabled</div>
 				</div>
 			</td>
