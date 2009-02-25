@@ -40,7 +40,7 @@
 				dijit.byId('automated').document.execCommand('selectall', false, false);
 				document.getElementById('onChangeOKnow').checked=true;
 				dijit.byId('automated').document.execCommand('underline', false, false);
-				setTimeout(function(){dijit.byId('editor1').focus();}, 0);
+				setTimeout(dojo.hitch(dijit.byId('editor0'),"focus",0));
 			}
 		</script
 		><script type='dojo/method' event='onBlur'>
@@ -69,6 +69,12 @@
 	<br>
 
 	<h1 class="testTitle"><label for="editor1">Editor + Plugins Test</label></h1>
+
+	<h2>No plugins, initially empty</h2>
+	<div style="border: 1px solid black;">
+		<div dojoType="dijit.Editor" id="editor0" height="100" plugins="[]"></div>
+	</div>
+
 	<h2>Created from div</h2>
 	<div style="border: 1px solid black;">
 		<div dojoType="dijit.Editor" id="editor1" disableSpellCheck="true"

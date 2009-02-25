@@ -703,15 +703,13 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 	},
 
 	// disabled: Boolean
-	//		The editor is disabled; the text cannot be changed.
-	disabled: true,
+	// 		The editor is disabled; the text cannot be changed.
+	disabled: false,
 
 	_mozSettingProps: ['styleWithCSS','insertBrOnReturn'],
 	_setDisabledAttr: function(/*Boolean*/ value){
-		if(!this.editNode || "_delayedDisabled" in this){ 
-			this._delayedDisabled = value;
-			return; 
-		}
+		this.disabled = value;
+		if(!this.isLoaded){ return; } // this method requires init to be complete
 		value = !!value;
 		if(dojo.isIE || dojo.isWebKit || dojo.isOpera){
 			var preventIEfocus = dojo.isIE && (this.isLoaded || !this.focusOnLoad);
@@ -726,7 +724,9 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 				//AP: why isn't this set in the constructor, or put in mozSettingProps as a hash?
 				this._mozSettings=[false,this.blockNodeForEnter==='BR'];
 			}
-			this.document.designMode=(value?'off':'on');
+			try{
+				this.document.designMode=(value?'off':'on');
+			}catch(e){ return; } // ! _disabledOK
 			if(!value && this._mozSettingProps){
 				var ps = this._mozSettingProps;
 				for(var n in ps){
@@ -742,7 +742,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 //					this.blur(); //to remove the blinking caret
 //				}
 		}
-		this.disabled = value;
+		this._disabledOK = true;
 	},
 
 /* Event handlers
@@ -776,17 +776,6 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 		}
 		this.focusNode = this.editNode; // for InlineEditBox
 
-		try{
-			this.attr('disabled',false);
-		}catch(e){
-			// Firefox throws an exception if the editor is initially hidden
-			// so, if this fails, try again onClick by adding "once" advice
-			var handle = dojo.connect(this, "onClick", this, function(){
-				this.attr('disabled',false);
-				dojo.disconnect(handle);
-			});
-		}
-
 		this._preDomFilterContent(this.editNode);
 
 		var events = this.events.concat(this.captureEvents);
@@ -801,24 +790,21 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 			this.connect(this.document, "onmousedown", "_onIEMouseDown"); // #4996 fix focus
 			this.editNode.style.zoom = 1.0;
 		}
-		if(this.focusOnLoad){
-			dojo.addOnLoad(dojo.hitch(this, "focus"));
+
+		this.isLoaded = true;
+
+		this.attr('disabled', this.disabled); // initialize content to editable (or not)
+
+		if(this.onLoadDeferred){
+			this.onLoadDeferred.callback(true);
 		}
 
 		this.onDisplayChanged(e);
 
-		if("_delayedDisabled" in this){
-			// We tried to set the disabled attribute previously - but we didn't
-			// have everything set up.  Set it up now that we have our nodes
-			// created
-			var d = this._delayedDisabled;
-			delete this._delayedDisabled;
-			this.attr("disabled", d);
-		}
-		this.isLoaded = true;
-
-		if(this.onLoadDeferred){
-			this.onLoadDeferred.callback(true);
+		if(this.focusOnLoad){
+			// after the document loads, then set focus after updateInterval expires so that 
+			// onNormalizedDisplayChanged has run to avoid input caret issues
+			dojo.addOnLoad(dojo.hitch(this, function(){ setTimeout(dojo.hitch(this, "focus"), this.updateInterval) }));
 		}
 	},
 
@@ -1016,7 +1002,6 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 		} 
 
 	},
-	_initialFocus: true,
 	_onFocus: function(/*Event*/ e){
 		// summary:
 		//		Called from focus manager when focus has moved into this editor
@@ -1024,15 +1009,12 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 		//		protected
 
 		// console.info('_onFocus')
-		if(dojo.isMoz && this._initialFocus){
-			this._initialFocus = false;
-			if(this.editNode.innerHTML.replace(/^\s+|\s+$/g, "") == "&nbsp;"){
-				this.placeCursorAtStart();
-				// this.execCommand("selectall");
-				// this.window.getSelection().collapseToStart();
+		if(!this.disabled){
+			if(!this._disabledOK){
+				this.attr('disabled', false);
 			}
+			this.inherited(arguments);
 		}
-		this.inherited(arguments);
 	},
 
 	// TODO: why is this needed - should we deprecate this ?
@@ -1323,8 +1305,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 		//		Check whether a command is enabled or not.
 		// tags:
 		//		protected
-
-		if(this.disabled){ return false; }
+		if(this.disabled || !this._disabledOK){ return false; }
 		command = this._normalizeCommand(command);
 		if(dojo.isMoz || dojo.isWebKit){
 			if(command == "unlink"){ // mozilla returns true always
@@ -1369,7 +1350,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 		// tags:
 		//		protected
 
-		if(this.disabled){ return false; }
+		if(this.disabled || !this._disabledOK){ return false; }
 		command = this._normalizeCommand(command);
 		// try{
 			//this.editNode.contentEditable = true;
@@ -1387,7 +1368,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 		// tags:
 		//		protected
 
-		if(this.disabled){ return false; }
+		if(this.disabled || !this._disabledOK){ return false; }
 		var r;
 		command = this._normalizeCommand(command);
 		if(dojo.isIE && command == "formatblock"){
