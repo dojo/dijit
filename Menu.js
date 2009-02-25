@@ -181,7 +181,11 @@ dojo.declare("dijit._MenuBase",
 		this.currentPopup = popup;
 
 		if(popup.focus){
-			popup.focus();
+			// If user is opening the popup via keyboard (right arrow, or down arrow for MenuBar),
+			// if the cursor happens to collide with the popup, it will generate an onmouseover event
+			// even though the mouse wasn't moved.   Use a setTimeout() to call popup.focus so that
+			// our focus() call overrides the onmouseover event, rather than vice-versa.  (#8742)
+			setTimeout(dojo.hitch(popup, "focus"), 0);
 		}
 	},
 

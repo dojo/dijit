@@ -38,7 +38,7 @@ dojo.declare("dijit.MenuBar", dijit._MenuBase, {
 			showpopup = from_item && from_item.popup && from_item.popup.isShowingNow;
 		this.inherited(arguments);
 		if(showpopup && !item.disabled){
-			this._openPopup();
+			this._openPopup();		// TODO: on down arrow, _openPopup() is called here and in onItemClick()
 		}
 	},
 	
