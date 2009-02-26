@@ -8,7 +8,7 @@ dojo.require("dijit._Widget");
 dojo.require("dijit._Templated");
 dojo.require("dijit.form._FormMixin");
 dojo.require("dijit._DialogMixin");
-dojo.require("dijit.DialogUnderlay")
+dojo.require("dijit.DialogUnderlay");
 dojo.require("dijit.layout.ContentPane");
 dojo.requireLocalization("dijit", "common");
 
@@ -205,13 +205,18 @@ dojo.declare(
 		},
 
 		uninitialize: function(){
+			var wasPlaying = false;
 			if(this._fadeIn && this._fadeIn.status() == "playing"){
+				wasPlaying = true;
 				this._fadeIn.stop();
 			}
 			if(this._fadeOut && this._fadeOut.status() == "playing"){
+				wasPlaying = true;
 				this._fadeOut.stop();
 			}
-			
+			if(this.open || wasPlaying){
+				dijit._underlay.hide();
+			}
 			if(this._moveable){
 				this._moveable.destroy();
 			}
