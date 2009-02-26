@@ -44,8 +44,8 @@
 					blurConnect = spinner.connect(spinner.focusNode, "onblur", countBlur);
 				}
 				
-				// setup to test manipulation of spinner via keystrokes.
-				var results;
+				// Setup to test manipulation of spinner via keystrokes.
+				var results;	// array holding both expected value and actual value after each keypress
 				var strokeIndex = 0;
 				var noteConnect;
 				function noteChanges(){
@@ -53,6 +53,10 @@
 					strokeIndex++;
 				}
 				function keyStrokeSetup(inSpinnerId){
+					// summary:
+					//		Populates results[] with expected values after each keypress.
+					//		Also sets up listener to every keyboard event (arrow key etc) on a spinner and
+					//		records to record the actual spinner values into results[].
 					var spinner = dijit.byId(inSpinnerId);
 					results = populateExpected(spinner);
 					strokeIndex = 0;
@@ -62,7 +66,8 @@
 					});
 				}
 
-				// use spinner api to calculate values for a set of keystrokes.
+				// Use spinner api to calculate values for a set of keystrokes.
+				// Returns array of expected values.
 				var populateExpected = function(/*Spinner Widget*/inSpinner){
 					var initVal = inSpinner.attr('value');
 					var eVals = [];
@@ -128,6 +133,11 @@
 					doh.robot.keyPress(dojo.keys.TAB, 100);
 					doh.robot.keyPress(dojo.keys.TAB, 100);
 					doh.robot.keyPress(dojo.keys.TAB, 100, {shift:true});
+					
+					// TODO: this doesn't seem thorough... after TAB or shift TAB
+					// should be checking that we ended up at the right place, i.e.
+					// make sure that we don't have extra tab stops within the slider itself.
+
 					var checkGotFocus = function(){
 						spinner.disconnect(focusConnect);
 						spinner.disconnect(blurConnect);
@@ -167,7 +177,7 @@
 							}
 						}
 					};
-					doh.robot.sequence(d.getTestCallback(testPresses), 1600);
+					doh.robot.sequence(d.getTestCallback(testPresses), 1600);	// TODO: 1600 is the time after the END key is pressed, does it need to be that long?
 					return d;
 				}
 

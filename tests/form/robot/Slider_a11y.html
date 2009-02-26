@@ -76,11 +76,15 @@
 		};
 
 		// machinery for testing keyboard manipulation of sliders
-		var eaVals = [];
+		var eaVals = [];	// array holding expected values and actual values after arrow etc. keypresses
 		var strokeIndex = 0;
 		var noteChanges;
 		
 		var keyStrokeSetup = function(inSliderId){
+			// summary:
+			//		Populates eaVals[] with expected slider values after each keystroke (in this test),
+			//		and sets up listener to record actual value into same eaVals[] array.
+
 			var slider=dijit.byId(inSliderId);
 			eaVals = populateExpected(slider);
 			strokeIndex = 0;
@@ -91,6 +95,9 @@
 		}
 		
 		var populateExpected = function(/*Slider Widget*/inSlider){
+			// summary:
+			//		Returns array of expected slider values after each keystroke (in this test)
+
 			var initVal = inSlider.attr('value');
 			var eVals = [];
 			var evt = {};
