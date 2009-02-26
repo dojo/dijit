@@ -1,0 +1,218 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+		"http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<title>doh.robot Validation Test</title>
+
+		<style>
+			@import "../../../util/doh/robot/robot.css";
+		</style>
+
+		<!-- required: dojo.js -->
+		<script type="text/javascript" src="../../../dojo/dojo.js"
+			djConfig="isDebug: true, parseOnLoad: true"></script>
+			
+		<!-- functions to help test -->
+		<script type="text/javascript" src="../helpers.js"></script>
+
+		<script type="text/javascript">
+			dojo.require("dijit.dijit"); // optimize: load dijit layer
+			dojo.require("dijit.robotx");
+
+			dojo.addOnLoad(function(){
+				doh.robot.initRobot('../test_Menu.html');
+
+				doh.register("dijit.MenuBar keyboard tests",[
+					{
+						name: "start focus on the link, outside of menubar",
+						timeout: 4000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							// Start at the link
+							doh.robot.sequence(function(){
+								dojo.byId("link").focus();
+							}, 500);
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.t(dojo.global.dijit._curFocus, "something has focus");
+								doh.is("random link", dojo.global.dijit._curFocus.innerHTML, "check that focus is on the link");
+							}), 500);
+
+							return d;
+						}
+					},				
+
+					{
+						name: "tab to the menubar",
+						timeout: 10000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							// tab to the MenuBar... then focus should automatically shift to "File" menu,
+							doh.robot.keyPress(dojo.keys.TAB, 500, {});
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.is("File", dojo.trim(dojo.global.dijit._curFocus.innerText || dojo.global.dijit._curFocus.textContent),
+										"check that focus is on File menu");
+							}), 1000);
+
+							return d;
+						}
+					},
+			
+					{
+						name: "arrow to the edit menu",
+						timeout: 4000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 500, {});		// TODO: use left arrow in RTL mode
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.is("Edit", dojo.trim(dojo.global.dijit._curFocus.innerText || dojo.global.dijit._curFocus.textContent),
+										"check that focus is on Edit menu");
+							}), 500);
+
+							return d;
+						}
+					},
+
+					{
+						name: "shift-tab back",
+						timeout: 4000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							doh.robot.keyPress(dojo.keys.TAB, 500, {shift:true});
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.is("random link", dojo.trim(dojo.global.dijit._curFocus.innerText || dojo.global.dijit._curFocus.textContent),
+										"check that focus is back on the link");
+							}), 500);
+
+							return d;
+						}
+					},
+
+					{
+						name: "open file menu",
+						timeout: 4000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							// tab to the MenuBar... then focus should automatically shift to "File" menu
+							doh.robot.keyPress(dojo.keys.TAB, 500, {});
+
+							// and then down arrow to menu... focus should go to "New"
+							doh.robot.keyPress(dojo.keys.DOWN_ARROW, 500, {});
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.t((dojo.global.dijit._curFocus.innerText || dojo.global.dijit._curFocus.textContent).indexOf("New") >= 0,
+										"check that focus is on New menu item of the File menu (indirectly checks that menu is visible)");
+							}), 500);
+
+							return d;
+						}
+					},
+
+					{
+						name: "click 'new' using enter key",
+						timeout: 4000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							var clicked = false;
+							dijit.byId("new").onClick = function(){ clicked = true; };
+
+							doh.robot.keyPress(dojo.keys.ENTER, 500, {});
+							
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.t(clicked, "new was clicked");
+								doh.t(isHidden("fileMenu"), "File menu disappeared");						
+								doh.f(dojo.hasClass("file", "dijitMenuItemSelected"),
+									"File MenuBarItem should no longer have selected effect, actual class is: " + dojo.byId("edit").className);
+							}), 500);
+	
+							return d;
+						}  
+					},
+
+					{
+						name: "open submenu",
+						timeout: 8000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							// Start at the link
+							dojo.byId("link").focus();
+
+							// tab to the MenuBar... then focus should automatically shift to "File" menu item
+							doh.robot.keyPress(dojo.keys.TAB, 500, {});
+
+							// and then move to "View" menu item
+							doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 500, {});
+							doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 500, {});
+
+							// open the menu and go down to "Zoom" menu item
+							doh.robot.keyPress(dojo.keys.DOWN_ARROW, 500, {});
+							doh.robot.keyPress(dojo.keys.DOWN_ARROW, 500, {});
+							doh.robot.keyPress(dojo.keys.DOWN_ARROW, 500, {});
+
+							// open the submenu (landing on first item)
+							doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 500, {});
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.t( (dojo.global.dijit._curFocus.innerText || dojo.global.dijit._curFocus.textContent).indexOf("50%") >= 0,
+										"check that focus is on '50%'");
+							}), 500);
+
+							return d;
+						}
+					}
+				]);
+
+				doh.register("Context menu keyboard tests", [
+					{
+						name: "open global context menu (keyboard)",
+						timeout: 3000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							// Put focus on the link; this is just a random place on the screen to have focus
+							doh.robot.sequence(function(){
+								dojo.byId("link").focus();
+							}, 500);
+
+							// open via keyboard
+							if(navigator.userAgent.indexOf("Macintosh") >= 0){
+								doh.robot.keyPress(dojo.keys.SPACE, 500, {ctrl: true});
+							}else{
+								doh.robot.keyPress(dojo.keys.F10, 500, {shift: true});
+							}
+
+							var menu = dijit.byId("windowContextMenu");
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.t(isVisible(menu), "menu is now shown");						
+								
+								var menuCoords = dojo.coords(menu.domNode);
+
+								doh.t(menuCoords.x < 50, "x < 50");
+								doh.t(menuCoords.y < 50, "y < 50");	
+								doh.t(menuCoords.x > 0, "x > 0");
+								doh.t(menuCoords.y > 0, "y > 0");	
+							}), 500);
+	
+							return d;
+						}
+					}
+
+				]);
+
+				doh.run();
+			});
+		</script>
+	</head>
+</html>
+<html><body></body></html>
