@@ -63,7 +63,7 @@ dojo.declare(
 	_busyResizing: false,
 	_shrink: function(){
 		// grow paddingBottom to see if scrollHeight shrinks (when it is unneccesarily big)
-		if((dojo.isMoz || dojo.isWebKit) && !this._busyResizing){
+		if((dojo.isMoz || dojo.isSafari/*NOT isWebKit*/) && !this._busyResizing){
 			this._busyResizing = true;
 			var textarea = this.domNode;
 			var empty = false;
