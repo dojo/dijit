@@ -1,0 +1,343 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+		"http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+	<title>doh.robot Slider Test</title>
+
+	<style>
+		@import "../../../../util/doh/robot/robot.css";
+	</style>
+
+	<!-- required: dojo.js -->
+	<script type="text/javascript" src="../../../../dojo/dojo.js"
+		djConfig="isDebug: true, parseOnLoad: true"></script>
+
+	<script type="text/javascript">
+		dojo.require("dijit.dijit"); // optimize: load dijit layer
+		dojo.require("dijit.robotx");
+
+		// These are the sliders with arrow buttons
+		// (not sure why that's important for an a11y test???)
+		var arrowSliders=['slider1','slider2','programaticSlider'];
+		var arrowSliderInit_min=[0.2,10,1200];		// One value above the minimum value
+		var arrowSliderInit_max=[99.8,90,2800];		// One value below the maximum value
+
+		// These are all the sliders
+		var accessibleSliders=['slider1','slider2','slider3','programaticSlider'];
+		var accessibleSliderInit_min=[0.2,10,2,1200];
+		var accessibleSliderInit_max=[99.8,90,2,2800];
+		var sliderIds = ["slider1", "slider2", "slider3", "sliderH2", "programaticSlider"];
+
+		onChange={slider1:'slider1input', slider2:'slider2input', programaticSlider:'sliderProgInput'};
+
+		var a11yBoundaryTest=function(slider, initValue, finalValue){
+			// summary:
+			//		Sets slider to initValue, which should be either one below the
+			//		max, or one above the min.
+			//
+			//		Use the arrow key once to get to the final value, and
+			//		then use the arrow key again (value shouldn't change second time)
+
+			var d = new doh.Deferred();
+			var key = initValue<finalValue?dojo.keys.RIGHT_ARROW:dojo.keys.LEFT_ARROW;
+			
+			// Set slider to initial value, one value away from the min or max
+			slider.attr('value', initValue);
+			
+			// Focus the slider
+			doh.robot.sequence(function(){
+				dijit.scrollIntoView(slider.domNode);
+			},500);
+			doh.robot.mouseMoveAt(slider.focusNode, 500);
+			doh.robot.mouseClick({left:true}, 500);
+
+			// First key press moves to either min or max
+			doh.robot.keyPress(key, 500);
+			doh.robot.sequence(d.getTestErrback(function(){
+				doh.is(finalValue, new Number(slider.attr('value')).toFixed(1),
+						"value after first " + (key==dojo.keys.RIGHT_ARROW ? "right arrow" : "left arrow"));
+				if(onChange[slider.id]){
+					doh.is(finalValue,parseFloat(dojo.byId(onChange[slider.id]).value),
+						"onchange after first " + (key==dojo.keys.RIGHT_ARROW ? "right arrow" : "left arrow"));
+				}
+				
+				// Second key press should have no effect, but confirm it
+				doh.robot.keyPress(key, 500);
+				doh.robot.sequence(d.getTestCallback(function(){
+					doh.is(finalValue, new Number(slider.attr('value')).toFixed(1),
+						"value after second " + (key==dojo.keys.RIGHT_ARROW ? "right arrow" : "left arrow"));
+					if(onChange[slider.id]){
+						doh.is(finalValue, parseFloat(dojo.byId(onChange[slider.id]).value),
+						"onchange after second " + (key==dojo.keys.RIGHT_ARROW ? "right arrow" : "left arrow"));
+					}
+				}), 500);
+			}), 500);
+			return d;
+		};
+
+		// machinery for testing keyboard manipulation of sliders
+		var eaVals = [];
+		var strokeIndex = 0;
+		var noteChanges;
+		
+		var keyStrokeSetup = function(inSliderId){
+			var slider=dijit.byId(inSliderId);
+			eaVals = populateExpected(slider);
+			strokeIndex = 0;
+			noteChanges = dojo.connect(slider, "onChange", function(){
+				eaVals[strokeIndex].actual = slider.attr('value');
+				strokeIndex++;
+			});
+		}
+		
+		var populateExpected = function(/*Slider Widget*/inSlider){
+			var initVal = inSlider.attr('value');
+			var eVals = [];
+			var evt = {};
+			
+			// The values expected by pressing HOME, right arrow five times,
+			// PgUp twice, PgDn, up arrow twice, down arrow once,
+			// left arrow once, and END.
+			inSlider.attr('value', inSlider.minimum);
+			eVals.push({stroke: "HOME", expected: inSlider.attr('value')});					
+			evt.charOrCode = dojo.keys.RIGHT_ARROW		// RIGHT 5 times
+			for(var i = 0; i < 5; i++){
+				inSlider.increment(evt);
+				eVals.push({stroke: "RIGHT", expected: inSlider.attr('value')});
+			}
+			evt.charOrCode = dojo.keys.PAGE_UP			// PgUp twice
+			for(var i = 0; i < 2; i++){
+				inSlider.increment(evt);
+				eVals.push({stroke: "PgUp", expected: inSlider.attr('value')});
+			}
+			evt.charOrCode = dojo.keys.PAGE_DOWN
+			inSlider.decrement(evt);
+			eVals.push({stroke: "PgDn", expected: inSlider.attr('value')});					
+			evt.charOrCode = dojo.keys.UP_ARROW			// UP twice
+			for(var i = 0; i < 2; i++){
+				inSlider.increment(evt);
+				eVals.push({stroke: "UP", expected: inSlider.attr('value')});
+			}
+			evt.charOrCode = dojo.keys.DOWN_ARROW
+			inSlider.decrement(evt);
+			eVals.push({stroke: "DOWN", expected: inSlider.attr('value')});
+			evt.charOrCode = dojo.keys.LEFT_ARROW
+			inSlider.decrement(evt);
+			eVals.push({stroke: "LEFT", expected: inSlider.attr('value')});
+			inSlider.attr('value', inSlider.maximum)
+			eVals.push({stroke: "END", expected: inSlider.attr('value')});
+			
+			// reset <inSlider> back to its initial value, and return
+			inSlider.attr('value', initVal);
+			return eVals;
+		}
+		
+		var a11yTabFocusTest = function(inSliderId){
+			var d = new doh.Deferred();
+			var slider=dijit.byId(inSliderId);
+			var focusCount = 0;
+			var blurCount = 0;
+			var gotFocus = function(){
+				focusCount++;
+			}
+			var lostFocus = function(){
+				blurCount++;
+			}
+			var focusFunc = dojo.connect(slider.focusNode, "onfocus", gotFocus);
+			var blurFunc = dojo.connect(slider.focusNode, "onblur", lostFocus);
+			// insure a known focus starting point -- the slider to test.
+			doh.robot.mouseMoveAt(slider.focusNode, 500);
+			doh.robot.mouseClick({
+				left: true
+			}, 100);
+			// Shift-tab away, tab to, tab away, shift-tab back.
+			doh.robot.keyPress(dojo.keys.TAB, 1000, {
+				shift: true
+			});
+			doh.robot.keyPress(dojo.keys.TAB, 100);
+			doh.robot.keyPress(dojo.keys.TAB, 100);
+			doh.robot.keyPress(dojo.keys.TAB, 100, {
+				shift: true
+			});
+			var checkGotFocus = function(){
+				doh.assertEqual(3, focusCount, slider.id + ": # of times focussed");
+				doh.assertEqual(2, blurCount, slider.id + ": # of times lost focus");
+				dojo.disconnect(focusFunc);
+				dojo.disconnect(blurFunc);
+			};
+			doh.robot.sequence(d.getTestCallback(checkGotFocus), 500);
+			return d;
+		}
+
+		var a11yKeystrokeTest = function(inSliderId){
+			var d = new doh.Deferred();
+			var slider=dijit.byId(inSliderId);
+			var initVal = slider.attr('value');
+			// get focus on slider thumb before pressing keys.
+			doh.robot.mouseMoveAt(slider.focusNode, 500);
+			doh.robot.mouseClick({left: true}, 100);
+			doh.robot.keyPress(dojo.keys.HOME, 100);
+			doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 100);
+			doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 100);
+			doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 100);
+			doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 100);
+			doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 100);
+			doh.robot.keyPress(dojo.keys.PAGE_UP, 100);
+			doh.robot.keyPress(dojo.keys.PAGE_UP, 100);
+			doh.robot.keyPress(dojo.keys.PAGE_DOWN, 100);
+			doh.robot.keyPress(dojo.keys.UP_ARROW, 100);
+			doh.robot.keyPress(dojo.keys.UP_ARROW, 100);
+			doh.robot.keyPress(dojo.keys.DOWN_ARROW, 100);
+			doh.robot.keyPress(dojo.keys.LEFT_ARROW, 100);
+			doh.robot.keyPress(dojo.keys.END, 100);
+			var testPresses = function(){
+				dojo.disconnect(noteChanges);
+				slider.attr('value', initVal);
+				for(var i = 0; i < eaVals.length; i++){
+					doh.assertEqual(eaVals[i].expected, eaVals[i].actual, eaVals[i].stroke + " (" + slider.id + ")");
+				}
+			};
+			doh.robot.sequence(d.getTestCallback(testPresses), 1600);
+			return d;
+		}
+
+		dojo.addOnLoad(function(){
+			doh.robot.initRobot('../test_Slider.html');
+
+			// This tests that pressing the arrow keys has no effect on a disabled slider
+			// TODO: this doesn't make sense, should just be testing that slider can't get
+			// focus.  (And if it doesn't have focus then testing keystrokes is meaningless)
+			doh.register("disabledTest",{
+				name:arrowSliders[0]+'_a11y_min',
+				slider:arrowSliders[0],
+				value:arrowSliderInit_min[0],
+				timeout:30000,
+				runTest:function(){
+					this.slider = dijit.byId(this.slider);
+					this.slider.attr('disabled', true);
+					return a11yBoundaryTest(this.slider, this.value, this.value);
+				}
+			});
+
+			// This tests each slider by setting the value one before the min or max value,
+			// and then using the arrow key to see the value go to the min or max.
+			for(var i=0; i<accessibleSliders.length; i++){
+				doh.register("a11yBoundaryTest",{
+					name:accessibleSliders[i]+'_a11y_min',
+					slider:accessibleSliders[i],
+					value:accessibleSliderInit_min[i],
+					timeout:30000,
+					runTest:function(){
+						this.slider=dijit.byId(this.slider);
+						this.slider.attr('disabled', false);
+						return a11yBoundaryTest(this.slider, this.value, this.slider.minimum);
+					}
+				});
+				doh.register("a11yBoundaryTest",{
+					name:accessibleSliders[i]+'_a11y_max',
+					slider:accessibleSliders[i],
+					value:accessibleSliderInit_max[i],
+					timeout:30000,
+					runTest:function(){
+						this.slider=dijit.byId(this.slider);
+						return a11yBoundaryTest(this.slider, this.value, this.slider.maximum);
+					}
+				});
+			}
+
+			// aria role and properties tests.
+			doh.register("a11yAria",
+			[
+				function ariaRole(){
+					for(i=0; i<sliderIds.length; i++){
+						var slider = dijit.byId(sliderIds[i]);
+						doh.is(dijit.getWaiRole(slider.focusNode), "slider", "aria role (slider)");
+					}
+				},
+				
+				// test aria valuemin, valuemax, valuenow.
+				function ariaValue(){
+					for(i=0; i<sliderIds.length; i++){
+						var slider = dijit.byId(sliderIds[i]);
+						doh.is(dijit.getWaiState(slider.focusNode, "valuemin"), slider.minimum, "aria-valuemin");
+						doh.is(dijit.getWaiState(slider.focusNode, "valuemax"), slider.maximum, "aria-valuemax");
+						// set the slider to some random value in its range
+						var setVal = Math.floor((Math.random() * (slider.maximum - slider.minimum)) + slider.minimum);
+						slider.attr('value', setVal);
+						doh.is(dijit.getWaiState(slider.focusNode, "valuenow"), slider.attr('value'), "aria-valuenow");
+					}
+				}
+			]);
+
+			// keyboard a11y tests (robot) -- tab focus
+			doh.register("a11yTabFocus",
+			[
+				{
+					name:"slider1TabFocus",
+					timeout:4000,
+					runTest:function(){
+						return a11yTabFocusTest("slider1");
+					}
+				},
+				{
+					name:"slider2TabFocus",
+					timeout:4000,
+					runTest:function(){
+						return a11yTabFocusTest("slider2");
+					}
+				},
+				{
+					name:"slider3TabFocus",
+					timeout:4000,
+					runTest:function(){
+						return a11yTabFocusTest("slider3");
+					}
+				},
+				{
+					name:"programaticSliderTabFocus",
+					timeout:4000,
+					runTest:function(){
+						return a11yTabFocusTest("programaticSlider");
+					}
+				}
+			]);
+			
+			// keyboard a11y tests (robot) -- manipulate slider via keystrokes
+			doh.register("a11yKeystrokes",
+			[
+				{
+					name:"slider1Keystrokes",
+					timeout:4000,
+					setUp:function(){
+						keyStrokeSetup("slider1");
+					},
+					runTest:function(){
+						return a11yKeystrokeTest("slider1");
+					}
+				},
+				{
+					name:"slider2Keystrokes",
+					timeout:4000,
+					setUp:function(){
+						keyStrokeSetup("slider2");
+					},
+					runTest:function(){
+						return a11yKeystrokeTest("slider2");
+					}
+				},
+				{
+					name:"programaticSliderKeystrokes",
+					timeout:4000,
+					setUp:function(){
+						keyStrokeSetup("programaticSlider");
+					},
+					runTest:function(){
+						return a11yKeystrokeTest("programaticSlider");
+					}
+				}
+			]);
+			doh.run();
+		});
+	</script>
+</head>
+</html>
