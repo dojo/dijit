@@ -184,6 +184,7 @@
 
 				doh.register("Navigation menu mouse tests", [
 
+					
 					{
 						name: "mouse over enabled submenu",
 						timeout: 4000,
@@ -285,7 +286,7 @@
 							return d;
 						}
 					},
-					
+
 					{
 						name: "close global context menu (mouse)",
 						timeout: 4000,
@@ -295,7 +296,7 @@
 							var menu = dijit.byId("windowContextMenu");
 							
 							// close menu from above test
-							doh.robot.mouseMove(0, 0, 100);
+							doh.robot.mouseMove(2, 2, 100);
 							doh.robot.mouseClick({left: true}, 100);
 
 							doh.robot.sequence(d.getTestCallback(function(){
@@ -305,7 +306,8 @@
 							return d;
 						}
 					}
-				]);
+
+					]);
 
 				doh.run();
 			});
