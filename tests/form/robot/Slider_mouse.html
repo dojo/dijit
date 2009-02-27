@@ -96,18 +96,15 @@
 		dojo.addOnLoad(function(){
 			doh.robot.initRobot('../test_Slider.html');
 
+			// Test initial values
 			doh.register("setUp",{
 				name:"setUp",
 				runTest:function(){
-					var s='horizontal1: 10\n'
-					+': 10.0%\n'
-					+'vertical1: 10\n'
-					+': 10\n'
-					+'horizontal2: 2\n'
-					+'horizontalH2: 10\n'
-					+'programaticSlider: 1400\n'
-					+': 1400\n';
-					doh.is(s, dojo.doc.displayData().replace(/[a-zA-Z0-9_]*_displayed_/g, ""));
+					doh.is(10, dijit.byId("slider1").attr("value"), "horizontal1");
+					doh.is(10, dijit.byId("slider2").attr("value"), "vertical1");
+					doh.is(2, dijit.byId("slider3").attr("value"), "horizontal2");
+					doh.is(10, dijit.byId("sliderH2").attr("value"), "sliderH2");
+					doh.is(1400, dijit.byId("programaticSlider").attr("value"), "programaticSlider");
 				}
 			});
 
@@ -324,21 +321,6 @@
 					}
 				}
 			);
-
-			doh.register("tearDown",{
-				name:"tearDown",
-				runTest:function(){
-					var s='horizontal1: 20\n'
-					+': 20.0%\n'
-					+'vertical1: 20\n'
-					+': 20\n'
-					+'horizontal2: 1\n'
-					+'horizontalH2: 10\n'
-					+'programaticSlider: 3000\n'
-					+': 3000\n';
-					doh.is(s, dojo.doc.displayData().replace(/[a-zA-Z0-9_]*_displayed_/g, ""));
-				}
-			});
 
 			doh.run();
 		});
