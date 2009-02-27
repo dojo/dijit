@@ -36,17 +36,12 @@
 					runTest: function(){
 						// assert onChange not fired
 						doh.is("not fired yet!",dojo.byId('oc1').value);
+						
+						// make sure initial values are what we expect
 						doh.is(1,spin1.smallDelta);
-						var s=": 900\n"
-						+"integerspinner1: 900\n"
-						+": not fired yet!\n"
-						+": 1,000\n"
-						+"integerspinner2: 1000\n"
-						+": \n"
-						+"integertextbox3: \n"
-						+": 1.0\n"
-						+"realspinner1: 1\n";
-						doh.is(s, dojo.doc.displayData().replace(/[a-zA-Z0-9_]*_displayed_/g, ""));
+						doh.is(900, spin1.attr('value'), "integerspinner1");
+						doh.is(1000, spin2.attr('value'), "integerspinner2");
+						doh.is(1.0, spin3.attr('value'), "realspinner1");
 					}
 				});
 
@@ -60,7 +55,7 @@
 					}
 				});
 
-				doh.register("setvaluetest",{
+				doh.register("setvalue null test",{
 					name: "null_required",
 					runTest:function(){
 						spin1.attr('value', null);
@@ -372,23 +367,6 @@
 					},
 					tearDown:function(){
 						spin3.attr('value',1);
-					}
-				});
-
-				doh.register("tearDown",{
-					name:"tearDown",
-					runTest:function(){
-						var spin1Value=900+10*delta;
-						var s=": "+spin1Value+"\n"
-						+"integerspinner1: "+spin1Value+"\n"
-						+": "+spin1Value+"\n"
-						+": 1\n"
-						+"integerspinner2: 1\n"
-						+": \n"
-						+"integertextbox3: \n"
-						+": 1.0\n"
-						+"realspinner1: 1\n";
-						doh.is(s, dojo.doc.displayData().replace(/[a-zA-Z0-9_]*_displayed_/g, ""));
 					}
 				});
 				
