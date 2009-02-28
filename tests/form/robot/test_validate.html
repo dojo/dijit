@@ -38,9 +38,9 @@
 							+": $54,775.53\n"
 							+"income1: 54775.53\n"
 							+": not fired yet!\n"
-							+": €54,775.53\n"
+							+": ï¿½54,775.53\n"
 							+"income2: 54775.53\n"
-							+": 54.775,53 €\n"
+							+": 54.775,53 ï¿½\n"
 							+"income3: 54775.53\n"
 							+"phone: someTestString\n"
 							+"password: \n"
@@ -268,7 +268,7 @@
 						this.textbox=dijit.byId(this.textbox);
 						doh.robot.mouseMoveAt(this.textbox.focusNode, 500);
 						doh.robot.mouseClick({left:true}, 500);
-						doh.robot.mouseMoveAt(dijit.byId('q01').focusNode, 500);
+						doh.robot.mouseMoveAt(dijit.byId('q01').focusNode, 4000);	// time for promptMessage to appear on q04 (IE6 takes a while due to iframe)
 						doh.robot.mouseClick({left:true}, 500);
 						doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
 							doh.is('Error', this.textbox.attr('state'));
@@ -547,7 +547,7 @@
 						doh.robot.mouseMoveAt(dijit.byId('q01').focusNode, 500);
 						doh.robot.mouseClick({left:true}, 500);
 						doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
-							doh.is('€1.00', this.textbox.focusNode.value);
+							doh.is('ï¿½1.00', this.textbox.focusNode.value);
 							doh.is('1', this.textbox.attr('value'));
 							doh.is(true,this.textbox.isValid());
 						})), 500);
@@ -685,9 +685,9 @@
 							+': $20,000.01\n'
 							+'income1: 20000.01\n'
 							+': 20000.01\n'
-							+': €1.00\n'
+							+': ï¿½1.00\n'
 							+'income2: 1\n'
-							+': 54.775,53 €\n'
+							+': 54.775,53 ï¿½\n'
 							+'income3: 54775.53\n'
 							+'phone: a \n'
 							+'password: abcdef\n'
