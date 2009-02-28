@@ -2,6 +2,7 @@
 		"http://www.w3.org/TR/html4/strict.dtd">
 <html>
 	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 		<title>doh.robot Validation Test</title>
 
 		<style>
@@ -19,6 +20,8 @@
 			dojo.addOnLoad(function(){
 				doh.robot.initRobot('../test_validate.html');
 
+				// Test initial conditions
+				// TODO: convert this to a bunch of doh.is() calls, two per widget (for value and onchange)
 				doh.register("setUp",{
 					name: "setUp",
 					runTest: function(){
@@ -38,9 +41,9 @@
 							+": $54,775.53\n"
 							+"income1: 54775.53\n"
 							+": not fired yet!\n"
-							+": �54,775.53\n"
+							+": €54,775.53\n"
 							+"income2: 54775.53\n"
-							+": 54.775,53 �\n"
+							+": 54.775,53 €\n"
 							+"income3: 54775.53\n"
 							+"phone: someTestString\n"
 							+"password: \n"
@@ -547,7 +550,7 @@
 						doh.robot.mouseMoveAt(dijit.byId('q01').focusNode, 500);
 						doh.robot.mouseClick({left:true}, 500);
 						doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
-							doh.is('�1.00', this.textbox.focusNode.value);
+							doh.is('€1.00', this.textbox.focusNode.value);
 							doh.is('1', this.textbox.attr('value'));
 							doh.is(true,this.textbox.isValid());
 						})), 500);
@@ -685,9 +688,9 @@
 							+': $20,000.01\n'
 							+'income1: 20000.01\n'
 							+': 20000.01\n'
-							+': �1.00\n'
+							+': €1.00\n'
 							+'income2: 1\n'
-							+': 54.775,53 �\n'
+							+': 54.775,53 €\n'
 							+'income3: 54775.53\n'
 							+'phone: a \n'
 							+'password: abcdef\n'
