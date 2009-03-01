@@ -63,8 +63,8 @@ dojo.declare(
 				//#3268: do nothing on bad input
 				//this._setValue("", "");
 				//#3285: change CSS to indicate error
-				if(priorityChange || !this._focused){ this.valueNode.value = ""; }
-				dijit.form.TextBox.superclass._setValueAttr.call(this, "", priorityChange || !this._focused);
+				this.valueNode.value = "";
+				dijit.form.TextBox.superclass._setValueAttr.call(this, "", priorityChange || (priorityChange===undefined && !this._focused));
 				this._isvalid = false;
 				this.validate(this._focused);
 				this.item = null;

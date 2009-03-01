@@ -49,7 +49,7 @@
 							+"password: \n"
 							+"ticket1651: \n"
 							+"readOnly: cannot type here\n";
-						doh.is(s, dojo.doc.displayData().replace(/[a-zA-Z0-9_]*_displayed_/g, ""));
+						doh.is(s, dojo.doc.displayData());
 					}
 				});
 
@@ -696,7 +696,7 @@
 							+'password: abcdef\n'
 							+'ticket1651: \n'
 							+'readOnly: abc\n';
-						doh.is(s, dojo.doc.displayData().replace(/[a-zA-Z0-9_]*_displayed_/g, ""));
+						doh.is(s, dojo.doc.displayData());
 					}
 				});
 
