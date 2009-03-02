@@ -53,12 +53,8 @@ dojo.declare(
 		parse: dojo.currency.parse,
 
 		postMixInProperties: function(){
-			if(this.constraints === dijit.form.ValidationTextBox.prototype.constraints){
-				// declare a constraints property on 'this' so we don't overwrite the shared default object in 'prototype'
-				this.constraints = {};
-			}
 			this.constraints.currency = this.currency;
-			dijit.form.CurrencyTextBox.superclass.postMixInProperties.apply(this, arguments);
+			this.inherited(arguments);
 		}
 	}
 );

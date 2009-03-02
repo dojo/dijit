@@ -51,11 +51,21 @@ dojo.declare("dijit.form.NumberTextBoxMixin",
 		 =====*/
 		_formatter: dojo.number.format,
 
+		postMixInProperties: function(){
+			if(typeof this.constraints.max != "number"){
+				this.constraints.max = 9e+15;
+			}
+			this.inherited(arguments);
+		},
+
 		_onFocus: function(){
 			if(this.disabled){ return; }
 			var val = this.attr('value');
 			if(typeof val == "number" && !isNaN(val)){
-				this.textbox.value = this.format(val, this.constraints);
+				var formattedValue = this.format(val, this.constraints);
+				if(formattedValue !== undefined){
+					this.textbox.value = formattedValue;
+				}
 			}
 			this.inherited(arguments);
 		},
@@ -68,6 +78,7 @@ dojo.declare("dijit.form.NumberTextBoxMixin",
 
 			if(typeof value == "string") { return value; }
 			if(isNaN(value)){ return ""; }
+			if(!this.rangeCheck(value, constraints)){ return undefined }
 			if(this.editOptions && this._focused){
 				constraints = dojo.mixin(dojo.mixin({}, this.editOptions), this.constraints);
 			}
