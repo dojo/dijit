@@ -160,15 +160,16 @@ dojo.declare(
 					properties: {
 						height: { start: 1, end: this._getTargetHeight(newContents) }
 					},
-					onEnd: function(){
+					onEnd: dojo.hitch(this, function(){
 						newContents.style.overflow = newContentsOverflow;
-					}
+						delete this._inTransition;
+					})
 				}));
 			}
 			if(oldWidget){
 				oldWidget._buttonWidget.setSelected(false);
-				var oldContents = oldWidget.domNode;
-				var oldContentsOverflow = oldContents.style.overflow;
+				var oldContents = oldWidget.domNode,
+					oldContentsOverflow = oldContents.style.overflow;
 				oldContents.style.overflow = "hidden";
 				animations.push(dojo.animateProperty({
 					node: oldContents,
@@ -180,11 +181,12 @@ dojo.declare(
 						dojo.addClass(oldContents, "dijitHidden");
 						dojo.removeClass(oldContents, "dijitVisible");
 						oldContents.style.overflow = oldContentsOverflow;
+						if (oldWidget.onHide){
+							oldWidget.onHide();
+						}
 					}
 				}));
 			}
-
-			this._inTransition = false;
 
 			dojo.fx.combine(animations).play();
 		},
@@ -197,20 +199,18 @@ dojo.declare(
 			//		This is called from a handler on AccordionContainer.domNode
 			//		(setup in StackContainer), and is also called directly from
 			//		the click handler for accordion labels
-			if(this.disabled || e.altKey || !(fromTitle || e.ctrlKey)){ return; }
+			if(this._inTransition || this.disabled || e.altKey || !(fromTitle || e.ctrlKey)){
+				dojo.stopEvent(e); 
+				return;
+			}
 			var k = dojo.keys,
 				c = e.charOrCode;
-			if(
-					(fromTitle && (c == k.LEFT_ARROW || c == k.UP_ARROW)) ||
-					(e.ctrlKey && c == k.PAGE_UP)
-			){
+			if((fromTitle && (c == k.LEFT_ARROW || c == k.UP_ARROW)) ||
+					(e.ctrlKey && c == k.PAGE_UP)){
 				this._adjacent(false)._buttonWidget._onTitleClick();
 				dojo.stopEvent(e);
-			}
-			else if(
-					(fromTitle && (c == k.RIGHT_ARROW || c == k.DOWN_ARROW)) ||
-					(e.ctrlKey && (c == k.PAGE_DOWN || c == k.TAB))
-			){
+			}else if((fromTitle && (c == k.RIGHT_ARROW || c == k.DOWN_ARROW)) ||
+					(e.ctrlKey && (c == k.PAGE_DOWN || c == k.TAB))){
 				this._adjacent(true)._buttonWidget._onTitleClick();
 				dojo.stopEvent(e);
 			}
