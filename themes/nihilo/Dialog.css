@@ -51,14 +51,6 @@
 	background-position: -60px -15px;
 }
 
-
-
-.nihilo .dijitDialogContent {
-	/* the body of the dialog */
-	padding: 8px;
-}
-
-
 /* Tooltip and TooltipDialog */
 
 .nihilo .dijitTooltip,

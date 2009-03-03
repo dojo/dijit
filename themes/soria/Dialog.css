@@ -51,13 +51,6 @@
 	background-position: -60px -15px;
 }
 
-
-.soria .dijitDialogContent {
-	/* the body of the dialog */
-	padding: 8px;
-}
-
-
 /* Tooltip and TooltipDialog */
 
 .soria .dijitTooltip,

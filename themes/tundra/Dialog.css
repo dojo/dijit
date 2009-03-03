@@ -58,12 +58,6 @@
 	background : url("images/tabCloseHover.gif") no-repeat right top;
 }
 
-.tundra .dijitDialogContent {
-	/* the body of the dialog */
-	padding: 8px;
-}
-
-
 /* Tooltip and TooltipDialog */
 
 .tundra .dijitTooltip,
