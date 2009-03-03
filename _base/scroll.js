@@ -214,6 +214,7 @@ dijit.scrollIntoView = function(/* DomNode */node){
 			element._offsetParent = parent._offsetParent;
 	}
 	parent = node;
+	var next;
 	while(parent && parent.removeAttribute){
 		next = parent.parentNode;
 		parent.removeAttribute('_offsetParent');
