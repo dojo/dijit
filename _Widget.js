@@ -558,7 +558,7 @@ dojo.declare("dijit._Widget", null, {
 		//		widgets.
 
 		// get all direct descendants and destroy them recursively
-		dojo.forEach(this.getDescendants(true), function(widget){ 
+		dojo.forEach(this.getChildren(), function(widget){ 
 			if(widget.destroyRecursive){
 				widget.destroyRecursive(preserveDom);
 			}
@@ -817,43 +817,33 @@ dojo.declare("dijit._Widget", null, {
 		return '[Widget ' + this.declaredClass + ', ' + (this.id || 'NO ID') + ']'; // String
 	},
 
-	getDescendants: function(/*Boolean*/ directOnly, /*DomNode[]?*/ outAry){
+	getDescendants: function(){
+		// summary:
+		//		Returns all the widgets that contained by this, i.e., all widgets underneath this.containerNode.
+		//		This method should generally be avoided as it returns widgets declared in templates, which are
+		//		supposed to be internal/hidden, but it's left here for back-compat reasons.
+
+		if(this.containerNode){
+			var list = dojo.query('[widgetId]', this.containerNode);
+			return list.map(dijit.byNode);		// Array
+		}else{
+			return [];
+		}
+	},
+
+	getChildren: function(){
 		// summary:
 		//		Returns all the widgets contained by this, i.e., all widgets underneath this.containerNode.
-		// description:
-		//		For example w/this markup:
-		//
-		//		|	<div dojoType=myWidget>
-		//		|		<b> hello world </b>
-		//		|		<div>
-		//		|			<span dojoType=subwidget>
-		//		|				<span dojoType=subwidget2>how's it going?</span>
-		//		|			</span>
-		//		|		</div>
-		//		|	</div>
-		//
-		//		myWidget.getDescendants() will return subwidget and subwidget2.
-		//
-		//		This method is designed to *not* return widgets that are
-		//		part of a widget's template, but rather to just return widgets that are defined in the
-		//		original markup as descendants of this widget.
-		// directOnly:
-		//		If directOnly is true then won't find nested widgets (subwidget2 in above example)
-		// outAry:
-		//		If specified, put results in here
-		outAry = outAry || [];
+		//		Does not return nested widgets, nor widgets that are part of this widget's template.
+		var outAry = [];
 		if(this.containerNode){
-			this._getDescendantsHelper(directOnly, outAry, this.containerNode);
+			this._getChildrenHelper(outAry, this.containerNode);
 		}
 		return outAry;
 	},
-	_getDescendantsHelper: function(/*Boolean*/ directOnly, /* DomNode[] */ outAry, /*DomNode*/ root){
+	_getChildrenHelper: function(/*DomNode[]*/ outAry, /*DomNode*/ root){
 		// summary:
 		//		Search subtree under root, putting found widgets in outAry
-		// directOnly:
-		//		If false, return widgets nested inside other widgets
-		// tags:
-		//		private
 		var list = dojo.isIE ? root.children : root.childNodes, i = 0, node;
 		while(node = list[i++]){
 			if(node.nodeType != 1){ continue; }
@@ -861,11 +851,8 @@ dojo.declare("dijit._Widget", null, {
 			if(widgetId){
 				var widget = dijit.byId(widgetId);
 				outAry.push(widget);
-				if(!directOnly){
-					widget.getDescendants(directOnly, outAry);
-				}
 			}else{
-				this._getDescendantsHelper(directOnly, outAry, node);
+				this._getChildrenHelper(outAry, node);
 			}
 		}
 	},

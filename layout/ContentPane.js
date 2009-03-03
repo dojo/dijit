@@ -11,8 +11,7 @@ dojo.require("dojo.html");
 dojo.requireLocalization("dijit", "loading");
 
 dojo.declare(
-	"dijit.layout.ContentPane",
-	[dijit._Widget, dijit._Container, dijit._Contained],
+	"dijit.layout.ContentPane", dijit._Widget,
 {
 	// summary:
 	//		A widget that acts as a container for mixed HTML and widgets, and includes a ajax interface
@@ -153,7 +152,7 @@ dojo.declare(
 			if(this.doLayout){
 				this._checkIfSingleChild();
 			}
-			if(!this._singleChild || !this.getParent()){
+			if(!this._singleChild || !dijit._Contained.prototype.getParent.call(this)){
 				this._scheduleLayout();
 			}
 		}
@@ -447,7 +446,7 @@ dojo.declare(
 		// For historical reasons we need to delete all widgets under this.containerNode,
 		// even ones that the user has created manually.
 		var setter = this._contentSetter;
-		dojo.forEach(this.getDescendants(true), function(widget){
+		dojo.forEach(this.getChildren(), function(widget){
 			if(widget.destroyRecursive){
 				widget.destroyRecursive();
 			}
@@ -541,27 +540,6 @@ dojo.declare(
 		}
 	},
 	
-	// Implement _Container API as well as we can
-	// Note that methods like addChild() don't mean much if our contents are free form HTML
-
-	getChildren: function(){
-		// Override _Container.getChildren().
-		// Normally the children's dom nodes are direct children of this.containerNode,
-		// but not so with ContentPane... they could be many levels deep.   So we can't
-		// use the getChildren() in _Container.
-		return this.getDescendants(true);
-	},
-
-	addChild: function(/*Widget*/ child, /*Integer?*/ insertIndex){
-		// Override _Container.addChild().   Following in the contract of _LayoutWidget,
-		// we need to call resize() on each of our child widgets.
-		this.inherited(arguments);
-		if(this._started && child.resize){
-			// Layout widgets expect their parent to call resize() on them
-			child.resize();
-		}
-	},
-
 	_scheduleLayout: function(){
 		// summary:
 		//		Call resize() on each of my child layout widgets, either now
