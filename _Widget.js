@@ -900,14 +900,14 @@ dojo.declare("dijit._Widget", null, {
 		//		protected
 
 		var d = dojo;
-		var dco = d.hitch(d, "connect", obj);
+		var dc = dojo._connect;
 		var handles =[];
 		if(event == "ondijitclick"){
 			// add key based click activation for unsupported nodes.
 			if(!this.nodesWithKeyClick[obj.nodeName]){
 				var m = d.hitch(this, method);
 				handles.push(
-					dco("onkeydown", this, function(e){
+					dc(obj, "onkeydown", this, function(e){
 						if(!d.isFF && e.keyCode == d.keys.ENTER &&
 							!e.ctrlKey && !e.shiftKey && !e.altKey && !e.metaKey){
 							return m(e);
@@ -917,14 +917,14 @@ dojo.declare("dijit._Widget", null, {
 							d.stopEvent(e);
 						}
 			 		}),
-					dco("onkeyup", this, function(e){
+					dc(obj, "onkeyup", this, function(e){
 						if(e.keyCode == d.keys.SPACE && 
 							!e.ctrlKey && !e.shiftKey && !e.altKey && !e.metaKey){ return m(e); }
 					})
 				);
 			 	if(d.isFF){
 					handles.push(
-						dco("onkeypress", this, function(e){
+						dc(obj, "onkeypress", this, function(e){
 							if(e.keyCode == d.keys.ENTER &&
 								!e.ctrlKey && !e.shiftKey && !e.altKey && !e.metaKey){ return m(e); }
 						})
@@ -933,7 +933,7 @@ dojo.declare("dijit._Widget", null, {
 			}
 			event = "onclick";
 		}
-		handles.push(dco(event, this, method));
+		handles.push(dc(obj, event, this, method));
 
 		// return handles for FormElement and ComboBox
 		this._connects.push(handles);
