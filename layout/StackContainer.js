@@ -81,13 +81,16 @@ dojo.declare(
 		// TabContainer, this._contentBox doesn't include the space for the tab labels.
 		dojo.publish(this.id+"-startup", [{children: children, selected: selected}]);
 
-		// Startup each child widget, and do initial layout like setting this._contentBox
-		this.inherited(arguments);
-
-		// Size and show the initially selected child
+		// Show the initially selected child (do this before this.inherited() call,
+		// because child can't size correctly if it's hidden).
+		// TODO: this will call onShow() on the child widget before startup() which is weird.
 		if(selected){
 			this._showChild(selected);
 		}
+
+		// Startup each child widget, and do initial layout like setting this._contentBox,
+		// then calls this.resize() which does the initial sizing on the selected child.
+		this.inherited(arguments);
 	},
 
 	_setupChild: function(/*Widget*/ child){
