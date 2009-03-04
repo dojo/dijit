@@ -18,7 +18,9 @@ dojo.declare("dijit.layout._LayoutWidget",
 		baseClass: "dijitLayoutContainer",
 
 		// isLayoutContainer: [private deprecated] Boolean
-		//		TODO: unused, remove
+		//		TODO: this is unused, but maybe it *should* be used for a child to
+		//		detect whether the parent is going to call resize() on it or not
+		//		(see calls to getParent() and resize() in this file)
 		isLayoutContainer: true,
 
 		postCreate: function(){
