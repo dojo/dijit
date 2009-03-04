@@ -55,7 +55,15 @@ dojo.declare("dijit.layout._LayoutWidget",
 				// Since my parent isn't a layout container, and my style is width=height=100% (or something similar),
 				// then I need to watch when the window resizes, and size myself accordingly.
 				// (Passing in no arguments to resize means that it has to glean the size itself.)
-				this.connect(dojo.global, 'onresize', dojo.hitch(this, 'resize'));
+				// TODO: make one global listener to avoid getViewport() per widget.
+				this._viewport = dijit.getViewport();
+				this.connect(dojo.global, 'onresize', function(){
+					var newViewport = dijit.getViewport();
+					if(newViewport.w != this._viewport.w ||  newViewport.h != this._viewport.h){
+						this._viewport = newViewport;
+						this.resize();
+					}
+				});
 			}
 			
 			this.inherited(arguments);
