@@ -127,12 +127,42 @@ dijit.getUniqueId = function(/*String*/widgetType){
 	return id; // String
 };
 
+dijit.getChildren = function(/*DomNode*/ root){
+	// summary:
+	//		Search subtree under root, putting found widgets in outAry.
+	//		Doesn't search for nested widgets (ie, widgets inside other widgets)
+	
+	var outAry = [];
+
+	function getChildrenHelper(root){
+		var list = dojo.isIE ? root.children : root.childNodes, i = 0, node;
+		while(node = list[i++]){
+			if(node.nodeType != 1){ continue; }
+			var widgetId = node.getAttribute("widgetId");
+			if(widgetId){
+				var widget = dijit.byId(widgetId);
+				outAry.push(widget);
+			}else{
+				getChildrenHelper(node);
+			}
+		}
+	}
+
+	getChildrenHelper(root);
+	return outAry;
+};
 
 if(dojo.isIE){
 	// Only run this for IE because we think it's only necessary in that case,
 	// and because it causes problems on FF.  See bug #3531 for details.
 	dojo.addOnWindowUnload(function(){
-		dijit.registry.forEach(function(widget){ widget.destroy(); });
+		dojo.forEach(dijit.getChildren(dojo.body()), function(widget){
+			if(widget.destroyRecursive){
+				widget.destroyRecursive();
+			}else if(widget.destroy){
+				widget.destroy();
+			}
+		});
 	});
 }
 

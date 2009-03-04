@@ -835,25 +835,10 @@ dojo.declare("dijit._Widget", null, {
 		// summary:
 		//		Returns all the widgets contained by this, i.e., all widgets underneath this.containerNode.
 		//		Does not return nested widgets, nor widgets that are part of this widget's template.
-		var outAry = [];
 		if(this.containerNode){
-			this._getChildrenHelper(outAry, this.containerNode);
-		}
-		return outAry;
-	},
-	_getChildrenHelper: function(/*DomNode[]*/ outAry, /*DomNode*/ root){
-		// summary:
-		//		Search subtree under root, putting found widgets in outAry
-		var list = dojo.isIE ? root.children : root.childNodes, i = 0, node;
-		while(node = list[i++]){
-			if(node.nodeType != 1){ continue; }
-			var widgetId = node.getAttribute("widgetId");
-			if(widgetId){
-				var widget = dijit.byId(widgetId);
-				outAry.push(widget);
-			}else{
-				this._getChildrenHelper(outAry, node);
-			}
+			return dijit.getChildren(this.containerNode);
+		}else{
+			return [];
 		}
 	},
 
