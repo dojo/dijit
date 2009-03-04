@@ -48,8 +48,7 @@
 			doh.robot.sequence(function(){
 				dijit.scrollIntoView(slider.domNode);
 			},500);
-			doh.robot.mouseMoveAt(slider.focusNode, 500);
-			doh.robot.mouseClick({left:true}, 500);
+			doh.robot.sequence(dojo.hitch(slider, "focus"), 500);
 
 			// First key press moves to either min or max
 			doh.robot.keyPress(key, 500);
@@ -152,11 +151,10 @@
 			}
 			var focusFunc = dojo.connect(slider.focusNode, "onfocus", gotFocus);
 			var blurFunc = dojo.connect(slider.focusNode, "onblur", lostFocus);
+
 			// insure a known focus starting point -- the slider to test.
-			doh.robot.mouseMoveAt(slider.focusNode, 500);
-			doh.robot.mouseClick({
-				left: true
-			}, 100);
+			doh.robot.sequence(dojo.hitch(slider, "focus"), 500);
+
 			// Shift-tab away, tab to, tab away, shift-tab back.
 			doh.robot.keyPress(dojo.keys.TAB, 1000, {
 				shift: true
@@ -181,8 +179,7 @@
 			var slider=dijit.byId(inSliderId);
 			var initVal = slider.attr('value');
 			// get focus on slider thumb before pressing keys.
-			doh.robot.mouseMoveAt(slider.focusNode, 500);
-			doh.robot.mouseClick({left: true}, 100);
+			doh.robot.sequence(dojo.hitch(slider, "focus"), 500);
 			doh.robot.keyPress(dojo.keys.HOME, 100);
 			doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 100);
 			doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 100);
