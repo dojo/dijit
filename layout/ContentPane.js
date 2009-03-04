@@ -98,6 +98,16 @@ dojo.declare(
 	// |	<div dojoType="dijit.layout.ContentPane" href="./bar" ioArgs="{timeout: 500}">
 	ioArgs: {},
 
+	// isContainer: [protected] Boolean
+	//		Just a flag indicating that this widget will call resize() on
+	//		it's children.   _LayoutWidget based widgets check for
+	//
+	//	|		if(!this.getParent || !this.getParent()){
+	//
+	//		and if getParent() returns false because !parent.isContainer,
+	//		then they resize themselves on initialization.
+	isContainer: true,
+
 	postMixInProperties: function(){
 		this.inherited(arguments);
 		var messages = dojo.i18n.getLocalization("dijit", "loading", this.lang);

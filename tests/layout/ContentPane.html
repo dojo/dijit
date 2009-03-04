@@ -710,7 +710,7 @@
 			);
 
 			var container;
-			doh.register("ContentPane as _Container",
+			doh.register("ContentPane as _Container-like widget",
 				[
 					{
 						name: "creation",
@@ -718,7 +718,7 @@
 							container = new dijit.layout.ContentPane();
 							container.placeAt(dojo.body(), "last");
 							container.startup();
-							t.is(0, container.getChildren().length);
+							t.is(0, container.getChildren().length, "number of children before attr('content', ...)");
 							container.attr('content',
 								'<span>plain non-widget content</span>' +
 								'<div><span>' +
@@ -742,13 +742,46 @@
 						name: "getChildren",
 						runTest: function(t){
 							var children = container.getChildren();
-							t.is(4, children.length);
+							t.is(4, children.length, "number of children");
 							t.is("zero", children[0].id);
 							t.is("one", children[1].id);
 							t.is("two", children[2].id);
 							t.is("three", children[3].id);
 						}
 					},
+
+					{
+						name: "deferred resize",
+						runTest: function(t){
+							// This tests that startup isn't called on the child widgets
+							// until the contentpane is made visible
+
+							var hiddenCP = new dijit.layout.ContentPane({style: {display: "none"}});
+							hiddenCP.placeAt(dojo.body(), "last");
+							hiddenCP.startup();
+
+							t.is(0, hiddenCP.getChildren().length, "number of children before attr('content', ...)");
+							hiddenCP.attr('content',
+								'<span>plain non-widget content</span>' +
+								'<div><span>' +
+									'<div id="deferredZero" dojoType="dijit.TestContained"></div>' +
+									'<div id="deferredOne" dojoType="dijit.TestContained"></div>' +
+								'</span></div>' +
+								'<div id="deferredTwo" dojoType="dijit.TestContained"></div>' +
+								'<div id="deferredThree" dojoType="dijit._Widget"></div>'
+							);
+
+							t.f(dijit.byId('deferredTwo')._resized, "not resized yet");
+							
+							hiddenCP.attr("style", {display: "block"});
+							hiddenCP._onShow();
+
+							t.t(dijit.byId('deferredTwo')._resized, "resized");
+						}
+					},
+
+/***
+					,
 					{
 						name: "addChild",
 						runTest: function(t){
@@ -786,6 +819,7 @@
 							t.is("three", children[2].id);						
 						}
 					}
+****/
 				]
 			);
 
