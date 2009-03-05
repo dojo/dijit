@@ -421,7 +421,7 @@ dojo.declare("dijit._Widget", null, {
 		//		as parameters to the widget, since those are the default anyway,
 		//		and setting tabIndex="" is different than not setting tabIndex at all.
 		//
-		//		It processes the attributes in the attribute map first, ant then
+		//		It processes the attributes in the attribute map first, and then
 		//		it goes through and processes the attributes for the _setXXXAttr
 		//		functions that have been specified
 		// tags:
@@ -618,11 +618,14 @@ dojo.declare("dijit._Widget", null, {
 		// summary:
 		//		Called when someone connects to one of my handlers.
 		//		"Turn on" that handler if it isn't active yet.
+		//
+		//		This is also called for every single initialization parameter
+		//		so need to do nothing for parameters like "id".
 		// tags:
 		//		private
 		if(event in this._deferredConnects){
 			var mapNode = this[this._deferredConnects[event]||'domNode'];
-			this.connect(mapNode, event.toLowerCase(), this[event]);
+			this.connect(mapNode, event.toLowerCase(), event);
 			delete this._deferredConnects[event];
 		}
 	},
