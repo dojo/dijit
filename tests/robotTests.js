@@ -6,6 +6,9 @@ if(dojo.isBrowser){
 
 	// Safari doesn't support focus on nodes like <div>, so keyboard isn't supported there.
 	var test_a11y = dojo.isFF || dojo.isIE;
+
+	// infrastructure tests
+	doh.registerUrl("dijit/tests/robot/test_deferredConnect.html", dojo.moduleUrl("dijit","tests/robot/test_deferredConnect.html"+(userArgs+"&testWidget=dijit.form.ComboBox").replace(/^&/,"?")), 99999999);
 	
 	// form widget tests
 	doh.registerUrl("dijit/tests/form/robot/test_ComboBox.html", dojo.moduleUrl("dijit","tests/form/robot/_autoComplete.html"+(userArgs+"&testWidget=dijit.form.ComboBox").replace(/^&/,"?")), 99999999);

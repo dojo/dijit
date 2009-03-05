@@ -13,6 +13,24 @@
 		djConfig="isDebug: true, parseOnLoad: true"></script>
 	<script>
 		dojo.require("dijit.form.Button");
+
+		function bothHandler(){
+			console.log("'both' button: overrode handler called");
+			bothOverrodeMouseMoved = true;
+		}
+
+		dojo.addOnLoad(function(){
+			dojo.connect(dijit.byId("connect"), "onMouseMove", function(){
+				console.log("'connect' button: mouse moved");
+				connectedMouseMoved = true;
+			});
+
+			dojo.connect(dijit.byId("both"), "onMouseMove", function(){
+				console.log("'both' button: connected handler");
+				bothConnectedMouseMoved = true;
+			});			
+		});
+
 	</script>
 </head>
 <body class="tundra">
@@ -41,23 +59,11 @@
 		to the Button.onMouseMove empty function. 
 	-->
 	<button id="connect" dojoType="dijit.form.Button">
-		<script type="dojo/connect" event="onMouseMove">
-			console.log("'connect' button: mouse moved");
-			connectedMouseMove = true;
-		</script>
 		connected
 	</button>
 
-	<button id="both" dojoType="dijit.form.Button">
-		<script type="dojo/method" event="onMouseMove">
-			console.log("'both' button: dojo/method handler");
-			bothOverrodeMouseMoved = true;
-		</script>
-		<script type="dojo/connect" event="onMouseMove">
-			console.log("'both' button: dojo/connect handler");
-			bothConnectedMouseMove = true;
-		</script>
-		connected
+	<button id="both" dojoType="dijit.form.Button" onMouseMove="bothHandler">
+		both
 	</button>
 </body>
 </html>
