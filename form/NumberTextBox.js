@@ -76,11 +76,11 @@ dojo.declare("dijit.form.NumberTextBoxMixin",
 			// tags:
 			//		protected
 
-			if(typeof value == "string") { return value; }
+			if(typeof value != "number") { return String(value) }
 			if(isNaN(value)){ return ""; }
-			if(!this.rangeCheck(value, constraints)){ return undefined }
+			if(("rangeCheck" in this) && !this.rangeCheck(value, constraints)){ return String(value) }
 			if(this.editOptions && this._focused){
-				constraints = dojo.mixin(dojo.mixin({}, this.editOptions), this.constraints);
+				constraints = dojo.mixin(dojo.mixin({}, this.editOptions), constraints);
 			}
 			return this._formatter(value, constraints);
 		},
@@ -124,11 +124,37 @@ dojo.declare("dijit.form.NumberTextBoxMixin",
 			return (typeof value != "number" || isNaN(value))? '' : this.inherited(arguments);
 		},
 
+		_setValueAttr: function(/*Number*/ value, /*Boolean?*/ priorityChange, /*String?*/formattedValue){
+			// summary:
+			//		Hook so attr('value', ...) works.
+			if(value !== undefined && formattedValue === undefined){
+				if(typeof value == "number"){
+					if(isNaN(value)){ formattedValue = '' }
+					else if(("rangeCheck" in this) && !this.rangeCheck(value, this.constraints)){
+						formattedValue = String(value);
+					}
+				}else if(!value){ // 0 processed in if branch above, ''|null|undefined flow thru here
+					formattedValue = '';
+					value = NaN;
+				}else{ // non-numeric values
+					formattedValue = String(value);
+					value = undefined;
+				}
+			}
+			this.inherited(arguments, [value, priorityChange, formattedValue]);
+		},
+
+
 		_getValueAttr: function(){
 			// summary:
 			//		Hook so attr('value') works.
-			var v = this.inherited(arguments);
-			return (isNaN(v) && this.textbox.value !== '')? undefined : v;
+			//		Returns Number, NaN for '', or undefined for unparsable text
+			var v = this.inherited(arguments); // returns Number for all values accepted by parse() or NaN for all other displayed values
+			if(isNaN(v) && this.textbox.value !== ''){ // if text other than ''
+				var n = Number(this.textbox.value); // check for exponential notation that parse() rejected (erroneously?)
+				// returning undefined prevents user text from beng overwritten when doing _setValueAttr(_getValueAttr())
+				return (String(n)===this.textbox.value)? n : undefined; // return exponential Number or undefined for random text
+			}else{ return v } // Number or NaN for ''
 		},
 
 		value: NaN

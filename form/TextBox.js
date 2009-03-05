@@ -71,16 +71,16 @@ dojo.declare(
 				// TODO: this is calling filter() on both the display value and the actual value.
 				// I added a comment to the filter() definition about this, but it should be changed.
 				filteredValue = this.filter(value);
-				if(filteredValue !== null && ((typeof filteredValue != "number") || !isNaN(filteredValue))){
-					if(typeof formattedValue != "string"){
+				if(typeof formattedValue != "string"){
+					if(filteredValue !== null && ((typeof filteredValue != "number") || !isNaN(filteredValue))){
 						formattedValue = this.filter(this.format(filteredValue, this.constraints));
-					}
-				}else{ formattedValue = ''; }
+					}else{ formattedValue = ''; }
+				}
 			}
 			if(formattedValue != null && formattedValue != undefined && ((typeof formattedValue) != "number" || !isNaN(formattedValue)) && this.textbox.value != formattedValue){
 				this.textbox.value = formattedValue;
 			}
-			dijit.form.TextBox.superclass._setValueAttr.call(this, filteredValue, priorityChange);
+			this.inherited(arguments, [filteredValue, priorityChange]);
 		},
 
 		// displayedValue: String
@@ -137,6 +137,8 @@ dojo.declare(
 			//		The widget value is also set to a corresponding,
 			//		but not necessarily the same, value.
 
+			if(value === null || value === undefined){ value = '' }
+			else if(typeof value != "string"){ value = String(value) }
 			this.textbox.value = value;
 			this._setValueAttr(this.attr('value'), undefined, value);
 		},

@@ -118,7 +118,7 @@
 						this.textbox=dijit.byId(this.textbox);
 						this.textbox.attr('value','two');
 						var onChange=dojo.byId('oc3');
-						doh.is('two', onChange.value);
+						doh.is('undefined', onChange.value);
 						doh.is('two', this.textbox.focusNode.value);
 						doh.is(undefined, this.textbox.attr('value'));
 						doh.is(false, this.textbox.isValid());
