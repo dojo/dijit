@@ -333,6 +333,10 @@ dojo.declare(
 				opacity:0,
 				visibility:""
 			});
+			dojo.style(this.containerNode, { // reset width and height so that _size():marginBox works correctly
+				width:"auto",
+				height:"auto"
+			});
 			
 			this.open = true;
 			this._onShow(); // lazy load trigger
