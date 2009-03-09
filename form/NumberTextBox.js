@@ -28,6 +28,16 @@ dojo.declare("dijit.form.NumberTextBoxMixin",
 		constraints: {},
 		======*/
 
+		// value: Number
+		//		The value of this NumberTextBox as a javascript Number (ie, not a String).
+		//		If the displayed value is blank, the value is NaN, and if the user types in
+		//		an gibberish value (like "hello world"), the value is undefined
+		//		(i.e. attr('value') returns undefined).
+		//
+		//		Symetrically, attr('value', NaN) will clear the displayed value,
+		//		whereas attr('value', undefined) will have no effect.
+		value: NaN,
+
 		// editOptions: [protected] Object
 		//		Properties to mix into constraints when the value is being edited.
 		//		This is here because we edit the number in the format "12345", which is
@@ -150,14 +160,16 @@ dojo.declare("dijit.form.NumberTextBoxMixin",
 			//		Hook so attr('value') works.
 			//		Returns Number, NaN for '', or undefined for unparsable text
 			var v = this.inherited(arguments); // returns Number for all values accepted by parse() or NaN for all other displayed values
-			if(isNaN(v) && this.textbox.value !== ''){ // if text other than ''
+
+			// If the displayed value of the textbox is gibberish (ex: "hello world"), this.inherited() above
+			// returns NaN; this if() branch converts the return value to undefined.
+			// Returning undefined prevents user text from being overwritten when doing _setValueAttr(_getValueAttr()).
+			// A blank displayed value is still returned as NaN.
+			if(isNaN(v) && this.textbox.value !== ''){ // if displayed value other than ''
 				var n = Number(this.textbox.value); // check for exponential notation that parse() rejected (erroneously?)
-				// returning undefined prevents user text from beng overwritten when doing _setValueAttr(_getValueAttr())
 				return (String(n)===this.textbox.value)? n : undefined; // return exponential Number or undefined for random text
 			}else{ return v } // Number or NaN for ''
-		},
-
-		value: NaN
+		}
 	}
 );
 
