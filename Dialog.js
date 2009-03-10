@@ -249,16 +249,15 @@ dojo.declare(
 			// tags:
 			//		private
 			if(!dojo.hasClass(dojo.body(),"dojoMove")){
-				
 				var node = this.domNode;
 				var viewport = dijit.getViewport();
-				var p = this._relativePosition;
-				var mb = p ? null : dojo.marginBox(node);
-				dojo.style(node,{
-					left: Math.floor(viewport.l + (p ? p.l : (viewport.w - mb.w) / 2)) + "px",
-					top: Math.floor(viewport.t + (p ? p.t : (viewport.h - mb.h) / 2)) + "px"
-				});
-			}
+					var p = this._relativePosition;
+					var mb = p ? null : dojo.marginBox(node);
+					dojo.style(node,{
+						left: Math.floor(viewport.l + (p ? p.l : (viewport.w - mb.w) / 2)) + "px",
+						top: Math.floor(viewport.t + (p ? p.t : (viewport.h - mb.h) / 2)) + "px"
+					});
+				}
 
 		},
 
@@ -326,7 +325,17 @@ dojo.declare(
 			}
 
 			this._modalconnects.push(dojo.connect(window, "onscroll", this, "layout"));
-			this._modalconnects.push(dojo.connect(window, "onresize", this, "layout"));
+			this._modalconnects.push(dojo.connect(window, "onresize", this, function(){
+				// IE gives spurious resize events and can actually get stuck
+				// in an infinite loop if we don't ignore them
+				var viewport = dijit.getViewport();
+				if(!this._oldViewport ||
+						viewport.h != this._oldViewport.h ||
+						viewport.w != this._oldViewport.w){
+					this.layout();
+					this._oldViewport = viewport;
+				}
+			}));
 			this._modalconnects.push(dojo.connect(dojo.doc.documentElement, "onkeypress", this, "_onKey"));
 
 			dojo.style(this.domNode, {
@@ -384,7 +393,7 @@ dojo.declare(
 			//		private
 			if(this.domNode.style.visibility != "hidden"){
 				dijit._underlay.layout();
-				this._position(); 
+				this._position();
 			}
 		},
 		
