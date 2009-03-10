@@ -44,6 +44,9 @@ dojo.declare("dijit.layout._LayoutWidget",
 
 			if(this._started){ return; }
 
+			// TODO: seems like this code should be in _Container.startup().
+			// Then things that don't extend LayoutContainer (like GridContainer)
+			// would get the behavior for free.
 			dojo.forEach(this.getChildren(), function(child){ child.startup(); });
 
 			// If I am a top level widget
