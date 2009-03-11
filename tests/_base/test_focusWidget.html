@@ -21,6 +21,8 @@
 		dojo.require("dijit.layout.ContentPane");
 		dojo.require("dijit.Editor");
 
+		// This code does animation to change border color and width to show
+		// active vs. non-active widgets.
 		var queue=[];
 		var animation;
 		function animateBorderColor(widget, color, startWidth, endWidth){
@@ -35,7 +37,7 @@
 			}
 			animation = dojo.animateProperty({
 				node: widget.domNode,
-				duration: 400,
+				duration: 50,
 				properties: {
 					// depending on browser and node type, sometimes border or outline is ineffective.
 					// doing both seems to work in all cases though (for at least one of them)
@@ -54,23 +56,30 @@
 			animation.play();
 		}
 
+		// This flag controls animation and can be disabled by the test harness in robot/focus_mouse.html
+		animate = !window.location.search.match("animate=false");
+
 		dojo.addOnLoad(function(){
 			dojo.subscribe("widgetFocus", function(widget){
 				console.log("focused on widget " + (widget?widget:"nothing"));
-				animateBorderColor(widget, "#ff0000", 2, 5);
+				if(animate){
+					animateBorderColor(widget, "#ff0000", 1, 3);
+				}
 			});
 			dojo.subscribe("widgetBlur", function(widget){
 				console.log("blurred widget " + (widget?widget:"nothing"));
-				animateBorderColor(widget, "#0000ff", 5, 2);
+				if(animate){
+					animateBorderColor(widget, "#0000ff", 3, 1);
+				}
 			});
 			dojo.subscribe("focusNode", function(node){ console.log("focused on node " + (node?(node.id||node.tagName):"nothing"));});
 		});
 	</script>
 	<style>
 		div, fieldset, form, input {
-			padding: 10px;
-			margin: 10px;
-			border: 2px solid blue;
+			padding: 3px;
+			margin: 3px;
+			border: 1px solid blue;
 		}
 	</style>
 </head>
@@ -80,11 +89,11 @@
 	<p>
 		This is for testing code to detect onBlur and onFocus on a widget level.<br>
 		Focused widgets' borders will turn red.<br>
-		Also, heck the console log for focus and blur events on widgets.
+		Also, check the console log for focus and blur events on widgets.
 	</p>
 
 	<label for="fieldset1">a form ContentPane widget:</label><br>
-	<form dojoType="dijit.layout.ContentPane">
+	<form dojoType="dijit.layout.ContentPane" id="form">
 		<label for="first">simple input: </label><input id=first><br>
 
 		<label for="fieldset1">a fieldset ContentPane widget:</label><br>
@@ -99,7 +108,7 @@
 			<label for="plain">a plain input:</label>
 			<input id=plain value=plain>
 		</fieldset>
-		<div dojoType="dijit.Editor">
+		<div dojoType="dijit.Editor" id=editor>
 			Hello world, this is an <i>editor</i>
 		</div>
 		<br>
