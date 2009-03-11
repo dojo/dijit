@@ -9,6 +9,7 @@ try{
 	doh.registerUrl("dijit.tests._base.viewportStrict", dojo.moduleUrl("dijit", "tests/_base/viewportStrict.html"));
 	doh.registerUrl("dijit.tests._base.scroll", dojo.moduleUrl("dijit", "tests/_base/test_scroll.html"), 20000);
 	doh.registerUrl("dijit.tests._base.wai", dojo.moduleUrl("dijit", "tests/_base/wai.html"));
+	doh.registerUrl("dijit.tests._base.place", dojo.moduleUrl("dijit", "tests/_base/place.html"));
 
 	// other infrastructure tests
 	doh.registerUrl("dijit.tests._Templated", dojo.moduleUrl("dijit", "tests/_Templated.html"));
