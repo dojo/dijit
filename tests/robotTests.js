@@ -27,6 +27,7 @@ if(dojo.isBrowser){
 	if(test_a11y){
 		doh.registerUrl("dijit/tests/robot/Tree_a11y.html", dojo.moduleUrl("dijit","tests/robot/Tree_a11y.html"+userArgs), 99999999);
 		doh.registerUrl("dijit/tests/robot/Menu_a11y.html", dojo.moduleUrl("dijit","tests/robot/Menu_a11y.html"+userArgs), 99999999);
+		doh.registerUrl("dijit/tests/robot/Dialog_a11y.html", dojo.moduleUrl("dijit","tests/robot/Dialog_a11y.html"+userArgs), 99999999);
 	}
 }
 }catch(e){

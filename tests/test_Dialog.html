@@ -64,12 +64,12 @@
 <body class="tundra">
 	
 	<h1 class="testTitle">Dijit layout.Dialog tests</h1>
-	<button dojoType="dijit.form.Button" onclick="dijit.byId('dialog1').show()">Show Dialog</button> |
+	<button dojoType="dijit.form.Button"  id="dialog1button" onclick="dijit.byId('dialog1').show()">Show Dialog</button> |
 
 	<div dojoType="dijit.Dialog" id="dialog1" title="First Dialog"
 			onfocus="console.log('user focus handler')"
 			onblur="console.log('user blur handler')"
-			execute="alert('submitted w/args:\n' + dojo.toJson(arguments[0], true));">
+			execute="console.log('submitted w/args:\n' + dojo.toJson(arguments[0], true));">
 		<table>
 			<tr>
 				<td><label for="name">Name: </label></td>
@@ -93,7 +93,7 @@
 			</tr>
 			<tr>
 				<td colspan="2" align="center">
-					<button dojoType=dijit.form.Button type="submit">OK</button></td>
+					<button dojoType=dijit.form.Button id="ok" type="submit">OK</button></td>
 			</tr>
 		</table>
 	</div>
@@ -201,7 +201,7 @@
 	
 	<div dojoType="dijit.Dialog" id="preventer" title="Confirm Close">
 		I am done entering data: 
-		<button dojoType="dijit.form.Button" type="submit" onClick="return confirm('Are you sure?')">OK</button>
+		<button dojoType="dijit.form.Button" id="preventerOK" type="submit" onClick="return confirm('Are you sure?')">OK</button>
 	</div>
 
 	<p>Test refocus="false", click programatic dialog, focus input below, wait. close dialog. Because refocus=false, when the dialog is closed, focus should NOT return to the item 
