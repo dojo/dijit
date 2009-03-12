@@ -11,6 +11,15 @@ if(dojo.isBrowser){
 	doh.registerUrl("dijit/tests/robot/test_deferredConnect.html", dojo.moduleUrl("dijit","tests/robot/test_deferredConnect.html"), 99999999);
 	doh.registerUrl("dijit/tests/_base/robot/focus_mouse.html", dojo.moduleUrl("dijit","tests/_base/robot/focus_mouse.html"), 99999999);
 	
+	// top level widget tests
+	doh.registerUrl("dijit/tests/robot/Menu_mouse.html", dojo.moduleUrl("dijit","tests/robot/Menu_mouse.html"+userArgs), 99999999);
+	doh.registerUrl("dijit/tests/robot/Dialog_mouse.html", dojo.moduleUrl("dijit","tests/robot/Dialog_mouse.html"+userArgs), 99999999);
+	if(test_a11y){
+		doh.registerUrl("dijit/tests/robot/Tree_a11y.html", dojo.moduleUrl("dijit","tests/robot/Tree_a11y.html"+userArgs), 99999999);
+		doh.registerUrl("dijit/tests/robot/Menu_a11y.html", dojo.moduleUrl("dijit","tests/robot/Menu_a11y.html"+userArgs), 99999999);
+		doh.registerUrl("dijit/tests/robot/Dialog_a11y.html", dojo.moduleUrl("dijit","tests/robot/Dialog_a11y.html"+userArgs), 99999999);
+	}
+
 	// form widget tests
 	doh.registerUrl("dijit/tests/form/robot/test_ComboBox.html", dojo.moduleUrl("dijit","tests/form/robot/_autoComplete.html"+(userArgs+"&testWidget=dijit.form.ComboBox").replace(/^&/,"?")), 99999999);
 	doh.registerUrl("dijit/tests/form/robot/test_FilteringSelect.html", dojo.moduleUrl("dijit","tests/form/robot/_autoComplete.html"+(userArgs+"&testWidget=dijit.form.FilteringSelect").replace(/^&/,"?")), 99999999);
@@ -20,14 +29,6 @@ if(dojo.isBrowser){
 	if(test_a11y){
 		doh.registerUrl("dijit/tests/form/robot/Slider_a11y.html", dojo.moduleUrl("dijit","tests/form/robot/Slider_a11y.html"+userArgs), 99999999);
 		doh.registerUrl("dijit/tests/form/robot/Spinner_a11y.html", dojo.moduleUrl("dijit","tests/form/robot/Spinner_a11y.html"+userArgs), 99999999);
-	}
-
-	// top level widget tests
-	doh.registerUrl("dijit/tests/robot/Menu_mouse.html", dojo.moduleUrl("dijit","tests/robot/Menu_mouse.html"+userArgs), 99999999);
-	if(test_a11y){
-		doh.registerUrl("dijit/tests/robot/Tree_a11y.html", dojo.moduleUrl("dijit","tests/robot/Tree_a11y.html"+userArgs), 99999999);
-		doh.registerUrl("dijit/tests/robot/Menu_a11y.html", dojo.moduleUrl("dijit","tests/robot/Menu_a11y.html"+userArgs), 99999999);
-		doh.registerUrl("dijit/tests/robot/Dialog_a11y.html", dojo.moduleUrl("dijit","tests/robot/Dialog_a11y.html"+userArgs), 99999999);
 	}
 }
 }catch(e){
