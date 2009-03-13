@@ -12,7 +12,6 @@ try{
 	doh.registerUrl("dijit.tests._base.place", dojo.moduleUrl("dijit", "tests/_base/place.html"));
 
 	// _Widget
-	doh.registerUrl("dijit.tests.ondijitclick", dojo.moduleUrl("dijit", "tests/ondijitclick.html"));
 	doh.registerUrl("dijit.tests.attr", dojo.moduleUrl("dijit", "tests/attr.html"));
 	doh.registerUrl("dijit.tests.Widget-placeAt", dojo.moduleUrl("dijit", "tests/Widget-placeAt.html"));
 
