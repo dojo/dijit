@@ -120,7 +120,7 @@
 				doh.register("dijit.Dialog mouse tests (submit)",[
 					{
 						name: "submit some data",
-						timeout: 9000,
+						timeout: 15000,
 						setUp: function(){
 							dijit.byId("dialog1").reset();
 						},
@@ -138,7 +138,7 @@
 							doh.robot.mouseClick({left: true}, 500);
 							
 							// Enter some info
-							doh.robot.mouseMoveAt("name", 1000);
+							doh.robot.mouseMoveAt("name", 2000);
 							doh.robot.mouseClick({left: true}, 500);
 							doh.robot.typeKeys("Ted", 500);
 

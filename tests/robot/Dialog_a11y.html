@@ -225,7 +225,7 @@
 				doh.register("dijit.Dialog keyboard tests (submit)",[
 					{
 						name: "submit some data",
-						timeout: 9000,
+						timeout: 15000,
 						setUp: function(){
 							dijit.byId("dialog1").reset();
 						},
@@ -245,7 +245,7 @@
 							doh.robot.keyPress(dojo.keys.SPACE, 500, {});
 							
 							// Enter some info
-							doh.robot.typeKeys("Ted", 1000);
+							doh.robot.typeKeys("Ted", 2000);
 							doh.robot.keyPress(dojo.keys.TAB, 500, {});
 							doh.robot.typeKeys("America", 500);
 							doh.robot.keyPress(dojo.keys.TAB, 500, {});
