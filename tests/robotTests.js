@@ -11,7 +11,7 @@ if(dojo.isBrowser){
 	doh.registerUrl("dijit/tests/_base/robot/focus_mouse.html", dojo.moduleUrl("dijit","tests/_base/robot/focus_mouse.html"), 99999999);
 
 	// _Widget
-	doh.registerUrl("dijit/tests/robot/test_deferredConnect.html", dojo.moduleUrl("dijit","tests/robot/test_deferredConnect.html"), 99999999);
+	doh.registerUrl("dijit/tests/robot/_Widget-deferredConnect.html", dojo.moduleUrl("dijit","tests/robot/_Widget-deferredConnect.html"), 99999999);
 	doh.registerUrl("dijit/tests/robot/_Widget-ondijitclick_mouse.html", dojo.moduleUrl("dijit","tests/robot/_Widget-ondijitclick_mouse.html"), 99999999);
 	if(test_a11y){
 		doh.registerUrl("dijit/tests/robot/_Widget-ondijitclick_a11y.html", dojo.moduleUrl("dijit","tests/robot/_Widget-ondijitclick_a11y.html"), 99999999);
