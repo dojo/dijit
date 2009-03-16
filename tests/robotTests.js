@@ -27,12 +27,14 @@ if(dojo.isBrowser){
 	}
 
 	// form widget tests
+	doh.registerUrl("dijit/tests/form/robot/Button_mouse.html", dojo.moduleUrl("dijit","tests/form/robot/Button_mouse.html"+userArgs), 99999999);
 	doh.registerUrl("dijit/tests/form/robot/test_ComboBox.html", dojo.moduleUrl("dijit","tests/form/robot/_autoComplete.html"+(userArgs+"&testWidget=dijit.form.ComboBox").replace(/^&/,"?")), 99999999);
 	doh.registerUrl("dijit/tests/form/robot/test_FilteringSelect.html", dojo.moduleUrl("dijit","tests/form/robot/_autoComplete.html"+(userArgs+"&testWidget=dijit.form.FilteringSelect").replace(/^&/,"?")), 99999999);
 	doh.registerUrl("dijit/tests/form/robot/Slider_mouse.html", dojo.moduleUrl("dijit","tests/form/robot/Slider_mouse.html"+userArgs), 99999999);
 	doh.registerUrl("dijit/tests/form/robot/Spinner_mouse.html", dojo.moduleUrl("dijit","tests/form/robot/Spinner_mouse.html"+userArgs), 99999999);
 	doh.registerUrl("dijit/tests/form/robot/test_validate.html", dojo.moduleUrl("dijit","tests/form/robot/test_validate.html"+userArgs), 99999999);
 	if(test_a11y){
+		doh.registerUrl("dijit/tests/form/robot/Button_a11y.html", dojo.moduleUrl("dijit","tests/form/robot/Button_a11y.html"+userArgs), 99999999);
 		doh.registerUrl("dijit/tests/form/robot/Slider_a11y.html", dojo.moduleUrl("dijit","tests/form/robot/Slider_a11y.html"+userArgs), 99999999);
 		doh.registerUrl("dijit/tests/form/robot/Spinner_a11y.html", dojo.moduleUrl("dijit","tests/form/robot/Spinner_a11y.html"+userArgs), 99999999);
 	}
