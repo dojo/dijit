@@ -36,11 +36,7 @@
 			
 			doh.robot.initRobot('../_autoComplete.html?testWidget='+testWidget);
 
-			var stateComboBoxes=['setvaluetest', 'datatest', 'combobox4', 'progCombo', 'descending'];
-			var countryComboBoxes=['progCombo2', 'progCombo3'];
-			var disabledComboBoxes=['combo3'];
 			var arrowlessComboBoxes=['arrowless'];
-			var dijitComboBoxes=['datatestDijit'];
 
 			var robot_typeValue = function(combo, text, value){
 				if(!value || isComboBox) value = text;
@@ -108,6 +104,8 @@
 				if(!value || isComboBox) value = text;
 				if(!expectedtext || isComboBox) expectedtext = text;
 				var d = new doh.Deferred();
+				
+				// TODO: get rid of mouse movement here, can use focus
 				doh.robot.mouseMoveAt(combo.focusNode, 500);
 				doh.robot.mouseClick({left:true}, 500);
 				doh.robot.sequence(function(){ combo.attr('value', null); }, 500);
@@ -172,6 +170,7 @@
 					name:"verifyValues",
 					runTest:function(){
 						var s;
+						// TODO: wait for data store to finish loading
 						if(isComboBox){
 							s='state1: California\n'
 								+': not fired yet!\n'
@@ -230,7 +229,7 @@
 				}
 			);
 
-			// Press Kentucky
+			// Press button to set value to Kentucky
 			// This should be a valid assignment
 			doh.register("setvaluetest",
 				{
@@ -263,7 +262,7 @@
 				}
 			);
 
-			// Press Canada
+			// Press button to set value to Canada
 			// This should be an invalid assignment for FilteringSelect, but ok for ComboBox
 			doh.register("setvaluetest",
 				{
@@ -296,7 +295,7 @@
 				}
 			);
 
-			// Press null
+			// Press button to set value to null
 			// This should be an invalid assignment for FilteringSelect, but ok for ComboBox
 			doh.register("setvaluetest",
 				{
@@ -329,490 +328,265 @@
 				}
 			);
 
-			// Standard tests for all ComboBoxes/FilteringSelects:
 			// Type a valid value and press Enter
-			// Select a value with the mouse
-			// Select a value with the keyboard
-			// Type an invalid value and press Enter
-			for(var i=0; i<stateComboBoxes.length; i++){
-				doh.register("states",
-					{
-						timeout:60000,
-						name:stateComboBoxes[i]+"_type",
-						combo:stateComboBoxes[i],
-						runTest:function(){
-							return robot_typeValue(dijit.byId(this.combo), "California", "CA");
-						}
-					}
-				);
-
-				doh.register("states",
-					{
-						timeout:60000,
-						name:stateComboBoxes[i]+"_select",
-						combo:stateComboBoxes[i],
-						runTest:function(){
-							return robot_selectValue(dijit.byId(this.combo), "Wyoming", "WY");
-						}
-					}
-				);
-
-				doh.register("states",
-					{
-						timeout:60000,
-						name:stateComboBoxes[i]+"_a11y",
-						combo:stateComboBoxes[i],
-						runTest:function(){
-							return robot_a11ySelectValue(dijit.byId(this.combo), "Texas", "TX");
-						}
-					}
-				);
-
-				doh.register("states",
-					{
-						timeout:60000,
-						name:stateComboBoxes[i]+"_error",
-						combo:stateComboBoxes[i],
-						runTest:function(){
-							return (dojo.hitch(this, errorTest))();
-						},
-						tearDown:function(){
-							this.combo.attr("value", isComboBox?"Alaska":"AK");
-						}
-					}
-				);
-			}
-
-			for(var i=0; i<countryComboBoxes.length; i++){
-				doh.register("countries",
-					{
-						timeout:60000,
-						name:countryComboBoxes[i]+"_type",
-						combo:countryComboBoxes[i],
-						runTest:function(){
-							return robot_typeValue(dijit.byId(this.combo), "Egypt");
-						}
-					}
-				);
-				doh.register("countries",
-					{
-						timeout:60000,
-						name:countryComboBoxes[i]+"_select",
-						combo:countryComboBoxes[i],
-						runTest:function(){
-							return robot_selectValue(dijit.byId(this.combo), "Argentina");
-						}
-					}
-				);
-				doh.register("countries",
-					{
-						timeout:60000,
-						name:countryComboBoxes[i]+"_a11y",
-						combo:countryComboBoxes[i],
-						runTest:function(){
-							return robot_a11ySelectValue(dijit.byId(this.combo), "Mexico");
-						}
-					}
-				);
-				doh.register("countries",
-					{
-						timeout:60000,
-						name:countryComboBoxes[i]+"_error",
-						combo:countryComboBoxes[i],
-						runTest:function(){
-							return (dojo.hitch(this, errorTest))();
-						},
-						tearDown:function(){
-							this.combo.attr("value", "Egypt");
-							setTimeout(dojo.hitch(this, function(){
-								this.combo.focusNode.blur();
-							}), 0);
-						}
-					}
-				);
-			}
-
-			// disabled tests+standard tests
-			for(var i=0; i<disabledComboBoxes.length; i++){
-				doh.register("disabled",
-					{
-						timeout:1000,
-						name:disabledComboBoxes[i]+"_disabledStyle",
-						combo:disabledComboBoxes[i],
-						runTest:function(){
-							this.combo = dijit.byId(this.combo);
-							doh.is(true, this.combo.attr('disabled'));
-							doh.is(true, this.combo.focusNode.disabled);
-						}
-					}
-				);
-
-				doh.register("disabled",
-					{
-						timeout:60000,
-						name:disabledComboBoxes[i]+"_type",
-						combo:disabledComboBoxes[i],
-						runTest:function(){
-							var d = new doh.Deferred();
-							this.combo = dijit.byId(this.combo);
-							doh.robot.mouseMoveAt(this.combo.focusNode, 500);
-							doh.robot.mouseClick({left:true}, 500);
-							doh.robot.typeKeys("Canada", 500);
-							// Assert that nothing happened
-							doh.robot.sequence(dojo.hitch(this, function(){
-								if(this.combo.focusNode.value=="Canada"){
-									d.errback(new Error("User was able to type in a disabled ComboBox!"));
-								}else{
-									d.callback(true);
-								}
-							}), 2000);
-							return d;
-						}
-					}
-				);
-
-				doh.register("disabled",
-					{
-						timeout:60000,
-						name:disabledComboBoxes[i]+"_select",
-						combo:disabledComboBoxes[i],
-						runTest:function(){
-							var d = new doh.Deferred();
-							this.combo = dijit.byId(this.combo);
-							// Press Arrow Button
-							doh.robot.mouseMoveAt(this.combo.downArrowNode, 500);
-							doh.robot.mouseClick({left:true}, 500);
-							// Assert that nothing happened
-							doh.robot.sequence(dojo.hitch(this, function(){
-								if(this.combo._popupWidget){
-									d.errback(new Error("User was able to open the menu on a disabled ComboBox!"));
-								}else{
-									d.callback(true);
-								}
-							}), 2000);
-							return d;
-						}
-					}
-				);
-
-				// now enable it and do it again
-				doh.register("disabled",
-					{
-						timeout:30000,
-						name:disabledComboBoxes[i]+"_enabledStyle",
-						combo:disabledComboBoxes[i],
-						runTest:function(){
-							var d = new doh.Deferred();
-							var button = dojo.byId(this.combo+"_disable");
-							this.combo = dijit.byId(this.combo);
-							doh.robot.mouseMoveAt(button, 500);
-							doh.robot.mouseClick({left:true}, 500);
-							doh.robot.sequence(dojo.hitch(this, function(){
-								try{
-									doh.is(false, this.combo.attr('disabled'));
-									doh.is(false, this.combo.focusNode.disabled);
-									d.callback(true);
-								}catch(e){
-									d.errback(new Error("Wrong style after enabling ComboBox."));
-								}
-							}), 500);
-							return d;
-						}
-					}
-				);
-
-				doh.register("disabled",
-					{
-						timeout:60000,
-						name:disabledComboBoxes[i]+"_type",
-						combo:disabledComboBoxes[i],
-						runTest:function(){
-							return robot_typeValue(dijit.byId(this.combo), "California", "CA");
-						}
-					}
-				);
-
-				doh.register("disabled",
-					{
-						timeout:60000,
-						name:disabledComboBoxes[i]+"_select",
-						combo:disabledComboBoxes[i],
-						runTest:function(){
-							return robot_selectValue(dijit.byId(this.combo), "Wyoming", "WY");
-						}
-					}
-				);
-
-				doh.register("disabled",
-					{
-						timeout:60000,
-						name:disabledComboBoxes[i]+"_a11y",
-						combo:disabledComboBoxes[i],
-						runTest:function(){
-							return robot_a11ySelectValue(dijit.byId(this.combo), "Texas", "TX");
-						}
-					}
-				);
-				doh.register("disabled",
-					{
-						timeout:60000,
-						name:disabledComboBoxes[i]+"_error",
-						combo:disabledComboBoxes[i],
-						runTest:function(){
-							return (dojo.hitch(this, errorTest))();
-						},
-						tearDown:function(){
-							this.combo.attr("value", isComboBox?"Alaska":"AK");
-						}
-					}
-				);
-			}
-
-			for(var i=0; i<dijitComboBoxes.length; i++){
-				doh.register("dijits",
-					{
-						timeout:60000,
-						name:dijitComboBoxes[i]+"_type",
-						combo:dijitComboBoxes[i],
-						runTest:function(){
-							return robot_typeValue(dijit.byId(this.combo), "dijit.InlineEditBox");
-						}
-					}
-				);
-				doh.register("dijits",
-					{
-						timeout:60000,
-						name:dijitComboBoxes[i]+"_select",
-						combo:dijitComboBoxes[i],
-						runTest:function(){
-							return robot_selectValue(dijit.byId(this.combo), "dijit.layout._LayoutWidget");
-						}
-					}
-				);
-				doh.register("dijits",
-					{
-						timeout:60000,
-						name:dijitComboBoxes[i]+"_a11y",
-						combo:dijitComboBoxes[i],
-						runTest:function(){
-							return robot_a11ySelectValue((this.combo = dijit.byId(this.combo)), "dijit.WidgetSet");
-						},
-						tearDown:function(){
-							setTimeout(dojo.hitch(this, function(){
-								this.combo.focusNode.blur();
-							}), 0);
-						}
-					}
-				);
-				doh.register("dijits",
-					{
-						timeout:60000,
-						name:dijitComboBoxes[i]+"_error",
-						combo:dijitComboBoxes[i],
-						runTest:function(){
-							return (dojo.hitch(this, errorTest))();
-						},
-						tearDown:function(){
-							this.combo.attr("value", "dijit.WidgetSet");
-						}
-					}
-				);
-			}
-
-			for(var i=0; i<arrowlessComboBoxes.length; i++){
-				doh.register("arrowless",
-					{
-						timeout:60000,
-						name:arrowlessComboBoxes[i]+"_type",
-						combo:arrowlessComboBoxes[i],
-						runTest:function(){
-							return robot_typeValue(dijit.byId(this.combo), "California", "CA");
-						}
-					}
-				);
-				doh.register("arrowless",
-					{
-						timeout:60000,
-						name:arrowlessComboBoxes[i]+"_a11y",
-						combo:arrowlessComboBoxes[i],
-						runTest:function(){
-							return robot_a11ySelectValue(dijit.byId(this.combo), "Texas", "TX");
-						}
-					}
-				);
-				doh.register("arrowless",
-					{
-						timeout:60000,
-						name:arrowlessComboBoxes[i]+"_error",
-						combo:arrowlessComboBoxes[i],
-						runTest:function(){
-							return (dojo.hitch(this, errorTest))();
-						},
-						tearDown:function(){
-							this.combo.attr("value", isComboBox?"Alaska":"AK");
-						}
-					}
-				);
-			}
-
-				doh.register("specialchars",
-					{
-						timeout:60000,
-						name:"specialchars_type",
-						combo:"specialchars",
-						runTest:function(){
-							return robot_typeValue(dijit.byId(this.combo), "sticks & stones", "sticks");
-						}
-					}
-				);
-
-				doh.register("specialchars",
-					{
-						timeout:60000,
-						name:"specialchars_a11y",
-						combo:"specialchars",
-						runTest:function(){
-							return robot_a11ySelectValue(dijit.byId(this.combo), "more\\less", "more");
-						}
-					}
-				);
-
-				doh.register("japanese",
-					{
-						timeout:60000,
-						name:"japanese_a11y",
-						combo:"japanese",
-						runTest:function(){
-							return robot_a11ySelectValue((this.combo = dijit.byId(this.combo)), "\u6771\u533A (East)", "higashiku");
-						},
-						tearDown:function(){
-							this.combo.attr("value", isComboBox?"\u6771\u533A (East)":"higashiku");
-						}
-					}
-				);
-
-				doh.register("japanese",
-					{
-						timeout:60000,
-						name:"japanese_type",
-						combo:"japanese",
-						runTest:function(){
-							//return robot_typeValue(, "\u6771\u897F", "touzai");
-							var d = new doh.Deferred();
-							this.combo = dijit.byId(this.combo);
-							doh.robot.mouseMoveAt(this.combo.focusNode);
-							doh.robot.mouseClick({left:true}, 500);
-							doh.robot.keyPress(dojo.keys.END, 500);
-							doh.robot.keyPress(dojo.keys.BACKSPACE, 500);
-							doh.robot.keyPress(dojo.keys.BACKSPACE, 500);
-							doh.robot.keyPress(dojo.keys.BACKSPACE, 500);
-							doh.robot.keyPress(dojo.keys.BACKSPACE, 500);
-							doh.robot.keyPress(dojo.keys.BACKSPACE, 500);
-							doh.robot.keyPress(dojo.keys.BACKSPACE, 500);
-							doh.robot.keyPress(dojo.keys.BACKSPACE, 500);
-							doh.robot.keyPress(dojo.keys.BACKSPACE, 500);
-							doh.robot.keyPress('x', 500, {ctrl:true});
-							doh.robot.keyPress(dojo.keys.ENTER, 500);
-							doh.robot.sequence(dojo.hitch(this, function(){
-								if(this.combo.attr('value') == (isComboBox?"\u6771\u897F (Touzai)":"touzai") && this.combo.focusNode.value=="\u6771\u897F (Touzai)"){
-									d.callback(true);
-								}else{
-									d.errback(this.combo.id+" was supposed to have a value of "+(isComboBox?"\u6771\u897F (Touzai)":"touzai")+". Text is "+this.combo.focusNode.value+", value is "+this.combo.attr('value'));
-								}
-							}), 500);
-							return d;
-						}
-					}
-				);
-
-				doh.register("labelFunc",
-					{
-						timeout:60000,
-						name:"labelFunc_a11y",
-						combo:"labelFunc",
-						runTest:function(){
-							// labelFunc makes Texas texas on FilteringSelect
-							return robot_a11ySelectValue((this.combo = dijit.byId(this.combo)), "Texas", isComboBox?null:"TX", isComboBox?null:"texas");
-						},
-						tearDown:function(){
-							this.combo.attr("value", isComboBox?"Texas":"TX");
-						}
-					}
-				);
-
-				doh.register("labelFunc",
-					{
-						timeout:60000,
-						name:"labelFunc_type",
-						combo:"labelFunc",
-						runTest:function(){
-							var d = robot_typeValue((this.combo = dijit.byId(this.combo)), isComboBox?"Alabama":"alabama", "AL");
-							return d;
-						}
-					}
-				);
-
-			doh.register("tearDown",
+			doh.register("states",
 				{
-					name:"verifyValues",
+					timeout:60000,
+					name:"setvaluetest_type",
+					combo:"setvaluetest",
 					runTest:function(){
-						var s;
-						if(isComboBox){
-							s='state1: Alaska\n'+
-							': Alaska\n'+
-							': not fired yet!\n'+
-							'state2: Alaska\n'+
-							': Alaska\n'+
-							'dijitList1: dijit.WidgetSet\n'+
-							'state3: Alaska\n'+
-							': Alaska\n'+
-							'state4: Alaska\n'+
-							': Alaska\n'+
-							'state5: Alaska\n'+
-							'prog: Alaska\n'+
-							'prog2: Egypt\n'+
-							'prog3: Egypt\n'+
-							'descending: Alaska\n'+
-							'specialchars: more\\less\n'+
-							'japanese: \u6771\u897F (Touzai)\n'+
-							'labelFunc: Alabama\n';
-						}else{
-							s=': Alaska\n'+
-							'state1: AK\n'+
-							': AK\n'+
-							': not fired yet!\n'+
-							': Alaska\n'+
-							'state2: AK\n'+
-							': AK\n'+
-							': dijit.WidgetSet\n'+
-							'dijitList1: dijit.WidgetSet\n'+
-							': Alaska\n'+
-							'state3: AK\n'+
-							': AK\n'+
-							': Alaska\n'+
-							'state4: AK\n'+
-							': AK\n'+
-							': Alaska\n'+
-							'state5: AK\n'+
-							': Alaska\n'+
-							'prog: AK\n'+
-							': Egypt\n'+
-							'prog2: Egypt\n'+
-							': Egypt\n'+
-							'prog3: Egypt\n'+
-							': Alaska\n'+
-							'descending: AK\n'+
-							': more\\less\n'+
-							'specialchars: more\n'+
-							': \u6771\u897F (Touzai)\n'+
-							'japanese: touzai\n'+
-							': alabama\n'+
-							'labelFunc: AL\n';
-						}
-						doh.is(s, dojo.doc.displayData());
+						return robot_typeValue(dijit.byId(this.combo), "California", "CA");
 					}
 				}
 			);
+
+			// Select a value with the mouse
+			doh.register("states",
+				{
+					timeout:60000,
+					name:"setvaluetest_select",
+					combo:"setvaluetest",
+					runTest:function(){
+						return robot_selectValue(dijit.byId(this.combo), "Wyoming", "WY");
+					}
+				}
+			);
+
+			// Select a value with the keyboard
+			// TODO: test page-down key too?
+			doh.register("states",
+				{
+					timeout:60000,
+					name:"setvaluetest_a11y",
+					combo:"setvaluetest",
+					runTest:function(){
+						return robot_a11ySelectValue(dijit.byId(this.combo), "Texas", "TX");
+					}
+				}
+			);
+
+			// Type an invalid value and press Enter
+			doh.register("states",
+				{
+					timeout:60000,
+					name:"setvaluetest_error",
+					combo:"setvaluetest",
+					runTest:function(){
+						return (dojo.hitch(this, errorTest))();
+					},
+					tearDown:function(){
+						this.combo.attr("value", isComboBox?"Alaska":"AK");
+					}
+				}
+			);
+				
+			// TODO: test typing a partial value and then watching the drop down choices reduce!
+			// That's the whole point of ComboBox/FilteringSelect...
+	
+			// TODO: test auto complete
+			
+			// TODO: check that progCombo2's drop down is limited to elements in the query string
+
+			// TODO: test ESC key or click on screen background or click on another widget to close drop down
+			
+			// TODO: test race condition where queries return results in different order than they were executed
+
+			// disabled tests+standard tests
+			doh.register("disabled", [
+			
+				// Test that correct styling is applied
+				{
+					timeout:1000,
+					name:"styling",
+					combo:"combo3",
+					runTest:function(){
+						this.combo = dijit.byId(this.combo);
+						doh.is(true, this.combo.attr('disabled'));
+						doh.is(true, this.combo.focusNode.disabled);
+					}
+				},
+
+				// Test that you can't type into a disabled combobox
+				// TODO: should not be calling typeKeys, as who knows where focus is, and what will happen?
+				// Just confirm that can't focus the element.
+				{
+					timeout:60000,
+					name:"typing",
+					combo:"combo3",
+					runTest:function(){
+						var d = new doh.Deferred();
+						this.combo = dijit.byId(this.combo);
+						doh.robot.mouseMoveAt(this.combo.focusNode, 500);
+						doh.robot.mouseClick({left:true}, 500);
+						
+						doh.robot.typeKeys("Canada", 500);
+						// Assert that nothing happened
+						doh.robot.sequence(dojo.hitch(this, function(){
+							if(this.combo.focusNode.value=="Canada"){
+								d.errback(new Error("User was able to type in a disabled ComboBox!"));
+							}else{
+								d.callback(true);
+							}
+						}), 2000);
+						return d;
+					}
+				},
+
+				{
+					timeout:60000,
+					name:"dropdown disabled",
+					combo:"combo3",
+					runTest:function(){
+						var d = new doh.Deferred();
+						this.combo = dijit.byId(this.combo);
+						// Press Arrow Button
+						doh.robot.mouseMoveAt(this.combo.downArrowNode, 500);
+						doh.robot.mouseClick({left:true}, 500);
+						// Assert that nothing happened
+						doh.robot.sequence(dojo.hitch(this, function(){
+							if(this.combo._popupWidget){
+								d.errback(new Error("User was able to open the menu on a disabled ComboBox!"));
+							}else{
+								d.callback(true);
+							}
+						}), 2000);
+						return d;
+					}
+				}
+			]);
+
+			// now enable it and do it again
+			doh.register("enabled", [
+				{
+					timeout:30000,
+					name:"combo3_enabledStyle",
+					combo:"combo3",
+					runTest:function(){
+						var d = new doh.Deferred();
+						
+						// click button to enable combobox
+						var button = dojo.byId(this.combo+"_disable");
+						this.combo = dijit.byId(this.combo);
+						doh.robot.mouseMoveAt(button, 500);
+						doh.robot.mouseClick({left:true}, 500);
+						
+						// check styling
+						doh.robot.sequence(dojo.hitch(this, function(){
+							try{
+								doh.is(false, this.combo.attr('disabled'));
+								doh.is(false, this.combo.focusNode.disabled);
+								d.callback(true);
+							}catch(e){
+								d.errback(new Error("Wrong style after enabling ComboBox."));
+							}
+						}), 500);
+						return d;
+					}
+				},
+
+				// Check that selecting a value works
+				{
+					timeout:60000,
+					name:"combo3_select",
+					combo:"combo3",
+					runTest:function(){
+						return robot_selectValue(dijit.byId(this.combo), "Wyoming", "WY");
+					}
+				}
+			]);
+
+
+			doh.register("specialchars", [
+				{
+					timeout:60000,
+					name:"specialchars_type",
+					combo:"specialchars",
+					runTest:function(){
+						return robot_typeValue(dijit.byId(this.combo), "sticks & stones", "sticks");
+					}
+				},
+
+				{
+					timeout:60000,
+					name:"specialchars_a11y",
+					combo:"specialchars",
+					runTest:function(){
+						return robot_a11ySelectValue(dijit.byId(this.combo), "more\\less", "more");
+					}
+				}
+			]);
+
+			doh.register("japanese", [
+				{
+					timeout:60000,
+					name:"japanese_a11y",
+					combo:"japanese",
+					runTest:function(){
+						return robot_a11ySelectValue((this.combo = dijit.byId(this.combo)), "\u6771\u533A (East)", "higashiku");
+					},
+					tearDown:function(){
+						this.combo.attr("value", isComboBox?"\u6771\u533A (East)":"higashiku");
+					}
+				},
+
+				{
+					timeout:60000,
+					name:"japanese_type",
+					combo:"japanese",
+					runTest:function(){
+						//return robot_typeValue(, "\u6771\u897F", "touzai");
+						var d = new doh.Deferred();
+						this.combo = dijit.byId(this.combo);
+						doh.robot.mouseMoveAt(this.combo.focusNode);
+						doh.robot.mouseClick({left:true}, 500);
+						doh.robot.keyPress(dojo.keys.END, 500);
+						doh.robot.keyPress(dojo.keys.BACKSPACE, 500);
+						doh.robot.keyPress(dojo.keys.BACKSPACE, 500);
+						doh.robot.keyPress(dojo.keys.BACKSPACE, 500);
+						doh.robot.keyPress(dojo.keys.BACKSPACE, 500);
+						doh.robot.keyPress(dojo.keys.BACKSPACE, 500);
+						doh.robot.keyPress(dojo.keys.BACKSPACE, 500);
+						doh.robot.keyPress(dojo.keys.BACKSPACE, 500);
+						doh.robot.keyPress(dojo.keys.BACKSPACE, 500);
+						doh.robot.keyPress('x', 500, {ctrl:true});
+						doh.robot.keyPress(dojo.keys.ENTER, 500);
+						doh.robot.sequence(dojo.hitch(this, function(){
+							if(this.combo.attr('value') == (isComboBox?"\u6771\u897F (Touzai)":"touzai") && this.combo.focusNode.value=="\u6771\u897F (Touzai)"){
+								d.callback(true);
+							}else{
+								d.errback(this.combo.id+" was supposed to have a value of "+(isComboBox?"\u6771\u897F (Touzai)":"touzai")+". Text is "+this.combo.focusNode.value+", value is "+this.combo.attr('value'));
+							}
+						}), 500);
+						return d;
+					}
+				}
+			]);
+
+			doh.register("labelFunc", [
+				{
+					timeout:60000,
+					name:"labelFunc_a11y",
+					combo:"labelFunc",
+					runTest:function(){
+						// labelFunc makes Texas texas on FilteringSelect
+						return robot_a11ySelectValue((this.combo = dijit.byId(this.combo)), "Texas", isComboBox?null:"TX", isComboBox?null:"texas");
+					},
+					tearDown:function(){
+						this.combo.attr("value", isComboBox?"Texas":"TX");
+					}
+				},
+
+				{
+					timeout:60000,
+					name:"labelFunc_type",
+					combo:"labelFunc",
+					runTest:function(){
+						var d = robot_typeValue((this.combo = dijit.byId(this.combo)), isComboBox?"Alabama":"alabama", "AL");
+						return d;
+					}
+				}
+			]);
+
 			doh.run();
 		});
 	</script>
