@@ -482,6 +482,9 @@ dojo.declare(
 		// first get rid of child widgets
 		this.destroyDescendants();
 
+		// Delete any state information we have about current contents
+		delete this._singleChild;
+
 		// dojo.html.set will take care of the rest of the details
 		// we provide an overide for the error handling to ensure the widget gets the errors 
 		// configure the setter instance with only the relevant widget instance properties
