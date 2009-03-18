@@ -11,3 +11,7 @@ function isHidden(node){
 		return (dojo.style(node, "display") == "none") ||
 				(dojo.style(node, "visibility") == "hidden");
 }
+
+function innerText(node){
+	return node.textContent || node.innerText || "";
+}

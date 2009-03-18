@@ -11,6 +11,8 @@
 	<!-- required: dojo.js -->
 	<script type="text/javascript" src="../../../../dojo/dojo.js"
 		djConfig="isDebug: true, parseOnLoad: true"></script>
+	<script type="text/javascript" src="../../helpers.js"></script>
+
 	<script type="text/javascript">
 		dojo.require("dijit.dijit"); // optimize: load dijit layer
 		dojo.require("dijit.robotx");
@@ -30,10 +32,6 @@
 		isComboBox = testWidget=="dijit.form.ComboBox";
 		dojo.addOnLoad(function(){
 
-// TODO
-// click test for arrowless
-
-			
 			doh.robot.initRobot('../_autoComplete.html?testWidget='+testWidget);
 
 			var arrowlessComboBoxes=['arrowless'];
@@ -163,68 +161,52 @@
 				return d;
 			};
 
+			// Wait for data stores to finish loading before starting tests
+			dojo.forEach(["store", "store2", "stateStore", "dijitStore"], function(name){
+				doh.register("wait for " + name,
+					{
+						name: "confirm loaded",
+						timeout: 5000,
+						runTest: function(){
+							var d = new doh.Deferred();
+							dojo.global[name].fetch({
+								onComplete: function(){
+									console.log(name + " store loaded...");
+									d.callback(true);
+								}
+							});
+							return d;
+						}
+					}
+				);
+			});
+
 			// TESTS
 			// Verify that all of the form values are correct at init
-			doh.register("setUp",
+			doh.register("verify values", 			
 				{
 					name:"verifyValues",
 					runTest:function(){
-						var s;
-						// TODO: wait for data store to finish loading
-						if(isComboBox){
-							s='state1: California\n'
-								+': not fired yet!\n'
-								+': not fired yet!\n'
-								+'state2: California\n'
-								+': not fired yet!\n'
-								+'dijitList1: dijit.Editor\n'
-								+'state3: California\n'
-								+': not fired yet!\n'
-								+'state4: \n'
-								+': not fired yet!\n'
-								+'state5: California\n'
-								+'prog: \n'
-								+'prog2: \n'
-								+'prog3: \n'
-								+'descending: California\n'
-								+'specialchars: sticks & stones\n'
-								+'japanese: \u5357\u5317 (Nanboku)\n'
-								+'labelFunc: Oregon\n';
+						// Spot check of initial conditions of widgets and DOM nodes
+
+						doh.is("California", dijit.byId("setvaluetest").attr("displayedValue"), "state1 displayed value");
+						doh.is(isComboBox ? "California" : "CA", dijit.byId("setvaluetest").attr("value"), "state1 value");
+						doh.is("not fired yet!", dojo.byId("oc1").value, "state1 onChange hasn't fired");
+
+						doh.is(isComboBox ? "California" : "CA", dojo.byId("form1").state2.value, "state2 submit value");
+
+						doh.is(1, dojo.query("input[name=state3]").length,
+							"Just one input inside of filteringSelect/combobox w/name specified");
+						if(!isComboBox){
+							// Filtering select should have two inputs, but the displayed one is hidden
+							doh.is(2, dojo.query("input", dijit.byId("combo3").domNode).length,
+								"Two inputs inside of filteringSelect");
 						}
-						else{
-							s=': California\n'
-								+'state1: CA\n'
-								+': not fired yet!\n'
-								+': not fired yet!\n'
-								+': California\n'
-								+'state2: CA\n'
-								+': not fired yet!\n'
-								+': dijit.Editor\n'
-								+'dijitList1: dijit.Editor\n'
-								+': California\n'
-								+'state3: CA\n'
-								+': not fired yet!\n'
-								+': \n'
-								+'state4: \n'
-								+': not fired yet!\n'
-								+': California\n'
-								+'state5: CA\n'
-								+': \n'
-								+'prog: \n'
-								+': \n'
-								+'prog2: \n'
-								+': \n'
-								+'prog3: \n'
-								+': California\n'
-								+'descending: CA\n'
-								+': sticks & stones\n'
-								+'specialchars: sticks\n'
-								+': \u5357\u5317 (Nanboku)\n'
-								+'japanese: nanboku\n'
-								+': oregon\n'
-								+'labelFunc: OR\n';
-						}
-						doh.is(s, dojo.doc.displayData());
+
+						doh.is("sticks & stones", dijit.byId("specialchars").attr("displayedValue"), "specialchars attr('displayValue')");
+						doh.is(isComboBox ? "sticks & stones" : "sticks", dijit.byId("specialchars").attr("value"), "specialchars value");
+						doh.is("sticks & stones", dojo.query("input[id=specialchars]")[0].value, "specialchars display value via DOMNode");
+						doh.is(isComboBox ? "sticks & stones" : "sticks", dojo.query("input[name=specialchars]")[0].value, "specialchars submit value via DOMNode");
 					}
 				}
 			);
@@ -379,17 +361,221 @@
 					}
 				}
 			);
-				
-			// TODO: test typing a partial value and then watching the drop down choices reduce!
-			// That's the whole point of ComboBox/FilteringSelect...
+		
+			// Test that drop down choices are filtered to values matching
+			// what user has typed
+			doh.register("filtering of drop down", [
+				{
+					timeout:60000,
+					name:"type C",
+					runTest:function(){
+						var d = new doh.Deferred();
+						var combo = dijit.byId("setvaluetest");
+
+						// Focus drop down
+						doh.robot.mouseMoveAt(combo.focusNode, 500);
+						doh.robot.mouseClick({left:true}, 500);
+
+						// Filter drop down list to entries starting with "C"
+						doh.robot.sequence(function(){ combo.attr('value', null); }, 500);
+						doh.robot.keyPress("C", 100);
+						
+						doh.robot.sequence(d.getTestCallback(function(){
+							// Check that drop down list has appeared, and contains California, Colorado, Connecticut
+							var list = dojo.byId("setvaluetest_popup");
+							doh.t(list, "drop down exists");
+							doh.t(isVisible(list), "drop down is visible");
+							
+							var entries = dojo.query("li", list).filter(isVisible);
+							doh.is(3, entries.length, "three entries in drop down: " + list.innerHTML);
+							doh.is("California", innerText(entries[0]), "list #1");						
+							doh.is("Colorado", innerText(entries[1]), "list #2");						
+							doh.is("Connecticut", innerText(entries[2]), "list #3");
+							
+							// Check that search-string highlighting is working
+							doh.is('<span class="dijitcomboboxhighlightmatch">c</span>onnecticut', entries[2].innerHTML.toLowerCase(),
+								"highlighting is working");
+						}), 500);
+						
+						return d;
+					}
+				},
+				{
+					timeout:60000,
+					name:"type 'o' after 'C'",
+					runTest:function(){
+						var d = new doh.Deferred();
+						var combo = dijit.byId("setvaluetest");
+
+						// Filter drop down list to entries starting with "Co"
+						doh.robot.keyPress("o", 100);
+						
+						doh.robot.sequence(d.getTestCallback(function(){
+							// Check that drop down list is still there, and California has disappeared
+							var list = dojo.byId("setvaluetest_popup");
+							doh.t(list, "drop down exists");
+							doh.t(isVisible(list), "drop down is visible");
+							
+							var entries = dojo.query("li", list).filter(isVisible);
+							doh.is(2, entries.length, "three entries in drop down: " + list.innerHTML);
+							doh.is("Colorado", innerText(entries[0]), "list #1");						
+							doh.is("Connecticut", innerText(entries[1]), "list #2");
+						}), 500);
+						
+						return d;
+					}
+				},
+				{
+					timeout:60000,
+					name:"type backspace",
+					runTest:function(){
+						var d = new doh.Deferred();
+						var combo = dijit.byId("setvaluetest");
+
+						doh.robot.keyPress(dojo.keys.BACKSPACE, 100);
+						
+						doh.robot.sequence(d.getTestCallback(function(){
+							console.log("just did backspace");
+							// List should again contain California
+							var list = dojo.byId("setvaluetest_popup");
+							doh.t(list, "drop down exists");
+							doh.t(isVisible(list), "drop down is visible");
+							
+							var entries = dojo.query("li", list).filter(isVisible);
+							doh.is(3, entries.length, "three entries in drop down: " + list.innerHTML);
+							doh.is("California", innerText(entries[0]), "list #1");						
+							doh.is("Colorado", innerText(entries[1]), "list #2");						
+							doh.is("Connecticut", innerText(entries[2]), "list #3");
+
+							// Check that search-string highlighting is still working
+							doh.is('<span class="dijitcomboboxhighlightmatch">c</span>onnecticut', entries[2].innerHTML.toLowerCase(),
+								"highlighting is working")
+						}), 500);
+						
+						return d;
+					}
+				}
+
+				// TODO: make separate test group for testing highlighting, and then check		
+				//     - matching of anywhere in string (id=arrowless)
+				//     - highlightmatch=none (combobox4)
+			]);
+
+			// Test auto complete
+			doh.register("auto-complete", [
+				{
+					timeout:60000,
+					name:"no auto-complete",
+					runTest:function(){
+						var d = new doh.Deferred();
+						var combo = dijit.byId("setvaluetest");
+
+						// Focus drop down
+						doh.robot.mouseMoveAt(combo.focusNode, 500);
+						doh.robot.mouseClick({left:true}, 500);
+
+						// Filter drop down list to entries starting with "C"
+						doh.robot.sequence(function(){ combo.attr('value', null); }, 500);
+						doh.robot.keyPress("C", 100);
+						
+						// Then tab away
+						doh.robot.keyPress(dojo.keys.TAB, 500);
 	
-			// TODO: test auto complete
+						doh.robot.sequence(d.getTestCallback(function(){
+							// Check that drop down list has disappeared
+							var list = dojo.byId("setvaluetest_popup");
+							doh.t(!list || isHidden(list), "drop down is visible");
+							
+							// Since autocomplete=false the contents should just be what the user typed
+							doh.is('C', combo.focusNode.value);
+							if(!isComboBox){
+								doh.f(dijit.byId("setvaluetest").isValid(), "FilteringSelect shouldn't be valid");
+							}
+						}), 500);
+						
+						return d;
+					}
+				},
+				{
+					timeout:60000,
+					name:"auto-complete writes suggested letters in input box",
+					runTest:function(){
+						var d = new doh.Deferred();
+						var combo = dijit.byId("datatest");	// auto-complete = true
+
+						// Focus drop down
+						doh.robot.mouseMoveAt(combo.focusNode, 500);
+						doh.robot.mouseClick({left:true}, 500);
+
+						// Filter drop down list to entries starting with "C"
+						doh.robot.sequence(function(){ combo.attr('value', null); }, 500);
+						doh.robot.keyPress("C", 100);
+
+						doh.robot.sequence(d.getTestCallback(function(){
+							var list = dojo.byId("datatest_popup");
+							doh.t(isVisible(list), "drop down is visible");
+
+							doh.is('California', combo.focusNode.value, "'alifornia' automatically appended to user input");
+						}), 500);
+						
+						return d;
+					}
+				},	
+				{
+					timeout:60000,
+					name:"auto-complete changes suggestion based on more typed letters",
+					runTest:function(){
+						var d = new doh.Deferred();
+						var combo = dijit.byId("datatest");
+
+						// Further filter drop down to entries starting with "Co" (Colorado and Connectictut).
+						// Note that this depends on (and tests that) "alifornia" is selected (aka highlighted),
+						// so that the "o" keypress erases it and replaces the input box text with "Co"
+						doh.robot.keyPress("o", 100);
+
+						doh.robot.sequence(d.getTestCallback(function(){
+							doh.is('Colorado', combo.focusNode.value, "suggestion changed from California to Colorado");
+						}), 500);
+						
+						return d;
+					}
+				},			
+				{
+					timeout:60000,
+					name:"tab-away auto-selects value",
+					runTest:function(){
+						var d = new doh.Deferred();
+						var combo = dijit.byId("datatest");
+
+						// Then tab away
+						doh.robot.keyPress(dojo.keys.TAB, 500);
+	
+						doh.robot.sequence(d.getTestCallback(function(){
+							// Check that drop down list has disappeared
+							var list = dojo.byId("datatest_popup");
+							doh.t(!list || isHidden(list), "drop down is hidden");
+				
+							doh.is(isComboBox ? "Colorado" : "CO", combo.attr('value'));
+							if(!isComboBox){
+								doh.t(combo.isValid(), "FilteringSelect should be valid");
+							}
+						}), 500);
+						
+						return d;
+					}
+				}
+			]);
 			
-			// TODO: check that progCombo2's drop down is limited to elements in the query string
+			// TODO: test "more choices" in drop down (that's tested above indirectly, but test more
+			// explicitly)
 
 			// TODO: test ESC key or click on screen background or click on another widget to close drop down
 			
 			// TODO: test race condition where queries return results in different order than they were executed
+
+			// TODO: test that menu doesn't show up after ENTER keypress
+			
+			// TODO: click test for arrowless
 
 			// disabled tests+standard tests
 			doh.register("disabled", [
@@ -587,6 +773,61 @@
 				}
 			]);
 
+			// The specifying a sort order and an initial filter to ComboBox
+			doh.register("filter and sort params", [
+				{
+					timeout:60000,
+					name:"sort order",
+					runTest:function(){
+						var d = new doh.Deferred();
+						var combo = dijit.byId("progCombo3");
+
+						// Focus drop down
+						doh.robot.mouseMoveAt(combo.focusNode, 500);
+						doh.robot.mouseClick({left:true}, 500);
+
+						// Show list, should be in reverse order
+						doh.robot.sequence(function(){ combo.attr('value', null); }, 500);
+						doh.robot.keyPress(dojo.keys.DOWN_ARROW, 100);
+						
+						doh.robot.sequence(d.getTestCallback(function(){
+							var list = dojo.byId("progCombo3_popup");
+							doh.t(list, "drop down exists");
+							doh.t(isVisible(list), "drop down is visible");
+							
+							var entries = dojo.query("li", list).filter(isVisible);
+							doh.is("United States of America", innerText(entries[0]), "list #1");						
+						}), 500);
+						
+						return d;
+					}
+				},
+				{
+					timeout:60000,
+					name:"initial filter",
+					runTest:function(){
+						var d = new doh.Deferred();
+						var combo = dijit.byId("progCombo3");
+
+						// Filter drop down list to entries starting with "A"
+						doh.robot.keyPress("A", 100);
+						
+						doh.robot.sequence(d.getTestCallback(function(){
+							// Check that drop down list *doesn't* contain Africa, just Argentina
+							var list = dojo.byId("progCombo3_popup");
+							doh.t(list, "drop down exists");
+							doh.t(isVisible(list), "drop down is visible");
+							
+							var entries = dojo.query("li", list).filter(isVisible);
+							doh.is(1, entries.length, "only one entry in drop down: " + list.innerHTML);
+							doh.is("Argentina", innerText(entries[0]), "list #1");						
+						}), 500);
+						
+						return d;
+					}
+				}
+			]);
+			
 			doh.run();
 		});
 	</script>

@@ -77,14 +77,14 @@
 				node.setAttribute('value', val);
 			});
 			dojo.parser.parse(dojo.body());
-			var store = new dojo.data.ItemFileReadStore({url: dojo.moduleUrl("dijit.tests._data", "states.json")});
+			store = new dojo.data.ItemFileReadStore({url: dojo.moduleUrl("dijit.tests._data", "states.json")});
 			combo = new testClass({
 				name:"prog",
 				autoComplete:false,
 				store: store,
 				searchAttr:"name"
 			}, dojo.byId("progCombo"));
-			var store2 = new dojo.data.ItemFileReadStore({url: dojo.moduleUrl("dijit.tests._data", "countries.json")});
+			store2 = new dojo.data.ItemFileReadStore({url: dojo.moduleUrl("dijit.tests._data", "countries.json")});
 			combo = new testClass({
 				name:"prog2",
 				autoComplete:false,
