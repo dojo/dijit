@@ -69,6 +69,7 @@
 				return node;
 			}
 
+			// Select a value from the drop down using the mouse, using "more choices" button to page as necessary
 			var robot_selectValue = function(combo, text, value, expectedtext){
 				if(!value || isComboBox) value = text;
 				if(!expectedtext || isComboBox) expectedtext = text;
@@ -98,6 +99,8 @@
 				doh.robot.sequence(repeat, 3000);
 				return d;
 			};
+			
+			// Select a value from the drop down using the keyboard, using "more choices" button to page as necessary
 			var robot_a11ySelectValue = function(combo, text, value, expectedtext){
 				if(!value || isComboBox) value = text;
 				if(!expectedtext || isComboBox) expectedtext = text;
@@ -136,6 +139,8 @@
 				return d;
 			};
 
+			// Enter an invalid value into the ComboBox/FilteringSelect, and test
+			// that FilteringSelect flags it as an error (but ComboBox allows it)
 			var errorTest = function(){
 				robot_typeValue((this.combo = dijit.byId(this.combo)), "zxcxarax");
 				var d = new doh.Deferred();
@@ -181,7 +186,6 @@
 				);
 			});
 
-			// TESTS
 			// Verify that all of the form values are correct at init
 			doh.register("verify values", 			
 				{
@@ -193,7 +197,12 @@
 						doh.is(isComboBox ? "California" : "CA", dijit.byId("setvaluetest").attr("value"), "state1 value");
 						doh.is("not fired yet!", dojo.byId("oc1").value, "state1 onChange hasn't fired");
 
-						doh.is(isComboBox ? "California" : "CA", dojo.byId("form1").state2.value, "state2 submit value");
+/***
+TODO: neither of these work on IE, not sure why, maybe because
+a name is specified but not an id?
+						doh.is(isComboBox ? "California" : "CA", dojo.doc.getElementsByName("state2")[0].value, "state2 submit value");
+						doh.is(isComboBox ? "California" : "CA", dojo.query("input[name=state2]")[0].value, "state2 dojo.query value");
+****/
 
 						doh.is(1, dojo.query("input[name=state3]").length,
 							"Just one input inside of filteringSelect/combobox w/name specified");
@@ -211,9 +220,9 @@
 				}
 			);
 
-			// Press button to set value to Kentucky
-			// This should be a valid assignment
-			doh.register("setvaluetest",
+			doh.register("attr('value', ...)", [
+				// Press button to set value to Kentucky.
+				// This should be a valid assignment.
 				{
 					timeout:5000,
 					name:"valid",
@@ -241,12 +250,10 @@
 						}), 2000);
 						return d;
 					}
-				}
-			);
+				},
 
-			// Press button to set value to Canada
-			// This should be an invalid assignment for FilteringSelect, but ok for ComboBox
-			doh.register("setvaluetest",
+				// Press button to set value to Canada.
+				// This should be an invalid assignment for FilteringSelect, but ok for ComboBox.
 				{
 					timeout:5000,
 					name:"invalid",
@@ -274,12 +281,10 @@
 						}), 2000);
 						return d;
 					}
-				}
-			);
+				},
 
-			// Press button to set value to null
-			// This should be an invalid assignment for FilteringSelect, but ok for ComboBox
-			doh.register("setvaluetest",
+				// Press button to set value to null.
+				// This should be an invalid assignment for FilteringSelect, but ok for ComboBox.
 				{
 					timeout:5000,
 					name:"nullvalue",
@@ -308,50 +313,23 @@
 						return d;
 					}
 				}
-			);
+			]);
 
-			// Type a valid value and press Enter
-			doh.register("states",
+			doh.register("direct input", [
+				// Type a valid value and press Enter
 				{
 					timeout:60000,
-					name:"setvaluetest_type",
+					name:"valid value",
 					combo:"setvaluetest",
 					runTest:function(){
 						return robot_typeValue(dijit.byId(this.combo), "California", "CA");
 					}
-				}
-			);
+				},
 
-			// Select a value with the mouse
-			doh.register("states",
+				// Type an invalid value and press Enter
 				{
 					timeout:60000,
-					name:"setvaluetest_select",
-					combo:"setvaluetest",
-					runTest:function(){
-						return robot_selectValue(dijit.byId(this.combo), "Wyoming", "WY");
-					}
-				}
-			);
-
-			// Select a value with the keyboard
-			// TODO: test page-down key too?
-			doh.register("states",
-				{
-					timeout:60000,
-					name:"setvaluetest_a11y",
-					combo:"setvaluetest",
-					runTest:function(){
-						return robot_a11ySelectValue(dijit.byId(this.combo), "Texas", "TX");
-					}
-				}
-			);
-
-			// Type an invalid value and press Enter
-			doh.register("states",
-				{
-					timeout:60000,
-					name:"setvaluetest_error",
+					name:"invalid value",
 					combo:"setvaluetest",
 					runTest:function(){
 						return (dojo.hitch(this, errorTest))();
@@ -360,10 +338,152 @@
 						this.combo.attr("value", isComboBox?"Alaska":"AK");
 					}
 				}
-			);
-		
-			// Test that drop down choices are filtered to values matching
-			// what user has typed
+			]);
+	
+			doh.register("drop down navigation / mouse", [
+				{
+					timeout:60000,
+					name:"open drop down",
+					runTest:function(){
+						var d = new doh.Deferred();
+
+						var combo = dijit.byId("setvaluetest");
+				
+						// Open drop down
+						doh.robot.mouseMoveAt(combo.downArrowNode, 500);
+						doh.robot.mouseClick({left:true}, 100);
+
+						doh.robot.sequence(d.getTestCallback(function(){
+							var list = dojo.byId("setvaluetest_popup"),
+								entries = dojo.query("li", list).filter(isVisible);
+							doh.t(isVisible(list), "list is visible");
+							doh.is(31, entries.length, "30 elements plus next button");
+						}), 500);
+						
+						return d;
+					}
+				},
+				
+				{
+					timeout:60000,
+					name:"next page",
+					runTest:function(){
+						var d = new doh.Deferred();
+
+						var list = dojo.byId("setvaluetest_popup"),
+							moreEntriesButton = dojo.query(":last-child", list)[0];
+
+						doh.t(isVisible(list), "list is still visible");
+						doh.t(moreEntriesButton, "found more entries button");
+
+						doh.robot.sequence(function(){
+							dijit.scrollIntoView(moreEntriesButton);
+						});
+						doh.robot.mouseMoveAt(moreEntriesButton, 500);
+						doh.robot.mouseClick({left:true}, 100);
+
+						doh.robot.sequence(d.getTestCallback(function(){
+							var list = dojo.byId("setvaluetest_popup"),
+								entries = dojo.query("li", list).filter(isVisible);
+								doh.is("Minnesota", innerText(entries[1]));
+						}), 500);
+						
+						return d;
+					}
+				},
+
+				{
+					timeout:60000,
+					name:"last page",
+					runTest:function(){
+						var d = new doh.Deferred();
+
+						var moreEntriesButton = dojo.query(":last-child", dojo.byId("setvaluetest_popup"))[0];
+
+						doh.robot.sequence(function(){
+							dijit.scrollIntoView(moreEntriesButton);
+						});
+						doh.robot.mouseMoveAt(moreEntriesButton, 500);
+						doh.robot.mouseClick({left:true}, 100);
+
+						doh.robot.sequence(d.getTestCallback(function(){
+							var list = dojo.byId("setvaluetest_popup"),
+								entries = dojo.query("li", list).filter(isVisible);
+								doh.is(2, entries.length, "previous choices + wyoming");
+								doh.is("Wyoming", innerText(entries[1]));
+						}), 500);
+						
+						return d;
+					}
+				},
+
+				{
+					timeout:60000,
+					name:"previous page",
+					runTest:function(){
+						var d = new doh.Deferred();
+
+						var previousEntriesButton = dojo.query(":first-child", dojo.byId("setvaluetest_popup"))[0];
+
+						doh.robot.sequence(function(){
+							dijit.scrollIntoView(previousEntriesButton);
+						});
+						doh.robot.mouseMoveAt(previousEntriesButton, 500);
+						doh.robot.mouseClick({left:true}, 100);
+
+						doh.robot.sequence(d.getTestCallback(function(){
+							var list = dojo.byId("setvaluetest_popup"),
+								entries = dojo.query("li", list).filter(isVisible);
+								doh.is(32, entries.length, "30 states, plus next and previous button");
+								doh.is("Minnesota", innerText(entries[1]));
+								doh.is("Wisconsin", innerText(entries[30]));
+						}), 500);
+						
+						return d;
+					}
+				},
+
+				{
+					timeout:60000,
+					name:"select value",
+					runTest:function(){
+						var d = new doh.Deferred();
+
+						var list = dojo.byId("setvaluetest_popup"),
+							entries = dojo.query("li", list).filter(isVisible),
+							nj = entries[8];
+
+						doh.robot.sequence(function(){
+							dijit.scrollIntoView(nj);
+						});
+						doh.robot.mouseMoveAt(nj, 500);
+						doh.robot.mouseClick({left:true}, 100);
+
+						doh.robot.sequence(d.getTestCallback(function(){
+								doh.is(isComboBox ? "New Jersey" : "NJ", dijit.byId("setvaluetest").attr('value'),
+									"selected New Jersey from drop down");
+						}), 500);
+
+						return d;
+					}
+				},
+			]);
+
+
+			doh.register("drop down navigation / keyboard", [
+				// Select a value from the drop down using the keyboard,
+				// used "more choices" button to page as necessary
+				{
+					timeout:60000,
+					name:"setvaluetest_a11y",
+					combo:"setvaluetest",
+					runTest:function(){
+						return robot_a11ySelectValue(dijit.byId(this.combo), "Texas", "TX");
+					}
+				}
+			]);
+
+			// Test that drop down choices are filtered to values matching what user has typed
 			doh.register("filtering of drop down", [
 				{
 					timeout:60000,
@@ -393,7 +513,7 @@
 							doh.is("Connecticut", innerText(entries[2]), "list #3");
 							
 							// Check that search-string highlighting is working
-							doh.is('<span class="dijitcomboboxhighlightmatch">c</span>onnecticut', entries[2].innerHTML.toLowerCase(),
+							doh.is('<span class=dijitcomboboxhighlightmatch>c</span>onnecticut', entries[2].innerHTML.toLowerCase().replace('"', '', 'g'),
 								"highlighting is working");
 						}), 500);
 						
@@ -435,7 +555,6 @@
 						doh.robot.keyPress(dojo.keys.BACKSPACE, 100);
 						
 						doh.robot.sequence(d.getTestCallback(function(){
-							console.log("just did backspace");
 							// List should again contain California
 							var list = dojo.byId("setvaluetest_popup");
 							doh.t(list, "drop down exists");
@@ -446,10 +565,6 @@
 							doh.is("California", innerText(entries[0]), "list #1");						
 							doh.is("Colorado", innerText(entries[1]), "list #2");						
 							doh.is("Connecticut", innerText(entries[2]), "list #3");
-
-							// Check that search-string highlighting is still working
-							doh.is('<span class="dijitcomboboxhighlightmatch">c</span>onnecticut', entries[2].innerHTML.toLowerCase(),
-								"highlighting is working")
 						}), 500);
 						
 						return d;
@@ -565,18 +680,15 @@
 					}
 				}
 			]);
-			
-			// TODO: test "more choices" in drop down (that's tested above indirectly, but test more
-			// explicitly)
 
 			// TODO: test ESC key or click on screen background or click on another widget to close drop down
-			
-			// TODO: test race condition where queries return results in different order than they were executed
 
-			// TODO: test that menu doesn't show up after ENTER keypress
-			
 			// TODO: click test for arrowless
 
+			// TODO:  race condition tests based on slow store:
+			// 		- test race condition where queries return results in different order than they were executed
+			//		- test that menu doesn't show up after ENTER keypress
+			
 			// disabled tests+standard tests
 			doh.register("disabled", [
 			
@@ -827,7 +939,7 @@
 					}
 				}
 			]);
-			
+		
 			doh.run();
 		});
 	</script>
