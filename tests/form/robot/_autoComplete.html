@@ -197,12 +197,10 @@
 						doh.is(isComboBox ? "California" : "CA", dijit.byId("setvaluetest").attr("value"), "state1 value");
 						doh.is("not fired yet!", dojo.byId("oc1").value, "state1 onChange hasn't fired");
 
-/***
-TODO: neither of these work on IE, not sure why, maybe because
-a name is specified but not an id?
-						doh.is(isComboBox ? "California" : "CA", dojo.doc.getElementsByName("state2")[0].value, "state2 submit value");
-						doh.is(isComboBox ? "California" : "CA", dojo.query("input[name=state2]")[0].value, "state2 dojo.query value");
-****/
+						// TODO: neither of these work on IE, not sure why, maybe because
+						// a name is specified but not an id?
+						//doh.is(isComboBox ? "California" : "CA", dojo.doc.getElementsByName("state2")[0].value, "state2 submit value");
+						//doh.is(isComboBox ? "California" : "CA", dojo.query("input[name=state2]")[0].value, "state2 dojo.query value");
 
 						doh.is(1, dojo.query("input[name=state3]").length,
 							"Just one input inside of filteringSelect/combobox w/name specified");
@@ -685,17 +683,96 @@ a name is specified but not an id?
 
 			// TODO: click test for arrowless
 
-			// TODO:  race condition tests based on slow store:
-			// 		- test race condition where queries return results in different order than they were executed
-			//		- test that menu doesn't show up after ENTER keypress
-			
+			// Race condition tests based on slow store:
+			// Test that drop down choices are filtered to values matching what user has typed
+			doh.register("race conditions", [
+				// Test when queries return in different order than issued
+				{
+					timeout:60000,
+					name:"query return order",
+					setUp: function(){
+						dojo.global.slowStateStore.log = [];
+					},
+					runTest: function(){
+						var d = new doh.Deferred();
+						var combo = dijit.byId("slow");
+
+						// Focus drop down
+						doh.robot.mouseMoveAt(combo.focusNode, 500);
+						doh.robot.mouseClick({left:true}, 100);
+
+						// Filter drop down list to entries starting with "C"
+						doh.robot.sequence(function(){ combo.attr('value', null); });
+						doh.robot.keyPress("C", 100);
+						doh.robot.keyPress("o", 300);	// 300ms > searchDelay
+	
+						doh.robot.sequence(d.getTestCallback(function(){
+							// The query "C*" and "Co*" should have been issued in order, but with returned data in reverse order
+							var log = dojo.global.slowStateStore.log;
+							doh.is(4, log.length, "4 events on data store");
+							doh.is("start C*", log[0].type + " " + log[0].query.name);
+							doh.is("start Co*", log[1].type + " " + log[1].query.name);
+							doh.is("end Co*", log[2].type + " " + log[2].query.name);
+							doh.is("end C*", log[3].type + " " + log[3].query.name);
+
+							// Check that drop down list has appeared, and contains only Colorado and Connecticut (not California)
+							var list = dojo.byId("slow_popup");
+							doh.t(list, "drop down exists");
+							doh.t(isVisible(list), "drop down is visible");
+						
+							var entries = dojo.query("li", list).filter(isVisible);
+							doh.is(2, entries.length, "two entries in drop down: " + list.innerHTML);
+							doh.is("Colorado", innerText(entries[0]), "list #1");						
+							doh.is("Connecticut", innerText(entries[1]), "list #2");
+						}), 2500);
+						
+						return d;
+					}
+				},
+
+				// Test that drop down doesn't show up after ENTER keypress, and also that
+				// searchDelay is preventing intemediate queries.
+				{
+					timeout:60000,
+					name:"enter key handling",
+					setUp: function(){
+						dojo.global.slowStateStore.log = [];
+					},
+					runTest: function(){
+						var d = new doh.Deferred();
+						var combo = dijit.byId("slow");
+
+						// Focus drop down
+						doh.robot.mouseMoveAt(combo.focusNode, 500);
+						doh.robot.mouseClick({left:true}, 100);
+
+						// Filter drop down list to entries starting with "C"
+						doh.robot.sequence(function(){ combo.attr('value', null); });
+						doh.robot.typeKeys("Co", 100);
+						doh.robot.keyPress(dojo.keys.ENTER, 300);	// 300ms > searchDelay
+	
+						doh.robot.sequence(d.getTestCallback(function(){
+							var log = dojo.global.slowStateStore.log;
+							doh.is(2, log.length, "query was issued and returned for 'Co', but 'C' was skipped");
+
+							var list = dojo.byId("slow_popup");
+							doh.t(!list || isHidden(list), "drop down is *not* visible");
+							
+							doh.is("Co", combo.attr('displayedValue'), "auto-complete didn't fire");
+						}), 2000);
+						
+						return d;
+					}
+				}
+			]);
+
 			// disabled tests+standard tests
 			doh.register("disabled", [
 			
 				// Test that correct styling is applied
 				{
 					timeout:1000,
-					name:"styling",
+					name:"disabled styling",
 					combo:"combo3",
 					runTest:function(){
 						this.combo = dijit.byId(this.combo);
@@ -704,50 +781,63 @@ a name is specified but not an id?
 					}
 				},
 
-				// Test that you can't type into a disabled combobox
-				// TODO: should not be calling typeKeys, as who knows where focus is, and what will happen?
-				// Just confirm that can't focus the element.
+				// Test that you can't focus a disabled combobox
 				{
 					timeout:60000,
-					name:"typing",
-					combo:"combo3",
-					runTest:function(){
+					name:"tab over disabled elements",
+					runTest: function(){
 						var d = new doh.Deferred();
-						this.combo = dijit.byId(this.combo);
-						doh.robot.mouseMoveAt(this.combo.focusNode, 500);
-						doh.robot.mouseClick({left:true}, 500);
-						
-						doh.robot.typeKeys("Canada", 500);
-						// Assert that nothing happened
-						doh.robot.sequence(dojo.hitch(this, function(){
-							if(this.combo.focusNode.value=="Canada"){
-								d.errback(new Error("User was able to type in a disabled ComboBox!"));
-							}else{
-								d.callback(true);
-							}
-						}), 2000);
+
+						dojo.byId("datatestDijit").focus();
+						doh.is("datatestDijit", dojo.global.dijit._curFocus.id, "focused on elem before disabled combo");
+
+						// Tab over the disabled ComboBox
+						doh.robot.keyPress(dojo.keys.TAB, 100);
+
+						doh.robot.sequence(d.getTestCallback(function(){
+							doh.is("combo3_disable", dojo.global.dijit._curFocus.id, "focused on 'enable' button after disabled combo");
+						}), 500);
+
 						return d;
 					}
 				},
-
+	
 				{
 					timeout:60000,
-					name:"dropdown disabled",
-					combo:"combo3",
+					name: "focus by mouse",
 					runTest:function(){
-						var d = new doh.Deferred();
-						this.combo = dijit.byId(this.combo);
+						var d = new doh.Deferred(),
+							combo = dijit.byId("combo3");
+
+						doh.robot.mouseMoveAt(combo.focusNode, 500);
+						doh.robot.mouseClick({left:true}, 100);
+						
+						doh.robot.sequence(d.getTestCallback(function(){
+							// TODO: uncomment when #8595 is fixed
+							//doh.isNot(combo, dijit.getEnclosingWidget(dojo.global.dijit._curFocus), "click doesn't focus disabled combo");
+						}), 500);
+
+						return d;
+					}
+				},
+				{
+					timeout:60000,
+					name:"dropdown button",
+					runTest:function(){
+						var d = new doh.Deferred(),
+							combo = dijit.byId("combo3");
+
 						// Press Arrow Button
-						doh.robot.mouseMoveAt(this.combo.downArrowNode, 500);
-						doh.robot.mouseClick({left:true}, 500);
+						doh.robot.mouseMoveAt(combo.downArrowNode, 500);
+						doh.robot.mouseClick({left:true}, 100);
+
 						// Assert that nothing happened
-						doh.robot.sequence(dojo.hitch(this, function(){
-							if(this.combo._popupWidget){
-								d.errback(new Error("User was able to open the menu on a disabled ComboBox!"));
-							}else{
-								d.callback(true);
-							}
-						}), 2000);
+						doh.robot.sequence(d.getTestCallback(function(){
+							doh.f(combo._popupWidget, "User was able to open the menu on a disabled ComboBox!");
+							
+							// Testcase for #8923, uncomment when that bug is fixed
+							//doh.isNot(combo, dijit.getEnclosingWidget(dojo.global.dijit._curFocus), "button-click doesn't focus disabled combo");
+						}), 1000);
 						return d;
 					}
 				}
@@ -758,27 +848,13 @@ a name is specified but not an id?
 				{
 					timeout:30000,
 					name:"combo3_enabledStyle",
-					combo:"combo3",
+					setUp: function(){
+						dijit.byId("combo3").attr("disabled", false);
+					},
 					runTest:function(){
-						var d = new doh.Deferred();
-						
-						// click button to enable combobox
-						var button = dojo.byId(this.combo+"_disable");
-						this.combo = dijit.byId(this.combo);
-						doh.robot.mouseMoveAt(button, 500);
-						doh.robot.mouseClick({left:true}, 500);
-						
-						// check styling
-						doh.robot.sequence(dojo.hitch(this, function(){
-							try{
-								doh.is(false, this.combo.attr('disabled'));
-								doh.is(false, this.combo.focusNode.disabled);
-								d.callback(true);
-							}catch(e){
-								d.errback(new Error("Wrong style after enabling ComboBox."));
-							}
-						}), 500);
-						return d;
+						var combo = dijit.byId("combo3");
+						doh.is(false, combo.attr('disabled'));
+						doh.is(false, combo.focusNode.disabled);
 					}
 				},
 
@@ -899,7 +975,7 @@ a name is specified but not an id?
 						doh.robot.mouseClick({left:true}, 500);
 
 						// Show list, should be in reverse order
-						doh.robot.sequence(function(){ combo.attr('value', null); }, 500);
+						doh.robot.sequence(function(){ combo.attr('value', null); });
 						doh.robot.keyPress(dojo.keys.DOWN_ARROW, 100);
 						
 						doh.robot.sequence(d.getTestCallback(function(){
@@ -939,7 +1015,7 @@ a name is specified but not an id?
 					}
 				}
 			]);
-		
+
 			doh.run();
 		});
 	</script>

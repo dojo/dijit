@@ -34,6 +34,7 @@
 		        }
 		}
 		dojo.require("dojo.data.ItemFileReadStore");
+		dojo.require("dijit.tests._data.SlowStore");
 		dojo.require("dijit.dijit"); // optimize: load dijit layer
 		dojo.require(testWidget);
 		dojo.require("dojo.parser");	// scan page for widgets and instantiate them
@@ -202,6 +203,8 @@
 
 		<div dojoType="dojo.data.ItemFileReadStore" jsId="stateStore"
 			url="../_data/states.json"></div>
+		<div dojoType="dijit.tests._data.SlowStore" jsId="slowStateStore"
+			url="../_data/states.json"></div>
 
 		<div dojoType="dojo.data.ItemFileReadStore" jsId="dijitStore"
 			url="../_data/dijits.json"></div>
@@ -219,6 +222,19 @@
 		>
 		<br>onChange:<input id="value2" disabled value="not fired yet!" autocomplete="off">
 		<hr>
+		<p>Artificially slowed-down data store, autoComplete=true:</p>
+		<label for="datatest">US State test slow</label>: 
+		<input dojoType="$testWidget"
+				value="$-setvaluetest-CA"
+				store="slowStateStore"
+				searchAttr="name"
+				name="stateSlow"
+				onChange="dojo.byId('ocSlow').value=arguments[0]"
+				id="slow"
+		>
+		<br>onChange:<input id="ocSlow" disabled value="not fired yet!" autocomplete="off">
+		<hr>
+
 		<label for="datatestDijit">Dijit List test #1</label> (150% font): 
 		<input dojoType="$testWidget"
 				value="dijit.Editor"
