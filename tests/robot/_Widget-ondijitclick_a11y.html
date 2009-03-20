@@ -31,16 +31,19 @@
 
 			dojo.forEach(["SPACE", "ENTER"], function(key){
 
-				doh.register("ondijitclick by " + key,
+				doh.register("ondijitclick by " + key, [
 					{
 						name: "ondijitclick by " + key,
+						timeout: 5000,
 						runTest: function(){
 							widgetClicks = buttonClicks = 0;
 							var d = new doh.Deferred();
 	
 							// Keyboard-click the widget
-							w.domNode.focus();
-							doh.robot.keyPress(dojo.keys[key], 100, {});
+							doh.robot.sequence(function(){
+								w.domNode.focus();
+							}, 500);
+							doh.robot.keyPress(dojo.keys[key], 500, {});
 
 							// Check that ondijitclick fired but no spurious event
 							// on the widget that got focused in the ondijitclick handler
@@ -54,27 +57,30 @@
 					},
 					{
 						name: "ondijitclick by " + key + " w/modifier",
+						timeout: 5000,
 						runTest: function(){
 							widgetClicks = buttonClicks = 0;
 							var d = new doh.Deferred();
 	
 							// Keyboard-click with modifier shouldn't do anything
-							w.domNode.focus();
+							doh.robot.sequence(function(){
+								w.domNode.focus();
+							}, 500);
 							doh.robot.keyPress(dojo.keys[key], 100, {shift: true});
 							doh.robot.keyPress(dojo.keys[key], 100, {ctrl: true});
-							doh.robot.keyPress(dojo.keys[key], 100, {alt: true});
-							doh.robot.keyPress(dojo.keys[key], 100, {meta: true});
+							//doh.robot.keyPress(dojo.keys[key], 100, {meta: true});
 
 							// Check that ondijitclick fired but no spurious event
 							// on the widget that got focused in the ondijitclick handler
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.is(0, widgetClicks, "ondijitclick handler wasn't fired");
+								doh.is(0, buttonClicks, "button click handler wasn't fired");
 							}), 100);
 	
 							return d;
 						}
 					}
-				);
+				]);
 			});
 
 			doh.run();

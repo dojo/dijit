@@ -175,7 +175,7 @@
 							doh.is('Testing', this.textbox.focusNode.value, "focusNode value");
 							doh.is('Testing', this.textbox.attr('value'), "attr value");
 							doh.is('Testing', onChange.value, "onChange.value");
-						})), 500);
+						})), 1000);
 						return d;
 					}
 				});
@@ -193,12 +193,12 @@
 						doh.robot.mouseMoveAt(this.textbox.focusNode, 500);
 						doh.robot.mouseClick({left:true}, 500);
 						doh.robot.typeKeys('Testing', 500, 700);
-						doh.robot.mouseMoveAt(dijit.byId('q01').focusNode, 500);
+						doh.robot.mouseMoveAt(dijit.byId('q01').focusNode, 1000);
 						doh.robot.mouseClick({left:true}, 500);
 						doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
 							doh.is('TESTING', this.textbox.focusNode.value, "focusNode.value");
 							doh.is('TESTING', this.textbox.attr('value'), "attr('value')");
-						})), 500);
+						})), 1000);
 						return d;
 					}
 				});
@@ -222,7 +222,7 @@
 								// test that value changed while typing since intermediateChanges=true
 								doh.is('100', this.textbox.focusNode.value, "focusNode.value");
 								doh.is(100, this.textbox.attr('value'), "attr('value')");
-							})), 500);
+							})), 1000);
 							return d;
 						}
 					},
@@ -249,7 +249,7 @@
 									doh.is('100', this.textbox.focusNode.value, "focusNode.value");
 									doh.is(100, this.textbox.attr('value'), "attr('value')");
 								})), 500);
-							})), 500);
+							})), 1000);
 							return d;
 						}
 					}
@@ -308,7 +308,7 @@
 										doh.is('', this.textbox.attr('state'));
 										doh.is(true, this.textbox.isValid(), "isValid()");
 									})), 500);
-								})),500);
+								})),1000);
 							})), 500);
 							return d;
 						}
@@ -375,7 +375,7 @@
 									doh.is(true,this.textbox.isValid(), "isValid()");
 									doh.is('3000', onChange.value);
 								})), 500);
-							})), 500);
+							})), 1000);
 							return d;
 						}
 					},
@@ -407,7 +407,7 @@
 									doh.is(true,this.textbox.isValid(), "isValid()");
 									doh.is('3000', onChange.value);
 								})), 500);
-							})), 500);
+							})), 1000);
 							return d;
 						}
 					},
@@ -439,7 +439,7 @@
 									doh.is(false,this.textbox.isValid(), "isValid()");
 									doh.is('undefined', onChange.value);
 								})), 500);
-							})), 500);
+							})), 1000);
 							return d;
 						}
 					}
@@ -505,7 +505,7 @@
 									doh.is(true,this.textbox.isValid(), "isValid()");
 									doh.is('10000.01', onChange.value);
 								})), 500);
-							})), 500);
+							})), 1000);
 							return d;
 						}
 					},
@@ -537,7 +537,7 @@
 									doh.is(true,this.textbox.isValid(), "isValid()");
 									doh.is('20000.01', onChange.value);
 								})), 500);
-							})), 500);
+							})), 1000);
 							return d;
 						}
 					}
@@ -562,7 +562,7 @@
 							doh.is('€1.00', this.textbox.focusNode.value, "focusNode.value");
 							doh.is('1', this.textbox.attr('value'), "attr('value')");
 							doh.is(true,this.textbox.isValid(), "isValid()");
-						})), 500);
+						})), 1000);
 						return d;
 					}
 				});
@@ -585,7 +585,7 @@
 								doh.is('a', this.textbox.focusNode.value, "focusNode.value");
 								doh.is('a', this.textbox.attr('value'), "attr('value')");
 								doh.is(true,this.textbox.isValid(), "isValid()");
-							})), 500);
+							})), 1000);
 							return d;
 						}
 					},
@@ -629,7 +629,7 @@
 						doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
 							doh.is('abcdef', this.textbox.focusNode.value, "focusNode.value");
 							doh.is('abcdef', this.textbox.attr('value'), "attr('value')");
-						})), 500);
+						})), 1000);
 						return d;
 					}
 				});
@@ -650,7 +650,7 @@
 							doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
 								doh.is('cannot type here', this.textbox.focusNode.value, "focusNode.value");
 								doh.is('cannot type here', this.textbox.attr('value'), "attr('value')");
-							})), 500);
+							})), 1000);
 							return d;
 						}
 					},
@@ -673,7 +673,7 @@
 							doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
 								doh.is('abc', this.textbox.focusNode.value, "focusNode.value");
 								doh.is('abc', this.textbox.attr('value'), "attr('value')");
-							})), 500);
+							})), 1000);
 							return d;
 						}
 					}
