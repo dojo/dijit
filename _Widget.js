@@ -534,7 +534,9 @@ dojo.declare("dijit._Widget", null, {
 		}
 
 		if(this.domNode){
-			if(!preserveDom){
+			if(preserveDom){
+				dojo.removeAttr(this.domNode, "widgetId");
+			}else{
 				dojo.destroy(this.domNode);
 			}
 			delete this.domNode;
