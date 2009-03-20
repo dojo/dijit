@@ -32,7 +32,7 @@
 							dijit.byId("1465").attr("onClick", function(){ clicked = true; });
 	
 							doh.robot.mouseMoveAt("1465", 500);
-							doh.robot.mouseClick({left:true}, 100);
+							doh.robot.mouseClick({left:true}, 500);
 	
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.t(clicked, "click event was fired");
@@ -50,7 +50,7 @@
 							dijit.byId("disabled").attr("onClick", function(){ clicked = true; });
 	
 							doh.robot.mouseMoveAt("disabled", 500);
-							doh.robot.mouseClick({left:true}, 100);
+							doh.robot.mouseClick({left:true}, 500);
 	
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.f(clicked, "click event was fired");
@@ -68,7 +68,7 @@
 							var d = new doh.Deferred();
 	
 							doh.robot.mouseMoveAt("edit", 500);
-							doh.robot.mouseClick({left:true}, 100);
+							doh.robot.mouseClick({left:true}, 500);
 	
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.t(isVisible("editMenu"), "edit menu is visible: " + dijit.byId("editMenu").domNode.style.cssText);
@@ -84,7 +84,7 @@
 							var d = new doh.Deferred();
 	
 							doh.robot.mouseMoveAt("copy", 500);
-							doh.robot.mouseClick({left:true}, 100);
+							doh.robot.mouseClick({left:true}, 500);
 	
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.t(isHidden("editMenu"), "edit menu was closed: " + dijit.byId("editMenu").domNode.style.cssText);
@@ -109,7 +109,7 @@
 							dijit.byId("save").attr("onClick", function(){ clicked = true; });
 	
 							doh.robot.mouseMoveAt(leftPart, 500);
-							doh.robot.mouseClick({left:true}, 100);
+							doh.robot.mouseClick({left:true}, 500);
 	
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.t(clicked, "click event was fired");
@@ -128,7 +128,7 @@
 							doh.t(rightPart, "found right part of button");
 
 							doh.robot.mouseMoveAt(rightPart, 500);
-							doh.robot.mouseClick({left:true}, 100);
+							doh.robot.mouseClick({left:true}, 500);
 	
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.t(isVisible("saveMenu"), "save menu is visible: " + dijit.byId("saveMenu").domNode.style.cssText);
@@ -144,7 +144,7 @@
 							var d = new doh.Deferred();
 	
 							doh.robot.mouseMoveAt("saveAs", 500);
-							doh.robot.mouseClick({left:true}, 100);
+							doh.robot.mouseClick({left:true}, 500);
 	
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.t(isHidden("saveMenu"), "save menu was closed: " + dijit.byId("saveMenu").domNode.style.cssText);
@@ -166,7 +166,7 @@
 							doh.t(checked, "toggle1 initially checked");
 
 							doh.robot.mouseMoveAt("toggle1", 500);
-							doh.robot.mouseClick({left:true}, 100);
+							doh.robot.mouseClick({left:true}, 500);
 	
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.f(checked, "toggle1 unchecked");
@@ -185,7 +185,7 @@
 							doh.f(checked, "toggle2 initially unchecked");
 
 							doh.robot.mouseMoveAt("toggle2", 500);
-							doh.robot.mouseClick({left:true}, 100);
+							doh.robot.mouseClick({left:true}, 500);
 	
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.t(checked, "toggle2 checked");
@@ -205,7 +205,7 @@
 							dijit.byId("toggle1").attr("onChange", function(v){ changed = true; });
 
 							doh.robot.mouseMoveAt("toggle1", 500);
-							doh.robot.mouseClick({left:true}, 100);
+							doh.robot.mouseClick({left:true}, 500);
 	
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.f(changed, "value changed");
@@ -253,13 +253,13 @@
 							var clicked = false;
 							dijit.byId("save").attr("onClick", function(){ clicked = true; });
 							doh.robot.mouseMoveAt(leftPart, 500);
-							doh.robot.mouseClick({left:true}, 100);
+							doh.robot.mouseClick({left:true}, 500);
 
 							// click right side of button
 							var rightPart = dojo.query(".dijitDownArrowButton", dojo.byId("save"))[0];
 							doh.t(rightPart, "found right part of button");
 							doh.robot.mouseMoveAt(rightPart, 500);
-							doh.robot.mouseClick({left:true}, 100);
+							doh.robot.mouseClick({left:true}, 500);
 
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.f(clicked, "click event was not fired");
