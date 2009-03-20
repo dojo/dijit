@@ -53,107 +53,108 @@
 					}
 				});
 
-				doh.register("setvaluetest",{
-					name: "valid_max",
-					textbox: 'q03',
-					runTest:function(){
-						this.textbox=dijit.byId(this.textbox);
-						this.textbox.attr('value', 120);
-						var onChange=dojo.byId('oc3');
-						doh.is(120, onChange.value, "onChange.value");
-						doh.is(120, this.textbox.focusNode.value, "focusNode.value");
-						doh.is(120, this.textbox.attr('value'), "attr('value')");
-						doh.is(true, this.textbox.isValid(), "isValid()");
+				doh.register("setvaluetest", [
+					{
+						name: "valid_max",
+						textbox: 'q03',
+						runTest:function(){
+							this.textbox=dijit.byId(this.textbox);
+							this.textbox.attr('value', 120);
+							var onChange=dojo.byId('oc3');
+							doh.is(120, onChange.value, "onChange.value");
+							doh.is(120, this.textbox.focusNode.value, "focusNode.value");
+							doh.is(120, this.textbox.attr('value'), "attr('value')");
+							doh.is(true, this.textbox.isValid(), "isValid()");
+	
+						}
+					},
 
+					{
+						name: "out_of_range_max",
+						textbox: 'q03',
+						runTest:function(){
+							this.textbox=dijit.byId(this.textbox);
+							this.textbox.attr('value', 121);
+							var onChange=dojo.byId('oc3');
+							doh.is(121, onChange.value, "onChange.value");
+							doh.is(121, this.textbox.focusNode.value, "focusNode.value");
+							doh.is(121, this.textbox.attr('value'), "attr('value')");
+							doh.is(false, this.textbox.isValid(), "isValid()");
+						}
+					},
+
+					{
+						name: "valid_min",
+						textbox: 'q03',
+						runTest:function(){
+							this.textbox=dijit.byId(this.textbox);
+							this.textbox.attr('value', 0);
+							var onChange=dojo.byId('oc3');
+							doh.is(0, onChange.value, "onChange.value");
+							doh.is(0, this.textbox.focusNode.value, "focusNode.value");
+							doh.is(0, this.textbox.attr('value'), "onChange.value");
+							doh.is(true, this.textbox.isValid(), "isValid()");
+						}
+					},
+
+					{
+						name: "out_of_range_min",
+						textbox: 'q03',
+						runTest:function(){
+							this.textbox=dijit.byId(this.textbox);
+							this.textbox.attr('value',-1);
+							var onChange=dojo.byId('oc3');
+							doh.is(-1, onChange.value, "onChange.value");
+							doh.is(-1, this.textbox.focusNode.value, "focusNode.value");
+							doh.is(-1, this.textbox.attr('value'), "attr('value')");
+							doh.is(false, this.textbox.isValid(), "isValid()");
+						}
+					},
+
+					{
+						name: "invalid",
+						textbox: 'q03',
+						runTest:function(){
+							this.textbox=dijit.byId(this.textbox);
+							this.textbox.attr('value','two');
+							var onChange=dojo.byId('oc3');
+							doh.is('undefined', onChange.value);
+							doh.is('two', this.textbox.focusNode.value, "focusNode.value");
+							doh.is(undefined, this.textbox.attr('value'), "attr('value')");
+							doh.is(false, this.textbox.isValid(), "isValid()");
+						}
+					},
+
+					{
+						name: "null_required",
+						textbox: 'q03',
+						runTest:function(){
+							this.textbox=dijit.byId(this.textbox);
+							this.textbox.attr('required',true);
+							this.textbox.attr('value', null);
+							var onChange=dojo.byId('oc3');
+							doh.is(true, isNaN(onChange.value));
+							doh.is('', this.textbox.focusNode.value, "focusNode.value");
+							doh.is(false, this.textbox.isValid(), "isValid()");
+							doh.is(true, isNaN(this.textbox.attr('value')));
+						}
+					},
+
+					{
+						name: "null_notrequired",
+						textbox: 'q03',
+						runTest:function(){
+							this.textbox=dijit.byId(this.textbox);
+							this.textbox.attr('value', null);
+							this.textbox.attr('required',false);
+							var onChange=dojo.byId('oc3');
+							doh.is(true, isNaN(onChange.value));
+							doh.is('', this.textbox.focusNode.value, "focusNode.value");
+							doh.is(true, this.textbox.isValid(), "isValid()");
+							doh.is(true, isNaN(this.textbox.attr('value')));
+						}
 					}
-				});
-
-				doh.register("setvaluetest",{
-					name: "out_of_range_max",
-					textbox: 'q03',
-					runTest:function(){
-						this.textbox=dijit.byId(this.textbox);
-						this.textbox.attr('value', 121);
-						var onChange=dojo.byId('oc3');
-						doh.is(121, onChange.value, "onChange.value");
-						doh.is(121, this.textbox.focusNode.value, "focusNode.value");
-						doh.is(121, this.textbox.attr('value'), "attr('value')");
-						doh.is(false, this.textbox.isValid(), "isValid()");
-					}
-				});
-
-				doh.register("setvaluetest",{
-					name: "valid_min",
-					textbox: 'q03',
-					runTest:function(){
-						this.textbox=dijit.byId(this.textbox);
-						this.textbox.attr('value', 0);
-						var onChange=dojo.byId('oc3');
-						doh.is(0, onChange.value, "onChange.value");
-						doh.is(0, this.textbox.focusNode.value, "focusNode.value");
-						doh.is(0, this.textbox.attr('value'), "onChange.value");
-						doh.is(true, this.textbox.isValid(), "isValid()");
-
-					}
-				});
-
-				doh.register("setvaluetest",{
-					name: "out_of_range_min",
-					textbox: 'q03',
-					runTest:function(){
-						this.textbox=dijit.byId(this.textbox);
-						this.textbox.attr('value',-1);
-						var onChange=dojo.byId('oc3');
-						doh.is(-1, onChange.value, "onChange.value");
-						doh.is(-1, this.textbox.focusNode.value, "focusNode.value");
-						doh.is(-1, this.textbox.attr('value'), "attr('value')");
-						doh.is(false, this.textbox.isValid(), "isValid()");
-					}
-				});
-
-				doh.register("setvaluetest",{
-					name: "invalid",
-					textbox: 'q03',
-					runTest:function(){
-						this.textbox=dijit.byId(this.textbox);
-						this.textbox.attr('value','two');
-						var onChange=dojo.byId('oc3');
-						doh.is('undefined', onChange.value);
-						doh.is('two', this.textbox.focusNode.value, "focusNode.value");
-						doh.is(undefined, this.textbox.attr('value'), "attr('value')");
-						doh.is(false, this.textbox.isValid(), "isValid()");
-					}
-				});
-
-				doh.register("setvaluetest",{
-					name: "null_required",
-					textbox: 'q03',
-					runTest:function(){
-						this.textbox=dijit.byId(this.textbox);
-						this.textbox.attr('required',true);
-						this.textbox.attr('value', null);
-						var onChange=dojo.byId('oc3');
-						doh.is(true, isNaN(onChange.value));
-						doh.is('', this.textbox.focusNode.value, "focusNode.value");
-						doh.is(false, this.textbox.isValid(), "isValid()");
-						doh.is(true, isNaN(this.textbox.attr('value')));
-					}
-				});
-
-				doh.register("setvaluetest",{
-					name: "null_notrequired",
-					textbox: 'q03',
-					runTest:function(){
-						this.textbox=dijit.byId(this.textbox);
-						this.textbox.attr('value', null);
-						this.textbox.attr('required',false);
-						var onChange=dojo.byId('oc3');
-						doh.is(true, isNaN(onChange.value));
-						doh.is('', this.textbox.focusNode.value, "focusNode.value");
-						doh.is(true, this.textbox.isValid(), "isValid()");
-						doh.is(true, isNaN(this.textbox.attr('value')));
-					}
-				});
+				]);
 
 				doh.register("intermediatechanges",{
 					name: "valid",
@@ -202,337 +203,345 @@
 					}
 				});
 
-				doh.register("maxlength",{
-					name: "3chars",
-					textbox: "fav",
-					timeout:60000,
-					setUp:function(){
-						this.textbox=dijit.byId(this.textbox);
-						this.textbox.attr('value','');
-					},
-					runTest:function(){
-						var d=new doh.Deferred();
-						this.textbox=dijit.byId(this.textbox);
-						doh.robot.mouseMoveAt(this.textbox.focusNode, 500);
-						doh.robot.mouseClick({left:true}, 500);
-						doh.robot.typeKeys('100', 500, 300);
-						doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
-							// test that value changed while typing since intermediateChanges=true
-							doh.is('100', this.textbox.focusNode.value, "focusNode.value");
-							doh.is(100, this.textbox.attr('value'), "attr('value')");
-						})), 500);
-						return d;
-					}
-				});
-
-				doh.register("maxlength",{
-					name: "4chars",
-					textbox: "fav",
-					timeout: 60000,
-					setUp:function(){
-						this.textbox=dijit.byId(this.textbox);
-						this.textbox.attr('value','');
-					},
-					runTest:function(){
-						var d=new doh.Deferred();
-						doh.robot.mouseMoveAt(this.textbox.focusNode, 500);
-						doh.robot.mouseClick({left:true}, 500);
-						doh.robot.typeKeys('1001', 500, 300);
-						doh.robot.sequence(d.getTestErrback(dojo.hitch(this, function(){
-							// test that value changed while typing since intermediateChanges=true
-							doh.is('100', this.textbox.focusNode.value, "focusNode.value");
-							doh.is(100, this.textbox.attr('value'), "attr('value')");
-							doh.robot.typeKeys('1', 500, 100);
+				doh.register("maxlength", [
+					{
+						name: "3chars",
+						textbox: "fav",
+						timeout:60000,
+						setUp:function(){
+							this.textbox=dijit.byId(this.textbox);
+							this.textbox.attr('value','');
+						},
+						runTest:function(){
+							var d=new doh.Deferred();
+							this.textbox=dijit.byId(this.textbox);
+							doh.robot.mouseMoveAt(this.textbox.focusNode, 500);
+							doh.robot.mouseClick({left:true}, 500);
+							doh.robot.typeKeys('100', 500, 300);
 							doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
+								// test that value changed while typing since intermediateChanges=true
 								doh.is('100', this.textbox.focusNode.value, "focusNode.value");
 								doh.is(100, this.textbox.attr('value'), "attr('value')");
 							})), 500);
-						})), 500);
-						return d;
-					}
-				});
+							return d;
+						}
+					},
 
-				doh.register("errorStyle",{
-					name: "beforeClick",
-					textbox: "q04",
-					runTest:function(){
-						this.textbox=dijit.byId(this.textbox);
-						doh.is('', this.textbox.attr('state'));
-						doh.is(false, this.textbox.isValid(), "isValid()");
+					{
+						name: "4chars",
+						textbox: "fav",
+						timeout: 60000,
+						setUp:function(){
+							this.textbox=dijit.byId(this.textbox);
+							this.textbox.attr('value','');
+						},
+						runTest:function(){
+							var d=new doh.Deferred();
+							doh.robot.mouseMoveAt(this.textbox.focusNode, 500);
+							doh.robot.mouseClick({left:true}, 500);
+							doh.robot.typeKeys('1001', 500, 300);
+							doh.robot.sequence(d.getTestErrback(dojo.hitch(this, function(){
+								// test that value changed while typing since intermediateChanges=true
+								doh.is('100', this.textbox.focusNode.value, "focusNode.value");
+								doh.is(100, this.textbox.attr('value'), "attr('value')");
+								doh.robot.typeKeys('1', 500, 100);
+								doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
+									doh.is('100', this.textbox.focusNode.value, "focusNode.value");
+									doh.is(100, this.textbox.attr('value'), "attr('value')");
+								})), 500);
+							})), 500);
+							return d;
+						}
 					}
-				});
+				]);
 
-				doh.register("errorStyle",{
-					name: "afterClick",
-					textbox: "q04",
-					timeout:60000,
-					runTest:function(){
-						var d=new doh.Deferred();
-						this.textbox=dijit.byId(this.textbox);
-						doh.robot.mouseMoveAt(this.textbox.focusNode, 500);
-						doh.robot.mouseClick({left:true}, 500);
-						doh.robot.mouseMoveAt(dijit.byId('q01').focusNode, 4000);	// time for promptMessage to appear on q04 (IE6 takes a while due to iframe)
-						doh.robot.mouseClick({left:true}, 500);
-						doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
-							doh.is('Error', this.textbox.attr('state'));
-							doh.is(false, this.textbox.isValid(), "isValid()");
-						})), 500);
-						return d;
-					}
-				});
-
-				doh.register("errorStyle",{
-					name: "valid",
-					textbox: "q04",
-					timeout:60000,
-					runTest:function(){
-						var d=new doh.Deferred();
-						this.textbox=dijit.byId(this.textbox);
-						doh.robot.mouseMoveAt(this.textbox.focusNode, 500);
-						doh.robot.mouseClick({left:true}, 500);
-						doh.robot.sequence(d.getTestErrback(dojo.hitch(this, function(){
+				doh.register("errorStyle", [
+					{
+						name: "beforeClick",
+						textbox: "q04",
+						runTest:function(){
+							this.textbox=dijit.byId(this.textbox);
 							doh.is('', this.textbox.attr('state'));
 							doh.is(false, this.textbox.isValid(), "isValid()");
-							doh.robot.typeKeys('a',500,600);
-							doh.robot.sequence(d.getTestErrback(dojo.hitch(this, function(){
-								doh.is('a', this.textbox.attr('value'), "attr('value')");
-								doh.is('', this.textbox.attr('state'));
-								doh.is(true, this.textbox.isValid(), "isValid()");
-								doh.robot.mouseMoveAt(dijit.byId('q01').focusNode, 500);
-								doh.robot.mouseClick({left:true}, 500);
-								doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
-									doh.is('', this.textbox.attr('state'));
-									doh.is(true, this.textbox.isValid(), "isValid()");
-								})), 500);
-							})),500);
-						})), 500);
-						return d;
-					}
-				});
-
-				doh.register("commaformat",{
-					name:"beforeClick",
-					textbox: "q05",
-					runTest:function(){
-						this.textbox=dijit.byId(this.textbox);
-						doh.is('3,000', this.textbox.focusNode.value, "focusNode.value");
-						doh.is('3000', this.textbox.attr('value'), "attr('value')");
-						doh.is(true,this.textbox.isValid(), "isValid()");
-					}
-				});
-
-				doh.register("commaformat",{
-					name:"click",
-					timeout:60000,
-					textbox: "q05",
-					runTest:function(){
-						var d=new doh.Deferred();
-						this.textbox=dijit.byId(this.textbox);
-						var onChange=dojo.byId('oc5');
-						doh.robot.mouseMoveAt(this.textbox.focusNode, 500);
-						doh.robot.mouseClick({left:true},500);
-						doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
-							// comma should disappear on click, value shouldn't change
-							doh.is('3000', this.textbox.focusNode.value, "focusNode.value");
-							doh.is('3000', this.textbox.attr('value'), "attr('value')");
-							doh.is(true,this.textbox.isValid(), "isValid()");
-							doh.is('not fired yet!', onChange.value);
-						})), 500);
-						return d;
-					}
-				});
-
-				doh.register("commaformat",{
-					name:"type_valid_nocomma",
-					timeout:60000,
-					textbox: "q05",
-					setUp:function(){
-						this.textbox=dijit.byId(this.textbox);
-						this.textbox.attr('value','');
+						}
 					},
-					runTest:function(){
-						var d=new doh.Deferred();
-						var onChange=dojo.byId('oc5');
-						doh.robot.mouseMoveAt(this.textbox.focusNode, 500);
-						doh.robot.mouseClick({left:true},500);
-						doh.robot.typeKeys('3000',500,400);
-						doh.robot.sequence(d.getTestErrback(dojo.hitch(this, function(){
-							doh.is('3000', this.textbox.focusNode.value, "focusNode.value");
-							doh.is('3000', this.textbox.attr('value'), "attr('value')");
-							doh.is(true,this.textbox.isValid(), "isValid()");
-							doh.is('NaN', onChange.value);
-							doh.robot.mouseMoveAt(dijit.byId('q01').focusNode, 500);
+
+					{
+						name: "afterClick",
+						textbox: "q04",
+						timeout:60000,
+						runTest:function(){
+							var d=new doh.Deferred();
+							this.textbox=dijit.byId(this.textbox);
+							doh.robot.mouseMoveAt(this.textbox.focusNode, 500);
+							doh.robot.mouseClick({left:true}, 500);
+							doh.robot.mouseMoveAt(dijit.byId('q01').focusNode, 4000);	// time for promptMessage to appear on q04 (IE6 takes a while due to iframe)
 							doh.robot.mouseClick({left:true}, 500);
 							doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
-								doh.is('3,000', this.textbox.focusNode.value, "focusNode.value");
-								doh.is('3000', this.textbox.attr('value'), "attr('value')");
-								doh.is(true,this.textbox.isValid(), "isValid()");
-								doh.is('3000', onChange.value);
+								doh.is('Error', this.textbox.attr('state'));
+								doh.is(false, this.textbox.isValid(), "isValid()");
 							})), 500);
-						})), 500);
-						return d;
-					}
-				});
-
-				doh.register("commaformat",{
-					name:"type_valid_comma",
-					timeout:60000,
-					textbox: "q05",
-					setUp:function(){
-						this.textbox=dijit.byId(this.textbox);
-						this.textbox.attr('value','');
+							return d;
+						}
 					},
-					runTest:function(){
-						var d=new doh.Deferred();
-						var onChange=dojo.byId('oc5');
-						doh.robot.mouseMoveAt(this.textbox.focusNode, 500);
-						doh.robot.mouseClick({left:true},500);
-						doh.robot.typeKeys('3,000',500,500);
-						doh.robot.sequence(d.getTestErrback(dojo.hitch(this, function(){
+
+					{
+						name: "valid",
+						textbox: "q04",
+						timeout:60000,
+						runTest:function(){
+							var d=new doh.Deferred();
+							this.textbox=dijit.byId(this.textbox);
+							doh.robot.mouseMoveAt(this.textbox.focusNode, 500);
+							doh.robot.mouseClick({left:true}, 500);
+							doh.robot.sequence(d.getTestErrback(dojo.hitch(this, function(){
+								doh.is('', this.textbox.attr('state'));
+								doh.is(false, this.textbox.isValid(), "isValid()");
+								doh.robot.typeKeys('a',500,600);
+								doh.robot.sequence(d.getTestErrback(dojo.hitch(this, function(){
+									doh.is('a', this.textbox.attr('value'), "attr('value')");
+									doh.is('', this.textbox.attr('state'));
+									doh.is(true, this.textbox.isValid(), "isValid()");
+									doh.robot.mouseMoveAt(dijit.byId('q01').focusNode, 500);
+									doh.robot.mouseClick({left:true}, 500);
+									doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
+										doh.is('', this.textbox.attr('state'));
+										doh.is(true, this.textbox.isValid(), "isValid()");
+									})), 500);
+								})),500);
+							})), 500);
+							return d;
+						}
+					}
+				]);
+
+				doh.register("commaformat", [
+					{
+						name:"beforeClick",
+						textbox: "q05",
+						runTest:function(){
+							this.textbox=dijit.byId(this.textbox);
 							doh.is('3,000', this.textbox.focusNode.value, "focusNode.value");
 							doh.is('3000', this.textbox.attr('value'), "attr('value')");
 							doh.is(true,this.textbox.isValid(), "isValid()");
-							doh.is('NaN', onChange.value);
-							doh.robot.mouseMoveAt(dijit.byId('q01').focusNode, 500);
-							doh.robot.mouseClick({left:true}, 500);
+						}
+					},
+
+					{
+						name:"click",
+						timeout:60000,
+						textbox: "q05",
+						runTest:function(){
+							var d=new doh.Deferred();
+							this.textbox=dijit.byId(this.textbox);
+							var onChange=dojo.byId('oc5');
+							doh.robot.mouseMoveAt(this.textbox.focusNode, 500);
+							doh.robot.mouseClick({left:true},500);
 							doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
+								// comma should disappear on click, value shouldn't change
+								doh.is('3000', this.textbox.focusNode.value, "focusNode.value");
+								doh.is('3000', this.textbox.attr('value'), "attr('value')");
+								doh.is(true,this.textbox.isValid(), "isValid()");
+								doh.is('not fired yet!', onChange.value);
+							})), 500);
+							return d;
+						}
+					},
+
+					{
+						name:"type_valid_nocomma",
+						timeout:60000,
+						textbox: "q05",
+						setUp:function(){
+							this.textbox=dijit.byId(this.textbox);
+							this.textbox.attr('value','');
+						},
+						runTest:function(){
+							var d=new doh.Deferred();
+							var onChange=dojo.byId('oc5');
+							doh.robot.mouseMoveAt(this.textbox.focusNode, 500);
+							doh.robot.mouseClick({left:true},500);
+							doh.robot.typeKeys('3000',500,400);
+							doh.robot.sequence(d.getTestErrback(dojo.hitch(this, function(){
+								doh.is('3000', this.textbox.focusNode.value, "focusNode.value");
+								doh.is('3000', this.textbox.attr('value'), "attr('value')");
+								doh.is(true,this.textbox.isValid(), "isValid()");
+								doh.is('NaN', onChange.value);
+								doh.robot.mouseMoveAt(dijit.byId('q01').focusNode, 500);
+								doh.robot.mouseClick({left:true}, 500);
+								doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
+									doh.is('3,000', this.textbox.focusNode.value, "focusNode.value");
+									doh.is('3000', this.textbox.attr('value'), "attr('value')");
+									doh.is(true,this.textbox.isValid(), "isValid()");
+									doh.is('3000', onChange.value);
+								})), 500);
+							})), 500);
+							return d;
+						}
+					},
+
+					{
+						name:"type_valid_comma",
+						timeout:60000,
+						textbox: "q05",
+						setUp:function(){
+							this.textbox=dijit.byId(this.textbox);
+							this.textbox.attr('value','');
+						},
+						runTest:function(){
+							var d=new doh.Deferred();
+							var onChange=dojo.byId('oc5');
+							doh.robot.mouseMoveAt(this.textbox.focusNode, 500);
+							doh.robot.mouseClick({left:true},500);
+							doh.robot.typeKeys('3,000',500,500);
+							doh.robot.sequence(d.getTestErrback(dojo.hitch(this, function(){
 								doh.is('3,000', this.textbox.focusNode.value, "focusNode.value");
 								doh.is('3000', this.textbox.attr('value'), "attr('value')");
 								doh.is(true,this.textbox.isValid(), "isValid()");
-								doh.is('3000', onChange.value);
+								doh.is('NaN', onChange.value);
+								doh.robot.mouseMoveAt(dijit.byId('q01').focusNode, 500);
+								doh.robot.mouseClick({left:true}, 500);
+								doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
+									doh.is('3,000', this.textbox.focusNode.value, "focusNode.value");
+									doh.is('3000', this.textbox.attr('value'), "attr('value')");
+									doh.is(true,this.textbox.isValid(), "isValid()");
+									doh.is('3000', onChange.value);
+								})), 500);
 							})), 500);
-						})), 500);
-						return d;
-					}
-				});
-
-				doh.register("commaformat",{
-					name:"type_invalid_comma",
-					timeout:60000,
-					textbox: "q05",
-					setUp:function(){
-						this.textbox=dijit.byId(this.textbox);
-						this.textbox.attr('value','');
+							return d;
+						}
 					},
-					runTest:function(){
-						var d=new doh.Deferred();
-						var onChange=dojo.byId('oc5');
-						doh.robot.mouseMoveAt(this.textbox.focusNode, 500);
-						doh.robot.mouseClick({left:true},500);
-						doh.robot.typeKeys('300,0',500,500);
-						doh.robot.sequence(d.getTestErrback(dojo.hitch(this, function(){
-							doh.is('300,0', this.textbox.focusNode.value, "focusNode.value");
-							doh.is(undefined, this.textbox.attr('value'), "attr('value')");
-							doh.is(false,this.textbox.isValid(), "isValid()");
-							doh.is('NaN', onChange.value);
-							doh.robot.mouseMoveAt(dijit.byId('q01').focusNode, 500);
-							doh.robot.mouseClick({left:true}, 500);
-							doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
+
+					{
+						name:"type_invalid_comma",
+						timeout:60000,
+						textbox: "q05",
+						setUp:function(){
+							this.textbox=dijit.byId(this.textbox);
+							this.textbox.attr('value','');
+						},
+						runTest:function(){
+							var d=new doh.Deferred();
+							var onChange=dojo.byId('oc5');
+							doh.robot.mouseMoveAt(this.textbox.focusNode, 500);
+							doh.robot.mouseClick({left:true},500);
+							doh.robot.typeKeys('300,0',500,500);
+							doh.robot.sequence(d.getTestErrback(dojo.hitch(this, function(){
 								doh.is('300,0', this.textbox.focusNode.value, "focusNode.value");
 								doh.is(undefined, this.textbox.attr('value'), "attr('value')");
 								doh.is(false,this.textbox.isValid(), "isValid()");
-								doh.is('undefined', onChange.value);
+								doh.is('NaN', onChange.value);
+								doh.robot.mouseMoveAt(dijit.byId('q01').focusNode, 500);
+								doh.robot.mouseClick({left:true}, 500);
+								doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
+									doh.is('300,0', this.textbox.focusNode.value, "focusNode.value");
+									doh.is(undefined, this.textbox.attr('value'), "attr('value')");
+									doh.is(false,this.textbox.isValid(), "isValid()");
+									doh.is('undefined', onChange.value);
+								})), 500);
 							})), 500);
-						})), 500);
-						return d;
+							return d;
+						}
 					}
-				});
+				]);
 
-				doh.register("currencyFormat",{
-					name:"beforeClick",
-					textbox: "q08",
-					runTest:function(){
-						this.textbox=dijit.byId(this.textbox);
-						doh.is('$54,775.53', this.textbox.focusNode.value, "focusNode.value");
-						doh.is('54775.53', this.textbox.attr('value'), "attr('value')");
-						doh.is(true,this.textbox.isValid(), "isValid()");
-					}
-				});
-
-				doh.register("currencyFormat",{
-					name:"click",
-					timeout:60000,
-					textbox: "q08",
-					runTest:function(){
-						var d=new doh.Deferred();
-						this.textbox=dijit.byId(this.textbox);
-						var onChange=dojo.byId('oc8');
-						doh.robot.mouseMoveAt(this.textbox.focusNode, 500);
-						doh.robot.mouseClick({left:true},500);
-						doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
-							// comma should disappear on click, value shouldn't change
-							doh.is('54775.53', this.textbox.focusNode.value, "focusNode.value");
+				doh.register("currencyFormat", [
+					{
+						name:"beforeClick",
+						textbox: "q08",
+						runTest:function(){
+							this.textbox=dijit.byId(this.textbox);
+							doh.is('$54,775.53', this.textbox.focusNode.value, "focusNode.value");
 							doh.is('54775.53', this.textbox.attr('value'), "attr('value')");
 							doh.is(true,this.textbox.isValid(), "isValid()");
-							doh.is('not fired yet!', onChange.value);
-						})), 500);
-						return d;
-					}
-				});
-
-				doh.register("currencyFormat",{
-					name:"type_valid_number",
-					timeout:60000,
-					textbox: "q08",
-					setUp:function(){
-						this.textbox=dijit.byId(this.textbox);
-						this.textbox.attr('value','');
+						}
 					},
-					runTest:function(){
-						var d=new doh.Deferred();
-						var onChange=dojo.byId('oc8');
-						doh.robot.mouseMoveAt(this.textbox.focusNode, 500);
-						doh.robot.mouseClick({left:true},500);
-						doh.robot.typeKeys('10000.01',500,800);
-						doh.robot.sequence(d.getTestErrback(dojo.hitch(this, function(){
-							doh.is('10000.01', this.textbox.focusNode.value, "focusNode.value");
-							doh.is('10000.01', this.textbox.attr('value'), "attr('value')");
-							doh.is(true,this.textbox.isValid(), "isValid()");
-							doh.is('NaN', onChange.value);
-							doh.robot.mouseMoveAt(dijit.byId('q01').focusNode, 500);
-							doh.robot.mouseClick({left:true}, 500);
+
+					{
+						name:"click",
+						timeout:60000,
+						textbox: "q08",
+						runTest:function(){
+							var d=new doh.Deferred();
+							this.textbox=dijit.byId(this.textbox);
+							var onChange=dojo.byId('oc8');
+							doh.robot.mouseMoveAt(this.textbox.focusNode, 500);
+							doh.robot.mouseClick({left:true},500);
 							doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
-								doh.is('$10,000.01', this.textbox.focusNode.value, "focusNode.value");
+								// comma should disappear on click, value shouldn't change
+								doh.is('54775.53', this.textbox.focusNode.value, "focusNode.value");
+								doh.is('54775.53', this.textbox.attr('value'), "attr('value')");
+								doh.is(true,this.textbox.isValid(), "isValid()");
+								doh.is('not fired yet!', onChange.value);
+							})), 500);
+							return d;
+						}
+					},
+
+					{
+						name:"type_valid_number",
+						timeout:60000,
+						textbox: "q08",
+						setUp:function(){
+							this.textbox=dijit.byId(this.textbox);
+							this.textbox.attr('value','');
+						},
+						runTest:function(){
+							var d=new doh.Deferred();
+							var onChange=dojo.byId('oc8');
+							doh.robot.mouseMoveAt(this.textbox.focusNode, 500);
+							doh.robot.mouseClick({left:true},500);
+							doh.robot.typeKeys('10000.01',500,800);
+							doh.robot.sequence(d.getTestErrback(dojo.hitch(this, function(){
+								doh.is('10000.01', this.textbox.focusNode.value, "focusNode.value");
 								doh.is('10000.01', this.textbox.attr('value'), "attr('value')");
 								doh.is(true,this.textbox.isValid(), "isValid()");
-								doh.is('10000.01', onChange.value);
+								doh.is('NaN', onChange.value);
+								doh.robot.mouseMoveAt(dijit.byId('q01').focusNode, 500);
+								doh.robot.mouseClick({left:true}, 500);
+								doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
+									doh.is('$10,000.01', this.textbox.focusNode.value, "focusNode.value");
+									doh.is('10000.01', this.textbox.attr('value'), "attr('value')");
+									doh.is(true,this.textbox.isValid(), "isValid()");
+									doh.is('10000.01', onChange.value);
+								})), 500);
 							})), 500);
-						})), 500);
-						return d;
-					}
-				});
-
-				doh.register("currencyFormat",{
-					name:"type_valid_dollarsign",
-					timeout:60000,
-					textbox: "q08",
-					setUp:function(){
-						this.textbox=dijit.byId(this.textbox);
-						this.textbox.attr('value','');
+							return d;
+						}
 					},
-					runTest:function(){
-						var d=new doh.Deferred();
-						var onChange=dojo.byId('oc8');
-						doh.robot.mouseMoveAt(this.textbox.focusNode, 500);
-						doh.robot.mouseClick({left:true},500);
-						doh.robot.typeKeys('$20000.01',500,900);
-						doh.robot.sequence(d.getTestErrback(dojo.hitch(this, function(){
-							doh.is('$20000.01', this.textbox.focusNode.value, "focusNode.value");
-							doh.is('20000.01', this.textbox.attr('value'), "attr('value')");
-							doh.is(true,this.textbox.isValid(), "isValid()");
-							doh.is('NaN', onChange.value);
-							doh.robot.mouseMoveAt(dijit.byId('q01').focusNode, 500);
-							doh.robot.mouseClick({left:true}, 500);
-							doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
-								doh.is('$20,000.01', this.textbox.focusNode.value, "focusNode.value");
+
+					{
+						name:"type_valid_dollarsign",
+						timeout:60000,
+						textbox: "q08",
+						setUp:function(){
+							this.textbox=dijit.byId(this.textbox);
+							this.textbox.attr('value','');
+						},
+						runTest:function(){
+							var d=new doh.Deferred();
+							var onChange=dojo.byId('oc8');
+							doh.robot.mouseMoveAt(this.textbox.focusNode, 500);
+							doh.robot.mouseClick({left:true},500);
+							doh.robot.typeKeys('$20000.01',500,900);
+							doh.robot.sequence(d.getTestErrback(dojo.hitch(this, function(){
+								doh.is('$20000.01', this.textbox.focusNode.value, "focusNode.value");
 								doh.is('20000.01', this.textbox.attr('value'), "attr('value')");
 								doh.is(true,this.textbox.isValid(), "isValid()");
-								doh.is('20000.01', onChange.value);
+								doh.is('NaN', onChange.value);
+								doh.robot.mouseMoveAt(dijit.byId('q01').focusNode, 500);
+								doh.robot.mouseClick({left:true}, 500);
+								doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
+									doh.is('$20,000.01', this.textbox.focusNode.value, "focusNode.value");
+									doh.is('20000.01', this.textbox.attr('value'), "attr('value')");
+									doh.is(true,this.textbox.isValid(), "isValid()");
+									doh.is('20000.01', onChange.value);
+								})), 500);
 							})), 500);
-						})), 500);
-						return d;
+							return d;
+						}
 					}
-				});
+				]);
 
 				doh.register("euroformat",{
 					name:"type_1",
@@ -558,49 +567,51 @@
 					}
 				});
 
-				doh.register("regexp",{
-					name:"valid",
-					timeout:60000,
-					textbox: "q22",
-					setUp:function(){
-						this.textbox=dijit.byId(this.textbox);
-						this.textbox.attr('value','');
+				doh.register("regexp", [
+					{
+						name:"valid",
+						timeout:60000,
+						textbox: "q22",
+						setUp:function(){
+							this.textbox=dijit.byId(this.textbox);
+							this.textbox.attr('value','');
+						},
+						runTest:function(){
+							var d=new doh.Deferred();
+							doh.robot.mouseMoveAt(this.textbox.focusNode, 500);
+							doh.robot.mouseClick({left:true},500);
+							doh.robot.typeKeys('a',500,100);
+							doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
+								doh.is('a', this.textbox.focusNode.value, "focusNode.value");
+								doh.is('a', this.textbox.attr('value'), "attr('value')");
+								doh.is(true,this.textbox.isValid(), "isValid()");
+							})), 500);
+							return d;
+						}
 					},
-					runTest:function(){
-						var d=new doh.Deferred();
-						doh.robot.mouseMoveAt(this.textbox.focusNode, 500);
-						doh.robot.mouseClick({left:true},500);
-						doh.robot.typeKeys('a',500,100);
-						doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
-							doh.is('a', this.textbox.focusNode.value, "focusNode.value");
-							doh.is('a', this.textbox.attr('value'), "attr('value')");
-							doh.is(true,this.textbox.isValid(), "isValid()");
-						})), 500);
-						return d;
-					}
-				});
 
-				doh.register("regexp",{
-					name:"invalid",
-					timeout:60000,
-					textbox: "q22",
-					setUp:function(){
-						this.textbox=dijit.byId(this.textbox);
-						this.textbox.attr('value','');
-					},
-					runTest:function(){
-						var d=new doh.Deferred();
-						doh.robot.mouseMoveAt(this.textbox.focusNode, 500);
-						doh.robot.mouseClick({left:true},500);
-						doh.robot.typeKeys('a ',500,100);
-						doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
-							doh.is('a ', this.textbox.focusNode.value, "focusNode.value");
-							doh.is('a ', this.textbox.attr('value'), "attr('value')");
-							doh.is(false,this.textbox.isValid(), "isValid()");
-						})), 500);
-						return d;
+					{
+						name:"invalid",
+						timeout:60000,
+						textbox: "q22",
+						setUp:function(){
+							this.textbox=dijit.byId(this.textbox);
+							this.textbox.attr('value','');
+						},
+						runTest:function(){
+							var d=new doh.Deferred();
+							doh.robot.mouseMoveAt(this.textbox.focusNode, 500);
+							doh.robot.mouseClick({left:true},500);
+							doh.robot.typeKeys('a ',500,100);
+							doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
+								doh.is('a ', this.textbox.focusNode.value, "focusNode.value");
+								doh.is('a ', this.textbox.attr('value'), "attr('value')");
+								doh.is(false,this.textbox.isValid(), "isValid()");
+							})), 500);
+							return d;
+						}
 					}
-				});
+				]);
 
 				doh.register("password",{
 					name:"type",
@@ -615,7 +626,7 @@
 						doh.robot.mouseMoveAt(this.textbox.focusNode, 500);
 						doh.robot.mouseClick({left:true},500);
 						doh.robot.typeKeys('abcdef',500,600);
-						doh.robot.sequence(d.getTestErrback(dojo.hitch(this, function(){
+						doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
 							doh.is('abcdef', this.textbox.focusNode.value, "focusNode.value");
 							doh.is('abcdef', this.textbox.attr('value'), "attr('value')");
 						})), 500);
@@ -623,48 +634,50 @@
 					}
 				});
 
-				doh.register("readonly",{
-					name:"readonly",
-					timeout:60000,
-					textbox: "q24",
-					setUp:function(){
-						this.textbox=dijit.byId(this.textbox);
+				doh.register("readonly", [
+					{
+						name:"readonly",
+						timeout:60000,
+						textbox: "q24",
+						setUp:function(){
+							this.textbox=dijit.byId(this.textbox);
+						},
+						runTest:function(){
+							var d=new doh.Deferred();
+							doh.robot.mouseMoveAt(this.textbox.focusNode, 500);
+							doh.robot.mouseClick({left:true},500);
+							doh.robot.typeKeys('abc',500,300);
+							doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
+								doh.is('cannot type here', this.textbox.focusNode.value, "focusNode.value");
+								doh.is('cannot type here', this.textbox.attr('value'), "attr('value')");
+							})), 500);
+							return d;
+						}
 					},
-					runTest:function(){
-						var d=new doh.Deferred();
-						doh.robot.mouseMoveAt(this.textbox.focusNode, 500);
-						doh.robot.mouseClick({left:true},500);
-						doh.robot.typeKeys('abc',500,300);
-						doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
-							doh.is('cannot type here', this.textbox.focusNode.value, "focusNode.value");
-							doh.is('cannot type here', this.textbox.attr('value'), "attr('value')");
-						})), 500);
-						return d;
-					}
-				});
 
-				doh.register("readonly",{
-					name:"write",
-					timeout:60000,
-					textbox: "q24",
-					setUp:function(){
-						this.textbox=dijit.byId(this.textbox);
-						this.textbox.attr('value','');
-					},
-					runTest:function(){
-						var d=new doh.Deferred();
-						doh.robot.mouseMoveAt(dojo.byId('removereadonly'), 500);
-						doh.robot.mouseClick({left:true},500);
-						doh.robot.mouseMoveAt(this.textbox.focusNode, 500);
-						doh.robot.mouseClick({left:true},500);
-						doh.robot.typeKeys('abc',500,300);
-						doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
-							doh.is('abc', this.textbox.focusNode.value, "focusNode.value");
-							doh.is('abc', this.textbox.attr('value'), "attr('value')");
-						})), 500);
-						return d;
+					{
+						name:"write",
+						timeout:60000,
+						textbox: "q24",
+						setUp:function(){
+							this.textbox=dijit.byId(this.textbox);
+							this.textbox.attr('value','');
+						},
+						runTest:function(){
+							var d=new doh.Deferred();
+							doh.robot.mouseMoveAt(dojo.byId('removereadonly'), 500);
+							doh.robot.mouseClick({left:true},500);
+							doh.robot.mouseMoveAt(this.textbox.focusNode, 500);
+							doh.robot.mouseClick({left:true},500);
+							doh.robot.typeKeys('abc',500,300);
+							doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
+								doh.is('abc', this.textbox.focusNode.value, "focusNode.value");
+								doh.is('abc', this.textbox.attr('value'), "attr('value')");
+							})), 500);
+							return d;
+						}
 					}
-				});
+				]);
 
 				doh.register("tearDown",{
 					name:"tearDown",
