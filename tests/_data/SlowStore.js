@@ -60,7 +60,7 @@ dojo.declare("dijit.tests._data.SlowStore", dojo.data.ItemFileReadStore, {
 
 		var that = this,
 			thatArgs = arguments;
-		setTimeout(function(){
+		var handle = setTimeout(function(){
 			that.log.push({
 				type: "end",
 				date: new Date(),
@@ -71,5 +71,15 @@ dojo.declare("dijit.tests._data.SlowStore", dojo.data.ItemFileReadStore, {
 			console.log("END query on " + (first || "{}") + " (" + count + " chars), delay = " + delay);
 			dojo.data.ItemFileReadStore.prototype.fetch.apply(that, thatArgs);
 		}, delay);
+
+		// This abort() method cancels a request before it has even been sent to ItemFileReadStore.
+		// (Since ItemFileReadStore has already loaded the data (as per code in the test file),
+		// it operates synchronously; there is never a case to send the cancel request to that object)
+		keywordArgs.abort = function(){
+			clearTimeout(handle);
+			console.log("CANCEL query on " + (first || "{}") + " (" + count + " chars), delay = " + delay);	
+		};
+		
+		return keywordArgs;
 	}
 });
