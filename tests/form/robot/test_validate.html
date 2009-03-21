@@ -167,8 +167,9 @@
 					runTest:function(){
 						var d=new doh.Deferred();
 						var onChange=dojo.byId('oc1');
-						doh.robot.mouseMoveAt(this.textbox.focusNode, 500);
-						doh.robot.mouseClick({left:true}, 500);
+						doh.robot.sequence(dojo.hitch(this, function(){
+							this.textbox.focusNode.focus();
+						}), 500);
 						doh.robot.typeKeys('Testing', 500, 700);
 						doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
 							// test that value changed while typing since intermediateChanges=true
@@ -190,11 +191,13 @@
 					},
 					runTest:function(){
 						var d=new doh.Deferred();
-						doh.robot.mouseMoveAt(this.textbox.focusNode, 500);
-						doh.robot.mouseClick({left:true}, 500);
+						doh.robot.sequence(dojo.hitch(this, function(){
+							this.textbox.focusNode.focus();
+						}), 500);
 						doh.robot.typeKeys('Testing', 500, 700);
-						doh.robot.mouseMoveAt(dijit.byId('q01').focusNode, 1000);
-						doh.robot.mouseClick({left:true}, 500);
+						doh.robot.sequence(dojo.hitch(this, function(){
+							dojo.byId("q01").focus();
+						}), 1000);
 						doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
 							doh.is('TESTING', this.textbox.focusNode.value, "focusNode.value");
 							doh.is('TESTING', this.textbox.attr('value'), "attr('value')");
@@ -215,8 +218,9 @@
 						runTest:function(){
 							var d=new doh.Deferred();
 							this.textbox=dijit.byId(this.textbox);
-							doh.robot.mouseMoveAt(this.textbox.focusNode, 500);
-							doh.robot.mouseClick({left:true}, 500);
+							doh.robot.sequence(dojo.hitch(this, function(){
+								this.textbox.focusNode.focus();
+							}), 500);
 							doh.robot.typeKeys('100', 500, 300);
 							doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
 								// test that value changed while typing since intermediateChanges=true
@@ -237,8 +241,9 @@
 						},
 						runTest:function(){
 							var d=new doh.Deferred();
-							doh.robot.mouseMoveAt(this.textbox.focusNode, 500);
-							doh.robot.mouseClick({left:true}, 500);
+							doh.robot.sequence(dojo.hitch(this, function(){
+								this.textbox.focusNode.focus();
+							}), 500);
 							doh.robot.typeKeys('1001', 500, 300);
 							doh.robot.sequence(d.getTestErrback(dojo.hitch(this, function(){
 								// test that value changed while typing since intermediateChanges=true
@@ -273,10 +278,12 @@
 						runTest:function(){
 							var d=new doh.Deferred();
 							this.textbox=dijit.byId(this.textbox);
-							doh.robot.mouseMoveAt(this.textbox.focusNode, 500);
-							doh.robot.mouseClick({left:true}, 500);
-							doh.robot.mouseMoveAt(dijit.byId('q01').focusNode, 4000);	// time for promptMessage to appear on q04 (IE6 takes a while due to iframe)
-							doh.robot.mouseClick({left:true}, 500);
+							doh.robot.sequence(dojo.hitch(this, function(){
+								this.textbox.focusNode.focus();
+							}), 500);
+							doh.robot.sequence(dojo.hitch(this, function(){
+								dojo.byId("q01").focus();
+							}), 4000);	// time for promptMessage to appear on q04 (IE6 takes a while due to iframe)
 							doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
 								doh.is('Error', this.textbox.attr('state'));
 								doh.is(false, this.textbox.isValid(), "isValid()");
@@ -292,8 +299,9 @@
 						runTest:function(){
 							var d=new doh.Deferred();
 							this.textbox=dijit.byId(this.textbox);
-							doh.robot.mouseMoveAt(this.textbox.focusNode, 500);
-							doh.robot.mouseClick({left:true}, 500);
+							doh.robot.sequence(dojo.hitch(this, function(){
+								this.textbox.focusNode.focus();
+							}), 500);
 							doh.robot.sequence(d.getTestErrback(dojo.hitch(this, function(){
 								doh.is('', this.textbox.attr('state'));
 								doh.is(false, this.textbox.isValid(), "isValid()");
@@ -302,8 +310,9 @@
 									doh.is('a', this.textbox.attr('value'), "attr('value')");
 									doh.is('', this.textbox.attr('state'));
 									doh.is(true, this.textbox.isValid(), "isValid()");
-									doh.robot.mouseMoveAt(dijit.byId('q01').focusNode, 500);
-									doh.robot.mouseClick({left:true}, 500);
+									doh.robot.sequence(dojo.hitch(this, function(){
+										dojo.byId("q01").focus();
+									}), 500);
 									doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
 										doh.is('', this.textbox.attr('state'));
 										doh.is(true, this.textbox.isValid(), "isValid()");
@@ -335,8 +344,9 @@
 							var d=new doh.Deferred();
 							this.textbox=dijit.byId(this.textbox);
 							var onChange=dojo.byId('oc5');
-							doh.robot.mouseMoveAt(this.textbox.focusNode, 500);
-							doh.robot.mouseClick({left:true},500);
+							doh.robot.sequence(dojo.hitch(this, function(){
+								this.textbox.focusNode.focus();
+							}), 500);
 							doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
 								// comma should disappear on click, value shouldn't change
 								doh.is('3000', this.textbox.focusNode.value, "focusNode.value");
@@ -359,16 +369,18 @@
 						runTest:function(){
 							var d=new doh.Deferred();
 							var onChange=dojo.byId('oc5');
-							doh.robot.mouseMoveAt(this.textbox.focusNode, 500);
-							doh.robot.mouseClick({left:true},500);
+							doh.robot.sequence(dojo.hitch(this, function(){
+								this.textbox.focusNode.focus();
+							}), 500);
 							doh.robot.typeKeys('3000',500,400);
 							doh.robot.sequence(d.getTestErrback(dojo.hitch(this, function(){
 								doh.is('3000', this.textbox.focusNode.value, "focusNode.value");
 								doh.is('3000', this.textbox.attr('value'), "attr('value')");
 								doh.is(true,this.textbox.isValid(), "isValid()");
 								doh.is('NaN', onChange.value);
-								doh.robot.mouseMoveAt(dijit.byId('q01').focusNode, 500);
-								doh.robot.mouseClick({left:true}, 500);
+								doh.robot.sequence(dojo.hitch(this, function(){
+									dojo.byId("q01").focus();
+								}), 500);
 								doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
 									doh.is('3,000', this.textbox.focusNode.value, "focusNode.value");
 									doh.is('3000', this.textbox.attr('value'), "attr('value')");
@@ -391,16 +403,18 @@
 						runTest:function(){
 							var d=new doh.Deferred();
 							var onChange=dojo.byId('oc5');
-							doh.robot.mouseMoveAt(this.textbox.focusNode, 500);
-							doh.robot.mouseClick({left:true},500);
+							doh.robot.sequence(dojo.hitch(this, function(){
+								this.textbox.focusNode.focus();
+							}), 500);
 							doh.robot.typeKeys('3,000',500,500);
 							doh.robot.sequence(d.getTestErrback(dojo.hitch(this, function(){
 								doh.is('3,000', this.textbox.focusNode.value, "focusNode.value");
 								doh.is('3000', this.textbox.attr('value'), "attr('value')");
 								doh.is(true,this.textbox.isValid(), "isValid()");
 								doh.is('NaN', onChange.value);
-								doh.robot.mouseMoveAt(dijit.byId('q01').focusNode, 500);
-								doh.robot.mouseClick({left:true}, 500);
+								doh.robot.sequence(dojo.hitch(this, function(){
+									dojo.byId("q01").focus();
+								}), 500);
 								doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
 									doh.is('3,000', this.textbox.focusNode.value, "focusNode.value");
 									doh.is('3000', this.textbox.attr('value'), "attr('value')");
@@ -423,16 +437,18 @@
 						runTest:function(){
 							var d=new doh.Deferred();
 							var onChange=dojo.byId('oc5');
-							doh.robot.mouseMoveAt(this.textbox.focusNode, 500);
-							doh.robot.mouseClick({left:true},500);
+							doh.robot.sequence(dojo.hitch(this, function(){
+								this.textbox.focusNode.focus();
+							}), 500);
 							doh.robot.typeKeys('300,0',500,500);
 							doh.robot.sequence(d.getTestErrback(dojo.hitch(this, function(){
 								doh.is('300,0', this.textbox.focusNode.value, "focusNode.value");
 								doh.is(undefined, this.textbox.attr('value'), "attr('value')");
 								doh.is(false,this.textbox.isValid(), "isValid()");
 								doh.is('NaN', onChange.value);
-								doh.robot.mouseMoveAt(dijit.byId('q01').focusNode, 500);
-								doh.robot.mouseClick({left:true}, 500);
+								doh.robot.sequence(dojo.hitch(this, function(){
+									dojo.byId("q01").focus();
+								}), 500);
 								doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
 									doh.is('300,0', this.textbox.focusNode.value, "focusNode.value");
 									doh.is(undefined, this.textbox.attr('value'), "attr('value')");
@@ -465,8 +481,9 @@
 							var d=new doh.Deferred();
 							this.textbox=dijit.byId(this.textbox);
 							var onChange=dojo.byId('oc8');
-							doh.robot.mouseMoveAt(this.textbox.focusNode, 500);
-							doh.robot.mouseClick({left:true},500);
+							doh.robot.sequence(dojo.hitch(this, function(){
+								this.textbox.focusNode.focus();
+							}), 500);
 							doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
 								// comma should disappear on click, value shouldn't change
 								doh.is('54775.53', this.textbox.focusNode.value, "focusNode.value");
@@ -489,16 +506,18 @@
 						runTest:function(){
 							var d=new doh.Deferred();
 							var onChange=dojo.byId('oc8');
-							doh.robot.mouseMoveAt(this.textbox.focusNode, 500);
-							doh.robot.mouseClick({left:true},500);
+							doh.robot.sequence(dojo.hitch(this, function(){
+								this.textbox.focusNode.focus();
+							}), 500);
 							doh.robot.typeKeys('10000.01',500,800);
 							doh.robot.sequence(d.getTestErrback(dojo.hitch(this, function(){
 								doh.is('10000.01', this.textbox.focusNode.value, "focusNode.value");
 								doh.is('10000.01', this.textbox.attr('value'), "attr('value')");
 								doh.is(true,this.textbox.isValid(), "isValid()");
 								doh.is('NaN', onChange.value);
-								doh.robot.mouseMoveAt(dijit.byId('q01').focusNode, 500);
-								doh.robot.mouseClick({left:true}, 500);
+								doh.robot.sequence(dojo.hitch(this, function(){
+									dojo.byId("q01").focus();
+								}), 500);
 								doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
 									doh.is('$10,000.01', this.textbox.focusNode.value, "focusNode.value");
 									doh.is('10000.01', this.textbox.attr('value'), "attr('value')");
@@ -521,16 +540,18 @@
 						runTest:function(){
 							var d=new doh.Deferred();
 							var onChange=dojo.byId('oc8');
-							doh.robot.mouseMoveAt(this.textbox.focusNode, 500);
-							doh.robot.mouseClick({left:true},500);
+							doh.robot.sequence(dojo.hitch(this, function(){
+								this.textbox.focusNode.focus();
+							}), 500);
 							doh.robot.typeKeys('$20000.01',500,900);
 							doh.robot.sequence(d.getTestErrback(dojo.hitch(this, function(){
 								doh.is('$20000.01', this.textbox.focusNode.value, "focusNode.value");
 								doh.is('20000.01', this.textbox.attr('value'), "attr('value')");
 								doh.is(true,this.textbox.isValid(), "isValid()");
 								doh.is('NaN', onChange.value);
-								doh.robot.mouseMoveAt(dijit.byId('q01').focusNode, 500);
-								doh.robot.mouseClick({left:true}, 500);
+								doh.robot.sequence(dojo.hitch(this, function(){
+									dojo.byId("q01").focus();
+								}), 500);
 								doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
 									doh.is('$20,000.01', this.textbox.focusNode.value, "focusNode.value");
 									doh.is('20000.01', this.textbox.attr('value'), "attr('value')");
@@ -553,8 +574,9 @@
 					},
 					runTest:function(){
 						var d=new doh.Deferred();
-						doh.robot.mouseMoveAt(this.textbox.focusNode, 500);
-						doh.robot.mouseClick({left:true},500);
+						doh.robot.sequence(dojo.hitch(this, function(){
+							this.textbox.focusNode.focus();
+						}), 500);
 						doh.robot.typeKeys('1',500,100);
 						doh.robot.mouseMoveAt(dijit.byId('q01').focusNode, 500);
 						doh.robot.mouseClick({left:true}, 500);
@@ -644,9 +666,15 @@
 						},
 						runTest:function(){
 							var d=new doh.Deferred();
+							
+							//  Clicking shouldn't have any effect since it's disabled
 							doh.robot.mouseMoveAt(this.textbox.focusNode, 500);
 							doh.robot.mouseClick({left:true},500);
+							
+							// TODO: just check that it didn't get focus; these keystrokes are
+							// going somewhere random
 							doh.robot.typeKeys('abc',500,300);
+
 							doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
 								doh.is('cannot type here', this.textbox.focusNode.value, "focusNode.value");
 								doh.is('cannot type here', this.textbox.attr('value'), "attr('value')");
@@ -662,13 +690,13 @@
 						setUp:function(){
 							this.textbox=dijit.byId(this.textbox);
 							this.textbox.attr('value','');
+							this.textbox.attr('readOnly', false);
 						},
 						runTest:function(){
 							var d=new doh.Deferred();
-							doh.robot.mouseMoveAt(dojo.byId('removereadonly'), 500);
-							doh.robot.mouseClick({left:true},500);
-							doh.robot.mouseMoveAt(this.textbox.focusNode, 500);
-							doh.robot.mouseClick({left:true},500);
+							doh.robot.sequence(dojo.hitch(this, function(){
+								this.textbox.focusNode.focus();
+							}), 500);
 							doh.robot.typeKeys('abc',500,300);
 							doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
 								doh.is('abc', this.textbox.focusNode.value, "focusNode.value");
