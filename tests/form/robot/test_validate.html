@@ -1,5 +1,5 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
-		"http: //www.w3.org/TR/html4/strict.dtd">
+		"http://www.w3.org/TR/html4/strict.dtd">
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -13,7 +13,7 @@
 		<script type="text/javascript" src="../../../../dojo/dojo.js"
 			djConfig="isDebug: true, parseOnLoad: true"></script>
 
-		<script type = "text/javascript">
+		<script type="text/javascript">
 			dojo.require("dijit.dijit"); // optimize: load dijit layer
 			dojo.require("dijit.robotx");
 
@@ -23,7 +23,7 @@
 				// Test initial conditions
 				// TODO: convert this to a bunch of doh.is() calls, two per widget (for value and onchange)
 				doh.register("setUp", {
-					name: "setUp", 
+					name: "setUp",
 					runTest: function(){
 						var s = "firstname: Testing Testing\n"
 							+ ": not fired yet!\n"
@@ -55,8 +55,8 @@
 
 				doh.register("setvaluetest", [
 					{
-						name: "valid_max", 
-						textbox: 'q03', 
+						name: "valid_max",
+						textbox: 'q03',
 						runTest: function(){
 							this.textbox = dijit.byId(this.textbox);
 							this.textbox.attr('value', 120);
@@ -67,11 +67,11 @@
 							doh.is(true, this.textbox.isValid(), "isValid()");
 	
 						}
-					}, 
+					},
 
 					{
-						name: "out_of_range_max", 
-						textbox: 'q03', 
+						name: "out_of_range_max",
+						textbox: 'q03',
 						runTest: function(){
 							this.textbox = dijit.byId(this.textbox);
 							this.textbox.attr('value', 121);
@@ -81,11 +81,11 @@
 							doh.is(121, this.textbox.attr('value'), "attr('value')");
 							doh.is(false, this.textbox.isValid(), "isValid()");
 						}
-					}, 
+					},
 
 					{
-						name: "valid_min", 
-						textbox: 'q03', 
+						name: "valid_min",
+						textbox: 'q03',
 						runTest: function(){
 							this.textbox = dijit.byId(this.textbox);
 							this.textbox.attr('value', 0);
@@ -95,11 +95,11 @@
 							doh.is(0, this.textbox.attr('value'), "onChange.value");
 							doh.is(true, this.textbox.isValid(), "isValid()");
 						}
-					}, 
+					},
 
 					{
-						name: "out_of_range_min", 
-						textbox: 'q03', 
+						name: "out_of_range_min",
+						textbox: 'q03',
 						runTest: function(){
 							this.textbox = dijit.byId(this.textbox);
 							this.textbox.attr('value', -1);
@@ -109,11 +109,11 @@
 							doh.is(-1, this.textbox.attr('value'), "attr('value')");
 							doh.is(false, this.textbox.isValid(), "isValid()");
 						}
-					}, 
+					},
 
 					{
-						name: "invalid", 
-						textbox: 'q03', 
+						name: "invalid",
+						textbox: 'q03',
 						runTest: function(){
 							this.textbox = dijit.byId(this.textbox);
 							this.textbox.attr('value', 'two');
@@ -123,11 +123,11 @@
 							doh.is(undefined, this.textbox.attr('value'), "attr('value')");
 							doh.is(false, this.textbox.isValid(), "isValid()");
 						}
-					}, 
+					},
 
 					{
-						name: "null_required", 
-						textbox: 'q03', 
+						name: "null_required",
+						textbox: 'q03',
 						runTest: function(){
 							this.textbox = dijit.byId(this.textbox);
 							this.textbox.attr('required', true);
@@ -138,11 +138,11 @@
 							doh.is(false, this.textbox.isValid(), "isValid()");
 							doh.is(true, isNaN(this.textbox.attr('value')));
 						}
-					}, 
+					},
 
 					{
-						name: "null_notrequired", 
-						textbox: 'q03', 
+						name: "null_notrequired",
+						textbox: 'q03',
 						runTest: function(){
 							this.textbox = dijit.byId(this.textbox);
 							this.textbox.attr('value', null);
@@ -157,13 +157,13 @@
 				]);
 
 				doh.register("intermediatechanges", {
-					name: "valid", 
-					textbox: "q01", 
-					timeout: 60000, 
+					name: "valid",
+					textbox: "q01",
+					timeout: 60000,
 					setUp: function(){
 						this.textbox = dijit.byId(this.textbox);
 						this.textbox.attr('value', '');
-					}, 
+					},
 					runTest: function(){
 						var d = new doh.Deferred();
 						var onChange = dojo.byId('oc1');
@@ -182,13 +182,13 @@
 				});
 
 				doh.register("allcaps", {
-					name: "valid", 
-					textbox: "q02", 
-					timeout: 60000, 
+					name: "valid",
+					textbox: "q02",
+					timeout: 60000,
 					setUp: function(){
 						this.textbox = dijit.byId(this.textbox);
 						this.textbox.attr('value', '');
-					}, 
+					},
 					runTest: function(){
 						var d = new doh.Deferred();
 						doh.robot.sequence(dojo.hitch(this, function(){
@@ -208,13 +208,13 @@
 
 				doh.register("maxlength", [
 					{
-						name: "3chars", 
-						textbox: "fav", 
-						timeout: 60000, 
+						name: "3chars",
+						textbox: "fav",
+						timeout: 60000,
 						setUp: function(){
 							this.textbox = dijit.byId(this.textbox);
 							this.textbox.attr('value', '');
-						}, 
+						},
 						runTest: function(){
 							var d = new doh.Deferred();
 							this.textbox = dijit.byId(this.textbox);
@@ -229,16 +229,16 @@
 							})), 1000);
 							return d;
 						}
-					}, 
+					},
 
 					{
-						name: "4chars", 
-						textbox: "fav", 
-						timeout: 60000, 
+						name: "4chars",
+						textbox: "fav",
+						timeout: 60000,
 						setUp: function(){
 							this.textbox = dijit.byId(this.textbox);
 							this.textbox.attr('value', '');
-						}, 
+						},
 						runTest: function(){
 							var d = new doh.Deferred();
 							doh.robot.sequence(dojo.hitch(this, function(){
@@ -262,19 +262,19 @@
 
 				doh.register("errorStyle", [
 					{
-						name: "beforeClick", 
-						textbox: "q04", 
+						name: "beforeClick",
+						textbox: "q04",
 						runTest: function(){
 							this.textbox = dijit.byId(this.textbox);
 							doh.is('', this.textbox.attr('state'));
 							doh.is(false, this.textbox.isValid(), "isValid()");
 						}
-					}, 
+					},
 
 					{
-						name: "afterClick", 
-						textbox: "q04", 
-						timeout: 60000, 
+						name: "afterClick",
+						textbox: "q04",
+						timeout: 60000,
 						runTest: function(){
 							var d = new doh.Deferred();
 							this.textbox = dijit.byId(this.textbox);
@@ -290,12 +290,12 @@
 							})), 500);
 							return d;
 						}
-					}, 
+					},
 
 					{
-						name: "valid", 
-						textbox: "q04", 
-						timeout: 60000, 
+						name: "valid",
+						textbox: "q04",
+						timeout: 60000,
 						runTest: function(){
 							var d = new doh.Deferred();
 							this.textbox = dijit.byId(this.textbox);
@@ -326,20 +326,20 @@
 
 				doh.register("commaformat", [
 					{
-						name: "beforeClick", 
-						textbox: "q05", 
+						name: "beforeClick",
+						textbox: "q05",
 						runTest: function(){
 							this.textbox = dijit.byId(this.textbox);
 							doh.is('3,000', this.textbox.focusNode.value, "focusNode.value");
 							doh.is('3000', this.textbox.attr('value'), "attr('value')");
 							doh.is(true, this.textbox.isValid(), "isValid()");
 						}
-					}, 
+					},
 
 					{
-						name: "click", 
-						timeout: 60000, 
-						textbox: "q05", 
+						name: "click",
+						timeout: 60000,
+						textbox: "q05",
 						runTest: function(){
 							var d = new doh.Deferred();
 							this.textbox = dijit.byId(this.textbox);
@@ -356,16 +356,16 @@
 							})), 500);
 							return d;
 						}
-					}, 
+					},
 
 					{
-						name: "type_valid_nocomma", 
-						timeout: 60000, 
-						textbox: "q05", 
+						name: "type_valid_nocomma",
+						timeout: 60000,
+						textbox: "q05",
 						setUp: function(){
 							this.textbox = dijit.byId(this.textbox);
 							this.textbox.attr('value', '');
-						}, 
+						},
 						runTest: function(){
 							var d = new doh.Deferred();
 							var onChange = dojo.byId('oc5');
@@ -390,16 +390,16 @@
 							})), 1000);
 							return d;
 						}
-					}, 
+					},
 
 					{
-						name: "type_valid_comma", 
-						timeout: 60000, 
-						textbox: "q05", 
+						name: "type_valid_comma",
+						timeout: 60000,
+						textbox: "q05",
 						setUp: function(){
 							this.textbox = dijit.byId(this.textbox);
 							this.textbox.attr('value', '');
-						}, 
+						},
 						runTest: function(){
 							var d = new doh.Deferred();
 							var onChange = dojo.byId('oc5');
@@ -424,16 +424,16 @@
 							})), 1000);
 							return d;
 						}
-					}, 
+					},
 
 					{
-						name: "type_invalid_comma", 
-						timeout: 60000, 
-						textbox: "q05", 
+						name: "type_invalid_comma",
+						timeout: 60000,
+						textbox: "q05",
 						setUp: function(){
 							this.textbox = dijit.byId(this.textbox);
 							this.textbox.attr('value', '');
-						}, 
+						},
 						runTest: function(){
 							var d = new doh.Deferred();
 							var onChange = dojo.byId('oc5');
@@ -463,20 +463,20 @@
 
 				doh.register("currencyFormat", [
 					{
-						name: "beforeClick", 
-						textbox: "q08", 
+						name: "beforeClick",
+						textbox: "q08",
 						runTest: function(){
 							this.textbox = dijit.byId(this.textbox);
 							doh.is('$54,775.53', this.textbox.focusNode.value, "focusNode.value");
 							doh.is('54775.53', this.textbox.attr('value'), "attr('value')");
 							doh.is(true, this.textbox.isValid(), "isValid()");
 						}
-					}, 
+					},
 
 					{
-						name: "click", 
-						timeout: 60000, 
-						textbox: "q08", 
+						name: "click",
+						timeout: 60000,
+						textbox: "q08",
 						runTest: function(){
 							var d = new doh.Deferred();
 							this.textbox = dijit.byId(this.textbox);
@@ -493,16 +493,16 @@
 							})), 500);
 							return d;
 						}
-					}, 
+					},
 
 					{
-						name: "type_valid_number", 
-						timeout: 60000, 
-						textbox: "q08", 
+						name: "type_valid_number",
+						timeout: 60000,
+						textbox: "q08",
 						setUp: function(){
 							this.textbox = dijit.byId(this.textbox);
 							this.textbox.attr('value', '');
-						}, 
+						},
 						runTest: function(){
 							var d = new doh.Deferred();
 							var onChange = dojo.byId('oc8');
@@ -527,16 +527,16 @@
 							})), 1000);
 							return d;
 						}
-					}, 
+					},
 
 					{
-						name: "type_valid_dollarsign", 
-						timeout: 60000, 
-						textbox: "q08", 
+						name: "type_valid_dollarsign",
+						timeout: 60000,
+						textbox: "q08",
 						setUp: function(){
 							this.textbox = dijit.byId(this.textbox);
 							this.textbox.attr('value', '');
-						}, 
+						},
 						runTest: function(){
 							var d = new doh.Deferred();
 							var onChange = dojo.byId('oc8');
@@ -565,13 +565,13 @@
 				]);
 
 				doh.register("euroformat", {
-					name: "type_1", 
-					timeout: 60000, 
-					textbox: "q08eur", 
+					name: "type_1",
+					timeout: 60000,
+					textbox: "q08eur",
 					setUp: function(){
 						this.textbox = dijit.byId(this.textbox);
 						this.textbox.attr('value', '');
-					}, 
+					},
 					runTest: function(){
 						var d = new doh.Deferred();
 						doh.robot.sequence(dojo.hitch(this, function(){
@@ -591,13 +591,13 @@
 
 				doh.register("regexp", [
 					{
-						name: "valid", 
-						timeout: 60000, 
-						textbox: "q22", 
+						name: "valid",
+						timeout: 60000,
+						textbox: "q22",
 						setUp: function(){
 							this.textbox = dijit.byId(this.textbox);
 							this.textbox.attr('value', '');
-						}, 
+						},
 						runTest: function(){
 							var d = new doh.Deferred();
 							doh.robot.mouseMoveAt(this.textbox.focusNode, 500);
@@ -610,16 +610,16 @@
 							})), 1000);
 							return d;
 						}
-					}, 
+					},
 
 					{
-						name: "invalid", 
-						timeout: 60000, 
-						textbox: "q22", 
+						name: "invalid",
+						timeout: 60000,
+						textbox: "q22",
 						setUp: function(){
 							this.textbox = dijit.byId(this.textbox);
 							this.textbox.attr('value', '');
-						}, 
+						},
 						runTest: function(){
 							var d = new doh.Deferred();
 							doh.robot.mouseMoveAt(this.textbox.focusNode, 500);
@@ -636,13 +636,13 @@
 				]);
 
 				doh.register("password", {
-					name: "type", 
-					timeout: 60000, 
-					textbox: "q23", 
+					name: "type",
+					timeout: 60000,
+					textbox: "q23",
 					setUp: function(){
 						this.textbox = dijit.byId(this.textbox);
 						this.textbox.attr('value', '');
-					}, 
+					},
 					runTest: function(){
 						var d = new doh.Deferred();
 						doh.robot.mouseMoveAt(this.textbox.focusNode, 500);
@@ -658,12 +658,12 @@
 
 				doh.register("readonly", [
 					{
-						name: "readonly", 
-						timeout: 60000, 
-						textbox: "q24", 
+						name: "readonly",
+						timeout: 60000,
+						textbox: "q24",
 						setUp: function(){
 							this.textbox = dijit.byId(this.textbox);
-						}, 
+						},
 						runTest: function(){
 							var d = new doh.Deferred();
 							
@@ -681,17 +681,17 @@
 							})), 1000);
 							return d;
 						}
-					}, 
+					},
 
 					{
-						name: "write", 
-						timeout: 60000, 
-						textbox: "q24", 
+						name: "write",
+						timeout: 60000,
+						textbox: "q24",
 						setUp: function(){
 							this.textbox = dijit.byId(this.textbox);
 							this.textbox.attr('value', '');
 							this.textbox.attr('readOnly', false);
-						}, 
+						},
 						runTest: function(){
 							var d = new doh.Deferred();
 							doh.robot.sequence(dojo.hitch(this, function(){
@@ -708,8 +708,8 @@
 				]);
 
 				doh.register("tearDown", {
-					name: "tearDown", 
-					timeout: 60000, 
+					name: "tearDown",
+					timeout: 60000,
 					runTest: function(){
 						var s = 'firstname: Testing\n'
 							+ ': Testing\n'
