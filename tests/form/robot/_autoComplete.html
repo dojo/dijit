@@ -39,9 +39,8 @@
 			var robot_typeValue = function(combo, text, value){
 				if(!value || isComboBox) value = text;
 				var d = new doh.Deferred();
-				doh.robot.mouseMoveAt(combo.focusNode, 500);
-				doh.robot.mouseClick({left:true}, 500);
 				doh.robot.sequence(function(){ combo.attr('value', null); }, 500);
+				doh.robot.sequence(function(){combo.focusNode.focus(); }, 500);
 				doh.robot.typeKeys(text.replace(/^(.).*$/, "$1"), 500);
 				doh.robot.typeKeys(text.replace(/^./, ""), 1500, text.length);
 				doh.robot.keyPress(dojo.keys.ENTER, 1500+text.length*100);
@@ -51,6 +50,8 @@
 					}else{
 						if(combo._isShowingNow){
 							// menu could arrive after Enter keypress if it is not thrown out
+							// TODO: is this still needed?   I've got explicit tests in the "race condition"
+							// section to make sure this doesn't happen, and it doesn't seem to be.
 							combo._hideResultList();
 							d.errback(combo.id+" had a menu that did not close after an Enter keypress.");
 						}else{
@@ -105,11 +106,14 @@
 				if(!value || isComboBox) value = text;
 				if(!expectedtext || isComboBox) expectedtext = text;
 				var d = new doh.Deferred();
-				
-				// TODO: get rid of mouse movement here, can use focus
-				doh.robot.mouseMoveAt(combo.focusNode, 500);
-				doh.robot.mouseClick({left:true}, 500);
-				doh.robot.sequence(function(){ combo.attr('value', null); }, 500);
+
+				doh.robot.sequence(function(){
+					combo.attr('value', null);
+				}, 500);
+				doh.robot.sequence(function(){
+					combo.focusNode.focus();
+				}, 500);
+
 				doh.robot.keyPress(dojo.keys.DOWN_ARROW, 500);
 				var repeat = function(){
 					var node = findMenuItem(combo, text);
@@ -167,24 +171,26 @@
 			};
 
 			// Wait for data stores to finish loading before starting tests
-			dojo.forEach(["store", "store2", "stateStore", "dijitStore"], function(name){
-				doh.register("wait for " + name,
-					{
-						name: "confirm loaded",
-						timeout: 5000,
-						runTest: function(){
-							var d = new doh.Deferred();
-							dojo.global[name].fetch({
-								onComplete: function(){
-									console.log(name + " store loaded...");
-									d.callback(true);
-								}
-							});
-							return d;
-						}
-					}
-				);
-			});
+			doh.register("wait for data store load",
+				dojo.map(["store", "store2", "stateStore", "dijitStore"], function(name){
+					return {
+							name: "wait for " + name,
+							timeout: 5000,
+							runTest: function(){
+								var d = new doh.Deferred();
+								dojo.global[name].fetch({
+									onComplete: function(){
+										d.callback(true);
+									},
+									onError: function(e){
+										d.errback(e);
+									}
+								});
+								return d;
+							}
+						};
+				})
+			 );
 
 			// Verify that all of the form values are correct at init
 			doh.register("verify values", 			
@@ -218,99 +224,73 @@
 				}
 			);
 
-			doh.register("attr('value', ...)", [
-				// Press button to set value to Kentucky.
+			doh.register("attr('displayedValue', ...)", [
+				// Set displayedValue to Kentucky.
 				// This should be a valid assignment.
 				{
 					timeout:5000,
 					name:"valid",
-					combo:"setvaluetest",
 					runTest:function(){
-						var d = new doh.Deferred();
-						this.combo = dijit.byId(this.combo);
-						var oc1=dojo.byId('oc1');
-						doh.robot.mouseMoveAt('sv1_1', 500);
-						doh.robot.mouseClick({left:true}, 500);
-						doh.robot.sequence(dojo.hitch(this, function(){
-							if(isComboBox){
-								if(this.combo.attr('value') == "Kentucky" && oc1.value == "Kentucky"){
-									d.callback(true);
-								}else{
-									d.errback(new Error("Expected Kentucky, got "+this.combo.attr('value')));
-								}
-							}else{
-								if(this.combo.attr('value') == "KY" && this.combo.isValid() && oc1.value == "KY"){
-									d.callback(true);
-								}else{
-									d.errback(new Error("Expected KY, got "+this.combo.attr('value')));
-								}
+						var d = new doh.Deferred(),
+							combo = dijit.byId("setvaluetest");
+						combo.attr('displayedValue', 'Kentucky');
+						doh.robot.sequence(d.getTestCallback(function(){
+							var oc1=dojo.byId('oc1');
+							doh.is(isComboBox ? "Kentucky" : "KY", combo.attr('value'), "attr('value')");
+							doh.is(isComboBox ? "Kentucky" : "KY", oc1.value, "onChange");
+							if(!isComboBox){
+								doh.t(combo.isValid(), "isValid()");
 							}
-						}), 2000);
+						}), 500);
 						return d;
 					}
 				},
 
-				// Press button to set value to Canada.
+				// Set displayedValue to Canada.
 				// This should be an invalid assignment for FilteringSelect, but ok for ComboBox.
 				{
 					timeout:5000,
 					name:"invalid",
-					combo:"setvaluetest",
 					runTest:function(){
-						var d = new doh.Deferred();
-						this.combo = dijit.byId(this.combo);
-						var oc1=dojo.byId('oc1');
-						doh.robot.mouseMoveAt('sv1_2', 500);
-						doh.robot.mouseClick({left:true}, 500);
-						doh.robot.sequence(dojo.hitch(this, function(){
-							if(isComboBox){
-								if(this.combo.attr('value') == "Canada" && oc1.value == "Canada"){
-									d.callback(true);
-								}else{
-									d.errback(new Error("Expected Canada, got "+this.combo.attr('value')));
-								}
-							}else{
-								if(this.combo.attr('value') == "" && !this.combo.isValid() && oc1.value == ""){
-									d.callback(true);
-								}else{
-									d.errback(new Error("Expected Canada, got "+this.combo.attr('value')));
-								}
+						var d = new doh.Deferred(),
+							combo = dijit.byId("setvaluetest");
+						combo.attr('displayedValue', 'Canada');
+						doh.robot.sequence(d.getTestCallback(function(){
+							var oc1=dojo.byId('oc1');
+							doh.is(isComboBox ? "Canada" : "", combo.attr('value'), "attr('value')");
+							doh.is(isComboBox ? "Canada" : "", oc1.value, "onChange");
+							if(!isComboBox){
+								doh.f(combo.isValid(), "isValid()");
 							}
-						}), 2000);
+						}), 500);
 						return d;
 					}
-				},
+				}
+			]);
 
-				// Press button to set value to null.
+			doh.register("attr('value', ...)", [
+				// Set value to null.
 				// This should be an invalid assignment for FilteringSelect, but ok for ComboBox.
 				{
 					timeout:5000,
 					name:"nullvalue",
-					combo:"setvaluetest",
 					runTest:function(){
-						var d = new doh.Deferred();
-						this.combo = dijit.byId(this.combo);
-						var oc1=dojo.byId('oc1');
-						doh.robot.mouseMoveAt('sv1_3', 500);
-						doh.robot.mouseClick({left:true}, 500);
-						doh.robot.sequence(dojo.hitch(this, function(){
-							if(isComboBox){
-								if(this.combo.attr('value') == "" && oc1.value == ""){
-									d.callback(true);
-								}else{
-									d.errback(new Error("Expected '', got "+this.combo.attr('value')));
-								}
-							}else{
-								if(this.combo.attr('value') == "" && !this.combo.isValid() && oc1.value == ""){
-									d.callback(true);
-								}else{
-									d.errback(new Error("Expected '', got "+this.combo.attr('value')));
-								}
+						var d = new doh.Deferred(),
+							combo = dijit.byId("setvaluetest");
+						combo.attr('value', null);
+						doh.robot.sequence(d.getTestCallback(function(){
+							var oc1=dojo.byId('oc1');
+							doh.is("", combo.attr('value'), "attr('value')");
+							doh.is("", oc1.value, "onChange");
+							if(!isComboBox){
+								doh.f(combo.isValid(), "isValid()");
 							}
-						}), 2000);
+						}), 500);
 						return d;
 					}
 				}
+				
+				// TODO: test some other attr('value') calls
 			]);
 
 			doh.register("direct input", [
@@ -323,7 +303,7 @@
 						return robot_typeValue(dijit.byId(this.combo), "California", "CA");
 					}
 				},
-
+				
 				// Type an invalid value and press Enter
 				{
 					timeout:60000,
@@ -490,9 +470,9 @@
 						var d = new doh.Deferred();
 						var combo = dijit.byId("setvaluetest");
 
-						// Focus drop down
-						doh.robot.mouseMoveAt(combo.focusNode, 500);
-						doh.robot.mouseClick({left:true}, 500);
+						doh.robot.sequence(function(){
+							combo.focusNode.focus();
+						}, 500);
 
 						// Filter drop down list to entries starting with "C"
 						doh.robot.sequence(function(){ combo.attr('value', null); }, 500);
@@ -583,12 +563,12 @@
 						var d = new doh.Deferred();
 						var combo = dijit.byId("setvaluetest");
 
-						// Focus drop down
-						doh.robot.mouseMoveAt(combo.focusNode, 500);
-						doh.robot.mouseClick({left:true}, 500);
+						doh.robot.sequence(function(){ combo.attr('value', null); }, 500);
+						doh.robot.sequence(function(){
+							combo.focusNode.focus();
+						}, 500);
 
 						// Filter drop down list to entries starting with "C"
-						doh.robot.sequence(function(){ combo.attr('value', null); }, 500);
 						doh.robot.keyPress("C", 100);
 						
 						// Then tab away
@@ -616,12 +596,12 @@
 						var d = new doh.Deferred();
 						var combo = dijit.byId("datatest");	// auto-complete = true
 
-						// Focus drop down
-						doh.robot.mouseMoveAt(combo.focusNode, 500);
-						doh.robot.mouseClick({left:true}, 500);
+						doh.robot.sequence(function(){ combo.attr('value', null); }, 500);
+						doh.robot.sequence(function(){
+							combo.focusNode.focus();
+						}, 500);
 
 						// Filter drop down list to entries starting with "C"
-						doh.robot.sequence(function(){ combo.attr('value', null); }, 500);
 						doh.robot.keyPress("C", 100);
 
 						doh.robot.sequence(d.getTestCallback(function(){
@@ -697,12 +677,12 @@
 						var d = new doh.Deferred();
 						var combo = dijit.byId("slow");
 
-						// Focus drop down
-						doh.robot.mouseMoveAt(combo.focusNode, 500);
-						doh.robot.mouseClick({left:true}, 100);
+						doh.robot.sequence(function(){ combo.attr('value', null); });
+						doh.robot.sequence(function(){
+							combo.focusNode.focus();
+						}, 500);
 
 						// Filter drop down list to entries starting with "C"
-						doh.robot.sequence(function(){ combo.attr('value', null); });
 						doh.robot.keyPress("C", 100);
 						doh.robot.keyPress("o", 300);	// 300ms > searchDelay
 	
@@ -742,12 +722,12 @@
 						var d = new doh.Deferred();
 						var combo = dijit.byId("slow");
 
-						// Focus drop down
-						doh.robot.mouseMoveAt(combo.focusNode, 500);
-						doh.robot.mouseClick({left:true}, 100);
+						doh.robot.sequence(function(){ combo.attr('value', null); });
+						doh.robot.sequence(function(){
+							combo.focusNode.focus();
+						}, 500);
 
 						// Filter drop down list to entries starting with "C"
-						doh.robot.sequence(function(){ combo.attr('value', null); });
 						doh.robot.typeKeys("Co", 100);
 						doh.robot.keyPress(dojo.keys.ENTER, 300);	// 300ms > searchDelay
 	
@@ -819,6 +799,8 @@
 
 						return d;
 					}
+					
+					// TODO: add test for focus by mouse on enabled widget?
 				},
 				{
 					timeout:60000,
@@ -911,8 +893,11 @@
 						//return robot_typeValue(, "\u6771\u897F", "touzai");
 						var d = new doh.Deferred();
 						this.combo = dijit.byId(this.combo);
-						doh.robot.mouseMoveAt(this.combo.focusNode);
-						doh.robot.mouseClick({left:true}, 500);
+
+						doh.robot.sequence(function(){
+							this.combo.focusNode.focus();
+						}, 500);
+
 						doh.robot.keyPress(dojo.keys.END, 500);
 						doh.robot.keyPress(dojo.keys.BACKSPACE, 500);
 						doh.robot.keyPress(dojo.keys.BACKSPACE, 500);
@@ -970,12 +955,12 @@
 						var d = new doh.Deferred();
 						var combo = dijit.byId("progCombo3");
 
-						// Focus drop down
-						doh.robot.mouseMoveAt(combo.focusNode, 500);
-						doh.robot.mouseClick({left:true}, 500);
+						doh.robot.sequence(function(){ combo.attr('value', null); });
+						doh.robot.sequence(function(){
+							combo.focusNode.focus();
+						}, 500);
 
 						// Show list, should be in reverse order
-						doh.robot.sequence(function(){ combo.attr('value', null); });
 						doh.robot.keyPress(dojo.keys.DOWN_ARROW, 100);
 						
 						doh.robot.sequence(d.getTestCallback(function(){
