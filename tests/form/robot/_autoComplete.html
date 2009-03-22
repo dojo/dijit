@@ -198,7 +198,7 @@
 					name:"verifyValues",
 					runTest:function(){
 						// Spot check of initial conditions of widgets and DOM nodes
-
+	
 						doh.is("California", dijit.byId("setvaluetest").attr("displayedValue"), "state1 displayed value");
 						doh.is(isComboBox ? "California" : "CA", dijit.byId("setvaluetest").attr("value"), "state1 value");
 						doh.is("not fired yet!", dojo.byId("oc1").value, "state1 onChange hasn't fired");
@@ -432,7 +432,9 @@
 							nj = entries[8];
 
 						doh.robot.sequence(function(){
-							dijit.scrollIntoView(nj);
+							// See #8955: scrollIntoView() is broken, so scroll div manually instead.
+							// dijit.scrollIntoView(nj);
+							dojo.byId("setvaluetest_popup").scrollTop = 0;
 						});
 						doh.robot.mouseMoveAt(nj, 500);
 						doh.robot.mouseClick({left:true}, 100);
