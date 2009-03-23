@@ -655,7 +655,7 @@
 						return d;
 					}
 				});
-
+				
 				doh.register("readonly", [
 					{
 						name: "readonly",
@@ -663,16 +663,15 @@
 						textbox: "q24",
 						setUp: function(){
 							this.textbox = dijit.byId(this.textbox);
+							dojo.byId("mname").focus();
 						},
 						runTest: function(){
 							var d = new doh.Deferred();
 							
-							//  Clicking shouldn't have any effect since it's disabled
-							doh.robot.mouseMoveAt(this.textbox.focusNode, 500);
-							doh.robot.mouseClick({left: true}, 500);
+							// Tab into element (readonly *can* be focused, although disabled can't)
+							doh.robot.keyPress(dojo.keys.TAB, 500, {shift: true});
 							
-							// TODO: just check that it didn't get focus; these keystrokes are
-							// going somewhere random
+							// typing on a disabled element should have no effect
 							doh.robot.typeKeys('abc', 500,300);
 
 							doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
@@ -707,37 +706,52 @@
 					}
 				]);
 
-				doh.register("tearDown", {
-					name: "tearDown",
-					timeout: 60000,
-					runTest: function(){
-						var s = 'firstname: Testing\n'
-							+ ': Testing\n'
-							+ 'lastname: TESTING\n'
-							+ ': \n'
-							+ 'age: \n'
-							+ ': NaN\n'
-							+ ': \n'
-							+ ': 100\n'
-							+ 'fav: 100\n'
-							+ 'occupation: a\n'
-							+ ': 300,0\n'
-							+ 'elevation: \n'
-							+ ': undefined\n'
-							+ ': $20,000.01\n'
-							+ 'income1: 20000.01\n'
-							+ ': 20000.01\n'
-							+ ': €1.00\n'
-							+ 'income2: 1\n'
-							+ ': 54.775,53 €\n'
-							+ 'income3: 54775.53\n'
-							+ 'phone: a \n'
-							+ 'password: abcdef\n'
-							+ 'ticket1651: \n'
-							+ 'readOnly: abc\n';
-						doh.is(s, dojo.doc.displayData());
+				doh.register("disabled", [
+					{
+						name: "click doesn't focus",
+						timeout: 60000,
+						setUp: function(){
+							var textbox = dijit.byId("q24");
+							dojo.byId("mname").focus();
+							textbox.attr('disabled', true);
+						},
+						runTest: function(){
+							var d = new doh.Deferred(),
+								textbox = dijit.byId("q24");
+							
+							//  Clicking shouldn't have any effect since it's disabled
+							doh.robot.mouseMoveAt(textbox.focusNode, 500);
+							doh.robot.mouseClick({left: true}, 500);
+
+							doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
+								doh.isNot("q24", dojo.global.dijit._curFocus.id, "didn't focus");
+							})), 500);
+							return d;
+						}
+					},
+
+					{
+						name: "tab jumps over",
+						timeout: 60000,
+
+						setUp: function(){
+							var textbox = dijit.byId("q24");
+							dojo.byId("mname").focus();
+							textbox.attr('disabled', true);
+						},
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							doh.robot.keyPress(dojo.keys.TAB, 500);
+
+							doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
+								doh.is("removereadonly", dojo.global.dijit._curFocus.id,
+										"tabbed past input, to the button after it");
+							})), 500);
+							return d;
+						}
 					}
-				});
+				]);
 
 				doh.run();
 			});
