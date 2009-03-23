@@ -140,7 +140,7 @@
 					if(dojo.isFF){
 						scroll = '(-30,+15)';
 					}else if(dojo.isIE >= 8){
-						scroll = '(-15,15)';
+						scroll = '(-30,15)';
 					}else if(dojo.isIE){
 						scroll = '(+20,-12)';
 					}
@@ -161,7 +161,7 @@
 					if(dojo.isFF){
 						scroll = '(+30,+15)';
 					}else if(dojo.isIE >= 8){
-						scroll = '(-15,15)';
+						scroll = '(-30,15)';
 					}else if(dojo.isIE){
 						scroll = '(-20,-12)';
 					}
@@ -246,7 +246,7 @@
 						maxScroll = "(-"+(sb+14)+",+21)";
 					}else if(dojo.isIE){
 						minScroll = "(-20,+13)";
-						maxScroll = "(-9,+23)";
+						maxScroll = "(-9,+24)";
 					}else if(dojo.isFF || dojo.isWebKit){
 						minScroll = "(-20,+"+(sb-6)+")";
 						maxScroll = "(-"+(sb-8)+",+22)";
@@ -303,15 +303,15 @@
 				scrollIntoView();
 				actualScroll = getScroll();
 				expectedScroll = usingNative? "(-1,-1)" : (maxVal || getExpectedMaxScroll());
-				doh[compare](expectedScroll, actualScroll);
+//				doh[compare](expectedScroll, actualScroll, "max failed");
 				scrollIntoView(); // make sure the value sticks
 				actualScroll = getScroll();
-				doh[compare](expectedScroll, actualScroll);
+//				doh[compare](expectedScroll, actualScroll, "repeat max failed");
 				scrollMin();
 				scrollIntoView();
 				actualScroll = getScroll();
 				expectedScroll = usingNative? "(+1,+1)" : (minVal || getExpectedMinScroll());
-				doh[compare](expectedScroll, actualScroll);
+				doh[compare](expectedScroll, actualScroll, "min failed");
 			}
 		}
 	</script>

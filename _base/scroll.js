@@ -14,7 +14,7 @@ dijit.scrollIntoView = function(/* DomNode */node){
 	// node.scrollIntoView hides part of the parent's scrollbar,
 	// so just manage the parent scrollbar ourselves
 
-	//var testdir="V"; //debug
+	//var testdir="H"; //debug
 	try{ // catch unexpected/unrecreatable errors (#7808) since we can recover using a semi-acceptable native method
 	node = dojo.byId(node);
 	var doc = dojo.doc;
@@ -27,7 +27,8 @@ dijit.scrollIntoView = function(/* DomNode */node){
 		return;
 	}
 	var ltr = dojo._isBodyLtr();
-	var rtl = !(ltr || (dojo.isIE >= 8 && !compatMode)); // IE8 mostly flips everything transparently (except border)
+	var isIE8strict = dojo.isIE >= 8 && !compatMode;
+	var rtl = !ltr && !isIE8strict; // IE8 flips scrolling so pretend it's ltr
 	// body and html elements are all messed up due to browser bugs and inconsistencies related to doctype
 	// normalize the values before proceeding (FF2 is not listed since its native behavior is perfect)
 	// for computation simplification, client and offset width and height are the same for body and html
@@ -86,13 +87,14 @@ dijit.scrollIntoView = function(/* DomNode */node){
 		//console.debug('parent = ' + (element._parentTag = element._parent?element._parent.tagName:'NULL'));
 		//console.debug('offsetParent = ' + (element._offsetParentTag = element._offsetParent.tagName));
 		var bp = dojo._getBorderExtents(element);
-		element._borderStart = { H:(dojo.isIE >= 8 && !ltr && !compatMode)?(bp.w-bp.l):bp.l, V:bp.t };
+		element._borderStart = { H:(isIE8strict && !ltr)? (bp.w-bp.l):bp.l, V:bp.t };
 		element._borderSize = { H:bp.w, V:bp.h };
-		element._offsetStart = { H:element.offsetLeft, V:element.offsetTop };
-		//console.debug('element = ' + element.tagName + ', initial _relativeOffset = ' + element._offsetStart[testdir]);
 		element._scrolledAmount = { H:element.scrollLeft, V:element.scrollTop };
 		element._offsetSize = { H: element._offsetWidth||element.offsetWidth, V: element._offsetHeight||element.offsetHeight };
 		//console.debug('element = ' + element.tagName + ', '+testdir+' size = ' + element[testdir=='H'?"offsetWidth":"offsetHeight"] + ', parent = ' + element._parentTag);
+		// IE8 flips everything in rtl mode except offsetLeft and borderLeft - so manually change offsetLeft to offsetRight here 
+		element._offsetStart = { H:(isIE8strict && !ltr)? offsetParent.clientWidth-element.offsetLeft-element._offsetSize.H:element.offsetLeft, V:element.offsetTop };
+		//console.debug('element = ' + element.tagName + ', initial _relativeOffset = ' + element._offsetStart[testdir]);
 		element._clientSize = { H:element._clientWidth||element.clientWidth, V:element._clientHeight||element.clientHeight };
 		if(element != body && element != html && element != node){
 			for(var dir in element._offsetSize){ // for both x and y directions
@@ -154,23 +156,16 @@ dijit.scrollIntoView = function(/* DomNode */node){
 			var relative = element._offsetParent == parent;
 			//console.debug('element = ' + element.tagName + ', offsetParent = ' + element._offsetParent.tagName + ', parent = ' + parent.tagName + ', relative = ' + relative);
 			for(var dir in element._offsetStart){ // for both x and y directions
-				if(dojo.isIE >= 8 && !relative && !compatMode){ // offsetLeft/Top change in realtime to reflect the scroll amount
-					//console.debug('zeroing out scroll amount = ' + parent._scrolledAmount[dir]);
-					parent._scrolledAmount[dir] = 0;
-				}
-				var scrollFlipped = false;
 				var otherDir = dir=="H"? "V" : "H";
 				if(rtl && dir=="H" && (parent != html) && (parent != body) && (dojo.isIE || dojo.isWebKit) && parent._clientSize.H > 0 && parent.scrollWidth > parent._clientSize.H){ // scroll starts on the right
 					var delta = parent.scrollWidth - parent._clientSize.H;
 					//console.debug('rtl scroll delta = ' + delta + ', changing ' + parent.tagName + ' scroll from ' + parent._scrolledAmount.H + ' to ' + (parent._scrolledAmount.H - delta)  + ', parent.scrollWidth = ' + parent.scrollWidth + ', parent._clientSize.H = ' + parent._clientSize.H);
 					if(delta > 0){
 						parent._scrolledAmount.H -= delta;
-						scrollFlipped = true;
 					} // match FF3 which has cool negative scrollLeft values
 				}
 				if(parent._offsetParent.tagName == "TABLE"){ // make it consistent
-					if(dojo.isIE >= 8 && !compatMode){}
-					else if(dojo.isIE){ // make it consistent with Safari and FF3 and exclude the starting TABLE border of TABLE children
+					if(dojo.isIE){ // make it consistent with Safari and FF3 and exclude the starting TABLE border of TABLE children
 						parent._offsetStart[dir] -= parent._offsetParent._borderStart[dir];
 						parent._borderStart[dir] = parent._borderSize[dir] = 0;
 					}
