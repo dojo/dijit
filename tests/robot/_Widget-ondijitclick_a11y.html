@@ -19,7 +19,7 @@
 
 			doh.register("setup", function(){ 
 				doh.robot.sequence(function(){
-					w = dijit.byId("widget1");
+					w = dijit.byId("first");
 					dojo.connect(w, "_onClick", function(){
 						widgetClicks++;
 					}),
@@ -78,6 +78,34 @@
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.is(0, widgetClicks, "ondijitclick handler wasn't fired");
 								doh.is(0, buttonClicks, "button click handler wasn't fired");
+							}), 100);
+	
+							return d;
+						}
+					}
+				]);
+			});
+
+			// This tests that the keyboard event gets supressed so it doesn't modify the focused node
+			dojo.forEach(["SPACE", /*** commented out until #8979 is fixed  , "ENTER"   ***/ ], function(key){
+
+				doh.register("focus to textarea by " + key, [
+					{
+						name: "ondijitclick by " + key,
+						timeout: 5000,
+						runTest: function(){
+							var d = new doh.Deferred(),
+								w = dijit.byId("second");
+	
+							// Keyboard-click the widget
+							doh.robot.sequence(function(){
+								w.domNode.focus();
+							}, 500);
+							doh.robot.keyPress(dojo.keys[key], 500, {});
+
+							// Check that ondijitclick fired but that focused textarea didn't get the key
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.is("hello world", dojo.byId("textarea").value);
 							}), 100);
 	
 							return d;

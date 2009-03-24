@@ -22,8 +22,7 @@
 					var d = new doh.Deferred();
 	
 					doh.robot.sequence(function(){
-						w = dijit.byId("widget1");
-						console.log("in sequence, w is ", w);
+						w = dijit.byId("first");
 						dojo.connect(w, "_onClick", function(){
 							widgetClicks++;
 						}),
@@ -34,7 +33,7 @@
 					}, 100);
 	
 					// click the widget
-					doh.robot.mouseMoveAt("widget1", 100);
+					doh.robot.mouseMoveAt("first", 100);
 					doh.robot.mouseClick({left: true}, 100);
 
 					doh.robot.sequence(d.getTestCallback(function(){

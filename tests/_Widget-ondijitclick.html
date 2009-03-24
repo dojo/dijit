@@ -14,18 +14,24 @@
 			dijit._Widget,
 			{
 				clickCount: 0,
+				onClick: function(){
+				},
 				_onClick: function() {
-					console.log("ondijitclick");
-					this.clickCount++;
-					dojo.byId("plainbutton").focus();
+					console.log(this.id + ": ondijitclick");
+					this.onClick();
 				},
 				postCreate: function() {
 					this.connect(this.domNode, "ondijitclick", "_onClick");
 				}
 			}
 		);
-
 	</script>
+	<style>
+		div {
+			border: 1px solid blue;
+			margin-top: 1em;
+		}
+	</style>
 </head>
 <body class="tundra">
 	<h1>_Widget.ondijitclick test</h1>
@@ -40,7 +46,17 @@
 		whether catch clicks on key-down or key-up so this tests to make sure we are doing
 		the right one.)
 	</p>
-	<div id="widget1" dojoType="dijit.WidgetWithOndijitclick" tabIndex=0 style="border: 1px solid blue;">click me using space or enter</div>
+	<div id="first" dojoType="dijit.WidgetWithOndijitclick" tabIndex=0
+			onClick="dojo.byId('plainbutton').focus();">
+		click me using space or enter, to focus button below
+	</div>
 	<button id="plainbutton" onclick="console.log('plain button clicked'); window.clicked = true;">plain button</button>
+	
+	<div id="second" dojoType="dijit.WidgetWithOndijitclick" tabIndex=0
+			onClick="dojo.byId('textarea').focus();">
+		click me using space or enter, to focus textarea below
+	</div>
+	<textarea id="textarea">hello world</textarea>
+
 </body>
 </html>
