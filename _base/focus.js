@@ -25,7 +25,7 @@ dojo.mixin(dijit,
 
 	isCollapsed: function(){
 		// summary:
-		//		Tests whether the current selection is empty
+		//		Returns true if there is no text selected
 		var _document = dojo.doc;
 		if(_document.selection){ // IE
 			var s=_document.selection;
@@ -37,10 +37,12 @@ dojo.mixin(dijit,
 		}else{
 			var _window = dojo.global;
 			var selection = _window.getSelection();
+			
 			if(dojo.isString(selection)){ // Safari
+				// TODO: this is dead code; safari is taking the else branch.  remove after 1.3.
 				return !selection; // Boolean
 			}else{ // Mozilla/W3
-				return selection.isCollapsed || !selection.toString(); // Boolean
+				return !selection || selection.isCollapsed || !selection.toString(); // Boolean
 			}
 		}
 	},
