@@ -308,7 +308,7 @@ dojo.declare("dijit.form._FormMixin", null,
 			this._invalidWidgets = dojo.filter(this.getDescendants(), function(widget){
 				return !widget.disabled && widget.isValid && !widget.isValid();
 	 		});
-			return this._invalidWidgets.length;
+			return !this._invalidWidgets.length;
 		},
 		
 		
