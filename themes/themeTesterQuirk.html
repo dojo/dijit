@@ -83,6 +83,7 @@
 		dojo.require("dijit.TitlePane");
 		dojo.require("dijit.Tooltip");
 		dojo.require("dijit.Tree");
+		dojo.require("dijit.MenuBar");
 
 		// editor:
 		dojo.require("dijit.Editor"); 
@@ -104,7 +105,8 @@
 		dojo.require("dijit.form.Button");
 		dojo.require("dijit.InlineEditBox");
 		dojo.require("dijit.form.NumberSpinner");
-		dojo.require("dijit.form.Slider"); 
+		dojo.require("dijit.form.VerticalSlider");
+		dojo.require("dijit.form.HorizontalSlider"); 
 
 		// layouts used in page
 		dojo.require("dijit.layout.AccordionContainer");
@@ -254,12 +256,67 @@
 
 	<div id="main" dojoType="dijit.layout.BorderContainer" liveSplitters="false" design="sidebar">
 
-		<h1 id="header" dojoType="dijit.layout.ContentPane" region="top">Dijit Theme Test Page</h1>
+		<div id="header" dojoType="dijit.MenuBar" region="top">
+			<div dojoType="dijit.PopupMenuBarItem" id="file">
+				<span>File</span>
+				<div dojoType="dijit.Menu" id="fileMenu">
+					<div dojoType="dijit.MenuItem" id="new">New</div>
+					<div dojoType="dijit.MenuItem" id="open">Open</div>
+					<div dojoType="dijit.MenuSeparator" id="separator"></div>
+					<div dojoType="dijit.MenuItem" id="save" iconClass="dijitEditorIconSave">Save</div>
+					<div dojoType="dijit.MenuItem" id="saveas">Save As...</div>
+				</div>
+			</div>
+			<div dojoType="dijit.PopupMenuBarItem" id="edit">
+				<span>Edit</span>
+				<div dojoType="dijit.Menu" id="editMenu">
+					<div dojoType="dijit.MenuItem" id="cut" iconClass="dijitEditorIcon dijitEditorIconCut"
+						onClick="console.log('not actually cutting anything, just a test!')">Cut</div>
+					<div dojoType="dijit.MenuItem" id="copy" iconClass="dijitEditorIcon dijitEditorIconCopy"
+						onClick="console.log('not actually copying anything, just a test!')">Copy</div>
+					<div dojoType="dijit.MenuItem" id="paste" iconClass="dijitEditorIcon dijitEditorIconPaste"
+						onClick="console.log('not actually pasting anything, just a test!')">Paste</div>
+				</div>
+			</div>
+			<div dojoType="dijit.PopupMenuBarItem" id="view">
+				<span>View</span>
+				<div dojoType="dijit.Menu" id="viewMenu">
+					<div dojoType="dijit.MenuItem">Normal</div>
+					<div dojoType="dijit.MenuItem">Outline</div>
+					<div dojoType="dijit.PopupMenuItem">
+						<span>Zoom</span>
+						<div dojoType="dijit.Menu" id="zoomMenu">
+							<div dojoType="dijit.MenuItem">50%</div>
+							<div dojoType="dijit.MenuItem">75%</div>
+							<div dojoType="dijit.MenuItem">100%</div>
+							<div dojoType="dijit.MenuItem">150%</div>
+							<div dojoType="dijit.MenuItem">200%</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div dojoType="dijit.PopupMenuBarItem" id="help">
+				<span>Help</span>
+				<div dojoType="dijit.Menu" id="helpMenu">
+					<div dojoType="dijit.MenuItem">Help Topics</div>
+					<div dojoType="dijit.MenuItem">About Dijit</div>
+				</div>
+			</div>
+			<div dojoType="dijit.PopupMenuBarItem" disabled="true">
+				<span>Disabled</span>
+				<div dojoType="dijit.Menu">
+					<div dojoType="dijit.MenuItem">You should not see this</div>
+				</div>
+			</div>
+			<div dojoType="dijit.MenuBarItem" onclick="alert('no submenu, just a clickable MenuItem');">
+				Click me!
+			</div>
+		</div>
 
 		<div dojoType="dijit.layout.AccordionContainer"
 			minSize="20" style="width: 300px;" id="leftAccordion" region="leading" splitter="true">
 
-			<div dojoType="dijit.layout.AccordionPane" title="Popups and Alerts"><div style="padding:8px">
+			<div dojoType="dijit.layout.ContentPane" title="Popups and Alerts"><div style="padding:8px">
 				<h2>Tooltips</h2>
 				<ul>
 					<li>
@@ -334,19 +391,19 @@
 			</div>
 			</div>
 
-			<div dojoType="dijit.layout.AccordionPane" title="Dojo Tree from Store">
+			<div dojoType="dijit.layout.ContentPane" title="Dojo Tree from Store">
 				<!-- tree widget -->
 				<div dojoType="dijit.Tree" store="continentStore" query="{type:'continent'}"
 					label="Continents">
 				</div>
 			</div>
 
-			<div dojoType="dijit.layout.AccordionPane" title="Calendar" selected="true">
+			<div dojoType="dijit.layout.ContentPane" title="Calendar" selected="true">
 				<!-- calendar widget pane -->
 				<input id="calendar1" dojoType="dijit._Calendar" onChange="myHandler(this.id,arguments[0])">
 			</div>
 
-			<div dojoType="dijit.layout.AccordionPane" title="Color Picker">
+			<div dojoType="dijit.layout.ContentPane" title="Color Picker">
 				<p>
 					Selecting a color will change the background color of the page.
 					Use this to test how tooltips and drop downs appear with different backgrounds.

@@ -8,6 +8,10 @@
 	background-color: #fff;
 }
 
+.nihilo .dijitBorderContainer .dijitMenuBar {
+	border: 1px #ccc solid;
+}
+
 .nihilo .dijitMenuItem {
 	font-family: sans-serif;
 	margin: 0px;

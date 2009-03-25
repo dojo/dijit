@@ -8,6 +8,10 @@
 	background-color: #fff;
 }
 
+.soria .dijitBorderContainer .dijitMenuBar {
+	border:1px solid #B1BADF;
+}
+
 .soria .dijitMenuItem {
 	font-family: sans-serif;
 	margin: 0px;
