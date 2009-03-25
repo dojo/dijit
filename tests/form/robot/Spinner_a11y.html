@@ -297,44 +297,107 @@
 					}
 				});
 				
-				// aria role and properties tests.
-				doh.register("a11yAria",
-				[
-					function ariaRole(){
-						for(i=0; i<spinnerIds.length; i++){
-							var spinner = dijit.byId(spinnerIds[i]);
-							doh.is(dijit.getWaiRole(spinner.focusNode), "spinbutton", spinner.id + ": aria role (spinbutton)");
+				// Test ARIA role.	Since role attribute is set in template,
+				// checking one should be sufficient.
+				doh.register("a11yAriaRole", 
+					function spinnerRole(){
+						var spinner = dijit.byId("integerspinner1");
+						doh.isNot(spinner, null, "can't find 'integerspinner1'");
+						doh.is(dijit.getWaiRole(spinner.focusNode), "spinbutton", spinner.id + ": aria role (spinbutton)");
+					}
+				);
+				
+				// Check ARIA min/max values.
+				// - both min and max.
+				// - min, no max.
+				// - max, no min.
+				// - neither.
+				doh.register("a11yMinMaxValues",
+					[
+						function minAndMax(){
+							var spinner = dijit.byId("integerspinner2");
+							doh.isNot(spinner, null, "can't find 'integerspinner2'");
+							doh.is(dijit.getWaiState(spinner.focusNode, "valuemin"), spinner.constraints.min, spinner.id + ": aria-valuemin");
+							doh.is(dijit.getWaiState(spinner.focusNode, "valuemax"), spinner.constraints.max, spinner.id + ": aria-valuemax");
+						},
+						function minOnly(){
+							var spinner = dijit.byId("spinnerMinOnly");
+							doh.isNot(spinner, null, "can't find 'spinnerMinOnly'");
+							doh.is(dijit.getWaiState(spinner.focusNode, "valuemin"), spinner.constraints.min, spinner.id + ": aria-valuemin");
+							if(spinner.constraints.max){
+								doh.is(dijit.getWaiState(spinner.focusNode, "valuemax"), spinner.constraints.max, spinner.id + ": aria-valuemax");
+							} else {
+								doh.f(dijit.hasWaiState(spinner.focusNode, "valuemax"), spinner.id + ": aria-valuemax");
+							}
+						}, 
+						function maxOnly(){
+							var spinner = dijit.byId("integertextbox3");
+							doh.isNot(spinner, null, "can't find 'integertextbox3'");
+							doh.is(dijit.getWaiState(spinner.focusNode, "valuemax"), spinner.constraints.max, spinner.id + ": aria-valuemax");
+							if(spinner.constraints.min){
+								doh.is(dijit.getWaiState(spinner.focusNode, "valuemin"), spinner.constraints.min, spinner.id + ": aria-valuemin");
+							} else {
+								doh.f(dijit.hasWaiState(spinner.focusNode, "valuemin"), spinner.id + ": aria-valuemin");
+							}
+						}, 
+						function neitherMinNorMax(){
+							var spinner = dijit.byId("integertextbox3");
+							doh.isNot(spinner, null, "can't find 'integertextbox3'");
+							if(spinner.constraints.min){
+								doh.is(dijit.getWaiState(spinner.focusNode, "valuemin"), spinner.constraints.min, spinner.id + ": aria-valuemin");
+							} else {
+								doh.f(dijit.hasWaiState(spinner.focusNode, "valuemin"), spinner.id + ": aria-valuemin");
+							}
+							if(spinner.constraints.max){
+								doh.is(dijit.getWaiState(spinner.focusNode, "valuemax"), spinner.constraints.max, spinner.id + ": aria-valuemax");
+							} else {
+								doh.f(dijit.hasWaiState(spinner.focusNode, "valuemax"), spinner.id + ": aria-valuemax");
+							}
 						}
-					},
-					
+					]
+				);
+				
+				// Loop to test each spinner for aria-valuenow.
+				// TODO:
+				//		Is testing one spinner sufficient?
+				//
+				for(i=0; i<spinnerIds.length; i++){
 					// test aria valuemin, valuemax, valuenow.
-					function ariaValue(){
-						for(var i=0; i<spinnerIds.length; i++){
-							var spinner = dijit.byId(spinnerIds[i]);
+					doh.register("a11yValueNow", {
+						name:spinnerIds[i]+"_value",
+						spinnerId:spinnerIds[i],
+						runTest:function(){
+							var spinner = dijit.byId(this.spinnerId);
 							var min = -9999;
 							var max = 9999;
 							if(spinner.constraints.min){
 								min = spinner.constraints.min;
-								doh.is(dijit.getWaiState(spinner.focusNode, "valuemin"), min, spinner.id + ": aria-valuemin");
 							}
 							if(spinner.constraints.max){
 								max = spinner.constraints.max;
-								doh.is(dijit.getWaiState(spinner.focusNode, "valuemax"), max, spinner.id + ": aria-valuemax");
 							}
 							// set spinner to some random value in its range.
 							var setVal = Math.floor((Math.random() * (max - min)) + min);
 							spinner.attr('value', setVal);
-							doh.is(dijit.getWaiState(spinner.focusNode, "valuenow"), spinner.attr('value'), spinner.id + ": aria-valuenow");
+							var ariaVal = dijit.getWaiState(spinner.focusNode, "valuenow");
+							var spinVal = spinner.attr('value');
+							if(dojo.isIE >= 8) {
+								// conversion to exponential with 14 places for IE8beta set/getAttribute(). see #8796.
+								ariaVal = (Number(ariaVal)).toExponential(14);
+								spinVal = (Number(spinVal)).toExponential(14);
+							}
+							doh.is(ariaVal, spinVal, spinner.id + ": aria-valuenow");
 						}
-					}
-				]);
+					});
 
 					
 					// test "null" aria-valuenow
 /* Remove null aria-valuenow test until #7866 is resolved
-					function nullAriaValueNow(){
-						for(var i=0; i<spinnerIds.length; i++){
-							var spinner = dijit.byId(spinnerIds[i]);
+					doh.register("a11yNullValuenow", {
+						name:spinnerIds[i]+"_nullValueNow",
+						spinnerId:spinnerIds[i],
+						runTest:function(){
+							var spinner = dijit.byId(this.spinnerId);
 							var initVal = spinner.attr('value');
 							spinner.attr('value', null);
 							var spinnerVal = spinner.attr('value');
@@ -346,8 +409,9 @@
 								doh.is(spinnerVal, nowVal, spinner.id + ": null aria-valuenow");
 							}
 						}
-					} 
+					});
 */
+				}	// end for(i=0; i<spinnerIds.length, i++)
 	
 				// a11y tab focus tests (robot)
 				doh.register("a11yTabFocus",
