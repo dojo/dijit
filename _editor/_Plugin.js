@@ -51,7 +51,7 @@ dojo.declare("dijit._editor._Plugin", null, {
 	//		is specified directly.
 	buttonClass: dijit.form.Button,
 
-	getLabel: function(key){
+	getLabel: function(/*String*/key){
 		// summary:
 		//		Returns the label to use for the button
 		// tags:
@@ -104,45 +104,45 @@ dojo.declare("dijit._editor._Plugin", null, {
 
 	updateState: function(){
 		// summary:
-		//		This is called on meaningful events in the editor, such as arrow keys (but not simple typing of
-		//		alphanumeric keys).   It gives the plugin a chance to update the CSS of it's button.
+		//		Change state of the plugin to respond to events in the editor.
+		// description:
+		//		This is called on meaningful events in the editor, such as change of selection
+		//		or caret position (but not simple typing of alphanumeric keys).   It gives the
+		//		plugin a chance to update the CSS of its button.
 		//
 		//		For example, the "bold" plugin will highlight/unhighlight the bold button depending on whether the
 		//		characters next to the caret are bold or not.
 		//
 		//		Only makes sense when `useDefaultCommand` is true, as it calls Editor.queryCommandEnabled(`command`).
-		var _e = this.editor;
-		var _c = this.command;
-		if(!_e){ return; }
-		if(!_e.isLoaded){ return; }
-		if(!_c.length){ return; }
+		var e = this.editor,
+			c = this.command,
+			checked, enabled;
+		if(!e || !e.isLoaded || !c.length){ return; }
 		if(this.button){
 			try{
-				var enabled = _e.queryCommandEnabled(_c);
-				if(this.enabled!==enabled){
-					this.enabled=enabled;
+				enabled = e.queryCommandEnabled(c);
+				if(this.enabled !== enabled){
+					this.enabled = enabled;
 					this.button.attr('disabled', !enabled);
 				}
 				if(typeof this.button.checked == 'boolean'){
-					var checked=_e.queryCommandState(_c);
-					if(this.checked!==checked){
-						this.checked=checked;
-						this.button.attr('checked', _e.queryCommandState(_c));
+					checked = e.queryCommandState(c);
+					if(this.checked !== checked){
+						this.checked = checked;
+						this.button.attr('checked', e.queryCommandState(c));
 					}
 				}
 			}catch(e){
-				console.debug(e);
+				console.log(e); // FIXME: we shouldn't have debug statements in our code.  Log as an error?
 			}
 		}
 	},
 
-	setEditor: function(/*Widget*/ editor){
+	setEditor: function(/*dijit.Editor*/ editor){
 		// summary:
-		//		In the old days this existed so that one toolbar could control multiple editors.
-		//		In Dijit 1.0, it's just in the initialization process, to tell the plugin which Editor it's
-		//		associated with.
-		//
-		//		TODO: refactor code to just pass editor to constructor.
+		//		Tell the plugin which Editor it is associated with.
+
+		// TODO: refactor code to just pass editor to constructor.
 
 		// FIXME: detatch from previous editor!!
 		this.editor = editor;
@@ -152,8 +152,7 @@ dojo.declare("dijit._editor._Plugin", null, {
 
 		// FIXME: wire up editor to button here!
 		if(this.command.length &&
-			!this.editor.queryCommandAvailable(this.command)
-		){
+			!this.editor.queryCommandAvailable(this.command)){
 			// console.debug("hiding:", this.command);
 			if(this.button){
 				this.button.domNode.style.display = "none";
@@ -167,13 +166,11 @@ dojo.declare("dijit._editor._Plugin", null, {
 		this.connect(this.editor, "onNormalizedDisplayChanged", "updateState");
 	},
 
-	setToolbar: function(/*Widget*/ toolbar){
+	setToolbar: function(/*dijit.Toolbar*/ toolbar){
 		// summary:
-		//		Like setEditor() this exists from the old days when one toolbar could control multiple editors.
-		//		Now, it's just called as part of the initialization process, telling the plugin to add itself
-		//		to the toolbar (if there is a button associated with the plugin).
-		//
-		//		TODO: refactor code to just pass toolbar to constructor.
+		//		Tell the plugin to add itself to the toolbar (if there is a button associated with the plugin).
+
+		// TODO: refactor code to just pass toolbar to constructor.
 
 		if(this.button){
 			toolbar.addChild(this.button);
