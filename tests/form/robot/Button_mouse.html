@@ -29,9 +29,9 @@
 							var d = new doh.Deferred();
 	
 							var clicked = false;
-							dijit.byId("1465").attr("onClick", function(){ clicked = true; });
+							dijit.byId("1467").attr("onClick", function(){ clicked = true; });
 	
-							doh.robot.mouseMoveAt("1465", 500);
+							doh.robot.mouseMoveAt("1467", 500);
 							doh.robot.mouseClick({left:true}, 500);
 	
 							doh.robot.sequence(d.getTestCallback(function(){
