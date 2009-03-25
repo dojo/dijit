@@ -493,7 +493,7 @@
 							doh.is("Connecticut", innerText(entries[2]), "list #3");
 							
 							// Check that search-string highlighting is working
-							doh.is('<span class=dijitcomboboxhighlightmatch>c</span>onnecticut', entries[2].innerHTML.toLowerCase().replace('"', '', 'g'),
+							doh.is('<span class=dijitcomboboxhighlightmatch>c</span>onnecticut', entries[2].innerHTML.toLowerCase().replace(/"/g, ""),
 								"highlighting is working");
 						}), 500);
 						
