@@ -1,0 +1,122 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+		"http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+
+	<title>Test Dijit Internal Event: "ondijitclick"</title>
+
+	<script type="text/javascript" src="../../../dojo/dojo.js" djConfig="isDebug: true"></script>
+	<script type="text/javascript">
+		dojo.require("dijit.dijit"); // optimize: load dijit layer
+		dojo.require("dijit.robotx");
+
+		dojo.addOnLoad(function(){
+			doh.robot.initRobot('../_Widget-ondijitclick.html');
+
+			// Event monitoring
+			var widgetClicks = 0, buttonClicks = 0;
+			var w;
+
+			doh.register("setup", function(){ 
+				doh.robot.sequence(function(){
+					w = dijit.byId("first");
+					dojo.connect(w, "_onClick", function(){
+						widgetClicks++;
+					}),
+					dojo.connect(dojo.byId("plainbutton"), "onclick", function(){
+						buttonClicks++;
+					})
+				});
+			});
+
+			dojo.forEach(["SPACE" /*** commented out until #8946 and #8978 are fixed , "ENTER"   ***/ ], function(key){
+
+				doh.register("ondijitclick by " + key, [
+					{
+						name: "ondijitclick by " + key,
+						timeout: 5000,
+						runTest: function(){
+							widgetClicks = buttonClicks = 0;
+							var d = new doh.Deferred();
+	
+							// Keyboard-click the widget
+							doh.robot.sequence(function(){
+								w.domNode.focus();
+							}, 500);
+							doh.robot.keyPress(dojo.keys[key], 500, {});
+
+							// Check that ondijitclick fired but no spurious event
+							// on the widget that got focused in the ondijitclick handler
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.is(1, widgetClicks, "ondijitclick handler fired");
+								doh.is(0, buttonClicks, "spurious button click event");
+							}), 100);
+	
+							return d;
+						}
+					},
+					{
+						name: "ondijitclick by " + key + " w/modifier",
+						timeout: 5000,
+						runTest: function(){
+							widgetClicks = buttonClicks = 0;
+							var d = new doh.Deferred();
+	
+							// Keyboard-click with modifier shouldn't do anything
+							doh.robot.sequence(function(){
+								w.domNode.focus();
+							}, 500);
+							doh.robot.keyPress(dojo.keys[key], 100, {shift: true});
+							doh.robot.keyPress(dojo.keys[key], 100, {ctrl: true});
+
+							// meta key can open browser menus etc.   let's just not
+							// even try it...
+							//doh.robot.keyPress(dojo.keys[key], 100, {meta: true});
+
+							// Check that ondijitclick fired but no spurious event
+							// on the widget that got focused in the ondijitclick handler
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.is(0, widgetClicks, "ondijitclick handler wasn't fired");
+								doh.is(0, buttonClicks, "button click handler wasn't fired");
+							}), 100);
+	
+							return d;
+						}
+					}
+				]);
+			});
+
+			// This tests that the keyboard event gets supressed so it doesn't modify the focused node
+			dojo.forEach(["SPACE", /*** commented out until #8979 is fixed  , "ENTER"   ***/ ], function(key){
+
+				doh.register("focus to textarea by " + key, [
+					{
+						name: "ondijitclick by " + key,
+						timeout: 5000,
+						runTest: function(){
+							var d = new doh.Deferred(),
+								w = dijit.byId("second");
+	
+							// Keyboard-click the widget
+							doh.robot.sequence(function(){
+								w.domNode.focus();
+							}, 500);
+							doh.robot.keyPress(dojo.keys[key], 500, {});
+
+							// Check that ondijitclick fired but that focused textarea didn't get the key
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.is("hello world", dojo.byId("textarea").value);
+							}), 100);
+	
+							return d;
+						}
+					}
+				]);
+			});
+
+			doh.run();
+		});
+
+	</script>
+</head>
+</html>

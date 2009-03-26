@@ -534,7 +534,9 @@ dojo.declare("dijit._Widget", null, {
 		}
 
 		if(this.domNode){
-			if(!preserveDom){
+			if(preserveDom){
+				dojo.removeAttr(this.domNode, "widgetId");
+			}else{
 				dojo.destroy(this.domNode);
 			}
 			delete this.domNode;
@@ -839,7 +841,7 @@ dojo.declare("dijit._Widget", null, {
 		//		Returns all the widgets contained by this, i.e., all widgets underneath this.containerNode.
 		//		Does not return nested widgets, nor widgets that are part of this widget's template.
 		if(this.containerNode){
-			return dijit.getChildren(this.containerNode);
+			return dijit.findWidgets(this.containerNode);
 		}else{
 			return [];
 		}

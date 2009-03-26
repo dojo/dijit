@@ -299,15 +299,16 @@ dojo.declare("dijit.form._FormMixin", null,
 		// TODO: ComboBox might need time to process a recently input value.  This should be async?
 	 	isValid: function(){
 	 		// summary:
-			//		Make sure that every widget that has a validator function returns true
-			this._invalidWidgets = [];
-	 		return dojo.every(this.getDescendants(), function(widget){
-				var isValid = widget.disabled || !widget.isValid || widget.isValid();
-				if(!isValid){
-					this._invalidWidgets.push(widget);
-				}
-				return isValid;
-	 		}, this);
+	 		//		Returns true if all of the widgets are valid
+	 		
+	 		// This also populate this._invalidWidgets[] array with list of invalid widgets...
+	 		// TODO: put that into separate function?   It's confusing to have that as a side effect
+	 		// of a method named isValid().
+
+			this._invalidWidgets = dojo.filter(this.getDescendants(), function(widget){
+				return !widget.disabled && widget.isValid && !widget.isValid();
+	 		});
+			return !this._invalidWidgets.length;
 		},
 		
 		

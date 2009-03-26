@@ -44,8 +44,8 @@
 	Buttons can do an action, display a menu, or both:
 	</p>
 	<p class="box">
-		<button>&lt;button&gt;</button>
-		<input type="button" value="&lt;input type='button'&gt;">
+		<button id="button" onclick="console.log('clicked native button');">&lt;button&gt;</button>
+		<input id="input" type="button" value="&lt;input type='button'&gt;">
 		<button id="1465" dojoType="dijit.form.Button" onClick='console.log("clicked simple")' iconClass="plusIcon" value="Create">
 			Create
 		</button>
@@ -54,7 +54,7 @@
 			View
 		</button>
 		<span dojoType="dijit.Tooltip" connectId="1466">tooltip on button</span>
-		<button dojoType="dijit.form.ComboButton" optionsTitle='save options' onClick='console.log("clicked combo save")'
+		<button dojoType="dijit.form.ComboButton" id="comboCreate" optionsTitle='save options' onClick='console.log("clicked combo save")'
 				iconClass="plusIcon">
 			<span>Create</span>
 			<div dojoType="dijit.Menu" id="createMenu" style="display: none;">
@@ -64,14 +64,14 @@
 					onClick="console.log('not actually saving anything, just a test!')">Create from template</div>
 			</div>
 		</button>
-		<button dojoType="dijit.form.DropDownButton" iconClass="noteIcon" value="Edit">
+		<button dojoType="dijit.form.DropDownButton" id="edit" iconClass="noteIcon" value="Edit">
 			<span>Edit<b>!</b></span>
-			<div dojoType="dijit.Menu">
-				<div dojoType="dijit.MenuItem"  iconClass="dijitEditorIcon dijitEditorIconCut"
+			<div dojoType="dijit.Menu" id="editMenu">
+				<div dojoType="dijit.MenuItem" id="cut" iconClass="dijitEditorIcon dijitEditorIconCut"
 					onClick="console.log('not actually cutting anything, just a test!')">Cut</div>
-				<div dojoType="dijit.MenuItem"  iconClass="dijitEditorIcon dijitEditorIconCopy"
+				<div dojoType="dijit.MenuItem" id="copy" iconClass="dijitEditorIcon dijitEditorIconCopy"
 					onClick="console.log('not actually copying anything, just a test!')">Copy</div>
-				<div dojoType="dijit.MenuItem"  iconClass="dijitEditorIcon dijitEditorIconPaste"
+				<div dojoType="dijit.MenuItem" id="paste" iconClass="dijitEditorIcon dijitEditorIconPaste"
 					onClick="console.log('not actually pasting anything, just a test!')">Paste</div>
 				<div dojoType="dijit.MenuSeparator"></div>
 				<div dojoType="dijit.PopupMenuItem">
@@ -90,22 +90,22 @@
 				</div>
 			</div>
 		</button>
-		<button dojoType="dijit.form.DropDownButton" iconClass="noteIcon" value="color">
+		<button dojoType="dijit.form.DropDownButton" id="color" iconClass="noteIcon" value="color">
 			<span>Color</span>
 			<div dojoType="dijit.ColorPalette" id="colorPalette" style="display: none" palette="3x4"
 				onChange="console.log(this.value);"></div>
 		</button>
-		<button dojoType="dijit.form.ComboButton" optionsTitle='save options' onClick='console.log("clicked combo save")'
+		<button dojoType="dijit.form.ComboButton" id="save" optionsTitle='save options' onClick='console.log("clicked combo save")'
 				iconClass="plusBlockIcon">
 			<span>Save</span>
 			<div dojoType="dijit.Menu" id="saveMenu" style="display: none;">
-				<div dojoType="dijit.MenuItem"  iconClass="dijitEditorIcon dijitEditorIconSave"
+				<div dojoType="dijit.MenuItem" id="saveMenuItem" iconClass="dijitEditorIcon dijitEditorIconSave"
 					onClick="console.log('not actually saving anything, just a test!')">Save</div>
-				<div dojoType="dijit.MenuItem"
+				<div dojoType="dijit.MenuItem" id="saveAs"
 					onClick="console.log('not actually saving anything, just a test!')">Save As</div>
 			</div>
 		</button>
-		<button dojoType="dijit.form.Button" onClick='console.log("clicked simple")' disabled='true' iconClass="plusIcon">
+		<button dojoType="dijit.form.Button" id="disabled" onClick='console.log("clicked simple")' disabled='true' iconClass="plusIcon">
 			Disabled
 		</button>
 	</p>
@@ -138,10 +138,10 @@
 	<h2>Toggle buttons</h2>
 	<p>The button CSS as well as the icon CSS can change on toggle </p>
 	<div class="box">
-		<button dojoType="dijit.form.ToggleButton" checked onChange="console.log('toggled button checked='+arguments[0]);" iconClass="dijitCheckBoxIcon">
+		<button dojoType="dijit.form.ToggleButton" id="toggle1" checked onChange="console.log('toggled button checked='+arguments[0]);" iconClass="dijitCheckBoxIcon">
 			Toggle me
 		</button>
-		<button dojoType="dijit.form.ToggleButton" onChange="console.log('toggled button checked='+arguments[0]);" iconClass="dijitRadioIcon">
+		<button dojoType="dijit.form.ToggleButton" id="toggle2" onChange="console.log('toggled button checked='+arguments[0]);" iconClass="dijitRadioIcon">
 			Toggle me
 		</button>
 	</div>

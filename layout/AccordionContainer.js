@@ -181,7 +181,7 @@ dojo.declare(
 						dojo.addClass(oldContents, "dijitHidden");
 						dojo.removeClass(oldContents, "dijitVisible");
 						oldContents.style.overflow = oldContentsOverflow;
-						if (oldWidget.onHide){
+						if(oldWidget.onHide){
 							oldWidget.onHide();
 						}
 					}
@@ -200,7 +200,9 @@ dojo.declare(
 			//		(setup in StackContainer), and is also called directly from
 			//		the click handler for accordion labels
 			if(this._inTransition || this.disabled || e.altKey || !(fromTitle || e.ctrlKey)){
-				dojo.stopEvent(e); 
+				if(this._inTransition){
+					dojo.stopEvent(e);
+				}
 				return;
 			}
 			var k = dojo.keys,
@@ -243,7 +245,7 @@ dojo.declare("dijit.layout._AccordionButton",
 	},
 
 	postCreate: function(){
-		this.inherited(arguments)
+		this.inherited(arguments);
 		dojo.setSelectable(this.domNode, false);
 		this.setSelected(this.selected);
 		var titleTextNodeId = dojo.attr(this.domNode,'id').replace(' ','_');

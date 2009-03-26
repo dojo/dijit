@@ -88,6 +88,18 @@
 				id="realspinner1">
 			<br>
 
+			<p>
+			<label for="spinnerMinOnly">Spinner with no maximum: </label><br>
+			<input dojoType="dijit.form.NumberSpinner"
+				value="1.0"
+				smallDelta="0.1"
+				largeDelta="1.0"
+				constraints="{min:-10.9,places:1,round:true}"
+				maxLength="20"
+				name="spinnerMinOnly"
+				id="spinnerMinOnly">
+			</p>
+			<p>
 			<script type="text/javascript">
 				// so robot can get to it easily
 				document.displayData=function() {

@@ -123,7 +123,7 @@ dojo.declare("dijit.MenuItem",
 			 * TODO: remove this method and calls to it, when _onBlur() is working for MenuItem.
 			 * Currently _onBlur() gets called when focus is moved from the MenuItem to a child menu.
 			 * That's not supposed to happen, but the problem is:
-			 * In order to allow dijit.popup's getTopPopup()  work,a sub menu's popupParent
+			 * In order to allow dijit.popup's getTopPopup() to work,a sub menu's popupParent
 			 * points to the parent Menu, bypassing the parent MenuItem... thus the
 			 * MenuItem is not in the chain of active widgets and gets a premature call to
 			 * _onBlur()

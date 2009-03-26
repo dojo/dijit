@@ -1,7 +1,6 @@
 dojo.provide("dijit.layout.ContentPane");
 
 dojo.require("dijit._Widget");
-dojo.require("dijit._Container");
 dojo.require("dijit._Contained");
 dojo.require("dijit.layout._LayoutWidget");	// for dijit.layout.marginBox2contentBox()
 
@@ -14,7 +13,7 @@ dojo.declare(
 	"dijit.layout.ContentPane", dijit._Widget,
 {
 	// summary:
-	//		A widget that acts as a container for mixed HTML and widgets, and includes a ajax interface
+	//		A widget that acts as a container for mixed HTML and widgets, and includes an Ajax interface
 	// description:
 	//		A widget that can be used as a standalone widget
 	//		or as a baseclass for other widgets
@@ -100,7 +99,7 @@ dojo.declare(
 
 	// isContainer: [protected] Boolean
 	//		Just a flag indicating that this widget will call resize() on
-	//		it's children.   _LayoutWidget based widgets check for
+	//		its children.   _LayoutWidget based widgets check for
 	//
 	//	|		if(!this.getParent || !this.getParent()){
 	//
@@ -132,7 +131,7 @@ dojo.declare(
 	},
 
 	postCreate: function(){
-		// remove the title attribute so it doesn't show up when i hover
+		// remove the title attribute so it doesn't show up when hovering
 		// over a node
 		this.domNode.title = "";
 
@@ -204,7 +203,7 @@ dojo.declare(
 	setHref: function(/*String|Uri*/ href){
 		// summary:
 		//		Deprecated.   Use attr('href', ...) instead.
-		dojo.deprecated("dijit.layout.ContentPane.setHref() is deprecated.	Use attr('href', ...) instead.", "", "2.0");
+		dojo.deprecated("dijit.layout.ContentPane.setHref() is deprecated. Use attr('href', ...) instead.", "", "2.0");
 		return this.attr("href", href);
 	},
 	_setHrefAttr: function(/*String|Uri*/ href){
@@ -268,7 +267,7 @@ dojo.declare(
 
 	cancel: function(){
 		// summary:
-		//		Cancels a inflight download of content
+		//		Cancels an in-flight download of content
 		if(this._xhrDfd && (this._xhrDfd.fired == -1)){
 			this._xhrDfd.cancel();
 		}
@@ -283,7 +282,7 @@ dojo.declare(
 
 	destroyRecursive: function(/*Boolean*/ preserveDom){
 		// summary:
-		//		Destroy the ContentPane and it's contents
+		//		Destroy the ContentPane and its contents
 
 		// if we have multiple controllers destroying us, bail after the first
 		if(this._beingDestroyed){
@@ -308,7 +307,7 @@ dojo.declare(
 		var node = this.containerNode,
 			mb = dojo.mixin(dojo.marginBox(node), size||{});
 
-		var cb = this._contentBox = dijit.layout.marginBox2contentBox(node, mb);
+		var cb = (this._contentBox = dijit.layout.marginBox2contentBox(node, mb));
 
 		// If we have a single widget child then size it to fit snugly within my borders
 		if(this._singleChild && this._singleChild.resize){
@@ -395,7 +394,7 @@ dojo.declare(
 			dojo.mixin(getArgs, this.ioArgs);
 		}
 
-		var hand = this._xhrDfd = (this.ioMethod || dojo.xhrGet)(getArgs);
+		var hand = (this._xhrDfd = (this.ioMethod || dojo.xhrGet)(getArgs));
 
 		hand.addCallback(function(html){
 			try{
@@ -482,6 +481,9 @@ dojo.declare(
 
 		// first get rid of child widgets
 		this.destroyDescendants();
+
+		// Delete any state information we have about current contents
+		delete this._singleChild;
 
 		// dojo.html.set will take care of the rest of the details
 		// we provide an overide for the error handling to ensure the widget gets the errors 

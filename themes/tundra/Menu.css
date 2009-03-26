@@ -7,6 +7,10 @@
 	/* background:#eaeaea url("images/titleBar.png") repeat-x top left; */
 }
 
+.tundra .dijitBorderContainer .dijitMenuBar {
+	border:1px solid #ccc;
+}
+
 .tundra .dijitMenuItem {
 	font-family: sans-serif;
 	margin: 0;

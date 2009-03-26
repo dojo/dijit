@@ -40,9 +40,12 @@ dojo.declare(
 			// summary:
 			//		Hook so attr('value') works as we like.
 			// description:
-			//		For TextBox this simply returns the value of the <input>,
-			//		but the parse() call is so subclasses can change this
-			//		behavior w/out overriding this method.
+			//		For `dijit.form.TextBox` this basically returns the value of the <input>.
+			//
+			//		For `dijit.form.MappedTextBox` subclasses, which have both
+			//		a "displayed value" and a separate "submit value",
+			//		This treats the "displayed value" as the master value, computing the
+			//		submit value from it via this.parse().
 			return this.parse(this.attr('displayedValue'), this.constraints);
 		},
 
