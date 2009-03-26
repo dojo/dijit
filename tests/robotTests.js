@@ -4,8 +4,8 @@ try{
 if(dojo.isBrowser){
 	var userArgs = window.location.search.replace(/[\?&](dojoUrl|testUrl|testModule)=[^&]*/g,"").replace(/^&/,"?");
 
-	// Safari doesn't support focus on nodes like <div>, so keyboard isn't supported there.
-	var test_a11y = dojo.isFF || dojo.isIE;
+	// Safari 3 doesn't support focus on nodes like <div>, so keyboard isn't supported there.
+	var test_a11y = dojo.isFF || dojo.isIE || dojo.isSafari >= 4;
 
 	// infrastructure tests
 	doh.registerUrl("dijit/tests/_base/robot/focus_mouse.html", dojo.moduleUrl("dijit","tests/_base/robot/focus_mouse.html"), 99999999);
