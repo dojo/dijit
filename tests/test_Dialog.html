@@ -59,6 +59,9 @@
 			}
 			setTimeout(function(){ thirdDlg.show(); },"3000");
 		}
+		dojo.addOnLoad(function(){
+			dojo.subscribe("focusNode", function(node){ console.log("focused on " + (node?(node.id||node.tagName):"nothing"));});
+		})
 	</script>
 </head>
 <body class="tundra">

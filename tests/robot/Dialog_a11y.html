@@ -19,12 +19,12 @@
 			dojo.require("dijit.dijit"); // optimize: load dijit layer
 			dojo.require("dijit.robotx");
 
-			// Warning:  if the id values change in the test file, then this needs updating
 			var dialogIds = [
 				{ dlg: "dialog1", firstFocus: "name" },
-				{ dlg: "tabDialog", firstFocus: "dijit_layout__TabButton_0" },
+				{ dlg: "tabDialog",
+					firstFocus: "dijit_layout__TabButton_0" },	// Warning:  if id changes in the test file, this needs updating
 				{ dlg: "fifthDlg", firstFocus: "fifthDlg" },
-				{ dlg: "dialog6", firstFocus: "dialog6", IE: "afile" },
+				{ dlg: "dialog6", firstFocus: "dialog6", fileInput: "afile" },
 				{ dlg: "cantmove", firstFocus: "cantmove" },
 				{ dlg: "preventer", firstFocus: "preventerOK" }
 			];
@@ -61,8 +61,8 @@
 					gotFocus = lostFocus = false;
 					var dlog = dijit.byId(ids.dlg);
 					// need to show dialog in order to find the first tab stop.
-					if(dojo.isIE && ids.IE){
-						that.firstTabStop = dojo.byId(ids.IE);
+					if( !dojo.isFF && ids.fileInput){
+						that.firstTabStop = dojo.byId(ids.fileInput);
 					}else{
 						that.firstTabStop = dojo.byId(ids.firstFocus);
 					}
