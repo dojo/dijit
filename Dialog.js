@@ -291,7 +291,7 @@ dojo.declare(
 				}else{
 					// see if the key is for the dialog
 					while(node){
-						if(node == this.domNode){
+						if(node == this.domNode || dojo.hasClass(node, "dijitPopup")){
 							if(evt.charOrCode == dk.ESCAPE){
 								this.onCancel(); 
 							}else{
