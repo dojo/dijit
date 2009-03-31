@@ -145,6 +145,22 @@
 		<div dojoType="dijit.CheckedMenuItem" checked="true" onChange="alert('Now set to ' + arguments[0])">Checked</div>
 		<div dojoType="dijit.CheckedMenuItem">Not Checked</div>
 		<div dojoType="dijit.CheckedMenuItem" checked="true" disabled="true">Checked Disabled</div>
+		<div dojoType="dijit.MenuSeparator"></div>
+		<div dojoType="dijit.PopupMenuItem">
+			<span>Bigger Submenu</span>
+			<div dojoType="dijit.Menu" id="bigsubmenu" style="display: none;">
+				<div dojoType="dijit.MenuItem">Item One</div>
+				<div dojoType="dijit.MenuItem">Item Two</div>
+				<div dojoType="dijit.MenuItem">Item Three</div>
+				<div dojoType="dijit.MenuItem">Item Four</div>
+				<div dojoType="dijit.MenuItem">Item Five</div>
+				<div dojoType="dijit.MenuItem">Item Six</div>
+				<div dojoType="dijit.MenuItem">Item Seven</div>
+				<div dojoType="dijit.MenuItem">Item Eight</div>
+				<div dojoType="dijit.MenuItem">Item Nine</div>
+				<div dojoType="dijit.MenuItem">Item Ten</div>
+			</div>
+		</div>
 	</div>
 
 	<div dojoType="dijit.Menu" id="leftClickContextMenu" leftClickToOpen="true" targetNodeIds="input2" style="display: none;">

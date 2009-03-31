@@ -168,7 +168,9 @@ dojo.declare("dijit._MenuBase",
 			parent: this,
 			popup: popup,
 			around: from_item.domNode,
-			orient: this._orient || (this.isLeftToRight() ? {'TR': 'TL', 'TL': 'TR'} : {'TL': 'TR', 'TR': 'TL'}),
+			orient: this._orient || (this.isLeftToRight() ? 
+									{'TR': 'TL', 'TL': 'TR', 'BR': 'BL', 'BL': 'BR'} : 
+									{'TL': 'TR', 'TR': 'TL', 'BL': 'BR', 'BR': 'BL'}),
 			onCancel: function(){
 				// called when the child menu is canceled
 				dijit.popup.close(popup);
