@@ -191,6 +191,10 @@ dojo.declare(
 			this._setValueFromItem(tgt.item, true);
 		},
 
+		_getDisplayQueryString: function(/*String*/ text){
+			return text.replace(/([\\\*\?])/g, "\\$1");
+		},
+
 		_setDisplayedValueAttr: function(/*String*/ label, /*Boolean?*/ priorityChange){
 			// summary:
 			//		Hook so attr('displayedValue', label) works.
@@ -209,7 +213,7 @@ dojo.declare(
 			if(this.store){
 				var query = dojo.clone(this.query); // #6196: populate query with user-specifics
 				// escape meta characters of dojo.data.util.filter.patternToRegExp().
-				this._lastQuery = query[this.searchAttr] = label.replace(/([\\\*\?])/g, "\\$1");
+				this._lastQuery = query[this.searchAttr] = this._getDisplayQueryString(label);
 				// if the label is not valid, the callback will never set it,
 				// so the last valid value will get the warning textbox set the
 				// textbox value now so that the impending warning will make
