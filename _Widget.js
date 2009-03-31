@@ -4,7 +4,7 @@ dojo.provide("dijit._Widget");
 dojo.require( "dijit._base" );
 //>>excludeEnd("dijitBaseExclude");
 
-dojo.connect(dojo, "connect", 
+dojo.connect(dojo, "_connect", 
 	function(/*Widget*/ widget, /*String*/ event){
 		if(widget && dojo.isFunction(widget._onConnect)){
 			widget._onConnect(event);
@@ -877,7 +877,7 @@ dojo.declare("dijit._Widget", null, {
 		//		protected
 
 		var d = dojo;
-		var dc = dojo.connect;
+		var dc = dojo._connect;
 		var handles =[];
 		if(event == "ondijitclick"){
 			// add key based click activation for unsupported nodes.
