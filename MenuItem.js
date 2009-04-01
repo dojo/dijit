@@ -49,8 +49,13 @@ dojo.declare("dijit.MenuItem",
 
 		postCreate: function(){
 			dojo.setSelectable(this.domNode, false);
-			dojo.attr(this.containerNode, "id", this.id+"_text");
-			dijit.setWaiState(this.domNode, "labelledby", this.id+"_text");
+			var label = this.id+"_text";
+			dojo.attr(this.containerNode, "id", label);
+			if (this.accelKeyNode) {
+				dojo.attr(this.accelKeyNode, "id", this.id + "_accel");
+				label += " " + this.id + "_accel";
+			}
+			dijit.setWaiState(this.domNode, "labelledby", label);
 		},
 
 		_onHover: function(){
