@@ -18,9 +18,14 @@
 			background: white;
 			border: solid 1px gray;
 		}
-		.choice:hover {
-			background: #ccc;
+
+		/* the menu type test widgets */
+		.choice div {
+			width: 200px;
 			cursor: pointer;
+		}
+		.choice div:hover {
+			background: #ccc;
 		}
 	</style>
 	<script type="text/javascript" src="../../../dojo/dojo.js"
@@ -42,25 +47,40 @@
 				//		Supply popup as parameter when instantiating this widget.
 
 				label: "show popup",
+				orient: {'BL': 'TL', 'BR': 'TR'},
 
 				templateString: "<button dojoAttachEvent='onclick: showPopup'>${label}</button>",
 
 				showPopup: function(){
-					var id = this.id,
-						popup = this.popup;
+					var self = this;
+
 					dijit.popup.open({
-						popup: popup,
+						popup: this.popup,
 						parent: this,
 						around: this.domNode,
-						orient: {'BL': 'TL', 'BR': 'TR'},
+						orient: this.orient,
 						onCancel: function(){
-							log(id + ": cancel of child");
+							log(self.id + ": cancel of child");
 						},
 						onExecute: function(){
-							log(id + ": execute of child");
-							dijit.popup.close(popup);
+							log(self.id + ": execute of child");
+							dijit.popup.close(self.popup);
+							self.open = false;
 						}
 					});
+
+					this.open = true;
+				},
+				
+				_onBlur: function(){
+					// summary:
+					//		This is called from focus manager and when we get the signal we
+					//		need to close the drop down
+					if(this.open){
+						log(this.id + ": close popup due to blur");
+						dijit.popup.close(this.popup);
+						this.open = false;
+					}
 				}
 			});
 
@@ -73,10 +93,10 @@
 				choice3: "3",
 
 				templateString:
-					"<div dojoAttachEvent='onclick: onClick' style='width: 200px'>" +
-						"<div class='choice'>${choice1}</div>" +
-						"<div class='choice'>${choice2}</div>" +
-						"<div class='choice'>${choice3}</div>" +
+					"<div class='choice'>" +
+						"<div dojoAttachEvent='onclick: onClick'>${choice1}</div>" +
+						"<div dojoAttachEvent='onclick: onClick'>${choice2}</div>" +
+						"<div dojoAttachEvent='onclick: onClick'>${choice3}</div>" +
 					"</div>",
 				
 				onClick: function(e){
@@ -110,7 +130,7 @@
 					"<div style='width: 300px'>" +
 						"<div>${title}</div>" +
 						"<input><br>" +
-						"<button dojoAttachPoint='button'>${label}</button>" +
+						"<button dojoAttachPoint='button'>${label}</button><br>" +
 						"<button dojoAttachEvent='onclick: onExecute'>OK</button>" +
 					"</div>",
 
@@ -119,13 +139,15 @@
 					// Having it be a widget is important because that's how the popup
 					// code knows where a stack of nested popups (typically menus) ends.
 					// (In this case closing a stack of menus shouldn't close the dialog.)
+
 					new SimpleDropDownButton({
 						id: this.id + "PopupButton",
 						label: this.label,
 						popup: this.popup,
+						orient: {'BR': 'BL', 'TR': 'tL'}	// so popup doesn't cover OK button
 					}, this.button);
 				},
-				
+
 				onExecute: function(){
 					// summary:
 					//		Called when OK button is pressed.
@@ -154,9 +176,9 @@
 				//		Specify popup1 and popup2 as parameters to this widget.
 
 				templateString:
-					"<div dojoAttachEvent='onclick: onClick' style='width: 200px'>" +
-						"<div class='choice'>popup1</div>" +
-						"<div class='choice'>popup2</div>" +
+					"<div class='choice'>" +
+						"<div dojoAttachEvent='onclick: onClick'>popup1</div>" +
+						"<div dojoAttachEvent='onclick: onClick'>popup2</div>" +
 					"</div>",
 				
 				onClick: function(e){
@@ -184,6 +206,7 @@
 				id: "showNestedMenuButton",
 				label: "show nested drop down",
 				popup: new NestedPopupOpener({
+					id: 'nestedPopupOpener',
 					popup1: new SimpleChoiceWidget({
 						id: "nestedChoice1"
 					}),
@@ -217,6 +240,7 @@
 					})
 				})
 			}).placeAt(dojo.body());
+
 		});
 
 	</script>
