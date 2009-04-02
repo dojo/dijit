@@ -262,11 +262,15 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 		//		Compare 2 values (as returned by attr('value') for this widget).
 		// tags:
 		//		protected
-		if((typeof val1 == "number") && (typeof val2 == "number")){
-			return (isNaN(val1) && isNaN(val2))? 0 : (val1-val2);
-		}else if(val1 > val2){ return 1; }
-		else if(val1 < val2){ return -1; }
-		else { return 0; }
+		if(typeof val1 == "number" && typeof val2 == "number"){
+			return (isNaN(val1) && isNaN(val2))? 0 : val1 - val2;
+		}else if(val1 > val2){
+			return 1;
+		}else if(val1 < val2){
+			return -1;
+		}else{
+			return 0;
+		}
 	},
 
 	onChange: function(newValue){
@@ -391,7 +395,7 @@ dojo.declare("dijit.form._FormValueWidget", dijit.form._FormWidget,
 		this._handleOnChange(newValue, priorityChange);
 	},
 
-	_getValueAttr: function(/*String*/ value){
+	_getValueAttr: function(){
 		// summary:
 		//		Hook so attr('value') works.
 		return this._lastValue;

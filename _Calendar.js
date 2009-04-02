@@ -55,11 +55,20 @@ dojo.declare(
 			dojo.deprecated("dijit.Calendar:setValue() is deprecated.  Use attr('value', ...) instead.", "", "2.0");
 			this.attr('value', value);
 		},
+
+		_getValueAttr: function(/*String*/ value){
+			// summary:
+			//		Hook so attr('value') works.
+			var value = new this.dateClassObj(this.value);
+			value.setHours(0, 0, 0, 0);
+			return value;
+		},
+
 		_setValueAttr: function(/*Date*/ value){
 			// summary:
 			//		Hook to make attr("value", ...) work.
 			// description:
-			// 		Set the current date and update the UI.  If the date is disabled, the selection will
+			// 		Set the current date and update the UI.  If the date is disabled, the value will
 			//		not change, but the display will change to the corresponding month.
 			// tags:
 			//      protected
@@ -68,7 +77,8 @@ dojo.declare(
 				value.setHours(1); // to avoid DST issues in Brazil see #8521
 				this.displayMonth = new this.dateClassObj(value);
 				if(!this.isDisabledDate(value, this.lang)){
-					this.onChange(this.value = value);
+					this.value = value;
+					this.onChange(this.attr('value'));
 				}
 				this._populateGrid();
 			}
@@ -249,7 +259,7 @@ dojo.declare(
 			for(var node = evt.target; node && !node.dijitDateValue; node = node.parentNode);
 			if(node && !dojo.hasClass(node, "dijitCalendarDisabledDate")){
 				this.attr('value', node.dijitDateValue);
-				this.onValueSelected(this.value);
+				this.onValueSelected(this.attr('value'));
 			}
 		},
 
