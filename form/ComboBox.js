@@ -464,7 +464,7 @@ dojo.declare(
 				node == this._popupWidget.previousButton){
 				newValue = node.innerHTML;
 			}else{
-				newValue = this.store.getValue(node.item, this.labelAttr||this.searchAttr);
+				newValue = this.store.getValue(node.item, this.searchAttr);
 			}
 			// get the text that the user manually entered (cut off autocompleted text)
 			this.focusNode.value = this.focusNode.value.substring(0, this._getCaretPos(this.focusNode));
