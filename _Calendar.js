@@ -35,7 +35,13 @@ dojo.declare(
 
 		// value: Date
 		//		The currently selected Date
+
 		value: new Date(),
+
+		// datePackage: String
+		//	JavaScript namespace to find Calendar routines.  Uses Gregorian Calendar routines
+		//	at dojo.date by default.
+		datePackage: "dojo.date",
 
 		// dayWidth: String
 		//		How to represent the days of the week in the calendar header. See dojo.date.locale
@@ -57,10 +63,10 @@ dojo.declare(
 			//		not change, but the display will change to the corresponding month.
 			// tags:
 			//      protected
-			if(!this.value || dojo.date.compare(value, this.value)){
-				value = new Date(value);
+			if(!this.value || this.dateFuncObj.compare(value, this.value)){
+				value = new this.dateClassObj(value);
 				value.setHours(1); // to avoid DST issues in Brazil see #8521
-				this.displayMonth = new Date(value);
+				this.displayMonth = new this.dateClassObj(value);
 				if(!this.isDisabledDate(value, this.lang)){
 					this.onChange(this.value = value);
 				}
@@ -88,9 +94,9 @@ dojo.declare(
 			var month = this.displayMonth;
 			month.setDate(1);
 			var firstDay = month.getDay();
-			var daysInMonth = dojo.date.getDaysInMonth(month);
-			var daysInPreviousMonth = dojo.date.getDaysInMonth(dojo.date.add(month, "month", -1));
-			var today = new Date();
+			var daysInMonth = this.dateFuncObj.getDaysInMonth(month);
+			var daysInPreviousMonth = this.dateFuncObj.getDaysInMonth(this.dateFuncObj.add(month, "month", -1));
+			var today = new this.dateClassObj();
 			var selected = this.value;
 
 			var dayOffset = dojo.cldr.supplemental.getFirstDayOfWeek(this.lang);
@@ -99,7 +105,7 @@ dojo.declare(
 			// Iterate through dates in the calendar and fill in date numbers and style info
 			dojo.query(".dijitCalendarDateTemplate", this.domNode).forEach(function(template, i){
 				i += dayOffset;
-				var date = new Date(month);
+				var date = new this.dateClassObj(month);
 				var number, clazz = "dijitCalendar", adj = 0;
 
 				if(i < firstDay){
@@ -116,15 +122,15 @@ dojo.declare(
 				}
 
 				if(adj){
-					date = dojo.date.add(date, "month", adj);
+					date = this.dateFuncObj.add(date, "month", adj);
 				}
 				date.setDate(number);
 
-				if(!dojo.date.compare(date, today, "date")){
+				if(!this.dateFuncObj.compare(date, today, "date")){
 					clazz = "dijitCalendarCurrentDate " + clazz;
 				}
 
-				if(!dojo.date.compare(date, selected, "date")){
+				if(!this.dateFuncObj.compare(date, selected, "date")){
 					clazz = "dijitCalendarSelectedDate " + clazz;
 				}
 
@@ -140,20 +146,20 @@ dojo.declare(
 				template.className =  clazz + "Month dijitCalendarDateTemplate";
 				template.dijitDateValue = date.valueOf();
 				var label = dojo.query(".dijitCalendarDateLabel", template)[0];
-				this._setText(label, date.getDate());
+				this._setText(label, date.getDate()); 
 			}, this);
 
 			// Fill in localized month name
-			var monthNames = dojo.date.locale.getNames('months', 'wide', 'standAlone', this.lang);
+			var monthNames = this.dateLocaleModule.getNames('months', 'wide', 'standAlone', this.lang);
 			this._setText(this.monthLabelNode, monthNames[month.getMonth()]);
 
 			// Fill in localized prev/current/next years
 			var y = month.getFullYear() - 1;
-			var d = new Date();
+			var d = new this.dateClassObj();
 			dojo.forEach(["previous", "current", "next"], function(name){
 				d.setFullYear(y++);
 				this._setText(this[name+"YearLabelNode"],
-					dojo.date.locale.format(d, {selector:'year', locale:this.lang}));
+					this.dateLocaleModule.format(d, {selector:'year', locale:this.lang}));
 			}, this);
 
 			// Set up repeating mouse behavior
@@ -174,7 +180,15 @@ dojo.declare(
 		goToToday: function(){
 			// summary:
 			//      Sets calendar's value to today's date
-			this.attr('value', new Date());
+			this.attr('value', this.dateClassObj());
+		},
+
+		constructor: function(/*Object*/args){
+			var dateClass = (args.datePackage && (args.datePackage != "dojo.date"))? args.datePackage + ".Date" : "Date";
+			this.dateClassObj = dojo.getObject(dateClass, false);
+			this.datePackage = args.datePackage || this.datePackage;
+			this.dateFuncObj =  dojo.getObject(this.datePackage, false);
+			this.dateLocaleModule = dojo.getObject(this.datePackage + ".locale", false);
 		},
 
 		postCreate: function(){
@@ -196,21 +210,21 @@ dojo.declare(
 			cloneClass(".dijitCalendarWeekTemplate", 5);
 
 			// insert localized day names in the header
-			var dayNames = dojo.date.locale.getNames('days', this.dayWidth, 'standAlone', this.lang);
+			var dayNames = this.dateLocaleModule.getNames('days', this.dayWidth, 'standAlone', this.lang);
 			var dayOffset = dojo.cldr.supplemental.getFirstDayOfWeek(this.lang);
 			dojo.query(".dijitCalendarDayLabel", this.domNode).forEach(function(label, i){
 				this._setText(label, dayNames[(i + dayOffset) % 7]);
 			}, this);
 
 			// Fill in spacer element with all the month names (invisible) so that the maximum width will affect layout
-			var monthNames = dojo.date.locale.getNames('months', 'wide', 'standAlone', this.lang);
+			var monthNames = this.dateLocaleModule.getNames('months', 'wide', 'standAlone', this.lang);
 			dojo.forEach(monthNames, function(name){
 				var monthSpacer = dojo.create("div", null, this.monthLabelSpacer);
 				this._setText(monthSpacer, name);
 			}, this);
 
 			this.value = null;
-			this.attr('value', new Date());
+			this.attr('value', new this.dateClassObj());
 		},
 
 		_adjustDisplay: function(/*String*/ part, /*int*/ amount){
@@ -222,7 +236,7 @@ dojo.declare(
 			//      Number of months or years
 			// tags:
 			//      private
-			this.displayMonth = dojo.date.add(this.displayMonth, part, amount);
+			this.displayMonth = this.dateFuncObj.add(this.displayMonth, part, amount);
 			this._populateGrid();
 		},
 

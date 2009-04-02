@@ -29,6 +29,11 @@ dojo.declare(
 		// than a straight regexp to deal with locale  (plus formatting options too?)
 		regExpGen: dojo.date.locale.regexp,
 
+		// datePackage: String
+		//	JavaScript namespace to find calendar routines.  Uses Gregorian calendar routines
+		//	at dojo.date, by default.
+		datePackage: "dojo.date",
+
 		// Override _FormWidget.compare() to work for dates/times
 		compare: dojo.date.compare,
 
@@ -38,7 +43,7 @@ dojo.declare(
 			// tags:
 			//		protected
 			if(!value){ return ''; }
-			return dojo.date.locale.format(value, constraints);
+			return this.dateLocaleModule.format(value, constraints);
 		},
 
 		parse: function(/*String*/ value, /*dojo.date.locale.__FormatOptions*/ constraints){
@@ -47,11 +52,16 @@ dojo.declare(
 			// tags:
 			//		protected
 
-			return dojo.date.locale.parse(value, constraints) || (this._isEmpty(value)? null : undefined);	 // Date
+			return this.dateLocaleModule.parse(value, constraints) || (this._isEmpty(value) ? null : undefined);	 // Date
 		},
 
 		// Overrides ValidationTextBox.serialize() to serialize a date in canonical ISO format.
-		serialize: dojo.date.stamp.toISOString,
+		serialize: function(/*anything*/val, /*Object?*/options){
+			if(val.toGregorian){
+				val = val.toGregorian();
+			}
+			return dojo.date.stamp.toISOString(val, options);
+		},
 
 		//	value: Date
 		//		The value of this widget as a JavaScript Date object.  Use attr("value") / attr("value", val) to manipulate.
@@ -70,9 +80,20 @@ dojo.declare(
 		//		Subclass must specify this.
 		_selector: "",
 
+		constructor: function(/*Object*/args){
+			var dateClass = args.datePackage ? args.datePackage + ".Date" :  "Date";
+			this.dateClassObj = dojo.getObject(dateClass, false);
+			this.value = new this.dateClassObj("");
+
+			this.datePackage = args.datePackage || this.datePackage;
+			this.dateLocaleModule = dojo.getObject(this.datePackage + ".locale", false);
+			this.regExpGen = this.dateLocaleModule.regexp;
+		},
+
 		postMixInProperties: function(){
 			//dijit.form.RangeBoundTextBox.prototype.postMixInProperties.apply(this, arguments);
 			this.inherited(arguments);
+
 			if(!this.value || this.value.toString() == dijit.form._DateTimeTextBox.prototype.value.toString()){
 				this.value = null;
 			}
@@ -92,11 +113,15 @@ dojo.declare(
 
 		_setValueAttr: function(/*Date*/ value, /*Boolean?*/ priorityChange, /*String?*/ formattedValue){
 			// summary:
-			//		Sets the date on this textbox.  Note that `value` must be a Javascript Date object.
+			//		Sets the date on this textbox.  Note that `value` must be like a Javascript Date object.
+			if(value instanceof Date && !(this.dateClassObj instanceof Date)){
+				value = new this.dateClassObj(value);
+			}
+
 			this.inherited(arguments);
 			if(this._picker){
 				// #3948: fix blank date on popup only
-				if(!value){value=new Date();}
+				if(!value){value = new this.dateClassObj();}
 				this._picker.attr('value', value);
 			}
 		},
@@ -110,7 +135,7 @@ dojo.declare(
 			var textBox = this;
 
 			if(!this._picker){
-				var PopupProto=dojo.getObject(this.popupClass, false);
+				var PopupProto = dojo.getObject(this.popupClass, false);
 				this._picker = new PopupProto({
 					onValueSelected: function(value){
 						if(textBox._tabbingAway){
@@ -125,6 +150,9 @@ dojo.declare(
 					},
 					lang: textBox.lang,
 					constraints: textBox.constraints,
+
+					datePackage: textBox.datePackage,
+
 					isDisabledDate: function(/*Date*/ date){
 						// summary:
 						// 	disables dates outside of the min/max of the _DateTimeTextBox
@@ -134,7 +162,7 @@ dojo.declare(
 							(constraints.max && compare(constraints.max, date, "date") < 0));
 					}
 				});
-				this._picker.attr('value', this.attr('value') || new Date());
+				this._picker.attr('value', this.attr('value') || new this.dateClassObj());
 			}
 			if(!this._opened){
 				dijit.popup.open({
