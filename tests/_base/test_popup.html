@@ -49,9 +49,9 @@
 				label: "show popup",
 				orient: {'BL': 'TL', 'BR': 'TR'},
 
-				templateString: "<button dojoAttachEvent='onclick: showPopup'>${label}</button>",
+				templateString: "<button dojoAttachEvent='onclick: openPopup'>${label}</button>",
 
-				showPopup: function(){
+				openPopup: function(){
 					var self = this;
 
 					dijit.popup.open({
@@ -71,16 +71,20 @@
 
 					this.open = true;
 				},
-				
-				_onBlur: function(){
-					// summary:
-					//		This is called from focus manager and when we get the signal we
-					//		need to close the drop down
+
+				closePopup: function(){
 					if(this.open){
 						log(this.id + ": close popup due to blur");
 						dijit.popup.close(this.popup);
 						this.open = false;
 					}
+				},
+
+				_onBlur: function(){
+					// summary:
+					//		This is called from focus manager and when we get the signal we
+					//		need to close the drop down
+					this.closePopup();
 				}
 			});
 
@@ -112,10 +116,11 @@
 			});
 
 			// Create a button that displays a simple drop down
+			choiceDropDown = new SimpleChoiceWidget();
 			choiceDropDownButton = new SimpleDropDownButton({
 				id: "choiceDropDownButton",
 				label: "show choice drop down",
-				popup: new SimpleChoiceWidget()
+				popup: choiceDropDown
 			}).placeAt(dojo.body());
 
 			dojo.declare("DialogWithPopupWidget",  [dijit._Widget, dijit._Templated], {
@@ -185,6 +190,10 @@
 					var id = this.id,
 						popup = this[e.target.innerHTML];
 					log(id + ": opening popup " + popup.id);
+					this.openPopup(popup);
+				},
+				
+				openPopup: function(popup){
 					dijit.popup.open({
 						popup: popup,
 						parent: this,
@@ -198,47 +207,56 @@
 							dijit.popup.close(popup);
 						}
 					})
+				},
+				
+				closePopup: function(popup){
+					dijit.popup.close(popup);
 				}
 			});
 			
 			// Create a button that displays a nested drop down.
-			choiceDropDownButton = new SimpleDropDownButton({
+			nestedOpener = new NestedPopupOpener({
+				id: 'nestedPopupOpener',
+				popup1: (nestedChoice1 = new SimpleChoiceWidget({
+					id: "nestedChoice1"
+				})),
+				popup2: (nestedChoice2 = new SimpleChoiceWidget({
+					id: "nestedChoice2",
+					choice1: "4",
+					choice2: "5",
+					choice3: "6"
+				}))
+			});
+			nestedDropDownButton = new SimpleDropDownButton({
 				id: "showNestedMenuButton",
 				label: "show nested drop down",
-				popup: new NestedPopupOpener({
-					id: 'nestedPopupOpener',
-					popup1: new SimpleChoiceWidget({
-						id: "nestedChoice1"
-					}),
-					popup2: new SimpleChoiceWidget({
-						id: "nestedChoice2",
-						choice1: "4",
-						choice2: "5",
-						choice3: "6"
-					})
-				})
+				popup: nestedOpener
 			}).placeAt(dojo.body());
 
 			// Create a button that displays a dialog that displays a nested drop down
+			dialogNestedChoice1 = new SimpleChoiceWidget({
+				id: "dialogNestedChoice1"
+			});
+			dialogNestedChoice2 = new SimpleChoiceWidget({
+				id: "dialogNestedChoice2",
+				choice1: "4",
+				choice2: "5",
+				choice3: "6"
+			});
+			dialogNestedPopupOpener = new NestedPopupOpener({
+				id: "nestedPopupOpenerFromDialog",
+				popup1: dialogNestedChoice1,
+				popup2: dialogNestedChoice2
+			});
+			dialogWithNestedPopup = new DialogWithPopupWidget({
+				id: "buttonInComplexDialog",
+				label: 'show nested menu',
+				popup: dialogNestedPopupOpener
+			});
 			dialogDropDownButton = new SimpleDropDownButton({
 				id: "showComplexDialogButton",
 				label: "show dialog w/nested menu",
-				popup: new DialogWithPopupWidget({
-					id: "buttonInComplexDialog",
-					label: 'show nested menu',
-					popup: new NestedPopupOpener({
-						id: "nestedPopupOpenerFromDialog",
-						popup1: new SimpleChoiceWidget({
-							id: "dialogNestedChoice1"
-						}),
-						popup2: new SimpleChoiceWidget({
-							id: "dialogNestedChoice2",
-							choice1: "4",
-							choice2: "5",
-							choice3: "6"
-						})
-					})
-				})
+				popup: dialogWithNestedPopup
 			}).placeAt(dojo.body());
 
 		});
