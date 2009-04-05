@@ -253,18 +253,20 @@ dojo.declare(
 			// tags:
 			//		private
 			if(!dojo.hasClass(dojo.body(),"dojoMove")){
-				var node = this.domNode;
-				var viewport = dijit.getViewport();
-					var p = this._relativePosition;
-					var mb = p ? null : dojo.marginBox(node);
-					dojo.style(node,{
-						left: Math.floor(viewport.l + (p ? p.l : (viewport.w - mb.w) / 2)) + "px",
-						top: Math.floor(viewport.t + (p ? p.t : (viewport.h - mb.h) / 2)) + "px"
-					});
-				}
-
+				var node = this.domNode,
+					viewport = dijit.getViewport(),
+					p = this._relativePosition,
+					mb = p ? null : dojo.marginBox(node),
+					l = Math.floor(viewport.l + (p ? p.l : (viewport.w - mb.w) / 2)),
+					t = Math.floor(viewport.t + (p ? p.t : (viewport.h - mb.h) / 2))
+				;
+				dojo.style(node,{
+					left: l + "px",
+					top: t + "px"
+				});
+			}
 		},
-
+		
 		_onKey: function(/*Event*/ evt){
 			// summary:
 			//		Handles the keyboard events for accessibility reasons
