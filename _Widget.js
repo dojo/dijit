@@ -104,6 +104,12 @@ dojo.declare("dijit._Widget", null, {
 	//		is null for widgets that don't, like TextBox.
 	containerNode: null,
 
+/*=====
+	// _started: Boolean
+	//		startup() has completed.
+	_started: false,
+=====*/
+
 	// attributeMap: [protected] Object
 	//		attributeMap sets up a "binding" between attributes (aka properties)
 	//		of the widget and the widget's DOM.

@@ -24,10 +24,6 @@ dojo.declare("dijit.layout.TabController",
 	//		"top", "bottom", "left-h", "right-h"
 	tabPosition: "top",
 
-	// doLayout: Boolean
-	//		TODO: unused, remove
-	doLayout: true,
-
 	// buttonWidget: String
 	//		The name of the tab widget to create to correspond to each page
 	buttonWidget: "dijit.layout._TabButton",

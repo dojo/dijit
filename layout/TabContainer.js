@@ -81,7 +81,6 @@ dojo.declare("dijit.layout.TabContainer",
 		// Overrides StackContainer._setupChild().
 		dojo.addClass(tab.domNode, "dijitTabPane");
 		this.inherited(arguments);
-		return tab; // Widget		(TODO: remove this, return code is unused)
 	},
 
 	startup: function(){

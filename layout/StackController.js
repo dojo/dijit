@@ -262,7 +262,7 @@ dojo.declare("dijit.layout._StackButton",
 
 		// Override _FormWidget.tabIndex.
 		// StackContainer buttons are not in the tab order by default.
-		// TODO: unclear if we need this; doesn't _KeyNavContainer (superclass of StackController) do it for us?
+		// Probably we should be calling this.startupKeyNavChildren() instead.
 		tabIndex: "-1",
 		
 		postCreate: function(/*Event*/ evt){

@@ -27,7 +27,7 @@ dojo.declare("dijit.layout._LayoutWidget",
 			dojo.addClass(this.domNode, "dijitContainer");
 			dojo.addClass(this.domNode, this.baseClass);
 			
-			// TODO: this.inherited()
+			this.inherited(arguments);
 		},
 
 		startup: function(){

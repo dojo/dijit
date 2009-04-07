@@ -31,12 +31,6 @@ dojo.declare(
 	
 	baseClass: "dijitStackContainer",
 
-	// _started: Boolean
-	//		startup() has completed.
-	//	TODO: comment this section out, it's just needed for documentation.
-	//	Plus, move it to _Widget
-	_started: false,
-
 /*=====
 	// selectedChildWidget: Widget
 	//		References the currently selected child widget, if any
@@ -104,8 +98,6 @@ dojo.declare(
 		// remove the title attribute so it doesn't show up when i hover
 		// over a node
 		child.domNode.title = "";
-
-		return child; // dijit._Widget		(TODO: remove this, return code is unused)
 	},
 
 	addChild: function(/*Widget*/ child, /*Integer?*/ insertIndex){
@@ -284,18 +276,13 @@ dojo.require("dijit.layout.StackController");
 // Since any widget can be specified as a StackContainer child, mix them
 // into the base widget class.  (This is a hack, but it's effective.)
 dojo.extend(dijit._Widget, {
-	// title: String
-	//		Title of this widget.  Used by TabContainer to the name the tab, etc.
-	// TODO: remove this, it's in _Widget already.
-	title: "",
-
 	// selected: Boolean
 	//		Is this child currently selected?
 	selected: false,
 
 	// closable: Boolean
 	//		True if user can close (destroy) this child, such as (for example) clicking the X on the tab.
-	closable: false,	// true if user can close this tab pane
+	closable: false,
 
 	onClose: function(){
 		// summary:
