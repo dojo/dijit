@@ -340,21 +340,16 @@
 				function ariaTreeStateExpanded(){
 					for(i=0; i<treeIds.length; i++){
 						var tree = dijit.byId(treeIds[i]);
-						if(tree.isExpandable){
-							var wasExpanded = tree.rootNode.isExpanded;
+						var wasExpanded = tree.rootNode.isExpanded;
+						tree.rootNode.expand();
+						var nowExpanded = dijit.getWaiState(tree.domNode, "expanded");
+						tree.rootNode.collapse();
+						var nowCollapsed = dijit.getWaiState(tree.domNode, "expanded");
+						if(wasExpanded){
 							tree.rootNode.expand();
-							var nowExpanded = dijit.getWaiState(tree.domNode, "expanded");
-							tree.rootNode.collapse();
-							var nowCollapsed = dijit.getWaiState(tree.domNode, "expanded");
-							if(wasExpanded){
-								tree.rootNode.expand();
-							}
-							doh.is("true", nowExpanded, tree.id + ": aria state expanded=true");
-							doh.is("false", nowCollapsed, tree.id + ": aria state expanded=false ");
-						}else{
-							doh.is("false", dijit.getWaiState(tree.domNode, "expanded"),
-								tree.id + ": aria state expanded=false; tree.isExpandable=false");
 						}
+						doh.is("true", nowExpanded, tree.id + ": aria state expanded=true");
+						doh.is("false", nowCollapsed, tree.id + ": aria state expanded=false ");
 					}
 				},
 

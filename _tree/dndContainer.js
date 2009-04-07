@@ -33,11 +33,6 @@ dojo.declare("dijit._tree.dndContainer",
 			this.containerState = "";
 			dojo.addClass(this.node, "dojoDndContainer");
 			
-			// mark up children
-			if(!(params && params._skipStartup)){
-				this.startup();
-			}
-
 			// set up events
 			this.events = [
 			    // container level events
@@ -54,19 +49,14 @@ dojo.declare("dijit._tree.dndContainer",
 			];
 		},
 
-
-		// abstract access to the map
 		getItem: function(/*String*/ key){
 			// summary:
-			//		Returns a data item by its key (id)
+			//		Returns a data item by it's key (id).
+			//		Called by dojo.dnd.Source.checkAcceptance()
 			// tags:
-			//		private
+			//		protected
 
-			// TODO: this appears to be unused.   remove.
-
-			//console.log("Container getItem()", arguments,this.map, this.map[key], this.selection[key]);
 			return this.selection[key];
-			//return this.map[key];	// Object
 		},
 
 		destroy: function(){

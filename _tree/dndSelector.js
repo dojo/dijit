@@ -36,21 +36,6 @@ dojo.declare("dijit._tree.dndSelector",
 	
 		// methods
 
-		getSelectedItems: function(){
-			// summary:
-			//		Returns selected items, for which there is only one for Tree?
-			// tags:
-			//		private
-
-			// TODO: apparently no one is calling this; get rid of it?
-
-			var selectedItems = [];
-			for (var i in this.selection){
-				selectedItems.push(dijit.getEnclosingWidget(this.selection[i]).item);
-			}
-			return selectedItems;
-		},
-
 		getSelectedNodes: function(){
 			// summary:
 			//		Returns the set of selected nodes.
@@ -67,18 +52,6 @@ dojo.declare("dijit._tree.dndSelector",
 			//		private
 
 			return this._removeSelection()._removeAnchor();	// self
-		},
-
-		insertItems: function(item, parent){
-			// summary:
-			//		Inserts new data items (see Container's insertNodes method for details).
-			//		Apparently an unused method.
-			// tags:
-			//		private
-
-			// TODO: this isn't used anywhere, delete it
-			
-			//we actually need to add things to the store here instead of adding nodes directly to the tree		
 		},
 
 		destroy: function(){
@@ -156,9 +129,6 @@ dojo.declare("dijit._tree.dndSelector",
 							}
 						}
 					}else{
-					    // TODO: item and id are already declared and set above, remove these lines?
-						var item = dijit.getEnclosingWidget(this.current).item;
-						var id = this.tree.model.getIdentity(item);
 						if(!(id in this.selection)){
 							this.selectNone();
 							this.anchor = this.current;

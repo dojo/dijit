@@ -52,10 +52,6 @@ dojo.declare("dijit._tree.dndSource", dijit._tree.dndSelector, {
 	//		Distance from upper/lower edge of node to allow drop to reorder nodes
 	betweenThreshold: 0,
 
-	// skipForm: [private] Boolean
-	//		TODO: apparently unused, should be removed
-	skipForm: false,
-
 	constructor: function(/*dijit.Tree*/ tree, /*dijit._tree.__SourceArgs*/ params){
 		// summary:
 		//		a constructor of the Tree DnD Source
@@ -106,13 +102,6 @@ dojo.declare("dijit._tree.dndSource", dijit._tree.dndSelector, {
 
 	},
 
-	startup: function(){
-		// summary:
-		//		Apparently unused.  TODO: remove
-		// tags:
-		//		private
-	},
-	
 	// methods
 	checkAcceptance: function(source, nodes){
 		// summary:
@@ -484,19 +473,5 @@ dojo.declare("dijit._tree.dndSource", dijit._tree.dndSelector, {
 		// summary:
 		//		Changes source's state based on "copy" status
 		this._changeState("Source", copy ? "Copied" : "Moved");
-	}
-});
-
-dojo.declare("dijit._tree.dndTarget", dijit._tree.dndSource, {
-	// summary:
-	//		A Target object, which can be used as a DnD target
-	// TODO: Remove.   dijit._tree.dndSource can also be used as a DnD target,
-	// so this class doesn't seem useful.
-	
-	constructor: function(node, params){
-		// summary:
-		//		A constructor of the Target --- see the Source constructor for details
-		this.isSource = false;
-		dojo.removeClass(this.node, "dojoDndSource");
 	}
 });

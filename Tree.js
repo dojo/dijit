@@ -434,14 +434,6 @@ dojo.declare(
 
 	templatePath: dojo.moduleUrl("dijit", "templates/Tree.html"),
 
-	// isExpandable: [private deprecated] Boolean
-	//		TODO: this appears to be vestigal, back from when Tree extended TreeNode.  Remove.
-	isExpandable: true,
-
-	// isTree: [private deprecated] Boolean
-	//		TODO: this appears to be vestigal.  Remove.
-	isTree: true,
-
 	// persist: Boolean
 	//		Enables/disables use of cookies for state saving.
 	persist: true,
@@ -540,7 +532,7 @@ dojo.declare(
 			this.cookieName = this.id + "SaveStateCookie";
 		}
 
-		// TODO: this.inherited(arguments)
+		this.inherited(arguments)
 	},
 
 	postCreate: function(){
