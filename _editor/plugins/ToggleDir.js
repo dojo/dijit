@@ -2,27 +2,34 @@ dojo.provide("dijit._editor.plugins.ToggleDir");
 dojo.experimental("dijit._editor.plugins.ToggleDir");
 
 dojo.require("dijit._editor._Plugin");
+dojo.require("dijit.form.ToggleButton");
 
 dojo.declare("dijit._editor.plugins.ToggleDir",
 	dijit._editor._Plugin,
 	{
-		//summary:
-		//		This plugin is used to toggle direction of the edited document only,
-		//		no matter what direction the whole page is.
+		// summary:
+		//		This plugin is used to toggle direction of the edited document,
+		//		independent of what direction the whole page is.
 
-		// TODO: like TabIndent plugin, this should probably be using ToggleButton
-
-		// Override _Plugin.useDefaultCommand: processing is done in this plugin rather than by sending command to
-		// the Editor
+		// Override _Plugin.useDefaultCommand: processing is done in this plugin
+		// rather than by sending commands to the Editor
 		useDefaultCommand: false,
 
-		// TODO: unclear if this is needed.
 		command: "toggleDir",
+
+		// Override _Plugin.buttonClass to use a ToggleButton for this plugin rather than a vanilla Button
+		buttonClass: dijit.form.ToggleButton,
 
 		_initButton: function(){
 			// Override _Plugin._initButton() to setup handler for button click events.
-			this.inherited("_initButton", arguments);
-			this.connect(this.button, "onClick", this._toggleDir);		
+			this.inherited(arguments);
+
+			this.connect(this.button, "onChange", "_toggleDir");
+
+			// Set initial checked state of button based on which direction editor is
+			var editDoc = this.editor.editorObject.contentWindow.document.documentElement;
+			var isLtr = dojo.getComputedStyle(editDoc).direction == "ltr";
+			this.button.attr("checked", !isLtr);
 		},
 
 		updateState: function(){
