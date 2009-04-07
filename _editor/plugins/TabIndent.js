@@ -2,6 +2,7 @@ dojo.provide("dijit._editor.plugins.TabIndent");
 dojo.experimental("dijit._editor.plugins.TabIndent");
 
 dojo.require("dijit._editor._Plugin");
+dojo.require("dijit.form.ToggleButton");
 
 dojo.declare("dijit._editor.plugins.TabIndent",
 	dijit._editor._Plugin,
@@ -17,7 +18,6 @@ dojo.declare("dijit._editor.plugins.TabIndent",
 		// Override _Plugin.buttonClass to use a ToggleButton for this plugin rather than a vanilla Button
 		buttonClass: dijit.form.ToggleButton,
 
-		// TODO: unclear if this is needed
 		command: "tabIndent",
 
 		_initButton: function(){

@@ -28,19 +28,10 @@ dojo.declare("dijit._editor._Plugin", null, {
 	//		If not specified, will be created on initialization according to `buttonClass`
 	button: null,
 
-	// queryCommand: ???
-	//		TODO: unused, remove
-	queryCommand: null,
-
 	// command: String
 	//		String like "insertUnorderedList", "outdent", "justifyCenter", etc. that represents an editor command.
 	//		Passed to editor.execCommand() if `useDefaultCommand` is true.
 	command: "",
-
-	// commandArg: anything
-	//		Argument to execCommand() after command.
-	//		TODO: unused, remove
-	commandArg: null,
 
 	// useDefaultCommand: Boolean
 	//		If true, this plugin executes by calling Editor.execCommand() with the argument specified in `command`.
@@ -81,11 +72,9 @@ dojo.declare("dijit._editor._Plugin", null, {
 		}
 	},
 
-	destroy: function(f){
+	destroy: function(){
 		// summary:
 		//		Destroy this plugin
-
-		// TODO: remove f parameter, it's unused
 
 		dojo.forEach(this._connects, dojo.disconnect);
 		if(this.dropDown){
@@ -144,7 +133,7 @@ dojo.declare("dijit._editor._Plugin", null, {
 
 		// TODO: refactor code to just pass editor to constructor.
 
-		// FIXME: detatch from previous editor!!
+		// FIXME: detach from previous editor!!
 		this.editor = editor;
 
 		// FIXME: prevent creating this if we don't need to (i.e., editor can't handle our command)

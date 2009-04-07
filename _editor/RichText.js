@@ -584,11 +584,6 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 						if(this.iframe.contentWindow){
 							this.window = this.iframe.contentWindow;
 							this.document = this.iframe.contentWindow.document
-						}else if(this.iframe.contentDocument){
-							// for opera
-							// TODO: this method is only being called for FF2; can we remove this?
-							this.window = this.iframe.contentDocument.window;
-							this.document = this.iframe.contentDocument;
 						}
 					}catch(e){}
 					if(!this.document){
@@ -746,9 +741,6 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 
 /* Event handlers
  *****************/
-
-	// TODO: _isResized seems to be unused anywhere; remove for 2.0
-	_isResized: function(){ return false; },
 
 	onLoad: function(/* Event */ e){
 		// summary:
@@ -1691,14 +1683,12 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 		return dijit._editor.getChildrenHtml(dom);
 	},
 
-	close: function(/*Boolean*/ save, /*Boolean*/ force){
+	close: function(/*Boolean*/ save){
 		// summary:
 		//		Kills the editor and optionally writes back the modified contents to the
 		//		element from which it originated.
 		// save:
 		//		Whether or not to save the changes. If false, the changes are discarded.
-		// force: Boolean
-		//		Unused.  TODO: remove for 2.0
 		// tags:
 		//		private
 

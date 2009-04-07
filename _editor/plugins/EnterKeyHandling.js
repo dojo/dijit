@@ -78,20 +78,6 @@ dojo.declare("dijit._editor.plugins.EnterKeyHandling", dijit._editor._Plugin, {
 			this.connect(this.editor,'onKeyPressed','onKeyPressed');
 		}
 	},
-	connect: function(o,f,tf){
-		// Overrides _Plugin.connect().
-		// TODO: Remove.  Method in _Plugin does the same thing.
-		if(!this._connects){
-			this._connects=[];
-		}
-		this._connects.push(dojo.connect(o,f,this,tf));
-	},
-	destroy: function(){
-		// Overrides _Plugin.destroy().
-		// TODO: Remove.  Method in _Plugin does the same thing.
-		dojo.forEach(this._connects,dojo.disconnect);
-		this._connects=[];
-	},
 	onKeyPressed: function(e){
 		// summary:
 		//		Handler for keypress events.
@@ -167,17 +153,9 @@ dojo.declare("dijit._editor.plugins.EnterKeyHandling", dijit._editor._Plugin, {
 		//		all supported browsers. See property blockNodeForEnter for available options
 		// tags:
 		//		private
-		
-		 // let browser handle this
-		// TODO: delete.  this code will never fire because 
-		// onKeyPress --> handleEnterKey is only called when blockNodeForEnter != null
-		if(!this.blockNodeForEnter){ return true; }
 
 		var selection, range, newrange, doc=this.editor.document,br;
-		if(e.shiftKey  //shift+enter always generates <br>
-			|| this.blockNodeForEnter=='BR'){
-			// TODO: above condition 'this.blockNodeForEnter=='BR'' is meaningless,
-			// onKeyPress --> handleEnterKey is only called when blockNodeForEnter != BR
+		if(e.shiftKey){  //shift+enter always generates <br>
 			var parent = dojo.withGlobal(this.editor.window, "getParentElement", dijit._editor.selection);
 			var header = dijit.range.getAncestor(parent,this.blockNodes);
 			if(header){
