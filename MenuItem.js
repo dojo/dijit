@@ -115,7 +115,7 @@ dojo.declare("dijit.MenuItem",
 			//		protected
 			this._setSelected(true);
 
-			// TODO: this.inherited(arguments);
+			this.inherited(arguments);
 		},
 
 		_setSelected: function(selected){

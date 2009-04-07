@@ -196,7 +196,7 @@ dojo.declare("dijit._KeyNavContainer",
 			if(this.tabIndex){
 				dojo.attr(this.domNode, "tabindex", this.tabIndex);
 			}
-			// TODO: this.inherited(arguments);
+			this.inherited(arguments);
 		},
 
 		_onContainerKeypress: function(evt){

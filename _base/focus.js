@@ -37,13 +37,7 @@ dojo.mixin(dijit,
 		}else{
 			var _window = dojo.global;
 			var selection = _window.getSelection();
-			
-			if(dojo.isString(selection)){ // Safari
-				// TODO: this is dead code; safari is taking the else branch.  remove after 1.3.
-				return !selection; // Boolean
-			}else{ // Mozilla/W3
-				return !selection || selection.isCollapsed || !selection.toString(); // Boolean
-			}
+			return !selection || selection.isCollapsed || !selection.toString(); // Boolean
 		}
 	},
 
