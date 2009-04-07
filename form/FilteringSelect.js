@@ -130,28 +130,10 @@ dojo.declare(
 
 			//#3347: fetchItemByIdentity if no keyAttr specified
 			var self = this;
-			var handleFetchByIdentity = function(item, priorityChange){
-				if(item){
-					if(self.store.isItemLoaded(item)){
-						self._callbackSetLabel([item], undefined, priorityChange);
-					}else{
-						self.store.loadItem({
-							item: item, 
-							onItem: function(result, dataObject){
-								self._callbackSetLabel(result, dataObject, priorityChange);
-							}
-						});
-					}
-				}else{
-					self._isvalid = false;
-					// prevent errors from Tooltip not being created yet
-					self.validate(false);
-				}
-			};
 			this.store.fetchItemByIdentity({
 				identity: value, 
 				onItem: function(item){
-					handleFetchByIdentity(item, priorityChange);
+					self._callbackSetLabel([item], undefined, priorityChange);
 				}
 			});
 		},
