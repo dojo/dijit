@@ -295,8 +295,6 @@ dijit.selectInputText = function(/*DomNode*/element, /*Number?*/ start, /*Number
 			}
 		}
 	}else if(_window["getSelection"]){
-		var selection = _window.getSelection();	// TODO: unused, remove
-		// FIXME: does this work on Safari?
 		if(element.setSelectionRange){
 			element.setSelectionRange(start, stop);
 		}

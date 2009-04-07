@@ -15,8 +15,5 @@ dojo.declare("dijit.form.VerticalRuleLabels", dijit.form.HorizontalRuleLabels,
 	_calcPosition: function(pos){
 		// Overrides HorizontalRuleLabel._calcPosition()
 		return 100-pos;
-	},
-
-	// TODO: remove this.   Apparently it's not used.
-	_isHorizontal: false
+	}
 });

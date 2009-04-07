@@ -45,7 +45,6 @@ dojo.declare(
 		this._busyResizing = true;
 		var textarea = this.domNode;
 		textarea.scrollTop = 0;
-		var oldH = parseFloat(dojo.getComputedStyle(textarea).height);  // TODO: unused, remove
 		var newH = this._getHeight(textarea);
 		if(newH > 0 && textarea.style.height != newH){
 			textarea.style.maxHeight = textarea.style.height = newH + "px";

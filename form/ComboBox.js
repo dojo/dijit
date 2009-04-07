@@ -367,8 +367,7 @@ dojo.declare(
 
 		_showResultList: function(){
 			this._hideResultList();
-			var items = this._popupWidget.getItems(),
-				visibleCount = Math.min(items.length,this.maxListLength);   // TODO: unused, remove
+			var items = this._popupWidget.getItems();
 			this._arrowPressed();
 			// hide the tooltip
 			this.displayMessage("");
