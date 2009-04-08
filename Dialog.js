@@ -108,10 +108,8 @@ dojo.declare(
 
 		postCreate: function(){
 			dojo.style(this.domNode, {
-				visibility:"hidden",
-				position:"absolute",
-				display:"",
-				top:"-9999px"
+				display: "none",
+				position:"absolute"
 			});
 			dojo.body().appendChild(this.domNode);
 
@@ -201,8 +199,7 @@ dojo.declare(
 				node: node,
 				duration: this.duration,
 				onEnd: function(){
-					node.style.visibility="hidden";
-					node.style.top = "-9999px";
+					node.style.display = "none";
 					dijit._underlay.hide();
 				}
 			 });
@@ -346,7 +343,7 @@ dojo.declare(
 
 			dojo.style(this.domNode, {
 				opacity:0,
-				visibility:""
+				display:""
 			});
 			
 			if(this._fixSizes){
@@ -400,7 +397,7 @@ dojo.declare(
 			//		Position the Dialog and the underlay
 			// tags:
 			//		private
-			if(this.domNode.style.visibility != "hidden"){
+			if(this.domNode.style.display != "none"){
 				dijit._underlay.layout();
 				this._position();
 			}
