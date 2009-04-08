@@ -34,6 +34,14 @@
 					templateString: "<button><span num=\"${num}\" value=\"${bool}\">${text}</span></button>"
 				});
 
+				// Template with ! variables (for literal substitution)
+				dojo.declare("ExclamationVariableTemplate", [dijit._Widget, dijit._Templated], {
+					attributeMap: {},
+					markup: "<span>hello world</span>",
+
+					templateString: "<div>${!markup}</div>"
+				});
+
 				// Template that starts with special node (has to be constructed inside a <tbody>)
 				dojo.declare("TableRowTemplate", [dijit._Widget, dijit._Templated], {
 					attributeMap: {},
@@ -80,6 +88,7 @@
 							wrapper.appendChild(widget.domNode);
 							t.is('<button widgetid=\"test1\"><span>hello &lt; world</span></button>', wrapper.innerHTML.toLowerCase());			
 						},
+
 						function variables(t){
 							var widget=new VariableTemplate();
 							var span = widget.domNode.getElementsByTagName("span")[0];
@@ -88,7 +97,6 @@
 							t.is("false", span.getAttribute("value"));
 							t.is("hello &lt;\"' world", text);
 						},
-
 						function variables2(t){
 							var widget = new VariableTemplate({id: "myid", num: -5, bool: true, text: ""});
 							var span = widget.domNode.getElementsByTagName("span")[0];
@@ -97,6 +105,18 @@
 							t.is("true", span.getAttribute("value"));
 							t.is("", text);
 						},
+						function variablesWithExclamation(t){
+							var widget=new ExclamationVariableTemplate();
+							
+							// ExclamationVariableTemplate should create markup like
+							//		<div><span>hello world</span></div>
+							// The <span> comes from the ${!markup} variable.
+							var span = dojo.query(">", widget.domNode);
+							t.is(1, span.length, "dom node has one child");
+							t.is("SPAN", span[0].nodeName.toUpperCase(), "which is a span");
+							t.is("hello world", span[0].innerHTML, "and the text is set correctly too");
+						},
+
 						function table(t){
 							var widget=new TableRowTemplate({text: "hello"});
 							var wrapper = dojo.byId("trWrapper");
