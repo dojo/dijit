@@ -95,7 +95,7 @@
 
 			<div class="dojoTitlePaneLabel">
 				<label for="q03">Age:  </label>
-				<span class="noticeMessage"> NumberTextBox class, <b>tabIndex=1</b>, Attributes: {trim: true}, no initial value specified, tooltipPosition=[above, below]</span>
+				<span class="noticeMessage"> NumberTextBox class, <b>tabIndex=1</b>, Attributes: {trim: true}, no initial value specified, tooltipPosition=[above, below].  Displays a prompt message if field is blank.</span>
 			</div>
 			<div class="testExample">
 				<input id="q03" type="text" name="age" tabIndex=1
@@ -136,7 +136,7 @@
 			<div class="dojoTitlePaneLabel">
 				<label for="q04">Occupation:  </label>
 				<span class="noticeMessage">ValidationTextBox class,
-					Attributes: {lowercase: true, required: true, class: verylong, style: font-size: 15pt;}. Displays a prompt message if field is missing.</span>
+					Attributes: {lowercase: true, required: true, class: verylong, style: font-size: 15pt;}. Displays a prompt message if field is blank.</span>
 			</div>
 			<div class="testExample">
 				<input id="q04" type="text" name="occupation" class="verylong" style="font-size:15pt;"
@@ -149,7 +149,8 @@
 			<div class="dojoTitlePaneLabel">
 				<label for="q05">Elevation:  </label>
 				<span class="noticeMessage">IntegerTextBox class,
-					Attributes: {required: true, min:-20000, max:+20000 }, Enter feet above sea level with a sign.</span>
+					Attributes: {required: true, min:-20000, max:+20000 }, displays a prompt message if field is blank.</span>
+				<span calss="noticeMessage">Enter feet above sea level with a sign.</span>
 			</div>
 			<div class="testExample">
 				<input id="q05" class="small"/>
