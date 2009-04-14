@@ -126,7 +126,7 @@
 							doh.robot.typeKeys("Bill", 1000);
 
 							doh.robot.sequence(d.getTestCallback(function(){
-								doh.t(isVisible("dialog1", "dialog 1 has been made visible"));
+								doh.t(isVisible("dialog1"), "dialog 1 has been made visible");
 								doh.is("name", dojo.global.dijit._curFocus.id, "focus is on the first field");
 							}), 500);
 
@@ -162,7 +162,7 @@
 
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.is("date", dojo.global.dijit._curFocus.id, "focus is still on the date field");
-								doh.t(isVisible("dialog1", "dialog 1 wasn't closed"));
+								doh.t(isVisible("dialog1"), "dialog 1 wasn't closed");
 							}), 500);
 
 							return d;
@@ -213,7 +213,7 @@
 							doh.robot.keyPress(dojo.keys.ESCAPE, 500, {});
 
 							doh.robot.sequence(d.getTestCallback(function(){
-								doh.t(isHidden("dialog1", "dialog 1 was closed"));
+								doh.t(isHidden("dialog1"), "dialog 1 was closed");
 								doh.is("dialog1button", dojo.global.dijit._curFocus.id, "focus returned to button");
 							}), 500);
 
@@ -257,7 +257,7 @@
 							doh.robot.keyPress(dojo.keys.SPACE, 500, {});
 
 							doh.robot.sequence(d.getTestCallback(function(){
-								doh.t(isHidden("dialog1", "dialog 1 was closed on submit"));
+								doh.t(isHidden("dialog1"), "dialog 1 was closed on submit");
 								doh.t(data, "got submit data");
 								doh.is("Ted", data.name, "Name");
 								doh.is("America", data.loc, "Location");
