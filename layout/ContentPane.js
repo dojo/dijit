@@ -135,7 +135,7 @@ dojo.declare(
 		// over a node
 		this.domNode.title = "";
 
-		if (!dijit.hasWaiRole(this.domNode)){
+		if (!dojo.attr(this.domNode,"role")){
 			dijit.setWaiRole(this.domNode, "group");
 		}
 
