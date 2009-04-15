@@ -37,8 +37,8 @@
 	'formatBlock': 'Absatzstil',
 	'fontSize': 'Schriftgröße',
 	'fontName': 'Schriftartname',
-	'tabIndent': 'Tabulatoreinrückung',
+	'tabIndent': 'Registerkarteneinrückung',
 	/* Error messages */
-	'systemShortcut': 'Die Aktion "${0}" ist in Ihrem Browser über einen Tastaturkurzbefehl verfügbar. Verwenden Sie ${1}.',
+	'systemShortcut': 'Die Aktion "${0}" ist im Browser nur über einen Tastaturkurzbefehl verfügbar. Verwenden Sie ${1}.',
 	'ctrlKey':'Strg+${0}'
 })

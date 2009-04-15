@@ -37,6 +37,7 @@
 	'formatBlock': '段落樣式',
 	'fontSize': '字型大小',
 	'fontName': '字型名稱',
+	'tabIndent': '標籤縮排',
 	/* Error messages */
-	'systemShortcutFF': '"${0}" 動作在 Mozilla Firefox 中，只能使用鍵盤快速鍵。請使用 ${1}。'
+	'systemShortcut': '"${0}" 動作在您的瀏覽器中，只能使用鍵盤快速鍵。請使用 ${1}。'
 })

@@ -37,7 +37,8 @@
 	'formatBlock': 'Styckeformat',
 	'fontSize': 'Teckenstorlek',
 	'fontName': 'Teckensnittsnamn',
+	'tabIndent': 'Tabbindrag',
 	/* Error messages */
-	'systemShortcutFF': 'Åtgärden "${0}" är endast tillgänglig i Mozilla Firefox med hjälp av ett kortkommando. Använd ${1}.',
+	'systemShortcut': 'Åtgärden "${0}" är endast tillgänglig i webbläsarenmed hjälp av ett kortkommando. Använd ${1}.',
 	'ctrlKey':'Ctrl+${0}'
 })

@@ -5,7 +5,7 @@
 
 	serif: "有衬线",
 	"sans-serif": "无衬线",
-	monospace: "等宽",
+	monospace: "等宽字体",
 	cursive: "草书",
 	fantasy: "虚线",
 

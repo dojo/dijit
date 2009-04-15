@@ -37,6 +37,7 @@
 	'formatBlock': '단락 양식',
 	'fontSize': '글꼴 크기',
 	'fontName': '글꼴 이름',
+	'tabIndent': '탭 들여쓰기',
 	/* Error messages */
-	'systemShortcutFF': '"${0}" 조치는 키보드 바로 가기를 사용하는 Mozilla Firefox에서만 사용 가능합니다. ${1} 사용.'
+	'systemShortcut': '"${0}" 조치는 브라우저에서 키보드 단축키를 통해서만 사용 가능합니다. ${1}을(를) 사용하십시오.'
 })

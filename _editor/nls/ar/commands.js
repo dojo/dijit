@@ -24,12 +24,12 @@
 	'undo': 'تراجع',
 	'unlink': 'ازالة وصلة',
 	'createLink': 'تكوين وصلة',
-	'toggleDir': 'تبديل الاتجاه ',
+	'toggleDir': 'تبديل الاتجاه',
 	'insertImage': 'ادراج صورة',
-	'insertTable': 'ادراج/تحرير جدول ',
-	'toggleTableBorder': 'تبديل حدود الجدول ',
-	'deleteTable': 'حذف جدول ',
-	'tableProp': 'خصائص الجدول ',
+	'insertTable': 'ادراج/تحرير جدول',
+	'toggleTableBorder': 'تبديل حدود الجدول',
+	'deleteTable': 'حذف جدول',
+	'tableProp': 'خصائص الجدول',
 	'htmlToggle': 'مصدر HTML',
 	'foreColor': 'لون الواجهة الأمامية',
 	'hiliteColor': '‏لون الخلفية‏',
@@ -37,6 +37,7 @@
 	'formatBlock': 'نمط الفقرة',
 	'fontSize': 'حجم طاقم الطباعة',
 	'fontName': 'اسم طاقم الطباعة',
+	'tabIndent': 'ازاحة علامة الجدولة للداخل',
 	/* Error messages */
-	'systemShortcutFF': 'يكون التصرف "${0}" متاحا فقط في برنامج Mozilla Firefox باستخدام اختصارات لوحة المفاتيح. استخدم ${1}.'
+	'systemShortcut': 'يكون التصرف "${0}" متاحا فقط ببرنامج الاستعراض الخاص بك باستخدام المسار المختصر للوحة المفاتيح.  استخدم ${1}.'
 })

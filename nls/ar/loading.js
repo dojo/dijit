@@ -1,4 +1,4 @@
 ({
 	loadingState: "جاري التحميل...",
-	errorState: "عفوا، حدث خطأ "
+	errorState: "عفوا، حدث خطأ"
 })

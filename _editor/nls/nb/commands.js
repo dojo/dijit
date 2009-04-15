@@ -37,6 +37,7 @@
 	'formatBlock': 'Avsnittsstil',
 	'fontSize': 'Skriftstørrelse',
 	'fontName': 'Skriftnavn',
+	'tabIndent': 'Tabulatorinnrykk',
 	/* Error messages */
-	'systemShortcutFF': 'Handlingen "${0}" er bare tilgjengelig i Mozilla Firefox ved hjelp av en tastatursnarvei. Bruk ${1}.'
+	'systemShortcut': 'Handlingen "${0}" er bare tilgjengelig i nettleseren ved hjelp av en tastatursnarvei. Bruk ${1}.'
 })

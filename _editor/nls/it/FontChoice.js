@@ -5,8 +5,8 @@
 
 	serif: "serif",
 	"sans-serif": "sans-serif",
-	monospace: "monospace",
-	cursive: "cursive",
+	monospace: "spaziatura fissa",
+	cursive: "corsivo",
 	fantasy: "fantasy",
 
 	p: "Paragrafo",

@@ -37,7 +37,7 @@
 	'formatBlock': 'Styl odstavce',
 	'fontSize': 'Velikost písma',
 	'fontName': 'Název písma',
+	'tabIndent': 'Odsazení tabulátoru',
 	/* Error messages */
-	'systemShortcutFF': 'Akce "${0}" je v prohlížeči Mozilla Firefox dostupná pouze prostřednictvím klávesové zkratky. Použijte klávesy ${1}.',
-	'ctrlKey':'Ctrl+${0}'
+	'systemShortcut': 'Akce "${0}" je v prohlížeči dostupná pouze prostřednictvím klávesové zkratky. Použijte klávesovou zkratku ${1}.'
 })

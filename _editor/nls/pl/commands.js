@@ -30,13 +30,14 @@
 	'toggleTableBorder': 'Przełącz ramkę tabeli',
 	'deleteTable': 'Usuń tabelę',
 	'tableProp': 'Właściwość tabeli',
-	'htmlToggle': 'Źródło HTML',
+	'htmlToggle': 'Kod źródłowy HTML',
 	'foreColor': 'Kolor pierwszego planu',
 	'hiliteColor': 'Kolor tła',
 	'plainFormatBlock': 'Styl akapitu',
 	'formatBlock': 'Styl akapitu',
 	'fontSize': 'Wielkość czcionki',
 	'fontName': 'Nazwa czcionki',
+	'tabIndent': 'Wcięcie tworzone tabulacją',
 	/* Error messages */
-	'systemShortcutFF': 'Działanie ${0} jest dostępne w przeglądarce Mozilla Firefox wyłącznie za pomocą skrótu klawiaturowego. Użyj ${1}.'
+	'systemShortcut': 'Działanie ${0} jest dostępne w przeglądarce wyłącznie za pomocą skrótu klawiaturowego. Użyj klawiszy ${1}.'
 })

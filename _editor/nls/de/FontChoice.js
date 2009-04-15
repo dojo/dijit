@@ -5,7 +5,7 @@
 
 	serif: "Serife",
 	"sans-serif": "Serifenlos",
-	monospace: "Monospace",
+	monospace: "Monospaceschrift",
 	cursive: "Kursiv",
 	fantasy: "Fantasie",
 
