@@ -37,6 +37,8 @@
 	'formatBlock': 'Afsnitstypografi',
 	'fontSize': 'Skriftstørrelse',
 	'fontName': 'Skriftnavn',
+	'tabIndent': 'Indrykning med tabulator',
 	/* Error messages */
-	'systemShortcutFF': 'Funktionen "${0}" kan kun bruges i Mozilla Firefox med en tastaturgenvej. Brug ${1}.'
+	'systemShortcut': 'Funktionen "${0}" kan kun bruges i your browser med en tastaturgenvej. Brug ${1}.',
+	'ctrlKey':'Ctrl+${0}'
 })

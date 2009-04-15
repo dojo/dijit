@@ -2,6 +2,6 @@
 	createLinkTitle: "Propriedades de Link",
 	insertImageTitle: "Propriedades de Imagem",
 	url: "URL:",
-	text: "Descrição:",
+	text: "Descrição: ",
 	set: "Definir"
 })

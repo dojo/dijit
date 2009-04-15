@@ -37,7 +37,7 @@
 	'formatBlock': 'Style de paragraphe',
 	'fontSize': 'Taille de police',
 	'fontName': 'Nom de police',
-	'tabIndent': 'Retrait par tabulation',
+	'tabIndent': 'Retrait d\'onglet',
 	/* Error messages */
-	'systemShortcut': 'L\'action "${0}" est seulement possible dans votre navigateur à l\'aide d\'un raccourci-clavier. Veuillez utiliser ${1}.'
+	'systemShortcut': 'L\'action "${0}" est disponible dans votre navigateur uniquement, par le biais d\'un raccourci-clavier. Utilisez ${1}.'
 })

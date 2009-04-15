@@ -37,6 +37,7 @@
 	'formatBlock': 'Paragraf Stili',
 	'fontSize': 'Yazı Tipi Boyutu',
 	'fontName': 'Yazı Tipi Adı',
+	'tabIndent': 'Sekme Girintisi',
 	/* Error messages */
-	'systemShortcutFF': '"${0}" işlemi yalnızca Mozilla Firefox\'ta bir klavye kısayoluyla birlikte kullanılabilir. ${1} işlemini kullanın.'
+	'systemShortcut': '"${0}" işlemi yalnızca tarayıcınızda bir klavye kısayoluyla birlikte kullanılabilir. Şunu kullanın: ${1}.'
 })

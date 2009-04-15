@@ -37,7 +37,7 @@
 	'formatBlock': 'Alineastijl',
 	'fontSize': 'Lettergrootte',
 	'fontName': 'Lettertype',
+	'tabIndent': 'Inspringen',
 	/* Error messages */
-	'systemShortcutFF': 'De actie "${0}" is alleen beschikbaar in Mozilla Firefox via een sneltoestcombinatie. Gebruik ${1}.',
-	'ctrlKey':'Ctrl+${0}'
+	'systemShortcut': 'De actie "${0}" is alleen beschikbaar in uw browser via een sneltoetscombinatie. Gebruik ${1}.'
 })

@@ -37,8 +37,7 @@
 	'formatBlock': 'Estilo de párrafo',
 	'fontSize': 'Tamaño de font',
 	'fontName': 'Nombre de font',
-	'tabIndent': 'Sangrado de tabulación',
+	'tabIndent': 'Sangrado',
 	/* Error messages */
-	'systemShortcut': 'La acción "${0}" sólo está disponible en su navegador mediante un atajo de teclado. Utilice ${1}.',
-	'ctrlKey':'Control+${0}'
+	'systemShortcut': 'La acción "${0}" sólo está disponible en el navegador mediante un atajo de teclado. Utilice ${1}.'
 })

@@ -1,4 +1,4 @@
 ({
-	loadingState: "Trwa ładowanie...",
+	loadingState: "Ładowanie...",
 	errorState: "Niestety, wystąpił błąd"
 })

@@ -3,5 +3,5 @@
 	insertImageTitle: "图像属性",
 	url: "URL：",
 	text: "描述：",
-	set: "确定"
+	set: "集合"
 })

@@ -24,19 +24,20 @@
 	'undo': 'ביטול פעולה',
 	'unlink': 'סילוק הקישור',
 	'createLink': 'יצירת קישור',
-	'toggleDir': 'מיתוג כיוון  ',
+	'toggleDir': 'מיתוג כיוון',
 	'insertImage': 'הוספת תמונה',
 	'insertTable': 'הוספת/עריכת טבלה',
 	'toggleTableBorder': 'מיתוג גבול טבלה',
 	'deleteTable': 'מחיקת טבלה',
 	'tableProp': 'תכונת טבלה',
 	'htmlToggle': 'מקור HTML',
-	'foreColor': 'צבע חזית ',
+	'foreColor': 'צבע חזית',
 	'hiliteColor': 'צבע רקע',
 	'plainFormatBlock': 'סגנון פיסקה',
 	'formatBlock': 'סגנון פיסקה',
 	'fontSize': 'גופן יחסי',
 	'fontName': 'שם גופן',
+	'tabIndent': 'כניסת טאב',
 	/* Error messages */
-	'systemShortcutFF': 'הפעולה "${0}" זמינה בדפדפן Mozilla Firefox רק באמצעות קיצור דרך במקלדת. נא להשתמש ב-${1}.'
+	'systemShortcut': 'הפעולה "${0}" זמינה בדפדפן רק באמצעות קיצור דרך במקלדת. השתמשו בקיצור ${1}.'
 })

@@ -30,13 +30,14 @@
 	'toggleTableBorder': 'Переключить рамку таблицы',
 	'deleteTable': 'Удалить таблицу',
 	'tableProp': 'Свойства таблицы',
-	'htmlToggle': 'Код HTML',
+	'htmlToggle': 'Исходный текст HTML',
 	'foreColor': 'Цвет текста',
 	'hiliteColor': 'Цвет фона',
 	'plainFormatBlock': 'Стиль абзаца',
 	'formatBlock': 'Стиль абзаца',
 	'fontSize': 'Размер шрифта',
 	'fontName': 'Название шрифта',
+	'tabIndent': 'Табуляция',
 	/* Error messages */
-	'systemShortcutFF': 'Действие "${0}" доступно в Mozilla Firefox только через сочетание клавиш. Используйте ${1}.'
+	'systemShortcut': 'Действие "${0}" доступно в вашем браузере только через сочетание клавиш. Нажмите ${1}.'
 })

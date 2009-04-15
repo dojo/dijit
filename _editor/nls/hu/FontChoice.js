@@ -5,7 +5,7 @@
 
 	serif: "talpas",
 	"sans-serif": "talpatlan",
-	monospace: "egyenközű",
+	monospace: "rögzített szélességű",
 	cursive: "kurzív",
 	fantasy: "fantázia",
 

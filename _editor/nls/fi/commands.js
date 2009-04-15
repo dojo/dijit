@@ -18,8 +18,8 @@
 	'removeFormat': 'Poista muotoilu',
 	'selectAll': 'Valitse kaikki',
 	'strikethrough': 'Yliviivaus',
-	'subscript': 'Alaindeksi',
-	'superscript': 'Yläindeksi',
+	'subscript': 'Alennettu',
+	'superscript': 'Korotettu',
 	'underline': 'Alleviivaus',
 	'undo': 'Kumoa',
 	'unlink': 'Poista linkki',
@@ -37,6 +37,7 @@
 	'formatBlock': 'Kappaletyyli',
 	'fontSize': 'Fontin koko',
 	'fontName': 'Fontin nimi',
+	'tabIndent': 'Sarkainsisennys',
 	/* Error messages */
-	'systemShortcutFF': 'Toiminto "${0}" on käytettävissä vain Mozilla Firefox -ohjelmassa, kun käytetään pikanäppäimiä. Käytä kohdetta ${1}.'
+	'systemShortcut': 'Toiminto "${0}" on käytettävissä selaimessa vain näppäimistön pikatoiminnolla. Käytä seuraavaa: ${1}.'
 })

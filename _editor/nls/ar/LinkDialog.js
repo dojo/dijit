@@ -1,7 +1,7 @@
 ({
-	createLinkTitle: "خصائص الوصلة ",
-	insertImageTitle: "خصائص الصورة ",
+	createLinkTitle: "خصائص الوصلة",
+	insertImageTitle: "خصائص الصورة",
 	url: "عنوان URL:",
-	text: "الوصف: ",
+	text: "الوصف:",
 	set: "تحديد"
 })

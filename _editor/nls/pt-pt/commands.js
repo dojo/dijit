@@ -27,7 +27,7 @@
 	'toggleDir': 'Alternar direcção',
 	'insertImage': 'Inserir imagem',
 	'insertTable': 'Inserir/Editar tabela',
-	'toggleTableBorder': 'Alternar limite da tabela',
+	'toggleTableBorder': 'Alternar contorno da tabela',
 	'deleteTable': 'Eliminar tabela',
 	'tableProp': 'Propriedades da tabela',
 	'htmlToggle': 'Origem HTML',
@@ -37,6 +37,7 @@
 	'formatBlock': 'Estilo de parágrafo',
 	'fontSize': 'Tamanho do tipo de letra',
 	'fontName': 'Nome do tipo de letra',
+	'tabIndent': 'Indentar com a tecla Tab',
 	/* Error messages */
-	'systemShortcutFF': 'A acção "${0}" apenas está disponível no Mozilla Firefox utilizando um atalho de teclado. Utilize ${1}.'
-}) 
+	'systemShortcut': 'A acção "${0}" apenas está disponível no navegador utilizando um atalho de teclado. Utilize ${1}.'
+})

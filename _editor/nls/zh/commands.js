@@ -1,6 +1,6 @@
 ({
 	'bold': '粗体',
-	'copy': '复制',
+	'copy': '拷贝',
 	'cut': '剪切',
 	'delete': '删除',
 	'indent': '增加缩进',
@@ -37,6 +37,7 @@
 	'formatBlock': '段落样式',
 	'fontSize': '字体大小',
 	'fontName': '字体名称',
+	'tabIndent': '制表符缩进',
 	/* Error messages */
-	'systemShortcutFF': '只能在 Mozilla Firefox 中通过键盘快捷方式执行“${0}”操作。请使用 ${1}。'
+	'systemShortcut': '只能在浏览器中通过键盘快捷方式执行“${0}”操作。使用 ${1}。'
 })

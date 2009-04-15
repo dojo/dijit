@@ -37,6 +37,7 @@
 	'formatBlock': 'Bekezdés stílusa',
 	'fontSize': 'Betűméret',
 	'fontName': 'Betűtípus',
+	'tabIndent': 'Tabulátor behúzás',
 	/* Error messages */
-	'systemShortcutFF': 'A(z) "${0}" művelet csak Mozilla Firefox böngészőben érhető el billentyűparancs használatával. Használja a következőt: ${1}.'
+	'systemShortcut': 'A(z) "${0}" művelet csak billentyűparancs használatával érhető el a böngészőben. Használja a következő gyorsbillentyűt: ${1}.'
 })

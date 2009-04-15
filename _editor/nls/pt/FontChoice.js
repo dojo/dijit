@@ -1,25 +1,25 @@
 ({
 	fontSize: "Tamanho",
 	fontName: "Fonte",
-	formatBlock: "Formato",
+	formatBlock: "Formatar",
 
 	serif: "serif",
 	"sans-serif": "sans-serif",
-	monospace: "monoespaçado",
-	cursive: "cursive",
+	monospace: "espaço simples",
+	cursive: "cursiva",
 	fantasy: "fantasy",
 
 	p: "Parágrafo",
 	h1: "Título",
-	h2: "Subcabeçalho",
-	h3: "Sub-subcabeçalho",
+	h2: "Subtítulo",
+	h3: "Sub-subtítulo",
 	pre: "Pré-formatado",
 
-	1: "xx-small",
-	2: "x-small",
-	3: "small",
-	4: "medium",
-	5: "large",
-	6: "x-large",
-	7: "xx-large "
+	1: "extra-extra-pequeno",
+	2: "extra-pequeno",
+	3: "pequena",
+	4: "médio",
+	5: "grande",
+	6: "extra-grande",
+	7: "extra-extra-grande"
 })

@@ -5,7 +5,7 @@
 
 	serif: "serif",
 	"sans-serif": "sans-serif",
-	monospace: "eşaralıklı",
+	monospace: "tek aralıklı",
 	cursive: "el yazısı",
 	fantasy: "fantazi",
 
