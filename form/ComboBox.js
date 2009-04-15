@@ -334,7 +334,7 @@ dojo.declare(
 			this.item = null;
 			var zerothvalue = new String(this.store.getValue(results[0], this.searchAttr));
 			if(zerothvalue && this.autoComplete && !this._prev_key_backspace &&
-				(dataObject.query[this.searchAttr] != "*")){
+				!/^[*]+$/.test(dataObject.query[this.searchAttr])){
 				// when the user clicks the arrow button to show the full list,
 				// startSearch looks for "*".
 				// it does not make sense to autocomplete
