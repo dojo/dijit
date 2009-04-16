@@ -286,6 +286,9 @@ dojo.declare("dijit._TimePicker",
 			date.setHours(date.getHours() + incrementDate.getHours() * index,
 				date.getMinutes() + incrementDate.getMinutes() * index,
 				date.getSeconds() + incrementDate.getSeconds() * index);
+			if(this.constraints.selector == "time"){
+				date.setFullYear(1970,0,1); // make sure each time is for the same date
+			}
 			var dateString = dojo.date.locale.format(date, this.constraints);
 			if(this._filterString && dateString.toLowerCase().indexOf(this._filterString) !== 0){
 				// Doesn't match the filter - return null
