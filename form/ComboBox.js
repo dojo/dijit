@@ -871,20 +871,6 @@ dojo.declare(
 			}
 		},
 
-		// these functions are called in showResultList
-		getItems: function(){
-			// summary:
-			//		Called from _showResultList().   Returns DOM Nodes representing the items in the drop down list.
-			return this.domNode.childNodes;
-		},
-
-		getListLength: function(){
-			// summary:
-			//		Called from _showResultList().   Returns number of  items in the drop down list,
-			//		not including next and previous buttons.
-			return this.domNode.childNodes.length-2;
-		},
-
 		_onMouseDown: function(/*Event*/ evt){
 			dojo.stopEvent(evt);
 		},
