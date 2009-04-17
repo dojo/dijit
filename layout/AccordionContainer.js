@@ -17,14 +17,13 @@ dojo.declare(
 		//		Holds a set of panes where every pane's title is visible, but only one pane's content is visible at a time,
 		//		and switching between panes is visualized by sliding the other panes up/down.
 		// example:
-		// | 	<div dojoType="dijit.layout.AccordionContainer">
-		// |		<div dojoType="dijit.layout.AccordionPane" title="pane 1">
-		// |			<div dojoType="dijit.layout.ContentPane">...</div>
-		// | 	</div>
-		// |		<div dojoType="dijit.layout.AccordionPane" title="pane 2">
-		// |			<p>This is some text</p>
-		// ||		...
-		// |	</div>
+		//	| 	<div dojoType="dijit.layout.AccordionContainer">
+		//	|		<div dojoType="dijit.layout.ContentPane" title="pane 1">
+		//	|		</div>
+		//	|		<div dojoType="dijit.layout.ContentPane" title="pane 2">
+		//	|			<p>This is some text</p>
+		//	|		</div>
+		//	|	</div>
 
 		// duration: Integer
 		//		Amount of time (in ms) it takes to slide panes

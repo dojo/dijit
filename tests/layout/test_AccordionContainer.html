@@ -58,7 +58,7 @@
 
 	<div dojoType="dijit.layout.AccordionContainer"
 		style="width: 400px; height: 300px; overflow: hidden">
-		<div dojoType="dijit.layout.AccordionPane" selected="true"
+		<div dojoType="dijit.layout.ContentPane" selected="true"
 			title="A Simple Pane" >
 				<select>
 					<option>red</option>
@@ -93,7 +93,7 @@
 		</div>
 
 		<!-- test lazy loading -->
-		<div dojoType="dijit.layout.AccordionPane" id="lazyLoadPane" title="Lazy Load Pane" href="tab1.html"></div>
+		<div dojoType="dijit.layout.ContentPane" id="lazyLoadPane" title="Lazy Load Pane" href="tab1.html"></div>
 
 		<div dojoType="dijit.layout.BorderContainer" title="BorderContainer Pane">
 			<div dojoType="dijit.layout.ContentPane" region="left" style="width:50%" splitter="true">
@@ -213,7 +213,7 @@
 	<h2>Accordion with padding</h2>	
 	<div dojoType="dijit.layout.AccordionContainer"
 		style="width: 400px; height: 300px; overflow: hidden">
-		<div dojoType="dijit.layout.AccordionPane" class="somePadding" title="Some Padding">
+		<div dojoType="dijit.layout.ContentPane" class="somePadding" title="Some Padding">
 			<p>
 				Nunc consequat nisi vitae quam. Suspendisse sed nunc. Proin
 				suscipit porta magna. Duis accumsan nunc in velit. Nam et nibh.
@@ -240,7 +240,7 @@
 				ut eros sit amet ante pharetra interdum.
 			</p>
 		</div>
-		<div dojoType="dijit.layout.AccordionPane" title="No Padding">
+		<div dojoType="dijit.layout.ContentPane" title="No Padding">
 			<p>
 				Nunc consequat nisi vitae quam. Suspendisse sed nunc. Proin
 				suscipit porta magna. Duis accumsan nunc in velit. Nam et nibh.
@@ -268,6 +268,7 @@
 			</p>
 		</div>
 		<div dojoType="dijit.layout.AccordionPane" class="extremePadding" title="Extreme Padding">
+			<p>(Leaving one to test deprecation)</p>
 			<p>
 				Nunc consequat nisi vitae quam. Suspendisse sed nunc. Proin
 				suscipit porta magna. Duis accumsan nunc in velit. Nam et nibh.
