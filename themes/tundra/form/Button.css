@@ -47,6 +47,9 @@
 	border: 1px solid transparent; /*make transparent so FF2 focus rect. is visible */
 }
 
+.tundra .dijitComboBoxReadOnly,
+.tundra .dijitSpinnerReadOnly,
+.tundra .dijitSpinnerReadOnly .dijitButtonNode,
 .tundra .dijitButtonDisabled .dijitButtonNode,
 .tundra .dijitToggleButtonDisabled .dijitButtonNode,
 .tundra .dijitDropDownButtonDisabled .dijitButtonNode,
@@ -115,7 +118,7 @@
 	background-position: -21px top; 
 }
 
-.tundra .dijitDisabled .dijitUpArrowButton .dijitArrowButtonInner { 
+.tundra .dijitDisabled .dijitUpArrowButton .dijitArrowButtonInner {
 	background-position: -49px top; 
 }
 

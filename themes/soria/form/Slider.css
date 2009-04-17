@@ -129,10 +129,15 @@
 	visibility:hidden;
 }
 
+.soria .dijitSliderReadOnly,
 .soria .dijitSliderDisabled {
 	opacity:0.6 !important;
 }
 
+.dj_ie .soria .dijitSliderReadOnly,
+.dj_ie .soria .dijitSliderReadOnly .dijitRuleContainer,
+.dj_ie .soria .dijitSliderReadOnly .dijitSliderRemainingBar,
+.dj_ie .soria .dijitSliderReadOnly .dijitSliderProgressBar,
 .dj_ie .soria .dijitSliderDisabled,
 .dj_ie .soria .dijitSliderDisabled .dijitRuleContainer,
 .dj_ie .soria .dijitSliderDisabled .dijitSliderRemainingBar,

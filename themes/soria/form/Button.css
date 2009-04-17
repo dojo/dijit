@@ -42,6 +42,9 @@
 	border: 1px black dotted !important;
 }
 
+.soria .dijitComboBoxReadOnly,
+.soria .dijitSpinnerReadOnly,
+.soria .dijitSpinnerReadOnly .dijitButtonNode,
 .soria .dijitButtonDisabled .dijitButtonNode,
 .soria .dijitToggleButtonDisabled .dijitButtonNode,
 .soria .dijitDropDownButtonDisabled .dijitButtonNode,

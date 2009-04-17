@@ -131,10 +131,15 @@
 	visibility:hidden;
 }
 
+.tundra .dijitSliderReadOnly,
 .tundra .dijitSliderDisabled {
 	opacity:0.6 !important;
 }
 
+.dj_ie .tundra .dijitSliderReadOnly,
+.dj_ie .tundra .dijitSliderReadOnly .dijitRuleContainer,
+.dj_ie .tundra .dijitSliderReadOnly .dijitSliderRemainingBar,
+.dj_ie .tundra .dijitSliderReadOnly .dijitSliderProgressBar,
 .dj_ie .tundra .dijitSliderDisabled,
 .dj_ie .tundra .dijitSliderDisabled .dijitRuleContainer,
 .dj_ie .tundra .dijitSliderDisabled .dijitSliderRemainingBar,
@@ -142,6 +147,7 @@
 	filter: gray() alpha(opacity=40);
 }
 
+.tundra .dijitSliderReadOnly *,
 .tundra .dijitSliderDisabled * {
 	cursor: not-allowed !important;
 }

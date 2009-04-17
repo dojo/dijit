@@ -151,6 +151,8 @@
 	background:black;
 }
 
+.noir .dijitComboBoxReadOnly INPUT,
+.noir .dijitSpinnerReadOnly INPUT,
 .noir .dijitComboBoxDisabled INPUT,
 .noir .dijitSpinnerDisabled INPUT{
 	color:#3f3f3f;

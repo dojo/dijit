@@ -48,12 +48,6 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 	//		In markup, this is specified as "disabled='disabled'", or just "disabled".
 	disabled: false,
 
-	// readOnly: Boolean
-	//		Should this widget respond to user input?
-	//		In markup, this is specified as "readOnly".
-	//		Similar to disabled except readOnly form values are submitted.
-	readOnly: false,
-
 	// intermediateChanges: Boolean
 	//		Fires onChange for each value change or only on demand
 	intermediateChanges: false,
@@ -66,7 +60,6 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 	attributeMap: dojo.delegate(dijit._Widget.prototype.attributeMap, {
 		value: "focusNode",
 		disabled: "focusNode",
-		readOnly: "focusNode",
 		id: "focusNode",
 		tabIndex: "focusNode",
 		alt: "focusNode"
@@ -84,17 +77,17 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 		dojo.attr(this.focusNode, 'disabled', value);
 		dijit.setWaiState(this.focusNode, "disabled", value);
 
-				if(value){
-					//reset those, because after the domNode is disabled, we can no longer receive
-					//mouse related events, see #4200
-					this._hovering = false;
-					this._active = false;
-					// remove the tabIndex, especially for FF
-					this.focusNode.removeAttribute('tabIndex');
-				}else{
-					this.focusNode.setAttribute('tabIndex', this.tabIndex);
-				}
-				this._setStateClass();
+		if(value){
+			//reset those, because after the domNode is disabled, we can no longer receive
+			//mouse related events, see #4200
+			this._hovering = false;
+			this._active = false;
+			// remove the tabIndex, especially for FF
+			this.focusNode.removeAttribute('tabIndex');
+		}else{
+			this.focusNode.setAttribute('tabIndex', this.tabIndex);
+		}
+		this._setStateClass();
 	},
 
 	setDisabled: function(/*Boolean*/ disabled){
@@ -371,7 +364,24 @@ dojo.declare("dijit.form._FormValueWidget", dijit.form._FormWidget,
 	// so maybe {value: ""} is so the value *doesn't* get copied to focusNode?
 	// Seems like we really want value removed from attributeMap altogether
 	// (although there's no easy way to do that now)
-	attributeMap: dojo.delegate(dijit.form._FormWidget.prototype.attributeMap, { value: "" }),
+
+	// readOnly: Boolean
+	//		Should this widget respond to user input?
+	//		In markup, this is specified as "readOnly".
+	//		Similar to disabled except readOnly form values are submitted.
+	readOnly: false,
+
+	attributeMap: dojo.delegate(dijit.form._FormWidget.prototype.attributeMap, {
+		value: "",
+		readOnly: "focusNode"
+	}),
+
+	_setReadOnlyAttr: function(/*Boolean*/ value){
+		this.readOnly = value;
+		dojo.attr(this.focusNode, 'readOnly', value);
+		dijit.setWaiState(this.focusNode, "readonly", value);
+		this._setStateClass();
+	},
 
 	postCreate: function(){
 		if(dojo.isIE || dojo.isWebKit){ // IE won't stop the event with keypress and Safari won't send an ESCAPE to keypress at all

@@ -39,12 +39,20 @@
 	background:#fff url('../images/validationInputBg.gif') repeat-x top left;
 }
 
+.soria .dijitTextBoxReadOnly,
+.soria .dijitComboBoxReadOnly,
+.soria .dijitSpinnerReadOnly,
+.soria .dijitTextAreaReadOnly,
 .soria .dijitTextBoxDisabled,
 .soria .dijitComboBoxDisabled,
 .soria .dijitSpinnerDisabled,
 .soria .dijitTextAreaDisabled {
 	color: gray;
 }
+.dj_webkit .soria .dijitTextBoxReadOnly,
+.dj_webkit .soria .dijitComboBoxReadOnly,
+.dj_webkit .soria .dijitSpinnerReadOnly,
+.dj_webkit .soria .dijitTextareaReadOnly,
 .dj_webkit .soria .dijitTextBoxDisabled,
 .dj_webkit .soria .dijitComboBoxDisabled,
 .dj_webkit .soria .dijitSpinnerDisabled,

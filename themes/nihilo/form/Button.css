@@ -42,6 +42,9 @@
 	border: 1px black dotted !important;
 }
 
+.nihilo .dijitComboBoxReadOnly,
+.nihilo .dijitSpinnerReadOnly,
+.nihilo .dijitSpinnerReadOnly .dijitButtonNode,
 .nihilo .dijitButtonDisabled .dijitButtonNode,
 .nihilo .dijitToggleButtonDisabled .dijitButtonNode,
 .nihilo .dijitDropDownButtonDisabled .dijitButtonNode,

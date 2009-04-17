@@ -183,6 +183,10 @@
 	border-width: medium!important;
 }
 
+.dijit_a11y .dijitComboBoxReadOnly .dijitInputField,
+.dijit_a11y .dijitComboBoxReadOnly .dijitButtonNode,
+.dijit_a11y .dijitSpinnerReadOnly .dijitButtonNode,
+.dijit_a11y .dijitSpinnerReadOnly .dijitInputField,
 .dijit_a11y .dijitButtonDisabled .dijitButtonNode,
 .dijit_a11y .dijitDropDownButtonDisabled .dijitButtonNode,
 .dijit_a11y .dijitComboButtonDisabled .dijitButtonNode,

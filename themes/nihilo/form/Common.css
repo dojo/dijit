@@ -49,12 +49,20 @@
 	border-left: 1px solid #d3d3d3;
 }
 
+.nihilo .dijitTextBoxReadOnly,
+.nihilo .dijitComboBoxReadOnly,
+.nihilo .dijitSpinnerReadOnly,
+.nihilo .dijitTextAreaReadOnly,
 .nihilo .dijitTextBoxDisabled,
 .nihilo .dijitComboBoxDisabled,
 .nihilo .dijitSpinnerDisabled,
 .nihilo .dijitTextAreaDisabled {
 	color: gray;
 }
+.dj_webkit .nihilo .dijitTextBoxReadOnly,
+.dj_webkit .nihilo .dijitComboBoxReadOnly,
+.dj_webkit .nihilo .dijitSpinnerReadOnly,
+.dj_webkit .nihilo .dijitTextareaReadOnly,
 .dj_webkit .nihilo .dijitTextBoxDisabled,
 .dj_webkit .nihilo .dijitComboBoxDisabled,
 .dj_webkit .nihilo .dijitSpinnerDisabled,
