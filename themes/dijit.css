@@ -250,6 +250,7 @@
 	background-repeat:no-repeat;
 }
 
+.dijitToggleButton,
 .dijitButton,
 .dijitDropDownButton,
 .dijitComboButton {
@@ -257,6 +258,7 @@
 	margin: 0.2em;
 }
 
+.dijitToolbar .dijitToggleButton,
 .dijitToolbar .dijitButton,
 .dijitToolbar .dijitDropDownButton,
 .dijitToolbar .dijitComboButton {
