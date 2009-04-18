@@ -211,6 +211,7 @@ dojo.declare(
 			this._layoutHack();
 		},
 
+		_blankValue: '', // if the textbox is blank, what value should be reported
 		filter: function(val){
 			// summary:
 			//		Auto-corrections (such as trimming) that are applied to textbox
@@ -229,7 +230,7 @@ dojo.declare(
 			//
 			// tags:
 			//		protected extension
-			if(val === null){ return ''; }
+			if(val === null){ return this._blankValue; }
 			if(typeof val != "string"){ return val; }
 			if(this.trim){
 				val = dojo.trim(val);
