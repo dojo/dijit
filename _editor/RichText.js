@@ -901,25 +901,24 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 		// tags:
 		//		protected
 
-		//console.debug("keyup char:", e.keyChar, e.ctrlKey);
-		var c = (e.keyChar && e.keyChar.toLowerCase()) || e.keyCode
-		var handlers = this._keyHandlers[c];
-		//console.debug("handler:", handlers);
-		var args = arguments;
-		if(handlers){
-			dojo.forEach(handlers, function(h){
-				if((!!h.shift == !!e.shiftKey)&&(!!h.ctrl == !!e.ctrlKey)){
+		var c = (e.keyChar && e.keyChar.toLowerCase()) || e.keyCode,
+			handlers = this._keyHandlers[c],
+			args = arguments;
+
+		if(handlers && !e.altKey){
+			dojo.some(handlers, function(h){
+				if(!(h.shift ^ e.shiftKey) && !(h.ctrl ^ e.ctrlKey)){
 					if(!h.handler.apply(this, args)){
 						e.preventDefault();
 					}
-					// break;
+					return true;
 				}
 			}, this);
 		}
 
 		// function call after the character has been inserted
 		if(!this._onKeyHitch){
-			this._onKeyHitch=dojo.hitch(this, "onKeyPressed");
+			this._onKeyHitch = dojo.hitch(this, "onKeyPressed");
 		}
 		setTimeout(this._onKeyHitch, 1);
 		return true;
@@ -935,6 +934,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 		if(!dojo.isArray(this._keyHandlers[key])){
 			this._keyHandlers[key] = [];
 		}
+		//TODO: would be nice to make this a hash instead of an array for quick lookups
 		this._keyHandlers[key].push({
 			shift: shift || false,
 			ctrl: ctrl || false,
