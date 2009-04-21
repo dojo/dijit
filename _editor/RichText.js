@@ -914,7 +914,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 		var handlers = this._keyHandlers[c];
 		//console.debug("handler:", handlers);
 		var args = arguments;
-		if(handlers){
+		if(handlers && !e.altKey){
 			dojo.forEach(handlers, function(h){
 				if((!!h.shift == !!e.shiftKey)&&(!!h.ctrl == !!e.ctrlKey)){
 					if(!h.handler.apply(this, args)){
