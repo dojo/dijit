@@ -441,5 +441,26 @@ dojo.declare("dijit.form._FormValueWidget", dijit.form._FormWidget,
 				e.target.dispatchEvent(te);
 			}
 		}
+	},
+
+	_layoutHackIE7: function(){
+		// summary:
+		//		Work around table sizing bugs on IE7 by forcing redraw
+
+		if(dojo.isIE == 7){ // fix IE7 layout bug when the widget is scrolled out of sight
+			var domNode = this.domNode;
+			var parent = domNode.parentNode;
+			var pingNode = domNode.firstChild || domNode; // target node most unlikely to have a custom filter
+			var origFilter = pingNode.style.filter; // save custom filter, most likely nothing
+			while(parent && parent.clientHeight == 0){ // search for parents that haven't rendered yet
+				parent._disconnectHandle = this.connect(parent, "onscroll", dojo.hitch(this, function(e){
+					this.disconnect(parent._disconnectHandle); // only call once
+					parent.removeAttribute("_disconnectHandle"); // clean up DOM node
+					pingNode.style.filter = (new Date()).getMilliseconds(); // set to anything that's unique
+					setTimeout(function(){ pingNode.style.filter = origFilter }, 0); // restore custom filter, if any
+				}));
+				parent = parent.parentNode;
+			}
+		}
 	}
 });

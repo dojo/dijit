@@ -273,20 +273,7 @@ dojo.declare(
 		dijit.setWaiState(this.focusNode, "valuemax", this.maximum);
 
 		this.inherited(arguments);
-		if(dojo.isIE == 7){ // fix IE7 layout bug when the slider is scrolled out of sight
-			var parent = this.domNode.parentNode;
-			var tbody = this.domNode.firstChild; // target TBODY since its unlikely to have a custom filter
-			var origFilter = tbody.style.filter; // save custom filter, most likely nothing
-			while(parent && parent.clientHeight == 0){ // search for parents that haven't rendered yet
-				parent._disconnectHandle = this.connect(parent, "onscroll", dojo.hitch(this, function(e){
-					this.disconnect(parent._disconnectHandle); // only call once
-					parent.removeAttribute("_disconnectHandle"); // clean up DOM node
-					tbody.style.filter = (new Date()).getMilliseconds(); // set to anything that's unique
-					setTimeout(function(){ tbody.style.filter = origFilter }, 0); // restore custom filter, if any
-				}));
-				parent = parent.parentNode;
-			}
-		}
+		this._layoutHackIE7();
 	},
 
 	destroy: function(){

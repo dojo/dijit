@@ -127,6 +127,7 @@ dojo.declare(
 						}), 0);
 					}
 				);
+				this._layoutHackIE7();
 			}
 		}
 });
