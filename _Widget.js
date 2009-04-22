@@ -295,9 +295,10 @@ dojo.declare("dijit._Widget", null, {
 
 	// Constants used in templates
 	
-	// _blankGif: [protected] URL
-	//		Used by <img> nodes in templates that really get there image via CSS background-image
-	_blankGif: (dojo.config.blankGif || dojo.moduleUrl("dojo", "resources/blank.gif")),
+	// _blankGif: [protected] String
+	//		Path to a blank 1x1 image.
+	//		Used by <img> nodes in templates that really get their image via CSS background-image.
+	_blankGif: (dojo.config.blankGif || dojo.moduleUrl("dojo", "resources/blank.gif")).toString(),
 
 	//////////// INITIALIZATION METHODS ///////////////////////////////////////
 
