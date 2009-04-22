@@ -365,7 +365,6 @@ dojo.declare(
 			(!this.isLoaded || this._hrefChanged || this.refreshOnShow) && 	// and we need a [re]load
 			(this.preload || this._isShown())	// and now is the time to [re]load
 		){
-			delete this._hrefChanged;
 			this.refresh();
 		}
 	},
@@ -378,7 +377,7 @@ dojo.declare(
 		//		2. posts "loading..." message
 		//		3. sends XHR to download new data
 
-		// cancel possible prior inflight request
+		// Cancel possible prior in-flight request
 		this.cancel();
 
 		// display loading message
@@ -416,6 +415,9 @@ dojo.declare(
 			delete self._xhrDfd;
 			return err;
 		});
+
+		// Remove flag saying that a load is needed
+		delete this._hrefChanged;
 	},
 
 	_onLoadHandler: function(data){
@@ -473,6 +475,9 @@ dojo.declare(
 		
 		// And then clear away all the DOM nodes
 		dojo.html._emptyNode(this.containerNode);
+
+		// Delete any state information we have about current contents
+		delete this._singleChild;
 	},
 
 	_setContent: function(cont, isFakeContent){
@@ -482,11 +487,8 @@ dojo.declare(
 		// first get rid of child widgets
 		this.destroyDescendants();
 
-		// Delete any state information we have about current contents
-		delete this._singleChild;
-
 		// dojo.html.set will take care of the rest of the details
-		// we provide an overide for the error handling to ensure the widget gets the errors 
+		// we provide an override for the error handling to ensure the widget gets the errors 
 		// configure the setter instance with only the relevant widget instance properties
 		// NOTE: unless we hook into attr, or provide property setters for each property, 
 		// we need to re-configure the ContentSetter with each use
