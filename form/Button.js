@@ -104,11 +104,13 @@ dojo.declare("dijit.form.Button",
 	},
 
 	postCreate: function(){
-		if (this.showLabel == false){
-			dojo.addClass(this.containerNode,"dijitDisplayNone");
-		}
 		dojo.setSelectable(this.focusNode, false);
 		this.inherited(arguments);
+	},
+
+	_setShowLabelAttr: function(val){
+		dojo.toggleClass(this.containerNode, "dijitDisplayNone", !val);
+		this.showLabel = val;
 	},
 
 	onClick: function(/*Event*/ e){
