@@ -35,7 +35,9 @@ dojo.declare(
 		// fetchProperties: Object
 		//		Mixin to the dojo.data store's fetch.
 		//		For example, to set the sort order of the ComboBox menu, pass:
-		//		{sort:{attribute:"name",descending: true}}
+		//	|	{ sort: {attribute:"name",descending: true} }
+		//		To override the default queryOptions so that deep=false, do:
+		//	|	{ queryOptions: {ignoreCase: true, deep: false} }
 		fetchProperties:{},
 
 		// query: Object
