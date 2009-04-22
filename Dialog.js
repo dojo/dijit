@@ -173,16 +173,16 @@ dojo.declare(
 				"class": dojo.map(this["class"].split(/\s/), function(s){ return s+"_underlay"; }).join(" ")
 			};
 			
-			var underlay = dijit._underlay;
-			if(!underlay){ 
-				underlay = dijit._underlay = new dijit.DialogUnderlay(underlayAttrs); 
-			}
-			
 			this._fadeIn = dojo.fadeIn({
 				node: node,
 				duration: this.duration,
 				beforeBegin: function(){
-					underlay.attr(underlayAttrs);
+					var underlay = dijit._underlay;
+					if(!underlay){ 
+						underlay = dijit._underlay = new dijit.DialogUnderlay(underlayAttrs); 
+					}else{
+						underlay.attr(underlayAttrs);
+					}
 					underlay.show();
 				},
 				onEnd:	dojo.hitch(this, function(){
