@@ -59,9 +59,6 @@ dojo.declare(
 
 		if(this.isExpandable){
 			dijit.setWaiState(this.labelNode, "expanded", this.isExpanded);
-			if(this == this.tree.rootNode){
-				dijit.setWaitState(this.tree.domNode, "expanded", this.isExpanded);
-			}
 		}		
 	},
 
