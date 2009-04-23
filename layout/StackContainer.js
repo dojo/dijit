@@ -228,11 +228,7 @@ dojo.declare(
 		dojo.removeClass(page.domNode, "dijitHidden");
 		dojo.addClass(page.domNode, "dijitVisible");
 
-		if(page._onShow){
-			page._onShow(); // trigger load in ContentPane
-		}else if(page.onShow){
-			page.onShow();
-		}
+		page._onShow();
 	},
 
 	_hideChild: function(/*Widget*/ page){
@@ -243,9 +239,7 @@ dojo.declare(
 		dojo.removeClass(page.domNode, "dijitVisible");
 		dojo.addClass(page.domNode, "dijitHidden");
 
-		if(page.onHide){
-			page.onHide();
-		}
+		page.onHide();
 	},
 
 	closeChild: function(/*Widget*/ page){

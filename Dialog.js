@@ -391,6 +391,7 @@ dojo.declare(
 				delete this._relativePosition;	
 			}
 			this.open = false;
+			this.onHide();
 		},
 
 		layout: function() {

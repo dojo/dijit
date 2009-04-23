@@ -335,7 +335,7 @@ dojo.declare(
 		// description:
 		//		For a plain ContentPane, this is called on initialization, from startup().
 		//		If the ContentPane is a hidden pane of a TabContainer etc., then it's
-		//		called whever the pane is made visible.
+		//		called whenever the pane is made visible.
 		//
 		//		Does processing necessary, including href download and layout/resize of
 		//		child widget(s)
@@ -348,10 +348,7 @@ dojo.declare(
 		// Do lazy-load of URL
 		this._loadCheck();
 
-		// call onShow, if we have one
-		if(this.onShow){
-			this.onShow();
-		}
+		this.inherited(arguments);
 	},
 
 	_loadCheck: function(){

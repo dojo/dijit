@@ -195,6 +195,7 @@ dijit.popup.__OpenArgs = function(){
 		});
 
 		if(widget.onOpen){
+			// TODO: in 2.0 standardize onShow() (used by StackContainer) and onOpen() (used here)
 			widget.onOpen(best);
 		}
 
@@ -212,6 +213,7 @@ dijit.popup.__OpenArgs = function(){
 				onClose = top.onClose;
 	
 			if(widget.onClose){
+				// TODO: in 2.0 standardize onHide() (used by StackContainer) and onHide() (used here)
 				widget.onClose();
 			}
 			dojo.forEach(top.handlers, dojo.disconnect);

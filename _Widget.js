@@ -1008,8 +1008,36 @@ dojo.declare("dijit._Widget", null, {
 			dojo.place(this.domNode, reference, position);
 		}
 		return this;
-	}
+	},
 
+	_onShow: function(){
+		// summary:
+		//		Internal method called when this widget is made visible.
+		//		See `onShow` for details.
+		this.onShow();
+	},
+	
+	onShow: function(){
+		// summary:
+		//		Called when this widget becomes the selected pane in a
+		//		`dijit.layout.TabContainer`, `dijit.layout.StackContainer`,
+		//		`dijit.layout.AccordionContainer`, etc.
+		//
+		//		Also called to indicate display of a `dijit.Dialog`, `dijit.TooltipDialog`, or `dijit.TitlePane`.
+		// tags:
+		//		callback
+	},
+
+	onHide: function(){
+		// summary:
+			//		Called when another widget becomes the selected pane in a
+			//		`dijit.layout.TabContainer`, `dijit.layout.StackContainer`,
+			//		`dijit.layout.AccordionContainer`, etc.
+			//
+			//		Also called to indicate hide of a `dijit.Dialog`, `dijit.TooltipDialog`, or `dijit.TitlePane`.
+			// tags:
+			//		callback
+	}
 });
 
 })();

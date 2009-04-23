@@ -83,7 +83,16 @@ dojo.declare(
 					dijit.focus(this._firstFocusItem);
 				}
 			},
-			
+
+			onClose: function(){
+				// summary:
+				//		Called when dialog is hidden.
+				//		This is called from the dijit.popup code, and should not be called directly.
+				// tags:
+				//		protected
+				this.onHide();
+			},
+
 			_onKey: function(/*Event*/ evt){
 				// summary:
 				//		Handler for keyboard events
