@@ -109,7 +109,9 @@ dojo.declare("dijit.form.Button",
 	},
 
 	_setShowLabelAttr: function(val){
-		dojo.toggleClass(this.containerNode, "dijitDisplayNone", !val);
+		if(this.containerNode){
+			dojo.toggleClass(this.containerNode, "dijitDisplayNone", !val);
+		}
 		this.showLabel = val;
 	},
 
