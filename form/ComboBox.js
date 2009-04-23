@@ -673,6 +673,7 @@ dojo.declare(
 				this._hideResultList();
 				this._popupWidget.destroy();
 			}
+			this.inherited(arguments);
 		},
 
 		_getMenuLabelFromItem: function(/*Item*/ item){

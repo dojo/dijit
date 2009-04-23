@@ -328,6 +328,7 @@ dojo.declare(
 
 		uninitialize: function(){
 			this.close();
+			this.inherited(arguments);
 		}
 	}
 );

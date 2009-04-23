@@ -221,6 +221,7 @@ dojo.declare(
 			if(this._moveable){
 				this._moveable.destroy();
 			}
+			this.inherited(arguments);
 		},
 
 		_size: function(){

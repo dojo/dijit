@@ -102,6 +102,7 @@ dojo.declare(
 			if(this.bgIframe){
 				this.bgIframe.destroy();
 			}
+			this.inherited(arguments);
 		}
 	}
 );

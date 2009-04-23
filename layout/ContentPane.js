@@ -278,6 +278,7 @@ dojo.declare(
 		if(this._beingDestroyed){
 			this.cancel();
 		}
+		this.inherited(arguments);
 	},
 
 	destroyRecursive: function(/*Boolean*/ preserveDom){
