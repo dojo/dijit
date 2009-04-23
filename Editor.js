@@ -18,19 +18,22 @@ dojo.declare(
 		//
 		// description:
 		//		This widget provides basic WYSIWYG editing features, based on the browser's
-		//		underlying rich text editing capability, accompanied by a toolbar (dijit.Toolbar).
+		//		underlying rich text editing capability, accompanied by a toolbar (`dijit.Toolbar`).
 		//		A plugin model is available to extend the editor's capabilities as well as the
 		//		the options available in the toolbar.  Content generation may vary across
 		//		browsers, and clipboard operations may have different results, to name
 		//		a few limitations.  Note: this widget should not be used with the HTML
 		//		&lt;TEXTAREA&gt; tag -- see dijit._editor.RichText for details.
 
-		// plugins: String[]
+		// plugins: Object[]
 		//		A list of plugin names (as strings) or instances (as objects)
 		//		for this widget.
+		//
+		//		When declared in markup, it might look like:
+		//	|	plugins="['bold',{name:'dijit._editor.plugins.FontChoice', command:'fontName', generic:true}]"
 		plugins: null,
 
-		// extraPlugins: String[]
+		// extraPlugins: Object[]
 		//		A list of extra plugin names which will be appended to plugins array
 		extraPlugins: null,
 
