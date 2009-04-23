@@ -1,12 +1,12 @@
-dojo.provide("dijit._tree.dndSelector");
+dojo.provide("dijit.tree._dndSelector");
 dojo.require("dojo.dnd.common");
-dojo.require("dijit._tree.dndContainer");
+dojo.require("dijit.tree._dndContainer");
 
-dojo.declare("dijit._tree.dndSelector",
-	dijit._tree.dndContainer,
+dojo.declare("dijit.tree._dndSelector",
+	dijit.tree._dndContainer,
 	{
 		// summary:
-		//		This is a base class for `dijit._tree.dndSource` , and isn't meant to be used directly.
+		//		This is a base class for `dijit.tree.dndSource` , and isn't meant to be used directly.
 		//		It's based on `dojo.dnd.Selector`.
 		// tags:
 		//		protected
@@ -57,7 +57,7 @@ dojo.declare("dijit._tree.dndSelector",
 		destroy: function(){
 			// summary:
 			//		Prepares the object to be garbage-collected
-			dijit._tree.dndSelector.superclass.destroy.call(this);
+			this.inherited(arguments);
 			this.selection = this.anchor = null;
 		},
 

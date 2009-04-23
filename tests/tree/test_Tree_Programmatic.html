@@ -26,7 +26,7 @@
 		dojo.require("dojo.data.ItemFileWriteStore");
 		dojo.require("dijit.Tree");
 		dojo.require("dijit.tree.ForestStoreModel");
-		dojo.require("dijit._tree.dndSource");
+		dojo.require("dijit.tree.dndSource");
 
 		dojo.addOnLoad(function(){
  			myStore = new dojo.data.ItemFileWriteStore({url:'../_data/countries.json'});
@@ -43,7 +43,7 @@
 			myTree = new dijit.Tree({
 				id: "myTree",
 				model: myModel,
-				dndController: "dijit._tree.dndSource" 
+				dndController: "dijit.tree.dndSource" 
 			});
 			dojo.byId("container").appendChild(myTree.domNode);
 			myTree.startup();

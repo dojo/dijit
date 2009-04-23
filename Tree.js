@@ -440,7 +440,7 @@ dojo.declare(
 	
 	// dndController: [protected] String
 	//		Class name to use as as the dnd controller.  Specifying this class enables DnD.
-	//		Generally you should specify this as "dijit._tree.dndSource".
+	//		Generally you should specify this as "dijit.tree.dndSource".
 	dndController: null,
 
 	// parameters to pull off of the tree and pass on to the dndController as its params
@@ -449,17 +449,17 @@ dojo.declare(
 	//declare the above items so they can be pulled from the tree's markup
 
 	// onDndDrop: [protected] Function
-	//		Parameter to dndController, see `dijit._tree.dndSource.onDndDrop`.
+	//		Parameter to dndController, see `dijit.tree.dndSource.onDndDrop`.
 	//		Generally this doesn't need to be set.
 	onDndDrop: null,
 
 	// itemCreator: [protected] Function
-	//		Parameter to dndController, see `dijit._tree.dndSource.itemCreator`.
+	//		Parameter to dndController, see `dijit.tree.dndSource.itemCreator`.
 	//		Generally this doesn't need to be set.
 	itemCreator: null,
 
 	// onDndCancel: [protected] Function
-	//		Parameter to dndController, see `dijit._tree.dndSource.onDndCancel`.
+	//		Parameter to dndController, see `dijit.tree.dndSource.onDndCancel`.
 	//		Generally this doesn't need to be set.
 	onDndCancel: null,
 
@@ -490,7 +490,7 @@ dojo.declare(
 		// target: DOMNode
 		//		The dijitTreeRoot DOM node inside of the TreeNode that we are dropping on to
 		//		Use dijit.getEnclosingWidget(target) to get the TreeNode.
-		// source: dijit._tree.dndSource
+		// source: dijit.tree.dndSource
 		//		The (set of) nodes we are dropping
 		// position: String
 		//		"over", "before", or "after"

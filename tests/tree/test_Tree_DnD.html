@@ -26,7 +26,7 @@
 		dojo.require("dojo.data.ItemFileWriteStore");
 		dojo.require("dijit.Tree");
 		dojo.require("dijit.tree.TreeStoreModel");
-		dojo.require("dijit._tree.dndSource");
+		dojo.require("dijit.tree.dndSource");
 		dojo.require("dijit.Menu");
 		dojo.require("dijit.form.Button");
 
@@ -184,7 +184,7 @@
 			<div dojoType="dijit.tree.TreeStoreModel" jsId="catModel"
 				store="catStore" query="{id: '0'}"></div>
 			<div class="container" dojoType="dijit.Tree" id="collectionsTree" model="catModel"
-				getLabel="catTreeCustomLabel"  dndController="dijit._tree.dndSource" betweenThreshold="5"
+				getLabel="catTreeCustomLabel"  dndController="dijit.tree.dndSource" betweenThreshold="5"
 				checkAcceptance="dndAccept" checkItemAcceptance="collectionTreeCheckItemAcceptance" getIconClass="getIcon"></div>
 		</td>
 		<td>
@@ -198,7 +198,7 @@
 				store="catStore" query="{id: '0'}" childrenAttrs="items, children"></div>
 			<div class="container" dojoType="dijit.Tree" id="itemTree"
 				model="itemModel"
-				dndController="dijit._tree.dndSource" checkAcceptance="dndAccept" checkItemAcceptance="itemTreeCheckItemAcceptance"
+				dndController="dijit.tree.dndSource" checkAcceptance="dndAccept" checkItemAcceptance="itemTreeCheckItemAcceptance"
 				dragThreshold="8"
 				getIconClass="getIcon"></div> 
 		</td>
