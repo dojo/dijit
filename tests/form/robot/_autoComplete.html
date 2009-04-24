@@ -203,10 +203,13 @@
 						doh.is(isComboBox ? "California" : "CA", dijit.byId("setvaluetest").attr("value"), "state1 value");
 						doh.is("not fired yet!", dojo.byId("oc1").value, "state1 onChange hasn't fired");
 
-						// TODO: neither of these work on IE, not sure why, maybe because
-						// a name is specified but not an id?
-						//doh.is(isComboBox ? "California" : "CA", dojo.doc.getElementsByName("state2")[0].value, "state2 submit value");
-						//doh.is(isComboBox ? "California" : "CA", dojo.query("input[name=state2]")[0].value, "state2 dojo.query value");
+						// Test that dojo.query() finds hidden field, see #8660
+						var elems = dojo.doc.getElementsByName("state2");
+						doh.is(1, elems.length, "exactly one node with name=state2");
+						doh.is(isComboBox ? "California" : "CA", elems[0].value, "state2 submit value");
+						var qelems = dojo.query("input[name=state2]");
+						doh.is(1, qelems.length, "dojo.query() returns exactly one node with name=state2");
+						doh.is(isComboBox ? "California" : "CA", qelems[0].value, "state2 dojo.query value");
 
 						doh.is(1, dojo.query("input[name=state3]").length,
 							"Just one input inside of filteringSelect/combobox w/name specified");
