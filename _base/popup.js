@@ -103,7 +103,11 @@ dijit.popup.__OpenArgs = function(){
 		//		(fired from _base/focus.js) to know that focus has moved somewhere else and thus the popup should be closed.
 
 		var widget = args.popup,
-			orient = args.orient || {'BL':'TL', 'TL':'BL'},
+			orient = args.orient || (
+				dojo._isBodyLtr() ?
+				{'BL':'TL', 'BR':'TR', 'TL':'BL', 'TR':'BR'} :
+				{'BR':'TR', 'BL':'TL', 'TR':'BR', 'TL':'BL'}
+			),
 			around = args.around,
 			id = (args.around && args.around.id) ? (args.around.id+"_dropdown") : ("popup_"+idGen++);
 
