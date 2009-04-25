@@ -7,7 +7,7 @@ dojo.require("dijit._Templated");
 dojo.require("dijit.layout.StackContainer");
 dojo.require("dijit.layout.ContentPane");
 
-dojo.require("dijit.layout.AccordionPane");	// for back compat
+dojo.require("dijit.layout.AccordionPane");	// for back compat, remove for 2.0
 
 dojo.declare(
 	"dijit.layout.AccordionContainer",
@@ -39,7 +39,7 @@ dojo.declare(
 		_verticalSpace: 0,
 
 		baseClass: "dijitAccordionContainer",
-		
+
 		postCreate: function(){
 			this.domNode.style.overflow = "hidden";
 			this.inherited(arguments); 
@@ -108,6 +108,13 @@ dojo.declare(
 				id: child.id + "_button",
 				parent: this
 			});
+
+			child._accordionConnectHandle = this.connect(child, 'attr', function(name, value){
+				if(arguments.length == 2 && name == 'title'){
+					child._buttonWidget.attr('title', value);
+				}
+			});
+
 			dojo.place(child._buttonWidget.domNode, child.domNode, "before");
 
 			this.inherited(arguments);
@@ -115,7 +122,12 @@ dojo.declare(
 
 		removeChild: function(child){
 			// Overrides _LayoutWidget.removeChild().
+			this.disconnect(child._accordionConnectHandle);
+			delete child._accordionConnectHandle;
+
 			child._buttonWidget.destroy();
+			delete child._buttonWidget;
+
 			this.inherited(arguments);
 		},
 
