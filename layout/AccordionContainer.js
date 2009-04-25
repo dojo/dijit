@@ -29,6 +29,10 @@ dojo.declare(
 		//		Amount of time (in ms) it takes to slide panes
 		duration: dijit.defaultDuration,
 
+		// buttonWidget: [const] String
+		//		The name of the widget used to display the title of each pane
+		buttonWidget: "dijit.layout._AccordionButton",
+		
 		// _verticalSpace: Number
 		//		Pixels of space available for the open pane
 		//		(my content box size minus the cumulative size of all the title bars)
@@ -97,7 +101,8 @@ dojo.declare(
 			// Setup clickable title to sit above the child widget,
 			// and stash pointer to it inside the widget itself.
 
-			child._buttonWidget = new dijit.layout._AccordionButton({
+			var cls = dojo.getObject(this.buttonWidget);
+			child._buttonWidget = new cls({
 				contentWidget: child,
 				title: child.title,
 				id: child.id + "_button",
