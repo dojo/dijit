@@ -65,19 +65,46 @@ dojo.declare("dijit.layout._TabButton",
 	scrollOnFocus: false,
 
 	postCreate: function(){
-		if(this.closeButton){
-			dojo.addClass(this.innerDiv, "dijitClosable");
+		this.inherited(arguments); 
+		dojo.setSelectable(this.containerNode, false);
+	},
+
+	_setCloseButtonAttr: function(disp){
+		this.closeButton = disp;
+		dojo.toggleClass(this.innerDiv, "dijitClosable", disp);
+		this.closeNode.style.display = disp ? "" : "none";		
+		if(disp){
 			var _nlsResources = dojo.i18n.getLocalization("dijit", "common");
 			if(this.closeNode){
 				dojo.attr(this.closeNode,"title", _nlsResources.itemClose);
 				// IE needs title set directly on image
 				dojo.attr(this.closeIcon,"title", _nlsResources.itemClose);
 			}
+			// add context menu onto title button
+			var _nlsResources = dojo.i18n.getLocalization("dijit", "common");
+			this._closeMenu = new dijit.Menu({
+				id: this.id+"_Menu",
+				targetNodeIds: [this.domNode]
+			});
+
+			this._closeMenu.addChild(new dijit.MenuItem({
+				label: _nlsResources.itemClose,
+				onClick: dojo.hitch(this, "onClickCloseButton")
+			}));
 		}else{
-			this.closeNode.style.display="none";		
+			if(this._closeMenu){
+				this._closeMenu.destroyRecursive();
+				delete this._closeMenu;
+			}
 		}
-		this.inherited(arguments); 
-		dojo.setSelectable(this.containerNode, false);
+	},
+
+	destroy: function(){
+		if(this._closeMenu){
+			this._closeMenu.destroyRecursive();
+			delete this._closeMenu;
+		}
+		this.inherited(arguments);
 	},
 
 	_onCloseButtonEnter: function(){
