@@ -74,18 +74,22 @@ dojo.declare(
 				var cls = dojo.getObject(this.buttonWidget);
 				var button = new cls({
 					label: page.title,
+					iconClass: page.iconClass,
 					closeButton: page.closable
 				}, refNode);
 				this.pane2handles[page] = [
 				    this.connect(page, 'attr', function(name, value){
 						if(arguments.length == 2){
 							switch(name){
-								case 'title':
-									button.attr('label', value);
-									break;
-								case 'closable':
-									button.attr('closeButton', value);
-									break;
+							case 'title':
+								button.attr('label', value);
+								break;
+							case 'iconClass':
+								button.attr('iconClass', value);
+								break;
+							case 'closable':
+								button.attr('closeButton', value);
+								break;
 							}
 						}
 					}),

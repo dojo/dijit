@@ -32,9 +32,9 @@ dojo.declare(
 	baseClass: "dijitStackContainer",
 
 /*=====
-	// selectedChildWidget: Widget
-	//		References the currently selected child widget, if any
-	//
+	// selectedChildWidget: [readonly] dijit._Widget
+	//		References the currently selected child widget, if any.
+	//		Adjust selected child with selectChild() method.
 	selectedChildWidget: null,
 =====*/
 
@@ -272,11 +272,16 @@ dojo.require("dijit.layout.StackController");
 dojo.extend(dijit._Widget, {
 	// selected: Boolean
 	//		Is this child currently selected?
+	//		Can be specified at initialization time, but then to change selected child use `dijit.layout.StackContainer.selectChild`
 	selected: false,
 
 	// closable: Boolean
 	//		True if user can close (destroy) this child, such as (for example) clicking the X on the tab.
 	closable: false,
+
+	// iconClass: String
+	//		CSS Class specifying icon to use in tab label etc. associated with this pane.
+	iconClass: "",
 
 	onClose: function(){
 		// summary:

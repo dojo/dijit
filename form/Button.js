@@ -36,7 +36,7 @@ dojo.declare("dijit.form.Button",
 	showLabel: true,
 
 	// iconClass: String
-	//		Class to apply to div in button to make it display an icon
+	//		Class to apply to DOMNode in button to make it display an icon
 	iconClass: "",
 
 	// type: String
