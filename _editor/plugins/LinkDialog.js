@@ -97,8 +97,7 @@ dojo.declare("dijit._editor.plugins.LinkDialog",
 			args.refAttr = this.tag == 'img' ? 'src' : 'href';
 			//TODO: textInput should be formatted by escapeXml
 			var template = "<${tag} ${refAttr}='${urlInput}' _djrealurl='${urlInput}'" +
-				(args.tag == 'img' ? " alt='${textInput}'>" : ">${textInput}") +
-				"</${tag}>";
+				(args.tag == 'img' ? " alt='${textInput}'/>" : ">${textInput}</${tag}>");
 			this.editor.execCommand('inserthtml', dojo.string.substitute(template, args));
  		},
 
