@@ -314,9 +314,9 @@ dojo.declare(
 
 			// Create a hidden <input> node with the serialized value used for submit
 			// (as opposed to the displayed value).
-			// Use dojo._toDom() rather than dojo.create() to make dojo.query(input[name=...]) work on IE.
-			this.valueNode = dojo._toDom("<input type='hidden' name='" + this.name + "'>");
-			dojo.place(this.valueNode, this.textbox, "after");
+			// Passing in name as markup rather than calling dojo.create() with an attrs argument
+			// to make dojo.query(input[name=...]) work on IE. (see #8660)
+			this.valueNode = dojo.place("<input type='hidden' name='" + this.name + "'>", this.textbox, "after");
 		},
 
 		_setDisabledAttr: function(/*Boolean*/ value){
