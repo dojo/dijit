@@ -102,23 +102,20 @@ dojo.declare(
 			// and stash pointer to it inside the widget itself.
 
 			var cls = dojo.getObject(this.buttonWidget);
-			var button = child._buttonWidget = new cls({
+			var button = (child._buttonWidget = new cls({
 				contentWidget: child,
 				title: child.title,
 				iconClass: child.iconClass,
 				id: child.id + "_button",
 				parent: this
-			});
+			}));
 
 			child._accordionConnectHandle = this.connect(child, 'attr', function(name, value){
 				if(arguments.length == 2){
 					switch(name){
 					case 'title':
-						button.attr('title', value);
-						break;
 					case 'iconClass':
-						button.attr('iconClass', value);
-						break;
+						button.attr(name, value);
 					}
 				}
 			});
