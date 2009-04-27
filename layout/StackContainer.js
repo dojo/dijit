@@ -283,6 +283,11 @@ dojo.extend(dijit._Widget, {
 	//		CSS Class specifying icon to use in tab label etc. associated with this pane.
 	iconClass: "",
 
+	// showTitle: Boolean
+	//		Display title of pane as label in TabContainer/AccordionContainer, rather than just using
+	//		icon specified in iconClass
+	showTitle: true,
+
 	onClose: function(){
 		// summary:
 		//		Callback if someone tries to close the child, child will be closed if func returns true

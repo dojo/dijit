@@ -1,8 +1,8 @@
-<div waiRole="presentation" dojoAttachEvent='onclick:onClick,onmouseenter:_onMouse,onmouseleave:_onMouse'>
+<div waiRole="presentation" dojoAttachPoint="titleNode" dojoAttachEvent='onclick:onClick,onmouseenter:_onMouse,onmouseleave:_onMouse'>
     <div waiRole="presentation" class='dijitTabInnerDiv' dojoAttachPoint='innerDiv'>
         <div waiRole="presentation" class='dijitTabContent' dojoAttachPoint='tabContent'>
-	        <img src="${_blankGif}" alt="" dojoAttachPoint='iconNode' style="vertical-align: middle" waiRole="presentation"/>
-	        <span dojoAttachPoint='containerNode,focusNode' class='tabLabel'>${!label}</span><img class ="dijitTabButtonSpacer" src="${_blankGif}" />
+	        <img src="${_blankGif}" alt="" dojoAttachPoint='iconNode' waiRole="presentation"/>
+	        <span dojoAttachPoint='containerNode,focusNode' class='tabLabel'></span>
 	        <span class="closeButton" dojoAttachPoint='closeNode'
 	        		dojoAttachEvent='onclick: onClickCloseButton, onmouseenter: _onCloseButtonEnter, onmouseleave: _onCloseButtonLeave'>
 	        	<img src="${_blankGif}" alt="" dojoAttachPoint='closeIcon' class='closeImage' waiRole="presentation"/>

@@ -64,6 +64,14 @@ dojo.declare("dijit.layout._TabButton",
 	// Don't scroll the whole tab container into view when the button is focused.
 	scrollOnFocus: false,
 
+	postMixInProperties: function(){
+		// Override blank iconClass from Button to do tab height adjustment on IE6,
+		// to make sure that tabs with and w/out close icons are same height
+		if(!this.iconClass){
+			this.iconClass = "dijitTabButtonIcon";	
+		}
+	},
+
 	postCreate: function(){
 		this.inherited(arguments); 
 		dojo.setSelectable(this.containerNode, false);

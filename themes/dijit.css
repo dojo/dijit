@@ -1143,6 +1143,10 @@ img.dijitColorPaletteUnder {
 	white-space:nowrap;
 	z-index:3;
 }
+.dijitTab * {
+	/* make tab icons and close icon line up w/text */
+	vertical-align: middle;
+}
 .dijitTabChecked {
 	cursor: default;	/* because clicking will have no effect */
 }
@@ -1172,6 +1176,10 @@ img.dijitColorPaletteUnder {
 
 .dijitTabInnerDiv {
 	position:relative;
+}
+
+.dijitTab .closeButton {
+	margin-left: 1em;
 }
 
 /* images off, high-contrast mode styles */
@@ -1532,8 +1540,9 @@ img.dijitColorPaletteUnder {
 	margin-top:-.55em;
 }
 
-/* Toolbar A11y */
-.dijit_a11y .dijitButtonContents .dijitButtonText {
+/* Icon-only buttons (often in toolbars) still display the text in high-contrast mode */
+.dijit_a11y .dijitButtonContents .dijitButtonText,
+.dijit_a11y .dijitTab .tabLabel {
 	display: inline !important;
 }
 

@@ -39,10 +39,6 @@
 	position: relative;
 }
 
-.dijitTabSpacer {
-	font-size: 1px;
-}
-
 /* hovered tab */
 .nihilo .dijitTabHover {
 	color: #243C5F;
@@ -123,7 +119,13 @@
 	background: url("../images/spriteRoundedIconsSmall.gif") no-repeat -60px -15px;
 }
 
-.nihilo .dijitTab .dijitTabButtonSpacer {
+.nihilo .dijitTab .tabLabel {
+	/* make sure tabs w/close button and w/out close button are same height, even w/small (<15px) font */
+	min-height: 15px;
+	display: inline-block;
+}
+.dj_ie6 .nihilo .dijitTabButtonIcon {
+	/* because min-height doesn't work on IE6 */
 	height: 15px;
 	width: 1px;
 }

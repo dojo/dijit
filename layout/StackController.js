@@ -74,22 +74,22 @@ dojo.declare(
 				var cls = dojo.getObject(this.buttonWidget);
 				var button = new cls({
 					label: page.title,
+					showLabel: page.showTitle,
 					iconClass: page.iconClass,
 					closeButton: page.closable
 				}, refNode);
+				var map = 
 				this.pane2handles[page] = [
 				    this.connect(page, 'attr', function(name, value){
 						if(arguments.length == 2){
-							switch(name){
-							case 'title':
-								button.attr('label', value);
-								break;
-							case 'iconClass':
-								button.attr('iconClass', value);
-								break;
-							case 'closable':
-								button.attr('closeButton', value);
-								break;
+							var buttonAttr = {
+								title: 'label',
+								showTitle: 'showLabel',
+								iconClass: 'iconClass',
+								closable: 'closeButton'
+							}[name];
+							if(buttonAttr){
+								button.attr(buttonAttr, value);
 							}
 						}
 					}),
@@ -267,7 +267,7 @@ dojo.declare("dijit.layout._StackButton",
 		// StackContainer buttons are not in the tab order by default.
 		// Probably we should be calling this.startupKeyNavChildren() instead.
 		tabIndex: "-1",
-		
+
 		postCreate: function(/*Event*/ evt){
 			dijit.setWaiRole((this.focusNode || this.domNode), "tab");
 			this.inherited(arguments);

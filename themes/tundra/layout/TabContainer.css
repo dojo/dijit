@@ -51,10 +51,10 @@
 	height: 12px;
 }
 
-.tundra .dijitTab .dijitTabButtonSpacer {
+.tundra .dijitTab .tabLabel {
 	/* make sure tabs w/close button and w/out close button are same height, even w/small (<12px) font */
-	height: 12px;
-	width: 1px;
+	min-height: 12px;
+	display: inline-block;
 }
 
 /* Nested Tabs */
