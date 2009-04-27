@@ -42,10 +42,10 @@
 }
 
 .nihilo .dijitSplitterH .dijitSplitterThumb {
-	background:url("../images/splitContainerSizerH-thumb.png") no-repeat;
-	top:1px;
+	background:#8BA0BD none;
+	height:1px;
+	top:2px;
 	width:19px;
-	height:2px;
 }
 
 .nihilo .dijitSplitterV,
@@ -58,10 +58,10 @@
 }
 
 .nihilo .dijitSplitterV .dijitSplitterThumb {
-	background:url("../images/splitContainerSizerV-thumb.png") no-repeat;
-	left:1px;
+	background:#8BA0BD none;
 	height:19px;
-	width:5px;
+	left:2px;
+	width:1px;
 }
 
 /* active splitter */

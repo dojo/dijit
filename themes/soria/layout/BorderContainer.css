@@ -43,10 +43,10 @@
 }
 
 .soria .dijitSplitterH .dijitSplitterThumb {
-	background:url("../images/splitContainerSizerH-thumb.png") no-repeat;
-	top:1px;
+	background:#B0B0B0 none;
+	height:1px;
+	top:2px;
 	width:19px;
-	height:2px;
 }
 
 .soria .dijitSplitterV,
@@ -59,10 +59,10 @@
 }
 
 .soria .dijitSplitterV .dijitSplitterThumb {
-	background:url("../images/splitContainerSizerV-thumb.png") no-repeat;
-	left:1px;
+	background:#B0B0B0 none;
 	height:19px;
-	width:5px;
+	left:2px;
+	width:1px;
 }
 
 /* active splitter */
