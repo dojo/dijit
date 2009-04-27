@@ -95,10 +95,10 @@ dojo.declare("dijit.form.Button",
 	},
 
 	_fillContent: function(/*DomNode*/ source){
-		// Overrides _Templated._fillcContent().
+		// Overrides _Templated._fillContent().
 		// If button label is specified as srcNodeRef.innerHTML rather than
 		// this.params.label, handle it here.
-		if(source && !("label" in this.params)){
+		if(source && (!this.params || !("label" in this.params))){
 			this.attr('label', source.innerHTML);
 		}
 	},
