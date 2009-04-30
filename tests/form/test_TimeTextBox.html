@@ -126,12 +126,12 @@
 	<div class="dojoTitlePaneLabel">
 		<label for="q6">Initially empty time text box</label>
 		<span class="noticeMessage">TimeTextBox class,
-			Attributes: {formatLength:'medium'}</span>
+			Attributes: {formatLength:'medium',min:'T00:00:00',max:'T12:00:00'}</span>
 	</div>
 	<div class="testExample">
 		<input id="q6" type="text" name="time6"
 			dojoType="dijit.form.TimeTextBox"
-			constraints="{formatLength:'medium'}"
+			constraints="{formatLength:'medium',min:'T00:00:00',max:'T12:00:00'}"
 			required="true"
 			onChange="dojo.byId('oc6').value=arguments[0]"
 			invalidMessage="Invalid time." />
