@@ -230,7 +230,7 @@ dojo.declare(
 			if(p && this._opened && p.handleKey){
 				if(p.handleKey(e) === false){ return; }
 			}
-			if(this._opened && e.charOrCode == dk.ESCAPE && !e.shiftKey && !e.ctrlKey && !e.altKey){
+			if(this._opened && e.charOrCode == dk.ESCAPE && !(e.shiftKey || e.ctrlKey || e.altKey || e.metaKey)){
 				this._close();
 				dojo.stopEvent(e);
 			}else if(!this._opened && e.charOrCode == dk.DOWN_ARROW){

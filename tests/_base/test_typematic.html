@@ -35,8 +35,10 @@
 			var mouseNode = dojo.byId('typematicButton');
 			dijit.typematic.addKeyListener(keyNode,
 				{
-					charOrCode:dojo.keys.F10,
-					ctrlKey:true
+					charOrCode:dojo.keys.F11,
+					shiftKey:false,
+					metaKey:false,
+					ctrlKey:true // ALT is optional since its unspecified
 				},
 				this, typematicCallBack, 200, 200);
 			dijit.typematic.addMouseListener(mouseNode,
@@ -48,7 +50,7 @@
 <body class="tundra">
 
 	<h2>Dijit typematic tests</h2>
-	Press and hold the <b>ctrl+F10</b> keys to see a's typed (constant rate) in the input field,<br>
+	Press and hold the <b>ctrl+F11</b> keys (ALT optional, but not Shift or Meta) to see a's typed (constant rate) in the input field,<br>
 	or left-mouse click the button and hold down to see b's typed (increasing rate) in the input field.<br>
 	<input id="typematicInput" size="500"><button id="typematicButton">to B or not to B</button>
 

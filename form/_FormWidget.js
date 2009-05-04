@@ -425,7 +425,7 @@ dojo.declare("dijit.form._FormValueWidget", dijit.form._FormWidget,
 	},
 
 	_onKeyDown: function(e){
-		if(e.keyCode == dojo.keys.ESCAPE && !e.ctrlKey && !e.altKey){
+		if(e.keyCode == dojo.keys.ESCAPE && !(e.ctrlKey || e.altKey || e.metaKey)){
 			var te;
 			if(dojo.isIE){ 
 				e.preventDefault(); // default behavior needs to be stopped here since keypress is too late

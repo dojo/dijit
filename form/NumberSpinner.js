@@ -50,7 +50,7 @@ dojo.declare("dijit.form.NumberSpinner",
 	},
 	
 	_onKeyPress: function(e){
-		if((e.charOrCode == dojo.keys.HOME || e.charOrCode == dojo.keys.END) && !e.ctrlKey && !e.altKey){
+		if((e.charOrCode == dojo.keys.HOME || e.charOrCode == dojo.keys.END) && !(e.ctrlKey || e.altKey || e.metaKey)){
 			var value = this.constraints[(e.charOrCode == dojo.keys.HOME ? "min" : "max")];
 			if(value){
 				this._setValueAttr(value,true);

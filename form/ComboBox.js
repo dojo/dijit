@@ -153,7 +153,7 @@ dojo.declare(
 			//		Handles keyboard events
 			var key = evt.charOrCode;
 			//except for cutting/pasting case - ctrl + x/v
-			if(evt.altKey || (evt.ctrlKey && (key != 'x' && key != 'v')) || evt.key == dojo.keys.SHIFT){
+			if(evt.altKey || ((evt.ctrlKey||evt.metaKey) && (key != 'x' && key != 'v')) || evt.key == dojo.keys.SHIFT){
 				return; // throw out weird key combinations and spurious events
 			}
 			var doSearch = false;
