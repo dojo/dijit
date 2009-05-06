@@ -82,7 +82,24 @@ dojo.declare("dijit._Templated",
 			this._attachTemplateNodes(node);
 
 			if(this.widgetsInTemplate){
+				//Make sure dojoType is used for parsing widgets in template.
+				//The dojo.parser.query could be changed from multiversion support.
+				var parser = dojo.parser, qry, attr;
+				if(parser._query != "[dojoType]"){
+					qry = parser._query;
+					attr = parser._attrName;
+					parser._query = "[dojoType]";
+					parser._attrName = "dojoType";
+				}
+
 				var cw = (this._supportingWidgets = dojo.parser.parse(node));
+
+				//Restore the query. 
+				if(qry){
+					parser._query = qry;
+					parser._attrName = attr;
+				}
+
 				this._attachTemplateNodes(cw, function(n,p){
 					return n[p];
 				});
