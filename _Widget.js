@@ -873,6 +873,9 @@ dojo.declare("dijit._Widget", null, {
 		//		event which triggers on a click or space-up, enter-down in IE
 		//		or enter press in FF (since often can't cancel enter onkeydown
 		//		in FF)
+		// returns:
+		//		A handle that can be passed to `disconnect` in order to disconnect before
+		//		the widget is destroyed.
 		// example:
 		//	|	var btn = new dijit.form.Button();
 		//	|	// when foo.bar() is called, call the listener we're going to
@@ -919,15 +922,14 @@ dojo.declare("dijit._Widget", null, {
 		}
 		handles.push(dc(obj, event, this, method));
 
-		// return handles for FormElement and ComboBox
 		this._connects.push(handles);
-		return handles;
+		return handles;		// _Widget.Handle
 	},
 
-	disconnect: function(/*Object*/ handles){
+	disconnect: function(/* _Widget.Handle */ handles){
 		// summary:
-		//		Disconnects handle created by this.connect.
-		//		Also removes handle from this widget's list of connects
+		//		Disconnects handle created by `connect`.
+		//		Also removes handle from this widget's list of connects.
 		// tags:
 		//		protected
 		for(var i=0; i<this._connects.length; i++){
