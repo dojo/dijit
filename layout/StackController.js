@@ -73,6 +73,7 @@ dojo.declare(
 				// create an instance of the button widget
 				var cls = dojo.getObject(this.buttonWidget);
 				var button = new cls({
+					id: this.id + "_" + page.id,
 					label: page.title,
 					showLabel: page.showTitle,
 					iconClass: page.iconClass,
