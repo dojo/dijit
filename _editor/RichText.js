@@ -1756,14 +1756,6 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 		return changed; // Boolean: whether the content has been modified
 	},
 
-	destroyRendering: function(/*Boolean*/ preserveDom){
-		// Overrides _Widget.destroyRendering()
-		// TODO: should we remove this?  This stub method was cryptically added in [3518];
-		// it effectively preserves the DOM, regardless of the preserveDom setting...
-		// which violates the _Widget.destroy() contract.
-		this.inherited(arguments, [true]);
-	 },
-
 	destroy: function(){
 		if(!this.isClosed){ this.close(false); }
 		this.inherited(arguments);
