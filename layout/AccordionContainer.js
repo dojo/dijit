@@ -139,8 +139,8 @@ dojo.declare(
 		getChildren: function(){
 			// Overrides _Container.getChildren() to ignore titles and only look at panes.
 			return dojo.filter(this.inherited(arguments), function(child){
-				return child.declaredClass != "dijit.layout._AccordionButton";
-			});
+				return child.declaredClass != this.buttonWidget;
+			}, this);
 		},
 
 		destroy: function(){
