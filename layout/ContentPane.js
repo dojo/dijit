@@ -15,8 +15,9 @@ dojo.declare(
 	// summary:
 	//		A widget that acts as a container for mixed HTML and widgets, and includes an Ajax interface
 	// description:
-	//		A widget that can be used as a standalone widget
-	//		or as a baseclass for other widgets
+	//		A widget that can be used as a stand alone widget
+	//		or as a base class for other widgets.
+	//
 	//		Handles replacement of document fragment using either external uri or javascript
 	//		generated markup or DOM content, instantiating widgets within that content.
 	//		Don't confuse it with an iframe, it only needs/wants document fragments.
@@ -106,6 +107,15 @@ dojo.declare(
 	//		and if getParent() returns false because !parent.isContainer,
 	//		then they resize themselves on initialization.
 	isContainer: true,
+
+	// onLoadDeferred: [readonly] dojo.Deferred
+	//		This is the `dojo.Deferred` returned by attr('href', ...) and refresh().
+	//		Calling onLoadDeferred.addCallback() or addErrback() registers your
+	//		callback to be called only once, when the prior attr('href', ...) call or
+	//		the initial href parameter to the constructor finishes loading.
+	//
+	//		This is different than an onLoad() handler which gets called any time any href is loaded.
+	onLoadDeferred: null,
 
 	postMixInProperties: function(){
 		this.inherited(arguments);
@@ -218,18 +228,21 @@ dojo.declare(
 		// Cancel any in-flight requests (an attr('href') will cancel any in-flight attr('href', ...))
 		this.cancel();
 
+		this.onLoadDeferred = new dojo.Deferred(dojo.hitch(this, "cancel"));
+
 		this.href = href;
 
 		// _setHrefAttr() is called during creation and by the user, after creation.
 		// only in the second case do we actually load the URL; otherwise it's done in startup()
 		if(this._created && (this.preload || this._isShown())){
-			// we return result of refresh() here to avoid code dup. in dojox.layout.ContentPane
-			return this.refresh();
+			this._load();
 		}else{
 			// Set flag to indicate that href needs to be loaded the next time the
 			// ContentPane is made visible
 			this._hrefChanged = true;
 		}
+		
+		return this.onLoadDeferred;		// dojo.Deferred
 	},
 
 	setContent: function(/*String|DomNode|Nodelist*/data){
@@ -255,9 +268,15 @@ dojo.declare(
 		// Cancel any in-flight requests (an attr('content') will cancel any in-flight attr('href', ...))
 		this.cancel();
 
+		// Even though user is just setting content directly, still need to define an onLoadDeferred
+		// because the _onLoadHandler() handler is still getting called from setContent()
+		this.onLoadDeferred = new dojo.Deferred(dojo.hitch(this, "cancel"));
+
 		this._setContent(data || "");
 
 		this._isDownloaded = false; // mark that content is from a attr('content') not an attr('href')
+		
+		return this.onLoadDeferred; 	// dojo.Deferred
 	},
 	_getContentAttr: function(){
 		// summary:
@@ -272,6 +291,8 @@ dojo.declare(
 			this._xhrDfd.cancel();
 		}
 		delete this._xhrDfd; // garbage collect
+		
+		this.onLoadDeferred = null;
 	},
 
 	uninitialize: function(){
@@ -378,6 +399,15 @@ dojo.declare(
 		// Cancel possible prior in-flight request
 		this.cancel();
 
+		this.onLoadDeferred = new dojo.Deferred(dojo.hitch(this, "cancel"));
+		this._load();
+		return this.onLoadDeferred;
+	},
+
+	_load: function(){
+		// summary:
+		//		Load/reload the href specified in this.href
+
 		// display loading message
 		this._setContent(this.onDownloadStart(), true);
 
@@ -423,6 +453,7 @@ dojo.declare(
 		//		This is called whenever new content is being loaded
 		this.isLoaded = true;
 		try{
+			this.onLoadDeferred.callback(data);
 			this.onLoad(data);			
 		}catch(e){
 			console.error('Error '+this.widgetId+' running custom onLoad code: ' + e.message);
@@ -542,6 +573,8 @@ dojo.declare(
 	},
 
 	_onError: function(type, err, consoleText){
+		this.onLoadDeferred.errback(err);
+	
 		// shows user the string that is returned by on[type]Error
 		// overide on[type]Error and return your own string to customize
 		var errText = this['on' + type + 'Error'].call(this, err);
