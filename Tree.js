@@ -723,15 +723,15 @@ dojo.declare(
 				this._keyHandlerMap = map;
 			}
 			if(this._keyHandlerMap[key]){
-				this[this._keyHandlerMap[key]]( { node: treeNode, item: treeNode.item } );	
+				this[this._keyHandlerMap[key]]( { node: treeNode, item: treeNode.item, evt: e } );	
 				dojo.stopEvent(e);
 			}
 		}
 	},
 
-	_onEnterKey: function(/*Object*/ message){
-		this._publish("execute", { item: message.item, node: message.node} );
-		this.onClick(message.item, message.node);
+	_onEnterKey: function(/*Object*/ message, /*Event*/ evt){
+		this._publish("execute", { item: message.item, node: message.node } );
+		this.onClick(message.item, message.node, evt);
 	},
 
 	_onDownArrow: function(/*Object*/ message){
@@ -867,8 +867,8 @@ dojo.declare(
 				this._onExpandoClick({node:nodeWidget});
 			}
 		}else{
-			this._publish("execute", { item: nodeWidget.item, node: nodeWidget} );
-			this.onClick(nodeWidget.item, nodeWidget);
+			this._publish("execute", { item: nodeWidget.item, node: nodeWidget, evt: e } );
+			this.onClick(nodeWidget.item, nodeWidget, e);
 			this.focusNode(nodeWidget);
 		}
 		dojo.stopEvent(e);
@@ -891,8 +891,8 @@ dojo.declare(
 				this._onExpandoClick({node:nodeWidget});
 			}
 		}else{
-			this._publish("execute", { item: nodeWidget.item, node: nodeWidget} );
-			this.onDblClick(nodeWidget.item, nodeWidget);
+			this._publish("execute", { item: nodeWidget.item, node: nodeWidget, evt: e } );
+			this.onDblClick(nodeWidget.item, nodeWidget, e);
 			this.focusNode(nodeWidget);
 		}
 		dojo.stopEvent(e);
@@ -915,13 +915,13 @@ dojo.declare(
 		}
 	},
 
-	onClick: function(/* dojo.data */ item, /*TreeNode*/ node){
+	onClick: function(/* dojo.data */ item, /*TreeNode*/ node, /*Event*/ evt){
 		// summary:
 		//		Callback when a tree node is clicked
 		// tags:
 		//		callback
 	},
-	onDblClick: function(/* dojo.data */ item, /*TreeNode*/ node){
+	onDblClick: function(/* dojo.data */ item, /*TreeNode*/ node, /*Event*/ evt){
 		// summary:
 		//		Callback when a tree node is double-clicked
 		// tags:
