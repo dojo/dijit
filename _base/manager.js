@@ -67,7 +67,7 @@ dojo.declare("dijit.WidgetSet", null, {
 
 		var i = 0, id;
 		for(id in this._hash){
-			func.call(thisObj || d.global, this._hash[id], i++, this._hash);
+			func.call(thisObj || dojo.global, this._hash[id], i++, this._hash);
 		}
 		return this;
 	},
