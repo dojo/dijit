@@ -59,7 +59,7 @@ dojo.declare(
 
 		if(this.isExpandable){
 			dijit.setWaiState(this.labelNode, "expanded", this.isExpanded);
-		}		
+		}
 	},
 
 	_setIndentAttr: function(indent){
@@ -71,8 +71,7 @@ dojo.declare(
 		this.indent = indent;
 
 		// Math.max() is to prevent negative padding on hidden root node (when indent == -1)
-		// 19 is the width of the expandoIcon (TODO: get this from CSS instead of hardcoding)
-		var pixels = (Math.max(indent, 0) * 19) + "px";	
+		var pixels = (Math.max(indent, 0) * this.tree._nodePixelIndent) + "px";	
 
 		dojo.style(this.domNode, "backgroundPosition",  pixels + " 0px");
 		dojo.style(this.rowNode, dojo._isBodyLtr() ? "paddingLeft" : "paddingRight", pixels);
@@ -513,6 +512,12 @@ dojo.declare(
 	//		pixels from the top edge, dropping the dragged node will make it
 	//		the target node's previous sibling rather than the target node's child.
 	betweenThreshold: 0,
+
+	// _nodePixelIndent: Integer
+	//		Number of pixels to indent tree nodes (relative to parent node).
+	//		Default is 19 but can be overridden by setting CSS class dijitTreeIndent
+	//		and calling resize() or startup() on tree after it's in the DOM.
+	_nodePixelIndent: 19,
 
 	_publish: function(/*String*/ topicName, /*Object*/ message){
 		// summary:
@@ -1174,6 +1179,18 @@ dojo.declare(
 		// A tree is treated as a leaf, not as a node with children (like a grid),
 		// but defining destroyRecursive for back-compat.
 		this.destroy();
+	},
+
+	resize: function(){
+		// The only JS sizing involved w/tree is the indentation, which is specified
+		// in CSS and read in through this dummy indentDetector node (tree must be
+		// visible and attached to the DOM to read this)
+		this._nodePixelIndent = dojo.marginBox(this.tree.indentDetector).w;
+		
+		if(this.tree.rootNode){
+			// If tree has already loaded, then reset indent for all the nodes
+			this.tree.rootNode.attr('indent', 0);
+		}
 	},
 
 	_createTreeNode: function(/*Object*/ args){

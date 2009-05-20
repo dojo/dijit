@@ -1242,6 +1242,11 @@ img.dijitColorPaletteUnder {
 
 /* Tree */
 
+.dijitTreeIndent {
+	/* amount to indent each tree node (relative to parent node) */
+	width: 19px;
+}
+
 .dijitTreeRow, .dijitTreeContent {
 	white-space: nowrap;
 }
