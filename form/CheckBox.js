@@ -141,7 +141,7 @@ dojo.declare(
 				return false;
 			}
 			return this.inherited(arguments);
-		},
+		}
 	}
 );
 
