@@ -1189,7 +1189,7 @@ dojo.declare(
 		
 		if(this.tree.rootNode){
 			// If tree has already loaded, then reset indent for all the nodes
-			this.tree.rootNode.attr('indent', 0);
+			this.tree.rootNode.attr('indent', this.showRoot ? 0 : -1);
 		}
 	},
 
