@@ -44,6 +44,23 @@ dojo.declare(
 		//		attr('value', boolean) will change the checked state.
 		value: "on",
 
+		// readOnly: Boolean
+		//		Should this widget respond to user input?
+		//		In markup, this is specified as "readOnly".
+		//		Similar to disabled except readOnly form values are submitted.
+		readOnly: false,
+
+		attributeMap: dojo.delegate(dijit.form.ToggleButton.prototype.attributeMap, {
+			readOnly: "focusNode"
+		}),
+
+		_setReadOnlyAttr: function(/*Boolean*/ value){
+			this.readOnly = value;
+			dojo.attr(this.focusNode, 'readOnly', value);
+			dijit.setWaiState(this.focusNode, "readonly", value);
+			this._setStateClass();
+		},
+
 		_setValueAttr: function(/*String or Boolean*/ newValue){
 			// summary:
 			//		Handler for value= attribute to constructor, and also calls to
@@ -114,7 +131,17 @@ dojo.declare(
 			if(this.id){
 				dojo.query("label[for='"+this.id+"']").removeClass("dijitFocusedLabel");
 			}
-		}
+		},
+
+		_onClick: function(/*Event*/ e){
+			// summary:
+			//		Internal function to handle click actions - need to check
+			//		readOnly, since button no longer does that check.
+			if(this.readOnly){
+				return false;
+			}
+			return this.inherited(arguments);
+		},
 	}
 );
 
