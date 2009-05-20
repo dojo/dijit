@@ -107,7 +107,6 @@ dojo.declare(
 			var daysInMonth = this.dateFuncObj.getDaysInMonth(month);
 			var daysInPreviousMonth = this.dateFuncObj.getDaysInMonth(this.dateFuncObj.add(month, "month", -1));
 			var today = new this.dateClassObj();
-			var selected = this.value;
 
 			var dayOffset = dojo.cldr.supplemental.getFirstDayOfWeek(this.lang);
 			if(dayOffset > firstDay){ dayOffset -= 7; }
@@ -140,7 +139,7 @@ dojo.declare(
 					clazz = "dijitCalendarCurrentDate " + clazz;
 				}
 
-				if(!this.dateFuncObj.compare(date, selected, "date")){
+				if(this._isSelectedDate(date, this.lang)){
 					clazz = "dijitCalendarSelectedDate " + clazz;
 				}
 
@@ -306,6 +305,15 @@ dojo.declare(
 		onChange: function(/*Date*/ date){
 			// summary:
 			//		Called only when the selected date has changed
+		},
+
+		_isSelectedDate: function(/*Date*/ dateObject, /*String?*/ locale){
+			// summary:
+			//		Extension point so developers can subclass Calendar to
+			//		support multiple (concurrently) selected dates
+			// tags:
+			//		protected extension
+			return !this.dateFuncObj.compare(dateObject, this.value, "date")
 		},
 
 		isDisabledDate: function(/*Date*/ dateObject, /*String?*/ locale){
