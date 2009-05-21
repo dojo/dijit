@@ -24,7 +24,7 @@ dijit._editor.getNodeHtml=function(/* DomNode */node){
 				var s = node.outerHTML;
 				s = s.substr(0, s.indexOf('>'))
 					.replace(/(['"])[^"']*\1/g, ''); //to make the following regexp safe
-				var reg = /([^\s=]+)=/g;
+				var reg = /(\b\w+)\s?=/g;
 				var m, key;
 				while((m = reg.exec(s))){
 					key = m[1];
@@ -46,7 +46,9 @@ dijit._editor.getNodeHtml=function(/* DomNode */node){
 							default:
 								val = node.getAttribute(key);
 						}
-						attrarray.push([key, val.toString()]);
+						if(val != null){
+							attrarray.push([key, val.toString()]);
+						}
 					}
 				}
 			}else{
