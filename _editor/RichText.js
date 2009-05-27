@@ -495,7 +495,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 			"\tmin-height:", this.minHeight, ";",
 			"\tline-height:", lineHeight,
 			"}",
-			"p{ margin: 1em 0 !important; }",
+			"p{ margin: 1em 0; }",
 			(this.height ? // height:auto undoes the height:100%
 				"" : "body,html{overflow-y:hidden;/*for IE*/} body > div {overflow-x:auto;/*FF:horizontal scrollbar*/ overflow-y:hidden;/*safari*/ min-height:"+this.minHeight+";/*safari*/}"
 			),
