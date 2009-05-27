@@ -41,13 +41,9 @@
             <p>
             	This is a test case for <a href="http://bugs.dojotoolkit.org/ticket/8966">#8966</a>.
             </p>
-            <p>
-            	TODO: make this an automated test case.  Form.html starts out as valid but
-            	we need a test where the form is initially invalid, with multiple invalid fields.
-            </p>
-            <input dojoType="dijit.form.ValidationTextBox" required="true" name="field1" />Foo*
+            <input dojoType="dijit.form.ValidationTextBox" required="true" name="field1" id="field1" />Foo*
             <br/>
-            <input dojoType="dijit.form.ValidationTextBox" required="true" name="field1" />Bar*
+            <input dojoType="dijit.form.ValidationTextBox" required="true" name="field2" id="field2" />Bar*
             <br/>
             <button dojoType="dijit.form.Button" id="submitBtn" type="submit">
                 Submit
