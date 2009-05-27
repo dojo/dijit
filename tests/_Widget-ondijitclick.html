@@ -58,5 +58,15 @@
 	</div>
 	<textarea id="textarea">hello world</textarea>
 
+	<br>
+	<button id="button2" style="margin-top: 2em;"
+			onClick="dojo.byId('third').focus();">
+		click me using space or enter, to focus ondijitclick widget below
+	</button>
+	<div id="third" dojoType="dijit.WidgetWithOndijitclick" tabIndex=0 style="margin-top: 0px;"
+			onfocus="console.log('onfocus on third'); window.onDijitClickFocus = true;"
+			onClick="console.log('onclick on third'); window.spuriousOnDijitClick = true;">
+		clicking the button above shouldn't cause my ondijitclick handler to fire
+	</div>
 </body>
 </html>
