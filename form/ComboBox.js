@@ -275,6 +275,11 @@ dojo.declare(
 			}
 			if(this.searchTimer){
 				clearTimeout(this.searchTimer);
+				this.searchTimer = null;
+			}
+			if(this._fetchHandle){
+				if(this._fetchHandle.abort){ this._fetchHandle.abort(); }
+				this._fetchHandle = null;
 			}
 			if(doSearch){
 				// need to wait a tad before start search so that the event
@@ -315,6 +320,7 @@ dojo.declare(
 		},
 
 		_openResultList: function(/*Object*/ results, /*Object*/ dataObject){
+			this._fetchHandle = null;
 			if(	this.disabled || 
 				this.readOnly || 
 				(dataObject.query[this.searchAttr] != this._lastQuery)
@@ -547,6 +553,7 @@ dojo.declare(
 			// otherwise, if the user types and the last query returns before the timeout,
 			// _lastQuery won't be set and their input gets rewritten
 			this.searchTimer=setTimeout(dojo.hitch(this, function(query, _this){
+				this.searchTimer = null;
 				var fetch = {
 					queryOptions: {
 						ignoreCase: this.ignoreCase, 
@@ -556,6 +563,7 @@ dojo.declare(
 					onBegin: dojo.hitch(this, "_setMaxOptions"),
 					onComplete: dojo.hitch(this, "_openResultList"), 
 					onError: function(errText){
+						_this._fetchHandle = null;
 						console.error('dijit.form.ComboBox: ' + errText);
 						dojo.hitch(_this, "_hideResultList")();
 					},
@@ -563,7 +571,7 @@ dojo.declare(
 					count: this.pageSize
 				};
 				dojo.mixin(fetch, _this.fetchProperties);
-				var dataObject = _this.store.fetch(fetch);
+				this._fetchHandle = _this.store.fetch(fetch);
 
 				var nextSearch = function(dataObject, direction){
 					dataObject.start += dataObject.count*direction;
@@ -571,9 +579,9 @@ dojo.declare(
 					//		tell callback the direction of the paging so the screen
 					//		reader knows which menu option to shout
 					dataObject.direction = direction;
-					this.store.fetch(dataObject);
+					this._fetchHandle = this.store.fetch(dataObject);
 				};
-				this._nextSearch = this._popupWidget.onPage = dojo.hitch(this, nextSearch, dataObject);
+				this._nextSearch = this._popupWidget.onPage = dojo.hitch(this, nextSearch, this._fetchHandle);
 			}, query, this), this.searchDelay);
 		},
 
