@@ -53,7 +53,7 @@ dojo.declare("dijit.form.SimpleTextarea",
 	postCreate: function(){
 		this.inherited(arguments);
 		if(dojo.isIE && this.cols){ // attribute selectors is not supported in IE6
-			dojo.addClass(this.domNode, "dijitTextAreaCols");
+			dojo.addClass(this.textbox, "dijitTextAreaCols");
 		}
 	},
 

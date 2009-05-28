@@ -43,7 +43,7 @@ dojo.declare(
 		this.inherited(arguments);
 		if(this._busyResizing){ return; }
 		this._busyResizing = true;
-		var textarea = this.domNode;
+		var textarea = this.textbox;
 		textarea.scrollTop = 0;
 		var newH = this._getHeight(textarea);
 		if(newH > 0 && textarea.style.height != newH){
@@ -64,7 +64,7 @@ dojo.declare(
 		// grow paddingBottom to see if scrollHeight shrinks (when it is unneccesarily big)
 		if((dojo.isMoz || dojo.isSafari/*NOT isWebKit*/) && !this._busyResizing){
 			this._busyResizing = true;
-			var textarea = this.domNode;
+			var textarea = this.textbox;
 			var empty = false;
 			if(textarea.value == ''){
 				textarea.value = ' '; // prevent collapse all the way back to 0
@@ -111,9 +111,9 @@ dojo.declare(
 	postCreate: function(){
 		this.inherited(arguments);
 		// tweak textarea style to reduce browser differences
-		dojo.style(this.domNode, { overflowY: 'hidden', overflowX: 'auto', boxSizing: 'border-box', MsBoxSizing: 'border-box', WebkitBoxSizing: 'border-box', MozBoxSizing: 'border-box' });
-		this.connect(this.domNode, "onscroll", this._onInput);
-		this.connect(this.domNode, "onresize", this._onInput);
+		dojo.style(this.textbox, { overflowY: 'hidden', overflowX: 'auto', boxSizing: 'border-box', MsBoxSizing: 'border-box', WebkitBoxSizing: 'border-box', MozBoxSizing: 'border-box' });
+		this.connect(this.textbox, "onscroll", this._onInput);
+		this.connect(this.textbox, "onresize", this._onInput);
 		setTimeout(dojo.hitch(this, "resize"), 0);
 	}
 });
