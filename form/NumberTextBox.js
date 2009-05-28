@@ -65,6 +65,9 @@ dojo.declare("dijit.form.NumberTextBoxMixin",
 			if(typeof this.constraints.max != "number"){
 				this.constraints.max = 9e+15;
 			}
+			if(typeof this.constraints.min != "number"){
+				this.constraints.min = -9e+15;
+			}
 			this.inherited(arguments);
 		},
 
