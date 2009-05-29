@@ -1550,6 +1550,9 @@ img.dijitColorPaletteUnder {
 .dijit_a11y .dijitTab .tabLabel {
 	display: inline !important;
 }
+.dj_ie7 .dijitButtonNode > BUTTON.dijitButtonContents > * {
+	position: relative; /* workaround for IE7 distorted text on scroll */
+}
 
 .dijitTextArea {
 	width:100%;
