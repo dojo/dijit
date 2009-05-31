@@ -25,14 +25,24 @@
 				// refs to DateTextBox widgets
 				var american, german;
 
-				// array of calls to onChange handler
-				var changes;
+				// log of calls to onChange handler
+				var changes = [];
 
+				doh.register("setup",
+					function setUp(){
+						// refs to DateTextBox widgets
+				    	american = dijit.byId('american');
+				    	german = dijit.byId('german');
+
+				    	// setup onChange handler to monitor onChange calls on american textbox
+						dojo.connect(american, 'onChange', function(val){
+							console.log('onchange w/value: ', val);
+							changes.push(val);
+						});
+				    }
+				);
+							
 				doh.register("API", [
-				    function setup(){
-				    	 american = dijit.byId('american');
-				    	 german = dijit.byId('german');
-				    },
 					function initial(){
 						// initial conditions
 						doh.is(0, dojo.date.compare(new Date(2005,11,30), american.attr('value')), 'wire value of american: ' + american.attr('value'));
@@ -71,27 +81,6 @@
 						american.attr('displayedValue', '12/1/2008');
 						doh.f(american.isValid(), 'marked as invalid since out of range');
 						doh.is('12/1/2008', american.attr('displayedValue'), 'displayed value of american');
-					},
-
-					function initialGerman(){
-						doh.is(0, dojo.date.compare(new Date(2006,10,29), german.attr('value')), 'wire value of german: ' + german.attr('value'));
-						doh.is('29.11.2006', german.attr('displayedValue'), 'displayed value of german');
-					},
-
-					function setValueGerman(){
-						german.attr('value', new Date(2004,9,20));
-						doh.is(0, dojo.date.compare(new Date(2004,9,20), german.attr('value')),
-								'wire value of german is: ' + german.attr('value') +
-								' but should be: ' + new Date(2004,9,20));
-						doh.is('20.10.2004', german.attr('displayedValue'), 'displayed value of german');
-						doh.t(german.isValid(), 'marked as valid');
-					},
-
-					function setDisplayedValueGerman(){
-						german.attr('displayedValue', '12.11.2006');
-						doh.is(0, dojo.date.compare(new Date(2006, 10, 12), german.attr('value')), 'wire value of german');
-						doh.is('12.11.2006', german.attr('displayedValue'), 'displayed value of german');
-						doh.t(german.isValid(), 'marked as valid');
 					}
 				]);
 
@@ -104,11 +93,6 @@
 
 						// monitor onchange events
 						changes = [];
-						this.onChange = function(val){
-							console.log('onchange w/value: ', val);
-							changes.push(val);
-						};
-						this.handle = dojo.connect(american, 'onChange', this.onChange);
 					},
 					runTest: function(){
 						var d = new doh.Deferred();
@@ -116,7 +100,7 @@
 							american.focus();
 						}, 500);
 						doh.robot.typeKeys('1/3/2005', 500);
-						doh.robot.keyPress(dojo.keys.TAB, 100, {});
+						doh.robot.keyPress(dojo.keys.TAB, 500, {});
 						doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
 							doh.is(0, dojo.date.compare(new Date(2005, 0, 3), american.attr('value')), 'value');
 							doh.is(1, changes.length, 'one onchange event');	// #9018
@@ -125,9 +109,6 @@
 									', should be ' + new Date(2005, 0, 3));
 						})), 1000);
 						return d;
-					},
-					tearDown: function(){
-						dojo.disconnect(this.handle);
 					}
 				});
 
@@ -136,14 +117,7 @@
 						// clear the field
 						american.attr('value', new Date(2005, 4, 10));
 
-						// monitor onchange events
-						console.log("setting up connection");
 						changes = [];
-						this.onChange = function(val){
-							console.log('onchange w/value: ', val);
-							changes.push(val);
-						};
-						this.handle = dojo.connect(american, 'onChange', this.onChange);
 					},
 
 					{
@@ -299,13 +273,11 @@
 							doh.is(6, rows.length, "six weeks shown");
 							var firstRowDays = dojo.query("TD", rows[0]);
 							doh.is(7, firstRowDays.length, "7 days in first row");
-							console.log("checking classes of first row");
 							doh.t(dojo.hasClass(firstRowDays[0], "dijitCalendarPreviousMonth"), "previous month class applied");
 							doh.is("28", innerText(firstRowDays[0]), "first day is may 28");
 							doh.is("1", innerText(firstRowDays[4]), "fifth day is june 1");
 							
 							dojo.query("TD", rows[5]).forEach(function(node){
-								console.log("checking classes of last row");
 								doh.t(dojo.hasClass(node, 'dijitCalendarNextMonth'), "last row is for next month");
 							});
 						}
@@ -349,7 +321,6 @@
 								doh.is('6/15/2006', american.attr('displayedValue'), 'displayed value of american');
 
 								var expectedVal = new Date(2006, 5, 15);	// 6/15/2006
-								console.log("selected the day: ", american.attr('value'));
 								doh.is(0, dojo.date.compare(expectedVal, american.attr('value')), 'wire value of american: ' + american.attr('value'));
 
 								doh.is(1, changes.length, "onchange event fired");
@@ -373,14 +344,69 @@
 							})), 1000);
 							return d;
 						}
-					},
-
-					function tearDown(){
-						dojo.disconnect(this.handle);
 					}
 				]);
 
-				// TODO: tests for german localization (check calendar display for month name and week names
+				doh.register("localization", [
+					function initialGerman(){
+						doh.is(0, dojo.date.compare(new Date(2006,10,29), german.attr('value')), 'wire value of german: ' + german.attr('value'));
+						doh.is('29.11.2006', german.attr('displayedValue'), 'displayed value of german');
+					},
+
+					function setValueGerman(){
+						german.attr('value', new Date(2004,9,20));
+						doh.is(0, dojo.date.compare(new Date(2004,9,20), german.attr('value')),
+								'wire value of german is: ' + german.attr('value') +
+								' but should be: ' + new Date(2004,9,20));
+						doh.is('20.10.2004', german.attr('displayedValue'), 'displayed value of german');
+						doh.t(german.isValid(), 'marked as valid');
+					},
+
+					function setDisplayedValueGerman(){
+						german.attr('displayedValue', '12.11.2006');
+						doh.is(0, dojo.date.compare(new Date(2006, 10, 12), german.attr('value')), 'wire value of german');
+						doh.is('12.11.2006', german.attr('displayedValue'), 'displayed value of german');
+						doh.t(german.isValid(), 'marked as valid');
+					},
+
+					{
+						name: "calendar",
+						timeout: 60000,
+						runTest: function(){
+							var d = new doh.Deferred();
+							doh.robot.sequence(function(){
+								german.attr('value', new Date(2006, 9, 15));	// 10/15/2006
+								german.focus();
+							}, 500);
+
+							doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
+								var calendar = dojo.byId("german_popup");
+
+								// Calendar exists and is shown
+								doh.t(calendar, "calendar popup exists");
+								doh.t(isVisible(calendar), "calendar is visible");
+
+								// Month label
+								var monthNodes = dojo.query(".dijitCalendarMonthLabel", calendar.domNode);
+								doh.is(1, monthNodes.length, "found month node");
+								doh.is("Oktober", innerText(monthNodes[0]));
+
+								// Day labels
+								var dayLabels = dojo.query(".dijitCalendarDayLabelTemplate", calendar.domNode);
+								doh.is(7, dayLabels.length, "7 day labels");
+								doh.is("M", innerText(dayLabels[0]), "day 0");
+								doh.is("D", innerText(dayLabels[1]), "day 1");
+								doh.is("M", innerText(dayLabels[2]), "day 2");
+								doh.is("D", innerText(dayLabels[3]), "day 3");
+								doh.is("F", innerText(dayLabels[4]), "day 4");
+								doh.is("S", innerText(dayLabels[5]), "day 5");
+								doh.is("S", innerText(dayLabels[6]), "day 6");
+							})), 1000);
+
+							return d;
+						}
+					},
+				]);
 
 				doh.run();
 			});

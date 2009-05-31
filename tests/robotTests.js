@@ -33,6 +33,7 @@ if(dojo.isBrowser){
 	doh.registerUrl("dijit/tests/form/robot/Slider_mouse.html", dojo.moduleUrl("dijit","tests/form/robot/Slider_mouse.html"+userArgs), 99999999);
 	doh.registerUrl("dijit/tests/form/robot/Spinner_mouse.html", dojo.moduleUrl("dijit","tests/form/robot/Spinner_mouse.html"+userArgs), 99999999);
 	doh.registerUrl("dijit/tests/form/robot/test_validate.html", dojo.moduleUrl("dijit","tests/form/robot/test_validate.html"+userArgs), 99999999);
+	doh.registerUrl("dijit/tests/form/robot/DateTextBox.html", dojo.moduleUrl("dijit","tests/form/robot/DateTextBox.html"+userArgs), 99999999);
 	doh.registerUrl("dijit/tests/form/robot/Form.html", dojo.moduleUrl("dijit","tests/form/robot/Form.html"+userArgs), 99999999);
 	if(test_a11y){
 		doh.registerUrl("dijit/tests/form/robot/Button_a11y.html", dojo.moduleUrl("dijit","tests/form/robot/Button_a11y.html"+userArgs), 99999999);
