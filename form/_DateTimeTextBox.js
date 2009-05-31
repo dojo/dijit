@@ -92,7 +92,6 @@ dojo.declare(
 		},
 
 		postMixInProperties: function(){
-			//dijit.form.RangeBoundTextBox.prototype.postMixInProperties.apply(this, arguments);
 			this.inherited(arguments);
 
 			if(!this.value || this.value.toString() == dijit.form._DateTimeTextBox.prototype.value.toString()){
@@ -149,6 +148,7 @@ dojo.declare(
 						// this will cause InlineEditBox and other handlers to do stuff so make sure it's last
 						dijit.form._DateTimeTextBox.superclass._setValueAttr.call(textBox, value, true);
 					},
+					id: this.id + "_popup",
 					lang: textBox.lang,
 					constraints: textBox.constraints,
 
