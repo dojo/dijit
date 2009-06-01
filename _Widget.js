@@ -357,6 +357,10 @@ dojo.declare("dijit._Widget", null, {
 		// Each handle returned from Widget.connect() is an array of handles from dojo.connect()
 		this._connects = [];
 
+		// For garbage collection.  An array of handles returned by Widget.subscribe()
+		// Each handle returned from Widget.subscribe() is an array of handles from dojo.subscribe()
+		this._subscribes = [];
+
 		// To avoid double-connects, remove entries from _deferredConnects
 		// that have been setup manually by a subclass (ex, by dojoAttachEvent).
 		// If a subclass has redefined a callback (ex: onClick) then assume it's being
@@ -512,6 +516,9 @@ dojo.declare("dijit._Widget", null, {
 		this.uninitialize();
 		dojo.forEach(this._connects, function(array){
 			dojo.forEach(array, dojo.disconnect);
+		});
+		dojo.forEach(this._subscribes, function(array){
+			dojo.forEach(array, dojo.unsubscribe);
 		});
 
 		// destroy widgets created as part of template, etc.
@@ -936,6 +943,45 @@ dojo.declare("dijit._Widget", null, {
 			if(this._connects[i]==handles){
 				dojo.forEach(handles, dojo.disconnect);
 				this._connects.splice(i, 1);
+				return;
+			}
+		}
+	},
+
+	subscribe: function(
+			/*String*/ topic,
+			/*String|Function*/ method){
+		//	summary:
+		//		Subscribes to the specified topic and calls the specified method
+		//		of this object and registers for unsubscribe() on widget destroy.
+		//	description:
+		//		Provide widget-specific analog to dojo.subscribe, except with the
+		//		implicit use of this widget as the target object.
+		//	example:
+		//	|	var btn = new dijit.form.Button();
+		//	|	// when /my/topic is published, this button changes its label to
+		//	|   // be the parameter of the topic.
+		//	|	btn.subscribe("/my/topic", function(v){
+		//	|		this.attr("label", v);
+		//	|	});
+		var d = dojo;
+		var dsb = d.hitch(d, "subscribe", topic);
+		var handles =[];
+		handles.push(dsb(this, method));
+
+		// return handles for Any widget that may need them
+		this._subscribes.push(handles);
+		return handles;
+	},
+
+	unsubscribe: function(/*Object*/ handles){
+		// summary:
+		//		Unsubscribes handle created by this.subscribe.
+		//		Also removes handle from this widget's list of subscriptions
+		for(var i=0; i<this._subscribes.length; i++){
+			if(this._subscribes[i]==handles){
+				dojo.forEach(handles, dojo.unsubscribe);
+				this._subscribes.splice(i, 1);
 				return;
 			}
 		}
