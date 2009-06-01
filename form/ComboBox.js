@@ -454,6 +454,10 @@ dojo.declare(
 			this._arrowIdle();
 			this.inherited(arguments);
 		},
+		
+		_getAnnounceString: function(/*Node*/ node){
+			return this.store.getValue(node.item, this.searchAttr);
+		},
 
 		_announceOption: function(/*Node*/ node){
 			// summary:
@@ -470,7 +474,7 @@ dojo.declare(
 				node == this._popupWidget.previousButton){
 				newValue = node.innerHTML;
 			}else{
-				newValue = this.store.getValue(node.item, this.searchAttr);
+				newValue = this._getAnnounceString(node);
 			}
 			// get the text that the user manually entered (cut off autocompleted text)
 			this.focusNode.value = this.focusNode.value.substring(0, this._getCaretPos(this.focusNode));
