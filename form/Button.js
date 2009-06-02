@@ -372,15 +372,19 @@ dojo.declare("dijit.form.ComboButton", dijit.form.DropDownButton, {
 	postCreate: function(){
 		this.inherited(arguments);
 		this._focalNodes = [this.titleNode, this.popupStateNode];
+		var isIE = dojo.isIE;
 		dojo.forEach(this._focalNodes, dojo.hitch(this, function(node){
-			if(dojo.isIE){
-				this.connect(node, "onactivate", this._onNodeFocus);
-				this.connect(node, "ondeactivate", this._onNodeBlur);
-			}else{
-				this.connect(node, "onfocus", this._onNodeFocus);
-				this.connect(node, "onblur", this._onNodeBlur);
-			}
+			this.connect(node, isIE? "onactivate" : "onfocus", this._onNodeFocus);
+			this.connect(node, isIE? "ondeactivate" : "onblur", this._onNodeBlur);
 		}));
+		if(isIE && (isIE < 8 || dojo.isQuirks)){ // fixed in IE8/strict
+			with(this.titleNode){ // resize BUTTON tag so parent TD won't inherit extra padding
+				style.width = scrollWidth + "px";
+				this.connect(this.titleNode, "onresize", function(){
+					setTimeout( function(){ style.width = scrollWidth + "px"; }, 0);
+				});
+			}
+		}
 	},
 
 	focusFocalNode: function(node){
