@@ -56,17 +56,23 @@ dojo.declare(
 			this.attr('value', value);
 		},
 
-		_getValueAttr: function(/*String*/ value){
+		_getValueAttr: function(){
 			// summary:
-			//		Hook so attr('value') works.
+			//		Support getter attr('value')
 			var value = new this.dateClassObj(this.value);
-			value.setHours(0, 0, 0, 0);
+			value.setHours(0, 0, 0, 0); // return midnight, local time for back-compat
+
+			// If daylight savings pushes midnight to the previous date, fix the Date
+			// object to point at 1am so it will represent the correct day. See #9366
+			if(value.getDate() < this.value.getDate()){
+				value = this.dateFuncObj.add(value, "hour", 1);
+			}
 			return value;
 		},
 
 		_setValueAttr: function(/*Date*/ value){
 			// summary:
-			//		Hook to make attr("value", ...) work.
+			//		Support setter attr("value", ...)
 			// description:
 			// 		Set the current date and update the UI.  If the date is disabled, the value will
 			//		not change, but the display will change to the corresponding month.
@@ -74,7 +80,7 @@ dojo.declare(
 			//      protected
 			if(!this.value || this.dateFuncObj.compare(value, this.value)){
 				value = new this.dateClassObj(value);
-				value.setHours(1); // to avoid DST issues in Brazil see #8521
+				value.setHours(1); // to avoid issues when DST shift occurs at midnight, see #8521, #9366
 				this.displayMonth = new this.dateClassObj(value);
 				if(!this.isDisabledDate(value, this.lang)){
 					this.value = value;
