@@ -12,9 +12,9 @@ dojo.declare(
 	null,
 	{
 		// summary:
-		//		Implements the base functionality for ComboBox/FilteringSelect
+		//		Implements the base functionality for `dijit.form.ComboBox`/`dijit.form.FilteringSelect`
 		// description:
-		//		All widgets that mix in dijit.form.ComboBoxMixin must extend dijit.form._FormValueWidget
+		//		All widgets that mix in dijit.form.ComboBoxMixin must extend `dijit.form._FormValueWidget`.
 		// tags:
 		//		protected
 
