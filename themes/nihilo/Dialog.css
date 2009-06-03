@@ -106,7 +106,7 @@
 	height:11px;
 }
 
-.dj_ie6 .nihilo .dijitTooltipBelow .dijitTooltipConnector {
+.dj_ie .nihilo .dijitTooltipBelow .dijitTooltipConnector {
 	background-image: url("images/tooltipConnectorUp.gif");
 }
 
@@ -118,7 +118,7 @@
 	width:17px;
 	height:11px;
 }
-.dj_ie6 .nihilo .dijitTooltipAbove .dijitTooltipConnector {
+.dj_ie .nihilo .dijitTooltipAbove .dijitTooltipConnector {
 	background-image: url("images/tooltipConnectorDown.gif");
 }
 .dj_ie6 .nihilo .dijitTooltipAbove .dijitTooltipConnector {
@@ -139,7 +139,7 @@
 	width:11px;
 	height:17px;
 }
-.dj_ie6 .nihilo .dijitTooltipLeft .dijitTooltipConnector {
+.dj_ie .nihilo .dijitTooltipLeft .dijitTooltipConnector {
 	background-image: url("images/tooltipConnectorRight.gif");
 }
 
@@ -154,7 +154,7 @@
 	width:11px;
 	height:17px;
 }
-.dj_ie6 .nihilo .dijitTooltipRight .dijitTooltipConnector {
+.dj_ie .nihilo .dijitTooltipRight .dijitTooltipConnector {
 	background-image: url("images/tooltipConnectorLeft.gif");
 }
 

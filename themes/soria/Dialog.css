@@ -106,7 +106,7 @@
 	height:11px;
 }
 
-.dj_ie6 .soria .dijitTooltipBelow .dijitTooltipConnector {
+.dj_ie .soria .dijitTooltipBelow .dijitTooltipConnector {
 	background-image: url("images/tooltipConnectorUp.gif");
 }
 
@@ -118,11 +118,13 @@
 	width:17px;
 	height:11px;
 }
-.dj_ie6 .soria .dijitTooltipAbove .dijitTooltipConnector {
+.dj_ie .soria .dijitTooltipAbove .dijitTooltipConnector {
+	background-image: url("images/tooltipConnectorDown.gif");
+}
+.dj_ie .soria .dijitTooltipAbove .dijitTooltipConnector {
 	background-image: url("images/tooltipConnectorDown.gif");
 }
 .dj_ie6 .soria .dijitTooltipAbove .dijitTooltipConnector {
-	background-image: url("images/tooltipConnectorDown.gif");
 	bottom: -5px;
 }
 
@@ -140,7 +142,7 @@
 	width:11px;
 	height:17px;
 }
-.dj_ie6 .soria .dijitTooltipLeft .dijitTooltipConnector {
+.dj_ie .soria .dijitTooltipLeft .dijitTooltipConnector {
 	background-image: url("images/tooltipConnectorRight.gif");
 }
 
@@ -155,7 +157,7 @@
 	width:11px;
 	height:17px;
 }
-.dj_ie6 .soria .dijitTooltipRight .dijitTooltipConnector {
+.dj_ie .soria .dijitTooltipRight .dijitTooltipConnector {
 	background-image: url("images/tooltipConnectorLeft.gif");
 }
 
