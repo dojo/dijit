@@ -968,8 +968,7 @@ dojo.declare("dijit._Widget", null, {
 		//	|		this.attr("label", v);
 		//	|	});
 		var d = dojo;
-		var dsb = d.hitch(d, "subscribe", topic);
-		var handle = dsb(this, method);
+		var handle = d.subscribe(topic, this, method);
 
 		// return handles for Any widget that may need them
 		this._subscribes.push(handle);
