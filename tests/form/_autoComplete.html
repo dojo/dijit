@@ -233,6 +233,7 @@
 				id="slow"
 		>
 		<br>onChange:<input id="ocSlow" disabled value="not fired yet!" autocomplete="off">
+		<button id="slowDestroy" tabIndex="-1" onclick="dijit.byId('slow').destroy();return false">Destroy widget to test in-flight query cancel</button>
 		<hr>
 
 		<label for="datatestDijit">Dijit List test #1</label> (150% font): 

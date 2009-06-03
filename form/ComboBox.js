@@ -148,6 +148,14 @@ dojo.declare(
 			dijit.setWaiState(this.comboNode, "disabled", value);
 		},	
 		
+		_abortQuery: function(){
+			// stop in-progress query
+			if(this._fetchHandle){
+				if(this._fetchHandle.abort){ this._fetchHandle.abort(); }
+				this._fetchHandle = null;
+			}
+		},
+
 		_onKeyPress: function(/*Event*/ evt){
 			// summary:
 			//		Handles keyboard events
@@ -277,10 +285,7 @@ dojo.declare(
 				clearTimeout(this.searchTimer);
 				this.searchTimer = null;
 			}
-			if(this._fetchHandle){
-				if(this._fetchHandle.abort){ this._fetchHandle.abort(); }
-				this._fetchHandle = null;
-			}
+			this._abortQuery();
 			if(doSearch){
 				// need to wait a tad before start search so that the event
 				// bubbles through DOM and we have value visible
@@ -418,6 +423,7 @@ dojo.declare(
 		},
 
 		_hideResultList: function(){
+			this._abortQuery();
 			if(this._isShowingNow){
 				dijit.popup.close(this._popupWidget);
 				this._arrowIdle();
