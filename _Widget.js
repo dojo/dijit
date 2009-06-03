@@ -358,7 +358,7 @@ dojo.declare("dijit._Widget", null, {
 		this._connects = [];
 
 		// For garbage collection.  An array of handles returned by Widget.subscribe()
-		// Each handle returned from Widget.subscribe() is an array of handles from dojo.subscribe()
+		// The handle returned from Widget.subscribe() is the handle returned from dojo.subscribe()
 		this._subscribes = [];
 
 		// To avoid double-connects, remove entries from _deferredConnects
@@ -514,15 +514,18 @@ dojo.declare("dijit._Widget", null, {
 		//		Note: This will not yet work with _Templated widgets
 
 		this.uninitialize();
-		dojo.forEach(this._connects, function(array){
-			dojo.forEach(array, dojo.disconnect);
+		var d = dojo;
+		var dfe = d.forEach;
+		var dun = d.unsubscribe;
+		dfe(this._connects, function(array){
+			dfe(array, d.disconnect);
 		});
-		dojo.forEach(this._subscribes, function(array){
-			dojo.forEach(array, dojo.unsubscribe);
+		dfe(this._subscribes, function(handle){
+			dun(handle);
 		});
 
 		// destroy widgets created as part of template, etc.
-		dojo.forEach(this._supportingWidgets||[], function(w){ 
+		dfe(this._supportingWidgets||[], function(w){ 
 			if(w.destroy){
 				w.destroy();
 			}
@@ -966,21 +969,20 @@ dojo.declare("dijit._Widget", null, {
 		//	|	});
 		var d = dojo;
 		var dsb = d.hitch(d, "subscribe", topic);
-		var handles =[];
-		handles.push(dsb(this, method));
+		var handle = dsb(this, method);
 
 		// return handles for Any widget that may need them
-		this._subscribes.push(handles);
-		return handles;
+		this._subscribes.push(handle);
+		return handle;
 	},
 
-	unsubscribe: function(/*Object*/ handles){
+	unsubscribe: function(/*Object*/ handle){
 		// summary:
 		//		Unsubscribes handle created by this.subscribe.
 		//		Also removes handle from this widget's list of subscriptions
 		for(var i=0; i<this._subscribes.length; i++){
-			if(this._subscribes[i]==handles){
-				dojo.forEach(handles, dojo.unsubscribe);
+			if(this._subscribes[i] == handle){
+				dojo.unsubscribe(handle);
 				this._subscribes.splice(i, 1);
 				return;
 			}
