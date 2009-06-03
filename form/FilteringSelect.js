@@ -161,7 +161,10 @@ dojo.declare(
 			//		The label that the ComboBox should display
 			// tags:
 			//		private
-			return store.getValue(item, this.searchAttr);
+			
+			// Use toString() because XMLStore returns an XMLItem whereas this
+			// method is expected to return a String (#9354)
+			return store.getValue(item, this.searchAttr).toString();	// String
 		},
 
 		_doSelect: function(/*Event*/ tgt){
