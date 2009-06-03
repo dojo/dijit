@@ -324,9 +324,6 @@ dojo.declare(
 			// tags:
 			//		private
 
-			target = target || this._connectNodes[0];
-			if(!target){ return; }
-
 			if(this._showTimer){
 				clearTimeout(this._showTimer);
 				delete this._showTimer;
