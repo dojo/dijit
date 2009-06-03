@@ -56,6 +56,11 @@ dojo.declare("dijit.InlineEditBox",
 	//		Class name for Editor widget
 	editor: "dijit.form.TextBox",
 
+	// editorWrapper: String
+	//		Class name for widget that wraps the editor widget, displaying save/cancel
+	//		buttons.
+	editorWrapper: "dijit._InlineEditor",
+
 	// editorParams: Object
 	//		Set of parameters for editor, like {required: true}
 	editorParams: {},
@@ -183,19 +188,21 @@ dojo.declare("dijit.InlineEditBox",
 		// when Calendar dropdown appears, which happens automatically on focus.
 		var placeholder = dojo.create("span", null, this.domNode, "before");
 
-		var ew = this.editWidget = new dijit._InlineEditor({
-			value: dojo.trim(editValue),
-			autoSave: this.autoSave,
-			buttonSave: this.buttonSave,
-			buttonCancel: this.buttonCancel,
-			renderAsHtml: this.renderAsHtml,
-			editor: this.editor,
-			editorParams: this.editorParams,
-			sourceStyle: dojo.getComputedStyle(this.displayNode),
-			save: dojo.hitch(this, "save"),
-			cancel: dojo.hitch(this, "cancel"),
-			width: this.width
-		}, placeholder);
+		// Create the editor wrapper (the thing that holds the editor widget and the save/cancel buttons)
+		var ewc = dojo.getObject(this.editorWrapper),
+			ew = this.editWidget = new ewc({
+				value: dojo.trim(editValue),
+				autoSave: this.autoSave,
+				buttonSave: this.buttonSave,
+				buttonCancel: this.buttonCancel,
+				renderAsHtml: this.renderAsHtml,
+				editor: this.editor,
+				editorParams: this.editorParams,
+				sourceStyle: dojo.getComputedStyle(this.displayNode),
+				save: dojo.hitch(this, "save"),
+				cancel: dojo.hitch(this, "cancel"),
+				width: this.width
+			}, placeholder);
 
 		// to avoid screen jitter, we first create the editor with position:absolute, visibility:hidden,
 		// and then when it's finished rendering, we switch from display mode to editor
