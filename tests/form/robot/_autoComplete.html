@@ -674,7 +674,7 @@
 				// Test when queries return in different order than issued
 				{
 					timeout:60000,
-					name:"query return order",
+					name:"query canceling on new input (#8950)",
 					setUp: function(){
 						dojo.global.slowStateStore.log = [];
 					},
@@ -689,20 +689,17 @@
 
 						// Filter drop down list to entries starting with "C"
 						doh.robot.keyPress("C", 100);
-						doh.robot.keyPress("o", 300);	// 300ms > searchDelay
+						doh.robot.keyPress("o", 300);	// 300ms > searchDelay, so C* query has been sent (but not yet returned results) when the o is typed
 	
 						doh.robot.sequence(d.getTestCallback(function(){
-							// The query "C*" and "Co*" should have been issued in order, but with returned data in reverse order
+							// The query "C*" should be canceled when "Co*" is started
 							var log = dojo.global.slowStateStore.log;
 							
-							/***
-								Comment out until #8931 is fixed
 							doh.is(4, log.length, "4 events on data store");
 							doh.is("start C*", log[0].type + " " + log[0].query.name);
-							doh.is("start Co*", log[1].type + " " + log[1].query.name);
-							doh.is("end Co*", log[2].type + " " + log[2].query.name);
-							doh.is("end C*", log[3].type + " " + log[3].query.name);
-							***/
+							doh.is("cancel C*", log[1].type + " " + log[1].query.name);
+							doh.is("start Co*", log[2].type + " " + log[2].query.name);
+							doh.is("end Co*", log[3].type + " " + log[3].query.name);
 
 							// Check that drop down list has appeared, and contains only Colorado and Connecticut (not California)
 							var list = dojo.byId("slow_popup");
@@ -723,7 +720,7 @@
 				// searchDelay is preventing intemediate queries.
 				{
 					timeout:60000,
-					name:"enter key handling",
+					name:"pressing enter before search returns",
 					setUp: function(){
 						dojo.global.slowStateStore.log = [];
 					},
@@ -736,16 +733,22 @@
 							combo.focusNode.focus();
 						}, 500);
 
-						// Filter drop down list to entries starting with "C"
+						// Start to filter drop down list to entries starting with "Co"
 						doh.robot.typeKeys("Co", 100);
+
+						// But then hit ENTER after we've started the query to the data store, but
+						// before the data store returns query results... that should cancel the query.
 						doh.robot.keyPress(dojo.keys.ENTER, 300);	// 300ms > searchDelay
 	
 						doh.robot.sequence(d.getTestCallback(function(){
 							/***
-								Comment out until #8931 is fixed
+								uncomment when #8931 is fixed
 							var log = dojo.global.slowStateStore.log;
-							doh.is(2, log.length, "query was issued and returned for 'Co', but 'C' was skipped");
+							doh.is(2, log.length, "query was issued for 'Co' but canceled");
+							doh.is("start Co*", log[0].type + " " + log[0].query.name);
+							doh.is("cancel Co*", log[1].type + " " + log[1].query.name);
 							***/
+
 							var list = dojo.byId("slow_popup");
 							doh.t(!list || isHidden(list), "drop down is *not* visible");
 							

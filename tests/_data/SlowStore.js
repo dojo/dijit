@@ -77,6 +77,13 @@ dojo.declare("dijit.tests._data.SlowStore", dojo.data.ItemFileReadStore, {
 		// it operates synchronously; there is never a case to send the cancel request to that object)
 		keywordArgs.abort = function(){
 			clearTimeout(handle);
+			that.log.push({
+				type: "cancel",
+				date: new Date(),
+				query: query,
+				count: count,
+				delay: delay
+			});
 			console.log("CANCEL query on " + (first || "{}") + " (" + count + " chars), delay = " + delay);	
 		};
 		
