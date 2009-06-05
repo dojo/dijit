@@ -1,0 +1,201 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+		"http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<title>doh.robot Validation Test</title>
+
+		<style>
+			@import "../../../util/doh/robot/robot.css";
+		</style>
+
+		<!-- required: dojo.js -->
+		<script type="text/javascript" src="../../../dojo/dojo.js"
+			djConfig="isDebug: true, parseOnLoad: true"></script>
+			
+		<!-- functions to help test -->
+		<script type="text/javascript" src="../helpers.js"></script>
+
+		<script type="text/javascript">
+			dojo.require("dijit.dijit"); // optimize: load dijit layer
+			dojo.require("dijit.robotx");
+
+			function findTreeNode(/*String*/ treeId, /*String*/ text){
+				// summary:
+				//		Find the TreeNode with the specified text in the given tree
+				
+				var nodes = dojo.query(".dijitTreeLabel", treeId);
+				for(var i=0; i<nodes.length; i++){
+					if(innerText(nodes[i]) == text){
+						return dijit.getEnclosingWidget(nodes[i]);	// TreeNode
+					}
+				}
+			}
+
+			// TODO: utility function for getting children (both "items" and "children" attributes)
+			// of a data store item.
+
+			dojo.addOnLoad(function(){
+				doh.robot.initRobot('../tree/test_Tree_Dnd.html');
+
+				// Dragging from an external source and dropping onto the Tree,
+				// creating a duplicate of the dragged item
+				doh.register("drop into", [ 
+					{
+						name: "drag 'Apple' over 'Fruits'",
+						timeout: 10000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							// Find the fruitsTreeNode category
+							var fruitsTreeNode = findTreeNode("itemTree", "Fruits");
+							doh.f(fruitsTreeNode.isExpanded, "fruitsTreeNode is initially closed");
+							doh.t(fruitsTreeNode.isExpandable, "but has (or may have) children");
+
+							// Check state of store too
+							var myStore = dojo.global.myStore;
+							var fruitsItem;
+							myStore.fetch({
+								query: {name: 'Fruits'},
+								onItem: function(item){ fruitsItem = item; }
+							});
+							var categoryChildren = myStore.getValues(fruitsItem, 'children'),
+								itemChildren = myStore.getValues(fruitsItem, 'items');
+							doh.is(1, categoryChildren.length, "one category child");
+							doh.is("Citrus", myStore.getValue(categoryChildren[0], 'name'));
+							doh.is(0, itemChildren.length, "no item children yet");
+
+							// Scroll viewport to (try to) make sure that both tree and drag-source
+							// are simultaneously in view.
+							//
+							// We want to scroll down as much as possible because if dragging gets near
+							// the bottom of the viewport it causes a scroll.
+							var scroll = dojo.coords("1001").t;
+							dojo.body().parentNode.scrollTop = scroll;	// works on FF
+							dojo.body().scrollTop = scroll;	// works on safari
+							
+							// Drag "Apple" onto Fruits.
+							doh.robot.mouseMoveAt("1001", 0, 1000);
+							doh.robot.mousePress({left: true}, 500);
+							doh.robot.mouseMoveAt(fruitsTreeNode.labelNode, 500, 2000);
+							doh.robot.mouseMoveAt(fruitsTreeNode.labelNode, 500, 2000);// If prev. mouseMove caused scroll, readjust
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								// TODO: check drag avatar shows drop is valid (ie, avatar is green)
+								doh.t(dojo.hasClass(fruitsTreeNode.rowNode, "dijitTreeNodeHover"), "tree node has hover class");
+								doh.t(dojo.hasClass(fruitsTreeNode.rowNode, "dojoDndItemOver"), "tree node has DND drop class");
+							}), 100);
+
+							return d;
+						}
+					},
+					{
+						name: "drop 'Apple' on to 'Fruits'",
+						timeout: 10000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							doh.robot.mouseRelease({left: true}, 500);
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								// Check that new item was created and added to the store.
+								// Note that the ItemFileWriteStore's callback will happen immediately.
+								// Also note that test_Tree_Dnd.html splits the children up into the "children"
+								// and "items" attributes.
+								var myStore = dojo.global.myStore;
+								var fruitsItem;
+								myStore.fetch({
+									query: {name: 'Fruits'},
+									onItem: function(item){ fruitsItem = item; }
+								});
+								var categoryChildren = myStore.getValues(fruitsItem, 'children'),
+									itemChildren = myStore.getValues(fruitsItem, 'items');
+								doh.is(1, categoryChildren.length, "one category child");
+								doh.is("Citrus", myStore.getValue(categoryChildren[0], 'name'));
+								doh.is(1, itemChildren.length, "one item child");
+								doh.is("Apple", myStore.getValue(itemChildren[0], 'name'));
+
+								// Check that data store update was reflected in the tree
+								var fruitsTreeNode = findTreeNode("itemTree", "Fruits");
+
+								doh.t(fruitsTreeNode.isExpanded, "drop caused the node to expand");
+								var treeNodeChildren = fruitsTreeNode.getChildren();
+								doh.is(2, treeNodeChildren.length, "2 TreeNode children")
+								doh.is("Apple", treeNodeChildren[0].attr('label'));
+								doh.is("Citrus", treeNodeChildren[1].attr('label'));
+							}), 100);
+		
+							return d;
+						}
+					}
+				]);
+
+				// Moving an item w/in the tree
+				doh.register("re-parent an item", [ 
+					{
+						name: "drag 'Apple' from 'Fruits' to 'Citrus'",
+						timeout: 10000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							var fruitsTreeNode = findTreeNode("itemTree", "Fruits");
+								appleTreeNode = findTreeNode("itemTree", "Apple"),
+								citrusTreeNode = findTreeNode("itemTree", "Citrus");
+							
+							// Drag "Apple" into Citrus .
+							doh.robot.mouseMoveAt(appleTreeNode.labelNode, 0, 500);
+							doh.robot.mousePress({left: true}, 500);
+							doh.robot.mouseMoveAt(citrusTreeNode.labelNode, 500, 1000);
+							doh.robot.mouseMoveAt(citrusTreeNode.labelNode, 500, 1000);// If prev. mouseMove caused scroll, readjust
+							doh.robot.mouseRelease({left: true}, 500);
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								var myStore = dojo.global.myStore;
+
+								// Check that data store item was orphaned from Fruits 
+								var fruitsItem;
+								myStore.fetch({
+									query: {name: 'Fruits'},
+									onItem: function(item){ fruitsItem = item; }
+								});
+								var fruitsItemChildren = myStore.getValues(fruitsItem, 'items');
+								doh.is(0, fruitsItemChildren.length, "no item children");
+								
+								// Check that data store update was reflected in the tree
+								var fruitsTreeNode = findTreeNode("itemTree", "Fruits");
+
+								var fruitsTreeNodeChildren = fruitsTreeNode.getChildren();
+								doh.is(1, fruitsTreeNodeChildren.length, "1 TreeNode children")
+								doh.is("Citrus", fruitsTreeNodeChildren[0].attr('label'));
+
+								// ... and parented to Citrus
+								var citrusItem;
+								myStore.fetch({
+									query: {name: 'Citrus'},
+									onItem: function(item){ citrusItem = item; }
+								});
+								var citrusItemChildren = myStore.getValues(citrusItem, 'items');
+								doh.is(2, citrusItemChildren.length, "two item children");
+								doh.is("Orange", myStore.getValue(citrusItemChildren[0], 'name'));
+								doh.is("Apple", myStore.getValue(citrusItemChildren[1], 'name'));
+								
+								// Check that data store update was reflected in the tree
+								var citrusTreeNode = findTreeNode("itemTree", "Citrus");
+
+								var citrusTreeNodeChildren = citrusTreeNode.getChildren();
+								doh.is(2, citrusTreeNodeChildren.length, "2 TreeNode children for Citrus")
+								doh.is("Orange", citrusTreeNodeChildren[0].attr('label'), "child of Citrus TreeNode");
+								doh.is("Apple", citrusTreeNodeChildren[1].attr('label'), "child of Citrus TreeNode");
+							}), 100);
+		
+							return d;
+						}
+					}
+				]);
+				// TODO: test icon and highlighting when valid drop target and invalid target (another item)
+
+				// TODO: test before/after drops
+				doh.run();
+			});
+		</script>
+	</head>
+</html>
