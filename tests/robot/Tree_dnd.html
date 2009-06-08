@@ -78,6 +78,23 @@
 			dojo.addOnLoad(function(){
 				doh.robot.initRobot('../tree/test_Tree_Dnd.html');
 
+				doh.register("setup", {
+					name: "setup",
+					timeout: 20000,
+					setUp: function(){
+						// Disable auto-scrolling because otherwise the viewport scrolls as doh.robot.mouseMoveAt()
+						// moves the mouse, literally making the the drop target a moving target
+						// (and mouseMoveAt() doesn't take this possibility into account).
+						dojo.global.dojo.dnd.autoScrollNodes = function(){};
+
+						// Scroll viewport to (try to) make sure that both tree and drag-source
+						// are simultaneously in view.
+						var scroll = dojo.coords("1001").t;
+						dojo.body().parentNode.scrollTop = scroll;	// works on FF
+						dojo.body().scrollTop = scroll;	// works on safari
+					}
+				});
+
 				// Dragging from an external source and dropping onto the Tree,
 				// creating a duplicate of the dragged item
 				doh.register("drop into", [ 
@@ -98,26 +115,19 @@
 							doh.is("Citrus", children.categories[0]);
 							doh.is(0, children.items.length, "no item children yet");
 
-							// Scroll viewport to (try to) make sure that both tree and drag-source
-							// are simultaneously in view.
-							//
-							// We want to scroll down as much as possible because if dragging gets near
-							// the bottom of the viewport it causes a scroll.
-							var scroll = dojo.coords("1001").t;
-							dojo.body().parentNode.scrollTop = scroll;	// works on FF
-							dojo.body().scrollTop = scroll;	// works on safari
-							
+							// (Try to) make sure drag source and drop source are both in viewport
+							dijit.scrollIntoView(fruitsTreeNode.domNode);
+
 							// Drag "Apple" onto Fruits.
 							doh.robot.mouseMoveAt("1001", 0, 1000);
 							doh.robot.mousePress({left: true}, 500);
 							doh.robot.mouseMoveAt(fruitsTreeNode.labelNode, 500, 2000);
-							doh.robot.mouseMoveAt(fruitsTreeNode.labelNode, 500, 2000);// If prev. mouseMove caused scroll, readjust
 
 							doh.robot.sequence(d.getTestCallback(function(){
 								// TODO: check drag avatar shows drop is valid (ie, avatar is green)
 								doh.t(dojo.hasClass(fruitsTreeNode.rowNode, "dijitTreeNodeHover"), "tree node has hover class");
 								doh.t(dojo.hasClass(fruitsTreeNode.rowNode, "dojoDndItemOver"), "tree node has DND drop class");
-							}), 100);
+							}), 2000);	// browser needs time to react to mouseMove events above
 
 							return d;
 						}
@@ -199,7 +209,7 @@
 								doh.is(2, citrusTreeNodeChildren.length, "2 TreeNode children for Citrus")
 								doh.is("Orange", innerText(citrusTreeNodeChildren[0].labelNode), "child of Citrus TreeNode");
 								doh.is("Apple", innerText(citrusTreeNodeChildren[1].labelNode), "child of Citrus TreeNode");
-							}), 100);
+							}), 1000);	// browser needs time to react to mouseMove events above
 		
 							return d;
 						}
@@ -213,6 +223,9 @@
 
 							var vegetablesTreeNode = findTreeNode("collectionsTree", "Vegetables (0)"),
 								cerealsTreeNode = findTreeNode("collectionsTree", "Cereals (0)");
+
+							// (Try to) make sure drag source and drop source are both in viewport
+							dijit.scrollIntoView(cerealsTreeNode.domNode);
 
 							// Drag 'Cereals' and drop near top edge of 'Vegetables'.
 							// It should become Vegetables' prior-sibling
@@ -238,7 +251,7 @@
 								doh.is("Fruits (2)", innerText(foodsTreeNodeChildren[0].labelNode));
 								doh.is("Cereals (0)", innerText(foodsTreeNodeChildren[1].labelNode));
 								doh.is("Vegetables (0)", innerText(foodsTreeNodeChildren[2].labelNode));
-							}), 100);
+							}), 1000);	// browser needs time to react to mouseMove events above
 		
 							return d;
 						}
@@ -275,12 +288,14 @@
 								citrusTreeNode = findTreeNode("collectionsTree", "Citrus (1)"),
 								citrusTreeNodeSize = dojo.contentBox(citrusTreeNode.domNode);
 
+							// (Try to) make sure drag source and drop source are both in viewport
+							dijit.scrollIntoView(vegetablesTreeNode.domNode);
+
 							// Drag 'Vegetables' and drop near bottom edge of 'Citrus'.
 							// It should become Citrus' prior-sibling
 							doh.robot.mouseMoveAt(vegetablesTreeNode.labelNode, 500, 1000);
 							doh.robot.mousePress({left: true}, 500);
-							doh.robot.mouseMoveAt(citrusTreeNode.labelNode, 500, 1000, 50, -150);	// TODO: b/c initially mouse jumps down, scrolling viewport.   why??
-							doh.robot.mouseMoveAt(citrusTreeNode.labelNode, 0, 1000, 50, citrusTreeNodeSize.h - 2);
+							doh.robot.mouseMoveAt(citrusTreeNode.labelNode, 1000, 2000, 50, citrusTreeNodeSize.h - 2);
 							doh.robot.mouseRelease({left: true}, 500);
 
 							doh.robot.sequence(d.getTestCallback(function(){
@@ -309,7 +324,7 @@
 								doh.is(2, fruitsTreeNodeChildren.length, "2 TreeNode children for fruits")
 								doh.is("Citrus (1)", innerText(fruitsTreeNodeChildren[0].labelNode));
 								doh.is("Vegetables (0)", innerText(fruitsTreeNodeChildren[1].labelNode));
-							}), 100);
+							}), 1000);	// browser needs time to react to mouseMove events above
 		
 							return d;
 						}

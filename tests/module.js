@@ -45,6 +45,7 @@ try{
 		doh.registerUrl("dijit.tests.robot.Menu_mouse", dojo.moduleUrl("dijit","tests/robot/Menu_mouse.html"+userArgs), 99999999);
 		doh.registerUrl("dijit.tests.robot.Dialog_mouse", dojo.moduleUrl("dijit","tests/robot/Dialog_mouse.html"+userArgs), 99999999);
 		doh.registerUrl("dijit.tests.robot.Tooltip_mouse", dojo.moduleUrl("dijit","tests/robot/Tooltip_mouse.html"+userArgs), 99999999);
+		doh.registerUrl("dijit.tests.robot.Tree_DnD", dojo.moduleUrl("dijit","tests/robot/Tree_DnD.html"+userArgs), 99999999);
 		if(test_a11y){
 			doh.registerUrl("dijit.tests.robot.Tree_a11y", dojo.moduleUrl("dijit","tests/robot/Tree_a11y.html"+userArgs), 99999999);
 			doh.registerUrl("dijit.tests.robot.Menu_a11y", dojo.moduleUrl("dijit","tests/robot/Menu_a11y.html"+userArgs), 99999999);
