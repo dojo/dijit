@@ -58,14 +58,14 @@ dojo.declare("dijit.form.SimpleTextarea",
 	},
 
 	_previousValue: "",
-	_onInput: function(e){
+	_onInput: function(/*Event?*/ e){
 		// Override TextBox._onInput() to enforce maxLength restriction
 		if(this.maxLength){
 			var maxLength = parseInt(this.maxLength);
 			var value = this.textbox.value.replace(/\r/g,'');
 			var overflow = value.length - maxLength;
 			if(overflow > 0){
-				if(e) dojo.stopEvent(e);
+				if(e){ dojo.stopEvent(e); }
 				var textarea = this.textbox;
 				if(textarea.selectionStart){
 					var pos = textarea.selectionStart;
