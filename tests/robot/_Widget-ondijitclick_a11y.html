@@ -37,7 +37,7 @@
 
 			// Test ondijitclick on a <div> which refocuses onto a native <button> node.
 			// Make sure that the <button> doesn't get a spurious click event.
-			dojo.forEach(["SPACE" /*** commented out until #8946 and #8978 are fixed , "ENTER"   ***/ ], function(key){
+			dojo.forEach(["SPACE", "ENTER"], function(key){
 
 				doh.register("ondijitclick by " + key, [
 					{
@@ -100,7 +100,7 @@
 
 			// Test ondijitclick on a <div> which refocuses onto a native <textarea> node.
 			// Tests that the keyboard event gets supressed so it doesn't modify the focused node.
-			dojo.forEach(["SPACE", /*** commented out until #8979 is fixed  , "ENTER"   ***/ ], function(key){
+			dojo.forEach(["SPACE","ENTER"], function(key){
 
 				doh.register("focus to textarea by " + key, [
 					{

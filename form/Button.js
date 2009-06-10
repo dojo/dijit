@@ -66,10 +66,6 @@ dojo.declare("dijit.form.Button",
 	_onButtonClick: function(/*Event*/ e){
 		// summary:
 		//		Handler when the user activates the button portion.
-		//		If is activated via a keystroke, stop the event unless is submit or reset.
-		if(e.type!='click' && !(this.type=="submit" || this.type=="reset")){
-			dojo.stopEvent(e);
-		}
 		if(this._onClick(e) === false){ // returning nothing is same as true
 			e.preventDefault(); // needed for checkbox
 		}else if(this.type=="submit" && !this.focusNode.form){ // see if a nonform widget needs to be signalled

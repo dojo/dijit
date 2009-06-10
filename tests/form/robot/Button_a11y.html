@@ -21,6 +21,20 @@
 			dojo.addOnLoad(function(){
 				doh.robot.initRobot('../test_Button.html');
 
+				var submitCount = 0, resetCount = 0;
+			
+
+				doh.register("setup", function(){ 
+					doh.robot.sequence(function(){
+						dojo.connect(dijit.byId("testForm"), "onSubmit", function(){
+							submitCount++;
+						}),
+						dojo.connect(dijit.byId("testForm"), "onReset", function(){
+							resetCount++;
+						})
+					});
+				});
+			
 				doh.register("dijit.form.Button", [
 					{
 						name: "enabled",
@@ -350,6 +364,56 @@
 						}
 					}
 				]);
+		
+				dojo.forEach(["SPACE", "ENTER"], function(key){
+					doh.register("Invoke Submit and Reset Buttons by " + key, [
+					{
+						name: "click Submit",
+						timeout: 5000,
+						runTest: function(){
+							var d = new doh.Deferred();
+							submitCount = 0;
+							doh.robot.sequence(function(){
+								dijit.byId("bSubmit").focus();
+							});
+							doh.robot.keyPress(dojo.keys[key], 500, {});
+							
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.is(1, submitCount, (key + ": # of times submit invoked " + submitCount));
+							}), 500);
+							
+							return d;
+						}
+					},
+	
+					{
+						name: "click Reset",
+						timeout: 7000,
+						runTest: function(){
+							var d = new doh.Deferred();
+							resetCount = 0;
+							dijit.byId("testName").value = "";
+
+							
+							doh.robot.sequence(function(){
+								dijit.byId("testName").focus();
+							},500);
+							doh.robot.typeKeys("test", 500, 2000);
+							
+							doh.robot.sequence(function(){
+								dijit.byId("bReset").focus();
+							},500);
+							doh.robot.keyPress(dojo.keys[key], 500, {});
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.is(1, resetCount, (key + ": reset should be invoked 1 time. actual count = " + resetCount));
+								doh.is("",dijit.byId("testName").value, "Name field has been reset");
+							}), 1000);
+							return d;
+						}
+					}
+				]);
+				});
 
 				doh.run();
 			});

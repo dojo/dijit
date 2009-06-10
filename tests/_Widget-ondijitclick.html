@@ -68,5 +68,10 @@
 			onClick="console.log('onclick on third'); window.spuriousOnDijitClick = true;">
 		clicking the button above shouldn't cause my ondijitclick handler to fire
 	</div>
+	<br>
+	<div id="fourth" dojoType="dijit.WidgetWithOndijitclick" tabIndex=0 style="margin-top: 0px;"
+			onClick='alert("make sure can close this alert via keyboard");'>
+		Manual Test: Click me using space or enter to launch a JavaScript alert() from element using ondijitclick
+	</div>
 </body>
 </html>

@@ -34,6 +34,8 @@
 			dojo.require("dijit.Menu");
 			dojo.require("dijit.Tooltip");
 			dojo.require("dijit.form.Button");
+			dojo.require("dijit.form.Form");
+			dojo.require("dijit.form.TextBox");
 			dojo.require("dojo.parser");
 		</script>
 	</head>
@@ -45,8 +47,8 @@
 	</p>
 	<p class="box">
 		<button id="button" onclick="console.log('clicked native button');">&lt;button&gt;</button>
-		<input id="input" type="button" value="&lt;input type='button'&gt;">
-		<button id="1465" dojoType="dijit.form.Button" onClick='console.log("clicked simple")' iconClass="plusIcon" value="Create">
+		<input id="input" type="button" value="&lt;input type='button'&gt;" onclick="console.log('clicked native input button');">
+		<button id="1465" dojoType="dijit.form.Button" onClick='console.log("clicked simple");' iconClass="plusIcon" value="Create">
 			Create
 		</button>
 		<span dojoType="dijit.Tooltip" connectId="1465">tooltip on button</span>
@@ -317,6 +319,24 @@
     </script>
     <button id="createButton" onclick="createButton();">create dropdown button</button>
     <button id="destroyButton" onclick="destroyButton();">destroy dropdown button</button>
-
+	
+	<h3>Submit and Reset Buttons</h3>
+	<div>Testing that submit and reset buttons work properly.  OnSubmit and OnReset handlers
+		for the form just output to the console.
+	</div>
+	<form dojoType="dijit.form.Form" id="testForm" name="testForm" 
+		encType="multipart/form-data" action="../formAction.html" method="" >
+		<script type="dojo/method" event="onReset">
+			console.log("testForm onReset invoked");
+		</script>
+		<script type="dojo/method" event="onSubmit">
+			console.log("testForm onSubmit invoked - not really submitting");
+			return false;
+		</script>
+		<label for="testName">Name: </label><input dojoType="dijit.form.TextBox" id="testName" name="testName" value=""><br>
+		<button dojoType="dijit.form.Button" type="submit" id="bSubmit">Submit</button>&nbsp;&nbsp;
+		<button dojoType="dijit.form.Button" type="reset" id="bReset">Reset</button>
+	</form>
+		
 </body>
 </html>

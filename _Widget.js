@@ -4,6 +4,9 @@ dojo.provide("dijit._Widget");
 dojo.require( "dijit._base" );
 //>>excludeEnd("dijitBaseExclude");
 
+
+// This code is to assist deferring dojo.connect() calls in widgets (connecting to events on the widgets'
+// DOM nodes) until someone actually needs to monitor that event.
 dojo.connect(dojo, "_connect", 
 	function(/*Widget*/ widget, /*String*/ event){
 		if(widget && dojo.isFunction(widget._onConnect)){
@@ -12,6 +15,25 @@ dojo.connect(dojo, "_connect",
 	});
 
 dijit._connectOnUseEventHandler = function(/*Event*/ event){};
+
+//Keep track of where the last keydown event was, to help avoid generating
+//spurious ondijitclick events when:
+//1. focus is on a <button> or <a>
+//2. user presses then releases the ENTER key
+//3. onclick handler fires and shifts focus to another node, with an ondijitclick handler
+//4. onkeyup event fires, causing the ondijitclick handler to fire
+dijit._lastKeyDownNode = null;
+if(dojo.isIE){
+	dojo.doc.attachEvent('onkeydown', function(evt){
+		//console.log("keypress on IE");
+		dijit._lastKeyDownNode = evt.srcElement;
+	});
+}else{
+	dojo.doc.addEventListener('keydown', function(evt){
+		//console.log("keydown,  non-IE", evt.target);
+		dijit._lastKeyDownNode = evt.target;
+	}, true);
+}
 
 (function(){
 
@@ -880,9 +902,7 @@ dojo.declare("dijit._Widget", null, {
 		//		Provide widget-specific analog to dojo.connect, except with the
 		//		implicit use of this widget as the target object.
 		//		This version of connect also provides a special "ondijitclick"
-		//		event which triggers on a click or space-up, enter-down in IE
-		//		or enter press in FF (since often can't cancel enter onkeydown
-		//		in FF)
+		//		event which triggers on a click or space or enter keyup
 		// returns:
 		//		A handle that can be passed to `disconnect` in order to disconnect before
 		//		the widget is destroyed.
@@ -901,32 +921,31 @@ dojo.declare("dijit._Widget", null, {
 		var handles =[];
 		if(event == "ondijitclick"){
 			// add key based click activation for unsupported nodes.
-			if(!this.nodesWithKeyClick[obj.nodeName]){
+			// do all processing onkey up to prevent spurious clicks
+			// for details see comments at top of this file where _lastKeyDownNode is defined
+			if(!this.nodesWithKeyClick[obj.tagName.toLowerCase()]){
 				var m = d.hitch(this, method);
 				handles.push(
 					dc(obj, "onkeydown", this, function(e){
-						if(!d.isFF && e.keyCode == d.keys.ENTER &&
+						//console.log(this.id + ": onkeydown, e.target = ", e.target, ", lastKeyDownNode was ", dijit._lastKeyDownNode, ", equality is ", (e.target === dijit._lastKeyDownNode));
+						if((e.keyCode == d.keys.ENTER || e.keyCode == d.keys.SPACE) &&
 							!e.ctrlKey && !e.shiftKey && !e.altKey && !e.metaKey){
-							return m(e);
-						}else if(e.keyCode == d.keys.SPACE){
-							// stop space down as it causes IE to scroll
-							// the browser window
-							d.stopEvent(e);
+							// needed on IE for when focus changes between keydown and keyup - otherwise dropdown menus do not work
+							dijit._lastKeyDownNode = e.target;
+							d.stopEvent(e);		// stop event to prevent scrolling on space key in IE
 						}
 			 		}),
 					dc(obj, "onkeyup", this, function(e){
-						if(e.keyCode == d.keys.SPACE && 
-							!e.ctrlKey && !e.shiftKey && !e.altKey && !e.metaKey){ return m(e); }
+						//console.log(this.id + ": onkeyup, e.target = ", e.target, ", lastKeyDownNode was ", dijit._lastKeyDownNode, ", equality is ", (e.target === dijit._lastKeyDownNode));
+						if( (e.keyCode == d.keys.ENTER || e.keyCode == d.keys.SPACE) &&
+							e.target === dijit._lastKeyDownNode &&
+							!e.ctrlKey && !e.shiftKey && !e.altKey && !e.metaKey){
+								//need reset here or have problems in FF when focus returns to trigger element after closing popup/alert
+								dijit._lastKeyDownNode = null;  
+								return m(e);
+						}
 					})
 				);
-			 	if(d.isFF){
-					handles.push(
-						dc(obj, "onkeypress", this, function(e){
-							if(e.keyCode == d.keys.ENTER &&
-								!e.ctrlKey && !e.shiftKey && !e.altKey && !e.metaKey){ return m(e); }
-						})
-					);
-			 	}
 			}
 			event = "onclick";
 		}
