@@ -54,7 +54,13 @@ dojo.declare(
 			// summary:
 			//		Hook so attr('value') works.
 			var value = new Date(this.value);
-			value.setHours(0, 0, 0, 0);
+			value.setHours(0, 0, 0, 0); // return midnight, local time for back-compat
+
+			// If daylight savings pushes midnight to the previous date, fix the Date
+			// object to point at 1am so it will represent the correct day. See #9366
+			if(value.getDate() < this.value.getDate()){
+				value = dojo.date.add(value, "hour", 1);
+			}
 			return value;
 		},
 
@@ -68,7 +74,7 @@ dojo.declare(
 			//      protected
 			if(!this.value || dojo.date.compare(value, this.value)){
 				value = new Date(value);
-				value.setHours(1); // to avoid DST issues in Brazil see #8521
+				value.setHours(1); // to avoid issues when DST shift occurs at midnight, see #8521, #9366
 				this.displayMonth = new Date(value);
 				if(!this.isDisabledDate(value, this.lang)){
 					this.value = value;
