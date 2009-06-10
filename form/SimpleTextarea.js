@@ -65,7 +65,7 @@ dojo.declare("dijit.form.SimpleTextarea",
 			var value = this.textbox.value.replace(/\r/g,'');
 			var overflow = value.length - maxLength;
 			if(overflow > 0){
-				dojo.stopEvent(e);
+				if(e) dojo.stopEvent(e);
 				var textarea = this.textbox;
 				if(textarea.selectionStart){
 					var pos = textarea.selectionStart;
