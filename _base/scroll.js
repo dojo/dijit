@@ -17,9 +17,9 @@ dijit.scrollIntoView = function(/* DomNode */node){
 	//var testdir="H"; //debug
 	try{ // catch unexpected/unrecreatable errors (#7808) since we can recover using a semi-acceptable native method
 	node = dojo.byId(node);
-	var doc = dojo.doc;
-	var body = dojo.body();
-	var html = body.parentNode;
+	var doc = node.ownerDocument || dojo.doc;
+	var body = doc.body || dojo.body();
+	var html = doc.documentElement || body.parentNode;
 	// if FF2 (which is perfect) or an untested browser, then use the native method
 
 	if((!(dojo.isFF >= 3 || dojo.isIE || dojo.isWebKit) || node == body || node == html) && (typeof node.scrollIntoView == "function")){ // FF2 is perfect, too bad FF3 is not

@@ -443,7 +443,6 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 			dn.lastChild.style.marginTop = "-1.2em";
 		}
 
-		if(this.domNode.nodeName == "LI"){ this.domNode.lastChild.style.marginTop = "-1.2em"; }
 		dojo.addClass(this.domNode, "RichTextEditable");
 	},
 
@@ -1075,7 +1074,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 		//		This is fired if and only if the editor loses focus and
 		//		the content is changed.
 	},
-	_normalizeCommand: function(/*String*/ cmd){
+	_normalizeCommand: function(/*String*/ cmd, /*Anything?*/argument){
 		// summary:
 		//		Used as the advice function by dojo.connect to map our
 		//		normalized set of commands to those supported by the target
@@ -1085,7 +1084,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 
 		var command = cmd.toLowerCase();
 		if(command == "formatblock"){
-			if(dojo.isSafari){ command = "heading"; }
+			if(dojo.isSafari && argument === undefined){ command = "heading"; }
 		}else if(command == "hilitecolor" && !dojo.isMoz){
 			command = "backcolor";
 		}
@@ -1200,7 +1199,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 		//the command, the editor receives the focus as expected
 		this.focus();
 
-		command = this._normalizeCommand(command);
+		command = this._normalizeCommand(command, argument);
 
 		if(argument != undefined){
 			if(command == "heading"){
@@ -1301,7 +1300,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 		if(dojo.isMoz || dojo.isWebKit){
 			if(command == "unlink"){ // mozilla returns true always
 				// console.debug(this._sCall("hasAncestorElement", ['a']));
-				this._sCall("hasAncestorElement", ["a"]);
+				return this._sCall("hasAncestorElement", ["a"]);
 			}else if(command == "inserttable"){
 				return true;
 			}

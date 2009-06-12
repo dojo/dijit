@@ -199,7 +199,9 @@ dojo.declare(
 			}
 			//in IE, the selection will be lost when other elements get focus,
 			//let's save focus before the editor is deactivated
-			this._saveSelection();
+			if(e.target.tagName != "BODY"){
+				this._saveSelection();
+			}
 	        //console.log('onBeforeDeactivate',this);
 		},
 
@@ -255,9 +257,9 @@ dojo.declare(
 				}
 				try{
 					var r = this.inherited('execCommand', arguments);
-                    if(dojo.isWebKit && cmd=='paste' && !r){ //see #4598: safari does not support invoking paste from js
+					if(dojo.isWebKit && cmd=='paste' && !r){ //see #4598: safari does not support invoking paste from js
 						throw { code: 1011 }; // throw an object like Mozilla's error
-                    }
+					}
 				}catch(e){
 					//TODO: when else might we get an exception?  Do we need the Mozilla test below?
 					if(e.code == 1011 /* Mozilla: service denied */ && /copy|cut|paste/.test(cmd)){
@@ -292,15 +294,12 @@ dojo.declare(
 		focus: function(){
 			// summary:
 			//		Set focus inside the editor
-			var restore=0;
 			//console.log('focus',dijit._curFocus==this.editNode)
-			if(this._savedSelection && dojo.isIE){
-				restore = dijit._curFocus!=this.editNode;
+			var restore = !!this._savedSelection && dojo.isIE && dijit._curFocus!=this.editNode;
+			this.inherited(arguments);
+			if(restore){
+				this._restoreSelection();
 			}
-		    this.inherited(arguments);
-		    if(restore){
-		    	this._restoreSelection();
-		    }
 		},
 		_moveToBookmark: function(b){
 			// summary:
@@ -316,7 +315,7 @@ dojo.declare(
 					},this);
 				}
 			}else{//w3c range
-				var r=dijit.range.create();
+				var r=dijit.range.create(this.window);
 				r.setStart(dijit.range.getNode(b.startContainer,this.editNode),b.startOffset);
 				r.setEnd(dijit.range.getNode(b.endContainer,this.editNode),b.endOffset);
 				bookmark=r;
@@ -533,7 +532,7 @@ dojo.declare(
     			//selection and there is no need to restore it
     			//if(dojo.withGlobal(this.window,'isCollapsed',dijit)){
     				//console.log('_restoreSelection true')
-					this._moveToBookmark(this._savedSelection);
+				this._moveToBookmark(this._savedSelection);
 				//}
 				delete this._savedSelection;
 			}
