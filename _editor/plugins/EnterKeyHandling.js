@@ -309,7 +309,7 @@ dojo.declare("dijit._editor.plugins.EnterKeyHandling", dijit._editor._Plugin, {
 		//		thus hiding the fact that ENTER key on IE is creating new
 		//		paragraphs
 		if(this.editor.document.__INSERTED_EDITIOR_NEWLINE_CSS === undefined){
-			var lineFixingStyles = "p{margin:0 !important;}";
+			var lineFixingStyles = "p{margin:0;}"; // cannot use !important since there may be custom user styling
 			var insertCssText = function(
 				/*String*/ cssStr,
 				/*Document*/ doc,
@@ -505,13 +505,7 @@ dojo.declare("dijit._editor.plugins.EnterKeyHandling", dijit._editor._Plugin, {
 		}
 
 		function isParagraphDelimiter(node){
-			if(node.nodeType != 1 || node.tagName != 'P'){
-				return dojo.style(node, 'display') == 'block';
-			}else{
-				if(!node.childNodes.length || node.innerHTML=="&nbsp;"){ return true; }
-				//return node.innerHTML.match(/^(<br\ ?\/?>| |\&nbsp\;)$/i);
-			}
-			return false;
+			return (!node.childNodes.length || node.innerHTML=="&nbsp;");
 		}
 
 		var paragraphContainers = getParagraphParents(element);
@@ -521,7 +515,7 @@ dojo.declare("dijit._editor.plugins.EnterKeyHandling", dijit._editor._Plugin, {
 			var node = container.firstChild;
 			var deleteNode = null;
 			while(node){
-				if(node.nodeType != "1" || node.tagName != 'P'){
+				if(node.nodeType != 1 || node.tagName != 'P' || node.getAttributeNode('style').specified){
 					firstPInBlock = null;
 				}else if (isParagraphDelimiter(node)){
 					deleteNode = node;
