@@ -214,7 +214,7 @@ dojo.declare("dijit.tree.dndSource", dijit.tree._dndSelector, {
 					nodes.push(n[i]);
 				}
 				if(nodes.length){
-					m.startDrag(this, nodes, this.copyState(dojo.isCopyKeyPressed(e)));
+					m.startDrag(this, nodes, this.copyState(dojo.isCopyKey(e)));
 				}
 			}
 		}

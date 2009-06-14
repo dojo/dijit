@@ -85,14 +85,14 @@ dojo.declare("dijit.tree._dndSelector",
 				this.current.type="data";
 			}
 
-			if(!this.singular && !dojo.isCopyKeyPressed(e) && !e.shiftKey && (this.current.id in this.selection)){
+			if(!this.singular && !dojo.isCopyKey(e) && !e.shiftKey && (this.current.id in this.selection)){
 				this.simpleSelection = true;
 				dojo.stopEvent(e);
 				return;
 			}
 			if(this.singular){
 				if(this.anchor == this.current){
-					if(dojo.isCopyKeyPressed(e)){
+					if(dojo.isCopyKey(e)){
 						this.selectNone();
 					}
 				}else{
@@ -104,13 +104,13 @@ dojo.declare("dijit.tree._dndSelector",
 				}
 			}else{
 				if(!this.singular && e.shiftKey){	
-					if (dojo.isCopyKeyPressed(e)){
+					if (dojo.isCopyKey(e)){
 						//TODO add range to selection
 					}else{
 						//TODO select new range from anchor 
 					}
 				}else{
-					if(dojo.isCopyKeyPressed(e)){
+					if(dojo.isCopyKey(e)){
 						if(this.anchor == this.current){
 							delete this.selection[this.anchor.id];
 							this._removeAnchor();
