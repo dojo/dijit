@@ -185,7 +185,7 @@
 							}, 500);
 
 							// open via keyboard
-							if(navigator.userAgent.indexOf("Macintosh") >= 0){
+							if(dojo.isMac){
 								doh.robot.keyPress(dojo.keys.SPACE, 500, {ctrl: true});
 							}else{
 								doh.robot.keyPress(dojo.keys.F10, 500, {shift: true});

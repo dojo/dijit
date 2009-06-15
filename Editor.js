@@ -265,10 +265,9 @@ dojo.declare(
 					if(e.code == 1011 /* Mozilla: service denied */ && /copy|cut|paste/.test(cmd)){
 						// Warn user of platform limitation.  Cannot programmatically access clipboard. See ticket #4136
 						var sub = dojo.string.substitute,
-							accel = {cut:'X', copy:'C', paste:'V'},
-							isMac = navigator.userAgent.indexOf("Macintosh") != -1;
+							accel = {cut:'X', copy:'C', paste:'V'};
 						alert(sub(this.commands.systemShortcut,
-							[this.commands[cmd], sub(this.commands[isMac ? 'appleKey' : 'ctrlKey'], [accel[cmd]])]));
+							[this.commands[cmd], sub(this.commands[dojo.isMac ? 'appleKey' : 'ctrlKey'], [accel[cmd]])]));
 					}
 					r = false;
 				}

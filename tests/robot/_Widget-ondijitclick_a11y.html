@@ -76,7 +76,7 @@
 								w.domNode.focus();
 							}, 500);
 							doh.robot.keyPress(dojo.keys[key], 100, {shift: true});
-							if(navigator.userAgent.indexOf("Macintosh") < 0){
+							if(!dojo.isMac){
 								// Don't do this check on mac because ctrl-space causes the context menu to show up
 								doh.robot.keyPress(dojo.keys[key], 100, {ctrl: true});
 							}
