@@ -211,29 +211,6 @@ dojo.declare("dijit.form.DropDownButton", [dijit.form.Button, dijit._Container],
 		this._toggleDropDown();
 	},
 
-	_onDropDownClick: function(/*Event*/ e){
-		// on Firefox 2 on the Mac it is possible to fire onclick
-		// by pressing enter down on a second element and transferring
-		// focus to the DropDownButton;
-		// we want to prevent opening our menu in this situation
-		// and only do so if we have seen a keydown on this button;
-		// e.detail != 0 means that we were fired by mouse
-		var isMacFFlessThan3 = dojo.isFF < 3
-			&& navigator.appVersion.indexOf("Macintosh") != -1;
-		if(!isMacFFlessThan3 || e.detail != 0 || this._seenKeydown){
-			this._onArrowClick(e);
-		}
-		this._seenKeydown = false;
-	},
-
-	_onDropDownKeydown: function(/*Event*/ e){
-		this._seenKeydown = true;
-	},
-
-	_onDropDownBlur: function(/*Event*/ e){
-		this._seenKeydown = false;
-	},
-
 	_onKey: function(/*Event*/ e){
 		// summary:
 		//		Handler when the user presses a key on drop down widget
