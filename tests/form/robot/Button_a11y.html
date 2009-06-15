@@ -175,6 +175,37 @@
 							}), 1000);
 							return d;
 						}
+					},
+					{
+						name: "enter opens menu again",
+						timeout: 15000,
+						runTest: function(){
+							var d = new doh.Deferred();
+	
+							dijit.byId("edit").focus();
+							doh.robot.keyPress(dojo.keys.ENTER, 100, {});
+	
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.t(isVisible("editMenu"), "edit menu is visible: " + dijit.byId("editMenu").domNode.style.cssText);
+							}), 1000);
+							return d;
+						}
+					},
+					
+					{
+						name: "enter closes menu (#4772)",
+						timeout: 15000,
+						runTest: function(){
+							var d = new doh.Deferred();
+	
+							doh.robot.keyPress(dojo.keys.ENTER, 100, {});
+	
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.t(isHidden("editMenu"), "edit menu is hidden: " + dijit.byId("editMenu").domNode.style.cssText);
+								doh.is("edit", dojo.global.dijit._curFocus.id, "focus is back on button");
+							}), 1000);
+							return d;
+						}
 					}
 
 				]);
