@@ -478,6 +478,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 		return [
 			this.isLeftToRight() ? "<html><head>" : "<html dir='rtl'><head>",
 			(dojo.isMoz ? "<title>" + this._localizedIframeTitles.iframeEditTitle + "</title>" : ""),
+			"<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'>",
 			"<style>",
 			"body,html {",
 			"\tbackground:transparent;",
