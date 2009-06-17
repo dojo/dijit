@@ -75,10 +75,10 @@ dojo.declare("dijit.tree._dndSelector",
 			if(e.button == 2){ return; }	// ignore right-click
 
 			var treeNode = dijit.getEnclosingWidget(this.current),
-				id = treeNode.id;
+				id = treeNode.id + "-dnd"	// so id doesn't conflict w/widget
 
 			if (!this.current.id) {
-				this.current.id=id;
+				this.current.id = id;
 			}
 
 			if (!this.current.type) {
