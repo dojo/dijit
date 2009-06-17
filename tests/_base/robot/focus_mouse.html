@@ -29,18 +29,14 @@
 				doh.register("Dijit focus manager tests", [
 
 					function setUp(){
-						var d = new doh.Deferred();
-
-						doh.robot.sequence(d.getTestCallback(function(){
-							dojo.forEach(["form", "fieldset1", "fieldset2", "select", "editor"], function(id){
-								dojo.connect(dijit.byId(id), "_onFocus", function(){
-									focusEvents[id] = true;
-								});
-								dojo.connect(dijit.byId(id), "_onBlur", function(){
-									blurEvents[id] = true;
-								});
-							});	
-						}), 0);
+						dojo.forEach(["form", "fieldset1", "fieldset2", "select", "editor"], function(id){
+							dojo.connect(dijit.byId(id), "_onFocus", function(){
+								focusEvents[id] = true;
+							});
+							dojo.connect(dijit.byId(id), "_onBlur", function(){
+								blurEvents[id] = true;
+							});
+						});
 					},
 
 					{
