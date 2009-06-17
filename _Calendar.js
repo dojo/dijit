@@ -238,8 +238,9 @@ dojo.declare(
 				this._setText(monthSpacer, name);
 			}, this);
 
+			var value = this.value;
 			this.value = null;
-			this.attr('value', new this.dateClassObj());
+			this.attr('value', new this.dateClassObj(value));
 		},
 
 		_adjustDisplay: function(/*String*/ part, /*int*/ amount){
