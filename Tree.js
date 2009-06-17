@@ -255,23 +255,32 @@ dojo.declare(
 			// released
 			dojo.forEach(items, function(item){
 				var id = model.getIdentity(item),
-					existingNode = tree._itemNodeMap[id],
-					node = 
-						( existingNode && !existingNode.getParent() ) ?
-						existingNode :
-						this.tree._createTreeNode({
+					existingNodes = tree._itemNodesMap[id],
+					node;
+				if(existingNodes){
+					for(var i=0;i<existingNodes.length;i++){
+						if(existingNodes[i] && !existingNodes[i].getParent()){
+							node = existingNodes[i];
+							node.attr('indent', this.indent+1);
+							break;
+						}
+					}
+				}
+				if(!node){
+					node = this.tree._createTreeNode({
 							item: item,
 							tree: tree,
 							isExpandable: model.mayHaveChildren(item),
 							label: tree.getLabel(item),
 							indent: this.indent + 1
 						});
-				if(existingNode){
-					existingNode.attr('indent', this.indent+1);
+					if(existingNodes){
+						existingNodes.push(node);
+					}else{
+						tree._itemNodesMap[id] = [node];
+					}
 				}
 				this.addChild(node);
-				// note: this won't work if there are two nodes for one item (multi-parented items); will be fixed later
-				tree._itemNodeMap[id] = node;
 				if(this.tree._state(item)){
 					tree._expandNode(node);
 				}
@@ -528,7 +537,7 @@ dojo.declare(
 	postMixInProperties: function(){
 		this.tree = this;
 
-		this._itemNodeMap={};
+		this._itemNodesMap={};
 
 		if(!this.cookieName){
 			this.cookieName = this.id + "SaveStateCookie";
@@ -615,7 +624,12 @@ dojo.declare(
 					rn.rowNode.style.display="none";
 				}
 				this.domNode.appendChild(rn.domNode);
-				this._itemNodeMap[this.model.getIdentity(item)] = rn;
+				var identity = this.model.getIdentity(item);
+				if(this._itemNodesMap[identity]){
+					this._itemNodesMap[identity].push(rn);
+				}else{
+					this._itemNodesMap[identity] = [rn];
+				}
 
 				rn._updateLayout();		// sets "dijitTreeIsRoot" CSS classname
 
@@ -1082,11 +1096,14 @@ dojo.declare(
 		//		Processes notification of a change to an item's scalar values like label
 		var model = this.model,
 			identity = model.getIdentity(item),
-			node = this._itemNodeMap[identity];
+			nodes = this._itemNodesMap[identity];
 
-		if(node){
-			node.setLabelNode(this.getLabel(item));
-			node._updateItemClasses(item);
+		if(nodes){
+			var self = this;
+			dojo.forEach(nodes,function(node){
+				node.setLabelNode(self.getLabel(item));
+				node._updateItemClasses(item);
+			});
 		}
 	},
 
@@ -1095,10 +1112,12 @@ dojo.declare(
 		//		Processes notification of a change to an item's children
 		var model = this.model,
 			identity = model.getIdentity(parent),
-			parentNode = this._itemNodeMap[identity];
+			parentNodes = this._itemNodesMap[identity];
 
-		if(parentNode){
-			parentNode.setChildItems(newChildrenList);
+		if(parentNodes){
+			dojo.forEach(parentNodes,function(parentNode){
+				parentNode.setChildItems(newChildrenList);
+			});
 		}
 	},
 
@@ -1107,16 +1126,18 @@ dojo.declare(
 		//		Processes notification of a deletion of an item
 		var model = this.model,
 			identity = model.getIdentity(item),
-			node = this._itemNodeMap[identity];
+			nodes = this._itemNodesMap[identity];
 
-		if(node){
-			var parent = node.getParent();
-			if(parent){
-				// if node has not already been orphaned from a _onSetItem(parent, "children", ..) call...
-				parent.removeChild(node);
-			}
-			node.destroyRecursive();
-			delete this._itemNodeMap[identity];
+		if(nodes){
+			dojo.forEach(nodes,function(node){
+				var parent = node.getParent();
+				if(parent){
+					// if node has not already been orphaned from a _onSetItem(parent, "children", ..) call...
+					parent.removeChild(node);
+				}
+				node.destroyRecursive();
+			});
+			delete this._itemNodesMap[identity];
 		}
 	},
 

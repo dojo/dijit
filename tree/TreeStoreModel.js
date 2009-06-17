@@ -143,6 +143,14 @@ dojo.declare(
 		// =======================================================================
 		// Inspecting items
 
+		isItem: function(/* anything */ something){
+			return this.store.isItem(something);	// Boolean
+		},
+
+		fetchItemByIdentity: function(/* object */ keywordArgs){
+			this.store.fetchItemByIdentity(keywordArgs);
+		},
+
 		getIdentity: function(/* item */ item){
 			return this.store.getIdentity(item);	// Object
 		},
@@ -160,11 +168,15 @@ dojo.declare(
 		// =======================================================================
 		// Write interface
 
-		newItem: function(/* Object? */ args, /*Item*/ parent){
+		newItem: function(/* Object? */ args, /*Item*/ parent, /*int?*/ insertIndex){
 			// summary:
 			//		Creates a new item.   See `dojo.data.api.Write` for details on args.
 			//		Used in drag & drop when item from external source dropped onto tree.
-			var pInfo = {parent: parent, attribute: this.childrenAttrs[0]};
+			// description:
+			//		Developers will need to override this method if new items get added
+			//		to parents with multiple children attributes, in order to define which
+			//		children attribute points to the new item.
+			var pInfo = {parent: parent, attribute: this.childrenAttrs[0], insertIndex: insertIndex};
 			return this.store.newItem(args, pInfo);
 		},
 
@@ -175,7 +187,7 @@ dojo.declare(
 			var store = this.store,
 				parentAttr = this.childrenAttrs[0];	// name of "children" attr in parent item
 
-			// remove child from source item, and record the attributee that child occurred in	
+			// remove child from source item, and record the attribute that child occurred in	
 			if(oldParentItem){
 				dojo.forEach(this.childrenAttrs, function(attr){
 					if(store.containsValue(oldParentItem, attr, childItem)){

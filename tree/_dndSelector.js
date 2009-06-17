@@ -74,8 +74,8 @@ dojo.declare("dijit.tree._dndSelector",
 
 			if(e.button == 2){ return; }	// ignore right-click
 
-			var item = dijit.getEnclosingWidget(this.current).item;
-			var id = this.tree.model.getIdentity(item);
+			var treeNode = dijit.getEnclosingWidget(this.current),
+				id = treeNode.id;
 
 			if (!this.current.id) {
 				this.current.id=id;

@@ -51,6 +51,26 @@ dojo.declare(
 	// =======================================================================
 	// Inspecting items
 	
+	isItem: function(/* anything */ something){
+		// summary:
+		//		Returns true if *something* is an item and came from this model instance.  
+		//		Returns false if *something* is a literal, an item from another model instance, 
+		//		or is any object other than an item.
+		// tags:
+		//		extension
+	},
+
+	fetchItemByIdentity: function(/* object */ keywordArgs){
+		// summary:
+		//		Given the identity of an item, this method returns the item that has 
+		//		that identity through the onItem callback.  Conforming implementations 
+		//		should return null if there is no item with the given identity.  
+		//		Implementations of fetchItemByIdentity() may sometimes return an item 
+		//		from a local cache and may sometimes fetch an item from a remote server. 
+		// tags:
+		//		extension
+	},
+	
 	getIdentity: function(/* item */ item){
 		// summary:
 		//		Returns identity for an item

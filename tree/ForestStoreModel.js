@@ -86,6 +86,21 @@ dojo.declare("dijit.tree.ForestStoreModel", dijit.tree.TreeStoreModel, {
 	// =======================================================================
 	// Inspecting items
 
+	isItem: function(/* anything */ something){
+		return (something === this.root) ? true : this.inherited(arguments);
+	},
+
+	fetchItemByIdentity: function(/* object */ keywordArgs){
+		if(keywordArgs.identity == this.root.id){
+			var scope =  keywordArgs.scope?keywordArgs.scope:dojo.global;
+			if(keywordArgs.onItem){
+				keywordArgs.onItem.call(scope, this.root);
+			}
+		}else{
+			this.inherited(arguments);
+		}
+	},
+
 	getIdentity: function(/* item */ item){
 		return (item === this.root) ? this.root.id : this.inherited(arguments);
 	},
