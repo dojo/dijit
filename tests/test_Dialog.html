@@ -134,8 +134,8 @@
 	<button dojoType="dijit.form.Button" onclick="dijit.byId('tabDialog').show()">Show TabContainer Dialog</button> |
 
 	<div dojoType="dijit.Dialog" id="tabDialog" title="TabContainer Dialog">
-		<div dojoType="dijit.layout.TabContainer" style="width: 400px; height: 400px;">
-			<div dojoType="dijit.layout.ContentPane" title="First tab">
+		<div dojoType="dijit.layout.TabContainer" id="tc" style="width: 400px; height: 400px;">
+			<div dojoType="dijit.layout.ContentPane" id="cp1" title="First tab">
 				<p>
 					This is the first tab.
 				</p>
@@ -148,7 +148,7 @@
 				risus.
 				</p>
 			</div>
-			<div dojoType="dijit.layout.ContentPane" title="Second tab">
+			<div dojoType="dijit.layout.ContentPane" id="cp2" title="Second tab">
 				<p>
 					This is the second tab.
 				</p>
