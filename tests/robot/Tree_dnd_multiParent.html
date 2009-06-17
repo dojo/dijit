@@ -1,0 +1,188 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+		"http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<title>doh.robot Tree DnD Multi-parent Test</title>
+
+		<style>
+			@import "../../../util/doh/robot/robot.css";
+		</style>
+
+		<!-- required: dojo.js -->
+		<script type="text/javascript" src="../../../dojo/dojo.js"
+			djConfig="isDebug: true, parseOnLoad: true"></script>
+			
+		<!-- functions to help test -->
+		<script type="text/javascript" src="../helpers.js"></script>
+		<script type="text/javascript" src="Tree_dnd.js"></script>
+
+		<script type="text/javascript">
+			dojo.require("dijit.dijit"); // optimize: load dijit layer
+			dojo.require("dijit.robotx");
+
+			dojo.addOnLoad(function(){
+				doh.robot.initRobot('../tree/test_Tree_Dnd.html');
+
+				doh.register("setup", {
+					name: "setup",
+					timeout: 20000,
+					setUp: function(){
+						setup();
+					}
+				});
+
+				// drag 'Vegetables' from left tree to right tree
+				doh.register("multi-parent tests", [ 
+					{
+						name: "add 'Fruits' as parent of vegetables",
+						timeout: 10000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							var vegetablesTreeNode = findTreeNodeByPath("collectionsTree", ["Vegetables (0)"]),	// the left tree
+								foodsTreeNode = dijit.byId("itemTree").rootNode,								// right tree
+								fruitsTreeNode = findTreeNodeByPath("itemTree", ["Fruits"]);					// right tree
+
+							// (Try to) make sure drag source and drop source are both in viewport
+							dijit.scrollIntoView(fruitsTreeNode.domNode);
+
+							// Drag and Drop
+							// TODO: keypress for copying (rather than moving) see #7651
+							doh.robot.mouseMoveAt(vegetablesTreeNode.domNode, 0, 1000);
+							doh.robot.mousePress({left: true}, 500);
+							doh.robot.mouseMoveAt(fruitsTreeNode.labelNode, 500, 2000);
+							doh.robot.mouseRelease({left: true}, 2000);	// browser needs time to react to mouseMove events above
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								// Check that Vegetables remains a child of Foods
+								var children = getNamesOfChildrenOfItem("Foods");
+								doh.is(3, children.categories.length, "foods category child");
+								doh.is("Fruits", children.categories[0]);
+								doh.is("Vegetables", children.categories[1]);
+								doh.is("Cereals", children.categories[2]);
+
+								// Check that Vegetables added as child of Fruits
+								var children = getNamesOfChildrenOfItem("Fruits");
+								doh.is(2, children.categories.length, "foods category child");
+								doh.is("Citrus", children.categories[0]);
+								doh.is("Vegetables", children.categories[1]);
+
+								// Check that new item *wasn't* created
+								var items;
+								dojo.global.myStore.fetch({
+									onComplete: function(i){ items = i; }
+								});
+								doh.is(6, items.length, "# of items in store");
+
+								// Check that data store update was reflected in the tree
+								doh.t(fruitsTreeNode.isExpanded, "drop caused the node to expand");
+								var treeNodeChildren = fruitsTreeNode.getChildren();
+								doh.is(2, treeNodeChildren.length, "2 TreeNode children")
+								doh.is("Citrus", innerText(treeNodeChildren[0].labelNode));
+								doh.is("Vegetables", innerText(treeNodeChildren[1].labelNode));
+							}), 1000);	// 1000ms to wait for 'Fruits' node to expand and show 'Apple' node
+		
+							return d;
+						}
+					},
+					{
+						name: "move Foods/Vegetables to Foods/Cereal/Vegetables",
+						timeout: 10000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							var vegetablesTreeNode = findTreeNodeByPath("itemTree", ["Vegetables"]),
+								cerealsTreeNode = findTreeNodeByPath("itemTree", ["Cereals"]);
+
+							// (Try to) make sure drag source and drop source are both in viewport
+							dijit.scrollIntoView(cerealsTreeNode.domNode);
+
+							// Drag and Drop
+							doh.robot.mouseMoveAt(vegetablesTreeNode.domNode, 0, 1000);
+							doh.robot.mousePress({left: true}, 500);
+							doh.robot.mouseMoveAt(cerealsTreeNode.labelNode, 500, 1000);
+							doh.robot.mouseRelease({left: true}, 1000);	// browser needs time to react to mouseMove events above
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								// Check that Vegetables remains a child of Fruits
+								var children = getNamesOfChildrenOfItem("Fruits");
+								doh.is(2, children.categories.length, "fruits category child");
+								doh.is("Citrus", children.categories[0]);
+								doh.is("Vegetables", children.categories[1]);
+
+								// Check that Vegetables added as child of Cereals
+								children = getNamesOfChildrenOfItem("Cereals");
+								doh.is(1, children.categories.length, "cereals category child");
+								doh.is("Vegetables", children.categories[0]);
+
+								// Check that Vegetables no longer a child of Foods
+								children = getNamesOfChildrenOfItem("Foods");
+								doh.is(2, children.categories.length, "foods category child");
+								doh.is("Fruits", children.categories[0]);
+								doh.is("Cereals", children.categories[1]);
+
+								// Check that new item *wasn't* created
+								var items;
+								dojo.global.myStore.fetch({
+									onComplete: function(i){ items = i; }
+								});
+								doh.is(6, items.length, "# of items in store");
+							}), 1000);	// 1000ms to wait for 'Fruits' node to expand and show 'Apple' node
+		
+							return d;
+						}
+					},
+					{
+						name: "move Fruits/Vegetables to Fruits/Citrus",
+						timeout: 10000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							var vegetablesTreeNode = findTreeNodeByPath("itemTree", ["Fruits", "Vegetables"]),
+								citrusTreeNode = findTreeNodeByPath("itemTree", ["Fruits", "Citrus"]);
+
+							// (Try to) make sure drag source and drop source are both in viewport
+							dijit.scrollIntoView(vegetablesTreeNode.domNode);
+
+							// Drag and Drop
+							doh.robot.mouseMoveAt(vegetablesTreeNode.domNode, 0, 1000);
+							doh.robot.mousePress({left: true}, 500);
+							doh.robot.mouseMoveAt(citrusTreeNode.labelNode, 500, 1000);
+							doh.robot.mouseRelease({left: true}, 1000);	// browser needs time to react to mouseMove events above
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								// Check that Vegetables remains a child of Cereals
+								var children = getNamesOfChildrenOfItem("Cereals");
+								doh.is(1, children.categories.length, "cereals category child");
+								doh.is("Vegetables", children.categories[0]);
+
+								// Check that Vegetables added as child of Citrus
+								children = getNamesOfChildrenOfItem("Citrus");
+								doh.is(1, children.categories.length, "citrus category child");
+								doh.is("Vegetables", children.categories[0]);
+								doh.is(1, children.items.length, "citrus item child");
+								doh.is("Orange", children.items[0]);
+
+								// Check that Vegetables removed as child of Fruits
+								children = getNamesOfChildrenOfItem("Fruits");
+								doh.is(1, children.categories.length, "fruits category child");
+								doh.is("Citrus", children.categories[0]);
+
+								// Check that new item *wasn't* created
+								var items;
+								dojo.global.myStore.fetch({
+									onComplete: function(i){ items = i; }
+								});
+								doh.is(6, items.length, "# of items in store");
+							}), 1000);	// 1000ms to wait for 'Fruits' node to expand and show 'Apple' node
+		
+							return d;
+						}
+					}
+				]);
+				
+				doh.run();
+			});
+		</script>
+	</head>
+</html>
