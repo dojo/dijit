@@ -989,7 +989,7 @@
 				},
 				{
 					timeout:60000,
-					name:"initial filter",
+					name:"initial filter, descending sort",
 					runTest:function(){
 						var d = new doh.Deferred();
 						var combo = dijit.byId("progCombo3");
@@ -998,14 +998,16 @@
 						doh.robot.keyPress("A", 100);
 						
 						doh.robot.sequence(d.getTestCallback(function(){
-							// Check that drop down list *doesn't* contain Africa, just Argentina
+							// Check that drop down list *doesn't* contain Africa (since it's a continent),
+							// just Argentina and Australia, in descending sort order
 							var list = dojo.byId("progCombo3_popup");
 							doh.t(list, "drop down exists");
 							doh.t(isVisible(list), "drop down is visible");
 							
 							var entries = dojo.query("li", list).filter(isVisible);
-							doh.is(1, entries.length, "only one entry in drop down: " + list.innerHTML);
-							doh.is("Argentina", innerText(entries[0]), "list #1");						
+							doh.is(2, entries.length, "two countries (but no continents) in drop down: " + list.innerHTML);
+							doh.is("Australia", innerText(entries[0]), "list #1");						
+							doh.is("Argentina", innerText(entries[1]), "list #2");						
 						}), 500);
 						
 						return d;
