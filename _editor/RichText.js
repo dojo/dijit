@@ -1209,6 +1209,13 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 				argument = '<'+argument+'>';
 			}
 		}
+		
+		if(command === "inserthorizontalrule" && dojo.isIE){
+			//IE doesn't natively insert HR tags right.  Simple solution
+			//is to use the inserthtml logic, which will insert it right.
+			command = "inserthtml";
+			argument = "<hr>";
+		}
 		if(command == "inserthtml"){
 			//TODO: we shall probably call _preDomFilterContent here as well
 			argument = this._preFilterContent(argument);
