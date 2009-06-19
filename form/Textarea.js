@@ -32,6 +32,8 @@ dojo.declare(
 			newH += textarea.offsetHeight - textarea.clientHeight - ((dojo.isIE < 8 && this._strictMode)? dojo._getPadBorderExtents(textarea).h : 0);
 		}else if(dojo.isMoz){
 			newH += textarea.offsetHeight - textarea.clientHeight; // creates room for horizontal scrollbar
+		}else if(dojo.isSafari/*NOT isWebKit*/ >= 4){
+			newH += dojo._getBorderExtents(textarea).h;
 		}else{
 			newH += dojo._getPadBorderExtents(textarea).h;
 		}
@@ -44,24 +46,26 @@ dojo.declare(
 		if(this._busyResizing){ return; }
 		this._busyResizing = true;
 		var textarea = this.textbox;
-		textarea.scrollTop = 0;
 		var newH = this._getHeight(textarea);
-		if(newH > 0 && textarea.style.height != newH){
-			textarea.style.maxHeight = textarea.style.height = newH + "px";
+		if(newH > 0){
+			newH = newH + "px";
+			if(textarea.style.height != newH){
+				textarea.style.maxHeight = textarea.style.height = newH;
+			}
+		}
+		if((dojo.isMoz || dojo.isSafari/*NOT isWebKit*/)){
+			if(this._setTimeoutHandle){
+				clearTimeout(this._setTimeoutHandle);
+			}
+			this._setTimeoutHandle = setTimeout(dojo.hitch(this, "_shrink"), 0); // try to collapse multiple shrinks into 1
 		}
 		this._busyResizing = false;
-		if(dojo.isMoz || dojo.isWebKit){
-			var newlines = (textarea.value.match(/\n/g) || []).length;
-			if(newlines < this._previousNewlines){
-				this._shrink();
-			}
-			this._previousNewlines = newlines;
-		}
 	},
 
 	_busyResizing: false,
 	_shrink: function(){
 		// grow paddingBottom to see if scrollHeight shrinks (when it is unneccesarily big)
+		this._setTimeoutHandle = null;
 		if((dojo.isMoz || dojo.isSafari/*NOT isWebKit*/) && !this._busyResizing){
 			this._busyResizing = true;
 			var textarea = this.textbox;
@@ -70,25 +74,16 @@ dojo.declare(
 				textarea.value = ' '; // prevent collapse all the way back to 0
 				empty = true;
 			}
-			var newH = this._getHeight(textarea);
-			if(newH > 0){
-				var newScrollHeight = textarea.scrollHeight;
-				var scrollHeight = -1;
-				var oldPadding = dojo.getComputedStyle(textarea).paddingBottom;
-				var padding = dojo._getPadExtents(textarea);
-				var paddingBottom = padding.h - padding.t;
-				textarea.style.maxHeight = newH + "px";
-				while(scrollHeight != newScrollHeight){
-					scrollHeight = newScrollHeight;
-					paddingBottom += 16; // try a big chunk at a time
-					textarea.style.paddingBottom = paddingBottom + "px";
-					textarea.scrollTop = 0;
-					newScrollHeight = textarea.scrollHeight;
-					newH -= scrollHeight - newScrollHeight;
-				}
-				textarea.style.paddingBottom = oldPadding;
-				textarea.style.maxHeight = textarea.style.height = newH + "px";
+			var scrollHeight = textarea.scrollHeight;
+			var oldPadding = textarea.style.paddingBottom;
+			var padding = dojo._getPadExtents(textarea);
+			textarea.style.paddingBottom = padding.h - padding.t + scrollHeight + "px";
+			textarea.scrollTop = 0;
+			var newH = this._getHeight(textarea) - scrollHeight + "px"; // scrollHeight is the added padding
+			if(textarea.style.maxHeight != newH){
+				textarea.style.maxHeight = newH;
 			}
+			textarea.style.paddingBottom = oldPadding;
 			if(empty){
 				textarea.value = '';
 			}
