@@ -64,7 +64,7 @@ dojo.declare("dijit._DialogMixin", null,
 			this._lastFocusItem = elems.last || elems.highest || this._firstFocusItem;
 			if(dojo.isMoz && this._firstFocusItem.tagName.toLowerCase() == "input" && dojo.attr(this._firstFocusItem, "type").toLowerCase() == "file"){
 					//FF doesn't behave well when first element is input type=file, set first focusable to dialog container
-					dojo.attr(dialogNode, "tabindex", "0");
+					dojo.attr(dialogNode, "tabIndex", "0");
 					this._firstFocusItem = dialogNode;
 			}
 		}

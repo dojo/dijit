@@ -19,7 +19,7 @@ dojo.declare("dijit._KeyNavContainer",
 =====*/
 
 		// tabIndex: Integer
-		//		Tab index of the container; same as HTML tabindex attribute.
+		//		Tab index of the container; same as HTML tabIndex attribute.
 		//		Note then when user tabs into the container, focus is immediately
 		//		moved to the first item in the container.
 		tabIndex: "0",
@@ -135,20 +135,20 @@ dojo.declare("dijit._KeyNavContainer",
 
 		_startupChild: function(/*Widget*/ widget){
 			// summary:
-			//		Set tabindex="-1" on focusable widgets so that we
+			//		Set tabIndex="-1" on focusable widgets so that we
 			// 		can focus them programmatically and by clicking.
 			//		Connect focus and blur handlers.
 			// tags:
 			//		private
 			if(widget.getFocalNodes){
 				dojo.forEach(widget.getFocalNodes(), function(node){
-					dojo.attr(node, "tabindex", -1);
+					dojo.attr(node, "tabIndex", -1);
 					this._connectNode(node);
 				}, this);
 			}else{
 				var node = widget.focusNode || widget.domNode;
 				if(widget.isFocusable()){
-					dojo.attr(node, "tabindex", -1);
+					dojo.attr(node, "tabIndex", -1);
 				}
 				this._connectNode(node);
 			}
@@ -194,7 +194,7 @@ dojo.declare("dijit._KeyNavContainer",
 			// Note that using _onBlur() so that this doesn't happen when focus is shifted
 			// to one of my child widgets (typically a popup)
 			if(this.tabIndex){
-				dojo.attr(this.domNode, "tabindex", this.tabIndex);
+				dojo.attr(this.domNode, "tabIndex", this.tabIndex);
 			}
 			this.inherited(arguments);
 		},

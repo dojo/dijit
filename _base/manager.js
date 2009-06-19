@@ -279,7 +279,7 @@ dijit.getEnclosingWidget = function(/* DOMNode */ node){
 	return null;
 };
 
-// elements that are tab-navigable if they have no tabindex value set
+// elements that are tab-navigable if they have no tabIndex value set
 // (except for "a", which must have an href attribute)
 dijit._tabElements = {
 	area: true,
@@ -302,8 +302,8 @@ dijit.isTabNavigable = function(/*Element*/elem){
 	// summary:
 	//		Tests if an element is tab-navigable
 	if(dojo.hasAttr(elem, "disabled")){ return false; }
-	var hasTabindex = dojo.hasAttr(elem, "tabindex");
-	var tabindex = dojo.attr(elem, "tabindex");
+	var hasTabindex = dojo.hasAttr(elem, "tabIndex");
+	var tabindex = dojo.attr(elem, "tabIndex");
 	if(hasTabindex && tabindex >= 0) {
 		return true; // boolean
 	}
@@ -323,20 +323,20 @@ dijit._getTabNavigable = function(/*DOMNode*/root){
 	// description:
 	//		Finds the following descendants of the specified root node:
 	//		* the first tab-navigable element in document order
-	//		  without a tabindex or with tabindex="0"
+	//		  without a tabIndex or with tabIndex="0"
 	//		* the last tab-navigable element in document order
-	//		  without a tabindex or with tabindex="0"
+	//		  without a tabIndex or with tabIndex="0"
 	//		* the first element in document order with the lowest
-	//		  positive tabindex value
+	//		  positive tabIndex value
 	//		* the last element in document order with the highest
-	//		  positive tabindex value
+	//		  positive tabIndex value
 	var first, last, lowest, lowestTabindex, highest, highestTabindex;
 	var walkTree = function(/*DOMNode*/parent){
 		dojo.query("> *", parent).forEach(function(child){
 			var isShown = dijit._isElementShown(child);
 			if(isShown && dijit.isTabNavigable(child)){
-				var tabindex = dojo.attr(child, "tabindex");
-				if(!dojo.hasAttr(child, "tabindex") || tabindex == 0){
+				var tabindex = dojo.attr(child, "tabIndex");
+				if(!dojo.hasAttr(child, "tabIndex") || tabindex == 0){
 					if(!first){ first = child; }
 					last = child;
 				}else if(tabindex > 0){

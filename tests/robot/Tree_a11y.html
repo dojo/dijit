@@ -92,12 +92,12 @@
 			
 			var addTabNavFoci = function(inTree){
 				var aPara = dojo.doc.createElement("p");
-				dojo.attr(aPara, 'tabindex', 0);
+				dojo.attr(aPara, 'tabIndex', 0);
 				aPara.innerHTML = "Tab-focussable paragraph just above " + inTree.id;
 				dojo.place(aPara, inTree.domNode, "before");
 				xtraParas.push(aPara);
 				aPara = dojo.doc.createElement("p");
-				dojo.attr(aPara, 'tabindex', 0);
+				dojo.attr(aPara, 'tabIndex', 0);
 				aPara.innerHTML = "Tab-focussable paragraph just below  " + inTree.id;
 				dojo.place(aPara, inTree.domNode, "after");
 				xtraParas.push(aPara);
