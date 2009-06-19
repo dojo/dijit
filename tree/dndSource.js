@@ -411,7 +411,7 @@ dojo.declare("dijit.tree.dndSource", dijit.tree._dndSelector, {
 					model.pasteItem(childItem, oldParentItem, newParentItem, copy, insertIndex);
 				}else if(model.isItem(childItem)){
 					// Item from same model
-					model.pasteItem(childItem, oldParentItem, newParentItem, true, insertIndex);
+					model.pasteItem(childItem, oldParentItem, newParentItem, copy, insertIndex);
 				}else{
 					if(newItemsParams[idx].id){
 						model.fetchItemByIdentity({identity: newItemsParams[idx].id, onItem: function(item){

@@ -46,12 +46,28 @@
 							// (Try to) make sure drag source and drop source are both in viewport
 							dijit.scrollIntoView(fruitsTreeNode.domNode);
 
-							// Drag and Drop
-							// TODO: keypress for copying (rather than moving) see #7651
+							// Drag and Drop, *copying* in order to add a parent rather than change
 							doh.robot.mouseMoveAt(vegetablesTreeNode.domNode, 0, 1000);
+							doh.robot.keyDown(dojo.keys.copyKey, 500);
+							if(dojo.isMac){
+								// I can't DOH robot to generate the mousePress event w/metaKey=true so
+								// hack it
+								doh.robot.sequence(function(){
+									realIsCopyKey = dojo.global.dojo.isCopyKey;
+									dojo.global.dojo.isCopyKey = function(){ return true; }
+								});
+							}
 							doh.robot.mousePress({left: true}, 500);
 							doh.robot.mouseMoveAt(fruitsTreeNode.labelNode, 500, 2000);
 							doh.robot.mouseRelease({left: true}, 2000);	// browser needs time to react to mouseMove events above
+							doh.robot.keyUp(dojo.keys.copyKey, 500);
+							if(dojo.isMac){
+								// I can't DOH robot to generate the mousePress event w/metaKey=true so
+								// hack it
+								doh.robot.sequence(function(){
+									dojo.global.dojo.isCopyKey = realIsCopyKey;
+								});
+							}
 
 							doh.robot.sequence(d.getTestCallback(function(){
 								// Check that Vegetables remains a child of Foods

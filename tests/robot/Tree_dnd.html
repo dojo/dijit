@@ -267,6 +267,43 @@
 					}
 
 				]);
+
+				doh.register("drag between trees", [ 
+					{
+						name: "move 'Vegetables' from left tree to right tree, from 'Fruits' to 'Foods'",
+						timeout: 10000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							var vegetablesTreeNode = findTreeNode("collectionsTree", "Vegetables (0)");
+								foodsTreeNode = dijit.byId("itemTree").rootNode;
+
+							doh.robot.mouseMoveAt(vegetablesTreeNode.labelNode, 0, 500);
+							doh.robot.mousePress({left: true}, 500);
+							doh.robot.mouseMoveAt(foodsTreeNode.labelNode, 500, 1000);
+							doh.robot.mouseRelease({left: true}, 500);
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								var myStore = dojo.global.myStore;
+
+								// Check that data store item was orphaned from Fruits
+								var fruitsItemChildren = getNamesOfChildrenOfItem("Fruits");
+								doh.is(1, fruitsItemChildren.categories.length, "one fruits child");
+								doh.is("Citrus", fruitsItemChildren.categories[0], "one fruits child");
+
+								// And added to Foods
+								var foodsItemChildren = getNamesOfChildrenOfItem("Foods");
+								doh.is(3, foodsItemChildren.categories.length, "three foods children");
+								doh.is("Fruits", foodsItemChildren.categories[0], "food child");
+								doh.is("Cereals", foodsItemChildren.categories[1], "food child");
+								doh.is("Vegetables", foodsItemChildren.categories[2], "food child");
+							}), 1000);	// browser needs time to react to mouseMove events above
+		
+							return d;
+						}
+					}
+				]);
+
 				// TODO: test icon and highlighting when valid drop target and invalid target (another item)
 				
 				doh.run();
