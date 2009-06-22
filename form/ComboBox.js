@@ -276,10 +276,17 @@ dojo.declare(
 					this._prev_key_esc = false;
 					break;
 
-				default: // non char keys (F1-F12 etc..)  shouldn't open list
+				default:
 					this._prev_key_backspace = false;
 					this._prev_key_esc = false;
-					doSearch = typeof key == 'string';
+
+					// Non char keys (F1-F12 etc..)  shouldn't open list.
+					// Ascii characters and IME input (Chinese, Japanese etc.) should.
+					// On IE and safari, IME input produces keycode == 229.
+					// Firefox handles IME input via the compositionend event handler,
+					// which ends up in this branch of code with key undefined.
+					doSearch = typeof key == 'string' ||
+								key == 229 || typeof key == 'undefined';
 			}
 			if(this.searchTimer){
 				clearTimeout(this.searchTimer);
@@ -626,7 +633,7 @@ dojo.declare(
 			//		When inputting characters using an input method, such as
 			//		Asian languages, it will generate this event instead of
 			//		onKeyDown event.
-			//		Note: this event is only triggered in FF (not in IE)
+			//		Note: this event is only triggered in FF (not in IE/safari)
 			// tags:
 			//		private
 			this._onKeyPress({charCode:-1});
