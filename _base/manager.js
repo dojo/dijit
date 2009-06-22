@@ -301,7 +301,7 @@ dijit._isElementShown = function(/*Element*/elem){
 dijit.isTabNavigable = function(/*Element*/elem){
 	// summary:
 	//		Tests if an element is tab-navigable
-	if(dojo.hasAttr(elem, "disabled")){ return false; }
+	if(dojo.attr(elem, "disabled")){ return false; }
 	var hasTabindex = dojo.hasAttr(elem, "tabIndex");
 	var tabindex = dojo.attr(elem, "tabIndex");
 	if(hasTabindex && tabindex >= 0) {
