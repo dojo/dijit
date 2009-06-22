@@ -3,18 +3,18 @@
 	background:#fff url("images/titleBar.png") repeat-x bottom left;
 	border:1px solid #bfbfbf;
 	padding:3px 4px;
-	cursor: pointer;
 }
 .tundra .dijitTitlePaneTitle-hover  {
 	background: #f8fafd url("images/accordionItemHover.gif") bottom repeat-x;
+	cursor: pointer;
 }
 
 .tundra .dijitTitlePaneTitle * {
 	vertical-align: middle;
 }
 
-.tundra .dijitTitlePane .dijitArrowNode {
-	cursor: pointer;
+.tundra .dijitTitlePane .dijitOpen .dijitArrowNode,
+.tundra .dijitTitlePane .dijitClosed .dijitArrowNode {
 	background-image: url('images/spriteArrows.png');
 	background-repeat: no-repeat;
 	height: 7px;
@@ -36,17 +36,19 @@
 }
 
 .tundra .dijitTitlePane .dijitArrowNodeInner {
+	/* hide A11Y text in favor of icon */
 	display:none;
 }
 
-.dijit_a11y .dijitTitlePane .dijitArrowNodeInner {
+.dijit_a11y .dijitTitlePane .dijitOpen .dijitArrowNodeInner,
+.dijit_a11y .dijitTitlePane .dijitClosed .dijitArrowNodeInner {
 	display:inline !important;
 	font-family:monospace;
-	cursor: pointer;
 	padding-bottom:.2em;
 }
 
 .dijit_a11y .dijitTitlePane .dijitArrowNode {
+	/* except in a11y mode, then hide icon in favor of text */
 	display:none;
 }
 

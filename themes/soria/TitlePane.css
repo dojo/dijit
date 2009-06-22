@@ -1,5 +1,5 @@
 /** 
- * dijit.layout.TitlePane 
+ * dijit.TitlePane 
  *
  */ 
  
@@ -8,20 +8,21 @@
 	background:#fff url("images/titleBar.png") repeat-x top left;
 	border:1px solid #bfbfbf;
 	padding:3px 4px;
-	cursor: pointer;
 	font-size: 0.9em;
 	font-weight: bold;
 	color: #6d6d6d;
 }
 .soria .dijitTitlePaneTitle-hover {
 	background: #f9f9f9 url("images/accordionItemActive.png") top repeat-x;
+	cursor: pointer;
 }
 
 .soria .dijitTitlePaneTitle * {
 	vertical-align: middle;
 }
 
-.soria .dijitTitlePane .dijitArrowNode {
+.soria .dijitTitlePane .dijitOpen .dijitArrowNode,
+.soria .dijitTitlePane .dijitClosed .dijitArrowNode {
 	width:15px;
 	height:15px;
 }
@@ -31,7 +32,8 @@
 }
 
 
-.soria .dijitOpen .dijitTitlePaneTextNode {
+.soria .dijitOpen .dijitTitlePaneTextNode,
+.soria .dijitFixedOpen .dijitTitlePaneTextNode {
 	color: #243C5F;
 }
 
@@ -51,10 +53,10 @@
 	display:none;
 }
 
-.dijit_a11y .dijitTitlePane .dijitArrowNodeInner {
+.dijit_a11y .dijitTitlePane .dijitOpen .dijitArrowNodeInner,
+.dijit_a11y .dijitTitlePane .dijitClosed .dijitArrowNodeInner {
 	display:inline !important;
 	font-family:monospace;
-	cursor: pointer;
 	padding-bottom:.2em;
 }
 
