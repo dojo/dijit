@@ -50,7 +50,7 @@
 			onClick="dojo.byId('plainbutton').focus();">
 		click me using space or enter, to focus button below
 	</div>
-	<button id="plainbutton" onclick="console.log('plain button clicked'); window.clicked = true;">plain button</button>
+	<button id="plainbutton" onclick="console.log('plain button clicked'); window.clicked = true;" type="button" >plain button</button>
 	
 	<div id="second" dojoType="dijit.WidgetWithOndijitclick" tabIndex=0
 			onClick="dojo.byId('textarea').focus();">
@@ -59,7 +59,7 @@
 	<textarea id="textarea">hello world</textarea>
 
 	<br>
-	<button id="button2" style="margin-top: 2em;"
+	<button id="button2" style="margin-top: 2em;" type="button"
 			onClick="dojo.byId('third').focus();">
 		click me using space or enter, to focus ondijitclick widget below
 	</button>
