@@ -326,7 +326,7 @@
 		dojo.addOnLoad(function(){
 			doh.robot.initRobot('../test_Tree.html');
 			var treeTest = treeTests();
-			
+
 			// aria role and properties tests.
 			doh.register("a11yAria",
 			[
@@ -425,8 +425,8 @@
 				}
 			]);
 			
-			// Keyboard navigate/expand/collapse robot tests
-			doh.register("a11y keyboard navigate/expand/collapse",
+			// Keyboard navigate/expand/collapse robot tests (arrow keys, and home/end)
+			doh.register("keyboard arrow navigation/expand/collapse",
 			[
 				{
 					name:"mytreeNavExpandCollpaseA11y",
@@ -516,6 +516,180 @@
 				}
 			]);
 
+			// Test for typing "a" to navigate to nodes that start with "a", etc.
+			doh.register("keyboard search tests",
+			[
+				{
+					name:"Setup tree",
+					timeout:4000,
+					runTest:function(){
+						var d = new doh.Deferred();
+						
+						var tree = dijit.byId("mytree");
+
+						// Close all tree nodes except for Asia and Oceania
+						dojo.forEach(tree.rootNode.getChildren(), function(child, idx){
+							if(child.label == "Asia" || child.label == "Oceania"){
+								console.log("expanding " + child.label);
+								if(!child.isExpanded){
+									tree._expandNode(child);
+								}
+							}else{
+								console.log("collapsing " + child.label);
+								if(child.isExpanded){
+									tree._collapseNode(child);
+								}
+							}
+						});
+
+						doh.robot.sequence(d.getTestCallback(function(){
+							// Just waiting for animation to finish...
+						}), 500);
+
+						return d;
+					}
+				},
+				{
+					name:"Focus on Continents",
+					timeout:4000,
+					runTest:function(){
+						var d = new doh.Deferred();
+						
+						var tree = dijit.byId("mytree");
+						tree.focusNode(tree.rootNode);
+
+						doh.robot.sequence(d.getTestCallback(function(){
+							var focus = dojo.global.dijit._curFocus;
+							doh.t(tree.rootNode.labelNode, "focused on continents");
+						}), 500);
+
+						return d;
+					}
+				},
+				{
+					name:"First 'A' key goes to Africa",
+					timeout:4000,
+					runTest:function(){
+						var d = new doh.Deferred();
+
+						// From Continents node, press "A".   Should go to Africa.
+						doh.robot.keyPress("a", 100);
+						doh.robot.sequence(d.getTestCallback(function(){
+							var focus = dijit.getEnclosingWidget(dojo.global.dijit._curFocus);
+							doh.t(focus, "there is a focused widget");
+							doh.is("Africa", focus.label);
+						}), 500);
+
+						return d;
+					}
+				},
+				{
+					name:"Second 'A' key goes to Asia",
+					timeout:4000,
+					runTest:function(){
+						var d = new doh.Deferred();
+						
+						// From Africa node, press "A" again.   Should go to Asia.
+						doh.robot.keyPress("a", 100);
+						doh.robot.sequence(d.getTestCallback(function(){
+							var focus = dijit.getEnclosingWidget(dojo.global.dijit._curFocus);
+							doh.t(focus, "there is a focused widget");
+							doh.is("Asia", focus.label);
+						}), 500);
+
+						return d;
+					}
+				},
+				{
+					name:"Third 'A' key goes to Australia (nested node)",
+					timeout:4000,
+					runTest:function(){
+						var d = new doh.Deferred();
+
+						var oceania = dijit.byId("mytree").rootNode.getChildren()[2];
+						doh.t(oceania, "found Oceania node");
+						doh.t(oceania.isExpanded, "Oceania node is expanded");
+
+						doh.robot.keyPress("a", 100);
+						doh.robot.sequence(d.getTestCallback(function(){
+							var focus = dijit.getEnclosingWidget(dojo.global.dijit._curFocus);
+							doh.t(focus, "there is a focused widget");
+							doh.is("Australia", focus.label);
+						}), 500);
+
+						return d;
+					}
+				},
+				{
+					name:"Fourth 'A' key loops back to Africa",
+					timeout:4000,
+					runTest:function(){
+						var d = new doh.Deferred();
+						
+						doh.robot.keyPress("a", 100);
+						doh.robot.sequence(d.getTestCallback(function(){
+							var focus = dijit.getEnclosingWidget(dojo.global.dijit._curFocus);
+							doh.t(focus, "there is a focused widget");
+							doh.is("Africa", focus.label);
+						}), 500);
+
+						return d;
+					}
+				},
+				{
+					name:"multi-key navigation",
+					timeout:4000,
+					runTest:function(){
+						var d = new doh.Deferred();
+
+						// Skip over China and go to Continents
+						doh.robot.typeKeys("co", 100);
+						doh.robot.sequence(d.getTestCallback(function(){
+							var focus = dijit.getEnclosingWidget(dojo.global.dijit._curFocus);
+							doh.t(focus, "there is a focused widget");
+							doh.is("Continents", focus.label);
+						}), 500);
+
+						return d;
+					}
+				},
+				{
+					name:"multi-key navigation",
+					timeout:4000,
+					runTest:function(){
+						var d = new doh.Deferred();
+
+						// By typing AS should skip over Africa and go to Asia
+						doh.robot.typeKeys("as", 100);
+						doh.robot.sequence(d.getTestCallback(function(){
+							var focus = dijit.getEnclosingWidget(dojo.global.dijit._curFocus);
+							doh.t(focus, "there is a focused widget");
+							doh.is("Asia", focus.label);
+						}), 500);
+
+						return d;
+					}
+				},
+				{
+					name:"multi-key navigation clears",
+					timeout:4000,
+					runTest:function(){
+						var d = new doh.Deferred();
+
+						// After the 500ms delay from above, typing a new character should
+						// start a new search
+						doh.robot.typeKeys("n", 100);
+						doh.robot.sequence(d.getTestCallback(function(){
+							var focus = dijit.getEnclosingWidget(dojo.global.dijit._curFocus);
+							doh.t(focus, "there is a focused widget");
+							doh.is("North America", focus.label);
+						}), 500);
+
+						return d;
+					}
+				}
+			]);
+			
 			doh.run();
 		});
 		

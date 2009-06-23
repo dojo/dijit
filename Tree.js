@@ -728,6 +728,14 @@ dojo.declare(
 				dojo.stopEvent(e);
 			}
 		}else{  // handle non-printables (arrow keys)
+			// clear record of recent printables (being saved for multi-char letter navigation),
+			// because "a", down-arrow, "b" shouldn't search for "ab"
+			if(this._curSearch){
+				console.log("clearing recent input");
+				clearTimeout(this._curSearch.timer);
+				delete this._curSearch;
+			}
+
 			var map = this._keyHandlerMap;
 			if(!map){
 				// setup table mapping keys to events
@@ -848,21 +856,54 @@ dojo.declare(
 		}
 	},
 
+	// multiCharSearchDuration: Number
+	//		If multiple characters are typed where each keystroke happens within
+	//		multiCharSearchDuration of the previous keystroke,
+	//		search for nodes matching all the keystrokes.
+	//
+	//		For example, typing "ab" will search for entries starting with
+	//		"ab" unless the delay between "a" and "b" is greater than multiCharSearchDuration.
+	multiCharSearchDuration: 250,
+
 	_onLetterKeyNav: function(message){
 		// summary:
-		//		Letter key pressed; search for node starting with first char = key
-		var node = message.node, startNode = node, 
-			key = message.key;
+		//		Called when user presses a prinatable key; search for node starting with recently typed letters.
+		// message: Object
+		//		Like { node: TreeNode, key: 'a' } where key is the key the user pressed.
+
+		// Branch depending on whether this key starts a new search, or modifies an existing search
+		var cs = this._curSearch;
+		if(cs){
+			// We are continuing a search.  Ex: user has pressed 'a', and now has pressed
+			// 'b', so we want to search for nodes starting w/"ab".
+			cs.pattern = cs.pattern + message.key;
+			clearTimeout(cs.timer);
+		}else{
+			// We are starting a new search
+			cs = this._curSearch = {
+					pattern: message.key,
+					startNode: message.node
+			};
+		}
+
+		// set/reset timer to forget recent keystrokes
+		var self = this;
+		cs.timer = setTimeout(function(){
+			delete self._curSearch;
+		}, this.multiCharSearchDuration);
+
+		// Navigate to TreeNode matching keystrokes [entered so far].
+		var node = cs.startNode;
 		do{
 			node = this._getNextNode(node);
 			//check for last node, jump to first node if necessary
 			if(!node){
 				node = this._getRootOrFirstNode();
 			}
-		}while(node !== startNode && (node.label.charAt(0).toLowerCase() != key));
+		}while(node !== cs.startNode && (node.label.toLowerCase().substr(0, cs.pattern.length) != cs.pattern));
 		if(node && node.isTreeNode){
 			// no need to set focus if back where we started
-			if(node !== startNode){
+			if(node !== cs.startNode){
 				this.focusNode(node);
 			}
 		}
@@ -1186,6 +1227,10 @@ dojo.declare(
 	},
 
 	destroy: function(){
+		if(this._curSearch){
+			clearTimeout(this._curSearch.timer);
+			delete this._curSearch;
+		}
 		if(this.rootNode){
 			this.rootNode.destroyRecursive();
 		}
