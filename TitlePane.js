@@ -99,9 +99,9 @@ dojo.declare(
 		//		Hook to make attr("canToggle", boolean) work.
 		// canToggle: Boolean
 		//		True to allow user to open/close pane by clicking title bar.
-		if(this.toggleable !== canToggle){
-			this._setCss();
-		}
+		this.toggleable = canToggle;
+		dijit.setWaiRole(this.focusNode, canToggle ? "button" : "presentation");
+		this._setCss();
 	},
 
 	_setContentAttr: function(content){
