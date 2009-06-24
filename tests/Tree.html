@@ -78,6 +78,65 @@
 						return d;
 					},
 
+					function createWithPath(){
+						var d = new doh.Deferred;
+						myTree2 = new dijit.Tree({
+							id: "myTree2",
+							model: myModel,
+							persist: false,		// persist==true is too hard to test
+							dndController: "dijit.tree.dndSource",
+							path: ["earth", "EU", "IT"]
+						});
+						doh.t(myTree2, "myTree2 created");
+
+						dojo.byId("container2").appendChild(myTree2.domNode);
+						myTree2.startup();
+
+						setTimeout(d.getTestCallback(function(){
+							// Give the tree time to load, and the do checks that it
+							// loaded correctly
+
+							doh.t(myTree2.rootNode, "root node exists");
+							doh.t(myTree2.rootNode.isExpanded, "root node is expanded");
+							doh.t(myTree2.rootNode.getChildren()[3].isExpanded, "europe node is expanded");
+							doh.is(myTree2.rootNode.getChildren()[3].getChildren()[3], myTree2.lastFocused, "focused correct node");
+						}), 1000);
+						return d;
+					},
+
+					function copyPath(){
+						var d = new doh.Deferred;
+
+						myTree.attr("path", myTree2.attr("path"));
+
+						setTimeout(d.getTestCallback(function(){
+							doh.t(myTree.rootNode.isExpanded, "root node is expanded");
+							doh.t(myTree.rootNode.getChildren()[3].isExpanded, "europe node is expanded");
+							doh.is(myTree.rootNode.getChildren()[3].getChildren()[3], myTree.lastFocused, "focused correct node");
+						}), 500);
+
+						return d;
+					},
+
+					function copyPathByIds(){
+						var d = new doh.Deferred;
+
+						myTree.attr("path", ["earth", "NA", "CA", "Ottawa"]);
+
+						setTimeout(function(){
+							myTree2.attr("path", dojo.map(myTree.attr("path"), function(item){ return myTree.model.getIdentity(item); }));
+	
+							setTimeout(d.getTestCallback(function(){
+								doh.t(myTree2.rootNode.isExpanded, "root node is expanded");
+								doh.t(myTree2.rootNode.getChildren()[4].isExpanded, "north america node is expanded");
+								doh.t(myTree2.rootNode.getChildren()[4].getChildren()[1].isExpanded, "canada node is expanded");
+								doh.is(myTree2.rootNode.getChildren()[4].getChildren()[1].getChildren()[0], myTree2.lastFocused, "focused correct node");
+							}), 250);
+						}, 250);
+
+						return d;
+					},
+
 					function itemUpdate(){
 						// Test that Tree noticed when data store items change, and updates accordingly
 
@@ -159,7 +218,9 @@
 						// Just running this to make sure we don't get an exception
 						console.log("destroying tree");
 						myTree.destroy();
+ 						myTree2.destroy();
 					}
+
 				]
 			);
 
@@ -172,6 +233,7 @@
 
 	<h1 class="testTitle">Dijit.Tree automated tests</h1>
 	<div id="container"> <!--  tree will go here --></div>
+	<div id="container2"> <!--  tree2 will go here --></div>
 </body>
 </html>
 

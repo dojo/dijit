@@ -429,6 +429,17 @@ dojo.declare(
 	//		One ore more attributes that holds children of a tree node
 	childrenAttr: ["children"],
 
+	// path: String[] or Item[]
+	//		Full path from rootNode to selected node expressed as array of items or array of ids.
+	path: [],
+
+	// selectedItem: [readonly] Item
+	//		The currently selected item in this tree.
+	//		This property can only be set (via attr('selectedItem', ...)) when that item is already
+	//		visible in the tree.   (I.e. the tree has already been expanded to show that node.)
+	//		Should generally use `path` attribute to set the selected item instead.
+	selectedItem: null,
+
 	// openOnClick: Boolean
 	//		If true, clicking a folder node's label will open it, rather than calling onClick()
 	openOnClick: false,
@@ -577,6 +588,14 @@ dojo.declare(
 		}
 	},
 
+	startup: function(){
+		this.inherited(arguments);
+		if(this.path && this.path.length){
+			this.attr("path", this.path);
+			delete this.path;
+		}
+	},
+
 	_store2model: function(){
 		// summary:
 		//		User specified a store&query rather than model, so create model from store/query
@@ -640,6 +659,129 @@ dojo.declare(
 				console.error(this, ": error loading root: ", err);
 			}
 		);
+	},
+
+	getNodesByItem: function(/*dojo.data.Item or id*/ item){
+		// summary:
+		//		Returns all tree nodes that refer to an item
+		// returns:
+		//		Array of tree nodes that refer to passed item
+
+		if(!item){ return []; }
+		var identity = dojo.isString(item) ? item : this.model.getIdentity(item);
+		// return a copy so widget don't get messed up by changes to returned array
+		return [].concat(this._itemNodesMap[identity]);
+	},
+
+	_setSelectedItemAttr: function(/*dojo.data.Item or id*/ item){
+		// summary:
+		//		Select a tree node related to passed item.
+		//		WARNING: if model use multi-parented items or desired tree node isn't already loaded
+		//		behavior is not granted. Use 'path' attr instead for full support.
+		var oldValue = this.attr("selectedItem");
+		var identity = (!item || dojo.isString(item)) ? item : this.model.getIdentity(item);
+		if(identity == oldValue ? this.model.getIdentity(oldValue) : null){ return; }
+		var nodes = this._itemNodesMap[identity];
+		if(nodes){
+			// Try first matching tree node and if not selectable try next
+			for(var i = 0; i < nodes.length; i++){
+				if(nodes[i].isSelectable){
+					this.focusNode(nodes[i]);
+					return;
+				}
+			}
+		}
+		if(this.lastFocused){
+			// Select none so deselect current
+			this.lastFocused.setSelected(false);
+			this.lastFocused = null;
+		}
+	},
+
+	_getSelectedItemAttr: function(){
+		// summary:
+		//		Return item related to selected tree node.
+		return this.lastFocused && this.lastFocused.item;
+	},
+	
+	_setPathAttr: function(/*Item[] || String[]*/ path){
+		// summary:
+		//		Select the tree node identified by passed path.
+		// path:
+		//		Array of items or item id's
+
+		// Cleanup in case an error let it connected
+		if(this._recursiveExpansionConn){
+			this.disconnect(this._recursiveExpansionConn);
+			delete this._recursiveExpansionConn;
+		}
+
+		if(path && path.length){
+			if(!this.rootNode){
+				console.debug("!this.rootNode");
+				return;
+			}
+			if(path[0] !== this.rootNode.item && (dojo.isString(path[0]) && path[0] != this.model.getIdentity(this.rootNode.item))){
+				console.error(this, ": path[0] don't match this.rootNode.item. Maybe you are using the wrong tree.");
+				return;
+			}
+			var item = path.shift();
+			var node = this.rootNode;
+			var recursiveExpansion = function(){
+				// Skip already expanded
+				while(path.length && node.isExpanded){
+					item = path.shift();
+					// Find first tree node related to 'item' and child of 'node'
+					var identity = dojo.isString(item) ? item : this.model.getIdentity(item);
+					dojo.some(this._itemNodesMap[identity], function(n){
+						if(n.getParent()==node){
+							node = n;
+							return true;
+						}
+						return false;
+					});
+				}
+				if(path.length){
+					if(node.isExpandable){
+						// Expand and wait for onOpen firing
+						this._expandNode(node);
+					}else{
+						console.error(this, ": problem walking path because !node.isExpandable.", item, node);
+					}
+				}else{
+					// All ancestors are expanded, now cleanup and select last item
+					this.disconnect(this._recursiveExpansionConn);
+					delete this._recursiveExpansionConn;
+					if(this.lastFocused != node){
+						this.focusNode(node);
+					}
+				}
+			};
+			this._recursiveExpansionConn = this.connect(this,"onOpen", function(itemOpened, nodeOpened){
+				if(nodeOpened !== node){ return; }
+				// Node is expanded, go on
+				recursiveExpansion.call(this);
+			});
+			recursiveExpansion.call(this);
+		}else if(this.lastFocused){
+			// Select none so deselect current
+			this.lastFocused.setSelected(false);
+			this.lastFocused = null;
+		}
+	},
+
+	_getPathAttr: function(){
+		// summary:
+		//		Return an array of items that is the path to selected tree node.
+		if(!this.lastFocused){ return; }
+		var res = [];
+		var treeNode = this.lastFocused;
+		while(treeNode && treeNode !== this.rootNode){
+			res.unshift(treeNode.item);
+			treeNode = treeNode.getParent();
+		}
+		res.unshift(this.rootNode.item);
+		return res;
 	},
 
 	////////////// Data store related functions //////////////////////
