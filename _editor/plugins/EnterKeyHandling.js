@@ -67,8 +67,10 @@ dojo.declare("dijit._editor.plugins.EnterKeyHandling", dijit._editor._Plugin, {
 	//		editor writes out it's data, to convert consecutive <p>
 	//		nodes into a single <p> node with internal <br> separators.
 	//
-	//		There's also a pre-filter to convert a single <p> with <br> line breaks
-	//		into separate <p> nodes, to mirror the post-filter.
+	//		There's also a pre-filter to mirror the post-filter.
+	//		It converts a single <p> with <br> line breaks
+	//		into separate <p> nodes, and creates empty <p> nodes for spacing
+	//		between paragraphs.
 	//
 	//		On FF typing the above keystrokes will internally generate:
 	//
@@ -393,59 +395,15 @@ dojo.declare("dijit._editor.plugins.EnterKeyHandling", dijit._editor._Plugin, {
 		//		Insert CSS so <p> nodes don't have spacing around them,
 		//		thus hiding the fact that ENTER key on IE is creating new
 		//		paragraphs
-		if(this.editor.document.__INSERTED_EDITIOR_NEWLINE_CSS === undefined){
-			var lineFixingStyles = "p{margin:0;}"; // cannot use !important since there may be custom user styling
-			var insertCssText = function(
-				/*String*/ cssStr,
-				/*Document*/ doc,
-				/*String*/ URI)
-			{
-				//	summary:
-				//		Attempt to insert CSS rules into the document through inserting a
-				//		style element
 
-				// DomNode Style  = insertCssText(String ".dojoMenu {color: green;}"[, DomDoc document, dojo.uri.Uri Url ])
-				if(!cssStr){
-					return null; //	HTMLStyleElement
-				}
-				if(!doc){ doc = document; }
-//					if(URI){// fix paths in cssStr
-//						cssStr = dojo.html.fixPathsInCssText(cssStr, URI);
-//					}
-				var style = doc.createElement("style");
-				style.setAttribute("type", "text/css");
-				// IE is b0rken enough to require that we add the element to the doc
-				// before changing it's properties
-				var head = doc.getElementsByTagName("head")[0];
-				if(!head){ // must have a head tag
-					console.debug("No head tag in document, aborting styles");
-					return null;	//	HTMLStyleElement
-				}else{
-					head.appendChild(style);
-				}
-				if(style.styleSheet){// IE
-					var setFunc = function(){
-						try{
-							style.styleSheet.cssText = cssStr;
-						}catch(e){ console.debug(e); }
-					};
-					if(style.styleSheet.disabled){
-						setTimeout(setFunc, 10);
-					}else{
-						setFunc();
-					}
-				}else{ // w3c
-					var cssText = doc.createTextNode(cssStr);
-					style.appendChild(cssText);
-				}
-				return style;	//	HTMLStyleElement
-			}
-			insertCssText(lineFixingStyles, this.editor.document);
+		// cannot use !important since there may be custom user styling;
+		var doc = this.editor.document;
+		if(doc.__INSERTED_EDITIOR_NEWLINE_CSS === undefined){
+			var style = dojo.create("style", {type: "text/css"}, doc.getElementsByTagName("head")[0]);
+			style.styleSheet.cssText = "p{margin:0;}"; // cannot use !important since there may be custom user styling;
 			this.editor.document.__INSERTED_EDITIOR_NEWLINE_CSS = true;
-			// this.regularPsToSingleLinePs(this.editNode);
-			return d;
 		}
-		return null;
+		return d;
 	},
 	regularPsToSingleLinePs: function(element, noWhiteSpaceInEmptyP){
 		// summary:
@@ -600,7 +558,8 @@ dojo.declare("dijit._editor.plugins.EnterKeyHandling", dijit._editor._Plugin, {
 			var node = container.firstChild;
 			var deleteNode = null;
 			while(node){
-				if(node.nodeType != 1 || node.tagName != 'P' || node.getAttributeNode('style').specified){
+				if(node.nodeType != 1 || node.tagName != 'P' || 
+						(node.getAttributeNode('style') && node.getAttributeNode('style').specified)){
 					firstPInBlock = null;
 				}else if(isParagraphDelimiter(node)){
 					deleteNode = node;
