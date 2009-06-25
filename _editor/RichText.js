@@ -718,7 +718,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 	// 		The editor is disabled; the text cannot be changed.
 	disabled: false,
 
-	_mozSettingProps: ['styleWithCSS','insertBrOnReturn'],
+	_mozSettingProps: {'styleWithCSS':false},
 	_setDisabledAttr: function(/*Boolean*/ value){
 		this.disabled = value;
 		if(!this.isLoaded){ return; } // this method requires init to be complete
@@ -732,10 +732,6 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 				setTimeout(function(){ _this.editNode.unselectable = "off"; }, 0);
 			}
 		}else{ //moz
-			if(value){
-				//AP: why isn't this set in the constructor, or put in mozSettingProps as a hash?
-				this._mozSettings=[false,this.blockNodeForEnter==='BR'];
-			}
 			try{
 				this.document.designMode=(value?'off':'on');
 			}catch(e){ return; } // ! _disabledOK
