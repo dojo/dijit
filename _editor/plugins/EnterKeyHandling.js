@@ -558,8 +558,8 @@ dojo.declare("dijit._editor.plugins.EnterKeyHandling", dijit._editor._Plugin, {
 			var node = container.firstChild;
 			var deleteNode = null;
 			while(node){
-				if(node.nodeType != 1 || node.tagName != 'P' || 
-						(node.getAttributeNode('style') && node.getAttributeNode('style').specified)){
+				if(node.nodeType != 1 || node.tagName != 'P' ||
+						(node.getAttributeNode('style') || {/*no style*/}).specified){
 					firstPInBlock = null;
 				}else if(isParagraphDelimiter(node)){
 					deleteNode = node;
