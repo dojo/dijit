@@ -295,10 +295,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 		//		node. 
 		//	description:
 		//		Sets up the editing area asynchronously. This will result in
-		//		the creation and replacement with an <iframe> if
-		//		designMode(FF)/contentEditable(IE) is used and stylesheets are
-		//		specified, if we're in a browser that doesn't support
-		//		contentEditable.
+		//		the creation and replacement with an <iframe>.
 		//
 		//		A dojo.Deferred object is created at this.onLoadDeferred, and
 		//		users may attach to it to be informed when the rich-text area
@@ -320,13 +317,16 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 
 		var dn = this.domNode;
 
+		// "html" will hold the innerHTML of the srcNodeRef and will be used to
+		// initialize the editor.
 		var html;
+
 		if(dn.nodeName && dn.nodeName.toLowerCase() == "textarea"){
 			// if we were created from a textarea, then we need to create a
 			// new editing harness node.
 			var ta = (this.textarea = dn);
 			this.name = ta.name;
-			html = this._preFilterContent(ta.value);
+			html = ta.value;
 			dn = this.domNode = dojo.doc.createElement("div");
 			dn.setAttribute('widgetId', this.id);
 			ta.removeAttribute('widgetId');
@@ -335,7 +335,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 			dojo.place(dn, ta, "before");
 			var tmpFunc = dojo.hitch(this, function(){
 				//some browsers refuse to submit display=none textarea, so
-				//move the textarea out of screen instead
+				//move the textarea off screen instead
 				dojo.style(ta, {
 					display: "block",
 					position: "absolute",
@@ -354,8 +354,6 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 				tmpFunc();
 			}
 
-			// this.domNode.innerHTML = html;
-
 			if(ta.form){
 				dojo.connect(ta.form, "onsubmit", this, function(){
 					// FIXME: should we be calling close() here instead?
@@ -363,12 +361,11 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 				});
 			}
 		}else{
-			html = this._preFilterContent(dijit._editor.getChildrenHtml(dn));
+			html = dijit._editor.getChildrenHtml(dn);
 			dn.innerHTML = "";
 		}
 
 		var content = dojo.contentBox(dn);
-		// var content = dojo.contentBox(this.srcNodeRef);
 		this._oldHeight = content.h;
 		this._oldWidth = content.w;
 
@@ -383,6 +380,9 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 		this.editingArea = dn.ownerDocument.createElement("div");
 		dn.appendChild(this.editingArea);
 
+		// User has pressed back/forward button so we lost the text in the editor, but it's saved
+		// in a hidden <textarea> (which contains the data for all the editors on this page),
+		// so get editor value from there
 		if(this.name != "" && (!dojo.config["useXDomain"] || dojo.config["allowXdRichTextSave"])){
 			var saveTextarea = dojo.byId(dijit._scopeName + "._editor.RichText.savedContent");
 			if(saveTextarea.value != ""){
@@ -397,22 +397,19 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 				}
 			}
 
-			// FIXME: need to do something different for Opera/Safari
+			// FIXME: need to do something different for Opera/Safari.
+			// Presumably dojo.addOnBeforeUnload() is better here.
 			this.connect(window, "onbeforeunload", "_saveContent");
-			// dojo.connect(window, "onunload", this, "_saveContent");
 		}
 
 		this.isClosed = false;
 
-		// Safari's selections go all out of whack if we do it inline,
-		// so for now IE is our only hero
-		//if(typeof dojo.doc.body.contentEditable != "undefined")
 		if(dojo.isIE || dojo.isWebKit || dojo.isOpera){
 			// In 0.4, this was the contentEditable code path, but now it creates an iframe, same as for Firefox.
 			// However, firefox's iframe is handled by _drawIframe() rather than this code for some reason :-(
 			var ifr = (this.editorObject = this.iframe = dojo.doc.createElement('iframe'));
 			ifr.id = this.id+"_iframe";
-			this._iframeSrc = this._getIframeDocTxt(html);
+			this._iframeSrc = this._getIframeDocTxt();
 			ifr.style.border = "none";
 			ifr.style.width = "100%";
 			if(this._layoutMode){
@@ -441,9 +438,13 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 					this._localizeEditorCommands();
 				}
 
-				this.onLoad();
+				// Do final setup and set initial contents of editor
+				this.onLoad(html);
+
 				this.savedContent = this.getValue(true);
 			});
+			
+			// TODO: I think because of multi-version support shouldn't hardcode "dijit"
 			var s = 'javascript:parent.dijit.byId("'+this.id+'")._iframeSrc';
 			ifr.setAttribute('src', s);
 			this.editingArea.appendChild(ifr);
@@ -451,8 +452,11 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 				setTimeout(function(){ifr.setAttribute('src', s)},0);
 			}
 		}else{
-			// Firefox code path
+			// Firefox and Adobe-air code path
+
+			// Create the iframe and then set the contents to html
 			this._drawIframe(html);
+
 			this.savedContent = this.getValue(true);
 		}
 		
@@ -469,12 +473,17 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 	_native2LocalFormatNames: {},
 	_localizedIframeTitles: null,
 
-	_getIframeDocTxt: function(/* String */ html){
+	_getIframeDocTxt: function(){
 		// summary:
-		//		Generates text of the document inside the iframe (ie, <html>....editor content...</html>
+		//		Generates the boilerplate text of the document inside the iframe (ie, <html><head>...</head><body/></html>).
+		//		Editor content (if not blank) should be added afterwards.
 		// tags:
 		//		private
 		var _cs = dojo.getComputedStyle(this.domNode);
+
+		// The contents inside of <body>.  Usually this is blank (set later via a call
+		// to setValue(), but for some reason we need an extra <div> on IE (TODOC)
+		var html = "";
 		if(dojo.isIE || (!this.height && !dojo.isMoz)){
 			html="<div>"+html+"</div>";
 		}
@@ -496,7 +505,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 		return [
 			this.isLeftToRight() ? "<html><head>" : "<html dir='rtl'><head>",
 			(dojo.isMoz ? "<title>" + this._localizedIframeTitles.iframeEditTitle + "</title>" : ""),
-			"<meta http-equiv='Content-Type' content='text/html; charset=" + this.charset + "'>",
+			"<meta http-equiv='Content-Type' content='text/html'>",
 			"<style>",
 			"body,html {",
 			"\tbackground:transparent;",
@@ -521,13 +530,15 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 			"li{ min-height:1.2em; }",
 			"</style>",
 			this._applyEditingAreaStyleSheets(),
-			"</head><body onload='frameElement._loadFunc(window,document)' style='"+userStyle+"'>"+html+"</body></html>"
+			"</head><body onload='frameElement._loadFunc(window,document)' style='"+userStyle+"'>", html, "</body></html>"
 		].join(""); // String
 	},
 
 	_drawIframe: function(/*String*/ html){
 		// summary:
-		//		Draws an iFrame using the existing one if one exists.
+		//		Draws an iFrame using the existing one if one exists, and sets the
+		//		contents to html.
+		//
 		//		Used by Firefox only.  See open() for code for other browsers.
 		// tags:
 		//		private
@@ -615,7 +626,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 					if(dojo.isAIR){
 						contentDoc.body.innerHTML = html;
 					}else{
-						contentDoc.write(this._getIframeDocTxt(html));
+						contentDoc.write(this._getIframeDocTxt());
 					}
 					contentDoc.close();
 					
@@ -630,14 +641,17 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 					return;
 				}
 
-				this.onLoad();
+				// Do final iframe setup and set contents
+				this.onLoad(html);
 			}else{
 				// Iframe is already loaded, we are just switching the content
+				// TODO: I don't think we'll ever hit this branch, we switch content via setValue()...
+				// although perhaps if the user switches their style sheets we need to redo the boilerplate
+				// HTML
+				console.error(this.id + ": _drawIframe(): iframe already exists");
 				dojo.destroy(tmpContent);
 				this.editNode.innerHTML = html;
-				this.onDisplayChanged();
 			}
-			this._preDomFilterContent(this.editNode);
 		});
 
 		ifrFunc();
@@ -756,9 +770,11 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 /* Event handlers
  *****************/
 
-	onLoad: function(/* Event */ e){
+	onLoad: function(/*String*/ html){
 		// summary:
-		//		Handler after the content of the document finishes loading.
+		//		Handler after the iframe finishes loading.
+		// html: String
+		//		Editor contents should be set to this value
 		// tags:
 		//		protected
 
@@ -781,18 +797,20 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 		}
 		this.focusNode = this.editNode; // for InlineEditBox
 
-		this._preDomFilterContent(this.editNode);
 
 		var events = this.events.concat(this.captureEvents);
 		var ap = this.iframe ? this.document : this.editNode;
 		dojo.forEach(events, function(item){
-			// dojo.connect(ap, item.toLowerCase(), console, "debug");
 			this.connect(ap, item.toLowerCase(), item);
 		}, this);
 
 		if(dojo.isIE){ // IE contentEditable
-			// give the node Layout on IE
 			this.connect(this.document, "onmousedown", "_onIEMouseDown"); // #4996 fix focus
+		
+			// give the node Layout on IE
+			// TODO: this may no longer be needed, since we've reverted IE to using an iframe,
+			// not contentEditable.   Removing it would also probably remove the need for creating
+			// the extra <div> in _getIframeDocTxt()
 			this.editNode.style.zoom = 1.0;
 		}
 
@@ -800,11 +818,14 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 
 		this.attr('disabled', this.disabled); // initialize content to editable (or not)
 
+		// Note that setValue() call will only work after isLoaded is set to true (above)
+		this.setValue(html);
+		
 		if(this.onLoadDeferred){
 			this.onLoadDeferred.callback(true);
 		}
 
-		this.onDisplayChanged(e);
+		this.onDisplayChanged();
 
 		if(this.focusOnLoad){
 			// after the document loads, then set focus after updateInterval expires so that 
