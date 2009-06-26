@@ -93,17 +93,6 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 		//this.contentDomPostFilters.push(this._postDomFixUrlAttributes);
 
 		this.onLoadDeferred = new dojo.Deferred();
-
-		// determine the codepage to set the editor to.  User over-ride is checked first,
-		// otherwise, tries to use current page.
-		if(params && params.charset){
-			this.charset = params.charset;
-		}
-		var d = dojo.doc;
-		this.charset = this.charset || 
-			/*IE*/ d.charset || 
-			/*FF, Webkit, Opera, etc */ d.characterSet || 
-			/*nothing, look for defaults */ d.defaultCharset || "UTF-8";
 	},
 
 	// inheritWidth: Boolean
@@ -164,13 +153,6 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 	//		When true, disables the browser's native spell checking, if supported.
 	//		Works only in Firefox.
 	disableSpellCheck: false,
-
-	// charset: [const] String
-	//		Allows the user to define what charset is used for the underlying iframe/encoding, 
-	//		if supported by the browser.  Currently works in IE, fireFox, opera, webkit etc.  
-	//		If not set (a blank string), defaults to the current document encoding.  If the 
-	//		document encoding cannot be determined, will use UTF-8.
-	charset: "",
 
 	postCreate: function(){
 		if("textarea" == this.domNode.tagName.toLowerCase()){
