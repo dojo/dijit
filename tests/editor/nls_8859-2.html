@@ -3,17 +3,17 @@
 <html>
 <head>
 	<title>Editor Test</title>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-2">
 	
 	<style type="text/css">
-		@import "../../dojo/resources/dojo.css";
+		@import "../../../dojo/resources/dojo.css";
 	</style>
 
 	<!-- required: a default dijit theme: -->
-	<link id="themeStyles" rel="stylesheet" href="../../dijit/themes/tundra/tundra.css">
+	<link id="themeStyles" rel="stylesheet" href="../../../dijit/themes/tundra/tundra.css">
 
 	<!-- required: dojo.js -->
-	<script type="text/javascript" src="../../dojo/dojo.js"
+	<script type="text/javascript" src="../../../dojo/dojo.js"
 		djConfig="parseOnLoad: true, isDebug: true"></script>
 
 	<script type="text/javascript">
@@ -25,17 +25,18 @@
 <body class="tundra">
 <form method="post">
 <p>
-Plain text: Ä™Ã³Ä…Å›Å‚Å¼ÅºÄ‡Å„Ä˜Ã“ÅÄ„ÅšÅÅ»Å¹Ä†Åƒ  æ—¥æœ¬èª
+Plain text: êó±¶³¿¼æñÊÓ£¡¦£¯¬ÆÑ
 </p>
 
 <p>
 Same text should show up in the Editor:
 </p>
 <div name="field" id="editor" dojoType="dijit.Editor">
-Ä™Ã³Ä…Å›Å‚Å¼ÅºÄ‡Å„Ä˜Ã“ÅÄ„ÅšÅÅ»Å¹Ä†Åƒ  æ—¥æœ¬èª
+êó±¶³¿¼æñÊÓ£¡¦£¯¬ÆÑ
 </div>
 <input type="submit" value="Save" />
 <button type=button onclick="console.log(dijit.byId('editor').attr('value'))">getValue</button>
+<button type=button onclick="dijit.byId('editor').attr('value', '\u65e5\u672c\u8a9e')">set value to &#x65e5;&#x672c;&#x8a9e;</button>
 
 </form>
 </body>

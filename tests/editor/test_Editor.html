@@ -5,15 +5,15 @@
 	<title>Editor Test</title>
 
 	<style type="text/css">
-		@import "../../dojo/resources/dojo.css";
+		@import "../../../dojo/resources/dojo.css";
 		@import "css/dijitTests.css";
 	</style>
 
 	<!-- required: a default dijit theme: -->
-	<link id="themeStyles" rel="stylesheet" href="../../dijit/themes/tundra/tundra.css">
+	<link id="themeStyles" rel="stylesheet" href="../../../dijit/themes/tundra/tundra.css">
 	
 	<!-- required: dojo.js -->
-	<script type="text/javascript" src="../../dojo/dojo.js"
+	<script type="text/javascript" src="../../../dojo/dojo.js"
 		djConfig="parseOnLoad: true, isDebug: true"></script>
 	
 	<!-- not needed, for testing alternate themes -->
@@ -94,7 +94,7 @@
 		<div dojoType="dijit.Editor" height="" minHeight="75px"
 			onChange="console.log('thud onChange handler: ' + arguments[0])"
 			extraPlugins="['dijit._editor.plugins.AlwaysShowToolbar']"
-			styleSheets="../../dojo/resources/dojo.css" id="thud">
+			styleSheets="../../../dojo/resources/dojo.css" id="thud">
 			<p>
 				This editor is created from a div with AlwaysShowToolbar plugin (do not forget to set height="").
 			</p>
@@ -117,7 +117,7 @@
 		<h3><label for="blah">blah entry</label></h3>
 		<div dojoType="dijit.Editor"
 			plugins="['bold','italic','|','createLink','foreColor','hiliteColor',{name:'dijit._editor.plugins.FontChoice', command:'fontName', generic:true},'fontSize','formatBlock','insertImage','insertHorizontalRule']"
-			styleSheets="../../dojo/resources/dojo.css" id="blah">
+			styleSheets="../../../dojo/resources/dojo.css" id="blah">
 			This instance includes optional toolbar buttons which pull in additional ui (dijit) code.
 			Note the dojo.require() statements required to pull in the associated editor plugins to make
 			this work.
@@ -143,7 +143,7 @@
 		<h3><label for="blah2">Another blah entry</label></h3>
 		<div dojoType="dijit.Editor"
 			plugins="['bold','italic','|',{name:'dijit._editor.plugins.FontChoice', command:'fontName', custom:['Verdana','Myriad','Garamond','Apple Chancery','Hiragino Mincho Pro']}, {name:'dijit._editor.plugins.FontChoice', command:'fontSize', custom:[3,4,5]}, {name:'dijit._editor.plugins.EnterKeyHandling', blockNodeForEnter:'DIV'}]"
-			styleSheets="../../dojo/resources/dojo.css" id="blah2">
+			styleSheets="../../../dojo/resources/dojo.css" id="blah2">
 			This instance demos how to:
 			<ol>
 				<li>specify which plugins to load (see the plugins property): this instance loads FontChoice plugin, among others;</li>

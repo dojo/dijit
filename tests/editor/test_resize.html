@@ -2,11 +2,11 @@
 		"http://www.w3.org/TR/html4/strict.dtd">
 <html>
 <head>
-	<title>Editor Test</title>
+	<title>Editor in a BorderContainer</title>
 
-	<link rel="stylesheet" href="../themes/tundra/tundra.css">
+	<link rel="stylesheet" href="../../themes/tundra/tundra.css">
 
-	<script type="text/javascript" src="../../dojo/dojo.js"
+	<script type="text/javascript" src="../../../dojo/dojo.js"
 		djConfig="parseOnLoad: true, isDebug: true"></script>
 
 	<script type="text/javascript">
@@ -18,11 +18,15 @@
 	</script>
 </head>
 <body class="tundra">
-	<div dojoType="dijit.layout.BorderContainer" style="height: 500px;border:1px solid black;">
+	<h1>Editor in a BorderContainer</h1>
+	<p>Tests that a BorderContainer can correctly size the Editor (by calling Editor.resize()).</p>
+	<div dojoType="dijit.layout.BorderContainer" style="height: 400px;border:1px solid black;">
 		<div dojoType="dijit.layout.ContentPane" region="top" splitter="true" style="height: 100px">
-			Some Content
+			Top pane
 		</div>
-		<div dojoType="dijit.Editor" id="editor1" region="center" height="100%"></div>
+		<div dojoType="dijit.Editor" id="editor1" region="center" height="100%">
+			Editor (center pane)
+		</div>
 	</div>
 </body>
 </html>
