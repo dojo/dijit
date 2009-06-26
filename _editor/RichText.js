@@ -1503,7 +1503,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 	_getValueAttr: function(){
 		// summary:
 		//		Hook to make attr("value") work
-		return this.getValue();
+		return this.getValue(true);
 	},
 
 	setValue: function(/*String*/ html){
