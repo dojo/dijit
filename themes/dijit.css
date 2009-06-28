@@ -170,7 +170,7 @@
 }
 
 .dijit_a11y .dijitCalendarSelectedDate {
-	text-decoration:overline !important;
+	text-decoration: underline !important;
 }
 
 .dijit_a11y .dijit * {
