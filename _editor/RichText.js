@@ -675,7 +675,9 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 		this.attr('disabled', this.disabled); // initialize content to editable (or not)
 
 		// Note that setValue() call will only work after isLoaded is set to true (above)
-		this.setValue(html);
+		if(html){	// w/out this if() FF2 won't show cursor when editor is blank
+			this.setValue(html);
+		}
 		
 		if(this.onLoadDeferred){
 			this.onLoadDeferred.callback(true);
