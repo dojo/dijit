@@ -40,6 +40,21 @@ dojo.declare(
 		return newH;
 	},
 
+	_estimateHeight: function(textarea){
+		// summary:
+		// 		Approximate the height when the textarea is invisible with the number of lines in the text.
+		// 		Fails when someone calls setValue with a long wrapping line, but the layout fixes itself when the user clicks inside so . . .
+		// 		In IE, the resize event is supposed to fire when the textarea becomes visible again and that will correct the size automatically.
+		//
+		textarea.style.maxHeight = "";
+		textarea.style.height = "auto";
+		// #rows = #newlines+1
+		// Note: on Moz, the following #rows appears to be 1 too many.
+		// Actually, Moz is reserving room for the scrollbar.
+		// If you increase the font size, this behavior becomes readily apparent as the last line gets cut off without the +1.
+		textarea.rows = (textarea.value.match(/\n/g) || []).length + 1;
+	},
+
 	_onInput: function(){
 		// Override SimpleTextArea._onInput() to deal with height adjustment
 		this.inherited(arguments);
@@ -52,6 +67,10 @@ dojo.declare(
 			if(textarea.style.height != newH){
 				textarea.style.maxHeight = textarea.style.height = newH;
 			}
+		}else if(dojo.isIE){ 
+			// hidden content of unknown size
+			// no call to _shrink so estimate the height here
+			this._estimateHeight(textarea);
 		}
 		if((dojo.isMoz || dojo.isSafari/*NOT isWebKit*/)){
 			if(this._setTimeoutHandle){
@@ -80,7 +99,10 @@ dojo.declare(
 			textarea.style.paddingBottom = padding.h - padding.t + scrollHeight + "px";
 			textarea.scrollTop = 0;
 			var newH = this._getHeight(textarea) - scrollHeight + "px"; // scrollHeight is the added padding
-			if(textarea.style.maxHeight != newH){
+			if(!scrollHeight){
+				this._estimateHeight(textarea);
+			}
+			else if(textarea.style.maxHeight != newH){
 				textarea.style.maxHeight = newH;
 			}
 			textarea.style.paddingBottom = oldPadding;
@@ -109,6 +131,7 @@ dojo.declare(
 		dojo.style(this.textbox, { overflowY: 'hidden', overflowX: 'auto', boxSizing: 'border-box', MsBoxSizing: 'border-box', WebkitBoxSizing: 'border-box', MozBoxSizing: 'border-box' });
 		this.connect(this.textbox, "onscroll", this._onInput);
 		this.connect(this.textbox, "onresize", this._onInput);
+		this.connect(this.textbox, "onfocus", this.resize); // useful when a previous estimate was off a bit
 		setTimeout(dojo.hitch(this, "resize"), 0);
 	}
 });
