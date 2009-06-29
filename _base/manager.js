@@ -217,8 +217,8 @@ dijit.getUniqueId = function(/*String*/widgetType){
 
 dijit.findWidgets = function(/*DomNode*/ root){
 	// summary:
-	//		Search subtree under root, putting found widgets in outAry.
-	//		Doesn't search for nested widgets (ie, widgets inside other widgets)
+   	//		Search subtree under root returning widgets found.
+	//		Doesn't search for nested widgets (ie, widgets inside other widgets).
 	
 	var outAry = [];
 
