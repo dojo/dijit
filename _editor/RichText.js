@@ -373,15 +373,15 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 					var data = dat.split(":");
 					if(data[0] == this.name){
 						html = data[1];
-						datas.splice(i, 1);
+						datas.splice(i, 1);	// TODO: this has no effect
 						break;
 					}
 				}
 			}
 
-			// FIXME: need to do something different for Opera/Safari.
-			// Presumably dojo.addOnBeforeUnload() is better here.
-			this.connect(window, "onbeforeunload", "_saveContent");
+			// TODO: this is troublesome if this editor has been destroyed, should have global handler.
+			// TODO: need to clear <textarea> in global handler
+			dojo.addOnUnload(dojo.hitch(this, "_saveContent"));
 		}
 
 		this.isClosed = false;
@@ -1530,7 +1530,10 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 		//		private
 
 		var saveTextarea = dojo.byId(dijit._scopeName + "._editor.RichText.savedContent");
-		saveTextarea.value += this._SEPARATOR + this.name + ":" + this.getValue();
+		if(saveTextarea.value){
+			saveTextarea.value += this._SEPARATOR;
+		}
+		saveTextarea.value += this.name + ":" + this.getValue(true);
 	},
 
 
