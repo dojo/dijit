@@ -476,9 +476,21 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 		}
 		var userStyle = "";
 		this.style.replace(/(^|;)(line-|font-?)[^;]+/g, function(match){ userStyle += match.replace(/^;/g,"") + ';' });
+
+		/*
+		 * On IE the iframe needs to have the same codepage as the main page does, or the
+		 * src=javascript:..._iframeSrc won't handle non-ascii characters correctly
+		 */
+		var d = dojo.doc;
+		var charset =
+			/*IE*/ d.charset || 
+			/*FF, Webkit, Opera, etc */ d.characterSet || 
+			/*nothing, look for defaults */ d.defaultCharset || "UTF-8";
+
 		return [
 			this.isLeftToRight() ? "<html><head>" : "<html dir='rtl'><head>",
 			(dojo.isMoz ? "<title>" + this._localizedIframeTitles.iframeEditTitle + "</title>" : ""),
+			"<meta http-equiv='Content-Type' content='text/html; charset=" + charset + "'>",
 			"<style>",
 			"body,html {",
 			"\tbackground:transparent;",
