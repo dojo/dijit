@@ -206,6 +206,12 @@ dojo.declare(
 			this.dateLocaleModule = dojo.getObject(this.datePackage + ".locale", false);
 		},
 
+		postMixInProperties: function(){
+			// parser.instantiate sometimes passes in NaN for IE.  Use default value in prototype instead.
+			if(isNaN(this.value)){ delete this.value; }
+			this.inherited(arguments);
+		},
+
 		postCreate: function(){
 			this.inherited(arguments);
 			dojo.setSelectable(this.domNode, false);
