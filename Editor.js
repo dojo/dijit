@@ -526,12 +526,12 @@ dojo.declare(
 			//		private
 			if(this._savedSelection){
 				//only restore the selection if the current range is collapsed
-    			//if not collapsed, then it means the editor does not lose 
-    			//selection and there is no need to restore it
-    			//if(dojo.withGlobal(this.window,'isCollapsed',dijit)){
-    				//console.log('_restoreSelection true')
+    				//if not collapsed, then it means the editor does not lose 
+    				//selection and there is no need to restore it
+    				if(dojo.withGlobal(this.window,'isCollapsed',dijit)){
+    					//console.log('_restoreSelection true')
 					this._moveToBookmark(this._savedSelection);
-				//}
+				}
 				delete this._savedSelection;
 			}
 		},
