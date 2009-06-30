@@ -426,7 +426,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 				this.onLoad();
 				this.savedContent = this.getValue(true);
 			});
-			var s = 'javascript:parent.dijit.byId("'+this.id+'")._iframeSrc';
+			var s = 'javascript:parent.' + dijit._scopeName + '.byId("'+this.id+'")._iframeSrc';
 			ifr.setAttribute('src', s);
 			this.editingArea.appendChild(ifr);
 			if(dojo.isWebKit){ // Safari seems to always append iframe with src=about:blank
