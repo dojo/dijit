@@ -166,8 +166,21 @@
 	cursor: pointer;
 }
 
-.dijit_a11y .dijitCalendarSelectedDate {
-	text-decoration: underline !important;
+/*
+ * Since we can't use shading in a11y mode, and since the underline indicates today's date,
+ * use a border to show the selected date.
+ * Avoid screen jitter when switching selected date by compensating for the selected node's
+ * border w/padding on other nodes.
+ */
+.dijit_a11y .dijitCalendarDateLabel {
+	padding: 1px;
+}
+.dijit_a11y .dijitCalendarSelectedDate .dijitCalendarDateLabel {
+	border: solid 1px black;
+	padding: 0px;
+}
+.dijit_a11y .dijitCalendarDateTemplate {
+	padding-bottom: 0.1em !important;	/* otherwise bottom border doesn't appear on IE */
 }
 
 .dijit_a11y .dijit * {
