@@ -1713,6 +1713,12 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 
 		if(this.interval){ clearInterval(this.interval); }
 
+		// Guard against memory leaks on IE (see #9268)
+		if(dojo.isIE){
+		   this.iframe.onfocus = null;
+		}
+		this.iframe._loadFunc = null;
+
 		if(this.textarea){
 			var s = this.textarea.style;
 			s.position = "";
