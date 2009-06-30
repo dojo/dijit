@@ -57,9 +57,6 @@
 .dj_ie .dijitInputField INPUT { /* try to get rid of IE implicit margin around INPUT */
 	margin: -1px 0 !important;
 }
-.dj_iequirks .dijitInputField INPUT { /* try to get rid of IE implicit margin around INPUT */
-	margin-top: -3px !important;
-}
 
 .dijitInlineTable {
 	/* To inline tables with a given width set (otherwise, use dijitInline above)
