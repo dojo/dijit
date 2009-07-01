@@ -717,7 +717,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 	// 		The editor is disabled; the text cannot be changed.
 	disabled: false,
 
-	_mozSettingProps: ['styleWithCSS','insertBrOnReturn'],
+	_mozSettingProps: {'styleWithCSS':false},
 	_setDisabledAttr: function(/*Boolean*/ value){
 		this.disabled = value;
 		if(!this.isLoaded){ return; } // this method requires init to be complete
@@ -731,10 +731,6 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 				setTimeout(function(){ _this.editNode.unselectable = "off"; }, 0);
 			}
 		}else{ //moz
-			if(value){
-				//AP: why isn't this set in the constructor, or put in mozSettingProps as a hash?
-				this._mozSettings=[false,this.blockNodeForEnter==='BR'];
-			}
 			try{
 				this.document.designMode=(value?'off':'on');
 			}catch(e){ return; } // ! _disabledOK
@@ -1334,22 +1330,6 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 				return true;
 			}
 		}
-		//should not allow user to indent neither a non-list node nor list item which is the first item in its parent 
-		if(command == 'indent'){
-			var li = this._sCall("getAncestorElement", ["li"]);
-			var n = li && li.previousSibling;
-			while(n){
-				if(n.nodeType == 1){
-				  return true;
-				}
-				n = n.previousSibling;
-			}
-			return false;
-		}else if(command == 'outdent'){
-			//should not allow user to outdent a non-list node
-			return this._sCall("hasAncestorElement", ["li"]);
-		}
-
 		// return this.document.queryCommandEnabled(command);
 		var elem = dojo.isIE ? this.document.selection.createRange() : this.document;
 		return elem.queryCommandEnabled(command);
