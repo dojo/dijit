@@ -1,3 +1,5 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+		"http://www.w3.org/TR/html4/strict.dtd">
 <html>
 <head>
 	<title>dijit.getViewport() test</title>
@@ -7,7 +9,7 @@
 		html, body { margin: 0px; padding: 0px; }
 	</style>
 	<script type="text/javascript" src="../../../dojo/dojo.js"
-		djConfig="isDebug: false, parseOnLoad: false"></script>
+		djConfig="isDebug: true, parseOnLoad: false"></script>
 	<script type="text/javascript" src="../_testCommon.js"></script>
 
 	<script type="text/javascript">
@@ -43,7 +45,7 @@
 						console.log("called compute");
 						var d = dojo.marginBox(dojo.byId("documentBorder")),
 							v = dijit.getViewport();
-						doh.t(v.h > d.h);
+						doh.t(v.h > d.h, "test that viewport is bigger than document");
 						console.log("v.h is " + v.h + " and d.h is " + d.h);
 					},
 					function expand(t){
@@ -52,8 +54,8 @@
 						addText();
 						compute();
 						var v2 = dijit.getViewport();
-						doh.t(v2.h <= v.h);
-						doh.t(v2.h+20 >= v.h);
+						doh.t(v2.h <= v.h, "test that viewport didn't increase in size due to text added to document");
+						doh.t(v2.h+20 >= v.h, "test that viewport didn't shrink, except for space taken by scrollbars");
 						console.log("end");
 					}
 				]
