@@ -105,24 +105,28 @@ dojo.mixin(dijit,
 		}
 	},
 
-	getFocus: function(/*Widget?*/menu, /*Window?*/openedForWindow){
+	getFocus: function(/*Widget?*/ menu, /*Window?*/ openedForWindow){
 		// summary:
-		//		Returns the current focus and selection.
-		//		Called when a popup appears (either a top level menu or a dialog),
-		//		or when a toolbar/menubar receives focus
+		//		Called as getFocus(), this returns an Object showing the current focus
+		//		and selected text.
 		//
-		// menu:
-		//		The menu that's being opened
+		//		Called as getFocus(widget), where widget is a (widget representing) a button
+		//		that was just pressed, it returns where focus was before that button
+		//		was pressed.   (Pressing the button may have either shifted focus to the button,
+		//		or removed focus altogether.)
+		//
+		// menu: dijit._Widget or {domNode: DomNode} structure
+		//		The button that was just pressed.  If focus has disappeared or moved
+		//		to this button, returns the previous focus.  In this case the bookmark
+		//		information is already lost, and null is returned.
 		//
 		// openedForWindow:
 		//		iframe in which menu was opened
 		//
 		// returns:
-		//		A handle to restore focus/selection
-
+		//		A handle to restore focus/selection, to be passed to `dijit.focus`
 		return {
-			// Node to return focus to
-			node: menu && dojo.isDescendant(dijit._curFocus, menu.domNode) ? dijit._prevFocus : dijit._curFocus,
+			node: !dijit._curFocus || (menu && dojo.isDescendant(dijit._curFocus, menu.domNode)) ? dijit._prevFocus : dijit._curFocus,
 
 			// Previously selected text
 			bookmark:

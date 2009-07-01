@@ -25,22 +25,36 @@
 		}
 		function restore(){
 			dijit.focus(savedFocus);
+			console.log("restored focus to: ", savedFocus);
 		}
 	</script>
 </head>
 <body style="background-color: #fff; color: black; padding: 0; margin: 0" class="tundra">
 
 	<h3>Focus/Selection Save/Restore Test</h3>
-	<p>This is for testing whether focus and selection are restored by the focus manager</p>
+	<p>This is for testing whether focus and selection can be saved and restored by the focus manager.</p>
+	<p>
+		If you press the "Save focus" button, it should save the focus, but not the selection.
+		This is because merely pressing that button makes the focused textarea/input lose focus,
+		which also loses the selection.  (We fudge things by saving the previously focused element rather
+		than the currently focused one.)
+	</p>
+	<p>
+		If you press the "Save focus/selection state after 3 seconds" button, and then focus an input/textarea
+		and select some text, it should (after three seconds) save both the focused element and the selection.
+		The exception is FF where it doesn't save the selection, but it still kind of works because when focus
+		is restored to the input/textarea the previous selection reappears (curtesy of the browser).
+	</p>
 	<form style="border: 2px solid blue;">
-		<input id=input1 value=tom><br>
-		<input id=input2 value=jones><br>
-		<textarea id=textarea>hello there!</textarea><br>
+		<input id=input1 value=tom autocomplete=false><br>
+		<input id=input2 value=jones autocomplete=false><br>
+		<textarea id=textarea autocomplete=false>hello there!</textarea><br>
 		<button id=button>push me</button>
 	</form>
 
-	<button id="save" onclick="save();" tabIndex="1">Save focus/selection state</button>
-	<button onclick="restore();">Restore focus/selection state</button>
+	<button id="save" onclick="save();">Save focus</button>
+	<button id="delay_save" onclick="console.log('set timer for func'); setTimeout(save, 3000);">Save focus/selection state after 3 seconds</button>
+	<button id="restore" onclick="restore();">Restore focus/selection state</button>
 
 </body>
 </html>
