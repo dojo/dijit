@@ -182,10 +182,11 @@ dojo.declare("dijit._KeyNavContainer",
 
 			this.focusFirstChild();
 			
-			// and then remove the container's tabIndex,
+			// and then set the container's tabIndex to -1,
+			// (don't remove as that breaks Safari 4)
 			// so that tab or shift-tab will go to the fields after/before
 			// the container, rather than the container itself
-			dojo.removeAttr(this.domNode, "tabIndex");
+			dojo.attr(this.domNode, "tabIndex", "-1");
 		},
 
 		_onBlur: function(evt){
