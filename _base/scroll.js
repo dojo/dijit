@@ -26,9 +26,6 @@ dijit.scrollIntoView = function(/* DomNode */node){
 		node.scrollIntoView(false); // short-circuit to native if possible
 		return;
 	}
-	var ltr = dojo._isBodyLtr();
-	var isIE8strict = dojo.isIE >= 8 && !compatMode;
-	var rtl = !ltr && !isIE8strict; // IE8 flips scrolling so pretend it's ltr
 	// body and html elements are all messed up due to browser bugs and inconsistencies related to doctype
 	// normalize the values before proceeding (FF2 is not listed since its native behavior is perfect)
 	// for computation simplification, client and offset width and height are the same for body and html
@@ -54,6 +51,9 @@ dijit.scrollIntoView = function(/* DomNode */node){
 	//    op9:  clientW  clientH |HscrollW  clientH | CSS1Compat
 	var scrollRoot = body;
 	var compatMode = doc.compatMode == 'BackCompat';
+	var ltr = dojo._isBodyLtr();
+	var isIE8strict = dojo.isIE >= 8 && !compatMode;
+	var rtl = !ltr && !isIE8strict; // IE8 flips scrolling so pretend it's ltr
 	if(compatMode){ // BODY is scrollable, HTML has same client size
 		// body client values already OK
 		html._offsetWidth = html._clientWidth = body._offsetWidth = body.clientWidth;
