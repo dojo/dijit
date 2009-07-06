@@ -109,19 +109,18 @@ dojo.declare(
 			//      private
 			var month = this.displayMonth;
 			month.setDate(1);
-			var firstDay = month.getDay();
-			var daysInMonth = this.dateFuncObj.getDaysInMonth(month);
-			var daysInPreviousMonth = this.dateFuncObj.getDaysInMonth(this.dateFuncObj.add(month, "month", -1));
-			var today = new this.dateClassObj();
-
-			var dayOffset = dojo.cldr.supplemental.getFirstDayOfWeek(this.lang);
+			var firstDay = month.getDay(),
+				daysInMonth = this.dateFuncObj.getDaysInMonth(month),
+				daysInPreviousMonth = this.dateFuncObj.getDaysInMonth(this.dateFuncObj.add(month, "month", -1)),
+				today = new this.dateClassObj(),
+				dayOffset = dojo.cldr.supplemental.getFirstDayOfWeek(this.lang);
 			if(dayOffset > firstDay){ dayOffset -= 7; }
 
 			// Iterate through dates in the calendar and fill in date numbers and style info
 			dojo.query(".dijitCalendarDateTemplate", this.domNode).forEach(function(template, i){
 				i += dayOffset;
-				var date = new this.dateClassObj(month);
-				var number, clazz = "dijitCalendar", adj = 0;
+				var date = new this.dateClassObj(month),
+					number, clazz = "dijitCalendar", adj = 0;
 
 				if(i < firstDay){
 					number = daysInPreviousMonth - firstDay + i + 1;
@@ -160,8 +159,9 @@ dojo.declare(
 
 				template.className =  clazz + "Month dijitCalendarDateTemplate";
 				template.dijitDateValue = date.valueOf();
-				var label = dojo.query(".dijitCalendarDateLabel", template)[0];
-				this._setText(label, date.getDate()); 
+				var label = dojo.query(".dijitCalendarDateLabel", template)[0],
+					text = date.getDateLocalized ? date.getDateLocalized(this.lang) : date.getDate();
+				this._setText(label, text);
 			}, this);
 
 			// Fill in localized month name
