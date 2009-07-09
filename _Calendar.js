@@ -276,19 +276,19 @@ dojo.declare(
 			//      protected
 			dojo.stopEvent(evt);
 
-			var coords = dojo.coords(this.monthLabelNode, true);
-			// Size the dropdown's width to match the widget
-			dojo.style(this.monthDropDown, "width", coords.w + "px");
-
-			dojo.toggleClass(this.monthDropDown, "dijitHidden");
-			dojo.toggleClass(this.monthLabelNode, "dijitVisible");
-			dojo.style(this.monthDropDown, "top", (coords.y - this.displayMonth.getMonth() * coords.h)+"px");
 			if(evt.type == "mousedown"){
+				var coords = dojo.coords(this.monthLabelNode, true);
+				// Size the dropdown's width to match the widget
+				dojo.style(this.monthDropDown, "width", coords.w + "px");
+				dojo.style(this.monthDropDown, "top", (coords.y - this.displayMonth.getMonth() * coords.h)+"px");
 				this._popupHandler = dojo.connect(document, "onmouseup", this, this._onMonthToggle);
 			}else{
 				dojo.disconnect(this._popupHandler);
 				delete this._popupHandler;
 			}
+
+			dojo.toggleClass(this.monthDropDown, "dijitHidden");
+			dojo.toggleClass(this.monthLabelNode, "dijitVisible");
 		},
 
 		_onMonthSelect: function(/*Event*/ evt){
