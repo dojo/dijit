@@ -278,12 +278,15 @@ dojo.declare(
 
 			if(evt.type == "mousedown"){
 				var coords = dojo.coords(this.monthLabelNode, true);
-				// Size the dropdown's width to match the widget
-				dojo.style(this.monthDropDown, "width", coords.w + "px");
-				dojo.style(this.monthDropDown, "top", (coords.y - this.displayMonth.getMonth() * coords.h)+"px");
-				this._popupHandler = dojo.connect(document, "onmouseup", this, this._onMonthToggle);
+				// Size the dropdown's width to match the label in the widget
+				// so that they are horizontally aligned
+				dojo.style(this.monthDropDown, {
+					width: coords.w + "px",
+					top: (coords.y - this.displayMonth.getMonth() * coords.h) + "px"
+				});
+				this._popupHandler = this.connect(document, "onmouseup", dojo.hitch(this._onMonthToggle));
 			}else{
-				dojo.disconnect(this._popupHandler);
+				this.disconnect(this._popupHandler);
 				delete this._popupHandler;
 			}
 
