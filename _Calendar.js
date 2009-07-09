@@ -284,7 +284,7 @@ dojo.declare(
 					width: coords.w + "px",
 					top: (coords.y - this.displayMonth.getMonth() * coords.h) + "px"
 				});
-				this._popupHandler = this.connect(document, "onmouseup", dojo.hitch(this._onMonthToggle));
+				this._popupHandler = this.connect(document, "onmouseup", "_onMonthToggle");
 			}else{
 				this.disconnect(this._popupHandler);
 				delete this._popupHandler;
