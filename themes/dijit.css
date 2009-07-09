@@ -953,6 +953,10 @@ img.dijitColorPaletteUnder {
 	vertical-align: middle;
 }
 
+.dijitCalendarMonthLabel {
+	cursor:pointer;
+}
+
 .dijitCalendarDisabledDate {
 	color:gray !important;
 }
@@ -974,7 +978,7 @@ img.dijitColorPaletteUnder {
 	cursor:pointer;
 }
 
-.dijitCalendarMonthLabelSpacer {
+.dijitSpacer {
 	/* don't display it, but make it affect the width */
   	position: relative;
   	height: 1px;

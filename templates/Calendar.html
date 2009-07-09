@@ -6,8 +6,11 @@
 				<span dojoAttachPoint="decreaseArrowNode" class="dijitA11ySideArrow">-</span>
 			</th>
 			<th class='dijitReset' colspan="5">
-				<div dojoAttachPoint="monthLabelSpacer" class="dijitCalendarMonthLabelSpacer"></div>
-				<div dojoAttachPoint="monthLabelNode" class="dijitCalendarMonthLabel"></div>
+				<div class="dijitPopup dijitMenu dijitMenuPassive dijitHidden" dojoAttachPoint="monthDropDown" dojoAttachEvent="onmouseup: _onMonthSelect, onmouseover: _onMenuHover, onmouseout: _onMenuHover">
+					<div class="dijitCalendarMonthLabelTemplate dijitCalendarMonthLabel"></div>
+				</div>
+				<div dojoAttachPoint="monthLabelSpacer" class="dijitSpacer"></div>
+				<div dojoAttachPoint="monthLabelNode" class="dijitCalendarMonthLabel dijitVisible" dojoAttachEvent="onmousedown: _onMonthToggle"></div>
 			</th>
 			<th class='dijitReset' dojoAttachPoint="incrementMonth">
 				<img src="${_blankGif}" alt="" class="dijitCalendarIncrementControl dijitCalendarIncrease" waiRole="presentation">
