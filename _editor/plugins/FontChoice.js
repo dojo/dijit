@@ -155,14 +155,14 @@ dojo.declare("dijit._editor.plugins.FontChoice",
 			// Called during initialization.  Adds FilteringSelect plus a label node (like "Font:") to Toolbar.
 			this.inherited(arguments);
 
-			var forRef = this.button;
-			if(!forRef.id){ forRef.id = dijit._scopeName+"EditorButton-"+this.command+(this._uniqueId++); } //TODO: is this necessary?  FilteringSelects always seem to have an id?
-			var label = dojo.doc.createElement("label");
-			dojo.addClass(label, "dijit dijitReset dijitLeft dijitInline");
-			label.setAttribute("for", forRef.id);
+			//Wrap this in a span with no wrapping so the whole widget (inc label)
+			//wraps to the next line.
 			var strings = dojo.i18n.getLocalization("dijit._editor", "FontChoice");
-			label.appendChild(dojo.doc.createTextNode(strings[this.command]));
-			dojo.place(label, this.button.domNode, "before");
+			var span = dojo.place(
+				"<span style='white-space: nowrap' class='dijit dijitReset dijitInline'>" +
+				"<label class='dijitLeft dijitInline' for="+this.button.id+">"+strings[this.command]+"</label></span>",
+				this.button.domNode, "before");
+			span.appendChild(this.button.domNode);
 		}
 	}
 );
