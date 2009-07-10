@@ -669,6 +669,15 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 			this.editNode.style.zoom = 1.0;
 		}
 
+		if(dojo.isWebKit){ 
+			//WebKit sometimes doesn't fire right on selections, so the toolbar
+			//doesn't update right.  Therefore, help it out a bit with an additional
+			//listener.  A mouse up will typically indicate a display change, so fire this
+			//and get the toolbar to adapt.  Reference: #9532 
+			//Using dojo.conneect as this needs to be cleaned up in close, not just destroy.
+			this._webkitListener = dojo.connect(this.document, "onmouseup", this, "onDisplayChanged");
+		}
+
 		this.isLoaded = true;
 
 		this.attr('disabled', this.disabled); // initialize content to editable (or not)
@@ -1588,6 +1597,12 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 		// FIXME: why was this here? if (this.iframe){ this.domNode.style.lineHeight = null; }
 
 		if(this.interval){ clearInterval(this.interval); }
+
+		if(this._webkitListener){
+			//Cleaup of WebKit fix: #9532
+			dojo.disconnect(this._webkitListener);
+			delete this._webkitListener;
+		}
 
 		// Guard against memory leaks on IE (see #9268)
 		if(dojo.isIE){
