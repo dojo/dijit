@@ -803,8 +803,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 			//doesn't update right.  Therefore, help it out a bit with an additional
 			//listener.  A mouse up will typically indicate a display change, so fire this
 			//and get the toolbar to adapt.  Reference: #9532 
-			//Using dojo.conneect as this needs to be cleaned up in close, not just destroy.
-			this._webkitListener = dojo.connect(this.document, "onmouseup", this, "onDisplayChanged");
+			this._webkitListener = this.connect(this.document, "onmouseup", "onDisplayChanged");
 		}
 
 		this.isLoaded = true;
@@ -1716,7 +1715,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 
 		if(this._webkitListener){
 			//Cleaup of WebKit fix: #9532
-			dojo.disconnect(this._webkitListener);
+			this.disconnect(this._webkitListener);
 			delete this._webkitListener;
 		}
 
