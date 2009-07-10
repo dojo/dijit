@@ -7,10 +7,43 @@ dojo.require("dojo.i18n");
 
 dojo.requireLocalization("dijit._editor", "FontChoice");
 
+dojo.declare("dijit._editor.plugins._FontButtonWrapper",
+	[dijit._Widget, dijit._Templated],{
+	// summary:
+	//		This is a cheap wrapper widget to get keyboard focus working 
+	//		right in the toolbar with a span wrapped FilteringSelect.
+	labelId: "", 
+	label: "",
+	widget: null,
+	templateString: "<span style='white-space: nowrap' class='dijit dijitReset dijitInline'>" +
+		"<label class='dijitLeft dijitInline' for=${labelId}>${label}</label></span>",
+
+	startup: function() {
+		this.domNode.appendChild(this.widget.domNode);
+		//We don't want the manager tothink this is focusable
+		//So make it appear it isn't.
+		this.widget.isFocusable = function(){
+			return false;
+		};
+	},
+	isFocusable: function(){
+		 return true;
+	},
+	focus: function() {
+		dijit.focus(this.widget.focusNode);
+	},
+	unitialize: function() {
+		this.inherited(arguments);
+		this.widget.destroy();
+		this.widget = null;
+	}
+});
+
+
 dojo.declare("dijit._editor.plugins.FontChoice",
 	dijit._editor._Plugin,
 	{
-		//	summary:
+		//	summary:												 
 		//		This plugin provides three dropdowns for setting font information in the editor
 		//
 		//	description:
@@ -150,7 +183,7 @@ dojo.declare("dijit._editor.plugins.FontChoice",
 			}
 		},
 
-		setToolbar: function(){
+		setToolbar: function(toolbar){
 			// Overrides _Plugin.setToolbar().
 			// Called during initialization.  Adds FilteringSelect plus a label node (like "Font:") to Toolbar.
 			this.inherited(arguments);
@@ -158,11 +191,14 @@ dojo.declare("dijit._editor.plugins.FontChoice",
 			//Wrap this in a span with no wrapping so the whole widget (inc label)
 			//wraps to the next line.
 			var strings = dojo.i18n.getLocalization("dijit._editor", "FontChoice");
-			var span = dojo.place(
-				"<span style='white-space: nowrap' class='dijit dijitReset dijitInline'>" +
-				"<label class='dijitLeft dijitInline' for="+this.button.id+">"+strings[this.command]+"</label></span>",
-				this.button.domNode, "before");
-			span.appendChild(this.button.domNode);
+
+			var wrapper = new dijit._editor.plugins._FontButtonWrapper({
+				label: strings[this.command]||"", 
+				labelId: this.button.id,
+				widget: this.button
+			});
+			toolbar.addChild(wrapper);
+			wrapper.startup();
 		}
 	}
 );
