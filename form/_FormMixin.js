@@ -147,6 +147,7 @@ dojo.declare("dijit.form._FormMixin", null,
 
 				// TODO: widget values (just call attr('value', ...) on the widget)
 
+				// TODO: maybe should call dojo.getEffectiveAttrValue() instead
 				switch(element.type){
 					case "checkbox":
 						element.checked = (name in myObj) &&
