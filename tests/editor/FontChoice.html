@@ -1,0 +1,46 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+		"http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+	<title>FontChoice Plugins Test</title>
+
+	<style type="text/css">
+		@import "../../../dojo/resources/dojo.css";
+		@import "../css/dijitTests.css";
+	</style>
+
+	<!-- required: a default dijit theme: -->
+	<link id="themeStyles" rel="stylesheet" href="../../../dijit/themes/tundra/tundra.css">
+	
+	<!-- required: dojo.js -->
+	<script type="text/javascript" src="../../../dojo/dojo.js"
+		djConfig="parseOnLoad: true, isDebug: true"></script>
+	
+	<!-- not needed, for testing alternate themes -->
+	<script type="text/javascript" src="../_testCommon.js"></script>
+
+
+	<script type="text/javascript">
+		dojo.require("dijit.dijit"); // optimize: load dijit layer
+		dojo.require("dijit.Editor");
+		dojo.require("dijit._editor.plugins.FontChoice");  // 'fontName','fontSize','formatBlock'
+		dojo.require("dojo.parser");	// scan page for widgets and instantiate them
+	</script>
+</head>
+
+<body class="tundra">
+	<h1>FontChoice Plugins Test</h1>
+	
+	<p>Editor w/ generic (web font names) font selector, traditional font name selector, font size selector, and format block selector:</p>
+	<div dojoType="dijit.Editor" id="one" height="10em"
+		plugins="['bold', 'italic', 'underline', {name: 'dijit._editor.plugins.FontChoice', command: 'fontName', generic: true}, 'fontName', 'fontSize', 'formatBlock']">hello world</div>
+
+	<p>Editor w/ custom font drop down list</p>
+	<div dojoType="dijit.Editor" id="custom" height="10em"
+		plugins="['bold', 'italic', 'underline', {name: 'dijit._editor.plugins.FontChoice', command: 'fontName', custom:['Verdana','Myriad','Garamond']}]">
+			This editor should let you set the fonts to
+			<font face="Verdana">Verdana</font>, <font face="Myriad">Myriad</font>, and <font face="Garamond">Garamond</font>.
+	</div>
+
+</body>
+</html>

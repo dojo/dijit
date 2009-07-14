@@ -9,9 +9,8 @@ dojo.declare("dijit._editor._Plugin", null, {
 	//		a single button on the Toolbar and some associated code
 
 	constructor: function(/*Object?*/args, /*DomNode?*/node){
-		if(args){
-			dojo.mixin(this, args);
-		}
+		this.params = args || {};
+		dojo.mixin(this, this.params);
 		this._connects=[];
 	},
 
@@ -24,7 +23,8 @@ dojo.declare("dijit._editor._Plugin", null, {
 	iconClassPrefix: "dijitEditorIcon",
 
 	// button: dijit._Widget?
-	//		Pointer to `dijit.form.Button` or other widget (ex: `dijit.form.FilteringSelect`) that controls this plugin.
+	//		Pointer to `dijit.form.Button` or other widget (ex: `dijit.form.FilteringSelect`)
+	//		that is added to the toolbar to control this plugin.
 	//		If not specified, will be created on initialization according to `buttonClass`
 	button: null,
 
@@ -38,8 +38,9 @@ dojo.declare("dijit._editor._Plugin", null, {
 	useDefaultCommand: true,
 
 	// buttonClass: Widget Class
-	//		Class for button to control this plugin.   This is used to instantiate the button, unless `button` itself
-	//		is specified directly.
+	//		Class of widget (ex: dijit.form.Button or dijit.form.FilteringSelect)
+	//		that is added to the toolbar to control this plugin.
+	//		This is used to instantiate the button, unless `button` itself is specified directly.
 	buttonClass: dijit.form.Button,
 
 	getLabel: function(/*String*/key){
@@ -50,9 +51,9 @@ dojo.declare("dijit._editor._Plugin", null, {
 		return this.editor.commands[key];		// String
 	},
 
-	_initButton: function(props){
+	_initButton: function(){
 		// summary:
-		//		Initialize the button that will control this plugin.
+		//		Initialize the button or other widget that will control this plugin.
 		//		This code only works for plugins controlling built-in commands in the editor.
 		// tags:
 		//		protected extension
@@ -60,13 +61,13 @@ dojo.declare("dijit._editor._Plugin", null, {
 			var label = this.getLabel(this.command);
 			var className = this.iconClassPrefix+" "+this.iconClassPrefix + this.command.charAt(0).toUpperCase() + this.command.substr(1);
 			if(!this.button){
-				props = dojo.mixin({
+				var props = dojo.mixin({
 					label: label,
 					showLabel: false,
 					iconClass: className,
 					dropDown: this.dropDown,
 					tabIndex: "-1"
-				}, props || {});
+				}, this.params || {});
 				this.button = new this.buttonClass(props);
 			}
 		}
@@ -157,7 +158,8 @@ dojo.declare("dijit._editor._Plugin", null, {
 
 	setToolbar: function(/*dijit.Toolbar*/ toolbar){
 		// summary:
-		//		Tell the plugin to add itself to the toolbar (if there is a button associated with the plugin).
+		//		Tell the plugin to add it's controller widget (often a button)
+		//		to the toolbar.  Does nothing if there is no controller widget.
 
 		// TODO: refactor code to just pass toolbar to constructor.
 
