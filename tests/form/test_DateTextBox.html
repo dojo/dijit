@@ -56,7 +56,7 @@
 		<h1 class="testTitle">Test DateTextBox Widget</h1>
 		<!--	to test form submission, you'll need to create an action handler similar to
 			http://www.utexas.edu/teamweb/cgi-bin/generic.cgi -->
-		<form id="form1" dojoType='dijit.form.Form' action="" name="example" method="">
+		<form id="form1" dojoType='dijit.form.Form' action="" name="example" method="" onSubmit="return this.validate()">
 			<div class="dojoTitlePaneLabel">
 				<label for="local"> Date (local format) </label>
 				<span class="noticeMessage">DateTextBox class, no attributes</span>
@@ -70,9 +70,9 @@
 				>
 				onChange:<input id="oc1" size="34" disabled value="not fired yet!" autocomplete="off">
 				<nobr>
-				<button onclick="dijit.byId('local').attr('value', null);">attr('value',null)</button>
-				<button onclick="dojo.byId('gv1').value=''+dijit.byId('local').attr('value');">attr('value')</button>
-				<button onclick="dojo.byId('gv1').value=''+dijit.byId('local').value;">.value</button>
+				<button type="button" onclick="dijit.byId('local').attr('value', null);">attr('value',null)</button>
+				<button type="button" onclick="dojo.byId('gv1').value=''+dijit.byId('local').attr('value');">attr('value')</button>
+				<button type="button" onclick="dojo.byId('gv1').value=''+dijit.byId('local').value;">.value</button>
 				<input id="gv1" size="34" disabled value="not called yet!" autocomplete="off">
 				</nobr>
 			</div>
@@ -185,7 +185,7 @@
 			</div>
 
 			<div>
-				<button name="button" onclick="displayData(); return false;">view data</button>
+				<button type="button" name="button" onclick="displayData(); return false;">view data</button>
 				<input type="submit" name="submit" />
 				<input type="reset" name="reset" />
 			</div>
