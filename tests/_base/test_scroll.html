@@ -406,7 +406,8 @@ console.log('!!!!!!!!!!!! scrollbar size = ' + sb);
 <fieldset>
 <label for="absContent">Absolute-positioned content:</label>
 <div type="testIframe" id="absContent">
-	<iframestyle>INPUT { L_left:90px; R_right:90px; WKR_FF2R_left:90px; WKR_FF2R_right:auto; }</iframestyle>
+	<iframestyle>INPUT { L_left:90px; R_right:90px; WKR_FF2R_left:90px; WKR_FF2R_right:auto; }
+		HTML { overflow:scroll !important; /*IE6*/ }</iframestyle>
 	<hr style="height:100px;width:200px;float:left;"/>
 	<hr style="height:100px;width:200px;float:right;"/>
 	<input style="position:absolute;top:90px;">
