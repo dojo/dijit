@@ -107,7 +107,7 @@ dojo.declare(
 		
 		_onFocus: function(/*Event*/ evt){
 			// summary:
-			//		open the TimePicker popup
+			//		open the popup
 			this._open();
 		},
 
@@ -218,6 +218,7 @@ dojo.declare(
 		postCreate: function(){
 			this.inherited(arguments);
 			this.connect(this.focusNode, 'onkeypress', this._onKeyPress);
+			this.connect(this.focusNode, 'onclick', this._open);
 		},
 
 		_onKeyPress: function(/*Event*/ e){
