@@ -450,12 +450,17 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 		//		private
 		var _cs = dojo.getComputedStyle(this.domNode);
 
-		// The contents inside of <body>.  Usually this is blank (set later via a call
-		// to setValue(), but for some reason we need an extra <div> on IE (TODOC)
+		// The contents inside of <body>.  The real contents are set later via a call to setValue().
 		var html = "";
 		if(dojo.isIE || (!this.height && !dojo.isMoz)){
-			html="<div>"+html+"</div>";
+			// For some reason we need an extra <div> on IE (TODOC)
+			html = "<div></div>";
+		}else if(dojo.isMoz){
+			// workaround bug where can't select then delete text (until user types something
+			// into the editor)
+			html = "&nbsp;";
 		}
+
 		var font = [ _cs.fontWeight, _cs.fontSize, _cs.fontFamily ].join(" ");
 		
 		// line height is tricky - applying a units value will mess things up.
