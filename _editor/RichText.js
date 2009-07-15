@@ -781,9 +781,6 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 		//      Registers that attr("value", foo) should call setValue(foo)
 		this.setValue(value);
 	},
-	_getDisableSpellCheckAttr: function(){
-		return !dojo.attr(this.document.body, "spellcheck");
-	},
 	_setDisableSpellCheckAttr: function(/*Boolean*/ disabled){
 		if(this.document){
 			dojo.attr(this.document.body, "spellcheck", !disabled);
@@ -793,6 +790,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 				dojo.attr(this.document.body, "spellcheck", !disabled);
 			}));
 		}
+		this.disableSpellCheck = disabled;
 	},
 
 	onKeyPress: function(e){
