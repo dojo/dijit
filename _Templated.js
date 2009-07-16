@@ -219,7 +219,7 @@ dojo.declare("dijit._Templated",
 		
 		startup: function(){
 			dojo.forEach(this._supportingWidgets, function(w){
-				if(w && !w._started && w.startup && (!w.getParent || !w.getParent())){
+				if(w && !w._started && w.startup){
 					w.startup();
 				}
 			});
