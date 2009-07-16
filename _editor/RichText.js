@@ -559,16 +559,18 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 		}
 
 		this.editingAreaStyleSheets.push(url);
-		if(this.document.createStyleSheet){ //IE
-			this.document.createStyleSheet(url);
-		}else{ //other browser
-			var head = this.document.getElementsByTagName("head")[0];
-			var stylesheet = this.document.createElement("link");
-			stylesheet.rel="stylesheet";
-			stylesheet.type="text/css";
-			stylesheet.href=url;
-			head.appendChild(stylesheet);
-		}
+        this.onLoadDeferred.addCallback(dojo.hitch(function(){
+    		if(this.document.createStyleSheet){ //IE
+    			this.document.createStyleSheet(url);
+    		}else{ //other browser
+    			var head = this.document.getElementsByTagName("head")[0];
+    			var stylesheet = this.document.createElement("link");
+    			stylesheet.rel="stylesheet";
+    			stylesheet.type="text/css";
+    			stylesheet.href=url;
+    			head.appendChild(stylesheet);
+    		}
+        }));
 	},
 
 	removeStyleSheet: function(/*dojo._Url*/ uri){
