@@ -19,9 +19,16 @@
 			dojo.require("dijit.dijit"); // optimize: load dijit layer
 			dojo.require("dijit.robotx");
 
-			// This page tests that the editor's value won't be lost if the user
-			// accidentlly navigates to a different page, and then returns to the
-			// page w/the editor by pressing the back button.
+			function normalize(str){
+				// try to do some normalization to make all browsers look
+				// the same.   Would be nice if we didn't need this, the normalization should
+				// probably happen as pre and post filters on the editor
+				return str.
+					replace('<br />', '').		// FF.  Because of EnterKeyHandling plugin?
+					replace(/^<p>/, '').replace(/<\/p>$/, '').		// Safari.  Because of EnterKeyHandling plugin?
+					replace(/em>/g, "i>").replace(/strong>/g, "b>").	// IE
+					replace(new RegExp(String.fromCharCode(160), "g"), " ");	// Safari: nbsp (char code 160) to normal space (char code 32)
+			}
 
 			dojo.addOnLoad(function(){
 				doh.robot.initRobot('../test_Editor.html');
@@ -30,14 +37,21 @@
 				// on mac... use ctrl- instead, just like on windows. (#9553)
 				var metaKey = {ctrl: true}
 
+				var editor0, editor1;
+				
+				doh.register("setup", function setup(){
+					editor0 = dijit.byId("editor0");
+					editor1 = dijit.byId("editor1");
+				});
+
 				doh.register("keyboard shortcuts", [
 					{
-						name: "correct input",
+						name: "bold/italic",
 						timeout: 10000,
 						runTest: function(){
 							var d = new doh.Deferred();
 
-							var editor1 = dijit.byId("editor1");
+							dijit.scrollIntoView(editor1.domNode);
 
 							// Set contents of editor1
 							doh.robot.sequence(function(){
@@ -55,17 +69,153 @@
 							doh.robot.typeKeys(" new world.", 500);
 							
 							doh.robot.sequence(d.getTestCallback(function(){
+								var val = normalize(editor1.attr('value'));
+								doh.is("hello <b>bold</b> and <i>exciting</i> new world.", val);
+							}), 1500);
+
+							return d;
+						}
+					}
+				]);
+
+				// Check that toolbar buttons are highlighted/not highlighted (etc.) based on
+				// where caret is in document
+				doh.register("toolbar state", [
+					{
+						name: "setup",
+						timeout: 10000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							dijit.scrollIntoView(editor1.domNode);
+
+							// strange things happen if you alter an editor's value while it is focused,
+							// so temporarily move to the toolbar while setting content
+							doh.robot.keyPress(dojo.keys.TAB, 500, {shift: true});	// go to toolbar
+							doh.robot.sequence(function(){
+								editor1.attr("value", "toolbar <b>state</b> <i>test</i>.")
+							}, 500);
+							doh.robot.keyPress(dojo.keys.TAB, 500);	// goes to content
+
+
+							doh.robot.keyPress(dojo.keys.HOME, 500);
+							
+							doh.robot.sequence(d.getTestCallback(function(){
+								var toolbar = editor1.toolbar;
+								doh.t(toolbar, "found toolbar");
+								
+								var boldButton = toolbar.getChildren()[7];
+								doh.t(boldButton, "found bold button");
+								doh.f(boldButton.attr("checked"), "bold button not depressed");
+
+								var italicButton = toolbar.getChildren()[8];
+								doh.t(italicButton, "found italic button");
+								doh.f(italicButton.attr("checked"), "italic button not depressed");
+							}), 500);
+
+							return d;
+						}
+					},
+					{
+						name: "bold higlighted",
+						timeout: 10000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							// second word
+							if(dojo.isMac){
+								doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 500, {alt: true});
+								doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 500);
+							}else{
+								doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 500, {ctrl: true});
+							}
+							
+							// second letter of second word
+							doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 500);
+							
+							doh.robot.sequence(d.getTestCallback(function(){
+								var toolbar = editor1.toolbar;
+								doh.t(toolbar, "found toolbar");
+								
+								var boldButton = toolbar.getChildren()[7];
+								doh.t(boldButton, "found bold button");
+								doh.t(boldButton.attr("checked"), "bold button depressed");
+
+								var italicButton = toolbar.getChildren()[8];
+								doh.t(italicButton, "found italic button");
+								doh.f(italicButton.attr("checked"), "italic button not depressed");
+							}), 500);
+
+							return d;
+						}
+					},
+					{
+						name: "italic higlighted",
+						timeout: 10000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							// third word
+							if(dojo.isMac){
+								doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 500, {alt: true});
+								doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 500);
+							}else{
+								doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 500, {ctrl: true});
+							}
+
+							// second letter of third word
+							doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 500);
+							
+							doh.robot.sequence(d.getTestCallback(function(){
+								var toolbar = editor1.toolbar;
+								doh.t(toolbar, "found toolbar");
+								
+								var boldButton = toolbar.getChildren()[7];
+								doh.t(boldButton, "found bold button");
+								doh.f(boldButton.attr("checked"), "bold button not depressed");
+
+								var italicButton = toolbar.getChildren()[8];
+								doh.t(italicButton, "found italic button");
+								doh.t(italicButton.attr("checked"), "italic button depressed");
+							}), 500);
+
+							return d;
+						}
+					}
+				]);
+
+				doh.register("toolbar navigation", [
+					{
+						name: "bold",
+						timeout: 10000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							dijit.scrollIntoView(editor1.domNode);
+
+							doh.robot.sequence(function(){
+								editor1.focus();
+							}, 500);
+							doh.robot.keyPress("a", 500, metaKey);	// select all
+							doh.robot.typeKeys("hello ", 500);		// and erase (by typing something new)
+
+							// Go to toolbar and turn on bold.
+							// We only have to right-arrow twice because it skips the vertical divider bars
+							// and also skips cut and copy (they are disabled b/c nothing is selected)
+							doh.robot.keyPress(dojo.keys.TAB, 500, {shift: true});
+							doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 500);
+							doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 500);
+							doh.robot.keyPress(dojo.keys.SPACE, 500);
+
+							doh.robot.typeKeys("world", 500);
+							
+							doh.robot.sequence(d.getTestCallback(function(){
 								// Get the value and try to do some normalization to make all browsers look
 								// the same.   Would be nice if we didn't need this, the normalization should
 								// probably happen as pre and post filters on the editor
-								var val = editor1.attr('value').
-										replace('<br />', '').
-										replace(/^<p>/, '').
-										replace(/<\/p>$/, '').
-										replace(/em>/g, "i>").
-										replace(/strong>/g, "b>");
-								doh.is("hello <b>bold</b> and <i>exciting</i> new world.", val);
-							}), 500);
+								var val = normalize(editor1.attr('value'));
+								doh.is("hello <b>world</b>", val);
+							}), 1000);
 
 							return d;
 						}
@@ -74,6 +224,8 @@
 
 				doh.run();
 			});
+
+
 		</script>
 	</head>
 </html>
