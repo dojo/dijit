@@ -33,6 +33,15 @@ dojo.declare("dijit._Templated",
 		//		that its template is always re-built from a string
 		_skipNodeCache: false,
 
+		// _earlyTemplatedStartup: Boolean
+		//		A fallback to preserve the 1.0 - 1.3 behavior of children in
+		//		templates having their startup called before the parent widget
+		//		fires postCreate. Defaults to 'false', causing child widgets to
+		//		have their .startup() called immediately before a parent widget
+		//		.startup(), but always after the parent .postCreate(). Set to 
+		//		'true' to re-enable to previous, arguably broken, behavior.
+		_earlyTemplatedStartup: false,
+
 		_stringRepl: function(tmpl){
 			// summary:
 			//		Does substitution of ${foo} type properties in template string
@@ -92,7 +101,9 @@ dojo.declare("dijit._Templated",
 					parser._attrName = "dojoType";
 				}
 
-				var cw = (this._supportingWidgets = dojo.parser.parse(node));
+				var cw = (this._supportingWidgets = dojo.parser.parse(node, {
+					noStart: !this._earlyTemplatedStartup
+				}));
 
 				//Restore the query. 
 				if(qry){
@@ -204,6 +215,15 @@ dojo.declare("dijit._Templated",
 					});
 				}
 			}
+		},
+		
+		startup: function(){
+			dojo.forEach(this._supportingWidgets, function(w){
+				if(w && !w._started && w.startup && (!w.getParent || !w.getParent())){
+					w.startup();
+				}
+			});
+			this.inherited(arguments);
 		}
 	}
 );
