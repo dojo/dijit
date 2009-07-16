@@ -84,11 +84,15 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 		this._keyHandlers = {};
 		this.contentPreFilters.push(dojo.hitch(this, "_preFixUrlAttributes"));
 		if(dojo.isMoz){
-			this.contentPreFilters.push(this._fixContentForMoz);
+			this.contentPreFilters.push(this._normalizeFontStyle);
 			this.contentPostFilters.push(this._removeMozBogus);
 		}
 		if(dojo.isSafari){
 			this.contentPostFilters.push(this._removeSafariBogus);
+		}
+		if(dojo.isIE){
+			// IE generates <strong> and <em> but we want to normalize to <b> and <i>
+			this.contentPostFilters.push(this._normalizeFontStyle);
 		}
 		//this.contentDomPostFilters.push(this._postDomFixUrlAttributes);
 
@@ -1680,11 +1684,14 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 		//		private
 		return html.replace(/\sclass="webkit-block-placeholder"/gi, ''); // String
 	},
-	_fixContentForMoz: function(/* String */ html){
+	_normalizeFontStyle: function(/* String */ html){
 		// summary:
-		//		Pre-filter for mozilla.
+		//		Convert <strong> and <em> to <b> and <i>.
 		// description:
-		//		Moz can not handle strong/em tags correctly, convert them to b/i
+		//		Moz can not handle strong/em tags correctly, so to help
+		//		mozilla and also to normalize output, convert them to <b> and <i>.
+		//
+		//		Note the IE generates <strong> and <em> rather than <b> and <i>
 		// tags:
 		//		private
 		return html.replace(/<(\/)?strong([ \>])/gi, '<$1b$2')

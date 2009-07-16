@@ -26,7 +26,6 @@
 				return str.
 					replace(/<br \/>$/, '').		// FF.  Because of EnterKeyHandling plugin?
 					replace(/^<p>/, '').replace(/<\/p>$/, '').		// Safari.  Because of EnterKeyHandling plugin?
-					replace(/em>/g, "i>").replace(/strong>/g, "b>").	// IE
 					replace(new RegExp(String.fromCharCode(160), "g"), " ");	// Safari: nbsp (char code 160) to normal space (char code 32)
 			}
 
@@ -60,6 +59,10 @@
 							// Focus the editor
 							doh.robot.mouseMoveAt("editor1_iframe", 500);
 							doh.robot.mouseClick({left: true}, 500);
+							if(dojo.isMac && dojo.isMoz){
+								// Why do I need to click twice?   DOH bug?
+								doh.robot.mouseClick({left: true}, 2000);
+							}
 
 							doh.robot.keyPress("a", 500, metaKey);	// select all
 							doh.robot.typeKeys("hello ", 500);		// and erase (by typing something new)
@@ -94,7 +97,7 @@
 								// probably happen as pre and post filters on the editor
 								var val = normalize(editor1.attr('value'));
 								doh.is("hello <b>world</b>. <i>how are you</i>?", val);
-							}), 1000);
+							}), 5000);
 
 							return d;
 						}
