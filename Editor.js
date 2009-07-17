@@ -290,16 +290,6 @@ dojo.declare(
 			}
 		},
 
-		focus: function(){
-			// summary:
-			//		Set focus inside the editor
-			//console.log('focus',dijit._curFocus==this.editNode)
-			var restore = !!this._savedSelection && dojo.isIE && dijit._curFocus!=this.editNode;
-			this.inherited(arguments);
-			if(restore){
-				this._restoreSelection();
-			}
-		},
 		_moveToBookmark: function(b){
 			// summary:
 			//		Selects the text specified in bookmark b
@@ -535,16 +525,6 @@ dojo.declare(
 				}
 				delete this._savedSelection;
 			}
-		},
-		_onFocus: function(){
-			// summary:
-			//		Called from focus manager when focus has moved into this editor
-			// tags:
-			//		protected
-
-			//console.log('_onFocus');
-			setTimeout(dojo.hitch(this, "_restoreSelection"), 0); // needs input caret first
-			this.inherited(arguments);
 		},
 
 		onClick: function(){
