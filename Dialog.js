@@ -198,10 +198,13 @@ dojo.declare(
 			this._fadeOut = dojo.fadeOut({
 				node: node,
 				duration: this.duration,
-				onEnd: function(){
+				onEnd: dojo.hitch(this, function(){
 					node.style.display = "none";
 					dijit._underlay.hide();
-				}
+					if(this.refocus){
+						dijit.focus(this._savedFocus);
+					}
+				})
 			 });
 		},
 
@@ -384,9 +387,6 @@ dojo.declare(
 			}
 			dojo.forEach(this._modalconnects, dojo.disconnect);
 			this._modalconnects = [];
-			if(this.refocus){
-				this.connect(this._fadeOut,"onEnd",dojo.hitch(dijit,"focus",this._savedFocus));
-			}
 			if(this._relativePosition){
 				delete this._relativePosition;	
 			}
