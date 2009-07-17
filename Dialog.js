@@ -441,9 +441,9 @@ dojo.declare(
 			// tags:
 			//		private
 			if(this.domNode.style.display != "none"){
-				// TODO: race condition here... the underlay may not yet exist when _fadeIn.onBegin() hasn't
-				// been run yet, and we are called b/c of a window resize
-				dijit._underlay.layout();
+				if(dijit._underlay){	// avoid race condition during show()
+					dijit._underlay.layout();
+				}
 				this._position();
 			}
 		},
