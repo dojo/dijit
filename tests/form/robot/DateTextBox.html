@@ -137,9 +137,7 @@
 								doh.t(isVisible(calendar), "calendar is visible");
 
 								// Calendar is on the right month
-								var monthNodes = dojo.query(".dijitCalendarMonthLabel", calendar.domNode);
-								doh.is(1, monthNodes.length, "found month node");
-								doh.is("May", innerText(monthNodes[0]), "calendar starts on month selected in input box");
+								doh.is("May", innerText(dijit.byNode(calendar).monthLabelNode), "calendar starts on month selected in input box");
 
 								// And the right year
 								var selectedYearButtons = dojo.query(".dijitCalendarSelectedYear", calendar.domNode);
@@ -175,9 +173,7 @@
 								doh.t(isVisible(calendar), "calendar is visible");
 
 								// Calendar moved to the next month
-								var monthNodes = dojo.query(".dijitCalendarMonthLabel", calendar.domNode);
-								doh.is(1, monthNodes.length, "found month node");
-								doh.is("June", innerText(monthNodes[0]), "moved from may to june");
+								doh.is("June", innerText(dijit.byNode(calendar).monthLabelNode), "moved from may to june");
 							})), 1000);
 
 							return d;
@@ -387,9 +383,7 @@
 								doh.t(isVisible(calendar), "calendar is visible");
 
 								// Month label
-								var monthNodes = dojo.query(".dijitCalendarMonthLabel", calendar.domNode);
-								doh.is(1, monthNodes.length, "found month node");
-								doh.is("Oktober", innerText(monthNodes[0]));
+								doh.is("Oktober", innerText(dijit.byNode(calendar).monthLabelNode));
 
 								// Day labels
 								var dayLabels = dojo.query(".dijitCalendarDayLabelTemplate", calendar.domNode);
