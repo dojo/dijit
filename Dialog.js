@@ -168,7 +168,7 @@ dojo.declare(
 				dojo.addClass(node,"dijitDialogFixed"); 
 			}
 			
-			var underlayAttrs = {
+			this.underlayAttrs = {
 				dialogId: this.id,
 				"class": dojo.map(this["class"].split(/\s/), function(s){ return s+"_underlay"; }).join(" ")
 			};
@@ -176,15 +176,18 @@ dojo.declare(
 			this._fadeIn = dojo.fadeIn({
 				node: node,
 				duration: this.duration,
-				beforeBegin: function(){
+				beforeBegin: dojo.hitch(this, function(){
 					var underlay = dijit._underlay;
 					if(!underlay){ 
-						underlay = dijit._underlay = new dijit.DialogUnderlay(underlayAttrs); 
+						underlay = dijit._underlay = new dijit.DialogUnderlay(this.underlayAttrs); 
 					}else{
-						underlay.attr(underlayAttrs);
+						underlay.attr(this.underlayAttrs);
 					}
+					
+					dojo.style(dijit._underlay.domNode, 'zIndex', 948 + dijit._dialogStack.length*2);
+					dojo.style(this.domNode, 'zIndex', 949 + dijit._dialogStack.length*2);
 					underlay.show();
-				},
+				}),
 				onEnd:	dojo.hitch(this, function(){
 					if(this.autofocus){
 						// find focusable Items each time dialog is shown since if dialog contains a widget the 
@@ -200,9 +203,35 @@ dojo.declare(
 				duration: this.duration,
 				onEnd: dojo.hitch(this, function(){
 					node.style.display = "none";
-					dijit._underlay.hide();
+					
+					// Restore the previous dialog in the stack, or if this is the only dialog
+					// then restore to original page
+					var ds = dijit._dialogStack;
+					if(ds.length == 0){
+						dijit._underlay.hide();
+					}else{
+						dojo.style(dijit._underlay.domNode, 'zIndex', 948 + ds.length*2);
+						dijit._underlay.attr(ds[ds.length-1].underlayAttrs);
+					}
+
+					// Restore focus to wherever it was before this dialog was displayed
 					if(this.refocus){
-						dijit.focus(this._savedFocus);
+						var focus = this._savedFocus,
+							ds = dijit._dialogStack;
+
+						// If we are returning control to a previous dialog but for some reason
+						// that dialog didn't have a focused field, set focus to first focusable item.
+						// This situation could happen if two dialogs appeared at nearly the same time, 
+						// since a dialog doesn't set it's focus until the fade-in is finished.
+						if(ds.length > 0){
+							var pd = ds[ds.length-1];
+							if(!dojo.isDescendant(focus.node, pd.domNode)){
+								pd._getFocusItems(pd.domNode);
+								focus = pd._firstFocusItem;
+							}
+						}
+
+						dijit.focus(focus);
 					}
 				})
 			 });
@@ -273,6 +302,13 @@ dojo.declare(
 			//		Handles the keyboard events for accessibility reasons
 			// tags:
 			//		private
+
+			var ds = dijit._dialogStack;		
+			if(ds[ds.length-1] != this){
+				// console.debug(this.id + ': skipping because', this, 'is not the active dialog');
+				return;
+			}
+
 			if(evt.charOrCode){
 				var dk = dojo.keys;
 				var node = evt.target;
@@ -320,7 +356,7 @@ dojo.declare(
 			// summary:
 			//		Display the dialog
 			if(this.open){ return; }
-			
+
 			// first time we show the dialog, there's some initialization stuff to do			
 			if(!this._alreadyInitialized){
 				this._setup();
@@ -362,18 +398,20 @@ dojo.declare(
 
 			this._size();
 			this._position();
-
+			dijit._dialogStack.push(this);
 			this._fadeIn.play();
 
 			this._savedFocus = dijit.getFocus(this);
 		},
 
-		hide: function(){
+		hide: function(/*Boolean*/ ignoreStackPos){
 			// summary:
 			//		Hide the dialog
 
-			// if we haven't been initialized yet then we aren't showing and we can just return		
-			if(!this._alreadyInitialized){
+			// if we haven't been initialized yet then we aren't showing and we can just return
+			// or if we arent the active dialog, dont allow us to close yet
+			var ds = dijit._dialogStack;
+			if(!this._alreadyInitialized || this != ds[ds.length-1]){
 				return;
 			}
 
@@ -387,6 +425,9 @@ dojo.declare(
 			}
 			dojo.forEach(this._modalconnects, dojo.disconnect);
 			this._modalconnects = [];
+			// throw away current active dialog from stack -- making the previous dialog or the node on the original page active
+			dijit._dialogStack.pop();
+
 			if(this._relativePosition){
 				delete this._relativePosition;	
 			}
@@ -400,6 +441,8 @@ dojo.declare(
 			// tags:
 			//		private
 			if(this.domNode.style.display != "none"){
+				// TODO: race condition here... the underlay may not yet exist when _fadeIn.onBegin() hasn't
+				// been run yet, and we are called b/c of a window resize
 				dijit._underlay.layout();
 				this._position();
 			}
@@ -431,6 +474,8 @@ dojo.declare(
 	}
 );
 
+// Stack of currenctly displayed dialogs, layered on top of each other
+dijit._dialogStack = [];
+
 // For back-compat.  TODO: remove in 2.0
 dojo.require("dijit.TooltipDialog");
-

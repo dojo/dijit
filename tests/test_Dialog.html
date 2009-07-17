@@ -11,6 +11,7 @@
 		form { margin-bottom : 0; }
 		table { border: none; }
 		#dialog3_underlay { background-color: #027 }
+		#fifthDlg_underlay { background-color: yellow; }
 	</style>		
 
 	<!-- required: a default dijit theme: -->
@@ -62,7 +63,11 @@
 		}
 		dojo.addOnLoad(function(){
 			dojo.subscribe("focusNode", function(node){ console.log("focused on " + (node?(node.id||node.tagName):"nothing"));});
-		})
+		});
+		function open2Dialogs(){
+			dijit.byId('dialog1').show();
+			setTimeout(dojo.hitch(dijit.byId('fifthDlg'), 'show'), 1000);
+		}
 	</script>
 </head>
 <body class="tundra">
@@ -208,7 +213,7 @@
 		<button dojoType="dijit.form.Button" id="preventerOK" type="submit" onClick="return confirm('Are you sure?')">OK</button>
 	</div>
 
-	<button dojoType="dijit.form.Button" onclick="dijit.byId('embedded').show()">Dialog w/embedded layout widgets</button>
+	<button dojoType="dijit.form.Button" onclick="dijit.byId('embedded').show()">Dialog w/embedded layout widgets</button> | 
 
 	<div dojoType="dijit.Dialog" id="embedded" title="Embedded layout widgets">
 		<p>
@@ -289,6 +294,9 @@
 			Text after the widgets.
 		</p>
 	</div>
+
+
+	<button dojoType="dijit.form.Button"  id="layeredDialogs" onclick="open2Dialogs">Show 2 Dialogs</button>
 
 	<p><b><i>(scroll down to see more links to click, for testing positioning / scroll handling)</i></b></p>
 

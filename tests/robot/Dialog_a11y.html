@@ -344,6 +344,115 @@
 					});
 				}	// end for() loop thru dialogIds array.
 		
+				doh.register("dijit.Dialog keyboard tests (multiple dialogs)",[
+					{
+						name: "open first dialog",
+						timeout: 4000,
+						setUp: function(){
+							dijit.byId("dialog1").reset();
+						},
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							// Click the button.  We do this manually rather than calling Dialog.show()
+							// so we can later test that focus is restored (to the previous position)
+							// when the dialog is closed
+							doh.robot.sequence(function(){
+								dojo.byId("dialog1button").focus();
+							}, 500);
+							doh.robot.keyPress(dojo.keys.SPACE, 500, {});
+							doh.robot.typeKeys("lower", 1000);
+							
+							// Move focus to second field
+							doh.robot.keyPress(dojo.keys.TAB, 1000);
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.t(isVisible("dialog1"), "dialog 1 is visible");
+
+								var dialog1Z = dojo.style(dijit.byId("dialog1").domNode, "zIndex"),
+									underlayZ = dojo.style(dojo.global.dijit._underlay.domNode, "zIndex");
+									
+								doh.t(dialog1Z > underlayZ, "dialog1 (zIndex=" + dialog1Z +
+									") above underlay (zIndex=" + underlayZ + ")");
+
+								doh.is("loc", dojo.global.dijit._curFocus.id, "focus is on the second field");
+							}), 500);
+
+							return d;
+						}
+					},
+
+					{
+						name: "open second dialog",
+						timeout: 10000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							doh.robot.sequence(function(){
+								dijit.byId("tabDialog").show();
+							}, 500);
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.t(isVisible("tabDialog"), "tab dialog has been made visible");
+								doh.t(isVisible("dialog1"), "dialog 1 is still visible");
+
+								var tabDialogZ = dojo.style(dijit.byId("tabDialog").domNode, "zIndex"),
+									dialog1Z = dojo.style(dijit.byId("dialog1").domNode, "zIndex"),
+									underlayZ = dojo.style(dojo.global.dijit._underlay.domNode, "zIndex");
+									
+								doh.t(tabDialogZ > underlayZ, "tabDialog (zIndex=" + tabDialogZ +
+									") above underlay (zIndex=" + underlayZ + ")");
+								doh.t(dialog1Z < underlayZ, "dialog1 (zIndex=" + dialog1Z +
+									") below underlay (zIndex=" + underlayZ + ")");
+							}), 500);
+
+							return d;
+						}
+					},
+
+					{
+						name: "cancel second dialog",
+						timeout: 4000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							doh.robot.keyPress(dojo.keys.ESCAPE, 500, {});
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.t(isHidden("tabDialog"), "tab dialog has been hidden");
+								doh.t(isVisible("dialog1"), "dialog 1 is still visible");
+
+								var dialog1Z = dojo.style(dijit.byId("dialog1").domNode, "zIndex"),
+									underlayZ = dojo.style(dojo.global.dijit._underlay.domNode, "zIndex");
+									
+								doh.t(dialog1Z > underlayZ, "dialog1 (zIndex=" + dialog1Z +
+									") above underlay (zIndex=" + underlayZ + ")");
+
+								doh.is("loc", dojo.global.dijit._curFocus.id, "focus is on the second field");
+							}), 500);
+
+							return d;
+						}
+					},
+
+					{
+						name: "cancel first dialog",
+						timeout: 4000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							doh.robot.keyPress(dojo.keys.ESCAPE, 500, {});
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.t(isHidden("dialog1"), "dialog 1 was closed");
+								doh.is("dialog1button", dojo.global.dijit._curFocus.id, "focus returned to button");
+							}), 500);
+
+							return d;
+						}
+					}
+				]);
+
 				doh.run();
 			});
 		</script>
