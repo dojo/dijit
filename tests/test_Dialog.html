@@ -55,7 +55,6 @@
 				pane.style.width = "300px"; 	
 				thirdDlg = new dijit.Dialog({
 					id: "dialog3",
-					refocus:false,
 					title: "Programatic Dialog Creation"
 				},pane);
 			}
@@ -290,9 +289,6 @@
 			Text after the widgets.
 		</p>
 	</div>
-
-	<p>Test refocus="false", click programatic dialog, focus input below, wait. close dialog. Because refocus=false, when the dialog is closed, focus should NOT return to the item 
-	that had focus when the dialog was invoked.  </p>
 
 	<p><b><i>(scroll down to see more links to click, for testing positioning / scroll handling)</i></b></p>
 
