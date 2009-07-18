@@ -151,5 +151,35 @@ More Ipsum...
 		consectetuer adipiscing elit.
 	</div>
 
+	<h1>Test #: attr("title")</h1>
+	<div id="attrtest" dojoType="dijit.TitlePane" title="Initial Title">
+		Lorem Ipsum Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Quisque
+		iaculis, nulla id semper faucibus, pede tellus nonummy magna, vitae adipiscing
+		orci arcu ut augue. Nunc condimentum, magna a vestibulum convallis, libero purus
+		pulvinar orci, sed vestibulum urna sem ut pede. More Ipsum...
+		Sed sollicitudin suscipit risus. Nam ullamcorper. Sed nisl lectus, pellentesque
+		nec, malesuada eget, ornare a, libero. Lorem ipsum dolor sit amet,
+		consectetuer adipiscing elit.		
+	</div>
+	<button dojoType="dijit.form.Button">
+		Set Title
+		<script type="dojo/method" event="onClick">
+			var tp = dijit.byId("attrtest");
+			var current = tp.title;
+			var attr = tp.attr("title");
+			if(attr !== current){
+				alert("failed title test");
+			}
+			tp.attr("title", "New Title");
+			
+			current = tp.title;
+			attr = tp.attr("title");
+			
+			if(attr !== current){
+				alert("failed post attr test");
+			}
+		</script>
+	</button>
+
 </body>
 </html>
