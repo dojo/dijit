@@ -207,6 +207,10 @@ dojo.declare(
 					// Restore the previous dialog in the stack, or if this is the only dialog
 					// then restore to original page
 					var ds = dijit._dialogStack;
+					
+					// throw away current active dialog from stack -- making the previous dialog or the node on the original page active
+					ds.pop();
+					
 					if(ds.length == 0){
 						dijit._underlay.hide();
 					}else{
@@ -216,8 +220,7 @@ dojo.declare(
 
 					// Restore focus to wherever it was before this dialog was displayed
 					if(this.refocus){
-						var focus = this._savedFocus,
-							ds = dijit._dialogStack;
+						var focus = this._savedFocus;
 
 						// If we are returning control to a previous dialog but for some reason
 						// that dialog didn't have a focused field, set focus to first focusable item.
@@ -425,8 +428,6 @@ dojo.declare(
 			}
 			dojo.forEach(this._modalconnects, dojo.disconnect);
 			this._modalconnects = [];
-			// throw away current active dialog from stack -- making the previous dialog or the node on the original page active
-			dijit._dialogStack.pop();
 
 			if(this._relativePosition){
 				delete this._relativePosition;	
