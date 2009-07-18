@@ -102,7 +102,8 @@
 						doh.robot.typeKeys('1/3/2005', 500);
 						doh.robot.keyPress(dojo.keys.TAB, 500, {});
 						doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
-							doh.is(0, dojo.date.compare(new Date(2005, 0, 3), american.attr('value')), 'value');
+							var value = american.attr('value');
+							doh.is(0, dojo.date.compare(new Date(2005, 0, 3), value), 'actual value is ' + value);
 							doh.is(1, changes.length, 'one onchange event');	// #9018
 							doh.is(0, dojo.date.compare(new Date(2005, 0, 3), changes[0]),
 									'value reported by onchange: ' + changes[0] +
