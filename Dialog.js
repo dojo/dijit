@@ -207,10 +207,6 @@ dojo.declare(
 					// Restore the previous dialog in the stack, or if this is the only dialog
 					// then restore to original page
 					var ds = dijit._dialogStack;
-					
-					// throw away current active dialog from stack -- making the previous dialog or the node on the original page active
-					ds.pop();
-					
 					if(ds.length == 0){
 						dijit._underlay.hide();
 					}else{
@@ -421,6 +417,10 @@ dojo.declare(
 			if(this._fadeIn.status() == "playing"){
 				this._fadeIn.stop();
 			}
+			
+			// throw away current active dialog from stack -- making the previous dialog or the node on the original page active
+			dijit._dialogStack.pop();
+
 			this._fadeOut.play();
 
 			if (this._scrollConnected){
