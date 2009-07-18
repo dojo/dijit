@@ -234,10 +234,6 @@ dojo.declare(
 		dojo.toggleClass(this.focusNode, this.baseClass + "Focused", e.type == "focus");
 	},
 
-	_setTitleAttr: function(title){
-		this.titleNode.innerHTML = this.title = title;
-	},
-
 	setTitle: function(/*String*/ title){
 		// summary:
 		//		Deprecated.  Use attr('title', ...) instead.
