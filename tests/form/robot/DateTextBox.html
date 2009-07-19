@@ -182,6 +182,45 @@
 					},
 
 					{
+						name: "advance a month with the menu dropdown",
+						timeout: 60000,
+						runTest: function(){
+							var d = new doh.Deferred();
+							var calendar = dojo.byId("american_popup"),
+								calendarWidget = dijit.byNode(calendar);
+
+							doh.t("monthLabelNode" in calendarWidget, "found month label");
+							doh.t(calendarWidget.monthDropDown, "month dropdown exists");
+							doh.f(isVisible(calendarWidget.monthDropDown), "month dropdown is not visible");
+
+							doh.robot.mouseMoveAt(calendarWidget.monthLabelNode, 500);
+							doh.robot.mousePress({left:true}, 500);
+							var july = dojo.query("[month=6]", calendarWidget.monthDropDown)[0];
+							doh.robot.mouseMoveAt(july, 500);
+							doh.robot.mouseRelease({left:true}, 500);
+
+							doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
+								// Calendar still exists and is shown
+								doh.t(calendar, "calendar popup exists");
+								doh.t(isVisible(calendar), "calendar is visible");
+
+								// Calendar moved to the next month
+								doh.is("July", innerText(calendarWidget.monthLabelNode), "moved from june to july");
+								var rows = dojo.query("TR.dijitCalendarWeekTemplate", calendar.domNode),
+									firstRowDays = dojo.query("TD", rows[0]);
+								doh.is(7, firstRowDays.length, "7 days in first row");
+								doh.t(dojo.hasClass(firstRowDays[0], "dijitCalendarPreviousMonth"), "previous month class applied");
+								doh.is("26", innerText(firstRowDays[0]), "first day is june 26");
+								doh.is("1", innerText(firstRowDays[5]), "sixth day is june 1");
+
+								calendarWidget._adjustDisplay("month", -1);
+							})), 1000);
+
+							return d;
+						}
+					},
+
+					{
 						name: "advance a year",
 						timeout: 60000,
 						runTest: function(){
