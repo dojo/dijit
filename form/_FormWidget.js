@@ -300,7 +300,18 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 			((typeof newValue != typeof this._lastValueReported) ||
 				this.compare(newValue, this._lastValueReported) != 0)){
 			this._lastValueReported = newValue;
-			if(this._onChangeActive){ this.onChange(newValue); }
+			if(this._onChangeActive){
+				if(this._onChangeHandle){
+					clearTimeout(this._onChangeHandle);
+				}
+				// setTimout allows hidden value processing to run and 
+				// also the onChange handler can safely adjust focus, etc
+				this._onChangeHandle = setTimeout(dojo.hitch(this, 
+					function(){
+						this._onChangeHandle = null;
+						this.onChange(newValue);
+					}), 0); // try to collapse multiple onChange's fired faster than can be processed
+			}
 		}
 	},
 
@@ -314,6 +325,10 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 	destroy: function(){
 		if(this._layoutHackHandle){
 			clearTimeout(this._layoutHackHandle);
+		}
+		if(this._onChangeHandle){ // destroy called before last onChange has fired
+			clearTimeout(this._onChangeHandle);
+			this.onChange(this._lastValueReported);
 		}
 		this.inherited(arguments);
 	},
