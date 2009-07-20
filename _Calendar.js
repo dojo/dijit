@@ -281,10 +281,14 @@ dojo.declare(
 //				coords.y -= dojo.coords(this.domNode, true).y;
 				// Size the dropdown's width to match the label in the widget
 				// so that they are horizontally aligned
-				dojo.style(this.monthDropDown, {
+				var dim = {
 					width: coords.w + "px",
-					top: (/*coords.y*/ - this.displayMonth.getMonth() * coords.h) + "px"
-				});
+					top: -this.displayMonth.getMonth() * coords.h + "px"
+				};
+				if(dojo.isIE < 8) {
+					dim.left = (dojo.isQuirks ? -coords.w/2 : 0) + "px";
+				}
+				dojo.style(this.monthDropDown, dim);
 				this._popupHandler = this.connect(document, "onmouseup", "_onMonthToggle");
 			}else{
 				this.disconnect(this._popupHandler);
