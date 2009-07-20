@@ -86,10 +86,8 @@
 
 			var slider=dijit.byId(inSliderId);
 			eaVals = populateExpected(slider);
-			strokeIndex = 0;
 			noteChanges = dojo.connect(slider, "onChange", function(){
-				eaVals[strokeIndex].actual = slider.attr('value');
-				strokeIndex++;
+				eaVals[strokeIndex++].actual = slider.attr('value');
 			});
 		}
 		
@@ -180,6 +178,7 @@
 			var initVal = slider.attr('value');
 			// get focus on slider thumb before pressing keys.
 			doh.robot.sequence(dojo.hitch(slider, "focus"), 500);
+			doh.robot.sequence(function(){ strokeIndex = 0; }, 1); // insure onChange events from populateExpected have stopped
 			doh.robot.keyPress(dojo.keys.HOME, 100);
 			doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 100);
 			doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 100);

@@ -90,16 +90,15 @@
 					setUp: function(){
 						// clear the field
 						american.attr('value', null);
-
-						// monitor onchange events
-						changes = [];
 					},
 					runTest: function(){
 						var d = new doh.Deferred();
 						doh.robot.sequence(function(){
+							// monitor onchange events
+							changes = [];
 							american.focus();
 						}, 500);
-						doh.robot.typeKeys('1/3/2005', 500);
+						doh.robot.typeKeys('1/3/2005', 500, 750);
 						doh.robot.keyPress(dojo.keys.TAB, 500, {});
 						doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
 							var value = american.attr('value');
@@ -117,8 +116,6 @@
 					function setUp(){
 						// clear the field
 						american.attr('value', new Date(2005, 4, 10));
-
-						changes = [];
 					},
 
 					{
@@ -127,6 +124,7 @@
 						runTest: function(){
 							var d = new doh.Deferred();
 							doh.robot.sequence(function(){
+								changes = [];
 								american.focus();
 							}, 500);
 

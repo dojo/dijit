@@ -334,7 +334,7 @@
 							doh.is("Connecticut", innerText(entries[2]), "list #3");
 							
 							// Check that search-string highlighting is working
-							doh.is('<span class=dijitcomboboxhighlightmatch>c</span>onnecticut', entries[2].innerHTML.toLowerCase().replace(/"/g, ""),
+							doh.is('<span class=dijitcomboboxhighlightmatch>c</span>onnecticut', entries[2].innerHTML.toLowerCase().replace(/"/g, ""), //balanced"
 								"highlighting is working");
 						}), 500);
 						
@@ -520,9 +520,9 @@
 						var d = new doh.Deferred();
 						var combo = dijit.byId("slow");
 
-						doh.robot.sequence(function(){ combo.attr('value', null); });
 						doh.robot.sequence(function(){
 							combo.focusNode.focus();
+							combo.attr('value', null);
 						}, 500);
 
 						// Filter drop down list to entries starting with "C"
@@ -533,11 +533,12 @@
 							// The query "C*" should be canceled when "Co*" is started
 							var log = dojo.global.slowStateStore.log;
 							
-							doh.is(4, log.length, "4 events on data store");
-							doh.is("start C*", log[0].type + " " + log[0].query.name);
-							doh.is("cancel C*", log[1].type + " " + log[1].query.name);
-							doh.is("start Co*", log[2].type + " " + log[2].query.name);
-							doh.is("end Co*", log[3].type + " " + log[3].query.name);
+							var len = testWidget == "dijit.form.FilteringSelect"? 6 : 4; // initial null caused 2 events
+							doh.is(len, log.length, len + " events on data store");
+							doh.is("start C*", log[len-4].type + " " + log[len-4].query.name);
+							doh.is("cancel C*", log[len-3].type + " " + log[len-3].query.name);
+							doh.is("start Co*", log[len-2].type + " " + log[len-2].query.name);
+							doh.is("end Co*", log[len-1].type + " " + log[len-1].query.name);
 
 							// Check that drop down list has appeared, and contains only Colorado and Connecticut (not California)
 							var list = dojo.byId("slow_popup");

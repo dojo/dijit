@@ -114,7 +114,11 @@
 				runTest:function(){
 					this.slider=dijit.byId(this.slider);
 					this.slider.attr('value', 50);
-					doh.is(50, parseFloat(dojo.byId(onChange[this.slider.id]).value));
+					var d = new doh.Deferred();
+					doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
+						doh.is(50, parseFloat(dojo.byId(onChange[this.slider.id]).value));
+					})), 100);
+					return d;
 				}
 			});
 
@@ -124,7 +128,11 @@
 				runTest:function(){
 					this.slider=dijit.byId(this.slider);
 					this.slider.attr('value', null);
-					doh.is(0, parseFloat(dojo.byId(onChange[this.slider.id]).value));
+					var d = new doh.Deferred();
+					doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
+						doh.is(0, parseFloat(dojo.byId(onChange[this.slider.id]).value));
+					})), 100);
+					return d;
 				}
 			});
 

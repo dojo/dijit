@@ -53,106 +53,64 @@
 					}
 				});
 
+				var _setvaluetest = function(textbox, setVal, focusVal, attrVal, isValid, chgVal, required){
+					textbox = dijit.byId('q03');
+					if(required !== undefined){
+						textbox.attr('required', required);
+					}
+					textbox.attr('value', setVal);
+					doh.is(focusVal, textbox.focusNode.value, "focusNode.value");
+					doh.is(attrVal+"/"+(typeof attrVal), textbox.attr('value')+"/"+(typeof textbox.attr('value')), "attr('value')");
+					doh.is(isValid, textbox.isValid(), "isValid()");
+					var d = new doh.Deferred();
+					var onChange = dojo.byId('oc3');
+					doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
+						doh.is((attrVal.toString(), onChange.value, "onChange.value");
+					})), 500);
+					return d;
+				};
+
 				doh.register("setvaluetest", [
 					{
 						name: "valid_max",
-						textbox: 'q03',
-						runTest: function(){
-							this.textbox = dijit.byId(this.textbox);
-							this.textbox.attr('value', 120);
-							var onChange = dojo.byId('oc3');
-							doh.is(120, onChange.value, "onChange.value");
-							doh.is(120, this.textbox.focusNode.value, "focusNode.value");
-							doh.is(120, this.textbox.attr('value'), "attr('value')");
-							doh.is(true, this.textbox.isValid(), "isValid()");
-	
-						}
+						timeout: 1000,
+						runTest: function(){ return _setvaluetest('q03', 120, 120, 120, true, 120); }
 					},
 
 					{
 						name: "out_of_range_max",
-						textbox: 'q03',
-						runTest: function(){
-							this.textbox = dijit.byId(this.textbox);
-							this.textbox.attr('value', 121);
-							var onChange = dojo.byId('oc3');
-							doh.is(121, onChange.value, "onChange.value");
-							doh.is(121, this.textbox.focusNode.value, "focusNode.value");
-							doh.is(121, this.textbox.attr('value'), "attr('value')");
-							doh.is(false, this.textbox.isValid(), "isValid()");
-						}
+						timeout: 1000,
+						runTest: function(){ return _setvaluetest('q03', 121, 121, 121, false, 121); }
 					},
 
 					{
 						name: "valid_min",
-						textbox: 'q03',
-						runTest: function(){
-							this.textbox = dijit.byId(this.textbox);
-							this.textbox.attr('value', 0);
-							var onChange = dojo.byId('oc3');
-							doh.is(0, onChange.value, "onChange.value");
-							doh.is(0, this.textbox.focusNode.value, "focusNode.value");
-							doh.is(0, this.textbox.attr('value'), "onChange.value");
-							doh.is(true, this.textbox.isValid(), "isValid()");
-						}
+						timeout: 1000,
+						runTest: function(){ return _setvaluetest('q03', 0, 0, 0, true, 0); }
 					},
 
 					{
 						name: "out_of_range_min",
-						textbox: 'q03',
-						runTest: function(){
-							this.textbox = dijit.byId(this.textbox);
-							this.textbox.attr('value', -1);
-							var onChange = dojo.byId('oc3');
-							doh.is(-1, onChange.value, "onChange.value");
-							doh.is(-1, this.textbox.focusNode.value, "focusNode.value");
-							doh.is(-1, this.textbox.attr('value'), "attr('value')");
-							doh.is(false, this.textbox.isValid(), "isValid()");
-						}
+						timeout: 1000,
+						runTest: function(){ return _setvaluetest('q03', -1, -1, -1, false, -1); }
 					},
 
 					{
 						name: "invalid",
-						textbox: 'q03',
-						runTest: function(){
-							this.textbox = dijit.byId(this.textbox);
-							this.textbox.attr('value', 'two');
-							var onChange = dojo.byId('oc3');
-							doh.is('undefined', onChange.value);
-							doh.is('two', this.textbox.focusNode.value, "focusNode.value");
-							doh.is(undefined, this.textbox.attr('value'), "attr('value')");
-							doh.is(false, this.textbox.isValid(), "isValid()");
-						}
+						timeout: 1000,
+						runTest: function(){ return _setvaluetest('q03', 'two', 'two', undefined, false, 'undefined'); }
 					},
 
 					{
 						name: "null_required",
-						textbox: 'q03',
-						runTest: function(){
-							this.textbox = dijit.byId(this.textbox);
-							this.textbox.attr('required', true);
-							this.textbox.attr('value', null);
-							var onChange = dojo.byId('oc3');
-							doh.is(true, isNaN(onChange.value));
-							doh.is('', this.textbox.focusNode.value, "focusNode.value");
-							doh.is(false, this.textbox.isValid(), "isValid()");
-							doh.is(true, isNaN(this.textbox.attr('value')));
-						}
+						timeout: 1000,
+						runTest: function(){ return _setvaluetest('q03', null, '', NaN, false, NaN, true); }
 					},
 
 					{
 						name: "null_notrequired",
-						textbox: 'q03',
-						runTest: function(){
-							this.textbox = dijit.byId(this.textbox);
-							this.textbox.attr('value', null);
-							this.textbox.attr('required', false);
-							var onChange = dojo.byId('oc3');
-							doh.is(true, isNaN(onChange.value));
-							doh.is('', this.textbox.focusNode.value, "focusNode.value");
-							doh.is(true, this.textbox.isValid(), "isValid()");
-							doh.is(true, isNaN(this.textbox.attr('value')));
-						}
+						timeout: 1000,
+						runTest: function(){ return _setvaluetest('q03', null, '', NaN, true, NaN, false); }
 					}
 				]);
 
