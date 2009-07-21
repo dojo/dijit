@@ -1,3 +1,7 @@
 .dijitRtl .soria .dijitComboBox .dijitButtonNode {
 	border-width: 0px 0px 0px 1px;
 }
+.dijitRtl .soria .dijitDropDownSelect .dijitButtonContents {
+	border-left: none;
+	border-right-width: 1px;
+}

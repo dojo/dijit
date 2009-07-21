@@ -14,6 +14,9 @@
 	padding: 0.1em 0.2em 0.2em 0.2em; 
 	background: #fff url("../images/buttonEnabled.png") repeat-x top left;
 }
+.nihilo .dijitDropDownSelect .dijitButtonContents {
+	border-right: none;
+}
 
 .nihilo .dijitButtonNode button { 
 	border: 0px; 

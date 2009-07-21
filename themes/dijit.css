@@ -1707,3 +1707,71 @@ img.dijitColorPaletteUnder {
 	border-width: 1px 0px 0px 1px;
 	border-style: solid !important;
 }
+
+/* DropDownSelect */
+.dijitDropDownSelect {
+	margin: 0.2em;
+}
+.dj_ie .dijitDropDownSelect,
+.dj_ie7 .dijitDropDownSelect,
+.dj_iequirks .dijitDropDownSelect {
+	vertical-align: middle; /* Set this back for what we hack in dijit inline */
+}
+.dj_ie8 .dijitDropDownSelect .dijitButtonText {
+	vertical-align: top;
+}
+.dijitDropDownSelect .dijitButtonNode {
+	text-align: left;
+}
+.dijitRtl .dijitDropDownSelect .dijitButtonNode {
+	text-align: right;
+}
+.dijitToolbar .dijitDropDownSelect {
+	margin: 0;
+}
+.dj_webkit .dijitToolbar .dijitDropDownSelect {
+	padding-left: 0.3em;
+}
+.dijit_a11y .dijitDropDownSelectDisabled .dijitButtonNode {
+	border-style: outset!important;
+	border-width: medium!important;
+	border-color: #999 !important;
+	color:#999 !important;
+}
+.dijitDropDownSelect .dijitButtonContents {
+	padding: 0px;
+	background: transparent none;
+}
+.dijitDropDownSelectFixedWidth .dijitButtonContents {
+	width: 100%;
+}
+.dijitDropDownSelect .dijitArrowButton {
+	width: 16px;
+}
+
+/* Fix the baseline of our label (for multi-size font elements) */
+.dijitDropDownSelectLabel *
+{
+	vertical-align: baseline;
+}
+
+/* Styling for the currently-selected option (rich text can mess this up) */
+.dijitDropDownSelectSelectedOption * {
+	font-weight: bold;
+}
+
+/* Fix the styling of the dropdown menu to be more combobox-like */
+.dijitDropDownSelectMenu {
+	border-width: 1px;
+}
+
+/* Style the different areas of the button to look like a "real" dropdown */
+.dijitDropDownSelect .dijitButtonContents {
+	white-space: nowrap;
+}
+
+/* Remove margins on the sub-table */
+.dijitDropDownSelectMenu .dijitMenuTable {
+	margin: 0px;
+	background-color: transparent;
+}

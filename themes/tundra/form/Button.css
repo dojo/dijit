@@ -14,6 +14,14 @@
 	background: #fff url("../images/buttonEnabled.png") repeat-x bottom left;
 }
 
+.tundra .dijitDropDownSelect .dijitButtonContents {
+	border-right: none;
+}
+.dijitRtl .tundra .dijitDropDownSelect .dijitButtonContents {
+	border-left: none;
+	border-right-width: 1px;
+}
+
 .tundra .dijitButtonNode button { 
 	border: 0px; 
 	background-color: transparent; 
