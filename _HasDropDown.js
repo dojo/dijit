@@ -37,6 +37,11 @@ dojo.declare("dijit._HasDropDown",
 		//		default width
 		autoWidth: true,
 		
+		//	forceWidth: [protected] Boolean 
+		//		Set to true to make the drop down exactly as wide as this  
+		//		widget.  Overrides autoWidth. 
+		forceWidth: false, 
+               
 		//  maxHeight: [protected] Integer
 		//		The max height for our dropdown.  Set to 0 for no max height.
 		//		any dropdown taller than this will have scrollbars
@@ -278,11 +283,13 @@ dojo.declare("dijit._HasDropDown",
 				dijit.popup.prepare(ddNode);
 				this._preparedNode = true;
 			}
-			if(this.maxHeight || this.autoWidth){
+			if(this.maxHeight || this.forceWidth || this.autoWidth){
 				var mb = dojo.marginBox(ddNode);
 				var overHeight = (this.maxHeight && mb.h > this.maxHeight);
 				dojo.style(ddNode, {overflow: overHeight ? "auto" : "hidden"});
-				if(this.autoWidth){
+				if(this.forceWidth){
+					mb.w = this.domNode.offsetWidth;
+				}else if(this.autoWidth){
 					mb.w = Math.max(mb.w, this.domNode.offsetWidth);
 				}
 				if(overHeight){
