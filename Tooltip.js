@@ -252,6 +252,15 @@ dojo.declare(
 			dojo.addClass(this.domNode,"dijitTooltipData");
 		},
 
+		startup: function(){
+			this.inherited(arguments);
+			
+			// If this tooltip was created in a template, or for some other reason the specified connectId[s]
+			// didn't exist during the widget's initialization, then connect now.
+			var ids = this.connectId;
+			dojo.forEach(dojo.isArrayLike(ids) ? ids : [ids], this.addTarget, this);
+		},
+
 		_onTargetMouseEnter: function(/*Event*/ e){
 			// summary:
 			//		Handler for mouseenter event on the target node
