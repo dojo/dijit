@@ -104,7 +104,7 @@
 
 	<button id="four">button w/tooltip</button>
 	<span id="btnTt" dojoType="dijit.Tooltip" connectId="four" id="four_tooltip">tooltip on a button</span>
-	<button onclick="dijit.byId('btnTt').destroy()">Remove</button> tooltip from "button w/tooltip".
+	<button id="removeButton" onclick="dijit.byId('btnTt').destroy()">Remove</button> tooltip from "button w/tooltip".
 
 	<span style="float: right">
 		Test tooltip on right aligned element.  Tooltip should flow to the left --&gt;

@@ -123,14 +123,26 @@
 							var d = new doh.Deferred(),
 								around = dojo.byId("one");
 
-							doh.robot.sequence(function(){
+							// Focus onto something w/out a tooltip to make currently displayed tooltip disappear
+							doh.robot.sequence(d.getTestErrback(function(){
+								dojo.byId("removeButton").focus();
+							}), 50);
+
+							// Focus on a node w/a tooltip
+							doh.robot.sequence(d.getTestErrback(function(){
 								around.focus();
-								doh.t(isHidden(masterTT.domNode), "tooltip didn't appear");
-							}, 50);
+							}), 500);
+
+							doh.robot.sequence(d.getTestErrback(function(){
+								doh.t(isHidden(masterTT.domNode), "tooltip should be hidden on initial focus, but text shown is: " +
+										dojo.trim(innerText(masterTT.domNode)));
+							}), 50);
+
+							// But then tab away after 100ms, before tooltip is shown
 							doh.robot.keyPress(dojo.keys.TAB, 50, {shift: true});
 
 							doh.robot.sequence(d.getTestCallback(function(){
-								doh.t(isHidden(masterTT.domNode), "tooltip didn't appear");
+								doh.t(isHidden(masterTT.domNode), "tooltip still hidden after tabbing away");
 							}), 1000);
 
 							return d;
