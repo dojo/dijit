@@ -24,9 +24,10 @@
 </head>
 <body class="tundra">
 	<div dojoType="dijit.Menu" id="menu" style="display:none;"></div>
+	<div style="border: 1px solid gray; height: 150px;">filler div to offset iframe position (for testing)</div>
 	<iframe id="iframe" 
 		src="javascript:'<html><body style=\'margin: 3em;\'><div style=\'height:300px;border:1px solid red;\'>right click for menu</div><body></html>'" 
-		style="height: 200px; margin: 20px; padding: 30px; border: solid dotted 5px;" 
+		style="height: 200px; margin: 30px; padding: 20px; border: solid dotted 10px;" 
 		onload="oniframeload()">
 	</iframe>
 </body>

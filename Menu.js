@@ -363,21 +363,33 @@ dojo.declare("dijit.Menu",
 		//		Attach menu to given node
 		node = dojo.byId(node);
 
-		// support context menus on iframes
-		if(node.tagName.toLowerCase()=="iframe"){
-			var win = this._iframeContentWindow(node);
-			node = dojo.withGlobal(win, dojo.body);
+		var cn;	// Connect node
+
+		// Support context menus on iframes.   Rather than binding to the iframe itself we need
+		// to bind to the <body> node inside the iframe.
+		if(node.tagName.toLowerCase() == "iframe"){
+			// TODO: race condition: this assume that iframe.body is already loaded;
+			// if it isn't then should this.connect() to the load event
+			var iframe = node,
+				win = this._iframeContentWindow(iframe);
+			cn = dojo.withGlobal(win, dojo.body);
+		}else{
+			// to capture these events at the top level,
+			// attach to document, not body
+			cn = (node == dojo.body() ? dojo.doc : node);
 		}
 
-		// to capture these events at the top level,
-		// attach to document, not body
-		var cn = (node == dojo.body() ? dojo.doc : node);
-
-		node[this.id] = this._bindings.push([
-			dojo.connect(cn, (this.leftClickToOpen)?"onclick":"oncontextmenu", this, "_openMyself"),
-			dojo.connect(cn, "onkeydown", this, "_contextKey"),
-			dojo.connect(cn, "onmousedown", this, "_contextMouse")
-		]);
+		node[this.id] = this._bindings.push({
+			node: cn,
+			iframe: iframe,
+			connects: [
+				this.connect(cn, (this.leftClickToOpen)?"onclick":"oncontextmenu", function(evt){
+					this._openMyself(evt, cn, iframe);
+				}),
+				this.connect(cn, "onkeydown", "_contextKey"),
+				this.connect(cn, "onmousedown", "_contextMouse")
+			]
+		});
 	},
 
 	unBindDomNode: function(/*String|DomNode*/ nodeName){
@@ -386,7 +398,7 @@ dojo.declare("dijit.Menu",
 		var node = dojo.byId(nodeName);
 		if(node){
 			var bid = node[this.id]-1, b = this._bindings[bid];
-			dojo.forEach(b, dojo.disconnect);
+			dojo.forEach(b.connects, this.disconnect, this);
 			delete this._bindings[bid];
 		}
 	},
@@ -421,10 +433,15 @@ dojo.declare("dijit.Menu",
 		this._contextMenuWithMouse = true;
 	},
 
-	_openMyself: function(/*Event*/ e){
+	_openMyself: function(/*Event*/ e, /*DomNode?*/ node, /*DomNode?*/ iframe){
 		// summary:
 		//		Internal function for opening myself when the user
-		//		does a right-click or something similar
+		//		does a right-click or something similar.
+		// node:
+		//		The node that is being clicked
+		// iframe:
+		//		If an <iframe> is being clicked, iframe points to that iframe and node
+		//		points to the iframe's body.
 		// tags:
 		//		private
 
@@ -443,6 +460,16 @@ dojo.declare("dijit.Menu",
 		if(dojo.isSafari || this._contextMenuWithMouse){
 			x=e.pageX;
 			y=e.pageY;
+			
+			if(iframe){
+				// Event is on <body> node of an <iframe>, convert coordinates to match main document
+				var od = e.target.ownerDocument,
+					ifc = dojo.coords(iframe),
+					scroll = dojo.withDoc(od, "_docScroll", dojo);
+
+				x += ifc.l + dojo.style(od.body, "marginLeft") - scroll.x;
+				y += ifc.t + dojo.style(od.body, "marginTop") - scroll.y;
+			}
 		}else{
 			// otherwise open near e.target
 			var coords = dojo.coords(e.target, true);
