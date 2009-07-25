@@ -299,7 +299,8 @@ dojo.declare("dijit.Menu",
 			this.bindDomNode(dojo.body());
 		}else{
 			// TODO: should have _setTargetNodeIds() method to handle initialization and a possible
-			// later attr('targetNodeIds', ...) call
+			// later attr('targetNodeIds', ...) call.   There's also a problem that targetNodeIds[]
+			// gets stale after calls to bindDomNode()/unBindDomNode() as it still is just the original list (see #9610)
 			dojo.forEach(this.targetNodeIds, this.bindDomNode, this);
 		}
 		var k = dojo.keys, l = this.isLeftToRight();
@@ -398,7 +399,7 @@ dojo.declare("dijit.Menu",
 		// summary:
 		//		Detach menu from given node
 		var node = dojo.byId(nodeName);
-		if(node){
+		if(node && node[this.id]){
 			var bid = node[this.id]-1, b = this._bindings[bid];
 			dojo.forEach(b.connects, this.disconnect, this);
 			delete this._bindings[bid];
@@ -512,7 +513,7 @@ dojo.declare("dijit.Menu",
 	},
 
 	uninitialize: function(){
- 		dojo.forEach(this.targetNodeIds, this.unBindDomNode, this);
+ 		dojo.forEach(this._bindings, function(b){ if(b){ this.unBindDomNode(b.node); } }, this);
  		this.inherited(arguments);
 	}
 }
