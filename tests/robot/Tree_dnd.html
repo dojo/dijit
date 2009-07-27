@@ -63,7 +63,7 @@
 								// TODO: check drag avatar shows drop is valid (ie, avatar is green)
 								doh.t(dojo.hasClass(fruitsTreeNode.rowNode, "dijitTreeNodeHover"), "tree node has hover class");
 								doh.t(dojo.hasClass(fruitsTreeNode.rowNode, "dojoDndItemOver"), "tree node has DND drop class");
-							}), 2000);	// browser needs time to react to mouseMove events above
+							}), 500);
 
 							return d;
 						}
@@ -145,7 +145,7 @@
 								doh.is(2, citrusTreeNodeChildren.length, "2 TreeNode children for Citrus")
 								doh.is("Orange", innerText(citrusTreeNodeChildren[0].labelNode), "child of Citrus TreeNode");
 								doh.is("Apple", innerText(citrusTreeNodeChildren[1].labelNode), "child of Citrus TreeNode");
-							}), 1000);	// browser needs time to react to mouseMove events above
+							}), 500);
 		
 							return d;
 						}
@@ -187,7 +187,7 @@
 								doh.is("Fruits (2)", innerText(foodsTreeNodeChildren[0].labelNode));
 								doh.is("Cereals (0)", innerText(foodsTreeNodeChildren[1].labelNode));
 								doh.is("Vegetables (0)", innerText(foodsTreeNodeChildren[2].labelNode));
-							}), 1000);	// browser needs time to react to mouseMove events above
+							}), 500);
 		
 							return d;
 						}
@@ -260,7 +260,7 @@
 								doh.is(2, fruitsTreeNodeChildren.length, "2 TreeNode children for fruits")
 								doh.is("Citrus (1)", innerText(fruitsTreeNodeChildren[0].labelNode));
 								doh.is("Vegetables (0)", innerText(fruitsTreeNodeChildren[1].labelNode));
-							}), 1000);	// browser needs time to react to mouseMove events above
+							}), 500);
 		
 							return d;
 						}
@@ -297,7 +297,7 @@
 								doh.is("Fruits", foodsItemChildren.categories[0], "food child");
 								doh.is("Cereals", foodsItemChildren.categories[1], "food child");
 								doh.is("Vegetables", foodsItemChildren.categories[2], "food child");
-							}), 1000);	// browser needs time to react to mouseMove events above
+							}), 500);
 		
 							return d;
 						}
