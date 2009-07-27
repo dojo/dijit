@@ -75,7 +75,9 @@
 		<div dojoType="dijit.Editor" id="editor0" height="100" plugins="[]"></div>
 	</div>
 
+
 	<h2>Created from div</h2>
+	<input id="focusBefore" value="input before editor1">
 	<div style="border: 1px solid black;">
 		<div dojoType="dijit.Editor" id="editor1" disableSpellCheck="true"
 			onChange="console.log('editor1 onChange handler: ' + arguments[0])"
@@ -83,6 +85,7 @@
 		The following HTML should appear as source: &lt;INPUT TYPE="IMAGE" SRC="javascript:alert('no scripting attacks')"&gt;
 		</div>
 	</div>
+	<input id="focusAfter" value="input after editor1">
 	<button onClick="dijit.byId('editor1').destroy()">destroy</button>
 	<button onClick="dijit.byId('editor1').attr('disableSpellCheck', !dijit.byId('editor1').attr('disableSpellCheck'))">toggle spell check</button>
 	<button onclick="console.log(dijit.byId('editor1').attr('value'))">getValue</button>

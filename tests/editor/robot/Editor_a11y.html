@@ -221,6 +221,123 @@
 					}
 				]);
 
+				doh.register("tabbing", [
+					{
+						name: "into editor1 toolbar",
+						timeout: 10000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							dijit.scrollIntoView(editor1.domNode);
+
+							// Focus on link before editor
+							doh.robot.sequence(function(){
+								dojo.byId("focusBefore").focus();
+							}, 500);
+
+							// Go to toolbar of editor1
+							doh.robot.keyPress(dojo.keys.TAB, 500);
+
+							// We should get focus on one of the toolbar buttons, although which one depends
+							// on whether the editor's contents have been modified (undo button enabled), and
+							// whether there is something in the browser's paste buffer, etc.)
+							doh.robot.sequence(d.getTestCallback(function(){
+								var curFocus = dijit.getEnclosingWidget(dojo.global.dijit._curFocus);
+								doh.isNot(-1, dojo.indexOf(editor1.toolbar.getChildren(), curFocus), "focused on button of editor1 toolbar");
+							}), 500);
+
+							return d;
+						}
+					},
+					{
+						name: "into editor1",
+						timeout: 10000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							// Go to content of editor1
+							doh.robot.keyPress(dojo.keys.TAB, 500);
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.is("editor1_iframe", dojo.global.dijit._curFocus.id, "focused on editor content");
+							}), 500);
+
+							return d;
+						}
+					},
+					{
+						name: "out of editor1",
+						timeout: 10000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							// Go to link after editor1
+							doh.robot.keyPress(dojo.keys.TAB, 500);
+							if(dojo.isFF){
+								// On FF you need to hit tab twice to get out, see http://docs.dojocampus.org/dijit/Editor
+								doh.robot.keyPress(dojo.keys.TAB, 500);
+							}	
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.is("focusAfter", dojo.global.dijit._curFocus.id, "focused after editor1");
+							}), 500);
+
+							return d;
+						}
+					},
+					{
+						name: "shift-tab back into editor1",
+						timeout: 10000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							// Go to content of editor1
+							doh.robot.keyPress(dojo.keys.TAB, 500, {shift: true});
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.is("editor1_iframe", dojo.global.dijit._curFocus.id, "focused on editor content");
+							}), 500);
+
+							return d;
+						}
+					},
+					{
+						name: "shift-tab back to toolbar",
+						timeout: 10000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							doh.robot.keyPress(dojo.keys.TAB, 500, {shift: true});
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								var curFocus = dijit.getEnclosingWidget(dojo.global.dijit._curFocus);
+								doh.isNot(-1, dojo.indexOf(editor1.toolbar.getChildren(), curFocus), "focused on button of editor1 toolbar");
+							}), 500);
+
+							return d;
+						}
+					},
+					{
+						name: "shift-tab to before editor",
+						timeout: 10000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							doh.robot.keyPress(dojo.keys.TAB, 500, {shift: true});
+							if(dojo.isFF){
+								// Need to shift-tab twice on FF, see #9612
+								doh.robot.keyPress(dojo.keys.TAB, 500, {shift: true});
+							}								
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.is("focusBefore", dojo.global.dijit._curFocus.id, "focused before editor1");
+							}), 500);
+
+							return d;
+						}
+					}
+				]);
+
 				doh.run();
 			});
 
