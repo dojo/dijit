@@ -285,8 +285,8 @@ dojo.declare(
 					width: coords.w + "px",
 					top: -this.displayMonth.getMonth() * coords.h + "px"
 				};
-				if(dojo.isIE < 8 || dojo.isQuirks){
-					dim.left = (dojo.isQuirks ? -coords.w/2 : 0) + "px";
+				if((dojo.isIE && dojo.isQuirks) || dojo.isIE < 7){
+					dim.left = -coords.w/2 + "px";
 				}
 				dojo.style(this.monthDropDown, dim);
 				this._popupHandler = this.connect(document, "onmouseup", "_onMonthToggle");
