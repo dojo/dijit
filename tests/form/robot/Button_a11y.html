@@ -67,10 +67,12 @@
 						runTest: function(){
 							var d = new doh.Deferred();
 
+							doh.is("1465", dijit.getEnclosingWidget(dojo.global.dijit._curFocus).id, "focus starting on 1465");
+
 							dijit.byId("1467").attr("disabled", true);
 
 							// tab over disabled "View" button to "Create" combo-button	
-							doh.robot.keyPress(dojo.keys.TAB, 100, {});
+							doh.robot.keyPress(dojo.keys.TAB, 500, {});
 
 							doh.robot.sequence(d.getTestCallback(function(){
 								console.log("current focus is ", dojo.global.dijit._curFocus);
