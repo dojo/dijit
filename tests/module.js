@@ -68,7 +68,11 @@ try{
 	if(test_robot){
 		doh.registerUrl("dijit.tests.editor.robot.Editor_mouse", dojo.moduleUrl("dijit","tests/editor/robot/Editor_mouse.html"+userArgs), 99999999);
 		doh.registerUrl("dijit.tests.editor.robot.EnterKeyHandling", dojo.moduleUrl("dijit","tests/editor/robot/EnterKeyHandling.html"+userArgs), 99999999);
-		doh.registerUrl("dijit.tests.editor.robot.BackForwardState", dojo.moduleUrl("dijit","tests/editor/robot/BackForwardState.html"+userArgs), 99999999);
+		if(!dojo.isWebKit){
+			// The back button on webkit is URL for the browser itself, restarting the entire test suite,
+			// rather than just for the iframe holding the test file (BackForwardState.html and BackForwardStateHelper.html)
+			doh.registerUrl("dijit.tests.editor.robot.BackForwardState", dojo.moduleUrl("dijit","tests/editor/robot/BackForwardState.html"+userArgs), 99999999);
+		}
 		if(test_a11y){
 			doh.registerUrl("dijit.tests.editor.robot.Editor_a11y", dojo.moduleUrl("dijit","tests/editor/robot/Editor_a11y.html"+userArgs), 99999999);
 		}
