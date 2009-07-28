@@ -54,19 +54,20 @@
 				});
 
 				var _setvaluetest = function(textbox, setVal, focusVal, attrVal, isValid, chgVal, required){
-					textbox = dijit.byId('q03');
+					textbox = dijit.byId(textbox);
 					if(required !== undefined){
 						textbox.attr('required', required);
 					}
 					textbox.attr('value', setVal);
 					doh.is(focusVal, textbox.focusNode.value, "focusNode.value");
-					doh.is(attrVal+"/"+(typeof attrVal), textbox.attr('value')+"/"+(typeof textbox.attr('value')), "attr('value')");
+					doh.is(attrVal, textbox.attr('value'), "attr('value')");
+					doh.is(typeof attrVal, typeof textbox.attr('value'), "typeof attr('value')");
 					doh.is(isValid, textbox.isValid(), "isValid()");
 					var d = new doh.Deferred();
 					var onChange = dojo.byId('oc3');
-					doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
-						doh.is((attrVal.toString(), onChange.value, "onChange.value");
-					})), 500);
+					doh.robot.sequence(d.getTestCallback(function(){
+						doh.is(chgVal, onChange.value, "onChange.value");
+					}), 500);
 					return d;
 				};
 
