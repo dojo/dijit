@@ -47,10 +47,10 @@
 							dijit.scrollIntoView(fruitsTreeNode.domNode);
 
 							// Drag and Drop, *copying* in order to add a parent rather than change
-							doh.robot.mouseMoveAt(vegetablesTreeNode.domNode, 0, 1000);
+							doh.robot.mouseMoveAt(vegetablesTreeNode.domNode, 500, 1000);
 							doh.robot.keyDown(dojo.keys.copyKey, 500);
 							if(dojo.isMac){
-								// I can't DOH robot to generate the mousePress event w/metaKey=true so
+								// I can't get DOH robot to generate the mousePress event w/metaKey=true so
 								// hack it
 								doh.robot.sequence(function(){
 									realIsCopyKey = dojo.global.dojo.isCopyKey;
@@ -59,11 +59,10 @@
 							}
 							doh.robot.mousePress({left: true}, 500);
 							doh.robot.mouseMoveAt(fruitsTreeNode.labelNode, 500, 2000);
-							doh.robot.mouseRelease({left: true}, 2000);	// browser needs time to react to mouseMove events above
+							doh.robot.mouseRelease({left: true}, 500);
 							doh.robot.keyUp(dojo.keys.copyKey, 500);
 							if(dojo.isMac){
-								// I can't DOH robot to generate the mousePress event w/metaKey=true so
-								// hack it
+								// See if(dojo.isMac) above
 								doh.robot.sequence(function(){
 									dojo.global.dojo.isCopyKey = realIsCopyKey;
 								});
@@ -117,7 +116,7 @@
 							doh.robot.mouseMoveAt(vegetablesTreeNode.domNode, 0, 1000);
 							doh.robot.mousePress({left: true}, 500);
 							doh.robot.mouseMoveAt(cerealsTreeNode.labelNode, 500, 1000);
-							doh.robot.mouseRelease({left: true}, 1000);	// browser needs time to react to mouseMove events above
+							doh.robot.mouseRelease({left: true}, 500);
 
 							doh.robot.sequence(d.getTestCallback(function(){
 								// Check that Vegetables remains a child of Fruits
@@ -164,7 +163,7 @@
 							doh.robot.mouseMoveAt(vegetablesTreeNode.domNode, 0, 1000);
 							doh.robot.mousePress({left: true}, 500);
 							doh.robot.mouseMoveAt(citrusTreeNode.labelNode, 500, 1000);
-							doh.robot.mouseRelease({left: true}, 1000);	// browser needs time to react to mouseMove events above
+							doh.robot.mouseRelease({left: true}, 500);
 
 							doh.robot.sequence(d.getTestCallback(function(){
 								// Check that Vegetables remains a child of Cereals
