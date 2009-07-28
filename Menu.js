@@ -521,8 +521,8 @@ dojo.declare("dijit.Menu",
 
 				var cs = dojo.getComputedStyle(iframe),
 					tp = dojo._toPixelValue,
-					left = tp(iframe, cs.paddingLeft) + tp(iframe, cs.borderLeft) + tp(iframe, cs.marginLeft),
-					top = tp(iframe, cs.paddingTop) + tp(iframe, cs.borderTop) + tp(iframe, cs.marginTop);
+					left = (dojo.isIE && dojo.isQuirks ? 0 : tp(iframe, cs.paddingLeft)) + (dojo.isIE && dojo.isQuirks ? tp(iframe, cs.borderLeftWidth) : 0) + tp(iframe, cs.marginLeft),
+					top = (dojo.isIE && dojo.isQuirks ? 0 : tp(iframe, cs.paddingTop)) + (dojo.isIE && dojo.isQuirks ? tp(iframe, cs.borderTopWidth) : 0) + tp(iframe, cs.marginTop);
 
 				x += ifc.l + left - scroll.x;
 				y += ifc.t + top - scroll.y;
