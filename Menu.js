@@ -371,8 +371,6 @@ dojo.declare("dijit.Menu",
 		// Support context menus on iframes.   Rather than binding to the iframe itself we need
 		// to bind to the <body> node inside the iframe.
 		if(node.tagName.toLowerCase() == "iframe"){
-			// TODO: race condition: this assume that iframe.body is already loaded;
-			// if it isn't then should this.connect() to the load event
 			var iframe = node,
 				win = this._iframeContentWindow(iframe);
 			cn = dojo.withGlobal(win, dojo.body);
@@ -382,26 +380,76 @@ dojo.declare("dijit.Menu",
 			cn = (node == dojo.body() ? dojo.doc : node);
 		}
 
-		node[this.id] = this._bindings.push({
+		// "binding" is the object to track our connection to the node (ie, the parameter to bindDomNode())
+		var binding = {
 			node: cn,
-			iframe: iframe,
-			connects: [
-				this.connect(cn, (this.leftClickToOpen)?"onclick":"oncontextmenu", function(evt){
+			iframe: iframe
+		};
+		node[this.id] = this._bindings.push(binding);
+
+		// Setup the connections to monitor click etc., unless we are connecting to an iframe which hasn't finished
+		// loading yet, in which case we need to wait for the onload event first, and then connect
+		var doConnects = dojo.hitch(this, function(cn){
+			return [
+				dojo.connect(cn, (this.leftClickToOpen)?"onclick":"oncontextmenu", this, function(evt){
 					this._openMyself(evt, cn, iframe);
 				}),
-				this.connect(cn, "onkeydown", "_contextKey"),
-				this.connect(cn, "onmousedown", "_contextMouse")
-			]
+				dojo.connect(cn, "onkeydown", this, "_contextKey"),
+				dojo.connect(cn, "onmousedown", this, "_contextMouse")
+			];
 		});
+		binding.connects = cn ? doConnects(cn) : [];
+
+		if(iframe){
+			// Setup handler to [re]bind to the iframe when the contents are initially loaded,
+			// and every time the contents change.
+			// Need to do this b/c we are actually binding to the iframe's <body> node.
+			// Note: can't use dojo.connect(), see #9609.
+			
+			binding.onloadHandler = dojo.hitch(this, function(){
+				// want to remove old connections, but IE throws exceptions when trying to
+				// access the <body> node because it's already gone, or at least in a state of limbo
+
+				var win = this._iframeContentWindow(iframe);
+					cn = dojo.withGlobal(win, dojo.body);
+				binding.connects = doConnects(cn);
+			});
+			if(iframe.addEventListener){
+				iframe.addEventListener("load", binding.onloadHandler, false);
+			}else{
+				iframe.attachEvent("onload", binding.onloadHandler);
+			}
+		}
 	},
 
 	unBindDomNode: function(/*String|DomNode*/ nodeName){
 		// summary:
 		//		Detach menu from given node
-		var node = dojo.byId(nodeName);
+
+		var node;
+		try {
+			node = dojo.byId(nodeName);
+		}catch(e){
+			// On IE the dojo.byId() call will get an exception if the attach point was
+			// the <body> node of an <iframe> that has since been reloaded (and thus the
+			// <body> node is in a limbo state of destruction.
+			return;
+		}
+
 		if(node && node[this.id]){
 			var bid = node[this.id]-1, b = this._bindings[bid];
-			dojo.forEach(b.connects, this.disconnect, this);
+			dojo.forEach(b.connects, dojo.disconnect);
+
+			// Remove listener for iframe onload events
+			var iframe = b.iframe;
+			if(iframe){
+				if(iframe.removeEventListener){
+					iframe.removeEventListener("load", b.onloadHandler, false);
+				}else{
+					iframe.detachEvent("onload", b.onloadHandler);
+				}
+			}
+
 			delete this._bindings[bid];
 		}
 	},
@@ -468,7 +516,8 @@ dojo.declare("dijit.Menu",
 				// Event is on <body> node of an <iframe>, convert coordinates to match main document
 				var od = e.target.ownerDocument,
 					ifc = dojo.coords(iframe),
-					scroll = dojo.withDoc(od, "_docScroll", dojo);
+					win = this._iframeContentWindow(iframe),
+					scroll = dojo.withGlobal(win, "_docScroll", dojo); 
 
 				var cs = dojo.getComputedStyle(iframe),
 					tp = dojo._toPixelValue,
