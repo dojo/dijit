@@ -26,6 +26,12 @@
 				// first tooltip is shown
 				var masterTT;
 
+				doh.register("setup", function(){
+					// Avoid the page being scrolled when you run the test twice (via browser's refresh button)
+					dojo.body().parentNode.scrollTop = 0;	// works on FF
+					dojo.body().scrollTop = 0;	// works on safari
+				});
+
 				doh.register("dijit.Tooltip keyboard tests", [
 					{
 						name: "show on focus",
@@ -93,14 +99,14 @@
 								doh.t(masterTT && isVisible(masterTT.domNode), "tooltip shown");
 
 								// make sure tooltip is on the screen (in LTR mode it needs to go to the
-								// left of the <select>, not to the right like it usually does
+								// left of the <select>, not to the right like it usually does)
 								var viewportCoords = dijit.getViewport();
 									tooltipCoords = dojo.coords(masterTT.domNode);
-								console.log(viewportCoords, tooltipCoords);
+								console.log("viewport coords: ", viewportCoords, "tooltip coords: ", tooltipCoords);
 								doh.t(tooltipCoords.x > 0, "x > 0");
-								doh.t(tooltipCoords.x + tooltipCoords.w < viewportCoords.w, "t.x + t.w");
+								doh.t(tooltipCoords.x + tooltipCoords.w <= viewportCoords.w, "t.x + t.w");
 								doh.t(tooltipCoords.y > 0, "y > 0");
-								doh.t(tooltipCoords.y + tooltipCoords.h < viewportCoords.h, "t.y + t.h");
+								doh.t(tooltipCoords.y + tooltipCoords.h <= viewportCoords.h, "t.y + t.h");
 
 								// Make sure it has the new content.
 								// There's a newline in this tooltip text, so to make comparison easier do substr()
