@@ -119,17 +119,12 @@ dijit.popup.__OpenArgs = function(){
 			"class":"dijitPopup",
 			style:{
 				zIndex: beginZIndex + stack.length,
-				visibility:"hidden"
-			}
+				visibility:"hidden",
+				left: "0px", top: "0px"		// prevent transient scrollbar causing misalign (#5776)
+			},
+			dijitPopupParent: args.parent ? args.parent.id : ""
 		}, dojo.body());
 		dijit.setWaiRole(wrapper, "presentation");
-		
-		// prevent transient scrollbar causing misalign (#5776)
-		wrapper.style.left = wrapper.style.top = "0px";		
-
-		if(args.parent){
-			wrapper.dijitPopupParent=args.parent.id;
-		}
 
 		var s = widget.domNode.style;
 		s.display = "";

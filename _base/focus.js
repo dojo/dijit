@@ -288,8 +288,9 @@ dojo.mixin(dijit,
 		var newStack=[];
 		try{
 			while(node){
-				if(node.dijitPopupParent){
-					node=dijit.byId(node.dijitPopupParent).domNode;
+				var popupParent = dojo.attr(node, "dijitPopupParent");
+				if(popupParent){
+					node=dijit.byId(popupParent).domNode;
 				}else if(node.tagName && node.tagName.toLowerCase()=="body"){
 					// is this the root of the document or just the root of an iframe?
 					if(node===dojo.body()){
