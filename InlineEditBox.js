@@ -366,17 +366,33 @@ dojo.declare(
 		this.editorParams[ "displayedValue" in cls.prototype ? "displayedValue" : "value"] = this.value;
 		var ew = this.editWidget = new cls(this.editorParams, this.editorPlaceholder);
 
-		this.connect(ew, "onChange", "_onChange");
-
-		// Monitor keypress on the edit widget.   Note that edit widgets do a stopEvent() on ESC key (to
-		// prevent Dialog from closing when the user just wants to revert the value in the edit widget),
-		// so this is the only way we can see the key press event.
-		this.connect(ew, "onKeyPress", "_onKeyPress");
-		this.connect(ew, "onKeyUp", "_onKeyPress"); // in case ESC was eaten but changed value
-
 		if(this.autoSave){
+			// Hide the save/cancel buttons since saving is done by simply tabbing away or
+			// selecting a value from the drop down list
 			this.buttonContainer.style.display="none";
+
+			// Selecting a value from a drop down list causes an onChange event and then we save
+			this.connect(ew, "onChange", "_onChange");
+
+			// ESC and TAB should cancel and save.  Note that edit widgets do a stopEvent() on ESC key (to
+			// prevent Dialog from closing when the user just wants to revert the value in the edit widget),
+			// so this is the only way we can see the key press event.
+			this.connect(ew, "onKeyPress", "_onKeyPress");
+		}else{
+			// If possible, enable/disable save button based on whether the user has changed the value
+			if("intermediateChanges" in cls.prototype){
+				ew.attr("intermediateChanges", true);
+				this.connect(ew, "onChange", "_onIntermediateChange");
+				this.saveButton.attr("disabled", true);
+			}
 		}
+	},
+
+	_onIntermediateChange: function(val){
+		// summary:
+		//		Called for editor widgets that support the intermediateChanges=true flag as a way
+		//		to detect when to enable/disabled the save button
+		this.saveButton.attr("disabled", (this.getValue() == this._resetValue) || !this.enableSave());
 	},
 
 	destroy: function(){
@@ -393,11 +409,9 @@ dojo.declare(
 
 	_onKeyPress: function(e){
 		// summary:
-		//		Handler for keypress in the edit box (see template).
+		//		Handler for keypress in the edit box in autoSave mode.
 		// description:
 		//		For autoSave widgets, if Esc/Enter, call cancel/save.
-		//		For non-autoSave widgets, enable save button if the text value is
-		//		different than the original value.
 		// tags:
 		//		private
 
@@ -431,14 +445,6 @@ dojo.declare(
 				//	before we do all the hide/show stuff.
 				setTimeout(dojo.hitch(this, "save", false), 0);
 			}
-		}else{
-			var _this = this;
-			// Delay before calling getValue().
-			// The delay gives the browser a chance to update the native value.
-			setTimeout(
-				function(){
-					_this._onChange(); // handle save button
-				}, 100);
 		}
 	},
 
@@ -467,7 +473,8 @@ dojo.declare(
 	_onChange: function(){
 		// summary:
 		//		Called when the underlying widget fires an onChange event,
-		//		which means that the user has finished entering the value
+		//		such as when the user selects a value from the drop down list of a ComboBox,
+		//		which means that the user has finished entering the value and we should save.
 		// tags:
 		//		private
 
@@ -479,11 +486,6 @@ dojo.declare(
 		if(this.autoSave){
 			this._exitInProgress = true;
 			this.save(true);
-		}else{
-			// in case the keypress event didn't get through (old problem with Textarea that has been fixed
-			// in theory) or if the keypress event comes too quickly and the value inside the Textarea hasn't
-			// been updated yet)
-			this.saveButton.attr("disabled", (this.getValue() == this._resetValue) || !this.enableSave());
 		}
 	},
 	
