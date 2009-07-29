@@ -385,7 +385,10 @@ dojo.declare("dijit.Menu",
 			node: cn,
 			iframe: iframe
 		};
-		node[this.id] = this._bindings.push(binding);
+		
+		// save info about binding in _bindings[], and make node itself record index(+1) into
+		// _bindings[] array.
+		dojo.attr(node, this.id, this._bindings.push(binding));
 
 		// Setup the connections to monitor click etc., unless we are connecting to an iframe which hasn't finished
 		// loading yet, in which case we need to wait for the onload event first, and then connect
@@ -436,8 +439,9 @@ dojo.declare("dijit.Menu",
 			return;
 		}
 
-		if(node && node[this.id]){
-			var bid = node[this.id]-1, b = this._bindings[bid];
+		// node[this.id] contains index(+1) into my _bindings[] array
+		if(node && dojo.hasAttr(node, this.id)){
+			var bid = dojo.attr(node, this.id)-1, b = this._bindings[bid];
 			dojo.forEach(b.connects, dojo.disconnect);
 
 			// Remove listener for iframe onload events
@@ -450,6 +454,7 @@ dojo.declare("dijit.Menu",
 				}
 			}
 
+			dojo.removeAttr(node, this.id);
 			delete this._bindings[bid];
 		}
 	},
