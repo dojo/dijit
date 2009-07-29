@@ -48,7 +48,6 @@ dojo.declare(
 			// summary:
 			//		Append the underlay to the body
 			dojo.body().appendChild(this.domNode);
-			this.bgIframe = new dijit.BackgroundIframe(this.domNode);
 		},
 
 		layout: function(){
@@ -84,18 +83,14 @@ dojo.declare(
 			//		Show the dialog underlay
 			this.domNode.style.display = "block";
 			this.layout();
-			if(this.bgIframe.iframe){
-				this.bgIframe.iframe.style.display = "block";
-			}
+			this.bgIframe = new dijit.BackgroundIframe(this.domNode);
 		},
 
 		hide: function(){
 			// summary:
 			//		Hides the dialog underlay
+			this.bgIframe.destroy();
 			this.domNode.style.display = "none";
-			if(this.bgIframe.iframe){
-				this.bgIframe.iframe.style.display = "none";
-			}
 		},
 
 		uninitialize: function(){
