@@ -8,8 +8,8 @@
 			><div class="dijitReset dijitInline dijitButtonText" id="${id}_label" dojoAttachPoint="containerNode" waiRole="presentation"></div
 		></button></td
 		><td class='dijitReset dijitRight dijitButtonNode dijitArrowButton dijitDownArrowButton'
-			dojoAttachPoint="popupStateNode,focusNode"
-			dojoAttachEvent="ondijitclick:_onArrowClick, onkeypress:_onKey,onmouseenter:_onMouse,onmouseleave:_onMouse"
+			dojoAttachPoint="_popupStateNode,focusNode,_buttonNode"
+			dojoAttachEvent="onmouseenter:_onMouse,onmouseleave:_onMouse"
 			stateModifier="DownArrow"
 			title="${optionsTitle}" ${nameAttrSetting}
 			waiRole="button" waiState="haspopup-true"

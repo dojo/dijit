@@ -2,6 +2,7 @@ dojo.provide("dijit.form.Button");
 
 dojo.require("dijit.form._FormWidget");
 dojo.require("dijit._Container");
+dojo.require("dijit._HasDropDown");
 
 dojo.declare("dijit.form.Button",
 	dijit.form._FormWidget,
@@ -145,7 +146,7 @@ dojo.declare("dijit.form.Button",
 });
 
 
-dojo.declare("dijit.form.DropDownButton", [dijit.form.Button, dijit._Container], {
+dojo.declare("dijit.form.DropDownButton", [dijit.form.Button, dijit._Container, dijit._HasDropDown], {
 	// summary:
 	//		A button with a drop down
 	//
@@ -191,121 +192,29 @@ dojo.declare("dijit.form.DropDownButton", [dijit.form.Button, dijit._Container],
 			this.dropDown = dijit.byNode(dropDownNode);
 			delete this.dropDownContainer;
 		}
-		dijit.popup.prepare(this.dropDown.domNode);
 
 		this.inherited(arguments);
 	},
 
-	destroyDescendants: function(){
-		if(this.dropDown){
-			this.dropDown.destroyRecursive();
-			delete this.dropDown;
-		}
-		this.inherited(arguments);
+	isLoaded: function(){
+		// Returns whether or not we are loaded - if our dropdown has an href,
+		// then we want to check that.
+		var dropDown = this.dropDown;
+		return (!dropDown.href || dropDown.isLoaded);
 	},
 
-	_onArrowClick: function(/*Event*/ e){
-		// summary:
-		//		Handler for when the user mouse clicks on menu popup node
-		if(this.disabled){ return; }
-		this._toggleDropDown();
-	},
-
-	_onKey: function(/*Event*/ e){
-		// summary:
-		//		Handler when the user presses a key on drop down widget
-		if(this.disabled){ return; }
-		if(e.charOrCode == dojo.keys.DOWN_ARROW){
-			if(!this.dropDown || this.dropDown.domNode.style.visibility=="hidden"){
-				dojo.stopEvent(e);
-				this._toggleDropDown();
-			}
-		}
-	},
-
-	_onBlur: function(){
-		// summary:
-		//		Called magically when focus has shifted away from this widget and it's dropdown
-		this._closeDropDown();
-		// don't focus on button.  the user has explicitly focused on something else.
-		this.inherited(arguments);
-	},
-
-	_toggleDropDown: function(){
-		// summary:
-		//		Toggle the drop-down widget; if it is up, close it; if not, open it.
-		if(this.disabled){ return; }
-		dijit.focus(this.popupStateNode);
+	loadDropDown: function(){ 
+		// Loads our dropdown
 		var dropDown = this.dropDown;
 		if(!dropDown){ return; }
-		if(!this._opened){
-			// If there's an href, then load that first, so we don't get a flicker
-			if(dropDown.href && !dropDown.isLoaded){
-				var self = this;
-				var handler = dojo.connect(dropDown, "onLoad", function(){
-					dojo.disconnect(handler);
-					self._openDropDown();
-				});
-				dropDown.refresh();
-				return;
-			}else{
-				this._openDropDown();
-			}
-		}else{
-			this._closeDropDown();
-		}
-	},
-
-	_openDropDown: function(){
-		var dropDown = this.dropDown;
-		var oldWidth=dropDown.domNode.style.width;
-		var self = this;
-
-		dijit.popup.open({
-			parent: this,
-			popup: dropDown,
-			around: this.domNode,
-			orient:
-				// TODO: add user-defined positioning option, like in Tooltip.js
-				this.isLeftToRight() ? {'BL':'TL', 'BR':'TR', 'TL':'BL', 'TR':'BR'}
-				: {'BR':'TR', 'BL':'TL', 'TR':'BR', 'TL':'BL'},
-			onExecute: function(){
-				self._closeDropDown(true);
-			},
-			onCancel: function(){
-				self._closeDropDown(true);
-			},
-			onClose: function(){
-				dropDown.domNode.style.width = oldWidth;
-				self.popupStateNode.removeAttribute("popupActive");
-				self._opened = false;
-			}
-		});
-		if(this.domNode.offsetWidth > dropDown.domNode.offsetWidth){
-			var adjustNode = null;
-			if(!this.isLeftToRight()){
-				adjustNode = dropDown.domNode.parentNode;
-				var oldRight = adjustNode.offsetLeft + adjustNode.offsetWidth;
-			}
-			// make menu at least as wide as the button
-			dojo.marginBox(dropDown.domNode, {w: this.domNode.offsetWidth});
-			if(adjustNode){
-				adjustNode.style.left = oldRight - this.domNode.offsetWidth + "px";
-			}
-		}
-		this.popupStateNode.setAttribute("popupActive", "true");
-		this._opened=true;
-		if(dropDown.focus){
-			dropDown.focus();
-		}
-		// TODO: set this.checked and call setStateClass(), to affect button look while drop down is shown
-	},
-	
-	_closeDropDown: function(/*Boolean*/ focus){
-		if(this._opened){
-			dijit.popup.close(this.dropDown);
-			if(focus){ this.focus(); }
-			this._opened = false;			
+		if(!this.isLoaded()){ 
+			var handler = dojo.connect(dropDown, "onLoad", function(){ 
+				dojo.disconnect(handler); 
+				this.openDropDown(); 
+			}); 
+			dropDown.refresh(); 
+		}else{ 
+			this.openDropDown(); 		
 		}
 	}
 });
