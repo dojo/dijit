@@ -446,7 +446,7 @@ dojo.declare("dijit.layout._Splitter", [ dijit._Widget, dijit._Templated ],
 	//		otherwise, the size doesn't change until you drop the splitter (by mouse-up)
 	live: true,
 
-	templateString: '<div class="dijitSplitter" dojoAttachEvent="onkeypress:_onKeyPress,onmousedown:_startDrag" tabIndex="0" waiRole="separator"><div class="dijitSplitterThumb"></div></div>',
+	templateString: '<div class="dijitSplitter" dojoAttachEvent="onkeypress:_onKeyPress,onmousedown:_startDrag,onmouseenter:_onMouse,onmouseleave:_onMouse" tabIndex="0" waiRole="separator"><div class="dijitSplitterThumb"></div></div>',
 
 	postCreate: function(){
 		this.inherited(arguments);
@@ -503,6 +503,11 @@ dojo.declare("dijit.layout._Splitter", [ dijit._Widget, dijit._Templated ],
 			dojo.place(this.fake, this.domNode, "after");
 		}
 		dojo.addClass(this.domNode, "dijitSplitterActive");
+		dojo.addClass(this.domNode, "dijitSplitter" + (this.horizontal ? "H" : "V") + "Active");
+		if(this.fake){
+			dojo.removeClass(this.fake, "dijitSplitterHover");
+			dojo.removeClass(this.fake, "dijitSplitter" + (this.horizontal ? "H" : "V") + "Hover");
+		}
 
 		//Performance: load data info local vars for onmousevent function closure
 		var factor = this._factor,
@@ -543,6 +548,12 @@ dojo.declare("dijit.layout._Splitter", [ dijit._Widget, dijit._Templated ],
 		dojo.stopEvent(e);
 	},
 
+	_onMouse: function(e){
+		var o = (e.type == "mouseover" || e.type == "mouseenter");
+		dojo.toggleClass(this.domNode, "dijitSplitterHover", o);
+		dojo.toggleClass(this.domNode, "dijitSplitter" + (this.horizontal ? "H" : "V") + "Hover", o);
+	},
+
 	_stopDrag: function(e){
 		try{
 			if(this.cover){
@@ -550,6 +561,7 @@ dojo.declare("dijit.layout._Splitter", [ dijit._Widget, dijit._Templated ],
 			}
 			if(this.fake){ dojo.destroy(this.fake); }
 			dojo.removeClass(this.domNode, "dijitSplitterActive");
+			dojo.removeClass(this.domNode, "dijitSplitter" + (this.horizontal ? "H" : "V") + "Active");
 			dojo.removeClass(this.domNode, "dijitSplitterShadow");
 			this._drag(e); //TODO: redundant with onmousemove?
 			this._drag(e, true);
