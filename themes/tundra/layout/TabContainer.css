@@ -110,11 +110,16 @@
 	border-bottom-color:white;
 }
 
+.tundra .dijitTabContainerTop-tabs,
+.tundra .dijitTabContainerBottom-tabs {
+	padding-left: 3px;
+	padding-right: 3px;
+}
+
 /* strip */
 .tundra .dijitTabContainerTopStrip {
 	border: 1px solid #ccc;
 	padding-top: 2px;
-	padding-left: 3px;
 }
 
 .tundra .dijitTabContainerTopStrip {
