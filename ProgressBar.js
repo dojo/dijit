@@ -41,6 +41,11 @@ dojo.declare("dijit.ProgressBar", [dijit._Widget, dijit._Templated], {
 	// 		If true: show that a process is underway but that the amount completed is unknown.
 	indeterminate: false,
 
+	// name: String
+	//		this is the field name (for a form) if set. This needs to be set if you want to use 
+	//		this widget in a dijit.form.Form widget (such as dijit.Dialog)
+	name: '',
+	
 	templatePath: dojo.moduleUrl("dijit", "templates/ProgressBar.html"),
 
 	// _indeterminateHighContrastImagePath: [private] dojo._URL
@@ -98,7 +103,19 @@ dojo.declare("dijit.ProgressBar", [dijit._Widget, dijit._Templated], {
 		tip.style.width = (percent * 100) + "%";
 		this.onChange();
 	},
-
+	
+	_setValueAttr: function(v){
+		if(v==Infinity){
+			this.update({indeterminate:true});
+		}else{
+			this.update({indeterminate:false, progress:v});
+		}
+	},
+	
+	_getValueAttr: function(){
+		return this.progress;
+	},
+	
 	report: function(/*float*/percent){
 		// summary:
 		//		Generates message to show inside progress bar (normally indicating amount of task completed).
