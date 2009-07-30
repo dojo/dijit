@@ -96,10 +96,6 @@ dojo.declare(
 		//		in the viewport.
 		draggable: true,
 
-		// _fixSizes: Boolean
-		//		Does this Dialog attempt to restore the width and height after becoming too small?
-		_fixSizes: true,
-
 		postMixInProperties: function(){
 			var _nlsResources = dojo.i18n.getLocalization("dijit", "common");
 			dojo.mixin(this, _nlsResources);
@@ -272,12 +268,10 @@ dojo.declare(
 				}
 				delete this._singleChildOriginalStyle;
 			}else{
-				if(this._fixSizes){
-					dojo.style(this.containerNode, {
-						width:"auto",
-						height:"auto"
-					});
-				}				
+				dojo.style(this.containerNode, {
+					width:"auto",
+					height:"auto"
+				});
 			}
 
 			var mb = dojo.marginBox(this.domNode);
