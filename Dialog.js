@@ -257,19 +257,52 @@ dojo.declare(
 
 		_size: function(){
 			// summary:
-			// 		Make sure the dialog is small enough to fit in viewport.
+			// 		If necessary, shrink dialog contents so dialog fits in viewport
 			// tags:
 			//		private
+
+			this._checkIfSingleChild();
+
+			// If we resized the dialog contents earlier, reset them back to original size, so
+			// that if the user later increases the viewport size, the dialog can display w/out a scrollbar.
+			// Need to do this before the dojo.marginBox(this.domNode) call below.
+			if(this._singleChild){
+				if(this._singleChildOriginalStyle){
+					this._singleChild.domNode.style.cssText = this._singleChildOriginalStyle;
+				}
+				delete this._singleChildOriginalStyle;
+			}else{
+				if(this._fixSizes){
+					dojo.style(this.containerNode, {
+						width:"auto",
+						height:"auto"
+					});
+				}				
+			}
 
 			var mb = dojo.marginBox(this.domNode);
 			var viewport = dijit.getViewport();
 			if(mb.w >= viewport.w || mb.h >= viewport.h){
-				dojo.style(this.containerNode, {
-					width: Math.min(mb.w, Math.floor(viewport.w * 0.75))+"px",
-					height: Math.min(mb.h, Math.floor(viewport.h * 0.75))+"px",
-					overflow: "auto",
-					position: "relative"	// workaround IE bug moving scrollbar or dragging dialog
-				});
+				// Reduce size of dialog contents so that dialog fits in viewport
+
+				var w = Math.min(mb.w, Math.floor(viewport.w * 0.75)),
+					h = Math.min(mb.h, Math.floor(viewport.h * 0.75));
+
+				if(this._singleChild && this._singleChild.resize){
+					this._singleChildOriginalStyle = this._singleChild.domNode.style.cssText;
+					this._singleChild.resize({w: w, h: h});
+				}else{
+					dojo.style(this.containerNode, {
+						width: w + "px",
+						height: h + "px",
+						overflow: "auto",
+						position: "relative"	// workaround IE bug moving scrollbar or dragging dialog
+					});
+				}
+			}else{
+				if(this._singleChild && this._singleChild.resize){
+					this._singleChild.resize();
+				}
 			}
 		},
 
@@ -385,13 +418,6 @@ dojo.declare(
 				display:""
 			});
 			
-			if(this._fixSizes){
-				dojo.style(this.containerNode, { // reset width and height so that _size():marginBox works correctly
-					width:"auto",
-					height:"auto"
-				});
-			}
-			
 			this.open = true;
 			this._onShow(); // lazy load trigger
 
@@ -408,7 +434,7 @@ dojo.declare(
 			//		Hide the dialog
 
 			// if we haven't been initialized yet then we aren't showing and we can just return
-			// or if we arent the active dialog, dont allow us to close yet
+			// or if we aren't the active dialog, don't allow us to close yet
 			var ds = dijit._dialogStack;
 			if(!this._alreadyInitialized || this != ds[ds.length-1]){
 				return;
@@ -433,6 +459,7 @@ dojo.declare(
 				delete this._relativePosition;	
 			}
 			this.open = false;
+
 			this.onHide();
 		},
 
