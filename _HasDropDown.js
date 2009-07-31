@@ -291,11 +291,19 @@ dojo.declare("dijit._HasDropDown",
 					mb.w = this.domNode.offsetWidth;
 				}else if(this.autoWidth){
 					mb.w = Math.max(mb.w, this.domNode.offsetWidth);
+				}else{
+					delete mb.w;
 				}
 				if(overHeight){
 					mb.h = this.maxHeight;
-					mb.w += 16;
+					if("w" in mb){
+						mb.w += 16;
+					}
+				}else{
+					delete mb.h;
 				}
+				delete mb.t;
+				delete mb.l;
 				if(dojo.isFunction(dropDown.resize)){
 					dropDown.resize(mb);
 				}else{
