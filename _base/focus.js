@@ -3,14 +3,14 @@ dojo.provide("dijit._base.focus");
 // summary:
 //		These functions are used to query or set the focus and selection.
 //
-//		Also, they trace when widgets become actived/deactivated,
+//		Also, they trace when widgets become activated/deactivated,
 //		so that the widget can fire _onFocus/_onBlur events.
 //		"Active" here means something similar to "focused", but
 //		"focus" isn't quite the right word because we keep track of
-//		a whole stack of "active" widgets.  Example:  Combobutton --> Menu -->
-//		MenuItem.   The onBlur event for Combobutton doesn't fire due to focusing
+//		a whole stack of "active" widgets.  Example:  ComboButton --> Menu -->
+//		MenuItem.   The onBlur event for ComboButton doesn't fire due to focusing
 //		on the Menu or a MenuItem, since they are considered part of the
-//		Combobutton widget.  It only happens when focus is shifted
+//		ComboButton widget.  It only happens when focus is shifted
 //		somewhere completely different.
 
 dojo.mixin(dijit,
@@ -26,18 +26,19 @@ dojo.mixin(dijit,
 	isCollapsed: function(){
 		// summary:
 		//		Returns true if there is no text selected
-		var _document = dojo.doc;
-		if(_document.selection){ // IE
-			var s=_document.selection;
-			if(s.type=='Text'){
-				return !s.createRange().htmlText.length; // Boolean
-			}else{ //Control range
-				return !s.createRange().length; // Boolean
+		var _doc = dojo.doc,
+			s = _doc.selection;
+		if(s){ // IE
+			try {
+				// createRange() throws exception when dojo in iframe and nothing selected, see #9632
+				var range = s.createRange();
+				return !(s.type == 'Text' ? range.htmlText.length : range.length); // Boolean
+			}catch(e){
+				return true;
 			}
 		}else{
-			var _window = dojo.global;
-			var selection = _window.getSelection();
-			return !selection || selection.isCollapsed || !selection.toString(); // Boolean
+			s = dojo.global.getSelection();
+			return !s || s.isCollapsed || !s.toString(); // Boolean
 		}
 	},
 
