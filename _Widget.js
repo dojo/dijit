@@ -548,7 +548,9 @@ dojo.declare("dijit._Widget", null, {
 
 		// destroy widgets created as part of template, etc.
 		dfe(this._supportingWidgets||[], function(w){ 
-			if(w.destroy){
+			if(w.destroyRecursive){
+				w.destroyRecursive();
+			}else if(w.destroy){
 				w.destroy();
 			}
 		});
