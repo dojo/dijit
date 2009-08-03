@@ -369,9 +369,9 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 		// User has pressed back/forward button so we lost the text in the editor, but it's saved
 		// in a hidden <textarea> (which contains the data for all the editors on this page),
 		// so get editor value from there
-		if(this.name != "" && (!dojo.config["useXDomain"] || dojo.config["allowXdRichTextSave"])){
+		if(this.name !== "" && (!dojo.config["useXDomain"] || dojo.config["allowXdRichTextSave"])){
 			var saveTextarea = dojo.byId(dijit._scopeName + "._editor.RichText.savedContent");
-			if(saveTextarea.value != ""){
+			if(saveTextarea.value !== ""){
 				var datas = saveTextarea.value.split(this._SEPARATOR), i=0, dat;
 				while((dat=datas[i++])){
 					var data = dat.split(":");
@@ -430,7 +430,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 		ifr.setAttribute('src', s);
 		this.editingArea.appendChild(ifr);
 		if(dojo.isWebKit){ // Safari seems to always append iframe with src=about:blank
-			setTimeout(function(){ifr.setAttribute('src', s)},0);
+			setTimeout(function(){ifr.setAttribute('src', s);},0);
 		}
 		
 		// TODO: this is a guess at the default line-height, kinda works
@@ -479,7 +479,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 			lineHeight = "1.0";
 		}
 		var userStyle = "";
-		this.style.replace(/(^|;)(line-|font-?)[^;]+/g, function(match){ userStyle += match.replace(/^;/g,"") + ';' });
+		this.style.replace(/(^|;)(line-|font-?)[^;]+/g, function(match){ userStyle += match.replace(/^;/g,"") + ';'; });
 
 		// get screen reader text for mozilla here, too
 		this._localizedIframeTitles = dojo.i18n.getLocalization("dijit.form", "Textarea");
@@ -540,7 +540,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 		while((url=files[i++])){
 			var abstring = (new dojo._Url(dojo.global.location, url)).toString();
 			this.editingAreaStyleSheets.push(abstring);
-			text += '<link rel="stylesheet" type="text/css" href="'+abstring+'"/>'
+			text += '<link rel="stylesheet" type="text/css" href="'+abstring+'"/>';
 		}
 		return text;
 	},
@@ -591,7 +591,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 			return;
 		}
 		delete this.editingAreaStyleSheets[index];
-		dojo.withGlobal(this.window,'query', dojo, ['link:[href="'+url+'"]']).orphan()
+		dojo.withGlobal(this.window,'query', dojo, ['link:[href="'+url+'"]']).orphan();
 	},
 
 	// disabled: Boolean
@@ -621,7 +621,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 					if(ps.hasOwnProperty(n)){
 						try{
 							this.document.execCommand(n,false,ps[n]);
-						}catch(e){}
+						}catch(e2){}
 					}
 				}
 			}
@@ -658,7 +658,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 			if(dojo.isIE){ // #4996 IE wants to focus the BODY tag
 				var tabStop = (this.tabStop = dojo.doc.createElement('<div tabIndex=-1>'));
 				this.editingArea.appendChild(tabStop);
-				this.iframe.onfocus = function(){ _this.editNode.setActive(); }
+				this.iframe.onfocus = function(){ _this.editNode.setActive(); };
 			}
 		}
 		this.focusNode = this.editNode; // for InlineEditBox
@@ -706,7 +706,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 		if(this.focusOnLoad){
 			// after the document loads, then set focus after updateInterval expires so that 
 			// onNormalizedDisplayChanged has run to avoid input caret issues
-			dojo.addOnLoad(dojo.hitch(this, function(){ setTimeout(dojo.hitch(this, "focus"), this.updateInterval) }));
+			dojo.addOnLoad(dojo.hitch(this, function(){ setTimeout(dojo.hitch(this, "focus"), this.updateInterval); }));
 		}
 	},
 
@@ -1015,7 +1015,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 
 		// memoizing version. See _queryCommandAvailable for computing version
 		var ca = this._qcaCache[command];
-		if(ca != undefined){ return ca; }
+		if(ca !== undefined){ return ca; }
 		return (this._qcaCache[command] = this._queryCommandAvailable(command));
 	},
 	
@@ -1031,8 +1031,6 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 		var opera = 1 << 3;
 		var webkit420 = 1 << 4;
 
-		var gt420 = dojo.isWebKit;
-
 		function isSupportedBy(browsers){
 			return {
 				ie: Boolean(browsers & ie),
@@ -1040,7 +1038,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 				webkit: Boolean(browsers & webkit),
 				webkit420: Boolean(browsers & webkit420),
 				opera: Boolean(browsers & opera)
-			}
+			};
 		}
 
 		var supportedBy = null;
@@ -1101,7 +1099,6 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 		//		An optional argument to the command
 		// tags:
 		//		protected
-
 		var returnValue;
 
 		//focus() is required for IE to work
@@ -1111,7 +1108,8 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 
 		command = this._normalizeCommand(command, argument);
 
-		if(argument != undefined){
+
+		if(argument !== undefined){
 			if(command == "heading"){
 				throw new Error("unimplemented");
 			}else if((command == "formatblock") && dojo.isIE){
@@ -1119,85 +1117,14 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 			}
 		}
 		
-		if(command === "inserthorizontalrule" && dojo.isIE){
-			//IE doesn't natively insert HR tags right.  Simple solution
-			//is to use the inserthtml logic, which will insert it right.
-			command = "inserthtml";
-			argument = "<hr>";
-		}
-		if(command == "inserthtml"){
-			//TODO: we shall probably call _preDomFilterContent here as well
-			argument = this._preFilterContent(argument);
-			returnValue = true;
-			if(dojo.isIE){
-				var insertRange = this.document.selection.createRange();
-				if(this.document.selection.type.toUpperCase()=='CONTROL'){
-					var n=insertRange.item(0);
-					while(insertRange.length){
-						insertRange.remove(insertRange.item(0));
-					}
-					n.outerHTML=argument;
-				}else{
-					insertRange.pasteHTML(argument);
-				}
-				insertRange.select();
-				//insertRange.collapse(true);
-			}else if(dojo.isMoz && !argument.length){
-				//mozilla can not inserthtml an empty html to delete current selection
-				//so we delete the selection instead in this case
-				this._sCall("remove"); // FIXME
-			}else{
-				returnValue = this.document.execCommand(command, false, argument);
-			}
-		}else if(
-			(command == "unlink")&&
-			(this.queryCommandEnabled("unlink"))&&
-			(dojo.isMoz || dojo.isWebKit)
-		){
-			// fix up unlink in Mozilla to unlink the link and not just the selection
-
-			// grab selection
-			// Mozilla gets upset if we just store the range so we have to
-			// get the basic properties and recreate to save the selection
-			//	var selection = this.window.getSelection();
-
-			//	var selectionRange = selection.getRangeAt(0);
-			//	var selectionStartContainer = selectionRange.startContainer;
-			//	var selectionStartOffset = selectionRange.startOffset;
-			//	var selectionEndContainer = selectionRange.endContainer;
-			//	var selectionEndOffset = selectionRange.endOffset;
-
-			// select our link and unlink
-			var a = this._sCall("getAncestorElement", [ "a" ]);
-			this._sCall("selectElement", [ a ]);
-
-			returnValue = this.document.execCommand("unlink", false, null);
-		}else if((command == "hilitecolor")&&(dojo.isMoz)){
-			// mozilla doesn't support hilitecolor properly when useCSS is
-			// set to false (bugzilla #279330)
-
-			this.document.execCommand("styleWithCSS", false, true);
-			returnValue = this.document.execCommand(command, false, argument);
-			this.document.execCommand("styleWithCSS", false, false);
-
-		}else if((dojo.isIE)&&( (command == "backcolor")||(command == "forecolor") )){
-			// Tested under IE 6 XP2, no problem here, comment out
-			// IE weirdly collapses ranges when we exec these commands, so prevent it
-			//	var tr = this.document.selection.createRange();
-			argument = arguments.length > 1 ? argument : null;
-			returnValue = this.document.execCommand(command, false, argument);
-
-			// timeout is workaround for weird IE behavior were the text
-			// selection gets correctly re-created, but subsequent input
-			// apparently isn't bound to it
-			//	setTimeout(function(){tr.select();}, 1);
+		//Check to see if we have any over-rides for commands, they will be functions on this
+		//widget of the form _commandImpl.  If we don't, fall through to the basic native 
+		//exec command of the browser.
+		var implFunc = "_" + command + "Impl";
+		if(this[implFunc]){
+			returnValue = this[implFunc](argument);
 		}else{
 			argument = arguments.length > 1 ? argument : null;
-			//	if(dojo.isMoz){
-			//		this.document = this.iframe.contentWindow.document
-			//	}
-
-//			console.debug("execCommand:", command, argument);
 			if(argument || command!="createlink"){
 				returnValue = this.document.execCommand(command, false, argument);
 			}
@@ -1230,6 +1157,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 				return true;
 			}
 		}
+		
 		// return this.document.queryCommandEnabled(command);
 		var elem = dojo.isIE ? this.document.selection.createRange() : this.document;
 		return elem.queryCommandEnabled(command);
@@ -1428,7 +1356,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 		}else if(this.window && this.window.getSelection){ // Moz
 			html = this._preFilterContent(html);
 			this.execCommand("selectall");
-			if(dojo.isMoz && !html){ html = "&nbsp;" }
+			if(dojo.isMoz && !html){ html = "&nbsp;"; }
 			this.execCommand("inserthtml", html);
 			this._preDomFilterContent(this.editNode);
 		}else if(this.document && this.document.selection){//IE
@@ -1618,7 +1546,6 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 		}
 		this.iframe._loadFunc = null;
 
-
 		if(this.textarea){
 			var s = this.textarea.style;
 			s.position = "";
@@ -1707,5 +1634,126 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 				'$1$4$2$3$5$2 _djrealurl=$2$3$5$2')
 			.replace(/(?:(<img(?=\s).*?\ssrc=)("|')(.*?)\2)|(?:(<img\s.*?src=)([^"'][^ >]+))/gi, 
 				'$1$4$2$3$5$2 _djrealurl=$2$3$5$2'); // String
+	},
+
+	/*****************************************************************************
+		The following functions implement HTML manipulation commands for various 
+		browser/contentEditable implementations.  The goal of them is to enforce
+		standard behaviors of them.
+	******************************************************************************/
+
+	_inserthorizontalruleImpl: function(argument){
+		// summary:
+		//		This function implements the insertion of HTML <HR> tags.
+		//		into a point on the page.  IE doesn't to it right, so
+		//		we have to use an alternate form
+		// argument:
+		//		arguments to the exec command, if any.
+		// tags:
+		//		protected
+		if(dojo.isIE){
+			return this._inserthtmlImpl("<hr>");
+		}
+		return this.document.execCommand("inserthorizontalrule", false, argument); 
+	},
+
+	_unlinkImpl: function(argument){
+		// summary:
+		//		This function implements the unlink of an <a> tag.
+		// argument:
+		//		arguments to the exec command, if any.
+		// tags:
+		//		protected
+		if((this.queryCommandEnabled("unlink"))&& (dojo.isMoz || dojo.isWebKit)){
+			var a = this._sCall("getAncestorElement", [ "a" ]);
+			this._sCall("selectElement", [ a ]);
+			return this.document.execCommand("unlink", false, null);
+		}
+		return this.document.execCommand("unlink", false, argument);  
+	},
+
+	_hilitecolorImpl: function(argument){
+		// summary:
+		//		This function implements the hilitecolor command
+		// argument:
+		//		arguments to the exec command, if any.
+		// tags:
+		//		protected
+		var returnValue;
+		if(dojo.isMoz){
+			// mozilla doesn't support hilitecolor properly when useCSS is
+			// set to false (bugzilla #279330)
+			this.document.execCommand("styleWithCSS", false, true);
+			returnValue = this.document.execCommand("hilitecolor", false, argument);
+			this.document.execCommand("styleWithCSS", false, false);
+		}else{
+			returnValue = this.document.execCommand("hilitecolor", false, argument);
+		}
+		return returnValue;
+	},
+
+	_backcolorImpl: function(argument){
+		// summary:
+		//		This function implements the backcolor command
+		// argument:
+		//		arguments to the exec command, if any.
+		// tags:
+		//		protected
+		if(dojo.isIE){
+			// Tested under IE 6 XP2, no problem here, comment out
+			// IE weirdly collapses ranges when we exec these commands, so prevent it
+			//	var tr = this.document.selection.createRange();
+			argument = argument ? argument : null;
+		}
+		return this.document.execCommand("backcolor", false, argument);
+	},
+
+	_forecolorImpl: function(argument){
+		// summary:
+		//		This function implements the forecolor command
+		// argument:
+		//		arguments to the exec command, if any.
+		// tags:
+		//		protected
+		if(dojo.isIE){
+			// Tested under IE 6 XP2, no problem here, comment out
+			// IE weirdly collapses ranges when we exec these commands, so prevent it
+			//	var tr = this.document.selection.createRange();
+			argument = argument? argument : null;
+		}
+		return this.document.execCommand("forecolor", false, argument);
+	},
+
+	_inserthtmlImpl: function(argument){
+		// summary:
+		//		This function implements the insertion of HTML content into
+		//		a point on the page.
+		// argument:
+		//		The content to insert, if any.
+		// tags:
+		//		protected
+		argument = this._preFilterContent(argument);
+		var rv = true;
+		if(dojo.isIE){
+			var insertRange = this.document.selection.createRange();
+			if(this.document.selection.type.toUpperCase()=='CONTROL'){
+				var n=insertRange.item(0);
+				while(insertRange.length){
+					insertRange.remove(insertRange.item(0));
+				}
+				n.outerHTML=argument;
+			}else{
+				insertRange.pasteHTML(argument);
+			}
+			insertRange.select();
+			//insertRange.collapse(true);
+		}else if(dojo.isMoz && !argument.length){
+			//mozilla can not inserthtml an empty html to delete current selection
+			//so we delete the selection instead in this case
+			this._sCall("remove"); // FIXME
+		}else{
+			rv = this.document.execCommand("inserthtml", false, argument);
+		}
+		return rv;
 	}
 });
