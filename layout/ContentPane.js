@@ -99,14 +99,14 @@ dojo.declare(
 	ioArgs: {},
 
 	// isContainer: [protected] Boolean
-	//		Just a flag indicating that this widget will call resize() on
-	//		its children.   _LayoutWidget based widgets check for
-	//
-	//	|		if(!this.getParent || !this.getParent()){
-	//
-	//		and if getParent() returns false because !parent.isContainer,
-	//		then they resize themselves on initialization.
+	//		Indicates that this widget acts as a "parent" to the descendant widgets.
+	//		This is here to child.getParent() finds me.   See `isLayoutContainer`.
 	isContainer: true,
+
+	// isLayoutContainer: [protected] Boolean
+	//		Indicates that this widget is going to call resize() on it's
+	//		children widgets.
+	isLayoutContainer: true,
 
 	// onLoadDeferred: [readonly] dojo.Deferred
 	//		This is the `dojo.Deferred` returned by attr('href', ...) and refresh().

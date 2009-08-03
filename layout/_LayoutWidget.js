@@ -17,10 +17,9 @@ dojo.declare("dijit.layout._LayoutWidget",
 		//		like for example dijitTabContainer-content.
 		baseClass: "dijitLayoutContainer",
 
-		// isLayoutContainer: [private deprecated] Boolean
-		//		TODO: this is unused, but maybe it *should* be used for a child to
-		//		detect whether the parent is going to call resize() on it or not
-		//		(see calls to getParent() and resize() in this file)
+		// isLayoutContainer: [protected] Boolean
+		//		Indicates that this widget is going to call resize() on it's
+		//		children widgets, setting their size and position.
 		isLayoutContainer: true,
 
 		postCreate: function(){
@@ -49,8 +48,9 @@ dojo.declare("dijit.layout._LayoutWidget",
 			// would get the behavior for free.
 			dojo.forEach(this.getChildren(), function(child){ child.startup(); });
 
-			// If I am a top level widget
-			if(!this.getParent || !this.getParent()){
+			// If I am a not being controlled by a parent layout widget...
+			var parent = this.getParent && this.getParent()
+			if(!(parent && parent.isLayoutContainer)){
 				// Do recursive sizing and layout of all my descendants
 				// (passing in no argument to resize means that it has to glean the size itself)
 				this.resize();
