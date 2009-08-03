@@ -60,6 +60,7 @@ dojo.declare("dijit._editor.plugins._FontDropDown",
 		});
 
 		this.select.attr("value", "");
+		this.disabled =  this.select.attr("disabled");
 	},
 
 	_setValueAttr: function(value){
@@ -69,6 +70,17 @@ dojo.declare("dijit._editor.plugins._FontDropDown",
 
 	focus: function(){
 		this.select.focus();
+	},
+
+	_setDisabledAttr: function(value){
+		// summary:
+		//		Over-ride for the button's 'disabled' attribute so that it can be 
+		//		disabled programmatically.
+		
+		//Save off ths disabled state so the get retrieves it correctly
+		//without needing to have a function proxy it.
+		this.disabled = value;
+		this.select.attr("disabled", value);
 	}
 });
 
