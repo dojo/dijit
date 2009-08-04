@@ -253,7 +253,7 @@ dojo.declare("dijit.form.ComboButton", dijit.form.DropDownButton, {
 
 	postCreate: function(){
 		this.inherited(arguments);
-		this._focalNodes = [this.titleNode, this.popupStateNode];
+		this._focalNodes = [this.titleNode, this._popupStateNode];
 		var isIE = dojo.isIE;
 		dojo.forEach(this._focalNodes, dojo.hitch(this, function(node){
 			this.connect(node, isIE? "onactivate" : "onfocus", this._onNodeFocus);
