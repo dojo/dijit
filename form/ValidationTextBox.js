@@ -317,7 +317,7 @@ dojo.declare(
 			// (as opposed to the displayed value).
 			// Passing in name as markup rather than calling dojo.create() with an attrs argument
 			// to make dojo.query(input[name=...]) work on IE. (see #8660)
-			this.valueNode = dojo.place("<input type='hidden' name='" + this.name + "'>", this.textbox, "after");
+			this.valueNode = dojo.place("<input type='hidden'" + (this.name ? " name='" + this.name + "'" : "") + ">", this.textbox, "after");
 		},
 
 		_setDisabledAttr: function(/*Boolean*/ value){
