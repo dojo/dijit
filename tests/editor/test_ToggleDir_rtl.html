@@ -2,7 +2,7 @@
 		"http://www.w3.org/TR/html4/strict.dtd">
 <html>
 <head>
-	<title>Editor Test: ToggleDir Plugin</title>
+	<title>Editor Test: ToggleDir Plugin (page in RTL)</title>
 	<style type="text/css">
 		@import "../../../dojo/resources/dojo.css";
 		@import "../css/dijitTests.css";
@@ -23,7 +23,7 @@
 		dojo.require("dojo.parser");	// scan page for widgets and instantiate them
 	</script>
 </head>
-<body class="tundra">
+<body class="tundra" dir="rtl">
 	<div style="border: 1px dotted black;">
 		<div dojoType="dijit.Editor" 
 			extraPlugins="['toggleDir','|','dijit._editor.plugins.ToggleDir','|',{name:'dijit._editor.plugins.ToggleDir'}]">

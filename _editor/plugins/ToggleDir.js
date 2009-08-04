@@ -23,13 +23,18 @@ dojo.declare("dijit._editor.plugins.ToggleDir",
 		_initButton: function(){
 			// Override _Plugin._initButton() to setup handler for button click events.
 			this.inherited(arguments);
-
-			this.connect(this.button, "onChange", "_toggleDir");
-
-			// Set initial checked state of button based on which direction editor is
-			var editDoc = this.editor.editorObject.contentWindow.document.documentElement;
-			var isLtr = dojo.getComputedStyle(editDoc).direction == "ltr";
-			this.button.attr("checked", !isLtr);
+			this.editor.onLoadDeferred.addCallback(dojo.hitch(this, function(){
+				var editDoc = this.editor.editorObject.contentWindow.document.documentElement;
+				if(dojo.isIE){
+					//IE direction has to toggle on the body, not document itself.
+					//If you toggle just the document, things get very strange in the
+					//view.
+					editDoc = editDoc.getElementsByTagName("body")[0];
+				}
+				var isLtr = dojo.getComputedStyle(editDoc).direction == "ltr";
+				this.button.attr("checked", !isLtr);
+				this.connect(this.button, "onChange", "_setRtl");
+			}));				  
 		},
 
 		updateState: function(){
@@ -37,12 +42,18 @@ dojo.declare("dijit._editor.plugins.ToggleDir",
 			// editor like arrow keys etc.
 		},
 
-		_toggleDir: function(){
+		_setRtl: function(rtl){
 			// summary:
 			//		Handler for button click events, to switch the text direction of the editor
+			var dir = "ltr";
+			if(rtl){
+				dir = "rtl";
+			}
 			var editDoc = this.editor.editorObject.contentWindow.document.documentElement;
-			var isLtr = dojo.getComputedStyle(editDoc).direction == "ltr";
-			editDoc.dir/*html node*/ = isLtr ? "rtl" : "ltr";
+			if(dojo.isIE){
+				editDoc = editDoc.getElementsByTagName("body")[0];
+			}
+			editDoc.dir/*html node*/ = dir;
 		}
 	}
 );
