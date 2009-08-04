@@ -221,7 +221,7 @@ dojo.declare("dijit._HasDropDown",
 				this.toggleDropDown();
 				return;
 			}
-			if(e.keyCode == dojo.keys.DOWN_ARROW){
+			if(e.keyCode == dojo.keys.DOWN_ARROW || e.keyCode == dojo.keys.ENTER || e.charOrCode == " "){
 				this._onDropDownMouse(e);
 			}
 		},
