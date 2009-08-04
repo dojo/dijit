@@ -4,14 +4,14 @@ function isVisible(node){
 		if(node.domNode){ node = node.domNode; }
 		return (dojo.style(node, "display") != "none") &&
 				(dojo.style(node, "visibility") != "hidden") &&
-				(dojo.coords(node).y >= 0);
+				(dojo.position(node).y >= 0);
 }
 
 function isHidden(node){
 		if(node.domNode){ node = node.domNode; }
 		return (dojo.style(node, "display") == "none") ||
 				(dojo.style(node, "visibility") == "hidden") ||
-				(dojo.coords(node).y < 0);
+				(dojo.position(node).y < 0);
 }
 
 function innerText(node){

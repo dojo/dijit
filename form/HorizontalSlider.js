@@ -125,7 +125,7 @@ dojo.declare(
 		if(this.disabled || this.readOnly || !this.clickSelect){ return; }
 		dijit.focus(this.sliderHandle);
 		dojo.stopEvent(e);
-		var abspos = dojo.coords(this.sliderBarContainer, true);
+		var abspos = dojo.position(this.sliderBarContainer, true);
 		var pixelValue = e[this._mousePixelCoord] - abspos[this._startingPixelCoord];
 		this._setPixelValue(this._isReversed() ? (abspos[this._pixelCount] - pixelValue) : pixelValue, abspos[this._pixelCount], true);
 		this._movable.onMouseDown(e);
@@ -292,7 +292,7 @@ dojo.declare("dijit.form._SliderMover",
 		var widget = this.widget;
 		var abspos = widget._abspos;
 		if(!abspos){
-			abspos = widget._abspos = dojo.coords(widget.sliderBarContainer, true);
+			abspos = widget._abspos = dojo.position(widget.sliderBarContainer, true);
 			widget._setPixelValue_ = dojo.hitch(widget, "_setPixelValue");
 			widget._isReversed_ = widget._isReversed();
 		}

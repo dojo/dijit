@@ -94,7 +94,7 @@ dojo.declare("dijit._editor.plugins.AlwaysShowToolbar", dijit._editor._Plugin,
 
 		if(!this._scrollSetUp){
 			this._scrollSetUp = true;
-			this._scrollThreshold = dojo._abs(tdn, true).y;
+			this._scrollThreshold = dojo.position(tdn, true).y;
 //			console.log("threshold:", this._scrollThreshold);
 			//what's this for?? comment out for now
 //			if((isIE6)&&(db)&&(dojo.style(db, "backgroundIimage")=="none")){
@@ -113,7 +113,7 @@ dojo.declare("dijit._editor.plugins.AlwaysShowToolbar", dijit._editor._Plugin,
 				this.editor.iframe.style.marginTop = tdnbox.h+"px";
 
 				if(isIE6){
-					s.left = dojo._abs(tdn).x;
+					s.left = dojo.position(tdn).x;
 					if(tdn.previousSibling){
 						this._IEOriginalPos = ['after',tdn.previousSibling];
 					}else if(tdn.nextSibling){

@@ -393,7 +393,7 @@ dojo.declare("dijit.layout.SplitContainer",
 		this.sizingSplitter.style.zIndex = 6;
 
 		// TODO: REVISIT - we want MARGIN_BOX and core hasn't exposed that yet (but can't we use it anyway if we pay attention? we do elsewhere.)
-		this.originPos = dojo.coords(children[0].domNode, true);
+		this.originPos = dojo.position(children[0].domNode, true);
 		if(this.isHorizontal){
 			var client = e.layerX || e.offsetX || 0;
 			var screen = e.pageX;

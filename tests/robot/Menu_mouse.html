@@ -274,8 +274,8 @@
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.t(isVisible(menu), "menu is now shown");						
 								
-								var linkCoords = dojo.coords("link");
-									menuCoords = dojo.coords(menu.domNode);
+								var linkCoords = dojo.position("link");
+									menuCoords = dojo.position(menu.domNode);
 
 								doh.t(menuCoords.x > linkCoords.x, "to right of link left edge")
 								doh.t(menuCoords.x < linkCoords.x + linkCoords.w, "to left of link right edge")

@@ -151,15 +151,11 @@ dojo.declare("dijit.tree.dndSource", dijit.tree._dndSelector, {
 		if(newTarget && this.betweenThreshold > 0){
 			// If mouse is over a new TreeNode, then get new TreeNode's position and size
 			if(!this.targetBox || oldTarget != newTarget){
-				this.targetBox = {
-					xy: dojo.coords(newTarget, true),
-					w: newTarget.offsetWidth,
-					h: newTarget.offsetHeight
-				};
+				this.targetBox = dojo.position(newTarget, true);
 			}
-			if((e.pageY - this.targetBox.xy.y) <= this.betweenThreshold){
+			if((e.pageY - this.targetBox.y) <= this.betweenThreshold){
 				newDropPosition = "Before";
-			}else if((e.pageY - this.targetBox.xy.y) >= (this.targetBox.h - this.betweenThreshold)){
+			}else if((e.pageY - this.targetBox.y) >= (this.targetBox.h - this.betweenThreshold)){
 				newDropPosition = "After";
 			}
 		}

@@ -49,8 +49,8 @@
 								var iframes = dojo.query("iframe");
 								doh.is(1, iframes.length, "one background iframe on IE6");
 								
-								var popupCoords = dojo.coords(popup.domNode),
-									iframeCoords = dojo.coords(iframes[0]);
+								var popupCoords = dojo.position(popup.domNode),
+									iframeCoords = dojo.position(iframes[0]);
 								doh.is(popupCoords.x, iframeCoords.x, "x is same: " + popupCoords.x);
 								doh.is(popupCoords.y, iframeCoords.y, "y is same: " + popupCoords.y);
 								doh.is(popupCoords.w, iframeCoords.w, "w is same: " + popupCoords.w);
@@ -109,8 +109,8 @@
 								var iframes = dojo.query("iframe");
 								doh.is(1, iframes.length, "one background iframe on IE6");
 								
-								var popupCoords = dojo.coords(popup.domNode),
-									iframeCoords = dojo.coords(iframes[0]);
+								var popupCoords = dojo.position(popup.domNode),
+									iframeCoords = dojo.position(iframes[0]);
 								doh.is(popupCoords.x, iframeCoords.x, "x is same: " + popupCoords.x);
 								doh.is(popupCoords.y, iframeCoords.y, "y is same: " + popupCoords.y);
 								doh.is(popupCoords.w, iframeCoords.w, "w is same: " + popupCoords.w);
@@ -140,8 +140,8 @@
 								var iframes = dojo.query("iframe");
 								doh.is(2, iframes.length, "two background iframe on IE6");
 								
-								var popupCoords = dojo.coords(nestedPopup.domNode),
-									iframeCoords = dojo.coords(iframes[1]);
+								var popupCoords = dojo.position(nestedPopup.domNode),
+									iframeCoords = dojo.position(iframes[1]);
 								doh.is(popupCoords.x, iframeCoords.x, "x is same: " + popupCoords.x);
 								doh.is(popupCoords.y, iframeCoords.y, "y is same: " + popupCoords.y);
 								doh.is(popupCoords.w, iframeCoords.w, "w is same: " + popupCoords.w);

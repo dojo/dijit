@@ -534,7 +534,7 @@ dojo.declare("dijit.Menu",
 			}
 		}else{
 			// otherwise open near e.target
-			var coords = dojo.coords(e.target, true);
+			var coords = dojo.position(e.target, true);
 			x = coords.x + 10;
 			y = coords.y + 10;
 		}

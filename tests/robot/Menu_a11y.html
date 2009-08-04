@@ -196,7 +196,7 @@
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.t(isVisible(menu), "menu is now shown");						
 								
-								var menuCoords = dojo.coords(menu.domNode);
+								var menuCoords = dojo.position(menu.domNode);
 
 								doh.t(menuCoords.x < 50, "x < 50");
 								doh.t(menuCoords.y < 50, "y < 50");	

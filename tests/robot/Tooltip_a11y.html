@@ -100,8 +100,8 @@
 
 								// make sure tooltip is on the screen (in LTR mode it needs to go to the
 								// left of the <select>, not to the right like it usually does)
-								var viewportCoords = dijit.getViewport();
-									tooltipCoords = dojo.coords(masterTT.domNode);
+								var viewportCoords = dijit.getViewport(),
+									tooltipCoords = dojo.position(masterTT.domNode);
 								console.log("viewport coords: ", viewportCoords, "tooltip coords: ", tooltipCoords);
 								doh.t(tooltipCoords.x > 0, "x > 0");
 								doh.t(tooltipCoords.x + tooltipCoords.w <= viewportCoords.w, "t.x + t.w");
