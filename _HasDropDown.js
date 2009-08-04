@@ -1,5 +1,6 @@
 dojo.provide("dijit._HasDropDown");
 
+dojo.require("dijit._base.place");
 dojo.require("dijit._Widget");
 
 dojo.declare("dijit._HasDropDown",
@@ -46,6 +47,22 @@ dojo.declare("dijit._HasDropDown",
 		//		The max height for our dropdown.  Set to 0 for no max height.
 		//		any dropdown taller than this will have scrollbars
 		maxHeight: 0,
+		
+		// position: String[]
+		//		This variable controls the position of the drop down.
+		//		It's an array of strings with the following values:
+		//
+		//			* before: places drop down to the left of the target node/widget, or to the right in
+		//			  the case of RTL scripts like Hebrew and Arabic
+		//			* after: places drop down to the right of the target node/widget, or to the left in
+		//			  the case of RTL scripts like Hebrew and Arabic
+		//			* above: drop down goes above target node
+		//			* below: drop down goes below target node
+		//
+		//		The list is positions is tried, in order, until a position is found where the drop down fits
+		//		within the viewport.
+		//
+		position: ["below","above"],
 		
 		//	_stopClickEvents: Boolean
 		//		When set to false, the click events will not be stopped, in
@@ -314,10 +331,7 @@ dojo.declare("dijit._HasDropDown",
 				parent: this,
 				popup: dropDown,
 				around: this._aroundNode,
-				orient:
-					// TODO: add user-defined positioning option, like in Tooltip.js
-					this.isLeftToRight() ? {'BL':'TL', 'BR':'TR', 'TL':'BL', 'TR':'BR'}
-					: {'BR':'TR', 'BL':'TL', 'TR':'BR', 'TL':'BL'},
+				orient: dijit.getPopupAroundAlignment((this.position && this.position.length) ? this.position : ["below"],this.isLeftToRight()),
 				onExecute: function(){
 					self.closeDropDown(true);
 				},

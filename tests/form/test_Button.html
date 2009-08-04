@@ -112,6 +112,68 @@
 		</button>
 	</p>
 	<br clear="all">
+	<h2>DropDownButtons with different drop down positions</h2>
+	<button dojoType="dijit.form.DropDownButton" id="dropdown_default" iconClass="noteIcon" value="color">
+		<span>Default (below)</span>
+		<div dojoType="dijit.ColorPalette" style="display: none" palette="3x4"
+			onChange="console.log(this.value);"></div>
+	</button>
+	<button dojoType="dijit.form.DropDownButton" id="dropdown_up" position="above" iconClass="noteIcon" value="color">
+		<span>Above</span>
+		<div dojoType="dijit.ColorPalette" style="display: none" palette="3x4"
+			onChange="console.log(this.value);"></div>
+	</button>
+	<button dojoType="dijit.form.DropDownButton" id="dropdown_before" position="before" iconClass="noteIcon" value="color">
+		<span>Before</span>
+		<div dojoType="dijit.ColorPalette" style="display: none" palette="3x4"
+			onChange="console.log(this.value);"></div>
+	</button>
+	<button dojoType="dijit.form.DropDownButton" id="dropdown_after" position="after" iconClass="noteIcon" value="color">
+		<span>After</span>
+		<div dojoType="dijit.ColorPalette" style="display: none" palette="3x4"
+			onChange="console.log(this.value);"></div>
+	</button>
+	<h2>ComboButtons with different drop down positions</h2>
+	<button dojoType="dijit.form.ComboButton" id="combo_default" optionsTitle='save options' onClick='console.log("clicked combo save")'
+			iconClass="plusBlockIcon">
+		<span>Default (below)</span>
+		<div dojoType="dijit.Menu" tyle="display: none;">
+			<div dojoType="dijit.MenuItem" iconClass="dijitEditorIcon dijitEditorIconSave"
+				onClick="console.log('not actually saving anything, just a test!')">Save</div>
+			<div dojoType="dijit.MenuItem" 
+				onClick="console.log('not actually saving anything, just a test!')">Save As</div>
+		</div>
+	</button>
+	<button dojoType="dijit.form.ComboButton" id="combo_above" position="above" optionsTitle='save options' onClick='console.log("clicked combo save")'
+			iconClass="plusBlockIcon">
+		<span>Up</span>
+		<div dojoType="dijit.Menu" style="display: none;">
+			<div dojoType="dijit.MenuItem" iconClass="dijitEditorIcon dijitEditorIconSave"
+				onClick="console.log('not actually saving anything, just a test!')">Save</div>
+			<div dojoType="dijit.MenuItem" 
+				onClick="console.log('not actually saving anything, just a test!')">Save As</div>
+		</div>
+	</button>
+	<button dojoType="dijit.form.ComboButton" id="combo_before" position="before" optionsTitle='save options' onClick='console.log("clicked combo save")'
+			iconClass="plusBlockIcon">
+		<span>Before</span>
+		<div dojoType="dijit.Menu" style="display: none;">
+			<div dojoType="dijit.MenuItem" iconClass="dijitEditorIcon dijitEditorIconSave"
+				onClick="console.log('not actually saving anything, just a test!')">Save</div>
+			<div dojoType="dijit.MenuItem" 
+				onClick="console.log('not actually saving anything, just a test!')">Save As</div>
+		</div>
+	</button>
+	<button dojoType="dijit.form.ComboButton" id="combo_after" position="after" optionsTitle='save options' onClick='console.log("clicked combo save")'
+			iconClass="plusBlockIcon">
+		<span>After</span>
+		<div dojoType="dijit.Menu" style="display: none;">
+			<div dojoType="dijit.MenuItem" iconClass="dijitEditorIcon dijitEditorIconSave"
+				onClick="console.log('not actually saving anything, just a test!')">Save</div>
+			<div dojoType="dijit.MenuItem"
+				onClick="console.log('not actually saving anything, just a test!')">Save As</div>
+		</div>
+	</button>
 	<h2>Buttons with no text label</h2>
 	<p>Buttons have showLabel=false so text is not displayed.  If no title attribute supplied, Should have label as title attribute displayed on mouse over</p>
 	<div class="box">
