@@ -128,9 +128,9 @@ dojo.declare("dijit._HasDropDown",
 				// because it's so large.  In that case mouse-up shouldn't select a value from the menu.
 				// Find out if our target is somewhere in our dropdown widget,
 				// but not over our _buttonNode (the clickable node)
-				var c = dojo.coords(this._buttonNode)
-				if(!(e.pageX >= c.l && e.pageX <= c.l + c.w) || 
-					!(e.pageY >= c.t && e.pageY <= c.t + c.h)){
+				var c = dojo.position(this._buttonNode, true);
+				if(!(e.pageX >= c.x && e.pageX <= c.x + c.w) || 
+					!(e.pageY >= c.y && e.pageY <= c.y + c.h)){
 					var t = e.target;
 					while(t && !overMenu){
 						if(dojo.hasClass(t, "dijitPopup")){
