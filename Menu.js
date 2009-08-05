@@ -520,17 +520,17 @@ dojo.declare("dijit.Menu",
 			if(iframe){
 				// Event is on <body> node of an <iframe>, convert coordinates to match main document
 				var od = e.target.ownerDocument,
-					ifc = dojo.coords(iframe),
+					ifc = dojo.position(iframe, true),
 					win = this._iframeContentWindow(iframe),
 					scroll = dojo.withGlobal(win, "_docScroll", dojo); 
 
 				var cs = dojo.getComputedStyle(iframe),
 					tp = dojo._toPixelValue,
-					left = (dojo.isIE && dojo.isQuirks ? 0 : tp(iframe, cs.paddingLeft)) + (dojo.isIE && dojo.isQuirks ? tp(iframe, cs.borderLeftWidth) : 0) + tp(iframe, cs.marginLeft),
-					top = (dojo.isIE && dojo.isQuirks ? 0 : tp(iframe, cs.paddingTop)) + (dojo.isIE && dojo.isQuirks ? tp(iframe, cs.borderTopWidth) : 0) + tp(iframe, cs.marginTop);
+					left = (dojo.isIE && dojo.isQuirks ? 0 : tp(iframe, cs.paddingLeft)) + (dojo.isIE && dojo.isQuirks ? tp(iframe, cs.borderLeftWidth) : 0),
+					top = (dojo.isIE && dojo.isQuirks ? 0 : tp(iframe, cs.paddingTop)) + (dojo.isIE && dojo.isQuirks ? tp(iframe, cs.borderTopWidth) : 0);
 
-				x += ifc.l + left - scroll.x;
-				y += ifc.t + top - scroll.y;
+				x += ifc.x + left - scroll.x;
+				y += ifc.y + top - scroll.y;
 			}
 		}else{
 			// otherwise open near e.target
