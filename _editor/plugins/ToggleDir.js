@@ -25,12 +25,10 @@ dojo.declare("dijit._editor.plugins.ToggleDir",
 			this.inherited(arguments);
 			this.editor.onLoadDeferred.addCallback(dojo.hitch(this, function(){
 				var editDoc = this.editor.editorObject.contentWindow.document.documentElement;
-				if(dojo.isIE){
-					//IE direction has to toggle on the body, not document itself.
-					//If you toggle just the document, things get very strange in the
-					//view.
-					editDoc = editDoc.getElementsByTagName("body")[0];
-				}
+				//IE direction has to toggle on the body, not document itself.
+				//If you toggle just the document, things get very strange in the
+				//view.  But, the nice thing is this works for all supported browsers.
+				editDoc = editDoc.getElementsByTagName("body")[0];
 				var isLtr = dojo.getComputedStyle(editDoc).direction == "ltr";
 				this.button.attr("checked", !isLtr);
 				this.connect(this.button, "onChange", "_setRtl");
@@ -50,9 +48,7 @@ dojo.declare("dijit._editor.plugins.ToggleDir",
 				dir = "rtl";
 			}
 			var editDoc = this.editor.editorObject.contentWindow.document.documentElement;
-			if(dojo.isIE){
-				editDoc = editDoc.getElementsByTagName("body")[0];
-			}
+			editDoc = editDoc.getElementsByTagName("body")[0];
 			editDoc.dir/*html node*/ = dir;
 		}
 	}
