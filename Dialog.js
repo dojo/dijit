@@ -131,17 +131,11 @@ dojo.declare(
 
 		_endDrag: function(e){
 			// summary:
-			//		Called after dragging the Dialog. Calculates the relative offset
-			//		of the Dialog in relation to the viewport.
+			//		Called after dragging the Dialog. Saves the position of the dialog in the viewport.
 			// tags:
 			//		private
 			if(e && e.node && e.node === this.domNode){
-				var vp = dijit.getViewport(); 
-				var p = e._leftTop || dojo.coords(e.node,true);
-				this._relativePosition = {
-					t: p.t - vp.t,
-					l: p.l - vp.l
-				}			
+				this._relativePosition = dojo.position(e.node);
 			}
 		},
 		
@@ -312,9 +306,9 @@ dojo.declare(
 				var node = this.domNode,
 					viewport = dijit.getViewport(),
 					p = this._relativePosition,
-					mb = p ? null : dojo.marginBox(node),
-					l = Math.floor(viewport.l + (p ? p.l : (viewport.w - mb.w) / 2)),
-					t = Math.floor(viewport.t + (p ? p.t : (viewport.h - mb.h) / 2))
+					bb = p ? null : dojo._getBorderBox(node),
+					l = Math.floor(viewport.l + (p ? p.x : (viewport.w - bb.w) / 2)),
+					t = Math.floor(viewport.t + (p ? p.y : (viewport.h - bb.h) / 2))
 				;
 				dojo.style(node,{
 					left: l + "px",
