@@ -199,7 +199,7 @@ dojo.declare("dijit._HasDropDown",
 		
 		postCreate: function(){
 			this._setupDropdown();
-			this.inherited("postCreate", arguments);
+			this.inherited(arguments);
 		},
 
 		destroyDescendants: function(){
@@ -207,7 +207,7 @@ dojo.declare("dijit._HasDropDown",
 				this.dropDown.destroyRecursive();
 				delete this.dropDown;
 			}
-			this.inherited("destroyDescendants", arguments);
+			this.inherited(arguments);
 		},
 
 		_onDropDownKeydown: function(/*Event*/ e){
@@ -251,7 +251,7 @@ dojo.declare("dijit._HasDropDown",
 
 			this.closeDropDown();
 			// don't focus on button.  the user has explicitly focused on something else.
-			this.inherited("_onBlur", arguments);
+			this.inherited(arguments);
 		},
 		
 		isLoaded: function(){
