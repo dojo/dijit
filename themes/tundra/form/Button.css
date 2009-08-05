@@ -119,13 +119,26 @@
 .dj_ie6 .tundra .dijitArrowButtonInner {
 	background-image:url("../images/spriteArrows.gif");
 }
-.tundra .dijitDisabled .dijitArrowButtonInner {
-	background-position: -28px top;
+
+.tundra .dijitLeftArrowButton .dijitArrowButtonInner { 
+	background-position: -7px top; 
+}
+.tundra .dijitRightArrowButton .dijitArrowButtonInner { 
+	background-position: -14px top; 
 }
 .tundra .dijitUpArrowButton .dijitArrowButtonInner { 
 	background-position: -21px top; 
 }
 
+.tundra .dijitDisabled .dijitArrowButtonInner {
+	background-position: -28px top;
+}
+.tundra .dijitDisabled .dijitLeftArrowButton .dijitArrowButtonInner { 
+	background-position: -35px top; 
+}
+.tundra .dijitDisabled .dijitRightArrowButton .dijitArrowButtonInner { 
+	background-position: -42px top; 
+}
 .tundra .dijitDisabled .dijitUpArrowButton .dijitArrowButtonInner {
 	background-position: -49px top; 
 }

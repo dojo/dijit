@@ -96,18 +96,20 @@
 
 
 .soria .dijitArrowButtonInner {
-	background:url("../images/spriteArrows.png") no-repeat left top;
+	background-image: url("../images/spriteArrows.png");
+	background-repeat: no-repeat;
+	background-position: 0px top;
 	width: 11px;
+}
+.soria .dijitLeftArrowButton .dijitArrowButtonInner { 
+	background-position: -11px top; 
 }
 .soria .dijitUpArrowButton .dijitArrowButtonInner { 
-	background:url("../images/spriteArrows.png") no-repeat -22px top; 
-	width: 11px;
+	background-position: -22px top; 
+}
+.soria .dijitRightArrowButton .dijitArrowButtonInner { 
+	background-position: -33px top; 
 }
 .dj_ie6 .soria .dijitArrowButtonInner {
-	background:url("../images/spriteArrows.gif") no-repeat left top;
-	width: 11px;
-}
-.dj_ie6 .soria .dijitUpArrowButton .dijitArrowButtonInner {
-	background:url("../images/spriteArrows.gif") no-repeat -22px top;
-	width: 11px;
+	background-image: url("../images/spriteArrows.gif");
 }

@@ -15,6 +15,13 @@ dojo.declare("dijit._HasDropDown",
 		//		If missing, then either focusNode or domNode (if focusNode is also missing) will be used.
 		_buttonNode: null,
 		
+		//	_arrowWrapperNode: [protected] DomNode
+		//		Will set CSS class dijitUpArrow, dijitDownArrow, dijitRightArrow etc. on this node depending
+		//		on where the drop down is set to be positioned.
+		//		Can be set via a dojoAttachPoint assignment.  
+		//		If missing, then _buttonNode will be used.
+		_arrowWrapperNode: null,
+		
 		//	_popupStateNode: [protected] DomNode
 		//		The node to set the popupActive class on.
 		//		Can be set via a dojoAttachPoint assignment.  
@@ -48,7 +55,7 @@ dojo.declare("dijit._HasDropDown",
 		//		any dropdown taller than this will have scrollbars
 		maxHeight: 0,
 		
-		// position: String[]
+		// position: [const] String[]
 		//		This variable controls the position of the drop down.
 		//		It's an array of strings with the following values:
 		//
@@ -176,13 +183,25 @@ dojo.declare("dijit._HasDropDown",
 				this.connect(this, "openDropDown", "_setStateClass");
 				this.connect(this, "closeDropDown", "_setStateClass");
 			}
+
+			// Add a class to the "dijitDownArrowButton" type class to _buttonNode so theme can set direction of arrow
+			// based on where drop down will normally appear
+			var defaultPos = {
+					"after" : this.isLeftToRight() ? "Right" : "Left",
+					"before" : this.isLeftToRight() ? "Left" : "Right",
+					"above" : "Up",
+					"below" : "Down",
+					"left" : "Left",
+					"right" : "Right"
+			}[this.position[0]] || this.position[0]||"Down";
+			dojo.addClass(this._arrowWrapperNode||this._buttonNode, "dijit" + defaultPos + "ArrowButton");			
 		},
 		
 		postCreate: function(){
 			this._setupDropdown();
 			this.inherited("postCreate", arguments);
 		},
-		
+
 		destroyDescendants: function(){
 			if(this.dropDown){
 				this.dropDown.destroyRecursive();

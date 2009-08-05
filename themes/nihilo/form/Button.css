@@ -94,18 +94,20 @@
 
 
 .nihilo .dijitArrowButtonInner {
-	background:url("../images/spriteArrows.png") no-repeat left top;
+	background-image: url("../images/spriteArrows.png");
+	background-repeat: no-repeat;
+	background-position: 0px top;
 	width: 11px;
+}
+.nihilo .dijitLeftArrowButton .dijitArrowButtonInner { 
+	background-position: -11px top; 
 }
 .nihilo .dijitUpArrowButton .dijitArrowButtonInner { 
-	background:url("../images/spriteArrows.png") no-repeat -22px top; 
-	width: 11px;
+	background-position: -22px top; 
+}
+.nihilo .dijitRightArrowButton .dijitArrowButtonInner { 
+	background-position: -33px top; 
 }
 .dj_ie6 .nihilo .dijitArrowButtonInner {
-	background:url("../images/spriteArrows.gif") no-repeat left top;
-	width: 11px;
-}
-.dj_ie6 .nihilo .dijitUpArrowButton .dijitArrowButtonInner {
-	background:url("../images/spriteArrows.gif") no-repeat -22px top;
-	width: 11px;
+	background-image: url("../images/spriteArrows.gif");
 }
