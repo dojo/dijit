@@ -10,7 +10,7 @@ function setup(){
 
 	// Scroll viewport to (try to) make sure that both tree and drag-source
 	// are simultaneously in view.
-	var scroll = dojo.coords("1001").t;
+	var scroll = dojo.position("1001").y;
 	dojo.body().parentNode.scrollTop = scroll;	// works on FF
 	dojo.body().scrollTop = scroll;	// works on safari
 }
