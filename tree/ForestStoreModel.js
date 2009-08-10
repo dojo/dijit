@@ -112,7 +112,7 @@ dojo.declare("dijit.tree.ForestStoreModel", dijit.tree.TreeStoreModel, {
 	// =======================================================================
 	// Write interface
 
-	newItem: function(/* Object? */ args, /*Item*/ parent){
+	newItem: function(/* dojo.dnd.Item */ args, /*Item*/ parent, /*int?*/ insertIndex){
 		// summary:
 		//		Creates a new item.   See dojo.data.api.Write for details on args.
 		//		Used in drag & drop when item from external source dropped onto tree.
