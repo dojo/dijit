@@ -11,7 +11,7 @@ dijit.tree.__SourceArgs = function(){
 	//		Can be used as a DnD source. Defaults to true.
 	// accept: String[]
 	//		List of accepted types (text strings) for a target; defaults to
-	//		["text"]
+	//		["text", "treeNode"]
 	// copyOnly: Boolean?
 	//		Copy items, if true, use a state of Ctrl key otherwise,
 	// dragThreshold: Number
@@ -38,7 +38,7 @@ dojo.declare("dijit.tree.dndSource", dijit.tree._dndSelector, {
 	// accept: String[]
 	//		List of accepted types (text strings) for the Tree; defaults to
 	//		["text"]
-	accept: ["text"],
+	accept: ["text", "treeNode"],
 
 	// copyOnly: [private] Boolean
 	//		Copy items, if true, use a state of Ctrl key otherwise
@@ -60,7 +60,7 @@ dojo.declare("dijit.tree.dndSource", dijit.tree._dndSelector, {
 		if(!params){ params = {}; }
 		dojo.mixin(this, params);
 		this.isSource = typeof params.isSource == "undefined" ? true : params.isSource;
-		var type = params.accept instanceof Array ? params.accept : ["text"];
+		var type = params.accept instanceof Array ? params.accept : ["text", "treeNode"];
 		this.accept = null;
 		if(type.length){
 			this.accept = {};
@@ -326,18 +326,33 @@ dojo.declare("dijit.tree.dndSource", dijit.tree._dndSelector, {
 		this.isDragging = true;
 	},
 
-	itemCreator: function(nodes){
+	itemCreator: function(/*DomNode[]*/ nodes, target, /*dojo.dnd.Source*/ source){
 		// summary:
-		//		Returns the "item" passed to the drop target
-		//		(which is not necessarily a Tree, could be anything)
+		//		Returns objects passed to `Tree.model.newItem()` based on DnD nodes
+		//		dropped onto the tree.   Developer must override this method to enable
+		// 		dropping from external sources onto this Tree, unless the Tree.model's items
+		//		happen to look like {id: 123, name: "Apple" } with no other attributes.
+		// description:
+		//		For each node in nodes[], which came from source, create a hash of name/value
+		//		pairs to be passed to Tree.model.newItem().  Returns array of those hashes.
+		// returns: Object[]
+		//		Array of name/value hashes for each new item to be added to the Tree, like:
+		// |	[
+		// |		{ id: 123, label: "apple", foo: "bar" },
+		// |		{ id: 456, label: "pear", zaz: "bam" }
+		// |	]
 		// tags:
-		//		protected
+		//		extension
+
+		// TODO: for 2.0 refactor so itemCreator() is called once per drag node, and
+		// make signature itemCreator(sourceItem, node, target) (or similar).
+
 		return dojo.map(nodes, function(node){
 			return {
 				"id": node.id,
 				"name": node.textContent || node.innerText || ""
 			};
-		});
+		}); // Object[]
 	},
 
 	onDndDrop: function(source, nodes, copy){
@@ -380,19 +395,25 @@ dojo.declare("dijit.tree.dndSource", dijit.tree._dndSelector, {
 				newParentItem = (targetWidget && targetWidget.item) || tree.item;
 			}
 
-			// If we are dragging from another source (or at least, another source
-			// that points to a different data store), then we need to make new data
-			// store items for each element in nodes[].  This call get the parameters
-			// to pass to store.newItem()
+			// If necessary, use this variable to hold array of hashes to pass to model.newItem()
+			// (one entry in the array for each dragged node).
 			var newItemsParams;
-			if(source != this){
-				newItemsParams = this.itemCreator(nodes, target);
-			}
 
 			dojo.forEach(nodes, function(node, idx){
-				var childTreeNode = dijit.getEnclosingWidget(node),
-					childItem = childTreeNode && childTreeNode.item,
-					oldParentItem = childTreeNode && childTreeNode.getParent().item;
+				// dojo.dnd.Item representing the thing being dropped.
+				// Don't confuse the use of item here (meaning a DnD item) with the
+				// uses below where item means dojo.data item.
+				var sourceItem = source.getItem(node.id);
+
+				// Information that's available if the source is another Tree
+				// (possibly but not necessarily this tree, possibly but not
+				// necessarily the same model as this Tree)
+				if(dojo.indexOf(sourceItem.type, "treeNode") != -1){
+					var childTreeNode = sourceItem.data,
+						childItem = childTreeNode.item,
+						oldParentItem = childTreeNode.getParent().item;
+				}
+
 				if(source == this){
 					// This is a node from my own tree, and we are moving it, not copying.
 					// Remove item from old parent's children attribute.
@@ -407,20 +428,24 @@ dojo.declare("dijit.tree.dndSource", dijit.tree._dndSelector, {
 					model.pasteItem(childItem, oldParentItem, newParentItem, copy, insertIndex);
 				}else if(model.isItem(childItem)){
 					// Item from same model
+					// (maybe we should only do this branch if the source is a tree?)
 					model.pasteItem(childItem, oldParentItem, newParentItem, copy, insertIndex);
 				}else{
-					if(newItemsParams[idx].id){
-						model.fetchItemByIdentity({identity: newItemsParams[idx].id, onItem: function(item){
-							if(item){
-								// There's already a matching item in model, use it
-								model.pasteItem(item, null, newParentItem, true, insertIndex);
-							}else{
-								model.newItem(newItemsParams[idx], newParentItem, insertIndex);
+					model.fetchItemByIdentity({identity: node.id, scope: this, onItem: function(item){
+						if(item){
+							// There's already a matching item in model, use it
+							model.pasteItem(item, null, newParentItem, true, insertIndex);
+						}else{
+							// Get the hash to pass to model.newItem().  A single call to
+							// itemCreator() returns an array of hashes, one for each drag source node.
+							if(!newItemsParams){
+								newItemsParams = this.itemCreator(nodes, target, source);
 							}
-						}});
-					}else{
-						model.newItem(newItemsParams[idx], newParentItem, insertIndex);
-					}
+
+							// Create new item in the tree, based on the drag source.
+							model.newItem(newItemsParams[idx], newParentItem, insertIndex);
+						}
+					}});
 				}
 			}, this);
 

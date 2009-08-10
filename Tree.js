@@ -469,9 +469,33 @@ dojo.declare(
 	//		Generally this doesn't need to be set.
 	onDndDrop: null,
 
-	// itemCreator: [protected] Function
-	//		Parameter to dndController, see `dijit.tree.dndSource.itemCreator`.
-	//		Generally this doesn't need to be set.
+	/*=====
+	itemCreator: function(nodes, target, source){
+		// summary:
+		//		Returns objects passed to `Tree.model.newItem()` based on DnD nodes
+		//		dropped onto the tree.   Developer must override this method to enable
+		// 		dropping from external sources onto this Tree, unless the Tree.model's items
+		//		happen to look like {id: 123, name: "Apple" } with no other attributes.
+		// description:
+		//		For each node in nodes[], which came from source, create a hash of name/value
+		//		pairs to be passed to Tree.model.newItem().  Returns array of those hashes.
+		// nodes: DomNode[]
+		//		The DOMNodes dragged from the source container
+		// target: DomNode
+		//		The target TreeNode.rowNode
+		// source: dojo.dnd.Source
+		//		The source container the nodes were dragged from, perhaps another Tree or a plain dojo.dnd.Source
+		// returns: Object[]
+		//		Array of name/value hashes for each new item to be added to the Tree, like:
+		// |	[
+		// |		{ id: 123, label: "apple", foo: "bar" },
+		// |		{ id: 456, label: "pear", zaz: "bam" }
+		// |	]
+		// tags:
+		//		extension
+		return [{}];
+	},
+	=====*/
 	itemCreator: null,
 
 	// onDndCancel: [protected] Function

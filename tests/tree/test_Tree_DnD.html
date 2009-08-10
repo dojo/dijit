@@ -88,6 +88,9 @@
 
 		//on item tree , we only want to drop on containers, or the root node itself, not on items in the containers
 		function itemTreeCheckItemAcceptance(node,source) {
+			source.forInSelectedItems(function(item){
+				console.log("testing to drop item of type " + item.type[0] + " and data " + item.data);
+			});
 			var item = dijit.getEnclosingWidget(node).item;
 			if (item && (item.root || myStore.hasAttribute(item,"numberOfItems"))){
 				return true;

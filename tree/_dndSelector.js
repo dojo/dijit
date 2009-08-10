@@ -11,6 +11,13 @@ dojo.declare("dijit.tree._dndSelector",
 		// tags:
 		//		protected
 
+		/*=====
+		// selection: Hash<String, DomNode>
+		//		(id, DomNode) map for every TreeNode that's currently selected.
+		//		The DOMNode is the TreeNode.rowNode.
+		selection: {},
+		=====*/
+
 		constructor: function(tree, params){
 			// summary:
 			//		Initialization
@@ -77,12 +84,8 @@ dojo.declare("dijit.tree._dndSelector",
 			var treeNode = dijit.getEnclosingWidget(this.current),
 				id = treeNode.id + "-dnd"	// so id doesn't conflict w/widget
 
-			if (!this.current.id) {
-				this.current.id = id;
-			}
-
-			if (!this.current.type) {
-				this.current.type="data";
+			if (!dojo.hasAttr(this.current, "id")) {
+				dojo.attr(this.current, "id", id);
 			}
 
 			if(!this.singular && !dojo.isCopyKey(e) && !e.shiftKey && (this.current.id in this.selection)){
@@ -186,5 +189,16 @@ dojo.declare("dijit.tree._dndSelector",
 				this.anchor = null;
 			}
 			return this;	// self
+		},
+		
+		forInSelectedItems: function(/*Function*/ f, /*Object?*/ o){
+			// summary:
+			//		Iterates over selected items;
+			//		see `dojo.dnd.Container.forInItems()` for details
+			o = o || dojo.global;
+			for(var id in this.selection){
+				console.log("selected item id: " + id);
+				f.call(o, this.getItem(id), id, this);
+			}
 		}
 });

@@ -12,6 +12,13 @@ dojo.declare("dijit.tree._dndContainer",
 		// tags:
 		//		protected
 
+		/*=====
+		// current: DomNode
+		//		The currently hovered TreeNode.rowNode (which is the DOM node
+		//		associated w/a given node in the tree, excluding it's descendants)
+		current: null,
+		=====*/
+
 		constructor: function(tree, params){
 			// summary:
 			//		A constructor of the Container
@@ -51,12 +58,18 @@ dojo.declare("dijit.tree._dndContainer",
 
 		getItem: function(/*String*/ key){
 			// summary:
-			//		Returns a data item by it's key (id).
-			//		Called by dojo.dnd.Source.checkAcceptance()
+			//		Returns the dojo.dnd.Item (representing a dragged node) by it's key (id).
+			//		Called by dojo.dnd.Source.checkAcceptance().
 			// tags:
 			//		protected
 
-			return this.selection[key];
+			var node = this.selection[key],
+				ret = {
+					data: dijit.getEnclosingWidget(node),
+					type: ["treeNode"]
+				};
+			
+			return ret;	// dojo.dnd.Item
 		},
 
 		destroy: function(){
