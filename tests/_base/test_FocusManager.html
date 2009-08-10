@@ -42,9 +42,8 @@
 	<p>
 		If you press the "Save focus/selection state after 3 seconds" button, and then focus an input/textarea
 		and select some text, it should (after three seconds) save both the focused element and the selection.
-		The exception is FF where it doesn't save the selection, but it still kind of works because when focus
-		is restored to the input/textarea the previous selection reappears (curtesy of the browser).
 	</p>
+	<p id="selectableText" style="color: darkred">This paragraph contains text to select for testing purposes.</p>
 	<form style="border: 2px solid blue;">
 		<input id=input1 value=tom autocomplete=false><br>
 		<input id=input2 value=jones autocomplete=false><br>

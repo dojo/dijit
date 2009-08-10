@@ -26,82 +26,110 @@ dojo.mixin(dijit,
 	isCollapsed: function(){
 		// summary:
 		//		Returns true if there is no text selected
-		var _doc = dojo.doc,
-			s = _doc.selection;
-		if(s){ // IE
-			try {
-				// createRange() throws exception when dojo in iframe and nothing selected, see #9632
-				var range = s.createRange();
-				return !(s.type == 'Text' ? range.htmlText.length : range.length); // Boolean
-			}catch(e){
-				return true;
-			}
-		}else{
-			s = dojo.global.getSelection();
-			return !s || s.isCollapsed || !s.toString(); // Boolean
-		}
+		return dijit.getBookmark().isCollapsed;
 	},
 
 	getBookmark: function(){
 		// summary:
 		//		Retrieves a bookmark that can be used with moveToBookmark to return to the same range
-		var bookmark, selection = dojo.doc.selection;
-		if(selection){ // IE
-			var range = selection.createRange();
-			if(selection.type.toUpperCase()=='CONTROL'){
-				if(range.length){
-					bookmark=[];
-					var i=0,len=range.length;
+		var bm, rg, sel = dojo.doc.selection, cf = dijit._curFocus;
+
+		if(dojo.global.getSelection){
+			//W3C Range API for selections.
+			sel = dojo.global.getSelection();
+			if(sel){
+				if(sel.isCollapsed){
+					var tg = cf? cf.tagName : "";
+					if(tg){
+						//Create a fake rangelike item to restore selections.
+						tg = tg.toLowerCase();
+						if(tg === "textarea" || tg == "input"){
+							sel = {
+								start: cf.selectionStart,
+								end: cf.selectionEnd,
+								node: cf,
+								pRange: true
+							}
+							return {isCollapsed: (sel.end <= sel.start), mark: sel}; //Object.
+						}
+					}
+					bm = {isCollapsed:true};
+				}else{
+					rg = sel.getRangeAt(0);
+					bm = {isCollapsed: false, mark: rg.cloneRange()};
+				}
+			}
+		}else if(sel){
+			bm = {};
+			//'IE' way for selections.
+			try{
+				// createRange() throws exception when dojo in iframe 
+				//and nothing selected, see #9632
+				rg = sel.createRange();
+				bm.isCollapsed = !(sel.type == 'Text' ? rg.htmlText.length : rg.length);
+			}catch(e){
+				bm.isCollapsed = true;
+				return bm;
+			}
+			if(sel.type.toUpperCase()=='CONTROL'){
+				if(rg.length){
+					bm.mark=[];
+					var i=0,len=rg.length;
 					while(i<len){
-						bookmark.push(range.item(i++));
+						bm.mark.push(rg.item(i++));
 					}
 				}else{
-					bookmark=null;
+					bm.isCollapsed = true;
+					bm.mark = null;
 				}
 			}else{
-				bookmark = range.getBookmark();
+				bm.mark = rg.getBookmark();
 			}
 		}else{
-			if(window.getSelection){
-				selection = dojo.global.getSelection();
-				if(selection){
-					range = selection.getRangeAt(0);
-					bookmark = range.cloneRange();
-				}
-			}else{
-				console.warn("No idea how to store the current selection for this browser!");
-			}
+			console.warn("No idea how to store the current selection for this browser!");
 		}
-		return bookmark; // Array
+		return bm; // Object
 	},
 
 	moveToBookmark: function(/*Object*/bookmark){
 		// summary:
 		//		Moves current selection to a bookmark
 		// bookmark:
-		//		This should be a returned object from dojo.html.selection.getBookmark()
-		var _document = dojo.doc;
-		if(_document.selection){ // IE
-			var range;
-			if(dojo.isArray(bookmark)){
-				range = _document.body.createControlRange();
-				//range.addElement does not have call/apply method, so can not call it directly
-				//range is not available in "range.addElement(item)", so can't use that either
-				dojo.forEach(bookmark, function(n){
-					range.addElement(n);
-				});
-			}else{
-				range = _document.selection.createRange();
-				range.moveToBookmark(bookmark);
-			}
-			range.select();
-		}else{ //Moz/W3C
-			var selection = dojo.global.getSelection && dojo.global.getSelection();
-			if(selection && selection.removeAllRanges){
-				selection.removeAllRanges();
-				selection.addRange(bookmark);
-			}else{
-				console.warn("No idea how to restore selection for this browser!");
+		//		This should be a returned object from dijit.getBookmark()
+		var _doc = dojo.doc;
+		bookmark = bookmark.mark;
+		if(bookmark){
+			if(dojo.global.getSelection){
+				//W3C Rangi API (FF, WebKit, Opera, etc)
+				var sel = dojo.global.getSelection();
+				if(sel && sel.removeAllRanges){
+					if(bookmark.pRange){
+						var r = bookmark;
+						var n = r.node;
+						n.selectionStart = r.start;
+						n.selectionEnd = r.end;
+					}else{
+						sel.removeAllRanges();
+						sel.addRange(bookmark);
+					}
+				}else{
+					console.warn("No idea how to restore selection for this browser!");
+				}
+			}else if(_doc.selection){
+				//'IE' way.
+				var rg;
+				if(dojo.isArray(bookmark)){
+					rg = _doc.body.createControlRange();
+					//rg.addElement does not have call/apply method, so can not call it directly
+					//rg is not available in "range.addElement(item)", so can't use that either
+					dojo.forEach(bookmark, function(n){
+						rg.addElement(n);
+					});
+				}else{
+					rg = _doc.body.createTextRange();
+					rg.moveToBookmark(bookmark);
+				}
+				rg.select();
 			}
 		}
 	},
@@ -128,13 +156,7 @@ dojo.mixin(dijit,
 		//		A handle to restore focus/selection, to be passed to `dijit.focus`
 		return {
 			node: !dijit._curFocus || (menu && dojo.isDescendant(dijit._curFocus, menu.domNode)) ? dijit._prevFocus : dijit._curFocus,
-
-			// Previously selected text
-			bookmark:
-				!dojo.withGlobal(openedForWindow||dojo.global, dijit.isCollapsed) ?
-				dojo.withGlobal(openedForWindow||dojo.global, dijit.getBookmark) :
-				null,
-
+			bookmark: dojo.withGlobal(openedForWindow||dojo.global, dijit.getBookmark),
 			openedForWindow: openedForWindow
 		}; // Object
 	},
@@ -176,7 +198,7 @@ dojo.mixin(dijit,
 			}
 			try{
 				dojo.withGlobal(openedForWindow||dojo.global, dijit.moveToBookmark, null, [bookmark]);
-			}catch(e){
+			}catch(e2){
 				/*squelch IE internal error, see http://trac.dojotoolkit.org/ticket/1984 */
 			}
 		}
@@ -377,7 +399,7 @@ dojo.mixin(dijit,
 				if(widget._onFocus){
 					widget._onFocus();
 				}
-				if (widget._setStateClass){
+				if(widget._setStateClass){
 					widget._setStateClass();
 				}
 				dojo.publish("widgetFocus", [widget]);

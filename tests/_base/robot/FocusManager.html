@@ -14,6 +14,7 @@
 			
 		<script type="text/javascript">
 			dojo.require("dijit.dijit");
+			dojo.require("dijit._editor.selection");
 			dojo.require("dijit.robotx");
 
 			dojo.addOnLoad(function(){
@@ -83,10 +84,23 @@
 							doh.robot.sequence(function(){
 								dojo.byId("restore").focus();
 							}, 500);
+
 							doh.robot.keyPress(dojo.keys.SPACE, 500);
+
+							//Move cursor to unselect the text
+							for(i=0; i<2; i++){
+								doh.robot.keyPress(dojo.keys.LEFT_ARROW, 20, {shift: false});
+							}
 	
+							// Press restore button again, should restore previous selection.
+							doh.robot.sequence(function(){
+								dojo.byId("restore").focus();
+							}, 500);
+
+							doh.robot.keyPress(dojo.keys.SPACE, 500);
+
 							// Focus should have been moved back to textarea, and
-							// " there" should be selected.   Test this indirectly
+							// " there" should be selected through the focus restorel
 							// by deleting the selection
 							doh.robot.keyPress(dojo.keys.BACKSPACE, 500);
 	
@@ -97,7 +111,48 @@
 								// And that " there" was selected then deleted
 								doh.is("hello!", dojo.byId("textarea").value);
 							}), 500);
+							return d;
+						}
+					},
+					{
+						name: "Test select text, clear, and restore",
+						timeout: 8000,
+						runTest: function(){
+							var d = new doh.Deferred();
 	
+							//Select the text in the p tag.
+							var p = dojo.byId("selectableText");
+							dijit._editor.selection.selectElementChildren(p);
+							var value = dijit._editor.selection.getSelectedText();
+							value = dojo.trim(value);
+							try{
+								doh.assertEqual(
+									"This paragraph contains text to select for testing purposes.", 
+								value, "Original Text Selection");
+
+								//Get the current focus, which saves the selections too.
+								var curFocus = dijit.getFocus();
+
+								//Clear current selection.
+								dijit._editor.selection.collapse(true);
+
+								//Check it's cleared.
+								value = dijit._editor.selection.getSelectedText();
+								doh.assertEqual("",value); 
+
+								//Restore it and check again.
+								dijit.focus(curFocus);
+								value = dijit._editor.selection.getSelectedText();
+								doh.assertEqual(
+									"This paragraph contains text to select for testing purposes.", 
+								value, "Restored Text Selection");
+
+								//Clear the selection, we're complete.
+								dijit._editor.selection.collapse(true);
+								d.callback(true);
+							}catch(e){
+								d.errback(e);
+							}
 							return d;
 						}
 					}
