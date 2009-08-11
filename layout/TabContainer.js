@@ -3,11 +3,12 @@ dojo.provide("dijit.layout.TabContainer");
 dojo.require("dijit.layout.StackContainer");
 dojo.require("dijit._Templated");
 dojo.require("dijit.layout.TabController");
+dojo.require("dijit.layout.ScrollingTabController");
 
 dojo.declare("dijit.layout.TabContainer",
 	[dijit.layout.StackContainer, dijit._Templated],
-	{	
-	// summary: 
+	{
+	// summary:
 	//		A Container with tabs to select each child (only one of which is displayed at a time).
 	// description:
 	//		A TabContainer is a container that has multiple panes, but shows only
@@ -23,7 +24,7 @@ dojo.declare("dijit.layout.TabContainer",
 	tabPosition: "top",
 
 	baseClass: "dijitTabContainer",
-	
+
 	// tabStrip: Boolean
 	//		Defines whether the tablist gets an extra class for layouting, putting a border/shading
 	//		around the set of tabs.
@@ -35,21 +36,41 @@ dojo.declare("dijit.layout.TabContainer",
 	//		border since the outer TabContainer already has a border.
 	nested: false,
 
+	// useMenu: Boolean
+	//		True if a menu should be used to select tabs when they are too
+	//		wide to fit the TabContainer, false otherwise.
+	useMenu: true,
+
+	// useSlider: Boolean
+	//		True if a slider should be used to select tabs when they are too
+	//		wide to fit the TabContainer, false otherwise.
+	useSlider: true,
+
 	templateString: null,	// override setting in StackContainer
 	templatePath: dojo.moduleUrl("dijit.layout", "templates/TabContainer.html"),
 
 	// _controllerWidget: String
 	//		An optional parameter to overrider the default TabContainer controller used.
-	_controllerWidget: "dijit.layout.TabController",
+	_controllerWidget: null,
 
 	postMixInProperties: function(){
 		// set class name according to tab position, ex: dijiTabContainerTop
 		this.baseClass += this.tabPosition.charAt(0).toUpperCase() + this.tabPosition.substr(1).replace(/-.*/, "");
+		this.srcNodeRef && dojo.style(this.srcNodeRef, "visibility", "hidden");
+		
+		// scrolling controller only works for horizontal non-nested tabs
+		if(!this._controllerWidget){
+			this._controllerWidget = (this.tabPosition == "top" || this.tabPosition == "bottom") && !this.nested ?
+						"dijit.layout.ScrollingTabController" : "dijit.layout.TabController";
+		}
+
 		this.inherited(arguments);
 	},
 
 	postCreate: function(){
 		this.inherited(arguments);
+
+		var cls = this.baseClass + "-tabs" + (this.doLayout ? "" : " dijitTabNoLayout");
 
 		// create the tab list that will have a tab (a.k.a. tab button) for each tab panel
 		var TabController = dojo.getObject(this._controllerWidget);
@@ -58,22 +79,25 @@ dojo.declare("dijit.layout.TabContainer",
 			tabPosition: this.tabPosition,
 			doLayout: this.doLayout,
 			containerId: this.id,
-			"class": this.baseClass + "-tabs" + (this.doLayout ? "" : " dijitTabNoLayout")
+			"class": cls,
+			nested: this.nested,
+			useMenu: this.useMenu,
+			useSlider: this.useSlider,
+			tabStripClass: this.tabStrip ? this.baseClass + (this.tabStrip ? "":"No") + "Strip": null
 		}, this.tablistNode);
-		
-		// add Class for tabstrip
-		if (this.tabStrip){	dojo.addClass(this.tablist.domNode, this.baseClass+"Strip"); }		
-		
+
 		if(!this.doLayout){ dojo.addClass(this.domNode, "dijitTabContainerNoLayout"); }
-		
+
 		if(this.nested){
 			/* workaround IE's lack of support for "a > b" selectors by
 			 * tagging each node in the template.
 			 */
 			dojo.addClass(this.domNode, "dijitTabContainerNested");
-			dojo.addClass(this.tablist.domNode, "dijitTabContainerTabListNested");
+			dojo.addClass(this.tablist.containerNode, "dijitTabContainerTabListNested");
 			dojo.addClass(this.tablistSpacer, "dijitTabContainerSpacerNested");
-			dojo.addClass(this.containerNode, "dijitTabPaneWrapperNested");
+			dojo.addClass(this.domNode, "dijitTabPaneWrapperNested");
+		}else{
+			dojo.addClass(this.domNode, "tabStrip-" + (this.tabStrip ? "enabled" : "disabled"));
 		}
 	},
 
@@ -94,15 +118,19 @@ dojo.declare("dijit.layout.TabContainer",
 	layout: function(){
 		// Overrides StackContainer.layout().
 		// Configure the content pane to take up all the space except for where the tabs are
-		if(!this.doLayout){ return; }
+		if(!this._contentBox || typeof(this._contentBox.l) == "undefined"){return;}
+		if(!this.doLayout){return;}
 
 		// position and size the titles and the container node
-		var titleAlign = this.tabPosition.replace(/-h/,"");
-		var children = [
-			{ domNode: this.tablist.domNode, layoutAlign: titleAlign },
-			{ domNode: this.tablistSpacer, layoutAlign: titleAlign },
-			{ domNode: this.containerNode, layoutAlign: "client" }
-		];
+		var titleAlign = this.tabPosition.replace(/-h/, "");
+		this.tablist.layoutAlign = titleAlign;
+		var children = [this.tablist, {
+			domNode: this.tablistSpacer,
+			layoutAlign: titleAlign
+		}, {
+			domNode: this.containerNode,
+			layoutAlign: "client"
+		}];
 		dijit.layout.layoutChildren(this.domNode, this._contentBox, children);
 
 		// Compute size to make each of my children.
@@ -110,7 +138,7 @@ dojo.declare("dijit.layout.TabContainer",
 		this._containerContentBox = dijit.layout.marginBox2contentBox(this.containerNode, children[2]);
 
 		if(this.selectedChildWidget){
-			if(this.doLayout && this.selectedChildWidget.resize){
+			if(this.selectedChildWidget.resize){
 				this.selectedChildWidget.resize(this._containerContentBox);
 			}
 		}

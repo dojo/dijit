@@ -421,7 +421,93 @@
 				<h2 class="testHeader">7x10</h2>
 				<div dojoType="dijit.ColorPalette" onChange="setBackground(arguments[0]);"></div>
 			</div>
-
+			<div dojoType="dijit.layout.TabContainer" useMenu="false" title="Sliding TabContainer"
+						id="slidingTab">
+				<div dojoType="dijit.layout.ContentPane" title="Information">
+					This tab container uses slide controls when the tabs are too wide to fit beside each other.
+					If you make the left column narrow enough, the slide controls should appear.
+				</div>
+				<div dojoType="dijit.layout.ContentPane" title="Rootless Tree" closable="true">
+					<div 
+						dojoType="dijit.Tree" 
+						id="rootlessTree" 
+						store="continentStore" 
+						query="{type:'continent'}"
+						openOnClick="true">
+					</div>
+					
+				</div>
+				<div dojoType="dijit.layout.TabContainer" 
+						id="inlined" closable="true" 
+						title="Nested TabContainer" nested="true">	
+					<a dojoType="dijit.layout.LinkPane" id="tab1href" href="../tests/layout/tab1.html" onLoad="console.log('load of SubTab 1');">SubTab 1</a>		
+					<a dojoType="dijit.layout.LinkPane" id="tab2href" href="../tests/layout/tab2.html"  onLoad="console.log('load of SubTab 2');" selected="true">SubTab 2</a>
+					<div dojoType="dijit.layout.ContentPane" id="subtab3" title="SubTab 3">
+						<h1>I am tab 3, inlined.</h1>
+					</div>
+					<div dojoType="dijit.layout.ContentPane" id="subtab4" title="SubTab 4">
+						<h1>I am tab 4, inlined.</h1>
+					</div>
+				</div>
+				<div dojoType="dijit.layout.ContentPane" title="Menu Bar" closable="true">
+					<div id="menubar" dojoType="dijit.MenuBar">
+					<div dojoType="dijit.PopupMenuBarItem" >
+						<span>File</span>
+						<div dojoType="dijit.Menu">
+							<div dojoType="dijit.MenuItem" >New</div>
+							<div dojoType="dijit.MenuItem" >Open</div>
+							<div dojoType="dijit.MenuSeparator" ></div>
+							<div dojoType="dijit.MenuItem"  iconClass="dijitEditorIconSave">Save</div>
+							<div dojoType="dijit.MenuItem" >Save As...</div>
+						</div>
+					</div>
+					<div dojoType="dijit.PopupMenuBarItem">
+						<span>Edit</span>
+						<div dojoType="dijit.Menu" >
+							<div dojoType="dijit.MenuItem"  iconClass="dijitEditorIcon dijitEditorIconCut"
+								onClick="console.log('not actually cutting anything, just a test!')">Cut</div>
+							<div dojoType="dijit.MenuItem"  iconClass="dijitEditorIcon dijitEditorIconCopy"
+								onClick="console.log('not actually copying anything, just a test!')">Copy</div>
+							<div dojoType="dijit.MenuItem"  iconClass="dijitEditorIcon dijitEditorIconPaste"
+								onClick="console.log('not actually pasting anything, just a test!')">Paste</div>
+						</div>
+					</div>
+					<div dojoType="dijit.PopupMenuBarItem">
+						<span>View</span>
+						<div dojoType="dijit.Menu">
+							<div dojoType="dijit.MenuItem">Normal</div>
+							<div dojoType="dijit.MenuItem">Outline</div>
+							<div dojoType="dijit.PopupMenuItem">
+								<span>Zoom</span>
+								<div dojoType="dijit.Menu">
+									<div dojoType="dijit.MenuItem">50%</div>
+									<div dojoType="dijit.MenuItem">75%</div>
+									<div dojoType="dijit.MenuItem">100%</div>
+									<div dojoType="dijit.MenuItem">150%</div>
+									<div dojoType="dijit.MenuItem">200%</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div dojoType="dijit.PopupMenuBarItem">
+						<span>Help</span>
+						<div dojoType="dijit.Menu">
+							<div dojoType="dijit.MenuItem">Help Topics</div>
+							<div dojoType="dijit.MenuItem">About Dijit</div>
+						</div>
+					</div>
+					<div dojoType="dijit.PopupMenuBarItem" disabled="true">
+						<span>Disabled</span>
+						<div dojoType="dijit.Menu">
+							<div dojoType="dijit.MenuItem">You should not see this</div>
+						</div>
+					</div>
+					<div dojoType="dijit.MenuBarItem" onclick="alert('no submenu, just a clickable MenuItem');">
+						Click me!
+					</div>
+				</div>
+				</div>
+			</div>
 			
 
 		</div><!-- end AccordionContainer -->

@@ -56,6 +56,8 @@ dojo.declare("dijit.layout._TabButton",
 	// tags:
 	//		private
 
+	// baseClass: String
+	//		The CSS class applied to the domNode.
 	baseClass: "dijitTab",
 
 	templatePath: dojo.moduleUrl("dijit.layout","templates/_TabButton.html"),
@@ -75,6 +77,27 @@ dojo.declare("dijit.layout._TabButton",
 	postCreate: function(){
 		this.inherited(arguments); 
 		dojo.setSelectable(this.containerNode, false);
+
+		// If a custom icon class has not been set for the
+		// tab icon, set its width to one pixel. This ensures
+		// that the height styling of the tab is maintained,
+		// as it is based on the height of the icon.
+		// TODO: I still think we can just set dijitTabButtonIcon to 1px in CSS <Bill>
+		if(this.iconNode.className == "dijitTabButtonIcon"){
+			dojo.style(this.iconNode, "width", "1px");
+		}
+		var n = this.domNode;
+	},
+	
+	startup: function(){
+		this.inherited(arguments);
+		var n = this.domNode;
+
+		// Required to give IE6 a kick, as it initially hides the 
+		// tabs until they are focused on.
+		setTimeout(function(){
+			n.className = n.className;
+		}, 1);
 	},
 
 	_setCloseButtonAttr: function(disp){

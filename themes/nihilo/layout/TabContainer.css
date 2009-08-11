@@ -5,8 +5,29 @@
  * you can use these classes: .dijitTab (left), .dijitTabContent (center), dijitTabInnerDiv (right)
  * For tabs aligned to top you can style a stripe div right underneath the tabs using .dijitTabStripe
  */ 
+@import url("../Menu.css");
  
 /* Classes for all types of tabs (top/bottom/left/right) */
+
+.nihilo .dijitTabContainer .tabStripRBtn {
+	margin-right: 21px;
+}
+.nihilo .dijitTabContainer .tabStripLBtn {
+	margin-left: 21px;
+}
+
+.nihilo .dijitTabContainer .nowrapTabStrip {
+	background-image: url(../images/dot.gif);
+	background-repeat: repeat-x;
+}
+
+.nihilo .dijitTabContainerBottom .nowrapTabStrip .dijitTab {
+	top: 0px;
+}
+
+.nihilo .dijitTabContainer .tabStripMenuButton-Hover {
+	cursor: pointer;
+}
 
 /* Tabs, shared classes */
 .nihilo .dijitTabPaneWrapper {
@@ -15,7 +36,6 @@
 	margin: 0;
 	padding: 0;
 }
-
 
 .nihilo .dijitTabInnerDiv {
 	padding:0px 3px 0px 0px;
@@ -34,7 +54,7 @@
 }
 
 .nihilo .dijitTabInnerDiv .dijitTabContent {
-	padding:5px 3px 4px 4px;
+	padding:3px 3px 3px 4px;
 	background: url("../images/tabContainerSprite.gif") repeat-x 0 -350px;
 	position: relative;
 }
@@ -71,6 +91,10 @@
 }
 
 /* Nested Tabs */
+.nihilo .dijitTabContainerNested .dijitTabListWrapper {
+	height: auto;
+}
+
 .nihilo .dijitTabContainerTabListNested {
 	background: #FDFDFD;
 	border: none;
@@ -107,9 +131,10 @@
 	background: url("../images/spriteRoundedIconsSmall.png") no-repeat -60px top;
 	width: 15px;
 	height: 15px;
+	margin-top: -1px;
 }
 
-.dj_ie6 .dijitTab .closeImage {
+.dj_ie6 .nihilo .dijitTab .closeImage {
 	background: url("../images/spriteRoundedIconsSmall.gif") no-repeat -60px top;
 }
 .nihilo .dijitTab .closeButton-hover .closeImage {
@@ -126,16 +151,32 @@
 }
 .dj_ie6 .nihilo .dijitTabButtonIcon {
 	/* because min-height doesn't work on IE6 */
-	height: 15px;
+	height: 18px;
 	width: 1px;
 }
 
 /* ================================ */
 /* top tabs */
 .nihilo .dijitTabContainerTop-tabs {
-	margin-bottom: -1px;
-	border-color: #ccc;
+	border-bottom: none;
+	padding-bottom: 1px;
+	background-position: bottom;
 	padding-left: 3px;
+}
+
+.dj_ie6 .nihilo .dijitTabListContainer-top,
+.dj_ie7 .nihilo .dijitTabListContainer-top {
+	z-index: 3;
+}
+
+.dj_ie6 .nihilo .dijitTabContainerTop-tabs,
+.dj_ie7 .nihilo .dijitTabContainerTop-tabs {
+	border-bottom: 1px solid #ccc;
+	padding-bottom: 0px;
+}
+
+.nihilo .dijitTabContainerTopNoStrip {
+	padding-top: 3px;
 }
 
 /* top container */
@@ -149,22 +190,34 @@
 }
 
 /* strip */
-.nihilo .dijitTabContainerTopStrip {
-	border: 1px solid #ccc;
-	padding-top: 2px;
-	padding-left: 3px;
+.nihilo .dijitTabContainer .dijitTabContainerTopStrip {
+	border-bottom: none;
+	padding-top: 1px;
+	margin-top: 1px;
+	background: #f2f2f2;
+	border-top: 1px solid #CCC;
+	border-right: 1px solid #CCC;
+	border-left: 1px solid #CCC;
 }
 
-.nihilo .dijitTabContainerTopStrip {
-	background: #f2f2f2;
-}
 
 /* ================================ */
 /* bottom tabs */
 .nihilo .dijitTabContainerBottom-tabs {
-	margin-top: -1px;
-	border-color: #ccc;
+	border-top: none;
+	background-position: top;
 	padding-left: 3px;
+}
+
+.dj_ie6 .nihilo .dijitTabListContainer-bottom,
+.dj_ie7 .nihilo .dijitTabListContainer-bottom {
+	z-index: 3;
+}
+
+.dj_ie6 .nihilo .dijitTabContainerBottom-tabs,
+.dj_ie7 .nihilo .dijitTabContainerBottom-tabs {
+	border-top: 1px solid #ccc;
+	margin-top: -1px;
 }
 
 /* bottom container */
@@ -180,13 +233,12 @@
 
 /* checked tabs */
 .nihilo .dijitTabContainerBottom-tabs .dijitTabChecked {
-	border-top-color:#f8f8f8;
+	border-top-color: #f8f8f8;
 }
 
-
 .nihilo .dijitTabContainerBottom-tabs .dijitTabInnerDiv .dijitTabContent {
-	padding-top: 4px;
-	padding-bottom: 5px;
+	padding-top: 3px;
+	padding-bottom: 3px;
 	background: url("../images/tabBottomEnabledC.gif") repeat-x bottom left;
 }
 
@@ -223,14 +275,11 @@
 }
 
 /* strip */
-.nihilo .dijitTabContainerBottomStrip {
-	padding-bottom: 2px;
-	padding-left: 3px;	
+.nihilo .dijitTabContainer .dijitTabContainerBottomStrip {
 	border: 1px solid #ccc;
-}
-
-.nihilo .dijitTabContainerBottomStrip {
 	background: #f2f2f2;
+	border-top: none;
+	padding-bottom: 2px;
 }
 
 /* top/bottom strip */
@@ -241,13 +290,22 @@
 	background: #f8f8f8;
 }
 
+.nihilo  .dijitTabContainerTop-spacer {
+	margin-top: -1px;
+}
+.nihilo .dijitTabContainerBottom-spacer {
+	margin-bottom: -1px;
+}
+
 
 /* ================================ */
 /* right tabs */
 .nihilo .dijitTabContainerRight-tabs {
-	margin-left: -1px;
 	border-color: #ccc;
 	padding-top: 3px;
+}
+.nihilo .dijitTabContainerRight .dijitTabListWrapper {
+	padding-right: 3px;
 }
 
 /* right container */
@@ -292,18 +350,14 @@
 /* strip */
 .nihilo .dijitTabContainerRightStrip {
 	padding-right: 2px;
-	padding-top: 3px;	
 	border: 1px solid #ccc;
-}
-
-.nihilo .dijitTabContainerRightStrip {
+	border-left: none;
 	background: #f2f2f2;
 }
 
 /* ================================ */
 /* left tabs */
 .nihilo .dijitTabContainerLeft-tabs {
-	margin-right: -1px;
 	border-color: #ccc;
 	padding-top: 3px;
 }
@@ -340,14 +394,14 @@
 }
 
 .dj_ie .nihilo .dijitTabContainerLeft-tabs .dijitTabInnerDiv {
-border-bottom: solid #fff 1px;
+	border-bottom: solid #fff 1px;
 }
 
 /* strip */
 .nihilo .dijitTabContainerLeftStrip {
 	padding-left: 2px;
-	padding-top: 3px;	
 	border: 1px solid #ccc;
+	border-right: none;
 }
 
 .nihilo .dijitTabContainerLeftStrip {
@@ -370,6 +424,21 @@ border-bottom: solid #fff 1px;
 	background: #f8f8f8;
 }
 
+.nihilo .dijitTabContainerRight-spacer {
+	border-right: none;
+}
+
+.nihilo .dijitTabContainerRight-tabs {
+	padding-top: 3px;	
+	height: 100%;
+}
+.nihilo .dijitTabContainerLeft-tabs {
+	height: 100%;
+}
+
+.nihilo .dijitTabContainerLeft-spacer {
+	border-left: none;
+}
 
 /* ================================ */
 
@@ -380,4 +449,75 @@ border-bottom: solid #fff 1px;
 	border-right: 0px solid #ccc;
 	padding-top: 0px;
 	padding-left: 0px;	
+}
+
+/* ================================ */
+
+/* Menu and slider control styles */
+.nihilo .dijitTabContainer .tabStripButton {
+	margin-right: 0px;
+}
+
+.nihilo .tabStripButton .dijitTabInnerDiv .dijitTabContent {
+	padding: 5px 0 6px;
+}
+
+.dj_ie6 .nihilo .tabStripButton .dijitTabInnerDiv .dijitTabContent,
+.dj_ie7 .nihilo .tabStripButton .dijitTabInnerDiv .dijitTabContent,
+.dj_opera .nihilo .tabStripButton .dijitTabInnerDiv .dijitTabContent {
+	padding-bottom: 7px;
+}
+
+.nihilo .tabStrip-disabled .tabStripButton .dijitTabInnerDiv .dijitTabContent {
+	padding: 3px 0 5px;
+}
+
+.dj_ie6 .nihilo .tabStrip-disabled .tabStripButton .dijitTabInnerDiv .dijitTabContent,
+.dj_ie7 .nihilo .tabStrip-disabled .tabStripButton .dijitTabInnerDiv .dijitTabContent,
+.dj_opera .nihilo .tabStrip-disabled .tabStripButton .dijitTabInnerDiv .dijitTabContent {
+	padding-top: 4px;
+}
+
+.nihilo .dijitTabContainer .tabStripButton {
+	/* float need width set */
+	width: 21px;
+}
+
+.nihilo .dijitTabContainer .tabStripButton img {
+	height: 14px;
+	background: url(../images/spriteRoundedIconsSmall.png) no-repeat left top ;
+}
+
+.dj_ie6 .nihilo .dijitTabContainer .tabStripButton img {
+	background-image: url(../images/spriteRoundedIconsSmall.gif);
+}
+
+.nihilo .dijitTabContainer .tabStripSlideButtonNext img {
+	background-position: -30px top;
+}
+
+.nihilo .dijitTabContainer .tabStripMenuButton img {
+	background-position: -15px top;
+}
+
+.nihilo .dijitTabContainerTopNone {
+	padding-top: 0px;
+}
+
+.nihilo .dijitTabContainer .tabStripButton-top {
+	margin-top: 1px;
+}
+
+.nihilo .dijitTabContainer .tabStripButton-bottom {
+	background: transparent url(../images/tabBottomEnabledSpriteLR.gif) no-repeat scroll left bottom;
+	border-bottom: medium none;
+	border-top: 1px solid #CCCCCC;
+}
+
+.nihilo .dijitTabContainer .tabStripButton-bottom .dijitTabInnerDiv {
+	background: transparent url(../images/tabBottomEnabledSpriteLR.gif) no-repeat scroll right bottom;
+}
+
+.nihilo .dijitTabContainer .tabStripButton-bottom .dijitTabContent {
+	background: transparent;
 }

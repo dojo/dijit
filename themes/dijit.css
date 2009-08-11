@@ -1104,12 +1104,10 @@ img.dijitColorPaletteUnder {
 }
 
 /* Tab */
-
 .dijitTabContainerBottom-tabs,
 .dijitTabContainerTop-tabs,
 .dijitTabContainerLeft-tabs,
 .dijitTabContainerRight-tabs {
-	z-index:10;
 	overflow: visible !important;  /* so tabs can cover up border adjacent to container */
 }
 
@@ -1121,6 +1119,23 @@ img.dijitColorPaletteUnder {
 	overflow: hidden;
 	border: 1px solid black;
 }
+.dijitTabContainer .nowrapTabStrip {
+	width: 50000px;
+	display: block;
+}
+.dijitTabContainer .tabStripMenuButton, 
+.dijitTabContainer .tabStripSlideButtonNext {
+	/* TODO: this is not BIDI ready */
+	float: right;
+}
+.dijitTabContainer .tabStripSlideButtonPrev {
+	/* TODO: this is not BIDI ready */
+	float: left;
+}
+.dijitTabContainer .dijitTabListWrapper {
+	float: left;
+	overflow: hidden;
+}
 
 .dijitTabContainerTop-tabs {
 	border-bottom: 1px solid black;
@@ -1131,6 +1146,7 @@ img.dijitColorPaletteUnder {
 
 .dijitTabContainerLeft-tabs {
 	border-right: 1px solid black;
+	float: left;
 }
 .dijitTabContainerLeft-container {
 	border-left: 0px;
@@ -1144,13 +1160,26 @@ img.dijitColorPaletteUnder {
 }
 
 .dijitTabContainerRight-tabs {
-	border-left: 1px solid black
+	border-left: 1px solid black;
+	float: left;
 }
 .dijitTabContainerRight-container {
 	border-right: 0px;
 }
 
+div.dijitTabBtnDisabled, .dj_ie div.dijitTabBtnDisabled {
+	cursor: auto;
+}
+/*
+div.dijitTabBtnDisabled img {
+	opacity: 0.3;
+}
 
+
+.dj_ie div.dijitTabBtnDisabled img {
+	filter: gray() alpha(opacity=30);
+}
+*/
 .dijitTab {
 	position:relative;
 	cursor:pointer;
@@ -1163,6 +1192,10 @@ img.dijitColorPaletteUnder {
 }
 .dijitTabChecked {
 	cursor: default;	/* because clicking will have no effect */
+}
+
+.dijitTabButtonIcon {
+	height: 18px;
 }
 
 .dijitTabContainerTop-tabs .dijitTab {
@@ -1192,9 +1225,20 @@ img.dijitColorPaletteUnder {
 	position:relative;
 }
 
+
+.tabStripButton {
+	z-index: 12;
+}
+
+.dijitTabButtonDisabled .tabStripButton {
+	display: none;
+}
+
+
 .dijitTab .closeButton {
 	margin-left: 1em;
 }
+
 
 /* images off, high-contrast mode styles */
 .dijitTab .closeText {
