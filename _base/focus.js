@@ -43,7 +43,8 @@ dojo.mixin(dijit,
 					if(tg){
 						//Create a fake rangelike item to restore selections.
 						tg = tg.toLowerCase();
-						if(tg === "textarea" || tg == "input"){
+						if(tg === "textarea" || 
+								(tg == "input" && (!cf.type || cf.type.toLowerCase() == "text"))){
 							sel = {
 								start: cf.selectionStart,
 								end: cf.selectionEnd,
