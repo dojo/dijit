@@ -68,8 +68,8 @@ dojo.declare("dijit.layout.ScrollingTabController",
 		
 		dojo.addClass(this.tablistWrapper, this.tabStripClass);
 		
-		this.connect(this._prevBtn.domNode, "click", "doSlideLeft");
-		this.connect(this._nextBtn.domNode, "click", "doSlideRight");
+		this.connect(this._leftBtn.domNode, "click", "doSlideLeft");
+		this.connect(this._rightBtn.domNode, "click", "doSlideRight");
 	},
 	
 	onStartup: function(){
@@ -122,12 +122,13 @@ dojo.declare("dijit.layout.ScrollingTabController",
 		this._menuChildren = {};
 		
 		// Hide all the button initially
+		// TODO: couldn't this be replaced by three simple calls to dojo.style()?
 		this._buttons = dojo.query("> .tabStripButton", this.domNode)
 			.filter(dojo.hitch(this, function(btn){
 				var r = true;
 				if(!this.useMenu && btn == this._menuBtn.domNode){
 					r = false;
-				}else if(!this.useSlider && (btn == this._nextBtn.domNode || btn == this._prevBtn.domNode)){
+				}else if(!this.useSlider && (btn == this._rightBtn.domNode || btn == this._leftBtn.domNode)){
 					r = false;
 				}
 				if(!r){
@@ -331,22 +332,26 @@ dojo.declare("dijit.layout.ScrollingTabController",
 	
 	_setButtonClass: function(scroll, maxScroll){
 		// summary:
-		//		Adds or removes a class to the previous and next scroll buttons
+		//		Adds or removes a class to the left and right scroll buttons
 		// description:
 		//		If the tabs are scrolled all the way to the left, the class
 		//		'dijitTabBtnDisabled' is added to the left button.
 		//		If the tabs are scrolled all the way to the right, the class
 		//		'dijitTabBtnDisabled' is added to the right button.
+		// scroll: Integer
+		//		amount of horizontal scroll (0 if we are scrolled to left)
+		// maxScroll: Integer?
+		//		the total amount of horizontal scroll possible (to scroll all the way to the right)
 
 		var cls = "dijitTabBtnDisabled";
 		maxScroll =	maxScroll || this._getTabsWidth() - dojo.style(this.scrollNode, "width");
-		dojo.toggleClass(this._prevBtn.domNode, cls, scroll < this._minScroll);
-		dojo.toggleClass(this._nextBtn.domNode, cls, scroll >= maxScroll);
+		dojo.toggleClass(this._leftBtn.domNode, cls, scroll < this._minScroll);
+		dojo.toggleClass(this._rightBtn.domNode, cls, scroll >= maxScroll);
 	}
 });
 
 dojo.declare("dijit.layout._ScrollingTabControllerButton",
-	dijit.form.ToggleButton,
+	dijit.form.Button,
 	{
 		baseClass: "dijitTab",
 		

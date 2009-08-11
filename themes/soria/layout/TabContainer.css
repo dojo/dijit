@@ -507,10 +507,10 @@
 .soria .dijitTabContainer .tabStripMenuButton img {
 	background-position: -15px top;
 }
-.soria .dijitTabContainer .tabStripSlideButtonPrev img {
+.soria .dijitTabContainer .tabStripSlideButtonLeft img {
 	background-position: 0px top;
 }
-.soria .dijitTabContainer .tabStripSlideButtonNext img {
+.soria .dijitTabContainer .tabStripSlideButtonRight img {
 	background-position: -30px top;
 }
 /*

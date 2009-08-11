@@ -352,10 +352,10 @@
 .tundra .dijitTabContainer .tabStripMenuButton img {
 	background-position: -15px top;
 }
-.tundra .dijitTabContainer .tabStripSlideButtonPrev img {
+.tundra .dijitTabContainer .tabStripSlideButtonLeft img {
 	background-position: 0px top;
 }
-.tundra .dijitTabContainer .tabStripSlideButtonNext img {
+.tundra .dijitTabContainer .tabStripSlideButtonRight img {
 	background-position: -30px top;
 }
 /*

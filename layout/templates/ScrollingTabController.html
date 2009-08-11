@@ -1,10 +1,10 @@
 <div class="dijitTabListContainer-${tabPosition}" style="visibility:hidden">
 	<div dojoType="dijit.layout._ScrollingTabControllerButton" buttonType="menuBtn" buttonClass="tabStripMenuButton"
-			tabPosition="${tabPosition}" dojoAttachPoint="_menuBtn"></div>
-	<div dojoType="dijit.layout._ScrollingTabControllerButton" buttonType="prevBtn" buttonClass="tabStripSlideButtonPrev"
-			tabPosition="${tabPosition}" dojoAttachPoint="_prevBtn"></div>
-	<div dojoType="dijit.layout._ScrollingTabControllerButton" buttonType="nextBtn" buttonClass="tabStripSlideButtonNext"
-			tabPosition="${tabPosition}" dojoAttachPoint="_nextBtn"></div>
+			tabPosition="${tabPosition}" dojoAttachPoint="_menuBtn" showLabel=false>&darr;</div>
+	<div dojoType="dijit.layout._ScrollingTabControllerButton" buttonType="leftBtn" buttonClass="tabStripSlideButtonLeft"
+			tabPosition="${tabPosition}" dojoAttachPoint="_leftBtn" showLabel=false>&larr;</div>
+	<div dojoType="dijit.layout._ScrollingTabControllerButton" buttonType="rightBtn" buttonClass="tabStripSlideButtonRight"
+			tabPosition="${tabPosition}" dojoAttachPoint="_rightBtn" showLabel=false>&rarr;</div>
 	<div class='dijitTabListWrapper' dojoAttachPoint='tablistWrapper'>
 		<div wairole='tablist' dojoAttachEvent='onkeypress:onkeypress' 
 				dojoAttachPoint='containerNode' class='nowrapTabStrip'>

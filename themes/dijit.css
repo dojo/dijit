@@ -1123,18 +1123,26 @@ img.dijitColorPaletteUnder {
 	width: 50000px;
 	display: block;
 }
-.dijitTabContainer .tabStripMenuButton, 
-.dijitTabContainer .tabStripSlideButtonNext {
-	/* TODO: this is not BIDI ready */
+.dijitTabContainer .tabStripMenuButton {
 	float: right;
 }
-.dijitTabContainer .tabStripSlideButtonPrev {
-	/* TODO: this is not BIDI ready */
+.dijitRtl .dijitTabContainer .tabStripMenuButton {
+	float: left;
+}
+.dijitTabContainer .tabStripSlideButtonRight {
+	float: right;
+}
+.dijitTabContainer .tabStripSlideButtonLeft {
 	float: left;
 }
 .dijitTabContainer .dijitTabListWrapper {
 	float: left;
 	overflow: hidden;
+}
+
+.dijit_a11y .dijitTabContainer .tabStripButton img {
+	/* hide the icons (or rather the empty space where they normally appear) because text will appear instead */
+	display: none;
 }
 
 .dijitTabContainerTop-tabs {
@@ -1238,7 +1246,6 @@ div.dijitTabBtnDisabled img {
 .dijitTab .closeButton {
 	margin-left: 1em;
 }
-
 
 /* images off, high-contrast mode styles */
 .dijitTab .closeText {
