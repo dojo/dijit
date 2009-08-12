@@ -127,10 +127,17 @@ dojo.declare("dijit.form.DropDownSelect", [dijit.form._FormSelectWidget, dijit._
 		//		For the given option, add a option to our dropdown
 		//		If the option doesn't have a value, then a separator is added 
 		//		in that place.
-		this.dropDown.addChild(this._getMenuItemForOption(option));
+		if(this.dropDown){
+			this.dropDown.addChild(this._getMenuItemForOption(option));
+		}
 	},
 
-	_getChildren: function(){ return this.dropDown.getChildren(); },
+	_getChildren: function(){ 
+		if(!this.dropDown){
+			return [];
+		}
+		return this.dropDown.getChildren();
+	},
 	
 	_loadChildren: function(/* boolean */ loadMenuItems){
 		// summary: 
@@ -144,8 +151,9 @@ dojo.declare("dijit.form.DropDownSelect", [dijit.form._FormSelectWidget, dijit._
 			// this.inherited destroys this.dropDown's child widgets (MenuItems).
 			// Avoid this.dropDown (Menu widget) having a pointer to a destroyed widget (which will cause
 			// issues later in _setSelected).
-			delete this.dropDown.focusedChild;
-
+			if(this.dropDown){
+				delete this.dropDown.focusedChild;
+			}
 			this.inherited(arguments);
 		}else{
 			this._updateSelection();
