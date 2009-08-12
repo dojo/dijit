@@ -39,6 +39,12 @@ dojo.declare("dijit.form._DropDownSelectMenu", dijit.Menu, {
 			var w = dojo.contentBox(this.domNode).w;
 			if(dojo.isFF && this.domNode.scrollHeight > this.domNode.clientHeight){
 				w--;
+			}else if(dojo.isIE < 8 || (dojo.isIE && dojo.isQuirks)){
+				// IE < 8 and IE8 in quirks mode doesn't need this additional
+				// width of the scrollbar...it causes a horizontal scroll bar
+				// (as well as continually expanding the dropdown each time
+				// it is opened)
+				w -= 16;
 			}
 			dojo.marginBox(this.menuTableNode, {w: w});
 		}
