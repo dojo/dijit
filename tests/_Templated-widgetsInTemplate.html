@@ -105,6 +105,9 @@
 							// Compare programmatic and declaratively created widget with layout widgets in template
 							name: "programmatic vs declarative with layout widgets",
 							runTest: function(t){
+								// Focus the body, so that we don't have different classes on our
+								// two widgets
+								dijit.focus(dojo.body());
 								var declW = dijit.byId("test4Widget");
 								var progW = test4WidgetProgrammatic;
 								
