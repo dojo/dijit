@@ -87,7 +87,7 @@ dojo.declare("dijit.form.DropDownSelect", [dijit.form._FormSelectWidget, dijit._
 		// summary:  
 		//		Set the value to be the first, or the selected index
 		this.inherited(arguments);
-		if(this.options.length && !this.value){
+		if(this.options.length && !this.value && this.srcNodeRef){
 			var si = this.srcNodeRef.selectedIndex;
 			this.value = this.options[si != -1 ? si : 0].value;
 		}
@@ -220,7 +220,7 @@ dojo.declare("dijit.form.DropDownSelect", [dijit.form._FormSelectWidget, dijit._
 	
 	postCreate: function(){
 		this.inherited(arguments);
-		if(dojo.attr(this.srcNodeRef, "disabled")){
+		if(this.srcNodeRef && dojo.attr(this.srcNodeRef, "disabled")){
 			this.attr("disabled", true);
 		}
 		if(this.tableNode.style.width){

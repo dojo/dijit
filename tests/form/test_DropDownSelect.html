@@ -68,6 +68,24 @@
 					console.log("First Select Changed to " + val);
 					numChanges++;
 				});
+
+				var programmatic = new dijit.form.DropDownSelect({
+					options: [
+						{ label: 'foo', value: 'foo', selected: true },
+						{ label: 'bar', value: 'bar' }
+					]
+				});
+				programmatic.placeAt('testProgramatic');
+
+				var programmaticDisabled = new dijit.form.DropDownSelect({
+					disabled: true,
+					options: [
+						{ label: 'foo', value: 'foo', selected: true },
+						{ label: 'bar', value: 'bar' }
+					]
+				});
+				programmaticDisabled.placeAt('testProgramatic');
+
 				doh.register("tests",
 					[
 						function test_setValue(t){
@@ -237,6 +255,20 @@
 							tearDown: function(t){
 								delete t.options;
 							}
+						},
+						{
+							name: 'test_disabled',
+							runTest: function(t){
+								t.is(testDisabled.disabled, true);
+							}
+						},
+						{
+							name: 'test_programmatic',
+							runTest: function(t){
+								t.is(programmatic.options.length, 2);
+								t.is(programmaticDisabled.options.length, 2);
+								t.is(programmaticDisabled.disabled, true);
+							}
 						}
 					]
 				);
@@ -403,5 +435,12 @@
 				Get Displayed Value
 			</button>
 		</form>
+		<hr>
+		<h4 class="testSubtitle">Programmatic and other tests</h4>
+		<select dojoType="dijit.form.DropDownSelect" disabled="disabled" jsId='testDisabled'>
+			<option value="foo">foo</option>
+			<option value="bar">bar</option>
+		</select>
+		<div id="testProgramatic"></div>
 	</body>
 </html>
