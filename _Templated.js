@@ -101,15 +101,19 @@ dojo.declare("dijit._Templated",
 					parser._attrName = "dojoType";
 				}
 
-				var cw = (this._supportingWidgets = dojo.parser.parse(node, {
+				var cw = dojo.parser.parse(node, {
 					noStart: !this._earlyTemplatedStartup
-				}));
+				});
 
 				//Restore the query. 
 				if(qry){
 					parser._query = qry;
 					parser._attrName = attr;
 				}
+
+				this._supportingWidgets = dojo.filter(cw, function(w){
+					return(!w.getParent || !w.getParent());
+				});
 
 				this._attachTemplateNodes(cw, function(n,p){
 					return n[p];

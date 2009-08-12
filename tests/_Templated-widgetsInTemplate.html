@@ -139,7 +139,21 @@
 							runTest: function(t){
 								validateTest5Widget(t, test5WidgetProgrammatic);
 							}
-						}
+						},
+						{
+							// Check that destroying our declarative widget works correctly
+							name: "declarative widget destruction",
+							runTest: function(t){
+								validateTest5WidgetDestroy(t, dijit.byId("test5Widget"));
+							}
+						},
+						{
+							// Check that destroying our programmatic widget works correctly
+							name: "programmatic widget destruction",
+							runTest: function(t){
+								validateTest5WidgetDestroy(t, test5WidgetProgrammatic);
+							}
+						}						
 					]
 				);
 				doh.run();
@@ -286,8 +300,8 @@
 	<xmp id="Test5Template" style="display:none;">
 		<div>
 			<div dojoType="TestLayoutWidget" dojoAttachPoint="layout">
-				<div dojoType="TestStubWidget" dojoAttachPoint="layChild1"></div>
-				<div dojoType="TestStubWidget" dojoAttachPoint="layChild2"></div>
+				<div dojoType="TestCtndWidget" dojoAttachPoint="layChild1"></div>
+				<div dojoType="TestCtndWidget" dojoAttachPoint="layChild2"></div>
 			</div>
 			<div dojoType="TestCtnrWidget" dojoAttachPoint="container">
 				<div dojoType="TestCtndWidget" dojoAttachPoint="contained1"></div>
@@ -307,6 +321,13 @@
 					this._doubleStarted = true;
 				}
 				this.inherited(arguments);
+			},
+			destroy: function(){
+				if(this._destroyed){
+					this._doubleDestroyed = true;
+				}
+				this.inherited(arguments);
+				this._destroyed = true;
 			}
 		});
 		dojo.declare('TestCtnrWidget', [dijit._Widget, dijit._Container], {
@@ -315,6 +336,13 @@
 					this._doubleStarted = true;
 				}
 				this.inherited(arguments);
+			},
+			destroy: function(){
+				if(this._destroyed){
+					this._doubleDestroyed = true;
+				}
+				this.inherited(arguments);
+				this._destroyed = true;
 			}
 		});
 		dojo.declare('TestCtndWidget', [dijit._Widget, dijit._Contained], {
@@ -323,6 +351,13 @@
 					this._doubleStarted = true;
 				}
 				this.inherited(arguments);
+			},
+			destroy: function(){
+				if(this._destroyed){
+					this._doubleDestroyed = true;
+				}
+				this.inherited(arguments);
+				this._destroyed = true;
 			}
 		});
 		dojo.declare('TestStubWidget', [dijit._Widget], {
@@ -331,6 +366,13 @@
 					this._doubleStarted = true;
 				}
 				this.inherited(arguments);
+			},
+			destroy: function(){
+				if(this._destroyed){
+					this._doubleDestroyed = true;
+				}
+				this.inherited(arguments);
+				this._destroyed = true;
 			}
 		});
 		
@@ -339,7 +381,20 @@
 		{
 			widgetsInTemplate: true,
 
-			templateString: dojo.byId('Test5Template').textContent || dojo.byId('Test5Template').innerText
+			templateString: dojo.byId('Test5Template').textContent || dojo.byId('Test5Template').innerText,
+			startup: function(){
+				if(this._started){
+					this._doubleStarted = true;
+				}
+				this.inherited(arguments);
+			},
+			destroy: function(){
+				if(this._destroyed){
+					this._doubleDestroyed = true;
+				}
+				this.inherited(arguments);
+				this._destroyed = true;
+			}
 		});
 
 		var test5WidgetProgrammatic;
@@ -348,38 +403,37 @@
 			test5WidgetProgrammatic.startup();
 		});
 		
+		function getTestWidgets(testW){
+			return [
+				testW,
+				testW.layout,
+				testW.layChild1,
+				testW.layChild2,
+				testW.container,
+				testW.contained1,
+				testW.contained2,
+				testW.stubParent,
+				testW.child1,
+				testW.child2,
+				testW.stub1			
+			];
+		}
+		
 		function validateTest5Widget(t, testW) {
-			// Check that everything got started
-			t.t(testW._started);
-			t.is(testW._doubleStarted, undefined);
-			
-			// layout-based widgets
-			t.t(testW.layout._started);
-			t.t(testW.layChild1._started);
-			t.t(testW.layChild2._started);
-			t.is(testW.layout._doubleStarted, undefined);
-			t.is(testW.layChild1._doubleStarted, undefined);
-			t.is(testW.layChild2._doubleStarted, undefined);
-			
-			// container-based widgets
-			t.t(testW.container._started);
-			t.t(testW.contained1._started);
-			t.t(testW.contained2._started);
-			t.is(testW.container._doubleStarted, undefined);
-			t.is(testW.contained1._doubleStarted, undefined);
-			t.is(testW.contained2._doubleStarted, undefined);
-			
-			// standard widgets
-			t.t(testW.stubParent._started);
-			t.t(testW.child1._started);
-			t.t(testW.child2._started);
-			t.is(testW.stubParent._doubleStarted, undefined);
-			t.is(testW.child1._doubleStarted, undefined);
-			t.is(testW.child2._doubleStarted, undefined);
-			
-			// Standalone stub
-			t.t(testW.stub1._started);
-			t.is(testW.stub1._doubleStarted, undefined);
+			// Check that everything got started, but not double-started
+			dojo.forEach(getTestWidgets(testW), function(w){
+				t.t(w._started);
+				t.is(undefined, w._doubleStarted);
+			});
+		}
+		
+		function validateTest5WidgetDestroy(t, testW) {
+			var savedWidgets = getTestWidgets(testW);
+			testW.destroy();
+			dojo.forEach(savedWidgets, function(w, idx){
+				t.t(w._destroyed);
+				t.is(undefined, w._doubleDestroyed);
+			});
 		}
 	</script>
 	<div dojoType="Test5Widget" id="test5Widget" ></div>

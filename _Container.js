@@ -139,6 +139,24 @@ dojo.declare("dijit._Container",
 				}
 			}
 			return -1; // int
+		},
+		startup: function(){
+			// summary:
+			//		Called after all the widgets have been instantiated and their
+			//		dom nodes have been inserted somewhere under dojo.doc.body.
+			//
+			//		Widgets should override this method to do any initialization
+			//		dependent on other widgets existing, and then call
+			//		this superclass method to finish things off.
+			//
+			//		startup() in subclasses shouldn't do anything
+			//		size related because the size of the widget hasn't been set yet.
+
+			if(this._started){ return; }
+
+			// Startup all children of this widget
+			dojo.forEach(this.getChildren(), function(child){ child.startup(); });
+			this.inherited(arguments);
 		}
 	}
 );
