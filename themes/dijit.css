@@ -1800,6 +1800,12 @@ div.dijitTabBtnDisabled img {
 	width: 16px;
 }
 
+.dj_ie6 .dijitDropDownSelectMenu .dijitMenuItemLabel,
+.dj_ie7 .dijitDropDownSelectMenu .dijitMenuItemLabel {
+	/* Set back to static due to bug in ie6/ie7 - See Bug #9651 */
+	position: static;
+}
+
 /* Fix the baseline of our label (for multi-size font elements) */
 .dijitDropDownSelectLabel *
 {
