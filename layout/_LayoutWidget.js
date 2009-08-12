@@ -43,6 +43,10 @@ dojo.declare("dijit.layout._LayoutWidget",
 
 			if(this._started){ return; }
 
+			// Need to call inherited first - so that child widgets get started
+			// up correctly
+			this.inherited(arguments);
+
 			// If I am a not being controlled by a parent layout widget...
 			var parent = this.getParent && this.getParent()
 			if(!(parent && parent.isLayoutContainer)){
@@ -60,8 +64,6 @@ dojo.declare("dijit.layout._LayoutWidget",
 					this.resize();
 				});
 			}
-			
-			this.inherited(arguments);
 		},
 
 		resize: function(changeSize, resultSize){
