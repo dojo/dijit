@@ -1132,8 +1132,11 @@ img.dijitColorPaletteUnder {
 .dijitTabContainer .tabStripSlideButtonLeft {
 	float: left;
 }
-.dijitTabContainer .dijitTabListWrapper {
+.dj_ie6 .dijitTabContainer .dijitTabListWrapper {
+	/* fixes gaps in the tabstrip on IE6 */
 	float: left;
+}
+.dijitTabContainer .dijitTabListWrapper {
 	overflow: hidden;
 }
 
