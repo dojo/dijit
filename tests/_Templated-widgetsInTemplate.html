@@ -11,6 +11,9 @@
 			dojo.require("dijit.ProgressBar");
 			dojo.require("dijit.layout.ContentPane");
 			dojo.require("dijit.layout.TabContainer");
+			dojo.require("dijit._Container");
+			dojo.require("dijit._Contained");
+			dojo.require("dijit.layout._LayoutWidget");
 
 			dojo.addOnLoad(function(){
 				var testW;
@@ -122,6 +125,20 @@
 								t.is(declBox.h, progBox.h);
 								t.is(declBox.w, progBox.w);
 							}
+						},
+						{
+							// Check that declarative widget with other widgets in template is correctly started
+							name: "declarative widget with many child widgets",
+							runTest: function(t){
+								validateTest5Widget(t, dijit.byId("test5Widget"));
+							}
+						},
+						{
+							// Check that programmatic widget with other widgets in template is correctly started
+							name: "programmatic widget with many child widgets",
+							runTest: function(t){
+								validateTest5Widget(t, test5WidgetProgrammatic);
+							}
 						}
 					]
 				);
@@ -224,11 +241,11 @@
 	<!-- Test templated widget containing layout widgets in template -->
 	<xmp id="Test4Template" style="display:none;">
 		<div>
-			<div dojoType="dijit.layout.TabContainer" style="height: 5em;">
-				<div dojoType="dijit.layout.ContentPane" title="Tab 1">
+			<div dojoType="dijit.layout.TabContainer" dojoAttachPoint="tabCont" style="height: 5em;">
+				<div dojoType="dijit.layout.ContentPane" dojoAttachPoint="tab1" title="Tab 1">
 					pane 1
 				</div>
-				<div dojoType="dijit.layout.ContentPane" title="Tab 2">
+				<div dojoType="dijit.layout.ContentPane" dojoAttachPoint="tab2" title="Tab 2">
 					pane 2
 				</div>
 			</div>
@@ -256,9 +273,116 @@
 			var paneBox = selectedPane ? dojo.contentBox(selectedPane) : null;
 			t.t(tabBox && tabBox.w > 0 && tabBox.h > 0);
 			t.t(paneBox && paneBox.w > 0 && paneBox.h > 0);
+			// Check that everything got started
+			t.t(testW._started);
+			t.t(testW.tabCont._started);
+			t.t(testW.tab1._started);
+			t.t(testW.tab2._started);
 		}
 	</script>
 	<div dojoType="Test4Widget" id="test4Widget" ></div>
+
+	<!-- Test templated widget containing container and nested widgets in template -->
+	<xmp id="Test5Template" style="display:none;">
+		<div>
+			<div dojoType="TestLayoutWidget" dojoAttachPoint="layout">
+				<div dojoType="TestStubWidget" dojoAttachPoint="layChild1"></div>
+				<div dojoType="TestStubWidget" dojoAttachPoint="layChild2"></div>
+			</div>
+			<div dojoType="TestCtnrWidget" dojoAttachPoint="container">
+				<div dojoType="TestCtndWidget" dojoAttachPoint="contained1"></div>
+				<div dojoType="TestCtndWidget" dojoAttachPoint="contained2"></div>
+			</div>
+			<div dojoType="TestStubWidget" dojoAttachPoint="stub1"></div>
+			<div dojoType="TestStubWidget" dojoAttachPoint="stubParent">
+				<div dojoType="TestStubWidget" dojoAttachPoint="child1"></div>
+				<div dojoType="TestStubWidget" dojoAttachPoint="child2"></div>
+			</div>
+		</div>
+	</xmp>
+	<script>
+		dojo.declare('TestLayoutWidget', [dijit._Widget, dijit.layout._LayoutWidget], {
+			startup: function(){
+				if(this._started){
+					this._doubleStarted = true;
+				}
+				this.inherited(arguments);
+			}
+		});
+		dojo.declare('TestCtnrWidget', [dijit._Widget, dijit._Container], {
+			startup: function(){
+				if(this._started){
+					this._doubleStarted = true;
+				}
+				this.inherited(arguments);
+			}
+		});
+		dojo.declare('TestCtndWidget', [dijit._Widget, dijit._Contained], {
+			startup: function(){
+				if(this._started){
+					this._doubleStarted = true;
+				}
+				this.inherited(arguments);
+			}
+		});
+		dojo.declare('TestStubWidget', [dijit._Widget], {
+			startup: function(){
+				if(this._started){
+					this._doubleStarted = true;
+				}
+				this.inherited(arguments);
+			}
+		});
+		
+		dojo.declare('Test5Widget',
+			[dijit._Widget, dijit._Templated],
+		{
+			widgetsInTemplate: true,
+
+			templateString: dojo.byId('Test5Template').textContent || dojo.byId('Test5Template').innerText
+		});
+
+		var test5WidgetProgrammatic;
+		dojo.addOnLoad(function(){
+			test5WidgetProgrammatic = new Test5Widget().placeAt("test5Widget", "after");
+			test5WidgetProgrammatic.startup();
+		});
+		
+		function validateTest5Widget(t, testW) {
+			// Check that everything got started
+			t.t(testW._started);
+			t.is(testW._doubleStarted, undefined);
+			
+			// layout-based widgets
+			t.t(testW.layout._started);
+			t.t(testW.layChild1._started);
+			t.t(testW.layChild2._started);
+			t.is(testW.layout._doubleStarted, undefined);
+			t.is(testW.layChild1._doubleStarted, undefined);
+			t.is(testW.layChild2._doubleStarted, undefined);
+			
+			// container-based widgets
+			t.t(testW.container._started);
+			t.t(testW.contained1._started);
+			t.t(testW.contained2._started);
+			t.is(testW.container._doubleStarted, undefined);
+			t.is(testW.contained1._doubleStarted, undefined);
+			t.is(testW.contained2._doubleStarted, undefined);
+			
+			// standard widgets
+			t.t(testW.stubParent._started);
+			t.t(testW.child1._started);
+			t.t(testW.child2._started);
+			t.is(testW.stubParent._doubleStarted, undefined);
+			t.is(testW.child1._doubleStarted, undefined);
+			t.is(testW.child2._doubleStarted, undefined);
+			
+			// Standalone stub
+			t.t(testW.stub1._started);
+			t.is(testW.stub1._doubleStarted, undefined);
+		}
+	</script>
+	<div dojoType="Test5Widget" id="test5Widget" ></div>
 
 	</body>
 </html>
