@@ -1126,9 +1126,6 @@ img.dijitColorPaletteUnder {
 .dijitTabContainer .tabStripMenuButton {
 	float: right;
 }
-.dijitRtl .dijitTabContainer .tabStripMenuButton {
-	float: left;
-}
 .dijitTabContainer .tabStripSlideButtonRight {
 	float: right;
 }

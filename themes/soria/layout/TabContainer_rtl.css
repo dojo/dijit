@@ -4,19 +4,15 @@
 }
 
 /* tab strips */
+.dijitRtl .soria .dijitTabContainer .tabStripButton {
+	margin-left: 0;
+}
+
 .dijitRtl .soria .dijitTabContainerTopStrip,
-.dijitRtl .soria .dijitTabContainerBottomStrip {
-	padding-right: 3px;
-	padding-left: 0px;
-}
-
-.dijitRtl .soria .dijitTabContainerTop-tabs {
-	padding-left: auto;
-	padding-right: 3px;
-}
-
+.dijitRtl .soria .dijitTabContainerBottomStrip,
+.dijitRtl .soria .dijitTabContainerTop-tabs,
 .dijitRtl .soria .dijitTabContainerBottom-tabs {
-	padding-left: auto;
+	padding-left: 0;
 	padding-right: 3px;
 }
 

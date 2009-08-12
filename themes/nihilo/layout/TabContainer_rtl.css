@@ -4,19 +4,15 @@
 }
 
 /* tab strips */
+.dijitRtl .nihilo .dijitTabContainer .tabStripButton {
+	margin-left: 0;
+}
+
 .dijitRtl .nihilo .dijitTabContainerTopStrip,
-.dijitRtl .nihilo .dijitTabContainerBottomStrip {
-	padding-right: 3px;
-	padding-left: 0px;
-}
-
-.dijitRtl .nihilo .dijitTabContainerTop-tabs {
-	padding-left: auto;
-	padding-right: 3px;
-}
-
+.dijitRtl .nihilo .dijitTabContainerBottomStrip,
+.dijitRtl .nihilo .dijitTabContainerTop-tabs,
 .dijitRtl .nihilo .dijitTabContainerBottom-tabs {
-	padding-left: auto;
+	padding-left: 0;
 	padding-right: 3px;
 }
 

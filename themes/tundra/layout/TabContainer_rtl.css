@@ -1,12 +1,19 @@
 .dijitRtl .tundra .dijitTab {
-	margin-right:auto;
-	margin-left:4px;		/* space between one tab and the next in top/bottom mode */
 	-moz-box-orient:horizontal;
 	text-align: right;
 }
 
 .dijitRtl .tundra .dijitTabInnerDiv {
-	padding:6px 9px 5px 8px;
+	padding:2px 9px 2px 8px;
+}
+
+.dijitRtl .tundra .tabStrip-disabled .tabStripButton .dijitTabInnerDiv {
+	padding-bottom: 3px;
+	padding-top: 1px;
+}
+
+.dijitRtl .tundra .tabStripButton .dijitTabInnerDiv {
+	padding: 3px 2px 4px 2px;
 }
 
 .dijitRtl .tundra .dijitTabPaneWrapper {
