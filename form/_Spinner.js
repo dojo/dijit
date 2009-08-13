@@ -113,18 +113,21 @@ dojo.declare(
 			this._connects.push(dijit.typematic.addListener(this.downArrowNode, this.textbox, {charOrCode:dojo.keys.PAGE_DOWN,ctrlKey:false,altKey:false,shiftKey:false,metaKey:false}, this, "_typematicCallback", this.timeoutChangeRate, this.defaultTimeout));
 			if(dojo.isIE){
 				var _this = this;
+				(function resize(){
+				        var sz = _this.upArrowNode.parentNode.offsetHeight;
+					if(sz){
+						_this.upArrowNode.style.height = sz >> 1;
+						_this.downArrowNode.style.height = sz - (sz >> 1);
+						_this.focusNode.parentNode.style.height = sz;
+					}
+				})();
 				this.connect(this.domNode, "onresize",
-					function(){ setTimeout(dojo.hitch(_this,
+					function(){ setTimeout(
 						function(){
-				        		var sz = this.upArrowNode.parentNode.offsetHeight;
-							if(sz){
-								this.upArrowNode.style.height = sz >> 1;
-								this.downArrowNode.style.height = sz - (sz >> 1);
-								this.focusNode.parentNode.style.height = sz;
-							}
+							resize();
 							// cause IE to rerender when spinner is moved from hidden to visible
-							this._setStateClass();
-						}), 0);
+							_this._setStateClass();
+						}, 0);
 					}
 				);
 				this._layoutHackIE7();
