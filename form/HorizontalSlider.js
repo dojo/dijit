@@ -76,14 +76,19 @@ dojo.declare(
 	_handleOffsetCoord: "left",
 	_progressPixelSize: "width",
 
+	_onKeyUp: function(/*Event*/ e){
+		if(this.disabled || this.readOnly || e.altKey || e.ctrlKey || e.metaKey){ return; }
+		this._setValueAttr(this.value, true);
+	},
+
 	_onKeyPress: function(/*Event*/ e){
 		if(this.disabled || this.readOnly || e.altKey || e.ctrlKey || e.metaKey){ return; }
 		switch(e.charOrCode){
 			case dojo.keys.HOME:
-				this._setValueAttr(this.minimum, true);
+				this._setValueAttr(this.minimum, false);
 				break;
 			case dojo.keys.END:
-				this._setValueAttr(this.maximum, true);
+				this._setValueAttr(this.maximum, false);
 				break;
 			// this._descending === false: if ascending vertical (min on top)
 			// (this._descending || this.isLeftToRight()): if left-to-right horizontal or descending vertical
@@ -176,7 +181,7 @@ dojo.declare(
 		}
 	},
 
-	_bumpValue: function(signedChange){
+	_bumpValue: function(signedChange, /*Boolean, optional*/ priorityChange){
 		if(this.disabled || this.readOnly){ return; }
 		var s = dojo.getComputedStyle(this.sliderBarContainer);
 		var c = dojo._getContentBox(this.sliderBarContainer, s);
@@ -187,7 +192,7 @@ dojo.declare(
 		if(value < 0){ value = 0; }
 		if(value > count){ value = count; }
 		value = value * (this.maximum - this.minimum) / count + this.minimum;
-		this._setValueAttr(value, true);
+		this._setValueAttr(value, priorityChange);
 	},
 
 	_onClkBumper: function(val){
@@ -203,17 +208,17 @@ dojo.declare(
 		this._onClkBumper(this._descending === false ? this.maximum : this.minimum);
 	},
 
-	decrement: function(e){
+	decrement: function(/*Event*/ e){
 		// summary:
-		//		Decrement slider by 1 unit
+		//		Decrement slider
 		// tags:
 		//		private
 		this._bumpValue(e.charOrCode == dojo.keys.PAGE_DOWN ? -this.pageIncrement : -1);
 	},
 
-	increment: function(e){
+	increment: function(/*Event*/ e){
 		// summary:
-		//		Increment slider by 1 unit
+		//		Increment slider
 		// tags:
 		//		private
 		this._bumpValue(e.charOrCode == dojo.keys.PAGE_UP ? this.pageIncrement : 1);
@@ -223,11 +228,9 @@ dojo.declare(
 		// summary:
 		//		Event handler for mousewheel where supported
 		dojo.stopEvent(evt);
-		// FIXME: this adds mouse wheel support for safari, though stopEvent doesn't prevent
-		// it from bleeding to window?!
 		var janky = !dojo.isMozilla;
 		var scroll = evt[(janky ? "wheelDelta" : "detail")] * (janky ? 1 : -1);
-		this[(scroll < 0 ? "decrement" : "increment")](evt);
+		this._bumpValue(scroll < 0 ? -1 : 1, true); // negative scroll acts like a decrement
 	},
 
 	startup: function(){
@@ -239,8 +242,11 @@ dojo.declare(
 	},
 
 	_typematicCallback: function(/*Number*/ count, /*Object*/ button, /*Event*/ e){
-		if(count == -1){ return; }
-		this[(button == (this._descending? this.incrementButton : this.decrementButton))? "decrement" : "increment"](e);
+		if(count == -1){
+			this._setValueAttr(this.value, true);
+		}else{
+			this[(button == (this._descending? this.incrementButton : this.decrementButton))? "decrement" : "increment"](e);
+		}
 	},
 
 	postCreate: function(){

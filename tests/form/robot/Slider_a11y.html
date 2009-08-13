@@ -39,16 +39,13 @@
 			//		then use the arrow key again (value shouldn't change second time)
 
 			var d = new doh.Deferred();
-			var key = initValue<finalValue?dojo.keys.RIGHT_ARROW:dojo.keys.LEFT_ARROW;
+			var key = initValue < finalValue ? dojo.keys.RIGHT_ARROW : dojo.keys.LEFT_ARROW;
 			
 			// Set slider to initial value, one value away from the min or max
-			slider.attr('value', initValue);
+			slider.attr('value', initValue, false);
 			
 			// Focus the slider
-			doh.robot.sequence(function(){
-				dijit.scrollIntoView(slider.domNode);
-			},500);
-			doh.robot.sequence(dojo.hitch(slider, "focus"), 500);
+			slider.focus();
 
 			// First key press moves to either min or max
 			doh.robot.keyPress(key, 500);
@@ -86,6 +83,7 @@
 
 			var slider=dijit.byId(inSliderId);
 			eaVals = populateExpected(slider);
+			strokeIndex = 0;
 			noteChanges = dojo.connect(slider, "onChange", function(){
 				eaVals[strokeIndex++].actual = slider.attr('value');
 			});
@@ -97,42 +95,35 @@
 
 			var initVal = inSlider.attr('value');
 			var eVals = [];
-			var evt = {};
 			
 			// The values expected by pressing HOME, right arrow five times,
 			// PgUp twice, PgDn, up arrow twice, down arrow once,
 			// left arrow once, and END.
-			inSlider.attr('value', inSlider.minimum);
+			inSlider.attr('value', inSlider.minimum, false);
 			eVals.push({stroke: "HOME", expected: inSlider.attr('value')});					
-			evt.charOrCode = dojo.keys.RIGHT_ARROW		// RIGHT 5 times
 			for(var i = 0; i < 5; i++){
-				inSlider.increment(evt);
+				inSlider._bumpValue(1, false);
 				eVals.push({stroke: "RIGHT", expected: inSlider.attr('value')});
 			}
-			evt.charOrCode = dojo.keys.PAGE_UP			// PgUp twice
-			for(var i = 0; i < 2; i++){
-				inSlider.increment(evt);
+			for(i = 0; i < 2; i++){
+				inSlider._bumpValue(inSlider.pageIncrement, false);
 				eVals.push({stroke: "PgUp", expected: inSlider.attr('value')});
 			}
-			evt.charOrCode = dojo.keys.PAGE_DOWN
-			inSlider.decrement(evt);
+			inSlider._bumpValue(-inSlider.pageIncrement, false);
 			eVals.push({stroke: "PgDn", expected: inSlider.attr('value')});					
-			evt.charOrCode = dojo.keys.UP_ARROW			// UP twice
-			for(var i = 0; i < 2; i++){
-				inSlider.increment(evt);
+			for(i = 0; i < 2; i++){
+				inSlider._bumpValue(1, false);
 				eVals.push({stroke: "UP", expected: inSlider.attr('value')});
 			}
-			evt.charOrCode = dojo.keys.DOWN_ARROW
-			inSlider.decrement(evt);
+			inSlider._bumpValue(-1, false);
 			eVals.push({stroke: "DOWN", expected: inSlider.attr('value')});
-			evt.charOrCode = dojo.keys.LEFT_ARROW
-			inSlider.decrement(evt);
+			inSlider._bumpValue(-1, false);
 			eVals.push({stroke: "LEFT", expected: inSlider.attr('value')});
-			inSlider.attr('value', inSlider.maximum)
+			inSlider.attr('value', inSlider.maximum, false)
 			eVals.push({stroke: "END", expected: inSlider.attr('value')});
 			
 			// reset <inSlider> back to its initial value, and return
-			inSlider.attr('value', initVal);
+			inSlider.attr('value', initVal, false);
 			return eVals;
 		}
 		
@@ -151,7 +142,7 @@
 			var blurFunc = dojo.connect(slider.focusNode, "onblur", lostFocus);
 
 			// insure a known focus starting point -- the slider to test.
-			doh.robot.sequence(dojo.hitch(slider, "focus"), 500);
+			slider.focus();
 
 			// Shift-tab away, tab to, tab away, shift-tab back.
 			doh.robot.keyPress(dojo.keys.TAB, 1000, {
@@ -177,25 +168,25 @@
 			var slider=dijit.byId(inSliderId);
 			var initVal = slider.attr('value');
 			// get focus on slider thumb before pressing keys.
-			doh.robot.sequence(dojo.hitch(slider, "focus"), 500);
-			doh.robot.sequence(function(){ strokeIndex = 0; }, 1); // insure onChange events from populateExpected have stopped
-			doh.robot.keyPress(dojo.keys.HOME, 100);
-			doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 100);
-			doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 100);
-			doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 100);
-			doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 100);
-			doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 100);
-			doh.robot.keyPress(dojo.keys.PAGE_UP, 100);
-			doh.robot.keyPress(dojo.keys.PAGE_UP, 100);
-			doh.robot.keyPress(dojo.keys.PAGE_DOWN, 100);
-			doh.robot.keyPress(dojo.keys.UP_ARROW, 100);
-			doh.robot.keyPress(dojo.keys.UP_ARROW, 100);
-			doh.robot.keyPress(dojo.keys.DOWN_ARROW, 100);
-			doh.robot.keyPress(dojo.keys.LEFT_ARROW, 100);
-			doh.robot.keyPress(dojo.keys.END, 100);
+			slider.focus();
+			doh.robot.sequence(function(){ strokeIndex = 0; }, 500); // insure onChange events have stopped
+			doh.robot.keyPress(dojo.keys.HOME, 200);
+			doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 200);
+			doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 200);
+			doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 200);
+			doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 200);
+			doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 200);
+			doh.robot.keyPress(dojo.keys.PAGE_UP, 200);
+			doh.robot.keyPress(dojo.keys.PAGE_UP, 200);
+			doh.robot.keyPress(dojo.keys.PAGE_DOWN, 200);
+			doh.robot.keyPress(dojo.keys.UP_ARROW, 200);
+			doh.robot.keyPress(dojo.keys.UP_ARROW, 200);
+			doh.robot.keyPress(dojo.keys.DOWN_ARROW, 200);
+			doh.robot.keyPress(dojo.keys.LEFT_ARROW, 200);
+			doh.robot.keyPress(dojo.keys.END, 200);
 			var testPresses = function(){
 				dojo.disconnect(noteChanges);
-				slider.attr('value', initVal);
+				slider.attr('value', initVal, false);
 				for(var i = 0; i < eaVals.length; i++){
 					doh.assertEqual(eaVals[i].expected, eaVals[i].actual, eaVals[i].stroke + " (" + slider.id + ")");
 				}
@@ -247,7 +238,6 @@
 					}
 				});
 			}
-
 			// aria role and properties tests.
 			doh.register("a11yAria",
 			[
@@ -304,13 +294,12 @@
 					}
 				}
 			]);
-			
 			// keyboard a11y tests (robot) -- manipulate slider via keystrokes
 			doh.register("a11yKeystrokes",
 			[
 				{
 					name:"slider1Keystrokes",
-					timeout:4000,
+					timeout:6000,
 					setUp:function(){
 						keyStrokeSetup("slider1");
 					},
@@ -320,7 +309,7 @@
 				},
 				{
 					name:"slider2Keystrokes",
-					timeout:4000,
+					timeout:6000,
 					setUp:function(){
 						keyStrokeSetup("slider2");
 					},
@@ -330,7 +319,7 @@
 				},
 				{
 					name:"programaticSliderKeystrokes",
-					timeout:4000,
+					timeout:6000,
 					setUp:function(){
 						keyStrokeSetup("programaticSlider");
 					},
