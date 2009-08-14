@@ -34,9 +34,9 @@ dojo.declare("dijit.layout.ScrollingTabController",
 	widgetsInTemplate: true,
 	
 	// _minScroll: Number
-	//		The distance in pixels from the left of the tab strip which,
+	//		The distance in pixels from the edge of the tab strip which,
 	//		if a scroll animation is less than, forces the scroll to
-	//		go all the way to the left.
+	//		go all the way to the left/right.
 	_minScroll: 5,
 	
 	attributeMap: dojo.delegate(dijit._Widget.prototype.attributeMap, {
@@ -179,9 +179,9 @@ dojo.declare("dijit.layout.ScrollingTabController",
 	
 	resize: function(dim){
 		// summary: 
-		//		Hides or displays the button used to launch the menu
+		//		Hides or displays the buttons used to scroll the tab list and launch the menu
 		//		that selects tabs.
-		if(this.nested || this.domNode.offsetWidth == 0){
+		if(this.domNode.offsetWidth == 0){
 			return;
 		}
 
@@ -196,18 +196,47 @@ dojo.declare("dijit.layout.ScrollingTabController",
 		var realWidth = dojo.contentBox(this.scrollNode).w;
 		
 		this._updateButtons(enable);
-
-		this.scrollNode.scrollLeft = !enable ? 0 :
-			Math.max(0, Math.min(this.scrollNode.scrollLeft, 
-					this._getTabsWidth() - realWidth + 5));
+		
+		// TODO: needs the same logic as smoothScroll() (to compute the new scrollLeft
+		// but w/out the animation
 	},
 
 	_updateButtons: function(enable){
 		this._buttons.style("display", enable ? "" : "none");
-		this._setButtonClass(this.scrollNode.scrollLeft);
+		this._setButtonClass(this._getScroll());
 	},
 	
-	
+
+	_getScroll: function(){
+		// summary:
+		//		Returns the current scroll of the tabs where 0 means
+		//		"scrolled all the way to the left" and some positive number, based on #
+		//		of pixels of possible scroll (ex: 1000) means "scrolled all the way to the right"
+		var sl = (this.isLeftToRight() || dojo.isIE < 8) ? this.scrollNode.scrollLeft :
+				dojo.style(this.containerNode, "width") - dojo.style(this.scrollNode, "width")
+					 + (dojo.isIE == 8 ? -1 : 1) * this.scrollNode.scrollLeft;
+		console.log("scroll left is " + (dojo.style(this.containerNode, "width") - dojo.style(this.scrollNode, "width")) +
+			" - " + this.scrollNode.scrollLeft + " = " + sl);
+		return sl;
+	},
+
+	_convertToScrollLeft: function(val){
+		// summary:
+		//		Given a scroll value where 0 means "scrolled all the way to the left"
+		//		and some positive number, based on # of pixels of possible scroll (like 1000
+		//		means "scrolled all the way to the right", return value to set this.scrollNode.scrollLeft
+		//		to achieve that scroll.
+		//
+		//		This method is to adjust for RTL funniness in various browsers and versions.
+		if(this.isLeftToRight() || dojo.isIE < 8){
+			return val;
+		}else{
+			var maxScroll = dojo.style(this.containerNode, "width") - dojo.style(this.scrollNode, "width");
+			console.log("RTL mode, maxScroll = " + maxScroll + ", to achieve scrollLeft of " + val + " should set scrollLeft to " + (val - maxScroll));
+			return (dojo.isIE == 8 ? -1 : 1) * (val - maxScroll);
+		}
+	},
+
 	onSelectChild: function(page){
 		// summary: 
 		//		Smoothly scrolls to a tab when it is selected.
@@ -219,7 +248,7 @@ dojo.declare("dijit.layout.ScrollingTabController",
 			if(node != this._selectedTab){
 				this._selectedTab = node;
 
-				var sl = this.scrollNode.scrollLeft;
+				var sl = this._getScroll();
 
 				if(sl > node.offsetLeft ||
 					sl + dojo.style(this.scrollNode, "width") <
@@ -237,7 +266,24 @@ dojo.declare("dijit.layout.ScrollingTabController",
 		}
 		this.inherited(arguments);
 	},
-	
+
+	_getScrollBounds: function(){
+		// summary:
+		//		Returns the minimum and maximum scroll setting
+		// TODO: what if tabwidth < scrollNode.width ?
+		var children = this.getChildren(),
+			scrollNodeWidth = dojo.style(this.scrollNode, "width");
+		
+		return {
+			min: this.isLeftToRight() ? 0 : children[children.length-1].domNode.offsetLeft,
+			max: this.isLeftToRight() ? 
+				(children[children.length-1].domNode.offsetLeft + dojo.style(children[children.length-1].domNode, "width")) - scrollNodeWidth :
+				dojo.style(this.containerNode, "width") - scrollNodeWidth
+		};
+	},
+
+	// TODO: add _getScrollForTab(), to get scroll to center a tab
+
 	createSmoothScroll : function(x){
 		// summary: 
 		//		Creates a dojo._Animation object that smoothly scrolls the tab list
@@ -246,28 +292,37 @@ dojo.declare("dijit.layout.ScrollingTabController",
 		//		If an number argument is passed to the function, that horizontal 
 		//		pixel position is scrolled to.  Otherwise the currently selected
 		//		tab is scrolled to.
-		// x:	
-		//		A pixel value to scroll to.
-		var w = this.scrollNode;
-		var n = this._selectedTab;
-		
-		var val1 = dojo.coords(n, true).x + w.scrollLeft;
-		var val2 = n.offsetLeft 
-						+ dojo.style(n, "width") 
-						- dojo.style(this.scrollNode, "width");
-		
+		// x:	Integer?
+		//		An optional pixel value to scroll to, indicating distance from left.
+
+		var w = this.scrollNode,
+			n = this._selectedTab,
+			scrollNodeWidth = dojo.style(this.scrollNode, "width"),
+			scrollBounds = this._getScrollBounds();
+
+		// Scroll to given x position, or so that tab is centered
+		// TODO: scroll minimal amount (to either right or left) so that
+		// selected tab is fully visible, and just return if it's already visible?
 		var args = {
 			node: n, 
-			x: arguments.length > 0 ? x : Math.min(val1, val2)
+			x: arguments.length > 0 ? x :
+				(n.offsetLeft + dojo.style(n, "width")/2) - scrollNodeWidth/2
 		};
-		// If scrolling to close to the left side, scroll
-		// all the way to the left.
-		if(args.x < this._minScroll){args.x = 0;}
+		args.x = Math.min(Math.max(args.x, scrollBounds.min), scrollBounds.max);
 
-		var anim = new dojo._Animation(dojo.mixin({
+		// TODO:
+		// If scrolling close to the left side or right side, scroll
+		// all the way to the left or right.  See this._minScroll.
+		// (But need to make sure that doesn't scroll the tab out of view...)
+
+		var self = this,
+			anim = new dojo._Animation(dojo.mixin({
 			beforeBegin: function(){
 				if(this.curve){ delete this.curve; }
-				anim.curve = new dojo._Line(w.scrollLeft,Math.max(args.x, 0));
+				var oldS = w.scrollLeft,
+					newS = self._convertToScrollLeft(args.x);
+				console.log("animating from " + oldS + " to " + newS);
+				anim.curve = new dojo._Line(oldS, newS);
 			},
 			onAnimate: function(val){
 				w.scrollLeft = val;
@@ -277,8 +332,10 @@ dojo.declare("dijit.layout.ScrollingTabController",
 		if(this._anim && this._anim.status() == "playing"){
 			this._anim.stop();
 		}
+		// TODO: don't we need to destroy the old animation?
+
 		this._setButtonClass(args.x);
-		this._anim = anim;		
+		this._anim = anim;
 		return anim; // dojo._Animation
 	},
 
@@ -314,39 +371,39 @@ dojo.declare("dijit.layout.ScrollingTabController",
 		// summary:
 		//		Scrolls the tab list to the left or right by 75% of the widget width.
 		// direction:
-		//		If the value is 1, the widget scrolls to the right, if it is
+		//		If the direction is 1, the widget scrolls to the right, if it is
 		//		-1, it scrolls to the left.
+		
+		console.log("scroll to the " + (direction == 1 ? "right" : "left"));
+
 		if(node && dojo.hasClass(node, "dijitTabBtnDisabled")){return;}
 		
 		var sWidth = dojo.style(this.scrollNode, "width");
 		var d = (sWidth * 0.75) * direction;
-		var rMax = this._getTabsWidth() - sWidth;// + 40;
 		
-		var to = Math.max(0, 
-			Math.min(rMax, this.scrollNode.scrollLeft + d));
+		var to = this._getScroll() + d;
 		
-		this._setButtonClass(to, rMax);
+		this._setButtonClass(to);
 		
 		this.createSmoothScroll(to).play();
 	},
 	
-	_setButtonClass: function(scroll, maxScroll){
+	_setButtonClass: function(scroll){
 		// summary:
 		//		Adds or removes a class to the left and right scroll buttons
+		//		to indicate whether each one is enabled/disabled.
 		// description:
 		//		If the tabs are scrolled all the way to the left, the class
 		//		'dijitTabBtnDisabled' is added to the left button.
 		//		If the tabs are scrolled all the way to the right, the class
 		//		'dijitTabBtnDisabled' is added to the right button.
 		// scroll: Integer
-		//		amount of horizontal scroll (0 if we are scrolled to left)
-		// maxScroll: Integer?
-		//		the total amount of horizontal scroll possible (to scroll all the way to the right)
+		//		amount of horizontal scroll
 
-		var cls = "dijitTabBtnDisabled";
-		maxScroll =	maxScroll || this._getTabsWidth() - dojo.style(this.scrollNode, "width");
-		dojo.toggleClass(this._leftBtn.domNode, cls, scroll < this._minScroll);
-		dojo.toggleClass(this._rightBtn.domNode, cls, scroll >= maxScroll);
+		var cls = "dijitTabBtnDisabled",
+			scrollBounds = this._getScrollBounds();
+		dojo.toggleClass(this._leftBtn.domNode, cls, scroll <= scrollBounds.min);
+		dojo.toggleClass(this._rightBtn.domNode, cls, scroll >= scrollBounds.max);
 	}
 });
 

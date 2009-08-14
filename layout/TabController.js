@@ -29,7 +29,9 @@ dojo.declare("dijit.layout.TabController",
 	buttonWidget: "dijit.layout._TabButton",
 
 	_rectifyRtlTabList: function(){
-		//summary: Rectify the width of all tabs in rtl, otherwise the tab widths are different in IE
+		// summary:
+		//		For left/right TabContainer when page is RTL mode, rectify the width of all tabs to be equal, otherwise the tab widths are different in IE
+		
 		if(0 >= this.tabPosition.indexOf('-h')){ return; }
 		if(!this.pane2button){ return; }
 
@@ -86,7 +88,6 @@ dojo.declare("dijit.layout._TabButton",
 		if(this.iconNode.className == "dijitTabButtonIcon"){
 			dojo.style(this.iconNode, "width", "1px");
 		}
-		var n = this.domNode;
 	},
 	
 	startup: function(){

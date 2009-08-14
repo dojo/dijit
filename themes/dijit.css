@@ -1122,6 +1122,7 @@ img.dijitColorPaletteUnder {
 .dijitTabContainer .nowrapTabStrip {
 	width: 50000px;
 	display: block;
+	position: relative;
 }
 .dijitTabContainer .tabStripMenuButton {
 	float: right;

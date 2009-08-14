@@ -34,5 +34,6 @@
 }
 
 .dj_ie-rtl .tundra .dijitTab .dijitTabInnerDiv {
-	width : 1% !important;
+	/* without this the tab label and icon become invisible, as though they were set to visibility:hidden */
+	width : 0.1% !important;
 }
