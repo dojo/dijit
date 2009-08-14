@@ -161,13 +161,15 @@ dojo.declare(
 			//		Handles keyboard events
 			var key = evt.charOrCode;
 			//except for cutting/pasting case - ctrl + x/v
-			if(evt.altKey || ((evt.ctrlKey||evt.metaKey) && (key != 'x' && key != 'v')) || evt.key == dojo.keys.SHIFT){
+			if(evt.altKey || ((evt.ctrlKey||evt.metaKey) && (key != 'x' && key != 'v')) || key == dojo.keys.SHIFT){
 				return; // throw out weird key combinations and spurious events
 			}
 			var doSearch = false;
+			var searchFunction = "_startSearchFromInput";
 			var pw = this._popupWidget;
 			var dk = dojo.keys;
 			var highlighted = null;
+			this._prev_key_backspace = false;
 			if(this._isShowingNow){
 				pw.handleKey(key);
 				highlighted = pw.getHighlightedOption();
@@ -175,25 +177,16 @@ dojo.declare(
 			switch(key){
 				case dk.PAGE_DOWN:
 				case dk.DOWN_ARROW:
-					if(!this._isShowingNow||this._prev_key_esc){
-						this._arrowPressed();
-						doSearch=true;
-					}else if(highlighted){
-						this._announceOption(highlighted);
-					}
-					dojo.stopEvent(evt);
-					this._prev_key_backspace = false;
-					this._prev_key_esc = false;
-					break;
-
 				case dk.PAGE_UP:
 				case dk.UP_ARROW:
-					if(this._isShowingNow){
+					if(!this._isShowingNow){
+						this._arrowPressed();
+						doSearch = true;
+						searchFunction = "_startSearchAll";
+					}else{
 						this._announceOption(highlighted);
 					}
 					dojo.stopEvent(evt);
-					this._prev_key_backspace = false;
-					this._prev_key_esc = false;
 					break;
 
 				case dk.ENTER:
@@ -232,8 +225,6 @@ dojo.declare(
 						break;
 					}
 					if(this._isShowingNow){
-						this._prev_key_backspace = false;
-						this._prev_key_esc = false;
 						if(highlighted){
 							pw.attr('value', { target: highlighted });
 						}
@@ -243,8 +234,6 @@ dojo.declare(
 					break;
 
 				case ' ':
-					this._prev_key_backspace = false;
-					this._prev_key_esc = false;
 					if(highlighted){
 						dojo.stopEvent(evt);
 						this._selectOption();
@@ -255,8 +244,6 @@ dojo.declare(
 					break;
 
 				case dk.ESCAPE:
-					this._prev_key_backspace = false;
-					this._prev_key_esc = true;
 					if(this._isShowingNow){
 						dojo.stopEvent(evt);
 						this._hideResultList();
@@ -265,21 +252,11 @@ dojo.declare(
 
 				case dk.DELETE:
 				case dk.BACKSPACE:
-					this._prev_key_esc = false;
 					this._prev_key_backspace = true;
 					doSearch = true;
 					break;
 
-				case dk.RIGHT_ARROW: // fall through
-				case dk.LEFT_ARROW: 
-					this._prev_key_backspace = false;
-					this._prev_key_esc = false;
-					break;
-
 				default:
-					this._prev_key_backspace = false;
-					this._prev_key_esc = false;
-
 					// Non char keys (F1-F12 etc..)  shouldn't open list.
 					// Ascii characters and IME input (Chinese, Japanese etc.) should.
 					// On IE and safari, IME input produces keycode == 229, and we simulate
@@ -294,7 +271,7 @@ dojo.declare(
 			if(doSearch){
 				// need to wait a tad before start search so that the event
 				// bubbles through DOM and we have value visible
-				setTimeout(dojo.hitch(this, "_startSearchFromInput"),1);
+				setTimeout(dojo.hitch(this, searchFunction),1);
 			}
 		},
 
@@ -476,7 +453,7 @@ dojo.declare(
 			//		This way screen readers will know what is happening in the
 			//		menu.
 
-			if(node == null){
+			if(!node){
 				return;
 			}
 			// pull the text value from the item attached to the DOM node
@@ -538,6 +515,10 @@ dojo.declare(
 				// on the arrow it means they want to see more options
 				this._startSearch("");
 			}
+		},
+
+		_startSearchAll: function(){
+			this._startSearch('');
 		},
 
 		_startSearchFromInput: function(){
