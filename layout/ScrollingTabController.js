@@ -197,7 +197,7 @@ dojo.declare("dijit.layout.ScrollingTabController",
 		
 		this._updateButtons(enable);
 		
-		// TODO: needs the same logic as smoothScroll() (to compute the new scrollLeft
+		// TODO: needs the same logic as smoothScroll() (to compute the new scrollLeft)
 		// but w/out the animation
 	},
 
@@ -215,15 +215,13 @@ dojo.declare("dijit.layout.ScrollingTabController",
 		var sl = (this.isLeftToRight() || dojo.isIE < 8) ? this.scrollNode.scrollLeft :
 				dojo.style(this.containerNode, "width") - dojo.style(this.scrollNode, "width")
 					 + (dojo.isIE == 8 ? -1 : 1) * this.scrollNode.scrollLeft;
-		console.log("scroll left is " + (dojo.style(this.containerNode, "width") - dojo.style(this.scrollNode, "width")) +
-			" - " + this.scrollNode.scrollLeft + " = " + sl);
 		return sl;
 	},
 
 	_convertToScrollLeft: function(val){
 		// summary:
 		//		Given a scroll value where 0 means "scrolled all the way to the left"
-		//		and some positive number, based on # of pixels of possible scroll (like 1000
+		//		and some positive number, based on # of pixels of possible scroll (ex: 1000)
 		//		means "scrolled all the way to the right", return value to set this.scrollNode.scrollLeft
 		//		to achieve that scroll.
 		//
@@ -232,7 +230,6 @@ dojo.declare("dijit.layout.ScrollingTabController",
 			return val;
 		}else{
 			var maxScroll = dojo.style(this.containerNode, "width") - dojo.style(this.scrollNode, "width");
-			console.log("RTL mode, maxScroll = " + maxScroll + ", to achieve scrollLeft of " + val + " should set scrollLeft to " + (val - maxScroll));
 			return (dojo.isIE == 8 ? -1 : 1) * (val - maxScroll);
 		}
 	},
@@ -321,11 +318,13 @@ dojo.declare("dijit.layout.ScrollingTabController",
 				if(this.curve){ delete this.curve; }
 				var oldS = w.scrollLeft,
 					newS = self._convertToScrollLeft(args.x);
-				console.log("animating from " + oldS + " to " + newS);
 				anim.curve = new dojo._Line(oldS, newS);
 			},
 			onAnimate: function(val){
 				w.scrollLeft = val;
+				
+				// Give IE6/7 a kick or the screen won't update
+				w.className = w.className;
 			}
 		},args));
 		
@@ -374,8 +373,6 @@ dojo.declare("dijit.layout.ScrollingTabController",
 		//		If the direction is 1, the widget scrolls to the right, if it is
 		//		-1, it scrolls to the left.
 		
-		console.log("scroll to the " + (direction == 1 ? "right" : "left"));
-
 		if(node && dojo.hasClass(node, "dijitTabBtnDisabled")){return;}
 		
 		var sWidth = dojo.style(this.scrollNode, "width");
