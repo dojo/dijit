@@ -39,10 +39,10 @@
 			var robot_typeValue = function(combo, text, value){
 				if(!value || isComboBox) value = text;
 				var d = new doh.Deferred();
+				combo.focusNode.focus();
 				doh.robot.sequence(function(){ combo.attr('value', null); }, 500);
-				doh.robot.sequence(function(){combo.focusNode.focus(); }, 500);
 				doh.robot.typeKeys(text.replace(/^(.).*$/, "$1"), 500);
-				doh.robot.typeKeys(text.replace(/^./, ""), 1500, text.length);
+				doh.robot.typeKeys(text.replace(/^./, ""), 1500);
 				doh.robot.keyPress(dojo.keys.ENTER, 1500+text.length*100);
 				doh.robot.sequence(function(){
 					if(combo.attr('value') == value && combo.focusNode.value == text && !combo._isShowingNow){
@@ -76,13 +76,10 @@
 				if(!expectedtext || isComboBox) expectedtext = text;
 				var d = new doh.Deferred();
 
-				doh.robot.sequence(function(){
-					combo.attr('value', null);
-				}, 500);
-				doh.robot.sequence(function(){
-					combo.focusNode.focus();
-				}, 500);
+				combo.focusNode.focus();
+				doh.robot.sequence(function(){ combo.attr('value', null); }, 500);
 
+				doh.robot.mouseMoveAt(combo.focusNode, 0); // get cursor out of the way so that wiggling doesn't mess up test
 				doh.robot.keyPress(dojo.keys.DOWN_ARROW, 500);
 				var repeat = function(){
 					var node = findMenuItem(combo, text);
@@ -213,7 +210,7 @@
 							if(!isComboBox){
 								doh.t(combo.isValid(), "isValid()");
 							}
-						}), 500);
+						}), 900);
 						return d;
 					}
 				},
@@ -234,7 +231,7 @@
 							if(!isComboBox){
 								doh.f(combo.isValid(), "isValid()");
 							}
-						}), 500);
+						}), 900);
 						return d;
 					}
 				}
@@ -257,7 +254,7 @@
 							if(!isComboBox){
 								doh.f(combo.isValid(), "isValid()");
 							}
-						}), 500);
+						}), 900);
 						return d;
 					}
 				}
@@ -313,9 +310,7 @@
 						var d = new doh.Deferred();
 						var combo = dijit.byId("setvaluetest");
 
-						doh.robot.sequence(function(){
-							combo.focusNode.focus();
-						}, 500);
+						combo.focusNode.focus();
 
 						// Filter drop down list to entries starting with "C"
 						doh.robot.sequence(function(){ combo.attr('value', null); }, 500);
@@ -336,7 +331,7 @@
 							// Check that search-string highlighting is working
 							doh.is('<span class=dijitcomboboxhighlightmatch>c</span>onnecticut', entries[2].innerHTML.toLowerCase().replace(/"/g, ""), //balanced"
 								"highlighting is working");
-						}), 500);
+						}), 900);
 						
 						return d;
 					}
@@ -361,7 +356,7 @@
 							doh.is(2, entries.length, "three entries in drop down: " + list.innerHTML);
 							doh.is("Colorado", innerText(entries[0]), "list #1");						
 							doh.is("Connecticut", innerText(entries[1]), "list #2");
-						}), 500);
+						}), 900);
 						
 						return d;
 					}
@@ -386,7 +381,7 @@
 							doh.is("California", innerText(entries[0]), "list #1");						
 							doh.is("Colorado", innerText(entries[1]), "list #2");						
 							doh.is("Connecticut", innerText(entries[2]), "list #3");
-						}), 500);
+						}), 900);
 						
 						return d;
 					}
@@ -406,10 +401,8 @@
 						var d = new doh.Deferred();
 						var combo = dijit.byId("setvaluetest");
 
+						combo.focusNode.focus();
 						doh.robot.sequence(function(){ combo.attr('value', null); }, 500);
-						doh.robot.sequence(function(){
-							combo.focusNode.focus();
-						}, 500);
 
 						// Filter drop down list to entries starting with "C"
 						doh.robot.keyPress("C", 100);
@@ -427,7 +420,7 @@
 							if(!isComboBox){
 								doh.f(dijit.byId("setvaluetest").isValid(), "FilteringSelect shouldn't be valid");
 							}
-						}), 500);
+						}), 900);
 						
 						return d;
 					}
@@ -439,10 +432,8 @@
 						var d = new doh.Deferred();
 						var combo = dijit.byId("datatest");	// auto-complete = true
 
+						combo.focusNode.focus();
 						doh.robot.sequence(function(){ combo.attr('value', null); }, 500);
-						doh.robot.sequence(function(){
-							combo.focusNode.focus();
-						}, 500);
 
 						// Filter drop down list to entries starting with "C"
 						doh.robot.keyPress("C", 100);
@@ -452,7 +443,7 @@
 							doh.t(isVisible(list), "drop down is visible");
 
 							doh.is('California', combo.focusNode.value, "'alifornia' automatically appended to user input");
-						}), 500);
+						}), 900);
 						
 						return d;
 					}
@@ -471,7 +462,7 @@
 
 						doh.robot.sequence(d.getTestCallback(function(){
 							doh.is('Colorado', combo.focusNode.value, "suggestion changed from California to Colorado");
-						}), 500);
+						}), 900);
 						
 						return d;
 					}
@@ -495,7 +486,7 @@
 							if(!isComboBox){
 								doh.t(combo.isValid(), "FilteringSelect should be valid");
 							}
-						}), 500);
+						}), 900);
 						
 						return d;
 					}
@@ -520,15 +511,14 @@
 						var d = new doh.Deferred();
 						var combo = dijit.byId("slow");
 
-						doh.robot.sequence(function(){
-							combo.focusNode.focus();
-							combo.attr('value', null);
-						}, 500);
+						combo.focusNode.focus();
+						doh.robot.sequence(function(){ combo.attr('value', null); }, 500);
 
 						// Filter drop down list to entries starting with "C"
 						doh.robot.keyPress("C", 100);
 						doh.robot.keyPress("o", 300);	// 300ms > searchDelay, so C* query has been sent (but not yet returned results) when the o is typed
-	
+						doh.robot.keyPress(dojo.keys.ESC, 500); // close popup
+
 						doh.robot.sequence(d.getTestCallback(function(){
 							// The query "C*" should be canceled when "Co*" is started
 							var log = dojo.global.slowStateStore.log;
@@ -567,26 +557,28 @@
 						var d = new doh.Deferred();
 						var combo = dijit.byId("slow");
 
-						doh.robot.sequence(function(){ combo.attr('value', null); });
-						doh.robot.sequence(function(){
-							combo.focusNode.focus();
-						}, 500);
+						combo.focusNode.focus();
+						doh.robot.sequence(function(){ combo.attr('value', null); }, 500);
 
 						// Start to filter drop down list to entries starting with "Co"
-						doh.robot.typeKeys("Co", 100);
+						doh.robot.typeKeys("Co", 100, 50);
 
 						// But then hit ENTER after we've started the query to the data store, but
 						// before the data store returns query results... that should cancel the query.
 						doh.robot.keyPress(dojo.keys.ENTER, 300);	// 300ms > searchDelay
 	
 						doh.robot.sequence(d.getTestCallback(function(){
-							/***
-								uncomment when #8931 is fixed
 							var log = dojo.global.slowStateStore.log;
-							doh.is(2, log.length, "query was issued for 'Co' but canceled");
-							doh.is("start Co*", log[0].type + " " + log[0].query.name);
-							doh.is("cancel Co*", log[1].type + " " + log[1].query.name);
-							***/
+							var len = log.length;
+							if(testWidget == "dijit.form.FilteringSelect"){
+								doh.is(6, len, "query was issued for 'Co' but canceled");
+								doh.is("cancel ", log[1].type + " " + log[1].query.name);
+								doh.is("cancel Co*", log[3].type + " " + log[3].query.name);
+								doh.is("end Co", log[5].type + " " + log[5].query.name);
+							}else{ // this will look more like the IF block above once #6022 is committed
+								doh.is(2, len, "query was issued for 'Co' but canceled");
+								doh.is("cancel Co*", log[1].type + " " + log[1].query.name);
+							}
 
 							var list = dojo.byId("slow_popup");
 							doh.t(!list || isHidden(list), "drop down is *not* visible");
@@ -629,7 +621,7 @@
 
 						doh.robot.sequence(d.getTestCallback(function(){
 							doh.is("combo3_disable", dojo.global.dijit._curFocus.id, "focused on 'enable' button after disabled combo");
-						}), 500);
+						}), 900);
 
 						return d;
 					}
@@ -714,7 +706,7 @@
 							}else{
 								d.errback(combo.id+" was supposed to have a value of "+(isComboBox?"\u6771\u897F (Touzai)":"touzai")+". Text is "+combo.focusNode.value+", value is "+combo.attr('value'));
 							}
-						}), 500);
+						}), 900);
 						return d;
 					}
 				}
@@ -754,10 +746,8 @@
 						var d = new doh.Deferred();
 						var combo = dijit.byId("progCombo3");
 
-						doh.robot.sequence(function(){ combo.attr('value', null); });
-						doh.robot.sequence(function(){
-							combo.focusNode.focus();
-						}, 500);
+						combo.focusNode.focus();
+						doh.robot.sequence(function(){ combo.attr('value', null); }, 500);
 
 						// Show list, should be in reverse order
 						doh.robot.keyPress(dojo.keys.DOWN_ARROW, 100);
@@ -769,7 +759,7 @@
 							
 							var entries = dojo.query("li", list).filter(isVisible);
 							doh.is("United States of America", innerText(entries[0]), "list #1");						
-						}), 500);
+						}), 900);
 						
 						return d;
 					}
@@ -795,7 +785,7 @@
 							doh.is(2, entries.length, "two countries (but no continents) in drop down: " + list.innerHTML);
 							doh.is("Australia", innerText(entries[0]), "list #1");						
 							doh.is("Argentina", innerText(entries[1]), "list #2");						
-						}), 500);
+						}), 900);
 						
 						return d;
 					}

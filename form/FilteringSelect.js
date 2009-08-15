@@ -196,6 +196,7 @@ dojo.declare(
 			}
 
 			if(this.store){
+				this._hideResultList();
 				var query = dojo.clone(this.query); // #6196: populate query with user-specifics
 				// escape meta characters of dojo.data.util.filter.patternToRegExp().
 				this._lastQuery = query[this.searchAttr] = this._getDisplayQueryString(label);
@@ -213,15 +214,17 @@ dojo.declare(
 						deep: true
 					}, 
 					onComplete: function(result, dataObject){
-						        dojo.hitch(_this, "_callbackSetLabel")(result, dataObject, priorityChange);
+						_this._fetchHandle = null;
+						dojo.hitch(_this, "_callbackSetLabel")(result, dataObject, priorityChange);
 					},
 					onError: function(errText){
+						_this._fetchHandle = null;
 						console.error('dijit.form.FilteringSelect: ' + errText);
 						dojo.hitch(_this, "_setValue")("", label, false);
 					}
 				};
 				dojo.mixin(fetch, this.fetchProperties);
-				this.store.fetch(fetch);
+				this._fetchHandle = this.store.fetch(fetch);
 			}
 		},
 

@@ -150,6 +150,10 @@ dojo.declare(
 		
 		_abortQuery: function(){
 			// stop in-progress query
+			if(this.searchTimer){ 
+				 clearTimeout(this.searchTimer); 
+				this.searchTimer = null; 
+			} 
 			if(this._fetchHandle){
 				if(this._fetchHandle.abort){ this._fetchHandle.abort(); }
 				this._fetchHandle = null;
@@ -170,6 +174,7 @@ dojo.declare(
 			var dk = dojo.keys;
 			var highlighted = null;
 			this._prev_key_backspace = false;
+			this._abortQuery();
 			if(this._isShowingNow){
 				pw.handleKey(key);
 				highlighted = pw.getHighlightedOption();
@@ -263,15 +268,10 @@ dojo.declare(
 					// it on firefox by attaching to compositionend event (see compositionend method)
 					doSearch = typeof key == 'string' || key == 229;
 			}
-			if(this.searchTimer){
-				clearTimeout(this.searchTimer);
-				this.searchTimer = null;
-			}
-			this._abortQuery();
 			if(doSearch){
 				// need to wait a tad before start search so that the event
 				// bubbles through DOM and we have value visible
-				setTimeout(dojo.hitch(this, searchFunction),1);
+				this.searchTimer = setTimeout(dojo.hitch(this, searchFunction),1);
 			}
 		},
 
