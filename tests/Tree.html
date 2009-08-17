@@ -74,7 +74,7 @@
 							// Last child has special CSS for drawing the grid lines
 							doh.f(dojo.hasClass(children[3].domNode, "dijitTreeIsLast"), "middle node doesn't have dijitTreeIsLast");
 							doh.t(dojo.hasClass(children[5].domNode, "dijitTreeIsLast"), "last node has dijitTreeIsLast");
-						}), 1000);
+						}), 750);
 						return d;
 					},
 
@@ -100,7 +100,7 @@
 							doh.t(myTree2.rootNode.isExpanded, "root node is expanded");
 							doh.t(myTree2.rootNode.getChildren()[3].isExpanded, "europe node is expanded");
 							doh.is(myTree2.rootNode.getChildren()[3].getChildren()[3], myTree2.lastFocused, "focused correct node");
-						}), 1000);
+						}), 750);
 						return d;
 					},
 
@@ -178,7 +178,7 @@
 							doh.is(4, children.length, "four children");
 							doh.is("China", children[0].label, "first child");
 							doh.is("Mongolia", children[3].label, "last child");
-						}), 1000);
+						}), 750);
 						return d;
 					},
 					function nestedItemDelete(){
