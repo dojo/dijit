@@ -394,7 +394,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 			// However, firefox's iframe is handled by _drawIframe() rather than this code for some reason :-(
 			var ifr = (this.editorObject = this.iframe = dojo.doc.createElement('iframe'));
 			ifr.id = this.id+"_iframe";
-			this._iframeSrc = this._getIframeDocTxt(html);
+			this._iframeSrc = this._getIframeDocTxt();
 			ifr.style.border = "none";
 			ifr.style.width = "100%";
 			if(this._layoutMode){
@@ -423,7 +423,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 					this._localizeEditorCommands();
 				}
 
-				this.onLoad();
+				this.onLoad(html);
 				this.savedContent = this.getValue(true);
 			});
 			var s = 'javascript:parent.' + dijit._scopeName + '.byId("'+this.id+'")._iframeSrc';
@@ -452,12 +452,16 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 	_native2LocalFormatNames: {},
 	_localizedIframeTitles: null,
 
-	_getIframeDocTxt: function(/* String */ html){
-		// summary:
-		//		Generates text of the document inside the iframe (ie, <html>....editor content...</html>
-		// tags:
-		//		private
+	_getIframeDocTxt: function(){
+		// summary: 
+		//              Generates the boilerplate text of the document inside the iframe (ie, <html><head>...</head><body/></html>). 
+		//              Editor content (if not blank) should be added afterwards. 
+		// tags: 
+		//              private 
 		var _cs = dojo.getComputedStyle(this.domNode);
+		// The contents inside of <body>.  Usually this is blank (set later via a call 
+		// to setValue(), but for some reason we need an extra <div> on IE (TODOC) 
+		var html = ""; 		
 		if(dojo.isIE || (!this.height && !dojo.isMoz)){
 			html="<div>"+html+"</div>";
 		}
@@ -482,15 +486,10 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 		 * src=javascript:..._iframeSrc won't handle non-ascii characters correctly
 		 */
 		var d = dojo.doc;
-		var charset =
-			/*IE*/ d.charset || 
-			/*FF, Webkit, Opera, etc */ d.characterSet || 
-			/*nothing, look for defaults */ d.defaultCharset || "UTF-8";
-
 		return [
 			this.isLeftToRight() ? "<html><head>" : "<html dir='rtl'><head>",
 			(dojo.isMoz ? "<title>" + this._localizedIframeTitles.iframeEditTitle + "</title>" : ""),
-			"<meta http-equiv='Content-Type' content='text/html; charset=" + charset + "'>",
+			"<meta http-equiv='Content-Type' content='text/html;'>",
 			"<style>",
 			"body,html {",
 			"\tbackground:transparent;",
@@ -515,7 +514,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 			"li{ min-height:1.2em; }",
 			"</style>",
 			this._applyEditingAreaStyleSheets(),
-			"</head><body onload='frameElement._loadFunc(window,document)' style='"+userStyle+"'>"+html+"</body></html>"
+			"</head><body onload='frameElement._loadFunc(window,document)' style='"+userStyle+"'>", html, "</body></html>" 
 		].join(""); // String
 	},
 
@@ -614,7 +613,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 					if(dojo.isAIR){
 						contentDoc.body.innerHTML = html;
 					}else{
-						contentDoc.write(this._getIframeDocTxt(html));
+						contentDoc.write(this._getIframeDocTxt());
 					}
 					contentDoc.close();
 					
@@ -628,15 +627,13 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 					setTimeout(ifrFunc,50);
 					return;
 				}
-
-				this.onLoad();
+				this.onLoad(html);
 			}else{
 				// Iframe is already loaded, we are just switching the content
 				dojo.destroy(tmpContent);
 				this.editNode.innerHTML = html;
 				this.onDisplayChanged();
 			}
-			this._preDomFilterContent(this.editNode);
 		});
 
 		ifrFunc();
@@ -758,15 +755,14 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 	// TODO: _isResized seems to be unused anywhere; remove for 2.0
 	_isResized: function(){ return false; },
 
-	onLoad: function(/* Event */ e){
-		// summary:
-		//		Handler after the content of the document finishes loading.
-		// tags:
+	onLoad: function(/* String */ html){
+		// summary: 
+		//		Handler after the iframe finishes loading. 
+		// html: String 
+		//		Editor contents should be set to this value 
+		// tags: 
 		//		protected
-
-		// TODO: rename this to _onLoad, make empty public onLoad() method, deprecate/make protected onLoadDeferred handler?
-
-		if(!this.window.__registeredWindow){
+ 		if(!this.window.__registeredWindow){
 			this.window.__registeredWindow = true;
 			dijit.registerIframe(this.iframe);
 		}
@@ -788,7 +784,6 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 		var events = this.events.concat(this.captureEvents);
 		var ap = this.iframe ? this.document : this.editNode;
 		dojo.forEach(events, function(item){
-			// dojo.connect(ap, item.toLowerCase(), console, "debug");
 			this.connect(ap, item.toLowerCase(), item);
 		}, this);
 
@@ -810,17 +805,18 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 
 		this.attr('disabled', this.disabled); // initialize content to editable (or not)
 
+		this.setValue(html); 
+
 		if(this.onLoadDeferred){
 			this.onLoadDeferred.callback(true);
 		}
-
-		this.onDisplayChanged(e);
 
 		if(this.focusOnLoad){
 			// after the document loads, then set focus after updateInterval expires so that 
 			// onNormalizedDisplayChanged has run to avoid input caret issues
 			dojo.addOnLoad(dojo.hitch(this, function(){ setTimeout(dojo.hitch(this, "focus"), this.updateInterval) }));
 		}
+		this.onDisplayChanged();
 	},
 
 	onKeyDown: function(/* Event */ e){
