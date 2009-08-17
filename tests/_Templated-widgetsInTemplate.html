@@ -365,7 +365,7 @@
 			}
 		});
 		dojo.declare('TestNonCtnrWidget', [dijit._Widget, dijit._Templated], {
-			templateString: "<div dojoType=containerNode></div>",
+			templateString: "<div dojoAttachPoint=containerNode></div>",
 			startup: function(){
 				if(this._started){
 					this._doubleStarted = true;
