@@ -312,6 +312,10 @@
 				<div dojoType="TestStubWidget" dojoAttachPoint="child1"></div>
 				<div dojoType="TestStubWidget" dojoAttachPoint="child2"></div>
 			</div>
+			<div dojoType="TestNonCtnrWidget" dojoAttachPoint="nonContainer">
+				<div dojoType="TestStubWidget" dojoAttachPoint="nonContained1"></div>
+				<div dojoType="TestStubWidget" dojoAttachPoint="nonContained2"></div>
+			</div>
 		</div>
 	</xmp>
 	<script>
@@ -346,6 +350,22 @@
 			}
 		});
 		dojo.declare('TestCtndWidget', [dijit._Widget, dijit._Contained], {
+			startup: function(){
+				if(this._started){
+					this._doubleStarted = true;
+				}
+				this.inherited(arguments);
+			},
+			destroy: function(){
+				if(this._destroyed){
+					this._doubleDestroyed = true;
+				}
+				this.inherited(arguments);
+				this._destroyed = true;
+			}
+		});
+		dojo.declare('TestNonCtnrWidget', [dijit._Widget, dijit._Templated], {
+			templateString: "<div dojoType=containerNode></div>",
 			startup: function(){
 				if(this._started){
 					this._doubleStarted = true;
@@ -415,6 +435,9 @@
 				testW.stubParent,
 				testW.child1,
 				testW.child2,
+				testW.nonContainer,
+				testW.nonContained1,
+				testW.nonContained2,
 				testW.stub1			
 			];
 		}
