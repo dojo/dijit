@@ -1,0 +1,125 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+		"http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<title>doh.robot InlineEditBox Test</title>
+
+		<style>
+			@import "../../../util/doh/robot/robot.css";
+		</style>
+
+		<!-- required: dojo.js -->
+		<script type="text/javascript" src="../../../dojo/dojo.js"
+			djConfig="isDebug: true"></script>
+			
+		<!-- functions to help test -->
+		<script type="text/javascript" src="../helpers.js"></script>
+
+		<script type="text/javascript">
+			dojo.require("dijit.dijit"); // optimize: load dijit layer
+            dojo.require("dojo.date.locale");
+			dojo.require("dijit.robotx");
+
+			dojo.addOnLoad(function(){
+				doh.robot.initRobot('../test_InlineEditBox.html');
+
+                doh.robot.moveAndClick = function(node) {
+					doh.robot.mouseMoveAt(node, 500);
+                    doh.robot.mouseClick({left: true}, 1000);              
+                };
+				doh.register("dijit.InlineEditBox preDefinedValue tests", [
+					{
+						name: "CurrencyTextBox preDefinedValue",
+						timeout: 10000,
+						runTest: function(){
+							var d = new doh.Deferred();
+                            doh.robot.moveAndClick("dollar");
+							doh.robot.sequence(d.getTestCallback(function(){
+                               var inlineBox = dijit.byId("dollar");
+                               doh.is('$2,000', inlineBox.attr("value"), "value");
+                               var currencyTextBox = inlineBox.editWidget.editWidget;
+                               doh.is('2000.00', currencyTextBox.attr("displayedValue"), "displayedValue");
+							}), 1000);	                            
+                            doh.robot.moveAndClick("predefined");  
+                            doh.robot.moveAndClick("dijit_form_Button_1");                            
+							return d;
+						}
+					},                    
+					{
+						name: "NumberSpinner preDefinedValue",
+						timeout: 10000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+                            doh.robot.moveAndClick("quantity");                            
+							doh.robot.sequence(d.getTestCallback(function(){
+                               var inlineBox = dijit.byId("quantity");
+                               doh.is(3, inlineBox.attr("value"));
+                               var numberSpinner = inlineBox.editWidget.editWidget;
+                               doh.is(3, numberSpinner.attr("value"));
+							}), 1000);                            
+                            doh.robot.moveAndClick("predefined");                            
+                            doh.robot.moveAndClick("dijit_form_Button_3");                              
+							return d;
+						}
+					},                    
+					{
+						name: "ComboBox preDefinedValue",
+						timeout: 10000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+                            doh.robot.moveAndClick("item");                            
+							doh.robot.sequence(d.getTestCallback(function(){
+                               var inlineBox = dijit.byId("item");
+                               doh.is("refrigerators", dojo.trim(inlineBox.attr("value")));
+                               var comboBox = inlineBox.editWidget.editWidget;                               
+                               doh.is("refrigerators", comboBox.attr("value"));
+							}), 1000);	
+                            doh.robot.moveAndClick("predefined");                            
+                            doh.robot.moveAndClick("dijit_form_Button_5");                             
+							return d;
+						}
+					},                    
+					{
+						name: "DateTextBox preDefinedValue",
+						timeout: 10000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+                            doh.robot.moveAndClick("purchase");                            
+                            var preDate = dojo.date.locale.parse("01/05/2007", {datePattern: 'MM/dd/yyyy', selector:'date'});                                                  
+							doh.robot.sequence(d.getTestCallback(function(){
+                               var inlineBox = dijit.byId("purchase");
+                               doh.is("01/05/2007", inlineBox.attr("value"));
+                               var dateTextBox = inlineBox.editWidget.editWidget;
+                               doh.is(preDate.toString(), dateTextBox.attr("value").toString());
+							}), 1000);	
+                            doh.robot.moveAndClick("predefined");                            
+                            doh.robot.moveAndClick("dijit_form_Button_7");                             
+							return d;
+						}
+					},                    
+					{
+						name: "FilteringSelect preDefinedValue",
+						timeout: 10000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+                            doh.robot.moveAndClick("state");
+							doh.robot.sequence(d.getTestCallback(function(){
+                               var inlineBox = dijit.byId("state");
+                               doh.is("Pennsylvania", dojo.trim(inlineBox.attr("value")));
+                               var filteringSelect = inlineBox.editWidget.editWidget;
+                               doh.is("PA", filteringSelect.attr("value"));
+							}), 1000);	                        
+							return d;
+						}
+					}
+				]);
+				
+				doh.run();
+			});
+		</script>
+	</head>
+</html>
