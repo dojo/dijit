@@ -101,9 +101,9 @@ dojo.declare("dijit._Templated",
 					parser._attrName = "dojoType";
 				}
 
-				var cw = dojo.parser.parse(node, {
+				var cw = (this._startupWidgets = dojo.parser.parse(node, {
 					noStart: !this._earlyTemplatedStartup
-				});
+				}));
 
 				//Restore the query. 
 				if(qry){
@@ -111,8 +111,14 @@ dojo.declare("dijit._Templated",
 					parser._attrName = attr;
 				}
 
+				var kids = [];
+				dojo.forEach(cw, function(w){
+					if(w.isContainer || dojo.some(kids, function(k){ return k == w; })){
+						kids = kids.concat(w.getChildren());
+					}
+				});
 				this._supportingWidgets = dojo.filter(cw, function(w){
-					return(!w.getParent || !w.getParent());
+					return !(dojo.some(kids, function(k){ return k == w; }));
 				});
 
 				this._attachTemplateNodes(cw, function(n,p){
@@ -222,7 +228,7 @@ dojo.declare("dijit._Templated",
 		},
 		
 		startup: function(){
-			dojo.forEach(this._supportingWidgets, function(w){
+			dojo.forEach(this._startupWidgets, function(w){
 				if(w && !w._started && w.startup){
 					w.startup();
 				}
