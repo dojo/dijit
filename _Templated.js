@@ -101,6 +101,7 @@ dojo.declare("dijit._Templated",
 					parser._attrName = "dojoType";
 				}
 
+				//Store widgets that we need to start at a later point in time
 				var cw = (this._startupWidgets = dojo.parser.parse(node, {
 					noStart: !this._earlyTemplatedStartup
 				}));
@@ -111,6 +112,9 @@ dojo.declare("dijit._Templated",
 					parser._attrName = attr;
 				}
 
+				//_supportingWidgets are all widgets that we started *UNLESS*
+				//they are a child of a container node (or some other descendant
+				//of a container node.)
 				var kids = [];
 				dojo.forEach(cw, function(w){
 					if(w.isContainer || dojo.some(kids, function(k){ return k == w; })){
