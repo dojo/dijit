@@ -109,20 +109,30 @@
 					}
 					generateTestXY('absContent_loose_rtl', maxScrollX, maxScrollY, minScrollX, minScrollY);
 				},
-				/* // position:fixed is handled natively for now
 				function test_fixedNode_strict(){
-					var supported = !(dojo.isIE <= 6);
-					generateTest('fixedNode_strict', supported? "(-1,-1)" : "(+0,-0)", supported? "(+1,+1)" : "(+0,-0)");
+					if(dojo.isIE <= 6){ return; }
+					generateTest('fixedNode_strict', "(-1,-1)", "(+1,+1)");
 				},
 				function test_fixedNode_none(){
-					var supported = !dojo.isIE;
-					generateTest('fixedNode_none', supported? "(-1,-1)" : "(+0,-0)", supported? "(+1,+1)" : "(+0,-0)");
+					if(dojo.isIE){ return; }
+					generateTest('fixedNode_none', "(-1,-1)", "(+1,+1)");
 				},
 				function test_fixedNode_loose_rtl(){
-					var supported = !(dojo.isIE <= 6);
-					generateTest('fixedNode_loose_rtl', supported? "(-1,-1)" : "(-0,-0)", supported? "(+1,+1)" : "(-0,-0)");
+					if(dojo.isIE <= 6){ return; }
+					generateTest('fixedNode_loose_rtl', "(-1,-1)", "(+1,+1)");
 				},
-				*/
+				function test_fixedScrollable_strict(){
+					if(dojo.isIE <= 6){ return; }
+					generateTest('fixedScrollable_strict', dojo.isIE == 7? "(0,-54)(0,-1)" : "(0,-39)(0,-1)", dojo.isIE == 7? "(0,+39)(0,+1)" : "(0,+38)(0,+1)");
+				},
+				function test_fixedScrollable_none(){
+					if(dojo.isIE){ return; }
+					generateTest('fixedScrollable_none', "(0,-39)(0,-1)", "(0,+38)(0,+1)");
+				},
+				function test_fixedScrollable_loose_rtl(){
+					if(dojo.isIE <= 6){ return; }
+					generateTest('fixedScrollable_loose_rtl', dojo.isIE == 7? "(0,-54)(0,-1)" : "(0,-39)(0,-1)", dojo.isIE == 7? "(0,+39)(0,+1)" : "(0,+38)(0,+1)");
+				},
 				function test_7036_8665_strict(){
 					var maxScroll;
 					var minScroll;
@@ -271,9 +281,6 @@
 					if(dojo.isIE <= 7){
 						minScroll = "(0,+16)";
 						maxScroll = "(0,-16)";
-					}else if(dojo.isMoz){
-						minScroll = "(0,+20)";
-						maxScroll = "(0,-10)";
 					}else{
 						minScroll = "(0,+15)";
 						maxScroll = "(0,-15)";
@@ -285,9 +292,6 @@
 					if(dojo.isIE){
 						minScroll = "(0,+16)";
 						maxScroll = "(0,-16)";
-					}else if(dojo.isMoz){
-						minScroll = "(0,+20)";
-						maxScroll = "(0,-10)";
 					}else{
 						minScroll = "(0,+15)";
 						maxScroll = "(0,-15)";
@@ -299,9 +303,6 @@
 					if(dojo.isIE <= 7){
 						minScroll = "(0,+16)";
 						maxScroll = "(0,-16)";
-					}else if(dojo.isMoz){
-						minScroll = "(0,+20)";
-						maxScroll = "(0,-10)";
 					}else{
 						minScroll = "(0,+15)";
 						maxScroll = "(0,-15)";
@@ -413,7 +414,6 @@ console.log('!!!!!!!!!!!! scrollbar size = ' + sb);
 	<input style="position:absolute;top:90px;">
 </div>
 </fieldset>
-<!-- position:fixed is poorly supported in IE and is actually hard to get right (scrolling inside a fixed element) so its handled natively for now
 <fieldset>
 <label for="fixedNode">Fixed-positioned node:</label>
 <div type="testIframe" id="fixedNode">
@@ -425,17 +425,19 @@ console.log('!!!!!!!!!!!! scrollbar size = ' + sb);
 <fieldset>
 <label for="fixedScrollable">Fixed-positioned scrollable content:</label>
 <div type="testIframe" id="fixedScrollable">
-	<div style="height:120px;width:70px;overflow-y:scroll;position:fixed;top:-20px;left:10px;">
+	<iframestyle>HTML { overflow-x:hidden !important; /*IE6*/ }
+		INPUT { height:20px; MZT_MZQ_WKT_WKQ_IEQ_height:28px; S3Z_height:20px; width:20px; MZT_MZQ_WKT_WKQ_IEQ_width:28px; S3Z_width:20px; }</iframestyle>
+	<div style="height:120px;width:70px;overflow-y:scroll;position:fixed;margin:-10px 0px 0px 0px;">
 		<input style="margin:120px 0px;border:1px solid red;padding:3px;">
 		<hr style="width:10px;">
 	</div>
+	<hr style="height:200px;width:20px;"/>
 </div>
 </fieldset>
--->
 <fieldset>
 <label for="7036_8665">Double scrollbars with absolute positioned content:</label>
 <div type="testIframe" id="7036_8665">
-	<iframestyle>INPUT { height: 20px; MZT_MZQ_WKT_WKQ_IEQ_height:28px; width:20px; MZT_MZQ_WKT_WKQ_IEQ_width:28px; }</iframestyle>
+	<iframestyle>INPUT { height:20px; MZT_MZQ_WKT_WKQ_IEQ_height:28px; S3Z_height:20px; width:20px; MZT_MZQ_WKT_WKQ_IEQ_width:28px; S3Z_width:20px; }</iframestyle>
 	<div style="height:70px;width:70px;overflow-y:scroll;position:absolute;top:26px;left:5px;"
 		><input style="margin:80px 0px 80px 0px;border:1px solid red;padding:3px;"
 		><hr style="width:10px;"
@@ -476,7 +478,7 @@ console.log('!!!!!!!!!!!! scrollbar size = ' + sb);
 <fieldset>
 <label for="bottomNonFloat">Bottom, not floated:</label>
 <div type="testIframe" id="bottomNonFloat">
-	<iframestyle>INPUT { margin-right:100%; margin-left:100%; MZ_margin-left:100px; WKR_FF2R_margin-right:-24.5%; }</iframestyle>
+	<iframestyle>INPUT { margin-right:100%; margin-left:100%; WKR_FF2R_margin-right:-24.5%; }</iframestyle>
 	<hr style="height:50px;width:200px;float:left;"/>
 	<hr style="height:50px;width:200px;float:right;"/>
 	<input style="clear:both;">
@@ -611,15 +613,15 @@ console.log('!!!!!!!!!!!! scrollbar size = ' + sb);
 		// find DOCTYPE specific CSS attributes
 		if(strict){
 			iframeSrc += "<!DOCTYPE HTML PUBLIC '-//W3C//DTD HTML 4.01//EN' 'http://www.w3.org/TR/html4/strict.dtd'>\n";
-			content = content.replace(/[A-Z0-9_]*(\b|_)S_[A-Z0-9_]*/g, "");
+			content = content.replace(/[A-Z0-9_]*(\b|_)[SZ]_[A-Z0-9_]*/g, "");
 		}else if(rtl){
 			iframeSrc += "<!DOCTYPE HTML PUBLIC '-//W3C//DTD HTML 4.0 Transitional//EN' 'http://www.w3.org/TR/html4/loose.dtd'>\n";
-			content = content.replace(/[A-Z0-9_]*(\b|_)T_[A-Z0-9_]*/g, "");
+			content = content.replace(/[A-Z0-9_]*(\b|_)[TZ]_[A-Z0-9_]*/g, "");
 		}else{ 
 			if(dojo.isWebKit){
 				iframeSrc += "<!DOCTYPE HTML PUBLIC '-//W3C//DTD HTML 4.01 Transitional//EN'>\n"; // quirks: needed for WebKit's javascript: protocol
 			}
-			content = content.replace(/[A-Z0-9_]*(\b|_)Q_[A-Z0-9_]*/g, "");
+			content = content.replace(/[A-Z0-9_]*(\b|_)[QZ]_[A-Z0-9_]*/g, "");
 		}
 		if(rtl){
 			content = content.replace(/[A-Z0-9_]*(\b|_)R_[A-Z0-9_]*/g, "");
