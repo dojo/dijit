@@ -24,25 +24,25 @@
 		dojo.require("dijit.layout.TabContainer");
         dojo.require("dijit.layout.ContentPane");
 
-		var tc, cp1, cp2, cp3;
-		dojo.addOnLoad(function(){
- 				tc = new dijit.layout.TabContainer({style:'height:200px;width:500px;'}, dojo.byId('main'));
+		var tab = 1;
+
+		var tc, cp;
+		function create(initialTabs){
+			tc = new dijit.layout.TabContainer({style:'height:200px;width:500px;'}, dojo.byId('main'));
  
-				cp1 = new dijit.layout.ContentPane({title: 'Tab 1'});
-				cp1.domNode.innerHTML = "Contents of Tab 1";
-				tc.addChild(cp1);
+			for(var i=0; i<initialTabs; i++){
+				cp = new dijit.layout.ContentPane({title: 'Tab ' + tab});
+				cp.domNode.innerHTML = "Contents of Tab " + tab++;
+				tc.addChild(cp);
+			}
 
-				cp2 = new dijit.layout.ContentPane({title: 'Tab 2'});
-				cp2.domNode.innerHTML = "Contents of Tab 2";
-				tc.addChild(cp2);
-
-                tc.startup();
-        });
+			tc.startup();
+        }
         
         function addTab(){
-			cp3 = new dijit.layout.ContentPane({title: 'Tab 3'});
-			cp3.domNode.innerHTML = "Contents of Tab 3";
-			tc.addChild(cp3);
+			cp = new dijit.layout.ContentPane({title: 'Tab' + tab});
+			cp.domNode.innerHTML = "Contents of Tab " + tab++;
+			tc.addChild(cp);
         }
 	</script>
 </head>
@@ -51,8 +51,11 @@
 	<div id='main'>
 	</div>
 
-	<button onclick="tc.selectChild(cp2);">select tab 2</button>
-	<button onclick="tc.removeChild(cp2);">remove tab 2</button>
-	<button onclick="addTab();">add tab 3</button>
+	<button onclick="create(0)">create empty tab container</button>
+	<button onclick="create(2)">create tab container w/2 tabs</button>
+
+	<button onclick="tc.selectChild(tc.getChildren()[1]);">select second tab</button>
+	<button onclick="tc.removeChild(tc.getChildren()[1]);">remove second tab</button>
+	<button onclick="addTab();">add tab</button>
 </body>
 </html>
