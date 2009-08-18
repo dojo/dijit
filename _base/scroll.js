@@ -61,6 +61,8 @@ dijit.scrollIntoView = function(/* DomNode */node){
 							nodePos.y -= scrollTop;
 						}
 					}
+				}else if(isIE && backCompat && rtl){
+					x += clientAreaRoot.offsetWidth - rootWidth - pb.w;
 				}
 				if(fixedPos){ // bounded by viewport, not parents
 					if(y < 0){
@@ -84,7 +86,7 @@ dijit.scrollIntoView = function(/* DomNode */node){
 				if(r * l > 0){
 					var s = Math[l < 0? "max" : "min"](l, r);
 					nodePos.x += scrollLeft;
-					scrollLeft += (isIE >= 8 && rtl)? -s : s;
+					scrollLeft += (isIE >= 8 && !backCompat && rtl)? -s : s;
 					nodePos.x -= scrollLeft;
 				}
 				if(b * t > 0){
