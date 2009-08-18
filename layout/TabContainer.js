@@ -36,12 +36,12 @@ dojo.declare("dijit.layout.TabContainer",
 	//		border since the outer TabContainer already has a border.
 	nested: false,
 
-	// useMenu: Boolean
+	// useMenu: [const] Boolean
 	//		True if a menu should be used to select tabs when they are too
 	//		wide to fit the TabContainer, false otherwise.
 	useMenu: true,
 
-	// useSlider: Boolean
+	// useSlider: [const] Boolean
 	//		True if a slider should be used to select tabs when they are too
 	//		wide to fit the TabContainer, false otherwise.
 	useSlider: true,

@@ -17,12 +17,12 @@ dojo.declare("dijit.layout.ScrollingTabController",
 	templateString: null,
 	templatePath: dojo.moduleUrl("dijit.layout", "templates/ScrollingTabController.html"),
 
-	// useMenu: Boolean
+	// useMenu:[const] Boolean
 	//		True if a menu should be used to select tabs when they are too
 	//		wide to fit the TabContainer, false otherwise.
 	useMenu: true,
 	
-	// useSlider: Boolean
+	// useSlider: [const] Boolean
 	//		True if a slider should be used to select tabs when they are too
 	//		wide to fit the TabContainer, false otherwise.
 	useSlider: true,
@@ -50,9 +50,6 @@ dojo.declare("dijit.layout.ScrollingTabController",
 		this.tabContainer = dijit.byId(this.containerId);
 		this.scrollNode = this.tablistWrapper;
 		this._initButtons();
-		
-		// TODO: isn't this done automatically by attributeMap?
-		dojo.addClass(this.containerNode, this["class"]);
 		
 		if(!this.tabStripClass){
 			this.tabStripClass = "dijitTabContainer" +
@@ -115,39 +112,29 @@ dojo.declare("dijit.layout.ScrollingTabController",
 		//		Creates the buttons used to scroll to view tabs that
 		//		may not be visible if the TabContainer is too narrow. 
 		this._menuChildren = {};
-		
-		// Hide all the button initially
-		// TODO: couldn't this be replaced by three simple calls to dojo.style()?
-		this._buttons = dojo.query("> .tabStripButton", this.domNode)
-			.filter(dojo.hitch(this, function(btn){
-				var r = true;
-				if(!this.useMenu && btn == this._menuBtn.domNode){
-					r = false;
-				}else if(!this.useSlider && (btn == this._rightBtn.domNode || btn == this._leftBtn.domNode)){
-					r = false;
-				}
-				if(!r){
-					dojo.style(btn, "display", "none")
-				}
-				return r;
+
+		// Make a list of the buttons to display when the tab labels become
+		// wider than the TabContainer, and hide the other buttons.
+		// Also gets the total width of the displayed buttons.
+		this._btnWidth = 0;
+		this._buttons = dojo.query("> .tabStripButton", this.domNode).filter(function(btn){
+			if((this.useMenu && btn == this._menuBtn.domNode) ||
+				(this.useSlider && (btn == this._rightBtn.domNode || btn == this._leftBtn.domNode))){
+				this._btnWidth += dojo.marginBox(btn).w;
+				return true;	
+			}else{
+				dojo.style(btn, "display", "none");
+				return false;
 			}
-		));
-		var totalWidth = 0;
-		this._buttons.forEach(function(n){
-			totalWidth += dojo.marginBox(n).w;
-			
-		});
-		this._btnWidth = totalWidth;
+		}, this);
 		
-		if(!this.nested && this.useMenu){	
+		if(this.useMenu){	
 			// Create the menu that is used to select tabs.
 			this._menu = new dijit.Menu({
 				id: this.id + "_menu",
 				targetNodeIds: [this._menuBtn.domNode],
 				leftClickToOpen: true
 			});
-		}else{
-			dojo.style(this._menuBtn.domNode, "display", "none");
 		}
 	},
 	
@@ -313,7 +300,7 @@ dojo.declare("dijit.layout.ScrollingTabController",
 	createSmoothScroll : function(x){
 		// summary: 
 		//		Creates a dojo._Animation object that smoothly scrolls the tab list
-		//		either to a fixed horizontal pixel value, or to a particular tab.
+		//		either to a fixed horizontal pixel value, or to the selected tab.
 		// description:
 		//		If an number argument is passed to the function, that horizontal 
 		//		pixel position is scrolled to.  Otherwise the currently selected
@@ -321,47 +308,41 @@ dojo.declare("dijit.layout.ScrollingTabController",
 		// x:	Integer?
 		//		An optional pixel value to scroll to, indicating distance from left.
 
-		var w = this.scrollNode,
-			n = this._selectedTab,
-			scrollBounds = this._getScrollBounds();
+		// Calculate position to scroll to
+		if(arguments.length > 0){
+			// position specified by caller, just make sure it's within bounds
+			var scrollBounds = this._getScrollBounds();
+			x = Math.min(Math.max(x, scrollBounds.min), scrollBounds.max);
+		}else{
+			// scroll to center the current tab
+			x = this._getScrollForSelectedTab();
+		}
 
-		// Scroll to given x position, or so that tab is centered
-		// TODO: scroll minimal amount (to either right or left) so that
-		// selected tab is fully visible, and just return if it's already visible?
-		var args = {
-			node: n, 
-			x: arguments.length > 0 ? x : this._getScrollForSelectedTab()
-		};
-		args.x = Math.min(Math.max(args.x, scrollBounds.min), scrollBounds.max);
-
-		// TODO:
-		// If scrolling close to the left side or right side, scroll
-		// all the way to the left or right.  See this._minScroll.
-		// (But need to make sure that doesn't scroll the tab out of view...)
-
-		var self = this,
-			anim = new dojo._Animation(dojo.mixin({
-			beforeBegin: function(){
-				if(this.curve){ delete this.curve; }
-				var oldS = w.scrollLeft,
-					newS = self._convertToScrollLeft(args.x);
-				anim.curve = new dojo._Line(oldS, newS);
-			},
-			onAnimate: function(val){
-				w.scrollLeft = val;
-				
-				// Give IE6/7 a kick or the screen won't update
-				w.className = w.className;
-			}
-		},args));
-		
 		if(this._anim && this._anim.status() == "playing"){
 			this._anim.stop();
 		}
-		// TODO: don't we need to destroy the old animation?
 
-		this._setButtonClass(args.x);
+		var self = this,
+			w = this.scrollNode,
+			anim = new dojo._Animation({
+				beforeBegin: function(){
+					if(this.curve){ delete this.curve; }
+					var oldS = w.scrollLeft,
+						newS = self._convertToScrollLeft(x);
+					anim.curve = new dojo._Line(oldS, newS);
+				},
+				onAnimate: function(val){
+					w.scrollLeft = val;
+					
+					// Give IE6/7 a kick or the screen won't update
+					w.className = w.className;
+				}
+			});
 		this._anim = anim;
+
+		// Disable/enable left/right buttons according to new scroll position
+		this._setButtonClass(x);
+
 		return anim; // dojo._Animation
 	},
 
