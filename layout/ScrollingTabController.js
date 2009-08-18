@@ -190,8 +190,12 @@ dojo.declare("dijit.layout.ScrollingTabController",
 		
 		this._updateButtons(enable);
 		
-		// TODO: needs the same logic as smoothScroll() (to compute the new scrollLeft)
-		// but w/out the animation
+		// set proper scroll so that selected tab is visible
+		if(this._selectedTab){
+			var w = this.scrollNode,
+				sl = this._convertToScrollLeft(this._getScrollForSelectedTab());
+			w.scrollLeft = sl;
+		}
 	},
 
 	_updateButtons: function(enable){
@@ -285,7 +289,26 @@ dojo.declare("dijit.layout.ScrollingTabController",
 		}
 	},
 
-	// TODO: add _getScrollForTab(), to get scroll to center a tab
+	_getScrollForSelectedTab: function(){
+		// summary:
+		//		Returns the scroll value setting so that the selected tab
+		//		will appear in the center
+		var w = this.scrollNode,
+			n = this._selectedTab,
+			scrollNodeWidth = dojo.style(this.scrollNode, "width"),
+			scrollBounds = this._getScrollBounds();
+
+		// TODO: scroll minimal amount (to either right or left) so that
+		// selected tab is fully visible, and just return if it's already visible?
+		var pos = (n.offsetLeft + dojo.style(n, "width")/2) - scrollNodeWidth/2;
+		pos = Math.min(Math.max(pos, scrollBounds.min), scrollBounds.max);
+
+		// TODO:
+		// If scrolling close to the left side or right side, scroll
+		// all the way to the left or right.  See this._minScroll.
+		// (But need to make sure that doesn't scroll the tab out of view...)
+		return pos;
+	},
 
 	createSmoothScroll : function(x){
 		// summary: 
@@ -300,7 +323,6 @@ dojo.declare("dijit.layout.ScrollingTabController",
 
 		var w = this.scrollNode,
 			n = this._selectedTab,
-			scrollNodeWidth = dojo.style(this.scrollNode, "width"),
 			scrollBounds = this._getScrollBounds();
 
 		// Scroll to given x position, or so that tab is centered
@@ -308,8 +330,7 @@ dojo.declare("dijit.layout.ScrollingTabController",
 		// selected tab is fully visible, and just return if it's already visible?
 		var args = {
 			node: n, 
-			x: arguments.length > 0 ? x :
-				(n.offsetLeft + dojo.style(n, "width")/2) - scrollNodeWidth/2
+			x: arguments.length > 0 ? x : this._getScrollForSelectedTab()
 		};
 		args.x = Math.min(Math.max(args.x, scrollBounds.min), scrollBounds.max);
 
