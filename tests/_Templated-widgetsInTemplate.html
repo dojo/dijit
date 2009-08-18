@@ -321,6 +321,11 @@
 					<div dojoType="TestStubWidget" dojoAttachPoint="bottomLevel"></div>
 				</div>
 			</div>
+			<div dojoType="TestNonCtnrWidget" dojoAttachPoint="anotherThree">
+				<div dojoType="TestCtnrWidget" dojoAttachPoint="anotherSecond">
+					<div dojoType="TestCtndWidget" dojoAttachPoint="anotherBottom"></div>
+				</div>
+			</div>
 		</div>
 	</xmp>
 	<script>
@@ -446,6 +451,9 @@
 				testW.threeLevel,
 				testW.secondLevel,
 				testW.bottomLevel,
+				testW.anotherThree,
+				testW.anotherSecond,
+				testW.anotherBottom,
 				testW.stub1			
 			];
 		}
