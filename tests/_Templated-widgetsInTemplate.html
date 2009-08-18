@@ -23,18 +23,16 @@
 							name: "dojoAttachPoint",
 							runTest: function(t){
 								var testW = dijit.byId("test1Widget");
-								t.t(testW.normalNode);
-								t.f(isNaN(testW.normalNode.nodeType));
-								t.t(testW.buttonWidget instanceof dijit.form.Button);
-								t.t(testW.checkboxWidget instanceof dijit.form.CheckBox);
-								t.t(testW.progressBarWidget instanceof dijit.ProgressBar);
-//								alert((testW.buttonWidget instanceof dijit.form.Button)+(testW.checkboxWidget instanceof dijit.form.CheckBox)+(testW.progressBarWidget instanceof dijit.ProgressBar)+
-//								(testW.buttonWidget._counter==1)+(testW.checkboxWidget._counter==1)+(testW.progressBarWidget._counter==1));
+								t.t(testW.normalNode, "normalNode");
+								t.f(isNaN(testW.normalNode.nodeType), "normalNode.nodeType");
+								t.t(testW.buttonWidget instanceof dijit.form.Button, "buttonWidget is Button");
+								t.t(testW.checkboxWidget instanceof dijit.form.CheckBox, "checkboxWidget is CheckBox");
+								t.t(testW.progressBarWidget instanceof dijit.ProgressBar, "progressBarWidget is ProgressBar");
 								testW = dijit.byId("test2Widget");
-								t.t(testW.containerNode);
-								t.f(isNaN(testW.containerNode.nodeType));
-								t.is(undefined,testW.buttonWidget);
-								t.t(testW.checkboxWidget instanceof dijit.form.CheckBox);
+								t.t(testW.containerNode, "containerNode");
+								t.f(isNaN(testW.containerNode.nodeType), "containerNode nodeType");
+								t.is(undefined,testW.buttonWidget, "buttonWidget undefined");
+								t.t(testW.checkboxWidget instanceof dijit.form.CheckBox, "checkboxWidget is still CheckBox");
 							}
 						},
 						{
@@ -47,9 +45,9 @@
 								testW.checkboxWidget.onClick(testW.checkboxWidget);
 								testW.progressBarWidget._counter=0;
 								testW.progressBarWidget.onChange(testW.progressBarWidget);
-								t.is(1,testW.buttonWidget._counter);
-								t.is(1,testW.checkboxWidget._counter);
-								t.is(1,testW.progressBarWidget._counter);
+								t.is(1,testW.buttonWidget._counter, "buttonWidget._counter");
+								t.is(1,testW.checkboxWidget._counter, "checkboxWidget._counter");
+								t.is(1,testW.progressBarWidget._counter, "progressBarWidget._counter");
 							}
 						},
 						{
@@ -117,13 +115,13 @@
 								// Check that generated HTML in DOM is same 
 								var declNeutralHtml = declW.domNode.innerHTML.replace(/_\d+/g, "");
 								var progNeutralHtml = progW.domNode.innerHTML.replace(/_\d+/g, "");
-								t.is(declNeutralHtml, progNeutralHtml);
+								t.is(declNeutralHtml, progNeutralHtml, "progNeutralHtml");
 								
 								// Check that dimensions are same
 								var declBox = dojo.contentBox(declW.domNode);
 								var progBox = dojo.contentBox(progW.domNode);
-								t.is(declBox.h, progBox.h);
-								t.is(declBox.w, progBox.w);
+								t.is(declBox.h, progBox.h, "progBox.h");
+								t.is(declBox.w, progBox.w, "progBox.w");
 							}
 						},
 						{
@@ -285,13 +283,13 @@
 			var selectedPane = dojo.query(".dijitTabPane.dijitVisible", testW.domNode)[0];
 			var tabBox = selectedTab ? dojo.contentBox(selectedTab) : null;
 			var paneBox = selectedPane ? dojo.contentBox(selectedPane) : null;
-			t.t(tabBox && tabBox.w > 0 && tabBox.h > 0);
-			t.t(paneBox && paneBox.w > 0 && paneBox.h > 0);
+			t.t(tabBox && tabBox.w > 0 && tabBox.h > 0, "tabBox && tabBox.w > 0 && tabBox.h > 0");
+			t.t(paneBox && paneBox.w > 0 && paneBox.h > 0, "paneBox && paneBox.w > 0 && paneBox.h");
 			// Check that everything got started
-			t.t(testW._started);
-			t.t(testW.tabCont._started);
-			t.t(testW.tab1._started);
-			t.t(testW.tab2._started);
+			t.t(testW._started, "testW._started");
+			t.t(testW.tabCont._started, "tabCont._started");
+			t.t(testW.tab1._started, "tab1._started");
+			t.t(testW.tab2._started, "tab2._started");
 		}
 	</script>
 	<div dojoType="Test4Widget" id="test4Widget" ></div>
@@ -461,8 +459,8 @@
 		function validateTest5Widget(t, testW) {
 			// Check that everything got started, but not double-started
 			dojo.forEach(getTestWidgets(testW), function(w){
-				t.t(w._started);
-				t.is(undefined, w._doubleStarted);
+				t.t(w._started, "w._started: " + w);
+				t.is(undefined, w._doubleStarted, "w._doubleStarted: " + w);
 			});
 		}
 		
@@ -470,8 +468,8 @@
 			var savedWidgets = getTestWidgets(testW);
 			testW.destroy();
 			dojo.forEach(savedWidgets, function(w, idx){
-				t.t(w._destroyed);
-				t.is(undefined, w._doubleDestroyed);
+				t.t(w._destroyed, "w._destroyed: " + w);
+				t.is(undefined, w._doubleDestroyed, "w._doubleDestroyed: " + w);
 			});
 		}
 	</script>
