@@ -179,7 +179,7 @@ dojo.declare("dijit.layout.ScrollingTabController",
 		// Show/hide the left/right/menu navigation buttons depending on whether or not they
 		// are needed.
 		var enable = this._enableBtn(this._contentBox.w);		
-		this._updateButtons(enable);
+		this._buttons.style("display", enable ? "" : "none");
 
 		// Position and size the navigation buttons and the tablist
 		this._leftBtn.layoutAlign = "left";
@@ -194,13 +194,11 @@ dojo.declare("dijit.layout.ScrollingTabController",
 				sl = this._convertToScrollLeft(this._getScrollForSelectedTab());
 			w.scrollLeft = sl;
 		}
-	},
-
-	_updateButtons: function(enable){
-		this._buttons.style("display", enable ? "" : "none");
+		
+		// Enable/disabled left right buttons depending on whether or not user can scroll to left or right
 		this._setButtonClass(this._getScroll());
+		
 	},
-	
 
 	_getScroll: function(){
 		// summary:
