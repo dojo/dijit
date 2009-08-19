@@ -338,9 +338,10 @@
 }
 
 .tundra .dijitTabContainer .tabStripButton {
-	/* float need width set */
+	/* TODO: instead of hardcoded value set to inline display and let layoutChildren() measure? */
 	width: 21px;
 }
+
 .tundra .dijitTabContainer .tabStripButton img {
 	height: 14px;
 	background: url(../images/spriteRoundedIconsSmall.png) no-repeat;

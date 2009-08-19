@@ -110,6 +110,9 @@ dojo.declare(
 
 			// in case the tab titles have overflowed from one line to two lines
 			// (or, if this if first child, from zero lines to one line)
+			// TODO: w/ScrollingTabContoller this is no longer necessary, although
+			// ScrollTabController.resize() does need to get called to show/hide
+			// the navigation buttons as appropriate
 			this.layout();
 
 			// if this is the first child, then select it
