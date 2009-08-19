@@ -32,7 +32,9 @@ dojo.declare(
 
 		// Override regExpGen ValidationTextBox.regExpGen().... we use a reg-ex generating function rather
 		// than a straight regexp to deal with locale  (plus formatting options too?)
-		regExpGen: dojo.currency.regexp,
+		regExpGen: function(constraints){
+			return this._focused? dojo.number.regexp(dojo.mixin(dojo.mixin(this.editOptions, constraints), {type: 'decimal'})) : dojo.currency.regexp(constraints);
+		},
 
 		// Override NumberTextBox._formatter to deal with currencies, ex: converts "123.45" to "$123.45"
 		_formatter: dojo.currency.format,
