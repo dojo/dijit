@@ -245,7 +245,9 @@ dojo.declare("dijit.layout.ScrollingTabController",
 					node.offsetLeft + dojo.style(node, "width")){
 
 					var anim = this.createSmoothScroll();
-					this.connect(anim, "onEnd", function(){
+					// use dojo.connect() rather than this.connect() because the animation will soon be
+					// garbage collected and there's no reason to leave a reference to the connection in this._connects[]
+					dojo.connect(anim, "onEnd", function(){
 						tab.onClick(null);
 					});
 					anim.play();
