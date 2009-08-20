@@ -289,6 +289,10 @@ dojo.declare("dijit.Menu",
 	//		If true, menu will open on left click instead of right click, similiar to a file menu.
 	leftClickToOpen: false,
 	
+	// refocus: Boolean
+	// 		When this menu closes, re-focus the element which had focus before it was opened.
+	refocus: true,
+		
 	// _contextMenuWithMouse: [private] Boolean
 	//		Used to record mouse and keyboard events to determine if a context
 	//		menu is being opened with the keyboard or the mouse.
@@ -543,7 +547,9 @@ dojo.declare("dijit.Menu",
 		var savedFocus = dijit.getFocus(this);
 		function closeAndRestoreFocus(){
 			// user has clicked on a menu or popup
-			dijit.focus(savedFocus);
+			if(self.refocus){
+				dijit.focus(savedFocus);
+			}
 			dijit.popup.close(self);
 		}
 		dijit.popup.open({

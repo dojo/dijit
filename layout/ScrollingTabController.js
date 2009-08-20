@@ -133,7 +133,8 @@ dojo.declare("dijit.layout.ScrollingTabController",
 			this._menu = new dijit.Menu({
 				id: this.id + "_menu",
 				targetNodeIds: [this._menuBtn.domNode],
-				leftClickToOpen: true
+				leftClickToOpen: true,
+				refocus: false	// selecting a menu item sets focus to a TabButton
 			});
 		}
 	},
