@@ -349,7 +349,7 @@ dojo.mixin(dijit,
 
 		// IE reports that nodes like <body> have gotten focus, even though they have tabIndex=-1
 		// Ignore those reports.
-		if(!node || !dijit.isTabNavigable(node)){
+		if(!node){
 			return;
 		}
 
