@@ -1,5 +1,7 @@
 dojo.provide("dijit._base.focus");
 
+dojo.require("dijit._base.manager");	// for dijit.isTabNavigable()
+
 // summary:
 //		These functions are used to query or set the focus and selection.
 //
@@ -97,38 +99,42 @@ dojo.mixin(dijit,
 		//		Moves current selection to a bookmark
 		// bookmark:
 		//		This should be a returned object from dijit.getBookmark()
-		var _doc = dojo.doc;
-		bookmark = bookmark.mark;
-		if(bookmark){
+		var _doc = dojo.doc,
+			mark = bookmark.mark;
+		if(mark){
 			if(dojo.global.getSelection){
 				//W3C Rangi API (FF, WebKit, Opera, etc)
 				var sel = dojo.global.getSelection();
 				if(sel && sel.removeAllRanges){
-					if(bookmark.pRange){
-						var r = bookmark;
+					if(mark.pRange){
+						var r = mark;
 						var n = r.node;
 						n.selectionStart = r.start;
 						n.selectionEnd = r.end;
 					}else{
 						sel.removeAllRanges();
-						sel.addRange(bookmark);
+						sel.addRange(mark);
 					}
 				}else{
 					console.warn("No idea how to restore selection for this browser!");
 				}
 			}else if(_doc.selection){
+				if(bookmark.isCollapsed){
+					// Ignore collapsed bookmarks on IE to avoid scroll-jump problem, see #9735
+					return;
+				}
 				//'IE' way.
 				var rg;
-				if(dojo.isArray(bookmark)){
+				if(dojo.isArray(mark)){
 					rg = _doc.body.createControlRange();
 					//rg.addElement does not have call/apply method, so can not call it directly
 					//rg is not available in "range.addElement(item)", so can't use that either
-					dojo.forEach(bookmark, function(n){
+					dojo.forEach(mark, function(n){
 						rg.addElement(n);
 					});
 				}else{
 					rg = _doc.body.createTextRange();
-					rg.moveToBookmark(bookmark);
+					rg.moveToBookmark(mark);
 				}
 				rg.select();
 			}
@@ -341,7 +347,9 @@ dojo.mixin(dijit,
 		// summary:
 		//		Callback when node is focused
 
-		if(!node){
+		// IE reports that nodes like <body> have gotten focus, even though they have tabIndex=-1
+		// Ignore those reports.
+		if(!node || !dijit.isTabNavigable(node)){
 			return;
 		}
 
