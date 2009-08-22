@@ -149,7 +149,7 @@
 			<div class="dojoTitlePaneLabel">
 				<label for="q05">Elevation:  </label>
 				<span class="noticeMessage">IntegerTextBox class,
-					Attributes: {required: true, min:-20000, max:+20000 }, displays a prompt message if field is blank.</span>
+					Attributes: {required: true, min:-20000, max:+20000 }, displays a prompt message if field is blank, thousands separator remains during editing.</span>
 				<span calss="noticeMessage">Enter feet above sea level with a sign.</span>
 			</div>
 			<div class="testExample">
@@ -164,7 +164,8 @@
 			value: 3000,
 			constraints: {min:-20000,max:20000,places:0},
 			promptMessage: "Enter a value between -20000 and +20000",
-			required: true ,
+			required: true,
+			editOptions:{pattern:'#,##0'},
 			invalidMessage: "Invalid elevation.",
 			onChange: function(){dojo.byId('oc5').value=arguments[0]},
 			"class": "medium"

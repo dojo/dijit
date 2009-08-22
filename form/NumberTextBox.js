@@ -93,7 +93,7 @@ dojo.declare("dijit.form.NumberTextBoxMixin",
 			if(isNaN(value)){ return ""; }
 			if(("rangeCheck" in this) && !this.rangeCheck(value, constraints)){ return String(value) }
 			if(this.editOptions && this._focused){
-				constraints = dojo.mixin(dojo.mixin({}, this.editOptions), constraints);
+				constraints = dojo.mixin({}, constraints, this.editOptions);
 			}
 			return this._formatter(value, constraints);
 		},
@@ -157,7 +157,6 @@ dojo.declare("dijit.form.NumberTextBoxMixin",
 			this.inherited(arguments, [value, priorityChange, formattedValue]);
 		},
 
-
 		_getValueAttr: function(){
 			// summary:
 			//		Hook so attr('value') works.
@@ -172,6 +171,17 @@ dojo.declare("dijit.form.NumberTextBoxMixin",
 				var n = Number(this.textbox.value); // check for exponential notation that parse() rejected (erroneously?)
 				return (String(n)===this.textbox.value)? n : undefined; // return exponential Number or undefined for random text
 			}else{ return v } // Number or NaN for ''
+		},
+
+		isValid: function(){
+			// Overrides dijit.form.RangeBoundTextBox.isValid to check that the editing-mode value is valid since
+			// it may not be formatted according to the regExp vaidation rules
+			if(!this._focused || this._isEmpty(this.textbox.value)){
+				return this.inherited(arguments);
+			}else{
+				var v = this.attr('value');
+				return !isNaN(v) && this.rangeCheck(v, this.constraints);
+			}
 		}
 	}
 );

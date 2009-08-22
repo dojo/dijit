@@ -66,7 +66,7 @@
 					var d = new doh.Deferred();
 					var onChange = dojo.byId('oc3');
 					doh.robot.sequence(d.getTestCallback(function(){
-						doh.is(chgVal, onChange.value, "onChange.value");
+						doh.is(chgVal.toString(), onChange.value, "onChange.value");
 					}), 500);
 					return d;
 				};
@@ -308,7 +308,7 @@
 							}), 500);
 							doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
 								// comma should disappear on click, value shouldn't change
-								doh.is('3000', this.textbox.focusNode.value, "focusNode.value");
+								doh.is('3,000', this.textbox.focusNode.value, "focusNode.value");
 								doh.is('3000', this.textbox.attr('value'), "attr('value')");
 								doh.is(true, this.textbox.isValid(), "isValid()");
 								doh.is('not fired yet!', onChange.value);
@@ -468,7 +468,7 @@
 							doh.robot.sequence(dojo.hitch(this, function(){
 								this.textbox.focusNode.focus();
 							}), 500);
-							doh.robot.typeKeys('10000.01', 500,800);
+							doh.robot.typeKeys('10000.01', 500);
 							doh.robot.sequence(d.getTestErrback(dojo.hitch(this, function(){
 								doh.is('10000.01', this.textbox.focusNode.value, "focusNode.value");
 								doh.is('10000.01', this.textbox.attr('value'), "attr('value')");
@@ -483,7 +483,7 @@
 									doh.is(true, this.textbox.isValid(), "isValid()");
 									doh.is('10000.01', onChange.value);
 								})), 500);
-							})), 1000);
+							})), 2000);
 							return d;
 						}
 					},
@@ -502,10 +502,10 @@
 							doh.robot.sequence(dojo.hitch(this, function(){
 								this.textbox.focusNode.focus();
 							}), 500);
-							doh.robot.typeKeys('$20000.01', 500,900);
+							doh.robot.typeKeys('$20000.01', 500);
 							doh.robot.sequence(d.getTestErrback(dojo.hitch(this, function(){
 								doh.is('$20000.01', this.textbox.focusNode.value, "focusNode.value");
-								doh.is('20000.01', this.textbox.attr('value'), "attr('value')");
+								doh.is(20000.01, this.textbox.attr('value'), "attr('value')");
 								doh.is(true, this.textbox.isValid(), "isValid()");
 								doh.is('NaN', onChange.value);
 								doh.robot.sequence(dojo.hitch(this, function(){
@@ -513,11 +513,11 @@
 								}), 500);
 								doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
 									doh.is('$20,000.01', this.textbox.focusNode.value, "focusNode.value");
-									doh.is('20000.01', this.textbox.attr('value'), "attr('value')");
+									doh.is(20000.01, this.textbox.attr('value'), "attr('value')");
 									doh.is(true, this.textbox.isValid(), "isValid()");
 									doh.is('20000.01', onChange.value);
 								})), 500);
-							})), 1000);
+							})), 2000);
 							return d;
 						}
 					}

@@ -1,8 +1,5 @@
 dojo.provide("dijit.form.CurrencyTextBox");
 
-//FIXME: dojo.experimental throws an unreadable exception?
-//dojo.experimental("dijit.form.CurrencyTextBox");
-
 dojo.require("dojo.currency");
 dojo.require("dijit.form.NumberTextBox");
 
@@ -33,7 +30,7 @@ dojo.declare(
 		// Override regExpGen ValidationTextBox.regExpGen().... we use a reg-ex generating function rather
 		// than a straight regexp to deal with locale  (plus formatting options too?)
 		regExpGen: function(constraints){
-			return this._focused? dojo.number.regexp(dojo.mixin(dojo.mixin(this.editOptions, constraints), {type: 'decimal'})) : dojo.currency.regexp(constraints);
+			return this._focused? dojo.number.regexp(dojo.mixin({}, constraints, this.editOptions, {type: 'decimal'})) : dojo.currency.regexp(constraints);
 		},
 
 		// Override NumberTextBox._formatter to deal with currencies, ex: converts "123.45" to "$123.45"
