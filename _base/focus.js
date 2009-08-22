@@ -259,7 +259,10 @@ dojo.mixin(dijit,
 		if(doc){
 			if(dojo.isIE){
 				doc.attachEvent('onactivate', function(evt){
-					if(evt.srcElement.tagName.toLowerCase() != "#document"){
+					// IE reports that nodes like <body> have gotten focus, even though they have tabIndex=-1.
+					// Ignore those reports.
+					if(evt.srcElement.tagName.toLowerCase() != "#document" &&
+						dijit.isTabNavigable(evt.srcElement)){
 						dijit._onFocusNode(effectiveNode||evt.srcElement);
 					}
 				});
@@ -347,8 +350,6 @@ dojo.mixin(dijit,
 		// summary:
 		//		Callback when node is focused
 
-		// IE reports that nodes like <body> have gotten focus, even though they have tabIndex=-1
-		// Ignore those reports.
 		if(!node){
 			return;
 		}
