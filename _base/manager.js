@@ -279,17 +279,6 @@ dijit.getEnclosingWidget = function(/* DOMNode */ node){
 	return null;
 };
 
-// elements that are tab-navigable if they have no tabIndex value set
-// (except for "a", which must have an href attribute)
-dijit._tabElements = {
-	area: true,
-	button: true,
-	input: true,
-	object: true,
-	select: true,
-	textarea: true
-};
-
 dijit._isElementShown = function(/*Element*/elem){
 	var style = dojo.style(elem);
 	return (style.visibility != "hidden")
@@ -301,19 +290,44 @@ dijit._isElementShown = function(/*Element*/elem){
 dijit.isTabNavigable = function(/*Element*/elem){
 	// summary:
 	//		Tests if an element is tab-navigable
-	if(dojo.attr(elem, "disabled")){ return false; }
-	var hasTabindex = dojo.hasAttr(elem, "tabIndex");
-	var tabindex = dojo.attr(elem, "tabIndex");
-	if(hasTabindex && tabindex >= 0) {
-		return true; // boolean
+	
+	// TODO: convert (and rename method) to return effectivite tabIndex; will save time in _getTabNavigable()
+	if(dojo.attr(elem, "disabled")){
+		return false;
+	}else if(dojo.hasAttr(elem, "tabIndex")){
+		// Explicit tab index setting
+		return dojo.attr(elem, "tabIndex") >= 0; // boolean
+	}else{
+		// No explicit tabIndex setting, need to investigate node type
+		switch(elem.nodeName.toLowerCase()){
+			case "a":
+				// An <a> w/out a tabindex is only navigable if it has an href
+				return dojo.hasAttr(elem, "href");
+			case "area":
+			case "button":
+			case "input":
+			case "object":	
+			case "select":
+			case "textarea":
+				// These are navigable by default
+				return true;
+			case "iframe":
+				// If it's an editor <iframe> then it's tab navigable.
+				if(dojo.isMoz){
+					return elem.contentDocument.designMode == "on";
+				}else if(dojo.isWebKit){
+					var doc = elem.contentDocument,
+						body = doc && doc.body;
+					return body && body.contentEditable;
+				}else{
+					var doc = elem.contentWindow.document,
+						body = doc && doc.body;
+					return body && body.firstChild && body.firstChild.contentEditable;
+				}
+			default:
+				return false;
+		}
 	}
-	var name = elem.nodeName.toLowerCase();
-	if(((name == "a" && dojo.hasAttr(elem, "href"))
-			|| dijit._tabElements[name])
-		&& (!hasTabindex || tabindex >= 0)){
-		return true; // boolean
-	}
-	return false; // boolean
 };
 
 dijit._getTabNavigable = function(/*DOMNode*/root){
