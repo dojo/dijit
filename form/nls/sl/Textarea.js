@@ -1,7 +1,7 @@
 /* used by both the editor and textarea widgets to provide information to screen reader users */
 ({
-	iframeEditTitle: 'uredi področje',  // primary title for editable IFRAME, for screen readers when focus is in the editing area
-	iframeFocusTitle: 'uredi področje okvirja'  // secondary title for editable IFRAME when focus is on outer container
+	iframeEditTitle: 'urejanje področja',  // primary title for editable IFRAME, for screen readers when focus is in the editing area
+	iframeFocusTitle: 'urejanje področja okvirja'  // secondary title for editable IFRAME when focus is on outer container
 									 //  to let user know that focus has moved out of editing area and to the
 									 //  parent element of the editing area
 })
