@@ -33,9 +33,15 @@ dijit.scrollIntoView = function(/* DomNode */node){
 	while(el){
 		if(el == body){ el = scrollRoot; }
 		var pb = dojo._getPadBorderExtents(el),
-			elPos = el == scrollRoot? { x:0, y:0, w:rootWidth, h:rootHeight } : dojo.position(el),
+			elPos = dojo.position(el),
 			fixedPos = isFixed(el);
 		with(elPos){
+			if(el == scrollRoot){
+				w = rootWidth, h = rootHeight;
+				if(scrollRoot == html && isIE && rtl){ x += scrollRoot.offsetWidth-w; } // IE workaround where scrollbar causes negative x
+				if(x < 0 || !isIE){ x = 0; } // IE can have values > 0
+				if(y < 0 || !isIE){ y = 0; }
+			}
 			w -= pb.w; h -= pb.h; x += pb.l; y += pb.t;
 			with(el){
 				if(el != scrollRoot){ // body, html sizes already have the scrollbar removed

@@ -67,8 +67,8 @@
 					if(dojo.isIE == 7){ minScrollX = "-90"; }
 					generateTestXY('absContent_loose_rtl', maxScrollX, maxScrollY, minScrollX, minScrollY);
 					if(dojo.isIE){
-						maxScrollX = -10 - sb; 
-						maxScrollY = -38 - sb;
+						maxScrollX = (dojo.isIE >= 7? -10 : -6) - sb; 
+						maxScrollY = (dojo.isIE >= 7? -38 : -34) - sb;
 						minScrollY = minScrollX = "+"+(-maxScrollX);
 					}else{
 						maxScrollX = maxScrollY = "-"+(sb+10);
@@ -76,8 +76,8 @@
 					}
 					generateTestXY('absContent_quirks', maxScrollX, maxScrollY, minScrollX, minScrollY);
 					if(dojo.isIE < 8){
-						maxScrollX = Math.round(-10 - sb * 1.027); 
-						minScrollX = "+" + (10 + sb - Math.round(sb * 0.027)); 
+						maxScrollX = Math.round((dojo.isIE >= 7? -10 : -6) - sb * 1.027); 
+						minScrollX = "+" + ((dojo.isIE >= 7? 10 : 6) + sb - Math.round(sb * 0.027)); 
 					}
 					generateTestXY('absContent_quirks_rtl', maxScrollX, maxScrollY, minScrollX, minScrollY);
 				},
@@ -619,7 +619,7 @@ console.log('!!!!!!!!!!!! scrollbar size = ' + sb);
 				'function addOnLoad(){}'+
 			'<\/SCRIPT>'+
 		'<\/HEAD>'+
-		'<BODY onclick=\'frameElement.onClick()\'>'+
+		'<BODY BGCOLOR=#ffffff onclick=\'frameElement.onClick()\'>'+
 			content+
 			'<SCRIPT type=text/javascript>addOnLoad(window)<\/SCRIPT>'+
 		'<\/BODY>'+
@@ -639,10 +639,11 @@ console.log('!!!!!!!!!!!! scrollbar size = ' + sb);
 		if(dojo.isOpera){ iframe.setAttribute('src', iframeSrc); }
 		iframe.setAttribute('frameBorder', "0");
 		iframe.setAttribute('scrolling', "auto");
+		iframe.setAttribute('allowTransparency', "true");
 		iframe.setAttribute('id', id + idSuffix);
 		iframe.setAttribute('name', id + idSuffix);
 		iframe.className = className;
-		dojo.style(iframe, "cssText", style);
+		dojo.style(iframe, "cssText", "display:block;border:2px solid "+color+";background-color:transparent;margin:0px;padding:3px;"+style);
 		container.appendChild(iframe);
 		srcNode.appendChild(container);
 		if(!dojo.isOpera){ iframe.setAttribute('src', iframeSrc); }
@@ -657,7 +658,6 @@ console.log('!!!!!!!!!!!! scrollbar size = ' + sb);
 		if(typeof style == "object"){
 			style = style.cssText || "";
 		}
-		style="display:block;border:0px solid gray;background-color:white;margin:0px;padding:0px;"+style;
 		srcNode.innerHTML = "";
 		srcNode.removeAttribute('style');
 		srcNode.className = "";
