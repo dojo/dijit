@@ -425,8 +425,12 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 
 			this.savedContent = this.getValue(true);
 		});
-		
-		var s = 'javascript:parent.' + dijit._scopeName + '.byId("'+this.id+'")._iframeSrc';
+
+		// Set the iframe's initial (blank) content.   Inlining text on FF2 to avoid "parent is not
+		// defined" errors reloading test_Editor.html w/out clearing the cache		
+		var s = dojo.isFF == 2 ?
+			"javascript:'" + this._iframeSrc.replace("'", "\\'", "g") + "'" :
+			'javascript:parent.' + dijit._scopeName + '.byId("'+this.id+'")._iframeSrc';
 		ifr.setAttribute('src', s);
 		this.editingArea.appendChild(ifr);
 		if(dojo.isWebKit){ // Safari seems to always append iframe with src=about:blank
