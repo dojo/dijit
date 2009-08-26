@@ -17,6 +17,16 @@ dojo.declare(
 		//		One or more attribute names (attributes in the dojo.data item) that specify that item's children
 		childrenAttrs: ["children"],
 
+		// newItemIdAttr: String
+		//		Name of attribute in the Object passed to newItem() that specifies the id.
+		//
+		//		If newItemIdAttr is set then it's used when newItem() is called to see if an
+		//		item with the same id already exists, and if so just links to the old item
+		//		(so that the old item ends up with two parents).
+		//
+		//		Setting this to null or "" will make every drop create a new item.
+		newItemIdAttr: "id",
+
 		// labelAttr: String
 		//		If specified, get label for tree node from this attribute, rather
 		//		than by calling store.getLabel()
@@ -176,8 +186,24 @@ dojo.declare(
 			//		Developers will need to override this method if new items get added
 			//		to parents with multiple children attributes, in order to define which
 			//		children attribute points to the new item.
+
 			var pInfo = {parent: parent, attribute: this.childrenAttrs[0], insertIndex: insertIndex};
-			return this.store.newItem(args, pInfo);
+
+			if(this.newItemIdAttr && args[this.newItemIdAttr]){
+				// Maybe there's already a corresponding item in the store; if so, reuse it.
+				this.fetchItemByIdentity({identity: args[this.newItemIdAttr], scope: this, onItem: function(item){
+					if(item){
+						// There's already a matching item in store, use it
+						this.pasteItem(item, null, parent, true, insertIndex);
+					}else{
+						// Create new item in the tree, based on the drag source.
+						this.store.newItem(args, pInfo);
+					}
+				}});
+			}else{
+				// [as far as we know] there is no id so we must assume this is a new item
+				this.store.newItem(args, pInfo);
+			}
 		},
 
 		pasteItem: function(/*Item*/ childItem, /*Item*/ oldParentItem, /*Item*/ newParentItem, /*Boolean*/ bCopy, /*int?*/ insertIndex){

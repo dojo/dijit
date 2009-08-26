@@ -431,21 +431,14 @@ dojo.declare("dijit.tree.dndSource", dijit.tree._dndSelector, {
 					// (maybe we should only do this branch if the source is a tree?)
 					model.pasteItem(childItem, oldParentItem, newParentItem, copy, insertIndex);
 				}else{
-					model.fetchItemByIdentity({identity: node.id, scope: this, onItem: function(item){
-						if(item){
-							// There's already a matching item in model, use it
-							model.pasteItem(item, null, newParentItem, true, insertIndex);
-						}else{
-							// Get the hash to pass to model.newItem().  A single call to
-							// itemCreator() returns an array of hashes, one for each drag source node.
-							if(!newItemsParams){
-								newItemsParams = this.itemCreator(nodes, target, source);
-							}
+					// Get the hash to pass to model.newItem().  A single call to
+					// itemCreator() returns an array of hashes, one for each drag source node.
+					if(!newItemsParams){
+						newItemsParams = this.itemCreator(nodes, target, source);
+					}
 
-							// Create new item in the tree, based on the drag source.
-							model.newItem(newItemsParams[idx], newParentItem, insertIndex);
-						}
-					}});
+					// Create new item in the tree, based on the drag source.
+					model.newItem(newItemsParams[idx], newParentItem, insertIndex);
 				}
 			}, this);
 

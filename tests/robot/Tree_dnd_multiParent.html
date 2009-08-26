@@ -31,7 +31,6 @@
 					}
 				});
 
-				// drag 'Vegetables' from left tree to right tree
 				doh.register("multi-parent tests", [ 
 					{
 						name: "add 'Fruits' as parent of vegetables",
@@ -194,6 +193,77 @@
 							return d;
 						}
 					}
+				]);
+
+				doh.register("external drop tests", [ 
+					{
+						name: "drop banana on fruits",
+						timeout: 10000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							var fruitsTreeNode = findTreeNodeByPath("itemTree", ["Fruits"]);					// right tree
+
+							doh.robot.mouseMoveAt(dojo.byId("1003"), 500, 1000);
+							doh.robot.mousePress({left: true}, 500);
+							doh.robot.mouseMoveAt(fruitsTreeNode.labelNode, 500, 2000);
+							doh.robot.mouseRelease({left: true}, 500);
+
+							doh.robot.sequence(d.getTestCallback(function(){
+
+								var children = getChildrenOfItem("Fruits");
+								doh.is(1, children.items.length, "new item added");
+								doh.is(1003, children.items[0].id, "id of new item came from dropped node");
+								doh.is("Banana", children.items[0].name, "name of new item came from dropped node");
+
+								dojo.global.myStore.fetch({
+									query: { name: "Banana" },
+									queryOptions: { deep: true },
+									onComplete: function(i){ items = i; }
+								});
+								doh.is(1, items.length, "1 banana item in store");
+							}), 1000);
+		
+							return d;
+						}
+					},
+					{
+						name: "drop banana on cereal",
+						timeout: 10000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							var cerealsTreeNode = findTreeNodeByPath("itemTree", ["Cereals"]);					// right tree
+
+							doh.robot.mouseMoveAt(dojo.byId("1003"), 500, 1000);
+							doh.robot.mousePress({left: true}, 500);
+							doh.robot.mouseMoveAt(cerealsTreeNode.labelNode, 500, 2000);
+							doh.robot.mouseRelease({left: true}, 500);
+
+							doh.robot.sequence(d.getTestCallback(function(){
+
+								var children = getChildrenOfItem("Cereals");
+								doh.is(1, children.items.length, "banana is child of cereals");
+								doh.is(1003, children.items[0].id, "id of item came from dropped node");
+								doh.is("Banana", children.items[0].name, "name of new item came from dropped node");
+
+								var children = getChildrenOfItem("Fruits");
+								doh.is(1, children.items.length, "banana still a child of fruits");
+								doh.is(1003, children.items[0].id, "id of new item came from dropped node");
+								doh.is("Banana", children.items[0].name, "name of new item came from dropped node");
+
+								dojo.global.myStore.fetch({
+									query: { name: "Banana" },
+									queryOptions: { deep: true },
+									onComplete: function(i){ items = i; }
+								});
+								doh.is(1, items.length, "1 banana item in store (with 2 parents)");
+							}), 1000);
+		
+							return d;
+						}
+					}
+
 				]);
 				
 				doh.run();
