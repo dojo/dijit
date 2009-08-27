@@ -706,16 +706,10 @@ dojo.declare(
 		var identity = (!item || dojo.isString(item)) ? item : this.model.getIdentity(item);
 		if(identity == oldValue ? this.model.getIdentity(oldValue) : null){ return; }
 		var nodes = this._itemNodesMap[identity];
-		if(nodes){
-			// Try first matching tree node and if not selectable try next
-			for(var i = 0; i < nodes.length; i++){
-				if(nodes[i].isSelectable){
-					this.focusNode(nodes[i]);
-					return;
-				}
-			}
-		}
-		if(this.lastFocused){
+		if(nodes && nodes.length){
+			//select the first item
+			this.focusNode(nodes[0]);
+		}else if(this.lastFocused){
 			// Select none so deselect current
 			this.lastFocused.setSelected(false);
 			this.lastFocused = null;
@@ -1275,7 +1269,7 @@ dojo.declare(
 		//		selected node no longer is.
 
 		if (node){
-			if(node != this.lastFocused){
+			if(node != this.lastFocused && this.lastFocused){
 				// mark that the previously selected node is no longer the selected one
 				this.lastFocused.setSelected(false);
 			}

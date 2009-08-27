@@ -181,6 +181,12 @@
 						}), 750);
 						return d;
 					},
+
+					function selectANode(){
+						myTree.attr('selectedItem','CN');
+						doh.is('CN',myTree.model.getIdentity(myTree.attr('selectedItem')));
+					},
+
 					function nestedItemDelete(){
 						// Delete a nested item
 						
