@@ -45,11 +45,12 @@ dojo.declare(
 		query: null,
 
 		// deferItemLoadingUntilExpand: Boolean
-		//	Setting this to true will cause the TreeStoreModel to defer calling loadItem on nodes 
-		// until they are expanded. This allows for lazying loading where only one
-		//	loadItem (and generally one network call, consequently) per expansion
-		// (rather than one for each child).
-		// This relies on partil 
+		//		Setting this to true will cause the TreeStoreModel to defer calling loadItem on nodes 
+		// 		until they are expanded. This allows for lazying loading where only one
+		//		loadItem (and generally one network call, consequently) per expansion
+		// 		(rather than one for each child).
+		// 		This relies on partial loading of the children items; each children item of a 
+		// 		fully loaded item should contain the label and info about having children.  
 		deferItemLoadingUntilExpand: false,
 		
 		constructor: function(/* Object */ args){
