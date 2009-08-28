@@ -127,15 +127,18 @@ dojo.declare(
 
 		this.inherited(arguments);
 
+		if (this._started) {
+			// this will notify any tablists to remove a button; do this first because it may affect sizing
+			dojo.publish(this.id + "-removeChild", [page]);
+		}
+
 		// If we are being destroyed than don't run the code below (to select another page), because we are deleting
 		// every page one by one
 		if(this._beingDestroyed){ return; }
 
 		if(this._started){
-			// this will notify any tablists to remove a button; do this first because it may affect sizing
-			dojo.publish(this.id+"-removeChild", [page]);
-
 			// in case the tab titles now take up one line instead of two lines
+			// TODO: this is overkill in most cases since ScrollingTabController never changes size (for >= 1 tab)
 			this.layout();
 		}
 
@@ -182,8 +185,14 @@ dojo.declare(
 		// Size the new widget, in case this is the first time it's being shown,
 		// or I have been resized since the last time it was shown.
 		// Note that page must be visible for resizing to work. 
-		if(this.doLayout && newWidget.resize){
-			newWidget.resize(this._containerContentBox || this._contentBox);
+		if(newWidget.resize){
+			if (this.doLayout) {
+				newWidget.resize(this._containerContentBox || this._contentBox);
+			}else{
+				// the child should pick it's own size but we still need to call resize()
+				// (with no arguments) to let the widget lay itself out
+				newWidget.resize();
+			}
 		}
 	},
 

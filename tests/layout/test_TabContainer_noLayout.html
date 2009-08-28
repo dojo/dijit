@@ -42,6 +42,14 @@
 		function testClose(pane,tab){
 		  return confirm("Please confirm that you want tab "+tab.title+" closed");
 		}
+
+		var tab = 6;
+
+        function addTab(){
+			cp = new dijit.layout.ContentPane({title: 'Tab' + tab, closable: true});
+			cp.domNode.innerHTML = "Contents of Tab " + tab++;
+			dijit.byId("mainTabContainer").addChild(cp);
+        }
 	</script>
 </head>
 <body class="tundra">
@@ -55,10 +63,10 @@
 	<p>With doLayout=false mode tabs to the left or right are not supported and tabs at the bottom are a bit buggy in FireFox.
 	</p>
 
+	<button onclick="addTab();">add tab</button>
+	<button onclick="dijit.byId('mainTabContainer').destroyRecursive();">destroy tab container</button>
 
-	<!-- 1ST TABCONTAINER -->
-
-	<div id="mainTabContainer" dojoType="dijit.layout.TabContainer" doLayout="false">
+	<div id="mainTabContainer" dojoType="dijit.layout.TabContainer" doLayout="false" style="width: 900px;">
 	
 		<div id="tab1" dojoType="dijit.layout.ContentPane" href="tab1.html" title="Tab 1"></div>
 
@@ -95,7 +103,7 @@
 			</p>
 		</div>
 
-		<div dojoType="dijit.layout.TabContainer" title="Inlined Sub TabContainer" doLayout="false">	
+		<div dojoType="dijit.layout.TabContainer" title="Inlined Sub TabContainer" doLayout="false" style="width: 90%">	
 			<a dojoType="dijit.layout.LinkPane" href="tab1.html">SubTab 1</a>		
 			<a dojoType="dijit.layout.LinkPane" href="tab2.html" selected="true">SubTab 2</a>
 		</div>

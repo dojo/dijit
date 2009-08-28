@@ -30,9 +30,8 @@ dojo.declare(
 			postCreate: function(){
 				dijit.setWaiRole(this.domNode, "tablist");
 
-				// TODO: change key from object to id, to get more separation from StackContainer
-				this.pane2button = {};		// mapping from panes to buttons
-				this.pane2handles = {};		// mapping from panes to dojo.connect() handles
+				this.pane2button = {};		// mapping from pane id to buttons
+				this.pane2handles = {};		// mapping from pane id to dojo.connect() handles
 
 				this._subscriptions=[
 					dojo.subscribe(this.containerId+"-startup", this, "onStartup"),
@@ -54,7 +53,7 @@ dojo.declare(
 
 			destroy: function(){
 				for(var pane in this.pane2button){
-					this.onRemoveChild(pane);
+					this.onRemoveChild(dijit.byId(pane));
 				}
 				dojo.forEach(this._subscriptions, dojo.unsubscribe);
 				this.inherited(arguments);
@@ -80,7 +79,7 @@ dojo.declare(
 					closeButton: page.closable
 				}, refNode);
 				var map = 
-				this.pane2handles[page] = [
+				this.pane2handles[page.id] = [
 				    this.connect(page, 'attr', function(name, value){
 						if(arguments.length == 2){
 							var buttonAttr = {
@@ -98,7 +97,7 @@ dojo.declare(
 					this.connect(button, 'onClickCloseButton', dojo.hitch(this,"onCloseButtonClick", page))
 				];
 				this.addChild(button, insertIndex);
-				this.pane2button[page] = button;
+				this.pane2button[page.id] = button;
 				page.controlButton = button;	// this value might be overwritten if two tabs point to same container
 				if(!this._currentChild){ // put the first child into the tab order
 					button.focusNode.setAttribute("tabIndex", "0");
@@ -118,13 +117,13 @@ dojo.declare(
 				//		private
 
 				if(this._currentChild === page){ this._currentChild = null; }
-				dojo.forEach(this.pane2handles[page], this.disconnect, this);
-				delete this.pane2handles[page];
-				var button = this.pane2button[page];
+				dojo.forEach(this.pane2handles[page.id], this.disconnect, this);
+				delete this.pane2handles[page.id];
+				var button = this.pane2button[page.id];
 				if(button){
 					// TODO? if current child { reassign }
 					button.destroy();
-					delete this.pane2button[page];
+					delete this.pane2button[page.id];
 				}
 			},
 
@@ -137,12 +136,12 @@ dojo.declare(
 				if(!page){ return; }
 
 				if(this._currentChild){
-					var oldButton=this.pane2button[this._currentChild];
+					var oldButton=this.pane2button[this._currentChild.id];
 					oldButton.attr('checked', false);
 					oldButton.focusNode.setAttribute("tabIndex", "-1");
 				}
 
-				var newButton=this.pane2button[page];
+				var newButton=this.pane2button[page.id];
 				newButton.attr('checked', true);
 				this._currentChild = page;
 				newButton.focusNode.setAttribute("tabIndex", "0");
@@ -168,7 +167,7 @@ dojo.declare(
 
 				var container = dijit.byId(this.containerId);
 				container.closeChild(page);
-				var b = this.pane2button[this._currentChild];
+				var b = this.pane2button[this._currentChild.id];
 				if(b){
 					dijit.focus(b.focusNode || b.domNode);
 				}
@@ -184,7 +183,7 @@ dojo.declare(
 				if(!this.isLeftToRight() && (!this.tabPosition || /top|bottom/.test(this.tabPosition))){ forward = !forward; }
 				// find currently focused button in children array
 				var children = this.getChildren();
-				var current = dojo.indexOf(children, this.pane2button[this._currentChild]);
+				var current = dojo.indexOf(children, this.pane2button[this._currentChild.id]);
 				// pick next button to focus on
 				var offset = forward ? 1 : children.length - 1;
 				return children[ (current + offset) % children.length ]; // dijit._Widget
