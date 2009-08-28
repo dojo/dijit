@@ -224,7 +224,7 @@ dijit.findWidgets = function(/*DomNode*/ root){
 
 	function getChildrenHelper(root){
 		var list = dojo.isIE ? root.children : root.childNodes, i = 0, node;
-		while(node = list[i++]){
+		while((node = list[i++])){
 			if(node.nodeType != 1){ continue; }
 			var widgetId = node.getAttribute("widgetId");
 			if(widgetId){
@@ -318,14 +318,14 @@ dijit.isTabNavigable = function(/*Element*/elem){
 				}else if(dojo.isWebKit){
 					var doc = elem.contentDocument,
 						body = doc && doc.body;
-					return body && body.contentEditable;
+					return body && body.contentEditable=='true';
 				}else{
-					var doc = elem.contentWindow.document,
+					doc = elem.contentWindow.document,
 						body = doc && doc.body;
-					return body && body.firstChild && body.firstChild.contentEditable;
+					return body && body.firstChild && body.firstChild.contentEditable=='true';
 				}
 			default:
-				return false;
+				return elem.contentEditable=='true';
 		}
 	}
 };
