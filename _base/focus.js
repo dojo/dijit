@@ -259,11 +259,13 @@ dojo.mixin(dijit,
 		if(doc){
 			if(dojo.isIE){
 				doc.attachEvent('onactivate', function(evt){
-					// IE reports that nodes like <body> have gotten focus, even though they have tabIndex=-1.
-					// Ignore those reports.
+					// IE reports that nodes like <body> have gotten focus, even though they have tabIndex=-1,
+					// Should consider those more like a mouse-click than a focus....
 					if(evt.srcElement.tagName.toLowerCase() != "#document" &&
 						dijit.isTabNavigable(evt.srcElement)){
 						dijit._onFocusNode(effectiveNode||evt.srcElement);
+					}else{
+						dijit._onTouchNode(effectiveNode||evt.srcElement);
 					}
 				});
 				doc.attachEvent('ondeactivate', function(evt){
