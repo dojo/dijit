@@ -44,6 +44,14 @@ dojo.declare(
 		//	|	{id:'ROOT'}
 		query: null,
 
+		// deferItemLoadingUntilExpand: Boolean
+		//	Setting this to true will cause the TreeStoreModel to defer calling loadItem on nodes 
+		// until they are expanded. This allows for lazying loading where only one
+		//	loadItem (and generally one network call, consequently) per expansion
+		// (rather than one for each child).
+		// This relies on partil 
+		deferItemLoadingUntilExpand: false,
+		
 		constructor: function(/* Object */ args){
 			// summary:
 			//		Passed the arguments listed above (store, etc)
@@ -115,7 +123,20 @@ dojo.declare(
 			// 		Calls onComplete() with array of child items of given parent item, all loaded.
 
 			var store = this.store;
-
+			if(!store.isItemLoaded(parentItem)){
+				// The parent is not loaded yet, we must be in deferItemLoadingUntilExpand 
+				// mode, so we will load it and just return the children (without loading each 
+				// child item)
+				var getChildren = dojo.hitch(this, arguments.callee);
+				store.loadItem({
+					item: parentItem,
+					onItem: function(parentItem){
+						getChildren(parentItem, onComplete, onError);
+					},
+					onError: onError
+				});
+				return;
+			}
 			// get children of specified item
 			var childItems = [];
 			for (var i=0; i<this.childrenAttrs.length; i++){
@@ -125,10 +146,12 @@ dojo.declare(
 
 			// count how many items need to be loaded
 			var _waitCount = 0;
-			dojo.forEach(childItems, function(item){ if(!store.isItemLoaded(item)){ _waitCount++; } });
+			if(!this.deferItemLoadingUntilExpand){
+				dojo.forEach(childItems, function(item){ if(!store.isItemLoaded(item)){ _waitCount++; } });
+			}
 
 			if(_waitCount == 0){
-				// all items are already loaded.  proceed...
+				// all items are already loaded (or we aren't loading them).  proceed...
 				onComplete(childItems);
 			}else{
 				// still waiting for some or all of the items to load
