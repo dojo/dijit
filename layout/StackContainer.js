@@ -259,9 +259,11 @@ dojo.declare(
 		}
 	},
 
-	destroy: function(){
-		this._beingDestroyed = true;
-		this.inherited(arguments);
+	destroyDescendants: function(/*Boolean*/preserveDom){
+		dojo.forEach(this.getChildren(), function(child){
+			this.removeChild(child);
+			child.destroyRecursive(preserveDom);
+		}, this);
 	}
 });
 

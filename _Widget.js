@@ -523,6 +523,7 @@ dojo.declare("dijit._Widget", null, {
 		//		alone of descendant Widgets. Note: This will NOT work with
 		//		dijit._Templated widgets.
 
+		this._beingDestroyed = true;
 		this.destroyDescendants(preserveDom);
 		this.destroy(preserveDom);
 	},
@@ -535,6 +536,7 @@ dojo.declare("dijit._Widget", null, {
 		//		If true, this method will leave the original Dom structure alone.
 		//		Note: This will not yet work with _Templated widgets
 
+		this._beingDestroyed = true;
 		this.uninitialize();
 		var d = dojo;
 		var dfe = d.forEach;

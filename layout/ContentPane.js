@@ -310,7 +310,6 @@ dojo.declare(
 		if(this._beingDestroyed){
 			return;
 		}
-		this._beingDestroyed = true;
 		this.inherited(arguments);
 	},
 
