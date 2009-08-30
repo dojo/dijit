@@ -683,7 +683,7 @@
 							doh.robot.mouseClick({left: true}, 500);
 
 							doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
-								doh.isNot("q24", dojo.global.dijit._curFocus.id, "didn't focus");
+								doh.isNot("q24", (dojo.global.dijit._curFocus||{}).id, "didn't focus");
 							})), 500);
 							return d;
 						}
