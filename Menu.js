@@ -390,9 +390,10 @@ dojo.declare("dijit.Menu",
 			iframe: iframe
 		};
 		
-		// save info about binding in _bindings[], and make node itself record index(+1) into
-		// _bindings[] array.
-		dojo.attr(node, this.id, this._bindings.push(binding));
+		// Save info about binding in _bindings[], and make node itself record index(+1) into
+		// _bindings[] array.   Prefix w/_dijitMenu to avoid setting an attribute that may
+		// start with a number, which fails on FF/safari.
+		dojo.attr(node, "_dijitMenu" + this.id, this._bindings.push(binding));
 
 		// Setup the connections to monitor click etc., unless we are connecting to an iframe which hasn't finished
 		// loading yet, in which case we need to wait for the onload event first, and then connect
@@ -443,9 +444,10 @@ dojo.declare("dijit.Menu",
 			return;
 		}
 
-		// node[this.id] contains index(+1) into my _bindings[] array
-		if(node && dojo.hasAttr(node, this.id)){
-			var bid = dojo.attr(node, this.id)-1, b = this._bindings[bid];
+		// node["_dijitMenu" + this.id] contains index(+1) into my _bindings[] array
+		var attrName = "_dijitMenu" + this.id;
+		if(node && dojo.hasAttr(node, attrName)){
+			var bid = dojo.attr(node, attrName)-1, b = this._bindings[bid];
 			dojo.forEach(b.connects, dojo.disconnect);
 
 			// Remove listener for iframe onload events
@@ -458,7 +460,7 @@ dojo.declare("dijit.Menu",
 				}
 			}
 
-			dojo.removeAttr(node, this.id);
+			dojo.removeAttr(node, attrName);
 			delete this._bindings[bid];
 		}
 	},
