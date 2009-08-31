@@ -76,7 +76,7 @@
 .tundra .dijitToggleButtonHover .dijitButtonNode,
 .tundra .dijitDropDownButtonHover .dijitButtonNode,
 .tundra .dijitComboButtonHover .dijitButtonContents,
-.tundra .dijitComboButtonDownArrowHover .dijitDownArrowButton {
+.tundra .dijitComboButtonDownArrowHover .dijitArrowButton {
 	/* hover state - inner */
 	/* TODO: change from Hover to Selected so that button is still highlighted while drop down is being used */
 	border-color:		#a5beda; 
@@ -109,8 +109,7 @@
 }
 
 .tundra .dijitArrowButtonInner {
-	background-image:url("../images/spriteArrows.png");
-	background-position: left top;
+	background:url("../images/spriteArrows.png") no-repeat scroll 0px center;
 	width: 7px;
 	height: 7px;
 	font-size: 1px;
@@ -121,35 +120,31 @@
 }
 
 .tundra .dijitLeftArrowButton .dijitArrowButtonInner { 
-	background-position: -7px top; 
+	background-position: -7px center; 
 }
 .tundra .dijitRightArrowButton .dijitArrowButtonInner { 
-	background-position: -14px top; 
+	background-position: -14px center; 
 }
 .tundra .dijitUpArrowButton .dijitArrowButtonInner { 
-	background-position: -21px top; 
+	background-position: -21px center; 
 }
 
 .tundra .dijitDisabled .dijitArrowButtonInner {
-	background-position: -28px top;
+	background-position: -28px center;
 }
 .tundra .dijitDisabled .dijitLeftArrowButton .dijitArrowButtonInner { 
-	background-position: -35px top; 
+	background-position: -35px center; 
 }
 .tundra .dijitDisabled .dijitRightArrowButton .dijitArrowButtonInner { 
-	background-position: -42px top; 
+	background-position: -42px center; 
 }
 .tundra .dijitDisabled .dijitUpArrowButton .dijitArrowButtonInner {
-	background-position: -49px top; 
+	background-position: -49px center; 
 }
 
 
 /* Since ComboBox doesn't have it's own file... */
 .tundra .dijitComboBox .dijitArrowButton .dijitArrowButtonInner {
-	background-image: url("../images/comboArrowDown.gif");
-	background-repeat: no-repeat;
-	background-attachment: scroll;
-	background-position: center center;
 	height: auto;
 	font-size: 100%;
 	font-size: inherit;
