@@ -395,22 +395,22 @@ dojo.declare(
 // Since any widget can be specified as a LayoutContainer child, mix it
 // into the base widget class.  (This is a hack, but it's effective.)
 dojo.extend(dijit._Widget, {
-	// region: String
+	// region: [const] String
 	//		"top", "bottom", "leading", "trailing", "left", "right", "center".
 	//		See the BorderContainer description for details on this parameter.
 	region: '',
 
-	// splitter: Boolean
+	// splitter: [const] Boolean
 	//		If true, puts a draggable splitter on this widget to resize when used
 	//		inside a border container edge region.
 	splitter: false,
 
-	// minSize: Number
-	//		Specifies a minimum size for this widget when resized by a splitter
+	// minSize: [const] Number
+	//		Specifies a minimum size (in pixels) for this widget when resized by a splitter
 	minSize: 0,
 
-	// maxSize: Number
-	//		Specifies a maximum size for this widget when resized by a splitter
+	// maxSize: [const] Number
+	//		Specifies a maximum size (in pixels) for this widget when resized by a splitter
 	maxSize: Infinity
 });
 
