@@ -1,0 +1,200 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+		"http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+	<title>ContentPane layout-related DOH test</title>
+	<style type="text/css">
+		@import "../../../dojo/resources/dojo.css";
+		@import "../../themes/tundra/tundra.css";
+		@import "../css/dijitTests.css";
+
+		.dijitTestWidget {
+			border: 1px dashed red;
+			background-color: #C0E209 ;
+		}
+	</style>
+
+	<script type="text/javascript" src="../../../dojo/dojo.js"
+		djConfig="isDebug: true, parseOnLoad: true"></script>
+	<script type="text/javascript">
+		dojo.require("doh.runner");
+		dojo.require("dijit._Widget");
+		dojo.require("dijit._Templated");
+		dojo.require("dijit.layout.ContentPane");
+		dojo.require("dijit.layout.TabContainer");
+		dojo.require("dijit.layout.BorderContainer");
+
+		// widgets used in doc loaded via href
+		dojo.require("dijit.form.ComboBox");
+		
+		// create a do nothing, only for test widget
+		dojo.declare("dijit.TestWidget",
+			[dijit._Widget, dijit._Templated], {
+			templateString: "<span class='dijitTestWidget'></span>",
+			_resized: 0,
+			resize: function(){
+				this._resized++;
+			}
+		});
+
+		var loadEvents = {
+			pane1: 0,
+			pane2: 0,
+			innerPane1: 0,
+			innerPane2: 0,
+			bcPane1: 0,
+			bcPane2: 0
+		};
+		function myOnLoad(){
+			console.log("onload for " + this);
+			loadEvents[this.id] = (loadEvents[this.id] || 0) + 1;
+		}
+
+		dojo.addOnLoad(function(){
+			
+			// Test that ContentPanes defer their load until they are shown
+			doh.register("load and resize events",
+				[
+					{
+						name: "initial conditions",
+						runTest: function(t){
+							var d = new doh.Deferred();
+							// Wait for load events to occur (after fetching URL's)
+							setTimeout(d.getTestCallback(function(){
+								doh.is(1, loadEvents.pane1, "pane1");
+								dojo.forEach(["pane2", "innerPane1", "innerPane2", "bcPane1", "bcPane2"], function(pane){
+									doh.is(0, loadEvents[pane], pane);
+								});								
+							}), 750);
+							return d;
+						}
+					},
+					{
+						name: "reset href in hidden pane, pane2",
+						runTest: function(t){
+							// Resetting an href on a hidden pane should have no effect
+							var d = new doh.Deferred();
+							
+							dijit.byId("pane2").attr("href", "doc0.html");
+							setTimeout(d.getTestCallback(function(){
+								doh.is(0, loadEvents.pane2, "pane2");
+							}), 750);
+
+							return d;
+						}
+					},
+					{
+						name: "reset href in hidden pane, innerPane1",
+						runTest: function(t){
+							// Resetting an href on a hidden pane should have no effect
+							var d = new doh.Deferred();
+							
+							dijit.byId("innerPane1").attr("href", "doc1.html");
+							setTimeout(d.getTestCallback(function(){
+								doh.is(0, loadEvents.innerPane1, "innerPane1");
+							}), 750);
+
+							return d;
+						}
+					},
+					{
+						name: "reset href in hidden pane, bcPane2",
+						runTest: function(t){
+							// Resetting an href on a hidden pane should have no effect
+							var d = new doh.Deferred();
+							
+							dijit.byId("bcPane2").attr("href", "doc0.html");
+							setTimeout(d.getTestCallback(function(){
+								doh.is(0, loadEvents.bcPane2, "bcPane2");
+							}), 750);
+
+							return d;
+						}
+					},
+					{
+						name: "selecting ContentPane causes it to load",
+						runTest: function(t){
+							var d = new doh.Deferred();
+							
+							dijit.byId("outerTC").selectChild(dijit.byId("pane2"));
+							setTimeout(d.getTestCallback(function(){
+								doh.is(1, loadEvents.pane2, "pane2");
+							}), 750);
+
+							return d;
+						}
+					},
+					{
+						name: "selecting a TabContainer causes it's selected child to load",
+						runTest: function(t){
+							var d = new doh.Deferred();
+							
+							doh.is(0, loadEvents.innerPane1, "innerPane1 not loaded yet");
+							dijit.byId("outerTC").selectChild(dijit.byId("innerTC"));
+							setTimeout(d.getTestCallback(function(){
+								doh.is(1, loadEvents.innerPane1, "innerPane1 now loaded");
+							}), 750);
+
+							return d;
+						}
+					},
+					{
+						name: "selecting a BorderContainer causes it's children to load",
+						runTest: function(t){
+							var d = new doh.Deferred();
+
+							//doh.is(0, loadEvents.bcPane1, "bcPane1");
+							//doh.is(0, loadEvents.bcPane2, "bcPane2");
+							
+							dijit.byId("outerTC").selectChild(dijit.byId("bc"));
+
+							setTimeout(d.getTestCallback(function(){
+								doh.is(1, loadEvents.bcPane1, "bcPane1");
+								doh.is(1, loadEvents.bcPane2, "bcPane2");
+							}), 750);
+
+							return d;
+						}
+					}
+				]
+			);
+
+			doh.run();
+		});
+
+	</script>
+</head>
+<body class="tundra">
+	<h2>dijit.layout.ContentPane layout releated DOH test</h2>
+	<p>Tests ContentPane in it's role as a child of layout widgets (especially TabContainer)</p>
+
+	<!-- for testing onLoad and resize events -->
+	<div dojoType="dijit.layout.TabContainer" id="outerTC" style="width: 880px; height: 400px;">
+		<div dojoType="dijit.layout.ContentPane" id="pane1" href="doc0.html" title="Initially Selected" onLoad="myOnLoad">
+			initially selected pane
+		</div>
+		<div dojoType="dijit.layout.ContentPane" id="pane2" href="doc1.html" title="Initially Hidden" onLoad="myOnLoad">
+			unselected pane
+		</div>
+		<div dojoType="dijit.layout.TabContainer" id="innerTC" nested="true" title="Nested TabContainer">
+			<div dojoType="dijit.layout.ContentPane" id="innerPane1" href="doc0.html" title="Initially Selected" onLoad="myOnLoad">
+				initially selected inner pane
+			</div>
+			<div dojoType="dijit.layout.ContentPane" id="innerPane2" href="doc1.html" title="Initially Hidden" onLoad="myOnLoad">
+				unselected pane
+			</div>
+		</div>
+		<div dojoType="dijit.layout.BorderContainer" id="bc" title="BorderContainer">
+			<div dojoType="dijit.layout.ContentPane" id="bcPane1" href="doc0.html" region="left" style="width: 200px;" onLoad="myOnLoad">
+				left pane
+			</div>
+			<div dojoType="dijit.layout.ContentPane" id="bcPane2" href="doc1.html" region="center" onLoad="myOnLoad">
+				center pane
+				
+				TODO: add widget here and check for resize event
+			</div>
+		</div>
+	</div>
+
+</body>
+</html>
