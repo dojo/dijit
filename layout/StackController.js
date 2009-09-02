@@ -48,7 +48,11 @@ dojo.declare(
 				// tags:
 				//		private
 				dojo.forEach(info.children, this.onAddChild, this);
-				this.onSelectChild(info.selected);
+				if(info.selected){
+					// Show button corresponding to selected pane (unless selected
+					// is null because there are no panes)
+					this.onSelectChild(info.selected);
+				}
 			},
 
 			destroy: function(){
