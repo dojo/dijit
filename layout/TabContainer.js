@@ -144,7 +144,9 @@ dojo.declare("dijit.layout.TabContainer",
 			}
 		}else{
 			// just layout the tab controller, so it can position left/right buttons etc.
-			this.tablist.resize({w: dojo.contentBox(this.domNode).w});
+			if(this.tablist.resize){
+				this.tablist.resize({w: dojo.contentBox(this.domNode).w});
+			}
 		}
 	},
 
