@@ -120,13 +120,14 @@
 	<script>dojo.byId('title').appendChild(document.createTextNode(testWidget+" Unit Test"))</script>
 	<form id="form1" action="#" method="GET">
 
-		<p>Option tags, autoComplete=false, default value of Iowa, pageSize=30</p>
+		<p>Option tags, autoComplete=false, selectOnClick=true, default value of California, pageSize=30</p>
 		<label for="setvaluetest">US State test 1</label> (200% Courier font):
 		<select id="setvaluetest"
 				name="state1"
 				dojoType="$testWidget"
 				style="width:50%;font-size:200%;font-family:Courier;"
 				autoComplete="false"
+				selectOnClick="true"
 				onChange="dojo.byId('oc1').value=arguments[0]"
 				pageSize="30"
 		>

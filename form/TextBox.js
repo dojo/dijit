@@ -29,6 +29,10 @@ dojo.declare(
 		//		HTML INPUT tag maxLength declaration.
 		maxLength: "",
 
+		//	selectOnClick: [const] Boolean
+		//		If true, all text will be selected when focused with mouse
+		selectOnClick: false,
+
 		templatePath: dojo.moduleUrl("dijit.form", "templates/TextBox.html"),
 		baseClass: "dijitTextBox",
 
@@ -190,6 +194,30 @@ dojo.declare(
 			this._refreshState();
 		},
 
+		_onMouseDown: function(){
+			// flag if everything should be selected on mouse click
+			// don't actually select here in case they're selecting specific text with the mouse
+			this._selectOnUp = !this._focused && !this.disabled && !this.readOnly;
+		},
+
+		_onClick: function(){
+			// select all text if nothing already selected
+			if(this._focused && this._selectOnUp){
+				var textIsNotSelected;
+				if(dojo.isIE){
+					var range = dojo.doc.selection.createRange();
+					var parent = range.parentElement();
+					textIsNotSelected = parent == this.textbox && range.text.length == 0;
+				}else{
+					textIsNotSelected = this.textbox.selectionStart == this.textbox.selectionEnd;
+				}
+				if(textIsNotSelected){
+					dijit.selectInputText(this.textbox);
+				}
+			}
+			this._selectOnUp = false;
+		},
+
 		postCreate: function(){
 			// setting the value here is needed since value="" in the template causes "undefined"
 			// and setting in the DOM (instead of the JS object) helps with form reset actions
@@ -202,6 +230,10 @@ dojo.declare(
 				this.connect(this.textbox, "onkeyup", this._onInput);
 				this.connect(this.textbox, "onpaste", this._onInput);
 				this.connect(this.textbox, "oncut", this._onInput);
+			}
+			if(this.selectOnClick){
+				this.connect(this.textbox, "onmousedown", this._onMouseDown);
+				this.connect(this.textbox, "onclick", this._onClick);
 			}
 
 			/*#5297:if(this.srcNodeRef){
@@ -257,10 +289,13 @@ dojo.declare(
 			if(this.disabled){ return; }
 			this._setBlurValue();
 			this.inherited(arguments);
+			if(this.selectOnClick && !dojo.isIE){
+				this.textbox.selectionStart = this.textbox.selectionEnd = undefined; // clear selection so that the next mouse click doesn't reselect
+			}
 		},
 
 		_onFocus: function(e){
-			if(this.disabled){ return; }
+			if(this.disabled || this.readOnly){ return; }
 			this._refreshState();
 			this.inherited(arguments);
 		},
@@ -290,8 +325,9 @@ dijit.selectInputText = function(/*DomNode*/element, /*Number?*/ start, /*Number
 			var range = element.createTextRange();
 			with(range){
 				collapse(true);
-				moveStart("character", start);
-				moveEnd("character", stop);
+				moveStart("character", -99999); // move to 0
+				moveStart("character", start); // delta from 0 is the correct position
+				moveEnd("character", stop-start);
 				select();
 			}
 		}

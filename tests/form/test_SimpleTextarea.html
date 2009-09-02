@@ -37,11 +37,12 @@
 			It can be used inside layout containers.
 		</p>
 
-		<h2>Plain textarea (rows=5, cols=50)</h2>
+		<h2>Plain textarea (rows=5, cols=50), selectOnClick=true</h2>
 		<textarea id="q1" dojoType="dijit.form.SimpleTextarea" name="ta2" rows="5" cols="50"
 			onFocus="console.log('user focus handler')"
 			onBlur="console.log('user blur handler')"
 		        onChange="dojo.byId('oc1').value=''+arguments[0]"
+			selectOnClick="true"
 		>
 			shichashaw, textarea text baw.				
 		</textarea>
