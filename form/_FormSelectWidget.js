@@ -165,10 +165,14 @@ dojo.declare("dijit.form._FormSelectWidget", dijit.form._FormValueWidget, {
 		if(!dojo.isArray(valueOrIdx)){ valueOrIdx = [valueOrIdx]; }
 		var oldOpts = this.getOptions(valueOrIdx);
 		dojo.forEach(oldOpts, function(i){
-			this.options = dojo.filter(this.options, function(node, idx){
-				return (node.value !== i.value);
-			});
-			this._removeOptionItem(i);
+			// We can get null back in our array - if our option was not found.  In
+			// that case, we don't want to blow up...
+			if(i){
+				this.options = dojo.filter(this.options, function(node, idx){
+					return (node.value !== i.value);
+				});
+				this._removeOptionItem(i);
+			}
 		}, this);
 		this._loadChildren();
 	},
