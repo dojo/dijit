@@ -354,6 +354,10 @@ dojo.declare(
 		//		hidden ContentPanes until they are first shown
 
 		if(this._childOfLayoutWidget){
+			// If we are TitlePane, etc - we return that only *IF* we've been resized
+			if(this._resizeCalled && "open" in this){
+				return this.open;
+			}
 			return this._resizeCalled;
 		}else if("open" in this){
 			return this.open;		// for TitlePane, etc.
