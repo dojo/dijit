@@ -8,7 +8,7 @@
 		@import "../../themes/tundra/tundra.css";
 		@import "../css/dijitTests.css";
 
-		.dijitTestWidget {
+		.resizableWidget {
 			border: 1px dashed red;
 			background-color: #C0E209 ;
 		}
@@ -28,12 +28,14 @@
 		dojo.require("dijit.form.ComboBox");
 		
 		// create a do nothing, only for test widget
-		dojo.declare("dijit.TestWidget",
+		dojo.declare("ResizableWidget",
 			[dijit._Widget, dijit._Templated], {
-			templateString: "<span class='dijitTestWidget'></span>",
+			templateString: "<span class='resizableWidget'>resizable widget</span>",
 			_resized: 0,
+			_resizeArgs: null,
 			resize: function(){
 				this._resized++;
+				this._resizeArgs = arguments;
 			}
 		});
 
@@ -53,7 +55,7 @@
 		dojo.addOnLoad(function(){
 			
 			// Test that ContentPanes defer their load until they are shown
-			doh.register("load and resize events",
+			doh.register("load events",
 				[
 					{
 						name: "initial conditions",
@@ -159,6 +161,107 @@
 				]
 			);
 
+			// Since the href's widgets haven't been created yet we can't connect to their resize()
+			// methods, but we can monitor resize() on the prototype
+			var layoutResizes = {},
+				handle = dojo.connect(dijit.layout._LayoutWidget.prototype, "resize", function(){
+					// this is the pointer to the widget, and arguments are newsize/curSize args to resize()
+					layoutResizes[this.id] = arguments;
+				});
+
+			doh.register("resize events",
+				[
+					// Test that when ContentPane w/single resizable child is shown,
+					// the child is sized to match the ContentPane
+					{
+						name: "single child",
+						runTest: function(t){
+							var child = dijit.byId("singleChildResizable");
+							doh.is(0, child._resized, "hasn't been shown yet so no resize events");
+
+							dijit.byId("resizeTC").selectChild(dijit.byId("singleChildPane"))
+
+							doh.t(child._resized, "got resize event");	// note: should only be 1 but currently gets 2
+							doh.t(child._resizeArgs && child._resizeArgs.length, "got size specified")
+							
+							var size = child._resizeArgs[0];
+							doh.t(size && size.h, "non-0 height specified");
+							doh.t(size && size.w, "non-0 width specified");
+						}
+					},
+					// Test that when ContentPane w/multiple resizable children is shown,
+					// the children aren't sized to match the ContentPane, but we do call
+					// resize on them so they can lay themselves out
+					{
+						name: "multiple children",
+						runTest: function(t){
+							var child1 = dijit.byId("multipleChildResizable1"),
+								child2 = dijit.byId("multipleChildResizable2");
+
+							doh.is(0, child1._resized, "child1 hasn't been shown yet so no resize events");
+							doh.is(0, child2._resized, "child2 hasn't been shown yet so no resize events");
+
+							dijit.byId("resizeTC").selectChild(dijit.byId("multipleChildPanes"))
+
+							doh.t(child1._resized, "got resize event for child1");
+							doh.is(0, child1._resizeArgs && child1._resizeArgs.length, "no size specified for child1")
+							doh.t(child2._resized, "got resize event for child2");
+							doh.is(0, child2._resizeArgs && child2._resizeArgs.length, "no size specified for child2")
+						}
+					},
+
+					// Test that resize event works correctly for href w/single layout widget
+					{
+						name: "single resizable href",
+						runTest: function(t){
+							var d = new doh.Deferred();
+
+							dijit.byId("resizeTC").selectChild(dijit.byId("singleChildHref"))
+
+							// Wait for load events to occur (after fetching URL's)
+							setTimeout(d.getTestCallback(function(){
+								// Check top level border container got sized to fit ContentPane
+								var child = dijit.byId("doc3BorderContainer");
+								doh.t(child, "href was loaded and top level BorderContainer was created")
+								doh.t(layoutResizes["doc3BorderContainer"], "got resize event");
+								doh.t(layoutResizes["doc3BorderContainer"].length, "got size specified")
+								
+								var size = layoutResizes["doc3BorderContainer"][0];
+								doh.t(size && size.h, "non-0 height specified");
+								doh.t(size && size.w, "non-0 width specified");
+								
+								// Check that resize() events also trickled down to inner TabContainer 
+								var child2 = dijit.byId("doc3InnerTabContainer");
+								doh.t(child2, "inner TabContainer was created")
+								doh.t(layoutResizes["doc3InnerTabContainer"], "got resize event");
+								doh.is(0, layoutResizes["doc3InnerTabContainer"].length, "no size specified")
+							}), 750);
+							return d;
+						}
+					},
+
+					// Test that resize event works correctly for href w/multiple layout widgets
+					{
+						name: "multiple resizable href",
+						runTest: function(t){
+							var d = new doh.Deferred();
+
+							dijit.byId("resizeTC").selectChild(dijit.byId("multipleChildHref"))
+
+							// Wait for load events to occur (after fetching URL's)
+							setTimeout(d.getTestCallback(function(){
+								// Check that resize() done on TabContainer 
+								var child = dijit.byId("doc4TabContainer");
+								doh.t(child, "TabContainer was created")
+								doh.t(layoutResizes["doc4TabContainer"], "got resize event");
+								doh.is(0, layoutResizes["doc4TabContainer"].length, "no size specified")
+							}), 750);
+							return d;
+						}
+					}
+				]
+			);
+
 			doh.run();
 		});
 
@@ -169,7 +272,7 @@
 	<p>Tests ContentPane in it's role as a child of layout widgets (especially TabContainer)</p>
 
 	<!-- for testing onLoad and resize events -->
-	<div dojoType="dijit.layout.TabContainer" id="outerTC" style="width: 880px; height: 400px;">
+	<div dojoType="dijit.layout.TabContainer" id="outerTC" style="width: 880px; height: 200px;">
 		<div dojoType="dijit.layout.ContentPane" id="pane1" href="doc0.html" title="Initially Selected" onLoad="myOnLoad">
 			initially selected pane
 		</div>
@@ -191,9 +294,31 @@
 			<div dojoType="dijit.layout.ContentPane" id="bcPane2" href="doc1.html" region="center" onLoad="myOnLoad">
 				center pane
 				
-				TODO: add widget here and check for resize event
+				<!-- when this ContentPane is shown each of these widgets should get a resize()
+				 	 call w/no size specification -->
+				<div dojoType="ResizableWidget" id="bcResizable1"></div>
+				<div dojoType="ResizableWidget" id="bcResizable2"></div>
 			</div>
 		</div>
+	</div>
+	<br><br>
+	<div dojoType="dijit.layout.TabContainer" id="resizeTC" style="width: 880px; height: 200px;">
+		<div dojoType="dijit.layout.ContentPane" id="resizePane1" title="Initially Selected" onLoad="myOnLoad">
+			initially selected pane
+		</div>
+		<div dojoType="dijit.layout.ContentPane" id="singleChildPane" title="Single ResizableChild" onLoad="myOnLoad">
+			<div dojoType="ResizableWidget" id="singleChildResizable"></div>
+		</div>
+		<div dojoType="dijit.layout.ContentPane" id="multipleChildPanes" title="Multiple ResizableChild" onLoad="myOnLoad">
+			<div dojoType="ResizableWidget" id="multipleChildResizable1"></div>
+			<div style="border: groove blue medium;">
+				<span>hide the second widget to see if ContentPane can still find it</span>
+				<div dojoType="ResizableWidget" id="multipleChildResizable2"></div>
+				<span>ending text</span>
+			</div>
+		</div>
+		<div dojoType="dijit.layout.ContentPane" id="singleChildHref" title="Href Single Child" href="doc3.html" onLoad="myOnLoad"></div>
+		<div dojoType="dijit.layout.ContentPane" id="multipleChildHref" title="Href Multiple Children" href="doc4.html" onLoad="myOnLoad"></div>
 	</div>
 
 </body>
