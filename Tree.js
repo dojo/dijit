@@ -1257,7 +1257,7 @@ dojo.declare(
 		//		protected
 
 		// set focus so that the label will be voiced using screen readers
-		node.labelNode.focus();
+		dijit.focus(node.labelNode);
 	},
 
 	_onNodeFocus: function(/*Widget*/ node){
