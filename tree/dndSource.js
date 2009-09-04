@@ -45,8 +45,8 @@ dojo.declare("dijit.tree.dndSource", dijit.tree._dndSelector, {
 	copyOnly: false,
 
 	// dragThreshold: Number
-	//		The move delay in pixels before detecting a drag; 0 by default
-	dragThreshold: 0,
+	//		The move delay in pixels before detecting a drag; 5 by default
+	dragThreshold: 5,
 
 	// betweenThreshold: Integer
 	//		Distance from upper/lower edge of node to allow drop to reorder nodes
@@ -95,11 +95,6 @@ dojo.declare("dijit.tree.dndSource", dijit.tree._dndSelector, {
 			dojo.subscribe("/dnd/drop",   this, "onDndDrop"),
 			dojo.subscribe("/dnd/cancel", this, "onDndCancel")
 		];
-		this.events.push(
-			// monitor mouse movements to tell when drag starts etc.
-			dojo.connect(this.node, "onmousemove", this, "onMouseMove")
-		);
-
 	},
 
 	// methods
@@ -196,6 +191,7 @@ dojo.declare("dijit.tree.dndSource", dijit.tree._dndSelector, {
 		// tags:
 		//		private
 		if(this.isDragging && this.targetState == "Disabled"){ return; }
+		this.inherited(arguments);
 		var m = dojo.dnd.manager();
 		if(this.isDragging){
 			if(this.betweenThreshold > 0){

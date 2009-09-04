@@ -543,7 +543,7 @@ dojo.declare(
 	
 	// dragThreshold: Integer
 	//		Number of pixels mouse moves before it's considered the start of a drag operation
-	dragThreshold: 0,
+	dragThreshold: 5,
 	
 	// betweenThreshold: Integer
 	//		Set to a positive value to allow drag and drop "between" nodes.

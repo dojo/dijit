@@ -30,16 +30,15 @@ dojo.declare("dijit.tree._dndSelector",
 		
 			this.events.push(
 				dojo.connect(this.tree.domNode, "onmousedown", this,"onMouseDown"),
-				dojo.connect(this.tree.domNode, "onmouseup", this,"onMouseUp")
+				dojo.connect(this.tree.domNode, "onmouseup", this,"onMouseUp"),
+				dojo.connect(this.tree.domNode, "onmousemove", this,"onMouseMove")
 			);
 		},
 	
-		// singular: [readonly] Boolean
-		//		Apparently this is indicates whether a single or multiple elements are
-		//		selected, but AFAIK Tree doesn't support multiple selection, so it doesn't
-		//		do anything.   (There is, however, a bunch of dead code that would only run
-		//		if singular == true)
-		singular: false,	// is singular property
+		//	singular: Boolean
+		//		Allows selection of only one element, if true.
+		//		Tree hasn't been tested in singular=true mode, unclear if it works.
+		singular: false,
 	
 		// methods
 
@@ -79,7 +78,7 @@ dojo.declare("dijit.tree._dndSelector",
 			
 			if(!this.current){ return; }
 
-			if(e.button == 2){ return; }	// ignore right-click
+			if(e.button == dojo.mouseButtons.RIGHT){ return; }	// ignore right-click
 
 			var treeNode = dijit.getEnclosingWidget(this.current),
 				id = treeNode.id + "-dnd"	// so id doesn't conflict w/widget
@@ -152,6 +151,13 @@ dojo.declare("dijit.tree._dndSelector",
 			//		mouse event
 			// tags:
 			//		protected
+			
+			// TODO: this code is apparently for handling an edge case when the user is selecting
+			// multiple nodes and then mousedowns on a node by accident... it lets the user keep the
+			// current selection by moving the mouse away (or something like that).   It doesn't seem
+			// to work though and requires a lot of plumbing (including this code, the onmousemove
+			// handler, and the this.simpleSelection attribute.   Consider getting rid of all of it.  
+
 			if(!this.simpleSelection){ return; }
 			this.simpleSelection = false;
 			this.selectNone();
@@ -161,6 +167,14 @@ dojo.declare("dijit.tree._dndSelector",
 				this.selection[this.current.id] = this.current;
 			}
 		},
+		onMouseMove: function(e){
+			// summary
+			//		event processor for onmousemove
+			// e: Event
+			//		mouse event
+			this.simpleSelection = false;
+		},
+
 		_removeSelection: function(){
 			// summary:
 			//		Unselects all items
