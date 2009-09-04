@@ -45,7 +45,7 @@ dojo.declare(
 	//		then after dojo.data query it becomes "LOADING" and, finally "LOADED"	
 	state: "UNCHECKED",
 	
-	templatePath: dojo.moduleUrl("dijit", "templates/TreeNode.html"),
+	templateString: dojo.cache("dijit", "templates/TreeNode.html"),
 
 	postCreate: function(){
 		// set label, escaping special characters
@@ -448,7 +448,7 @@ dojo.declare(
 	//		If true, double-clicking a folder node's label will open it, rather than calling onDblClick()
 	openOnDblClick: false,
 
-	templatePath: dojo.moduleUrl("dijit", "templates/Tree.html"),
+	templateString: dojo.cache("dijit", "templates/Tree.html"),
 
 	// persist: Boolean
 	//		Enables/disables use of cookies for state saving.

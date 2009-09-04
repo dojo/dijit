@@ -12,7 +12,7 @@ dojo.declare("dijit.MenuItem",
 
 		// Make 3 columns
 		// icon, label, and expand arrow (BiDi-dependent) indicating sub-menu
-		templatePath: dojo.moduleUrl("dijit", "templates/MenuItem.html"),
+		templateString: dojo.cache("dijit", "templates/MenuItem.html"),
 
 		attributeMap: dojo.delegate(dijit._Widget.prototype.attributeMap, {
 			label: { node: "containerNode", type: "innerHTML" },

@@ -329,7 +329,7 @@ dojo.declare(
 	// value: String
 	//		Value as an HTML string or plain text string, depending on renderAsHTML flag
 
-	templatePath: dojo.moduleUrl("dijit", "templates/InlineEditBox.html"),
+	templateString: dojo.cache("dijit", "templates/InlineEditBox.html"),
 	widgetsInTemplate: true,
 
 	postMixInProperties: function(){

@@ -46,7 +46,7 @@ dojo.declare("dijit.ProgressBar", [dijit._Widget, dijit._Templated], {
 	//		this widget in a dijit.form.Form widget (such as dijit.Dialog)
 	name: '',
 	
-	templatePath: dojo.moduleUrl("dijit", "templates/ProgressBar.html"),
+	templateString: dojo.cache("dijit", "templates/ProgressBar.html"),
 
 	// _indeterminateHighContrastImagePath: [private] dojo._URL
 	//		URL to image to use for indeterminate progress bar when display is in high contrast mode

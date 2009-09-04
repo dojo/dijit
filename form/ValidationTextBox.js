@@ -27,7 +27,7 @@ dojo.declare(
 		// tags:
 		//		protected
 
-		templatePath: dojo.moduleUrl("dijit.form", "templates/ValidationTextBox.html"),
+		templateString: dojo.cache("dijit.form", "templates/ValidationTextBox.html"),
 		baseClass: "dijitTextBox",
 
 		// required: Boolean

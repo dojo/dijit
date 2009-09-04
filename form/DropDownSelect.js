@@ -59,7 +59,7 @@ dojo.declare("dijit.form.DropDownSelect", [dijit.form._FormSelectWidget, dijit._
 
 	baseClass: "dijitDropDownSelect",
 	
-	templatePath: dojo.moduleUrl("dijit.form", "templates/DropDownSelect.html"),
+	templateString: dojo.cache("dijit.form", "templates/DropDownSelect.html"),
 	
 	// attributeMap: Object
 	//		Add in our style to be applied to the focus node

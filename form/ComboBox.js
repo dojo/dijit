@@ -104,7 +104,7 @@ dojo.declare(
 		//		Defaults to true.
 		hasDownArrow: true,
 
-		templatePath: dojo.moduleUrl("dijit.form", "templates/ComboBox.html"),
+		templateString: dojo.cache("dijit.form", "templates/ComboBox.html"),
 
 		baseClass:"dijitComboBox",
 

@@ -30,7 +30,7 @@ dojo.declare(
 		//	  Adjust the value by this much when spinning using the PgUp/Dn keys
 		largeDelta: 10,
 
-		templatePath: dojo.moduleUrl("dijit.form", "templates/Spinner.html"),
+		templateString: dojo.cache("dijit.form", "templates/Spinner.html"),
 		baseClass: "dijitSpinner",
 
 		adjust: function(/* Object */ val, /*Number*/ delta){

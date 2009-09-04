@@ -19,7 +19,7 @@ dojo.declare(
 		//		Milliseconds to fade in/fade out
 		duration: dijit.defaultDuration,
 
-		templatePath: dojo.moduleUrl("dijit", "templates/Tooltip.html"),
+		templateString: dojo.cache("dijit", "templates/Tooltip.html"),
 
 		postCreate: function(){
 			dojo.body().appendChild(this.domNode);

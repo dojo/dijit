@@ -14,8 +14,7 @@ dojo.declare("dijit.layout.ScrollingTabController",
 	// tags:
 	//		private
 
-	templateString: null,
-	templatePath: dojo.moduleUrl("dijit.layout", "templates/ScrollingTabController.html"),
+	templateString: dojo.cache("dijit.layout", "templates/ScrollingTabController.html"),
 
 	// useMenu:[const] Boolean
 	//		True if a menu should be used to select tabs when they are too
@@ -432,6 +431,6 @@ dojo.declare("dijit.layout._ScrollingTabControllerButton",
 		
 		tabPosition: "top",
 		
-		templatePath: dojo.moduleUrl("dijit.layout","templates/_ScrollingTabControllerButton.html")
+		templateString: dojo.cache("dijit.layout","templates/_ScrollingTabControllerButton.html")
 	}
 );

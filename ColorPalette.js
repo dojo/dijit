@@ -88,9 +88,9 @@ dojo.declare("dijit.ColorPalette",
 		
 	},
 
-	// templatePath: String
-	//		Path to the template of this widget.
-	templatePath: dojo.moduleUrl("dijit", "templates/ColorPalette.html"),
+	// templateString: String
+	//		The template of this widget.
+	templateString: dojo.cache("dijit", "templates/ColorPalette.html"),
 
 	// _paletteDims: [protected] Object
 	//		Size of the supported palettes for alignment purposes.

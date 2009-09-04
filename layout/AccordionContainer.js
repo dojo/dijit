@@ -250,7 +250,7 @@ dojo.declare("dijit.layout._AccordionButton",
 	// tags:
 	//		private
 
-	templatePath: dojo.moduleUrl("dijit.layout", "templates/AccordionButton.html"),
+	templateString: dojo.cache("dijit.layout", "templates/AccordionButton.html"),
 	attributeMap: dojo.mixin(dojo.clone(dijit.layout.ContentPane.prototype.attributeMap), {
 		title: {node: "titleTextNode", type: "innerHTML" },
 		iconClass: { node: "iconNode", type: "class" }

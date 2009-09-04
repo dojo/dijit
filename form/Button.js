@@ -46,7 +46,7 @@ dojo.declare("dijit.form.Button",
 
 	baseClass: "dijitButton",
 
-	templatePath: dojo.moduleUrl("dijit.form", "templates/Button.html"),
+	templateString: dojo.cache("dijit.form", "templates/Button.html"),
 
 	attributeMap: dojo.delegate(dijit.form._FormWidget.prototype.attributeMap, {
 		label: { node: "containerNode", type: "innerHTML" },
@@ -162,7 +162,7 @@ dojo.declare("dijit.form.DropDownButton", [dijit.form.Button, dijit._Container, 
 	
 	baseClass : "dijitDropDownButton",
 
-	templatePath: dojo.moduleUrl("dijit.form" , "templates/DropDownButton.html"),
+	templateString: dojo.cache("dijit.form" , "templates/DropDownButton.html"),
 
 	_fillContent: function(){
 		// Overrides Button._fillContent().
@@ -236,7 +236,7 @@ dojo.declare("dijit.form.ComboButton", dijit.form.DropDownButton, {
 	// |	dojo.body().appendChild(button1.domNode);
 	// 
 
-	templatePath: dojo.moduleUrl("dijit.form", "templates/ComboButton.html"),
+	templateString: dojo.cache("dijit.form", "templates/ComboButton.html"),
 
 	attributeMap: dojo.mixin(dojo.clone(dijit.form.Button.prototype.attributeMap), {
 		id:"",

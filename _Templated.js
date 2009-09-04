@@ -3,6 +3,7 @@ dojo.provide("dijit._Templated");
 dojo.require("dijit._Widget");
 dojo.require("dojo.string");
 dojo.require("dojo.parser");
+dojo.require("dojo.cache");
 
 dojo.declare("dijit._Templated",
 	null,
@@ -16,10 +17,13 @@ dojo.declare("dijit._Templated",
 		//		templatePath. In builds that have their strings "interned", the
 		//		templatePath is converted to an inline templateString, thereby
 		//		preventing a synchronous network call.
+		//
+		//		Use in conjunction with dojo.cache() to load from a file.
 		templateString: null,
 
-		// templatePath: [protected] String
-		//		Path to template (HTML file) for this widget relative to dojo.baseUrl
+		// templatePath: [protected deprecated] String
+		//		Path to template (HTML file) for this widget relative to dojo.baseUrl.
+		//		Deprecated: use templateString with dojo.cache() instead.
 		templatePath: null,
 
 		// widgetsInTemplate: [protected] Boolean
@@ -238,8 +242,8 @@ dijit._Templated.getCachedTemplate = function(templatePath, templateString, alwa
 	// summary:
 	//		Static method to get a template based on the templatePath or
 	//		templateString key
-	// templatePath: String
-	//		The URL to get the template from. dojo.uri.Uri is often passed as well.
+	// templatePath: String||dojo.uri.Uri
+	//		The URL to get the template from.
 	// templateString: String?
 	//		a string to use in lieu of fetching the template from a URL. Takes precedence
 	//		over templatePath
@@ -262,9 +266,8 @@ dijit._Templated.getCachedTemplate = function(templatePath, templateString, alwa
 
 	// If necessary, load template string from template path
 	if(!templateString){
-		templateString = dijit._Templated._sanitizeTemplateString(dojo.trim(dojo._getText(templatePath)));
+		templateString = dojo.cache(templatePath, {sanitize: true});
 	}
-
 	templateString = dojo.string.trim(templateString);
 
 	if(alwaysUseString || templateString.match(/\$\{([^\}]+)\}/g)){
@@ -275,24 +278,6 @@ dijit._Templated.getCachedTemplate = function(templatePath, templateString, alwa
 		return (tmplts[key] = dojo._toDom(templateString)); //Node
 	}
 };
-
-dijit._Templated._sanitizeTemplateString = function(/*String*/tString){
-	// summary: 
-	//		Strips <?xml ...?> declarations so that external SVG and XML
-	// 		documents can be added to a document without worry. Also, if the string
-	//		is an HTML document, only the part inside the body tag is returned.
-	if(tString){
-		tString = tString.replace(/^\s*<\?xml(\s)+version=[\'\"](\d)*.(\d)*[\'\"](\s)*\?>/im, "");
-		var matches = tString.match(/<body[^>]*>\s*([\s\S]+)\s*<\/body>/im);
-		if(matches){
-			tString = matches[1];
-		}
-	}else{
-		tString = "";
-	}
-	return tString; //String
-};
-
 
 if(dojo.isIE){
 	dojo.addOnWindowUnload(function(){

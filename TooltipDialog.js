@@ -43,8 +43,7 @@ dojo.declare(
 			//		Set by `dijit._DialogMixin._getFocusItems`.
 			_lastFocusItem: null,
 
-			templateString: null,
-			templatePath: dojo.moduleUrl("dijit", "templates/TooltipDialog.html"),
+			templateString: dojo.cache("dijit", "templates/TooltipDialog.html"),
 
 			postCreate: function(){
 				this.inherited(arguments);

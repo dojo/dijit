@@ -62,7 +62,7 @@ dojo.declare("dijit.layout._TabButton",
 	//		The CSS class applied to the domNode.
 	baseClass: "dijitTab",
 
-	templatePath: dojo.moduleUrl("dijit.layout","templates/_TabButton.html"),
+	templateString: dojo.cache("dijit.layout","templates/_TabButton.html"),
 
 	// Override _FormWidget.scrollOnFocus.
 	// Don't scroll the whole tab container into view when the button is focused.

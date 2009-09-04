@@ -44,8 +44,8 @@ dojo.declare(
 		// |	dojo.body().appendChild(foo.domNode);
 		// |	foo.startup();
 		
-		templateString: null,
-		templatePath: dojo.moduleUrl("dijit", "templates/Dialog.html"),
+		templateString: dojo.cache("dijit", "templates/Dialog.html"),
+
 		attributeMap: dojo.delegate(dijit._Widget.prototype.attributeMap, {
 			title: [
 				{ node: "titleNode", type: "innerHTML" }, 

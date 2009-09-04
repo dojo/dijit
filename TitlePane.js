@@ -52,7 +52,7 @@ dojo.declare(
 	//		The root className to be placed on this widget's domNode.
 	baseClass: "dijitTitlePane",
 
-	templatePath: dojo.moduleUrl("dijit", "templates/TitlePane.html"),
+	templateString: dojo.cache("dijit", "templates/TitlePane.html"),
 
 	attributeMap: dojo.delegate(dijit.layout.ContentPane.prototype.attributeMap, {
 		title: { node: "titleNode", type: "innerHTML" }

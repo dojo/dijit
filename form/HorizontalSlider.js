@@ -14,7 +14,7 @@ dojo.declare(
 	// summary:
 	//		A form widget that allows one to select a value with a horizontally draggable handle
 
-	templatePath: dojo.moduleUrl('dijit.form','templates/HorizontalSlider.html'),
+	templateString: dojo.cache('dijit.form','templates/HorizontalSlider.html'),
 
 	// Overrides FormValueWidget.value to indicate numeric value
 	value: 0,

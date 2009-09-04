@@ -3,7 +3,7 @@ dojo.provide("dijit.MenuBarItem");
 dojo.require("dijit.MenuItem");
 
 dojo.declare("dijit._MenuBarItemMixin", null, {
-	templatePath: dojo.moduleUrl("dijit", "templates/MenuBarItem.html"),
+	templateString: dojo.cache("dijit", "templates/MenuBarItem.html"),
 
 	// overriding attributeMap because we don't have icon
 	attributeMap: dojo.delegate(dijit._Widget.prototype.attributeMap, {

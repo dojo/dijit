@@ -46,8 +46,7 @@ dojo.declare("dijit.layout.TabContainer",
 	//		wide to fit the TabContainer, false otherwise.
 	useSlider: true,
 
-	templateString: null,	// override setting in StackContainer
-	templatePath: dojo.moduleUrl("dijit.layout", "templates/TabContainer.html"),
+	templateString: dojo.cache("dijit.layout", "templates/TabContainer.html"),
 
 	// _controllerWidget: String
 	//		An optional parameter to overrider the default TabContainer controller used.

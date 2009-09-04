@@ -42,8 +42,7 @@
 				//markup in the body tag for BigCalendar, but instead inject it in this
 				//onload handler after BigCalendar is defined.
 				dojo.declare("BigCalendar", dijit._Calendar, {
-					templatePath: "../../dijit/tests/_altCalendar.html",
-					templateString: null,  /* need this for builds */
+					templateString: dojo.cache("dijit.tests", "_altCalendar.html"),
 					isDisabledDate: dojo.date.locale.isWeekend,
 					getClassForDate: function(date){
 						if(!(date.getDate() % 10)){ return "blue"; } // apply special style to all days divisible by 10

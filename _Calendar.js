@@ -31,7 +31,7 @@ dojo.declare(
 	//	example:
 	//	|	<div dojoType="dijit._Calendar"></div>
 
-		templatePath: dojo.moduleUrl("dijit", "templates/Calendar.html"),
+		templateString: dojo.cache("dijit", "templates/Calendar.html"),
 
 		// value: Date
 		//		The currently selected Date

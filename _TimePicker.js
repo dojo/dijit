@@ -31,7 +31,7 @@ dojo.declare("dijit._TimePicker",
 		//		This widget is used internally by other widgets and is not accessible
 		//		as a standalone widget.
 
-		templatePath: dojo.moduleUrl("dijit", "templates/TimePicker.html"),
+		templateString: dojo.cache("dijit", "templates/TimePicker.html"),
 
 		// baseClass: [protected] String
 		//		The root className to use for the various states of this widget

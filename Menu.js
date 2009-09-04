@@ -273,7 +273,7 @@ dojo.declare("dijit.Menu",
 		this._bindings = [];
 	},
 
-	templatePath: dojo.moduleUrl("dijit", "templates/Menu.html"),
+	templateString: dojo.cache("dijit", "templates/Menu.html"),
 
 	// targetNodeIds: [const] String[]
 	//		Array of dom node ids of nodes to attach to.

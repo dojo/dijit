@@ -6,7 +6,7 @@ dojo.declare("dijit.MenuBar", dijit._MenuBase, {
 	// summary:
 	//		A menu bar, listing menu choices horizontally, like the "File" menu in most desktop applications
 
-	templatePath: dojo.moduleUrl("dijit", "templates/MenuBar.html"),
+	templateString: dojo.cache("dijit", "templates/MenuBar.html"),
 
 	// _isMenuBar: [protected] Boolean
 	//		This is a MenuBar widget, not a (vertical) Menu widget.

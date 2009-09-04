@@ -33,7 +33,7 @@ dojo.declare(
 		//		If true, all text will be selected when focused with mouse
 		selectOnClick: false,
 
-		templatePath: dojo.moduleUrl("dijit.form", "templates/TextBox.html"),
+		templateString: dojo.cache("dijit.form", "templates/TextBox.html"),
 		baseClass: "dijitTextBox",
 
 		attributeMap: dojo.delegate(dijit.form._FormValueWidget.prototype.attributeMap, {
