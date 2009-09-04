@@ -319,7 +319,7 @@ dojo.declare("dijit.tree.dndSource", dijit.tree._dndSelector, {
 
 		this._changeState("Target", accepted ? "" : "Disabled");
 
-		if(accepted){
+		if(this == source){
 			dojo.dnd.manager().overSource(this);
 		}
 
