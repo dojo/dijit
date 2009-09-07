@@ -183,8 +183,17 @@
 					},
 
 					function selectANode(){
+						var d = new doh.Deferred;
+
 						myTree.attr('selectedItem','CN');
-						doh.is('CN',myTree.model.getIdentity(myTree.attr('selectedItem')));
+
+						// On IE it takes a little time for the attr('selectedItem', ...) to
+						// take effect because it calls node.focus() which takes time.
+						setTimeout(d.getTestCallback(function(){
+							doh.is('CN',myTree.model.getIdentity(myTree.attr('selectedItem')));
+						}), 250);
+						
+						return d;
 					},
 
 					function nestedItemDelete(){
