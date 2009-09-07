@@ -71,9 +71,9 @@ dojo.declare(
 			// if the store supports Notification, subscribe to the notification events
 			if(store.getFeatures()['dojo.data.api.Notification']){
 				this.connects = this.connects.concat([
-					dojo.connect(store, "onNew", this, "_onNewItem"),
-					dojo.connect(store, "onDelete", this, "_onDeleteItem"),
-					dojo.connect(store, "onSet", this, "_onSetItem")
+					dojo.connect(store, "onNew", this, "onNewItem"),
+					dojo.connect(store, "onDelete", this, "onDeleteItem"),
+					dojo.connect(store, "onSet", this, "onSetItem")
 				]);
 			}
 		},
@@ -298,38 +298,58 @@ dojo.declare(
 		// =======================================================================
 		///Events from data store
 
-		_onNewItem: function(/* dojo.data.Item */ item, /* Object */ parentInfo){
+		onNewItem: function(/* dojo.data.Item */ item, /* Object */ parentInfo){
 			// summary:
-			//		Handler for when new items appear in the store.
+			//		Handler for when new items appear in the store, either from a drop operation
+			//		or some other way.   Updates the tree view (if necessary).
+			// description:
+			//		If the new item is a child of an existing item,
+			//		calls onChildrenChange() with the new list of children
+			//		for that existing item.
+			//
+			// tags:
+			//		extension
 
-			//	In this case there's no correspond onSet() call on the parent of this
-			//	item, so need to get the new children list of the parent manually somehow.
+			// We only care about the new item if it has a parent that corresponds to a TreeNode
+			// we are currently displaying
 			if(!parentInfo){
 				return;
 			}
+
+			// Call onChildrenChange() on parent (ie, existing) item with new list of children
+			// In the common case, the new list of children is simply parentInfo.newValue or
+			// [ parentInfo.newValue ], although if items in the store has multiple
+			// child attributes (see `childrenAttr`), then it's a superset of parentInfo.newValue,
+			// so call getChildren() to be sure to get right answer.
 			this.getChildren(parentInfo.item, dojo.hitch(this, function(children){
-				// NOTE: maybe can be optimized since parentInfo contains the new and old attribute value
 				this.onChildrenChange(parentInfo.item, children);
 			}));
 		},
 		
-		_onDeleteItem: function(/*Object*/ item){
+		onDeleteItem: function(/*Object*/ item){
 			// summary:
 			//		Handler for delete notifications from underlying store
 			this.onDelete(item);
 		},
 
-		_onSetItem: function(/* item */ item, 
+		onSetItem: function(/* item */ item, 
 						/* attribute-name-string */ attribute, 
 						/* object | array */ oldValue,
 						/* object | array */ newValue){
 			// summary:
-			//		Set data event on an item in the store
+			//		Updates the tree view according to changes in the data store.
+			// description:
+			//		Handles updates to an item's children by calling onChildrenChange(), and
+			//		other updates to an item by calling onChange().
+			//
+			//		See `onNewItem` for more details on handling updates to an item's children.
+			// tags:
+			//		extension
 		
 			if(dojo.indexOf(this.childrenAttrs, attribute) != -1){
 				// item's children list changed
 				this.getChildren(item, dojo.hitch(this, function(children){
-					// NOTE: maybe can be optimized since parentInfo contains the new and old attribute value
+					// See comments in onNewItem() about calling getChildren()
 					this.onChildrenChange(item, children);
 				}));
 			}else{

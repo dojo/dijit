@@ -202,20 +202,27 @@ dojo.declare("dijit.tree.ForestStoreModel", dijit.tree.TreeStoreModel, {
 		});
 	},
 
-	_onNewItem: function(/* dojo.data.Item */ item, /* Object */ parentInfo){
+	onNewItem: function(/* dojo.data.Item */ item, /* Object */ parentInfo){
 		// summary:
-		//		Handler for when new items appear in the store.
-
-		//		In theory, any new item could be a top level item.
-		//		Do the safe but inefficient thing by requerying the top
-		//		level items.   User can override this function to do something
-		//		more efficient.
+		//		Handler for when new items appear in the store.  Developers should override this
+		//		method to be more efficient based on their app/data.
+		// description:
+		//		Note that the default implementation requeries the top level items every time
+		//		a new item is created, since any new item could be a top level item (even in
+		//		addition to being a child of another item, since items can have multiple parents).
+		//		
+		//		Developers can override this function to do something more efficient if they can
+		//		detect which items are possible top level items (based on the item and the
+		//		parentInfo parameters).  Often all top level items have parentInfo==null, but
+		//		that will depend on which store you use and what your data is like.
+		// tags:
+		//		extension
 		this._requeryTop();
 
 		this.inherited(arguments);
 	},
 
-	_onDeleteItem: function(/*Object*/ item){
+	onDeleteItem: function(/*Object*/ item){
 		// summary:
 		//		Handler for delete notifications from underlying store
 
