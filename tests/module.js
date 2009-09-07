@@ -83,6 +83,7 @@ try{
 
 	// form tests
 	doh.registerUrl("dijit.tests.form.Form", dojo.moduleUrl("dijit", "tests/form/Form.html"));
+	doh.registerUrl("dijit.tests.form.DropDownSelect", dojo.moduleUrl("dijit", "tests/form/test_DropDownSelect.html"));
 	if(test_robot){
 		doh.registerUrl("dijit.tests.form.robot.Button_mouse", dojo.moduleUrl("dijit","tests/form/robot/Button_mouse.html"+userArgs), 99999999);
 		doh.registerUrl("dijit.tests.form.robot.ComboBox_mouse", dojo.moduleUrl("dijit","tests/form/robot/_autoComplete_mouse.html"+(userArgs+"&testWidget=dijit.form.ComboBox").replace(/^&/,"?")), 99999999);
