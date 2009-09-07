@@ -95,7 +95,7 @@ dojo.declare("dijit.form._FormMixin", null,
 					dojo.forEach(widgets, function(w, i){
 						w.attr('value', dojo.indexOf(values, w.value) != -1);
 					});
-				}else if(widgets[0]._multiValue){
+				}else if(widgets[0].multiple){
 					// it takes an array (e.g. multi-select)
 					widgets[0].attr('value', values);
 				}else{

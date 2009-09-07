@@ -29,13 +29,9 @@ dojo.declare("dijit.form._FormSelectWidget", dijit.form._FormValueWidget, {
 	//		a store, if desired.
 
 	// multiple: Boolean
-	//		Matches the select's "multiple=" value
-	multiple: "",
+	//		Whether or not we are multi-valued
+	multiple: false,
 	
-	// _multiValue: Boolean
-	//		Whether or not we are multi-valued (for form)
-	_multiValue: false,
-
 	// options: dijit.form.__SelectOption[]
 	//		The set of options for our select item.  Roughly corresponds to
 	//      the html <option> tag.
@@ -262,7 +258,7 @@ dojo.declare("dijit.form._FormSelectWidget", dijit.form._FormValueWidget, {
 					this._pseudoLoadChildren(items);
 				}
 				this._fetchedWith = opts;
-				this._lastValueReported = this._multiValue ? [] : null;
+				this._lastValueReported = this.multiple ? [] : null;
 				this._onChangeActive = true;
 				this.onSetStore();
 				this._handleOnChange(this.value);
@@ -302,7 +298,7 @@ dojo.declare("dijit.form._FormSelectWidget", dijit.form._FormValueWidget, {
 		
 		// Make sure some sane default is set
 		newValue = dojo.filter(newValue, function(i){ return i && i.value; });
-		if(!this._multiValue && (!newValue[0] || !newValue[0].value) && opts.length){
+		if(!this.multiple && (!newValue[0] || !newValue[0].value) && opts.length){
 			newValue[0] = opts[0];
 		}
 		dojo.forEach(opts, function(i){
@@ -311,8 +307,8 @@ dojo.declare("dijit.form._FormSelectWidget", dijit.form._FormValueWidget, {
 		var val = dojo.map(newValue, function(i){ return i.value; }),
 			disp = dojo.map(newValue, function(i){ return i.label; });
 		
-		this.value = this._multiValue ? val : val[0];
-		this._setDisplay(this._multiValue ? disp : disp[0]);
+		this.value = this.multiple ? val : val[0];
+		this._setDisplay(this.multiple ? disp : disp[0]);
 		this._updateSelection();
 		this._handleOnChange(this.value, priorityChange);
 	},
@@ -331,7 +327,7 @@ dojo.declare("dijit.form._FormSelectWidget", dijit.form._FormValueWidget, {
 			}
 			return null;
 		}, this);
-		return this._multiValue ? ret : ret[0];
+		return this.multiple ? ret : ret[0];
 	},
 	
 	_getValueDeprecated: false, // remove when _FormWidget:getValue is removed
@@ -385,7 +381,7 @@ dojo.declare("dijit.form._FormSelectWidget", dijit.form._FormValueWidget, {
 		//		Returns the value of the widget by reading the options for
 		//		the selected flag
 		var opts = this.getOptions() || [];
-		if(!this._multiValue && opts.length){
+		if(!this.multiple && opts.length){
 			// Mirror what a select does - choose the first one
 			var opt = dojo.filter(opts, function(i){
 				return i.selected;
@@ -396,7 +392,7 @@ dojo.declare("dijit.form._FormSelectWidget", dijit.form._FormValueWidget, {
 				opts[0].selected = true;
 				return opts[0].value;
 			}
-		}else if(this._multiValue){
+		}else if(this.multiple){
 			// Set value to be the sum of all selected
 			return dojo.map(dojo.filter(opts, function(i){
 				return i.selected;
@@ -456,11 +452,6 @@ dojo.declare("dijit.form._FormSelectWidget", dijit.form._FormValueWidget, {
 		this._oValue = (keywordArgs||{}).value || null;
 	},
 	
-	postMixInProperties: function(){
-		this._multiValue = (this.multiple.toLowerCase() === "true");
-		this.inherited(arguments);
-	},
-	
 	_fillContent: function(){
 		// summary:  
 		//		Loads our options and sets up our dropdown correctly.  We 
@@ -481,7 +472,7 @@ dojo.declare("dijit.form._FormSelectWidget", dijit.form._FormValueWidget, {
 		}
 		if(!this.value){
 			this.value = this._getValueFromOpts();
-		}else if(this._multiValue && typeof this.value == "string"){
+		}else if(this.multiple && typeof this.value == "string"){
 			this.value = this.value.split(",");
 		}
 	},

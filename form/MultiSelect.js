@@ -68,7 +68,7 @@ dojo.declare("dijit.form.MultiSelect", dijit.form._FormValueWidget, {
 		});
 	},
 	
-	_multiValue: true, // for Form
+	multiple: true, // for Form
 
 	_setValueAttr: function(/* Array */values){
 		// summary:
