@@ -643,7 +643,7 @@ table .dijitComboButton .dijitButtonNode {
 .dijitTooltipData {
 	display:none;
 }
-/* MOW: using actual images at this time
+/* MOW: using actual images at this time ??? close???
 /* draw an arrow with CSS only * /
 .dijitTooltipConnector {
 	/* the border on the triangle * /
@@ -923,9 +923,7 @@ img.dijitColorPaletteUnder {
 	font-weight: normal !important;
 }
 
-.dijit_a11y .dijitAccordionTitle .arrowTextUp {
-	display: inline;
-}
+.dijit_a11y .dijitAccordionTitle .arrowTextUp,
 .dijit_a11y .dijitAccordionTitle-selected .arrowTextDown {
 	display: inline;
 }
@@ -949,20 +947,11 @@ img.dijitColorPaletteUnder {
 }
 
 .dijitCalendarIncrementControl {
-	cursor:pointer;
 	vertical-align: middle;
-}
-
-.dijitCalendarMonthLabel {
-	cursor:pointer;
 }
 
 .dijitCalendarDisabledDate {
 	color:gray !important;
-}
-
-.dijitCalendarBodyContainer tbody tr td {
-	cursor:pointer;
 }
 
 .dijitCalendarPreviousMonthDisabled,
@@ -971,10 +960,10 @@ img.dijitColorPaletteUnder {
 	cursor:default !important
 }
 
+.dijitCalendarIncrementControl,
+.dijitCalendarBodyContainer tbody tr td,
 .dijitCalendarDateTemplate,
-.dijitCalendarSelectedYear,
-.dijitCalendarNextYear,
-.dijitCalendarPreviousYear {
+.dijitCalendarContainer .dijitInline {
 	cursor:pointer;
 }
 
@@ -1337,7 +1326,7 @@ div.dijitTabBtnDisabled img {
 	position: absolute;
 	z-index: 999;
 	padding: 1px;
-     overflow: hidden;       /* override overflow: auto; from ContentPane to make dragging smoother */
+	overflow: hidden;       /* override overflow: auto; from ContentPane to make dragging smoother */
 }
 
 .dj_ff2 .dijitDialog {
