@@ -16,8 +16,8 @@ dojo.declare(
 	//
 	// description:
 	//		A simple GUI for choosing a date in the context of a monthly calendar.
-	//		This widget is used internally by other widgets and is not accessible
-	//		as a standalone widget.
+	//		This widget is used internally by other widgets and is not supported
+	//		as a standalone widget because it does not yet provide accessibility features.
 	//		This widget can't be used in a form because it doesn't serialize the date to an
 	//		`<input>` field.  For a form element, use dijit.form.DateTextBox instead.
 	//
