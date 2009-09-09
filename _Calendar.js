@@ -44,8 +44,19 @@ dojo.declare(
 		datePackage: "dojo.date",
 
 		// dayWidth: String
-		//		How to represent the days of the week in the calendar header. See dojo.date.locale
+		//	How to represent the days of the week in the calendar header. See dojo.date.locale
 		dayWidth: "narrow",
+
+/*
+TODO: replace tabIndex in template
+		// tabIndex: Integer
+		//	Order fields are traversed when user hits the tab key
+		tabIndex: 0,
+
+		attributeMap: dojo.mixin(dojo.clone(dijit._Widget.prototype.attributeMap), {
+			tabIndex: "domNode"
+ 		}),
+*/
 
 		setValue: function(/*Date*/ value){
 			// summary:
@@ -180,6 +191,7 @@ dojo.declare(
 			// Set up repeating mouse behavior
 			var _this = this;
 			var typematic = function(nodeProp, dateProp, adj){
+//FIXME: leaks (collects) listeners if populateGrid is called multiple times.  Do this once?
 				_this._connects.push(
 					dijit.typematic.addMouseListener(_this[nodeProp], _this, function(count){
 						if(count >= 0){ _this._adjustDisplay(dateProp, adj); }
@@ -311,7 +323,7 @@ dojo.declare(
 
 		_onDayClick: function(/*Event*/ evt){
 			// summary:
-			//      Handler for when user clicks a day
+			//      Handler for day clicks, selects the date if appropriate
 			// tags:
 			//      protected
 			dojo.stopEvent(evt);
@@ -324,7 +336,7 @@ dojo.declare(
 
 		_onDayMouseOver: function(/*Event*/ evt){
 			// summary:
-			//      Handler for when user clicks a day
+			//      Handler for mouse over events on days, sets up hovered style
 			// tags:
 			//      protected
 			var node = evt.target;
@@ -336,7 +348,7 @@ dojo.declare(
 
 		_onDayMouseOut: function(/*Event*/ evt){
 			// summary:
-			//      Handler for when user clicks a day
+			//      Handler for mouse out events on days, clears hovered style
 			// tags:
 			//      protected
 			if(!this._currentNode){ return; }
@@ -350,6 +362,63 @@ dojo.declare(
 			}
 			dojo.removeClass(this._currentNode, "dijitCalendarHoveredDate");
 			this._currentNode = null;
+		},
+
+//TODO: use typematic
+//TODO: skip disabled dates without ending up in a loop
+//TODO: could optimize by avoiding populate grid when month does not change
+		_onKeyPress: function(/*Event*/evt){
+			// summary:
+			//		Provides keyboard navigation of calendar
+			// tags:
+			//		protected
+			var dk = dojo.keys,
+				increment = -1,
+				interval,
+				newValue = this.value;
+			switch(evt.keyCode){
+				case dk.RIGHT_ARROW:
+					increment = 1;
+					//fallthrough...
+				case dk.LEFT_ARROW:
+					interval = "day";
+					break;
+				case dk.DOWN_ARROW:
+					increment = 1;
+					//fallthrough...
+				case dk.UP_ARROW:
+					interval = "week";
+					break;
+				case dk.PAGE_DOWN:
+					increment = 1;
+					//fallthrough...
+				case dk.PAGE_UP:
+					interval = evt.ctrlKey ? "year" : "month";
+					break;
+				case dk.END:
+					// go to the next month
+					newValue = this.dateFuncObj.add(newValue, "month", 1);
+					// subtract a day from the result when we're done
+					interval = "day";
+					//fallthrough...
+				case dk.HOME:
+					newValue = new Date(newValue).setDate(1);
+					break;
+				case dk.ENTER:
+					this.onValueSelected(this.attr('value'));
+					break;
+				case dk.ESCAPE:
+					//TODO
+				default:
+					return;
+			}
+			dojo.stopEvent(evt);
+
+			if(interval){
+				newValue = this.dateFuncObj.add(newValue, interval, increment);
+			}
+
+			this.attr("value", newValue);
 		},
 
 		onValueSelected: function(/*Date*/ date){
