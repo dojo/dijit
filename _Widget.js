@@ -37,12 +37,12 @@ if(dojo.isIE){
 
 (function(){
 
-var _attrReg = {};
-var getAttrReg = function(dc){
+var _attrReg = {},
+	getAttrReg = function(dc){
 	if(!_attrReg[dc]){
-		var r = [];
-		var attrs;
-		var proto = dojo.getObject(dc).prototype;
+		var r = [],
+			attrs,
+			proto = dojo.getObject(dc).prototype;
 		for(var fxName in proto){
 			if(dojo.isFunction(proto[fxName]) && (attrs = fxName.match(/^_set([a-zA-Z]*)Attr$/)) && attrs[1]){
 				r.push(attrs[1].charAt(0).toLowerCase() + attrs[1].substr(1));
@@ -50,7 +50,7 @@ var getAttrReg = function(dc){
 		}
 		_attrReg[dc] = r;
 	}
-	return _attrReg[dc]||[];
+	return _attrReg[dc] || [];
 }
 
 dojo.declare("dijit._Widget", null, {
@@ -460,7 +460,7 @@ dojo.declare("dijit._Widget", null, {
 		// tags:
 		//		private
 		var condAttrApply = function(attr, scope){
-			if( (scope.params && attr in scope.params) || scope[attr]){
+			if((scope.params && attr in scope.params) || scope[attr]){
 				scope.attr(attr, scope[attr]);
 			}
 		};
@@ -538,9 +538,9 @@ dojo.declare("dijit._Widget", null, {
 
 		this._beingDestroyed = true;
 		this.uninitialize();
-		var d = dojo;
-		var dfe = d.forEach;
-		var dun = d.unsubscribe;
+		var d = dojo,
+			dfe = d.forEach,
+			dun = d.unsubscribe;
 		dfe(this._connects, function(array){
 			dfe(array, d.disconnect);
 		});
@@ -669,7 +669,7 @@ dojo.declare("dijit._Widget", null, {
 		// tags:
 		//		private
 		if(event in this._deferredConnects){
-			var mapNode = this[this._deferredConnects[event]||'domNode'];
+			var mapNode = this[this._deferredConnects[event] || 'domNode'];
 			this.connect(mapNode, event.toLowerCase(), event);
 			delete this._deferredConnects[event];
 		}
@@ -680,7 +680,7 @@ dojo.declare("dijit._Widget", null, {
 		//		Custom setter for the CSS "class" attribute
 		// tags:
 		//		protected
-		var mapNode = this[this.attributeMap["class"]||'domNode'];
+		var mapNode = this[this.attributeMap["class"] || 'domNode'];
 		dojo.removeClass(mapNode, this["class"])
 		this["class"] = value;
 		dojo.addClass(mapNode, value);
@@ -697,7 +697,7 @@ dojo.declare("dijit._Widget", null, {
 		// tags:
 		//		protected
 
-		var mapNode = this[this.attributeMap["style"]||'domNode'];
+		var mapNode = this[this.attributeMap.style || 'domNode'];
 		
 		// Note: technically we should revert any style setting made in a previous call
 		// to his method, but that's difficult to keep track of.
@@ -712,7 +712,7 @@ dojo.declare("dijit._Widget", null, {
 			}
 		}
 
-		this["style"] = value;
+		this.style = value;
 	},
 
 	setAttribute: function(/*String*/ attr, /*anything*/ value){
@@ -738,7 +738,7 @@ dojo.declare("dijit._Widget", null, {
 		//		private
 
 		var commands = this.attributeMap[attr];
-		dojo.forEach( dojo.isArray(commands) ? commands : [commands], function(command){
+		dojo.forEach(dojo.isArray(commands) ? commands : [commands], function(command){
 
 			// Get target node and what we are doing to that node
 			var mapNode = this[command.node || command || "domNode"];	// DOM node
@@ -831,11 +831,7 @@ dojo.declare("dijit._Widget", null, {
 			}
 			return this;
 		}else{ // getter
-			if(this[names.g]){
-				return this[names.g]();
-			}else{
-				return this[name];
-			}
+			return this[names.g] ? this[names.g]() : this[name];
 		}
 	},
 
@@ -850,11 +846,11 @@ dojo.declare("dijit._Widget", null, {
 		var apn = this._attrPairNames;
 		if(apn[name]){ return apn[name]; }
 		var uc = name.charAt(0).toUpperCase() + name.substr(1);
-		return apn[name] = {
+		return (apn[name] = {
 			n: name+"Node",
 			s: "_set"+uc+"Attr",
 			g: "_get"+uc+"Attr"
-		};
+		});
 	},
 
 	toString: function(){
@@ -868,27 +864,18 @@ dojo.declare("dijit._Widget", null, {
 
 	getDescendants: function(){
 		// summary:
-		//		Returns all the widgets that contained by this, i.e., all widgets underneath this.containerNode.
+		//		Returns all the widgets contained by this, i.e., all widgets underneath this.containerNode.
 		//		This method should generally be avoided as it returns widgets declared in templates, which are
 		//		supposed to be internal/hidden, but it's left here for back-compat reasons.
 
-		if(this.containerNode){
-			var list = dojo.query('[widgetId]', this.containerNode);
-			return list.map(dijit.byNode);		// Array
-		}else{
-			return [];
-		}
+		return this.containerNode ? dojo.query('[widgetId]', this.containerNode).map(dijit.byNode) : []; // dijit._Widget[]
 	},
 
 	getChildren: function(){
 		// summary:
 		//		Returns all the widgets contained by this, i.e., all widgets underneath this.containerNode.
 		//		Does not return nested widgets, nor widgets that are part of this widget's template.
-		if(this.containerNode){
-			return dijit.findWidgets(this.containerNode);
-		}else{
-			return [];
-		}
+		return this.containerNode ? dijit.findWidgets(this.containerNode) : []; // dijit._Widget[]
 	},
 
 	// nodesWithKeyClick: [private] String[]
@@ -921,9 +908,9 @@ dojo.declare("dijit._Widget", null, {
 		// tags:
 		//		protected
 
-		var d = dojo;
-		var dc = dojo._connect;
-		var handles =[];
+		var d = dojo,
+			dc = d._connect,
+			handles = [];
 		if(event == "ondijitclick"){
 			// add key based click activation for unsupported nodes.
 			// do all processing onkey up to prevent spurious clicks
@@ -991,8 +978,8 @@ dojo.declare("dijit._Widget", null, {
 		//	|	btn.subscribe("/my/topic", function(v){
 		//	|		this.attr("label", v);
 		//	|	});
-		var d = dojo;
-		var handle = d.subscribe(topic, this, method);
+		var d = dojo,
+			handle = d.subscribe(topic, this, method);
 
 		// return handles for Any widget that may need them
 		this._subscribes.push(handle);
@@ -1075,7 +1062,7 @@ dojo.declare("dijit._Widget", null, {
 		// |	var tc = dijit.byId("myTabs");
 		// |	new dijit.layout.ContentPane({ href:"foo.html", title:"Wow!" }).placeAt(tc)
 
-		if(reference["declaredClass"] && reference["addChild"]){
+		if(reference.declaredClass && reference.addChild){
 			reference.addChild(this, position);
 		}else{
 			dojo.place(this.domNode, reference, position);
