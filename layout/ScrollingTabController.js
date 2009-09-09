@@ -52,12 +52,10 @@ dojo.declare("dijit.layout.ScrollingTabController",
 		
 		if(!this.tabStripClass){
 			this.tabStripClass = "dijitTabContainer" +
-			this.tabPosition.charAt(0).toUpperCase() +
-			this.tabPosition.substr(1).replace(/-.*/, "") +
-			"None";
+				this.tabPosition.charAt(0).toUpperCase() +
+				this.tabPosition.substr(1).replace(/-.*/, "") +
+				"None";
 			dojo.addClass(n, "tabStrip-disabled")
-		}else{
-			this.useTabStrip = true;
 		}
 		
 		dojo.addClass(this.tablistWrapper, this.tabStripClass);
@@ -197,7 +195,6 @@ dojo.declare("dijit.layout.ScrollingTabController",
 		
 		// Enable/disabled left right buttons depending on whether or not user can scroll to left or right
 		this._setButtonClass(this._getScroll());
-		
 	},
 
 	_getScroll: function(){
