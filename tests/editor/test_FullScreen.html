@@ -1,0 +1,60 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+		"http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+	<title>Editor Test: FullScreen Plugin</title>
+	<style type="text/css">
+		@import "../../../dojo/resources/dojo.css";
+		@import "../css/dijitTests.css";
+	</style>
+	<script type="text/javascript" src="../../../dojo/dojo.js"
+		djConfig="parseOnLoad: true, isDebug: true"></script>
+		
+	<!-- required: a default dijit theme: -->
+	<link id="themeStyles" rel="stylesheet" href="../../../dijit/themes/tundra/tundra.css">
+		
+	<script type="text/javascript" src="../_testCommon.js"></script>
+
+	<script type="text/javascript">
+		dojo.require("dijit.dijit"); // optimize: load dijit layer
+		dojo.require("dijit.Editor");
+		dojo.require("dijit._editor.plugins.FullScreen");
+		dojo.require("dojo.parser");	// scan page for widgets and instantiate them
+	</script>
+</head>
+<body class="tundra">
+	<br>
+	<br>
+	<div>Content before the editor.</div>
+	<br>
+	<br>
+	<div dojoType="dijit.Editor" 
+		extraPlugins="['fullscreen']" style="background-color: white; width: 800px; height: 400px;" id="editor0">
+		<h1>Full Screen Plugin details</h1>
+		<ol>
+			<li>The Fullscreen plugin provides an extra button on the toolbar to allow switching the 
+				editor into 'full screen' mode, meaning the editor takes over the viewport of the 
+				browser.   This plugin is particularly useful when editing large documents.</li>  
+			<li>The mode can also be toggled by entering the key command: CTRL-SHIFT-F11
+				in the editor pane.</li>
+			<li>When it toggled to full screen, it makes
+				the editor text pane opaque white so that the contents behind it are not visible.</li>
+			<li>When in full screen mode, the plugin attempts to capture the TAB key and allow navigation only between
+				the editor toolbar and the editing area, as when in full screen mode, the rest of the page is hidden
+				behind the editor.</li>
+		</ol>
+
+		<h2>Things to test:</h2>
+		<ol>
+			<li>Verify that clicking the full screen icon highlights the button appropriately and toggles the full screen mode on.</li>
+			<li>Verify that clicking the full screen icon again dehighlites the button and toggles the full screen mode off.</li>
+			<li>Click in the editing pane and verify that CTRL-SHIFT-F11 toggles the full screen mode on and off.</li>
+			<li>Verify while in full screen mode that TAB seems to behave appropriately.  Please note that FireFox and Internet
+				Explorer work the best here.  There are still a few tab control issues in Safari and Chrome.</li>
+		</ol>
+	</div>
+	<br>
+	<br>
+	<div>Content after the editor.</div>
+</body>
+</html>
