@@ -316,7 +316,7 @@ dojo.declare(
 		this.inherited(arguments);
 	},
 
-	resize: function(size){
+	resize: function(changeSize, resultSize){
 		// summary:
 		//		See `dijit.layout._LayoutWidget.resize` for description.
 		//		Although ContentPane doesn't extend _LayoutWidget, it does implement
@@ -324,19 +324,25 @@ dojo.declare(
 
 		this._resizeCalled = true;
 
-		dojo.marginBox(this.domNode, size);
+		// Set margin box size, unless it wasn't specified, in which case use current size.
+		var node = this.containerNode;
+		if(changeSize){
+			dojo.marginBox(node, changeSize);
+		}
 
-		// Compute content box size in case we [later] need to size child
-		// If either height or width wasn't specified by the user, then query node for it.
-		// But note that setting the margin box and then immediately querying dimensions may return
-		// inaccurate results, so try not to depend on it.
-		var node = this.containerNode,
-			mb = dojo.mixin(dojo.marginBox(node), size||{});
+		// Compute margin box of our containerNode.
+		// If changeSize or resultSize was passed to this method and this.containerNode ==
+		// this.domNode then we can compute the content-box size without querying the node,
+		// which is more reliable (similar to LayoutWidget.resize).
+		var	mb = resultSize || {};
+		dojo.mixin(mb, changeSize || {}); // changeSize overrides resultSize
+		if (!("h" in mb) || !("w" in mb)) {
+			mb = dojo.mixin(dojo.marginBox(node), mb); // just use dojo.marginBox() to fill in missing values
+		}
 
-		// If we have a single widget child then size it to fit snugly within my borders.
-		// If we have multiple children then we need to call resize() (with no size specified) on
-		// each of them because this might be their first chance to lay themselves out (perhaps they
-		// were previously hidden).
+		// Compute content box size of containerNode in case we [later] need to size our single child.
+		// Again this is avoiding querying the node since that's unreliable if it's size has recently been
+		// set (see for example #9449).
 		this._contentBox = dijit.layout.marginBox2contentBox(node, mb);
 		
 		// If I am the child of a layout widget then the resize() call is the indicator that
