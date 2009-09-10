@@ -133,7 +133,7 @@ dojo.declare("dijit._editor.plugins.ViewSource",dijit._editor._Plugin,{
 
 				this._disabledPlugins = dojo.filter(edPlugins, function(p){
 					// Turn off any plugins not controlled by queryCommandenabled.
-					if(p.button && !p.button.attr("disabled") &&
+					if(p && p.button && !p.button.attr("disabled") &&
 					   !(p instanceof dijit._editor.plugins.ViewSource)){
 						p.button.attr("disabled", true);
 						return true;
@@ -333,9 +333,9 @@ dojo.declare("dijit._editor.plugins.ViewSource",dijit._editor._Plugin,{
 			// We actually do need to trap this plugin and adjust how we
 			// display the textarea.
 			p = edPlugins[i];
-			if(p.declaredClass === "dijit._editor.plugins.FullScreen" ||
+			if(p && (p.declaredClass === "dijit._editor.plugins.FullScreen" ||
 					p.declaredClass === (dijit._scopeName +
-					"._editor.plugins.FullScreen")){
+					"._editor.plugins.FullScreen"))){
 				this._fsPlugin = p;
 				break;
 			}
