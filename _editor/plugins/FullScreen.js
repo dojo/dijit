@@ -18,10 +18,6 @@ dojo.declare("dijit._editor.plugins.FullScreen",dijit._editor._Plugin,{
 	//		default is 500.
 	zIndex: 500,
 
-	// useDefaultCommand: [protected] boolean
-	//		Over-ride indicating that the command processing is done all by this plugin.
-	useDefaultCommand: false,
-
 	// _origState: [private] Object
 	//		The original view state of the editor.
 	_origState: null,
@@ -336,6 +332,8 @@ dojo.subscribe(dijit._scopeName + ".Editor.getPlugin",null,function(o){
 	if(o.plugin){ return; }
 	var name = o.args.name.toLowerCase();
 	if(name ===  "fullscreen"){
-		o.plugin = new dijit._editor.plugins.FullScreen({command: "fullScreen"});
+		o.plugin = new dijit._editor.plugins.FullScreen({
+			zIndex: ("zIndex" in o.args)?o.args.zIndex:500
+		});
 	}
 });
