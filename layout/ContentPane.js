@@ -211,6 +211,9 @@ dojo.declare(
 		}else{
 			delete this._singleChild;
 		}
+
+		// So we can set overflow: hidden to avoid a safari bug w/scrollbars showing up (#9449)
+		dojo.toggleClass(this.containerNode, this.baseClass + "SingleChild", this._singleChild);
 	},
 
 	setHref: function(/*String|Uri*/ href){

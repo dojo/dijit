@@ -841,6 +841,15 @@ body .dijitAlignClient { position: absolute; }
 	display: block;
 	overflow: auto;	/* if we don't have this (or overflow:hidden), then Widget.resizeTo() doesn't make sense for ContentPane */
 }
+
+.dijitContentPaneSingleChild {
+	/*
+	 * if the ContentPane holds a single layout widget child which is being sized to match the content pane,
+	 * then the ContentPane should never get a scrollbar (but it does due to browser bugs, see #9449
+	 */
+	overflow: hidden;
+}
+
 /* TitlePane */
 .dijitTitlePane {
 	display: block;
