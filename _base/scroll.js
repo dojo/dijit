@@ -102,7 +102,7 @@ dijit.scrollIntoView = function(/* DomNode */node){
 				}
 			}
 		}
-		el = el == scrollRoot? null : (fixedPos? null : el.parentNode);
+		el = (el != scrollRoot) && !fixedPos && el.parentNode;
 	}
 	}catch(error){
 		console.error('scrollIntoView: ' + error);
