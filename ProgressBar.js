@@ -57,7 +57,7 @@ dojo.declare("dijit.ProgressBar", [dijit._Widget, dijit._Templated], {
 	postCreate: function(){
 		this.inherited(arguments);
 		this.indeterminateHighContrastImage.setAttribute("src",
-			this._indeterminateHighContrastImagePath);
+			this._indeterminateHighContrastImagePath.toString());
 		this.update();
 	},
 
