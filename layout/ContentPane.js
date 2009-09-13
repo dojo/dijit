@@ -172,10 +172,6 @@ dojo.declare(
 			dojo.forEach(this.getChildren(), function(child){
 				child.startup();
 			});
-
-			if(this.doLayout){
-				this._checkIfSingleChild();
-			}
 		}
 		
 		if(this._isShown()) {
@@ -576,10 +572,6 @@ dojo.declare(
 				child.startup();
 			});
 
-			if(this.doLayout){
-				this._checkIfSingleChild();
-			}
-
 			// Call resize() on each of my child layout widgets,
 			// or resize() on my single child layout widget...
 			// either now (if I'm currently visible)
@@ -622,6 +614,10 @@ dojo.declare(
 		//		Should be called on initialization and also whenever we get new content
 		//		(from an href, or from attr('content', ...))... but deferred until
 		//		the ContentPane is visible
+
+		if(this.doLayout){
+			this._checkIfSingleChild();
+		}
 
 		if(this._singleChild && this._singleChild.resize){
 			var cb = this._contentBox || dojo.contentBox(this.containerNode);
