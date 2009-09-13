@@ -106,7 +106,7 @@ dojo.declare("dijit.ColorPalette",
 	postCreate: function(){
 		// A name has to be given to the colorMap, this needs to be unique per Palette.
 		dojo.mixin(this.divNode.style, this._paletteDims[this.palette]);
-		this.imageNode.setAttribute("src", this._imagePaths[this.palette]);
+		this.imageNode.setAttribute("src", this._imagePaths[this.palette].toString());
 		var choices = this._palettes[this.palette];	
 		this.domNode.style.position = "relative";
 		this._cellNodes = [];	
