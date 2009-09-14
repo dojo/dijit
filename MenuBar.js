@@ -55,5 +55,17 @@ dojo.declare("dijit.MenuBar", dijit._MenuBase, {
 				this._moveToPopup(evt);
 				dojo.stopEvent(evt);
 		}
+	},
+
+	onItemClick: function(/*Widget*/ item, /*Event*/ evt){
+		// summary:
+		//		Handle clicks on an item. Cancels a dropdown if already open.
+		// tags:
+		//		private
+		if(item.popup && item.popup.isShowingNow){
+			item.popup.onCancel();
+		}else{
+			this.inherited(arguments);
+		}
 	}
 });

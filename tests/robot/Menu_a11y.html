@@ -2,7 +2,7 @@
 		"http://www.w3.org/TR/html4/strict.dtd">
 <html>
 	<head>
-		<title>doh.robot Validation Test</title>
+		<title>doh.robot Menu Keyboard Tests</title>
 
 		<style>
 			@import "../../../util/doh/robot/robot.css";
@@ -22,6 +22,7 @@
 			dojo.addOnLoad(function(){
 				doh.robot.initRobot('../test_Menu.html');
 
+				if(!(dojo.isSafari < 4)){ // Tab-focus not well supported on old Safari
 				doh.register("dijit.MenuBar keyboard tests",[
 					{
 						name: "start focus on the link, outside of menubar",
@@ -31,8 +32,8 @@
 
 							// Start at the link
 							doh.robot.sequence(function(){
-								dojo.byId("link").focus();
-							}, 500);
+								dijit.focus(dojo.byId("link"));
+							}, 500, 500);
 
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.t(dojo.global.dijit._curFocus, "something has focus");
@@ -101,6 +102,11 @@
 						runTest: function(){
 							var d = new doh.Deferred();
 
+							// Start at the link
+							doh.robot.sequence(function(){
+								dijit.focus(dojo.byId("link"));
+							}, 500, 500);
+
 							// tab to the MenuBar... then focus should automatically shift to "File" menu
 							doh.robot.keyPress(dojo.keys.TAB, 500, {});
 
@@ -145,7 +151,9 @@
 							var d = new doh.Deferred();
 
 							// Start at the link
-							dojo.byId("link").focus();
+							doh.robot.sequence(function(){
+								dijit.focus(dojo.byId("link"));
+							}, 500, 500);
 
 							// tab to the MenuBar... then focus should automatically shift to "File" menu item
 							doh.robot.keyPress(dojo.keys.TAB, 500, {});
@@ -154,9 +162,10 @@
 							doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 500, {});
 							doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 500, {});
 
-							// open the menu and go down to "Zoom" menu item
+							// open the menu
 							doh.robot.keyPress(dojo.keys.DOWN_ARROW, 500, {});
-							doh.robot.keyPress(dojo.keys.DOWN_ARROW, 500, {});
+							// go down to "Zoom" menu item
+							doh.robot.keyPress(dojo.keys.DOWN_ARROW, 1000, {});
 							doh.robot.keyPress(dojo.keys.DOWN_ARROW, 500, {});
 
 							// open the submenu (landing on first item)
@@ -165,7 +174,8 @@
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.t( (dojo.global.dijit._curFocus.innerText || dojo.global.dijit._curFocus.textContent).indexOf("50%") >= 0,
 										"check that focus is on '50%'");
-							}), 500);
+								doh.robot.keyPress(dojo.keys.ENTER, 0, {}, true); // close popup menus
+							}), 1000, 500);
 
 							return d;
 						}
@@ -175,14 +185,14 @@
 				doh.register("Context menu keyboard tests", [
 					{
 						name: "open global context menu (keyboard)",
-						timeout: 3000,
+						timeout: 5000,
 						runTest: function(){
 							var d = new doh.Deferred();
 
 							// Put focus on the link; this is just a random place on the screen to have focus
 							doh.robot.sequence(function(){
-								dojo.byId("link").focus();
-							}, 500);
+								dijit.focus(dojo.byId("link"));
+							}, 500, 500);
 
 							// open via keyboard
 							if(dojo.isMac){
@@ -191,28 +201,104 @@
 								doh.robot.keyPress(dojo.keys.F10, 500, {shift: true});
 							}
 
-							var menu = dijit.byId("windowContextMenu");
 
 							doh.robot.sequence(d.getTestCallback(function(){
+								var menu = dijit.byId("windowContextMenu");
 								doh.t(isVisible(menu), "menu is now shown");						
 								
 								var menuCoords = dojo.position(menu.domNode);
 
 								doh.t(menuCoords.x < 50, "x < 50");
 								doh.t(menuCoords.y < 50, "y < 50");	
-								doh.t(menuCoords.x > 0, "x > 0");
-								doh.t(menuCoords.y > 0, "y > 0");	
-							}), 500);
+								doh.t(menuCoords.x >= 0, "x >= 0");
+								doh.t(menuCoords.y >= 0, "y >= 0");	
+								doh.robot.keyPress(dojo.keys.ESCAPE, 0, {}, true); // close context menu
+							}), 1000);
 	
 							return d;
 						}
 					}
-
 				]);
 
+				doh.register("MenuBar keyboard tests", [
+					{
+						name: "MenuBar selection and cancellation",
+						timeout: 20000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							// Start at the link
+							doh.robot.sequence(function(){
+								dijit.focus(dojo.byId("link"));
+							}, 500, 500);
+
+							// tab to the MenuBar... then focus should automatically shift to "File" menu,
+							doh.robot.keyPress(dojo.keys.TAB, 500, {});
+
+							doh.robot.keyPress(dojo.keys.DOWN_ARROW, 500, {}); // open File menu
+
+							doh.robot.sequence(d.getTestErrback(function(){
+								doh.t(isVisible("fileMenu"), "File menu should be visible");
+							}), 1000);
+
+							doh.robot.keyPress(dojo.keys.ESCAPE, 500, {}); // close File menu
+							doh.robot.sequence(d.getTestErrback(function(){
+								doh.t(isHidden("fileMenu"), "File menu is hidden after cancel");
+								doh.t(dojo.hasClass("file", "dijitMenuItemSelected"),
+									"File MenuBarItem should have selected class, actual class is: " + dojo.byId("file").className);
+							}), 1000);
+
+							doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 500, {}); // move to Edit menu
+							doh.robot.sequence(d.getTestErrback(function(){
+								doh.f(dojo.hasClass("file", "dijitMenuItemSelected"),
+									"File MenuBarItem should not have selected class, actual class is: " + dojo.byId("file").className);
+								doh.t(isHidden("editMenu"), "Edit menu is hidden after cancel and select");
+								doh.t(dojo.hasClass("edit", "dijitMenuItemSelected"),
+									"Edit MenuBarItem should have selected class, actual class is: " + dojo.byId("edit").className);
+							}), 500);
+
+							doh.robot.keyPress(dojo.keys.DOWN_ARROW, 500, {}); // open Edit menu
+							doh.robot.keyPress(dojo.keys.DOWN_ARROW, 1000, {}); // move to copy more slowly
+							doh.robot.keyPress(dojo.keys.DOWN_ARROW, 500, {}); // move to paste option
+							doh.robot.keyPress(dojo.keys.ENTER, 500, {}); // click paste, closing edit menu
+
+							doh.robot.sequence(d.getTestErrback(function(){
+								doh.t(isHidden("editMenu"), "edit menu disappeared");
+								dijit.focus(dojo.byId("link"));
+							}), 1000, 500);
+
+							// tab to the MenuBar... then focus should automatically shift to "File" menu,
+							doh.robot.keyPress(dojo.keys.TAB, 500, {}); // move to File
+							doh.robot.sequence(d.getTestErrback(function(){
+								doh.t(isHidden("fileMenu"), "File menu should be hidden");
+							}), 1000);
+
+							doh.robot.keyPress(dojo.keys.DOWN_ARROW, 500, {}); // open File menu
+							doh.robot.sequence(d.getTestErrback(function(){
+								doh.t(isVisible("fileMenu"), "File menu should be visible");
+							}), 1000);
+
+							doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 75, {}); // #9846
+							doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 75, {}); // move to View menu
+							doh.robot.keyPress(dojo.keys.LEFT_ARROW, 75, {}); // move to Edit menu
+							doh.robot.sequence(d.getTestErrback(function(){
+								doh.t(isVisible("editMenu"), "Edit menu should be visible and File menu hidden");
+								doh.t(isHidden("fileMenu"), "File menu should be hidden and Edit menu visible");
+							}), 1000);
+
+							doh.robot.keyPress(dojo.keys.ESCAPE, 500, {}); // close Edit menu
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.t(isHidden("editMenu"), "edit menu disappeared");
+							}), 1000);
+
+							return d;
+						}
+					}
+				]);
+				} // !dojo.isSafari
 				doh.run();
 			});
 		</script>
 	</head>
-</html>
-<html><body></body></html>
+<body></body></html>

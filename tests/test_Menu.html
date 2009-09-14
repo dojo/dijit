@@ -55,7 +55,7 @@
     <script language="Javascript" type="text/javascript">
         function createMenu() {
             // create a menu programmatically
-            function fClick() {alert("clicked!")};
+            function fClick() {console.log("clicked!")};
             
             pMenu = new dijit.Menu({targetNodeIds:["prog_menu"], id:"progMenu"});
             pMenu.addChild(new dijit.MenuItem({label:"Programmatic Context Menu", disabled:true}));
@@ -64,7 +64,7 @@
             pMenu.addChild(new dijit.MenuItem({label:"Another menu item", onClick:fClick, accelKey:"Ctrl+A"}));
             pMenu.addChild(new dijit.MenuItem({label:"With an icon", iconClass:"dijitEditorIcon dijitEditorIconCut", onClick:fClick}));
             var mItem = new dijit.MenuItem({label:"dojo.event clicking", accelKey: "Alt+D"});
-            dojo.connect(mItem, "onClick", function(){alert("click! handler created via dojo.connect()")});
+            dojo.connect(mItem, "onClick", function(){console.log("click! handler created via dojo.connect()")});
             pMenu.addChild(mItem);
 
             mItem = new dijit.CheckedMenuItem({label:"checkable menu item"});
@@ -106,26 +106,26 @@
 <body class="tundra">
 
 	<div dojoType="dijit.Menu" id="windowContextMenu" contextMenuForWindow="true" style="display: none;">
-		<div dojoType="dijit.MenuItem" onClick="alert('Hello world');">Context Menu</div>
+		<div dojoType="dijit.MenuItem" onClick="console.log('Hello world');">Context Menu</div>
 		<div dojoType="dijit.MenuSeparator"></div>
 		<div dojoType="dijit.MenuItem" disabled="true">Disabled Item</div>
 		<div dojoType="dijit.MenuItem" iconClass="dijitEditorIcon dijitEditorIconCut"
-			onClick="alert('not actually cutting anything, just a test!')" accelKey="Ctrl+X">Cut</div>
+			onClick="console.log('not actually cutting anything, just a test!')" accelKey="Ctrl+X">Cut</div>
 		<div dojoType="dijit.MenuItem" iconClass="dijitEditorIcon dijitEditorIconCopy"
-			onClick="alert('not actually copying anything, just a test!')" accelKey="Ctrl+C">Copy</div>
+			onClick="console.log('not actually copying anything, just a test!')" accelKey="Ctrl+C">Copy</div>
 		<div dojoType="dijit.MenuItem" iconClass="dijitEditorIcon dijitEditorIconPaste"
-			onClick="alert('not actually pasting anything, just a test!')" accelKey="Ctrl+V">Paste</div>
+			onClick="console.log('not actually pasting anything, just a test!')" accelKey="Ctrl+V">Paste</div>
 		<div dojoType="dijit.MenuSeparator"></div>
 		<div dojoType="dijit.PopupMenuItem" id="enabledSubmenu">
 			<span>Enabled Submenu</span>
 			<div dojoType="dijit.Menu" id="submenu2">
-				<div dojoType="dijit.MenuItem" id="submenu2_item1" onClick="alert('Submenu 1!')">Submenu Item One</div>
-				<div dojoType="dijit.MenuItem" id="submenu2_item2" onClick="alert('Submenu 2!')">Submenu Item Two</div>
+				<div dojoType="dijit.MenuItem" id="submenu2_item1" onClick="console.log('Submenu 1!')">Submenu Item One</div>
+				<div dojoType="dijit.MenuItem" id="submenu2_item2" onClick="console.log('Submenu 2!')">Submenu Item Two</div>
 				<div dojoType="dijit.PopupMenuItem" id="deeperSubmenu">
 					<span>Deeper Submenu</span>
 					<div dojoType="dijit.Menu" id="submenu4">
-						<div dojoType="dijit.MenuItem" onClick="alert('Sub-submenu 1!')">Sub-sub-menu Item One</div>
-						<div dojoType="dijit.MenuItem" onClick="alert('Sub-submenu 2!')">Sub-sub-menu Item Two</div>
+						<div dojoType="dijit.MenuItem" onClick="console.log('Sub-submenu 1!')">Sub-sub-menu Item One</div>
+						<div dojoType="dijit.MenuItem" onClick="console.log('Sub-submenu 2!')">Sub-sub-menu Item Two</div>
 					</div>
 				</div>
 			</div>
@@ -133,8 +133,8 @@
 		<div dojoType="dijit.PopupMenuItem" disabled="true">
 			<span>Disabled Submenu</span>
 			<div dojoType="dijit.Menu" id="submenu3" style="display: none;">
-				<div dojoType="dijit.MenuItem" onClick="alert('Submenu 1!')">Submenu Item One</div>
-				<div dojoType="dijit.MenuItem" onClick="alert('Submenu 2!')">Submenu Item Two</div>
+				<div dojoType="dijit.MenuItem" onClick="console.log('Submenu 1!')">Submenu Item One</div>
+				<div dojoType="dijit.MenuItem" onClick="console.log('Submenu 2!')">Submenu Item Two</div>
 			</div>
 		</div>
 		<div dojoType="dijit.PopupMenuItem">
@@ -142,7 +142,7 @@
 			<div dojoType="dijit.ColorPalette"></div>
 		</div>
 		<div dojoType="dijit.MenuSeparator"></div>
-		<div dojoType="dijit.CheckedMenuItem" checked="true" onChange="alert('Now set to ' + arguments[0])">Checked</div>
+		<div dojoType="dijit.CheckedMenuItem" checked="true" onChange="console.log('Now set to ' + arguments[0])">Checked</div>
 		<div dojoType="dijit.CheckedMenuItem">Not Checked</div>
 		<div dojoType="dijit.CheckedMenuItem" checked="true" disabled="true">Checked Disabled</div>
 		<div dojoType="dijit.MenuSeparator"></div>
@@ -165,26 +165,26 @@
 
 	<div dojoType="dijit.Menu" id="leftClickContextMenu" leftClickToOpen="true" targetNodeIds="input2" style="display: none;">
 		<div dojoType="dijit.MenuItem" disabled="true">Left Click Menu</div>
-		<div dojoType="dijit.MenuItem" onClick="alert('Hello world');">Enabled Item</div>
+		<div dojoType="dijit.MenuItem" onClick="console.log('Hello world');">Enabled Item</div>
 		<div dojoType="dijit.MenuItem" disabled="true">Disabled Item</div>
 		<div dojoType="dijit.MenuSeparator"></div>
 		<div dojoType="dijit.MenuItem" iconClass="dijitEditorIcon dijitEditorIconCut"
-			onClick="alert('not actually cutting anything, just a test!')">Cut</div>
+			onClick="console.log('not actually cutting anything, just a test!')">Cut</div>
 		<div dojoType="dijit.MenuItem" iconClass="dijitEditorIcon dijitEditorIconCopy"
-			onClick="alert('not actually copying anything, just a test!')">Copy</div>
+			onClick="console.log('not actually copying anything, just a test!')">Copy</div>
 		<div dojoType="dijit.MenuItem" iconClass="dijitEditorIcon dijitEditorIconPaste"
-			onClick="alert('not actually pasting anything, just a test!')">Paste</div>
+			onClick="console.log('not actually pasting anything, just a test!')">Paste</div>
 		<div dojoType="dijit.MenuSeparator"></div>
 		<div dojoType="dijit.PopupMenuItem">
 			<span>Enabled Submenu</span>
 			<div dojoType="dijit.Menu" id="leftsubmenu2">
-				<div dojoType="dijit.MenuItem" onClick="alert('Submenu 1!')">Submenu Item One</div>
-				<div dojoType="dijit.MenuItem" onClick="alert('Submenu 2!')">Submenu Item Two</div>
+				<div dojoType="dijit.MenuItem" onClick="console.log('Submenu 1!')">Submenu Item One</div>
+				<div dojoType="dijit.MenuItem" onClick="console.log('Submenu 2!')">Submenu Item Two</div>
 				<div dojoType="dijit.PopupMenuItem">
 					<span>Deeper Submenu</span>
-					<div dojoType="dijit.Menu" id="leftsubmenu4"">
-						<div dojoType="dijit.MenuItem" onClick="alert('Sub-submenu 1!')">Sub-sub-menu Item One</div>
-						<div dojoType="dijit.MenuItem" onClick="alert('Sub-submenu 2!')">Sub-sub-menu Item Two</div>
+					<div dojoType="dijit.Menu" id="leftsubmenu4">
+						<div dojoType="dijit.MenuItem" onClick="console.log('Sub-submenu 1!')">Sub-sub-menu Item One</div>
+						<div dojoType="dijit.MenuItem" onClick="console.log('Sub-submenu 2!')">Sub-sub-menu Item Two</div>
 					</div>
 				</div>
 			</div>
@@ -192,8 +192,8 @@
 		<div dojoType="dijit.PopupMenuItem" disabled="true">
 			<span>Disabled Submenu</span>
 			<div dojoType="dijit.Menu" id="leftsubmenu3" style="display: none;">
-				<div dojoType="dijit.MenuItem" onClick="alert('Submenu 1!')">Submenu Item One</div>
-				<div dojoType="dijit.MenuItem" onClick="alert('Submenu 2!')">Submenu Item Two</div>
+				<div dojoType="dijit.MenuItem" onClick="console.log('Submenu 1!')">Submenu Item One</div>
+				<div dojoType="dijit.MenuItem" onClick="console.log('Submenu 2!')">Submenu Item Two</div>
 			</div>
 		</div>
 		<div dojoType="dijit.PopupMenuItem">
@@ -205,8 +205,11 @@
 	<table id="formattingTable">
 		<tr>
 			<td width="0%">
-				<!-- this is here for tabIndex testing -->
-				<a id="link" href="#">random link</a>
+				<!-- This is here for tabIndex testing.
+				     Use textarea since Chrome 1.0 likes it better for TABing and 
+				     because it has innerText property and because it doesn't mess 
+				     with the URL when clicked -->
+				<textarea id="link" tabIndex="0" readOnly class="dijitReset" style="font-family:monospace;font-size:12px;width:84px;text-decoration:underline;overflow:hidden;background-color:transparent;" rows=1>random link</textarea>
 			</td>
 			<td id="menuBarContainer" width="100%">
 				<div id="menubar" dojoType="dijit.MenuBar">
@@ -261,7 +264,7 @@
 							<div dojoType="dijit.MenuItem">You should not see this</div>
 						</div>
 					</div>
-					<div dojoType="dijit.MenuBarItem" onclick="alert('no submenu, just a clickable MenuItem');">
+					<div dojoType="dijit.MenuBarItem" onclick="console.log('no submenu, just a clickable MenuItem');">
 						Click me!
 					</div>
 				</div>	
@@ -273,33 +276,33 @@
 				<h3 style="margin-bottom: 2em;">Navigation menu:</h3>
 				<div dojoType="dijit.Menu" id="navMenu">
 					<div dojoType="dijit.MenuItem" iconClass="dijitEditorIcon dijitEditorIconPaste"
-						onClick="alert('drama!');">Drama</div>
+						onClick="console.log('drama!');">Drama</div>
 					<div dojoType="dijit.MenuItem" iconClass="dijitEditorIcon dijitEditorIconCut"
-						onClick="alert('comedy!')">Comedy</div>
+						onClick="console.log('comedy!')">Comedy</div>
 					<div dojoType="dijit.MenuItem" iconClass="dijitEditorIcon dijitEditorIconCopy"
-						onClick="alert('romance!')">Romance</div>
+						onClick="console.log('romance!')">Romance</div>
 					<div dojoType="dijit.MenuItem" iconClass="dijitEditorIcon dijitEditorIconPaste"
-						onClick="alert('documentary!')">Documentary</div>
+						onClick="console.log('documentary!')">Documentary</div>
 					<div dojoType="dijit.MenuSeparator"></div>
 					<div dojoType="dijit.PopupMenuItem" id="navMenuPopupItem1">
 						<span>Enabled Submenu</span>
 						<div dojoType="dijit.Menu" id="navMenuSub1">
-							<div dojoType="dijit.MenuItem" id="navMenuSub1_item1" onClick="alert('Submenu 1!')">Submenu Item One</div>
-							<div dojoType="dijit.MenuItem" id="navMenuSub1_item2" onClick="alert('Submenu 2!')">Submenu Item Two</div>
-							<div dojoType="dijit.PopupMenuItem">
+							<div dojoType="dijit.MenuItem" id="navMenuSub1_item1" onClick="console.log('Submenu 1!')">Submenu Item One</div>
+							<div dojoType="dijit.MenuItem" id="navMenuSub1_item2" onClick="console.log('Submenu 2!')">Submenu Item Two</div>
+							<div dojoType="dijit.PopupMenuItem" id="navMenuSub1_popup">
 								<span>Deeper Submenu</span>
 								<div dojoType="dijit.Menu" id="navMenuSub2">
-									<div dojoType="dijit.MenuItem" onClick="alert('Sub-submenu 1!')">Sub-sub-menu Item One</div>
-									<div dojoType="dijit.MenuItem" onClick="alert('Sub-submenu 2!')">Sub-sub-menu Item Two</div>
+									<div dojoType="dijit.MenuItem" onClick="console.log('Sub-submenu 1!')">Sub-sub-menu Item One</div>
+									<div dojoType="dijit.MenuItem" onClick="console.log('Sub-submenu 2!')">Sub-sub-menu Item Two</div>
 								</div>
 							</div>
 						</div>
 					</div>
-					<div dojoType="dijit.PopupMenuItem" disabled="true">
+					<div dojoType="dijit.PopupMenuItem" disabled="true" id="navMenuDisabledItem">
 						<span>Disabled Submenu</span>
 						<div dojoType="dijit.Menu" id="navMenuSub3" style="display: none;">
-							<div dojoType="dijit.MenuItem" onClick="alert('Submenu 1!')">Submenu Item One</div>
-							<div dojoType="dijit.MenuItem" onClick="alert('Submenu 2!')">Submenu Item Two</div>
+							<div dojoType="dijit.MenuItem" onClick="console.log('Submenu 1!')">Submenu Item One</div>
+							<div dojoType="dijit.MenuItem" onClick="console.log('Submenu 2!')">Submenu Item Two</div>
 						</div>
 					</div>
 					<div dojoType="dijit.PopupMenuItem">
@@ -307,7 +310,7 @@
 						<div dojoType="dijit.ColorPalette"></div>
 					</div>
 					<div dojoType="dijit.MenuSeparator"></div>
-					<div dojoType="dijit.CheckedMenuItem" checked="true" onChange="alert('Now set to ' + arguments[0])">Checked</div>
+					<div dojoType="dijit.CheckedMenuItem" checked="true" onChange="console.log('Now set to ' + arguments[0])">Checked</div>
 					<div dojoType="dijit.CheckedMenuItem" id="checked2" >Not Checked</div>
 					<div dojoType="dijit.CheckedMenuItem" checked="true" disabled="true">Checked Disabled</div>
 				</div>
@@ -386,7 +389,7 @@
 				<h3>Mouse click tests</h3>
 		
 				<ul>
-					<li>Click on the first menu item. Alert should open with the message "Hello world". The menu should dissapear.</li>
+					<li>Click on the first menu item. console.log should log the message "Hello world". The menu should dissapear.</li>
 					<li>Click on the second menu item (disabled). Should not do anything - focus should remain on the disabled item.</li>
 					<li>Click anywhere outside the menu. Menu should close. Focus will be set by the browser based on where the user clicks.</li>
 				</ul>
@@ -453,6 +456,5 @@
 			</td>
 		</tr>
 	</table>
-
 </body>
 </html>

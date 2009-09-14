@@ -114,6 +114,7 @@ dojo.declare("dijit.MenuItem",
 			// tags:
 			//		protected
 			this._setSelected(true);
+			this.getParent()._onItemFocus(this);
 
 			this.inherited(arguments);
 		},

@@ -64,6 +64,28 @@ dojo.declare("dijit._MenuBase",
 		}
 	},
 
+	_onPopupHover: function(/*Event*/ evt){
+		// summary:
+		//		This handler is called when the mouse moves over the popup.
+		// tags:
+		//		private
+
+		// if the mouse hovers over a menu popup that is in pending-close state,
+		// then stop the close operation.
+		// This can't be done in onItemHover since some popup targets don't have MenuItems (e.g. ColorPicker)
+		if(this.currentPopup && this.currentPopup._pendingClose_timer){
+			var parentMenu = this.currentPopup.parentMenu;
+			// highlight the parent menu item pointing to this popup
+			if(parentMenu.focusedChild){
+				parentMenu.focusedChild._setSelected(false);
+			}
+			parentMenu.focusedChild = this.currentPopup.from_item;
+			parentMenu.focusedChild._setSelected(true);
+			// cancel the pending close
+			this._stopPendingCloseTimer(this.currentPopup);
+		}
+	},
+
 	onItemHover: function(/*MenuItem*/ item){
 		// summary:
 		//		Called when cursor is over a MenuItem.
@@ -72,15 +94,21 @@ dojo.declare("dijit._MenuBase",
 
 		// Don't do anything unless user has "activated" the menu by:
 		//		1) clicking it
-		//		2) tabbing into it
-		//		3) opening it from a parent menu (which automatically focuses it)
+		//		2) opening it from a parent menu (which automatically focuses it)
 		if(this.isActive){
 			this.focusChild(item);
-	
 			if(this.focusedChild.popup && !this.focusedChild.disabled && !this.hover_timer){
 				this.hover_timer = setTimeout(dojo.hitch(this, "_openPopup"), this.popupDelay);
 			}
 		}
+		// if the user is mixing mouse and keyboard navigation,
+		// then the menu may not be active but a menu item has focus,
+		// but it's not the item that the mouse just hovered over.
+		// To avoid both keyboard and mouse selections, use the latest.
+		if(this.focusedChild){
+			this.focusChild(item);
+		}
+		this._hoveredChild = item;
 	},
 
 	_onChildBlur: function(item){
@@ -89,12 +117,20 @@ dojo.declare("dijit._MenuBase",
 		//		has been removed from the MenuItem *and* it's descendant menus.
 		// tags:
 		//		private
-
-		item._setSelected(false);
-
-		// Close all popups that are open and descendants of this menu
-		dijit.popup.close(item.popup);
 		this._stopPopupTimer();
+		item._setSelected(false);
+		// Close all popups that are open and descendants of this menu
+		var itemPopup = item.popup;
+		if(itemPopup){
+			this._stopPendingCloseTimer(itemPopup);
+			itemPopup._pendingClose_timer = setTimeout(function(){
+				itemPopup._pendingClose_timer = null;
+				if(itemPopup.parentMenu){
+					itemPopup.parentMenu.currentPopup = null;
+				}
+				dijit.popup.close(itemPopup); // this calls onClose
+			}, this.popupDelay);
+		}
 	},
 
 	onItemUnhover: function(/*MenuItem*/ item){
@@ -102,9 +138,11 @@ dojo.declare("dijit._MenuBase",
 		//		Callback fires when mouse exits a MenuItem
 		// tags:
 		//		protected
+
 		if(this.isActive){
 			this._stopPopupTimer();
 		}
+		if(this._hoveredChild == item){ this._hoveredChild = null; }
 	},
 
 	_stopPopupTimer: function(){
@@ -116,6 +154,28 @@ dojo.declare("dijit._MenuBase",
 		if(this.hover_timer){
 			clearTimeout(this.hover_timer);
 			this.hover_timer = null;
+		}
+	},
+
+	_stopPendingCloseTimer: function(/*Widget*/ popup){
+		// summary:
+		//		Cancels the pending-close timer because the close has been preempted
+		// tags:
+		//		private
+		if(popup._pendingClose_timer){
+			clearTimeout(popup._pendingClose_timer);
+			popup._pendingClose_timer = null;
+		}
+	},
+
+	_stopFocusTimer: function(){
+		// summary:
+		//		Cancels the pending-focus timer because the menu was closed before focus occured
+		// tags:
+		//		private
+		if(this._focus_timer){
+			clearTimeout(this._focus_timer);
+			this._focus_timer = null;
 		}
 	},
 
@@ -135,12 +195,15 @@ dojo.declare("dijit._MenuBase",
 		//		private
 		if(item.disabled){ return false; }
 
+		// this can't be done in _onFocus since the _onFocus events occurs asynchronously
+		if(typeof this.isShowingNow == 'undefined'){ // non-popup menu
+			this._markActive();
+		}
+
 		this.focusChild(item);
 
 		if(item.popup){
-			if(!this.is_open){
-				this._openPopup();
-			}
+			this._openPopup();
 		}else{
 			// before calling user defined handler, close hierarchy of menus
 			// and restore focus to place it was when menu was opened
@@ -159,10 +222,15 @@ dojo.declare("dijit._MenuBase",
 
 		this._stopPopupTimer();
 		var from_item = this.focusedChild;
+		if(!from_item){ return; } // the focused child lost focus since the timer was started
 		var popup = from_item.popup;
-
 		if(popup.isShowingNow){ return; }
+		if(this.currentPopup){
+			this._stopPendingCloseTimer(this.currentPopup);
+			dijit.popup.close(this.currentPopup);
+		}
 		popup.parentMenu = this;
+		popup.from_item = from_item; // helps finding the parent item that should be focused for this popup
 		var self = this;
 		dijit.popup.open({
 			parent: this,
@@ -171,24 +239,47 @@ dojo.declare("dijit._MenuBase",
 			orient: this._orient || (this.isLeftToRight() ? 
 									{'TR': 'TL', 'TL': 'TR', 'BR': 'BL', 'BL': 'BR'} : 
 									{'TL': 'TR', 'TR': 'TL', 'BL': 'BR', 'BR': 'BL'}),
-			onCancel: function(){
-				// called when the child menu is canceled
-				dijit.popup.close(popup);
-				from_item.focus();	// put focus back on my node
-				self.currentPopup = null;
+			onCancel: function(){ // called when the child menu is canceled
+				// set isActive=false (_closeChild vs _cleanUp) so that subsequent hovering will NOT open child menus
+				// which seems aligned with the UX of most applications (e.g. notepad, wordpad, paint shop pro)
+				self._cleanUp();
+				self.focusChild(from_item);	// put focus back on my node AND set focusedChild
+				from_item._setSelected(true); // _cleanUp deselected the item
 			},
-			onExecute: dojo.hitch(this, "_onDescendantExecute")
+			onExecute: dojo.hitch(this, "_cleanUp")
 		});
 
 		this.currentPopup = popup;
+		// detect mouseovers to handle lazy mouse movements that temporarily focus other menu items
+		popup.connect(popup.domNode, "onmouseenter", dojo.hitch(self, "_onPopupHover")); // cleaned up when the popped-up widget is destroyed on close
 
 		if(popup.focus){
 			// If user is opening the popup via keyboard (right arrow, or down arrow for MenuBar),
 			// if the cursor happens to collide with the popup, it will generate an onmouseover event
 			// even though the mouse wasn't moved.   Use a setTimeout() to call popup.focus so that
 			// our focus() call overrides the onmouseover event, rather than vice-versa.  (#8742)
-			setTimeout(dojo.hitch(popup, "focus"), 0);
+			popup._focus_timer = setTimeout(dojo.hitch(popup, function(){
+				this._focus_timer = null;
+				this.focus();
+			}), 0);
 		}
+	},
+
+	_markActive: function(){
+		// summary:
+		//              Mark this menu's state as active.
+		//		Called when this Menu gets focus from:
+		//			1) clicking it (mouse or via space/arrow key)
+		//			2) being opened by a parent menu.
+		//		This is not called just from mouse hover.
+		//		Focusing a menu via TAB does NOT automatically set isActive
+		//		since TAB is a navigation operation and not a selection one.
+		//		For Windows apps, pressing the ALT key focuses the menubar
+		//		menus (similar to TAB navigation) but the menu is not active 
+		//		(ie no dropdown) until an item is clicked.
+		this.isActive = true;
+		dojo.addClass(this.domNode, "dijitMenuActive");
+		dojo.removeClass(this.domNode, "dijitMenuPassive");
 	},
 
 	onOpen: function(/*Event*/ e){
@@ -200,6 +291,15 @@ dojo.declare("dijit._MenuBase",
 		//		private
 
 		this.isShowingNow = true;
+		this._markActive();
+	},
+
+	_markInactive: function(){
+		// summary:
+		//              Mark this menu's state as inactive.
+		this.isActive = false; // don't do this in _onBlur since the state is pending-close until we get here
+		dojo.removeClass(this.domNode, "dijitMenuActive");
+		dojo.addClass(this.domNode, "dijitMenuPassive");
 	},
 
 	onClose: function(){
@@ -210,29 +310,40 @@ dojo.declare("dijit._MenuBase",
 		// tags:
 		//		private
 
-		this._stopPopupTimer();
-		this.parentMenu = null;
+		this._stopFocusTimer();
+		this._markInactive();
 		this.isShowingNow = false;
-		this.currentPopup = null;
-		if(this.focusedChild){
-			this._onChildBlur(this.focusedChild);
+		this.parentMenu = null;
+	},
+
+	_closeChild: function(){
+		// summary:
+		//		Called when submenu is clicked or focus is lost.  Close hierarchy of menus.
+		// tags:
+		//		private
+		this._stopPopupTimer();
+		if(this.focusedChild){ // unhighlight the focused item
+			this.focusedChild._setSelected(false);
+			this.focusedChild._onUnhover();
 			this.focusedChild = null;
+		}
+		if(this.currentPopup){
+			// Close all popups that are open and descendants of this menu
+			dijit.popup.close(this.currentPopup);
+			this.currentPopup = null;
 		}
 	},
 
-	_onFocus: function(){
+	_onItemFocus: function(/*MenuItem*/ item){
 		// summary:
-		//		Called when this Menu gets focus from:
+		//		Called when child of this Menu gets focus from:
 		//			1) clicking it
 		//			2) tabbing into it
 		//			3) being opened by a parent menu.
 		//		This is not called just from mouse hover.
-		// tags:
-		//		protected
-		this.isActive = true;
-		dojo.addClass(this.domNode, "dijitMenuActive");
-		dojo.removeClass(this.domNode, "dijitMenuPassive");
-		this.inherited(arguments);
+		if(this._hoveredChild && this._hoveredChild != item){
+			this._hoveredChild._onUnhover(); // any previous mouse movement is trumped by focus selection
+		}
 	},
 	
 	_onBlur: function(){
@@ -240,22 +351,20 @@ dojo.declare("dijit._MenuBase",
 		//		Called when focus is moved away from this Menu and it's submenus.
 		// tags:
 		//		protected
-		this.isActive = false;
-		dojo.removeClass(this.domNode, "dijitMenuActive");
-		dojo.addClass(this.domNode, "dijitMenuPassive");
-
-		// If user blurs/clicks away from a MenuBar (or always visible Menu), then close all popped up submenus etc.
-		this.onClose();
-
+		this._cleanUp();
 		this.inherited(arguments);
 	},
 
-	_onDescendantExecute: function(){
+	_cleanUp: function(){
 		// summary:
-		//		Called when submenu is clicked.  Close hierarchy of menus.
+		//		Called when the user is done with this menu.  Closes hierarchy of menus.
 		// tags:
 		//		private
-		this.onClose();
+
+		this._closeChild(); // don't call this.onClose since that's incorrect for MenuBar's that never close
+		if(typeof this.isShowingNow == 'undefined'){ // non-popup menu doesn't call onClose
+			this._markInactive();
+		}
 	}
 });
 
