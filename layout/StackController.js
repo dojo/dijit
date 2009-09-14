@@ -4,18 +4,17 @@ dojo.require("dijit._Widget");
 dojo.require("dijit._Templated");
 dojo.require("dijit._Container");
 dojo.require("dijit.form.ToggleButton");
-dojo.require("dijit.Menu");
 dojo.requireLocalization("dijit", "common");
 
 dojo.declare(
 		"dijit.layout.StackController",
 		[dijit._Widget, dijit._Templated, dijit._Container],
 		{
-		// summary:
-		//		Set of buttons to select a page in a page list.
-		// description:
-		//		Monitors the specified StackContainer, and whenever a page is
-		//		added, deleted, or selected, updates itself accordingly.
+			// summary:
+			//		Set of buttons to select a page in a page list.
+			// description:
+			//		Monitors the specified StackContainer, and whenever a page is
+			//		added, deleted, or selected, updates itself accordingly.
 
 			templateString: "<span wairole='tablist' dojoAttachEvent='onkeypress' class='dijitStackController'></span>",
 

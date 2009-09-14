@@ -1,12 +1,16 @@
 dojo.provide("dijit.layout.TabController");
 
 dojo.require("dijit.layout.StackController");
+
+// Menu is used for an accessible close button, would be nice to have a lighter-weight solution
+dojo.require("dijit.Menu");
+dojo.require("dijit.MenuItem");
+
 dojo.requireLocalization("dijit", "common");
 
-//TODO: make private for 2.0?
 dojo.declare("dijit.layout.TabController",
 	dijit.layout.StackController,
-	{
+{
 	// summary:
 	// 		Set of tabs (the things with titles and a close button, that you click to show a tab panel).
 	//		Used internally by `dijit.layout.TabContainer`.
