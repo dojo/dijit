@@ -23,6 +23,8 @@
 		dojo.require("dijit.layout.ContentPane");
 		dojo.require("dijit.layout.TabContainer");
 		dojo.require("dijit.layout.BorderContainer");
+		dojo.require("dijit.TitlePane");
+		dojo.require("dijit.Dialog");
 
 		// widgets used in doc loaded via href
 		dojo.require("dijit.form.ComboBox");
@@ -39,13 +41,9 @@
 			}
 		});
 
+		// Keep track of which panes have had a load event, and how
+		// many load events have occured for those panes
 		var loadEvents = {
-			pane1: 0,
-			pane2: 0,
-			innerPane1: 0,
-			innerPane2: 0,
-			bcPane1: 0,
-			bcPane2: 0
 		};
 		function myOnLoad(){
 			console.log("onload for " + this);
@@ -65,7 +63,7 @@
 							setTimeout(d.getTestCallback(function(){
 								doh.is(1, loadEvents.pane1, "pane1");
 								dojo.forEach(["pane2", "innerPane1", "innerPane2", "bcPane1", "bcPane2"], function(pane){
-									doh.is(0, loadEvents[pane], pane);
+									doh.f(loadEvents[pane], pane, pane + " shouldn't be loaded");
 								});								
 							}), 750);
 							return d;
@@ -79,7 +77,7 @@
 							
 							dijit.byId("pane2").attr("href", "doc0.html");
 							setTimeout(d.getTestCallback(function(){
-								doh.is(0, loadEvents.pane2, "pane2");
+								doh.f(loadEvents.pane2, "pane2 shouldn't be loaded");
 							}), 750);
 
 							return d;
@@ -93,7 +91,7 @@
 							
 							dijit.byId("innerPane1").attr("href", "doc1.html");
 							setTimeout(d.getTestCallback(function(){
-								doh.is(0, loadEvents.innerPane1, "innerPane1");
+								doh.f(loadEvents.innerPane1, "innerPane1 shouldn't be loaded");
 							}), 750);
 
 							return d;
@@ -107,7 +105,7 @@
 							
 							dijit.byId("bcPane2").attr("href", "doc0.html");
 							setTimeout(d.getTestCallback(function(){
-								doh.is(0, loadEvents.bcPane2, "bcPane2");
+								doh.f(loadEvents.bcPane2, "bcPane2 shouldn't be loaded");
 							}), 750);
 
 							return d;
@@ -131,7 +129,7 @@
 						runTest: function(t){
 							var d = new doh.Deferred();
 							
-							doh.is(0, loadEvents.innerPane1, "innerPane1 not loaded yet");
+							doh.f(loadEvents.innerPane1, "innerPane1 not loaded yet");
 							dijit.byId("outerTC").selectChild(dijit.byId("innerTC"));
 							setTimeout(d.getTestCallback(function(){
 								doh.is(1, loadEvents.innerPane1, "innerPane1 now loaded");
@@ -145,8 +143,8 @@
 						runTest: function(t){
 							var d = new doh.Deferred();
 
-							//doh.is(0, loadEvents.bcPane1, "bcPane1");
-							//doh.is(0, loadEvents.bcPane2, "bcPane2");
+							//doh.f(loadEvents.bcPane1, "bcPane1 not loaded");
+							//doh.f(loadEvents.bcPane2, "bcPane2 not loaded");
 							
 							dijit.byId("outerTC").selectChild(dijit.byId("bc"));
 
@@ -161,13 +159,19 @@
 				]
 			);
 
+			// Keep track of which layout widgets each resize call to each layout widget,
+			// specifically whether each call specified a size or not.
 			// Since the href's widgets haven't been created yet we can't connect to their resize()
 			// methods, but we can monitor resize() on the prototype
-			var layoutResizes = {},
-				handle = dojo.connect(dijit.layout._LayoutWidget.prototype, "resize", function(){
-					// this is the pointer to the widget, and arguments are newsize/curSize args to resize()
-					layoutResizes[this.id] = arguments;
-				});
+			var layoutResizes = {};
+			dojo.connect(dijit.layout._LayoutWidget.prototype, "resize", function(){
+				// this is the pointer to the widget, and arguments are newsize/curSize args to resize()
+				var ary = layoutResizes[this.id];
+				if(!ary){
+					ary = layoutResizes[this.id] = [];
+				}
+				ary.push(arguments);
+			});
 
 			doh.register("resize events",
 				[
@@ -221,20 +225,20 @@
 							// Wait for load events to occur (after fetching URL's)
 							setTimeout(d.getTestCallback(function(){
 								// Check top level border container got sized to fit ContentPane
-								var child = dijit.byId("doc3BorderContainer");
+								var child = dijit.byId("singleChildHrefBorderContainer");
 								doh.t(child, "href was loaded and top level BorderContainer was created")
-								doh.t(layoutResizes["doc3BorderContainer"], "got resize event");
-								doh.t(layoutResizes["doc3BorderContainer"].length, "got size specified")
+								doh.t(layoutResizes["singleChildHrefBorderContainer"], "got resize event");
+								doh.t(layoutResizes["singleChildHrefBorderContainer"][0].length, "got size specified")
 								
-								var size = layoutResizes["doc3BorderContainer"][0];
+								var size = layoutResizes["singleChildHrefBorderContainer"][0][0];
 								doh.t(size && size.h, "non-0 height specified");
 								doh.t(size && size.w, "non-0 width specified");
 								
 								// Check that resize() events also trickled down to inner TabContainer 
-								var child2 = dijit.byId("doc3InnerTabContainer");
+								var child2 = dijit.byId("singleChildHrefInnerTabContainer");
 								doh.t(child2, "inner TabContainer was created")
-								doh.t(layoutResizes["doc3InnerTabContainer"], "got resize event");
-								doh.is(0, layoutResizes["doc3InnerTabContainer"].length, "no size specified")
+								doh.t(layoutResizes["singleChildHrefInnerTabContainer"], "got resize event");
+								doh.is(0, layoutResizes["singleChildHrefInnerTabContainer"][0].length, "no size specified")
 							}), 750);
 							return d;
 						}
@@ -251,10 +255,10 @@
 							// Wait for load events to occur (after fetching URL's)
 							setTimeout(d.getTestCallback(function(){
 								// Check that resize() done on TabContainer 
-								var child = dijit.byId("doc4TabContainer");
+								var child = dijit.byId("multipleChildHrefTabContainer");
 								doh.t(child, "TabContainer was created")
-								doh.t(layoutResizes["doc4TabContainer"], "got resize event");
-								doh.is(0, layoutResizes["doc4TabContainer"].length, "no size specified")
+								doh.t(layoutResizes["multipleChildHrefTabContainer"], "got resize event");
+								doh.is(0, layoutResizes["multipleChildHrefTabContainer"][0].length, "no size specified")
 							}), 750);
 							return d;
 						}
@@ -262,16 +266,240 @@
 				]
 			);
 
+			// Make sure that TitlePane loads it's href at the appropriate time, and also that
+			// it calls resize on it's children at the appropriate time (since that's the contract
+			// for layout widgets, and ContentPane is acting as a layout widget).
+			doh.register("TitlePane",
+				[
+				/***
+				 * test for #8197, uncomment when it's fixed.
+					{
+						name: "initially open, single child",
+						runTest: function(t){
+							var d = new doh.Deferred();
+							
+							var tp = dijit.byId("otpHsc");
+
+							// Allow time for href to load
+							setTimeout(d.getTestCallback(function(){
+								// Check that href loaded
+								doh.is(1, loadEvents["otpHsc"], "otpHsc loaded on page load");
+	
+								// Check that resize() done on child
+								doh.t(layoutResizes["otpHscBorderContainer"], "got resize event");
+								doh.is(0, layoutResizes["otpHscBorderContainer"][0].length, "no size specified")
+							}), 750);
+
+							return d;
+						}
+					},
+				  */
+					{
+						name: "initially open, href multiple children",
+						runTest: function(t){
+							var d = new doh.Deferred();
+							
+							var tp = dijit.byId("otpHmc");
+
+							// Allow time for href to load
+							setTimeout(d.getTestCallback(function(){
+								// Check that href loaded
+								doh.is(1, loadEvents["otpHmc"], "otpHmc loaded on page load");
+	
+								// Check that resize() done on children
+								doh.t(layoutResizes["otpHmcBorderContainer"], "got resize event for BC");
+								doh.t(layoutResizes["otpHmcTabContainer"], "got resize event for TC");
+								doh.is(0, layoutResizes["otpHmcBorderContainer"][0].length, "no size specified for BC")
+							}), 750);
+
+							return d;
+						}
+					},
+					
+					{
+						name: "initially open, multiple children",
+						runTest: function(t){
+							var tp = dijit.byId("otpMc");
+
+							// Check that resize() done on children
+							doh.t(dijit.byId("otpMc_child1")._resized, "got resize event for child1");
+							doh.t(dijit.byId("otpMc_child2")._resized, "got resize event for child2");
+						}
+					},
+					
+					{
+						name: "initially closed, href multiple children",
+						runTest: function(t){
+							var d = new doh.Deferred();
+
+							doh.f(loadEvents["ctpHmc"], "ctpHmc load deferred until open");
+
+							var tp = dijit.byId("ctpHmc");
+							tp.attr("open", true);
+
+							// Allow time for href to load, pane to expand, and resize to be called on children
+							setTimeout(d.getTestCallback(function(){
+								// Check that href loaded
+								doh.is(1, loadEvents["ctpHmc"], "ctpHmc loaded when expanded");
+	
+								// Check that resize() done on children
+								doh.t(layoutResizes["ctpHmcBorderContainer"], "got resize event for BC");
+								doh.t(layoutResizes["ctpHmcTabContainer"], "got resize event for TC");
+								doh.is(0, layoutResizes["ctpHmcBorderContainer"][0].length, "no size specified for BC")
+							}), 750);
+
+							return d;
+						}
+					},
+					
+					{
+						name: "initially closed, multiple children",
+						runTest: function(t){
+							var d = new doh.Deferred();
+
+							doh.f(dijit.byId("ctpMc_child1")._resized, "resize event for child1 deferred");
+							doh.f(dijit.byId("ctpMc_child2")._resized, "resize event for child2 deferred");
+
+							var tp = dijit.byId("ctpMc");
+							tp.attr("open", true);
+
+							// Allow time for pane to expand, and resize to be called on children
+							setTimeout(d.getTestCallback(function(){
+								// Check that resize() done on children
+								doh.t(dijit.byId("ctpMc_child1")._resized, "got resize event for child1");
+								doh.t(dijit.byId("ctpMc_child2")._resized, "got resize event for child2");
+							}), 750);
+
+							return d;
+						}
+					}
+				]
+			);
+
+			// Make sure that Dialog loads it's href when shown, and also that
+			// it calls resize on it's children when shown (since that's the contract
+			// for layout widgets, and ContentPane is acting as a layout widget).
+			doh.register("Dialog",
+				[
+					{
+						name: "href multiple children",
+						timeout: 2000,
+						runTest: function(t){
+							var d = new doh.Deferred();
+
+							doh.f(loadEvents["dlgHmc"], "dlgHmc load deferred until open");
+
+							var dlg = dijit.byId("dlgHmc");
+							dlg.show();
+
+							// Allow time for href to load, pane to expand, and resize to be called on children
+							setTimeout(d.getTestCallback(function(){
+								// Check that href loaded
+								doh.is(1, loadEvents["dlgHmc"], "dlgHmc loaded when expanded");
+	
+								// Check that resize() done on children
+								doh.t(layoutResizes["dlgHmcBorderContainer"], "got resize event for BC");
+								doh.t(layoutResizes["dlgHmcTabContainer"], "got resize event for TC");
+								doh.is(0, layoutResizes["dlgHmcBorderContainer"][0].length, "no size specified for BC")
+							}), 750);
+
+							return d;
+						},
+						tearDown: function(){
+							var dlg = dijit.byId("dlgHmc");
+							dlg.hide();
+							var d = new doh.Deferred();
+							setTimeout(d.getTestCallback(function(){}), 500);
+						}
+					},
+					
+					{
+						name: "multiple inlined children",
+						timeout: 2000,
+						runTest: function(t){
+							var d = new doh.Deferred();
+
+							doh.f(dijit.byId("dlgMc_child1")._resized, "resize event for child1 deferred");
+							doh.f(dijit.byId("dlgMc_child2")._resized, "resize event for child2 deferred");
+
+							var dlg = dijit.byId("dlgMc");
+							dlg.show();
+
+							// Allow time for pane to expand, and resize to be called on children
+							setTimeout(d.getTestCallback(function(){
+								// Check that resize() done on children
+								doh.t(dijit.byId("dlgMc_child1")._resized, "got resize event for child1");
+								doh.t(dijit.byId("dlgMc_child2")._resized, "got resize event for child2");
+							}), 750);
+
+							return d;
+						},
+						tearDown: function(){
+							var dlg = dijit.byId("dlgMc");
+							dlg.hide();
+							var d = new doh.Deferred();
+							setTimeout(d.getTestCallback(function(){}), 500);
+						}
+					}
+				]
+			);
+
+			// Test that resizing a TabContainer doesn't reload href (when refreshOnShow=true), bug #8197
+			doh.register("TabContainer resize/reload tests",
+				[
+					{
+						name: "initial conditions",
+						runTest: function(t){
+							var d = new doh.Deferred();
+							// Wait for load events to occur (after fetching URL's)
+							setTimeout(d.getTestCallback(function(){
+								doh.is(1, loadEvents.reloadTC_pane1, "pane1 loaded");							
+							}), 750);
+							return d;
+						}
+					},
+					{
+						name: "reload on reshow",
+						runTest: function(t){
+							var d = new doh.Deferred();
+
+							dijit.byId("reloadTC").selectChild(dijit.byId("reloadTC_pane2"));
+							dijit.byId("reloadTC").selectChild(dijit.byId("reloadTC_pane1"));
+							setTimeout(d.getTestCallback(function(){
+								doh.is(2, loadEvents.reloadTC_pane1, "pane1 loaded again");							
+							}), 750);
+							return d;
+						}
+					},
+					{
+						name: "no reload on TabContainer resize",
+						runTest: function(t){
+							var d = new doh.Deferred();
+
+							dijit.byId("reloadTC").resize({h: 300, w: 300});
+							setTimeout(d.getTestCallback(function(){
+								doh.is(2, loadEvents.reloadTC_pane1, "pane1 not loaded again");							
+							}), 750);
+							return d;
+						}
+					}
+				]
+			);
+			
 			doh.run();
 		});
 
 	</script>
 </head>
 <body class="tundra">
-	<h2>dijit.layout.ContentPane layout releated DOH test</h2>
-	<p>Tests ContentPane in it's role as a child of layout widgets (especially TabContainer)</p>
+	<h2>dijit.layout.ContentPane layout related DOH test</h2>
 
-	<!-- for testing onLoad and resize events -->
+	<p>
+		Tests ContentPane in it's role as a layout widget, including as child of another layout widgets (especially TabContainer).
+	</p>
+	<hr>
+
+	<p>Tests that href gets loaded when ContentPane is first made visible:</p>
 	<div dojoType="dijit.layout.TabContainer" id="outerTC" style="width: 880px; height: 200px;">
 		<div dojoType="dijit.layout.ContentPane" id="pane1" href="doc0.html" title="Initially Selected" onLoad="myOnLoad">
 			initially selected pane
@@ -301,7 +529,8 @@
 			</div>
 		</div>
 	</div>
-	<br><br>
+
+	<p>Tests for resizing in a layout container hierarchy:</p>
 	<div dojoType="dijit.layout.TabContainer" id="resizeTC" style="width: 880px; height: 200px;">
 		<div dojoType="dijit.layout.ContentPane" id="resizePane1" title="Initially Selected" onLoad="myOnLoad">
 			initially selected pane
@@ -317,8 +546,61 @@
 				<span>ending text</span>
 			</div>
 		</div>
-		<div dojoType="dijit.layout.ContentPane" id="singleChildHref" title="Href Single Child" href="doc3.html" onLoad="myOnLoad"></div>
-		<div dojoType="dijit.layout.ContentPane" id="multipleChildHref" title="Href Multiple Children" href="doc4.html" onLoad="myOnLoad"></div>
+		<div dojoType="dijit.layout.ContentPane" id="singleChildHref" title="Href Single Child"
+			href="borderContainer.php?id=singleChildHref" onLoad="myOnLoad"></div>
+		<div dojoType="dijit.layout.ContentPane" id="multipleChildHref" title="Href Multiple Children"
+			href="multipleLayoutWidgets.php?id=multipleChildHref" onLoad="myOnLoad"></div>
+	</div>
+
+	<p>Tests that ContentPane resize doesn't trigger reload:</p>
+	<div dojoType="dijit.layout.TabContainer" id="reloadTC" style="width: 880px; height: 200px;">
+		<div dojoType="dijit.layout.ContentPane" id="reloadTC_pane1" href="doc0.html" title="Initially Selected" onLoad="myOnLoad" refreshOnShow=true>
+			initially selected pane
+		</div>
+		<div dojoType="dijit.layout.ContentPane" id="reloadTC_pane2" href="doc1.html" title="Initially Hidden" onLoad="myOnLoad">
+			unselected pane
+		</div>
+	</div>
+
+	<p>Test the ContentPane loads href and resizes children (as per it's contract a layout widget)
+			when it's not a child of a layout container itself:</p>
+	<div dojoType="dijit.TitlePane" id="ctpHsc" title="Closed TitlePane Href Single Child" open=false
+		href="borderContainer.php?id=ctpHsc&sized=true" onLoad="myOnLoad"></div>
+	<br><br>
+
+	<div dojoType="dijit.TitlePane" id="ctpHmc" title="Closed TitlePane Href Multiple Children" open=false
+		href="multipleLayoutWidgets.php?id=ctpHmc" onLoad="myOnLoad"></div>
+	<br><br>
+
+	<div dojoType="dijit.TitlePane" id="otpHsc" title="Opened TitlePane Href Single Child"
+		href="borderContainer.php?id=otpHsc&sized=true" onLoad="myOnLoad"></div>
+	<br><br>
+
+	<div dojoType="dijit.TitlePane" id="otpHmc" title="Opened TitlePane Href Multiple Children"
+		href="multipleLayoutWidgets.php?id=otpHmc" onLoad="myOnLoad"></div>
+	<br><br>
+	
+	<div dojoType="dijit.TitlePane" id="otpMc" title="Opened TitlePane Multiple Children">
+		<!-- these widgets should get a resize on page load -->
+		<div dojoType="ResizableWidget" id="otpMc_child1"></div>
+		<div dojoType="ResizableWidget" id="otpMc_child2"></div>
+	</div>
+	<br><br>
+	
+	<div dojoType="dijit.TitlePane" id="ctpMc" title="Closed TitlePane Multiple Children" open=false>
+		<!-- these widgets should get a resize() when the TitlePane is opened -->
+		<div dojoType="ResizableWidget" id="ctpMc_child1"></div>
+		<div dojoType="ResizableWidget" id="ctpMc_child2"></div>
+	</div>
+	<br><br>
+
+	<div dojoType="dijit.Dialog" id="dlgHmc" title="Dialog Href Multiple Children"
+		href="multipleLayoutWidgets.php?id=dlgHmc" onLoad="myOnLoad"></div>
+	
+	<div dojoType="dijit.Dialog" id="dlgMc" title="Dialog Multiple Children">
+		<!-- these widgets should get a resize() when the Dialog is opened -->
+		<div dojoType="ResizableWidget" id="dlgMc_child1"></div>
+		<div dojoType="ResizableWidget" id="dlgMc_child2"></div>
 	</div>
 
 </body>

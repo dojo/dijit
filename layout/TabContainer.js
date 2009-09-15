@@ -146,6 +146,9 @@ dojo.declare("dijit.layout.TabContainer",
 			if(this.tablist.resize){
 				this.tablist.resize({w: dojo.contentBox(this.domNode).w});
 			}
+			
+			// and call resize() on the pane just to tell it that it's been made visible
+			this.selectedChildWidget.resize();
 		}
 	},
 

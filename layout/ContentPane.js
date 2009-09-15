@@ -108,12 +108,6 @@ dojo.declare(
 	//		children widgets.
 	isLayoutContainer: true,
 
-	// _needLayout: Boolean
-	//		Internal flag indicating that I need to call resize() on my children,
-	//		set for my initial content and also when content has been replaced
-	//		(via attr('href', ...) or attr('content', ...)
-	_needLayout: true,
-
 	// onLoadDeferred: [readonly] dojo.Deferred
 	//		This is the `dojo.Deferred` returned by attr('href', ...) and refresh().
 	//		Calling onLoadDeferred.addCallback() or addErrback() registers your
@@ -168,13 +162,17 @@ dojo.declare(
 		var parent = dijit._Contained.prototype.getParent.call(this);
 		this._childOfLayoutWidget = parent && parent.isLayoutContainer;
 
+		// I need to call resize() on my child/children (when I become visible), unless
+		// I'm the child of a layout widget in which case my parent will call resize() on me and I'll do it then.
+		this._needLayout = !this._childOfLayoutWidget;
+
 		if(this.isLoaded){
 			dojo.forEach(this.getChildren(), function(child){
 				child.startup();
 			});
 		}
 		
-		if(this._isShown()) {
+		if(this._isShown() || this.preload) {
 			this._onShow();
 		}
 
@@ -321,6 +319,12 @@ dojo.declare(
 		//		Although ContentPane doesn't extend _LayoutWidget, it does implement
 		//		the same API.
 
+		// For the TabContainer --> BorderContainer --> ContentPane case, _onShow() is
+		// never called, so resize() is our trigger to do the initial href download.
+		if(!this._wasShown){
+			this._onShow();
+		}
+
 		this._resizeCalled = true;
 
 		// Set margin box size, unless it wasn't specified, in which case use current size.
@@ -343,10 +347,9 @@ dojo.declare(
 		// Again this is avoiding querying the node since that's unreliable if it's size has recently been
 		// set (see for example #9449).
 		this._contentBox = dijit.layout.marginBox2contentBox(node, mb);
-		
-		// If I am the child of a layout widget then the resize() call is the indicator that
-		// I've been made visible, so do deferred load of URL, layout of child widgets, etc.
-		this._onShow();
+
+		// Make my children layout, or size my single child widget
+		this._layoutChildren();
 	},
 
 	_isShown: function(){
@@ -385,21 +388,25 @@ dojo.declare(
 		//		child widget(s)
 
 		if(this.href){
-			// Do lazy-load of URL
 			if(!this._xhrDfd && // if there's an href that isn't already being loaded
-				(!this.isLoaded || this._hrefChanged || this.refreshOnShow) && // and we need a [re]load
-				(this.preload || this._isShown())
-			){ // and now is the time to [re]load
+				(!this.isLoaded || this._hrefChanged || this.refreshOnShow)
+			){
 				this.refresh();
 			}
 		}else{
-			if(this._needLayout){
+			// If we are the child of a layout widget then the layout widget will call resize() on
+			// us, and then we will size our child/children.   Otherwise, we need to do it now.
+			if(!this._childOfLayoutWidget && this._needLayout){
 				// If a layout has been scheduled for when we become visible, do it now
 				this._layoutChildren();
 			}
 		}
 
 		this.inherited(arguments);
+
+		// Need to keep track of whether ContentPane has been shown (which is different than
+		// whether or not it's currently visible).	
+		this._wasShown = true;
 	},
 
 	refresh: function(){
@@ -577,7 +584,7 @@ dojo.declare(
 			// either now (if I'm currently visible)
 			// or when I become visible
 			this._scheduleLayout();
-			
+
 			this._onLoadHandler(cont);
 		}
 	},
