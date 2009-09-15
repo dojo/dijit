@@ -217,21 +217,21 @@ dijit.getUniqueId = function(/*String*/widgetType){
 
 dijit.findWidgets = function(/*DomNode*/ root){
 	// summary:
-   	//		Search subtree under root returning widgets found.
+	//		Search subtree under root returning widgets found.
 	//		Doesn't search for nested widgets (ie, widgets inside other widgets).
-	
+
 	var outAry = [];
 
 	function getChildrenHelper(root){
-		var list = dojo.isIE ? root.children : root.childNodes, i = 0, node;
-		while((node = list[i++])){
-			if(node.nodeType != 1){ continue; }
-			var widgetId = node.getAttribute("widgetId");
-			if(widgetId){
-				var widget = dijit.byId(widgetId);
-				outAry.push(widget);
-			}else{
-				getChildrenHelper(node);
+		for(var node = root.firstChild; node; node = node.nextSibling){
+			if(node.nodeType == 1){
+				var widgetId = node.getAttribute("widgetId");
+				if(widgetId){
+					var widget = dijit.byId(widgetId);
+					outAry.push(widget);
+				}else{
+					getChildrenHelper(node);
+				}
 			}
 		}
 	}
