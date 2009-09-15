@@ -1335,7 +1335,10 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 			
 			// Use &nbsp; to avoid FF2 problems showing cursor and webkit problems where
 			// editor is disabled until the user clicks it
-			node.innerHTML = html || "&nbsp;";
+			if(!html && (dojo.isFF == 2 || dojo.isWebkit)){
+				html = "&nbsp;";
+			}
+			node.innerHTML = html;
 
 			this._preDomFilterContent(node);
 		}
