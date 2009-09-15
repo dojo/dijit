@@ -463,10 +463,6 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 		if(dojo.isIE || (!this.height && !dojo.isMoz)){
 			// For some reason we need an extra <div> on IE (TODOC)
 			html = "<div></div>";
-		}else if(dojo.isMoz){
-			// workaround bug where can't select then delete text (until user types something
-			// into the editor)
-			html = "&nbsp;";
 		}
 
 		var font = [ _cs.fontWeight, _cs.fontSize, _cs.fontFamily ].join(" ");
@@ -697,9 +693,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 		this.attr('disabled', this.disabled); // initialize content to editable (or not)
 
 		// Note that setValue() call will only work after isLoaded is set to true (above)
-		if(html){	// w/out this if() FF2 won't show cursor when editor is blank
-			this.setValue(html);
-		}
+		this.setValue(html);
 		
 		if(this.onLoadDeferred){
 			this.onLoadDeferred.callback(true);
@@ -1338,7 +1332,11 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 		}else{
 			html = this._preFilterContent(html);
 			var node = this.isClosed ? this.domNode : this.editNode;
-			node.innerHTML = html;
+			
+			// Use &nbsp; to avoid FF2 problems showing cursor and webkit problems where
+			// editor is disabled until the user clicks it
+			node.innerHTML = html || "&nbsp;";
+
 			this._preDomFilterContent(node);
 		}
 		this.onDisplayChanged();
@@ -1360,7 +1358,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 		}else if(this.window && this.window.getSelection){ // Moz
 			html = this._preFilterContent(html);
 			this.execCommand("selectall");
-			if(dojo.isMoz && !html){ html = "&nbsp;"; }
+			if(!html){ html = "&nbsp;"; }
 			this.execCommand("inserthtml", html);
 			this._preDomFilterContent(this.editNode);
 		}else if(this.document && this.document.selection){//IE
