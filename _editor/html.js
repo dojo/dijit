@@ -15,11 +15,13 @@ dijit._editor.getNodeHtml=function(/* DomNode */node){
 	var output;
 	switch(node.nodeType){
 		case 1: //element node
-			output = '<' + node.nodeName.toLowerCase();
+			var lName = node.nodeName.toLowerCase();
+			output = '<' + lName;
 
 			//store the list of attributes and sort it to have the
 			//attributes appear in the dictionary order
 			var attrarray = [];
+			var attr;
 			if(dojo.isIE && node.outerHTML){
 				var s = node.outerHTML;
 				s = s.substr(0, s.indexOf('>'))
@@ -52,7 +54,7 @@ dijit._editor.getNodeHtml=function(/* DomNode */node){
 					}
 				}
 			}else{
-				var attr, i = 0;
+				var i = 0;
 				while((attr = node.attributes[i++])){
 					//ignore all attributes starting with _dj which are
 					//internal temporary attributes used by the editor
@@ -77,13 +79,23 @@ dijit._editor.getNodeHtml=function(/* DomNode */node){
 				output += ' ' + attr[0] + '="' +
 					(dojo.isString(attr[1]) ? dijit._editor.escapeXml(attr[1], true) : attr[1]) + '"';
 			}
-			if(node.childNodes.length){
-				output += '>' + dijit._editor.getChildrenHtml(node)+'</'+node.nodeName.toLowerCase()+'>';
+			if(lName === "script"){
+				// Browsers handle script tags differently in how you get content, 
+				// but innerHTML always seems to work, so insert its content that way
+				// Yes, it's bad to allow script tags in the editor code, but some people
+				// seem to want to do it, so we need to at least return them right.
+				// other plugins/filters can strip them.
+				output += '>' + node.innerHTML +'</' + lName + '>';
 			}else{
-				output += ' />';
+				if(node.childNodes.length){
+					output += '>' + dijit._editor.getChildrenHtml(node)+'</' + lName +'>';
+				}else{
+					output += ' />';
+				}
 			}
 			break;
-		case 3: //text
+		case 4: // cdata 
+		case 3: // text
 			// FIXME:
 			output = dijit._editor.escapeXml(node.nodeValue, true);
 			break;
