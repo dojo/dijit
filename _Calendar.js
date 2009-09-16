@@ -97,7 +97,9 @@ TODO: replace tabIndex in template
 					this.value = value;
 					this.onChange(this.attr('value'));
 				}
-				dojo.attr(this.domNode, "aria-label", dojo.date.locale.format(value, {selector:"date", formatLength:"full"}));
+				dojo.attr(this.domNode, "aria-label",
+					this.dateLocaleModule.format(value,
+						{selector:"date", formatLength:"full"}));
 				this._populateGrid();
 			}
 		},
