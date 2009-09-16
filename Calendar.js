@@ -1,4 +1,4 @@
-dojo.provide("dijit._Calendar");
+dojo.provide("dijit.Calendar");
 
 dojo.require("dojo.cldr.supplemental");
 dojo.require("dojo.date");
@@ -8,7 +8,7 @@ dojo.require("dijit._Widget");
 dojo.require("dijit._Templated");
 
 dojo.declare(
-	"dijit._Calendar",
+	"dijit.Calendar",
 	[dijit._Widget, dijit._Templated],
 	{
 	// summary:
@@ -26,10 +26,10 @@ dojo.declare(
 	//		so that they are serializable and locale-independent.
 	//
 	// example:
-	//	|	var calendar = new dijit._Calendar({}, dojo.byId("calendarNode"));
+	//	|	var calendar = new dijit.Calendar({}, dojo.byId("calendarNode"));
 	//
 	//	example:
-	//	|	<div dojoType="dijit._Calendar"></div>
+	//	|	<div dojoType="dijit.Calendar"></div>
 
 		templateString: dojo.cache("dijit", "templates/Calendar.html"),
 
