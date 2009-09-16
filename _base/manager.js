@@ -90,10 +90,13 @@ dojo.declare("dijit.WidgetSet", null, {
 		//		|		return i % 2 == 0;
 		//		|	}).forEach(function(w){ /* odd ones */ });
 
-		var res = new dijit.WidgetSet();
-		this.forEach(function(widget, idx){
-			if(filter.call(this, widget, idx)){ res.add(widget); }
-		}, thisObj);
+		var res = new dijit.WidgetSet(), i = 0, id;
+		for(id in this._hash){
+			var w = this._hash[id];
+			if(filter.call(thisObj || dojo.global, w, i++, this._hash)){
+				res.add(w);
+			}
+		}
 		return res; // dijit.WidgetSet
 	},
 
@@ -135,11 +138,11 @@ dojo.declare("dijit.WidgetSet", null, {
 		//		|	dojo.map(dijit.registry.toArray(), function(w){ return w.domNode; });
 
 		var ar = [];
-		this.forEach(function(w){
-			ar.push(w); // ^ i, ar[i] = w;
-		});
-		return ar; // Array
-	},
+		for(var id in this._hash){
+			ar.push(this._hash[id]);
+		}
+		return ar;	// dijit._Widget[]
+},
 	
 	map: function(/* Function */func, /* Object? */thisObj){
 		// summary: 
@@ -257,7 +260,7 @@ if(dojo.isIE){
 dijit.byId = function(/*String|Widget*/id){
 	// summary:
 	//		Returns a widget by it's id, or if passed a widget, no-op (like dojo.byId())
-	return (dojo.isString(id)) ? dijit.registry.byId(id) : id; // Widget
+	return typeof id == "string" ? dijit.registry._hash[id] : id; // Widget
 };
 
 dijit.byNode = function(/* DOMNode */ node){
@@ -271,8 +274,9 @@ dijit.getEnclosingWidget = function(/* DOMNode */ node){
 	//		Returns the widget whose DOM tree contains the specified DOMNode, or null if
 	//		the node is not contained within the DOM tree of any widget
 	while(node){
-		if(node.getAttribute && node.getAttribute("widgetId")){
-			return dijit.registry.byId(node.getAttribute("widgetId"));
+		var id = node.getAttribute && node.getAttribute("widgetId");
+		if(id){
+			return dijit.byId(id);
 		}
 		node = node.parentNode;
 	}
