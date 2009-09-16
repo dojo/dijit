@@ -18,10 +18,10 @@ dojo.declare(
 	{
 		// summary:
 		//		Base class for validating, serializable, range-bound date or time text box.
-
-		/*=====
+		//
 		// constraints: dijit.form._DateTimeTextBox.__Constraints
 		//		Starting / ending dates or times allowed
+		/*=====
 		constraints: {},
 		======*/
 
