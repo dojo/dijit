@@ -463,7 +463,12 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 		if(dojo.isIE || (!this.height && !dojo.isMoz)){
 			// For some reason we need an extra <div> on IE (TODOC)
 			html = "<div></div>";
+		}else if(dojo.isMoz){
+			// workaround bug where can't select then delete text (until user types something
+			// into the editor)... and/or issue where typing doesn't erase selected text
+			html = "&nbsp;";
 		}
+
 
 		var font = [ _cs.fontWeight, _cs.fontSize, _cs.fontFamily ].join(" ");
 		
