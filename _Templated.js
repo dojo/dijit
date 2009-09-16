@@ -83,6 +83,10 @@ dojo.declare("dijit._Templated",
 			var node;
 			if(dojo.isString(cached)){
 				node = dojo._toDom(this._stringRepl(cached));
+				if(node.nodeType != 1){
+					// Flag common problems such as templates with multiple top level nodes (nodeType == 11)
+					throw new Error("Invalid template: " + cached);
+				}
 			}else{
 				// if it's a node, all we have to do is clone it
 				node = cached.cloneNode(true);
@@ -275,7 +279,11 @@ dijit._Templated.getCachedTemplate = function(templatePath, templateString, alwa
 		return (tmplts[key] = templateString); //String
 	}else{
 		// there are no variables in the template so we can cache the DOM tree
-		return (tmplts[key] = dojo._toDom(templateString)); //Node
+		var node = dojo._toDom(templateString);
+		if(node.nodeType != 1){
+			throw new Error("Invalid template: " + templateString);
+		}
+		return (tmplts[key] = node); //Node
 	}
 };
 
