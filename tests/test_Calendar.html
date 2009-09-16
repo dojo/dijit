@@ -31,17 +31,17 @@
 
 		<script type="text/javascript">
 			dojo.require("dijit.dijit"); // optimize: load dijit layer
-			dojo.require("dijit._Calendar");
+			dojo.require("dijit.Calendar");
 			dojo.require("dojo.date.locale");
 			dojo.require("dojo.parser"); // scan page for widgets
 
 			dojo.addOnLoad(function(){
 				//Need to declare BigCalendar here in an addOnLoad block so that it works
-				//with xdomain loading, where the dojo.require for dijit._Calendar 
+				//with xdomain loading, where the dojo.require for dijit.Calendar 
 				//may load asynchronously. This also means we cannot have HTML
 				//markup in the body tag for BigCalendar, but instead inject it in this
 				//onload handler after BigCalendar is defined.
-				dojo.declare("BigCalendar", dijit._Calendar, {
+				dojo.declare("BigCalendar", dijit.Calendar, {
 					templateString: dojo.cache("dijit.tests", "_altCalendar.html"),
 					isDisabledDate: dojo.date.locale.isWeekend,
 					getClassForDate: function(date){
@@ -64,7 +64,7 @@
 		<h1 class="testTitle">Dijit Calendar Test</h1>
 
 		before
-		<input id="calendar1" dojoType="dijit._Calendar" onChange="myHandler(this.id,arguments[0])">
+		<input id="calendar1" dojoType="dijit.Calendar" onChange="myHandler(this.id,arguments[0])">
 		after
 		<p>
 			<a href="#"

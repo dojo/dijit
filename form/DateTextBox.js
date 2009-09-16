@@ -1,6 +1,6 @@
 dojo.provide("dijit.form.DateTextBox");
 
-dojo.require("dijit._Calendar");
+dojo.require("dijit.Calendar");
 dojo.require("dijit.form._DateTimeTextBox");
 
 dojo.declare(
@@ -11,7 +11,7 @@ dojo.declare(
 		//		A validating, serializable, range-bound date text box with a drop down calendar
 
 		baseClass: "dijitTextBox dijitDateTextBox",
-		popupClass: "dijit._Calendar",
+		popupClass: "dijit.Calendar",
 		_selector: "date",
 
 		//	value: Date
