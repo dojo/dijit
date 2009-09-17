@@ -16,14 +16,14 @@ dojo.declare(
 	{
 		// summary:
 		//		A validating currency textbox
-
+		//
 		// currency: String
 		//		the [ISO4217](http://en.wikipedia.org/wiki/ISO_4217) currency code, a three letter sequence like "USD"
 		currency: "",
-
-		/*=====
+		//
 		// constraints: dijit.form.CurrencyTextBox.__Constraints
 		//		Minimum/maximum amount allowed.
+		/*=====
 		constraints: {},
 		======*/
 
