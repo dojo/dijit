@@ -433,7 +433,8 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 			'javascript:parent.' + dijit._scopeName + '.byId("'+this.id+'")._iframeSrc';
 		ifr.setAttribute('src', s);
 		this.editingArea.appendChild(ifr);
-		if(dojo.isWebKit){ // Safari seems to always append iframe with src=about:blank
+
+		if(dojo.isSafari){ // Safari seems to always append iframe with src=about:blank
 			setTimeout(function(){ifr.setAttribute('src', s);},0);
 		}
 		
@@ -699,7 +700,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 
 		// Note that setValue() call will only work after isLoaded is set to true (above)
 		this.setValue(html);
-		
+
 		if(this.onLoadDeferred){
 			this.onLoadDeferred.callback(true);
 		}
