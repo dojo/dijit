@@ -127,6 +127,19 @@ dojo.declare("dijit._editor.plugins.FullScreen",dijit._editor._Plugin,{
 			w: vp.w,
 			h: vp.h
 		});
+
+		//Adjust the inernal heights too, as they can be a bit off.
+		var tBox = dojo.marginBox(this.editor.toolbar.domNode);
+		var extents = dojo._getPadBorderExtents(this.editor.domNode);
+
+		//AQdjust it.
+		var cHeight = vp.h - (tBox.h + extents.h);
+		dojo.marginBox(this.editor.iframe.parentNode, {
+			h: cHeight
+		});
+		dojo.marginBox(this.editor.iframe, {
+			h: cHeight
+		});
 	},
 
 	_getAltViewNode: function(){
