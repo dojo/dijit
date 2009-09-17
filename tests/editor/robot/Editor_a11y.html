@@ -122,11 +122,11 @@
 							var d = new doh.Deferred();
 
 							// second word
-							if(dojo.isMac){
-								doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 500, {alt: true});
+							doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 500, dojo.isMac ? {alt: true} : {ctrl: true});
+							if(dojo.isMac || dojo.isWebKit){
+								// In this case the right arrow goes to the end of the first word (before the space),
+								// not the beginning of the second word (after the space), so move one more
 								doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 500);
-							}else{
-								doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 500, {ctrl: true});
 							}
 							
 							// second letter of second word
@@ -155,11 +155,11 @@
 							var d = new doh.Deferred();
 
 							// third word
-							if(dojo.isMac){
-								doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 500, {alt: true});
+							doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 500, dojo.isMac ? {alt: true} : {ctrl: true});
+							if(dojo.isMac || dojo.isWebKit){
+								// In this case the right arrow goes to the end of the first word (before the space),
+								// not the beginning of the second word (after the space), so move one more
 								doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 500);
-							}else{
-								doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 500, {ctrl: true});
 							}
 
 							// second letter of third word
