@@ -50,7 +50,8 @@ dojo.declare(
 			title: [
 				{ node: "titleNode", type: "innerHTML" }, 
 				{ node: "titleBar", type: "attribute" }
-			]
+			],
+			"aria-describedby":""
 		}),
 
 		// open: Boolean
@@ -95,6 +96,16 @@ dojo.declare(
 		//		can be dragged by it's title. If false it will remain centered
 		//		in the viewport.
 		draggable: true,
+		
+		//aria-describedby: String
+		//		Allows the user to add an aria-describedby attribute onto the dialog.   The value should
+		//		be the id of the container element of text that describes the dialog purpose (usually
+		//		the first text in the dialog).
+		//		<div dojoType="dijit.Dialog" aria-describedby="intro" .....>
+		//			<div id="intro">Introductory text</div>
+		//			<div>rest of dialog contents</div>
+		//		</div>
+		"aria-describedby":"",
 
 		postMixInProperties: function(){
 			var _nlsResources = dojo.i18n.getLocalization("dijit", "common");

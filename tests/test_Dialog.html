@@ -76,9 +76,13 @@
 	<button dojoType="dijit.form.Button"  id="dialog1button" onclick="dijit.byId('dialog1').show()">Show Dialog</button> |
 
 	<div dojoType="dijit.Dialog" id="dialog1" title="First Dialog"
+			aria-describedby="intro"
 			onfocus="console.log('user focus handler')"
 			onblur="console.log('user blur handler')"
 			execute="console.log('submitted w/args:\n' + dojo.toJson(arguments[0], true));">
+		<div id="intro" style="width:30em;">Introductory information spoken by screen reader if aria-describedby is
+		added to the declaration of dialog above with value equal to the id of the container element for this text. This technique
+		will work in Dojo 1.4. </div>
 		<table>
 			<tr>
 				<td><label for="name">Name: </label></td>
