@@ -124,10 +124,15 @@ dojo.declare("dijit.WidgetSet", null, {
 		//		Find all `dijit.TitlePane`s in a page:
 		//		|	dijit.registry.byClass("dijit.TitlePane").forEach(function(tp){ tp.close(); });
 		
-		return this.filter(function(widget){ // dijit.WidgetSet
-			return widget.declaredClass == cls; 
-		});
-	},
+		var res = new dijit.WidgetSet(), id, widget;
+		for(id in this._hash){
+			widget = this._hash[id];
+			if(widget.declaredClass == cls){
+				res.add(widget);
+			}
+		 }
+		 return res; // dijit.WidgetSet
+},
 		
 	toArray: function(){
 		// summary: 
@@ -167,7 +172,7 @@ dojo.declare("dijit.WidgetSet", null, {
 		//		Optional scope parameter to use for the callback
 		var x = 0, i;
 		for(i in this._hash){
-			if(!func.call(thisObj || dojo.global, this._hash[i], x++)){
+			if(!func.call(thisObj || dojo.global, this._hash[i], x++, this._hash)){
 				return false; // Boolean
 			}
 		}
@@ -187,7 +192,7 @@ dojo.declare("dijit.WidgetSet", null, {
 
 		var x = 0, i;
 		for(i in this._hash){
-			if(func.call(thisObj || dojo.global, this._hash[i], x++)){
+			if(func.call(thisObj || dojo.global, this._hash[i], x++, this._hash)){
 				return true; // Boolean
 			}
 		}
