@@ -92,13 +92,14 @@
 
 	<div id="border1" dojoType="dijit.layout.BorderContainer"
 		style="width: 90%; height: 300px; border: 2px solid blue; ">
-		<div dojoType="dijit.layout.ContentPane" region="top" style="background-color: #b39b86; border: 15px black solid; height: 50px;" splitter="true">
+		<div dojoType="dijit.layout.ContentPane" region="top" style="background-color: #b39b86; border: 15px black solid; height: 50px;" splitter="true" role="banner">
 			top bar (resizable)
 		</div>
-		<div id="border1-left" dojoType="dijit.layout.ContentPane" region="left" style="background-color: #acb386; border: 10px green solid; width: 100px;" splitter="true" minSize="150" maxSize="250">
+		<div id="border1-left" dojoType="dijit.layout.ContentPane" region="left" style="background-color: #acb386; border: 10px green solid; width: 100px;" 
+		role="navigation" splitter="true" minSize="150" maxSize="250">
 			left (resizable b/w 150 &rarr; 250)
 		</div>
-		<div dojoType="dijit.layout.ContentPane" region="center" style="background-color: #f5ffbf; padding: 30px;">
+		<div dojoType="dijit.layout.ContentPane" region="center" style="background-color: #f5ffbf; padding: 30px;" role="main">
 			main panel with <a href="http://www.dojotoolkit.org/">a link</a>.<br />
 			(to check we're copying children around properly).<br />
 			<select dojoType="dijit.form.FilteringSelect">
@@ -111,7 +112,7 @@
 		<div dojoType="dijit.layout.ContentPane" region="right" style="background-color: #acb386; width: 100px;">
 			right (fixed size)
 		</div>
-		<div dojoType="dijit.layout.ContentPane" region="bottom" style="background-color: #b39b86; height: 50px;" splitter="true">
+		<div dojoType="dijit.layout.ContentPane" region="bottom" style="background-color: #b39b86; height: 50px;" splitter="true" role="contentinfo">
 			bottom bar (resizable)
 		</div>
 	</div>
