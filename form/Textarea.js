@@ -63,7 +63,7 @@ dojo.declare(
 		if(this._busyResizing){ return; }
 		this._busyResizing = true;
 		var textarea = this.textbox;
-		if(textarea.scrollHeight){
+		if(textarea.scrollHeight && textarea.offsetHeight && textarea.clientHeight){
 			var newH = this._getHeight(textarea) + "px";
 			if(textarea.style.height != newH){
 				textarea.style.maxHeight = textarea.style.height = newH;
