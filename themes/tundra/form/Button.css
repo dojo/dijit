@@ -14,10 +14,10 @@
 	background: #fff url("../images/buttonEnabled.png") repeat-x bottom left;
 }
 
-.tundra .dijitDropDownSelect .dijitButtonContents {
+.tundra .dijitSelect .dijitButtonContents {
 	border-right: none;
 }
-.dijitRtl .tundra .dijitDropDownSelect .dijitButtonContents {
+.dijitRtl .tundra .dijitSelect .dijitButtonContents {
 	border-left: none;
 	border-right-width: 1px;
 }

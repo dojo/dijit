@@ -1,4 +1,4 @@
-dojo.provide("dijit.form.DropDownSelect");
+dojo.provide("dijit.form.Select");
 
 dojo.require("dijit.form._FormSelectWidget");
 dojo.require("dijit._HasDropDown");
@@ -6,7 +6,7 @@ dojo.require("dijit.Menu");
 
 dojo.requireLocalization("dijit.form", "validate");
 
-dojo.declare("dijit.form._DropDownSelectMenu", dijit.Menu, {
+dojo.declare("dijit.form._SelectMenu", dijit.Menu, {
 	// Summary:
 	//		An internally-used menu for dropdown that allows us to more
 	//		gracefully overflow our menu
@@ -21,7 +21,7 @@ dojo.declare("dijit.form._DropDownSelectMenu", dijit.Menu, {
 			o.parentNode.replaceChild(n, o);
 		}
 		dojo.removeClass(o, "dijitMenuTable");
-		n.className = o.className + " dijitDropDownSelectMenu";
+		n.className = o.className + " dijitSelectMenu";
 		o.className = "dijitReset dijitMenuTable";
 		n.appendChild(o);
 	},
@@ -51,15 +51,15 @@ dojo.declare("dijit.form._DropDownSelectMenu", dijit.Menu, {
 	}
 });
 
-dojo.declare("dijit.form.DropDownSelect", [dijit.form._FormSelectWidget, dijit._HasDropDown], {
+dojo.declare("dijit.form.Select", [dijit.form._FormSelectWidget, dijit._HasDropDown], {
 	attributeMap: dojo.mixin(dojo.clone(dijit.form._FormSelectWidget.prototype.attributeMap),{value:"valueNode",name:"valueNode"}),
 	// summary:
 	//		This is a "Styleable" select box - it is basically a DropDownButton which
 	//		can take as its input a <select>.
 
-	baseClass: "dijitDropDownSelect",
+	baseClass: "dijitSelect",
 	
-	templateString: dojo.cache("dijit.form", "templates/DropDownSelect.html"),
+	templateString: dojo.cache("dijit.form", "templates/Select.html"),
 	
 	// attributeMap: Object
 	//		Add in our style to be applied to the focus node
@@ -99,7 +99,7 @@ dojo.declare("dijit.form.DropDownSelect", [dijit.form._FormSelectWidget, dijit._
 		}
 		
 		// Create the dropDown widget
-		this.dropDown = new dijit.form._DropDownSelectMenu();
+		this.dropDown = new dijit.form._SelectMenu();
 		dojo.addClass(this.dropDown.domNode, this.baseClass + "Menu");
 	},
 

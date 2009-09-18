@@ -15,7 +15,7 @@
 	    <script type="text/javascript">
 			dojo.require("doh.runner");
 	        dojo.require("dojo.parser");
-			dojo.require("dijit.form.DropDownSelect");
+			dojo.require("dijit.form.Select");
 			dojo.require("dijit.form.Button");
 			dojo.require("dijit.form.Form");
 			dojo.require("dojo.data.ItemFileWriteStore");
@@ -60,7 +60,7 @@
 			var writeStore = new dojo.data.ItemFileWriteStore({data:dojo.clone(data)});			
 			
 			function wrapLabel(expected){
-				return ("<span class=\"dijitReset dijitInline dijitDropDownSelectLabel\">" + expected + "</span>").toLowerCase().replace(/ */g, "");
+				return ("<span class=\"dijitReset dijitInline dijitSelectLabel\">" + expected + "</span>").toLowerCase().replace(/ */g, "");
 			}
 
 			dojo.addOnLoad(function(){
@@ -69,7 +69,7 @@
 					numChanges++;
 				});
 
-				var programmatic = new dijit.form.DropDownSelect({
+				var programmatic = new dijit.form.Select({
 					options: [
 						{ label: 'foo', value: 'foo', selected: true },
 						{ label: 'bar', value: 'bar' }
@@ -77,7 +77,7 @@
 				});
 				programmatic.placeAt('testProgramatic');
 
-				var programmaticDisabled = new dijit.form.DropDownSelect({
+				var programmaticDisabled = new dijit.form.Select({
 					disabled: true,
 					options: [
 						{ label: 'foo', value: 'foo', selected: true },
@@ -277,25 +277,25 @@
 		</script>
 	</head>	
 	<body class="tundra">
-		<h1 class="testTitle">Test: dijit.form.DropDownSelect</h1>
+		<h1 class="testTitle">Test: dijit.form.Select</h1>
 		<h2>Automated test</h2>
 		<form dojoType="dijit.form.Form" jsId="form" method="get">
 			<h4 class="testSubtitle">Setting Defaults</h4>
-			<select jsId="s1" name="s1" dojoType="dijit.form.DropDownSelect">
+			<select jsId="s1" name="s1" dojoType="dijit.form.Select">
 				<option value="TN">Tennessee</option>
 				<option value="VA" selected="selected">Virginia</option>
 				<option value="WA">Washington</option>
 				<option value="FL">Florida</option>
 				<option value="CA">California</option>
 			</select>
-			<select jsId="s2" name="s2" value="CA" dojoType="dijit.form.DropDownSelect">
+			<select jsId="s2" name="s2" value="CA" dojoType="dijit.form.Select">
 				<option value="AL">Alabama</option>
 				<option value="AK">Alaska</option>
 				<option value="AZ">Arizona</option>
 				<option value="AR">Arkansas</option>
 				<option value="CA">California</option>
 			</select>
-			<select jsId="s3" name="s3" style="width: 150px;" dojoType="dijit.form.DropDownSelect">
+			<select jsId="s3" name="s3" style="width: 150px;" dojoType="dijit.form.Select">
 				<option value="AL">Alabama</option>
 				<option value="AK">Alaska</option>
 				<option type="separator"></option>
@@ -306,7 +306,7 @@
 			</select>
 		<hr>
 			<h4 class="testSubtitle">Rich Text (Need to use divs and spans - since browsers hack selects to pieces)</h4>
-			<div jsId="s4" name="s4" value="AK" dojoType="dijit.form.DropDownSelect">
+			<div jsId="s4" name="s4" value="AK" dojoType="dijit.form.Select">
 				<span value="AL"><b>Alabama</b></span>
 				<span value="AK"><font color="red">A</font><font color="orange">l</font><font color="yellow">a</font><font color="green">s</font><font color="blue">k</font><font color="purple">a</font></span>
 				<span value="AZ"><i>Arizona</i></span>
@@ -314,7 +314,7 @@
 				<span value="CA"><span style="font-size:25%">C</span><span style="font-size:50%">a</span><span style="font-size:75%">l</span><span style="font-size:90%">i</span><span style="font-size:100%">f</span><span style="font-size:125%">o</span><span style="font-size:133%">r</span><span style="font-size:150%">n</span><span style="font-size:175%">i</span><span style="font-size:200%">a</span></span>
 				<span value="NM" disabled="disabled">New<br>&nbsp;&nbsp;Mexico</span>
 			</div>
-			<div jsId="s5" name="s5" value="move" dojoType="dijit.form.DropDownSelect">
+			<div jsId="s5" name="s5" value="move" dojoType="dijit.form.Select">
 				<span value="copy"><img style="vertical-align: middle;margin-top: 1px;margin-bottom:1px;" src="../../../dijit/themes/tundra/images/dndCopy.png" /> Copy</span>
 				<span value="move"><img  style="vertical-align: middle;margin-top: 1px;margin-bottom:1px;" src="../../../dijit/themes/tundra/images/dndMove.png" /> Move</span>
 				<span value="nocopy"><img  style="vertical-align: middle;margin-top: 1px;margin-bottom:1px;" src="../../../dijit/themes/tundra/images/dndNoCopy.png" /> No Copy</span>
@@ -322,16 +322,16 @@
 			</div>
 		<hr>
 			<h4 class="testSubtitle">Empty</h4>
-			<select jsId="s6" name="s6" maxHeight="100" dojoType="dijit.form.DropDownSelect">
+			<select jsId="s6" name="s6" maxHeight="100" dojoType="dijit.form.Select">
 			</select>
 			<hr>
 		<h4 class="testSubtitle">Single Item</h4>
-			<select jsId="s7" name="s7" dojoType="dijit.form.DropDownSelect">
+			<select jsId="s7" name="s7" dojoType="dijit.form.Select">
 				<option value="NY">New York</option>
 			</select>
 		<hr>
 		<h4 class="testSubtitle">Long List</h4>
-			<select jsId="s8" name="s8" maxHeight="200" dojoType="dijit.form.DropDownSelect">
+			<select jsId="s8" name="s8" maxHeight="200" dojoType="dijit.form.Select">
 				<option value="AL">Alabama</option>
 				<option value="AK">Alaska</option>
 				<option value="AZ">Arizona</option>
@@ -386,19 +386,19 @@
 			</select>
 			<hr>
 			<h4 class="testSubtitle">Store-based</h4>
-			<select jsId="s9" name="s9" store="readStore" value="CT" dojoType="dijit.form.DropDownSelect">
+			<select jsId="s9" name="s9" store="readStore" value="CT" dojoType="dijit.form.Select">
 			</select>
-			<select jsId="s10" name="s10" store="readStore" dojoType="dijit.form.DropDownSelect">
+			<select jsId="s10" name="s10" store="readStore" dojoType="dijit.form.Select">
 			</select>
-			<select jsId="s11" name="s11" store="writeStore" dojoType="dijit.form.DropDownSelect">
+			<select jsId="s11" name="s11" store="writeStore" dojoType="dijit.form.Select">
 			</select>
-			<select jsId="s12" name="s12" store="readStore" dojoType="dijit.form.DropDownSelect">
+			<select jsId="s12" name="s12" store="readStore" dojoType="dijit.form.Select">
 			</select>
 			<hr>
 			<h4 class="testSubtitle">Inlined with text (all IE modes except for IE8 Standards)</h4>
 			Text Prompt:
-			<select dojoType="dijit.form.DropDownSelect">
-				<option value="SEL" selected="selected">DropDownSelect</option>
+			<select dojoType="dijit.form.Select">
+				<option value="SEL" selected="selected">Select</option>
 				<option value="OTHER">Other</option>
 			</select>
 			<hr>
@@ -437,7 +437,7 @@
 		</form>
 		<hr>
 		<h4 class="testSubtitle">Programmatic and other tests</h4>
-		<select dojoType="dijit.form.DropDownSelect" disabled="disabled" jsId='testDisabled'>
+		<select dojoType="dijit.form.Select" disabled="disabled" jsId='testDisabled'>
 			<option value="foo">foo</option>
 			<option value="bar">bar</option>
 		</select>

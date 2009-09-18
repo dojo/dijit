@@ -1745,76 +1745,76 @@ div.dijitTabBtnDisabled img {
 	border-style: solid !important;
 }
 
-/* DropDownSelect */
-.dijitDropDownSelect {
+/* Select */
+.dijitSelect {
 	margin: 0.2em;
 }
-.dj_ie .dijitDropDownSelect,
-.dj_ie7 .dijitDropDownSelect,
-.dj_iequirks .dijitDropDownSelect {
+.dj_ie .dijitSelect,
+.dj_ie7 .dijitSelect,
+.dj_iequirks .dijitSelect {
 	vertical-align: middle; /* Set this back for what we hack in dijit inline */
 }
-.dj_ie8 .dijitDropDownSelect .dijitButtonText {
+.dj_ie8 .dijitSelect .dijitButtonText {
 	vertical-align: top;
 }
-.dijitDropDownSelect .dijitButtonNode {
+.dijitSelect .dijitButtonNode {
 	text-align: left;
 }
-.dijitRtl .dijitDropDownSelect .dijitButtonNode {
+.dijitRtl .dijitSelect .dijitButtonNode {
 	text-align: right;
 }
-.dijitToolbar .dijitDropDownSelect {
+.dijitToolbar .dijitSelect {
 	margin: 0;
 }
-.dj_webkit .dijitToolbar .dijitDropDownSelect {
+.dj_webkit .dijitToolbar .dijitSelect {
 	padding-left: 0.3em;
 }
-.dijit_a11y .dijitDropDownSelectDisabled .dijitButtonNode {
+.dijit_a11y .dijitSelectDisabled .dijitButtonNode {
 	border-style: outset!important;
 	border-width: medium!important;
 	border-color: #999 !important;
 	color:#999 !important;
 }
-.dijitDropDownSelect .dijitButtonContents {
+.dijitSelect .dijitButtonContents {
 	padding: 0px;
 	background: transparent none;
 }
-.dijitDropDownSelectFixedWidth .dijitButtonContents {
+.dijitSelectFixedWidth .dijitButtonContents {
 	width: 100%;
 }
-.dijitDropDownSelect .dijitArrowButton {
+.dijitSelect .dijitArrowButton {
 	width: 16px;
 }
 
-.dj_ie6 .dijitDropDownSelectMenu .dijitMenuItemLabel,
-.dj_ie7 .dijitDropDownSelectMenu .dijitMenuItemLabel {
+.dj_ie6 .dijitSelectMenu .dijitMenuItemLabel,
+.dj_ie7 .dijitSelectMenu .dijitMenuItemLabel {
 	/* Set back to static due to bug in ie6/ie7 - See Bug #9651 */
 	position: static;
 }
 
 /* Fix the baseline of our label (for multi-size font elements) */
-.dijitDropDownSelectLabel *
+.dijitSelectLabel *
 {
 	vertical-align: baseline;
 }
 
 /* Styling for the currently-selected option (rich text can mess this up) */
-.dijitDropDownSelectSelectedOption * {
+.dijitSelectSelectedOption * {
 	font-weight: bold;
 }
 
 /* Fix the styling of the dropdown menu to be more combobox-like */
-.dijitDropDownSelectMenu {
+.dijitSelectMenu {
 	border-width: 1px;
 }
 
 /* Style the different areas of the button to look like a "real" dropdown */
-.dijitDropDownSelect .dijitButtonContents {
+.dijitSelect .dijitButtonContents {
 	white-space: nowrap;
 }
 
 /* Remove margins on the sub-table */
-.dijitDropDownSelectMenu .dijitMenuTable {
+.dijitSelectMenu .dijitMenuTable {
 	margin: 0px;
 	background-color: transparent;
 }

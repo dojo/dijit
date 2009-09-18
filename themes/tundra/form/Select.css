@@ -1,41 +1,41 @@
 /* Cursor States */
-.tundra .dijitDropDownSelectDisabled * {
+.tundra .dijitSelectDisabled * {
     cursor: not-allowed !important;
 }
-.tundra .dijitDropDownSelectReadOnly * {
+.tundra .dijitSelectReadOnly * {
     cursor: default !important;
 }
-.tundra .dijitDropDownSelect .dijitButtonNode {
+.tundra .dijitSelect .dijitButtonNode {
 	padding: 0px;
 }
 
 /* Make unselected content portion "look" more like a text box and less like a button */
-.tundra .dijitDropDownSelect .dijitButtonContents {
+.tundra .dijitSelect .dijitButtonContents {
 	padding-top: 1px;
     background:#fff url("../../../dijit/themes/tundra/images/validationInputBg.png") repeat-x top left;
     #background:#fff url('../../../dijit/themes/tundra/images/validationInputBg.gif') repeat-x top left;
 }
-.tundra .dijitDropDownSelectHover .dijitButtonContents,
-.tundra .dijitDropDownSelectActive .dijitButtonContents,
-.tundra .dijitDropDownSelectOpened .dijitButtonContents,
-.tundra .dijitDropDownSelectDisabled .dijitButtonContents,
-.tundra .dijitDropDownSelectReadOnly .dijitButtonContents{
+.tundra .dijitSelectHover .dijitButtonContents,
+.tundra .dijitSelectActive .dijitButtonContents,
+.tundra .dijitSelectOpened .dijitButtonContents,
+.tundra .dijitSelectDisabled .dijitButtonContents,
+.tundra .dijitSelectReadOnly .dijitButtonContents{
 	background: transparent none;
 }
-.dj_ie .tundra .dijitDropDownSelect .dijitButtonContents {
+.dj_ie .tundra .dijitSelect .dijitButtonContents {
 	padding-top: 0px;
 }
 
 /* Mirror DropDownButton */
-.tundra .dijitDropDownSelectDisabled .dijitButtonNode {
+.tundra .dijitSelectDisabled .dijitButtonNode {
     border-color: #d5d5d5 #bdbdbd #bdbdbd #d5d5d5;
     background:#e4e4e4 url("../../../dijit/themes/tundra/images/buttonDisabled.png") top repeat-x;
 }
-.dj_ie .tundra .dijitDropDownSelectDisabled  .dijitButtonNode * {
+.dj_ie .tundra .dijitSelectDisabled  .dijitButtonNode * {
 	filter: gray() alpha(opacity=50); 
 }
 
-.tundra .dijitDropDownSelectHover .dijitButtonNode {
+.tundra .dijitSelectHover .dijitButtonNode {
     border-color:#a5beda;
     border-bottom-color:#5c7590;
     border-right-color:#5c7590;
@@ -43,22 +43,22 @@
     background:#fcfdff url("../../../dijit/themes/tundra/images/buttonHover.png") repeat-x bottom;
 }
 
-.tundra .dijitDropDownSelectActive .dijitButtonNode,
-.tundra .dijitDropDownSelectOpened .dijitButtonNode {
+.tundra .dijitSelectActive .dijitButtonNode,
+.tundra .dijitSelectOpened .dijitButtonNode {
     border-color:#366dba;
     background: #ededed url("../../../dijit/themes/tundra/images/buttonActive.png") bottom repeat-x;
 }
 
 /* Make the menu look more combobox-like */
-.tundra .dijitDropDownSelectMenu td {
+.tundra .dijitSelectMenu td {
 	padding: 0em;
 }
-.tundra .dijitDropDownSelectMenu .dijitMenuItemIcon {
+.tundra .dijitSelectMenu .dijitMenuItemIcon {
 	margin: 0.1em 0.2em;
 	display: none;
 }
-.tundra .dijitDropDownSelectMenu .dijitMenuItemLabel,
-.tundra .dijitDropDownSelectMenu .dijitMenuArrowCell {
+.tundra .dijitSelectMenu .dijitMenuItemLabel,
+.tundra .dijitSelectMenu .dijitMenuArrowCell {
 	padding: 0.1em 0.2em;
 }
 

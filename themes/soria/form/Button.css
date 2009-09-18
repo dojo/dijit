@@ -14,7 +14,7 @@
 	padding: 0.1em 0.2em 0.2em 0.2em; 
 	background: #bcd5f0 url("../images/buttonEnabled.png") repeat-x top left;
 }
-.soria .dijitDropDownSelect .dijitButtonContents {
+.soria .dijitSelect .dijitButtonContents {
 	border-right: none;
 }
 
