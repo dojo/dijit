@@ -372,6 +372,21 @@ dojo.declare(
 		dojo.toggleClass(this.rowNode, "dijitTreeNodeSelected", selected);
 	},
 
+	_onClick: function(evt){
+		// summary:
+		//		Handler for onclick event on a node
+		// tags:
+		//		private
+		this.tree._onClick(this, evt);
+	},
+	_onDblClick: function(evt){
+		// summary:
+		//		Handler for ondblclick event on a node
+		// tags:
+		//		private
+		this.tree._onDblClick(this, evt);
+	},
+
 	_onMouseEnter: function(evt){
 		// summary:
 		//		Handler for onmouseenter event on a node
@@ -1069,16 +1084,11 @@ dojo.declare(
 		}
 	},
 
-	_onClick: function(/*Event*/ e){
+	_onClick: function(/*TreeNode*/ nodeWidget, /*Event*/ e){
 		// summary:
 		//		Translates click events into commands for the controller to process
-		var domElement = e.target;
 
-		// find node
-		var nodeWidget = dijit.getEnclosingWidget(domElement);	
-		if(!nodeWidget || !nodeWidget.isTreeNode){
-			return;
-		}
+		var domElement = e.target;
 
 		if( (this.openOnClick && nodeWidget.isExpandable) ||
 			(domElement == nodeWidget.expandoNode || domElement == nodeWidget.expandoNodeText) ){
@@ -1093,16 +1103,11 @@ dojo.declare(
 		}
 		dojo.stopEvent(e);
 	},
-	_onDblClick: function(/*Event*/ e){
+	_onDblClick: function(/*TreeNode*/ nodeWidget, /*Event*/ e){
 		// summary:
 		//		Translates double-click events into commands for the controller to process
-		var domElement = e.target;
 
-		// find node
-		var nodeWidget = dijit.getEnclosingWidget(domElement);	
-		if(!nodeWidget || !nodeWidget.isTreeNode){
-			return;
-		}
+		var domElement = e.target;
 
 		if( (this.openOnDblClick && nodeWidget.isExpandable) ||
 			(domElement == nodeWidget.expandoNode || domElement == nodeWidget.expandoNodeText) ){
