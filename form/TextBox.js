@@ -289,7 +289,7 @@ dojo.declare(
 			if(this.disabled){ return; }
 			this._setBlurValue();
 			this.inherited(arguments);
-			if(this.selectOnClick && !dojo.isIE){
+			if(this.selectOnClick && dojo.isMoz){
 				this.textbox.selectionStart = this.textbox.selectionEnd = undefined; // clear selection so that the next mouse click doesn't reselect
 			}
 		},
@@ -319,7 +319,7 @@ dijit.selectInputText = function(/*DomNode*/element, /*Number?*/ start, /*Number
 	element = dojo.byId(element);
 	if(isNaN(start)){ start = 0; }
 	if(isNaN(stop)){ stop = element.value ? element.value.length : 0; }
-	element.focus();
+	dijit.focus(element);
 	if(_document["selection"] && dojo.body()["createTextRange"]){ // IE
 		if(element.createTextRange){
 			var range = element.createTextRange();
