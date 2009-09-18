@@ -11,50 +11,46 @@ dojo.declare(
 	"dijit.Calendar",
 	[dijit._Widget, dijit._Templated],
 	{
-	// summary:
-	//		A simple GUI for choosing a date in the context of a monthly calendar.
-	//
-	// description:
-	//		A simple GUI for choosing a date in the context of a monthly calendar.
-	//		This widget can't be used in a form because it doesn't serialize the date to an
-	//		`<input>` field.  For a form element, use dijit.form.DateTextBox instead.
-	//
-	//		Note that the parser takes all dates attributes passed in the
-	//		[RFC 3339 format](http://www.faqs.org/rfcs/rfc3339.html), e.g. `2005-06-30T08:05:00-07:00`
-	//		so that they are serializable and locale-independent.
-	//
-	// example:
-	//	|	var calendar = new dijit.Calendar({}, dojo.byId("calendarNode"));
-	//
-	//	example:
-	//	|	<div dojoType="dijit.Calendar"></div>
+		// summary:
+		//		A simple GUI for choosing a date in the context of a monthly calendar.
+		//
+		// description:
+		//		A simple GUI for choosing a date in the context of a monthly calendar.
+		//		This widget can't be used in a form because it doesn't serialize the date to an
+		//		`<input>` field.  For a form element, use dijit.form.DateTextBox instead.
+		//
+		//		Note that the parser takes all dates attributes passed in the
+		//		[RFC 3339 format](http://www.faqs.org/rfcs/rfc3339.html), e.g. `2005-06-30T08:05:00-07:00`
+		//		so that they are serializable and locale-independent.
+		//
+		// example:
+		//	|	var calendar = new dijit.Calendar({}, dojo.byId("calendarNode"));
+		//
+		//	example:
+		//	|	<div dojoType="dijit.Calendar"></div>
 
 		templateString: dojo.cache("dijit", "templates/Calendar.html"),
 
 		// value: Date
 		//		The currently selected Date
-
 		value: new Date(),
 
 		// datePackage: String
-		//	JavaScript namespace to find Calendar routines.  Uses Gregorian Calendar routines
-		//	at dojo.date by default.
+		//		JavaScript namespace to find Calendar routines.  Uses Gregorian Calendar routines
+		//		at dojo.date by default.
 		datePackage: "dojo.date",
 
 		// dayWidth: String
-		//	How to represent the days of the week in the calendar header. See dojo.date.locale
+		//		How to represent the days of the week in the calendar header. See dojo.date.locale
 		dayWidth: "narrow",
 
-/*
-TODO: replace tabIndex in template
 		// tabIndex: Integer
-		//	Order fields are traversed when user hits the tab key
-		tabIndex: 0,
+		//		Order fields are traversed when user hits the tab key
+		tabIndex: "0",
 
-		attributeMap: dojo.mixin(dojo.clone(dijit._Widget.prototype.attributeMap), {
+		attributeMap: dojo.delegate(dijit._Widget.prototype.attributeMap, {
 			tabIndex: "domNode"
  		}),
-*/
 
 		setValue: function(/*Date*/ value){
 			// summary:
