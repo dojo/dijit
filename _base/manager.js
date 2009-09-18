@@ -65,9 +65,10 @@ dojo.declare("dijit.WidgetSet", null, {
 		// returns: dijit.WidgetSet
 		//		Returns self, in order to allow for further chaining. 
 
+		thisObj = thisObj || dojo.global;
 		var i = 0, id;
 		for(id in this._hash){
-			func.call(thisObj || dojo.global, this._hash[id], i++, this._hash);
+			func.call(thisObj, this._hash[id], i++, this._hash);
 		}
 		return this;
 	},
@@ -90,10 +91,11 @@ dojo.declare("dijit.WidgetSet", null, {
 		//		|		return i % 2 == 0;
 		//		|	}).forEach(function(w){ /* odd ones */ });
 
+		thisObj = thisObj || dojo.global;
 		var res = new dijit.WidgetSet(), i = 0, id;
 		for(id in this._hash){
 			var w = this._hash[id];
-			if(filter.call(thisObj || dojo.global, w, i++, this._hash)){
+			if(filter.call(thisObj, w, i++, this._hash)){
 				res.add(w);
 			}
 		}
@@ -170,9 +172,11 @@ dojo.declare("dijit.WidgetSet", null, {
 		//
 		// thisObj: Object?
 		//		Optional scope parameter to use for the callback
+
+		thisObj = thisObj || dojo.global;
 		var x = 0, i;
 		for(i in this._hash){
-			if(!func.call(thisObj || dojo.global, this._hash[i], x++, this._hash)){
+			if(!func.call(thisObj, this._hash[i], x++, this._hash)){
 				return false; // Boolean
 			}
 		}
@@ -190,9 +194,10 @@ dojo.declare("dijit.WidgetSet", null, {
 		// thisObj: Object?
 		//		Optional scope parameter to use for the callback
 
+		thisObj = thisObj || dojo.global;
 		var x = 0, i;
 		for(i in this._hash){
-			if(func.call(thisObj || dojo.global, this._hash[i], x++, this._hash)){
+			if(func.call(thisObj, this._hash[i], x++, this._hash)){
 				return true; // Boolean
 			}
 		}
