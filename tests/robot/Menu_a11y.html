@@ -182,43 +182,49 @@
 					}
 				]);
 
-				doh.register("Context menu keyboard tests", [
-					{
+				// Run test about opening context menu via keyboard, except on safari/mac where that isn't
+				// possible (#9927)
+				if (!dojo.isMac || !dojo.isSafari) {
+					doh.register("Context menu keyboard tests", [{
 						name: "open global context menu (keyboard)",
 						timeout: 5000,
 						runTest: function(){
 							var d = new doh.Deferred();
-
+							
 							// Put focus on the link; this is just a random place on the screen to have focus
 							doh.robot.sequence(function(){
 								dijit.focus(dojo.byId("link"));
 							}, 500, 500);
-
+							
 							// open via keyboard
-							if(dojo.isMac){
-								doh.robot.keyPress(dojo.keys.SPACE, 500, {ctrl: true});
-							}else{
-								doh.robot.keyPress(dojo.keys.F10, 500, {shift: true});
+							if (dojo.isMac) {
+								doh.robot.keyPress(dojo.keys.SPACE, 500, {
+									ctrl: true
+								});
+							} else {
+								doh.robot.keyPress(dojo.keys.F10, 500, {
+									shift: true
+								});
 							}
-
-
+							
+							
 							doh.robot.sequence(d.getTestCallback(function(){
 								var menu = dijit.byId("windowContextMenu");
-								doh.t(isVisible(menu), "menu is now shown");						
+								doh.t(isVisible(menu), "menu is now shown");
 								
 								var menuCoords = dojo.position(menu.domNode);
-
+								
 								doh.t(menuCoords.x < 50, "x < 50");
-								doh.t(menuCoords.y < 50, "y < 50");	
+								doh.t(menuCoords.y < 50, "y < 50");
 								doh.t(menuCoords.x >= 0, "x >= 0");
-								doh.t(menuCoords.y >= 0, "y >= 0");	
+								doh.t(menuCoords.y >= 0, "y >= 0");
 								doh.robot.keyPress(dojo.keys.ESCAPE, 0, {}, true); // close context menu
 							}), 1000);
-	
+							
 							return d;
 						}
-					}
-				]);
+					}]);
+				}
 
 				doh.register("MenuBar keyboard tests", [
 					{
