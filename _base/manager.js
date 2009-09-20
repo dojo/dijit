@@ -155,7 +155,7 @@ dojo.declare("dijit.WidgetSet", null, {
 		// summary: 
 		//		Create a new Array from this WidgetSet, following the same rules as `dojo.map`
 		// example:
-		//		|	var nodes = dijit.registy.map(function(w){ return w.domNode; });
+		//		|	var nodes = dijit.registry.map(function(w){ return w.domNode; });
 		//
 		// returns: Array
 		//		A new array of the returned values.
