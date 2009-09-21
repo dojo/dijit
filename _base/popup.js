@@ -269,10 +269,6 @@ dijit._frames = new function(){
 
 	this.push = function(iframe){
 		iframe.style.display="none";
-		if(dojo.isIE){
-			iframe.style.removeExpression("width");
-			iframe.style.removeExpression("height");
-		}
 		queue.push(iframe);
 	}
 }();
@@ -288,12 +284,25 @@ dijit.BackgroundIframe = function(/* DomNode */node){
 	//			area (and position) of node
 
 	if(!node.id){ throw new Error("no id"); }
-	if(dojo.isIE < 7 || (dojo.isFF < 3 && dojo.hasClass(dojo.body(), "dijit_a11y"))){
+	if(dojo.isIE < 7 || (dojo.isFF < 3 && dojo.hasClass(dojo.body(), "dijit_a11y")) || dojo.config.forceBgIframe){
 		var iframe = dijit._frames.pop();
 		node.appendChild(iframe);
-		if(dojo.isIE){
-			iframe.style.setExpression("width", dojo._scopeName + ".doc.getElementById('" + node.id + "').offsetWidth");
-			iframe.style.setExpression("height", dojo._scopeName + ".doc.getElementById('" + node.id + "').offsetHeight");
+		if(dojo.isIE<7){
+			dojo.style(iframe, {
+				width: node.offsetWidth + 'px',
+				height: node.offsetWidth + 'px'
+			});
+			this._conn = dojo.connect(node, 'onresize', function(){
+				dojo.style(iframe, {
+					width: node.offsetWidth + 'px',
+					height: node.offsetWidth + 'px'
+				});
+			});
+		}else{
+			dojo.style(iframe, {
+				width: '100%',
+				height: '100%'
+			});
 		}
 		this.iframe = iframe;
 	}
@@ -302,6 +311,10 @@ dijit.BackgroundIframe = function(/* DomNode */node){
 dojo.extend(dijit.BackgroundIframe, {
 	destroy: function(){
 		//	summary: destroy the iframe
+		if(this._conn){
+			dojo.disconnect(this._conn);
+			this._conn = null;
+		}
 		if(this.iframe){
 			dijit._frames.push(this.iframe);
 			delete this.iframe;
