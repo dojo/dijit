@@ -426,11 +426,8 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 			this.savedContent = this.getValue(true);
 		});
 
-		// Set the iframe's initial (blank) content.   Inlining text on FF2 to avoid "parent is not
-		// defined" errors reloading test_Editor.html w/out clearing the cache		
-		var s = dojo.isFF == 2 ?
-			"javascript:'" + this._iframeSrc.replace("'", "\\'", "g") + "'" :
-			'javascript:parent.' + dijit._scopeName + '.byId("'+this.id+'")._iframeSrc';
+		// Set the iframe's initial (blank) content.	
+		var s = 'javascript:parent.' + dijit._scopeName + '.byId("'+this.id+'")._iframeSrc';
 		ifr.setAttribute('src', s);
 		this.editingArea.appendChild(ifr);
 
@@ -758,7 +755,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 		}else if(dojo.isMoz  && !this.isTabIndent){
 			if(e.keyCode == dojo.keys.TAB && !e.shiftKey && !e.ctrlKey && !e.altKey && this.iframe){
 				// update iframe document title for screen reader
-				var titleObj = dojo.isFF<3 ? this.iframe.contentDocument : this.iframe;
+				var titleObj = this.iframe;
 			 	titleObj.title = this._localizedIframeTitles.iframeFocusTitle;
 				// Place focus on the iframe. A subsequent tab or shift tab will put focus
 				// on the correct control.
@@ -901,8 +898,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 			this.savedContent=_c;
 		}
 		if(dojo.isMoz && this.iframe){
-			var titleObj = dojo.isFF<3 ? this.iframe.contentDocument : this.iframe;
-			 titleObj.title = this._localizedIframeTitles.iframeEditTitle;
+			this.iframe.title = this._localizedIframeTitles.iframeEditTitle;
 		} 
 
 	},
@@ -1339,9 +1335,8 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 			html = this._preFilterContent(html);
 			var node = this.isClosed ? this.domNode : this.editNode;
 			
-			// Use &nbsp; to avoid FF2 problems showing cursor and webkit problems where
-			// editor is disabled until the user clicks it
-			if(!html && (dojo.isFF == 2 || dojo.isWebkit)){
+			// Use &nbsp; to avoid webkit problems where editor is disabled until the user clicks it
+			if(!html && dojo.isWebkit){
 				html = "&nbsp;";
 			}
 			node.innerHTML = html;

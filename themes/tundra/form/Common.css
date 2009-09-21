@@ -135,19 +135,10 @@
 }
 
 
-/* MOW: trying to get this to look like a mini-dialog.  Advised? */
 .tundra .dijitInlineEditor {
 	/* fieldset surrounding an inlineEditor in edit mode */
 	display: inline-block;
-	display: -moz-inline-stack;
 	#display:inline;
-	/*
-	border-style: solid;
-	border-color: #7788a0 #344257 #344257 #7788a0;
-	border-width:1px 2px 2px 1px;
-	-moz-border-radius:0px 2px 0px 2px;	make BL and TR corners indent on Moz so it looks like we have a shadow
-	background-color:white;
-	*/
 }
 
 .dijitInlineEditor .saveButton,

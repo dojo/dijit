@@ -72,16 +72,13 @@ dojo.mixin(dijit,
 		// summary:
 		//		Sets the role on an element.
 		// description:
-		//		In other than FF2 replace existing role attribute with new role.
-		//		FF3 supports XHTML and ARIA roles so    
-		//		if elem already has an XHTML role, append this role to XHTML role 
+		//		Replace existing role attribute with new role.
+		//		If elem already has an XHTML role, append this role to XHTML role 
 		//		and remove other ARIA roles.
-		//		On Firefox 2 and below, "wairole:" is
-		//		prepended to the provided role value.
 
 		var curRole = dojo.attr(elem, "role") || "";
-		if(dojo.isFF < 3 || !this._XhtmlRoles.test(curRole)){
-			dojo.attr(elem, "role", dojo.isFF < 3 ? "wairole:" + role : role);
+		if(!this._XhtmlRoles.test(curRole)){
+			dojo.attr(elem, "role", role);
 		}else{
 			if((" "+ curRole +" ").indexOf(" " + role + " ") < 0){
 				var clearXhtml = dojo.trim(curRole.replace(this._XhtmlRoles, ""));
@@ -99,8 +96,7 @@ dojo.mixin(dijit,
 		var roleValue = dojo.attr(elem, "role"); 
 		if(!roleValue){ return; }
 		if(role){
-			var searchRole = dojo.isFF < 3 ? "wairole:" + role : role;
-			var t = dojo.trim((" " + roleValue + " ").replace(" " + searchRole + " ", " "));
+			var t = dojo.trim((" " + roleValue + " ").replace(" " + role + " ", " "));
 			dojo.attr(elem, "role", t);
 		}else{
 			elem.removeAttribute("role");	
@@ -111,16 +107,11 @@ dojo.mixin(dijit,
 		// summary:
 		//		Determines if an element has a given state.
 		// description:
-		//		On Firefox 2 and below, we check for an attribute in namespace
-		//		"http://www.w3.org/2005/07/aaa" with a name of the given state.
-		//		On all other browsers, we check for an attribute
-		//		called "aria-"+state.
+		//		Checks for an attribute called "aria-"+state.
 		// returns:
 		//		true if elem has a value for the given state and
 		//		false if it does not.
-		if(dojo.isFF < 3){
-			return elem.hasAttributeNS("http://www.w3.org/2005/07/aaa", state);
-		}
+
 		return elem.hasAttribute ? elem.hasAttribute("aria-"+state) : !!elem.getAttribute("aria-"+state);
 	},
 
@@ -128,16 +119,11 @@ dojo.mixin(dijit,
 		// summary:
 		//		Gets the value of a state on an element.
 		// description:
-		//		On Firefox 2 and below, we check for an attribute in namespace
-		//		"http://www.w3.org/2005/07/aaa" with a name of the given state.
-		//		On all other browsers, we check for an attribute called
-		//		"aria-"+state.
+		//		Checks for an attribute called "aria-"+state.
 		// returns:
 		//		The value of the requested state on elem
 		//		or an empty string if elem has no value for state.
-		if(dojo.isFF < 3){
-			return elem.getAttributeNS("http://www.w3.org/2005/07/aaa", state);
-		}
+
 		return elem.getAttribute("aria-"+state) || "";
 	},
 
@@ -145,30 +131,17 @@ dojo.mixin(dijit,
 		// summary:
 		//		Sets a state on an element.
 		// description:
-		//		On Firefox 2 and below, we set an attribute in namespace
-		//		"http://www.w3.org/2005/07/aaa" with a name of the given state.
-		//		On all other browsers, we set an attribute called
-		//		"aria-"+state.
-		if(dojo.isFF < 3){
-			elem.setAttributeNS("http://www.w3.org/2005/07/aaa",
-				"aaa:"+state, value);
-		}else{
-			elem.setAttribute("aria-"+state, value);
-		}
+		//		Sets an attribute called "aria-"+state.
+
+		elem.setAttribute("aria-"+state, value);
 	},
 
 	removeWaiState: function(/*Element*/ elem, /*String*/ state){
 		// summary:
 		//		Removes a state from an element.
 		// description:
-		//		On Firefox 2 and below, we remove the attribute in namespace
-		//		"http://www.w3.org/2005/07/aaa" with a name of the given state.
-		//		On all other browsers, we remove the attribute called
-		//		"aria-"+state.
-		if(dojo.isFF < 3){
-			elem.removeAttributeNS("http://www.w3.org/2005/07/aaa", state);
-		}else{
-			elem.removeAttribute("aria-"+state);
-		}
+		//		Sets an attribute called "aria-"+state.
+
+		elem.removeAttribute("aria-"+state);
 	}
 });

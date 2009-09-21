@@ -27,7 +27,6 @@
 		Similar to InlineBox below, but this has fewer side-effects in Moz.
 		Also, apparently works on a DIV as well as a FIELDSET.
 	*/
-	display:-moz-inline-box;		/* FF2 */
 	display:inline-block;			/* webkit and FF3 */
 	#zoom: 1; /* set hasLayout:true to mimic inline-block */
 	#display:inline; /* don't use .dj_ie since that increases the priority */
@@ -59,10 +58,7 @@
 }
 
 .dijitInlineTable {
-	/* To inline tables with a given width set (otherwise, use dijitInline above)
-	 * Must also put style="-moz-inline-stack" on the node itself to workaround FF2 bugs
-	 */
-	display: -moz-inline-stack;	/* FF2 */
+	/* To inline tables with a given width set (otherwise, use dijitInline above) */
 	display:inline-table;
 	display:inline-block;		/* webkit and FF3 */
 	#zoom: 1; /* set hasLayout:true to mimic inline-block */
@@ -119,10 +115,7 @@
 }
 
 .dijitBackgroundIframe {
-	/*
-	 * iframe used for FF2 in high-contrast mode to prevent menu
-	 * being transparent
-	 */
+	/* iframe used to prevent problems with PDF or other applets overlaying menus etc */
 	position: absolute;
 	left: 0;
 	top: 0;
@@ -208,11 +201,6 @@
 	border-width: medium!important;
 	border-color: #999 !important;
 	color:#999 !important;
-}
-
-.dj_ff2 .dijit_a11y .dijitComboButton .dijitButtonContentsFocused,
-.dj_ff2 .dijit_a11y .dijitComboButton .dijitDownArrowButtonFocused {
-	border: 1px dotted black !important;
 }
 
 /* button inner contents - labels, icons etc. */
@@ -428,10 +416,6 @@ table .dijitComboButton .dijitButtonNode {
 .dijitTextAreaFocused {
 	/* should we display focus like we do on other browsers, or use the safari standard focus indicator?? */
 	outline: auto 5px -webkit-focus-ring-color;
-}
-.dijitTextAreaFocused div {
-	/* prevent dotted border on FF3 */
-	outline: none !important;
 }
 
 .dijitTextBox INPUT,
@@ -1209,7 +1193,6 @@ div.dijitTabBtnDisabled img {
 .dijitTabContainerTop-tabs .dijitTab,
 .dijitTabContainerBottom-tabs .dijitTab {
 	/* Inline-block */
-	display:-moz-inline-box;		/* FF2 */
 	display:inline-block;			/* webkit and FF3 */
 	#zoom: 1; /* set hasLayout:true to mimic inline-block */
 	#display:inline; /* don't use .dj_ie since that increases the priority */
@@ -1336,10 +1319,6 @@ div.dijitTabBtnDisabled img {
 	z-index: 999;
 	padding: 1px;
 	overflow: hidden;       /* override overflow: auto; from ContentPane to make dragging smoother */
-}
-
-.dj_ff2 .dijitDialog {
-     overflow: auto;          /* avoid disappearing cursor problem, see #7408 */
 }
 
 .dijitDialogFixed div.dijitDialogTitleBar {

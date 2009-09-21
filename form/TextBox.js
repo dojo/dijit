@@ -240,7 +240,6 @@ dojo.declare(
 				dojo.style(this.textbox, "cssText", this.style);
 				this.textbox.className += " " + this["class"];
 			}*/
-			this._layoutHack();
 		},
 
 		_blankValue: '', // if the textbox is blank, what value should be reported

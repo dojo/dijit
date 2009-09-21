@@ -142,7 +142,7 @@ dojo.declare("dijit.ColorPalette",
 				var imgStyle = imgNode.style;
 				imgStyle.color = imgStyle.backgroundColor = imgNode.color;
 
-                dojo.forEach(["Dijitclick", "MouseEnter", "Focus", "Blur"], function(handler) {
+                dojo.forEach(["Dijitclick", "MouseEnter", "Focus"], function(handler) {
                     this.connect(cellNode, "on" + handler.toLowerCase(), "_onCell" + handler);
                 }, this);
 
@@ -216,11 +216,7 @@ dojo.declare("dijit.ColorPalette",
 		// tags:
 		//		private
 
-		// focus bubbles on Firefox 2, so just make sure that focus has really
-		// gone to the container
-		if(evt.target === this.divNode){
-			this._focusFirst();
-		}
+		this._focusFirst();
 	},
 
 	_onFocus: function(){
@@ -301,14 +297,6 @@ dojo.declare("dijit.ColorPalette",
 		this._removeCellHighlight(this._currentFocus);
 		this._currentFocus = node.index;
 		dojo.addClass(node, "dijitPaletteCellHighlight");		
-	},
-
-	_onCellBlur: function(/*Event*/ evt){
-		// summary:
-		//		needed for Firefox 2 on Mac OS X
-		// tags:
-		//		private
-		this._removeCellHighlight(this._currentFocus);
 	},
 
 	_removeCellHighlight: function(index){

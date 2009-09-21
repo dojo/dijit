@@ -37,7 +37,7 @@ dojo.declare("dijit.form._SelectMenu", dijit.Menu, {
 		if(mb){
 			dojo.marginBox(this.domNode, mb);
 			var w = dojo.contentBox(this.domNode).w;
-			if(dojo.isFF && this.domNode.scrollHeight > this.domNode.clientHeight){
+			if(dojo.isMoz && this.domNode.scrollHeight > this.domNode.clientHeight){
 				w--;
 			}else if(dojo.isIE < 8 || (dojo.isIE && dojo.isQuirks)){
 				// IE < 8 and IE8 in quirks mode doesn't need this additional
@@ -184,11 +184,11 @@ dojo.declare("dijit.form.Select", [dijit.form._FormSelectWidget, dijit._HasDropD
 	},
 	
 	_setDisplay: function(/*String*/ newDisplay){
-		// summary: sets the display for the given value (or values)
+		// summary:
+		//		sets the display for the given value (or values)
 		this.containerNode.innerHTML = '<span class="dijitReset dijitInline ' + this.baseClass + 'Label">' +
 					(newDisplay || this.emptyLabel || "&nbsp;") +
 					'</span>';
-		this._layoutHack();
 	},
 
 	validate: function(/*Boolean*/ isFocused){
