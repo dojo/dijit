@@ -41,6 +41,13 @@ dojo.declare("dijit._editor.plugins.ViewSource",dijit._editor._Plugin,{
 	toggle: function(){
 		// summary:
 		//		Function to allow programmatic toggling of the view.
+		
+		// For Webkit, we have to focus a very particular way.
+		// when swapping views, otherwise focus doesn't shift right
+		// but can't focus this way all the time, only for VS changes.
+		// If we did it all the time, buttons like bold, italic, etc
+		// break.
+		if(dojo.isWebKit){this._vsFocused = true;}
 		this.button.attr("checked", !this.button.attr("checked"));
 
 	},
@@ -89,6 +96,7 @@ dojo.declare("dijit._editor.plugins.ViewSource",dijit._editor._Plugin,{
 			this.button.focus();
 			this.toggle();
 			dojo.stopEvent(e);
+
 			// Call the focus shift outside of the handler.
 			setTimeout(dojo.hitch(this, function(){
 				// We over-ride focus, so we just need to call.
@@ -327,9 +335,11 @@ dojo.declare("dijit._editor.plugins.ViewSource",dijit._editor._Plugin,{
 				self.setSourceAreaCaret();
 			}else{
 				try{
-					if(dojo.isWebKit){
-						// For some reason, only way we can get focus back to
-						// the iframe doc.
+					if(this._vsFocused){
+						delete this._vsFocused;
+						// Must focus edit node in this case (webkit only) or
+						// focus doesn't shift right, but in normal
+						// cases we focus with the regular function.
 						dijit.focus(ed.editNode);
 					}else{
 						ed._viewsource_oldFocus();	
