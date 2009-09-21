@@ -79,7 +79,7 @@
 	<script type="text/javascript"> // dojo.requires()
 
 		dojo.require("dijit.Menu");
-		dojo.require("dijit._Calendar");
+		dojo.require("dijit.Calendar");
 		dojo.require("dijit.ColorPalette");
 		dojo.require("dijit.ProgressBar");
 		dojo.require("dijit.TitlePane");
@@ -251,7 +251,7 @@
 		</div>
 		<div dojoType="dijit.PopupMenuItem">
 			<span>Different popup</span>
-			<div dojoType="dijit._Calendar"></div>
+			<div dojoType="dijit.Calendar"></div>
 		</div>
 	</div>
 	<!-- end contextMenu -->
@@ -402,7 +402,7 @@
 
 			<div dojoType="dijit.layout.ContentPane" title="Calendar" selected="true">
 				<!-- calendar widget pane -->
-				<input id="calendar1" dojoType="dijit._Calendar" onChange="myHandler(this.id,arguments[0])">
+				<input id="calendar1" dojoType="dijit.Calendar" onChange="myHandler(this.id,arguments[0])">
 			</div>
 
 			<div dojoType="dijit.layout.ContentPane" title="Color Picker">
