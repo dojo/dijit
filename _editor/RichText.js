@@ -501,6 +501,8 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 			"\tbackground:transparent;",
 			"\tpadding: 1em 0 0 0;",
 			"\tmargin: -1em 0 0 0;", // remove extraneous vertical scrollbar on safari and firefox
+			"\twidth: 100%;",
+			"\theight: 100%;",
 			"}",
 			// TODO: left positioning will cause contents to disappear out of view
 			//	   if it gets too wide for the visible area
