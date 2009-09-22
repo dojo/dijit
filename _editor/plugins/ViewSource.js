@@ -391,7 +391,9 @@ dojo.declare("dijit._editor.plugins.ViewSource",dijit._editor._Plugin,{
 		// tags:
 		//		private
 		if(html){
+			// Look for closed and unclosed (malformed) script attacks.
 			html = html.replace(/<\s*script[^>]*>((.|\s)*?)<\\?\/\s*script\s*>/ig, "");
+			html = html.replace(/<\s*script\b([^<>]|\s)*>?/ig, "")
 			html = html.replace(/<[^>]*=(\s|)*[("|')]javascript:[^$1][(\s|.)]*[$1][^>]*>/ig, "");
 		}
 		return html;
