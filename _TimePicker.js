@@ -6,7 +6,7 @@ dojo.require("dojo.date.locale");
 /*=====
 dojo.declare(
 	"dijit._TimePicker.__Constraints",
-	[dojo.date.locale.__FormatOptions],
+	dojo.date.locale.__FormatOptions,
 	{
 		// clickableIncrement: String
 		//		See `dijit._TimePicker.clickableIncrement`

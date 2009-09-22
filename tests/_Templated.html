@@ -161,7 +161,7 @@
 							var result = [], expected = [1,1,0,2,2,3];
 							
 							// widgetsInTemplateLifecycle
-							dojo.declare("SubThing", [dijit._Widget], {
+							dojo.declare("SubThing", dijit._Widget, {
 								postCreate:function(){ 
 									this.inherited(arguments);
 									result.push(1);

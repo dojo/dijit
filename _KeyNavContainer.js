@@ -2,7 +2,7 @@ dojo.provide("dijit._KeyNavContainer");
 dojo.require("dijit._Container");
 
 dojo.declare("dijit._KeyNavContainer",
-	[dijit._Container],
+	dijit._Container,
 	{
 
 		// summary:

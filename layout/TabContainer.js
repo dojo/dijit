@@ -5,7 +5,7 @@ dojo.require("dijit.layout.TabController");
 dojo.require("dijit.layout.ScrollingTabController");
 
 dojo.declare("dijit.layout.TabContainer",
-	[dijit.layout._TabContainerBase],
+	dijit.layout._TabContainerBase,
 	{
 		// summary:
 		//		A Container with tabs to select each child (only one of which is displayed at a time).

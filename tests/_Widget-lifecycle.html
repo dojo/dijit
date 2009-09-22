@@ -19,7 +19,7 @@
 		// Number of times foo was called while TestWidget existed
 		var calls = 0;
 
-		dojo.declare("dijit.TestWidget", [dijit._Widget], { 
+		dojo.declare("dijit.TestWidget", dijit._Widget, { 
 			postCreate: function(){
 				// Rather odd call to this.connect() For testing the connections are dropped on destroy()
 				this.connect(obj, "foo", function(){
