@@ -135,7 +135,24 @@
 			<div class="testExample">
 				<input id="pattern" name="noDOMvalue" type="text" dojoType="dijit.form.DateTextBox" constraints="{datePattern:'dd-MM-yyyy', strict:true}">
 			</div>
-
+			<div class="dojoTitlePaneLabel">
+				<strong>Using title attrib for label</strong>
+				<span class="noticeMessage">DateTextBox class,
+					Attributes: lang="en-us", required="true", prompt meessage, invalid message
+					Prompt message whenever field is blank.
+				</span>
+			</div>
+			<div class="testExample">
+				<div id="american2" type="text" name="date20" value="2008-12-30"
+					dojoType="dijit.form.DateTextBox"
+					title="Date in month, day, year format"
+					lang="en-us"
+					required="true"
+					promptMessage="mm/dd/yyyy"
+					invalidMessage="Invalid date. Use mm/dd/yyyy format.">
+				</div>
+			</div>
+	
 			<script>
 			// See if we can make a widget in script and attach it to the DOM ourselves.
 			dojo.addOnLoad(function(){

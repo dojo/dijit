@@ -245,7 +245,8 @@ dojo.declare("dijit.form.ComboButton", dijit.form.DropDownButton, {
 
 	attributeMap: dojo.mixin(dojo.clone(dijit.form.Button.prototype.attributeMap), {
 		id:"",
-		tabIndex: ["focusNode", "titleNode"]
+		tabIndex: ["focusNode", "titleNode"],
+		title: "titleNode"
 	}),
 
 	// optionsTitle: String

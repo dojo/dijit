@@ -52,12 +52,12 @@
 			Create
 		</button>
 		<span dojoType="dijit.Tooltip" connectId="1465">tooltip on button</span>
-		<button id="1467" dojoType="dijit.form.Button" onClick='console.log("clicked simple")'>
+		<button id="1467" dojoType="dijit.form.Button" title="view title" onClick='console.log("clicked simple")'>
 			View
 		</button>
 		<span dojoType="dijit.Tooltip" connectId="1466">tooltip on button</span>
 		<button dojoType="dijit.form.ComboButton" id="comboCreate" optionsTitle='save options' onClick='console.log("clicked combo save")'
-				iconClass="plusIcon">
+				iconClass="plusIcon" title="creative title">
 			<span>Create</span>
 			<div dojoType="dijit.Menu" id="createMenu" style="display: none;">
 				<div dojoType="dijit.MenuItem"  iconClass="dijitEditorIcon dijitEditorIconSave"
@@ -66,7 +66,7 @@
 					onClick="console.log('not actually saving anything, just a test!')">Create from template</div>
 			</div>
 		</button>
-		<button dojoType="dijit.form.DropDownButton" id="edit" iconClass="noteIcon" value="Edit">
+		<button dojoType="dijit.form.DropDownButton" id="edit" iconClass="noteIcon" title="edit title" value="Edit">
 			<span>Edit<b>!</b></span>
 			<div dojoType="dijit.Menu" id="editMenu">
 				<div dojoType="dijit.MenuItem" id="cut" iconClass="dijitEditorIcon dijitEditorIconCut"
@@ -181,13 +181,13 @@
 		iconClass="plusIcon" showLabel="false">
 		<span><b>Rich</b><i> Text</i> Test!</span>
 		</button>
-				<div dojoType="dijit.form.DropDownButton" iconClass="noteIcon" showLabel="false">
+				<div dojoType="dijit.form.DropDownButton" iconClass="noteIcon" showLabel="false" title="color title">
 			<span>Color</span>
 			<div dojoType="dijit.ColorPalette" id="colorPalette2" style="display: none" palette="3x4"
 				onChange="console.log(this.value);">
 			</div>
 	</div>
-	<div dojoType="dijit.form.ComboButton" optionsTitle='save options' onClick='console.log("clicked combo save")'
+	<div dojoType="dijit.form.ComboButton" optionsTitle='save options' title="save title" onClick='console.log("clicked combo save")'
 				iconClass="plusBlockIcon" showLabel="false">
 			<span>Save</span>
 			<div dojoType="dijit.Menu" id="saveMenu2" style="display: none;">

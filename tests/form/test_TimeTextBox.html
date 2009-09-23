@@ -137,6 +137,19 @@
 			invalidMessage="Invalid time." />
 		onChange:<input id="oc6" size="34" disabled value="not fired yet!" autocomplete="off">
 	</div>
+	<div class="dojoTitlePaneLabel">
+		<strong>Using title attribute for label.</strong> 
+		<span class="noticeMessage">TimeTextBox class,
+			Attributes: {formatLength:'short'} Time using local conventions without seconds, required, no invalid message tooltip</span>
+	</div>
+	<div class="testExample">
+		<input id="q20" type="text" name="q20" value="T17:45:00"
+			dojoType="dijit.form.TimeTextBox"
+			title="title: Time using local conventions"
+			constraints="{formatLength:'short'}"
+			required="true"
+			invalidMessage="" />
+	</div>
 
 	<script>
 	        function displayData() {

@@ -62,7 +62,8 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 		disabled: "focusNode",
 		id: "focusNode",
 		tabIndex: "focusNode",
-		alt: "focusNode"
+		alt: "focusNode",
+		title: "focusNode"
 	}),
 
 	postMixInProperties: function(){

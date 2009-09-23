@@ -81,6 +81,7 @@
 			store = new dojo.data.ItemFileReadStore({url: dojo.moduleUrl("dijit.tests._data", "states.json")});
 			combo = new testClass({
 				name:"prog",
+				title: "title attribute used for label",
 				autoComplete:false,
 				store: store,
 				searchAttr:"name"
@@ -282,6 +283,22 @@
 				highlightMatch="none"
 		>
 		<br>onChange:<input id="value4" disabled value="not fired yet!" autocomplete="off">
+		<hr>
+		<p>test that title used as label is preserved on input</p>
+		<select id="preservetitletest"
+				name="titletest"
+				dojoType="$testWidget"
+				style="width:50%;font-family:Courier;"
+				autoComplete="false"
+				selectOnClick="true"
+				title="New England States"
+		>
+			<option value="ct">Conneticut</option>
+			<option value="me">Maine</option>
+			<option value="ma">Massachusetts</option>
+			<option value="nh">New Hampshire</option>
+			<option value="vt">Vermont</option>
+		</select>
 		<hr>
 		<p>No arrow, data store which searches and highlights matches anywhere in the string</p>
 	 	<input dojoType="$testWidget"
