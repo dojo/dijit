@@ -165,14 +165,27 @@ dojo.declare(
 		resize: function(size){
 			// summary:
 			//		Resize the editor to the specified size, see `dijit.layout._LayoutWidget.resize`
-			dijit.layout._LayoutWidget.prototype.resize.apply(this,arguments);
+			if(size){
+				// we've been given a height/width for the entire editor (toolbar + contents), calls layout()
+				// to split the allocated size between the toolbar and the contents
+				dijit.layout._LayoutWidget.prototype.resize.apply(this, arguments);
+			}
+			/*
+			else{
+			 	// do nothing, the editor is already laid out correctly.   The user has probably specified
+				// the height parameter, which was used to set a size on the iframe
+			}
+			*/
 		},
 		layout: function(){
 			// summary:
 			//		Called from `dijit.layout._LayoutWidget.resize`.  This shouldn't be called directly
 			// tags:
 			//		protected
-			this.editingArea.style.height=(this._contentBox.h - dojo.marginBox(this.toolbar.domNode).h)+"px";
+
+			// Converts the iframe (or rather the <div> surrounding it) to take all the available space
+			// except what's needed for the toolbar
+			this.editingArea.style.height = (this._contentBox.h - dojo.marginBox(this.toolbar.domNode).h)+"px";
 			if(this.iframe){
 				this.iframe.style.height="100%";
 			}
