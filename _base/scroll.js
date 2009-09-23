@@ -88,16 +88,16 @@ dijit.scrollIntoView = function(/* DomNode */node){
 				var l = nodePos.x - x, // beyond left: < 0
 					t = nodePos.y - Math.max(y, 0), // beyond top: < 0
 					r = l + nodePos.w - w, // beyond right: > 0
-					b = t + nodePos.h - h; // beyond bottom: > 0
+					bot = t + nodePos.h - h; // beyond bottom: > 0
 				if(r * l > 0){
 					var s = Math[l < 0? "max" : "min"](l, r);
 					nodePos.x += scrollLeft;
 					scrollLeft += (isIE >= 8 && !backCompat && rtl)? -s : s;
 					nodePos.x -= scrollLeft;
 				}
-				if(b * t > 0){
+				if(bot * t > 0){
 					nodePos.y += scrollTop;
-					scrollTop += Math[t < 0? "max" : "min"](t, b);
+					scrollTop += Math[t < 0? "max" : "min"](t, bot);
 					nodePos.y -= scrollTop;
 				}
 			}
