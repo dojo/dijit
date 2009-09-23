@@ -215,6 +215,12 @@ dojo.declare("dijit.form.DropDownButton", [dijit.form.Button, dijit._Container, 
 		}else{ 
 			this.openDropDown(); 		
 		}
+	},
+	
+	isFocusable: function(){
+		// Overridden so that focus is handled by the _HasDropDown mixin, not by
+		// the _FormWidget mixin.
+		return this.inherited(arguments) && !this._mouseDown;
 	}
 });
 

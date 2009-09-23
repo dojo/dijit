@@ -155,12 +155,9 @@ dojo.declare("dijit._HasDropDown",
 				}
 			}
 			if(this._opened && dropDown.focus){
-				// delay so that we don't steal our own focus.
-				// TODOC: this seems strange to focus on the drop down icon; I think it will break
-				// screen readers, and also, in dijit we never do this.  Is there a reason?  (BK)
+				// Focus the dropdown widget - do it on a delay so that we 
+				// don't steal our own focus.
 				window.setTimeout(dojo.hitch(dropDown, "focus"), 1);
-			}else{
-				dijit.focus(this.focusNode);
 			}
 		},
 		
@@ -281,7 +278,6 @@ dojo.declare("dijit._HasDropDown",
 			//		protected
 			
 			if(this.disabled || this.readOnly){ return; }
-			this.focus();
 			var dropDown = this.dropDown;
 			if(!dropDown){ return; }
 			if(!this._opened){
