@@ -1028,12 +1028,19 @@ img.dijitColorPaletteUnder {
 	vertical-align: middle;
 }
 
-.dijit_a11y .dijitMenuItemSelected .dijitMenuItemLabel {
+.dijit_a11y .dijitMenuItemSelected {
+	border: 1px #fff dotted !important;
+}
+.dj_ff3 .dijit_a11y .dijitMenuItem td {
+	padding: none !important;
+	background:none ! important;
+}
+.dj_ie .dijit_a11y .dijitMenuItemSelected .dijitMenuItemLabel {
 	border-width: 1px;
 	border-style: solid;
 }
-.dijit_a11y .dijitMenuItemSelected {
-	border: 1px #fff dotted !important;
+.dj_ie8 .dijit_a11y .dijitMenuItemLabel {
+	position:static;
 }
 
 .dijitMenuExpandA11y {
