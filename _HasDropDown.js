@@ -278,6 +278,7 @@ dojo.declare("dijit._HasDropDown",
 			//		protected
 			
 			if(this.disabled || this.readOnly){ return; }
+			this.focus();
 			var dropDown = this.dropDown;
 			if(!dropDown){ return; }
 			if(!this._opened){
