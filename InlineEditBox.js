@@ -138,6 +138,11 @@ dojo.declare("dijit.InlineEditBox",
 		//		Set disabled state of widget.
 		this.disabled = disabled;
 		dijit.setWaiState(this.domNode, "disabled", disabled);
+		if(disabled){
+			this.displayNode.removeAttribute("tabIndex");
+		}else{
+			this.displayNode.setAttribute("tabIndex", 0);
+		}
 	},
 
 	_onMouseOver: function(){
