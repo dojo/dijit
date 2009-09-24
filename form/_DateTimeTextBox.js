@@ -109,6 +109,7 @@ dojo.declare(
 			// summary:
 			//		open the popup
 			this._open();
+			this.inherited(arguments);
 		},
 
 		_setValueAttr: function(/*Date*/ value, /*Boolean?*/ priorityChange, /*String?*/ formattedValue){
