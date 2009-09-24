@@ -1160,9 +1160,14 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 			}
 		}
 		
-		// return this.document.queryCommandEnabled(command);
 		var elem = dojo.isIE ? this.document.selection.createRange() : this.document;
-		return elem.queryCommandEnabled(command);
+		try{
+			return  elem.queryCommandEnabled(command);
+		}catch(e){
+			//Squelch, occurs if editor is hidden on FF 3 (and maybe others.)
+			return false;
+		}
+		
 	},
 
 	queryCommandState: function(command){
@@ -1173,13 +1178,12 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 
 		if(this.disabled || !this._disabledOK){ return false; }
 		command = this._normalizeCommand(command);
-		// try{
-			//this.editNode.contentEditable = true;
+		try{
 			return this.document.queryCommandState(command);
-		// }catch(e){
-		// 	console.debug(e);
-		// 	return false;
-		// }
+		}catch(e){
+			//Squelch, occurs if editor is hidden on FF 3 (and maybe others.)
+		 	return false;
+		}
 	},
 
 	queryCommandValue: function(command){
@@ -1342,7 +1346,6 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 				html = "&nbsp;";
 			}
 			node.innerHTML = html;
-
 			this._preDomFilterContent(node);
 		}
 		this.onDisplayChanged();
