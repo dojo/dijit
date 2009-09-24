@@ -3,5 +3,10 @@
 	insertImageTitle: "Image Properties",
 	url: "URL:",
 	text: "Description:",
-	set: "Set"
+	target: "Target:",
+	set: "Set",
+	currentWindow: "Current Window ( _self )",
+	parentWindow: "Parent Window ( _parent )",
+	topWindow: "Topmost Window ( _top )",
+	newWindow: "New Window ( _blank )"
 })
