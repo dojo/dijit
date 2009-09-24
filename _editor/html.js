@@ -90,7 +90,22 @@ dijit._editor.getNodeHtml=function(/* DomNode */node){
 				if(node.childNodes.length){
 					output += '>' + dijit._editor.getChildrenHtml(node)+'</' + lName +'>';
 				}else{
-					output += ' />';
+					switch(lName){
+						case 'br':
+						case 'hr':
+						case 'img':
+						case 'input':
+						case 'base':
+						case 'meta':
+						case 'area':
+						case 'basefont': 
+							// These should all be singly closed
+							output += ' />';
+							break;
+						default:
+							// Assume XML style separate closure for everything else.
+							output += '></' + lName + '>';
+					}
 				}
 			}
 			break;
