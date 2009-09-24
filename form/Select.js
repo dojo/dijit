@@ -23,7 +23,10 @@ dojo.declare("dijit.form._SelectMenu", dijit.Menu, {
 		dojo.removeClass(o, "dijitMenuTable");
 		n.className = o.className + " dijitSelectMenu";
 		o.className = "dijitReset dijitMenuTable";
+		dijit.setWaiRole(o,"listbox");
+		dijit.setWaiRole(n,"presentation");
 		n.appendChild(o);
+		this.tabIndex=null; // so tabindex=0 does not get set on domNode (role="presentation" AND tabindex is invalid)
 	},
 	resize: function(/*Object*/ mb){
 		// Summary:
@@ -113,12 +116,14 @@ dojo.declare("dijit.form.Select", [dijit.form._FormSelectWidget, dijit._HasDropD
 		}else{
 			// Just a regular menu option
 			var click = dojo.hitch(this, "_setValueAttr", option);
-			return new dijit.MenuItem({
+			var item = new dijit.MenuItem({
 				option: option,
 				label: option.label,
 				onClick: click,
 				disabled: option.disabled || false
 			});
+			dijit.setWaiRole(item.focusNode, "listitem");
+			return item;
 		}
 	},
 
@@ -189,6 +194,7 @@ dojo.declare("dijit.form.Select", [dijit.form._FormSelectWidget, dijit._HasDropD
 		this.containerNode.innerHTML = '<span class="dijitReset dijitInline ' + this.baseClass + 'Label">' +
 					(newDisplay || this.emptyLabel || "&nbsp;") +
 					'</span>';
+		dijit.setWaiState(this.focusNode, "valuenow", (newDisplay || this.emptyLabel || "&nbsp;") );
 	},
 
 	validate: function(/*Boolean*/ isFocused){
