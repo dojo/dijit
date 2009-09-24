@@ -99,6 +99,7 @@ dojo.mixin(dijit,
 		//		Moves current selection to a bookmark
 		// bookmark:
 		//		This should be a returned object from dijit.getBookmark()
+
 		var _doc = dojo.doc,
 			mark = bookmark.mark;
 		if(mark){
@@ -119,10 +120,6 @@ dojo.mixin(dijit,
 					console.warn("No idea how to restore selection for this browser!");
 				}
 			}else if(_doc.selection){
-				if(bookmark.isCollapsed){
-					// Ignore collapsed bookmarks on IE to avoid scroll-jump problem, see #9735
-					return;
-				}
 				//'IE' way.
 				var rg;
 				if(dojo.isArray(mark)){
@@ -149,7 +146,8 @@ dojo.mixin(dijit,
 		//		Called as getFocus(widget), where widget is a (widget representing) a button
 		//		that was just pressed, it returns where focus was before that button
 		//		was pressed.   (Pressing the button may have either shifted focus to the button,
-		//		or removed focus altogether.)
+		//		or removed focus altogether.)   In this case the selected text is not returned,
+		//		since it can't be accurately determined.
 		//
 		// menu: dijit._Widget or {domNode: DomNode} structure
 		//		The button that was just pressed.  If focus has disappeared or moved
@@ -161,9 +159,10 @@ dojo.mixin(dijit,
 		//
 		// returns:
 		//		A handle to restore focus/selection, to be passed to `dijit.focus`
+		var node = !dijit._curFocus || (menu && dojo.isDescendant(dijit._curFocus, menu.domNode)) ? dijit._prevFocus : dijit._curFocus;
 		return {
-			node: !dijit._curFocus || (menu && dojo.isDescendant(dijit._curFocus, menu.domNode)) ? dijit._prevFocus : dijit._curFocus,
-			bookmark: dojo.withGlobal(openedForWindow||dojo.global, dijit.getBookmark),
+			node: node,
+			bookmark: (node == dijit._curFocus) && dojo.withGlobal(openedForWindow||dojo.global, dijit.getBookmark),
 			openedForWindow: openedForWindow
 		}; // Object
 	},
