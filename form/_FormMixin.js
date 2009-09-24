@@ -231,8 +231,17 @@ dojo.declare("dijit.form._FormMixin", null,
 						}
 					}
 				}else{
-					// plain input
-					dojo.setObject(name, value, obj);
+					var prev=dojo.getObject(name, false, obj);
+					if(typeof prev != "undefined"){
+						if(dojo.isArray(prev)){
+							prev.push(value);
+						}else{
+							dojo.setObject(name, [prev, value], obj);
+						}
+					}else{
+						// unique name
+						dojo.setObject(name, value, obj);
+					}
 				}
 			});
 

@@ -75,7 +75,8 @@
 							st1: "simple line 1\nsimple line 2",
 							richtext: "<h1>original</h1><p>This is the default content</p>",
 							filename: "",
-							readOnlyWidget: "Should be returned"
+							readOnlyWidget: "Should be returned",
+							duplicate: ["first", "second", "third"]
 						};
 
 		// we change the form to these values
@@ -91,7 +92,8 @@
 							st1: "new simple line 1\nnew simple line 2",
 							richtext: "<h1>changed</h1><p>This is the changed content set by attr('value', ...')</p>",
 							filename: "",
-							readOnlyWidget: "Should be returned"
+							readOnlyWidget: "Should be returned",
+							duplicate: ["1", "2", "3"]
 						};
 		var particalchanged = {
 							foo: {bar: {baz: {quux: d("2006-01-01")} } },
@@ -112,7 +114,8 @@
 							st1: "simple line 1\nsimple line 2",
 							richtext: "<h1>changed</h1><p>This is the changed content set by attr('value', ...')</p>", // not a form element, so not reset
 							filename: "",
-							readOnlyWidget: "Should be returned"
+							readOnlyWidget: "Should be returned",
+							duplicate: ["first", "second", "third"]
 						};
 
 		dojo.addOnLoad(function(){
@@ -429,23 +432,44 @@ simple line 2</textarea>
 				</tr>
 				<tr>
 					<td>Disabled Widget</td>
-					<td>Disabled</td>
+					<td>disabledWidget</td>
 					<td>
 						<input dojoType="dijit.form.TextBox" name="disabledWidget" disabled="disabled" value="Should not be returned">
 					</td>
 				</tr>
 				<tr>
 					<td>Disabled Required Widget</td>
-					<td>Disabled Required</td>
+					<td>disabledRequiredWidget</td>
 					<td>
 						<input dojoType="dijit.form.ValidationTextBox" name="disabledRequiredWidget" disabled="disabled" required="true" value="">
 					</td>
 				</tr>
 				<tr>
 					<td>Read-only Widget</td>
-					<td>Read Only</td>
+					<td>readOnlyWidget</td>
 					<td>
 						<input dojoType="dijit.form.TextBox" name="readOnlyWidget" readOnly value="Should be returned">
+					</td>
+				</tr>
+				<tr>
+					<td>Duplicate named TextBox 1</td>
+					<td>duplicate</td>
+					<td>
+						<input dojoType="dijit.form.TextBox" name="duplicate" value="first">
+					</td>
+				</tr>
+				<tr>
+					<td>Duplicate named TextBox 2</td>
+					<td>duplicate</td>
+					<td>
+						<input dojoType="dijit.form.TextBox" name="duplicate" value="second">
+					</td>
+				</tr>
+				<tr>
+					<td>Duplicate named TextBox 3</td>
+					<td>duplicate</td>
+					<td>
+						<input dojoType="dijit.form.TextBox" name="duplicate" value="third">
 					</td>
 				</tr>
 			</tbody>
