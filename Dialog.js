@@ -25,8 +25,8 @@ dijit._underlay = function(kwArgs){
 =====*/
 
 dojo.declare(
-	"dijit.Dialog",
-	[dijit.layout.ContentPane, dijit._Templated, dijit.form._FormMixin, dijit._DialogMixin],
+	"dijit._DialogBase",
+	[dijit._Templated, dijit.form._FormMixin, dijit._DialogMixin],
 	{
 		// summary:
 		//		A modal dialog Widget
@@ -499,6 +499,12 @@ dojo.declare(
 			dojo.removeClass(this.closeButtonNode, "dijitDialogCloseIcon-hover");
 		}
 	}
+);
+
+dojo.declare(
+	"dijit.Dialog",
+	[dijit.layout.ContentPane, dijit._DialogBase],
+	{}
 );
 
 // Stack of currenctly displayed dialogs, layered on top of each other
