@@ -75,6 +75,8 @@ dojo.declare("dijit._Templated",
 			// tags:
 			//		protected
 
+			this._attachPoints = [];
+
 			// Lookup cached version of template, and download to cache if it
 			// isn't there already.  Returns either a DomNode or a string, depending on
 			// whether or not the template contains ${foo} replacement parameters.
@@ -182,6 +184,7 @@ dojo.declare("dijit._Templated",
 						}else{
 							this[point]=baseNode;
 						}
+						this._attachPoints.push(point);
 					}
 				}
 
@@ -234,6 +237,14 @@ dojo.declare("dijit._Templated",
 					w.startup();
 				}
 			});
+			this.inherited(arguments);
+		},
+
+		destroy: function(){
+			dojo.forEach(this._attachPoints, function(point){
+				delete this[point];
+			}, this);
+			this._attachPoints = [];
 			this.inherited(arguments);
 		}
 	}
