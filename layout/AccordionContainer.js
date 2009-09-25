@@ -104,7 +104,8 @@ dojo.declare(
 			var cls = dojo.getObject(this.buttonWidget);
 			var button = (child._buttonWidget = new cls({
 				contentWidget: child,
-				title: child.title,
+				label: child.title,
+				title: child.tooltip,
 				iconClass: child.iconClass,
 				id: child.id + "_button",
 				parent: this
@@ -252,7 +253,8 @@ dojo.declare("dijit.layout._AccordionButton",
 
 	templateString: dojo.cache("dijit.layout", "templates/AccordionButton.html"),
 	attributeMap: dojo.mixin(dojo.clone(dijit.layout.ContentPane.prototype.attributeMap), {
-		title: {node: "titleTextNode", type: "innerHTML" },
+		label: {node: "titleTextNode", type: "innerHTML" },
+		title: {node: "titleTextNode", type: "attribute", attribute: "title"},
 		iconClass: { node: "iconNode", type: "class" }
 	}),
 

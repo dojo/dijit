@@ -79,7 +79,8 @@ dojo.declare(
 					label: page.title,
 					showLabel: page.showTitle,
 					iconClass: page.iconClass,
-					closeButton: page.closable
+					closeButton: page.closable,
+					title: page.tooltip
 				}, refNode);
 				var map = 
 				this.pane2handles[page.id] = [
@@ -89,7 +90,8 @@ dojo.declare(
 								title: 'label',
 								showTitle: 'showLabel',
 								iconClass: 'iconClass',
-								closable: 'closeButton'
+								closable: 'closeButton',
+								tooltip: 'title'
 							}[name];
 							if(buttonAttr){
 								button.attr(buttonAttr, value);
