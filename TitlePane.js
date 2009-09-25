@@ -55,7 +55,8 @@ dojo.declare(
 	templateString: dojo.cache("dijit", "templates/TitlePane.html"),
 
 	attributeMap: dojo.delegate(dijit.layout.ContentPane.prototype.attributeMap, {
-		title: { node: "titleNode", type: "innerHTML" }
+		title: { node: "titleNode", type: "innerHTML" },
+		tooltip: {node: "focusNode", type: "attribute", attribute: "title"}	// focusNode spans the entire width, titleNode doesn't
 	}),
 
 	postCreate: function(){

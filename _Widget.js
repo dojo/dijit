@@ -87,8 +87,19 @@ dojo.declare("dijit._Widget", null, {
 	style: "",
 
 	// title: String
-	//		HTML title attribute, used to specify the title of tabs, accordion panes, etc.
+	//		HTML title attribute.
+	//
+	//		For form widgets this specifies a tooltip to display when hovering over
+	//		the widget (just like the native HTML title attribute).
+	//
+	//		For TitlePane or for when this widget is a child of a TabContainer, AccorionContainer,
+	//		etc., it's used to specify the tab label, accordion pane title, etc.
 	title: "",
+
+	// tooltip: String
+	//		When this widget's title attribute is used to for a tab label, accordion pane title, etc.,
+	//		this specifies the tooltip to appear when the mouse is hovered over that text.
+	tooltip: "",
 
 	// srcNodeRef: [readonly] DomNode
 	//		pointer to original dom node
@@ -749,10 +760,14 @@ dojo.declare("dijit._Widget", null, {
 					if(dojo.isFunction(value)){ // functions execute in the context of the widget
 						value = dojo.hitch(this, value);
 					}
-					if(/^on[A-Z][a-zA-Z]*$/.test(attr)){ // eg. onSubmit needs to be onsubmit
-						attr = attr.toLowerCase();
-					}
-					dojo.attr(mapNode, attr, value);
+
+					// Get the name of the DOM node attribute; usually it's the same
+					// as the name of the attribute in the widget (attr), but can be overridden.
+					// Also maps handler names to lowercase, like onSubmit --> onsubmit
+					var attrName = command.attribute ? command.attribute :
+						(/^on[A-Z][a-zA-Z]*$/.test(attr) ? attr.toLowerCase() : attr);
+
+					dojo.attr(mapNode, attrName, value);
 					break;
 				case "innerHTML":
 					mapNode.innerHTML = value;
