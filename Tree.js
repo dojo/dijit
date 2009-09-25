@@ -49,7 +49,9 @@ dojo.declare(
 
 	postCreate: function(){
 		// set label, escaping special characters
-		this.setLabelNode(this.label);
+		// TODO: convert to support attr('label', ...) and attr('tooltip', ...)
+		this.setLabel(this.label);
+		this.setTooltip(this.tooltip);
 
 		// set expand icon for leaf
 		this._setExpando();
@@ -219,11 +221,17 @@ dojo.declare(
 		this._wipeOut.play();
 	},
 
-	setLabelNode: function(label){
+	setLabel: function(label){
 		// summary:
 		//		Sets the label
 		this.labelNode.innerHTML = "";
 		this.labelNode.appendChild(dojo.doc.createTextNode(label));
+	},
+
+	setTooltip: function(tooltip){
+		// summary:
+		//		Sets the tooltip for a row
+		this.rowNode.title = tooltip;
 	},
 
 	// indent: Integer
@@ -272,6 +280,7 @@ dojo.declare(
 							tree: tree,
 							isExpandable: model.mayHaveChildren(item),
 							label: tree.getLabel(item),
+							tooltip: tree.getTooltip(item),
 							indent: this.indent + 1
 						});
 					if(existingNodes){
@@ -885,6 +894,14 @@ dojo.declare(
 		//		extension
 	},
 
+	getTooltip: function(/*dojo.data.Item*/ item){
+		// summary:
+		//		Overridable function to get the tooltip for a tree node (given the item)
+		// tags:
+		//		extension
+		return "";	// String
+	},
+
 	/////////// Keyboard and Mouse handlers ////////////////////
 
 	_onKeyPress: function(/*Event*/ e){
@@ -1307,7 +1324,8 @@ dojo.declare(
 		if(nodes){
 			var self = this;
 			dojo.forEach(nodes,function(node){
-				node.setLabelNode(self.getLabel(item));
+				node.setLabel(self.getLabel(item));
+				node.setTooltip(self.getTooltip(item));
 				node._updateItemClasses(item);
 			});
 		}

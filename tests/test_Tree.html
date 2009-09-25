@@ -125,7 +125,7 @@
 		</script>
 </div>
 
-	<h2>Double click and direct style setting test</h2>
+	<h2>Double click, direct style setting, tooltip test</h2>
 	<p>Double-Clicking a folder node will open/close it (openOnDblClick==true), and clicking or Double Clicking a leaf node will popup an alert.</p>
 	<div dojoType="dijit.Tree" id="mytree3" store="continentStore" query="{type:'continent'}"
 		label="Continents" openOnClick="false" openOnDblClick="true">
@@ -152,6 +152,9 @@
 				return (!item || this.model.mayHaveChildren(item)) ? (opened ? "dijitFolderOpened" : "dijitFolderClosed") : "dijitLeaf"
 	       	else
 	       		return "";
+		</script>
+		<script type="dojo/method" event="getTooltip" args="item,opened">
+			return item && ("Tooltip for " + this.model.getLabel(item));
 		</script>
 		<script type="dojo/method" event="onDblClick" args="item">
 			alert("Execute of node " + this.model.getLabel(item)
