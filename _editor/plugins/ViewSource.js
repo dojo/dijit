@@ -156,7 +156,7 @@ dojo.declare("dijit._editor.plugins.ViewSource",dijit._editor._Plugin,{
 					};
 				}
 
-				this.sourceArea.value = ed.attr("value");
+				this.sourceArea.value = html;
 				var is = dojo.marginBox(ed.iframe.parentNode);
 				dojo.marginBox(this.sourceArea, {
 					w: is.w,
