@@ -47,12 +47,12 @@ dojo.declare(
 	
 	templateString: dojo.cache("dijit", "templates/TreeNode.html"),
 
-	postCreate: function(){
-		// set label, escaping special characters
-		// TODO: convert to support attr('label', ...) and attr('tooltip', ...)
-		this.setLabel(this.label);
-		this.setTooltip(this.tooltip);
+	attributeMap: dojo.delegate(dijit._Widget.prototype.attributeMap, {
+		label: {node: "labelNode", type: "innerHTML"},
+		tooltip: {node: "rowNode", type: "attribute", attribute: "title"}
+	}),
 
+	postCreate: function(){
 		// set expand icon for leaf
 		this._setExpando();
 
@@ -219,19 +219,6 @@ dojo.declare(
 			});
 		}
 		this._wipeOut.play();
-	},
-
-	setLabel: function(label){
-		// summary:
-		//		Sets the label
-		this.labelNode.innerHTML = "";
-		this.labelNode.appendChild(dojo.doc.createTextNode(label));
-	},
-
-	setTooltip: function(tooltip){
-		// summary:
-		//		Sets the tooltip for a row
-		this.rowNode.title = tooltip;
 	},
 
 	// indent: Integer
@@ -1324,8 +1311,10 @@ dojo.declare(
 		if(nodes){
 			var self = this;
 			dojo.forEach(nodes,function(node){
-				node.setLabel(self.getLabel(item));
-				node.setTooltip(self.getTooltip(item));
+				node.attr({
+					label: self.getLabel(item),
+					tooltip: self.getTooltip(item)
+				});
 				node._updateItemClasses(item);
 			});
 		}
