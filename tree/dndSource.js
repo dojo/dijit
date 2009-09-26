@@ -172,7 +172,8 @@ dojo.declare("dijit.tree.dndSource", dijit.tree._dndSelector, {
 			}else if(m.source == this && (newTarget.id in this.selection)){
 				// Guard against dropping onto yourself (TODO: guard against dropping onto your descendant, #7140)
 				m.canDrop(false);
-			}else if(this.checkItemAcceptance(newTarget, m.source, newDropPosition.toLowerCase())){
+			}else if(this.checkItemAcceptance(newTarget, m.source, newDropPosition.toLowerCase())
+					&& !this._isParentChildDrop(m.source, newTarget)){
 				m.canDrop(true);
 			}else{
 				m.canDrop(false);
@@ -444,6 +445,7 @@ dojo.declare("dijit.tree.dndSource", dijit.tree._dndSelector, {
 		}
 		this.onDndCancel();
 	},
+
 	onDndCancel: function(){
 		// summary:
 		//		Topic event processor for /dnd/cancel, called to cancel the DnD operation
@@ -479,6 +481,44 @@ dojo.declare("dijit.tree.dndSource", dijit.tree._dndSelector, {
 		m.outSource(this);
 
 		this.inherited(arguments);
+	},
+
+	_isParentChildDrop: function(source, targetRow){
+		// summary:
+		//		Checks whether the dragged items are parent rows in the tree which are being
+		//		dragged into their own children.
+		//
+		// source:
+		//		The DragSource object.
+		//
+		// targetRow:
+		//		The tree row onto which the dragged nodes are being dropped.
+		//
+		// tags:
+		//		private
+	
+		// If the dragged object is not coming from the tree this widget belongs to,
+		// it cannot be invalid.
+		if (!source.tree || source.tree != this.tree){
+			return false;
+		}
+
+		
+		var root = source.tree.domNode;
+		var ids = {};
+		for(var x in source.selection){
+			ids[source.selection[x].parentNode.id] = true;
+		}
+
+		var node = targetRow.parentNode;
+
+		// Iterate up the DOM hierarchy from the target drop row,
+		// checking of any of the dragged nodes have the same ID.
+		while (node != root && (!node.id || !ids[node.id])){
+			node =  node.parentNode;
+		}
+
+		return node.id && ids[node.id];
 	},
 
 	_unmarkTargetAnchor: function(){
