@@ -75,9 +75,9 @@ dojo.declare("dijit.layout.ScrollingTabController",
 	
 	onAddChild: function(page, insertIndex){
 		this.inherited(arguments);
-		
+		var menuItem;
 		if(this.useMenu){
-			var menuItem = new dijit.MenuItem({
+			menuItem = new dijit.MenuItem({
 				label: page.title,
 				onClick: dojo.hitch(this, function(){
 					this.onSelectChild(page);
@@ -85,14 +85,15 @@ dojo.declare("dijit.layout.ScrollingTabController",
 			});
 			this._menuChildren[page.id] = menuItem;
 			this._menu.addChild(menuItem, insertIndex);
-			
-			// update the menuItem label when the button label is updated
-			this.connect(this.pane2button[page.id], "attr", function(name, value){
-				if(arguments.length == 2 && name == "label"){
-					menuItem.attr(name, value);
-				}
-			});
 		}
+
+		// update the menuItem label when the button label is updated
+		this.connect(this.pane2button[page.id], "attr", dojo.hitch(this, function(name, value){
+			if(menuItem && arguments.length == 2 && name == "label"){
+				menuItem.attr(name, value);
+			}
+			this._setButtonClass(this._getScroll());
+		}));
 		
 		// Increment the width of the wrapper when a tab is added
 		// This makes sure that the buttons never wrap.
@@ -401,7 +402,7 @@ dojo.declare("dijit.layout.ScrollingTabController",
 		var to = this._getScroll() + d;
 		
 		this._setButtonClass(to);
-		
+
 		this.createSmoothScroll(to).play();
 	},
 	
