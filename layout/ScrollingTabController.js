@@ -85,6 +85,13 @@ dojo.declare("dijit.layout.ScrollingTabController",
 			});
 			this._menuChildren[page.id] = menuItem;
 			this._menu.addChild(menuItem, insertIndex);
+			
+			// update the menuItem label when the button label is updated
+			this.connect(this.pane2button[page.id], "attr", function(name, value){
+				if(arguments.length == 2 && name == "label"){
+					menuItem.attr(name, value);
+				}
+			});
 		}
 		
 		// Increment the width of the wrapper when a tab is added
