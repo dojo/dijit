@@ -24,9 +24,9 @@ dojo.declare("dijit.layout.TabContainer",
 		//		wide to fit the TabContainer, false otherwise.
 		useSlider: true,
 	
-		// _controllerWidget: String
-		//		An optional parameter to overrider the default TabContainer controller used.
-		_controllerWidget: null,
+		// controllerWidget: String
+		//		An optional parameter to override the widget used to display the tab labels
+		controllerWidget: "",
 	
 		_makeController: function(/*DomNode*/ srcNode){
 			// summary:
@@ -36,7 +36,7 @@ dojo.declare("dijit.layout.TabContainer",
 			//		protected extension
 
 			var cls = this.baseClass + "-tabs" + (this.doLayout ? "" : " dijitTabNoLayout"),
-				TabController = dojo.getObject(this._controllerWidget);
+				TabController = dojo.getObject(this.controllerWidget);
 
 			return new TabController({
 				id: this.id + "_tablist",
@@ -55,8 +55,8 @@ dojo.declare("dijit.layout.TabContainer",
 			this.inherited(arguments);
 	
 			// Scrolling controller only works for horizontal non-nested tabs
-			if(!this._controllerWidget){
-				this._controllerWidget = (this.tabPosition == "top" || this.tabPosition == "bottom") && !this.nested ?
+			if(!this.controllerWidget){
+				this.controllerWidget = (this.tabPosition == "top" || this.tabPosition == "bottom") && !this.nested ?
 							"dijit.layout.ScrollingTabController" : "dijit.layout.TabController";
 			}
 		}
