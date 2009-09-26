@@ -192,6 +192,19 @@
 					}
 				}
 			);
+			var comboIds=['setvaluetest','datatest','combo3','combobox4','arrowless','descending'];
+			for(var i=0; i<comboIds.length; i++){
+				doh.register("query input by name",{
+					name:comboIds[i],
+					combo:comboIds[i],
+					runTest:function(){
+						this.combo = dijit.byId(this.combo);
+						var queried=dojo.query("input[name="+(this.combo.valueNode||this.combo.focusNode).name+"]");
+						doh.is(1,queried.length,"Expected 1 combo with name "+(this.combo.valueNode||this.combo.focusNode).name+", found "+queried.length);
+						doh.is(this.combo.valueNode||this.combo.focusNode,queried[0],"Combo's valueNode did not match the one found by dojo.query.");
+					}
+				});
+			}
 
 			doh.register("attr('displayedValue', ...)", [
 				// Set displayedValue to Kentucky.

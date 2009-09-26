@@ -198,6 +198,20 @@
 					}
 				});
 
+				for(var i=0; i<spinnerIds.length; i++){
+					doh.register("query input by name",{
+						name:spinnerIds[i],
+						spinner:spinnerIds[i],
+						spinnerName:spinnerIds[i],
+						runTest:function(){
+							this.spinner = dijit.byId(this.spinner);
+							var queried=dojo.query("input[name="+this.spinnerName+"]");
+							doh.is(1,queried.length,"Expected 1 spinner with name "+this.spinnerName+", found "+queried.length);
+							doh.is(this.spinner.valueNode,queried[0],"Spinner's valueNode did not match the one found by dojo.query.");
+						}
+					});
+				}
+
 				doh.register("a11y",{
 					name: "spinner2_typematic",
 					timeout: 15000,

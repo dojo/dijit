@@ -27,7 +27,7 @@
 		var accessibleSliderInit_min=[0.2,10,2,1200];
 		var accessibleSliderInit_max=[99.8,90,2,2800];
 		var sliderIds = ["slider1", "slider2", "slider3", "sliderH2", "programaticSlider"];
-
+		var sliderNames = ["horizontal1","vertical1","horizontal2","horizontalH2","programaticSlider",];
 		onChange={slider1:'slider1input', slider2:'slider2input', programaticSlider:'sliderProgInput'};
 
 		var a11yBoundaryTest=function(slider, initValue, finalValue){
@@ -197,7 +197,20 @@
 
 		dojo.addOnLoad(function(){
 			doh.robot.initRobot('../test_Slider.html');
-
+			// This tests that Slider is structured so that dojo.query can find the hidden input.
+			for(var i=0; i<sliderIds.length; i++){
+				doh.register("query input by name",{
+					name:sliderIds[i],
+					slider:sliderIds[i],
+					sliderName:sliderNames[i],
+					runTest:function(){
+						this.slider = dijit.byId(this.slider);
+						var queried=dojo.query("input[name="+this.sliderName+"]");
+						doh.is(1,queried.length,"Expected 1 slider with name "+this.sliderName+", found "+queried.length);
+						doh.is(this.slider.valueNode,queried[0],"Slider's valueNode did not match the one found by dojo.query.");
+					}
+				});
+			}
 			// This tests that pressing the arrow keys has no effect on a disabled slider
 			// TODO: this doesn't make sense, should just be testing that slider can't get
 			// focus.  (And if it doesn't have focus then testing keystrokes is meaningless)
