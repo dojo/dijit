@@ -319,15 +319,15 @@
 							doh.robot.mouseMoveAt("file", 500);
 							doh.robot.mouseClick({left: true}, 500); // click File
 							doh.robot.sequence(d.getTestErrback(function(){
-								doh.t(isVisible("fileMenu"), "File menu should be visible");
+								doh.t(isVisible("fileMenu"), "File menu should be visible #1");
 							}), 1000);
 
 							doh.robot.mouseClick({left: true}, 500); // close File menu
 							doh.robot.mouseMoveAt("edit", 500);
 
 							doh.robot.sequence(d.getTestErrback(function(){
-								doh.t(isHidden("fileMenu"), "File menu is hidden");
-								doh.t(isHidden("editMenu"), "File menu is hidden");
+								doh.t(isHidden("fileMenu"), "File menu is hidden #1");
+								doh.t(isHidden("editMenu"), "Edit menu is hidden #1");
 
 								doh.f(dojo.hasClass("file", "dijitMenuItemSelected"),
 									"File MenuBarItem should not have selected class, actual class is: " + dojo.byId("file").className);
@@ -345,23 +345,23 @@
 							doh.robot.sequence(d.getTestErrback(function(){
 								doh.t(dojo.hasClass("edit", "dijitMenuItemHover"),
 									"Edit MenuBarItem should still have hover effect, actual class is: " + dojo.byId("edit").className);
-								doh.t(isHidden("editMenu"), "edit menu disappeared");
+								doh.t(isHidden("editMenu"), "edit menu disappeared #1");
 							}), 1000);
 
 							doh.robot.mouseMoveAt("file", 500);
 							doh.robot.sequence(d.getTestErrback(function(){
-								doh.t(isHidden("fileMenu"), "File menu should be hidden");
+								doh.t(isHidden("fileMenu"), "File menu should be hidden #2");
 							}), 500);
 
 							doh.robot.mouseClick({left: true}, 500); // click File
 							doh.robot.sequence(d.getTestErrback(function(){
-								doh.t(isVisible("fileMenu"), "File menu should be visible");
+								doh.t(isVisible("fileMenu"), "File menu should be visible #2");
 							}), 1000);
 
 							doh.robot.mouseMoveAt("view", 0, 150); // #9846
 							doh.robot.mouseMoveAt("edit", 0, 75);
 							doh.robot.sequence(d.getTestErrback(function(){
-								doh.t(isHidden("fileMenu"), "File menu should be hidden");
+								doh.t(isHidden("fileMenu"), "File menu should be hidden #3");
 								doh.t(isVisible("editMenu"), "Edit menu should be visible");
 								var paste = dojo.position('paste');
 								doh.robot._mouseMove(paste.x + (paste.w >> 1), paste.y + paste.h + 20, false, 500);
@@ -371,7 +371,7 @@
 							doh.robot.mouseClick({left: true}, 500);
 
 							doh.robot.sequence(d.getTestCallback(function(){
-								doh.t(isHidden("editMenu"), "edit menu disappeared");
+								doh.t(isHidden("editMenu"), "edit menu disappeared #2");
 							}), 1000);
 
 							return d;
