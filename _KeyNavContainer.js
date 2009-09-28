@@ -247,7 +247,7 @@ dojo.declare("dijit._KeyNavContainer",
 		_getFirstFocusableChild: function(){
 			// summary:
 			//		Returns first child that can be focused
-			return this._getNextFocusableChild(null, 1);
+			return this._getNextFocusableChild(null, 1);	// Widget
 		},
 
 		_getNextFocusableChild: function(child, dir){
@@ -268,12 +268,12 @@ dojo.declare("dijit._KeyNavContainer",
 					child = children[(dir>0) ? 0 : (children.length-1)];
 				}
 				if(child.isFocusable()){
-					return child;
+					return child;	// Widget
 				}
 				child = this._getSiblingOfChild(child, dir);
 			}
 			// no focusable child found
-			return null;
+			return null;	// Widget
 		}
 	}
 );

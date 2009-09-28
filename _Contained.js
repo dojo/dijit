@@ -24,7 +24,7 @@ dojo.declare("dijit._Contained",
 				return null;
 			},
 
-			_getSibling: function(which){
+			_getSibling: function(/*String*/ which){
 				// summary:
 				//      Returns next or previous sibling
 				// which:
@@ -35,9 +35,7 @@ dojo.declare("dijit._Contained",
 				do{
 					node = node[which+"Sibling"];
 				}while(node && node.nodeType != 1);
-				if(!node){ return null; } // null
-				var id = node.getAttribute("widgetId");
-				return dijit.byId(id);
+				return node && dijit.byNode(node);	// Widget
 			},
 
 			getPreviousSibling: function(){
@@ -45,7 +43,7 @@ dojo.declare("dijit._Contained",
 				//		Returns null if this is the first child of the parent,
 				//		otherwise returns the next element sibling to the "left".
 
-				return this._getSibling("previous"); // Mixed
+				return this._getSibling("previous"); // Widget
 			},
 
 			getNextSibling: function(){
@@ -53,7 +51,7 @@ dojo.declare("dijit._Contained",
 				//		Returns null if this is the last child of the parent,
 				//		otherwise returns the next element sibling to the "right".
 
-				return this._getSibling("next"); // Mixed
+				return this._getSibling("next"); // Widget
 			},
 			
 			getIndexInParent: function(){
