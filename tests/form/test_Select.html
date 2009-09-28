@@ -402,16 +402,16 @@
 			</select>
 			<hr>
 			<h4 class="testSubtitle">Store-based</h4>
-			<label for="s9">Examle 1</label>
+			<label for="s9">Example 1</label>
 			<select jsId="s9" name="s9" id="s9" store="readStore" value="CT" dojoType="dijit.form.Select">
 			</select>
-			<label for="s10">Examle 2</label>
+			<label for="s10">Example 2</label>
 			<select jsId="s10" name="s10" id="s10" store="readStore" dojoType="dijit.form.Select">
 			</select>
-			<label for="s11">Examle 3</label>
+			<label for="s11">Example 3</label>
 			<select jsId="s11" name="s11" id="s11" store="writeStore" dojoType="dijit.form.Select">
 			</select>
-			<label for="s12">Examle 4</label>
+			<label for="s12">Example 4</label>
 			<select jsId="s12" name="s12" id="s12" store="readStore" dojoType="dijit.form.Select">
 			</select>
 			<hr>
@@ -456,11 +456,14 @@
 			</button>
 		</form>
 		<hr>
-		<h4 class="testSubtitle">Programmatic and other tests</h4>
-		<select dojoType="dijit.form.Select" disabled="disabled" id='testDisabled'>
+		<h4 class="testSubtitle">Disabled</h4>
+		<label for="testDisabled">Disabled:</label>
+		<select dojoType="dijit.form.Select" disabled="disabled" jsId='testDisabled' name='testDisabled' id='testDisabled'>
 			<option value="foo">foo</option>
 			<option value="bar">bar</option>
 		</select>
+		<hr>
+		<h4 class="testSubtitle">Programmatic and other tests</h4>
 		<div id="testProgramatic"></div>
 	</body>
 </html>
