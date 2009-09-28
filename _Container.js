@@ -69,29 +69,6 @@ dojo.declare("dijit._Container",
 			node.parentNode.removeChild(node);	// detach but don't destroy
 		},
 
-		_nextElement: function(node){
-			// summary:
-			//      Find the next (non-text, non-comment etc) node
-			// tags:
-			//      private
-			do{
-				node = node.nextSibling;
-			}while(node && node.nodeType != 1);
-			return node;	// DomNode
-		},
-
-		_firstElement: function(node){
-			// summary:
-			//      Find the first (non-text, non-comment etc) child node
-			// tags:
-			//      private
-			node = node.firstChild;
-			if(node && node.nodeType != 1){
-				node = this._nextElement(node);
-			}
-			return node;	// DomNode
-		},
-
 		getChildren: function(){
 			// summary:
 			//		Returns array of children widgets.
@@ -103,7 +80,8 @@ dojo.declare("dijit._Container",
 		hasChildren: function(){
 			// summary:
 			//		Returns true if widget has children, i.e. if this.containerNode contains something.
-			return !!this._firstElement(this.containerNode); // Boolean
+			for(var node = this.containerNode.firstChild; node && node.nodeType != 1; node = node.nextSibling);
+			return !!node;	// Boolean
 		},
 
 		destroyDescendants: function(/*Boolean*/ preserveDom){
