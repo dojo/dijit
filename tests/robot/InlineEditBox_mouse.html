@@ -116,7 +116,13 @@
 						},
 						tearDown: function(){
 							var d = new doh.Deferred();
-							moveAndClick("predefined");		// move to plain <span> to defocus editor                            
+
+							// Move to plain <span> to defocus editor.		
+							// TODO: sometimes (depending on screen size/position) calendar drop down goes above the <input> box,
+							// covering up the <span>, and thus when we try to click the span it clicks the calendar instead,
+							// changing the date.  Why do we need to click the span this anyway?
+							moveAndClick("predefined");
+                           
 							moveAndClick("dijit_form_Button_7");		// click cancel
 							return d;
 						}
