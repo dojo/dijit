@@ -202,8 +202,9 @@
 	<h2>Toggle buttons</h2>
 	<p>The button CSS as well as the icon CSS can change on toggle </p>
 	<div class="box">
-		<button dojoType="dijit.form.ToggleButton" id="toggle1" checked onChange="console.log('toggled button checked='+arguments[0]);" iconClass="dijitCheckBoxIcon">
-			Toggle me
+		<button dojoType="dijit.form.ToggleButton" id="toggle1" checked onChange="console.log('toggled button checked='+arguments[0]);this.attr('label',arguments[0] == 
+		true ? 'toggle me off' : 'toggle me on');" iconClass="dijitCheckBoxIcon">
+			Toggle me off
 		</button>
 		<button dojoType="dijit.form.ToggleButton" id="toggle2" onChange="console.log('toggled button checked='+arguments[0]);" iconClass="dijitRadioIcon">
 			Toggle me
