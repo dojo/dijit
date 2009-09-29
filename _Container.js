@@ -60,14 +60,15 @@ dojo.declare("dijit._Container",
 			//		Removes the passed widget instance from this widget but does
 			//		not destroy it.  You can also pass in an integer indicating
 			//		the index within the container to remove
+
 			if(typeof widget == "number" && widget > 0){
 				widget = this.getChildren()[widget];
 			}
-			// If we cannot find the widget, just return
-			if(!widget || !widget.domNode){ return; }
-			
-			var node = widget.domNode;
-			node.parentNode.removeChild(node);	// detach but don't destroy
+
+			if(widget && widget.domNode){
+				var node = widget.domNode;
+				node.parentNode.removeChild(node); // detach but don't destroy
+			}
 			
 			return widget;		// Widget
 		},
