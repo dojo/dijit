@@ -64,6 +64,7 @@ dojo.declare(
 			//2) when user tabs away from the editor, which is handled in onKeyDown below.
 			if(dojo.isIE){
 				this.events.push("onBeforeDeactivate");
+				this.events.push("onBeforeActivate");
 			}
 		},
 
@@ -201,6 +202,9 @@ dojo.declare(
 				setTimeout(dojo.hitch(this, "placeCursorAtEnd"), 0);
 			}
 			this.inherited(arguments);
+		},
+		onBeforeActivate: function(e){
+			this._restoreSelection();
 		},
 		onBeforeDeactivate: function(e){
 			// summary:
