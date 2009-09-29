@@ -240,11 +240,13 @@ dojo.declare("dijit._Templated",
 			this.inherited(arguments);
 		},
 
-		destroy: function(){
+		destroyRendering: function(){
+			// Delete all attach points to prevent IE6 memory leaks.
 			dojo.forEach(this._attachPoints, function(point){
 				delete this[point];
 			}, this);
 			this._attachPoints = [];
+
 			this.inherited(arguments);
 		}
 	}
