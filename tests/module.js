@@ -71,6 +71,7 @@ try{
 		doh.registerUrl("dijit.tests.editor.robot.FullScreen", dojo.moduleUrl("dijit","tests/editor/robot/Editor_FullScreen.html"+userArgs), 99999999);
 		doh.registerUrl("dijit.tests.editor.robot.ViewSource", dojo.moduleUrl("dijit","tests/editor/robot/Editor_ViewSource.html"+userArgs), 99999999);
 		doh.registerUrl("dijit.tests.editor.robot.NewPage", dojo.moduleUrl("dijit","tests/editor/robot/Editor_NewPage.html"+userArgs), 99999999);
+		doh.registerUrl("dijit.tests.editor.robot.LinkDialog", dojo.moduleUrl("dijit","tests/editor/robot/Editor_LinkDialog.html"+userArgs), 99999999);
 		if(!dojo.isWebKit){
 			// The back button on webkit is URL for the browser itself, restarting the entire test suite,
 			// rather than just for the iframe holding the test file (BackForwardState.html and BackForwardStateHelper.html)
