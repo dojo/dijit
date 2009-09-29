@@ -119,6 +119,49 @@
 						};
 
 		dojo.addOnLoad(function(){
+
+			// should be able to query for all of the inputs, including hidden ones
+			doh.register("query input by checked state", [
+				{
+					name: "all",
+					runTest: function(){
+						var queried=dojo.query("input[checked]");
+						doh.t(queried.length>0,"dojo.query could not find checked widgets.");
+						doh.is(3,queried.length,"expected: 3 checked widgets, got: "+queried.length);
+						doh.is(dojo.byId('dijit_form_CheckBox_1'),queried[0],"Expected 2nd checkbox.");
+						doh.is(dojo.byId('dijit_form_CheckBox_2'),queried[1],"Expected 3rd checkbox.");
+						doh.is(dojo.byId('dijit_form_RadioButton_1'),queried[2],"Expected 2nd radio button.");
+					}
+				}
+			]);
+
+			doh.register("query input by name", 
+				dojo.map(
+					[
+						"foo.bar.baz.quux","available.from","available.to", // DateTextBox
+						"plop.combo", // ComboBox
+						"cb2", // CheckBox
+						"r2", // RadioButton
+						//"ms1", // MultiSelect
+						"h1", // plain hidden input
+						//"t1", "st1", // TextArea
+						//"richtext", // Editor
+						"filename", // TextBox set to file input
+						"disabledWidget" // disabled TextBox
+					],
+					function(name){
+						return {
+							name: name,
+							widgetName: name,
+							runTest: function(){
+								var queried = dojo.query("input[name="+this.widgetName+"]");
+								doh.t(queried.length > 0, "dojo.query could not find form widget: '"+this.widgetName+"'");
+							}
+						};
+					}
+				)
+			);
+
 			var resetready=false;
 			var formWidget = dijit.byId("myForm");
 			var testSubmittedValues = function(deferred, testValues, formValues){
@@ -139,20 +182,24 @@
 			};
 			doh.register("dijit.form.Form",
 				[
-					function setUp(){
-						var d=new doh.Deferred();
+					{
+						name: "setUp",
+						timeout: 5000,
+						runTest: function(){
+							var d=new doh.Deferred();
 
-						var defer=function(){
-							if(dijit.byId('t1')._resetValue!==undefined &&
-								!dijit.byId('editor').disabled){
-								doh.t(true);
-								d.callback(true);
-							}else{
-								setTimeout(defer,100);
-							}
-						};
-						setTimeout(defer,1000);
-						return d;
+							var defer=function(){
+								if(dijit.byId('t1')._resetValue!==undefined &&
+									!dijit.byId('editor').disabled){
+									doh.t(true);
+									d.callback(true);
+								}else{
+									setTimeout(defer,100);
+								}
+							};
+							setTimeout(defer,1000);
+							return d;
+						}
 					},
 					function getValues(){
 						var values = formWidget.attr('value');
@@ -211,6 +258,7 @@
 					}
 				]
 			);
+
 			doh.run();
 		});
 
