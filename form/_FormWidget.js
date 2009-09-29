@@ -382,7 +382,7 @@ dojo.declare("dijit.form._FormValueWidget", dijit.form._FormWidget,
 	},
 
 	postCreate: function(){
-		if(dojo.isIE || dojo.isWebKit){ // IE won't stop the event with keypress and Safari won't send an ESCAPE to keypress at all
+		if(dojo.isIE){ // IE won't stop the event with keypress
 			this.connect(this.focusNode || this.domNode, "onkeydown", this._onKeyDown);
 		}
 		// Update our reset value if it hasn't yet been set (because this.attr
@@ -431,12 +431,6 @@ dojo.declare("dijit.form._FormValueWidget", dijit.form._FormWidget,
 				te.keyCode = dojo.keys.ESCAPE;
 				te.shiftKey = e.shiftKey;
 				e.srcElement.fireEvent('onkeypress', te);
-			}else if(dojo.isWebKit){ // ESCAPE needs help making it into keypress
-				te = document.createEvent('Events');
-				te.initEvent('keypress', true, true);
-				te.keyCode = dojo.keys.ESCAPE;
-				te.shiftKey = e.shiftKey;
-				e.target.dispatchEvent(te);
 			}
 		}
 	},

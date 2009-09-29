@@ -156,14 +156,6 @@ dijit.popup.__OpenArgs = function(){
 
 		// provide default escape and tab key handling
 		// (this will work for any widget, not just menu)
-		if(dojo.isWebKit && args.onCancel){ // ESC is only stoppable on keydown and not keypress on WebKit (ignored completely on older Safari)
-			handlers.push(dojo.connect(wrapper, "onkeydown", this, function(evt){
-				if(evt.keyCode == dojo.keys.ESCAPE){
-					dojo.stopEvent(evt);
-					args.onCancel();
-				}
-			}));
-		}
 		handlers.push(dojo.connect(wrapper, "onkeypress", this, function(evt){
 			if(evt.charOrCode == dojo.keys.ESCAPE && args.onCancel){
 				dojo.stopEvent(evt);
