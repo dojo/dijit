@@ -375,14 +375,14 @@
 
 										//Type in some script stuff.
 										doh.assertTrue(vsPlugin != null, "Checking for VS plugin.");
-                                        
+
 										doh.robot.keyPress(dojo.keys.F12, 1000, {ctrl:true,shift:true});
 										doh.robot.sequence(function(){
 											var val = "\n\n" +
-                                                simpleScript0 +
-                                                "\n\n" +
-                                                simpleScript1 +
-                                                "\n" +
+												simpleScript0 +
+												"\n\n" +
+												simpleScript1 +
+												"\n" +
 												vsPlugin.sourceArea.value;
 											vsPlugin.sourceArea.value = val; 
 										}, 1000);
@@ -441,8 +441,8 @@
 										doh.robot.keyPress(dojo.keys.F12, 500, {ctrl:true,shift:true});
 										doh.robot.sequence(function(){
 											var val = "\n\n" +
-                                                complexScript +
-                                                "\n\n" +
+												complexScript +
+												"\n\n" +
 												vsPlugin.sourceArea.value;
 											vsPlugin.sourceArea.value = val; 
 										}, 1000);
@@ -502,8 +502,8 @@
 										doh.robot.keyPress(dojo.keys.F12, 500, {ctrl:true,shift:true});
 										doh.robot.sequence(function(){
 											var val = "\n\n" +
-                                                simpleComment +
-                                                "\n\n" +
+												simpleComment +
+												"\n\n" +
 												vsPlugin.sourceArea.value;
 											vsPlugin.sourceArea.value = val; 
 										}, 1000);
@@ -562,10 +562,10 @@
 										doh.robot.keyPress(dojo.keys.F12, 1000, {ctrl:true,shift:true});
 										doh.robot.sequence(function(){
 											var val = "\n\n" +
-                                                "<!--\n" +
-                                                "Hello, this is a comment!\n" +
+												"<!--\n" +
+												"Hello, this is a comment!\n" +
 												"-->\n" +
-                                                "\n\n" +
+												"\n\n" +
 												vsPlugin.sourceArea.value;
 											vsPlugin.sourceArea.value = val; 
 										}, 1000);
@@ -627,8 +627,8 @@
 										doh.robot.keyPress(dojo.keys.F12, 1000, {ctrl:true,shift:true});
 										doh.robot.sequence(function(){
 											var val = "\n\n" +
-                                                simpleiFrame +
-                                                "\n\n" +
+												simpleiFrame +
+												"\n\n" +
 												vsPlugin.sourceArea.value;
 											vsPlugin.sourceArea.value = val; 
 										}, 1000);
@@ -693,13 +693,13 @@
 
 										doh.robot.sequence(function(){
 											var val = "\n\n" +
-                                                "<div>\n" +
-                                                simpleScript0 +
-                                                "\n\n" +
+												"<div>\n" +
+												simpleScript0 +
+												"\n\n" +
 												simpleScript1 +
 												"\n" +
-                                                "</div>" +
-                                                "\n\n" + 
+												"</div>" +
+												"\n\n" + 
 												simpleiFrame +
 												"\n\n" + 
 												simpleComment +
