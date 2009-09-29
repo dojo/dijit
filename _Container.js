@@ -52,6 +52,7 @@ dojo.declare("dijit._Container",
 			if(this._started && !widget._started){
 				widget.startup();
 			}
+			return widget;		// Widget
 		},
 
 		removeChild: function(/*Widget or int*/ widget){
@@ -67,6 +68,8 @@ dojo.declare("dijit._Container",
 			
 			var node = widget.domNode;
 			node.parentNode.removeChild(node);	// detach but don't destroy
+			
+			return widget;		// Widget
 		},
 
 		getChildren: function(){
@@ -80,8 +83,7 @@ dojo.declare("dijit._Container",
 		hasChildren: function(){
 			// summary:
 			//		Returns true if widget has children, i.e. if this.containerNode contains something.
-			for(var node = this.containerNode.firstChild; node && node.nodeType != 1; node = node.nextSibling);
-			return !!node;	// Boolean
+			return dojo.query("> [widgetId]", this.containerNode).length > 0;	// Boolean
 		},
 
 		destroyDescendants: function(/*Boolean*/ preserveDom){
