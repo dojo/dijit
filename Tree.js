@@ -151,17 +151,13 @@ dojo.declare(
 		// tags:
 		//		private
 
-		// apply the appropriate class to the expando node
 		var styles = ["dijitTreeExpandoLoading", "dijitTreeExpandoOpened",
-			"dijitTreeExpandoClosed", "dijitTreeExpandoLeaf"];
-		var _a11yStates = ["*","-","+","*"];
-		
-		var idx = processing ? 0 : (this.isExpandable ?	(this.isExpanded ? 1 : 2) : 3);
-		dojo.forEach(styles,
-			function(s){
-				dojo.removeClass(this.expandoNode, s);
-			}, this
-		);
+						"dijitTreeExpandoClosed", "dijitTreeExpandoLeaf"],
+			_a11yStates = ["*","-","+","*"],
+			idx = processing ? 0 : (this.isExpandable ?	(this.isExpanded ? 1 : 2) : 3);
+
+		// apply the appropriate class to the expando node
+		dojo.removeClass(this.expandoNode, styles);
 		dojo.addClass(this.expandoNode, styles[idx]);
 
 		// provide a non-image based indicator for images-off mode
