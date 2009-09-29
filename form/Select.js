@@ -289,7 +289,7 @@ dojo.declare("dijit.form.Select", [dijit.form._FormSelectWidget, dijit._HasDropD
 	},
 
 	uninitialize: function(preserveDom){
-		if(this.dropDown){
+		if(this.dropDown && !this.dropDown._destroyed){
 			this.dropDown.destroyRecursive(preserveDom);
 			delete this.dropDown;
 		}

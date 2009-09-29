@@ -676,7 +676,7 @@ dojo.declare(
 		},
 
 		uninitialize: function(){
-			if(this._popupWidget){
+			if(this._popupWidget && !this._popupWidget._destroyed){
 				this._hideResultList();
 				this._popupWidget.destroy();
 			}
