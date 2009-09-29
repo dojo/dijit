@@ -50,7 +50,11 @@ dojo.declare("dijit.PopupMenuItem",
 		
 		destroyDescendants: function(){
 			if(this.popup){
-				this.popup.destroyRecursive();
+				// Destroy the popup, unless it's already been destroyed.  This can happen because
+				// the popup is a direct child of <body> even though it's logically my child.
+				if(!this.popup._destroyed){
+					this.popup.destroyRecursive();
+				}
 				delete this.popup;
 			}
 			this.inherited(arguments);

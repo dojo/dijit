@@ -258,10 +258,14 @@ if(dojo.isIE){
 	// and because it causes problems on FF.  See bug #3531 for details.
 	dojo.addOnWindowUnload(function(){
 		dojo.forEach(dijit.findWidgets(dojo.body()), function(widget){
-			if(widget.destroyRecursive){
-				widget.destroyRecursive();
-			}else if(widget.destroy){
-				widget.destroy();
+			// Avoid double destroy of widgets like Menu that are attached to <body>
+			// even though they are logically children of other widgets.
+			if(!widget._destroyed){ 
+				if(widget.destroyRecursive){
+					widget.destroyRecursive();
+				}else if(widget.destroy){
+					widget.destroy();
+				}
 			}
 		});
 	});

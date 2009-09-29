@@ -570,6 +570,7 @@ dojo.declare("dijit._Widget", null, {
 		
 		this.destroyRendering(preserveDom);
 		dijit.registry.remove(this.id);
+		this._destroyed = true;
 	},
 
 	destroyRendering: function(/*Boolean?*/ preserveDom){
