@@ -34,14 +34,14 @@ dojo.mixin(dijit,
 	getBookmark: function(){
 		// summary:
 		//		Retrieves a bookmark that can be used with moveToBookmark to return to the same range
-		var bm, rg, sel = dojo.doc.selection, cf = dijit._curFocus;
-
+		var bm, rg, tg, sel = dojo.doc.selection, cf = dijit._curFocus;
+        
 		if(dojo.global.getSelection){
 			//W3C Range API for selections.
 			sel = dojo.global.getSelection();
 			if(sel){
 				if(sel.isCollapsed){
-					var tg = cf? cf.tagName : "";
+					tg = cf? cf.tagName : "";
 					if(tg){
 						//Create a fake rangelike item to restore selections.
 						tg = tg.toLowerCase();
@@ -52,7 +52,7 @@ dojo.mixin(dijit,
 								end: cf.selectionEnd,
 								node: cf,
 								pRange: true
-							}
+							};
 							return {isCollapsed: (sel.end <= sel.start), mark: sel}; //Object.
 						}
 					}
@@ -63,7 +63,19 @@ dojo.mixin(dijit,
 				}
 			}
 		}else if(sel){
+			// If the current focus was a input of some sort and no selection, don't bother saving 
+			// a bookmark, selection wise.  Bookmarking here can cause Dialog issues.
+			tg = cf? cf.tagName : "";
+			tg = tg.toLowerCase();
+			if(cf && tg && (tg === "button" || tg === "textarea" || tg === "input")  && 
+				sel.type && sel.type.toLowerCase() === "none"){
+				return {
+					isCollapsed: true,
+					mark: null
+				};
+			}
 			bm = {};
+
 			//'IE' way for selections.
 			try{
 				// createRange() throws exception when dojo in iframe 
@@ -119,7 +131,7 @@ dojo.mixin(dijit,
 				}else{
 					console.warn("No idea how to restore selection for this browser!");
 				}
-			}else if(_doc.selection){
+			}else if(_doc.selection && mark){
 				//'IE' way.
 				var rg;
 				if(dojo.isArray(mark)){
@@ -386,9 +398,10 @@ dojo.mixin(dijit,
 			}
 		}
 
+		var widget;
 		// for all elements that have gone out of focus, send blur event
 		for(var i=oldStack.length-1; i>=nCommon; i--){
-			var widget = dijit.byId(oldStack[i]);
+			widget = dijit.byId(oldStack[i]);
 			if(widget){
 				widget._focused = false;
 				widget._hasBeenBlurred = true;
