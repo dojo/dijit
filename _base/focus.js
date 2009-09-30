@@ -64,15 +64,26 @@ dojo.mixin(dijit,
 			}
 		}else if(sel){
 			// If the current focus was a input of some sort and no selection, don't bother saving 
-			// a bookmark, selection wise.  Bookmarking here can cause Dialog issues.
+			// a native bookmark.  This is because it causes issues with dialog/page selection restore.
+			// So, we need to create psuedo bookmarks to work with.
 			tg = cf? cf.tagName : "";
 			tg = tg.toLowerCase();
-			if(cf && tg && (tg === "button" || tg === "textarea" || tg === "input")  && 
-				sel.type && sel.type.toLowerCase() === "none"){
-				return {
-					isCollapsed: true,
-					mark: null
-				};
+			if(cf && tg && (tg === "button" || tg === "textarea" || tg === "input")){
+				if(sel.type && sel.type.toLowerCase() == "none"){
+					return {
+						isCollapsed: true,
+						mark: null
+					}
+				}else{
+					rg = sel.createRange();
+					return {
+						isCollapsed: rg.text && rg.text.length?false:true,
+						mark: {
+							range: rg,
+							pRange: true
+						}
+					};
+				}
 			}
 			bm = {};
 
@@ -134,7 +145,9 @@ dojo.mixin(dijit,
 			}else if(_doc.selection && mark){
 				//'IE' way.
 				var rg;
-				if(dojo.isArray(mark)){
+				if(mark.pRange){
+					rg = mark.range;
+				}else if(dojo.isArray(mark)){
 					rg = _doc.body.createControlRange();
 					//rg.addElement does not have call/apply method, so can not call it directly
 					//rg is not available in "range.addElement(item)", so can't use that either
