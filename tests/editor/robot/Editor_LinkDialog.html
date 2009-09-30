@@ -325,7 +325,6 @@
 								doh.robot.sequence(d.getTestCallback(function(){
 									//Now check the state!
 									var newVal = editor.attr("value");
-                                    console.log(newVal);
 									doh.assertTrue(newVal !== value, "Verify the contents have changed.");
 									doh.assertTrue(new RegExp("href=(\"|\')"+ oldUrl + "_2" + "(\"|\')").test(newVal), "Verifying URL has been inserted.");
 									doh.assertFalse(new RegExp("href=(\"|\')"+ oldUrl + "(\"|\')").test(newVal), "Verifying old URL is gone.");
