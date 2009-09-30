@@ -52,7 +52,6 @@ dojo.declare("dijit._Container",
 			if(this._started && !widget._started){
 				widget.startup();
 			}
-			return widget;		// Widget
 		},
 
 		removeChild: function(/*Widget or int*/ widget){
@@ -69,8 +68,6 @@ dojo.declare("dijit._Container",
 				var node = widget.domNode;
 				node.parentNode.removeChild(node); // detach but don't destroy
 			}
-			
-			return widget;		// Widget
 		},
 
 		getChildren: function(){
