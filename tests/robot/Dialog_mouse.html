@@ -68,7 +68,7 @@
 							var d = new doh.Deferred();
 
 							doh.robot.mouseMoveAt("date", 500);
-							doh.robot.mouseClick({left: true}, 500);
+							doh.robot.mouseClick({left: true}, 1000);
 
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.is("date", dojo.global.dijit._curFocus.id, "focus is on the date field");
