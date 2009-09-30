@@ -374,23 +374,24 @@
 								doh.robot.mouseMoveAt(ldPlugin.button.domNode, 500);
 								doh.robot.mouseClick({left:true}, 500);
 
-								var url, desc, target, setButton;
+								var url, desc, target;
 								doh.robot.sequence(function(){
 									url = dijit.byId(ldPlugin._uniqueId + "_urlInput");
 									desc = dijit.byId(ldPlugin._uniqueId + "_textInput");
 									target = dijit.byId(ldPlugin._uniqueId + "_targetSelect");
-									setButton = dijit.byId(ldPlugin._uniqueId + "_setButton");
 									url.attr("value", "http://this is not/valid/bad.html");
 									desc.attr("value", "This is my example relative link.");
 									target.attr("value", "_blank");
 									url.validate();
 								},1000);
+								doh.robot.mouseMoveAt(function(){ return dijit.byId(ldPlugin._uniqueId + "_cancelButton").domNode; }, 500);
+								doh.robot.mouseClick({left:true}, 500);
+								doh.robot.mouseMoveAt(editor.iframe, 500, null, 0, 0);
+								doh.robot.mouseClick({left:true}, 500);
 								doh.robot.sequence(d.getTestCallback(function(){
 									//Now check the state!
 									doh.assertFalse(url.isValid());
-									dijit.popup.close(ldPlugin.button.dropDown);
 								}), 1000);
-
 							}catch(e){
 								d.errback(e);
 							}

@@ -70,6 +70,7 @@ dojo.declare("dijit._editor.plugins.LinkDialog",dijit._editor._Plugin,{
 		"</select>",			
 		"</td></tr><tr><td colspan='2'>",
 		"<button dojoType='dijit.form.Button' type='submit' id='${id}_setButton'>${set}</button>",
+		"<button dojoType='dijit.form.Button' type='button' id='${id}_cancelButton'>${cancel}</button>",
 		"</td></tr></table>"
 	].join(""),
 
@@ -87,8 +88,7 @@ dojo.declare("dijit._editor.plugins.LinkDialog",dijit._editor._Plugin,{
 			},
 			onCancel: function(){
 				setTimeout(dojo.hitch(_this, "_onCloseDialog"),0);
-			},
-			onClose: dojo.hitch(this, "_onCloseDialog")
+			}
 		}));
 		messages.urlRegExp = this.urlRegExp;
 		messages.id = dijit.getUniqueId(this.editor.id);
@@ -97,7 +97,10 @@ dojo.declare("dijit._editor.plugins.LinkDialog",dijit._editor._Plugin,{
 			"<div style='border-bottom: 1px black solid;padding-bottom:2pt;margin-bottom:4pt'></div>" + 
 			dojo.string.substitute(this.linkDialogTemplate, messages));
 		dropDown.startup();
-		this._urlInput = dijit.byId(messages.id + "_urlInput");
+		this._urlInput = dijit.byId(this._uniqueId + "_urlInput");
+		this.connect(dijit.byId(this._uniqueId + "_cancelButton"), "onClick", function(){
+			this.dropDown.onCancel();
+		});
 		if(this._urlInput){
 			this.connect(this._urlInput, "onChange", "_checkAndFixUrl");
 		}
@@ -269,6 +272,7 @@ dojo.declare("dijit._editor.plugins.ImgLinkDialog", [dijit._editor.plugins.LinkD
 		"</td><td>",
 		"</td></tr><tr><td colspan='2'>",
 		"<button dojoType='dijit.form.Button' type='submit' id='${id}_setButton'>${set}</button>",
+		"<button dojoType='dijit.form.Button' type='button' id='${id}_cancelButton'>${cancel}</button>",
 		"</td></tr></table>"
 	].join(""),
 

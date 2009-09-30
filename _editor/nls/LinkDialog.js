@@ -5,6 +5,7 @@
 	text: "Description:",
 	target: "Target:",
 	set: "Set",
+	cancel: "Cancel",
 	currentWindow: "Current Window ( _self )",
 	parentWindow: "Parent Window ( _parent )",
 	topWindow: "Topmost Window ( _top )",
