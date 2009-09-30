@@ -345,7 +345,7 @@ dojo.declare(
 			}
 			this._contentBox = dijit.layout.marginBox2contentBox(cn, mb);
 		}else{
-			this._contentBox = dijit.contentBox(cn);
+			this._contentBox = dojo.contentBox(cn);
 		}
 
 		// Make my children layout, or size my single child widget
