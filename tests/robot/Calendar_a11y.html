@@ -18,6 +18,7 @@
 		<script type="text/javascript">
 			dojo.require("dijit.dijit"); // optimize: load dijit layer
 			dojo.require("dijit.robotx");
+			dojo.require("dojo.date");
 
 			dojo.addOnLoad(function(){
 				doh.robot.initRobot('../test_Calendar.html');
@@ -28,7 +29,7 @@
 				// log of calls to onChange handler
 				var changes = [];
 
-				doh.register("dijit.Calendar keyboard tests (cancel)",[
+				doh.register("dijit.Calendar keyboard tests",[
 					{
 						name: "arrow navigation",
 						timeout: 10000,
@@ -37,7 +38,7 @@
 					    	cal1 = dijit.byId('calendar1');
 							cal1.attr("value", new Date(2009, 8, 16));
 	
-					    	// setup onChange handler to monitor onChange calls on american textbox
+					    	// setup onChange handler to monitor onChange calls on cal1
 							dojo.connect(cal1, 'onChange', function(val){
 								console.log('onchange w/value: ', val);
 								changes.push(val);
@@ -64,6 +65,55 @@
 								doh.is(0, dojo.date.compare(new Date(2009, 8, 17), changes[0]),
 										'value reported by onchange: ' + changes[0] +
 										', should be ' + new Date(2009, 8, 17));
+							})), 1000);
+							return d;
+						}
+					},
+					{
+						name: "month navigation",
+						timeout: 5000,
+						setUp: function(){
+							// refs to Calendar widget
+					    	cal1 = dijit.byId('calendar1');
+							cal1.attr("value", new Date(2008, 0, 31));
+						},
+						runTest: function(){
+							var d = new doh.Deferred();
+							doh.robot.sequence(function(){
+								// monitor onchange events
+								cal1.domNode.focus();
+							}, 500);
+
+							doh.robot.keyPress(dojo.keys.PAGE_DOWN, 500, {});
+							doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
+								var value = cal1.attr('value');
+								doh.is(0, dojo.date.compare(new Date(2008, 1, 29), value), 'actual value is ' + value);
+							})), 1000);
+							return d;
+						}
+					},
+					{
+						name: "month+year navigation",
+						timeout: 5000,
+						setUp: function(){
+							// refs to Calendar widget
+					    	cal1 = dijit.byId('calendar1');
+							cal1.attr("value", new Date(2008, 1, 15));
+						},
+						runTest: function(){
+							var d = new doh.Deferred();
+							doh.robot.sequence(function(){
+								// monitor onchange events
+								cal1.domNode.focus();
+							}, 500);
+
+							doh.robot.keyPress(dojo.keys.END, 500, {});
+							doh.robot.keyPress(dojo.keys.PAGE_DOWN, 500, {ctrl:true});
+							doh.robot.keyPress(dojo.keys.PAGE_UP, 500, {ctrl:true});
+							doh.robot.keyPress(dojo.keys.PAGE_UP, 500, {ctrl:true});
+							doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
+								var value = cal1.attr('value');
+								doh.is(0, dojo.date.compare(new Date(2007, 1, 28), value), 'actual value is ' + value);
 							})), 1000);
 							return d;
 						}
