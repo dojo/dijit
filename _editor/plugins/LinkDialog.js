@@ -29,8 +29,9 @@ dojo.declare("dijit._editor.plugins.LinkDialog",dijit._editor._Plugin,{
 	useDefaultCommand: false,
 
 	// urlRegExp: [protected] String
-	//		Used for validating input as correct URL
-	urlRegExp: "((https?|ftps?)\\://|\./|/|)(((?:(?:[\\da-zA-Z](?:[-\\da-zA-Z]{0,61}[\\da-zA-Z])?)\\.)*(?:[a-zA-Z](?:[-\\da-zA-Z]{0,80}[\\da-zA-Z])?)\\.?)|(((\\d|[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(\\d|[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])|(0[xX]0*[\\da-fA-F]?[\\da-fA-F]\\.){3}0[xX]0*[\\da-fA-F]?[\\da-fA-F]|(0+[0-3][0-7][0-7]\\.){3}0+[0-3][0-7][0-7]|(0|[1-9]\\d{0,8}|[1-3]\\d{9}|4[01]\\d{8}|42[0-8]\\d{7}|429[0-3]\\d{6}|4294[0-8]\\d{5}|42949[0-5]\\d{4}|429496[0-6]\\d{3}|4294967[01]\\d{2}|42949672[0-8]\\d|429496729[0-5])|0[xX]0*[\\da-fA-F]{1,8}|([\\da-fA-F]{1,4}\\:){7}[\\da-fA-F]{1,4}|([\\da-fA-F]{1,4}\\:){6}((\\d|[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(\\d|[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])))(\\:\\d+)?(/(?:[^?#\\s/]+/)*(?:[^?#\\s/]+(?:\\?[^?#\\s/]*)?(?:#[A-Za-z][\\w.:-]*)?)?)?",
+	//		Used for validating input as correct URL.  While file:// urls are not terribly 
+	//		useful, they are technically valid.
+	urlRegExp: "((https?|ftps?|file)\\://|\./|/|)(/[a-zA-Z]{1,1}:/|)(((?:(?:[\\da-zA-Z](?:[-\\da-zA-Z]{0,61}[\\da-zA-Z])?)\\.)*(?:[a-zA-Z](?:[-\\da-zA-Z]{0,80}[\\da-zA-Z])?)\\.?)|(((\\d|[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(\\d|[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])|(0[xX]0*[\\da-fA-F]?[\\da-fA-F]\\.){3}0[xX]0*[\\da-fA-F]?[\\da-fA-F]|(0+[0-3][0-7][0-7]\\.){3}0+[0-3][0-7][0-7]|(0|[1-9]\\d{0,8}|[1-3]\\d{9}|4[01]\\d{8}|42[0-8]\\d{7}|429[0-3]\\d{6}|4294[0-8]\\d{5}|42949[0-5]\\d{4}|429496[0-6]\\d{3}|4294967[01]\\d{2}|42949672[0-8]\\d|429496729[0-5])|0[xX]0*[\\da-fA-F]{1,8}|([\\da-fA-F]{1,4}\\:){7}[\\da-fA-F]{1,4}|([\\da-fA-F]{1,4}\\:){6}((\\d|[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(\\d|[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])))(\\:\\d+)?(/(?:[^?#\\s/]+/)*(?:[^?#\\s/]+(?:\\?[^?#\\s/]*)?(?:#[A-Za-z][\\w.:-]*)?)?)?",
 
 	// htmlTemplate: [protected] String
 	//		String used for templating the HTML to insert at the desired point.
@@ -98,6 +99,7 @@ dojo.declare("dijit._editor.plugins.LinkDialog",dijit._editor._Plugin,{
 			dojo.string.substitute(this.linkDialogTemplate, messages));
 		dropDown.startup();
 		this._urlInput = dijit.byId(this._uniqueId + "_urlInput");
+		this._setButton = dijit.byId(this._uniqueId + "_setButton");
 		this.connect(dijit.byId(this._uniqueId + "_cancelButton"), "onClick", function(){
 			this.dropDown.onCancel();
 		});
@@ -131,6 +133,11 @@ dojo.declare("dijit._editor.plugins.LinkDialog",dijit._editor._Plugin,{
 			}
 			if(appendHttp){
 				self._urlInput.attr("value", "http://" + url);
+			}
+			if(!self._urlInput.isValid()){
+				self._setButton.attr("disabled", true);
+			}else{
+				self._setButton.attr("disabled", false);
 			}
 		};
 		if(this._delayedCheck){
@@ -242,6 +249,7 @@ dojo.declare("dijit._editor.plugins.LinkDialog",dijit._editor._Plugin,{
 				"getAncestorElement", dijit._editor.selection, [this.tag]);
 		}
 		this.dropDown.reset();
+		this._setButton.attr("disabled", true);
 		this.dropDown.attr("value", this._getCurrentValues(a));
 	}
 });

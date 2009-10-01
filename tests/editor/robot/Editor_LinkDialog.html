@@ -384,12 +384,18 @@
 									target.attr("value", "_blank");
 									url.validate();
 								},1000);
+								doh.robot.sequence(function(){
+									var setButton = dijit.byId(ldPlugin._uniqueId + "_setButton");
+									doh.assertTrue(setButton.attr("disabled"));
+								}, 500)
 								doh.robot.mouseMoveAt(function(){ return dijit.byId(ldPlugin._uniqueId + "_cancelButton").domNode; }, 500);
 								doh.robot.mouseClick({left:true}, 500);
 								doh.robot.mouseMoveAt(editor.iframe, 500, null, 0, 0);
 								doh.robot.mouseClick({left:true}, 500);
 								doh.robot.sequence(d.getTestCallback(function(){
 									//Now check the state!
+									var newVal = editor.attr("value");
+									doh.assertTrue(newVal === value, "Verify the contents have not changed.");
 									doh.assertFalse(url.isValid());
 								}), 1000);
 							}catch(e){
@@ -447,7 +453,7 @@
 									var newVal = editor.attr("value");
 									doh.assertTrue(newVal !== value, "Verify the contents have changed.");
 									doh.assertFalse(new RegExp("<li><img").test(newVal), "Verifying insert did not occur in the top li (IE test for selection restore.)");
-									doh.assertTrue(new RegExp("src=(\"|\')./sample2.jpg(\"|\')").test(newVal), "Verifying URL has been inserted.");
+									doh.assertTrue(new RegExp("src=(\"|\').*sample2.jpg(\"|\')").test(newVal), "Verifying URL has been inserted.");
 									doh.assertTrue(new RegExp("alt=(\"|\')This is my example image 2.(\"|\')").test(newVal), "Verifying alt description has been inserted.");
 								}), 1000);
 							}catch(e){
@@ -568,8 +574,8 @@
 									var newVal = editor.attr("value");
 									doh.assertTrue(newVal !== value, "Verify the contents have changed.");
 									doh.assertFalse(new RegExp("<li><img").test(newVal), "Verifying insert did not occur in the top li (IE test for selection restore.)");
-									doh.assertTrue(new RegExp("src=(\"|\')"+ "./sample2.jpg" + "(\"|\')").test(newVal), "Verifying URL has been inserted.");
-									doh.assertFalse(new RegExp("src=(\"|\')"+ "./sample.jpg" + "(\"|\')").test(newVal), "Verifying old URL is gone.");
+									doh.assertTrue(new RegExp("src=(\"|\')"+ ".*/sample2.jpg" + "(\"|\')").test(newVal), "Verifying URL has been inserted.");
+									doh.assertFalse(new RegExp("src=(\"|\')"+ ".*/sample.jpg" + "(\"|\')").test(newVal), "Verifying old URL is gone.");
 									doh.assertTrue(new RegExp("alt=(\"|\")" + oldDesc + "_2" + "(\"|\')").test(newVal), "Verifying description has been inserted.");
 									doh.assertFalse(new RegExp("alt=(\"|\")" + oldDesc + "(\"|\')").test(newVal), "Verifying old desc is gone.");
 								}), 1000);
