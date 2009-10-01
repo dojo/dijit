@@ -525,12 +525,12 @@ dojo.declare("dijit._Widget", null, {
 
 	destroyRecursive: function(/*Boolean?*/ preserveDom){
 		// summary:
-		// 		Destroy this widget and it's descendants. This is the generic
+		// 		Destroy this widget and its descendants. This is the generic
 		// 		"destructor" function that all widget users should call to
-		// 		cleanly discard with a widget. Once a widget is destroyed, it's
+		// 		cleanly discard with a widget. Once a widget is destroyed, it is
 		// 		removed from the manager object.
 		// preserveDom:
-		//		If true, this method will leave the original Dom structure
+		//		If true, this method will leave the original DOM structure
 		//		alone of descendant Widgets. Note: This will NOT work with
 		//		dijit._Templated widgets.
 
@@ -542,9 +542,9 @@ dojo.declare("dijit._Widget", null, {
 	destroy: function(/*Boolean*/ preserveDom){
 		// summary:
 		// 		Destroy this widget, but not its descendants.
-		//		Will, however, destroy internal widgets such as those used within a template.
+		//		This method will, however, destroy internal widgets such as those used within a template.
 		// preserveDom: Boolean
-		//		If true, this method will leave the original Dom structure alone.
+		//		If true, this method will leave the original DOM structure alone.
 		//		Note: This will not yet work with _Templated widgets
 
 		this._beingDestroyed = true;
@@ -560,7 +560,7 @@ dojo.declare("dijit._Widget", null, {
 		});
 
 		// destroy widgets created as part of template, etc.
-		dfe(this._supportingWidgets||[], function(w){ 
+		dfe(this._supportingWidgets || [], function(w){ 
 			if(w.destroyRecursive){
 				w.destroyRecursive();
 			}else if(w.destroy){
@@ -577,7 +577,7 @@ dojo.declare("dijit._Widget", null, {
 		// summary:
 		//		Destroys the DOM nodes associated with this widget
 		// preserveDom:
-		//		If true, this method will leave the original Dom structure alone
+		//		If true, this method will leave the original DOM structure alone
 		//		during tear-down. Note: this will not work with _Templated
 		//		widgets yet. 
 		// tags:

@@ -28,8 +28,8 @@ dojo.declare("dijit._TimePicker",
 	{
 		//	summary:
 		//		A graphical time picker.
-		//		This widget is used internally by other widgets and is not accessible
-		//		as a standalone widget.
+		//		This widget is used internally by other widgets and is not available
+		//		as a standalone widget due to lack of accessibility support.
 
 		templateString: dojo.cache("dijit", "templates/TimePicker.html"),
 
@@ -377,6 +377,7 @@ dojo.declare("dijit._TimePicker",
 			//		Handler for onmouseover event
 			// tags:
 			//		private
+			this._keyboardSelected = null;
 			var tgr = (e.target.parentNode === this.timeMenu) ? e.target : e.target.parentNode;			
 			// if we aren't targeting an item, then we return
 			if(!dojo.hasClass(tgr, this.baseClass+"Item")){return;}
@@ -388,6 +389,7 @@ dojo.declare("dijit._TimePicker",
 			//		Handler for onmouseout event
 			// tags:
 			//		private
+			this._keyboardSelected = null;
 			var tgr = (e.target.parentNode === this.timeMenu) ? e.target : e.target.parentNode;
 			this._highlightOption(tgr, false);
 		},
@@ -397,6 +399,7 @@ dojo.declare("dijit._TimePicker",
 			//		Handle the mouse wheel events
 			// tags:
 			//		private
+			this._keyboardSelected = null;
 			dojo.stopEvent(e);
 			// we're not _measuring_ the scroll amount, just direction
 			var scrollAmount = (dojo.isIE ? e.wheelDelta : -e.detail);
@@ -473,12 +476,12 @@ dojo.declare("dijit._TimePicker",
 					}
 				}
 				this._highlightOption(tgt, true);
+				this._keyboardSelected = tgt;
 			}else if(this._highlighted_option && (e.charOrCode == dk.ENTER || e.charOrCode === dk.TAB)){
 				// Accept the currently-highlighted option as the value
+				if(!this._keyboardSelected && e.charOrCode === dk.TAB){ return; } // mouse hover followed by TAB is NO selection
 				if(e.charOrCode == dk.ENTER){dojo.stopEvent(e);}
-				setTimeout(dojo.hitch(this, function(){
-					this._onOptionSelected({target: this._highlighted_option});
-				}),1);
+				this._onOptionSelected({target: this._highlighted_option});
 			}
 		}
 	}
