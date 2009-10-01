@@ -111,25 +111,39 @@ dojo.declare(
 			// For back-compat with 1.0, need to use null to specify root item (TODO: remove in 2.0)
 			item = null;
 		}
-
-		if(this._iconClass){
-			dojo.removeClass(this.iconNode, this._iconClass);
-		}
-		this._iconClass = tree.getIconClass(item, this.isExpanded);
-		if(this._iconClass){
-			dojo.addClass(this.iconNode, this._iconClass);
-		}
-		dojo.style(this.iconNode, tree.getIconStyle(item, this.isExpanded) || {});
-
-		if(this._labelClass){
-			dojo.removeClass(this.labelNode, this._labelClass);
-		}
-		this._labelClass = tree.getLabelClass(item, this.isExpanded);
-		if(this._labelClass){
-			dojo.addClass(this.labelNode, this._labelClass);
-		}
-		dojo.style(this.labelNode, tree.getLabelStyle(item, this.isExpanded) || {});
+		this._applyClassAndStyle(item, "icon", "Icon");
+		this._applyClassAndStyle(item, "label", "Label");
+		this._applyClassAndStyle(item, "row", "Row");
 	},
+	
+	_applyClassAndStyle: function(item, lower, upper) {
+		// summary:
+		//		Set the appropriate CSS classes and styles for labels, icons and rows.
+		//
+		// item:
+		//		The data item.
+		//
+		// lower:
+		//		The lower case attribute to use, e.g. 'icon', 'label' or 'row'.
+		//
+		// upper:
+		//		The upper case attribute to use, e.g. 'Icon', 'Label' or 'Row'.
+		//
+		// tags:
+		//		private
+ 
+		var clsName = "_" + lower + "Class";
+		var nodeName = lower + "Node";
+ 
+		if(this[clsName]){
+			dojo.removeClass(this[nodeName], this[clsName]);
+ 		}
+		this[clsName] = this.tree["get" + upper + "Class"](item, this.isExpanded);
+		if(this[clsName]){
+			dojo.addClass(this[nodeName], this[clsName]);
+ 		}
+		dojo.style(this[nodeName], this.tree["get" + upper + "Style"](item, this.isExpanded) || {});
+ 	},
 
 	_updateLayout: function(){
 		// summary:
@@ -859,6 +873,13 @@ dojo.declare(
 		//		extension
 	},
 	
+	getRowClass: function(/*dojo.data.Item*/ item, /*Boolean*/ opened){
+		// summary:
+		//		Overridable function to return CSS class name to display row
+		// tags:
+		//		extension
+	},
+	
 	getIconStyle: function(/*dojo.data.Item*/ item, /*Boolean*/ opened){
 		// summary:
 		//		Overridable function to return CSS styles to display icon
@@ -873,6 +894,15 @@ dojo.declare(
 		//		Overridable function to return CSS styles to display label
 		// returns:
 		//		Object suitable for input to dojo.style() like {color: "red", background: "green"}
+		// tags:
+		//		extension
+	},
+	
+	getRowStyle: function(/*dojo.data.Item*/ item, /*Boolean*/ opened){
+		// summary:
+		//		Overridable function to return CSS styles to display row
+		// returns:
+		//		Object suitable for input to dojo.style() like {background-color: "#bbb"}
 		// tags:
 		//		extension
 	},
