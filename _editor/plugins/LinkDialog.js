@@ -59,7 +59,7 @@ dojo.declare("dijit._editor.plugins.LinkDialog",dijit._editor._Plugin,{
 		"<label for='${id}_textInput'>${text}</label>",
 		"</td><td>",
 		"<input dojoType='dijit.form.ValidationTextBox' required='true' id='${id}_textInput' " +
-		"name='textInput'>",
+		"name='textInput' intermediateChanges='true'>",
 		"</td></tr><tr><td>",
 		"<label for='${id}_targetSelect'>${target}</label>",
 		"</td><td>",
@@ -99,24 +99,31 @@ dojo.declare("dijit._editor.plugins.LinkDialog",dijit._editor._Plugin,{
 			dojo.string.substitute(this.linkDialogTemplate, messages));
 		dropDown.startup();
 		this._urlInput = dijit.byId(this._uniqueId + "_urlInput");
+		this._textInput = dijit.byId(this._uniqueId + "_textInput");
 		this._setButton = dijit.byId(this._uniqueId + "_setButton");
 		this.connect(dijit.byId(this._uniqueId + "_cancelButton"), "onClick", function(){
 			this.dropDown.onCancel();
 		});
 		if(this._urlInput){
-			this.connect(this._urlInput, "onChange", "_checkAndFixUrl");
+			this.connect(this._urlInput, "onChange", "_checkAndFixInput");
+		}
+		if(this._textInput){
+			this.connect(this._textInput, "onChange", "_checkAndFixInput");
 		}
 		this.inherited(arguments);
 	},
 
-	_checkAndFixUrl: function(url){
+	_checkAndFixInput: function(){
 		// summary:
-	   	//		A function to listen for onChange events and test the url input content
-		//		for http/https/ftp and if not present, try and guess if the input url is
-		//		relative or not, and if not, append http:// to it.
+	   	//		A function to listen for onChange events and test the input contents 
+		//		for valid information, such as valid urls with http/https/ftp and if 
+		//		not present, try and guess if the input url is relative or not, and if 
+		//		not, append http:// to it.  Also validates other fields as determined by
+		//		the internal _isValid function.
 		var self = this;
-		var appendHttp = false;
+		var url = this._urlInput.attr("value");
 		var fixupUrl = function(url){
+			var appendHttp = false;
 			if(url && url.length > 7){
 				url = dojo.trim(url);
 				if(url.indexOf("/") > 0){
@@ -134,7 +141,7 @@ dojo.declare("dijit._editor.plugins.LinkDialog",dijit._editor._Plugin,{
 			if(appendHttp){
 				self._urlInput.attr("value", "http://" + url);
 			}
-			if(!self._urlInput.isValid()){
+			if(!self._isValid()){
 				self._setButton.attr("disabled", true);
 			}else{
 				self._setButton.attr("disabled", false);
@@ -147,6 +154,15 @@ dojo.declare("dijit._editor.plugins.LinkDialog",dijit._editor._Plugin,{
 		this._delayedCheck = setTimeout(function(){
 			fixupUrl(url);
 		}, 250);
+	},
+
+	_isValid: function(){
+		// summary:
+		//		Internal function to allow validating of the inputs 
+		//		for a link to determine if set should be disabled or not
+		// tags:
+		//		protected
+		return this._urlInput.isValid() && this._textInput.isValid();
 	},
 
 	_setContent: function(staticPanel){
@@ -274,8 +290,8 @@ dojo.declare("dijit._editor.plugins.ImgLinkDialog", [dijit._editor.plugins.LinkD
 		"</td></tr><tr><td>",
 		"<label for='${id}_textInput'>${text}</label>",
 		"</td><td>",
-		"<input dojoType='dijit.form.ValidationTextBox' required='true' id='${id}_textInput' " +
-		"name='textInput'>",
+		"<input dojoType='dijit.form.ValidationTextBox' required='false' id='${id}_textInput' " +
+		"name='textInput' intermediateChanges='true'>",
 		"</td></tr><tr><td>",
 		"</td><td>",
 		"</td></tr><tr><td colspan='2'>",
@@ -309,6 +325,14 @@ dojo.declare("dijit._editor.plugins.ImgLinkDialog", [dijit._editor.plugins.LinkD
 			text = dojo.withGlobal(this.editor.window, dijit._editor.selection.getSelectedText);
 		}
 		return {urlInput: url || '', textInput: text || ''}; //Object;
+	},
+
+	_isValid: function(){
+		// summary:
+		//		Over-ride for images.  You can have alt text of blank, it is valid.
+		// tags:
+		//		protected
+		return this._urlInput.isValid();
 	}
 });
 
