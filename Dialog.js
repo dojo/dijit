@@ -428,7 +428,7 @@ dojo.declare(
 			this._savedFocus = dijit.getFocus(this);
 		},
 
-		hide: function(/*Boolean*/ ignoreStackPos){
+		hide: function(){
 			// summary:
 			//		Hide the dialog
 
