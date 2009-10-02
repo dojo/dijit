@@ -110,6 +110,7 @@ dojo.declare("dijit._editor.plugins.LinkDialog",dijit._editor._Plugin,{
 		if(this._textInput){
 			this.connect(this._textInput, "onChange", "_checkAndFixInput");
 		}
+		this._connectTagEvents();
 		this.inherited(arguments);
 	},
 
@@ -154,6 +155,14 @@ dojo.declare("dijit._editor.plugins.LinkDialog",dijit._editor._Plugin,{
 		this._delayedCheck = setTimeout(function(){
 			fixupUrl(url);
 		}, 250);
+	},
+
+	_connectTagEvents: function() {
+		// summary:
+		//		Over-ridable function that connects tag specific events.
+		this.editor.onLoadDeferred.addCallback(dojo.hitch(this, function(){
+			this.connect(this.editor.editNode, "ondblclick", this._onDblClick);
+		}));
 	},
 
 	_isValid: function(){
@@ -226,7 +235,7 @@ dojo.declare("dijit._editor.plugins.LinkDialog",dijit._editor._Plugin,{
 		// tags:
 		//		protected
 		var url, text, target;
-		if(a){
+		if(a && a.tagName.toLowerCase() === this.tag){
 			url = a.getAttribute('_djrealurl');
 			target = a.getAttribute('target') || "_self";
 			text = a.textContent || a.innerText;
@@ -267,6 +276,33 @@ dojo.declare("dijit._editor.plugins.LinkDialog",dijit._editor._Plugin,{
 		this.dropDown.reset();
 		this._setButton.attr("disabled", true);
 		this.dropDown.attr("value", this._getCurrentValues(a));
+	},
+
+	_onDblClick: function(e){
+		// summary:
+		// 		Function to define a behavior on double clicks on the element
+		//		type this dialog edits to select it and pop up the editor 
+		//		dialog.
+		// e: Object
+		//		The double-click event.
+		// tags:
+		//		protected.
+		if(e && e.target){
+			var t = e.target;
+			var tg = t.tagName? t.tagName.toLowerCase() : "";
+			if(tg === this.tag){
+				this.editor.onDisplayChanged();
+				dojo.withGlobal(this.editor.window, 
+					 "selectElement", 
+					 dijit._editor.selection, [t]);
+				setTimeout(dojo.hitch(this, function(){
+					// Focus shift outside the event handler.
+					// IE doesn't like focus changes in event handles.
+					this.button.attr("disabled", false);
+					this.button.openDropDown();
+				}), 10);
+			}
+		}
 	}
 });
 
@@ -316,7 +352,7 @@ dojo.declare("dijit._editor.plugins.ImgLinkDialog", [dijit._editor.plugins.LinkD
 		// tags:
 		//		protected
 		var url, text;
-		if(img){
+		if(img && img.tagName.toLowerCase() === this.tag){
 			url = img.getAttribute('_djrealurl');
 			text = img.getAttribute('alt');
 			dojo.withGlobal(this.editor.window, 
@@ -333,6 +369,35 @@ dojo.declare("dijit._editor.plugins.ImgLinkDialog", [dijit._editor.plugins.LinkD
 		// tags:
 		//		protected
 		return this._urlInput.isValid();
+	},
+
+	_connectTagEvents: function() {
+		// summary:
+		//		Over-ridable function that connects tag specific events.
+		this.inherited(arguments);
+		this.editor.onLoadDeferred.addCallback(dojo.hitch(this, function(){
+			this.connect(this.editor.editNode, "onclick", this._selectTag);
+		}));
+	},
+
+	_selectTag: function(e){
+		// summary:
+		//		A simple event handler that lets me select an image if it is clicked on.
+		//		makes it easier to select images in a standard way across browsers.  Otherwise
+		//		selecting an image for edit becomes difficult.
+		// e: Event
+		//		The click event.
+		// tags:
+		//		private
+		if(e && e.target){
+			var t = e.target;
+			var tg = t.tagName? t.tagName.toLowerCase() : "";
+			if(tg === this.tag){
+				dojo.withGlobal(this.editor.window, 
+					"selectElement", 
+					dijit._editor.selection, [t]);
+			}
+		}
 	}
 });
 
