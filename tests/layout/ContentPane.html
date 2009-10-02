@@ -621,7 +621,7 @@
 						}
 					},
 					{
-						name: "false",
+						name: "doLayout=false",
 						setUp: function(t){
 							pane5 = new dijit.layout.ContentPane({
 								content:
@@ -638,7 +638,7 @@
 						}
 					},
 					{
-						name: "mixed",
+						name: "mixed content",
 						setUp: function(t){
 							pane5 = new dijit.layout.ContentPane({
 								content:
@@ -688,6 +688,23 @@
 							t.assertTrue(dd);
 							t.assertTrue(dijit.byId("sc"));
 							t.assertEqual(pane5._singleChild, dijit.byId("sc"));
+						},
+						tearDown: function(t){
+							pane5.destroyRecursive();
+						}
+					},
+					{
+						name: "script tags ignored",
+						setUp: function(t){
+							pane5 = new dijit.layout.ContentPane({
+								content:
+									"<scri" + "pt></scri" + "pt>" +
+									"<div dojoType='dijit.layout.StackContainer' id='sc'></div>"
+							}, dojo.byId("pane5"));
+						},
+						runTest: function(t){
+							// script tag should be ignored, should be detected as single child
+							t.assertTrue(pane5._singleChild, "script tag ignored, marked as single child");
 						},
 						tearDown: function(t){
 							pane5.destroyRecursive();

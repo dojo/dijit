@@ -186,7 +186,9 @@ dojo.declare(
 		//		and should propogate startup() and resize() calls to it.
 		//		Skips over things like data stores since they aren't visible.
 
-		var childNodes = dojo.query(">", this.containerNode),
+		var childNodes = dojo.query(">", this.containerNode).filter(function(node) {
+				return node.tagName !== "SCRIPT"; // or a regexp for hidden elements like script|area|map|etc..
+			}),
 			childWidgetNodes = childNodes.filter(function(node){
 				return dojo.hasAttr(node, "dojoType") || dojo.hasAttr(node, "widgetId");
 			}),
