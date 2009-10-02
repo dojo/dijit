@@ -209,9 +209,9 @@ dijit.__Rectangle = function(){
 	// height: Integer
 	//		height in pixels
 
-	thix.x = x;
+	this.x = x;
 	this.y = y;
-	thix.width = width;
+	this.width = width;
 	this.height = height;
 }
 =====*/
