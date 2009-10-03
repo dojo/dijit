@@ -1445,7 +1445,11 @@ dojo.declare(
 		this.destroy();
 	},
 
-	resize: function(){
+	resize: function(changeSize){
+		if(changeSize){
+			dojo.marginBox(this.domNode, changeSize);
+		}
+
 		// The only JS sizing involved w/tree is the indentation, which is specified
 		// in CSS and read in through this dummy indentDetector node (tree must be
 		// visible and attached to the DOM to read this)

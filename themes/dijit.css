@@ -1283,6 +1283,10 @@ div.dijitTabBtnDisabled img {
 
 /* Tree */
 
+.dijitTreeContainer {
+	overflow: auto;		/* in case a parent layout container sizes us */
+}
+
 .dijitTreeIndent {
 	/* amount to indent each tree node (relative to parent node) */
 	width: 19px;
