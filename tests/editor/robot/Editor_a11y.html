@@ -273,7 +273,7 @@
 
 							// Go to link after editor1
 							doh.robot.keyPress(dojo.keys.TAB, 500);
-							if(dojo.isFF){
+							if(dojo.isMoz){
 								// On FF you need to hit tab twice to get out, see http://docs.dojocampus.org/dijit/Editor
 								doh.robot.keyPress(dojo.keys.TAB, 500);
 							}	
@@ -324,7 +324,7 @@
 							var d = new doh.Deferred();
 
 							doh.robot.keyPress(dojo.keys.TAB, 500, {shift: true});
-							if(dojo.isFF){
+							if(dojo.isMoz){
 								// Need to shift-tab twice on FF, see #9612
 								doh.robot.keyPress(dojo.keys.TAB, 500, {shift: true});
 							}								

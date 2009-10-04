@@ -18,7 +18,7 @@
 		dojo.require("doh.runner");
 		dojo.require("dijit._base.scroll");
 
-		var usingNative = !(dojo.isFF >= 3 || dojo.isIE || dojo.isWebKit);
+		var usingNative = !(dojo.isMoz || dojo.isIE || dojo.isWebKit);
 		dojo.addOnLoad(function(){
 		        doh.register("dijit._base.scroll",
 	                [
@@ -569,9 +569,6 @@ console.log('!!!!!!!!!!!! scrollbar size = ' + sb);
 			}
 			content = content.replace(/WK([A-Z]_)/g, "$1");
 		}else if(dojo.isMoz){
-			if(dojo.isFF < 3){
-				content = content.replace(/FF2([A-Z]_)/g, "$1");
-			}
 			content = content.replace(/MZ([A-Z]_)/g, "$1");
 		}
 		// find DOCTYPE specific CSS attributes

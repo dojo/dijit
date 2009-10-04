@@ -60,7 +60,7 @@
 					gotFocus = lostFocus = false;
 					var dlog = dijit.byId(ids.dlg);
 					// need to show dialog in order to find the first tab stop.
-					if( !dojo.isFF && ids.fileInput){
+					if( !dojo.isMoz && ids.fileInput){
 						that.firstTabStop = dojo.byId(ids.fileInput);
 					}else{
 						that.firstTabStop = dojo.byId(ids.firstFocus);
