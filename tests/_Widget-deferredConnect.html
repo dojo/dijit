@@ -14,19 +14,30 @@
 	<script>
 		dojo.require("dijit.form.Button");
 
+		overrodeMouseMoved = false;
+		bothOverrodeMouseMoved = false;
+		connectedMouseMoved = false;
+		bothConnectedMouseMoved = false;
+
 		function bothHandler(){
-			console.log("'both' button: overrode handler called");
+			if(!bothOverrodeMouseMoved){
+				console.log("'both' button: overrode handler called");
+			}
 			bothOverrodeMouseMoved = true;
 		}
 
 		dojo.addOnLoad(function(){
 			dojo.connect(dijit.byId("connect"), "onMouseMove", function(){
-				console.log("'connect' button: mouse moved");
+				if(!connectedMouseMoved){
+					console.log("'connect' button: mouse moved");
+				}
 				connectedMouseMoved = true;
 			});
 
 			dojo.connect(dijit.byId("both"), "onMouseMove", function(){
-				console.log("'both' button: connected handler");
+				if(!bothConnectedMouseMoved){
+					console.log("'both' button: connected handler");
+				}
 				bothConnectedMouseMoved = true;
 			});			
 		});
@@ -49,7 +60,7 @@
 		"overrode" button specifies an onmousemove handler on initialization.
 	-->
 	<button id="overrode" dojoType="dijit.form.Button"
-		onMouseMove="console.log('\'overrode\' button: mouse moved'); overrodeMouseMoved = true;">
+		onMouseMove="if(!overrodeMouseMoved){ console.log('\'overrode\' button: mouse moved'); } overrodeMouseMoved = true;">
 		overrode
 	</button>
 
