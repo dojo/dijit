@@ -62,7 +62,7 @@ dojo.declare(
 				this.inherited(arguments);
 			},
 
-			onAddChild: function(/*Widget*/ page, /*Integer?*/ insertIndex){
+			onAddChild: function(/*dijit._Widget*/ page, /*Integer?*/ insertIndex){
 				// summary:
 				//		Called whenever a page is added to the container.
 				//		Create button corresponding to the page.
@@ -114,7 +114,7 @@ dojo.declare(
 				}
 			},
 
-			onRemoveChild: function(/*Widget*/ page){
+			onRemoveChild: function(/*dijit._Widget*/ page){
 				// summary:
 				//		Called whenever a page is removed from the container.
 				//		Remove the button corresponding to the page.
@@ -132,7 +132,7 @@ dojo.declare(
 				}
 			},
 
-			onSelectChild: function(/*Widget*/ page){
+			onSelectChild: function(/*dijit._Widget*/ page){
 				// summary:
 				//		Called when a page has been selected in the StackContainer, either by me or by another StackController
 				// tags:
@@ -154,7 +154,7 @@ dojo.declare(
 				dijit.setWaiState(container.containerNode, "labelledby", newButton.id);
 			},
 
-			onButtonClick: function(/*Widget*/ page){
+			onButtonClick: function(/*dijit._Widget*/ page){
 				// summary:
 				//		Called whenever one of my child buttons is pressed in an attempt to select a page
 				// tags:
@@ -164,7 +164,7 @@ dojo.declare(
 				container.selectChild(page); 
 			},
 
-			onCloseButtonClick: function(/*Widget*/ page){
+			onCloseButtonClick: function(/*dijit._Widget*/ page){
 				// summary:
 				//		Called whenever one of my child buttons [X] is pressed in an attempt to close a page
 				// tags:

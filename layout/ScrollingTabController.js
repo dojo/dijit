@@ -232,7 +232,7 @@ dojo.declare("dijit.layout.ScrollingTabController",
 		}
 	},
 
-	onSelectChild: function(/*Widget*/ page){
+	onSelectChild: function(/*dijit._Widget*/ page){
 		// summary: 
 		//		Smoothly scrolls to a tab when it is selected.
 		

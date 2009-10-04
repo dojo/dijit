@@ -55,7 +55,7 @@ dojo.declare("dijit._KeyNavContainer",
 			dojo.forEach(this.getChildren(), dojo.hitch(this, "_startupChild"));
 		},
 
-		addChild: function(/*Widget*/ widget, /*int?*/ insertIndex){
+		addChild: function(/*dijit._Widget*/ widget, /*int?*/ insertIndex){
 			// summary:
 			//		Add a child to our _Container
 			dijit._KeyNavContainer.superclass.addChild.apply(this, arguments);
@@ -115,7 +115,7 @@ dojo.declare("dijit._KeyNavContainer",
 			}
 		},
 
-		focusChild: function(/*Widget*/ widget, /*Node?*/ node){
+		focusChild: function(/*dijit._Widget*/ widget, /*Node?*/ node){
 			// summary:
 			//		Focus widget. Optionally focus 'node' within widget.
 			// tags:
@@ -133,7 +133,7 @@ dojo.declare("dijit._KeyNavContainer",
 			}
 		},
 
-		_startupChild: function(/*Widget*/ widget){
+		_startupChild: function(/*dijit._Widget*/ widget){
 			// summary:
 			//		Set tabIndex="-1" on focusable widgets so that we
 			// 		can focus them programmatically and by clicking.
@@ -236,7 +236,7 @@ dojo.declare("dijit._KeyNavContainer",
 			dojo.stopEvent(evt);
 		},
 
-		_onChildBlur: function(/*Widget*/ widget){
+		_onChildBlur: function(/*dijit._Widget*/ widget){
 			// summary:
 			//		Called when focus leaves a child widget to go
 			//		to a sibling widget.
@@ -247,7 +247,7 @@ dojo.declare("dijit._KeyNavContainer",
 		_getFirstFocusableChild: function(){
 			// summary:
 			//		Returns first child that can be focused
-			return this._getNextFocusableChild(null, 1);	// Widget
+			return this._getNextFocusableChild(null, 1);	// dijit._Widget
 		},
 
 		_getNextFocusableChild: function(child, dir){
@@ -268,12 +268,12 @@ dojo.declare("dijit._KeyNavContainer",
 					child = children[(dir>0) ? 0 : (children.length-1)];
 				}
 				if(child.isFocusable()){
-					return child;	// Widget
+					return child;	// dijit._Widget
 				}
 				child = this._getSiblingOfChild(child, dir);
 			}
 			// no focusable child found
-			return null;	// Widget
+			return null;	// dijit._Widget
 		}
 	}
 );

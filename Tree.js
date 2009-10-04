@@ -1295,7 +1295,7 @@ dojo.declare(
 		dijit.focus(node.labelNode);
 	},
 
-	_onNodeFocus: function(/*Widget*/ node){
+	_onNodeFocus: function(/*dijit._Widget*/ node){
 		// summary:
 		//		Called when a TreeNode gets focus, either by user clicking
 		//		it, or programatically by arrow key handling code.
@@ -1315,12 +1315,12 @@ dojo.declare(
 		}
 	},
 
-	_onNodeMouseEnter: function(/*Widget*/ node){
+	_onNodeMouseEnter: function(/*dijit._Widget*/ node){
 		// summary:
 		//		Called when mouse is over a node (onmouseenter event)
 	},
 
-	_onNodeMouseLeave: function(/*Widget*/ node){
+	_onNodeMouseLeave: function(/*dijit._Widget*/ node){
 		// summary:
 		//		Called when mouse is over a node (onmouseenter event)
 	},

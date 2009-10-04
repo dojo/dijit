@@ -201,7 +201,7 @@ dijit.popup.__OpenArgs = function(){
 		return best;
 	};
 
-	this.close = function(/*Widget*/ popup){
+	this.close = function(/*dijit._Widget*/ popup){
 		// summary:
 		//		Close specified popup and any popups that it parented
 		while(dojo.some(stack, function(elem){return elem.widget == popup;})){

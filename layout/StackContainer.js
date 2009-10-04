@@ -92,7 +92,7 @@ dojo.declare(
 		this.inherited(arguments);
 	},
 
-	_setupChild: function(/*Widget*/ child){
+	_setupChild: function(/*dijit._Widget*/ child){
 		// Overrides _LayoutWidget._setupChild()
 
 		this.inherited(arguments);
@@ -105,7 +105,7 @@ dojo.declare(
 		child.domNode.title = "";
 	},
 
-	addChild: function(/*Widget*/ child, /*Integer?*/ insertIndex){
+	addChild: function(/*dijit._Widget*/ child, /*Integer?*/ insertIndex){
 		// Overrides _Container.addChild() to do layout and publish events
 		 
 		this.inherited(arguments);
@@ -127,7 +127,7 @@ dojo.declare(
 		}
 	},
 
-	removeChild: function(/*Widget*/ page){
+	removeChild: function(/*dijit._Widget*/ page){
 		// Overrides _Container.removeChild() to do layout and publish events
 
 		this.inherited(arguments);
@@ -158,7 +158,7 @@ dojo.declare(
 		}
 	},
 
-	selectChild: function(/*Widget*/ page){
+	selectChild: function(/*dijit._Widget*/ page){
 		// summary:
 		//		Show the given widget (which must be one of my children)
 
@@ -176,7 +176,7 @@ dojo.declare(
 		}
 	},
 
-	_transition: function(/*Widget*/newWidget, /*Widget*/oldWidget){
+	_transition: function(/*dijit._Widget*/newWidget, /*dijit._Widget*/oldWidget){
 		// summary:
 		//		Hide the old widget and display the new widget.
 		//		Subclasses should override this.
@@ -233,7 +233,7 @@ dojo.declare(
 		}
 	},
 
-	_showChild: function(/*Widget*/ page){
+	_showChild: function(/*dijit._Widget*/ page){
 		// summary:
 		//		Show the specified child by changing it's CSS, and call _onShow()/onShow() so
 		//		it can do any updates it needs regarding loading href's etc.
@@ -248,7 +248,7 @@ dojo.declare(
 		page._onShow();
 	},
 
-	_hideChild: function(/*Widget*/ page){
+	_hideChild: function(/*dijit._Widget*/ page){
 		// summary:
 		//		Hide the specified child by changing it's CSS, and call _onHide() so
 		//		it's notified.
@@ -259,7 +259,7 @@ dojo.declare(
 		page.onHide();
 	},
 
-	closeChild: function(/*Widget*/ page){
+	closeChild: function(/*dijit._Widget*/ page){
 		// summary:
 		//		Callback when user clicks the [X] to remove a page.
 		//		If onClose() returns true then remove and destroy the child.

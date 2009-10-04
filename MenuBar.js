@@ -57,7 +57,7 @@ dojo.declare("dijit.MenuBar", dijit._MenuBase, {
 		}
 	},
 
-	onItemClick: function(/*Widget*/ item, /*Event*/ evt){
+	onItemClick: function(/*dijit._Widget*/ item, /*Event*/ evt){
 		// summary:
 		//		Handle clicks on an item. Cancels a dropdown if already open.
 		// tags:

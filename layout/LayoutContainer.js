@@ -49,14 +49,14 @@ dojo.declare("dijit.layout.LayoutContainer",
 		dijit.layout.layoutChildren(this.domNode, this._contentBox, this.getChildren());
 	},
 
-	addChild: function(/*Widget*/ child, /*Integer?*/ insertIndex){
+	addChild: function(/*dijit._Widget*/ child, /*Integer?*/ insertIndex){
 		this.inherited(arguments);
 		if(this._started){
 			dijit.layout.layoutChildren(this.domNode, this._contentBox, this.getChildren());
 		}
 	},
 
-	removeChild: function(/*Widget*/ widget){
+	removeChild: function(/*dijit._Widget*/ widget){
 		this.inherited(arguments);
 		if(this._started){
 			dijit.layout.layoutChildren(this.domNode, this._contentBox, this.getChildren());

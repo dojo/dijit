@@ -110,7 +110,7 @@ dojo.declare("dijit.layout.SplitContainer",
 		this.inherited(arguments); 
 	},
 
-	_setupChild: function(/*Widget*/ child){
+	_setupChild: function(/*dijit._Widget*/ child){
 		this.inherited(arguments);
 		child.domNode.style.position = "absolute";
 		dojo.addClass(child.domNode, "dijitSplitPane");
@@ -172,7 +172,7 @@ dojo.declare("dijit.layout.SplitContainer",
 		}
 	},
 
-	addChild: function(/*Widget*/ child, /*Integer?*/ insertIndex){
+	addChild: function(/*dijit._Widget*/ child, /*Integer?*/ insertIndex){
 		// summary:
 		//		Add a child widget to the container
 		// child:

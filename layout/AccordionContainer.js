@@ -214,7 +214,7 @@ dojo.declare(
 		},
 
 		// note: we are treating the container as controller here
-		_onKeyPress: function(/*Event*/ e, /*Widget*/ fromTitle){
+		_onKeyPress: function(/*Event*/ e, /*dijit._Widget*/ fromTitle){
 			// summary:
 			//		Handle keypress events
 			// description:

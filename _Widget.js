@@ -8,7 +8,7 @@ dojo.require( "dijit._base" );
 // This code is to assist deferring dojo.connect() calls in widgets (connecting to events on the widgets'
 // DOM nodes) until someone actually needs to monitor that event.
 dojo.connect(dojo, "_connect", 
-	function(/*Widget*/ widget, /*String*/ event){
+	function(/*dijit._Widget*/ widget, /*String*/ event){
 		if(widget && dojo.isFunction(widget._onConnect)){
 			widget._onConnect(event);
 		}

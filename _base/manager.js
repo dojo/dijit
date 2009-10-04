@@ -22,7 +22,7 @@ dojo.declare("dijit.WidgetSet", null, {
 		this.length = 0;
 	},
 
-	add: function(/*Widget*/ widget){
+	add: function(/*dijit._Widget*/ widget){
 		// summary:
 		//		Add a widget to this list. If a duplicate ID is detected, a error is thrown.
 		//
@@ -274,13 +274,13 @@ if(dojo.isIE){
 dijit.byId = function(/*String|Widget*/id){
 	// summary:
 	//		Returns a widget by it's id, or if passed a widget, no-op (like dojo.byId())
-	return typeof id == "string" ? dijit.registry._hash[id] : id; // Widget
+	return typeof id == "string" ? dijit.registry._hash[id] : id; // dijit._Widget
 };
 
 dijit.byNode = function(/* DOMNode */ node){
 	// summary:
 	//		Returns the widget corresponding to the given DOMNode
-	return dijit.registry.byId(node.getAttribute("widgetId")); // Widget
+	return dijit.registry.byId(node.getAttribute("widgetId")); // dijit._Widget
 };
 
 dijit.getEnclosingWidget = function(/* DOMNode */ node){

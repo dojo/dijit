@@ -82,7 +82,7 @@ dojo.declare(
 		this.inherited(arguments);
 	},
 
-	_setupChild: function(/*Widget*/child){
+	_setupChild: function(/*dijit._Widget*/ child){
 		// Override _LayoutWidget._setupChild().
 
 		var region = child.region;
@@ -135,7 +135,7 @@ dojo.declare(
 		this._layoutChildren();
 	},
 
-	addChild: function(/*Widget*/ child, /*Integer?*/ insertIndex){
+	addChild: function(/*dijit._Widget*/ child, /*Integer?*/ insertIndex){
 		// Override _LayoutWidget.addChild().
 		this.inherited(arguments);
 		if(this._started){
@@ -143,7 +143,7 @@ dojo.declare(
 		}
 	},
 
-	removeChild: function(/*Widget*/ child){
+	removeChild: function(/*dijit._Widget*/ child){
 		// Override _LayoutWidget.removeChild().
 		var region = child.region;
 		var splitter = this._splitters[region];

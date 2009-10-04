@@ -154,7 +154,7 @@ dojo.declare("dijit.layout._LayoutWidget",
 			//		protected extension
 		},
 
-		_setupChild: function(/*Widget*/child){
+		_setupChild: function(/*dijit._Widget*/child){
 			// summary:
 			//		Common setup for initial children and children which are added after startup
 			// tags:
@@ -166,7 +166,7 @@ dojo.declare("dijit.layout._LayoutWidget",
 			}
 		},
 
-		addChild: function(/*Widget*/ child, /*Integer?*/ insertIndex){
+		addChild: function(/*dijit._Widget*/ child, /*Integer?*/ insertIndex){
 			// Overrides _Container.addChild() to call _setupChild()
 			this.inherited(arguments);
 			if(this._started){
@@ -174,7 +174,7 @@ dojo.declare("dijit.layout._LayoutWidget",
 			}
 		},
 
-		removeChild: function(/*Widget*/ child){
+		removeChild: function(/*dijit._Widget*/ child){
 			// Overrides _Container.removeChild() to remove class added by _setupChild()
 			dojo.removeClass(child.domNode, this.baseClass+"-child");
 			if(child.baseClass){
