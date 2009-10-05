@@ -59,7 +59,7 @@
 	
 			doh.register("drop down navigation / mouse", [
 				{
-					timeout:60000,
+					timeout:6000,
 					name:"open drop down",
 					runTest:function(){
 						var d = new doh.Deferred();
@@ -75,14 +75,14 @@
 								entries = dojo.query("li", list).filter(isVisible);
 							doh.t(isVisible(list), "list is visible");
 							doh.is(31, entries.length, "30 elements plus next button");
-						}), 500);
+						}), 1000);
 						
 						return d;
 					}
 				},
 				
 				{
-					timeout:60000,
+					timeout:6000,
 					name:"next page",
 					runTest:function(){
 						var d = new doh.Deferred();
@@ -93,33 +93,27 @@
 						doh.t(isVisible(list), "list is still visible");
 						doh.t(moreEntriesButton, "found more entries button");
 
-						doh.robot.sequence(function(){
-							dijit.scrollIntoView(moreEntriesButton);
-						});
 						doh.robot.mouseMoveAt(moreEntriesButton, 500);
 						doh.robot.mouseClick({left:true}, 100);
 
 						doh.robot.sequence(d.getTestCallback(function(){
 							var list = dojo.byId("setvaluetest_popup"),
 								entries = dojo.query("li", list).filter(isVisible);
-								doh.is("Minnesota", innerText(entries[1]));
-						}), 500);
+								doh.is("Minnesota (MN)", innerText(entries[1]));
+						}), 1000);
 						
 						return d;
 					}
 				},
 
 				{
-					timeout:60000,
+					timeout:6000,
 					name:"last page",
 					runTest:function(){
 						var d = new doh.Deferred();
 
 						var moreEntriesButton = dojo.query(":last-child", dojo.byId("setvaluetest_popup"))[0];
 
-						doh.robot.sequence(function(){
-							dijit.scrollIntoView(moreEntriesButton);
-						});
 						doh.robot.mouseMoveAt(moreEntriesButton, 500);
 						doh.robot.mouseClick({left:true}, 100);
 
@@ -127,61 +121,80 @@
 							var list = dojo.byId("setvaluetest_popup"),
 								entries = dojo.query("li", list).filter(isVisible);
 								doh.is(2, entries.length, "previous choices + wyoming");
-								doh.is("Wyoming", innerText(entries[1]));
-						}), 500);
+								doh.is("Wyoming (WY)", innerText(entries[1]));
+						}), 1000);
 						
 						return d;
 					}
 				},
 
 				{
-					timeout:60000,
+					timeout:6000,
 					name:"previous page",
 					runTest:function(){
 						var d = new doh.Deferred();
 
 						var previousEntriesButton = dojo.query(":first-child", dojo.byId("setvaluetest_popup"))[0];
 
-						doh.robot.sequence(function(){
-							dijit.scrollIntoView(previousEntriesButton);
-						});
 						doh.robot.mouseMoveAt(previousEntriesButton, 500);
 						doh.robot.mouseClick({left:true}, 100);
 
 						doh.robot.sequence(d.getTestCallback(function(){
 							var list = dojo.byId("setvaluetest_popup"),
-								entries = dojo.query("li", list).filter(isVisible);
+								entries = dojo.query("li", list);
 								doh.is(32, entries.length, "30 states, plus next and previous button");
-								doh.is("Minnesota", innerText(entries[1]));
-								doh.is("Wisconsin", innerText(entries[30]));
-						}), 500);
+								doh.is("Minnesota (MN)", innerText(entries[1]));
+								doh.is("Wisconsin (WI)", innerText(entries[30]));
+						}), 1000);
 						
 						return d;
 					}
 				},
 
 				{
-					timeout:60000,
+					timeout:6000,
 					name:"select value",
 					runTest:function(){
 						var d = new doh.Deferred();
 
 						var list = dojo.byId("setvaluetest_popup"),
-							entries = dojo.query("li", list).filter(isVisible),
+							entries = dojo.query("li", list),
 							nj = entries[8];
 
-						doh.robot.sequence(function(){
-							// See #8955: scrollIntoView() is broken, so scroll div manually instead.
-							// dijit.scrollIntoView(nj);
-							dojo.byId("setvaluetest_popup").scrollTop = 0;
-						});
 						doh.robot.mouseMoveAt(nj, 500);
 						doh.robot.mouseClick({left:true}, 100);
 
 						doh.robot.sequence(d.getTestCallback(function(){
-								doh.is(isComboBox ? "New Jersey" : "NJ", dijit.byId("setvaluetest").attr('value'),
-									"selected New Jersey from drop down");
-						}), 500);
+							doh.is(isComboBox ? "New Jersey (NJ)" : "NJ", dijit.byId("setvaluetest").attr('value'),
+								"selected New Jersey from drop down");
+							var count = dijit.byId("setvaluetest").labelFuncCounts['NJ'];
+							doh.is(3, count, "custom labelFunc was called " + count + " times (expected 3)");
+						}), 1000);
+
+						return d;
+					}
+				},
+
+				{
+					timeout:6000,
+					name:"blur value",
+					runTest:function(){
+						var d = new doh.Deferred();
+
+						var combo = dijit.byId("setvaluetest");
+						// focus combo
+						doh.robot.mouseMoveAt(combo.focusNode, 500);
+						doh.robot.mouseClick({left:true}, 100);
+						// blur
+						doh.robot.mouseMoveAt(combo.focusNode, 500, 500, 0, -10);
+						doh.robot.mouseClick({left:true}, 100);
+
+						doh.robot.sequence(d.getTestCallback(function(){
+							doh.is(isComboBox ? "New Jersey (NJ)" : "NJ", dijit.byId("setvaluetest").attr('value'),
+								"New Jersey still set after blur");
+							var count = dijit.byId("setvaluetest").labelFuncCounts['NJ'];
+							doh.is(3, count, "custom labelFunc was called " + count + " times (expected 3, unchanged after blur)");
+						}), 1000);
 
 						return d;
 					}
@@ -192,7 +205,7 @@
 			// disabled tests+standard tests
 			doh.register("disabled", [
 				{
-					timeout:60000,
+					timeout:6000,
 					name: "focus by mouse",
 					runTest:function(){
 						var d = new doh.Deferred(),
@@ -204,13 +217,13 @@
 						doh.robot.sequence(d.getTestCallback(function(){
 							// TODO: uncomment when #8595 is fixed
 							//doh.isNot(combo, dijit.getEnclosingWidget(dojo.global.dijit._curFocus), "click doesn't focus disabled combo");
-						}), 500);
+						}), 1000);
 
 						return d;
 					}
 				},
 				{
-					timeout:60000,
+					timeout:6000,
 					name:"dropdown button",
 					runTest:function(){
 						var d = new doh.Deferred(),

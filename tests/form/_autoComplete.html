@@ -121,7 +121,7 @@
 	<script>dojo.byId('title').appendChild(document.createTextNode(testWidget+" Unit Test"))</script>
 	<form id="form1" action="#" method="GET">
 
-		<p>Option tags, autoComplete=false, selectOnClick=true, default value of California, pageSize=30</p>
+		<p>Option tags, autoComplete=false, selectOnClick=true, default value of California, pageSize=30, custom labelFunc method</p>
 		<label for="setvaluetest">US State test 1</label> (200% Courier font):
 		<select id="setvaluetest"
 				name="state1"
@@ -129,9 +129,49 @@
 				style="width:50%;font-size:200%;font-family:Courier;"
 				autoComplete="false"
 				selectOnClick="true"
-				onChange="dojo.byId('oc1').value=arguments[0]"
+				onBlur="dojo.byId('b1').value=dijit.byId('setvaluetest').value"
 				pageSize="30"
 		>
+			<script type="dojo/method" event="onChange">
+				if(this.lastlabelFuncMsg){
+					console.info(this.lastlabelFuncMsg);
+					this.lastlabelFuncMsg = '';
+				}
+				var newValue = arguments[0];
+				dojo.byId('oc1').value = newValue;
+				var itemLabel;
+				if(this.item === null){
+					itemLabel = "null";
+					if(testWidget != "dijit.form.ComboBox" && this.isValid() && this.textbox.value != ''){
+						console.error(this.id + ' has a null item, onChange value = ' + newValue + ', widget value = ' + this.value + ', displayed Value = ' + this.textbox.value);
+						this.itemError = true;
+					}
+				}else if(typeof this.item === "undefined"){
+					itemLabel = "undefined";
+					console.error(this.id + ' has an undefined item, onChange value = ' + newValue + ', widget value = ' + this.value + ', displayed Value = ' + this.textbox.value);
+					this.itemError = true;
+				}else{
+					itemLabel = this.labelFunc(this.item, this.store);
+					if(this.textbox.value != itemLabel){
+						console.error(this.id + ' has an inconsistent item value, item label = ' + itemLabel + ', onChange value = ' + newValue + ', widget value = ' + this.value + ', displayed Value = ' + this.textbox.value);
+						this.itemError = true;
+					}
+				}
+				dojo.byId('i1').value = itemLabel;
+			</script>
+			<script type="dojo/method" event="labelFunc">
+				var item = arguments[0];
+				var store = arguments[1];
+				var label = store.getValue(item, this.searchAttr);
+				var value = store.getValue(item, 'value');
+				if(!this.labelFuncCount){ this.labelFuncCount = 0; }
+				if(!this.labelFuncCounts){ this.labelFuncCounts = []; }
+				if(!this.labelFuncCounts[value]){ this.labelFuncCounts[value] = 0; }
+				this.labelFuncCount++;
+				this.labelFuncCounts[value]++;
+				this.lastlabelFuncMsg = 'my labelfunc ' + label + ' (' + value + '), count = ' + this.labelFuncCounts[value];
+				return label + ' (' + value + ')';
+			</script>
 			<option value="AL">Alabama</option>
 			<option value="AK">Alaska</option>
 			<option value="AS">American Samoa</option>
@@ -196,6 +236,8 @@
 		</select>
 		<br>onChange:<input id="oc1" disabled value="not fired yet!" autocomplete="off">
 		<br>value:<input id="v1" disabled value="not fired yet!" autocomplete="off">
+		<br>blur:<input id="b1" disabled value="not fired yet!" autocomplete="off">
+		<br>this.item:<input id="i1" disabled value="no onChange yet!" autocomplete="off">
 		<input type="button" id="sv1_1" value="Set displayed value to Kentucky" onClick="dijit.byId('setvaluetest').attr('displayedValue', 'Kentucky')" tabIndex="-1">
 	        <input type="button" id="sv1_2" value="Set displayed value to Canada" onClick="dijit.byId('setvaluetest').attr('displayedValue', 'Canada')" tabIndex="-1">
 	        <input type="button" id="sv1_3" value="Set value to null" onClick="dijit.byId('setvaluetest').attr('value', null)" tabIndex="-1">
@@ -399,10 +441,10 @@
 		<p>Special characters</p>
 		<p>The drop down list should be:</p>
 		<ul>
-		   <li>sticks &amp; stones
-		   <li>rags --&gt; riches
-		   <li>more\less
-		   <li>3 * 5
+		   <li>sticks &amp; stones</li>
+		   <li>rags --&gt; riches</li>
+		   <li>more\less</li>
+		   <li>3 * 5</li>
 		</ul>
 		<label for="specialchars">Special chars:</label>
 		<select dojoType="$testWidget"

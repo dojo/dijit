@@ -36,16 +36,18 @@
 
 			var arrowlessComboBoxes=['arrowless'];
 
-			var robot_typeValue = function(combo, text, value){
-				if(!value || isComboBox) value = text;
+			var robot_typeValue = function(combo, text, value, expectedText){
+				if(!value) value = text;
+				if(!expectedText) expectedText = text;
 				var d = new doh.Deferred();
 				combo.focusNode.focus();
+				combo.itemError = false;
 				doh.robot.sequence(function(){ combo.attr('value', null); }, 500);
 				doh.robot.typeKeys(text.replace(/^(.).*$/, "$1"), 500);
 				doh.robot.typeKeys(text.replace(/^./, ""), 1500);
-				doh.robot.keyPress(dojo.keys.ENTER, 1500+text.length*100);
+				doh.robot.keyPress(dojo.keys.ENTER, 1500);
 				doh.robot.sequence(function(){
-					if(combo.attr('value') == value && combo.focusNode.value == text && !combo._isShowingNow){
+					if(combo.attr('value') == value && combo.focusNode.value == expectedText && !combo._isShowingNow && !combo.itemError){
 						d.callback(true);
 					}else{
 						if(combo._isShowingNow){
@@ -55,7 +57,7 @@
 							combo._hideResultList();
 							d.errback(combo.id+" had a menu that did not close after an Enter keypress.");
 						}else{
-							d.errback(combo.id+" was supposed to have a value of "+value+". Text is "+combo.focusNode.value+", value is "+combo.attr('value'));
+							d.errback(combo.id+" was supposed to have a value of "+value+" (actually "+combo.attr('value')+"). Text is "+combo.focusNode.value+" (expected "+expectedText+")");
 						}
 					}
 				}, 2000);
@@ -71,12 +73,13 @@
 			}
 
 			// Select a value from the drop down using the keyboard, using "more choices" button to page as necessary
-			var robot_a11ySelectValue = function(combo, text, value, expectedtext){
-				if(!value || isComboBox) value = text;
-				if(!expectedtext || isComboBox) expectedtext = text;
+			var robot_a11ySelectValue = function(combo, text, value, expectedText){
+				if(!value) value = text;
+				if(!expectedText) expectedText = text;
 				var d = new doh.Deferred();
 
 				combo.focusNode.focus();
+				combo.itemError = false;
 				doh.robot.sequence(function(){ combo.attr('value', null); }, 500);
 
 				doh.robot.mouseMoveAt(combo.focusNode, 0); // get cursor out of the way so that wiggling doesn't mess up test
@@ -95,10 +98,10 @@
 						doh.robot.sequence(repeat, 1000);
 					}else{
 						doh.robot.sequence(function(){
-							if(combo.attr('value') == value && combo.focusNode.value == expectedtext){
+							if(combo.attr('value') == value && combo.focusNode.value == expectedText && !combo.itemError){
 								d.callback(true);
 							}else{
-								d.errback(combo.id+" was supposed to have a value of "+value+". Text is "+combo.focusNode.value+", value is "+combo.attr('value'));
+								d.errback(combo.id+" was supposed to have a value of "+value+" (actually "+combo.attr('value')+"). Text is "+combo.focusNode.value+" (expected "+expectedText+")");
 							}
 						}, 500);
 					}
@@ -116,13 +119,13 @@
 				var d = new doh.Deferred();
 				doh.robot.sequence(dojo.hitch(this, function(){
 					if(isComboBox){
-						if(this.combo.isValid() && this.combo.attr('value') == "zxcxarax"){
+						if(this.combo.isValid() && this.combo.attr('value') == "zxcxarax" && !this.combo.itemError){
 							d.callback(true);
 						}else{
 							d.errback(new Error("Good value flagged as bad in ComboBox"));
 						}
 					}else{
-						if(!this.combo.isValid() && this.combo.attr('value') == ""){
+						if(!this.combo.isValid() && this.combo.attr('value') == "" && !this.combo.itemError){
 							d.callback(true);
 						}else{
 							if(this.combo.isValid()){
@@ -132,7 +135,7 @@
 							}
 						}
 					}
-				}), 3000);
+				}), 2000);
 				return d;
 			};
 
@@ -165,8 +168,8 @@
 					runTest:function(){
 						// Spot check of initial conditions of widgets and DOM nodes
 	
-						doh.is("California", dijit.byId("setvaluetest").attr("displayedValue"), "state1 displayed value");
-						doh.is(isComboBox ? "California" : "CA", dijit.byId("setvaluetest").attr("value"), "state1 value");
+						doh.is("California (CA)", dijit.byId("setvaluetest").attr("displayedValue"), "state1 displayed value");
+						doh.is(isComboBox ? "California (CA)" : "CA", dijit.byId("setvaluetest").attr("value"), "state1 value");
 						doh.is("not fired yet!", dojo.byId("oc1").value, "state1 onChange hasn't fired");
 
 						// Test that dojo.query() finds hidden field, see #8660
@@ -178,7 +181,7 @@
 						doh.is(isComboBox ? "California" : "CA", qelems[0].value, "state2 dojo.query value");
 
 						doh.is(1, dojo.query("input[name=state3]").length,
-							"Just one input inside of filteringSelect/combobox w/name specified");
+							"Just one input inside of " + testWidget + " w/name specified");
 						if(!isComboBox){
 							// Filtering select should have two inputs, but the displayed one is hidden
 							doh.is(2, dojo.query("input", dijit.byId("combo3").domNode).length,
@@ -282,7 +285,7 @@
 					name:"valid value",
 					combo:"setvaluetest",
 					runTest:function(){
-						return robot_typeValue(dijit.byId(this.combo), "California", "CA");
+						return robot_typeValue(dijit.byId(this.combo), "California", isComboBox? undefined : "CA", isComboBox? undefined : "California (CA)");
 					}
 				},
 				
@@ -309,7 +312,7 @@
 					name:"setvaluetest_a11y",
 					combo:"setvaluetest",
 					runTest:function(){
-						return robot_a11ySelectValue(dijit.byId(this.combo), "Texas", "TX");
+						return robot_a11ySelectValue(dijit.byId(this.combo), "Texas", isComboBox? "Texas (TX)" : "TX", "Texas (TX)");
 					}
 				}
 			]);
@@ -322,6 +325,7 @@
 					runTest:function(){
 						var d = new doh.Deferred();
 						var combo = dijit.byId("setvaluetest");
+						combo.itemError = false;
 
 						combo.focusNode.focus();
 
@@ -337,13 +341,14 @@
 							
 							var entries = dojo.query("li", list).filter(isVisible);
 							doh.is(3, entries.length, "three entries in drop down: " + list.innerHTML);
-							doh.is("California", innerText(entries[0]), "list #1");						
-							doh.is("Colorado", innerText(entries[1]), "list #2");						
-							doh.is("Connecticut", innerText(entries[2]), "list #3");
+							doh.is("California (CA)", innerText(entries[0]), "list #1");						
+							doh.is("Colorado (CO)", innerText(entries[1]), "list #2");						
+							doh.is("Connecticut (CT)", innerText(entries[2]), "list #3");
 							
 							// Check that search-string highlighting is working
-							doh.is('<span class=dijitcomboboxhighlightmatch>c</span>onnecticut', entries[2].innerHTML.toLowerCase().replace(/"/g, ""), //balanced"
+							doh.is('<span class=dijitcomboboxhighlightmatch>c</span>onnecticut (ct)', entries[2].innerHTML.toLowerCase().replace(/"/g, ""), //balanced"
 								"highlighting is working");
+							doh.f(combo.itemError, testWidget + " item mismatch");
 						}), 900);
 						
 						return d;
@@ -355,6 +360,7 @@
 					runTest:function(){
 						var d = new doh.Deferred();
 						var combo = dijit.byId("setvaluetest");
+						combo.itemError = false;
 
 						// Filter drop down list to entries starting with "Co"
 						doh.robot.keyPress("o", 100);
@@ -367,8 +373,9 @@
 							
 							var entries = dojo.query("li", list).filter(isVisible);
 							doh.is(2, entries.length, "three entries in drop down: " + list.innerHTML);
-							doh.is("Colorado", innerText(entries[0]), "list #1");						
-							doh.is("Connecticut", innerText(entries[1]), "list #2");
+							doh.is("Colorado (CO)", innerText(entries[0]), "list #1");						
+							doh.is("Connecticut (CT)", innerText(entries[1]), "list #2");
+							doh.f(combo.itemError, testWidget + " item mismatch");
 						}), 900);
 						
 						return d;
@@ -380,6 +387,7 @@
 					runTest:function(){
 						var d = new doh.Deferred();
 						var combo = dijit.byId("setvaluetest");
+						combo.itemError = false;
 
 						doh.robot.keyPress(dojo.keys.BACKSPACE, 100);
 						
@@ -391,9 +399,10 @@
 							
 							var entries = dojo.query("li", list).filter(isVisible);
 							doh.is(3, entries.length, "three entries in drop down: " + list.innerHTML);
-							doh.is("California", innerText(entries[0]), "list #1");						
-							doh.is("Colorado", innerText(entries[1]), "list #2");						
-							doh.is("Connecticut", innerText(entries[2]), "list #3");
+							doh.is("California (CA)", innerText(entries[0]), "list #1");						
+							doh.is("Colorado (CO)", innerText(entries[1]), "list #2");						
+							doh.is("Connecticut (CT)", innerText(entries[2]), "list #3");
+							doh.f(combo.itemError, testWidget + " item mismatch");
 						}), 900);
 						
 						return d;
@@ -433,6 +442,7 @@
 							if(!isComboBox){
 								doh.f(dijit.byId("setvaluetest").isValid(), "FilteringSelect shouldn't be valid");
 							}
+							doh.f(dijit.byId("setvaluetest").itemError, testWidget + " item mismatch");
 						}), 900);
 						
 						return d;
@@ -536,7 +546,7 @@
 							// The query "C*" should be canceled when "Co*" is started
 							var log = dojo.global.slowStateStore.log;
 							
-							var len = testWidget == "dijit.form.FilteringSelect"? 6 : 4; // initial null caused 2 events
+							var len = !isComboBox? 6 : 4; // initial null caused 2 events
 							doh.is(len, log.length, len + " events on data store");
 							doh.is("start C*", log[len-4].type + " " + log[len-4].query.name);
 							doh.is("cancel C*", log[len-3].type + " " + log[len-3].query.name);
@@ -583,7 +593,7 @@
 						doh.robot.sequence(d.getTestCallback(function(){
 							var log = dojo.global.slowStateStore.log;
 							var len = log.length;
-							if(testWidget == "dijit.form.FilteringSelect"){
+							if(!isComboBox){
 								doh.is(6, len, "query was issued for 'Co' but canceled");
 								doh.is("cancel ", log[1].type + " " + log[1].query.name);
 								doh.is("cancel Co*", log[3].type + " " + log[3].query.name);
@@ -657,14 +667,13 @@
 				}
 			]);
 
-
 			doh.register("specialchars", [
 				{
 					timeout:60000,
 					name:"specialchars_type",
 					combo:"specialchars",
 					runTest:function(){
-						return robot_typeValue(dijit.byId(this.combo), "sticks & stones", "sticks");
+						return robot_typeValue(dijit.byId(this.combo), "sticks & stones", isComboBox? undefined : "sticks");
 					}
 				},
 
@@ -673,7 +682,7 @@
 					name:"specialchars_a11y",
 					combo:"specialchars",
 					runTest:function(){
-						return robot_a11ySelectValue(dijit.byId(this.combo), "more\\less", "more");
+						return robot_a11ySelectValue(dijit.byId(this.combo), "more\\less", isComboBox? undefined : "more");
 					}
 				}
 			]);
@@ -684,7 +693,7 @@
 					name:"japanese_a11y",
 					combo:"japanese",
 					runTest:function(){
-						return robot_a11ySelectValue((this.combo = dijit.byId(this.combo)), "\u6771\u533A (East)", "higashiku");
+						return robot_a11ySelectValue((this.combo = dijit.byId(this.combo)), "\u6771\u533A (East)", isComboBox? undefined : "higashiku");
 					},
 					tearDown:function(){
 						this.combo.attr("value", isComboBox?"\u6771\u533A (East)":"higashiku");
@@ -731,11 +740,11 @@
 					name:"labelFunc_a11y",
 					combo:"labelFunc",
 					runTest:function(){
-						// labelFunc makes Texas texas on FilteringSelect
-						return robot_a11ySelectValue((this.combo = dijit.byId(this.combo)), "Texas", isComboBox?null:"TX", isComboBox?null:"texas");
+						// labelFunc makes Texas texas
+						return robot_a11ySelectValue((this.combo = dijit.byId(this.combo)), "Texas", isComboBox? "texas" : "TX", "texas");
 					},
 					tearDown:function(){
-						this.combo.attr("value", isComboBox?"Texas":"TX");
+						this.combo.attr("value", isComboBox? "Texas" : "TX");
 					}
 				},
 
@@ -744,7 +753,7 @@
 					name:"labelFunc_type",
 					combo:"labelFunc",
 					runTest:function(){
-						var d = robot_typeValue((this.combo = dijit.byId(this.combo)), isComboBox?"Alabama":"alabama", "AL");
+						var d = robot_typeValue((this.combo = dijit.byId(this.combo)), "Alabama", isComboBox? "alabama" : "AL", "alabama");
 						return d;
 					}
 				}
