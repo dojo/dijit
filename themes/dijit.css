@@ -1283,7 +1283,7 @@ div.dijitTabBtnDisabled img {
 
 /* Tree */
 
-.dijitTreeContainer {
+.dijitTree {
 	overflow: auto;		/* in case a parent layout container sizes us */
 }
 
