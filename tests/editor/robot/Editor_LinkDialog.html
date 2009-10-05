@@ -65,7 +65,7 @@
 									desc = dijit.byId(ldPlugin._uniqueId + "_textInput");
 									url.attr("value", "http://example.com/");
 									desc.attr("value", "This is my example link.");
-								},1000);
+								},2000);
 								doh.robot.mouseMoveAt(function(){return dijit.byId(ldPlugin._uniqueId + "_setButton").domNode;}, 500);
 								doh.robot.mouseClick({left:true}, 500);
 								doh.robot.sequence(d.getTestCallback(function(){
@@ -76,7 +76,7 @@
 									doh.assertFalse(new RegExp("<li><a").test(newVal), "Verifying insert did not occur in the top li (IE test for selection restore.)");
 									doh.assertTrue(new RegExp("target=(\"|\')_self(\"|\')").test(newVal), "Verifying target has been inserted.");
 									doh.assertTrue(new RegExp(">This is my example link.<").test(newVal), "Verifying description has been inserted.");
-								}), 1000);
+								}), 2000);
 							}catch(e){
 								d.errback(e);
 							}
@@ -126,7 +126,7 @@
 									url.attr("value", "http://example.com/");
 									desc.attr("value", "This is my example link.");
 									target.attr("value", "_blank");
-								},1000);
+								},2000);
 								doh.robot.mouseMoveAt(function(){return dijit.byId(ldPlugin._uniqueId + "_setButton").domNode;}, 500);
 								doh.robot.mouseClick({left:true}, 500);
 								doh.robot.sequence(d.getTestCallback(function(){
@@ -137,7 +137,7 @@
 									doh.assertTrue(new RegExp("href=(\"|\')http://example.com/(\"|\')").test(newVal), "Verifying URL has been inserted.");
 									doh.assertTrue(new RegExp("target=(\"|\')_blank(\"|\')").test(newVal), "Verifying target has been inserted.");
 									doh.assertTrue(new RegExp(">This is my example link.<").test(newVal), "Verifying description has been inserted.");
-								}), 1000);
+								}), 2000);
 							}catch(e){
 								d.errback(e);
 							}
@@ -187,7 +187,7 @@
 									url.attr("value", "example.com/");
 									desc.attr("value", "This is my example link.");
 									target.attr("value", "_blank");
-								},1000);
+								},2000);
 								doh.robot.mouseMoveAt(function(){return dijit.byId(ldPlugin._uniqueId + "_setButton").domNode;}, 500);
 								doh.robot.mouseClick({left:true}, 500);
 								doh.robot.sequence(d.getTestCallback(function(){
@@ -198,7 +198,7 @@
 									doh.assertTrue(new RegExp("href=(\"|\')http://example.com/(\"|\')").test(newVal), "Verifying URL has been inserted.");
 									doh.assertTrue(new RegExp("target=(\"|\')_blank(\"|\')").test(newVal), "Verifying target has been inserted.");
 									doh.assertTrue(new RegExp(">This is my example link.<").test(newVal), "Verifying description has been inserted.");
-								}), 1000);
+								}), 2000);
 							}catch(e){
 								d.errback(e);
 							}
@@ -248,7 +248,7 @@
 									url.attr("value", "./myDirectory/myfile.html");
 									desc.attr("value", "This is my example relative link.");
 									target.attr("value", "_blank");
-								},1000);
+								},2000);
 								doh.robot.mouseMoveAt(function(){return dijit.byId(ldPlugin._uniqueId + "_setButton").domNode;}, 500);
 								doh.robot.mouseClick({left:true}, 500);
 								doh.robot.sequence(d.getTestCallback(function(){
@@ -259,7 +259,7 @@
 									doh.assertTrue(new RegExp("href=(\"|\')./myDirectory/myfile.html(\"|\')").test(newVal), "Verifying URL has been inserted.");
 									doh.assertTrue(new RegExp("target=(\"|\')_blank(\"|\')").test(newVal), "Verifying target has been inserted.");
 									doh.assertTrue(new RegExp(">This is my example relative link.<").test(newVal), "Verifying description has been inserted.");
-								}), 1000);
+								}), 2000);
 							}catch(e){
 								d.errback(e);
 							}
@@ -319,7 +319,7 @@
 									url.attr("value", oldUrl + "_2");
 									desc.attr("value", oldDesc + "_2");
 									target.attr("value", "_blank");
-								}, 1000);
+								}, 2000);
 								doh.robot.mouseMoveAt(function(){ return dijit.byId(ldPlugin._uniqueId + "_setButton").domNode; }, 500);
 								doh.robot.mouseClick({left:true}, 500);
 								doh.robot.sequence(d.getTestCallback(function(){
@@ -333,7 +333,7 @@
 									doh.assertFalse(new RegExp("target=(\"|\')_self(\"|\')").test(newVal), "Verifying old target is removed.");
 									doh.assertTrue(new RegExp(">" + oldDesc + "_2<").test(newVal), "Verifying description has been inserted.");
 									doh.assertFalse(new RegExp(">" + oldDesc + "<").test(newVal), "Verifying old desc is gone.");
-								}), 1000);
+								}), 2000);
 							}catch(e){
 									d.errback(e);
 							}
@@ -389,7 +389,7 @@
 									oldDesc = desc.attr("value");
 									desc.attr("value", "");
 									target.attr("value", "_blank");
-								}, 1000);
+								}, 2000);
 								doh.robot.sequence(function(){
 									// Verify setting the content is disabled.
 									var setButton = dijit.byId(ldPlugin._uniqueId + "_setButton");
@@ -401,7 +401,7 @@
 									//Now check the state!
 									var newVal = editor.attr("value");
 									doh.assertTrue(newVal === value, "Verify the contents have not changed.");
-								}), 1000);
+								}), 2000);
 							}catch(e){
 									d.errback(e);
 							}
@@ -451,7 +451,7 @@
 									desc.attr("value", "This is my example relative link.");
 									target.attr("value", "_blank");
 									url.validate();
-								},1000);
+								},2000);
 								doh.robot.sequence(function(){
 									var setButton = dijit.byId(ldPlugin._uniqueId + "_setButton");
 									doh.assertTrue(setButton.attr("disabled"));
@@ -465,7 +465,7 @@
 									var newVal = editor.attr("value");
 									doh.assertTrue(newVal === value, "Verify the contents have not changed.");
 									doh.assertFalse(url.isValid());
-								}), 1000);
+								}), 2000);
 							}catch(e){
 								d.errback(e);
 							}
@@ -513,7 +513,7 @@
 									desc = dijit.byId(ldPlugin._uniqueId + "_textInput");
 									url.attr("value", "./sample2.jpg");
 									desc.attr("value", "This is my example image 2.");
-								},1000);
+								},2000);
 								doh.robot.mouseMoveAt(function(){ return dijit.byId(ldPlugin._uniqueId + "_setButton").domNode; }, 500);
 								doh.robot.mouseClick({left:true}, 500);
 								doh.robot.sequence(d.getTestCallback(function(){
@@ -523,7 +523,7 @@
 									doh.assertFalse(new RegExp("<li><img").test(newVal), "Verifying insert did not occur in the top li (IE test for selection restore.)");
 									doh.assertTrue(new RegExp("src=(\"|\').*/sample2.jpg(\"|\')").test(newVal), "Verifying URL has been inserted.");
 									doh.assertTrue(new RegExp("alt=(\"|\')This is my example image 2.(\"|\')").test(newVal), "Verifying alt description has been inserted.");
-								}), 1000);
+								}), 2000);
 							}catch(e){
 								d.errback(e);
 							}
@@ -571,7 +571,7 @@
 									desc = dijit.byId(ldPlugin._uniqueId + "_textInput");
 									url.attr("value", "example.com/example.jpg");
 									desc.attr("value", "This is my example image.");
-								},1000);
+								},2000);
 								doh.robot.mouseMoveAt(function(){ return dijit.byId(ldPlugin._uniqueId + "_setButton").domNode; }, 500);
 								doh.robot.mouseClick({left:true}, 500);
 								doh.robot.sequence(d.getTestCallback(function(){
@@ -581,7 +581,7 @@
 									doh.assertFalse(new RegExp("<li><img").test(newVal), "Verifying insert did not occur in the top li (IE test for selection restore.)");
 									doh.assertTrue(new RegExp("src=(\"|\')http://example.com/example.jpg(\"|\')").test(newVal), "Verifying URL has been inserted.");
 									doh.assertTrue(new RegExp("alt=(\"|\')This is my example image.(\"|\')").test(newVal), "Verifying alt description has been inserted.");
-								}), 1000);
+								}), 2000);
 							}catch(e){
 								d.errback(e);
 							}
@@ -634,7 +634,7 @@
 									oldDesc = desc.attr("value");
 									url.attr("value", "./sample2.jpg");
 									desc.attr("value", oldDesc + "_2");
-								}, 1000);
+								}, 2000);
 								doh.robot.mouseMoveAt(function(){ return dijit.byId(ldPlugin._uniqueId + "_setButton").domNode; }, 500);
 								doh.robot.mouseClick({left:true}, 500);
 								doh.robot.sequence(d.getTestCallback(function(){
@@ -646,7 +646,7 @@
 									doh.assertFalse(new RegExp("src=(\"|\')"+ ".*/sample.jpg" + "(\"|\')").test(newVal), "Verifying old URL is gone.");
 									doh.assertTrue(new RegExp("alt=(\"|\")" + oldDesc + "_2" + "(\"|\')").test(newVal), "Verifying description has been inserted.");
 									doh.assertFalse(new RegExp("alt=(\"|\")" + oldDesc + "(\"|\')").test(newVal), "Verifying old desc is gone.");
-								}), 1000);
+								}), 2000);
 							}catch(e){
 								d.errback(e);
 							}
@@ -699,7 +699,7 @@
 									oldDesc = desc.attr("value");
 									url.attr("value", "./sample2.jpg");
 									desc.attr("value", "");
-								}, 1000);
+								}, 2000);
 								doh.robot.sequence(function(){
 									// Verify setting the content is disabled.
 									var setButton = dijit.byId(ldPlugin._uniqueId + "_setButton");
@@ -716,7 +716,7 @@
 									doh.assertFalse(new RegExp("src=(\"|\')"+ ".*/sample.jpg" + "(\"|\')").test(newVal), "Verifying old URL is gone.");
 									doh.assertTrue(new RegExp("alt=(\"|\")(\"|\')").test(newVal), "Verifying description has been cleared.");
 									doh.assertFalse(new RegExp("alt=(\"|\")" + oldDesc + "(\"|\')").test(newVal), "Verifying old desc is gone.");
-								}), 1000);
+								}), 2000);
 							}catch(e){
 								d.errback(e);
 							}
