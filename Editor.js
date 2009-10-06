@@ -173,7 +173,7 @@ dojo.declare(
 			}
 			/*
 			else{
-			 	// do nothing, the editor is already laid out correctly.   The user has probably specified
+				// do nothing, the editor is already laid out correctly.   The user has probably specified
 				// the height parameter, which was used to set a size on the iframe
 			}
 			*/
@@ -272,8 +272,9 @@ dojo.declare(
 					this.endEditing();
 					this._beginEditing();
 				}
+				var r;
 				try{
-					var r = this.inherited('execCommand', arguments);
+					r = this.inherited('execCommand', arguments);
 					if(dojo.isWebKit && cmd=='paste' && !r){ //see #4598: safari does not support invoking paste from js
 						throw { code: 1011 }; // throw an object like Mozilla's error
 					}
