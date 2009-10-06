@@ -304,6 +304,33 @@
 					}
 				]);
 
+				doh.register("drop in Tree outside of a treeNode", [
+					{
+						name: "drop 'Orange' within Tree but not over a TreeNode",
+						timeout: 10000,
+						runTest: function(){
+							var d = new doh.Deferred();
+							
+							var orangeTreeNode = findTreeNode("itemTree", "Orange");
+
+							doh.robot.mouseMoveAt(orangeTreeNode.labelNode, 0, 500);
+							doh.robot.mousePress({left: true}, 500);
+							doh.robot.mouseRelease({left: true}, 500);
+							
+							doh.robot.mouseMoveAt("itemTree", 0, 500, 5, 50);
+							doh.robot.mousePress({left: true}, 500);
+							doh.robot.mouseMoveAt("itemTree", 0, 500, 5, 100);
+							doh.robot.mouseRelease({left: true}, 500);
+							
+							doh.robot.sequence(d.getTestCallback(function(){
+								var org = findTreeNode("itemTree", "Orange");
+								doh.t( org != null);
+							}), 500);
+							return d;
+						}
+					}
+				]);
+				
 				// TODO: test icon and highlighting when valid drop target and invalid target (another item)
 				
 				doh.run();

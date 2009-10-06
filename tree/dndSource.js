@@ -195,9 +195,7 @@ dojo.declare("dijit.tree.dndSource", dijit.tree._dndSelector, {
 		this.inherited(arguments);
 		var m = dojo.dnd.manager();
 		if(this.isDragging){
-			if(this.betweenThreshold > 0){
-				this._onDragMouse(e);
-			}
+			this._onDragMouse(e);
 		}else{
 			if(this.mouseDown && this.isSource &&
 			   (Math.abs(e.pageX-this._lastX)>=this.dragThreshold || Math.abs(e.pageY-this._lastY)>=this.dragThreshold)){
@@ -237,19 +235,6 @@ dojo.declare("dijit.tree.dndSource", dijit.tree._dndSelector, {
 		if(this.mouseDown){
 			this.mouseDown = false;
 			this.inherited("onMouseUp",arguments);
-		}
-	},
-
-	onMouseOver: function(/*TreeNode*/ widget, /*Event*/ e){
-		// summary:
-		//		Event processor for when mouse is moved over a TreeNode
-		// tags:
-		//		private
-
-		this.inherited(arguments);
-
-		if(this.isDragging){
-			this._onDragMouse(e);
 		}
 	},
 
