@@ -31,8 +31,7 @@ dijit.scrollIntoView = function(/*DomNode*/ node, /*Object?*/ pos){
 	if(isFixed(node)){ return; } // nothing to do
 	while(el){
 		if(el == body){ el = scrollRoot; }
-		var pb = el==body? { l:0, t:0, w:0, h:0} : dojo._getPadBorderExtents(el),
-			elPos = dojo.position(el),
+		var elPos = dojo.position(el),
 			fixedPos = isFixed(el);
 		with(elPos){
 			if(el == scrollRoot){
@@ -40,8 +39,10 @@ dijit.scrollIntoView = function(/*DomNode*/ node, /*Object?*/ pos){
 				if(scrollRoot == html && isIE && rtl){ x += scrollRoot.offsetWidth-w; } // IE workaround where scrollbar causes negative x
 				if(x < 0 || !isIE){ x = 0; } // IE can have values > 0
 				if(y < 0 || !isIE){ y = 0; }
+			}else{
+				var pb = dojo._getPadBorderExtents(el);
+				w -= pb.w; h -= pb.h; x += pb.l; y += pb.t;
 			}
-			w -= pb.w; h -= pb.h; x += pb.l; y += pb.t;
 			with(el){
 				if(el != scrollRoot){ // body, html sizes already have the scrollbar removed
 					var clientSize = clientWidth,
@@ -55,17 +56,6 @@ dijit.scrollIntoView = function(/*DomNode*/ node, /*Object?*/ pos){
 					if(clientSize > 0 && scrollBarSize > 0){
 						h = clientSize;
 					}
-					/*if(isWK < 526){ // workaround older WebKit bugs - REMOVE when Safari 3.2 and Chrome 1.0 users are toast
-						if(rtl){
-							nodePos.x += scrollWidth - w - dojo._getBorderExtents(el).w;
-						}
-						if(fixedPos){
-							x += scrollRoot.scrollLeft;
-							y += scrollRoot.scrollTop;
-							nodePos.x -= scrollLeft;
-							nodePos.y -= scrollTop;
-						}
-					}*/
 				}
 				if(fixedPos){ // bounded by viewport, not parents
 					if(y < 0){

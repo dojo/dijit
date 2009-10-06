@@ -133,8 +133,6 @@
 						scroll = '(-30,+15)';
 					}else if(dojo.isIE <= 7){
 						scroll = '(+20,-12)';
-					}else if(dojo.isSafari < 4){
-						scroll = '(-30,-14)';
 					}else{
 						scroll = '(-30,15)';
 					}
@@ -149,8 +147,6 @@
 						scroll = '(-20,-12)';
 					}else if(dojo.isIE){
 						scroll = '(-30,15)';
-					}else if(dojo.isSafari < 4){
-						scroll = '(+30,-14)';
 					}else{
 						scroll = '(+30,15)';
 					}
@@ -280,6 +276,23 @@
 						minScroll = "-20";
 					}
 					generateTest('tooBig_quirks_rtl', "("+maxScroll+",+"+(sb+20)+")", "("+minScroll+",+1)");
+				},
+				function test_htmlPadding(){
+					var minScroll, maxScroll;
+					if(dojo.isIE <= 7){
+						maxScroll = 84;
+						minScroll = 85;
+					}else{
+						maxScroll = minScroll = 70;
+					}
+					generateTest('htmlPadding_strict', "(0,-"+maxScroll+")", "(0,+"+minScroll+")");
+					generateTest('htmlPadding_loose_rtl', "(0,-"+maxScroll+")", "(0,+"+minScroll+")");
+					if(dojo.isIE){
+						maxScroll = 34;
+						minScroll = 35;
+					}
+					generateTest('htmlPadding_quirks', "(0,-"+maxScroll+")", "(0,+"+minScroll+")");
+					generateTest('htmlPadding_quirks_rtl', "(0,-"+maxScroll+")", "(0,+"+minScroll+")");
 				}
 			]);
 		        doh.run();
@@ -377,7 +390,7 @@ console.log('!!!!!!!!!!!! scrollbar size = ' + sb);
 <label for="fixedScrollable">Fixed-positioned scrollable content:</label>
 <div type="testIframe" id="fixedScrollable">
 	<iframestyle>HTML { overflow-x:hidden !important; /*IE6*/ }
-		INPUT { height:20px; MZT_MZQ_WKT_WKQ_IEQ_height:28px; C1Z_S3Z_height:20px; width:20px; MZT_MZQ_WKT_WKQ_IEQ_width:28px; C1Z_S3Z_width:20px; }</iframestyle>
+		INPUT { height:20px; MZT_MZQ_WKT_WKQ_IEQ_height:28px; width:20px; MZT_MZQ_WKT_WKQ_IEQ_width:28px; }</iframestyle>
 	<div style="height:120px;width:70px;overflow-y:scroll;position:fixed;margin:-10px 0px 0px 0px;">
 		<input style="margin:120px 0px;border:1px solid red;padding:3px;">
 		<hr style="width:10px;">
@@ -388,7 +401,7 @@ console.log('!!!!!!!!!!!! scrollbar size = ' + sb);
 <fieldset>
 <label for="7036_8665">Double scrollbars with absolute positioned content:</label>
 <div type="testIframe" id="7036_8665">
-	<iframestyle>INPUT { height:20px; MZT_MZQ_WKT_WKQ_IEQ_height:28px; C1Z_S3Z_height:20px; width:20px; MZT_MZQ_WKT_WKQ_IEQ_width:28px; C1Z_S3Z_width:20px; }</iframestyle>
+	<iframestyle>INPUT { height:20px; MZT_MZQ_WKT_WKQ_IEQ_height:28px; width:20px; MZT_MZQ_WKT_WKQ_IEQ_width:28px; }</iframestyle>
 	<div style="height:70px;width:70px;overflow-y:scroll;position:absolute;top:26px;left:5px;"
 		><input style="margin:80px 0px 80px 0px;border:1px solid red;padding:3px;"
 		><hr style="width:10px;"
@@ -476,6 +489,16 @@ console.log('!!!!!!!!!!!! scrollbar size = ' + sb);
 	<hr style="height:100px;width:200px;float:right;"/>
 </div>
 </fieldset>
+<fieldset>
+<label for="htmlPadding">HTML/BODY padding:</label>
+<div type="testIframe" id="htmlPadding">
+	<iframestyle>HTML, BODY { padding:50px 9px; }
+		HTML { overflow-x:hidden !important; /*IE6*/ }</iframestyle>
+	<hr style="height:50px;width:20px;"/>
+	<input style="display:block;">
+	<hr style="height:50px;width:20px;"/>
+</div>
+</fieldset>
 <br>
 <!--	Below is the magic code that creates the iframes from the given template.
 	This should be generalized for other files to include. -->
@@ -561,12 +584,6 @@ console.log('!!!!!!!!!!!! scrollbar size = ' + sb);
 		if(dojo.isIE){
 			content = content.replace(/IE([A-Z]_)/g, "$1");
 		}else if(dojo.isWebKit){
-			if(dojo.isSafari < 4){
-				content = content.replace(/S3([A-Z]_)/g, "$1");
-			}
-			if(dojo.isChrome < 2){
-				content = content.replace(/C1([A-Z]_)/g, "$1");
-			}
 			content = content.replace(/WK([A-Z]_)/g, "$1");
 		}else if(dojo.isMoz){
 			content = content.replace(/MZ([A-Z]_)/g, "$1");
