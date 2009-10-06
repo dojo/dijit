@@ -115,6 +115,10 @@ dojo.declare("dijit.ColorPalette",
             colorObject = new dojo.Color(),
 		    coords = this._paletteCoords;
 		for(var row=0; row < choices.length; row++){
+			var rowNode = dojo.create("div", {
+				role: "row"
+			});
+			dojo.place(rowNode, this.divNode);
 			for(var col=0; col < choices[row].length; col++) {
 
                 var color = choices[row][col],
@@ -146,7 +150,7 @@ dojo.declare("dijit.ColorPalette",
                     this.connect(cellNode, "on" + handler.toLowerCase(), "_onCell" + handler);
                 }, this);
 
-				dojo.place(cellNode, this.divNode);
+				dojo.place(cellNode, rowNode);
 
                 dijit.setWaiRole(cellNode, "gridcell");
                 cellNode.index = this._cellNodes.length;
