@@ -276,18 +276,18 @@ dijit.BackgroundIframe = function(/* DomNode */node){
 	//			area (and position) of node
 
 	if(!node.id){ throw new Error("no id"); }
-	if(dojo.isIE < 7){
+	if(dojo.isIE < 7 || dojo.config.forceBgIframe){
 		var iframe = dijit._frames.pop();
 		node.appendChild(iframe);
 		if(dojo.isIE<7){
 			dojo.style(iframe, {
 				width: node.offsetWidth + 'px',
-				height: node.offsetWidth + 'px'
+				height: node.offsetHeight + 'px'
 			});
 			this._conn = dojo.connect(node, 'onresize', function(){
 				dojo.style(iframe, {
 					width: node.offsetWidth + 'px',
-					height: node.offsetWidth + 'px'
+					height: node.offsetHeight + 'px'
 				});
 			});
 		}else{
