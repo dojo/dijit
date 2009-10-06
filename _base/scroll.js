@@ -1,11 +1,10 @@
 dojo.provide("dijit._base.scroll");
 
-dijit.scrollIntoView = function(/* DomNode */node){
+dijit.scrollIntoView = function(/*DomNode*/ node, /*Object?*/ pos){
 	// summary:
-	//		Scroll the passed node into view, if it is not.
-
+	//		Scroll the passed node into view, if it is not already.
+	
 	// don't rely on that node.scrollIntoView works just because the function is there
-	// it doesnt work in Konqueror or Opera even though the function is there
 
 	try{ // catch unexpected/unrecreatable errors (#7808) since we can recover using a semi-acceptable native method
 	node = dojo.byId(node);
@@ -24,7 +23,7 @@ dijit.scrollIntoView = function(/* DomNode */node){
 		rootWidth = clientAreaRoot.clientWidth,
 		rootHeight = clientAreaRoot.clientHeight,
 		rtl = !dojo._isBodyLtr(),
-		nodePos = dojo.position(node),
+		nodePos = pos || dojo.position(node),
 		el = node.parentNode,
 		isFixed = function(el){
 			return ((isIE <= 6 || (isIE && backCompat))? false : (dojo.style(el, 'position').toLowerCase() == "fixed"));
@@ -32,7 +31,7 @@ dijit.scrollIntoView = function(/* DomNode */node){
 	if(isFixed(node)){ return; } // nothing to do
 	while(el){
 		if(el == body){ el = scrollRoot; }
-		var pb = dojo._getPadBorderExtents(el),
+		var pb = el==body? { l:0, t:0, w:0, h:0} : dojo._getPadBorderExtents(el),
 			elPos = dojo.position(el),
 			fixedPos = isFixed(el);
 		with(elPos){
@@ -56,7 +55,7 @@ dijit.scrollIntoView = function(/* DomNode */node){
 					if(clientSize > 0 && scrollBarSize > 0){
 						h = clientSize;
 					}
-					if(isWK < 526){ // workaround older WebKit bugs - REMOVE when Safari 3.2 and Chrome 1.0 users are toast
+					/*if(isWK < 526){ // workaround older WebKit bugs - REMOVE when Safari 3.2 and Chrome 1.0 users are toast
 						if(rtl){
 							nodePos.x += scrollWidth - w - dojo._getBorderExtents(el).w;
 						}
@@ -66,9 +65,7 @@ dijit.scrollIntoView = function(/* DomNode */node){
 							nodePos.x -= scrollLeft;
 							nodePos.y -= scrollTop;
 						}
-					}
-				}else if(isIE && backCompat && rtl){
-					x += clientAreaRoot.offsetWidth - rootWidth - pb.w;
+					}*/
 				}
 				if(fixedPos){ // bounded by viewport, not parents
 					if(y < 0){
