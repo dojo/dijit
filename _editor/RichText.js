@@ -703,7 +703,6 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 			// Try to make sure 'hidden' elements aren't visible in edit mode (like browsers other than IE
 			// do).  See #9103
 			try{
-				console.log("Set visiblity");
 				this.document.execCommand('RespectVisibilityInDesign', true, null);
 			}catch(e){/* squelch */}
 		}
