@@ -30,18 +30,33 @@
 			}
 
 			dojo.addOnLoad(function(){
-				doh.robot.initRobot('../test_Editor.html');
+				doh.robot.initRobot('../_Editor.html');
 
 				// For some reason the meta key (meta-a for selection, meta-b for bold, etc) isn't working
 				// on mac... use ctrl- instead, just like on windows. (#9553)
 				var metaKey = {ctrl: true}
 
 				var editor0, editor1;
+				var iframe;
+				var win;
 				
-				doh.register("setup", function setup(){
-					editor0 = dijit.byId("editor0");
-					editor1 = dijit.byId("editor1");
-				});
+				doh.register("setup", 
+					{
+						name:"setup",
+						timeout:10000,
+						runTest:function(){
+							var d = new doh.Deferred();
+							doh.robot.sequence(function(){
+								iframe=dojo.byId('iframe');
+								win=iframe.contentWindow;
+								editor0 = win.dijit.byId("editor0");
+								editor1 = win.dijit.byId("editor1");
+								d.callback(true);
+							},5000);
+							return d;
+						}
+					}
+				);
 
 				doh.register("toolbar buttons", [
 					{
@@ -54,16 +69,17 @@
 								boldButton = toolbar.getChildren()[7],
 								italicButton = toolbar.getChildren()[8];
 
-							dijit.scrollIntoView(editor1.domNode);
+							//win.dijit.scrollIntoView(editor1.domNode);
 
 							// Focus the editor
-							doh.robot.mouseMoveAt(editor1.editNode, 500);
+							//doh.robot.mouseMoveAt(win.dojo.byId("editor1_iframe").contentDocument.body.childNodes[0], 500);
+							doh.robot.mouseMoveAt(editor1.document.body.childNodes[0], 500);
 							doh.robot.mouseClick({left: true}, 500);
 							// select all
 							doh.robot.sequence(function(){
 								editor1.execCommand("SelectAll");
 							},500);
-
+							// why doesn't typing always clear the selection?
 							doh.robot.typeKeys("hello ", 1000);		// and erase (by typing something new)
 
 							// turn on bold
@@ -73,7 +89,7 @@
 							doh.robot.typeKeys("world", 1000);
 
 							// turn off bold
-							doh.robot.mouseMoveAt(boldButton.domNode, 500);
+							doh.robot.mouseMoveAt(boldButton.domNode, 1000);
 							doh.robot.mouseClick({left: true}, 500);
 							
 							doh.robot.typeKeys(". ", 1000);
@@ -85,7 +101,7 @@
 							doh.robot.typeKeys("how are you", 1000);
 
 							// turn off italic
-							doh.robot.mouseMoveAt(italicButton.domNode, 500);
+							doh.robot.mouseMoveAt(italicButton.domNode, 1000);
 							doh.robot.mouseClick({left: true}, 500);
 
 							doh.robot.typeKeys("?", 1000);
@@ -106,9 +122,9 @@
 						timeout: 20000,
 						runTest: function(){
 							var d = new doh.Deferred();
-							var bold=dojo.query('b',editor1.editNode);
+							var bold=dojo.query('b',editor1.document.body);
 							if(!bold.length){
-								bold=dojo.query('strong',editor1.editNode)
+								bold=dojo.query('strong',editor1.document.body)
 							}
 							doh.robot.mouseMoveAt(bold[0],500,100,5,5);
 							doh.robot.mouseClick({left: true}, 500);
