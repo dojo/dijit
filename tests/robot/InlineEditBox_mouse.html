@@ -24,55 +24,101 @@
 				doh.robot.initRobot('../test_InlineEditBox.html');
 
 				function moveAndClick(node) {
-					doh.robot.mouseMoveAt(node, 500);
-					doh.robot.mouseClick({left: true}, 1000);              
+					doh.robot.mouseMoveAt(node, 500, 500);
+					doh.robot.mouseClick({left: true}, 500);              
+				}
+				function cancel(deferred, widget){
+					moveAndClick(function(){
+						try{
+							var buttons = dojo.query(".cancelButton", widget.domNode.parentNode);
+							var cancelButton = dojo.query("BUTTON", buttons[buttons.length-1])[0];
+							return cancelButton;
+						}catch(e){ deferred.errback(e); }
+					});
+					doh.robot.sequence(function(){}, 1000); // slow down to allow widget to exit edit mode
+				}
+				function testOK(deferred, delay){
+					doh.robot.sequence(dojo.hitch(deferred, "callback", true), delay? delay : 1);
 				}
 
 				// Testing that the initial display value of the InlineEditBox gets sent to the editor.
 				// For example, in this markup:
 				//		<span dojoType="dijit.InlineEditBox" ...>01/05/2007</span>
 				// When the editor is clicked the calendar should open to that date.
+				doh.register("dijit.InlineEditBox autosave tests", [
+					{
+						name: "CurrencyTextBox invalid value: blur",
+						timeout: 10000,
+						runTest: function(){
+							var d = new doh.Deferred();
+							var inlineBox = dijit.byId("dollar_as");
+							moveAndClick(inlineBox.domNode);
+							doh.robot.typeKeys("dollar", 500, 1000); // invalid
+							moveAndClick("predefined");
+							doh.robot.sequence(d.getTestCallback(function(){
+								var currencyTextBox = inlineBox.editWidget.editWidget;
+								doh.is('dollar', currencyTextBox.attr("displayedValue"), "displayedValue");
+								doh.f(currencyTextBox.isValid(), "!isValid");
+								inlineBox.cancel(false);
+								doh.is('', inlineBox.attr("value"), "value");
+							}), 1000);
+							return d;
+						}
+					},
+					{
+						name: "CurrencyTextBox invalid value: ENTER",
+						timeout: 10000,
+						runTest: function(){
+							var d = new doh.Deferred();
+							var inlineBox = dijit.byId("dollar_as");
+							moveAndClick(inlineBox.domNode);
+							doh.robot.typeKeys("dollar", 500, 1000); // invalid
+							doh.robot.keyPress(dojo.keys.ENTER, 500, {});
+							doh.robot.sequence(d.getTestErrback(function(){
+								var currencyTextBox = inlineBox.editWidget.editWidget;
+								doh.is('dollar', currencyTextBox.attr("displayedValue"), "displayedValue");
+								doh.f(currencyTextBox.isValid(), "!isValid");
+							}), 1000);
+							doh.robot.keyPress(dojo.keys.ESCAPE, 500, {});
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.is('', inlineBox.attr("value"), "value");
+							}), 1000);
+							return d;
+						}
+					}
+				]);
 				doh.register("dijit.InlineEditBox preDefinedValue tests", [
 					{
 						name: "CurrencyTextBox preDefinedValue",
 						timeout: 10000,
 						runTest: function(){
 							var d = new doh.Deferred();
-							moveAndClick("dollar");
-							doh.robot.sequence(d.getTestCallback(function(){
-							   var inlineBox = dijit.byId("dollar");
-							   doh.is('$2,000', inlineBox.attr("value"), "value");
-							   var currencyTextBox = inlineBox.editWidget.editWidget;
-							   doh.is('2000.00', currencyTextBox.attr("displayedValue"), "displayedValue");
-							}), 1000);	                            
-							return d;
-						},
-						tearDown: function(){
-							var d = new doh.Deferred();
-							moveAndClick("predefined");		// move to plain <span> to defocus editor                            
-							moveAndClick("dijit_form_Button_1");		// click cancel
+							var inlineBox = dijit.byId("dollar");
+							moveAndClick(inlineBox.domNode);
+							doh.robot.sequence(d.getTestErrback(function(){
+								doh.is('$2,000', inlineBox.attr("value"), "value");
+								var currencyTextBox = inlineBox.editWidget.editWidget;
+								doh.is('2000.00', currencyTextBox.attr("displayedValue"), "displayedValue");
+							}), 1000);
+							cancel(d, inlineBox);
+							testOK(d);
 							return d;
 						}
-					},                    
+					},
 					{
 						name: "NumberSpinner preDefinedValue",
 						timeout: 10000,
 						runTest: function(){
 							var d = new doh.Deferred();
-
-							moveAndClick("quantity");                            
-							doh.robot.sequence(d.getTestCallback(function(){
-							   var inlineBox = dijit.byId("quantity");
-							   doh.is(3, inlineBox.attr("value"));
-							   var numberSpinner = inlineBox.editWidget.editWidget;
-							   doh.is(3, numberSpinner.attr("value"));
+							var inlineBox = dijit.byId("quantity");
+							moveAndClick(inlineBox.domNode);
+							doh.robot.sequence(d.getTestErrback(function(){
+								doh.is(3, inlineBox.attr("value"));
+								var numberSpinner = inlineBox.editWidget.editWidget;
+								doh.is(3, numberSpinner.attr("value"));
 							}), 1000);                            
-							return d;
-						},
-						tearDown: function(){
-							var d = new doh.Deferred();
-							moveAndClick("predefined");		// move to plain <span> to defocus editor                            
-							moveAndClick("dijit_form_Button_3");		// click cancel
+							cancel(d, inlineBox);
+							testOK(d);
 							return d;
 						}
 					},
@@ -81,65 +127,50 @@
 						timeout: 10000,
 						runTest: function(){
 							var d = new doh.Deferred();
-
-							moveAndClick("item");                            
-							doh.robot.sequence(d.getTestCallback(function(){
-							   var inlineBox = dijit.byId("item");
-							   doh.is("refrigerators", dojo.trim(inlineBox.attr("value")));
-							   var comboBox = inlineBox.editWidget.editWidget;                               
-							   doh.is("refrigerators", comboBox.attr("value"));
+							var inlineBox = dijit.byId("item");
+							moveAndClick(inlineBox.domNode);
+							doh.robot.sequence(d.getTestErrback(function(){
+								doh.is("refrigerators", dojo.trim(inlineBox.attr("value")));
+								var comboBox = inlineBox.editWidget.editWidget;                               
+								doh.is("refrigerators", comboBox.attr("value"));
 							}), 1000);	
-							return d;
-						},
-						tearDown: function(){
-							var d = new doh.Deferred();
-							moveAndClick("predefined");		// move to plain <span> to defocus editor                            
-							moveAndClick("dijit_form_Button_5");		// click cancel
+							cancel(d, inlineBox);
+							testOK(d);
 							return d;
 						}
-					},                    
+					},
 					{
 						name: "DateTextBox preDefinedValue",
 						timeout: 10000,
 						runTest: function(){
 							var d = new doh.Deferred();
-
-							moveAndClick("purchase");                            
+							var inlineBox = dijit.byId("purchase");
+							moveAndClick(inlineBox.domNode);
 							var preDate = dojo.date.locale.parse("01/05/2007", {datePattern: 'MM/dd/yyyy', selector:'date'});                                                  
-							doh.robot.sequence(d.getTestCallback(function(){
-							   var inlineBox = dijit.byId("purchase");
-							   doh.is("01/05/2007", inlineBox.attr("value"));
-							   var dateTextBox = inlineBox.editWidget.editWidget;
-							   doh.is(preDate.toString(), dateTextBox.attr("value").toString());
+							doh.robot.sequence(d.getTestErrback(function(){
+								doh.is("01/05/2007", inlineBox.attr("value"));
+								var dateTextBox = inlineBox.editWidget.editWidget;
+								doh.is(preDate.toString(), dateTextBox.attr("value").toString());
 							}), 1000);	
-							return d;
-						},
-						tearDown: function(){
-							var d = new doh.Deferred();
-
-							// Move to plain <span> to defocus editor.		
-							// TODO: sometimes (depending on screen size/position) calendar drop down goes above the <input> box,
-							// covering up the <span>, and thus when we try to click the span it clicks the calendar instead,
-							// changing the date.  Why do we need to click the span this anyway?
-							moveAndClick("predefined");
-                           
-							moveAndClick("dijit_form_Button_7");		// click cancel
+							cancel(d, inlineBox);
+							testOK(d);
 							return d;
 						}
-					},                    
+					},
 					{
 						name: "FilteringSelect preDefinedValue",
 						timeout: 10000,
 						runTest: function(){
 							var d = new doh.Deferred();
-
-							moveAndClick("state");
-							doh.robot.sequence(d.getTestCallback(function(){
-							   var inlineBox = dijit.byId("state");
-							   doh.is("Pennsylvania", dojo.trim(inlineBox.attr("value")));
-							   var filteringSelect = inlineBox.editWidget.editWidget;
-							   doh.is("PA", filteringSelect.attr("value"));
+							var inlineBox = dijit.byId("state");
+							moveAndClick(inlineBox.domNode);
+							doh.robot.sequence(d.getTestErrback(function(){
+								doh.is("Pennsylvania", dojo.trim(inlineBox.attr("value")));
+								var filteringSelect = inlineBox.editWidget.editWidget;
+								doh.is("PA", filteringSelect.attr("value"));
 							}), 1000);	                        
+							cancel(d, inlineBox);
+							testOK(d);
 							return d;
 						}
 					}

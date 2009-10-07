@@ -430,7 +430,7 @@ dojo.declare(
 				dojo.stopEvent(e);
 				this._exitInProgress = true;
 				this.cancel(true);
-			}else if(e.charOrCode == dojo.keys.ENTER && this.editWidget.focusNode.tagName == "INPUT"){
+			}else if(e.charOrCode == dojo.keys.ENTER && this.editWidget.focusNode.tagName == "INPUT" && this.enableSave()){
 				dojo.stopEvent(e);
 				this._exitInProgress = true;
 				this.save(true);
@@ -466,10 +466,11 @@ dojo.declare(
 			return;
 		}
 		if(this.autoSave){
-			this._exitInProgress = true;
 			if(this.getValue() == this._resetValue){
+				this._exitInProgress = true;
 				this.cancel(false);
-			}else{
+			}else if(this.enableSave()){
+				this._exitInProgress = true;
 				this.save(false);
 			}
 		}
@@ -488,7 +489,7 @@ dojo.declare(
 			// like FilteringSelect.  Shouldn't be deleting the edit widget on end-of-edit
 			return;
 		}
-		if(this.autoSave){
+		if(this.autoSave && this.enableSave()){
 			this._exitInProgress = true;
 			this.save(true);
 		}
