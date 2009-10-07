@@ -482,7 +482,10 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 		}else if(lineHeight.indexOf("em")>=0){
 			lineHeight = parseFloat(lineHeight);
 		}else{
-			lineHeight = "1.0";
+			// If we can't get a non-units value, just default
+			// it to the CSS spec default of 'normal'.  Seems to
+			// work better, esp on IE, than '1.0'
+			lineHeight = "normal";
 		}
 		var userStyle = "";
 		this.style.replace(/(^|;)(line-|font-?)[^;]+/g, function(match){ userStyle += match.replace(/^;/g,"") + ';'; });
