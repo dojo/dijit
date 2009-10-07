@@ -56,7 +56,8 @@ dojo.declare(
 
 	attributeMap: dojo.delegate(dijit.layout.ContentPane.prototype.attributeMap, {
 		title: { node: "titleNode", type: "innerHTML" },
-		tooltip: {node: "focusNode", type: "attribute", attribute: "title"}	// focusNode spans the entire width, titleNode doesn't
+		tooltip: {node: "focusNode", type: "attribute", attribute: "title"},	// focusNode spans the entire width, titleNode doesn't
+		id:""
 	}),
 
 	postCreate: function(){
@@ -65,8 +66,8 @@ dojo.declare(
 		}
 		this._setCss();
 		dojo.setSelectable(this.titleNode, false);
-		dijit.setWaiState(this.containerNode, "labelledby", this.titleNode.id);
-		dijit.setWaiState(this.focusNode, "haspopup", "true");
+		dijit.setWaiState(this.containerNode,"hidden", this.open ? "false" : "true");
+		dijit.setWaiState(this.focusNode, "pressed", this.open ? "true" : "false");
 
 		// setup open/close animations
 		var hideNode = this.hideNode, wipeNode = this.wipeNode;
@@ -102,6 +103,9 @@ dojo.declare(
 		//		True to allow user to open/close pane by clicking title bar.
 		this.toggleable = canToggle;
 		dijit.setWaiRole(this.focusNode, canToggle ? "button" : "presentation");
+		if (canToggle){
+			dijit.setWaiState(this.focusNode, "controls", this.id+"_pane");
+		}
 		this._setCss();
 	},
 
@@ -152,6 +156,8 @@ dojo.declare(
 			this.hideNode.style.display = this.open ? "" : "none";
 		}
 		this.open =! this.open;
+		dijit.setWaiState(this.containerNode, "hidden", this.open ? "false" : "true");
+		dijit.setWaiState(this.focusNode, "pressed", this.open ? "true" : "false");
 
 		// load content (if this is the first time we are opening the TitlePane
 		// and content is specified as an href, or href was set when hidden)

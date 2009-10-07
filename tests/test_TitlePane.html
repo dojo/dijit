@@ -60,7 +60,7 @@
 	<h1>Test #1: plain title pane, width=300px</h1>
 	<div dojoType="dijit.TitlePane" title="Title Pane #1"
 		tooltip="I'm the tooltip for Title Pane #1's title bar"
-		style="width: 300px;" jsId="pane1">
+		style="width: 300px;" jsId="pane1" id="testPane1">
 		Lorem Ipsum Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Quisque
 		iaculis, nulla id semper faucibus, pede tellus nonummy magna, vitae adipiscing
 		orci arcu ut augue. Nunc condimentum, magna a vestibulum convallis, libero purus
@@ -75,8 +75,8 @@
 
 	<div dojoType="dijit.TitlePane" title="Title Pane #2" id="pane_2" style="width: 300px;">
 		<form>
-			Age: <input><br>
-			Discount card <input type=checkbox><br>
+			<label for="age">Age: </label> <input id="age"><br>
+			<label for="disc">Discount card </label><input id="disc" type=checkbox><br>
 			<button>Submit</button><br>
 		</form>
 	</div>
