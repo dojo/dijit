@@ -45,7 +45,7 @@ dijit._editor.getNodeHtml=function(/* DomNode */node){
 								continue;
 							}
 						}
-						var val;
+						var val, match;
 						switch(key){
 							case 'style':
 								val = node.style.cssText.toLowerCase();
@@ -57,20 +57,20 @@ dijit._editor.getNodeHtml=function(/* DomNode */node){
 								if(lName === "img"){
 									// This somehow gets lost on IE for IMG tags and the like
 									// and we have to find it in outerHTML, known IE oddity.
-									s.replace(/width=\S+/i, function(match){
-										val = match.substring(match.indexOf("=") + 1, match.length);
-										return match;
-									});
+									match=/width=(\S+)/i.exec(s);
+									if(match){
+										val = match[1];
+									}
 									break;
 								}
 							case 'height':
 								if(lName === "img"){
 									// This somehow gets lost on IE for IMG tags and the like
 									// and we have to find it in outerHTML, known IE oddity.
-									s.replace(/height=\S+/i, function(match){
-										val = match.substring(match.indexOf("=") + 1, match.length);
-										return match;
-									});
+									match=/height=(\S+)/i.exec(s);
+									if(match){
+										val = match[1];
+									}
 									break;
 								}
 							default:
