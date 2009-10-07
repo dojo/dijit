@@ -35,9 +35,9 @@ dojo.declare("dijit._editor.plugins.TabIndent",
 
 		updateState: function(){
 			// Overrides _Plugin.updateState().
-			// Since (apparently) Ctrl-m in the editor will switch tabIndent mode on/off, we need to react to that.
+			// Ctrl-m in the editor will switch tabIndent mode on/off, so we need to react to that.
 
-			this.button.attr('checked', this.editor.isTabIndent);
+			this.button.attr('checked', this.editor.isTabIndent, false);
 		}
 	}
 );
