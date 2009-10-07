@@ -53,6 +53,26 @@ dijit._editor.getNodeHtml=function(/* DomNode */node){
 							case 'class':
 								val = node.className;
 								break;
+							case 'width':
+								if(lName === "img"){
+									// This somehow gets lost on IE for IMG tags and the like
+									// and we have to find it in outerHTML, known IE oddity.
+									s.replace(/width=\S+/i, function(match){
+										val = match.substring(match.indexOf("=") + 1, match.length);
+										return match;
+									});
+									break;
+								}
+							case 'height':
+								if(lName === "img"){
+									// This somehow gets lost on IE for IMG tags and the like
+									// and we have to find it in outerHTML, known IE oddity.
+									s.replace(/height=\S+/i, function(match){
+										val = match.substring(match.indexOf("=") + 1, match.length);
+										return match;
+									});
+									break;
+								}
 							default:
 								val = node.getAttribute(key);
 						}
