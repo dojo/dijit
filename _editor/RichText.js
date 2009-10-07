@@ -699,6 +699,14 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 			this._webkitListener = this.connect(this.document, "onmouseup", "onDisplayChanged");
 		}
 
+		if(dojo.isIE){
+			// Try to make sure 'hidden' elements aren't visible in edit mode (like browsers other than IE
+			// do).  See #9103
+			try{
+				this.execCommand('RespectVisibilityInDesign', true, null);
+			}catch(e){ /*squelch*/}
+		}
+
 		this.isLoaded = true;
 
 		this.attr('disabled', this.disabled); // initialize content to editable (or not)
