@@ -82,6 +82,7 @@ dojo.declare(
 					closeButton: page.closable,
 					title: page.tooltip
 				}, refNode);
+				dijit.setWaiState(button.focusNode,"selected", "false");
 				var map = 
 				this.pane2handles[page.id] = [
 				    this.connect(page, 'attr', function(name, value){
@@ -106,6 +107,7 @@ dojo.declare(
 				page.controlButton = button;	// this value might be overwritten if two tabs point to same container
 				if(!this._currentChild){ // put the first child into the tab order
 					button.focusNode.setAttribute("tabIndex", "0");
+					dijit.setWaiState(button.focusNode, "selected", "true");
 					this._currentChild = page;
 				}
 				// make sure all tabs have the same length
@@ -143,11 +145,13 @@ dojo.declare(
 				if(this._currentChild){
 					var oldButton=this.pane2button[this._currentChild.id];
 					oldButton.attr('checked', false);
+					dijit.setWaiState(oldButton.focusNode, "selected", "false");
 					oldButton.focusNode.setAttribute("tabIndex", "-1");
 				}
 
 				var newButton=this.pane2button[page.id];
 				newButton.attr('checked', true);
+				dijit.setWaiState(newButton.focusNode, "selected", "true");
 				this._currentChild = page;
 				newButton.focusNode.setAttribute("tabIndex", "0");
 				var container = dijit.byId(this.containerId);
