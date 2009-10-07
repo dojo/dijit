@@ -198,118 +198,122 @@
 					}
 				});
 
-				for(var i=0; i<spinnerIds.length; i++){
-					doh.register("query input by name",{
-						name:spinnerIds[i],
-						spinner:spinnerIds[i],
-						spinnerName:spinnerIds[i],
-						runTest:function(){
-							this.spinner = dijit.byId(this.spinner);
-							var queried=dojo.query("input[name="+this.spinnerName+"]");
-							doh.is(1,queried.length,"Expected 1 spinner with name "+this.spinnerName+", found "+queried.length);
-							doh.is(this.spinner.valueNode,queried[0],"Spinner's valueNode did not match the one found by dojo.query.");
-						}
-					});
-				}
-
-				doh.register("a11y",{
-					name: "spinner2_typematic",
-					timeout: 15000,
-					setUp:function(){
-						spin2.attr('value', 900);
-						spin2.focus();
-					},
-					runTest: function(){
-						// test typematic
-						var d=new doh.Deferred();
-						doh.robot.keyDown(dojo.keys.DOWN_ARROW, 500);
-						doh.robot.keyUp(dojo.keys.DOWN_ARROW, 5000);
-						doh.robot.sequence(function(){
-							if(spin2.attr('value')<=800){
-								d.callback(true);
-							}else{
-								d.errback(new Error('Error in typematic test. Expected <=800, got '+spin2.attr('value')));
+				doh.register("dojo.query() input by name",
+					dojo.map(spinnerIds, function(id){
+						return {
+							name: id,
+							spinner: id,
+							spinnerName: id,
+							runTest:function(){
+								this.spinner = dijit.byId(this.spinner);
+								var queried=dojo.query("input[name="+this.spinnerName+"]");
+								doh.is(1,queried.length,"Expected 1 spinner with name "+this.spinnerName+", found "+queried.length);
+								doh.is(this.spinner.valueNode,queried[0],"Spinner's valueNode did not match the one found by dojo.query.");
 							}
-						}, 1000);
-						return d;
-					}
-				});
+						};
+					})
+				);
 
-				doh.register("a11y",{
-					name: "spinner2_max",
-					timeout: 15000,
-					setUp:function(){
-						spin2.attr('value', 1549);
-						spin2.focus();
+				doh.register("a11y", [
+					{
+						name: "spinner2_typematic",
+						timeout: 15000,
+						setUp:function(){
+							spin2.attr('value', 900);
+							spin2.focus();
+						},
+						runTest: function(){
+							// test typematic
+							var d=new doh.Deferred();
+							doh.robot.keyDown(dojo.keys.DOWN_ARROW, 500);
+							doh.robot.keyUp(dojo.keys.DOWN_ARROW, 5000);
+							doh.robot.sequence(function(){
+								if(spin2.attr('value')<=800){
+									d.callback(true);
+								}else{
+									d.errback(new Error('Error in typematic test. Expected <=800, got '+spin2.attr('value')));
+								}
+							}, 1000);
+							return d;
+						}
 					},
-					runTest: function(){
-						// test max with arrow key
-						var d=new doh.Deferred();
-						// press once: should move up
-						doh.robot.keyPress(dojo.keys.UP_ARROW,500);
-						doh.robot.sequence(d.getTestErrback(function(){
-							doh.is(1550,spin2.attr('value'));
-							doh.is("1550",spin2.focusNode.value);
-							doh.is(true,spin2.isValid());
-							// press again: shouldn't move
+
+					{
+						name: "spinner2_max",
+						timeout: 15000,
+						setUp:function(){
+							spin2.attr('value', 1549);
+							spin2.focus();
+						},
+						runTest: function(){
+							// test max with arrow key
+							var d=new doh.Deferred();
+							// press once: should move up
 							doh.robot.keyPress(dojo.keys.UP_ARROW,500);
-							doh.robot.sequence(d.getTestCallback(function(){
+							doh.robot.sequence(d.getTestErrback(function(){
 								doh.is(1550,spin2.attr('value'));
 								doh.is("1550",spin2.focusNode.value);
 								doh.is(true,spin2.isValid());
+								// press again: shouldn't move
+								doh.robot.keyPress(dojo.keys.UP_ARROW,500);
+								doh.robot.sequence(d.getTestCallback(function(){
+									doh.is(1550,spin2.attr('value'));
+									doh.is("1550",spin2.focusNode.value);
+									doh.is(true,spin2.isValid());
+								}),500);
 							}),500);
-						}),500);
-
-						return d;
-					}
-				});
-
-				doh.register("a11y",{
-					name: "spinner2_min",
-					timeout: 15000,
-					setUp:function(){
-						spin2.attr('value', 10);
-						spin2.focus();
+	
+							return d;
+						}
 					},
-					runTest: function(){
-						// test min with arrow key
-						var d=new doh.Deferred();
-						// press once: should move up
-						doh.robot.keyPress(dojo.keys.DOWN_ARROW,500);
-						doh.robot.sequence(d.getTestErrback(function(){
-							doh.is(9,spin2.attr('value'));
-							doh.is("9",spin2.focusNode.value);
-							doh.is(true,spin2.isValid());
-							// press again: shouldn't move
+
+					{
+						name: "spinner2_min",
+						timeout: 15000,
+						setUp:function(){
+							spin2.attr('value', 10);
+							spin2.focus();
+						},
+						runTest: function(){
+							// test min with arrow key
+							var d=new doh.Deferred();
+							// press once: should move up
 							doh.robot.keyPress(dojo.keys.DOWN_ARROW,500);
-							doh.robot.sequence(d.getTestCallback(function(){
+							doh.robot.sequence(d.getTestErrback(function(){
 								doh.is(9,spin2.attr('value'));
 								doh.is("9",spin2.focusNode.value);
 								doh.is(true,spin2.isValid());
+								// press again: shouldn't move
+								doh.robot.keyPress(dojo.keys.DOWN_ARROW,500);
+								doh.robot.sequence(d.getTestCallback(function(){
+									doh.is(9,spin2.attr('value'));
+									doh.is("9",spin2.focusNode.value);
+									doh.is(true,spin2.isValid());
+								}),500);
 							}),500);
-						}),500);
-
-						return d;
-					}
-				});
-
-				doh.register("a11y",{
-					name: "spinner2_invalid",
-					timeout: 15000,
-					setUp:function(){
-						spin2.focusNode.value="";
-						spin2.focus();
+	
+							return d;
+						}
 					},
-					runTest: function(){
-						// assert invalid works
-						var d=new doh.Deferred();
-						doh.robot.typeKeys("0.5",500,300);
-						doh.robot.sequence(d.getTestCallback(function(){
-							doh.is(false,spin2.isValid());
-						}),500);
-						return d;
+
+					{
+						name: "spinner2_invalid",
+						timeout: 15000,
+						setUp:function(){
+							spin2.focusNode.value="";
+							spin2.focus();
+						},
+						runTest: function(){
+							// assert invalid works
+							var d=new doh.Deferred();
+							doh.robot.typeKeys("0.5",500,300);
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.is(false,spin2.isValid());
+							}),500);
+							return d;
+						}
 					}
-				});
+				]);
 				
 				// Test ARIA role.	Since role attribute is set in template,
 				// checking one should be sufficient.
@@ -371,38 +375,25 @@
 					]
 				);
 				
-				// Loop to test each spinner for aria-valuenow.
+				// Loop to test each spinner for aria-valuenow
 				// TODO:
 				//		Is testing one spinner sufficient?
 				//
-				for(i=0; i<spinnerIds.length; i++){
-					// test aria valuemin, valuemax, valuenow.
-					doh.register("a11yValueNow", {
-						name:spinnerIds[i]+"_value",
-						spinnerId:spinnerIds[i],
-						runTest:function(){
-							var spinner = dijit.byId(this.spinnerId);
-							var min = -9999;
-							var max = 9999;
-							if(spinner.constraints.min){
-								min = spinner.constraints.min;
+				// test aria valuemin, valuemax, valuenow.
+				doh.register("a11yValueNow",
+					dojo.map(spinnerIds, function(id){
+						return {
+							name: id+"_value",
+							spinnerId: id,
+							runTest:function(){
+								var spinner = dijit.byId(this.spinnerId);
+								spinner.attr('value', 100);
+								var ariaVal = dijit.getWaiState(spinner.focusNode, "valuenow");
+								doh.is(100, ariaVal, spinner.id + ": aria-valuenow");
 							}
-							if(spinner.constraints.max){
-								max = spinner.constraints.max;
-							}
-							// set spinner to some random value in its range.
-							var setVal = Math.floor((Math.random() * (max - min)) + min);
-							spinner.attr('value', setVal);
-							var ariaVal = dijit.getWaiState(spinner.focusNode, "valuenow");
-							var spinVal = spinner.attr('value');
-							if(dojo.isIE >= 8) {
-								// conversion to exponential with 14 places for IE8beta set/getAttribute(). see #8796.
-								ariaVal = (Number(ariaVal)).toExponential(14);
-								spinVal = (Number(spinVal)).toExponential(14);
-							}
-							doh.is(ariaVal, spinVal, spinner.id + ": aria-valuenow");
-						}
-					});
+						};
+					})
+				);
 
 					
 					// test "null" aria-valuenow
@@ -425,7 +416,6 @@
 						}
 					});
 */
-				}	// end for(i=0; i<spinnerIds.length, i++)
 	
 				// a11y tab focus tests (robot)
 				doh.register("a11yTabFocus",
