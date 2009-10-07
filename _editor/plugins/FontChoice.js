@@ -76,7 +76,7 @@ dojo.declare("dijit._editor.plugins._FontDropDown",
 		});
 
 		this.select.attr("value", "");
-		this.disabled =  this.select.attr("disabled");
+		this.disabled = this.select.attr("disabled");
 	},
 
 	_setValueAttr: function(value, priorityChange){
@@ -198,7 +198,6 @@ dojo.declare("dijit._editor.plugins._FontSizeDropDown", dijit._editor.plugins._F
 	//		The HTML font size values supported by this plugin
 	values: [1,2,3,4,5,6,7], // sizes according to the old HTML FONT SIZE
 	
-	              
 	getLabel: function(value, name){
 		// summary:
 		//		Function used to generate the labels of the format dropdown
@@ -308,7 +307,7 @@ dojo.declare("dijit._editor.plugins.FontChoice", dijit._editor._Plugin,{
 		//		protected
 
 		// Create the widget to go into the toolbar (the so-called "button")
-		var clazz =  {
+		var clazz = {
 				fontName: dijit._editor.plugins._FontNameDropDown,
 				fontSize: dijit._editor.plugins._FontSizeDropDown,
 				formatBlock: dijit._editor.plugins._FormatBlockDropDown

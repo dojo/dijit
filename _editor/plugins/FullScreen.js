@@ -65,7 +65,7 @@ dojo.declare("dijit._editor.plugins.FullScreen",dijit._editor._Plugin,{
 			// Enable the CTRL-SHIFT-F11 hotkey for fullscreen mode.
 			this.toggle();
 			dojo.stopEvent(e);
-			setTimeout(dojo.hitch(this, function() {this.editor.focus();}), 250);
+			setTimeout(dojo.hitch(this, function(){this.editor.focus();}), 250);
 			return true;
 		}));
 		this.connect(this.editor.domNode, "onkeydown", "_containFocus");
@@ -82,8 +82,8 @@ dojo.declare("dijit._editor.plugins.FullScreen",dijit._editor._Plugin,{
 		if(this.isFullscreen){
 			var ed = this.editor;
 			if(!ed.isTabIndent && 
-			   ed._fullscreen_oldOnKeyDown &&
-			   e.keyCode === dojo.keys.TAB){
+				ed._fullscreen_oldOnKeyDown &&
+				e.keyCode === dojo.keys.TAB){
 				// If we're in fullscreen mode, we want to take over how tab moves focus a bit.
 				// to keep it within the editor since it's hiding the rest of the page.
 				// IE hates changing focus IN the event handler, so need to put calls 
@@ -92,7 +92,7 @@ dojo.declare("dijit._editor.plugins.FullScreen",dijit._editor._Plugin,{
 				var f = dijit.getFocus();
 				var avn = this._getAltViewNode();
 				if(f.node == ed.iframe || 
-				   (avn && f.node === avn)){
+					(avn && f.node === avn)){
 					setTimeout(dojo.hitch(this, function(){
 						ed.toolbar.focus();
 					}), 10);
@@ -238,8 +238,8 @@ dojo.declare("dijit._editor.plugins.FullScreen",dijit._editor._Plugin,{
 				// also controls them in standards mode, so we have to 
 				// remove them, argh.
 				if(body.parentNode && 
-				   body.parentNode.style && 
-				   body.parentNode.style.overflow){
+					body.parentNode.style && 
+					body.parentNode.style.overflow){
 					this._oldBodyParentOverflow = body.parentNode.style.overflow;
 				}else{
 					this._oldBodyParentOverflow = "scroll";
@@ -277,7 +277,7 @@ dojo.declare("dijit._editor.plugins.FullScreen",dijit._editor._Plugin,{
 
 			// Call it once to work around IE glitchiness.  Safe for other browsers too.
 			this._resizeEditor();
-			var dn = this.editor.toolbar.domNode;            
+			var dn = this.editor.toolbar.domNode;
 			setTimeout(function(){dijit.scrollIntoView(dn);}, 250);
 		}else{
 			if(!this._origState && !this._origiFrameState){
@@ -344,7 +344,7 @@ dojo.declare("dijit._editor.plugins.FullScreen",dijit._editor._Plugin,{
 dojo.subscribe(dijit._scopeName + ".Editor.getPlugin",null,function(o){
 	if(o.plugin){ return; }
 	var name = o.args.name.toLowerCase();
-	if(name ===  "fullscreen"){
+	if(name === "fullscreen"){
 		o.plugin = new dijit._editor.plugins.FullScreen({
 			zIndex: ("zIndex" in o.args)?o.args.zIndex:500
 		});

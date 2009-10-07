@@ -32,7 +32,7 @@ dojo.declare("dijit._editor.plugins.ToggleDir",
 				var isLtr = dojo.getComputedStyle(editDoc).direction == "ltr";
 				this.button.attr("checked", !isLtr);
 				this.connect(this.button, "onChange", "_setRtl");
-			}));				  
+			}));
 		},
 
 		updateState: function(){

@@ -142,7 +142,7 @@ dojo.declare("dijit._editor.plugins.ViewSource",dijit._editor._Plugin,{
 				this._disabledPlugins = dojo.filter(edPlugins, function(p){
 					// Turn off any plugins not controlled by queryCommandenabled.
 					if(p && p.button && !p.button.attr("disabled") &&
-					   !(p instanceof dijit._editor.plugins.ViewSource)){
+						!(p instanceof dijit._editor.plugins.ViewSource)){
 						p.button.attr("disabled", true);
 						return true;
 					}
@@ -240,7 +240,7 @@ dojo.declare("dijit._editor.plugins.ViewSource",dijit._editor._Plugin,{
 		}
 	},
 
-	_resize: function() {
+	_resize: function(){
 		// summary:
 		//		Internal function to resize the source view
 		// tags:
@@ -377,7 +377,7 @@ dojo.declare("dijit._editor.plugins.ViewSource",dijit._editor._Plugin,{
 			if(this._sourceShown && e.keyCode == dojo.keys.F12 && e.ctrlKey && e.shiftKey){
 				this.button.focus();
 				this.button.attr("checked", false);
-				setTimeout(dojo.hitch(this, function() {ed.focus();}), 100);
+				setTimeout(dojo.hitch(this, function(){ed.focus();}), 100);
 				dojo.stopEvent(e);
 			}
 		}));

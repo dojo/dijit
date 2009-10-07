@@ -96,7 +96,7 @@ dojo.declare("dijit._editor.plugins.Print",dijit._editor._Plugin,{
 dojo.subscribe(dijit._scopeName + ".Editor.getPlugin",null,function(o){
 	if(o.plugin){ return; }
 	var name = o.args.name.toLowerCase();
-	if(name ===  "print"){
+	if(name === "print"){
 		o.plugin = new dijit._editor.plugins.Print({command: "print"});
 	}
 });

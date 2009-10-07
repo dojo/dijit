@@ -52,7 +52,7 @@ dojo.declare("dijit._editor.plugins.NewPage",dijit._editor._Plugin,{
 dojo.subscribe(dijit._scopeName + ".Editor.getPlugin",null,function(o){
 	if(o.plugin){ return; }
 	var name = o.args.name.toLowerCase();
-	if(name ===  "newpage"){
+	if(name === "newpage"){
 		o.plugin = new dijit._editor.plugins.NewPage({
 			content: ("content" in o.args)?o.args.content:"<br>"
 		});
