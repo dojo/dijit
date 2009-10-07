@@ -20,7 +20,7 @@ dojo.mixin(dijit._editor.selection, {
 				oSel = dojo.global.getSelection();
 			}catch(e){ /*squelch*/ }
 
-			if(oSel && oSel.rangeCount==1){
+			if(oSel && oSel.rangeCount == 1){
 				var oRange = oSel.getRangeAt(0);
 				if(	(oRange.startContainer == oRange.endContainer) &&
 					((oRange.endOffset - oRange.startOffset) == 1) &&
@@ -142,7 +142,7 @@ dojo.mixin(dijit._editor.selection, {
 	isTag: function(/*DomNode*/node, /*Array*/tags){
 		// summary:
 		//		Function to determine if a node is one of an array of tags.
-        // node: DOMNode
+		// node: DOMNode
 		//		The node to inspect.
 		// tags: Array
 		//		An array of tag name strings to check to see if the node matches.
@@ -174,7 +174,7 @@ dojo.mixin(dijit._editor.selection, {
 		return null;
 	},
 
-	collapse: function(/*Boolean*/beginning) {
+	collapse: function(/*Boolean*/beginning){
 		// summary:
 		//		Function to collapse (clear), the current selection
 		// beginning: Boolean
@@ -248,7 +248,7 @@ dojo.mixin(dijit._editor.selection, {
 					range = doc.createRange();
 				}
 				range.setStart(element, 0);
-				range.setEnd(element,element.nodeType==3?element.length:element.childNodes.length);
+				range.setEnd(element,(element.nodeType == 3)?element.length:element.childNodes.length);
 				selection.addRange(range);
 			}else if(selection.selectAllChildren){ // Mozilla
 				selection.selectAllChildren(element);
