@@ -377,7 +377,7 @@ dojo.declare(
 			this.buttonContainer.style.display="none";
 
 			// Selecting a value from a drop down list causes an onChange event and then we save
-			this.connect(ew, "onChange", "_onChange");
+			this._onChangeHandle = this.connect(ew, "onChange", "_onChange");
 
 			// ESC and TAB should cancel and save.  Note that edit widgets do a stopEvent() on ESC key (to
 			// prevent Dialog from closing when the user just wants to revert the value in the edit widget),
@@ -420,36 +420,33 @@ dojo.declare(
 		// tags:
 		//		private
 
-		if(this._exitInProgress){
-			return;
-		}
 		if(this.autoSave){
 			if(e.altKey || e.ctrlKey){ return; }
 			// If Enter/Esc pressed, treat as save/cancel.
 			if(e.charOrCode == dojo.keys.ESCAPE){
 				dojo.stopEvent(e);
-				this._exitInProgress = true;
-				this.cancel(true);
+				this._refocus = true;
+				this.getValue = function(){ return this._resetValue; }; // ensure cancel is called in _onBlur
+				this.editWidget.focusNode.blur(); // force _onBlur which will call cancel() since getValue will return _resetValue
 			}else if(e.charOrCode == dojo.keys.ENTER && this.editWidget.focusNode.tagName == "INPUT" && this.enableSave()){
 				dojo.stopEvent(e);
-				this._exitInProgress = true;
-				this.save(true);
-			}else if(e.charOrCode === dojo.keys.TAB){
-				this._exitInProgress = true;
-				// allow the TAB to change focus before we mess with the DOM: #6227
-				// Expounding by request:
-				// 	The current focus is on the edit widget input field.
-				//	save() will hide and destroy this widget.
-				//	We want the focus to jump from the currently hidden
-				//	displayNode, but since it's hidden, it's impossible to
-				//	unhide it, focus it, and then have the browser focus
-				//	away from it to the next focusable element since each
-				//	of these events is asynchronous and the focus-to-next-element
-				//	is already queued.
-				//	So we allow the browser time to unqueue the move-focus event 
-				//	before we do all the hide/show stuff.
-				setTimeout(dojo.hitch(this, "save", false), 0);
+				this._refocus = true;
+				this.editWidget.focusNode.blur(); // force _onBlur which will call save()
 			}
+				
+			// _onBlur will handle TAB automatically by allowing
+			// the TAB to change focus before we mess with the DOM: #6227
+			// Expounding by request:
+			// 	The current focus is on the edit widget input field.
+			//	save() will hide and destroy this widget.
+			//	We want the focus to jump from the currently hidden
+			//	displayNode, but since it's hidden, it's impossible to
+			//	unhide it, focus it, and then have the browser focus
+			//	away from it to the next focusable element since each
+			//	of these events is asynchronous and the focus-to-next-element
+			//	is already queued.
+			//	So we allow the browser time to unqueue the move-focus event 
+			//	before we do all the hide/show stuff.
 		}
 	},
 
@@ -460,20 +457,15 @@ dojo.declare(
 		//		private
 
 		this.inherited(arguments);
-		if(this._exitInProgress){
-			// when user clicks the "save" button, focus is shifted back to display text, causing this
-			// function to be called, but in that case don't do anything
-			return;
-		}
 		if(this.autoSave){
+			this.disconnect(this._onChangeHandle); // no longer need onChange to trigger _onBlur
 			if(this.getValue() == this._resetValue){
-				this._exitInProgress = true;
-				this.cancel(false);
+				this.cancel(this._refocus);
 			}else if(this.enableSave()){
-				this._exitInProgress = true;
-				this.save(false);
+				this.save(this._refocus);
 			}
 		}
+		this._refocus = false;
 	},
 
 	_onChange: function(){
@@ -484,14 +476,9 @@ dojo.declare(
 		// tags:
 		//		private
 
-		if(this._exitInProgress){
-			// TODO: the onChange event might happen after the return key for an async widget
-			// like FilteringSelect.  Shouldn't be deleting the edit widget on end-of-edit
-			return;
-		}
 		if(this.autoSave && this.enableSave()){
-			this._exitInProgress = true;
-			this.save(true);
+			this._refocus = true;
+			this.editWidget.focusNode.blur(); // force _onBlur which will call save()
 		}
 	},
 	

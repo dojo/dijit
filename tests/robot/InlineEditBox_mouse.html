@@ -85,6 +85,92 @@
 							}), 1000);
 							return d;
 						}
+					},
+					{
+						name: "CurrencyTextBox valid value: blur",
+						timeout: 10000,
+						runTest: function(){
+							var d = new doh.Deferred();
+							var inlineBox = dijit.byId("dollar_as");
+							moveAndClick(inlineBox.domNode);
+							doh.robot.typeKeys("123", 500, 1000);
+							moveAndClick("predefined");
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.is("$123.00", inlineBox.attr("value"), "value");
+							}), 1000);
+							return d;
+						}
+					},
+					{
+						name: "CurrencyTextBox valid value: ENTER",
+						timeout: 10000,
+						runTest: function(){
+							var d = new doh.Deferred();
+							var inlineBox = dijit.byId("dollar_as");
+							moveAndClick(inlineBox.domNode);
+							doh.robot.typeKeys("234", 500, 1000);
+							doh.robot.keyPress(dojo.keys.ENTER, 500, {});
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.is('$234.00', inlineBox.attr("value"), "value");
+							}), 1000);
+							return d;
+						}
+					},
+					{
+						name: "CurrencyTextBox valid value: ESCAPE",
+						timeout: 10000,
+						runTest: function(){
+							var d = new doh.Deferred();
+							var inlineBox = dijit.byId("dollar_as");
+							moveAndClick(inlineBox.domNode);
+							doh.robot.typeKeys("345", 500, 1000);
+							doh.robot.keyPress(dojo.keys.ESCAPE, 500, {});
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.is("$234.00", inlineBox.attr("value"), "value");
+							}), 1000);
+							return d;
+						}
+					},
+					{
+						name: "CurrencyTextBox valid value: TAB",
+						timeout: 10000,
+						runTest: function(){
+							var d = new doh.Deferred();
+							var inlineBox = dijit.byId("dollar_as");
+							moveAndClick(inlineBox.domNode);
+							doh.robot.typeKeys("456", 500, 1000);
+							doh.robot.keyPress(dojo.keys.TAB, 500, {});
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.is('$456.00', inlineBox.attr("value"), "value");
+							}), 1000);
+							return d;
+						}
+					},
+					{
+						name: "Focus test",
+						timeout: 15000,
+						runTest: function(){
+							var d = new doh.Deferred();
+							var inlineBox = dijit.byId("editable");
+							moveAndClick(inlineBox.domNode);
+							doh.robot.typeKeys("editable", 500, 1000);
+							doh.robot.keyPress(dojo.keys.TAB, 500, {});
+							doh.robot.keyPress(dojo.keys.TAB, 1500, {}); // wait more than 1 second to TAB
+							doh.robot.keyPress(dojo.keys.ENTER, 500, {});
+							doh.robot.typeKeys("567", 500, 1000);
+							doh.robot.keyPress(dojo.keys.ENTER, 500, {});
+							doh.robot.keyPress(dojo.keys.TAB, 100, {shift:true}); // do this fast
+							doh.robot.keyPress(dojo.keys.TAB, 100, {shift:true}); // do this fast
+							doh.robot.keyPress(dojo.keys.ENTER, 100, {}); // quickly back to editable
+							doh.robot.keyPress(dojo.keys.END, 500, {});
+							doh.robot.typeKeys(" again", 500, 1000);
+							doh.robot.keyPress(dojo.keys.TAB, 100, {});
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.is('$567.00', dijit.byId("dollar_as").attr("value"), "value");
+								doh.is('editable again', inlineBox.attr("value"), "value");
+							}), 1000);
+							return d;
+						}
 					}
 				]);
 				doh.register("dijit.InlineEditBox preDefinedValue tests", [
