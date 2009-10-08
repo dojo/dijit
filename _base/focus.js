@@ -203,7 +203,8 @@ dojo.mixin(dijit,
 
 		var node = "node" in handle ? handle.node : handle,		// because handle is either DomNode or a composite object
 			bookmark = handle.bookmark,
-			openedForWindow = handle.openedForWindow;
+			openedForWindow = handle.openedForWindow,
+			collapsed = bookmark ? bookmark.isCollapsed : false;
 
 		// Set the focus
 		// Note that for iframe's we need to use the <iframe> to follow the parentNode chain,
@@ -222,8 +223,9 @@ dojo.mixin(dijit,
 
 		// set the selection
 		// do not need to restore if current selection is not empty
-		// (use keyboard to select a menu item)
-		if(bookmark && dojo.withGlobal(openedForWindow || dojo.global, dijit.isCollapsed)){
+		// (use keyboard to select a menu item) or if previous selection was collapsed
+		// as it may cause focus shift (Esp in IE).
+		if(bookmark && dojo.withGlobal(openedForWindow || dojo.global, dijit.isCollapsed) && !collapsed){
 			if(openedForWindow){
 				openedForWindow.focus();
 			}
