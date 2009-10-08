@@ -114,7 +114,7 @@ dijit._place = function(/*DomNode*/ node, /* Array */ choices, /* Function */ la
 		// coordinates and size of node with specified corner placed at pos,
 		// and clipped by viewport
 		var startX = (corner.charAt(1) == 'L' ? pos.x : Math.max(view.l, pos.x - mb.w)),
-			startY = (corner.charAt(0) == 'T' ? pos.y : Math.max(view.t, pos.y -  mb.h)),
+			startY = (corner.charAt(0) == 'T' ? pos.y : Math.max(view.t, pos.y - mb.h)),
 			endX = (corner.charAt(1) == 'L' ? Math.min(view.l + view.w, startX + mb.w) : pos.x),
 			endY = (corner.charAt(0) == 'T' ? Math.min(view.t + view.h, startY + mb.h) : pos.y),
 			width = endX - startX,
@@ -163,7 +163,7 @@ dijit.placeOnScreenAroundNode = function(
 	//		where the key corresponds to the aroundNode's corner, and
 	//		the value corresponds to the node's corner:
 	//
-	//	|	{ aroundNodeCorner1: nodeCorner1, aroundNodeCorner2: nodeCorner2,  ...}
+	//	|	{ aroundNodeCorner1: nodeCorner1, aroundNodeCorner2: nodeCorner2, ...}
 	//
 	//		The following strings are used to represent the four corners:
 	//			* "BL" - bottom left
@@ -264,7 +264,7 @@ dijit._placeOnScreenAroundRect = function(
 	return dijit._place(node, choices, layoutNode);
 };
 
-dijit.placementRegistry = new dojo.AdapterRegistry();
+dijit.placementRegistry= new dojo.AdapterRegistry();
 dijit.placementRegistry.register("node",
 	function(n, x){
 		return typeof x == "object" &&

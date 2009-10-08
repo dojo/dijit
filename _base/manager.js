@@ -212,7 +212,7 @@ dijit.registry = {
 	// description: Is an instance of `dijit.WidgetSet`
 };
 =====*/
-dijit.registry = new dijit.WidgetSet();
+dijit.registry= new dijit.WidgetSet();
 
 dijit._widgetTypeCtr = {};
 
@@ -336,14 +336,14 @@ dijit.isTabNavigable = function(/*Element*/elem){
 				}else if(dojo.isWebKit){
 					var doc = elem.contentDocument,
 						body = doc && doc.body;
-					return body && body.contentEditable=='true';
+					return body && body.contentEditable == 'true';
 				}else{
 					doc = elem.contentWindow.document,
 						body = doc && doc.body;
-					return body && body.firstChild && body.firstChild.contentEditable=='true';
+					return body && body.firstChild && body.firstChild.contentEditable == 'true';
 				}
 			default:
-				return elem.contentEditable=='true';
+				return elem.contentEditable == 'true';
 		}
 	}
 };

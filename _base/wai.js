@@ -27,7 +27,7 @@ dijit.wai = {
 		var cs = dojo.getComputedStyle(div);
 		if(cs){
 			var bkImg = cs.backgroundImage;
-			var needsA11y = (cs.borderTopColor==cs.borderRightColor) || (bkImg != null && (bkImg == "none" || bkImg == "url(invalid-url:)" ));
+			var needsA11y = (cs.borderTopColor == cs.borderRightColor) || (bkImg != null && (bkImg == "none" || bkImg == "url(invalid-url:)" ));
 			dojo[needsA11y ? "addClass" : "removeClass"](dojo.body(), "dijit_a11y");
 			if(dojo.isIE){
 				div.outerHTML = "";		// prevent mixed-content warning, see http://support.microsoft.com/kb/925014
@@ -83,7 +83,7 @@ dojo.mixin(dijit,
 			if((" "+ curRole +" ").indexOf(" " + role + " ") < 0){
 				var clearXhtml = dojo.trim(curRole.replace(this._XhtmlRoles, ""));
 				var cleanRole = dojo.trim(curRole.replace(clearXhtml, ""));	 
-         		dojo.attr(elem, "role", cleanRole + (cleanRole ? ' ' : '') + role);
+				dojo.attr(elem, "role", cleanRole + (cleanRole ? ' ' : '') + role);
 			}
 		}
 	},

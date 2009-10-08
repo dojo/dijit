@@ -9,8 +9,8 @@ dojo.require("dijit._base.manager");	// for dijit.isTabNavigable()
 //		so that the widget can fire _onFocus/_onBlur events.
 //		"Active" here means something similar to "focused", but
 //		"focus" isn't quite the right word because we keep track of
-//		a whole stack of "active" widgets.  Example:  ComboButton --> Menu -->
-//		MenuItem.   The onBlur event for ComboButton doesn't fire due to focusing
+//		a whole stack of "active" widgets.  Example: ComboButton --> Menu -->
+//		MenuItem.  The onBlur event for ComboButton doesn't fire due to focusing
 //		on the Menu or a MenuItem, since they are considered part of the
 //		ComboButton widget.  It only happens when focus is shifted
 //		somewhere completely different.
@@ -35,7 +35,7 @@ dojo.mixin(dijit,
 		// summary:
 		//		Retrieves a bookmark that can be used with moveToBookmark to return to the same range
 		var bm, rg, tg, sel = dojo.doc.selection, cf = dijit._curFocus;
-        
+
 		if(dojo.global.getSelection){
 			//W3C Range API for selections.
 			sel = dojo.global.getSelection();
@@ -45,7 +45,7 @@ dojo.mixin(dijit,
 					if(tg){
 						//Create a fake rangelike item to restore selections.
 						tg = tg.toLowerCase();
-						if(tg === "textarea" || 
+						if(tg == "textarea" || 
 								(tg == "input" && (!cf.type || cf.type.toLowerCase() == "text"))){
 							sel = {
 								start: cf.selectionStart,
@@ -66,9 +66,9 @@ dojo.mixin(dijit,
 			// If the current focus was a input of some sort and no selection, don't bother saving 
 			// a native bookmark.  This is because it causes issues with dialog/page selection restore.
 			// So, we need to create psuedo bookmarks to work with.
-			tg = cf? cf.tagName : "";
+			tg = cf ? cf.tagName : "";
 			tg = tg.toLowerCase();
-			if(cf && tg && (tg === "button" || tg === "textarea" || tg === "input")){
+			if(cf && tg && (tg == "button" || tg == "textarea" || tg == "input")){
 				if(sel.type && sel.type.toLowerCase() == "none"){
 					return {
 						isCollapsed: true,
@@ -97,7 +97,7 @@ dojo.mixin(dijit,
 				bm.isCollapsed = true;
 				return bm;
 			}
-			if(sel.type.toUpperCase()=='CONTROL'){
+			if(sel.type.toUpperCase() == 'CONTROL'){
 				if(rg.length){
 					bm.mark=[];
 					var i=0,len=rg.length;
@@ -187,7 +187,7 @@ dojo.mixin(dijit,
 		var node = !dijit._curFocus || (menu && dojo.isDescendant(dijit._curFocus, menu.domNode)) ? dijit._prevFocus : dijit._curFocus;
 		return {
 			node: node,
-			bookmark: (node == dijit._curFocus) && dojo.withGlobal(openedForWindow||dojo.global, dijit.getBookmark),
+			bookmark: (node == dijit._curFocus) && dojo.withGlobal(openedForWindow || dojo.global, dijit.getBookmark),
 			openedForWindow: openedForWindow
 		}; // Object
 	},
@@ -209,7 +209,7 @@ dojo.mixin(dijit,
 		// Note that for iframe's we need to use the <iframe> to follow the parentNode chain,
 		// but we need to set focus to iframe.contentWindow
 		if(node){
-			var focusNode = (node.tagName.toLowerCase()=="iframe") ? node.contentWindow : node;
+			var focusNode = (node.tagName.toLowerCase() == "iframe") ? node.contentWindow : node;
 			if(focusNode && focusNode.focus){
 				try{
 					// Gecko throws sometimes if setting focus is impossible,
@@ -223,12 +223,12 @@ dojo.mixin(dijit,
 		// set the selection
 		// do not need to restore if current selection is not empty
 		// (use keyboard to select a menu item)
-		if(bookmark && dojo.withGlobal(openedForWindow||dojo.global, dijit.isCollapsed)){
+		if(bookmark && dojo.withGlobal(openedForWindow || dojo.global, dijit.isCollapsed)){
 			if(openedForWindow){
 				openedForWindow.focus();
 			}
 			try{
-				dojo.withGlobal(openedForWindow||dojo.global, dijit.moveToBookmark, null, [bookmark]);
+				dojo.withGlobal(openedForWindow || dojo.global, dijit.moveToBookmark, null, [bookmark]);
 			}catch(e2){
 				/*squelch IE internal error, see http://trac.dojotoolkit.org/ticket/1984 */
 			}
@@ -271,7 +271,7 @@ dojo.mixin(dijit,
 		dojo.connect(targetWindow.document, "onmousedown", function(evt){
 			dijit._justMouseDowned = true;
 			setTimeout(function(){ dijit._justMouseDowned = false; }, 0);
-			dijit._onTouchNode(effectiveNode||evt.target||evt.srcElement);
+			dijit._onTouchNode(effectiveNode || evt.target || evt.srcElement);
 		});
 		//dojo.connect(targetWindow, "onscroll", ???);
 
@@ -287,20 +287,20 @@ dojo.mixin(dijit,
 					// Should consider those more like a mouse-click than a focus....
 					if(evt.srcElement.tagName.toLowerCase() != "#document" &&
 						dijit.isTabNavigable(evt.srcElement)){
-						dijit._onFocusNode(effectiveNode||evt.srcElement);
+						dijit._onFocusNode(effectiveNode || evt.srcElement);
 					}else{
-						dijit._onTouchNode(effectiveNode||evt.srcElement);
+						dijit._onTouchNode(effectiveNode || evt.srcElement);
 					}
 				});
 				doc.attachEvent('ondeactivate', function(evt){
-					dijit._onBlurNode(effectiveNode||evt.srcElement);
+					dijit._onBlurNode(effectiveNode || evt.srcElement);
 				});
 			}else{
 				doc.addEventListener('focus', function(evt){
-					dijit._onFocusNode(effectiveNode||evt.target);
+					dijit._onFocusNode(effectiveNode || evt.target);
 				}, true);
 				doc.addEventListener('blur', function(evt){
-					dijit._onBlurNode(effectiveNode||evt.target);
+					dijit._onBlurNode(effectiveNode || evt.target);
 				}, true);
 			}
 		}
@@ -350,9 +350,9 @@ dojo.mixin(dijit,
 				var popupParent = dojo.attr(node, "dijitPopupParent");
 				if(popupParent){
 					node=dijit.byId(popupParent).domNode;
-				}else if(node.tagName && node.tagName.toLowerCase()=="body"){
+				}else if(node.tagName && node.tagName.toLowerCase() == "body"){
 					// is this the root of the document or just the root of an iframe?
-					if(node===dojo.body()){
+					if(node === dojo.body()){
 						// node is the root of the main document
 						break;
 					}
@@ -389,7 +389,7 @@ dojo.mixin(dijit,
 
 		dijit._onTouchNode(node);
 
-		if(node==dijit._curFocus){ return; }
+		if(node == dijit._curFocus){ return; }
 		if(dijit._curFocus){
 			dijit._prevFocus = dijit._curFocus;
 		}
@@ -421,7 +421,7 @@ dojo.mixin(dijit,
 				if(widget._onBlur){
 					widget._onBlur();
 				}
-				if (widget._setStateClass){
+				if(widget._setStateClass){
 					widget._setStateClass();
 				}
 				dojo.publish("widgetBlur", [widget]);
