@@ -97,7 +97,7 @@ dijit.popup.__OpenArgs = function(){
 		//
 		// example:
 		//		opening the widget as a dropdown
-		//		|		dijit.popup.open({parent: this, popup: menuWidget, around: this.domNode, onClose: function(){...}  });
+		//		|		dijit.popup.open({parent: this, popup: menuWidget, around: this.domNode, onClose: function(){...}});
 		//
 		//		Note that whatever widget called dijit.popup.open() should also listen to its own _onBlur callback
 		//		(fired from _base/focus.js) to know that focus has moved somewhere else and thus the popup should be closed.
@@ -218,7 +218,7 @@ dijit.popup.__OpenArgs = function(){
 			dojo.forEach(top.handlers, dojo.disconnect);
 	
 			// #2685: check if the widget still has a domNode so ContentPane can change its URL without getting an error
-			if(!widget||!widget.domNode){ return; }
+			if(!widget || !widget.domNode){ return; }
 			
 			this.prepare(widget.domNode);
 
@@ -276,7 +276,7 @@ dijit.BackgroundIframe = function(/* DomNode */node){
 	//			area (and position) of node
 
 	if(!node.id){ throw new Error("no id"); }
-	if(dojo.isIE < 7 || dojo.config.forceBgIframe){
+	if(dojo.isIE || dojo.isMoz){
 		var iframe = dijit._frames.pop();
 		node.appendChild(iframe);
 		if(dojo.isIE<7){
