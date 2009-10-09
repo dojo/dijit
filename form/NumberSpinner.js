@@ -47,7 +47,8 @@ dojo.declare("dijit.form.NumberSpinner",
 	},
 	
 	_onKeyPress: function(e){
-		if((e.charOrCode == dojo.keys.HOME || e.charOrCode == dojo.keys.END) && !(e.ctrlKey || e.altKey || e.metaKey)){
+		if((e.charOrCode == dojo.keys.HOME || e.charOrCode == dojo.keys.END) && !(e.ctrlKey || e.altKey || e.metaKey)
+		&& typeof this.attr('value') != 'undefined' /* gibberish, so HOME and END are default editing keys*/){
 			var value = this.constraints[(e.charOrCode == dojo.keys.HOME ? "min" : "max")];
 			if(value){
 				this._setValueAttr(value,true);

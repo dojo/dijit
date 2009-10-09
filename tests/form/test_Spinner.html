@@ -90,12 +90,12 @@
 			<br>
 
 			<p>
-			<label for="spinnerMinOnly">Spinner with no maximum: </label><br>
+			<label for="spinnerMinOnly">Spinner with no maximum, 1 decimal place: </label><br>
 			<input dojoType="dijit.form.NumberSpinner"
 				value="1.0"
 				smallDelta="0.1"
 				largeDelta="1.0"
-				constraints="{min:-10.9,places:1,round:true}"
+				constraints="{min:-10.9,places:1,round:false}"
 				maxLength="20"
 				name="spinnerMinOnly"
 				id="spinnerMinOnly">

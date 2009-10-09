@@ -92,10 +92,18 @@
 							doh.robot.sequence(function(){
 								spin1.focusNode.value="";
 							},500);
-							doh.robot.typeKeys("0.a",500,300);
-							doh.robot.sequence(d.getTestCallback(function(){
+							doh.robot.typeKeys("0.5",500,300);
+							doh.robot.sequence(function(){
+								try{
+								// test before user clicks away
 								doh.f(spin1.isValid(), "spin1 is marked as error");
-							}),500);
+								doh.robot.keyPress(dojo.keys.TAB,500);
+								doh.robot.sequence(d.getTestCallback(function(){
+									// also test after user clicks away
+									doh.f(spin1.isValid(), "spin1 is marked as error");
+								}),500);
+								}catch(e){d.callback(e);}
+							},500);
 							return d;
 						},
 						tearDown:function(){
@@ -114,10 +122,18 @@
 							doh.robot.sequence(function(){
 								spin3.focusNode.value="";
 							},500);
-							doh.robot.typeKeys("0.a",500,300);
-							doh.robot.sequence(d.getTestCallback(function(){
-								doh.is(false,spin3.isValid());
-							}),500);
+							doh.robot.typeKeys("0.a",500,300); // vs 0.5 in spinner1_invalid, spin3 would accept that
+							doh.robot.sequence(function(){
+								try{
+								// test before user clicks away
+								doh.f(spin3.isValid(), "spin3 is marked as error");
+								doh.robot.keyPress(dojo.keys.TAB,500);
+								doh.robot.sequence(d.getTestCallback(function(){
+									// also test after user clicks away
+									doh.f(spin3.isValid(), "spin3 is marked as error");
+								}),500);
+								}catch(e){d.callback(e);}
+							},500);
 							return d;
 						},
 						tearDown:function(){

@@ -184,6 +184,7 @@
 						spin1=dijit.byId('integerspinner1');
 						spin2=dijit.byId('integerspinner2');
 						spin3=dijit.byId('realspinner1');
+						spin4=dijit.byId('spinnerMinOnly');
 						safeClick=dojo.byId('form1');
 					},
 					runTest: function(){
@@ -195,6 +196,7 @@
 						doh.is(900, spin1.attr('value'), "integerspinner1");
 						doh.is(1000, spin2.attr('value'), "integerspinner2");
 						doh.is(1.0, spin3.attr('value'), "realspinner1");
+						doh.is(1.0, spin4.attr('value'), "spinnerMinOnly");
 					}
 				});
 
@@ -449,8 +451,7 @@
 						runTest:function(){
 							return a11yTabFocus("integertextbox3");
 						}
-					}/*,
-					// this test fails for since there is nothing to focus on below 'realspinner1'
+					},
 					{
 						name:"realspinner1TabFocus",
 						timeout:4000,
@@ -460,7 +461,7 @@
 						runTest:function(){
 							return a11yTabFocus("realspinner1");
 						}
-					}*/
+					}
 				]);
 				
 				// a11y keystroke tests
@@ -504,6 +505,120 @@
 						},
 						runTest:function(){
 							return a11yKeystrokeTest("realspinner1");
+						}
+					}
+				]);
+
+				// exponential value keystroke tests
+				doh.register("exponential",
+				[
+					{
+						name: "spinnerMinOnly large exp",
+						timeout: 15000,
+						setUp:function(){
+							spin4.focusNode.value="";
+							spin4.focus();
+						},
+						runTest: function(){
+							var d=new doh.Deferred();
+							doh.robot.typeKeys("0.5e99", 1000, 1000);
+							doh.robot.keyPress(dojo.keys.TAB, 100);
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.f(spin4.isValid(true), "large exponential is invalid");
+								doh.f(spin4.isInRange(true), "large exponential is out of range");
+								doh.is(spin4.getErrorMessage(true), spin4.rangeMessage, "large exponential showing out of range message");
+								doh.is("5e+98", spin4.attr('displayedValue'), "large exponential reformatted to standard form");
+							}),500);
+							return d;
+						}
+					},
+					{
+						name: "spinnerMinOnly adjust small exp",
+						timeout: 15000,
+						setUp:function(){
+							spin4.focusNode.value="";
+							spin4.focus();
+						},
+						runTest: function(){
+							var d=new doh.Deferred();
+							doh.robot.typeKeys("0.5e9", 1000, 1000);
+							doh.robot.keyPress(dojo.keys.UP_ARROW, 100);
+							doh.robot.keyPress(dojo.keys.TAB, 100);
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.t(spin4.isValid(true), "small exponential is valid");
+								doh.t(spin4.isInRange(true), "small exponential is in range");
+								doh.is(500000000.1, spin4.attr('value'), "small exponential converted to whole number");
+								doh.is("500,000,000.1", spin4.attr('displayedValue'), "small exponential converted to whole number with formatting");
+							}),500);
+							return d;
+						}
+					},
+					{
+						name: "spinnerMinOnly adjust max exp",
+						timeout: 15000,
+						setUp:function(){
+							spin4.focusNode.value="";
+							spin4.focus();
+						},
+						runTest: function(){
+							var d=new doh.Deferred();
+							doh.robot.typeKeys("0.5e99", 1000, 1000);
+							doh.robot.keyPress(dojo.keys.DOWN_ARROW, 200); // convert to max
+							doh.robot.keyPress(dojo.keys.DOWN_ARROW, 200);
+							doh.robot.keyPress(dojo.keys.TAB, 100);
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.t(spin4.isValid(true), "large exponential converted to max is valid");
+								doh.t(spin4.isInRange(true), "max value is in range");
+								doh.is(89999999999999.9, spin4.attr('value'), "max value (-.1)");
+								doh.is("89,999,999,999,999.9", spin4.attr('displayedValue'), "max value (-.1) with formatting");
+							}),500);
+							return d;
+						}
+					}
+				]);
+
+				// invalid editing keystroke tests
+				doh.register("invalid editing",
+				[
+					{
+						name: "HOME key, out of range",
+						timeout: 15000,
+						setUp:function(){
+							spin4.focusNode.value="";
+							spin4.focus();
+						},
+						runTest: function(){
+							var d=new doh.Deferred();
+							doh.robot.typeKeys("0.5e99", 1000, 1000);
+							doh.robot.keyPress(dojo.keys.HOME, 100);
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.t(spin4.isValid(true), "HOME changed large exponential to valid min");
+								doh.t(spin4.isInRange(true), "HOME changed large exponential to in range");
+								doh.is(-10.9, spin4.attr('value'), "HOME changed large exponential to min value");
+								doh.is("-10.9", spin4.attr('displayedValue'), "HOME changed large exponential to min display");
+							}),500);
+							return d;
+						}
+					},
+					{
+						name: "HOME key, invalid",
+						timeout: 15000,
+						setUp:function(){
+							spin4.focusNode.value="";
+							spin4.focus();
+						},
+						runTest: function(){
+							var d=new doh.Deferred();
+							doh.robot.typeKeys(".5e9a", 1000, 1000);
+							doh.robot.keyPress(dojo.keys.HOME, 100);
+							doh.robot.typeKeys("1", 500, 200);
+							doh.robot.keyPress(dojo.keys.END, 100);
+							doh.robot.keyPress(dojo.keys.BACKSPACE, 100);
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.t(spin4.isValid(true), "edited exponential is now valid");
+								doh.is(1.5e+9, spin4.attr('value'), "edited exponential");
+							}),500);
+							return d;
 						}
 					}
 				]);

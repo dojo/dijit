@@ -414,7 +414,10 @@ dojo.declare(
 
 		getErrorMessage: function(/*Boolean*/ isFocused){
 			// Overrides dijit.form.ValidationTextBox.getErrorMessage to print "out of range" message if appropriate
-			if(dijit.form.RangeBoundTextBox.superclass.isValid.call(this, false) && !this.isInRange(isFocused)){ return this.rangeMessage; } // String
+			var v = this.attr('value');
+			if(v !== null && v !== '' && typeof v != "undefined" && !this.isInRange(isFocused)){ // don't check isInRange w/o a real value
+				return this.rangeMessage; // String
+			}
 			return this.inherited(arguments);
 		},
 
