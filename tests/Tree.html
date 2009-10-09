@@ -118,23 +118,29 @@
 						return d;
 					},
 
-					function copyPathByIds(){
-						var d = new doh.Deferred;
-
-						myTree.attr("path", ["earth", "NA", "CA", "Ottawa"]);
-
-						setTimeout(function(){
-							myTree2.attr("path", dojo.map(myTree.attr("path"), function(item){ return myTree.model.getIdentity(item); }));
+					{
+						name: "copyPathByIds",
+						timeout: 5000,
+						runTest: function(){
+							var d = new doh.Deferred;
 	
-							setTimeout(d.getTestCallback(function(){
-								doh.t(myTree2.rootNode.isExpanded, "root node is expanded");
-								doh.t(myTree2.rootNode.getChildren()[4].isExpanded, "north america node is expanded");
-								doh.t(myTree2.rootNode.getChildren()[4].getChildren()[1].isExpanded, "canada node is expanded");
-								doh.is(myTree2.rootNode.getChildren()[4].getChildren()[1].getChildren()[0], myTree2.lastFocused, "focused correct node");
-							}), 250);
-						}, 250);
-
-						return d;
+							myTree.attr("path", ["earth", "NA", "CA", "Ottawa"]);
+	
+							setTimeout(d.getTestErrback(function(){
+								var path = dojo.map(myTree.attr("path"), function(item){ return myTree.model.getIdentity(item); });
+								doh.is(["earth", "NA", "CA", "Ottawa"], path, "path got set on myTree")
+								myTree2.attr("path", path);
+		
+								setTimeout(d.getTestCallback(function(){
+									doh.t(myTree2.rootNode.isExpanded, "root node is expanded");
+									doh.t(myTree2.rootNode.getChildren()[4].isExpanded, "north america node is expanded");
+									doh.t(myTree2.rootNode.getChildren()[4].getChildren()[1].isExpanded, "canada node is expanded");
+									doh.is(myTree2.rootNode.getChildren()[4].getChildren()[1].getChildren()[0], myTree2.lastFocused, "focused correct node");
+								}), 500);
+							}), 500);
+	
+							return d;
+						}
 					},
 
 					function itemUpdate(){

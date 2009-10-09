@@ -232,7 +232,6 @@ dojo.declare(
 
 		// cancel in progress expand operation
 		if(this._expandDeferred){
-			console.log("calling cancel on expand animation")
 			this._expandDeferred.cancel();
 			delete this._expandDeferred;
 		}
@@ -643,7 +642,9 @@ dojo.declare(
 			this.cookieName = this.id + "SaveStateCookie";
 		}
 
-		this.inherited(arguments)
+		this._loadDeferred = new dojo.Deferred();
+
+		this.inherited(arguments);
 	},
 
 	postCreate: function(){
@@ -674,14 +675,6 @@ dojo.declare(
 				}
 			}
 			this.dndController = new this.dndController(this, params);
-		}
-	},
-
-	startup: function(){
-		this.inherited(arguments);
-		if(this.path && this.path.length){
-			this.attr("path", this.path);
-			delete this.path;
 		}
 	},
 
@@ -751,9 +744,11 @@ dojo.declare(
 
 				rn._updateLayout();		// sets "dijitTreeIsRoot" CSS classname
 
-				// load top level children
-				var def = this._expandNode(rn);
-				def.addCallback(dojo.hitch(this, "onLoad"));
+				// load top level children and then fire onLoad() event
+				this._expandNode(rn).addCallback(dojo.hitch(this, function(){
+					this._loadDeferred.callback(true);
+					this.onLoad();
+				}));
 			}),
 			function(err){
 				console.error(this, ": error loading root: ", err);
@@ -804,65 +799,54 @@ dojo.declare(
 		// path:
 		//		Array of items or item id's
 
-		// Cleanup in case an error let it connected
-		if(this._recursiveExpansionConn){
-			this.disconnect(this._recursiveExpansionConn);
-			delete this._recursiveExpansionConn;
-		}
+		if(!path || !path.length){ return; }
 
-		if(path && path.length){
+		// If this is called during initialization, defer running until Tree has finished loading
+		this._loadDeferred.addCallback(dojo.hitch(this, function(){
 			if(!this.rootNode){
 				console.debug("!this.rootNode");
 				return;
 			}
 			if(path[0] !== this.rootNode.item && (dojo.isString(path[0]) && path[0] != this.model.getIdentity(this.rootNode.item))){
-				console.error(this, ": path[0] don't match this.rootNode.item. Maybe you are using the wrong tree.");
+				console.error(this, ":path[0] doesn't match this.rootNode.item.  Maybe you are using the wrong tree.");
 				return;
 			}
-			var item = path.shift();
+			path.shift();
+
 			var node = this.rootNode;
-			var recursiveExpansion = function(){
-				// Skip already expanded
-				while(path.length && node.isExpanded){
-					item = path.shift();
-					// Find first tree node related to 'item' and child of 'node'
-					var identity = dojo.isString(item) ? item : this.model.getIdentity(item);
-					dojo.some(this._itemNodesMap[identity], function(n){
-						if(n.getParent()==node){
-							node = n;
-							return true;
-						}
-						return false;
-					});
-				}
-				if(path.length){
-					if(node.isExpandable){
-						// Expand and wait for onOpen firing
-						// TODO: take advantage of Deferred return from _expandNode()
-						this._expandNode(node);
-					}else{
-						console.error(this, ": problem walking path because !node.isExpandable.", item, node);
+			
+			function advance(){
+				// summary:
+				// 		Called when "node" has completed loading and expanding.   Pop the next item from the path
+				//		(which must be a child of "node") and advance to it, and then recurse.
+				
+				// Set item and identity to next item in path (node is pointing to the item that was popped
+				// from the path _last_ time.
+				var item = path.shift(),
+					identity = dojo.isString(item) ? item : this.model.getIdentity(item);
+				
+				// Change "node" from previous item in path to the item we just popped from path
+				dojo.some(this._itemNodesMap[identity], function(n){
+					if(n.getParent() == node){
+						node = n;
+						return true;
 					}
+					return false;
+				});
+				
+				if(path.length){
+					// Need to do more expanding
+					this._expandNode(node).addCallback(dojo.hitch(this, advance));
 				}else{
-					// All ancestors are expanded, now cleanup and select last item
-					this.disconnect(this._recursiveExpansionConn);
-					delete this._recursiveExpansionConn;
+					// Final destination node, select it
 					if(this.lastFocused != node){
 						this.focusNode(node);
 					}
 				}
-			};
-			this._recursiveExpansionConn = this.connect(this,"onOpen", function(itemOpened, nodeOpened){
-				if(nodeOpened !== node){ return; }
-				// Node is expanded, go on
-				recursiveExpansion.call(this);
-			});
-			recursiveExpansion.call(this);
-		}else if(this.lastFocused){
-			// Select none so deselect current
-			this.lastFocused.setSelected(false);
-			this.lastFocused = null;
-		}
+			}
+
+			this._expandNode(node).addCallback(dojo.hitch(this, advance));
+		}));
 	},
 
 	_getPathAttr: function(){
@@ -992,7 +976,6 @@ dojo.declare(
 			// clear record of recent printables (being saved for multi-char letter navigation),
 			// because "a", down-arrow, "b" shouldn't search for "ab"
 			if(this._curSearch){
-				console.log("clearing recent input");
 				clearTimeout(this._curSearch.timer);
 				delete this._curSearch;
 			}
@@ -1281,6 +1264,10 @@ dojo.declare(
 		// summary:
 		//		Called when the user has requested to collapse the node
 
+		if(node._expandNodeDeferred){
+			delete node._expandNodeDeferred;
+		}
+
 		if(node.isExpandable){
 			if(node.state == "LOADING"){
 				// ignore clicks while we are in the process of loading data
@@ -1300,12 +1287,14 @@ dojo.declare(
 	_expandNode: function(/*_TreeNode*/ node, /*Boolean?*/ recursive){
 		// summary:
 		//		Called when the user has requested to expand the node
+		// recursive:
+		//		Internal flag used when _expandNode() calls itself, don't set.
 		// returns:
 		//		Deferred that fires when the node is loaded and opened and (if persist=true) all it's descendants
 		//		that were previously opened too
 
 		if(node._expandNodeDeferred && !recursive){
-			// there's already an expand in progress, so just return
+			// there's already an expand in progress (or completed), so just return
 			return node._expandNodeDeferred;	// dojo.Deferred
 		}
 
@@ -1339,6 +1328,7 @@ dojo.declare(
 
 						// Call _expandNode() again but this time it will just to do the animation (default branch).
 						// The returned Deferred will fire when the animation completes.
+						// TODO: seems like I can avoid recursion and just use a deferred to sequence the events?
 						var ed = _this._expandNode(node, true);
 
 						// After the above two tasks (setChildItems() and recursive _expandNode()) finish,
@@ -1367,13 +1357,6 @@ dojo.declare(
 				}
 		}
 
-		def.addCallback(function(){
-			delete node._expandNodeDeferred;
-		});
-		def.addErrback(function(){
-			// Called when expand is cancelled because user clicked expando again, while animation was in progress
-			delete node._expandNodeDeferred;
-		});
 		return def;	// dojo.Deferred
 	},
 
