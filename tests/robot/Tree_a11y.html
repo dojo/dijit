@@ -49,12 +49,12 @@
 				if(inItem){
 					if(inItem.isExpandable){
 						var wasExpanded = inItem.isExpanded;
-						inItem.expand();
+						inTree._expandNode(inItem);
 						var nowExpanded = dijit.getWaiState(inItem.labelNode, "expanded");
-						inItem.collapse();
+						inTree._collapseNode(inItem);
 						var nowCollapsed = dijit.getWaiState(inItem.labelNode, "expanded");
 						if(wasExpanded){
-							inItem.expand();
+							inTree._expandNode(inItem);
 						}
 						doh.is("true", nowExpanded, inItem.label + "[" + inTree.id + "]: aria state expanded=true");
 						doh.is("false", nowCollapsed, inItem.label + "[" + inTree.id + "]: aria state expanded=false");
@@ -108,7 +108,7 @@
 				if (ioPath){ ioPath.push(inRootNode); }
 				if(inRootNode.isExpandable){
 					forceLoadChildItems(inRootNode, inTree);
-					inRootNode.expand();
+					inTree._expandNode(inRootNode);
 					var down = inRootNode.getChildren()[0];
 					if(down){
 						leaf = walkTreeToLeaf(inTree, down, ioPath);
@@ -171,7 +171,7 @@
 						dojo.forEach(children, function(child){
 							if(child.isExpandable){
 								collapse(child);
-								child.collapse();
+								inTree._collapseNode(child);
 							}
 						});
 					}
