@@ -1,6 +1,7 @@
 dojo.provide("dijit.Tree");
 
 dojo.require("dojo.fx");
+dojo.require("dojo.DeferredList");
 
 dojo.require("dijit._Widget");
 dojo.require("dijit._Templated");
@@ -269,7 +270,8 @@ dojo.declare(
 
 		var tree = this.tree,
 			model = tree.model,
-			def = new dojo.Deferred();	// fires when all children have finished loading/expanding
+			defs = [];	// list of deferreds that need to fire before I am complete
+			
 
 		// Orphan all my existing children.
 		// If items contains some of the same items as before then we will reattach them.
@@ -316,15 +318,10 @@ dojo.declare(
 				}
 				this.addChild(node);
 				
-				// If child was previously opened then open it again now (which may trigger
+				// If node was previously opened then open it again now (this may trigger
 				// more data store accesses, recursively)
 				if(this.tree._state(item)){
-					var def2 = tree._expandNode(node);
-					
-					// Register that this function isn't complete until above _expandNode() call finishes
-					def.addCallback(function(){
-						return def2;
-					});
+					defs.push(tree._expandNode(node));
 				}
 			}, this);
 
@@ -355,12 +352,7 @@ dojo.declare(
 			}
 		}
 
-		// Def is a (possibly empty) list of tasks that need to complete before I signal completion.
-		// The caller will listen for my completion by calling myRet.addCallback(func).  Even though
-		// I call callback() immediately, func() won't be called until the above deferreds,
-		// already registered via addCallback(), complete.
-		def.callback();
-		return def;	// dojo.Deferred
+		return new dojo.DeferredList(defs);	// dojo.Deferred
 	},
 
 	removeChild: function(/* treeNode */ node){
