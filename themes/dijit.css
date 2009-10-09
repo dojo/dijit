@@ -903,7 +903,13 @@ img.dijitColorPaletteUnder {
 	border:1px solid #b7b7b7;
 	border-top:0 !important;
 }
-
+/* prevent partial, ugly focus border on FF and Safari */
+.dj_webkit .dijitAccordionContainer  div:focus {
+	outline:none;
+}
+.dj_ff3 .dijitAccordionContainer  div:focus {
+	outline:none;
+}
 .dijitAccordionTitle {
 	cursor: pointer;
 }
