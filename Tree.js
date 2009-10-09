@@ -185,19 +185,16 @@ dojo.declare(
 		// returns:
 		//		Deferred that fires when expansion is complete
 
-		// Deferred that fires when expand is complete
-		// TODO: save in instance variable and add cancel() handler to stop animation
-		// (rather than saving this._wipeIn instance variable)
-		var def = new dojo.Deferred();
-
-		if(this.isExpanded){
-			def.callback();
-			return def;		// dojo.Deferred
+		// If there's already an expand in progress or we are already expanded, just return
+		if(this._expandDeferred){
+			return this._expandDeferred;		// dojo.Deferred
 		}
 
 		// cancel in progress collapse operation
 		this._wipeOut && this._wipeOut.stop();
 
+		// All the state information for when a node is expanded, maybe this should be
+		// set when the animation completes instead
 		this.isExpanded = true;
 		dijit.setWaiState(this.labelNode, "expanded", "true");
 		dijit.setWaiRole(this.containerNode, "group");
@@ -208,16 +205,21 @@ dojo.declare(
 			dijit.setWaiState(this.tree.domNode, "expanded", "true");
 		}
 
-		if(!this._wipeIn){
-			this._wipeIn = dojo.fx.wipeIn({
-				node: this.containerNode, duration: dijit.defaultDuration
+		var def,
+			wipeIn = dojo.fx.wipeIn({
+				node: this.containerNode, duration: dijit.defaultDuration,
+				onEnd: function(){
+					def.callback(true);
+				}
 			});
-		}
-		var handle = dojo.connect(this._wipeIn, "onEnd", function(){
-			dojo.disconnect(handle);
-			def.callback();
-		});
-		this._wipeIn.play();
+
+		// Deferred that fires when expand is complete
+		def = (this._expandDeferred = new dojo.Deferred(function(){
+			// Canceller
+			wipeIn.stop();
+		}));
+
+		wipeIn.play();
 		
 		return def;		// dojo.Deferred
 	},
@@ -229,7 +231,11 @@ dojo.declare(
 		if(!this.isExpanded){ return; }
 
 		// cancel in progress expand operation
-		this._wipeIn && this._wipeIn.stop();
+		if(this._expandDeferred){
+			console.log("calling cancel on expand animation")
+			this._expandDeferred.cancel();
+			delete this._expandDeferred;
+		}
 
 		this.isExpanded = false;
 		dijit.setWaiState(this.labelNode, "expanded", "false");
@@ -832,6 +838,7 @@ dojo.declare(
 				if(path.length){
 					if(node.isExpandable){
 						// Expand and wait for onOpen firing
+						// TODO: take advantage of Deferred return from _expandNode()
 						this._expandNode(node);
 					}else{
 						console.error(this, ": problem walking path because !node.isExpandable.", item, node);
@@ -1361,6 +1368,10 @@ dojo.declare(
 		}
 
 		def.addCallback(function(){
+			delete node._expandNodeDeferred;
+		});
+		def.addErrback(function(){
+			// Called when expand is cancelled because user clicked expando again, while animation was in progress
 			delete node._expandNodeDeferred;
 		});
 		return def;	// dojo.Deferred
