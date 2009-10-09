@@ -841,6 +841,37 @@ dojo.declare(
 		}));
 	},
 
+	expandAll: function(){
+		// summary:
+		//		Expand all nodes in the tree
+		// returns:
+		//		Deferred that fires when all nodes have expanded
+
+		var _this = this;
+
+		function expand(node){
+			var def = new dojo.Deferred();
+			
+			// Expand the node
+			_this._expandNode(node).addCallback(function(){
+				// When node has expanded, call expand() recursively on each non-leaf child
+				var childBranches = dojo.filter(node.getChildren() || [], function(node){
+						return node.isExpandable;
+					}),
+					defs = dojo.map(childBranches, expand);
+				
+				// And when all those recursive calls finish, signal that I'm finished
+				new dojo.DeferredList(defs).addCallback(function(){
+					def.callback();
+				});
+			});
+
+			return def;
+		}
+
+		return expand(this.rootNode);
+	},
+
 	_getPathAttr: function(){
 		// summary:
 		//		Return an array of items that is the path to selected tree node.
