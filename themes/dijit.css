@@ -907,6 +907,9 @@ img.dijitColorPaletteUnder {
 .dijitAccordionTitle {
 	cursor: pointer;
 }
+.dijitAccordionFocused  { 
+	text-decoration: underline;
+} 
 
 /* images off, high-contrast mode styles */
 .dijitAccordionTitle .arrowTextUp,

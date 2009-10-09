@@ -320,7 +320,7 @@ dojo.declare("dijit.layout._AccordionButton",
 	_handleFocus: function(/*Event*/e){
 		// summary:
 		//		Handle the blur and focus state of this widget.
-		dojo[(e.type=="focus" ? "addClass" : "removeClass")](this.focusNode,"dijitAccordionFocused");		
+		dojo[(e.type=="focus" ? "addClass" : "removeClass")](this.titleTextNode,"dijitAccordionFocused");		
 	},
 
 	setSelected: function(/*Boolean*/ isSelected){
