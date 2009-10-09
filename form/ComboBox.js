@@ -100,7 +100,7 @@ dojo.declare(
 		//		Set true if the ComboBox/FilteringSelect should ignore case when matching possible items
 		ignoreCase: true,
 
-		// hasDownArrow: Boolean
+		// hasDownArrow: [const] Boolean
 		//		Set this textbox to have a down arrow button, to display the drop down list.
 		//		Defaults to true.
 		hasDownArrow: true,
