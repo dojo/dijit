@@ -182,9 +182,20 @@ dojo.declare(
 	expand: function(){
 		// summary:
 		//		Show my children
-		if(this.isExpanded){ return; }
-		// cancel in progress collapse operation
+		// returns:
+		//		Deferred that fires when expansion is complete
 
+		// Deferred that fires when expand is complete
+		// TODO: save in instance variable and add cancel() handler to stop animation
+		// (rather than saving this._wipeIn instance variable)
+		var def = new dojo.Deferred();
+
+		if(this.isExpanded){
+			def.callback();
+			return def;		// dojo.Deferred
+		}
+
+		// cancel in progress collapse operation
 		this._wipeOut && this._wipeOut.stop();
 
 		this.isExpanded = true;
@@ -202,7 +213,13 @@ dojo.declare(
 				node: this.containerNode, duration: dijit.defaultDuration
 			});
 		}
+		var handle = dojo.connect(this._wipeIn, "onEnd", function(){
+			dojo.disconnect(handle);
+			def.callback();
+		});
 		this._wipeIn.play();
+		
+		return def;		// dojo.Deferred
 	},
 
 	collapse: function(){
@@ -239,9 +256,15 @@ dojo.declare(
 		// summary:
 		//		Sets the child items of this node, removing/adding nodes
 		//		from current children to match specified items[] array.
+		//		Also, if this.persist == true, expands any children that were previously
+		// 		opened.
+		// returns:
+		//		Deferred object that fires after all previously opened children
+		//		have been expanded again (or fires instantly if there are no such children).
 
 		var tree = this.tree,
-			model = tree.model;
+			model = tree.model,
+			def = new dojo.Deferred();	// fires when all children have finished loading/expanding
 
 		// Orphan all my existing children.
 		// If items contains some of the same items as before then we will reattach them.
@@ -287,8 +310,16 @@ dojo.declare(
 					}
 				}
 				this.addChild(node);
+				
+				// If child was previously opened then open it again now (which may trigger
+				// more data store accesses, recursively)
 				if(this.tree._state(item)){
-					tree._expandNode(node);
+					var def2 = tree._expandNode(node);
+					
+					// Register that this function isn't complete until above _expandNode() call finishes
+					def.addCallback(function(){
+						return def2;
+					});
 				}
 			}, this);
 
@@ -318,6 +349,13 @@ dojo.declare(
 				tree.domNode.setAttribute("tabIndex", "0");
 			}
 		}
+
+		// Def is a (possibly empty) list of tasks that need to complete before I signal completion.
+		// The caller will listen for my completion by calling myRet.addCallback(func).  Even though
+		// I call callback() immediately, func() won't be called until the above deferreds,
+		// already registered via addCallback(), complete.
+		def.callback();
+		return def;	// dojo.Deferred
 	},
 
 	removeChild: function(/* treeNode */ node){
@@ -671,19 +709,29 @@ dojo.declare(
 		this.showRoot = Boolean(this.label);
 	},
 
+	onLoad: function(){
+		// summary:
+		//		Called when tree finishes loading and expanding.
+		// description:
+		//		If persists == true the loading may encompass many levels of fetches
+		//		from the data store, each asynchronous.   Waits for all to finish.
+		// tags:
+		//		callback
+	},
+
 	_load: function(){
 		// summary:
 		//		Initial load of the tree.
 		//		Load root node (possibly hidden) and it's children.
 		this.model.getRoot(
 			dojo.hitch(this, function(item){
-				var rn = this.rootNode = this.tree._createTreeNode({
+				var rn = (this.rootNode = this.tree._createTreeNode({
 					item: item,
 					tree: this,
 					isExpandable: true,
 					label: this.label || this.getLabel(item),
 					indent: this.showRoot ? 0 : -1
-				});
+				}));
 				if(!this.showRoot){
 					rn.rowNode.style.display="none";
 				}
@@ -698,7 +746,8 @@ dojo.declare(
 				rn._updateLayout();		// sets "dijitTreeIsRoot" CSS classname
 
 				// load top level children
-				this._expandNode(rn);
+				var def = this._expandNode(rn);
+				def.addCallback(dojo.hitch(this, "onLoad"));
 			}),
 			function(err){
 				console.error(this, ": error loading root: ", err);
@@ -1241,46 +1290,80 @@ dojo.declare(
 		}
 	},
 
-	_expandNode: function(/*_TreeNode*/ node){
+	_expandNode: function(/*_TreeNode*/ node, /*Boolean?*/ recursive){
 		// summary:
 		//		Called when the user has requested to expand the node
+		// returns:
+		//		Deferred that fires when the node is loaded and opened and (if persist=true) all it's descendants
+		//		that were previously opened too
+
+		if(node._expandNodeDeferred && !recursive){
+			// there's already an expand in progress, so just return
+			return node._expandNodeDeferred;	// dojo.Deferred
+		}
 
 		if(!node.isExpandable){
+			// Not sure when this case even comes up but leaving code for now.
 			return;
 		}
 
 		var model = this.model,
-			item = node.item;
+			item = node.item,
+			_this = this;
 
 		switch(node.state){
-			case "LOADING":
-				// ignore clicks while we are in the process of loading data
-				return;
-
 			case "UNCHECKED":
 				// need to load all the children, and then expand
 				node.markProcessing();
-				var _this = this;
-				model.getChildren(item, function(items){
+				
+				// Setup deferred to signal when the load and expand are finished.
+				// Save that deferred in this._expandDeferred as a flag that operation is in progress.
+				var def = (node._expandNodeDeferred = new dojo.Deferred());
+
+				// Get the children 
+				model.getChildren(
+					item,
+					function(items){
 						node.unmarkProcessing();
-						node.setChildItems(items);
-						_this._expandNode(node);
+
+						// Display the children and also start expanding any children that were previously expanded
+						// (if this.persist == true).   The returned Deferred will fire when those expansions finish.  
+						var scid = node.setChildItems(items);
+
+						// Call _expandNode() again but this time it will just to do the animation (default branch).
+						// The returned Deferred will fire when the animation completes.
+						var ed = _this._expandNode(node, true);
+
+						// After the above two tasks (setChildItems() and recursive _expandNode()) finish,
+						// signal that I am done.
+						scid.addCallback(function(){
+							ed.addCallback(function(){
+								def.callback();	
+							})
+						});
 					},
 					function(err){
 						console.error(_this, ": error loading root children: ", err);
-					});
+					}
+				);
 				break;
 
-			default:
-				// data is already loaded; just proceed
-				node.expand();
+			default:	// "LOADED"
+				// data is already loaded; just expand node
+				def = (node._expandNodeDeferred = node.expand());
+
 				this.onOpen(node.item, node);
 
 				if(item){
-					this._state(item,true);
+					this._state(item, true);
 					this._saveState();
 				}
 		}
+
+		def.addCallback(function(){
+			delete node._expandNodeDeferred;
+		});
+		return def;	// dojo.Deferred
 	},
 
 	////////////////// Miscellaneous functions ////////////////

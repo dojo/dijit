@@ -43,7 +43,7 @@
 	<h2>Tree with hardcoded root node (not corresponding to any item in the store)</h2>
 	<p>Clicking a folder node will open/close it (openOnclick==true), and clicking a leaf node will popup an alert.</p>
 	<div dojoType="dijit.Tree" id="mytree"
-		model="continentModel" openOnClick="true">
+		model="continentModel" openOnClick="true" onLoad="console.log('loaded mytree (first tree)');">
 		<script type="dojo/method" event="onClick" args="item">
 			alert("Execute of node " + continentStore.getLabel(item)
 				+", population=" + continentStore.getValue(item, "population"));
@@ -93,7 +93,7 @@
 	</ul>
 
 	<div dojoType="dijit.Tree" id="tree2"
-		model="continentModel" showRoot="false" openOnClick="true">
+		model="continentModel" showRoot="false" openOnClick="true"onLoad="console.log('loaded tree2 (second tree)');">
 
 		<script type="dojo/connect">
 			var menu = dijit.byId("tree_menu");
@@ -128,7 +128,7 @@
 	<h2>Double click, direct style setting, tooltip test</h2>
 	<p>Double-Clicking a folder node will open/close it (openOnDblClick==true), and clicking or Double Clicking a leaf node will popup an alert.</p>
 	<div dojoType="dijit.Tree" id="mytree3" store="continentStore" query="{type:'continent'}"
-		label="Continents" openOnClick="false" openOnDblClick="true">
+		label="Continents" openOnClick="false" openOnDblClick="true" onLoad="console.log('loaded mytree3 (third tree)');">
 		<script type="dojo/method" event="getLabelStyle" args="item,opened">
 			if(item && continentStore.getValue(item,"type") == "continent"){
 				return {color: "red"};
