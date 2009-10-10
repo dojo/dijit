@@ -63,7 +63,7 @@ dojo.declare(
 			return dojo.date.stamp.toISOString(val, options);
 		},
 
-		//	value: Date
+		// value: Date
 		//		The value of this widget as a JavaScript Date object.  Use attr("value") / attr("value", val) to manipulate.
 		//		When passed to the parser in markup, must be specified according to `dojo.date.stamp.fromISOString`
 		value: new Date(""),	// value.toString()="NaN"
@@ -82,7 +82,7 @@ dojo.declare(
 		_selector: "",
 
 		constructor: function(/*Object*/args){
-			var dateClass = args.datePackage ? args.datePackage + ".Date" :  "Date";
+			var dateClass = args.datePackage ? args.datePackage + ".Date" : "Date";
 			this.dateClassObj = dojo.getObject(dateClass, false);
 			this.value = new this.dateClassObj("");
 

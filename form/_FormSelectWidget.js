@@ -5,14 +5,14 @@ dojo.require("dojo.data.util.sorter");
 
 /*=====
 dijit.form.__SelectOption = function(){
-	//	value: String
+	// value: String
 	//		The value of the option.  Setting to empty (or missing) will
 	//		place a separator at that location
-	//	label: String
+	// label: String
 	//		The label for our option.  It can contain html tags.
 	//  selected: Boolean
 	//		Whether or not we are a selected option
-	//	disabled: Boolean
+	// disabled: Boolean
 	//		Whether or not this specific option is disabled
 	this.value = value;
 	this.label = label;
@@ -110,8 +110,8 @@ dojo.declare("dijit.form._FormSelectWidget", dijit.form._FormValueWidget, {
 		if(dojo.isObject(valueOrIdx)){
 			// We were passed an option - so see if it's in our array (directly),
 			// and if it's not, try and find it by value.
-			if (!dojo.some(this.options, function(o, idx){
-				if (o === lookupValue ||
+			if(!dojo.some(this.options, function(o, idx){
+				if(o === lookupValue ||
 					(o.value && o.value === lookupValue.value)){
 					lookupValue = idx;
 					return true;
@@ -136,7 +136,7 @@ dojo.declare("dijit.form._FormSelectWidget", dijit.form._FormValueWidget, {
 	},
 	
 	addOption: function(/* dijit.form.__SelectOption, dijit.form.__SelectOption[] */ option){
-		//	summary:
+		// summary:
 		//		Adds an option or options to the end of the select.  If value
 		//		of the option is empty or missing, a separator is created instead.
 		//		Passing in an array of options will yeild slightly better performance
@@ -209,7 +209,7 @@ dojo.declare("dijit.form._FormSelectWidget", dijit.form._FormValueWidget, {
 		fetchArgs = fetchArgs || {};
 		if(oStore !== store){
 			// Our store has changed, so update our notifications
-			dojo.forEach(this._notifyConnections||[], dojo.disconnect);
+			dojo.forEach(this._notifyConnections || [], dojo.disconnect);
 			delete this._notifyConnections;
 			if(store && store.getFeatures()["dojo.data.api.Notification"]){
 				this._notifyConnections = [
@@ -273,8 +273,9 @@ dojo.declare("dijit.form._FormSelectWidget", dijit.form._FormValueWidget, {
 	},
 
 	_setValueAttr: function(/*anything*/ newValue, /*Boolean, optional*/ priorityChange){
-		// summary: set the value of the widget.
-		// If a string is passed, then we set our value from looking it up.
+		// summary:
+		//		set the value of the widget.
+		//		If a string is passed, then we set our value from looking it up.
 		if(this._loadingStore){
 			// Our store is loading - so save our value, and we'll set it when
 			// we're done
@@ -314,7 +315,8 @@ dojo.declare("dijit.form._FormSelectWidget", dijit.form._FormValueWidget, {
 	},
 	
 	_getDisplayedValueAttr: function(){
-		// summary: returns the displayed value of the widget
+		// summary:
+		//		returns the displayed value of the widget
 		var val = this.attr("value");
 		if(!dojo.isArray(val)){
 			val = [val];
@@ -332,19 +334,21 @@ dojo.declare("dijit.form._FormSelectWidget", dijit.form._FormValueWidget, {
 	
 	_getValueDeprecated: false, // remove when _FormWidget:getValue is removed
 	getValue: function(){
-		// summary: get the value of the widget.
+		// summary:
+		//		get the value of the widget.
 		return this._lastValue;
 	},
 
 	undo: function(){
-		// summary: restore the value to the last value passed to onChange
+		// summary:
+		//		restore the value to the last value passed to onChange
 		this._setValueAttr(this._lastValueReported, false);
 	},
 
 	_loadChildren: function(){
 		// summary: 
-		//		Loads the children represented by this widget's optiosn.
-		// reset the menu to make it "populatable on the next click
+		//		Loads the children represented by this widget's options.
+		//i		reset the menu to make it "populatable on the next click
 		if(this._loadingStore){ return; }
 		dojo.forEach(this._getChildren(), function(child){
 			child.destroyRecursive();
@@ -449,7 +453,7 @@ dojo.declare("dijit.form._FormSelectWidget", dijit.form._FormValueWidget, {
 		// summary:
 		//		Saves off our value, if we have an initial one set so we
 		//		can use it if we have a store as well (see startup())
-		this._oValue = (keywordArgs||{}).value || null;
+		this._oValue = (keywordArgs || {}).value || null;
 	},
 	
 	_fillContent: function(){
@@ -478,8 +482,9 @@ dojo.declare("dijit.form._FormSelectWidget", dijit.form._FormValueWidget, {
 	},
 
 	postCreate: function(){
-		// summary: sets up our event handling that we need for functioning
-		//			as a select
+		// summary:
+		//		sets up our event handling that we need for functioning
+		//		as a select
 		dojo.setSelectable(this.focusNode, false);
 		this.inherited(arguments);
 
@@ -512,7 +517,7 @@ dojo.declare("dijit.form._FormSelectWidget", dijit.form._FormValueWidget, {
 	destroy: function(){
 		// summary:
 		//		Clean up our connections
-		dojo.forEach(this._notifyConnections||[], dojo.disconnect);
+		dojo.forEach(this._notifyConnections || [], dojo.disconnect);
 		this.inherited(arguments);
 	},
 	
@@ -531,33 +536,36 @@ dojo.declare("dijit.form._FormSelectWidget", dijit.form._FormValueWidget, {
 	},
 	
 	_setDisplay: function(/*String or String[]*/ newDisplay){
-		// summary: Overridable function which will set the display for the 
-		//			widget.  newDisplay is either a string (in the case of 
-		//			single selects) or array of strings (in the case of multi-
-		//			selects)
+		// summary:
+		//		Overridable function which will set the display for the 
+		//		widget.  newDisplay is either a string (in the case of 
+		//		single selects) or array of strings (in the case of multi-selects)
 	},
 	
 	_getChildren: function(){
-		// summary: Overridable function to return the children that this widget
-		//			contains.
+		// summary:
+		//		Overridable function to return the children that this widget contains.
 		return [];
 	},
 	
 	_getSelectedOptionsAttr: function(){
-		// summary: hooks into this.attr to provide a mechanism for getting the
-		//			option items for the current value of the widget.
+		// summary:
+		//		hooks into this.attr to provide a mechanism for getting the
+		//		option items for the current value of the widget.
 		return this.getOptions(this.attr("value"));
 	},
 	
 	_pseudoLoadChildren: function(/* item[] */ items){
-		// summary: a function that will "fake" loading children, if needed, and
-		//			if we have set to not load children until the widget opens.
-		// items: item[]
-		//			An array of items that will be loaded, when needed
+		// summary:
+		//		a function that will "fake" loading children, if needed, and
+		//		if we have set to not load children until the widget opens.
+		// items:
+		//		An array of items that will be loaded, when needed
 	},
 	
 	onSetStore: function(){
-		// summary: a function that can be connected to in order to receive a
+		// summary:
+		//		a function that can be connected to in order to receive a
 		//		notification that the store has finished loading and all options
 		//		from that store are available
 	}
