@@ -14,7 +14,7 @@ dojo.declare(
 		popupClass: "dijit.Calendar",
 		_selector: "date",
 
-		//	value: Date
+		// value: Date
 		//		The value of this widget as a JavaScript Date object, with only year/month/day specified.
 		//
 		//		Example:

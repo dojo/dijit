@@ -73,7 +73,7 @@ dojo.declare(
 				var k=dojo.keys;
 				var key = evt.charOrCode; 
 				inc = (key == k.PAGE_UP || key == k.PAGE_DOWN) ? this.largeDelta : this.smallDelta;
-				node = (key == k.UP_ARROW ||key == k.PAGE_UP) ? this.upArrowNode : this.downArrowNode;
+				node = (key == k.UP_ARROW || key == k.PAGE_UP) ? this.upArrowNode : this.downArrowNode;
 			}
 			if(count == -1){ this._arrowReleased(node); }
 			else{ this._arrowPressed(node, (node == this.upArrowNode) ? 1 : -1, inc); }
@@ -114,7 +114,7 @@ dojo.declare(
 			if(dojo.isIE){
 				var _this = this;
 				(function resize(){
-				        var sz = _this.upArrowNode.parentNode.offsetHeight;
+					var sz = _this.upArrowNode.parentNode.offsetHeight;
 					if(sz){
 						_this.upArrowNode.style.height = sz >> 1;
 						_this.downArrowNode.style.height = sz - (sz >> 1);

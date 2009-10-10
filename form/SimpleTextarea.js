@@ -70,7 +70,7 @@ dojo.declare("dijit.form.SimpleTextarea",
 					var pos = textarea.selectionStart;
 					var cr = 0;
 					if(dojo.isOpera){
-						cr = (this.textbox.value.substring(0,pos).match(/\r/g)||[]).length;
+						cr = (this.textbox.value.substring(0,pos).match(/\r/g) || []).length;
 					}
 					this.textbox.value = value.substring(0,pos-overflow-cr)+value.substring(pos-cr);
 					textarea.setSelectionRange(pos-overflow, pos-overflow);

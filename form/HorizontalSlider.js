@@ -48,7 +48,7 @@ dojo.declare(
 	// pageIncrement: Integer
 	//		If discreteValues is also specified, this indicates the amount of clicks (ie, snap positions)
 	//      that the slider handle is moved via pageup/pagedown keys.
-    //      If discreteValues is not specified, it indicates the number of pixels.
+	//	If discreteValues is not specified, it indicates the number of pixels.
 	pageIncrement: 2,
 
 	// clickSelect: Boolean
@@ -245,7 +245,7 @@ dojo.declare(
 		if(count == -1){
 			this._setValueAttr(this.value, true);
 		}else{
-			this[(button == (this._descending? this.incrementButton : this.decrementButton))? "decrement" : "increment"](e);
+			this[(button == (this._descending? this.incrementButton : this.decrementButton)) ? "decrement" : "increment"](e);
 		}
 	},
 
@@ -269,7 +269,7 @@ dojo.declare(
 		dojo.extend(mover, dijit.form._SliderMover.prototype);
 
 		this._movable = new dojo.dnd.Moveable(this.sliderHandle, {mover: mover});
-		//find any associated label element and add to slider focusnode.
+		// find any associated label element and add to slider focusnode.
 		var label=dojo.query('label[for="'+this.id+'"]');
 		if(label.length){
 			label[0].id = (this.id+"_label");

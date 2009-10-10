@@ -136,7 +136,7 @@ dojo.declare("dijit.form.NumberTextBoxMixin",
 			//		Convert value (a Number) into a canonical string (ie, how the number literal is written in javascript/java/C/etc.)
 			// tags:
 			//		protected
-			return (typeof value != "number" || isNaN(value))? '' : this.inherited(arguments);
+			return (typeof value != "number" || isNaN(value)) ? '' : this.inherited(arguments);
 		},
 
 		_setValueAttr: function(/*Number*/ value, /*Boolean?*/ priorityChange, /*String?*/formattedValue){
@@ -172,7 +172,7 @@ dojo.declare("dijit.form.NumberTextBoxMixin",
 			if(isNaN(v) && this.textbox.value !== ''){
 				if(/e/i.test(this.textbox.value) && (new RegExp("^"+dojo.number._realNumberRegexp(this.constraints)+"$").test(this.textbox.value))){	// check for exponential notation that parse() rejected (erroneously?)
 					var n = Number(this.textbox.value);
-					return isNaN(n)? undefined : n; // return exponential Number or undefined for random text (may not be possible to do with the above RegExp check)
+					return isNaN(n) ? undefined : n; // return exponential Number or undefined for random text (may not be possible to do with the above RegExp check)
 				}else{
 					return undefined; // gibberish
 				}

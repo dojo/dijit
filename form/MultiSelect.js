@@ -88,7 +88,7 @@ dojo.declare("dijit.form.MultiSelect", dijit.form._FormValueWidget, {
 		dojo.query("option",this.containerNode).forEach(function(n){
 			n.selected = !n.selected;
 		});
-		this._handleOnChange(this.attr('value'), onChange==true);
+		this._handleOnChange(this.attr('value'), onChange == true);
 	},
 
 	_onChange: function(/*Event*/ e){

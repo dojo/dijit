@@ -79,8 +79,8 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 		dijit.setWaiState(this.focusNode, "disabled", value);
 
 		if(value){
-			//reset those, because after the domNode is disabled, we can no longer receive
-			//mouse related events, see #4200
+			// reset those, because after the domNode is disabled, we can no longer receive
+			// mouse related events, see #4200
 			this._hovering = false;
 			this._active = false;
 			// remove the tabIndex, especially for FF
@@ -138,8 +138,8 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 					// set a global event to handle mouseup, so it fires properly
 					//	even if the cursor leaves the button
 					var mouseUpConnector = this.connect(dojo.body(), "onmouseup", function(){
-						//if user clicks on the button, even if the mouse is released outside of it,
-						//this button should get focus (which mimics native browser buttons)
+						// if user clicks on the button, even if the mouse is released outside of it,
+						// this button should get focus (which mimics native browser buttons)
 						if(this._mouseDown && this.isFocusable()){
 							this.focus();
 						}
@@ -257,7 +257,7 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 		// tags:
 		//		protected
 		if(typeof val1 == "number" && typeof val2 == "number"){
-			return (isNaN(val1) && isNaN(val2))? 0 : val1 - val2;
+			return (isNaN(val1) && isNaN(val2)) ? 0 : val1 - val2;
 		}else if(val1 > val2){
 			return 1;
 		}else if(val1 < val2){

@@ -115,7 +115,7 @@ dojo.declare(
 			// create fake event so we can know if preventDefault() is called
 			var faux = {
 				returnValue: true, // the IE way
-				preventDefault: function(){  // not IE
+				preventDefault: function(){ // not IE
 							this.returnValue = false;
 						},
 				stopPropagation: function(){}, currentTarget: e.currentTarget, target: e.target

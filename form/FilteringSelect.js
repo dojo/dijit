@@ -56,14 +56,14 @@ dojo.declare(
 			// so it calls _callbackSetLabel directly,
 			// and so does not pass dataObject
 			// still need to test against _lastQuery in case it came too late
-			if((dataObject && dataObject.query[this.searchAttr] != this._lastQuery)||(!dataObject && result.length && this.store.getIdentity(result[0])!= this._lastQuery)){
+			if((dataObject && dataObject.query[this.searchAttr] != this._lastQuery) || (!dataObject && result.length && this.store.getIdentity(result[0]) != this._lastQuery)){
 				return;
 			}
 			if(!result.length){
 				//#3268: do nothing on bad input
 				//#3285: change CSS to indicate error
 				this.valueNode.value = "";
-				dijit.form.TextBox.superclass._setValueAttr.call(this, "", priorityChange || (priorityChange===undefined && !this._focused));
+				dijit.form.TextBox.superclass._setValueAttr.call(this, "", priorityChange || (priorityChange === undefined && !this._focused));
 				this._isvalid = false;
 				this.validate(this._focused);
 				this.item = null;
@@ -123,10 +123,10 @@ dojo.declare(
 		},
 
 		_setItemAttr: function(/*item*/ item, /*Boolean?*/ priorityChange, /*String?*/ displayedValue){
-			//	summary:
+			// summary:
 			//		Set the displayed valued in the input box, and the hidden value
 			//		that gets submitted, based on a dojo.data store item.
-			//	description:
+			// description:
 			//		Users shouldn't call this function; they should be calling
 			//		attr('item', value)
 			// tags:

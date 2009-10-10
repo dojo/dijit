@@ -61,7 +61,7 @@ dojo.declare(
 			//		Do not specify both regExp and regExpGen.
 			// tags:
 			//		extension protected
-			return this.regExp;     // String
+			return this.regExp; // String
 		},
 
 		// state: [readonly] String
@@ -207,9 +207,15 @@ dojo.declare(
 						case '^':
 						case '$':
 						case '|':
-						case '(': partialre += re; break;
-						case ")": partialre += "|$)"; break;
-						 default: partialre += "(?:"+re+"|$)"; break;
+						case '(':
+							partialre += re;
+							break;
+						case ")":
+							partialre += "|$)";
+							break;
+						 default:
+							partialre += "(?:"+re+"|$)";
+							break;
 					}
 				}
 			);}
@@ -387,12 +393,12 @@ dojo.declare(
 			var isTooMuch = false;
 			if("min" in this.constraints){
 				var min = this.constraints.min;
-				min = this.compare(val, ((typeof min == "number") && min >= 0 && val !=0)? 0 : min);
+				min = this.compare(val, ((typeof min == "number") && min >= 0 && val !=0) ? 0 : min);
 				isTooLittle = (typeof min == "number") && min < 0;
 			}
 			if("max" in this.constraints){
 				var max = this.constraints.max;
-				max = this.compare(val, ((typeof max != "number") || max > 0)? max : 0);
+				max = this.compare(val, ((typeof max != "number") || max > 0) ? max : 0);
 				isTooMuch = (typeof max == "number") && max > 0;
 			}
 			return isTooLittle || isTooMuch;

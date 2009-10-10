@@ -6,22 +6,22 @@ dojo.declare(
 	"dijit.form.TextBox",
 	dijit.form._FormValueWidget,
 	{
-		//	summary:
+		// summary:
 		//		A base class for textbox form inputs
 
-		//	trim: Boolean
+		// trim: Boolean
 		//		Removes leading and trailing whitespace if true.  Default is false.
 		trim: false,
 
-		//	uppercase: Boolean
+		// uppercase: Boolean
 		//		Converts all characters to uppercase if true.  Default is false.
 		uppercase: false,
 
-		//	lowercase: Boolean
+		// lowercase: Boolean
 		//		Converts all characters to lowercase if true.  Default is false.
 		lowercase: false,
 
-		//	propercase: Boolean
+		// propercase: Boolean
 		//		Converts the first character of each word to uppercase if true.
 		propercase: false,
 
@@ -139,7 +139,7 @@ dojo.declare(
 		_setDisplayedValueAttr: function(/*String*/value){
 			// summary:
 			//		Hook so attr('displayedValue', ...) works.
-			//	description: 
+			// description: 
 			//		Sets the value of the visual element to the string "value".
 			//		The widget value is also set to a corresponding,
 			//		but not necessarily the same, value.

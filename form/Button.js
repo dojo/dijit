@@ -69,7 +69,7 @@ dojo.declare("dijit.form.Button",
 		//		Handler when the user activates the button portion.
 		if(this._onClick(e) === false){ // returning nothing is same as true
 			e.preventDefault(); // needed for checkbox
-		}else if(this.type=="submit" && !this.focusNode.form){ // see if a nonform widget needs to be signalled
+		}else if(this.type == "submit" && !this.focusNode.form){ // see if a nonform widget needs to be signalled
 			for(var node=this.domNode; node.parentNode/*#5935*/; node=node.parentNode){
 				var widget=dijit.byNode(node);
 				if(widget && typeof widget._onSubmit == "function"){
@@ -83,7 +83,7 @@ dojo.declare("dijit.form.Button",
 	_setValueAttr: function(/*String*/ value){
 		// Verify that value cannot be set for BUTTON elements.
 		var attr = this.attributeMap.value || '';
-		if(this[attr.node||attr||'domNode'].tagName == 'BUTTON'){
+		if(this[attr.node || attr || 'domNode'].tagName == 'BUTTON'){
 			// On IE, setting value actually overrides innerHTML, so disallow for everyone for consistency
 			if(value != this.value){
 				console.debug('Cannot change the value attribute on a Button widget.');
@@ -138,7 +138,7 @@ dojo.declare("dijit.form.Button",
 		// description:
 		//		Set the label (text) of the button; takes an HTML string.
 		this.containerNode.innerHTML = this.label = content;
-		if (this.showLabel == false && !this.params.title){
+		if(this.showLabel == false && !this.params.title){
 			this.titleNode.title = dojo.trim(this.containerNode.innerText || this.containerNode.textContent || '');
 		}
 	}		
@@ -244,7 +244,7 @@ dojo.declare("dijit.form.ComboButton", dijit.form.DropDownButton, {
 	templateString: dojo.cache("dijit.form", "templates/ComboButton.html"),
 
 	attributeMap: dojo.mixin(dojo.clone(dijit.form.Button.prototype.attributeMap), {
-		id:"",
+		id: "",
 		tabIndex: ["focusNode", "titleNode"],
 		title: "titleNode"
 	}),
@@ -375,8 +375,9 @@ dojo.declare("dijit.form.ToggleButton", dijit.form.Button, {
 	//		or the radio button is selected, etc.
 	checked: false,
 
-	attributeMap: dojo.mixin(dojo.clone(dijit.form.Button.prototype.attributeMap),
-		{checked:"focusNode"}),
+	attributeMap: dojo.mixin(dojo.clone(dijit.form.Button.prototype.attributeMap), {
+		checked:"focusNode"
+	}),
 
 	_clicked: function(/*Event*/ evt){
 		this.attr('checked', !this.checked);

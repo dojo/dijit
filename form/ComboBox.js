@@ -112,7 +112,7 @@ dojo.declare(
 		_getCaretPos: function(/*DomNode*/ element){
 			// khtml 3.5.2 has selection* methods as does webkit nightlies from 2005-06-22
 			var pos = 0;
-			if(typeof(element.selectionStart)=="number"){
+			if(typeof(element.selectionStart) == "number"){
 				// FIXME: this is totally borked on Moz < 1.3. Any recourse?
 				pos = element.selectionStart;
 			}else if(dojo.isIE){
@@ -165,8 +165,8 @@ dojo.declare(
 			// summary:
 			//		Handles keyboard events
 			var key = evt.charOrCode;
-			//except for cutting/pasting case - ctrl + x/v
-			if(evt.altKey || ((evt.ctrlKey||evt.metaKey) && (key != 'x' && key != 'v')) || key == dojo.keys.SHIFT){
+			// except for cutting/pasting case - ctrl + x/v
+			if(evt.altKey || ((evt.ctrlKey || evt.metaKey) && (key != 'x' && key != 'v')) || key == dojo.keys.SHIFT){
 				return; // throw out weird key combinations and spurious events
 			}
 			var doSearch = false;
@@ -388,7 +388,7 @@ dojo.declare(
 			//		wider (fractional pixels cause this)
 			var popupbox = dojo.marginBox(this._popupWidget.domNode);
 			this._popupWidget.domNode.style.overflow = 
-				((best.h==popupbox.h)&&(best.w==popupbox.w)) ? "hidden" : "auto";
+				((best.h == popupbox.h) && (best.w == popupbox.w)) ? "hidden" : "auto";
 			// #4134:
 			//		borrow TextArea scrollbar test so content isn't covered by
 			//		scrollbar and horizontal scrollbar doesn't appear
@@ -446,10 +446,10 @@ dojo.declare(
 		},
 		
 		_setItemAttr: function(/*item*/ item, /*Boolean?*/ priorityChange, /*String?*/ displayedValue){
-			//      summary:
+			// summary:
 			//              Set the displayed valued in the input box, and the hidden value
 			//              that gets submitted, based on a dojo.data store item.
-			//      description:
+			// description:
 			//              Users shouldn't call this function; they should be calling
 			//              attr('item', value)
 			// tags:
@@ -483,7 +483,7 @@ dojo.declare(
 			}
 			// get the text that the user manually entered (cut off autocompleted text)
 			this.focusNode.value = this.focusNode.value.substring(0, caretPos);
-			//set up ARIA activedescendant
+			// set up ARIA activedescendant
 			dijit.setWaiState(this.focusNode, "activedescendant", dojo.attr(node, "id")); 
 			// autocomplete the rest of the option to announce change
 			this._autoCompleteText(newValue);
@@ -662,9 +662,10 @@ dojo.declare(
 		postCreate: function(){
 			// summary:
 			//		Subclasses must call this method from their postCreate() methods
-			// tags: protected
+			// tags:
+			//		protected
 
-			//find any associated label element and add to ComboBox node.
+			// find any associated label element and add to ComboBox node.
 			var label=dojo.query('label[for="'+this.id+'"]');
 			if(label.length){
 				label[0].id = (this.id+"_label");
@@ -687,11 +688,11 @@ dojo.declare(
 			var label = this.labelAttr? this.store.getValue(item, this.labelAttr) : this.labelFunc(item, this.store);
 			var labelType = this.labelType;
 			// If labelType is not "text" we don't want to screw any markup ot whatever.
-			if (this.highlightMatch!="none" && this.labelType=="text" && this._lastInput){
+			if(this.highlightMatch != "none" && this.labelType == "text" && this._lastInput){
 				label = this.doHighlight(label, this._escapeHtml(this._lastInput));
 				labelType = "html";
 			}
-			return {html: labelType=="html", label: label};
+			return {html: labelType == "html", label: label};
 		},
 		
 		doHighlight: function(/*String*/label, /*String*/find){
@@ -702,8 +703,8 @@ dojo.declare(
 			// tags:
 			//		protected
 
-			// Add greedy when this.highlightMatch=="all"
-			var modifiers = "i"+(this.highlightMatch=="all"?"g":"");
+			// Add greedy when this.highlightMatch == "all"
+			var modifiers = "i"+(this.highlightMatch == "all"?"g":"");
 			var escapedLabel = this._escapeHtml(label);
 			find = dojo.regexp.escapeString(find); // escape regexp special chars
 			var ret = escapedLabel.replace(new RegExp("(^|\\s)("+ find +")", modifiers),
@@ -750,7 +751,7 @@ dojo.declare(
 
 			// Use toString() because XMLStore returns an XMLItem whereas this
 			// method is expected to return a String (#9354)
-			return store.getValue(item, this.searchAttr).toString();        // String
+			return store.getValue(item, this.searchAttr).toString(); // String
 		}
 	}
 );
@@ -869,7 +870,7 @@ dojo.declare(
 					displayMore = true;
 				}else if((dataObject.start + dataObject.count) > (dataObject._maxOptions - 1)){
 					//Weird return from a datastore, where a start + count > maxOptions
-					//implies maxOptions isn't really valid and we have to go into faking it.
+					// implies maxOptions isn't really valid and we have to go into faking it.
 					//And more or less assume more if count == results.length
 					if(dataObject.count == results.length){
 						displayMore = true;
@@ -901,9 +902,9 @@ dojo.declare(
 		_onMouseUp: function(/*Event*/ evt){
 			if(evt.target === this.domNode){
 				return;
-			}else if(evt.target==this.previousButton){
+			}else if(evt.target == this.previousButton){
 				this.onPage(-1);
-			}else if(evt.target==this.nextButton){
+			}else if(evt.target == this.nextButton){
 				this.onPage(1);
 			}else{
 				var tgt = evt.target;
@@ -954,7 +955,7 @@ dojo.declare(
 		},
 
 		_highlightNextOption: function(){
-			//	summary:
+			// summary:
 			// 		Highlight the item just below the current selection.
 			// 		If nothing selected, highlight first option.
 
@@ -963,10 +964,10 @@ dojo.declare(
 			// test to see if the option has a parent to see if this is the case.
 			var fc = this.domNode.firstChild;
 			if(!this.getHighlightedOption()){
-				this._focusOptionNode(fc.style.display=="none" ? fc.nextSibling : fc);
+				this._focusOptionNode(fc.style.display == "none" ? fc.nextSibling : fc);
 			}else{
 				var ns = this._highlighted_option.nextSibling;
-				if(ns && ns.style.display!="none"){
+				if(ns && ns.style.display != "none"){
 					this._focusOptionNode(ns);
 				}
 			}
@@ -975,21 +976,21 @@ dojo.declare(
 		},
 
 		highlightFirstOption: function(){
-			//	summary:
+			// summary:
 			// 		Highlight the first real item in the list (not Previous Choices).
 			this._focusOptionNode(this.domNode.firstChild.nextSibling);
 			dijit.scrollIntoView(this._highlighted_option);
 		},
 
 		highlightLastOption: function(){
-			//	summary:
+			// summary:
 			// 		Highlight the last real item in the list (not More Choices).
 			this._focusOptionNode(this.domNode.lastChild.previousSibling);
 			dijit.scrollIntoView(this._highlighted_option);
 		},
 
 		_highlightPrevOption: function(){
-			//	summary:
+			// summary:
 			// 		Highlight the item just above the current selection.
 			// 		If nothing selected, highlight last option (if
 			// 		you select Previous and try to keep scrolling up the list).
@@ -1058,7 +1059,7 @@ dojo.declare(
 		},
 
 		getHighlightedOption: function(){
-			//	summary:
+			// summary:
 			//		Returns the highlighted option.
 			var ho = this._highlighted_option;
 			return (ho && ho.parentNode) ? ho : null;
@@ -1087,10 +1088,10 @@ dojo.declare(
 	"dijit.form.ComboBox",
 	[dijit.form.ValidationTextBox, dijit.form.ComboBoxMixin],
 	{
-		//	summary:
+		// summary:
 		//		Auto-completing text box, and base class for dijit.form.FilteringSelect.
 		// 
-		//	description:
+		// description:
 		//		The drop down box's values are populated from an class called
 		//		a data provider, which returns a list of values based on the characters
 		//		that the user has typed into the input box.
@@ -1116,10 +1117,10 @@ dojo.declare(
 );
 
 dojo.declare("dijit.form._ComboBoxDataStore", null, {
-	//	summary:
+	// summary:
 	//		Inefficient but small data store specialized for inlined `dijit.form.ComboBox` data
 	//
-	//	description:
+	// description:
 	//		Provides a store for inlined data like:
 	//
 	//	|	<select>
@@ -1149,7 +1150,7 @@ dojo.declare("dijit.form._ComboBoxDataStore", null, {
 		return (attribute == "value") ? item.value : (item.innerText || item.textContent || '');
 	},
 
-	isItemLoaded: function(/* anything */ something) {
+	isItemLoaded: function(/* anything */ something){
 		return true;
 	},
 
@@ -1160,7 +1161,7 @@ dojo.declare("dijit.form._ComboBoxDataStore", null, {
 	_fetchItems: function(	/* Object */ args,
 							/* Function */ findCallback, 
 							/* Function */ errorCallback){
-		//	summary: 
+		// summary: 
 		//		See dojo.data.util.simpleFetch.fetch()
 		if(!args.query){ args.query = {}; }
 		if(!args.query.name){ args.query.name = ""; }
@@ -1188,12 +1189,12 @@ dojo.declare("dijit.form._ComboBoxDataStore", null, {
 	},
 
 	fetchItemByIdentity: function(/* Object */ args){
-		//	summary:
+		// summary:
 		//		Given the identity of an item, this method returns the item that has
 		//		that identity through the onItem callback.
 		//		Refer to dojo.data.api.Identity.fetchItemByIdentity() for more details.
 		//
-		//	description:
+		// description:
 		//		Given arguments like:
 		//
 		//	|		{identity: "CA", onItem: function(item){...}
@@ -1204,7 +1205,7 @@ dojo.declare("dijit.form._ComboBoxDataStore", null, {
 	},
 	
 	fetchSelectedItem: function(){
-		//	summary:
+		// summary:
 		//		Get the option marked as selected, like `<option selected>`.
 		//		Not part of dojo.data API.
 		var root = this.root,

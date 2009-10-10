@@ -218,12 +218,14 @@ dojo.declare("dijit.form.Select", [dijit.form._FormSelectWidget, dijit._HasDropD
 	},
 
 	isValid: function(/*Boolean*/ isFocused){
-		// summary: Whether or not this is a valid value
+		// summary:
+		//		Whether or not this is a valid value
 		return (!this.required || !(/^\s*$/.test(this.value)));
 	},
 	
 	reset: function(){
-		// summary: Overridden so that the state will be cleared.
+		// summary:
+		//		Overridden so that the state will be cleared.
 		this.inherited(arguments);
 		dijit.hideTooltip(this.domNode);
 		this.state = "";
@@ -232,7 +234,8 @@ dojo.declare("dijit.form.Select", [dijit.form._FormSelectWidget, dijit._HasDropD
 	},
 
 	postMixInProperties: function(){
-		// summary: set the missing message
+		// summary:
+		//		set the missing message
 		this.inherited(arguments);
 		this._missingMsg = dojo.i18n.getLocalization("dijit.form", "validate", 
 									this.lang).missingMessage;
@@ -266,7 +269,8 @@ dojo.declare("dijit.form.Select", [dijit.form._FormSelectWidget, dijit._HasDropD
 	},
 	
 	loadDropDown: function(/* Function */ loadCallback){
-		// summary: populates the menu
+		// summary:
+		//		populates the menu
 		this._loadChildren(true);
 		this._isLoaded = true;
 		loadCallback();

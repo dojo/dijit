@@ -40,7 +40,8 @@ dojo.declare("dijit.form._FormMixin", null,
 		},
 
 		validate: function(){
-			// summary: returns if the form is valid - same as isValid - but
+			// summary:
+			//		returns if the form is valid - same as isValid - but
 			//			provides a few additional (ui-specific) features.
 			//			1 - it will highlight any sub-widgets that are not
 			//				valid
@@ -52,14 +53,14 @@ dojo.declare("dijit.form._FormMixin", null,
 				// state set.
 				widget._hasBeenBlurred = true;
 				var valid = widget.disabled || !widget.validate || widget.validate();
-				if (!valid && !didFocus) {
+				if(!valid && !didFocus){
 					// Set focus of the first non-valid widget
-					dijit.scrollIntoView(widget.containerNode||widget.domNode);
+					dijit.scrollIntoView(widget.containerNode || widget.domNode);
 					widget.focus();
 					didFocus = true;
 				}
 	 			return valid;
-	 		}), function(item) { return item; });
+	 		}), function(item){ return item; });
 		},
 	
 		setValues: function(val){
@@ -67,7 +68,8 @@ dojo.declare("dijit.form._FormMixin", null,
 			return this.attr('value', val);
 		},
 		_setValueAttr: function(/*object*/obj){
-			// summary: Fill in form values from according to an Object (in the format returned by attr('value'))
+			// summary:
+			//		Fill in form values from according to an Object (in the format returned by attr('value'))
 
 			// generate map from name --> [list of widgets with that name]
 			var map = { };
@@ -84,7 +86,7 @@ dojo.declare("dijit.form._FormMixin", null,
 				var widgets = map[name],						// array of widgets w/this name
 					values = dojo.getObject(name, false, obj);	// list of values for those widgets
 
-				if(values===undefined){
+				if(values === undefined){
 					continue;
 				}
 				if(!dojo.isArray(values)){
@@ -110,7 +112,7 @@ dojo.declare("dijit.form._FormMixin", null,
 			 * 	TODO: code for plain input boxes (this shouldn't run for inputs that are part of widgets)
 
 			dojo.forEach(this.containerNode.elements, function(element){
-				if (element.name == ''){return};	// like "continue"	
+				if(element.name == ''){return};	// like "continue"	
 				var namePath = element.name.split(".");
 				var myObj=obj;
 				var name=namePath[namePath.length-1];
@@ -118,7 +120,7 @@ dojo.declare("dijit.form._FormMixin", null,
 					var p=namePath[j - 1];
 					// repeater support block
 					var nameA=p.split("[");
-					if (nameA.length > 1){
+					if(nameA.length > 1){
 						if(typeof(myObj[nameA[0]]) == "undefined"){
 							myObj[nameA[0]]=[ ];
 						} // if
@@ -138,10 +140,10 @@ dojo.declare("dijit.form._FormMixin", null,
 					myObj=myObj[p];
 				}
 
-				if (typeof(myObj) == "undefined"){
+				if(typeof(myObj) == "undefined"){
 					return;		// like "continue"
 				}
-				if (typeof(myObj[name]) == "undefined" && this.ignoreNullValues){
+				if(typeof(myObj[name]) == "undefined" && this.ignoreNullValues){
 					return;		// like "continue"
 				}
 
@@ -151,10 +153,10 @@ dojo.declare("dijit.form._FormMixin", null,
 				switch(element.type){
 					case "checkbox":
 						element.checked = (name in myObj) &&
-							dojo.some(myObj[name], function(val){ return val==element.value; });
+							dojo.some(myObj[name], function(val){ return val == element.value; });
 						break;
 					case "radio":
-						element.checked = (name in myObj) && myObj[name]==element.value;
+						element.checked = (name in myObj) && myObj[name] == element.value;
 						break;
 					case "select-multiple":
 						element.selectedIndex=-1;
@@ -201,7 +203,7 @@ dojo.declare("dijit.form._FormMixin", null,
 			var obj = { };
 			dojo.forEach(this.getDescendants(), function(widget){
 				var name = widget.name;
-				if(!name||widget.disabled){ return; }
+				if(!name || widget.disabled){ return; }
 
 				// Single value widget (checkbox, radio, or plain <input> type widget
 				var value = widget.attr('value');
@@ -250,7 +252,7 @@ dojo.declare("dijit.form._FormMixin", null,
 			 * but it doesn't understand [] notation, presumably)
 			var obj = { };
 			dojo.forEach(this.containerNode.elements, function(elm){
-				if (!elm.name)	{
+				if(!elm.name)	{
 					return;		// like "continue"
 				}
 				var namePath = elm.name.split(".");
@@ -260,7 +262,7 @@ dojo.declare("dijit.form._FormMixin", null,
 					var nameIndex = null;
 					var p=namePath[j - 1];
 					var nameA=p.split("[");
-					if (nameA.length > 1){
+					if(nameA.length > 1){
 						if(typeof(myObj[nameA[0]]) == "undefined"){
 							myObj[nameA[0]]=[ ];
 						} // if
@@ -272,30 +274,30 @@ dojo.declare("dijit.form._FormMixin", null,
 						myObj[nameA[0]] = { }
 					} // if
 
-					if (nameA.length == 1){
+					if(nameA.length == 1){
 						myObj=myObj[nameA[0]];
 					} else{
 						myObj=myObj[nameA[0]][nameIndex];
 					} // if
 				} // for
 
-				if ((elm.type != "select-multiple" && elm.type != "checkbox" && elm.type != "radio") || (elm.type=="radio" && elm.checked)){
+				if((elm.type != "select-multiple" && elm.type != "checkbox" && elm.type != "radio") || (elm.type == "radio" && elm.checked)){
 					if(name == name.split("[")[0]){
 						myObj[name]=elm.value;
 					} else{
 						// can not set value when there is no name
 					}
-				} else if (elm.type == "checkbox" && elm.checked){
+				} else if(elm.type == "checkbox" && elm.checked){
 					if(typeof(myObj[name]) == 'undefined'){
 						myObj[name]=[ ];
 					}
 					myObj[name].push(elm.value);
-				} else if (elm.type == "select-multiple"){
+				} else if(elm.type == "select-multiple"){
 					if(typeof(myObj[name]) == 'undefined'){
 						myObj[name]=[ ];
 					}
-					for (var jdx=0,len3=elm.options.length; jdx<len3; ++jdx){
-						if (elm.options[jdx].selected){
+					for(var jdx=0,len3=elm.options.length; jdx<len3; ++jdx){
+						if(elm.options[jdx].selected){
 							myObj[name].push(elm.options[jdx].value);
 						}
 					}
@@ -334,18 +336,18 @@ dojo.declare("dijit.form._FormMixin", null,
 			//		Connected to a widget's onChange function - update our 
 			//		valid state, if needed.
 			var isValid = this._lastValidState;
-			if(!widget || this._lastValidState===undefined){
+			if(!widget || this._lastValidState === undefined){
 				// We have passed a null widget, or we haven't been validated
 				// yet - let's re-check all our children
 				// This happens when we connect (or reconnect) our children
 				isValid = this.isValid();
-				if(this._lastValidState===undefined){
+				if(this._lastValidState === undefined){
 					// Set this so that we don't fire an onValidStateChange 
 					// the first time
 					this._lastValidState = isValid;
 				}
 			}else if(widget.isValid){
-				this._invalidWidgets = dojo.filter(this._invalidWidgets||[], function(w){
+				this._invalidWidgets = dojo.filter(this._invalidWidgets || [], function(w){
 					return (w != widget);
 				}, this);
 				if(!widget.isValid() && !widget.attr("disabled")){
@@ -353,7 +355,7 @@ dojo.declare("dijit.form._FormMixin", null,
 				}
 				isValid = (this._invalidWidgets.length === 0);
 			}
-			if (isValid !== this._lastValidState){
+			if(isValid !== this._lastValidState){
 				this._lastValidState = isValid;
 				this.onValidStateChange(isValid);
 			}

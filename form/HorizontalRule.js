@@ -37,7 +37,7 @@ dojo.declare("dijit.form.HorizontalRule", [dijit._Widget, dijit._Templated],
 
 	postCreate: function(){
 		var innerHTML;
-		if(this.count==1){
+		if(this.count == 1){
 			innerHTML = this._genHTML(50, 0);
 		}else{
 			var i;
