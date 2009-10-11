@@ -320,7 +320,7 @@ dojo.declare(
 				
 				// If node was previously opened then open it again now (this may trigger
 				// more data store accesses, recursively)
-				if(this.tree._state(item)){
+				if(this.tree.autoExpand || this.tree._state(item)){
 					defs.push(tree._expandNode(node));
 				}
 			}, this);
@@ -509,6 +509,10 @@ dojo.declare(
 	// persist: Boolean
 	//		Enables/disables use of cookies for state saving.
 	persist: true,
+	
+	// autoExpand: Boolean
+	//		Fully expand the tree on load.   Overrides `persist`
+	autoExpand: false,
 	
 	// dndController: [protected] String
 	//		Class name to use as as the dnd controller.  Specifying this class enables DnD.
@@ -704,7 +708,7 @@ dojo.declare(
 		// summary:
 		//		Called when tree finishes loading and expanding.
 		// description:
-		//		If persists == true the loading may encompass many levels of fetches
+		//		If persist == true the loading may encompass many levels of fetches
 		//		from the data store, each asynchronous.   Waits for all to finish.
 		// tags:
 		//		callback
@@ -839,37 +843,6 @@ dojo.declare(
 
 			this._expandNode(node).addCallback(dojo.hitch(this, advance));
 		}));
-	},
-
-	expandAll: function(){
-		// summary:
-		//		Expand all nodes in the tree
-		// returns:
-		//		Deferred that fires when all nodes have expanded
-
-		var _this = this;
-
-		function expand(node){
-			var def = new dojo.Deferred();
-			
-			// Expand the node
-			_this._expandNode(node).addCallback(function(){
-				// When node has expanded, call expand() recursively on each non-leaf child
-				var childBranches = dojo.filter(node.getChildren() || [], function(node){
-						return node.isExpandable;
-					}),
-					defs = dojo.map(childBranches, expand);
-				
-				// And when all those recursive calls finish, signal that I'm finished
-				new dojo.DeferredList(defs).addCallback(function(){
-					def.callback();
-				});
-			});
-
-			return def;
-		}
-
-		return expand(this.rootNode);
 	},
 
 	_getPathAttr: function(){

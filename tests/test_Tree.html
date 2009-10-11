@@ -125,10 +125,11 @@
 		</script>
 </div>
 
-	<h2>Double click, direct style setting, tooltip test</h2>
+	<h2>Double click, expand on load, direct style setting, tooltip test</h2>
 	<p>Double-Clicking a folder node will open/close it (openOnDblClick==true), and clicking or Double Clicking a leaf node will popup an alert.</p>
 	<div dojoType="dijit.Tree" id="mytree3" store="continentStore" query="{type:'continent'}"
-		label="Continents" openOnClick="false" openOnDblClick="true" onLoad="console.log('loaded mytree3 (third tree)');">
+		label="Continents" openOnClick="false" openOnDblClick="true"
+		autoExpand="true" onLoad="console.log('loaded mytree3 (third tree)');">
 		<script type="dojo/method" event="getLabelStyle" args="item,opened">
 			if(item && continentStore.getValue(item,"type") == "continent"){
 				return {color: "red"};
