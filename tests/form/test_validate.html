@@ -232,7 +232,7 @@
 			<div class="dojoTitlePaneLabel">
 				<label for="q08">Annual Income:  </label>
 				<span class="noticeMessage">CurrencyTextBox class,
-					Attributes: {fractional: true}.  Enter whole and cents.  Currency symbol is optional.</span>
+					Attributes: {fractional: true}.  Enter whole and cents.  Currency symbol is optional. Cents are MANDATORY.</span>
 			</div>
 		
 			<div class="testExample">
@@ -242,7 +242,7 @@
 					constraints="{fractional:true}"
 					currency="USD"
 				        onChange="dojo.byId('oc8').value=arguments[0]"
-					invalidMessage="Invalid amount.  Include dollar sign, commas, and cents.  Cents are mandatory." />USD
+					invalidMessage="Invalid amount.  Include dollar sign, commas, and cents.  Cents are MANDATORY." />USD
 				&nbsp;onChange:<input id="oc8" size="15" disabled value="not fired yet!" autocomplete="off">
 			</div>
 		

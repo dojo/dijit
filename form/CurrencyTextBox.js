@@ -30,29 +30,29 @@ dojo.declare(
 		// Override regExpGen ValidationTextBox.regExpGen().... we use a reg-ex generating function rather
 		// than a straight regexp to deal with locale  (plus formatting options too?)
 		regExpGen: function(constraints){
-			return this._focused? dojo.number.regexp(dojo.mixin({}, constraints, this.editOptions, {type: 'decimal'})) : dojo.currency.regexp(constraints);
+			// if focused, accept either currency data or NumberTextBox format
+			return '(' + (this._focused? this.inherited(arguments, [ dojo.mixin({}, constraints, this.editOptions) ]) + '|' : '')
+				+ dojo.currency.regexp(constraints) + ')';
 		},
 
 		// Override NumberTextBox._formatter to deal with currencies, ex: converts "123.45" to "$123.45"
 		_formatter: dojo.currency.format,
 
-/*=====
-		parse: function(value, constraints){
+		parse: function(/* String */ value, /* Object */ constraints){
 			// summary:
-			//		Parses string as a Currency, according to constraints
-			// value: String
-			//		The currency represented as a string
-			// constraints: dojo.currency.__ParseOptions
+			// 		Parses string value as a Currency, according to the constraints object
 			// tags:
-			//		protected
-
-			return 123.45;		// Number
+			// 		protected extension
+			var v = dojo.currency.parse(value, constraints);
+			if(isNaN(v) && /\d+/.test(value)){ // currency parse failed, but it could be because they are using NumberTextBox format so try its parse
+				return this.inherited(arguments, [ value, dojo.mixin({}, constraints, this.editOptions) ]);
+			}
+			return v;
 		},
-=====*/
-		parse: dojo.currency.parse,
+
 
 		postMixInProperties: function(){
-			this.constraints.currency = this.currency;
+			this.constraints = dojo.currency._mixInDefaults(dojo.mixin(this.constraints, { currency: this.currency, exponent: false })); // get places
 			this.inherited(arguments);
 		}
 	}

@@ -170,7 +170,7 @@ dojo.declare("dijit.form.NumberTextBoxMixin",
 			// Returning undefined prevents user text from being overwritten when doing _setValueAttr(_getValueAttr()).
 			// A blank displayed value is still returned as NaN.
 			if(isNaN(v) && this.textbox.value !== ''){
-				if(/e/i.test(this.textbox.value) && (new RegExp("^"+dojo.number._realNumberRegexp(this.constraints)+"$").test(this.textbox.value))){	// check for exponential notation that parse() rejected (erroneously?)
+				if(this.constraints.exponent !== false && /\de[-+]?|\d/i.test(this.textbox.value) && (new RegExp("^"+dojo.number._realNumberRegexp(this.constraints)+"$").test(this.textbox.value))){	// check for exponential notation that parse() rejected (erroneously?)
 					var n = Number(this.textbox.value);
 					return isNaN(n) ? undefined : n; // return exponential Number or undefined for random text (may not be possible to do with the above RegExp check)
 				}else{
@@ -189,11 +189,10 @@ dojo.declare("dijit.form.NumberTextBoxMixin",
 			}else{
 				var v = this.attr('value');
 				if(!isNaN(v) && this.rangeCheck(v, this.constraints)){
-					if(/e/i.test(this.textbox.value)){ // exponential, parse doesn't like it
+					if(this.constraints.exponent !== false && /\de[-+]?\d/i.test(this.textbox.value)){ // exponential, parse doesn't like it
 						return true; // valid exponential number in range
 					}else{
-						var constraints = this.editOptions? dojo.mixin({}, this.constraints, this.editOptions) : this.constraints;
-						return !isNaN(this.parse(this.textbox.value, constraints)); // parse checks for things like disallowed fractions
+						return this.inherited(arguments);
 					}
 				}else{
 					return false;
