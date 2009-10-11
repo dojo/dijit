@@ -1321,11 +1321,6 @@ dojo.declare(
 			return node._expandNodeDeferred;	// dojo.Deferred
 		}
 
-		if(!node.isExpandable){
-			// Not sure when this case even comes up but leaving code for now.
-			return;
-		}
-
 		var model = this.model,
 			item = node.item,
 			_this = this;
