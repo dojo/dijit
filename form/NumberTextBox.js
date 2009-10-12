@@ -65,10 +65,10 @@ dojo.declare("dijit.form.NumberTextBoxMixin",
 			var places = typeof this.constraints.places == "number"? this.constraints.places : 0;
 			if(places){ places++; } // decimal rounding errors take away another digit of precision
 			if(typeof this.constraints.max != "number"){
-				this.constraints.max = eval("9e+"+(15-places));
+				this.constraints.max = 9 * Math.pow(10, 15-places);
 			}
 			if(typeof this.constraints.min != "number"){
-				this.constraints.min = eval("-9e+"+(15-places));
+				this.constraints.min = -9 * Math.pow(10, 15-places);
 			}
 			this.inherited(arguments);
 		},
