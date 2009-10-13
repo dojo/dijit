@@ -44,8 +44,7 @@ if(dojo.isIE || dojo.isMoz){	// NOTE: checking in Safari messes things up
 	dojo._loaders.unshift(dijit.wai.onload);
 }
 
-dojo.mixin(dijit,
-{
+dojo.mixin(dijit, {
 	_XhtmlRoles: /banner|contentinfo|definition|main|navigation|search|note|secondary|seealso/,
 
 	hasWaiRole: function(/*Element*/ elem, /*String*/ role){

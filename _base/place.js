@@ -33,10 +33,10 @@ dijit.placeOnScreen = function(
 	/* dijit.__Position */	pos,
 	/* String[] */			corners,
 	/* dijit.__Position? */	padding){
-	//	summary:
+	// summary:
 	//		Positions one of the node's corners at specified position
 	//		such that node is fully visible in viewport.
-	//	description:
+	// description:
 	//		NOTE: node is assumed to be absolutely or relatively positioned.
 	//	pos:
 	//		Object like {x: 10, y: 20}
@@ -49,7 +49,7 @@ dijit.placeOnScreen = function(
 	//			* "TR" - top right
 	//	padding:
 	//		set padding to put some buffer around the element you want to position.
-	//	example:	
+	// example:
 	//		Try to place node's top right corner at (10,20).
 	//		If that makes node go (partially) off screen, then try placing
 	//		bottom left corner at (10,20).
@@ -61,7 +61,7 @@ dijit.placeOnScreen = function(
 			c.pos.x += corner.charAt(1) == 'L' ? padding.x : -padding.x;
 			c.pos.y += corner.charAt(0) == 'T' ? padding.y : -padding.y;
 		}
-		return c; 
+		return c;
 	});
 
 	return dijit._place(node, choices);
@@ -176,7 +176,7 @@ dijit.placeOnScreenAroundNode = function(
 	//		based on their orientation relative to the parent.   This adjusts the popup based on orientation.
 	//
 	// example:
-	//	|	dijit.placeOnScreenAroundNode(node, aroundNode, {'BL':'TL', 'TR':'BR'}); 
+	//	|	dijit.placeOnScreenAroundNode(node, aroundNode, {'BL':'TL', 'TR':'BR'});
 	//		This will try to position node such that node's top-left corner is at the same position
 	//		as the bottom left corner of the aroundNode (ie, put node below
 	//		aroundNode, with left edges aligned).  If that fails it will try to put
@@ -193,7 +193,7 @@ dijit.placeOnScreenAroundNode = function(
 	aroundNode.style.display=oldDisplay;
 
 	// place the node around the calculated rectangle
-	return dijit._placeOnScreenAroundRect(node, 
+	return dijit._placeOnScreenAroundRect(node,
 		aroundNodePos.x, aroundNodePos.y, aroundNodePos.w, aroundNodePos.h,	// rectangle
 		aroundCorners, layoutNode);
 };
@@ -228,7 +228,7 @@ dijit.placeOnScreenAroundRectangle = function(
 	//		parameter is an arbitrary rectangle on the screen (x, y, width, height)
 	//		instead of a dom node.
 
-	return dijit._placeOnScreenAroundRect(node, 
+	return dijit._placeOnScreenAroundRect(node,
 		aroundRect.x, aroundRect.y, aroundRect.width, aroundRect.height,	// rectangle
 		aroundCorners, layoutNode);
 };
@@ -315,7 +315,7 @@ dijit.getPopupAlignment = function(/*Array*/ position, /*Boolean*/ leftToRight){
 	var align = {};
 	dojo.forEach(position, function(pos){
 		switch(pos){
-			case "after":				
+			case "after":
 				align[leftToRight ? "BR" : "BL"] = leftToRight ? "BL" : "BR";
 				break;
 			case "before":
@@ -360,7 +360,7 @@ dijit.getPopupAroundAlignment = function(/*Array*/ position, /*Boolean*/ leftToR
 	var align = {};
 	dojo.forEach(position, function(pos){
 		switch(pos){
-			case "after":				
+			case "after":
 				align[leftToRight ? "BR" : "BL"] = leftToRight ? "BL" : "BR";
 				break;
 			case "before":

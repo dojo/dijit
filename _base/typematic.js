@@ -103,7 +103,7 @@ dijit.typematic = {
 				if(evt.charOrCode == keyObject.charOrCode &&
 				(keyObject.ctrlKey === undefined || keyObject.ctrlKey == evt.ctrlKey) &&
 				(keyObject.altKey === undefined || keyObject.altKey == evt.altKey) &&
-				(keyObject.metaKey === undefined || keyObject.metaKey == (evt.metaKey||false)) && // IE doesn't even set metaKey
+				(keyObject.metaKey === undefined || keyObject.metaKey == (evt.metaKey || false)) && // IE doesn't even set metaKey
 				(keyObject.shiftKey === undefined || keyObject.shiftKey == evt.shiftKey)){
 					dojo.stopEvent(evt);
 					dijit.typematic.trigger(keyObject, _this, node, callback, keyObject, subsequentDelay, initialDelay);

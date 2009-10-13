@@ -2,7 +2,7 @@ dojo.provide("dijit._base.manager");
 
 dojo.declare("dijit.WidgetSet", null, {
 	// summary:
-	//		A set of widgets indexed by id. A default instance of this class is 
+	//		A set of widgets indexed by id. A default instance of this class is
 	//		available as `dijit.registry`
 	//
 	// example:
@@ -16,7 +16,7 @@ dojo.declare("dijit.WidgetSet", null, {
 	// example:
 	//		Using dijit.registry:
 	//		|	dijit.registry.forEach(function(w){ /* do something */ });
-	
+
 	constructor: function(){
 		this._hash = {};
 		this.length = 0;
@@ -59,31 +59,31 @@ dojo.declare("dijit.WidgetSet", null, {
 		// example:
 		//		Using the default `dijit.registry` instance:
 		//		|	dijit.registry.forEach(function(widget){
-		//		|		console.log(widget.declaredClass);	
+		//		|		console.log(widget.declaredClass);
 		//		|	});
 		//
-		// returns: dijit.WidgetSet
-		//		Returns self, in order to allow for further chaining. 
+		// returns:
+		//		Returns self, in order to allow for further chaining.
 
 		thisObj = thisObj || dojo.global;
 		var i = 0, id;
 		for(id in this._hash){
 			func.call(thisObj, this._hash[id], i++, this._hash);
 		}
-		return this;
+		return this;	// dijit.WidgetSet
 	},
 
 	filter: function(/*Function*/ filter, /* Object? */thisObj){
 		// summary:
 		//		Filter down this WidgetSet to a smaller new WidgetSet
 		//		Works the same as `dojo.filter` and `dojo.NodeList.filter`
-		//		
+		//
 		// filter:
 		//		Callback function to test truthiness. Is passed the widget
-		//		reference and the pseudo-index in the object. 
+		//		reference and the pseudo-index in the object.
 		//
 		// thisObj: Object?
-		//		Option scope to use for the filter function. 
+		//		Option scope to use for the filter function.
 		//
 		// example:
 		//		Arbitrary: select the odd widgets in this list
@@ -104,28 +104,28 @@ dojo.declare("dijit.WidgetSet", null, {
 
 	byId: function(/*String*/ id){
 		// summary:
-		//		Find a widget in this list by it's id. 
+		//		Find a widget in this list by it's id.
 		// example:
 		//		Test if an id is in a particular WidgetSet
 		//		| var ws = new dijit.WidgetSet();
 		//		| ws.add(dijit.byId("bar"));
 		//		| var t = ws.byId("bar") // returns a widget
 		//		| var x = ws.byId("foo"); // returns undefined
-		
+
 		return this._hash[id];	// dijit._Widget
 	},
 
 	byClass: function(/*String*/ cls){
 		// summary:
 		//		Reduce this widgetset to a new WidgetSet of a particular `declaredClass`
-		// 
+		//
 		// cls: String
 		//		The Class to scan for. Full dot-notated string.
 		//
 		// example:
 		//		Find all `dijit.TitlePane`s in a page:
 		//		|	dijit.registry.byClass("dijit.TitlePane").forEach(function(tp){ tp.close(); });
-		
+
 		var res = new dijit.WidgetSet(), id, widget;
 		for(id in this._hash){
 			widget = this._hash[id];
@@ -135,13 +135,13 @@ dojo.declare("dijit.WidgetSet", null, {
 		 }
 		 return res; // dijit.WidgetSet
 },
-		
+
 	toArray: function(){
-		// summary: 
+		// summary:
 		//		Convert this WidgetSet into a true Array
 		//
 		// example:
-		//		Work with the widget .domNodes in a real Array 
+		//		Work with the widget .domNodes in a real Array
 		//		|	dojo.map(dijit.registry.toArray(), function(w){ return w.domNode; });
 
 		var ar = [];
@@ -150,18 +150,18 @@ dojo.declare("dijit.WidgetSet", null, {
 		}
 		return ar;	// dijit._Widget[]
 },
-	
+
 	map: function(/* Function */func, /* Object? */thisObj){
-		// summary: 
+		// summary:
 		//		Create a new Array from this WidgetSet, following the same rules as `dojo.map`
 		// example:
 		//		|	var nodes = dijit.registry.map(function(w){ return w.domNode; });
 		//
-		// returns: Array
+		// returns:
 		//		A new array of the returned values.
 		return dojo.map(this.toArray(), func, thisObj); // Array
 	},
-	
+
 	every: function(func, thisObj){
 		// summary:
 		// 		A synthetic clone of `dojo.every` acting explictly on this WidgetSet
@@ -180,9 +180,9 @@ dojo.declare("dijit.WidgetSet", null, {
 				return false; // Boolean
 			}
 		}
-		return true; // Boolean 
+		return true; // Boolean
 	},
-	
+
 	some: function(func, thisObj){
 		// summary:
 		// 		A synthetic clone of `dojo.some` acting explictly on this WidgetSet
@@ -203,13 +203,15 @@ dojo.declare("dijit.WidgetSet", null, {
 		}
 		return false; // Boolean
 	}
-	
+
 });
 
 /*=====
 dijit.registry = {
-	// summary: A list of widgets on a page.
-	// description: Is an instance of `dijit.WidgetSet`
+	// summary:
+	//		A list of widgets on a page.
+	// description:
+	//		Is an instance of `dijit.WidgetSet`
 };
 =====*/
 dijit.registry= new dijit.WidgetSet();
@@ -217,7 +219,8 @@ dijit.registry= new dijit.WidgetSet();
 dijit._widgetTypeCtr = {};
 
 dijit.getUniqueId = function(/*String*/widgetType){
-	// summary: Generates a unique id for a given widgetType
+	// summary:
+	//		Generates a unique id for a given widgetType
 
 	var id;
 	do{
@@ -260,7 +263,7 @@ if(dojo.isIE){
 		dojo.forEach(dijit.findWidgets(dojo.body()), function(widget){
 			// Avoid double destroy of widgets like Menu that are attached to <body>
 			// even though they are logically children of other widgets.
-			if(!widget._destroyed){ 
+			if(!widget._destroyed){
 				if(widget.destroyRecursive){
 					widget.destroyRecursive();
 				}else if(widget.destroy){
@@ -308,7 +311,7 @@ dijit._isElementShown = function(/*Element*/elem){
 dijit.isTabNavigable = function(/*Element*/elem){
 	// summary:
 	//		Tests if an element is tab-navigable
-	
+
 	// TODO: convert (and rename method) to return effectivite tabIndex; will save time in _getTabNavigable()
 	if(dojo.attr(elem, "disabled")){
 		return false;
@@ -324,7 +327,7 @@ dijit.isTabNavigable = function(/*Element*/elem){
 			case "area":
 			case "button":
 			case "input":
-			case "object":	
+			case "object":
 			case "select":
 			case "textarea":
 				// These are navigable by default
@@ -408,8 +411,8 @@ dijit.getLastInTabbingOrder = function(/*String|DOMNode*/root){
 dojo.mixin(dijit, {
 	// defaultDuration: Integer
 	//		The default animation speed (in ms) to use for all Dijit
-	//		transitional animations, unless otherwise specified 
-	//		on a per-instance basis. Defaults to 200, overrided by 
+	//		transitional animations, unless otherwise specified
+	//		on a per-instance basis. Defaults to 200, overrided by
 	//		`djConfig.defaultDuration`
 	defaultDuration: 300
 });

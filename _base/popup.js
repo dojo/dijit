@@ -46,7 +46,7 @@ dijit.popup.__OpenArgs = function(){
 	// y: Integer
 	//		Absolute vertical position (in pixels) to place node at.  (Specity this *or* "around" parameter.)
 	// orient: Object || String
-	//		When the around parameter is specified, orient should be an 
+	//		When the around parameter is specified, orient should be an
 	//		ordered list of tuples of the form (around-node-corner, popup-node-corner).
 	//		dijit.popup.open() tries to position the popup according to each tuple in the list, in order,
 	//		until the popup appears fully within the viewport.
@@ -115,7 +115,7 @@ dijit.popup.__OpenArgs = function(){
 		// we can't attach the iframe as a child of the widget.domNode because
 		// widget.domNode might be a <table>, <ul>, etc.
 		var wrapper = dojo.create("div",{
-			id: id, 
+			id: id,
 			"class":"dijitPopup",
 			style:{
 				zIndex: beginZIndex + stack.length,
@@ -210,21 +210,21 @@ dijit.popup.__OpenArgs = function(){
 				iframe = top.iframe,
 				widget = top.widget,
 				onClose = top.onClose;
-	
+
 			if(widget.onClose){
 				// TODO: in 2.0 standardize onHide() (used by StackContainer) and onHide() (used here)
 				widget.onClose();
 			}
 			dojo.forEach(top.handlers, dojo.disconnect);
-	
+
 			// #2685: check if the widget still has a domNode so ContentPane can change its URL without getting an error
 			if(!widget || !widget.domNode){ return; }
-			
+
 			this.prepare(widget.domNode);
 
 			iframe.destroy();
 			dojo.destroy(wrapper);
-	
+
 			if(onClose){
 				onClose();
 			}
@@ -233,7 +233,8 @@ dijit.popup.__OpenArgs = function(){
 }();
 
 dijit._frames = new function(){
-	// summary: cache of iframes
+	// summary:
+	//		cache of iframes
 	var queue = [];
 
 	this.pop = function(){
@@ -302,7 +303,8 @@ dijit.BackgroundIframe = function(/* DomNode */node){
 
 dojo.extend(dijit.BackgroundIframe, {
 	destroy: function(){
-		//	summary: destroy the iframe
+		// summary:
+		//		destroy the iframe
 		if(this._conn){
 			dojo.disconnect(this._conn);
 			this._conn = null;

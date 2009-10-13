@@ -15,8 +15,7 @@ dojo.require("dijit._base.manager");	// for dijit.isTabNavigable()
 //		ComboButton widget.  It only happens when focus is shifted
 //		somewhere completely different.
 
-dojo.mixin(dijit,
-{
+dojo.mixin(dijit, {
 	// _curFocus: DomNode
 	//		Currently focused item on screen
 	_curFocus: null,
@@ -45,7 +44,7 @@ dojo.mixin(dijit,
 					if(tg){
 						//Create a fake rangelike item to restore selections.
 						tg = tg.toLowerCase();
-						if(tg == "textarea" || 
+						if(tg == "textarea" ||
 								(tg == "input" && (!cf.type || cf.type.toLowerCase() == "text"))){
 							sel = {
 								start: cf.selectionStart,
@@ -63,7 +62,7 @@ dojo.mixin(dijit,
 				}
 			}
 		}else if(sel){
-			// If the current focus was a input of some sort and no selection, don't bother saving 
+			// If the current focus was a input of some sort and no selection, don't bother saving
 			// a native bookmark.  This is because it causes issues with dialog/page selection restore.
 			// So, we need to create psuedo bookmarks to work with.
 			tg = cf ? cf.tagName : "";
@@ -89,7 +88,7 @@ dojo.mixin(dijit,
 
 			//'IE' way for selections.
 			try{
-				// createRange() throws exception when dojo in iframe 
+				// createRange() throws exception when dojo in iframe
 				//and nothing selected, see #9632
 				rg = sel.createRange();
 				bm.isCollapsed = !(sel.type == 'Text' ? rg.htmlText.length : rg.length);
@@ -217,7 +216,7 @@ dojo.mixin(dijit,
 					// node not displayed or something like that
 					focusNode.focus();
 				}catch(e){/*quiet*/}
-			}			
+			}
 			dijit._onFocusNode(node);
 		}
 
@@ -250,7 +249,6 @@ dojo.mixin(dijit,
 		//		Currently only used by editor.
 		dijit.registerWin(iframe.contentWindow, iframe);
 	},
-		
 
 	registerWin: function(/*Window?*/targetWindow, /*DomNode?*/ effectiveNode){
 		// summary:
