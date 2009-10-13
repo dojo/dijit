@@ -32,8 +32,8 @@ dojo.mixin(doh.robot,{
 					p2.r = p2.x+view.w;
 					p2.b = p2.y+view.h;
 					p = {x: M(p.x+p2.x,p2.x)+b.l, // clip left edge of node wrt the iframe
-						y: M(p.y+p2.y,p2.y)+b.t,  // top edge
-						r: m(p.x+p2.x+p.w,p2.r)+b.l,  // right edge (to compute width)
+						y: M(p.y+p2.y,p2.y)+b.t,	// top edge
+						r: m(p.x+p2.x+p.w,p2.r)+b.l,	// right edge (to compute width)
 						b: m(p.y+p2.y+p.h,p2.b)+b.t}; // bottom edge (to compute height)
 					// save a few bytes by computing width and height from r and b
 					p.w = p.r-p.x;
@@ -69,7 +69,7 @@ dojo.mixin(doh.robot,{
 						y: p.y+p2.y+b.t,
 						w: p.w,
 						h: p.h};
-					
+
 				}
 				// scroll the parent window so that the node translated into the parent window's coordinate space is in view
 				dijit.scrollIntoView(n,p);
@@ -94,6 +94,6 @@ dojo.mixin(doh.robot,{
 		var cW = dijit.getDocumentWindow(n.ownerDocument);
 		var arr=[cW];
 		var f = cW.frameElement;
-		return (cW==dojo.global || f==null)? arr : arr.concat(doh.robot._getWindowChain(f));
+		return (cW == dojo.global || f == null)? arr : arr.concat(doh.robot._getWindowChain(f));
 	}
 });

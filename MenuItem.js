@@ -51,7 +51,7 @@ dojo.declare("dijit.MenuItem",
 			dojo.setSelectable(this.domNode, false);
 			var label = this.id+"_text";
 			dojo.attr(this.containerNode, "id", label);
-			if (this.accelKeyNode) {
+			if(this.accelKeyNode){
 				dojo.attr(this.accelKeyNode, "id", this.id + "_accel");
 				label += " " + this.id + "_accel";
 			}
@@ -134,7 +134,7 @@ dojo.declare("dijit.MenuItem",
 			 * MenuItem is not in the chain of active widgets and gets a premature call to
 			 * _onBlur()
 			 */
-			
+
 			dojo.toggleClass(this.domNode, "dijitMenuItemSelected", selected);
 		},
 

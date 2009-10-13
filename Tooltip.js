@@ -224,13 +224,13 @@ dojo.declare(
 			}
 		},
 
-		postCreate: function(){	
+		postCreate: function(){
 			dojo.addClass(this.domNode,"dijitTooltipData");
 		},
 
 		startup: function(){
 			this.inherited(arguments);
-			
+
 			// If this tooltip was created in a template, or for some other reason the specified connectId[s]
 			// didn't exist during the widget's initialization, then connect now.
 			var ids = this.connectId;
@@ -262,7 +262,7 @@ dojo.declare(
 			this._focus = true;
 			this._onHover(e);
 		},
-		
+
 		_onTargetBlur: function(/*Event*/ e){
 			// summary:
 			//		Handler for blur event on the target node
@@ -314,7 +314,7 @@ dojo.declare(
 				delete this._showTimer;
 			}
 			dijit.showTooltip(this.label || this.domNode.innerHTML, target, this.position);
-			
+
 			this._connectNode = target;
 			this.onShow(target, this.position);
 		},

@@ -7,19 +7,20 @@ dojo.declare(
 	"dijit.DialogUnderlay",
 	[dijit._Widget, dijit._Templated],
 	{
-		// summary: The component that blocks the screen behind a `dijit.Dialog`
+		// summary:
+		//		The component that blocks the screen behind a `dijit.Dialog`
 		//
 		// description:
 		// 		A component used to block input behind a `dijit.Dialog`. Only a single
-		//		instance of this widget is created by `dijit.Dialog`, and saved as 
+		//		instance of this widget is created by `dijit.Dialog`, and saved as
 		//		a reference to be shared between all Dialogs as `dijit._underlay`
-		//	
+		//
 		//		The underlay itself can be styled based on and id:
 		//	|	#myDialog_underlay { background-color:red; }
 		//
 		//		In the case of `dijit.Dialog`, this id is based on the id of the Dialog,
-		//		suffixed with _underlay. 
-		
+		//		suffixed with _underlay.
+
 		// Template has two divs; outer div is used for fade-in/fade-out, and also to hold background iframe.
 		// Inner div has opacity specified in CSS file.
 		templateString: "<div class='dijitDialogUnderlayWrapper'><div class='dijitDialogUnderlay' dojoAttachPoint='node'></div></div>",

@@ -14,7 +14,7 @@ dojo.declare(
 	//
 	// description:
 	//		An accessible container with a title Heading, and a content
-	//		section that slides open and closed. TitlePane is an extension to 
+	//		section that slides open and closed. TitlePane is an extension to
 	//		`dijit.layout.ContentPane`, providing all the useful content-control aspects from it.
 	//
 	// example:
@@ -25,7 +25,7 @@ dojo.declare(
 	// example:
 	// |	<!-- markup href example: -->
 	// |	<div dojoType="dijit.TitlePane" href="foobar.html" title="Title"></div>
-	// 
+	//
 	// example:
 	// |	<!-- markup with inline data -->
 	// | 	<div dojoType="dijit.TitlePane" title="Title">
@@ -103,7 +103,7 @@ dojo.declare(
 		//		True to allow user to open/close pane by clicking title bar.
 		this.toggleable = canToggle;
 		dijit.setWaiRole(this.focusNode, canToggle ? "button" : "presentation");
-		if (canToggle){
+		if(canToggle){
 			dijit.setWaiState(this.focusNode, "controls", this.id+"_pane");
 		}
 		this._setCss();
@@ -201,7 +201,7 @@ dojo.declare(
 			e.preventDefault();
 	 	}
 	},
-	
+
 	_onTitleEnter: function(){
 		// summary:
 		//		Handler for when someone hovers over my title
@@ -237,7 +237,7 @@ dojo.declare(
 		//		Handle blur and focus events on title bar
 		// tags:
 		//		private
-		
+
 		dojo.toggleClass(this.focusNode, this.baseClass + "Focused", e.type == "focus");
 	},
 

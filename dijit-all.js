@@ -2,8 +2,9 @@ console.warn("dijit-all may include much more code than your application actuall
 dojo.provide("dijit.dijit-all");
 
 /*=====
-dijit["dijit-all"] = { 
-	// summary: A rollup that includes every dijit. You probably don't need this.
+dijit["dijit-all"] = {
+	// summary:
+	//		A rollup that includes every dijit. You probably don't need this.
 };
 =====*/
 

@@ -8,9 +8,9 @@ dojo.require("dojo.cache");
 dojo.declare("dijit._Templated",
 	null,
 	{
-		//	summary:
+		// summary:
 		//		Mixin for widgets that are instantiated from a template
-		// 
+		//
 
 		// templateString: [protected] String
 		//		A string that represents the widget template. Pre-empts the
@@ -42,7 +42,7 @@ dojo.declare("dijit._Templated",
 		//		templates having their startup called before the parent widget
 		//		fires postCreate. Defaults to 'false', causing child widgets to
 		//		have their .startup() called immediately before a parent widget
-		//		.startup(), but always after the parent .postCreate(). Set to 
+		//		.startup(), but always after the parent .postCreate(). Set to
 		//		'true' to re-enable to previous, arguably broken, behavior.
 		_earlyTemplatedStartup: false,
 
@@ -101,8 +101,8 @@ dojo.declare("dijit._Templated",
 			this._attachTemplateNodes(node);
 
 			if(this.widgetsInTemplate){
-				//Make sure dojoType is used for parsing widgets in template.
-				//The dojo.parser.query could be changed from multiversion support.
+				// Make sure dojoType is used for parsing widgets in template.
+				// The dojo.parser.query could be changed from multiversion support.
 				var parser = dojo.parser, qry, attr;
 				if(parser._query != "[dojoType]"){
 					qry = parser._query;
@@ -111,12 +111,12 @@ dojo.declare("dijit._Templated",
 					parser._attrName = "dojoType";
 				}
 
-				//Store widgets that we need to start at a later point in time
+				// Store widgets that we need to start at a later point in time
 				var cw = (this._startupWidgets = dojo.parser.parse(node, {
 					noStart: !this._earlyTemplatedStartup
 				}));
 
-				//Restore the query. 
+				// Restore the query.
 				if(qry){
 					parser._query = qry;
 					parser._attrName = attr;
@@ -148,13 +148,13 @@ dojo.declare("dijit._Templated",
 
 		_attachTemplateNodes: function(rootNode, getAttrFunc){
 			// summary:
-			//		Iterate through the template and attach functions and nodes accordingly.	
-			// description:		
+			//		Iterate through the template and attach functions and nodes accordingly.
+			// description:
 			//		Map widget properties and functions to the handlers specified in
 			//		the dom node and it's descendants. This function iterates over all
 			//		nodes and looks for these properties:
 			//			* dojoAttachPoint
-			//			* dojoAttachEvent	
+			//			* dojoAttachEvent
 			//			* waiRole
 			//			* waiState
 			// rootNode: DomNode|Array[Widgets]
@@ -230,7 +230,7 @@ dojo.declare("dijit._Templated",
 				}
 			}
 		},
-		
+
 		startup: function(){
 			dojo.forEach(this._startupWidgets, function(w){
 				if(w && !w._started && w.startup){

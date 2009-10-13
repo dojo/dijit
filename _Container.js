@@ -24,7 +24,7 @@ dojo.declare("dijit._Container",
 			this.inherited(arguments);
 			if(!this.containerNode){
 				// all widgets with descendants must set containerNode
-   				this.containerNode = this.domNode;
+	 				this.containerNode = this.domNode;
 			}
 		},
 
@@ -90,7 +90,7 @@ dojo.declare("dijit._Container",
 			//      but not this widget itself
 			dojo.forEach(this.getChildren(), function(child){ child.destroyRecursive(preserveDom); });
 		},
-	
+
 		_getSiblingOfChild: function(/*dijit._Widget*/ child, /*int*/ dir){
 			// summary:
 			//		Get the next or previous widget sibling of child
@@ -106,7 +106,7 @@ dojo.declare("dijit._Container",
 			}while(node && (node.nodeType != 1 || !dijit.byNode(node)));
 			return node && dijit.byNode(node);	// dijit._Widget
 		},
-		
+
 		getIndexOfChild: function(/*dijit._Widget*/ child){
 			// summary:
 			//		Gets the index of the child in this container or -1 if not found

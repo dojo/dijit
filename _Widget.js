@@ -7,7 +7,7 @@ dojo.require( "dijit._base" );
 
 // This code is to assist deferring dojo.connect() calls in widgets (connecting to events on the widgets'
 // DOM nodes) until someone actually needs to monitor that event.
-dojo.connect(dojo, "_connect", 
+dojo.connect(dojo, "_connect",
 	function(/*dijit._Widget*/ widget, /*String*/ event){
 		if(widget && dojo.isFunction(widget._onConnect)){
 			widget._onConnect(event);
@@ -55,7 +55,7 @@ var _attrReg = {},
 
 dojo.declare("dijit._Widget", null, {
 	// summary:
-	//		Base class for all dijit widgets. 	
+	//		Base class for all dijit widgets.
 
 	// id: [const] String
 	//		A unique, opaque ID string that can be assigned by users or by the
@@ -146,7 +146,7 @@ dojo.declare("dijit._Widget", null, {
 	// attributeMap: [protected] Object
 	//		attributeMap sets up a "binding" between attributes (aka properties)
 	//		of the widget and the widget's DOM.
-	//		Changes to widget attributes listed in attributeMap will be 
+	//		Changes to widget attributes listed in attributeMap will be
 	//		reflected into the DOM.
 	//
 	//		For example, calling attr('title', 'hello')
@@ -196,7 +196,7 @@ dojo.declare("dijit._Widget", null, {
 	onClick: dijit._connectOnUseEventHandler,
 	/*=====
 	onClick: function(event){
-		// summary: 
+		// summary:
 		//		Connect to this function to receive notifications of mouse click events.
 		// event:
 		//		mouse Event
@@ -207,7 +207,7 @@ dojo.declare("dijit._Widget", null, {
 	onDblClick: dijit._connectOnUseEventHandler,
 	/*=====
 	onDblClick: function(event){
-		// summary: 
+		// summary:
 		//		Connect to this function to receive notifications of mouse double click events.
 		// event:
 		//		mouse Event
@@ -218,7 +218,7 @@ dojo.declare("dijit._Widget", null, {
 	onKeyDown: dijit._connectOnUseEventHandler,
 	/*=====
 	onKeyDown: function(event){
-		// summary: 
+		// summary:
 		//		Connect to this function to receive notifications of keys being pressed down.
 		// event:
 		//		key Event
@@ -229,7 +229,7 @@ dojo.declare("dijit._Widget", null, {
 	onKeyPress: dijit._connectOnUseEventHandler,
 	/*=====
 	onKeyPress: function(event){
-		// summary: 
+		// summary:
 		//		Connect to this function to receive notifications of printable keys being typed.
 		// event:
 		//		key Event
@@ -240,7 +240,7 @@ dojo.declare("dijit._Widget", null, {
 	onKeyUp: dijit._connectOnUseEventHandler,
 	/*=====
 	onKeyUp: function(event){
-		// summary: 
+		// summary:
 		//		Connect to this function to receive notifications of keys being released.
 		// event:
 		//		key Event
@@ -251,7 +251,7 @@ dojo.declare("dijit._Widget", null, {
 	onMouseDown: dijit._connectOnUseEventHandler,
 	/*=====
 	onMouseDown: function(event){
-		// summary: 
+		// summary:
 		//		Connect to this function to receive notifications of when the mouse button is pressed down.
 		// event:
 		//		mouse Event
@@ -262,7 +262,7 @@ dojo.declare("dijit._Widget", null, {
 	onMouseMove: dijit._connectOnUseEventHandler,
 	/*=====
 	onMouseMove: function(event){
-		// summary: 
+		// summary:
 		//		Connect to this function to receive notifications of when the mouse moves over nodes contained within this widget.
 		// event:
 		//		mouse Event
@@ -273,7 +273,7 @@ dojo.declare("dijit._Widget", null, {
 	onMouseOut: dijit._connectOnUseEventHandler,
 	/*=====
 	onMouseOut: function(event){
-		// summary: 
+		// summary:
 		//		Connect to this function to receive notifications of when the mouse moves off of nodes contained within this widget.
 		// event:
 		//		mouse Event
@@ -284,7 +284,7 @@ dojo.declare("dijit._Widget", null, {
 	onMouseOver: dijit._connectOnUseEventHandler,
 	/*=====
 	onMouseOver: function(event){
-		// summary: 
+		// summary:
 		//		Connect to this function to receive notifications of when the mouse moves onto nodes contained within this widget.
 		// event:
 		//		mouse Event
@@ -295,7 +295,7 @@ dojo.declare("dijit._Widget", null, {
 	onMouseLeave: dijit._connectOnUseEventHandler,
 	/*=====
 	onMouseLeave: function(event){
-		// summary: 
+		// summary:
 		//		Connect to this function to receive notifications of when the mouse moves off of this widget.
 		// event:
 		//		mouse Event
@@ -306,7 +306,7 @@ dojo.declare("dijit._Widget", null, {
 	onMouseEnter: dijit._connectOnUseEventHandler,
 	/*=====
 	onMouseEnter: function(event){
-		// summary: 
+		// summary:
 		//		Connect to this function to receive notifications of when the mouse moves onto this widget.
 		// event:
 		//		mouse Event
@@ -317,7 +317,7 @@ dojo.declare("dijit._Widget", null, {
 	onMouseUp: dijit._connectOnUseEventHandler,
 	/*=====
 	onMouseUp: function(event){
-		// summary: 
+		// summary:
 		//		Connect to this function to receive notifications of when the mouse button is released.
 		// event:
 		//		mouse Event
@@ -327,7 +327,7 @@ dojo.declare("dijit._Widget", null, {
 	=====*/
 
 	// Constants used in templates
-	
+
 	// _blankGif: [protected] String
 	//		Path to a blank 1x1 image.
 	//		Used by <img> nodes in templates that really get their image via CSS background-image.
@@ -354,7 +354,7 @@ dojo.declare("dijit._Widget", null, {
 		//		If a srcNodeRef (dom node) is specified:
 		//			- use srcNodeRef.innerHTML as my contents
 		//			- if this is a behavioral widget then apply behavior
-		//			  to that srcNodeRef 
+		//			  to that srcNodeRef
 		//			- otherwise, replace srcNodeRef with my generated DOM
 		//			  tree
 		// description:
@@ -437,12 +437,12 @@ dojo.declare("dijit._Widget", null, {
 
 			// If the developer has specified a handler as a widget parameter
 			// (ex: new Button({onClick: ...})
-			// then naturally need to connect from dom node to that handler immediately, 
+			// then naturally need to connect from dom node to that handler immediately,
 			for(attr in this.params){
 				this._onConnect(attr);
 			}
 		}
-		
+
 		if(this.domNode){
 			this.domNode.setAttribute("widgetId", this.id);
 		}
@@ -451,7 +451,7 @@ dojo.declare("dijit._Widget", null, {
 		// If srcNodeRef has been processed and removed from the DOM (e.g. TemplatedWidget) then delete it to allow GC.
 		if(this.srcNodeRef && !this.srcNodeRef.parentNode){
 			delete this.srcNodeRef;
-		}	
+		}
 
 		this._created = true;
 	},
@@ -560,14 +560,14 @@ dojo.declare("dijit._Widget", null, {
 		});
 
 		// destroy widgets created as part of template, etc.
-		dfe(this._supportingWidgets || [], function(w){ 
+		dfe(this._supportingWidgets || [], function(w){
 			if(w.destroyRecursive){
 				w.destroyRecursive();
 			}else if(w.destroy){
 				w.destroy();
 			}
 		});
-		
+
 		this.destroyRendering(preserveDom);
 		dijit.registry.remove(this.id);
 		this._destroyed = true;
@@ -579,7 +579,7 @@ dojo.declare("dijit._Widget", null, {
 		// preserveDom:
 		//		If true, this method will leave the original DOM structure alone
 		//		during tear-down. Note: this will not work with _Templated
-		//		widgets yet. 
+		//		widgets yet.
 		// tags:
 		//		protected
 
@@ -615,7 +615,7 @@ dojo.declare("dijit._Widget", null, {
 		//		widgets.
 
 		// get all direct descendants and destroy them recursively
-		dojo.forEach(this.getChildren(), function(widget){ 
+		dojo.forEach(this.getChildren(), function(widget){
 			if(widget.destroyRecursive){
 				widget.destroyRecursive(preserveDom);
 			}
@@ -710,7 +710,7 @@ dojo.declare("dijit._Widget", null, {
 		//		protected
 
 		var mapNode = this[this.attributeMap.style || 'domNode'];
-		
+
 		// Note: technically we should revert any style setting made in a previous call
 		// to his method, but that's difficult to keep track of.
 
@@ -735,7 +735,7 @@ dojo.declare("dijit._Widget", null, {
 		dojo.deprecated(this.declaredClass+"::setAttribute() is deprecated. Use attr() instead.", "", "2.0");
 		this.attr(attr, value);
 	},
-	
+
 	_attrToDom: function(/*String*/ attr, /*String*/ value){
 		// summary:
 		//		Reflect a widget attribute (title, tabIndex, duration etc.) to
@@ -755,7 +755,7 @@ dojo.declare("dijit._Widget", null, {
 			// Get target node and what we are doing to that node
 			var mapNode = this[command.node || command || "domNode"];	// DOM node
 			var type = command.type || "attribute";	// class, innerHTML, or attribute
-	
+
 			switch(type){
 				case "attribute":
 					if(dojo.isFunction(value)){ // functions execute in the context of the widget
@@ -783,7 +783,7 @@ dojo.declare("dijit._Widget", null, {
 	},
 
 	attr: function(/*String|Object*/name, /*Object?*/value){
-		//	summary:
+		// summary:
 		//		Set or get properties on a widget instance.
 		//	name:
 		//		The property to get or set. If an object is passed here and not
@@ -792,7 +792,7 @@ dojo.declare("dijit._Widget", null, {
 		//	value:
 		//		Optional. If provided, attr() operates as a setter. If omitted,
 		//		the current value of the named property is returned.
-		//	description:
+		// description:
 		//		Get or set named properties on a widget. If no value is
 		//		provided, the current value of the attribute is returned,
 		//		potentially via a getter method. If a value is provided, then
@@ -918,7 +918,7 @@ dojo.declare("dijit._Widget", null, {
 		//	|	var btn = new dijit.form.Button();
 		//	|	// when foo.bar() is called, call the listener we're going to
 		//	|	// provide in the scope of btn
-		//	|	btn.connect(foo, "bar", function(){ 
+		//	|	btn.connect(foo, "bar", function(){
 		//	|		console.debug(this.toString());
 		//	|	});
 		// tags:
@@ -949,7 +949,7 @@ dojo.declare("dijit._Widget", null, {
 							e.target === dijit._lastKeyDownNode &&
 							!e.ctrlKey && !e.shiftKey && !e.altKey && !e.metaKey){
 								//need reset here or have problems in FF when focus returns to trigger element after closing popup/alert
-								dijit._lastKeyDownNode = null;  
+								dijit._lastKeyDownNode = null;
 								return m(e);
 						}
 					})
@@ -970,7 +970,7 @@ dojo.declare("dijit._Widget", null, {
 		// tags:
 		//		protected
 		for(var i=0; i<this._connects.length; i++){
-			if(this._connects[i]==handles){
+			if(this._connects[i] == handles){
 				dojo.forEach(handles, dojo.disconnect);
 				this._connects.splice(i, 1);
 				return;
@@ -981,13 +981,13 @@ dojo.declare("dijit._Widget", null, {
 	subscribe: function(
 			/*String*/ topic,
 			/*String|Function*/ method){
-		//	summary:
+		// summary:
 		//		Subscribes to the specified topic and calls the specified method
 		//		of this object and registers for unsubscribe() on widget destroy.
-		//	description:
+		// description:
 		//		Provide widget-specific analog to dojo.subscribe, except with the
 		//		implicit use of this widget as the target object.
-		//	example:
+		// example:
 		//	|	var btn = new dijit.form.Button();
 		//	|	// when /my/topic is published, this button changes its label to
 		//	|   // be the parameter of the topic.
@@ -1029,7 +1029,7 @@ dojo.declare("dijit._Widget", null, {
 		//		and false if not
 		return this.focus && (dojo.style(this.domNode, "display") != "none");
 	},
-	
+
 	placeAt: function(/* String|DomNode|_Widget */reference, /* String?|Int? */position){
 		// summary:
 		//		Place this widget's domNode reference somewhere in the DOM based
@@ -1041,23 +1041,24 @@ dojo.declare("dijit._Widget", null, {
 		//		shorthand mechanism to put an existing (or newly created) Widget
 		//		somewhere in the dom, and allow chaining.
 		//
-		// reference: 
-		//		The String id of a domNode, a domNode reference, or a reference to a Widget posessing 
+		// reference:
+		//		The String id of a domNode, a domNode reference, or a reference to a Widget posessing
 		//		an addChild method.
 		//
-		// position: 
+		// position:
 		//		If passed a string or domNode reference, the position argument
-		//		accepts a string just as dojo.place does, one of: "first", "last", 
-		//		"before", or "after". 
+		//		accepts a string just as dojo.place does, one of: "first", "last",
+		//		"before", or "after".
 		//
-		//		If passed a _Widget reference, and that widget reference has an ".addChild" method, 
+		//		If passed a _Widget reference, and that widget reference has an ".addChild" method,
 		//		it will be called passing this widget instance into that method, supplying the optional
 		//		position index passed.
 		//
-		// returns: dijit._Widget
-		//		Provides a useful return of the newly created dijit._Widget instance so you 
+		// returns:
+		//		dijit._Widget
+		//		Provides a useful return of the newly created dijit._Widget instance so you
 		//		can "chain" this function by instantiating, placing, then saving the return value
-		//		to a variable. 
+		//		to a variable.
 		//
 		// example:
 		// | 	// create a Button with no srcNodeRef, and place it in the body:
@@ -1073,7 +1074,7 @@ dojo.declare("dijit._Widget", null, {
 		// |	// place a new button as the first element of some div
 		// |	var button = new dijit.form.Button({ label:"click" }).placeAt("wrapper","first");
 		//
-		// example: 
+		// example:
 		// |	// create a contentpane and add it to a TabContainer
 		// |	var tc = dijit.byId("myTabs");
 		// |	new dijit.layout.ContentPane({ href:"foo.html", title:"Wow!" }).placeAt(tc)
@@ -1092,7 +1093,7 @@ dojo.declare("dijit._Widget", null, {
 		//		See `onShow` for details.
 		this.onShow();
 	},
-	
+
 	onShow: function(){
 		// summary:
 		//		Called when this widget becomes the selected pane in a

@@ -68,7 +68,7 @@ dojo.declare("dijit.ColorPalette",
 
 		"3x4": [["white", "lime", "green", "blue"],
 			["silver", "yellow", "fuchsia", "navy"],
-			["gray", "red", "purple", "black"]]	
+			["gray", "red", "purple", "black"]]
 
 	},
 
@@ -85,7 +85,7 @@ dojo.declare("dijit.ColorPalette",
 	_paletteCoords: {
 		"leftOffset": 3, "topOffset": 3,
 		"cWidth": 20, "cHeight": 20
-		
+
 	},
 
 	// templateString: String
@@ -107,25 +107,25 @@ dojo.declare("dijit.ColorPalette",
 		// A name has to be given to the colorMap, this needs to be unique per Palette.
 		dojo.mixin(this.divNode.style, this._paletteDims[this.palette]);
 		this.imageNode.setAttribute("src", this._imagePaths[this.palette].toString());
-		var choices = this._palettes[this.palette];	
+		var choices = this._palettes[this.palette];
 		this.domNode.style.position = "relative";
-		this._cellNodes = [];	
+		this._cellNodes = [];
 		this.colorNames = dojo.i18n.getLocalization("dojo", "colors", this.lang);
 		var url = this._blankGif,
-            colorObject = new dojo.Color(),
-		    coords = this._paletteCoords;
+			colorObject = new dojo.Color(),
+			coords = this._paletteCoords;
 		for(var row=0; row < choices.length; row++){
 			var rowNode = dojo.create("div", {
 				role: "row"
 			});
 			dojo.place(rowNode, this.divNode);
-			for(var col=0; col < choices[row].length; col++) {
+			for(var col=0; col < choices[row].length; col++){
 
-                var color = choices[row][col],
-                        colorValue = colorObject.setColor(dojo.Color.named[color])
+				var color = choices[row][col],
+						colorValue = colorObject.setColor(dojo.Color.named[color])
 				;
 
-                var cellNode = dojo.create("span", {
+				var cellNode = dojo.create("span", {
 					"class":"dijitPaletteCell",
 					tabIndex:"-1",
 					title: this.colorNames[color],
@@ -134,28 +134,28 @@ dojo.declare("dijit.ColorPalette",
 						left: coords.leftOffset + (col * coords.cWidth) + "px"
 					}
 				});
-				
+
 				var imgNode = dojo.create("img",{
-					src: url, 
+					src: url,
 					"class":"dijitPaletteImg",
 					alt: this.colorNames[color]
 				}, cellNode);
-				
+
 				// FIXME: color is an attribute of img?
 				imgNode.color = colorValue.toHex();
 				var imgStyle = imgNode.style;
 				imgStyle.color = imgStyle.backgroundColor = imgNode.color;
 
-                dojo.forEach(["Dijitclick", "MouseEnter", "Focus"], function(handler) {
-                    this.connect(cellNode, "on" + handler.toLowerCase(), "_onCell" + handler);
-                }, this);
+				dojo.forEach(["Dijitclick", "MouseEnter", "Focus"], function(handler){
+					this.connect(cellNode, "on" + handler.toLowerCase(), "_onCell" + handler);
+				}, this);
 
 				dojo.place(cellNode, rowNode);
 
-                dijit.setWaiRole(cellNode, "gridcell");
-                cellNode.index = this._cellNodes.length;
-                this._cellNodes.push(cellNode);
-            }
+				dijit.setWaiRole(cellNode, "gridcell");
+				cellNode.index = this._cellNodes.length;
+				this._cellNodes.push(cellNode);
+			}
 		}
 		this._xDim = choices[0].length;
 		this._yDim = choices.length;
@@ -165,11 +165,11 @@ dojo.declare("dijit.ColorPalette",
 		// The palette itself is navigated to with the tab key on the keyboard
 		// Keyboard navigation within the Palette is with the arrow keys
 		// Spacebar selects the color.
-		// For the up key the index is changed by negative the x dimension.		
+		// For the up key the index is changed by negative the x dimension.
 
 		var keyIncrementMap = {
 			UP_ARROW: -this._xDim,
-			// The down key the index is increase by the x dimension.	
+			// The down key the index is increase by the x dimension.
 			DOWN_ARROW: this._xDim,
 			// Right and left move the index by 1.
 			RIGHT_ARROW: 1,
@@ -256,7 +256,7 @@ dojo.declare("dijit.ColorPalette",
 		//		private
 
 		var target = evt.currentTarget;
-		if (this._currentFocus != target.index){
+		if(this._currentFocus != target.index){
 			this._currentFocus = target.index;
 			window.setTimeout(function(){dijit.focus(target)}, 0);
 		}
@@ -300,7 +300,7 @@ dojo.declare("dijit.ColorPalette",
 		//		protected
 		this._removeCellHighlight(this._currentFocus);
 		this._currentFocus = node.index;
-		dojo.addClass(node, "dijitPaletteCellHighlight");		
+		dojo.addClass(node, "dijitPaletteCellHighlight");
 	},
 
 	_removeCellHighlight: function(index){
@@ -311,7 +311,7 @@ dojo.declare("dijit.ColorPalette",
 		dojo.removeClass(this._cellNodes[index], "dijitPaletteCellHighlight");
 	},
 
-	_selectColor: function(selectNode){	
+	_selectColor: function(selectNode){
 		// summary:
 		// 		This selects a color. It triggers the onChange event
 		// area:

@@ -26,7 +26,7 @@ dojo.declare(
 		// example:
 		//	|	var calendar = new dijit.Calendar({}, dojo.byId("calendarNode"));
 		//
-		//	example:
+		// example:
 		//	|	<div dojoType="dijit.Calendar"></div>
 
 		templateString: dojo.cache("dijit", "templates/Calendar.html"),
@@ -165,7 +165,7 @@ dojo.declare(
 					clazz = clazz2 + " " + clazz;
 				}
 
-				template.className =  clazz + "Month dijitCalendarDateTemplate";
+				template.className = clazz + "Month dijitCalendarDateTemplate";
 				template.dijitDateValue = date.valueOf();
 				var label = dojo.query(".dijitCalendarDateLabel", template)[0],
 					text = date.getDateLocalized ? date.getDateLocalized(this.lang) : date.getDate();
@@ -211,7 +211,7 @@ dojo.declare(
 			var dateClass = (args.datePackage && (args.datePackage != "dojo.date"))? args.datePackage + ".Date" : "Date";
 			this.dateClassObj = dojo.getObject(dateClass, false);
 			this.datePackage = args.datePackage || this.datePackage;
-			this.dateFuncObj =  dojo.getObject(this.datePackage, false);
+			this.dateFuncObj = dojo.getObject(this.datePackage, false);
 			this.dateLocaleModule = dojo.getObject(this.datePackage + ".locale", false);
 		},
 

@@ -17,7 +17,7 @@ dijit._underlay = function(kwArgs){
 	// summary:
 	//		A shared instance of a `dijit.DialogUnderlay`
 	//
-	// description: 
+	// description:
 	//		A shared instance of a `dijit.DialogUnderlay` created and
 	//		used by `dijit.Dialog`, though never created until some Dialog
 	//		or subclass thereof is shown.
@@ -43,12 +43,12 @@ dojo.declare(
 		// |	var foo = new dijit.Dialog({ title: "test dialog", content: "test content" };
 		// |	dojo.body().appendChild(foo.domNode);
 		// |	foo.startup();
-		
+
 		templateString: dojo.cache("dijit", "templates/Dialog.html"),
 
 		attributeMap: dojo.delegate(dijit._Widget.prototype.attributeMap, {
 			title: [
-				{ node: "titleNode", type: "innerHTML" }, 
+				{ node: "titleNode", type: "innerHTML" },
 				{ node: "titleBar", type: "attribute" }
 			],
 			"aria-describedby":""
@@ -67,7 +67,7 @@ dojo.declare(
 		// 		is to re-focus the element which had focus before being opened.
 		//		False will disable refocusing. Default: true
 		refocus: true,
-		
+
 		// autofocus: Boolean
 		// 		A Toggle to modify the default focus behavior of a Dialog, which
 		// 		is to focus on the first dialog element after opening the dialog.
@@ -78,7 +78,7 @@ dojo.declare(
 		//		The pointer to the first focusable node in the dialog.
 		//		Set by `dijit._DialogMixin._getFocusItems`.
 		_firstFocusItem: null,
-		
+
 		// _lastFocusItem: [private] [readonly] DomNode
 		//		The pointer to which node has focus prior to our dialog.
 		//		Set by `dijit._DialogMixin._getFocusItems`.
@@ -88,7 +88,7 @@ dojo.declare(
 		//		Don't change this parameter from the default value.
 		//		This ContentPane parameter doesn't make sense for Dialog, since Dialog
 		//		is never a child of a layout container, nor can you specify the size of
-		//		Dialog in order to control the size of an inner widget. 
+		//		Dialog in order to control the size of an inner widget.
 		doLayout: false,
 
 		// draggable: Boolean
@@ -96,7 +96,7 @@ dojo.declare(
 		//		can be dragged by it's title. If false it will remain centered
 		//		in the viewport.
 		draggable: true,
-		
+
 		//aria-describedby: String
 		//		Allows the user to add an aria-describedby attribute onto the dialog.   The value should
 		//		be the id of the container element of text that describes the dialog purpose (usually
@@ -134,7 +134,7 @@ dojo.declare(
 			//		but should *not* be overriden.
 			// tags:
 			//		callback
-			
+
 			// when href is specified we need to reposition the dialog after the data is loaded
 			this._position();
 			this.inherited(arguments);
@@ -149,9 +149,9 @@ dojo.declare(
 				this._relativePosition = dojo.position(e.node);
 			}
 		},
-		
+
 		_setup: function(){
-			// summary: 
+			// summary:
 			//		Stuff we need to do before showing the Dialog for the first
 			//		time (but we defer it until right beforehand, for
 			//		performance reasons).
@@ -166,32 +166,32 @@ dojo.declare(
 					new dojo.dnd.Moveable(node, { handle: this.titleBar, timeout: 0 });
 				dojo.subscribe("/dnd/move/stop",this,"_endDrag");
 			}else{
-				dojo.addClass(node,"dijitDialogFixed"); 
+				dojo.addClass(node,"dijitDialogFixed");
 			}
-			
+
 			this.underlayAttrs = {
 				dialogId: this.id,
 				"class": dojo.map(this["class"].split(/\s/), function(s){ return s+"_underlay"; }).join(" ")
 			};
-			
+
 			this._fadeIn = dojo.fadeIn({
 				node: node,
 				duration: this.duration,
 				beforeBegin: dojo.hitch(this, function(){
 					var underlay = dijit._underlay;
-					if(!underlay){ 
-						underlay = dijit._underlay = new dijit.DialogUnderlay(this.underlayAttrs); 
+					if(!underlay){
+						underlay = dijit._underlay = new dijit.DialogUnderlay(this.underlayAttrs);
 					}else{
 						underlay.attr(this.underlayAttrs);
 					}
-					
+
 					dojo.style(dijit._underlay.domNode, 'zIndex', 948 + dijit._dialogStack.length*2);
 					dojo.style(this.domNode, 'zIndex', 949 + dijit._dialogStack.length*2);
 					underlay.show();
 				}),
 				onEnd:	dojo.hitch(this, function(){
 					if(this.autofocus){
-						// find focusable Items each time dialog is shown since if dialog contains a widget the 
+						// find focusable Items each time dialog is shown since if dialog contains a widget the
 						// first focusable items can change
 						this._getFocusItems(this.domNode);
 						dijit.focus(this._firstFocusItem);
@@ -204,7 +204,7 @@ dojo.declare(
 				duration: this.duration,
 				onEnd: dojo.hitch(this, function(){
 					node.style.display = "none";
-					
+
 					// Restore the previous dialog in the stack, or if this is the only dialog
 					// then restore to original page
 					var ds = dijit._dialogStack;
@@ -221,7 +221,7 @@ dojo.declare(
 
 						// If we are returning control to a previous dialog but for some reason
 						// that dialog didn't have a focused field, set focus to first focusable item.
-						// This situation could happen if two dialogs appeared at nearly the same time, 
+						// This situation could happen if two dialogs appeared at nearly the same time,
 						// since a dialog doesn't set it's focus until the fade-in is finished.
 						if(ds.length > 0){
 							var pd = ds[ds.length-1];
@@ -327,14 +327,14 @@ dojo.declare(
 				});
 			}
 		},
-		
+
 		_onKey: function(/*Event*/ evt){
 			// summary:
 			//		Handles the keyboard events for accessibility reasons
 			// tags:
 			//		private
 
-			var ds = dijit._dialogStack;		
+			var ds = dijit._dialogStack;
 			if(ds[ds.length-1] != this){
 				// console.debug(this.id + ': skipping because', this, 'is not the active dialog');
 				return;
@@ -343,7 +343,7 @@ dojo.declare(
 			if(evt.charOrCode){
 				var dk = dojo.keys;
 				var node = evt.target;
-				if (evt.charOrCode === dk.TAB){
+				if(evt.charOrCode === dk.TAB){
 					this._getFocusItems(this.domNode);
 				}
 				var singleFocusItem = (this._firstFocusItem == this._lastFocusItem);
@@ -354,7 +354,7 @@ dojo.declare(
 					}
 					dojo.stopEvent(evt);
 				}else if(node == this._lastFocusItem && evt.charOrCode === dk.TAB && !evt.shiftKey){
-					if (!singleFocusItem){
+					if(!singleFocusItem){
 						dijit.focus(this._firstFocusItem); // send focus to first item in dialog
 					}
 					dojo.stopEvent(evt);
@@ -363,7 +363,7 @@ dojo.declare(
 					while(node){
 						if(node == this.domNode || dojo.hasClass(node, "dijitPopup")){
 							if(evt.charOrCode == dk.ESCAPE){
-								this.onCancel(); 
+								this.onCancel();
 							}else{
 								return; // just let it go
 							}
@@ -388,7 +388,7 @@ dojo.declare(
 			//		Display the dialog
 			if(this.open){ return; }
 
-			// first time we show the dialog, there's some initialization stuff to do			
+			// first time we show the dialog, there's some initialization stuff to do
 			if(!this._alreadyInitialized){
 				this._setup();
 				this._alreadyInitialized=true;
@@ -416,7 +416,7 @@ dojo.declare(
 				opacity:0,
 				display:""
 			});
-			
+
 			this.open = true;
 			this._onShow(); // lazy load trigger
 
@@ -442,27 +442,27 @@ dojo.declare(
 			if(this._fadeIn.status() == "playing"){
 				this._fadeIn.stop();
 			}
-			
+
 			// throw away current active dialog from stack -- making the previous dialog or the node on the original page active
 			dijit._dialogStack.pop();
 
 			this._fadeOut.play();
 
-			if (this._scrollConnected){
+			if(this._scrollConnected){
 				this._scrollConnected = false;
 			}
 			dojo.forEach(this._modalconnects, dojo.disconnect);
 			this._modalconnects = [];
 
 			if(this._relativePosition){
-				delete this._relativePosition;	
+				delete this._relativePosition;
 			}
 			this.open = false;
 
 			this.onHide();
 		},
 
-		layout: function() {
+		layout: function(){
 			// summary:
 			//		Position the Dialog and the underlay
 			// tags:
@@ -474,13 +474,13 @@ dojo.declare(
 				this._position();
 			}
 		},
-		
+
 		destroy: function(){
 			dojo.forEach(this._modalconnects, dojo.disconnect);
 			if(this.refocus && this.open){
 				setTimeout(dojo.hitch(dijit,"focus",this._savedFocus), 25);
 			}
-			this.inherited(arguments);			
+			this.inherited(arguments);
 		},
 
 		_onCloseEnter: function(){

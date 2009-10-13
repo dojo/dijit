@@ -236,8 +236,8 @@ dojo.declare("dijit._MenuBase",
 			parent: this,
 			popup: popup,
 			around: from_item.domNode,
-			orient: this._orient || (this.isLeftToRight() ? 
-									{'TR': 'TL', 'TL': 'TR', 'BR': 'BL', 'BL': 'BR'} : 
+			orient: this._orient || (this.isLeftToRight() ?
+									{'TR': 'TL', 'TL': 'TR', 'BR': 'BL', 'BL': 'BR'} :
 									{'TL': 'TR', 'TR': 'TL', 'BL': 'BR', 'BR': 'BL'}),
 			onCancel: function(){ // called when the child menu is canceled
 				// set isActive=false (_closeChild vs _cleanUp) so that subsequent hovering will NOT open child menus
@@ -275,7 +275,7 @@ dojo.declare("dijit._MenuBase",
 		//		Focusing a menu via TAB does NOT automatically set isActive
 		//		since TAB is a navigation operation and not a selection one.
 		//		For Windows apps, pressing the ALT key focuses the menubar
-		//		menus (similar to TAB navigation) but the menu is not active 
+		//		menus (similar to TAB navigation) but the menu is not active
 		//		(ie no dropdown) until an item is clicked.
 		this.isActive = true;
 		dojo.addClass(this.domNode, "dijitMenuActive");
@@ -345,7 +345,7 @@ dojo.declare("dijit._MenuBase",
 			this._hoveredChild._onUnhover(); // any previous mouse movement is trumped by focus selection
 		}
 	},
-	
+
 	_onBlur: function(){
 		// summary:
 		//		Called when focus is moved away from this Menu and it's submenus.
@@ -397,11 +397,11 @@ dojo.declare("dijit.Menu",
 	// leftClickToOpen: [const] Boolean
 	//		If true, menu will open on left click instead of right click, similiar to a file menu.
 	leftClickToOpen: false,
-	
+
 	// refocus: Boolean
 	// 		When this menu closes, re-focus the element which had focus before it was opened.
 	refocus: true,
-		
+
 	// _contextMenuWithMouse: [private] Boolean
 	//		Used to record mouse and keyboard events to determine if a context
 	//		menu is being opened with the keyboard or the mouse.
@@ -498,7 +498,7 @@ dojo.declare("dijit.Menu",
 			node: cn,
 			iframe: iframe
 		};
-		
+
 		// Save info about binding in _bindings[], and make node itself record index(+1) into
 		// _bindings[] array.   Prefix w/_dijitMenu to avoid setting an attribute that may
 		// start with a number, which fails on FF/safari.
@@ -522,7 +522,7 @@ dojo.declare("dijit.Menu",
 			// and every time the contents change.
 			// Need to do this b/c we are actually binding to the iframe's <body> node.
 			// Note: can't use dojo.connect(), see #9609.
-			
+
 			binding.onloadHandler = dojo.hitch(this, function(){
 				// want to remove old connections, but IE throws exceptions when trying to
 				// access the <body> node because it's already gone, or at least in a state of limbo
@@ -544,7 +544,7 @@ dojo.declare("dijit.Menu",
 		//		Detach menu from given node
 
 		var node;
-		try {
+		try{
 			node = dojo.byId(nodeName);
 		}catch(e){
 			// On IE the dojo.byId() call will get an exception if the attach point was
@@ -582,7 +582,7 @@ dojo.declare("dijit.Menu",
 		this._contextMenuWithMouse = false;
 		if(e.keyCode == dojo.keys.F10){
 			dojo.stopEvent(e);
-			if(e.shiftKey && e.type=="keydown"){
+			if(e.shiftKey && e.type == "keydown"){
 				// FF: copying the wrong property from e will cause the system
 				// context menu to appear in spite of stopEvent. Don't know
 				// exactly which properties cause this effect.
@@ -616,7 +616,7 @@ dojo.declare("dijit.Menu",
 		// tags:
 		//		private
 
-		if(this.leftClickToOpen&&e.button>0){
+		if(this.leftClickToOpen && e.button>0){
 			return;
 		}
 		dojo.stopEvent(e);
@@ -631,13 +631,13 @@ dojo.declare("dijit.Menu",
 		if(dojo.isSafari || this._contextMenuWithMouse){
 			x=e.pageX;
 			y=e.pageY;
-			
+
 			if(iframe){
 				// Event is on <body> node of an <iframe>, convert coordinates to match main document
 				var od = e.target.ownerDocument,
 					ifc = dojo.position(iframe, true),
 					win = this._iframeContentWindow(iframe),
-					scroll = dojo.withGlobal(win, "_docScroll", dojo); 
+					scroll = dojo.withGlobal(win, "_docScroll", dojo);
 
 				var cs = dojo.getComputedStyle(iframe),
 					tp = dojo._toPixelValue,

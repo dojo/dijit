@@ -71,7 +71,7 @@ dojo.declare("dijit.InlineEditBox",
 		// tags:
 		//		callback
 	},
-	
+
 	onCancel: function(){
 		// summary:
 		//		Set this handler to be notified when editing is cancelled.
@@ -111,7 +111,7 @@ dojo.declare("dijit.InlineEditBox",
 			onmouseover: "_onMouseOver",
 			onmouseout: "_onMouseOut",
 			onfocus: "_onMouseOver",
-			onblur: "_onMouseOut"			
+			onblur: "_onMouseOut"
 		};
 		for(var name in events){
 			this.connect(this.displayNode, name, events[name]);
@@ -133,7 +133,7 @@ dojo.declare("dijit.InlineEditBox",
 		this.attr('disabled', disabled);
 	},
 	_setDisabledAttr: function(/*Boolean*/ disabled){
-		// summary: 
+		// summary:
 		//		Hook to make attr("disabled", ...) work.
 		//		Set disabled state of widget.
 		this.disabled = disabled;
@@ -183,7 +183,7 @@ dojo.declare("dijit.InlineEditBox",
 		if(this.disabled || this.editing){ return; }
 		this.editing = true;
 
-		var editValue = 
+		var editValue =
 				(this.renderAsHtml ?
 				this.value :
 				this.value.replace(/\s*\r?\n\s*/g,"").replace(/<br\/?>/gi,"\n").replace(/&gt;/g,">").replace(/&lt;/g,"<").replace(/&amp;/g,"&").replace(/&quot;/g,"\""));
@@ -274,7 +274,7 @@ dojo.declare("dijit.InlineEditBox",
 		// tell the world that we have changed
 		this.onChange(value);
 
-		this._showText(focus);	
+		this._showText(focus);
 	},
 
 	setValue: function(/*String*/ val){
@@ -309,10 +309,10 @@ dojo.declare("dijit.InlineEditBox",
 		//		private
 
 		this.editing = false;
-		
+
 		// tell the world that we have no changes
 		this.onCancel();
-		
+
 		this._showText(focus);
 	}
 });
@@ -359,13 +359,13 @@ dojo.declare(
 		dojo.forEach(["marginTop","marginBottom","marginLeft", "marginRight"], function(prop){
 			this.domNode.style[prop] = srcStyle[prop];
 		}, this);
-		if(this.width=="100%"){
+		if(this.width == "100%"){
 			// block mode
 			editStyle += "width:100%;";
 			this.domNode.style.display = "block";
 		}else{
 			// inline-block mode
-			editStyle += "width:" + (this.width + (Number(this.width)==this.width ? "px" : "")) + ";";
+			editStyle += "width:" + (this.width + (Number(this.width) == this.width ? "px" : "")) + ";";
 		}
 		this.editorParams.style = editStyle;
 		this.editorParams[ "displayedValue" in cls.prototype ? "displayedValue" : "value"] = this.value;
@@ -433,7 +433,7 @@ dojo.declare(
 				this._refocus = true;
 				this.editWidget.focusNode.blur(); // force _onBlur which will call save()
 			}
-				
+
 			// _onBlur will handle TAB automatically by allowing
 			// the TAB to change focus before we mess with the DOM: #6227
 			// Expounding by request:
@@ -445,7 +445,7 @@ dojo.declare(
 			//	away from it to the next focusable element since each
 			//	of these events is asynchronous and the focus-to-next-element
 			//	is already queued.
-			//	So we allow the browser time to unqueue the move-focus event 
+			//	So we allow the browser time to unqueue the move-focus event
 			//	before we do all the hide/show stuff.
 		}
 	},
@@ -481,7 +481,7 @@ dojo.declare(
 			this.editWidget.focusNode.blur(); // force _onBlur which will call save()
 		}
 	},
-	
+
 	enableSave: function(){
 		// summary:
 		//		User overridable function returning a Boolean to indicate

@@ -26,7 +26,7 @@ dojo.declare(
 dojo.declare("dijit._TimePicker",
 	[dijit._Widget, dijit._Templated],
 	{
-		//	summary:
+		// summary:
 		//		A graphical time picker.
 		//		This widget is used internally by other widgets and is not available
 		//		as a standalone widget due to lack of accessibility support.
@@ -94,7 +94,7 @@ dojo.declare("dijit._TimePicker",
 		},
 =====*/
 		serialize: dojo.date.stamp.toISOString,
-		
+
 		// _filterString: string
 		//		The string to filter by
 		_filterString: "",
@@ -169,7 +169,7 @@ dojo.declare("dijit._TimePicker",
 				i = i + inc;
 			}while(nodes.length < maxNum && (i*chk) < max);
 			if(before){ nodes.reverse(); }
-			return nodes; 
+			return nodes;
 		},
 
 		_showText: function(){
@@ -216,7 +216,7 @@ dojo.declare("dijit._TimePicker",
 				after = after.slice(0, after.length / 2);
 			}
 			dojo.forEach(before.concat(after), function(n){this.timeMenu.appendChild(n);}, this);
-			
+
 			// TODO:
 			// I commented this out because it
 			// causes problems for a TimeTextBox in a Dialog, or as the editor of an InlineEditBox,
@@ -226,7 +226,7 @@ dojo.declare("dijit._TimePicker",
 
 		postCreate: function(){
 			// instantiate constraints
-			if(this.constraints===dijit._TimePicker.prototype.constraints){
+			if(this.constraints === dijit._TimePicker.prototype.constraints){
 				this.constraints={};
 			}
 
@@ -248,7 +248,7 @@ dojo.declare("dijit._TimePicker",
 			};
 			typematic(this.upArrow,this,this._onArrowUp, 1.0, 50);
 			typematic(this.downArrow,this,this._onArrowDown, 1.0, 50);
-			
+
 			// Connect some callback functions to the hover event of the arrows
 			var triggerFx = function(cb){
 				return function(cnt){
@@ -264,7 +264,7 @@ dojo.declare("dijit._TimePicker",
 			};
 			this.connect(this.upArrow, "onmouseover", hoverFx(this.upArrow, this._onArrowUp));
 			this.connect(this.downArrow, "onmouseover", hoverFx(this.downArrow, this._onArrowDown));
-			
+
 			this.inherited(arguments);
 		},
 
@@ -275,7 +275,7 @@ dojo.declare("dijit._TimePicker",
 			//		private
 			dojo.toggleClass(e.currentTarget, "dijitButtonNodeHover", e.type == "mouseover");
 		},
-		
+
 		_createOption: function(/*Number*/ index){
 			// summary:
 			//		Creates a clickable time option
@@ -308,7 +308,7 @@ dojo.declare("dijit._TimePicker",
 			}else if(!(index%this._clickableIncrement)){
 				dojo.addClass(div, this.baseClass+"Tick");
 			}
-						
+
 			if(this.isDisabledDate(date)){
 				// set disabled
 				dojo.addClass(div, this.baseClass+"ItemDisabled");
@@ -330,7 +330,7 @@ dojo.declare("dijit._TimePicker",
 			//		Called when user clicks an option in the drop down list
 			// tags:
 			//		private
-			var tdate = tgt.target.date || tgt.target.parentNode.date;			
+			var tdate = tgt.target.date || tgt.target.parentNode.date;
 			if(!tdate || this.isDisabledDate(tdate)){ return; }
 			this._highlighted_option = null;
 			this.attr('value', tdate);
@@ -371,14 +371,14 @@ dojo.declare("dijit._TimePicker",
 				dojo.toggleClass(node, this.baseClass+"TickHover", highlight);
 			}
 		},
-		
+
 		onmouseover: function(/*Event*/ e){
 			// summary:
 			//		Handler for onmouseover event
 			// tags:
 			//		private
 			this._keyboardSelected = null;
-			var tgr = (e.target.parentNode === this.timeMenu) ? e.target : e.target.parentNode;			
+			var tgr = (e.target.parentNode === this.timeMenu) ? e.target : e.target.parentNode;
 			// if we aren't targeting an item, then we return
 			if(!dojo.hasClass(tgr, this.baseClass+"Item")){return;}
 			this._highlightOption(tgr, true);
@@ -459,7 +459,7 @@ dojo.declare("dijit._TimePicker",
 				if(this._highlighted_option && !this._highlighted_option.parentNode){
 					this._highlighted_option = null;
 				}
-				var timeMenu = this.timeMenu, 
+				var timeMenu = this.timeMenu,
 					tgt = this._highlighted_option || dojo.query("." + this.baseClass + "ItemSelected", timeMenu)[0];
 				if(!tgt){
 					tgt = timeMenu.childNodes[0];
