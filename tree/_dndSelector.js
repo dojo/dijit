@@ -27,19 +27,19 @@ dojo.declare("dijit.tree._dndSelector",
 			this.selection={};
 			this.anchor = null;
 			this.simpleSelection=false;
-		
+
 			this.events.push(
 				dojo.connect(this.tree.domNode, "onmousedown", this,"onMouseDown"),
 				dojo.connect(this.tree.domNode, "onmouseup", this,"onMouseUp"),
 				dojo.connect(this.tree.domNode, "onmousemove", this,"onMouseMove")
 			);
 		},
-	
+
 		//	singular: Boolean
 		//		Allows selection of only one element, if true.
 		//		Tree hasn't been tested in singular=true mode, unclear if it works.
 		singular: false,
-	
+
 		// methods
 
 		getSelectedNodes: function(){
@@ -75,7 +75,7 @@ dojo.declare("dijit.tree._dndSelector",
 			//		mouse event
 			// tags:
 			//		protected
-			
+
 			if(!this.current){ return; }
 
 			if(e.button == dojo.mouseButtons.RIGHT){ return; }	// ignore right-click
@@ -83,7 +83,7 @@ dojo.declare("dijit.tree._dndSelector",
 			var treeNode = dijit.getEnclosingWidget(this.current),
 				id = treeNode.id + "-dnd"	// so id doesn't conflict w/widget
 
-			if (!dojo.hasAttr(this.current, "id")) {
+			if(!dojo.hasAttr(this.current, "id")){
 				dojo.attr(this.current, "id", id);
 			}
 
@@ -105,11 +105,11 @@ dojo.declare("dijit.tree._dndSelector",
 					this.selection[this.current.id] = this.current;
 				}
 			}else{
-				if(!this.singular && e.shiftKey){	
-					if (dojo.isCopyKey(e)){
+				if(!this.singular && e.shiftKey){
+					if(dojo.isCopyKey(e)){
 						//TODO add range to selection
 					}else{
-						//TODO select new range from anchor 
+						//TODO select new range from anchor
 					}
 				}else{
 					if(dojo.isCopyKey(e)){
@@ -151,12 +151,12 @@ dojo.declare("dijit.tree._dndSelector",
 			//		mouse event
 			// tags:
 			//		protected
-			
+
 			// TODO: this code is apparently for handling an edge case when the user is selecting
 			// multiple nodes and then mousedowns on a node by accident... it lets the user keep the
 			// current selection by moving the mouse away (or something like that).   It doesn't seem
 			// to work though and requires a lot of plumbing (including this code, the onmousemove
-			// handler, and the this.simpleSelection attribute.   Consider getting rid of all of it.  
+			// handler, and the this.simpleSelection attribute.   Consider getting rid of all of it.
 
 			if(!this.simpleSelection){ return; }
 			this.simpleSelection = false;
@@ -204,7 +204,7 @@ dojo.declare("dijit.tree._dndSelector",
 			}
 			return this;	// self
 		},
-		
+
 		forInSelectedItems: function(/*Function*/ f, /*Object?*/ o){
 			// summary:
 			//		Iterates over selected items;

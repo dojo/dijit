@@ -92,7 +92,7 @@ dojo.declare("dijit.tree.ForestStoreModel", dijit.tree.TreeStoreModel, {
 
 	fetchItemByIdentity: function(/* object */ keywordArgs){
 		if(keywordArgs.identity == this.root.id){
-			var scope =  keywordArgs.scope?keywordArgs.scope:dojo.global;
+			var scope = keywordArgs.scope?keywordArgs.scope:dojo.global;
 			if(keywordArgs.onItem){
 				keywordArgs.onItem.call(scope, this.root);
 			}
@@ -116,14 +116,14 @@ dojo.declare("dijit.tree.ForestStoreModel", dijit.tree.TreeStoreModel, {
 		// summary:
 		//		Creates a new item.   See dojo.data.api.Write for details on args.
 		//		Used in drag & drop when item from external source dropped onto tree.
-		if(parent===this.root){
+		if(parent === this.root){
 			this.onNewRootItem(args);
 			return this.store.newItem(args);
 		}else{
 			return this.inherited(arguments);
 		}
 	},
- 
+
 	onNewRootItem: function(args){
 		// summary:
 		//		User can override this method to modify a new element that's being
@@ -158,7 +158,7 @@ dojo.declare("dijit.tree.ForestStoreModel", dijit.tree.TreeStoreModel, {
 
 	// =======================================================================
 	// Handling for top level children
-	
+
 	onAddToRoot: function(/* item */ item){
 		// summary:
 		//		Called when item added to root of tree; user must override this method
@@ -180,7 +180,7 @@ dojo.declare("dijit.tree.ForestStoreModel", dijit.tree.TreeStoreModel, {
 		//		extension
 		console.log(this, ": item ", item, " removed from root");
 	},
-	
+
 	// =======================================================================
 	// Events from data store
 
@@ -193,7 +193,7 @@ dojo.declare("dijit.tree.ForestStoreModel", dijit.tree.TreeStoreModel, {
 			onComplete: dojo.hitch(this, function(newChildren){
 				this.root.children = newChildren;
 
-				// If the list of children or the order of children has changed...	
+				// If the list of children or the order of children has changed...
 				if(oldChildren.length != newChildren.length ||
 					dojo.some(oldChildren, function(item, idx){ return newChildren[idx] != item;})){
 					this.onChildrenChange(this.root, newChildren);
@@ -210,7 +210,7 @@ dojo.declare("dijit.tree.ForestStoreModel", dijit.tree.TreeStoreModel, {
 		//		Note that the default implementation requeries the top level items every time
 		//		a new item is created, since any new item could be a top level item (even in
 		//		addition to being a child of another item, since items can have multiple parents).
-		//		
+		//
 		//		Developers can override this function to do something more efficient if they can
 		//		detect which items are possible top level items (based on the item and the
 		//		parentInfo parameters).  Often all top level items have parentInfo==null, but

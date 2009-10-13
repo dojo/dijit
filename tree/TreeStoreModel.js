@@ -31,7 +31,7 @@ dojo.declare(
 		//		If specified, get label for tree node from this attribute, rather
 		//		than by calling store.getLabel()
 		labelAttr: "",
-	 
+
 	 	// root: [readonly] dojo.data.Item
 		//		Pointer to the root item (read only, not a parameter)
 		root: null,
@@ -45,14 +45,14 @@ dojo.declare(
 		query: null,
 
 		// deferItemLoadingUntilExpand: Boolean
-		//		Setting this to true will cause the TreeStoreModel to defer calling loadItem on nodes 
+		//		Setting this to true will cause the TreeStoreModel to defer calling loadItem on nodes
 		// 		until they are expanded. This allows for lazying loading where only one
 		//		loadItem (and generally one network call, consequently) per expansion
 		// 		(rather than one for each child).
-		// 		This relies on partial loading of the children items; each children item of a 
-		// 		fully loaded item should contain the label and info about having children.  
+		// 		This relies on partial loading of the children items; each children item of a
+		// 		fully loaded item should contain the label and info about having children.
 		deferItemLoadingUntilExpand: false,
-		
+
 		constructor: function(/* Object */ args){
 			// summary:
 			//		Passed the arguments listed above (store, etc)
@@ -125,8 +125,8 @@ dojo.declare(
 
 			var store = this.store;
 			if(!store.isItemLoaded(parentItem)){
-				// The parent is not loaded yet, we must be in deferItemLoadingUntilExpand 
-				// mode, so we will load it and just return the children (without loading each 
+				// The parent is not loaded yet, we must be in deferItemLoadingUntilExpand
+				// mode, so we will load it and just return the children (without loading each
 				// child item)
 				var getChildren = dojo.hitch(this, arguments.callee);
 				store.loadItem({
@@ -140,7 +140,7 @@ dojo.declare(
 			}
 			// get children of specified item
 			var childItems = [];
-			for (var i=0; i<this.childrenAttrs.length; i++){
+			for(var i=0; i<this.childrenAttrs.length; i++){
 				var vals = store.getValues(parentItem, this.childrenAttrs[i]);
 				childItems = childItems.concat(vals);
 			}
@@ -237,7 +237,7 @@ dojo.declare(
 			var store = this.store,
 				parentAttr = this.childrenAttrs[0];	// name of "children" attr in parent item
 
-			// remove child from source item, and record the attribute that child occurred in	
+			// remove child from source item, and record the attribute that child occurred in
 			if(oldParentItem){
 				dojo.forEach(this.childrenAttrs, function(attr){
 					if(store.containsValue(oldParentItem, attr, childItem)){
@@ -267,7 +267,7 @@ dojo.declare(
 
 		// =======================================================================
 		// Callbacks
-		
+
 		onChange: function(/*dojo.data.Item*/ item){
 			// summary:
 			//		Callback whenever an item has changed, so that Tree
@@ -296,7 +296,7 @@ dojo.declare(
 		},
 
 		// =======================================================================
-		///Events from data store
+		// Events from data store
 
 		onNewItem: function(/* dojo.data.Item */ item, /* Object */ parentInfo){
 			// summary:
@@ -325,15 +325,15 @@ dojo.declare(
 				this.onChildrenChange(parentInfo.item, children);
 			}));
 		},
-		
+
 		onDeleteItem: function(/*Object*/ item){
 			// summary:
 			//		Handler for delete notifications from underlying store
 			this.onDelete(item);
 		},
 
-		onSetItem: function(/* item */ item, 
-						/* attribute-name-string */ attribute, 
+		onSetItem: function(/* item */ item,
+						/* attribute-name-string */ attribute,
 						/* object | array */ oldValue,
 						/* object | array */ newValue){
 			// summary:
@@ -345,7 +345,7 @@ dojo.declare(
 			//		See `onNewItem` for more details on handling updates to an item's children.
 			// tags:
 			//		extension
-		
+
 			if(dojo.indexOf(this.childrenAttrs, attribute) != -1){
 				// item's children list changed
 				this.getChildren(item, dojo.hitch(this, function(children){

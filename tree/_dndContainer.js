@@ -3,7 +3,7 @@ dojo.require("dojo.dnd.common");
 dojo.require("dojo.dnd.Container");
 
 dojo.declare("dijit.tree._dndContainer",
-	null, 
+	null,
 	{
 
 		// summary:
@@ -31,27 +31,27 @@ dojo.declare("dijit.tree._dndContainer",
 			this.tree = tree;
 			this.node = tree.domNode;	// TODO: rename; it's not a TreeNode but the whole Tree
 			dojo.mixin(this, params);
-	
+
 			// class-specific variables
 			this.map = {};
 			this.current = null;	// current TreeNode's DOM node
-	
+
 			// states
 			this.containerState = "";
 			dojo.addClass(this.node, "dojoDndContainer");
-			
+
 			// set up events
 			this.events = [
-			    // container level events
+				// container level events
 				dojo.connect(this.node, "onmouseenter", this, "onOverEvent"),
-				dojo.connect(this.node, "onmouseleave",  this, "onOutEvent"),
+				dojo.connect(this.node, "onmouseleave",	this, "onOutEvent"),
 
 				// switching between TreeNodes
 				dojo.connect(this.tree, "_onNodeMouseEnter", this, "onMouseOver"),
-				dojo.connect(this.tree, "_onNodeMouseLeave",  this, "onMouseOut"),
+				dojo.connect(this.tree, "_onNodeMouseLeave", this, "onMouseOut"),
 
 				// cancel text selection and text dragging
-				dojo.connect(this.node, "ondragstart",   dojo, "stopEvent"),
+				dojo.connect(this.node, "ondragstart", dojo, "stopEvent"),
 				dojo.connect(this.node, "onselectstart", dojo, "stopEvent")
 			];
 		},
@@ -68,7 +68,7 @@ dojo.declare("dijit.tree._dndContainer",
 					data: dijit.getEnclosingWidget(node),
 					type: ["treeNode"]
 				};
-			
+
 			return ret;	// dojo.dnd.Item
 		},
 
@@ -108,7 +108,7 @@ dojo.declare("dijit.tree._dndContainer",
 			// newState: String
 			//		new state
 			var prefix = "dojoDnd" + type;
-			var state  = type.toLowerCase() + "State";
+			var state = type.toLowerCase() + "State";
 			//dojo.replaceClass(this.node, prefix + newState, prefix + this[state]);
 			dojo.removeClass(this.node, prefix + this[state]);
 			dojo.addClass(this.node, prefix + newState);

@@ -30,7 +30,7 @@ dijit.tree.__SourceArgs = function(){
 dojo.declare("dijit.tree.dndSource", dijit.tree._dndSelector, {
 	// summary:
 	//		Handles drag and drop operations (as a source or a target) for `dijit.Tree`
-	
+
 	// isSource: [private] Boolean
 	//		Can be used as a DnD source.
 	isSource: true,
@@ -79,11 +79,11 @@ dojo.declare("dijit.tree.dndSource", dijit.tree._dndSelector, {
 		this._lastY = 0;
 
 		// states
-		this.sourceState  = "";
+		this.sourceState = "";
 		if(this.isSource){
 			dojo.addClass(this.node, "dojoDndSource");
 		}
-		this.targetState  = "";
+		this.targetState = "";
 		if(this.accept){
 			dojo.addClass(this.node, "dojoDndTarget");
 		}
@@ -91,8 +91,8 @@ dojo.declare("dijit.tree.dndSource", dijit.tree._dndSelector, {
 		// set up events
 		this.topics = [
 			dojo.subscribe("/dnd/source/over", this, "onDndSourceOver"),
-			dojo.subscribe("/dnd/start",  this, "onDndStart"),
-			dojo.subscribe("/dnd/drop",   this, "onDndDrop"),
+			dojo.subscribe("/dnd/start", this, "onDndStart"),
+			dojo.subscribe("/dnd/drop", this, "onDndDrop"),
 			dojo.subscribe("/dnd/cancel", this, "onDndCancel")
 		];
 	},
@@ -154,7 +154,7 @@ dojo.declare("dijit.tree.dndSource", dijit.tree._dndSelector, {
 				newDropPosition = "After";
 			}
 		}
-		
+
 		if(newTarget != oldTarget || newDropPosition != oldDropPosition){
 			if(oldTarget){
 				this._removeItemClass(oldTarget, oldDropPosition);
@@ -198,10 +198,10 @@ dojo.declare("dijit.tree.dndSource", dijit.tree._dndSelector, {
 			this._onDragMouse(e);
 		}else{
 			if(this.mouseDown && this.isSource &&
-			   (Math.abs(e.pageX-this._lastX)>=this.dragThreshold || Math.abs(e.pageY-this._lastY)>=this.dragThreshold)){
+				 (Math.abs(e.pageX-this._lastX)>=this.dragThreshold || Math.abs(e.pageY-this._lastY)>=this.dragThreshold)){
 				var n = this.getSelectedNodes();
 				var nodes=[];
-				for (var i in n){
+				for(var i in n){
 					nodes.push(n[i]);
 				}
 				if(nodes.length){
@@ -263,9 +263,9 @@ dojo.declare("dijit.tree.dndSource", dijit.tree._dndSelector, {
 		//		"over", "before", or "after"
 		// tags:
 		//		extension
-		return true;	
+		return true;
 	},
-	
+
 	// topic event processors
 	onDndSourceOver: function(source){
 		// summary:
@@ -443,7 +443,7 @@ dojo.declare("dijit.tree.dndSource", dijit.tree._dndSelector, {
 		this._changeState("Source", "");
 		this._changeState("Target", "");
 	},
-	
+
 	// When focus moves in/out of the entire Tree
 	onOverEvent: function(){
 		// summary:
@@ -481,14 +481,14 @@ dojo.declare("dijit.tree.dndSource", dijit.tree._dndSelector, {
 		//
 		// tags:
 		//		private
-	
+
 		// If the dragged object is not coming from the tree this widget belongs to,
 		// it cannot be invalid.
-		if (!source.tree || source.tree != this.tree){
+		if(!source.tree || source.tree != this.tree){
 			return false;
 		}
 
-		
+
 		var root = source.tree.domNode;
 		var ids = {};
 		for(var x in source.selection){
@@ -499,8 +499,8 @@ dojo.declare("dijit.tree.dndSource", dijit.tree._dndSelector, {
 
 		// Iterate up the DOM hierarchy from the target drop row,
 		// checking of any of the dragged nodes have the same ID.
-		while (node != root && (!node.id || !ids[node.id])){
-			node =  node.parentNode;
+		while(node != root && (!node.id || !ids[node.id])){
+			node = node.parentNode;
 		}
 
 		return node.id && ids[node.id];
