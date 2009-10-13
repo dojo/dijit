@@ -317,10 +317,10 @@ dojo.declare("dijit.layout._AccordionButton",
 		this.focusNode.setAttribute("tabIndex", isSelected ? "0" : "-1");
 	},
 
-	_handleFocus: function(/*Event*/e){
+	_handleFocus: function(/*Event*/ e){
 		// summary:
 		//		Handle the blur and focus state of this widget.
-		dojo[(e.type == "focus" ? "addClass" : "removeClass")](this.titleTextNode,"dijitAccordionFocused");
+		dojo.toggleClass(this.titleTextNode, "dijitAccordionFocused", e.type == "focus");
 	},
 
 	setSelected: function(/*Boolean*/ isSelected){
