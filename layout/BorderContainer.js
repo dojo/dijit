@@ -170,7 +170,7 @@ dojo.declare(
 
 	getSplitter: function(/*String*/region){
 		// summary:
-		//		Returns the widget responsible for rendering the splitter associated with region 
+		//		Returns the widget responsible for rendering the splitter associated with region
 		var splitter = this._splitters[region];
 		return splitter ? dijit.byNode(splitter) : null;
 	},
@@ -180,7 +180,7 @@ dojo.declare(
 
 		// resetting potential padding to 0px to provide support for 100% width/height + padding
 		// TODO: this hack doesn't respect the box model and is a temporary fix
-		if (!this.cs || !this.pe){
+		if(!this.cs || !this.pe){
 			var node = this.domNode;
 			this.cs = dojo.getComputedStyle(node);
 			this.pe = dojo._getPadExtents(node, this.cs);
@@ -216,7 +216,7 @@ dojo.declare(
 		// Ask browser for width/height of side panes.
 		// Would be nice to cache this but height can change according to width
 		// (because words wrap around).  I don't think width will ever change though
-		// (except when the user drags a splitter). 
+		// (except when the user drags a splitter).
 		if(this._top){
 			topStyle = layoutTopBottom && this._top.style;
 			topHeight = dojo.marginBox(this._top).h;
@@ -287,7 +287,7 @@ dojo.declare(
 
 		if(rightSplitter){
 			dojo.mixin(rightSplitter.style, splitterBounds);
-			rightSplitter.style.right = rightWidth + pe.r +  "px";
+			rightSplitter.style.right = rightWidth + pe.r +	"px";
 		}
 
 		dojo.mixin(centerStyle, {
@@ -318,7 +318,7 @@ dojo.declare(
 			sidebarHeight = sidebarLayout ? containerHeight : middleHeight;
 
 		var containerWidth = this._borderBox.w - pe.l - pe.r,
-			middleWidth = containerWidth - (leftWidth  + leftSplitterThickness + rightWidth + rightSplitterThickness),
+			middleWidth = containerWidth - (leftWidth + leftSplitterThickness + rightWidth + rightSplitterThickness),
 			sidebarWidth = sidebarLayout ? middleWidth : containerWidth;
 
 		// New margin-box size of each pane
@@ -541,7 +541,7 @@ dojo.declare("dijit.layout._Splitter", [ dijit._Widget, dijit._Templated ],
 				}
 				splitterStyle[region] = factor * delta + splitterStart + (boundChildSize - childSize) + "px";
 			}),
-			dojo.connect(dojo.doc, "ondragstart",   dojo.stopEvent),
+			dojo.connect(dojo.doc, "ondragstart", dojo.stopEvent),
 			dojo.connect(dojo.body(), "onselectstart", dojo.stopEvent),
 			dojo.connect(de, "onmouseup", this, "_stopDrag")
 		]);

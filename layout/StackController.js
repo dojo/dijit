@@ -84,8 +84,8 @@ dojo.declare(
 				}, refNode);
 				dijit.setWaiState(button.focusNode,"selected", "false");
 				var map = 
-				this.pane2handles[page.id] = [
-				    this.connect(page, 'attr', function(name, value){
+				(this.pane2handles[page.id] = [
+					this.connect(page, 'attr', function(name, value){
 						if(arguments.length == 2){
 							var buttonAttr = {
 								title: 'label',
@@ -101,7 +101,7 @@ dojo.declare(
 					}),
 					this.connect(button, 'onClick', dojo.hitch(this,"onButtonClick", page)),
 					this.connect(button, 'onClickCloseButton', dojo.hitch(this,"onCloseButtonClick", page))
-				];
+				]);
 				this.addChild(button, insertIndex);
 				this.pane2button[page.id] = button;
 				page.controlButton = button;	// this value might be overwritten if two tabs point to same container

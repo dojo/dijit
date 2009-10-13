@@ -25,7 +25,7 @@ dojo.declare("dijit.layout._LayoutWidget",
 		postCreate: function(){
 			dojo.addClass(this.domNode, "dijitContainer");
 			dojo.addClass(this.domNode, this.baseClass);
-			
+
 			this.inherited(arguments);
 		},
 
@@ -54,7 +54,7 @@ dojo.declare("dijit.layout._LayoutWidget",
 				// (passing in no argument to resize means that it has to glean the size itself)
 				this.resize();
 
-				// Since my parent isn't a layout container, and my style *may be* width=height=100% 
+				// Since my parent isn't a layout container, and my style *may be* width=height=100%
 				// or something similar (either set directly or via a CSS class),
 				// monitor when my size changes so that I can re-layout.
 				// For browsers where I can't directly monitor when my size changes,
@@ -89,7 +89,7 @@ dojo.declare("dijit.layout._LayoutWidget",
 			//		In either mode, this method also:
 			//			1. Sets this._borderBox and this._contentBox to the new size of
 			//				the widget.  Queries the current domNode size if necessary.
-			//			2. Calls layout() to resize contents (and maybe adjust child widgets).	
+			//			2. Calls layout() to resize contents (and maybe adjust child widgets).
 			//
 			// changeSize: Object?
 			//		Sets the widget to this margin-box size and position.
@@ -97,7 +97,7 @@ dojo.declare("dijit.layout._LayoutWidget",
 			//	|	{w: int, h: int, l: int, t: int}
 			//
 			// resultSize: Object?
-			//		The margin-box size of this widget after applying changeSize (if 
+			//		The margin-box size of this widget after applying changeSize (if
 			//		changeSize is specified).  If caller knows this size and
 			//		passes it in, we don't need to query the browser to get the size.
 			//	|	{w: int, h: int}
@@ -118,7 +118,7 @@ dojo.declare("dijit.layout._LayoutWidget",
 			// inaccurate results, so try not to depend on it.
 			var mb = resultSize || {};
 			dojo.mixin(mb, changeSize || {});	// changeSize overrides resultSize
-			if ( !("h" in mb) || !("w" in mb) ){
+			if( !("h" in mb) || !("w" in mb) ){
 				mb = dojo.mixin(dojo.marginBox(node), mb);	// just use dojo.marginBox() to fill in missing values
 			}
 
@@ -255,7 +255,7 @@ dijit.layout.marginBox2contentBox = function(/*DomNode*/ node, /*Object*/ mb){
 			if(pos == "top" || pos == "bottom"){
 				size(child, { w: dim.w });
 				dim.h -= child.h;
-				if(pos=="top"){
+				if(pos == "top"){
 					dim.t += child.h;
 				}else{
 					elmStyle.top = dim.t + dim.h + "px";

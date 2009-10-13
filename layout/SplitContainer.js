@@ -11,7 +11,7 @@ dojo.require("dijit.layout._LayoutWidget");
 dojo.declare("dijit.layout.SplitContainer",
 	dijit.layout._LayoutWidget,
 	{
-	// summary: 
+	// summary:
 	//		Deprecated.  Use `dijit.layout.BorderContainer` instead.
 	// description:
 	//		A Container widget with sizing handles in-between each child.
@@ -107,7 +107,7 @@ dojo.declare("dijit.layout.SplitContainer",
 			this._restoreState();
 		}
 
-		this.inherited(arguments); 
+		this.inherited(arguments);
 	},
 
 	_setupChild: function(/*dijit._Widget*/ child){
@@ -119,7 +119,7 @@ dojo.declare("dijit.layout.SplitContainer",
 	_onSizerMouseDown: function(e){
 		if(e.target.id){
 			for(var i=0;i<this.sizers.length;i++){
-				if(this.sizers[i].id==e.target.id){
+				if(this.sizers[i].id == e.target.id){
 					break;
 				}
 			}
@@ -129,7 +129,7 @@ dojo.declare("dijit.layout.SplitContainer",
 		}
 	},
 	_addSizer: function(index){
-		index = index===undefined?this.sizers.length:index;
+		index = index === undefined ? this.sizers.length : index;
 
 		// TODO: use a template for this!!!
 		var sizer = dojo.doc.createElement('div');
@@ -147,17 +147,18 @@ dojo.declare("dijit.layout.SplitContainer",
 
 		// FIXME: are you serious? why aren't we using mover start/stop combo?
 		this.connect(sizer, "onmousedown", '_onSizerMouseDown');
-		
+
 		dojo.setSelectable(sizer, false);
 	},
 
 	removeChild: function(widget){
-		// summary: Remove sizer, but only if widget is really our child and
+		// summary:
+		//		Remove sizer, but only if widget is really our child and
 		// we have at least one sizer to throw away
 		if(this.sizers.length){
 			var i=dojo.indexOf(this.getChildren(), widget)
 			if(i != -1){
-				if(i==this.sizers.length){
+				if(i == this.sizers.length){
 					i--;
 				}
 				dojo.destroy(this.sizers[i]);
@@ -166,7 +167,7 @@ dojo.declare("dijit.layout.SplitContainer",
 		}
 
 		// Remove widget and repaint
-		this.inherited(arguments); 
+		this.inherited(arguments);
 		if(this._started){
 			this.layout();
 		}
@@ -179,8 +180,8 @@ dojo.declare("dijit.layout.SplitContainer",
 		//		a widget to add
 		// insertIndex:
 		//		postion in the "stack" to add the child widget
-		
-		this.inherited(arguments); 
+
+		this.inherited(arguments);
 
 		if(this._started){
 			// Do the stuff that startup() does for each widget
@@ -411,7 +412,7 @@ dojo.declare("dijit.layout.SplitContainer",
 			this._showSizingLine();
 		}
 
-		//					
+		//
 		// attach mouse events
 		//
 		this._ownconnects = [];
@@ -450,7 +451,7 @@ dojo.declare("dijit.layout.SplitContainer",
 			this._saveState(this);
 		}
 
-		dojo.forEach(this._ownconnects,dojo.disconnect); 
+		dojo.forEach(this._ownconnects, dojo.disconnect);
 	},
 
 	movePoint: function(){
@@ -495,11 +496,11 @@ dojo.declare("dijit.layout.SplitContainer",
 		var pos = this.lastPoint - this.dragOffset - this.originPos;
 
 		var start_region = this.paneBefore.position;
-		var end_region   = this.paneAfter.position + this.paneAfter.sizeActual;
+		var end_region = this.paneAfter.position + this.paneAfter.sizeActual;
 
 		this.paneBefore.sizeActual = pos - start_region;
 		this.paneAfter.position	= pos + this.sizerWidth;
-		this.paneAfter.sizeActual  = end_region - this.paneAfter.position;
+		this.paneAfter.sizeActual = end_region - this.paneAfter.position;
 
 		dojo.forEach(this.getChildren(), function(child){
 			child.sizeShare = child.sizeActual;

@@ -9,14 +9,14 @@ dojo.declare(
 	"dijit.layout.StackContainer",
 	dijit.layout._LayoutWidget,
 	{
-	// summary: 
+	// summary:
 	//		A container that has multiple children, but shows only
 	//		one child at a time
 	//
 	// description:
 	//		A container for widgets (ContentPanes, for example) That displays
 	//		only one Widget at a time.
-	//	
+	//
 	//		Publishes topics [widgetId]-addChild, [widgetId]-removeChild, and [widgetId]-selectChild
 	//
 	//		Can be base class for container, Wizard, Show, etc.
@@ -27,8 +27,8 @@ dojo.declare(
 
 	// persist: Boolean
 	//		Remembers the selected child across sessions
-	persist: false,	// Boolean
-	
+	persist: false,
+
 	baseClass: "dijitStackContainer",
 
 /*=====
@@ -107,7 +107,7 @@ dojo.declare(
 
 	addChild: function(/*dijit._Widget*/ child, /*Integer?*/ insertIndex){
 		// Overrides _Container.addChild() to do layout and publish events
-		 
+
 		this.inherited(arguments);
 
 		if(this._started){
@@ -132,7 +132,7 @@ dojo.declare(
 
 		this.inherited(arguments);
 
-		if (this._started) {
+		if(this._started){
 			// this will notify any tablists to remove a button; do this first because it may affect sizing
 			dojo.publish(this.id + "-removeChild", [page]);
 		}
@@ -189,9 +189,9 @@ dojo.declare(
 
 		// Size the new widget, in case this is the first time it's being shown,
 		// or I have been resized since the last time it was shown.
-		// Note that page must be visible for resizing to work. 
+		// Note that page must be visible for resizing to work.
 		if(newWidget.resize){
-			if (this.doLayout) {
+			if(this.doLayout){
 				newWidget.resize(this._containerContentBox || this._contentBox);
 			}else{
 				// the child should pick it's own size but we still need to call resize()

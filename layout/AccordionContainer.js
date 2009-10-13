@@ -32,7 +32,7 @@ dojo.declare(
 		// buttonWidget: [const] String
 		//		The name of the widget used to display the title of each pane
 		buttonWidget: "dijit.layout._AccordionButton",
-		
+
 		// _verticalSpace: Number
 		//		Pixels of space available for the open pane
 		//		(my content box size minus the cumulative size of all the title bars)
@@ -42,13 +42,13 @@ dojo.declare(
 
 		postCreate: function(){
 			this.domNode.style.overflow = "hidden";
-			this.inherited(arguments); 
+			this.inherited(arguments);
 			dijit.setWaiRole(this.domNode, "tablist");
 		},
 
 		startup: function(){
 			if(this._started){ return; }
-			this.inherited(arguments);	
+			this.inherited(arguments);
 			if(this.selectedChildWidget){
 				var style = this.selectedChildWidget.containerNode.style;
 				style.display = "";
@@ -56,7 +56,7 @@ dojo.declare(
 				this.selectedChildWidget._buttonWidget._setSelectedState(true);
 			}
 		},
-		
+
 		_getTargetHeight: function(/* Node */ node){
 			// summary:
 			//		For the given node, returns the height that should be
@@ -150,7 +150,7 @@ dojo.declare(
 			});
 			this.inherited(arguments);
 		},
-		
+
 		_transition: function(/*Widget?*/newWidget, /*Widget?*/oldWidget){
 			// Overrides StackContainer._transition() to provide sliding of title bars etc.
 
@@ -166,11 +166,11 @@ dojo.declare(
 
 				// Size the new widget, in case this is the first time it's being shown,
 				// or I have been resized since the last time it was shown.
-				// Note that page must be visible for resizing to work. 
+				// Note that page must be visible for resizing to work.
 				if(this.doLayout && newWidget.resize){
 					newWidget.resize(this._containerContentBox);
 				}
-				
+
 				var newContents = newWidget.domNode;
 				dojo.addClass(newContents, "dijitVisible");
 				dojo.removeClass(newContents, "dijitHidden");
@@ -320,7 +320,7 @@ dojo.declare("dijit.layout._AccordionButton",
 	_handleFocus: function(/*Event*/e){
 		// summary:
 		//		Handle the blur and focus state of this widget.
-		dojo[(e.type=="focus" ? "addClass" : "removeClass")](this.titleTextNode,"dijitAccordionFocused");		
+		dojo[(e.type == "focus" ? "addClass" : "removeClass")](this.titleTextNode,"dijitAccordionFocused");
 	},
 
 	setSelected: function(/*Boolean*/ isSelected){

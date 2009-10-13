@@ -70,11 +70,11 @@ dojo.declare(
 
 	// loadingMessage: String
 	//		Message that shows while downloading
-	loadingMessage: "<span class='dijitContentPaneLoading'>${loadingState}</span>", 
+	loadingMessage: "<span class='dijitContentPaneLoading'>${loadingState}</span>",
 
 	// errorMessage: String
 	//		Message that shows if an error occurs
-	errorMessage: "<span class='dijitContentPaneError'>${errorState}</span>", 
+	errorMessage: "<span class='dijitContentPaneError'>${errorState}</span>",
 
 	// isLoaded: [readonly] Boolean
 	//		True if the ContentPane has data in it, either specified
@@ -122,7 +122,7 @@ dojo.declare(
 		var messages = dojo.i18n.getLocalization("dijit", "loading", this.lang);
 		this.loadingMessage = dojo.string.substitute(this.loadingMessage, messages);
 		this.errorMessage = dojo.string.substitute(this.errorMessage, messages);
-		
+
 		// Detect if we were initialized with data
 		if(!this.href && this.srcNodeRef && this.srcNodeRef.innerHTML){
 			this.isLoaded = true;
@@ -145,7 +145,7 @@ dojo.declare(
 		// over a node
 		this.domNode.title = "";
 
-		if (!dojo.attr(this.domNode,"role")){
+		if(!dojo.attr(this.domNode,"role")){
 			dijit.setWaiRole(this.domNode, "group");
 		}
 
@@ -171,8 +171,8 @@ dojo.declare(
 				child.startup();
 			});
 		}
-		
-		if(this._isShown() || this.preload) {
+
+		if(this._isShown() || this.preload){
 			this._onShow();
 		}
 
@@ -186,7 +186,7 @@ dojo.declare(
 		//		and should propogate startup() and resize() calls to it.
 		//		Skips over things like data stores since they aren't visible.
 
-		var childNodes = dojo.query("> *", this.containerNode).filter(function(node) {
+		var childNodes = dojo.query("> *", this.containerNode).filter(function(node){
 				return node.tagName !== "SCRIPT"; // or a regexp for hidden elements like script|area|map|etc..
 			}),
 			childWidgetNodes = childNodes.filter(function(node){
@@ -243,7 +243,7 @@ dojo.declare(
 			// ContentPane is made visible
 			this._hrefChanged = true;
 		}
-		
+
 		return this.onLoadDeferred;		// dojo.Deferred
 	},
 
@@ -277,7 +277,7 @@ dojo.declare(
 		this._setContent(data || "");
 
 		this._isDownloaded = false; // mark that content is from a attr('content') not an attr('href')
-		
+
 		return this.onLoadDeferred; 	// dojo.Deferred
 	},
 	_getContentAttr: function(){
@@ -293,7 +293,7 @@ dojo.declare(
 			this._xhrDfd.cancel();
 		}
 		delete this._xhrDfd; // garbage collect
-		
+
 		this.onLoadDeferred = null;
 	},
 
@@ -342,7 +342,7 @@ dojo.declare(
 			// which is more reliable (similar to LayoutWidget.resize) (see for example #9449).
 			var mb = resultSize || {};
 			dojo.mixin(mb, changeSize || {}); // changeSize overrides resultSize
-			if (!("h" in mb) || !("w" in mb)) {
+			if(!("h" in mb) || !("w" in mb)){
 				mb = dojo.mixin(dojo.marginBox(cn), mb); // just use dojo.marginBox() to fill in missing values
 			}
 			this._contentBox = dijit.layout.marginBox2contentBox(cn, mb);
@@ -374,7 +374,7 @@ dojo.declare(
 		}else{
 			// TODO: with _childOfLayoutWidget check maybe this branch no longer necessary?
 			var node = this.domNode;
-			return (node.style.display != 'none')  && (node.style.visibility != 'hidden') && !dojo.hasClass(node, "dijitHidden");
+			return (node.style.display != 'none') && (node.style.visibility != 'hidden') && !dojo.hasClass(node, "dijitHidden");
 		}
 	},
 
@@ -407,7 +407,7 @@ dojo.declare(
 		this.inherited(arguments);
 
 		// Need to keep track of whether ContentPane has been shown (which is different than
-		// whether or not it's currently visible).	
+		// whether or not it's currently visible).
 		this._wasShown = true;
 	},
 
@@ -477,7 +477,7 @@ dojo.declare(
 		this.isLoaded = true;
 		try{
 			this.onLoadDeferred.callback(data);
-			this.onLoad(data);			
+			this.onLoad(data);
 		}catch(e){
 			console.error('Error '+this.widgetId+' running custom onLoad code: ' + e.message);
 		}
@@ -524,7 +524,7 @@ dojo.declare(
 			});
 			delete setter.parseResults;
 		}
-		
+
 		// And then clear away all the DOM nodes
 		dojo.html._emptyNode(this.containerNode);
 
@@ -533,19 +533,19 @@ dojo.declare(
 	},
 
 	_setContent: function(cont, isFakeContent){
-		// summary: 
+		// summary:
 		//		Insert the content into the container node
 
 		// first get rid of child widgets
 		this.destroyDescendants();
 
 		// dojo.html.set will take care of the rest of the details
-		// we provide an override for the error handling to ensure the widget gets the errors 
+		// we provide an override for the error handling to ensure the widget gets the errors
 		// configure the setter instance with only the relevant widget instance properties
-		// NOTE: unless we hook into attr, or provide property setters for each property, 
+		// NOTE: unless we hook into attr, or provide property setters for each property,
 		// we need to re-configure the ContentSetter with each use
-		var setter = this._contentSetter; 
-		if(! (setter && setter instanceof dojo.html._ContentSetter)) {
+		var setter = this._contentSetter;
+		if(! (setter && setter instanceof dojo.html._ContentSetter)){
 			setter = this._contentSetter = new dojo.html._ContentSetter({
 				node: this.containerNode,
 				_onError: dojo.hitch(this, this._onError),
@@ -564,12 +564,12 @@ dojo.declare(
 		};
 
 		var setterParams = dojo.mixin({
-			cleanContent: this.cleanContent, 
-			extractContent: this.extractContent, 
-			parseContent: this.parseOnLoad 
+			cleanContent: this.cleanContent,
+			extractContent: this.extractContent,
+			parseContent: this.parseOnLoad
 		}, this._contentSetterParams || {});
-		
-		dojo.mixin(setter, setterParams); 
+
+		dojo.mixin(setter, setterParams);
 
 		setter.set( (dojo.isObject(cont) && cont.domNode) ? cont.domNode : cont );
 
@@ -593,7 +593,7 @@ dojo.declare(
 
 	_onError: function(type, err, consoleText){
 		this.onLoadDeferred.errback(err);
-	
+
 		// shows user the string that is returned by on[type]Error
 		// overide on[type]Error and return your own string to customize
 		var errText = this['on' + type + 'Error'].call(this, err);
@@ -603,7 +603,7 @@ dojo.declare(
 			this._setContent(errText, true);
 		}
 	},
-	
+
 	_scheduleLayout: function(){
 		// summary:
 		//		Call resize() on each of my child layout widgets, either now

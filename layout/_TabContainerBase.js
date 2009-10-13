@@ -42,7 +42,7 @@ dojo.declare("dijit.layout._TabContainerBase",
 
 		this.inherited(arguments);
 	},
- 
+
 	postCreate: function(){
 		this.inherited(arguments);
 
@@ -84,7 +84,7 @@ dojo.declare("dijit.layout._TabContainerBase",
 		// Configure the content pane to take up all the space except for where the tabs are
 		if(!this._contentBox || typeof(this._contentBox.l) == "undefined"){return;}
 
-		if (this.doLayout) {
+		if(this.doLayout){
 			// position and size the titles and the container node
 			var titleAlign = this.tabPosition.replace(/-h/, "");
 			this.tablist.layoutAlign = titleAlign;
@@ -96,13 +96,13 @@ dojo.declare("dijit.layout._TabContainerBase",
 				layoutAlign: "client"
 			}];
 			dijit.layout.layoutChildren(this.domNode, this._contentBox, children);
-			
+
 			// Compute size to make each of my children.
 			// children[2] is the margin-box size of this.containerNode, set by layoutChildren() call above
 			this._containerContentBox = dijit.layout.marginBox2contentBox(this.containerNode, children[2]);
-			
-			if (this.selectedChildWidget) {
-				if (this.selectedChildWidget.resize) {
+
+			if(this.selectedChildWidget){
+				if(this.selectedChildWidget.resize){
 					this.selectedChildWidget.resize(this._containerContentBox);
 				}
 			}
@@ -111,7 +111,7 @@ dojo.declare("dijit.layout._TabContainerBase",
 			if(this.tablist.resize){
 				this.tablist.resize({w: dojo.contentBox(this.domNode).w});
 			}
-			
+
 			// and call resize() on the pane just to tell it that it's been made visible
 			this.selectedChildWidget.resize();
 		}
