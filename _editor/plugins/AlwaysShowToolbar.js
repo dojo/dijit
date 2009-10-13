@@ -163,7 +163,7 @@ dojo.declare("dijit._editor.plugins.AlwaysShowToolbar", dijit._editor._Plugin,
 	},
 
 	destroy: function(){
-	    // Overrides _Plugin.destroy().   TODO: call this.inherited() rather than repeating code.
+		// Overrides _Plugin.destroy().   TODO: call this.inherited() rather than repeating code.
 		this._IEOriginalPos = null;
 		this._handleScroll = false;
 		dojo.forEach(this._connects, dojo.disconnect);

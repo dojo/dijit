@@ -1,7 +1,7 @@
 dojo.provide("dijit._editor.html");
 
 dijit._editor.escapeXml=function(/*String*/str, /*Boolean?*/noSingleQuotes){
-	//summary:
+	// summary:
 	//		Adds escape sequences for special characters in XML: &<>"'
 	//		Optionally skips escapes for single quotes
 	str = str.replace(/&/gm, "&amp;").replace(/</gm, "&lt;").replace(/>/gm, "&gt;").replace(/"/gm, "&quot;");
@@ -19,7 +19,7 @@ dijit._editor.getNodeHtml=function(/* DomNode */node){
 			if(lName.charAt(0) == "/"){
 				// IE does some strange things with malformed HTML input, like
 				// treating a close tag </span> without an open tag <span>, as
-				// a new tag with tagName of /span.  Corrupts output HTML, remove 
+				// a new tag with tagName of /span.  Corrupts output HTML, remove
 				// them.  Other browsers don't prefix tags that way, so will
 				// never show up.
 				return "";
@@ -100,7 +100,7 @@ dijit._editor.getNodeHtml=function(/* DomNode */node){
 				}
 			}
 			attrarray.sort(function(a,b){
-				return a[0]<b[0]?-1:(a[0]==b[0]?0:1);
+				return a[0] < b[0] ? -1 : (a[0] == b[0] ? 0 : 1);
 			});
 			var j = 0;
 			while((attr = attrarray[j++])){
@@ -108,7 +108,7 @@ dijit._editor.getNodeHtml=function(/* DomNode */node){
 					(dojo.isString(attr[1]) ? dijit._editor.escapeXml(attr[1], true) : attr[1]) + '"';
 			}
 			if(lName === "script"){
-				// Browsers handle script tags differently in how you get content, 
+				// Browsers handle script tags differently in how you get content,
 				// but innerHTML always seems to work, so insert its content that way
 				// Yes, it's bad to allow script tags in the editor code, but some people
 				// seem to want to do it, so we need to at least return them right.
@@ -126,7 +126,7 @@ dijit._editor.getNodeHtml=function(/* DomNode */node){
 						case 'base':
 						case 'meta':
 						case 'area':
-						case 'basefont': 
+						case 'basefont':
 							// These should all be singly closed
 							output += ' />';
 							break;
@@ -137,7 +137,7 @@ dijit._editor.getNodeHtml=function(/* DomNode */node){
 				}
 			}
 			break;
-		case 4: // cdata 
+		case 4: // cdata
 		case 3: // text
 			// FIXME:
 			output = dijit._editor.escapeXml(node.nodeValue, true);
@@ -153,13 +153,14 @@ dijit._editor.getNodeHtml=function(/* DomNode */node){
 };
 
 dijit._editor.getChildrenHtml = function(/* DomNode */dom){
-	// summary: Returns the html content of a DomNode and children
+	// summary:
+	//		Returns the html content of a DomNode and children
 	var out = "";
 	if(!dom){ return out; }
 	var nodes = dom["childNodes"] || dom;
 
 	//IE issue.
-	//If we have an actual node we can check parent relationships on for IE, 
+	//If we have an actual node we can check parent relationships on for IE,
 	//We should check, as IE sometimes builds invalid DOMS.  If no parent, we can't check
 	//And should just process it and hope for the best.
 	var checkParent = !dojo.isIE || nodes !== dom;

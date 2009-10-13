@@ -24,7 +24,7 @@ dojo.declare("dijit._editor.plugins._FontDropDown",
 	widgetsInTemplate: true,
 
 	// plainText: [public] boolean
-	//		Flag to indicate that the returned label should be plain text 
+	//		Flag to indicate that the returned label should be plain text
 	//		instead of an example.
 	plainText: false,
 
@@ -48,7 +48,7 @@ dojo.declare("dijit._editor.plugins._FontDropDown",
 		this.label = this.strings[this.command];
 		this.id = dijit.getUniqueId(this.declaredClass.replace(/\./g,"_"));		
 		this.selectId = this.id + "_select";
-		
+
 		this.inherited(arguments);
 	},
 
@@ -85,7 +85,7 @@ dojo.declare("dijit._editor.plugins._FontDropDown",
 		//		widget value, maps the input to known values
 		// value: Object|String
 		//		The value to set in the select.
-		// priorityChange: 
+		// priorityChange:
 		//		Optional parameter used to tell the select whether or not to fire
 		//		onChange event.
 
@@ -96,23 +96,23 @@ dojo.declare("dijit._editor.plugins._FontDropDown",
 
 	_getValueAttr: function(){
 		// summary:
-		//		Allow retreving the value from the composite select on 
+		//		Allow retreving the value from the composite select on
 		//		call to button.attr("value");
 		return this.select.attr('value');
 	},
 
 	focus: function(){
 		// summary:
-		//		Over-ride for focus control of this widget.  Delegates focus down to the 
+		//		Over-ride for focus control of this widget.  Delegates focus down to the
 		//		filtering select.
 		this.select.focus();
 	},
 
 	_setDisabledAttr: function(value){
 		// summary:
-		//		Over-ride for the button's 'disabled' attribute so that it can be 
+		//		Over-ride for the button's 'disabled' attribute so that it can be
 		//		disabled programmatically.
-		
+
 		// Save off ths disabled state so the get retrieves it correctly
 		//without needing to have a function proxy it.
 		this.disabled = value;
@@ -134,10 +134,10 @@ dojo.declare("dijit._editor.plugins._FontNameDropDown", dijit._editor.plugins._F
 	command: "fontName",
 
 	postMixInProperties: function(){
-		// summary: 
+		// summary:
 		//		Over-ride for the default posr mixin control
 		if(!this.values){
-			this.values = this.generic ? 
+			this.values = this.generic ?
 				["serif", "sans-serif", "monospace", "cursive", "fantasy"] : // CSS font-family generics
 					["Arial", "Times New Roman", "Comic Sans MS", "Courier New"];
 		}
@@ -193,17 +193,17 @@ dojo.declare("dijit._editor.plugins._FontSizeDropDown", dijit._editor.plugins._F
 	// command: [public] String
 	//		The editor 'command' implemented by this plugin.
 	command: "fontSize",
-	
-	// values: [public] Array
+
+	// values: [public] Number[]
 	//		The HTML font size values supported by this plugin
 	values: [1,2,3,4,5,6,7], // sizes according to the old HTML FONT SIZE
-	
+
 	getLabel: function(value, name){
 		// summary:
 		//		Function used to generate the labels of the format dropdown
 		//		will return a formatted, or plain label based on the value
 		//		of the plainText option.
-		//		We're stuck using the deprecated FONT tag to correspond 
+		//		We're stuck using the deprecated FONT tag to correspond
 		//		with the size measurements used by the editor
 		// value: String
 		//		The 'insert value' associated with a name
@@ -215,7 +215,7 @@ dojo.declare("dijit._editor.plugins._FontSizeDropDown", dijit._editor.plugins._F
 			return "<font size=" + value + "'>" + name + "</font>";
 		}
 	},
-	
+
 	_setValueAttr: function(value, priorityChange){
 		// summary:
 		//		Over-ride for the default action of setting the
@@ -238,7 +238,7 @@ dojo.declare("dijit._editor.plugins._FormatBlockDropDown", dijit._editor.plugins
 	// command: [public] String
 	//		The editor 'command' implemented by this plugin.
 	command: "formatBlock",
-	
+
 	// values: [public] Array
 	//		The HTML format tags supported by this plugin
 	values: ["p", "h1", "h2", "h3", "pre"],
@@ -263,11 +263,11 @@ dojo.declare("dijit._editor.plugins._FormatBlockDropDown", dijit._editor.plugins
 // TODO: for 2.0, split into FontChoice plugin into three separate classes,
 // one for each command (and change registry below)
 dojo.declare("dijit._editor.plugins.FontChoice", dijit._editor._Plugin,{
-	//	summary:												 
+	// summary:
 	//		This plugin provides three drop downs for setting style in the editor
 	//		(font, font size, and format block), as controlled by command.
 	//
-	//	description:
+	// description:
 	//		The commands provided by this plugin are:
 	//
 	//		* fontName
@@ -295,7 +295,7 @@ dojo.declare("dijit._editor.plugins.FontChoice", dijit._editor._Plugin,{
 	//		the context of the current editor instance, such as pre-populated HTML.
 
 	// useDefaultCommand: [protected] booleam
-	//		Override _Plugin.useDefaultCommand... 
+	//		Override _Plugin.useDefaultCommand...
 	//		processing is handled by this plugin, not by dijit.Editor.
 	useDefaultCommand: false,
 
@@ -311,7 +311,7 @@ dojo.declare("dijit._editor.plugins.FontChoice", dijit._editor._Plugin,{
 				fontName: dijit._editor.plugins._FontNameDropDown,
 				fontSize: dijit._editor.plugins._FontSizeDropDown,
 				formatBlock: dijit._editor.plugins._FormatBlockDropDown
-			}[this.command], 
+			}[this.command],
 		params = this.params;
 
 		// For back-compat reasons support setting custom values via "custom" parameter
@@ -335,7 +335,7 @@ dojo.declare("dijit._editor.plugins.FontChoice", dijit._editor._Plugin,{
 			this.editor.execCommand(this.command, choice);
 		});
 	},
-	
+
 	updateState: function(){
 		// summary:
 		//		Overrides _Plugin.updateState().  This controls updating the menu
@@ -362,7 +362,7 @@ dojo.declare("dijit._editor.plugins.FontChoice", dijit._editor._Plugin,{
 			if(quoted){ value = quoted[1]; }
 
 			if(!value && _c === "formatBlock"){
-				// Some browsers (WebKit) doesn't actually get the tag info right.  
+				// Some browsers (WebKit) doesn't actually get the tag info right.
 				// So ... lets double-check it.
 				var elem;
 				// Try to find the current element where the caret is.
@@ -373,7 +373,7 @@ dojo.declare("dijit._editor.plugins.FontChoice", dijit._editor._Plugin,{
 						elem = range.endContainer;
 					}
 				}
-				
+
 				// Okay, now see if we can find one of the formatting types we're in.
 				while(elem && elem !== _e.editNode && elem !== _e.document){
 					var tg = elem.tagName?elem.tagName.toLowerCase():"";
@@ -400,7 +400,7 @@ dojo.subscribe(dijit._scopeName + ".Editor.getPlugin",null,function(o){
 	switch(o.args.name){
 	case "fontName": case "fontSize": case "formatBlock":
 		o.plugin = new dijit._editor.plugins.FontChoice({
-			command: o.args.name, 
+			command: o.args.name,
 			plainText: o.args.plainText?o.args.plainText:false
 		});
 	}

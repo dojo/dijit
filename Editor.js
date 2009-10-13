@@ -56,8 +56,8 @@ dojo.declare(
 			//when no iframe is used, focus will be lost whenever another element gets focus.
 			//For IE, we can connect to onBeforeDeactivate, which will be called right before
 			//the focus is lost, so we can obtain the selected range. For other browsers,
-			//no equivelent of onBeforeDeactivate, so we need to do two things to make sure 
-			//selection is properly saved before focus is lost: 1) when user clicks another 
+			//no equivelent of onBeforeDeactivate, so we need to do two things to make sure
+			//selection is properly saved before focus is lost: 1) when user clicks another
 			//element in the page, in which case we listen to mousedown on the entire page and
 			//see whether user clicks out of a focus editor, if so, save selection (focus will
 			//only lost after onmousedown event is fired, so we can obtain correct caret pos.)
@@ -219,7 +219,7 @@ dojo.declare(
 			if(e.target.tagName != "BODY"){
 				this._saveSelection();
 			}
-	        //console.log('onBeforeDeactivate',this);
+			//console.log('onBeforeDeactivate',this);
 		},
 
 		/* beginning of custom undo/redo support */
@@ -265,7 +265,7 @@ dojo.declare(
 			//      Called by plugins, but not meant to be called by end users.
 			// tags:
 			//		protected
-			if(this.customUndo && (cmd=='undo' || cmd=='redo')){
+			if(this.customUndo && (cmd == 'undo' || cmd == 'redo')){
 				return this[cmd]();
 			}else{
 				if(this.customUndo){
@@ -275,7 +275,7 @@ dojo.declare(
 				var r;
 				try{
 					r = this.inherited('execCommand', arguments);
-					if(dojo.isWebKit && cmd=='paste' && !r){ //see #4598: safari does not support invoking paste from js
+					if(dojo.isWebKit && cmd == 'paste' && !r){ //see #4598: safari does not support invoking paste from js
 						throw { code: 1011 }; // throw an object like Mozilla's error
 					}
 				}catch(e){
@@ -301,8 +301,8 @@ dojo.declare(
 			//      Used by the plugins to know when to highlight/not highlight buttons.
 			// tags:
 			//		protected
-			if(this.customUndo && (cmd=='undo' || cmd=='redo')){
-				return cmd=='undo'?(this._steps.length>1):(this._undoedSteps.length>0);
+			if(this.customUndo && (cmd == 'undo' || cmd == 'redo')){
+				return cmd == 'undo' ? (this._steps.length > 1) : (this._undoedSteps.length > 0);
 			}else{
 				return this.inherited('queryCommandEnabled',arguments);
 			}
@@ -411,7 +411,7 @@ dojo.declare(
 					tmp=dijit.range.getIndex(mark.startContainer,this.editNode).o;
 					b.mark ={startContainer:tmp,
 						startOffset:mark.startOffset,
-						endContainer:mark.endContainer===mark.startContainer?tmp:dijit.range.getIndex(mark.endContainer,this.editNode).o,
+						endContainer:mark.endContainer === mark.startContainer?tmp:dijit.range.getIndex(mark.endContainer,this.editNode).o,
 						endOffset:mark.endOffset};
 				}
 			}
@@ -423,7 +423,7 @@ dojo.declare(
 			//		Deals with saving undo; see editActionInterval parameter.
 			// tags:
 			//		private
-			if(this._steps.length===0){
+			if(this._steps.length === 0){
 				this._steps.push({'text':this.savedContent,'bookmark':this._getBookmark()});
 			}
 		},
@@ -446,7 +446,7 @@ dojo.declare(
 
 			//We need to save selection if the user TAB away from this editor
 			//no need to call _saveSelection for IE, as that will be taken care of in onBeforeDeactivate
-			if(!dojo.isIE && !this.iframe && e.keyCode==dojo.keys.TAB && !this.tabIndent){
+			if(!dojo.isIE && !this.iframe && e.keyCode == dojo.keys.TAB && !this.tabIndent){
 				this._saveSelection();
 			}
 			if(!this.customUndo){
@@ -539,9 +539,9 @@ dojo.declare(
 			//		see _saveSelection().
 			// tags:
 			//		private
-			if(this._savedSelection){ 
+			if(this._savedSelection){
 				// only restore the selection if the current range is collapsed
-				// if not collapsed, then it means the editor does not lose 
+				// if not collapsed, then it means the editor does not lose
 				// selection and there is no need to restore it
 				if(dojo.withGlobal(this.window,'isCollapsed',dijit)){
 					this._moveToBookmark(this._savedSelection);

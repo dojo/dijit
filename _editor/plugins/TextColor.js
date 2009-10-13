@@ -6,10 +6,10 @@ dojo.require("dijit.ColorPalette");
 dojo.declare("dijit._editor.plugins.TextColor",
 	dijit._editor._Plugin,
 	{
-		//	summary:
+		// summary:
 		//		This plugin provides dropdown color pickers for setting text color and background color
 		//
-		//	description:
+		// description:
 		//		The commands provided by this plugin are:
 		//		* foreColor - sets the text color
 		//		* hiliteColor - sets the background color

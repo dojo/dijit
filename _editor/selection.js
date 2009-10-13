@@ -7,9 +7,9 @@ dojo.provide("dijit._editor.selection");
 
 dojo.mixin(dijit._editor.selection, {
 	getType: function(){
-		// summary: 
+		// summary:
 		//		Get the selection type (like dojo.doc.select.type in IE).
-		if(dojo.isIE){ 
+		if(dojo.isIE){
 			return dojo.doc.selection.type.toLowerCase();
 		}else{
 			var stype = "text";
@@ -36,7 +36,7 @@ dojo.mixin(dijit._editor.selection, {
 	getSelectedText: function(){
 		// summary:
 		//		Return the text (no html tags) included in the current selection or null if no text is selected
-		if(dojo.isIE){ 
+		if(dojo.isIE){
 			if(dijit._editor.selection.getType() == 'control'){
 				return null;
 			}
@@ -53,7 +53,7 @@ dojo.mixin(dijit._editor.selection, {
 	getSelectedHtml: function(){
 		// summary:
 		//		Return the html text of the current selection or null if unavailable
-		if(dojo.isIE){ 
+		if(dojo.isIE){
 			if(dijit._editor.selection.getType() == 'control'){
 				return null;
 			}
@@ -82,7 +82,7 @@ dojo.mixin(dijit._editor.selection, {
 		//		a single element (object like and image or a table) is
 		//		selected.
 		if(dijit._editor.selection.getType() == "control"){
-			if(dojo.isIE){ 
+			if(dojo.isIE){
 				var range = dojo.doc.selection.createRange();
 				if(range && range.item){
 					return dojo.doc.selection.createRange().item(0);
@@ -102,7 +102,7 @@ dojo.mixin(dijit._editor.selection, {
 			var p = this.getSelectedElement();
 			if(p){ return p.parentNode; }
 		}else{
-			if(dojo.isIE){ 
+			if(dojo.isIE){
 				var r = dojo.doc.selection.createRange();
 				r.collapse(true);
 				return r.parentElement();
@@ -139,35 +139,35 @@ dojo.mixin(dijit._editor.selection, {
 		return this.getParentOfType(node, arguments); //DOMNode
 	},
 
-	isTag: function(/*DomNode*/node, /*Array*/tags){
+	isTag: function(/*DomNode*/ node, /*String[]*/ tags){
 		// summary:
 		//		Function to determine if a node is one of an array of tags.
-		// node: DOMNode
+		// node:
 		//		The node to inspect.
-		// tags: Array
+		// tags:
 		//		An array of tag name strings to check to see if the node matches.
 		if(node && node.tagName){
 			var _nlc = node.tagName.toLowerCase();
 			for(var i=0; i<tags.length; i++){
 				var _tlc = String(tags[i]).toLowerCase();
 				if(_nlc == _tlc){
-					return _tlc; //String
+					return _tlc; // String
 				}
 			}
 		}
 		return "";
 	},
 
-	getParentOfType: function(/*DomNode*/node, /*Array*/tags){
+	getParentOfType: function(/*DomNode*/ node, /*String[]*/ tags){
 		// summary:
 		//		Function to locate a parent node that matches one of a set of tags
-		// node: DOMNode
+		// node:
 		//		The node to inspect.
-		// tags: Array
+		// tags:
 		//		An array of tag name strings to check to see if the node matches.
 		while(node){
 			if(this.isTag(node, tags).length){
-				return node; //DOMNode
+				return node; // DOMNode
 			}
 			node = node.parentNode;
 		}
@@ -199,10 +199,10 @@ dojo.mixin(dijit._editor.selection, {
 	},
 
 	remove: function(){
-		// summary: 
+		// summary:
 		//		Function to delete the currently selected content from the document.
 		var sel = dojo.doc.selection;
-		if(dojo.isIE){ 
+		if(dojo.isIE){
 			if(sel.type.toLowerCase() != "none"){
 				sel.clear();
 			}
@@ -241,7 +241,7 @@ dojo.mixin(dijit._editor.selection, {
 			}else if(dojo.isOpera){
 				//Opera's selectAllChildren doesn't seem to work right
 				//against <body> nodes and possibly others ... so
-				//we iuse the W3C range API 
+				//we use the W3C range API
 				if(selection.rangeCount){
 					range = selection.getRangeAt(0);
 				}else{
@@ -281,7 +281,7 @@ dojo.mixin(dijit._editor.selection, {
 			var selection = win.getSelection();
 			range = doc.createRange();
 			if(selection.removeAllRanges){ // Mozilla
-				// FIXME: does this work on Safari? 
+				// FIXME: does this work on Safari?
 				if(dojo.isOpera){
 					//Opera works if you use the current range on
 					//the selection if present.

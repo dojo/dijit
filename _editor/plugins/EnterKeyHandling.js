@@ -74,7 +74,7 @@ dojo.declare("dijit._editor.plugins.EnterKeyHandling", dijit._editor._Plugin, {
 	//
 	//		On FF typing the above keystrokes will internally generate:
 	//
-	//		|		one <br> two <br> three <br> <br> four <br> five <br> six <br> 
+	//		|		one <br> two <br> three <br> <br> four <br> five <br> six <br>
 	//
 	//		And on Safari it will generate:
 	//
@@ -178,14 +178,13 @@ dojo.declare("dijit._editor.plugins.EnterKeyHandling", dijit._editor._Plugin, {
 						console.error('onKeyPressed: Cannot find the new block node'); // FIXME
 					}
 				}else{
-					
 					if(dojo.isMoz){
-						if(liparent.parentNode.parentNode.nodeName=='LI'){
+						if(liparent.parentNode.parentNode.nodeName == 'LI'){
 							liparent=liparent.parentNode.parentNode;
 						}
 					}
 					var fc=liparent.firstChild;
-					if(fc && fc.nodeType==1 && (fc.nodeName=='UL' || fc.nodeName=='OL')){
+					if(fc && fc.nodeType == 1 && (fc.nodeName == 'UL' || fc.nodeName == 'OL')){
 						liparent.insertBefore(fc.ownerDocument.createTextNode('\xA0'),fc);
 						var newrange = dijit.range.create(this.editor.window);
 						newrange.setStart(liparent.firstChild,0);
@@ -200,7 +199,7 @@ dojo.declare("dijit._editor.plugins.EnterKeyHandling", dijit._editor._Plugin, {
 		if(this._pressedEnterInBlock){
 			// the new created is the original current P, so we have previousSibling below
 			if(this._pressedEnterInBlock.previousSibling){
-			    this.removeTrailingBr(this._pressedEnterInBlock.previousSibling);
+				this.removeTrailingBr(this._pressedEnterInBlock.previousSibling);
 			}
 			delete this._pressedEnterInBlock;
 		}
@@ -224,11 +223,11 @@ dojo.declare("dijit._editor.plugins.EnterKeyHandling", dijit._editor._Plugin, {
 		//		private
 
 		var selection, range, newrange, doc=this.editor.document,br;
-		if(e.shiftKey){  // shift+enter always generates <br>
+		if(e.shiftKey){		// shift+enter always generates <br>
 			var parent = dojo.withGlobal(this.editor.window, "getParentElement", dijit._editor.selection);
 			var header = dijit.range.getAncestor(parent,this.blockNodes);
 			if(header){
-				if(!e.shiftKey && header.tagName=='LI'){
+				if(!e.shiftKey && header.tagName == 'LI'){
 					return true; // let browser handle
 				}
 				selection = dijit.range.getSelection(this.editor.window);
@@ -288,7 +287,6 @@ dojo.declare("dijit._editor.plugins.EnterKeyHandling", dijit._editor._Plugin, {
 
 		// if this is under a LI or the parent of the blockNode is LI, just let browser to handle it
 		if((this._checkListLater = (blockNode && (blockNode.nodeName == 'LI' || blockNode.parentNode.nodeName == 'LI')))){
-			
 			if(dojo.isMoz){
 				// press enter in middle of P may leave a trailing <br/>, let's remove it later
 				this._pressedEnterInBlock = blockNode;
@@ -500,7 +498,7 @@ dojo.declare("dijit._editor.plugins.EnterKeyHandling", dijit._editor._Plugin, {
 		//		Apparently collapses adjacent <p> nodes into a single <p>
 		//		nodes with <br> separating each line.
 		//
-		//	example:
+		// example:
 		//		Given this input:
 		//	|	<p>line 1</p>
 		//	|	<p>line 2</p>
@@ -524,7 +522,7 @@ dojo.declare("dijit._editor.plugins.EnterKeyHandling", dijit._editor._Plugin, {
 		//
 		// tags:
 		//		private
-	
+
 		function getParagraphParents(node){
 			// summary:
 			//		Used to get list of all nodes that contain paragraphs.
