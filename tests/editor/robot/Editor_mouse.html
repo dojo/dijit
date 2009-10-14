@@ -37,7 +37,7 @@
 				var metaKey = {ctrl: true}
 
 				var editor0, editor1;
-				
+
 				doh.register("setup", function setup(){
 					editor0 = dijit.byId("editor0");
 					editor1 = dijit.byId("editor1");
@@ -75,7 +75,7 @@
 							// turn off bold
 							doh.robot.mouseMoveAt(boldButton.domNode, 500);
 							doh.robot.mouseClick({left: true}, 500);
-							
+
 							doh.robot.typeKeys(". ", 1000);
 
 							// turn on italic

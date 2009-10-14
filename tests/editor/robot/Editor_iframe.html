@@ -39,8 +39,8 @@
 				var editor0, editor1;
 				var iframe;
 				var win;
-				
-				doh.register("setup", 
+
+				doh.register("setup",
 					{
 						name:"setup",
 						timeout:10000,
@@ -91,7 +91,7 @@
 							// turn off bold
 							doh.robot.mouseMoveAt(boldButton.domNode, 1000);
 							doh.robot.mouseClick({left: true}, 500);
-							
+
 							doh.robot.typeKeys(". ", 1000);
 
 							// turn on italic

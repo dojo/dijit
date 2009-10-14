@@ -11,7 +11,7 @@
 		<!-- required: dojo.js -->
 		<script type="text/javascript" src="../../../dojo/dojo.js"
 			djConfig="isDebug: true"></script>
-			
+
 		<!-- functions to help test -->
 		<script type="text/javascript" src="../helpers.js"></script>
 
@@ -33,7 +33,7 @@
 							// Open the dialog
 							doh.robot.mouseMoveAt("dialog1button", 500);
 							doh.robot.mouseClick({left: true}, 500);
-							
+
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.t(isVisible("dialog1"), "dialog 1 has been made visible");
 								doh.is("name", dojo.global.dijit._curFocus.id, "focus is on the first field");
@@ -41,7 +41,7 @@
 
 							return d;
 						}
-					},				
+					},
 
 					{
 						name: "test that other controls on page can't be clicked",
@@ -60,7 +60,7 @@
 							return d;
 						}
 					},
-			
+
 					{
 						name: "open date drop down",
 						timeout: 10000,
@@ -78,7 +78,7 @@
 							return d;
 						}
 					},
-			
+
 					{
 						name: "close date drop down",
 						timeout: 4000,
@@ -136,7 +136,7 @@
 							// Open the dialog
 							doh.robot.mouseMoveAt("dialog1button", 500);
 							doh.robot.mouseClick({left: true}, 500);
-							
+
 							// Enter some info
 							doh.robot.mouseMoveAt("name", 2000);
 							doh.robot.mouseClick({left: true}, 500);

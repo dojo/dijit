@@ -11,7 +11,7 @@
 	<!-- required: dojo.js -->
 	<script type="text/javascript" src="../../../dojo/dojo.js"
 		djConfig="isDebug: true"></script>
-		
+
 	<!-- functions to help test -->
 	<script type="text/javascript" src="../helpers.js"></script>
 
@@ -38,14 +38,14 @@
 						}), 500);
 						return d;
 					}
-				},				
+				},
 				{
 					name: "mouse move on widget where onmousemove connected",
 					timeout: 5000,
 					runTest: function(){
 						var d = new doh.Deferred();
 						doh.robot.mouseMoveAt("connect", 500);
-	
+
 						doh.robot.sequence(d.getTestCallback(function(){
 							doh.t(dojo.global.connectedMouseMoved, "connected button event handler fired");
 						}), 500);
@@ -58,7 +58,7 @@
 					runTest: function(){
 						var d = new doh.Deferred();
 						doh.robot.mouseMoveAt("both", 500);
-	
+
 						doh.robot.sequence(d.getTestCallback(function(){
 							doh.t(dojo.global.bothOverrodeMouseMoved, "dojo/method handler fired");
 							doh.t(dojo.global.bothConnectedMouseMoved, "dojo/connect handler fired");
@@ -67,7 +67,7 @@
 					}
 				}
 			]);
-	
+
 			doh.run();
 		});
 	</script>

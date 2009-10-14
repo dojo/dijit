@@ -29,11 +29,11 @@
 
 	<!-- required: a default dijit theme: -->
 	<link id="themeStyles" rel="stylesheet" href="../../dijit/themes/tundra/tundra.css">
-	
+
 	<!-- required: dojo.js -->
 	<script type="text/javascript" src="../../dojo/dojo.js"
 		djConfig="parseOnLoad: true, isDebug: true"></script>
-	
+
 	<!-- not needed, for testing alternate themes -->
 	<script type="text/javascript" src="_testCommon.js"></script>
 
@@ -53,7 +53,7 @@
 
 		function deleteItem(){
 			store.deleteItem(selectedItem);
-			store.save(); 
+			store.save();
 
 			resetForms();
 			loadItemsTable();
@@ -110,7 +110,7 @@
 				if (dojo.byId("uSomeProperty").value != store.getValue(selectedItem, "someProperty")){
 					store.setValue(selectedItem, "someProperty", dojo.byId("uSomeProperty").value);
 				}
-	
+
 				var children = dojo.query("> *", "uChildren").map( function(child){
 					var id = child.id;
 					return allItems[id];
@@ -152,11 +152,11 @@
 					data: vals.label,
 					type: ["text"]
 				});
-				
+
 				// update table listing items
 				var row = new ItemRow(vals);
 				dojo.byId("itemsTable").appendChild(row.domNode);
-				
+
 				//dojo.forEach(vals.children, processItem);
 			}
 
@@ -172,11 +172,11 @@
 			console.log("Selected item: ", item ? store.getLabel(item) : "none");
 			selectedItem = item;
 
-			if(item){	
+			if(item){
 				// Display basic attribute values
 				dojo.byId('uLabel').value = item ? store.getLabel(item) : "";
 				dojo.byId('uSomeProperty').value = item ? store.getValue(item,"someProperty") : "";
-				
+
 				// Fill in info about children
 				var children = store.getValues(item, "children");
 				dojo.forEach(children, function(item){
@@ -189,9 +189,9 @@
 					uChildrenDragSource.setItem(id, {
 						data: label,
 						type: ["text"]
-					});					
+					});
 				});
-				
+
 				// and the items that could be children but aren't currently
 				// (including items that would cause cycles, because i'm lazy)
 				for(var id in allItems){
@@ -209,7 +209,7 @@
 					}
 				}
 			}
-			
+
 			// New Item section
 			dojo.byId('nParent').value = item ? store.getLabel(item) : "";
 		}
@@ -266,7 +266,7 @@
 	<br />
 
 	<h2>Data in flat form</h2>
-	<!-- 
+	<!--
 		flat view of the items in the data store.
 		TODO: use the table widget from the mail demo, or dojox.Grid
 	-->
@@ -277,7 +277,7 @@
 		<span class="dijitInline" dojoAttachPoint="childrenContainerNode"></span>
 
 		<script type='dojo/connect' event='postCreate'>
-			var children = 
+			var children =
 				dojo.map(this.children, function(childItem){
 					return "<span class='itemReference'>" + store.getLabel(childItem) + "</span>";
 				});

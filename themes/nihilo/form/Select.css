@@ -32,7 +32,7 @@
     background:#fafafa url("../../../dijit/themes/nihilo/images/buttonDisabled.png") top repeat-x;
 }
 .dj_ie .nihilo .dijitSelectDisabled  .dijitButtonNode * {
-	filter: gray() alpha(opacity=50); 
+	filter: gray() alpha(opacity=50);
 }
 
 .nihilo .dijitSelectHover .dijitButtonNode {

@@ -14,5 +14,5 @@ dojo.declare("dijit._MenuBarItemMixin", null, {
 dojo.declare("dijit.MenuBarItem", [dijit.MenuItem, dijit._MenuBarItemMixin], {
 	// summary:
 	//		Item in a MenuBar that's clickable, and doesn't spawn a submenu when pressed (or hovered)
-		
+
 });

@@ -117,7 +117,7 @@ dojo.declare(
 		}
 		dojo.stopEvent(e);
 	},
-	
+
 	_isReversed: function(){
 		// summary:
 		//		Returns true if direction is from right to left
@@ -168,7 +168,7 @@ dojo.declare(
 			if(duration == 0){ return; }
 			if(duration < 0){ duration = 0 - duration; }
 			props[this._progressPixelSize] = { start: start, end: percent*100, units:"%" };
-			this._inProgressAnim = dojo.animateProperty({ node: progressBar, duration: duration, 
+			this._inProgressAnim = dojo.animateProperty({ node: progressBar, duration: duration,
 				onAnimate: function(v){ remainingBar.style[_this._progressPixelSize] = (100-parseFloat(v[_this._progressPixelSize])) + "%"; },
 				onEnd: function(){ delete _this._inProgressAnim; },
 				properties: props
@@ -287,7 +287,7 @@ dojo.declare(
 		if(this._inProgressAnim && this._inProgressAnim.status != "stopped"){
 			this._inProgressAnim.stop(true);
 		}
-		this.inherited(arguments);	
+		this.inherited(arguments);
 	}
 });
 
@@ -305,7 +305,7 @@ dojo.declare("dijit.form._SliderMover",
 		var pixelValue = e[widget._mousePixelCoord] - abspos[widget._startingPixelCoord];
 		widget._setPixelValue_(widget._isReversed_ ? (abspos[widget._pixelCount]-pixelValue) : pixelValue, abspos[widget._pixelCount], false);
 	},
-	
+
 	destroy: function(e){
 		dojo.dnd.Mover.prototype.destroy.apply(this, arguments);
 		var widget = this.widget;

@@ -4,11 +4,11 @@
 	// If you call this file like borderContainer.php?id=foo then the id's of the created widgets
 	// will be based on the string "foo"
 	$id = $_GET['id'];
-	
+
 	// sized=true means that it will add a width/height to the BorderContainer
 ?>
 <div dojoType="dijit.layout.BorderContainer"
-	id="<?=$id?>BorderContainer" 
+	id="<?=$id?>BorderContainer"
 	<?php
 		if($_GET['sized']){
 			print "style='width: 300px; height: 300px;'";

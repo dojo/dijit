@@ -11,7 +11,7 @@ dojo.declare("dijit._editor.plugins.TabIndent",
 		//		This plugin is used to allow the use of the tab and shift-tab keys
 		//		to indent/outdent list items.  This overrides the default behavior
 		//		of moving focus from/to the toolbar
-		
+
 		// Override _Plugin.useDefaultCommand... processing is handled by this plugin, not by dijit.Editor.
 		useDefaultCommand: false,
 

@@ -1,5 +1,5 @@
 /* Calendar*/
-	
+
 .nihilo .dijitCalendarIncrementControl {
 	/* next/prev month buttons */
 	width:15px;
@@ -41,7 +41,7 @@
 .dj_ie6 .nihilo .dijitCalendarMonthContainer th {
 	padding-top:.2em;
 	padding-bottom:.1em;
-	
+
 }
 
 .nihilo .dijitCalendarDayLabelTemplate {
@@ -56,7 +56,7 @@
 }
 
 .nihilo .dijitCalendarBodyContainer {
-	border-bottom: 1px solid #eeeeee;	
+	border-bottom: 1px solid #eeeeee;
 }
 
 .nihilo .dijitCalendarMonthLabel {
@@ -98,7 +98,7 @@
 }
 
 .nihilo .dijitCalendarCurrentMonthDisabled {
-	/* days that are part of this month - disabled */	
+	/* days that are part of this month - disabled */
 	background-color:#bbbbbc !important;
 }
 

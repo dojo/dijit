@@ -16,11 +16,11 @@
 
 	<!-- required: a default dijit theme: -->
 	<link id="themeStyles" rel="stylesheet" href="../../dijit/themes/tundra/tundra.css">
-	
+
 	<!-- required: dojo.js -->
 	<script type="text/javascript" src="../../dojo/dojo.js"
 		djConfig="parseOnLoad: true, isDebug: true"></script>
-	
+
 	<!-- not needed, for testing alternate themes -->
 	<script type="text/javascript" src="_testCommon.js"></script>
 
@@ -43,9 +43,9 @@
 			dlg.containerNode.appendChild(btn.domNode);
 
 			dojo.connect(btn, "onClick", function(){
-				console.log("destroying, while visible"); 
+				console.log("destroying, while visible");
 				dlg.destroy();
-				
+
 			});
 			dlg.show();
 		}

@@ -32,7 +32,7 @@ dojo.declare(
 
 		this.inherited(arguments);
 	},
-		
+
 	_isReversed: function(){
 		// summary:
 		//		Overrides HorizontalSlider._isReversed.

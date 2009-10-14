@@ -105,7 +105,7 @@
 							}
 						}, 500);
 					}
-					
+
 				};
 				// first time, wait for the data to come in
 				doh.robot.sequence(repeat, 3000);
@@ -162,12 +162,12 @@
 			 );
 
 			// Verify that all of the form values are correct at init
-			doh.register("verify values", 			
+			doh.register("verify values",
 				{
 					name:"verifyValues",
 					runTest:function(){
 						// Spot check of initial conditions of widgets and DOM nodes
-	
+
 						doh.is("California (CA)", dijit.byId("setvaluetest").attr("displayedValue"), "state1 displayed value");
 						doh.is(isComboBox ? "California (CA)" : "CA", dijit.byId("setvaluetest").attr("value"), "state1 value");
 						doh.is("not fired yet!", dojo.byId("oc1").value, "state1 onChange hasn't fired");
@@ -274,7 +274,7 @@
 						return d;
 					}
 				}
-				
+
 				// TODO: test some other attr('value') calls
 			]);
 
@@ -288,7 +288,7 @@
 						return robot_typeValue(dijit.byId(this.combo), "California", isComboBox? undefined : "CA", isComboBox? undefined : "California (CA)");
 					}
 				},
-				
+
 				// Type an invalid value and press Enter
 				{
 					timeout:60000,
@@ -302,7 +302,7 @@
 					}
 				}
 			]);
-	
+
 
 			doh.register("drop down navigation / keyboard", [
 				// Select a value from the drop down using the keyboard,
@@ -332,25 +332,25 @@
 						// Filter drop down list to entries starting with "C"
 						doh.robot.sequence(function(){ combo.attr('value', null); }, 500);
 						doh.robot.keyPress("C", 100);
-						
+
 						doh.robot.sequence(d.getTestCallback(function(){
 							// Check that drop down list has appeared, and contains California, Colorado, Connecticut
 							var list = dojo.byId("setvaluetest_popup");
 							doh.t(list, "drop down exists");
 							doh.t(isVisible(list), "drop down is visible");
-							
+
 							var entries = dojo.query("li", list).filter(isVisible);
 							doh.is(3, entries.length, "three entries in drop down: " + list.innerHTML);
-							doh.is("California (CA)", innerText(entries[0]), "list #1");						
-							doh.is("Colorado (CO)", innerText(entries[1]), "list #2");						
+							doh.is("California (CA)", innerText(entries[0]), "list #1");
+							doh.is("Colorado (CO)", innerText(entries[1]), "list #2");
 							doh.is("Connecticut (CT)", innerText(entries[2]), "list #3");
-							
+
 							// Check that search-string highlighting is working
 							doh.is('<span class=dijitcomboboxhighlightmatch>c</span>onnecticut (ct)', entries[2].innerHTML.toLowerCase().replace(/"/g, ""), //balanced"
 								"highlighting is working");
 							doh.f(combo.itemError, testWidget + " item mismatch");
 						}), 900);
-						
+
 						return d;
 					}
 				},
@@ -364,20 +364,20 @@
 
 						// Filter drop down list to entries starting with "Co"
 						doh.robot.keyPress("o", 100);
-						
+
 						doh.robot.sequence(d.getTestCallback(function(){
 							// Check that drop down list is still there, and California has disappeared
 							var list = dojo.byId("setvaluetest_popup");
 							doh.t(list, "drop down exists");
 							doh.t(isVisible(list), "drop down is visible");
-							
+
 							var entries = dojo.query("li", list).filter(isVisible);
 							doh.is(2, entries.length, "three entries in drop down: " + list.innerHTML);
-							doh.is("Colorado (CO)", innerText(entries[0]), "list #1");						
+							doh.is("Colorado (CO)", innerText(entries[0]), "list #1");
 							doh.is("Connecticut (CT)", innerText(entries[1]), "list #2");
 							doh.f(combo.itemError, testWidget + " item mismatch");
 						}), 900);
-						
+
 						return d;
 					}
 				},
@@ -390,26 +390,26 @@
 						combo.itemError = false;
 
 						doh.robot.keyPress(dojo.keys.BACKSPACE, 100);
-						
+
 						doh.robot.sequence(d.getTestCallback(function(){
 							// List should again contain California
 							var list = dojo.byId("setvaluetest_popup");
 							doh.t(list, "drop down exists");
 							doh.t(isVisible(list), "drop down is visible");
-							
+
 							var entries = dojo.query("li", list).filter(isVisible);
 							doh.is(3, entries.length, "three entries in drop down: " + list.innerHTML);
-							doh.is("California (CA)", innerText(entries[0]), "list #1");						
-							doh.is("Colorado (CO)", innerText(entries[1]), "list #2");						
+							doh.is("California (CA)", innerText(entries[0]), "list #1");
+							doh.is("Colorado (CO)", innerText(entries[1]), "list #2");
 							doh.is("Connecticut (CT)", innerText(entries[2]), "list #3");
 							doh.f(combo.itemError, testWidget + " item mismatch");
 						}), 900);
-						
+
 						return d;
 					}
 				}
 
-				// TODO: make separate test group for testing highlighting, and then check		
+				// TODO: make separate test group for testing highlighting, and then check
 				//     - matching of anywhere in string (id=arrowless)
 				//     - highlightmatch=none (combobox4)
 			]);
@@ -428,15 +428,15 @@
 
 						// Filter drop down list to entries starting with "C"
 						doh.robot.keyPress("C", 100);
-						
+
 						// Then tab away
 						doh.robot.keyPress(dojo.keys.TAB, 500);
-	
+
 						doh.robot.sequence(d.getTestCallback(function(){
 							// Check that drop down list has disappeared
 							var list = dojo.byId("setvaluetest_popup");
 							doh.t(!list || isHidden(list), "drop down is visible");
-							
+
 							// Since autocomplete=false the contents should just be what the user typed
 							doh.is('C', combo.focusNode.value);
 							if(!isComboBox){
@@ -444,7 +444,7 @@
 							}
 							doh.f(dijit.byId("setvaluetest").itemError, testWidget + " item mismatch");
 						}), 900);
-						
+
 						return d;
 					}
 				},
@@ -467,10 +467,10 @@
 
 							doh.is('California', combo.focusNode.value, "'alifornia' automatically appended to user input");
 						}), 900);
-						
+
 						return d;
 					}
-				},	
+				},
 				{
 					timeout:60000,
 					name:"auto-complete changes suggestion based on more typed letters",
@@ -486,10 +486,10 @@
 						doh.robot.sequence(d.getTestCallback(function(){
 							doh.is('Colorado', combo.focusNode.value, "suggestion changed from California to Colorado");
 						}), 900);
-						
+
 						return d;
 					}
-				},			
+				},
 				{
 					timeout:60000,
 					name:"tab-away auto-selects value",
@@ -499,18 +499,18 @@
 
 						// Then tab away
 						doh.robot.keyPress(dojo.keys.TAB, 500);
-	
+
 						doh.robot.sequence(d.getTestCallback(function(){
 							// Check that drop down list has disappeared
 							var list = dojo.byId("datatest_popup");
 							doh.t(!list || isHidden(list), "drop down is hidden");
-				
+
 							doh.is(isComboBox ? "Colorado" : "CO", combo.attr('value'));
 							if(!isComboBox){
 								doh.t(combo.isValid(), "FilteringSelect should be valid");
 							}
 						}), 900);
-						
+
 						return d;
 					}
 				}
@@ -545,7 +545,7 @@
 						doh.robot.sequence(d.getTestCallback(function(){
 							// The query "C*" should be canceled when "Co*" is started
 							var log = dojo.global.slowStateStore.log;
-							
+
 							var len = !isComboBox? 6 : 4; // initial null caused 2 events
 							doh.is(len, log.length, len + " events on data store");
 							doh.is("start C*", log[len-4].type + " " + log[len-4].query.name);
@@ -557,13 +557,13 @@
 							var list = dojo.byId("slow_popup");
 							doh.t(list, "drop down exists");
 							doh.t(isVisible(list), "drop down is visible");
-						
+
 							var entries = dojo.query("li", list).filter(isVisible);
 							doh.is(2, entries.length, "two entries in drop down: " + list.innerHTML);
-							doh.is("Colorado", innerText(entries[0]), "list #1");						
+							doh.is("Colorado", innerText(entries[0]), "list #1");
 							doh.is("Connecticut", innerText(entries[1]), "list #2");
 						}), 2500);
-						
+
 						return d;
 					}
 				},
@@ -589,7 +589,7 @@
 						// But then hit ENTER after we've started the query to the data store, but
 						// before the data store returns query results... that should cancel the query.
 						doh.robot.keyPress(dojo.keys.ENTER, 300);	// 300ms > searchDelay
-	
+
 						doh.robot.sequence(d.getTestCallback(function(){
 							var log = dojo.global.slowStateStore.log;
 							var len = log.length;
@@ -605,10 +605,10 @@
 
 							var list = dojo.byId("slow_popup");
 							doh.t(!list || isHidden(list), "drop down is *not* visible");
-							
+
 							doh.is("Co", combo.attr('displayedValue'), "auto-complete didn't fire");
 						}), 2000);
-						
+
 						return d;
 					}
 				}
@@ -616,7 +616,7 @@
 
 			// disabled tests+standard tests
 			doh.register("disabled", [
-			
+
 				// Test that correct styling is applied
 				{
 					timeout:1000,
@@ -773,16 +773,16 @@
 
 						// Show list, should be in reverse order
 						doh.robot.keyPress(dojo.keys.DOWN_ARROW, 100);
-						
+
 						doh.robot.sequence(d.getTestCallback(function(){
 							var list = dojo.byId("progCombo3_popup");
 							doh.t(list, "drop down exists");
 							doh.t(isVisible(list), "drop down is visible");
-							
+
 							var entries = dojo.query("li", list).filter(isVisible);
-							doh.is("United States of America", innerText(entries[0]), "list #1");						
+							doh.is("United States of America", innerText(entries[0]), "list #1");
 						}), 900);
-						
+
 						return d;
 					}
 				},
@@ -795,20 +795,20 @@
 
 						// Filter drop down list to entries starting with "A"
 						doh.robot.keyPress("A", 100);
-						
+
 						doh.robot.sequence(d.getTestCallback(function(){
 							// Check that drop down list *doesn't* contain Africa (since it's a continent),
 							// just Argentina and Australia, in descending sort order
 							var list = dojo.byId("progCombo3_popup");
 							doh.t(list, "drop down exists");
 							doh.t(isVisible(list), "drop down is visible");
-							
+
 							var entries = dojo.query("li", list).filter(isVisible);
 							doh.is(2, entries.length, "two countries (but no continents) in drop down: " + list.innerHTML);
-							doh.is("Australia", innerText(entries[0]), "list #1");						
-							doh.is("Argentina", innerText(entries[1]), "list #2");						
+							doh.is("Australia", innerText(entries[0]), "list #1");
+							doh.is("Argentina", innerText(entries[1]), "list #2");
 						}), 900);
-						
+
 						return d;
 					}
 				}

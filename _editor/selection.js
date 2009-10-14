@@ -218,7 +218,7 @@ dojo.mixin(dijit._editor.selection, {
 		// summary:
 		//		clear previous selection and select the content of the node
 		//		(excluding the node itself)
-		// element:	DOMNode
+		// element: DOMNode
 		//		The element you wish to select the children content of.
 		// nochangefocus: Boolean
 		//		Boolean to indicate if the foxus should change or not.

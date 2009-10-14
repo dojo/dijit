@@ -13,7 +13,7 @@
 			padding: 0px;
 			margin: 0px;
 		}
-		
+
 		div {
 			background: white;
 			border: solid 1px gray;
@@ -102,7 +102,7 @@
 						"<div dojoAttachEvent='onclick: onClick'>${choice2}</div>" +
 						"<div dojoAttachEvent='onclick: onClick'>${choice3}</div>" +
 					"</div>",
-				
+
 				onClick: function(e){
 					this.onChange(e.target.innerHTML);
 				},
@@ -185,14 +185,14 @@
 						"<div dojoAttachEvent='onclick: onClick'>popup1</div>" +
 						"<div dojoAttachEvent='onclick: onClick'>popup2</div>" +
 					"</div>",
-				
+
 				onClick: function(e){
 					var id = this.id,
 						popup = this[e.target.innerHTML];
 					log(id + ": opening popup " + popup.id);
 					this.openPopup(popup);
 				},
-				
+
 				openPopup: function(popup){
 					dijit.popup.open({
 						popup: popup,
@@ -208,12 +208,12 @@
 						}
 					})
 				},
-				
+
 				closePopup: function(popup){
 					dijit.popup.close(popup);
 				}
 			});
-			
+
 			// Create a button that displays a nested drop down.
 			nestedOpener = new NestedPopupOpener({
 				id: 'nestedPopupOpener',

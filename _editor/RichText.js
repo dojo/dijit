@@ -1635,7 +1635,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 		// tags:
 		//		private
 		html = html.replace(/\sclass="webkit-block-placeholder"/gi, '');
-		html = html.replace(/\sclass="apple-style-span"/gi, ''); 
+		html = html.replace(/\sclass="apple-style-span"/gi, '');
 		return html; // String
 	},
 	_normalizeFontStyle: function(/* String */ html){
@@ -1657,9 +1657,9 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 		//		Pre-filter to do fixing to href attributes on <a> and <img> tags
 		// tags:
 		//		private
-		return html.replace(/(?:(<a(?=\s).*?\shref=)("|')(.*?)\2)|(?:(<a\s.*?href=)([^"'][^ >]+))/gi, 
+		return html.replace(/(?:(<a(?=\s).*?\shref=)("|')(.*?)\2)|(?:(<a\s.*?href=)([^"'][^ >]+))/gi,
 				'$1$4$2$3$5$2 _djrealurl=$2$3$5$2')
-			.replace(/(?:(<img(?=\s).*?\ssrc=)("|')(.*?)\2)|(?:(<img\s.*?src=)([^"'][^ >]+))/gi, 
+			.replace(/(?:(<img(?=\s).*?\ssrc=)("|')(.*?)\2)|(?:(<img\s.*?src=)([^"'][^ >]+))/gi,
 				'$1$4$2$3$5$2 _djrealurl=$2$3$5$2'); // String
 	},
 

@@ -170,7 +170,7 @@
 			<li>Use <b>innerHTML</b> to get the content of a certain element</li>
 			<li>Use <b>value</b> to get an <b>INPUT</b> element's value</li>
 		</ul>
-		
+
 		<p>
 			You cannot read a real NBSP character from an <b>INPUT</b> element on these browsers. It causes issues when some formatting data in CLDR
 			contains an NBSP character. For example,
@@ -179,7 +179,7 @@
 			<li>Many locales like French use an NBSP character as a group separator in numbers</li>
 			<li>French and Finnish use NBSP characters in their percentage and currency format patterns respectively</li>
 		</ul>
-		
+
 		<p>
 			So Dojo may generate formatted data with NBSP characters in it but cannot read NBSP charaters from user's input in some browser.
 		</p>
@@ -189,7 +189,7 @@
 			Most Bidi currency symbols contain an LTR-MARK (U+200F) character at the very beginning.
 			But Firefox ignores it when it is not in any escaping form. This should be a bug of Firefox.
 			For example, click <a href="javascript:alert('‏'.indexOf('\u200F'))"><code>alert('‏'.indexOf('\u+200F'))</code></a> (there is a U+200F in the empty-looking string):
-		</p>    
+		</p>
 		<ul>
 			<li>In Firefox, shows "-1" -- no U+200F found</li>
 			<li>In IE &amp; Opera, shows "0" -- the U+200F is found</li>
@@ -198,7 +198,7 @@
 			But if the U+200F is in some escaping form, Firefox will work as well as other browsers.
 			Click <a href="javascript:alert('\u200F'.indexOf('\u200F'))"><code>alert('\u200F'.indexOf('\u+200F'))</code></a> to see the same result both in Firefox and IE:
 		</p>
-		
+
 
 		<h3 class="testTitle"><a name="cmt_3">Issue #3<sup style="color:blue">Fixed: added a "localeDigit" to the options</sup></a></h3>
 		<p>

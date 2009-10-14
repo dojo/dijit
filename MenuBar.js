@@ -32,7 +32,7 @@ dojo.declare("dijit.MenuBar", dijit._MenuBase, {
 
 	focusChild: function(item){
 		// overload focusChild so that whenever the focus is moved to a new item,
-		// check the previous focused whether it has its popup open, if so, after 
+		// check the previous focused whether it has its popup open, if so, after
 		// focusing the new item, open its submenu immediately
 		var prev_item = this.focusedChild,
 			showpopup = prev_item && prev_item.popup && prev_item.popup.isShowingNow;
@@ -41,7 +41,7 @@ dojo.declare("dijit.MenuBar", dijit._MenuBase, {
 			this._openPopup();		// TODO: on down arrow, _openPopup() is called here and in onItemClick()
 		}
 	},
-	
+
 	_onKeyPress: function(/*Event*/ evt){
 		// summary:
 		//		Handle keyboard based menu navigation.

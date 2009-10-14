@@ -104,7 +104,7 @@ dojo.declare(
 			if(typeof constraints.min == "string"){ constraints.min = fromISO(constraints.min); }
  			if(typeof constraints.max == "string"){ constraints.max = fromISO(constraints.max); }
 		},
-		
+
 		_onFocus: function(/*Event*/ evt){
 			// summary:
 			//		open the popup
@@ -160,7 +160,7 @@ dojo.declare(
 						// 	disables dates outside of the min/max of the _DateTimeTextBox
 						var compare = dojo.date.compare;
 						var constraints = textBox.constraints;
-						return constraints && (constraints.min && (compare(constraints.min, date, textBox._selector) > 0) || 
+						return constraints && (constraints.min && (compare(constraints.min, date, textBox._selector) > 0) ||
 							(constraints.max && compare(constraints.max, date, textBox._selector) < 0));
 					}
 				});
@@ -176,7 +176,7 @@ dojo.declare(
 				});
 				this._opened=true;
 			}
-			
+
 			dojo.marginBox(this._picker.domNode,{ w:this.domNode.offsetWidth });
 		},
 
@@ -184,7 +184,7 @@ dojo.declare(
 			if(this._opened){
 				dijit.popup.close(this._picker);
 				this._opened=false;
-			}			
+			}
 		},
 
 		_onBlur: function(){
@@ -241,7 +241,7 @@ dojo.declare(
 			}else if(e.charOrCode === dk.TAB){
 				this._tabbingAway = true;
 			}else if(this._opened && (e.keyChar || e.charOrCode === dk.BACKSPACE || e.charOrCode == dk.DELETE)){
-				// Replace the element - but do it after a delay to allow for 
+				// Replace the element - but do it after a delay to allow for
 				// filtering to occur
 				setTimeout(dojo.hitch(this, function(){
 					dijit.placeOnScreenAroundElement(p.domNode.parentNode, this.domNode, {'BL':'TL', 'TL':'BL'}, p.orient ? dojo.hitch(p, "orient") : null);

@@ -15,8 +15,8 @@
 		dojo.require("doh.runner");
 		dojo.require("dijit.dijit");
 
-		dojo.declare("Baz", 
-			[ dijit._Widget, dijit._Templated ], 
+		dojo.declare("Baz",
+			[ dijit._Widget, dijit._Templated ],
 			{
 				templateString: "<div><div dojoAttachPoint='nameNode'></div><span>${attr1}</span></div>",
 
@@ -37,8 +37,8 @@
 				}
 			}
 		);
-		dojo.declare("Textbox", 
-			[ dijit._Widget, dijit._Templated ], 
+		dojo.declare("Textbox",
+			[ dijit._Widget, dijit._Templated ],
 			{
 				attributeMap: {id:"", dir:"", lang:"", "class":"", style:"", title:"", disabled: "", readonly: ""},
 				templateString: "<input>"
@@ -68,7 +68,7 @@
 				[
 					function attr(){
 						var b = new Baz();
-						
+
 						// widget attribute mapped to DOM node innerHTML
 						dojo.body().appendChild(b.domNode);
 						doh.is("howdy!", b.attr("name"));

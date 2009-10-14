@@ -1,8 +1,8 @@
-/** 
- * dijit.layout.Accordioncontainer 
+/**
+ * dijit.layout.Accordioncontainer
  *
- */ 
- 
+ */
+
 .soria .dijitAccordionContainer {
 	border-color: #b1badf;
 	background-color: #fff;
@@ -26,7 +26,7 @@
 	border-top: 1px solid #b9bbdd;
 	border-bottom: 1px solid #b9bbdd;
 	padding: 5px 4px 5px 8px;
-	cursor: default;	
+	cursor: default;
 	color: #243C5F;
 }
 

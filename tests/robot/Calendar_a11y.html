@@ -11,7 +11,7 @@
 		<!-- required: dojo.js -->
 		<script type="text/javascript" src="../../../dojo/dojo.js"
 			djConfig="isDebug: true"></script>
-			
+
 		<!-- functions to help test -->
 		<script type="text/javascript" src="../helpers.js"></script>
 
@@ -37,7 +37,7 @@
 							// refs to Calendar widget
 					    	cal1 = dijit.byId('calendar1');
 							cal1.attr("value", new Date(2009, 8, 16));
-	
+
 					    	// setup onChange handler to monitor onChange calls on cal1
 							dojo.connect(cal1, 'onChange', function(val){
 								console.log('onchange w/value: ', val);

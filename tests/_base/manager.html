@@ -26,7 +26,7 @@
 			attr1: 0,
 			attr2: 0
 		});
-		
+
 		dojo.declare("Baz", dijit._Widget, {
 			name: "",
 			attr1: 1,
@@ -87,25 +87,25 @@
 					function nullLengthTest(t){
 						var ws = new dijit.WidgetSet();
 						var count = 0;
-						
+
 						var b = [new Baz(), new Baz()];
 						ws.add(b[0]);
 						ws.add(b[1]);
-						
+
 						t.is(2, ws.length);
-						
+
 						ws.remove(b[0].id);
 						t.is(1, ws.length);
-						
+
 						ws.remove(b[1].id);
 						t.is(0, ws.length);
-						
+
 						// ensure we don't ever go below 0
 						ws.remove("invalidId");
 						t.is(0, ws.length);
-						
+
 						dojo.forEach(b, function(w){ w.destroy() });
-						
+
 					},
 					function forEachScope(t){
 						var obj = {
@@ -113,7 +113,7 @@
 								return widget.id;
 							}
 						};
-						
+
 						dijit.registry.forEach(function(w){
 							t.is(w.id, this.getIt(w));
 						}, obj);
@@ -135,19 +135,19 @@
 					function toArrayTest(t){
 						var ws = dijit.registry.byClass("bar");
 						var wa = ws.toArray();
-						
+
 						t.t(dojo.isArray(wa));
 						t.is(ws.length, wa.length);
 
-						var wda = dojo.map(wa, function(w){ 
+						var wda = dojo.map(wa, function(w){
 							return w.domNode;
 						});
-						
+
 						t.is(wda.length, ws.length);
 						var wdas = wda.slice(-1);
-						
+
 						t.is(1, wdas.length);
-						
+
 						var w = dijit.byNode(wdas[0]);
 						t.is(w.declaredClass, "bar");
 					},
@@ -161,20 +161,20 @@
 						});
 					},
 					function everyTest(t){
-						
+
 						var a = new Baz();
 						var b = new Baz();
-						
+
 						var hasid = dijit.registry.every(function(w){
 							return w.id;
 						});
-						
+
 						t.t(hasid);
-						
+
 						var hasattr1 = dijit.registry.every(function(w){
 							return w.attr1 > 0;
 						});
-						
+
 						t.t(hasattr1);
 
 						var x = 0;
@@ -187,22 +187,22 @@
 
 						a.destroy();
 						b.destroy();
-						
+
 					},
 					function someTest(t){
-						
+
 						var a = new Baz();
 						var b = new Baz();
-						
+
 						var x = 0;
 						var hasid = dijit.registry.some(function(w){
 							x++;
 							return w.id;
 						});
-						
+
 						t.is(1, x);
 						t.t(hasid);
-					
+
 						var n = 0;
 						var hasattr1 = dijit.registry.some(function(w){
 							n++;
@@ -221,7 +221,7 @@
 
 						a.destroy();
 						b.destroy();
-						
+
 					},
 					function deleteTest(t){
 						var names=[];

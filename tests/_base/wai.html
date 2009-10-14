@@ -33,60 +33,60 @@
 						doh.assertTrue(dijit.hasWaiRole(elem));
 						doh.assertEqual("menuitem", dijit.getWaiRole(elem));
 					},
-					
+
 					function getOnlyXHTMLRole(){
 						var elem=dojo.byId("navigation-role");
 						doh.assertFalse(dijit.hasWaiRole(elem, "contentinfo"));
 						doh.assertEqual("", dijit.getWaiRole(elem));
 					},
-			
+
 					function getWaiRoleFromMultiple(){
 						var elem=dojo.byId("multiple-role-wairole");
 						doh.assertTrue(dijit.hasWaiRole(elem, "menuitem"));
 						doh.assertEqual("menuitem", dijit.getWaiRole(elem));
 					},
-					
+
 					function getUnprefixedFromMultiple(){
 						var elem=dojo.byId("multiple-role");
 						doh.assertTrue(dijit.hasWaiRole(elem, "menuitem"));
 						doh.assertEqual("menuitem", dijit.getWaiRole(elem));
 					},
-				
+
 					function getReverseWairoleFromMultiple(){
 						var elem=dojo.byId("reverse-order-wairole");
 						doh.assertTrue(dijit.hasWaiRole(elem, "menuitem"));
 						doh.assertEqual("menuitem", dijit.getWaiRole(elem));
 					},
-					
+
 					function getReverseUnprefixedFromMultiple(){
 						var elem=dojo.byId("reverse-order-noprefix");
 						doh.assertTrue(dijit.hasWaiRole(elem, "menuitem"));
 						doh.assertEqual("menuitem", dijit.getWaiRole(elem));
 					},
-					
+
 					function hasWaiRoleMixedRole(){
 						var elem=dojo.byId("multiple-role");
 						doh.assertTrue(dijit.hasWaiRole(elem, "menuitem"));
 					},
-					
+
 					function hasWaiRoleXHTMLRole(){
 						var elem=dojo.byId("navigation-role");
 						doh.assertFalse(dijit.hasWaiRole(elem));
 					},
-					
+
 
 					function setWaiRole(){
 						var div = document.createElement("div");
 						dijit.setWaiRole(div, "menuitem");
 						doh.assertEqual("menuitem", div.getAttribute("role"));
 					},
-			
+
 					function setWaiRoleToExistingXHTML() {
 						var elem=dojo.byId("navigation-role");
 						dijit.setWaiRole(elem, "treeitem");
 						doh.assertEqual("contentinfo treeitem", elem.getAttribute("role"));
 					},
-					
+
 					function setWaiRoleToExistingWaiRole() {
 						var div= document.createElement("div");
 						dijit.setWaiRole(div, "menuitem");
@@ -94,7 +94,7 @@
 						dijit.setWaiRole(div, "treeitem");
 						doh.assertEqual("treeitem", div.getAttribute("role"));
 					},
-					
+
 					function setWaiRoleToExistingWaiAndXHTMLRole() {
 						var div= dojo.byId("navigation-role");
 						dijit.setWaiRole(div, "menuitem");
@@ -102,7 +102,7 @@
 						dijit.setWaiRole(div, "treeitem");
 						doh.assertEqual("contentinfo treeitem", div.getAttribute("role"));
 					},
-			
+
 					function removeAllWaiRole(){
 						var div = document.createElement("div");
 						dijit.setWaiRole(div, "menuitem");
@@ -115,7 +115,7 @@
 								|| div.getAttribute("role") == "");
 						}
 					},
-					
+
 					function removeAllRoleMultiple(){
 						var elem=dojo.byId("multiple-role");
 						dijit.removeWaiRole(elem);
@@ -126,7 +126,7 @@
 								|| elem.getAttribute("role") == "");
 						}
 					},
-					
+
 					function removeSingleRoleMultiple(){
 						var div= dojo.byId("navigation-role");
 						dijit.setWaiRole(div, "menuitem");
@@ -135,7 +135,7 @@
 						doh.assertFalse(dijit.hasWaiRole(div, "menuitem"));
 						doh.assertEqual("contentinfo", div.getAttribute("role"));
 					},
-					
+
 					function removeSingleReversedRoleMultiple(){
 						var div= document.createElement("div");
 						dijit.setWaiRole(div, "menuitem");
@@ -144,7 +144,7 @@
 						dijit.removeWaiRole(div, "menuitem");
 						doh.assertEqual("contentinfo", div.getAttribute("role"));
 					},
-									
+
 					function getWaiStateOnElementWithNoState(){
 						var elem = dojo.byId("no-role-or-states");
 						doh.assertFalse(dijit.hasWaiState(elem, "checked"));

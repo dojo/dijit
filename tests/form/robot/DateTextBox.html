@@ -41,7 +41,7 @@
 						});
 				    }
 				);
-							
+
 				doh.register("API", [
 					function initial(){
 						// initial conditions
@@ -310,7 +310,7 @@
 							doh.t(dojo.hasClass(firstRowDays[0], "dijitCalendarPreviousMonth"), "previous month class applied");
 							doh.is("28", innerText(firstRowDays[0]), "first day is may 28");
 							doh.is("1", innerText(firstRowDays[4]), "fifth day is june 1");
-							
+
 							dojo.query("TD", rows[5]).forEach(function(node){
 								doh.t(dojo.hasClass(node, 'dijitCalendarNextMonth'), "last row is for next month");
 							});

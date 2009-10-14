@@ -8,14 +8,14 @@
 	<title>Box Model (standards mode)</title>
 	<style type="text/css">
 		.box {
-			width: 48px; 
+			width: 48px;
 			padding: 25px;
 			background-color: yellow;
 			border: 1px solid black;
 		}
 		.dj_borderbox .box {
 			background-color: orange;
-			width: 100px; 
+			width: 100px;
 		}
 		.ruler {
 			background: url('http://sam-i-am.com/work/sandbox/measuring/ruler.gif') no-repeat;
@@ -29,7 +29,7 @@
 		dojo.addOnLoad(function() {
 			var node = dojo.byId("box1");
 			var reportNode = dojo.byId("log")
-			var inner = (reportNode.textContent) ? "textContent": "innerText"; 
+			var inner = (reportNode.textContent) ? "textContent": "innerText";
 			reportNode.innerHTML = dojo.toJson({
 				boxModel: dojo.boxModel,
 				isQuirks: dojo.isQuirks,

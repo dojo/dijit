@@ -11,7 +11,7 @@ dojo.declare("dijit.tests._data.SlowStore", dojo.data.ItemFileReadStore, {
 	//			1 or 2 characters: 1000ms,
 	//			3 characters: 500ms,
 	//			4 or more characters: 100ms.
-	//		
+	//
 
 	constructor: function(){
 		this.log = [];
@@ -84,9 +84,9 @@ dojo.declare("dijit.tests._data.SlowStore", dojo.data.ItemFileReadStore, {
 				count: count,
 				delay: delay
 			});
-			console.log("CANCEL query on " + (first || "{}") + " (" + count + " chars), delay = " + delay);	
+			console.log("CANCEL query on " + (first || "{}") + " (" + count + " chars), delay = " + delay);
 		};
-		
+
 		return keywordArgs;
 	}
 });

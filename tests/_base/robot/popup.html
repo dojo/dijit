@@ -11,7 +11,7 @@
 		<!-- required: dojo.js -->
 		<script type="text/javascript" src="../../../../dojo/dojo.js"
 			djConfig="isDebug: true"></script>
-			
+
 		<!-- functions to help test -->
 		<script type="text/javascript" src="../../helpers.js"></script>
 
@@ -40,7 +40,7 @@
 							popup = dojo.global.choiceDropDown;
 
 						around.openPopup();
-						
+
 						doh.robot.sequence(d.getTestCallback(function(){
 							doh.t(isVisible(popup.domNode), "popup is visible");
 
@@ -48,7 +48,7 @@
 								// Test the BackgroundIFrame
 								var iframes = dojo.query("iframe");
 								doh.is(1, iframes.length, "one background iframe on IE6");
-								
+
 								var popupCoords = dojo.position(popup.domNode),
 									iframeCoords = dojo.position(iframes[0]);
 								doh.is(popupCoords.x, iframeCoords.x, "x is same: " + popupCoords.x);
@@ -62,7 +62,7 @@
 
 						return d;
 					},
-					
+
 					function closeAround(){
 						// Close the popup
 						var around = dojo.global.choiceDropDownButton,
@@ -100,7 +100,7 @@
 							nestedPopup = dojo.global.nestedChoice1;
 
 						around.openPopup();
-						
+
 						doh.robot.sequence(d.getTestCallback(function(){
 							doh.t(isVisible(popup.domNode), "popup is visible");
 
@@ -108,7 +108,7 @@
 								// Test the BackgroundIFrame
 								var iframes = dojo.query("iframe");
 								doh.is(1, iframes.length, "one background iframe on IE6");
-								
+
 								var popupCoords = dojo.position(popup.domNode),
 									iframeCoords = dojo.position(iframes[0]);
 								doh.is(popupCoords.x, iframeCoords.x, "x is same: " + popupCoords.x);
@@ -122,7 +122,7 @@
 
 						return d;
 					},
-					
+
 					function openNested(){
 						var d = new doh.Deferred();
 
@@ -131,7 +131,7 @@
 							nestedPopup = dojo.global.nestedChoice1;
 
 						popup.openPopup(nestedPopup);
-						
+
 						doh.robot.sequence(d.getTestCallback(function(){
 							doh.t(isVisible(nestedPopup.domNode), "nested popup is visible");
 
@@ -139,7 +139,7 @@
 								// Test the BackgroundIFrame
 								var iframes = dojo.query("iframe");
 								doh.is(2, iframes.length, "two background iframe on IE6");
-								
+
 								var popupCoords = dojo.position(nestedPopup.domNode),
 									iframeCoords = dojo.position(iframes[1]);
 								doh.is(popupCoords.x, iframeCoords.x, "x is same: " + popupCoords.x);
@@ -153,7 +153,7 @@
 
 						return d;
 					},
-					
+
 					function closeAround(){
 						// Close the layer of popups
 						var around = dojo.global.choiceDropDownButton,
@@ -178,25 +178,25 @@
 				]);
 
 				// TODO: test x/y placement
-				
+
 				// Test that onCancel goes back one level.
 				// Call nestedChoice2.onCancel() and that should trigger nestedChoice2 to close
 				// but nestedOpener stays open.
 				// (TODO)
-				
+
 				// Test that onChange/onExecute goes back to top of popup chain.
 				// Call dialogNestedChoice2.onChange() and that should trigger dialogNestedChoice2
 				// and dialogNestedPopupOpener to close, but not dialogWithNestedPopup.
 				// (TODO)
-				
+
 				// ---------------------
 				// a11y tests
-				
+
 				// Test that ESC key closes one level of a popup chain.
 				// Focus nestedChoice2 and type ESC, and that should trigger nestedChoice2 to close
 				// but nestedOpener stays open.
 				// (TODO)
-								
+
 				// Test that TAB key cancels back to top of popup chain.
 				// Focus nestedChoice2 and type TAB, and that should trigger dialogNestedChoice2
 				// and dialogNestedPopupOpener to close, but not dialogWithNestedPopup.

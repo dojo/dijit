@@ -19,7 +19,7 @@
 			overflow: auto;
 		}
 	</style>
-	
+
 	<!-- required: the default dijit theme: -->
 	<link id="themeStyles" rel="stylesheet" href="../../../dijit/themes/tundra/tundra.css">
 
@@ -42,7 +42,7 @@
 		dojo.require("dijit.layout.LinkPane");
 		dojo.require("dijit.form.Button");
 		dojo.require("dojo.parser");	// scan page for widgets and instantiate them
-	
+
 		function testClose(pane,tab){
 		  return confirm("Please confirm that you want tab "+tab.title+" closed");
 		}
@@ -58,8 +58,8 @@
 		var progTabCounter = 1;
 		function makeTab(){
 			var tc = dijit.byId("mainTabContainer");
-			var cp = new dijit.layout.ContentPane({ 
-				title: 'Programmatically created tab ' + (progTabCounter++) , 
+			var cp = new dijit.layout.ContentPane({
+				title: 'Programmatically created tab ' + (progTabCounter++) ,
 				closable: true
 			});
 			cp.domNode.innerHTML = "I was created programmatically!";
@@ -75,27 +75,27 @@
 	files tab1.html and tab2.html. Tab 3 and Another Tab are using content that is already
 	part of this page.   Tab2 is initially selected. Attribute tabStrip is set to true
 	</p>
-	
+
 	<p>
-		More tabs can be displayed in the first two TabContainers by clicking the 
+		More tabs can be displayed in the first two TabContainers by clicking the
 		drop down control to the right of the widget.  If the tabs are not wider than
 		the widget, the scrolling controls should disappear - this can be tested by closing the
 		closable tabs.
 	</p>
-	
+
 	<button onclick="makeTab()">Click To Add Tab</button>
-	
+
 	<br><br>
-	
-	<div id="mainTabContainer" dojoType="dijit.layout.TabContainer" 
+
+	<div id="mainTabContainer" dojoType="dijit.layout.TabContainer"
 				persist="false" tabStrip="true" style="width: 400px;height: 20em;">
 
-		<div id="tab1" dojoType="dijit.layout.ContentPane" href="tab1.html" title="Tab 1" iconClass="plusIcon" 
+		<div id="tab1" dojoType="dijit.layout.ContentPane" href="tab1.html" title="Tab 1" iconClass="plusIcon"
 			tooltip="Tooltip for tab #1"></div>
 
 		<div id="tab2" dojoType="dijit.layout.ContentPane" href="tab2.html" refreshOnShow="true" title="Tab 2" iconClass="noteIcon" selected="true"></div>
 
-		<div dojoType="dijit.layout.ContentPane" id="tab3" title="Tab 3" 
+		<div dojoType="dijit.layout.ContentPane" id="tab3" title="Tab 3"
 				iconClass="dijitEditorIcon dijitEditorIconSave" closable="true">
 			<h1>I am tab 3</h1>
 			<p>And I was already part of the page! That's cool, no?</p>
@@ -127,8 +127,8 @@
 			</p>
 		</div>
 
-		<div dojoType="dijit.layout.TabContainer" id="inlined" title="Inlined Sub TabContainer" iconClass="plusIcon" nested="true">	
-			<a dojoType="dijit.layout.LinkPane" id="tab1href" href="tab1.html" onLoad="console.log('load of SubTab 1');" iconClass="plusIcon" >SubTab 1</a>		
+		<div dojoType="dijit.layout.TabContainer" id="inlined" title="Inlined Sub TabContainer" iconClass="plusIcon" nested="true">
+			<a dojoType="dijit.layout.LinkPane" id="tab1href" href="tab1.html" onLoad="console.log('load of SubTab 1');" iconClass="plusIcon" >SubTab 1</a>
 			<a dojoType="dijit.layout.LinkPane" id="tab2href" href="tab2.html"  onLoad="console.log('load of SubTab 2');" selected="true"  iconClass="dijitEditorIcon dijitEditorIconSave">SubTab 2</a>
 			<div dojoType="dijit.layout.ContentPane" id="subtab3" title="SubTab 3"  iconClass="dijitEditorIcon dijitEditorIconCut">
 				<h1>I am tab 3, inlined.</h1>
@@ -139,10 +139,10 @@
 		</div>
 
 		<a dojoType="dijit.layout.LinkPane" id="tab3href" href="tab3.html" refreshOnShow="true" closable="true"
-				style="padding: 0" iconClass="dijitEditorIcon dijitEditorIconSave">Sub TabContainer from href</a>	
-		<a dojoType="dijit.layout.LinkPane" id="tab4href" href="tab4.html" 
-				closable="true" iconClass="dijitEditorIcon dijitEditorIconCut">SplitContainer from href</a>	
-		<div dojoType="dijit.layout.ContentPane" id="embedded" title="Embedded layout widgets" 
+				style="padding: 0" iconClass="dijitEditorIcon dijitEditorIconSave">Sub TabContainer from href</a>
+		<a dojoType="dijit.layout.LinkPane" id="tab4href" href="tab4.html"
+				closable="true" iconClass="dijitEditorIcon dijitEditorIconCut">SplitContainer from href</a>
+		<div dojoType="dijit.layout.ContentPane" id="embedded" title="Embedded layout widgets"
 				closable="true" iconClass="dijitEditorIcon dijitEditorIconCopy">
 			<p>
 				The tab has some text, plus two embedded layout widgets, which should
@@ -186,7 +186,7 @@
 			<p>
 				And a TabContainer:
 			</p>
-			<div dojoType="dijit.layout.TabContainer" id="embeddedTC" style="height:200px; width:300px">	
+			<div dojoType="dijit.layout.TabContainer" id="embeddedTC" style="height:200px; width:300px">
 				<div dojoType="dijit.layout.ContentPane" id="embeddedTab1" title="Tab 1">
 					1Sed arcu magna, molestie at, fringilla in, sodales eu, elit.
 					Curabitur mattis lorem et est. Quisque et tortor. Integer bibendum
@@ -223,14 +223,14 @@
 			</p>
 		</div>
 	</div>
-	
+
 	<button onclick="dijit.byId('tab1').attr('title', 'Tab 1 Renamed');">Rename Tab #1</button>
 	<button onclick="dijit.byId('tab1').attr('closable', !dijit.byId('tab1').attr('closable'));">Toggle Tab #1 closable</button>
 	<br/>
 	<p>
 		This tab container has the Menu function for selecting tabs disabled, using <b>useMenu="false"</b>
 	</p>
-	
+
 	<div dojoType="dijit.layout.TabContainer" useMenu="false"
 				persist="false" tabStrip="true" style="width: 400px;height: 20em;">
 		<div  dojoType="dijit.layout.ContentPane" href="tab1.html" title="Tab 1"></div>
@@ -269,8 +269,8 @@
 			</p>
 		</div>
 
-		<div dojoType="dijit.layout.TabContainer"  closable="true" title="Inlined Sub TabContainer" nested="true">	
-			<a dojoType="dijit.layout.LinkPane"  href="tab1.html" onLoad="console.log('load of SubTab 1');">SubTab 1</a>		
+		<div dojoType="dijit.layout.TabContainer"  closable="true" title="Inlined Sub TabContainer" nested="true">
+			<a dojoType="dijit.layout.LinkPane"  href="tab1.html" onLoad="console.log('load of SubTab 1');">SubTab 1</a>
 			<a dojoType="dijit.layout.LinkPane"  href="tab2.html"  onLoad="console.log('load of SubTab 2');" selected="true">SubTab 2</a>
 			<div dojoType="dijit.layout.ContentPane"  title="SubTab 3">
 				<h1>I am tab 3, inlined.</h1>
@@ -280,9 +280,9 @@
 			</div>
 		</div>
 
-		<a dojoType="dijit.layout.LinkPane"  href="tab3.html" closable="true" refreshOnShow="true" style="padding: 0">Sub TabContainer from href</a>	
+		<a dojoType="dijit.layout.LinkPane"  href="tab3.html" closable="true" refreshOnShow="true" style="padding: 0">Sub TabContainer from href</a>
 
-		<a dojoType="dijit.layout.LinkPane"  closable="true" href="tab4.html">SplitContainer from href</a>	
+		<a dojoType="dijit.layout.LinkPane"  closable="true" href="tab4.html">SplitContainer from href</a>
 
 		<div dojoType="dijit.layout.ContentPane"  closable="true" title="Embedded layout widgets">
 			<p>
@@ -327,7 +327,7 @@
 			<p>
 				And a TabContainer:
 			</p>
-			<div dojoType="dijit.layout.TabContainer"  style="height:200px; width:300px">	
+			<div dojoType="dijit.layout.TabContainer"  style="height:200px; width:300px">
 				<div dojoType="dijit.layout.ContentPane" title="Tab 1">
 					1Sed arcu magna, molestie at, fringilla in, sodales eu, elit.
 					Curabitur mattis lorem et est. Quisque et tortor. Integer bibendum
@@ -364,8 +364,8 @@
 			</p>
 		</div>
 	</div>
-	
-	
+
+
 	<br/>
 
 	<p>Tabs w/only icons (except in high-contrast mode where labels display):</p>
@@ -417,8 +417,8 @@
 			</p>
 		</div>
 
-		<div dojoType="dijit.layout.TabContainer"  closable="true" title="Inlined Sub TabContainer" nested="true">	
-			<a dojoType="dijit.layout.LinkPane"  href="tab1.html" onLoad="console.log('load of SubTab 1');">SubTab 1</a>		
+		<div dojoType="dijit.layout.TabContainer"  closable="true" title="Inlined Sub TabContainer" nested="true">
+			<a dojoType="dijit.layout.LinkPane"  href="tab1.html" onLoad="console.log('load of SubTab 1');">SubTab 1</a>
 			<a dojoType="dijit.layout.LinkPane"  href="tab2.html"  onLoad="console.log('load of SubTab 2');" selected="true">SubTab 2</a>
 			<div dojoType="dijit.layout.ContentPane"  title="SubTab 3">
 				<h1>I am tab 3, inlined.</h1>
@@ -428,9 +428,9 @@
 			</div>
 		</div>
 
-		<a dojoType="dijit.layout.LinkPane"  href="tab3.html" closable="true" refreshOnShow="true" style="padding: 0">Sub TabContainer from href</a>	
+		<a dojoType="dijit.layout.LinkPane"  href="tab3.html" closable="true" refreshOnShow="true" style="padding: 0">Sub TabContainer from href</a>
 
-		<a dojoType="dijit.layout.LinkPane"  closable="true" href="tab4.html">SplitContainer from href</a>	
+		<a dojoType="dijit.layout.LinkPane"  closable="true" href="tab4.html">SplitContainer from href</a>
 
 		<div dojoType="dijit.layout.ContentPane"  closable="true" title="Embedded layout widgets">
 			<p>
@@ -475,7 +475,7 @@
 			<p>
 				And a TabContainer:
 			</p>
-			<div dojoType="dijit.layout.TabContainer"  style="height:200px; width:300px">	
+			<div dojoType="dijit.layout.TabContainer"  style="height:200px; width:300px">
 				<div dojoType="dijit.layout.ContentPane" title="Tab 1">
 					1Sed arcu magna, molestie at, fringilla in, sodales eu, elit.
 					Curabitur mattis lorem et est. Quisque et tortor. Integer bibendum
@@ -554,8 +554,8 @@
 			</p>
 		</div>
 
-		<div dojoType="dijit.layout.TabContainer"  closable="true" title="Inlined Sub TabContainer" nested="true">	
-			<a dojoType="dijit.layout.LinkPane"  href="tab1.html" onLoad="console.log('load of SubTab 1');">SubTab 1</a>		
+		<div dojoType="dijit.layout.TabContainer"  closable="true" title="Inlined Sub TabContainer" nested="true">
+			<a dojoType="dijit.layout.LinkPane"  href="tab1.html" onLoad="console.log('load of SubTab 1');">SubTab 1</a>
 			<a dojoType="dijit.layout.LinkPane"  href="tab2.html"  onLoad="console.log('load of SubTab 2');" selected="true">SubTab 2</a>
 			<div dojoType="dijit.layout.ContentPane"  title="SubTab 3">
 				<h1>I am tab 3, inlined.</h1>
@@ -565,9 +565,9 @@
 			</div>
 		</div>
 
-		<a dojoType="dijit.layout.LinkPane"  href="tab3.html" closable="true" refreshOnShow="true" style="padding: 0">Sub TabContainer from href</a>	
+		<a dojoType="dijit.layout.LinkPane"  href="tab3.html" closable="true" refreshOnShow="true" style="padding: 0">Sub TabContainer from href</a>
 
-		<a dojoType="dijit.layout.LinkPane"  closable="true" href="tab4.html">SplitContainer from href</a>	
+		<a dojoType="dijit.layout.LinkPane"  closable="true" href="tab4.html">SplitContainer from href</a>
 
 		<div dojoType="dijit.layout.ContentPane"  closable="true" title="Embedded layout widgets">
 			<p>
@@ -612,7 +612,7 @@
 			<p>
 				And a TabContainer:
 			</p>
-			<div dojoType="dijit.layout.TabContainer"  style="height:200px; width:300px">	
+			<div dojoType="dijit.layout.TabContainer"  style="height:200px; width:300px">
 				<div dojoType="dijit.layout.ContentPane" title="Tab 1">
 					1Sed arcu magna, molestie at, fringilla in, sodales eu, elit.
 					Curabitur mattis lorem et est. Quisque et tortor. Integer bibendum
@@ -649,14 +649,14 @@
 			</p>
 		</div>
 	</div>
-	
+
 	<p>These tabs are made up of local and external content. Tab 1 and Tab 2 are loading
 	files tab1.html and tab2.html. Tab 3 and Another Tab are using content that is already
-	part of this page.   Tab2 is initially selected. Attribute tabStrip is set to true, 
+	part of this page.   Tab2 is initially selected. Attribute tabStrip is set to true,
 	and the tabPosition is "bottom"
 	</p>
 
-	<div id="mainTabContainerBottom" dojoType="dijit.layout.TabContainer" tabPosition="bottom" 
+	<div id="mainTabContainerBottom" dojoType="dijit.layout.TabContainer" tabPosition="bottom"
 				persist="true" tabStrip="true" style="width: 400px; height: 20em;">
 
 		<div dojoType="dijit.layout.ContentPane" href="tab1.html" title="Tab 1"></div>
@@ -694,8 +694,8 @@
 			</p>
 		</div>
 
-		<div dojoType="dijit.layout.TabContainer" closable="true" title="Inlined Sub TabContainer" nested="true">	
-			<a dojoType="dijit.layout.LinkPane"  href="tab1.html" onLoad="console.log('load of SubTab 1');">SubTab 1</a>		
+		<div dojoType="dijit.layout.TabContainer" closable="true" title="Inlined Sub TabContainer" nested="true">
+			<a dojoType="dijit.layout.LinkPane"  href="tab1.html" onLoad="console.log('load of SubTab 1');">SubTab 1</a>
 			<a dojoType="dijit.layout.LinkPane"  href="tab2.html"  onLoad="console.log('load of SubTab 2');" selected="true">SubTab 2</a>
 			<div dojoType="dijit.layout.ContentPane"  title="SubTab 3">
 				<h1>I am tab 3, inlined.</h1>
@@ -705,9 +705,9 @@
 			</div>
 		</div>
 
-		<a dojoType="dijit.layout.LinkPane" closable="true" href="tab3.html" refreshOnShow="true" style="padding: 0">Sub TabContainer from href</a>	
+		<a dojoType="dijit.layout.LinkPane" closable="true" href="tab3.html" refreshOnShow="true" style="padding: 0">Sub TabContainer from href</a>
 
-		<a dojoType="dijit.layout.LinkPane" closable="true" href="tab4.html">SplitContainer from href</a>	
+		<a dojoType="dijit.layout.LinkPane" closable="true" href="tab4.html">SplitContainer from href</a>
 
 		<div dojoType="dijit.layout.ContentPane" closable="true" title="Embedded layout widgets">
 			<p>
@@ -752,7 +752,7 @@
 			<p>
 				And a TabContainer:
 			</p>
-			<div dojoType="dijit.layout.TabContainer" style="height:200px; width:300px">	
+			<div dojoType="dijit.layout.TabContainer" style="height:200px; width:300px">
 				<div dojoType="dijit.layout.ContentPane" title="Tab 1">
 					1Sed arcu magna, molestie at, fringilla in, sodales eu, elit.
 					Curabitur mattis lorem et est. Quisque et tortor. Integer bibendum
@@ -793,8 +793,8 @@
 	<p>
 		This tab container has its tabs at the bottom, and the tab strip disabled
 	</p>
-	
-	<div dojoType="dijit.layout.TabContainer" tabPosition="bottom" 
+
+	<div dojoType="dijit.layout.TabContainer" tabPosition="bottom"
 				persist="true" tabStrip="false" style="width: 400px; height: 20em;">
 
 		<div dojoType="dijit.layout.ContentPane" href="tab1.html" title="Tab 1"></div>
@@ -832,8 +832,8 @@
 			</p>
 		</div>
 
-		<div dojoType="dijit.layout.TabContainer" closable="true" title="Inlined Sub TabContainer" nested="true">	
-			<a dojoType="dijit.layout.LinkPane"  href="tab1.html" onLoad="console.log('load of SubTab 1');">SubTab 1</a>		
+		<div dojoType="dijit.layout.TabContainer" closable="true" title="Inlined Sub TabContainer" nested="true">
+			<a dojoType="dijit.layout.LinkPane"  href="tab1.html" onLoad="console.log('load of SubTab 1');">SubTab 1</a>
 			<a dojoType="dijit.layout.LinkPane"  href="tab2.html"  onLoad="console.log('load of SubTab 2');" selected="true">SubTab 2</a>
 			<div dojoType="dijit.layout.ContentPane"  title="SubTab 3">
 				<h1>I am tab 3, inlined.</h1>
@@ -843,9 +843,9 @@
 			</div>
 		</div>
 
-		<a dojoType="dijit.layout.LinkPane" closable="true" href="tab3.html" refreshOnShow="true" style="padding: 0">Sub TabContainer from href</a>	
+		<a dojoType="dijit.layout.LinkPane" closable="true" href="tab3.html" refreshOnShow="true" style="padding: 0">Sub TabContainer from href</a>
 
-		<a dojoType="dijit.layout.LinkPane" closable="true" href="tab4.html">SplitContainer from href</a>	
+		<a dojoType="dijit.layout.LinkPane" closable="true" href="tab4.html">SplitContainer from href</a>
 
 		<div dojoType="dijit.layout.ContentPane" closable="true" title="Embedded layout widgets">
 			<p>
@@ -890,7 +890,7 @@
 			<p>
 				And a TabContainer:
 			</p>
-			<div dojoType="dijit.layout.TabContainer" style="height:200px; width:300px">	
+			<div dojoType="dijit.layout.TabContainer" style="height:200px; width:300px">
 				<div dojoType="dijit.layout.ContentPane" title="Tab 1">
 					1Sed arcu magna, molestie at, fringilla in, sodales eu, elit.
 					Curabitur mattis lorem et est. Quisque et tortor. Integer bibendum
@@ -952,7 +952,7 @@
 		<div id="btab1" dojoType="dijit.layout.ContentPane" href="tab1.html" title="Tab 1" closable="true"></div>
 		<div id="btab2" dojoType="dijit.layout.ContentPane" href="tab2.html" refreshOnShow="true" onLoad="console.debug('Tab2 onLoad');" title="Tab 2"></div>
 	</div>
-	
+
 	<p>Tabs with titles on the left and tabStrip="false":</p>
 
 	<div dojoType="dijit.layout.TabContainer" style="width:500px;height:100px" tabStrip="false" tabPosition="left-h">
@@ -1024,7 +1024,7 @@
 			up the mountain.
 		</div>
 	</div>
-	
+
 	<p>Tabs with titles on the right and tabStrip=false:</p>
 
 	<div dojoType="dijit.layout.TabContainer" tabStrip="false" style="width:500px;height:100px" tabPosition="right-h">

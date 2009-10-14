@@ -46,7 +46,7 @@ dojo.declare("dijit._editor.plugins._FontDropDown",
 
 		// Set some substitution variables used in the template
 		this.label = this.strings[this.command];
-		this.id = dijit.getUniqueId(this.declaredClass.replace(/\./g,"_"));		
+		this.id = dijit.getUniqueId(this.declaredClass.replace(/\./g,"_"));
 		this.selectId = this.id + "_select";
 
 		this.inherited(arguments);

@@ -52,9 +52,9 @@ dojo.mixin(dijit, {
 		//		Determines if an element has a particular non-XHTML role.
 		// returns:
 		//		True if elem has the specific non-XHTML role attribute and false if not.
-		// 		For backwards compatibility if role parameter not provided, 
-		// 		returns true if has non XHTML role 
-		var waiRole = this.getWaiRole(elem);		
+		// 		For backwards compatibility if role parameter not provided,
+		// 		returns true if has non XHTML role
+		var waiRole = this.getWaiRole(elem);
 		return role ? (waiRole.indexOf(role) > -1) : (waiRole.length > 0);
 	},
 
@@ -72,7 +72,7 @@ dojo.mixin(dijit, {
 		//		Sets the role on an element.
 		// description:
 		//		Replace existing role attribute with new role.
-		//		If elem already has an XHTML role, append this role to XHTML role 
+		//		If elem already has an XHTML role, append this role to XHTML role
 		//		and remove other ARIA roles.
 
 		var curRole = dojo.attr(elem, "role") || "";
@@ -81,7 +81,7 @@ dojo.mixin(dijit, {
 		}else{
 			if((" "+ curRole +" ").indexOf(" " + role + " ") < 0){
 				var clearXhtml = dojo.trim(curRole.replace(this._XhtmlRoles, ""));
-				var cleanRole = dojo.trim(curRole.replace(clearXhtml, ""));	 
+				var cleanRole = dojo.trim(curRole.replace(clearXhtml, ""));
 				dojo.attr(elem, "role", cleanRole + (cleanRole ? ' ' : '') + role);
 			}
 		}
@@ -92,13 +92,13 @@ dojo.mixin(dijit, {
 		//		Removes the specified non-XHTML role from an element.
 		// 		Removes role attribute if no specific role provided (for backwards compat.)
 
-		var roleValue = dojo.attr(elem, "role"); 
+		var roleValue = dojo.attr(elem, "role");
 		if(!roleValue){ return; }
 		if(role){
 			var t = dojo.trim((" " + roleValue + " ").replace(" " + role + " ", " "));
 			dojo.attr(elem, "role", t);
 		}else{
-			elem.removeAttribute("role");	
+			elem.removeAttribute("role");
 		}
 	},
 

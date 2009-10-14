@@ -305,9 +305,9 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 				if(this._onChangeHandle){
 					clearTimeout(this._onChangeHandle);
 				}
-				// setTimout allows hidden value processing to run and 
+				// setTimout allows hidden value processing to run and
 				// also the onChange handler can safely adjust focus, etc
-				this._onChangeHandle = setTimeout(dojo.hitch(this, 
+				this._onChangeHandle = setTimeout(dojo.hitch(this,
 					function(){
 						this._onChangeHandle = null;
 						this.onChange(newValue);
@@ -425,7 +425,7 @@ dojo.declare("dijit.form._FormValueWidget", dijit.form._FormWidget,
 	_onKeyDown: function(e){
 		if(e.keyCode == dojo.keys.ESCAPE && !(e.ctrlKey || e.altKey || e.metaKey)){
 			var te;
-			if(dojo.isIE){ 
+			if(dojo.isIE){
 				e.preventDefault(); // default behavior needs to be stopped here since keypress is too late
 				te = document.createEventObject();
 				te.keyCode = dojo.keys.ESCAPE;

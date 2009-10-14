@@ -15,7 +15,7 @@ dojo.declare("dijit.MenuSeparator",
 		postCreate: function(){
 			dojo.setSelectable(this.domNode, false);
 		},
-		
+
 		isFocusable: function(){
 			// summary:
 			//		Override to always return false

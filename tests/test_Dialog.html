@@ -12,15 +12,15 @@
 		table { border: none; }
 		#dialog3_underlay { background-color: #027 }
 		#fifthDlg_underlay { background-color: yellow; }
-	</style>		
+	</style>
 
 	<!-- required: a default dijit theme: -->
 	<link id="themeStyles" rel="stylesheet" href="../../dijit/themes/tundra/tundra.css">
-	
+
 	<!-- required: dojo.js -->
 	<script type="text/javascript" src="../../dojo/dojo.js"
 		djConfig="parseOnLoad: true, isDebug: true"></script>
-	
+
 	<!-- not needed, for testing alternate themes -->
 	<script type="text/javascript" src="_testCommon.js"></script>
 
@@ -38,7 +38,7 @@
 		dojo.require("dijit.layout.TabContainer");
 		dojo.require("dijit.InlineEditBox");
 		dojo.require("dijit.Menu");
-		dojo.require("dojo.parser");	// scan page for widgets and instantiate them			
+		dojo.require("dojo.parser");	// scan page for widgets and instantiate them
 
 		// create a do nothing, only for test widget
 		dojo.declare("dijit.TestWidget",
@@ -48,12 +48,12 @@
 
 		// make dojo.toJson() print dates correctly (this feels a bit dirty)
 		Date.prototype.json = function(){ return dojo.date.stamp.toISOString(this, {selector: 'date'});};
-		
+
 		var thirdDlg;
 		function createDialog() {
-			if(!thirdDlg){	
+			if(!thirdDlg){
 				var pane = dojo.byId('thirdDialog');
-				pane.style.width = "300px"; 	
+				pane.style.width = "300px";
 				thirdDlg = new dijit.Dialog({
 					id: "dialog3",
 					title: "Programatic Dialog Creation"
@@ -71,7 +71,7 @@
 	</script>
 </head>
 <body class="tundra">
-	
+
 	<h1 class="testTitle">Dijit layout.Dialog tests</h1>
 	<button dojoType="dijit.form.Button"  id="dialog1button" onclick="dijit.byId('dialog1').show()">Show Dialog</button> |
 
@@ -211,13 +211,13 @@
 	</div>
 
 	<button dojoType="dijit.form.Button" onclick="dijit.byId('preventer').show()">Show Close prevention</button>
-	
+
 	<div dojoType="dijit.Dialog" id="preventer" title="Confirm Close">
-		I am done entering data: 
+		I am done entering data:
 		<button dojoType="dijit.form.Button" id="preventerOK" type="submit" onClick="return confirm('Are you sure?')">OK</button>
 	</div>
 
-	<button dojoType="dijit.form.Button" onclick="dijit.byId('embedded').show()">Dialog w/embedded layout widgets</button> | 
+	<button dojoType="dijit.form.Button" onclick="dijit.byId('embedded').show()">Dialog w/embedded layout widgets</button> |
 
 	<div dojoType="dijit.Dialog" id="embedded" title="Embedded layout widgets"
 		onShow="dojo.attr(this.domNode, 'aria-describedby', 'describe');" >
@@ -263,7 +263,7 @@
 		<p>
 			And a TabContainer:
 		</p>
-		<div dojoType="dijit.layout.TabContainer" style="height:200px; width:300px">	
+		<div dojoType="dijit.layout.TabContainer" style="height:200px; width:300px">
 			<div dojoType="dijit.layout.ContentPane" title="Tab 1">
 				1Sed arcu magna, molestie at, fringilla in, sodales eu, elit.
 				Curabitur mattis lorem et est. Quisque et tortor. Integer bibendum
@@ -429,14 +429,14 @@
 
 	<p>
 	<button dojoType="dijit.form.Button" onClick="dijit.byId('dialog1').show()">Show Dialog</button> |
-	<!-- showing a dialog from an anchor with inline onclick="" is a solution to page onUnLoad firing 
+	<!-- showing a dialog from an anchor with inline onclick="" is a solution to page onUnLoad firing
 		but you must return false; alternatively, you can dojo.connect() to the anchor links, and
-		e.preventDefault() on the event object passed. using href="javascript:" inline causes onUnLoad 
+		e.preventDefault() on the event object passed. using href="javascript:" inline causes onUnLoad
 		to destroy all widgets in IE6
 	-->
 	<a href="http://dojotoolkit.org" onclick="dijit.byId('dialog1').show(); return false; ">Show Dialog</a>
 	</p>
-	
+
 	<p>
 	Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean
 	semper sagittis velit. Cras in mi. Duis porta mauris ut ligula. Proin

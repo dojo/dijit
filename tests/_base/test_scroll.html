@@ -55,9 +55,9 @@
 				function test_absContent(){
 					var minScrollX, minScrollY, maxScrollX, maxScrollY;
 					if(dojo.isIE){
-						maxScrollX = -10 - sb; 
+						maxScrollX = -10 - sb;
 						maxScrollY = (dojo.isIE >= 8)? maxScrollX : (-38 - sb);
-						minScrollX = "+"+(10 + sb); 
+						minScrollX = "+"+(10 + sb);
 						minScrollY = "+"+(10 + sb);
 					}else{
 						maxScrollX = maxScrollY = "-"+(sb+10);
@@ -67,7 +67,7 @@
 					if(dojo.isIE == 7){ minScrollX = "-90"; }
 					generateTestXY('absContent_loose_rtl', maxScrollX, maxScrollY, minScrollX, minScrollY);
 					if(dojo.isIE){
-						maxScrollX = (dojo.isIE >= 7? -10 : -6) - sb; 
+						maxScrollX = (dojo.isIE >= 7? -10 : -6) - sb;
 						maxScrollY = (dojo.isIE >= 7? -38 : -34) - sb;
 						minScrollY = minScrollX = "+"+(-maxScrollX);
 					}else{
@@ -76,8 +76,8 @@
 					}
 					generateTestXY('absContent_quirks', maxScrollX, maxScrollY, minScrollX, minScrollY);
 					if(dojo.isIE < 8){
-						maxScrollX = Math.round((dojo.isIE >= 7? -10 : -6) - sb * 1.027); 
-						minScrollX = "+" + ((dojo.isIE >= 7? 10 : 6) + sb - Math.round(sb * 0.027)); 
+						maxScrollX = Math.round((dojo.isIE >= 7? -10 : -6) - sb * 1.027);
+						minScrollX = "+" + ((dojo.isIE >= 7? 10 : 6) + sb - Math.round(sb * 0.027));
 					}
 					generateTestXY('absContent_quirks_rtl', maxScrollX, maxScrollY, minScrollX, minScrollY);
 				},
@@ -595,7 +595,7 @@ console.log('!!!!!!!!!!!! scrollbar size = ' + sb);
 		}else if(doctype=="loose"){
 			iframeSrc += "<!DOCTYPE HTML PUBLIC '-//W3C//DTD HTML 4.0 Transitional//EN' 'http://www.w3.org/TR/html4/loose.dtd'>\n";
 			content = content.replace(/[A-Z0-9_]*(\b|_)[TZ]_[A-Z0-9_]*/g, "");
-		}else{ 
+		}else{
 			if(dojo.isWebKit){
 				iframeSrc += "<!DOCTYPE HTML PUBLIC '-//W3C//DTD HTML 4.01 Transitional//EN'>\n"; // quirks: needed for WebKit's javascript: protocol
 			}
@@ -616,7 +616,7 @@ console.log('!!!!!!!!!!!! scrollbar size = ' + sb);
 				content = content.substr(j+8);
 			}
 		}
-		iframeSrc += 
+		iframeSrc +=
 		'<HTML dir='+(rtl?'rtl':'ltr')+'>'+
 		'<HEAD>'+
 			'<STYLE>'+
@@ -675,7 +675,7 @@ console.log('!!!!!!!!!!!! scrollbar size = ' + sb);
 		srcNode.innerHTML = "";
 		srcNode.removeAttribute('style');
 		srcNode.className = "";
-		
+
 		makeIframe("strict", false);
 		makeIframe("quirks", false);
 		makeIframe("loose", true);

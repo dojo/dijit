@@ -19,7 +19,7 @@
 			overflow: auto;
 		}
 	</style>
-	
+
 	<!-- required: the default dijit theme: -->
 	<link id="themeStyles" rel="stylesheet" href="../../../dijit/themes/tundra/tundra.css">
 
@@ -67,7 +67,7 @@
 	<button onclick="dijit.byId('mainTabContainer').destroyRecursive();">destroy tab container</button>
 
 	<div id="mainTabContainer" dojoType="dijit.layout.TabContainer" doLayout="false" style="width: 900px;">
-	
+
 		<div id="tab1" dojoType="dijit.layout.ContentPane" href="tab1.html" title="Tab 1"></div>
 
 		<div id="tab2" dojoType="dijit.layout.ContentPane" href="tab2.html" refreshOnShow="true" title="Tab 2" selected="true"></div>
@@ -103,12 +103,12 @@
 			</p>
 		</div>
 
-		<div dojoType="dijit.layout.TabContainer" title="Inlined Sub TabContainer" doLayout="false" style="width: 90%">	
-			<a dojoType="dijit.layout.LinkPane" href="tab1.html">SubTab 1</a>		
+		<div dojoType="dijit.layout.TabContainer" title="Inlined Sub TabContainer" doLayout="false" style="width: 90%">
+			<a dojoType="dijit.layout.LinkPane" href="tab1.html">SubTab 1</a>
 			<a dojoType="dijit.layout.LinkPane" href="tab2.html" selected="true">SubTab 2</a>
 		</div>
 
-		<a dojoType="dijit.layout.LinkPane" href="tab3_noLayout.html" doLayout="false">Sub TabContainer from href</a>	
+		<a dojoType="dijit.layout.LinkPane" href="tab3_noLayout.html" doLayout="false">Sub TabContainer from href</a>
 	</div>
 
 	<p>

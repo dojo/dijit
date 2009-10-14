@@ -10,12 +10,12 @@ dojo.declare("dijit.ToolbarSeparator",
 		//		A spacer between two `dijit.Toolbar` items
 		templateString: '<div class="dijitToolbarSeparator dijitInline"></div>',
 		postCreate: function(){ dojo.setSelectable(this.domNode, false); },
-		isFocusable: function(){ 
+		isFocusable: function(){
 			// summary:
 			//		This widget isn't focusable, so pass along that fact.
 			// tags:
 			//		protected
-			return false; 
+			return false;
 		}
 
 	});

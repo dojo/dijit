@@ -765,7 +765,7 @@
 						return d;
 					}
 				});
-				
+
 				doh.register("readonly", [
 					{
 						name: "readonly",
@@ -777,10 +777,10 @@
 						},
 						runTest: function(){
 							var d = new doh.Deferred();
-							
+
 							// Tab into element (readonly *can* be focused, although disabled can't)
 							doh.robot.keyPress(dojo.keys.TAB, 500, {shift: true});
-							
+
 							// typing on a disabled element should have no effect
 							doh.robot.typeKeys('abc', 500, 300);
 
@@ -826,7 +826,7 @@
 						runTest: function(){
 							var d = new doh.Deferred(),
 								textbox = dijit.byId("q24");
-							
+
 							//  Clicking shouldn't have any effect since it's disabled
 							doh.robot.mouseMoveAt(textbox.focusNode, 500);
 							doh.robot.mouseClick({left: true}, 500);

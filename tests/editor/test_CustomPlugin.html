@@ -11,11 +11,11 @@
 
 	<!-- required: a default dijit theme: -->
 	<link id="themeStyles" rel="stylesheet" href="../../../dijit/themes/tundra/tundra.css">
-	
+
 	<!-- required: dojo.js -->
 	<script type="text/javascript" src="../../../dojo/dojo.js"
 		djConfig="parseOnLoad: true, isDebug: true"></script>
-	
+
 	<!-- not needed, for testing alternate themes -->
 	<script type="text/javascript" src="../_testCommon.js"></script>
 
@@ -51,7 +51,7 @@
 					this.iconClassPrefix = "customIcon";
 					this.inherited(arguments);
 					delete this.command; // kludge so setEditor doesn't make the button invisible
-					this.connect(this.button, "onClick", this._toggleSource);	
+					this.connect(this.button, "onClick", this._toggleSource);
 				},
 
 				destroy: function(f){

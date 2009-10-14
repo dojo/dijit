@@ -25,7 +25,7 @@
 				var editor0, editor1, editor2, editor3;
 				var fsPlugin;
 				var vsPlugin;
-				
+
 				doh.register("ViewSource_Tests", [
 					{
 						name: "Keyboard: Go to view source (CTRL-SHIFT-F12)",
@@ -384,7 +384,7 @@
 												simpleScript1 +
 												"\n" +
 												vsPlugin.sourceArea.value;
-											vsPlugin.sourceArea.value = val; 
+											vsPlugin.sourceArea.value = val;
 										}, 1000);
 										doh.robot.keyPress(dojo.keys.F12, 1000, {ctrl:true,shift:true});
 										doh.robot.sequence(d.getTestCallback(function(){
@@ -392,7 +392,7 @@
 											var val = editor0.attr("value");
 											doh.assertEqual(-1, val.indexOf("Hack!"), "Validating inline script tag was stripped");
 											doh.assertEqual(-1, val.indexOf("hack.js"), "Validating import script tag was stripped");
-											editor0.attr("value", oldValue);											
+											editor0.attr("value", oldValue);
 										}), 2000);
 									}catch(e){
 										d.errback(e);
@@ -444,14 +444,14 @@
 												complexScript +
 												"\n\n" +
 												vsPlugin.sourceArea.value;
-											vsPlugin.sourceArea.value = val; 
+											vsPlugin.sourceArea.value = val;
 										}, 1000);
 										doh.robot.keyPress(dojo.keys.F12, 500, {ctrl:true,shift:true});
 										doh.robot.sequence(d.getTestCallback(function(){
 											//Now check the state!
 											var val = editor0.attr("value");
 											doh.assertEqual(-1, val.indexOf("< scrIPt "), "Validating script tag was stripped");
-											editor0.attr("value", oldValue);											
+											editor0.attr("value", oldValue);
 										}), 2000);
 									}catch(e){
 										d.errback(e);
@@ -505,7 +505,7 @@
 												simpleComment +
 												"\n\n" +
 												vsPlugin.sourceArea.value;
-											vsPlugin.sourceArea.value = val; 
+											vsPlugin.sourceArea.value = val;
 										}, 1000);
 										doh.robot.keyPress(dojo.keys.F12, 500, {ctrl:true,shift:true});
 
@@ -513,7 +513,7 @@
 											//Now check the state!
 											var val = editor0.attr("value");
 											doh.assertEqual(-1, val.indexOf("Hello, this is a comment!"), "Validating comment block was stripped");
-											editor0.attr("value", oldValue);											
+											editor0.attr("value", oldValue);
 										}), 2000);
 									}catch(e){
 										d.errback(e);
@@ -567,7 +567,7 @@
 												"-->\n" +
 												"\n\n" +
 												vsPlugin.sourceArea.value;
-											vsPlugin.sourceArea.value = val; 
+											vsPlugin.sourceArea.value = val;
 										}, 1000);
 										doh.robot.keyPress(dojo.keys.F12, 1000, {ctrl:true,shift:true});
 
@@ -575,7 +575,7 @@
 											//Now check the state!
 											var val = editor0.attr("value");
 											doh.assertEqual(-1, val.indexOf("Hello, this is a comment!"), "Validating multiline comment block was stripped");
-											editor0.attr("value", oldValue);											
+											editor0.attr("value", oldValue);
 										}), 2000);
 									}catch(e){
 										d.errback(e);
@@ -630,7 +630,7 @@
 												simpleiFrame +
 												"\n\n" +
 												vsPlugin.sourceArea.value;
-											vsPlugin.sourceArea.value = val; 
+											vsPlugin.sourceArea.value = val;
 										}, 1000);
 										doh.robot.keyPress(dojo.keys.F12, 1000, {ctrl:true,shift:true});
 
@@ -638,7 +638,7 @@
 											//Now check the state!
 											var val = editor0.attr("value");
 											doh.assertEqual(-1, val.indexOf("<iframe"), "Validating iframe tag was stripped stripped");
-											editor0.attr("value", oldValue);											
+											editor0.attr("value", oldValue);
 										}), 2000);
 									}catch(e){
 										d.errback(e);
@@ -699,25 +699,25 @@
 												simpleScript1 +
 												"\n" +
 												"</div>" +
-												"\n\n" + 
+												"\n\n" +
 												simpleiFrame +
-												"\n\n" + 
+												"\n\n" +
 												simpleComment +
-												"\n\n" + 
+												"\n\n" +
 												vsPlugin.sourceArea.value;
-											vsPlugin.sourceArea.value = val; 
+											vsPlugin.sourceArea.value = val;
 										}, 1000);
 										doh.robot.keyPress(dojo.keys.F12, 1000, {ctrl:true,shift:true});
 										doh.robot.sequence(d.getTestCallback(function(){
 											//Now check the state!
 											var val = editor3.attr("value");
-											// IE strips scripts anyway, need to look more at this sometime. 
+											// IE strips scripts anyway, need to look more at this sometime.
 											// It's not the plugin doing it.
 											doh.assertTrue((0 <= val.indexOf("Hack!")) || dojo.isIE, "Validating inline script tag was left");
 											doh.assertTrue((0 <= val.indexOf("hack.js") || dojo.isIE), "Validating import script tag was left");
 											doh.assertTrue(0 <= val.indexOf("<iframe"), "Validating iframe tag was left");
 											doh.assertTrue(0 <= val.indexOf("Hello, this is a comment!"), "Validating comment was left");
-											editor3.attr("value", oldValue);											
+											editor3.attr("value", oldValue);
 										}), 2000);
 									}catch(e){
 										d.errback(e);

@@ -15,7 +15,7 @@ dojo.declare("dijit.form.Button",
 	//		attribute.  It can be hidden via showLabel=false.
 	// example:
 	// |	<button dojoType="dijit.form.Button" onClick="...">Hello world</button>
-	// 
+	//
 	// example:
 	// |	var button1 = new dijit.form.Button({label: "hello world", onClick: foo});
 	// |	dojo.body().appendChild(button1.domNode);
@@ -29,7 +29,7 @@ dojo.declare("dijit.form.Button",
 	// showLabel: Boolean
 	//		Set this to true to hide the label text and display only the icon.
 	//		(If showLabel=false then iconClass must be specified.)
-	//		Especially useful for toolbars.  
+	//		Especially useful for toolbars.
 	//		If showLabel=true, the label will become the title (a.k.a. tooltip/hint) of the icon.
 	//
 	//		The exception case is for computers in high-contrast mode, where the label
@@ -52,7 +52,7 @@ dojo.declare("dijit.form.Button",
 		label: { node: "containerNode", type: "innerHTML" },
 		iconClass: { node: "iconNode", type: "class" }
 	}),
-		
+
 
 	_onClick: function(/*Event*/ e){
 		// summary:
@@ -141,7 +141,7 @@ dojo.declare("dijit.form.Button",
 		if(this.showLabel == false && !this.params.title){
 			this.titleNode.title = dojo.trim(this.containerNode.innerText || this.containerNode.textContent || '');
 		}
-	}		
+	}
 });
 
 
@@ -157,8 +157,8 @@ dojo.declare("dijit.form.DropDownButton", [dijit.form.Button, dijit._Container, 
 	// example:
 	// |	var button1 = new dijit.form.DropDownButton({ label: "hi", dropDown: new dijit.Menu(...) });
 	// |	dojo.body().appendChild(button1);
-	// 	
-	
+	//
+
 	baseClass : "dijitDropDownButton",
 
 	templateString: dojo.cache("dijit.form" , "templates/DropDownButton.html"),
@@ -202,21 +202,21 @@ dojo.declare("dijit.form.DropDownButton", [dijit.form.Button, dijit._Container, 
 		return (!dropDown.href || dropDown.isLoaded);
 	},
 
-	loadDropDown: function(){ 
+	loadDropDown: function(){
 		// Loads our dropdown
 		var dropDown = this.dropDown;
 		if(!dropDown){ return; }
-		if(!this.isLoaded()){ 
-			var handler = dojo.connect(dropDown, "onLoad", function(){ 
-				dojo.disconnect(handler); 
-				this.openDropDown(); 
-			}); 
-			dropDown.refresh(); 
-		}else{ 
-			this.openDropDown(); 		
+		if(!this.isLoaded()){
+			var handler = dojo.connect(dropDown, "onLoad", function(){
+				dojo.disconnect(handler);
+				this.openDropDown();
+			});
+			dropDown.refresh();
+		}else{
+			this.openDropDown();
 		}
 	},
-	
+
 	isFocusable: function(){
 		// Overridden so that focus is handled by the _HasDropDown mixin, not by
 		// the _FormWidget mixin.
@@ -239,7 +239,7 @@ dojo.declare("dijit.form.ComboButton", dijit.form.DropDownButton, {
 	// example:
 	// |	var button1 = new dijit.form.ComboButton({label: "hello world", onClick: foo, dropDown: "myMenu"});
 	// |	dojo.body().appendChild(button1.domNode);
-	// 
+	//
 
 	templateString: dojo.cache("dijit.form", "templates/ComboButton.html"),
 
@@ -387,7 +387,7 @@ dojo.declare("dijit.form.ToggleButton", dijit.form.Button, {
 		this.checked = value;
 		dojo.attr(this.focusNode || this.domNode, "checked", value);
 		dijit.setWaiState(this.focusNode || this.domNode, "pressed", value);
-		this._setStateClass();		
+		this._setStateClass();
 		this._handleOnChange(value, true);
 	},
 
@@ -397,7 +397,7 @@ dojo.declare("dijit.form.ToggleButton", dijit.form.Button, {
 		dojo.deprecated("setChecked("+checked+") is deprecated. Use attr('checked',"+checked+") instead.", "", "2.0");
 		this.attr('checked', checked);
 	},
-	
+
 	reset: function(){
 		// summary:
 		//		Reset the widget's value to what it was at initialization time

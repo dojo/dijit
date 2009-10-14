@@ -35,7 +35,7 @@ dojo.declare(
 	// href: String
 	//		The href of the content that displays now.
 	//		Set this at construction if you want to load data externally when the
-	//		pane is shown.	(Set preload=true to load it immediately.)
+	//		pane is shown.  (Set preload=true to load it immediately.)
 	//		Changing href after creation doesn't have any effect; use attr('href', ...);
 	href: "",
 
@@ -54,11 +54,11 @@ dojo.declare(
 
 	// parseOnLoad: Boolean
 	//		Parse content and create the widgets, if any.
-	parseOnLoad:	true,
+	parseOnLoad: true,
 
 	// preventCache: Boolean
 	//		Prevent caching of data from href's by appending a timestamp to the href.
-	preventCache:	false,
+	preventCache: false,
 
 	// preload: Boolean
 	//		Force load of data on initialization even if pane is hidden.

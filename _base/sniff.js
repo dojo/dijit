@@ -14,7 +14,7 @@
 dojo.provide("dijit._base.sniff");
 
 (function(){
-	
+
 	var d = dojo,
 		html = d.doc.documentElement,
 		ie = d.isIE,
@@ -42,9 +42,9 @@ dojo.provide("dijit._base.sniff");
 			dj_gecko: d.isMozilla,
 			dj_ff3: maj(ff) == 3
 		}; // no dojo unsupported browsers
-		
+
 	classes["dj_" + boxModel] = true;
-	
+
 	// apply browser, browser version, and box model class names
 	for(var p in classes){
 		if(classes[p]){
@@ -69,5 +69,5 @@ dojo.provide("dijit._base.sniff");
 			}
 		}
 	});
-	
+
 })();

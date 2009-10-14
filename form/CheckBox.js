@@ -67,7 +67,7 @@ dojo.declare(
 			//		attr('value', val).
 			// description:
 			//		During initialization, just saves as attribute to the <input type=checkbox>.
-			//		
+			//
 			//		After initialization,
 			//		when passed a boolean, controls whether or not the CheckBox is checked.
 			//		If passed a string, changes the value attribute of the CheckBox (the one
@@ -103,7 +103,7 @@ dojo.declare(
 
 			this.inherited(arguments);
 		},
-		
+
 		 _fillContent: function(/*DomNode*/ source){
 			// Override Button::_fillContent() since it doesn't make sense for CheckBox,
 			// since CheckBox doesn't even have a container
@@ -120,7 +120,7 @@ dojo.declare(
 			this.value = this.params.value || "on";
 			dojo.attr(this.focusNode, 'value', this.value);
 		},
-		
+
 		_onFocus: function(){
 			if(this.id){
 				dojo.query("label[for='"+this.id+"']").addClass("dijitFocusedLabel");

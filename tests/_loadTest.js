@@ -33,10 +33,10 @@ var text = readFile(file) || (file + " not found");
 var baseHref = file.replace(/^(.*\/)?[^\/]+$/, "$1");
 if(baseHref){
 	baseHref = window.location.href.replace(/[?].*/, "").replace(/[^\/]*$/, "")+baseHref;
-	text = text.replace(/(<HEAD\b([^>]|\s)*>)/i, "$1" + "<BASE href='" + baseHref + "'><\/BASE>"); 
+	text = text.replace(/(<HEAD\b([^>]|\s)*>)/i, "$1" + "<BASE href='" + baseHref + "'><\/BASE>");
 }
 // strip DOCTYPE and HTML tag
-text = text.replace(/^(.|\s)*?<html\b\S*\s*(([^>]|\s)*)\s*>((.|\s)*)<\/html\b([^>]|\s)*>(.|\s)*?$/i, 
+text = text.replace(/^(.|\s)*?<html\b\S*\s*(([^>]|\s)*)\s*>((.|\s)*)<\/html\b([^>]|\s)*>(.|\s)*?$/i,
 	function(s,a1,htmlAttrs,a3,content){
 		// add attributes from target file's HTML tag - may not be necessary but we'll do it anyway for completeness
 		htmlAttrs = htmlAttrs.replace(/((\w+)\s*=\s*(['"]?)(.*?)(\3)?(\s+|$))/g,

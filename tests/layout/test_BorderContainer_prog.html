@@ -27,7 +27,7 @@
 		var bc, cp1, cp2, cp3;
         dojo.addOnLoad(function(){
                 bc = new dijit.layout.BorderContainer({style:'height:400px;width:500px;border:1px solid black'}, dojo.byId('main'));
-                
+
 				cp1 = new dijit.layout.ContentPane({region:'top',style:'height:100px;background-color:red',splitter:true});
 				cp1.domNode.innerHTML = "top pane";
 				bc.addChild(cp1);
@@ -38,7 +38,7 @@
 
                 bc.startup();
         });
-        
+
         function addLeftPane(){
 			cp3 = new dijit.layout.ContentPane({region:'left', splitter: true, style:'width: 100px;'});
 			cp3.domNode.innerHTML = "left pane";

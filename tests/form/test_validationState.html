@@ -35,13 +35,13 @@
 			<table>
 				<tr>
 					<td><label for="name">Name:</label></td>
-					<td><input id="name" dojoType="dijit.form.ValidationTextBox" 
+					<td><input id="name" dojoType="dijit.form.ValidationTextBox"
 						required="true" name="name" /></td>
 				</tr>
 				<tr id="newRow" style="display: none;">
 					<td><label for="lastName">Last Name:</label></td>
 					<td><input id="lastName" /></td>
-				</tr>				
+				</tr>
 				<tr>
 					<td><label for="birth">Birthdate (before 2006-12-31):</label></td>
 					<td><div><input id="birth" dojoType="dijit.form.DateTextBox" value="2000-01-01"
@@ -53,7 +53,7 @@
 				</tr>
 				<tr>
 					<td><label for="notes">Notes (optional)</label></td>
-					<td><input id="notes" dojoType="dijit.form.TextBox" 
+					<td><input id="notes" dojoType="dijit.form.TextBox"
 						name="notes" /></td>
 				</tr>
 				<tr id="newRow2" style="display: none;">
@@ -84,7 +84,7 @@
 					new dijit.form.FilteringSelect({name: "color",
 													required: true},
 													dojo.byId("color"));
-					new dijit.form.ValidationTextBox({name: "lastName", 
+					new dijit.form.ValidationTextBox({name: "lastName",
 													required: true},
 													dojo.byId("lastName"));
 					dojo.byId("newRow").style.display = "";

@@ -15,14 +15,14 @@
 			.letter p { font-family: monospace; }
 			h3 { font-family: helvetica; font-style: italic; }
 		</style>
-		
+
 		<!-- required: a default dijit theme: -->
 		<link id="themeStyles" rel="stylesheet" href="../../dijit/themes/tundra/tundra.css">
-		
+
 		<!-- required: dojo.js -->
 		<script type="text/javascript" src="../../dojo/dojo.js"
 			djConfig="parseOnLoad: true, isDebug: true"></script>
-		
+
 		<!-- not needed, for testing alternate themes -->
 		<script type="text/javascript" src="_testCommon.js"></script>
 
@@ -69,7 +69,7 @@
 		<span dojoType="dojo.data.ItemFileReadStore" jsId="productStore">
 			<script type="dojo/method">
 				this._jsonData =
-					{ identifier: 'name', 
+					{ identifier: 'name',
 					  label: 'name',
 					  items: [
 						{ name: "refrigerator" },
@@ -184,7 +184,7 @@ semper velit ante id metus. Praesent massa dolor, porttitor sed,
 pulvinar in, consequat ut, leo. Nullam nec est. Aenean id risus blandit
 tortor pharetra congue. Suspendisse pulvinar.
 		</p>
-		(before editable paragraph.  the editable paragraph has Save/Cancel buttons when open.)		
+		(before editable paragraph.  the editable paragraph has Save/Cancel buttons when open.)
 		<p id="areaEditable" dojoType="dijit.InlineEditBox" autoSave="false" editor="dijit.form.Textarea">
 			Aliquam vitae enim. Duis scelerisque metus auctor est venenatis
 imperdiet. Fusce dignissim porta augue. Nulla vestibulum. Integer lorem
@@ -227,7 +227,7 @@ tortor pharetra congue. Suspendisse pulvinar.
 			don't make the InlineEditBox itself a &lt;p&gt; because that would cause nested
 			&lt;p&gt;s, which is illegal, and messes up IE
 		</p>
-		
+
 		<h2>FilteringSelect (no down arrow, and save/cancel buttons):</h2>
 		before
 		<span id="filteringSelect2" dojoType="dijit.InlineEditBox" editor="dijit.form.FilteringSelect"
@@ -238,7 +238,7 @@ tortor pharetra congue. Suspendisse pulvinar.
 		<button onclick="dijit.byId('filteringSelect2').edit();return false;">Edit previous value</button>
 		after
 		<hr style="width:100%;">
-		
+
 		<h2>Programmatically created:</h2>
 		before block<div style="display:block;" id="programmatic">Click here to edit a block programmatically created inline edit region</div>after
 		<script type="text/javascript">

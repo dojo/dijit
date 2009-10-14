@@ -140,7 +140,7 @@
 		<div dojoType="dijit.Menu" tyle="display: none;">
 			<div dojoType="dijit.MenuItem" iconClass="dijitEditorIcon dijitEditorIconSave"
 				onClick="console.log('not actually saving anything, just a test!')">Save</div>
-			<div dojoType="dijit.MenuItem" 
+			<div dojoType="dijit.MenuItem"
 				onClick="console.log('not actually saving anything, just a test!')">Save As</div>
 		</div>
 	</button>
@@ -150,7 +150,7 @@
 		<div dojoType="dijit.Menu" style="display: none;">
 			<div dojoType="dijit.MenuItem" iconClass="dijitEditorIcon dijitEditorIconSave"
 				onClick="console.log('not actually saving anything, just a test!')">Save</div>
-			<div dojoType="dijit.MenuItem" 
+			<div dojoType="dijit.MenuItem"
 				onClick="console.log('not actually saving anything, just a test!')">Save As</div>
 		</div>
 	</button>
@@ -160,7 +160,7 @@
 		<div dojoType="dijit.Menu" style="display: none;">
 			<div dojoType="dijit.MenuItem" iconClass="dijitEditorIcon dijitEditorIconSave"
 				onClick="console.log('not actually saving anything, just a test!')">Save</div>
-			<div dojoType="dijit.MenuItem" 
+			<div dojoType="dijit.MenuItem"
 				onClick="console.log('not actually saving anything, just a test!')">Save As</div>
 		</div>
 	</button>
@@ -177,7 +177,7 @@
 	<h2>Buttons with no text label</h2>
 	<p>Buttons have showLabel=false so text is not displayed.  If no title attribute supplied, Should have label as title attribute displayed on mouse over</p>
 	<div class="box">
-		<button id="1466" dojoType="dijit.form.Button" title="title attrib rather than label" onClick='console.log("clicked simple button with no text label")' 
+		<button id="1466" dojoType="dijit.form.Button" title="title attrib rather than label" onClick='console.log("clicked simple button with no text label")'
 		iconClass="plusIcon" showLabel="false">
 		<span><b>Rich</b><i> Text</i> Test!</span>
 		</button>
@@ -202,7 +202,7 @@
 	<h2>Toggle buttons</h2>
 	<p>The button CSS as well as the icon CSS can change on toggle </p>
 	<div class="box">
-		<button dojoType="dijit.form.ToggleButton" id="toggle1" checked onChange="console.log('toggled button checked='+arguments[0]);this.attr('label',arguments[0] == 
+		<button dojoType="dijit.form.ToggleButton" id="toggle1" checked onChange="console.log('toggled button checked='+arguments[0]);this.attr('label',arguments[0] ==
 		true ? 'toggle me off' : 'toggle me on');" iconClass="dijitCheckBoxIcon">
 			Toggle me off
 		</button>
@@ -382,12 +382,12 @@
     </script>
     <button id="createButton" onclick="createButton();">create dropdown button</button>
     <button id="destroyButton" onclick="destroyButton();">destroy dropdown button</button>
-	
+
 	<h3>Submit and Reset Buttons</h3>
 	<div>Testing that submit and reset buttons work properly.  OnSubmit and OnReset handlers
 		for the form just output to the console.
 	</div>
-	<form dojoType="dijit.form.Form" id="testForm" name="testForm" 
+	<form dojoType="dijit.form.Form" id="testForm" name="testForm"
 		encType="multipart/form-data" action="../formAction.html" method="" >
 		<script type="dojo/method" event="onReset">
 			console.log("testForm onReset invoked");
@@ -400,6 +400,6 @@
 		<button dojoType="dijit.form.Button" type="submit" id="bSubmit">Submit</button>&nbsp;&nbsp;
 		<button dojoType="dijit.form.Button" type="reset" id="bReset">Reset</button>
 	</form>
-		
+
 </body>
 </html>

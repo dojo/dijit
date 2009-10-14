@@ -10,7 +10,7 @@
 		@import "css/dijitTests.css";
 
 		body { padding: 0; }
-		
+
 		/* styling for left-hand-side navigation menu to become a column equal to length of page */
 		#formattingTable {
 			border: 0px;
@@ -30,11 +30,11 @@
 
 	<!-- required: a default dijit theme: -->
 	<link id="themeStyles" rel="stylesheet" href="../../dijit/themes/tundra/tundra.css">
-	
+
 	<!-- required: dojo.js -->
 	<script type="text/javascript" src="../../dojo/dojo.js"
 		djConfig="parseOnLoad: true, isDebug: true"></script>
-	
+
 	<!-- not needed, for testing alternate themes -->
 	<script type="text/javascript" src="_testCommon.js"></script>
 
@@ -50,12 +50,12 @@
 		dojo.require("dijit.ColorPalette");
 		dojo.require("dojo.parser");	// scan page for widgets and instantiate them
 	</script>
-    
+
     <script language="Javascript" type="text/javascript">
         function createMenu() {
             // create a menu programmatically
             function fClick() {console.log("clicked!")};
-            
+
             pMenu = new dijit.Menu({targetNodeIds:["prog_menu"], id:"progMenu"});
             pMenu.addChild(new dijit.MenuItem({label:"Programmatic Context Menu", disabled:true}));
             pMenu.addChild(new dijit.MenuSeparator());
@@ -73,30 +73,30 @@
             pSubMenu.addChild(new dijit.MenuItem({label:"Submenu item", onClick:fClick}));
             pSubMenu.addChild(new dijit.MenuItem({label:"Submenu item", onClick:fClick}));
             pMenu.addChild(new dijit.PopupMenuItem({label:"Submenu", popup:pSubMenu, id:"progPopupMenuItem"}));
-            
+
             pMenu.startup();
-            
+
 	    updateButtons(true);
             dojo.byId("prog_menu").innerHTML="This div has a programmatic context menu on it that's different to the page menu.";
 
             dojo.byId("createButton").disabled = true;
             dojo.byId("destroyButton").disabled = false;
         }
-        
+
         function destroyMenu(){
         	pMenu.destroyRecursive();
             updateButtons(false);
         }
-	
+
 	function updateButtons(created){
             dojo.byId("prog_menu").innerHTML=created?"This div has a programmatic context menu on it that's different to the page menu.":"No programmatic menu on this div, should get page level menu.";
             dojo.byId("createButton").disabled = created;
             dojo.byId("destroyButton").disabled = !created;
 	}
 	dojo.addOnLoad(function(){
-		// need to explicitly update our buttons states, otherwise the 
-		// browser will remember the last states of them before reloading 
-		// (so a programmatic menu is created, reload, and "the create 
+		// need to explicitly update our buttons states, otherwise the
+		// browser will remember the last states of them before reloading
+		// (so a programmatic menu is created, reload, and "the create
 		// programmatic menu" button is still in disabled state)
 		updateButtons(false);
 	});
@@ -205,8 +205,8 @@
 		<tr>
 			<td width="0%">
 				<!-- This is here for tabIndex testing.
-				     Use textarea since Chrome 1.0 likes it better for TABing and 
-				     because it has innerText property and because it doesn't mess 
+				     Use textarea since Chrome 1.0 likes it better for TABing and
+				     because it has innerText property and because it doesn't mess
 				     with the URL when clicked -->
 				<textarea id="link" tabIndex="0" readOnly class="dijitReset" style="font-family:monospace;font-size:12px;width:84px;text-decoration:underline;overflow:hidden;background-color:transparent;" rows=1>random link</textarea>
 			</td>
@@ -266,12 +266,12 @@
 					<div dojoType="dijit.MenuBarItem" onclick="console.log('no submenu, just a clickable MenuItem');">
 						Click me!
 					</div>
-				</div>	
+				</div>
 			</td>
 		</tr>
 		<tr>
 			<td id="navMenuContainer" valign=top width="0%">
-			
+
 				<h3 style="margin-bottom: 2em;">Navigation menu:</h3>
 				<div dojoType="dijit.Menu" id="navMenu">
 					<div dojoType="dijit.MenuItem" iconClass="dijitEditorIcon dijitEditorIconPaste"
@@ -316,9 +316,9 @@
 			</td>
 
 			<td style="padding: 1em" id="contentContainer">
-		
+
 				<h1 class="testTitle">Dijit Menu System Test</h1>
-				
+
 				<p>This page contains:</p>
 				<ul>
 					<li>"Navigation bar" Menu widget on left, a.k.a vertical MenuBar
@@ -328,9 +328,9 @@
 					<li>Example of programatically created menu
 					<li>Note: while some accelerator (shortcut) keys are displayed in the context menu, they are not actually hooked up to the corresponding actions (if any), they need to be setup explicitly by the user
 				</ul>
-		
+
 				<h3>Form</h3>
-		
+
 				<form>
 					<p style="float:right; text-align: right;">
 						left click to open the menu for this input:<br/>
@@ -349,53 +349,53 @@
 					</select>
 					<button id=button>push me</button>
 				</form>
-		
+
 			    <div id="prog_menu" style="clear: both; border:1px solid blue; padding:10px; margin:20px 0;">
 			        Click button below to create special menu on this div.
 			    </div>
 			    <button id="createButton" onclick="createMenu();">create programmatic menu</button>
 			    <button id="destroyButton" onclick="destroyMenu();" disabled>destroy programmatic menu</button>
-		
+
 				<div style="height:500px"></div>
 				<p>(this space intentionally left blank to aid testing with controls
 				at the bottom of the browser window)</p>
 				<div style="height:500px"></div>
 				<input id=input3 value="bottom-left">
 				<p style="text-align:right"><input id=input4 value="bottom-right"></p>
-		
+
 				<p>See also: <a href="form/test_Button.html">form/test_Button</a>
 				(PopupMenu is used with DropDownButton and ComboButton)</p>
-		
+
 				<h3>Mouse opening tests</h3>
-		
+
 				<ul>
 					<li>Right click on the client area of the page (ctrl-click for Macintosh). Menu should open.</li>
 					<li>Right click on each of the form controls above. Menu should open.</li>
 					<li>Right click near the righthand window border. Menu should open to the left of the pointer.</li>
 					<li>Right click near the bottom window border. Menu should open above the pointer.</li>
 				</ul>
-		
-		
+
+
 				<h3>Mouse hover tests</h3>
-		
+
 				<ul>
 					<li>Hover over the first item with the pointer. Item should highlight and get focus.</li>
 					<li>Hover over the second (disabled) item. Item should highlight and get focus.</li>
 					<li>Seperator items should not highlight on hover - no items should highlight in this case.</li>
 				</ul>
-		
-		
+
+
 				<h3>Mouse click tests</h3>
-		
+
 				<ul>
 					<li>Click on the first menu item. console.log should log the message "Hello world". The menu should dissapear.</li>
 					<li>Click on the second menu item (disabled). Should not do anything - focus should remain on the disabled item.</li>
 					<li>Click anywhere outside the menu. Menu should close. Focus will be set by the browser based on where the user clicks.</li>
 				</ul>
-		
-		
+
+
 				<h3>Mouse submenu tests</h3>
-		
+
 				<ul>
 					<li>Hover over the "Enabled Submenu" item. Item should highlight and then pop open a submenu after a short (500ms) delay.</li>
 					<li>Hover over any of the other menu items. Submenu should close immediately and deselect the submenu parent item. The newly hovered item should become selected.</li>
@@ -405,39 +405,39 @@
 					<li>Hover over submenu item 1. Should select it - the parent menu item should stay selected also.</li>
 					<li>Hover over submenu item 2. Should select it - the parent menu item should stay selected also.</li>
 				</ul>
-		
-		
+
+
 				<h3>Keyboard opening tests</h3>
-		
+
 				<ul>
 					<li>On Windows: press shift-f10 with focus on any of the form controls. Should open the menu.</li>
 					<li>On Windows: press the context menu key (located on the right of the space bar on North American keyboards) with focus on any of the form controls. Should open the menu.</li>
 					<li>On Firefox on the Mac: press ctrl-space with focus on any of the form controls. Should open the menu.</li>
 				</ul>
-		
-		
+
+
 				<h3>Keyboard closing tests</h3>
-		
+
 				<ul>
 					<li>Open the menu.</li>
 					<li>Press tab. Should close the menu and return focus to where it was before the menu was opened.</li>
 					<li>Open the menu.</li>
 					<li>Press escape. Should close the menu and return focus to where it was before the menu was opened.</li>
 				</ul>
-		
-		
+
+
 				<h3>Keyboard navigation tests</h3>
-		
+
 				<ul>
 					<li>Open the menu.</li>
 					<li>Pressing up or down arrow should cycle focus through the items in that menu.</li>
 					<li>Pressing enter or space should invoke the menu item.</li>
 					<li>Disabled items receive focus but no action is taken upon pressing enter or space.</li>
 				</ul>
-		
-		
+
+
 				<h3>Keyboard submenu tests</h3>
-		
+
 				<ul>
 					<li>Open the menu.</li>
 					<li>The first item should become selected.</li>

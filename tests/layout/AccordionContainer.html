@@ -37,7 +37,7 @@
 						name: "create",
 						runTest: function(t){
 							accordion = new dijit.layout.AccordionContainer({style: "width: 400px; height: 400px;"}, dojo.byId("accordionShell"));
-							
+
 							dojo.forEach([ "pane 1", "pane 2", "pane 3" ], function(title, i){
 								var content = new dijit.layout.ContentPane({id: title, title: title, selected: i==1});
 								content.containerNode.innerHTML = "this is " + title;
@@ -59,7 +59,7 @@
 							var openPanes = dojo.query("> .dijitVisible", accordion.containerNode);
 							t.is(1, openPanes.length, "exactly one open pane");
 							t.is("pane 2", dijit.byNode(openPanes[0]).title, "pane 2 is initially open");
-							
+
 							// And others are closed
 							var closedPanes = dojo.query("> .dijitHidden", accordion.containerNode);
 							t.is(2, closedPanes.length, "n-1 closed panes");
@@ -116,7 +116,7 @@
 							var openPanes = dojo.query("> .dijitVisible", accordion.containerNode);
 							t.is(1, openPanes.length, "exactly one open pane");
 							t.is("pane 2", dijit.byNode(openPanes[0]).title, "pane 2 is initially open");
-							
+
 							// And others are closed
 							var closedPanes = dojo.query("> .dijitHidden", accordion.containerNode);
 							t.is(3, closedPanes.length, "n-1 closed panes");
@@ -150,7 +150,7 @@
 					}
 				]
 			);
-			
+
 			doh.run();
 		});
 	</script>

@@ -3,4 +3,4 @@
 	buttonCancel: "Cancelar",
 	buttonSave: "Guardar",
 	itemClose: "Fechar"
-}) 
+})

@@ -11,7 +11,7 @@
 		<!-- required: dojo.js -->
 		<script type="text/javascript" src="../../../../dojo/dojo.js"
 			djConfig="isDebug: true, parseOnLoad: true"></script>
-			
+
 		<script type="text/javascript">
 			dojo.require("dijit.dijit");
 			dojo.require("dijit.robotx");
@@ -55,7 +55,7 @@
 
 							doh.robot.sequence(d.getTestCallback(function(){
 								// Make sure that focus manager caught the focus event
-								doh.is(dojo.byId("first"), dojo.global.dijit._curFocus);			
+								doh.is(dojo.byId("first"), dojo.global.dijit._curFocus);
 
 								// And that the dijit.form.Form widget is marked as
 								// being "in focus"
@@ -80,14 +80,14 @@
 								// Focus goes to an <input> node deep inside of select.domNode,
 								// but that <input> node has the id of the widget
 								doh.is(dojo.byId("select"), dojo.global.dijit._curFocus);
-								
+
 								// The focus stack should show the ComboBox plus all parent widgets
 								var stack = dojo.global.dijit._activeStack;
 								doh.is(3, stack.length, "3 active widgets in stack");
 								doh.is("form", stack[0], "grandparent of combobox");
 								doh.is("fieldset1", stack[1], "parent of combobox");
 								doh.is("select", stack[2], "combobox itself (last in stack)");
-								
+
 								// _onFocus()/_onBlur was called appropriately
 								doh.f(focusEvents["form"], "form was already focused, no duplicate event");
 								doh.f(blurEvents["form"], "form wasn't blurred");
@@ -153,7 +153,7 @@
 							return d;
 						}
 					},
-					
+
 					{
 						name: "combo button menu",
 						timeout: 4000,
@@ -169,7 +169,7 @@
 							doh.robot.sequence(d.getTestCallback(function(){
 								// Focus goes to an first item in the drop down menu
 								doh.is(dojo.byId("mi1"), dojo.global.dijit._curFocus);
-								
+
 								// The focus stack should show the ComboBox plus all parent widgets
 								var stack = dojo.global.dijit._activeStack;
 								console.log("menu stack is ", stack);
@@ -201,7 +201,7 @@
 							doh.robot.sequence(d.getTestCallback(function(){
 								// Focus goes to an first item in the sub menu
 								doh.is(dojo.byId("smi1"), dojo.global.dijit._curFocus);
-								
+
 								// The focus stack should show the two submenus and then upwards
 								// to the ComboButton, and the rest
 								var stack = dojo.global.dijit._activeStack;

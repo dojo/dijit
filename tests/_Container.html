@@ -15,7 +15,7 @@
 		dojo.declare("dijit.TestContainer",
 			[dijit._Widget, dijit._Container], { }
 		);
-		
+
 		dojo.declare("dijit.TestContained",
 			[dijit._Widget, dijit._Contained], {}
 		);
@@ -85,7 +85,7 @@
 							children = c.getChildren();
 							t.is(2, children.length);
 							t.is("one", children[0].id);
-							t.is("three", children[1].id);						
+							t.is("three", children[1].id);
 						}
 					}
 				]
@@ -101,7 +101,7 @@
 		<div id="zero" dojoType="dijit.TestContained"></div>
 		<div id="one" dojoType="dijit.TestContained"></div>
 		<div id="two" dojoType="dijit.TestContained"></div>
-		<div id="three" dojoType="dijit._Widget"></div>		
+		<div id="three" dojoType="dijit._Widget"></div>
 	</div>
 	<div id="outside" dojoType="dijit._Widget"></div>
 	<div id="outsideCont" dojoType="dijit.TestContained"></div>

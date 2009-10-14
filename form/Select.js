@@ -30,7 +30,7 @@ dojo.declare("dijit.form._SelectMenu", dijit.Menu, {
 	},
 	resize: function(/*Object*/ mb){
 		// Summary:
-		//		Overridden so that we are able to handle resizing our 
+		//		Overridden so that we are able to handle resizing our
 		//		internal widget.  Note that this is not a "full" resize
 		//		implementation - it only works correctly if you pass it a
 		//		marginBox.
@@ -61,13 +61,13 @@ dojo.declare("dijit.form.Select", [dijit.form._FormSelectWidget, dijit._HasDropD
 	//		can take as its input a <select>.
 
 	baseClass: "dijitSelect",
-	
+
 	templateString: dojo.cache("dijit.form", "templates/Select.html"),
-	
+
 	// attributeMap: Object
 	//		Add in our style to be applied to the focus node
 	attributeMap: dojo.mixin(dojo.clone(dijit.form._FormSelectWidget.prototype.attributeMap),{style:"tableNode"}),
-	
+
 	// required: Boolean
 	//		Can be true or false, default is false.
 	required: false,
@@ -83,24 +83,24 @@ dojo.declare("dijit.form.Select", [dijit.form._FormSelectWidget, dijit._HasDropD
 	// emptyLabel: string
 	//		What to display in an "empty" dropdown
 	emptyLabel: "",
-	
+
 	// _isLoaded: boolean
 	//		Whether or not we have been loaded
 	_isLoaded: false,
-	
+
 	// _childrenLoaded: boolean
 	//		Whether or not our children have been loaded
 	_childrenLoaded: false,
-	
+
 	_fillContent: function(){
-		// summary:  
+		// summary:
 		//		Set the value to be the first, or the selected index
 		this.inherited(arguments);
 		if(this.options.length && !this.value && this.srcNodeRef){
 			var si = this.srcNodeRef.selectedIndex;
 			this.value = this.options[si != -1 ? si : 0].value;
 		}
-		
+
 		// Create the dropDown widget
 		this.dropDown = new dijit.form._SelectMenu();
 		dojo.addClass(this.dropDown.domNode, this.baseClass + "Menu");
@@ -130,22 +130,22 @@ dojo.declare("dijit.form.Select", [dijit.form._FormSelectWidget, dijit._HasDropD
 	_addOptionItem: function(/* dijit.form.__SelectOption */ option){
 		// summary:
 		//		For the given option, add a option to our dropdown
-		//		If the option doesn't have a value, then a separator is added 
+		//		If the option doesn't have a value, then a separator is added
 		//		in that place.
 		if(this.dropDown){
 			this.dropDown.addChild(this._getMenuItemForOption(option));
 		}
 	},
 
-	_getChildren: function(){ 
+	_getChildren: function(){
 		if(!this.dropDown){
 			return [];
 		}
 		return this.dropDown.getChildren();
 	},
-	
+
 	_loadChildren: function(/* boolean */ loadMenuItems){
-		// summary: 
+		// summary:
 		//		Resets the menu and the length attribute of the button - and
 		//		ensures that the label is appropriately set.
 		//	loadMenuItems: boolean
@@ -167,7 +167,7 @@ dojo.declare("dijit.form.Select", [dijit.form._FormSelectWidget, dijit._HasDropD
 		var len = this.options.length;
 		this._isLoaded = false;
 		this._childrenLoaded = true;
-		
+
 		// Set our length attribute and our value
 		if(!this._iReadOnly){
 			this.attr("readOnly", (len === 1));
@@ -182,12 +182,12 @@ dojo.declare("dijit.form.Select", [dijit.form._FormSelectWidget, dijit._HasDropD
 			this._setValueAttr(this.value);
 		}
 	},
-	
+
 	_setValueAttr: function(value){
 		this.inherited(arguments);
 		dojo.attr(this.valueNode, "value", this.attr("value"));
 	},
-	
+
 	_setDisplay: function(/*String*/ newDisplay){
 		// summary:
 		//		sets the display for the given value (or values)
@@ -214,7 +214,7 @@ dojo.declare("dijit.form.Select", [dijit.form._FormSelectWidget, dijit._HasDropD
 				dijit.showTooltip(message, this.domNode, this.tooltipPosition);
 			}
 		}
-		return isValid;		
+		return isValid;
 	},
 
 	isValid: function(/*Boolean*/ isFocused){
@@ -222,7 +222,7 @@ dojo.declare("dijit.form.Select", [dijit.form._FormSelectWidget, dijit._HasDropD
 		//		Whether or not this is a valid value
 		return (!this.required || !(/^\s*$/.test(this.value)));
 	},
-	
+
 	reset: function(){
 		// summary:
 		//		Overridden so that the state will be cleared.
@@ -237,10 +237,10 @@ dojo.declare("dijit.form.Select", [dijit.form._FormSelectWidget, dijit._HasDropD
 		// summary:
 		//		set the missing message
 		this.inherited(arguments);
-		this._missingMsg = dojo.i18n.getLocalization("dijit.form", "validate", 
+		this._missingMsg = dojo.i18n.getLocalization("dijit.form", "validate",
 									this.lang).missingMessage;
 	},
-	
+
 	postCreate: function(){
 		this.inherited(arguments);
 		if(this.srcNodeRef && dojo.attr(this.srcNodeRef, "disabled")){
@@ -263,11 +263,11 @@ dojo.declare("dijit.form.Select", [dijit.form._FormSelectWidget, dijit._HasDropD
 		}
 		this.inherited(arguments);
 	},
-	
+
 	isLoaded: function(){
 		return this._isLoaded;
 	},
-	
+
 	loadDropDown: function(/* Function */ loadCallback){
 		// summary:
 		//		populates the menu
@@ -275,7 +275,7 @@ dojo.declare("dijit.form.Select", [dijit.form._FormSelectWidget, dijit._HasDropD
 		this._isLoaded = true;
 		loadCallback();
 	},
-	
+
 	_setReadOnlyAttr: function(value){
 		this._iReadOnly = value;
 		if(!value && this._childrenLoaded && this.options.length === 1){
@@ -283,7 +283,7 @@ dojo.declare("dijit.form.Select", [dijit.form._FormSelectWidget, dijit._HasDropD
 		}
 		this.readOnly = value;
 	},
-	
+
 	_setDisabledAttr: function(value){
 		this._iDisabled = value;
 		if(!value && this._childrenLoaded && this.options.length === 0){

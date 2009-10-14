@@ -235,11 +235,11 @@ dojo.declare(
 			}
 			this._refreshState();
 		},
-		
+
 		_setRequiredAttr: function(/*Boolean*/ value){
 			this.required = value;
 			dijit.setWaiState(this.focusNode,"required", value);
-			this._refreshState();				
+			this._refreshState();
 		},
 
 		postCreate: function(){
@@ -283,7 +283,7 @@ dojo.declare(
 
 		postMixInProperties: function(){
 			this.inherited(arguments);
-			
+
 			// we want the name attribute to go to the hidden <input>, not the displayed <input>,
 			// so override _FormWidget.postMixInProperties() setting of nameAttrSetting
 			this.nameAttrSetting = "";
@@ -444,7 +444,7 @@ dojo.declare(
 				dijit.setWaiState(this.focusNode, "valuemax", this.constraints.max);
 			}
 		},
-		
+
 		_setValueAttr: function(/*Number*/ value, /*Boolean?*/ priorityChange){
 			// summary:
 			//		Hook so attr('value', ...) works.

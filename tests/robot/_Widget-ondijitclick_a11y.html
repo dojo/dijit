@@ -17,7 +17,7 @@
 			var widgetClicks = 0, buttonClicks = 0, button2Clicks = 0, thirdClicks = 0;
 			var w;
 
-			doh.register("setup", function(){ 
+			doh.register("setup", function(){
 				doh.robot.sequence(function(){
 					w = dijit.byId("first");
 					dojo.connect(w, "_onClick", function(){
@@ -46,7 +46,7 @@
 						runTest: function(){
 							widgetClicks = buttonClicks = 0;
 							var d = new doh.Deferred();
-	
+
 							// Keyboard-click the widget
 							doh.robot.sequence(function(){
 								w.domNode.focus();
@@ -60,7 +60,7 @@
 								doh.is(1, widgetClicks, "ondijitclick handler fired");
 								doh.is(0, buttonClicks, "spurious button click event");
 							}), 100);
-	
+
 							return d;
 						}
 					},
@@ -70,7 +70,7 @@
 						runTest: function(){
 							widgetClicks = buttonClicks = 0;
 							var d = new doh.Deferred();
-	
+
 							// Keyboard-click with modifier shouldn't do anything
 							doh.robot.sequence(function(){
 								w.domNode.focus();
@@ -91,7 +91,7 @@
 								doh.is(0, widgetClicks, "ondijitclick handler wasn't fired");
 								doh.is(0, buttonClicks, "button click handler wasn't fired");
 							}), 100);
-	
+
 							return d;
 						}
 					}
@@ -109,7 +109,7 @@
 						runTest: function(){
 							var d = new doh.Deferred(),
 								w = dijit.byId("second");
-	
+
 							// Keyboard-click the widget
 							doh.robot.sequence(function(){
 								w.domNode.focus();
@@ -120,7 +120,7 @@
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.is("hello world", dojo.byId("textarea").value);
 							}), 100);
-	
+
 							return d;
 						}
 					}
@@ -140,7 +140,7 @@
 
 							var d = new doh.Deferred(),
 								button = dojo.byId("button2");
-	
+
 							// Keyboard-click the native button
 							doh.robot.sequence(function(){
 								button.focus();
@@ -152,7 +152,7 @@
 								doh.is(1, button2Clicks, "button2 was clicked (and focus moved to ondijitclick-div)");
 								doh.is(0, thirdClicks, "ondijitclick-div didn't get a spurious click event");
 							}), 100);
-	
+
 							return d;
 						}
 					}

@@ -62,7 +62,7 @@ function getChildrenOfItem(/*String*/ name){
 	//		Return the children of the data store item w/the specified name
 	//		Note that test_Tree_Dnd.html splits the children up into the "children"
 	//		and "items" attributes.
-	
+
 	// Get the parent item
 	// Note that the ItemFileWriteStore's callback will happen immediately.
 	var myStore = dojo.global.myStore,
@@ -71,14 +71,14 @@ function getChildrenOfItem(/*String*/ name){
 		query: {name: name},
 		onItem: function(item){ parentItem = item; }
 	});
-	
+
 	// Get the children, which are stored in two separate attributes,
 	// categories (like 'Fruits') and items (ie, leaf nodes)  (like 'Apple')
 	return {
 		categories: myStore.getValues(parentItem, 'children'),
 		items: myStore.getValues(parentItem, 'items')
 	};
-}				
+}
 
 function mapItemsToNames(ary){
 	// summary:
@@ -92,12 +92,12 @@ function mapItemsToNames(ary){
 function getNamesOfChildrenOfItem(/*String*/ name){
 	// summary:
 	//		Return the names of the (items that are) children of the item w/the specified name
-	
-	// Get the parent item (according to 
+
+	// Get the parent item (according to
 	var obj = getChildrenOfItem(name);
 	return {
 		categories: mapItemsToNames(obj.categories),
 		items: mapItemsToNames(obj.items)
 	};
-}				
+}
 

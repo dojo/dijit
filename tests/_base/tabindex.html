@@ -37,8 +37,8 @@
 
 						dijit.byId("editor").onLoadDeferred.addCallback(d.getTestCallback(function(){
 							t.t(dijit.isTabNavigable(dojo.byId("editor_iframe")), "editor_iframe");
-						}));		
-						
+						}));
+
 						return d;
 					},
 					function findTabNullOnEmpty(t){
@@ -255,35 +255,35 @@
 
 	<div id="hidden-element-container">
 		<div id="hidden-element" tabindex="0" style="visibility: hidden;">
-		</div>	
+		</div>
 	</div>
 
 	<div id="container-with-hidden-containers">
 		<div id="hidden-container-tabindex-zero" tabindex="0" style="visibility: hidden;">
 			<div id="inside-hidden-container-tabindex-zero" tabindex="0">
-			</div>	
+			</div>
 		</div>
-		
+
 		<div id="hidden-container-no-tabindex" style="visibility: hidden;">
 			<div id="inside-hidden-container-no-tabindex" tabindex="0">
-			</div>	
+			</div>
 		</div>
 	</div>
 
 	<div id="display-none-element-container">
 		<div id="display-none-element" tabindex="0" style="display: none;">
-		</div>	
+		</div>
 	</div>
 
 	<div id="container-with-display-none-containers">
 		<div id="display-none-container-tabindex-zero" tabindex="0" style="display: none;">
 			<div id="inside-display-none-container-tabindex-zero" tabindex="0">
-			</div>	
+			</div>
 		</div>
-		
+
 		<div id="display-none-container-no-tabindex" style="display: none;">
 			<div id="inside-display-none-container-no-tabindex" tabindex="0">
-			</div>	
+			</div>
 		</div>
 	</div>
 </body>

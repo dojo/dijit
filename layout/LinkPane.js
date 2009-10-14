@@ -6,7 +6,7 @@ dojo.require("dijit._Templated");
 dojo.declare("dijit.layout.LinkPane",
 	[dijit.layout.ContentPane, dijit._Templated],
 	{
-	// summary: 
+	// summary:
 	//		A ContentPane with an href where (when declared in markup)
 	//		the title is specified as innerHTML rather than as a title attribute.
 	// description:

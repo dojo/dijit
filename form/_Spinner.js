@@ -71,7 +71,7 @@ dojo.declare(
 			var inc=this.smallDelta;
 			if(node == this.textbox){
 				var k=dojo.keys;
-				var key = evt.charOrCode; 
+				var key = evt.charOrCode;
 				inc = (key == k.PAGE_UP || key == k.PAGE_DOWN) ? this.largeDelta : this.smallDelta;
 				node = (key == k.UP_ARROW || key == k.PAGE_UP) ? this.upArrowNode : this.downArrowNode;
 			}
@@ -84,14 +84,14 @@ dojo.declare(
 			// summary:
 			//		Mouse wheel listener where supported
 
-			dojo.stopEvent(evt);	
+			dojo.stopEvent(evt);
 			// FIXME: Safari bubbles
 
 			// be nice to DOH and scroll as much as the event says to
 			var scrollAmount = evt.detail ? (evt.detail * -1) : (evt.wheelDelta / 120);
 			if(scrollAmount !== 0){
 				var node = this[(scrollAmount > 0 ? "upArrowNode" : "downArrowNode" )];
-				
+
 				this._arrowPressed(node, scrollAmount, this.smallDelta);
 
 				if(!this._wheelTimer){
@@ -99,7 +99,7 @@ dojo.declare(
 				}
 				this._wheelTimer = setTimeout(dojo.hitch(this,"_arrowReleased",node), 50);
 			}
-			
+
 		},
 
 		postCreate: function(){

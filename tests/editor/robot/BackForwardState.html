@@ -32,7 +32,7 @@
 						timeout: 10000,
 						runTest: function(){
 							var d = new doh.Deferred();
-	
+
 							var editor0 = dijit.byId("editor0"),
 								editor1 = dijit.byId("editor1");
 
@@ -46,7 +46,7 @@
 								doh.is("hello", editor0.attr('value'));
 								doh.is("goodbye", editor1.attr('value'));
 							}), 500);
-	
+
 							return d;
 						}
 					},
@@ -94,10 +94,10 @@
 							doh.robot.sequence(d.getTestCallback(function(){
 								var editor0 = dijit.byId("editor0"),
 									editor1 = dijit.byId("editor1");
-	
+
 								doh.t(editor0, "editor0 found");
 								doh.is("hello", editor0.attr('value'));
-	
+
 								doh.t(editor1, "editor1 found");
 								doh.is("goodbye", editor1.attr('value'));
 							}), 500);

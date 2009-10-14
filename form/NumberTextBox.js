@@ -117,7 +117,7 @@ dojo.declare("dijit.form.NumberTextBoxMixin",
 		parse: dojo.number.parse,
 
 		_getDisplayedValueAttr: function(){
-			var v = this.inherited(arguments); 
+			var v = this.inherited(arguments);
 			return isNaN(v) ? this.textbox.value : v;
 		},
 

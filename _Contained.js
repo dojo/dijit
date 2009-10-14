@@ -47,13 +47,13 @@ dojo.declare("dijit._Contained",
 
 				return this._getSibling("next"); // dijit._Widget
 			},
-			
+
 			getIndexInParent: function(){
 				// summary:
 				//		Returns the index of this widget within its container parent.
 				//		It returns -1 if the parent does not exist, or if the parent
 				//		is not a dijit._Container
-				
+
 				var p = this.getParent();
 				if(!p || !p.getIndexOfChild){
 					return -1; // int

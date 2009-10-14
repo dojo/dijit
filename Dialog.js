@@ -189,7 +189,7 @@ dojo.declare(
 					dojo.style(this.domNode, 'zIndex', 949 + dijit._dialogStack.length*2);
 					underlay.show();
 				}),
-				onEnd:	dojo.hitch(this, function(){
+				onEnd: dojo.hitch(this, function(){
 					if(this.autofocus){
 						// find focusable Items each time dialog is shown since if dialog contains a widget the
 						// first focusable items can change

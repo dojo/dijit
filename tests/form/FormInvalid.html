@@ -20,13 +20,13 @@
             dojo.require("dijit.form.Form");
             dojo.require("dijit.form.ValidationTextBox");
             dojo.require("dijit.form.Button");
-            
+
             function foo(isValid){
                 var form = dijit.byId("myForm1");
                 var btn = dijit.byId("submitBtn");
                 btn.attr("disabled", !isValid);
             }
-            
+
             dojo.addOnLoad(function(){
                 var form = dijit.byId("myForm1");
                 dojo.connect(form, "onValidStateChange", null, foo);

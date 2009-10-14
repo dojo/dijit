@@ -8,7 +8,7 @@
 			@import "../../../dojo/resources/dojo.css";
 			@import "../css/dijitTests.css";
 		</style>
-	
+
 	<!-- required: the default dijit theme: -->
 	<link id="themeStyles" rel="stylesheet" href="../../../dijit/themes/tundra/tundra.css">
 
@@ -29,9 +29,9 @@
 </head>
 
 <body class="tundra" style="padding:20px">
-		
+
 		<h1 class="testTitle">SimpleTextarea</h1>
-		
+
 		<p>
 			This is a simple text area that doesn't automatically size itself according to it's content.
 			It can be used inside layout containers.
@@ -44,7 +44,7 @@
 		        onChange="dojo.byId('oc1').value=''+arguments[0]"
 			selectOnClick="true"
 		>
-			shichashaw, textarea text baw.				
+			shichashaw, textarea text baw.
 		</textarea>
 		onChange:<textarea id="oc1" rows="6" cols="50" disabled autocomplete="off">not fired yet!</textarea>
 		<nobr>
@@ -73,7 +73,7 @@
 				This is just some text in the bottom region.
 			</textarea>
 		</div>
-		
+
 		<script>
 			function setAttr(attr, value){
 				dijit.registry.byClass('dijit.form.SimpleTextarea').forEach(function(widget){ widget.attr(attr, value);});

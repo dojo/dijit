@@ -18,9 +18,9 @@
 			var w;
 
 			doh.register("ondijitclick w/mouse",
-				function runTest(){ 
+				function runTest(){
 					var d = new doh.Deferred();
-	
+
 					doh.robot.sequence(function(){
 						w = dijit.byId("first");
 						dojo.connect(w, "_onClick", function(){
@@ -31,7 +31,7 @@
 						})
 						w.domNode.focus();
 					}, 100);
-	
+
 					// click the widget
 					doh.robot.mouseMoveAt("first", 100);
 					doh.robot.mouseClick({left: true}, 100);
@@ -39,7 +39,7 @@
 					doh.robot.sequence(d.getTestCallback(function(){
 						doh.is(1, widgetClicks, "ondijitclick handler fired once");
 					}), 100);
-	
+
 					return d;
 				}
 			);

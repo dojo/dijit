@@ -313,7 +313,7 @@
 									t.assertFalse(ilObj.probed);
 									t.assertEqual("unloaded and reloaded", history);
 									console.log("history in callback is ", history);
-									
+
 									dojo.forEach(handles, dojo.disconnect);
 								}
 							), 1500);
@@ -485,7 +485,7 @@
 							// the first child (by default) is the one that will
 							// be shown
 							st.addChild(new dijit.TestWidget());
-							
+
 							// the second child *won't* be shown until selected
 							pane3 = new dijit.layout.ContentPane({
 								href:'getResponse.php?delay=300&message=Loaded!',
@@ -789,7 +789,7 @@
 							);
 
 							t.f(dijit.byId('deferredTwo')._resized, "not resized yet");
-							
+
 							hiddenCP.attr("style", {display: "block"});
 							hiddenCP._onShow();
 
@@ -833,7 +833,7 @@
 							children = container.getChildren();
 							t.is(3, children.length);
 							t.is("one", children[0].id);
-							t.is("three", children[2].id);						
+							t.is("three", children[2].id);
 						}
 					}
 ****/
@@ -870,7 +870,7 @@
 		<div id="zero" dojoType="dijit.TestContained"></div>
 		<div id="one" dojoType="dijit.TestContained"></div>
 		<div id="two" dojoType="dijit.TestContained"></div>
-		<div id="three" dojoType="dijit._Widget"></div>		
+		<div id="three" dojoType="dijit._Widget"></div>
 	</div>
 	<div id="outside" dojoType="dijit._Widget"></div>
 	<div id="outsideCont" dojoType="dijit.TestContained"></div>

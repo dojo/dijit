@@ -12,7 +12,7 @@ dojo.declare("dijit.form.MultiSelect", dijit.form._FormValueWidget, {
 	//		NOTE: may be removed in version 2.0, since elements may have variable height;
 	//		set the size via style="..." or CSS class names instead.
 	size: 7,
-	
+
 	templateString: "<select multiple='true' ${nameAttrSetting} dojoAttachPoint='containerNode,focusNode' dojoAttachEvent='onchange: _onChange'></select>",
 
 	attributeMap: dojo.delegate(dijit.form._FormWidget.prototype.attributeMap, {
@@ -36,7 +36,7 @@ dojo.declare("dijit.form.MultiSelect", dijit.form._FormValueWidget, {
 		// example:
 		// |	// move all the selected values from "bar" to "foo"
 		// | 	dijit.byId("foo").addSelected(dijit.byId("bar"));
-		
+
 		select.getSelected().forEach(function(n){
 			this.containerNode.appendChild(n);
 			// scroll to bottom to see item
@@ -49,7 +49,7 @@ dojo.declare("dijit.form.MultiSelect", dijit.form._FormValueWidget, {
 			select.domNode.scrollTop = oldscroll;
 		},this);
 	},
-					
+
 	getSelected: function(){
 		// summary:
 		//		Access the NodeList of the selected options directly
@@ -57,7 +57,7 @@ dojo.declare("dijit.form.MultiSelect", dijit.form._FormValueWidget, {
 			return n.selected; // Boolean
 		}); // dojo.NodeList
 	},
-	
+
 	_getValueAttr: function(){
 		// summary:
 		//		Hook so attr('value') works.
@@ -67,7 +67,7 @@ dojo.declare("dijit.form.MultiSelect", dijit.form._FormValueWidget, {
 			return n.value;
 		});
 	},
-	
+
 	multiple: true, // for Form
 
 	_setValueAttr: function(/* Array */values){
@@ -79,7 +79,7 @@ dojo.declare("dijit.form.MultiSelect", dijit.form._FormValueWidget, {
 			n.selected = (dojo.indexOf(values,n.value) != -1);
 		});
 	},
-		
+
 	invertSelection: function(onChange){
 		// summary:
 		//		Invert the selection
@@ -94,14 +94,14 @@ dojo.declare("dijit.form.MultiSelect", dijit.form._FormValueWidget, {
 	_onChange: function(/*Event*/ e){
 		this._handleOnChange(this.attr('value'), true);
 	},
-	
+
 	// for layout widgets:
 	resize: function(/* Object */size){
 		if(size){
 			dojo.marginBox(this.domNode, size);
 		}
 	},
-	
+
 	postCreate: function(){
 		this._onChange();
 	}

@@ -411,7 +411,7 @@ if(!dijit.range._w3c){
 
 			range.setEndPoint('StartToStart',start);
 			if(!collapsed){
-				var end=dijit.range.ie.setEndPoint(range, endContainer, endOffset);	
+				var end=dijit.range.ie.setEndPoint(range, endContainer, endOffset);
 			}
 			range.setEndPoint('EndToEnd',end || start);
 

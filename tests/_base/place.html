@@ -19,7 +19,7 @@
 			height: 20px;
 			background: yellow;
 		}
-		
+
 		#popup {
 			position: absolute;
 			width: 75px;
@@ -43,7 +43,7 @@
 				aroundBottom = dojo.byId("aroundBottom"),
 				aroundLeft = dojo.byId("aroundLeft"),
 				aroundRight = dojo.byId("aroundRight");
-	
+
 			// The popup (aka dropdown)
 			var popup = dojo.byId("popup");
 
@@ -89,7 +89,7 @@
 						// Same as above test except that shape of drop down changes depending on where it's positioned.
 						// Simulates tooltip placement (tooltip shape changes b/c of the arrow).
 						// Should pick the third choice this time
-						
+
 						function layoutNode(node, aroundCorner, nodeCorner){
 							node.style.width = (nodeCorner == "TL" ? "5000px" : "75px");
 						}

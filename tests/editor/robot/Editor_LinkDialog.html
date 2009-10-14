@@ -26,7 +26,7 @@
 				var ldPlugin;
 				var value;
 				var node;
-				
+
 				doh.register("LinkDialog_tests", [
 					{
 						name: "Anchor Tag: Create a new link",
@@ -300,7 +300,7 @@
 								//Find the fullscreen plugin, we'll need it.
 								doh.assertTrue(ldPlugin !== null, "Verifying the link dialog.");
 								var value = editor.attr("value");
-																   
+
 								doh.robot.sequence(function(){
 									// Okay, select the text of the hyperlink so we can then perform an edit on it.
 									editor._sCall("selectElement", [node]);
@@ -374,7 +374,7 @@
 								//Find the fullscreen plugin, we'll need it.
 								doh.assertTrue(ldPlugin !== null, "Verifying the link dialog.");
 								var value = editor.attr("value");
-																   
+
 								doh.robot.sequence(function(){
 									// Okay, select the text of the hyperlink so we can then perform an edit on it.
 									editor._sCall("selectElement", [node]);

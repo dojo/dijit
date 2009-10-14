@@ -35,7 +35,7 @@
 			//		then click the arrow button again (value shouldn't change second time)
 			var d = new doh.Deferred();
 			slider.attr('value', initValue);
-			var button = slider._descending ? 
+			var button = slider._descending ?
 				(initValue<finalValue?slider.decrementButton: slider.incrementButton) :
 				(initValue<finalValue?slider.incrementButton: slider.decrementButton);
 			doh.robot.sequence(function(){
@@ -100,7 +100,7 @@
 				return d;
 			}
 		};
-		
+
 		dojo.addOnLoad(function(){
 			doh.robot.initRobot('../test_Slider.html');
 

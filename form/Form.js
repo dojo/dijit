@@ -53,11 +53,11 @@ dojo.declare(
 		templateString: "<form dojoAttachPoint='containerNode' dojoAttachEvent='onreset:_onReset,onsubmit:_onSubmit' ${nameAttrSetting}></form>",
 
 		attributeMap: dojo.delegate(dijit._Widget.prototype.attributeMap, {
-			action: "", 
-			method: "", 
-			encType: "", 
-			"accept-charset": "", 
-			accept: "", 
+			action: "",
+			method: "",
+			encType: "",
+			"accept-charset": "",
+			accept: "",
 			target: ""
 		}),
 
@@ -140,8 +140,8 @@ dojo.declare(
 				dojo.stopEvent(e);
 			}
 		},
-		
-		onSubmit: function(/*Event?*/e){ 
+
+		onSubmit: function(/*Event?*/e){
 			// summary:
 			//		Callback when user submits the form.
 			// description:

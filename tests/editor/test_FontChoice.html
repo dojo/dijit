@@ -9,10 +9,10 @@
 	</style>
 	<script type="text/javascript" src="../../../dojo/dojo.js"
 		djConfig="parseOnLoad: true, isDebug: true"></script>
-		
+
 	<!-- required: a default dijit theme: -->
 	<link id="themeStyles" rel="stylesheet" href="../../../dijit/themes/tundra/tundra.css">
-		
+
 	<script type="text/javascript" src="../_testCommon.js"></script>
 
 	<script type="text/javascript">
@@ -30,12 +30,12 @@
 	<br>
 	<br>
 	<p>Editor with default drop down lists:</p>
-	<div dojoType="dijit.Editor" 
+	<div dojoType="dijit.Editor"
 		extraPlugins="['fontName', 'fontSize', 'formatBlock', 'viewSource']" style="background-color: white; width: 100% height: 400px;" id="editor0">
 		<h1>Font Choice Plugin details</h1>
 		<ol>
 			<li>The Fontchoice plugin provides three dropdown menus for manipulating font information, such as
-				font name, font size, and the format of the block containing the text (such as P, PRE, H1, and so on)</li>  
+				font name, font size, and the format of the block containing the text (such as P, PRE, H1, and so on)</li>
 			<li>It auto-updates itself based on the caret and selection position in the document.</li>
 		</ol>
 
@@ -86,7 +86,7 @@
 	<br>
 	<br>
 	<p>Editor w/ plain text dropdown values:</p>
-	<div dojoType="dijit.Editor" 
+	<div dojoType="dijit.Editor"
 		extraPlugins="[{name: 'fontName', plainText: true}, {name: 'fontSize', plainText: true}, {name: 'formatBlock', plainText: true}, 'viewSource']" style="background-color: white; width: 100%; height: 400px;" id="editor1">
 		<h1>Font Choice Plugin details</h1>
 		<ol>

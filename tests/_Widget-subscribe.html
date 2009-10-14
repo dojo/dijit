@@ -19,7 +19,7 @@
 		dojo.declare("dijit.MyWidget", dijit._Widget, {
 			_subscribeHandlerInternal: function(){ numCallsInternal++; }
 		});
-		
+
 		dojo.addOnLoad(function(){
 			doh.register("_widgetSubscribe",
 				[
@@ -27,7 +27,7 @@
 						name: "_Widget.subscribe - set up subscriptions",
 						runTest: function(t){
 							var w = dijit.byId("widget1");
-							internalSubscribe = w.subscribe("/custom/event", 
+							internalSubscribe = w.subscribe("/custom/event",
 													"_subscribeHandlerInternal");
 							w.subscribe("/custom/event", function(){
 								if(this == w){
@@ -82,7 +82,7 @@
 							dojo.publish("/custom/setString", ["myString"]);
 							doh.is("anotherString", externalString);
 						}
-					}					
+					}
 				]
 			);
 			doh.run();

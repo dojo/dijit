@@ -111,7 +111,7 @@
 .tundra .dijitTabContainerTabListNested .dijitTab {
 	background: none;
 	border: none;
-	top: 0px;		/* to override top: 1px/-1px for normal tabs */ 
+	top: 0px;		/* to override top: 1px/-1px for normal tabs */
 }
 .tundra .dijitTabContainerTabListNested .dijitTab .dijitTabContent {
 }
@@ -301,7 +301,7 @@
 	border-top: 0px solid #ccc;
 	border-right: 0px solid #ccc;
 	padding-top: 0px;
-	padding-left: 0px;	
+	padding-left: 0px;
 }
 
 /* ================================ */

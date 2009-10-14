@@ -9,7 +9,7 @@
 			@import "noir/noir.css";
 			@import "tundra/tundra.css";
 			@import "soria/soria.css";
-			@import "../tests/css/dijitTests.css"; 
+			@import "../tests/css/dijitTests.css";
 
 			/* group multiple buttons in a row */
 			body {
@@ -131,20 +131,20 @@
 			>
 
 		<br><br>
-		<input dojoType="dijit.form.NumberSpinner" 
+		<input dojoType="dijit.form.NumberSpinner"
 			onChange="console.debug('onChange fired for widget id = ' + this.id + ' with value = ' + arguments[0]);"
-			value="900" 
+			value="900"
 			constraints={max:1550,places:0}
-			maxLength="10" 
+			maxLength="10"
 		>
 
 
-		<input dojoType="dijit.form.NumberSpinner" 
+		<input dojoType="dijit.form.NumberSpinner"
 			onChange="console.debug('onChange fired for widget id = ' + this.id + ' with value = ' + arguments[0]);"
-			value="900" 
+			value="900"
 			disabled='true'
 			constraints={max:1550,places:0}
-			maxLength="10" 
+			maxLength="10"
 		>
 
 		</div>
@@ -165,7 +165,7 @@
 		</div>
 		<br clear="all">
 
-		
+
 
 <script language='javascript'>
 	var html = dojo.byId("tundra").innerHTML;

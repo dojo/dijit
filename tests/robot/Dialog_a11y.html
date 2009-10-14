@@ -11,7 +11,7 @@
 		<!-- required: dojo.js -->
 		<script type="text/javascript" src="../../../dojo/dojo.js"
 			djConfig="isDebug: true"></script>
-			
+
 		<!-- functions to help test -->
 		<script type="text/javascript" src="../helpers.js"></script>
 
@@ -37,7 +37,7 @@
 				var lostFocus = false;
 				var focusConnect = null;
 				var blurConnect = null;
-							
+
 				// Define a known location to place keyboard focus, and put it there.  Allows for a
 				// place for focus to return to when dialog is dismissed.
 				function addTabNavFocus(){
@@ -48,13 +48,13 @@
 					dojo.place(xtraPara, dojo.body(), "first");
 					xtraPara.focus();
 				};
-	
+
 				function removeTabNavFocus(){
 					if(xtraPara && xtraPara.parentNode){
 						xtraPara.parentNode.removeChild(xtraPara);
 					}
 				};
-				
+
 				that.ariaFocusSetup = function(/*dialog's and first focusable ids*/ ids){
 					addTabNavFocus();
 					gotFocus = lostFocus = false;
@@ -67,18 +67,18 @@
 					}
 					focusConnect = dojo.connect(that.firstTabStop, "onfocus", function(){
 						gotFocus = true;
-					});				
+					});
 					blurConnect = dojo.connect(that.firstTabStop, "onblur", function(){
 						lostFocus = true;
 					});
 				};
-				
+
 				that.ariaFocusTeardown = function(){
 					removeTabNavFocus();
 					dojo.disconnect(focusConnect);
 					dojo.disconnect(blurConnect);
 				};
-				
+
 				that.ariaFocus = function(dlogId){
 					var d = new doh.Deferred();
 					var dlog = dijit.byId(dlogId.dlg);
@@ -100,9 +100,9 @@
 					return d;
 				};
 				return that;
-				
+
 			}	// end dialogTests().
-			
+
 			var dialogTest;
 
 			dojo.addOnLoad(function(){
@@ -131,7 +131,7 @@
 
 							return d;
 						}
-					},				
+					},
 
 					{
 						name: "tab to the date field",
@@ -150,7 +150,7 @@
 							return d;
 						}
 					},
-			
+
 					{
 						name: "close date drop down",
 						timeout: 4000,
@@ -242,7 +242,7 @@
 								dojo.byId("dialog1button").focus();
 							}, 500);
 							doh.robot.keyPress(dojo.keys.SPACE, 500, {});
-							
+
 							// Enter some info
 							doh.robot.typeKeys("Ted", 2000);
 							doh.robot.keyPress(dojo.keys.TAB, 500, {});
@@ -279,7 +279,7 @@
 				//			1. focus for a dialog with no focusable elements
 				//			2. the file focus thing
 				for(i=0; i<dialogIds.length; i++){
-				
+
 					// aria role and properties (aria-labelledby) tests.
 					doh.register("a11yAriaRole", {
 						name:dialogIds[i].dlg+"_role",
@@ -309,7 +309,7 @@
 							doh.isNot("", label, "empty " + hint);
 						}
 					});
-					
+
 	/*				// dijit.Dialog does not implment aria-expanded as of this writing -- should it?
 					doh.register("a11yAriaExpanded",{
 						name:dialogIds[i].dlg+"_aria-expanded",
@@ -326,7 +326,7 @@
 						}
 					});
 	*/
-	
+
 					// First focusable tests
 					doh.register("a11yFirstFocusable",{
 						name:"a11yFirstFocusable_"+dialogIds[i].dlg,
@@ -343,7 +343,7 @@
 						}
 					});
 				}	// end for() loop thru dialogIds array.
-		
+
 				doh.register("dijit.Dialog keyboard tests (multiple dialogs)",[
 					{
 						name: "open first dialog",
@@ -362,7 +362,7 @@
 							}, 500);
 							doh.robot.keyPress(dojo.keys.SPACE, 500, {});
 							doh.robot.typeKeys("lower", 1000);
-							
+
 							// Move focus to second field
 							doh.robot.keyPress(dojo.keys.TAB, 1000);
 
@@ -371,7 +371,7 @@
 
 								var dialog1Z = dojo.style(dijit.byId("dialog1").domNode, "zIndex"),
 									underlayZ = dojo.style(dojo.global.dijit._underlay.domNode, "zIndex");
-									
+
 								doh.t(dialog1Z > underlayZ, "dialog1 (zIndex=" + dialog1Z +
 									") above underlay (zIndex=" + underlayZ + ")");
 
@@ -399,7 +399,7 @@
 								var tabDialogZ = dojo.style(dijit.byId("tabDialog").domNode, "zIndex"),
 									dialog1Z = dojo.style(dijit.byId("dialog1").domNode, "zIndex"),
 									underlayZ = dojo.style(dojo.global.dijit._underlay.domNode, "zIndex");
-									
+
 								doh.t(tabDialogZ > underlayZ, "tabDialog (zIndex=" + tabDialogZ +
 									") above underlay (zIndex=" + underlayZ + ")");
 								doh.t(dialog1Z < underlayZ, "dialog1 (zIndex=" + dialog1Z +
@@ -424,7 +424,7 @@
 
 								var dialog1Z = dojo.style(dijit.byId("dialog1").domNode, "zIndex"),
 									underlayZ = dojo.style(dojo.global.dijit._underlay.domNode, "zIndex");
-									
+
 								doh.t(dialog1Z > underlayZ, "dialog1 (zIndex=" + dialog1Z +
 									") above underlay (zIndex=" + underlayZ + ")");
 

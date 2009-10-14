@@ -13,11 +13,11 @@
 
 	<!-- required: a default dijit theme: -->
 	<link id="themeStyles" rel="stylesheet" href="../../dijit/themes/tundra/tundra.css">
-	
+
 	<!-- required: dojo.js -->
 	<script type="text/javascript" src="../../dojo/dojo.js"
 		djConfig="parseOnLoad: true, isDebug: true"></script>
-	
+
 	<!-- not needed, for testing alternate themes -->
 	<script type="text/javascript" src="_testCommon.js"></script>
 
@@ -52,7 +52,7 @@
 							id: "myTree",
 							model: myModel,
 							persist: false,		// persist==true is too hard to test
-							dndController: "dijit.tree.dndSource" 
+							dndController: "dijit.tree.dndSource"
 						});
 						doh.t(myTree, "tree created");
 
@@ -123,14 +123,14 @@
 						timeout: 5000,
 						runTest: function(){
 							var d = new doh.Deferred;
-	
+
 							myTree.attr("path", ["earth", "NA", "CA", "Ottawa"]);
-	
+
 							setTimeout(d.getTestErrback(function(){
 								var path = dojo.map(myTree.attr("path"), function(item){ return myTree.model.getIdentity(item); });
 								doh.is(["earth", "NA", "CA", "Ottawa"], path, "path got set on myTree")
 								myTree2.attr("path", path);
-		
+
 								setTimeout(d.getTestCallback(function(){
 									doh.t(myTree2.rootNode.isExpanded, "root node is expanded");
 									doh.t(myTree2.rootNode.getChildren()[4].isExpanded, "north america node is expanded");
@@ -138,7 +138,7 @@
 									doh.is(myTree2.rootNode.getChildren()[4].getChildren()[1].getChildren()[0], myTree2.lastFocused, "focused correct node");
 								}), 500);
 							}), 500);
-	
+
 							return d;
 						}
 					},
@@ -155,7 +155,7 @@
 					function topLevelItemDelete(){
 						// Delete a top level item.   ForestStoreModel needs to realize that the top level
 						// children have changed and notify Tree
-						
+
 						// Remove "South America"
 						var item = myTree.rootNode.getChildren()[5].item;
 						myStore.deleteItem(item);
@@ -198,13 +198,13 @@
 						setTimeout(d.getTestCallback(function(){
 							doh.is('CN',myTree.model.getIdentity(myTree.attr('selectedItem')));
 						}), 250);
-						
+
 						return d;
 					},
 
 					function nestedItemDelete(){
 						// Delete a nested item
-						
+
 						// Remove "China"
 						var asia = myTree.rootNode.getChildren()[1],
 							china = asia.getChildren()[0];

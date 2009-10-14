@@ -25,7 +25,7 @@ dojo.declare(
 		//				enter an arbitrary value.)
 		//			- The value submitted with the form is the hidden value (ex: CA),
 		//				not the displayed value a.k.a. label (ex: California)
-		// 
+		//
 		//		Enhancements over plain HTML version:
 		//			- If you type in some text then it will filter down the list of
 		//				possible values in the drop down list.
@@ -45,8 +45,8 @@ dojo.declare(
 			return this._isvalid || (!this.required && this.attr('displayedValue') == ""); // #5974
 		},
 
-		_callbackSetLabel: function(	/*Array*/ result, 
-						/*Object*/ dataObject, 
+		_callbackSetLabel: function(	/*Array*/ result,
+						/*Object*/ dataObject,
 						/*Boolean?*/ priorityChange){
 			// summary:
 			//		Callback function that dynamically sets the label of the
@@ -115,7 +115,7 @@ dojo.declare(
 			//#3347: fetchItemByIdentity if no keyAttr specified
 			var self = this;
 			this.store.fetchItemByIdentity({
-				identity: value, 
+				identity: value,
 				onItem: function(item){
 					self._callbackSetLabel([item], undefined, priorityChange);
 				}
@@ -169,11 +169,11 @@ dojo.declare(
 				this._lastDisplayedValue = label;
 				var _this = this;
 				var fetch = {
-					query: query, 
+					query: query,
 					queryOptions: {
-						ignoreCase: this.ignoreCase, 
+						ignoreCase: this.ignoreCase,
 						deep: true
-					}, 
+					},
 					onComplete: function(result, dataObject){
 						_this._fetchHandle = null;
 						dojo.hitch(_this, "_callbackSetLabel")(result, dataObject, priorityChange);

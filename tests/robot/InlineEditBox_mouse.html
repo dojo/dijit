@@ -11,7 +11,7 @@
 		<!-- required: dojo.js -->
 		<script type="text/javascript" src="../../../dojo/dojo.js"
 			djConfig="isDebug: true"></script>
-			
+
 		<!-- functions to help test -->
 		<script type="text/javascript" src="../helpers.js"></script>
 
@@ -25,7 +25,7 @@
 
 				function moveAndClick(node) {
 					doh.robot.mouseMoveAt(node, 500, 500);
-					doh.robot.mouseClick({left: true}, 500);              
+					doh.robot.mouseClick({left: true}, 500);
 				}
 				function cancel(deferred, widget){
 					moveAndClick(function(){
@@ -202,7 +202,7 @@
 								doh.is(3, inlineBox.attr("value"));
 								var numberSpinner = inlineBox.editWidget.editWidget;
 								doh.is(3, numberSpinner.attr("value"));
-							}), 1000);                            
+							}), 1000);
 							cancel(d, inlineBox);
 							testOK(d);
 							return d;
@@ -217,9 +217,9 @@
 							moveAndClick(inlineBox.domNode);
 							doh.robot.sequence(d.getTestErrback(function(){
 								doh.is("refrigerators", dojo.trim(inlineBox.attr("value")));
-								var comboBox = inlineBox.editWidget.editWidget;                               
+								var comboBox = inlineBox.editWidget.editWidget;
 								doh.is("refrigerators", comboBox.attr("value"));
-							}), 1000);	
+							}), 1000);
 							cancel(d, inlineBox);
 							testOK(d);
 							return d;
@@ -232,12 +232,12 @@
 							var d = new doh.Deferred();
 							var inlineBox = dijit.byId("purchase");
 							moveAndClick(inlineBox.domNode);
-							var preDate = dojo.date.locale.parse("01/05/2007", {datePattern: 'MM/dd/yyyy', selector:'date'});                                                  
+							var preDate = dojo.date.locale.parse("01/05/2007", {datePattern: 'MM/dd/yyyy', selector:'date'});
 							doh.robot.sequence(d.getTestErrback(function(){
 								doh.is("01/05/2007", inlineBox.attr("value"));
 								var dateTextBox = inlineBox.editWidget.editWidget;
 								doh.is(preDate.toString(), dateTextBox.attr("value").toString());
-							}), 1000);	
+							}), 1000);
 							cancel(d, inlineBox);
 							testOK(d);
 							return d;
@@ -254,14 +254,14 @@
 								doh.is("Pennsylvania", dojo.trim(inlineBox.attr("value")));
 								var filteringSelect = inlineBox.editWidget.editWidget;
 								doh.is("PA", filteringSelect.attr("value"));
-							}), 1000);	                        
+							}), 1000);
 							cancel(d, inlineBox);
 							testOK(d);
 							return d;
 						}
 					}
 				]);
-				
+
 				doh.run();
 			});
 		</script>

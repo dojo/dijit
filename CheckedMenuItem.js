@@ -7,7 +7,7 @@ dojo.declare("dijit.CheckedMenuItem",
 		{
 		// summary:
 		//		A checkbox-like menu item for toggling on and off
-		
+
 		templateString: dojo.cache("dijit", "templates/CheckedMenuItem.html"),
 
 		// checked: Boolean

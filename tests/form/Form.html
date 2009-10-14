@@ -40,7 +40,7 @@
 			obj = dijit.byId('myForm').attr('value');
 			console.log("Object is: " + dojo.toJson(obj, true));
 		}
-		
+
 		function setValues(){
 			if(!obj){
 		 		obj = {testF: 'testi'};
@@ -48,7 +48,7 @@
 			console.log("Object is: " + dojo.toJson(obj, true));
 			dijit.byId('myForm').attr('value', obj);
 		}
-		
+
 		function validate(){
 			console.log(dijit.byId('myForm').validate());
 		}
@@ -135,7 +135,7 @@
 				}
 			]);
 
-			doh.register("query input by name", 
+			doh.register("query input by name",
 				dojo.map(
 					[
 						"foo.bar.baz.quux","available.from","available.to", // DateTextBox
@@ -203,7 +203,7 @@
 					},
 					function getValues(){
 						var values = formWidget.attr('value');
-						
+
 						// FF3 sticks in some tabs and newlines that mess up the equality check
 						// Need better way to compare two HTML trees but for now do this.
 						values.richtext = values.richtext.replace(/[\n\t]/, "", "g");
@@ -272,9 +272,9 @@
 	</p>
 	<div style="color:red">Currently only widgets are supported, not raw elements.</div>
 	<!--    to test form submission, you'll need to create an action handler similar to
-			http://www.utexas.edu/teamweb/cgi-bin/generic.cgi 
+			http://www.utexas.edu/teamweb/cgi-bin/generic.cgi
 		http://www.tipjar.com/cgi-bin/test -->
-	<form dojoType="dijit.form.Form" id="myForm" 
+	<form dojoType="dijit.form.Form" id="myForm"
 		encType="multipart/form-data" action="../formAction.html" method="" target="_formSubmitIframe">
 		<script type="dojo/method" event="onReset">
 			return confirm('Press OK to reset widget values');
@@ -447,7 +447,7 @@
 					<td>Auto-sizing textarea</td>
 					<td>t1</td>
 					<td>
-						<textarea id="t1" name="t1" 
+						<textarea id="t1" name="t1"
 	dojoType="dijit.form.Textarea">line 1
 line 2</textarea>
 					</td>
@@ -529,7 +529,7 @@ simple line 2</textarea>
 		<button dojoType="dijit.form.Button" type="submit" value="Submit">Submit</button>
 		<button dojoType="dijit.form.Button" type="reset">Reset</button>
 	</form>
-<button dojoType="dijit.form.Button" type="button" 
+<button dojoType="dijit.form.Button" type="button"
 onclick="dijit.byId('myForm').submit()">Submit programmatically</button>
 
 <iframe name="_formSubmitIframe" src="about:blank" onload="if(this.values)submittedValues(this.values)" style="display:none;"></iframe>

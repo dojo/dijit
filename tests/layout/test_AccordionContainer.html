@@ -40,7 +40,7 @@
 			dojo.subscribe("focusNode", function(node){ console.log("focused on " + (node?(node.id||node.tagName):"nothing"));});
 		});
 	</script>
-	
+
 	<style type="text/css">
 		.somePadding .dijitAccordionBody {
 			padding: 5px;
@@ -171,7 +171,7 @@
 			<p>
 				And a TabContainer:
 			</p>
-			<div dojoType="dijit.layout.TabContainer" style="height:200px; width:300px">	
+			<div dojoType="dijit.layout.TabContainer" style="height:200px; width:300px">
 				<div dojoType="dijit.layout.ContentPane" title="Tab 1">
 					1Sed arcu magna, molestie at, fringilla in, sodales eu, elit.
 					Curabitur mattis lorem et est. Quisque et tortor. Integer bibendum
@@ -213,7 +213,7 @@
 	<button onclick="dijit.byId('markupAccordion').removeChild(dijit.byId('lazyLoadPane'));">Remove lazy-load pane</button>
 
 	<p></p>
-	<h2>Accordion with padding</h2>	
+	<h2>Accordion with padding</h2>
 	<div dojoType="dijit.layout.AccordionContainer"
 		style="width: 400px; height: 300px; overflow: hidden">
 		<div dojoType="dijit.layout.ContentPane" class="somePadding" title="Some Padding">
@@ -299,6 +299,6 @@
 			</p>
 		</div>
 	</div>
-	
+
 </body>
 </html>

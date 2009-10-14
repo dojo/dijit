@@ -35,7 +35,7 @@ dojo.declare("dijit.layout.TabController",
 	_rectifyRtlTabList: function(){
 		// summary:
 		//		For left/right TabContainer when page is RTL mode, rectify the width of all tabs to be equal, otherwise the tab widths are different in IE
-		
+
 		if(0 >= this.tabPosition.indexOf('-h')){ return; }
 		if(!this.pane2button){ return; }
 
@@ -47,7 +47,7 @@ dojo.declare("dijit.layout.TabController",
 		//unify the length of all the tabs
 		for(pane in this.pane2button){
 			this.pane2button[pane].innerDiv.style.width = maxWidth + 'px';
-		}	
+		}
 	}
 });
 
@@ -76,12 +76,12 @@ dojo.declare("dijit.layout._TabButton",
 		// Override blank iconClass from Button to do tab height adjustment on IE6,
 		// to make sure that tabs with and w/out close icons are same height
 		if(!this.iconClass){
-			this.iconClass = "dijitTabButtonIcon";	
+			this.iconClass = "dijitTabButtonIcon";
 		}
 	},
 
 	postCreate: function(){
-		this.inherited(arguments); 
+		this.inherited(arguments);
 		dojo.setSelectable(this.containerNode, false);
 
 		// If a custom icon class has not been set for the
@@ -93,12 +93,12 @@ dojo.declare("dijit.layout._TabButton",
 			dojo.style(this.iconNode, "width", "1px");
 		}
 	},
-	
+
 	startup: function(){
 		this.inherited(arguments);
 		var n = this.domNode;
 
-		// Required to give IE6 a kick, as it initially hides the 
+		// Required to give IE6 a kick, as it initially hides the
 		// tabs until they are focused on.
 		setTimeout(function(){
 			n.className = n.className;
@@ -108,7 +108,7 @@ dojo.declare("dijit.layout._TabButton",
 	_setCloseButtonAttr: function(disp){
 		this.closeButton = disp;
 		dojo.toggleClass(this.innerDiv, "dijitClosable", disp);
-		this.closeNode.style.display = disp ? "" : "none";		
+		this.closeNode.style.display = disp ? "" : "none";
 		if(disp){
 			var _nlsResources = dojo.i18n.getLocalization("dijit", "common");
 			if(this.closeNode){

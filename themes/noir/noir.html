@@ -67,7 +67,7 @@ BODY {
 </style>
 
 <script language='javascript'>
-	
+
 
 	function startup() {
 		var html = dojo.byId('noir').innerHTML;
@@ -105,25 +105,25 @@ BODY {
 
 		<!-- dijit.form.Button -->
 		<div class="dijit dijitLeft dijitInline dijitButton"><div class='dijitRight'>
-			<button class="dijitStretch dijitButtonNode dijitButtonContents" 
-				tabIndex="${tabIndex}" type="${type}" id="${id}" name="${name}" alt="${alt}" 
-				dojoAttachPoint="containerNode,focusNode" 
+			<button class="dijitStretch dijitButtonNode dijitButtonContents"
+				tabIndex="${tabIndex}" type="${type}" id="${id}" name="${name}" alt="${alt}"
+				dojoAttachPoint="containerNode,focusNode"
 				dojoAttachEvent="onclick:buttonClick">
 					${label}
 			</button>
 		</div></div>
 &nbsp;
 		<div class="dijit dijitLeft dijitInline dijitButton dijitButtonActive"><div class='dijitRight'>
-			<button class="dijitStretch dijitButtonNode dijitButtonContents" 
-				tabIndex="${tabIndex}" type="${type}" id="${id}" name="${name}" alt="${alt}" 
-				dojoAttachPoint="containerNode,focusNode" 
+			<button class="dijitStretch dijitButtonNode dijitButtonContents"
+				tabIndex="${tabIndex}" type="${type}" id="${id}" name="${name}" alt="${alt}"
+				dojoAttachPoint="containerNode,focusNode"
 				dojoAttachEvent="onclick:buttonClick">
 					${label}
 			</button>
 		</div></div>
 
 <br><br>
-		
+
 		<!-- dijit.form.DropDownButton -->
 
 		<div class="dijit dijitLeft dijitInline dijitButton dijitDDButton"><div class='dijitRight'>
@@ -142,11 +142,11 @@ BODY {
 			</button>
 		</div></div>
 
-<br><br>		
-		
-		
+<br><br>
+
+
 		<!-- dijit.form.ComboButton -->
-		<table class="dijit dijitLeft dijitInline dijitComboButton dijitComboButtonEnabled" id="${id}" name="${name}" 
+		<table class="dijit dijitLeft dijitInline dijitComboButton dijitComboButtonEnabled" id="${id}" name="${name}"
 			cellspacing=0 cellpadding=0>
 			<tr>
 				<td class='dijitReset dijitLeft'>&nbsp;</td>
@@ -162,7 +162,7 @@ BODY {
 					waiRole="button" waiState="haspopup-true"
 					><span class='dijitA11yDownArrow'>&#9660;</span>
 			</td></tr>
-		</table>		
+		</table>
 &nbsp;
 		<div class="dijit dijitLeft dijitInline dijitComboButton dijitComboButtonActive" id="${id}" name="${name}"
 		><button type="${type}"
@@ -176,12 +176,12 @@ BODY {
 					tabIndex="${tabIndex}"
 					waiRole="button" waiState="haspopup-true"
 			>&nbsp;<span class='dijitDownArrow'>&#9660;</span>
-			</button></div>		
+			</button></div>
 
 <br><br>
 
-		<!-- dijit.form.FilteringSelect 
-			 dijit.form.ComboBox 
+		<!-- dijit.form.FilteringSelect
+			 dijit.form.ComboBox
 		-->
 
 <table class="dijitReset dijit dijitInline dijitComboBox" id='widget_${id}' waiRole="presentation" cellspacing=0 cellpadding=0
@@ -224,13 +224,13 @@ BODY {
 				<div class='a11yIndicator a11yDownArrow'>&#9660;</div>
 				<div class='widgetStretch label' onclick='console.info("center");'>
 					Select
-				</div>	
+				</div>
 			</div>
 		</span>
-		
+
 		<br><br>
-		
-		<!- - dijit.form.ComboBox 
+
+		<!- - dijit.form.ComboBox
 		<span class='dijit dijitInline widgetLeft dijitCombo dijitComboEnabled'>
 			<div class='widgetRight' style='position:relative;' onclick='console.info("right")'>
 				<div class='a11yIndicator a11yDownArrow'>&#9660;</div>

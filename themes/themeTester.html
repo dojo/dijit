@@ -18,27 +18,27 @@
 		#bottomTabs { height: 40%; }
 
 		/* pre-loader specific stuff to prevent unsightly flash of unstyled content */
-		#loader { 
+		#loader {
 			padding:0;
 			margin:0;
-			position:absolute; 
-			top:0; left:0; 
-			width:100%; height:100%;  
-			background:#ededed; 
+			position:absolute;
+			top:0; left:0;
+			width:100%; height:100%;
+			background:#ededed;
 			z-index:999;
 			vertical-align:middle;
 		}
 		#loaderInner {
 			padding:5px;
-			position:relative; 
+			position:relative;
 			left:0;
-			top:0; 		
-			width:175px; 
-			background:#3c3; 
-			color:#fff; 			
+			top:0;
+			width:175px;
+			background:#3c3;
+			color:#fff;
 		}
 
-		hr.spacer { border:0; background-color:#ededed; width:80%; height:1px; } 
+		hr.spacer { border:0; background-color:#ededed; width:80%; height:1px; }
 
 		/* for custom menu buttons, do not appear to have any effect */
 		.myCustomTheme .dijitButtonNode {
@@ -48,7 +48,7 @@
 			background: url("themeTesterImages/blackButtonEnabled.gif") repeat-x bottom left #474747;
 			color: blue;
 		}
-		
+
 		.myCustomTheme .dijitButtonHover .dijitButtonNode,
 		.myCustomTheme .dijitToggleButtonHover .dijitButtonNode {
 			background: url("themeTesterImages/blackButtonHover.gif") repeat-x bottom left #3b3b3b !important;
@@ -64,10 +64,10 @@
 	</script>
 
 	<!-- required: dojo.js -->
-	<script type="text/javascript" src="../../dojo/dojo.js" 
+	<script type="text/javascript" src="../../dojo/dojo.js"
 		djConfig="parseOnLoad: false, isDebug: true"></script>
 
-	<!-- do not use: only for debugging / testing themes --> 
+	<!-- do not use: only for debugging / testing themes -->
 	<script type="text/javascript" src="../tests/_testCommon.js"></script>
 	<!--
 	<script type="text/javascript" src="http://prototypejs.org/assets/2007/10/16/prototype.js"></script>
@@ -88,10 +88,10 @@
 		dojo.require("dijit.MenuBar");
 
 		// editor:
-		dojo.require("dijit.Editor"); 
+		dojo.require("dijit.Editor");
 		dojo.require("dijit._editor.plugins.FontChoice");
 		dojo.require("dijit._editor.plugins.LinkDialog");
-		
+
 		// dnd:
 		dojo.require("dojo.dnd.Source");
 
@@ -101,14 +101,14 @@
 		dojo.require("dijit.form.SimpleTextarea");
 		dojo.require("dijit.form.FilteringSelect");
 		dojo.require("dijit.form.TextBox");
-		dojo.require("dijit.form.DateTextBox");	
-		dojo.require("dijit.form.TimeTextBox");	
-		dojo.require("dijit.form.CurrencyTextBox");	
+		dojo.require("dijit.form.DateTextBox");
+		dojo.require("dijit.form.TimeTextBox");
+		dojo.require("dijit.form.CurrencyTextBox");
 		dojo.require("dijit.form.Button");
 		dojo.require("dijit.InlineEditBox");
 		dojo.require("dijit.form.NumberSpinner");
 		dojo.require("dijit.form.VerticalSlider");
-		dojo.require("dijit.form.HorizontalSlider"); 
+		dojo.require("dijit.form.HorizontalSlider");
 
 		// layouts used in page
 		dojo.require("dijit.layout.AccordionContainer");
@@ -118,9 +118,9 @@
 		dojo.require("dijit.Dialog");
 
 		// scan page for widgets and instantiate them
-		dojo.require("dojo.parser");	
+		dojo.require("dojo.parser");
 
-		// humm?		
+		// humm?
 		dojo.require("dojo.date.locale");
 
 		// for the Tree
@@ -129,7 +129,7 @@
 		// for the colorpalette
 		function setColor(color){
 			var theSpan = dojo.byId("outputSpan");
-			dojo.style(theSpan,"color",color); 
+			dojo.style(theSpan,"color",color);
 			theSpan.innerHTML = color;
 		}
 
@@ -140,8 +140,8 @@
 
 		dojo.addOnLoad(function() {
 
-			// this is just a list of 'official' dijit themes, you can use ?theme=String 
-			// for 'un-supported' themes, too. (eg: yours) 
+			// this is just a list of 'official' dijit themes, you can use ?theme=String
+			// for 'un-supported' themes, too. (eg: yours)
 			var availableThemes = [
 				{ theme:"tundra", author:"Dojo", baseUri:"../themes/" },
 				{ theme:"soria", author:"nikolai", baseUri:"../themes/" },
@@ -157,15 +157,15 @@
 			holder.innerHTML = tmpString;
 
 			var start = new Date().getTime();
-			dojo.parser.parse(dojo.byId('container')); 
+			dojo.parser.parse(dojo.byId('container'));
 			console.info("Total parse time: " + (new Date().getTime() - start) + "ms");
 
 			dojo.byId('loaderInner').innerHTML += " done.";
 			setTimeout(function hideLoader(){
-				var loader = dojo.byId('loader'); 
+				var loader = dojo.byId('loader');
 				dojo.fadeOut({ node: loader, duration:500,
-					onEnd: function(){ 
-						loader.style.display = "none"; 
+					onEnd: function(){
+						loader.style.display = "none";
 					}
 				}).play();
 			}, 250);
@@ -389,7 +389,7 @@
 							</tr>
 						</table>
 					</div>
-				</div> 
+				</div>
 			</div>
 			</div>
 
@@ -428,19 +428,19 @@
 					If you make the left column narrow enough, the slide controls should appear.
 				</div>
 				<div dojoType="dijit.layout.ContentPane" title="Rootless Tree" closable="true">
-					<div 
-						dojoType="dijit.Tree" 
-						id="rootlessTree" 
-						store="continentStore" 
+					<div
+						dojoType="dijit.Tree"
+						id="rootlessTree"
+						store="continentStore"
 						query="{type:'continent'}"
 						openOnClick="true">
 					</div>
-					
+
 				</div>
-				<div dojoType="dijit.layout.TabContainer" 
-						id="inlined" closable="true" 
-						title="Nested TabContainer" nested="true">	
-					<a dojoType="dijit.layout.LinkPane" id="tab1href" href="../tests/layout/tab1.html" onLoad="console.log('load of SubTab 1');">SubTab 1</a>		
+				<div dojoType="dijit.layout.TabContainer"
+						id="inlined" closable="true"
+						title="Nested TabContainer" nested="true">
+					<a dojoType="dijit.layout.LinkPane" id="tab1href" href="../tests/layout/tab1.html" onLoad="console.log('load of SubTab 1');">SubTab 1</a>
 					<a dojoType="dijit.layout.LinkPane" id="tab2href" href="../tests/layout/tab2.html"  onLoad="console.log('load of SubTab 2');" selected="true">SubTab 2</a>
 					<div dojoType="dijit.layout.ContentPane" id="subtab3" title="SubTab 3">
 						<h1>I am tab 3, inlined.</h1>
@@ -508,7 +508,7 @@
 				</div>
 				</div>
 			</div>
-			
+
 
 		</div><!-- end AccordionContainer -->
 
@@ -519,9 +519,9 @@
 
 				<h2>Buttons</h2>
 				<p>Buttons can do an action, display a menu, or both:</p>
-				
+
 				Enabled:
-				
+
 				<button dojoType="dijit.form.Button" iconClass="plusIcon" onClick='console.debug("clicked simple")'>
 					Simple
 				</button>
@@ -573,7 +573,7 @@
 				<hr class="spacer">
 
 				Disabled:
-				
+
 				<button dojoType="dijit.form.Button" iconClass="plusIcon" disabled>
 					Simple
 				</button>
@@ -714,7 +714,7 @@
 				<h2>dijit.form.Textarea</h2>
 				<p>Enabled:</p>
 				<textarea dojoType="dijit.form.Textarea" name="areText">This text area will expand and contract as you type text.
-				
+
 				Lorem ipsum dolor sit amet,
 				consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet
 				dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci
@@ -732,7 +732,7 @@
 				<p></p>
 				<p>Enabled:</p>
 				<textarea dojoType="dijit.form.SimpleTextarea" name="areText">This text area has a constant height and displays a scrollbar when necessary.
-				
+
 				Lorem ipsum dolor sit amet,
 				consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet
 				dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci
@@ -1018,7 +1018,7 @@
 		</div><!-- end of region="center" TabContainer -->
 
 		<!-- bottom right tabs -->
-		<div dojoType="dijit.layout.TabContainer" id="bottomTabs" 
+		<div dojoType="dijit.layout.TabContainer" id="bottomTabs"
 			tabPosition="bottom" selectedChild="btab1" region="bottom" splitter="true" tabStrip="true">
 
 			<!-- btab 1 -->
@@ -1049,8 +1049,8 @@
 	</div><!-- end of BorderContainer -->
 
 	<!-- dialog in body -->
-	<div id="dialog1" dojoType="dijit.Dialog" 
-		title="Floating Modal Dialog" style="display:none;" 
+	<div id="dialog1" dojoType="dijit.Dialog"
+		title="Floating Modal Dialog" style="display:none;"
 		href="../tests/layout/doc0.html"></div>
 
 </body>

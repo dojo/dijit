@@ -83,7 +83,7 @@ dojo.declare(
 					title: page.tooltip
 				}, refNode);
 				dijit.setWaiState(button.focusNode,"selected", "false");
-				var map = 
+				var map =
 				(this.pane2handles[page.id] = [
 					this.connect(page, 'attr', function(name, value){
 						if(arguments.length == 2){
@@ -165,7 +165,7 @@ dojo.declare(
 				//		private
 
 				var container = dijit.byId(this.containerId);	// TODO: do this via topics?
-				container.selectChild(page); 
+				container.selectChild(page);
 			},
 
 			onCloseButtonClick: function(/*dijit._Widget*/ page){
@@ -181,7 +181,7 @@ dojo.declare(
 					dijit.focus(b.focusNode || b.domNode);
 				}
 			},
-			
+
 			// TODO: this is a bit redundant with forward, back api in StackContainer
 			adjacent: function(/*Boolean*/ forward){
 				// summary:

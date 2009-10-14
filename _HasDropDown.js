@@ -9,48 +9,48 @@ dojo.declare("dijit._HasDropDown",
 		// summary:
 		//		Mixin for widgets that need drop down ability.
 
-		//	_buttonNode: [protected] DomNode
+		// _buttonNode: [protected] DomNode
 		//		The button/icon/node to click to display the drop down.
 		//		Can be set via a dojoAttachPoint assignment.
 		//		If missing, then either focusNode or domNode (if focusNode is also missing) will be used.
 		_buttonNode: null,
 
-		//	_arrowWrapperNode: [protected] DomNode
+		// _arrowWrapperNode: [protected] DomNode
 		//		Will set CSS class dijitUpArrow, dijitDownArrow, dijitRightArrow etc. on this node depending
 		//		on where the drop down is set to be positioned.
 		//		Can be set via a dojoAttachPoint assignment.
 		//		If missing, then _buttonNode will be used.
 		_arrowWrapperNode: null,
 
-		//	_popupStateNode: [protected] DomNode
+		// _popupStateNode: [protected] DomNode
 		//		The node to set the popupActive class on.
 		//		Can be set via a dojoAttachPoint assignment.
 		//		If missing, then focusNode or _buttonNode (if focusNode is missing) will be used.
 		_popupStateNode: null,
 
-		//	_aroundNode: [protected] DomNode
+		// _aroundNode: [protected] DomNode
 		//		The node to display the popup around.
 		//		Can be set via a dojoAttachPoint assignment.
 		//		If missing, then domNode will be used.
 		_aroundNode: null,
 
-		//	dropDown: [protected] Widget
+		// dropDown: [protected] Widget
 		//		The widget to display as a popup.  This widget *must* be
 		//		defined before the startup function is called.
 		dropDown: null,
 
-		//	autoWidth: [protected] Boolean
+		// autoWidth: [protected] Boolean
 		//		Set to true to make the drop down at least as wide as this
 		//		widget.  Set to false if the drop down should just be its
 		//		default width
 		autoWidth: true,
 
-		//	forceWidth: [protected] Boolean
+		// forceWidth: [protected] Boolean
 		//		Set to true to make the drop down exactly as wide as this
 		//		widget.  Overrides autoWidth.
 		forceWidth: false,
 
-		//  maxHeight: [protected] Integer
+		// maxHeight: [protected] Integer
 		//		The max height for our dropdown.  Set to 0 for no max height.
 		//		any dropdown taller than this will have scrollbars
 		maxHeight: 0,
@@ -71,7 +71,7 @@ dojo.declare("dijit._HasDropDown",
 		//
 		dropDownPosition: ["below","above"],
 
-		//	_stopClickEvents: Boolean
+		// _stopClickEvents: Boolean
 		//		When set to false, the click events will not be stopped, in
 		//		case you want to use them in your subwidget
 		_stopClickEvents: true,

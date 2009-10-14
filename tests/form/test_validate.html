@@ -118,7 +118,7 @@
 				<input id="gv3" size="10" disabled value="" autocomplete="off">
 				</nobr>
 			</div>
-			
+
 			<div class="dojoTitlePaneLabel">
 				<label for="fav">Favorite Number (1-100):  </label>
 				<span class="noticeMessage"> NumberTextBox class, Attributes: required=true, must be integer, no messages provided,  no initial value specified, maxlength=3</span>
@@ -228,13 +228,13 @@
 					invalidMessage="Number must be in exponential notation. Example +5E-28" />
 			</div>
 			-->
-		
+
 			<div class="dojoTitlePaneLabel">
 				<label for="q08">Annual Income:  </label>
 				<span class="noticeMessage">CurrencyTextBox class,
 					Attributes: {fractional: true}.  Enter whole and cents.  Currency symbol is optional. Cents are MANDATORY.</span>
 			</div>
-		
+
 			<div class="testExample">
 				<input id="q08" type="text" name="income1" class="medium" value="54775.53"
 					dojoType="dijit.form.CurrencyTextBox"
@@ -245,7 +245,7 @@
 					invalidMessage="Invalid amount.  Include dollar sign, commas, and cents.  Cents are MANDATORY." />USD
 				&nbsp;onChange:<input id="oc8" size="15" disabled value="not fired yet!" autocomplete="off">
 			</div>
-		
+
 			<div class="testExample">
 				euro currency (local format) fractional part is optional:
 				<input id="q08eur" type="text" name="income2"
@@ -258,7 +258,7 @@
 				<button onclick="dijit.byId('q08eur').attr('disabled',false);return false">Enable</button>
 				<button onclick="dijit.byId('q08eur').reset();return false">Reset</button>
 			</div>
-		
+
 			<!--
 				It is unusual to override the lang properties on individual
 				widgets.  Usually it should be the user's default or set on
@@ -267,7 +267,7 @@
 			<div class="testExample">
 				euro currency (fixed lang: de-de) programmatically created, fractional part is optional: <input id="q08eurde" class="medium"/>EUR
 			</div>
-		
+
 			<script>
 				// See if we can make a widget in script and attach it
 				// to the DOM ourselves.
@@ -284,7 +284,7 @@
 					var w = new dijit.form.CurrencyTextBox(props, "q08eurde");
 				});
 			</script>
-		
+
 			<!--
 			<div class="dojoTitlePaneLabel">
 				<label for="q08a">Annual Income:  </label>
@@ -300,7 +300,7 @@
 					constraints="{fractional:true}"
 					invalidMessage="Invalid amount.  Include dollar sign, commas, and cents. Example: $12,000.00" />
 			</div>
-		
+
 			<div class="dojoTitlePaneLabel">
 				<label for="q09">IPv4 Address:  </label>
 				<span class="noticeMessage">IpAddressTextBox class,
@@ -315,7 +315,7 @@
 					constraints="{allowIPv6:false,allowHybrid:false}"
 					invalidMessage="Invalid IPv4 address.">
 			</div>
-		
+
 			<div class="dojoTitlePaneLabel">
 				<label for="q10"> IPv6 Address:  </label>
 				<span class="noticeMessage">IpAddressTextBox class,
@@ -332,13 +332,13 @@
 					constraints="{allowDottedDecimal:false, allowDottedHex:false, allowDottedOctal:false}"
 					invalidMessage="Invalid IPv6 address, please enter eight groups of four hexadecimal digits. x:x:x:x:x:x:x:x">
 			</div>
-		
+
 			<div class="dojoTitlePaneLabel">
 				<label for="q11"> URL:  </label>
 				<span class="noticeMessage">UrlTextBox class,
 					Attributes: {required: true, trim: true, scheme: true}. </span>
 			</div>
-		
+
 			<div class="testExample">
 				<input id="q11" type="text" name="url" class="long" value="http://www.xyz.com/a/b/c?x=2#p3"
 					dojoType="dijit.form.ValidationTextBox"
@@ -348,13 +348,13 @@
 					constraints="{scheme:true}"
 					invalidMessage="Invalid URL.  Be sure to include the scheme, http://..." />
 			</div>
-		
+
 			<div class="dojoTitlePaneLabel">
 				<label for="q12"> Email Address  </label>
 				<span class="noticeMessage">EmailTextBox class,
 					Attributes: {required: true, trim: true}. </span>
 			</div>
-		
+
 			<div class="testExample">
 				<input id="q12" type="text" name="email" class="long" value="fred&barney@stonehenge.com"
 					dojoType="dijit.form.ValidationTextBox"
@@ -363,13 +363,13 @@
 					required="true"
 					invalidMessage="Invalid Email Address." />
 			</div>
-		
+
 			<div class="dojoTitlePaneLabel">
 				<label for="q13"> Email Address List </label>
 				<span class="noticeMessage">EmailListTextBox class,
 					Attributes: {required: true, trim: true}. </span>
 			</div>
-		
+
 			<div class="testExample">
 				<input id="q13" type="text" name="email" class="long" value="a@xyz.com; b@xyz.com; c@xyz.com; "
 					dojoType="dijit.form.ValidationTextBox"
@@ -391,7 +391,7 @@
 					required="true"
 					invalidMessage="Invalid Non-Space Text.">
 			</div>
-		
+
 			<div class="dojoTitlePaneLabel">
 				<label for="q23"> Password </label>
 				<span class="noticeMessage">(just a test that type attribute is obeyed) </span>
@@ -400,7 +400,7 @@
 				<input id="q23" type="password" name="password" class="medium"
 					dojoType="dijit.form.TextBox">
 			</div>
-		
+
 			<div class="dojoTitlePaneLabel">
 				<label for="ticket1651">Trac ticket 1651:  </label>
 				<span class="noticeMessage">value: null should show up as empty</span>

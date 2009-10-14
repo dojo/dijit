@@ -29,7 +29,7 @@ dojo.declare("dijit._editor.plugins.LinkDialog",dijit._editor._Plugin,{
 	useDefaultCommand: false,
 
 	// urlRegExp: [protected] String
-	//		Used for validating input as correct URL.  While file:// urls are not terribly 
+	//		Used for validating input as correct URL.  While file:// urls are not terribly
 	//		useful, they are technically valid.
 	urlRegExp: "((https?|ftps?|file)\\://|\./|/|)(/[a-zA-Z]{1,1}:/|)(((?:(?:[\\da-zA-Z](?:[-\\da-zA-Z]{0,61}[\\da-zA-Z])?)\\.)*(?:[a-zA-Z](?:[-\\da-zA-Z]{0,80}[\\da-zA-Z])?)\\.?)|(((\\d|[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(\\d|[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])|(0[xX]0*[\\da-fA-F]?[\\da-fA-F]\\.){3}0[xX]0*[\\da-fA-F]?[\\da-fA-F]|(0+[0-3][0-7][0-7]\\.){3}0+[0-3][0-7][0-7]|(0|[1-9]\\d{0,8}|[1-3]\\d{9}|4[01]\\d{8}|42[0-8]\\d{7}|429[0-3]\\d{6}|4294[0-8]\\d{5}|42949[0-5]\\d{4}|429496[0-6]\\d{3}|4294967[01]\\d{2}|42949672[0-8]\\d|429496729[0-5])|0[xX]0*[\\da-fA-F]{1,8}|([\\da-fA-F]{1,4}\\:){7}[\\da-fA-F]{1,4}|([\\da-fA-F]{1,4}\\:){6}((\\d|[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(\\d|[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])))(\\:\\d+)?(/(?:[^?#\\s/]+/)*(?:[^?#\\s/]+(?:\\?[^?#\\s/]*)?(?:#[A-Za-z][\\w.:-]*)?)?)?",
 
@@ -46,7 +46,7 @@ dojo.declare("dijit._editor.plugins.LinkDialog",dijit._editor._Plugin,{
 	// _hostRxp [private] RegExp
 	//		Regular expression used to validate url fragments (ip address, hostname, etc)
 	_hostRxp:  new RegExp("^((([^\\[:]+):)?([^@]+)@)?(\\[([^\\]]+)\\]|([^\\[:]*))(:([0-9]+))?$"),
-									  
+
 	// linkDialogTemplate: [protected] String
 	//		Template for contents of TooltipDialog to pick URL
 	linkDialogTemplate: [
@@ -68,7 +68,7 @@ dojo.declare("dijit._editor.plugins.LinkDialog",dijit._editor._Plugin,{
 		"<option value='_blank'>${newWindow}</option>",
 		"<option value='_top'>${topWindow}</option>",
 		"<option value='_parent'>${parentWindow}</option>",
-		"</select>",			
+		"</select>",
 		"</td></tr><tr><td colspan='2'>",
 		"<button dojoType='dijit.form.Button' type='submit' id='${id}_setButton'>${set}</button>",
 		"<button dojoType='dijit.form.Button' type='button' id='${id}_cancelButton'>${cancel}</button>",
@@ -94,8 +94,8 @@ dojo.declare("dijit._editor.plugins.LinkDialog",dijit._editor._Plugin,{
 		messages.urlRegExp = this.urlRegExp;
 		messages.id = dijit.getUniqueId(this.editor.id);
 		this._uniqueId = messages.id;
-		this._setContent(dropDown.title + 
-			"<div style='border-bottom: 1px black solid;padding-bottom:2pt;margin-bottom:4pt'></div>" + 
+		this._setContent(dropDown.title +
+			"<div style='border-bottom: 1px black solid;padding-bottom:2pt;margin-bottom:4pt'></div>" +
 			dojo.string.substitute(this.linkDialogTemplate, messages));
 		dropDown.startup();
 		this._urlInput = dijit.byId(this._uniqueId + "_urlInput");
@@ -116,9 +116,9 @@ dojo.declare("dijit._editor.plugins.LinkDialog",dijit._editor._Plugin,{
 
 	_checkAndFixInput: function(){
 		// summary:
-	   	//		A function to listen for onChange events and test the input contents 
-		//		for valid information, such as valid urls with http/https/ftp and if 
-		//		not present, try and guess if the input url is relative or not, and if 
+	   	//		A function to listen for onChange events and test the input contents
+		//		for valid information, such as valid urls with http/https/ftp and if
+		//		not present, try and guess if the input url is relative or not, and if
 		//		not, append http:// to it.  Also validates other fields as determined by
 		//		the internal _isValid function.
 		var self = this;
@@ -129,7 +129,7 @@ dojo.declare("dijit._editor.plugins.LinkDialog",dijit._editor._Plugin,{
 				url = dojo.trim(url);
 				if(url.indexOf("/") > 0){
 					if(url.indexOf("://") === -1){
-						// Check that it doesn't start with / or ./, which would 
+						// Check that it doesn't start with / or ./, which would
 						// imply 'target server relativeness'
 						if(url.charAt(0) !== '/' && url.indexOf("./") !== 0){
 							if(self._hostRxp.test(url)){
@@ -167,7 +167,7 @@ dojo.declare("dijit._editor.plugins.LinkDialog",dijit._editor._Plugin,{
 
 	_isValid: function(){
 		// summary:
-		//		Internal function to allow validating of the inputs 
+		//		Internal function to allow validating of the inputs
 		//		for a link to determine if set should be disabled or not
 		// tags:
 		//		protected
@@ -193,31 +193,31 @@ dojo.declare("dijit._editor.plugins.LinkDialog",dijit._editor._Plugin,{
 			var a = range.endContainer;
 			if(a.nodeType === 3){
 				// Text node, may be the link contents, so check parent.
-				// This plugin doesn't really support nested HTML elements 
+				// This plugin doesn't really support nested HTML elements
 				// in the link, it assumes all link content is text.
 				a = a.parentNode;
 			}
 			if(a && (a.nodeName && a.nodeName.toLowerCase() !== this.tag)){
 				// Stll nothing, one last thing to try on IE, as it might be 'img'
 				// and thus considered a control.
-				a = dojo.withGlobal(this.editor.window, 
+				a = dojo.withGlobal(this.editor.window,
 					"getSelectedElement", dijit._editor.selection, [this.tag]);
 			}
 			if(a && (a.nodeName && a.nodeName.toLowerCase() === this.tag)){
-				// Okay, we do have a match.  IE, for some reason, sometimes pastes before 
-				// instead of removing the targetted paste-over element, so we unlink the 
-				// old one first.  If we do not the <a> tag remains, but it has no content, 
-				// so isn't readily visible (but is wrong for the action).  
+				// Okay, we do have a match.  IE, for some reason, sometimes pastes before
+				// instead of removing the targetted paste-over element, so we unlink the
+				// old one first.  If we do not the <a> tag remains, but it has no content,
+				// so isn't readily visible (but is wrong for the action).
 				if(this.editor.queryCommandEnabled("unlink")){
-					// Select all the link childent, then unlink.  The following insert will 
+					// Select all the link childent, then unlink.  The following insert will
 					// then replace the selected text.
-					dojo.withGlobal(this.editor.window, 
+					dojo.withGlobal(this.editor.window,
 						"selectElementChildren", dijit._editor.selection, [a]);
 					this.editor.execCommand("unlink");
 				}
 			}
 		}
-		this.editor.execCommand('inserthtml', 
+		this.editor.execCommand('inserthtml',
 			dojo.string.substitute(this.htmlTemplate, args));
 	},
 
@@ -259,18 +259,18 @@ dojo.declare("dijit._editor.plugins.LinkDialog",dijit._editor._Plugin,{
 			a = range.endContainer;
 			if(a.nodeType === 3){
 				// Text node, may be the link contents, so check parent.
-				// This plugin doesn't really support nested HTML elements 
+				// This plugin doesn't really support nested HTML elements
 				// in the link, it assumes all link content is text.
 				a = a.parentNode;
 			}
 			if(a && (a.nodeName && a.nodeName.toLowerCase() !== this.tag)){
 				// Stll nothing, one last thing to try on IE, as it might be 'img'
 				// and thus considered a control.
-				a = dojo.withGlobal(this.editor.window, 
+				a = dojo.withGlobal(this.editor.window,
 					"getSelectedElement", dijit._editor.selection, [this.tag]);
 			}
 		}else{
-			a = dojo.withGlobal(this.editor.window, 
+			a = dojo.withGlobal(this.editor.window,
 				"getAncestorElement", dijit._editor.selection, [this.tag]);
 		}
 		this.dropDown.reset();
@@ -281,7 +281,7 @@ dojo.declare("dijit._editor.plugins.LinkDialog",dijit._editor._Plugin,{
 	_onDblClick: function(e){
 		// summary:
 		// 		Function to define a behavior on double clicks on the element
-		//		type this dialog edits to select it and pop up the editor 
+		//		type this dialog edits to select it and pop up the editor
 		//		dialog.
 		// e: Object
 		//		The double-click event.
@@ -292,8 +292,8 @@ dojo.declare("dijit._editor.plugins.LinkDialog",dijit._editor._Plugin,{
 			var tg = t.tagName? t.tagName.toLowerCase() : "";
 			if(tg === this.tag){
 				this.editor.onDisplayChanged();
-				dojo.withGlobal(this.editor.window, 
-					 "selectElement", 
+				dojo.withGlobal(this.editor.window,
+					 "selectElement",
 					 dijit._editor.selection, [t]);
 				setTimeout(dojo.hitch(this, function(){
 					// Focus shift outside the event handler.
@@ -355,7 +355,7 @@ dojo.declare("dijit._editor.plugins.ImgLinkDialog", [dijit._editor.plugins.LinkD
 		if(img && img.tagName.toLowerCase() === this.tag){
 			url = img.getAttribute('_djrealurl');
 			text = img.getAttribute('alt');
-			dojo.withGlobal(this.editor.window, 
+			dojo.withGlobal(this.editor.window,
 				"selectElement", dijit._editor.selection, [img, true]);
 		}else{
 			text = dojo.withGlobal(this.editor.window, dijit._editor.selection.getSelectedText);
@@ -393,8 +393,8 @@ dojo.declare("dijit._editor.plugins.ImgLinkDialog", [dijit._editor.plugins.LinkD
 			var t = e.target;
 			var tg = t.tagName? t.tagName.toLowerCase() : "";
 			if(tg === this.tag){
-				dojo.withGlobal(this.editor.window, 
-					"selectElement", 
+				dojo.withGlobal(this.editor.window,
+					"selectElement",
 					dijit._editor.selection, [t]);
 			}
 		}
@@ -405,7 +405,7 @@ dojo.declare("dijit._editor.plugins.ImgLinkDialog", [dijit._editor.plugins.LinkD
 dojo.subscribe(dijit._scopeName + ".Editor.getPlugin",null,function(o){
 	if(o.plugin){ return; }
 	switch(o.args.name){
-		case "createLink": 
+		case "createLink":
 			o.plugin = new dijit._editor.plugins.LinkDialog({command: o.args.name});
 			break;
 		case "insertImage":

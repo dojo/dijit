@@ -11,7 +11,7 @@ dojo.declare("dijit._editor.plugins.ViewSource",dijit._editor._Plugin,{
 	//		This plugin provides a simple view source capability.  When view
 	//		source mode is enabled, it disables all other buttons/plugins on the RTE.
 	//		It also binds to the hotkey: CTRL-SHIFT-F11 for toggling ViewSource mode.
-	
+
 	// stripScripts: [public] Boolean
 	//		Boolean flag used to indicate if script tags should be stripped from the document.
 	//		Defaults to true.
@@ -41,7 +41,7 @@ dojo.declare("dijit._editor.plugins.ViewSource",dijit._editor._Plugin,{
 	toggle: function(){
 		// summary:
 		//		Function to allow programmatic toggling of the view.
-		
+
 		// For Webkit, we have to focus a very particular way.
 		// when swapping views, otherwise focus doesn't shift right
 		// but can't focus this way all the time, only for VS changes.
@@ -171,11 +171,11 @@ dojo.declare("dijit._editor.plugins.ViewSource",dijit._editor._Plugin,{
 				var resizer = function(){
 					// function to handle resize events.
 					// Will check current VP and only resize if
-					// different.  
+					// different.
 					var vp = dijit.getViewport();
 
 					if("_prevW" in this && "_prevH" in this){
-						//No actual size change, ignore.						
+						// No actual size change, ignore.
 						if(vp.w === this._prevW && vp.h === this._prevH){
 							return;
 						}else{
@@ -266,12 +266,12 @@ dojo.declare("dijit._editor.plugins.ViewSource",dijit._editor._Plugin,{
 
 		if(dojo.isIE){
 			// IE is always off by 2px, so we have to adjust here
-			// Note that IE ZOOM is broken here.  I can't get 
+			// Note that IE ZOOM is broken here.  I can't get
 			//it to scale right.
 			edb.h -= 2;
 		}
 
-		// IE has a horrible zoom bug.  So, we have to try and account for 
+		// IE has a horrible zoom bug.  So, we have to try and account for
 		// it and fix up the scaling.
 		if(this._ieFixNode){
 			var _ie7zoom = -this._ieFixNode.offsetTop / 1000;
@@ -326,7 +326,7 @@ dojo.declare("dijit._editor.plugins.ViewSource",dijit._editor._Plugin,{
 			});
 		}
 
-		// We also need to take over editor focus a bit here, so that focus calls to 
+		// We also need to take over editor focus a bit here, so that focus calls to
 		// focus the editor will focus to the right node when VS is active.
 		ed._viewsource_oldFocus = ed.focus;
 		var self = this;
@@ -342,7 +342,7 @@ dojo.declare("dijit._editor.plugins.ViewSource",dijit._editor._Plugin,{
 						// cases we focus with the regular function.
 						dijit.focus(ed.editNode);
 					}else{
-						ed._viewsource_oldFocus();	
+						ed._viewsource_oldFocus();
 					}
 				}catch(e){
 					console.log(e);
@@ -371,7 +371,7 @@ dojo.declare("dijit._editor.plugins.ViewSource",dijit._editor._Plugin,{
 			};
 		}
 
-		// Listen to the source area for key events as well, as we need to be able to hotkey toggle 
+		// Listen to the source area for key events as well, as we need to be able to hotkey toggle
 		// it from there too.
 		this.connect(this.sourceArea, "onkeydown", dojo.hitch(this, function(e){
 			if(this._sourceShown && e.keyCode == dojo.keys.F12 && e.ctrlKey && e.shiftKey){
@@ -414,7 +414,7 @@ dojo.declare("dijit._editor.plugins.ViewSource",dijit._editor._Plugin,{
 
 	_stripIFrames: function(html){
 		// summary:
-		//		Strips out iframe tags from the content, to avoid iframe script 
+		//		Strips out iframe tags from the content, to avoid iframe script
 		//		style injection attacks.
 		// html: String
 		//		The HTML to filter
@@ -455,7 +455,7 @@ dojo.declare("dijit._editor.plugins.ViewSource",dijit._editor._Plugin,{
 		var elem = this.sourceArea;
 		dijit.focus(elem);
 		if(this._sourceShown && !this.readOnly){
-			if(dojo.isIE){ 
+			if(dojo.isIE){
 				if(this.sourceArea.createTextRange){
 					var range = elem.createTextRange();
 					range.collapse(true);
@@ -474,7 +474,7 @@ dojo.declare("dijit._editor.plugins.ViewSource",dijit._editor._Plugin,{
 
 	destroy: function(){
 		// summary:
-		//		Over-ride to remove the node used to correct for IE's 
+		//		Over-ride to remove the node used to correct for IE's
 		//		zoom bug.
 		if(this._ieFixNode){
 			dojo.body().removeChild(this._ieFixNode);

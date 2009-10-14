@@ -9,7 +9,7 @@
 			@import url(../css/dijitTests.css);
 			.ark { text-decoration: underline; }
 		</style>
-	    <script type="text/javascript" 
+	    <script type="text/javascript"
 	        src="../../../dojo/dojo.js"
 	        djConfig="isDebug: true, parseOnLoad: true">
 	    </script>
@@ -20,14 +20,14 @@
 			dojo.require("dijit.form.Button");
 			dojo.require("dijit.form.Form");
 			dojo.require("dojo.data.ItemFileWriteStore");
-			
+
 			var numOptions = 0;
 			var numChanges = 0;
 			var addNum = 10;
 			var testType;
 			// Uncomment below line to run perf tests - note SLOW to run
 			// testType = "perf";
-			
+
 			// Data and stores here for store-based selects
 			var data = {
 				identifier: "value",
@@ -55,11 +55,11 @@
 					{value: "IN", label: "Indiana"}
 				]
 			};
-			
+
 			var readStore = new dojo.data.ItemFileReadStore({data:dojo.clone(data)});
 			var store2 = new dojo.data.ItemFileReadStore({data:dojo.clone(data2)});
-			var writeStore = new dojo.data.ItemFileWriteStore({data:dojo.clone(data)});			
-			
+			var writeStore = new dojo.data.ItemFileWriteStore({data:dojo.clone(data)});
+
 			function wrapLabel(expected){
 				return ("<span class=\"dijitReset dijitInline dijitSelectLabel\">" + expected + "</span>").toLowerCase().replace(/ */g, "");
 			}
@@ -143,7 +143,7 @@
 											t.is("AK", s11.value);
 											t.is(6, s11.getOptions().length);
 											d.callback(true);
-										}catch(e){ d.errback(e);}										
+										}catch(e){ d.errback(e);}
 									});
 								}catch (e){
 									d.errback(e);
@@ -276,7 +276,7 @@
 				doh.run();
 			});
 		</script>
-	</head>	
+	</head>
 	<body class="tundra">
 		<h1 class="testTitle">Test: dijit.form.Select</h1>
 		<h2>HTML select for comparison</h2>

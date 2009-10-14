@@ -23,13 +23,13 @@ dojo.declare("dijit.form._FormMixin", null,
 	// example:
 	//	| { name: "John Smith", interests: ["sports", "movies"] }
 =====*/
-	
+
 	//	TODO:
 	//	* Repeater
 	//	* better handling for arrays.  Often form elements have names with [] like
 	//	* people[3].sex (for a list of people [{name: Bill, sex: M}, ...])
 	//
-	//	
+	//
 
 		reset: function(){
 			dojo.forEach(this.getDescendants(), function(widget){
@@ -45,11 +45,11 @@ dojo.declare("dijit.form._FormMixin", null,
 			//			provides a few additional (ui-specific) features.
 			//			1 - it will highlight any sub-widgets that are not
 			//				valid
-			//			2 - it will call focus() on the first invalid 
+			//			2 - it will call focus() on the first invalid
 			//				sub-widget
 			var didFocus = false;
 			return dojo.every(dojo.map(this.getDescendants(), function(widget){
-				// Need to set this so that "required" widgets get their 
+				// Need to set this so that "required" widgets get their
 				// state set.
 				widget._hasBeenBlurred = true;
 				var valid = widget.disabled || !widget.validate || widget.validate();
@@ -62,7 +62,7 @@ dojo.declare("dijit.form._FormMixin", null,
 	 			return valid;
 	 		}), function(item){ return item; });
 		},
-	
+
 		setValues: function(val){
 			dojo.deprecated(this.declaredClass+"::setValues() is deprecated. Use attr('value', val) instead.", "", "2.0");
 			return this.attr('value', val);
@@ -104,7 +104,7 @@ dojo.declare("dijit.form._FormMixin", null,
 					// otherwise, values is a list of values to be assigned sequentially to each widget
 					dojo.forEach(widgets, function(w, i){
 						w.attr('value', values[i]);
-					});					
+					});
 				}
 			}
 
@@ -112,7 +112,7 @@ dojo.declare("dijit.form._FormMixin", null,
 			 * 	TODO: code for plain input boxes (this shouldn't run for inputs that are part of widgets)
 
 			dojo.forEach(this.containerNode.elements, function(element){
-				if(element.name == ''){return};	// like "continue"	
+				if(element.name == ''){return};	// like "continue"
 				var namePath = element.name.split(".");
 				var myObj=obj;
 				var name=namePath[namePath.length-1];
@@ -312,7 +312,7 @@ dojo.declare("dijit.form._FormMixin", null,
 	 	isValid: function(){
 	 		// summary:
 	 		//		Returns true if all of the widgets are valid
-	 		
+
 	 		// This also populate this._invalidWidgets[] array with list of invalid widgets...
 	 		// TODO: put that into separate function?   It's confusing to have that as a side effect
 	 		// of a method named isValid().
@@ -322,18 +322,18 @@ dojo.declare("dijit.form._FormMixin", null,
 	 		});
 			return !this._invalidWidgets.length;
 		},
-		
-		
+
+
 		onValidStateChange: function(isValid){
 			// summary:
 			//		Stub function to connect to if you want to do something
-			//		(like disable/enable a submit button) when the valid 
+			//		(like disable/enable a submit button) when the valid
 			//		state changes on the form as a whole.
 		},
-		
+
 		_widgetChange: function(widget){
 			// summary:
-			//		Connected to a widget's onChange function - update our 
+			//		Connected to a widget's onChange function - update our
 			//		valid state, if needed.
 			var isValid = this._lastValidState;
 			if(!widget || this._lastValidState === undefined){
@@ -342,7 +342,7 @@ dojo.declare("dijit.form._FormMixin", null,
 				// This happens when we connect (or reconnect) our children
 				isValid = this.isValid();
 				if(this._lastValidState === undefined){
-					// Set this so that we don't fire an onValidStateChange 
+					// Set this so that we don't fire an onValidStateChange
 					// the first time
 					this._lastValidState = isValid;
 				}
@@ -360,7 +360,7 @@ dojo.declare("dijit.form._FormMixin", null,
 				this.onValidStateChange(isValid);
 			}
 		},
-		
+
 		connectChildren: function(){
 			// summary:
 			//		Connects to the onChange function of all children to
@@ -370,7 +370,7 @@ dojo.declare("dijit.form._FormMixin", null,
 			//		initialized.
 			dojo.forEach(this._changeConnections, dojo.hitch(this, "disconnect"));
 			var _this = this;
-			
+
 			// we connect to validate - so that it better reflects the states
 			// of the widgets - also, we only connect if it has a validate
 			// function (to avoid too many unneeded connections)
@@ -381,21 +381,21 @@ dojo.declare("dijit.form._FormMixin", null,
 			function(widget){
 				// We are interested in whenever the widget is validated - or
 				// whenever the disabled attribute on that widget is changed
-				conns.push(_this.connect(widget, "validate", 
+				conns.push(_this.connect(widget, "validate",
 									dojo.hitch(_this, "_widgetChange", widget)));
-				conns.push(_this.connect(widget, "_setDisabledAttr", 
+				conns.push(_this.connect(widget, "_setDisabledAttr",
 									dojo.hitch(_this, "_widgetChange", widget)));
 			});
 
-			// Call the widget change function to update the valid state, in 
+			// Call the widget change function to update the valid state, in
 			// case something is different now.
 			this._widgetChange(null);
 		},
-		
+
 		startup: function(){
 			this.inherited(arguments);
 			// Initialize our valid state tracking.  Needs to be done in startup
-			// because it's not guaranteed that our children are initialized 
+			// because it's not guaranteed that our children are initialized
 			// yet.
 			this._changeConnections = [];
 			this.connectChildren();

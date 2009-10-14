@@ -2,7 +2,7 @@
 <html>
     <head>
 		<title>BorderContainer Experiments | The Dojo Toolkit</title>
-		
+
 		<!-- only needed for test files: -->
 		<style type="text/css">
 			@import "../../../dojo/resources/dojo.css";
@@ -38,7 +38,7 @@
 			dojo.require("dijit.layout.ContentPane");
 			dojo.require("dijit.layout.BorderContainer");
 			dojo.declare("my.BorderContainer",dijit.layout.BorderContainer,{
-				
+
 				opts: {
 					// single pane view
 					"a":{
@@ -67,9 +67,9 @@
 							{ id: "pane3", hidden:true }
 						]
 					}
-					
+
 				},
-				
+
 				_clearSplitters: function(){
 					// cleanup all splitters on the page
 					dojo.query(".dijitSplitter",this.domNode).forEach(function(n){
@@ -79,7 +79,7 @@
 					delete this._splitters;
 					this._splitters = {};
 				},
-				
+
 				setLayoutENUM: function(lay){
 					// set the layout to a predefined setup
 					if(this._layoutSetting != lay){
@@ -97,7 +97,7 @@
 							if(pane.maxSize){ d.maxSize = pane.maxSize; }
 							if(pane.hidden){
 								// reset this widget to our hidden holder node
-								this.extractChild(d,dojo.byId("holder"));	
+								this.extractChild(d,dojo.byId("holder"));
 								d.splitter = null;
 								d.region = null;
 								d.maxSize = null;
@@ -113,7 +113,7 @@
 					}
 					this.layout();
 				},
-				
+
 				extractChild: function(/*dijit._Widget*/ child, /*DomNode*/ node){
 					// a non-destructive cleanup for the bordercontainer.
 					// cleanup a widget, and append it's domNode to some
@@ -132,13 +132,13 @@
 					return child.domNode;
 				}
 			});
-			
+
 			var open = false;
-			
+
 			dojo.addOnLoad(function(){
 				// make buttons
-				dojo.forEach(["a","av","ah"],function(n){	
-	
+				dojo.forEach(["a","av","ah"],function(n){
+
 					var but = new dijit.form.Button({
 						label: "Set "+n,
 						onClick: function(){
@@ -147,12 +147,12 @@
 						}
 					});
 					dojo.byId("buttons").appendChild(but.domNode);
-					but.startup();			
+					but.startup();
 				})
-				
+
 			});
 		</script>
-	
+
     </head>
     <body class="tundra">
 
@@ -169,7 +169,7 @@
 
 		<div jsId="layout" id="container" dojoType="my.BorderContainer" style="width:600px; height:300px; border:3px solid #333;">
 			<div dojoType="dijit.layout.ContentPane" region="center" id="pane0">
-				pane0	
+				pane0
 			</div>
 		</div>
 
@@ -178,11 +178,11 @@
 				Sinlge pane - l1
 			</div>
 		</div>
-	
+
 		<div class="wrapper">
 			<h3>two panes, vertical split:</h3>
-		
-		
+
+
 			<div class="bc" id="animBC" dojoType="dijit.layout.BorderContainer" style="height:200px">
 				<div dojoType="dijit.layout.ContentPane" id="sizing1" style="background-color:red" region="left" splitter="true">
 					Sinlge pane - left
@@ -206,7 +206,7 @@
 				</button>
 				</div>
 			</div>
-	
+
 			<div class="bc" dojoType="dijit.layout.BorderContainer" style="height:200px">
 				<div dojoType="dijit.layout.ContentPane" region="center" splitter="true">
 					Single pane - center (splitter) (this is unsupported, and does not work)
@@ -215,7 +215,7 @@
 					Single pane - right (no splitter)
 				</div>
 			</div>
-		
+
 			<div class="bc" dojoType="dijit.layout.BorderContainer" style="height:200px">
 				<div dojoType="dijit.layout.ContentPane" region="center">
 					Single pane - center (no splitter)
@@ -225,17 +225,17 @@
 				</div>
 			</div>
 		</div>
-	
+
 		<div class="bc" dojoType="dijit.layout.BorderContainer" style="width:200px; height:400px;">
 			<div dojoType="dijit.layout.ContentPane" region="top" splitter="true">
 				Single pane - top (splitter)
-				
+
 			</div>
 			<div dojoType="dijit.layout.ContentPane" region="center">
 				Single pane - center
 			</div>
 		</div>
-	
+
 		<div class="bc" dojoType="dijit.layout.BorderContainer" style="width:200px; height:400px;">
 			<div dojoType="dijit.layout.ContentPane" region="center">
 				Single pane - center

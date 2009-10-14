@@ -3,7 +3,7 @@ var formatWidgetCount = 0;
 var validateWidgetCount = 0;
 
 function getElementsById(id){
-	var result = [];	
+	var result = [];
 
 	if(!id || typeof(id) != "string"){
 		return result;

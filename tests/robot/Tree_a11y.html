@@ -15,12 +15,12 @@
 	<script type="text/javascript">
 		dojo.require("dijit.dijit"); // optimize: load dijit layer
 		dojo.require("dijit.robotx");
-	
+
 		var treeIds = ["mytree", "tree2"];
-		
+
 		function treeTests(){
 			var that = {};
-			
+
 			var forceLoadChildItems = function(/*dijit._TreeNode*/inNode, /*dijit.Tree*/inTree){
 				if(inTree.model.mayHaveChildren(inNode.item)){
 					if(inNode.getChildren().length > 0){
@@ -32,7 +32,7 @@
 					childItems = null;
 				}
 			};
-		
+
 			that.testTreeItemRole = function(/*dijit._TreeNode*/inRoot, /*dijit.Tree*/inTree){
 				if(inRoot){
 					doh.is("treeitem", dijit.getWaiRole(inRoot.labelNode), inRoot.label + "[" + inTree.id + "]: aria role (treeItem)");
@@ -63,7 +63,7 @@
 					}
 				}
 			};
-		
+
 			that.testTreeItemExpandedState = function(/*dijit._TreeNode*/inRoot, /*dijit.Tree*/inTree){
 				if(inRoot){
 					that.test1TreeItemExpandedState(inRoot, inTree);
@@ -75,7 +75,7 @@
 					}
 				}
 			};
-		
+
 			// Tab focus test data and functions
 			var xtraParas = [];
 			var expectedBlurCount = 0;
@@ -89,7 +89,7 @@
 			};
 			that.focusConnect = null;
 			that.blurConnect = null;
-			
+
 			var addTabNavFoci = function(inTree){
 				var aPara = dojo.doc.createElement("p");
 				dojo.attr(aPara, 'tabIndex', 0);
@@ -102,7 +102,7 @@
 				dojo.place(aPara, inTree.domNode, "after");
 				xtraParas.push(aPara);
 			};
-			
+
 			var walkTreeToLeaf = function(inTree, inRootNode, /*array, optional*/ioPath){
 				var leaf = inRootNode;
 				if (ioPath){ ioPath.push(inRootNode); }
@@ -116,7 +116,7 @@
 				}
 				return(leaf);
 			};
-					
+
 			that.tabFocusSetup = function(inTreeId, /*boolean*/ leaf){
 				var tree = dijit.byId(inTreeId);
 				that.collapseAllButRoot(tree);
@@ -135,7 +135,7 @@
 				that.blurConnect = tree.connect(focusThing.labelNode, "onblur", lostFocus);
 				tree.focusNode(focusThing);
 			};
-		
+
 			that.tabFocusA11yTest = function(inTreeId){
 				var d = new doh.Deferred();
 				var tree = dijit.byId(inTreeId);
@@ -153,7 +153,7 @@
 				doh.robot.sequence(d.getTestCallback(checkTabNav), 500);
 				return d;
 			};
-			
+
 			that.tabFocusTearDown = function(){
 				dojo.forEach(xtraParas, function(item){
 					item.parentNode.removeChild(item);
@@ -180,12 +180,12 @@
 					collapse(inTree.rootNode);
 				}
 			};
-			
+
 			that.openConnect = null;
 			that.closeConnect = null;
 			var openedLabels = [];
 			var closedLabels = [];
-						
+
 			that.a11yNavExpandCollapseSetup = function(inTreeId){
 				var tree = dijit.byId(inTreeId);
 				that.collapseAllButRoot(tree);
@@ -212,7 +212,7 @@
 				that.openConnect = dojo.connect(tree, "onOpen", collectOpen);
 				that.closeConnect = dojo.connect(tree, "onClose", collectClose);
 			};
-		
+
 			that.a11yNavExpandCollapseTest = function(inTreeId){
 				var d = new doh.Deferred();
 				// assume (1) collapaseAllButRoot(), and (2) focus is on first visible child.
@@ -232,17 +232,17 @@
 				doh.robot.sequence(d.getTestCallback(checkKeystrokes), 500);
 				return d;
 			};
-			
+
 			that.a11yNavExpandCollapseTearDown = function(){
 				dojo.disconnect(that.openConnect);
 				dojo.disconnect(that.closeConnect);
 			};
-			
+
 			var expectedNode;
 			var actualNode;
 			var arrowDownCount;
 			var arrowRightCount;
-			
+
 			that.a11yNavToLeafSetup = function(inTreeId){
 				var tree = dijit.byId(inTreeId);
 				// randomly choose a top-level node to traverse.
@@ -262,7 +262,7 @@
 					actualNode = evt.target;
 				});
 			};
-		
+
 			that.a11yNavToLeaf = function(inTreeId){
 				var d = new doh.Deferred();
 				var tree = dijit.byId(inTreeId);
@@ -289,7 +289,7 @@
 				}
 				return node;
 			};
-			
+
 			that.a11yHomeEndKeySetup = function(inTreeId, inKey){
 				// put focus on an random leaf.
 				var tree = dijit.byId(inTreeId);
@@ -307,7 +307,7 @@
 					actualNode = evt.target;
 				});
 			};
-			
+
 			that.a11yHomeEndKeyTest = function(inTreeId, inKey){
 				var d = new doh.Deferred();
 				var tree = dijit.byId(inTreeId);
@@ -319,7 +319,7 @@
 				doh.robot.sequence(d.getTestCallback(checkAtHomeEnd), 500);
 				return d;
 			};
-			
+
 			return that;
 		}
 
@@ -336,7 +336,7 @@
 						doh.is("tree", dijit.getWaiRole(tree.domNode), tree.id + ": aria role (tree)");
 					}
 				},
-				
+
 				function ariaTreeStateExpanded(){
 					for(i=0; i<treeIds.length; i++){
 						var tree = dijit.byId(treeIds[i]);
@@ -359,7 +359,7 @@
 						treeTest.testTreeItemRole(tree.rootNode, tree);
 					}
 				},
-				
+
 				function ariaTreeItemStateExpanded(){
 					for(i=0; i<treeIds.length; i++){
 						var tree = dijit.byId(treeIds[i]);
@@ -367,7 +367,7 @@
 					}
 				}
 			]);
-			
+
 			// Keyboard focus robot tests
 			doh.register("a11y tab navigation",
 			[
@@ -424,7 +424,7 @@
 					}
 				}
 			]);
-			
+
 			// Keyboard navigate/expand/collapse robot tests (arrow keys, and home/end)
 			doh.register("keyboard arrow navigation/expand/collapse",
 			[
@@ -524,7 +524,7 @@
 					timeout:4000,
 					runTest:function(){
 						var d = new doh.Deferred();
-						
+
 						var tree = dijit.byId("mytree");
 
 						// Close all tree nodes except for Asia and Oceania
@@ -554,7 +554,7 @@
 					timeout:4000,
 					runTest:function(){
 						var d = new doh.Deferred();
-						
+
 						var tree = dijit.byId("mytree");
 						tree.focusNode(tree.rootNode);
 
@@ -588,7 +588,7 @@
 					timeout:4000,
 					runTest:function(){
 						var d = new doh.Deferred();
-						
+
 						// From Africa node, press "A" again.   Should go to Asia.
 						doh.robot.keyPress("a", 100);
 						doh.robot.sequence(d.getTestCallback(function(){
@@ -625,7 +625,7 @@
 					timeout:4000,
 					runTest:function(){
 						var d = new doh.Deferred();
-						
+
 						doh.robot.keyPress("a", 100);
 						doh.robot.sequence(d.getTestCallback(function(){
 							var focus = dijit.getEnclosingWidget(dojo.global.dijit._curFocus);
@@ -689,10 +689,10 @@
 					}
 				}
 			]);
-			
+
 			doh.run();
 		});
-		
+
 	</script>
 </head>
 </html>

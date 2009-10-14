@@ -37,7 +37,7 @@ dojo.declare(
 		baseClass: "dijitTextBox",
 
 		attributeMap: dojo.delegate(dijit.form._FormValueWidget.prototype.attributeMap, {
-			maxLength: "focusNode" 
+			maxLength: "focusNode"
 		}),
 
 		_getValueAttr: function(){
@@ -57,7 +57,7 @@ dojo.declare(
 			// summary:
 			//		Hook so attr('value', ...) works.
 			//
-			// description: 
+			// description:
 			//		Sets the value of the widget to "value" which can be of
 			//		any type as determined by the widget.
 			//
@@ -70,7 +70,7 @@ dojo.declare(
 			//		otherwise a computed visual value is used.
 			//
 			// priorityChange:
-			//		If true, an onChange event is fired immediately instead of 
+			//		If true, an onChange event is fired immediately instead of
 			//		waiting for the next blur event.
 
 			var filteredValue;
@@ -121,9 +121,9 @@ dojo.declare(
 			// 		after filtering (ie, trimming spaces etc.).
 			//
 			//		For some subclasses of TextBox (like ComboBox), the displayed value
-			//		is different from the serialized value that's actually 
+			//		is different from the serialized value that's actually
 			//		sent to the server (see dijit.form.ValidationTextBox.serialize)
-			
+
 			return this.filter(this.textbox.value);
 		},
 
@@ -135,11 +135,11 @@ dojo.declare(
 			dojo.deprecated(this.declaredClass+"::setDisplayedValue() is deprecated. Use attr('displayedValue', ...) instead.", "", "2.0");
 			this.attr('displayedValue', value);
 		},
-			
+
 		_setDisplayedValueAttr: function(/*String*/value){
 			// summary:
 			//		Hook so attr('displayedValue', ...) works.
-			// description: 
+			// description:
 			//		Sets the value of the visual element to the string "value".
 			//		The widget value is also set to a corresponding,
 			//		but not necessarily the same, value.

@@ -181,7 +181,7 @@ dojo.declare("dijit._KeyNavContainer",
 			if(evt.target !== this.domNode){ return; }
 
 			this.focusFirstChild();
-			
+
 			// and then set the container's tabIndex to -1,
 			// (don't remove as that breaks Safari 4)
 			// so that tab or shift-tab will go to the fields after/before

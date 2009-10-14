@@ -56,7 +56,7 @@
 				})
 			 );
 
-	
+
 			doh.register("drop down navigation / mouse", [
 				{
 					timeout:6000,
@@ -65,7 +65,7 @@
 						var d = new doh.Deferred();
 
 						var combo = dijit.byId("setvaluetest");
-				
+
 						// Open drop down
 						doh.robot.mouseMoveAt(combo.downArrowNode, 500);
 						doh.robot.mouseClick({left:true}, 100);
@@ -76,11 +76,11 @@
 							doh.t(isVisible(list), "list is visible");
 							doh.is(31, entries.length, "30 elements plus next button");
 						}), 1000);
-						
+
 						return d;
 					}
 				},
-				
+
 				{
 					timeout:6000,
 					name:"next page",
@@ -101,7 +101,7 @@
 								entries = dojo.query("li", list).filter(isVisible);
 								doh.is("Minnesota (MN)", innerText(entries[1]));
 						}), 1000);
-						
+
 						return d;
 					}
 				},
@@ -123,7 +123,7 @@
 								doh.is(2, entries.length, "previous choices + wyoming");
 								doh.is("Wyoming (WY)", innerText(entries[1]));
 						}), 1000);
-						
+
 						return d;
 					}
 				},
@@ -146,7 +146,7 @@
 								doh.is("Minnesota (MN)", innerText(entries[1]));
 								doh.is("Wisconsin (WI)", innerText(entries[30]));
 						}), 1000);
-						
+
 						return d;
 					}
 				},
@@ -213,7 +213,7 @@
 
 						doh.robot.mouseMoveAt(combo.focusNode, 500);
 						doh.robot.mouseClick({left:true}, 100);
-						
+
 						doh.robot.sequence(d.getTestCallback(function(){
 							// TODO: uncomment when #8595 is fixed
 							//doh.isNot(combo, dijit.getEnclosingWidget(dojo.global.dijit._curFocus), "click doesn't focus disabled combo");
@@ -236,7 +236,7 @@
 						// Assert that nothing happened
 						doh.robot.sequence(d.getTestCallback(function(){
 							doh.f(combo._popupWidget, "User was able to open the menu on a disabled ComboBox!");
-							
+
 							// Testcase for #8923, uncomment when that bug is fixed
 							//doh.isNot(combo, dijit.getEnclosingWidget(dojo.global.dijit._curFocus), "button-click doesn't focus disabled combo");
 						}), 1000);

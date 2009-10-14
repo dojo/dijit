@@ -39,28 +39,28 @@
 		lastSelected=null;
 
 		dojo.addOnLoad(function(){
-	
-			//record the selection from tree 1	
+
+			//record the selection from tree 1
 			dojo.subscribe("myTree", null, function(message){
 				if(message.event=="execute"){
 					console.log("Tree1 Select: ",dijit.byId("myTree").store.getLabel(message.item));
-					lastSelected=selected["myTree"]=message.item;					
+					lastSelected=selected["myTree"]=message.item;
 				}
 			});
 
-			//record the selection from tree 2	
+			//record the selection from tree 2
 			dojo.subscribe("myTree2", null, function(message){
 				if(message.event=="execute"){
 					console.log("Tree2 Select: ",dijit.byId("myTree2").store.getLabel(message.item));
-					lastSelected=selected["myTree2"]=message.item;					
+					lastSelected=selected["myTree2"]=message.item;
 				}
 			});
 
 			//connect to the add button and have it add a new container to the store as necessary
 			dojo.connect(dijit.byId("addButton"), "onClick", function(){
 				var pInfo = {
-					parent: lastSelected,		
-					attribute: "children"	
+					parent: lastSelected,
+					attribute: "children"
 				};
 
 				//store.newItem({name: dojo.byId('newCat').value, id:globalId++, numberOfItems:dojo.byId('numItems').value}, pInfo);
@@ -70,11 +70,11 @@
 			//since we don't have a server, we're going to connect to the store and do a few things the server/store combination would normal be taking care of for us
 			dojo.connect(myStore, "onNew", function(item, pInfo){
 				var p = pInfo && pInfo.item;
-				if (p) {	
+				if (p) {
 					var currentTotal = myStore.getValues(p, "numberOfItems")[0];
 					myStore.setValue(p, "numberOfItems", ++currentTotal);
 				}
-				
+
 			});
 		});
 
@@ -116,7 +116,7 @@
 		function getIcon(item) {
 			if (!item || myStore.hasAttribute(item, "numberOfItems")) {
 				return "myFolder";
-			} 
+			}
 			return "myItem"
 		}
 	</script>
@@ -139,7 +139,7 @@
 	</style>
 
 </head>
-<body class="tundra"> 
+<body class="tundra">
 	<h1 class="testTitle">Dijit Tree Test - Drag And Drop Support</h1>
 
 	<div dojoType="dojo.data.ItemFileWriteStore" jsId="myStore"
@@ -149,7 +149,7 @@
 
 	<tr style="width:100%">
 		<td style="width: 50%">
-			<h2>Custom</h2> 
+			<h2>Custom</h2>
 			<p>Should add this category to the store.  The second parameter is the value for numberOfItems.</p>
 			<div class="container">
 				<input id="newCat" type="text" value="Pottedmeat" /><input id="numItems" type="text" value="0" size="3"/><div id="addButton" dojoType="dijit.form.Button">Add Category</div>
@@ -205,7 +205,7 @@
 				dndController="dijit.tree.dndSource" checkAcceptance="dndAccept" checkItemAcceptance="itemTreeCheckItemAcceptance"
 				dragThreshold="8"
 				getIconClass="getIcon"
-				persist="false"></div> 
+				persist="false"></div>
 		</td>
 	</tr>
 	</table>

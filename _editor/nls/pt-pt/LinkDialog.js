@@ -4,4 +4,4 @@
 	url: "URL:",
 	text: "Descrição:",
 	set: "Definir"
-}) 
+})

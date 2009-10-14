@@ -11,7 +11,7 @@
 		<!-- required: dojo.js -->
 		<script type="text/javascript" src="../../../dojo/dojo.js"
 			djConfig="isDebug: true, parseOnLoad: true"></script>
-			
+
 		<!-- functions to help test -->
 		<script type="text/javascript" src="../helpers.js"></script>
 
@@ -42,7 +42,7 @@
 
 							return d;
 						}
-					},				
+					},
 
 					{
 						name: "tab to the menubar",
@@ -61,7 +61,7 @@
 							return d;
 						}
 					},
-			
+
 					{
 						name: "arrow to the edit menu",
 						timeout: 4000,
@@ -132,16 +132,16 @@
 							dijit.byId("new").onClick = function(){ clicked = true; };
 
 							doh.robot.keyPress(dojo.keys.ENTER, 500, {});
-							
+
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.t(clicked, "new was clicked");
-								doh.t(isHidden("fileMenu"), "File menu disappeared");						
+								doh.t(isHidden("fileMenu"), "File menu disappeared");
 								doh.f(dojo.hasClass("file", "dijitMenuItemSelected"),
 									"File MenuBarItem should no longer have selected effect, actual class is: " + dojo.byId("edit").className);
 							}), 500);
-	
+
 							return d;
-						}  
+						}
 					},
 
 					{
@@ -190,12 +190,12 @@
 						timeout: 5000,
 						runTest: function(){
 							var d = new doh.Deferred();
-							
+
 							// Put focus on the link; this is just a random place on the screen to have focus
 							doh.robot.sequence(function(){
 								dijit.focus(dojo.byId("link"));
 							}, 500, 500);
-							
+
 							// open via keyboard
 							if (dojo.isMac) {
 								doh.robot.keyPress(dojo.keys.SPACE, 500, {
@@ -206,21 +206,21 @@
 									shift: true
 								});
 							}
-							
-							
+
+
 							doh.robot.sequence(d.getTestCallback(function(){
 								var menu = dijit.byId("windowContextMenu");
 								doh.t(isVisible(menu), "menu is now shown");
-								
+
 								var menuCoords = dojo.position(menu.domNode);
-								
+
 								doh.t(menuCoords.x < 50, "x < 50");
 								doh.t(menuCoords.y < 50, "y < 50");
 								doh.t(menuCoords.x >= 0, "x >= 0");
 								doh.t(menuCoords.y >= 0, "y >= 0");
 								doh.robot.keyPress(dojo.keys.ESCAPE, 0, {}, true); // close context menu
 							}), 1000);
-							
+
 							return d;
 						}
 					}]);

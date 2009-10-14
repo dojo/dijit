@@ -21,11 +21,11 @@
 
 		<!-- required: a default dijit theme: -->
 		<link id="themeStyles" rel="stylesheet" href="../../dijit/themes/tundra/tundra.css">
-		
+
 		<!-- required: dojo.js -->
 		<script type="text/javascript" src="../../dojo/dojo.js"
 			djConfig="parseOnLoad: true, isDebug: true"></script>
-		
+
 		<!-- not needed, for testing alternate themes -->
 		<script type="text/javascript" src="_testCommon.js"></script>
 
@@ -37,7 +37,7 @@
 
 			dojo.addOnLoad(function(){
 				//Need to declare BigCalendar here in an addOnLoad block so that it works
-				//with xdomain loading, where the dojo.require for dijit.Calendar 
+				//with xdomain loading, where the dojo.require for dijit.Calendar
 				//may load asynchronously. This also means we cannot have HTML
 				//markup in the body tag for BigCalendar, but instead inject it in this
 				//onload handler after BigCalendar is defined.
@@ -48,7 +48,7 @@
 						if(!(date.getDate() % 10)){ return "blue"; } // apply special style to all days divisible by 10
 					}
 				});
-				
+
 				var bigCalendar = dojo.byId("calendar5");
 				bigCalendar.setAttribute("dojoType", "BigCalendar");
 				dojo.parser.parse(bigCalendar.parentNode);
@@ -60,7 +60,7 @@
 		</script>
 	</head>
 	<body class="tundra">
-		
+
 		<h1 class="testTitle">Dijit Calendar Test</h1>
 
 		before

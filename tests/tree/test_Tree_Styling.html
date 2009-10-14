@@ -8,27 +8,27 @@
 		@import "../../../dojo/dojo/resources/dojo.css";
 		@import "../../../dojo/dijit/css/dijitTests.css";
 		@import "../../../dojo/dojo/resources/dnd.css";
-		
+
 		.listTree {
 			width: 300px;
 		}
-		
+
 		.dijitTreeExpandoOpened,
 		.dijitTreeExpandoClosed {
 			display: none;
 		}
-		
-		
+
+
 		.dijitTreeNode .dijitTreeRow {
 			padding-top: 4px;
 			padding-bottom: 2px;
 			border-bottom: 1px solid #bbb;
 		}
-		
+
 		.dijitTreeExpandoLeaf {
 			display: none;
 		}
-		
+
 		.dijitTreeIsLast,
 		.dijitTreeNode {
 			background: transparent;
@@ -38,18 +38,18 @@
 			background:#CCCCFF none repeat scroll 0 0;
 			color:black;
 		}
-		
+
 		.headerRow {
 			background-color: #eee;
 		}
 		.headerRow .dijitTreeLabel {
-			font-weight: bold;	
+			font-weight: bold;
 		}
-		
+
 		.dijitExpandoText {
 			display: none;
 		}
-		
+
 	</style>
 
 	<!-- required: the default dijit theme: -->
@@ -67,8 +67,8 @@
 		dojo.require("dijit.Tree");
 
 		function getRowClass(item, isExpanded) {
-			if (!item 
-					|| !treeStore.isItem(item) 
+			if (!item
+					|| !treeStore.isItem(item)
 					|| treeStore.getValue(item, "type") != "header") {
 				return null;
 			}
@@ -78,29 +78,29 @@
 	</script>
 
 </head>
-<body class="soria"> 
+<body class="soria">
 
 	<div dojoType="dojo.data.ItemFileWriteStore" jsId="treeStore"
 		url="places.json"></div>
 
-	<div 
-		dojoType="dijit.tree.TreeStoreModel" 
-		jsId="treeModel" 
-		store="treeStore" 
+	<div
+		dojoType="dijit.tree.TreeStoreModel"
+		jsId="treeModel"
+		store="treeStore"
 		query="{id:'root'}"
 		childrenAttrs="children"></div>
 
 	<h1 class="testTitle">Styling a Tree to appear like an expandable list</h1>
 	<p>
-		This example shows how to style the dijit.Tree widget to look like an expandable list. 
+		This example shows how to style the dijit.Tree widget to look like an expandable list.
 		To do this, you must specify the getRowClass function
 	</p>
 
-	<div 
-		dojoType="dijit.Tree" 
+	<div
+		dojoType="dijit.Tree"
 		id="placeTree"
-		model="treeModel" 
-		showRoot="false" 
+		model="treeModel"
+		showRoot="false"
 
 		getRowClass="getRowClass"
 
@@ -108,6 +108,6 @@
 		openOnClick="true"
 		persist="false"
 	></div>
-		
+
 	</body>
 </html>

@@ -8,7 +8,7 @@
 
 			dojo.require("dijit._Widget");
 			dojo.require("dijit._Templated");
-			
+
 			dojo.require("dijit.layout.LayoutContainer");
 
 			function getOuterHTML(/*DomNode*/ node){
@@ -85,7 +85,7 @@
 							var widget=new SimpleTemplate();
 							var wrapper=dojo.byId("simpleWrapper");
 							wrapper.appendChild(widget.domNode);
-							t.is('<button widgetid=\"test1\"><span>hello &lt; world</span></button>', wrapper.innerHTML.toLowerCase());			
+							t.is('<button widgetid=\"test1\"><span>hello &lt; world</span></button>', wrapper.innerHTML.toLowerCase());
 						},
 
 						function variables(t){
@@ -106,7 +106,7 @@
 						},
 						function variablesWithExclamation(t){
 							var widget=new ExclamationVariableTemplate();
-							
+
 							// ExclamationVariableTemplate should create markup like
 							//		<div><span>hello world</span></div>
 							// The <span> comes from the ${!markup} variable.
@@ -155,23 +155,23 @@
 							}), 50);
 							return deferred;
 						},
-						
+
 						function widgetsInTemplateLifecycle(t){
-							
+
 							var result = [], expected = [1,1,0,2,2,3];
-							
+
 							// widgetsInTemplateLifecycle
 							dojo.declare("SubThing", dijit._Widget, {
-								postCreate:function(){ 
+								postCreate:function(){
 									this.inherited(arguments);
 									result.push(1);
 								},
-								startup:function(){ 
+								startup:function(){
 									this.inherited(arguments);
 									result.push(2);
 								}
 							});
-							
+
 							dojo.declare("ParentThing", [dijit._Widget, dijit._Templated], {
 								widgetsInTemplate:true,
 								templateString: "<div>" +
@@ -199,7 +199,7 @@
 							dojo.forEach(expected, function(r){
 								t.is(r, result.shift());
 							});
-							
+
 						}
 					]
 				);

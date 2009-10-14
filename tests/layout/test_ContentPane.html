@@ -16,7 +16,7 @@
 			margin: 4px;
 		}
 	</style>
-	
+
 	<!-- required: the default dijit theme: -->
 	<link id="themeStyles" rel="stylesheet" href="../../../dijit/themes/tundra/tundra.css">
 
@@ -58,7 +58,7 @@
 					pane1.attr('content', msg);
 					t.assertEqual(msg, pane1.domNode.innerHTML);
 				}
-			}, 
+			},
 			{
 				name: 'parseInitialContent',
 				runTest: function(t){
@@ -72,7 +72,7 @@
 				runTest: function(t){
 					console.log("basicChecks: " + this.name);
 					dialogCtrPane.attr(
-						"content", 
+						"content",
 						'<div dojoType="dijit.Dialog" id="sacrificialDlg" title="Life is short for this fellow">'
 						+'	<p>This dialog should be cleanly destroyed when the unit tests run</p>'
 						+'</div>'
@@ -89,7 +89,7 @@
 					t.assertTrue(dijit.byId("sacrificialDlg"));
 
 					var dialog = dijit.byId("sacrificialDlg");
-					// dialog is supposed to move its domNode to the body.. 
+					// dialog is supposed to move its domNode to the body..
 					// we need to check it gets cleanly removed when we set content on the CP
 					t.assertTrue(dialog);
 					t.assertTrue(dialog.domNode.parentNode == dojo.body());
@@ -100,25 +100,25 @@
 				}
 			},
 			{
-				name: 'reuse', 
+				name: 'reuse',
 				runTest: function(t) {
 					console.log("basicChecks: " + this.name);
 					// do the same thing over again - we should be error free
 					dialogCtrPane.attr(
-						"content", 
+						"content",
 						'<div dojoType="dijit.Dialog" id="sacrificialDlg" title="Life is short for this fellow">'
 						+'	<p>This dialog should be cleanly destroyed when the unit tests run</p>'
 						+'</div>'
 					);
 					var dialog = dijit.byId("sacrificialDlg");
-					// dialog is supposed to move its domNode to the body.. 
+					// dialog is supposed to move its domNode to the body..
 					// we need to check it gets cleanly removed when we set content on the CP
 					t.assertTrue(dialog);
 					t.assertTrue(dialog.domNode.parentNode == dojo.body());
 				}
 			},
 			{
-				name: 'destroy', 
+				name: 'destroy',
 				runTest: function(t) {
 					console.log("basicChecks: " + this.name);
 
@@ -135,7 +135,7 @@
 					// manually too
 					dialogCtrPane.destroyRecursive();
 
-					// make sure everything got deleted		
+					// make sure everything got deleted
 					t.assertFalse(dijit.byId("dialogContainer"));
 					t.assertFalse(dijit.byId("sacrificialDlg"), "dialog in dialogContainer was destroyed");
 					t.assertFalse(dijit.byId("destroyTestWidget"), "test widget in dialogContainer was destroyed");
@@ -144,13 +144,13 @@
 			}
 			]);
 			doh.run();
-			
+
 		});
 	</script>
-	
+
 </head>
 <body class="tundra">
-	
+
 	<h1 class="testTitle">Dijit layout.ContentPane tests</h1>
 		<p>pre-container paragraph</p>
 
@@ -195,7 +195,7 @@
 		<div dojoType="dijit.layout.ContentPane" class="box" href="combotab.html" id="test">
 			<p style='background-color:yellow;border:1px solid red;text-align:center;'>This text should automatically be replaced by downloaded content from combotab.html</p>
 		</div>
-		
+
 		<hr/>
 		<p>ContentPanes used by the unit tests to verify functionality
 		<div class='box' dojoType="dijit.layout.ContentPane" id='parsedPane'>

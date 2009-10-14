@@ -37,7 +37,7 @@
 				var metaKey = {ctrl: true}
 
 				var editor0, editor1;
-				
+
 				doh.register("setup", function setup(){
 					editor0 = dijit.byId("editor0");
 					editor1 = dijit.byId("editor1");
@@ -66,7 +66,7 @@
 							doh.robot.typeKeys("exciting", 500);
 							doh.robot.keyPress("i", 500, metaKey);	// stop italic
 							doh.robot.typeKeys(" new world.", 500);
-							
+
 							doh.robot.sequence(d.getTestCallback(function(){
 								var val = normalize(editor1.attr('value'));
 								doh.is("hello <b>bold</b> and <i>exciting</i> new world.", val);
@@ -98,11 +98,11 @@
 
 
 							doh.robot.keyPress(dojo.keys.HOME, 500);
-							
+
 							doh.robot.sequence(d.getTestCallback(function(){
 								var toolbar = editor1.toolbar;
 								doh.t(toolbar, "found toolbar");
-								
+
 								var boldButton = toolbar.getChildren()[7];
 								doh.t(boldButton, "found bold button");
 								doh.f(boldButton.attr("checked"), "bold button not depressed");
@@ -128,14 +128,14 @@
 								// not the beginning of the second word (after the space), so move one more
 								doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 500);
 							}
-							
+
 							// second letter of second word
 							doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 500);
-							
+
 							doh.robot.sequence(d.getTestCallback(function(){
 								var toolbar = editor1.toolbar;
 								doh.t(toolbar, "found toolbar");
-								
+
 								var boldButton = toolbar.getChildren()[7];
 								doh.t(boldButton, "found bold button");
 								doh.t(boldButton.attr("checked"), "bold button depressed");
@@ -164,11 +164,11 @@
 
 							// second letter of third word
 							doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 500);
-							
+
 							doh.robot.sequence(d.getTestCallback(function(){
 								var toolbar = editor1.toolbar;
 								doh.t(toolbar, "found toolbar");
-								
+
 								var boldButton = toolbar.getChildren()[7];
 								doh.t(boldButton, "found bold button");
 								doh.f(boldButton.attr("checked"), "bold button not depressed");
@@ -207,7 +207,7 @@
 							doh.robot.keyPress(dojo.keys.SPACE, 500);
 
 							doh.robot.typeKeys("world", 500);
-							
+
 							doh.robot.sequence(d.getTestCallback(function(){
 								// Get the value and try to do some normalization to make all browsers look
 								// the same.   Would be nice if we didn't need this, the normalization should
@@ -276,7 +276,7 @@
 							if(dojo.isMoz){
 								// On FF you need to hit tab twice to get out, see http://docs.dojocampus.org/dijit/Editor
 								doh.robot.keyPress(dojo.keys.TAB, 500);
-							}	
+							}
 
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.is("focusAfter", dojo.global.dijit._curFocus.id, "focused after editor1");
@@ -327,7 +327,7 @@
 							if(dojo.isMoz){
 								// Need to shift-tab twice on FF, see #9612
 								doh.robot.keyPress(dojo.keys.TAB, 500, {shift: true});
-							}								
+							}
 
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.is("focusBefore", dojo.global.dijit._curFocus.id, "focused before editor1");

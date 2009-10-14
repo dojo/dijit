@@ -32,7 +32,7 @@
     background:#e4e4e4 url("../../../dijit/themes/tundra/images/buttonDisabled.png") top repeat-x;
 }
 .dj_ie .tundra .dijitSelectDisabled  .dijitButtonNode * {
-	filter: gray() alpha(opacity=50); 
+	filter: gray() alpha(opacity=50);
 }
 
 .tundra .dijitSelectHover .dijitButtonNode {

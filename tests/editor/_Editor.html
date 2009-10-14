@@ -11,11 +11,11 @@
 
 	<!-- required: a default dijit theme: -->
 	<link id="themeStyles" rel="stylesheet" href="../../../dijit/themes/tundra/tundra.css">
-	
+
 	<!-- required: dojo.js -->
 	<script type="text/javascript" src="../../../dojo/dojo.js"
 		djConfig="parseOnLoad: true, isDebug: true"></script>
-	
+
 	<!-- not needed, for testing alternate themes -->
 	<script type="text/javascript" src="../_testCommon.js"></script>
 
@@ -38,7 +38,7 @@
 
 <body class="tundra">
 <div>some content
-<div>more contentmargin:50px;border:50px solid red; padding:50px; 
+<div>more contentmargin:50px;border:50px solid red; padding:50px;
 <iframe src="test_Editor.html" id="iframe" style="width:100px; height:50px; overflow:hidden;">
 </iframe>
 <input type="button" dojoType="dijit.form.Button" onClick="var frame=dojo.byId('iframe');dojo.withGlobal(frame.contentWindow, function(){frame.contentWindow.dijit.scrollIntoView(frame.contentWindow.dijit.byId('editor1').toolbar.getChildren()[7].domNode);});alert('expected Bold, got: '+frame.contentWindow.dijit.byId('editor1').toolbar.getChildren()[7].titleNode.getAttribute('title'))">Scroll bold into view</input>

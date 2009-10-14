@@ -36,7 +36,7 @@
 					runTest: function(){
 						// assert onChange not fired
 						doh.is("not fired yet!",dojo.byId('oc1').value);
-						
+
 						// make sure initial values are what we expect
 						doh.is(1,spin1.smallDelta);
 						doh.is(900, spin1.attr('value'), "integerspinner1");
@@ -52,7 +52,7 @@
 							spin1.attr('value', 400);
 							doh.is(400, spin1.focusNode.value);
 							doh.is(true, spin1.isValid());
-	
+
 						}
 					},
 
@@ -197,7 +197,7 @@
 									doh.is(true,spin1.isValid());
 								}),500);
 							}),500);
-	
+
 							return d;
 						}
 					},
@@ -233,7 +233,7 @@
 									doh.is(true,spin1.isValid());
 								}),500);
 							}),500);
-	
+
 							return d;
 						}
 					}
@@ -310,7 +310,7 @@
 							// wheel up 10
 							// this should increase the value by 1.0
 							// takes 100ms/click
-							doh.robot.mouseWheel(-10, 1000, 1000); 
+							doh.robot.mouseWheel(-10, 1000, 1000);
 							doh.robot.sequence(function(){
 								if(spin3.attr('value')==(1.0+1.0*delta)){
 									d.callback(true);
@@ -351,7 +351,7 @@
 									doh.is(true,spin3.isValid());
 								}),500);
 							}),500);
-	
+
 							return d;
 						}
 					},
@@ -384,12 +384,12 @@
 									doh.is(true,spin3.isValid());
 								}),500);
 							}),500);
-	
+
 							return d;
 						}
 					}
 				]);
-				
+
 				doh.run();
 			});
 		</script>

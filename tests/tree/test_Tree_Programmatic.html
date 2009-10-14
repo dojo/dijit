@@ -38,19 +38,19 @@
 				childrenAttrs: ["children"]
 			});
 		});
-		
+
 		function createTree(){
 			myTree = new dijit.Tree({
 				id: "myTree",
 				model: myModel,
-				dndController: "dijit.tree.dndSource" 
+				dndController: "dijit.tree.dndSource"
 			});
 			dojo.byId("container").appendChild(myTree.domNode);
 			myTree.startup();
 			dojo.byId("create").disabled = true;
 			dojo.byId("destroy").disabled = false;
 		}
-		
+
 		function destroyTree(){
 			myTree.destroy();
 			dojo.byId("create").disabled = false;

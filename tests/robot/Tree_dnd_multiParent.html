@@ -11,7 +11,7 @@
 		<!-- required: dojo.js -->
 		<script type="text/javascript" src="../../../dojo/dojo.js"
 			djConfig="isDebug: true, parseOnLoad: true"></script>
-			
+
 		<!-- functions to help test -->
 		<script type="text/javascript" src="../helpers.js"></script>
 		<script type="text/javascript" src="Tree_dnd.js"></script>
@@ -31,7 +31,7 @@
 					}
 				});
 
-				doh.register("multi-parent tests", [ 
+				doh.register("multi-parent tests", [
 					{
 						name: "add 'Fruits' as parent of vegetables",
 						timeout: 10000,
@@ -95,7 +95,7 @@
 								doh.is("Citrus", innerText(treeNodeChildren[0].labelNode));
 								doh.is("Vegetables", innerText(treeNodeChildren[1].labelNode));
 							}), 1000);	// 1000ms to wait for 'Fruits' node to expand and show 'Apple' node
-		
+
 							return d;
 						}
 					},
@@ -142,7 +142,7 @@
 								});
 								doh.is(6, items.length, "# of items in store");
 							}), 1000);	// 1000ms to wait for 'Fruits' node to expand and show 'Apple' node
-		
+
 							return d;
 						}
 					},
@@ -189,13 +189,13 @@
 								});
 								doh.is(6, items.length, "# of items in store");
 							}), 1000);	// 1000ms to wait for 'Fruits' node to expand and show 'Apple' node
-		
+
 							return d;
 						}
 					}
 				]);
 
-				doh.register("external drop tests", [ 
+				doh.register("external drop tests", [
 					{
 						name: "drop banana on fruits",
 						timeout: 10000,
@@ -223,7 +223,7 @@
 								});
 								doh.is(1, items.length, "1 banana item in store");
 							}), 1000);
-		
+
 							return d;
 						}
 					},
@@ -259,13 +259,13 @@
 								});
 								doh.is(1, items.length, "1 banana item in store (with 2 parents)");
 							}), 1000);
-		
+
 							return d;
 						}
 					}
 
 				]);
-				
+
 				doh.run();
 			});
 		</script>

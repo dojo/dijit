@@ -1,4 +1,4 @@
-/*	
+/*
 	_testCommon.js - a simple module to be included in dijit test pages to allow
 	for easy switching between the many many points of the test-matrix.
 
@@ -45,11 +45,11 @@
 					if(value){ testMode = "dijit_a11y"; }
 			}
 		}
-	}		
+	}
 
 	// always include the default theme files:
-	if(theme || testMode){ 
-	
+	if(theme || testMode){
+
 		if(theme){
 			var themeCss = d.moduleUrl("dijit.themes",theme+"/"+theme+".css");
 			var themeCssRtl = d.moduleUrl("dijit.themes",theme+"/"+theme+"_rtl.css");
@@ -57,7 +57,7 @@
 			document.write('<link rel="stylesheet" type="text/css" href="'+themeCssRtl+'">');
 		}
 
-		if(dojo.config.parseOnLoad){ 
+		if(dojo.config.parseOnLoad){
 			dojo.config.parseOnLoad = false;
 			dojo.config._deferParsing = true;
 		}
@@ -66,15 +66,15 @@
 
 			// set the classes
 			var b = dojo.body();
-			if(theme){ 
+			if(theme){
 					dojo.removeClass(b, defTheme);
 					if(!d.hasClass(b, theme)){ d.addClass(b, theme); }
 					var n = d.byId("themeStyles");
 					if(n){ d.destroy(n); }
 			}
 			if(testMode){ d.addClass(b, testMode); }
-			if(dojo.config._deferParsing){ 
-				// attempt to elimiate race condition introduced by this 
+			if(dojo.config._deferParsing){
+				// attempt to elimiate race condition introduced by this
 				// test helper file.  120ms to allow CSS to finish/process?
 				setTimeout(dojo.hitch(d.parser, "parse", b), 120);
 			}

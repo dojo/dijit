@@ -8,7 +8,7 @@ dojo.requireLocalization("dijit._editor", "commands");
 
 dojo.declare("dijit._editor.plugins.Print",dijit._editor._Plugin,{
 	// summary:
-	//		This plugin provides Print cabability to the editor.  When 
+	//		This plugin provides Print cabability to the editor.  When
 	//		clicked, the document in the editor frame will be printed.
 
 	_initButton: function(){
@@ -63,10 +63,10 @@ dojo.declare("dijit._editor.plugins.Print",dijit._editor._Plugin,{
 				var edDoc = this.editor.document;
 				var content = this.editor.attr("value");
 				content = "<html><head><meta http-equiv='Content-Type' " +
-					"content='text/html; charset='UTF-8'></head><body>" + 
+					"content='text/html; charset='UTF-8'></head><body>" +
 					content + "</body></html>";
-				var win = window.open("javascript: ''", 
-					"", 
+				var win = window.open("javascript: ''",
+					"",
 					"status=0,menubar=0,location=0,toolbar=0," +
 					"width=1,height=1,resizable=0,scrollbars=0");
 				win.document.open();
@@ -75,7 +75,7 @@ dojo.declare("dijit._editor.plugins.Print",dijit._editor._Plugin,{
 				var styles = [];
 				var styleNodes = edDoc.getElementsByTagName("style");
 				if(styleNodes){
-					// Clone over any editor view styles, since we can't print the iframe 
+					// Clone over any editor view styles, since we can't print the iframe
 					// directly.
 					var i;
 					for(i = 0; i < styleNodes.length; i++){

@@ -24,7 +24,7 @@
 
 				var editor0;
 				var fsPlugin;
-				
+
 				doh.register("FullScreen_tests", [
 					{
 						name: "Keyboard: Go to Fullscreen (CTRL-SHIFT-F11)",
@@ -52,7 +52,7 @@
 								//Find the fullscreen plugin, we'll need it.
 								doh.assertTrue(fsPlugin != null);
 								doh.robot.keyPress(dojo.keys.F11, 500, {ctrl:true,shift:true});
-								
+
 								doh.robot.sequence(d.getTestCallback(function(){
 									//Now check the state!
 									doh.assertTrue(fsPlugin.isFullscreen);
@@ -67,7 +67,7 @@
 									doh.assertTrue(edPos.h >= vp.h && edPos.h < (vp.h + 5), "Height check");
 									doh.assertTrue(edPos.w >= vp.w && edPos.w < (vp.w + 5), "Width check");
 								}), 1000);
-								
+
 
 							}catch(e){
 								d.errback(e);
@@ -105,7 +105,7 @@
 								doh.assertTrue(fsPlugin != null);
 								doh.robot.keyPress(dojo.keys.F11, 500, {ctrl:true,shift:true});
 								doh.robot.keyPress(dojo.keys.F11, 1000, {ctrl:true,shift:true});
-								
+
 								doh.robot.sequence(d.getTestCallback(function(){
 									//Now check the state!
 									doh.assertFalse(fsPlugin.isFullscreen);
@@ -117,7 +117,7 @@
 									doh.assertTrue(edPos.h >= 400 && (edPos.h < 405), "Restored height check.");
 									doh.assertTrue(edPos.w >= 800 && (edPos.w < 805), "Restored width check.");
 								}), 2000);
-								
+
 
 							}catch(e){
 								d.errback(e);
@@ -155,7 +155,7 @@
 								doh.assertTrue(fsPlugin != null);
 								doh.robot.mouseMoveAt(fsPlugin.button.domNode, 500);
 								doh.robot.mouseClick({left: true}, 750);
-								
+
 								doh.robot.sequence(d.getTestCallback(function(){
 									//Now check the state!
 									doh.assertTrue(fsPlugin.isFullscreen);
@@ -170,7 +170,7 @@
 									doh.assertTrue(edPos.h >= vp.h && edPos.h < (vp.h + 5), "Height check");
 									doh.assertTrue(edPos.w >= vp.w && edPos.w < (vp.w + 5), "Width check");
 								}), 1000);
-								
+
 
 							}catch(e){
 								d.errback(e);
@@ -221,7 +221,7 @@
 									doh.assertTrue(edPos.h >= 400 && (edPos.h < 405), "Restored height check.");
 									doh.assertTrue(edPos.w >= 800 && (edPos.w < 805), "Restored width check.");
 								}), 2000);
-								
+
 
 							}catch(e){
 								d.errback(e);

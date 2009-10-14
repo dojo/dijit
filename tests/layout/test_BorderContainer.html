@@ -53,13 +53,13 @@
 				button.innerHTML='Remove left panel';
 			}
 		}
-		
+
 		function watchSplitters(bc) {
 
 			var out = dojo.byId("watchedOutput");
 			var moveConnects = {};
 			dojo.forEach(["top", "left"], function(region) {
-				var spl = bc.getSplitter(region); 
+				var spl = bc.getSplitter(region);
 
 				dojo.connect(spl, "_startDrag", function() {
 
@@ -71,11 +71,11 @@
 							y: spl.horizontal ? spl.domNode.style[spl.region] : 0
 						});
 					})
-					
+
 				});
 				dojo.connect(spl, "_stopDrag", function(evt) {
 					dojo.style(spl.child.domNode, "opacity", 1);
-					dojo.disconnect(moveConnects[spl.widgetId]); 
+					dojo.disconnect(moveConnects[spl.widgetId]);
 					delete moveConnects[spl.widgetId];
 				});
 			})
@@ -95,7 +95,7 @@
 		<div dojoType="dijit.layout.ContentPane" region="top" style="background-color: #b39b86; border: 15px black solid; height: 50px;" splitter="true" role="banner">
 			top bar (resizable)
 		</div>
-		<div id="border1-left" dojoType="dijit.layout.ContentPane" region="left" style="background-color: #acb386; border: 10px green solid; width: 100px;" 
+		<div id="border1-left" dojoType="dijit.layout.ContentPane" region="left" style="background-color: #acb386; border: 10px green solid; width: 100px;"
 		role="navigation" splitter="true" minSize="150" maxSize="250">
 			left (resizable b/w 150 &rarr; 250)
 		</div>
@@ -147,7 +147,7 @@
 			trailing (resizable)
 		</div>
 	</div>
-	
+
 	<p>gutters=false layout</p>
 
 	<div dojoType="dijit.layout.BorderContainer" design="sidebar" gutters="false"
@@ -175,15 +175,15 @@
 			trailing
 		</div>
 	</div>
-	
+
 	<p>Vertical panels only with splitters</p>
-	
+
 	<div dojoType="dijit.layout.BorderContainer" design="sidebar"
 		style="border: 2px solid black; width: 90%; height: 300px; padding: 10px;">
 		<div dojoType="dijit.layout.ContentPane" region="top" style="background-color: #b39b86; height: 80px;" splitter="true">
 			top bar
 		</div>
-		
+
 		<div dojoType="dijit.layout.ContentPane" region="center" style="background-color: #f5ffbf; padding: 10px;">
 			main panel with <a href="http://www.dojotoolkit.org/">a link</a>.<br />
 			(to check we're copying children around properly).<br />
@@ -198,10 +198,10 @@
 			bottom bar
 		</div>
 	</div>
-	
+
 	<br />
 	<p>More fun with layouts</p>
-	
+
 	<div id="mondrian" dojoType="dijit.layout.BorderContainer" design="sidebar" gutters="false" persist="true" style="height: 300px; width: 400px;">
 		<div id="mondrian_top" dojoType="dijit.layout.ContentPane" region="top" style="height: 100px" splitter="true">
 			<div  id="mondrian_top_bc" dojoType="dijit.layout.BorderContainer" persist="true" gutters="false" style="height: 100px; width: 100%">
@@ -231,7 +231,7 @@
 		<div dojoType="dijit.layout.ContentPane" region="left" style="background-color: #ccccff; width: 40px" splitter="true"><span>Bottom</span></div>
 		<div dojoType="dijit.layout.ContentPane" region="center" style="background-color: #ffffcc"><span>Center</span></div>
 	</div>
-	
+
 	<p>Splitter coords output:</p>
 	<div id="watchedOutput" style="border: 1px solid #999">nothing moving</div>
 

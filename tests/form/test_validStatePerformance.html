@@ -27,7 +27,7 @@
       dojo.require("dijit.form.Form");
       dojo.require("dojo.parser");  // scan page for widgets and instantiate them
     </script>
-    
+
   </head>
 
   <body class="tundra">
@@ -37,11 +37,11 @@
         var startTime1 = (new Date()).getTime();
         dijit.byId("form1").reset();
         console.log("Time 1: Reset form with NumberTextBox-fields: " + ((new Date()).getTime() - startTime1) + " millis");
-        
+
         var startTime2 = (new Date()).getTime();
         dijit.byId("form2").reset();
         console.log("Time 2: Reset form with ValidationTextBox-fields: " + ((new Date()).getTime() - startTime2) + " millis");
-        
+
         var startTime3 = (new Date()).getTime();
         for (var i = 1; i <= 20; i++) {
 			    var w = dijit.byId("input1_" + i);
@@ -52,7 +52,7 @@
 			    }
 			  }
         console.log("Time 3: Inserting value into NumberTextBox-fields: " + ((new Date()).getTime() - startTime3) + " millis");
-        
+
         var startTime4 = (new Date()).getTime();
         for (var i = 1; i <= 20; i++) {
 			    var w = dijit.byId("input2_" + i);

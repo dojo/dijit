@@ -8,13 +8,13 @@ dojo.requireLocalization("dijit._editor", "commands");
 
 dojo.declare("dijit._editor.plugins.FullScreen",dijit._editor._Plugin,{
 	// summary:
-	//		This plugin provides FullScreen cabability to the editor.  When 
-	//		toggled on, it will render the editor into the full window and 
+	//		This plugin provides FullScreen cabability to the editor.  When
+	//		toggled on, it will render the editor into the full window and
 	//		overlay everything.  It also binds to the hotkey: CTRL-SHIFT-F11
 	//		for toggling fullscreen mode.
-	
+
 	// zIndex: [public] Number
-	//		zIndex value used for overlaying the full page.  
+	//		zIndex value used for overlaying the full page.
 	//		default is 500.
 	zIndex: 500,
 
@@ -77,21 +77,21 @@ dojo.declare("dijit._editor.plugins.FullScreen",dijit._editor._Plugin,{
 		//		so this function is intended to try and constrain the TAB key.
 		// e: Event
 		//		The key event.
-		// tags: 
+		// tags:
 		//		private
 		if(this.isFullscreen){
 			var ed = this.editor;
-			if(!ed.isTabIndent && 
+			if(!ed.isTabIndent &&
 				ed._fullscreen_oldOnKeyDown &&
 				e.keyCode === dojo.keys.TAB){
 				// If we're in fullscreen mode, we want to take over how tab moves focus a bit.
 				// to keep it within the editor since it's hiding the rest of the page.
-				// IE hates changing focus IN the event handler, so need to put calls 
+				// IE hates changing focus IN the event handler, so need to put calls
 				// in a timeout.  Gotta love IE.
 				// Also need to check for alternate view nodes if present and active.
 				var f = dijit.getFocus();
 				var avn = this._getAltViewNode();
-				if(f.node == ed.iframe || 
+				if(f.node == ed.iframe ||
 					(avn && f.node === avn)){
 					setTimeout(dojo.hitch(this, function(){
 						ed.toolbar.focus();
@@ -118,7 +118,7 @@ dojo.declare("dijit._editor.plugins.FullScreen",dijit._editor._Plugin,{
 
 	_resizeEditor: function(){
 		// summary:
-		//		Function to handle resizing the editor as the viewport 
+		//		Function to handle resizing the editor as the viewport
 		//		resizes (window scaled)
 		// tags:
 		//		private
@@ -153,7 +153,7 @@ dojo.declare("dijit._editor.plugins.FullScreen",dijit._editor._Plugin,{
 
 	_setFullScreen: function(full){
 		// summary:
-		//		Function to handle toggling between full screen and 
+		//		Function to handle toggling between full screen and
 		//		regular view.
 		// tags:
 		//		private
@@ -174,7 +174,7 @@ dojo.declare("dijit._editor.plugins.FullScreen",dijit._editor._Plugin,{
 			this._origiFrameState = {};
 
 			// Store the basic editor state we have to restore later.
-			// Not using dojo.style here, had problems, didn't 
+			// Not using dojo.style here, had problems, didn't
 			// give me stuff like 100%, gave me pixel calculated values.
 			// Need the exact original values.
 			var domNode = ed.domNode,
@@ -188,7 +188,7 @@ dojo.declare("dijit._editor.plugins.FullScreen",dijit._editor._Plugin,{
 			};
 
 			// Store the iframe state we have to restore later.
-			// Not using dojo.style here, had problems, didn't 
+			// Not using dojo.style here, had problems, didn't
 			// give me stuff like 100%, gave me pixel calculated values.
 			// Need the exact original values.
 			var iframe = ed.iframe,
@@ -216,7 +216,7 @@ dojo.declare("dijit._editor.plugins.FullScreen",dijit._editor._Plugin,{
 				height: "100%",
 				width: "100%",
 				zIndex: this.zIndex,
-				backgroundColor: bc !== "transparent" && 
+				backgroundColor: bc !== "transparent" &&
 					bc !== "rgba(0, 0, 0, 0)"?bc:"white"
 			});
 
@@ -235,10 +235,10 @@ dojo.declare("dijit._editor.plugins.FullScreen",dijit._editor._Plugin,{
 
 			if(dojo.isIE && !dojo.isQuirks){
 				// IE will put scrollbars in anyway, html (parent of body)
-				// also controls them in standards mode, so we have to 
+				// also controls them in standards mode, so we have to
 				// remove them, argh.
-				if(body.parentNode && 
-					body.parentNode.style && 
+				if(body.parentNode &&
+					body.parentNode.style &&
 					body.parentNode.style.overflow){
 					this._oldBodyParentOverflow = body.parentNode.style.overflow;
 				}else{
@@ -251,10 +251,10 @@ dojo.declare("dijit._editor.plugins.FullScreen",dijit._editor._Plugin,{
 			var resizer = function(){
 				// function to handle resize events.
 				// Will check current VP and only resize if
-				// different.  
+				// different.
 				var vp = dijit.getViewport();
 				if("_prevW" in this && "_prevH" in this){
-					//No actual size change, ignore.						
+					// No actual size change, ignore.
 					if(vp.w === this._prevW && vp.h === this._prevH){
 						return;
 					}
@@ -298,7 +298,7 @@ dojo.declare("dijit._editor.plugins.FullScreen",dijit._editor._Plugin,{
 				this._rst = null;
 			}
 
-			// Add a timeout to make sure we don't have a resize firing in the 
+			// Add a timeout to make sure we don't have a resize firing in the
 			// background at the time of minimize.
 			var self = this;
 			setTimeout(function(){

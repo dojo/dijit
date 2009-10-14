@@ -58,7 +58,7 @@ dojo.declare("dijit._DialogMixin", null,
 			//		setting _firstFocusItem and _lastFocusItem
 			// tags:
 			//		protected
-			
+
 			var elems = dijit._getTabNavigable(dojo.byId(dialogNode));
 			this._firstFocusItem = elems.lowest || elems.first || dialogNode;
 			this._lastFocusItem = elems.last || elems.highest || this._firstFocusItem;
