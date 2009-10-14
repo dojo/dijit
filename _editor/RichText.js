@@ -1212,6 +1212,16 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 		command = this._normalizeCommand(command);
 		if(dojo.isIE && command == "formatblock"){
 			r = this._native2LocalFormatNames[this.document.queryCommandValue(command)];
+		}else if(dojo.isMoz && command === "hilitecolor"){
+			var oldVal;
+			try{
+				oldValue = this.document.queryCommandValue("styleWithCSS");
+			}catch(e){
+				oldValue = false;
+			}
+			this.document.execCommand("styleWithCSS", false, true);
+			r = this.document.queryCommandValue(command);
+			this.document.execCommand("styleWithCSS", false, oldValue);
 		}else{
 			r = this.document.queryCommandValue(command);
 		}
