@@ -72,6 +72,7 @@
 					},
 					{
 						name: "reset href in hidden pane, pane2",
+						timeout: 2000,
 						runTest: function(t){
 							// Resetting an href on a hidden pane should have no effect
 							var d = new doh.Deferred();
@@ -86,6 +87,7 @@
 					},
 					{
 						name: "reset href in hidden pane, innerPane1",
+						timeout: 2000,
 						runTest: function(t){
 							// Resetting an href on a hidden pane should have no effect
 							var d = new doh.Deferred();
@@ -100,6 +102,7 @@
 					},
 					{
 						name: "reset href in hidden pane, bcPane2",
+						timeout: 2000,
 						runTest: function(t){
 							// Resetting an href on a hidden pane should have no effect
 							var d = new doh.Deferred();
@@ -114,6 +117,7 @@
 					},
 					{
 						name: "selecting ContentPane causes it to load",
+						timeout: 2000,
 						runTest: function(t){
 							var d = new doh.Deferred();
 
@@ -127,6 +131,7 @@
 					},
 					{
 						name: "selecting a TabContainer causes it's selected child to load",
+						timeout: 2000,
 						runTest: function(t){
 							var d = new doh.Deferred();
 
@@ -141,6 +146,7 @@
 					},
 					{
 						name: "selecting a BorderContainer causes it's children to load",
+						timeout: 2000,
 						runTest: function(t){
 							var d = new doh.Deferred();
 
@@ -218,6 +224,7 @@
 					// Test that resize event works correctly for href w/single layout widget
 					{
 						name: "single resizable href",
+						timeout: 2000,
 						runTest: function(t){
 							var d = new doh.Deferred();
 
@@ -248,6 +255,7 @@
 					// Test that resize event works correctly for href w/multiple layout widgets
 					{
 						name: "multiple resizable href",
+						timeout: 2000,
 						runTest: function(t){
 							var d = new doh.Deferred();
 
@@ -276,6 +284,7 @@
 				 * test for #8197, uncomment when it's fixed.
 					{
 						name: "initially open, single child",
+						timeout: 2000,
 						runTest: function(t){
 							var d = new doh.Deferred();
 
@@ -297,6 +306,7 @@
 				  */
 					{
 						name: "initially open, href multiple children",
+						timeout: 2000,
 						runTest: function(t){
 							var d = new doh.Deferred();
 
@@ -330,6 +340,7 @@
 
 					{
 						name: "initially closed, href multiple children",
+						timeout: 2000,
 						runTest: function(t){
 							var d = new doh.Deferred();
 
@@ -355,6 +366,7 @@
 
 					{
 						name: "initially closed, multiple children",
+						timeout: 2000,
 						runTest: function(t){
 							var d = new doh.Deferred();
 
@@ -450,6 +462,7 @@
 				[
 					{
 						name: "initial conditions",
+						timeout: 2000,
 						runTest: function(t){
 							var d = new doh.Deferred();
 							// Wait for load events to occur (after fetching URL's)
@@ -461,6 +474,7 @@
 					},
 					{
 						name: "reload on reshow",
+						timeout: 2000,
 						runTest: function(t){
 							var d = new doh.Deferred();
 
@@ -474,6 +488,7 @@
 					},
 					{
 						name: "no reload on TabContainer resize",
+						timeout: 2000,
 						runTest: function(t){
 							var d = new doh.Deferred();
 
