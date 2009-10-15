@@ -252,6 +252,14 @@ dojo.declare("dijit._Templated",
 	}
 );
 
+var _destroyDomNode = function(/*DOM node*/node){
+	try{
+		dojo.destroy(node);
+	}catch(e){ // dojo.destroy() can fail since it calls dojo.byId which in turn tests node.nodeType and throws PermissionDenied (instead of just checking !dojo.isString(node) without problems)
+		/* squelch */
+	}
+};
+
 // key is either templatePath or templateString; object is either string or DOM tree
 dijit._Templated._templateCache = {};
 
@@ -273,12 +281,14 @@ dijit._Templated.getCachedTemplate = function(templatePath, templateString, alwa
 	var key = templateString || templatePath;
 	var cached = tmplts[key];
 	if(cached){
-		if(!cached.ownerDocument || cached.ownerDocument == dojo.doc){
-			// string or node of the same document
-			return cached;
-		}
-		// destroy the old cached node of a different document
-		dojo.destroy(cached);
+		try{
+			// if the cached value is an innerHTML string (no ownerDocument) or a DOM tree created within the current document, then use the current cached value
+			if(!cached.ownerDocument || cached.ownerDocument == dojo.doc){
+				// string or node of the same document
+				return cached;
+			}
+		}catch(e){ /* squelch */ } // IE can throw an exception if cached.ownerDocument was reloaded
+		_destroyDomNode(cached);
 	}
 
 	// If necessary, load template string from template path
@@ -306,7 +316,7 @@ if(dojo.isIE){
 		for(var key in cache){
 			var value = cache[key];
 			if(typeof value == "object"){ // value is either a string or a DOM node template
-				dojo.destroy(value);
+				_destroyDomNode(value);
 			}
 			delete cache[key];
 		}
