@@ -38,20 +38,23 @@ if(dojo.isIE){
 (function(){
 
 var _attrReg = {},
-	getAttrReg = function(dc){
-	if(!_attrReg[dc]){
-		var r = [],
-			attrs,
-			proto = dojo.getObject(dc).prototype;
-		for(var fxName in proto){
-			if(dojo.isFunction(proto[fxName]) && (attrs = fxName.match(/^_set([a-zA-Z]*)Attr$/)) && attrs[1]){
-				r.push(attrs[1].charAt(0).toLowerCase() + attrs[1].substr(1));
+	getAttributes = function(widget){
+		// summary:
+		//		Returns list of attributes for specified widget
+		var dc = widget.declaredClass;
+		if(!_attrReg[dc]){
+			var r = [],
+				attrs,
+				proto = widget.constructor.prototype;
+			for(var fxName in proto){
+				if(dojo.isFunction(proto[fxName]) && (attrs = fxName.match(/^_set([a-zA-Z]*)Attr$/)) && attrs[1]){
+					r.push(attrs[1].charAt(0).toLowerCase() + attrs[1].substr(1));
+				}
 			}
+			_attrReg[dc] = r;
 		}
-		_attrReg[dc] = r;
-	}
-	return _attrReg[dc] || [];
-}
+		return _attrReg[dc] || [];	// String[]
+	};
 
 dojo.declare("dijit._Widget", null, {
 	// summary:
@@ -191,7 +194,8 @@ dojo.declare("dijit._Widget", null, {
 		onMouseOver: "",
 		onMouseLeave: "",
 		onMouseEnter: "",
-		onMouseUp: ""},
+		onMouseUp: ""
+	},
 
 	onClick: dijit._connectOnUseEventHandler,
 	/*=====
@@ -478,7 +482,7 @@ dojo.declare("dijit._Widget", null, {
 		for(var attr in this.attributeMap){
 			condAttrApply(attr, this);
 		}
-		dojo.forEach(getAttrReg(this.declaredClass), function(a){
+		dojo.forEach(getAttributes(this), function(a){
 			if(!(a in this.attributeMap)){
 				condAttrApply(a, this);
 			}
