@@ -279,6 +279,7 @@ dijit.BackgroundIframe = function(/* DomNode */node){
 	if(!node.id){ throw new Error("no id"); }
 	if(dojo.isIE || dojo.isMoz){
 		var iframe = dijit._frames.pop();
+		dojo.style(iframe, "opacity", 0.1);		// prevent flash on FF3.5, see #10041, #10111
 		node.appendChild(iframe);
 		if(dojo.isIE<7){
 			dojo.style(iframe, {
