@@ -37,10 +37,10 @@ if(dojo.isIE){
 
 (function(){
 
-var _attrReg = {},
-	getAttributes = function(widget){
+var _attrReg = {},	// cached results from getSetterAttributes
+	getSetterAttributes = function(widget){
 		// summary:
-		//		Returns list of attributes for specified widget
+		//		Returns list of attributes with custom setters for specified widget
 		var dc = widget.declaredClass;
 		if(!_attrReg[dc]){
 			var r = [],
@@ -479,10 +479,14 @@ dojo.declare("dijit._Widget", null, {
 				scope.attr(attr, scope[attr]);
 			}
 		};
+
+		// Do the attributes in attributeMap
 		for(var attr in this.attributeMap){
 			condAttrApply(attr, this);
 		}
-		dojo.forEach(getAttributes(this), function(a){
+
+		// And also any attributes with custom setters
+		dojo.forEach(getSetterAttributes(this), function(a){
 			if(!(a in this.attributeMap)){
 				condAttrApply(a, this);
 			}
