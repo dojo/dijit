@@ -305,7 +305,7 @@ if(dojo.isIE){
 		var cache = dijit._Templated._templateCache;
 		for(var key in cache){
 			var value = cache[key];
-			if(!isNaN(value.nodeType)){ // isNode equivalent
+			if(typeof value == "object"){ // value is either a string or a DOM node template
 				dojo.destroy(value);
 			}
 			delete cache[key];
