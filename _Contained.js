@@ -3,7 +3,7 @@ dojo.provide("dijit._Contained");
 dojo.declare("dijit._Contained",
 		null,
 		{
-			// summary
+			// summary:
 			//		Mixin for widgets that are children of a container widget
 			//
 			// example:
