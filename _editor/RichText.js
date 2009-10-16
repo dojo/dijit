@@ -768,7 +768,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 				e.charCode = e.keyCode;
 				this.onKeyPress(e);
 			}
-		}else if(dojo.isMoz	&& !this.isTabIndent){
+		}else if(dojo.isMoz && !this.isTabIndent){
 			if(e.keyCode == dojo.keys.TAB && !e.shiftKey && !e.ctrlKey && !e.altKey && this.iframe){
 				// update iframe document title for screen reader
 				var titleObj = this.iframe;
