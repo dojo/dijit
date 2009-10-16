@@ -574,18 +574,18 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 		}
 
 		this.editingAreaStyleSheets.push(url);
-        this.onLoadDeferred.addCallback(dojo.hitch(function(){
-    		if(this.document.createStyleSheet){ //IE
-    			this.document.createStyleSheet(url);
-    		}else{ //other browser
-    			var head = this.document.getElementsByTagName("head")[0];
-    			var stylesheet = this.document.createElement("link");
-    			stylesheet.rel="stylesheet";
-    			stylesheet.type="text/css";
-    			stylesheet.href=url;
-    			head.appendChild(stylesheet);
-    		}
-        }));
+		this.onLoadDeferred.addCallback(dojo.hitch(function(){
+			if(this.document.createStyleSheet){ //IE
+				this.document.createStyleSheet(url);
+			}else{ //other browser
+				var head = this.document.getElementsByTagName("head")[0];
+				var stylesheet = this.document.createElement("link");
+				stylesheet.rel="stylesheet";
+				stylesheet.type="text/css";
+				stylesheet.href=url;
+				head.appendChild(stylesheet);
+			}
+		}));
 	},
 
 	removeStyleSheet: function(/*dojo._Url*/ uri){
@@ -762,20 +762,20 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 				// clicked instead of deleting the object. see #1069
 				dojo.stopEvent(e);
 				this.execCommand("delete");
-			}else if((65 <= e.keyCode&&e.keyCode <= 90) ||
-				(e.keyCode>=37&&e.keyCode<=40) // FIXME: get this from connect() instead!
+			}else if((65 <= e.keyCode && e.keyCode <= 90) ||
+				(e.keyCode>=37 && e.keyCode<=40) // FIXME: get this from connect() instead!
 			){ //arrow keys
 				e.charCode = e.keyCode;
 				this.onKeyPress(e);
 			}
-		}else if(dojo.isMoz  && !this.isTabIndent){
+		}else if(dojo.isMoz	&& !this.isTabIndent){
 			if(e.keyCode == dojo.keys.TAB && !e.shiftKey && !e.ctrlKey && !e.altKey && this.iframe){
 				// update iframe document title for screen reader
 				var titleObj = this.iframe;
-			 	titleObj.title = this._localizedIframeTitles.iframeFocusTitle;
+				titleObj.title = this._localizedIframeTitles.iframeFocusTitle;
 				// Place focus on the iframe. A subsequent tab or shift tab will put focus
 				// on the correct control.
-				this.iframe.focus();  // this.focus(); won't work
+				this.iframe.focus();	// this.focus(); won't work
 				dojo.stopEvent(e);
 			}else if(e.keyCode == dojo.keys.TAB && e.shiftKey){
 				// if there is a toolbar, set focus to it, otherwise ignore
@@ -1103,7 +1103,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 			(dojo.isMoz && supportedBy.mozilla) ||
 			(dojo.isWebKit && supportedBy.webkit) ||
 			(dojo.isWebKit > 420 && supportedBy.webkit420) ||
-			(dojo.isOpera && supportedBy.opera);  // Boolean return true if the command is supported, false otherwise
+			(dojo.isOpera && supportedBy.opera);	// Boolean return true if the command is supported, false otherwise
 	},
 
 	execCommand: function(/*String*/ command, argument){
@@ -1176,7 +1176,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 
 		var elem = dojo.isIE ? this.document.selection.createRange() : this.document;
 		try{
-			return  elem.queryCommandEnabled(command);
+			return elem.queryCommandEnabled(command);
 		}catch(e){
 			//Squelch, occurs if editor is hidden on FF 3 (and maybe others.)
 			return false;
@@ -1196,7 +1196,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 			return this.document.queryCommandState(command);
 		}catch(e){
 			//Squelch, occurs if editor is hidden on FF 3 (and maybe others.)
-		 	return false;
+			return false;
 		}
 	},
 
@@ -1577,7 +1577,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 
 		// Guard against memory leaks on IE (see #9268)
 		if(dojo.isIE){
-		   this.iframe.onfocus = null;
+			 this.iframe.onfocus = null;
 		}
 		this.iframe._loadFunc = null;
 

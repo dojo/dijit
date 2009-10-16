@@ -12,7 +12,7 @@ dojo.require("dojo.i18n");
 dojo.require("dojo.string");
 dojo.requireLocalization("dijit._editor", "LinkDialog");
 
-dojo.declare("dijit._editor.plugins.LinkDialog",dijit._editor._Plugin,{
+dojo.declare("dijit._editor.plugins.LinkDialog", dijit._editor._Plugin, {
 	// summary:
 	//		This plugin provides the basis for an 'anchor' (link) dialog and an extension of it
 	//		provides the image link dialog.
@@ -36,7 +36,7 @@ dojo.declare("dijit._editor.plugins.LinkDialog",dijit._editor._Plugin,{
 	// htmlTemplate: [protected] String
 	//		String used for templating the HTML to insert at the desired point.
 	htmlTemplate: "<a href='${urlInput}' _djrealurl='${urlInput}'" +
-		" target='${targetSelect}'"  +
+		" target='${targetSelect}'" +
 		">${textInput}</a>",
 
 	// tag: [protected] String
@@ -116,7 +116,7 @@ dojo.declare("dijit._editor.plugins.LinkDialog",dijit._editor._Plugin,{
 
 	_checkAndFixInput: function(){
 		// summary:
-	   	//		A function to listen for onChange events and test the input contents
+		//		A function to listen for onChange events and test the input contents
 		//		for valid information, such as valid urls with http/https/ftp and if
 		//		not present, try and guess if the input url is relative or not, and if
 		//		not, append http:// to it.  Also validates other fields as determined by
@@ -157,7 +157,7 @@ dojo.declare("dijit._editor.plugins.LinkDialog",dijit._editor._Plugin,{
 		}, 250);
 	},
 
-	_connectTagEvents: function() {
+	_connectTagEvents: function(){
 		// summary:
 		//		Over-ridable function that connects tag specific events.
 		this.editor.onLoadDeferred.addCallback(dojo.hitch(this, function(){
@@ -188,7 +188,7 @@ dojo.declare("dijit._editor.plugins.LinkDialog",dijit._editor._Plugin,{
 		//TODO: prevent closing popup if the text is empty
 		this._onCloseDialog();
 		if(dojo.isIE){ //see #4151
-			var sel=  dijit.range.getSelection(this.editor.window);
+			var sel = dijit.range.getSelection(this.editor.window);
 			var range = sel.getRangeAt(0);
 			var a = range.endContainer;
 			if(a.nodeType === 3){
@@ -254,7 +254,7 @@ dojo.declare("dijit._editor.plugins.LinkDialog",dijit._editor._Plugin,{
 		if(dojo.isIE){
 			// IE is difficult to select the element in, using the range unified
 			// API seems to work reasonably well.
-			var sel=  dijit.range.getSelection(this.editor.window);
+			var sel = dijit.range.getSelection(this.editor.window);
 			var range = sel.getRangeAt(0);
 			a = range.endContainer;
 			if(a.nodeType === 3){
@@ -371,7 +371,7 @@ dojo.declare("dijit._editor.plugins.ImgLinkDialog", [dijit._editor.plugins.LinkD
 		return this._urlInput.isValid();
 	},
 
-	_connectTagEvents: function() {
+	_connectTagEvents: function(){
 		// summary:
 		//		Over-ridable function that connects tag specific events.
 		this.inherited(arguments);
