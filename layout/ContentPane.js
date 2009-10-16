@@ -577,9 +577,13 @@ dojo.declare(
 		delete this._contentSetterParams;
 
 		if(!isFakeContent){
+			// Startup each top level child widget (and they will start their children, recursively)
 			dojo.forEach(this.getChildren(), function(child){
-				child.startup();
-			});
+				// The parser has already called startup on all widgets *without* a getParent() method
+				if(!this.parseOnLoad || child.getParent){
+					child.startup();
+				}
+			}, this);
 
 			// Call resize() on each of my child layout widgets,
 			// or resize() on my single child layout widget...

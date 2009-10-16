@@ -28,6 +28,7 @@
 
 		// widgets used in doc loaded via href
 		dojo.require("dijit.form.ComboBox");
+		dojo.require("dijit.form.Button");
 
 		// create a do nothing, only for test widget
 		dojo.declare("ResizableWidget",
@@ -51,6 +52,37 @@
 		}
 
 		dojo.addOnLoad(function(){
+
+			// Keep track of the number of startup() calls to every widget.
+			// Since the href's widgets haven't been created yet we monitor startup() calls on the prototype
+			var startups = {};
+			dojo.connect(dijit._Widget.prototype, "startup", function(){
+				startups[this.id] = (startups[this.id] || 0) + 1;
+			});
+
+			// Test that ContentPanes calls startup() on child widgets appropriately
+			// TODO: overlap here (and other places) with ContentPane.html?
+			doh.register("startup events",
+				{
+					name: "startup on href pane's children",
+					timeout: 2000,
+					runTest: function(t){
+						var d = new doh.Deferred();
+						// Wait for load events to occur (after fetching URL's)
+						setTimeout(d.getTestCallback(function(){
+							var pane1 = dijit.byId("pane1"),
+								children = pane1.getChildren();
+							doh.is(2, children.length, "found combobox and button");
+							doh.is(1, startups[children[0].id], "combobox started once");
+							doh.is(1, startups[children[0].id], "button started once");
+							
+							// startup of layout widgets is tested below, indirectly, by
+							// monitoring how man times resize is called etc. 
+						}), 750);
+						return d;
+					}
+				}
+			);
 
 			// Test that ContentPanes defer their load until they are shown
 			doh.register("load events",
