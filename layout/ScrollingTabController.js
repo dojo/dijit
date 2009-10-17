@@ -71,6 +71,7 @@ dojo.declare("dijit.layout.ScrollingTabController",
 		// StackController has added it's children.  This gives
 		// a less visually jumpy instantiation.
 		dojo.style(this.domNode, "visibility", "visible");
+		this._postStartup = true;
 	},
 
 	onAddChild: function(page, insertIndex){
@@ -89,10 +90,17 @@ dojo.declare("dijit.layout.ScrollingTabController",
 
 		// update the menuItem label when the button label is updated
 		this.connect(this.pane2button[page.id], "attr", dojo.hitch(this, function(name, value){
-			if(menuItem && arguments.length == 2 && name == "label"){
-				menuItem.attr(name, value);
+			if(this._postStartup){
+				if(menuItem && arguments.length == 2 && name == "label"){
+					menuItem.attr(name, value);
+				
+					// The changed label will have changed the width of the
+					// buttons, so do a resize
+					if(this._dim){
+						this.resize(this._dim);
+					}
+				}
 			}
-			this._setButtonClass(this._getScroll());
 		}));
 
 		// Increment the width of the wrapper when a tab is added
@@ -172,6 +180,9 @@ dojo.declare("dijit.layout.ScrollingTabController",
 		if(this.domNode.offsetWidth == 0){
 			return;
 		}
+		
+		// Save the dimensions to be used when a child is renamed.
+		this._dim = dim;
 
 		// Set my height to be my natural height (tall enough for one row of tab labels),
 		// and my content-box width based on margin-box width specified in dim parameter.
