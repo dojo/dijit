@@ -197,11 +197,15 @@ dojo.declare(
 			//		IE only to prevent 2 clicks to focus
 			// tags:
 			//		private
-			delete this._savedSelection; // new mouse position overrides old selection
-			if(e.target.tagName == "BODY"){
-				setTimeout(dojo.hitch(this, "placeCursorAtEnd"), 0);
+
+			var outsideClientArea = this.document.body.componentFromPoint(e.x, e.y);
+			if(!outsideClientArea){
+				delete this._savedSelection; // new mouse position overrides old selection
+				if(e.target.tagName == "BODY"){
+					setTimeout(dojo.hitch(this, "placeCursorAtEnd"), 0);
+				}
+				this.inherited(arguments);
 			}
-			this.inherited(arguments);
 		},
 		onBeforeActivate: function(e){
 			this._restoreSelection();
