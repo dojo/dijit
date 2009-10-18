@@ -447,6 +447,8 @@ dojo.declare("dijit.layout._ScrollingTabControllerButton",
 
 		tabPosition: "top",
 
-		templateString: dojo.cache("dijit.layout","templates/_ScrollingTabControllerButton.html")
+		templateString: dojo.cache("dijit.layout","templates/_ScrollingTabControllerButton.html"),
+
+		tabIndex: "-1"
 	}
 );
