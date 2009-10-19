@@ -606,7 +606,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 	},
 
 	// disabled: Boolean
-	// 		The editor is disabled; the text cannot be changed.
+	//		The editor is disabled; the text cannot be changed.
 	disabled: false,
 
 	_mozSettingProps: {'styleWithCSS':false},
@@ -958,8 +958,8 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 			// cursor position is focused like in FF
 			this.iframe.fireEvent('onfocus', document.createEventObject()); // createEventObject only in IE
 		//	}else{
-		// 	// TODO: should we throw here?
-		//	console.debug("Have no idea how to focus into the editor!");
+		// TODO: should we throw here?
+		// console.debug("Have no idea how to focus into the editor!");
 		}
 	},
 
@@ -1213,7 +1213,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 		if(dojo.isIE && command == "formatblock"){
 			r = this._native2LocalFormatNames[this.document.queryCommandValue(command)];
 		}else if(dojo.isMoz && command === "hilitecolor"){
-			var oldVal;
+			var oldValue;
 			try{
 				oldValue = this.document.queryCommandValue("styleWithCSS");
 			}catch(e){
