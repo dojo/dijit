@@ -49,7 +49,7 @@ dojo.declare(
 	templateString: dojo.cache("dijit", "templates/TreeNode.html"),
 
 	attributeMap: dojo.delegate(dijit._Widget.prototype.attributeMap, {
-		label: {node: "labelNode", type: "innerHTML"},
+		label: {node: "labelNode", type: "innerText"},
 		tooltip: {node: "rowNode", type: "attribute", attribute: "title"}
 	}),
 

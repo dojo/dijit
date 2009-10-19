@@ -16,12 +16,12 @@ dojo.connect(dojo, "_connect",
 
 dijit._connectOnUseEventHandler = function(/*Event*/ event){};
 
-//Keep track of where the last keydown event was, to help avoid generating
-//spurious ondijitclick events when:
-//1. focus is on a <button> or <a>
-//2. user presses then releases the ENTER key
-//3. onclick handler fires and shifts focus to another node, with an ondijitclick handler
-//4. onkeyup event fires, causing the ondijitclick handler to fire
+// Keep track of where the last keydown event was, to help avoid generating
+// spurious ondijitclick events when:
+// 1. focus is on a <button> or <a>
+// 2. user presses then releases the ENTER key
+// 3. onclick handler fires and shifts focus to another node, with an ondijitclick handler
+// 4. onkeyup event fires, causing the ondijitclick handler to fire
 dijit._lastKeyDownNode = null;
 if(dojo.isIE){
 	dojo.doc.attachEvent('onkeydown', function(evt){
@@ -166,6 +166,10 @@ dojo.declare("dijit._Widget", null, {
 	//		- DOM node innerHTML
 	//	|		title: { node: "titleNode", type: "innerHTML" }
 	//		Maps this.title to this.titleNode.innerHTML
+	//
+	//		- DOM node innerText
+	//	|		title: { node: "titleNode", type: "innerText" }
+	//		Maps this.title to this.titleNode.innerText
 	//
 	//		- DOM node CSS class
 	// |		myClass: { node: "domNode", type: "class" }
@@ -762,7 +766,7 @@ dojo.declare("dijit._Widget", null, {
 
 			// Get target node and what we are doing to that node
 			var mapNode = this[command.node || command || "domNode"];	// DOM node
-			var type = command.type || "attribute";	// class, innerHTML, or attribute
+			var type = command.type || "attribute";	// class, innerHTML, innerText, or attribute
 
 			switch(type){
 				case "attribute":
@@ -777,6 +781,10 @@ dojo.declare("dijit._Widget", null, {
 						(/^on[A-Z][a-zA-Z]*$/.test(attr) ? attr.toLowerCase() : attr);
 
 					dojo.attr(mapNode, attrName, value);
+					break;
+				case "innerText":
+					mapNode.innerHTML = "";
+					mapNode.appendChild(dojo.doc.createTextNode(value));
 					break;
 				case "innerHTML":
 					mapNode.innerHTML = value;
