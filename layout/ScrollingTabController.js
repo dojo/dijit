@@ -449,6 +449,8 @@ dojo.declare("dijit.layout._ScrollingTabControllerButton",
 
 		templateString: dojo.cache("dijit.layout","templates/_ScrollingTabControllerButton.html"),
 
-		tabIndex: "-1"
+		// Override inherited tabIndex: 0 from dijit.form.Button, because user shouldn't be
+		// able to tab to the left/right/menu buttons
+		tabIndex: ""
 	}
 );
