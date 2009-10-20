@@ -31,12 +31,12 @@ dojo.declare("dijit._editor.plugins.LinkDialog", dijit._editor._Plugin, {
 	// urlRegExp: [protected] String
 	//		Used for validating input as correct URL.  While file:// urls are not terribly
 	//		useful, they are technically valid.
-	urlRegExp: "((https?|ftps?|file)\\://|\./|/|)(/[a-zA-Z]{1,1}:/|)(((?:(?:[\\da-zA-Z](?:[-\\da-zA-Z]{0,61}[\\da-zA-Z])?)\\.)*(?:[a-zA-Z](?:[-\\da-zA-Z]{0,80}[\\da-zA-Z])?)\\.?)|(((\\d|[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(\\d|[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])|(0[xX]0*[\\da-fA-F]?[\\da-fA-F]\\.){3}0[xX]0*[\\da-fA-F]?[\\da-fA-F]|(0+[0-3][0-7][0-7]\\.){3}0+[0-3][0-7][0-7]|(0|[1-9]\\d{0,8}|[1-3]\\d{9}|4[01]\\d{8}|42[0-8]\\d{7}|429[0-3]\\d{6}|4294[0-8]\\d{5}|42949[0-5]\\d{4}|429496[0-6]\\d{3}|4294967[01]\\d{2}|42949672[0-8]\\d|429496729[0-5])|0[xX]0*[\\da-fA-F]{1,8}|([\\da-fA-F]{1,4}\\:){7}[\\da-fA-F]{1,4}|([\\da-fA-F]{1,4}\\:){6}((\\d|[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(\\d|[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])))(\\:\\d+)?(/(?:[^?#\\s/]+/)*(?:[^?#\\s/]+(?:\\?[^?#\\s/]*)?(?:#[A-Za-z][\\w.:-]*)?)?)?",
+	urlRegExp: "((https?|ftps?|file)\\://|\./|/|)(/[a-zA-Z]{1,1}:/|)(((?:(?:[\\da-zA-Z](?:[-\\da-zA-Z]{0,61}[\\da-zA-Z])?)\\.)*(?:[a-zA-Z](?:[-\\da-zA-Z]{0,80}[\\da-zA-Z])?)\\.?)|(((\\d|[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(\\d|[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])|(0[xX]0*[\\da-fA-F]?[\\da-fA-F]\\.){3}0[xX]0*[\\da-fA-F]?[\\da-fA-F]|(0+[0-3][0-7][0-7]\\.){3}0+[0-3][0-7][0-7]|(0|[1-9]\\d{0,8}|[1-3]\\d{9}|4[01]\\d{8}|42[0-8]\\d{7}|429[0-3]\\d{6}|4294[0-8]\\d{5}|42949[0-5]\\d{4}|429496[0-6]\\d{3}|4294967[01]\\d{2}|42949672[0-8]\\d|429496729[0-5])|0[xX]0*[\\da-fA-F]{1,8}|([\\da-fA-F]{1,4}\\:){7}[\\da-fA-F]{1,4}|([\\da-fA-F]{1,4}\\:){6}((\\d|[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(\\d|[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])))(\\:\\d+)?(/(?:[^?#\\s/]+/)*(?:[^?#\\s/]+(?:\\?[^?#\\s/]*)?(?:#.*)?)?)?",
 
 	// htmlTemplate: [protected] String
 	//		String used for templating the HTML to insert at the desired point.
-	htmlTemplate: "<a href='${urlInput}' _djrealurl='${urlInput}'" +
-		" target='${targetSelect}'" +
+	htmlTemplate: "<a href=\"${urlInput}\" _djrealurl=\"${urlInput}\"" +
+		" target=\"${targetSelect}\"" +
 		">${textInput}</a>",
 
 	// tag: [protected] String
@@ -180,6 +180,19 @@ dojo.declare("dijit._editor.plugins.LinkDialog", dijit._editor._Plugin, {
 		this.dropDown.attr('content', staticPanel);
 	},
 
+	_checkValues: function(args){
+		// summary:
+		//		Function to check the values in args and 'fix' them up as needed.
+		// args: Object
+		//		Content being set.		
+		// tags: 
+		//		protected
+		if(args && args.urlInput){
+			args.urlInput = args.urlInput.replace(/"/g, "&quot;");
+		}
+		return args;
+	},
+
 	setValue: function(args){
 		// summary:
 		//		Callback from the dialog when user presses "set" button.
@@ -217,6 +230,9 @@ dojo.declare("dijit._editor.plugins.LinkDialog", dijit._editor._Plugin, {
 				}
 			}
 		}
+		// make sure values are properly escaped, etc.
+		args = this._checkValues(args); 
+		console.log(args);
 		this.editor.execCommand('inserthtml',
 			dojo.string.substitute(this.htmlTemplate, args));
 	},
@@ -338,7 +354,7 @@ dojo.declare("dijit._editor.plugins.ImgLinkDialog", [dijit._editor.plugins.LinkD
 
 	// htmlTemplate: [protected] String
 	//		String used for templating the <img> HTML to insert at the desired point.
-	htmlTemplate: "<img src='${urlInput}' _djrealurl='${urlInput}' alt='${textInput}' />",
+	htmlTemplate: "<img src=\"${urlInput}\" _djrealurl=\"${urlInput}\" alt=\"${textInput}\" />",
 
 	// tag: [protected] String
 	//		Tag used for the link type (img).
@@ -398,6 +414,23 @@ dojo.declare("dijit._editor.plugins.ImgLinkDialog", [dijit._editor.plugins.LinkD
 					dijit._editor.selection, [t]);
 			}
 		}
+	},
+
+	_checkValues: function(args){
+		// summary:
+		//		Function to check the values in args and 'fix' them up as needed 
+		//		(special characters in the url or alt text)
+		// args: Object
+		//		Content being set.		
+		// tags: 
+		//		protected
+		if(args && args.urlInput){
+			args.urlInput = args.urlInput.replace(/"/g, "&quot;");
+		}
+		if(args && args.textInput){
+			args.textInput = args.textInput.replace(/"/g, "&quot;");
+		}
+		return args;
 	}
 });
 
