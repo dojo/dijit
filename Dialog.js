@@ -185,8 +185,9 @@ dojo.declare(
 						underlay.attr(this.underlayAttrs);
 					}
 
-					dojo.style(dijit._underlay.domNode, 'zIndex', 948 + dijit._dialogStack.length*2);
-					dojo.style(this.domNode, 'zIndex', 949 + dijit._dialogStack.length*2);
+					var zIndex = 948 + dijit._dialogStack.length*2;
+					dojo.style(dijit._underlay.domNode, 'zIndex', zIndex);
+					dojo.style(this.domNode, 'zIndex', zIndex + 1);
 					underlay.show();
 				}),
 				onEnd: dojo.hitch(this, function(){
@@ -444,7 +445,7 @@ dojo.declare(
 			}
 
 			// throw away current active dialog from stack -- making the previous dialog or the node on the original page active
-			dijit._dialogStack.pop();
+			ds.pop();
 
 			this._fadeOut.play();
 
