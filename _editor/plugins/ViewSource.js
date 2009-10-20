@@ -134,16 +134,39 @@ dojo.declare("dijit._editor.plugins.ViewSource",dijit._editor._Plugin,{
 						return false;
 					}
 				};
+				this.editor.onDisplayChanged();
 				html = ed.attr("value");
 				html = this._filter(html);
 				ed.attr("value", html);
 				this._pluginList = [];
-
 				this._disabledPlugins = dojo.filter(edPlugins, function(p){
 					// Turn off any plugins not controlled by queryCommandenabled.
 					if(p && p.button && !p.button.attr("disabled") &&
 						!(p instanceof dijit._editor.plugins.ViewSource)){
+						p._vs_updateState = p.updateState;
+						p.updateState = function(){
+							return false;
+						};
 						p.button.attr("disabled", true);
+						if(p.command){
+							// FF has a weird behavior when spellcheck is off,
+							// queryCommandValue() returns true on the doc, and as such
+							// toggles 'on' some actions.  So, we need to explictly 
+							// toggle them off.  TODO:  Add a disable API to _Plugin.js
+							// It would aleviate the need for this.
+							switch(p.command){
+								case "bold":
+								case "italic":
+								case "underline":
+								case "strikethrough":
+								case "superscript":
+								case "subscript":
+									p.button.attr("checked", false);
+									break;
+								default:
+									break;
+							}
+						}
 						return true;
 					}
 				});
@@ -225,6 +248,9 @@ dojo.declare("dijit._editor.plugins.ViewSource",dijit._editor._Plugin,{
 				dojo.forEach(this._disabledPlugins, function(p){
 					// Turn back on any plugins we turned off.
 					p.button.attr("disabled", false);
+					if(p._vs_updateState){
+						p.updateState = p._vs_updateState;
+					}
 				});
 
 				this._disabledPlugins = null;
@@ -233,7 +259,7 @@ dojo.declare("dijit._editor.plugins.ViewSource",dijit._editor._Plugin,{
 				delete ed._sourceQueryCommandEnabled;
 
 				//Trigger a check for command enablement/disablement.
-				this.editor.onNormalizedDisplayChanged();
+				this.editor.onDisplayChanged();
 			}
 		}catch(e){
 			console.log(e);
