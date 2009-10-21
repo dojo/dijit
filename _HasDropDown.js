@@ -309,18 +309,18 @@ dojo.declare("dijit._HasDropDown",
 			var ddNode = dropDown.domNode;
 			var self = this;
 
-			// Prepare our popup's height and honor any size limitations (maxHeight,
-			// forceWidth, or autoWidth) if they exist.
+			// Prepare our popup's height and honor maxHeight if it exists.
 
+			// TODO: isn't maxHeight dependent on the return value from dijit.popup.open(),
+			// ie, dependent on how much space is available (BK)
+
+			if(this._preparedNode){
+				dojo.style(ddNode, {width: "", height: "", display: "", visibility: "hidden"});
+			}else{
+				dijit.popup.prepare(ddNode);
+				this._preparedNode = true;
+			}
 			if(this.maxHeight || this.forceWidth || this.autoWidth){
-				if(this._preparedNode){
-					// Need to clear out a previous width and height, if they've been set
-					// for subsequent opens.
-					dojo.style(ddNode, {width: "", height: "", display: "", visibility: "hidden"});
-				}else{
-					dijit.popup.prepare(ddNode);
-					this._preparedNode = true;
-				}
 				var mb = dojo.marginBox(ddNode);
 				var overHeight = (this.maxHeight && mb.h > this.maxHeight);
 				dojo.style(ddNode, {overflow: overHeight ? "auto" : "hidden"});
@@ -346,9 +346,6 @@ dojo.declare("dijit._HasDropDown",
 				}else{
 					dojo.marginBox(ddNode, mb);
 				}
-			}else{
-				// Just prepare the node here now
-				dijit.popup.prepare(ddNode);
 			}
 			var retVal = dijit.popup.open({
 				parent: this,
