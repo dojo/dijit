@@ -231,29 +231,34 @@ dojo.declare("dijit.InlineEditBox",
 		// tags:
 		//		private
 
+		var ew = this.editWidget;
+		ew.autoSave = false; // don't allow secondary processing especially _onBlur
+		if(focus && dojo.isIE){
+			var node = ew.editWidget.focusNode;
+			if(node.tagName == "INPUT"){
+				// fixes weird IE focus problem when text is selected by unselecting it before changing focus to prevent focus being lost
+				dijit.selectInputText(node, 0, 0);
+			}
+		}
+			
 		// display the read-only text and then quickly hide the editor (to avoid screen jitter)
 		this.displayNode.style.display="";
-		var ew = this.editWidget;
-		var ews = ew.domNode.style;
-		ews.position="absolute";
-		ews.visibility="hidden";
+		dojo.style(ew.domNode, { position: "absolute", visibility: "hidden" });
 
 		this.domNode = this.displayNode;
 
 		if(focus){
 			dijit.focus(this.displayNode);
 		}
-		ews.display = "none";
 		// give the browser some time to render the display node and then shift focus to it
 		// and hide the edit widget before garbage collecting the edit widget
 		setTimeout(function(){
+			if(ew.domNode && ew.domNode.removeNode){
+				ew.domNode = ew.domNode.removeNode(true); // prevents IE focus problems
+			}
 			ew.destroy();
 			delete ew;
-			if(dojo.isIE){
-				// messing with the DOM tab order can cause IE to focus the body - so restore
-				dijit.focus(dijit.getFocus());
-			}
-		}, 1000); // no hurry - wait for things to quiesce
+		}, 0);
 	},
 
 	save: function(/*Boolean*/ focus){
@@ -377,7 +382,7 @@ dojo.declare(
 			this.buttonContainer.style.display="none";
 
 			// Selecting a value from a drop down list causes an onChange event and then we save
-			this._onChangeHandle = this.connect(ew, "onChange", "_onChange");
+			this.connect(ew, "onChange", "_onChange");
 
 			// ESC and TAB should cancel and save.  Note that edit widgets do a stopEvent() on ESC key (to
 			// prevent Dialog from closing when the user just wants to revert the value in the edit widget),
@@ -425,13 +430,10 @@ dojo.declare(
 			// If Enter/Esc pressed, treat as save/cancel.
 			if(e.charOrCode == dojo.keys.ESCAPE){
 				dojo.stopEvent(e);
-				this._refocus = true;
-				this.getValue = function(){ return this._resetValue; }; // ensure cancel is called in _onBlur
-				this.editWidget.focusNode.blur(); // force _onBlur which will call cancel() since getValue will return _resetValue
-			}else if(e.charOrCode == dojo.keys.ENTER && this.editWidget.focusNode.tagName == "INPUT" && this.enableSave()){
+				this.cancel(true);
+			}else if(e.charOrCode == dojo.keys.ENTER && this.editWidget.focusNode.tagName == "INPUT"){
 				dojo.stopEvent(e);
-				this._refocus = true;
-				this.editWidget.focusNode.blur(); // force _onBlur which will call save()
+				this._onChange();
 			}
 
 			// _onBlur will handle TAB automatically by allowing
@@ -458,14 +460,12 @@ dojo.declare(
 
 		this.inherited(arguments);
 		if(this.autoSave){
-			this.disconnect(this._onChangeHandle); // no longer need onChange to trigger _onBlur
 			if(this.getValue() == this._resetValue){
-				this.cancel(this._refocus);
+				this.cancel(false);
 			}else if(this.enableSave()){
-				this.save(this._refocus);
+				this.save(false);
 			}
 		}
-		this._refocus = false;
 	},
 
 	_onChange: function(){
@@ -477,8 +477,10 @@ dojo.declare(
 		//		private
 
 		if(this.autoSave && this.enableSave()){
-			this._refocus = true;
-			this.editWidget.focusNode.blur(); // force _onBlur which will call save()
+			// cannot call blur() directly since that closes container popups as well
+			this.editWidget._focused = false;
+			this.editWidget._onBlur(); // tells the editWidget to format the input
+			this.save(true);
 		}
 	},
 
