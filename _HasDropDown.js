@@ -314,13 +314,29 @@ dojo.declare("dijit._HasDropDown",
 			// TODO: isn't maxHeight dependent on the return value from dijit.popup.open(),
 			// ie, dependent on how much space is available (BK)
 
-			if(this._preparedNode){
-				dojo.style(ddNode, {width: "", height: "", display: "", visibility: "hidden"});
-			}else{
+			if(!this._preparedNode){
 				dijit.popup.prepare(ddNode);
-				this._preparedNode = true;
+				this._preparedNode = true;			
+				// Check if we have explicitly set width and height on the dropdown widget dom node
+				if(ddNode.style.width){
+					this._explicitDDWidth = true;
+				}
+				if(ddNode.style.height){
+					this._explicitDDHeight = true;
+				}
 			}
 			if(this.maxHeight || this.forceWidth || this.autoWidth){
+				var myStyle = {
+					display: "",
+					visibility: "hidden"
+				};
+				if(!this._explicitDDWidth){
+					myStyle.width = "";
+				}
+				if(!this._explicitDDHeight){
+					myStyle.height = "";
+				}
+				dojo.style(ddNode, myStyle);
 				var mb = dojo.marginBox(ddNode);
 				var overHeight = (this.maxHeight && mb.h > this.maxHeight);
 				dojo.style(ddNode, {overflow: overHeight ? "auto" : "hidden"});
