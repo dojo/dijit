@@ -41,10 +41,6 @@
 					doh.robot.sequence(dojo.hitch(deferred, "callback", true), delay? delay : 1);
 				}
 
-				// Testing that the initial display value of the InlineEditBox gets sent to the editor.
-				// For example, in this markup:
-				//		<span dojoType="dijit.InlineEditBox" ...>01/05/2007</span>
-				// When the editor is clicked the calendar should open to that date.
 				doh.register("dijit.InlineEditBox autosave tests", [
 					{
 						name: "CurrencyTextBox invalid value: blur",
@@ -173,6 +169,11 @@
 						}
 					}
 				]);
+
+				// Testing that the initial display value of the InlineEditBox gets sent to the editor.
+				// For example, in this markup:
+				//		<span dojoType="dijit.InlineEditBox" ...>01/05/2007</span>
+				// When the editor is clicked the calendar should open to that date.
 				doh.register("dijit.InlineEditBox preDefinedValue tests", [
 					{
 						name: "CurrencyTextBox preDefinedValue",
