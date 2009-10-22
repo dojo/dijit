@@ -12,9 +12,10 @@ dijit.popup = new function(){
 		beginZIndex=1000,
 		idGen = 1;
 
-	this.prepare = function(/*DomNode*/ node){
+	this.moveOffScreen = function(/*DomNode*/ node){
 		// summary:
-		//		Prepares a node to be used as a popup
+		//		Moves node offscreen without hiding it (so that all layout widgets included 
+		//		in this node can still layout properly)
 		//
 		// description:
 		//		Attaches node to dojo.doc.body, and
@@ -87,6 +88,7 @@ dijit.popup.__OpenArgs = function(){
 	this.padding = padding;
 }
 =====*/
+	var wrappers=[];
 	this.open = function(/*dijit.popup.__OpenArgs*/ args){
 		// summary:
 		//		Popup the widget at the specified position
@@ -114,26 +116,43 @@ dijit.popup.__OpenArgs = function(){
 		// make wrapper div to hold widget and possibly hold iframe behind it.
 		// we can't attach the iframe as a child of the widget.domNode because
 		// widget.domNode might be a <table>, <ul>, etc.
-		var wrapper = dojo.create("div",{
+
+		var wrapperobj = wrappers.pop(), wrapper, iframe;
+		if(!wrapperobj){
+			wrapper = dojo.create("div",{
+				"class":"dijitPopup"
+			}, dojo.body());
+			dijit.setWaiRole(wrapper, "presentation");
+		}else{
+			//recycled a new wrapper, so that we don't need to reattach the iframe
+			//which is slow even if the iframe is empty, see #10167
+			wrapper = wrapperobj[0];
+			iframe = wrapperobj[1];
+		}
+
+		dojo.attr(wrapper,{
 			id: id,
-			"class":"dijitPopup",
 			style:{
 				zIndex: beginZIndex + stack.length,
 				visibility:"hidden",
-				left: "0px", top: "0px"		// prevent transient scrollbar causing misalign (#5776)
+				left: "0px", top: "0px"         // prevent transient scrollbar causing misalign (#5776)
 			},
 			dijitPopupParent: args.parent ? args.parent.id : ""
-		}, dojo.body());
-		dijit.setWaiRole(wrapper, "presentation");
+		});
 
 		var s = widget.domNode.style;
 		s.display = "";
 		s.visibility = "";
 		s.position = "";
 		s.top = "0px";
+		//dojo.place(widget.domNode,wrapper,'first');
 		wrapper.appendChild(widget.domNode);
 
-		var iframe = new dijit.BackgroundIframe(wrapper);
+		if(!iframe){
+			iframe = new dijit.BackgroundIframe(wrapper);
+		}else{
+			iframe.resize(wrapper)
+		}
 
 		// position the wrapper node
 		var best = around ?
@@ -220,10 +239,18 @@ dijit.popup.__OpenArgs = function(){
 			// #2685: check if the widget still has a domNode so ContentPane can change its URL without getting an error
 			if(!widget || !widget.domNode){ return; }
 
-			this.prepare(widget.domNode);
+			this.moveOffScreen(widget.domNode);
 
-			iframe.destroy();
-			dojo.destroy(wrapper);
+                        
+			//move the iframe out of the view
+			//dont' use moveOffScreen which would also reattach the wrapper to body, which causes reloading of iframe
+			wrapper.style.top = "-9999px";
+			wrapper.style.visibility = "hidden";
+
+			//recycle the wrapper plus iframe, so we prevent reattaching iframe everytime an popup opens
+			wrappers.push([wrapper,iframe]);
+			//iframe.destroy();
+			//dojo.destroy(wrapper);
 
 			if(onClose){
 				onClose();
@@ -253,9 +280,9 @@ dijit._frames = new function(){
 			 	iframe = dojo.create("iframe");
 				iframe.src = 'javascript:""';
 				iframe.className = "dijitBackgroundIframe";
+				dojo.style(iframe, "opacity", 0.1);
 			}
 			iframe.tabIndex = -1; // Magic to prevent iframe from getting focus on tab keypress - as style didnt work.
-			dojo.body().appendChild(iframe);
 		}
 		return iframe;
 	};
@@ -269,7 +296,7 @@ dijit._frames = new function(){
 
 dijit.BackgroundIframe = function(/* DomNode */node){
 	// summary:
-	//		For IE z-index schenanigans. id attribute is required.
+	//		For IE/FF z-index schenanigans. id attribute is required.
 	//
 	// description:
 	//		new dijit.BackgroundIframe(node)
@@ -279,18 +306,11 @@ dijit.BackgroundIframe = function(/* DomNode */node){
 	if(!node.id){ throw new Error("no id"); }
 	if(dojo.isIE || dojo.isMoz){
 		var iframe = dijit._frames.pop();
-		dojo.style(iframe, "opacity", 0.1);		// prevent flash on FF3.5, see #10041, #10111
 		node.appendChild(iframe);
 		if(dojo.isIE<7){
-			dojo.style(iframe, {
-				width: node.offsetWidth + 'px',
-				height: node.offsetHeight + 'px'
-			});
-			this._conn = dojo.connect(node, 'onresize', function(){
-				dojo.style(iframe, {
-					width: node.offsetWidth + 'px',
-					height: node.offsetHeight + 'px'
-				});
+			this.resize(node);
+			this._conn = dojo.connect(node, 'onresize', this, function(){
+				this.resize(node);
 			});
 		}else{
 			dojo.style(iframe, {
@@ -303,6 +323,20 @@ dijit.BackgroundIframe = function(/* DomNode */node){
 };
 
 dojo.extend(dijit.BackgroundIframe, {
+	resize: function(node){
+		// summary:
+		// 		resize the iframe so its the same size as node
+		// description:
+		//		this function is a no-op in all browsers except
+		//		IE6, which does not support 100% width/height 
+		//		of absolute positioned iframes
+		if(this.iframe && dojo.isIE<7){
+			dojo.style(this.iframe, {
+				width: node.offsetWidth + 'px',
+				height: node.offsetHeight + 'px'
+			});
+		}
+	},
 	destroy: function(){
 		// summary:
 		//		destroy the iframe
