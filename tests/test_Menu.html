@@ -107,7 +107,7 @@
 	<div dojoType="dijit.Menu" id="windowContextMenu" contextMenuForWindow="true" style="display: none;">
 		<div dojoType="dijit.MenuItem" onClick="console.log('Hello world');">Context Menu</div>
 		<div dojoType="dijit.MenuSeparator"></div>
-		<div dojoType="dijit.MenuItem" disabled="true">Disabled Item</div>
+		<div dojoType="dijit.MenuItem" disabled="true" onClick="alert('this shouldn\'t appear');">Disabled Item</div>
 		<div dojoType="dijit.MenuItem" iconClass="dijitEditorIcon dijitEditorIconCut"
 			onClick="console.log('not actually cutting anything, just a test!')" accelKey="Ctrl+X">Cut</div>
 		<div dojoType="dijit.MenuItem" iconClass="dijitEditorIcon dijitEditorIconCopy"
