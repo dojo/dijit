@@ -88,6 +88,16 @@ dijit.popup.__OpenArgs = function(){
 	this.padding = padding;
 }
 =====*/
+
+	// Compute the closest ancestor popup that's *not* a child of another popup.
+	// Ex: For a TooltipDialog with a button that spawns a tree of menus, find the popup of the button.
+	var getTopPopup = function(){
+		for(var pi=stack.length-1; pi > 0 && stack[pi].parent === stack[pi-1].widget; pi--){
+			/* do nothing, just trying to get right value for pi */
+		}
+		return stack[pi];
+	};
+
 	var wrappers=[];
 	this.open = function(/*dijit.popup.__OpenArgs*/ args){
 		// summary:
@@ -164,15 +174,6 @@ dijit.popup.__OpenArgs = function(){
 
 		var handlers = [];
 
-		// Compute the closest ancestor popup that's *not* a child of another popup.
-		// Ex: For a TooltipDialog with a button that spawns a tree of menus, find the popup of the button.
-		var getTopPopup = function(){
-			for(var pi=stack.length-1; pi > 0 && stack[pi].parent === stack[pi-1].widget; pi--){
-				/* do nothing, just trying to get right value for pi */
-			}
-			return stack[pi];
-		}
-
 		// provide default escape and tab key handling
 		// (this will work for any widget, not just menu)
 		handlers.push(dojo.connect(wrapper, "onkeypress", this, function(evt){
@@ -191,10 +192,10 @@ dijit.popup.__OpenArgs = function(){
 		// watch for cancel/execute events on the popup and notify the caller
 		// (for a menu, "execute" means clicking an item)
 		if(widget.onCancel){
-			handlers.push(dojo.connect(widget, "onCancel", null, args.onCancel));
+			handlers.push(dojo.connect(widget, "onCancel", args.onCancel));
 		}
 
-		handlers.push(dojo.connect(widget, widget.onExecute ? "onExecute" : "onChange", null, function(){
+		handlers.push(dojo.connect(widget, widget.onExecute ? "onExecute" : "onChange", function(){
 			var topPopup = getTopPopup();
 			if(topPopup && topPopup.onExecute){
 				topPopup.onExecute();
@@ -223,6 +224,12 @@ dijit.popup.__OpenArgs = function(){
 	this.close = function(/*dijit._Widget*/ popup){
 		// summary:
 		//		Close specified popup and any popups that it parented
+		
+		// Basically work backwards from the top of the stack closing popups
+		// until we hit the specified popup, but IIRC there was some issue where closing
+		// a popup would cause others to close too.  Thus if we are trying to close B in [A,B,C]
+		// closing C might close B indirectly and then the while() condition will run where stack==[A]...
+		// so the while condition is constructed defensively.
 		while(dojo.some(stack, function(elem){return elem.widget == popup;})){
 			var top = stack.pop(),
 				wrapper = top.wrapper,
