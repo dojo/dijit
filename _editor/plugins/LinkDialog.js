@@ -232,7 +232,6 @@ dojo.declare("dijit._editor.plugins.LinkDialog", dijit._editor._Plugin, {
 		}
 		// make sure values are properly escaped, etc.
 		args = this._checkValues(args); 
-		console.log(args);
 		this.editor.execCommand('inserthtml',
 			dojo.string.substitute(this.htmlTemplate, args));
 	},
