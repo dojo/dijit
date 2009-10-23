@@ -315,7 +315,7 @@ dojo.declare("dijit._HasDropDown",
 			// ie, dependent on how much space is available (BK)
 
 			if(!this._preparedNode){
-				dijit.popup.prepare(ddNode);
+				dijit.popup.moveOffScreen(ddNode);
 				this._preparedNode = true;			
 				// Check if we have explicitly set width and height on the dropdown widget dom node
 				if(ddNode.style.width){
