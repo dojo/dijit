@@ -256,21 +256,34 @@ dijit.findWidgets = function(/*DomNode*/ root){
 	return outAry;
 };
 
+dijit._destroyAll() = function(){
+	// summary:
+	//		Code to destroy all widgets, etc.
+
+	// Clean up focus manager lingering references to widgets and nodes
+	dijit._curFocus = null;
+	dijit._prevFocus = null;
+	dijit._activeStack = [];
+
+	// Destroy all the widgets, top down
+	dojo.forEach(dijit.findWidgets(dojo.body()), function(widget){
+		// Avoid double destroy of widgets like Menu that are attached to <body>
+		// even though they are logically children of other widgets.
+		if(!widget._destroyed){
+			if(widget.destroyRecursive){
+				widget.destroyRecursive();
+			}else if(widget.destroy){
+				widget.destroy();
+			}
+		}
+	});
+};
+
 if(dojo.isIE){
-	// Only run this for IE because we think it's only necessary in that case,
+	// Only run _destroyAll() for IE because we think it's only necessary in that case,
 	// and because it causes problems on FF.  See bug #3531 for details.
 	dojo.addOnWindowUnload(function(){
-		dojo.forEach(dijit.findWidgets(dojo.body()), function(widget){
-			// Avoid double destroy of widgets like Menu that are attached to <body>
-			// even though they are logically children of other widgets.
-			if(!widget._destroyed){
-				if(widget.destroyRecursive){
-					widget.destroyRecursive();
-				}else if(widget.destroy){
-					widget.destroy();
-				}
-			}
-		});
+		dijit._destroyAll();
 	});
 }
 
@@ -341,8 +354,8 @@ dijit.isTabNavigable = function(/*Element*/elem){
 						body = doc && doc.body;
 					return body && body.contentEditable == 'true';
 				}else{
-					doc = elem.contentWindow.document,
-						body = doc && doc.body;
+					doc = elem.contentWindow.document;
+					body = doc && doc.body;
 					return body && body.firstChild && body.firstChild.contentEditable == 'true';
 				}
 			default:
