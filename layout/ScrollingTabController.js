@@ -58,9 +58,6 @@ dojo.declare("dijit.layout.ScrollingTabController",
 		}
 
 		dojo.addClass(this.tablistWrapper, this.tabStripClass);
-
-		this.connect(this._leftBtn.domNode, "click", "doSlideLeft");
-		this.connect(this._rightBtn.domNode, "click", "doSlideRight");
 	},
 
 	onStartup: function(){
