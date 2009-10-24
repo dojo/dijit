@@ -46,7 +46,6 @@ dojo.declare("dijit.layout.ScrollingTabController",
 		this.inherited(arguments);
 		var n = this.domNode;
 
-		this.tabContainer = dijit.byId(this.containerId);
 		this.scrollNode = this.tablistWrapper;
 		this._initButtons();
 
@@ -89,19 +88,23 @@ dojo.declare("dijit.layout.ScrollingTabController",
 		}
 
 		// update the menuItem label when the button label is updated
-		this.connect(this.pane2button[page.id], "attr", dojo.hitch(this, function(name, value){
-			if(this._postStartup){
-				if(menuItem && arguments.length == 2 && name == "label"){
-					menuItem.attr(name, value);
-				
-					// The changed label will have changed the width of the
-					// buttons, so do a resize
-					if(this._dim){
-						this.resize(this._dim);
+		this.pane2handles[page.id].push(
+			this.connect(this.pane2button[page.id], "attr", function(name, value){
+				if(this._postStartup){
+					if(arguments.length == 2 && name == "label"){
+						if(menuItem){
+							menuItem.attr(name, value);
+						}
+	
+						// The changed label will have changed the width of the
+						// buttons, so do a resize
+						if(this._dim){
+							this.resize(this._dim);
+						}
 					}
 				}
-			}
-		}));
+			})
+		);
 
 		// Increment the width of the wrapper when a tab is added
 		// This makes sure that the buttons never wrap.
@@ -112,11 +115,13 @@ dojo.declare("dijit.layout.ScrollingTabController",
 	},
 
 	onRemoveChild: function(page, insertIndex){
-		// summary:
-		//		Removes a child from the menu that is used to select tabs.
 		this.inherited(arguments);
+		
+		// delete menu entry corresponding to pane that was removed from TabContainer
 		if(this.useMenu && page && page.id && this._menuChildren[page.id]){
 			this._menu.removeChild(this._menuChildren[page.id]);
+			this._menuChildren[page.id].destroy();
+			delete this._menuChildren[page.id];
 		}
 	},
 

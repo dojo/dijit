@@ -30,15 +30,14 @@ dojo.declare(
 				dijit.setWaiRole(this.domNode, "tablist");
 
 				this.pane2button = {};		// mapping from pane id to buttons
-				this.pane2handles = {};		// mapping from pane id to dojo.connect() handles
+				this.pane2handles = {};		// mapping from pane id to this.connect() handles
 
-				this._subscriptions=[
-					dojo.subscribe(this.containerId+"-startup", this, "onStartup"),
-					dojo.subscribe(this.containerId+"-addChild", this, "onAddChild"),
-					dojo.subscribe(this.containerId+"-removeChild", this, "onRemoveChild"),
-					dojo.subscribe(this.containerId+"-selectChild", this, "onSelectChild"),
-					dojo.subscribe(this.containerId+"-containerKeyPress", this, "onContainerKeyPress")
-				];
+				// Listen to notifications from StackContainer
+				this.subscribe(this.containerId+"-startup", "onStartup");
+				this.subscribe(this.containerId+"-addChild", "onAddChild");
+				this.subscribe(this.containerId+"-removeChild", "onRemoveChild");
+				this.subscribe(this.containerId+"-selectChild", "onSelectChild");
+				this.subscribe(this.containerId+"-containerKeyPress", "onContainerKeyPress");
 			},
 
 			onStartup: function(/*Object*/ info){
@@ -58,7 +57,6 @@ dojo.declare(
 				for(var pane in this.pane2button){
 					this.onRemoveChild(dijit.byId(pane));
 				}
-				dojo.forEach(this._subscriptions, dojo.unsubscribe);
 				this.inherited(arguments);
 			},
 
@@ -83,8 +81,7 @@ dojo.declare(
 					title: page.tooltip
 				}, refNode);
 				dijit.setWaiState(button.focusNode,"selected", "false");
-				var map =
-				(this.pane2handles[page.id] = [
+				this.pane2handles[page.id] = [
 					this.connect(page, 'attr', function(name, value){
 						if(arguments.length == 2){
 							var buttonAttr = {
@@ -101,7 +98,7 @@ dojo.declare(
 					}),
 					this.connect(button, 'onClick', dojo.hitch(this,"onButtonClick", page)),
 					this.connect(button, 'onClickCloseButton', dojo.hitch(this,"onCloseButtonClick", page))
-				]);
+				];
 				this.addChild(button, insertIndex);
 				this.pane2button[page.id] = button;
 				page.controlButton = button;	// this value might be overwritten if two tabs point to same container
@@ -128,10 +125,11 @@ dojo.declare(
 				delete this.pane2handles[page.id];
 				var button = this.pane2button[page.id];
 				if(button){
-					// TODO? if current child { reassign }
-					button.destroy();
+					this.removeChild(button);
 					delete this.pane2button[page.id];
+					button.destroy();
 				}
+				delete page.controlButton;
 			},
 
 			onSelectChild: function(/*dijit._Widget*/ page){
@@ -164,7 +162,7 @@ dojo.declare(
 				// tags:
 				//		private
 
-				var container = dijit.byId(this.containerId);	// TODO: do this via topics?
+				var container = dijit.byId(this.containerId);
 				container.selectChild(page);
 			},
 
