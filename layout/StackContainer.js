@@ -115,9 +115,9 @@ dojo.declare(
 
 			// in case the tab titles have overflowed from one line to two lines
 			// (or, if this if first child, from zero lines to one line)
-			// TODO: w/ScrollingTabContoller this is no longer necessary, although
+			// TODO: w/ScrollingTabController this is no longer necessary, although
 			// ScrollTabController.resize() does need to get called to show/hide
-			// the navigation buttons as appropriate
+			// the navigation buttons as appropriate, but that's handled in ScrollingTabController.onAddChild()
 			this.layout();
 
 			// if this is the first child, then select it
@@ -158,9 +158,11 @@ dojo.declare(
 		}
 	},
 
-	selectChild: function(/*dijit._Widget*/ page){
+	selectChild: function(/*dijit._Widget|String*/ page){
 		// summary:
 		//		Show the given widget (which must be one of my children)
+		// page:
+		//		Reference to child widget or id of child widget
 
 		page = dijit.byId(page);
 
