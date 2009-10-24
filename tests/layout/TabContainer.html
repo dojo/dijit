@@ -1,0 +1,89 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+	"http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+	<title>ContentPane Test</title>
+
+	<style>
+		@import "../../../dojo/resources/dojo.css";
+		@import "../css/dijitTests.css";
+
+		.box {
+		  position: relative;
+			background-color: white;
+			border: 2px solid black;
+			padding: 8px;
+			margin: 4px;
+		}
+	</style>
+
+	<!-- required: the default dijit theme: -->
+	<link id="themeStyles" rel="stylesheet" href="../../../dijit/themes/tundra/tundra.css">
+
+	<!-- required: dojo.js -->
+	<script type="text/javascript" src="../../../dojo/dojo.js"
+		djConfig="isDebug: true, parseOnLoad: true"></script>
+
+	<!-- only needed for alternate theme testing: do NOT use in your code! -->
+	<script type="text/javascript" src="../_testCommon.js"></script>
+
+
+	<script type="text/javascript">
+		dojo.require('doh.runner');
+		dojo.require("dijit.dijit"); // optimize: load dijit layer
+		dojo.require("dijit.layout.TabContainer");
+		dojo.require("dojo.parser");	// scan page for widgets and instantiate them
+
+		// create a do nothing, only for test widget
+		dojo.addOnLoad(function(){
+
+			doh.register("creationAndDestruction", [
+			{
+				name: 'destroyMenu',
+				runTest: function(t){
+					var numWidgets = dijit.registry.length;
+					var tc = new dijit.layout.TabContainer({ id:"creationAndDestruction", useMenu:true }).placeAt(dojo.body());
+					tc.destroyRecursive();
+
+					t.assertEqual(dijit.registry.length, numWidgets);
+				}
+			},
+			{
+				name: 'createWidgetsWithMenu',
+				runTest: function(t){
+
+					var numMenus = dijit.registry.byClass("dijit.Menu").length;
+					var tc = new dijit.layout.TabContainer({ id:"createWidgetsWithMenu", useMenu:true }).placeAt(dojo.body());
+					
+					var numCreatedMenus = dijit.registry.byClass("dijit.Menu").length;
+
+					tc.destroyRecursive();
+
+					t.assertEqual(numMenus + 1, numCreatedMenus);
+				}
+			},
+			{
+				name: 'createWidgetsWithoutMenu',
+				runTest: function(t){
+
+					var numMenus = dijit.registry.byClass("dijit.Menu").length;
+					var tc = new dijit.layout.TabContainer({ id:"createWidgetsWithoutMenu", useMenu:false }).placeAt(dojo.body());
+					
+					var numCreatedMenus = dijit.registry.byClass("dijit.Menu").length;
+					tc.destroyRecursive();
+
+					t.assertEqual(numMenus, numCreatedMenus);
+				}
+			}
+			]);
+			doh.run();
+
+		});
+	</script>
+
+</head>
+<body class="tundra">
+
+	<h1 class="testTitle">Dijit layout.TabContainer tests</h1>
+	</body>
+</html>

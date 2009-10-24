@@ -149,6 +149,7 @@ dojo.declare("dijit.layout.ScrollingTabController",
 				leftClickToOpen: true,
 				refocus: false	// selecting a menu item sets focus to a TabButton
 			});
+			this._supportingWidgets.push(this._menu);
 		}
 	},
 
