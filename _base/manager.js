@@ -256,9 +256,9 @@ dijit.findWidgets = function(/*DomNode*/ root){
 	return outAry;
 };
 
-dijit._destroyAll() = function(){
+dijit._destroyAll = function(){
 	// summary:
-	//		Code to destroy all widgets, etc.
+	//		Code to destroy all widgets and do other cleanup on page unload
 
 	// Clean up focus manager lingering references to widgets and nodes
 	dijit._curFocus = null;
