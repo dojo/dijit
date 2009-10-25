@@ -24,13 +24,17 @@ dijit._connectOnUseEventHandler = function(/*Event*/ event){};
 // 4. onkeyup event fires, causing the ondijitclick handler to fire
 dijit._lastKeyDownNode = null;
 if(dojo.isIE){
-	dojo.doc.attachEvent('onkeydown', function(evt){
-		//console.log("keypress on IE");
-		dijit._lastKeyDownNode = evt.srcElement;
-	});
+	(function(){
+		var keydownCallback = function(evt){
+			dijit._lastKeyDownNode = evt.srcElement;
+		};
+		dojo.doc.attachEvent('onkeydown', keydownCallback);
+		dojo.addOnWindowUnload(function(){
+			dojo.doc.detachEvent('onkeydown', keydownCallback);
+		});
+	})();
 }else{
 	dojo.doc.addEventListener('keydown', function(evt){
-		//console.log("keydown,  non-IE", evt.target);
 		dijit._lastKeyDownNode = evt.target;
 	}, true);
 }
