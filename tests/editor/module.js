@@ -6,6 +6,7 @@ try{
 	// Base editor functionality
 	doh.registerUrl("dijit.tests.editor.robot.Editor_mouse", dojo.moduleUrl("dijit","tests/editor/robot/Editor_mouse.html"+userArgs), 99999999);
 	doh.registerUrl("dijit.tests.editor.robot.Editor_a11y", dojo.moduleUrl("dijit","tests/editor/robot/Editor_a11y.html"+userArgs), 99999999);
+	doh.registerUrl("dijit.tests.editor.robot.Misc", dojo.moduleUrl("dijit","tests/editor/robot/Editor_misc.html"+userArgs), 99999999);
 
 	// Plugins
 	doh.registerUrl("dijit.tests.editor.robot.EnterKeyHandling", dojo.moduleUrl("dijit","tests/editor/robot/EnterKeyHandling.html"+userArgs), 99999999);
