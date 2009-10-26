@@ -284,6 +284,7 @@ dojo.declare(
 		if(this._inProgressAnim && this._inProgressAnim.status != "stopped"){
 			this._inProgressAnim.stop(true);
 		}
+		this._supportingWidgets = dijit.findWidgets(this.domNode); // tells destroy about pseudo-child widgets (ruler/labels)
 		this.inherited(arguments);
 	}
 });
