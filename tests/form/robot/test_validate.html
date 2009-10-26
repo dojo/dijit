@@ -133,7 +133,7 @@
 							doh.is('Testing', this.textbox.focusNode.value, "focusNode value");
 							doh.is('Testing', this.textbox.attr('value'), "attr value");
 							doh.is('Testing', onChange.value, "onChange.value");
-						})), 500);
+						})), 1000);
 						return d;
 					}
 				});
@@ -156,7 +156,7 @@
 						doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
 							doh.is('TESTING', this.textbox.focusNode.value, "focusNode.value");
 							doh.is('TESTING', this.textbox.attr('value'), "attr('value')");
-						})), 500);
+						})), 1000);
 						return d;
 					}
 				});
@@ -178,7 +178,7 @@
 								// test that value changed while typing since intermediateChanges = true
 								doh.is('100', this.textbox.focusNode.value, "focusNode.value");
 								doh.is(100, this.textbox.attr('value'), "attr('value')");
-							})), 500);
+							})), 1000);
 							return d;
 						}
 					},
@@ -204,7 +204,7 @@
 									doh.is('100', this.textbox.focusNode.value, "focusNode.value");
 									doh.is(100, this.textbox.attr('value'), "attr('value')");
 								})), 500);
-							})), 500);
+							})), 1000);
 							return d;
 						}
 					}
@@ -335,7 +335,7 @@
 									doh.is(true, this.textbox.isValid(), "isValid()");
 									doh.is('3000', onChange.value);
 								})), 500);
-							})), 500);
+							})), 1000);
 							return d;
 						}
 					},
@@ -367,7 +367,7 @@
 									doh.is(true, this.textbox.isValid(), "isValid()");
 									doh.is('3000', onChange.value);
 								})), 500);
-							})), 500);
+							})), 1000);
 							return d;
 						}
 					},
@@ -399,7 +399,7 @@
 									doh.is(false, this.textbox.isValid(), "isValid()");
 									doh.is('undefined', onChange.value);
 								})), 500);
-							})), 500);
+							})), 1000);
 							return d;
 						}
 					}
@@ -466,7 +466,7 @@
 									doh.is(true, this.textbox.isValid(), "isValid()");
 									doh.is('10000.01', onChange.value);
 								})), 500);
-							})), 500);
+							})), 1000);
 							return d;
 						}
 					},
@@ -518,7 +518,7 @@
 								doh.is('123', this.textbox.focusNode.value, "focusNode.value");
 								doh.is(undefined, this.textbox.attr('value'), "attr('value')");
 								doh.f(this.textbox.isValid(), "!isValid()");
-							})), 500);
+							})), 1000);
 							return d;
 						}
 					},
@@ -539,7 +539,7 @@
 								doh.is('123.0', this.textbox.focusNode.value, "focusNode.value");
 								doh.is(undefined, this.textbox.attr('value'), "attr('value')");
 								doh.f(this.textbox.isValid(), "!isValid()");
-							})), 500);
+							})), 1500);
 							return d;
 						}
 					},
@@ -560,7 +560,7 @@
 								doh.is('123.000', this.textbox.focusNode.value, "focusNode.value");
 								doh.is(undefined, this.textbox.attr('value'), "attr('value')");
 								doh.f(this.textbox.isValid(), "!isValid()");
-							})), 500);
+							})), 1700);
 							return d;
 						}
 					},
@@ -581,7 +581,7 @@
 								doh.is('-123.00', this.textbox.focusNode.value, "focusNode.value");
 								doh.is(-123, this.textbox.attr('value'), "attr('value')");
 								doh.t(this.textbox.isValid(), "isValid()");
-							})), 500);
+							})), 1000);
 							return d;
 						}
 					},
@@ -602,7 +602,7 @@
 								doh.is('($123.00)', this.textbox.focusNode.value, "focusNode.value");
 								doh.is(-123, this.textbox.attr('value'), "attr('value')");
 								doh.t(this.textbox.isValid(), "isValid()");
-							})), 500);
+							})), 1000);
 							return d;
 						}
 					},
@@ -688,8 +688,9 @@
 					runTest: function(){
 						var d = new doh.Deferred();
 						doh.robot.typeKeys('1', 500, 100);
-						doh.robot.mouseMoveAt(dijit.byId('q01').focusNode, 500);
-						doh.robot.mouseClick({left: true}, 500);
+						doh.robot.sequence(dojo.hitch(this, function(){
+							dijit.byId('q01').focusNode.focus();
+						}), 500);
 						doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
 							doh.is('€1.00', this.textbox.focusNode.value, "focusNode.value");
 							doh.is('1', this.textbox.attr('value'), "attr('value')");
@@ -710,8 +711,9 @@
 						},
 						runTest: function(){
 							var d = new doh.Deferred();
-							doh.robot.mouseMoveAt(this.textbox.focusNode, 500);
-							doh.robot.mouseClick({left: true}, 500);
+							doh.robot.sequence(dojo.hitch(this, function(){
+								this.textbox.focusNode.focus();
+							}), 500);
 							doh.robot.typeKeys('a', 500, 100);
 							doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
 								doh.is('a', this.textbox.focusNode.value, "focusNode.value");
@@ -732,8 +734,9 @@
 						},
 						runTest: function(){
 							var d = new doh.Deferred();
-							doh.robot.mouseMoveAt(this.textbox.focusNode, 500);
-							doh.robot.mouseClick({left: true}, 500);
+							doh.robot.sequence(dojo.hitch(this, function(){
+								this.textbox.focusNode.focus();
+							}), 500);
 							doh.robot.typeKeys('a ', 500,100);
 							doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
 								doh.is('a ', this.textbox.focusNode.value, "focusNode.value");
@@ -755,13 +758,14 @@
 					},
 					runTest: function(){
 						var d = new doh.Deferred();
-						doh.robot.mouseMoveAt(this.textbox.focusNode, 500);
-						doh.robot.mouseClick({left: true}, 500);
+						doh.robot.sequence(dojo.hitch(this, function(){
+							this.textbox.focusNode.focus();
+						}), 500);
 						doh.robot.typeKeys('abcdef', 500, 600);
 						doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
 							doh.is('abcdef', this.textbox.focusNode.value, "focusNode.value");
 							doh.is('abcdef', this.textbox.attr('value'), "attr('value')");
-						})), 500);
+						})), 1000);
 						return d;
 					}
 				});
@@ -787,7 +791,7 @@
 							doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
 								doh.is('cannot type here', this.textbox.focusNode.value, "focusNode.value");
 								doh.is('cannot type here', this.textbox.attr('value'), "attr('value')");
-							})), 500);
+							})), 1000);
 							return d;
 						}
 					},
@@ -808,7 +812,7 @@
 							doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
 								doh.is('abc', this.textbox.focusNode.value, "focusNode.value");
 								doh.is('abc', this.textbox.attr('value'), "attr('value')");
-							})), 500);
+							})), 1000);
 							return d;
 						}
 					}
