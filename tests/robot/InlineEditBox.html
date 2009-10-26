@@ -52,7 +52,7 @@
 							doh.robot.typeKeys("dollar", 500, 1000); // invalid
 							moveAndClick("predefined");
 							doh.robot.sequence(d.getTestCallback(function(){
-								var currencyTextBox = inlineBox.editWidget.editWidget;
+								var currencyTextBox = inlineBox.wrapperWidget.editWidget;
 								doh.is('dollar', currencyTextBox.attr("displayedValue"), "displayedValue");
 								doh.f(currencyTextBox.isValid(), "!isValid");
 								inlineBox.cancel(false);
@@ -71,7 +71,7 @@
 							doh.robot.typeKeys("dollar", 500, 1000); // invalid
 							doh.robot.keyPress(dojo.keys.ENTER, 500, {});
 							doh.robot.sequence(d.getTestErrback(function(){
-								var currencyTextBox = inlineBox.editWidget.editWidget;
+								var currencyTextBox = inlineBox.wrapperWidget.editWidget;
 								doh.is('dollar', currencyTextBox.attr("displayedValue"), "displayedValue");
 								doh.f(currencyTextBox.isValid(), "!isValid");
 							}), 1000);
@@ -155,15 +155,33 @@
 							doh.robot.keyPress(dojo.keys.ENTER, 500, {});
 							doh.robot.typeKeys("567", 500, 1000);
 							doh.robot.keyPress(dojo.keys.ENTER, 500, {});
-							doh.robot.keyPress(dojo.keys.TAB, 100, {shift:true}); // do this fast
-							doh.robot.keyPress(dojo.keys.TAB, 100, {shift:true}); // do this fast
-							doh.robot.keyPress(dojo.keys.ENTER, 100, {}); // quickly back to editable
-							doh.robot.keyPress(dojo.keys.END, 500, {});
+							doh.robot.keyPress(dojo.keys.TAB, 500, {shift:true}); // do this fast
+							doh.robot.keyPress(dojo.keys.TAB, 500, {shift:true}); // do this fast
+							doh.robot.keyPress(dojo.keys.ENTER, 500, {}); // quickly back to editable
+							doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 500, {});
 							doh.robot.typeKeys(" again", 500, 1000);
-							doh.robot.keyPress(dojo.keys.TAB, 100, {});
+							doh.robot.keyPress(dojo.keys.TAB, 500, {});
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.is('$567.00', dijit.byId("dollar_as").attr("value"), "value");
 								doh.is('editable again', inlineBox.attr("value"), "value");
+							}), 1000);
+							return d;
+						}
+					},
+					{
+						name: "Textarea test",
+						timeout: 15000,
+						runTest: function(){
+							var d = new doh.Deferred();
+							var inlineBox = dijit.byId("textarea");
+							moveAndClick(inlineBox.domNode);
+							doh.robot.typeKeys("line 1", 500, 1000);
+							doh.robot.keyPress(dojo.keys.ENTER, 500, {});
+							doh.robot.typeKeys("line 2", 500, 1000);
+							moveAndClick("predefined");
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.is('line 1\\nline 2', inlineBox.attr("value").replace(/\n/g, "\\n"), "textarea programmatic value was " + inlineBox.attr("value").replace(/\n/g, "\\n"));
+								doh.is('line 1<br>line 2', inlineBox.domNode.innerHTML.toLowerCase(), "textarea rendered value was " + inlineBox.domNode.innerHTML);
 							}), 1000);
 							return d;
 						}
@@ -184,7 +202,7 @@
 							moveAndClick(inlineBox.domNode);
 							doh.robot.sequence(d.getTestErrback(function(){
 								doh.is('$2,000', inlineBox.attr("value"), "value");
-								var currencyTextBox = inlineBox.editWidget.editWidget;
+								var currencyTextBox = inlineBox.wrapperWidget.editWidget;
 								doh.is('2000.00', currencyTextBox.attr("displayedValue"), "displayedValue");
 							}), 1000);
 							cancel(d, inlineBox);
@@ -201,7 +219,7 @@
 							moveAndClick(inlineBox.domNode);
 							doh.robot.sequence(d.getTestErrback(function(){
 								doh.is(3, inlineBox.attr("value"));
-								var numberSpinner = inlineBox.editWidget.editWidget;
+								var numberSpinner = inlineBox.wrapperWidget.editWidget;
 								doh.is(3, numberSpinner.attr("value"));
 							}), 1000);
 							cancel(d, inlineBox);
@@ -218,7 +236,7 @@
 							moveAndClick(inlineBox.domNode);
 							doh.robot.sequence(d.getTestErrback(function(){
 								doh.is("refrigerators", dojo.trim(inlineBox.attr("value")));
-								var comboBox = inlineBox.editWidget.editWidget;
+								var comboBox = inlineBox.wrapperWidget.editWidget;
 								doh.is("refrigerators", comboBox.attr("value"));
 							}), 1000);
 							cancel(d, inlineBox);
@@ -236,7 +254,7 @@
 							var preDate = dojo.date.locale.parse("01/05/2007", {datePattern: 'MM/dd/yyyy', selector:'date'});
 							doh.robot.sequence(d.getTestErrback(function(){
 								doh.is("01/05/2007", inlineBox.attr("value"));
-								var dateTextBox = inlineBox.editWidget.editWidget;
+								var dateTextBox = inlineBox.wrapperWidget.editWidget;
 								doh.is(preDate.toString(), dateTextBox.attr("value").toString());
 							}), 1000);
 							cancel(d, inlineBox);
@@ -253,7 +271,7 @@
 							moveAndClick(inlineBox.domNode);
 							doh.robot.sequence(d.getTestErrback(function(){
 								doh.is("Pennsylvania", dojo.trim(inlineBox.attr("value")));
-								var filteringSelect = inlineBox.editWidget.editWidget;
+								var filteringSelect = inlineBox.wrapperWidget.editWidget;
 								doh.is("PA", filteringSelect.attr("value"));
 							}), 1000);
 							cancel(d, inlineBox);

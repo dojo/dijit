@@ -132,6 +132,7 @@ dojo.declare("dijit.InlineEditBox",
 		dojo.deprecated("dijit.InlineEditBox.setDisabled() is deprecated.  Use attr('disabled', bool) instead.", "", "2.0");
 		this.attr('disabled', disabled);
 	},
+
 	_setDisabledAttr: function(/*Boolean*/ disabled){
 		// summary:
 		//		Hook to make attr("disabled", ...) work.
@@ -183,46 +184,72 @@ dojo.declare("dijit.InlineEditBox",
 		if(this.disabled || this.editing){ return; }
 		this.editing = true;
 
-		var editValue =
-				(this.renderAsHtml ?
-				this.value :
-				this.value.replace(/\s*\r?\n\s*/g,"").replace(/<br\/?>/gi,"\n").replace(/&gt;/g,">").replace(/&lt;/g,"<").replace(/&amp;/g,"&").replace(/&quot;/g,"\""));
+		// save some display node values that can be restored later
+		this._savedPosition = dojo.style(this.displayNode, "position") || "static";
+		this._savedOpacity = dojo.style(this.displayNode, "opacity") || "1";
+		this._savedTabIndex = dojo.attr(this.displayNode, "tabIndex") || "0";
 
-		// Placeholder for edit widget
-		// Put place holder (and eventually editWidget) before the display node so that it's positioned correctly
-		// when Calendar dropdown appears, which happens automatically on focus.
-		var placeholder = dojo.create("span", null, this.domNode, "before");
+		if(this.wrapperWidget){
+			this.wrapperWidget.editWidget.attr("displayedValue" in this.editorParams ? "displayedValue" : "value", this.value);
+		}else{
+			// Placeholder for edit widget
+			// Put place holder (and eventually editWidget) before the display node so that it's positioned correctly
+			// when Calendar dropdown appears, which happens automatically on focus.
+			var placeholder = dojo.create("span", null, this.domNode, "before");
 
-		// Create the editor wrapper (the thing that holds the editor widget and the save/cancel buttons)
-		var ewc = dojo.getObject(this.editorWrapper),
-			ew = this.editWidget = new ewc({
-				value: dojo.trim(editValue),
-				autoSave: this.autoSave,
+			// Create the editor wrapper (the thing that holds the editor widget and the save/cancel buttons)
+			var ewc = dojo.getObject(this.editorWrapper);
+			this.wrapperWidget = new ewc({
+				value: this.value,
 				buttonSave: this.buttonSave,
 				buttonCancel: this.buttonCancel,
-				renderAsHtml: this.renderAsHtml,
+				tabIndex: this._savedTabIndex,
 				editor: this.editor,
-				editorParams: this.editorParams,
+				inlineEditBox: this,
 				sourceStyle: dojo.getComputedStyle(this.displayNode),
 				save: dojo.hitch(this, "save"),
-				cancel: dojo.hitch(this, "cancel"),
-				width: this.width
+				cancel: dojo.hitch(this, "cancel")
 			}, placeholder);
+		}
+		var ww = this.wrapperWidget;
 
+		if(dojo.isIE){
+			dijit.focus(dijit.getFocus()); // IE (at least 8) needs help with tab order changes
+		}
 		// to avoid screen jitter, we first create the editor with position:absolute, visibility:hidden,
 		// and then when it's finished rendering, we switch from display mode to editor
-		var ews = ew.domNode.style;
-		this.displayNode.style.display="none";
-		ews.position = "static";
-		ews.visibility = "visible";
+		// position:absolute releases screen space allocated to the display node
+		// opacity:0 is the same as visibility:hidden but is still focusable
+		// visiblity:hidden removes focus outline
+
+		dojo.style(this.displayNode, { position: "absolute", opacity: "0", display: "none" }); // makes display node invisible, display style used for focus-ability
+		dojo.style(ww.domNode, { position: this._savedPosition, visibility: "visible", opacity: "1" });
+		dojo.attr(this.displayNode, "tabIndex", "-1"); // needed by WebKit for TAB from editor to skip displayNode
 
 		// Replace the display widget with edit widget, leaving them both displayed for a brief time so that
 		// focus can be shifted without incident.  (browser may needs some time to render the editor.)
-		this.domNode = ew.domNode;
-		setTimeout(function(){
-			ew.focus();
-			ew._resetValue = ew.getValue();
-		}, 100);
+		setTimeout(dojo.hitch(this, function(){
+			ww.focus(); // both nodes are showing, so we can switch focus safely
+			ww._resetValue = ww.getValue();
+		}), 0);
+	},
+
+	_onBlur: function(){
+		// summary:
+		//		Called when focus moves outside the InlineEditBox.
+		//		Performs garbage collection.
+		// tags:
+		//		private
+
+		this.inherited(arguments);
+		if(!this.editing){
+			setTimeout(dojo.hitch(this, function(){
+				if(this.wrapperWidget){
+					this.wrapperWidget.destroy();
+					delete this.wrapperWidget;
+				}
+			}), 0);
+		}
 	},
 
 	_showText: function(/*Boolean*/ focus){
@@ -231,34 +258,13 @@ dojo.declare("dijit.InlineEditBox",
 		// tags:
 		//		private
 
-		var ew = this.editWidget;
-		ew.autoSave = false; // don't allow secondary processing especially _onBlur
-		if(focus && dojo.isIE){
-			var node = ew.editWidget.focusNode;
-			if(node.tagName == "INPUT"){
-				// fixes weird IE focus problem when text is selected by unselecting it before changing focus to prevent focus being lost
-				dijit.selectInputText(node, 0, 0);
-			}
-		}
-			
-		// display the read-only text and then quickly hide the editor (to avoid screen jitter)
-		this.displayNode.style.display="";
-		dojo.style(ew.domNode, { position: "absolute", visibility: "hidden" });
-
-		this.domNode = this.displayNode;
-
+		var ww = this.wrapperWidget;
+		dojo.style(ww.domNode, { position: "absolute", visibility: "hidden", opacity: "0" }); // hide the editor from mouse/keyboard events
+		dojo.style(this.displayNode, { position: this._savedPosition, opacity: this._savedOpacity, display: "" }); // make the original text visible
+		dojo.attr(this.displayNode, "tabIndex", this._savedTabIndex);
 		if(focus){
 			dijit.focus(this.displayNode);
 		}
-		// give the browser some time to render the display node and then shift focus to it
-		// and hide the edit widget before garbage collecting the edit widget
-		setTimeout(function(){
-			if(ew.domNode && ew.domNode.removeNode){
-				ew.domNode = ew.domNode.removeNode(true); // prevents IE focus problems
-			}
-			ew.destroy();
-			delete ew;
-		}, 0);
 	},
 
 	save: function(/*Boolean*/ focus){
@@ -268,18 +274,18 @@ dojo.declare("dijit.InlineEditBox",
 		//		Focus on the display mode text
 		// tags:
 		//		private
+
 		if(this.disabled || !this.editing){ return; }
 		this.editing = false;
 
-		var value = this.editWidget.getValue() + "";
-		this.attr('value', this.renderAsHtml? value
-			: value.replace(/&/gm, "&amp;").replace(/</gm, "&lt;").replace(/>/gm, "&gt;").replace(/"/gm, "&quot;").replace(/\n/g, "<br>")
-		);
+		var ww = this.wrapperWidget;
+		var value = ww.getValue();
+		this.attr('value', value); // display changed, formatted value
 
 		// tell the world that we have changed
-		this.onChange(value);
+		setTimeout(dojo.hitch(this, "onChange", value), 0); // setTimeout prevents browser freeze for long-running event handlers
 
-		this._showText(focus);
+		this._showText(focus); // set focus as needed
 	},
 
 	setValue: function(/*String*/ val){
@@ -290,12 +296,17 @@ dojo.declare("dijit.InlineEditBox",
 		dojo.deprecated("dijit.InlineEditBox.setValue() is deprecated.  Use attr('value', ...) instead.", "", "2.0");
 		return this.attr("value", val);
 	},
+
 	_setValueAttr: function(/*String*/ val){
 		// summary:
 		// 		Hook to make attr("value", ...) work.
 		//		Inserts specified HTML value into this node, or an "input needed" character if node is blank.
-		this.value = val;
-		this.displayNode.innerHTML = dojo.trim(val) || this.noValueIndicator;
+
+		this.value = val = dojo.trim(val);
+		if(!this.renderAsHtml){
+			val = val.replace(/&/gm, "&amp;").replace(/</gm, "&lt;").replace(/>/gm, "&gt;").replace(/"/gm, "&quot;").replace(/\n/g, "<br>");
+		}
+		this.displayNode.innerHTML = val || this.noValueIndicator;
 	},
 
 	getValue: function(){
@@ -313,10 +324,11 @@ dojo.declare("dijit.InlineEditBox",
 		// tags:
 		//		private
 
+		if(this.disabled || !this.editing){ return; }
 		this.editing = false;
 
 		// tell the world that we have no changes
-		this.onCancel();
+		setTimeout(dojo.hitch(this, "onCancel"), 0); // setTimeout prevents browser freeze for long-running event handlers
 
 		this._showText(focus);
 	}
@@ -364,19 +376,21 @@ dojo.declare(
 		dojo.forEach(["marginTop","marginBottom","marginLeft", "marginRight"], function(prop){
 			this.domNode.style[prop] = srcStyle[prop];
 		}, this);
-		if(this.width == "100%"){
+		var width = this.inlineEditBox.width;
+		if(width == "100%"){
 			// block mode
 			editStyle += "width:100%;";
 			this.domNode.style.display = "block";
 		}else{
 			// inline-block mode
-			editStyle += "width:" + (this.width + (Number(this.width) == this.width ? "px" : "")) + ";";
+			editStyle += "width:" + (width + (Number(width) == width ? "px" : "")) + ";";
 		}
-		this.editorParams.style = editStyle;
-		this.editorParams[ "displayedValue" in cls.prototype ? "displayedValue" : "value"] = this.value;
-		var ew = this.editWidget = new cls(this.editorParams, this.editorPlaceholder);
+		var editorParams = this.inlineEditBox.editorParams;
+		editorParams.style = editStyle;
+		editorParams[ "displayedValue" in cls.prototype ? "displayedValue" : "value"] = this.value;
+		var ew = this.editWidget = new cls(editorParams, this.editorPlaceholder);
 
-		if(this.autoSave){
+		if(this.inlineEditBox.autoSave){
 			// Hide the save/cancel buttons since saving is done by simply tabbing away or
 			// selecting a value from the drop down list
 			this.buttonContainer.style.display="none";
@@ -406,7 +420,7 @@ dojo.declare(
 	},
 
 	destroy: function(){
-		this.editWidget.destroy();
+		this.editWidget.destroy(true); // let the parent wrapper widget clean up the DOM
 		this.inherited(arguments);
 	},
 
@@ -414,7 +428,7 @@ dojo.declare(
 		// summary:
 		//		Return the [display] value of the edit widget
 		var ew = this.editWidget;
-		return ew.attr("displayedValue" in ew ? "displayedValue" : "value");
+		return String(ew.attr("displayedValue" in ew ? "displayedValue" : "value"));
 	},
 
 	_onKeyPress: function(e){
@@ -425,15 +439,15 @@ dojo.declare(
 		// tags:
 		//		private
 
-		if(this.autoSave){
+		if(this.inlineEditBox.autoSave && this.inlineEditBox.editing){
 			if(e.altKey || e.ctrlKey){ return; }
 			// If Enter/Esc pressed, treat as save/cancel.
 			if(e.charOrCode == dojo.keys.ESCAPE){
 				dojo.stopEvent(e);
-				this.cancel(true);
-			}else if(e.charOrCode == dojo.keys.ENTER && this.editWidget.focusNode.tagName == "INPUT"){
+				this.cancel(true); // sets editing=false which short-circuits _onBlur processing
+			}else if(e.charOrCode == dojo.keys.ENTER && e.target.tagName == "INPUT"){
 				dojo.stopEvent(e);
-				this._onChange();
+				this._onChange(); // fire _onBlur and then save
 			}
 
 			// _onBlur will handle TAB automatically by allowing
@@ -459,7 +473,7 @@ dojo.declare(
 		//		private
 
 		this.inherited(arguments);
-		if(this.autoSave){
+		if(this.inlineEditBox.autoSave && this.inlineEditBox.editing){
 			if(this.getValue() == this._resetValue){
 				this.cancel(false);
 			}else if(this.enableSave()){
@@ -476,11 +490,9 @@ dojo.declare(
 		// tags:
 		//		private
 
-		if(this.autoSave && this.enableSave()){
-			// cannot call blur() directly since that closes container popups as well
-			this.editWidget._focused = false;
-			this.editWidget._onBlur(); // tells the editWidget to format the input
-			this.save(true);
+		if(this.inlineEditBox.autoSave && this.inlineEditBox.editing && this.enableSave()){
+			dojo.style(this.inlineEditBox.displayNode, { display: "" });
+			dijit.focus(this.inlineEditBox.displayNode); // fires _onBlur which will save the formatted value
 		}
 	},
 
@@ -490,13 +502,24 @@ dojo.declare(
 		// 		if the Save button should be enabled or not - usually due to invalid conditions
 		// tags:
 		//		extension
-		return this.editWidget.isValid ? this.editWidget.isValid() : true;
+		return (
+			this.editWidget.isValid
+			? this.editWidget.isValid()
+			: true
+		);
 	},
 
 	focus: function(){
 		// summary:
-		//		Focus on the edit widget.
+		//		Focus the edit widget.
+		// tags:
+		//		protected
+
 		this.editWidget.focus();
-		dijit.selectInputText(this.editWidget.focusNode);
+		setTimeout(dojo.hitch(this, function(){
+			if(this.editWidget.focusNode.tagName == "INPUT"){
+				dijit.selectInputText(this.editWidget.focusNode);
+			}
+		}), 0);
 	}
 });
