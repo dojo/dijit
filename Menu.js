@@ -488,14 +488,15 @@ dojo.declare("dijit.Menu",
 				win = this._iframeContentWindow(iframe);
 			cn = dojo.withGlobal(win, dojo.body);
 		}else{
-			// to capture these events at the top level,
-			// attach to document, not body
+			// To capture these events at the top level, attach to document, not body.
+			// Ensures Shift-F10 triggers context menu "open" on IE/FF (and Opera) under various circumstances. 
 			cn = (node == dojo.body() ? dojo.doc : node);
 		}
 
+
 		// "binding" is the object to track our connection to the node (ie, the parameter to bindDomNode())
 		var binding = {
-			node: cn,
+			node: node,
 			iframe: iframe
 		};
 
