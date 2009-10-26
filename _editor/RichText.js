@@ -659,7 +659,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 
 		if(!this.window.__registeredWindow){
 			this.window.__registeredWindow = true;
-			dijit.registerIframe(this.iframe);
+			this._iframeRegHandle = dijit.registerIframe(this.iframe);
 		}
 		if(!dojo.isIE && (this.height || dojo.isMoz)){
 			this.editNode=this.document.body;
@@ -1580,6 +1580,11 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 			 this.iframe.onfocus = null;
 		}
 		this.iframe._loadFunc = null;
+
+		if(this._iframeRegHandle){
+			dijit.unregisterIframe(this._iframeRegHandle);
+			delete this._iframeRegHandle;
+		}
 
 		if(this.textarea){
 			var s = this.textarea.style;

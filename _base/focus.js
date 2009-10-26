@@ -236,7 +236,7 @@ dojo.mixin(dijit, {
 		}
 	},
 
-	// _activeStack: Array
+	// _activeStack: dijit._Widget[]
 	//		List of currently active widgets (focused widget and it's ancestors)
 	_activeStack: [],
 
@@ -247,7 +247,19 @@ dojo.mixin(dijit, {
 		//		as a focus/click event on the <iframe> itself.
 		// description:
 		//		Currently only used by editor.
-		dijit.registerWin(iframe.contentWindow, iframe);
+		// returns:
+		//		Handle to pass to unregisterIframe()
+		return dijit.registerWin(iframe.contentWindow, iframe);
+	},
+
+	unregisterIframe: function(/*Object*/ handle){
+		// summary:
+		//		Unregisters listeners on the specified iframe created by registerIframe.
+		//		After calling be sure to delete or null out the handle itself.
+		// handle:
+		//		Handle returned by registerIframe()
+
+		dijit.unregisterWin(handle);
 	},
 
 	registerWin: function(/*Window?*/targetWindow, /*DomNode?*/ effectiveNode){
@@ -263,16 +275,16 @@ dojo.mixin(dijit, {
 		// effectiveNode:
 		//		If specified, report any focus events inside targetWindow as
 		//		an event on effectiveNode, rather than on evt.target.
+		// returns:
+		//		Handle to pass to unregisterWin()
 
 		// TODO: make this function private in 2.0; Editor/users should call registerIframe(),
-		// or if Editor stops using <iframe> altogether than we can probably just drop
-		// the whole public API.
 
-		dojo.connect(targetWindow.document, "onmousedown", function(evt){
+		var mousedownListener = function(evt){
 			dijit._justMouseDowned = true;
 			setTimeout(function(){ dijit._justMouseDowned = false; }, 0);
 			dijit._onTouchNode(effectiveNode || evt.target || evt.srcElement);
-		});
+		};
 		//dojo.connect(targetWindow, "onscroll", ???);
 
 		// Listen for blur and focus events on targetWindow's document.
@@ -282,7 +294,8 @@ dojo.mixin(dijit, {
 		var doc = targetWindow.document;
 		if(doc){
 			if(dojo.isIE){
-				doc.attachEvent('onactivate', function(evt){
+				doc.attachEvent('onmousedown', mousedownListener);
+				var activateListener = function(evt){
 					// IE reports that nodes like <body> have gotten focus, even though they have tabIndex=-1,
 					// Should consider those more like a mouse-click than a focus....
 					if(evt.srcElement.tagName.toLowerCase() != "#document" &&
@@ -291,20 +304,48 @@ dojo.mixin(dijit, {
 					}else{
 						dijit._onTouchNode(effectiveNode || evt.srcElement);
 					}
-				});
-				doc.attachEvent('ondeactivate', function(evt){
+				};
+				doc.attachEvent('onactivate', activateListener);
+				var deactivateListener =  function(evt){
 					dijit._onBlurNode(effectiveNode || evt.srcElement);
-				});
+				};
+				doc.attachEvent('ondeactivate', deactivateListener);
+
+				return function(){
+					doc.detachEvent('onmousedown', mousedownListener);
+					doc.detachEvent('onactivate', activateListener);
+					doc.detachEvent('ondeactivate', deactivateListener);
+					doc = null;	// prevent memory leak (apparent circular reference via closure)
+				};
 			}else{
-				doc.addEventListener('focus', function(evt){
+				doc.addEventListener('mousedown', mousedownListener, true);
+				var focusListener = function(evt){
 					dijit._onFocusNode(effectiveNode || evt.target);
-				}, true);
-				doc.addEventListener('blur', function(evt){
+				};
+				doc.addEventListener('focus', focusListener, true);
+				var blurListener = function(evt){
 					dijit._onBlurNode(effectiveNode || evt.target);
-				}, true);
+				};
+				doc.addEventListener('blur', blurListener, true);
+
+				return function(){
+					doc.removeEventListener('mousedown', mousedownListener, true);
+					doc.removeEventListener('focus', focusListener, true);
+					doc.removeEventListener('blur', blurListener, true);
+					doc = null;	// prevent memory leak (apparent circular reference via closure)
+				};
 			}
 		}
-		doc = null;	// prevent memory leak (apparent circular reference via closure)
+	},
+
+	unregisterWin: function(/*Handle*/ handle){
+		// summary:
+		//		Unregisters listeners on the specified window (either the main
+		//		window or an iframe's window) according to handle returned from registerWin().
+		//		After calling be sure to delete or null out the handle itself.
+
+		// Currently our handle is actually a function
+		handle && handle();
 	},
 
 	_onBlurNode: function(/*DomNode*/ node){
@@ -446,4 +487,12 @@ dojo.mixin(dijit, {
 });
 
 // register top window and all the iframes it contains
-dojo.addOnLoad(function(){dijit.registerWin(window); });
+dojo.addOnLoad(function(){
+	var handle = dijit.registerWin(window);
+	if(dojo.isIE){
+		dojo.addOnWindowUnload(function(){
+			dijit.unregisterWin(handle);
+			handle = null;
+		})
+	}
+});
