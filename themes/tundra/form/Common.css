@@ -44,27 +44,6 @@
 	line-height: normal;
 }
 
-.tundra .dijitTextBoxReadOnly,
-.tundra .dijitComboBoxReadOnly,
-.tundra .dijitSpinnerReadOnly,
-.tundra .dijitTextAreaReadOnly,
-.tundra .dijitTextBoxDisabled,
-.tundra .dijitComboBoxDisabled,
-.tundra .dijitSpinnerDisabled,
-.tundra .dijitTextAreaDisabled {
-	color: gray;
-}
-.dj_webkit .tundra .dijitTextBoxReadOnly,
-.dj_webkit .tundra .dijitComboBoxReadOnly,
-.dj_webkit .tundra .dijitSpinnerReadOnly,
-.dj_webkit .tundra .dijitTextAreaReadOnly,
-.dj_webkit .tundra .dijitTextBoxDisabled,
-.dj_webkit .tundra .dijitComboBoxDisabled,
-.dj_webkit .tundra .dijitSpinnerDisabled,
-.dj_webkit .tundra .dijitTextAreaDisabled {
-	color: #eee;
-}
-
 /* ComboBox specifix rules*/
 .tundra .dijitComboBox .dijitInputField {
 	padding: 1px 0;
