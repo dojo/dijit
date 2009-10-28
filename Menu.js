@@ -488,9 +488,10 @@ dojo.declare("dijit.Menu",
 				win = this._iframeContentWindow(iframe);
 			cn = dojo.withGlobal(win, dojo.body);
 		}else{
-			// To capture these events at the top level, attach to document, not body.
-			// Ensures Shift-F10 triggers context menu "open" on IE/FF (and Opera) under various circumstances. 
-			cn = (node == dojo.body() ? dojo.doc : node);
+			
+			// To capture these events at the top level, attach to <html>, not <body>.
+			// Otherwise right-click context menu just doesn't work.
+			cn = (node == dojo.body() ? dojo.body().parentNode : node);
 		}
 
 
