@@ -291,7 +291,9 @@ dojo.mixin(dijit, {
 		// IIRC, I'm using attachEvent() rather than dojo.connect() because focus/blur events don't bubble
 		// through dojo.connect(), and also maybe to catch the focus events early, before onfocus handlers
 		// fire.
-		var doc = targetWindow.document;
+		// Connect to <html> (rather than document) on IE to avoid memory leaks, but document on other browsers because
+		// (at least for FF) the focus event doesn't fire on <html> or <body>.
+		var doc = dojo.isIE ? targetWindow.document.body.parentNode : targetWindow.document;	// could also be document.lastChild
 		if(doc){
 			if(dojo.isIE){
 				doc.attachEvent('onmousedown', mousedownListener);
