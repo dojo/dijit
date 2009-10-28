@@ -1617,8 +1617,9 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 		dojo.removeClass(this.domNode, "RichTextEditable");
 		this.isClosed = true;
 		this.isLoaded = false;
-		// FIXME: is this always the right thing to do?
+
 		delete this.editNode;
+		delete this.focusNode;
 
 		if(this.window && this.window._frameElement){
 			this.window._frameElement = null;
