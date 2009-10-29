@@ -491,7 +491,7 @@ dojo.declare("dijit.Menu",
 			
 			// To capture these events at the top level, attach to <html>, not <body>.
 			// Otherwise right-click context menu just doesn't work.
-			cn = (node == dojo.body() ? dojo.body().parentNode : node);
+			cn = (node == dojo.body() ? dojo.doc.documentElement : node);
 		}
 
 
