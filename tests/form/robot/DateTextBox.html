@@ -333,7 +333,9 @@
 							doh.robot.mouseMoveAt(day, 500);
 
 							doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
+/*** Uncomment this test when #9820 is fixed **
 								doh.t(dojo.hasClass(day, 'dijitCalendarHoveredDate'), "hovered date has hover class");
+***/
 							})), 500);
 
 							return d;
