@@ -562,12 +562,14 @@ dojo.declare("dijit.layout.SplitContainer",
 // Since any widget can be specified as a SplitContainer child, mix them
 // into the base widget class.  (This is a hack, but it's effective.)
 dojo.extend(dijit._Widget, {
-	// sizeMin: Integer
+	// sizeMin: [deprecated] Integer
+	//		Deprecated.  Parameter for children of `dijit.layout.SplitContainer`.
 	//		Minimum size (width or height) of a child of a SplitContainer.
 	//		The value is relative to other children's sizeShare properties.
 	sizeMin: 10,
 
-	// sizeShare: Integer
+	// sizeShare: [deprecated] Integer
+	//		Deprecated.  Parameter for children of `dijit.layout.SplitContainer`.
 	//		Size (width or height) of a child of a SplitContainer.
 	//		The value is relative to other children's sizeShare properties.
 	//		For example, if there are two children and each has sizeShare=10, then

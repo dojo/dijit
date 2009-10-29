@@ -292,26 +292,31 @@ dojo.require("dijit.layout.StackController");
 // into the base widget class.  (This is a hack, but it's effective.)
 dojo.extend(dijit._Widget, {
 	// selected: Boolean
-	//		Is this child currently selected?
-	//		Can be specified at initialization time, but then to change selected child use `dijit.layout.StackContainer.selectChild`
+	//		Parameter for children of `dijit.layout.StackContainer` or subclasses.
+	//		Specifies that this widget should be the initially displayed pane.
+	//		Note: to change the selected child use `dijit.layout.StackContainer.selectChild`
 	selected: false,
 
 	// closable: Boolean
+	//		Parameter for children of `dijit.layout.StackContainer` or subclasses.
 	//		True if user can close (destroy) this child, such as (for example) clicking the X on the tab.
 	closable: false,
 
 	// iconClass: String
-	//		CSS Class specifying icon to use in tab label etc. associated with this pane.
+	//		Parameter for children of `dijit.layout.StackContainer` or subclasses.
+	//		CSS Class specifying icon to use in label associated with this pane.
 	iconClass: "",
 
 	// showTitle: Boolean
-	//		Display title of pane as label in TabContainer/AccordionContainer, rather than just using
+	//		Parameter for children of `dijit.layout.StackContainer` or subclasses.
+	//		When true, display title of this widget as tab label etc., rather than just using
 	//		icon specified in iconClass
 	showTitle: true,
 
 	onClose: function(){
 		// summary:
-		//		Callback if someone tries to close the child, child will be closed if func returns true
+		//		Parameter for children of `dijit.layout.StackContainer` or subclasses.
+		//		Callback if a user tries to close the child.   Child will be closed if this function returns true.
 		// tags:
 		//		extension
 
