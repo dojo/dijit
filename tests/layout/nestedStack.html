@@ -146,7 +146,7 @@
 	</script>
 </head>
 <body class="tundra">
-	<h1>Integration: TabContainerLite in StackContainer</h1>
+	<h1>Integration: TabContainer in StackContainer</h1>
 	<br>
 	<button dojoType="dijit.form.Button" id="previousPR"
 		onClick="dijit.byId('myStackContainerPR').back()">&lt;</button>
@@ -154,7 +154,7 @@
 	<button dojoType="dijit.form.Button" id="nextPR"
 		onClick="dijit.byId('myStackContainerPR').forward()">&gt;</button>
 	<div id="myStackContainerPR" dojoType="dijit.layout.StackContainer"
-		style="height:150px;">
+		style="height:150px; width: 400px;">
 			<div dojoType="dijit.layout.TabContainer" id="tab1" title="tab container 1">
 				<script type="dojo/connect" event="resize">
 					onResize(this);
