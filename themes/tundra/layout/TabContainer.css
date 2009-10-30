@@ -41,11 +41,6 @@
 	cursor: pointer;
 }
 
-.tundra .nowrapTabStrip {
-	background-image: url(../images/dot.gif);
-	background-repeat: repeat-x;
-}
-
 /* checked tab*/
 .tundra .dijitTabChecked {
 	/* the selected tab (with or without hover) */
