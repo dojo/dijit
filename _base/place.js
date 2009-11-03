@@ -113,10 +113,10 @@ dijit._place = function(/*DomNode*/ node, /* Array */ choices, /* Function */ la
 
 		// coordinates and size of node with specified corner placed at pos,
 		// and clipped by viewport
-		var startX = (corner.charAt(1) == 'L' ? pos.x : Math.max(view.l, pos.x - mb.w)),
-			startY = (corner.charAt(0) == 'T' ? pos.y : Math.max(view.t, pos.y - mb.h)),
-			endX = (corner.charAt(1) == 'L' ? Math.min(view.l + view.w, startX + mb.w) : pos.x),
-			endY = (corner.charAt(0) == 'T' ? Math.min(view.t + view.h, startY + mb.h) : pos.y),
+		var startX = Math.max(view.l, corner.charAt(1) == 'L' ? pos.x : (pos.x - mb.w)),
+			startY = Math.max(view.t, corner.charAt(0) == 'T' ? pos.y : (pos.y - mb.h)),
+			endX = Math.min(view.l + view.w, corner.charAt(1) == 'L' ? (startX + mb.w) : pos.x),
+			endY = Math.min(view.t + view.h, corner.charAt(0) == 'T' ? (startY + mb.h) : pos.y),
 			width = endX - startX,
 			height = endY - startY,
 			overflow = (mb.w - width) + (mb.h - height);
