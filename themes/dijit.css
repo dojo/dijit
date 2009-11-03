@@ -1095,13 +1095,18 @@ img.dijitColorPaletteUnder {
 }
 
 
-/* Stack */
+/* StackContainer */
 
 .dijitStackController .dijitToggleButtonChecked * {
 	cursor: default;	/* because pressing it has no effect */
 }
 
-/* Tab */
+/* TabContainer */
+
+.dijitTabContainer {
+	width: 100%;	/* otherwise ScrollingTabController goes to 50K pixels wide */
+}
+
 .dijitTabContainerBottom-tabs,
 .dijitTabContainerTop-tabs,
 .dijitTabContainerLeft-tabs,
