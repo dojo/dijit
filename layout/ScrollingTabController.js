@@ -112,14 +112,20 @@ dojo.declare("dijit.layout.ScrollingTabController",
 	},
 
 	onRemoveChild: function(page, insertIndex){
-		this.inherited(arguments);
-		
+		// null out _selectedTab because we are about to delete that dom node
+		var button = this.pane2button[page.id];
+		if(this._selectedTab === button.domNode){
+			this._selectedTab = null;
+		}
+
 		// delete menu entry corresponding to pane that was removed from TabContainer
 		if(this.useMenu && page && page.id && this._menuChildren[page.id]){
 			this._menu.removeChild(this._menuChildren[page.id]);
 			this._menuChildren[page.id].destroy();
 			delete this._menuChildren[page.id];
 		}
+
+		this.inherited(arguments);
 	},
 
 	_initButtons: function(){
