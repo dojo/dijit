@@ -469,7 +469,6 @@ dojo.declare(
 			if(!node){
 				return;
 			}
-			var caretPos = this._getCaretPos(this.focusNode);
 			// pull the text value from the item attached to the DOM node
 			var newValue;
 			if( node == this._popupWidget.nextButton ||
@@ -482,7 +481,7 @@ dojo.declare(
 				this.attr('item', node.item, false, newValue);
 			}
 			// get the text that the user manually entered (cut off autocompleted text)
-			this.focusNode.value = this.focusNode.value.substring(0, caretPos);
+			this.focusNode.value = this.focusNode.value.substring(0, this._lastInput.length);
 			// set up ARIA activedescendant
 			dijit.setWaiState(this.focusNode, "activedescendant", dojo.attr(node, "id"));
 			// autocomplete the rest of the option to announce change
@@ -513,7 +512,7 @@ dojo.declare(
 			}else{
 				// forces full population of results, if they click
 				// on the arrow it means they want to see more options
-				this._startSearch("");
+				this._startSearchAll();
 			}
 		},
 
