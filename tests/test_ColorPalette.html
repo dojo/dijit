@@ -27,7 +27,7 @@
 		var palette;
 		function init(){
             var date0 = new Date();
-            palette = new dijit.ColorPalette({palette: "7x10", id: "progPalette"}, dojo.byId("programPalette"));
+            palette = new dijit.ColorPalette({palette: "7x10", id: "prog"}, dojo.byId("programPalette"));
             console.log("creation time: " + (new Date() - date0) );
         }
 
@@ -46,14 +46,14 @@
 	<h1 class="testTitle">dijit.ColorPalette test:</h1>
 
 	<p>Default color palette (7x10):</p>
-	<div dojoType="dijit.ColorPalette" onChange="setColor(this.value);"></div>
+	<div dojoType="dijit.ColorPalette" id="big" onChange="setColor(this.value);"></div>
 
 	Test color is: <span id="outputSpan"></span>.
 
 	<p>Small color palette (3x4):</p>
-	<div dojoType="dijit.ColorPalette" palette="3x4"></div>
+	<div dojoType="dijit.ColorPalette" id="small" palette="3x4"></div>
 
-	<p>Default color palette (7x10) created via createWidget:</p>
+	<p>Default color palette (7x10) created programatically:</p>
 	<div id="programPalette"></div>
 
 </body>

@@ -1,0 +1,169 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+		"http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<title>doh.robot ColorPalette Test</title>
+
+		<style>
+			@import "../../../util/doh/robot/robot.css";
+		</style>
+
+		<!-- required: dojo.js -->
+		<script type="text/javascript" src="../../../dojo/dojo.js"
+			djConfig="isDebug: true"></script>
+
+		<script type="text/javascript">
+			dojo.require("dijit.dijit"); // optimize: load dijit layer
+			dojo.require("dijit.robotx");
+			dojo.require("dijit.ColorPalette");
+
+			dojo.addOnLoad(function(){
+				doh.robot.initRobot('../test_ColorPalette.html');
+
+				var big, small, prog;
+
+				// log of calls to onChange handler
+				var changes = [];
+
+				doh.register("dijit.ColorPalette keyboard tests",[
+					{
+						name: "initial conditions",
+						setUp: function(){
+
+							// refs to ColorPalette widgets
+					    	big = dijit.byId("big");
+					    	small = dijit.byId("small");
+					    	prog = dijit.byId("prog");
+
+					    	// setup onChange handler to monitor onChange calls
+							dojo.connect(big, 'onChange', function(val){
+								console.log('onchange w/value: ', val);
+								changes.push(val);
+							});
+						},
+						runTest: function(){
+							doh.f(big.attr('value'), "no value for big");
+							doh.f(small.attr('value'), "no value for small");
+							doh.f(prog.attr('value'), "no value for prog");
+						}
+					},
+					
+					// TODO: when attr() is implemented as a setter, add tests like big..attr("value", "#ffc0cb")
+
+					{
+						name: "focus",
+						timeout: 10000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							big.focus();
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.is(0, changes.length, "no onchange events yet");
+								
+								// test the focus is initially on top left cell
+								var focused = dojo.query(".dijitPaletteCellHighlight", big.domNode);
+								doh.is(1, focused.length, "one focused node");
+								doh.is("white", focused[0].title, "upper left is focused");
+							}), 500);
+							
+							return d;
+						}
+					},
+
+					{
+						name: "arrow navigation",
+						timeout: 10000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							// move around some and select a value
+							doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 500, {});
+							doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 500, {});
+							doh.robot.keyPress(dojo.keys.DOWN_ARROW, 500, {});
+							doh.robot.keyPress(dojo.keys.LEFT_ARROW, 500, {});
+							doh.robot.keyPress(dojo.keys.ENTER, 500, {});
+
+							doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
+								doh.is("#ffc0cb", big.attr("value"), "selected value");
+								
+								doh.is(1, changes.length, 'one onchange event');
+								doh.is("#ffc0cb", changes[0], "correct value");
+							})), 1000);
+
+							return d;
+						}
+					},
+
+					{
+						name: "tabbing",
+						timeout: 10000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							// go to small colorpalette
+							doh.robot.keyPress(dojo.keys.TAB, 500, {});
+
+							// select another value
+							doh.robot.keyPress(dojo.keys.DOWN_ARROW, 500, {});
+							doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 500, {});
+							doh.robot.keyPress(dojo.keys.SPACE, 500, {});
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								var value = small.attr('value');
+								doh.is("#ffff00", value);
+							}), 1000);
+
+							return d;
+						}
+					},
+
+					{
+						name: "shift-tab",
+						timeout: 10000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							// go to big colorpalette
+							doh.robot.keyPress(dojo.keys.TAB, 500, {shift: true});
+
+							doh.robot.keyPress(dojo.keys.DOWN_ARROW, 500, {});
+							doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 500, {});
+							doh.robot.keyPress(dojo.keys.SPACE, 500, {});
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								var value = big.attr('value');
+								doh.is("#ffc0cb", value);
+							}), 1000);
+
+							return d;
+						}
+					},
+
+					{
+						name: "mouse",
+						timeout: 10000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							var red = dojo.query("[title=red]", small.domNode);
+							doh.is(1, red.length, "found red");
+
+							doh.robot.mouseMoveAt(red[0], 500);
+							doh.robot.mouseClick({left: true}, 500);
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								var value = small.attr('value');
+								doh.is("#ff0000", value);
+							}), 1000);
+
+							return d;
+						}
+					}
+				]);
+
+				doh.run();
+			});
+		</script>
+	</head>
+</html>

@@ -17,6 +17,8 @@ try{
 
 	doh.registerUrl("dijit.tests.robot.InlineEditBox", dojo.moduleUrl("dijit","tests/robot/InlineEditBox.html"+userArgs), 99999999);
 
+	doh.registerUrl("dijit.tests.robot.ColorPalette", dojo.moduleUrl("dijit","tests/robot/ColorPalette.html"+userArgs), 99999999);
+
 }catch(e){
 	doh.debug(e);
 }
