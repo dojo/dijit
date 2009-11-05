@@ -4,8 +4,6 @@ dojo.require("dijit._Widget");
 dojo.require("dijit._editor.selection");
 dojo.require("dijit._editor.range");
 dojo.require("dijit._editor.html");
-dojo.require("dojo.i18n");
-dojo.requireLocalization("dijit.form", "Textarea");
 
 // used to restore content when user leaves this page then comes back
 // but do not try doing dojo.doc.write if we are using xd loading.
@@ -449,7 +447,6 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 	//static cache variables shared among all instance of this class
 	_local2NativeFormatNames: {},
 	_native2LocalFormatNames: {},
-	_localizedIframeTitles: null,
 
 	_getIframeDocTxt: function(){
 		// summary:
@@ -490,17 +487,12 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 		var userStyle = "";
 		this.style.replace(/(^|;)(line-|font-?)[^;]+/g, function(match){ userStyle += match.replace(/^;/g,"") + ';'; });
 
-		// get screen reader text for mozilla here, too
-		this._localizedIframeTitles = dojo.i18n.getLocalization("dijit.form", "Textarea");
 		// need to find any associated label element and update iframe document title
 		var label=dojo.query('label[for="'+this.id+'"]');
-		if(label.length){
-			this._localizedIframeTitles.iframeEditTitle = label[0].innerHTML + " " + this._localizedIframeTitles.iframeEditTitle;
-		}
 
 		return [
 			this.isLeftToRight() ? "<html><head>" : "<html dir='rtl'><head>",
-			(dojo.isMoz ? "<title>" + this._localizedIframeTitles.iframeEditTitle + "</title>" : ""),
+			(dojo.isMoz && label.length ? "<title>" + label[0].innerHTML + "</title>" : ""),
 			"<meta http-equiv='Content-Type' content='text/html'>",
 			"<style>",
 			"body,html {",
@@ -768,22 +760,6 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 				e.charCode = e.keyCode;
 				this.onKeyPress(e);
 			}
-		}else if(dojo.isMoz && !this.isTabIndent){
-			if(e.keyCode == dojo.keys.TAB && !e.shiftKey && !e.ctrlKey && !e.altKey && this.iframe){
-				// update iframe document title for screen reader
-				var titleObj = this.iframe;
-				titleObj.title = this._localizedIframeTitles.iframeFocusTitle;
-				// Place focus on the iframe. A subsequent tab or shift tab will put focus
-				// on the correct control.
-				this.iframe.focus();	// this.focus(); won't work
-				dojo.stopEvent(e);
-			}else if(e.keyCode == dojo.keys.TAB && e.shiftKey){
-				// if there is a toolbar, set focus to it, otherwise ignore
-				if(this.toolbar){
-					this.toolbar.focus();
-				}
-				dojo.stopEvent(e);
-			}
 		}
 		return true;
 	},
@@ -913,10 +889,6 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 			this.onChange(_c);
 			this.savedContent=_c;
 		}
-		if(dojo.isMoz && this.iframe){
-			this.iframe.title = this._localizedIframeTitles.iframeEditTitle;
-		}
-
 	},
 	_onFocus: function(/*Event*/ e){
 		// summary:
