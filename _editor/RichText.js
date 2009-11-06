@@ -77,7 +77,11 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 
 		// editingAreaStyleSheets: dojo._URL[]
 		//		array to store all the stylesheets applied to the editing area
-		this.editingAreaStyleSheets=[];
+		this.editingAreaStyleSheets = [];
+
+		// Make a copy of this.events before we start writing into it, otherwise we
+		// will modify the prototype which leads to bad things on pages w/multiple editors
+		this.events = [].concat(this.events);
 
 		this._keyHandlers = {};
 		this.contentPreFilters.push(dojo.hitch(this, "_preFixUrlAttributes"));
