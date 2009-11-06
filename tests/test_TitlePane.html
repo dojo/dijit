@@ -57,6 +57,8 @@
 <body class="tundra">
 	<h1 class="testTitle">Dijit TitlePane Test</h1>
 
+	<input id="input" value="for tab testing">
+
 	<h1>Test #1: plain title pane, width=300px</h1>
 	<div dojoType="dijit.TitlePane" title="Title Pane #1"
 		tooltip="I'm the tooltip for Title Pane #1's title bar"
@@ -69,8 +71,8 @@
 		nec, malesuada eget, ornare a, libero. Lorem ipsum dolor sit amet,
 		consectetuer adipiscing elit.
 	</div>
-	<button onclick="pane1.attr('title', 'New Title')">change title</button>
-	<button onclick="pane1.attr('open', false)">close pane</button>
+	<button id="titleButton" onclick="pane1.attr('title', 'New Title')">change title</button>
+	<button id="closeButton" onclick="pane1.attr('open', false)">close pane</button>
 	<h1>Test #2: title pane with form, width=300px</h1>
 
 	<div dojoType="dijit.TitlePane" title="Title Pane #2" id="pane_2" style="width: 300px;">
@@ -91,7 +93,7 @@
 		</form>
 
 		<p>And a TabContainer, to make sure it lays out correctly:</p>
-		<div dojoType="dijit.layout.TabContainer" style="width: 400px; height: 250px;">
+		<div id="tabContainer" dojoType="dijit.layout.TabContainer" style="width: 400px; height: 250px;">
 			<a dojoType="dijit.layout.LinkPane" href="layout/tab1.html" onLoad="console.log('load of SubTab 1');">SubTab 1</a>
 			<a dojoType="dijit.layout.LinkPane" href="layout/tab2.html"  onLoad="console.log('load of SubTab 2');" selected="true">SubTab 2</a>
 		</div>
@@ -99,24 +101,28 @@
 	<button onclick="dijit.byId('closed').attr('content', 'hello world! (' + new Date() + ')');">reset content</button>
 
 	<h1>Test #4: title pane with href (initially closed)</h1>
-	<p>The pane should open to "Loading..." message and then 2 seconds later it should slide open more to show loaded data.</p>
-	<div dojoType="dijit.TitlePane" duration="1000" title="Pane from href" href="layout/getResponse.php?delay=3000&messId=3" open="false">
+	<p>The pane should open to "Loading..." message and then 3 seconds later it should slide open more to show loaded data.</p>
+	<div dojoType="dijit.TitlePane" duration="1000" title="Pane from href" id="href1" open="false"
+		href="layout/getResponse.php?delay=3000&messId=3" preventCache="true"
+		style="width: 400px;">
 		Loading...
 	</div>
 
 	<h1>Test #5: title pane with href (initially closed)</h1>
 	<p>The pane should start to open to "Loading..." but halfway through href data will be loaded, and it should expand correctly.</p>
-	<div dojoType="dijit.TitlePane" duration="1000" title="Pane from href" href="layout/getResponse.php?delay=500&messId=3" open="false">
+	<div dojoType="dijit.TitlePane" duration="1000" title="Pane from href" id="href2" open="false"
+		href="layout/getResponse.php?delay=500&messId=3" preventCache="true"
+		style="width: 400px;">
 		Loading...
 	</div>
 
 	<h1>Test #6: nested title pane</h1>
-	<div dojoType="dijit.TitlePane" title="Outer pane" width="300">
+	<div id="outer" dojoType="dijit.TitlePane" title="Outer pane" width="300">
 		<p>This is a title pane, containing another title pane ...
 		<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Quisque iaculis, nulla id semper faucibus, pede tellus nonummy magna, vitae adipiscing orci arcu ut augue. Nunc condimentum, magna a vestibulum convallis, libero purus pulvinar orci, sed vestibulum urna sem ut pede.
 More Ipsum...
 
-		<div dojoType="dijit.TitlePane" title="Inner pane" width="250">
+		<div id="inner" dojoType="dijit.TitlePane" title="Inner pane" width="250">
 			<p>And this is the inner title pane...
 			<p>Sed sollicitudin suscipit risus. Nam ullamcorper. Sed nisl lectus, pellentesque nec, malesuada eget, ornare a, libero. Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
 		</div>
@@ -152,36 +158,5 @@ More Ipsum...
 		nec, malesuada eget, ornare a, libero. Lorem ipsum dolor sit amet,
 		consectetuer adipiscing elit.
 	</div>
-
-	<h1>Test #: attr("title")</h1>
-	<div id="attrtest" dojoType="dijit.TitlePane" title="Initial Title">
-		Lorem Ipsum Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Quisque
-		iaculis, nulla id semper faucibus, pede tellus nonummy magna, vitae adipiscing
-		orci arcu ut augue. Nunc condimentum, magna a vestibulum convallis, libero purus
-		pulvinar orci, sed vestibulum urna sem ut pede. More Ipsum...
-		Sed sollicitudin suscipit risus. Nam ullamcorper. Sed nisl lectus, pellentesque
-		nec, malesuada eget, ornare a, libero. Lorem ipsum dolor sit amet,
-		consectetuer adipiscing elit.
-	</div>
-	<button dojoType="dijit.form.Button">
-		Set Title
-		<script type="dojo/method" event="onClick">
-			var tp = dijit.byId("attrtest");
-			var current = tp.title;
-			var attr = tp.attr("title");
-			if(attr !== current){
-				alert("failed title test");
-			}
-			tp.attr("title", "New Title");
-
-			current = tp.title;
-			attr = tp.attr("title");
-
-			if(attr !== current){
-				alert("failed post attr test");
-			}
-		</script>
-	</button>
-
 </body>
 </html>

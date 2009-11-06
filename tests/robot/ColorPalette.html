@@ -15,7 +15,6 @@
 		<script type="text/javascript">
 			dojo.require("dijit.dijit"); // optimize: load dijit layer
 			dojo.require("dijit.robotx");
-			dojo.require("dijit.ColorPalette");
 
 			dojo.addOnLoad(function(){
 				doh.robot.initRobot('../test_ColorPalette.html');
@@ -25,7 +24,7 @@
 				// log of calls to onChange handler
 				var changes = [];
 
-				doh.register("dijit.ColorPalette keyboard tests",[
+				doh.register("dijit.ColorPalette tests",[
 					{
 						name: "initial conditions",
 						setUp: function(){
@@ -48,7 +47,7 @@
 						}
 					},
 					
-					// TODO: when attr() is implemented as a setter, add tests like big..attr("value", "#ffc0cb")
+					// TODO: when attr() is implemented as a setter, add tests like big.attr("value", "#ffc0cb")
 
 					{
 						name: "focus",

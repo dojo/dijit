@@ -19,6 +19,8 @@ try{
 
 	doh.registerUrl("dijit.tests.robot.ColorPalette", dojo.moduleUrl("dijit","tests/robot/ColorPalette.html"+userArgs), 99999999);
 
+	doh.registerUrl("dijit.tests.robot.TitlePane", dojo.moduleUrl("dijit","tests/robot/TitlePane.html"+userArgs), 99999999);
+
 }catch(e){
 	doh.debug(e);
 }
