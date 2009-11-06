@@ -422,33 +422,33 @@
 				<option value="OTHER">Other</option>
 			</select>
 			<hr>
-			<button dojoType="dijit.form.Button">
+			<button dojoType="dijit.form.Button" type="button">
 				<script type="dojo/method" event="onClick">
 					console.dir(form.getValues());
 				</script>
 				Get Values
 			</button>
-			<button dojoType="dijit.form.Button">
+			<button dojoType="dijit.form.Button" type="button">
 				<script type="dojo/method" event="onClick">
 					numOptions++;
 					s6.addOption({value: numOptions + "", label: "Option " + numOptions});
 				</script>
 				Add Option
 			</button>
-			<button dojoType="dijit.form.Button">
+			<button dojoType="dijit.form.Button" type="button">
 				<script type="dojo/method" event="onClick">
 					s6.removeOption(0);
 				</script>
 				Remove Top Option
 			</button>
-			<button dojoType="dijit.form.Button">
+			<button dojoType="dijit.form.Button" type="button">
 				<script type="dojo/method" event="onClick">
 					s4.attr("disabled", !s4.disabled);
 				</script>
 				Toggle Disabled
 			</button>
 			<button dojoType="dijit.form.Button" type="submit">Submit</button>
-			<button dojoType="dijit.form.Button">
+			<button dojoType="dijit.form.Button" type="button">
 				<script type="dojo/method" event="onClick">
 					console.log(s1.attr("displayedValue"));
 				</script>

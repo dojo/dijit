@@ -15,8 +15,8 @@ dojo.declare("dijit.form._SelectMenu", dijit.Menu, {
 		//		Stub in our own changes, so that our domNode is not a table
 		//		otherwise, we won't respond correctly to heights/overflows
 		this.inherited(arguments);
-		var o = this.menuTableNode = this.domNode;
-		var n = this.domNode = dojo.doc.createElement("div");
+		var o = (this.menuTableNode = this.domNode);
+		var n = (this.domNode = dojo.doc.createElement("div"));
 		if(o.parentNode){
 			o.parentNode.replaceChild(n, o);
 		}
@@ -55,7 +55,6 @@ dojo.declare("dijit.form._SelectMenu", dijit.Menu, {
 });
 
 dojo.declare("dijit.form.Select", [dijit.form._FormSelectWidget, dijit._HasDropDown], {
-	attributeMap: dojo.mixin(dojo.clone(dijit.form._FormSelectWidget.prototype.attributeMap),{value:"valueNode",name:"valueNode"}),
 	// summary:
 	//		This is a "Styleable" select box - it is basically a DropDownButton which
 	//		can take as its input a <select>.
@@ -169,13 +168,13 @@ dojo.declare("dijit.form.Select", [dijit.form._FormSelectWidget, dijit._HasDropD
 		this._childrenLoaded = true;
 
 		// Set our length attribute and our value
-		if(!this._iReadOnly){
+		if(!this.readonly){
+			// TODO: people have complained about this because it's confusing, seems like
+			// the drop down is broken
 			this.attr("readOnly", (len === 1));
-			delete this._iReadOnly;
 		}
-		if(!this._iDisabled){
+		if(!this.disabled){
 			this.attr("disabled", (len === 0));
-			delete this._iDisabled;
 		}
 		if(!this._loadingStore){
 			// Don't call this if we are loading - since we will handle it later
@@ -243,9 +242,6 @@ dojo.declare("dijit.form.Select", [dijit.form._FormSelectWidget, dijit._HasDropD
 
 	postCreate: function(){
 		this.inherited(arguments);
-		if(this.srcNodeRef && dojo.attr(this.srcNodeRef, "disabled")){
-			this.attr("disabled", true);
-		}
 		if(this.tableNode.style.width){
 			dojo.addClass(this.domNode, this.baseClass + "FixedWidth");
 		}
@@ -276,20 +272,13 @@ dojo.declare("dijit.form.Select", [dijit.form._FormSelectWidget, dijit._HasDropD
 		loadCallback();
 	},
 
-	_setReadOnlyAttr: function(value){
-		this._iReadOnly = value;
-		if(!value && this._childrenLoaded && this.options.length === 1){
-			return;
+	_setTabIndexAttr: function(/*String*/ val){
+		// TODO: this should really be in _FormWidget.js.  Seems like _FormWidget:_setDisabledAttr()
+		// explicitly does a removeAttribute('tabIndex') but then the attributeMap will set it again.
+		this.tabIndex = val;
+		if(!this.disabled){
+			this.focusNode.setAttribute("tabIndex", val);
 		}
-		this.readOnly = value;
-	},
-
-	_setDisabledAttr: function(value){
-		this._iDisabled = value;
-		if(!value && this._childrenLoaded && this.options.length === 0){
-			return;
-		}
-		this.inherited(arguments);
 	},
 
 	uninitialize: function(preserveDom){
