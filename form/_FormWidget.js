@@ -5,7 +5,6 @@ dojo.require("dijit._Templated");
 
 dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 	{
-	//
 	// summary:
 	//		Base class for widgets corresponding to native HTML elements such as <checkbox> or <button>,
 	//		which can be children of a <form> node or a `dijit.form.Form` widget.
@@ -15,7 +14,7 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 	//		All these widgets should have these attributes just like native HTML input elements.
 	//		You can set them during widget construction or afterwards, via `dijit._Widget.attr`.
 	//
-	//	They also share some common methods.
+	//		They also share some common methods.
 
 	// baseClass: [protected] String
 	//		Root CSS class of the widget (ex: dijitTextBox), used to add CSS classes of widget
