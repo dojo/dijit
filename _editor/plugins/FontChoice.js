@@ -75,7 +75,7 @@ dojo.declare("dijit._editor.plugins._FontDropDown",
 			}
 		});
 
-		this.select.attr("value", "");
+		this.select.attr("value", "", false);
 		this.disabled = this.select.attr("disabled");
 	},
 
