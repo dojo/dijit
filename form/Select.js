@@ -158,7 +158,15 @@ dojo.declare("dijit.form.Select", [dijit.form._FormSelectWidget, dijit._HasDropD
 			if(this.dropDown){
 				delete this.dropDown.focusedChild;
 			}
-			this.inherited(arguments);
+			if(this.options.length){
+				this.inherited(arguments);
+			}else{
+				// Drop down menu is blank but add one blank entry just so something appears on the screen
+				// to let users know that they are no choices (mimicing native select behavior)
+				dojo.forEach(this._getChildren(), function(child){ child.destroyRecursive(); });
+				var item = new dijit.MenuItem({label: "&nbsp;"});
+				this.dropDown.addChild(item);
+			}
 		}else{
 			this._updateSelection();
 		}
@@ -166,11 +174,6 @@ dojo.declare("dijit.form.Select", [dijit.form._FormSelectWidget, dijit._HasDropD
 		var len = this.options.length;
 		this._isLoaded = false;
 		this._childrenLoaded = true;
-
-		// Disable the select if there are no entries in the drop down, or re-enable
-		// it if entries have been added to the drop down.  (Unless there's been an explicit
-		// this.attr("disabled", true) call)
-		this._setDisabledAttr(this._iDisabled);
 
 		if(!this._loadingStore){
 			// Don't call this if we are loading - since we will handle it later
@@ -197,6 +200,9 @@ dojo.declare("dijit.form.Select", [dijit.form._FormSelectWidget, dijit._HasDropD
 		//		Called by oninit, onblur, and onkeypress.
 		// description:
 		//		Show missing or invalid messages if appropriate, and highlight textbox field.
+		
+		// TODO: how could a select have an invalid value?
+
 		var isValid = this.isValid(isFocused);
 		this.state = isValid ? "" : "Error";
 		this._setStateClass();
@@ -246,6 +252,9 @@ dojo.declare("dijit.form.Select", [dijit.form._FormSelectWidget, dijit._HasDropD
 	startup: function(){
 		if(this._started){ return; }
 
+		// TODO: I don't see this pattern being used in test_Select.html; should remove
+		// this code if it's not needed.
+
 		// the child widget from srcNodeRef is the dropdown widget.  Insert it in the page DOM,
 		// make it invisible, and store a reference to pass to the popup code.
 		if(!this.dropDown){
@@ -266,30 +275,6 @@ dojo.declare("dijit.form.Select", [dijit.form._FormSelectWidget, dijit._HasDropD
 		this._loadChildren(true);
 		this._isLoaded = true;
 		loadCallback();
-	},
-
-	_setDisabledAttr: function(/*Boolean*/ val){
-		// summary:
-		//		Effectively disables the widget if the user has explicitly set it to be disabled or
-		//		when there are no drop down entries to show.  This method should be called
-		//		whenever disabled, tabIndex, or the drop down menu changes.
-
-		// Save the actual user setting; we will need it later.
-		this._iDisabled = val;
-
-		// We disable the widget if there are no entries in the drop down, to avoid user confusion
-		this.inherited(arguments, [val || this.options.length == 0]);
-	},
-
-	_getDisabledAttr: function(){
-		return this._iDisabled;
-	},
-
-	_setTabIndexAttr: function(/*String*/ val){
-		// _setDisabledAttr() will set focusNode.tabIndex based on this.tabIndex, this.disabled, etc.
-		// so leverage that code
-		this.tabIndex = val;
-		this._setDisabledAttr(this._iDisabled);
 	},
 
 	uninitialize: function(preserveDom){
