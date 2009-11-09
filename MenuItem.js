@@ -101,6 +101,10 @@ dojo.declare("dijit.MenuItem",
 			// summary:
 			//		Focus on this MenuItem
 			try{
+				if(dojo.isIE == 8){
+					// needed for IE8 which won't scroll TR tags into view on focus yet calling scrollIntoView creates flicker (#10275)
+					this.containerNode.focus();
+				}
 				dijit.focus(this.focusNode);
 			}catch(e){
 				// this throws on IE (at least) in some scenarios
