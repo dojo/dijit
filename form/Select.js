@@ -200,9 +200,9 @@ dojo.declare("dijit.form.Select", [dijit.form._FormSelectWidget, dijit._HasDropD
 		//		Called by oninit, onblur, and onkeypress.
 		// description:
 		//		Show missing or invalid messages if appropriate, and highlight textbox field.
+		//		Used when a select is initially set to no value and the user is required to
+		//		set the value.
 		
-		// TODO: how could a select have an invalid value?
-
 		var isValid = this.isValid(isFocused);
 		this.state = isValid ? "" : "Error";
 		this._setStateClass();
@@ -247,22 +247,6 @@ dojo.declare("dijit.form.Select", [dijit.form._FormSelectWidget, dijit._HasDropD
 		if(this.tableNode.style.width){
 			dojo.addClass(this.domNode, this.baseClass + "FixedWidth");
 		}
-	},
-
-	startup: function(){
-		if(this._started){ return; }
-
-		// TODO: I don't see this pattern being used in test_Select.html; should remove
-		// this code if it's not needed.
-
-		// the child widget from srcNodeRef is the dropdown widget.  Insert it in the page DOM,
-		// make it invisible, and store a reference to pass to the popup code.
-		if(!this.dropDown){
-			var dropDownNode = dojo.query("[widgetId]", this.dropDownContainer)[0];
-			this.dropDown = dijit.byNode(dropDownNode);
-			delete this.dropDownContainer;
-		}
-		this.inherited(arguments);
 	},
 
 	isLoaded: function(){
