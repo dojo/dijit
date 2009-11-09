@@ -139,7 +139,7 @@ dojo.declare("dijit.form._FormSelectWidget", dijit.form._FormValueWidget, {
 		// summary:
 		//		Adds an option or options to the end of the select.  If value
 		//		of the option is empty or missing, a separator is created instead.
-		//		Passing in an array of options will yeild slightly better performance
+		//		Passing in an array of options will yield slightly better performance
 		//		since the children are only loaded once.
 		if(!dojo.isArray(option)){ option = [option]; }
 		dojo.forEach(option, function(i){
@@ -348,7 +348,7 @@ dojo.declare("dijit.form._FormSelectWidget", dijit.form._FormValueWidget, {
 	_loadChildren: function(){
 		// summary:
 		//		Loads the children represented by this widget's options.
-		//i		reset the menu to make it "populatable on the next click
+		//		reset the menu to make it "populatable on the next click
 		if(this._loadingStore){ return; }
 		dojo.forEach(this._getChildren(), function(child){
 			child.destroyRecursive();
