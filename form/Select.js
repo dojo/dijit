@@ -7,11 +7,11 @@ dojo.require("dijit.Menu");
 dojo.requireLocalization("dijit.form", "validate");
 
 dojo.declare("dijit.form._SelectMenu", dijit.Menu, {
-	// Summary:
+	// summary:
 	//		An internally-used menu for dropdown that allows us to more
 	//		gracefully overflow our menu
 	buildRendering: function(){
-		// Summary:
+		// summary:
 		//		Stub in our own changes, so that our domNode is not a table
 		//		otherwise, we won't respond correctly to heights/overflows
 		this.inherited(arguments);
@@ -29,7 +29,7 @@ dojo.declare("dijit.form._SelectMenu", dijit.Menu, {
 		this.tabIndex=null; // so tabindex=0 does not get set on domNode (role="presentation" AND tabindex is invalid)
 	},
 	resize: function(/*Object*/ mb){
-		// Summary:
+		// summary:
 		//		Overridden so that we are able to handle resizing our
 		//		internal widget.  Note that this is not a "full" resize
 		//		implementation - it only works correctly if you pass it a
@@ -167,15 +167,11 @@ dojo.declare("dijit.form.Select", [dijit.form._FormSelectWidget, dijit._HasDropD
 		this._isLoaded = false;
 		this._childrenLoaded = true;
 
-		// Set our length attribute and our value
-		if(!this.readonly){
-			// TODO: people have complained about this because it's confusing, seems like
-			// the drop down is broken
-			this.attr("readOnly", (len === 1));
-		}
-		if(!this.disabled){
-			this.attr("disabled", (len === 0));
-		}
+		// Disable the select if there are no entries in the drop down, or re-enable
+		// it if entries have been added to the drop down.  (Unless there's been an explicit
+		// this.attr("disabled", true) call)
+		this._setDisabledAttr(this._iDisabled);
+
 		if(!this._loadingStore){
 			// Don't call this if we are loading - since we will handle it later
 			this._setValueAttr(this.value);
@@ -272,13 +268,28 @@ dojo.declare("dijit.form.Select", [dijit.form._FormSelectWidget, dijit._HasDropD
 		loadCallback();
 	},
 
+	_setDisabledAttr: function(/*Boolean*/ val){
+		// summary:
+		//		Effectively disables the widget if the user has explicitly set it to be disabled or
+		//		when there are no drop down entries to show.  This method should be called
+		//		whenever disabled, tabIndex, or the drop down menu changes.
+
+		// Save the actual user setting; we will need it later.
+		this._iDisabled = val;
+
+		// We disable the widget if there are no entries in the drop down, to avoid user confusion
+		this.inherited(arguments, [val || this.options.length == 0]);
+	},
+
+	_getDisabledAttr: function(){
+		return this._iDisabled;
+	},
+
 	_setTabIndexAttr: function(/*String*/ val){
-		// TODO: this should really be in _FormWidget.js.  Seems like _FormWidget:_setDisabledAttr()
-		// explicitly does a removeAttribute('tabIndex') but then the attributeMap will set it again.
+		// _setDisabledAttr() will set focusNode.tabIndex based on this.tabIndex, this.disabled, etc.
+		// so leverage that code
 		this.tabIndex = val;
-		if(!this.disabled){
-			this.focusNode.setAttribute("tabIndex", val);
-		}
+		this._setDisabledAttr(this._iDisabled);
 	},
 
 	uninitialize: function(preserveDom){

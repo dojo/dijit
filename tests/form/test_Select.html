@@ -281,12 +281,15 @@
 		<h1 class="testTitle">Test: dijit.form.Select</h1>
 		<h2>HTML select for comparison</h2>
 		<form method="get" id="htmlForm" action="get">
-			<label for="htmlSelect">Default</label>
+			<label for="htmlSelect">Four options:</label>
 			<select id="htmlSelect">
 				<option value="one">one</option>
 				<option value="two">two</option>
 				<option value="three">three</option>
 				<option value="four">four</option>
+			</select>
+			<label for="htmlSelect2">Empty:</label>
+			<select id="htmlSelect2">
 			</select>
 		</form>
 		<h2>Automated test</h2>
@@ -300,6 +303,12 @@
 				<option value="FL">Florida</option>
 				<option value="CA">California</option>
 			</select>
+			<button dojoType="dijit.form.Button" type="button">
+				<script type="dojo/method" event="onClick">
+					console.log(s1.attr("displayedValue"));
+				</script>
+				Get Displayed Value
+			</button>
 			<label for="s2">Test Two: </label>
 			<select jsId="s2" name="s2" id="s2" value="CA" dojoType="dijit.form.Select">
 				<option value="AL">Alabama</option>
@@ -329,6 +338,12 @@
 				<span value="CA"><span style="font-size:25%">C</span><span style="font-size:50%">a</span><span style="font-size:75%">l</span><span style="font-size:90%">i</span><span style="font-size:100%">f</span><span style="font-size:125%">o</span><span style="font-size:133%">r</span><span style="font-size:150%">n</span><span style="font-size:175%">i</span><span style="font-size:200%">a</span></span>
 				<span value="NM" disabled="disabled">New<br>&nbsp;&nbsp;Mexico</span>
 			</div>
+			<button dojoType="dijit.form.Button" type="button">
+				<script type="dojo/method" event="onClick">
+					s4.attr("disabled", !s4.attr("disabled"));
+				</script>
+				Toggle Disabled
+			</button>
 			<label for="s5">Rich text two: </label>
 			<div jsId="s5" name="s5" id="s5" value="move" dojoType="dijit.form.Select">
 				<span value="copy"><img style="vertical-align: middle;margin-top: 1px;margin-bottom:1px;" src="../../../dijit/themes/tundra/images/dndCopy.png" /> Copy</span>
@@ -337,9 +352,32 @@
 				<span value="nomove"><img  style="vertical-align: middle;margin-top: 1px;margin-bottom:1px;" src="../../../dijit/themes/tundra/images/dndNoMove.png" /> No Move</span>
 			</div>
 		<hr>
-			<h4 class="testSubtitle"><label for="s6">Empty</label></h4>
+			<h4 class="testSubtitle"><label for="s6">Initially Empty</label></h4>
+			<p>
+				In particular this tests that enabled widgets are effectively disabled when there are no entries in the drop down,
+				but that they re-enable when something is added to the drop down (and re-disable when it's removed).
+			</p>
 			<select jsId="s6" name="s6" id="s6" maxHeight="100" dojoType="dijit.form.Select">
 			</select>
+			<button dojoType="dijit.form.Button" type="button">
+				<script type="dojo/method" event="onClick">
+					numOptions++;
+					s6.addOption({value: numOptions + "", label: "Option " + numOptions});
+				</script>
+				Add Option
+			</button>
+			<button dojoType="dijit.form.Button" type="button">
+				<script type="dojo/method" event="onClick">
+					s6.removeOption(0);
+				</script>
+				Remove Top Option
+			</button>
+			<button dojoType="dijit.form.Button" type="button">
+				<script type="dojo/method" event="onClick">
+					s6.attr("disabled", !s6.attr("disabled"));
+				</script>
+				Toggle Disabled
+			</button>
 			<hr>
 		<h4 class="testSubtitle"><label for="s7">Single Item</label></h4>
 			<select jsId="s7" name="s7" id="s7" dojoType="dijit.form.Select">
@@ -428,32 +466,7 @@
 				</script>
 				Get Values
 			</button>
-			<button dojoType="dijit.form.Button" type="button">
-				<script type="dojo/method" event="onClick">
-					numOptions++;
-					s6.addOption({value: numOptions + "", label: "Option " + numOptions});
-				</script>
-				Add Option
-			</button>
-			<button dojoType="dijit.form.Button" type="button">
-				<script type="dojo/method" event="onClick">
-					s6.removeOption(0);
-				</script>
-				Remove Top Option
-			</button>
-			<button dojoType="dijit.form.Button" type="button">
-				<script type="dojo/method" event="onClick">
-					s4.attr("disabled", !s4.disabled);
-				</script>
-				Toggle Disabled
-			</button>
 			<button dojoType="dijit.form.Button" type="submit">Submit</button>
-			<button dojoType="dijit.form.Button" type="button">
-				<script type="dojo/method" event="onClick">
-					console.log(s1.attr("displayedValue"));
-				</script>
-				Get Displayed Value
-			</button>
 		</form>
 		<hr>
 		<h4 class="testSubtitle">Disabled</h4>
