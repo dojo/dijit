@@ -468,9 +468,9 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 		}else if(dojo.isMoz){
 			// workaround bug where can't select then delete text (until user types something
 			// into the editor)... and/or issue where typing doesn't erase selected text
+			this._cursorToStart = true;
 			html = "&nbsp;";
 		}
-
 
 		var font = [ _cs.fontWeight, _cs.fontSize, _cs.fontFamily ].join(" ");
 
@@ -927,6 +927,14 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 		//		Move focus to this editor
 		if(!dojo.isIE){
 			dijit.focus(this.iframe);
+			if(this._cursorToStart){ 
+				delete this._cursorToStart;
+				if(this.editNode.childNodes && 
+					this.editNode.childNodes.length === 1 && 
+					this.editNode.innerHTML === "&nbsp;"){
+						this.placeCursorAtStart();
+				}
+			}
 		}else if(this.editNode && this.editNode.focus){
 			// editNode may be hidden in display:none div, lets just punt in this case
 			//this.editNode.focus(); -> causes IE to scroll always (strict and quirks mode) to the top the Iframe
@@ -1343,6 +1351,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 
 			// Use &nbsp; to avoid webkit problems where editor is disabled until the user clicks it
 			if(!html && dojo.isWebKit){
+				this._cursorToStart = true;
 				html = "&nbsp;";
 			}
 			node.innerHTML = html;
@@ -1367,7 +1376,10 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 		}else if(this.window && this.window.getSelection){ // Moz
 			html = this._preFilterContent(html);
 			this.execCommand("selectall");
-			if(!html){ html = "&nbsp;"; }
+			if(!html){ 
+				this._cursorToStart = true;
+				html = "&nbsp;"; 
+			}
 			this.execCommand("inserthtml", html);
 			this._preDomFilterContent(this.editNode);
 		}else if(this.document && this.document.selection){//IE
