@@ -1342,7 +1342,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 			var node = this.isClosed ? this.domNode : this.editNode;
 
 			// Use &nbsp; to avoid webkit problems where editor is disabled until the user clicks it
-			if(!html && dojo.isWebkit){
+			if(!html && dojo.isWebKit){
 				html = "&nbsp;";
 			}
 			node.innerHTML = html;
