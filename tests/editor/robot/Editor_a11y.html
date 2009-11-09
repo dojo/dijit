@@ -120,18 +120,13 @@
 						timeout: 10000,
 						runTest: function(){
 							var d = new doh.Deferred();
-
-							// second word
-							doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 500, dojo.isMac ? {alt: true} : {ctrl: true});
-							if(dojo.isMac || dojo.isWebKit){
-								// In this case the right arrow goes to the end of the first word (before the space),
-								// not the beginning of the second word (after the space), so move one more
-								doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 500);
+							doh.robot.sequence(function(){
+								editor1.placeCursorAtStart();
+							}, 500);
+							for(i = 0; i < 9; i++){
+								// Move to second letter of second word.
+								doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 100);
 							}
-
-							// second letter of second word
-							doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 500);
-
 							doh.robot.sequence(d.getTestCallback(function(){
 								var toolbar = editor1.toolbar;
 								doh.t(toolbar, "found toolbar");
@@ -154,17 +149,13 @@
 						runTest: function(){
 							var d = new doh.Deferred();
 
-							// third word
-							doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 500, dojo.isMac ? {alt: true} : {ctrl: true});
-							if(dojo.isMac || dojo.isWebKit){
-								// In this case the right arrow goes to the end of the first word (before the space),
-								// not the beginning of the second word (after the space), so move one more
-								doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 500);
+							doh.robot.sequence(function(){
+								editor1.placeCursorAtStart();
+							}, 500);
+							for(i = 0; i < 15; i++){
+								// Move to second letter of third word.
+								doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 100);
 							}
-
-							// second letter of third word
-							doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 500);
-
 							doh.robot.sequence(d.getTestCallback(function(){
 								var toolbar = editor1.toolbar;
 								doh.t(toolbar, "found toolbar");
