@@ -501,8 +501,8 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 			"<style>",
 			"body,html {",
 			"\tbackground:transparent;",
-			"\tpadding: 1em 0 0 0;",
-			"\tmargin: -1em 0 0 0;", // remove extraneous vertical scrollbar on safari and firefox
+			"\tpadding: 1px 0 0 0;",
+			"\tmargin: -1px 0 0 0;", // remove extraneous vertical scrollbar on safari and firefox
 			(dojo.isWebKit?"\twidth: 100%;":""),
 			(dojo.isWebKit?"\theight: 100%;":""),
 			"}",
