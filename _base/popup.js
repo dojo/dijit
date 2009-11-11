@@ -134,8 +134,8 @@ dijit.popup.__OpenArgs = function(){
 			}, dojo.body());
 			dijit.setWaiRole(wrapper, "presentation");
 		}else{
-			//recycled a new wrapper, so that we don't need to reattach the iframe
-			//which is slow even if the iframe is empty, see #10167
+			// recycled a old wrapper, so that we don't need to reattach the iframe
+			// which is slow even if the iframe is empty, see #10167
 			wrapper = wrapperobj[0];
 			iframe = wrapperobj[1];
 		}
@@ -145,7 +145,8 @@ dijit.popup.__OpenArgs = function(){
 			style:{
 				zIndex: beginZIndex + stack.length,
 				visibility:"hidden",
-				left: "0px", top: "0px"         // prevent transient scrollbar causing misalign (#5776)
+				// prevent transient scrollbar causing misalign (#5776), and initial flash in upper left (#10111)
+				top: "-9999px"
 			},
 			dijitPopupParent: args.parent ? args.parent.id : ""
 		});
@@ -155,7 +156,6 @@ dijit.popup.__OpenArgs = function(){
 		s.visibility = "";
 		s.position = "";
 		s.top = "0px";
-		//dojo.place(widget.domNode,wrapper,'first');
 		wrapper.appendChild(widget.domNode);
 
 		if(!iframe){
