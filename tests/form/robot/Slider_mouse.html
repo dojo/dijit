@@ -120,7 +120,7 @@
 					var d = new doh.Deferred();
 					doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
 						doh.is(50, parseFloat(dojo.byId(onChange[slider.id]).value));
-					})), 100);
+					})), 500);
 					return d;
 				},
 				function setToNull(){
@@ -130,7 +130,7 @@
 					var d = new doh.Deferred();
 					doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
 						doh.is(0, parseFloat(dojo.byId(onChange[slider.id]).value));
-					})), 100);
+					})), 500);
 					return d;
 				}
 			]);

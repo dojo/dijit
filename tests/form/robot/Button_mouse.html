@@ -36,7 +36,7 @@
 
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.t(clicked, "click event was fired");
-							}), 100);
+							}), 1000);
 							return d;
 						}
 					},
@@ -54,7 +54,7 @@
 
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.f(clicked, "click event was fired");
-							}), 100);
+							}), 1000);
 							return d;
 						}
 					}
@@ -88,7 +88,7 @@
 
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.t(isHidden("editMenu"), "edit menu was closed: " + dijit.byId("editMenu").domNode.style.cssText);
-							}), 500);
+							}), 1000);
 							return d;
 						}
 					}
@@ -113,7 +113,7 @@
 
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.t(clicked, "click event was fired");
-							}), 100);
+							}), 1000);
 							return d;
 						}
 					},
@@ -132,7 +132,7 @@
 
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.t(isVisible("saveMenu"), "save menu is visible: " + dijit.byId("saveMenu").domNode.style.cssText);
-							}), 500);
+							}), 1000);
 							return d;
 						}
 					},
@@ -148,7 +148,7 @@
 
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.t(isHidden("saveMenu"), "save menu was closed: " + dijit.byId("saveMenu").domNode.style.cssText);
-							}), 500);
+							}), 1000);
 							return d;
 						}
 					}
@@ -170,7 +170,7 @@
 
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.f(checked, "toggle1 unchecked");
-							}), 100);
+							}), 1000);
 							return d;
 						}
 					},
@@ -189,7 +189,7 @@
 
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.t(checked, "toggle2 checked");
-							}), 100);
+							}), 1000);
 							return d;
 						}
 					},
@@ -209,7 +209,7 @@
 
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.f(changed, "value changed");
-							}), 100);
+							}), 1000);
 							return d;
 						}
 					}
@@ -264,7 +264,7 @@
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.f(clicked, "click event was not fired");
 								doh.f(isVisible("saveMenu"), "save menu is hidden: " + dijit.byId("saveMenu").domNode.style.cssText);
-							}), 500);
+							}), 1000);
 
 							return d;
 						}

@@ -31,8 +31,8 @@
 							var d = new doh.Deferred();
 
 							// Open the dialog
-							doh.robot.mouseMoveAt("dialog1button", 500);
-							doh.robot.mouseClick({left: true}, 500);
+							doh.robot.mouseMoveAt("dialog1button", 1000);
+							doh.robot.mouseClick({left: true}, 1000);
 
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.t(isVisible("dialog1"), "dialog 1 has been made visible");
@@ -45,17 +45,17 @@
 
 					{
 						name: "test that other controls on page can't be clicked",
-						timeout: 10000,
+						timeout: 4000,
 						runTest: function(){
 							var d = new doh.Deferred();
 
 							doh.robot.mouseMoveAt("plainInput", 500);
-							doh.robot.mouseClick({left: true}, 500);
+							doh.robot.mouseClick({left: true}, 1000);
 
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.t(isVisible("dialog1"), "dialog 1 still visible");
 								doh.isNot("plainInput", dojo.global.dijit._curFocus && dojo.global.dijit._curFocus.id, "plain input wasn't focused");
-							}), 500);
+							}), 1000);
 
 							return d;
 						}
@@ -63,7 +63,7 @@
 
 					{
 						name: "open date drop down",
-						timeout: 10000,
+						timeout: 4000,
 						runTest: function(){
 							var d = new doh.Deferred();
 
@@ -86,12 +86,12 @@
 							var d = new doh.Deferred();
 
 							doh.robot.mouseMove(10, 10, 500);
-							doh.robot.mouseClick({left: true}, 500);
+							doh.robot.mouseClick({left: true}, 1000);
 
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.is(0, dojo.query(".dijitCalendarContainer").length, "calendar has disappeared");
 								doh.t(isVisible("dialog1"), "dialog 1 wasn't closed");
-							}), 500);
+							}), 1000);
 
 							return d;
 						}
@@ -105,12 +105,12 @@
 
 							var button = dojo.query("#dialog1 .dijitDialogCloseIcon")[0];
 							doh.robot.mouseMoveAt(button, 500);
-							doh.robot.mouseClick({left: true}, 500);
+							doh.robot.mouseClick({left: true}, 1000);
 
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.t(isHidden("dialog1"), "dialog 1 was closed");
 								doh.is("dialog1button", dojo.global.dijit._curFocus.id, "focus returned to button");
-							}), 500);
+							}), 1000);
 
 							return d;
 						}
@@ -135,21 +135,21 @@
 
 							// Open the dialog
 							doh.robot.mouseMoveAt("dialog1button", 500);
-							doh.robot.mouseClick({left: true}, 500);
+							doh.robot.mouseClick({left: true}, 1000);
 
 							// Enter some info
 							doh.robot.mouseMoveAt("name", 2000);
-							doh.robot.mouseClick({left: true}, 500);
+							doh.robot.mouseClick({left: true}, 1000);
 							doh.robot.typeKeys("Ted", 500);
 
 							doh.robot.mouseMoveAt("loc", 500);
-							doh.robot.mouseClick({left: true}, 500);
+							doh.robot.mouseClick({left: true}, 1000);
 							doh.robot.typeKeys("America", 500);
 
 
 							// Submit
 							doh.robot.mouseMoveAt("ok", 500);
-							doh.robot.mouseClick({left: true}, 500);
+							doh.robot.mouseClick({left: true}, 1000);
 
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.t(isHidden("dialog1"), "dialog 1 was closed on submit");

@@ -521,8 +521,8 @@
 						},
 						runTest: function(){
 							var d=new doh.Deferred();
-							doh.robot.typeKeys("0.5e99", 1000, 1000);
-							doh.robot.keyPress(dojo.keys.TAB, 100);
+							doh.robot.typeKeys("0.5e99", 1000, 1200);
+							doh.robot.keyPress(dojo.keys.TAB, 500);
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.f(spin4.isValid(true), "large exponential is invalid");
 								doh.f(spin4.isInRange(true), "large exponential is out of range");
@@ -542,8 +542,8 @@
 						runTest: function(){
 							var d=new doh.Deferred();
 							doh.robot.typeKeys("0.5e9", 1000, 1000);
-							doh.robot.keyPress(dojo.keys.UP_ARROW, 100);
-							doh.robot.keyPress(dojo.keys.TAB, 100);
+							doh.robot.keyPress(dojo.keys.UP_ARROW, 500);
+							doh.robot.keyPress(dojo.keys.TAB, 500);
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.t(spin4.isValid(true), "small exponential is valid");
 								doh.t(spin4.isInRange(true), "small exponential is in range");
@@ -562,10 +562,10 @@
 						},
 						runTest: function(){
 							var d=new doh.Deferred();
-							doh.robot.typeKeys("0.5e99", 1000, 1000);
-							doh.robot.keyPress(dojo.keys.DOWN_ARROW, 200); // convert to max
-							doh.robot.keyPress(dojo.keys.DOWN_ARROW, 200);
-							doh.robot.keyPress(dojo.keys.TAB, 100);
+							doh.robot.typeKeys("0.5e99", 1000, 1200);
+							doh.robot.keyPress(dojo.keys.DOWN_ARROW, 500); // convert to max
+							doh.robot.keyPress(dojo.keys.DOWN_ARROW, 500);
+							doh.robot.keyPress(dojo.keys.TAB, 500);
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.t(spin4.isValid(true), "large exponential converted to max is valid");
 								doh.t(spin4.isInRange(true), "max value is in range");
@@ -589,8 +589,8 @@
 						},
 						runTest: function(){
 							var d=new doh.Deferred();
-							doh.robot.typeKeys("0.5e99", 1000, 1000);
-							doh.robot.keyPress(dojo.keys.HOME, 100);
+							doh.robot.typeKeys("0.5e99", 1000, 1200);
+							doh.robot.keyPress(dojo.keys.HOME, 500);
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.t(spin4.isValid(true), "HOME changed large exponential to valid min");
 								doh.t(spin4.isInRange(true), "HOME changed large exponential to in range");
@@ -610,7 +610,7 @@
 						runTest: function(){
 							var d=new doh.Deferred();
 							doh.robot.typeKeys(".5e9a", 1000, 1000);
-							doh.robot.keyPress(dojo.keys.HOME, 100);
+							doh.robot.keyPress(dojo.keys.HOME, 500);
 							doh.robot.typeKeys("1", 500, 200);
 							doh.robot.keyPress(dojo.keys.END, 100);
 							doh.robot.keyPress(dojo.keys.BACKSPACE, 100);

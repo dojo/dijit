@@ -145,7 +145,7 @@
 								doh.is(2, citrusTreeNodeChildren.length, "2 TreeNode children for Citrus")
 								doh.is("Orange", innerText(citrusTreeNodeChildren[0].labelNode), "child of Citrus TreeNode");
 								doh.is("Apple", innerText(citrusTreeNodeChildren[1].labelNode), "child of Citrus TreeNode");
-							}), 500);
+							}), 2000);
 
 							return d;
 						}
@@ -187,7 +187,7 @@
 								doh.is("Fruits (2)", innerText(foodsTreeNodeChildren[0].labelNode));
 								doh.is("Cereals (0)", innerText(foodsTreeNodeChildren[1].labelNode));
 								doh.is("Vegetables (0)", innerText(foodsTreeNodeChildren[2].labelNode));
-							}), 500);
+							}), 2000);
 
 							return d;
 						}

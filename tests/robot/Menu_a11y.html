@@ -26,7 +26,7 @@
 				doh.register("dijit.MenuBar keyboard tests",[
 					{
 						name: "start focus on the link, outside of menubar",
-						timeout: 4000,
+						timeout: 5000,
 						runTest: function(){
 							var d = new doh.Deferred();
 
@@ -38,7 +38,7 @@
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.t(dojo.global.dijit._curFocus, "something has focus");
 								doh.is("random link", dojo.global.dijit._curFocus.innerHTML, "check that focus is on the link");
-							}), 500);
+							}), 1000);
 
 							return d;
 						}
@@ -46,7 +46,7 @@
 
 					{
 						name: "tab to the menubar",
-						timeout: 10000,
+						timeout: 5000,
 						runTest: function(){
 							var d = new doh.Deferred();
 
@@ -64,7 +64,7 @@
 
 					{
 						name: "arrow to the edit menu",
-						timeout: 4000,
+						timeout: 5000,
 						runTest: function(){
 							var d = new doh.Deferred();
 
@@ -73,7 +73,7 @@
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.is("Edit", dojo.trim(dojo.global.dijit._curFocus.innerText || dojo.global.dijit._curFocus.textContent),
 										"check that focus is on Edit menu");
-							}), 500);
+							}), 1000);
 
 							return d;
 						}
@@ -81,7 +81,7 @@
 
 					{
 						name: "shift-tab back",
-						timeout: 4000,
+						timeout: 5000,
 						runTest: function(){
 							var d = new doh.Deferred();
 
@@ -90,7 +90,7 @@
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.is("random link", dojo.trim(dojo.global.dijit._curFocus.innerText || dojo.global.dijit._curFocus.textContent),
 										"check that focus is back on the link");
-							}), 500);
+							}), 1000);
 
 							return d;
 						}
@@ -98,7 +98,7 @@
 
 					{
 						name: "open file menu",
-						timeout: 4000,
+						timeout: 5000,
 						runTest: function(){
 							var d = new doh.Deferred();
 
@@ -116,7 +116,7 @@
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.t((dojo.global.dijit._curFocus.innerText || dojo.global.dijit._curFocus.textContent).indexOf("New") >= 0,
 										"check that focus is on New menu item of the File menu (indirectly checks that menu is visible)");
-							}), 500);
+							}), 1000);
 
 							return d;
 						}
@@ -124,7 +124,7 @@
 
 					{
 						name: "click 'new' using enter key",
-						timeout: 4000,
+						timeout: 5000,
 						runTest: function(){
 							var d = new doh.Deferred();
 
@@ -138,7 +138,7 @@
 								doh.t(isHidden("fileMenu"), "File menu disappeared");
 								doh.f(dojo.hasClass("file", "dijitMenuItemSelected"),
 									"File MenuBarItem should no longer have selected effect, actual class is: " + dojo.byId("edit").className);
-							}), 500);
+							}), 1000);
 
 							return d;
 						}
@@ -261,7 +261,7 @@
 								doh.t(isHidden("editMenu"), "Edit menu is hidden after cancel and select");
 								doh.t(dojo.hasClass("edit", "dijitMenuItemSelected"),
 									"Edit MenuBarItem should have selected class, actual class is: " + dojo.byId("edit").className);
-							}), 500);
+							}), 1000);
 
 							doh.robot.keyPress(dojo.keys.DOWN_ARROW, 500, {}); // open Edit menu
 							doh.robot.keyPress(dojo.keys.DOWN_ARROW, 1000, {}); // move to copy more slowly
