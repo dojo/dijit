@@ -37,7 +37,7 @@ dojo.declare("dijit._KeyNavContainer",
 			// tags:
 			//		protected
 
-			var keyCodes = this._keyNavCodes = {};
+			var keyCodes = (this._keyNavCodes = {});
 			var prev = dojo.hitch(this, this.focusPrev);
 			var next = dojo.hitch(this, this.focusNext);
 			dojo.forEach(prevKeyCodes, function(code){ keyCodes[code] = prev; });
@@ -78,33 +78,19 @@ dojo.declare("dijit._KeyNavContainer",
 
 		focusNext: function(){
 			// summary:
-			//		Focus the next widget or focal node (for widgets
-			//		with multiple focal nodes) within this container.
+			//		Focus the next widget
 			// tags:
 			//		protected
-			if(this.focusedChild && this.focusedChild.hasNextFocalNode
-					&& this.focusedChild.hasNextFocalNode()){
-				this.focusedChild.focusNext();
-				return;
-			}
 			var child = this._getNextFocusableChild(this.focusedChild, 1);
 			this.focusChild(child);
 		},
 
 		focusPrev: function(){
 			// summary:
-			//		Focus the previous widget or focal node (for widgets
-			//		with multiple focal nodes) within this container.
+			//		Focus the last focusable node in the previous widget
+			//		(ex: go to the ComboButton icon section rather than button section)
 			// tags:
 			//		protected
-			if(this.focusedChild && this.focusedChild.hasPrevFocalNode
-					&& this.focusedChild.hasPrevFocalNode()){
-				this.focusedChild.focusPrev();
-				return;
-			}
-			
-			// Focus the last focusable node in the previous widget
-			// (ex: go to the ComboButton icon section rather than button section)
 			var child = this._getNextFocusableChild(this.focusedChild, -1);
 			this.focusChild(child, true);
 		},
@@ -120,51 +106,25 @@ dojo.declare("dijit._KeyNavContainer",
 			// tags:
 			//		protected
 			
-			if(widget){
-				if(this.focusedChild && widget !== this.focusedChild){
-					this._onChildBlur(this.focusedChild);
-				}
-				this.focusedChild = widget;
-
-				if(widget.focusFocalNode && widget.getFocalNodes){
-					// Figure out which node within the child to focus
-					var nodes = widget.getFocalNodes();
-						node = nodes[last ? nodes.length - 1 : 0];
-
-					// Give target node a valid tabIndex before focusing it, to avoid IE problems
-					// when tabbing out of container, see #10272
-					dojo.attr(node, "tabIndex", 0);
-					widget.focusFocalNode(node);
-				}else{
-					// Give target widget a valid tabIndex before focusing it, to avoid IE problems
-					// when tabbing out of container, see #10272
-					widget.attr("tabIndex", "0");
-					widget.focus();
-				}
-			}
+			widget.focus(last ? "start" : "end");
+			this.focusedChild = widget;
 		},
 
 		_startupChild: function(/*dijit._Widget*/ widget){
 			// summary:
 			//		Setup for each child widget
 			// description:
-			//		Sets tabIndex=-1 on each focusable node in each child, so that the tab key will 
+			//		Sets tabIndex=-1 on each child, so that the tab key will 
 			//		leave the container rather than visiting each child.
-			//		Also setup handlers for left/right arrow keys.
 			// tags:
 			//		private
 			
 			widget.attr("tabIndex", "-1");
 			
-			var nodes = widget.getFocalNodes ? widget.getFocalNodes() : [widget.focusNode || widget.domNode];
-			dojo.forEach(nodes, function(node){
-				this.connect(node, "onfocus", "_onNodeFocus");
-				this.connect(node, "onblur", "_onNodeBlur");
-			}, this);
-			
-			// Sometimes this class calls dojo.attr(node, "tabIndex", 0) (which is set back to -1
-			// in _onNodeBlur), but sometimes it calls widget.attr("tabIndex", 0), so we need to
-			// set that back to -1 too:
+			this.connect(widget, "_onFocus", function(){
+				// Set valid tabIndex so tabbing away from widget goes to right place, see #10272
+				widget.attr("tabIndex", this.tabIndex);
+			});
 			this.connect(widget, "_onBlur", function(){
 				widget.attr("tabIndex", "-1");
 			});
@@ -219,41 +179,6 @@ dojo.declare("dijit._KeyNavContainer",
 				func();
 				dojo.stopEvent(evt);
 			}
-		},
-
-		_onNodeFocus: function(evt){
-			// summary:
-			//		Handler for onfocus event on a child node
-			// tags:
-			//		private
-
-			// record the child that has been focused
-			var widget = dijit.getEnclosingWidget(evt.target);
-			if(widget && widget.isFocusable()){
-				this.focusedChild = widget;
-			}
-			dojo.stopEvent(evt);
-		},
-
-		_onNodeBlur: function(evt){
-			// summary:
-			//		Handler for onblur event on a child node
-			// tags:
-			//		private
-			
-			// Don't leave tabIndex=0 nodes lying around (except for the currently focused node)
-			// or the user will have to tab multiple times to leave the container
-			dojo.attr(evt.target, "tabIndex", "-1");
-
-			dojo.stopEvent(evt);
-		},
-
-		_onChildBlur: function(/*dijit._Widget*/ widget){
-			// summary:
-			//		Called when focus leaves a child widget to go
-			//		to a sibling widget.
-			// tags:
-			//		protected
 		},
 
 		_getFirstFocusableChild: function(){

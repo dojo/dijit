@@ -275,75 +275,6 @@ dojo.declare("dijit.form.ComboButton", dijit.form.DropDownButton, {
 		}
 	},
 
-	focusFocalNode: function(node){
-		// summary:
-		//		Focus the focal node node.
-		// description:
-		//		Called by _KeyNavContainer for (when example) this button is in a toolbar.
-		// tags:
-		//		protected
-		this._focusedNode = node;
-		dijit.focus(node);
-	},
-
-	hasNextFocalNode: function(){
-		// summary:
-		//		Returns true if this widget has no node currently
-		//		focused or if there is a node following the focused one.
-		//		False is returned if the last node has focus.
-		// description:
-		//		Called by _KeyNavContainer for (when example) this button is in a toolbar.
-		// tags:
-		//		protected
-		return this._focusedNode !== this.getFocalNodes()[1];
-	},
-
-	focusNext: function(){
-		// summary:
-		//		Focus the focal node following the current node with focus,
-		//		or the first one if no node currently has focus.
-		// description:
-		//		Called by _KeyNavContainer for (when example) this button is in a toolbar.
-		// tags:
-		//		protected
-		this._focusedNode = this.getFocalNodes()[this._focusedNode ? 1 : 0];
-		dijit.focus(this._focusedNode);
-	},
-
-	hasPrevFocalNode: function(){
-		// summary:
-		//		Returns true if this widget has no node currently
-		//		focused or if there is a node before the focused one.
-		//		False is returned if the first node has focus.
-		// description:
-		//		Called by _KeyNavContainer for (when example) this button is in a toolbar.
-		// tags:
-		//		protected
-		return this._focusedNode !== this.getFocalNodes()[0];
-	},
-
-	focusPrev: function(){
-		// summary:
-		//		Focus the focal node before the current node with focus
-		//		or the last one if no node currently has focus.
-		// description:
-		//		Called by _KeyNavContainer for (when example) this button is in a toolbar.
-		// tags:
-		//		protected
-		this._focusedNode = this.getFocalNodes()[this._focusedNode ? 0 : 1];
-		dijit.focus(this._focusedNode);
-	},
-
-	getFocalNodes: function(){
-		// summary:
-		//		Returns an array of focal nodes for this widget.
-		// description:
-		//		Called by _KeyNavContainer for (when example) this button is in a toolbar.
-		// tags:
-		//		protected
-		return this._focalNodes;
-	},
-
 	_onNodeFocus: function(evt){
 		this._focusedNode = evt.currentTarget;
 		var fnc = this._focusedNode == this.focusNode ? "dijitDownArrowButtonFocused" : "dijitButtonContentsFocused";
@@ -358,6 +289,34 @@ dojo.declare("dijit.form.ComboButton", dijit.form.DropDownButton, {
 	_onBlur: function(){
 		this.inherited(arguments);
 		this._focusedNode = null;
+	},
+	
+	_onButtonKeyPress: function(/*Event*/ evt){
+		// summary:
+		//		Handler for right arrow key when focus is on left part of button
+		if(evt.charOrCode == dojo.keys[this.isLeftToRight() ? "RIGHT_ARROW" : "LEFT_ARROW"]){
+			dijit.focus(this._popupStateNode);
+			dojo.stopEvent(evt);
+		}
+	},
+
+	_onArrowKeyPress: function(/*Event*/ evt){
+		// summary:
+		//		Handler for left arrow key when focus is on right part of button
+		if(evt.charOrCode == dojo.keys[this.isLeftToRight() ? "LEFT_ARROW" : "RIGHT_ARROW"]){
+			dijit.focus(this.titleNode);
+			dojo.stopEvent(evt);
+		}
+	},
+	
+	focus: function(/*String*/ position){
+		// summary:
+		//		Focuses this widget to according to position, if specified,
+		//		otherwise on arrow node
+		// position:
+		//		"start" or "end"
+		
+		dijit.focus(position == "start" ? this.titleNode : this._popupStateNode);
 	}
 });
 
