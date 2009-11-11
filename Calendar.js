@@ -379,6 +379,7 @@ dojo.declare(
 					//fallthrough...
 				case dk.LEFT_ARROW:
 					interval = "day";
+					if(!dojo._isBodyLtr()){ increment *= -1; }
 					break;
 				case dk.DOWN_ARROW:
 					increment = 1;
