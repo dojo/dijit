@@ -814,6 +814,30 @@
 				}
 			]);
 
+			// The specifying a sort order and an initial filter to ComboBox
+			doh.register("tooltip", [
+				{
+					timeout:60000,
+					name:"prompt",
+					runTest:function(){
+						var d = new doh.Deferred();
+						var combo = dijit.byId("labelFunc");
+
+						combo.attr('value', null);
+						combo.focusNode.focus();
+
+						// blur
+						doh.robot.keyPress(dojo.keys.TAB, 1000);
+
+						doh.robot.sequence(d.getTestCallback(function(){
+							doh.t(!combo._message, "no tooltip on blur");
+						}), 1000);
+
+						return d;
+					}
+				}
+			]);
+
 			doh.run();
 		});
 	</script>

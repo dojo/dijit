@@ -260,6 +260,11 @@ dojo.declare(
 			// hiding errors about partial matches
 			this._maskValidSubsetError = true;
 			this.inherited(arguments);
+		},
+
+		_onBlur: function(){
+			this.displayMessage('');
+			this.inherited(arguments);
 		}
 	}
 );
