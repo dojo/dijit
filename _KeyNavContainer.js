@@ -106,6 +106,9 @@ dojo.declare("dijit._KeyNavContainer",
 			// tags:
 			//		protected
 			
+			if(this.focusedChild && widget !== this.focusedChild){
+				this._onChildBlur(this.focusedChild);
+			}
 			widget.focus(last ? "start" : "end");
 			this.focusedChild = widget;
 		},
@@ -179,6 +182,14 @@ dojo.declare("dijit._KeyNavContainer",
 				func();
 				dojo.stopEvent(evt);
 			}
+		},
+
+		_onChildBlur: function(/*dijit._Widget*/ widget){
+			// summary:
+			//		Called when focus leaves a child widget to go
+			//		to a sibling widget.
+			// tags:
+			//		protected
 		},
 
 		_getFirstFocusableChild: function(){
