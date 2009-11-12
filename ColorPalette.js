@@ -40,8 +40,9 @@ dojo.declare("dijit.ColorPalette",
 	//		The value of the selected color.
 	value: null,
 
-	// _currentFocus: [private] Integer
-	//		Index of the currently focused color.
+	// _currentFocus: [private] DomNode
+	//		The currently highlighted color, indicated either via arrow keys or mouse hover.
+	//		Different from value, which represents the selected (i.e. clicked) color.
 	_currentFocus: 0,
 
 	// _xDim: [protected] Integer
@@ -147,7 +148,7 @@ dojo.declare("dijit.ColorPalette",
 				var imgStyle = imgNode.style;
 				imgStyle.color = imgStyle.backgroundColor = imgNode.color;
 
-				dojo.forEach(["Dijitclick", "MouseEnter", "Focus"], function(handler){
+				dojo.forEach(["Dijitclick", "MouseEnter", "MouseLeave", "Focus"], function(handler){
 					this.connect(cellNode, "on" + handler.toLowerCase(), "_onCell" + handler);
 				}, this);
 
@@ -193,6 +194,8 @@ dojo.declare("dijit.ColorPalette",
 		// Set initial navigable node.   At any point in time there's exactly one
 		// cell with tabIndex != -1.   If focus is inside the ColorPalette then
 		// focus is on that cell.
+		// TODO: if we set aria info (for the current value) on the ColorPalette itself then can we avoid
+		// having to focus each individual cell?
 		this._currentFocus = this._cellNodes[0];
 		dojo.attr(this._currentFocus, "tabIndex", this.tabIndex);
 	},
@@ -256,15 +259,25 @@ dojo.declare("dijit.ColorPalette",
 
 	_onCellMouseEnter: function(/*Event*/ evt){
 		// summary:
-		//		Handler for onMouseOver. Put focus on the color under the mouse.
+		//		Handler for onMouseEnter event on a cell. Put highlight on the color under the mouse.
 		// evt:
 		//		The mouse event.
 		// tags:
 		//		private
 
 		var target = evt.currentTarget;
-		this._setCurrent(target);	// redundant, but needed per safari bug where onCellFocus never called
-		dijit.focus(target);
+		this._setCurrent(target);
+	},
+
+	_onCellMouseLeave: function(/*Event*/ evt){
+		// summary:
+		//		Handler for onMouseLeave event on a cell. Remove highlight on the color under the mouse.
+		// evt:
+		//		The mouse event.
+		// tags:
+		//		private
+
+		dojo.removeClass(this._currentFocus, "dijitPaletteCellHighlight");
 	},
 
 	_onCellFocus: function(/*Event*/ evt){
@@ -298,8 +311,10 @@ dojo.declare("dijit.ColorPalette",
 
 		// Set highlight and tabIndex of new cell
 		this._currentFocus = node;
-		dojo.attr(node, "tabIndex", this.tabIndex);
-		dojo.addClass(node, "dijitPaletteCellHighlight");
+		if(node){
+			dojo.attr(node, "tabIndex", this.tabIndex);
+			dojo.addClass(node, "dijitPaletteCellHighlight");
+		}
 	},
 
 	_selectColor: function(selectNode){
