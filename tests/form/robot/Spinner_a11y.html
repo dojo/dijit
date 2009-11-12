@@ -36,6 +36,7 @@
 				var blurConnect;
 				var tabFocusSetup = function(inSpinnerId){
 					var spinner = dijit.byId(inSpinnerId);
+					dijit.byId('integerspinner1').focus();
 					focusCountZ = 0;
 					blurCountZ = 0;
 					focusConnect = spinner.connect(spinner.focusNode, "onfocus", countFocus);
@@ -124,12 +125,12 @@
 					var d = new doh.Deferred();
 					var spinner = dijit.byId(inSpinnerId);
 					// insure a known focus starting point within document before key presses.
-					doh.robot.sequence(dojo.hitch(spinner, "focus"), 500);
+					spinner.focus();
 					// Shift-tab away, tab to, tab away, shift-tab back.
-					doh.robot.keyPress(dojo.keys.TAB, 100, {shift:true});
-					doh.robot.keyPress(dojo.keys.TAB, 100);
-					doh.robot.keyPress(dojo.keys.TAB, 100);
-					doh.robot.keyPress(dojo.keys.TAB, 100, {shift:true});
+					doh.robot.keyPress(dojo.keys.TAB, 1000, {shift:true});
+					doh.robot.keyPress(dojo.keys.TAB, 1000);
+					doh.robot.keyPress(dojo.keys.TAB, 1000);
+					doh.robot.keyPress(dojo.keys.TAB, 1000, {shift:true});
 
 					// TODO: this doesn't seem thorough... after TAB or shift TAB
 					// should be checking that we ended up at the right place, i.e.
@@ -422,19 +423,20 @@
 				// a11y tab focus tests (robot)
 				doh.register("a11yTabFocus",
 				[
+					// don't test integerspinner1 since shift-tab from there goes to address bar and the robot doesn't like that at all
 					{
-						name:"integerspinner1TabFocus",
-						timeout:4000,
+						name:"integertextbox3TabFocus",
+						timeout:9000,
 						setUp:function(){
-							tabFocusSetup("integerspinner1");
+							tabFocusSetup("integertextbox3");
 						},
 						runTest:function(){
-							return a11yTabFocus("integerspinner1");
+							return a11yTabFocus("integertextbox3");
 						}
 					},
-					{
+					{ // test integerspinner2 second since the previous test group already had it focused
 						name:"integerspinner2TabFocus",
-						timeout:4000,
+						timeout:9000,
 						setUp:function(){
 							tabFocusSetup("integerspinner2");
 						},
@@ -443,18 +445,8 @@
 						}
 					},
 					{
-						name:"integertextbox3TabFocus",
-						timeout:4000,
-						setUp:function(){
-							tabFocusSetup("integertextbox3");
-						},
-						runTest:function(){
-							return a11yTabFocus("integertextbox3");
-						}
-					},
-					{
 						name:"realspinner1TabFocus",
-						timeout:4000,
+						timeout:9000,
 						setUp:function(){
 							tabFocusSetup("realspinner1");
 						},
