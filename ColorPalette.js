@@ -85,7 +85,6 @@ dojo.declare("dijit.ColorPalette",
 	_paletteCoords: {
 		"leftOffset": 3, "topOffset": 3,
 		"cWidth": 20, "cHeight": 20
-
 	},
 
 	// templateString: String
@@ -103,7 +102,11 @@ dojo.declare("dijit.ColorPalette",
 	//		Widget tab index.
 	tabIndex: "0",
 
-	postCreate: function(){
+	buildRendering: function(){
+		// Instantiate the template, which makes a skeleton into which we'll insert a bunch of
+		// <img> nodes
+		this.inherited(arguments);
+	
 		// A name has to be given to the colorMap, this needs to be unique per Palette.
 		dojo.mixin(this.divNode.style, this._paletteDims[this.palette]);
 		this.imageNode.setAttribute("src", this._imagePaths[this.palette].toString());
@@ -117,13 +120,11 @@ dojo.declare("dijit.ColorPalette",
 		for(var row=0; row < choices.length; row++){
 			var rowNode = dojo.create("div", {
 				role: "row"
-			});
-			dojo.place(rowNode, this.divNode);
+			}, this.divNode);
 			for(var col=0; col < choices[row].length; col++){
 
 				var color = choices[row][col],
-						colorValue = colorObject.setColor(dojo.Color.named[color])
-				;
+						colorValue = colorObject.setColor(dojo.Color.named[color]);
 
 				var cellNode = dojo.create("span", {
 					"class":"dijitPaletteCell",
@@ -159,7 +160,6 @@ dojo.declare("dijit.ColorPalette",
 		}
 		this._xDim = choices[0].length;
 		this._yDim = choices.length;
-		this.connect(this.divNode, "onfocus", "_onDivNodeFocus");
 
 		// Now set all events
 		// The palette itself is navigated to with the tab key on the keyboard
@@ -186,11 +186,24 @@ dojo.declare("dijit.ColorPalette",
 				this.timeoutChangeRate, this.defaultTimeout));
 		}
 	},
+	
+	postCreate: function(){
+		this.inherited(arguments);
+
+		// Set initial navigable node.   At any point in time there's exactly one
+		// cell with tabIndex != -1.   If focus is inside the ColorPalette then
+		// focus is on that cell.
+		this._currentFocus = this._cellNodes[0];
+		dojo.attr(this._currentFocus, "tabIndex", this.tabIndex);
+	},
 
 	focus: function(){
 		// summary:
-		//		Focus this ColorPalette.  Puts focus on the first swatch.
-		this._focusFirst();
+		//		Focus this ColorPalette.  Puts focus on the most recently focused cell.
+
+		// The cell already has tabIndex set, just need to set CSS and focus it
+		dojo.addClass(this._currentFocus, "dijitPaletteCellHighlight");
+		dijit.focus(this._currentFocus);
 	},
 
 	onChange: function(color){
@@ -201,50 +214,31 @@ dojo.declare("dijit.ColorPalette",
 //		console.debug("Color selected is: "+color);
 	},
 
-	_focusFirst: function(){
-		// summary:
-		//		Focus the first cell in the color picker,
-		//		or the previously selected cell, if there is one
-		// tags:
-		//		private
-		this._currentFocus = 0;
-		var cellNode = this._cellNodes[this._currentFocus];
-		window.setTimeout(function(){dijit.focus(cellNode)}, 0);
-	},
-
-	_onDivNodeFocus: function(evt){
-		// summary:
-		//		Handler for when focus goes to the ColorPalette itself.
-		//		Shifts focus to the first color or the previously selected
-		//		color.
-		// tags:
-		//		private
-
-		this._focusFirst();
-	},
-
 	_onFocus: function(){
 		// summary:
-		//		Handler for when the ColorPalette or a color cell inside of it get focus
+		//		Handler for when the ColorPalette gets focus (because a cell inside
+		//		the ColorPalette got focus)
 		// tags:
 		//		protected
 
-		// While focus is on the palette, set its tabIndex to -1 so that on a
-		// shift-tab from a cell, the container is not in the tab order
-		dojo.attr(this.divNode, "tabIndex", "-1");
+		dojo.addClass(this._currentFocus, "dijitPaletteCellHighlight");
+		this.inherited(arguments);
 	},
 
 	_onBlur: function(){
 		// summary:
-		//		Handler for when the ColorPalette and the color cell inside of it lose focus
+		//		Handler for when the ColorPalette loses focus
 		// tags:
 		//		protected
 
-		this._removeCellHighlight(this._currentFocus);
+		// Just to be the same as 1.3, when I am focused again go to first (0,0) cell rather than
+		// currently focused node.
+		dojo.attr(this._currentFocus, "tabIndex", "-1");
+		dojo.removeClass(this._currentFocus, "dijitPaletteCellHighlight");
+		this._currentFocus = this._cellNodes[0];
+		dojo.attr(this._currentFocus, "tabIndex", this.tabIndex);
 
-		// when focus leaves the palette, restore its tabIndex, since it was
-		// modified by _onFocus().
-		dojo.attr(this.divNode, "tabIndex", this.tabIndex);
+		this.inherited(arguments);
 	},
 
 	_onCellDijitclick: function(/*Event*/ evt){
@@ -256,10 +250,6 @@ dojo.declare("dijit.ColorPalette",
 		//		private
 
 		var target = evt.currentTarget;
-		if(this._currentFocus != target.index){
-			this._currentFocus = target.index;
-			window.setTimeout(function(){dijit.focus(target)}, 0);
-		}
 		this._selectColor(target);
 		dojo.stopEvent(evt);
 	},
@@ -274,14 +264,16 @@ dojo.declare("dijit.ColorPalette",
 
 		var target = evt.currentTarget;
 		this._setCurrent(target);	// redundant, but needed per safari bug where onCellFocus never called
-		window.setTimeout(function(){dijit.focus(target)}, 0);
+		dijit.focus(target);
 	},
 
 	_onCellFocus: function(/*Event*/ evt){
 		// summary:
-		//		Handler for onFocus of a cell. Removes highlight of
-		//		the color that just lost focus, and highlights
-		//		the new color.
+		//		Handler for onFocus of a cell.
+		// description:
+		//		Removes highlight of the color that just lost focus, and highlights
+		//		the new color.  Also moves the tabIndex setting to the new cell.
+		//		
 		// evt:
 		//		The focus event.
 		// tags:
@@ -295,20 +287,19 @@ dojo.declare("dijit.ColorPalette",
 		//		Called when a color is hovered or focused.
 		// description:
 		//		Removes highlight of the old color, and highlights
-		//		the new color.
+		//		the new color.  Also moves the tabIndex setting to the new cell.
 		// tags:
 		//		protected
-		this._removeCellHighlight(this._currentFocus);
-		this._currentFocus = node.index;
-		dojo.addClass(node, "dijitPaletteCellHighlight");
-	},
+		if("_currentFocus" in this){
+			// Remove highlight and tabIndex on old cell
+			dojo.attr(this._currentFocus, "tabIndex", "-1");
+			dojo.removeClass(this._currentFocus, "dijitPaletteCellHighlight");
+		}
 
-	_removeCellHighlight: function(index){
-		// summary:
-		//		Removes the hover CSS class for the specified cell
-		// tags:
-		//		private
-		dojo.removeClass(this._cellNodes[index], "dijitPaletteCellHighlight");
+		// Set highlight and tabIndex of new cell
+		this._currentFocus = node;
+		dojo.attr(node, "tabIndex", this.tabIndex);
+		dojo.addClass(node, "dijitPaletteCellHighlight");
 	},
 
 	_selectColor: function(selectNode){
@@ -336,7 +327,7 @@ dojo.declare("dijit.ColorPalette",
 		// typecount == -1 means the key is released.
 		if(typeCount == -1){ return; }
 
-		var newFocusIndex = this._currentFocus + increment;
+		var newFocusIndex = this._currentFocus.index + increment;
 		if(newFocusIndex < this._cellNodes.length && newFocusIndex > -1)
 		{
 			var focusNode = this._cellNodes[newFocusIndex];
