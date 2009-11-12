@@ -432,8 +432,11 @@ dojo.declare(
 				// Update 'value' (ex: KY) according to currently displayed text
 				this.item = null;
 				this.attr('displayedValue', newvalue);
-			}else if(this.value != this._lastValueReported){
-				dijit.form._FormValueWidget.prototype._setValueAttr.call(this, this.value, true);
+			}else{
+				if(this.value != this._lastValueReported){
+					dijit.form._FormValueWidget.prototype._setValueAttr.call(this, this.value, true);
+				}
+				this._refreshState();
 			}
 		},
 

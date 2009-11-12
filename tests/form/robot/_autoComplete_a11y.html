@@ -815,10 +815,10 @@
 			]);
 
 			// The specifying a sort order and an initial filter to ComboBox
-			doh.register("tooltip", [
+			doh.register("blur", [
 				{
 					timeout:60000,
-					name:"prompt",
+					name:"tooltip prompt",
 					runTest:function(){
 						var d = new doh.Deferred();
 						var combo = dijit.byId("labelFunc");
@@ -831,6 +831,26 @@
 
 						doh.robot.sequence(d.getTestCallback(function(){
 							doh.t(!combo._message, "no tooltip on blur");
+						}), 1000);
+
+						return d;
+					}
+				},
+				{
+					timeout:60000,
+					name:"empty but required",
+					runTest:function(){
+						var d = new doh.Deferred();
+						var combo = dijit.byId("combobox4");
+
+						combo.attr('value', null);
+						combo.focusNode.focus();
+
+						// blur
+						doh.robot.keyPress(dojo.keys.TAB, 1000);
+
+						doh.robot.sequence(d.getTestCallback(function(){
+							doh.t(combo.state == "Error", "required field has error on blur");
 						}), 1000);
 
 						return d;
