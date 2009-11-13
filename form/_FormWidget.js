@@ -58,7 +58,6 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 	// These mixins assume that the focus node is an INPUT, as many but not all _FormWidgets are.
 	attributeMap: dojo.delegate(dijit._Widget.prototype.attributeMap, {
 		value: "focusNode",
-		disabled: "focusNode",
 		id: "focusNode",
 		tabIndex: "focusNode",
 		alt: "focusNode",
@@ -83,7 +82,7 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 			this._hovering = false;
 			this._active = false;
 			// remove the tabIndex, especially for FF
-			this.focusNode.removeAttribute('tabIndex');
+			this.focusNode.setAttribute('tabIndex', "-1");
 		}else{
 			this.focusNode.setAttribute('tabIndex', this.tabIndex);
 		}

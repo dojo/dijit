@@ -314,6 +314,28 @@
 					runTest: function(){
 						return a11yKeystrokeTest("programaticSlider");
 					}
+				},
+				{
+					name: "disabledTabStop",
+					timeout: 8000,
+					runTest: function(){
+						var d = new doh.Deferred();
+						var slider = dijit.byId("programaticSlider");
+						var target = dijit.byId("slider3");
+						target.attr('value', 1);
+						var initValue = target.attr('value');
+						// get focus on slider thumb before pressing keys.
+						slider.focus();
+						// jump to slider3 (hopefully)
+						doh.robot.keyPress(dojo.keys.TAB, 1000, {
+							shift: true
+						});
+						doh.robot.keyPress(dojo.keys.END, 1000);
+						doh.robot.sequence(d.getTestCallback(function(){
+							doh.f(initValue == target.attr('value'), "disabled tab stop should be skipped");
+						}), 500);
+						return d;
+					}
 				}
 			]);
 			doh.run();
