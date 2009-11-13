@@ -109,7 +109,7 @@ dojo.declare("dijit._KeyNavContainer",
 			if(this.focusedChild && widget !== this.focusedChild){
 				this._onChildBlur(this.focusedChild);
 			}
-			widget.focus(last ? "start" : "end");
+			widget.focus(last ? "end" : "start");
 			this.focusedChild = widget;
 		},
 
