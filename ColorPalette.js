@@ -128,10 +128,10 @@ dojo.declare("dijit.ColorPalette",
 						colorValue = colorObject.setColor(dojo.Color.named[color]);
 
 				var cellNode = dojo.create("span", {
-					"class":"dijitPaletteCell",
-					tabIndex:"-1",
+					"class": "dijitPaletteCell",
+					tabIndex: "-1",
 					title: this.colorNames[color],
-					style:{
+					style: {
 						top: coords.topOffset + (row * coords.cHeight) + "px",
 						left: coords.leftOffset + (col * coords.cWidth) + "px"
 					}
@@ -346,7 +346,11 @@ dojo.declare("dijit.ColorPalette",
 		if(newFocusIndex < this._cellNodes.length && newFocusIndex > -1)
 		{
 			var focusNode = this._cellNodes[newFocusIndex];
-			focusNode.focus();
+			this._setCurrent(focusNode);
+
+			// Actually focus the node, for the benefit of screen readers.
+			// Use setTimeout because IE doesn't like changing focus inside of an event handler
+			setTimeout(dojo.hitch(dijit, "focus", focusNode), 0);
 		}
 	}
 });

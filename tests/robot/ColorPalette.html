@@ -60,10 +60,17 @@
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.is(0, changes.length, "no onchange events yet");
 								
-								// test the focus is initially on top left cell
-								var focused = dojo.query(".dijitPaletteCellHighlight", big.domNode);
-								doh.is(1, focused.length, "one focused node");
-								doh.is("white", focused[0].title, "upper left is focused");
+								// test that focus is on top left cell
+								var focus = dojo.global.dijit._curFocus;
+								doh.t(focus, "something is focused");
+								var imgNode = focus.getElementsByTagName("img")[0]
+								doh.t(imgNode, "found image node");
+								doh.is("#ffffff", imgNode.color, "focused on white");
+
+								// test the highlight is initially on top left cell
+								var highlighted = dojo.query(".dijitPaletteCellHighlight", big.domNode);
+								doh.is(1, highlighted.length, "one focused node");
+								doh.is("white", highlighted[0].title, "upper left is focused");	// won't work in non-english environments though...
 							}), 500);
 							
 							return d;
@@ -76,13 +83,25 @@
 						runTest: function(){
 							var d = new doh.Deferred();
 
-							// move around some and select a value
+							// Move around some
 							doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 500, {});
 							doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 500, {});
 							doh.robot.keyPress(dojo.keys.DOWN_ARROW, 500, {});
 							doh.robot.keyPress(dojo.keys.LEFT_ARROW, 500, {});
-							doh.robot.keyPress(dojo.keys.ENTER, 500, {});
+							
+							// Focus should follow the current position for the benefit of screen readers.
+							doh.robot.sequence(d.getTestErrback(dojo.hitch(this, function(){
+								var focus = dojo.global.dijit._curFocus;
+								doh.t(focus, "something is focused");
+								
+								var imgNode = focus.getElementsByTagName("img")[0]
+								doh.t(imgNode, "found image node");
 
+								doh.is("#ffc0cb", imgNode.color, "focused on right color");
+							})), 1000);
+							
+							// Select the current value
+							doh.robot.keyPress(dojo.keys.ENTER, 500, {});
 							doh.robot.sequence(d.getTestCallback(dojo.hitch(this, function(){
 								doh.is("#ffc0cb", big.attr("value"), "selected value");
 								
@@ -152,8 +171,16 @@
 							doh.robot.mouseClick({left: true}, 500);
 
 							doh.robot.sequence(d.getTestCallback(function(){
+								// test that value set
 								var value = small.attr('value');
-								doh.is("#ff0000", value);
+								doh.is("#ff0000", value, "value");
+								
+								// test that focus also got set
+								var focus = dojo.global.dijit._curFocus;
+								doh.t(focus, "something is focused");
+								var imgNode = focus.getElementsByTagName("img")[0]
+								doh.t(imgNode, "found image node");
+								doh.is("#ff0000", imgNode.color, "focused");
 							}), 1000);
 
 							return d;
