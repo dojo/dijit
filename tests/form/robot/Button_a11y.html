@@ -28,7 +28,7 @@
 					doh.robot.sequence(function(){
 						dojo.connect(dijit.byId("testForm"), "onSubmit", function(){
 							submitCount++;
-						}),
+						});
 						dojo.connect(dijit.byId("testForm"), "onReset", function(){
 							resetCount++;
 						})
