@@ -165,9 +165,9 @@
 
 							// Drag 'Cereals' and drop near top edge of 'Vegetables'.
 							// It should become Vegetables' prior-sibling
-							doh.robot.mouseMoveAt(cerealsTreeNode.labelNode, 500, 1000);
+							doh.robot.mouseMoveAt(cerealsTreeNode.domNode, 500, 1000);
 							doh.robot.mousePress({left: true}, 500);
-							doh.robot.mouseMoveAt(vegetablesTreeNode.labelNode, 500, 1000, 50, 2);
+							doh.robot.mouseMoveAt(vegetablesTreeNode.domNode, 500, 1000, 50, 2);
 							doh.robot.mouseRelease({left: true}, 500);
 
 							doh.robot.sequence(d.getTestCallback(function(){
@@ -229,9 +229,9 @@
 
 							// Drag 'Vegetables' and drop near bottom edge of 'Citrus'.
 							// It should become Citrus' prior-sibling
-							doh.robot.mouseMoveAt(vegetablesTreeNode.labelNode, 500, 1000);
+							doh.robot.mouseMoveAt(vegetablesTreeNode.domNode, 500, 1000);
 							doh.robot.mousePress({left: true}, 500);
-							doh.robot.mouseMoveAt(citrusTreeNode.labelNode, 1000, 2000, 50, citrusTreeNodeSize.h - 2);
+							doh.robot.mouseMoveAt(citrusTreeNode.domNode, 1000, 2000, 50, citrusTreeNodeSize.h - 2);
 							doh.robot.mouseRelease({left: true}, 500);
 
 							doh.robot.sequence(d.getTestCallback(function(){

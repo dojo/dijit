@@ -126,7 +126,7 @@
 							var i;
 							for(i = 0; i < 9; i++){
 								// Move to second letter of second word.
-								doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 100);
+								doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 500);
 							}
 							doh.robot.sequence(d.getTestCallback(function(){
 								var toolbar = editor1.toolbar;
@@ -139,7 +139,7 @@
 								var italicButton = toolbar.getChildren()[8];
 								doh.t(italicButton, "found italic button");
 								doh.f(italicButton.attr("checked"), "italic button not depressed");
-							}), 500);
+							}), 1000);
 
 							return d;
 						}
@@ -156,7 +156,7 @@
 							var i;
 							for(i = 0; i < 15; i++){
 								// Move to second letter of third word.
-								doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 100);
+								doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 500);
 							}
 							doh.robot.sequence(d.getTestCallback(function(){
 								var toolbar = editor1.toolbar;
@@ -169,7 +169,7 @@
 								var italicButton = toolbar.getChildren()[8];
 								doh.t(italicButton, "found italic button");
 								doh.t(italicButton.attr("checked"), "italic button depressed");
-							}), 500);
+							}), 1000);
 
 							return d;
 						}

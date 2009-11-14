@@ -51,7 +51,7 @@
 							// Focus the simple input
 							//dojo.byId("first").focus();
 							doh.robot.mouseMoveAt("first");
-							doh.robot.mouseClick({left: true}, 100);
+							doh.robot.mouseClick({left: true}, 500);
 
 							doh.robot.sequence(d.getTestCallback(function(){
 								// Make sure that focus manager caught the focus event
@@ -139,7 +139,7 @@
 							doh.t(upArrow, "found the up arrow");
 
 							doh.robot.mouseMoveAt(upArrow);
-							doh.robot.mouseClick({left: true}, 100);
+							doh.robot.mouseClick({left: true}, 500);
 
 							doh.robot.sequence(d.getTestCallback(function(){
 								// The focus stack should show the Spinner plus all parent widgets
@@ -164,7 +164,7 @@
 							doh.t(button, "found drop down button");
 
 							doh.robot.mouseMoveAt(button);
-							doh.robot.mouseClick({left: true}, 100);
+							doh.robot.mouseClick({left: true}, 500);
 
 							doh.robot.sequence(d.getTestCallback(function(){
 								// Focus goes to an first item in the drop down menu
@@ -179,7 +179,7 @@
 								doh.is("button", stack[2], "combobutton");
 								doh.is("menu", stack[3], "menu");
 								doh.is("mi1", stack[4], "menuitem");
-							}), 500);
+							}), 1000);
 
 							return d;
 						}

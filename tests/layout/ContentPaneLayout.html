@@ -65,7 +65,7 @@
 			doh.register("startup events",
 				{
 					name: "startup on href pane's children",
-					timeout: 2000,
+					timeout: 5000,
 					runTest: function(t){
 						var d = new doh.Deferred();
 						// Wait for load events to occur (after fetching URL's)
@@ -78,7 +78,7 @@
 							
 							// startup of layout widgets is tested below, indirectly, by
 							// monitoring how man times resize is called etc. 
-						}), 750);
+						}), 4000);
 						return d;
 					}
 				}
@@ -89,7 +89,7 @@
 				[
 					{
 						name: "initial conditions",
-						timeout: 2000,
+						timeout: 5000,
 						runTest: function(t){
 							var d = new doh.Deferred();
 							// Wait for load events to occur (after fetching URL's)
@@ -98,7 +98,7 @@
 								dojo.forEach(["pane2", "innerPane1", "innerPane2", "bcPane1", "bcPane2"], function(pane){
 									doh.f(loadEvents[pane], pane, pane + " shouldn't be loaded");
 								});
-							}), 750);
+							}), 4000);
 							return d;
 						}
 					},
@@ -149,21 +149,21 @@
 					},
 					{
 						name: "selecting ContentPane causes it to load",
-						timeout: 2000,
+						timeout: 5000,
 						runTest: function(t){
 							var d = new doh.Deferred();
 
 							dijit.byId("outerTC").selectChild(dijit.byId("pane2"));
 							setTimeout(d.getTestCallback(function(){
 								doh.is(1, loadEvents.pane2, "pane2");
-							}), 750);
+							}), 4000);
 
 							return d;
 						}
 					},
 					{
 						name: "selecting a TabContainer causes it's selected child to load",
-						timeout: 2000,
+						timeout: 5000,
 						runTest: function(t){
 							var d = new doh.Deferred();
 
@@ -171,14 +171,14 @@
 							dijit.byId("outerTC").selectChild(dijit.byId("innerTC"));
 							setTimeout(d.getTestCallback(function(){
 								doh.is(1, loadEvents.innerPane1, "innerPane1 now loaded");
-							}), 750);
+							}), 4000);
 
 							return d;
 						}
 					},
 					{
 						name: "selecting a BorderContainer causes it's children to load",
-						timeout: 2000,
+						timeout: 5000,
 						runTest: function(t){
 							var d = new doh.Deferred();
 
@@ -190,7 +190,7 @@
 							setTimeout(d.getTestCallback(function(){
 								doh.is(1, loadEvents.bcPane1, "bcPane1");
 								doh.is(1, loadEvents.bcPane2, "bcPane2");
-							}), 750);
+							}), 4000);
 
 							return d;
 						}
@@ -256,7 +256,7 @@
 					// Test that resize event works correctly for href w/single layout widget
 					{
 						name: "single resizable href",
-						timeout: 2000,
+						timeout: 5000,
 						runTest: function(t){
 							var d = new doh.Deferred();
 
@@ -279,7 +279,7 @@
 								doh.t(child2, "inner TabContainer was created")
 								doh.t(layoutResizes["singleChildHrefInnerTabContainer"], "got resize event");
 								doh.is(0, layoutResizes["singleChildHrefInnerTabContainer"][0].length, "no size specified")
-							}), 750);
+							}), 4000);
 							return d;
 						}
 					},
@@ -287,7 +287,7 @@
 					// Test that resize event works correctly for href w/multiple layout widgets
 					{
 						name: "multiple resizable href",
-						timeout: 2000,
+						timeout: 5000,
 						runTest: function(t){
 							var d = new doh.Deferred();
 
@@ -300,7 +300,7 @@
 								doh.t(child, "TabContainer was created")
 								doh.t(layoutResizes["multipleChildHrefTabContainer"], "got resize event");
 								doh.is(0, layoutResizes["multipleChildHrefTabContainer"][0].length, "no size specified")
-							}), 750);
+							}), 4000);
 							return d;
 						}
 					}
@@ -338,7 +338,7 @@
 				  */
 					{
 						name: "initially open, href multiple children",
-						timeout: 2000,
+						timeout: 5000,
 						runTest: function(t){
 							var d = new doh.Deferred();
 
@@ -353,7 +353,7 @@
 								doh.t(layoutResizes["otpHmcBorderContainer"], "got resize event for BC");
 								doh.t(layoutResizes["otpHmcTabContainer"], "got resize event for TC");
 								doh.is(0, layoutResizes["otpHmcBorderContainer"][0].length, "no size specified for BC")
-							}), 750);
+							}), 4000);
 
 							return d;
 						}
@@ -372,7 +372,7 @@
 
 					{
 						name: "initially closed, href multiple children",
-						timeout: 2000,
+						timeout: 5000,
 						runTest: function(t){
 							var d = new doh.Deferred();
 
@@ -390,7 +390,7 @@
 								doh.t(layoutResizes["ctpHmcBorderContainer"], "got resize event for BC");
 								doh.t(layoutResizes["ctpHmcTabContainer"], "got resize event for TC");
 								doh.is(0, layoutResizes["ctpHmcBorderContainer"][0].length, "no size specified for BC")
-							}), 750);
+							}), 4000);
 
 							return d;
 						}
@@ -428,7 +428,7 @@
 				[
 					{
 						name: "href multiple children",
-						timeout: 2000,
+						timeout: 5000,
 						runTest: function(t){
 							var d = new doh.Deferred();
 
@@ -446,15 +446,13 @@
 								doh.t(layoutResizes["dlgHmcBorderContainer"], "got resize event for BC");
 								doh.t(layoutResizes["dlgHmcTabContainer"], "got resize event for TC");
 								doh.is(0, layoutResizes["dlgHmcBorderContainer"][0].length, "no size specified for BC")
-							}), 750);
+							}), 4000);
 
 							return d;
 						},
 						tearDown: function(){
 							var dlg = dijit.byId("dlgHmc");
 							dlg.hide();
-							var d = new doh.Deferred();
-							setTimeout(d.getTestCallback(function(){}), 500);
 						}
 					},
 
@@ -482,8 +480,6 @@
 						tearDown: function(){
 							var dlg = dijit.byId("dlgMc");
 							dlg.hide();
-							var d = new doh.Deferred();
-							setTimeout(d.getTestCallback(function(){}), 500);
 						}
 					}
 				]
@@ -494,19 +490,19 @@
 				[
 					{
 						name: "initial conditions",
-						timeout: 2000,
+						timeout: 5000,
 						runTest: function(t){
 							var d = new doh.Deferred();
 							// Wait for load events to occur (after fetching URL's)
 							setTimeout(d.getTestCallback(function(){
 								doh.is(1, loadEvents.reloadTC_pane1, "pane1 loaded");
-							}), 750);
+							}), 4000);
 							return d;
 						}
 					},
 					{
 						name: "reload on reshow",
-						timeout: 2000,
+						timeout: 5000,
 						runTest: function(t){
 							var d = new doh.Deferred();
 
@@ -514,20 +510,20 @@
 							dijit.byId("reloadTC").selectChild(dijit.byId("reloadTC_pane1"));
 							setTimeout(d.getTestCallback(function(){
 								doh.is(2, loadEvents.reloadTC_pane1, "pane1 loaded again");
-							}), 750);
+							}), 4000);
 							return d;
 						}
 					},
 					{
 						name: "no reload on TabContainer resize",
-						timeout: 2000,
+						timeout: 5000,
 						runTest: function(t){
 							var d = new doh.Deferred();
 
 							dijit.byId("reloadTC").resize({h: 300, w: 300});
 							setTimeout(d.getTestCallback(function(){
 								doh.is(2, loadEvents.reloadTC_pane1, "pane1 not loaded again");
-							}), 750);
+							}), 4000);
 							return d;
 						}
 					}

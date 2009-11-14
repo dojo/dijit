@@ -80,7 +80,7 @@
 
 				combo.focusNode.focus();
 				combo.itemError = false;
-				doh.robot.sequence(function(){ combo.attr('value', null); }, 500);
+				doh.robot.sequence(function(){ combo.attr('value', null); }, 1000);
 
 				doh.robot.mouseMoveAt(combo.focusNode, 0); // get cursor out of the way so that wiggling doesn't mess up test
 				doh.robot.keyPress(dojo.keys.DOWN_ARROW, 500);
@@ -89,7 +89,7 @@
 					var isMoreChoices = node == combo._popupWidget.nextButton;
 					var selected = combo._popupWidget.getHighlightedOption() || combo._popupWidget.domNode.firstChild;
 					while(selected != node){
-						doh.robot.keyPress(dojo.keys.DOWN_ARROW, 100);
+						doh.robot.keyPress(dojo.keys.DOWN_ARROW, 300);
 						selected = selected.nextSibling;
 					}
 					doh.robot.keyPress(dojo.keys.ENTER, 500);
@@ -330,7 +330,7 @@
 						combo.focusNode.focus();
 
 						// Filter drop down list to entries starting with "C"
-						doh.robot.sequence(function(){ combo.attr('value', null); }, 500);
+						doh.robot.sequence(function(){ combo.attr('value', null); }, 1000);
 						doh.robot.keyPress("C", 100);
 
 						doh.robot.sequence(d.getTestCallback(function(){
@@ -424,7 +424,7 @@
 						var combo = dijit.byId("setvaluetest");
 
 						combo.focusNode.focus();
-						doh.robot.sequence(function(){ combo.attr('value', null); }, 500);
+						doh.robot.sequence(function(){ combo.attr('value', null); }, 1000);
 
 						// Filter drop down list to entries starting with "C"
 						doh.robot.keyPress("C", 100);
@@ -456,7 +456,7 @@
 						var combo = dijit.byId("datatest");	// auto-complete = true
 
 						combo.focusNode.focus();
-						doh.robot.sequence(function(){ combo.attr('value', null); }, 500);
+						doh.robot.sequence(function(){ combo.attr('value', null); }, 1000);
 
 						// Filter drop down list to entries starting with "C"
 						doh.robot.keyPress("C", 100);
@@ -527,31 +527,28 @@
 				{
 					timeout:60000,
 					name:"query canceling on new input (#8950)",
-					setUp: function(){
-						dojo.global.slowStateStore.log = [];
-					},
 					runTest: function(){
 						var d = new doh.Deferred();
 						var combo = dijit.byId("slow");
 
 						combo.focusNode.focus();
-						doh.robot.sequence(function(){ combo.attr('value', null); }, 500);
+						// this test is very timing-sensitive
+						// preload states.json for slow networks
+						doh.robot.keyPress(dojo.keys.DOWN_ARROW, 1000);
+						doh.robot.sequence(function(){ dojo.global.slowStateStore.log = []; }, 2000); // clear log of query on * messages
 
 						// Filter drop down list to entries starting with "C"
-						doh.robot.keyPress("C", 100);
+						doh.robot.keyPress("c", 10);
 						doh.robot.keyPress("o", 300);	// 300ms > searchDelay, so C* query has been sent (but not yet returned results) when the o is typed
-						doh.robot.keyPress(dojo.keys.ESC, 500); // close popup
 
 						doh.robot.sequence(d.getTestCallback(function(){
 							// The query "C*" should be canceled when "Co*" is started
 							var log = dojo.global.slowStateStore.log;
-
-							var len = !isComboBox? 6 : 4; // initial null caused 2 events
-							doh.is(len, log.length, len + " events on data store");
-							doh.is("start C*", log[len-4].type + " " + log[len-4].query.name);
-							doh.is("cancel C*", log[len-3].type + " " + log[len-3].query.name);
-							doh.is("start Co*", log[len-2].type + " " + log[len-2].query.name);
-							doh.is("end Co*", log[len-1].type + " " + log[len-1].query.name);
+							doh.is(4, log.length, "4 events on data store");
+							doh.is("start c*", log[0].type + " " + log[0].query.name);
+							doh.is("cancel c*", log[1].type + " " + log[1].query.name);
+							doh.is("start co*", log[2].type + " " + log[2].query.name);
+							doh.is("end co*", log[3].type + " " + log[3].query.name);
 
 							// Check that drop down list has appeared, and contains only Colorado and Connecticut (not California)
 							var list = dojo.byId("slow_popup");
@@ -562,7 +559,7 @@
 							doh.is(2, entries.length, "two entries in drop down: " + list.innerHTML);
 							doh.is("Colorado", innerText(entries[0]), "list #1");
 							doh.is("Connecticut", innerText(entries[1]), "list #2");
-						}), 2500);
+						}), 1000);
 
 						return d;
 					}
@@ -581,7 +578,7 @@
 						var combo = dijit.byId("slow");
 
 						combo.focusNode.focus();
-						doh.robot.sequence(function(){ combo.attr('value', null); }, 500);
+						doh.robot.sequence(function(){ combo.attr('value', null); }, 1000);
 
 						// Start to filter drop down list to entries starting with "Co"
 						doh.robot.typeKeys("Co", 100, 50);
@@ -640,11 +637,11 @@
 						doh.is("datatestDijit", dojo.global.dijit._curFocus.id, "focused on elem before disabled combo");
 
 						// Tab over the disabled ComboBox
-						doh.robot.keyPress(dojo.keys.TAB, 100);
+						doh.robot.keyPress(dojo.keys.TAB, 1000);
 
 						doh.robot.sequence(d.getTestCallback(function(){
 							doh.is("combo3_disable", dojo.global.dijit._curFocus.id, "focused on 'enable' button after disabled combo");
-						}), 900);
+						}), 1000);
 
 						return d;
 					}
@@ -707,11 +704,9 @@
 						var d = new doh.Deferred(),
 							combo = dijit.byId("japanese");
 
-						doh.robot.sequence(function(){
-							combo.focusNode.focus();
-						}, 500);
+						combo.focusNode.focus();
 
-						doh.robot.keyPress(dojo.keys.END, 500);
+						doh.robot.keyPress(dojo.keys.END, 1000);
 						doh.robot.keyPress(dojo.keys.BACKSPACE, 500);
 						doh.robot.keyPress(dojo.keys.BACKSPACE, 500);
 						doh.robot.keyPress(dojo.keys.BACKSPACE, 500);
@@ -769,7 +764,7 @@
 						var combo = dijit.byId("progCombo3");
 
 						combo.focusNode.focus();
-						doh.robot.sequence(function(){ combo.attr('value', null); }, 500);
+						doh.robot.sequence(function(){ combo.attr('value', null); }, 1000);
 
 						// Show list, should be in reverse order
 						doh.robot.keyPress(dojo.keys.DOWN_ARROW, 100);

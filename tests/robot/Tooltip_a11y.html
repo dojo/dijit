@@ -61,7 +61,7 @@
 
 								// Make sure it has right content
 								doh.is("tooltip on a button", dojo.trim(innerText(masterTT.domNode)), "tooltip text");
-							}), 1000);
+							}), 2000);
 
 							return d;
 						}
@@ -79,7 +79,7 @@
 
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.t(masterTT && isHidden(masterTT.domNode), "tooltip hidden");
-							}), 500);
+							}), 2000);
 
 							return d;
 						}
@@ -111,7 +111,7 @@
 								// Make sure it has the new content.
 								// There's a newline in this tooltip text, so to make comparison easier do substr()
 								doh.is("tooltip on a select", dojo.trim(innerText(masterTT.domNode)).substr(0, 19), "tooltip text");
-							}), 1000);
+							}), 2000);
 
 							return d;
 						}
@@ -184,7 +184,7 @@
 
 					{
 						name: "tooltip connected to 't1 text'",
-						timeout: 4000,
+						timeout: 5000,
 						runTest: function(){
 							var d = new doh.Deferred(),
 								around = dojo.byId("t1");
@@ -199,7 +199,7 @@
 
 								// Make sure it has right content
 								doh.is("bill was here", dojo.trim(innerText(masterTT.domNode)), "tooltip text");
-							}), 1000);
+							}), 2000);
 
 							return d;
 						}
@@ -207,7 +207,7 @@
 
 					{
 						name: "tooltip *not* connected to 't2 text'",
-						timeout: 4000,
+						timeout: 5000,
 						runTest: function(){
 							var d = new doh.Deferred(),
 								around = dojo.byId("t2");
@@ -219,7 +219,7 @@
 
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.t(masterTT && isHidden(masterTT.domNode), "tooltip hidden");
-							}), 1000);
+							}), 2000);
 
 							return d;
 						}
@@ -227,7 +227,7 @@
 
 					{
 						name: "'t3 text' is connected to the tooltip",
-						timeout: 4000,
+						timeout: 5000,
 						runTest: function(){
 							var d = new doh.Deferred(),
 								around = dojo.byId("t3");
@@ -239,7 +239,7 @@
 
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.t(masterTT && isVisible(masterTT.domNode), "tooltip visible");
-							}), 1000);
+							}), 2000);
 
 							return d;
 						}
@@ -267,7 +267,7 @@
 
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.t(masterTT && isVisible(masterTT.domNode), "tooltip shown");
-							}), 1000);
+							}), 2000);
 
 							return d;
 						}
@@ -293,7 +293,7 @@
 
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.t(masterTT && isHidden(masterTT.domNode), "tooltip hidden");
-							}), 1000);
+							}), 2000);
 
 							return d;
 						}
@@ -319,7 +319,7 @@
 
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.t(masterTT && isHidden(masterTT.domNode), "tooltip hidden");
-							}), 1000);
+							}), 2000);
 
 							return d;
 						}
@@ -338,7 +338,7 @@
 
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.t(masterTT && isVisible(masterTT.domNode), "tooltip visible");
-							}), 1000);
+							}), 2000);
 
 							return d;
 						}

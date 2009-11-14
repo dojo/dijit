@@ -26,7 +26,7 @@
 				// first tooltip is shown
 				var masterTT;
 
-				doh.register("dijit.Tooltip keyboard tests", [
+				doh.register("dijit.Tooltip mouse tests", [
 					{
 						name: "show on mouse over",
 						timeout: 4000,
@@ -42,7 +42,7 @@
 								masterTT = dojo.global.dijit._masterTT;
 
 								doh.t(masterTT && isVisible(masterTT.domNode), "tooltip shown");
-							}), 1000);
+							}), 2000);
 
 							return d;
 						}
@@ -60,7 +60,7 @@
 
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.t(masterTT && isHidden(masterTT.domNode), "tooltip hidden");
-							}), 1000);
+							}), 2000);
 
 							return d;
 						}

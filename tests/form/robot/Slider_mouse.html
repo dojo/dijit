@@ -90,7 +90,7 @@
 				},500);
 				doh.robot.mouseMoveAt(slider.focusNode, 500);
 				doh.robot.mouseClick({left: true}, 500);
-				doh.robot.mouseWheel(delta*direction, 500, Math.abs(delta)*100);
+				doh.robot.mouseWheel(delta*direction, 500, Math.abs(delta)*200);
 				doh.robot.sequence(d.getTestCallback(function(){
 					doh.is(finalValue, new Number(slider.attr('value')).toFixed(1));
 					if(onChange[slider.id]){

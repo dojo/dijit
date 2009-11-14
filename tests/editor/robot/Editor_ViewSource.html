@@ -60,7 +60,7 @@
 
 										doh.robot.sequence(d.getTestCallback(function(){
 											//Now check the state!
-											doh.assertTrue(vsPlugin._sourceShown, "Verifying the plugin believes the souce is shown.");
+											doh.assertTrue(vsPlugin._sourceShown, "Verifying the plugin believes the source is shown.");
 											doh.assertEqual("none", dojo.style(editor0.iframe, "display"), "Verifying iframe is invisible");
 											doh.assertEqual("block", dojo.style(vsPlugin.sourceArea, "display"), "Verifying source view node is visible");
 											doh.assertEqual(vsPlugin.sourceArea.nextSibling, editor0.iframe, "Verifying source view node's next sibling is the hidden iframe node.");
@@ -154,7 +154,7 @@
 
 									doh.robot.sequence(d.getTestCallback(function(){
 										//Now check the state!
-										doh.assertTrue(vsPlugin._sourceShown, "Verifying the plugin believes the souce is shown.");
+										doh.assertTrue(vsPlugin._sourceShown, "Verifying the plugin believes the source is shown.");
 										doh.assertEqual("none", dojo.style(editor0.iframe, "display"), "Verifying iframe is invisible");
 										doh.assertEqual("block", dojo.style(vsPlugin.sourceArea, "display"), "Verifying source view node is visible");
 										doh.assertEqual(vsPlugin.sourceArea.nextSibling, editor0.iframe, "Verifying source view node's next sibling is the hidden iframe node.");
@@ -203,7 +203,7 @@
 
 									doh.robot.sequence(d.getTestCallback(function(){
 										//Now check the state!
-										doh.assertTrue(!vsPlugin._sourceShown, "Verifying the plugin believes the souce is not shown.");
+										doh.assertTrue(!vsPlugin._sourceShown, "Verifying the plugin believes the source is not shown.");
 										doh.assertEqual("block", dojo.style(editor0.iframe, "display"), "Verifying iframe is visible");
 										doh.assertEqual("none", dojo.style(vsPlugin.sourceArea, "display"), "Verifying source view node is invisible");
 										doh.assertEqual(vsPlugin.sourceArea.nextSibling, editor0.iframe, "Verifying source view node's next sibling is the hidden iframe node.");
@@ -252,15 +252,15 @@
 
 									doh.assertTrue(vsPlugin != null, "Checking for viewSource plugin.");
 									doh.assertTrue(fsPlugin != null, "Checking for fullScreen plugin.");
-									doh.robot.mouseMoveAt(fsPlugin.button.domNode, 500);
+									doh.robot.mouseMoveAt(fsPlugin.button.domNode, 1000);
 									doh.robot.mouseClick({left: true}, 500);
-									doh.robot.mouseMoveAt(vsPlugin.button.domNode, 500);
+									doh.robot.mouseMoveAt(vsPlugin.button.domNode, 1000);
 									doh.robot.mouseClick({left: true}, 500);
 
 									doh.robot.sequence(d.getTestCallback(function(){
 										//Now check the state!
 										doh.assertTrue(fsPlugin.isFullscreen, "Verifying the plugin believes the editor is in full screen mode.");
-										doh.assertTrue(vsPlugin._sourceShown, "Verifying the plugin believes the souce is shown.");
+										doh.assertTrue(vsPlugin._sourceShown, "Verifying the plugin believes the source is shown.");
 										doh.assertEqual("none", dojo.style(editor1.iframe, "display"), "Verifying iframe is invisible");
 										doh.assertEqual("block", dojo.style(vsPlugin.sourceArea, "display"), "Verifying source view node is visible");
 										doh.assertEqual(vsPlugin.sourceArea.nextSibling, editor1.iframe, "Verifying source view node's next sibling is the hidden iframe node.");
@@ -323,7 +323,7 @@
 									doh.robot.sequence(d.getTestCallback(function(){
 										//Now check the state!
 										doh.assertTrue(!fsPlugin.isFullscreen, "Verifying the plugin believes the editor is not in full screen mode.");
-										doh.assertTrue(!vsPlugin._sourceShown, "Verifying the plugin believes the souce is not shown.");
+										doh.assertTrue(!vsPlugin._sourceShown, "Verifying the plugin believes the source is not shown.");
 										doh.assertEqual("block", dojo.style(editor1.iframe, "display"), "Verifying iframe is visible");
 										doh.assertEqual("none", dojo.style(vsPlugin.sourceArea, "display"), "Verifying source view node is invisible");
 										doh.assertEqual(vsPlugin.sourceArea.nextSibling, editor1.iframe, "Verifying source view node's next sibling is the hidden iframe node.");

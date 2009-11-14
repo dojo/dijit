@@ -89,21 +89,25 @@
 
 				doh.register("tests",
 					[
-						function test_setValue(t){
-							var d = new doh.Deferred();
-							t.is(dojo.toJson({s1:"VA", s2:"CA", s3:"AL", s4: "AK", s5: "move", s6: "", s7:"NY", s8:"AL",
-								s9:"CT", s10:"AL", s11:"AL", s12: "AL"}), dojo.toJson(form.attr("value")));
-							s1.attr("value", "WA");
-							t.is("WA", s1.value);
-							setTimeout(function(){ try{ // allow onChange to fire
-								s1.attr("value", "UT");
-								t.is("TN", s1.value);
+						{
+							name: "test_setValue",
+							timeout: 5000,
+							runTest: function(t){
+								var d = new doh.Deferred();
+								t.is(dojo.toJson({s1:"VA", s2:"CA", s3:"AL", s4: "AK", s5: "move", s6: "", s7:"NY", s8:"AL",
+									s9:"CT", s10:"AL", s11:"AL", s12: "AL"}), dojo.toJson(form.attr("value")));
+								s1.attr("value", "WA");
+								t.is("WA", s1.value);
 								setTimeout(function(){ try{ // allow onChange to fire
-									t.is(2, numChanges);
-									d.callback(true);
+									s1.attr("value", "UT");
+									t.is("TN", s1.value);
+									setTimeout(function(){ try{ // allow onChange to fire
+										t.is(2, numChanges);
+										d.callback(true);
+									}catch(e){ d.errback(e); }}, 0);
 								}catch(e){ d.errback(e); }}, 0);
-							}catch(e){ d.errback(e); }}, 0);
-							return d;
+								return d;
+							}
 						},
 						function test_changeSelected(t){
 							t.is("AL", s11.value);

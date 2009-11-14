@@ -184,7 +184,9 @@
 
 							// Open the href pane, causing the href to load
 							dijit.scrollIntoView(dijit.byId("inner").domNode);
-							href1.attr("open", true);
+							doh.robot.sequence(d.getTestErrback(function(){
+								href1.attr("open", true);
+							}), 1000);
 
 							// Initially it should display "Loading..." with a small height (enough for that one message)
 							var height1, height2;

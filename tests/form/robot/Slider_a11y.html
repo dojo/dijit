@@ -148,9 +148,9 @@
 			doh.robot.keyPress(dojo.keys.TAB, 1000, {
 				shift: true
 			});
-			doh.robot.keyPress(dojo.keys.TAB, 100);
-			doh.robot.keyPress(dojo.keys.TAB, 100);
-			doh.robot.keyPress(dojo.keys.TAB, 100, {
+			doh.robot.keyPress(dojo.keys.TAB, 500);
+			doh.robot.keyPress(dojo.keys.TAB, 500);
+			doh.robot.keyPress(dojo.keys.TAB, 500, {
 				shift: true
 			});
 			var checkGotFocus = function(){
@@ -159,7 +159,7 @@
 				dojo.disconnect(focusFunc);
 				dojo.disconnect(blurFunc);
 			};
-			doh.robot.sequence(d.getTestCallback(checkGotFocus), 500);
+			doh.robot.sequence(d.getTestCallback(checkGotFocus), 1000, 500);
 			return d;
 		}
 
@@ -169,17 +169,17 @@
 			var initVal = slider.attr('value');
 			// get focus on slider thumb before pressing keys.
 			slider.focus();
-			doh.robot.sequence(function(){ strokeIndex = 0; }, 500); // insure onChange events have stopped
+			doh.robot.sequence(function(){ strokeIndex = 0; }, 1000); // insure onChange events have stopped
 			doh.robot.keyPress(dojo.keys.HOME, 200);
-			doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 200);
+			doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 1000);
 			doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 200);
 			doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 200);
 			doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 200);
 			doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 200);
 			doh.robot.keyPress(dojo.keys.PAGE_UP, 200);
-			doh.robot.keyPress(dojo.keys.PAGE_UP, 200);
-			doh.robot.keyPress(dojo.keys.PAGE_DOWN, 200);
-			doh.robot.keyPress(dojo.keys.UP_ARROW, 200);
+			doh.robot.keyPress(dojo.keys.PAGE_UP, 500);
+			doh.robot.keyPress(dojo.keys.PAGE_DOWN, 500);
+			doh.robot.keyPress(dojo.keys.UP_ARROW, 500);
 			doh.robot.keyPress(dojo.keys.UP_ARROW, 200);
 			doh.robot.keyPress(dojo.keys.DOWN_ARROW, 200);
 			doh.robot.keyPress(dojo.keys.LEFT_ARROW, 200);
@@ -191,7 +191,7 @@
 					doh.assertEqual(eaVals[i].expected, eaVals[i].actual, eaVals[i].stroke + " (" + slider.id + ")");
 				}
 			};
-			doh.robot.sequence(d.getTestCallback(testPresses), 1600);
+			doh.robot.sequence(d.getTestCallback(testPresses), 1000, 500);
 			return d;
 		}
 
@@ -287,7 +287,7 @@
 			[
 				{
 					name: "slider1Keystrokes",
-					timeout: 6000,
+					timeout: 9000,
 					setUp: function(){
 						keyStrokeSetup("slider1");
 					},
@@ -297,7 +297,7 @@
 				},
 				{
 					name: "slider2Keystrokes",
-					timeout: 6000,
+					timeout: 9000,
 					setUp: function(){
 						keyStrokeSetup("slider2");
 					},
@@ -307,7 +307,7 @@
 				},
 				{
 					name: "programaticSliderKeystrokes",
-					timeout: 6000,
+					timeout: 9000,
 					setUp: function(){
 						keyStrokeSetup("programaticSlider");
 					},
@@ -317,7 +317,7 @@
 				},
 				{
 					name: "disabledTabStop",
-					timeout: 8000,
+					timeout: 9000,
 					runTest: function(){
 						var d = new doh.Deferred();
 						var slider = dijit.byId("programaticSlider");

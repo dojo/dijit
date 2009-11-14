@@ -49,7 +49,7 @@
 							var d = new doh.Deferred();
 							var inlineBox = dijit.byId("dollar_as");
 							moveAndClick(inlineBox.domNode);
-							doh.robot.typeKeys("dollar", 500, 1000); // invalid
+							doh.robot.typeKeys("dollar", 1000, 1200); // invalid
 							moveAndClick("predefined");
 							doh.robot.sequence(d.getTestCallback(function(){
 								var currencyTextBox = inlineBox.wrapperWidget.editWidget;
@@ -68,7 +68,7 @@
 							var d = new doh.Deferred();
 							var inlineBox = dijit.byId("dollar_as");
 							moveAndClick(inlineBox.domNode);
-							doh.robot.typeKeys("dollar", 500, 1000); // invalid
+							doh.robot.typeKeys("dollar", 1000, 1200); // invalid
 							doh.robot.keyPress(dojo.keys.ENTER, 500, {});
 							doh.robot.sequence(d.getTestErrback(function(){
 								var currencyTextBox = inlineBox.wrapperWidget.editWidget;
@@ -89,7 +89,7 @@
 							var d = new doh.Deferred();
 							var inlineBox = dijit.byId("dollar_as");
 							moveAndClick(inlineBox.domNode);
-							doh.robot.typeKeys("123", 500, 1000);
+							doh.robot.typeKeys("123", 1000, 600);
 							moveAndClick("predefined");
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.is("$123.00", inlineBox.attr("value"), "value");
@@ -104,7 +104,7 @@
 							var d = new doh.Deferred();
 							var inlineBox = dijit.byId("dollar_as");
 							moveAndClick(inlineBox.domNode);
-							doh.robot.typeKeys("234", 500, 1000);
+							doh.robot.typeKeys("234", 1000, 600);
 							doh.robot.keyPress(dojo.keys.ENTER, 500, {});
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.is('$234.00', inlineBox.attr("value"), "value");
@@ -119,7 +119,7 @@
 							var d = new doh.Deferred();
 							var inlineBox = dijit.byId("dollar_as");
 							moveAndClick(inlineBox.domNode);
-							doh.robot.typeKeys("345", 500, 1000);
+							doh.robot.typeKeys("345", 1000, 600);
 							doh.robot.keyPress(dojo.keys.ESCAPE, 500, {});
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.is("$234.00", inlineBox.attr("value"), "value");
@@ -134,7 +134,7 @@
 							var d = new doh.Deferred();
 							var inlineBox = dijit.byId("dollar_as");
 							moveAndClick(inlineBox.domNode);
-							doh.robot.typeKeys("456", 500, 1000);
+							doh.robot.typeKeys("456", 1000, 600);
 							doh.robot.keyPress(dojo.keys.TAB, 500, {});
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.is('$456.00', inlineBox.attr("value"), "value");
@@ -149,17 +149,17 @@
 							var d = new doh.Deferred();
 							var inlineBox = dijit.byId("editable");
 							moveAndClick(inlineBox.domNode);
-							doh.robot.typeKeys("editable", 500, 1000);
+							doh.robot.typeKeys("editable", 1000, 1600);
 							doh.robot.keyPress(dojo.keys.TAB, 500, {});
 							doh.robot.keyPress(dojo.keys.TAB, 1500, {}); // wait more than 1 second to TAB
 							doh.robot.keyPress(dojo.keys.ENTER, 500, {});
-							doh.robot.typeKeys("567", 500, 1000);
+							doh.robot.typeKeys("567", 500, 600);
 							doh.robot.keyPress(dojo.keys.ENTER, 500, {});
 							doh.robot.keyPress(dojo.keys.TAB, 500, {shift:true}); // do this fast
 							doh.robot.keyPress(dojo.keys.TAB, 500, {shift:true}); // do this fast
 							doh.robot.keyPress(dojo.keys.ENTER, 500, {}); // quickly back to editable
 							doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 500, {});
-							doh.robot.typeKeys(" again", 500, 1000);
+							doh.robot.typeKeys(" again", 1000, 1200);
 							doh.robot.keyPress(dojo.keys.TAB, 500, {});
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.is('$567.00', dijit.byId("dollar_as").attr("value"), "value");
@@ -175,9 +175,9 @@
 							var d = new doh.Deferred();
 							var inlineBox = dijit.byId("textarea");
 							moveAndClick(inlineBox.domNode);
-							doh.robot.typeKeys("line 1", 500, 1000);
+							doh.robot.typeKeys("line 1", 1000, 1200);
 							doh.robot.keyPress(dojo.keys.ENTER, 500, {});
-							doh.robot.typeKeys("line 2", 500, 1000);
+							doh.robot.typeKeys("line 2", 500, 1200);
 							moveAndClick("predefined");
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.is('line 1\\nline 2', inlineBox.attr("value").replace(/\n/g, "\\n"), "textarea programmatic value was " + inlineBox.attr("value").replace(/\n/g, "\\n"));
