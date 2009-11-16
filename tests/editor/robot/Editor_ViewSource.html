@@ -314,7 +314,7 @@
 									//Toggle fs on, the source on.
 									doh.robot.mouseMoveAt(fsPlugin.button.domNode, 500);
 									doh.robot.mouseClick({left: true}, 750);
-									doh.robot.mouseMoveAt(vsPlugin.button.domNode, 500);
+									doh.robot.mouseMoveAt(vsPlugin.button.domNode, 1000);
 									doh.robot.mouseClick({left: true}, 1000);
 									doh.robot.mouseMoveAt(vsPlugin.button.domNode, 500);
 									doh.robot.mouseClick({left: true}, 1000);
@@ -327,7 +327,7 @@
 										doh.assertEqual("block", dojo.style(editor1.iframe, "display"), "Verifying iframe is visible");
 										doh.assertEqual("none", dojo.style(vsPlugin.sourceArea, "display"), "Verifying source view node is invisible");
 										doh.assertEqual(vsPlugin.sourceArea.nextSibling, editor1.iframe, "Verifying source view node's next sibling is the hidden iframe node.");
-									}), 500);
+									}), 1000);
 								}catch(e){
 									d.errback(e);
 								}
