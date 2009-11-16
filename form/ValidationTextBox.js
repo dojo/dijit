@@ -230,9 +230,6 @@ dojo.declare(
 
 		_setDisabledAttr: function(/*Boolean*/ value){
 			this.inherited(arguments);	// call FormValueWidget._setDisabledAttr()
-			if(this.valueNode){
-				this.valueNode.disabled = value;
-			}
 			this._refreshState();
 		},
 
@@ -329,11 +326,6 @@ dojo.declare(
 			// Passing in name as markup rather than calling dojo.create() with an attrs argument
 			// to make dojo.query(input[name=...]) work on IE. (see #8660)
 			this.valueNode = dojo.place("<input type='hidden'" + (this.name ? " name='" + this.name + "'" : "") + ">", this.textbox, "after");
-		},
-
-		_setDisabledAttr: function(/*Boolean*/ value){
-			this.inherited(arguments);
-			dojo.attr(this.valueNode, 'disabled', value);
 		},
 
 		reset:function(){
