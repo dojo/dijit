@@ -238,26 +238,21 @@ dijit.popup.__OpenArgs = function(){
 				onClose = top.onClose;
 
 			if(widget.onClose){
-				// TODO: in 2.0 standardize onHide() (used by StackContainer) and onHide() (used here)
+				// TODO: in 2.0 standardize onHide() (used by StackContainer) and onClose() (used here)
 				widget.onClose();
 			}
 			dojo.forEach(top.handlers, dojo.disconnect);
 
-			// #2685: check if the widget still has a domNode so ContentPane can change its URL without getting an error
-			if(!widget || !widget.domNode){ return; }
-
-			this.moveOffScreen(widget.domNode);
-
+			// Move the widget offscreen, unless it has already been destroyed in above onClose() etc.
+			if(widget && widget.domNode){
+				this.moveOffScreen(widget.domNode);
+			}
                         
-			//move the iframe out of the view
-			//dont' use moveOffScreen which would also reattach the wrapper to body, which causes reloading of iframe
+			// recycle the wrapper plus iframe, so we prevent reattaching iframe everytime an popup opens
+			// don't use moveOffScreen which would also reattach the wrapper to body, which causes reloading of iframe
 			wrapper.style.top = "-9999px";
 			wrapper.style.visibility = "hidden";
-
-			//recycle the wrapper plus iframe, so we prevent reattaching iframe everytime an popup opens
 			wrappers.push([wrapper,iframe]);
-			//iframe.destroy();
-			//dojo.destroy(wrapper);
 
 			if(onClose){
 				onClose();
