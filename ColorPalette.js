@@ -12,7 +12,7 @@ dojo.declare("dijit.ColorPalette",
 	// summary:
 	//		A keyboard accessible color-picking widget
 	// description:
-	//		Grid showing various colors, so the user can pick a certain color
+	//		Grid showing various colors, so the user can pick a certain color.
 	//		Can be used standalone, or as a popup.
 	//
 	// example:
@@ -41,7 +41,7 @@ dojo.declare("dijit.ColorPalette",
 	value: null,
 
 	// _currentFocus: [private] DomNode
-	//		The currently highlighted color, indicated either via arrow keys or mouse hover.
+	//		The currently focused or hovered color.
 	//		Different from value, which represents the selected (i.e. clicked) color.
 	_currentFocus: 0,
 
@@ -58,7 +58,6 @@ dojo.declare("dijit.ColorPalette",
 	//		The first level is a hashmap of the different arrays available
 	//		The next two dimensions represent the columns and rows of colors.
 	_palettes: {
-
 		"7x10":	[["white", "seashell", "cornsilk", "lemonchiffon","lightyellow", "palegreen", "paleturquoise", "lightcyan",	"lavender", "plum"],
 				["lightgray", "pink", "bisque", "moccasin", "khaki", "lightgreen", "lightseagreen", "lightskyblue", "cornflowerblue", "violet"],
 				["silver", "lightcoral", "sandybrown", "orange", "palegoldenrod", "chartreuse", "mediumturquoise", 	"skyblue", "mediumslateblue","orchid"],
@@ -70,7 +69,6 @@ dojo.declare("dijit.ColorPalette",
 		"3x4": [["white", "lime", "green", "blue"],
 			["silver", "yellow", "fuchsia", "navy"],
 			["gray", "red", "purple", "black"]]
-
 	},
 
 	// _imagePaths: [protected] Map
