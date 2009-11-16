@@ -35,22 +35,23 @@
 					generateTest('8249_quirks_rtl');
 				},
 				function test_8284(){
-					var minScroll, maxScroll;
+					var minScroll, maxScroll, fudge=0;
 					if(dojo.isIE){
-						maxScroll = "-11";
-						minScroll = "+11";
+						minScroll = maxScroll = 11;
+						if(dojo.isIE <= 6){
+							fudge = dojo.byId('8284_quirks').contentWindow.document.body.clientHeight-100; // needed for running inside DOH runner
+						}
 					}else{
-						maxScroll = "-10";
-						minScroll = "+10";
+						minScroll = maxScroll = 10;
 					}
-					generateTestXY('8284_quirks', "0", maxScroll, "0", minScroll);
-					generateTestXY('8284_quirks_rtl', "0", maxScroll, "0", minScroll);
+					generateTestXY('8284_quirks', "0", -maxScroll+fudge, "0", minScroll-fudge);
+					generateTestXY('8284_quirks_rtl', "0", -maxScroll+fudge, "0", minScroll-fudge);
 					if(dojo.isIE >= 8){
-						maxScroll = "-10";
-						minScroll = "+10";
+						maxScroll--;
+						minScroll--;
 					}
-					generateTestXY('8284_strict', "0", maxScroll, "0", minScroll);
-					generateTestXY('8284_loose_rtl', "0", maxScroll, "0", minScroll);
+					generateTestXY('8284_strict', "0", -maxScroll, "0", minScroll);
+					generateTestXY('8284_loose_rtl', "0", -maxScroll, "0", minScroll);
 				},
 				function test_absContent(){
 					var minScrollX, minScrollY, maxScrollX, maxScrollY;
@@ -183,6 +184,9 @@
 					generateTest('bottomNonFloat_strict', "(-"+maxScroll+",-0)", "(+"+minScroll+",-0)");
 					maxScroll = sb * 2;
 					minScroll = 20;
+					if(dojo.isIE <= 6){
+						maxScroll -= (dojo.byId('bottomNonFloat_quirks').contentWindow.document.body.clientHeight-100+sb) * 2; // needed for running inside DOH runner
+					}
 					generateTest('bottomNonFloat_quirks', "(-"+maxScroll+",-0)", "(+"+minScroll+",-0)");
 					var chromeHack = 0;
 					if(dojo.isIE == 6){
@@ -214,13 +218,16 @@
 						maxScroll = sb * 2;
 					}
 					if(dojo.isIE){
-						minScroll = "+" + (sb * 2);
+						minScroll = sb * 2;
+						if(dojo.isIE <= 6){
+							minScroll -= (dojo.byId('bottomNonFloat_quirks_rtl').contentWindow.document.body.clientHeight-100+sb) * 2; // needed for running inside DOH runner
+						}
 					}else if(dojo.isMoz){
-						minScroll = "+" + (sb * 2);
+						minScroll = sb * 2;
 					}else{
-						minScroll = "+"+(20-chromeHack);
+						minScroll = 20-chromeHack;
 					}
-					generateTest('bottomNonFloat_quirks_rtl', "(-"+maxScroll+",-0)", "("+minScroll+",-0)");
+					generateTest('bottomNonFloat_quirks_rtl', "(-"+maxScroll+",-0)", "(+"+minScroll+",-0)");
 				},
 				function test_table(){
 					var minScroll, maxScroll;
@@ -236,6 +243,11 @@
 					if(dojo.isIE){
 						minScroll = "(0,+16)";
 						maxScroll = "(0,-16)";
+						if(dojo.isIE <= 6){
+							var fudge = dojo.byId('table_quirks').contentWindow.document.body.clientHeight-100; // needed for running inside DOH runner
+							maxScroll = "(0,-"+(16-fudge)+")";
+							minScroll = "(0,+"+(16-fudge)+")";
+						}
 					}
 					generateTest('table_quirks', maxScroll, minScroll);
 					generateTest('table_quirks_rtl', maxScroll, minScroll);
@@ -249,15 +261,23 @@
 					generateTestXY('innerScrollbars_quirks_rtl', "-"+(sb-5), "-"+(sb-5+IEhack), "+"+(sb-5), "+"+(sb-5+IEhack));
 				},
 				function test_8542(){
+					var fudge = 0;
+					if(dojo.isIE <= 6){
+						fudge = dojo.byId('8542_quirks').contentWindow.document.body.clientHeight-100; // needed for running inside DOH runner
+					}
 					generateTest('8542_strict', "(0,-10)", "(0,+20)");
-					generateTest('8542_quirks', "(0,-10)", "(0,+20)");
+					generateTest('8542_quirks', "(0,-"+(10-fudge)+")", "(0,+"+(20-fudge)+")");
 					generateTest('8542_loose_rtl', "(0,-10)", "(0,+20)");
-					generateTest('8542_quirks_rtl', "(0,-10)", "(0,+20)");
+					generateTest('8542_quirks_rtl', "(0,-"+(10-fudge)+")", "(0,+"+(20-fudge)+")");
 				},
 				function test_tooBig(){
+					var fudge = 0;
+					if(dojo.isIE <= 6){
+						fudge = dojo.byId('tooBig_quirks').contentWindow.document.body.clientHeight-100+sb; // needed for running inside DOH runner
+					}
 					var minScroll, maxScroll;
 					generateTest('tooBig_strict', "(+"+(sb+10)+",+"+(sb+20)+")", "(+1,+1)");
-					generateTest('tooBig_quirks', "(+"+(sb+10)+",+"+(sb+20)+")", "(+1,+1)");
+					generateTest('tooBig_quirks', "(+"+(sb+10-fudge)+",+"+(sb+20-fudge)+")", "(+1,+1)");
 					if(dojo.isIE <= 7 || dojo.isMoz){
 						maxScroll = "-1";
 					}else if(dojo.isIE){
@@ -275,9 +295,13 @@
 						maxScroll = "-1";
 						minScroll = "-20";
 					}
-					generateTest('tooBig_quirks_rtl', "("+maxScroll+",+"+(sb+20)+")", "("+minScroll+",+1)");
+					generateTest('tooBig_quirks_rtl', "("+maxScroll+",+"+(sb+20-fudge)+")", "("+minScroll+",+1)");
 				},
 				function test_htmlPadding(){
+					var fudge = 0;
+					if(dojo.isIE <= 6){
+						fudge = dojo.byId('tooBig_quirks').contentWindow.document.body.clientHeight-100+sb; // needed for running inside DOH runner
+					}
 					var minScroll, maxScroll;
 					if(dojo.isIE <= 7){
 						maxScroll = 84;
@@ -291,8 +315,8 @@
 						maxScroll = 34;
 						minScroll = 35;
 					}
-					generateTest('htmlPadding_quirks', "(0,-"+maxScroll+")", "(0,+"+minScroll+")");
-					generateTest('htmlPadding_quirks_rtl', "(0,-"+maxScroll+")", "(0,+"+minScroll+")");
+					generateTest('htmlPadding_quirks', "(0,-"+(maxScroll-fudge)+")", "(0,+"+(minScroll-fudge)+")");
+					generateTest('htmlPadding_quirks_rtl', "(0,-"+(maxScroll-fudge)+")", "(0,+"+(minScroll-fudge)+")");
 				}
 			]);
 		        doh.run();
@@ -317,6 +341,10 @@
 			}
 		}
 		function generateTestXY(id, maxScrollX, maxScrollY, minScrollX, minScrollY){
+			if(typeof maxScrollX == "number" && maxScrollX > 0){ maxScrollX = "+" + maxScrollX; }
+			if(typeof maxScrollY == "number" && maxScrollY > 0){ maxScrollY = "+" + maxScrollY; }
+			if(typeof minScrollX == "number" && minScrollX > 0){ minScrollX = "+" + minScrollX; }
+			if(typeof minScrollY == "number" && minScrollY > 0){ minScrollY = "+" + minScrollY; }
 			generateTest(id, "("+maxScrollX+","+maxScrollY+")", "("+minScrollX+","+minScrollY+")");
 		}
 	</script>
@@ -508,7 +536,7 @@ console.log('!!!!!!!!!!!! scrollbar size = ' + sb);
 		if(inputs.length == 1){ return inputs[0]; }
 		for(var i=0; i<inputs.length; i++){
 			var n = inputs[i];
-			if(/red|255, 0, 0|ff0000/i.test(dojo.style(n, "backgroundColor"))){
+			if(/red|255, 0, 0|ff0000/i.test(dojo.style(n, "backgroundColor")) || (typeof n.style == "object" && n.style.backgroundColor == "red")){
 				return n;
 				break;
 			}
