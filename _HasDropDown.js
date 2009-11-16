@@ -81,8 +81,8 @@ dojo.declare("dijit._HasDropDown",
 			//		Callback when the user mouse clicks on the arrow icon, or presses the down
 			//		arrow key, to open the drop down.
 
-			// We handle mouse events using onmousedown in order to allow for
-			// selecting via a drag.  So, our click is already handled, unless   (BK: what does this mean, selecting via drag?)
+			// We handle mouse events using onmousedown in order to allow for selecting via
+			// a mouseDown --> mouseMove --> mouseUp.  So, our click is already handled, unless
 			// we are executed via keypress - in which case, this._seenKeydown
 			// will be set to true.
 			if(e.type == "click" && !this._seenKeydown){ return; }

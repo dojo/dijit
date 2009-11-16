@@ -56,8 +56,8 @@ dojo.declare("dijit.form._SelectMenu", dijit.Menu, {
 
 dojo.declare("dijit.form.Select", [dijit.form._FormSelectWidget, dijit._HasDropDown], {
 	// summary:
-	//		This is a "Styleable" select box - it is basically a DropDownButton which
-	//		can take as its input a <select>.
+	//		This is a "styleable" select box - it is basically a DropDownButton which
+	//		can take a <select> as its input.
 
 	baseClass: "dijitSelect",
 
@@ -83,11 +83,11 @@ dojo.declare("dijit.form.Select", [dijit.form._FormSelectWidget, dijit._HasDropD
 	//		What to display in an "empty" dropdown
 	emptyLabel: "",
 
-	// _isLoaded: boolean
+	// _isLoaded: Boolean
 	//		Whether or not we have been loaded
 	_isLoaded: false,
 
-	// _childrenLoaded: boolean
+	// _childrenLoaded: Boolean
 	//		Whether or not our children have been loaded
 	_childrenLoaded: false,
 
@@ -105,7 +105,7 @@ dojo.declare("dijit.form.Select", [dijit.form._FormSelectWidget, dijit._HasDropD
 		dojo.addClass(this.dropDown.domNode, this.baseClass + "Menu");
 	},
 
-	_getMenuItemForOption: function(/* dijit.form.__SelectOption */ option){
+	_getMenuItemForOption: function(/*dijit.form.__SelectOption*/ option){
 		// summary:
 		//		For the given option, return the menu item that should be
 		//		used to display it.  This can be overridden as needed
@@ -126,9 +126,9 @@ dojo.declare("dijit.form.Select", [dijit.form._FormSelectWidget, dijit._HasDropD
 		}
 	},
 
-	_addOptionItem: function(/* dijit.form.__SelectOption */ option){
+	_addOptionItem: function(/*dijit.form.__SelectOption*/ option){
 		// summary:
-		//		For the given option, add a option to our dropdown
+		//		For the given option, add an option to our dropdown.
 		//		If the option doesn't have a value, then a separator is added
 		//		in that place.
 		if(this.dropDown){
@@ -143,18 +143,18 @@ dojo.declare("dijit.form.Select", [dijit.form._FormSelectWidget, dijit._HasDropD
 		return this.dropDown.getChildren();
 	},
 
-	_loadChildren: function(/* boolean */ loadMenuItems){
+	_loadChildren: function(/*Boolean*/ loadMenuItems){
 		// summary:
 		//		Resets the menu and the length attribute of the button - and
 		//		ensures that the label is appropriately set.
-		//	loadMenuItems: boolean
+		//	loadMenuItems: Boolean
 		//		actually loads the child menu items - we only do this when we are
 		//		populating for showing the dropdown.
 
 		if(loadMenuItems === true){
 			// this.inherited destroys this.dropDown's child widgets (MenuItems).
 			// Avoid this.dropDown (Menu widget) having a pointer to a destroyed widget (which will cause
-			// issues later in _setSelected).
+			// issues later in _setSelected). (see #10296)
 			if(this.dropDown){
 				delete this.dropDown.focusedChild;
 			}
@@ -220,7 +220,8 @@ dojo.declare("dijit.form.Select", [dijit.form._FormSelectWidget, dijit._HasDropD
 
 	isValid: function(/*Boolean*/ isFocused){
 		// summary:
-		//		Whether or not this is a valid value
+		//		Whether or not this is a valid value.   The only way a Select
+		//		can be invalid is when it's required but nothing is selected.
 		return (!this.required || !(/^\s*$/.test(this.value)));
 	},
 
@@ -253,7 +254,7 @@ dojo.declare("dijit.form.Select", [dijit.form._FormSelectWidget, dijit._HasDropD
 		return this._isLoaded;
 	},
 
-	loadDropDown: function(/* Function */ loadCallback){
+	loadDropDown: function(/*Function*/ loadCallback){
 		// summary:
 		//		populates the menu
 		this._loadChildren(true);
