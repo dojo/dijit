@@ -1373,7 +1373,7 @@ dojo.declare(
 		//		selected node no longer is.
 
 		if(node){
-			if(node != this.lastFocused && this.lastFocused){
+			if(node != this.lastFocused && this.lastFocused && !this.lastFocused._destroyed){
 				// mark that the previously selected node is no longer the selected one
 				this.lastFocused.setSelected(false);
 			}
