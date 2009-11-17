@@ -9,6 +9,12 @@ dojo.declare(
 	{
 		// summary:
 		//		A validating, serializable, range-bound date text box with a drop down calendar
+		//
+		//		Example:
+		// |	new dijit.form.DateTextBox({value: new Date(2009, 0, 20)})
+		//
+		//		Example:
+		// |	<input dojotype='dijit.form.DateTextBox' value='2009-01-20'>
 
 		baseClass: "dijitTextBox dijitDateTextBox",
 		popupClass: "dijit.Calendar",
@@ -16,16 +22,7 @@ dojo.declare(
 
 		// value: Date
 		//		The value of this widget as a JavaScript Date object, with only year/month/day specified.
-		//
-		//		Example:
-		// |	new dijit.form.DateTextBox({value: new Date(2009,1,20)})
-		//
-		//		When passed to the parser in markup, must be specified according to locale-independent
-		//		`dojo.date.stamp.fromISOString` format.
-		//
-		//		Example:
-		// |	<input dojotype='dijit.form.DateTextBox' value='2009-01-20'>
+		//		If specified in markup, use the format specified in `dojo.date.stamp.fromISOString`
 		value: new Date("")	// value.toString()="NaN"
-
 	}
 );
