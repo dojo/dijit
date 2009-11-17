@@ -5,8 +5,8 @@
 	text: "Description:",
 	target: "Target:",
 	set: "Set",
-	currentWindow: "Current Window ( _self )",
-	parentWindow: "Parent Window ( _parent )",
-	topWindow: "Topmost Window ( _top )",
-	newWindow: "New Window ( _blank )"
+	currentWindow: "Current Window",
+	parentWindow: "Parent Window",
+	topWindow: "Topmost Window",
+	newWindow: "New Window"
 })
