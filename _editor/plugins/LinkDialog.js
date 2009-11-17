@@ -95,7 +95,7 @@ dojo.declare("dijit._editor.plugins.LinkDialog", dijit._editor._Plugin, {
 		}));
 		messages.urlRegExp = this.urlRegExp;
 		messages.id = dijit.getUniqueId(this.editor.id);
-		this._uniqueId = messages.id;debugger;
+		this._uniqueId = messages.id;
 		this._setContent(dropDown.title +
 			"<div style='border-bottom: 1px black solid;padding-bottom:2pt;margin-bottom:4pt'></div>" +
 			dojo.string.substitute(this.linkDialogTemplate, messages));
@@ -144,11 +144,7 @@ dojo.declare("dijit._editor.plugins.LinkDialog", dijit._editor._Plugin, {
 			if(appendHttp){
 				self._urlInput.attr("value", "http://" + url);
 			}
-			if(!self._isValid()){
-				self._setButton.attr("disabled", true);
-			}else{
-				self._setButton.attr("disabled", false);
-			}
+			self._setButton.attr("disabled", !self._isValid());
 		};
 		if(this._delayedCheck){
 			clearTimeout(this._delayedCheck);
