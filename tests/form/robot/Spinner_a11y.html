@@ -616,6 +616,28 @@
 					}
 				]);
 
+				doh.register("rounding",
+				[
+					{
+						name: "simple",
+						timeout: 15000,
+						runTest: function(){
+							var d=new doh.Deferred();
+							var spinner = dijit.byId("integertextbox3");
+							spinner.attr('value', '');
+							spinner.focus();
+							doh.robot.typeKeys("1.2339", 1000, 1200);
+							doh.robot.keyPress(dojo.keys.TAB, 500);
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.t(spinner.isValid(false), "no error when rounding");
+								doh.is(1.234, spinner.attr('value'), "value is rounded");
+								doh.is("1.234", spinner.attr('displayedValue'), "rounded value correctly displayed");
+							}), 1000);
+							return d;
+						}
+					}
+				]);
+
 				doh.run();
 			});
 		</script>
