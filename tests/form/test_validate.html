@@ -132,8 +132,8 @@
 					constraints="{places:0,min:1,max:100}"
 					regExpGen="return '\\d+'"
 					required="true">
-					<button onclick="dijit.byId('fav').attr('required', true);return false">attr(required, true)</button>
-					<button onclick="dijit.byId('fav').attr('required', false);return false">attr(required, false)</button>
+					<button onclick="dijit.byId('fav').attr('required', true); return false;">attr(required, true)</button>
+					<button onclick="dijit.byId('fav').attr('required', false); return false;">attr(required, false)</button>
 			</div>
 
 			<div class="dojoTitlePaneLabel">
@@ -196,7 +196,7 @@
 						required: "true",
 						regExpGen: dojo.regexp.integer,
 						constraints: {signed:false, separator: ","},
-						invalidMessage: "Invalid population.  Be sure to use commas."
+						invalidMessage: "Invalid population.  Enter a number."
 					};
 					var w = new dijit.form.ValidationTextBox(props, "attach-here");
 					});
@@ -244,7 +244,7 @@
 					constraints="{fractional:true}"
 					currency="USD"
 				        onChange="dojo.byId('oc8').value=arguments[0]"
-					invalidMessage="Invalid amount.  Include dollar sign, commas, and cents.  Cents are MANDATORY." />USD
+					invalidMessage="Invalid amount.  Cents are MANDATORY." />USD
 				&nbsp;onChange:<input id="oc8" size="15" disabled value="not fired yet!" autocomplete="off">
 			</div>
 
@@ -255,10 +255,10 @@
 					dojoType="dijit.form.CurrencyTextBox"
 					required="true"
 					currency="EUR"
-					invalidMessage="Invalid amount.  Include dollar sign, commas, and cents." />EUR
-				<button onclick="dijit.byId('q08eur').attr('disabled',true);return false">Disable</button>
-				<button onclick="dijit.byId('q08eur').attr('disabled',false);return false">Enable</button>
-				<button onclick="dijit.byId('q08eur').reset();return false">Reset</button>
+					invalidMessage="Invalid amount.  Include cents." />EUR
+				<button onclick="dijit.byId('q08eur').attr('disabled',true); return false;">Disable</button>
+				<button onclick="dijit.byId('q08eur').attr('disabled',false); return false;">Enable</button>
+				<button onclick="dijit.byId('q08eur').reset(); return false;">Reset</button>
 			</div>
 
 			<!--
@@ -300,7 +300,7 @@
 					trim="true"
 					required="true"
 					constraints="{fractional:true}"
-					invalidMessage="Invalid amount.  Include dollar sign, commas, and cents. Example: $12,000.00" />
+					invalidMessage="Invalid amount.  Include cents. Example: $12,000.00" />
 			</div>
 
 			<div class="dojoTitlePaneLabel">
