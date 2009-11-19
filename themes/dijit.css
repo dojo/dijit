@@ -1843,3 +1843,12 @@ div.dijitTabBtnDisabled img {
 .dj_webkit TEXTAREA.dijitTextAreaDisabled {
 	color: #333; /* because WebKit lightens disabled input/textarea no matter what color you specify */
 }
+
+.dijit_a11y .dijitSliderReadOnly,
+.dijit_a11y .dijitSliderDisabled {
+	opacity:0.6;
+}
+.dj_ie .dijit_a11y .dijitSliderReadOnly .dijitSliderBar,
+.dj_ie .dijit_a11y .dijitSliderDisabled .dijitSliderBar {
+	filter: alpha(opacity=40);
+}
