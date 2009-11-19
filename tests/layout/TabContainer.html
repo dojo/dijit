@@ -87,25 +87,20 @@
 			
 			doh.register( "addingTabs", [
 				{
-					name: 'addPaneTab',
+					name: 'add new tab',
 					runTest: function(t){
 						var tc = dijit.byId("tc1");
 						var cp1 = new dijit.layout.ContentPane({
 						         title: "newTab1",
 						         content: "tab 1 content"
 						    });
-						    tc.addChild(cp1);
+						tc.addChild(cp1);
 						
-							var tabLabels = dojo.query("#tc1 .tabLabel");
-							t.assertEqual(4, tabLabels.length);
-					}
-				},
-				{
-					name: 'addTab',
-					runTest: function(t){
-						var tc = dijit.byId("tc1");
-						var childPanes = tc.getChildren();
-						t.assertEqual(4, childPanes.length);
+						var tabLabels = dijit.byId("tc1").getChildren();
+						var menuLabels = dijit.byId("tc1_tablist_menu").getChildren();
+						
+						t.assertEqual(4, tabLabels.length, "there are 4 tabs");
+						t.assertEqual(4, menuLabels.length, "there are 4 menu items");
 					}
 				},
 				{
@@ -116,70 +111,135 @@
 						var cp2 = new dijit.layout.ContentPane({
 						         title: "newTab2",
 						         content: "tab 1 content"
-						    });
+							});
 						tc.addChild(cp2);
 						
 						var left = dojo.byId("dijit_layout__ScrollingTabControllerButton_1-leftBtn");
-						t.assertTrue(left);
-						
-						var right = dojo.byId("dijit_layout__ScrollingTabControllerButton_2-rightBtn");
-						t.assertTrue(right);
-						
+						var right = dojo.byId("dijit_layout__ScrollingTabControllerButton_2-rightBtn");						
 						var menu = dojo.byId("dijit_layout__ScrollingTabControllerButton_0-menuBtn");
-						t.assertTrue(menu);
+
+						t.assertTrue(left, "verify left scroll button exists");
+						t.assertTrue(right, "verify right scroll button exists");
+						t.assertTrue(menu, "verify dropdown menu button exists");
 					}
 				}
 			]);
-			
+			doh.register( "selectingTabs", [
+				{
+					name: 'isVisible',
+					runTest: function(t){
+						var cpLeft = dojo.byId("dijit_layout__ScrollingTabControllerButton_1-leftBtn");
+						var left = dojo.coords( cpLeft ).x + dojo.coords( cpLeft ).w;
+						
+						var cpRight = dojo.byId("dijit_layout__ScrollingTabControllerButton_2-rightBtn");
+						var right = dojo.coords( cpRight ).x;
+	
+						var tc = dijit.byId("tc1");
+						var cp = dijit.byId("tc1_tablist_dijit_layout_ContentPane_11");
+						tc.selectChild(cp);
+					
+						var cpLeft = dojo.coords( cp.domNode ).x;
+						var cpRight = dojo.coords( cp.domNode ).x + dojo.coords( cp.domNode ).w;
+						
+						var isTabVisible = ((cpLeft > left) || (cpRight < right)); 
+
+						t.assertTrue( isTabVisible, "verify chosen tab is in viewable area" );
+					}
+				}
+			]);
+			doh.register( "icons", [
+				{
+					name: "initialIcon",
+					runTest: function(t){
+						var cp =  dijit.byId("cp4");
+						var menuTitle = dijit.byId("dijit_MenuItem_13").label;
+						
+						t.assertEqual('plusIcon', cp.controlButton.iconClass, "an icon image is displayed");
+						t.assertEqual('plus', menuTitle, "the menu's text label is 'plus'");
+					}
+				},
+				{
+					name: "changeIcon",
+					runTest: function(t){
+						var cp =  dijit.byId("cp4");
+						cp.attr("iconClass", "noteIcon"); 
+						cp.attr("title", "note");
+						
+						var menuTitle = dijit.byId("dijit_MenuItem_13").label;
+						
+						t.assertEqual('noteIcon', cp.controlButton.iconClass, "new icon is displayed in tab");
+						t.assertEqual('plus', menuTitle, "the menu's text label has changed");
+					}
+				},
+				{
+					name: "noTitle",
+					runTest: function(t){
+						var cp =  dijit.byId("cp7");
+						t.assertFalse(cp.controlButton.showLabel, "an icon exists, but there is no text label");
+					}
+				}
+			]);
+			doh.register( "changeTabName", [
+				{
+					name: 'changeName',
+					runTest: function(t){
+						var cp = dijit.byId('cpTitle');
+						cp.attr('title', 'newTitle');
+						
+						var title = dojo.query("#tc1_tablist_cpTitle span.tabLabel")[0];
+						var menuTitle = dijit.byId("dijit_MenuItem_0").label;
+						
+						t.assertEqual('newTitle', title.textContent, "the tab's text label has changed");
+						t.assertEqual('newTitle', menuTitle, "the menu's text label has changed");
+					}
+				}
+			]);
 			doh.register( "deletingTabs", [
 				{
 					name: 'deleteTab',
 					runTest: function(t){
-						var tc2 = dijit.byId("tc2");
-						var cp1 = dijit.byId("cp1");
+						var tc1 = dijit.byId("tc1");
+						var cp = dijit.byId("cpTitle");
 						
-						tc2.removeChild(cp1);
+						tc1.removeChild(cp);
 						
-						var childPanes = tc2.getChildren();
-						t.assertEqual(2, childPanes.length);
-						t.assertTrue(cp1.domNode);
+						var childPanes = tc1.getChildren();
+						var menuLabels = dijit.byId("tc1_tablist_menu").getChildren();
+						
+						t.assertEqual(4, childPanes.length, "verify there are now only 4 tabs instead of 5");
+						t.assertEqual(4,  menuLabels.length, "verify there are now only 4 menu items instead of 5");
+						t.assertTrue(cp.domNode, "verify that the deleted tab's content pane still exists on the page");
 					}
 				},
 				{
 					name: 'deletedTabLabel',
 					runTest: function(t){
-						var label = dojo.byId("#tc2 #tc2_tablist_cp1");
+						var label = dojo.byId("#tc1_tablist_cpTitle");
 						
-						t.assertFalse(label);
+						t.assertFalse(label, "verify that deleted tab's label does not exist");
 					}
 				},
 				{
 					name: 'removedOverflowMenu',
 					runTest: function(t){
-						var tc = dijit.byId("tc1");
+						var tc = dijit.byId("tc3");
 						
-						var cp = dijit.byId('t3');
+						var cp = dijit.byId('cp10');
+						tc.removeChild(cp);	
+						cp = dijit.byId('cp9');
 						tc.removeChild(cp);
+						cp = dijit.byId('cp8');
+						tc.removeChild(cp);
+						cp = dijit.byId('cp7');
+						tc.removeChild(cp);			
 						
-						var left = dojo.byId("dijit_layout__ScrollingTabControllerButton_1-leftBtn");
-						t.assertEqual("none", dojo.style(left, "display"));
+						var left = dojo.byId("dijit_layout__ScrollingTabControllerButton_7-leftBtn");
+						var right = dojo.byId("dijit_layout__ScrollingTabControllerButton_8-rightBtn");
+						var menu = dojo.byId("dijit_layout__ScrollingTabControllerButton_6-menuBtn");
 						
-						var right = dojo.byId("dijit_layout__ScrollingTabControllerButton_2-rightBtn");
-						t.assertEqual("none", dojo.style(right, "display"));
-						
-						var menu = dojo.byId("dijit_layout__ScrollingTabControllerButton_0-menuBtn");
-						t.assertEqual("none", dojo.style(menu, "display"));
-					}
-				}
-			]);
-			
-			doh.register( "selectingTabs", [
-				{
-					name: 'focused',
-					runTest: function(t){
-						var tc = dijit.byId("tc2");
-						var cp = dijit.byId('cp2');
-						t.assertEqual(dojo.global.dijit._curFocus, dojo.byId("tc2_tablist_cp2"));
+						t.assertEqual("none", dojo.style(left, "display"), "left is hidden");
+						t.assertEqual("none", dojo.style(right, "display"), "right is hidden");
+						t.assertEqual("none", dojo.style(menu, "display"), "menu is hidden");
 					}
 				}
 			]);
@@ -190,67 +250,27 @@
 						var cp = dijit.byId("cp6");
 						var cp2 = dijit.byId("cp5");
 						
-						t.assertTrue(cp.controlButton.closeButton);
-						t.assertFalse(cp2.controlButton.closeButton);
+						t.assertTrue(cp.controlButton.closeButton, "close button is displayed");
+						t.assertFalse(cp2.controlButton.closeButton, "close button is displayed");
 					}
 				}
-			]);
-			doh.register( "icon", [
-				{
-					name: "initialIcon",
-					runTest: function(t){
-						var cp =  dijit.byId("cp4");
-						t.assertEqual('plusIcon', cp.controlButton.iconClass);
-					}
-				},
-				{
-					name: "changeIcon",
-					runTest: function(t){
-						var cp =  dijit.byId("cp4");
-						cp.attr("iconClass", "noteIcon") 
-						t.assertEqual('noteIcon', cp.controlButton.iconClass);
-					}
-				},
-				{
-					name: "noTitle",
-					runTest: function(t){
-						var cp =  dijit.byId("cp7");
-						t.assertFalse(cp.controlButton.showLabel);
-					}
-				}
-			]);
-			/*
-			doh.register( "changeTabName", [
-				{
-					name: 'changeName',
-					runTest: function(t){
-						var cp = dijit.byId('cp1');
-						cp.attr('title', 'newTitle');
-						
-						var tc = dijit.byId("tc2");
-						tc.selectChild(cp);
-						console.log(tc.showTitle);
-					}
-				}
-			]);			
-			*/
+			]);		
 			doh.register( "layoutTests", [
 				{
 					name: "topLeftRightBottom",
 					runTest: function(t){
 						var tc = dijit.byId("tc1");
 						
-						t.assertEqual('top', tc.tabPosition);
+						t.assertEqual('top', tc.tabPosition, "tabs are on the top of the container");
 						
 						tc.attr("tabPosition", "left");						
-						t.assertEqual('left', tc.tabPosition);
+						t.assertEqual('left', tc.tabPosition, "tabs are on the left of the container");
 						
 						tc.attr("tabPosition", "right");						
-						t.assertEqual('right', tc.tabPosition);
+						t.assertEqual('right', tc.tabPosition, "tabs are on the right of the container");
 						
 						tc.attr("tabPosition", "bottom");						
-						t.assertEqual('bottom', tc.tabPosition);
-						console.debug(tc);
+						t.assertEqual('bottom', tc.tabPosition, "tabs are on the bottom of the container");
 					}
 				},
 				{
@@ -258,12 +278,12 @@
 					runTest: function(t){
 						var tc = dijit.byId("tcNested");
 						
-						t.assertFalse(tc.nested);
+						t.assertFalse(tc.nested, "parent TabContainer is not nested");
 						
 						var children = tc.getChildren();
-						t.assertEqual(2, children.length);
+						t.assertEqual(2, children.length, "parent TabContainer has multiple children");
 						
-						t.assertTrue(children[1].nested);
+						t.assertTrue(children[1].nested, "second child of parent TabContainer has nested tabs");
 					}
 				},
 				{
@@ -276,11 +296,11 @@
 						var height1 = cps[0]._contentBox.h;
 						var height2 = cps[1]._contentBox.h;
 						
-						t.assertTrue(height1 < height2);
+						t.assertTrue(height1 < height2, "height changes with the content length");
 					}
 				},
 				{
-					name: "doLayoutTure",
+					name: "doLayoutTrue",
 					runTest: function(t){
 						var tc = dijit.byId("tc3");
 						var cps = tc.getChildren();
@@ -289,12 +309,28 @@
 						var height1 = cps[0]._contentBox.h;
 						var height2 = cps[1]._contentBox.h;
 						
-						t.assertTrue(height1 === height2);
+						t.assertTrue(height1 === height2, "height does not change with the content length");
 					}
 				}
 				
 			]);
-			
+			doh.register( "destroy widget", [
+				{
+					name: 'destroyRecursive',
+					runTest: function(t){
+						var tcAmount = dijit.registry.byClass("dijit.layout.TabContainer").length - 1;
+
+						var tc = dijit.byId("tc1");
+						tc.destroyRecursive();
+						
+						var tc1 = dojo.query("#tc1");
+						var tcNewAmount = dijit.registry.byClass("dijit.layout.TabContainer").length;
+
+						t.assertEqual(0, tc1.length, "the html for the TabContainer is removed from the page");
+						t.assertEqual(tcAmount, tcNewAmount, "the amount of TabContainers on the page");
+					}
+				}
+			]);
 			doh.run();
 
 		});
@@ -306,7 +342,7 @@
 	<h1 class="testTitle">Dijit layout.TabContainer tests</h1>
 	
 	<div dojoType="dijit.layout.TabContainer" style="width: 30%; height: 100px;" id="tc1">
-	  <div dojoType="dijit.layout.ContentPane" title="tab1" selected="true">
+	  <div dojoType="dijit.layout.ContentPane" title="tab1" id="cpTitle" selected="true">
 	    Lorem ipsum and all around...
 	  </div>
 	  <div dojoType="dijit.layout.ContentPane" title="tab2">
@@ -330,22 +366,31 @@
 	</div>
 	
 	<div dojoType="dijit.layout.TabContainer" style="width: 30%; height: 100px;" id="tc3">
-	  <div dojoType="dijit.layout.ContentPane" id="cp4" title="tab1" selected="true" iconClass="plusIcon">
-	    Lorem ipsum and all around...
-	  </div>
-	  <div dojoType="dijit.layout.ContentPane" id="cp5" title="tab2">
+	  	<div dojoType="dijit.layout.ContentPane" id="cp4" title="tab1" selected="true" iconClass="plusIcon">
+	    	Lorem ipsum and all around...
+	  	</div>
+	  	<div dojoType="dijit.layout.ContentPane" id="cp5" title="tab2">
 	    	 Lorem ipsum and all around - last...
 	            <br />
 	            <br />
 	            <br />
 	            Hmmm even more expanding tabs......
-	  </div>
-	  <div dojoType="dijit.layout.ContentPane" id="cp6" title="tab3" closable="true">
-	    Lorem ipsum and all around - last...
-	  </div>
-	<div dojoType="dijit.layout.ContentPane" id="cp7" title="tab3" closable="true" iconClass="plusIcon" showTitle="false">
-	    Lorem ipsum and all around - last...
-	  </div>
+	  	</div>
+	  	<div dojoType="dijit.layout.ContentPane" id="cp6" title="tab3" closable="true">
+	    	Lorem ipsum and all around - last...
+	  	</div>
+		<div dojoType="dijit.layout.ContentPane" id="cp7" title="plus" closable="true" iconClass="plusIcon" showTitle="false">
+	    	Lorem ipsum and all around - last...
+	  	</div>
+		<div dojoType="dijit.layout.ContentPane" id="cp8" title="tab4" closable="true">
+	    	Lorem ipsum and all around - last...
+	  	</div>
+		<div dojoType="dijit.layout.ContentPane" id="cp9" title="tab5" closable="true">
+	    	Lorem ipsum and all around - last...
+	  	</div>
+		<div dojoType="dijit.layout.ContentPane" id="cp10" title="tab6" closable="true">
+	    	Lorem ipsum and all around - last...
+	  	</div>
 	</div>
 	
 	<div dojoType="dijit.layout.TabContainer" style="width: 400px; height: 100px;" id="tcNested">
