@@ -21,8 +21,6 @@
 
 			dojo.addOnLoad(function(){
 				doh.robot.initRobot('../test_TabContainer.html');
-				
-				//run these tests on tabConctainer 1 (tc1)
 				doh.register("keyboard tests",[
 					{
 						name: "focus on first tab",
@@ -30,13 +28,13 @@
 						runTest: function(t){
 								var d = new doh.Deferred();
 								doh.robot.sequence(function(){
-									dojo.byId("firstButton").focus();
+									dojo.query("button")[0].focus();
 								}, 500, 500);
 								
 								doh.robot.keyPress(dojo.keys.TAB, 500, {});
 								
 								doh.robot.sequence(d.getTestCallback(function(){
-									doh.is(dojo.global.dijit._curFocus.id, 'mainTabContainer_tablist_tab2');
+									doh.is("mainTabContainer_tablist_tab2", dojo.global.dijit._curFocus.id, "tabbing to focuses on selected Tab");
 								}), 500);
 
 								return d;
@@ -130,7 +128,6 @@
 								var d = new doh.Deferred();
 								
 								doh.robot.sequence(function(){
-									// TODO: there's no such thing to focus on, this gets an error
 									dojo.byId("mainTabContainer_tablist_tab3href").focus();
 								}, 500, 500);
 								
@@ -173,7 +170,7 @@
 								var d = new doh.Deferred();
 								
 								doh.robot.sequence(function(){
-									dojo.byId("mainTabContainer_tablist_tab3href").focus();
+									dojo.byId("mainTabContainer_tablist_tab1").focus();
 								}, 500, 500);
 								
 								doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 500, {});
