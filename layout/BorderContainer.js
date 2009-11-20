@@ -104,13 +104,10 @@ dojo.declare(
 			// insert dummy div just for spacing
 			if((child.splitter || this.gutters) && !this._splitters[region]){
 				var _Splitter = dojo.getObject(child.splitter ? this._splitterClass : "dijit.layout._Gutter");
-				var flip = {left:'right', right:'left', top:'bottom', bottom:'top', leading:'trailing', trailing:'leading'};
 				var splitter = new _Splitter({
 					container: this,
 					child: child,
 					region: region,
-//					oppNode: dojo.query('[region=' + flip[child.region] + ']', this.domNode)[0],
-					oppNode: this["_" + flip[child.region]],
 					live: this.liveSplitters
 				});
 				splitter.isSplitter = true;
@@ -139,7 +136,7 @@ dojo.declare(
 		// Override _LayoutWidget.addChild().
 		this.inherited(arguments);
 		if(this._started){
-			this._layoutChildren(); //OPT
+			this.layout(); //OPT
 		}
 	},
 
@@ -460,11 +457,6 @@ dojo.declare("dijit.layout._Splitter", [ dijit._Widget, dijit._Templated ],
 //		dojo.setSelectable(this.domNode, false); //TODO is this necessary?
 
 		this._factor = /top|left/.test(this.region) ? 1 : -1;
-		this._minSize = this.child.minSize;
-
-		// trigger constraints calculations
-		this.child.domNode._recalc = true;
-		this.connect(this.container, "resize", function(){ this.child.domNode._recalc = true; });
 
 		this._cookieName = this.container.id + "_" + this.region;
 		if(this.container.persist){
@@ -477,20 +469,27 @@ dojo.declare("dijit.layout._Splitter", [ dijit._Widget, dijit._Templated ],
 	},
 
 	_computeMaxSize: function(){
+		// summary:
+		//		Compute the maximum size that my corresponding pane can be set to
+
 		var dim = this.horizontal ? 'h' : 'w',
 			thickness = this.container._splitterThickness[this.region];
+			
+		// Get DOMNode of opposite pane, if an opposite pane exists.
+		// Ex: if I am the _Splitter for the left pane, then get the right pane.
+		var flip = {left:'right', right:'left', top:'bottom', bottom:'top', leading:'trailing', trailing:'leading'},
+			oppNode = this.container["_" + flip[this.region]];
+		
+		// I can expand up to the edge of the opposite pane, or if there's no opposite pane, then to
+		// edge of BorderContainer
 		var available = dojo.contentBox(this.container.domNode)[dim] -
-			(this.oppNode ? dojo.marginBox(this.oppNode)[dim] : 0) -
-			20 - thickness * 2;
-		this._maxSize = Math.min(this.child.maxSize, available);
+				(oppNode ? dojo.marginBox(oppNode)[dim] : 0) -
+				20 - thickness * 2;
+
+		return Math.min(this.child.maxSize, available);
 	},
 
 	_startDrag: function(e){
-		if(this.child.domNode._recalc){
-			this._computeMaxSize();
-			this.child.domNode._recalc = false;
-		}
-
 		if(!this.cover){
 			this.cover = dojo.doc.createElement('div');
 			dojo.addClass(this.cover, "dijitSplitterCover");
@@ -515,8 +514,8 @@ dojo.declare("dijit.layout._Splitter", [ dijit._Widget, dijit._Templated ],
 
 		//Performance: load data info local vars for onmousevent function closure
 		var factor = this._factor,
-			max = this._maxSize,
-			min = this._minSize || 20,
+			max = this._computeMaxSize(),
+			min = this.child.minSize || 20,
 			isHorizontal = this.horizontal,
 			axis = isHorizontal ? "pageY" : "pageX",
 			pageStart = e[axis],
@@ -571,7 +570,6 @@ dojo.declare("dijit.layout._Splitter", [ dijit._Widget, dijit._Templated ],
 			this._drag(e, true);
 		}finally{
 			this._cleanupHandlers();
-			if(this.oppNode){ this.oppNode._recalc = true; }
 			delete this._drag;
 		}
 
@@ -586,11 +584,6 @@ dojo.declare("dijit.layout._Splitter", [ dijit._Widget, dijit._Templated ],
 	},
 
 	_onKeyPress: function(/*Event*/ e){
-		if(this.child.domNode._recalc){
-			this._computeMaxSize();
-			this.child.domNode._recalc = false;
-		}
-
 		// should we apply typematic to this?
 		this._resize = true;
 		var horizontal = this.horizontal;
@@ -608,9 +601,8 @@ dojo.declare("dijit.layout._Splitter", [ dijit._Widget, dijit._Templated ],
 		}
 		var childSize = dojo.marginBox(this.child.domNode)[ horizontal ? 'h' : 'w' ] + this._factor * tick;
 		var mb = {};
-		mb[ this.horizontal ? "h" : "w"] = Math.max(Math.min(childSize, this._maxSize), this._minSize);
+		mb[ this.horizontal ? "h" : "w"] = Math.max(Math.min(childSize, this._computeMaxSize()), this.child.minSize);
 		dojo.marginBox(this.child.domNode, mb);
-		if(this.oppNode){ this.oppNode._recalc = true; }
 		this.container._layoutChildren(this.region);
 		dojo.stopEvent(e);
 	},
