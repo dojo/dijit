@@ -132,7 +132,7 @@
 								}, 500, 500);
 								
 								doh.robot.keyPress(dojo.keys.LEFT_ARROW, 500, {});
-								doh.robot.keyPress(dojo.keys.TAB, 500, {});
+								doh.robot.keyPress(dojo.keys.TAB, 1000, {});	// 1000ms to give IE8 time to complete slide animation
 								
 								//verify that the second tab in Tab 1 is still focused
 								doh.robot.sequence(d.getTestCallback(function(){
