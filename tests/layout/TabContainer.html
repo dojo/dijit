@@ -73,7 +73,7 @@
 				name: 'checkTabLabels',
 				runTest: function(t){
 					var tabLabels = dojo.query("#tc1 .tabLabel");
-					t.assertEqual(3, tabLabels.length);
+					t.assertEqual(4, tabLabels.length);
 				}
 			}
 			]);
@@ -92,8 +92,8 @@
 						var tabLabels = dijit.byId("tc1").getChildren();
 						var menuLabels = dijit.byId("tc1_tablist_menu").getChildren();
 						
-						t.assertEqual(4, tabLabels.length, "there are 4 tabs");
-						t.assertEqual(4, menuLabels.length, "there are 4 menu items");
+						t.assertEqual(5, tabLabels.length, "there are 4 tabs");
+						t.assertEqual(5, menuLabels.length, "there are 4 menu items");
 					}
 				},
 				{
@@ -114,29 +114,41 @@
 						t.assertTrue(left, "verify left scroll button exists");
 						t.assertTrue(right, "verify right scroll button exists");
 						t.assertTrue(menu, "verify dropdown menu button exists");
+							
+						t.assertTrue(isVisible(left), "left scroll is displayed");
+						t.assertTrue(isVisible(right), "right scroll is displayed");
+						t.assertTrue(isVisible(menu), "menu is displayed");	
 					}
 				}
 			]);
 			doh.register("selectingTabs", [
 				{
 					name: 'isVisible',
+					timeout: 10000,
 					runTest: function(t){
-						var cpLeft = dojo.byId("dijit_layout__ScrollingTabControllerButton_1-leftBtn");
-						var left = dojo.coords(cpLeft).x + dojo.coords(cpLeft).w;
+						var d = new doh.Deferred();
 						
-						var cpRight = dojo.byId("dijit_layout__ScrollingTabControllerButton_2-rightBtn");
-						var right = dojo.coords(cpRight).x;
-	
 						var tc = dijit.byId("tc1");
-						var cp = dijit.byId("tc1_tablist_dijit_layout_ContentPane_11");
-						tc.selectChild(cp);
-					
-						var cpLeft = dojo.coords(cp.domNode).x;
-						var cpRight = dojo.coords(cp.domNode).x + dojo.coords(cp.domNode).w;
-						
-						var isTabVisible = ((cpLeft > left) || (cpRight < right)); 
+						var cp = dijit.byId("dijit_layout_ContentPane_11");
 
-						t.assertTrue(isTabVisible, "verify chosen tab is in viewable area");
+						tc.selectChild(cp);
+						
+						setTimeout(d.getTestCallback(function(){
+								var cpLeft = dojo.byId("dijit_layout__ScrollingTabControllerButton_1-leftBtn");
+								var left = dojo.coords(cpLeft).x + dojo.coords(cpLeft).w;
+
+								var cpRight = dojo.byId("dijit_layout__ScrollingTabControllerButton_2-rightBtn");
+								var right = dojo.coords(cpRight).x;
+
+								var tab = dijit.byId("tc1_tablist_dijit_layout_ContentPane_11");
+								var tabLeft = dojo.coords(tab.domNode).x;
+								var tabRight = dojo.coords(tab.domNode).x + dojo.coords(tab.domNode).w;
+								
+								var isTabVisible = ((tabLeft > left) && (tabRight < right));
+								doh.t(isTabVisible, "verify chosen tab is in viewable area");
+						}), 1000);
+						
+						return d;
 					}
 				}
 			]);
@@ -145,7 +157,7 @@
 					name: "initialIcon",
 					runTest: function(t){
 						var cp =  dijit.byId("cp4");
-						var menuTitle = dijit.byId("dijit_MenuItem_13").label;
+						var menuTitle = dijit.byId("dijit_MenuItem_15").label;
 						
 						t.assertEqual('plusIcon', cp.controlButton.iconClass, "an icon image is displayed");
 						t.assertEqual('plus', menuTitle, "the menu's text label is 'plus'");
@@ -158,7 +170,7 @@
 						cp.attr("iconClass", "noteIcon"); 
 						cp.attr("title", "note");
 						
-						var menuTitle = dijit.byId("dijit_MenuItem_13").label;
+						var menuTitle = dijit.byId("dijit_MenuItem_15").label;
 						
 						t.assertEqual('noteIcon', cp.controlButton.iconClass, "new icon is displayed in tab");
 						t.assertEqual('plus', menuTitle, "the menu's text label has changed");
@@ -199,8 +211,8 @@
 						var childPanes = tc1.getChildren();
 						var menuLabels = dijit.byId("tc1_tablist_menu").getChildren();
 						
-						t.assertEqual(4, childPanes.length, "verify there are now only 4 tabs instead of 5");
-						t.assertEqual(4,  menuLabels.length, "verify there are now only 4 menu items instead of 5");
+						t.assertEqual(5, childPanes.length, "verify there are now only 4 tabs instead of 5");
+						t.assertEqual(5,  menuLabels.length, "verify there are now only 4 menu items instead of 5");
 						t.assertTrue(cp.domNode, "verify that the deleted tab's content pane still exists on the page");
 					}
 				},
@@ -230,9 +242,9 @@
 						var right = dojo.byId("dijit_layout__ScrollingTabControllerButton_8-rightBtn");
 						var menu = dojo.byId("dijit_layout__ScrollingTabControllerButton_6-menuBtn");
 						
-						t.assertEqual("none", dojo.style(left, "display"), "left is hidden");
-						t.assertEqual("none", dojo.style(right, "display"), "right is hidden");
-						t.assertEqual("none", dojo.style(menu, "display"), "menu is hidden");
+						t.assertTrue(isHidden(left), "left scroll is hidden");
+						t.assertTrue(isHidden(right), "right scroll is hidden");
+						t.assertTrue(isHidden(menu), "menu is hidden");
 					}
 				}
 			]);
@@ -334,7 +346,7 @@
 
 	<h1 class="testTitle">Dijit layout.TabContainer tests</h1>
 	
-	<div dojoType="dijit.layout.TabContainer" style="width: 30%; height: 100px;" id="tc1">
+	<div dojoType="dijit.layout.TabContainer" style="width: 300px; height: 100px;" id="tc1">
 	  <div dojoType="dijit.layout.ContentPane" title="tab1" id="cpTitle" selected="true">
 	    Lorem ipsum and all around...
 	  </div>
@@ -344,9 +356,12 @@
 	  <div dojoType="dijit.layout.ContentPane" id="t3" title="tab3" closable="true">
 	    Lorem ipsum and all around - last...
 	  </div>
+		 <div dojoType="dijit.layout.ContentPane" title="tab4" closable="true">
+		    Lorem ipsum and all around - last...
+		  </div>
 	</div>
 	
-	<div dojoType="dijit.layout.TabContainer" style="width: 30%; height: 100px;" id="tc2">
+	<div dojoType="dijit.layout.TabContainer" style="width: 300px; height: 100px;" id="tc2">
 	  <div dojoType="dijit.layout.ContentPane" id="cp1" title="tab1" selected="true">
 	    Lorem ipsum and all around...
 	  </div>
@@ -358,7 +373,7 @@
 	  </div>
 	</div>
 	
-	<div dojoType="dijit.layout.TabContainer" style="width: 30%; height: 100px;" id="tc3">
+	<div dojoType="dijit.layout.TabContainer" style="width: 300px; height: 100px;" id="tc3">
 	  	<div dojoType="dijit.layout.ContentPane" id="cp4" title="tab1" selected="true" iconClass="plusIcon">
 	    	Lorem ipsum and all around...
 	  	</div>
