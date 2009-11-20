@@ -51,12 +51,12 @@
 								}, 500, 500);
 								
 								doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 500, {});
-								var tc = dijit.byId("mainTabContainer");
 								
 								doh.robot.sequence(d.getTestCallback(function(){
+									var tc = dijit.byId("mainTabContainer");
 									doh.is('mainTabContainer_tablist_tab3', dojo.global.dijit._curFocus.id, "currently chosen tab");
 									doh.is("tab3", tc.selectedChildWidget.id, "currently displayed pane");
-								}), 500);
+								}), 750);
 								return d;
 						}
 					},
@@ -72,7 +72,7 @@
 								doh.robot.sequence(d.getTestCallback(function(){
 									doh.is('mainTabContainer_tablist_tab2', dojo.global.dijit._curFocus.id, "currently chosen tab");
 									doh.is("tab2", tc.selectedChildWidget.id, "currently chosen pane");
-								}), 500);
+								}), 750);
 								
 								return d;
 						}
@@ -90,8 +90,8 @@
 								}, 500, 500);
 								
 								doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 500, {});
-								doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 500, {});
-								doh.robot.keyPress(dojo.keys.TAB, 500, {});
+								doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 750, {});
+								doh.robot.keyPress(dojo.keys.TAB, 750, {});
 								
 								doh.robot.sequence(d.getTestCallback(function(){
 									doh.is('inlined_tablist_tab2href', dojo.global.dijit._curFocus.id);
@@ -111,13 +111,13 @@
 								}, 500, 500);
 								
 								doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 500, {});
-								doh.robot.keyPress(dojo.keys.TAB, 500, {shift:true});
+								doh.robot.keyPress(dojo.keys.TAB, 750, {shift:true});
 								doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 500, {});
 								
 								//verify that we can navigate to the top menu from a nested tab container
 								doh.robot.sequence(d.getTestCallback(function(){
 									doh.is('mainTabContainer_tablist_tab3href', dojo.global.dijit._curFocus.id);
-								}), 500);
+								}), 750);
 								return d;
 						}
 					},
@@ -132,7 +132,7 @@
 								}, 500, 500);
 								
 								doh.robot.keyPress(dojo.keys.LEFT_ARROW, 500, {});
-								doh.robot.keyPress(dojo.keys.TAB, 1000, {});	// 1000ms to give IE8 time to complete slide animation
+								doh.robot.keyPress(dojo.keys.TAB, 750, {});	// give IE8 time to complete slide animation
 								
 								//verify that the second tab in Tab 1 is still focused
 								doh.robot.sequence(d.getTestCallback(function(){
@@ -153,7 +153,7 @@
 								}, 500, 500);
 								
 								doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 500, {});
-								doh.robot.keyPress(dojo.keys.DELETE, 500, {});
+								doh.robot.keyPress(dojo.keys.DELETE, 750, {});
 
 								var tc = dijit.byId("mainTabContainer");
 								doh.robot.sequence(d.getTestCallback(function(){
@@ -174,8 +174,8 @@
 								}, 500, 500);
 								
 								doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 500, {});
-								doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 500, {});
-								doh.robot.keyPress("w", 500, {ctrl:true});
+								doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 750, {});
+								doh.robot.keyPress("w", 750, {ctrl:true});
 								
 								var tc = dijit.byId("mainTabContainer");
 								doh.robot.sequence(d.getTestCallback(function(){
@@ -191,8 +191,8 @@
 								var d = new doh.Deferred();
 								
 								doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 500, {});
-								doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 500, {});
-								doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 500, {});
+								doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 750, {});
+								doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 750, {});
 								
 								// open via keyboard
 								if(dojo.isMac){
