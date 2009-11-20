@@ -1820,7 +1820,6 @@ div.dijitTabBtnDisabled img {
 }
 
 /* basic readonly/disabled text color rules for form widgets */
-.dj_webkit INPUT.dijitTextBoxReadOnly, /* overrides non-INPUT lightgray below needed for DIV/SPAN */
 .dijitTextBoxReadOnly,
 .dijitComboBoxReadOnly,
 .dijitSpinnerReadOnly,
@@ -1831,12 +1830,9 @@ div.dijitTabBtnDisabled img {
 .dijitTextAreaDisabled {
 	color: gray;
 }
-.dj_webkit .dijitTextBoxReadOnly,
-.dj_webkit .dijitTextBoxDisabled,
-.dj_webkit .dijitComboBoxReadOnly,
-.dj_webkit .dijitSpinnerReadOnly,
-.dj_webkit .dijitComboBoxDisabled,
-.dj_webkit .dijitSpinnerDisabled {
+.dj_webkit .dijitTextBoxDisabled INPUT,
+.dj_webkit .dijitComboBoxDisabled INPUT,
+.dj_webkit .dijitSpinnerDisabled INPUT {
 	color: #eee;
 }
 .dj_webkit INPUT.dijitTextBoxDisabled,

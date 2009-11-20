@@ -424,14 +424,28 @@
 			</script>
 
 			<div class="dojoTitlePaneLabel">
-				<label for="q24">readOnly test</label>
-				<span class="noticeMessage">a test that readOnly is understood</span>
+				<label for="q24">initially readOnly TextBox</label>
+				<span class="noticeMessage">a test that readOnly and disabled are understood for TextBox</span>
 			</div>
 			<div class="testExample">
 				<input id="q24" type="text" name="readOnly" class="medium" readOnly value="cannot type here"
 					dojoType="dijit.form.TextBox">
 				<input type="button" id="removereadonly" onclick="dijit.byId('q24').attr('readOnly',false);" value="Remove readOnly">
 				<input type="button" onclick="dijit.byId('q24').attr('readOnly',true);" value="Set readOnly">
+				<input type="button" id="removedisabled" onclick="dijit.byId('q24').attr('disabled',false);" value="Remove disabled">
+				<input type="button" onclick="dijit.byId('q24').attr('disabled',true);" value="Set disabled">
+			</div>
+			<div class="dojoTitlePaneLabel">
+				<label for="q25">initially disabled ValidationTextBox</label>
+				<span class="noticeMessage">a test that disabled is understood for ValidationTextBox</span>
+			</div>
+			<div class="testExample">
+				<input id="q25" type="text" name="disabled" class="medium" disabled value="cannot type here"
+					dojoType="dijit.form.ValidationTextBox">
+				<input type="button" onclick="dijit.byId('q25').attr('readOnly',false);" value="Remove readOnly">
+				<input type="button" onclick="dijit.byId('q25').attr('readOnly',true);" value="Set readOnly">
+				<input type="button" onclick="dijit.byId('q25').attr('disabled',false);" value="Remove disabled">
+				<input type="button" onclick="dijit.byId('q25').attr('disabled',true);" value="Set disabled">
 			</div>
 
 		        <script>

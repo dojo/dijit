@@ -485,6 +485,10 @@
 				promptMessage="Please enter a state"
 				invalidMessage="Invalid state name."
 		>
+		<input type="button" onclick="dijit.byId('labelFunc').attr('readOnly',false);" value="Remove readOnly">
+		<input type="button" onclick="dijit.byId('labelFunc').attr('readOnly',true);" value="Set readOnly">
+		<input type="button" onclick="dijit.byId('labelFunc').attr('disabled',false);" value="Remove disabled">
+		<input type="button" onclick="dijit.byId('labelFunc').attr('disabled',true);" value="Set disabled">
 		<hr>
 		<input type="button" value="Create one in a window" onclick="var win=window.open(window.location);">
 		<input type="submit">

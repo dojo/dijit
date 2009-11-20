@@ -99,6 +99,10 @@
 				maxLength="20"
 				name="spinnerMinOnly"
 				id="spinnerMinOnly">
+			<input type="button" onclick="dijit.byId('spinnerMinOnly').attr('readOnly',false);" value="Remove readOnly">
+			<input type="button" onclick="dijit.byId('spinnerMinOnly').attr('readOnly',true);" value="Set readOnly">
+			<input type="button" onclick="dijit.byId('spinnerMinOnly').attr('disabled',false);" value="Remove disabled">
+			<input type="button" onclick="dijit.byId('spinnerMinOnly').attr('disabled',true);" value="Set disabled">
 			</p>
 			<p>
 			<script type="text/javascript">
