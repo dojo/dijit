@@ -7,14 +7,6 @@
 	<style>
 		@import "../../../dojo/resources/dojo.css";
 		@import "../css/dijitTests.css";
-
-		.box {
-		  position: relative;
-			background-color: white;
-			border: 2px solid black;
-			padding: 8px;
-			margin: 4px;
-		}
 	</style>
 
 	<!-- required: the default dijit theme: -->
@@ -23,6 +15,7 @@
 	<!-- required: dojo.js -->
 	<script type="text/javascript" src="../../../dojo/dojo.js"
 		djConfig="isDebug: true, parseOnLoad: true"></script>
+	<script type="text/javascript" src="../helpers.js"></script>
 
 	<!-- only needed for alternate theme testing: do NOT use in your code! -->
 	<script type="text/javascript" src="../_testCommon.js"></script>
@@ -85,7 +78,7 @@
 			}
 			]);
 			
-			doh.register( "addingTabs", [
+			doh.register("addingTabs", [
 				{
 					name: 'add new tab',
 					runTest: function(t){
@@ -124,30 +117,30 @@
 					}
 				}
 			]);
-			doh.register( "selectingTabs", [
+			doh.register("selectingTabs", [
 				{
 					name: 'isVisible',
 					runTest: function(t){
 						var cpLeft = dojo.byId("dijit_layout__ScrollingTabControllerButton_1-leftBtn");
-						var left = dojo.coords( cpLeft ).x + dojo.coords( cpLeft ).w;
+						var left = dojo.coords(cpLeft).x + dojo.coords(cpLeft).w;
 						
 						var cpRight = dojo.byId("dijit_layout__ScrollingTabControllerButton_2-rightBtn");
-						var right = dojo.coords( cpRight ).x;
+						var right = dojo.coords(cpRight).x;
 	
 						var tc = dijit.byId("tc1");
 						var cp = dijit.byId("tc1_tablist_dijit_layout_ContentPane_11");
 						tc.selectChild(cp);
 					
-						var cpLeft = dojo.coords( cp.domNode ).x;
-						var cpRight = dojo.coords( cp.domNode ).x + dojo.coords( cp.domNode ).w;
+						var cpLeft = dojo.coords(cp.domNode).x;
+						var cpRight = dojo.coords(cp.domNode).x + dojo.coords(cp.domNode).w;
 						
 						var isTabVisible = ((cpLeft > left) || (cpRight < right)); 
 
-						t.assertTrue( isTabVisible, "verify chosen tab is in viewable area" );
+						t.assertTrue(isTabVisible, "verify chosen tab is in viewable area");
 					}
 				}
 			]);
-			doh.register( "icons", [
+			doh.register("icons", [
 				{
 					name: "initialIcon",
 					runTest: function(t){
@@ -179,7 +172,7 @@
 					}
 				}
 			]);
-			doh.register( "changeTabName", [
+			doh.register("changeTabName", [
 				{
 					name: 'changeName',
 					runTest: function(t){
@@ -189,12 +182,12 @@
 						var title = dojo.query("#tc1_tablist_cpTitle span.tabLabel")[0];
 						var menuTitle = dijit.byId("dijit_MenuItem_0").label;
 						
-						t.assertEqual('newTitle', title.textContent, "the tab's text label has changed");
+						t.assertEqual('newTitle', innerText(title), "the tab's text label has changed");
 						t.assertEqual('newTitle', menuTitle, "the menu's text label has changed");
 					}
 				}
 			]);
-			doh.register( "deletingTabs", [
+			doh.register("deletingTabs", [
 				{
 					name: 'deleteTab',
 					runTest: function(t){
@@ -243,7 +236,7 @@
 					}
 				}
 			]);
-			doh.register( "closableTabs", [
+			doh.register("closableTabs", [
 				{
 					name: "closeTab",
 					runTest: function(t){
@@ -255,7 +248,7 @@
 					}
 				}
 			]);		
-			doh.register( "layoutTests", [
+			doh.register("layoutTests", [
 				{
 					name: "topLeftRightBottom",
 					runTest: function(t){
@@ -314,7 +307,7 @@
 				}
 				
 			]);
-			doh.register( "destroy widget", [
+			doh.register("destroy widget", [
 				{
 					name: 'destroyRecursive',
 					runTest: function(t){
