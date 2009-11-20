@@ -5,7 +5,7 @@
 		<title>doh.robot TabContainer Mouse Test</title>
 
 		<style>
-			@import "../../../util/doh/robot/robot.css";
+			@import "../../../../util/doh/robot/robot.css";
 		</style>
 
 		<!-- required: dojo.js -->
@@ -117,15 +117,15 @@
 								var tc = dijit.byId("mainTabContainer");
 
 								var leftButton = dojo.byId("dijit_layout__ScrollingTabControllerButton_1");
-								var tablistLeft = dojo.coords(leftButton).x + dojo.coords(leftButton).w;
+								var tablistLeft = dojo.position(leftButton).x + dojo.position(leftButton).w;
 	
 								var rightButton = dojo.byId("dijit_layout__ScrollingTabControllerButton_2");
-								var tablistRight = dojo.coords(rightButton).x;
+								var tablistRight = dojo.position(rightButton).x;
 	
 								var tab = dijit.byId("mainTabContainer_tablist_tab4href");
 	
-								var tabLeft = dojo.coords(tab.domNode).x;
-								var tabRight = dojo.coords(tab.domNode).x + dojo.coords(tab.domNode).w;
+								var tabLeft = dojo.position(tab.domNode).x;
+								var tabRight = dojo.position(tab.domNode).x + dojo.position(tab.domNode).w;
 	
 								var isTabVisible = (tablistLeft < tabLeft && tablistRight > tabRight);
 

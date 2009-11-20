@@ -135,14 +135,14 @@
 						
 						setTimeout(d.getTestCallback(function(){
 								var cpLeft = dojo.byId("dijit_layout__ScrollingTabControllerButton_1-leftBtn");
-								var left = dojo.coords(cpLeft).x + dojo.coords(cpLeft).w;
+								var left = dojo.position(cpLeft).x + dojo.position(cpLeft).w;
 
 								var cpRight = dojo.byId("dijit_layout__ScrollingTabControllerButton_2-rightBtn");
-								var right = dojo.coords(cpRight).x;
+								var right = dojo.position(cpRight).x;
 
 								var tab = dijit.byId("tc1_tablist_dijit_layout_ContentPane_11");
-								var tabLeft = dojo.coords(tab.domNode).x;
-								var tabRight = dojo.coords(tab.domNode).x + dojo.coords(tab.domNode).w;
+								var tabLeft = dojo.position(tab.domNode).x;
+								var tabRight = dojo.position(tab.domNode).x + dojo.position(tab.domNode).w;
 								
 								var isTabVisible = ((tabLeft > left) && (tabRight < right));
 								doh.t(isTabVisible, "verify chosen tab is in viewable area");
