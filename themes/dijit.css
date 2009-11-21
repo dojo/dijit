@@ -1848,3 +1848,13 @@ div.dijitTabBtnDisabled img {
 .dj_ie .dijit_a11y .dijitSliderDisabled .dijitSliderBar {
 	filter: alpha(opacity=40);
 }
+
+/* + and - Slider buttons: undo themed image values */
+.dijit_a11y .dijitSlider .dijitSliderButtonContainer DIV {
+	font-family: monospace; /* hypen is larger and more vertically centered */
+	font-size: 1em;
+	line-height: 1em;
+	height: auto;
+	width: auto;
+	margin: 0px 4px;
+}
