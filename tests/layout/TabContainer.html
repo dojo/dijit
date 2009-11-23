@@ -32,78 +32,96 @@
 		dojo.addOnLoad(function(){
 
 			doh.register("creationAndDestruction", [
-			{
-				name: 'destroyMenu',
-				runTest: function(t){
-					var numWidgets = dijit.registry.length;
-					var tc = new dijit.layout.TabContainer({ id:"creationAndDestruction", useMenu:true }).placeAt(dojo.body());
-					tc.destroyRecursive();
 
-					t.assertEqual(dijit.registry.length, numWidgets);
+				// Test that destroyRecursive removes all supporting widgets, including the list-of-tabs menu
+				// and the close menu
+				{
+					name: 'destroyRecursive',
+					runTest: function(t){
+						var num = dijit.registry.length;
+	
+						var tc = new dijit.layout.TabContainer({ id:"creationAndDestruction", useMenu:true }).placeAt(dojo.body());
+						tc.addChild(new dijit.layout.ContentPane({title: "test pane 1", closable: true}));
+						tc.addChild(new dijit.layout.ContentPane({title: "test pane 2"}));
+						tc.startup();
+	
+						tc.destroyRecursive();
+	
+						t.assertEqual(dijit.registry.length, num);
+					}
+				},
+	
+				// Tests that creating a TabContainer creates the list-of-tabs Menu.
+				// (Note though that TabContainer doesn't need to create that Menu until the user presses the show-menu Button)
+				{
+					name: 'createWithMenu',
+					runTest: function(t){
+						var numMenus = dijit.registry.byClass("dijit.Menu").length;
+						var tc = new dijit.layout.TabContainer({ id:"createWithMenu", useMenu:true }).placeAt(dojo.body());
+						
+						var numCreatedMenus = dijit.registry.byClass("dijit.Menu").length;
+						t.assertEqual(numMenus + 1, numCreatedMenus);
+	
+						tc.destroyRecursive();
+					}
+				},
+	
+				// Tests that creating a TabContainer with useMenu=false doesn't create a list-of-tabs Menu.
+				{
+					name: 'createWithoutMenu',
+					runTest: function(t){
+						var numMenus = dijit.registry.byClass("dijit.Menu").length;
+						var tc = new dijit.layout.TabContainer({ id:"createWithoutMenu", useMenu:false }).placeAt(dojo.body());
+						
+						var numCreatedMenus = dijit.registry.byClass("dijit.Menu").length;
+						t.assertEqual(numMenus, numCreatedMenus);
+	
+						tc.destroyRecursive();
+					}
+				},
+				
+				// Check that tab labels for initial tabs are created
+				{
+					name: 'checkTabLabels',
+					runTest: function(t){
+						var tabLabels = dojo.query("#tc1 .tabLabel");
+						t.assertEqual(4, tabLabels.length);
+					}
 				}
-			},
-			{
-				name: 'createWidgetsWithMenu',
-				runTest: function(t){
-
-					var numMenus = dijit.registry.byClass("dijit.Menu").length;
-					var tc = new dijit.layout.TabContainer({ id:"createWidgetsWithMenu", useMenu:true }).placeAt(dojo.body());
-					
-					var numCreatedMenus = dijit.registry.byClass("dijit.Menu").length;
-
-					tc.destroyRecursive();
-
-					t.assertEqual(numMenus + 1, numCreatedMenus);
-				}
-			},
-			{
-				name: 'createWidgetsWithoutMenu',
-				runTest: function(t){
-
-					var numMenus = dijit.registry.byClass("dijit.Menu").length;
-					var tc = new dijit.layout.TabContainer({ id:"createWidgetsWithoutMenu", useMenu:false }).placeAt(dojo.body());
-					
-					var numCreatedMenus = dijit.registry.byClass("dijit.Menu").length;
-					tc.destroyRecursive();
-
-					t.assertEqual(numMenus, numCreatedMenus);
-				}
-			},
-			{
-				name: 'checkTabLabels',
-				runTest: function(t){
-					var tabLabels = dojo.query("#tc1 .tabLabel");
-					t.assertEqual(4, tabLabels.length);
-				}
-			}
 			]);
 			
 			doh.register("addingTabs", [
+
+				// Test that adding a pane creates new tab button and new menu item
 				{
 					name: 'add new tab',
 					runTest: function(t){
 						var tc = dijit.byId("tc1");
 						var cp1 = new dijit.layout.ContentPane({
+								id: "newTab1",
 						         title: "newTab1",
-						         content: "tab 1 content"
+						         content: "newTab1 content"
 						    });
 						tc.addChild(cp1);
 						
 						var tabLabels = dijit.byId("tc1").getChildren();
 						var menuLabels = dijit.byId("tc1_tablist_menu").getChildren();
 						
-						t.assertEqual(5, tabLabels.length, "there are 4 tabs");
-						t.assertEqual(5, menuLabels.length, "there are 4 menu items");
+						t.assertEqual(5, tabLabels.length, "there are 5 tabs");
+						t.assertEqual(5, menuLabels.length, "there are 5 menu items");
 					}
 				},
+				
+				// Test that scroll buttons show up when tab buttons overflow
 				{
 					name: 'addTabsOverflowMenu',
 					runTest: function(t){
 						var tc = dijit.byId("tc1");
 						
 						var cp2 = new dijit.layout.ContentPane({
+						         id: "newTab2",
 						         title: "newTab2",
-						         content: "tab 1 content"
+						         content: "newTab2 content"
 							});
 						tc.addChild(cp2);
 						
@@ -121,7 +139,10 @@
 					}
 				}
 			]);
+
 			doh.register("selectingTabs", [
+
+				// Check that tab buttton is scrolled into view when tab is selected
 				{
 					name: 'isVisible',
 					timeout: 10000,
@@ -129,7 +150,7 @@
 						var d = new doh.Deferred();
 						
 						var tc = dijit.byId("tc1");
-						var cp = dijit.byId("dijit_layout_ContentPane_11");
+						var cp = dijit.byId("newTab1");
 
 						tc.selectChild(cp);
 						
@@ -140,7 +161,7 @@
 								var cpRight = dojo.byId("dijit_layout__ScrollingTabControllerButton_2-rightBtn");
 								var right = dojo.position(cpRight).x;
 
-								var tab = dijit.byId("tc1_tablist_dijit_layout_ContentPane_11");
+								var tab = dijit.byId("tc1_tablist_newTab1");
 								var tabLeft = dojo.position(tab.domNode).x;
 								var tabRight = dojo.position(tab.domNode).x + dojo.position(tab.domNode).w;
 								
@@ -152,6 +173,7 @@
 					}
 				}
 			]);
+
 			doh.register("icons", [
 				{
 					name: "initialIcon",
@@ -184,6 +206,7 @@
 					}
 				}
 			]);
+
 			doh.register("changeTabName", [
 				{
 					name: 'changeName',
@@ -199,7 +222,10 @@
 					}
 				}
 			]);
+
 			doh.register("deletingTabs", [
+
+				// Check that deleting a pane removes the tab button, menu item, etc.
 				{
 					name: 'deleteTab',
 					runTest: function(t){
@@ -214,16 +240,13 @@
 						t.assertEqual(5, childPanes.length, "verify there are now only 4 tabs instead of 5");
 						t.assertEqual(5,  menuLabels.length, "verify there are now only 4 menu items instead of 5");
 						t.assertTrue(cp.domNode, "verify that the deleted tab's content pane still exists on the page");
-					}
-				},
-				{
-					name: 'deletedTabLabel',
-					runTest: function(t){
+
 						var label = dojo.byId("#tc1_tablist_cpTitle");
-						
 						t.assertFalse(label, "verify that deleted tab's label does not exist");
 					}
 				},
+				
+				// Check that scroll buttons disappear when no longer needed
 				{
 					name: 'removedOverflowMenu',
 					runTest: function(t){
@@ -248,6 +271,7 @@
 					}
 				}
 			]);
+
 			doh.register("closableTabs", [
 				{
 					name: "closeTab",
@@ -260,12 +284,14 @@
 					}
 				}
 			]);		
+
 			doh.register("layoutTests", [
 				{
 					name: "topLeftRightBottom",
 					runTest: function(t){
 						var tc = dijit.byId("tc1");
-						
+
+						// TODO: should test actual positions of tabs vs. content, not just settings
 						t.assertEqual('top', tc.tabPosition, "tabs are on the top of the container");
 						
 						tc.attr("tabPosition", "left");						
@@ -282,7 +308,8 @@
 					name: "nested",
 					runTest: function(t){
 						var tc = dijit.byId("tcNested");
-						
+
+						// TODO: check that nested CSS class applied in the right place
 						t.assertFalse(tc.nested, "parent TabContainer is not nested");
 						
 						var children = tc.getChildren();
@@ -296,7 +323,9 @@
 					runTest: function(t){
 						var tc = dijit.byId("tcDoLayout");
 						var cps = tc.getChildren();
-						
+
+						// TODO: should check that height of TabContainer itself changes when different
+						// tabs are selected
 						tc.selectChild(cps[1]);
 						var height1 = cps[0]._contentBox.h;
 						var height2 = cps[1]._contentBox.h;
@@ -310,6 +339,8 @@
 						var tc = dijit.byId("tc3");
 						var cps = tc.getChildren();
 						
+						// TODO: should check that height of TabContainer itself stays constant when different
+						// tabs are selected
 						tc.selectChild(cps[1]);
 						var height1 = cps[0]._contentBox.h;
 						var height2 = cps[1]._contentBox.h;
@@ -320,6 +351,7 @@
 				
 			]);
 			doh.register("destroy widget", [
+				// TODO: looks like this can be moved up to be part of top group, creationAndDestruction?
 				{
 					name: 'destroyRecursive',
 					runTest: function(t){
