@@ -463,7 +463,8 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 		// The contents inside of <body>.  The real contents are set later via a call to setValue().
 		var html = "";
 		if(dojo.isIE || (!this.height && !dojo.isMoz)){
-			// For some reason we need an extra <div> on IE (TODOC)
+			// In auto-expand mode, need a wrapper div for AlwaysShowToolbar plugin to correctly
+			// expand/contract the editor as the content changes.
 			html = "<div></div>";
 		}else if(dojo.isMoz){
 			// workaround bug where can't select then delete text (until user types something
@@ -660,6 +661,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 		if(!dojo.isIE && (this.height || dojo.isMoz)){
 			this.editNode=this.document.body;
 		}else{
+			// there's a wrapper div around the content, see _getIframeDocTxt().
 			this.editNode=this.document.body.firstChild;
 			var _this = this;
 			if(dojo.isIE){ // #4996 IE wants to focus the BODY tag
