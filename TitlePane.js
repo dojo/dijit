@@ -196,6 +196,7 @@ dojo.declare(
 			if(this.toggleable){
 				this.toggle();
 			}
+			dojo.stopEvent(e);
 		}else if(e.charOrCode == dojo.keys.DOWN_ARROW && this.open){
 			this.containerNode.focus();
 			e.preventDefault();
