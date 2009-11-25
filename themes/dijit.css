@@ -1103,7 +1103,7 @@ img.dijitColorPaletteUnder {
 
 /* TabContainer */
 
-.dijitTabContainer {
+.dijitTabContainerNoLayout {
 	width: 100%;	/* otherwise ScrollingTabController goes to 50K pixels wide */
 }
 
