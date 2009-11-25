@@ -9,16 +9,16 @@ dojo.declare("dijit.layout._LayoutWidget",
 	{
 		// summary:
 		//		Base class for a _Container widget which is responsible for laying out its children.
-		//		Widgets which mixin this code must define layout() to lay out the children.
+		//		Widgets which mixin this code must define layout() to manage placement and sizing of the children.
 
 		// baseClass: [protected extension] String
 		//		This class name is applied to the widget's domNode
 		//		and also may be used to generate names for sub nodes,
-		//		like for example dijitTabContainer-content.
+		//		for example dijitTabContainer-content.
 		baseClass: "dijitLayoutContainer",
 
 		// isLayoutContainer: [protected] Boolean
-		//		Indicates that this widget is going to call resize() on it's
+		//		Indicates that this widget is going to call resize() on its
 		//		children widgets, setting their size, when they become visible.
 		isLayoutContainer: true,
 
@@ -72,7 +72,7 @@ dojo.declare("dijit.layout._LayoutWidget",
 			// description:
 			//		Change size mode:
 			//			When changeSize is specified, changes the marginBox of this widget
-			//			 and forces it to relayout its contents accordingly.
+			//			and forces it to relayout its contents accordingly.
 			//			changeSize may specify height, width, or both.
 			//
 			//			If resultSize is specified it indicates the size the widget will
@@ -81,7 +81,7 @@ dojo.declare("dijit.layout._LayoutWidget",
 			//		Notification mode:
 			//			When changeSize is null, indicates that the caller has already changed
 			//			the size of the widget, or perhaps it changed because the browser
-			//			window was resized.  Tells widget to relayout it's contents accordingly.
+			//			window was resized.  Tells widget to relayout its contents accordingly.
 			//
 			//			If resultSize is also specified it indicates the size the widget has
 			//			become.
@@ -139,7 +139,7 @@ dojo.declare("dijit.layout._LayoutWidget",
 				h: bb.h - pe.h
 			};
 
-			// Callback for widget to adjust size of it's children
+			// Callback for widget to adjust size of its children
 			this.layout();
 		},
 
@@ -251,7 +251,7 @@ dijit.layout.marginBox2contentBox = function(/*DomNode*/ node, /*Object*/ mb){
 			dojo.addClass(elm, "dijitAlign" + capitalize(pos));
 
 			// set size && adjust record of remaining space.
-			// note that setting the width of a <div> may affect it's height.
+			// note that setting the width of a <div> may affect its height.
 			if(pos == "top" || pos == "bottom"){
 				size(child, { w: dim.w });
 				dim.h -= child.h;
