@@ -100,12 +100,13 @@ dojo.declare(
 
 	// isContainer: [protected] Boolean
 	//		Indicates that this widget acts as a "parent" to the descendant widgets.
-	//		This is here so child.getParent() finds me.   See also `isLayoutContainer`.
+	//		When the parent is started it will call startup() on the child widgets.
+	//		See also `isLayoutContainer`.
 	isContainer: true,
 
 	// isLayoutContainer: [protected] Boolean
-	//		Indicates that this widget is going to call resize() on it's
-	//		children widgets.
+	//		Indicates that this widget will call resize() on it's child widgets
+	//		when they become visible.
 	isLayoutContainer: true,
 
 	// onLoadDeferred: [readonly] dojo.Deferred

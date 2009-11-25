@@ -19,7 +19,7 @@ dojo.declare("dijit.layout._LayoutWidget",
 
 		// isLayoutContainer: [protected] Boolean
 		//		Indicates that this widget is going to call resize() on it's
-		//		children widgets, setting their size and position.
+		//		children widgets, setting their size, when they become visible.
 		isLayoutContainer: true,
 
 		postCreate: function(){

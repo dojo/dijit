@@ -17,7 +17,9 @@ dojo.declare("dijit._Container",
 		//		wouldn't make sense.
 
 		// isContainer: [protected] Boolean
-		//		Just a flag indicating that this widget descends from dijit._Container
+		//		Indicates that this widget acts as a "parent" to the descendant widgets.
+		//		When the parent is started it will call startup() on the child widgets.
+		//		See also `isLayoutContainer`.
 		isContainer: true,
 
 		buildRendering: function(){
