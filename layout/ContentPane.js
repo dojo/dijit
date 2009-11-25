@@ -118,6 +118,13 @@ dojo.declare(
 	//		This is different than an onLoad() handler which gets called any time any href is loaded.
 	onLoadDeferred: null,
 
+	// Override _Widget's attributeMap because we don't want the title attribute (used to specify
+	// tab labels) to be copied to ContentPane.domNode... otherwise a tooltip shows up over the
+	// entire pane.
+	attributeMap: dojo.delegate(dijit._Widget.prototype.attributeMap, {
+		title: []
+	}),
+
 	postMixInProperties: function(){
 		this.inherited(arguments);
 		var messages = dojo.i18n.getLocalization("dijit", "loading", this.lang);
