@@ -107,7 +107,8 @@ dojo.declare(
 				}
 				var singleFocusItem = (this._firstFocusItem == this._lastFocusItem);
 				if(evt.charOrCode == dk.ESCAPE){
-					this.onCancel();
+					// Use setTimeout to avoid crash on IE, see #10396.
+					setTimeout(dojo.hitch(this, "onCancel"), 0);
 					dojo.stopEvent(evt);
 				}else if(node == this._firstFocusItem && evt.shiftKey && evt.charOrCode === dk.TAB){
 					if(!singleFocusItem){
