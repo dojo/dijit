@@ -283,7 +283,7 @@ dojo.mixin(dijit, {
 		var mousedownListener = function(evt){
 			dijit._justMouseDowned = true;
 			setTimeout(function(){ dijit._justMouseDowned = false; }, 0);
-			dijit._onTouchNode(effectiveNode || evt.target || evt.srcElement);
+			dijit._onTouchNode(effectiveNode || evt.target || evt.srcElement, "mouse");
 		};
 		//dojo.connect(targetWindow, "onscroll", ???);
 
@@ -376,9 +376,13 @@ dojo.mixin(dijit, {
 		}, 100);
 	},
 
-	_onTouchNode: function(/*DomNode*/ node){
+	_onTouchNode: function(/*DomNode*/ node, /*String*/ by){
 		// summary:
 		//		Callback when node is focused or mouse-downed
+		// node:
+		//		The node that was touched.
+		// by:
+		//		"mouse" if the focus/touch was caused by a mouse down event
 
 		// ignore the recent blurNode event
 		if(dijit._clearActiveWidgetsTimer){
@@ -412,7 +416,7 @@ dojo.mixin(dijit, {
 			}
 		}catch(e){ /* squelch */ }
 
-		dijit._setStack(newStack);
+		dijit._setStack(newStack, by);
 	},
 
 	_onFocusNode: function(/*DomNode*/ node){
@@ -440,9 +444,13 @@ dojo.mixin(dijit, {
 		dojo.publish("focusNode", [node]);
 	},
 
-	_setStack: function(newStack){
+	_setStack: function(/*String[]*/ newStack, /*String*/ by){
 		// summary:
 		//		The stack of active widgets has changed.  Send out appropriate events and records new stack.
+		// newStack:
+		//		array of widget id's, starting from the top (outermost) widget
+		// by:
+		//		"mouse" if the focus/touch was caused by a mouse down event
 
 		var oldStack = dijit._activeStack;
 		dijit._activeStack = newStack;
@@ -462,12 +470,12 @@ dojo.mixin(dijit, {
 				widget._focused = false;
 				widget._hasBeenBlurred = true;
 				if(widget._onBlur){
-					widget._onBlur();
+					widget._onBlur(by);
 				}
 				if(widget._setStateClass){
 					widget._setStateClass();
 				}
-				dojo.publish("widgetBlur", [widget]);
+				dojo.publish("widgetBlur", [widget, by]);
 			}
 		}
 
@@ -477,12 +485,12 @@ dojo.mixin(dijit, {
 			if(widget){
 				widget._focused = true;
 				if(widget._onFocus){
-					widget._onFocus();
+					widget._onFocus(by);
 				}
 				if(widget._setStateClass){
 					widget._setStateClass();
 				}
-				dojo.publish("widgetFocus", [widget]);
+				dojo.publish("widgetFocus", [widget, by]);
 			}
 		}
 	}
