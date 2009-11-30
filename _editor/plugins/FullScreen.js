@@ -166,6 +166,30 @@ dojo.declare("dijit._editor.plugins.FullScreen",dijit._editor._Plugin,{
 		this.isFullscreen = full;
 
 		if(full){
+			//Parent classes can royally screw up this plugin, so we 
+			//have to clear them, then restore them on 
+			//toggle off
+			var editorParent = ed.domNode.parentNode;
+			this._classedParents = [];
+			while(editorParent && editorParent !== dojo.body()){
+				// FIXME:  This depends on the theme class being on body!
+				// Would prefer reparenting, but FF reloads the iframe, which
+				// breaks all sorts of stuff.
+				var classes = dojo.attr(editorParent, "class");
+				if(classes){
+					this._classedParents.push({
+						node: editorParent,
+						classes: classes
+					});
+					dojo.attr(editorParent, "class", "");
+				}
+				editorParent = editorParent.parentNode;
+			}
+
+			// Save off the resize function.  We want to kill its behavior.
+			this._editorResizeHolder = this.editor.resize;
+			ed.resize = function() {} ;
+
 			// Try to constrain focus control.
 			ed._fullscreen_oldOnKeyDown = ed.onKeyDown;
 			ed.onKeyDown = dojo.hitch(this, this._containFocus);
@@ -249,6 +273,13 @@ dojo.declare("dijit._editor.plugins.FullScreen",dijit._editor._Plugin,{
 			dojo.style(body, "overflow", "hidden");
 
 			var resizer = function(){
+				// Make sure no class states have been added by a resize.
+				var editorParent = this.editor.domNode.parentNode;
+				while(editorParent && editorParent !== dojo.body()){
+					dojo.attr(editorParent, "class", "");
+					editorParent = editorParent.parentNode;
+				}
+
 				// function to handle resize events.
 				// Will check current VP and only resize if
 				// different.
@@ -280,6 +311,19 @@ dojo.declare("dijit._editor.plugins.FullScreen",dijit._editor._Plugin,{
 			var dn = this.editor.toolbar.domNode;
 			setTimeout(function(){dijit.scrollIntoView(dn);}, 250);
 		}else{
+			if(this._classedParents){
+				while(this._classedParents.length > 0){
+					var classP = this._classedParents.pop();
+					dojo.attr(classP.node, "class", classP.classes);
+				}
+				delete this._classedParents;
+			}
+			
+			// Restore resize function
+			if(this._editorResizeHolder){
+				this.editor.resize = this._editorResizeHolder;
+			}
+
 			if(!this._origState && !this._origiFrameState){
 				// If we actually didn't toggle, then don't do anything.
 				return;
