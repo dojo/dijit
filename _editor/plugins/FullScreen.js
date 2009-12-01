@@ -362,6 +362,13 @@ dojo.declare("dijit._editor.plugins.FullScreen",dijit._editor._Plugin,{
 				dojo.style(ed.iframe, self._origiFrameState);
 				delete self._origState;
 				delete self._origiFrameState;
+				// In case it is contained in a layout and the layout changed size,
+				// go ahead and call resize.
+				ed.resize();
+				var pWidget = dijit.getEnclosingWidget(ed.domNode.parentNode);
+				if(pWidget && pWidget.resize){
+				    pWidget.resize();
+				}
 				dijit.scrollIntoView(self.editor.toolbar.domNode);
 			}, 100);
 		}
