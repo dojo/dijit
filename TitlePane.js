@@ -44,6 +44,11 @@ dojo.declare(
 	//		Whether pane can be opened or closed by clicking the title bar.
 	toggleable: true,
 
+	// tabIndex: String
+	//		Tabindex setting for the title (so users can tab to the title then
+	//		use space/enter to open/close the title pane)
+	tabIndex: "0",
+
 	// duration: Integer
 	//		Time in milliseconds to fade in/fade out
 	duration: dijit.defaultDuration,
@@ -102,8 +107,10 @@ dojo.declare(
 		// canToggle: Boolean
 		//		True to allow user to open/close pane by clicking title bar.
 		this.toggleable = canToggle;
-		dijit.setWaiRole(this.focusNode, canToggle ? "button" : "presentation");
+		dijit.setWaiRole(this.focusNode, canToggle ? "button" : "heading");
+		dojo.attr(this.focusNode, "tabIndex", canToggle ? this.tabIndex : "-1");
 		if(canToggle){
+			// TODO: if canToggle is switched from true false shouldn't we remove this setting?
 			dijit.setWaiState(this.focusNode, "controls", this.id+"_pane");
 		}
 		this._setCss();
