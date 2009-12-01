@@ -53,6 +53,7 @@
 		function createDialog() {
 			if(!thirdDlg){
 				var pane = dojo.byId('thirdDialog');
+				// should specify a width on dialogs with <p> tags, otherwise they get too wide
 				pane.style.width = "300px";
 				thirdDlg = new dijit.Dialog({
 					id: "dialog3",
@@ -198,8 +199,8 @@
 	<div dojoType="dijit.Dialog" id="dialog6" title="File Dialog"
 			onfocus="console.log('user focus handler')"
 			onblur="console.log('user blur handler')"
-			execute="alert('submitted w/args:\n' + dojo.toJson(arguments[0], true));" style="width: 350px">
-		<!-- note: style="width: 350px" to workaround FF bug where width is too short, see http://trac.dojotoolkit.org/ticket/5976 -->
+			execute="alert('submitted w/args:\n' + dojo.toJson(arguments[0], true));" style="min-width: 350px">
+		<!-- note: style="min-width: 350px" to workaround FF bug where width is too short, see http://bugs.dojotoolkit.org/ticket/5976 -->
 			<label for="afile">ID File: </label>
 			<input dojoType=dijit.form.TextBox type="file" name="afile" id="afile">
 	</div>
