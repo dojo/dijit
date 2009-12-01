@@ -13,7 +13,7 @@ dojo.declare("dijit._Contained",
 			getParent: function(){
 				// summary:
 				//		Returns the parent widget of this widget, assuming the parent
-				//		implements dijit._Container
+				//		specifies isContainer
 				var parent = dijit.getEnclosingWidget(this.domNode.parentNode);
 				return parent && parent.isContainer ? parent : null;
 			},
