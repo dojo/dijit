@@ -242,9 +242,10 @@ dojo.declare("dijit._MenuBase",
 			onCancel: function(){ // called when the child menu is canceled
 				// set isActive=false (_closeChild vs _cleanUp) so that subsequent hovering will NOT open child menus
 				// which seems aligned with the UX of most applications (e.g. notepad, wordpad, paint shop pro)
-				self._cleanUp();
-				self.focusChild(from_item);	// put focus back on my node AND set focusedChild
-				from_item._setSelected(true); // _cleanUp deselected the item
+				self.focusChild(from_item);	// put focus back on my node
+				self._cleanUp();			// close the submenu (be sure this is done _after_ focus is moved)
+				from_item._setSelected(true); // oops, _cleanUp() deselected the item
+				self.focusedChild = from_item;	// and unset focusedChild
 			},
 			onExecute: dojo.hitch(this, "_cleanUp")
 		});
@@ -296,7 +297,7 @@ dojo.declare("dijit._MenuBase",
 
 	_markInactive: function(){
 		// summary:
-		//              Mark this menu's state as inactive.
+		//		Mark this menu's state as inactive.
 		this.isActive = false; // don't do this in _onBlur since the state is pending-close until we get here
 		dojo.removeClass(this.domNode, "dijitMenuActive");
 		dojo.addClass(this.domNode, "dijitMenuPassive");
