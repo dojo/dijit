@@ -62,7 +62,7 @@ var _attrReg = {},	// cached results from getSetterAttributes
 
 dojo.declare("dijit._Widget", null, {
 	// summary:
-	//		Base class for all dijit widgets.
+	//		Base class for all Dijit widgets.
 
 	// id: [const] String
 	//		A unique, opaque ID string that can be assigned by users or by the
@@ -99,7 +99,7 @@ dojo.declare("dijit._Widget", null, {
 	//		For form widgets this specifies a tooltip to display when hovering over
 	//		the widget (just like the native HTML title attribute).
 	//
-	//		For TitlePane or for when this widget is a child of a TabContainer, AccorionContainer,
+	//		For TitlePane or for when this widget is a child of a TabContainer, AccordionContainer,
 	//		etc., it's used to specify the tab label, accordion pane title, etc.
 	title: "",
 
@@ -538,7 +538,7 @@ dojo.declare("dijit._Widget", null, {
 		//		Processing after the DOM fragment is added to the document
 		// description:
 		//		Called after a widget and its children have been created and added to the page,
-		//		and all the widgets have finished their create() cycle, up through postCreate().
+		//		and all related widgets have finished their create() cycle, up through postCreate().
 		//		This is useful for composite widgets that need to control or layout sub-widgets.
 		//		Many layout widgets can use this as a wiring phase.
 		this._started = true;
@@ -899,9 +899,10 @@ dojo.declare("dijit._Widget", null, {
 
 	toString: function(){
 		// summary:
-		//		Returns a string that represents the widget. When a widget is
-		//		cast to a string, this method will be used to generate the
-		//		output. Currently, it does not implement any sort of reversable
+		//		Returns a string that represents the widget
+		// description:
+		//		When a widget is cast to a string, this method will be used to generate the
+		//		output. Currently, it does not implement any sort of reversible
 		//		serialization.
 		return '[Widget ' + this.declaredClass + ', ' + (this.id || 'NO ID') + ']'; // String
 	},
