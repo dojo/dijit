@@ -1044,7 +1044,7 @@ img.dijitColorPaletteUnder {
 	padding: none !important;
 	background:none ! important;
 }
-.dj_ie .dijit_a11y .dijitMenuItemSelected .dijitMenuItemLabel {
+.dijit_a11y .dijitMenuItemSelected .dijitMenuItemLabel {
 	border-width: 1px;
 	border-style: solid;
 }
