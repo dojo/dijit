@@ -12,8 +12,8 @@
 /* Make unselected content portion "look" more like a text box and less like a button */
 .tundra .dijitSelect .dijitButtonContents {
 	padding-top: 1px;
-    background:#fff url("../../../dijit/themes/tundra/images/validationInputBg.png") repeat-x top left;
-    #background:#fff url('../../../dijit/themes/tundra/images/validationInputBg.gif') repeat-x top left;
+    background:#fff url("../images/validationInputBg.png") repeat-x top left;
+    #background:#fff url('../images/validationInputBg.gif') repeat-x top left;
 }
 .tundra .dijitSelectHover .dijitButtonContents,
 .tundra .dijitSelectActive .dijitButtonContents,
@@ -29,7 +29,7 @@
 /* Mirror DropDownButton */
 .tundra .dijitSelectDisabled .dijitButtonNode {
     border-color: #d5d5d5 #bdbdbd #bdbdbd #d5d5d5;
-    background:#e4e4e4 url("../../../dijit/themes/tundra/images/buttonDisabled.png") top repeat-x;
+    background:#e4e4e4 url("../images/buttonDisabled.png") top repeat-x;
 }
 .dj_ie .tundra .dijitSelectDisabled  .dijitButtonNode * {
 	filter: gray() alpha(opacity=50);
@@ -40,13 +40,13 @@
     border-bottom-color:#5c7590;
     border-right-color:#5c7590;
     color:#243C5F;
-    background:#fcfdff url("../../../dijit/themes/tundra/images/buttonHover.png") repeat-x bottom;
+    background:#fcfdff url("../images/buttonHover.png") repeat-x bottom;
 }
 
 .tundra .dijitSelectActive .dijitButtonNode,
 .tundra .dijitSelectOpened .dijitButtonNode {
     border-color:#366dba;
-    background: #ededed url("../../../dijit/themes/tundra/images/buttonActive.png") bottom repeat-x;
+    background: #ededed url("../images/buttonActive.png") bottom repeat-x;
 }
 
 /* Make the menu look more combobox-like */
