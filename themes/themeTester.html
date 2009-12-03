@@ -714,6 +714,41 @@
 					currency="USD"
 					invalidMessage="Invalid amount.  Include dollar sign, commas, and cents.  Cents are mandatory." disabled>
 
+				<hr class="spacer">
+
+				<h2>dijit.form.NumberSpinner max=100</h2>
+				<label for="spinner1">Enabled: </label>
+				<input dojoType="dijit.form.NumberSpinner" constraints="{max:100,places:0}" id="spinner1" value="10">
+				<label for="spinner2">Disabled: </label>
+				<input dojoType="dijit.form.NumberSpinner" constraints="{max:100,places:0}" id="spinner2" value="10" disabled>
+
+			</div>
+
+			<div id="selectTab" dojoType="dijit.layout.ContentPane" title="Select Widgets" style="padding:10px;display:none;">
+
+				<h2>dijit.form.Select</h2>
+				<label for="selectEnabled">Enabled: </label>
+				<div id="selectEnabled" value="AK" dojoType="dijit.form.Select">
+					<span value="AL"><b>Alabama</b></span>
+					<span value="AK"><font color="red">A</font><font color="orange">l</font><font color="yellow">a</font><font color="green">s</font><font color="blue">k</font><font color="purple">a</font></span>
+					<span value="AZ"><i>Arizona</i></span>
+					<span value="AR"><span class="ark">Arkansas</span></span>
+					<span value="CA"><span style="font-size:25%">C</span><span style="font-size:50%">a</span><span style="font-size:75%">l</span><span style="font-size:90%">i</span><span style="font-size:100%">f</span><span style="font-size:125%">o</span><span style="font-size:133%">r</span><span style="font-size:150%">n</span><span style="font-size:175%">i</span><span style="font-size:200%">a</span></span>
+					<span value="NM" disabled="disabled">New<br>&nbsp;&nbsp;Mexico</span>
+				</div>
+	
+				<label for="selectDisabled">Disabled: </label>
+				<div id="selectDisabled" value="AK" dojoType="dijit.form.Select" disabled>
+					<span value="AL"><b>Alabama</b></span>
+					<span value="AK"><font color="red">A</font><font color="orange">l</font><font color="yellow">a</font><font color="green">s</font><font color="blue">k</font><font color="purple">a</font></span>
+					<span value="AZ"><i>Arizona</i></span>
+					<span value="AR"><span class="ark">Arkansas</span></span>
+					<span value="CA"><span style="font-size:25%">C</span><span style="font-size:50%">a</span><span style="font-size:75%">l</span><span style="font-size:90%">i</span><span style="font-size:100%">f</span><span style="font-size:125%">o</span><span style="font-size:133%">r</span><span style="font-size:150%">n</span><span style="font-size:175%">i</span><span style="font-size:200%">a</span></span>
+					<span value="NM" disabled="disabled">New<br>&nbsp;&nbsp;Mexico</span>
+				</div>
+
+				<hr class="spacer">
+
 				<h2>dijit.form.ComboBox</h2>
 				<label for="datatestComboBox">Enabled: </label>
 				<input dojoType="dijit.form.ComboBox"
@@ -733,38 +768,10 @@
 					disabled
 				>
 
-				<hr class="spacer">
-
-				<h2>dijit.form.Select</h2>
-				<div id="selectEnabled" value="AK" dojoType="dijit.form.Select">
-					<span value="AL"><b>Alabama</b></span>
-					<span value="AK"><font color="red">A</font><font color="orange">l</font><font color="yellow">a</font><font color="green">s</font><font color="blue">k</font><font color="purple">a</font></span>
-					<span value="AZ"><i>Arizona</i></span>
-					<span value="AR"><span class="ark">Arkansas</span></span>
-					<span value="CA"><span style="font-size:25%">C</span><span style="font-size:50%">a</span><span style="font-size:75%">l</span><span style="font-size:90%">i</span><span style="font-size:100%">f</span><span style="font-size:125%">o</span><span style="font-size:133%">r</span><span style="font-size:150%">n</span><span style="font-size:175%">i</span><span style="font-size:200%">a</span></span>
-					<span value="NM" disabled="disabled">New<br>&nbsp;&nbsp;Mexico</span>
-				</div>
-	
-				<div id="selectDisabled" value="AK" dojoType="dijit.form.Select" disabled>
-					<span value="AL"><b>Alabama</b></span>
-					<span value="AK"><font color="red">A</font><font color="orange">l</font><font color="yellow">a</font><font color="green">s</font><font color="blue">k</font><font color="purple">a</font></span>
-					<span value="AZ"><i>Arizona</i></span>
-					<span value="AR"><span class="ark">Arkansas</span></span>
-					<span value="CA"><span style="font-size:25%">C</span><span style="font-size:50%">a</span><span style="font-size:75%">l</span><span style="font-size:90%">i</span><span style="font-size:100%">f</span><span style="font-size:125%">o</span><span style="font-size:133%">r</span><span style="font-size:150%">n</span><span style="font-size:175%">i</span><span style="font-size:200%">a</span></span>
-					<span value="NM" disabled="disabled">New<br>&nbsp;&nbsp;Mexico</span>
-				</div>
-
-				<hr class="spacer">
-
-				<h2>dijit.form.NumberSpinner max=100</h2>
-				<label for="spinner1">Enabled: </label>
-				<input dojoType="dijit.form.NumberSpinner" constraints="{max:100,places:0}" id="spinner1" value="10">
-				<label for="spinner2">Disabled: </label>
-				<input dojoType="dijit.form.NumberSpinner" constraints="{max:100,places:0}" id="spinner2" value="10" disabled>
 
 			</div>
 
-			<div id="textareaTab" dojoType="dijit.layout.ContentPane" title="TextArea/Editor" style="padding:10px;">
+			<div id="textareaTab" dojoType="dijit.layout.ContentPane" title="Textarea" style="padding:10px;">
 
 				<h2>dijit.form.Textarea</h2>
 				<p>Enabled:</p>
@@ -808,8 +815,9 @@
 				dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait
 				nulla facilisi.
 				</textarea>
+			</div><!-- end of Textarea tab -->
 
-				<h2>dijit.Editor</h2>
+			<div id="editorTab" dojoType="dijit.layout.ContentPane" title="Editor" style="padding:10px;">
 				<p>Enabled:</p>
 				<!-- FIXME:
 					set height on this node to size the whole editor, but causes the tab to not scroll
@@ -835,7 +843,7 @@
 					</ul>
 				</textarea>
 				</div>
-			</div><!-- end of Textarea/Editor tab -->
+			</div><!-- end of Editor tab -->
 
 
 			<div dojoType="dijit.layout.ContentPane" title="Sliders" style="padding:10px;display:none;">
