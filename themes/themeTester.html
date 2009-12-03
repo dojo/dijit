@@ -140,22 +140,6 @@
 
 		dojo.addOnLoad(function() {
 
-			// this is just a list of 'official' dijit themes, you can use ?theme=String
-			// for 'un-supported' themes, too. (eg: yours)
-			var availableThemes = [
-				{ theme:"tundra", author:"Dojo", baseUri:"../themes/" },
-				{ theme:"soria", author:"nikolai", baseUri:"../themes/" },
-				//{ theme:"noir", author:"owen", baseUri:"../themes/"},
-				{ theme:"nihilo", author:"nikolai", baseUri:"../themes/" }
-			];
-
-			var holder = dojo.byId('themeData');
-			var tmpString='';
-			dojo.forEach(availableThemes,function(theme){
-				tmpString += '<a href="?theme='+theme.theme+'">'+theme.theme+'</'+'a> - by: '+theme.author+' <br>';
-			});
-			holder.innerHTML = tmpString;
-
 			var start = new Date().getTime();
 			dojo.parser.parse(dojo.byId('container'));
 			console.info("Total parse time: " + (new Date().getTime() - start) + "ms");
@@ -170,6 +154,31 @@
 				}).play();
 			}, 250);
 
+			logStrayGlobals();
+
+			// Fill in menu/links to get to other themes.		
+			// availableThemes[] is just a list of 'official' dijit themes, you can use ?theme=String
+			// for 'un-supported' themes, too. (eg: yours)
+			var availableThemes = [
+				{ theme:"tundra", author:"Dojo", baseUri:"../themes/" },
+				{ theme:"soria", author:"nikolai", baseUri:"../themes/" },
+				{ theme:"nihilo", author:"nikolai", baseUri:"../themes/" }
+			];
+
+			var tmpString='';
+			dojo.forEach(availableThemes,function(theme){
+				tmpString += '<a href="?theme='+theme.theme+'">'+theme.theme+'</'+'a> - by: '+theme.author+' <br>';
+				dijit.byId('themeMenu').addChild(new dijit.MenuItem({
+					label: theme.theme,
+					onClick: function(){ location.search = "?theme=" + theme.theme; }
+				}))
+			});
+			dojo.byId('themeData').innerHTML = tmpString;
+		});
+
+		function logStrayGlobals(){
+			// summary:
+			//		Print all the global variables that we've created [by mistake] inside of dojo
 			var strayGlobals = [];
 			for(var i in window){
 				if(!window.__globalList[i]){ strayGlobals.push(i); }
@@ -177,10 +186,23 @@
 			if(strayGlobals.length){
 				console.warn("Stray globals: "+strayGlobals.join(", "));
 			}
-			
-			// Avoid spurious leak warnings from leak detection tools
-			window.__globalList = null;
-		});
+		}
+
+		function logWidgets(){
+			// summary:
+			//		Print all the widgets to console
+			console.log("Widgets in registry:");
+			dijit.registry.forEach(function(w){
+				console.log(w);
+			});
+		}
+
+		function tearDown(){
+			// summary:
+			//		Destroy all widgets, top down, and then check for any orphaned widgets
+			dijit._destroyAll();
+			logWidgets();
+		}
 
 		dojo.addOnLoad(function(){
 			// It's the server's responsibility to localize the date displayed in the (non-edit) version of an InlineEditBox,
@@ -268,11 +290,9 @@
 			<div dojoType="dijit.PopupMenuBarItem" id="file">
 				<span>File</span>
 				<div dojoType="dijit.Menu" id="fileMenu">
-					<div dojoType="dijit.MenuItem" id="new">New</div>
-					<div dojoType="dijit.MenuItem" id="open">Open</div>
-					<div dojoType="dijit.MenuSeparator" id="separator"></div>
-					<div dojoType="dijit.MenuItem" id="save" iconClass="dijitEditorIconSave">Save</div>
-					<div dojoType="dijit.MenuItem" id="saveas">Save As...</div>
+					<div dojoType="dijit.MenuItem" id="globals" iconClass="dijitEditorIcon dijitEditorIconNew" onClick="logStrayGlobals();">Log globals</div>
+					<div dojoType="dijit.MenuItem" id="widgets" iconClass="dijitEditorIcon dijitEditorIconNew" onClick="logWidgets();">Log widgets</div>
+					<div dojoType="dijit.MenuItem" id="destroy" iconClass="dijitEditorIcon dijitEditorIconDelete" onClick="tearDown();">Destroy All</div>
 				</div>
 			</div>
 			<div dojoType="dijit.PopupMenuBarItem" id="edit">
@@ -284,6 +304,9 @@
 						onClick="console.log('not actually copying anything, just a test!')">Copy</div>
 					<div dojoType="dijit.MenuItem" id="paste" iconClass="dijitEditorIcon dijitEditorIconPaste"
 						onClick="console.log('not actually pasting anything, just a test!')">Paste</div>
+					<div dojoType="dijit.MenuSeparator" id="separator"></div>
+					<div dojoType="dijit.MenuItem" id="undo" iconClass="dijitEditorIcon dijitEditorIconUndo">Undo</div>
+					<div dojoType="dijit.MenuItem" id="redo" iconClass="dijitEditorIcon dijitEditorIconRedo">Redo</div>
 				</div>
 			</div>
 			<div dojoType="dijit.PopupMenuBarItem" id="view">
@@ -301,6 +324,11 @@
 							<div dojoType="dijit.MenuItem">200%</div>
 						</div>
 					</div>
+				</div>
+			</div>
+			<div dojoType="dijit.PopupMenuBarItem" id="themes">
+				<span>Themes</span>
+				<div dojoType="dijit.Menu" id="themeMenu">
 				</div>
 			</div>
 			<div dojoType="dijit.PopupMenuBarItem" id="help">
@@ -704,6 +732,27 @@
 					id="datatestComboBox2"
 					disabled
 				>
+
+				<hr class="spacer">
+
+				<h2>dijit.form.Select</h2>
+				<div id="selectEnabled" value="AK" dojoType="dijit.form.Select">
+					<span value="AL"><b>Alabama</b></span>
+					<span value="AK"><font color="red">A</font><font color="orange">l</font><font color="yellow">a</font><font color="green">s</font><font color="blue">k</font><font color="purple">a</font></span>
+					<span value="AZ"><i>Arizona</i></span>
+					<span value="AR"><span class="ark">Arkansas</span></span>
+					<span value="CA"><span style="font-size:25%">C</span><span style="font-size:50%">a</span><span style="font-size:75%">l</span><span style="font-size:90%">i</span><span style="font-size:100%">f</span><span style="font-size:125%">o</span><span style="font-size:133%">r</span><span style="font-size:150%">n</span><span style="font-size:175%">i</span><span style="font-size:200%">a</span></span>
+					<span value="NM" disabled="disabled">New<br>&nbsp;&nbsp;Mexico</span>
+				</div>
+	
+				<div id="selectDisabled" value="AK" dojoType="dijit.form.Select" disabled>
+					<span value="AL"><b>Alabama</b></span>
+					<span value="AK"><font color="red">A</font><font color="orange">l</font><font color="yellow">a</font><font color="green">s</font><font color="blue">k</font><font color="purple">a</font></span>
+					<span value="AZ"><i>Arizona</i></span>
+					<span value="AR"><span class="ark">Arkansas</span></span>
+					<span value="CA"><span style="font-size:25%">C</span><span style="font-size:50%">a</span><span style="font-size:75%">l</span><span style="font-size:90%">i</span><span style="font-size:100%">f</span><span style="font-size:125%">o</span><span style="font-size:133%">r</span><span style="font-size:150%">n</span><span style="font-size:175%">i</span><span style="font-size:200%">a</span></span>
+					<span value="NM" disabled="disabled">New<br>&nbsp;&nbsp;Mexico</span>
+				</div>
 
 				<hr class="spacer">
 
