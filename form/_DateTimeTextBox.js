@@ -8,8 +8,14 @@ dojo.require("dijit.form.ValidationTextBox");
 /*=====
 dojo.declare(
 	"dijit.form._DateTimeTextBox.__Constraints",
-	[dijit.form.RangeBoundTextBox.__Constraints, dojo.date.locale.__FormatOptions]
-);
+	[dijit.form.RangeBoundTextBox.__Constraints, dojo.date.locale.__FormatOptions], {
+	// summary:
+	//		Specifies both the rules on valid/invalid values (first/last date/time allowed),
+	//		and also formatting options for how the date/time is displayed.
+	// example:
+	//		To restrict to dates within 2004, displayed in a long format like "December 25, 2005":
+	//	|		{min:'2004-01-01',max:'2004-12-31', formatLength:'long'}
+});
 =====*/
 
 dojo.declare(
@@ -18,9 +24,12 @@ dojo.declare(
 	{
 		// summary:
 		//		Base class for validating, serializable, range-bound date or time text box.
-		//
+
 		// constraints: dijit.form._DateTimeTextBox.__Constraints
-		//		Starting / ending dates or times allowed
+		//		Despite the name, this parameter specifies both constraints on the input
+		//		(including starting/ending dates/times allowed) as well as
+		//		formatting options like whether the date is displayed in long (ex: December 25, 2005)
+		//		or short (ex: 12/25/2005) format.   See `dijit.form._DateTimeTextBox.__Constraints` for details.
 		/*=====
 		constraints: {},
 		======*/
