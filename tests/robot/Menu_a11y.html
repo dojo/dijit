@@ -23,7 +23,7 @@
 				doh.robot.initRobot('../test_Menu.html');
 
 				if(!(dojo.isSafari < 4)){ // Tab-focus not well supported on old Safari
-				doh.register("dijit.MenuBar keyboard tests",[
+				doh.register("dijit.MenuBar general keyboard tests",[
 					{
 						name: "start focus on the link, outside of menubar",
 						timeout: 5000,
@@ -72,7 +72,7 @@
 
 							doh.robot.sequence(d.getTestCallback(function(){
 								doh.is("Edit", dojo.trim(dojo.global.dijit._curFocus.innerText || dojo.global.dijit._curFocus.textContent),
-										"check that focus is on Edit menu");
+										"check that focus is on Edit MenuItem");
 							}), 1000);
 
 							return d;
@@ -182,6 +182,143 @@
 					}
 				]);
 
+				// Using left-arrow to back up (#10437)
+				doh.register("dijit.MenuBar left arrow tests",[
+					{
+						name: "start focus on the link, outside of menubar",
+						timeout: 5000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							// Start at the link
+							doh.robot.sequence(function(){
+								dijit.focus(dojo.byId("link"));
+							}, 500, 500);
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.t(dojo.global.dijit._curFocus, "something has focus");
+								doh.is("random link", dojo.global.dijit._curFocus.innerHTML, "check that focus is on the link");
+							}), 1000);
+
+							return d;
+						}
+					},
+
+					{
+						name: "tab to the menubar",
+						timeout: 5000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							// tab to the MenuBar... then focus should automatically shift to "File" menu,
+							doh.robot.keyPress(dojo.keys.TAB, 500, {});
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.is("File", dijit.getEnclosingWidget(dojo.global.dijit._curFocus).label,
+										"check that focus is on File MenuItem");
+							}), 1000);
+
+							return d;
+						}
+					},
+
+					{
+						name: "arrow to the view menu",
+						timeout: 5000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 500, {});		// TODO: use left arrow in RTL mode
+							doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 500, {});		// TODO: use left arrow in RTL mode
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.is("View", dojo.trim(dojo.global.dijit._curFocus.innerText || dojo.global.dijit._curFocus.textContent),
+										"check that focus is on View MenuItem");
+							}), 1000);
+
+							return d;
+						}
+					},
+
+					{
+						name: "down to the zoom menuitem",
+						timeout: 5000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							doh.robot.keyPress(dojo.keys.DOWN_ARROW, 500, {});	// focuses "Normal", first menu item
+							doh.robot.keyPress(dojo.keys.DOWN_ARROW, 500, {});	// focuses "Outline", second menu item
+							doh.robot.keyPress(dojo.keys.DOWN_ARROW, 500, {});	// focuses "Zoom", third menu item
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.is("Zoom", dijit.getEnclosingWidget(dojo.global.dijit._curFocus).label,
+										"check that focus is on Zoom MenuItem");
+							}), 1000);
+
+							return d;
+						}
+					},
+					
+					{
+						name: "open the zoom menu",
+						timeout: 5000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							doh.robot.keyPress(dojo.keys.RIGHT_ARROW, 500, {});
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.is("50%", dijit.getEnclosingWidget(dojo.global.dijit._curFocus).label,
+										"check that focus is on Zoom MenuItem");
+							}), 1000);
+
+							return d;
+						}
+					},
+
+					{
+						name: "close Zoom menu, back to View menu",
+						timeout: 5000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							doh.robot.keyPress(dojo.keys.LEFT_ARROW, 500, {});
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.is("Zoom", dijit.getEnclosingWidget(dojo.global.dijit._curFocus).label,
+										"check that focus is on Zoom MenuItem");
+										
+								doh.is(0, dojo.query("#zoomMenu .dijitMenuItemSelected").length,
+									"dijitMenuItemSelected removed from Zoom Menu")
+							}), 1000);
+
+							return d;
+						}
+					},
+					
+					{
+						name: "close View menu, back to MenuBar",
+						timeout: 5000,
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							// This should move focus to "Edit" in the MenuBar, which then opens
+							// the drop down and focuses on the first item (Cut)
+							doh.robot.keyPress(dojo.keys.LEFT_ARROW, 500, {});
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.is("Cut", dijit.getEnclosingWidget(dojo.global.dijit._curFocus).label,
+										"check that focus is on first MenuItem in Edit Menu");
+
+								doh.is(0, dojo.query("#viewMenu .dijitMenuItemSelected").length,
+									"dijitMenuItemSelected removed from View Menu")
+							}), 1000);
+
+							return d;
+						}
+					}
+				]);
+
 				// Run test about opening context menu via keyboard, except on safari/mac where that isn't
 				// possible (#9927)
 				if (!dojo.isMac || !dojo.isSafari) {
@@ -197,11 +334,11 @@
 							}, 500, 500);
 
 							// open via keyboard
-							if (dojo.isMac) {
+							if(dojo.isMac){
 								doh.robot.keyPress(dojo.keys.SPACE, 500, {
 									ctrl: true
 								});
-							} else {
+							}else{
 								doh.robot.keyPress(dojo.keys.F10, 500, {
 									shift: true
 								});
@@ -226,7 +363,7 @@
 					}]);
 				}
 
-				doh.register("MenuBar keyboard tests", [
+				doh.register("Cancellation (ESCAPE) tests", [
 					{
 						name: "MenuBar selection and cancellation",
 						timeout: 20000,
