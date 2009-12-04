@@ -6,8 +6,19 @@ dojo.require("dijit.form.NumberTextBox");
 /*=====
 dojo.declare(
 	"dijit.form.CurrencyTextBox.__Constraints",
-	[dijit.form.NumberTextBox.__Constraints, dojo.currency.__FormatOptions, dojo.currency.__ParseOptions]
-);
+	[dijit.form.NumberTextBox.__Constraints, dojo.currency.__ParseOptions], {
+	// summary:
+	//		Specifies both the rules on valid/invalid values (minimum, maximum,
+	//		number of required decimal places), and also formatting options for
+	//		displaying the value when the field is not focused (currency symbol,
+	//		etc.)
+	// description:
+	//		Follows the pattern of `dijit.form.NumberTextBox.constraints`.
+	//		In general developers won't need to set this parameter
+	// example:
+	//		To ensure that the user types in the cents (for example, 1.00 instead of just 1):
+	//	|		{fractional:true}
+});
 =====*/
 
 dojo.declare(
@@ -16,13 +27,23 @@ dojo.declare(
 	{
 		// summary:
 		//		A validating currency textbox
+		// description:
+		//		CurrencyTextBox is similar to `dijit.form.NumberTextBox` but has a few
+		//		extra features related to currency:
 		//
+		//		1. After specifying the currency type (american dollars, euros, etc.) it automatically
+		//			sets parse/format options such as how many decimal places to show.
+		//		2. The currency mark (dollar sign, euro mark, etc.) is displayed when the field is blurred
+		//			but erased during editing, so that the user can just enter a plain number.
+
 		// currency: String
 		//		the [ISO4217](http://en.wikipedia.org/wiki/ISO_4217) currency code, a three letter sequence like "USD"
 		currency: "",
-		//
+
 		// constraints: dijit.form.CurrencyTextBox.__Constraints
-		//		Minimum/maximum amount allowed.
+		//		Despite the name, this parameter specifies both constraints on the input
+		//		(including minimum/maximum allowed values) as well as
+		//		formatting options.   See `dijit.form.CurrencyTextBox.__Constraints` for details.
 		/*=====
 		constraints: {},
 		======*/

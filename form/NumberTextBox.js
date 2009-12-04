@@ -6,8 +6,21 @@ dojo.require("dojo.number");
 /*=====
 dojo.declare(
 	"dijit.form.NumberTextBox.__Constraints",
-	[dijit.form.RangeBoundTextBox.__Constraints, dojo.number.__FormatOptions, dojo.number.__ParseOptions]
-);
+	[dijit.form.RangeBoundTextBox.__Constraints, dojo.number.__FormatOptions, dojo.number.__ParseOptions], {
+	// summary:
+	//		Specifies both the rules on valid/invalid values (minimum, maximum,
+	//		number of required decimal places), and also formatting options for
+	//		displaying the value when the field is not focused.
+	// example:
+	//		Minimum/maximum:
+	//		To specify a field between 0 and 120:
+	//	|		{min:0,max:120}
+	//		To specify a field that must be an integer:
+	//	|		{fractional:false}
+	//		To specify a field where 0 to 3 decimal places are allowed on input,
+	//		but after the field is blurred the value is displayed with 3 decimal places:
+	//	|		{places:'0,3'}
+});
 =====*/
 
 dojo.declare("dijit.form.NumberTextBoxMixin",
@@ -24,7 +37,10 @@ dojo.declare("dijit.form.NumberTextBoxMixin",
 
 		/*=====
 		// constraints: dijit.form.NumberTextBox.__Constraints
-		//		Minimum/maximum allowed values.
+		//		Despite the name, this parameter specifies both constraints on the input
+		//		(including minimum/maximum allowed values) as well as
+		//		formatting options like places (the number of digits to display after
+		//		the decimal point).   See `dijit.form.NumberTextBox.__Constraints` for details.
 		constraints: {},
 		======*/
 
@@ -206,6 +222,19 @@ dojo.declare("dijit.form.NumberTextBox",
 	[dijit.form.RangeBoundTextBox,dijit.form.NumberTextBoxMixin],
 	{
 		// summary:
-		//		A validating, serializable, range-bound text box.
+		//		A TextBox for entering numbers, with formatting and range checking
+		// description:
+		//		NumberTextBox is a textbox for entering and displaying numbers, supporting
+		//		the following main features:
+		//
+		//			1. Enforce minimum/maximum allowed values (as well as enforcing that the user types
+		//				a number rather than a random string)
+		//			2. NLS support (altering roles of comma and dot as "thousands-separator" and "decimal-point"
+		//				depending on locale).
+		//			3. Separate modes for editing the value and displaying it, specifically that
+		//				the thousands separator character (typically comma) disappears when editing
+		//				but reappears after the field is blurred.
+		//			4. Formatting and constraints regarding the number of places (digits after the decimal point)
+		//				allowed on input, and number of places displayed when blurred (see `constraints` parameter).
 	}
 );
