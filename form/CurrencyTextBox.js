@@ -6,7 +6,7 @@ dojo.require("dijit.form.NumberTextBox");
 /*=====
 dojo.declare(
 	"dijit.form.CurrencyTextBox.__Constraints",
-	[dijit.form.NumberTextBox.__Constraints, dojo.currency.__ParseOptions], {
+	[dijit.form.NumberTextBox.__Constraints, dojo.currency.__FormatOptions, dojo.currency.__ParseOptions], {
 	// summary:
 	//		Specifies both the rules on valid/invalid values (minimum, maximum,
 	//		number of required decimal places), and also formatting options for
