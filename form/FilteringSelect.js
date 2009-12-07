@@ -117,7 +117,7 @@ dojo.declare(
 			this.store.fetchItemByIdentity({
 				identity: value,
 				onItem: function(item){
-					self._callbackSetLabel([item], undefined, priorityChange);
+					self._callbackSetLabel(item? [item] : [], undefined, priorityChange);
 				}
 			});
 		},
