@@ -853,6 +853,88 @@
 				}
 			]);
 
+			doh.register("wrap", [
+				{
+					timeout:10000,
+					name:"wrap without More choices",
+					runTest:function(){
+						var d = new doh.Deferred();
+						var combo = dijit.byId("preservetitletest");
+
+						combo.attr('pageSize', 5); // remove More choices
+						combo.focusNode.focus();
+
+						// Show list, should be in reverse order
+						doh.robot.keyPress(dojo.keys.DOWN_ARROW, 1000);
+						for(var i=0; i < 14; i++){
+							doh.robot.keyPress(dojo.keys.DOWN_ARROW, 200); // down arrow and wrap twice
+						}
+						for(i=0; i < 4; i++){
+							doh.robot.keyPress(dojo.keys.UP_ARROW, 200); // up arrow and wrap at most once
+						}
+						doh.robot.keyPress(dojo.keys.ENTER, 500); // select current item
+						doh.robot.sequence(d.getTestCallback(function(){
+							doh.is(isComboBox ? "Vermont" : "vt", combo.attr('value'), "wrap attr('value')");
+						}), 1000);
+
+						return d;
+					}
+				},
+				{
+					timeout:10000,
+					name:"wrap with More choices",
+					runTest:function(){
+						var d = new doh.Deferred();
+						var combo = dijit.byId("preservetitletest");
+
+						combo.attr('pageSize', 4); // add More choices
+						combo.focusNode.focus();
+
+						// Show list, should be in reverse order
+						doh.robot.keyPress(dojo.keys.DOWN_ARROW, 1000);
+						for(var i=0; i < 14; i++){
+							doh.robot.keyPress(dojo.keys.DOWN_ARROW, 200); // down arrow and wrap twice
+						}
+						for(i=0; i < 5; i++){
+							doh.robot.keyPress(dojo.keys.UP_ARROW, 200); // up arrow and wrap at most once
+						}
+						doh.robot.keyPress(dojo.keys.ENTER, 500); // select current item
+						doh.robot.sequence(d.getTestCallback(function(){
+							doh.is(isComboBox ? "Massachusetts" : "ma", combo.attr('value'), "wrap attr('value')");
+						}), 1000);
+
+						return d;
+					}
+				},
+				{
+					timeout:10000,
+					name:"wrap and TAB from Prev choices",
+					runTest:function(){
+						var d = new doh.Deferred();
+						var combo = dijit.byId("preservetitletest");
+
+						combo.attr('pageSize', 4); // add More choices
+						combo.attr('value', isComboBox ? "Maine" : "me", true); // fires onChange
+						combo.attr('value', isComboBox ? "Connecticut" : "ct", false); // temporary value
+						combo.focusNode.focus();
+
+						// Show list, should be in reverse order
+						doh.robot.keyPress(dojo.keys.DOWN_ARROW, 1000);
+						for(var i=0; i < 5; i++){
+							doh.robot.keyPress(dojo.keys.DOWN_ARROW, 200); // down arrow to More choices
+						}
+						doh.robot.keyPress(dojo.keys.ENTER, 500); // select More choices
+						doh.robot.keyPress(dojo.keys.UP_ARROW, 1000); // up arrow to Previous choices
+						doh.robot.keyPress(dojo.keys.TAB, 500); // select current item
+						doh.robot.sequence(d.getTestCallback(function(){
+							doh.is(isComboBox ? "Maine" : "me", combo.attr('value'), "Previous choice reverts value");
+						}), 1000);
+
+						return d;
+					}
+				}
+			]);
+
 			doh.run();
 		});
 	</script>

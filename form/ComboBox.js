@@ -317,7 +317,7 @@ dojo.declare(
 				return;
 			}
 			this._popupWidget.clearResultList();
-			if(!results.length){
+			if(!results.length && !this._maxOptions){ // this condition needs to match !this._isvalid set in FilteringSelect::_openResultList
 				this._hideResultList();
 				return;
 			}
@@ -420,7 +420,7 @@ dojo.declare(
 			// #4617:
 			//		if value is now more choices or previous choices, revert
 			//		the value
-			var newvalue=this.attr('displayedValue');
+			var newvalue = this.attr('displayedValue');
 			var pw = this._popupWidget;
 			if(pw && (
 				newvalue == pw._messages["previousMessage"] ||
@@ -474,7 +474,7 @@ dojo.declare(
 			}
 			// pull the text value from the item attached to the DOM node
 			var newValue;
-			if( node == this._popupWidget.nextButton ||
+			if(node == this._popupWidget.nextButton ||
 				node == this._popupWidget.previousButton){
 				newValue = node.innerHTML;
 				this.item = undefined;
@@ -870,13 +870,11 @@ dojo.declare(
 			if(dataObject._maxOptions && dataObject._maxOptions != -1){
 				if((dataObject.start + dataObject.count) < dataObject._maxOptions){
 					displayMore = true;
-				}else if((dataObject.start + dataObject.count) > (dataObject._maxOptions - 1)){
+				}else if((dataObject.start + dataObject.count) > dataObject._maxOptions && dataObject.count == results.length){
 					//Weird return from a datastore, where a start + count > maxOptions
 					// implies maxOptions isn't really valid and we have to go into faking it.
 					//And more or less assume more if count == results.length
-					if(dataObject.count == results.length){
-						displayMore = true;
-					}
+					displayMore = true;
 				}
 			}else if(dataObject.count == results.length){
 				//Don't know the size, so we do the best we can based off count alone.
@@ -964,13 +962,15 @@ dojo.declare(
 			// because each press of a button clears the menu,
 			// the highlighted option sometimes becomes detached from the menu!
 			// test to see if the option has a parent to see if this is the case.
-			var fc = this.domNode.firstChild;
 			if(!this.getHighlightedOption()){
+				var fc = this.domNode.firstChild;
 				this._focusOptionNode(fc.style.display == "none" ? fc.nextSibling : fc);
 			}else{
 				var ns = this._highlighted_option.nextSibling;
 				if(ns && ns.style.display != "none"){
 					this._focusOptionNode(ns);
+				}else{
+					this.highlightFirstOption();
 				}
 			}
 			// scrollIntoView is called outside of _focusOptionNode because in IE putting it inside causes the menu to scroll up on mouseover
@@ -980,7 +980,9 @@ dojo.declare(
 		highlightFirstOption: function(){
 			// summary:
 			// 		Highlight the first real item in the list (not Previous Choices).
-			this._focusOptionNode(this.domNode.firstChild.nextSibling);
+			var first = this.domNode.firstChild;
+			var second = first.nextSibling;
+			this._focusOptionNode(second.style.display == "none" ? first : second); // remotely possible that Previous Choices is the only thing in the list
 			dijit.scrollIntoView(this._highlighted_option);
 		},
 
@@ -996,13 +998,15 @@ dojo.declare(
 			// 		Highlight the item just above the current selection.
 			// 		If nothing selected, highlight last option (if
 			// 		you select Previous and try to keep scrolling up the list).
-			var lc = this.domNode.lastChild;
 			if(!this.getHighlightedOption()){
+				var lc = this.domNode.lastChild;
 				this._focusOptionNode(lc.style.display == "none" ? lc.previousSibling : lc);
 			}else{
 				var ps = this._highlighted_option.previousSibling;
 				if(ps && ps.style.display != "none"){
 					this._focusOptionNode(ps);
+				}else{
+					this.highlightLastOption();
 				}
 			}
 			dijit.scrollIntoView(this._highlighted_option);
