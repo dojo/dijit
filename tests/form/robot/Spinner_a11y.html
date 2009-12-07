@@ -613,6 +613,44 @@
 							}), 500);
 							return d;
 						}
+					},
+					{
+						name: "out-of-range formatting",
+						timeout: 15000,
+						setUp:function(){
+							spin3.focusNode.value="";
+							spin3.focus();
+						},
+						runTest: function(){
+							var d=new doh.Deferred();
+							doh.robot.typeKeys("156.0", 1000, 1000);
+							doh.robot.keyPress(dojo.keys.TAB, 500);
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.f(spin3.isValid(), "out-of-range is invalid");
+								doh.is('156.0', spin3.attr('displayedValue'), "fraction not removed from out-of-range");
+								doh.is(156, spin3.attr('value'), "out-of-range number returns number");
+							}), 1000);
+							return d;
+						}
+					},
+					{
+						name: "improper fraction",
+						timeout: 15000,
+						setUp:function(){
+							spin4.focusNode.value="";
+							spin4.focus();
+						},
+						runTest: function(){
+							var d=new doh.Deferred();
+							doh.robot.typeKeys("99", 1000, 400);
+							doh.robot.keyPress(dojo.keys.TAB, 500);
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.f(spin4.isValid(), "missing fraction is invalid");
+								doh.is('99', spin4.attr('displayedValue'), "fraction not added to unparsable number");
+								doh.t(isNaN(spin4.attr('value')), "unparsable number causes no value");
+							}), 1000);
+							return d;
+						}
 					}
 				]);
 
