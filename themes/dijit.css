@@ -623,39 +623,13 @@ table .dijitComboButton .dijitButtonNode {
 .dijitTooltipConnector {
 	position: absolute;
 }
+.dijit_a11y .dijitTooltipConnector {
+	display: none;	/* won't show b/c it's background-image; hide to avoid border gap */
+}
 
 .dijitTooltipData {
 	display:none;
 }
-/* MOW: using actual images at this time ??? close???
-/* draw an arrow with CSS only * /
-.dijitTooltipConnector {
-	/* the border on the triangle * /
-	font-size: 0; line-height: 0%; width: 0;
-	border-top: none;
-	border-bottom: 14px solid black;
-	border-left: 7px solid transparent;
-	border-right: 7px solid transparent;
-	top: -14px;
-	left: 3px;
-	z-index: 2;
-}
-
-.dijitTooltipConnector div {
-	/* the background of the triangle * /
-	font-size: 0; line-height: 0%; width: 0;
-	position: absolute;
-	border-bottom: 10px solid #b8b5b5;
-	border-left: 5px solid transparent;
-	border-right: 5px solid transparent;
-	top: 6px;
-	left: -5px;
-	z-index: 3;
-}
-
-*/
-
-
 
 /* Layout widgets. This is essential CSS to make layout work (it isn't "styling" CSS)
    make sure that the position:absolute in dijitAlign* overrides other classes */
