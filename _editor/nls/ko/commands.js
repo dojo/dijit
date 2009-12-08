@@ -38,6 +38,12 @@
 	'fontSize': '글꼴 크기',
 	'fontName': '글꼴 이름',
 	'tabIndent': '탭 들여쓰기',
+	"fullScreen": "전체 화면",    
+	"viewSource": "소스 보기",    
+	"print": "인쇄",    
+	"newPage": "새 글",    
 	/* Error messages */
-	'systemShortcut': '"${0}" 조치는 브라우저에서 키보드 단축키를 통해서만 사용 가능합니다. ${1}을(를) 사용하십시오.'
+	'systemShortcut': '"${0}" 조치는 브라우저에서 키보드 단축키를 통해서만 사용 가능합니다. ${1}을(를) 사용하십시오.',
+	'ctrlKey':'ctrl+${0}',    
+	'appleKey':'\u2318${0}' // "command" or open-apple key on Macintosh    
 })
