@@ -25,7 +25,7 @@
 		var str = window.location.href.substr(window.location.href.indexOf("?")+1).split(/#/);
 		var ary  = str[0].split(/&/);
 		for(var i=0; i<ary.length; i++){
-			var split = ary[i].split(/=/),
+			var split = ary[i].split("="),
 				key = split[0],
 				value = split[1];
 			switch(key){
@@ -47,7 +47,11 @@
 		}
 	}
 
-	// always include the default theme files:
+	// If URL specifies a non-tundra theme then pull in those theme CSS files and modify
+	// <body> to point to that new theme instead of tundra.
+	//
+	// Also defer parsing and any dojo.addOnLoad() calls that the test file makes
+	// until the CSS has finished loading.
 	if(theme || testMode){
 
 		if(theme){
@@ -60,11 +64,17 @@
 		if(dojo.config.parseOnLoad){
 			dojo.config.parseOnLoad = false;
 			dojo.config._deferParsing = true;
+			
+			// Capture any dojo.addOnLoad() calls the test makes and defer them until after
+			// the new CSS loads.   (TODO: would be more straightforward to just make a
+			// testAddOnLoad() function and call that from the test files)
+			var originalOnLoad = dojo.addOnLoad,
+				loadFuncs = [];
+			dojo.addOnLoad = function(f){ loadFuncs.push(f); };
 		}
 
-		d.addOnLoad(function(){
-
-			// set the classes
+		(originalOnLoad || dojo.addOnLoad)(function(){
+			// Reset <body> to point to the specified theme
 			var b = dojo.body();
 			if(theme){
 					dojo.removeClass(b, defTheme);
@@ -73,10 +83,15 @@
 					if(n){ d.destroy(n); }
 			}
 			if(testMode){ d.addClass(b, testMode); }
+
+			// Defer parsing and addOnLoad() execution until the specified CSS loads.
 			if(dojo.config._deferParsing){
-				// attempt to elimiate race condition introduced by this
-				// test helper file.  120ms to allow CSS to finish/process?
-				setTimeout(dojo.hitch(d.parser, "parse", b), 120);
+				setTimeout(function(){
+					dojo.parser.parse(b);
+					for(var i=0; i<loadFuncs.length; i++){
+						loadFuncs[i]();
+					}
+				}, 120);
 			}
 
 		});
