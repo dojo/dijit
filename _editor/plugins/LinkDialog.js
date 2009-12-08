@@ -389,7 +389,9 @@ dojo.declare("dijit._editor.plugins.ImgLinkDialog", [dijit._editor.plugins.LinkD
 		//		Over-ridable function that connects tag specific events.
 		this.inherited(arguments);
 		this.editor.onLoadDeferred.addCallback(dojo.hitch(this, function(){
-			this.connect(this.editor.editNode, "onclick", this._selectTag);
+			// Use onmousedown instead of onclick.  Seems that IE eats the first onclick
+			// to wrap it in a selector box, then the second one acts as onclick.  See #10420
+			this.connect(this.editor.editNode, "onmousedown", this._selectTag);
 		}));
 	},
 
@@ -399,7 +401,7 @@ dojo.declare("dijit._editor.plugins.ImgLinkDialog", [dijit._editor.plugins.LinkD
 		//		makes it easier to select images in a standard way across browsers.  Otherwise
 		//		selecting an image for edit becomes difficult.
 		// e: Event
-		//		The click event.
+		//		The mousedown event.
 		// tags:
 		//		private
 		if(e && e.target){

@@ -724,6 +724,57 @@
 						tearDown: function(){
 							if(editor){editor.attr("value", value);}
 						}
+					},
+					{
+						name: "Image Tag: Single click selects image.",
+						timeout: 20000,
+						setUp: function(){
+							editor = dijit.byId("editor");
+							ldPlugin = null;
+							var edPlugins = editor._plugins, i;
+							for(i = 0; i < edPlugins.length; i++){
+								var p = edPlugins[i];
+								if(p.declaredClass === "dijit._editor.plugins.ImgLinkDialog"){
+									ldPlugin = p;
+									break;
+								}
+							}
+							dojo.withGlobal(editor.window, function(){
+								node = dojo.byId("exampleImage");
+							});
+							value = editor.attr("value");
+						},
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							try{
+								//Focus on the editor window
+								dijit.scrollIntoView(editor.domNode);
+								editor.focus();
+								doh.robot.mouseMoveAt(editor.iframe, 500);
+								doh.robot.mouseClick({left:true}, 500);
+
+								//Find the fullscreen plugin, we'll need it.
+								doh.assertTrue(ldPlugin !== null, "Verifying the link dialog.");
+								var value = editor.attr("value");
+
+								doh.robot.mouseMoveAt(node, 500);
+								doh.robot.mouseClick({left:true}, 500);
+								doh.robot.sequence(d.getTestCallback(function(){
+									var selectedElement = editor._sCall("getSelectedElement", [null]);
+									doh.assertTrue(selectedElement != null);
+									var tag = selectedElement.tagName? selectedElement.tagName.toLowerCase() : "";
+									doh.assertTrue(tag === "img");
+									doh.assertTrue(selectedElement.getAttribute("id") === "exampleImage");
+								}), 2000);
+							}catch(e){
+								d.errback(e);
+							}
+							return d;
+						},
+						tearDown: function(){
+							if(editor){editor.attr("value", value);}
+						}
 					}
 				]);
 				doh.run();
