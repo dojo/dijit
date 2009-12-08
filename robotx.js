@@ -10,7 +10,7 @@ dojo.mixin(doh.robot,{
 		__updateDocument();
 		var win = dojo.global;
 		if(win["dijit"]){
-			dijit.registry = win.dijit.registry;
+			dijit = win.dijit;
 		}
 	}
 });
