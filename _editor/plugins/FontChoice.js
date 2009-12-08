@@ -92,6 +92,10 @@ dojo.declare("dijit._editor.plugins._FontDropDown",
 		//if the value is not a permitted value, just set empty string to prevent showing the warning icon
 		priorityChange = priorityChange !== false?true:false;
 		this.select.attr('value', dojo.indexOf(this.values,value) < 0 ? "" : value, priorityChange);
+		if(!priorityChange){
+			// Clear the last state in case of updateState calls.  Ref: #10466
+			this.select._lastValueReported=null;
+		}
 	},
 
 	_getValueAttr: function(){

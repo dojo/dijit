@@ -62,7 +62,7 @@
 										dijit._editor.selection.collapse(true);
 									});
 								},1000);
-				                doh.robot.sequence(function(){
+								doh.robot.sequence(function(){
 									editor.onDisplayChanged();
 								}, 1000);
 								doh.robot.sequence(d.getTestCallback(function(){
@@ -114,7 +114,7 @@
 									});
 									// Make sure states update.
 								},1000);
-				                doh.robot.sequence(function(){
+								doh.robot.sequence(function(){
 									editor.onDisplayChanged();
 								}, 1000);
 								doh.robot.sequence(d.getTestCallback(function(){
@@ -164,7 +164,7 @@
 										dijit._editor.selection.collapse(true);
 									});
 								},1000);
-				                doh.robot.sequence(function(){
+								doh.robot.sequence(function(){
 									editor.onDisplayChanged();
 								}, 1000);
 								doh.robot.sequence(d.getTestCallback(function(){
@@ -214,7 +214,7 @@
 										dijit._editor.selection.collapse(true);
 									});
 								},1000);
-				                doh.robot.sequence(function(){
+								doh.robot.sequence(function(){
 									editor.onDisplayChanged();
 								}, 1000);
 								doh.robot.sequence(d.getTestCallback(function(){
@@ -315,7 +315,7 @@
 									});
 									// Make sure states update.
 								},1000);
-				                doh.robot.sequence(function(){
+								doh.robot.sequence(function(){
 									editor.onDisplayChanged();
 								}, 1000);
 								doh.robot.sequence(d.getTestCallback(function(){
@@ -367,7 +367,7 @@
 									});
 									// Make sure states update.
 								},1000);
-				                doh.robot.sequence(function(){
+								doh.robot.sequence(function(){
 									editor.onDisplayChanged();
 								}, 1000);
 								doh.robot.sequence(d.getTestCallback(function(){
@@ -419,7 +419,7 @@
 									});
 									// Make sure states update.
 								},1000);
-				                doh.robot.sequence(function(){
+								doh.robot.sequence(function(){
 									editor.onDisplayChanged();
 								}, 1000);
 								doh.robot.sequence(d.getTestCallback(function(){
@@ -471,11 +471,90 @@
 									});
 									// Make sure states update.
 								},1000);
-				                doh.robot.sequence(function(){
+								doh.robot.sequence(function(){
 									editor.onDisplayChanged();
 								}, 1000);
 								doh.robot.sequence(d.getTestCallback(function(){
 									doh.assertEqual("h3", fcPlugin.button.attr("value"), "Verify P converted to H3.");
+								}), 2000);
+							}catch(e){
+								d.errback(e);
+							}
+							return d;
+						},
+						tearDown: function(){
+							if(editor){editor.attr("value", value);}
+						}
+					},
+					{
+						name: "formatBlock: Verify multiple changes to h3 apply",
+						timeout: 20000,
+						setUp: function(){
+							editor = dijit.byId("editor0");
+							fcPlugin = null;
+							var edPlugins = editor._plugins, i;
+							for(i = 0; i < edPlugins.length; i++){
+								var p = edPlugins[i];
+								if(p.declaredClass === "dijit._editor.plugins.FontChoice" && p.command === "formatBlock"){
+									fcPlugin = p;
+									break;
+								}
+							}
+							value = editor.attr("value");
+						},
+						runTest: function(){
+							var d = new doh.Deferred();
+							try{
+								//Focus on the editor window
+								dijit.scrollIntoView(editor.domNode);
+								editor.focus();
+								doh.robot.mouseMoveAt(editor.iframe, 1000);
+								doh.robot.mouseClick({left:true}, 1000);
+
+								//Find the fullscreen plugin, we'll need it.
+								doh.assertTrue(fcPlugin !== null, "Verifying the font choice.");
+								doh.robot.sequence(function(){
+									var p = dojo.withGlobal(editor.window, function() { return dojo.byId("text"); });
+									dojo.withGlobal(editor.window, function() {
+										// Select the text, collapse to the start of it
+										dijit._editor.selection.selectElementChildren(p);
+										dijit._editor.selection.collapse(true);
+										fcPlugin.button.attr("value", "h3");
+									});
+									// Make sure states update.
+								},1000);
+								doh.robot.sequence(function(){
+									editor.onDisplayChanged();
+								}, 1000);
+								doh.robot.sequence(function(){
+									doh.assertEqual("h3", fcPlugin.button.attr("value"), "Verify first P converted to H3.");
+								}, 2000);
+
+								// Move to the next block and try to change it to h3 too.
+								doh.robot.sequence(function(){
+									var p = dojo.withGlobal(editor.window, function() { return dojo.byId("text1"); });
+									dojo.withGlobal(editor.window, function() {
+										// Select the text, collapse to the start of it
+										dijit._editor.selection.selectElementChildren(p);
+										dijit._editor.selection.collapse(true);
+										fcPlugin.button.attr("value", "h3");
+									});
+								},1000);
+								doh.robot.sequence(function(){
+									editor.onDisplayChanged();
+								}, 1000);
+								doh.robot.sequence(function(){
+									dojo.withGlobal(editor.window, function() {
+										// state should have updated, so, now set value.
+										fcPlugin.button.attr("value", "h3");
+									});
+									// Make sure states update.
+								},1000);
+								doh.robot.sequence(function(){
+									editor.onDisplayChanged();
+								}, 1000);
+								doh.robot.sequence(d.getTestCallback(function(){
+									doh.assertEqual("h3", fcPlugin.button.attr("value"), "Verify second P converted to H3.");
 								}), 2000);
 							}catch(e){
 								d.errback(e);
@@ -522,7 +601,7 @@
 									});
 									// Make sure states update.
 								},1000);
-				                doh.robot.sequence(function(){
+								doh.robot.sequence(function(){
 									editor.onDisplayChanged();
 								}, 1000);
 								doh.robot.sequence(d.getTestCallback(function(){
@@ -573,7 +652,7 @@
 									});
 									// Make sure states update.
 								},1000);
-				                doh.robot.sequence(function(){
+								doh.robot.sequence(function(){
 									editor.onDisplayChanged();
 								}, 1000);
 								doh.robot.sequence(d.getTestCallback(function(){
@@ -624,7 +703,7 @@
 									});
 									// Make sure states update.
 								},1000);
-				                doh.robot.sequence(function(){
+								doh.robot.sequence(function(){
 									editor.onDisplayChanged();
 								}, 1000);
 								doh.robot.sequence(d.getTestCallback(function(){
@@ -675,7 +754,7 @@
 									});
 									// Make sure states update.
 								},1000);
-				                doh.robot.sequence(function(){
+								doh.robot.sequence(function(){
 									editor.onDisplayChanged();
 								}, 1000);
 								doh.robot.sequence(d.getTestCallback(function(){
@@ -726,7 +805,7 @@
 									});
 									// Make sure states update.
 								},1000);
-				                doh.robot.sequence(function(){
+								doh.robot.sequence(function(){
 									editor.onDisplayChanged();
 								}, 1000);
 								doh.robot.sequence(d.getTestCallback(function(){
@@ -777,7 +856,7 @@
 									});
 									// Make sure states update.
 								},1000);
-				                doh.robot.sequence(function(){
+								doh.robot.sequence(function(){
 									editor.onDisplayChanged();
 								}, 1000);
 								doh.robot.sequence(d.getTestCallback(function(){
