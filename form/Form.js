@@ -100,6 +100,27 @@ dojo.declare(
 			this.inherited(arguments);
 		},
 
+		reset: function(/*Event?*/ e){
+			// summary:
+			//		restores all widget values back to their init values,
+			//		calls onReset() which can cancel the reset by returning false
+
+			// create fake event so we can know if preventDefault() is called
+			var faux = {
+				returnValue: true, // the IE way
+				preventDefault: function(){ // not IE
+							this.returnValue = false;
+						},
+				stopPropagation: function(){}, 
+				currentTarget: e ? e.target : this.domNode, 
+				target: e ? e.target : this.domNode
+			};
+			// if return value is not exactly false, and haven't called preventDefault(), then reset
+			if(!(this.onReset(faux) === false) && faux.returnValue){
+				this.inherited(arguments, []);
+			}
+		},
+
 		onReset: function(/*Event?*/ e){
 			// summary:
 			//		Callback when user resets the form. This method is intended
@@ -112,18 +133,7 @@ dojo.declare(
 		},
 
 		_onReset: function(e){
-			// create fake event so we can know if preventDefault() is called
-			var faux = {
-				returnValue: true, // the IE way
-				preventDefault: function(){ // not IE
-							this.returnValue = false;
-						},
-				stopPropagation: function(){}, currentTarget: e.currentTarget, target: e.target
-			};
-			// if return value is not exactly false, and haven't called preventDefault(), then reset
-			if(!(this.onReset(faux) === false) && faux.returnValue){
-				this.reset();
-			}
+			this.reset(e);
 			dojo.stopEvent(e);
 			return false;
 		},

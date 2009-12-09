@@ -250,11 +250,24 @@
 						}
 					},
 					function resetTest(){
+						formWidget._onResetReturn = false;
 						formWidget.reset();
-						doh.is( dojo.toJson(reset), dojo.toJson(formWidget.attr('value')) );
+						doh.isNot( dojo.toJson(reset), dojo.toJson(formWidget.attr('value')), "reset stopped");
+						formWidget._onResetReturn = true;
+						formWidget.reset();
+						delete formWidget._onResetReturn;
+						doh.is( dojo.toJson(reset), dojo.toJson(formWidget.attr('value')), "reset permitted" );
 					},
 					function testValidate(){
 						doh.is(formWidget.validate(), true);
+					},
+					function resetEditor(){ // reset editor so that refresh will pass all tests
+						dijit.byId('editor').attr('value', original.richtext);
+						// FF3 sticks in some tabs and newlines that mess up the equality check
+						// Need better way to compare two HTML trees but for now do this.
+						var values = formWidget.attr('value');
+						values.richtext = values.richtext.replace(/[\n\t]/, "", "g");
+						doh.is( dojo.toJson(original), dojo.toJson(values) );
 					}
 				]
 			);
@@ -277,7 +290,7 @@
 	<form dojoType="dijit.form.Form" id="myForm"
 		encType="multipart/form-data" action="../formAction.html" method="" target="_formSubmitIframe">
 		<script type="dojo/method" event="onReset">
-			return confirm('Press OK to reset widget values');
+			return ("_onResetReturn" in this)? this._onResetReturn : confirm('Press OK to reset widget values');
 		</script>
 		<script type="dojo/method" event="onSubmit">
 			console.debug('Attempting to submit form w/values:\n',
@@ -527,7 +540,8 @@ simple line 2</textarea>
 		<button dojoType="dijit.form.Button" onClick="setValues();">Set Values to form!</button>
 		<button dojoType="dijit.form.Button" onClick="validate();">Validate form!</button>
 		<button dojoType="dijit.form.Button" type="submit" value="Submit">Submit</button>
-		<button dojoType="dijit.form.Button" type="reset">Reset</button>
+		<button dojoType="dijit.form.Button" type="reset">HTML Reset</button>
+		<button dojoType="dijit.form.Button" type="button" onClick="dijit.byId('myForm').reset()">reset()</button>
 	</form>
 <button dojoType="dijit.form.Button" type="button"
 onclick="dijit.byId('myForm').submit()">Submit programmatically</button>
