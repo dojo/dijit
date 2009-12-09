@@ -900,7 +900,7 @@ dojo.declare(
 		},
 
 		_onMouseUp: function(/*Event*/ evt){
-			if(evt.target === this.domNode){
+			if(evt.target === this.domNode || !this._highlighted_option){
 				return;
 			}else if(evt.target == this.previousButton){
 				this.onPage(-1);

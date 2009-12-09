@@ -53,8 +53,7 @@
 							}
 						};
 				})
-			 );
-
+			);
 
 			doh.register("drop down navigation / mouse", [
 				{
@@ -66,7 +65,7 @@
 						var combo = dijit.byId("setvaluetest");
 
 						// Open drop down
-						doh.robot.mouseMoveAt(combo.downArrowNode, 500);
+						doh.robot.mouseMoveAt(combo.downArrowNode, 500, 500);
 						doh.robot.mouseClick({left:true}, 500);
 
 						doh.robot.sequence(d.getTestCallback(function(){
@@ -74,7 +73,7 @@
 								entries = dojo.query("li", list).filter(isVisible);
 							doh.t(isVisible(list), "list is visible");
 							doh.is(31, entries.length, "30 elements plus next button");
-						}), 3000);
+						}), 1000, 500);
 
 						return d;
 					}
@@ -92,14 +91,14 @@
 						doh.t(isVisible(list), "list is still visible");
 						doh.t(moreEntriesButton, "found more entries button");
 
-						doh.robot.mouseMoveAt(moreEntriesButton, 500);
+						doh.robot.mouseMoveAt(moreEntriesButton, 500, 500);
 						doh.robot.mouseClick({left:true}, 500);
 
 						doh.robot.sequence(d.getTestCallback(function(){
 							var list = dojo.byId("setvaluetest_popup"),
 								entries = dojo.query("li", list).filter(isVisible);
 								doh.is("Minnesota (MN)", innerText(entries[1]));
-						}), 3000);
+						}), 1000, 500);
 
 						return d;
 					}
@@ -113,7 +112,7 @@
 
 						var moreEntriesButton = dojo.query(":last-child", dojo.byId("setvaluetest_popup"))[0];
 
-						doh.robot.mouseMoveAt(moreEntriesButton, 500);
+						doh.robot.mouseMoveAt(moreEntriesButton, 500, 500);
 						doh.robot.mouseClick({left:true}, 500);
 
 						doh.robot.sequence(d.getTestCallback(function(){
@@ -121,7 +120,7 @@
 								entries = dojo.query("li", list).filter(isVisible);
 								doh.is(2, entries.length, "previous choices + wyoming");
 								doh.is("Wyoming (WY)", innerText(entries[1]));
-						}), 3000);
+						}), 1000, 500);
 
 						return d;
 					}
@@ -135,7 +134,7 @@
 
 						var previousEntriesButton = dojo.query(":first-child", dojo.byId("setvaluetest_popup"))[0];
 
-						doh.robot.mouseMoveAt(previousEntriesButton, 500);
+						doh.robot.mouseMoveAt(previousEntriesButton, 500, 500);
 						doh.robot.mouseClick({left:true}, 500);
 
 						doh.robot.sequence(d.getTestCallback(function(){
@@ -144,7 +143,7 @@
 								doh.is(32, entries.length, "30 states, plus next and previous button");
 								doh.is("Minnesota (MN)", innerText(entries[1]));
 								doh.is("Wisconsin (WI)", innerText(entries[30]));
-						}), 3000);
+						}), 1000, 500);
 
 						return d;
 					}
@@ -160,7 +159,7 @@
 							entries = dojo.query("li", list),
 							nj = entries[8];
 
-						doh.robot.mouseMoveAt(nj, 500);
+						doh.robot.mouseMoveAt(nj, 500, 500);
 						doh.robot.mouseClick({left:true}, 500);
 
 						doh.robot.sequence(d.getTestCallback(function(){
@@ -168,7 +167,7 @@
 								"selected New Jersey from drop down");
 							var count = dijit.byId("setvaluetest").labelFuncCounts['NJ'];
 							doh.is(4, count, "custom labelFunc was called " + count + " times (expected 4)");
-						}), 3000);
+						}), 1000, 500);
 
 						return d;
 					}
@@ -182,10 +181,10 @@
 
 						var combo = dijit.byId("setvaluetest");
 						// focus combo
-						doh.robot.mouseMoveAt(combo.focusNode, 500);
+						doh.robot.mouseMoveAt(combo.focusNode, 500, 500);
 						doh.robot.mouseClick({left:true}, 500);
 						// blur
-						doh.robot.mouseMoveAt(combo.focusNode, 500, 500, 0, -10);
+						doh.robot.mouseMoveAt('sv1_4', 500, 500);
 						doh.robot.mouseClick({left:true}, 500);
 
 						doh.robot.sequence(d.getTestCallback(function(){
@@ -193,7 +192,7 @@
 								"New Jersey still set after blur");
 							var count = dijit.byId("setvaluetest").labelFuncCounts['NJ'];
 							doh.is(4, count, "custom labelFunc was called " + count + " times (expected 4, unchanged after blur)");
-						}), 3000);
+						}), 1000, 500);
 
 						return d;
 					}
@@ -210,13 +209,13 @@
 						var d = new doh.Deferred(),
 							combo = dijit.byId("combo3");
 
-						doh.robot.mouseMoveAt(combo.focusNode, 500);
+						doh.robot.mouseMoveAt(combo.focusNode, 500, 500);
 						doh.robot.mouseClick({left:true}, 500);
 
 						doh.robot.sequence(d.getTestCallback(function(){
 							// TODO: uncomment when #8595 is fixed
 							//doh.isNot(combo, dijit.getEnclosingWidget(dojo.global.dijit._curFocus), "click doesn't focus disabled combo");
-						}), 3000);
+						}), 1000, 500);
 
 						return d;
 					}
@@ -229,7 +228,7 @@
 							combo = dijit.byId("combo3");
 
 						// Press Arrow Button
-						doh.robot.mouseMoveAt(combo.downArrowNode, 500);
+						doh.robot.mouseMoveAt(combo.downArrowNode, 500, 500);
 						doh.robot.mouseClick({left:true}, 500);
 
 						// Assert that nothing happened
@@ -238,8 +237,52 @@
 
 							// Testcase for #8923, uncomment when that bug is fixed
 							//doh.isNot(combo, dijit.getEnclosingWidget(dojo.global.dijit._curFocus), "button-click doesn't focus disabled combo");
-						}), 3000);
+						}), 1000, 500);
 						return d;
+					}
+				}
+			]);
+
+			doh.register("9898", [
+				{
+					timeout: 9000,
+					name: "firefox mouse problem",
+					combo: "labelFunc",
+					handle: null,
+					setUp: function(){
+						this.combo = dijit.byId(this.combo);
+					},
+					runTest: function(){ // very hard to hit due to timing
+						var d = new doh.Deferred();
+						dojo.byId("native").scrollIntoView(false); // force to bottom of screen
+						// jump through hoops to increase the odds of hitting the problem
+						handle = this.combo.connect(this.combo, 'open', // when this.open() is called, set up 1 time event handlers
+							function(){
+								var popup = dijit.byId("labelFunc_popup"); // combobox results
+								var old = dojo.global.dojo._setMarginBox; // menu is about to be shrunk to fit the viewport, so stop this
+								dojo.global.dojo._setMarginBox = dojo.hitch(dojo.global,
+									function(){
+										dojo.global.dojo._setMarginBox = old; // restore original _setMarginBox
+									});
+								var old2 = popup._focusOptionNode;
+								popup._focusOptionNode = // LI option is about to be highlighted, so stop that as well
+									function(node){
+										popup._focusOptionNode = old2; // restore original _focusOptionNode
+									};
+								doh.robot.mouseRelease({left:true}, 0); // invoke popup._onMouseUp
+								doh.robot.sequence(d.getTestCallback(function(){
+									doh.t(isVisible(popup.domNode), "list is visible");
+								}), 1000, 500);
+							}
+						);
+						doh.robot.mouseMoveAt(this.combo.downArrowNode, 1000, 500);
+						doh.robot.mousePress({left:true}, 500) // mousedown on the arrow image
+
+						return d;
+					},
+					tearDown: function(){
+						this.combo.disconnect(handle);
+						this.combo._hideResultList();
 					}
 				}
 			]);
