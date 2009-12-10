@@ -403,11 +403,6 @@ dojo.declare("dijit.Menu",
 	// 		When this menu closes, re-focus the element which had focus before it was opened.
 	refocus: true,
 
-	// _contextMenuWithMouse: [private] Boolean
-	//		Used to record mouse and keyboard events to determine if a context
-	//		menu is being opened with the keyboard or the mouse.
-	_contextMenuWithMouse: false,
-
 	postCreate: function(){
 		if(this.contextMenuForWindow){
 			this.bindDomNode(dojo.body());
@@ -509,14 +504,24 @@ dojo.declare("dijit.Menu",
 
 		// Setup the connections to monitor click etc., unless we are connecting to an iframe which hasn't finished
 		// loading yet, in which case we need to wait for the onload event first, and then connect
+		// On linux Shift-F10 produces the oncontextmenu event, but on Windows it doesn't, so
+		// we need to monitor keyboard events in addition to the oncontextmenu event.
 		var doConnects = dojo.hitch(this, function(cn){
 			return [
-				dojo.connect(cn, (this.leftClickToOpen)?"onclick":"oncontextmenu", this, function(evt){
-					this._openMyself(evt, cn, iframe);
+				// TODO: when leftClickToOpen is true then shouldn't space/enter key trigger the menu,
+				// rather than shift-F10?
+				dojo.connect(cn, this.leftClickToOpen ? "onclick" : "oncontextmenu", this, function(evt){
+					// Schedule context menu to be opened unless it's already been scheduled from onkeydown handler
+					dojo.stopEvent(evt);
+					this._scheduleOpen(evt.target, iframe, {x: evt.pageX, y: evt.pageY});
 				}),
-				dojo.connect(cn, "onkeydown", this, "_contextKey"),
-				dojo.connect(cn, "onmousedown", this, "_contextMouse")
-			];
+				dojo.connect(cn, "onkeydown", this, function(evt){
+					if(evt.shiftKey && evt.keyCode == dojo.keys.F10){
+						dojo.stopEvent(evt);
+						this._scheduleOpen(evt.target, iframe);	// no coords - open near target node
+					}
+				})
+			];	
 		});
 		binding.connects = cn ? doConnects(cn) : [];
 
@@ -577,84 +582,73 @@ dojo.declare("dijit.Menu",
 		}
 	},
 
-	_contextKey: function(e){
+	_scheduleOpen: function(/*DomNode?*/ target, /*DomNode?*/ iframe, /*Object?*/ coords){
 		// summary:
-		//		Code to handle popping up editor using F10 key rather than mouse
-		// tags:
-		//		private
-		this._contextMenuWithMouse = false;
-		if(e.keyCode == dojo.keys.F10){
-			dojo.stopEvent(e);
-			if(e.shiftKey && e.type == "keydown"){
-				// FF: copying the wrong property from e will cause the system
-				// context menu to appear in spite of stopEvent. Don't know
-				// exactly which properties cause this effect.
-				var _e = { target: e.target, pageX: e.pageX, pageY: e.pageY };
-				_e.preventDefault = _e.stopPropagation = function(){};
-				// IE: without the delay, focus work in "open" causes the system
-				// context menu to appear in spite of stopEvent.
-				window.setTimeout(dojo.hitch(this, function(){ this._openMyself(_e); }), 1);
-			}
+		//		Set timer to display myself.  Using a timer rather than displaying immediately solves
+		//		two problems:
+		//
+		//		1. IE: without the delay, focus work in "open" causes the system
+		//		context menu to appear in spite of stopEvent.
+		//
+		//		2. Avoid double-shows on linux, where shift-F10 generates an oncontextmenu event
+		//		even after a dojo.stopEvent(e).  (Shift-F10 on windows doesn't generate the
+		//		oncontextmenu event.)
+
+		if(!this._openTimer){
+			this._openTimer = setTimeout(dojo.hitch(this, function(){
+				delete this._openTimer;
+				this._openMyself({
+					target: target,
+					iframe: iframe,
+					coords: coords
+				});
+			}), 1);
 		}
 	},
 
-	_contextMouse: function(e){
+	_openMyself: function(args){
 		// summary:
-		//		Helper to remember when we opened the context menu with the mouse instead
-		//		of with the keyboard
-		// tags:
-		//		private
-		this._contextMenuWithMouse = true;
-	},
+		//		Internal function for opening myself when the user does a right-click or something similar.
+		// args:
+		//		This is an Object containing:
+		//		* target:
+		//			The node that is being clicked
+		//		* iframe:
+		//			If an <iframe> is being clicked, iframe points to that iframe
+		//		* coords:
+		//			Put menu at specified x/y position in viewport, or if iframe is
+		//			specified, then relative to iframe.
+		//
+		//		_openMyself() formerly took the event object, and since various code references
+		//		evt.target (after connecting to _openMyself()), using an Object for parameters
+		//		(so that old code still works).
 
-	_openMyself: function(/*Event*/ e, /*DomNode?*/ node, /*DomNode?*/ iframe){
-		// summary:
-		//		Internal function for opening myself when the user
-		//		does a right-click or something similar.
-		// node:
-		//		The node that is being clicked
-		// iframe:
-		//		If an <iframe> is being clicked, iframe points to that iframe and node
-		//		points to the iframe's body.
-		// tags:
-		//		private
+		var target = args.target,
+			iframe = args.iframe,
+			coords = args.coords;
 
-		if(this.leftClickToOpen && e.button>0){
-			return;
-		}
-		dojo.stopEvent(e);
-
-		// Get coordinates.
-		// If we are opening the menu with the mouse or on safari open
-		// the menu at the mouse cursor
-		// (Safari does not have a keyboard command to open the context menu
-		// and we don't currently have a reliable way to determine
-		// _contextMenuWithMouse on Safari)
-		var x,y;
-		if(dojo.isSafari || this._contextMenuWithMouse){
-			x=e.pageX;
-			y=e.pageY;
-
+		// Get coordinates to open menu, either at specified (mouse) position or (if triggered via keyboard)
+		// then near the node the menu is assigned to.
+		if(coords){
 			if(iframe){
-				// Event is on <body> node of an <iframe>, convert coordinates to match main document
-				var od = e.target.ownerDocument,
+				// Specified coordinates are on <body> node of an <iframe>, convert to match main document
+				var od = target.ownerDocument,
 					ifc = dojo.position(iframe, true),
 					win = this._iframeContentWindow(iframe),
 					scroll = dojo.withGlobal(win, "_docScroll", dojo);
-
+	
 				var cs = dojo.getComputedStyle(iframe),
 					tp = dojo._toPixelValue,
 					left = (dojo.isIE && dojo.isQuirks ? 0 : tp(iframe, cs.paddingLeft)) + (dojo.isIE && dojo.isQuirks ? tp(iframe, cs.borderLeftWidth) : 0),
 					top = (dojo.isIE && dojo.isQuirks ? 0 : tp(iframe, cs.paddingTop)) + (dojo.isIE && dojo.isQuirks ? tp(iframe, cs.borderTopWidth) : 0);
 
-				x += ifc.x + left - scroll.x;
-				y += ifc.y + top - scroll.y;
+				coords.x += ifc.x + left - scroll.x;
+				coords.y += ifc.y + top - scroll.y;
 			}
 		}else{
-			// otherwise open near e.target
-			var coords = dojo.position(e.target, true);
-			x = coords.x + 10;
-			y = coords.y + 10;
+			coords = dojo.position(target, true);
+			coords.x += 10;
+			coords.y += 10;
 		}
 
 		var self=this;
@@ -668,8 +662,8 @@ dojo.declare("dijit.Menu",
 		}
 		dijit.popup.open({
 			popup: this,
-			x: x,
-			y: y,
+			x: coords.x,
+			y: coords.y,
 			onExecute: closeAndRestoreFocus,
 			onCancel: closeAndRestoreFocus,
 			orient: this.isLeftToRight() ? 'L' : 'R'
