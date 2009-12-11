@@ -845,6 +845,118 @@
 					}
 				]);
 
+				doh.register("selectOnClick", [
+					{
+						name: "1 click does highlight",
+						timeout: 9000,
+						runTest: function(){
+							var d = new doh.Deferred(),
+								textbox = dijit.byId("q01");
+
+							textbox.attr('value', 'Testing');
+							//  Clicking shouldn't have any effect since it's disabled
+							doh.robot.mouseMoveAt(textbox.focusNode, 500, 500);
+							doh.robot.mouseClick({left: true}, 500);
+							doh.robot.typeKeys("abc", 1000, 600);
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.is("Abc", textbox.attr('value'), "was highlighted");
+							}), 500);
+							return d;
+						}
+					},
+					{
+						name: "2 clicks doesn't highlight",
+						timeout: 9000,
+						runTest: function(){
+							var d = new doh.Deferred(),
+								textbox = dijit.byId("q01");
+
+							textbox.attr('value', 'Testing');
+							//  Clicking shouldn't have any effect since it's disabled
+							doh.robot.mouseMoveAt(textbox.focusNode, 500, 500);
+							doh.robot.mouseClick({left: true}, 500);
+							doh.robot.mouseClick({left: true}, 1000);
+							var oldValue = textbox.attr('value');
+							doh.robot.typeKeys("abc", 500, 600);
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.isNot(oldValue, textbox.attr('value'), "didn't change at all");
+								doh.isNot("Abc", textbox.attr('value'), "was highlighted");
+							}), 500);
+							return d;
+						}
+					},
+					{
+						name: "TAB focus still highlights a selectOnFocus textbox",
+						timeout: 9000,
+						runTest: function(){
+							var d = new doh.Deferred(),
+								textbox = dijit.byId("q01");
+
+							textbox.attr('value', 'Testing');
+							//  Clicking shouldn't have any effect since it's disabled
+							doh.robot.mouseMoveAt(textbox.focusNode, 500, 500);
+							doh.robot.mouseClick({left: true}, 500);
+							doh.robot.mouseClick({left: true}, 1000);
+							doh.robot.keyPress(dojo.keys.TAB, 1000);
+							doh.robot.keyPress(dojo.keys.TAB, 1000, {shift:true});
+							doh.robot.typeKeys("abc", 500, 600);
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.is("Abc", textbox.attr('value'), "was not highlighted");
+							}), 500);
+							return d;
+						}
+					},
+					{
+						name: "click doesn't highlight after TAB focus",
+						timeout: 9000,
+						runTest: function(){
+							var d = new doh.Deferred(),
+								textbox = dijit.byId("q01");
+
+							textbox.attr('value', 'Testing');
+							//  Clicking shouldn't have any effect since it's disabled
+							doh.robot.mouseMoveAt(textbox.focusNode, 500, 500);
+							doh.robot.mouseClick({left: true}, 500);
+							doh.robot.mouseClick({left: true}, 1000);
+							doh.robot.keyPress(dojo.keys.TAB, 1000);
+							doh.robot.keyPress(dojo.keys.TAB, 1000, {shift:true});
+							doh.robot.mouseClick({left: true}, 1000);
+							var oldValue = textbox.attr('value');
+							doh.robot.typeKeys("abc", 500, 600);
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.isNot(oldValue, textbox.attr('value'), "didn't change at all");
+								doh.isNot("Abc", textbox.attr('value'), "was highlighted");
+							}), 500);
+							return d;
+						}
+					},
+					{
+						name: "mouse selection still works",
+						timeout: 9000,
+						runTest: function(){
+							var d = new doh.Deferred(),
+								textbox = dijit.byId("q01");
+
+							textbox.attr('value', 'MMMMMMM');
+							//  Clicking shouldn't have any effect since it's disabled
+							doh.robot.mouseMoveAt(textbox.focusNode, 500, 500, 3, 6);
+							doh.robot.mousePress({left: true}, 500);
+							doh.robot.mouseMoveAt(textbox.focusNode, 500, 500, 10, 6);
+							doh.robot.mouseRelease({left: true}, 500);
+							doh.robot.typeKeys("abc", 500, 600);
+
+							doh.robot.sequence(d.getTestCallback(function(){
+								doh.is("AbcMMMMMM", textbox.attr('value'), "could not select text");
+							}), 500);
+							return d;
+						}
+					}
+				]);
+
 				doh.run();
 			});
 		</script>
