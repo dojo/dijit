@@ -23,23 +23,16 @@
 	<script type="text/javascript" src="../_testCommon.js"></script>
 
 	<script type="text/javascript">
+		dojo.require("doh.runner"); // optimize: load dijit layer
 		dojo.require("dijit.dijit"); // optimize: load dijit layer
 		dojo.require("dijit.form.CheckBox");
 		dojo.require("dijit.form.RadioButton");
-		dojo.require("dojo.parser");	// find widgets
+		dojo.require("dijit.form.Form");
 
-		function outputValues(form){
-			var str = "";
-			for(var i=0;i<form.elements.length;i++){
-				var e = form.elements[i];
-				if(e.type=="submit"){ break; }
-				if(e.checked){
-					str += "submit: name="+e.name+" id="+e.id+" value="+e.value+ "<br>";
-				}
-			}
-			dojo.byId("result").innerHTML = str;
-			return false;
+		function defaultSubmitHandler(values){
+			console.debug('actual submitted values: ' + dojo.toJson(values));
 		}
+		submittedValues = defaultSubmitHandler;
 
 		function reportChecked(checked) {
 			dojo.byId("oncheckedoutput").innerHTML = checked;
@@ -49,10 +42,148 @@
 			dojo.byId("onvaluechangedoutput").innerHTML = value;
 		}
 
+		// These are the values assigned to the widgets in the page's HTML
+		var originalGet = {
+			cb1: [],
+			cb2: ["on"],
+			cb4: ["on"],
+			cb5: [],
+			cb6: ["on"],
+			cb7: [],
+			'g[1]': "talk",
+			g2: null
+		};
+
+		var originalSubmit = {
+			cb2: "on",
+			cb4: "on",
+			cb6: "on",
+			'g[1]': "talk"
+		};
+
+		// attempt to change these values
+		var change = {
+			cb1: ["foo"],
+			cb2: [],
+			cb3: ["on"],
+			cb4: [],
+			cb5: ["on"],
+			cb6: ["foo"],
+			'g[1]': "weather",
+			g2: "country"
+		};
+
+		// changed values
+		var changedGet = {
+			cb1: ["foo"],
+			cb2: [],
+			cb4: [],
+			cb5: ["on"],
+			cb6: [],
+			cb7: [],
+			'g[1]': null,
+			g2: "country"
+		};
+
+		var changedSubmit = {
+			cb1: "foo",
+			cb5: "on",
+			g2: "country"
+		};
+
 		dojo.addOnLoad(function(){
-			var params = {id: "cb6", name: "cb6"};
+			var params = {id: "cb6", name: "cb6", checked: true };
 			var widget = new dijit.form.CheckBox(params, dojo.byId("checkboxContainer"));
-			widget.attr('checked', true);
+
+			// should be able to query for all of the inputs, including hidden ones
+			doh.register("query input by checked state", [
+				{
+					name: "query checked",
+					runTest: function(){
+						var queried=dojo.query("input[checked]", dojo.byId('myForm'));
+						doh.is(5,queried.length,"expected: 5 checked widgets, got: "+queried.length);
+					}
+				}
+			]);
+
+			doh.register("query input by name", [
+				{
+					name: "query name",
+					runTest: function(){
+						var queried=dojo.query("input[name]", dojo.byId('myForm'));
+						doh.is(13,queried.length,"expected: 13 named widgets, got: "+queried.length);
+					}
+				}
+			]);
+
+			var formWidget = dijit.byId("myForm");
+
+			var submitForm = function(name, testValues){
+				return {
+					name: name,
+				        timeout: 5000,
+				        runTest: function(){
+						var d = new doh.Deferred();
+						submittedValues = function(formValues){
+							d.getTestCallback(function(){
+								for(var i in originalGet){ doh.is(testValues[i], formValues[i], i); }
+							})();
+						};
+						formWidget.submit();
+						return d;
+					},
+					tearDown: function(){
+						submittedValues = defaultSubmitHandler;
+					}
+				};
+			};
+
+			doh.register("CheckBox values",
+				[
+					function getValues(){
+						doh.is( dojo.toJson(originalGet), dojo.toJson(formWidget.attr('value')) );
+					},
+					submitForm("original submit", originalSubmit),
+					function setValues(){
+						formWidget.attr('value', change);
+						doh.is( dojo.toJson(changedGet), dojo.toJson(formWidget.attr('value')) );
+					},
+					submitForm("changed submit", changedSubmit),
+					function resetValues(){
+						formWidget.reset();
+						doh.is( dojo.toJson(originalGet), dojo.toJson(formWidget.attr('value')), "reset to original values" );
+					},
+					submitForm("reset submit", originalSubmit)
+				]
+			);
+
+			doh.register("CheckBox onChange",
+				[
+					function fireOnChange(){
+						var d = new doh.Deferred();
+						var cb = dijit.byId('cb2');
+						var lastOnChange = dojo.byId('oncheckedoutput').innerHTML;
+						cb.attr('checked', !cb.attr('checked'));
+						setTimeout(d.getTestCallback(function(){
+							doh.isNot(lastOnChange, dojo.byId('oncheckedoutput').innerHTML);
+						}), 0);
+						return d;
+					},
+
+					function skipOnChange(){
+						var d = new doh.Deferred();
+						var cb = dijit.byId('cb2');
+						var lastOnChange = dojo.byId('oncheckedoutput').innerHTML;
+						cb.attr('checked', !cb.attr('checked'), false);
+						setTimeout(d.getTestCallback(function(){
+							doh.is(lastOnChange, dojo.byId('oncheckedoutput').innerHTML);
+						}), 0);
+						return d;
+					}
+				]
+			);
+
+			doh.run();
 		});
 	</script>
 </head>
@@ -62,11 +193,11 @@
 	<p>
 	Here are some checkboxes.  Try clicking, and hovering, tabbing, and using the space bar to select:
 	</p>
-	<!--  <form onSubmit="return outputValues(this);"> -->
 	<!--    to test form submission, you'll need to create an action handler similar to
 		http://www.utexas.edu/teamweb/cgi-bin/generic.cgi -->
-	<form>
-		<input type="checkbox" name="cb0" id="cb0" />
+	<form dojoType="dijit.form.Form" id="myForm"
+		encType="multipart/form-data" action="../formAction.html" method="" target="_formSubmitIframe">
+		<input type="checkbox" id="cb0" checked/>
 			<label for="cb0">cb0: Vanilla (non-dojo) checkbox (for comparison purposes)</label>
 		<br>
 		<input name="cb1" id="cb1" value="foo" dojoType="dijit.form.CheckBox" onClick="console.log('clicked cb1')">
@@ -78,11 +209,11 @@
 			<span>"onChange" handler updates: [<span id="oncheckedoutput"></span>]</span>
 			<button type=button onclick="alert(dijit.byId('cb2').attr('value'));">attr('value')</button>
 		<br>
-		<input name="cb3" id="cb3" dojoType="dijit.form.CheckBox" disabled="disabled">
+		<input name="cb3" id="cb3" dojoType="dijit.form.CheckBox" disabled>
 			<label for="cb3">cb3: disabled checkbox</label>
 		<br>
-		<input name="cb4" id="cb4" dojoType="dijit.form.CheckBox" disabled="disabled" checked="checked"/>
-			<label for="cb4">cb4: disabled checkbox, turned on</label>
+		<input name="cb4" id="cb4" dojoType="dijit.form.CheckBox" readOnly checked/>
+			<label for="cb4">cb4: readOnly checkbox, turned on</label>
 		<br>
 		<input name="cb5" id="cb5" type="checkbox" value="" dojoType="dijit.form.CheckBox" onClick="console.log('clicked cb5')">
 			<label for="cb5">cb5: normal checkbox, with specified value="", clicking generates console log messages</label>
@@ -123,38 +254,39 @@
 			<label for="g2rb3">country</label><br>
 			(Note if using keyboard: tab to navigate, and use arrow or space to select)
 		</p>
-		<p>
-			<span>Radio group #3 (native radio buttons):</span>
-			<input type="radio" name="g3" id="g3rb1" value="rock"/>
-			<label for="g3rb1">rock</label>
-			<input type="radio" name="g3" id="g3rb2" value="jazz" disabled="disabled"/>
-			<label for="g3rb2">jazz</label>
-			<input type="radio" name="g3" id="g3rb3" value="classical" checked="checked"/>
-			<label for="g3rb3">classical</label>
-		</p>
-		<input type="submit" />
+		<button dojoType="dijit.form.Button" type="submit" value="Submit">Submit</button>
+		<button dojoType="dijit.form.Button" type="reset">HTML Reset</button>
 	</form>
 
+	<p>
+		<span>Radio group #3 (native radio buttons):</span>
+		<input type="radio" name="g3" id="g3rb1" value="rock"/>
+		<label for="g3rb1">rock</label>
+		<input type="radio" name="g3" id="g3rb2" value="jazz" disabled="disabled"/>
+		<label for="g3rb2">jazz</label>
+		<input type="radio" name="g3" id="g3rb3" value="classical" checked="checked"/>
+		<label for="g3rb3">classical</label>
+	</p>
+
 	<div style='border:1px solid gray;'>
-	These 6 radio buttons have the name but are in separate forms so they can be selected independently.
-	<form>
-		1:
-		<input dojoType="dijit.form.RadioButton" type=radio name='a1' id='b1' value="1"/>b1
-		<input dojoType="dijit.form.RadioButton" type=radio name='a1' id='b2' value="2"/>b2
-	</form>
-	<form>
-		2:
-		<input dojoType="dijit.form.RadioButton" type=radio name='a1' id='c1' value="1"/>c1
-		<input dojoType="dijit.form.RadioButton" type=radio name='a1' id='c2' value="2"/>c2
-	</form>
-	<div>
-		3:
-		<input dojoType="dijit.form.RadioButton" type=radio name='a1' id='d1' value="1"/>d1
-		<input dojoType="dijit.form.RadioButton" type=radio name='a1' id='d2' value="2"/>d2
+		These 6 radio buttons have the same name but are in separate forms so they can be selected independently.
+		<form>
+			1:
+			<input dojoType="dijit.form.RadioButton" type=radio name='a1' id='b1' value="1"/>b1
+			<input dojoType="dijit.form.RadioButton" type=radio name='a1' id='b2' value="2"/>b2
+		</form>
+		<form>
+			2:
+			<input dojoType="dijit.form.RadioButton" type=radio name='a1' id='c1' value="1"/>c1
+			<input dojoType="dijit.form.RadioButton" type=radio name='a1' id='c2' value="2"/>c2
+		</form>
+		<div>
+			3:
+			<input dojoType="dijit.form.RadioButton" type=radio name='a1' id='d1' value="1"/>d1
+			<input dojoType="dijit.form.RadioButton" type=radio name='a1' id='d2' value="2"/>d2
+		</div>
 	</div>
-	</div>
-	<!-- <p>Submitted data:</p>
-	<div id="result"></div>
-	 -->
+
+<iframe name="_formSubmitIframe" src="about:blank" onload="if(this.values)submittedValues(this.values)" style="display:none;"></iframe>
 </body>
 </html>
