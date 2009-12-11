@@ -849,6 +849,9 @@
 					{
 						name: "1 click does highlight",
 						timeout: 9000,
+						setUp: function(){
+							dijit.byId("q02").focus();
+						},
 						runTest: function(){
 							var d = new doh.Deferred(),
 								textbox = dijit.byId("q01");
@@ -868,6 +871,9 @@
 					{
 						name: "2 clicks doesn't highlight",
 						timeout: 9000,
+						setUp: function(){
+							dijit.byId("q02").focus();
+						},
 						runTest: function(){
 							var d = new doh.Deferred(),
 								textbox = dijit.byId("q01");
@@ -890,6 +896,9 @@
 					{
 						name: "TAB focus still highlights a selectOnFocus textbox",
 						timeout: 9000,
+						setUp: function(){
+							dijit.byId("q02").focus();
+						},
 						runTest: function(){
 							var d = new doh.Deferred(),
 								textbox = dijit.byId("q01");
@@ -912,6 +921,9 @@
 					{
 						name: "click doesn't highlight after TAB focus",
 						timeout: 9000,
+						setUp: function(){
+							dijit.byId("q02").focus();
+						},
 						runTest: function(){
 							var d = new doh.Deferred(),
 								textbox = dijit.byId("q01");
@@ -937,6 +949,9 @@
 					{
 						name: "mouse selection still works",
 						timeout: 9000,
+						setUp: function(){
+							dijit.byId("q02").focus();
+						},
 						runTest: function(){
 							var d = new doh.Deferred(),
 								textbox = dijit.byId("q01");
