@@ -55,7 +55,10 @@
 	background:#fafafa url("../images/buttonDisabled.png") top repeat-x;
 	opacity: 0.60;
 }
-.dj_ie6 .nihilo .dijitComboButtonDisabled .dijitButtonText {
+.dj_ie6 .nihilo .dijitReadOnly INPUT,
+.dj_ie7 .nihilo .dijitReadOnly INPUT,
+.dj_ie6 .nihilo .dijitComboButtonDisabled .dijitButtonText,
+.dj_ie7 .nihilo .dijitComboButtonDisabled .dijitButtonText {
 	/* opacity doesn't work on table node in IE, work around here */
 	color: #aaa;
 }
@@ -96,17 +99,17 @@
 .nihilo .dijitArrowButtonInner {
 	background-image: url("../images/spriteArrows.png");
 	background-repeat: no-repeat;
-	background-position: 0px top;
+	background-position: 0px center;
 	width: 11px;
 }
 .nihilo .dijitLeftArrowButton .dijitArrowButtonInner {
-	background-position: -11px top;
+	background-position: -11px center;
 }
 .nihilo .dijitUpArrowButton .dijitArrowButtonInner {
-	background-position: -22px top;
+	background-position: -22px center;
 }
 .nihilo .dijitRightArrowButton .dijitArrowButtonInner {
-	background-position: -33px top;
+	background-position: -33px center;
 }
 .dj_ie6 .nihilo .dijitArrowButtonInner {
 	background-image: url("../images/spriteArrows.gif");
