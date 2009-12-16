@@ -2,6 +2,7 @@ dojo.provide("dijit._editor.plugins.FontChoice");
 
 dojo.require("dijit._editor._Plugin");
 dojo.require("dijit._editor.range");
+dojo.require("dijit._editor.selection");
 dojo.require("dijit.form.FilteringSelect");
 dojo.require("dojo.data.ItemFileReadStore");
 dojo.require("dojo.i18n");
@@ -245,7 +246,14 @@ dojo.declare("dijit._editor.plugins._FormatBlockDropDown", dijit._editor.plugins
 
 	// values: [public] Array
 	//		The HTML format tags supported by this plugin
-	values: ["p", "h1", "h2", "h3", "pre"],
+	values: ["noFormat", "p", "h1", "h2", "h3", "pre"],
+
+	postCreate: function(){
+		// Init and set the default value to no formatting.  Update state will adjust it
+		// as needed.
+		this.inherited(arguments);
+		this.attr("value", "noFormat", false);
+	},
 
 	getLabel: function(value, name){
 		// summary:
@@ -260,6 +268,127 @@ dojo.declare("dijit._editor.plugins._FormatBlockDropDown", dijit._editor.plugins
 			return name;
 		}else{
 			return "<" + value + ">" + name + "</" + value + ">";
+		}
+	},
+
+	_execCommand: function(editor, command, choice){
+		// summary:
+		//		Over-ride for default exec-command label.
+		// 		Allows us to treat 'none' as special.
+		if(choice === "noFormat"){
+			var start;
+			var end;
+			var sel = dijit.range.getSelection(editor.window);
+			if(sel && sel.rangeCount > 0){
+				var range = sel.getRangeAt(0);
+				var node, tag;
+				if(range){
+					start = range.startContainer;
+					end = range.endContainer;
+
+					// find containing nodes of start/end.
+					while(start && start !== editor.editNode && 
+						  start !== editor.document.body && 
+						  start.nodeType !== 1){
+						start = start.parentNode;
+					}
+
+					while(end && end !== editor.editNode && 
+						  end !== editor.document.body && 
+						  end.nodeType !== 1){
+						end = end.parentNode;
+					}
+
+					if(start == end){
+						//Contained within the same block, may be collapsed, but who cares, see if we
+						// have a block element to remove.
+						var block;
+						node = start;
+						while(node && node !== editor.editNode && node !== editor.document.body){
+							if(node.nodeType == 1){
+								tag = node.tagName? node.tagName.toLowerCase(): "";
+								if(dojo.indexOf(this.values, tag) !== -1){
+									block = node;
+									break;
+								}
+							}
+							node = node.parentNode;
+						}
+						if(block){
+							editor.beginEditing();
+							this._removeFormat(editor, block);
+							editor.endEditing();
+						}
+					}else{
+						// Probably a multi select, so we have to process it.  Whee.
+						node = start;
+						var clearNodes = [];
+						while(dojo.withGlobal(editor.window, "inSelection", dijit._editor.selection, [node])){
+							if(node.nodeType == 1){
+								tag = node.tagName? node.tagName.toLowerCase(): "";
+								if(dojo.indexOf(this.values, tag) !== -1){
+									clearNodes.push(node);
+								}
+								 // Now we go down its children and see if any of those should be modified.
+								// Go go recursive function.
+								var processChildren = dojo.hitch(this, function(node, array){
+									if(node.childNodes && node.childNodes.length){
+										var i;
+										for(i = 0; i < node.childNodes.length; i++){
+											var c = node.childNodes[i];
+											if(c.nodeType == 1){
+												if(dojo.withGlobal(editor.window, "inSelection", dijit._editor.selection, [c])){
+													var tag = c.tagName? c.tagName.toLowerCase(): "";
+													if(dojo.indexOf(this.values, tag) !== -1){
+														array.push(c);
+													}
+													processChildren(c,array);
+												}
+											}
+										}
+									}
+								});
+								processChildren(node,clearNodes);
+							}
+							node = node.nextSibling;
+						}
+						// Now, remove all identified format nodes.
+						editor.beginEditing();
+						while(clearNodes.length){
+							this._removeFormat(editor, clearNodes.pop());
+						}
+						editor.endEditing();
+					}
+				}
+			}
+		}else{
+			editor.execCommand(command, choice);
+		}
+	},
+
+	_removeFormat: function(editor, node){
+		// summary:
+		//		function to remove the block format node.
+		// node:
+		//		The block format node to remove (and leave the contents behind)
+		if(dojo.isIE){
+			// So of course IE doesn't work right with paste-overs.
+			// We have to do this manually, which is okay since it already uses
+			// customUndo, which is manual friendly.
+			while(node.firstChild){
+				dojo.place(node.firstChild, node, "before");
+			}
+			node.parentNode.removeChild(node);
+		}else{
+			// Everyone else works fine this way, a paste-over and is native
+			// undo friendly.
+			dojo.withGlobal(editor.window, 
+				 "selectElementChildren", dijit._editor.selection, [node]);
+			var html = 	dojo.withGlobal(editor.window, 
+				 "getSelectedHtml", dijit._editor.selection, [null]);
+			dojo.withGlobal(editor.window, 
+				 "selectElement", dijit._editor.selection, [node]);
+			editor._inserthtmlImpl(html||"");
 		}
 	}
 });
@@ -331,12 +460,16 @@ dojo.declare("dijit._editor.plugins.FontChoice", dijit._editor._Plugin,{
 			// User invoked change, since all internal updates set priorityChange to false and will
 			// not trigger an onChange event.
 			this.editor.focus();
-
+			
 			if(this.command == "fontName" && choice.indexOf(" ") != -1){ choice = "'" + choice + "'"; }
 
 			// Invoke, the editor already normalizes commands called through its
 			// execCommand.
-			this.editor.execCommand(this.command, choice);
+			if(this.button._execCommand){
+				this.button._execCommand(this.editor, this.command, choice);
+			}else{
+				this.editor.execCommand(this.command, choice);
+			}
 		});
 	},
 
@@ -365,30 +498,41 @@ dojo.declare("dijit._editor.plugins.FontChoice", dijit._editor._Plugin,{
 			var quoted = dojo.isString(value) && value.match(/'([^']*)'/);
 			if(quoted){ value = quoted[1]; }
 
-			if(!value && _c === "formatBlock"){
-				// Some browsers (WebKit) doesn't actually get the tag info right.
-				// So ... lets double-check it.
-				var elem;
-				// Try to find the current element where the caret is.
-				var sel = dijit.range.getSelection(this.editor.window);
-				if(sel && sel.rangeCount > 0){
-					var range = sel.getRangeAt(0);
-					if(range){
-						elem = range.endContainer;
+			if(_c === "formatBlock"){
+				if(!value){
+					// Some browsers (WebKit) doesn't actually get the tag info right.
+					// So ... lets double-check it.
+					var elem;
+					// Try to find the current element where the caret is.
+					var sel = dijit.range.getSelection(this.editor.window);
+					if(sel && sel.rangeCount > 0){
+						var range = sel.getRangeAt(0);
+						if(range){
+							elem = range.endContainer;
+						}
 					}
-				}
 
-				// Okay, now see if we can find one of the formatting types we're in.
-				while(elem && elem !== _e.editNode && elem !== _e.document){
-					var tg = elem.tagName?elem.tagName.toLowerCase():"";
-					if(tg && dojo.indexOf(this.button.values, tg) > -1){
-						value = tg;
-						break;
+					// Okay, now see if we can find one of the formatting types we're in.
+					while(elem && elem !== _e.editNode && elem !== _e.document){
+						var tg = elem.tagName?elem.tagName.toLowerCase():"";
+						if(tg && dojo.indexOf(this.button.values, tg) > -1){
+							value = tg;
+							break;
+						}
+						elem = elem.parentNode;
 					}
-					elem = elem.parentNode;
+					if(!value){
+						// Still no value, so lets select 'none'.
+						value = "noFormat";
+					}
+				}else{
+					// Check that the block format is one allowed, if not,
+					// null it so that it gets set to empty.
+					if(dojo.indexOf(this.button.values, value) < 0){
+						value = "noFormat";
+					}
 				}
 			}
-
 			if(value !== this.button.attr("value")){
 				// Set the value, but denote it is not a priority change, so no
 				// onchange fires.

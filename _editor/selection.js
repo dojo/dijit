@@ -294,5 +294,59 @@ dojo.mixin(dijit._editor.selection, {
 				selection.addRange(range);
 			}
 		}
+	},
+
+	inSelection: function(node){
+		// summary:
+		//		This function determines if 'node' is
+		//		in the current selection.
+		// tags:
+		//		public
+		if(node){
+			var newRange;
+			var doc = dojo.doc;
+			var range;
+
+			if(dojo.global.getSelection){
+				//WC3
+				var sel = dojo.global.getSelection();
+				if(sel && sel.rangeCount > 0){
+					range = sel.getRangeAt(0);
+				}
+				if(range && range.compareBoundaryPoints && doc.createRange){
+					try{
+						newRange = doc.createRange();
+						newRange.setStart(node, 0);
+						if(range.compareBoundaryPoints(range.START_TO_END, newRange) === 1){
+							return true;
+						}
+					}catch(e){ /* squelch */}
+				}
+			}else if(doc.selection){
+				// Probably IE, so we can't use the range object as the pseudo
+				// range doesn't implement the boundry checking, we have to 
+				// use IE specific crud.
+				range = doc.selection.createRange();
+				try{
+					newRange = node.ownerDocument.body.createControlRange();
+					if(newRange){
+						newRange.addElement(node);
+					}
+				}catch(e1){
+					try{
+						newRange = node.ownerDocument.body.createTextRange();
+						newRange.moveToElementText(node);
+					}catch(e2){/* squelch */}
+				}
+				if(range && newRange){
+					// We can finally compare similar to W3C
+					if(range.compareEndPoints("EndToStart", newRange) === 1){
+						return true;
+					}
+				}
+			}
+		}
+		return false; // boolean
 	}
+
 });

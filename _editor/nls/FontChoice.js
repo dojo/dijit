@@ -9,6 +9,7 @@
 	cursive: "cursive",
 	fantasy: "fantasy",
 
+	noFormat: "None",
 	p: "Paragraph",
 	h1: "Heading",
 	h2: "Subheading",
