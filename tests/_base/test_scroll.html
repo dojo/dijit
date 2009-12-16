@@ -58,13 +58,15 @@
 					if(dojo.isIE){
 						maxScrollX = -10 - sb;
 						maxScrollY = (dojo.isIE >= 8)? maxScrollX : (-38 - sb);
-						minScrollX = "+"+(10 + sb);
-						minScrollY = "+"+(10 + sb);
 					}else{
-						maxScrollX = maxScrollY = "-"+(sb+10);
-						minScrollX = minScrollY = "+"+(sb+10);
+						maxScrollX = maxScrollY = -10 - sb;
 					}
+					minScrollX = minScrollY = sb + 10;
 					generateTestXY('absContent_strict', maxScrollX, maxScrollY, minScrollX, minScrollY);
+					if(dojo.isIE < 7){
+						maxScrollX -= (sb & 1); // odd sized sb adds 1 more
+						minScrollX -= (sb & 1); // odd sized sb adds 1 more
+					}
 					if(dojo.isIE == 7){ minScrollX = "-90"; }
 					generateTestXY('absContent_loose_rtl', maxScrollX, maxScrollY, minScrollX, minScrollY);
 					if(dojo.isIE){
@@ -77,8 +79,8 @@
 					}
 					generateTestXY('absContent_quirks', maxScrollX, maxScrollY, minScrollX, minScrollY);
 					if(dojo.isIE < 8){
-						maxScrollX = Math.round((dojo.isIE >= 7? -10 : -6) - sb * 1.027);
-						minScrollX = "+" + ((dojo.isIE >= 7? 10 : 6) + sb - Math.round(sb * 0.027));
+						maxScrollX = (dojo.isIE >= 7 ? -10 : -6) - sb - (sb & 1);
+						minScrollX = "+" + ((dojo.isIE >= 7? 10 : 6) + sb - (sb & 1));
 					}
 					generateTestXY('absContent_quirks_rtl', maxScrollX, maxScrollY, minScrollX, minScrollY);
 				},
@@ -581,7 +583,7 @@ console.log('!!!!!!!!!!!! scrollbar size = ' + sb);
 			right = n._scrollMaxX - n.scrollLeft,
 			bottom = n._scrollMaxY - n.scrollTop;
 			if(left || top || n._scrollMinX || n._scrollMaxX || n._scrollMinY || n._scrollMaxY){
-				scroll += '('+(left<=right?((left==right?'':'+')+left):('-'+right))+','+(top<=bottom?((top==bottom?'':'+')+top):('-'+bottom))+')';
+				scroll += '('+(left<=right?((left==right?'':'+')+left):(right<0 ? '0' : ('-'+right)))+','+(top<=bottom?((top==bottom?'':'+')+top):(bottom<0 ? '0' : ('-'+bottom)))+')';
 			}
 			n = n.parentNode;
 		}
