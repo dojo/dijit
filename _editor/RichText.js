@@ -367,9 +367,14 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 		if(dn.nodeName && dn.nodeName == "LI"){
 			dn.innerHTML = " <br>";
 		}
-
+	
+		// Construct the editor div structure.
+		this.header = dn.ownerDocument.createElement("div");
+		dn.appendChild(this.header);
 		this.editingArea = dn.ownerDocument.createElement("div");
 		dn.appendChild(this.editingArea);
+		this.footer = dn.ownerDocument.createElement("div");
+		dn.appendChild(this.footer);
 
 		// User has pressed back/forward button so we lost the text in the editor, but it's saved
 		// in a hidden <textarea> (which contains the data for all the editors on this page),
@@ -1788,5 +1793,35 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 			rv = this.document.execCommand("inserthtml", false, argument);
 		}
 		return rv;
+	},
+
+	getHeaderHeight: function(){
+		// summary:
+		//		A function for obtaining the height of the header node
+		return this._getNodeChildrenHeight(this.header); // Number
+	},
+
+	getFooterHeight: function(){
+		// summary:
+		//		A function for obtaining the height of the footer node
+        return this._getNodeChildrenHeight(this.footer); // Number
+	},
+
+	_getNodeChildrenHeight: function(node){
+		// summary:
+		//		An internal function for computing the cumulative height of all child nodes of 'node'
+		// node:
+		//		The node to process the children of;
+		var h = 0;
+		if(node && node.childNodes){
+			// IE didn't compute it right when position was obtained on the node directly is some cases, 
+			// so we have to walk over all the children manually.
+			var i; 
+			for(i = 0; i < node.childNodes.length; i++){ 
+				var size = dojo.position(node.childNodes[i]); 
+				h += size.h;   
+			} 
+		}
+		return h; // Number
 	}
 });

@@ -129,11 +129,11 @@ dojo.declare("dijit._editor.plugins.FullScreen",dijit._editor._Plugin,{
 		});
 
 		//Adjust the inernal heights too, as they can be a bit off.
-		var tBox = dojo.marginBox(this.editor.toolbar.domNode);
+		var hHeight = this.editor.getHeaderHeight();
+		var fHeight = this.editor.getFooterHeight();
 		var extents = dojo._getPadBorderExtents(this.editor.domNode);
-
-		//AQdjust it.
-		var cHeight = vp.h - (tBox.h + extents.h);
+		
+		var cHeight = vp.h - (hHeight + extents.h + fHeight);
 		dojo.marginBox(this.editor.iframe.parentNode, {
 			h: cHeight
 		});
@@ -306,6 +306,18 @@ dojo.declare("dijit._editor.plugins.FullScreen",dijit._editor._Plugin,{
 			};
 			this._resizeHandle = dojo.connect(window, "onresize", this, resizer);
 
+			// Also monitor for direct calls to resize and adapt editor.
+			this._resizeHandle2 = dojo.connect(ed, "resize", dojo.hitch(this, function(){
+				if(this._resizer){
+					clearTimeout(this._resizer);
+					delete this._resizer;
+				}
+				this._resizer = setTimeout(dojo.hitch(this, function(){
+					delete this._resizer;
+					this._resizeEditor();
+				}), 10);
+			}));
+
 			// Call it once to work around IE glitchiness.  Safe for other browsers too.
 			this._resizeEditor();
 			var dn = this.editor.toolbar.domNode;
@@ -336,6 +348,11 @@ dojo.declare("dijit._editor.plugins.FullScreen",dijit._editor._Plugin,{
 				// Cleanup resizing listeners
 				dojo.disconnect(this._resizeHandle);
 				this._resizeHandle = null;
+			}
+			if(this._resizeHandle2){
+				// Cleanup resizing listeners
+				dojo.disconnect(this._resizeHandle2);
+				this._resizeHandle2 = null;
 			}
 			if(this._rst){
 				clearTimeout(this._rst);
@@ -381,6 +398,11 @@ dojo.declare("dijit._editor.plugins.FullScreen",dijit._editor._Plugin,{
 			// Cleanup resizing listeners
 			dojo.disconnect(this._resizeHandle);
 			this._resizeHandle = null;
+		}
+		if(this._resizeHandle2){
+			// Cleanup resizing listeners
+			dojo.disconnect(this._resizeHandle2);
+			this._resizeHandle2 = null;
 		}
 		if(this._resizer){
 			clearTimeout(this._resizer);

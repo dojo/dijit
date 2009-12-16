@@ -90,7 +90,7 @@ dojo.declare(
 			if(!this.toolbar){
 				// if we haven't been assigned a toolbar, create one
 				this.toolbar = new dijit.Toolbar({});
-				dojo.place(this.toolbar.domNode, this.editingArea, "before");
+				this.header.appendChild(this.toolbar.domNode);
 			}
 
 			dojo.forEach(this.plugins, this.addPlugin, this);
@@ -185,8 +185,8 @@ dojo.declare(
 			//		protected
 
 			// Converts the iframe (or rather the <div> surrounding it) to take all the available space
-			// except what's needed for the toolbar
-			this.editingArea.style.height = (this._contentBox.h - dojo.marginBox(this.toolbar.domNode).h)+"px";
+			// except what's needed for the header (toolbars) and footer (breadcrumbs, etc)
+			this.editingArea.style.height = (this._contentBox.h - (this.getHeaderHeight() + this.getFooterHeight()))+"px";
 			if(this.iframe){
 				this.iframe.style.height="100%";
 			}
