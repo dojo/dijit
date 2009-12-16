@@ -477,8 +477,9 @@ dojo.declare("dijit._editor.plugins.EnterKeyHandling", dijit._editor._Plugin, {
 		var ps = element.getElementsByTagName('p');
 		dojo.forEach(ps, function(p){ pList.push(p); });
 		dojo.forEach(pList, function(p){
-			if(	(p.previousSibling) &&
-				(p.previousSibling.nodeName == 'P' || dojo.style(p.previousSibling, 'display') != 'block')
+			var prevSib = p.previousSibling;
+			if(	(prevSib) && (prevSib.nodeType == 1) && 
+				(prevSib.nodeName == 'P' || dojo.style(prevSib, 'display') != 'block')
 			){
 				var newP = p.parentNode.insertBefore(this.document.createElement('p'), p);
 				// this is essential to prevent IE from losing the P.
