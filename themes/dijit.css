@@ -300,8 +300,7 @@
 .dijitReadOnly *,
 .dijitDisabled *,
 .dijitReadOnly,
-.dijitDisabled,
-.dijitDisabledClickableRegion {	/* a region the user would be able to click on, but it's disabled */
+.dijitDisabled {	/* a region the user would be able to click on, but it's disabled */
 	cursor: not-allowed !important;
 }
 
@@ -1239,11 +1238,14 @@ div.dijitTabBtnDisabled img {
 }
 
 /* InlineEditBox */
-
-.dijitClickableRegion {
+.dijitInlineEditBoxDisplayMode-hover {
 	/* An InlineEditBox in view mode (click this to edit the text) */
 	background-color: #e2ebf2;
 	cursor: text;
+}
+
+.dijitInlineEditBoxDisplayMode-disabled {
+	cursor: not-allowed;
 }
 
 /* Tree */
