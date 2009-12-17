@@ -32,8 +32,7 @@
 .tundra .dijitTextBox,
 .tundra .dijitComboBox,
 .tundra .dijitSpinner,
-.tundra .dijitTextArea,
-.tundra .dijitInlineEditor input {
+.tundra .dijitTextArea {
 	/* 	For all except dijit.form.NumberSpinner:  the actual input element.
 		For TextBox, ComboBox, Spinner: the div that contains the input.
 		Otherwise the actual input element.
@@ -104,27 +103,7 @@
 	background: transparent url('../images/warning.png') no-repeat center center;
 }
 
-
-
-/* inline edit boxen */
-.tundra .dijitInlineValue {
-	/* span around an inline-editable value when NOT in edit mode */
-	padding:3px;
-	margin:4px;
-}
-
-
-.tundra .dijitInlineEditor {
-	/* fieldset surrounding an inlineEditor in edit mode */
-	display: inline-block;
-	#display:inline;
-}
-
-.dijitInlineEditor .saveButton,
-.dijitInlineEditor .cancelButton {
-	margin:3px 3px 3px 0px;
-}
-
+/* Editor */
 .RichTextEditable {
 	border:1px solid #bfbfbf;
 	border-top:0;

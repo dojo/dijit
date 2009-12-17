@@ -20,7 +20,6 @@
 .nihilo .dijitTextBox,
 .nihilo .dijitComboBox,
 .nihilo .dijitSpinner,
-.nihilo .dijitInlineEditor input,
 .nihilo .dijitTextArea {
 	/* 	For all except dijit.form.NumberSpinner:  the actual input element.
 		For TextBox, ComboBox, Spinner: the table that contains the input.

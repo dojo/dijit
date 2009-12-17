@@ -127,13 +127,6 @@
 	margin: 0;
 }
 
-.dijitClickableRegion {
-	/* An InlineEditBox in view mode (click this to edit the text) */
-	background-color: #e2ebf2;
-	cursor: text;
-}
-
-
 .dijitDisplayNone {
 	/* hide something.  Use this as a class rather than element.style so another class can override */
 	display:none !important;
@@ -1245,28 +1238,12 @@ div.dijitTabBtnDisabled img {
     border: none !important;
 }
 
-.dijitInlineEditor {
-	/* span around an inline-editable value when in edit mode */
-	position:relative;
-	vertical-align:bottom;
-}
-.dj_ie .dijitInlineEditor {
-	vertical-align:middle;
-}
+/* InlineEditBox */
 
-.dijitInlineValue {
-	/* span around an inline-editable value when NOT in edit mode */
-}
-
-.dijitInlineEditor .dijitButtonContainer {
-	/* div around the buttons -- makes them float below the field */
-	position:absolute;
-	right:0;
-	overflow:visible;
-}
-
-.dijitInlineEditor .saveButton,
-.dijitInlineEditor .cancelButton {
+.dijitClickableRegion {
+	/* An InlineEditBox in view mode (click this to edit the text) */
+	background-color: #e2ebf2;
+	cursor: text;
 }
 
 /* Tree */
