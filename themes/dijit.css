@@ -1238,9 +1238,18 @@ div.dijitTabBtnDisabled img {
 }
 
 /* InlineEditBox */
+.dijitInlineEditBoxDisplayMode{
+	border: 1px solid transparent;	/* so keyline (border) on hover can appear without screen jump */
+}
+
+.dj_ie6 .dijitInlineEditBoxDisplayMode {
+	border: none;				/* except that IE6 doesn't support transparent borders */
+}
+
 .dijitInlineEditBoxDisplayMode-hover {
 	/* An InlineEditBox in view mode (click this to edit the text) */
 	background-color: #e2ebf2;
+	border: solid 1px black;
 	cursor: text;
 }
 
