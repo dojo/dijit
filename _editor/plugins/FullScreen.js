@@ -208,7 +208,8 @@ dojo.declare("dijit._editor.plugins.FullScreen",dijit._editor._Plugin,{
 				height: domStyle.height || "",
 				top: dojo.style(domNode, "top") || "",
 				left: dojo.style(domNode, "left") || "",
-				position: dojo.style(domNode, "position") || "static"
+				position: dojo.style(domNode, "position") || "static",
+				marginBox: dojo.marginBox(ed.domNode)
 			};
 
 			// Store the iframe state we have to restore later.
@@ -364,6 +365,8 @@ dojo.declare("dijit._editor.plugins.FullScreen",dijit._editor._Plugin,{
 			var self = this;
 			setTimeout(function(){
 				// Restore all the editor state.
+				var mb = self._origState.marginBox;
+				var oh = self._origState.height;
 				if(dojo.isIE && !dojo.isQuirks){
 					body.parentNode.style.overflow = self._oldBodyParentOverflow;
 					delete self._oldBodyParentOverflow;
@@ -381,10 +384,15 @@ dojo.declare("dijit._editor.plugins.FullScreen",dijit._editor._Plugin,{
 				delete self._origiFrameState;
 				// In case it is contained in a layout and the layout changed size,
 				// go ahead and call resize.
-				ed.resize();
 				var pWidget = dijit.getEnclosingWidget(ed.domNode.parentNode);
 				if(pWidget && pWidget.resize){
 				    pWidget.resize();
+				}else{
+					if(!oh || oh.indexOf("%") < 0){
+						// Resize if the original size wasn't set
+						// or wasn't in percnt.
+						ed.resize({h: mb.h});		
+					}
 				}
 				dijit.scrollIntoView(self.editor.toolbar.domNode);
 			}, 100);
