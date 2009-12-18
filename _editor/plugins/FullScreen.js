@@ -390,8 +390,9 @@ dojo.declare("dijit._editor.plugins.FullScreen",dijit._editor._Plugin,{
 				}else{
 					if(!oh || oh.indexOf("%") < 0){
 						// Resize if the original size wasn't set
-						// or wasn't in percnt.
-						ed.resize({h: mb.h});		
+						// or wasn't in percent.  Timeout is to avoid
+						// an IE crash in unit testing.
+						setTimeout(dojo.hitch(this, function(){ed.resize({h: mb.h});}), 0);		
 					}
 				}
 				dijit.scrollIntoView(self.editor.toolbar.domNode);
