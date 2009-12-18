@@ -7,6 +7,7 @@ dojo.require("dijit._editor.plugins.EnterKeyHandling");
 dojo.require("dijit._editor.range");
 dojo.require("dijit._Container");
 dojo.require("dojo.i18n");
+dojo.require("dijit.layout._LayoutWidget");
 dojo.requireLocalization("dijit._editor", "commands");
 
 dojo.declare(
