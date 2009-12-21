@@ -1246,7 +1246,8 @@ div.dijitTabBtnDisabled img {
 	border: none;				/* except that IE6 doesn't support transparent borders */
 }
 
-.dijitInlineEditBoxDisplayMode-hover {
+.dijitInlineEditBoxDisplayMode-hover,
+.dj_ie6 .dijitInlineEditBoxDisplayMode-hover {
 	/* An InlineEditBox in view mode (click this to edit the text) */
 	background-color: #e2ebf2;
 	border: solid 1px black;
