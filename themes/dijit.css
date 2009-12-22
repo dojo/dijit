@@ -902,6 +902,9 @@ img.dijitColorPaletteUnder {
 
 /* Calendar */
 
+.dijitCalendarContainer {
+	width: auto;	/* in case user has specified a width for the TABLE nodes, see #10553 */
+}
 .dijitCalendarContainer thead tr th, .dijitCalendarContainer thead tr td, .dijitCalendarContainer tbody tr td, .dijitCalendarContainer tfoot tr td {
 	padding: 0;
 }
