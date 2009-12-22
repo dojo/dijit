@@ -13,7 +13,7 @@ dijit.scrollIntoView = function(/*DomNode*/ node, /*Object?*/ pos){
 		html = doc.documentElement || body.parentNode,
 		isIE = dojo.isIE, isWK = dojo.isWebKit;
 	// if an untested browser, then use the native method
-	if((!(dojo.isMoz || isIE || isWK) || node == body || node == html) && (typeof node.scrollIntoView != "undefined")){
+	if((!(dojo.isMoz || isIE || isWK || dojo.isOpera) || node == body || node == html) && (typeof node.scrollIntoView != "undefined")){
 		node.scrollIntoView(false); // short-circuit to native if possible
 		return;
 	}

@@ -18,7 +18,7 @@
 		dojo.require("doh.runner");
 		dojo.require("dijit._base.scroll");
 
-		var usingNative = !(dojo.isMoz || dojo.isIE || dojo.isWebKit);
+		var usingNative = !(dojo.isMoz || dojo.isIE || dojo.isWebKit || dojo.isOpera);
 		dojo.addOnLoad(function(){
 		        doh.register("dijit._base.scroll",
 	                [
@@ -29,10 +29,10 @@
 					doh.f(dojo.hasAttr(body,'_parent'));
 				},
 				function test_8249(){
-					generateTest('8249_strict');
-					generateTest('8249_quirks');
-					generateTest('8249_loose_rtl');
-					generateTest('8249_quirks_rtl');
+					generateTest('8249_strict', '(0,-10)', '(0,+10)');
+					generateTest('8249_quirks', '(0,-10)', '(0,+10)');
+					generateTest('8249_loose_rtl', '(0,-10)', '(0,+10)');
+					generateTest('8249_quirks_rtl', '(0,-10)', '(0,+10)');
 				},
 				function test_8284(){
 					var minScroll, maxScroll, fudge=0;
@@ -67,20 +67,26 @@
 						maxScrollX -= (sb & 1); // odd sized sb adds 1 more
 						minScrollX -= (sb & 1); // odd sized sb adds 1 more
 					}
-					if(dojo.isIE == 7){ minScrollX = "-90"; }
+					if(dojo.isIE == 7){ minScrollX = -90; }
+					if(dojo.isOpera){
+						maxScrollX = 90;
+					}
 					generateTestXY('absContent_loose_rtl', maxScrollX, maxScrollY, minScrollX, minScrollY);
 					if(dojo.isIE){
 						maxScrollX = (dojo.isIE >= 7? -10 : -6) - sb;
 						maxScrollY = (dojo.isIE >= 7? -38 : -34) - sb;
-						minScrollY = minScrollX = "+"+(-maxScrollX);
+						minScrollY = minScrollX = -maxScrollX;
 					}else{
-						maxScrollX = maxScrollY = "-"+(sb+10);
-						minScrollX = minScrollY = "+"+(sb+10);
+						maxScrollX = maxScrollY = -(sb+10);
+						minScrollX = minScrollY = sb+10;
 					}
 					generateTestXY('absContent_quirks', maxScrollX, maxScrollY, minScrollX, minScrollY);
 					if(dojo.isIE < 8){
 						maxScrollX = (dojo.isIE >= 7 ? -10 : -6) - sb - (sb & 1);
 						minScrollX = "+" + ((dojo.isIE >= 7? 10 : 6) + sb - (sb & 1));
+					}
+					if(dojo.isOpera){
+						maxScrollX = 90;
 					}
 					generateTestXY('absContent_quirks_rtl', maxScrollX, maxScrollY, minScrollX, minScrollY);
 				},
@@ -132,32 +138,34 @@
 				},
 				function test_innerNoScrollBars(){
 					var scroll;
-					if(dojo.isMoz){
-						scroll = '(-30,+15)';
-					}else if(dojo.isIE <= 7){
-						scroll = '(+20,-12)';
+					if(dojo.isIE <= 6){
+						scroll = 53;
+					}else if(dojo.isIE == 7){
+						scroll = 46;
 					}else{
-						scroll = '(-30,15)';
+						scroll = 39;
 					}
-					generateTest('innerNoScrollBars_strict', scroll, scroll);
+					generateTestXY('innerNoScrollBars_strict', scroll, -29, scroll, -29);
 					if(dojo.isIE){
-						scroll = '(+20,-12)';
+						scroll = -38;
 					}
-					generateTest('innerNoScrollBars_quirks', scroll, scroll);
-					if(dojo.isMoz){
-						scroll = '(+30,+15)';
-					}else if(dojo.isIE <= 7){
-						scroll = '(-20,-12)';
-					}else if(dojo.isIE){
-						scroll = '(-30,15)';
+					generateTestXY('innerNoScrollBars_quirks', scroll, -29, scroll, -29);
+					if(dojo.isIE <= 6){
+						scroll = 53;
+					}else if(dojo.isIE == 7){
+						scroll = 46;
+					}else if(dojo.isIE >= 8 || dojo.isOpera){
+						scroll = "+0";
+					}else if(dojo.isWebKit){
+						scroll = "-0";
 					}else{
-						scroll = '(+30,15)';
+						scroll = 39;
 					}
-					generateTest('innerNoScrollBars_loose_rtl', scroll, scroll);
+					generateTestXY('innerNoScrollBars_loose_rtl', scroll, -29, scroll, -29);
 					if(dojo.isIE){
-						scroll = '(-20,-12)';
+						scroll = -38;
 					}
-					generateTest('innerNoScrollBars_quirks_rtl', scroll, scroll);
+					generateTestXY('innerNoScrollBars_quirks_rtl', scroll, -29, scroll, -29);
 				},
 				function test_noScrollBars(){
 					generateTest('noScrollBars_strict', "(0,0)", "(0,0)");
@@ -165,102 +173,32 @@
 					generateTest('noScrollBars_loose_rtl', "(0,0)", "(0,0)");
 					generateTest('noScrollBars_quirks_rtl', "(0,0)", "(0,0)");
 				},
-				function test_floated(){
-					generateTest('floated_strict', "(+0,0)", "(+0,0)");
-					generateTest('floated_quirks', "(+0,0)", "(+0,0)");
-					generateTest('floated_loose_rtl', "("+((dojo.isIE >= 8 || dojo.isWebKit)? "+" : "-")+"0,0)", "("+((dojo.isIE < 8 || dojo.isMoz)?"-":"+")+"0,0)");
-					generateTest('floated_quirks_rtl', "("+(dojo.isWebKit? "+" : "-")+"0,0)", "("+((dojo.isIE || dojo.isMoz)?"-":"+")+"0,0)");
-				},
-				function test_bottomNonFloat(){
-					var minScroll, maxScroll;
-					if(dojo.isIE == 6){
-						maxScroll = sb + 20;
-					}else{
-						maxScroll = sb * 2;
-					}
-					if(dojo.isIE == 6){
-						minScroll = sb + 20;
-					}else{
-						minScroll = 20;
-					}
-					generateTest('bottomNonFloat_strict', "(-"+maxScroll+",-0)", "(+"+minScroll+",-0)");
-					maxScroll = sb * 2;
-					minScroll = 20;
-					if(dojo.isIE <= 6){
-						maxScroll -= (dojo.byId('bottomNonFloat_quirks').contentWindow.document.body.clientHeight-100+sb) * 2; // needed for running inside DOH runner
-					}
-					generateTest('bottomNonFloat_quirks', "(-"+maxScroll+",-0)", "(+"+minScroll+",-0)");
-					var chromeHack = 0;
-					if(dojo.isIE == 6){
-						maxScroll = sb + 20;
-					}else if(dojo.isIE == 7 || dojo.isMoz){
-						maxScroll = 20;
-					}else if(dojo.isChrome){
-						maxScroll = Math.round(sb * 2.027);
-						chromeHack = maxScroll - (sb * 2);
-					}else{
-						maxScroll = sb * 2;
-					}
-					if(dojo.isIE == 6){
-						minScroll = "+" + (sb + 20);
-					}else if(dojo.isIE == 7){
-						minScroll = sb - 100;
-					}else if(dojo.isMoz){
-						minScroll = "+" + (sb * 2);
-					}else{
-						minScroll = "+"+(20-chromeHack);
-					}
-					generateTest('bottomNonFloat_loose_rtl', "(-"+maxScroll+",-0)", "("+minScroll+",-0)");
-					if(dojo.isIE || dojo.isMoz){
-						maxScroll = 20;
-					}else if(dojo.isChrome){
-						maxScroll = Math.round(sb * 2.027);
-						chromeHack = maxScroll - (sb * 2);
-					}else{
-						maxScroll = sb * 2;
-					}
-					if(dojo.isIE){
-						minScroll = sb * 2;
-						if(dojo.isIE <= 6){
-							minScroll -= (dojo.byId('bottomNonFloat_quirks_rtl').contentWindow.document.body.clientHeight-100+sb) * 2; // needed for running inside DOH runner
-						}
-					}else if(dojo.isMoz){
-						minScroll = sb * 2;
-					}else{
-						minScroll = 20-chromeHack;
-					}
-					generateTest('bottomNonFloat_quirks_rtl', "(-"+maxScroll+",-0)", "(+"+minScroll+",-0)");
+				function test_bottomFloated(){
+					generateTest('bottomFloated_strict', "(+0,-0)", "(+0,-0)");
+					generateTest('bottomFloated_quirks', "(+0,-0)", "(+0,-0)");
+					generateTest('bottomFloated_loose_rtl', "("+(dojo.isOpera? -1 : (((dojo.isIE >= 8 || dojo.isWebKit)? "+" : "-")+0))+",-0)", "("+(dojo.isOpera? 38 : (((dojo.isIE < 8 || dojo.isMoz)?"-":"+")+0))+",-0)");
+					generateTest('bottomFloated_quirks_rtl', "("+(dojo.isOpera? -1 : ((dojo.isWebKit? "+" : "-")+0))+",-0)", "("+(dojo.isOpera? 38 : (((dojo.isIE || dojo.isMoz)?"-":"+")+0))+",-0)");
 				},
 				function test_table(){
 					var minScroll, maxScroll;
-					if(dojo.isIE <= 7){
-						minScroll = "(0,+16)";
-						maxScroll = "(0,-16)";
-					}else{
-						minScroll = "(0,+15)";
-						maxScroll = "(0,-15)";
-					}
+					minScroll = "(0,+15)";
+					maxScroll = "(0,-15)";
 					generateTest('table_strict', maxScroll, minScroll);
 					generateTest('table_loose_rtl', maxScroll, minScroll);
-					if(dojo.isIE){
-						minScroll = "(0,+16)";
-						maxScroll = "(0,-16)";
-						if(dojo.isIE <= 6){
-							var fudge = dojo.byId('table_quirks').contentWindow.document.body.clientHeight-100; // needed for running inside DOH runner
-							maxScroll = "(0,-"+(16-fudge)+")";
-							minScroll = "(0,+"+(16-fudge)+")";
-						}
+					if(dojo.isIE <= 6){
+						var fudge = dojo.byId('table_quirks').contentWindow.document.body.clientHeight-100; // needed for running inside DOH runner
+						maxScroll = "(0,-"+(15-fudge)+")";
+						minScroll = "(0,+"+(15-fudge)+")";
 					}
 					generateTest('table_quirks', maxScroll, minScroll);
 					generateTest('table_quirks_rtl', maxScroll, minScroll);
 				},
 				function test_innerScrollbars(){
-					var IEhack = dojo.isIE <= 7? 1 : 0;
-					generateTestXY('innerScrollbars_strict', "-"+(sb-5), "-"+(sb-5+IEhack), "+"+(sb-5), "+"+(sb-5+IEhack));
-					generateTestXY('innerScrollbars_loose_rtl', "-"+(sb-5), "-"+(sb-5+IEhack), "+"+(sb-5), "+"+(sb-5+IEhack));
-					IEhack = dojo.isIE? 1 : 0;
-					generateTestXY('innerScrollbars_quirks', "-"+(sb-5), "-"+(sb-5+IEhack), "+"+(sb-5), "+"+(sb-5+IEhack));
-					generateTestXY('innerScrollbars_quirks_rtl', "-"+(sb-5), "-"+(sb-5+IEhack), "+"+(sb-5), "+"+(sb-5+IEhack));
+					var scroll = sb - 5;
+					generateTestXY('innerScrollbars_strict', -scroll, -scroll, scroll, scroll);
+					generateTestXY('innerScrollbars_loose_rtl', -scroll, -scroll, dojo.isIE == 7 ? -25 : scroll, scroll);
+					generateTestXY('innerScrollbars_quirks', -scroll, -scroll, scroll, scroll);
+					generateTestXY('innerScrollbars_quirks_rtl', -scroll, -scroll, scroll, scroll);
 				},
 				function test_8542(){
 					var fudge = 0;
@@ -284,11 +222,15 @@
 						maxScroll = "-1";
 					}else if(dojo.isIE){
 						maxScroll = "+20";
+					}else if(dojo.isOpera){
+						maxScroll = "-90";
 					}else{
 						maxScroll = "+"+(sb+10);
 					}
 					if(dojo.isIE <= 7 || dojo.isMoz){
 						minScroll = "-20";
+					}else if(dojo.isOpera){
+						minScroll = "+98";
 					}else{
 						minScroll = "+1";
 					}
@@ -306,16 +248,14 @@
 					}
 					var minScroll, maxScroll;
 					if(dojo.isIE <= 7){
-						maxScroll = 84;
-						minScroll = 85;
+						maxScroll = minScroll = 84;
 					}else{
 						maxScroll = minScroll = 70;
 					}
 					generateTest('htmlPadding_strict', "(0,-"+maxScroll+")", "(0,+"+minScroll+")");
 					generateTest('htmlPadding_loose_rtl', "(0,-"+maxScroll+")", "(0,+"+minScroll+")");
 					if(dojo.isIE){
-						maxScroll = 34;
-						minScroll = 35;
+						maxScroll = minScroll = 34;
 					}
 					generateTest('htmlPadding_quirks', "(0,-"+(maxScroll-fudge)+")", "(0,+"+(minScroll-fudge)+")");
 					generateTest('htmlPadding_quirks_rtl', "(0,-"+(maxScroll-fudge)+")", "(0,+"+(minScroll-fudge)+")");
@@ -330,7 +270,7 @@
 				scrollMax();
 				scrollIntoView();
 				actualScroll = getScroll();
-				expectedScroll = usingNative? "(-1,-1)" : (maxVal || getExpectedMaxScroll());
+				expectedScroll = usingNative? "(-1,-1)" : maxVal;
 				doh[compare](expectedScroll, actualScroll, id+" max failed");
 				scrollIntoView(); // make sure the value sticks
 				actualScroll = getScroll();
@@ -338,7 +278,7 @@
 				scrollMin();
 				scrollIntoView();
 				actualScroll = getScroll();
-				expectedScroll = usingNative? "(+1,+1)" : (minVal || getExpectedMinScroll());
+				expectedScroll = usingNative? "(+1,+1)" : minVal;
 				doh[compare](expectedScroll, actualScroll, id+" min failed");
 			}
 		}
@@ -352,7 +292,7 @@
 	</script>
 </head>
 <body>
-<h1>Automated scrollIntoView tests testing 3 different DOCTYPEs as well as right-to-left</h1>
+<h1>Automated scrollIntoView tests with 3 different DOCTYPEs as well as right-to-left</h1>
 <!-- compute scrollbar size for test result computations -->
 <table style="visibility:hidden;table-layout:fixed;">
 <tr><td><div id="nonscroll"  style="width:100px;overflow:hidden;border:1px solid blue;">&nbsp;</div></td></tr>
@@ -360,32 +300,24 @@
 </table>
 <script type="text/javascript">
 sb = dojo.byId("nonscroll").clientWidth - dojo.byId("withscroll").clientWidth;
-console.log('!!!!!!!!!!!! scrollbar size = ' + sb);
+console.debug('!!!!!!!!!!!! scrollbar size = ' + sb);
 </script>
 <!--	The test templates are below -->
 <fieldset>
 <label for="8249">Scrollable parent != offsetParent:</label>
 <div type="testIframe" id="8249">
-	<div style="margin:13px;"
+	<iframestyle>INPUT { float:left; }</iframestyle>
+	<div style="border-width:13px;"
 		><ul style="height:70px;"
 			><li><input style="background-color:white;"></li
 			><li><input style="background-color:white;"></li
 			><li><input style="background-color:white;"></li
-			><li><input style="background-color:red  ;"></li
+			><li><input id=it></li
 			><li><input style="background-color:white;"></li
 			><li><input style="background-color:white;"></li
 			><li><input style="background-color:white;"></li
 		></ul
 	></div>
-	<script type="iframe/javascript">
-		function addOnLoad(win){
-			function getYscroll(win, pos){
-				return Math.round((win.document.getElementsByTagName("UL")[0].scrollHeight-140)*pos/7+10);
-			}
-			win.frameElement.getExpectedMinScroll = function(){ var h = getYscroll(win, 4); return "(0,+"+h+")" };
-			win.frameElement.getExpectedMaxScroll = function(){ var h = getYscroll(win, 3); return "(0,-"+h+")" };
-		}
-	</script>
 </div>
 </fieldset>
 <fieldset>
@@ -394,7 +326,7 @@ console.log('!!!!!!!!!!!! scrollbar size = ' + sb);
 	<iframestyle>HTML { overflow-x:hidden !important; /*IE6*/ }</iframestyle>
 	<hr style="height:200px;width:20px;"/>
 	<div style="position:absolute;top:0px;left:0px;height:200px;width:20px;">
-		<input style="margin:90px 0px;">
+		<input id=it style="margin:90px 0px;">
 	</div>
 </div>
 </fieldset>
@@ -405,7 +337,7 @@ console.log('!!!!!!!!!!!! scrollbar size = ' + sb);
 		HTML { overflow:scroll !important; /*IE6*/ }</iframestyle>
 	<hr style="height:100px;width:200px;float:left;"/>
 	<hr style="height:100px;width:200px;float:right;"/>
-	<input style="position:absolute;top:90px;">
+	<input id=it style="position:absolute;top:90px;">
 </div>
 </fieldset>
 <fieldset>
@@ -413,16 +345,16 @@ console.log('!!!!!!!!!!!! scrollbar size = ' + sb);
 <div type="testIframe" id="fixedNode">
 	<hr style="height:50px;float:left;"/>
 	<hr style="height:50px;float:right;"/>
-	<input style="position:fixed;top:75px;left:-5px;">
+	<input id=it style="position:fixed;top:75px;left:-5px;">
 </div>
 </fieldset>
 <fieldset>
 <label for="fixedScrollable">Fixed-positioned scrollable content:</label>
 <div type="testIframe" id="fixedScrollable">
 	<iframestyle>HTML { overflow-x:hidden !important; /*IE6*/ }
-		INPUT { height:20px; MZT_MZQ_WKT_WKQ_IEQ_height:28px; width:20px; MZT_MZQ_WKT_WKQ_IEQ_width:28px; }</iframestyle>
+		INPUT { height:20px; MZT_MZQ_WKT_WKQ_IEQ_OPQ_OPT_height:28px; width:20px; MZT_MZQ_WKT_WKQ_IEQ_OPQ_OPT_width:28px; }</iframestyle>
 	<div style="height:120px;width:70px;overflow-y:scroll;position:fixed;margin:-10px 0px 0px 0px;">
-		<input style="margin:120px 0px;border:1px solid red;padding:3px;">
+		<input id=it style="margin:120px 0px;border:1px solid red;padding:3px;">
 		<hr style="width:10px;">
 	</div>
 	<hr style="height:200px;width:20px;"/>
@@ -431,9 +363,9 @@ console.log('!!!!!!!!!!!! scrollbar size = ' + sb);
 <fieldset>
 <label for="7036_8665">Double scrollbars with absolute positioned content:</label>
 <div type="testIframe" id="7036_8665">
-	<iframestyle>INPUT { height:20px; MZT_MZQ_WKT_WKQ_IEQ_height:28px; width:20px; MZT_MZQ_WKT_WKQ_IEQ_width:28px; }</iframestyle>
+	<iframestyle>INPUT { height:20px; MZT_MZQ_WKT_WKQ_IEQ_OPQ_OPT_height:28px; width:20px; MZT_MZQ_WKT_WKQ_IEQ_OPQ_OPT_width:28px; }</iframestyle>
 	<div style="height:70px;width:70px;overflow-y:scroll;position:absolute;top:26px;left:5px;"
-		><input style="margin:80px 0px 80px 0px;border:1px solid red;padding:3px;"
+		><input id=it style="margin:80px 0px 80px 0px;border:1px solid red;padding:3px;"
 		><hr style="width:10px;"
 	></div>
 	<div style="height:26px;width:10px;position:absolute;top:96px;left:10px;"></div>
@@ -443,59 +375,57 @@ console.log('!!!!!!!!!!!! scrollbar size = ' + sb);
 <label for="innerNoScrollBars">Complex scrollable inner content, no scrollbars:</label>
 <div type="testIframe" id="innerNoScrollBars">
 	<iframestyle>DIV { width:20px; IEQ_width:26px; height:20px; IEQ_height:24px; }</iframestyle>
-	<div style="overflow:hidden; margin:10px; border:1px solid red; border-width:1px 2px 3px 4px; float:left;"
-		><input style="background-color:green;height:15px;"
-		><nobr style="margin:7px;padding:3px;border:5px solid pink;overflow:visible;display:inline;"
-			><input style="background-color:black;display:inline;width:20px;"
-			><input style="background-color:red;display:inline;font-size:16px;"
-			><input style="background-color:blue;display:inline;width:15px;"
-		></nobr
-		><input style="background-color:cyan;height:10px;"
+	<div style="overflow:hidden; margin:10px;border:1px solid red;border-width:1px 2px 3px 4px;"
+		><fieldset style="width:59px;overflow:visible;"
+			><input style="background-color:green;height:15px;float:left;"
+			><nobr style="margin:7px;padding:3px;border:5px solid pink;overflow:visible;display:block;width:90px;float:left;"
+				><input style="background-color:black;display:inline;width:24px;height:24px;float:left;"
+				><input id=it style="background-color:red;display:inline;float:left;"
+				><input style="background-color:blue;display:inline;width:16px;height:16px;float:left;"
+			></nobr
+			><input style="background-color:cyan;height:10px;float:left;"
+		></fieldset
 	></div>
 </div>
 </fieldset>
 <fieldset>
 <label for="noScrollBars">Nothing to do:</label>
 <div type="testIframe" id="noScrollBars">
-	<input style="margin:25px;">
+	<input id=it style="margin:25px;">
 </div>
 </fieldset>
 <fieldset>
-<label for="floated">Floated:</label>
-<div type="testIframe" id="floated">
+<label for="bottomFloated">Bottom, floated:</label>
+<div type="testIframe" id="bottomFloated">
 	<iframestyle>INPUT { L_float:left; R_float:right; WKR_FF2R_float:left; }</iframestyle>
-	<hr style="float:left;"/>
-	<hr style="float:right;"/>
-	<input>
-</div>
-</fieldset>
-<fieldset>
-<label for="bottomNonFloat">Bottom, not floated:</label>
-<div type="testIframe" id="bottomNonFloat">
-	<iframestyle>INPUT { margin-right:100%; margin-left:100%; WKR_FF2R_margin-right:-24.5%; }</iframestyle>
-	<hr style="height:50px;width:200px;float:left;"/>
-	<hr style="height:50px;width:200px;float:right;"/>
-	<input style="clear:both;">
+	<hr style="float:left;height:50px;"/>
+	<hr style="float:right;height:50px;"/>
+	<input id=it style="clear:both;">
 </div>
 </fieldset>
 <fieldset>
 <label for="table">Table:</label>
 <div type="testIframe" id="table">
 	<iframestyle>HTML { overflow-x:hidden !important; /*IE6*/ }</iframestyle>
-	<table style="border:5px white solid;margin:70px 0px 0px 0px;float:left;" cellspacing="0" cellpadding="0" rules="none">
-		<tr><td><input style="height:40px;width:40px;margin-bottom:70px;"></td></tr>
+	<table style="border-width:75px 5px 75px 5px;float:left;" cellspacing="0" cellpadding="0" rules="none">
+		<tr><td><input id=it style="height:40px;width:40px;float:left;"></td></tr>
 	</table>
 </div>
 </fieldset>
 <fieldset>
 <label for="innerScrollbars">Inner scrollable content with scrollbars:</label>
 <div type="testIframe" id="innerScrollbars">
-	<iframestyle>HTML { overflow:hidden !important; /*IE6*/ }
-		BODY { padding:10px; }</iframestyle>
-	<div style="overflow:scroll;background-color:margin:0px;padding:0px;border:0px solid white;height:80px;width:80px;"
-		><div style="margin:0px;padding:0px;border:0px solid white;display:block;"
-			><input style="width:50px;height:50px;margin:25px;display:inline;background-color:red;"
-		></div
+	<iframestyle>
+		HTML { overflow:hidden !important; /*IE6*/ }
+		BODY { padding:10px; }
+		TABLE { OPR_float:left; }
+	</iframestyle>
+	<div style="overflow:scroll;height:80px;width:80px;"
+		><fieldset
+			><table cellspacing="25" cellpadding="0" border="0"
+				><tr><td><input id=it style="width:50px;height:50px;float:left;"></td></tr
+			></table
+		></fieldset
 	></div>
 </div>
 </fieldset>
@@ -504,7 +434,7 @@ console.log('!!!!!!!!!!!! scrollbar size = ' + sb);
 <div type="testIframe" id="8542">
 	<div style="position:absolute;padding:100px 20px;left:5px;">
 		<table style="width:10px;height:10px;max-height:10px;table-layout:fixed;" cellspacing="0" cellpadding="0">
-			<tr><td><div style="position:relative;height:10px;width:10px;"><input style="position:absolute;"></div></td></tr>
+			<tr><td><div style="position:relative;height:10px;width:10px;"><input id=it style="position:absolute;"></div></td></tr>
 		</table>
 	</div>
 </div>
@@ -512,9 +442,11 @@ console.log('!!!!!!!!!!!! scrollbar size = ' + sb);
 <fieldset>
 <label for="tooBig">Oversized content:</label>
 <div type="testIframe" id="tooBig">
-	<iframestyle>NPUT { L_left:90px; R_right:90px; WKR_FF2R_left:90px; WKR_FF2R_right:auto; }
-		HTML { overflow:scroll !important; /*IE6*/ }</iframestyle>
-	<input style="position:absolute;margin:-10px 0px 0px 0px;left:-20px;width:130px;height:130px;">
+	<iframestyle>
+		HTML { IEZ_overflow:scroll !important; /*IE6*/ }
+		BODY { OPT_overflow:scroll !important; }
+	</iframestyle>
+	<input id=it style="position:absolute;margin:-10px 0px 0px 0px;left:-20px;width:130px;height:130px;">
 	<hr style="height:100px;width:200px;float:left;"/>
 	<hr style="height:100px;width:200px;float:right;"/>
 </div>
@@ -525,8 +457,8 @@ console.log('!!!!!!!!!!!! scrollbar size = ' + sb);
 	<iframestyle>HTML, BODY { padding:50px 9px; }
 		HTML { overflow-x:hidden !important; /*IE6*/ }</iframestyle>
 	<hr style="height:50px;width:20px;"/>
-	<input style="display:block;">
-	<hr style="height:50px;width:20px;"/>
+	<input id=it style="display:block;clear:both;float:left;">
+	<hr style="clear:both;height:50px;width:20px;"/>
 </div>
 </fieldset>
 <br>
@@ -534,43 +466,39 @@ console.log('!!!!!!!!!!!! scrollbar size = ' + sb);
 	This should be generalized for other files to include. -->
 <script>
 	function _findInput(win){
-		var inputs = win.document.getElementsByTagName('INPUT');
-		if(inputs.length == 1){ return inputs[0]; }
-		for(var i=0; i<inputs.length; i++){
-			var n = inputs[i];
-			if(/red|255, 0, 0|ff0000/i.test(dojo.style(n, "backgroundColor")) || (typeof n.style == "object" && n.style.backgroundColor == "red")){
-				return n;
-				break;
-			}
-		}
+		return win.document.getElementById('it');
 	}
 	function _scrollMin(win){
 		var n = _findInput(win);
 		while(n && n.tagName){
-			n.scrollTop = -n.scrollHeight;
-			n.scrollLeft = -n.scrollWidth;
+			n.scrollTop = -9999;
+			n.scrollLeft = -9999;
 			n._scrollMinY = n.scrollTop;
 			n._scrollMinX = n.scrollLeft;
-			n.scrollTop += 1;
+			n.scrollTop++;
 			if(((n._scrollMaxX||0)-n._scrollMinX) == sb && (n.scrollWidth <= n.clientWidth || n.scrollWidth <= n.offsetWidth)){ // ignore fake scrolls
 			}else if((n._scrollMaxX||0) > n._scrollMinX){
-				n.scrollLeft += 1;
+				n.scrollLeft++;
 			}
+			if(n.tagName == "BODY" && (n.scrollLeft || n.scrollTop)){ break; }
 			n = n.parentNode;
 		}
 	}
 	function _scrollMax(win){
 		var n = _findInput(win);
 		while(n && n.tagName){
-			n.scrollTop = n.scrollHeight;
-			n.scrollLeft = n.scrollWidth;
+			n.scrollTop = 9999;
+			n.scrollLeft = 9999;
 			n._scrollMaxY = n.scrollTop;
 			n._scrollMaxX = n.scrollLeft;
-			n.scrollTop -= 1;
+			n.scrollTop--;
 			if((n._scrollMaxX-(n._scrollMinX||0)) == sb && (n.scrollWidth <= n.clientWidth || n.scrollWidth <= n.offsetWidth)){
 				n._scrollMaxX = n.scrollLeft = (n._scrollMinX || 0); // ignore fake scrolls
 			}else{
-				n.scrollLeft -= 1;
+				n.scrollLeft--;
+			}
+			if(n.tagName == "BODY" && (n.scrollLeft || n.scrollTop || n._scrollMaxY || n._scrollMaxX)){
+				break; // skip HTML
 			}
 			n = n.parentNode;
 		}
@@ -604,8 +532,6 @@ console.log('!!!!!!!!!!!! scrollbar size = ' + sb);
 		iframeWin.frameElement.getScroll = function(){ return parentWin._getScroll(iframeWin) };
 		iframeWin.frameElement.scrollIntoView = function(){ parentWin._scrollIntoView(iframeWin) };
 		iframeWin.frameElement.onClick = function(){ parentWin._onClick(iframeWin) };
-		iframeWin.frameElement.getExpectedMaxScroll = function(){ var node = parentWin._findInput(iframeWin); node.scrollIntoView(false); return parentWin._getScroll(iframeWin) };
-		iframeWin.frameElement.getExpectedMinScroll = function(){ var node = parentWin._findInput(iframeWin); node.scrollIntoView(true); return parentWin._getScroll(iframeWin) };
 	}
 	function getIframeSrc(content, doctype, rtl){
 		content = content.replace(/"/g/*balance"*/,"'").replace(/iframe.javascript/g,"text/javascript").replace(/<input\b/ig,"<INPUT readOnly ");
@@ -617,6 +543,8 @@ console.log('!!!!!!!!!!!! scrollbar size = ' + sb);
 			content = content.replace(/WK([A-Z]_)/g, "$1");
 		}else if(dojo.isMoz){
 			content = content.replace(/MZ([A-Z]_)/g, "$1");
+		}else if(dojo.isOpera){
+			content = content.replace(/OP([A-Z]_)/g, "$1");
 		}
 		// find DOCTYPE specific CSS attributes
 		if(doctype=="strict"){
@@ -650,22 +578,20 @@ console.log('!!!!!!!!!!!! scrollbar size = ' + sb);
 		'<HTML dir='+(rtl?'rtl':'ltr')+'>'+
 		'<HEAD>'+
 			'<STYLE>'+
-				'* { border:0px solid black;padding:0px;margin:0px;font-style:normal;font-family:monospace;font-size:0px;line-height:normal; }\n'+
-				'INPUT { display:block; background-color:#ff0000; border:0px solid black; padding:0px; margin:0px; #margin-bottom:-1px; font-size:0px; line-height:0px; overflow:hidden; width:20px; height: 20px; }\n'+
-				'UL { border:0px solid black; padding:0px; margin:0px; line-height:0px; width:45px; overflow:auto; }\n'+
-				'LI { list-style-type: none; border:0px solid black; padding:0px; margin:0px; line-height:20px; overflow:visible; max-width:20px; max-height:20px; height:20px; width:20px; }\n'+
-				'HR { margin:0px; width:120px; height: 1px; visibility:hidden; display:block; }\n'+
+				'* { border:0px solid white;padding:0px;margin:0px;font-style:normal;font-family:monospace;font-size:0px;line-height:normal; }\n'+
+				'INPUT { display:block;background-color:#ff0000;font-size:0px;line-height:0px;overflow:hidden;width:20px;height:20px; }\n'+
+				'UL { list-style-type: none;line-height:0px;width:45px;overflow:auto; }\n'+
+				'LI { list-style-type: none;line-height:20px;overflow:visible;max-width:20px;max-height:20px;height:20px;width:20px;float:left; }\n'+
+				'HR { width:120px;height:1px;visibility:hidden;display:block; }\n'+
 				style+
 			'<\/STYLE>'+
 			'<SCRIPT type=text/javascript>'+
 				'var win = frameElement.ownerDocument.defaultView||frameElement.document.parentWindow;'+
 				'win.initIframeMethods(window, win);'+
-				'function addOnLoad(){}'+
 			'<\/SCRIPT>'+
 		'<\/HEAD>'+
 		'<BODY BGCOLOR=#ffffff onclick=\'frameElement.onClick()\'>'+
 			content+
-			'<SCRIPT type=text/javascript>addOnLoad(window)<\/SCRIPT>'+
 		'<\/BODY>'+
 		'<\/HTML>"';
 		return iframeSrc;
