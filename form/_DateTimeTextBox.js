@@ -252,7 +252,9 @@ dojo.declare(
 				// Replace the element - but do it after a delay to allow for
 				// filtering to occur
 				setTimeout(dojo.hitch(this, function(){
-					dijit.placeOnScreenAroundElement(p.domNode.parentNode, this.domNode, {'BL':'TL', 'TL':'BL'}, p.orient ? dojo.hitch(p, "orient") : null);
+					if(this._picker && this._opened){
+						dijit.placeOnScreenAroundElement(p.domNode.parentNode, this.domNode, {'BL':'TL', 'TL':'BL'}, p.orient ? dojo.hitch(p, "orient") : null);
+					}
 				}), 1);
 			}
 		}
