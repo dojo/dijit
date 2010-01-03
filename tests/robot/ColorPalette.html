@@ -64,7 +64,9 @@
 								doh.t(focus, "something is focused");
 								var imgNode = focus.getElementsByTagName("img")[0]
 								doh.t(imgNode, "found image node");
-								doh.is("#ffffff", imgNode.color, "focused on white");
+                                //
+                                var dye = big._getDye(focus);                                
+								doh.is("#ffffff", dye.getValue(), "focused on white");
 
 								// test the highlight is initially on top left cell
 								var highlighted = dojo.query(".dijitPaletteCellHighlight", big.domNode);
@@ -95,8 +97,9 @@
 								
 								var imgNode = focus.getElementsByTagName("img")[0]
 								doh.t(imgNode, "found image node");
-
-								doh.is("#ffc0cb", imgNode.color, "focused on right color");
+                                //
+                                var dye = big._getDye(focus);
+								doh.is("#ffc0cb", dye.getValue(), "focused on right color");
 							})), 1000);
 							
 							// Select the current value
@@ -195,7 +198,8 @@
 								doh.t(focus, "something is focused");
 								var imgNode = focus.getElementsByTagName("img")[0]
 								doh.t(imgNode, "found image node");
-								doh.is("#ff0000", imgNode.color, "focused");
+                                var dye = small._getDye(focus);                              
+								doh.is("#ff0000", dye.getValue(), "focused");
 							}), 1000);
 
 							return d;

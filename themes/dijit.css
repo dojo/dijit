@@ -806,64 +806,56 @@ body .dijitAlignClient { position: absolute; }
 	overflow: hidden;
 }
 
-/* Color Palette */
+/* Color Palette
+ * Sizes designed so that table cell positions match icons in underlying image,
+ * which appear at 20x20 intervals.
+ */
 
 .dijitColorPalette {
-	border:1px solid #999;
-	background:#fff;
-	-moz-border-radius:3pt;
+	border: 1px solid #999;
+	background: #fff;
+	position: relative;
 }
 
 img.dijitColorPaletteUnder {
-	border-style:none;
-	position:absolute;
-	left:0;
-	top:0;
-}
-.dijitColorPaletteInner {
-	position: relative;
-	overflow:hidden;
-	outline:0;
-}
-.dijitPaletteCell {
-	width: 20px;
-	height: 20px;
+	/* This single image contains the "icons" for every color in the color palette, and sits behind the transparent <table> */
+	border-style: none;
 	position: absolute;
+	left: 0;
+	top: 0;
+}
+.dijitPaletteTable {
+	/* table that holds the palette cells */
+	margin: 3px;
+	position: relative;
 	overflow: hidden;
-	z-index: 10;
-	outline-width: 0;
+	outline: 0;
+	border-collapse: separate;
+}
+.dijitColorPalette .dijitPaletteCell {
+	/* matching size of "icons" embedded in the img.dijitColorPaletteUnder */
+	height: 20px;
+	width: 20px;
+	font-size: 1px;
 }
 .dijitPaletteImg {
-	width: 16px; /*This is the width of one color in the provided palettes. */
+	/* transparent (but clickable) <img> node inside of each <td> */
+	width: 16px; /* This is the width of one color in the provided palettes. */
 	height: 14px; /* Height of one color in the provided palettes. */
-	position: absolute;
-	top: 1px;
-	left: 1px;
-	overflow: hidden;
 	cursor: default;
-	border:1px solid #999;
-	/* -moz-border-radius:2pt; */
 }
 
 .dijitPaletteCellHighlight img {
-	width: 14px; /*This is the width of one color in the provided palettes. */
-	height: 12px; /* Height of one color in the provided palettes. */
-	position: absolute;
-	top: 1px;
-	left: 1px;
-	overflow: hidden;
-	cursor: default;
-	border:2px solid #000;
-	outline:1px solid #dedede;
-	/* -moz-border-radius:0; */
+	border: 2px solid #000;
 }
 
-.dijit_a11y .dijitPaletteCell {
-	background-color:transparent !important;
-}
+.dijit_a11y .dijitPaletteTable,
+.dijit_a11y .dijitPaletteCell,
 .dijit_a11y .dijitPaletteImg {
 	background-color:transparent !important;
 }
+
+/* AccordionContainer */
 
 .dijitAccordionContainer {
 	border:1px solid #b7b7b7;
