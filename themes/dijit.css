@@ -824,35 +824,53 @@ img.dijitColorPaletteUnder {
 	left: 0;
 	top: 0;
 }
-.dijitPaletteTable {
-	/* table that holds the palette cells */
-	margin: 3px;
+.dijitColorPalette .dijitPaletteTable {
+	/* Table that holds the palette cells, and overlays image file with color swatches.
+	 * padding/margin to align table with image.
+	 */
+	padding: 2px 3px 3px 3px;
 	position: relative;
 	overflow: hidden;
 	outline: 0;
 	border-collapse: separate;
 }
+.dj_ie6 .dijitColorPalette .dijitPaletteTable,
+.dj_ie7 .dijitColorPalette .dijitPaletteTable,
+.dj_iequirks .dijitColorPalette .dijitPaletteTable {
+	/* using padding above so that focus border isn't cutoff on moz/webkit,
+	 * but using margin on IE because padding doesn't seem to work
+	 */
+	padding: 0;
+	margin: 2px 3px 3px 3px;
+}
+
 .dijitColorPalette .dijitPaletteCell {
-	/* matching size of "icons" embedded in the img.dijitColorPaletteUnder */
+	/* <td> in the <table>, matching size of color swatches embedded in the img.dijitColorPaletteUnder */
 	height: 20px;
 	width: 20px;
 	font-size: 1px;
+	vertical-align: middle;
+	text-align: center;
 }
-.dijitPaletteImg {
-	/* transparent (but clickable) <img> node inside of each <td> */
-	width: 16px; /* This is the width of one color in the provided palettes. */
-	height: 14px; /* Height of one color in the provided palettes. */
+.dijitColorPalette .dijitPaletteImg {
+	/* transparent (but clickable) <img> node inside of each <td>, overlaying the color swatch.
+	 * displays border around a color swatch
+	 */
+	width: 16px;
+	height: 14px;
+	border: 1px solid #999;
 	cursor: default;
 }
 
-.dijitPaletteCellHighlight img {
-	border: 2px solid #000;
+.dijitColorPalette .dijitPaletteCellHighlight .dijitPaletteImg {
+	/* hovered color swatch */
+	border: 1px solid #000;
 }
 
-.dijit_a11y .dijitPaletteTable,
-.dijit_a11y .dijitPaletteCell,
-.dijit_a11y .dijitPaletteImg {
-	background-color:transparent !important;
+.dijit_a11y .dijitColorPalette .dijitPaletteTable,
+.dijit_a11y .dijitColorPalette .dijitPaletteCell,
+.dijit_a11y .dijitColorPalette .dijitPaletteImg {
+	background-color: transparent !important;
 }
 
 /* AccordionContainer */
