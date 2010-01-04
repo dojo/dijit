@@ -23,9 +23,12 @@ dojo.declare("dijit._PaletteMixin",
 	value: null,
 
 	// _currentFocus: [private] DomNode
-	//		The currently focused or hovered cell.
+	//		The currently focused cell (if the palette itself has focus), or otherwise
+	//		the cell to be focused when the palette itself gets focus.
 	//		Different from value, which represents the selected (i.e. clicked) cell.
-	_currentFocus: 0,
+/*=====
+	_currentFocus: null,
+=====*/
 
 	// _xDim: [protected] Integer
 	//		This is the number of cells horizontally across.
@@ -48,9 +51,8 @@ dojo.declare("dijit._PaletteMixin",
 	cellClass: "dijitPaletteCell",
 
 	// highlightClass: [protected] String
-	//		CSS class applied to the currently hovered/focused cell in the palette
-	// TODO: w/new architecture I don't think we need to do this for focus anymore
-	highlightClass: "dijitPaletteCellHighlight",
+	//		CSS class applied to the currently hovered cell in the palette
+	highlightClass: "dijitPaletteCellHover",
 
 	// dyeClass: [protected] String
 	//	 Name of javascript class for Object created for each cell of the palette.
@@ -150,19 +152,7 @@ dojo.declare("dijit._PaletteMixin",
 		//		Focus this widget.  Puts focus on the most recently focused cell.
 
 		// The cell already has tabIndex set, just need to set CSS and focus it
-		dojo.addClass(this._currentFocus, this.highlightClass);
 		dijit.focus(this._currentFocus);
-	},
-
-	_onFocus: function(){
-		// summary:
-		//		Handler for when the widget gets focus (because a cell inside
-		//		the palette got focus)
-		// tags:
-		//		protected
-
-		dojo.addClass(this._currentFocus, this.highlightClass);
-		this.inherited(arguments);
 	},
 
 	_onBlur: function(){
@@ -174,7 +164,6 @@ dojo.declare("dijit._PaletteMixin",
 		// Just to be the same as 1.3, when I am focused again go to first (0,0) cell rather than
 		// currently focused node.
 		dojo.attr(this._currentFocus, "tabIndex", "-1");
-		dojo.removeClass(this._currentFocus, this.highlightClass);
 		this._currentFocus = this._cells[0].node;
 		dojo.attr(this._currentFocus, "tabIndex", this.tabIndex);
 
@@ -203,7 +192,7 @@ dojo.declare("dijit._PaletteMixin",
 		//		private
 
 		var target = evt.currentTarget;
-		this._setCurrent(target);
+		dojo.addClass(target, this.highlightClass);
 	},
 
 	_onCellMouseLeave: function(/*Event*/ evt){
@@ -213,16 +202,15 @@ dojo.declare("dijit._PaletteMixin",
 		//		The mouse event.
 		// tags:
 		//		private
-		dojo.removeClass(this._currentFocus, this.highlightClass);
+		var target = evt.currentTarget;
+		dojo.removeClass(target, this.highlightClass);
 	},
 
 	_onCellFocus: function(/*Event*/ evt){
 		// summary:
 		//		Handler for onFocus of a cell.
 		// description:
-		//		Removes highlight of the cell that just lost focus, and highlights
-		//		the new cell.  Also moves the tabIndex setting to the new cell.
-		//
+		//		Moves the tabIndex setting to the new cell.
 		// evt:
 		//		The focus event.
 		// tags:
@@ -231,29 +219,26 @@ dojo.declare("dijit._PaletteMixin",
 		this._setCurrent(evt.currentTarget);
 	},
 
-	_setCurrent: function(/*Node*/ node){
+	_setCurrent: function(/*DomNode*/ node){
 		// summary:
-		//		Called when a cell is hovered or focused.
+		//		Called to focus a cell.
 		// description:
-		//		Removes highlight of the old cell, and highlights
-		//		the new cell.  Also moves the tabIndex setting to the new cell.
+		//		Moves the tabIndex setting to the new cell.
 		// tags:
 		//		protected
 		if("_currentFocus" in this){
-			// Remove highlight and tabIndex on old cell
+			// Remove tabIndex on old cell
 			dojo.attr(this._currentFocus, "tabIndex", "-1");
-			dojo.removeClass(this._currentFocus, this.highlightClass);
 		}
 
-		// Set highlight and tabIndex of new cell
+		// Set tabIndex of new cell
 		this._currentFocus = node;
 		if(node){
 			dojo.attr(node, "tabIndex", this.tabIndex);
-			dojo.addClass(node, this.highlightClass);
 		}
 	},
 
-	_selectCell: function(/*Node*/ cell){
+	_selectCell: function(/*DomNode*/ cell){
 		// summary:
 		// 		Callback when user clicks a given cell (to select it).  Triggers the onChange event.
 		// selectNode: DomNode

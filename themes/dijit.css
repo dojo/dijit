@@ -862,7 +862,7 @@ img.dijitColorPaletteUnder {
 	cursor: default;
 }
 
-.dijitColorPalette .dijitPaletteCellHighlight .dijitPaletteImg {
+.dijitColorPalette .dijitPaletteCellHover .dijitPaletteImg {
 	/* hovered color swatch */
 	border: 1px solid #000;
 }

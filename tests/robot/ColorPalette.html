@@ -69,7 +69,7 @@
 								doh.is("#ffffff", dye.getValue(), "focused on white");
 
 								// test the highlight is initially on top left cell
-								var highlighted = dojo.query(".dijitPaletteCellHighlight", big.domNode);
+								var highlighted = dojo.query(".dijitPaletteCellHover", big.domNode);
 								doh.is(1, highlighted.length, "one focused node");
 								doh.is("white", highlighted[0].title, "upper left is focused");
 							}), 500);
