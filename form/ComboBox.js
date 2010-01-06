@@ -400,6 +400,14 @@ dojo.declare(
 				h: best.h,
 				w: Math.max(newwidth, this.domNode.offsetWidth)
 			});
+			
+			// If we increased the width of drop down to match the width of ComboBox.domNode,
+			// then need to reposition the drop down (wrapper) so (all of) the drop down still
+			// appears underneath the ComboBox.domNode
+			if(newwidth < this.domNode.offsetWidth){
+				this._popupWidget.domNode.parentNode.style.left = dojo.position(this.domNode).x + "px";
+			}
+
 			dijit.setWaiState(this.comboNode, "expanded", "true");
 		},
 
