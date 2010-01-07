@@ -36,7 +36,6 @@
 					}
 					doh.f(true, "didn't find plugin " + command);
 				}
-
 				// Verify that the formatBlock, fontSize, and fontName
 				// plugins correctly display the format / font-size / font-name of the selected text.
 				doh.register("FontChoice: verify current format/font-size/font-name",
@@ -269,6 +268,133 @@
 						}
 					}
 				);
+
+				doh.register("FontChoice: Format Removal Tests", [
+					{
+						name: "formatBlock: Verify sinfle level format is removed (inside format block).",
+						timeout: 20000,
+						setUp: function(){
+							editor = dijit.byId("editor0");
+							fcPlugin = getPlugin("formatBlock");
+							value = editor.attr("value");
+						},
+						runTest: function(){
+							var d = new doh.Deferred();
+							try{
+								// Focus on the editor window
+								dijit.scrollIntoView(editor.domNode);
+								editor.focus();
+								doh.robot.mouseMoveAt(editor.iframe, 1000);
+								doh.robot.mouseClick({left:true}, 1000);
+
+								// Verify the formatBlock plugin was found
+								doh.assertTrue(fcPlugin !== null, "formatBlock was found");
+
+								doh.robot.sequence(d.getTestErrback(function(){
+									var p = dojo.withGlobal(editor.window, function() { return dojo.byId("text"); });
+									doh.is("text", p && p.id, "found text");
+									dojo.global.dojo.withGlobal(editor.window, function() {
+										// Select the text, collapse to the start of it
+										dijit._editor.selection.selectElementChildren(p);
+										dijit._editor.selection.collapse(true);
+									});
+								}),1000);
+								doh.robot.sequence(function(){
+									// Make sure states update.
+									editor.onDisplayChanged();
+								}, 1000);
+								doh.robot.sequence(function(){
+									fcPlugin.button.attr("value", "noFormat");
+								}, 1000);
+								doh.robot.sequence(function(){
+									// Make sure states update.
+									// If change occurred, then the value should 
+									// still be noFormat.
+									editor.onDisplayChanged();
+								}, 1000);
+								doh.robot.sequence(d.getTestCallback(function(){
+                                    doh.assertEqual("noFormat", fcPlugin.button.attr("value"), 
+										"Validating current cursor point format is noFormat");
+								}), 1000);
+							 }catch(e){
+								 d.errback(e);
+							 }
+							return d;
+						},
+						tearDown: function(){
+							if(editor){editor.attr("value", value);}
+						}
+					},
+					{
+						name: "formatBlock: Verify multiple format removal via selection",
+						timeout: 20000,
+						setUp: function(){
+							editor = dijit.byId("editor0");
+							fcPlugin = getPlugin("formatBlock");
+							value = editor.attr("value");
+						},
+						runTest: function(){
+							var d = new doh.Deferred();
+							try{
+								// Focus on the editor window
+								dijit.scrollIntoView(editor.domNode);
+								editor.focus();
+								doh.robot.mouseMoveAt(editor.iframe, 1000);
+								doh.robot.mouseClick({left:true}, 1000);
+
+								// Verify the formatBlock plugin was found
+								doh.assertTrue(fcPlugin !== null, "formatBlock was found");
+
+								doh.robot.sequence(d.getTestErrback(function(){
+									var p = dojo.withGlobal(editor.window, function() { return dojo.byId("text"); });
+									doh.is("text", p && p.id, "found text");
+									dojo.global.dojo.withGlobal(editor.window, function() {
+										// Select the text, collapse to the start of it
+										dijit._editor.selection.selectElementChildren(p);
+										dijit._editor.selection.collapse(true);
+									});
+								}),1000);
+								doh.robot.sequence(function(){
+									// Make sure states update.
+									editor.onDisplayChanged();
+								}, 1000);
+								doh.robot.sequence(function(){
+									// Select the children of the block and try to flatten the formatting.
+
+									var selection = dojo.withDoc(editor.document, function() { return dojo.byId("selectionContainer"); });
+									dojo.global.dojo.withGlobal(editor.window, function() {
+										dijit.scrollIntoView(selection);
+										dijit._editor.selection.selectElementChildren(selection);
+									});
+									fcPlugin.button.attr("value", "noFormat");
+								}, 1000);
+								doh.robot.sequence(d.getTestCallback(function(){
+									// Now check that the elements are all gone.
+									var selection = dojo.withDoc(editor.document, function() { return dojo.byId("selectionContainer"); });
+									doh.assertTrue(selection.childNodes.length > 0, "Checking that there are still child nodes.");
+
+									var i;
+									var nodes = selection.childNodes;
+									for(i = 0; i < nodes.length; i++){
+										var n = nodes[i];
+										if(n.nodeType == 1){
+											var tag = n.nodeName? n.nodeName.toLowerCase() : "";
+											doh.assertTrue(tag != "p");
+											doh.assertTrue(tag != "h3");
+											doh.assertTrue(tag != "pre");
+										}
+									}
+								}), 1000);
+							}catch(e){
+								d.errback(e);
+							}
+							return d;
+						},
+						tearDown: function(){
+							if(editor){editor.attr("value", value);}
+						}
+					}
+				]);
 
 				doh.register("FontChoice: miscellaneous tests", [
 					{

@@ -299,6 +299,39 @@ dojo.declare("dijit._editor.plugins._FormatBlockDropDown", dijit._editor.plugins
 						end = end.parentNode;
 					}
 
+					var processChildren = dojo.hitch(this, function(node, array){
+						if(node.childNodes && node.childNodes.length){
+							var i;
+							for(i = 0; i < node.childNodes.length; i++){
+								var c = node.childNodes[i];
+								if(c.nodeType == 1){
+									if(dojo.withGlobal(editor.window, "inSelection", dijit._editor.selection, [c])){
+										var tag = c.tagName? c.tagName.toLowerCase(): "";
+										if(dojo.indexOf(this.values, tag) !== -1){
+											array.push(c);
+										}
+										processChildren(c,array);
+									}
+								}
+							}
+						}
+					});
+
+					var unformatNodes = dojo.hitch(this, function(nodes){
+						// summary:
+						//		Internal function to clear format nodes.
+						// nodes:
+						//		The array of nodes to strip formatting from.
+						if(nodes && nodes.length){
+							editor.beginEditing();
+							while(nodes.length){
+								this._removeFormat(editor, nodes.pop());
+							}
+							editor.endEditing();
+						}
+					});
+
+					var clearNodes = [];
 					if(start == end){
 						//Contained within the same block, may be collapsed, but who cares, see if we
 						// have a block element to remove.
@@ -314,51 +347,28 @@ dojo.declare("dijit._editor.plugins._FormatBlockDropDown", dijit._editor.plugins
 							}
 							node = node.parentNode;
 						}
-						if(block){
-							editor.beginEditing();
-							this._removeFormat(editor, block);
-							editor.endEditing();
-						}
+
+						//Also look for all child nodes in the selection that may need to be 
+						//cleared of formatting
+						processChildren(start, clearNodes);
+						if(block) { clearNodes = [block].concat(clearNodes); }
+						unformatNodes(clearNodes);
 					}else{
 						// Probably a multi select, so we have to process it.  Whee.
 						node = start;
-						var clearNodes = [];
 						while(dojo.withGlobal(editor.window, "inSelection", dijit._editor.selection, [node])){
 							if(node.nodeType == 1){
 								tag = node.tagName? node.tagName.toLowerCase(): "";
 								if(dojo.indexOf(this.values, tag) !== -1){
 									clearNodes.push(node);
 								}
-								 // Now we go down its children and see if any of those should be modified.
-								// Go go recursive function.
-								var processChildren = dojo.hitch(this, function(node, array){
-									if(node.childNodes && node.childNodes.length){
-										var i;
-										for(i = 0; i < node.childNodes.length; i++){
-											var c = node.childNodes[i];
-											if(c.nodeType == 1){
-												if(dojo.withGlobal(editor.window, "inSelection", dijit._editor.selection, [c])){
-													var tag = c.tagName? c.tagName.toLowerCase(): "";
-													if(dojo.indexOf(this.values, tag) !== -1){
-														array.push(c);
-													}
-													processChildren(c,array);
-												}
-											}
-										}
-									}
-								});
 								processChildren(node,clearNodes);
 							}
 							node = node.nextSibling;
 						}
-						// Now, remove all identified format nodes.
-						editor.beginEditing();
-						while(clearNodes.length){
-							this._removeFormat(editor, clearNodes.pop());
-						}
-						editor.endEditing();
+						unformatNodes(clearNodes);
 					}
+					editor.onDisplayChanged();
 				}
 			}
 		}else{
@@ -371,10 +381,11 @@ dojo.declare("dijit._editor.plugins._FormatBlockDropDown", dijit._editor.plugins
 		//		function to remove the block format node.
 		// node:
 		//		The block format node to remove (and leave the contents behind)
-		if(dojo.isIE){
+		if(editor.customUndo){
 			// So of course IE doesn't work right with paste-overs.
-			// We have to do this manually, which is okay since it already uses
-			// customUndo, which is manual friendly.
+			// We have to do this manually, which is okay since IE already uses
+			// customUndo and we turned it on for WebKit.  WebKit pasted funny, 
+			// so couldn't use the execCommand approach
 			while(node.firstChild){
 				dojo.place(node.firstChild, node, "before");
 			}
@@ -388,7 +399,7 @@ dojo.declare("dijit._editor.plugins._FormatBlockDropDown", dijit._editor.plugins
 				 "getSelectedHtml", dijit._editor.selection, [null]);
 			dojo.withGlobal(editor.window, 
 				 "selectElement", dijit._editor.selection, [node]);
-			editor._inserthtmlImpl(html||"");
+			editor.execCommand("inserthtml", html||"");
 		}
 	}
 });
@@ -470,6 +481,10 @@ dojo.declare("dijit._editor.plugins.FontChoice", dijit._editor._Plugin,{
 			}else{
 				this.editor.execCommand(this.command, choice);
 			}
+			
+			// Enable custom undo for webkit, needed for noFormat to work properly
+			// and still undo.
+			this.editor.customUndo = this.editor.customUndo || dojo.isWebKit;
 		});
 	},
 
