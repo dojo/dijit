@@ -101,11 +101,6 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated, dijit._
 		this.inherited(arguments);
 	},
 
-	_onMouse : function(/*Event*/ event){
-		// Form widgets used to attach to this handler directly from the template, but that's
-		// no longer necessary.   Remove this stub in 2.0.
-	},
-	
 	isFocusable: function(){
 		// summary:
 		//		Tells if this widget is focusable or not.   Used internally by dijit.
