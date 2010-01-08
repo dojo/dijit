@@ -230,6 +230,590 @@
 						tearDown: function(){
 							 if(fsPlugin) {fsPlugin.button.attr("checked", false);}
 						}
+					},
+					{
+						name: "BorderContainer:  Go Fullscreen, Reduce BorderContainer, Exit FullScreen, Validate Resize",
+						timeout: 20000,
+						setUp: function(){
+							editor = dijit.byId("editor1");
+							container = dijit.byId("bc");
+							var edPlugins = editor._plugins, i;
+							for(i = 0; i < edPlugins.length; i++){
+								var p = edPlugins[i];
+								if(p.declaredClass === "dijit._editor.plugins.FullScreen"){
+									fsPlugin = p;
+									break;
+								}
+							}
+							if(fsPlugin) {fsPlugin.button.attr("checked", false);}
+						},
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							try{
+								//Focus on the editor window
+								dijit.scrollIntoView(editor.domNode);
+								editor.focus();
+
+								var origEditorSize = dojo.marginBox(editor.domNode);
+								var origContainerSize = dojo.marginBox(container.domNode);
+								os = {w: origContainerSize.w, h: origContainerSize.h}
+
+								//Find the fullscreen plugin, we'll need it.
+								doh.assertTrue(fsPlugin != null);
+
+								doh.robot.sequence(function(){
+									// Engage FullScreen Mode
+									fsPlugin.button.attr("checked", true);
+								}, 1000);
+								doh.robot.sequence(function(){
+									// Resize the container
+									container.resize({w: 400, h: 400});
+								}, 1000);
+								doh.robot.sequence(function(){
+									// Disengage FullScreen Mode
+									fsPlugin.button.attr("checked", false);
+								}, 1000);
+								doh.robot.sequence(d.getTestCallback(function(){
+									// Now validate the editor resized when it returned since
+									// the Container was resized.
+									var curEditorSize = dojo.marginBox(editor.domNode);
+									var curContainerSize = dojo.marginBox(container.domNode);
+									var containerWdiff = origContainerSize.w - curContainerSize.w;
+									var containerHdiff = origContainerSize.h - curContainerSize.h;
+									var eWdiff= origEditorSize.w - curEditorSize.w;
+									var eHdiff= origEditorSize.h - curEditorSize.h;
+									
+									console.log("Editor width diff: " + eWdiff + " editor height diff: " + eHdiff);
+									console.log("Container width diff: " + containerWdiff + " container height diff: " + containerHdiff);
+
+									doh.assertTrue(origEditorSize.w > curEditorSize.w, "Validating new width is less that the original size");
+									doh.assertTrue(origEditorSize.h > curEditorSize.h, "Validating new height is less that the original size");
+									doh.assertTrue((eWdiff < (containerWdiff + 15)) && (eWdiff > (containerWdiff - 15)), "Doing a rouch check that the editor width resized roughly to the Container difference");
+									doh.assertTrue((eHdiff < (containerHdiff + 15)) && (eHdiff > (containerHdiff - 15)), "Doing a rouch check that the editor height resized roughly to the Container difference");
+								}), 1000);
+
+
+							}catch(e){
+								d.errback(e);
+							}
+							return d;
+						},
+						tearDown: function(){
+							 if(fsPlugin) {fsPlugin.button.attr("checked", false);}
+							 if(container && os){container.resize(os);}
+						}
+					},
+					{
+						name: "BorderContainer:  Go Fullscreen, Increase BorderContainer, Exit FullScreen, Validate Resize",
+						timeout: 20000,
+						setUp: function(){
+							editor = dijit.byId("editor1");
+							container = dijit.byId("bc");
+							var edPlugins = editor._plugins, i;
+							for(i = 0; i < edPlugins.length; i++){
+								var p = edPlugins[i];
+								if(p.declaredClass === "dijit._editor.plugins.FullScreen"){
+									fsPlugin = p;
+									break;
+								}
+							}
+							if(fsPlugin) {fsPlugin.button.attr("checked", false);}
+						},
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							try{
+								//Focus on the editor window
+								dijit.scrollIntoView(editor.domNode);
+								editor.focus();
+
+								var origEditorSize = dojo.marginBox(editor.domNode);
+								var origContainerSize = dojo.marginBox(container.domNode);
+								os = {w: origContainerSize.w, h: origContainerSize.h}
+
+								//Find the fullscreen plugin, we'll need it.
+								doh.assertTrue(fsPlugin != null);
+
+								doh.robot.sequence(function(){
+									// Engage FullScreen Mode
+									fsPlugin.button.attr("checked", true);
+								}, 1000);
+								doh.robot.sequence(function(){
+									// Resize the container
+									container.resize({w: 800, h: 800});
+								}, 1000);
+								doh.robot.sequence(function(){
+									// Disengage FullScreen Mode
+									fsPlugin.button.attr("checked", false);
+								}, 1000);
+								doh.robot.sequence(d.getTestCallback(function(){
+									// Now validate the editor resized when it returned since
+									// the Container was resized.
+									var curEditorSize = dojo.marginBox(editor.domNode);
+									var curContainerSize = dojo.marginBox(container.domNode);
+									var containerWdiff = -(origContainerSize.w - curContainerSize.w);
+									var containerHdiff = -(origContainerSize.h - curContainerSize.h);
+									var eWdiff= -(origEditorSize.w - curEditorSize.w);
+									var eHdiff= -(origEditorSize.h - curEditorSize.h);
+									
+									console.log("Editor width diff: " + eWdiff + " editor height diff: " + eHdiff);
+									console.log("Container width diff: " + containerWdiff + " container height diff: " + containerHdiff);
+									
+									doh.assertTrue(origEditorSize.w < curEditorSize.w, "Validating new width is less that the original size");
+									doh.assertTrue(origEditorSize.h < curEditorSize.h, "Validating new height is less that the original size");
+									doh.assertTrue((eWdiff < (containerWdiff + 15)) && (eWdiff > (containerWdiff - 15)), "Doing a rouch check that the editor width resized roughly to the Container difference");
+									doh.assertTrue((eHdiff < (containerHdiff + 15)) && (eHdiff > (containerHdiff - 15)), "Doing a rouch check that the editor height resized roughly to the Container difference");
+								}), 1000);
+
+
+							}catch(e){
+								d.errback(e);
+							}
+							return d;
+						},
+						tearDown: function(){
+							 if(fsPlugin) {fsPlugin.button.attr("checked", false);}
+							 if(container && os){container.resize(os);}
+						}
+					},
+					{
+						name: "TabContainer:  Go Fullscreen, Reduce TabContainer, Exit FullScreen, Validate Resize",
+						timeout: 20000,
+						setUp: function(){
+							editor = dijit.byId("editor2");
+							container = dijit.byId("tc");
+							var edPlugins = editor._plugins, i;
+							for(i = 0; i < edPlugins.length; i++){
+								var p = edPlugins[i];
+								if(p.declaredClass === "dijit._editor.plugins.FullScreen"){
+									fsPlugin = p;
+									break;
+								}
+							}
+							if(fsPlugin) {fsPlugin.button.attr("checked", false);}
+						},
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							try{
+								//Focus on the editor window
+								dijit.scrollIntoView(editor.domNode);
+								editor.focus();
+
+								var origEditorSize = dojo.marginBox(editor.domNode);
+								var origContainerSize = dojo.marginBox(container.domNode);
+								os = {w: origContainerSize.w, h: origContainerSize.h}
+
+								//Find the fullscreen plugin, we'll need it.
+								doh.assertTrue(fsPlugin != null);
+
+								doh.robot.sequence(function(){
+									// Engage FullScreen Mode
+									fsPlugin.button.attr("checked", true);
+								}, 1000);
+								doh.robot.sequence(function(){
+									// Resize the container
+									container.resize({w: 400, h: 400});
+								}, 1000);
+								doh.robot.sequence(function(){
+									// Disengage FullScreen Mode
+									fsPlugin.button.attr("checked", false);
+								}, 1000);
+								doh.robot.sequence(d.getTestCallback(function(){
+									// Now validate the editor resized when it returned since
+									// the Container was resized.
+									var curEditorSize = dojo.marginBox(editor.domNode);
+									var curContainerSize = dojo.marginBox(container.domNode);
+									var containerWdiff = origContainerSize.w - curContainerSize.w;
+									var containerHdiff = origContainerSize.h - curContainerSize.h;
+									var eWdiff= origEditorSize.w - curEditorSize.w;
+									var eHdiff= origEditorSize.h - curEditorSize.h;
+									
+									console.log("Editor width diff: " + eWdiff + " editor height diff: " + eHdiff);
+									console.log("Container width diff: " + containerWdiff + " container height diff: " + containerHdiff);
+									
+									doh.assertTrue(origEditorSize.w > curEditorSize.w, "Validating new width is less that the original size");
+									doh.assertTrue(origEditorSize.h > curEditorSize.h, "Validating new height is less that the original size");
+									doh.assertTrue((eWdiff < (containerWdiff + 15)) && (eWdiff > (containerWdiff - 15)), "Doing a rouch check that the editor width resized roughly to the Container difference");
+									doh.assertTrue((eHdiff < (containerHdiff + 15)) && (eHdiff > (containerHdiff - 15)), "Doing a rouch check that the editor height resized roughly to the Container difference");
+								}), 1000);
+
+
+							}catch(e){
+								d.errback(e);
+							}
+							return d;
+						},
+						tearDown: function(){
+							 if(fsPlugin) {fsPlugin.button.attr("checked", false);}
+							 if(container && os){container.resize(os);}
+						}
+					},
+					{
+						name: "TabContainer:  Go Fullscreen, Increase TabContainer, Exit FullScreen, Validate Resize",
+						timeout: 20000,
+						setUp: function(){
+							editor = dijit.byId("editor2");
+							container = dijit.byId("tc");
+							var edPlugins = editor._plugins, i;
+							for(i = 0; i < edPlugins.length; i++){
+								var p = edPlugins[i];
+								if(p.declaredClass === "dijit._editor.plugins.FullScreen"){
+									fsPlugin = p;
+									break;
+								}
+							}
+							if(fsPlugin) {fsPlugin.button.attr("checked", false);}
+						},
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							try{
+								//Focus on the editor window
+								dijit.scrollIntoView(editor.domNode);
+								editor.focus();
+
+								var origEditorSize = dojo.marginBox(editor.domNode);
+								var origContainerSize = dojo.marginBox(container.domNode);
+								os = {w: origContainerSize.w, h: origContainerSize.h}
+
+								//Find the fullscreen plugin, we'll need it.
+								doh.assertTrue(fsPlugin != null);
+
+								doh.robot.sequence(function(){
+									// Engage FullScreen Mode
+									fsPlugin.button.attr("checked", true);
+								}, 1000);
+								doh.robot.sequence(function(){
+									// Resize the container
+									container.resize({w: 800, h: 800});
+								}, 1000);
+								doh.robot.sequence(function(){
+									// Disengage FullScreen Mode
+									fsPlugin.button.attr("checked", false);
+								}, 1000);
+								doh.robot.sequence(d.getTestCallback(function(){
+									// Now validate the editor resized when it returned since
+									// the Container was resized.
+									var curEditorSize = dojo.marginBox(editor.domNode);
+									var curContainerSize = dojo.marginBox(container.domNode);
+									var containerWdiff = -(origContainerSize.w - curContainerSize.w);
+									var containerHdiff = -(origContainerSize.h - curContainerSize.h);
+									var eWdiff= -(origEditorSize.w - curEditorSize.w);
+									var eHdiff= -(origEditorSize.h - curEditorSize.h);
+									
+									console.log("Editor width diff: " + eWdiff + " editor height diff: " + eHdiff);
+									console.log("Container width diff: " + containerWdiff + " container height diff: " + containerHdiff);
+
+									doh.assertTrue(origEditorSize.w < curEditorSize.w, "Validating new width is less that the original size");
+									doh.assertTrue(origEditorSize.h < curEditorSize.h, "Validating new height is less that the original size");
+									doh.assertTrue((eWdiff < (containerWdiff + 15)) && (eWdiff > (containerWdiff - 15)), "Doing a rouch check that the editor width resized roughly to the Container difference");
+									doh.assertTrue((eHdiff < (containerHdiff + 15)) && (eHdiff > (containerHdiff - 15)), "Doing a rouch check that the editor height resized roughly to the Container difference");
+								}), 1000);
+
+
+							}catch(e){
+								d.errback(e);
+							}
+							return d;
+						},
+						tearDown: function(){
+							 if(fsPlugin) {fsPlugin.button.attr("checked", false);}
+							 if(container && os){container.resize(os);}
+						}
+					},
+					{
+						name: "AccordionContainer:  Go Fullscreen, Reduce AccordionContainer, Exit FullScreen, Validate Resize",
+						timeout: 20000,
+						setUp: function(){
+							editor = dijit.byId("editor3");
+							container = dijit.byId("ac");
+							var edPlugins = editor._plugins, i;
+							for(i = 0; i < edPlugins.length; i++){
+								var p = edPlugins[i];
+								if(p.declaredClass === "dijit._editor.plugins.FullScreen"){
+									fsPlugin = p;
+									break;
+								}
+							}
+							if(fsPlugin) {fsPlugin.button.attr("checked", false);}
+						},
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							try{
+								//Focus on the editor window
+								dijit.scrollIntoView(editor.domNode);
+								editor.focus();
+
+								var origEditorSize = dojo.marginBox(editor.domNode);
+								var origContainerSize = dojo.marginBox(container.domNode);
+								os = {w: origContainerSize.w, h: origContainerSize.h}
+
+								//Find the fullscreen plugin, we'll need it.
+								doh.assertTrue(fsPlugin != null);
+
+								doh.robot.sequence(function(){
+									// Engage FullScreen Mode
+									fsPlugin.button.attr("checked", true);
+								}, 1000);
+								doh.robot.sequence(function(){
+									// Resize the container
+									container.resize({w: 400, h: 400});
+								}, 1000);
+								doh.robot.sequence(function(){
+									// Disengage FullScreen Mode
+									fsPlugin.button.attr("checked", false);
+								}, 1000);
+								doh.robot.sequence(d.getTestCallback(function(){
+									// Now validate the editor resized when it returned since
+									// the Container was resized.
+									var curEditorSize = dojo.marginBox(editor.domNode);
+									var curContainerSize = dojo.marginBox(container.domNode);
+									var containerWdiff = origContainerSize.w - curContainerSize.w;
+									var containerHdiff = origContainerSize.h - curContainerSize.h;
+									var eWdiff= origEditorSize.w - curEditorSize.w;
+									var eHdiff= origEditorSize.h - curEditorSize.h;
+									
+									console.log("Editor width diff: " + eWdiff + " editor height diff: " + eHdiff);
+									console.log("Container width diff: " + containerWdiff + " container height diff: " + containerHdiff);
+
+									doh.assertTrue(origEditorSize.w > curEditorSize.w, "Validating new width is less that the original size");
+									doh.assertTrue(origEditorSize.h > curEditorSize.h, "Validating new height is less that the original size");
+									doh.assertTrue((eWdiff < (containerWdiff + 15)) && (eWdiff > (containerWdiff - 15)), "Doing a rouch check that the editor width resized roughly to the Container difference");
+									doh.assertTrue((eHdiff < (containerHdiff + 15)) && (eHdiff > (containerHdiff - 15)), "Doing a rouch check that the editor height resized roughly to the Container difference");
+								}), 1000);
+
+
+							}catch(e){
+								d.errback(e);
+							}
+							return d;
+						},
+						tearDown: function(){
+							 if(fsPlugin) {fsPlugin.button.attr("checked", false);}
+							 if(container && os){container.resize(os);}
+						}
+					},
+					{
+						name: "AccordionContainer:  Go Fullscreen, Increase AccordionContainer, Exit FullScreen, Validate Resize",
+						timeout: 20000,
+						setUp: function(){
+							editor = dijit.byId("editor3");
+							container = dijit.byId("ac");
+							var edPlugins = editor._plugins, i;
+							for(i = 0; i < edPlugins.length; i++){
+								var p = edPlugins[i];
+								if(p.declaredClass === "dijit._editor.plugins.FullScreen"){
+									fsPlugin = p;
+									break;
+								}
+							}
+							if(fsPlugin) {fsPlugin.button.attr("checked", false);}
+						},
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							try{
+								//Focus on the editor window
+								dijit.scrollIntoView(editor.domNode);
+								editor.focus();
+
+								var origEditorSize = dojo.marginBox(editor.domNode);
+								var origContainerSize = dojo.marginBox(container.domNode);
+								os = {w: origContainerSize.w, h: origContainerSize.h}
+
+								//Find the fullscreen plugin, we'll need it.
+								doh.assertTrue(fsPlugin != null);
+
+								doh.robot.sequence(function(){
+									// Engage FullScreen Mode
+									fsPlugin.button.attr("checked", true);
+								}, 1000);
+								doh.robot.sequence(function(){
+									// Resize the container
+									container.resize({w: 800, h: 800});
+								}, 1000);
+								doh.robot.sequence(function(){
+									// Disengage FullScreen Mode
+									fsPlugin.button.attr("checked", false);
+								}, 1000);
+								doh.robot.sequence(d.getTestCallback(function(){
+									// Now validate the editor resized when it returned since
+									// the Container was resized.
+									var curEditorSize = dojo.marginBox(editor.domNode);
+									var curContainerSize = dojo.marginBox(container.domNode);
+									var containerWdiff = -(origContainerSize.w - curContainerSize.w);
+									var containerHdiff = -(origContainerSize.h - curContainerSize.h);
+									var eWdiff= -(origEditorSize.w - curEditorSize.w);
+									var eHdiff= -(origEditorSize.h - curEditorSize.h);
+									
+									console.log("Editor width diff: " + eWdiff + " editor height diff: " + eHdiff);
+									console.log("Container width diff: " + containerWdiff + " container height diff: " + containerHdiff);
+
+									doh.assertTrue(origEditorSize.w < curEditorSize.w, "Validating new width is less that the original size");
+									doh.assertTrue(origEditorSize.h < curEditorSize.h, "Validating new height is less that the original size");
+									doh.assertTrue((eWdiff < (containerWdiff + 15)) && (eWdiff > (containerWdiff - 15)), "Doing a rouch check that the editor width resized roughly to the Container difference");
+									doh.assertTrue((eHdiff < (containerHdiff + 15)) && (eHdiff > (containerHdiff - 15)), "Doing a rouch check that the editor height resized roughly to the Container difference");
+								}), 1000);
+
+
+							}catch(e){
+								d.errback(e);
+							}
+							return d;
+						},
+						tearDown: function(){
+							 if(fsPlugin) {fsPlugin.button.attr("checked", false);}
+							 if(container && os){container.resize(os);}
+						}
+					},
+					{
+						name: "StackContainer:  Go Fullscreen, Reduce StackContainer, Exit FullScreen, Validate Resize",
+						timeout: 20000,
+						setUp: function(){
+							editor = dijit.byId("editor4");
+							container = dijit.byId("sc");
+							var edPlugins = editor._plugins, i;
+							for(i = 0; i < edPlugins.length; i++){
+								var p = edPlugins[i];
+								if(p.declaredClass === "dijit._editor.plugins.FullScreen"){
+									fsPlugin = p;
+									break;
+								}
+							}
+							if(fsPlugin) {fsPlugin.button.attr("checked", false);}
+						},
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							try{
+								//Focus on the editor window
+								dijit.scrollIntoView(editor.domNode);
+								editor.focus();
+
+								var origEditorSize = dojo.marginBox(editor.domNode);
+								var origContainerSize = dojo.marginBox(container.domNode);
+								os = {w: origContainerSize.w, h: origContainerSize.h}
+
+								//Find the fullscreen plugin, we'll need it.
+								doh.assertTrue(fsPlugin != null);
+
+								doh.robot.sequence(function(){
+									// Engage FullScreen Mode
+									fsPlugin.button.attr("checked", true);
+								}, 1000);
+								doh.robot.sequence(function(){
+									// Resize the container
+									container.resize({w: 400, h: 400});
+								}, 1000);
+								doh.robot.sequence(function(){
+									// Disengage FullScreen Mode
+									fsPlugin.button.attr("checked", false);
+								}, 1000);
+								doh.robot.sequence(d.getTestCallback(function(){
+									// Now validate the editor resized when it returned since
+									// the Container was resized.
+									var curEditorSize = dojo.marginBox(editor.domNode);
+									var curContainerSize = dojo.marginBox(container.domNode);
+									var containerWdiff = origContainerSize.w - curContainerSize.w;
+									var containerHdiff = origContainerSize.h - curContainerSize.h;
+									var eWdiff= origEditorSize.w - curEditorSize.w;
+									var eHdiff= origEditorSize.h - curEditorSize.h;
+									
+									console.log("Editor width diff: " + eWdiff + " editor height diff: " + eHdiff);
+									console.log("Container width diff: " + containerWdiff + " container height diff: " + containerHdiff);
+
+									doh.assertTrue(origEditorSize.w > curEditorSize.w, "Validating new width is less that the original size");
+									doh.assertTrue(origEditorSize.h > curEditorSize.h, "Validating new height is less that the original size");
+									doh.assertTrue((eWdiff < (containerWdiff + 15)) && (eWdiff > (containerWdiff - 15)), "Doing a rouch check that the editor width resized roughly to the Container difference");
+									doh.assertTrue((eHdiff < (containerHdiff + 15)) && (eHdiff > (containerHdiff - 15)), "Doing a rouch check that the editor height resized roughly to the Container difference");
+								}), 1000);
+
+
+							}catch(e){
+								d.errback(e);
+							}
+							return d;
+						},
+						tearDown: function(){
+							 if(fsPlugin) {fsPlugin.button.attr("checked", false);}
+							 if(container && os){container.resize(os);}
+						}
+					},
+					{
+						name: "StackContainer:  Go Fullscreen, Increase StackContainer, Exit FullScreen, Validate Resize",
+						timeout: 20000,
+						setUp: function(){
+							editor = dijit.byId("editor4");
+							container = dijit.byId("sc");
+							var edPlugins = editor._plugins, i;
+							for(i = 0; i < edPlugins.length; i++){
+								var p = edPlugins[i];
+								if(p.declaredClass === "dijit._editor.plugins.FullScreen"){
+									fsPlugin = p;
+									break;
+								}
+							}
+							if(fsPlugin) {fsPlugin.button.attr("checked", false);}
+						},
+						runTest: function(){
+							var d = new doh.Deferred();
+
+							try{
+								//Focus on the editor window
+								dijit.scrollIntoView(editor.domNode);
+								editor.focus();
+
+								var origEditorSize = dojo.marginBox(editor.domNode);
+								var origContainerSize = dojo.marginBox(container.domNode);
+								os = {w: origContainerSize.w, h: origContainerSize.h}
+
+								//Find the fullscreen plugin, we'll need it.
+								doh.assertTrue(fsPlugin != null);
+
+								doh.robot.sequence(function(){
+									// Engage FullScreen Mode
+									fsPlugin.button.attr("checked", true);
+								}, 1000);
+								doh.robot.sequence(function(){
+									// Resize the container
+									container.resize({w: 800, h: 800});
+								}, 1000);
+								doh.robot.sequence(function(){
+									// Disengage FullScreen Mode
+									fsPlugin.button.attr("checked", false);
+								}, 1000);
+								doh.robot.sequence(d.getTestCallback(function(){
+									// Now validate the editor resized when it returned since
+									// the Container was resized.
+									var curEditorSize = dojo.marginBox(editor.domNode);
+									var curContainerSize = dojo.marginBox(container.domNode);
+									var containerWdiff = -(origContainerSize.w - curContainerSize.w);
+									var containerHdiff = -(origContainerSize.h - curContainerSize.h);
+									var eWdiff= -(origEditorSize.w - curEditorSize.w);
+									var eHdiff= -(origEditorSize.h - curEditorSize.h);
+									
+									console.log("Editor width diff: " + eWdiff + " editor height diff: " + eHdiff);
+									console.log("Container width diff: " + containerWdiff + " container height diff: " + containerHdiff);
+
+									doh.assertTrue(origEditorSize.w < curEditorSize.w, "Validating new width is less that the original size");
+									doh.assertTrue(origEditorSize.h < curEditorSize.h, "Validating new height is less that the original size");
+									doh.assertTrue((eWdiff < (containerWdiff + 15)) && (eWdiff > (containerWdiff - 15)), "Doing a rouch check that the editor width resized roughly to the Container difference");
+									doh.assertTrue((eHdiff < (containerHdiff + 15)) && (eHdiff > (containerHdiff - 15)), "Doing a rouch check that the editor height resized roughly to the Container difference");
+								}), 1000);
+
+
+							}catch(e){
+								d.errback(e);
+							}
+							return d;
+						},
+						tearDown: function(){
+							 if(fsPlugin) {fsPlugin.button.attr("checked", false);}
+							 if(container && os){container.resize(os);}
+						}
 					}
 				]);
 				doh.run();

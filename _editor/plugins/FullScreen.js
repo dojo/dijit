@@ -386,7 +386,7 @@ dojo.declare("dijit._editor.plugins.FullScreen",dijit._editor._Plugin,{
 				// go ahead and call resize.
 				var pWidget = dijit.getEnclosingWidget(ed.domNode.parentNode);
 				if(pWidget && pWidget.resize){
-				    pWidget.resize();
+					pWidget.resize();
 				}else{
 					if(!oh || oh.indexOf("%") < 0){
 						// Resize if the original size wasn't set
