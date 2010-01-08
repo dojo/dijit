@@ -68,25 +68,21 @@
 .nihilo .dijitButtonNodeHover,
 .nihilo .dijitToggleButtonHover .dijitButtonNode,
 .nihilo .dijitDropDownButtonHover .dijitButtonNode,
-.nihilo .dijitComboButtonHover .dijitButtonContents,
-.nihilo .dijitComboButtonDownArrowHover .dijitDownArrowButton,
-.nihilo .dijitComboBoxHover .dijitDownArrowButton,
-.nihilo .dijitSpinnerUpArrowHover .dijitUpArrowButton,
-.nihilo .dijitSpinnerDownArrowHover .dijitDownArrowButton {
+.nihilo .dijitButtonContentsHover,
+.nihilo .dijitDownArrowButtonHover,
+.nihilo .dijitUpArrowButtonHover {
 	/* hover state - inner */
 	/* TODO: change from Hover to Selected so that button is still highlighted while drop down is being used */
 	color:#243C5F;
 	background:#fcfcfc url("../images/buttonHover.png") repeat-x top left;
 }
 
-.nihilo .dijitSpinnerUpArrowActive .dijitUpArrowButton,
-.nihilo .dijitSpinnerDownArrowActive .dijitDownArrowButton,
+.nihilo .dijitUpArrowButtonActive,
+.nihilo .dijitDownArrowButtonActive,
 .nihilo .dijitButtonActive .dijitButtonNode,
 .nihilo .dijitToggleButtonActive .dijitButtonNode,
 .nihilo .dijitDropDownButtonActive .dijitButtonNode,
-.nihilo .dijitComboButtonActive .dijitButtonContents,
-.nihilo .dijitDownArrowActive .dijitDownArrowButton,
-.nihilo .dijitComboBoxActive .dijitDownArrowButton,
+.nihilo .dijitComboButton .dijitButtonContentsActive,
 .nihilo .dijitStackController .dijitToggleButtonChecked .dijitButtonNode {
 	/* active state - inner (for when you are pressing a normal button, or
 	 * when a radio-type button is in a depressed state

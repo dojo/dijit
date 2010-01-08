@@ -675,6 +675,10 @@ dojo.declare(
 			// tags:
 			//		protected
 
+			// Set classes like dijitDownArrowButtonHover depending on
+			// mouse action over button node
+			this._trackMouseState(this.downArrowNode, "dijitDownArrowButton");
+
 			// find any associated label element and add to ComboBox node.
 			var label=dojo.query('label[for="'+this.id+'"]');
 			if(label.length){

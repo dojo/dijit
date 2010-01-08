@@ -43,20 +43,20 @@
 
 .nihilo .dijitTextBoxFocused,
 .nihilo .dijitComboBoxFocused,
-.nihilo .dijitSpinnerFocused, .nihilo .dijitSpinnerUpArrowActive, .nihilo .dijitSpinnerDownArrowActive,
+.nihilo .dijitSpinnerFocused,
 .nihilo .dijitTextAreaFocused {
 	/* input field when focused (ie: typing affects it) */
 	border-color:#b3b3b3;
 }
 .nihilo .dijitComboBoxFocused .dijitButtonNode,
 .nihilo .dijitSpinnerFocused .dijitButtonNode,
-.nihilo .dijitSpinnerUpArrowActive .dijitButtonNode,
-.nihilo .dijitSpinnerDownArrowActive .dijitButtonNode {
+.nihilo .dijitSpinner .dijitUpArrowButtonActive,
+.nihilo .dijitSpinner .dijitDownArrowButtonActive {
 	border-left-color:#d3d3d3;
 }
 .nihilo .dijitSpinnerFocused .dijitDownArrowButton,
-.nihilo .dijitSpinnerUpArrowActive .dijitDownArrowButton,
-.nihilo .dijitSpinnerDownArrowActive .dijitDownArrowButton {
+.nihilo .dijitSpinner .dijitUpArrowButtonActive,
+.nihilo .dijitSpinner .dijitDownArrowButtonActive {
 	border-top-color:#d3d3d3;
 }
 

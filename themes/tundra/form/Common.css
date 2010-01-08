@@ -61,20 +61,20 @@
 
 .tundra .dijitTextBoxFocused,
 .tundra .dijitComboBoxFocused,
-.tundra .dijitSpinnerFocused, .tundra .dijitSpinnerUpArrowActive, .tundra .dijitSpinnerDownArrowActive,
+.tundra .dijitSpinnerFocused,
 .tundra .dijitTextAreaFocused {
 	/* input field when focused (ie: typing affects it) */
 	border-color:#406b9b;
 }
 .tundra .dijitComboBoxFocused .dijitButtonNode,
 .tundra .dijitSpinnerFocused .dijitButtonNode,
-.tundra .dijitSpinnerUpArrowActive .dijitButtonNode,
-.tundra .dijitSpinnerDownArrowActive .dijitButtonNode {
+.tundra .dijitSpinner .dijitUpArrowButtonActive,
+.tundra .dijitSpinner .dijitDownArrowButtonActive {
 	border-left-color:#366dba;
 }
 .tundra .dijitSpinnerFocused .dijitDownArrowButton,
-.tundra .dijitSpinnerUpArrowActive .dijitDownArrowButton,
-.tundra .dijitSpinnerDownArrowActive .dijitDownArrowButton {
+.tundra .dijitSpinner .dijitUpArrowButtonActive,
+.tundra .dijitSpinner .dijitDownArrowButtonActive {
 	border-top-color:#366dba;
 }
 

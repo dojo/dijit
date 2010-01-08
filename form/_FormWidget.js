@@ -2,8 +2,9 @@ dojo.provide("dijit.form._FormWidget");
 
 dojo.require("dijit._Widget");
 dojo.require("dijit._Templated");
+dojo.require("dijit._CssStateMixin");
 
-dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
+dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated, dijit._CssStateMixin],
 	{
 	// summary:
 	//		Base class for widgets corresponding to native HTML elements such as <checkbox> or <button>,
@@ -15,12 +16,6 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 	//		You can set them during widget construction or afterwards, via `dijit._Widget.attr`.
 	//
 	//		They also share some common methods.
-
-	// baseClass: [protected] String
-	//		Root CSS class of the widget (ex: dijitTextBox), used to add CSS classes of widget
-	//		(ex: "dijitTextBox dijitTextBoxInvalid dijitTextBoxFocused dijitTextBoxInvalidFocused")
-	//		See _setStateClass().
-	baseClass: "",
 
 	// name: String
 	//		Name used when submitting form; same as "name" attribute or plain HTML elements
@@ -107,54 +102,10 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 	},
 
 	_onMouse : function(/*Event*/ event){
-		// summary:
-		//	Sets _hovering, _active, and stateModifier properties depending on mouse state,
-		//	then calls setStateClass() to set appropriate CSS classes for this.domNode.
-		//
-		//	To get a different CSS class for hover, send onmouseover and onmouseout events to this method.
-		//	To get a different CSS class while mouse button is depressed, send onmousedown to this method.
-
-		var mouseNode = event.currentTarget;
-		if(mouseNode && mouseNode.getAttribute){
-			this.stateModifier = mouseNode.getAttribute("stateModifier") || "";
-		}
-
-		if(!this.disabled){
-			switch(event.type){
-				case "mouseenter":
-				case "mouseover":
-					this._hovering = true;
-					this._active = this._mouseDown;
-					break;
-
-				case "mouseout":
-				case "mouseleave":
-					this._hovering = false;
-					this._active = false;
-					break;
-
-				case "mousedown" :
-					this._active = true;
-					this._mouseDown = true;
-					// set a global event to handle mouseup, so it fires properly
-					//	even if the cursor leaves the button
-					var mouseUpConnector = this.connect(dojo.body(), "onmouseup", function(){
-						// if user clicks on the button, even if the mouse is released outside of it,
-						// this button should get focus (which mimics native browser buttons)
-						if(this._mouseDown && this.isFocusable()){
-							this.focus();
-						}
-						this._active = false;
-						this._mouseDown = false;
-						this._setStateClass();
-						this.disconnect(mouseUpConnector);
-					});
-					break;
-			}
-			this._setStateClass();
-		}
+		// Form widgets used to attach to this handler directly from the template, but that's
+		// no longer necessary.   Remove this stub in 2.0.
 	},
-
+	
 	isFocusable: function(){
 		// summary:
 		//		Tells if this widget is focusable or not.   Used internally by dijit.
@@ -167,89 +118,6 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 		// summary:
 		//		Put focus on this widget
 		dijit.focus(this.focusNode);
-	},
-
-	_setStateClass: function(){
-		// summary:
-		//		Update the visual state of the widget by setting the css classes on this.domNode
-		//		(or this.stateNode if defined) by combining this.baseClass with
-		//		various suffixes that represent the current widget state(s).
-		//
-		// description:
-		//		In the case where a widget has multiple
-		//		states, it sets the class based on all possible
-		//	 	combinations.  For example, an invalid form widget that is being hovered
-		//		will be "dijitInput dijitInputInvalid dijitInputHover dijitInputInvalidHover".
-		//
-		//		For complex widgets with multiple regions, there can be various hover/active states,
-		//		such as "Hover" or "CloseButtonHover" (for tab buttons).
-		//		This is controlled by a stateModifier="CloseButton" attribute on the close button node.
-		//
-		//		The widget may have one or more of the following states, determined
-		//		by this.state, this.checked, this.valid, and this.selected:
-		//			- Error - ValidationTextBox sets this.state to "Error" if the current input value is invalid
-		//			- Checked - ex: a checkmark or a ToggleButton in a checked state, will have this.checked==true
-		//			- Selected - ex: currently selected tab will have this.selected==true
-		//
-		//		In addition, it may have one or more of the following states,
-		//		based on this.disabled and flags set in _onMouse (this._active, this._hovering, this._focused):
-		//			- Disabled	- if the widget is disabled
-		//			- Active		- if the mouse (or space/enter key?) is being pressed down
-		//			- Focused		- if the widget has focus
-		//			- Hover		- if the mouse is over the widget
-
-		// Compute new set of classes
-		var newStateClasses = this.baseClass.split(" ");
-
-		function multiply(modifier){
-			newStateClasses = newStateClasses.concat(dojo.map(newStateClasses, function(c){ return c+modifier; }), "dijit"+modifier);
-		}
-
-		if(this.checked){
-			multiply("Checked");
-		}
-		if(this.state){
-			multiply(this.state);
-		}
-		if(this.selected){
-			multiply("Selected");
-		}
-
-		if(this.disabled){
-			multiply("Disabled");
-		}else if(this.readOnly){
-			multiply("ReadOnly");
-		}else if(this._active){
-			multiply(this.stateModifier+"Active");
-		}else{
-			if(this._focused){
-				multiply("Focused");
-			}
-			if(this._hovering){
-				multiply(this.stateModifier+"Hover");
-			}
-		}
-
-		// Remove old state classes and add new ones.
-		// For performance concerns we only write into domNode.className once.
-		var tn = this.stateNode || this.domNode,
-			classHash = {};	// set of all classes (state and otherwise) for node
-
-		dojo.forEach(tn.className.split(" "), function(c){ classHash[c] = true; });
-
-		if("_stateClasses" in this){
-			dojo.forEach(this._stateClasses, function(c){ delete classHash[c]; });
-		}
-
-		dojo.forEach(newStateClasses, function(c){ classHash[c] = true; });
-
-		var newClasses = [];
-		for(var c in classHash){
-			newClasses.push(c);
-		}
-		tn.className = newClasses.join(" ");
-
-		this._stateClasses = newStateClasses;
 	},
 
 	compare: function(/*anything*/val1, /*anything*/val2){
@@ -383,6 +251,8 @@ dojo.declare("dijit.form._FormValueWidget", dijit.form._FormWidget,
 	},
 
 	postCreate: function(){
+		this.inherited(arguments);
+
 		if(dojo.isIE){ // IE won't stop the event with keypress
 			this.connect(this.focusNode || this.domNode, "onkeydown", this._onKeyDown);
 		}

@@ -66,11 +66,9 @@
 .soria .dijitButtonNodeHover,
 .soria .dijitToggleButtonHover .dijitButtonNode,
 .soria .dijitDropDownButtonHover .dijitButtonNode,
-.soria .dijitComboButtonHover .dijitButtonContents,
-.soria .dijitComboButtonDownArrowHover .dijitDownArrowButton,
-.soria .dijitComboBoxHover .dijitDownArrowButton,
-.soria .dijitSpinnerUpArrowHover .dijitUpArrowButton,
-.soria .dijitSpinnerDownArrowHover .dijitDownArrowButton {
+.soria .dijitButtonContentsHover,
+.soria .dijitUpArrowButtonHover,
+.soria .dijitDownArrowButtonHover {
 	/* hover state - inner */
 	/* TODO: change from Hover to Selected so that button is still highlighted while drop down is being used */
 	color:#243C5F;
@@ -88,9 +86,8 @@
 	border-color:#657c9c;
 	background: #91b4e5 url("../images/buttonActive.png") top left repeat-x;
 }
-.soria .dijitSpinnerUpArrowActive .dijitUpArrowButton,
-.soria .dijitSpinnerDownArrowActive .dijitDownArrowButton,
-.soria .dijitComboBoxActive .dijitDownArrowButton {
+.soria .dijitUpArrowButtonActive,
+.soria .dijitDownArrowButtonActive {
 	/* same as above except don't adjust border color (it's controlled by the containing Spinner/ComboBox) */
 	background: #91b4e5 url("../images/buttonActive.png") top left repeat-x;
 }

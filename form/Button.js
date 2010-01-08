@@ -259,12 +259,13 @@ dojo.declare("dijit.form.ComboButton", dijit.form.DropDownButton, {
 
 	postCreate: function(){
 		this.inherited(arguments);
-		this._focalNodes = [this.titleNode, this._popupStateNode];
+
+		// Set classes like dijitButtonContentsHover or dijitArrowButtonActive depending on
+		// mouse action over specified node
+		this._trackMouseState(this.titleNode, "dijitButtonContents");
+		this._trackMouseState(this._popupStateNode, "dijitDownArrowButton");
+
 		var isIE = dojo.isIE;
-		dojo.forEach(this._focalNodes, dojo.hitch(this, function(node){
-			this.connect(node, isIE? "onactivate" : "onfocus", this._onNodeFocus);
-			this.connect(node, isIE? "ondeactivate" : "onblur", this._onNodeBlur);
-		}));
 		if(isIE && (isIE < 8 || dojo.isQuirks)){ // fixed in IE8/strict
 			with(this.titleNode){ // resize BUTTON tag so parent TD won't inherit extra padding
 				style.width = scrollWidth + "px";
@@ -275,22 +276,6 @@ dojo.declare("dijit.form.ComboButton", dijit.form.DropDownButton, {
 		}
 	},
 
-	_onNodeFocus: function(evt){
-		this._focusedNode = evt.currentTarget;
-		var fnc = this._focusedNode == this.focusNode ? "dijitDownArrowButtonFocused" : "dijitButtonContentsFocused";
-		dojo.addClass(this._focusedNode, fnc);
-	},
-
-	_onNodeBlur: function(evt){
-		var fnc = evt.currentTarget == this.focusNode ? "dijitDownArrowButtonFocused" : "dijitButtonContentsFocused";
-		dojo.removeClass(evt.currentTarget, fnc);
-	},
-
-	_onBlur: function(){
-		this.inherited(arguments);
-		this._focusedNode = null;
-	},
-	
 	_onButtonKeyPress: function(/*Event*/ evt){
 		// summary:
 		//		Handler for right arrow key when focus is on left part of button

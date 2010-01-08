@@ -43,20 +43,20 @@
 
 .soria .dijitTextBoxFocused,
 .soria .dijitComboBoxFocused,
-.soria .dijitSpinnerFocused, .soria .dijitSpinnerUpArrowActive, .soria .dijitSpinnerDownArrowActive,
+.soria .dijitSpinnerFocused,
 .soria .dijitTextAreaFocused {
 	/* input field when focused (ie: typing affects it) */
 	border-color:#406b9b;
 }
 .soria .dijitComboBoxFocused .dijitButtonNode,
 .soria .dijitSpinnerFocused .dijitButtonNode,
-.soria .dijitSpinnerUpArrowActive .dijitButtonNode,
-.soria .dijitSpinnerDownArrowActive .dijitButtonNode {
+.soria .dijitSpinner .dijitUpArrowButtonActive,
+.soria .dijitSpinner .dijitDownArrowButtonActive {
 	border-left-color:#8ba0bd;
 }
 .soria .dijitSpinnerFocused .dijitDownArrowButton,
-.soria .dijitSpinnerUpArrowActive .dijitDownArrowButton,
-.soria .dijitSpinnerDownArrowActive .dijitDownArrowButton {
+.soria .dijitSpinner .dijitUpArrowButtonActive,
+.soria .dijitSpinner .dijitDownArrowButtonActive {
 	border-top-color:#8ba0bd;
 }
 

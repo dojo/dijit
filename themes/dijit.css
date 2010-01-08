@@ -396,7 +396,7 @@ table .dijitComboButton .dijitButtonNode {
 	width: 8em;
 }
 
-/* rules for safari to deal with fuzzy blue focus border */
+/* rules for webkit to deal with fuzzy blue focus border */
 .dijitTextBox input:focus,
 .dijitComboBox input:focus,
 .dijitSpinner input:focus {
@@ -404,9 +404,8 @@ table .dijitComboButton .dijitButtonNode {
 }
 .dijitTextBoxFocused,
 .dijitComboBoxFocused,
-.dijitSpinnerFocused, .dijitSpinnerUpArrowActive, .dijitSpinnerDownArrowActive,
+.dijitSpinnerFocused,
 .dijitTextAreaFocused {
-	/* should we display focus like we do on other browsers, or use the safari standard focus indicator?? */
 	outline: auto 5px -webkit-focus-ring-color;
 }
 

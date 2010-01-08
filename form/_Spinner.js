@@ -42,19 +42,10 @@ dojo.declare(
 			return val;
 		},
 
-		_arrowState: function(/*Node*/ node, /*Boolean*/ pressed){
-			// summary:
-			//		Called when an arrow key is pressed to update the relevant CSS classes
-			this._active = pressed;
-			this.stateModifier = node.getAttribute("stateModifier") || "";
-			this._setStateClass();
-		},
-
 		_arrowPressed: function(/*Node*/ nodePressed, /*Number*/ direction, /*Number*/ increment){
 			// summary:
 			//		Handler for arrow button or arrow key being pressed
 			if(this.disabled || this.readOnly){ return; }
-			this._arrowState(nodePressed, true);
 			this._setValueAttr(this.adjust(this.attr('value'), direction*increment), false);
 			dijit.selectInputText(this.textbox, this.textbox.value.length);
 		},
@@ -64,7 +55,6 @@ dojo.declare(
 			//		Handler for arrow button or arrow key being released
 			this._wheelTimer = null;
 			if(this.disabled || this.readOnly){ return; }
-			this._arrowState(node, false);
 		},
 
 		_typematicCallback: function(/*Number*/ count, /*DOMNode*/ node, /*Event*/ evt){
@@ -104,6 +94,11 @@ dojo.declare(
 
 		postCreate: function(){
 			this.inherited(arguments);
+
+			// Set classes like dijitUpArrowButtonHover or dijitDownArrowButtonActive depending on
+			// mouse action over specified node
+			this._trackMouseState(this.upArrowNode, "dijitUpArrowButton");
+			this._trackMouseState(this.downArrowNode, "dijitDownArrowButton");
 
 			// extra listeners
 			this.connect(this.domNode, !dojo.isMozilla ? "onmousewheel" : 'DOMMouseScroll', "_mouseWheeled");

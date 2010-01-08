@@ -45,8 +45,8 @@
 .tundra .dijitToolbar .dijitButtonHover,
 .tundra .dijitToolbar .dijitToggleButtonHover,
 .tundra .dijitToolbar .dijitDropDownButtonHover,
-.tundra .dijitToolbar .dijitComboButtonHover .dijitButtonContents,
-.tundra .dijitToolbar .dijitComboButtonDownArrowHover .dijitDownArrowButton {
+.tundra .dijitToolbar .dijitComboButton .dijitButtonContentsHover,
+.tundra .dijitToolbar .dijitComboButton .dijitDownArrowButtonHover {
 	/* TODO: change this from Hover to Selected so that button is still highlighted while drop down is being used */
 	border: 1px solid #869cbf;
 	padding: 0px;	/* reduce padding to compensate for space taken by border */
