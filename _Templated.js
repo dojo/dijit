@@ -10,7 +10,6 @@ dojo.declare("dijit._Templated",
 	{
 		// summary:
 		//		Mixin for widgets that are instantiated from a template
-		//
 
 		// templateString: [protected] String
 		//		A string that represents the widget template. Pre-empts the
@@ -46,6 +45,17 @@ dojo.declare("dijit._Templated",
 		//		'true' to re-enable to previous, arguably broken, behavior.
 		_earlyTemplatedStartup: false,
 
+		// _attachPoints: [private] String[]
+		//		List of widget attribute names associated with dojoAttachPoint=... in the
+		//		template, ex: ["containerNode", "labelNode"]
+/*=====
+ 		_attachPoints: [],
+ =====*/
+
+		constructor: function(){
+			this._attachPoints = [];
+		},
+
 		_stringRepl: function(tmpl){
 			// summary:
 			//		Does substitution of ${foo} type properties in template string
@@ -74,8 +84,6 @@ dojo.declare("dijit._Templated",
 			//		Construct the UI for this widget from a template, setting this.domNode.
 			// tags:
 			//		protected
-
-			this._attachPoints = [];
 
 			// Lookup cached version of template, and download to cache if it
 			// isn't there already.  Returns either a DomNode or a string, depending on
