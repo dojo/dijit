@@ -176,8 +176,8 @@
 				function test_bottomFloated(){
 					generateTest('bottomFloated_strict', "(+0,-0)", "(+0,-0)");
 					generateTest('bottomFloated_quirks', "(+0,-0)", "(+0,-0)");
-					generateTest('bottomFloated_loose_rtl', "("+(dojo.isOpera? -1 : (((dojo.isIE >= 8 || dojo.isWebKit)? "+" : "-")+0))+",-0)", "("+(dojo.isOpera? 38 : (((dojo.isIE < 8 || dojo.isMoz)?"-":"+")+0))+",-0)");
-					generateTest('bottomFloated_quirks_rtl', "("+(dojo.isOpera? -1 : ((dojo.isWebKit? "+" : "-")+0))+",-0)", "("+(dojo.isOpera? 38 : (((dojo.isIE || dojo.isMoz)?"-":"+")+0))+",-0)");
+					generateTest('bottomFloated_loose_rtl', "("+(dojo.isOpera? -1 : (((dojo.isIE >= 8 || dojo.isWebKit)? "+" : "-")+0))+",-0)", "("+(dojo.isOpera? (sb+20) : (((dojo.isIE < 8 || dojo.isMoz)?"-":"+")+0))+",-0)");
+					generateTest('bottomFloated_quirks_rtl', "("+(dojo.isOpera? -1 : ((dojo.isWebKit? "+" : "-")+0))+",-0)", "("+(dojo.isOpera? (sb+20) : (((dojo.isIE || dojo.isMoz)?"-":"+")+0))+",-0)");
 				},
 				function test_table(){
 					var minScroll, maxScroll;
@@ -216,30 +216,30 @@
 						fudge = dojo.byId('tooBig_quirks').contentWindow.document.body.clientHeight-100+sb; // needed for running inside DOH runner
 					}
 					var minScroll, maxScroll;
-					generateTest('tooBig_strict', "(+"+(sb+10)+",+"+(sb+20)+")", "(+1,+1)");
-					generateTest('tooBig_quirks', "(+"+(sb+10-fudge)+",+"+(sb+20-fudge)+")", "(+1,+1)");
+					generateTestXY('tooBig_strict', sb+10,sb+20, 1,1);
+					generateTestXY('tooBig_quirks', sb+10-fudge,sb+20-fudge, 1,1);
 					if(dojo.isIE <= 7 || dojo.isMoz){
-						maxScroll = "-1";
+						maxScroll = -1;
 					}else if(dojo.isIE){
-						maxScroll = "+20";
+						maxScroll = +20;
 					}else if(dojo.isOpera){
-						maxScroll = "-90";
+						maxScroll = -90;
 					}else{
-						maxScroll = "+"+(sb+10);
+						maxScroll = sb+10;
 					}
 					if(dojo.isIE <= 7 || dojo.isMoz){
-						minScroll = "-20";
+						minScroll = -20;
 					}else if(dojo.isOpera){
-						minScroll = "+98";
+						minScroll = 80 + sb;
 					}else{
-						minScroll = "+1";
+						minScroll = 1;
 					}
-					generateTest('tooBig_loose_rtl', "("+maxScroll+",+"+(sb+20)+")", "("+minScroll+",+1)");
+					generateTestXY('tooBig_loose_rtl', maxScroll,sb+20, minScroll,1);
 					if(dojo.isIE >= 8){
-						maxScroll = "-1";
-						minScroll = "-20";
+						maxScroll = -1;
+						minScroll = -20;
 					}
-					generateTest('tooBig_quirks_rtl', "("+maxScroll+",+"+(sb+20-fudge)+")", "("+minScroll+",+1)");
+					generateTestXY('tooBig_quirks_rtl', maxScroll,sb+20-fudge, minScroll,1);
 				},
 				function test_htmlPadding(){
 					var fudge = 0;
