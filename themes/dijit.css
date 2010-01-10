@@ -859,8 +859,11 @@ img.dijitColorPaletteUnder {
 	height: 14px;
 	border: 1px solid #999;
 	cursor: default;
+		vertical-align: middle;
 }
-
+.dijitPaletteTable td {
+		padding: 0px;
+}
 .dijitColorPalette .dijitPaletteCellHover .dijitPaletteImg {
 	/* hovered color swatch */
 	border: 1px solid #000;
