@@ -3,9 +3,10 @@ dojo.provide("dijit.MenuItem");
 dojo.require("dijit._Widget");
 dojo.require("dijit._Templated");
 dojo.require("dijit._Contained");
+dojo.require("dijit._CssStateMixin");
 
 dojo.declare("dijit.MenuItem",
-		[dijit._Widget, dijit._Templated, dijit._Contained],
+		[dijit._Widget, dijit._Templated, dijit._Contained, dijit._CssStateMixin],
 		{
 		// summary:
 		//		A line item in a Menu Widget
@@ -18,6 +19,8 @@ dojo.declare("dijit.MenuItem",
 			label: { node: "containerNode", type: "innerHTML" },
 			iconClass: { node: "iconNode", type: "class" }
 		}),
+
+		baseClass: "dijitMenuItem",
 
 		// label: String
 		//		Menu text
@@ -48,6 +51,7 @@ dojo.declare("dijit.MenuItem",
 		},
 
 		postCreate: function(){
+			this.inherited(arguments);
 			dojo.setSelectable(this.domNode, false);
 			var label = this.id+"_text";
 			dojo.attr(this.containerNode, "id", label);
@@ -63,7 +67,6 @@ dojo.declare("dijit.MenuItem",
 			//		Handler when mouse is moved onto menu item
 			// tags:
 			//		protected
-			dojo.addClass(this.domNode, 'dijitMenuItemHover');
 			this.getParent().onItemHover(this);
 		},
 
@@ -77,7 +80,6 @@ dojo.declare("dijit.MenuItem",
 
 			// if we are unhovering the currently selected item
 			// then unselect it
-			dojo.removeClass(this.domNode, 'dijitMenuItemHover');
 			this.getParent().onItemUnhover(this);
 		},
 
