@@ -166,7 +166,6 @@ dojo.declare("dijit.MenuItem",
 			//		Hook for attr('disabled', ...) to work.
 			//		Enable or disable this menu item.
 			this.disabled = value;
-			dojo[value ? "addClass" : "removeClass"](this.domNode, 'dijitMenuItemDisabled');
 			dijit.setWaiState(this.focusNode, 'disabled', value ? 'true' : 'false');
 		},
 		_setAccelKeyAttr: function(/*String*/ value){
