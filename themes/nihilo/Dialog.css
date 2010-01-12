@@ -47,7 +47,7 @@
 .dj_ie6 .nihilo .dijitDialogCloseIcon {
 	background-image: url("images/spriteRoundedIconsSmall.gif");
 }
-.nihilo .dijitDialogCloseIcon-hover {
+.nihilo .dijitDialogCloseIconHover {
 	background-position: -60px -15px;
 }
 

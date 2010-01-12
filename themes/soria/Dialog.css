@@ -47,7 +47,7 @@
 .dj_ie6 .soria .dijitDialogCloseIcon {
 	background-image: url("images/spriteRoundedIconsSmallBl.gif");
 }
-.soria .dijitDialogCloseIcon-hover {
+.soria .dijitDialogCloseIconHover {
 	background-position: -60px -15px;
 }
 

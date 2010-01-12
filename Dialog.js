@@ -6,6 +6,7 @@ dojo.require("dojo.fx");
 
 dojo.require("dijit._Widget");
 dojo.require("dijit._Templated");
+dojo.require("dijit._CssStateMixin");
 dojo.require("dijit.form._FormMixin");
 dojo.require("dijit._DialogMixin");
 dojo.require("dijit.DialogUnderlay");
@@ -26,7 +27,7 @@ dijit._underlay = function(kwArgs){
 
 dojo.declare(
 	"dijit._DialogBase",
-	[dijit._Templated, dijit.form._FormMixin, dijit._DialogMixin],
+	[dijit._Templated, dijit.form._FormMixin, dijit._DialogMixin, dijit._CssStateMixin],
 	{
 		// summary:
 		//		A modal dialog Widget
@@ -45,6 +46,12 @@ dojo.declare(
 		// |	foo.startup();
 
 		templateString: dojo.cache("dijit", "templates/Dialog.html"),
+		
+		baseClass: "dijitDialog",
+		
+		cssStateNodes: {
+			closeButtonNode: "dijitDialogCloseIcon"
+		},
 
 		attributeMap: dojo.delegate(dijit._Widget.prototype.attributeMap, {
 			title: [
@@ -493,7 +500,7 @@ dojo.declare(
 			//		Called when user hovers over close icon
 			// tags:
 			//		private
-			dojo.addClass(this.closeButtonNode, "dijitDialogCloseIcon-hover");
+			dojo.addClass(this.closeButtonNode, "dijitDialogCloseIconHover");
 		},
 
 		_onCloseLeave: function(){
@@ -501,7 +508,7 @@ dojo.declare(
 			//		Called when user stops hovering over close icon
 			// tags:
 			//		private
-			dojo.removeClass(this.closeButtonNode, "dijitDialogCloseIcon-hover");
+			dojo.removeClass(this.closeButtonNode, "dijitDialogCloseIconHover");
 		}
 	}
 );

@@ -51,10 +51,10 @@
 	background : url("images/tabClose.gif") no-repeat right top;
 }
 
-.tundra .dijitDialogCloseIcon-hover {
+.tundra .dijitDialogCloseIconHover {
 	background: url("images/tabCloseHover.png") no-repeat right top;
 }
-.dj_ie6 .tundra .dijitDialogCloseIcon-hover {
+.dj_ie6 .tundra .dijitDialogCloseIconHover {
 	background : url("images/tabCloseHover.gif") no-repeat right top;
 }
 
