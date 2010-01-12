@@ -493,22 +493,6 @@ dojo.declare(
 				setTimeout(dojo.hitch(dijit,"focus",this._savedFocus), 25);
 			}
 			this.inherited(arguments);
-		},
-
-		_onCloseEnter: function(){
-			// summary:
-			//		Called when user hovers over close icon
-			// tags:
-			//		private
-			dojo.addClass(this.closeButtonNode, "dijitDialogCloseIconHover");
-		},
-
-		_onCloseLeave: function(){
-			// summary:
-			//		Called when user stops hovering over close icon
-			// tags:
-			//		private
-			dojo.removeClass(this.closeButtonNode, "dijitDialogCloseIconHover");
 		}
 	}
 );
