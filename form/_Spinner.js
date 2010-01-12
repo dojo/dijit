@@ -31,7 +31,15 @@ dojo.declare(
 		largeDelta: 10,
 
 		templateString: dojo.cache("dijit.form", "templates/Spinner.html"),
+
 		baseClass: "dijitSpinner",
+
+		// Set classes like dijitUpArrowButtonHover or dijitDownArrowButtonActive depending on
+		// mouse action over specified node
+		cssStateNodes: {
+			"upArrowNode": "dijitUpArrowButton",
+			"downArrowNode": "dijitDownArrowButton"
+		},
 
 		adjust: function(/* Object */ val, /*Number*/ delta){
 			// summary:
@@ -94,11 +102,6 @@ dojo.declare(
 
 		postCreate: function(){
 			this.inherited(arguments);
-
-			// Set classes like dijitUpArrowButtonHover or dijitDownArrowButtonActive depending on
-			// mouse action over specified node
-			this._trackMouseState(this.upArrowNode, "dijitUpArrowButton");
-			this._trackMouseState(this.downArrowNode, "dijitDownArrowButton");
 
 			// extra listeners
 			this.connect(this.domNode, !dojo.isMozilla ? "onmousewheel" : 'DOMMouseScroll', "_mouseWheeled");

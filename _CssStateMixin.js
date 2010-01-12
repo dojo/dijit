@@ -14,17 +14,26 @@ dojo.declare("dijit._CssStateMixin", [], {
 	//
 	//		It also sets CSS like dijitButtonDisabled based on widget semantic state.
 	//
-	//		A widget can call _trackMouseState(node, className) in it's postCreate() method to track
-	//		events on subnodes within the widget.   This is useful for widget that contain buttons etc.
-	//		Example:
-	//	|		this._trackMouseState(this.upArrow, "dijitUpArrow")
-	//		That will apply (and remove) the classes dijitUpArrowHover, dijitUpArrowActive, and
-	//		dijitUpArrowFocused as appropriate.
+	//		By setting the cssStateNodes attribute, a widget can also track events on subnodes (like buttons
+	//		within the widget).
 
 	// baseClass: [protected] String
 	//		Root CSS class of the widget (ex: dijitTextBox), used to construct CSS classes to indicate
 	//		widget state.
 	baseClass: "",
+
+	// cssStateNodes: [protected] Object
+	//		List of sub-nodes within the widget that need CSS classes applied on mouse hover/press and focus
+	//.
+	//		Each entry in the hash is a an attachpoint names (like "upArrowButton") mapped to a CSS class names
+	//		(like "dijitUpArrowButton"). Example:
+	//	|		{
+	//	|			"upArrowButton": "dijitUpArrowButton",
+	//	|			"downArrowButton": "dijitDownArrowButton"
+	//	|		}
+	//		The above will set the CSS class dijitUpArrowButton to the this.upArrowButton DOMNode when it
+	//		is hovered, etc.
+	cssStateNodes: {},
 
 	postCreate: function(){
 		this.inherited(arguments);
@@ -46,6 +55,10 @@ dojo.declare("dijit._CssStateMixin", [], {
 			this.connect(this, ap, "_setStateClass");
 		}, this);
 
+		// Events on sub nodes within the widget
+		for(var ap in this.cssStateNodes){
+			this._trackMouseState(this[ap], this.cssStateNodes[ap]);
+		}
 		// Set state initially; there's probably no hover/active/focus state but widget might be
 		// disabled/readonly so we want to set CSS classes for those conditions.
 		this._setStateClass();
@@ -175,7 +188,7 @@ dojo.declare("dijit._CssStateMixin", [], {
 	_trackMouseState: function(/*DomNode*/ node, /*String*/ clazz){
 		// summary:
 		//		Track mouse/focus events on specified node and set CSS class on that node to indicate
-		//		current state.
+		//		current state.   Usually not called directly, but via cssStateNodes attribute.
 		// description:
 		//		Given class=foo, will set the following CSS class on the node
 		//			- fooActive: if the user is currently pressing down the mouse button while over the node

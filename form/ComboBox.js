@@ -109,6 +109,12 @@ dojo.declare(
 
 		baseClass:"dijitComboBox",
 
+		// Set classes like dijitDownArrowButtonHover depending on
+		// mouse action over button node
+		cssStateNodes: {
+			"downArrowNode": "dijitDownArrowButton"
+		},
+
 		_getCaretPos: function(/*DomNode*/ element){
 			// khtml 3.5.2 has selection* methods as does webkit nightlies from 2005-06-22
 			var pos = 0;
@@ -674,10 +680,6 @@ dojo.declare(
 			//		Subclasses must call this method from their postCreate() methods
 			// tags:
 			//		protected
-
-			// Set classes like dijitDownArrowButtonHover depending on
-			// mouse action over button node
-			this._trackMouseState(this.downArrowNode, "dijitDownArrowButton");
 
 			// find any associated label element and add to ComboBox node.
 			var label=dojo.query('label[for="'+this.id+'"]');
