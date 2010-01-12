@@ -891,7 +891,7 @@ img.dijitColorPaletteUnder {
 .dijitAccordionTitle {
 	cursor: pointer;
 }
-.dijitAccordionFocused  {
+.dijitAccordionTitleFocused  {
 	text-decoration: underline;
 }
 
@@ -904,11 +904,11 @@ img.dijitColorPaletteUnder {
 }
 
 .dijit_a11y .dijitAccordionTitle .arrowTextUp,
-.dijit_a11y .dijitAccordionTitle-selected .arrowTextDown {
+.dijit_a11y .dijitAccordionTitleSelected .arrowTextDown {
 	display: inline;
 }
 
-.dijit_a11y .dijitAccordionTitle-selected .arrowTextUp {
+.dijit_a11y .dijitAccordionTitleSelected .arrowTextUp {
 	display: none;
 }
 

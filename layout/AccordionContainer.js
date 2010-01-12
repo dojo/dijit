@@ -4,6 +4,7 @@ dojo.require("dojo.fx");
 
 dojo.require("dijit._Container");
 dojo.require("dijit._Templated");
+dojo.require("dijit._CssStateMixin");
 dojo.require("dijit.layout.StackContainer");
 dojo.require("dijit.layout.ContentPane");
 
@@ -53,7 +54,7 @@ dojo.declare(
 				var style = this.selectedChildWidget.containerNode.style;
 				style.display = "";
 				style.overflow = "auto";
-				this.selectedChildWidget._buttonWidget._setSelectedState(true);
+				this.selectedChildWidget._buttonWidget.attr("selected", true);
 			}
 		},
 
@@ -160,7 +161,7 @@ dojo.declare(
 			var animations = [];
 			var paneHeight = this._verticalSpace;
 			if(newWidget){
-				newWidget._buttonWidget.setSelected(true);
+				newWidget._buttonWidget.attr("selected", true);
 
 				this._showChild(newWidget);	// prepare widget to be slid in
 
@@ -189,7 +190,7 @@ dojo.declare(
 				}));
 			}
 			if(oldWidget){
-				oldWidget._buttonWidget.setSelected(false);
+				oldWidget._buttonWidget.attr("selected", false);
 				var oldContents = oldWidget.domNode,
 					oldContentsOverflow = oldContents.style.overflow;
 				oldContents.style.overflow = "hidden";
@@ -243,7 +244,7 @@ dojo.declare(
 );
 
 dojo.declare("dijit.layout._AccordionButton",
-	[dijit._Widget, dijit._Templated],
+	[dijit._Widget, dijit._Templated, dijit._CssStateMixin],
 	{
 	// summary:
 	//		The title bar to click to open up an accordion pane.
@@ -271,7 +272,6 @@ dojo.declare("dijit.layout._AccordionButton",
 	postCreate: function(){
 		this.inherited(arguments);
 		dojo.setSelectable(this.domNode, false);
-		this.setSelected(this.selected);
 		var titleTextNodeId = dojo.attr(this.domNode,'id').replace(' ','_');
 		dojo.attr(this.titleTextNode, "id", titleTextNodeId+"_title");
 		dijit.setWaiState(this.focusNode, "labelledby", dojo.attr(this.titleTextNode, "id"));
@@ -293,43 +293,24 @@ dojo.declare("dijit.layout._AccordionButton",
 		}
 	},
 
-	_onTitleEnter: function(){
-		// summary:
-		//		Callback when someone hovers over my title.
-		dojo.addClass(this.focusNode, "dijitAccordionTitle-hover");
-	},
-
-	_onTitleLeave: function(){
-		// summary:
-		//		Callback when someone stops hovering over my title.
-		dojo.removeClass(this.focusNode, "dijitAccordionTitle-hover");
-	},
-
 	_onTitleKeyPress: function(/*Event*/ evt){
 		return this.getParent()._onKeyPress(evt, this.contentWidget);
 	},
 
-	_setSelectedState: function(/*Boolean*/ isSelected){
+	_setSelectedAttr: function(/*Boolean*/ isSelected){
 		this.selected = isSelected;
-		dojo[(isSelected ? "addClass" : "removeClass")](this.titleNode,"dijitAccordionTitle-selected");
 		dijit.setWaiState(this.focusNode, "expanded", isSelected);
 		dijit.setWaiState(this.focusNode, "selected", isSelected);
 		this.focusNode.setAttribute("tabIndex", isSelected ? "0" : "-1");
-	},
-
-	_handleFocus: function(/*Event*/ e){
-		// summary:
-		//		Handle the blur and focus state of this widget.
-		dojo.toggleClass(this.titleTextNode, "dijitAccordionFocused", e.type == "focus");
+		if(isSelected){
+			var cw = this.contentWidget;
+			if(cw.onSelected){ cw.onSelected(); }
+		}
 	},
 
 	setSelected: function(/*Boolean*/ isSelected){
 		// summary:
 		//		Change the selected state on this pane.
-		this._setSelectedState(isSelected);
-		if(isSelected){
-			var cw = this.contentWidget;
-			if(cw.onSelected){ cw.onSelected(); }
-		}
+		this.attr("selected", isSelected);
 	}
 });

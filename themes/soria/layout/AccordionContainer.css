@@ -20,7 +20,7 @@
 	color: #373941;
 }
 
-.soria .dijitAccordionTitle-selected  {
+.soria .dijitAccordionTitleSelected  {
 	background: #f9f9f9 url("../images/accordionItemActive.png") top repeat-x;
 	font-weight: bold;
 	border-top: 1px solid #b9bbdd;
@@ -37,7 +37,7 @@
 	margin-top:-1px;
 }
 
-.soria .dijitAccordionTitle-selected .dijitAccordionArrow {
+.soria .dijitAccordionTitleSelected .dijitAccordionArrow {
 	background:url("../images/spriteRoundedIconsSmallBl.gif") no-repeat -15px top;
 	margin-top:-1px;
 }

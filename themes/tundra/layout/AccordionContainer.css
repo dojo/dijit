@@ -14,11 +14,11 @@
 	cursor:pointer;
 }
 
-.tundra .dijitAccordionTitle-hover  {
+.tundra .dijitAccordionTitleHover  {
 	background: #f8fafd url("../images/accordionItemHover.gif") bottom repeat-x;
 }
 
-.tundra .dijitAccordionTitle-selected  {
+.tundra .dijitAccordionTitleSelected  {
 	background: #f9f9f9 url("../images/accordionItemActive.gif") bottom repeat-x;
 	font-weight: bold;
 	border-top: 1px solid #aaaaaa;
