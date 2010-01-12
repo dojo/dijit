@@ -414,7 +414,7 @@ dojo.declare("dijit.layout.ScrollingTabController",
 		//		If the direction is 1, the widget scrolls to the right, if it is
 		//		-1, it scrolls to the left.
 
-		if(node && dojo.hasClass(node, "dijitTabBtnDisabled")){return;}
+		if(node && dojo.hasClass(node, "dijitTabDisabled")){return;}
 
 		var sWidth = dojo.style(this.scrollNode, "width");
 		var d = (sWidth * 0.75) * direction;
@@ -428,20 +428,14 @@ dojo.declare("dijit.layout.ScrollingTabController",
 
 	_setButtonClass: function(scroll){
 		// summary:
-		//		Adds or removes a class to the left and right scroll buttons
-		//		to indicate whether each one is enabled/disabled.
-		// description:
-		//		If the tabs are scrolled all the way to the left, the class
-		//		'dijitTabBtnDisabled' is added to the left button.
-		//		If the tabs are scrolled all the way to the right, the class
-		//		'dijitTabBtnDisabled' is added to the right button.
+		//		Disables the left scroll button if the tabs are scrolled all the way to the left,
+		//		or the right scroll button in the opposite case.
 		// scroll: Integer
 		//		amount of horizontal scroll
 
-		var cls = "dijitTabBtnDisabled",
-			scrollBounds = this._getScrollBounds();
-		dojo.toggleClass(this._leftBtn.domNode, cls, scroll <= scrollBounds.min);
-		dojo.toggleClass(this._rightBtn.domNode, cls, scroll >= scrollBounds.max);
+		var scrollBounds = this._getScrollBounds();
+		this._leftBtn.attr("disabled", scroll <= scrollBounds.min);
+		this._rightBtn.attr("disabled", scroll >= scrollBounds.max);
 	}
 });
 

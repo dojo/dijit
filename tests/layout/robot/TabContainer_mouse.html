@@ -67,11 +67,11 @@
 						runTest: function(t){
 							var d = new doh.Deferred();
 							doh.robot.mouseClick({left: true}, 500);
-							doh.robot.mouseMoveAt(dojo.query('#mainTabContainer_tablist_tab3 span.closeButton')[0], 500);
+							doh.robot.mouseMoveAt(dojo.query('#mainTabContainer_tablist_tab3 span.dijitTabCloseButton')[0], 500);
 							
 							// verify the close button is in its hover state
 							doh.robot.sequence(d.getTestCallback(function(){
-								var closeHover = dojo.query("#mainTabContainer_tablist_tab3 span.closeButton-hover");
+								var closeHover = dojo.query("#mainTabContainer_tablist_tab3 .dijitTabCloseButtonHover");
 								doh.is(1, closeHover.length);
 							}), 500);
 							
@@ -84,7 +84,7 @@
 						runTest: function(t){
 							var d = new doh.Deferred();
 							
-							doh.robot.mouseMoveAt(dojo.query('#mainTabContainer_tablist_tab3 span.closeButton')[0], 500);
+							doh.robot.mouseMoveAt(dojo.query('#mainTabContainer_tablist_tab3 span.dijitTabCloseButton')[0], 500);
 							doh.robot.mouseClick({left: true}, 500);
 							
 							var tc = dijit.byId("mainTabContainer");

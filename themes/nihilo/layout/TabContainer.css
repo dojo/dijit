@@ -122,20 +122,20 @@
 
 
 /* Close button */
-.nihilo .dijitTab .closeImage {
+.nihilo .dijitTab .dijitTabCloseIcon {
 	background: url("../images/spriteRoundedIconsSmall.png") no-repeat -60px top;
 	width: 15px;
 	height: 15px;
 	margin-top: -1px;
 }
 
-.dj_ie6 .nihilo .dijitTab .closeImage {
+.dj_ie6 .nihilo .dijitTab .dijitTabCloseIcon {
 	background: url("../images/spriteRoundedIconsSmall.gif") no-repeat -60px top;
 }
-.nihilo .dijitTab .closeButton-hover .closeImage {
+.nihilo .dijitTabCloseButtonHover .dijitTabCloseIcon {
 	background: url("../images/spriteRoundedIconsSmall.png") no-repeat -60px -15px;
 }
-.dj_ie6 .nihilo .dijitTab .closeButton-hover .closeImage {
+.dj_ie6 .nihilo .dijitTabCloseButtonHover .dijitTabCloseIcon {
 	background: url("../images/spriteRoundedIconsSmall.gif") no-repeat -60px -15px;
 }
 

@@ -1147,19 +1147,10 @@ img.dijitColorPaletteUnder {
 	border-right: 0px;
 }
 
-div.dijitTabBtnDisabled, .dj_ie div.dijitTabBtnDisabled {
+div.dijitTabDisabled, .dj_ie div.dijitTabDisabled {
 	cursor: auto;
 }
-/*
-div.dijitTabBtnDisabled img {
-	opacity: 0.3;
-}
 
-
-.dj_ie div.dijitTabBtnDisabled img {
-	filter: gray() alpha(opacity=30);
-}
-*/
 .dijitTab {
 	position:relative;
 	cursor:pointer;
@@ -1214,25 +1205,25 @@ div.dijitTabBtnDisabled img {
 }
 
 
-.dijitTab .closeButton {
+.dijitTab .dijitTabCloseButton {
 	margin-left: 1em;
 }
 
 /* images off, high-contrast mode styles */
-.dijitTab .closeText {
+.dijitTab .dijitTabCloseText {
 	display:none;
 }
 
-.dijit_a11y .closeText {
+.dijit_a11y .dijitTabCloseText {
 	display:inline;
 	margin: 0px 6px;
 }
 
-.dijit_a11y .dijitTab .closeImage {
+.dijit_a11y .dijitTab .dijitTabCloseIcon {
 	display:none;
 }
 
-.dijit_a11y .closeButton-hover .closeText {
+.dijit_a11y .dijitTabCloseButtonHover .dijitTabCloseText {
 	border:thin solid;
 }
 .dijit_a11y .dijitTabChecked {

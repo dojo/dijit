@@ -128,20 +128,20 @@
 
 
 /* Close Button */
-.soria .dijitTab .closeImage {
+.soria .dijitTab .dijitTabCloseIcon {
 	width: 15px;
 	height: 15px;
 	background: url("../images/spriteRoundedIconsSmall.png") no-repeat -60px top;
 	margin-top: -1px;
 }
-.dj_ie6 .soria .dijitTab .dijitClosable .closeImage {
+.dj_ie6 .soria .dijitTab .dijitClosable .dijitTabCloseIcon {
 	background: url("../images/spriteRoundedIconsSmall.gif") no-repeat -60px top;
 }
 
-.soria .dijitTab .closeButton-hover .closeImage {
+.soria .dijitTabCloseButtonHover .dijitTabCloseIcon {
 	background: url("../images/spriteRoundedIconsSmall.png") no-repeat -60px -15px;
 }
-.dj_ie6 .soria .dijitTab .closeButton-hover .closeImage {
+.dj_ie6 .soria .dijitTabCloseButtonHover .dijitTabCloseIcon {
 	background: url("../images/spriteRoundedIconsSmall.gif") no-repeat -60px -15px;
 }
 

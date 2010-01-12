@@ -81,7 +81,7 @@
 	background:#fff;
 }
 
-.tundra .dijitTab .dijitClosable .closeImage {
+.tundra .dijitTab .dijitClosable .dijitTabCloseIcon {
 	background: url("../images/tabClose.png") no-repeat right top;
 	width: 12px;
 	height: 12px;
@@ -124,17 +124,17 @@
 
 /* Close button */
 
-.tundra .dijitTab .closeImage {
+.tundra .dijitTab .dijitTabCloseIcon {
 	background-image : url("../images/tabClose.png");
 }
-.dj_ie6 .tundra .dijitTab .closeImage {
+.dj_ie6 .tundra .dijitTab .dijitTabCloseIcon {
 	background-image : url("../images/tabClose.gif");
 }
 
-.tundra .dijitTab .closeButton-hover .closeImage {
+.tundra .dijitTabCloseButtonHover .dijitTabCloseIcon {
 	background-image : url("../images/tabCloseHover.png");
 }
-.dj_ie6 .tundra .dijitTab .closeButton-hover .closeImage {
+.dj_ie6 .tundra .dijitTabCloseButtonHover .dijitTabCloseIcon {
 	background-image : url("../images/tabCloseHover.gif");
 }
 
