@@ -3,8 +3,8 @@ dojo.provide("dijit._CssStateMixin");
 
 dojo.declare("dijit._CssStateMixin", [], {
 	// summary:
-	//		Mixin for widgets to set CSS classes on the widget DOM nodes depending on hover/mouse press
-	//		state changes, focus, and also higher-level state changes such becoming disabled or selected.
+	//		Mixin for widgets to set CSS classes on the widget DOM nodes depending on hover/mouse press/focus
+	//		state changes, and also higher-level state changes such becoming disabled or selected.
 	//
 	// description:
 	//		By mixing this class into your widget, and setting the this.baseClass attribute, it will automatically
@@ -34,8 +34,21 @@ dojo.declare("dijit._CssStateMixin", [], {
 			this.connect(this.domNode, e, "_cssMouseEvent");
 		}, this);
 		
-		// TODO: connect to attr() monitoring changes to disabled and readonly, calling _setStateClass();
-		// then remove those calls from _FormWidget.js etc.
+		// Monitoring changes to disabled, readonly, etc. state, and update CSS class of root node
+		this.connect(this, "attr", function(name, value){
+			if(arguments.length == 2 && {disabled: true, readOnly: true, checked:true}[name]){
+				this._setStateClass();
+			}
+		});
+
+		// The widget coming in/out of the focus change affects it's state
+		dojo.forEach(["_onFocus", "_onBlur"], function(ap){
+			this.connect(this, ap, "_setStateClass");
+		}, this);
+
+		// Set state initially; there's probably no hover/active/focus state but widget might be
+		// disabled/readonly so we want to set CSS classes for those conditions.
+		this._setStateClass();
 	},
 
 	_cssMouseEvent: function(/*Event*/ event){
@@ -222,7 +235,7 @@ dojo.declare("dijit._CssStateMixin", [], {
 		// Just in case widget is enabled/disabled while it has focus/hover/active state.
 		// Maybe this is overkill.
 		this.connect(this, "attr", function(name, value){
-			if(arguments == 2 && (name == "disabled" || name == "readonly")){
+			if(arguments.length == 2 && (name == "disabled" || name == "readOnly")){
 				setClass();
 			}
 		});

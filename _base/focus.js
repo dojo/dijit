@@ -472,9 +472,6 @@ dojo.mixin(dijit, {
 				if(widget._onBlur){
 					widget._onBlur(by);
 				}
-				if(widget._setStateClass){
-					widget._setStateClass();
-				}
 				dojo.publish("widgetBlur", [widget, by]);
 			}
 		}
@@ -486,9 +483,6 @@ dojo.mixin(dijit, {
 				widget._focused = true;
 				if(widget._onFocus){
 					widget._onFocus(by);
-				}
-				if(widget._setStateClass){
-					widget._setStateClass();
 				}
 				dojo.publish("widgetFocus", [widget, by]);
 			}

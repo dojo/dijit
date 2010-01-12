@@ -84,7 +84,6 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated, dijit._
 		}else{
 			this.focusNode.setAttribute('tabIndex', this.tabIndex);
 		}
-		this._setStateClass();
 	},
 
 	setDisabled: function(/*Boolean*/ disabled){
@@ -184,7 +183,6 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated, dijit._
 		// Overrides _Widget.create()
 		this.inherited(arguments);
 		this._onChangeActive = true;
-		this._setStateClass();
 	},
 
 	destroy: function(){
@@ -242,7 +240,6 @@ dojo.declare("dijit.form._FormValueWidget", dijit.form._FormWidget,
 		this.readOnly = value;
 		dojo.attr(this.focusNode, 'readOnly', value);
 		dijit.setWaiState(this.focusNode, "readonly", value);
-		this._setStateClass();
 	},
 
 	postCreate: function(){

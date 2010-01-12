@@ -58,7 +58,6 @@ dojo.declare(
 			this.readOnly = value;
 			dojo.attr(this.focusNode, 'readOnly', value);
 			dijit.setWaiState(this.focusNode, "readonly", value);
-			this._setStateClass();
 		},
 
 		_setValueAttr: function(/*String or Boolean*/ newValue){

@@ -331,7 +331,6 @@ dojo.declare("dijit.form.ToggleButton", dijit.form.Button, {
 		this.checked = value;
 		dojo.attr(this.focusNode || this.domNode, "checked", value);
 		dijit.setWaiState(this.focusNode || this.domNode, "pressed", value);
-		this._setStateClass();
 		this._handleOnChange(value, priorityChange);
 	},
 
