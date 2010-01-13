@@ -12,7 +12,7 @@
     background: url('images/treeI_half.gif') no-repeat;
 }
 
-.nihilo .dijitTreeNodeHover {
+.nihilo .dijitTreeRowHover {
 	/* using a transparent png so that we can still see grid lines, which are (unfortunately) behind the dijitRowNode that we are hovering over */
 	background-image: url(images/treeHover.png);
 	background-repeat: repeat;

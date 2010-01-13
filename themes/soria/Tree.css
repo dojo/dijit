@@ -7,7 +7,7 @@
     zoom: 1;	/* MOW: what the heck is this doing in here? */
 }
 
-.soria .dijitTreeNodeHover {
+.soria .dijitTreeRowHover {
 	/* using a transparent png so that we can still see grid lines, which are (unfortunately) behind the dijitRowNode that we are hovering over */
 	background-image: url(images/treeHover.png);
 	background-repeat: repeat;
@@ -63,7 +63,7 @@
 .soria .dijitTreeLabelFocused {
 	outline: 1px invert dotted;
 }
-.soria .dijitTreeNodeSelected .dijitTreeLabel{
+.soria .dijitTreeRowSelected .dijitTreeLabel{
 	background:#b8cbec;
 }
 
