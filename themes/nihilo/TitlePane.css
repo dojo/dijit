@@ -12,7 +12,7 @@
 	font-weight: bold;
 	color: #6d6d6d;
 }
-.nihilo .dijitTitlePaneTitle-hover  {
+.nihilo .dijitTitlePaneTitleHover  {
 	background: #f9f9f9 url("images/accordionItemActive.png") top repeat-x;
 	cursor: pointer;
 }

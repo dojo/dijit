@@ -4,7 +4,7 @@
 	border:1px solid #bfbfbf;
 	padding:3px 4px;
 }
-.tundra .dijitTitlePaneTitle-hover  {
+.tundra .dijitTitlePaneTitleHover  {
 	background: #f8fafd url("images/accordionItemHover.gif") bottom repeat-x;
 	cursor: pointer;
 }

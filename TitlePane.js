@@ -4,10 +4,11 @@ dojo.require("dojo.fx");
 
 dojo.require("dijit._Templated");
 dojo.require("dijit.layout.ContentPane");
+dojo.require("dijit._CssStateMixin");
 
 dojo.declare(
 	"dijit.TitlePane",
-	[dijit.layout.ContentPane, dijit._Templated],
+	[dijit.layout.ContentPane, dijit._Templated, dijit._CssStateMixin],
 {
 	// summary:
 	//		A pane with a title on top, that can be expanded or collapsed.
@@ -58,6 +59,11 @@ dojo.declare(
 	baseClass: "dijitTitlePane",
 
 	templateString: dojo.cache("dijit", "templates/TitlePane.html"),
+
+	// Hover and focus effects for title bar
+	cssStateNodes: {
+		titleBarNode: "dijitTitlePaneTitle"
+	},
 
 	attributeMap: dojo.delegate(dijit.layout.ContentPane.prototype.attributeMap, {
 		title: { node: "titleNode", type: "innerHTML" },
@@ -210,26 +216,6 @@ dojo.declare(
 	 	}
 	},
 
-	_onTitleEnter: function(){
-		// summary:
-		//		Handler for when someone hovers over my title
-		// tags:
-		//		private
-		if(this.toggleable){
-			dojo.addClass(this.focusNode, "dijitTitlePaneTitle-hover");
-		}
-	},
-
-	_onTitleLeave: function(){
-		// summary:
-		//		Handler when someone stops hovering over my title
-		// tags:
-		//		private
-		if(this.toggleable){
-			dojo.removeClass(this.focusNode, "dijitTitlePaneTitle-hover");
-		}
-	},
-
 	_onTitleClick: function(){
 		// summary:
 		//		Handler when user clicks the title bar
@@ -238,15 +224,6 @@ dojo.declare(
 		if(this.toggleable){
 			this.toggle();
 		}
-	},
-
-	_handleFocus: function(/*Event*/ e){
-		// summary:
-		//		Handle blur and focus events on title bar
-		// tags:
-		//		private
-
-		dojo.toggleClass(this.focusNode, this.baseClass + "Focused", e.type == "focus");
 	},
 
 	setTitle: function(/*String*/ title){
