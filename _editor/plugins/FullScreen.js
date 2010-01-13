@@ -324,6 +324,20 @@ dojo.declare("dijit._editor.plugins.FullScreen",dijit._editor._Plugin,{
 			var dn = this.editor.toolbar.domNode;
 			setTimeout(function(){dijit.scrollIntoView(dn);}, 250);
 		}else{
+			if(this._resizeHandle){
+				// Cleanup resizing listeners
+				dojo.disconnect(this._resizeHandle);
+				this._resizeHandle = null;
+			}
+			if(this._resizeHandle2){
+				// Cleanup resizing listeners
+				dojo.disconnect(this._resizeHandle2);
+				this._resizeHandle2 = null;
+			}
+			if(this._rst){
+				clearTimeout(this._rst);
+				this._rst = null;
+			}
 			if(this._classedParents){
 				while(this._classedParents.length > 0){
 					var classP = this._classedParents.pop();
@@ -344,20 +358,6 @@ dojo.declare("dijit._editor.plugins.FullScreen",dijit._editor._Plugin,{
 			if(ed._fullscreen_oldOnKeyDown){
 				ed.onKeyDown = ed._fullscreen_oldOnKeyDown;
 				delete ed._fullscreen_oldOnKeyDown;
-			}
-			if(this._resizeHandle){
-				// Cleanup resizing listeners
-				dojo.disconnect(this._resizeHandle);
-				this._resizeHandle = null;
-			}
-			if(this._resizeHandle2){
-				// Cleanup resizing listeners
-				dojo.disconnect(this._resizeHandle2);
-				this._resizeHandle2 = null;
-			}
-			if(this._rst){
-				clearTimeout(this._rst);
-				this._rst = null;
 			}
 
 			// Add a timeout to make sure we don't have a resize firing in the
