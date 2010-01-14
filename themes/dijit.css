@@ -1858,3 +1858,9 @@ div.dijitTabBtnDisabled img {
 	width: auto;
 	margin: 0px 4px;
 }
+
+
+.dijitForceStatic {
+    position: static !important;
+}
+
