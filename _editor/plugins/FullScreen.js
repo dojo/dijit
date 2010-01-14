@@ -162,7 +162,7 @@ dojo.declare("dijit._editor.plugins.FullScreen",dijit._editor._Plugin,{
 		//Alias this for shorter code.
 		var ed = this.editor;
 		var body = dojo.body();
-		editorParent = ed.domNode.parentNode;
+		var editorParent = ed.domNode.parentNode;
 
 		this.isFullscreen = full;
 
