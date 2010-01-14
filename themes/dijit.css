@@ -1827,3 +1827,9 @@ div.dijitTabDisabled, .dj_ie div.dijitTabDisabled {
 	width: auto;
 	margin: 0px 4px;
 }
+
+/* Used in cases, such as FullScreen plugin, when we need to force stuff to static positioning. */
+.dijitForceStatic {
+	position: static !important;
+}
+
