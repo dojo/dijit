@@ -16,7 +16,7 @@
 	height: 12px;
 	margin-left: 5px;
 }
-.lucid .dijitTab .closeButton-hover .closeImage {
+.lucid .dijitTab .closeButtonHover .closeImage {
 	background: url("images/tabCloseHover.png") no-repeat right top;
 }
 

@@ -70,10 +70,10 @@
 	background-image: url("images/dialog_close_icon.gif");
 }
 
-.lucid .dijitDialogCloseIcon-hover {
+.lucid .dijitDialogCloseIconHover {
 	background: url("images/dialog_close_icon_hover.png") no-repeat center;
 }
-.dj_ie6 .lucid .dijitDialogCloseIcon-hover {
+.dj_ie6 .lucid .dijitDialogCloseIconHover {
 	background-image: url("images/dialog_close_icon_hover.gif");
 }
 

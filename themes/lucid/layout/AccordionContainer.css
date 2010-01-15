@@ -19,16 +19,16 @@
 	border-bottom: 1px solid #f5f5f5;
 }
 
-.lucid .dijitAccordionContainer .dijitAccordionInnerContainer-hover{
+.lucid .dijitAccordionContainer .dijitAccordionInnerContainerHover{
 	background-color:#ABD6FF;
 	border:1px solid #769DC0;
 }
 
-.dj_ie6 .lucid .dijitAccordionInnerContainer-hover {
+.dj_ie6 .lucid .dijitAccordionInnerContainerHover {
 	background-image: none;
 }
 
-.lucid .dijitAccordionInnerContainer-selected {
+.lucid .dijitAccordionInnerContainerSelected {
 	background-color:#E3F2FF;
 	border:1px solid #BFD6EB;
 	padding: 0px 0px 2px 0px;
@@ -47,11 +47,11 @@
 }
 
 
-.lucid .dijitAccordionTitle-hover  {
+.lucid .dijitAccordionTitleHover  {
 	background-color:#ABD6FF;
 }
 
-.dj_ie6 .lucid .dijitAccordionTitle-hover {
+.dj_ie6 .lucid .dijitAccordionTitleHover {
 	background-image: none;
 }
 
@@ -69,7 +69,7 @@
 	text-decoration:none;
 }
 
-.lucid .dijitAccordionTitle-selected  {
+.lucid .dijitAccordionTitleSelected  {
 	background-color:#E3F2FF;
 	background-image:url("images/accordion_back.png");
 	background-position:center top;
@@ -77,19 +77,19 @@
 	cursor: default;
 }
 
-.dj_ie6 .lucid .dijitAccordionTitle-selected {
+.dj_ie6 .lucid .dijitAccordionTitleSelected {
 	background-image: none;
 }
 
-.lucid .dijitAccordionTitle-selected-hover{
+.lucid .dijitAccordionTitleSelectedHover{
 	background-color:#ABD6FF;
 }
 
-.dj_ie6 .lucid .dijitAccordionTitle-selected-hover{
+.dj_ie6 .lucid .dijitAccordionTitleSelectedHover{
 	background-image: none;
 }
 
-.lucid .dijitAccordionInnerContainer-hover .dijitAccordionTitle-selected{
+.lucid .dijitAccordionInnerContainerHover .dijitAccordionTitleSelected{
 	background-color:#ABD6FF;
 }
 
@@ -104,7 +104,7 @@
 	padding: 9px;
 }
 
-.lucid .dijitAccordionContainer .dijitAccordionInnerContainer-hover .dijitAccordionContainer-child{
+.lucid .dijitAccordionContainer .dijitAccordionInnerContainerHover .dijitAccordionContainer-child{
 	background-color:#ffffff;
 	border:1px solid #769DC0 !important;
 }

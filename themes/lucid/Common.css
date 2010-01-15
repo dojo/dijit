@@ -51,7 +51,7 @@
 	border:1px solid transparent;
 }
 
-.lucid  .dijitInlineEditBoxDisplayMode-hover{
+.lucid  .dijitInlineEditBoxDisplayModeHover{
 	background-color: #e2f1ff;
 	border: solid 1px #769dc0;
 	cursor: text;
