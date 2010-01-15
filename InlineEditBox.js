@@ -154,7 +154,7 @@ dojo.declare("dijit.InlineEditBox",
 		// tags:
 		//		private
 		if(!this.disabled){
-			dojo.addClass(this.displayNode, "dijitInlineEditBoxDisplayMode-hover");
+			dojo.addClass(this.displayNode, "dijitInlineEditBoxDisplayModeHover");
 		}
 	},
 
@@ -163,7 +163,7 @@ dojo.declare("dijit.InlineEditBox",
 		//		Handler for onmouseout and onblur event.
 		// tags:
 		//		private
-		dojo.removeClass(this.displayNode, "dijitInlineEditBoxDisplayMode-hover");
+		dojo.removeClass(this.displayNode, "dijitInlineEditBoxDisplayModeHover");
 	},
 
 	_onClick: function(/*Event*/ e){
