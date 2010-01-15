@@ -26,9 +26,7 @@
 		dojo.require("dijit.layout.AccordionContainer");
 		dojo.require("dijit.layout.ContentPane");
 
-		var accordion, pane4;
-
-		var x = 1, accordion;
+		var accordion;
 
 		dojo.addOnLoad(function(){
 			doh.register("basic",
@@ -56,19 +54,19 @@
 						name: "initially open pane",
 						runTest: function(t){
 							// Pane 2 is initially open
-							var openPanes = dojo.query("> .dijitVisible", accordion.containerNode);
+							var openPanes = dojo.query(".dijitAccordionInnerContainer > .dijitVisible", accordion.containerNode);
 							t.is(1, openPanes.length, "exactly one open pane");
 							t.is("pane 2", dijit.byNode(openPanes[0]).title, "pane 2 is initially open");
 
 							// And others are closed
-							var closedPanes = dojo.query("> .dijitHidden", accordion.containerNode);
+							var closedPanes = dojo.query(".dijitAccordionInnerContainer > .dijitHidden", accordion.containerNode);
 							t.is(2, closedPanes.length, "n-1 closed panes");
 						}
 					},
 					{
 						name: "addChild at end",
 						runTest: function(t){
-							pane4 = new dijit.layout.ContentPane({title: "pane 4", content: "this is pane 4"});
+							var pane4 = new dijit.layout.ContentPane({title: "pane 4", content: "this is pane 4"});
 							accordion.addChild(pane4);
 
 							var titles = dojo.query(".dijitAccordionText", accordion.domNode);
@@ -107,18 +105,21 @@
 							var children = accordion.getChildren();
 							t.is(4, children.length, "number of children (ie, contentpanes)");
 							t.is("pane 2", children[1].title, "second child is again 'pane 2'");
+							
+							// spec is that removing a child shouldn't delete it
+							t.t(dijit.byId("pane1half"), "child removed but still exists");
 						}
 					},
 					{
 						name: "initially open pane (checking again)",
 						runTest: function(t){
 							// Pane 2 is initially open
-							var openPanes = dojo.query("> .dijitVisible", accordion.containerNode);
+							var openPanes = dojo.query(".dijitAccordionInnerContainer > .dijitVisible", accordion.containerNode);
 							t.is(1, openPanes.length, "exactly one open pane");
 							t.is("pane 2", dijit.byNode(openPanes[0]).title, "pane 2 is initially open");
 
 							// And others are closed
-							var closedPanes = dojo.query("> .dijitHidden", accordion.containerNode);
+							var closedPanes = dojo.query(".dijitAccordionInnerContainer > .dijitHidden", accordion.containerNode);
 							t.is(3, closedPanes.length, "n-1 closed panes");
 						}
 					},
@@ -136,16 +137,23 @@
 							setTimeout(d.getTestCallback(
 								function(){
 									// Pane 3 is now open
-									var openPanes = dojo.query("> .dijitVisible", accordion.containerNode);
+									var openPanes = dojo.query(".dijitAccordionInnerContainer > .dijitVisible", accordion.containerNode);
 									t.is(1, openPanes.length, "exactly one open pane");
 									t.is("pane 3", dijit.byNode(openPanes[0]).title, "pane 3 is now open");
 
 									// And others are closed
-									var closedPanes = dojo.query("> .dijitHidden", accordion.containerNode);
+									var closedPanes = dojo.query(".dijitAccordionInnerContainer > .dijitHidden", accordion.containerNode);
 									t.is(3, closedPanes.length, "n-1 closed panes");
 								})
 							, 300);
 							return d;
+						}
+					},
+					{
+						name: "destroy recursive",
+						runTest: function(t){
+							accordion.destroyRecursive();
+							t.is(1, dijit.registry.toArray().length, "accordion and subwidgets destroyed, pane1half remains");
 						}
 					}
 				]
@@ -161,11 +169,5 @@
 
 	<h2>Programatically created:</h2>
 	<div id="accordionShell"></div>
-
-	<button onclick="accordion.selectChild(pane4);">select pane 4</button>
-	<button onclick="accordion.removeChild(dijit.byId('pane 3'));">remove pane 3</button>
-	<button onclick="accordion.addChild(new dijit.layout.ContentPane({title: 'New pane ' + x++, content: 'Hello world!'}), 2);">Add pane as third child</button>
-	<button onclick="accordion.addChild(new dijit.layout.ContentPane({title: 'New pane ' + x++, content: 'Hello world!'}));">Add pane at end</button>
-
 </body>
 </html>
