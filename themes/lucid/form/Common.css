@@ -1,0 +1,228 @@
+/* lucid/form/Common.css */
+
+/*========================= common css =========================*/
+.lucid .dijitValidationIcon {
+	display: none;	/* normal status, the validation will not occupy the width  */
+}
+
+/* we want to find a common class for all the widgets under lucid.form.
+ * here we use .dijitTextBox as the namespace 
+ * hope this namespace will not cause the render problems of other widgets 
+ * if so, expand 'dijitTextBox' to 'dijit(TextBox|DateTextBox|CurrencyTextBox|...)'
+ */
+.lucid .dijitTextBoxError .dijitValidationIcon,
+.lucid .dijitComboBoxError .dijitValidationIcon,
+.lucid .dijitSpinnerError .dijitValidationIcon {
+	display: block;
+	background: transparent url('images/error.png') repeat-y top center;
+	border-left: 1px solid #d46464;
+	width: 4px;
+	padding-left: 2px;
+	padding-right: 3px;
+	padding-top: 2px; /* $1 */
+	padding-bottom: 2px; /* $1 */
+}
+
+.lucid .dijitInputField,
+.lucid input.dijitTextBox,
+.lucid .dijitTextArea  {
+	padding-top: 2px;	/* $1 */
+	padding-bottom: 2px;	/* $1 .these are related, should be the same */
+	padding-left: 2px;
+	padding-right: 2px;
+}
+
+/* active status */
+.lucid .dijitTextBox,
+.lucid .dijitComboBox,
+.lucid .dijitTextArea {
+	border: 1px solid #bcc8dd;
+	background-color: #fff;
+	background-repeat: repeat-x;
+	background-position: top left;
+	background-image:url("images/textBox_back.png");
+}
+
+/* hover */
+.lucid .dijitTextBoxHover,
+.lucid .dijitComboBoxHover,
+.lucid .dijitTextAreaHover {
+	border: 1px solid #769dc0;
+	background-color: #eef7ff;
+	background-image: url('images/textBox_back_hover.png');
+}
+
+/* error status */
+.lucid .dijitTextBoxError,
+.lucid .dijitComboBoxError {
+	border: 1px solid #d46464;
+	background-color: #fdf7f7;
+	background-image: none;
+}
+.lucid .dijitComboBoxError .dijitInputField {
+	background-color: #fdf7f7;
+	background-image: none;
+}
+
+/* check status */
+.lucid .dijitTextBoxFocused,
+.lucid .dijitComboBoxFocused,
+.lucid .dijitTextAreaFocused {
+	background-color: #fff;
+	background-image: url('images/textBox_back_checked.png');
+}
+
+.lucid .dijitComboBoxFocused .dijitInputField {
+	background: #fff;
+}
+
+.lucid .dijitTextBoxErrorFocused,
+.lucid .dijitComboBoxErrorFocused {
+	border-color: #ce4f4f;
+}
+
+/* disable status */
+.lucid .dijitTextBoxDisabled,
+.lucid .dijitComboBoxDisabled,
+.lucid .dijitTextAreaDisabled {
+	border: 1px solid #d3d3d3;
+	background-color: #efefef;
+	background-image: none;
+	color: #818181;
+}
+
+/*========================= for special widgets =========================*/
+
+/*
+ * ComboBox, ComboBox will appear in the other widgets, to avoid they css override ComboBox's css
+ * we need to set the priority high
+ */
+
+.lucid div.dijitComboBox .dijitArrowButtonInner {
+	background:url("images/arrowdown.png") no-repeat scroll center center;
+	margin: 0 0 0 0;
+	padding: 1px 0 1px 0; /* $1 */
+	width:auto;
+	height:100%;
+	border: 1px solid #fff; /* $1 */
+	display:block;
+}
+/* override dijit.css '.dijitButtonNode *' */
+.lucid div.dijitComboBox .dijitButtonNode * {
+	vertical-align: top;
+}
+
+.lucid div.dijitComboBox .dijitButtonNode {
+	background: #f6f7fa url("images/menubutton_back.png") repeat-x left top;
+	border: none;
+	border-left: 1px solid #bcc8dd;
+	padding: 0px;
+	width: 1.7em;
+	
+	/* override Button.css */
+	border-radius: 0;
+	-moz-border-radius: 0;
+	-webkit-border-radius: 0;
+}
+
+/* hover status */
+.lucid .dijitComboBoxHover .dijitButtonNode {
+	border-left-color:#81a5c6;
+	background-color:#abd6ff;
+	background-image: url("images/white_grad.png");
+}	
+.lucid .dijitComboBoxHover .dijitArrowButtonInner {
+	background:url("images/arrowdown_active.png") no-repeat scroll center center;
+}
+/* error status */
+.lucid .dijitComboBoxError .dijitButtonNode {
+	border-left-color: #d46464;
+}	
+
+/* checked status */
+.lucid .dijitComboBoxFocused .dijitButtonNode {
+	border-left-color:#81a5c6;
+	background-color:#7dbefa;
+	background-image: url("images/white_grad_shadow.png");
+}	
+.lucid .dijitComboBoxFocused .dijitArrowButtonInner {
+	background:url("images/arrowdown_active.png") no-repeat scroll center center;
+	border:1px solid transparent;
+}
+
+/* disabled status */
+.lucid .dijitComboBoxDisabled .dijitArrowButtonInner {
+	background:#efefef url("images/arrowdown_disabled.png") no-repeat scroll center center !important;
+}
+
+/* add by maxwell for SimpleTextArea */
+
+/*
+ * SOME PROBLEMS:
+ *  1. in the BorderContainer.css, the css use !important rules. good idea?
+ *  .lucid .dijitSplitContainer-child, .lucid .dijitBorderContainer-child {
+		background-color:#FFFFFF !important;
+		border:1px solid #C0CCDF !important;
+	}
+ *  Here, I override the css, also need !important.
+ *  
+ *  2. the SimpleTextArea's class contains .dijitSplitContainer-child and dijitTextAreaHover at the same level.
+ *  So when we override the css rule, we need a more similar patten, or it will use the 
+ *  dijitSplitContainer-child's rule, here I use the tag textarea.XXX
+ */
+.lucid textarea.dijitTextAreaHover{
+	border: 1px solid #769dc0; /* !important; */
+	background-color: #eef7ff !important;
+	background-image: url('images/textBox_back_hover.png');
+}
+
+.lucid textarea.dijitTextAreaDisabled{
+	border: 1px solid #d3d3d3 !important;
+	background-color: #efefef !important;
+	background-image: none;
+	color: #818181;
+
+}
+
+.lucid textarea.dijitTextAreaFocused {
+	border: 1px solid #81a5c6; /* !important; */
+	background-image:url("images/textBox_back_checked.png");
+	background-color:#fff !important;
+	outline: none; /* for webkit */
+}
+
+.lucid textarea.dijitTextAreaReadOnly{
+	border: 1px solid #c1c1c1 !important;
+	background-color: #efefef !important;
+	background-image: none;
+	color: #000;
+}
+
+
+/* end by maxwell */
+
+
+
+/*========================= hacks for browsers =========================*/
+/* it seems the input[type="hidden"] has a height (16px) too... this may cause the widget's height calcuate error */
+.dj_ff3 .lucid .dijitInputField input[type="hidden"] {
+	display: none;
+	height: 0;
+	width: 0;
+}
+
+/* ie */
+.dj_ie .lucid .dijitInputField input {
+	margin: 0 0 0 0;	/* override dijit.css */
+}
+
+/* ie6 doesn't support transparent background img */
+.dj_ie6 .lucid .dijitTextBox,
+.dj_ie6 .lucid .dijitComboBox,
+.dj_ie6 .lucid .dijitComboBox .dijitButtonNode {
+	background-image: none;
+}
+.dj_ie6 .lucid .dijitComboBoxFocused .dijitArrowButtonInner {
+	border: none;	/* doesn't support transparent border */
+	margin: 1px; /* use margin 1px to fill the border's width */
+}

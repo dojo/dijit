@@ -1,0 +1,432 @@
+/**
+ * TabContainer
+ * namespace: .lucid .dijitTabContainer 
+ */
+
+/*** some common festure ***/
+.lucid .dijitTabContainer .dijitTabContainerTop-tabs .dijitTab .dijitTabContent,
+.lucid .dijitTabContainer .dijitTabContainerBottom-tabs .dijitTab .dijitTabContent{
+	min-width: 60px;
+	text-align: center;
+}
+
+.lucid .dijitTabContainer .dijitTab .closeImage {
+	background: url("images/tabClose.png") no-repeat right top;
+	width: 12px;
+	height: 12px;
+	margin-left: 5px;
+}
+.lucid .dijitTab .closeButton-hover .closeImage {
+	background: url("images/tabCloseHover.png") no-repeat right top;
+}
+
+
+.lucid .dijitTabContainer .dijitTab .closeButton {
+	margin-left: 0;
+}
+/* set the spacer invisiable */
+.lucid .dijitTabContainer .dijitTabSpacer  {
+	height: 0;
+	width: 0;
+	overflow: hidden;
+}
+
+/* 
+ * hover status. here div represent for dijitTabContainer(Top|Bottom|Left|Right)
+ * but under ie6, tag's priority seems lower than className.
+ */
+/* normal hover, low priority */
+.lucid .dijitTabContainer div .dijitTab.dijitTabHover .dijitTabInnerDiv, 
+.dj_ie6 .lucid .dijitTabContainer div .dijitTabHover .dijitTabInnerDiv {
+	background-color:#8dc7fe;
+}
+/* focused hover, medium priority */
+.lucid .dijitTabContainer div .dijitTab.dijitTabHover.dijitTabFocusedHover .dijitTabInnerDiv,
+.dj_ie6 .lucid .dijitTabContainer div .dijitTabFocusedHover .dijitTabInnerDiv{
+	background-color:#e1eefa;
+}
+/* checked hover, high priority */
+.lucid .dijitTabContainer div .dijitTab.dijitTabHover.dijitTabChecked .dijitTabInnerDiv,
+.lucid .dijitTabContainer div .dijitTab.dijitTabHover.dijitTabFocusedHover.dijitTabChecked .dijitTabInnerDiv,
+.dj_ie6 .lucid .dijitTabContainer div .dijitTabChecked .dijitTabInnerDiv {
+	background-color:#fff;
+}
+
+
+/*** end common ***/
+
+
+/**==================================================================**/
+
+/*************** top tab ***************/
+.lucid .dijitTabContainer .dijitTabContainerTop-container {
+	background:#fff;
+	border:1px solid #769dc0;
+	border-top: none;
+}
+.lucid .dijitTabContainer .dijitTabContainerTop-tabs {
+	border-bottom: 1px solid #769dc0;;
+}
+.lucid .dijitTabContainer .dijitTabContainerTop-tabs .dijitTab {
+	top: 1px;	/* used for overlap */
+	margin-right: 1px;
+}
+
+/* for top tab padding. change height when status changes . Note: the value of ${x} are correlative */
+.lucid .dijitTabContainer .dijitTabContainerTop-tabs .dijitTab .dijitTabContent{
+	padding-top: 4px;	/* $1 */
+	padding-right: 8px;
+	padding-bottom: 3px;	/* $2 */
+	padding-left: 4px;
+	border: 1px solid #769dc0;
+	border-bottom: 1px solid #769dc0; /* $2 */
+}
+.lucid .dijitTabContainer .dijitTabContainerTop-tabs .dijitTab {
+	padding-top: 3px;	/* $1 */
+}
+
+.lucid .dijitTabContainer .dijitTabContainerTop-tabs .dijitTab.dijitTabChecked .dijitTabContent{
+	padding-bottom: 4px;	/* $2 4(checked) == 3(normal) + 1(border-bottom) */
+	padding-top: 7px;	/* $1 7(checked) + 0(inner checked) == 4(normal) + 3(inner normal) */
+	border-bottom: none;
+}
+.lucid .dijitTabContainer .dijitTabContainerTop-tabs .dijitTab.dijitTabChecked {
+	padding-top: 0;		/* $1 */
+}
+
+/* normal status */
+.lucid .dijitTabContainer .dijitTabContainerTop-tabs .dijitTab .dijitTabInnerDiv {
+	background-image:url(images/tab_bottom.png);
+	background-position:bottom;
+	background-repeat:repeat-x;
+	background-color:#cde3f6;
+}
+.lucid .dijitTabContainer .dijitTabContainerTop-tabs .dijitTab .dijitTabInnerDiv .dijitTabContent {
+	background-image:url(images/tab_top_back.png);
+	background-position:center top;
+	background-repeat:repeat-x;
+}
+
+/* checked status */
+.lucid .dijitTabContainer .dijitTabContainerTop-tabs .dijitTab.dijitTabChecked .dijitTabInnerDiv { 
+	background-color:#fff;
+	background-image:none;
+}
+.lucid .dijitTabContainer .dijitTabContainerTop-tabs .dijitTab.dijitTabChecked .dijitTabInnerDiv .dijitTabContent{
+	background-image:url(images/focus.png);
+}
+
+/** end top tab **/
+
+
+/*************** bottom tab ***************/
+.lucid .dijitTabContainer .dijitTabContainerBottom-container {
+	background:#fff;
+	border:1px solid #769dc0;
+	border-bottom: none;
+}
+.lucid .dijitTabContainer .dijitTabContainerBottom-tabs {
+	border-top: 1px solid #769dc0;
+}
+.lucid .dijitTabContainer .dijitTabContainerBottom-tabs .dijitTab {
+	top: -1px;	/* used for overlap */
+	margin-right: 1px;
+}
+/* calucate the position and size */
+.lucid .dijitTabContainer .dijitTabContainerBottom-tabs .dijitTab .dijitTabContent{
+	padding-top: 3px;	/* $3 */
+	padding-right: 8px;
+	padding-bottom: 4px;	/* $4 */
+	padding-left: 4px;
+	border: 1px solid #769dc0;
+	border-top: 1px solid #769dc0; /* $3 */
+}
+.lucid .dijitTabContainer .dijitTabContainerBottom-tabs .dijitTab {
+	padding-bottom: 3px;	/* $4 */
+}
+
+.lucid .dijitTabContainer .dijitTabContainerBottom-tabs .dijitTab.dijitTabChecked .dijitTabContent{
+	padding-bottom: 7px;	/* $4 7(checked) + 0(inner checked) == 4(normal) + 3(inner normal) */
+	padding-top: 4px;	/* $3 4(checked) == 3(normal) + 1(border-top) */
+	border-top: none;
+}
+.lucid .dijitTabContainer .dijitTabContainerBottom-tabs .dijitTab.dijitTabChecked {
+	padding-bottom: 0;		/* $4 */
+}
+
+
+/* normal status */
+.lucid .dijitTabContainer .dijitTabContainerBottom-tabs .dijitTab .dijitTabInnerDiv {
+	background-image: url(images/tab_bottom_top.png);
+	background-position: top;
+	background-repeat: repeat-x;
+	background-color: #cde3f6;
+}
+.lucid .dijitTabContainer .dijitTabContainerBottom-tabs .dijitTab .dijitTabInnerDiv .dijitTabContent {
+	background-image: url(images/tab_top_back_bottom.png);
+	background-position: center bottom;
+	background-repeat: repeat-x;
+}
+
+/* checked status */
+.lucid .dijitTabContainer .dijitTabContainerBottom-tabs .dijitTab.dijitTabChecked .dijitTabInnerDiv{
+	background-color:#fff;
+	background-image:none;
+}
+
+/** end bottom tab **/
+
+/**==================================================================**/
+
+/*************** left tab ***************/
+.lucid .dijitTabContainer .dijitTabContainerLeft-container {
+	background:#fff;
+	border:1px solid #769dc0;
+	border-left: none;
+}
+
+.lucid .dijitTabContainer .dijitTabContainerLeft-tabs {
+	border-right: 1px solid #769dc0;
+}
+.lucid .dijitTabContainer .dijitTabContainerLeft-tabs .dijitTab {
+	left: 1px;	/* used for overlap */
+	margin-bottom: 1px;
+}
+
+/* normal status */
+.lucid .dijitTabContainer .dijitTabContainerLeft-tabs .dijitTab .dijitTabInnerDiv {
+	background-image: url(images/tab_back_lucid_left.png);
+	background-position: center bottom;
+	background-repeat: repeat-x;
+	background-color: #cde3f6;
+}
+.lucid .dijitTabContainer .dijitTabContainerLeft-tabs .dijitTab .dijitTabInnerDiv .dijitTabContent {
+	padding-top: 3px;
+	padding-right: 8px;	/* $5 */
+	padding-bottom: 4px;
+	padding-left: 4px;
+	border: 1px solid #769dc0;
+	border-right: 1px solid #769dc0;	/* $5 */
+
+	background-image: url(images/tab_top_back.png);
+	background-position: center bottom;
+	background-repeat: repeat-x;
+}
+
+/* checked status */
+.lucid .dijitTabContainer .dijitTabContainerLeft-tabs .dijitTab.dijitTabChecked .dijitTabInnerDiv .dijitTabContent {
+	padding-right: 9px;	/* $5 9 + 0 == 8 + 1 */
+	border-right: none;	/* $5 */
+	
+	background-image: none;
+}
+.lucid .dijitTabContainer .dijitTabContainerLeft-tabs .dijitTab.dijitTabChecked .dijitTabInnerDiv{
+	background-color:#fff;
+	background-image: url(images/focus.png);
+}
+
+/** end left tab **/
+
+/*************** right tab ***************/
+.lucid .dijitTabContainer .dijitTabContainerRight-container {
+	background:#fff;
+	border:1px solid #769dc0;
+	border-right: none;
+}
+
+.lucid .dijitTabContainer .dijitTabContainerRight-tabs {
+	border-left: 1px solid #769dc0;
+}
+.lucid .dijitTabContainer .dijitTabContainerRight-tabs .dijitTab {
+	left: -1px;	/* used for overlap */
+	margin-bottom: 1px;
+}
+
+/* normal status */
+.lucid .dijitTabContainer .dijitTabContainerRight-tabs .dijitTab .dijitTabInnerDiv {
+	background-image: url(images/tab_back_lucid_left.png);
+	background-position: center bottom;
+	background-repeat: repeat-x;
+	background-color: #cde3f6;
+}
+.lucid .dijitTabContainer .dijitTabContainerRight-tabs .dijitTab .dijitTabInnerDiv .dijitTabContent {
+	padding-top: 3px;
+	padding-right: 8px;	
+	padding-bottom: 4px;
+	padding-left: 4px;	/* $6 */
+	border: 1px solid #769dc0;
+	border-left: 1px solid #769dc0;	/* $6 */
+
+	background-image: url(images/tab_top_back.png);
+	background-position: center bottom;
+	background-repeat: repeat-x;
+}
+
+/* checked status */
+.lucid .dijitTabContainer .dijitTabContainerRight-tabs .dijitTab.dijitTabChecked .dijitTabInnerDiv .dijitTabContent {
+	padding-left: 5px;	/* $6 5 + 0 == 4 + 1 */
+	border-left: none;	/* $6 */
+	
+	background-image: none;
+}
+.lucid .dijitTabContainer .dijitTabContainerRight-tabs .dijitTab.dijitTabChecked .dijitTabInnerDiv{
+	background-color:#fff;
+	background-image: url(images/focus.png);
+}
+
+/** end right tab **/
+
+/**==================================================================**/
+
+/**** hacks for browsers */
+
+/** for ie7. try to fix this special problems? **/
+.dj_ie7 .lucid .dijitTabContainer .dijitTabContainerTop-tabs .dijitTab {
+	top: 2px;	/* 1px under other browsers */
+}
+.dj_ie7 .lucid .dijitTabContainer .dijitTabContainerTop-tabs .dijitTab.dijitTabChecked {
+	top: 1px;	/* 1px under other browsers */
+}
+.dj_ie7 .lucid .dijitTabContainer .dijitTabContainerBottom-tabs .dijitTab.dijitTabChecked {
+	top: -2px;	/* -1px under other browsers */
+}
+
+/** for ie6 **/
+
+.dj_ie6 .lucid .dijitTabContainer .dijitLayoutContainer,
+.dj_ie6 .lucid .dijitTabContainer .dijitTabListWrapper,
+.dj_ie6 .lucid .dijitTabContainer .dijitTabContainerTabListNested  {
+	overflow-x: hidden;	/* otherwish the widget will be very very long under ie6 */
+}
+.dj_ie6 .lucid .dijitTabContainer .dijitTab .dijitTabInnerDiv, 
+.dj_ie6 .lucid .dijitTabContainer .dijitTab .dijitTabInnerDiv .dijitTabContent{
+	background-image: none;	/* ie6 doesn't support transparent background */
+}
+
+.dj_ie6 .lucid .dijitTabContainer .dijitTabContainerLeft-tabs, 
+.dj_ie6 .lucid .dijitTabContainer .dijitTabContainerRight-tabs {
+	top: -1px !important;	/* weird, why left & right tab has 1px spacing on the top under ie6??? */
+}
+
+
+/** round corner **/
+.lucid .dijitTabContainer .dijitTabContainerTop-tabs .dijitTab .dijitTabInnerDiv,
+.lucid .dijitTabContainer .dijitTabContainerTop-tabs .dijitTab .dijitTabContent{
+	border-radius: 4px 4px 0px 0px;
+	-moz-border-radius: 4px 4px 0px 0px;
+	-webkit-border-top-left-radius:4px;
+    -webkit-border-top-right-radius:4px;
+}
+
+.lucid .dijitTabContainer .dijitTabContainerBottom-tabs .dijitTab .dijitTabInnerDiv,
+.lucid .dijitTabContainer .dijitTabContainerBottom-tabs .dijitTab .dijitTabContent{
+	border-radius: 0px 0px 4px 4px;
+	-moz-border-radius: 0px 0px 4px 4px;
+    -webkit-border-bottom-right-radius:4px;
+    -webkit-border-bottom-left-radius:4px;
+}
+
+.lucid .dijitTabContainer .dijitTabContainerLeft-tabs .dijitTab .dijitTabInnerDiv,
+.lucid .dijitTabContainer .dijitTabContainerLeft-tabs .dijitTab .dijitTabContent{
+	border-radius: 4px 0px 0px 4px;
+	-moz-border-radius: 4px 0px 0px 4px;
+	-webkit-border-top-left-radius:4px;
+    -webkit-border-bottom-left-radius:4px;
+}
+
+.lucid .dijitTabContainer .dijitTabContainerRight-tabs .dijitTab .dijitTabInnerDiv,
+.lucid .dijitTabContainer .dijitTabContainerRight-tabs .dijitTab .dijitTabContent{
+	border-radius: 0px 4px 4px 0px;
+	-moz-border-radius: 0px 4px 4px 0px;
+    -webkit-border-top-right-radius:4px;
+    -webkit-border-bottom-right-radius:4px;
+}
+
+
+/************ for tabStripButton ************/
+
+.lucid .dijitTabContainer .dijitTabListContainer-top .tabStripButton {
+	border: 1px solid #769dc0;
+	padding: 8px 3px;
+	background: #CDE3F6 url(images/tab_top_back.png) no-repeat top center;
+}
+
+.lucid .dijitTabContainer .dijitTabListContainer-bottom .tabStripButton {
+	border: 1px solid #769dc0;
+	padding: 7px 3px;
+	background: #CDE3F6 url(images/tab_top_back_bottom.png) no-repeat bottom center;
+}
+
+.lucid .dijitTabContainer .dijitTabListContainer-top .tabStripButton.dijitTab.dijitTabHover,
+.lucid .dijitTabContainer .dijitTabListContainer-bottom .tabStripButton.dijitTab.dijitTabHover {
+	background-color:#e1eefa;
+}
+.lucid .dijitTabContainer div.tabStripButton.dijitTabHover .dijitTabInnerDiv,
+.lucid .dijitTabContainer div.tabStripButton.dijitTabHover.dijitTabFocusedHover .dijitTabInnerDiv {
+	background-color: transparent;
+}
+
+.lucid .dijitTabContainer .tabStripMenuButton .dijitTabInnerDiv .dijitTabContent img,
+.lucid .dijitTabContainer .tabStripSlideButtonLeft .dijitTabInnerDiv .dijitTabContent img,
+.lucid .dijitTabContainer .tabStripSlideButtonRight .dijitTabInnerDiv .dijitTabContent img{ 
+	background-image: url("images/tabStripSlideButtonLeft.png");
+	background-position: center center;
+	background-repeat: no-repeat;
+	width: 15px;
+	height: 15px;
+}
+.lucid .dijitTabContainer .tabStripSlideButtonRight .dijitTabInnerDiv .dijitTabContent img{
+	background-image: url("images/tabStripSlideButtonRight.png");
+}
+.lucid .dijitTabContainer .tabStripMenuButton .dijitTabInnerDiv .dijitTabContent img {
+	background-image: url("images/tabStripMenuButton.png");
+}
+
+
+/** hacks for browsers **/
+.dj_ie6 .lucid .dijitTabContainer .dijitTabListContainer-top .tabStripButton,
+.dj_ie6 .lucid .dijitTabContainer .dijitTabListContainer-bottom .tabStripButton {
+	width: 15px;
+}
+
+.dj_ie6 .dijitTabContainer .dijitTabListContainer-top .tabStripButton,
+.dj_ie6 .dijitTabContainer .dijitTabListContainer-bottom .tabStripButton{
+	background-image: none;
+}
+.dj_ie6 .lucid .dijitTabContainer div .tabStripButton .dijitTabInnerDiv, 
+.dj_ie6 .lucid .dijitTabContainer .dijitTabListWrapper .dijitTabHover {
+	background-color: transparent;
+}
+/* icon position fix.... */
+.dj_ie7 .lucid .dijitTabContainer .dijitTabListContainer-top .tabStripButton {
+	padding-top: 9px;
+}
+.dj_ie7 .lucid .dijitTabContainer .dijitTabListContainer-bottom .tabStripButton {
+	padding-top: 8px;
+}
+
+.dj_ie8 .lucid .dijitTabContainer .dijitTabListContainer-top .tabStripButton {
+	padding-top: 7px;
+}
+.dj_ie8 .lucid .dijitTabContainer .dijitTabListContainer-bottom .tabStripButton {
+	padding-top: 6px;
+}
+
+.dj_webkit .lucid .dijitTabContainer .dijitTabListContainer-top .tabStripButton {
+	padding-top: 6px;
+}
+.dj_webkit .lucid .dijitTabContainer .dijitTabListContainer-bottom .tabStripButton {
+	padding-top: 5px;	
+}
+
+.lucid .dijitTabContainer .dijitTabListContainer-top  .tabStripButton {
+	-moz-border-radius: 4px 4px 0px 0px;
+	-webkit-border-top-left-radius:4px;
+    -webkit-border-top-right-radius:4px;
+}
+.lucid .dijitTabContainer .dijitTabListContainer-bottom  .tabStripButton {
+	-moz-border-radius: 0px 0px 4px 4px;
+    -webkit-border-bottom-right-radius:4px;
+    -webkit-border-bottom-left-radius:4px;
+}
+

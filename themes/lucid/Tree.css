@@ -1,0 +1,218 @@
+
+/* Tree */
+
+.lucid .dijitTreeNode {
+    background-image : url('images/i.gif');
+    background-repeat : repeat-y;
+    zoom: 1;	/* force layout on IE (TODO: may not be needed anymore) */
+	font-family:Verdana, Arial, Helvetica, sans-serif; /* remove for final code as font styling should be picked up from the parent */
+	font-weight:normal;/* remove for final code as font styling should be picked up from the parent */
+	font-size:11px;/* remove for final code as font styling should be picked up from the parent */
+	border-top:solid 1px transparent;
+	border-bottom:solid 1px transparent;
+}
+.dj_ie6 .lucid .dijitTreeNode {
+    border-top:none;
+	border-bottom:none;
+}
+
+.dijit_a11y .dijitTreeNode {
+    border-top:none;
+	border-bottom:none;
+}
+
+/* left vertical line (grid) for all nodes */
+.lucid .dijitTreeIsLast {
+    background: url('images/i_half.gif') no-repeat;
+}
+
+.lucid .dijitTreeIsRoot {
+    background-image: none;
+	/*border:solid 1px pink;*/
+}
+
+.lucid .dijitTreeExpando {
+    width: 18px;
+    height: 17px;
+}
+
+.lucid .dijitTreeRow {
+	/* so insert line shows up on IE when dropping after a target element */
+	padding-bottom: 1px;
+	padding-top:3px;
+}
+
+.dj_ie7 .lucid .dijitTreeRow{
+	border-top:solid 1px transparent;
+	border-bottom:solid 1px transparent;
+}
+.dj_ie6 .lucid .dijitTreeRow {
+	margin-top:1px;
+	margin-bottom:1px;
+}
+.dijit_a11y .dijitTreeRow{
+	border-top:none !important;
+	border-bottom:none !important;	
+}
+
+.lucid .dijitTreeContent {
+    min-height: 18px;
+    min-width: 18px;
+}
+
+.lucid .dijitTreeExpand {
+    width: 18px;
+    height: 17px;
+    background-repeat : no-repeat;
+	border:solid 1px blue;
+}
+
+/* same style as IE selection */
+.lucid .dijitTreeNodeEmphasized {
+    background-color: Highlight;
+    color: HighlightText;
+}
+
+/* don't use :focus due to opera and IE's lack of support on div's */
+.lucid .dijitTreeLabelFocused {
+	outline: 1px invert dotted;
+}
+.lucid .dijitTreeLabel {
+	padding-left:1px !important;
+	margin-bottom:-1px;
+
+}
+.lucid .dijitTreeNodeSelected{
+	/*background-image: url(images/white_grad.png);*/
+	background-repeat:repeat-x;
+	background-color:#e3f2ff;
+}
+.lucid .dijitTreeNodeSelected .dijitTreeLabel {
+	
+}
+.lucid .dijitTreeNode .dijitTreeNodeHover {
+	/*background-color: #f6f9fa !important;*/
+	/* using a transparent png so that we can still see grid lines, which are (unfortunately) behind the dijitRowNode that we are hovering over */
+	background-image: url(images/white_grad.png);
+	background-repeat:repeat-x;
+	background-color:#abd6ff;
+	border-top:solid 1px #769dc0;
+	border-bottom:solid 1px #769dc0;
+	margin-top:-1px;
+	margin-bottom:-1px;
+}
+.dj_ie6 .lucid .dijitTreeNode .dijitTreeNodeHover {
+	background-image: none;
+}
+.dj_ie6 .lucid .dijitTreeNode .dijitTreeNodeHover,
+.dj_ie7 .lucid .dijitTreeNode .dijitTreeNodeHover {
+	margin-top:0px;
+	margin-bottom:0px;
+}
+.dijit_a11y .dijitTreeNode .dijitTreeNodeHover {
+	border-top:none;
+	border-bottom:none;
+	margin-top:0px;
+	margin-bottom:0px;	
+}
+
+.dj_ie6 .dijit_a11y .dijitTreeNode .dijitTreeNodeHover {
+	margin-top:1px !important;
+	margin-bottom:1px !important;	
+}
+
+/* Proper class needs tp be created */
+.lucid .dijitTreeNode .dijitTreeNodeActive {
+	background-repeat: repeat;
+	background-color:#7dbefa;
+	background-image: url(images/white_grad_shadow.png);
+	background-repeat:repeat-x;
+}
+.dj_ie6 .lucid .dijitTreeNode .dijitTreeNodeActive {
+	background-image: none;
+}
+.lucid .dijitTreeNode .dijitTreeNodeFocused{
+	/*background-color: #f6f9fa !important;*/
+	/* using a transparent png so that we can still see grid lines, which are (unfortunately) behind the dijitRowNode that we are hovering over */
+	background-repeat: repeat;
+	background-color:#e3f2ff;
+	border-color:#bfd6eb;
+}
+
+.lucid .dijitTreeNodeHover .dijitTreeExpandoOpened {
+	background-image: url('images/treeExpand_minus_hover.png');
+	width:16px;
+}
+
+.lucid .dijitTreeExpandoOpened {
+	background-image: url('images/treeExpand_minus.png');
+	width:16px;
+}
+
+.dj_ie6 .lucid .dijitTreeNodeHover .dijitTreeExpandoOpened,
+.dj_ie6 .lucid .dijitTreeExpandoOpened {
+	background-image: url('images/treeExpand_minus.gif');
+}
+
+.lucid .dijitTreeNodeHover .dijitTreeExpandoClosed {
+	background-image: url('images/treeExpand_plus_hover.png');
+	width:16px;
+}
+
+.lucid .dijitTreeExpandoClosed {
+	background-image: url('images/treeExpand_plus.png');
+	width:16px;
+}
+
+.dj_ie6 .lucid .dijitTreeNodeHover .dijitTreeExpandoClosed,
+.dj_ie6 .lucid .dijitTreeExpandoClosed {
+	background-image: url('images/treeExpand_plus.gif');
+}
+
+.lucid .dijitTreeExpandoLeaf {
+	background-image: url('images/treeExpand_leaf.gif');
+	width:16px;
+}
+
+.lucid .dijitTreeExpandoLoading {
+	background-image: url('images/treeExpand_loading.gif');
+	width:16px;
+}
+
+.lucid .dijitTreeIcon {
+	width: 16px;
+	height: 16px;
+}
+
+.lucid .dijitFolderOpened {
+	background: url('images/folderOpened.gif') no-repeat;
+}
+
+.lucid .dijitFolderClosed {
+	background: url('images/folderClosed.gif') no-repeat;
+}
+
+.lucid .dijitLeaf {
+	background: url('images/leaf.gif') no-repeat;
+}
+
+/* Drag and Drop on TreeNodes
+ * Put insert line on dijitTreeContent node so it's aligned w/
+ * (ie, indented equally with) target element, even
+ * though dijitTreeRowNode is the actual "drag object"
+ */
+.lucid .dijitTreeNode .dojoDndItemBefore,
+.lucid .dijitTreeNode .dojoDndItemAfter {
+	border-bottom: none;
+	border-top: none;
+}
+
+.lucid .dijitTreeNode .dojoDndItemBefore .dijitTreeContent {
+	/* copied from Common.css */
+	border-top: 2px solid #369;
+}
+
+.lucid .dijitTreeNode .dojoDndItemAfter .dijitTreeContent {
+	/* copied from Common.css */
+	border-bottom: 2px solid #369;
+}

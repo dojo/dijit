@@ -1,0 +1,34 @@
+@import url("../dijit.css");
+@import url("Common.css");
+@import url("form/Common.css");
+@import url("form/Button.css");
+@import url("form/Checkbox.css");/*not finished yet, just added for Grid use*/
+@import url("form/RadioButton.css");/*not finished yet, just added for Grid use*/
+@import url("layout/TabContainer.css");
+@import url("Dialog.css");
+@import url("layout/AccordionContainer.css");
+@import url("layout/ContentPane.css");
+@import url("Calendar.css");
+@import url("Menu.css");
+@import url("form/Slider.css");
+@import url("ColorPalette.css");
+@import url("ProgressBar.css");
+@import url("TimePicker.css");
+@import url("layout/BorderContainer.css");
+@import url("Tree.css"); 
+@import url("Toolbar.css");
+@import url("Editor.css"); /*in order to test button or menu item with icon */
+@import url("TitlePane.css");
+@import url("form/NumberSpinner.css");
+@import url("Editor.css"); /*in order to test button or menu item with icon */
+
+/* RTL files */
+@import url("../dijit_rtl.css");
+@import url("form/Button_rtl.css");
+@import url("layout/TabContainer_rtl.css");
+@import url("form/Slider_rtl.css");
+@import url("Dialog_rtl.css");
+@import url("Tree_rtl.css");
+@import url("Editor_rtl.css");
+@import url("TitlePane_rtl.css");
+@import url("Menu_rtl.css");

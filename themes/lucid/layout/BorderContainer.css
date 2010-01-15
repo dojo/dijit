@@ -1,0 +1,119 @@
+/* BorderContainer */
+
+.lucid .dijitBorderContainer {
+	background-color: #f5f5f5;
+	border: 1px #c0ccdf solid !important;
+	 padding: 5px !important;
+}
+
+.lucid .dijitSplitContainer-child,
+.lucid .dijitBorderContainer-child {
+	/* By default put borders on all children of BorderContainer,
+	 *  to give illusion of borders on the splitters themselves.
+	 */
+	border: 1px #c0ccdf solid !important;
+	background-color:#fff !important;
+	
+}
+
+.lucid .dijitBorderContainer-dijitTabContainerTop,
+.lucid .dijitBorderContainer-dijitTabContainerBottom,
+.lucid .dijitBorderContainer-dijitTabContainerLeft,
+.lucid .dijitBorderContainer-dijitTabContainerRight {
+	/* except that TabContainer defines borders on it's sub-nodes (tablist and dijitTabPaneWrapper),
+	 * so override rule setting border on domNode
+	 */
+	 border: none;
+
+}
+
+.lucid .dijitBorderContainer-dijitBorderContainer {
+	/* also, make nested BorderContainers look like a single big widget with lots of splitters */
+	border: 1px #c0ccdf solid;
+	padding: 5px;
+}
+
+.lucid .dijitSplitterH,
+.lucid .dijitGutterH {
+	background:#f5f5f5;
+	border:0;
+	height:5px;
+	
+}
+
+.lucid .dijitSplitterH .dijitSplitterThumb {
+	background:#c0ccdf none;
+	height:1px;
+	top:2px;
+	width:19px;
+}
+
+.lucid .dijitSplitterV,
+.lucid .dijitGutterV {
+	background:#f5f5f5;
+	border:0;
+	width:5px;
+}
+
+
+.lucid .dijitSplitterV .dijitSplitterThumb {
+	background:#c0ccdf none;
+	height:19px;
+	left:2px;
+	width:1px;
+}
+.lucid .dijitSplitterVHover .dijitSplitterThumb {
+	background:#9db7d1 none;
+	border-left:solid 1px #9db7d1;
+}
+
+.lucid .dijitSplitterHHover .dijitSplitterThumb {
+	background:#9db7d1 none;
+	border-bottom:solid 1px #9db7d1;
+}
+
+.lucid .dijitSplitterHHover {
+	font-size: 1px;
+	background-color: #abd6ff;
+	-moz-opacity: 1;
+	opacity: 1;
+	filter: Alpha(Opacity=100);
+	margin: 0;
+	background-image:url(images/splitterH.png);
+	background-repeat:repeat-x;
+	border:solid 1px #c0ccdf;
+}
+
+.lucid .dijitSplitterVHover {
+	font-size: 1px;
+	background-color: #abd6ff;
+	-moz-opacity: 1;
+	opacity: 1;
+	filter: Alpha(Opacity=1);
+	margin: 0;
+	background-image:url(images/splitterV.png);
+	background-repeat:repeat-y;
+	border:solid 1px #c0ccdf;
+}
+
+
+/* active splitter */
+x.lucid .dijitSplitterHActive {
+	font-size: 1px;
+	background-image: none;
+	background-color: red;
+	-moz-opacity: 0.6;
+	opacity: 0.6;
+	filter: Alpha(Opacity=60);
+	margin: 0;
+}
+
+x.lucid .dijitSplitterVActive {
+	font-size: 1px;
+	background-image: none;
+	background-color: red;
+	-moz-opacity: 0.6;
+	opacity: 0.6;
+	filter: Alpha(Opacity=60);
+	margin: 0;
+}

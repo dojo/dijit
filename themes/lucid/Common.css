@@ -1,0 +1,96 @@
+.lucid .dijitShadow{
+	background-image:url(images/shadow.png);
+	background-position:center bottom;
+	background-repeat:repeat-x;
+	float:left;
+	padding:0px 1px 2px 1px;
+	-moz-border-radius: 3px;
+}
+
+.lucid .dijitDisabled{
+	color: #9B9B9B !important;
+}
+
+
+.lucid .dijitClear{
+	clear:both;
+	float:none !important;
+}
+
+.lucid /*, .lucid input, .lucid textarea */{
+	font-family: Verdana,Arial,Helvetica,sans-serif;
+}
+
+/* inline edit boxen */
+.lucid .dijitInlineValue {
+	/* span around an inline-editable value when NOT in edit mode */
+	padding:3px;
+	margin:4px;
+}
+
+/* InlineEditBox */
+.lucid .dijitInlineValue {
+	/* span around an inline-editable value when NOT in edit mode */
+	padding:3px;
+	margin:4px;
+}
+
+.lucid .dijitInlineEditor {
+	/* fieldset surrounding an inlineEditor in edit mode */
+	display: inline-block;
+	/*display:inline;*/
+}
+
+.lucid .dijitInlineEditor .saveButton,
+.lucid .dijitInlineEditor .cancelButton {
+	margin:3px 3px 3px 0px;
+}
+
+
+.lucid  .dijitInlineEditBoxDisplayMode{
+	border:1px solid transparent;
+}
+
+.lucid  .dijitInlineEditBoxDisplayMode-hover{
+	background-color: #e2f1ff;
+	border: solid 1px #769dc0;
+	cursor: text;
+}
+
+.dj_ie6 .lucid  .dijitInlineEditBoxDisplayMode{
+	border: none;
+}
+
+
+.lucid .dijitInlineEditor {
+	/* fieldset surrounding an inlineEditor in edit mode */
+	display: inline-block;
+	#display:inline;
+}
+
+.dijitInlineEditor .saveButton,
+.dijitInlineEditor .cancelButton {
+	margin:3px 3px 3px 0px;
+}
+
+.lucid .RichTextEditable {
+	border:1px solid #bfbfbf;
+	border-top:0;
+}
+
+/*
+ * IE6: can't display PNG images with gradient transparency.
+ * Want to use filter property for those images, but then need to specify a path relative
+ * to the main page, rather than relative to this file... using gifs for now
+ */
+
+/* The highlight is shown in the ComboBox menu. */
+.lucid .dijitComboBoxHighlightMatch {
+	background-color:#a5beda;
+}
+
+
+.lucid .dijitFocusedLabel {
+	/* for checkboxes or radio buttons, hatch border around the corresponding label, to indicate focus */
+	outline: 1px dotted #666666;
+}

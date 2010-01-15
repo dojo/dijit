@@ -1,0 +1,188 @@
+* html .lucid .dijitTab .tabLabel {
+	display: inline-block;
+}
+
+.dijitRtl .lucid .dijitTabContainer .dijitTab .dijitTabInnerDiv .dijitTabContent {
+	padding-left: 15px;
+	padding-right: 10px;
+}
+.dj_ie6-rtl .lucid .dijitTabContainer .dijitTab .dijitTabInnerDiv .dijitTabContent {
+	padding-left: 16px;
+}
+
+.dijitRtl .lucid .dijitTabPaneWrapper {
+	#zoom: 1;
+}
+
+.dijitRtl .lucid .dijitTabContainer .dijitTabListWrapper{
+	right: -1px !important;
+}
+.dj_ie6-rtl .lucid .dijitTabContainer .dijitTabListWrapper{
+	right: -2px !important;
+}
+
+.dj_ie6-rtl .lucid .dijitTabContainer .dijitTab {
+	background-color:#cde3f6;
+	border-style:solid;
+	border-width:1px;
+	border-color: #799ab7 #799ab7 #799ab7 #799ab7;
+}
+
+
+.dj_ie6-rtl .lucid .dijitTab .dijitTabInnerDiv {
+	/* without this the tab label and icon become invisible, as though they were set to visibility:hidden */
+	width : 0.1% !important;
+	border:none !important;
+	background-image: none;
+	top: -1px;
+	left:-1px;
+}
+
+.dj_ie6-rtl .lucid .dijitTab .closeButton ,
+.dj_ie7-rtl .lucid .dijitTab .closeButton {
+	margin-right: 4px;
+}
+
+
+
+
+
+
+.dj_ie6-rtl .lucid .dijitTabContainer .dijitTabHover{
+	background-color:#8dc7fe;
+}
+
+
+.dj_ie6-rtl .lucid .dijitTabContainer .dijitTabChecked{
+	background-color:#fff;
+}
+
+.dj_ie6-rtl .lucid .dijitTabContainer .dijitTabChecked .dijitTabInnerDiv{
+	background-color:#fff;
+	background-image:none;
+}
+.dj_ie6-rtl .lucid .dijitTabContainer .dijitTabChecked .dijitTabInnerDiv .dijitTabContent{
+	background:none;
+}
+
+
+
+.dj_ie6-rtl .lucid .dijitTabContainer .dijitTabContainerTop-tabs{
+	bottom: -7px;
+}
+.dj_ie6-rtl .lucid .dijitTabContainer .dijitTabContainerTop-tabs .dijitTab{
+	top: -1px;
+	border-bottom: none;
+}
+
+.dj_ie6-rtl .lucid .dijitTabContainer .dijitTabContainerTop-tabs .dijitTabChecked {
+	top: -2px;
+	border-top:solid 1px #b3b3b3;
+	border-left:solid 1px #b3b3b3;
+	border-right:solid 1px #b3b3b3;
+}
+
+
+.dj_ie6-rtl .lucid .dijitTabContainer .dijitTabContainerBottom-tabs .dijitTab {
+	border-top: none;
+}
+
+.dj_ie6-rtl .lucid .dijitTabContainer .dijitTabContainerBottom-tabs .dijitTabChecked {
+	border-bottom:solid 1px #b3b3b3;
+	border-top:none !important;
+	border-left:solid 1px #b3b3b3;
+	border-right:solid 1px #b3b3b3;
+	background-image:none !important;
+	
+}
+
+
+.dj_ie6 .lucid .dijitTabContainer .dijitTabContainerLeft-tabs .dijitTab {
+	border-left: 1px solid #fff;
+	border-top: 1px solid #fff;
+}
+
+.dj_ie6-rtl .lucid .dijitTabContainer .dijitTabContainerLeft-tabs .dijitTab {
+	border-left: 1px solid #799ab7;
+	border-top: 1px solid #799ab7;
+}
+
+.dj_ie6-rtl .lucid .dijitTabContainer .dijitTabContainerLeft-tabs .dijitTab {
+	border-right: none;
+}
+
+
+
+.dj_ie7-rtl .lucid .dijitTabContainer .dijitTabContainerLeft-tabs .dijitTab{
+	border-bottom:2px solid #b3b3b3;
+}
+
+
+
+.dj_ie6 .lucid .dijitTabContainer .dijitTabContainerRight-tabs .dijitTab {
+	border-right: 1px solid #fff;
+	border-top: 1px solid #fff;
+}
+
+
+.dj_ie6-rtl .lucid .dijitTabContainer .dijitTabContainerRight-tabs .dijitTab {
+	border-right: 1px solid #799ab7;
+	border-top: 1px solid #799ab7;
+}
+
+.dj_ie6-rtl .lucid .dijitTabContainer .dijitTabContainerRight-tabs .dijitTab {
+	border-left: none;
+}
+
+.dj_ie7-rtl .lucid .dijitTabContainer .dijitTabContainerRight-tabs .dijitTab{
+	border-bottom:2px solid #b3b3b3;
+}
+.dj_ie6-rtl .lucid .dijitTabContainer .dijitTabContainerLeft-tabs .dijitTab .dijitTabInnerDiv {
+	border-bottom:none;
+}
+
+.dj_ie6-rtl .lucid .dijitTabContainer .dijitTabContainerLeft-tabs .dijitTab {
+	border-bottom:solid 1px #799ab7;
+}
+
+.dj_ie6-rtl .lucid .dijitTabContainer .dijitTabContainerRight-tabs .dijitTab .dijitTabInnerDiv {
+	border-bottom:none;
+}
+
+.dj_ie6-rtl .lucid .dijitTabContainer .dijitTabContainerRight-tabs .dijitTab {
+	border-bottom:solid 1px #799ab7;
+}
+
+.dj_ie6-rtl .lucid .dijitTabContainer .dijitTabContainerLeft-tabs .dijitTabChecked{
+	border-left:1px solid #b3b3b3;
+	border-right:none;
+	border-top:2px solid #b3b3b3;
+	border-bottom:1px solid #b3b3b3;
+	background-image:none !important;
+}
+
+.dj_ie6-rtl .lucid .dijitTabContainer .dijitTabContainerRight-tabs .dijitTabChecked{
+	border-right:1px solid #b3b3b3;
+	border-left:1px solid white;
+	border-top:2px solid #b3b3b3;
+	border-bottom:1px solid #b3b3b3;
+	background-image:none !important;
+}
+
+
+.dj_ie6-rtl .lucid .dijitTabContainer .dijitTabContainerTop-tabs .dijitTab {
+	top: 0px;
+}
+.dj_ie6-rtl .lucid .dijitTabContainer .dijitTabContainerTop-tabs .dijitTabChecked {
+	top: -2px;
+}
+
+.dj_ie6-rtl .lucid .dijitTabContainer .dijitTabContainerBottom-tabs .dijitTab {
+	top: 0px;
+}
+.dj_ie6-rtl .lucid .dijitTabContainer .dijitTabContainerBottom-tabs .dijitTabChecked {
+	top: -2px;
+}
+
+
+

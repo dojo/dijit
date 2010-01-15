@@ -1,0 +1,118 @@
+/* Accordion */
+
+.lucid .dijitAccordionContainer {
+	border: medium none;
+	border-bottom: 1px solid #C0CCDF;
+}
+
+.lucid .dijitAccordionInnerContainer {
+	background-color: #f5f5f5;
+	border-color:#C0CCDF #C0CCDF transparent;
+	border-style:solid;
+	border-width:1px;
+}
+
+/* 
+ *  border transparent is not supported in IE6 
+ */
+.dj_ie6 .lucid .dijitAccordionInnerContainer {
+	border-bottom: 1px solid #f5f5f5;
+}
+
+.lucid .dijitAccordionContainer .dijitAccordionInnerContainer-hover{
+	background-color:#ABD6FF;
+	border:1px solid #769DC0;
+}
+
+.dj_ie6 .lucid .dijitAccordionInnerContainer-hover {
+	background-image: none;
+}
+
+.lucid .dijitAccordionInnerContainer-selected {
+	background-color:#E3F2FF;
+	border:1px solid #BFD6EB;
+	padding: 0px 0px 2px 0px;
+}
+
+.lucid .dijitAccordionTitle {
+	background-color: #f5f5f5;
+	background-image: url("images/accordion_back.png");
+	background-position:center top;
+	padding: 6px 7px 3px 10px;
+	outline:none;
+}
+
+.dj_ie6 .lucid .dijitAccordionTitle {
+	background-image: none;
+}
+
+
+.lucid .dijitAccordionTitle-hover  {
+	background-color:#ABD6FF;
+}
+
+.dj_ie6 .lucid .dijitAccordionTitle-hover {
+	background-image: none;
+}
+
+.lucid .dijitAccordionContainer .dijitAccordionTitleActive {
+	background-image: url("images/accordion_down.png");
+	background-color:#7dbefa;
+	border-color: #769dc0;
+}
+
+.dj_ie6 .lucid .dijitAccordionTitleActive {
+	background-image: none;
+}
+
+.lucid .dijitAccordionFocused{
+	text-decoration:none;
+}
+
+.lucid .dijitAccordionTitle-selected  {
+	background-color:#E3F2FF;
+	background-image:url("images/accordion_back.png");
+	background-position:center top;
+	padding: 6px 7px 3px 10px;
+	cursor: default;
+}
+
+.dj_ie6 .lucid .dijitAccordionTitle-selected {
+	background-image: none;
+}
+
+.lucid .dijitAccordionTitle-selected-hover{
+	background-color:#ABD6FF;
+}
+
+.dj_ie6 .lucid .dijitAccordionTitle-selected-hover{
+	background-image: none;
+}
+
+.lucid .dijitAccordionInnerContainer-hover .dijitAccordionTitle-selected{
+	background-color:#ABD6FF;
+}
+
+.lucid .dijitAccordionContainer .dijitAccordionContainer-child {
+	background-color:#fafafa;
+	/*
+	 * border style need to be !important to override the style "border:medium none !important"
+	 * in class ".dijitTabPane, .dijitStackContainer-child, .dijitAccordionContainer-child"
+	 */
+	border:1px solid #BFD6EB !important;
+	margin: 0px 2px;
+	padding: 9px;
+}
+
+.lucid .dijitAccordionContainer .dijitAccordionInnerContainer-hover .dijitAccordionContainer-child{
+	background-color:#ffffff;
+	border:1px solid #769DC0 !important;
+}
+
+.lucid .dijitAccordionFocused {
+	outline:none;
+}
+
+.dj_ie6 .lucid .dijitAccordionFocused {
+	outline:none;
+}

@@ -1,0 +1,111 @@
+.lucid  .dijitColorPalette {
+	outline:1px solid #769dc0; 
+	border: 1px solid #c0ccdf;
+	background:#fff;
+	
+
+	-moz-border-radius: 0px !important;
+}
+
+.lucid  .dijitColorPalette .dijitPaletteTable {
+	/* Table that holds the palette cells, and overlays image file with color swatches.
+	 * padding/margin to align table with image.
+	 * overrides style in dijit.css */
+	padding: 2px 3px 3px 3px;
+}
+
+.dj_gecko .lucid .dijitColorPalette .dijitPaletteTable {
+padding: 3px 3px 3px 3px;
+}
+
+.dj_ie .lucid .dijitColorPalette .dijitPaletteTable {
+padding: 3px 3px 3px 3px;
+}
+
+.dijitColorPalette .dijitPaletteImg {
+	/* transparent (but clickable) <img> node inside of each <td>, overlaying the color swatch.
+	 * displays border around a color swatch
+	 * this overrides style in dijit.css */
+	width: 14px;
+	height: 13px;
+	
+	outline:1px solid #cecece; 
+	border: 1px solid #fff;
+	
+	cursor: default;
+}
+
+.dj_ie .lucid .dijitColorPalette .dijitPaletteImg {
+	/* transparent (but clickable) <img> node inside of each <td>, overlaying the color swatch.
+	 * displays border around a color swatch
+	 * this overrides style in dijit.css */
+	/*width: 16px;
+	height: 15px;
+	
+	border:1px solid;
+	border-color:#dadada #cecece #bbbbbb #cecece;	
+	*/
+	background-image:url(images/colorPaletteBorderHighlight.png);
+	background-position:center;
+	width: 16px; /*This is the width of one color in the provided palettes. */
+	height: 16px; /* Height of one color in the provided palettes. */
+	/*position: absolute;
+	top: 0px;
+	left: 0px;*/
+
+	border:1px solid;
+	border-color:#dadada #cecece #bbbbbb #cecece;
+
+	
+}
+
+
+/* Outline and alpha transparency doesn't work in IE6 */
+.dj_ie6 .lucid .dijitPaletteImg {
+	
+	width: 15px; /*This is the width of one color in the provided palettes. */
+	height: 15px; /* Height of one color in the provided palettes. */
+	position: absolute;
+	top: 1px;
+	left: 1px;
+	overflow: hidden;
+	cursor: default;
+	
+	border: 1px solid #cecece; /* grey border */
+	/* -moz-border-radius:2pt; */
+}
+
+.dj_gecko .lucid .dijitColorPalette .dijitPaletteCellHover .dijitPaletteImg {
+
+	outline:1px solid #000;
+	border: 1px solid #fff;
+	
+	
+}
+
+
+
+/* 'Checked' or selected color swatch is the same as mouseDown */
+.lucid .dijitPaletteCellSelected img{
+
+	width: 14px; /*This is the width of one color in the provided palettes. */
+	height: 13px; /* Height of one color in the provided palettes. */
+	/*background-image:url(images/colorPaletteMouseDown.png);   image is used to get a 2px black border */
+	/*outline:1px solid #000;*/
+	border: 2px solid #000;
+
+	/* -moz-border-radius:0; */
+
+}
+
+
+/* The mouse down style of the color swatch */
+.lucid .dijitPaletteCellHover img {
+	/*width: 16px; /*This is the width of one color in the provided palettes. */
+	/*height: 16px; /* Height of one color in the provided palettes. */
+	/*background-image:url(images/colorPaletteMouseDown.png);
+	outline:1px solid #000;*/
+	border: 0 solid #000;
+	/* -moz-border-radius:0; */	
+
+}

@@ -1,0 +1,109 @@
+.lucid .dijitButtonNode {
+	background-image: url(images/button_back_full.png);
+	background-position: center top;
+	background-repeat: repeat-x;
+	background-color: #cde3f6;
+	border: 1px solid #799ab7;
+	padding:4px 10px 4px 10px;
+}
+
+.lucid .dijitButtonNode button {
+	background-color: transparent;
+	border: none;
+}
+
+.lucid .dijitComboButton .dijitArrowButton {
+	border-left: none;
+	min-width: 21px;
+	padding: 4px 0;
+}
+
+.lucid .dijitArrowButtonInner {
+	width: 14px;
+	height: 10px;
+	margin: 0 auto;
+	background-image: url("images/button_arrow.png");
+	background-position:top center;
+	background-repeat: no-repeat;
+}
+
+.lucid .dijitButtonText {
+	padding: 0 0.3em;
+	text-align: center;
+}
+
+/* hover status */
+.lucid .dijitButtonHover .dijitButtonNode,
+.lucid .dijitDropDownButtonHover .dijitButtonNode,
+.lucid .dijitComboButtonHover .dijitStretch, 
+.lucid .dijitComboButtonDownArrowHover .dijitArrowButton{
+	background-color: #8dc7fe;
+	cursor: pointer;
+}
+
+/* checked status */
+.lucid .dijitButtonActive .dijitButtonNode, 
+.lucid .dijitDropDownButtonActive .dijitButtonNode,
+.lucid .dijitComboButtonActive .dijitButtonNode {
+	background-color: #e1edf9;
+}
+
+/* disabled status */
+.lucid .dijitButtonDisabled,
+.lucid .dijitDropDownButtonDisabled,
+.lucid .dijitComboButtonDisabled {
+	background-image: none;
+	outline: none;
+}
+
+.lucid .dijitButtonDisabled .dijitButtonNode,
+.lucid .dijitDropDownButtonDisabled .dijitButtonNode,
+.lucid .dijitComboButtonDisabled .dijitButtonNode, 
+.lucid .dijitComboButtonDownArrowDisabled .dijitArrowButton{
+	background-image: url(images/button_grad_d.png);
+	background-color: #dddddd;
+	border: solid 1px #c9c9c9;
+	color: #696969;
+}
+
+
+/* for ComboButton */
+.lucid table.dijitComboButton {
+	border-collapse: separate;	/* overrid dijit.css */
+}
+
+
+/** hacks for browsers **/
+
+/* ie6 & ie7 doesn't support min-width */
+.dj_ie6 .lucid .dijitComboButton .dijitArrowButton,
+.dj_ie7 .lucid .dijitComboButton .dijitArrowButton {
+	width: 21px;
+}
+
+.dj_ie6 .lucid .dijitButtonNode {
+	background-image: none;
+}
+
+/* border radius */
+.lucid .dijitButtonNode {
+	border-radius: 4px;
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+}
+
+.lucid .dijitComboButton .dijitStretch {
+	-moz-border-radius: 4px 0px 0px 4px;
+	-webkit-border-top-left-radius: 4px;
+    -webkit-border-top-right-radius: 0px;
+    -webkit-border-bottom-right-radius: 0px;
+    -webkit-border-bottom-left-radius: 4px;
+}
+.lucid .dijitComboButton .dijitArrowButton {
+	-moz-border-radius: 0px 4px 4px 0px;
+	-webkit-border-top-left-radius: 0px;
+    -webkit-border-top-right-radius: 4px;
+    -webkit-border-bottom-right-radius: 4px;
+    -webkit-border-bottom-left-radius: 0px;
+}
+

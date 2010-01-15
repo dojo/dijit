@@ -1,0 +1,97 @@
+/* TitlePane */
+.lucid .dijitTitlePaneTitle {
+	-moz-background-clip:border;
+	-moz-background-inline-policy:continuous;
+	-moz-background-origin:padding;
+	background-color: #F5F5F5;
+	background-image: url(images/accordion_back.png);
+	border:1px solid #C0CCDF;
+	padding: 5px 7px 5px 10px; /* modified */
+}
+.dj_ie6 .lucid .dijitTitlePaneTitle {
+	background-image: none;
+}
+.lucid .dijitTitlePaneTitle-hover {
+	background-color: #abd6ff;
+	border-color: #769dc0;
+	cursor: pointer;
+}
+.lucid .dijitTitlePaneTitle-down {
+	background-color: #7dbefa;
+	border-color: #769dc0;
+	cursor: pointer;
+	/*background-image: url(images/accordion_down.png);*/
+}
+.dj_ie6 .lucid .dijitTitlePaneTitle-down {
+	background-image: none;
+}
+
+.lucid .dijitTitlePaneTitle * {
+	vertical-align: middle;
+}
+
+.lucid .dijitTitlePane .dijitOpen .dijitArrowNode,
+.lucid .dijitTitlePane .dijitClosed .dijitArrowNode {
+	background-image: url('images/spriteArrows.png');
+	background-repeat: no-repeat;
+	height: 7px;
+	width: 7px;
+	margin-top:-3px;
+}
+.dj_ie6 .lucid .dijitTitlePane .dijitArrowNode {
+	background-image: url('images/spriteArrows.gif');
+	margin-top:0px;
+}
+
+.lucid .dijitTitlePane .dijitOpen .dijitArrowNode {
+	background-position: 0px 0px;
+}
+.lucid .dijitTitlePane .dijitClosed .dijitArrowNode {
+	background-position: -14px 0px;
+}
+
+.lucid .dijitTitlePane .dijitTitlePaneTextNode {
+	vertical-align:top;
+}
+
+.lucid .dijitTitlePaneFocused .dijitTitlePaneTextNode {
+	text-decoration:none;
+}
+
+.lucid .dijitTitlePane .dijitArrowNodeInner {
+	/* hide A11Y text in favor of icon */
+	display:none;
+}
+
+.dijit_a11y .dijitTitlePane .dijitOpen .dijitArrowNodeInner,
+.dijit_a11y .dijitTitlePane .dijitClosed .dijitArrowNodeInner {
+	display:inline !important;
+	font-family:monospace;
+	padding-bottom:.2em;
+}
+
+.dijit_a11y .dijitTitlePane .dijitArrowNode {
+	/* except in a11y mode, then hide icon in favor of text */
+	display:none;
+}
+
+.lucid .dijitTitlePaneContentOuter {
+	background: #ffffff;
+	border:1px solid #C0CCDF;
+	/*border-top: 1px solid #ccc;*//* w/out this, an <h1> on the top line causes a gap between the .content and .label */
+	border-top:none;
+}
+.lucid .dijitTitlePaneContentInner {
+	padding:10px;
+}
+
+/* force hasLayout to ensure borders etc, show up */
+.dj_ie6 .lucid .dijitTitlePaneContentOuter,
+.dj_ie6 .lucid .dijitTitlePane .dijitTitlePaneTitle {
+	zoom: 1;
+}
+
+.lucid .dijitTitlePaneTextNode {
+	margin-left: 4px;
+	margin-right: 4px;
+}

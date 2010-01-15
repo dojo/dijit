@@ -1,0 +1,136 @@
+/*Normal Button Style*/
+
+
+.dj_ie6-rtl .lucid .dijitButtonContents,
+.dj_ie7-rtl .lucid .dijitButtonContents {
+	float: none;
+}
+
+.dj_ie6-rtl .lucid .dijitButtonShadow,
+.dj_ie7-rtl .lucid .dijitButtonShadow {
+	float: none;
+}
+
+
+.dj_ie7-rtl .lucid .dijitDropDownButton .dijitButtonStyler,
+.dj_ie6-rtl .lucid .dijitDropDownButton .dijitButtonStyler {
+	padding-left:3px;
+	float: none;
+}
+
+
+.dj_ie6-rtl .lucid .dijitButtonContents .dijitButtonShadow .dijitButtonStyler .dijitButtonText{
+}
+
+/* DropDownButton Arrow */
+.dijitRtl .lucid .dijitArrowButtonInner {
+	background-position:left center;
+	padding-right: 7px;
+    margin-left: -4px;
+}
+
+.dj_ie6-rtl .lucid .dijitDropDownButton .dijitArrowButtonInner,
+.dj_ie7-rtl .lucid .dijitDropDownButton .dijitArrowButtonInner {
+	padding-right:9px;
+}
+/*
+.dj_ie6 .lucid .dijitArrowButtonInner {
+	background-image:url("images/icon_drop_down.png");
+}
+*/
+.lucid .dijitDisabled .dijitArrowButtonInner {
+	background-image:url("images/icon_drop_down.png");
+}
+
+.dijitRtl .lucid .dijitArrowButton {
+    padding: 0 0em;
+} 
+
+
+/* End DropDownButton Arrow */
+
+/*********
+ * Combo Button
+ */
+
+.dijitRtl .lucid .dijitComboButton .dijitButtonStyler {
+	-moz-border-radius: 0px  4px 4px 0px ;
+	-webkit-border-top-left-radius:0px;
+    -webkit-border-top-right-radius:4px;
+    -webkit-border-bottom-right-radius:4px;
+    -webkit-border-bottom-left-radius:0px;
+}
+.dijitRtl .lucid .dijitComboButton .dijitArrowButton {
+	width: 21px;
+}
+.dijitRtl .lucid .dijitComboButton  .dijitButtonShadow {
+	-moz-border-radius: 0px 6px  6px 0px;
+	-webkit-border-top-left-radius:0px;
+    -webkit-border-top-right-radius:6px;
+    -webkit-border-bottom-right-radius:6px;
+    -webkit-border-bottom-left-radius:0px;
+	padding:0px  1px 2px 0px ;
+}
+.dijitRtl .lucid .dijitComboButton .dijitArrowButton .dijitButtonShadow {
+	position:relative;
+	left:5px;
+	-moz-border-radius: 6px 0px  0px 6px;
+	-webkit-border-top-left-radius:6px;
+    -webkit-border-top-right-radius:0px;
+    -webkit-border-bottom-right-radius:0px;
+    -webkit-border-bottom-left-radius:6px;
+	padding:0px 0px 2px 1px ;
+}
+
+.dj_ie-rtl .lucid .dijitComboButton .dijitArrowButton .dijitButtonShadow {
+	position:relative;
+}
+
+.dj_ie6-rtl .lucid .dijitComboButton .dijitArrowButton .dijitButtonShadow {
+	position:relative;
+	display: inline-block;
+}
+
+.dj_ie7-rtl .lucid .dijitComboButton .dijitArrowButton .dijitButtonShadow {
+	position:relative;
+	display: inline-block;
+}
+
+.dijitRtl .lucid .dijitComboButton .dijitArrowButton{
+	-moz-border-radius:  4px 0px 0px  4px;
+	-webkit-border-top-left-radius:4px;
+    -webkit-border-top-right-radius:0px;
+    -webkit-border-bottom-right-radius:0px;
+    -webkit-border-bottom-left-radius:4px;
+	min-width:21px;
+	padding:3px 0px 4px;
+	border-left:1px solid #799ab7;
+	border-right-width: 0px;
+}
+
+.dj_ie7-rtl .lucid .dijitComboButton .dijitArrowButton .dijitButtonStyler {
+	min-width:21px;
+	position:relative;
+	padding:5px 0px 4px;
+}
+
+.dj_ie6-rtl .lucid .dijitComboButton .dijitArrowButton .dijitButtonStyler {
+	width: 21px;
+	position:relative;
+	padding:3px 0px 2px;
+}
+
+.dj_webkit-rtl .lucid .dijitComboButton .dijitArrowButton .dijitButtonStyler {
+	padding:4px 0px 4px;
+}
+
+.dijitRtl .lucid .dijitComboButton .dijitArrowButton .dijitArrowButtonInner{
+	width: 11px;
+	padding-right:0px;
+}
+
+.dijitRtl .lucid .dijitComboButton .dijitDownArrowButton {
+}	
+/*********
+ * End Combo Button
+ */

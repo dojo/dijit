@@ -1,0 +1,405 @@
+/* Normal Calendar Style */
+.lucid .dijitCalendar {
+	font-size:10px;
+}
+
+.dj_ie6 .lucid .dijitCalendar,
+.dj_ie7 .lucid .dijitCalendar {
+	width: 200px;
+}
+
+
+.lucid .dijitCalendar img {
+	border:none;
+}
+
+.lucid .shadow {
+	-moz-border-radius:6px;
+	-webkit-border-radius:6px;
+}
+
+.lucid .dijitOuterContainer {
+	background-color:#5d9dd9;
+	border:solid 1px #6491c2;
+	/*float:left;*/
+	-moz-border-radius:4px;
+	-webkit-border-radius:4px;
+	min-width: 200px;
+}
+
+.lucid .dijitInnerContainer {
+	background-color: #f4f8fc;
+	background-image:url(images/calendar_back.png);
+	background-position:center top;
+	background-repeat:repeat-x;
+	text-align:center;
+	font-size: 100%;display:block;
+	padding-top:6px;
+	padding-left:5px;
+	padding-right:5px;
+	padding-bottom:3px;
+	/*float:left;*/
+	-moz-border-radius:4px;
+	-webkit-border-radius:4px;
+}
+
+.dj_ie7 .lucid .dijitInnerContainer {
+	padding-top:2px;
+}
+
+.dj_ie6 .lucid .dijitInnerContainer {
+	background-image:none;
+}
+
+.lucid .dijitHover .dijitInnerContainer{
+	background-color: #cce1f8;
+}
+
+.lucid .dijitCalendarContainer {
+	/*float:left;*/
+	width: 100%;
+	margin-top:1px;
+	outline:none;
+}
+
+.lucid .dijitCalendarMonthContainer th {
+	/*padding-top:4px;*/
+	text-align:center;
+	padding-bottom:4px;
+	vertical-align:middle;
+}
+
+
+.lucid .dijitCalendar .dijitBackArrow {
+	padding-left:3px;
+	/*padding-bottom:2px;*/	
+	text-align:left;
+}
+
+.lucid .dijitCalendarMonth {
+	font-size:12px;
+	color:#0a2a49;
+}
+
+.lucid .dijitCalendarMonthLabelSpacer {
+	display:none;
+}
+
+.lucid .dijitCalendarMonthLabel {
+	color:#000000;
+	font-family:Verdana,Arial,Helvetica,sans-serif;
+	font-size:12px;
+	font-weight:bold;
+	display: block;
+}
+
+.lucid .dijitCalendar .dijitFowardArrow {
+	padding-right:3px;
+	padding-top:2px;
+	/*padding-bottom:2px;*/
+	text-align:right;
+}
+
+.lucid .dijitCalendar .dijitCalendarDecrease {
+	background-image: url("images/calendar_back_arrow.png");
+}
+
+.lucid .dijitCalendar .dijitCalendarIncrease {
+	background-image: url("images/calendar_forward_arrow.png");
+}
+
+.dijitRtl .lucid .dijitCalendar .dijitCalendarIncrease{
+	background-image: url("images/calendar_back_arrow.png");
+}
+
+.dijitRtl .lucid .dijitCalendar .dijitCalendarDecrease {
+	background-image: url("images/calendar_forward_arrow.png");
+}
+
+.lucid .dijitCalendar .dijitHover .dijitCalendarDecrease {
+	background-image: url("images/calendar_back_arrow_hover.png");
+}
+
+.lucid .dijitCalendar .dijitHover .dijitCalendarIncrease {
+	background-image: url("images/calendar_forward_arrow_hover.png");
+}
+
+.dijitRtl .lucid .dijitCalendar .dijitHover .dijitCalendarIncrease{
+	background-image: url("images/calendar_back_arrow_hover.png");
+}
+
+.dijitRtl .lucid .dijitCalendar .dijitHover .dijitCalendarDecrease {
+	background-image: url("images/calendar_forward_arrow_hover.png");
+}
+
+.lucid .dijitCalendar .dijitFocus .dijitCalendarDecrease {
+	background-image: url("images/calendar_back_arrow_mousedown.png");
+}
+
+.lucid .dijitCalendar .dijitFocus .dijitCalendarIncrease {
+	background-image: url("images/calendar_forward_arrow_mousedown.png");
+}
+
+.dijitRtl .lucid .dijitCalendar .dijitFocus .dijitCalendarIncrease{
+	background-image: url("images/calendar_back_arrow_mousedown.png");
+}
+
+.dijitRtl .lucid .dijitCalendar .dijitFocus .dijitCalendarDecrease {
+	background-image: url("images/calendar_forward_arrow_mousedown.png");
+}
+
+
+.dj_ie7 .lucid .dijitCalendarDecrease,
+.dj_ie7 .lucid .dijitCalendarIncrease {
+	margin-bottom:-5px;
+}
+
+.lucid .dijitCalendarIncrementControl {
+	width:18px;
+	height:18px;
+	background-repeat: no-repeat;
+	
+}
+
+.dj_ie6 .lucid .dijitCalendarIncrementControl {
+	font-size:.1em;
+}
+
+.lucid .dijitA11ySideArrow {
+	display: none;
+}
+
+.lucid .dijitDayLabels th {
+	padding:0px 4px 0px 4px;
+	border-bottom:solid 1px #99b5cd;
+	color:#000;
+	font-size:11px;
+	font-weight:bold;
+	text-align:center;
+}
+
+.lucid .dijitCalendarDayLabelTemplate {
+	padding-bottom:0em;
+	text-align:center;
+	border-bottom:1px solid #99B5CD;
+	font-size:10px;
+	font-family: Verdana;
+	font-weight:normal;
+	padding:0 3px 2px;
+}
+
+
+.lucid .dijitCalendarBodyContainer {
+	border-bottom: 1px solid #eeeeee;	
+}
+
+.lucid .dijitCalendarDateTemplate {
+	text-align:center;
+	background-color:#fafafa;
+	background-image:url(images/calendar_cell_bg.png);
+	background-repeat:repeat-x;
+	border-width:1px;
+	border-color: transparent transparent #d2dae8 transparent;
+ 	border-style:none none solid;
+	padding-top:0px;
+	font-family:Arial,Verdana,Helvetica,sans-serif;
+	letter-spacing: 1px;
+	font-size:10px;
+	font-weight:bold;
+	letter-spacing:1px;
+	text-align:center;
+	
+	
+	
+}
+
+.dj_ie6 .lucid .dijitCalendarDateTemplate {
+	background-image: none;
+	border: none;
+	padding-top: 0px;
+	padding-left: 1px;
+	border-bottom: 1px solid #d2dae8;
+	border-top: none;
+	
+}
+.lucid .dijitCalendarPreviousMonth,
+.lucid .dijitCalendarNextMonth {
+	background-color:#ebf3f9;
+	background-image:none;
+}
+
+.lucid .dijitCalendarDateTemplate .dijitCalendarDateLabel {
+	text-decoration:none;
+	color:#000;
+	display:block;
+	padding:3px 3px 3px 4px;
+	border:solid 1px transparent;
+	font-weight: bold;
+}
+
+.dj_ie6 .lucid .dijitCalendarDateTemplate .dijitCalendarDateLabel {
+	border: none;
+	padding: 3px 2px 3px 3px;
+	
+	}
+
+.lucid .dijitCalendarPreviousMonth .dijitCalendarDateLabel,
+.lucid .dijitCalendarNextMonth .dijitCalendarDateLabel {
+	color:#547da1;
+}
+
+.lucid .dijitCalendarCurrentDate .dijitCalendarDateLabel {
+
+}
+
+.lucid .dijitCalendarCurrentMonth {
+	background-color:white !important;
+}
+
+.lucid .dijitCalendarYearContainer {
+	vertical-align:middle;	
+}
+
+.lucid .dijitCalendarYearControl {
+	padding: 1px 2px 2px 2px;
+}
+
+.lucid .dijitCalendarYearLabel {
+	padding:2px 0px 0px 0px;
+	margin:0;
+	height:18px;
+	
+}
+
+.lucid .dijitCalendarYearLabel span {
+	padding:0px 3px; 
+	vertical-align:middle;
+}
+
+
+
+.lucid .dijitCalendarNextYear,
+.lucid .dijitCalendarPreviousYear {
+	font-size:11px;
+	color:#000000;
+	padding:1px 4px 0px 4px;
+	border:solid 1px transparent;
+	font-weight: normal;
+}
+
+.dj_ie6 .lucid .dijitCalendarNextYear,
+.dj_ie6 .lucid .dijitCalendarPreviousYear {
+	border: none;
+	padding:2px 6px 1px 6px;
+}
+
+.dj_ie7 .lucid .dijitCalendarNextYear {
+	text-align:right;
+	padding-right:1px;
+}
+
+.dj_ie7 .lucid .dijitCalendarPreviousYear {
+	text-align:left;
+	padding-left:1px;
+}
+
+.lucid .dijitCalendarSelectedYear {
+	font-size: 12px;
+	color:#000000;
+	cursor: default;
+}
+
+.dj_ie7 .lucid .dijitCalendarSelectedYear {
+	padding-top:0px;
+	padding-left:2px;
+	padding-right:2px;
+	
+}
+/* End Normal Calendar Style */
+
+/* Hovered Calendar Style */
+.lucid .dijitCalendarHoveredDate .dijitCalendarDateLabel {
+	background-color:#a2d1fc;
+	border:solid 1px #fff;
+	color:#000;
+}
+
+
+
+.lucid .dijitCalendarNextYearHovered,
+.lucid .dijitCalendarPreviousYearHovered {
+	color:#000;
+	border:solid 1px #799ab7;
+}
+
+.dj_ie6 .lucid .dijitCalendarNextYearHovered,
+.dj_ie6 .lucid .dijitCalendarPreviousYearHovered {
+	color:#000;
+	border:solid 1px #799ab7;
+	padding:1px 5px 0px 5px;
+}
+/* End Hovered Calendar Style */
+
+/* Active Calendar Style */
+
+.lucid .dijitCalendarActiveDate .dijitCalendarDateLabel {
+	background-image:url(images/calendar_cell_selected_bg.png);
+	background-color:#75b5f0;
+	border:solid 1px #fff;
+	color:#000;
+}
+
+.dj_ie6 .lucid .dijitCalendarActiveDate .dijitCalendarDateLabel {
+	background-image:none;
+}
+/* End Active Calendar Style */
+
+/* Selected Calendar Style */
+.lucid .dijitCalendarSelectedDate .dijitCalendarDateLabel {
+	color:#000;
+	background-color:#c4e4f5;
+	border-color:#fff;
+}
+/* End Selected Calendar Style */
+
+/* Disabled Calendar Style*/
+.lucid .dijitCalendarPreviousMonthDisabled,
+.lucid .dijitCalendarNextMonthDisabled	{
+	/* days that are part of the previous or next month - disabled*/
+	background-color:#a4a5a6 !important;
+}
+
+.lucid .dijitCalendarCurrentMonthDisabled {
+	/* days that are part of this month - disabled */	
+	background-color:#bbbbbc !important;
+}
+
+.lucid .dijitCalendarDisabledDate {
+	cursor:default !important;
+	text-decoration:line-through !important;
+}
+/* End Disabled Calendar Style */
+
+.lucid .dijitCalendarMonthContainer .dijitMenuPassive{
+	top: 20px !important;
+	left: 0px;
+	border-color: #769dc0; 
+	background-color: #fff; 
+	text-align:center;
+	background-image: none;
+
+}
+
+.lucid .dijitCalendarMonthContainer .dijitMenuPassive .dijitCalendarMonthLabel{
+	border-top: solid 1px #fff;
+	border-bottom: solid 1px #fff; 
+	padding: 2px 20px; 
+	
+}
+
+.lucid .dijitCalendarMonthContainer .dijitMenuPassive .dijitMenuItemHover{
+	background-color: #abd6ff; 
+	border-color: #769dc0;
+	border-width:1px 0px !important;
+	background-image: url("images/white_grad.png"); 	
+}
