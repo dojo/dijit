@@ -1,7 +1,8 @@
 dojo.provide("dijit._PaletteMixin");
+dojo.require("dijit._CssStateMixin");
 
 dojo.declare("dijit._PaletteMixin",
-	null,
+	[dijit._CssStateMixin],
 	{
 	// summary:
 	//		A keyboard accessible palette, for picking a color/emoticon/etc.
@@ -50,10 +51,6 @@ dojo.declare("dijit._PaletteMixin",
 	//		CSS class applied to each cell in the palette
 	cellClass: "dijitPaletteCell",
 
-	// highlightClass: [protected] String
-	//		CSS class applied to the currently hovered cell in the palette
-	highlightClass: "dijitPaletteCellHover",
-
 	// dyeClass: [protected] String
 	//	 Name of javascript class for Object created for each cell of the palette.
 	//	 dyeClass should implements dijit.Dye interface
@@ -89,9 +86,8 @@ dojo.declare("dijit._PaletteMixin",
 					// prepare cell inner structure
 					cellObject.fillCell(cellNode, url);
 
-					dojo.forEach(["Dijitclick", "MouseEnter", "MouseLeave", "Focus"], function(handler){
-						this.connect(cellNode, "on" + handler.toLowerCase(), "_onCell" + handler);
-					}, this);
+					this.connect(cellNode, "ondijitclick", "_onCellClick");
+					this._trackMouseState(cellNode, this.cellClass);
 
 					dojo.place(cellNode, rowNode);
 
@@ -170,7 +166,7 @@ dojo.declare("dijit._PaletteMixin",
 		this.inherited(arguments);
 	},
 
-	_onCellDijitclick: function(/*Event*/ evt){
+	_onCellClick: function(/*Event*/ evt){
 		// summary:
 		//		Handler for click, enter key & space key. Selects the cell.
 		// evt:
@@ -181,42 +177,6 @@ dojo.declare("dijit._PaletteMixin",
 		var target = evt.currentTarget;
 		this._selectCell(target);
 		dojo.stopEvent(evt);
-	},
-
-	_onCellMouseEnter: function(/*Event*/ evt){
-		// summary:
-		//		Handler for onMouseEnter event on a cell. Put highlight on the cell under the mouse.
-		// evt:
-		//		The mouse event.
-		// tags:
-		//		private
-
-		var target = evt.currentTarget;
-		dojo.addClass(target, this.highlightClass);
-	},
-
-	_onCellMouseLeave: function(/*Event*/ evt){
-		// summary:
-		//		Handler for onMouseLeave event on a cell. Remove highlight on the cell under the mouse.
-		// evt:
-		//		The mouse event.
-		// tags:
-		//		private
-		var target = evt.currentTarget;
-		dojo.removeClass(target, this.highlightClass);
-	},
-
-	_onCellFocus: function(/*Event*/ evt){
-		// summary:
-		//		Handler for onFocus of a cell.
-		// description:
-		//		Moves the tabIndex setting to the new cell.
-		// evt:
-		//		The focus event.
-		// tags:
-		//		private
-
-		this._setCurrent(evt.currentTarget);
 	},
 
 	_setCurrent: function(/*DomNode*/ node){

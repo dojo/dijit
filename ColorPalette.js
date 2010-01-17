@@ -58,6 +58,8 @@ dojo.declare("dijit.ColorPalette",
 	// templateString: String
 	//		The template of this widget.
 	templateString: dojo.cache("dijit", "templates/ColorPalette.html"),
+	
+	baseClass: "dijitColorPalette",
 
 	dyeClass: 'dijit._Color',
 
