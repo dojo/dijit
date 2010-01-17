@@ -336,7 +336,14 @@ dojo.declare(
 			//      Handler for mouse over events on days, sets up hovered style
 			// tags:
 			//      protected
-			var node = evt.target;
+
+			// event can occur on <td> or the <span> inside the td,
+			// set node to the <td>.
+			var node =
+				dojo.hasClass(evt.target, "dijitCalendarDateLabel") ?
+				evt.target.parentNode :
+				evt.target;
+
 			if(node && (node.dijitDateValue || node == this.previousYearLabelNode || node == this.nextYearLabelNode) ){
 				dojo.addClass(node, "dijitCalendarHoveredDate");
 				this._currentNode = node;
@@ -349,6 +356,9 @@ dojo.declare(
 			// tags:
 			//      protected
 			if(!this._currentNode){ return; }
+			
+			// if mouse out occurs moving from <td> to <span> inside <td>,
+			// ignore it
 			for(var node = evt.relatedTarget; node;){
 				if(node == this._currentNode){ return; }
 				try{
