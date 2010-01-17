@@ -333,7 +333,7 @@ dojo.declare(
 
 		_onDayMouseOver: function(/*Event*/ evt){
 			// summary:
-			//      Handler for mouse over events on days, sets up hovered style
+			//      Handler for mouse over events on days, sets hovered style
 			// tags:
 			//      protected
 
@@ -355,18 +355,12 @@ dojo.declare(
 			//      Handler for mouse out events on days, clears hovered style
 			// tags:
 			//      protected
+	
 			if(!this._currentNode){ return; }
 			
-			// if mouse out occurs moving from <td> to <span> inside <td>,
-			// ignore it
-			for(var node = evt.relatedTarget; node;){
-				if(node == this._currentNode){ return; }
-				try{
-					node = node.parentNode;
-				}catch(x){
-					node = null;
-				}
-			}
+			// if mouse out occurs moving from <td> to <span> inside <td>, ignore it
+			if(evt.relatedTarget.parentNode == this._currentNode){ return; }
+
 			dojo.removeClass(this._currentNode, "dijitCalendarHoveredDate");
 			this._currentNode = null;
 		},
