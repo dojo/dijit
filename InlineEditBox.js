@@ -145,7 +145,7 @@ dojo.declare("dijit.InlineEditBox",
 		}else{
 			this.displayNode.setAttribute("tabIndex", 0);
 		}
-		dojo.toggleClass(this.displayNode, "dijitInlineEditBoxDisplayMode-disabled", disabled);
+		dojo.toggleClass(this.displayNode, "dijitInlineEditBoxDisplayModeDisabled", disabled);
 	},
 
 	_onMouseOver: function(){

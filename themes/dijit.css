@@ -1260,7 +1260,7 @@ div.dijitTabDisabled, .dj_ie div.dijitTabDisabled {
 	cursor: text;
 }
 
-.dijitInlineEditBoxDisplayMode-disabled {
+.dijitInlineEditBoxDisplayModeDisabled {
 	cursor: not-allowed;
 }
 
