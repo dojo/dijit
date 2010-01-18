@@ -77,10 +77,10 @@
 	background-image: url("images/dialog_close_icon_hover.gif");
 }
 
-.lucid .dijitDialogCloseIcon-mousedown {
+.lucid .dijitDialogCloseIconActive {
 	background: url("images/dialog_close_icon_mousedown.png") no-repeat center;
 }
-.dj_ie6 .lucid .dijitDialogCloseIcon-mousedown {
+.dj_ie6 .lucid .dijitDialogCloseIconActive {
 	background-image: url("images/dialog_close_icon_mousedown.gif");
 }
 

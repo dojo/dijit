@@ -65,7 +65,8 @@
 	background-image: none;
 }
 
-.lucid .dijitAccordionFocused{
+.lucid .dijitAccordionFocused,
+.lucid .dijitAccordionTitleFocused{
 	text-decoration:none;
 }
 
@@ -109,10 +110,6 @@
 	border:1px solid #769DC0 !important;
 }
 
-.lucid .dijitAccordionFocused {
-	outline:none;
-}
-
-.dj_ie6 .lucid .dijitAccordionFocused {
+.lucid .dijitAccordionTitleFocused {
 	outline:none;
 }

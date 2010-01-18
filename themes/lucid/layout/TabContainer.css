@@ -10,18 +10,18 @@
 	text-align: center;
 }
 
-.lucid .dijitTabContainer .dijitTab .closeImage {
+.lucid .dijitTabContainer .dijitTab .dijitTabCloseIcon {
 	background: url("images/tabClose.png") no-repeat right top;
 	width: 12px;
 	height: 12px;
 	margin-left: 5px;
 }
-.lucid .dijitTab .closeButtonHover .closeImage {
+.lucid .dijitTab .dijitTabCloseButtonHover .dijitTabCloseIcon {
 	background: url("images/tabCloseHover.png") no-repeat right top;
 }
 
 
-.lucid .dijitTabContainer .dijitTab .closeButton {
+.lucid .dijitTabContainer .dijitTab .dijitTabCloseButton {
 	margin-left: 0;
 }
 /* set the spacer invisiable */
@@ -41,8 +41,10 @@
 	background-color:#8dc7fe;
 }
 /* focused hover, medium priority */
-.lucid .dijitTabContainer div .dijitTab.dijitTabHover.dijitTabFocusedHover .dijitTabInnerDiv,
-.dj_ie6 .lucid .dijitTabContainer div .dijitTabFocusedHover .dijitTabInnerDiv{
+/*.lucid .dijitTabContainer div .dijitTab.dijitTabHover.dijitTabFocusedHover .dijitTabInnerDiv,*/
+/*.dj_ie6 .lucid .dijitTabContainer div .dijitTabFocusedHover .dijitTabInnerDiv,*/
+.lucid .dijitTabContainer div .dijitTab.dijitTabActiveFocused .dijitTabInnerDiv,
+.dj_ie6 .lucid .dijitTabContainer div .dijitTabActiveFocused .dijitTabInnerDiv {
 	background-color:#e1eefa;
 }
 /* checked hover, high priority */
@@ -59,6 +61,9 @@
 /**==================================================================**/
 
 /*************** top tab ***************/
+.lucid .dijitTabPaneWrapper {
+	background:#FFFFFF;
+}
 .lucid .dijitTabContainer .dijitTabContainerTop-container {
 	background:#fff;
 	border:1px solid #769dc0;

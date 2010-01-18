@@ -100,22 +100,13 @@
 	border-style:dotted !important;
 }
 
-.lucid .dijitMenuItemActive.dijitMenuItemHover,
-.lucid .dijitMenuItemActive.dijitMenuItemHover td,
-.lucid .dijitMenuItemActive.dijitMenuItemHover li.dijitMenuItemSelected{
+/*.lucid .dijitMenuItemActive,*/
+.lucid .dijitMenuItemActive td,
+.lucid .dijitMenuItemActive li.dijitMenuItemSelected{
 	background-color: #7dbefa !important;
 	background-image:url(images/white_grad_shadow.png) !important;
 	background-repeat:repeat-x !important;
-}
 
-/* proper class needs to be created */
-.lucid .dijitMenuPassive .dijitMenuItemHover:active,
-.lucid .dijitMenuItemSelected:active{
-	background-color: #7dbefa !important;
-	border:solid 1px #769dc0 !important;
-	color:#000;
-	background-image:url(images/white_grad_shadow.png) !important;
-	background-repeat:repeat-x !important;
 }
 
 .lucid .dijitMenuItemActive li.dijitMenuItemSelected{
@@ -155,13 +146,6 @@
 .dj_ie6 .lucid .dijitMenuSeparatorTop {
 	border-bottom: 1px solid #DEE5EC;
 	background-image: none;
-}
-
-.lucid .dijitMenu/SeparatorTop,
-.lucid .dijitMenuSep/aratorBottom{
-	margin:0px;
-	padding:0px;	
-	border-bottom: 1px solid #dee5ec;
 }
 
 /* the checked menu item */

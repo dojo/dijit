@@ -16,13 +16,13 @@
 	border-color: #769dc0;
 	cursor: pointer;
 }
-.lucid .dijitTitlePaneTitle-down {
+.lucid .dijitTitlePaneTitleActive {
 	background-color: #7dbefa;
 	border-color: #769dc0;
 	cursor: pointer;
 	/*background-image: url(images/accordion_down.png);*/
 }
-.dj_ie6 .lucid .dijitTitlePaneTitle-down {
+.dj_ie6 .lucid .dijitTitlePaneTitleActive {
 	background-image: none;
 }
 

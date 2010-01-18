@@ -38,8 +38,8 @@
 	left:-1px;
 }
 
-.dj_ie6-rtl .lucid .dijitTab .closeButton ,
-.dj_ie7-rtl .lucid .dijitTab .closeButton {
+.dj_ie6-rtl .lucid .dijitTab .dijitTabCloseButton ,
+.dj_ie7-rtl .lucid .dijitTab .dijitTabCloseButton {
 	margin-right: 4px;
 }
 

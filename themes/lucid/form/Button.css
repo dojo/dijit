@@ -35,8 +35,10 @@
 /* hover status */
 .lucid .dijitButtonHover .dijitButtonNode,
 .lucid .dijitDropDownButtonHover .dijitButtonNode,
-.lucid .dijitComboButtonHover .dijitStretch, 
-.lucid .dijitComboButtonDownArrowHover .dijitArrowButton{
+/*.lucid .dijitComboButtonHover .dijitStretch,*/
+.lucid .dijitComboButton .dijitButtonNodeHover, 
+/*.lucid .dijitComboButtonDownArrowHover .dijitArrowButton*/
+.lucid .dijitComboButton .dijitDownArrowButtonHover{
 	background-color: #8dc7fe;
 	cursor: pointer;
 }
@@ -58,8 +60,8 @@
 
 .lucid .dijitButtonDisabled .dijitButtonNode,
 .lucid .dijitDropDownButtonDisabled .dijitButtonNode,
-.lucid .dijitComboButtonDisabled .dijitButtonNode, 
-.lucid .dijitComboButtonDownArrowDisabled .dijitArrowButton{
+.lucid .dijitComboButtonDisabled .dijitButtonNode{ 
+/*.lucid .dijitComboButtonDownArrowDisabled .dijitArrowButton {*/
 	background-image: url(images/button_grad_d.png);
 	background-color: #dddddd;
 	border: solid 1px #c9c9c9;

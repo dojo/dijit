@@ -93,12 +93,8 @@
 
 /*========================= for special widgets =========================*/
 
-/*
- * ComboBox, ComboBox will appear in the other widgets, to avoid they css override ComboBox's css
- * we need to set the priority high
- */
-
-.lucid div.dijitComboBox .dijitArrowButtonInner {
+/* ComboBox, FIXME? - Need to set high priority for ComboBox? As it's also embeded in other widgets */
+.lucid .dijitComboBox .dijitArrowButtonInner {
 	background:url("images/arrowdown.png") no-repeat scroll center center;
 	margin: 0 0 0 0;
 	padding: 1px 0 1px 0; /* $1 */
@@ -112,7 +108,7 @@
 	vertical-align: top;
 }
 
-.lucid div.dijitComboBox .dijitButtonNode {
+.lucid .dijitComboBox .dijitButtonNode {
 	background: #f6f7fa url("images/menubutton_back.png") repeat-x left top;
 	border: none;
 	border-left: 1px solid #bcc8dd;
@@ -155,8 +151,7 @@
 	background:#efefef url("images/arrowdown_disabled.png") no-repeat scroll center center !important;
 }
 
-/* add by maxwell for SimpleTextArea */
-
+/* for SimpleTextArea */
 /*
  * SOME PROBLEMS:
  *  1. in the BorderContainer.css, the css use !important rules. good idea?
@@ -197,10 +192,6 @@
 	background-image: none;
 	color: #000;
 }
-
-
-/* end by maxwell */
-
 
 
 /*========================= hacks for browsers =========================*/

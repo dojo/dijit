@@ -8,7 +8,7 @@
 	-webkit-border-radius: 0;
 }
 
-.lucid .xdijitTimePickerTick,
+/*.lucid .dijitTimePickerTick,*/
 .lucid .dijitTimePickerMarker {
 	border-bottom:  1px #c0ccdf solid !important;
 }

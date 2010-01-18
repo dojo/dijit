@@ -82,15 +82,16 @@
 	margin-bottom:-1px;
 
 }
-.lucid .dijitTreeNodeSelected{
+.lucid .dijitTreeRowSelected{
 	/*background-image: url(images/white_grad.png);*/
 	background-repeat:repeat-x;
 	background-color:#e3f2ff;
 }
-.lucid .dijitTreeNodeSelected .dijitTreeLabel {
+.lucid .dijitTreeRowSelected .dijitTreeLabel {
 	
 }
-.lucid .dijitTreeNode .dijitTreeNodeHover {
+.lucid .dijitTreeNode .dijitTreeRowHover,
+.lucid .dijitTreeNode .dijitTreeRowActive {
 	/*background-color: #f6f9fa !important;*/
 	/* using a transparent png so that we can still see grid lines, which are (unfortunately) behind the dijitRowNode that we are hovering over */
 	background-image: url(images/white_grad.png);
@@ -101,37 +102,41 @@
 	margin-top:-1px;
 	margin-bottom:-1px;
 }
-.dj_ie6 .lucid .dijitTreeNode .dijitTreeNodeHover {
+.dj_ie6 .lucid .dijitTreeNode .dijitTreeRowHover {
 	background-image: none;
 }
-.dj_ie6 .lucid .dijitTreeNode .dijitTreeNodeHover,
-.dj_ie7 .lucid .dijitTreeNode .dijitTreeNodeHover {
+.dj_ie6 .lucid .dijitTreeNode .dijitTreeRowHover,
+.dj_ie7 .lucid .dijitTreeNode .dijitTreeRowHover,
+.dj_ie6 .lucid .dijitTreeNode .dijitTreeRowActive,
+.dj_ie7 .lucid .dijitTreeNode .dijitTreeRowActive {
 	margin-top:0px;
 	margin-bottom:0px;
 }
-.dijit_a11y .dijitTreeNode .dijitTreeNodeHover {
+.dijit_a11y .dijitTreeNode .dijitTreeRowHover,
+.dijit_a11y .dijitTreeNode .dijitTreeRowActive {
 	border-top:none;
 	border-bottom:none;
 	margin-top:0px;
 	margin-bottom:0px;	
 }
 
-.dj_ie6 .dijit_a11y .dijitTreeNode .dijitTreeNodeHover {
+.dj_ie6 .dijit_a11y .dijitTreeNode .dijitTreeRowHover,
+.dj_ie6 .dijit_a11y .dijitTreeNode .dijitTreeRowActive {
 	margin-top:1px !important;
 	margin-bottom:1px !important;	
 }
 
 /* Proper class needs tp be created */
-.lucid .dijitTreeNode .dijitTreeNodeActive {
+.lucid .dijitTreeNode .dijitTreeRowActive {
 	background-repeat: repeat;
 	background-color:#7dbefa;
 	background-image: url(images/white_grad_shadow.png);
 	background-repeat:repeat-x;
 }
-.dj_ie6 .lucid .dijitTreeNode .dijitTreeNodeActive {
+.dj_ie6 .lucid .dijitTreeNode .dijitTreeRowActive {
 	background-image: none;
 }
-.lucid .dijitTreeNode .dijitTreeNodeFocused{
+.lucid .dijitTreeNode .dijitTreeRowFocused{
 	/*background-color: #f6f9fa !important;*/
 	/* using a transparent png so that we can still see grid lines, which are (unfortunately) behind the dijitRowNode that we are hovering over */
 	background-repeat: repeat;
@@ -139,7 +144,7 @@
 	border-color:#bfd6eb;
 }
 
-.lucid .dijitTreeNodeHover .dijitTreeExpandoOpened {
+.lucid .dijitTreeRowHover .dijitTreeExpandoOpened {
 	background-image: url('images/treeExpand_minus_hover.png');
 	width:16px;
 }
@@ -149,12 +154,12 @@
 	width:16px;
 }
 
-.dj_ie6 .lucid .dijitTreeNodeHover .dijitTreeExpandoOpened,
+.dj_ie6 .lucid .dijitTreeRowHover .dijitTreeExpandoOpened,
 .dj_ie6 .lucid .dijitTreeExpandoOpened {
 	background-image: url('images/treeExpand_minus.gif');
 }
 
-.lucid .dijitTreeNodeHover .dijitTreeExpandoClosed {
+.lucid .dijitTreeRowHover .dijitTreeExpandoClosed {
 	background-image: url('images/treeExpand_plus_hover.png');
 	width:16px;
 }
@@ -164,7 +169,7 @@
 	width:16px;
 }
 
-.dj_ie6 .lucid .dijitTreeNodeHover .dijitTreeExpandoClosed,
+.dj_ie6 .lucid .dijitTreeRowHover .dijitTreeExpandoClosed,
 .dj_ie6 .lucid .dijitTreeExpandoClosed {
 	background-image: url('images/treeExpand_plus.gif');
 }
