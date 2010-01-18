@@ -258,6 +258,7 @@ dojo.declare("dijit.form.ComboButton", dijit.form.DropDownButton, {
 	// Set classes like dijitButtonContentsHover or dijitArrowButtonActive depending on
 	// mouse action over specified node
 	cssStateNodes: {
+		"buttonNode": "dijitButtonNode",
 		"titleNode": "dijitButtonContents",
 		"_popupStateNode": "dijitDownArrowButton"
 	},
