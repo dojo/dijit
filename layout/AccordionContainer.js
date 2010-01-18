@@ -69,7 +69,7 @@ dojo.declare(
 			//		TODO: I don't think this works correctly in IE quirks when an elements
 			//		style.height including padding and borders
 			var cs = dojo.getComputedStyle(node);
-			return Math.max(this._verticalSpace - dojo._getPadBorderExtents(node, cs).h, 0);
+			return Math.max(this._verticalSpace - dojo._getPadBorderExtents(node, cs).h - dojo._getMarginExtents(node, cs).h, 0);
 		},
 
 		layout: function(){
