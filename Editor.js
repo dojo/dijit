@@ -1,5 +1,7 @@
 dojo.provide("dijit.Editor");
 dojo.require("dijit._editor.RichText");
+dojo.require("dijit._CssStateMixin");
+
 dojo.require("dijit.Toolbar");
 dojo.require("dijit.ToolbarSeparator");
 dojo.require("dijit._editor._Plugin");
@@ -12,7 +14,7 @@ dojo.requireLocalization("dijit._editor", "commands");
 
 dojo.declare(
 	"dijit.Editor",
-	dijit._editor.RichText,
+	[dijit._editor.RichText, dijit._CssStateMixin],
 	{
 		// summary:
 		//		A rich text Editing widget
@@ -25,6 +27,8 @@ dojo.declare(
 		//		browsers, and clipboard operations may have different results, to name
 		//		a few limitations.  Note: this widget should not be used with the HTML
 		//		&lt;TEXTAREA&gt; tag -- see dijit._editor.RichText for details.
+
+		baseClass: "RichTextEditable",
 
 		// plugins: Object[]
 		//		A list of plugin names (as strings) or instances (as objects)
@@ -97,6 +101,10 @@ dojo.declare(
 			dojo.forEach(this.plugins, this.addPlugin, this);
 			this.onNormalizedDisplayChanged(); //update toolbar button status
 //			}catch(e){ console.debug(e); }
+
+			dojo.addClass(this.iframe.parentNode, "dijitEditorIFrameContainer");
+			dojo.addClass(this.iframe, "dijitEditorIFrame");
+			dojo.attr(this.iframe, "allowTransparency", true);
 
 			this.toolbar.startup();
 		},
