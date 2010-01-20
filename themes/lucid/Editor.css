@@ -28,8 +28,9 @@
 }
 
 .lucid .dijitEditor {
-	border: 1px solid #bcc8dd !important;
+	border: 1px solid #bcc8dd;
 }
+
 .lucid .dijitEditor .dijitEditorIFrameContainer{
 	background-color: #fff;
 	background-image: url("images/textBox_back.png");

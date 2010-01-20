@@ -103,12 +103,6 @@
 	background: transparent url('../images/warning.png') no-repeat center center;
 }
 
-/* Editor */
-.dijitEditor {
-	border:1px solid #bfbfbf;
-	border-top:0;
-}
-
 /*
  * IE6: can't display PNG images with gradient transparency.
  * Want to use filter property for those images, but then need to specify a path relative

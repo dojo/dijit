@@ -1,3 +1,8 @@
+.dijitEditor {
+	border:1px solid #bfbfbf;
+	border-top:0;
+}
+
 .dijitIEFixedToolbar {
 	position:absolute;
 	/* top:0; */
