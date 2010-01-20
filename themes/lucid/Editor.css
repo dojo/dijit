@@ -27,48 +27,48 @@
 	/*background-image: url("images/textBox_back_checked.png");*/
 }
 
-.lucid .RichTextEditable {
+.lucid .dijitEditor {
 	border: 1px solid #bcc8dd !important;
 }
-.lucid .RichTextEditable .dijitEditorIFrameContainer{
+.lucid .dijitEditor .dijitEditorIFrameContainer{
 	background-color: #fff;
 	background-image: url("images/textBox_back.png");
 	background-repeat: repeat-x;
 }
-.dj_ie6 .lucid .RichTextEditable .dijitEditorIFrameContainer{
+.dj_ie6 .lucid .dijitEditor .dijitEditorIFrameContainer{
 	background-image: none;
 }
 
 
-.lucid .RichTextEditableHover {
+.lucid .dijitEditorHover {
 	border: 1px solid #769dc0 !important;
 }
-.lucid .RichTextEditableHover .dijitEditorIFrameContainer{
+.lucid .dijitEditorHover .dijitEditorIFrameContainer{
 	background-color: #eef7ff;
 	background-image: url("images/textBox_back_hover.png");
 	background-repeat: repeat-x;
 }
-.dj_ie6 .lucid .RichTextEditableHover .dijitEditorIFrameContainer{
+.dj_ie6 .lucid .dijitEditorHover .dijitEditorIFrameContainer{
 	background-image: none;
 }
-.lucid .RichTextEditableHover .dijitEditorIFrameContainer .dijitEditorIFrame{
+.lucid .dijitEditorHover .dijitEditorIFrameContainer .dijitEditorIFrame{
 	background-color: #eef7ff;
 }
 
 
 
-.lucid .RichTextEditableFocused {
+.lucid .dijitEditorFocused {
 	border: 1px solid #81a5c6 !important;
 }
-.lucid .RichTextEditableFocused .dijitEditorIFrameContainer{
+.lucid .dijitEditorFocused .dijitEditorIFrameContainer{
 	background-color: #fff;
 	background-image: url("images/textBox_back_checked.png");
 	background-repeat: repeat-x;
 }
-.dj_ie6 .lucid .RichTextEditableFocused .dijitEditorIFrameContainer{
+.dj_ie6 .lucid .dijitEditorFocused .dijitEditorIFrameContainer{
 	background-image: none;
 }
-.lucid .RichTextEditableFocused .dijitEditorIFrameContainer .dijitEditorIFrame{
+.lucid .dijitEditorFocused .dijitEditorIFrameContainer .dijitEditorIFrame{
 	background-color: #fff;
 }
 

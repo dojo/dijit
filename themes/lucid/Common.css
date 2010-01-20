@@ -73,7 +73,9 @@
 	margin:3px 3px 3px 0px;
 }
 
-.lucid .RichTextEditable {
+.lucid .dijitEditor {
+	/* TODO: this shouldn't be here, it should be in Editor.css,
+		but it conflicts w/a rule already in Editor.css... which is correct? */
 	border:1px solid #bfbfbf;
 	border-top:0;
 }

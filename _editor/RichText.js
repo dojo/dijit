@@ -1,6 +1,7 @@
 dojo.provide("dijit._editor.RichText");
 
 dojo.require("dijit._Widget");
+dojo.require("dijit._CssStateMixin");
 dojo.require("dijit._editor.selection");
 dojo.require("dijit._editor.range");
 dojo.require("dijit._editor.html");
@@ -33,7 +34,7 @@ if(!dojo.config["useXDomain"] || dojo.config["allowXdRichTextSave"]){
 	}
 }
 
-dojo.declare("dijit._editor.RichText", dijit._Widget, {
+dojo.declare("dijit._editor.RichText", [dijit._Widget, dijit._CssStateMixin], {
 	constructor: function(params){
 		// summary:
 		//		dijit._editor.RichText is the core of dijit.Editor, which provides basic
@@ -104,6 +105,8 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 		this.onLoadDeferred = new dojo.Deferred();
 	},
 
+	baseClass: "dijitEditor",
+
 	// inheritWidth: Boolean
 	//		whether to inherit the parent's width or simply use 100%
 	inheritWidth: false,
@@ -167,6 +170,9 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 		if("textarea" == this.domNode.tagName.toLowerCase()){
 			console.warn("RichText should not be used with the TEXTAREA tag.  See dijit._editor.RichText docs.");
 		}
+
+		this.inherited(arguments);
+
 		dojo.publish(dijit._scopeName + "._editor.RichText::init", [this]);
 		this.open();
 		this.setupDefaultShortcuts();
@@ -450,7 +456,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 			dn.lastChild.style.marginTop = "-1.2em";
 		}
 
-		dojo.addClass(this.domNode, "RichTextEditable");
+		dojo.addClass(this.domNode, this.baseClass);
 	},
 
 	//static cache variables shared among all instance of this class
@@ -1609,7 +1615,7 @@ dojo.declare("dijit._editor.RichText", dijit._Widget, {
 		}
 		delete this.iframe;
 
-		dojo.removeClass(this.domNode, "RichTextEditable");
+		dojo.removeClass(this.domNode, this.baseClass);
 		this.isClosed = true;
 		this.isLoaded = false;
 

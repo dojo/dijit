@@ -1,6 +1,5 @@
 dojo.provide("dijit.Editor");
 dojo.require("dijit._editor.RichText");
-dojo.require("dijit._CssStateMixin");
 
 dojo.require("dijit.Toolbar");
 dojo.require("dijit.ToolbarSeparator");
@@ -14,7 +13,7 @@ dojo.requireLocalization("dijit._editor", "commands");
 
 dojo.declare(
 	"dijit.Editor",
-	[dijit._editor.RichText, dijit._CssStateMixin],
+	dijit._editor.RichText,
 	{
 		// summary:
 		//		A rich text Editing widget
@@ -27,8 +26,6 @@ dojo.declare(
 		//		browsers, and clipboard operations may have different results, to name
 		//		a few limitations.  Note: this widget should not be used with the HTML
 		//		&lt;TEXTAREA&gt; tag -- see dijit._editor.RichText for details.
-
-		baseClass: "RichTextEditable",
 
 		// plugins: Object[]
 		//		A list of plugin names (as strings) or instances (as objects)

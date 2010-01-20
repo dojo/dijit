@@ -104,7 +104,7 @@
 }
 
 /* Editor */
-.RichTextEditable {
+.dijitEditor {
 	border:1px solid #bfbfbf;
 	border-top:0;
 }

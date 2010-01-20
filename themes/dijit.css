@@ -1610,7 +1610,7 @@ div.dijitTabDisabled, .dj_ie div.dijitTabDisabled {
 	top: expression(eval((document.documentElement||document.body).scrollTop));
 }
 
-.RichTextEditable {
+.dijitEditor {
 	display: block;	/* prevents glitch on FF with InlineEditBox, see #8404 */
 }
 
