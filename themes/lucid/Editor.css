@@ -117,3 +117,8 @@
 .lucid .dijitEditorIconTabIndent { background-position: -702px; }
 .lucid .dijitEditorIconSelectAll { background-position: -720px; }
 .lucid .dijitEditorIconUnlink { background-position: -738px; }
+
+.lucid .dijitEditorIconFullScreen { background-position: -756px; }
+.lucid .dijitEditorIconViewSource { background-position: -774px; }
+.lucid .dijitEditorIconPrint { background-position: -792px; }
+.lucid .dijitEditorIconNewPage { background-position: -810px; }
