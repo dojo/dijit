@@ -12,6 +12,10 @@ dojo.declare(
 			// summary:
 			//		Pops up a dialog that appears like a Tooltip
 
+			// open: Boolean
+			//		Whether pane is opened or closed.
+			open: false,
+
 			// title: String
 			// 		Description of tooltip dialog (required for a11y)
 			title: "",
@@ -76,6 +80,7 @@ dojo.declare(
 
 				this.orient(this.domNode,pos.aroundCorner, pos.corner);
 				this._onShow(); // lazy load trigger
+				this.open = true;
 
 				if(this.autofocus){
 					this._getFocusItems(this.containerNode);
@@ -90,6 +95,7 @@ dojo.declare(
 				// tags:
 				//		protected
 				this.onHide();
+				this.open = false;
 			},
 
 			_onKey: function(/*Event*/ evt){
