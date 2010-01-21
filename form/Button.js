@@ -207,7 +207,7 @@ dojo.declare("dijit.form.DropDownButton", [dijit.form.Button, dijit._Container, 
 		var dropDown = this.dropDown;
 		if(!dropDown){ return; }
 		if(!this.isLoaded()){
-			var handler = dojo.connect(dropDown, "onLoad", function(){
+			var handler = dojo.connect(dropDown, "onLoad", this, function(){
 				dojo.disconnect(handler);
 				this.openDropDown();
 			});
