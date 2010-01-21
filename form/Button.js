@@ -207,7 +207,7 @@ dojo.declare("dijit.form.DropDownButton", [dijit.form.Button, dijit._Container, 
 		var dropDown = this.dropDown;
 		if(!dropDown){ return; }
 		if(!this.isLoaded()){
-			var handler = dojo.connect(dropDown, "onLoad", this, function(){
+			var handler = dojo.connect(dropDown, "onLoad", function(){
 				dojo.disconnect(handler);
 				this.openDropDown();
 			});
@@ -258,6 +258,7 @@ dojo.declare("dijit.form.ComboButton", dijit.form.DropDownButton, {
 	// Set classes like dijitButtonContentsHover or dijitArrowButtonActive depending on
 	// mouse action over specified node
 	cssStateNodes: {
+		"buttonNode": "dijitButtonNode",
 		"titleNode": "dijitButtonContents",
 		"_popupStateNode": "dijitDownArrowButton"
 	},
