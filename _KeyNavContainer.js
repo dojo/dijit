@@ -73,7 +73,9 @@ dojo.declare("dijit._KeyNavContainer",
 			// tags:
 			//		protected
 			var child = this._getFirstFocusableChild();
-			this.focusChild(child);
+			if(child){
+				this.focusChild(child);
+			}
 		},
 
 		focusNext: function(){
@@ -160,7 +162,7 @@ dojo.declare("dijit._KeyNavContainer",
 		},
 
 		_onBlur: function(evt){
-			// When focus is moved away the container, and it's descendant (popup) widgets,
+			// When focus is moved away the container, and its descendant (popup) widgets,
 			// then restore the container's tabIndex so that user can tab to it again.
 			// Note that using _onBlur() so that this doesn't happen when focus is shifted
 			// to one of my child widgets (typically a popup)
