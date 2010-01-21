@@ -73,7 +73,9 @@ dojo.declare("dijit._KeyNavContainer",
 			// tags:
 			//		protected
 			var child = this._getFirstFocusableChild();
-			this.focusChild(child);
+			if(child){ // edge case: Menu could be empty or hidden
+				this.focusChild(child);
+			}
 		},
 
 		focusNext: function(){
