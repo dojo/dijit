@@ -132,13 +132,16 @@ dojo.declare("dijit._editor.plugins.FullScreen",dijit._editor._Plugin,{
 		var hHeight = this.editor.getHeaderHeight();
 		var fHeight = this.editor.getFooterHeight();
 		var extents = dojo._getPadBorderExtents(this.editor.domNode);
+		var fcpExtents = dojo._getPadBorderExtents(this.editor.iframe.parentNode);
+		var fcmExtents = dojo._getMarginExtents(this.editor.iframe.parentNode);
 		
 		var cHeight = vp.h - (hHeight + extents.h + fHeight);
 		dojo.marginBox(this.editor.iframe.parentNode, {
-			h: cHeight
+			h: cHeight,
+			w: vp.w
 		});
 		dojo.marginBox(this.editor.iframe, {
-			h: cHeight
+			h: cHeight - (fcpExtents.h + fcmExtents.h)
 		});
 	},
 

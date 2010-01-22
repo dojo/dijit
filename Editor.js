@@ -191,8 +191,14 @@ dojo.declare(
 			//		protected
 
 			// Converts the iframe (or rather the <div> surrounding it) to take all the available space
-			// except what's needed for the header (toolbars) and footer (breadcrumbs, etc)
-			this.editingArea.style.height = (this._contentBox.h - (this.getHeaderHeight() + this.getFooterHeight()))+"px";
+			// except what's needed for the header (toolbars) and footer (breadcrumbs, etc).
+			// A class was added to the iframe container and some themes style it, so we have to
+			// calc off the added margins and padding too. See tracker: #10662
+			var areaHeight = (this._contentBox.h - 
+				(this.getHeaderHeight() + this.getFooterHeight() + 
+				 dojo._getPadBorderExtents(this.iframe.parentNode).h +
+				 dojo._getMarginExtents(this.iframe.parentNode).h));
+			this.editingArea.style.height = areaHeight + "px";
 			if(this.iframe){
 				this.iframe.style.height="100%";
 			}
