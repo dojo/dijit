@@ -60,6 +60,36 @@
 						tearDown: function(){
 							if(editor0){editor0.attr("value", value);}
 						}
+					},
+					{
+						name: "Test font-size style migrated to editor body",
+						timeout: 20000,
+						setUp: function(){
+							editor0 = dijit.byId("fontSizedEditor");
+							value = editor0.attr("value");
+						},
+						runTest: function(){
+							var d = new doh.Deferred();
+							try{
+								//Focus on the editor window
+								dijit.scrollIntoView(editor0.domNode);
+								doh.robot.mouseMoveAt(editor0.iframe, 500, null, 10, 10);
+								doh.robot.mouseClick({left:true}, 500);
+
+ 								doh.robot.sequence(d.getTestCallback(function(){
+									//Now check the state!
+									var bStyle = editor0.document.body.style["fontSize"];
+									doh.assertTrue(bStyle != null);
+									doh.assertTrue(bStyle.toLowerCase() === "30pt");
+								}), 500);
+							}catch(e){
+								d.errback(e);
+							}
+							return d;
+						},
+						tearDown: function(){
+							if(editor0){editor0.attr("value", value);}
+						}
 					}
 				]);
 				doh.run();
