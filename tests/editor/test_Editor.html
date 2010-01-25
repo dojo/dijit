@@ -71,19 +71,14 @@
 	<h1 class="testTitle"><label for="editor1">Editor + Plugins Test</label></h1>
 
 	<h2>No plugins, initially empty</h2>
-	<div style="border: 1px solid black;">
-		<div dojoType="dijit.Editor" id="editor0" height="100" plugins="[]"></div>
-	</div>
-
+	<div dojoType="dijit.Editor" id="editor0" height="100" plugins="[]"></div>
 
 	<h2>Created from div</h2>
 	<input id="focusBefore" value="input before editor1">
-	<div style="border: 1px solid black;">
-		<div dojoType="dijit.Editor" id="editor1" disableSpellCheck="true"
-			onChange="console.log('editor1 onChange handler: ' + arguments[0])"
-		><p>This instance is created from a div directly with default toolbar and plugins</p>
-		The following HTML should appear as source: &lt;INPUT TYPE="IMAGE" SRC="javascript:alert('no scripting attacks')"&gt;
-		</div>
+	<div dojoType="dijit.Editor" id="editor1" disableSpellCheck="true"
+		onChange="console.log('editor1 onChange handler: ' + arguments[0])"
+	><p>This instance is created from a div directly with default toolbar and plugins</p>
+	The following HTML should appear as source: &lt;INPUT TYPE="IMAGE" SRC="javascript:alert('no scripting attacks')"&gt;
 	</div>
 	<input id="focusAfter" value="input after editor1">
 	<button onClick="dijit.byId('editor1').destroy()">destroy</button>
@@ -92,70 +87,64 @@
 	<hr/>
 
 	<h2>Created from div, auto-expanding</h2>
-	<div style="border: 1px dotted black;">
-		<h3><label for="thud">thud - from div</label></h3>
-		<div dojoType="dijit.Editor" height="" minHeight="75px"
-			onChange="console.log('thud onChange handler: ' + arguments[0])"
-			extraPlugins="['dijit._editor.plugins.AlwaysShowToolbar']"
-			styleSheets="../../../dojo/resources/dojo.css" id="thud">
-			Extra text
-			<p>
-				This editor is created from a div with AlwaysShowToolbar plugin (do not forget to set height="").
-			</p>
-			<p>
-				Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean
-				semper sagittis velit. Cras in mi. Duis porta mauris ut ligula. Proin
-				porta rutrum lacus. Etiam consequat scelerisque quam. Nulla facilisi.
-				Maecenas luctus venenatis nulla. In sit amet dui non mi semper iaculis.
-				Sed molestie tortor at ipsum. Morbi dictum rutrum magna. Sed vitae
-				risus.
-			</p>
-			The following HTML should appear as source: &lt;INPUT TYPE="IMAGE" SRC="javascript:alert('no scripting attacks')"&gt;
-		</div>
-		<h3>..after</h3>
+	<h3><label for="thud">label for editor:</label></h3>
+	<div dojoType="dijit.Editor" height="" minHeight="75px"
+		onChange="console.log('thud onChange handler: ' + arguments[0])"
+		extraPlugins="['dijit._editor.plugins.AlwaysShowToolbar']"
+		styleSheets="../../../dojo/resources/dojo.css" id="thud">
+		Extra text
+		<p>
+			This editor is created from a div with AlwaysShowToolbar plugin (do not forget to set height="").
+		</p>
+		<p>
+			Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean
+			semper sagittis velit. Cras in mi. Duis porta mauris ut ligula. Proin
+			porta rutrum lacus. Etiam consequat scelerisque quam. Nulla facilisi.
+			Maecenas luctus venenatis nulla. In sit amet dui non mi semper iaculis.
+			Sed molestie tortor at ipsum. Morbi dictum rutrum magna. Sed vitae
+			risus.
+		</p>
+		The following HTML should appear as source: &lt;INPUT TYPE="IMAGE" SRC="javascript:alert('no scripting attacks')"&gt;
 	</div>
+	<h3>..after</h3>
 	<hr/>
 
 	<h2>Optional toolbar buttons</h2>
-	<div style="border: 1px dotted black;">
-		<h3><label for="blah">blah entry</label></h3>
-		<div dojoType="dijit.Editor"
-			plugins="['bold','italic','|','createLink','foreColor','hiliteColor',{name:'dijit._editor.plugins.FontChoice', command:'fontName', generic:true},'fontSize','formatBlock','insertImage','insertHorizontalRule']"
-			styleSheets="../../../dojo/resources/dojo.css" id="blah">
-			This instance includes optional toolbar buttons which pull in additional ui (dijit) code.
-			Note the dojo.require() statements required to pull in the associated editor plugins to make
-			this work.
-			<br>
-			<span style="font-family: serif">This is serif.</span>
-			<br>
-			<span style="font-family: sans-serif">This is sans-serif.</span>
-			<br>
-			<span style="font-family: monospace">This is monospace.</span>
-			<br>
-			<span style="font-family: cursive">This is cursive.</span>
-			<br>
-			<span style="font-family: fantasy">This is fantasy.</span>
-			<br>
-		</div>
-		<h3>..after</h3>
-		<button onclick="alert(dijit.byId('blah').attr('value'));">getValue</button>
+	<h3><label for="blah">blah entry</label></h3>
+	<div dojoType="dijit.Editor"
+		plugins="['bold','italic','|','createLink','foreColor','hiliteColor',{name:'dijit._editor.plugins.FontChoice', command:'fontName', generic:true},'fontSize','formatBlock','insertImage','insertHorizontalRule']"
+		styleSheets="../../../dojo/resources/dojo.css" id="blah">
+		This instance includes optional toolbar buttons which pull in additional ui (dijit) code.
+		Note the dojo.require() statements required to pull in the associated editor plugins to make
+		this work.
+		<br>
+		<span style="font-family: serif">This is serif.</span>
+		<br>
+		<span style="font-family: sans-serif">This is sans-serif.</span>
+		<br>
+		<span style="font-family: monospace">This is monospace.</span>
+		<br>
+		<span style="font-family: cursive">This is cursive.</span>
+		<br>
+		<span style="font-family: fantasy">This is fantasy.</span>
+		<br>
 	</div>
+	<h3>..after</h3>
+	<button onclick="alert(dijit.byId('blah').attr('value'));">getValue</button>
 	<hr/>
 
 	<h2>Plugins specified</h2>
-	<div style="border: 1px dotted black;">
-		<h3><label for="blah2">Another blah entry</label></h3>
-		<div dojoType="dijit.Editor"
-			plugins="['bold','italic','|',{name:'dijit._editor.plugins.FontChoice', command:'fontName', custom:['Verdana','Myriad','Garamond','Apple Chancery','Hiragino Mincho Pro']}, {name:'dijit._editor.plugins.FontChoice', command:'fontSize', custom:[3,4,5]}, {name:'dijit._editor.plugins.EnterKeyHandling', blockNodeForEnter:'DIV'}]"
-			styleSheets="../../../dojo/resources/dojo.css" id="blah2">
-			This instance demos how to:
-			<ol>
-				<li>specify which plugins to load (see the plugins property): this instance loads FontChoice plugin, among others;</li>
-				<li>specify options for a plugin (see the last item in the plugins array)</li>
-			</ol>
-		</div>
-		<h3>..after</h3>
+	<h3><label for="blah2">Another blah entry</label></h3>
+	<div dojoType="dijit.Editor"
+		plugins="['bold','italic','|',{name:'dijit._editor.plugins.FontChoice', command:'fontName', custom:['Verdana','Myriad','Garamond','Apple Chancery','Hiragino Mincho Pro']}, {name:'dijit._editor.plugins.FontChoice', command:'fontSize', custom:[3,4,5]}, {name:'dijit._editor.plugins.EnterKeyHandling', blockNodeForEnter:'DIV'}]"
+		styleSheets="../../../dojo/resources/dojo.css" id="blah2">
+		This instance demos how to:
+		<ol>
+			<li>specify which plugins to load (see the plugins property): this instance loads FontChoice plugin, among others;</li>
+			<li>specify options for a plugin (see the last item in the plugins array)</li>
+		</ol>
 	</div>
+	<h3>..after</h3>
 	<hr/>
 
 	<h2>Programmatic creation</h2>
@@ -171,10 +160,5 @@
 		onclick="new dijit.Editor({height: '', extraPlugins: ['dijit._editor.plugins.AlwaysShowToolbar']}, dojo.byId('programmatic2')); dojo.query('#create2').orphan();">
 	create expanding editor
 	</button>
-
-	<h2>Font sizing via style</h2>
-	<div dojoType="dijit.Editor" style="text-align:left; font-size:30pt" id="fontSizedEditor">
-		Hello World!
-	</div>
 </body>
 </html>
