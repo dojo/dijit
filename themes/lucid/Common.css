@@ -21,32 +21,7 @@
 	font-family: Verdana,Arial,Helvetica,sans-serif;
 }
 
-/* inline edit boxen */
-.lucid .dijitInlineValue {
-	/* span around an inline-editable value when NOT in edit mode */
-	padding:3px;
-	margin:4px;
-}
-
 /* InlineEditBox */
-.lucid .dijitInlineValue {
-	/* span around an inline-editable value when NOT in edit mode */
-	padding:3px;
-	margin:4px;
-}
-
-.lucid .dijitInlineEditor {
-	/* fieldset surrounding an inlineEditor in edit mode */
-	display: inline-block;
-	/*display:inline;*/
-}
-
-.lucid .dijitInlineEditor .saveButton,
-.lucid .dijitInlineEditor .cancelButton {
-	margin:3px 3px 3px 0px;
-}
-
-
 .lucid .dijitInlineEditBoxDisplayMode{
 	border:1px solid transparent;
 }
@@ -60,24 +35,6 @@
 .dj_ie6 .lucid .dijitInlineEditBoxDisplayMode{
 	border: none;
 }
-
-
-.lucid .dijitInlineEditor {
-	/* fieldset surrounding an inlineEditor in edit mode */
-	display: inline-block;
-	#display:inline;
-}
-
-.dijitInlineEditor .saveButton,
-.dijitInlineEditor .cancelButton {
-	margin:3px 3px 3px 0px;
-}
-
-/*
- * IE6: can't display PNG images with gradient transparency.
- * Want to use filter property for those images, but then need to specify a path relative
- * to the main page, rather than relative to this file... using gifs for now
- */
 
 /* The highlight is shown in the ComboBox menu. */
 .lucid .dijitComboBoxHighlightMatch {
