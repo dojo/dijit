@@ -442,7 +442,7 @@ dojo.declare("dijit.layout.ScrollingTabController",
 dojo.declare("dijit.layout._ScrollingTabControllerButton",
 	dijit.form.Button,
 	{
-		baseClass: "dijitTab",
+		baseClass: "dijitTab tabStripButton",
 
 		buttonType: "",
 

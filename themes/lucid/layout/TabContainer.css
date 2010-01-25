@@ -327,27 +327,30 @@
 }
 
 
-/************ for tabStripButton ************/
+/************ left/right scroll buttons + menu button ************/
 
+.lucid .dijitTabContainer .tabStripButton {
+	background-color: #cde3f6;
+	background-repeat: no-repeat;
+}
 .lucid .dijitTabContainer .dijitTabListContainer-top .tabStripButton {
 	border: 1px solid #769dc0;
 	padding: 8px 3px;
-	background: #CDE3F6 url(images/tab_top_back.png) no-repeat top center;
+	background-image: url(images/tab_top_back.png);
+	background-position: top center;
 }
 
 .lucid .dijitTabContainer .dijitTabListContainer-bottom .tabStripButton {
 	border: 1px solid #769dc0;
 	padding: 7px 3px;
-	background: #CDE3F6 url(images/tab_top_back_bottom.png) no-repeat bottom center;
+	background-image: url(images/tab_top_back_bottom.png);
+	background-position: bottom center;
 }
 
-/* todo: get rid of multiple selectors for single node */
-.lucid .dijitTabContainer .dijitTabListContainer-top .tabStripButton.dijitTab.dijitTabHover,
-.lucid .dijitTabContainer .dijitTabListContainer-bottom .tabStripButton.dijitTab.dijitTabHover {
+.lucid .dijitTabContainer .tabStripButtonHover {
 	background-color:#e1eefa;
 }
-.lucid .dijitTabContainer div.tabStripButton.dijitTabHover .dijitTabInnerDiv,
-.lucid .dijitTabContainer div.tabStripButton.dijitTabHover.dijitTabFocusedHover .dijitTabInnerDiv {
+.lucid .dijitTabContainer div.tabStripButtonHover .dijitTabInnerDiv {
 	background-color: transparent;
 }
 
