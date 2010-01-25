@@ -22,10 +22,3 @@
 	/* Set to a color that contrasts with both the "Empty" and "Full" parts. */
 	color:#293a4b;
 }
-
-.dijit_a11y .dijitProgressBarTile{
-	/* a11y:  The border provides visibility in high-contrast mode. This overwrites style in dijit.css to allow greater visibility of text in High Contrast-mode. */
-	border-width:2px;
-	border-style:solid;
-	background-color:transparent !important;
-}

@@ -543,7 +543,7 @@ table .dijitComboButton .dijitButtonNode {
 
 .dijit_a11y .dijitProgressBarTile{
 	/* a11y:  The border provides visibility in high-contrast mode */
-	border-width:4px;
+	border-width:2px;
 	border-style:solid;
 	background-color:transparent !important;
 }
@@ -868,6 +868,12 @@ img.dijitColorPaletteUnder {
 	/* hovered color swatch */
 	border: 1px solid #000;
 }
+
+.dijitColorPalette .dijitPaletteCellActive .dijitPaletteImg,
+.dijitColorPalette .dijitPaletteCellSelected .dijitPaletteImg {
+	border: 2px solid #000;
+}
+
 
 .dijit_a11y .dijitColorPalette .dijitPaletteTable,
 .dijit_a11y .dijitColorPalette .dijitPaletteCell,
